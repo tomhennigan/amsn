@@ -998,8 +998,8 @@ namespace eval ::amsn {
       wm state .${win_name} iconic
       wm title .${win_name} "[trans chat]"
       wm group .${win_name} .
-      wm iconbitmap . @${images_folder}/amsn.xbm
-      wm iconmask . @${images_folder}/amsnmask.xbm
+      wm iconbitmap .${win_name} @[file join ${images_folder} amsn.xbm]
+      wm iconmask .${win_name} @[file join ${images_folder} amsnmask.xbm]
 
       menu .${win_name}.menu -tearoff 0 -type menubar  \
          -borderwidth 0 -activeborderwidth -0
@@ -2185,11 +2185,6 @@ proc cmsn_draw_main {} {
    wm group . .
    catch {wm geometry . $config(wingeometry)}
    
-   wm iconname . "[trans title]"
-   wm iconbitmap . @[file join ${images_folder} amsn.xbm]
-   wm iconmask . @[file join ${images_folder} amsnmask.xbm]
-   . conf -menu .main_menu
-
    frame .main -class Amsn -relief flat -background $bgcolor
    frame .main.f -class Amsn -relief flat -background white
    #pack .main -expand true -fill both
@@ -2242,7 +2237,7 @@ proc cmsn_draw_main {} {
    image create photo fticon -file [file join ${images_folder} fticon.gif]
    image create photo ftreject -file [file join ${images_folder} ftreject.gif]
 
-   image create photo notifico -file [file join ${images_folder} notifico.gif]
+   image create photo notifico -file [file join ${images_folder} notifico.gif]   
 
    image create photo blocked -file [file join ${images_folder} blocked.gif]
 
@@ -2303,6 +2298,17 @@ proc cmsn_draw_main {} {
    cmsn_draw_offline
 
    status_log "Proxy is : $config(proxy)\n"
+
+   image create photo amsnicon -file [file join ${images_folder} amsnicon.gif]
+   toplevel .caca
+   label .caca.winicon -image amsnicon
+   pack .caca.winicon
+   #wm iconname . "[trans title]"
+   wm iconbitmap . @[file join ${images_folder} amsn.xbm]
+   wm iconmask . @[file join ${images_folder} amsnmask.xbm]
+   wm iconwindow . .caca
+   . conf -menu .main_menu
+   
 
 }
 #///////////////////////////////////////////////////////////////////////
