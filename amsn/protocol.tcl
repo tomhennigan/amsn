@@ -2162,12 +2162,11 @@ namespace eval ::MSN {
 
 	#creates a message object from a received payload
 	method createFromPayload { payload } {
-		set idx [string first "\r\n\r\n" $payload]
+		set payload [string map {"\r\n" "\n"} $payload]
+		set idx [string first "\n\n" $payload]
 		set head [string range $payload 0 [expr $idx -1]]
-		set body [string range $payload [expr $idx +4] end]
-		set body [string map {"\r" ""} $body]
+		set body [string range $payload [expr $idx +2] end]
 		set body [encoding convertfrom utf-8 $body]
-		set head [string map {"\r" ""} $head]
 		set heads [split $head "\n"]
 		foreach header $heads {
 			set idx [string first ": " $header]
