@@ -213,7 +213,9 @@ namespace eval ::HTTPConnection {
 		HTTPRead $sbn
 		catch {
 			fileevent $sock readable [list ::HTTPConnection::HTTPRead $sbn]
-			fileevent $sock writable [list [sb get $sbn connected] $sock]
+			set connected_command [sb get $sbn connected]
+			lappend connected_command $sock
+			fileevent $sock writable $connected_command			
 		}
 	}	
 
