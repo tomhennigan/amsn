@@ -2947,9 +2947,13 @@ proc cmsn_ns_handler {item} {
 	 return 0
       }
       BLP {
-	  if { $protocol != "9" } {
+	  puts "$item == [llength $item]"
+	  if { $protocol == "9" && [llength $item] == 3} {
+	      change_BLP_settings "[lindex $item 1]"
+	  } else {
 	      new_contact_list "[lindex $item 2]"
-	      change_BLP_settings "$item"
+	      change_BLP_settings "[lindex $item 3]"
+
 	  }
 	  return 0  
       }
@@ -3976,10 +3980,8 @@ proc urlencode {str} {
 
 }
 
-proc change_BLP_settings { item } {
+proc change_BLP_settings { state } {
     global list_BLP
-
-    set state [lindex $item 3]
 
     if { "$state" == "AL" } {
 	set list_BLP 1

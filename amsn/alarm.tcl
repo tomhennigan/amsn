@@ -209,7 +209,11 @@ proc run_alarm {user msg} {
 
    incr alarm_win_number
    set wind_name alarm_${alarm_win_number}
-   
+
+    set command $config(soundcommand)
+    set command [string map { "$sound" "" } $command]
+
+
    toplevel .${wind_name}
    wm title .${wind_name} "[trans alarm] $user"
    label .${wind_name}.txt -text "$msg"
@@ -225,12 +229,12 @@ proc run_alarm {user msg} {
 	status_log "${wind_name}"
    if { $alarms(${user}_sound_st) == 1 } {
 	if { $alarms(${user}_loop) == 1 } {
-	    button .${wind_name}.stopmusic -text [trans stopalarm] -command "destroy .${wind_name}; catch { eval exec killall jwakeup } ; catch { eval exec killall $config(soundcommand) }"
+	    button .${wind_name}.stopmusic -text [trans stopalarm] -command "destroy .${wind_name}; catch { eval exec killall jwakeup } ; catch { eval exec killall -TERM $command }"
             pack .${wind_name}.stopmusic -padx 2
-	    catch { eval exec ${program_dir}/jwakeup $config(soundcommand) $alarms(${user}_sound) & } res
+	    catch { eval exec ${program_dir}/jwakeup $command $alarms(${user}_sound) & } res
         } else {
-	    catch { eval exec $config(soundcommand) $alarms(${user}_sound) & } res 
-	    button .${wind_name}.stopmusic -text [trans stopalarm] -command "catch { eval exec killall $config(soundcommand) } res ; destroy .${wind_name}"
+	    catch { eval exec $command $alarms(${user}_sound) & } res 
+	    button .${wind_name}.stopmusic -text [trans stopalarm] -command "catch { eval exec killall -TERM $command } res ; destroy .${wind_name}"
             pack .${wind_name}.stopmusic -padx 2
   	}
    } else {

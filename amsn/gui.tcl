@@ -3845,8 +3845,7 @@ proc ShowUser {user_name user_login state state_code colour section grId} {
 	        set image_type "blockedme"
          }
 
-
-
+       
          if {[lsearch $list_bl "$user_login *"] != -1} {
             set image_type "blocked"
       	    if {$state_desc == ""} {set state_desc " ([trans blocked])"}
