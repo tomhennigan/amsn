@@ -196,7 +196,6 @@ mobile Mobile
 morepersonal More States ->
 movetogroup Move to Group
 movetoleft <-- Move 
-movetonull mv user > /dev/null
 movetoright Move -->
 msgmaxmin When a new message arrives I want it to be :
 msg Message
