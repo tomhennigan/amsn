@@ -15,6 +15,7 @@ adverts Advertisements
 alarmpref Alarm Settings for user
 alarmstatus Turn ON/OFF Alarm for this user
 allowallbutbl Allow all users but those in Block List to contact me
+allowbadwords Disable censorship on nicknames
 allowlist Allow list :
 allowonlyinal Only allow users in my Accept List to contact me
 allowseen Allow this person to see when I'm online and contact me

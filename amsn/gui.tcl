@@ -2855,22 +2855,33 @@ proc cmsn_draw_signin {} {
 proc login_ok {} {
    global config password proftrig
 
-   set config(login) [string tolower [.login.c.signin get]]
+    status_log "going into login_ok now\n"
+
+   #set config(login) [string tolower [.login.c.signin get]]
+   
    set password [.login.c.password get]
+      
+   ConfigChange ".login.c.signin" [.login.c.signin get]
+   
    grab release .login
    destroy .login
 
    if { $proftrig == 1 } {
-   	NewProfileAsk $config(login)
+	NewProfileAsk $config(login)
 	vwait proftrig
    }
    
-   SaveLoginList
-  if { $password != "" && $config(login) != "" } {
-	::MSN::connect [list $config(login)] [list $password]
-  } else {
-  	cmsn_draw_login
-  }
+   if { $proftrig == 3 } {
+   	cmsn_draw_login
+   } else {
+   	SaveLoginList
+   	if { $password != "" && $config(login) != "" } {
+		::MSN::connect [list $config(login)] [list $password]
+	} else {
+		cmsn_draw_login
+	}
+   }
+
 }
 #///////////////////////////////////////////////////////////////////////
 

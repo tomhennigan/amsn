@@ -378,11 +378,18 @@ proc Preferences { { settings "personal"} } {
 	## Nickname Selection Entry Frame ##
 	set lfname [LabelFrame:create $frm.lfname -text [trans prefname] -font splainf]
 	pack $frm.lfname -anchor n -side top -expand 1 -fill x
+	frame $lfname.1 -class Degt
+	frame $lfname.2 -class Degt
 	label $lfname.pname -image prefpers
-	label $lfname.lname -text "[trans enternick] :" -font sboldf -padx 10
-	entry $lfname.name -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 45
-	pack $lfname.pname $lfname.lname $lfname.name -side left
-
+	label $lfname.1.lname -text "[trans enternick] :" -font sboldf -padx 10
+	entry $lfname.1.name -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 45
+	checkbutton $lfname.2.badwords -text "[trans allowbadwords]" -onvalue 1 -offvalue 0 -variable config(allowbadwords)
+	pack $lfname.pname -anchor nw -side left
+	pack $lfname.1 -side top -padx 0 -pady 5 -expand 1 -fill both
+	pack $lfname.2 -side top -padx 0 -pady 5 -expand 1 -fill both
+	pack $lfname.1.lname $lfname.1.name -side left
+	pack $lfname.2.badwords -side left -padx 15
+	
 	## Public Profile Frame ##
 	set lfname [LabelFrame:create $frm.lfname2 -text [trans prefprofile]]
 	pack $frm.lfname2 -anchor n -side top -expand 1 -fill x
@@ -1002,11 +1009,11 @@ proc InitPref {} {
 	# Insert nickname if online, disable if offline
 	set lfname [Rnotebook:frame $nb $Preftabs(personal)]
 	if { $user_stat == "FLN" } {
-		$lfname.lfname.f.f.name configure -state disabled
+		$lfname.lfname.f.f.1.name configure -state disabled
 	} else {
-		$lfname.lfname.f.f.name configure -state normal
-		$lfname.lfname.f.f.name delete 0 end
-		$lfname.lfname.f.f.name insert 0 [urldecode [lindex $user_info 4]]
+		$lfname.lfname.f.f.1.name configure -state normal
+		$lfname.lfname.f.f.1.name delete 0 end
+		$lfname.lfname.f.f.1.name insert 0 [urldecode [lindex $user_info 4]]
 	}
 
 	# Get My Phone numbers and insert them
@@ -1253,7 +1260,7 @@ proc SavePreferences {} {
 
     # Change name
     set lfname [Rnotebook:frame $nb $Preftabs(personal)]
-    set lfname "$lfname.lfname.f.f"
+    set lfname "$lfname.lfname.f.f.1"
     set new_name [$lfname.name get]
     if {$new_name != "" && $new_name != [urldecode [lindex $user_info 4]] && $user_stat != "FLN"} {
 	::MSN::changeName $config(login) $new_name
@@ -1498,6 +1505,9 @@ proc BlockValidateEntry { widget data type {correct 0} } {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.67  2003/08/03 18:21:45  burgerman
+# Fixed profiles issues and cleaned them up:
+#
 # Revision 1.66  2003/07/25 09:41:35  kakaroto
 # Added tooltips on user names and preferences option "enable tooltips"
 #

@@ -449,20 +449,17 @@ proc ConfigChange { window email } {
 	global HOME HOME2 password config log_dir proftrig lockSock
 	set proftrig 0
 	if { $email != "" } {
-		if { [LoginList exists 0 $config(login)] == 1 } {
-			save_config
-		}
-
-	if { [info exists password] } {
-		set password ""
-	}
-
+		
 	status_log "Called ChangeConfig with $email, old is $config(login)\n"
 		
 	if { $email != $config(login) } {
-	if { [LoginList exists 0 $email] == 1 } {
-		# Profile exists, make the switch
+	if { [LoginList exists 0 $config(login)] == 1 } {
+		save_config
+	}
 
+	if { [LoginList exists 0 $email] == 1 } {
+		
+		# Profile exists, make the switch
 		set OLDHOME $HOME
 		set proftrig 0
 		set oldlang $config(language)
@@ -473,13 +470,21 @@ proc ConfigChange { window email } {
 				
 		if { [CheckLock $email] == -1 } { 
 			msg_box [trans profileinuse]
+			set proftrig 3
 			set HOME $OLDHOME
 			
 			# Reselect previous element in combobox
-			set cb [$window list get 0 [LoginList size 0]]
-			set index [lsearch $cb $config(login)]
-			$window select $index
+			#set cb [$window list get 0 [LoginList size 0]]
+			#set index [lsearch $cb $config(login)]
+			#$window select $index
+			$window delete 0 end
+			$window insert 0 $config(login)
+			
 		} else {
+			if { [info exists password] } {
+				set password ""
+			}
+
 			# Make sure we delete old lock
 			if { [info exists lockSock] } {
 				if { $lockSock != 0 } {
@@ -487,10 +492,9 @@ proc ConfigChange { window email } {
 					unset lockSock
 				}
 			}
-			LoginList changelock 0 $config(login) 0 
 
-			if { [info exists password] } {
-				set password ""
+			if { [LoginList exists 0 $config(login)] } {
+				LoginList changelock 0 $config(login) 0
 			}
 
 			load_config
@@ -506,8 +510,11 @@ proc ConfigChange { window email } {
 			
 			### REPLACE THIS BY MAIN WINDOW REDRAW
 			if { $config(language) != $oldlang } {
-				msg_box [trans mustrestart]		
+				msg_box [trans mustrestart]
 			}
+
+			# this tells the the program to close the login window on OK press
+			set proftrig 2
 		}
 	} else {
 		# Profile dosent exist, put proftrig to 1 so it asks to create
@@ -530,9 +537,13 @@ proc ConfigChange { window email } {
 	
 	if { [winfo exists .login] } {
 		.login.c.password delete 0 end
-		.login.c.password insert 0 $password
+		if { $proftrig != 1 && [info exists password] } {
+			.login.c.password insert 0 $password
+		}
 	}
 	}
+	
+	status_log "ConfigChange finished, HOME is now : $HOME and HOME2 is now : $HOME2\n"
 }
 
 
@@ -586,7 +597,6 @@ proc CreateProfile { email value } {
 		set config(startoffline) $oldoffline
 		set config(save_password) 0
 		set config(keep_logs) 0
-
 	}
 	
 	set proftrig 0
