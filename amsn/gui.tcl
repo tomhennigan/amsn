@@ -3622,8 +3622,7 @@ proc change_myfont {win_name} {
   set fontsize [expr {[lindex $config(basefont) end-1] + $config(textsize)}]
   set fontcolor [lindex $config(mychatfont) 2]
 
-  set selfont [tk_chooseFont -title [trans choosebasefont] -initialfont "\{[lindex $config(mychatfont) 0]\} $fontsize \{[lindex $config(mychatfont) 1]\}"]
-
+  set selfont [tk_chooseFont -title [trans choosebasefont] -parent .${win_name} -initialfont "\{[lindex $config(mychatfont) 0]\} $fontsize \{[lindex $config(mychatfont) 1]\}"] 
   if { [string length $selfont] <1} {
     return
   }
