@@ -75,7 +75,7 @@ if { $initialize_amsn == 1 } {
 
 	::skin::setKey notifwidth 150
 	::skin::setKey notifheight 100
-	::skin::setKey x_notifyclose 142
+	::skin::setKey x_notifyclose 140
 	::skin::setKey y_notifclose 2
 	
 	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
@@ -2692,7 +2692,7 @@ namespace eval ::amsn {
 		if { $ypos < 0 } { set ypos 0 }
 
 		canvas $w.c -bg #EEEEFF -width [::skin::getKey notifwidth] -height [::skin::getKey notifheight] \
-			-relief ridge -borderwidth 2
+			-relief ridge -borderwidth 0
 		pack $w.c
 
 		switch $type {
