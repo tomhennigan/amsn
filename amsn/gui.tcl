@@ -5030,7 +5030,7 @@ proc cmsn_draw_online_wrapped {} {
 			}
 
 		}
-		$pgBuddy.text insert end "\n"
+		$pgBuddy.text insert end "\n\n"
 	}
 
 	::groups::UpdateCount online clear
@@ -5112,7 +5112,8 @@ proc cmsn_draw_online_wrapped {} {
 				(($::groups::uMemberCnt_online($gname) == 0 && [::config::getKey orderbygroup] == 2) ||
 				 ($::groups::uMemberCnt($gname) == 0 && [::config::getKey orderbygroup] == 1))} {
 				set endidx [split [$pgBuddy.text index $gtag.last] "."]
-				$pgBuddy.text delete $gtag.first [expr {[lindex $endidx 0]+1}].0
+				set startidx [split [$pgBuddy.text index $gtag.first] "."]
+				$pgBuddy.text delete [expr {[lindex $startidx 0]-1}].0 [expr {[lindex $endidx 0]+1}].0
 				if { [::groups::IsExpanded $gname] } {
 					destroy $pgBuddy.text.contract$gname
 				} else {
@@ -5124,35 +5125,35 @@ proc cmsn_draw_online_wrapped {} {
 			
 			if {$config(orderbygroup) == 2 } {
 				if { $gname == "offline" } {
-					$pgBuddy.text insert offline.last " ($::groups::uMemberCnt(offline))\n" offline
+					$pgBuddy.text insert offline.last " ($::groups::uMemberCnt(offline))" offline
 					$pgBuddy.text tag add dont_replace_smileys offline.first offline.last
 				} elseif { $gname == "blocked" } {
-					$pgBuddy.text insert blocked.last " ($::groups::uMemberCnt(blocked))\n" blocked
+					$pgBuddy.text insert blocked.last " ($::groups::uMemberCnt(blocked))" blocked
 					$pgBuddy.text tag add dont_replace_smileys blocked.first blocked.last
 				} else {
 					$pgBuddy.text insert ${gtag}.last \
-						" ($::groups::uMemberCnt_online(${gname}))\n" $gtag
+						" ($::groups::uMemberCnt_online(${gname}))" $gtag
 					$pgBuddy.text tag add dont_replace_smileys $gtag.first $gtag.last
 				}
 			} else {
 				if { $gname == "blocked" } {
-					$pgBuddy.text insert blocked.last " ($::groups::uMemberCnt(blocked))\n" blocked
+					$pgBuddy.text insert blocked.last " ($::groups::uMemberCnt(blocked))" blocked
 					$pgBuddy.text tag add dont_replace_smileys blocked.first blocked.last
 				} else {
 					$pgBuddy.text insert ${gtag}.last \
-						" ($::groups::uMemberCnt_online(${gname})/$::groups::uMemberCnt($gname))\n" $gtag
+						" ($::groups::uMemberCnt_online(${gname})/$::groups::uMemberCnt($gname))" $gtag
 					$pgBuddy.text tag add dont_replace_smileys $gtag.first $gtag.last
 				}
 			}
 		}
 	} else {
-		$pgBuddy.text insert online.last " ($::groups::uMemberCnt(online))\n" online
-		$pgBuddy.text insert offline.last " ($::groups::uMemberCnt(offline))\n" offline
+		$pgBuddy.text insert online.last " ($::groups::uMemberCnt(online))" online
+		$pgBuddy.text insert offline.last " ($::groups::uMemberCnt(offline))" offline
 		$pgBuddy.text tag add dont_replace_smileys online.first online.last
 		$pgBuddy.text tag add dont_replace_smileys offline.first offline.last
 
 		if { $config(showblockedgroup) == 1 && [llength [array names emailBList]] } {
-			$pgBuddy.text insert blocked.last " ($::groups::uMemberCnt(blocked))\n" blocked
+			$pgBuddy.text insert blocked.last " ($::groups::uMemberCnt(blocked))" blocked
 			$pgBuddy.text tag add dont_replace_smileys blocked.first blocked.last
 		}
 	}
@@ -5246,7 +5247,7 @@ proc ShowUser {user_name user_login state_code colour section grId} {
 	}
 	set last_element [expr {[llength $user_lines] -1 }]
 
-	$pgBuddy.text insert $section.last " $state_desc \n" $user_unique_name
+	$pgBuddy.text insert $section.last " $state_desc" $user_unique_name
 
 	#Set maximum width for nick string, with some margin
 	set maxw [winfo width $pgBuddy.text]
@@ -5336,7 +5337,7 @@ proc ShowUser {user_name user_login state_code colour section grId} {
 		$pgBuddy.text window create $section.last -window $pgBuddy.text.$imgname -padx 3 -pady 1 -align center
 	}
 
-	$pgBuddy.text insert $section.last $user_ident
+	$pgBuddy.text insert $section.last "\n$user_ident"
 
 
 	$pgBuddy.text tag bind $user_unique_name <Enter> \
