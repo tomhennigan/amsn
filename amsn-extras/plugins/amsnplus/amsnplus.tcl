@@ -78,8 +78,8 @@ namespace eval ::amsnplus {
 	
 	#####################################################
 	# this returns the first word read in a string
-	proc readWord { msg strlen } {
-		set a 0
+	proc readWord { i msg strlen } {
+		set a $i
 		set str ""
 		while {$a<$strlen} {
 			set char [string index $msg $a]
@@ -107,7 +107,7 @@ namespace eval ::amsnplus {
 		set i 0
 		set incr 1
 		while {$i<$strlen} {
-			set char [::amsnplus::readWord $msg $strlen]
+			set char [::amsnplus::readWord $i $msg $strlen]
 			######################################################
 			#                 MORE COMMAND IDEAS
 			# /sendfile (file) (user)
@@ -117,7 +117,7 @@ namespace eval ::amsnplus {
 			if {[string equal $char "/add"]} {
 				set msg [string replace $msg $i [expr $i + 4] ""]
 				set strlen [string length $msg]
-				set userlogin [::amsnplus::readWord $msg $strlen]
+				set userlogin [::amsnplus::readWord $i $msg $strlen]
 				set llen [string length $userlogin]
 				set msg [string replace $msg $i [expr $i + $llen] ""]
 				::MSN::addUser $userlogin
@@ -126,7 +126,7 @@ namespace eval ::amsnplus {
 			if {[string equal $char "/block"]} {
 				set msg [string replace $msg $i [expr $i + 6] ""]
 				set strlen [string length $msg]
-				set user_login [::amsnplus::readWord $msg $strlen]
+				set user_login [::amsnplus::readWord $i $msg $strlen]
 				set ulen [string length $user_login]
 				set msg [string replace $msg $i [expr $i + $ulen] ""]
 				set strlen [string length $msg]
@@ -149,16 +149,16 @@ namespace eval ::amsnplus {
 				set incr 0
 			}
 			if {[string equal $char "/font"]} {
-				set msg [string replace $msg $i [expr $i + 6] ""]
+				set msg [string replace $msg $i [expr $i + 5] ""]
 				set strlen [string length $msg]
-				set fontfamily [::amsnplus::readWord $msg $strlen]
+				set fontfamily [::amsnplus::readWord $i $msg $strlen]
 				set flen [string length $fontfamily]
 				set msg [string replace $msg $i [expr $i + $flen] ""]
 				set strlen [string length $msg]
 				set incr 0
 			}
 			if {[string equal $char "/help"]} {
-				set msg ""
+				set msg [string replace $msg $i [expr $i + 5] ""]
 				set strlen [string length $msg]
 				::amsn::WinWrite $chatid "\nThis is the command help (text not implemented)" green
 				set incr 0
@@ -166,8 +166,9 @@ namespace eval ::amsnplus {
 			if {[string equal $char "/info"]} {
 				set msg [string replace $msg $i [expr $i + 5] ""]
 				set strlen [string length $msg]
-				set field [::amsnplus::readWord $msg $strlen]
-				set msg ""
+				set field [::amsnplus::readWord $i $msg $strlen]
+				set lfield [string length $field]
+				set msg [string replace $msg $i [expr $i + $lfield] ""]
 				set strlen [string length $msg]
 				if {[string equal $field "nick"]} {
 					set nick [::abook::getPersonal nick]
@@ -182,7 +183,7 @@ namespace eval ::amsnplus {
 			if {[string equal $char "/invite"]} {
 				set msg [string replace $msg $i [expr $i + 7] ""]
 				set strlen [string length $msg]
-				set userlogin [::amsnplus::readWord $msg $strlen]
+				set userlogin [::amsnplus::readWord $i $msg $strlen]
 				set llen [string length $userlogin]
 				set msg [string replace $msg $i [expr $i + $llen] ""]
 				::MSN::inviteUser $chatid $userlogin
@@ -221,7 +222,7 @@ namespace eval ::amsnplus {
 			if {[string equal $char "/speak"]} {
 				set msg [string replace $msg $i [expr $i + 6] ""]
 				set strlen [string length $msg]
-				set userlogin [::amsnplus::readWord $msg $strlen]
+				set userlogin [::amsnplus::readWord $i $msg $strlen]
 				set llen [string length $userlogin]
 				set msg [string replace $msg $i [expr $i + $llen] ""]
 				set strlen [string length $msg]
@@ -231,7 +232,7 @@ namespace eval ::amsnplus {
 			if {[string equal $char "/state"]} {
 				set msg [string replace $msg $i [expr $i + 6] ""]
 				set strlen [string length $msg]
-				set nstate [::amsnplus::readWord $msg $strlen]
+				set nstate [::amsnplus::readWord $i $msg $strlen]
 				set slen [string length $nstate]
 				set msg ""
 				set strlen [string length $nick]
@@ -242,9 +243,9 @@ namespace eval ::amsnplus {
 				set incr 0
 			}
 			if {[string equal $char "/style"]} {
-				set msg [string replace $msg $i [expr $i + 7] ""]
+				set msg [string replace $msg $i [expr $i + 6] ""]
 				set strlen [string length $msg]
-				set fontstyle [::amsnplus::readWord $msg $strlen]
+				set fontstyle [::amsnplus::readWord $i $msg $strlen]
 				set flen [string length $fontstyle]
 				set msg [string replace $msg $i [expr $i + $flen] ""]
 				set strlen [string length $msg]
@@ -253,7 +254,7 @@ namespace eval ::amsnplus {
 			if {[string equal $char "/unblock"]} {
 				set msg [string replace $msg $i [expr $i + 8] ""]
 				set strlen [string length $msg]
-				set user_login [::amsnplus::readWord $msg $strlen]
+				set user_login [::amsnplus::readWord $i $msg $strlen]
 				set ulen [string length $user_login]
 				set msg [string replace $msg $i [expr $i + $ulen] ""]
 				set strlen [string length $msg]
