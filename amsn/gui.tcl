@@ -39,7 +39,7 @@ namespace eval ::amsn {
 	##PUBLIC
 
 	proc initLook { family size bgcolor} {
-		global config
+		global config tcl_platform
 
 		font create menufont -family $family -size $size -weight normal
 		font create sboldf -family $family -size $size -weight bold
@@ -63,9 +63,11 @@ namespace eval ::amsn {
 		option add *selectColor #DD0000
 		#Use different width for scrollbar on Mac OS X
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-		option add *Scrollbar.width 15 userDefault
+			option add *Scrollbar.width 15 userDefault
+		} elseif { $tcl_platform(platform) == "windows"} {
+			option add *Scrollbar.width 14 userDefault
 		} else {
-		option add *Scrollbar.width 12 userDefault
+			option add *Scrollbar.width 12 userDefault
 		}
 		option add *Font splainf userDefault
 		option add *Button.Font sboldf userDefault
