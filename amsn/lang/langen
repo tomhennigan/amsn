@@ -473,6 +473,8 @@ work Work
 wrongfields The "$1", "$2" and/or "$3" fields were not valid
 wrongprofileversion Wrong profile configuration file version. In order to fix it, please remove directory $1, or update aMSN
 xmmserr Nothing is playing, or you dont have xmms-infopipe installed.
+xmmscurrent Display current song
+xmmssend Send current song
 xoffset X Offset
 yes Yes
 yoffset Y Offset
