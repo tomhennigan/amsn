@@ -5015,9 +5015,11 @@ proc ShowUser {user_name user_login state state_code colour section grId} {
 
 
 	if { $config(tooltips) == 1 } {
-
-		set balloon_message "[string map {"%" "%%"} $user_name]\n $user_login\n [trans status] : [trans [lindex $state 1]] "
-
+                if {[lsearch $list_rl "$user_login *"] == -1} {
+                	set balloon_message "[string map {"%" "%%"} $user_name]\n $user_login\n [trans status] : [trans [lindex $state 1]]\n [trans notinlist] "
+                } else {
+			set balloon_message "[string map {"%" "%%"} $user_name]\n $user_login\n [trans status] : [trans [lindex $state 1]] "
+                }
 		$pgBuddy.text tag bind $user_unique_name <Enter> +[list balloon_enter %W %X %Y $balloon_message]
 
 		$pgBuddy.text tag bind $user_unique_name <Leave> \

@@ -332,6 +332,7 @@ notify notify
 notifyoffset Offset the position of the notification pop-up
 notifytyping Send other users notifications when typing
 notifywin Notify Window
+notinlist You aren't on his/her contact list
 notls The MSN Protocol 9 requires the TLS package. This package does not seem to be installed on this machine. If it's installed, the path to the library directory should be specified in the Preferences window (ex: /opt/tls/lib). \n \n It's possible to download TLS from http://tls.sf.net.
 nousersinsession No users in session
 offline Offline
