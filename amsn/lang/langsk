@@ -527,3 +527,13 @@ cachedpics Pocet fotiek v CACHE: $1
 currentdate Dnesny datum
 logsbydate Ukladat logy podla datumu (Nacitanie Historie je ovela rychlejsie)
 showcachedpics Ukazat fotky ulozene v CACHE
+alarms Alarmy
+customnick Vlastny Nickname 
+invalidgroup Nespravna skupina 
+lastlogin Posledny vstup 
+lastlogout Posledny vystup 
+leavejoinsinchat Zobrazovat notifikacie o "vstupoch a vystupoch" v okienkach
+nick Nickname
+nogroup Bez skupiny
+userdata Uzivatelove data
+userproperties Uzivatelove vlastnosti o $1 

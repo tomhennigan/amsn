@@ -21,6 +21,7 @@ alarmondisconnect Vklopi alarm, ko se stik odjavi
 alarmonmsg Vklopi alarm, ko ti stik poslje sporocilo
 alarmonstatus Vklopi alarm, ko stik zamenja stanje
 alarmpref Nastavitve alarma
+alarms Alarmi
 alarmstatus Alarm omogocen
 allfiles Vse datoteke
 allowallbutbl Dovoli vsem uporabnikom, razen blokiranim, da me kontaktirajo
@@ -134,6 +135,7 @@ credits Zasluge
 currentdate Trenutni datum
 custom_edit Uredi svoje smeske
 custom_new Dodaj svojega smeska
+customnick Tvoj nick
 cut Izrezi
 date Datum
 days Dni
@@ -239,6 +241,7 @@ installconvert Namestiti moras ImageMagick (program za pretvarjanje), da bi pret
 internalerror Notranja napaka streznika
 invalidfile2 Datoteke $1 ni mogoce ustvariti, prepricaj se, da imas prava dovoljenja za ta cilj
 invalidfile Datoteka $2 iz polja "$1" ne obstaja ali ni berljiva
+invalidgroup Napacna skupina
 invalidpicsize Slika je prevelika, izberi manjso
 invalidpic Slika ne obstaja
 invalidsound Zvok ne obstaja
@@ -260,6 +263,7 @@ lclosedwin $1 je zaprl/a okno $2
 lconftopriv Konferenca spremenjena v zasebni pogovor z $1
 lconvstarted Pogovor se je pricel ($1)
 leaveblankforhotmail Pusti prazno za uporabo Hotmail storitev
+leavejoinsinchat Pokazi obvestilo o pridruzitvi/zapuscanju pogovora znotraj okna
 leaves $1 je zapustil/a pogovor
 lenteredconf $1 je vstopil v konferenca na $2
 lineflushlog Pisi dnevnik vrstico za vrstico (brez medpomnilnika)
@@ -315,8 +319,10 @@ newmsg Novo sporocilo
 newstate Dodaj osebno stanje
 newveravailable Nova razlicica $1 je na voljo za prenos
 next Naslednji
+nick Nick
 noactivity Ni aktiven/a
 nodataavailable Ni podatkov za $1
+nogroup Brez skupine
 nologfile Brez dnevnika za $1
 no Ne
 noneavailable Noben ni na voljo
@@ -334,7 +340,7 @@ notify1 Prikazi obvestilo, ko se kdo prijavi
 notify2 Prikazi obvestilo ob novem sporocilu
 notify3 Prikazi obvestilo ob novem e-mailu
 notify obvesti
-notifyoffset Nastavi pozicijo obvestilnega okna
+notifyoffset Nastavitve polozaja obvestilnega okna
 notifytyping Posiljaj sogovornikom obvestilo o tipkanju
 notifywin Prikazi opozorilo ob dogodkih
 notinlist Nisi na njegovem/njenem seznamu stikov
@@ -511,6 +517,8 @@ useralreadyonlist Uporabnik je ze na seznamu stikov
 userblocked Uporabnik je prijavljen, a te je blokiral
 usernotonline Uporabnik ni prijavljen
 user Uporabnik
+userdata Podatki o uporabniku
+userproperties Lastnosti uporabnika $1
 useryourself Ne mores govoriti sam s seboj
 verifyblocked Preveri, kdo te blokira
 version Razlicica
