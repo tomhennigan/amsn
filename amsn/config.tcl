@@ -78,7 +78,7 @@ proc ConfigDefaults {} {
 	
 	#Specific configs for Mac OS X (Aqua) first, and for others systems after
 	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-		set config(wingeometry) 275x400-200+200			;#Main window geometry on Mac OS X
+		set config(wingeometry) 275x400-200+200		;#Main window geometry on Mac OS X
 		set config(backgroundcolor)  #ECECEC		;#AMSN Mac OS X background color
 	} else {
 		set config(wingeometry) 275x400-0+0			;#Main window geometry
@@ -91,14 +91,14 @@ proc ConfigDefaults {} {
 	
 	set config(encoding) auto						;#ANSN encoding
 
-	set config(textsize) 2									;#User text size
+	set config(textsize) 2							;#User text size
 	set config(mychatfont) "{Helvetica} {} 000000"	;#User chat font
 	set config(winchatsize) "350x320" ;#Default chat window size
 	set config(savechatwinsize) 1 ;#Save chat window sizes when changed?
 
 	set config(notifymsg) 1				;#Show notify window when a message arrives
 	set config(notifyonline) 1			;#Show notify window when a user goes online
-	set config(notifyoffline) 0		;#Show notify window when a user goes offline
+	set config(notifyoffline) 0			;#Show notify window when a user goes offline
 	set config(notifystate) 0			;#Show notify window when a user changes status
 	set config(notifyemail) 1			;#Show notify window when a new mail arrives
 
@@ -475,14 +475,19 @@ proc load_config {} {
 			file copy [file join ${HOME} "config.xml"] [file join ${HOME} "config.xml.old"]
 		}
 		
-		#Force the change of the default background color and the default sound command
-		# For Mac OS X users who used aMSN 0.90 at the beggining
+		#Force the change of the default background color
 		
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 			set bgcolormac [::config::getKey backgroundcolor]
-				if { $bgcolormac=="#D8D8E0" } {
-					::config::setKey backgroundcolor #ECECEC
-					}
+			if { $bgcolormac=="#D8D8E0" } {
+				::config::setKey backgroundcolor #ECECEC
+				}
+			#Force the change of new window to be raised, not iconified (not supported on TkAqua)
+			::config::setKey newmsgwinstate 0
+			#Force the change to not start amsn on tray if someone choosed that in advanced preferences
+			::config::setKey startontray 0
+			# Force the change of the default sound command
+			# For Mac OS X users who used aMSN 0.90 at the beggining
 			set soundmac [string range "[::config::getKey soundcommand]" 1 11]
 				if { $soundmac=="program_dir" } {
 					set osversion [string range "$tcl_platform(osVersion)" 0 0]
