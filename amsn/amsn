@@ -516,6 +516,7 @@ proc cmsn_draw_main {} {
 
 proc anti_idle {} {
   global idletime
+  status_log "Anti_idle\n"
   set idletime 0
 }
 
@@ -2294,7 +2295,7 @@ cmsn_draw_main
 set idletime 0
 
 bind all <KeyPress> "anti_idle"
-bind all <Motion> "anti_idle"
+bind all <ButtonPress> "anti_idle"
 
 incr_idle
 
