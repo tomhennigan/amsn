@@ -6,6 +6,11 @@ lordofscripts	D.E. Grimaldo <lordofscripts at users.sourceforge.net) (>0.3p3)
 alvaro       	Alvaro Iradier <airadier at users.sourceforge.net) (>=0.4)
 ###############################################################################
 
+Version 0.62
+20020???
+		o Experimental SOCKS5 proxy support using code from
+		  waster.8m.com integrated into our generic proxy code
+
 Version 0.61
 20020706
 		o Updated languages: nederlands, català, swedish
