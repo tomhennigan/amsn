@@ -51,7 +51,7 @@ proc trayicon_init {} {
 	set ext "[file join $program_dir plugins winico03.dll]"
 	if { [file exists $ext] != 1 } {
 ###need to put in translations
-		msg_box "need winico03.dll in traydock plugin directory"
+		msg_box "need winico03.dll in plugins directory"
 		close_dock
 		set config(dock) 0
 		return

@@ -51,7 +51,7 @@ DONE	Get rid of all MSNP7 code.. it sure is useless now
 -	Option to display or not the chat button bar
 DONE	Option to enable/disable showing timestamps
 -	Add option to modify keepalive interval (in seconds)
--	Add a "typed characters" counter in chat window.
+DONE	Add a "typed characters" counter in chat window.
 DONE	Add an option to remove the amsn banner on contact list.
 DONE	Make Advanced buttons in preferences (maybe a Key - Value type of list for advanced users)
 DONE	Make a Pure PNG Reader (will be used for buddy icons + filetransfer previews, and maybe other stuff)
