@@ -1218,6 +1218,8 @@ proc cmsn_auth {{recv ""}} {
          #Change nick
          .main_menu.actions entryconfigure 2 -state normal
          .options entryconfigure 0 -state normal
+         #Publish Phone Numbers
+         .options entryconfigure 1 -state normal	;# Publish
 
 	 return 0
       }
