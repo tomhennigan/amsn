@@ -3810,7 +3810,7 @@ proc cmsn_draw_main {} {
 	::skin::setPixmap fticon fticon.gif
 	::skin::setPixmap ftreject ftreject.gif
 	
-	::skin::setPixmap notifico notifico.gi
+	::skin::setPixmap notifico notifico.gif
 	::skin::setPixmap notifclose notifclose.gif
 	::skin::setPixmap notifyonline notifyonline.gif
 	::skin::setPixmap notifyoffline notifyoffline.gif
