@@ -10,6 +10,8 @@ proc InitPlugin { dir } {
 	::plugins::RegisterEvent pop3 Load start
 	::plugins::RegisterEvent pop3 OnDisconnect stop
 	::plugins::RegisterEvent pop3 ContactListColourBarDrawn draw
+	::plugins::RegisterEvent pop3 ContactListEmailsDraw addhotmail
+
 
 	array set ::pop3::config {
 		host {"your.mailserver.here"}

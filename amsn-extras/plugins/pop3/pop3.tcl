@@ -325,4 +325,17 @@ namespace eval ::pop3 {
 			$vars(text) insert end "\n"
 		}
 	}
+
+	# ::pop3::addhotmail
+	# Description:
+	#	Adds ' (Hotmail)' to the line in the contact list of the number of emails
+	# Arguments:
+	#	event   -> The event wich runs the proc (Supplied by Plugins System)
+	#     evPar   -> The array of parameters (Supplied by Plugins System)
+	proc addhotmail {event evPar} {		
+		upvar 2 $evPar vars
+		upvar 2 $vars(msg) msg
+
+		set msg "[string range $msg 0 end-1] (Hotmail)\n"
+	}
 }
