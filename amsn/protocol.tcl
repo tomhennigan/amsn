@@ -1701,7 +1701,6 @@ namespace eval ::MSN {
 	 return 0
       }
 
-      status_log "SendChatMsg:: Sending message to chat $chatid using SB $sbn\n" blue
 
       #set sock [sb get $sbn sock]
 
@@ -2171,7 +2170,7 @@ proc cmsn_sb_msg {sb_name recv} {
 }
 
 proc CALReceived {sb_name user item} {
-   status_log "CALReceived:  $sb_name $user $item\n" white
+   #status_log "CALReceived:  $sb_name $user $item\n" white
    switch [lindex $item 0] {   
        216 {
 	   # if you try to begin a chat session with someone who blocked you and is online
@@ -2194,7 +2193,7 @@ proc CALReceived {sb_name user item} {
           return 0
       } 
        713 {
-	   status_log "CALReceived : 713 USER TOO ACTIVE \nStoping the VerifyBlocked procedure" red
+	   status_log "CALReceived : 713 USER TOO ACTIVE \nStoping the VerifyBlocked procedure\n" red
 	   StopVerifyBlocked
 	   return 0
        }
@@ -2316,7 +2315,7 @@ proc cmsn_rng {recv} {
 	#Quick fix to avoid annoying messages from Microsoft
 
 	if { $emaill == "messenger@microsoft.com" } {
-		status_log "Received chat from messenger@microsoft.com. Ignoring!!" white
+		status_log "Received chat from messenger@microsoft.com. Ignoring!!\n" white
 		return 0
 	}
 
@@ -2382,7 +2381,7 @@ proc cmsn_open_sb {sbn recv} {
 
 proc cmsn_conn_sb {name} {
 
-   status_log "cmsn_conn_sb $name (sock is [sb get $name sock])\n" green
+   #status_log "cmsn_conn_sb $name (sock is [sb get $name sock])\n" green
    catch { fileevent [sb get $name sock] writable "" } res
 
    #Reset timeout timer
@@ -2393,11 +2392,11 @@ proc cmsn_conn_sb {name} {
    set cmd [sb get $name auth_cmd]
    set param [sb get $name auth_param]
 
-   status_log "Here before writeSB\n" green
+   #status_log "Here before writeSB\n" green
    ::MSN::WriteSB $name $cmd $param "cmsn_connected_sb $name"
-   status_log "Here AFTER writeSB\n" green
+   #status_log "Here AFTER writeSB\n" green
    ::amsn::chatStatus [::MSN::ChatFor $name] "[trans ident]...\n" miniinfo ready
-   status_log "Here exiting cmsn_conn_sb\n" green   
+   #status_log "Here exiting cmsn_conn_sb\n" green   
 }
 
 proc cmsn_conn_ans {name} {
@@ -2421,7 +2420,7 @@ proc cmsn_conn_ans {name} {
 
 proc cmsn_connected_sb {name recv} {
 
-   status_log "cmsn_connected_sb $name\n" green
+   #status_log "cmsn_connected_sb $name\n" green
    sb set $name time [clock seconds]
    sb set $name stat "i"
 
