@@ -3047,7 +3047,15 @@ proc clickableImage {tw name image command {padx 0} {pady 0}} {
 
 #///////////////////////////////////////////////////////////////////////
 # TODO: move into ::amsn namespace, and maybe improve it
-proc cmsn_draw_online {} {
+proc cmsn_draw_online { {force 0} } {
+
+   if { !$force } {
+     after cancel "cmsn_draw_online 1"
+     after 100 cmsn_draw_online 1
+     return
+   }
+
+   #puts "Drawing. Leveel: [info level] Previous: [info level [expr {[info level]-1}]]"
    global emotions user_stat login list_users list_states user_info list_bl\
     config showonline password pgBuddy bgcolor automessage
 
@@ -3335,7 +3343,7 @@ proc cmsn_draw_online {} {
 
    $pgBuddy.text configure -state disabled
 
-   bind $pgBuddy.text <Configure>  "after cancel cmsn_draw_online; after 100 cmsn_draw_online"
+   #bind $pgBuddy.text <Configure>  "after cancel cmsn_draw_online; after 100 cmsn_draw_online"
 
    #Init Preferences if window is open
    if { [winfo exists .cfg] } {
