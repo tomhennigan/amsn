@@ -73,6 +73,7 @@ close Lukk
 closingdocks Lukke-knappen minimerer vinduet
 command Kommando
 confirmdelete Er du sikker på at du vil slette $1?
+confirm Er du sikker?
 connecterror Feil ved tilkobling til server
 contactadded Kontakten er lagt til
 contactdoesnotexist Kontakten eksisterer ikke!
@@ -85,6 +86,7 @@ days Dager
 default Standardkonfigurasjon
 delete Slett
 disablessl Deaktiver SSL
+dontdownload ikke last ned TLS, jeg vil installere det selv
 editprofile Rediger Profil
 edit Rediger
 enableproxy Bruk proxy
@@ -96,6 +98,7 @@ examples Eksempler
 exitamsn Er du sikker på at du vil avslutte?
 extras Ekstra tjenester
 filedoesnotexist Filen eksisterer ikke
+fileman Filhåndterer
 filename Filnavn
 filetransfercancelled Filoverføringen ble avbrutt
 filetransfercomplete Filoverføringen er fullført
@@ -144,6 +147,7 @@ maximised Maksimert
 minimised Minimert
 mins minutter
 mobile Mobil
+move Flytt
 movetogroup Flytt til gruppe
 msg Beskjed
 msn AMSN
@@ -162,6 +166,7 @@ noactivity Ingen aktivitet
 no Nei
 nonewmail Ingen nye meldinger i Innboksen
 nonewver Det er ingen nye versjoner tilgjengelig for nedlasting
+normal Normal
 notify gi beskjed
 nousersinsession Ingen brukere i sesjonen
 offline Offline
