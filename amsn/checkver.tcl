@@ -24,10 +24,10 @@ proc checking_ver {} {
      set yourver [split $version "."]    
 
      
-     if { [lindex $lastver 0] > [lindex $yourver 0] } {
+     if { [lindex $lastver 0] != [lindex $yourver 0] } {
        set newer 1
      } else {
-       if { [lindex $lastver 1] > [lindex $yourver 1] } {
+       if { [lindex $lastver 1] != [lindex $yourver 1] } {
          set newer 1
        } else {
        set newer 0

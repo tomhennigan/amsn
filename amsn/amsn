@@ -35,8 +35,8 @@
 ###
 
 
-set version "0.49"
-set date "05/28/2002"
+set version "0.491"
+set date "05/30/2002"
 set weburl "http://amsn.sourceforge.net"
 
 
@@ -131,7 +131,7 @@ set config(sound) 1
 set config(browser) "mozilla"
 set config(soundcommand) "esdplay"
 set config(language) "en"
-set config(adverts) 0
+set config(adverts) 1
 set config(autohotlogin) 1
 #end AIM
 
@@ -443,7 +443,7 @@ proc cmsn_draw_main {} {
    scrollbar .main.ys -command ".main.text yview" -background #D0D0E0
    text .main.status -background #D0D0E0 -width 30 -height 1 -wrap none
 
-   adv_initialize .main $config(proxy)
+#   adv_initialize .main $config(proxy)
 
    if {$config(adverts)} {
      adv_show_banner  file ${images_folder}/logolinmsn.gif
@@ -806,7 +806,7 @@ proc show_umenu {user_login x y} {
 }
 
 proc login_ok {} {
-   global config password
+   global config password lista_al list_bl list_fl list_rl
 
    set config(login) [.login.c.signin get]
    set password [.login.c.password get]
@@ -2405,7 +2405,7 @@ proc cmsn_auth {{recv ""}} {
 	 save_config						;# CONFIG
 	 write_ns_sock "SYN" "0"
 # Me pongo online al comenzar
-	 write_ns_sock "CHG" "HDN" ; #Era NLN
+	 write_ns_sock "CHG" "NLN" ; #Era NLN
          .main_menu entryconfigure 1 -state normal
          .main_menu.msn entryconfigure 1 -state normal
          .main_menu.msn entryconfigure 2 -state normal
