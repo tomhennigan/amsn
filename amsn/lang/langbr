@@ -19,7 +19,6 @@ appearance Aparência
 appearoff Aparecer off-line
 areacode DDD
 aretyping $1 está digitando uma mensagem
-askprofile Este login não possui um perfil. Você gostaria de criar um?\n Sem um profile, você não poderá usar o Histórico de Mensagens, ou salvar seus alarmes e senha.\n Cada perfil cadastrado terá terá uma configuração exclusiva. \n\n Clique em "Criar Perfil" para criar um novo perfil para $1.
 autoaway Me apresente como "Ausente" quando inativo por
 autoconnect2 Logar-me automaticamente quando o aMSN for iniciado.
 autoconnect Conectar automaticamente
@@ -337,3 +336,58 @@ yoffset Deslocamento Y
 youblocked Você foi bloqueado
 yousay Você diz
 youwant Você quer
+addprofile Adicionar Novo perfil
+addprofiledesc Entre com o login para o qual voce gostaria de criar um novo perfil. \n Perfilar logins permite ter difrentes configurações  para cada login. \n Sem os Perfis você não poderá usar o historico, Alarmes ou lembrar senhas.
+addtoo Adicionar esta pessoa à minha lista de contato
+alarmonconnect Ativar o Alarme quando um usuário conectar
+alarmondisconnect Ativar o Alarme quando um usuário desconecta/fica invisível
+alarmonmsg Ativar o Alarme quando um usuário lhe manda uma mensagem
+alarmonstatus Ativar alarme quando usuário muda de estado
+allowbadwords Desativar censura nos apelidos
+animatedemoticon Este emoticon é animado
+autoaccepted Tranferência de arquivos aceitado automaticamente
+autoacceptft Pedido de Transferência Automática
+blockedyougroup Motra um grupo separado para as pessoas que te bloquearam
+blockinter4 Segundos.
+cantexec Não consegue executar a Aplicação: $1. Ver Preferências
+casesensitive Use as dicas do case-sensitive
+changestate $1 Muda o estado para $2
+chooseskin Por Favor escolha a skin que deseja usar
+custom_edit Edita um smiley personalizado
+defaultloginradio Login com a configuração normal
+description Descrição
+disconnect $1 Disconectou-se.
+editcurrentstate Editar estado Atual
+enablesound Toca sons
+hiden Esconde os emoticons do menu de smileys
+invalidfile Arquivo $2 no campo "$1" não existe ou não pode ser lido
+msgflicker Piscar janela quando receber uma mensagem numa janela que esta aberta mas não está sendo usada.
+noneavailable Nada Disponivél
+noprofileexists Não existe de momento nenhum perfil, \n têm de criar um se quiser usar logins perfilados. \nUse o botão Adicionar Novo Perfil nesta janela, para adicionar um novo perfil
+nosystemtray System tray não está disponível
+notify1_5 Mostra uma janela de notificação quando um contato sai
+notify1_75 Mostra uma janela de notificação quando um contato muda o seu estado
+pluginselector Seleciona plugins
+prefblock1 Checar ao desconectar
+prefblock2 Checar continuamente
+prefblock3 "Você foi bloqueado por" grupo
+prefconnection Configurações de conexão
+prefremote Configurações de Conexão Remota
+profileexists Você não pode criar um perfil com este login \n pois ele já existe. Por Favor escolha outro login.
+profileloginradio Entrar usando um perfil existente
+readonlymsgbox Diretório sem permissão de escrita. Por Favor ajuste as permissões neste directório.
+readonlywarn  AVISO: O arquivo provavelmente não será salvo corretamente pois o diretório "Received files" está protegido contra gravação. Por favor verifique se as permissões do diretório ($1) estão corretas antes de transferir o arquivo.
+selectplugins Por Favor escolha o plugin que quer ativar
+selectskin Por Favor escolha uma skin da lista
+skin Skin 
+skinselector Escolha a Skin
+smileconfig Configuração normal de emoticon
+smilefile Arquivo do Smiley
+smileintro Por favor preencha os campos necessários para criar um novo smiley (Leia o FAQ para ajuda)
+smileintro2 Por Favor edite os campos necessários para customizar este smiley (Leia o FAQ para ajuda)
+state Quero aparecer como
+statename Nome do estado atual
+statechange Estado mudado para:
+timeremaining Tempo restante
+triggers dicas
+wrongfields O "$1", "$2" e/ou "$3" campos não estão validos
