@@ -260,6 +260,7 @@ proc LoadLoginList {{trigger 0}} {
 	while {[gets $file_id tmp_data] != "-1"} {
 		set temp_data [split $tmp_data]
 		set locknum [lindex $tmp_data 1]
+#	    puts "temp data : $temp_data"
 		if { $locknum == "" } {
 		   #Profile without lock, give it 0
 		   set locknum 0
@@ -396,10 +397,11 @@ proc LoginList { action age {email ""} {lock ""} } {
 		getlock {
 			set tmp_list [array get ProfileList]
 			set idx [lsearch $tmp_list "$email"]
+#		    puts "$tmp_list donne --> $idx --- $email --- [expr [expr $idx-1] /2] --- $ProfileList([expr [expr $idx-1] /2])"
 			if { $idx == -1 } {
 				return -1
 			} else {
-				return $LockList([expr [expr $idx-1] / 2])
+			    return $LockList([lindex $tmp_list [expr $idx-1]])
 			}
 		}
 
@@ -410,7 +412,7 @@ proc LoginList { action age {email ""} {lock ""} } {
 				status_log "changelock called on unexisting email : $email, shouldn't happen!\n"
 				return -1
 			} else {
-				set LockList([expr [expr $idx-1] / 2]) $lock
+			    set LockList([lindex $tmp_list [expr $idx-1]]) $lock
 			}
 		}
 
@@ -431,7 +433,7 @@ proc LoginList { action age {email ""} {lock ""} } {
 		show {
 			for {set idx 0} {$idx < [array size ProfileList]} {incr idx} {
 				#status_log "$idx : $ProfileList($idx)\n"
-				puts stdout "$idx : $ProfileList($idx) loclist is : $LockList($idx)\n"
+#				puts stdout "$idx : $ProfileList($idx) loclist is : $LockList($idx)\n"
 			}
 		}
 	}
@@ -637,8 +639,10 @@ proc DeleteProfile { email entrypath } {
 # Check Lock of profile given by email
 # Return -1 if profile is already locked, returns 0 otherwise
 proc CheckLock { email } {
-	global response
+	global response LockList
 	set Port [LoginList getlock 0 $email]
+#    puts "cheking lock for $email ... got $Port"
+#    puts "[array get LockList]"
 	if { $Port != 0 } {
 	if { [catch {socket -server phony $Port} newlockSock] != 0  } {
 		# port is taken, let's make sure it's a profile lock
