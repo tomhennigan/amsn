@@ -207,7 +207,6 @@ email Email (Surat Elektronik)
 emailsinlist Tampilkan email sebagai ganti dari nama panggilan dalam daftar kontak
 emotisounds Mainkan suara pada emoticon tertentu
 emptygroup Kosongkan kelompok (grup)
-enablebanner Tampilkan spanduk aMSN (aMSN perlu di-restart)
 enabled Memungkinkan
 enableproxy Nyalakan proxy
 enableremote Mungkinkan pengedalian jarak jauh
@@ -234,6 +233,9 @@ filename Nama Berkas
 filetransfer Pemindahan Berkas
 filetransfercancelled Transmisi berkas dibatalkan
 filetransfercomplete Transmisi berkas telah usai
+filters Saringan-saringan
+filtersselect Pilih saringan yang ingin anda lihat\n(Catatan bila tidak ada yang diplih artinya tunjukkan semua)
+filtersx Pilihan Saringan
 followtext Gulung ke bawah saat tekst baru dimasukkan
 friendlyname Nama Akrab
 ftaccepted Transmisi berkas diterima
@@ -373,7 +375,7 @@ name Nama
 natip Deteksi IP melalui halaman web
 natkeepalive Apabila sambungan anda sering terputus, mungkinkan Biarkan Menyala
 needonline Anda masih tidak tersambung atau sedang sembunyi!
-needwinico Memerlukan winico03.dll dalam direktori plugins supaya labuhanbaki (traydoking) jendela dapat bekerja
+needwinico2 Memerlukan winico05.dll dalam direktori utils/windows supaya labuhanbaki (traydoking) jendela dapat bekerja
 never Tidak Pernah
 new_ft_protocol Gunakan protokol Pemindahan Berkas yang baru (masih ada beberapa bug)
 newmail $1 email baru dalam Kotak-Masuk
@@ -471,6 +473,7 @@ prefremote Pilihan Sambungan Jarak jauh
 prefsession Daftar-Masuk dan Status Saya
 prefshared Sambungan yang Dibagi (hanya untuk NAT)
 prefsound Suara
+preview Tinjauan
 privacy Privasi
 profiledconfig Aturan Profil
 profileexists Anda tidak bisa menciptakan profil dengan dafar-masuk ini \n karena sudah ada. Tolong pilih daftar-masuk yang lain.
@@ -599,6 +602,7 @@ unknown Tidak dikenal
 unload Melepas/Membongkar
 uoffline Tidak Tersambung
 uonline Tersambung
+update Memperbaharui
 useother Gunakan program yang berbeda (lain)
 user Pengguna
 useralreadyonlist Nama sudah ada dalam daftar nama
@@ -625,6 +629,7 @@ xmmssend Kirim lagu yang sekarang inis
 xoffset Keseimbangan Posisi X
 year Tahun
 yes Iya
+yesblock Ya dan tahan (blok)
 yesterday Kemarin
 yoffset Keseimbangan Posisi Y
 youblocked Anda telah diblokir

@@ -34,13 +34,13 @@ animatedemoticon Cet émoticon est animé
 animatedsmileys Activer les émoticons animés
 animatenotify Animer la fenêtre de notifications
 appearance Apparence
-appearoff Apparaître déconnecté|e
+appearoff Apparaître déconnecté[e]
 areacode Code régional
 aretyping $1 sont en train de taper un message
 author Auteur
 autoaccepted Transfert de fichier accepté automatiquement
 autoacceptft Accepter automatiquement les transferts de fichiers
-autoaway Me marquer "Absent|e" quand inactif plus de
+autoaway Me marquer "Absent[e]" quand inactif plus de
 autocheckver Vérification automatique de la version au démarrage
 autoconnect2 Me connecter automatiquement quand aMSN est lancé
 autoconnect Connexion automatique au lancement
@@ -51,14 +51,14 @@ autoip IP Automatique
 automessage Message-automatique
 autonoact Me marquer "Inactif" quand inactif plus de
 avoidseen Interdire à cette personne de me voir ou de me contacter quand je suis en ligne
-away Absent|e
-awaymsg1 Demander un message d'absence chaque fois que je change de statut pour Absent|e/Bientôt de retour/Occupé|e
+away Absent[e]
+awaymsg1 Demander un message d'absence chaque fois que je change de statut pour Absent[e]/Bientôt de retour/Occupé[e]
 awaymsg2 Ne jamais demander et toujours utiliser le message ci-dessous
 baduserpass Mauvais nom d'utilisateur ou mot de passe
 bgcolor Changer la couleur de fond de aMSN
 blankdirect Laisser vide pour une connexion sans proxy
 block Bloquer
-blocked Bloqué|e
+blocked Bloqué[e]
 blockedyougroup Créer un groupe séparé pour les gens qui vous ont bloqué.
 blocking Bloquer
 blockinter1 Lorsque vous êtes en ligne, vérifier à chaque
@@ -131,12 +131,12 @@ confirmdu Etes-vous sûr de vouloir supprimer ce contact ?
 confirmeg Etes-vous sûr de vouloir vider ce groupe ?
 confirmpurge Toutes les icônes de vos contacts vont être supprimées. Etes-vous sur de vouloir le faire ?
 confirmrfl Etes-vous sûr de vouloir effacer ce contact de ce groupe ?
-connected Vous êtes maintenant connecté|e
-connectedwith Connecté|e avec $1
+connected Vous êtes maintenant connecté[e]
+connectedwith Connecté[e] avec $1
 connecterror Erreur de connexion
 connecting Se connecter
 connection Connexion
-connectionlost Déconnecté|e : la connexion avec le serveur a été perdue
+connectionlost Déconnecté[e] : la connexion avec le serveur a été perdue
 contactadded Contact ajouté
 contactdoesnotexist Personne introuvable
 contactlist Liste de contacts :
@@ -181,7 +181,7 @@ disableprofiles Désactiver les profils (utile pour la cyber-cafés ou pour les en
 disablessl Désactiver SSL
 disableuserfonts Ignorer la police de l'utilisateur distant dans les discussions, et utiliser sa propre police
 disconnect $1 s'est déconnecté.
-disconnectedfrom Déconnecté|e de $1
+disconnectedfrom Déconnecté[e] de $1
 displaychat Options d'affichage du texte
 displayeventconnect Afficher les connexions
 displayeventdisconnect Afficher les déconnexions
@@ -219,7 +219,7 @@ enternick Mon pseudonyme
 errortls Erreur lors de l'installation du module TLS:
 eventhistory Voir l'historique des événements
 examples Exemples
-exitamsn Etes-vous sûr de voulloir quitter aMSN ?
+exitamsn Etes-vous sûr de vouloir quitter aMSN ?
 extras Services Additionnels
 faileddelete Echec de l'effacement
 faileddeleteperso Cette photo ne peut pas être effacée parce qu'elle n'est pas un fichier de photo personnelle. Seules les photos qui appartiennent à votre profil personnel peuvent être effacées de cette façon.
@@ -255,7 +255,7 @@ getdisppic Permettre la réception d'icônes des autres utilisateurs
 globalnick Insérez un modèle afin de former les pseudonymes de vos contacts.Vous pouvez utiliser ces variables : \$user_login pour les adresses de vos contacts, \$nick pour les pseudonymes de vos contacts et enfin \$customnick pour les pseudonymes personnalisés de vos contacts. Par exemple : "\$user_login est \$nick" donnera "contact@msn.com est Contact"
 globalnicktitle Pseudonyme général
 globaloverride Modèles de pseudonymes devant remplacer les pseudonymes personnalisés
-gonelunch Parti|e manger
+gonelunch Parti[e] manger
 groupadd Ajouter un groupe
 groupdelete Supprimer un groupe
 groupexists Le groupe existe déjà
@@ -342,7 +342,7 @@ logsbydate Trier les historiques par date (affichage de l'historique plus rapide
 logsin vient de se connecter
 logsmileys Afficher les émoticons et les smileys dans la fenêtre d'historique de aMSN
 logsout vient juste de se déconnecter
-longnick Votre pseudonyme est supérieur à 130 caractères. Ce n'est pas supporté officiellement par le protocol MSN. Etes-vous sûrs de voulloir le mettre ?
+longnick Votre pseudonyme est supèrieur à 130 caractères. Ce n'est pas supporté officiellement par le protocol MSN. Etes-vous sûrs de vouloir le mettre ?
 longp4c Votre pseudonyme de conversation dépasse les 130 caractères. Le client MSN officiel affichera $1. Voulez-vous continuer ?
 lprivtoconf  Conversation privée changée en conférence avec $1
 luclosedwin Vous avez fermé la fenêtre sous $1
@@ -374,8 +374,7 @@ myworkphone Mon numéro professionnel
 name Nom
 natip Détection de l'adresse IP par page web
 natkeepalive Si vous êtes souvent déconnecté involontairement, activez cet option
-needonline Vous êtes toujours déconnecté|e!
-needwinico Winico03.dll doit figurer dans le dossier de Plug-ins afin que l'icône dans la Barre des tâches fonctionne
+needonline Vous êtes toujours déconnecté[e]!
 needwinico2 Winico05.dll doit figurer dans le dossier utilitaires/windows pour que l'intégration dans le dock fonctionne
 never Jamais
 new_ft_protocol Utiliser le nouveau protocol de téléchargement de fichiers (certains peuvent bogues subsistent)
@@ -418,10 +417,10 @@ notinlist Vous ne figurez pas dans sa liste de contact
 notls Le protocole 9 de MSN requiert le module tls. Celui-ci ne semble pas être installé sur le système. S'il est installé,
 nousersinsession Pas d'utilisateur dans cette session
 nudge $1 réclame votre attention
-offline Déconnecté|e
+offline Déconnecté[e]
 ok Accepter
 onenewmail un nouveau message
-online Connecté|e
+online Connecté[e]
 onphone Au téléphone
 openreceived Ouvrir les fichiers reçus
 options Options
@@ -630,6 +629,7 @@ xmmssend Envoyer la chanson courante
 xoffset Position en X
 year Année
 yes Oui
+yesblock Oui et bloquer
 yesterday Hier
 yoffset Position en Y
 youblocked Vous avez été bloqué
