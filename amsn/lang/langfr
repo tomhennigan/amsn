@@ -5,6 +5,7 @@ acceptfile Accepter le fichier $1 (taille = $2)? enregistré dans $3
 actions Actions
 addacontact Ajouter un contact
 addedyou $1 ($2) vous a ajouté dans sa liste de contacts
+addstate Ajouter un nouveau statut
 addtocontacts Ajouter aux contacts
 addtoo Ajouter cette personne à ma liste de contacts
 admincontacts Gérer les contacts
@@ -12,6 +13,8 @@ admingroups Gérer les groupes
 adverts Publicité
 alarmpref Configuration alarme utilisateur
 alarmstatus Activer/désactiver l'alarme pour cet utilisateur
+allowallbutbl Autoriser tout le monde à me contacter sauf les personnes que j'ai bloquées
+allowlist Liste des personnes autorisées
 allowseen Autoriser cette personne à me voir et à me contacter quand je suis en ligne
 appearance Apparition
 appearoff Apparaître déconnecté
@@ -34,6 +37,7 @@ bgcolor Changer la couleur de fond de aMSN
 blankdirect Laisser vide pour une connexion sans proxy
 block Bloquer
 blocked Bloqué
+blocklist Liste de personnes bloquées
 blockmessage Ces personnes sont en ligne mais vous bloquent
 broughtby Développé pour vous par
 browse Naviguer
@@ -55,6 +59,7 @@ checkingver Recherche d'une nouvelle version
 checkver Nouvelle version
 choosebasefont Choisir la police de caractère
 choosebgcolor Choisir la couleur de fond
+choosecontact Veuillez choisir un contact dans la liste
 choosefontcolor Choisir la couleur de police
 clearlog2 Effacer l'historique de tout les contacts
 clearlog3 Effacer tout les logs
@@ -72,6 +77,7 @@ connected Vous êtes maintenant connecté(e)
 connecting Se connecter
 contactadded Contact ajouté
 contactdoesnotexist Personne introuvable
+contactlist Liste de contacts
 copy Copier
 copytogroup Copier vers groupe
 countrycode Mon pays/code région
@@ -92,7 +98,9 @@ docking Ancrage actif
 dockingoff Ancrage inactif
 dockkde Ancrage dans KDE
 edit Edition
+editnewstate Nouvel état avec message automatique personnalisé
 editprofile Modifier profil
+editstate Editer un état existant avec message automatique 
 enableproxy Permettre de passer par un proxy
 enableremote Permettre le contrôle à distance
 encoding2  Changer la manière dont les caractères sont encodés
@@ -109,6 +117,7 @@ fileman Gestionnaire de fichiers
 filename Fichier
 filetransfercancelled Transfert de fichier annulé
 filetransfercomplete Transfert de fichier terminé
+followtext Faire défiler lorsque du texte est entré
 ftaccepted Transfert de fichier accepté
 ftacceptedby $1 accepte l'invitation de transfert de fichier pour le fichier '$2'.
 ftaccepting Acceptez l'invitation de transfert de fichier
@@ -116,6 +125,7 @@ ftconnecterror Erreur de connexion à l'hôte distant
 ftconnecting Connexion à $1 port $2
 ftconnectionlost Connexion avec l'hôte distant perdu
 ftgotinvitation $1 veut vous envoyer le fichier '$2' ($3 bytes). Il sera sauvegardé dans le répertoire $4. Voulez-vous recevoir ce fichier ?
+ftportpref Premier port pour le transfert de fichiers
 ftrejected Transfert de fichier refusé
 ftrejectedby $1 a refusé l'invitation de transfert de fichier pour le fichier '$2'.
 ftsendinvitation L'invitation de transfert du fichier '$2' ($3 bytes) a été envoyé à $1.
@@ -139,6 +149,7 @@ httpconnection Connexion par la méthode HTTP (utilisation du protocole HTTP par 
 ident Identification
 identity Identité
 inbox Boîte aux lettres
+internalerror Erreur interne au serveur
 invalidusername Utilisateur incorrect
 invitationcancelled L'invitation a été annulée
 invite Invitation
@@ -182,6 +193,8 @@ maximised Maximisé
 minimised Minimisé/Icônifié
 mins minutes
 mobile Mobile
+morepersonal Autres états ->
+move Déplacer
 movetogroup Déplacer vers groupe
 msgmaxmin Quand un nouveau message arrive, je veux qu'il soit
 msg Message
@@ -203,6 +216,7 @@ newveravailable Nouvelle version disponible
 next Suivant
 no Non
 noactivity Inactif
+nodataavailable Pas de données disponibles pour $1
 nologfile Pas de fichier log pour $1
 nonewmail Pas de nouveau message
 nonewver Il n'y a pas de nouvelle version disponible
@@ -272,6 +286,7 @@ reconnect Dans l'attente de la reconnexion de $1
 reconnecting Reconnexion au serveur
 reject Refuser
 rememberpass Enregistrer le mot de passe
+removefromlist Supprimer de cette liste
 reversed Inverser
 rightback Bientôt de retour
 saveas Enregistrer sous
@@ -298,6 +313,12 @@ soundserver Serveur de Sons
 soundstatus Activer/Désactiver l'alarme sonore
 startoffline2 Se connecter "Apparaître hors ligne" silencieusement
 startoffline Démarrer déconnecté
+stateautomsg Message a envoyer automatiquement
+stateedittext Veuillez éditer les champs que vous \n voulez modifier et cliquez sur Enregistrer
+stateinfo Configuration de mon statut
+state Je veux apparaître 
+statename Nom du statut
+statenewtext Veuillez entrer les informations nécessaires \n a la création de votre nouveau statut et cliquez sur Enregistrer
 status Statut
 stopalarm Stopper l'alarme
 stylechat Même apparence que les conversations
@@ -311,6 +332,7 @@ to A
 tools Outils
 transnotexists Le fichier demandé n'a pas encore été traduit dans votre langue.
 traynotcompiled Le plugin de l'icone de la corbeille n'est pas conforme. Sélectionnez plugins/ancrage de la corbeille
+twonewmail $1 nouveaux messages dans votre boîte de réception
 unblock Débloquer
 uoffline Déconnectés
 uonline Connectés
@@ -331,4 +353,4 @@ yes Oui
 yoffset Position en Y
 youblocked Vous avez été bloqué
 yousay Vous avez dit
-youwant Vous vouleztwonewmail $1 nouveaux messages
+youwant Vous voulez

@@ -2517,9 +2517,15 @@ proc show_languagechoose {} {
 
 proc set_language { langname } {
    global config
+   #msg_box [trans mustrestart]
+   ::MSN::logout
    set config(language) $langname
    load_lang
-   msg_box [trans mustrestart]
+   #Here instead of destroying, maybe we should call some kind of redraw
+   foreach w [winfo children .] {
+      destroy $w
+   }
+   cmsn_draw_main
 }
 
 

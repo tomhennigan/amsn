@@ -1,0 +1,199 @@
+amsn_lang_version 2
+about тухай
+accept зөвшөөрөх
+acceptfile  $1-ыг татахыг зөвшөөрөх, хэмжээ $2? $3-д хадгалагдсан
+actions Үйлдэл
+addacontact Найз нэмэх
+addedyou таныг найзын жагсаалтандаа нэмсэн байна
+addtocontacts Жагсаалтанд нэмэх
+addtoo Энэ хүнийг миний жагсаалтанд нэмэх
+admincontacts Удирдагчийн жагсаалт
+admingroups Удирдагч
+adverts Сурталчилгаа
+alarmpref Дараах хэрэглэгчийн сэрүүлэгийн тохиргоо :
+alarmstatus Сэрүүлэгийг дараах хэрэглэгчийн хувьд АСАА/УНТРАА
+allowseen Энэ хэрэглэгчийг намайг идэвхтэй байхад харж холбогдохыг зөвшөөрөх
+appearoff идэвхгүйгээр харуулах
+aretyping $1 зурвас бичиж байна
+autoconnect Асаахад автоматаар холбогдох
+autohotmaillog Хотмайлд автоматаар холбогдох
+autoidle Автоматаар идэвхгүйгээр харуулах
+autoip Автомат IP
+avoidseen Энэ хэрэглэгчийг намайг идэвхтэй байхад харж холбогдохыг хориглох
+away Холдсон
+baduserpass Хэрэглэгчийн нэр юмуу нууц үгээ буруу оруулсан байна
+blankdirect Шууд холбогдохын тулд хоосон үлдээнэ үү
+block Хоригло
+blocked Хориглогдсон
+broughtby  Зохиогчид
+browse Хөтлөх
+browser Хөтөч
+busy Завгүй
+cancel Цуцлах
+cfgalarm Сэрүүлэг Тохируулах/нэмэх/хасах
+changenick хочоо солих
+chatack Ярилцахыг зөвшөөрч байна
+chat Чат(яриа)
+chatreq Чатлахыг урьж байна
+chatsmileys Инээмсэглэлүүд
+checkingver Шинэ хувилбарыг шалгаж байна
+checkver Шинэ хувилбарыг шалга
+choosebasefont Үсгийн хэлбэр сонгох
+choosebgcolor Дэвсгэр өнгө сонгох color
+choosefontcolor Үсгийн өнгө сонгох
+clicktologin Энд дарж холбогдоно уу
+close Хаах
+closingdocks Хаах товчлуурь,багасгах
+command тушаал
+confirm Та итгэлтэй байна уу?
+confirmdelete  Та үнэхээр $1-ыг устгах уу?
+connecterror Сэрвертэй холбогдоход алдаа гарлаа
+contactadded Амжилттай нэмлээ
+contactdoesnotexist Ийм хэрэглэгч байхгүй байна!
+copy хуулах
+copytogroup груп рүү хуулах
+cut Таслах
+date Огноо
+delete Устгах
+docking Докинг асаа
+dockingoff Докинг унтраа
+dockgtk Жномь Док
+dockkde KДЕ Док
+edit Засах
+enableproxy Боломжтой proxy
+encoding Энкодин сонгоно уу
+entercontactemail Е-мейл хаягыг оруулна уу
+enterfilename Файлын нэрийг оруулна уу
+enternick Хочоо оруулна уу
+examples Жишээнүүд
+exitamsn Та үнэхээр унтраах уу?
+extras Нэмэлт Services
+faq Асуулт хариулт
+filedoesnotexist Файл байхгүй байна
+filename Файлын нэр
+filetransfercancelled Файл илгээлт цуцлагдсан
+filetransfercomplete Файлыг амжилттай илгээлээ
+ftaccepted Файлыг хүлээж авлаа
+ftrejected Файлыг илгээлтыг зогсоосон
+gonelunch Үдийн хоолондоо явсан
+groupadd Бүлэг нэмэх
+groupdelete Бүлэг устгах
+groupexists Бүлэг давхардаж байна
+group Бүлэг
+groupmissing Бүлгийг олж чадсангүй
+groupnewname Шинэ нэр
+groupnotempty Бүлэг хоосон биш байна!
+groupoldname Хуучин нэр
+grouprename Бүлгийн нэр солих
+groupunknown Үл мэдэгдэх бүлэг
+handle гардуулах
+helpcontents Тусламжууд
+help тусламж
+home гэрт
+ident Тодотгож байна
+identity Тодотгол
+inbox ирсэн
+invalidusername Хүчингүй хэрэглэгчийн нэр
+invite Урих
+ipaddress IP хаяр
+istyping $1 зурвас бичиж байна
+joins $1 ярианд нэгдлээ
+keepalive Хэвээр нь хадгал (NAT)
+language Хэл
+lastmsgtime Сүүлчийн зурвас $1-д ирсэн
+leaveblankforhotmail Хотмейл веб хэрэглэхийн тулд хоосон үлдээнэ үү
+leaves $1 яриаг орхилоо
+listeningon Порт $1-ыг сонсож байна
+listsmileys Инээмсэглэлүүд
+loadcontacts Жагсаалтыг ачаалах
+loggedotherlocation Сүлжээнээс гарсан.Өөр байршилаас холбогдсон
+loggingin Холбогдож байна
+loginas Дараах нэрээр холбогдох
+login Холбогдох
+logout Гарах
+logsin дөнгөж сая холбогдлоо
+mailer Шууданч
+mobile Гар утас
+movetogroup Ийшээ group ruu зөөх:
+msg Зурвас
+msn Монгол МСН буухиа
+mustrestart Та өөрчлөлтийг идэвхжүүлэхийн тулд программийг дахин эхлүүлэх хэрэгтэй
+mystatus Миний байдал
+natip IP-г веб хуудсаар шалгах
+needonline You still are/appear offline!
+newmail $1 шинэ захиа байна
+newmailfrom Танд шинэ захиа ирлээ. Хэнээс:
+newmsg Шинэ зурвас
+newveravailable $1-ын шинэ хувилбар татаж авахад бэлэн болсон байна
+next Дараах
+noactivity Үйл ажиллагаагүй
+nonewmail Шинэ зурвас алга
+nonewver There are no new versions available to download
+notify мэдээлэх
+notifywin Мэдээлэлийн Цонх
+nousersinsession Энэ хэсэгт хэрэглэгч алга
+offline Идэвхгүй
+ok Ok
+onenewmail 1 зурвас ирсэн байна
+online Идэвхтэй
+onphone Утсаар
+openreceived Хүлээж авсан файл нээх
+options Сонголтууд
+ordercontactsby Жагсаалтыг дараах байдлаар эрэмбэл
+other Бусад
+pager Пейжер
+pass Нууц үг
+paste Буулгах
+phone Утас
+picfile Зургын файл (GIF < 500 x 500)
+picstatus Сэрүүлэгийн зураг
+port Порт
+prefapps Өргөдөл
+preferences Тохиргоо
+prefsound Дуу
+properties Шинж чанар
+proxyconfhttp HTTP Прокси тохируулах
+proxyconf Прокси тохиргоо
+publishphones Утасны дугаараа идэвхжүүлэх
+receivedbytes   Нийт $2-аас $1 байтыг хүлээж авлаа
+receivefile Файл татах
+reconnecting Дахин холбогдож байна
+reconnect  $1-ыг эргэж холбогдохыг хүлээж байна
+reject татгалз
+rememberpass Нууц үгийг санах
+rightback Удахгүй ирнэ
+saveas Ингэж хадгал
+savecontacts Жагсаалтыг хадгал
+save Хадгал
+says $1 :
+sbcon Солигч самбартай холбогдож байна
+sendfile Файл илгээх
+sendmail Захиа илгээх
+sendmsg Зурвас илгээх
+send Илгээ
+sentbytes   Нийт $2-ээс $1 байт илгээгдсэн
+servergoingdown Холбогдсонгүй: Сервер доошилж байна
+server Сервер
+sound Дуут
+soundfile Дууны файл
+soundloop Дууг давтах
+soundstatus Дуут сэрүүлэг
+startoffline Идэвхгүйгээр эхлэх
+status байдал
+stopalarm Сэрүүлэг зогсоо
+syntaxerror  өгүүлбэр зүйн алдаа
+textsize Бичгийн хэмжээ
+title Монгол МСН буухиа (orch dzb)
+tools Хэрэглүүр
+to руу
+unblock Зөвшөөрөх
+uoffline Идэвхгүй
+uonline Идэвхтэй
+useralreadyonlist Энэ хэрэглэгч аль хэдийн жагсаалтанд байна
+user Хэрэглэгч
+version Хувилбар
+view Харах
+willjoin $1-ыг ярианд нэгдэхийг хүлээж байна
+work Ажиллах
+yousay Та хэлсэн
+youwant Та хүссэн
