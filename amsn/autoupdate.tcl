@@ -692,13 +692,18 @@ namespace eval ::autoupdate {
 
 		frame $w.button
 		button $w.button.selectall -text "[trans selectall]" -command "::autoupdate::UpdateLangPlugin_selectall"
-		button $w.button.close -text "[trans close]" -command "::autoupdate::UpdateLangPlugin_close"
+		button $w.button.unselectall -text "[trans unselectall]" -command "::autoupdate::UpdateLangPlugin_unselectall"
 		button $w.button.update -text "[trans update]" -command "::autoupdate::UpdateLangPlugin_update" -default active
 		pack configure $w.button.selectall -side left -padx 3 -pady 3
+		pack configure $w.button.unselectall -side left -padx 3 -pady 3
 		pack configure $w.button.update -side right -padx 3 -pady 3
-		pack configure $w.button.close -side right -padx 3 -pady 3
-
 		pack configure $w.button -side top -fill x
+		
+		frame $w.button2
+		button $w.button2.close -text "[trans close]" -command "::autoupdate::UpdateLangPlugin_close"
+		pack configure $w.button2.close -side right -padx 3 -pady 3
+		pack configure $w.button2 -side top -fill x
+		
 		
 		return 1
 
@@ -779,6 +784,23 @@ namespace eval ::autoupdate {
 		
 	}
 		
+
+	#///////////////////////////////////////////////////////////////////////
+	proc UpdateLangPlugin_unselectall { } {
+	
+		set frame [.updatelangplugin.list.sf getframe]
+	
+		foreach langcode $::lang::UpdatedLang {
+			set ::autoupdate::lang($langcode) 0
+		}
+
+		foreach plugin $::plugins::UpdatedPlugins {
+			set name [lindex $plugin 6]
+			set ::autoupdate::plugin($name) 0
+		}
+		
+	}
+
 
 	#///////////////////////////////////////////////////////////////////////
 	proc ReadLangSelected { langcode } {
