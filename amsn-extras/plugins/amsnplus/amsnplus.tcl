@@ -1121,7 +1121,7 @@ namespace eval ::amsnplus {
 				set k 0
 				while {$k < 10} {
 					set word [lindex $::amsnplus::config(quick_text_$k) 0]
-					if {[string equal $char "/$word"]} {
+					if {[string equal $char "/$word"] && ![string equal $char "/"]} {
 						set qt [lindex $::amsnplus::config(quick_text_$k) 1]
 						set clen [string length $char]
 						set msg [string replace $msg $i [expr $i + $clen] $qt]

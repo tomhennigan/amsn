@@ -8,6 +8,7 @@
 	<plugin_file>amsnplus.tcl</plugin_file>
 	<plugin_namespace>amsnplus</plugin_namespace>
 	<init_procedure>amsnplusStart</init_procedure>
+
 	<cvs_version>1.86</cvs_version>
 
 	<lang>
@@ -49,6 +50,7 @@
 		<path>pixmaps/multiple_colors.gif</path>
 		<version>1.1</version>
 	</file>
+
 	<file>
 		<path>readme</path>
 		<version>1.20</version>
