@@ -43,11 +43,18 @@ namespace eval ::amsn {
       fileDialog2 $w $w.filename.entry open Untitled
    }
   
-   proc FileTransferSendOk { w twn entry } {
+   proc FileTransferSendOk { w sbn entry } {
       set filename [ $entry get ]  
       destroy $w 
-      ::amsn::SendWin $twn $filename
-      ::MSN::inviteFT $twn $filename
+
+      #Calculate a random cookie
+      set cookie [expr {[clock clicks]  % (65536 * 4)}]     
+      
+      status_log "Random generated cookie: $cookie\n"
+      
+      ::amsn::SendWin $filename $cookie
+      ::MSN::inviteFT $sbn $filename $cookie
+      return 0
    }
      
    proc fileTransferRecv {filename filesize cookie sb_name} {
@@ -61,9 +68,9 @@ namespace eval ::amsn {
       }
    }
 
-   proc SendWin {sbn filename} {
+   proc SendWin {filename cookie} {
       status_log "Creating send progress window\n"
-      set w .ft$sbn
+      set w .ft$cookie
       toplevel $w
       wm title $w "[trans sendfile] $filename"
 
@@ -72,10 +79,10 @@ namespace eval ::amsn {
       label $w.progress -text "Waiting for file transfer to start"
       pack $w.progress -side top
       
-      button $w.close -text "[trans close]" -command "destroy $w"
+      button $w.close -text "[trans cancel]" -command "::MSN::cancelSending $cookie"
       pack $w.close -side bottom
       
-      bind $w <Destroy> "::MSN::cancelSending"
+      wm protocol $w WM_DELETE_WINDOW "::MSN::cancelSending $cookie"
    }
    
    proc RecvWin {sbn cookie filename} {
@@ -89,24 +96,36 @@ namespace eval ::amsn {
       label $w.progress -text "Waiting for file transfer to start"
       pack $w.progress -side top
       
-      button $w.close -text "[trans close]" -command "destroy $w"
+      button $w.close -text "[trans cancel]" -command "::MSN::cancelReceiving $sbn"
       pack $w.close -side bottom
       
-      bind $w <Destroy> "::MSN::cancelReceiving"     
+      wm protocol $w WM_DELETE_WINDOW "::MSN::cancelReceiving $sbn"     
    }
 
    
    proc fileTransferProgress {mode sbn bytes filesize} {
+      # -1 in bytes to transfer cancelled
+      # bytes >= filesize for connection finished
       set w .ft$sbn
-		     
-      if { $bytes >= $filesize } {
+      
+      if { [winfo exists $w] == 0} {
+        return 1
+      }
+      
+      if { $bytes <0 } {
+	 $w.progress configure -text "[trans filetransfercancelled]"
+      } elseif { $bytes >= $filesize } {
 	 $w.progress configure -text "[trans filetransfercomplete]"
       }
       
-      if { $mode == "r" } {
+      if { ($bytes >= $filesize) || ($bytes<0)} {
+	 $w.close configure -text "[trans close]" -command "destroy $w"
+         wm protocol $w WM_DELETE_WINDOW "destroy $w"
+      } elseif { $mode == "r" } {
 	 $w.progress configure -text "[trans receivedbytes $bytes $filesize]"
       } else {
 	 $w.progress configure -text "[trans sentbytes $bytes $filesize]"
       }
    }
+   
 }

@@ -1,6 +1,6 @@
 amsn_lang_version 2
 about Acerca de
-acceptfile ¿Aceptar archivo $1, tamaño $2 bytes?\nSe guardará en $3
+acceptfile ¿Aceptar archivo $1, tamaño $2 bytes? Se guardará en $3
 actions Acciones
 actions Acciones
 addacontact Añadir un contacto
@@ -39,6 +39,7 @@ enableproxy Activar proxy
 entercontactemail Introduce el email del contacto
 enternick Introduce tu nick
 examples Ejemplos
+filetransfercancelled Transferencia de archivo cancelada
 filetransfercomplete Transferencia de archivo completada
 gonelunch Salí a comer
 group Grupo

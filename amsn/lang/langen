@@ -1,6 +1,6 @@
 amsn_lang_version 2
 about About
-acceptfile Accept file $1, size $2?\nSaved in $3
+acceptfile Accept file $1, size $2? Saved in $3
 actions Actions
 addacontact Add a contact
 addedyou has added you to his/her contact list
@@ -39,6 +39,7 @@ enableproxy Enable proxy
 entercontactemail Enter contact e-mail
 enternick Enter your nick
 examples Examples
+filetransfercancelled File transfer cancelled
 filetransfercomplete File transfer complete
 gonelunch Gone to lunch
 group Group

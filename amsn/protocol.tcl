@@ -91,19 +91,16 @@ namespace eval ::MSN {
    #   ::MSN::WriteNS REM "AL $userlogin"
    }   
 
-   proc inviteFT { sbn filename } {
+   proc inviteFT { sbn filename cookie } {
       #Invitation to filetransfer, initial message
       variable trid 
       variable atransfer
 
       if { [catch {set filesize [file size $filename]} res]} {
 	::amsn::errorMsg "File does not exist"
+	return 1
       }
-
       set sock [sb get $sbn sock]
-
-      #Calculate a random cookie
-      set cookie [expr {$trid * $filesize % (65536 * 4)}]
 
       set msg "MIME-Version: 1.0\r\nContent-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
       set msg "${msg}Application-Name: File Transfer\r\n"
@@ -121,12 +118,13 @@ namespace eval ::MSN {
       status_log "Invitation to $filename sent\n" red
 
       #Change to allow multiple filetransfer
-      set atransfer [list $cookie $filename $filesize $sbn ]
+      set atransfer($cookie) [list $sbn $filename $filesize $cookie]      
 
    }
 
    proc acceptFT {cookie sbn} {
       #Send the acceptation for a file transfer, request IP
+      variable atransfer
       set sock [sb get $sbn sock]
 
       set msg "MIME-Version: 1.0\r\nContent-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
@@ -140,13 +138,11 @@ namespace eval ::MSN {
       puts $sock "MSG $::MSN::trid N $msg_len"
       puts -nonewline $sock $msg
 
-      status_log "Accepting filetransfer sent\n" red
-
    }
 
 
    proc rejectFT {sbn cookie} {
-      #Send the cancelation for a file transfer, request IP
+      #Send the cancelation for a file transfer
       set sock [sb get $sbn sock]
 
       set msg "MIME-Version: 1.0\r\nContent-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
@@ -164,22 +160,36 @@ namespace eval ::MSN {
    }
 
 
-   proc cancelReceiving {} {
+   proc cancelReceiving {cookie} {
       status_log "Canceling receiving (TO-DO)\n"
    }
 
 
-   proc cancelSending {} {
-      status_log "Canceling sending (TO-DO)\n"
+   proc cancelSending {cookie} {
+      variable atransfer
+      status_log "Canceling sending\n"
+      set sockid [lindex $atransfer($cookie) 4]
+      set sbn [lindex $atransfer($cookie) 0]
+      
+      #Avoid sending the file
+      if { $sockid != "" } {
+         close $sockid
+         ::amsn::fileTransferProgress c $cookie -1 -1
+         array unset atransfer $cookie      
+      } else {
+         status_log "unsetting atransfer\n"
+         array unset atransfer $cookie
+	 ::amsn::fileTransferProgress c $cookie -1 -1
+      }
    }
 
 
    #Internal procedures
 
    variable trid 0
-   variable atransfer ""
    variable myState FLN
-
+   variable atransfer 
+   
    proc WriteSB {sbn cmd param {handler ""}} {
       variable trid
       incr trid
@@ -229,6 +239,15 @@ namespace eval ::MSN {
       variable atransfer
       variable trid
 
+      if {[info exists atransfer($cookie)] == 0} {
+        status_log "Ignoring file transfer, cancelled\n"
+        return 1
+      }
+      
+      status_log "atransfer: $atransfer($cookie)\n"
+      
+      status_log "File transfer ok, begin\n"
+
       set sock [sb get $sbn sock]
 
       #Invitation accepted, send IP and Port to connect to
@@ -242,12 +261,11 @@ namespace eval ::MSN {
       #Random authcookie
       set authcookie [expr {$trid * $port % (65536 * 4)}]
 	
-      while {[catch {set sockid [socket -server "::MSN::AcceptConnection $sbn" $port]} res]} {
+      while {[catch {set sockid [socket -server "::MSN::AcceptConnection $cookie $authcookie" $port]} res]} {
          incr port
       }
 
       after 120000 "status_log \"Closing $sockid\n\";close $sockid"
-      lappend atransfer $authcookie
 
       set msg "MIME-Version: 1.0\r\nContent-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
       set msg "${msg}Invitation-Command: ACCEPT\r\n"
@@ -268,9 +286,17 @@ namespace eval ::MSN {
 
    }
 
-   proc AcceptConnection {sbn sockid hostaddr hostport} {
+   proc SendFileRejected {cookie cancelcode} {
+      status_log "Invitation cookie $cookie CANCELED: $cancelcode\n"
+      ::amsn::fileTransferProgress c $cookie -1 -1
+      array unset atransfer $cookie
+   }
+
+   proc AcceptConnection {cookie authcookie sockid hostaddr hostport} {
       #Someone connects to my host to get the file i offer
       variable atransfer
+
+      lappend atransfer($cookie) $sockid
   
       status_log "Conexión aceptada sockid: $sockid hostaddr: $hostaddr port: $hostport\n" white  
       fconfigure $sockid -blocking 1 -buffering none -translation {binary binary}
@@ -284,9 +310,12 @@ namespace eval ::MSN {
          gets $sockid tmpdata
          status_log "Recibo: $tmpdata\n"      
     
+    
+         #Comprobar authcookie
          if { [string range $tmpdata 0 2] == "USR" } {
-            set filename [lindex $atransfer 1]	
-            set filesize [lindex $atransfer 2]
+            set filename [lindex $atransfer($cookie) 1]	
+            set filesize [lindex $atransfer($cookie) 2]
+            set cookie [lindex $atransfer($cookie) 3]
 
             puts $sockid "FIL $filesize\r"
             status_log "ENVIO: FIL $filesize\n"
@@ -301,9 +330,11 @@ namespace eval ::MSN {
                fconfigure $fileid -translation {binary binary}
                status_log "Sending file $filename size $filesize\n"
 
+
+
                fconfigure $sockid -blocking 0
-	       fileevent $sockid writable "::MSN::SendPacket $sockid $fileid $filesize $sbn"
-               fileevent $sockid readable "::MSN::MonitorTransfer $sockid"
+	       fileevent $sockid writable "::MSN::SendPacket $sockid $fileid $filesize $cookie"
+               fileevent $sockid readable "::MSN::MonitorTransfer $sockid $cookie"
 	       	       
 	       return 0
 
@@ -311,12 +342,13 @@ namespace eval ::MSN {
          } 
       } 
       status_log "Transferencia cancelada\n"  
+      ::amsn::fileTransferProgress c $cookie -1 -1
       close $sockid
       return 1
 
    }
 
-   proc SendPacket { sockid fileid filesize sbn } {
+   proc SendPacket { sockid fileid filesize cookie } {
       #Send a packet for the file transfer
 
       set sentbytes [tell $fileid]
@@ -337,16 +369,17 @@ namespace eval ::MSN {
          puts -nonewline $sockid "\0[format %c $byte1][format %c $byte2]"
          puts -nonewline $sockid $datos
          set sentbytes [expr {$sentbytes + $packetsize}]
-	 ::amsn::fileTransferProgress s $sbn $sentbytes $filesize
+	 ::amsn::fileTransferProgress s $cookie $sentbytes $filesize
          #status_log "sending $sentbytes of $filesize bytes\n"
       } else {
         close $fileid
 	fileevent $sockid writable ""
+        ::amsn::fileTransferProgress s $cookie $filesize $filesize
 	status_log "All file content sent\n"
       }
    }
 
-   proc MonitorTransfer { sockid } {
+   proc MonitorTransfer { sockid cookie} {
       #Monitor messages from the receiving host in a file transfer
       fconfigure $sockid -blocking 1
       gets $sockid datos
@@ -354,7 +387,7 @@ namespace eval ::MSN {
       status_log "Recibido del receptor: $datos\n"
       if {[string range $datos 0 2] == "CCL"} {
          status_log "Connection cancelled\n"
-         close $sockid
+	 cancelSending $cookie
          return
       }
   
@@ -366,12 +399,11 @@ namespace eval ::MSN {
   
       if {[eof $sockid]} {
          status_log "EOF in connection\n"      
-         close $sockid
+         cancelSending $cookie
          return
       }
    }
-   
-   
+      
 
    #All about receiving files
 
@@ -403,8 +435,15 @@ namespace eval ::MSN {
             puts $sockid "TFR\r"
 	
             status_log "Recibiendo archivo...\n"
+            set origfile [file join ${files_dir} $filename]
+	    set filename $origfile
+	    set num 1
+            while { [file exists $filename] } {
+	      set filename "$origfile.$num"
+	      incr num
+	    }
 
-            set fileid [open [file join ${files_dir} $filename] w]
+            set fileid [open $filename w]
             fconfigure $fileid -blocking 0 -translation {binary binary}
 
             #Receive the file
@@ -728,8 +767,8 @@ proc cmsn_sb_msg {sb_name recv} {
 	
 
       } elseif {$invcommand =="CANCEL" } {
-        set cancelcode [aim_get_str $body Cancel-Code]
-	status_log "Invitation cookie $cookie CANCELED: $cancelcode\n" white	
+        set cancelcode [aim_get_str $body Cancel-Code]	
+	::MSN::SendFileRejected $cookie $cancelcode
       } elseif {$invcommand == "INVITE" } {
          set app [aim_get_str $body Application-Name]	
 	 set cookie [aim_get_str $body Invitation-Cookie]
@@ -738,9 +777,7 @@ proc cmsn_sb_msg {sb_name recv} {
 	 status_log "Invited to $app\n" white
 	 status_log "$body\n" black
 	 
-	 ::amsn::fileTransferRecv $filename $filesize $cookie $sb_name
-	 
-
+	 ::amsn::fileTransferRecv $filename $filesize $cookie $sb_name	 
 	
 	set filetoreceive [list $filename $filesize]
       } else {
