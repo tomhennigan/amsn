@@ -22,11 +22,10 @@ namespace eval ::amsnplus {
 		#plugin config
 		array set ::amsnplus::config {
 			colour_nicks {0}
-			parse_nicks {1}
 			allow_commands {1}
 		}
 		set ::amsnplus::configlist [ \
-			list [list bool "[trans parsenicks]" parse_nicks] \
+		#	list [list bool "Colour Nicks?" colour_nicks]
 			list [list bool "[trans allowcommands]" allow_commands] \  
 		]
 		#register events
@@ -46,7 +45,6 @@ namespace eval ::amsnplus {
 	# and colours nick if enabled
 	# should parse ALSO MULTIPLE COLORS ·$(num,num,num)
 	proc parse_nick {event epvar} {
-		if (!$::amsnplus::config(parse_nicks)} {return}
 		upvar 2 data data
 		#upvar 2 colour colour
 		set strlen [string length $data]
