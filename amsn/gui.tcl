@@ -4584,18 +4584,27 @@ proc cmsn_draw_online_wrapped {} {
 		$pgBuddyTop.mail configure -font "{} -$mailheight"
 
 		set unread [::hotmail::unreadMessages]
+		set froms [::hotmail::getFroms]
+		set fromsText ""
+		foreach {from frommail} $froms {
+			append fromsText "\n[trans newmailfrom $from $frommail]"
+		}
 
 		if {$unread == 0} {
 			set mailmsg "[trans nonewmail]"
+			set_balloon $pgBuddyTop.mail "[trans nonewmail]"
 		} elseif {$unread == 1} {
 			set mailmsg "[trans onenewmail]"
+			set_balloon $pgBuddyTop.mail "[trans onenewmail]\n$fromsText"
 		} elseif {$unread == 2} {
 			set mailmsg "[trans twonewmail 2]"
+			set_balloon $pgBuddyTop.mail "[trans twonewmail 2]\n$fromsText"
 		} else {
 			set mailmsg "[trans newmail $unread]"
+			set_balloon $pgBuddyTop.mail "[trans newmail $unread]\n$fromsText"
 		}
 
-	  	set evpar(text) pgBuddyTop.mail
+		set evpar(text) pgBuddyTop.mail
 		set evpar(msg) mailmsg
   		::plugins::PostEvent ContactListEmailsDraw evpar	
 
@@ -4603,7 +4612,7 @@ proc cmsn_draw_online_wrapped {} {
 		set short_mailmsg [trunc $mailmsg $pgBuddyTop.mail $maxw splainf]
 		$pgBuddyTop.mail insert end "$short_mailmsg" {mail dont_replace_smileys}
 
-	  	set evpar(text) pgBuddyTop.mail
+		set evpar(text) pgBuddyTop.mail
   		::plugins::PostEvent ContactListEmailsDrawn evpar	
 
 		$pgBuddyTop.mail configure -state disabled

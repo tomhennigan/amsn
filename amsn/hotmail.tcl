@@ -1,6 +1,7 @@
 namespace eval ::hotmail {
 	if { $initialize_amsn == 1 } {
 		variable unread 0
+		variable froms [list]
 	}
 
 	proc unreadMessages {} {
@@ -12,6 +13,21 @@ namespace eval ::hotmail {
 	proc setUnreadMessages { number } {
 		variable unread
 		set unread $number
+	}
+
+	proc addFrom { from fromaddr } {
+		variable froms
+		lappend froms $from $fromaddr
+	}
+
+	proc emptyFroms { } {
+		variable froms
+		set froms [list]
+	}
+
+	proc getFroms { } {
+		variable froms
+		return $froms
 	}
 
 	proc composeMail { toaddr userlogin {pass ""} } {
@@ -270,7 +286,6 @@ proc hotmail_procmsg {msg} {
 	if {[string range $content 0 29] == "text/x-msmsgsemailnotification"} {     
 		if {[$message getHeader From] != ""} {
 			set from [$message getHeader From]
-			puts $from
 			set fromaddr [$message getHeader From-Addr]
 			if {[catch {set from [decode_from_field $from]} res]} {
 				status_log "Fail to decode from field: $res\n" res
@@ -282,6 +297,7 @@ proc hotmail_procmsg {msg} {
 			set dest [$message getHeader Dest-Folder]
 			if {$dest == "ACTIVE"} {
 				::hotmail::setUnreadMessages [expr { [::hotmail::unreadMessages] + 1}]
+				::hotmail::addFrom $from $fromaddr
 				cmsn_draw_online
 				if { [::config::getKey notifyemail] == 1 } {
 					::amsn::notifyAdd "[trans newmailfrom $from $fromaddr]" \
@@ -308,6 +324,7 @@ proc hotmail_procmsg {msg} {
 		#Remember the number of unread mails in inbox and create a notify window if necessary
 		if { [string length $noleidos] > 0 && $noleidos != 0} {
 			::hotmail::setUnreadMessages $noleidos
+			::hotmail::emptyFroms
 			cmsn_draw_online
 			if { [::config::getKey notifyemail] == 1} {
 				::amsn::notifyAdd "[trans newmail $noleidos]" \
@@ -334,6 +351,7 @@ proc hotmail_procmsg {msg} {
 		set delta [$message getHeader Message-Delta]
 		if { $source == "ACTIVE" } {
 			set unread [expr {[::hotmail::unreadMessages] - $delta}]
+			::hotmail::emptyFroms
 			if { $unread < 0 } {
 				status_log "number of unread hotmail messages is $unread, setting to 0\n" red
 				set unread 0
