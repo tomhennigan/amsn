@@ -1,5 +1,90 @@
+::snit::type P2PMessage {
+
+	option -sessionid
+	option -identifier
+	option -offset
+	option -totalsize
+	option -datalength
+	option -flag
+	option -ackid
+	option -ackuid
+	option -acksize	
+	variable headers 
+	variable body ""
+
+
+	#creates a message object from a received payload
+	method createFromMessage { message } {
+		array set headers [$message getHeaders]
+		set data [$message getBody]
+		set idx [string first "\r\n\r\n" $data]
+		set head [string range $data 0 [expr $idx -1]]
+#		set body [string range $data [expr $idx +4] end]
+		set body [$message getBody]
+		set head [string map {"\r" ""} $head]
+		set heads [split $head "\n"]
+		foreach header $heads {
+			set idx [string first ": " $header]
+			array set headers [list [string range $header 0 [expr $idx -1]] \
+					  [string range $header [expr $idx +2] end]]
+		}
+	}
+
+#	proc ReadData { message chatid } {
+#		variable chunkedData
+#		# Get values from the header
+##		set idx [expr [string first "\r\n\r\n" $data] + 4]
+##		set headend [expr $idx + 48]
+#		set data [$message getBody]
+#	    
+#	        binary scan [string range $data 0 48] iiiiiiiiiiii cSid cId cOffset1 cOffset2 cTotalDataSize1 cTotalDataSize2 cMsgSize cFlags cAckId cAckUID cAckSize1 cAckSize2
+#
+#	        set cOffset [int2word $cOffset1 $cOffset2]
+#	        set cTotalDataSize [int2word $cTotalDataSize1 $cTotalDataSize2]
+#   	        set cAckSize [int2word $cAckSize1 $cAckSize2]
+#
+#		#status_log "Read header : $cSid $cId $cOffset $cTotalDataSize $cMsgSize $cFlags $cAckId $cAckUID $cAckSize\n" red
+#		#status_log "Sid : $cSid -> " red
+#
+#		if {$cSid == "0" && $cMsgSize != "0" && $cMsgSize != $cTotalDataSize } {
+#		
+#			if { ![info exists chunkedData($cId)] } {
+#				set chunkedData($cId) "[string range $data 48 end-4]"
+#			} else {
+#				set chunkedData($cId) "$chunkedData($cId)[string range $data 48 end-4]"
+#			}
+#			#status_log "Data is now : $chunkedData($cId)\n\n";
+#
+#			if { $cTotalDataSize != [string length $chunkedData($cId)] } {
+#				return 
+#			} else {
+#				set data $chunkedData($cId)
+#				set headend 0
+#				set cMsgSize $cTotalDataSize
+#			}
+#
+#		}
+#	}
+
+
+
+
+
+
+
+
+	method getBody { } {
+		return $body
+	}
+
+	method getHeader { name } {
+		return [lindex [array get headers $name] 1]
+	}
+}
+
 namespace eval ::MSNP2P {
 	namespace export loadUserPic SessionList ReadData MakePacket MakeACK MakeSLP
+
 
 	#Get picture from $user, if cached, or sets image as "loading", and request it
 	#using MSNP2P
@@ -256,17 +341,21 @@ namespace eval ::MSNP2P {
 	# chatid will be used to get the SB ?? Ack alvaro if it's better to use chatid or some way to use the dest email
 	# For now only manages buddy and emoticon transfer
 	# TODO : Error checking on fields (to, from, sizes, etc)
-	proc ReadData { data chatid } {
+	proc ReadData { msg chatid } {
 		global HOME
 		variable chunkedData
+
+		set message [P2PMessage create %AUTO%]
+		$message createFromMessage $msg
 
 		#status_log "called ReadData with $data\n" red
 
 		# Get values from the header
-		set idx [expr [string first "\r\n\r\n" $data] + 4]
-		set headend [expr $idx + 48]
+#		set idx [expr [string first "\r\n\r\n" $data] + 4]
+#		set headend [expr $idx + 48]
+		set data [$message getBody]
 	    
-	        binary scan [string range $data $idx $headend] iiiiiiiiiiii cSid cId cOffset1 cOffset2 cTotalDataSize1 cTotalDataSize2 cMsgSize cFlags cAckId cAckUID cAckSize1 cAckSize2
+	        binary scan [string range $data 0 48] iiiiiiiiiiii cSid cId cOffset1 cOffset2 cTotalDataSize1 cTotalDataSize2 cMsgSize cFlags cAckId cAckUID cAckSize1 cAckSize2
 
 	        set cOffset [int2word $cOffset1 $cOffset2]
 	        set cTotalDataSize [int2word $cTotalDataSize1 $cTotalDataSize2]
@@ -278,9 +367,9 @@ namespace eval ::MSNP2P {
 		if {$cSid == "0" && $cMsgSize != "0" && $cMsgSize != $cTotalDataSize } {
 		
 			if { ![info exists chunkedData($cId)] } {
-				set chunkedData($cId) "[string range $data $headend end-4]"
+				set chunkedData($cId) "[string range $data 48 end-4]"
 			} else {
-				set chunkedData($cId) "$chunkedData($cId)[string range $data $headend end-4]"
+				set chunkedData($cId) "$chunkedData($cId)[string range $data 48 end-4]"
 			}
 			#status_log "Data is now : $chunkedData($cId)\n\n";
 
@@ -288,7 +377,7 @@ namespace eval ::MSNP2P {
 				return 
 			} else {
 				set data $chunkedData($cId)
-				set headend 0
+#				set headend 0
 				set cMsgSize $cTotalDataSize
 			}
 
@@ -631,7 +720,7 @@ namespace eval ::MSNP2P {
 		    if { $fd != "" && $fd != 0 && $fd != -1 } {
 			# File already open and being written to (fd exists)
 			# Lets write data to file
-			puts -nonewline $fd [string range $data $headend [expr $headend + $cMsgSize - 1]]
+			puts -nonewline $fd [string range $data 48 [expr 48 + $cMsgSize - 1]]
 			#status_log "MSNP2P | $sid -> FD EXISTS, file already open... with fd = $fd --- $cOffset + $cMsgSize + $cTotalDataSize . Writing DATA to file\n" red
 			# Check if this is last part if splitted
 			if { [expr $cOffset + $cMsgSize] >= $cTotalDataSize } {

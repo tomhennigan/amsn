@@ -50,7 +50,7 @@ namespace eval ::MSNFT {
          return
       }
    
-      set requestdata [::MSN::GetHeaderValue $body Request-Data]
+      set requestdata [$message getHeader Request-Data]
       set requestdata [string range $requestdata 0 [expr {[string length requestdata] -2}]]
 
       status_log "Ok, so here we have cookie=$cookie, requestdata=$requestdata\n" red
@@ -60,7 +60,7 @@ namespace eval ::MSNFT {
 	 return
       }
 
-      set ipaddr [::MSN::GetHeaderValue $body $requestdata]
+      set ipaddr [$message getHeader $requestdata]
 
       #If IP field is blank, and we are sender, Send the File and requested IP (SendFile)
       if { ($ipaddr == "") && ([getTransferType $cookie]=="send") } {
@@ -77,8 +77,8 @@ namespace eval ::MSNFT {
       } elseif { ($fromlogin == [lindex $filedata($cookie) 3]) && ([getTransferType $cookie]=="receive")} {
 
          after cancel "::MSNFT::timeoutedFT $cookie"
-         set port [::MSN::GetHeaderValue $body Port]
-         set authcookie [::MSN::GetHeaderValue $body AuthCookie]
+         set port [$message getHeader Port]
+         set authcookie [$message getHeader AuthCookie]
          status_log "Body: $body\n"
          ConnectMSNFTP $ipaddr $port $authcookie $cookie
 
@@ -860,8 +860,8 @@ namespace eval ::MSN {
 		#Setup the conection
 		setup_connection ns
 		#Call the pre authentication
-		set command [list "::[ns cget -connection_wrapper]::authInit"]
-		if { [eval $command] < 0 } {
+		set proxy [ns cget -proxy]
+		if { [$proxy authInit] < 0 } {
 			return -1
 		}
 
@@ -878,8 +878,8 @@ namespace eval ::MSN {
 		
 		::MSN::WriteSBRaw ns "OUT\r\n";
 
-		set command [list "::[ns cget -connection_wrapper]::finish" ns]
-		eval $command
+		set proxy [ns cget -proxy]
+		$proxy finish ns
 		ns configure -stat "d"
 		
 		CloseSB ns
@@ -1145,10 +1145,13 @@ namespace eval ::MSN {
 
 	proc WriteSBRaw {sbn cmd} {
 
+		if { $sbn == 0 } {
+			return
+		}
 		#Finally, to write, use a wrapper, so it's transparent to use
 		#a direct connection, a proxy, or anything      
-		set command [list "::[$sbn cget -connection_wrapper]::write" $sbn $cmd]
-		catch {eval $command} res
+		set proxy [$sbn cget -proxy]
+		catch {$proxy write $sbn $cmd} res
 		
 		if { $res == 0 } {
 			if {$sbn != "ns" } {
@@ -1230,8 +1233,8 @@ namespace eval ::MSN {
 		set sock [$sb cget -sock]
 
 		if {$sock != ""} {
-			set command [list "::[$sb cget -connection_wrapper]::finish" $sb]
-			eval $command
+			set proxy [$sb cget -proxy]
+			$proxy finish $sb
 		}
 		
 #		#Append an empty string to the SB buffer. This will cause the
@@ -1576,8 +1579,8 @@ namespace eval ::MSN {
 		catch {
 			#fileevent [$name cget -sock] readable ""
 			#fileevent [$name cget -sock] writable ""
-			set command [list "::[$sb cget -connection_wrapper]::finish" $sb]
-			eval $command
+			set proxy [$sb cget -proxy]
+			$proxy finish $sb
 		} res
 
 		set sb_list [lreplace $sb_list $idx $idx ]
@@ -1996,9 +1999,9 @@ namespace eval ::MSN {
 	}
 	#///////////////////////////////////////////////////////////////////////////////
 
-
 	#///////////////////////////////////////////////////////////////////////////////
 	#Parses "name: value\nname: value\n..." headers and returns the "value" for "name"
+	#TODO remove this proc after deleting the stuff that needs it in the proxy code
 	#///////////////////////////////////////////////////////////////////////////////
 	proc GetHeaderValue { bodywithr name } {
 	
@@ -2015,7 +2018,8 @@ namespace eval ::MSN {
 		#///////////////////////////////////////////////////////////////////////////////
 	
 	}
-	
+
+
 	########################################################################
 	# Return a sorted version of the contact list
 	proc sortedContactList { } {
@@ -2150,185 +2154,11 @@ namespace eval ::MSN {
 
 }
 
-#Connection wrapper for Direct Connection
-namespace eval ::DirectConnection {
-
-	#Called to write some data to the connection
-	proc write { sbn data } {
-	
-		set sb_sock [$sbn cget -sock]
-		if {[catch {puts -nonewline $sb_sock "$data"} res]} {
-			status_log "::DirectConnectin::Write: SB $sbn problem when writing to the socket: $res...\n" red
-			return -1
-		} else {
-			return 0
-		}
-		
-	}
-	
-	#Called to close the given connection
-	proc finish {sbn} {
-		
-		set sock [$sbn cget -sock]
-		
-		catch {
-			fileevent $sock readable ""
-			fileevent $sock writable ""
-		}
-		
-		if {[catch {close $sock}]} {
-			return -1
-		} else {
-			return 0
-		}
-	}
-	
-	#Called to stablish the given connection.
-	#The "server" field in the sbn data must be set to server:port
-	proc connect {sbn} {
-	
-		set tmp_serv [lindex [$sbn cget -server] 0]
-		set tmp_port [lindex [$sbn cget -server] 1]
-	
-		if { [catch {set sock [socket -async $tmp_serv $tmp_port]} res ] } {
-			$sbn configure -error_msg $res
-			return -1
-		}
-	
-		fconfigure $sock -buffering none -translation binary -blocking 0
-		$sbn configure -sock $sock
-		fileevent $sock readable [list $sbn receivedData]
-		set connected_command [$sbn cget -connected]
-		lappend connected_command $sock
-		fileevent $sock writable $connected_command
-		return 0
-	
-	}
-	
-	proc authInit {} {
-		global tlsinstalled login_passport_url
-		
-		#Check if we need to install the TLS module
-		if { $tlsinstalled == 0 && [checking_package_tls] == 0 && [::config::getKey nossl] == 0} {
-			::autoupdate::installTLS
-			return -1
-		}
-
-		#If SSL is used, register https:// protocol
-		if { [::config::getKey nossl] == 0 } {
-			http::register https 443 ::tls::socket
-		} else  {
-			catch {http::unregister https}
-		}
-
-		#No proxy is used
-		::http::config -proxyhost ""
-		
-		if { [::config::getKey nossl] == 1 } {
-			#If we can't use ssl, avoid getting url from nexus
-			set login_passport_url "https://login.passport.com/login2.srf"
-		} else {
-			#Contact nexus to get login url
-			set login_passport_url 0
-			after 500 "catch {::http::geturl [list https://nexus.passport.com/rdr/pprdr.asp] -timeout 10000 -command ::DirectConnection::GotNexusReply}"
-		}
-	}
-	
-	proc authenticate {str url} {
-	
-		set head [list Authorization "Passport1.4 OrgVerb=GET,OrgURL=http%3A%2F%2Fmessenger%2Emsn%2Ecom,sign-in=[::config::getKey login],pwd=[urlencode $::password],${str}"]
-		#if { [::config::getKey nossl] == 1 || ([::config::getKey connectiontype] != "direct" && [::config::getKey connectiontype] != "http") } {
-		#	set url [string map { https:// http:// } $url]
-		#}
-		if { [::config::getKey nossl] == 1 } {
-			set url [string map { https:// http:// } $url]
-		}
-		status_log "::DirectConnection::authenticate: Getting $url\n" blue
-		if {[catch {::http::geturl $url -command "::DirectConnection::GotAuthReply [list $str]" -headers $head}]} {
-			eval [ns cget -autherror_handler]
-			#msnp9_auth_error
-		}
-	
-	}
-
-	
-	proc GotNexusReply {token {total 0} {current 0}} {
-	
-		global login_passport_url
-		if { [::http::status $token] != "ok" || [::http::ncode $token ] != 200 } {
-			#Nexus connection failed, so let's just set login URL manually
-			set loginurl "https://login.passport.com/login2.srf"
-			status_log "gotNexusReply: error in nexus reply, getting url manually\n" red
-		} else {
-			#We got reply from nexus. Extract login URL
-			upvar #0 $token state
-	
-			set index [expr {[lsearch $state(meta) "PassportURLs"]+1}]
-			set values [split [lindex $state(meta) $index] ","]
-			set index [lsearch $values "DALogin=*"]
-			set loginurl "https://[string range [lindex $values $index] 8 end]"
-			status_log "gotNexusReply: loginurl=$loginurl\n" green
-		}
-		::http::cleanup $token
-	
-		#If $login_passport_url == 0, we got login url before authentication took place
-		if { $login_passport_url == 0 } {
-			#Set loginurl (will be used in authentication), and rest in peace
-			set login_passport_url $loginurl
-			status_log "gotNexusReply: finished before authentication took place\n" green
-		} else {
-			#Authentication is waiting for us to get this url!! Do authentication inmediatly
-			status_log "gotNexusReply: authentication was waiting for me, so I'll do it\n" green
-			::DirectConnection::authenticate $login_passport_url $loginurl
-		}
-	
-	}
-
-	proc GotAuthReply { str token } {
-		if { [::http::status $token] != "ok" } {
-			::http::cleanup $token
-			status_log "::DirectConnection::GotAuthReply error: [::http::error]\n"
-			eval [ns cget -autherror_handler]
-			#msnp9_auth_error
-			return
-		}
-	
-		upvar #0 $token state
-	
-		if { [::http::ncode $token] == 200 } {
-			#Authentication done correctly
-			set index [expr {[lsearch $state(meta) "Authentication-Info"]+1}]
-			set values [split [lindex $state(meta) $index] ","]
-			set index [lsearch $values "from-PP=*"]
-			set value [string range [lindex $values $index] 9 end-1]
-			status_log "::DirectConnection::GotAuthReply 200 Ticket= $value\n" green
-			
-			set command [list [ns cget -ticket_handler] $value]
-			eval $command
-			#msnp9_authenticate $value
-	
-		} elseif {[::http::ncode $token] == 302} {
-			#Redirected to another URL, try again
-			set index [expr {[lsearch $state(meta) "Location"]+1}]
-			set url [lindex $state(meta) $index]
-			status_log "::DirectConnection::GotAuthReply 302: Forward to $url\n" green
-			::DirectConnection::authenticate $str $url
-		} elseif {[::http::ncode $token] == 401} {
-			#msnp9_userpass_error
-			eval [ns cget -passerror_handler]
-		} else {
-			eval [ns cget -autherror_handler]
-			#msnp9_auth_error
-		}
-		::http::cleanup $token
-	
-	}
-}
 
 ::snit::type Message {
 
 	variable headers 
-	variable body
+	variable body ""
 
 	#creates a message object from a received payload
 	method createFromPayload { payload } {
@@ -2344,8 +2174,16 @@ namespace eval ::DirectConnection {
 		}
 	}
 
+	method getBody { } {
+		return $body
+	}
+
 	method getHeader { name } {
 		return [lindex [array get headers $name] 1]
+	}
+
+	method getHeaders { } {
+		return [array get headers]
 	}
 }
 
@@ -2357,7 +2195,7 @@ namespace eval ::DirectConnection {
 	option -stat ""
 	option -sock ""
 	option -connected ""
-	option -connection_wrapper ""
+	option -proxy ""
 	option -time ""
 	option -error_msg ""
 
@@ -2449,12 +2287,19 @@ namespace eval ::DirectConnection {
 		$self configurelist $args
 	}
 
+	destructor {
+		catch { $self connection destroy }
+	}
+
 	method handleCommand { command {payload ""}} {
 		degt_protocol "<-ns-[$self cget -sock] $command" "nsrecv"
+		set message ""
 		if { $payload != "" } {
 			degt_protocol "Message Contents:\n$payload" "nsrecv"
+			set message [Message create %AUTO%]
+			$message createFromPayload $payload
 		}
-		cmsn_ns_handler [split $command] $payload
+		cmsn_ns_handler [split $command] $message
 	}
 }
 
@@ -2477,6 +2322,10 @@ namespace eval ::DirectConnection {
 		$self configurelist $args
 	}
 
+	destructor {
+		catch { $self connection destroy }
+	}
+
 	method addUser { user } {
 		lappend options(-users) $user
 	}
@@ -2497,10 +2346,94 @@ namespace eval ::DirectConnection {
 		degt_protocol "<-$self-[$self cget -sock] $command" "sbrecv"
 		if { $payload != "" } {
 			degt_protocol "Message Contents:\n$payload" "sbrecv"
+			set message [Message create %AUTO%]
+			$message createFromPayload $payload
 		}
-#		set message [Message create %AUTO%]
-#		$message createFromPayload $payload
-		cmsn_sb_handler $self [split $command] $payload
+#		cmsn_sb_handler $self [split $command] $payload
+
+		global list_cmdhnd msgacks
+
+		set ret_trid [lindex $command 1]
+		set idx [lsearch $list_cmdhnd "$ret_trid *"]
+	
+		if {$idx != -1} {		;# Command has a handler associated!
+			status_log "sb::handleCommand: Evaluating handler for $ret_trid in SB $self\n"
+			set cmd "[lindex [lindex $list_cmdhnd $idx] 1] {$command}"
+			set list_cmdhnd [lreplace $list_cmdhnd $idx $idx]
+			eval "$cmd"
+			return 0
+		} else {
+			switch [lindex $command 0] {
+				MSG {
+					cmsn_sb_msg $self $command $message
+					return 0
+				}
+				BYE -
+				JOI -
+				IRO {
+					cmsn_update_users $self $command
+					return 0
+				}
+				CAL {
+					#status_log "$self_name: [join $command]\n" green
+					return 0
+				}
+				ANS {
+					status_log "sb::handleCommand: ANS Chat started. [llength [$self cget -users]] users: [$self cget -users]\n" green
+					if { [llength [$self cget -users]] == 1 } {
+						set chatid [lindex [$self cget -users] 0]
+					} else {
+						set chatid $self
+					}
+					::MSN::AddSBFor $chatid $self
+		
+					foreach usr_login [$self cget -users] {
+						::MSNP2P::loadUserPic $chatid $usr_login
+						::amsn::userJoins $chatid $usr_login
+					}
+					return 0
+				}
+				NAK {
+					if { ! [info exists msgacks($ret_trid)]} {
+					return 0
+					}
+					set ackid $msgacks($ret_trid)
+					::amsn::nackMessage $ackid
+					#::MSN::retryMessage $ackid
+					unset msgacks($ret_trid)
+					return 0
+				}
+				ACK {
+					if { ! [info exists msgacks($ret_trid)]} {
+					return 0
+					}
+					set ackid $msgacks($ret_trid)
+					::amsn::ackMessage $ackid
+					unset msgacks($ret_trid)
+					return 0
+				}
+				208 {
+					status_log "sb::handleCommand: invalid user name for chat\n" red
+					msg_box "[trans invalidusername]"
+				}
+				215 {
+					#if you try to begin a chat session with yourself
+					set chatid [::MSN::ChatFor $self]
+					::MSN::ClearQueue $chatid
+					::amsn::chatStatus $chatid "[trans useryourself]\n" miniwarning
+					return 0
+				}
+				"" {
+					return 0
+				}
+				default {
+					if { "[$self cget -stat ]" == "d" } {
+						status_log "$self: UNKNOWN SB ENTRY! --> [join $command]\n" red
+					}
+					return 0
+				}
+			}
+		}
 	}
 
 	method search { option index } {
@@ -2508,33 +2441,6 @@ namespace eval ::DirectConnection {
 	}
 }
 
-
-proc cmsn_msg_parse {msg hname bname} {
-	
-	upvar $hname headers
-	upvar $bname body
-
-	#Separate head from body
-	set head_len [string first "\r\n\r\n" $msg]
-	set head [string range $msg 0 [expr {$head_len - 1}]]
-	set body [string range $msg [expr {$head_len + 4}] [string length $msg]]
-
-	#Process body and headers to remove \r
-	set body [encoding convertfrom utf-8 $body]
-	set body [string map {"\r" ""} $body]
-	set head [string map {"\r" ""} $head]
-	
-	#Now, parse headers, line by line
-	set head_lines [split $head "\n"]
-	foreach line $head_lines {
-		#Find header name, finished on ":"
-		set colpos [string first ":" $line]
-		set attribute [string tolower [string range $line 0 [expr {$colpos-1}]]]
-		set value [string range $line [expr {$colpos+2}] [string length $line]]
-		array set headers [list $attribute $value]
-	}
-
-}
 
 # parse_exec(text)
 #
@@ -2561,22 +2467,13 @@ proc parse_exec {text} {
 	return [string trimright $outtext "\n"]
 }
 
-proc cmsn_sb_msg {sb recv payload} {
+proc cmsn_sb_msg {sb recv message} {
 	#TODO: A little cleaning on all this
 	global filetoreceive files_dir automessage automsgsent
 
-	#Get the msg headers from the SB
-#	set msg [lindex [$sb cget -data] 0]
-	set msg $payload
-#	$sb delData 0
-
-	#Call cmsn_msg_parse to parse headers and get message
-	array set headers [list]
-	set body ""
-	cmsn_msg_parse $msg headers body
-
-	set content [lindex [array get headers content-type] 1]
-	set p4context [lindex [array get headers p4-context] 1]
+	set content [$message getHeader Content-Type]
+	set p4context [$message getHeader P4-Context]
+	set body [$message getBody]
 
 	set typer [string tolower [lindex $recv 1]]
 	if { [::config::getKey displayp4context] !=1 || $p4context == "" } {
@@ -2627,10 +2524,11 @@ proc cmsn_sb_msg {sb recv payload} {
 
 
 	#A standard message
+	puts cont:$content
 	if {[string range $content 0 9] == "text/plain"} {
 
 		#TODO: Process fonts in other place
-		set fonttype [lindex [array get headers x-mms-im-format] 1]
+		set fonttype [$message getHeader X-MMS-IM-Format]
 
 		set begin [expr {[string first "FN=" $fonttype]+3}]
 		set end   [expr {[string first ";" $fonttype $begin]-1}]
@@ -2705,27 +2603,34 @@ proc cmsn_sb_msg {sb recv payload} {
 
 	} elseif {[string range $content 0 18] == "text/x-msmsgsinvite"} {
 
+		set msg $message
+		set message [P2PMessage create %AUTO%]
+		$message createFromMessage $msg
+		puts here
 		#File transfers or other invitations
-		set invcommand [::MSN::GetHeaderValue $body Invitation-Command]
-		set cookie [::MSN::GetHeaderValue $body Invitation-Cookie]
+		set invcommand [$message getHeader Invitation-Command]
+		set cookie [$message getHeader Invitation-Cookie]
 		set fromlogin [lindex $recv 1]
+
+		puts $invcommand
+		puts $cookie
 
 		if {$invcommand == "INVITE" } {
 		
-			set guid [::MSN::GetHeaderValue $body Application-GUID]
+			set guid [$message getHeader Application-GUID]
 		
 			#An invitation, generate invitation event
 			if { $guid == "{5D3E02AB-6190-11d3-BBBB-00C04F795683}" } {
 			#We have a file transfer here
 		
-			set filename [::MSN::GetHeaderValue $body Application-File]
-			set filesize [::MSN::GetHeaderValue $body Application-FileSize]
+			set filename [$message getHeader Application-File]
+			set filesize [$message getHeader Application-FileSize]
 		
 			::MSNFT::invitationReceived $filename $filesize $cookie $chatid $fromlogin
 		
 			} elseif { $guid == "{02D3C01F-BF30-4825-A83A-DE7AF41648AA}" } {
 				# We got an audio only invitation or audio/video invitation
-				set context [::MSN::GetHeaderValue $body Context-Data]
+				set context [$message getHeader Context-Data]
 			#Remove the # on the next line if you want to test audio/video feature (with Linphone, etc...)
 			#Ask Burger for more details..	
 				::MSNAV::invitationReceived $cookie $context $chatid $fromlogin
@@ -2734,7 +2639,7 @@ proc cmsn_sb_msg {sb recv payload} {
 		} elseif { $invcommand == "ACCEPT" } {
 			# let's see if it's an A/V session cancel
 			if { [::MSNAV::CookieList get $cookie] != 0 } {
-				set ip [::MSN::GetHeaderValue $body IP-Address]
+				set ip [$message getHeader IP-Address]
 				::MSNAV::readAccept $cookie $ip $chatid
 			
 			} else {
@@ -2750,7 +2655,7 @@ proc cmsn_sb_msg {sb recv payload} {
 				::MSNAV::cancelSession $cookie $chatid "TIMEOUT"
 			} else {
 				# prolly an FT
-				set cancelcode [::MSN::GetHeaderValue $body Cancel-Code]
+				set cancelcode [$message getHeader Cancel-Code]
 				if { $cancelcode == "FTTIMEOUT" } {
 					::MSNFT::timeoutedFT $cookie
 				} elseif { $cancelcode == "REJECT" } {
@@ -2766,8 +2671,8 @@ proc cmsn_sb_msg {sb recv payload} {
 
 	} elseif { [string range $content 0 23] == "application/x-msnmsgrp2p" } {
 		#status_log "MSNP2P -> " red
-		#status_log "Calling MSNP2P::Read with chatid $chatid msg=\n$msg\n"
-		MSNP2P::ReadData $msg $chatid
+		#status_log "Calling MSNP2P::Read with chatid $chatid msg=\n$message\n"
+		MSNP2P::ReadData $message $chatid
       
 	} elseif { [string range $content 0 18] == "text/x-mms-emoticon" } {
 		global ${chatid}_smileys
@@ -2782,16 +2687,16 @@ proc cmsn_sb_msg {sb recv payload} {
 
 	} elseif { [string range $content 0 16] == "text/x-clientcaps" } {
 		#Packet we receive from 3rd party client (not by MSN)
-		xclientcaps_received $msg $typer
+		xclientcaps_received $message $typer
 	
 	} elseif { [string range $content 0 33] == "application/x-msmsgssystemmessage" } {
 		#Packet we receive when MSN server going down for maintenance
-		if {[::MSN::GetHeaderValue $body Type] == 1} {
-			system_message $msg
+		if {[$message getHeader Type] == 1} {
+			system_message $message
 		}
 	
 	} else {
-		status_log "cmsn_sb_msg: === UNKNOWN MSG ===\n$msg\n" red
+		status_log "cmsn_sb_msg: === UNKNOWN MSG ===\n$message\n" red
 		#Postevent for others kinds of packet (like nudge)
 		set evpar(chatid) chatid
 		set evpar(nick) nick
@@ -2799,95 +2704,6 @@ proc cmsn_sb_msg {sb recv payload} {
 		::plugins::PostEvent PacketReceived evpar
 	}
 
-}
-
-
-proc cmsn_sb_handler {sb item {payload ""}} {
-	global list_cmdhnd msgacks
-
-	#set item [encoding convertfrom utf-8 $item]
-
-	set ret_trid [lindex $item 1]
-	set idx [lsearch $list_cmdhnd "$ret_trid *"]
-	
-	if {$idx != -1} {		;# Command has a handler associated!
-		status_log "cmsn_sb_handler: Evaluating handler for $ret_trid in SB $sb\n"
-		set command "[lindex [lindex $list_cmdhnd $idx] 1] {$item}"
-		set list_cmdhnd [lreplace $list_cmdhnd $idx $idx]
-		eval "$command"
-		return 0
-	} else {
-		switch [lindex $item 0] {
-			MSG {
-				cmsn_sb_msg $sb $item $payload
-				return 0
-			}
-			BYE -
-			JOI -
-			IRO {
-				cmsn_update_users $sb $item
-				return 0
-			}
-			CAL {
-				#status_log "$sb_name: [join $item]\n" green
-				return 0
-			}
-			ANS {
-				status_log "cmsn_sb_handler: ANS Chat started. [llength [$sb cget -users]] users: [$sb cget -users]\n" green
-				if { [llength [$sb cget -users]] == 1 } {
-					set chatid [lindex [$sb cget -users] 0]
-				} else {
-					set chatid $sb
-				}
-				::MSN::AddSBFor $chatid $sb
-	
-				foreach usr_login [$sb cget -users] {
-					::MSNP2P::loadUserPic $chatid $usr_login
-					::amsn::userJoins $chatid $usr_login
-				}
-				return 0
-			}
-			NAK {
-				if { ! [info exists msgacks($ret_trid)]} {
-				return 0
-				}
-				set ackid $msgacks($ret_trid)
-				::amsn::nackMessage $ackid
-				#::MSN::retryMessage $ackid
-				unset msgacks($ret_trid)
-				return 0
-			}
-			ACK {
-				if { ! [info exists msgacks($ret_trid)]} {
-				return 0
-				}
-				set ackid $msgacks($ret_trid)
-				::amsn::ackMessage $ackid
-				unset msgacks($ret_trid)
-				return 0
-			}
-			208 {
-				status_log "cmsn_sb_handler: invalid user name for chat\n" red
-				msg_box "[trans invalidusername]"
-			}
-			215 {
-				#if you try to begin a chat session with yourself
-				set chatid [::MSN::ChatFor $sb]
-				::MSN::ClearQueue $chatid
-				::amsn::chatStatus $chatid "[trans useryourself]\n" miniwarning
-				return 0
-			}
-			"" {
-				return 0
-			}
-			default {
-				if { "[$sb cget -stat ]" == "d" } {
-					status_log "$sb: UNKNOWN SB ENTRY! --> [join $item]\n" red
-				}
-				return 0
-			}
-		}
-	}
 }
 
 
@@ -3098,8 +2914,8 @@ proc cmsn_reconnect { sb } {
 				status_log "cmsn_reconnect: called again while inviting timeouted for sb $sb\n" red
 				#catch { fileevent [$name cget -sock] readable "" } res
 				#catch { fileevent [$name cget -sock] writable "" } res
-				set command [list "::[$sb cget -connection_wrapper]::finish" $sb]
-				eval $command
+				set proxy [$sb cget -proxy]
+				$proxy finish $sb
 				#catch {close [$name cget -sock]} res
 				$sb configure -stat "d"
 				cmsn_reconnect $sb
@@ -3131,8 +2947,8 @@ proc cmsn_reconnect { sb } {
 				status_log "cmsn_reconnect: called again while authentication timeouted for sb $sb\n" red
 				#catch { fileevent [$name cget -sock] readable "" } res
 				#catch { fileevent [$name cget -sock] writable "" } res
-				set command [list "::[$sb cget -connection_wrapper]::finish" $sb]
-				eval $command
+				set command [$sb cget -proxy]
+				$proxy finish $sb
 				#catch {close [$name cget -sock]} res
 				$sb configure -stat "d"
 				cmsn_reconnect $sb
@@ -3487,7 +3303,7 @@ proc cmsn_change_state {recv} {
 }
 
 
-proc cmsn_ns_handler {item {payload ""}} {
+proc cmsn_ns_handler {item {message ""}} {
 	global list_cmdhnd password
 
 	set ret_trid [lindex $item 1]
@@ -3505,7 +3321,7 @@ proc cmsn_ns_handler {item {payload ""}} {
 	} else {
 		switch [lindex $item 0] {
 			MSG {
-				cmsn_ns_msg $item $payload
+				cmsn_ns_msg $item $message
 				return 0
 			}
 
@@ -3794,41 +3610,37 @@ proc cmsn_ns_handler {item {payload ""}} {
 }
 
 
-proc cmsn_ns_msg {recv payload} {
-
-	set msg_data $payload
-#	ns delData 0
-	#status_log "cmsn_ns_msg:\n$msg_data\n" red
+proc cmsn_ns_msg {recv message} {
 
 	if { [lindex $recv 1] != "Hotmail" && [lindex $recv 2] != "Hotmail"} {
-		status_log "cmsn_ns_msg: NS MSG From Unknown source ([lindex $recv 1] [lindex $recv 2]):\n$msg_data\n" red
+		status_log "cmsn_ns_msg: NS MSG From Unknown source ([lindex $recv 1] [lindex $recv 2]):\n$message\n" red
 		return
 	}
 
 	# Demographic Information about subscriber/user. Can be used
 	# for a variety of things.
-	set content [::MSN::GetHeaderValue $msg_data Content-Type]
+	set content [$message getHeader Content-Type]
 	if {[string range $content 0 19] == "text/x-msmsgsprofile"} {
 		status_log "Getting demographic and auth information\n" blue
 		# 1033 is English. See XXXX for info
-		set d(langpreference) [::MSN::GetHeaderValue $msg_data lang_preference]
-		set d(preferredemail) [::MSN::GetHeaderValue $msg_data preferredEmail]
-		set d(country) [::MSN::GetHeaderValue $msg_data country]
-		set d(gender) [::MSN::GetHeaderValue $msg_data Gender]
-		set d(kids) [::MSN::GetHeaderValue $msg_data Kid]
-		set d(age) [::MSN::GetHeaderValue $msg_data Age]
+		set d(langpreference) [$message getHeader lang_preference]
+		set d(preferredemail) [$message getHeader preferredEmail]
+		set d(country) [$message getHeader country]
+		set d(gender) [$message getHeader Gender]
+		set d(kids) [$message getHeader Kid]
+		set d(age) [$message getHeader Age]
 		#Used for authentication
-		set d(mspauth) [::MSN::GetHeaderValue $msg_data MSPAuth]
-		set d(kv) [::MSN::GetHeaderValue $msg_data kv]
-		set d(sid) [::MSN::GetHeaderValue $msg_data sid]
+		set d(mspauth) [$message getHeader MSPAuth]
+		set d(kv) [$message getHeader kv]
+		set d(sid) [$message getHeader sid]
 		set d(sessionstart) [clock seconds]
-		set d(clientip) [::MSN::GetHeaderValue $msg_data ClientIP]		     
+		set d(clientip) [$message getHeader ClientIP]		     
 		::abook::setDemographics d
 				
 		::config::setKey myip $d(clientip)
 		status_log "My IP is [::config::getKey myip]\n"
 	} else {
-		hotmail_procmsg $msg_data	 
+		hotmail_procmsg $message	 
 	}
 }
 
@@ -3935,8 +3747,8 @@ proc cmsn_auth {{recv ""}} {
 					set login_passport_url $info(all)
 				} else {
 					status_log "cmsn_auth_msnp9: Nexus has replied so we have login URL...\n"
-					set command [list "::[ns cget -connection_wrapper]::authenticate" $info(all) $login_passport_url]
-					eval $command
+					set proxy [ns cget -proxy]
+					$proxy authenticate $info(all) $login_passport_url
 					#msnp9_do_auth [list $info(all)] $login_passport_url
 				}
 			#}
@@ -4192,14 +4004,15 @@ proc setup_connection {name} {
 	#This is the default procedure that should be called when an error is detected
 #	$name configure -error_handler [list ::MSN::CloseSB $name]
 
-	if {[::config::getKey connectiontype] == "direct" } {
- 		$name configure -connection_wrapper DirectConnection
+	$name configure -proxy [Proxy create %AUTO%]
+#	if {[::config::getKey connectiontype] == "direct" } {
+#		$name configure -connection_wrapper DirectConnection
 
-	} elseif {[::config::getKey connectiontype] == "http"} {
+#	} elseif {[::config::getKey connectiontype] == "http"} {
 	
- 		$name configure -connection_wrapper HTTPConnection
-		$name configure -proxy_host ""
-		$name configure -proxy_port ""
+# 		$name configure -connection_wrapper HTTPConnection
+#		$name configure -proxy_host ""
+#		$name configure -proxy_port ""
 
 		#status_log "cmsn_socket: Setting up http connection\n" green
 		#set tmp_serv "gateway.messenger.hotmail.com"
@@ -4213,16 +4026,16 @@ proc setup_connection {name} {
 		#::Proxy::Setup next readable_handler $name
 		
 		
-	} elseif {[::config::getKey connectiontype] == "proxy" && [::config::getKey proxytype] == "http"} {
+#	} elseif {[::config::getKey connectiontype] == "proxy" && [::config::getKey proxytype] == "http"} {
 	
 		#TODO: Right now it's always HTTP proxy!!
-		$name configure -connection_wrapper HTTPConnection
-		set proxy [::config::getKey proxy]
-		$name configure -proxy_host [lindex $proxy 0]
-		$name configure -proxy_port [lindex $proxy 1]
-		$name configure -proxy_authenticate [::config::getKey proxyauthenticate]
-		$name configure -proxy_user [::config::getKey proxyuser]
-		$name configure -proxy_password [::config::getKey proxypass]
+#		$name configure -connection_wrapper HTTPConnection
+#		set proxy [::config::getKey proxy]
+#		$name configure -proxy_host [lindex $proxy 0]
+#		$name configure -proxy_port [lindex $proxy 1]
+#		$name configure -proxy_authenticate [::config::getKey proxyauthenticate]
+#		$name configure -proxy_user [::config::getKey proxyuser]
+#		$name configure -proxy_password [::config::getKey proxypass]
 	
 		#status_log "cmsn_socket: Setting up Proxy connection (type=[::config::getKey proxytype])\n" green
 		#::Proxy::Init [::config::getKey proxy] [::config::getKey proxytype]
@@ -4236,10 +4049,10 @@ proc setup_connection {name} {
 		#status_log "cmsn_connect: Calling proxy::Setup now\n" green
 		#::Proxy::Setup next readable_handler $name
 	
-	} else {
-		::config::setKey connectiontype "direct"
- 		$name configure -connection_wrapper DirectConnection
-	}
+#	} else {
+#		::config::setKey connectiontype "direct"
+ #		$name configure -connection_wrapper DirectConnection
+#	}
 }
 
 proc cmsn_socket {name} {
@@ -4249,8 +4062,8 @@ proc cmsn_socket {name} {
 	$name configure -stat "cw"
 	$name configure -error_msg ""
 	
-	set command [list "::[$name cget -connection_wrapper]::connect" $name]
-	if {[eval $command]<0} {
+	set proxy [$name cget -proxy]
+	if {[$proxy connect $name]<0} {
 		::MSN::CloseSB $name
 	}
 	 
@@ -4305,8 +4118,8 @@ proc cmsn_ns_connect { username {password ""} {nosignin ""} } {
 	::MSN::clearList RL
 	
 	if {[ns cget -stat] != "d"} {
-		set command [list "::[ns cget -connection_wrapper]::finish" ns]
-		eval $command
+		set proxy [ns cget -proxy]
+		$proxy finish ns
 	}
 	
 	ns configure -stat "c"
@@ -4770,7 +4583,7 @@ proc system_message {msg} {
 		
 	if {[string first "Arg1:" $msg] != "-1"} {
 		#Find the minute variable
-		set minute [::MSN::GetHeaderValue $body Arg1]
+		set minute [$message getHeader Arg1]
 		status_log "Server close for maintenance in -$minute- minutes"
 		#Show the alert
 		::amsn::messageBox [trans maintenance $minute] ok error
