@@ -3684,7 +3684,7 @@ proc choose_font { parent title {initialfont ""} {initialcolor ""}} {
 		return
 	}
 		
-	set selected_font [SelectFont .fontsel -parent $parent -title $title -font $initialfont -initialcolor $initialcolor]
+	set selected_font [SelectFont .fontsel -parent $parent -title $title -font $initialfont -initialcolor $initialcolor -nosizes 1]
 	return $selected_font
 }
 
