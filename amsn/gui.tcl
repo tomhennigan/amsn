@@ -1240,7 +1240,6 @@ namespace eval ::amsn {
 		set tmsg "[trans says $nickt]:\n$msg"
 
 		set win_name [::ChatWindow::MakeFor $chatid $tmsg $user]
-puts 33
 
 		if { $remote_auth == 1 } {
 			if { "$user" != "$chatid" } {
@@ -1249,9 +1248,9 @@ puts 33
 				write_remote "From $chatid : $msg" msgrcv
 			}
 		}
-puts 34
+
 		PutMessage $chatid $user $nick $msg $type $fontformat $p4c
-puts 35
+
 #		set evPar [list $user [::abook::getDisplayNick $user] $msg]
 		
 	    
@@ -2222,14 +2221,14 @@ puts 35
 	#   was created, or just "user" to use the fontformat parameter
 	# - 'fontformat' is a list containing font style and color
 	proc PutMessage { chatid user nick msg type fontformat {p4c ""}} {
-puts 36
+
 		#Run it in mutual exclusion
 		run_exclusive [list ::amsn::PutMessageWrapped $chatid $user $nick $msg $type $fontformat $p4c] putmessage
-	puts 37
+
 	}
 
 	proc PutMessageWrapped { chatid user nick msg type fontformat {p4c 0 }} {
-puts 38
+
 		
 		if { [::config::getKey showtimestamps] } {
 			set tstamp [timestamp]
@@ -2237,7 +2236,7 @@ puts 38
 			set tstamp ""
 		}
 
-puts 39		
+	
 		switch [::config::getKey chatstyle] {
 			msn {
 				::config::setKey customchatstyle "\$tstamp [trans says \$nick]:\n"
@@ -2249,30 +2248,30 @@ puts 39
 			- {
 			}
 		}
-	puts 40	
+
 		#By default, quote backslashes and variables
 		set customchat [string map {"\\" "\\\\" "\$" "\\\$" "\(" "\\\(" } [::config::getKey customchatstyle]]
 		#Now, let's unquote the variables we want to replace
 		set customchat [string map { "\\\$nick" "\${nick}" "\\\$tstamp" "\${tstamp}" } $customchat]
-	puts 41	
+
 		if { [::abook::getContactData $user customcolor] != "" } {
 			set color [string trim [::abook::getContactData $user customcolor] "#"]
 		} else {
 			set color 404040
 		}
-	puts 42	
+
 		if { $p4c == 1 } {
 			if { $color == 404040 } { set color 000000 }
 			set style [list "bold" "italic"]
 		} else {
 			set style {}
 		}
-puts 43
+
 		set font [lindex [::config::getGlobalKey basefont] 0]
 		if { $font == "" } { set font "Helvetica"}		
-puts 45
+
 		set customfont [list $font $style $color]
-puts 46		
+		
 		if {[::config::getKey truncatenicks]} {
 			set oldnick $nick
 			set nick ""
@@ -2286,12 +2285,12 @@ puts 46
 			incr maxw [expr -10-[font measure $measurefont -displayof $win_name "$says"]]
 			set nick [trunc $oldnick $win_name $maxw splainf]
 		}
-puts 47
+
 		#Return the custom nick, replacing backslashses and variables
 		set customchat [subst -nocommands $customchat]
-puts 48
+
 		WinWrite $chatid "\n$customchat" "says" $customfont
-puts 49
+
 		#Postevent for chat_msg_receive	
 		set evPar(user) user
 		set evPar(msg) msg
@@ -2300,17 +2299,17 @@ puts 49
 		set message $msg
 		set evPar(message) message
 		::plugins::PostEvent chat_msg_receive evPar
-puts 50	
+	
 		if {![string equal $msg ""]} {
-		puts 51
+
 			WinWrite $chatid "$message" $type $fontformat 1 $user
-			puts 52
+
 			if {[::config::getKey keep_logs]} {
 				::log::PutLog $chatid $nick $msg $fontformat
-				puts 53
+
 			}
 		}
-		puts 54
+
 		::plugins::PostEvent chat_msg_received evPar
 	}
 	#///////////////////////////////////////////////////////////////////////////////
@@ -2463,35 +2462,35 @@ puts 50
 	# where it will use the same format as "user" but size 11.
 	# The parameter "user" is used for smiley substitution.
 	proc WinWrite {chatid txt tagname {fontformat ""} {flicker 1} {user ""}} {
-puts 100
+
 		set win_name [::ChatWindow::For $chatid]
-puts 101
+
 		if { [::ChatWindow::For $chatid] == 0} {
 			return 0
 		}
-puts 102
+
 		#Avoid problems if the windows was closed
 		if {![winfo exists $win_name]} {
 			return
 		}
-puts 103
+
 		if { [lindex [[::ChatWindow::GetOutText ${win_name}] yview] 1] == 1.0 } {
 			set scrolling 1
 		} else {
 			set scrolling 0
 		}
-puts 104
+
 		set fontname [lindex $fontformat 0]
 		set fontstyle [lindex $fontformat 1]      
 		set fontcolor [lindex $fontformat 2]
-puts 105
+
 		[::ChatWindow::GetOutText ${win_name}] configure -state normal -font bplainf -foreground black
-puts 106
+
 		#Store position for later smiley and URL replacement
 		set text_start [[::ChatWindow::GetOutText ${win_name}] index end]
 		set posyx [split $text_start "."]
 		set text_start "[expr {[lindex $posyx 0]-1}].[lindex $posyx 1]"
-	puts 107	
+	
 		#Check if this is first line in the text, then ignore the \n
 		#at the beginning of the line
 		if { [[::ChatWindow::GetOutText ${win_name}] get 1.0 end] == "\n" } {
@@ -2500,18 +2499,18 @@ puts 106
 			}
 		}
 		
-puts 108
+
 		#By default tagid=tagname unless we generate a new one
 		set tagid $tagname
 
 		if { $tagid == "user" || $tagid == "yours" || $tagid == "says" } {
-puts 109
+
 			if { $tagid == "says" } {
 				set size [lindex [::config::getGlobalKey basefont] 1]
 			} else {
 				set size [expr {[lindex [::config::getGlobalKey basefont] 1]+[::config::getKey textsize]}]
 			}
-puts 110
+
 			set font "\"$fontname\" $size $fontstyle"
 			set tagid [::md5::md5 "$font$fontcolor"]
 
@@ -2521,12 +2520,12 @@ puts 110
 				[::ChatWindow::GetOutText ${win_name}] tag configure $tagid -foreground black -font bplainf
 			}
 		}
-puts 111
+
 		set evPar(tagname) tagname
 		set evPar(winname) {win_name}
 		set evPar(msg) txt
 		::plugins::PostEvent WinWrite evPar
-puts 112
+
 		[::ChatWindow::GetOutText ${win_name}] insert end "$txt" $tagid
 
 		#TODO: Make an url_subst procedure, and improve this using regular expressions
@@ -2534,7 +2533,7 @@ puts 112
 		variable urlstarts
 
 		set endpos $text_start
-puts 113
+
 		foreach url $urlstarts {
 
 			while { $endpos != [[::ChatWindow::GetOutText ${win_name}] index end] && [set pos [[::ChatWindow::GetOutText ${win_name}] search -forward -exact -nocase \
@@ -2542,7 +2541,7 @@ puts 113
 
 
 				set urltext [[::ChatWindow::GetOutText ${win_name}] get $pos end]
-puts 114
+
 				set final 0
 				set caracter [string range $urltext $final $final]
 				while { $caracter != " " && $caracter != "\n" \
@@ -2550,7 +2549,7 @@ puts 114
 					set final [expr {$final+1}]
 					set caracter [string range $urltext $final $final]
 				}
-puts 115
+
 				set urltext [string range $urltext 0 [expr {$final-1}]]
 
 				set posyx [split $pos "."]
@@ -2558,7 +2557,7 @@ puts 115
 
 				set urlcount "[expr {$urlcount+1}]"
 				set urlname "url_$urlcount"
-puts 116
+
 				[::ChatWindow::GetOutText ${win_name}] tag configure $urlname \
 				-foreground #000080 -font splainf -underline true
 				[::ChatWindow::GetOutText ${win_name}] tag bind $urlname <Enter> \
@@ -2569,22 +2568,22 @@ puts 116
 				[::ChatWindow::GetOutText ${win_name}] conf -cursor left_ptr"
 				[::ChatWindow::GetOutText ${win_name}] tag bind $urlname <Button1-ButtonRelease> \
 				"[::ChatWindow::GetOutText ${win_name}] conf -cursor watch; launch_browser [string map {% %%} [list $urltext]]"
-puts 117
+
 				[::ChatWindow::GetOutText ${win_name}] delete $pos $endpos
 				[::ChatWindow::GetOutText ${win_name}] insert $pos "$urltext" $urlname
 				#Don't replace smileys in URLs
 				[::ChatWindow::GetOutText ${win_name}] tag add dont_replace_smileys ${urlname}.first ${urlname}.last
-puts 118
+
 			}
 		}
-puts 119
+
 		update
-puts 120
+
 		#Avoid problems if the windows was closed in the middle...
 		if {![winfo exists $win_name]} {
 			return
 		}
-puts 121
+
 		if {[::config::getKey chatsmileys]} {
 			custom_smile_subst $chatid [::ChatWindow::GetOutText ${win_name}] $text_start end
 			#Replace smileys... if you're sending custom ones, replace them too (last parameter)
@@ -2593,10 +2592,10 @@ puts 121
 				#::smiley::substYourSmileys [::ChatWindow::GetOutText ${win_name}] $text_start end 0
 			} else {
 				::smiley::substSmileys  [::ChatWindow::GetOutText ${win_name}] $text_start end 0 0
-puts 122
+
 			}
 		}
-puts 123
+
 
 		#      vwait smileys_end_subst
 
@@ -2608,7 +2607,7 @@ puts 123
 		if { $flicker } {
 			::ChatWindow::Flicker $chatid
 		}
-puts 124
+
 		after cancel [list set ::ChatWindow::recent_message($win_name) 0]
 		set ::ChatWindow::recent_message(${win_name}) 1
 		after 2000 [list set ::ChatWindow::recent_message($win_name) 0]
