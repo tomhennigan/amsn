@@ -46,7 +46,7 @@ DONE	Fixed bug when adding a user from a chat window.
 DONE	Write/Read profiles file on opening/closing login window, not start/stop amsn.
 DONE	Add timeouts when reconnecting or inviting a user to a switchboard, to avoid blocking on it.
 DONE	Same window name bug for filetransfers and help windows
--	Possible bug if the password has a semicolon (at the end?). Check.
+DONE	Possible bug if the password has a semicolon (at the end?). Check.
 DONE	Be able to manually change status to "No activity" - Bug B657836
 -	When we get a NAK from a message, try to enqueue it again, as probably it will success.
 -	Fix focus and children things with list window. (For example add_user from chat window), and dialogs in general.
@@ -55,7 +55,7 @@ DONE	Bug with font selection in preferences window. Saved if "close" clicked, bu
 DONE	Read/write profiles on login window for multiple AMSN's
 DONE	Implement lock system to make sure you don't delete profile open on another AMSN window
 DONE	Only change font preferences if save is pressed, revert to old if cancel pressed
--	Add receivedir, animatednotify and options in preferences
+-	Add receivedir, animatednotify and other options in advanced preferences
 DONE	Add disable window flicker in preferences
 
 	***Existing Feature Improvements (priority 2)***
@@ -87,7 +87,7 @@ DONE	Fix conference messaging issues (mass file send)
 
 
 -	Option to display or not the chat button bar
--	Remember chat window positions
+DONE	Remember chat window positions
 -	Option to enable/disable showing timestamps
 DONE	Ability to see and edit AL and BL lists, and to check RL list
 -	Add a "typed characters" counter in chat window.
@@ -99,7 +99,7 @@ DONE	URL Decode names when displaying alarm
 DONE	Config seems to automagically disapear sometimes
 DONE	On Connect/ On Msg / On status / On disconnect change alarms
 -	Allow alarms to run a command
--	JPG Support
+-	JPG Support (use same as for MSN6 Pictures)
 DONE	Alarms must be saved in a file.
 
 	**Loging system improvements and bugs :
@@ -132,7 +132,7 @@ DONE	Reenable copy option for contact list (currently commented out)
 	***Extra Features (priority 3)***
 
 DONE	Login with protocol version (MSNP9)
--	Fix bug with MSNP9 if logging in with other domains in emails (passport.com, or other)
+DONE	Fix bug with MSNP9 if logging in with other domains in emails (passport.com, or other)
 -	Implement objet sending in MSNP9 (custom emoticons, shared backgground, buddy icons)
 -	Menu accelerators
 -	Be able to change thers font in chat (same as you, or different)
@@ -152,12 +152,12 @@ DONE	Change windows history array into an array of lists and make a limit of sav
 	***Graphical Interface (priority 4)***
 
 -	Background image
--	Personal pictures (MSN 6 style)
+DONE	Personal pictures (MSN 6 style)
 -	Personal emoticons (MSN 6)
 -	Online games
 DONE	Animation when logging in
 -	Make notify window size configurable
 -	Transparent background message windows (is it possible now with 8.4?)
--	Skin\Themes selection
--	... at the end of nicks that don't fit in the contact list
+DONE	Skin\Themes selection
+DONE	... at the end of nicks that don't fit in the contact list
 -	AutoUpgrade AMSN
