@@ -104,10 +104,62 @@ namespace eval ::HTTPConnection {
 	}
 	
 	proc authenticate {str url} {
-		::config::setKey nossl 1
-		::DirectConnection::authenticate $str $url
+		variable proxy_user
+		variable proxy_password
+		variable proxy_authenticate
+		
+		set head [list Authorization "Passport1.4 OrgVerb=GET,OrgURL=http%3A%2F%2Fmessenger%2Emsn%2Ecom,sign-in=[::config::getKey login],pwd=[urlencode $::password],${str}"]
+		#if { $config(nossl) == 1 || ($config(connectiontype) != "direct" && $config(connectiontype) != "http") } {
+		#	set url [string map { https:// http:// } $url]
+		#}
+		if {[info exists proxy_authenticate] && $proxy_authenticate  == 1 } {
+			lappend head "Proxy-Authorization" "Basic [::base64::encode $proxy_user:$proxy_password]"
+		}
+		
+		set url [string map { https:// http:// } $url]
+		status_log "::HTTPConnection::authenticate: Getting $url\n" blue
+		if {[catch {::http::geturl $url -command "::HTTPConnection::GotAuthReply [list $str]" -headers $head}]} {
+			eval [sb get ns autherror_handler]
+		}
+	}
+
+	proc GotAuthReply { str token } {
+		if { [::http::status $token] != "ok" } {
+			::http::cleanup $token
+			status_log "::HTTPConnection::GotAuthReply error: [::http::error]\n"
+			eval [sb get ns autherror_handler]
+			return
+		}
+	
+		upvar #0 $token state
+	
+		if { [::http::ncode $token] == 200 } {
+			#Authentication done correctly
+			set index [expr {[lsearch $state(meta) "Authentication-Info"]+1}]
+			set values [split [lindex $state(meta) $index] ","]
+			set index [lsearch $values "from-PP=*"]
+			set value [string range [lindex $values $index] 9 end-1]
+			status_log "::HTTPConnection::GotAuthReply 200 Ticket= $value\n" green
+			
+			set command [list [sb get ns ticket_handler] $value]
+			eval $command
+	
+		} elseif {[::http::ncode $token] == 302} {
+			#Redirected to another URL, try again
+			set index [expr {[lsearch $state(meta) "Location"]+1}]
+			set url [lindex $state(meta) $index]
+			status_log "::HTTPConnection::GotAuthReply 302: Forward to $url\n" green
+			::HTTPConnection::authenticate $str $url
+		} elseif {[::http::ncode $token] == 401} {
+			eval [sb get ns passerror_handler]
+		} else {
+			eval [sb get ns autherror_handler]
+		}
+		::http::cleanup $token
+	
 	}
 	
+		
 	#Called to close the given connection
 	proc finish {name} {
 				
@@ -145,6 +197,9 @@ namespace eval ::HTTPConnection {
 	#The "server" field in the sbn data must be set to server:port
 	proc connect {sbn} {
 		variable http_gateway
+		variable proxy_user
+		variable proxy_password
+		variable proxy_authenticate
 		
 		#On direct http connection, use gateway directly as proxy
 		if { [sb get $sbn proxy_host] == ""} {
@@ -154,7 +209,14 @@ namespace eval ::HTTPConnection {
 			set proxy_host [sb get $sbn proxy_host]
 			set proxy_port [sb get $sbn proxy_port]
 		}
+
 		
+		if {[sb get $sbn proxy_authenticate] == 1 } {
+			set proxy_authenticate 1
+			set proxy_user [sb get $sbn proxy_user]
+			set proxy_password [sb get $sbn proxy_password]
+		}
+				
 			
 		if { [catch {set sock [socket -async $proxy_host $proxy_port]} res ] } {
 			sb set $sbn error_msg $res
