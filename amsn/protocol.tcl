@@ -1015,7 +1015,7 @@ namespace eval ::MSN {
         ::http::cleanup $token
         status_log "Called get http ip: $httpip, $token\n"
 
-		  return httpip
+		  return $httpip
       } else {
          return $localip
       }
@@ -1053,10 +1053,12 @@ namespace eval ::MSN {
    }
 
 	proc GotMyIPSilent { token } {
+		global config
 		if { [::http::status $token] == "ok" && [::http::ncode $token] == 200 } {
 			set ip [lindex [split [::http::data $token]] 0]
 			::http::cleanup $token
 			status_log "Called GotMyIPSilent, http ip: $ip, $token\n"
+			set config(myip) $ip
 		}
 		::http::cleanup $token
 	}
