@@ -353,14 +353,14 @@ namespace eval ::amsn {
    #///////////////////////////////////////////////////////////////////////////////
    # Shows the error message specified by "msg"
    proc errorMsg { msg } {
-      tk_messageBox -type ok -icon error -message $msg -title "[trans title] Error"
+      tk_messageBox -type ok -icon error -message $msg -title "[trans title] Error" -parent [focus]
    }
    #///////////////////////////////////////////////////////////////////////////////
 
    #///////////////////////////////////////////////////////////////////////////////
    # Shows the error message specified by "msg"
    proc infoMsg { msg {icon "info"} } {
-      tk_messageBox -type ok -icon $icon -message $msg -title "[trans title]"
+      tk_messageBox -type ok -icon $icon -message $msg -title "[trans title]" -parent [focus]
    }
    #///////////////////////////////////////////////////////////////////////////////
 
@@ -401,7 +401,7 @@ namespace eval ::amsn {
    proc deleteUser { user_login { grId ""} } {
 
       global alarms
-      set answer [tk_messageBox -message "[trans confirmdelete ${user_login}]" -type yesno -icon question]
+      set answer [tk_messageBox -message "[trans confirmdelete ${user_login}]" -type yesno -icon question -parent [focus]]
 
       if {$answer == "yes"} {
 
@@ -2524,7 +2524,7 @@ namespace eval ::amsn {
    }
 
    proc closeAmsn {} {
-      set answer [tk_messageBox -message "[trans exitamsn]" -type yesno -icon question -title [trans title]]
+      set answer [tk_messageBox -message "[trans exitamsn]" -type yesno -icon question -title [trans title] -parent [focus]]
       if {$answer == "yes"} {
          close_cleanup
          exit
