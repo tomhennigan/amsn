@@ -109,7 +109,7 @@ namespace eval ::smiley {
 			
 			
 			#Associate this symbol to this file for skin reloading
-			::skin::setPixmap $text $emotion(file)
+			::skin::setPixmap $text $emotion(file) smileys
 		}
 		
 		#Store the smiley fields in the emotions_data array
@@ -210,7 +210,7 @@ namespace eval ::smiley {
 					set sound [ValueForSmiley $emotion_name sound]
 				} else { set sound "" }
 				
-				set start [::smiley::SubstSmiley $tw $pos $symbol [::skin::loadPixmap $symbol] [ValueForSmiley $emotion_name file] $animated $sound]
+				set start [::smiley::SubstSmiley $tw $pos $symbol [::skin::loadPixmap $symbol smileys] [ValueForSmiley $emotion_name file] $animated $sound]
 		
 				#If SubstSmiley returns -1, start from beggining.
 				#See why in SubstSmiley. This is a fix
@@ -480,7 +480,7 @@ namespace eval ::smiley {
 			set animated [expr {[ValueForSmiley $name animated 1] && [::config::getKey animatedsmileys 0]}]
 			
 			CreateSmileyInMenu $w.c $cols $rows $smiw $smih \
-				$emot_num $name $symbol [::skin::loadPixmap $symbol] [::skin::GetSkinFile smileys ${file}] $animated
+				$emot_num $name $symbol [::skin::loadPixmap $symbol smileys] [::skin::GetSkinFile smileys ${file}] $animated
 
 			incr emot_num
 		

@@ -72,40 +72,44 @@ namespace eval ::skin {
 
 
 	################################################################
-	# ::skin::setPixmap (pixmap_name, pixmap_file)
+	# ::skin::setPixmap (pixmap_name, pixmap_file [, location])
 	# This procedure sets the image name -- file name association 
 	# in order to load pictures on demand.
 	# Arguments:
 	#  - pixmap_name => Name of the image resource to be used in amsn
 	#  - pixmap_file => The image file
-	proc setPixmap {pixmap_name pixmap_file} {
-		variable pixmap_names
-		set pixmap_names($pixmap_name) $pixmap_file
+	#  - location => [NOT REQUIRED, defaults to pixmaps]
+	#                Which folder in skins the file is under (eg pixmaps or smileys)
+	proc setPixmap {pixmap_name pixmap_file {location pixmaps}} {
+		variable ${location}_names
+		set ${location}_names($pixmap_name) $pixmap_file
 	}
 
 
 	################################################################
-	# ::skin::loadPixmap (pixmap_name)
+	# ::skin::loadPixmap (pixmap_name [, location])
 	# Checks if the image was previously loaded, or we need to load
 	# it. This way, the pixmaps will be loaded first time they're 
 	# used, on demand. It returns the image resource to be used.
 	# Arguments:
 	#  - pixmap_name => Name of the image resource to be used in amsn
-	proc loadPixmap {pixmap_name} {
+	#  - location => [NOT REQUIRED, defaults to pixmaps]
+	#                Which folder in skins the file is under (eg pixmaps or smileys)
+	proc loadPixmap {pixmap_name {location pixmaps}} {
 		# Check if pixmap is already loaded
-		variable loaded_pixmaps
-		if { [info exists loaded_pixmaps($pixmap_name)] } {
-			return $loaded_pixmaps($pixmap_name)
+		variable loaded_${location}
+		if { [info exists loaded_${location}($pixmap_name)] } {
+			return [set loaded_${location}($pixmap_name)]
 		}
 
 		# Not loaded, so let's load it
-		variable pixmap_names
-		if { ! [info exists pixmap_names($pixmap_name) ] } {
+		variable ${location}_names
+		if { ! [info exists ${location}_names($pixmap_name) ] } {
 			return ""
 		}
 
-		set loaded_pixmaps($pixmap_name) [image create photo -file [::skin::GetSkinFile pixmaps $pixmap_names($pixmap_name)] -format gif]
-		return $loaded_pixmaps($pixmap_name)
+		set loaded_${location}($pixmap_name) [image create photo -file [::skin::GetSkinFile ${location} [set ${location}_names($pixmap_name)]] -format gif]
+		return [set loaded_${location}($pixmap_name)]
 	}
 
 
@@ -192,16 +196,16 @@ namespace eval ::skin {
 
 		# Reload all pixmaps
 		variable loaded_pixmaps
-		variable pixmap_names
+		variable pixmaps_names
 		foreach name [array names loaded_pixmaps] {
-			image create photo $loaded_pixmaps($name) -file [::skin::GetSkinFile pixmaps $pixmap_names($name) $skin_name] -format gif
+			image create photo $loaded_pixmaps($name) -file [::skin::GetSkinFile pixmaps $pixmaps_names($name) $skin_name] -format gif
 		}
 
 		# Reload smileys
 		variable loaded_smileys
-		variable smiley_names
+		variable smileys_names
 		foreach name [array names loaded_smileys] {
-			image create photo $loaded_smileys($name) -file [::skin::KeySkinFile smileys $smiley_names($name) $skin_name] -format gif
+			image create photo $loaded_smileys($name) -file [::skin::GetSkinFile smileys $smileys_names($name) $skin_name] -format gif
 		}
 
 		# Now reload special images that need special treatment
