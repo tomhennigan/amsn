@@ -277,10 +277,10 @@ proc run_alarm {user nick msg} {
 		
 			set sound [::alarms::getAlarmItem ${user} sound]
 			#Prepare the sound command for variable substitution
-			set command [::config::getKey soundcommand]
-			set command [string map {"\[" "\\\[" "\\" "\\\\" "\$" "\\\$" "\(" "\\\(" } $command]
+			#set command [::config::getKey soundcommand]
+			#set command [string map {"\[" "\\\[" "\\" "\\\\" "\$" "\\\$" "\(" "\\\(" } $command]
 			#Now, let's unquote the variables we want to replace
-			set command "[string map {"\\\$sound" "\${sound}" } $command]"
+			#set command "[string map {"\\\$sound" "\${sound}" } $command]"
 			
 			if { [::alarms::getAlarmItem ${user} loop] == 1 } {
 			
@@ -290,7 +290,7 @@ proc run_alarm {user nick msg} {
 				pack .${wind_name}.stopmusic -padx 2
 				
 			} else {
-				eval exec "$command &"
+				play_sound $sound 1
 			}
 			
 		}

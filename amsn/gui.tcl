@@ -4217,15 +4217,31 @@ proc cmsn_msgwin_sendmail {name} {
 
 
 #///////////////////////////////////////////////////////////////////////
-proc play_sound {sound_name} {
+proc play_sound {sound {absolute_path 0}} {
+
+	#If absolute_path == 1 it means we don't have to get the sound
+	#from the skin, but just use it as an absolute path to the sound file
+
 	if { [::config::getKey sound] == 1 } {
 		#If Mac OS X, use play_Sound_Mac to play sounds
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-			play_Sound_Mac $sound_name [GetSkinFile sounds $sound_name]
+			if { $absolute_path == 1 } {
+				play_Sound_Mac $sound
+			} else {
+				play_Sound_Mac [GetSkinFile sounds $sound]
+			}
 		} elseif { [::config::getKey usesnack] } {
-			snack_play_sound [::skin::loadSound $sound_name]
+			if { $absolute_path == 1 } {
+				snack_play_sound [::skin::loadSound $sound]
+			} else {
+				snack_play_sound [::skin::loadSound $sound]
+			}
 		} else {
-			play_sound_other $sound_name
+			if { $absolute_path == 1 } {
+				play_sound_other $sound
+			} else {	
+				play_sound_other [GetSkinFile sounds $sound]
+			}
 		}
 	}
 }
@@ -4238,7 +4254,7 @@ proc snack_play_sound {snd {loop 0}} {
 	}
 }
 
-proc play_sound_other {sound_name} {
+proc play_sound_other {sound} {
 	global config tcl_platform
 
 	if { [string first "\$sound" $config(soundcommand)] == -1 } {
@@ -4246,22 +4262,19 @@ proc play_sound_other {sound_name} {
 	}
 
 	if { $config(sound) == 1 } {
-		set sound [GetSkinFile sounds $sound_name]
 		set soundcommand [::config::getKey soundcommand]
 		#Quote everything, or "eval" will fail
-		set soundcommand [string map {"\\" "\\\\" "\[" "\\\[" "\$" "\\\$"} $soundcommand]
+		set soundcommand [string map { "\\" "\\\\" "\[" "\\\[" "\$" "\\\$" "\[" "\\\[" } $soundcommand]
 		#Unquote the $sound variable so it's replaced
-		set soundcommand [string map {"\\\$sound" "\$sound" } $soundcommand]
+		set soundcommand [string map { "\\\$sound" "\${sound}" } $soundcommand]
 		
 		catch {eval exec $soundcommand &} res
 	}
 }
 
-set loop_id 0
-
 #Play sound in a loop
 proc play_loop { sound_file {id ""} } {
-	global loop_id looping_sound
+	global looping_sound
 
 	#Prepare the sound command for variable substitution
 	set command [::config::getKey soundcommand]
@@ -4273,9 +4286,13 @@ proc play_loop { sound_file {id ""} } {
 	#Launch command, connecting stdout to a pipe
 	set pipe [open $command r]
 	
+	if { ![info exists ::loop_id] } {
+		set ::loop_id 0
+	}
+	
 	#Get a new ID
 	if { $id == "" } {
-		set id [incr loop_id]
+		set id [incr ::loop_id]
 	}
 	set looping_sound($id) $pipe
 	fileevent $pipe readable [list play_finished $pipe $sound_file $id]
@@ -7800,7 +7817,8 @@ proc lastKeytyped {typed bottom} {
 		}
 }
 #play_Sound_Mac Play sounds on Mac OS X with the extension "QuickTimeTcl"
-proc play_Sound_Mac {sound_name sound} {
+proc play_Sound_Mac {sound} {
+			set sound_name [file tail $sound]
 			#Find the name of the sound
 			set sound_small [string first "." "$sound_name"]
 			set sound_small [expr {$sound_small -1}]
