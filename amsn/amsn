@@ -1013,6 +1013,7 @@ proc cmsn_draw_msgwin {} {
 #   bind .${win_name}.text <Button-3> "copypaste_menu .${win_name}.text %X %Y 0"
 #   bind .${win_name}.in <Button-3> "copypaste_menu .${win_name}.in %X %Y 1"
 
+   focus .${win_name}.in.input
 
    return ${name}
 
