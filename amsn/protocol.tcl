@@ -2833,7 +2833,7 @@ proc cmsn_change_state {recv} {
 }
 
 proc cmsn_ns_handler {item} {
-   global list_cmdhnd password config
+   global list_cmdhnd password config protocol
 
    set item [encoding convertfrom utf-8 $item]
    set item [stringmap {\r ""} $item]
@@ -2935,8 +2935,10 @@ proc cmsn_ns_handler {item} {
 	 return 0
       }
       BLP {
-	  new_contact_list "[lindex $item 2]"
-	  change_BLP_settings "$item"	
+	  if { $protocol != "9" } {
+	      new_contact_list "[lindex $item 2]"
+	      change_BLP_settings "$item"
+	  }
 	  return 0  
       }
       CHL {
@@ -2949,31 +2951,33 @@ proc cmsn_ns_handler {item} {
 	  return 0
       }
       BPR {
-	  new_contact_list "[lindex $item 1]"
-	 # Update entry in address book setContact(email,PH*/M*,phone/setting)
-	  global protocol
 	  if { $protocol == "9" } {
 	      global loading_list_info
 	      ::abook::setContact $loading_list_info(last) [lindex $item 2] [lindex $item 3]
 
 	  } else {
+	      new_contact_list "[lindex $item 1]"
+	      # Update entry in address book setContact(email,PH*/M*,phone/setting)
 	      ::abook::setContact [lindex $item 2] [lindex $item 3] [lindex $item 4] 
 	  }
 	 return 0
       }
       PRP {
-	  new_contact_list "[lindex $item 2]"
-	 ::abook::setPersonal [lindex $item 3] [lindex $item 4]
+	  if { $protocol != "9" } {
+	      new_contact_list "[lindex $item 2]"
+	      ::abook::setPersonal [lindex $item 3] [lindex $item 4]
+	  }
 	return 0
       }
       LSG {
-	  new_contact_list "[lindex $item 2]"
-      	#status_log "$item\n" blue
+
 	  global protocol
 	  if { $protocol == "9" } {
 	      ::groups::Set [lindex $item 1] [lindex $item 2]
 	  } else {
 	      ::groups::Set [lindex $item 5] [lindex $item 6]
+	      new_contact_list "[lindex $item 2]"
+	      #status_log "$item\n" blue
 	  }
 	return 0
       }
@@ -3758,7 +3762,6 @@ proc cmsn_listupdate {recv} {
 
 	set current $loading_list_info(current)
 	set total $loading_list_info(total)
-	set version $loading_list_info(version)
 
 	incr loading_list_info(current)
 
@@ -3837,7 +3840,9 @@ proc cmsn_listupdate {recv} {
     if {$current == $total} {
 	lists_compare		;# FIX: hmm, maybe I should not run it always!
 	list_users_refresh
-	new_contact_list "$version"
+	if { $protocol != "9" } {
+	    new_contact_list "$version"
+	}
     }
 
 }
@@ -3975,6 +3980,8 @@ proc change_BLP_settings { item } {
 proc new_contact_list { version {load 0} } {
     global list_version HOME list_al list_fl list_bl list_rl list_users protocol
 
+    if {[string is digit $version] == 0} {return }
+
     if { $load} {
        status_log "new_contact_list: new contact list version : $version --- previous was : $list_version\n"
     }
@@ -4014,6 +4021,7 @@ proc new_contact_list { version {load 0} } {
 	}
 
     } else {
+	puts "$list_version becomes $version"
 	set list_version $version
     }
    
