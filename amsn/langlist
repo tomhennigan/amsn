@@ -76,7 +76,7 @@
 	<lang>
 		<langcode>es</langcode>
 		<name>Español (Spanish)</name>
-		<version>1.226</version>
+		<version>1.227</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -238,7 +238,7 @@
 	<lang>
 		<langcode>sl</langcode>
 		<name>Slovenian (Slovenscina)</name>
-		<version>1.31</version>
+		<version>1.32</version>
 		<encoding>iso8859-2</encoding>
 	</lang>
 	<lang>
