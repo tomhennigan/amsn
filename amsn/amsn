@@ -78,7 +78,10 @@ unset program
 ### depending on the platform
 ############################################################
 
-if {$tcl_platform(platform) == "unix"} {
+if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+	set HOME "[file join $env(HOME) Library/Application\ Support/amsn]"
+	set files_dir "[file join $env(HOME) Desktop/amsn\ received\ files]"
+} elseif {$tcl_platform(platform) == "unix"} {
    set HOME "[file join $env(HOME) .amsn]"
    set files_dir "[file join $env(HOME) amsn_received]"
 } elseif {$tcl_platform(platform) == "windows"} {

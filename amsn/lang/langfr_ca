@@ -129,6 +129,7 @@ dcprofile Ne pas créer de profil
 default Configuration par défaut
 defaultloginradio Identification avec la configuration par défaut
 delete Supprimer
+deletecustomstate Supprimer un statut personnalisé
 delimiters Délimiteurs de l'horodateur
 deliverfail Une erreur est survenue lors de l'envoi du message suivant
 delprofile2 Sélectionner le profil que vous voulez supprimer
@@ -150,7 +151,7 @@ dontshow Ne pas montrer
 downloadingtls Téléchargement du module TLS à partir de:\n $1
 editcurrentstate Modifier le statut actuel
 edit Édition
-editcustomstate Éditer
+editcustomstate Éditer un statut personnalisé
 editnewstate Nouveau statut avec message automatique personnalisé
 editprofile Modifier profil
 editstate Modifier un statut existant avec message automatique
@@ -287,6 +288,7 @@ needonline Vous ne pouvez pas écrire un message si vous êtes invisible ou déconn
 newmail $1 nouveau(x) message(s)
 newmailfrom Nouveau message de $1 ($2)
 newmsg Nouveau message
+newstate Ajouter un statut personnalisé
 newveravailable Nouvelle version disponible ($1)
 next Suivant
 noactivity Inactif
@@ -308,6 +310,7 @@ notify2 Afficher un avertissement quand de nouveaux messages sont reçus
 notify3 Afficher un avertissement lorsque du courrier arrive dans votre boîte de réception
 notify Avertir
 notifyoffset Établir la position de la fenêtre d'avertissement en relation
+notifytyping Envoyer un avertissement aux autres utilisateurs lorsqu'on est en train d'écrire
 notifywin Fenêtre d'avertissement
 notls Le protocole 9 de MSN requiert le module tls. Celui-ci ne semble pas être installé sur le système. S'il est installé, le chemin pointant vers ce répertoire devrait être spécifié dans la fenêtre des Préférences (ex: /opt/tls/lib). \n \n Il est possible de télécharger tls sur http://tls.sf.net.
 nousersinsession Pas d'utilisateur dans cette session
@@ -440,6 +443,7 @@ state Je veux apparaître
 statename Nom du statut
 statenewtext Veuillez entrer les informations nécessaires \n à la création de votre nouveau statut et cliquez sur Enregistrer
 status Statut
+strictfonts Ajuster toutes les fontes de aMSN à une seule grandeur sélectionnée.
 stopalarm Arrêter l'alarme
 storenickname Retourner au pseudonyme original après un état personnalisé avec un pseudonyme personnalisé
 stylechat Même apparence que les conversations
