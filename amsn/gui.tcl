@@ -1136,7 +1136,10 @@ namespace eval ::amsn {
 				wm deiconify ${win_name}
 				raise ${win_name}
 			} else {
-				wm state ${win_name} iconic
+				# Iconify the window unless it was raised by the user already.
+				if {[wm state $win_name] != "normal"} {
+					wm state ${win_name} iconic
+				}
 			}
 
 		#If it's not a message event, then it's a window creation (user joins to chat)
