@@ -339,8 +339,8 @@ nosystemtray System tray not available
 notificationserver Initial MSN Notification Server (MSN Messenger Server)
 notify notify
 notify1 Display notify window when contacts come online
-notify1_5 Display notify window when contacts goes offline
-notify1_75 Display notify window when contacts changes status
+notify1_5 Display notify window when contacts go offline
+notify1_75 Display notify window when contacts change status
 notify2 Display notify window when new messages are received
 notify3 Display notify window when new emails arrive
 notifyoffset Offset the position of the notification pop-up
