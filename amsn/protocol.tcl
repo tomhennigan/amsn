@@ -3560,6 +3560,7 @@ proc cmsn_auth {{recv ""}} {
 			sb set ns stat "o"
 
 			save_config						;# CONFIG
+			::config::saveGlobal
 			load_contact_list
 
 			#We need to wait until the SYN reply comes, or we can send the CHG request before

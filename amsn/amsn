@@ -171,7 +171,6 @@ proc reload_files { } {
     source [file join $program_dir balloon.tcl]       ;# For the balloons tooltip
     source [file join $program_dir png.tcl]       ;# PNG Parser and zlib deflate in pure TCL (KaKaRoTo)
 
-    load_lang
 }
 
 proc check_imagemagick {} {

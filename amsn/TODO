@@ -60,7 +60,7 @@ DONE	Make a Pure PNG Reader (will be used for buddy icons + filetransfer preview
 -	If user blocks you directly after getting connected, doesn't automaticaly detect him
 -	Improve truncation to check picture widths, instead of using fixed values
 -	Load AMSN faster (load pictures on demand -> GetImage wrapper? Maybe use GetSkinFile?)
--	Get rid of all global config, make a config namespace. Only have a few global options (languages, skin, etc)
+DONE, but unused	Get rid of all global config, make a config namespace. Only have a few global options (languages, skin, etc)
 -	Get rid of global variables list_al, list_bl, make use of ::abook:: namespace (avatars, custom nicknames, etc)
 -	Improve contextual menu for groups (right click menu) (we should have Delete THIS group type of entries)
 -	Clean ugly GUI code (long window names xx.xx.xxx.xx, use -Class instead of repeated options all the time)

@@ -58,14 +58,14 @@ proc trans {msg args} {
 
 #Lectura del idioma
 proc load_lang {} {
-   global config lang program_dir lang_list langenc langlong
+   global lang program_dir lang_list langenc langlong
 
-   set file_id [open "[file join $program_dir lang/lang$config(language)]" r]
+   set file_id [open "[file join $program_dir lang/lang[::config::getGlobalKey language]]" r]
 
    set langenc ""
 
    foreach langdata $lang_list {
-   	if { [string compare [lindex $langdata 0]  $config(language)] == 0 } {
+   	if { [string compare [lindex $langdata 0]  [::config::getGlobalKey language]] == 0 } {
 	  set langenc [lindex $langdata 2]
 	  set langlong [lindex $langdata 1]
 	}

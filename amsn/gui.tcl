@@ -308,7 +308,7 @@ namespace eval ::amsn {
 
 
 		if { $localized } {
-			set filename "[file join $program_dir docs README[::config::getKey language]]"
+			set filename "[file join $program_dir docs README[::config::getGlobalKey language]]"
 		} else {
 			set filename [file join $program_dir README]
 		}
@@ -376,9 +376,9 @@ namespace eval ::amsn {
    #///////////////////////////////////////////////////////////////////////////////
    # showHelpFile(filename,windowsTitle)
    proc showTranslatedHelpFile {file title} {
-      global program_dir config
+      global program_dir
 
-      set filename [file join "docs" "${file}$config(language)"]
+      set filename [file join "docs" "${file}[::config::getGlobalKey language]"]
       set fullfilename [file join $program_dir $filename]
 
       if {[file exists $fullfilename]} {
@@ -3408,7 +3408,7 @@ proc cmsn_draw_main {} {
    #Help menu
    menu .main_menu.helping -tearoff 0 -type normal
 
-   if { $config(language) != "en" } {
+   if { [::config::getGlobalKey language] != "en" } {
       .main_menu.helping add command -label "[trans helpcontents] - $langlong..." \
          -command "::amsn::showTranslatedHelpFile HELP [list [trans helpcontents]]"
       .main_menu.helping add command -label "[trans helpcontents] - English..." \
@@ -3418,7 +3418,7 @@ proc cmsn_draw_main {} {
          -command "::amsn::showHelpFile HELP [list [trans helpcontents]]"
    }
    .main_menu.helping add separator
-   if { $config(language) != "en" } {
+   if { [::config::getGlobalKey language] != "en" } {
       .main_menu.helping add command -label "[trans faq] - $langlong..." \
          -command "::amsn::showTranslatedHelpFile FAQ [list [trans faq]]"
       .main_menu.helping add command -label "[trans faq] - English..." \
@@ -3428,7 +3428,7 @@ proc cmsn_draw_main {} {
          -command "::amsn::showHelpFile FAQ [list [trans faq]]"
    }
    .main_menu.helping add separator
-	if { $config(language) != "en" } {
+	if { [::config::getGlobalKey language] != "en" } {
       .main_menu.helping add command -label "[trans about] - $langlong..." \
          -command "::amsn::aboutWindow 1"
       .main_menu.helping add command -label "[trans about] - English..." \
@@ -3780,28 +3780,20 @@ proc show_languagechoose {} {
 
 
 proc set_language { langname } {
-   global config
-	set oldlang $config(language)
-	set config(language) $langname
-   load_lang
-   msg_box [trans mustrestart]
-   set config(language) $oldlang
-   load_lang
-	set config(language) $langname
-	save_config
-	 return
+	set oldlang  [::config::getGlobalKey language]
 
-   ::MSN::logout
-   set config(language) $langname
-   load_lang
-   #Here instead of destroying, maybe we should call some kind of redraw
-   set windows [winfo children .]
-   foreach w $windows {
-         #puts "Destroying $w"
-         destroy $w
-	 set windows [winfo children .]
-   }
-   cmsn_draw_main
+	::config::setGlobalKey language $langname
+	load_lang
+	msg_box [trans mustrestart]
+
+	::config::setGlobalKey language $oldlang
+	load_lang
+
+	::config::setGlobalKey language $langname
+	::config::saveGlobal
+	
+	return
+
 }
 
 
@@ -5831,6 +5823,7 @@ proc close_cleanup {} {
   set config(wingeometry) [wm geometry .]
 
   save_config
+  ::config::saveGlobal
   save_alarms   ;# Save alarm settings
 
   LoadLoginList 1

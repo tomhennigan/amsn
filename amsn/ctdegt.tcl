@@ -1561,6 +1561,7 @@ proc SavePreferences {} {
 
     # Save configuration.
     save_config
+	 ::config::saveGlobal
 
     if { $user_stat != "FLN" } {
        cmsn_draw_online
@@ -1804,6 +1805,9 @@ set $configitem $browsechoose
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.115  2004/02/22 17:24:41  airadier
+# New config system. Language settings moved to global config.
+#
 # Revision 1.114  2004/02/19 20:15:50  airadier
 # Fixed empty initialftport
 #

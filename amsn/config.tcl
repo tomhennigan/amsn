@@ -3,7 +3,8 @@
 #
 
 proc ConfigDefaults {} {
-	global gconfig config tcl_platform password auto_path advanced_options
+	global config tcl_platform password auto_path advanced_options
+
 	set config(protocol) "9"		;# Which MSN Protocol do you prefeer to use: 9
 	set config(nossl) 0				;#Disable the use of SSL, so it doesn't requite TLS package: 0|1
 
@@ -51,8 +52,6 @@ proc ConfigDefaults {} {
 	   set config(notifyYoffset) 0
 	}
 	
-	set config(language) "en"			;#Default language
-
 	set config(autoidle) 1				;#Enable/disable auto-idle feature: 0|1
 	set config(idletime) 5				;#Minutes before setting status to idle
 	set config(autoaway) 1				;#Enable/disable auto-away feature: 0|1
@@ -70,12 +69,12 @@ proc ConfigDefaults {} {
 	set config(myip) "127.0.0.1"		;#Your IP
 
 	#Specific for Mac OS X, to not have the main window squeezing in top corner and change the default font for the system default font
-if {$tcl_platform(os) == "Darwin"} {
-	set config(wingeometry) 275x400-200+200			;#Main window geometry
-	set config(basefont) "{Lucida Grande} 11 normal"	;#AMSN base font
+	if {$tcl_platform(os) == "Darwin"} {
+		set config(wingeometry) 275x400-200+200			;#Main window geometry
+		set config(basefont) "{Lucida Grande} 11 normal"	;#AMSN base font
 	} else {
-	set config(wingeometry) 275x400-0+0			;#Main window geometry
-	set config(basefont) "Helvetica 11 normal"	;#AMSN base font
+		set config(wingeometry) 275x400-0+0			;#Main window geometry
+		set config(basefont) "Helvetica 11 normal"	;#AMSN base font
 	}
 	
 	set config(closingdocks) 0						;#Close button minimizes (or docks) main window
@@ -99,10 +98,10 @@ if {$tcl_platform(os) == "Darwin"} {
 
 	set config(newmsgwinstate) 1		;#Iconify or restore chat window on new message
 	#Specific for Mac OS X, if newchatwinstate=1, new windows of message never appear
-if {$tcl_platform(os) == "Darwin"} {
-	set config(newchatwinstate) 0		;#Iconify or restore chat window on new chat
+	if {$tcl_platform(os) == "Darwin"} {
+		set config(newchatwinstate) 0		;#Iconify or restore chat window on new chat
 	} else {
-	set config(newchatwinstate) 1		;#Iconify or restore chat window on new chat
+		set config(newchatwinstate) 1		;#Iconify or restore chat window on new chat
 	}
 	set config(flicker) 1				;#Flicker window on new message
 	set config(showdisplaypic) 1		;#Show display picture as default
@@ -231,6 +230,12 @@ if {$tcl_platform(os) == "Darwin"} {
 }
 
 namespace eval ::config {
+
+	proc GlobalDefaults {} {
+		global gconfig
+		set gconfig(language) "en"			;#Default language
+	}
+
 	proc get {key} {
 		global config
 		return $config($key)
@@ -256,6 +261,67 @@ namespace eval ::config {
 		global gconfig
 		set gconfig($key) $value
 	}
+
+
+	proc NewGConfigEntry  {cstack cdata saved_data cattr saved_attr args} {
+		global gconfig
+		upvar $saved_data sdata
+
+		set gconfig($sdata(${cstack}:attribute)) $sdata(${cstack}:value)
+
+		return 0
+
+	}
+
+
+	proc loadGlobal {} {
+		global gconfig HOME2
+
+		GlobalDefaults
+
+		if { [file exists [file join ${HOME2} "gconfig.xml"]] } {
+
+			if { [catch {
+				set file_id [sxml::init [file join ${HOME2} "gconfig.xml"]]
+
+				sxml::register_routine $file_id "config:entry" "::config::NewGConfigEntry"
+				set val [sxml::parse $file_id]
+				sxml::end $file_id
+			} res] } {
+				::amsn::errorMsg "[trans corruptconfig [file join ${HOME2} "gconfig.xml.old"]]"
+				file copy [file join ${HOME} "gconfig.xml"] [file join ${HOME2} "gconfig.xml.old"]
+			}
+		}
+	}
+
+	proc saveGlobal {} {
+		global tcl_platform gconfig HOME2 version
+
+		if { [catch {
+				if {$tcl_platform(platform) == "unix"} {
+			set file_id [open "[file join ${HOME2} gconfig.xml]" w 00600]
+				} else {
+					set file_id [open "[file join ${HOME2} gconfig.xml]" w]
+				}
+			} res]} {
+			return 0
+		}
+
+		puts $file_id  "<?xml version=\"1.0\"?>\n\n<config>"
+		set config(last_client_version) $version
+
+		foreach var_attribute [array names gconfig] {
+			set var_value $gconfig($var_attribute)
+			set var_value [::sxml::xmlreplace $var_value]
+			puts $file_id "   <entry>\n      <attribute>$var_attribute</attribute>\n      <value>$var_value</value>\n   </entry>"
+		}
+
+		puts $file_id "</config>"
+
+		close $file_id
+
+	}
+
 }
 
 proc save_config {} {
@@ -281,12 +347,12 @@ proc save_config {} {
 	set password ""
    }
 
-   
+
     puts $file_id  "<?xml version=\"1.0\"?>\n\n<config>"
     set config(last_client_version) $version
 
 
-    foreach var_attribute [array names config] { 
+    foreach var_attribute [array names config] {
       set var_value $config($var_attribute)
        if { "$var_attribute" != "remotepassword" && "$var_attribute" != "customsmileys" && "$var_attribute" != "customsmileys2"} {
 		set var_value [::sxml::xmlreplace $var_value]
@@ -295,7 +361,7 @@ proc save_config {} {
     }
 
     if { ($config(save_password)) && ($password != "")} {
-      
+
 	set key [string range "${loginback}dummykey" 0 7]
 	binary scan [::des::encrypt $key "${password}\n"] h* encpass
 	puts $file_id "   <entry>\n      <attribute>encpassword</attribute>\n      <value>$encpass</value>\n   </entry>"
@@ -304,7 +370,7 @@ proc save_config {} {
     set key [string range "${loginback}dummykey" 0 7]
     binary scan [::des::encrypt $key "${config(remotepassword)}\n"] h* encpass
     puts $file_id "   <entry>\n      <attribute>remotepassword</attribute>\n      <value>$encpass</value>\n   </entry>\n"
-    
+
     foreach custom $config(customsmileys2) {
 	puts $file_id "   <emoticon>"
 	foreach attribute [array names emotions] {
@@ -333,7 +399,7 @@ proc new_config_entry  {cstack cdata saved_data cattr saved_attr args} {
 
     set config($sdata(${cstack}:attribute)) $sdata(${cstack}:value)
 
-    return 0    
+    return 0
 
 }
 
@@ -354,11 +420,11 @@ proc load_config {} {
 			set val [sxml::parse $file_id]
 			sxml::end $file_id
 		} res] } {
-			::amsn::errorMsg "[trans corruptconfig [file join ${HOME} "cnfoig.xml.old"]]"
+			::amsn::errorMsg "[trans corruptconfig [file join ${HOME} "config.xml.old"]]"
 			file copy [file join ${HOME} "config.xml"] [file join ${HOME} "config.xml.old"]
 		}
 	}
-        
+
     if {[info exists config(encpassword)]} {
 	set key [string range "$config(login)dummykey" 0 7]
 	set password $config(encpassword)
@@ -366,19 +432,19 @@ proc load_config {} {
 	catch {set password [::des::decrypt $key $encpass]}
 	#puts "Password length is: [string first "\n" $password]\n"
 	set password [string range $password 0 [expr { [string first "\n" $password] -1 }]]
-	#puts "Password is: $password\nHi\n"      
+	#puts "Password is: $password\nHi\n"
 	unset config(encpassword)
     }
-    
+
     if {[info exists config(remotepassword)]} {
  	set key [string range "$config(login)dummykey" 0 7]
  	catch {set encpass [binary format h* $config(remotepassword)]}
  	catch {set config(remotepassword) [::des::decrypt $key $encpass]}
  	#puts "Password length is: [string first "\n" $config(remotepassword)]\n"
  	set config(remotepassword) [string range $config(remotepassword) 0 [expr { [string first "\n" $config(remotepassword)] -1 }]]
- 	#puts "Password is: $config(remotepassword)\nHi\n"      
+ 	#puts "Password is: $config(remotepassword)\nHi\n"
     }
-     
+
 
     # WebCam: clientid is 268435508, but since we dont support webcam, this is the default:
     set clientid "268435500"
@@ -648,7 +714,6 @@ proc ConfigChange { window email } {
 		
 		# Profile exists, make the switch
 		set OLDHOME $HOME
-		set oldlang $config(language)
 
 		set dirname [split $email "@ ."]
 		set dirname [join $dirname "_"]
@@ -686,17 +751,11 @@ proc ConfigChange { window email } {
 			LoginList add 0 $email
 			set log_dir "[file join ${HOME} logs]"
 		
-			load_lang
-
 			# port isn't taken or port taken by other program, meaning profile ain't locked
 			# let's setup the new lock
 			LockProfile $email
 			SaveLoginList
 			
-			### REPLACE THIS BY MAIN WINDOW REDRAW
-			if { $config(language) != $oldlang } {
-				msg_box [trans mustrestart]
-			}
 		}
 	}
 	}
@@ -794,9 +853,8 @@ proc CreateProfile { email } {
 		save_config
 	}
 	
-	set oldlang $config(language)
 	set oldlogin $config(login)
-	
+
 	status_log "Creating new profile"
 	# Create a new profile with $email
 	# Set HOME dir and create it
@@ -807,14 +865,13 @@ proc CreateProfile { email } {
 	set log_dir "[file join ${newHOMEdir} logs]"
 	create_dir $log_dir
 	
-	# Load default config initially while keeping previous language
+	# Load default config initially
 	file copy -force [file join $HOME2 config.xml] $newHOMEdir
 	
 	set oldhome $HOME
 	set HOME $newHOMEdir
 	load_config
 	set config(login) $email
-	set config(language) $oldlang
 	save_config
 	set HOME $oldhome
 	load_config
@@ -1015,28 +1072,32 @@ proc create_dir {path} {
 #///////////////////////////////////////////////////////////////////////
 
 if { $initialize_amsn == 1 } {
-    ###############################################################
-    create_dir $HOME
-    create_dir $HOME/plugins
-    create_dir $HOME/skins
-    #create_dir $log_dir
-    #create_dir $files_dir
-    ConfigDefaults
+	###############################################################
+	create_dir $HOME
+	create_dir $HOME/plugins
+	create_dir $HOME/skins
+	#create_dir $log_dir
+	#create_dir $files_dir
+	ConfigDefaults
+	::config::GlobalDefaults
 
-    ;# Load of logins/profiles in combobox
-    ;# Also sets the newest login as config(login)
-    ;# and modifies HOME with the newest user
-    if { [LoadLoginList]==-1 } {
-	exit
-    }
+	;# Load of logins/profiles in combobox
+	;# Also sets the newest login as config(login)
+	;# and modifies HOME with the newest user
+	if { [LoadLoginList]==-1 } {
+		exit
+	}
 
-    set config(language) en  ;#Load english as default language to fill trans array
-    load_lang
+	set gconfig(language) en  ;#Load english as default language to fill trans array
+	load_lang
 
-    load_config		;# So this loads the config of this newest dude
-    scan_languages
-    load_lang
+	::config::loadGlobal
+	scan_languages
+	load_lang
 
-    # Init smileys
-    load_smileys
+
+	load_config		;# So this loads the config of this newest dude
+
+	# Init smileys
+	load_smileys
 }
