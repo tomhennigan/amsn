@@ -2981,7 +2981,7 @@ proc lists_compare {} {
       if {[lsearch $list_albl "[lindex $x 0] *"] == -1} {
          status_log "$x in your RL list but not in your AL/BL list!\n" white
 	 newcontact [lindex $x 0] [lindex $x 1]
-         tkwait window .newc
+#         tkwait window .newc
          if {$newc_exit == "OK"} {
 	    if {$newc_allow_block == "allow"} {
 	       ::MSN::WriteNS "ADD" "AL [lindex $x 0] [urlencode [lindex $x 1]]"

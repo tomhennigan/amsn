@@ -35,7 +35,7 @@ DONE	Notify window is only clickable on the text, should make whole window click
 -	Write procedure to redraw main window for language + font changes
 -	Fix new profile issues for existing users, should ask them to add profile even if they dont go to "login as"
 -	Check for connection state, make sure amsn disconnects if connection goes down. -> add timeouts to changestates and keepalive
--	Authorisation request dialogs halt all AMSN, and queue all events, then kaboom when dialog is closed, not good.
+DONE	Authorisation request dialogs halt all AMSN, and queue all events, then kaboom when dialog is closed, not good.
 DONE	Fix use of default config for non profile logins (currently uses hard coded default config)
 -	Improve enabling/disabling menu entries procedure, make language independant
 DONE	When notify window is for a file transfer, clicking on it triggers a bug!
