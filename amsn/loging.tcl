@@ -330,7 +330,7 @@ proc OpenLogWin { email } {
   	button $wname.buttons.clear -text "[trans clearlog]" -command "destroy $wname; ::log::ClearLog $email" -font sboldf
 
 	menu ${wname}.copypaste -tearoff 0 -type normal
-      	${wname}.copypaste add command -label [trans copy] -command "copy 0 ${wname}.blueframe.log.txt"
+      	${wname}.copypaste add command -label [trans copy] -command "tk_textCopy ${wname}.blueframe.log.txt"
       	
  	pack $wname.blueframe.log.ys -side right -fill y
 	pack $wname.blueframe.log.txt -side left -expand true -fill both
@@ -342,7 +342,7 @@ proc OpenLogWin { email } {
 	pack $wname.buttons -side bottom -fill x -pady 3
 	bind $wname <Escape> "destroy $wname"
 	bind ${wname}.blueframe.log.txt <Button3-ButtonRelease> "tk_popup ${wname}.copypaste %X %Y"
-	bind ${wname} <Control-c> "copy 0 ${wname}.blueframe.log.txt"
+	bind ${wname} <Control-c> "tk_textCopy ${wname}.blueframe.log.txt"
 }
 
 

@@ -1597,13 +1597,13 @@ catch {exec killall -c sndplay}
 	menu .${win_name}.menu.edit -tearoff 0 -type normal
 #Change the accelerator on Mac OS X
 	if {$tcl_platform(os) == "Darwin"} {
-      .${win_name}.menu.edit add command -label "[trans cut]" -command "copy 1 .${win_name}" -accelerator "Command+X"
-      .${win_name}.menu.edit add command -label "[trans copy]" -command "copy 0 .${win_name}" -accelerator "Command+C"
-      .${win_name}.menu.edit add command -label "[trans paste]" -command "paste .${win_name}" -accelerator "Command+V"
+      .${win_name}.menu.edit add command -label "[trans cut]" -command "tk_textCut .${win_name}" -accelerator "Command+X"
+      .${win_name}.menu.edit add command -label "[trans copy]" -command "tk_textCopy .${win_name}" -accelerator "Command+C"
+      .${win_name}.menu.edit add command -label "[trans paste]" -command "tk_textPaste .${win_name}" -accelerator "Command+V"
 	} else {
-      .${win_name}.menu.edit add command -label "[trans cut]" -command "copy 1 .${win_name}" -accelerator "Ctrl+X"
-      .${win_name}.menu.edit add command -label "[trans copy]" -command "copy 0 .${win_name}" -accelerator "Ctrl+C"
-      .${win_name}.menu.edit add command -label "[trans paste]" -command "paste .${win_name}" -accelerator "Ctrl+V"
+      .${win_name}.menu.edit add command -label "[trans cut]" -command "tk_textCut .${win_name}" -accelerator "Ctrl+X"
+      .${win_name}.menu.edit add command -label "[trans copy]" -command "tk_textCopy .${win_name}" -accelerator "Ctrl+C"
+      .${win_name}.menu.edit add command -label "[trans paste]" -command "tk_textPaste .${win_name}" -accelerator "Ctrl+V"
       }
 
       menu .${win_name}.menutextsize -tearoff 0 -type normal
@@ -1653,9 +1653,9 @@ catch {exec killall -c sndplay}
       .${win_name} conf -menu .${win_name}.menu
 
       menu .${win_name}.copypaste -tearoff 0 -type normal
-      .${win_name}.copypaste add command -label [trans cut] -command "status_log cut\n;copy 1 .${win_name}"
-      .${win_name}.copypaste add command -label [trans copy] -command "status_log copy\n;copy 0 .${win_name}"
-      .${win_name}.copypaste add command -label [trans paste] -command "status_log paste\n;paste .${win_name}"
+      .${win_name}.copypaste add command -label [trans cut] -command "status_log cut\n;tk_textCut .${win_name}"
+      .${win_name}.copypaste add command -label [trans copy] -command "status_log copy\n;tk_textCopy .${win_name}"
+      .${win_name}.copypaste add command -label [trans paste] -command "status_log paste\n;tk_textPaste .${win_name}"
 
       menu .${win_name}.copy -tearoff 0 -type normal
       .${win_name}.copy add command -label [trans copy] -command "status_log copy\n;copy 0 .${win_name}"
@@ -1820,11 +1820,14 @@ catch {exec killall -c sndplay}
       bind .${win_name}.f.out.text <<Button3>> "tk_popup .${win_name}.copy %X %Y"
       bind .${win_name}.f.out.text <Button1-ButtonRelease> "copy 0 .${win_name}"
       
-      if {$tcl_platform(platform) == "unix" } {
-	  bind .${win_name} <<Cut>> "status_log cut\n;copy 1 .${win_name}"
-	  bind .${win_name} <<Copy>> "status_log copy\n;copy 0 .${win_name}"
-	  bind .${win_name} <<Paste>> "status_log paste\n;paste .${win_name}"
-      }
+		#Define this events, in case they were not defined by Tk
+		event add <<Paste>> <Control-Key-v> <Control-Key-V>
+		event add <<Copy>> <Control-Key-c> <Control-Key-C>
+		event add <<Cut>> <Control-Key-x> <Control-Key-X>
+		 
+	  #bind .${win_name} <<Cut>> "status_log cut\n;copy 1 .${win_name}"
+	  #bind .${win_name} <<Copy>> "status_log copy\n;copy 0 .${win_name}"
+	  #bind .${win_name} <<Paste>> "status_log paste\n;paste .${win_name}"
       
       #Change shorcut for history on Mac OS X
       if {$tcl_platform(os) == "Darwin"} {
