@@ -160,7 +160,7 @@ proc reload_files { } {
 		source xmms.tcl
 	}
 	if {$tcl_platform(os) == "Darwin"} {
-		source [file join itunes.tcl]; #Plugin to retreive playing song from iTunes (Mac OS X)
+		source [file join plugins applescript itunes.tcl]; #Plugin to retreive playing song from iTunes (Mac OS X)
 	}
 	source alarm.tcl	;# Alarms code (Burger)
 	source dock.tcl		;# Docking routines
