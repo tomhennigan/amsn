@@ -15,8 +15,7 @@ appearoff Εμφάνιση εκτός σύνδεσης
 aretyping ο/η $1 τυπώνει ένα μήνυμα
 autohotmaillog Αυτόματη σύνδεση με Hotmail.
 autoip Αυτόματο IP
-avoidseen Απέτρεψε αυτό το άτομο να βλέπει την κατάσταση μου και ενημέρωση 
-με
+avoidseen Απέτρεψε αυτό το άτομο να βλέπει την κατάσταση μου και ενημέρωση με
 away Δεν βρίσκομαι στον υπολογιστή
 baduserpass Λάθος user name ή password
 blankdirect Αφήστε κενό για απευθείας σύνδεση
@@ -35,6 +34,7 @@ checkver Αναζήτηση καινούριας έκδοσης
 checkingver Ελέγχω για καινούριες εκδόσεις
 choosebasefont Επιλογή τύπου γραμματοσειράς
 choosebgcolor Επιλογή background χρώματος
+choosefontcolor Επιλογή χρώματος γραμματοσειράς
 clicktologin Πατήστε εδώ για σύνδεση
 close Κλείσιμο
 closingdocks Το κουμπί κλεισίματος μαζεύει το παράθυρο
