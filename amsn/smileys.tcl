@@ -731,7 +731,10 @@ namespace eval ::smiley {
 		
 		create_dir [file join $HOME smileys]
 		set file [convert_image_plus [GetSkinFile smileys "$new_custom_cfg(file)"] smileys 19x19]
-		if { $file == "" } { return -1}
+		if { $file == "" } {
+			msg_box "[trans installconvert]"
+			return -1
+		}
 		
 		set emotion(file) "[filenoext $file].gif"
 		set emotion(name) $name
