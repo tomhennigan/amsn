@@ -4,6 +4,7 @@ acceptfile Accepter le fichier $1 (taille = $2)? enregistré dans $3
 actions Actions
 addacontact Ajouter un contact
 addedyou vous a ajouté dans sa liste de contacts
+addtocontacts Ajouter au contacts
 addtoo Ajouter cette personne à ma liste de contacts
 admincontacts Gérer le contacts
 admingroups Gérer les groupes
@@ -19,6 +20,7 @@ baduserpass Mauvais nom d'utilisateur ou mot de passe
 blankdirect Laisser vide pour une connexion sans proxy
 block Bloquer
 blocked Bloqué
+broughtby Developper pour vous par
 browser Navigateur web
 busy Occupé
 cancel Annuler
@@ -29,6 +31,8 @@ chatreq Inviter à discuter
 chatsmileys Utiliser les "smileys"
 checkingver Recherche d'une nouvelle version
 checkver Nouvelle version
+choosebasefont Choisir la police de caractere
+choosebgcolor Choisir la couleur de fond
 clicktologin Cliquez pour vous connecter
 close Fermer
 closingdocks Fermer pour docker l'application
@@ -41,6 +45,7 @@ copytogroup Copier vers groupe
 date Date
 delete Effacer
 enableproxy Utiliser un proxy
+encoding Choisir l'encodage
 entercontactemail Rajouter un contact de messagerie
 enterfilename Entrez le nom du fichier
 enternick Donner votre pseudonyme
@@ -80,6 +85,7 @@ leaves $1 a quitté la conversation
 listeningon A l'écoute sur le port $1
 listsmileys Lister les "smileys"
 loadcontacts Charger la liste de contacts
+loggedotherlocation Deconnecte. Connecte depuis un autre endroit.
 loggingin est en cours de connexion
 loginas Se connecter en tant que
 login Se connecter
