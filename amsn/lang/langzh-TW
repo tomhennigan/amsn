@@ -240,6 +240,7 @@ groupnotempty 群組不是空白!
 groupoldname 舊名稱
 grouprename 重新命名群組
 group 群組
+groups 群組
 groupunknown 未知群組
 handle 顯示名稱
 helpcontents 說明主題

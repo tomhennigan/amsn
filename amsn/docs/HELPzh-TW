@@ -1,0 +1,22 @@
+amsn 求助檔
+
+系統需求：
+　　Amsn是由tcl/tk撰寫而成，所以您只需要擁有一個8.3版或以上的tcl/tk直譯器即可
+執行。您可以至http://tcl.sourceforge.net取得它。該直譯器能夠於Linux, windows
+以及麥金塔電腦上面執行。部份的附加功能則需要外部程式或是程式庫的支援，例如
+docking icon、顯示使用者圖片或是使用SSL連線於MSN通訊協定第九版。
+
+安裝指引：
+下載amsn-x_xx.tar.gz file，並且用下列指令解壓縮：
+　　gzip -d amsn-x_xx.tar.gz
+　　tar xvf amsn-x_xx.tar
+此時會產生一個msn/的目錄，amsn已經被安裝於該目錄且準備被執行。要啟動它請打：
+　　cd msn
+　　./amsn
+如果上述操作無法動作，請嘗試下列指令：
+　　wish amsn
+如果wish這個指令不存在，這便表示您的tcl/tk沒有正確地被安裝。如果"wish amsn"
+成功被執行，但是"./amsn"卻不能，請編輯您的"amsn"檔案，於第一行設定"wish"正確
+的檔案路徑。目前的預設值為：/usr/bin/wish
+
+如果您一然有無法解決的問題，請嘗試FAQtw這個檔案。
