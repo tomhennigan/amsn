@@ -405,12 +405,14 @@ namespace eval ::lang {
 	
 		global lang_list
 		
+		set dir [::lang::get_language_dir]
+		
 		set k 0
 		
 		foreach lang $lang_list {
 			set langcode [lindex $lang 0]
 			# If the lang selected is the current lang, the file is protected, or it is English, don't delete the lang
-			if { $langcode != [::config::getGlobalKey language] && $langcode != [::config::getGlobalKey language] && $langcode != "en" } {
+			if { $langcode != [::config::getGlobalKey language] && [file writable "$dir/$lang"] && $langcode != "en" } {
 				::lang::deletelanguage "$langcode" "$k"
 			}
 			incr k
@@ -491,13 +493,14 @@ namespace eval ::lang {
 
 	#///////////////////////////////////////////////////////////////////////
 	# Download the lang file
-	proc downloadlanguage { langcode {selection ""} } {
+	proc downloadlanguage { langcode { selection "" } } {
 
-		global lang_list weburl
+		global lang_list weburl HOME2
 
 		set lang "lang$langcode"
-
+		
 		set dir [get_language_dir]
+
 		if { $dir == 0 } {
 			return
 		}
@@ -788,6 +791,8 @@ namespace eval ::lang {
 	# This proc is called to check if a new version of lang files exists, and put it into the ::lang::UpdatedLang list
 
 	proc UpdatedLang { } {
+	
+		set dir [get_language_dir]
 
 		set ::lang::UpdatedLang [list]
 
@@ -800,18 +805,28 @@ namespace eval ::lang {
 		}
 
 		foreach langcode $::lang::Lang {
-			set version [::lang::ReadLang $langcode version]
-			set onlineversion [::lang::ReadOnlineLang $langcode version]
-			set current [split $version "."]
-			set new [split $onlineversion "."]
-			set newer 0
-			if { [lindex $new 0] > [lindex $current 0] } {
-				set newer 1
-			} elseif { [lindex $new 1] > [lindex $current 1] } {
-				set newer 1
-			}
-			if { $newer == 1 } {
-				lappend ::lang::UpdatedLang $langcode
+		
+			set lang "lang$langcode"
+		
+			# Check if the file is writable before
+			if { [file writable "$dir/$lang"] } {
+		
+				set version [::lang::ReadLang $langcode version]
+				set onlineversion [::lang::ReadOnlineLang $langcode version]
+				set current [split $version "."]
+				set new [split $onlineversion "."]
+				set newer 0
+				
+				if { [lindex $new 0] > [lindex $current 0] } {
+					set newer 1
+				} elseif { [lindex $new 1] > [lindex $current 1] } {
+					set newer 1
+				}
+				
+				if { $newer == 1 } {
+					lappend ::lang::UpdatedLang $langcode
+				}
+				
 			}
 		}
 
@@ -823,10 +838,11 @@ namespace eval ::lang {
 	# This proc is called to update a lang
 	
 	proc UpdateLang { langcodes } {
-	
+		
 		set w ".updatelangplugin"
 	
-		foreach langcode $langcodes {
+		foreach langcode $langcodes {			
+			
 			set langname [::lang::ReadLang $langcode name]
 			if { [winfo exists $w] } {
 				$w.update.txt configure -text "Updating $langname..."
@@ -835,8 +851,10 @@ namespace eval ::lang {
 			set onlineversion [::lang::ReadOnlineLang $langcode version]
 			set name $::lang::OnlineLang"$langcode"(name)
 			set encoding $::lang::OnlineLang"$langcode"(encoding)
+				
 			::lang::deletelanguage $langcode
 			::lang::downloadlanguage $langcode
+				
 			set ::lang::Lang"$langcode"(version) $onlineversion
 			set ::lang::Lang"$langcode"(name) $name
 			set ::lang::Lang"$langcode"(encoding) $encoding
@@ -844,7 +862,6 @@ namespace eval ::lang {
 		}
 		
 		::lang::SaveVersions
-
 	
 	}
 

@@ -1450,6 +1450,7 @@ namespace eval ::plugins {
 		foreach plugin [::plugins::findplugins] {
 
 			set updated 0
+			set protected 0
 
 			set path [lindex $plugin 5]
 			set name [lindex $plugin 6]
@@ -1457,8 +1458,8 @@ namespace eval ::plugins {
 			set pathinfo "$path/plugininfo.xml"
 			get_Version "$pathinfo" "$name"
 			
-			# If the online version could not be downloaded, stop for this plugin
-			if { [catch {get_OnlineVersion "$pathinfo" "$name"}] } {
+			# If the online version could not be downloaded, or plugininfo.xml is protected, stop for this plugin
+			if { [catch {get_OnlineVersion "$pathinfo" "$name"}] || ![file writable $pathinfo] } {
 				continue
 			}
 
@@ -1467,8 +1468,16 @@ namespace eval ::plugins {
 
 				# If the main file has been updated
 				if { [::plugins::DetectNew "$::plugins::plgversion" "$::plugins::plgonlineversion"] } {
-					set main "$::plugins::plgonlineversion"
-					set updated 1
+				
+					set file [file join $path $name.tcl]
+					
+					if { ![file writable $file] } {
+						set protected 1
+					} else {
+						set main "$::plugins::plgonlineversion"
+						set updated 1
+					}
+					
 				} else {
 					set main 0
 				}
@@ -1489,8 +1498,16 @@ namespace eval ::plugins {
 							set version [lindex $::plugins::plglang $id]
 						}
 						if { [::plugins::DetectNew $version $onlineversion] } {
-							set langlist [lappend langlist "$langcode" "$onlineversion"]
-							set updated 1
+						
+							set file [file join $path "lang" lang$langcode]
+							
+							if { ![file writable $file] } {
+								set protected 1
+							} else {
+								set langlist [lappend langlist "$langcode" "$onlineversion"]
+								set updated 1
+							}
+							
 						}
 					}
 				}
@@ -1510,8 +1527,15 @@ namespace eval ::plugins {
 						set version [lindex $::plugins::plgfile $id]
 					}
 					if { [::plugins::DetectNew $version $onlineversion] } {
-						set filelist [lappend filelist "$file" "$onlineversion"]
-						set updated 1
+					
+						set file [file join $path $file]
+						
+						if { ![file writable $file] } {
+							set protected 1
+						} else {
+							set filelist [lappend filelist "$file" "$onlineversion"]
+							set updated 1
+						}
 					}
 				}
 				
@@ -1519,8 +1543,8 @@ namespace eval ::plugins {
 				array set ::plugins::UpdatedPlugin$name [list main "$main" lang "$langlist" file "$filelist"]
 				
 
-				# If the plugin has been updated, add it to the updated plugin list
-				if { $updated == 1} {
+				# If the plugin has been updated and no file is protected, add it to the updated plugin list
+				if { $updated == 1 && $protected == 0 } {
 					set ::plugins::UpdatedPlugins [lappend ::plugins::UpdatedPlugins $plugin]
 				}
 				

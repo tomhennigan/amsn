@@ -633,6 +633,7 @@ namespace eval ::autoupdate {
 		::plugins::UpdatedPlugins
 
 		if { ($::lang::UpdatedLang == "") && ($::plugins::UpdatedPlugins == "") } {
+			::autoupdate::UpdateLangPlugin_close
 			return 0
 		}
 
@@ -745,13 +746,18 @@ namespace eval ::autoupdate {
 	
 		global HOME2
 		
-		destroy ".updatelangplugin"
+		if { [winfo exists ".updatelangplugin"] } {
+			destroy ".updatelangplugin"
+		}
 	
 		foreach plugin [::plugins::findplugins] {
 			set namespace [lindex $plugin 6]
 			set file [file join $HOME2 $namespace.xml]
 			file delete $file
 		}
+		
+		unset ::lang::UpdatedLang
+		unset ::plugins::UpdatedPlugins
 		
 	}
 
