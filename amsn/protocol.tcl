@@ -1762,6 +1762,7 @@ namespace eval ::MSN {
 		set smilemsg_len [string length $smilemsg]
 
 		set msg "MIME-Version: 1.0\r\nContent-Type: text/plain; charset=UTF-8\r\n"
+		#set msg "${msg}P4-Context: elchacho\r\n"
 		set msg "${msg}X-MMS-IM-Format: FN=[urlencode $fontfamily]; EF=$style; CO=$color; CS=0; PF=22\r\n\r\n"
 		set msg "$msg$txt_send"
 		#set msg_len [string length $msg]
@@ -2277,8 +2278,18 @@ proc cmsn_sb_msg {sb_name recv} {
    cmsn_msg_parse $msg headers body
 
    set content [lindex [array get headers content-type] 1]
+   set p4context [lindex [array get headers p4-context] 1]
 
    set typer [string tolower [lindex $recv 1]]
+   if { [::config::getKey displayp4context] !=1 || $p4context == "" } {
+   	set typernick [urldecode [lindex $recv 2]]
+	if { $typernick != [::abook::getNick $typer] } {
+		::abook::setNick $typer $typernick
+	}
+	set nick [::abook::getDisplayNick $typer]
+   } else {
+        set nick "[::config::getKey p4contextprefix]$p4context"
+   }
 
    #upvar #0 [sb name $sb_name users] users_list
    set users_list [sb get $sb_name users]
@@ -2367,7 +2378,7 @@ proc cmsn_sb_msg {sb_name recv} {
 			#set fontcolor [lindex $config(mychatfont) 2]
 		}
 
-      ::amsn::messageFrom $chatid $typer "$body" user [list $fontfamily $style $fontcolor]
+      ::amsn::messageFrom $chatid $typer $nick "$body" user [list $fontfamily $style $fontcolor]
       sb set $sb_name lastmsgtime [clock format [clock seconds] -format %H:%M:%S]
       ::abook::setContactData $chatid last_msgedme [clock format [clock seconds] -format "%D - %H:%M:%S"]
 

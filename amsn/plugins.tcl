@@ -19,7 +19,7 @@ namespace eval ::plugins {
 	    variable pluginslist 
 	    variable pluginsevents 
 	    
-	    status_log "Plugin System: Calling event $event with $args"
+	    status_log "Plugin System: Calling event $event with $args\n"
 	    foreach plugin $pluginslist {
 		status_log "Next plugin: $plugin\n"
 		set plugin [lindex $plugin 0]

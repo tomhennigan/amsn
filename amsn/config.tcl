@@ -187,6 +187,9 @@ proc ConfigDefaults {} {
 		[list local autoconnect bool autoconnect autoconnect2] \
 		[list local keepalive bool keepalive natkeepalive]\
 		[list local start_ns_server str notificationserver]\
+		[list title MSN] \
+		[list local displayp4context bool displayp4context] \
+		[list local p4contextprefix str p4contextprefix] \
 		[list title others] \
 		[list local allowbadwords bool allowbadwords] \
 		[list local receiveddir folder receiveddir] \
@@ -220,6 +223,8 @@ proc ConfigDefaults {} {
 	set config(charscounter)	1	;#Display typed characters counter
 	set config(checkemail)	1	;#Show inbox email notification line
 	set config(recentmsg) 0		;#Recent message window closing protection
+	set config(displayp4context) 1	;#Accept P4-Context fieds
+	set config(p4contextprefix) "P4C: " ; #Prefix for P4-Context messages
 
 
 	#System options, not intended to be edited (unless you know what you're doing)
