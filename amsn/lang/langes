@@ -547,6 +547,7 @@ save Guardar
 savetofile Guardar en archivo
 says $1 dice
 sbcon Conectando a Switch Board
+selectall Seleccionar todos
 selectplugins Marca los plug-ins que deseas activar
 selectskin Elige un tema (skin) de la lista
 send Enviar
@@ -648,6 +649,7 @@ unload Deshabilitar
 uoffline Desconectados
 uonline Conectados
 update Actualizar
+updating Actualizando
 useother Usar un comando o programa distinto
 useralreadyonlist El usuario ya se encuentra en la lista de contactos.
 userblocked El usuario se encuentra online pero estás bloqueado
