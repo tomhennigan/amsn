@@ -5991,9 +5991,81 @@ proc show_umenu {user_login grId x y} {
 	
 	tk_popup .user_menu $x $y
 }
+
 #///////////////////////////////////////////////////////////////////////
+proc amsn_update { new_version } {
+	destroy .update.i
+	destroy .update.d
+	.update.q configure -text "Downloading new amsn version. Please Wait..."
+	#code the new amsn version url
+	set new_version [string replace $new_version 1 1 "_"]
+	append amsn_url "http://aleron.dl.sourceforge.net/sourceforge/amsn/amsn-" $new_version
+	if { $::tcl_platform(platform)=="mac" } {
+		append amsn_url ".dgm"
+	} else {
+		if { $::tcl_platform(platform)=="windows" } {
+			append amsn_url ".exe"
+		} else { append amsn_url ".tar.gz" }
+	}
+	#progress bar
+	pack [::dkfprogress::Progress .update.prbar] -fill x -expand 0 -padx 5 -pady 5 -side top
+	#download new amsn version
+	set amsn_tarball [::http::geturl $amsn_url -progress "amsn_download_progress $amsn_url" -command "amsn_install $amsn_url"]
+}
 
+#///////////////////////////////////////////////////////////////////////
+proc amsn_download_progress { url token {total 0} {current 0} } {
+	#config cancel button to cancel the download
+	.update.c configure -command "::http::reset $token"
+	#check if url is valid
+	if { $total == 0 } {
+		.update.q configure -text "Couldn't get $url"
+		return
+	}
+	#update progress bar
+	::dkfprogress::SetProgress .update.prbar [expr {$current*100/$total}]
+	.update.q configure -text "$url\n[trans receivedbytes $current $total]"
+}
 
+#///////////////////////////////////////////////////////////////////////
+proc amsn_install { url token } {
+	if { [::http::status $token] == "reset" } {
+		::http::cleanup $token
+		destroy .update.prbar
+		.update.q configure -text "Download canceled."
+		.update.c configure -text "Close" -command "destroy .update"
+		return
+	}
+	if { [::http::status $token] != "ok" || [::http::ncode $token] != 200 } {
+		.update.q configure -text "Couldn't get $url"
+		return
+	}
+	destroy .update.prbar
+	.update.c configure -command "destroy .update"
+	#if { $::tcl_platform(platform)=="windows" || $::tcl_platform(platform)=="mac" } {
+		.update.q configure -text "Where do you want to save the downloaded file?\n(leave blank to save it in your home)"
+		entry .update.dir
+		bind .update.dir <Return> "amsn_save $url $token"
+		pack .update.dir -side top
+	#} else {
+	#}
+}
+
+#///////////////////////////////////////////////////////////////////////
+proc amsn_save { url token } {
+	set savedir [.update.dir get]
+	destroy .update.save
+	destroy .update.dir
+	if { [string equal $savedir ""] } { set savedir $::HOME }
+	#write the file into disk
+	set lastslash [expr {[string last "/" $url]+1}]
+	set fname [string range $url $lastslash end]
+	set file_id [open [file join $savedir $fname] w]
+	fconfigure $file_id -translation {binary binary} -encoding binary
+	puts -nonewline $file_id [::http::data $token]
+	close $file_id
+	.update.q configure -text "Saved $fname in $savedir."
+}
 
 #///////////////////////////////////////////////////////////////////////
 package require http
@@ -6021,7 +6093,19 @@ proc check_web_version { token } {
 
 		catch {status_log "check_web_ver: Current= $yourver New=$lastver ($tmp_data)\n"}
 		if { $newer == 1} {
-			msg_box "[trans newveravailable $tmp_data]\n$weburl"
+			toplevel .update
+			wm title .update "[trans newveravailable $tmp_data]"
+			#info
+			label .update.i -font splainf -text "[trans newveravailable $tmp_data]"
+			label .update.q -font splainf -text "Would you like to update aMSN?"
+			#options
+			button .update.d -text "Update" -font splainf -command "amsn_update $tmp_data"
+			button .update.c -text "Cancel" -font splainf -command "destroy .update"
+			#packing
+			pack .update.i -side top
+			pack .update.q -side top
+			pack .update.d -side left
+			pack .update.c -side right
 		}
 
 
