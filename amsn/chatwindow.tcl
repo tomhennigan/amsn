@@ -856,7 +856,7 @@ namespace eval ::ChatWindow {
 		incr ::ChatWindow::containerid
 			
 		chatwindow $w -background [::skin::getKey chatwindowbg]	-borderwidth 0
-		::Event::registerEvent messageReceived all $w
+#		::Event::registerEvent messageReceived all $w
 		
 		# If there isn't a configured size for Chat Windows, use the default one and store it.
 		if {[catch { wm geometry $w [::config::getKey wincontainersize] } res]} {
