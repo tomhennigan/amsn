@@ -1145,7 +1145,7 @@ proc cmsn_rng {recv} {
          #}
 #	  global ${name}_info
 #         unset ${name}_info
-       }
+#       }
 
    } else {
    	set sbn [cmsn_draw_msgwin $emaill]
