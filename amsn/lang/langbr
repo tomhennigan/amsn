@@ -1,167 +1,168 @@
 amsn_lang_version 2
 about Sobre
-acceptfile Aceita receber o arquivo $1, tamanho $2? Salvo em $3
+acceptfile Aceitar arquivo $1, tamanho $2? Salvo em $3
 actions Ações
-addacontact Acrescentar um contato
-addedyou adicionou você a lista de contatos
-addtocontacts Adicionar a lista de contatos
+addacontact Adicionar um contato
+addedyou adicionou você à sua lista de contatos
+addtocontacts Adicionar à lista de contatos
 addtoo Adicionar esta pessoa à minha lista de contatos
-admincontacts Contatos Admin
-admingroups Grupos Admin
+admincontacts Gerenciar contatos
+admingroups Gerenciar grupos
 adverts Anúncios
-allowseen Permitir que esta pessoa veja quando você está online e envie mensagens
-appearoff Aparecer offline
-aretyping $1 estão escrevendo uma mensagem
-autohotmaillog Login Automático no Hotmail
-autoip IP Automático
-avoidseen Evitar que esta pessoa lhe veja online e envie mensagens
+allowseen Permitir que o usuário veja quando eu estou on-line e possa me contactar
+appearoff Aparecer off-line
+aretyping $1 está digitando uma mensagem
+autohotmaillog Logar automaticamente no Hotmail
+autoip Endereço IP automático
+avoidseen Evitar que esta pessoa veja quando eu estou on-line e não permitir que ela me contacte
 away Ausente
-baduserpass Senha ou usuário inválido
-blankdirect Deixar em branco para ligação direta
+baduserpass Usuário ou senha inválidos
+blankdirect Deixar em branco para conexão direta
 block Bloquear
-blocked Bloqueado(a)
-broughtby Trazido a você pelos seguintes programadores
-browser Navegador
+blocked Bloqueado
+broughtby  Desenvolvido, para você, pelos seguintes programadores
+browser Navegar
 busy Ocupado
 cancel Cancelar
-changenick Mudar o apelido
-chatack Aceitando um bate-papo de
-chat Bate-papo
-chatreq Requisição de bate-papo
-chatsmileys Carinhas
-checkingver Procurando por versões mais novas
-checkver Procurar por uma versão mais nova
-choosebasefont Escolha o tipo de letra
-choosebgcolor Escolha a cor do fundo
-clicktologin Clique aqui conectar
+changenick Trocar Apelido
+chatack Aceitando pedido de conversa de
+chat Conversa
+chatreq Requisitar conversa
+chatsmileys Emoticons de conversa
+checkingver Checando por novas versões
+checkver Checar se existe nova versão do AMSN
+choosebasefont Escolher fonte do texto
+choosebgcolor Escolher cor de fundo
+clicktologin Clique aqui para entrar
 close Fechar
-closingdocks O botão fechar minimiza a janela
+closingdocks Botão fechar envia para a barra de tarefas
 command Comando
-confirmdelete Você tem certeza que deseja apagar $1?
-connecterror Erro ao conectar ao servidor
+confirmdelete Você tem certeza que quer apagar $1?
+connecterror Erro ao conectar-se ao servidor!
 contactadded Contato adicionado
-contactdoesnotexist Contato inexistente!
+contactdoesnotexist Contato não existe!
 copytogroup Copiar para o grupo
 date Data
 delete Apagar
-enableproxy Habilitar o servidor proxy
-encoding Escolha a codificação
-entercontactemail Preencha com o e-mail da pessoa
-enterfilename Por favor, preencha o nome do arquivo
-enternick Entre com o seu apelido
+enableproxy Habilitar proxy
+encoding Escolher codificação
+entercontactemail Digite o e-mail do contato
+enterfilename Por favor, digite o nome de um arquivo
+enternick Digite seu apelido
 examples Exemplos
-exitamsn Você tem certeza que deseja fechar?
-extras Serviços Extras
-filedoesnotexist Arquivo inexistente
+exitamsn Você tem certeza que deseja sair?
+extras Serviços adicionais
+filedoesnotexist Arquivo não existe
 filename Nome do Arquivo
 filetransfercancelled Transferência de arquivo cancelada
 filetransfercomplete Transferência de arquivo completa
-gonelunch Saí para almoçar
+gonelunch Entrando
 groupadd Adicionar um grupo
 groupdelete Apagar um grupo
-groupexists Grupo já existe
+groupexists Grupo já existente
 group Grupo
-groupnewname Nome novo
-groupnotempty O Grupo não está vazio!
-groupoldname Nome antigo
+groupmissing Não pude localizar o grupo
+groupnewname Novo Nome
+groupnotempty Grupo não está vazio
+groupoldname Nome Atual
 grouprename Renomear um grupo
 groupunknown Grupo desconhecido
-handle Referência
+handle Manipular
 help Ajuda
 helpcontents Conteúdo da Ajuda
 home Home
-ident Identificando-se
-identity Identidade
+ident Identificando
+identity Identificar
 inbox Caixa de Entrada
-invalidusername User name inválido
+invalidusername Nome de usuário inválido
 invite Convidar
 ipaddress Endereço IP
-istyping $1 está escrevendo uma mensagem
-joins $1 $2 entra no bate-papo
-language Linguagem
-lastmsgtime Última mensagem recebida as $1
-leaveblankforhotmail Deixe em branco para usar o Hotmail na Web
-leaves $1 deixa o bate-papo
-listeningon Ouvindo na porta $1
-listsmileys Listar as carinhas
-loadcontacts Carregar a lista de contatos
-loggedotherlocation Desconectado. Conectado em outro local.
-loggingin Conectando
-loginas Conectar como
-login Conectar
-logout Desconectar
-logsin acaba de conectar
-mailer Servidor de Mail
+istyping $1 está digitando uma mensagem
+joins $1 $2 entra na conversa
+language Idioma
+leaveblankforhotmail Deixar em branco para utilizar a rede hotmail
+leaves $1 saiu da conversa
+listeningon Escutando na porta $1
+listsmileys Ver emoticons
+loadcontacts Carregar lista de contatos
+loggedotherlocation Você saiu do Messenger porque se conectou em outro local
+loggingin Entrando
+loginas Entrar como
+login Entrar
+logout Sair
+logsin acabou de entrar
+mailer Cliente de e-mail
 mobile Celular
 movetogroup Mover para o grupo
 msg Mensagem
 msn AMSN
-mustrestart Deve reiniciar o programa para aplicar as modificações
-mystatus O meu estado
-needonline Você ainda está/aparece desconectado!
-newmail $1 novas mensagens na Caixa de Entrada
-newmailfrom Novo e-mail de
+mustrestart Você precisa reiniciar o programa para efetuar as mudanças
+mystatus Meu status
+needonline Você ainda está/aparece desconectado
+newmail $1 nova(s) mensagem(ns) na Caixa de Entrada
+newmailfrom Novo e-mail de 
 newmsg Nova mensagem
-next Seguinte
+newveravailable Nova versão $1 disponível para download
+next Próximo
 noactivity Sem atividade
-nonewmail Nenhuma mensagem nova na Caixa de Entrada
-nonewver Não existem versões mais novas disponíveis para download
-notify avisar
-nousersinsession Não há contatos conectados
+nonewmail Sem novas mensagens na Caixa de Entrada
+nonewver Não existe versão mais recente do programa disponível para download
+notify notificar
+nousersinsession Nenhum usuário na sessão
 offline Desconectado
 ok Ok
-onenewmail 1 novo e-mail na Caixa de Entrada
+onenewmail 1 nova mensagem na Caixa de Entrada
 online Conectado
 onphone No telefone
 openreceived Abrir arquivos recebidos
 options Opções
-ordercontactsby Ordenar os contatos por
-other Outro
+ordercontactsby Ordenar contatos por
+other Outros
 pager Pager
 pass Senha
-phone Fone
+phone Telefone
 port Porta
-prefapps Aplicações
+prefapps Programas
 preferences Preferências
-prefsounds Sons
+prefsound Sons
 properties Propriedades
-proxyconf Configuração de proxy
-proxyconfhttp Configuração do suporte para proxy HTTP
-publishphones Publicar meus números de telefone
-receivedbytes $1 bytes recebidos, total $2
-receivefile Receber arquivo
-reconnect Esperando $1 reconectar
-reconnecting Conectando-se novamente ao servidor
-rememberpass Salvar a senha
-rightback Volto já
+proxyconf Configuração de Proxy
+proxyconfhttp Suporte a configuração de proxy HTTP
+publishphones Exibir meus números de telefone
+receivedbytes Recebidos $1 de $2 bytes
+receivefile Arquivo recebido
+reconnect Esperando por $1 para reconectar
+reconnecting Reconectando ao servidor
+rememberpass Lembrar senha
+rightback Volto logo
 saveas Salvar como
-savecontacts Salvar a lista de contatos
+savecontacts Salvar lista de contatos
 save Salvar
 says $1 diz
-sbcon Ligando a Switch Board
+sbcon Connecting to Switch Board
 send Enviar
 sendfile Enviar arquivo
 sendmail Enviar e-mail
 sendmsg Enviar mensagem
-sentbytes $1 bytes enviados, $2 total
+sentbytes Enviados $1 de $2 bytes
 servergoingdown Desconectado: Servidor está sendo desligado
 server Servidor
-sound Sons para eventos
+sound Som de evento
 startoffline Iniciar desconectado
-status Estado
-syntaxerror Esrro de sintaxe
+status Status
+syntaxerror  Erro de sintaxe
 textsize Tamanho do texto
 title Al's Messenger
 tools Ferramentas
 to Para
 unblock Desbloquear
-uoffline Desconectados
-uonline Conectados
-useralreadyinlist Usuário já está na lista
+uoffline Offline
+uonline Online
+useralreadyonlist Usuário já está na lista de contatos
 user Usuário
 version Versão
-view Exibir
-willjoin Esperando que $1 se junte ao bate-papo
-work Trabalho
+view Visualizar
+willjoin Aguardando $1 entar na conversa
+work Ocupado
 yousay Você diz
 youwant Você quer

@@ -16,6 +16,7 @@ allowseen Ez a személy mindig láthat ha bejelentkezem
 appearoff Nem látható a bejelentkezés (rejtett üzemmód)
 aretyping $1 éppen üzenetet gépel
 autohotmaillog Automatikus Hotmail bejelentkezés
+autoidle Inaktivitás érzékelõ
 autoip Automatikus IP
 avoidseen Ez a személy nem láthat ha bejelentkeztem
 away Elmentem itthonról
@@ -117,6 +118,7 @@ noactivity Nem vagyok itt
 nonewmail Nincs új üzeneted
 nonewver Nincs elérhetõ új verzió
 notify értesítés
+notifywin Értesítõ ablak
 nousersinsession Nincs felhasználó a kapcsolatok között
 offline Kapcsolat nélkül
 ok Rendben
@@ -127,10 +129,10 @@ openreceived A beérkezett fájlok megnyitása
 options Beállítások
 ordercontactsby Partnerek rendezése
 other Más
-pager Lapozás
+pager Személyi hívó
 pass Jelszó
 phone Telefon
-picfile Gigyelmeztetõ kép fájl (GIF < 500 x 500)
+picfile Figyelmeztetõ kép fájl (GIF < 500 x 500)
 picstatus Figyelmeztetõ kép KI/BE kapcsolása
 port Port
 prefapps Alkalmazások
