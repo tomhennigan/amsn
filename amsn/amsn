@@ -371,6 +371,7 @@ proc idleCheck {} {
    if { $idletime >= $first && [::MSN::myStatusIs] == "IDL" && $config(autoaway) == 1 && $autostatuschange == 1} {
    	#We change to Away if time has passed, and if IDL was set automatically
 	::MSN::changeStatus AWY
+   	set autostatuschange 1
    } elseif {$idletime >= $second && [::MSN::myStatusIs] == "NLN" && $config(autoidle) == 1} {
    	#We change to idle if time has passed and we're online
 	::MSN::changeStatus IDL
