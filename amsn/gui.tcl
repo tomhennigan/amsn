@@ -4974,6 +4974,11 @@ proc ShowUser {user_name user_login state state_code colour section grId} {
         	label $pgBuddy.text.$imgname2 -image notinlist 
         	$pgBuddy.text.$imgname2 configure -cursor hand2 -borderwidth 0
 		$pgBuddy.text window create $section.last -window $pgBuddy.text.$imgname2 -padx 1 -pady 1
+		bind $pgBuddy.text.$imgname2 <Enter> \
+        	        "$pgBuddy.text tag conf $user_unique_name -under true; $pgBuddy.text conf -cursor hand2"
+      		bind $pgBuddy.text.$imgname2 <Leave> \
+       	        	"$pgBuddy.text tag conf $user_unique_name -under false; $pgBuddy.text conf -cursor left_ptr"
+
 	}
 	#	Draw alarm icon if alarm is set
 	if { [info exists alarms(${user_login})] } {
@@ -5022,6 +5027,8 @@ proc ShowUser {user_name user_login state state_code colour section grId} {
 		"$pgBuddy.text tag conf $user_unique_name -under false;	$pgBuddy.text conf -cursor left_ptr"
 
 
+
+
 	if { $config(tooltips) == 1 } {
                 if {[lsearch $list_rl "$user_login *"] == -1} {
                 	set balloon_message "[string map {"%" "%%"} $user_name]\n $user_login\n [trans status] : [trans [lindex $state 1]]\n [trans notinlist] "
@@ -5041,6 +5048,13 @@ proc ShowUser {user_name user_login state state_code colour section grId} {
 
 		bind $pgBuddy.text.$imgname <Motion> +[list balloon_motion %W %X %Y $balloon_message]
 
+		if {[lsearch $list_rl "$user_login *"] == -1} {
+                	bind $pgBuddy.text.$imgname2 <Enter> +[list balloon_enter %W %X %Y $balloon_message]
+                	bind $pgBuddy.text.$imgname2 <Leave> \
+        	                "+set Bulle(first) 0; kill_balloon"
+		
+                	bind $pgBuddy.text.$imgname2 <Motion> +[list balloon_motion %W %X %Y $balloon_message]
+		}
 	}
 	#Change mouse button and add control-click on Mac OS X
 	if {$tcl_platform(os) == "Darwin"} {
@@ -5050,13 +5064,21 @@ proc ShowUser {user_name user_login state state_code colour section grId} {
 		$pgBuddy.text tag bind $user_unique_name <Button3-ButtonRelease> "show_umenu $user_login $grId %X %Y"
 	}
 	bind $pgBuddy.text.$imgname <<Button3>> "show_umenu $user_login $grId %X %Y"
-
+        if {[lsearch $list_rl "$user_login *"] == -1} {
+		bind $pgBuddy.text.$imgname2 <<Button3>> "show_umenu $user_login $grId %X %Y"
+	}
 	if { $state_code != "FLN" } {
 		bind $pgBuddy.text.$imgname <Double-Button-1> "::amsn::chatUser $user_login"
+                if {[lsearch $list_rl "$user_login *"] == -1} {
+			bind $pgBuddy.text.$imgname2 <Double-Button-1> "::amsn::chatUser $user_login"
+		}
 		$pgBuddy.text tag bind $user_unique_name <Double-Button-1> \
 			"::amsn::chatUser $user_login"
 	} else {
 		bind $pgBuddy.text.$imgname <Double-Button-1> ""
+                if {[lsearch $list_rl "$user_login *"] == -1} {
+			bind $pgBuddy.text.$imgname2 <Double-Button-1> ""
+		}
 		$pgBuddy.text tag bind $user_unique_name <Double-Button-1> ""
 	}
 
