@@ -58,10 +58,15 @@ proc skin_description {cstack cdata saved_data cattr saved_attr args} {
 
 proc findskins { } {
 	variable program_dir
+	global HOME2
 
 	set skins [glob -directory [file join $program_dir skins] */settings.xml]
+	set skins_in_home [glob -directory [file join $HOME2 skins] */settings.xml]
 
-	status_log "Loading skins from [file join $program_dir skins]\n"
+	set skins [concat $skins $skins_in_home]
+
+
+	status_log "Loading skins from [file join $program_dir skins] and [file join $program_dir skins] \n"
 
 	set skinlist [list]
 
