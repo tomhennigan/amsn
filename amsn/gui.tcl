@@ -2292,12 +2292,12 @@ namespace eval ::amsn {
 
 		if { $other == 1 } {
 			button  $wname.buttons.other -text "[trans other]..." -command [list ::amsn::listChooseOther $wname $title $command] -font sboldf
-			pack $wname.buttons.ok -padx 0 -side left
-			pack $wname.buttons.cancel -padx 0 -side right
-			pack $wname.buttons.other -padx 10 -side left
+			pack $wname.buttons.ok -padx 5 -side right
+			pack $wname.buttons.cancel -padx 5 -side right
+			pack $wname.buttons.other -padx 5 -side left
 		} else {
-			pack $wname.buttons.ok -padx 0 -side left
-			pack $wname.buttons.cancel -padx 0 -side right
+			pack $wname.buttons.ok -padx 5 -side right
+			pack $wname.buttons.cancel -padx 5 -side right
 		}
 
 		pack $wname.buttons -side bottom -fill x -pady 3
