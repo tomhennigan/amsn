@@ -2169,7 +2169,7 @@ namespace eval ::ChatWindow {
 		set tab2win($tab) $win
 		set win2tab($win) $tab
 
-		bind $tab <<Button3>> "tk_popup [::ChatWindow::createRightTabMenu $tab] %X %Y"
+		bind $tab <<Button3>> "tk_popup \[::ChatWindow::createRightTabMenu $tab\] %X %Y"
 
 		return $tab
 		
@@ -2575,7 +2575,7 @@ namespace eval ::ChatWindow {
 	}
 
 	proc createRightTabMenu { tab } {
-		if { [winfo exists .tabmenu] } { return .tabmenu }
+		if { [winfo exists .tabmenu] } { destroy .tabmenu }
 		menu .tabmenu
 		.tabmenu insert end command -command "::ChatWindow::CloseTab $tab; destroy .tabmenu" -label "[trans close]"
 		return .tabmenu
