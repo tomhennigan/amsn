@@ -194,6 +194,7 @@ ftportpref Starting port for file transfers
 ftrejectedby $1 rejected file transfer invitation for file '$2'.
 ftrejected File transfer rejected
 ftsendinvitation File transfer invitation for file '$2' ($3 bytes) has been sent to $1.
+fullcontactlist Sorry, your contact list if full. You'll need to remove some contacts in order to add new ones.
 getdisppic Enable receiving Display Pictures from other users
 gonelunch Gone to lunch
 groupadd Add a group

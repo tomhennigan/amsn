@@ -194,6 +194,7 @@ ftportpref Usar este puerto y los sucesivos para transferencias de archivos
 ftrejectedby $1 ha rechazado la invitación a la transferencia del archivo '$2'.
 ftrejected Transferencia de archivo cancelada
 ftsendinvitation Una invitación para la transferencia del archivo '$2' ($3 bytes) ha sido enviada a $1.
+fullcontactlist Su lista de contactos está llena. Necesitará eliminar algún contacto para poder añadir nuevos.
 getdisppic Habilitar la recepción de Imágenes para Mostrar de otros usuarios
 gonelunch Salí a comer
 groupadd Añadir un grupo
@@ -489,7 +490,7 @@ work Trabajo
 wrongfields Los campos "$1", "$2" y/o "$3" no son valido(s)
 wrongprofileversion Versión del archivo de perfiles incorrecta. Por favor borre el directorio $1 para solucionarlo, o actualice amsn.
 xmmscurrent Mostrar canción actual
-xmmserr Nothing is playing, or you dont have xmms-infopipe installed.
+xmmserr No hay canción en reproducción, o no tienes xmms-infopipe instalado.
 xmmssend Enviar canción actual
 xoffset Desplazamiento X
 yes Si

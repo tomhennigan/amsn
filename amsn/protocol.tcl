@@ -3240,6 +3240,7 @@ proc cmsn_ns_handler {item} {
           return 0
       }
       210 {
+          msg_box "[trans fullcontactlist]"
           status_log "Warning: User list full $item\n" red
           return 0
       }
