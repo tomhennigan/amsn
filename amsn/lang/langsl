@@ -3,6 +3,7 @@ about O programu
 accept Sprejmi
 acceptfile Ali sprejme¹ datoteko $1, njena velikost je $2? Shranjeno v $3
 actions Akcije
+activeautoupdate Avtomatsko posodabljanje
 addacontact Dodaj stik
 addedyou $1 ($2) vas je dodal/a na svoj seznam stikov
 addprofile Dodaj profil

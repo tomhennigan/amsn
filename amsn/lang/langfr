@@ -3,6 +3,7 @@ about À propos de...
 accept Accepter
 acceptfile Accepter le fichier $1 (taille = $2)? enregistré dans $3
 actions Actions
+activeautoupdate Activer la mise à jour automatique
 addacontact Ajouter un contact
 addedyou $1 ($2) vous a ajouté dans sa liste de contacts
 addprofile Ajouter un nouveau profil

@@ -629,3 +629,22 @@ yoffset Desplaçament Y
 youblocked Has estat bloquejat per
 yousay Dius
 youwant Vols
+activeautoupdate Actualització automàtica activa
+agotinvitation S'ha rebut una invitació d'audio de $1
+avaccepted Videoconferència acceptada
+avcanceled Videoconferència cancel·lada
+avgotinvitation S'ha rebut una invitació de videoconferència de $1
+avinitfailed La inicialització del plugin d'Audio/Video ha fallat. Crida cancel·lada
+currentlanguage Aquesta és la llengua que utilitzes
+download Descàrrega
+filenotwritable Aquest fitxer no es pot eliminar
+filters Filtres
+filtersx Selecció de filtres
+filtersselect Selecciona els filtres que vols veure\n(Note none selected means show all)
+ftautoclose Tancar la finestra quan la trasferència del fitxer hagi finalitzat.
+language_manager Administrador d'idiomes
+needwinico2 Es necesita winico05.dll a la carpeta utils/windows per el windows trydocking per funcionar
+preview Vista preliminar
+unknown Desconegut
+update Actualització
+yesblock Si i blocar
