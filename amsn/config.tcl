@@ -282,8 +282,7 @@ namespace eval ::config {
 		::config::setKey adverts 0				;#Enable banner advertisements
 		::config::setKey displaypic "amsn.png"                   ;# Display picture
 		::config::setKey getdisppic 1
-		::config::setKey notifwidth 150			;#Notify window width
-		::config::setKey notifheight 100		;#Notify window height
+
 	}
 	
 	proc globalDefaults {} {
