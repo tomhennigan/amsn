@@ -123,6 +123,55 @@ namespace eval ::groups {
 
    }
 
+   # Used to perfom the group renaming without special dialogues
+   proc ThisOkPressed { gid } {
+	if [winfo exists .dlgthis] {
+		set gname [GetName $gid]
+		::groups::Rename $gname [.dlgthis.data.ent get] dlgMsg
+		destroy .dlgthis
+	}
+   }
+   
+   # New simplified renaming dialog
+   proc dlgRenameThis {gid} {
+   
+	if {[winfo exists .dlgthis]} {
+            destroy .dlgthis
+	}
+	set bgcol2 #ABC8D2
+
+	toplevel .dlgthis -highlightcolor $bgcol2
+	wm title .dlgthis "[trans grouprename]"
+	frame .dlgthis.data -bd 1 
+	label .dlgthis.data.lbl -text "[trans groupnewname]:"
+	entry .dlgthis.data.ent -width 20 -bg #FFFFFF
+	.dlgthis.data.ent insert end [GetName $gid]
+	bind .dlgthis.data.ent <Return> "::groups::ThisOkPressed $gid"
+	pack .dlgthis.data.lbl .dlgthis.data.ent -side left
+	    
+	frame .dlgthis.buttons 
+	button .dlgthis.buttons.ok -text "[trans ok]" -command "::groups::ThisOkPressed $gid"
+	button .dlgthis.buttons.cancel -text "[trans cancel]" -command "destroy .dlgthis"
+	pack .dlgthis.buttons.ok .dlgthis.buttons.cancel -side left -pady 5
+		
+	pack .dlgthis.data .dlgthis.buttons -side top
+
+   }
+   
+   # New group menu, for contact list only, no for management in toolbar
+   # it avoids complex group selection when renaming or deleting groups
+   proc GroupMenu {gid cx cy} {
+	if [winfo exists .group_handler] {
+		destroy .group_handler
+	}
+	# The submenu of standard group actions
+	menu .group_handler -tearoff 0 -type normal
+	.group_handler add command -label "[trans groupadd]..." -command ::groups::dlgAddGroup
+	.group_handler add command -label "[trans groupdelete]" -command "::groups::Delete $gid dlgMsg"
+	.group_handler add command -label "[trans grouprename]..." -command "::groups::dlgRenameThis $gid"
+	tk_popup .group_handler $cx $cy
+}
+   
    # Used to display the list of groups that are candidates for
    # deletion in the Delete Group... & Rename Group menus
    proc updateMenu {type path {cb ""} {pars ""}} {

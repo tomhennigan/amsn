@@ -4458,13 +4458,10 @@ proc cmsn_draw_online { {delay 0} } {
 			"::groups::ToggleStatus $gname;cmsn_draw_online"
 			#Specific for Mac OS X, Change button3 to button 2 and add control-click
 			if {$tcl_platform(os) == "Darwin"} {
-		$pgBuddy.text tag bind $gtag <Button2-ButtonRelease> \
-			"tk_popup .group_menu %X %Y"
-		$pgBuddy.text tag bind $gtag <Control-ButtonRelease> \
-			"tk_popup .group_menu %X %Y"
+		$pgBuddy.text tag bind $gtag <Button2-ButtonRelease> "::groups::GroupMenu $gname %X %Y"
+		$pgBuddy.text tag bind $gtag <Control-ButtonRelease> "::groups::GroupMenu $gname %X %Y"
 			} else {
-		$pgBuddy.text tag bind $gtag <Button3-ButtonRelease> \
-			"tk_popup .group_menu %X %Y"
+		$pgBuddy.text tag bind $gtag <Button3-ButtonRelease> "::groups::GroupMenu $gname %X %Y"
 			}
 			
 
