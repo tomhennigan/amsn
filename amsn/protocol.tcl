@@ -1001,8 +1001,6 @@ namespace eval ::MSN {
         return $lowuser
       }
 
-      #TODO: Have some timeout for reconnection retries
-
       if { [SBFor $lowuser] == 0 } {
 
          set sbn [GetNewSB]
@@ -1249,8 +1247,9 @@ namespace eval ::MSN {
 	  ProcessQueue $chatid
 
       } else {
+      
          chatTo $chatid
-         after 3000 "::MSN::ProcessQueue $chatid [expr {$count + 1}]"
+         after 2000 "::MSN::ProcessQueue $chatid [expr {$count + 1}]"
 
       }
 
