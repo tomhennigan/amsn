@@ -296,6 +296,7 @@ viewprofile Ver perfil
 view Ver
 willjoin Esperando que $1 se una a la conversación
 work Trabajo
+wrongprofileversion Versión del archivo de perfiles incorrecta. Por favor borre el directorio $1 para solucionarlo, o actualice amsn.
 xoffset Desplazamiento X
 yoffset Desplazamiento Y
 yousay Tú dices

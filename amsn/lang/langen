@@ -295,6 +295,7 @@ viewprofile View Profile
 view View
 willjoin Waiting $1 joins conversation
 work Work
+wrongprofileversion Wrong profile config file version. In order to fix it, please remove directory $1, or update amsn
 xoffset X Offset
 yoffset Y Offset
 yousay You say

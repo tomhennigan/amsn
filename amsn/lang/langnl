@@ -11,16 +11,14 @@ addtoo Voeg deze persoon toe aan mijn contactenlijst
 admincontacts Beheer contacten
 admingroups Beheer groepen
 adverts Advertenties
-Afwezig/Ben zo terug/In Bezet
 alarmpref Alarm instellingen voor de huidige gebruiker
 alarmstatus Schakel alarm aan/uit voor de huidige gebruiker
-Alleen met een profiel is het mogelijk gebruik te maken van \n een wachtwoord,
-allowseen Sta deze persoon toe om te zien wanneer ik online ben en om mij
+allowseen Sta deze persoon toe om te zien wanneer ik online ben en om mij te contacteren
 appearance Status
 appearoff Offline verschijnen
 areacode Regiocode
 aretyping $1 zijn bezig met typen
-askprofile Deze login heeft geen profiel. Wil je een profiel aanmaken? \n
+askprofile Deze login heeft geen profiel. Wil je een profiel aanmaken? \n Als je dit niet doet, zal je de Geschiedenis en het bewaren van wachtwoord en Alarmen niet kunnen gebruiken.\n  Als je een profiel aanmaakt wordt er een aparte configuratie gemaakt hiervoor. \n \n Klik op "Maak profiel" om een nieuw profiel te maken voor $1.
 autoaway Automatisch afwezig na inactiviteit van
 autoconnect2 Automatisch inloggen wanneer aMSN wordt gestart
 autoconnect Automatisch inloggen
@@ -28,9 +26,9 @@ autohotmaillog Automatisch inloggen bij Hotmail
 autoidle Automatisch afwezig
 autoip Automatisch IP
 autonoact Automatisch niet-actief na inactiviteit van
-avoidseen Vermijd dat deze persoon kan zien wanneer ik online ben en dat
+avoidseen Vermijd dat deze persoon kan zien wanneer ik online ben en dat hij mij contacteert.
 away Afwezig
-awaymsg1 Vragen om afwezig-bericht als de status veranderd wordt naar
+awaymsg1 Vragen om afwezig-bericht als de status veranderd wordt naar Afwezig/Ben zo terug/In Bezet
 awaymsg2 Niet vragen en altijd het onderstaande afwezig-bericht gebruiken
 baduserpass Foutieve gebruikersnaam of wachtwoord
 bgcolor Verander aMSN's achtergrondkleur
@@ -64,14 +62,12 @@ clicktologin Klik hier om in te loggen
 close Sluiten
 closingdocks Sluit venster
 command Programma
-configuratie opgeslagen. Klik op "Maak Profiel" om een profiel aan te maken voor
 confirmdelete Wilt je echt $1 verwijderen?
 confirm Weet je het zeker?
 connecterror Verbindingsfout
 connection Verbinding
 contactadded Contactpersoon toegevoegd
 contactdoesnotexist Contactpersoon bestaat niet
-contacterror Fout tijdens het verbinden met de server
 copy    Kopiëren
 copytogroup kopiëren naar groep
 countrycode Mijn Land/Regiocode
@@ -108,8 +104,6 @@ filetransfercancelled Bestandsverzending geannuleerd
 filetransfercomplete Bestandsverzending klaar
 ftaccepted Bestand transfer geaccepteerd
 ftrejected Bestand transfer afgewezen
-Geschiedenis en Alarm. Als je een profiel aanmaakt word er een \n aparte
-gevonden
 gonelunch Lunchpauze
 groupadd Voeg een groep toe
 groupdelete Verwijder een groep
@@ -122,25 +116,21 @@ groupoldname Oude naam
 grouprename Verander een groepsnaam
 groupunknown Onbekende groep
 handle Nick
-hebben
 helpcontents Help inhoud
 help Help
-hij mij kan contacteren
 history Geschiedenis
 home Thuis
 ident Bezig met identificeren
 identity Identiteit
 inbox Inbox
-in In-Box
 invalidusername Uw gebruikersnaam is fout.
 invite Nodig uit
 ipaddress IP adres
-ipadress IP adres
 ipdetect Detecteer correcte IP-adres voor Bestandsoverdracht via HTTP
 istyping $1 is bezig met typen
 joins $1 neemt deel aan conversatie
 keepalive Hou verbinding in stand
-keeplog2 Bewaar alle gesprekken in logboek van aMSN-Geschiedenis voor
+keeplog2 Bewaar alle gesprekken in logboek van aMSN-Geschiedenis voor toekomstig bekijken
 keeplog Bewaar logboek van chatgesprekken
 language Taal
 lastmsgtime Laatste bericht ontvangen om $1
@@ -193,7 +183,6 @@ newmailfrom Nieuwe email van
 newmsg Nieuw bericht
 newveravailable Nieuwere versie $1 beschikbaar
 next Volgende
-niet-geblokeerde mensen uit je contactenlijst.
 noactivity Geen activiteit
 nologfile Geen logboek voor $1
 nonewmail 0 nieuwe berichten in In-Box
@@ -296,7 +285,6 @@ tabbed 'Tabbed' vensters
 textsize Tekstgrootte
 title Al's Messenger
 to Aan
-toekomstig bekijken
 tools Systeem
 transnotexists Het opgevraagde bestand is nog niet vertaald in de gebruikte taal.
 unblock Deblokkeer
@@ -309,7 +297,6 @@ version Versie
 view Beeld
 viewprofile Profiel Weergeven
 willjoin Wachten tot $1 de conversatie zal bijwonen
-worden ingeschakeld
 work werk
 xoffset X-positie
 yoffset Y-positie
