@@ -113,7 +113,7 @@ namespace eval ::groups {
 	frame .dlgrg.b 
 	    button .dlgrg.b.ok -text "[trans ok]" \
 	    	-command { \
-		::groups::Rename $::groups::groupname "[.dlgrg.n.ent get]" handler;\
+		::groups::Rename $::groups::groupname "[.dlgrg.n.ent get]" dlgMsg;\
 		destroy .dlgrg }
 	    button .dlgrg.b.cancel -text "[trans cancel]" \
 	    	-command "destroy .dlgrg"
