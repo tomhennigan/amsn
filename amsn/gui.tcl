@@ -2226,6 +2226,7 @@ namespace eval ::amsn {
 		if { [info exists new_message_on(${win_name})] && $new_message_on(${win_name}) == 1 } {
 			unset new_message_on(${win_name})
 			catch {wm title ${win_name} "$window_titles(${win_name})"} res
+			bind ${win_name} <FocusIn> ""
 			status_log "Here win_name=$win_name\n"
 		}
 	}
@@ -2251,9 +2252,11 @@ namespace eval ::amsn {
 
 
       if { $config(flicker) == 0 } {
-			catch {wm title ${win_name} "*$window_titles($win_name)"} res
-			set new_message_on(${win_name}) 1
-			bind ${win_name} <FocusIn> "::amsn::GotFocus ${win_name}"
+			if { [string first $win_name [focus]] != 0 } {
+				catch {wm title ${win_name} "*$window_titles($win_name)"} res
+				set new_message_on(${win_name}) 1
+				bind ${win_name} <FocusIn> "::amsn::GotFocus ${win_name}"
+			}
       	return 0
       }
 
