@@ -35,16 +35,16 @@ namespace eval ::amsnplus {
 			allow_commands 1
 			allow_colours 1
 			allow_quicktext 1
-			quick_text_0 [list]
-			quick_text_1 [list]
-			quick_text_2 [list]
-			quick_text_3 [list]
-			quick_text_4 [list]
-			quick_text_5 [list]
-			quick_text_6 [list]
-			quick_text_7 [list]
-			quick_text_8 [list]
-			quick_text_9 [list]
+			quick_text_0 ""
+			quick_text_1 ""
+			quick_text_2 ""
+			quick_text_3 ""
+			quick_text_4 ""
+			quick_text_5 ""
+			quick_text_6 ""
+			quick_text_7 ""
+			quick_text_8 ""
+			quick_text_9 ""
 		}
 		if {[string equal $::version "0.94"]} {
 			set ::amsnplus::configlist [ list \
