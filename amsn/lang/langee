@@ -4,6 +4,7 @@ accept Nõustu
 acceptfile Nõustu failiga $1, suurus $2? Salvestatud $3
 actions Tegevused
 activeautoupdate Aktiivne automaatuuendamine
+add Lisa
 addacontact Lisa sõber
 addedyou $1 ($2) on lisanud sind enda sõbralisti
 addprofile Lisa uus profiil
@@ -121,6 +122,7 @@ clear Puhasta
 clearlog Tühjenda logi
 clearlog2 Tühjenda kõikide kontaktide Ajalugu
 clearlog3 Tühjenda kõik logid
+clicktoadd Uue märkme lisamiseks vajuta Lisa nuppu
 clicktologin Vajuta siia, et sisse logida
 clientcaps Saada vestluskaaslase kliendile x-clientcap pakett
 clientname Kliendi nimi
@@ -144,6 +146,7 @@ connecterror Viga serveriga ühendamisel
 connecting Ühendan
 connection Ühendus
 connectionlost Ühendus katkestatud: Ühendus serveriga suletud
+contact Kontakt
 contactadded Sõber lisatud
 contactdoesnotexist Seda sõpra ei eksisteeri!
 contactlist Kontaktide nimekiri (FL):
@@ -156,9 +159,11 @@ corruptconfig Konfiguratsioon on rikutud. Loon uut. Vana fail salvestatakse nime
 corruptstates Kohandatud oleku konfiguratsioon on rikutud. Loon uut. Vana fail salvestatakse nimega $1. Palun saada see meile, et me saaks seda analüüsides leida riknemise põhjuse.
 countrycode Minu riigi/regioonikood
 cprofile Loo profiil
+created Loodud
 credits Tänud
 currentdate Jooksev kuupäev
 currentlanguage Hetkel kasutusel olev keel
+currentnotes Praegused märkmed
 custnotifymsg Näita märguande akent kui tuleb uus sõnum
 custnotifyoffline Näita märguande akent kui see kasutaja läheb offline
 custnotifyonline Näita märguande akent kui see kasutaja tuleb online
@@ -295,6 +300,7 @@ ignoreerrors Ignoreeri AMSNi veateateid kuni sessiooni lõpuni
 imagefiles Pildifailid
 inbox Postkast
 insertsmiley Sisesta emotikoon
+inserttextnote Lisa tekst teema ja märkme väljale ning vajuta Salvesta
 installconvert Sa pead installeerima ImageMagicku (konverteerimis programm), et kasutada ikoone ja emotikone. Sa saad laadida failid oma operatsiooni süsteemile aadressilt ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/. Kui sul on see juba installeeritud, siis on see programmi viga ja palun teavita sellest. Need võimalused deaktiviseeritakse hetkel. Kui sa installeerid ImageMagiku hiljem siis saad taas aktiviseerida Seadete valikust.
 internalerror Sisemine serveri viga
 invalidfile Fail $2 sisestatud väljale "$1" ei eksisteeri või ei ole loetav
@@ -366,6 +372,7 @@ maximised Maksimeeritud
 minimised Minimeeritud/Ikoniseeritud
 mins minutit
 mobile Mobiil
+modified Muudetud
 month Kuu
 morepersonal Veel staatuseid ->
 move Tõsta
@@ -415,6 +422,7 @@ noprofileexists Hetkel ei ole ühtegi profiili, \nsa pead tegema ühe, kui tahad k
 normal Normaalne
 noskins Ei leidnud algse kesta kestade kataloogist. Ei saa AMSN käivitada
 nosystemtray Süsteemisalv puudub
+note Märge
 notificationserver Algne MSN teadvustus server (MSN Messengeri Server)
 notify Teata
 notify1 Näita teateakent, kui sõbrad tulevad online
@@ -589,6 +597,8 @@ style stiil
 stylechat Sama välimus nagu vestlustel
 stylehist aMSN'i Ajaloo välimus
 stylelog Vali, kuidas soovid oma Ajalugu vaadata
+subject Teema
+subjectrequired Teema väli peab olema täidetud
 syntaxerror Süntaksi viga
 tabbed Kaartidena
 tabbedglobal Kõik inimesed on ühes tabidega aknas
