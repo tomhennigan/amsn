@@ -32,7 +32,7 @@
 	<ChatWindow>
 		<Colors>
 			<chatwindowbg>#c3c2d2</chatwindowbg>
-			<buttonbarbg>#ffffff</buttonbarbg>
+			<buttonbarbg>#fffff5</buttonbarbg>
 			<topbarbg>#fcfcee</topbarbg>
 			<topbartext>#000000</topbartext>
 			<topbarawaybg>#eaffe7</topbarawaybg>
