@@ -432,7 +432,7 @@ namespace eval ::MSN {
 
       gets $sockid tmpdata
       status_log "GOT: $tmpdata\n"
-      if { [string range $tmpdata 0 9] == "VER MSNFTP"} {
+      if { [regexp "^VER\ ?\[0-9\]* MSNFTP" $tmpdata] } {
          puts $sockid "VER MSNFTP\r"
 
          status_log "SENT: VER MSNFTP\n"

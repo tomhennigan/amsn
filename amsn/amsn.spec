@@ -117,7 +117,7 @@ Projekt zu erfahren.
 
 %{__mkdir_p} "${RPM_BUILD_ROOT}%{_bindir}"
 %{__ln_s} -f "%{_datadir}/amsn/amsn" "${RPM_BUILD_ROOT}%{_bindir}/amsn"
-%{__ln_s} -f "${RPM_DOC_DIR}/README" "${RPM_BUILD_ROOT}%{_datadir}/amsn/README"
+%{__ln_s} -f "${RPM_DOC_DIR}/amsn-{_version}/README" "${RPM_BUILD_ROOT}%{_datadir}/amsn/README"
 
 # manually copy the .desktop file for KDE, it's broken in the Makefile
 %{__mkdir_p} "${RPM_BUILD_ROOT}%{_kde_applnk}/%{_applnk_cat}/"
@@ -149,7 +149,7 @@ test -x /usr/bin/update-menus && /usr/bin/update-menus
 test -x /usr/bin/update-menus && /usr/bin/update-menus
 
 %files
-%doc FAQ GNUGPL HELP LEEME README TODO changelog
+%doc FAQ GNUGPL HELP LEEME rEADME TODO changelog
 %{_bindir}/amsn
 %{_datadir}/amsn
 %{_gnome_applnk}/%{_applnk_cat}/*.desktop
