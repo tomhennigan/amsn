@@ -2078,18 +2078,15 @@ namespace eval ::ChatWindow {
 
 	}
 
-<<<<<<< chatwindow.tcl
 	proc NameTabbedWindow { container chatid } {
 		wm title $container "$chatid"
 	}
-=======
 
 	proc UseContainer { } {
 		set istabbed [::config::getKey tabbedchat]
 		if { $istabbed == -1} {
 			TabbedWindowsInfo
 		} 
->>>>>>> 1.79
 
 		set istabbed [::config::getKey tabbedchat]
 
