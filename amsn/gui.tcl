@@ -6072,39 +6072,47 @@ proc amsn_save { url token } {
 		.update.q configure -text "File can't be saved (check permissions and free space avaiable and path)."
 	} else {
 		.update.q configure -text "Saved $fname in $savedir."
-		if { $::tcl_platform(platform)=="unix" } {
-			button .update.install -text "Install" -command "amsn_install $savedir $fname"
+		#if { $::tcl_platform(platform)=="unix" } {
+		#	button .update.install -text "Install" -command "amsn_install_linux $savedir $fname"
+		#	pack .update.install -side left
+		#}
+		if { $::tcl_platform(platform)=="windows" } {
+			button .update.install -text "Install" -command "amsn_install_windows $savedir $fname"
 			pack .update.install -side left
 		}
 	}
 }
 
 #///////////////////////////////////////////////////////////////////////
-proc amsn_install { savedir fname } {
-	set old_dir [pwd]
-	cd $savedir
-	if { [catch { set shell [exec tar xzfp "$savedir/$fname"] }] } {
-		.update.q configure -text "Problems occurred during the installation (tar xzfp $savedir/$fname). Please report it."
-	} else {
-		catch { [exec mv "$savedir/amsn-*" "$savedir/msn"] }
-		#copiar els plugins
-		set success [catch { [exec cp "$::program_dir/plugins/*" "$savedir/msn/plugins"] }]
-		#copiar els skins
-		set success [catch { [exec cp "$::program_dir/skins/*" "$savedir/msn/skins"] }]
-		#moure la versió nova a la carpeta on estava
-		if { !$success } {
-			if { [catch { [exec mv "$savedir/msn" "$::program_dir"] }] } {
-				#missatge d'error
-				.update.q configure -text "Problems occurred during the installation (tar xzfp $savedir/$fname). Please report it."
-			}
-		} else {
-			#missatge d'error
-			.update.q configure -text "Problems occurred during the installation (tar xzfp $savedir/$fname). Please report it."
-		}
-		.update.q configure -text "Installation complete: $shell"
-	}
-	cd $old_dir 
+proc amsn_install_windows { savedir fname } {
 }
+
+#///////////////////////////////////////////////////////////////////////
+#proc amsn_install_linux { savedir fname } {
+#	set old_dir [pwd]
+#	cd $savedir
+#	if { [catch { set shell [exec tar xzfp "$savedir/$fname"] }] } {
+#		.update.q configure -text "Problems occurred during the installation (tar xzfp $savedir/$fname). Please report it."
+#	} else {
+#		catch { [exec mv "$savedir/amsn-*" "$savedir/msn"] }
+#		#copiar els plugins
+#		set success [catch { [exec cp "$::program_dir/plugins/*" "$savedir/msn/plugins"] }]
+#		#copiar els skins
+#		set success [catch { [exec cp "$::program_dir/skins/*" "$savedir/msn/skins"] }]
+#		#moure la versió nova a la carpeta on estava
+#		if { !$success } {
+#			if { [catch { [exec mv "$savedir/msn" "$::program_dir"] }] } {
+#				#missatge d'error
+#				.update.q configure -text "Problems occurred during the installation (tar xzfp $savedir/$fname). Please report it."
+#			}
+#		} else {
+#			#missatge d'error
+#			.update.q configure -text "Problems occurred during the installation (tar xzfp $savedir/$fname). Please report it."
+#		}
+#		.update.q configure -text "Installation complete: $shell"
+#	}
+#	cd $old_dir 
+#}
 
 #///////////////////////////////////////////////////////////////////////
 package require http

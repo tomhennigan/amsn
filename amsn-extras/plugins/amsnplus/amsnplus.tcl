@@ -151,6 +151,7 @@ namespace eval ::amsnplus {
 		if {[string equal $newstate "rightback"]} { return "BSY" }
 		if {[string equal $newstate "onphone"]} { return "PHN" }
 		if {[string equal $newstate "gonelunch"]} { return "LUN" }
+		if {[string equal $newstate "appearoff"]} { return "HDN" }
 		return $newstate
 	}
 
@@ -163,6 +164,7 @@ namespace eval ::amsnplus {
 		if {[string equal $state "rightback"]} { return 1 }
 		if {[string equal $state "onphone"]} { return 1 }
 		if {[string equal $state "gonelunch"]} { return 1 }
+		if {[string equal $state "appearoff"]} { return 1 }
 		return 0	
 	}
 
