@@ -2,324 +2,440 @@ amsn_lang_version 2
 about Om
 accept Acceptera
 acceptfile Vill du ta emot filen $1 ( $2 bytes ) Den kommer att sparas i $3
-actions ≈tg‰rder
-addacontact L‰gg till en kontakt
-addedyou $1 ($2) har lagt till dig pÂ sin kontaktlista.
-addtocontacts L‰gg till pÂ din kontaktlista.
-addtoo L‰gg till denna person pÂ kontaktlistan.
+actions √Ötg√§rder
+addacontact L√§gg till en kontakt
+addedyou $1 ($2) har lagt till dig p√• sin kontaktlista.
+addprofiledesc Skriv in det login som du vill skapa profil f√∂r. \nProfilerade logins g√∂r s√• att du kan ha olika inst√§llningar f√∂r varje anv√§ndare som anv√§nder aMSN p√• din dator. \nUtan Profiler s√• kan du inte anv√§nda Historian, Larmen eller st√§lla in s√• att aMSN kommer ih√•g ditt l√∂senord.
+addprofile L√§gg till ny profil
+addstate L√§gg till ny
+addtocontacts L√§gg till p√• din kontaktlista.
+addto L√§gg till i $1
+addtoo L√§gg till denna person p√• kontaktlistan.
 admincontacts Administrera kontakter.
 admingroups Administrera grupper.
 adverts Reklam
-Aktivitet/Strax Tillbaka/Upptagen
-alarmpref Inst‰llningar fˆr informationsmeddelanden
-alarmstatus St‰ng av /s‰tt pÂ signal fˆr den h‰r kontakten.
-allowseen TillÂt denna person att se n‰r jag ‰r uppkopplad och kontakta mig.
-anv‰ndare sÂ kommer du fÂ en separat konfiguration fˆr denna profil. $1 $1 
+alarmonconnect Aktivera alarm d√• anv√§ndare kommer online
+alarmondisconnect Aktivera alarm n√§r anv√§ndaren kopplar ner sig/blir osynlig
+alarmonmsg Aktivera alarm n√§ranv√§ndare skickar ett meddelande
+alarmonstatus Aktivera alarm n√§r anv√§ndare byter status
+alarmpref Inst√§llningar f√∂r informationsmeddelanden
+alarmstatus St√§ng av /s√§tt p√• signal f√∂r den h√§r kontakten.
+allowallbutbl Till√•t alla utom dom i Block-listan att kontakta mig
+allowbadwords Avaktivera cencur p√• smeknamn
+allowlist Listan Till√•t:
+allowonlyinal Till√•t endast personer p√• listan Till√•t att kontakta mig
+allowseen Till√•t denna person att se n√§r jag √§r uppkopplad och kontakta mig
+animatedemoticon Denna smiley √§r animerad
+animatedsmileys Aktivera animerade smileys
 appearance Utseende
 appearoff Visa som offline
 areacode Riktnummer
 aretyping $1 skriver ett meddelande
-askprofile Denna anv‰ndaren har fˆr n‰rvarande ingen profil. Vill du skapa 
+autoaccepted √ñverf√∂ringen accepterades automatiskt
+autoacceptft Acceptera filer automatiskt.
 autoaway Visa som "Inte Vid Datorn" efter
-autoconnect2 Logga in automatiskt n‰r aMSN startas
+autoconnect2 Logga in automatiskt n√§r aMSN startas
 autoconnect Automatisk anslutning
 autohotmaillog Automatisk inloggning
-autoidle S‰tt min status till Inte vid datorn automatiskt.
+autoidle S√§tt min status till Inte vid datorn automatiskt.
 autoip Automatisk IP
 autonoact Visa som "Ingen Aktivitet" efter
-avoidseen TillÂt inte att denna person kan se att jag ‰r uppkopplad eller skriva till mig.
+avoidseen Till√•t inte att denna person kan se att jag √§r uppkopplad eller skriva till mig.
 away Inte vid datorn
-awaymsg1 FrÂga efter meddelande varje gÂng jag s‰tter min status till ingen 
-awaymsg2 FrÂga aldrig och anv‰nd alltid nedanstÂende meddelande
-baduserpass Ogiltigt anv‰ndarnamn eller lˆsenord.
-bgcolor ƒndra aMSN's bakgrundsf‰rg
-blankdirect L‰mna tom fˆr direktanslutning.
+awaymsg1 Fr√•ga efter meddelande varje g√•ng jag s√§tter min status till ingen
+awaymsg2 Fr√•ga aldrig och anv√§nd alltid nedanst√•ende meddelande
+baduserpass Ogiltigt anv√§ndarnamn eller l√∂senord.
+bgcolor √Ñndra aMSN's bakgrundsf√§rg
+blankdirect L√§mna tom f√∂r direktanslutning.
 block Blockera
 blocked Blockerad
-blockmessage Dessa personer ‰r online och har blockerat dig
-broughtby Skapat av fˆljande utvecklare:
-browse Bl‰ddra
-browser Webbl‰sare
+blockedyougroup Visa en separat grupp med dom som har blockerat dig.
+blocking Blockering
+blockinter1 N√§r du √§r online, se efter var
+blockinter2 sekund, annars se efter var :
+blockinter3 varje 
+blockinter4 sekunder.
+blocklist Block list (BL):
+blockmessage Dessa personer √§r online och har blockerat dig:
+blockusers Antal anv√§ndare att kollas varje g√•ng
+broughtby Skapat av f√∂ljande utvecklare:
+browse Bl√§ddra
+browserexample ( \$url byts ut mot URLen). Ex: opera \$url
+browser Webbl√§sare
 busy Upptagen
 cancel Avbryt
-cannotdeleteprofile Kan inte ta bort profilen eftersom det verkar som om den anv‰nds av en Amsn session
+cannotdeleteprofile Kan inte ta bort profilen eftersom det verkar som om den anv√§nds av en Amsn session
+cantexec Kan inte k√∂ra: $1. Kolla inst√§llningarna.
+casesensitive Skilj p√• stora och sm√• bokst√§ver
 cfgalarm Konfigurera alarm
-changefont ƒndra Font
-changenick ƒndra smeknamn
-chatack Acceptera chat frÂn
+changefont √Ñndra Font
+changenick √Ñndra smeknamn
+changestate $1 byter status till $2
+chatack Acceptera chat fr√•n
 chat Chat
-chatreq EfterfrÂgar chat
-chatsmileys2 Visa 'Emoticons' och Smileys i chat-fˆnster
+chatmaxmin N√§r en anv√§ndare √∂ppnar en chattrura s√• vill jag att den ska vara:
+chatreq Efterfr√•gar chat
+chatsmileys2 Visa 'Emoticons' och Smileys i chat-f√∂nster
 chatsmileys Chat smileys
-checkfilman Inkomna filer sparas i $1. V‰lj filhanterare i programinst‰llningarna.
+checkblocking Kolla om anv√§ndare blockerar dig kontinuerligt.
+checkfilman Inkomna filer sparas i $1. V√§lj filhanterare i programinst√§llningarna.
 checkingver Kollar efter nya versioner
+checkonfln Kolla om anv√§ndaren blockerade dig d√• anv√§ndaren kopplar ner
 checkver Kolla efter ny version
-choosebasefont V‰lj teckensnitt
-choosebgcolor V‰lj bakgrundsf‰rg
-choosefontcolor V‰lj textf‰rg
-clearlog2 Radera historian fˆr Alla kontakter
+choosearq V√§lj din systemarkitektur
+choosebasefont V√§lj teckensnitt
+choosebgcolor V√§lj bakgrundsf√§rg
+choosecontact V√§lj en anv√§ndare fr√•n listan
+choosefontcolor V√§lj textf√§rg
+chooseskin V√§lj det skin du vill anv√§nda
+clearlog2 Radera historian f√∂r Alla kontakter
 clearlog3 Radera alla loggar
-clearlog Radera log
-clearlog Rensa logg
-clicktologin Klicka fˆr att logga in
-close St‰ng
-closingdocks St‰ng-knappen dockar fˆnster
+clearlog Radera logg
+clicktologin Klicka f√∂r att logga in
+closed Konversationen med $1 st√§ngdes p.ga inaktivitet.
+close St√§ng
+closingdocks St√§ng-knappen dockar f√∂nster
 command Kommando
-confirmdelete Bekr‰fta radering av $1
+confirmdelete Bekr√§fta radering av $1
 confirm Konfirmera
-connected Du ‰r nu ansluten
-connecterror Fel uppstod n‰r servern kontaktades
+connected Du √§r nu ansluten
 connecterror Uppkopplingen misslyckades
 connecting Ansluter
 connection Anslutning
+connectionlost Nerkopplad: Anslutningen till servern avslutades
 contactadded Lagt till kontakt
 contactdoesnotexist Kontakten finns inte!
+contactlist Kontaktlista (FL):
 copy Kopiera
 copytogroup Kopiera till grupp
 countrycode Min landskod
 cprofile Skapa profil
+custom_edit √Ñndra specialsmiley
+custom_new L√§gg till specialsmiley
 cut Klipp ut
 date Datum
 days Dagar
 dcprofile Skapa inte profil
+defaultloginradio Logga in med standardinst√§llningarna
 default Standart konfiguration
 delete Ta bort
-deliverfail Det uppstod ett problem dÂ fˆljande meddelandet skickades
-delprofile2 V‰lj vilken profil du vill ta bort
+deliverfail Det uppstod ett problem d√• f√∂ljande meddelandet skickades
+delprofile2 V√§lj vilken profil du vill ta bort
 delprofile Ta bort profil
+description Beskrivning
+directconnection Jag har direkt anslutning till internet (anv√§nder port 1863)
+disablessl Avaktivera SSL
+disconnect $1 har kopplats ner.
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Aktivera dockning i Gnome
 docking Dockning
-dockingoff Anv‰nd inte dockning
+dockingoff Anv√§nd inte dockning
 dockkde Aktivera dockning i KDE
+dontdownload Ladda inte ner TLS, jag installerar det sj√§lv.
+downloadingtls Laddar ner TLS fr√•n:\n $1
+editcurrentstate √Ñndra
+editnewstate Nytt awaymeddelande
 editprofile Editera Profil
 edit Redigera
-eller spara alarm eller lˆsenord. $1 Om du v‰ljer att skapa profil fˆr denna 
+editstate √Ñndra det nuvarande automeddelandet eller spara alarm eller l√∂senord. $1 Om du v√§ljer att skapa profil f√∂r denna 
+emotisounds Spela upp ljud vid vissa emoticons
 enableproxy Aktivera proxy
-enableremote Aktivera fj‰rranslutning
-encoding2 V‰lj vilken charmap du ska anv‰nda
-encoding Kodning
-en ny profil? $1 Om du v‰ljer att itne gˆra det sÂ kan du inte se Historia 
+enableremote Aktivera fj√§rranslutning
+enablesound Aktivera ljud
+encoding2 V√§lj vilken charmap du ska anv√§nda
+encoding Kodning 
 entercontactemail Skriv in kontaktens e-postadress
 enterfilename Ange filnamn
 enternick Skriv in ditt smeknamn
+errortls Fel n√§r TLS installerades:
 examples Exempel
-exitamsn ƒr du s‰ker pÂ att du vill avsluta?
+exitamsn √Ñr du s√§ker p√• att du vill avsluta?
 extras Extra
-faq FAQ (vanliga frÂgor)
+faq FAQ (vanliga fr√•gor)
 filedoesnotexist Filen finns inte
+filemanexample ( \$location byts ut mot mappen ) Ex: nautilus \$location
 fileman Filhanterare
 filename Filnamn
-filetransfercancelled Filˆverfˆringen avbrˆts
-filetransfercomplete Filˆverfˆringen klar
-ftaccepted Filˆverfˆring accepterad.
-ftrejected Filˆverfˆring nekades.
-gonelunch PÂ lunch
-groupadd L‰gg till grupp
+filetransfercancelled Fil√∂verf√∂ringen avbr√∂ts
+filetransfercomplete Fil√∂verf√∂ringen klar
+followtext Scrolla ner d√• ny text skrivs
+ftacceptedby $1 accepterade √∂verf√∂ring av '$2'.
+ftaccepted Fil√∂verf√∂ring accepterad.
+ftaccepting Accepterar fil√∂verf√∂ring
+ftconnecterror Fel: Kan inte ansluta till anv√§ndaren
+ftconnecting Ansluter till $1 p√• port $2
+ftconnectionlost Anslutningen till anv√§ndare avbr√∂ts
+ftgotinvitation $1 vill skicka filen '$2' ($3 bytes). Den kommer sparas i $4. Vill du ta emot filen?
+ftportpref Port f√∂r filer
+ftrejectedby $1 nekade fil√∂verf√∂ringen av '$2'.
+ftrejected Fil√∂verf√∂ring nekades.
+ftsendinvitation Fil√∂verf√∂ringsf√∂rfr√•gan p√• '$2' ($3 bytes) har skickats till $1.
+gonelunch P√• lunch
+groupadd L√§gg till grupp
 groupdelete Ta bort gruppen
 groupexists Gruppen finns
 group Grupp
 groupmissing Gruppen saknas
-groupnewname Nytt namn pÂ gruppen
-groupnotempty Gruppen ‰r ej tom
+groupnewname Nytt namn p√• gruppen
+groupnotempty Gruppen √§r ej tom
 groupoldname Gruppens gamla namn
-grouprename Dˆp om grupp
-groupunknown Ok‰nd grupp
+grouprename D√∂p om grupp
+groupunknown Ok√§nd grupp
 handle Namn 
-helpcontents InnehÂll
-help Hj‰lp
+helpcontents Inneh√•ll
+help Hj√§lp
+hiden D√∂lj ikonen fr√•n smileymenyn
+hidewindow D√∂lj f√∂nster
 history Se historia
 home Hem
+httpconnection Anslut med HTTP-metod (anv√§nder HTTP protokoll p√• port 80)
+hybrid Hybridl√§ge
 ident Identifiering
 identity Identitet
 inbox Inkorg
-invalidusername Ogiltigt anv‰ndarnamn
+internalerror Internt serverfel
+invalidfile $2 som du skrev i "$1" finns inte eller √§r inte l√§sbar.
+invalidusername Ogiltigt anv√§ndarnamn
+invitationcancelled Inbjudan avb√∂jdes
 invite Bjud in
 ipaddress IP Adress
-ipdetect Sˆk efter korrekt IP-adress fˆr Filˆvers‰ndelser via HTTP
+ipdetect S√∂k efter korrekt IP-adress f√∂r Fil√∂vers√§ndelser via HTTP
 istyping $1 skriver ett meddelande
 joins $1 kommer in i konversationen
-keepalive St‰ng aldrig av fˆrbindelse till NAT/Proxy server
+keepalive St√§ng aldrig av f√∂rbindelse till NAT/Proxy server
 keeplog2 Spara alla aMSN loggar
 keeplog Spara chatt-loggar
-Klicka pÂ "Skapa Profil" fˆr att skapa en ny profil fˆr $2
-language SprÂk
+language Spr√•k
 lastmsgtime Senaste meddelandet mottaget $1
-lclosedwin $1 st‰ngde $2 's fˆnster
+lclosedwin $1 st√§ngde $2 's f√∂nster
 lconftopriv Konferensen blev privatchatt med $1
 lconvstarted Konversation startad $1
-leaveblankforhotmail L‰mnas tom fˆr hotmail
-leaves $1 l‰mnar konversationen
+leaveblankforhotmail L√§mnas tom f√∂r hotmail
+leaves $1 l√§mnar konversationen
 lenteredconf $1 kom in i konversationen med $2
 linprivate I PRIVAT
-listeningon lyssnar pÂ $1
+listeningon lyssnar p√• $1
 listsmileys2 Lista smileys
 listsmileys Visa smileys
-ljoinedconf $1 anslˆts till konversationen
+ljoinedconf $1 ansl√∂ts till konversationen
 lleftconf $1 kom in i konversationen
 loadcontacts Ladda kontakter
-logbigger Individuella log-filer fÂr inte bli stˆrre ‰n
-logfandexp Logfilsstorlek och utgÂngstid av loggar
-loggedotherlocation Nedkopplad! Du ‰r inloggad pÂ ett annat st‰lle!
+logbigger Individuella log-filer f√•r inte bli st√∂rre √§n
+logfandexp Logfilsstorlek och utg√•ngstid av loggar
+loggedotherlocation Nedkopplad! Du √§r inloggad p√• ett annat st√§lle!
 loggingin Loggar in
-loggingin Spara historia/loggar i
 loginas Logga in som
-loging Logning
+loging Loggar
 login Logga in
-logolder Spara bara chat-loggar som ‰r ‰ldre ‰n
+logolder Spara bara chat-loggar som √§r √§ldre √§n
 logout Logga ut
 logsin har just loggat in
-logsmileys Visa grafiska smileys i aMSN's logfˆnster
+logsmileys Visa grafiska smileys i aMSN's logf√∂nster
+logsout loggade ut.
 lprivtoconf Privatchatt blev Konferens med $1
-luclosedwin Du st‰ngde fˆnstret $1
-mailer Avs‰ndare
+luclosedwin Du st√§ngde f√∂nstret $1
+mailer Avs√§ndare
+mailerexample ( \$recipient = Mottagare ) L√§mna blank om du anv√§nder hotmail
 maximised Maximerad
 minimised Minimerad
 mins minuter
 mobile Mobil
+morepersonal Mer ->
+move Flytta
 movetogroup Flytta till grupp
-msgmaxmin N‰r ett nytt meddelande kommer sÂ vill jag att det ska vara :
+msgflicker Blinka f√∂nstertiteln d√• du f√•r ett nytt meddelande p√• ett ofokuserat f√∂nster
+msgmaxmin N√§r ett nytt meddelande kommer s√• vill jag att det ska vara :
 msg Meddelande
-msgmode V‰lj hur meddelanderutor ska hanteras :
+msgmode V√§lj hur meddelanderutor ska hanteras :
 msn AMSN
-mustrestart Du mÂste starta om programmet fˆr att ‰ndringarna ska fÂ effekt.
+mustrestart Du m√•ste starta om programmet f√∂r att √§ndringarna ska f√• effekt.
 myhomephone Mitt hemtelefonnummer
 mymobilephone Mitt mobilnummer
 mystatus Min status
 myworkphone Mitt arbetstelefonnummer
 natip NAT IP
-natkeepalive Om du blir nedkopplad ofta, v‰lj detta alternativ
-needonline Du ‰r nerkopplad/verkar vara nerkopplad
+natkeepalive Om du blir nedkopplad ofta, v√§lj detta alternativ
+needonline Du √§r nerkopplad/verkar vara nerkopplad
 newmail $1 nya meddelanden i Inkorgen
-newmailfrom Nytt mail frÂn $1 ($2)
+newmailfrom Nytt mail fr√•n $1 ($2)
 newmsg Nytt meddelande
 newveravailable Ny version $1 finns att ladda ner
-next N‰sta
+next N√§sta
 noactivity Ingen aktivitet
-nologfile Ingen log fˆr $1
+nodataavailable Ingen data till√§nglig f√∂r $1
+nologfile Ingen log f√∂r $1
+noneavailable Ingen Till√§nglig
+no Nej
 nonewmail Inga nya meddelanden i Inkorgen
 nonewver Det finns inga nya versioner att ladda ner
+noprofileexists Det finns f√∂r tillf√§llet inga profiler. \n Du m√•ste skapa en om du vill kunna anv√§nda profiler. \n L√§gg till en profil med hj√§lp av knapparna.
 normal Normal
-nosystemtray Aktivitetsf‰ltet ‰r inte till‰ngligt
-notify1 Visa meddelanderuta n‰r nÂgon loggar in
-notify2 Visa meddelanderuta n‰r nÂgon skickar ett meddelande till dej
-notify3 Visa meddelanderuta n‰r nya e-mails ankommer
+nosystemtray Aktivitetsf√§ltet √§r inte till√§ngligt
+notify1_5 Visa ruta n√§r en anv√§ndare kopplar ner
+notify1_75 Visa ruta n√§r en anv√§ndare byter status
+notify1 Visa meddelanderuta n√§r n√•gon loggar in
+notify2 Visa meddelanderuta n√§r n√•gon skickar ett meddelande till dig
+notify3 Visa meddelanderuta n√§r nya e-mails ankommer
 notify Meddela
-notifyoffset V‰lj meddelanderutans position
-notifywin Visa meddelanderuta n‰r nÂgon loggar in
-nousersinsession Inga anv‰ndare i konversationen
-offline FrÂnkopplad
+notifyoffset V√§lj meddelanderutans position
+notifywin Visa meddelanderuta n√§r n√•gon loggar in
+notls MSN Protocol 9 kr√§ver TLS-paketet. TLS verkar inte vara installerat p√• denna dator. Om det √§r installerat s√• ska s√∂kv√§gen till TLS vara specifierad i Inst√§llningar. \n Du kan ladda ner TLS fr√•n http://tls.sf.net.
+nousersinsession Inga anv√§ndare i konversationen
+offline Fr√•nkopplad
 ok Ok
 onenewmail 1 nytt meddelande i Inkorgen
 online Online
 onphone Pratar i telefon
-openreceived ÷ppna mottagna filer
+openreceived √ñppna mottagna filer
 options Alternativ
-ordercontactsby Sortera anv‰ndare efter
+ordercontactsby Sortera anv√§ndare efter
 ordergroupsby Sortera grupp efter
 other Annat
-pager Personsˆkare
-pass Lˆsenord
+pager Persons√∂kare
+pass L√∂senord
 paste Klistra in
 personal Personligt
 phone Telefon
-picfile Bild fˆr informationsmeddelanden (GIF-format, mindre ‰n 500x500)
-picstatus Visa/dˆlj bild vid informationsmeddelanden.
+picfile Bild f√∂r informationsmeddelanden (GIF-format, mindre √§n 500x500)
+picstatus Visa/d√∂lj bild vid informationsmeddelanden.
+pluginselector V√§lj Plugins
 port Port
 prefalerts Ljud och Varningsmeddelanden
-prefapps Programinst‰llningar
+prefapps Programinst√§llningar
 prefawaymsg Mitt upptagetmeddelande
+prefblock1 Se efter vid nerkoppling
+prefblock2 Se efter kontinuerligt
+prefblock3 "Du √§r blockerad av" grupp
+prefconnection Anslutningsinst√§llningar
 prefemotic Smileys/ikoner
-preferences Inst‰llningar
-preffont2 ƒndra hur andra ser min text i chat
-preffont3 ƒndra aMSN's GUI font och storlek
+preferences Inst√§llningar
+preffont2 √Ñndra hur andra ser min text i chat
+preffont3 √Ñndra aMSN's GUI font och storlek
 preffont Min meddelandetext
-preflog1 Logg-inst‰llningar
+preflibs TLS-mappen
+preflog1 Logg-inst√§llningar
 preflook aMSN Messenger utseende
 prefmsging Meddelandeutseende
 prefname Mitt aMSN Messenger Namn/Smeknamn/Nickname
-prefphone2 V‰lj vilka nummer personer \n ska fÂ se \n
+prefphone2 V√§lj vilka nummer som \n ska visas \n
 prefphone Mina telefonnummer
-prefprofile2 Skapa eller ‰ndra din profil (Den \n beskrivning av dejsj‰lv 
-prefprofile3 aMSN's Anv‰ndarkonfigurations Profiler
+prefprivacy2 Anv√§ndares kontaktlista
+prefprivacy Till√•t/Blockera-lista
+prefprofile2 Skapa eller √§ndra din profil
+prefprofile3 aMSN's Anv√§ndarkonfigurationsprofiler
 prefprofile Min Profil
-prefproxy Mina proxyinst‰llningar
-prefremote Fj‰rranslutningsinst‰llningar
+prefproxy Mina proxyinst√§llningar
+prefremote Fj√§rranslutningsinst√§llningar
 prefsession Mitt inloggningsnamn och Status
-prefshared Delade anslutningar (endast fˆr NAT)
-prefsound Ljudinst‰llningar
+prefshared Delade anslutningar (endast f√∂r NAT)
+prefsound Ljudinst√§llningar
+privacy Integritet
 profiledconfig Profilkonfiguration
-profileinuse Denna profil anv‰nds redan av en annan Amsn session, v‰lj en annan.
+profileexists Du kan inte skapa en profil med detta inloggningsnamnet eftersom det redan finns.
+profileinuse Denna profil anv√§nds redan av en annan Amsn session, v√§lj en annan.
+profileloginradio Logga in med en existerande profil
 profiles Profiler
 properties Egenskaper
 proxyconfhttp HTTP proxysupport konfiguration
 proxyconf Proxy-konfiguration
-proxy Jag anv‰nder en proxyserver (HTTP eller SOCKS5)
+proxyconnection Jag ansluter till internet via en proxyserver:
+proxy Jag anv√§nder en proxyserver (HTTP eller SOCKS5)
 publishphones Dela ut mina telefonnummer
+raised Maximerad
+readonlymsgbox Du kan inte ta emot filen f√∂r att mappen som den sparas i √§r skrivskyddad. Ta bort skrivskyddet och ta emot filen igen.
+readonlywarn VARNING: Filen kommer INTE bli sparad eftersom mappen "Mottagna filer" verkar vara icke-skrivbar. Ge mappen ($1) r√§tt r√§ttigheter f√∂r din anv√§ndare och f√∂rs√∂k igen.
 receivedbytes $1 av $2 bytes mottagna
 receivefile Ta emot fil
-reconnecting ≈teransluter till server
-reconnect V‰ntar pÂ att $1 ska komma tillbaka
-reject AvslÂ
-rememberpass Kom ihÂg lˆsenordet
-reversed Omv‰nd
+reconnecting √Öteransluter till server
+reconnect V√§ntar p√• att $1 ska komma tillbaka
+reject Avsl√•
+rememberpass Kom ih√•g l√∂senordet
+removefromlist Ta bort fr√•n denna lista
+reversed Omv√§nd
+reverselist Reverse list (RL):
 rightback Strax tillbaka
 saveas Spara som
 savecontacts Spara kontaktlista
 save Spara
 savetofile Spara som
-says $1 s‰ger
+says $1 s√§ger
 sbcon Ansluter till Switch Board
+selectplugins V√§lj dom plugins som du vill aktivera
+selectskin V√§lj ett skin fr√•n listan
 sendfile Skicka fil
 sendmail Skicka brev
 sendmsg Skicka meddelande
 send Skicka
 sentbytes $1 av $2 bytes skickade
-servergoingdown Nedkopplad: Server-problem
+servergoingdown Nerkopplad: Servern kopplas ner.
 server Server
 session Session
-showblockedlist Visa en lista ˆver personer som blockerar dig
-som andra kan se)
-sound2 Spela upp ljud n‰r en kontakt loggar in eller skickar meddelande
-soundcommand Program som ska anv‰ndas †fˆr att spela upp ljud (t.ex: esdplay)
-soundfile Ljud fˆr informationsmeddelanden.
+showblockedlist Visa en lista √∂ver personer som blockerar dig
+skinselector V√§lj skin
+skin Skin
+smileconfig Specialgjorda emoticonkonfiguration
+smilefile Smileyns filnamn
+smileintro2 √Ñndra dom n√∂dv√§ndiga f√§lten f√∂r att √§ndra denna smileyn (l√§s FAQ f√∂r hj√§lp)
+smileintro Fyll i dom n√∂dv√§ndiga f√§lten f√∂r att skapa en ny smiley (l√§s FAQn f√∂r hj√§lp)
+sound2 Spela upp ljud n√§r en kontakt loggar in eller skickar meddelande
+soundcommand Program som ska anv√§ndas ¬†f√∂r att spela upp ljud (t.ex: esdplay)
+soundexample ( \$sound = Ljudfilen som ska spelas upp) Ex: esdplay \$sound
+soundfile Ljud f√∂r informationsmeddelanden.
 sound Ljud
 soundloop Upprepa ljudet i en slinga.
 soundserver Ljudserver
-soundstatus St‰ng av /s‰tt pÂ signalljud.
+soundstatus St√§ng av /s√§tt p√• signalljud.
+sourcecode k√§llkod (beh√∂ver kompileras och installeras)
+sslwarning VARNING!! Om du avaktiverar SSL s√• avaktiveras √§ven kryptering, s√• ditt l√∂senord kommer skickas som ren text √∂ver n√§tverket. Anv√§nd endast f√∂r proxies som inte fungerar annars.
 startoffline2 Logga in som "Visa som offline"
 startoffline Starta som "Visa som Offline"
+stateautomsg Automeddelande som skickas
+statechange √§ndrade status till: 
+stateedittext √Ñndra f√§lten till det som du \n vill ha och tryck Spara
+stateinfo Personligt meddelandekonfiguration
+state Jag vill vara	
+statename Namn p√• det personliga medelandet:
+statenewtext Fyll i den n√∂dv√§ndiga informationen f√∂r att skapa \n meddelande och tryck Spara
 status Status
 stopalarm Stoppa alla varningar.
 stylechat Samma utseende som chat
 stylehist aMSN's logutseende
-stylelog V‰lj i vilket format du vill se din historia
+stylelog V√§lj i vilket format du vill se din historia
 syntaxerror Felaktigt syntax
-tabbed Tabbade fˆnsnter
+tabbed Tabbade f√∂nsnter
 textsize Textstorlek
+timeremaining √Öterst√•ende tid
 title Al's Messenger
+tlsdowncompleted Filen $1 laddades ner till $2. Du m√•ste packa upp den och installera den i $3.
+tlsinstallexp AMSN anv√§nder MSNP9 vilket kr√§ver en s√§ker anslutning via SSL. \n F√∂r att kunna anv√§nda AMSN med SSL s√• m√•ste du installera en modul som heter TLS, \nsom inte finns p√• denna dator. AMSN kommer hj√§lpa dig att ladda ner och installera TLS. V√§lj r√§tt system s√• laddas TLS automatiskt ner.
+tlsinstall TLS installation
+tlsinstcompleted TLS installerades. Nu ska du kunna anv√§nda MSNP9. Om det inte fungerar s√• valde du antingen fel modul, eller s√• var den modulen du valde inte till√§nglig f√∂r ditt system.
 tools Verktyg
+tooltips Aktivera tooltips
 to Till
-transnotexists Filen har inte blivit ˆversatt till det nuvarande sprÂket ‰n.
-traynotcompiled Aktivitetsf‰ltsikon pluginet har inte kompileras. Kolla i plugins/traydock
+transnotexists Filen har inte blivit √∂versatt till det nuvarande spr√•ket √§n.
+traynotcompiled Aktivitetsf√§ltsikon pluginet har inte kompileras. Kolla i plugins/traydock
+triggers Text
+twonewmail $1 nya meddelanden i Inkorgen
 unblock Ta bort blockering
 uoffline Nedkopplad
 uonline Uppkopplad
-useralreadyonlist Anv‰ndaren finns redan i listan
-user Anv‰ndare
-userblocked Anv‰ndaren ‰r online men blockerar dig
-usernotonline Anv‰ndaren ‰r inte online
-useryourself Du kan inte chatta med dig sj‰lv!
-verifyblocked Se efter om du ‰r blockerad
+useralreadyonlist Anv√§ndaren finns redan i listan
+user Anv√§ndare
+userblocked Anv√§ndaren √§r online men blockerar dig
+usernotonline Anv√§ndaren √§r inte online
+useryourself Du kan inte chatta med dig sj√§lv!
+verifyblocked Se efter om du √§r blockerad
 version Version
 view Alternativ
 viewprofile Se Profil
-willjoin V‰ntar pÂ att $1 ska ansluta sig till konversationen
+willjoin V√§ntar p√• att $1 ska ansluta sig till konversationen
 work Arbete
-wrongprofileversion Fel profilversion. Fˆr att fixa det, ta bort $1 eller uppgradera Amsn
+wrongfields F√§ltet "$1", "$2" och/eller "$3" √§r inte giltigt.
+wrongprofileversion Fel profilversion. F√∂r att fixa det, ta bort $1 eller uppgradera Amsn
 xoffset X position
+yes Ja
 yoffset Y position
 youblocked Du har blivit blockerad
-yousay Du s‰ger
+yousay Du s√§ger
 youwant Du vill
-twonewmail $1 nya meddelanden i Inkorgen

@@ -237,7 +237,6 @@ logsout se je ravnokar odjavil/a
 lprivtoconf Zasebni pogovor spremenjen v konferenco na $1
 luclosedwin Zaprli ste okno ($1)
 mailerexample ( \$recipient = prejemnik ) Pusti prazno za uporabo Hotmaila
-mailerexample ( \$recipient = prejemnik ) Pusti prazno za uporabo Hotmaila
 mailer Mailer
 maximised Maksimiran
 minimised Minimiran
@@ -443,3 +442,4 @@ yoffset Y odstopanje
 youblocked Blokirajo te
 yousay Pravis
 youwant Hoces
+installconvert Namestiti moras ImageMagick (program za pretvarjanje), da bi pretvarjal slike v format, ki ga potrebujejo MSN-jevi strzniki. Binarne datoteke za tvoj operacijski sistem lahko poberes s ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Ce ga ze imas, je to hrosc. Prosim, povej zanj.

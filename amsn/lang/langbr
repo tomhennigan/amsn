@@ -131,6 +131,8 @@ dockgtk Minimizar na bandeja do Gnome
 docking Ícone da bandeja (systray)
 dockingoff Desativado
 dockkde Minimizar na bandeja do KDE
+dontdownload Não descarregue o TLS, eu mesmo o farei
+downloadingtls Descarregando módulo TLS de:\n $1
 editcurrentstate Editar estado Atual
 edit Editar
 editnewstate Novo estado pessoal de Automensagem
@@ -145,11 +147,13 @@ encoding Escolher codificação
 entercontactemail Digite o e-mail do contato
 enterfilename Por favor, digite o nome de um arquivo
 enternick Digite seu apelido
+errortls Erro instalando módulo TLS:
 examples Exemplos
 exitamsn Você tem certeza que deseja sair?
 extras Serviços adicionais
 faq FAQ (Perguntas freqüentemente feitas)
 filedoesnotexist Arquivo não existe
+filemanexample ( \$local será substituído pelo diretório ) Ex: nautilus \$location
 fileman Gerenc. Arquivos
 filename Nome do Arquivo
 filetransfercancelled Transferência de arquivo cancelada
@@ -189,6 +193,7 @@ hybrid Modo híbrido
 ident Identificando
 identity Identificar
 inbox Caixa de Entrada
+installconvert Você deve instalar ImageMagick (programa conversor) para converter as imagens para o formato requerido pelos servidores MSN. Você pode pegar os binários para o seu Sistema Operacional em ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/. Se você já o tem, então isto é um bug, favor reportá-lo.
 internalerror Erro Interno do Servidor
 invalidfile Arquivo $2 no campo "$1" não existe ou não pode ser lido
 invalidusername Nome de usuário inválido
@@ -231,6 +236,7 @@ logsout acabou de desconectar
 lprivtoconf Conversa particular convertida em conferência com $1
 luclosedwin Você fechou a janela em $1
 mailer Cliente de e-mail
+mailerexample ( \$recipient = Receptor ) Deixe em branco ao usar o hotmail
 maximised Maximizado
 minimised Minimizado
 mins minutos
@@ -274,6 +280,7 @@ notify3 Mostrar janela de avisos quando chegarem e-mails no Hotmail
 notify notificar
 notifyoffset Ajustar a posição da janela de avisos (em relação ao canto inferior direito)
 notifywin Janela de avisos
+notls O protocolo MSN 9 requer o pacote tls. Aparentemente ele não está instalado em sua máquina. Se estiver, o caminho para a biblioteca deve ser especificado na janela Preferences (ex: /opt/tls/lib). É possível descarregar o tls de http://tls.sf.net.
 nousersinsession Nenhum usuário na sessão
 offline Desconectado
 ok Ok
@@ -306,6 +313,7 @@ preferences Preferências
 preffont2 Alterar a maneira como os outros \nvêem meu texto em conversas
 preffont3 Alterar as fontes da interface do aMSN
 preffont Minhas mensagens de texto
+preflibs Diretórios das Bibliotecas
 preflog1 Opções pessoais de Histórico
 preflook Aparência do meu aMSN
 prefmsging Minha interface de mensagens
@@ -372,11 +380,14 @@ smileintro2 Por Favor edite os campos necessários para customizar este smiley (L
 smileintro Por favor preencha os campos necessários para criar um novo smiley (Leia o FAQ para ajuda)
 sound2 Tocar sons quando algum contato entrar ou enviar uma mensagem
 soundcommand Comando para tocar sons (ex: play)
+soundexample ( \$sound = Arquivo de áudio a ser reproduzido) Ex: esdplay \$sound
 soundfile Arquivo de som para avisos
 soundloop Repetir Som
 soundserver Servidor de Sons
 sound Som de evento
 soundstatus Ativar/Desativar sons de avisos
+sourcecode Código-fonte (necessita de compilação e instalação)
+sslwarning ATENÇÃO!! Desabilitando o SSL desativará a encriptação, assim sua senha será enviada como texto puro pela rede. Utilize somente para proxies realmente trapaceiros ou configurações de rede.
 startoffline2 Iniciar conectado mas invisível ("Aparecer Offline")
 startoffline Iniciar desconectado
 stateautomsg Automensagem para Enviar
@@ -396,6 +407,10 @@ tabbed Janelas em abas
 textsize Tamanho do texto
 timeremaining Tempo restante
 title Al's Messenger
+tlsdowncompleted Arquivo $1 foi descarregado no diretório $2. Você deve extraí-lo, compilá-lo (se você pegou o código-fonte) e instalá-lo em $3.
+tlsinstall Assistente de Instalação do Módulo TLS
+tlsinstallexp O AMSN agora usa o MSNP9, que requer o uso de uma conexão segura usando o SSL. Para usar o SSL, o AMSN precisa instalar um módulo chamado TLS, que falta no seu sistema. Este assistente o ajudará a descarregar e instalar o TLS. Favor escolher o tipo do seu sistema para que possamos automaticamente descarregar os arquivos TLS necessários.
+tlsinstcompleted A instalação do módulo TLS foi bem sucedida, agora você deve conseguir usar o MSNP9. Se não funcionar, então provavelmente você não selecionou o módulo correto, ou um módulo compilado não está disponível para o seu sistema.
 tools Ferramentas
 tooltips Ativar dicas
 to Para
