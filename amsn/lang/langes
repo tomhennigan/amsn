@@ -129,6 +129,7 @@ dcprofile No Crear Perfil
 default Configuración por defecto
 defaultloginradio Usar configuración por defecto
 delete Eliminar
+deletecustomstate Eliminar estado personalizado
 delimiters Delimitadores de la hora:
 deliverfail Ocurrió un problema al enviar el siguiente mensaje
 delprofile2 Elige el perfil que te gustaría borrar
@@ -148,7 +149,7 @@ dockkde Icono KDE
 dontdownload No descargar TLS, lo instalaré yo mismo
 dontshow No mostrar
 downloadingtls Descargando el módulo TLS desde:\n $1
-editcustomstate Editar
+editcustomstate Editar estado personalizado
 edit Edición
 editnewstate Nuevo mensaje automático para estado personalizado
 editprofile Editar Perfil

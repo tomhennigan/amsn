@@ -39,14 +39,14 @@ proc trayicon_init {} {
 	}
 	set iconmenu .immain           
 #	menu .imstatus -tearoff 0 -type normal              #######     submenu in the icon menu won't work in my setup. why?
-#	.imstatus add command -label [trans online] -command "::MSN::changeStatus NLN"
-#	.imstatus add command -label [trans noactivity] -command "::MSN::changeStatus IDL"
-#	.imstatus add command -label [trans busy] -command "::MSN::changeStatus BSY"
-#	.imstatus add command -label [trans rightback] -command "::MSN::changeStatus BRB"
-#	.imstatus add command -label [trans away] -command "::MSN::changeStatus AWY"
-#	.imstatus add command -label [trans onphone] -command "::MSN::changeStatus PHN"
-#	.imstatus add command -label [trans gonelunch] -command "::MSN::changeStatus LUN"
-#	.imstatus add command -label [trans appearoff] -command "::MSN::changeStatus HDN"
+#	.imstatus add command -label [trans online] -command "ChCustomState NLN"
+#	.imstatus add command -label [trans noactivity] -command "ChCustomState IDL"
+#	.imstatus add command -label [trans busy] -command "ChCustomState BSY"
+#	.imstatus add command -label [trans rightback] -command "ChCustomState BRB"
+#	.imstatus add command -label [trans away] -command "ChCustomState AWY"
+#	.imstatus add command -label [trans onphone] -command "ChCustomState PHN"
+#	.imstatus add command -label [trans gonelunch] -command "ChCustomState LUN"
+#	.imstatus add command -label [trans appearoff] -command "ChCustomState HDN"
 #	.imstatus add separator
 #	.imstatus add command -label "[trans changenick]..." -command cmsn_change_name
 #	
@@ -73,16 +73,15 @@ proc trayicon_init {} {
    	#$iconmenu add command -label "[trans checkver]..." -command "check_version"
 	$iconmenu add separator
 	$iconmenu add command -label "[trans mystatus]" -state disabled
-	$iconmenu add command -label "   [trans online]" -command "::MSN::changeStatus NLN" -state disabled
-	$iconmenu add command -label "   [trans noactivity]" -command "::MSN::changeStatus IDL" -state disabled
-	$iconmenu add command -label "   [trans busy]" -command "::MSN::changeStatus BSY" -state disabled
-	$iconmenu add command -label "   [trans rightback]" -command "::MSN::changeStatus BRB" -state disabled
-	$iconmenu add command -label "   [trans away]" -command "::MSN::changeStatus AWY" -state disabled
-	$iconmenu add command -label "   [trans onphone]" -command "::MSN::changeStatus PHN" -state disabled
-	$iconmenu add command -label "   [trans gonelunch]" -command "::MSN::changeStatus LUN" -state disabled
-	$iconmenu add command -label "   [trans appearoff]" -command "::MSN::changeStatus HDN" -state disabled
-	$iconmenu add separator
-   	$iconmenu add command -label "[trans close]" -command "close_cleanup;exit"
+	$iconmenu add command -label "   [trans online]" -command "ChCustomState NLN" -state disabled
+	$iconmenu add command -label "   [trans noactivity]" -command "ChCustomState IDL" -state disabled
+	$iconmenu add command -label "   [trans busy]" -command "ChCustomState BSY" -state disabled
+	$iconmenu add command -label "   [trans rightback]" -command "ChCustomState BRB" -state disabled
+	$iconmenu add command -label "   [trans away]" -command "ChCustomState AWY" -state disabled
+	$iconmenu add command -label "   [trans onphone]" -command "ChCustomState PHN" -state disabled
+	$iconmenu add command -label "   [trans gonelunch]" -command "ChCustomState LUN" -state disabled
+	$iconmenu add command -label "   [trans appearoff]" -command "ChCustomState HDN" -state disabled
+	CreateStatesMenu .my_menu
 }
 
 proc statusicon_proc {status} {
@@ -112,7 +111,12 @@ proc statusicon_proc {status} {
 				$iconmenu entryconfigure 13 -state disabled
 				$iconmenu entryconfigure 14 -state disabled
 				$iconmenu entryconfigure 15 -state disabled
-				$iconmenu entryconfigure 16 -state disabled
+				$iconmenu entryconfigure 16 -state disabled 
+				
+				for {set id 17} {$id <= ([StateList size] + 16) } { incr id 1 } {
+					$iconmenu entryconfigure $id -state disabled
+					if { $id == 20 } { break }
+				}
 
 			} else {
 				$iconmenu entryconfigure 2 -state normal
@@ -128,6 +132,12 @@ proc statusicon_proc {status} {
 				$iconmenu entryconfigure 14 -state normal
 				$iconmenu entryconfigure 15 -state normal
 				$iconmenu entryconfigure 16 -state normal
+				
+				for {set id 17} {$id <= ([StateList size] + 16) } { incr id 1 } {
+					$iconmenu entryconfigure $id -state normal
+					if { $id == 20 } { break }
+				}
+				
 			}
 				
 			switch $status {

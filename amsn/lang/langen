@@ -129,6 +129,7 @@ dcprofile Don't Create Profile
 default Default Config
 defaultloginradio Login with default configuration
 delete Delete
+deletecustomstate Delete custom state
 delimiters Timestamps' delimiters:
 deliverfail There was a problem delivering the following message
 delprofile2 Select the profile that you would like to remove 
@@ -148,7 +149,7 @@ dockkde KDE Dock
 dontdownload Don't download TLS, I'll install it myself
 dontshow Don't show
 downloadingtls Downloading TLS module from:\n $1
-editcustomstate Edit
+editcustomstate Edit custom state
 edit Edit
 editnewstate New Personal Automessage State
 editprofile Edit Profile

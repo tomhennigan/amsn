@@ -111,13 +111,20 @@ proc StateList { action { argument "" } {argument2 ""} } {
 # Creates the menu that will be added under the default states
 # path points to the path of the menu where to add
 proc CreateStatesMenu { path } {
-	global automessage config
+	global automessage config iconmenu
 	# Delete old menu to create new one
-	if { [$path index end] != 8 } {
-		$path delete 9 end
+	if { [$path index end] != 7 } {
+		$path delete 8 end
 	}
-	if { [winfo exists $path.otherstates] } {
-		$path.otherstates delete 0 end
+	if { [winfo exists $path.editstates] && [winfo exists $path.deletestates] } {
+		$path.editstates delete 0 end
+		$path.deletestates delete 0 end
+	} else {
+		menu $path.editstates -tearoff 0 -type normal
+		menu $path.deletestates -tearoff 0 -type normal
+	}
+	if { $config(dock) != 0 && [winfo exists $iconmenu] && [$iconmenu index end] != 16} {
+		$iconmenu delete 17 end
 	}
     
 	# Create new menu
@@ -128,38 +135,55 @@ proc CreateStatesMenu { path } {
 	}
 
 	for {set idx 0} {$idx <= [expr {$limit - 1}] } { incr idx 1 } {
-		if { [winfo exists $path.$idx] } {
-			$path.$idx delete 0 end
-		} else {
-			menu $path.$idx -tearoff 0 -type normal
+		$path.deletestates add command -label "[lindex [StateList get $idx] 0]" -command "DeleteState $idx $path"
+		$path.editstates add command -label "[lindex [StateList get $idx] 0]" -command "EditNewState 2 $idx"
+		$path add command -label "[lindex [StateList get $idx] 0]" -command "ChCustomState $idx"
+		if { $config(dock) != 0 && [winfo exists $iconmenu] } {
+			$iconmenu add command -label "   [lindex [StateList get $idx] 0]" -command "ChCustomState $idx" -state disabled
 		}
-		$path.$idx add command -label "[trans changecustomstate ] [lindex [StateList get $idx] 0]" -command "ChCustomState $idx"
-		$path.$idx add command -label "[trans editcustomstate] [lindex [StateList get $idx] 0]" -command "EditNewState 2 $idx"
-		$path.$idx add command -label "[trans delete] [lindex [StateList get $idx] 0]" -command "DeleteState $idx $path"
-		$path add cascade -label "[lindex [StateList get $idx] 0]" -menu $path.$idx
 	}
 
 	# Add cascade menu if there are more than 3 personal states
 	if { [StateList size] > 3 } {
-		if { [winfo exists $path.otherstates] != 1 } {
+		if { ![winfo exists $path.otherstates] } {
 			menu $path.otherstates -tearoff 0 -type normal
+		} else {
+			$path.otherstates delete 0 end
+		}
+		if { $config(dock) != 0 && [winfo exists $iconmenu] && ![winfo exists $iconmenu.otherstates] } {
+			menu $iconmenu.otherstates -tearoff 0 -type normal
+		} elseif { $config(dock) != 0 && [winfo exists $iconmenu.otherstates] } {
+			$iconmenu.otherstates delete 0 end
 		}
 		for {} { $idx <= [expr {[StateList size] - 1}] } { incr idx } {
-			if { [winfo exists $path.otherstates.$idx] } {
-				$path.otherstates.$idx delete 0 end
-			} else {
-				menu $path.otherstates.$idx -tearoff 0 -type normal
+			$path.deletestates add command -label "[lindex [StateList get $idx] 0]" -command "DeleteState $idx $path"
+			$path.editstates add command -label "[lindex [StateList get $idx] 0]" -command "EditNewState 2 $idx"
+			$path.otherstates add command -label "[lindex [StateList get $idx] 0]" -command "ChCustomState $idx"
+			if { $config(dock) != 0 && [winfo exists $iconmenu] } {
+				$iconmenu.otherstates add command -label "[lindex [StateList get $idx] 0]" -command "ChCustomState $idx"
 			}
-			$path.otherstates.$idx add command -label "[trans changecustomstate ] [lindex [StateList get $idx] 0]" -command "ChCustomState $idx"
-			$path.otherstates.$idx add command -label "[trans editcustomstate] [lindex [StateList get $idx] 0]" -command "EditNewState 2 $idx"
-			$path.otherstates.$idx add command -label "[trans delete] [lindex [StateList get $idx] 0]" -command "DeleteState $idx $path"
-			$path.otherstates add cascade -label "[lindex [StateList get $idx] 0]" -menu $path.otherstates.$idx
 		}
-		$path.otherstates add separator
-		$path.otherstates add command -label "[trans newstate]" -command "EditNewState 0"
-		$path add cascade -label [trans morepersonal] -menu $path.otherstates
-	} else {
+		if { $config(dock) != 0 && [winfo exists $iconmenu.otherstates] } {
+			$iconmenu add cascade -label "   [trans morepersonal]" -menu $iconmenu.otherstates -state disabled
+			$iconmenu add separator
+			$iconmenu add command -label "[trans close]" -command "close_cleanup;exit"
+		}
+		$path add cascade -label "[trans morepersonal]" -menu $path.otherstates
+		$path add separator
 		$path add command -label "[trans newstate]" -command "EditNewState 0"
+		$path add cascade -label "[trans editcustomstate]" -menu $path.editstates
+		$path add cascade -label "[trans deletecustomstate]" -menu $path.deletestates
+	} else {
+		$path add separator
+		$path add command -label "[trans newstate]" -command "EditNewState 0"
+		if { [StateList size] != 0 } {
+			$path add cascade -label "[trans editcustomstate]" -menu $path.editstates
+			$path add cascade -label "[trans deletecustomstate]" -menu $path.deletestates
+		}
+		if { $config(dock) != 0 && [winfo exists $iconmenu] } {
+			$iconmenu add separator
+			$iconmenu add command -label "[trans close]" -command "close_cleanup;exit"
+		}
 	}
 	$path add separator
 	$path add command -label "[trans changenick]..." -command cmsn_change_name
@@ -168,7 +192,8 @@ proc CreateStatesMenu { path } {
 	} else {
 		$path add command -label "[trans changedisplaypic]..." -command pictureBrowser -state disabled
 	}
-	$path add command -label "[trans cfgalarmall]..." -command "alarm_cfg all" 
+	$path add command -label "[trans cfgalarmall]..." -command "alarm_cfg all"
+	statusicon_proc [MSN::myStatusIs]
 }
 
 #///////////////////////////////////////////////////////////////////////////////

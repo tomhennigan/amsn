@@ -2975,8 +2975,6 @@ proc cmsn_draw_main {} {
    .my_menu add command -label [trans onphone] -command "ChCustomState PHN"
    .my_menu add command -label [trans gonelunch] -command "ChCustomState LUN"
    .my_menu add command -label [trans appearoff] -command "ChCustomState HDN"
-   .my_menu add separator
-   #.my_menu add command -label "[trans changenick]..." -command cmsn_change_name
 
    # Add the personal states to this menu
    CreateStatesMenu .my_menu
