@@ -3276,7 +3276,9 @@ proc cmsn_update_users {sb_name recv} {
 proc cmsn_change_state {recv} {
 	global config
 
-	#::plugins::PostEvent ChangeState recv list_users list_states
+    #TODO: Enable feedback
+    set epvar(recv) $recv
+    ::plugins::PostEvent ChangeState epvar
 
 	if {[lindex $recv 0] == "FLN"} {
 		#User is going offline

@@ -39,7 +39,7 @@ namespace eval ::plugins {
 	if { [info exists pluginsevents(${event}) ] } {
 	    foreach cmd $pluginsevents(${event}) {
 		status_log "Plugins System: Executing $cmd\n"
-		catch { eval $cmd $var } res
+		catch { eval $cmd $event $var } res
 		status_log "Plugins System: Return $res from event handler $cmd\n"
 	    }
 	}
