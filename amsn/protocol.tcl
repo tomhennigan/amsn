@@ -1059,10 +1059,13 @@ proc cmsn_ns_handler {item} {
          return [cmsn_rng $item]
       }
       REA {
-         global user_info
-         set user_info $item
-	 cmsn_draw_online
-	 return 0
+         global user_info config
+	 status_log "Item: $item\n" white
+	 if { [lindex $item 3] == $config(login) } {
+            set user_info $item
+   	    cmsn_draw_online
+	 }
+         return 0	 
       }
       ADD -
       LST {
@@ -1147,6 +1150,14 @@ proc cmsn_ns_handler {item} {
 	::groups::DeleteCB [lrange $item 0 5]
 	return 0
       }
+      OUT {	# Remove Group
+      	if { [lindex $item 1] == "OTH"} {
+	  msg_box "[trans loggedotherlocation]"
+	} else {
+	  msg_box "[trans servergoingdown]"
+	}
+	::MSN::logout
+      }
       200 {
           status_log "Error: Syntax error\n" red
 	  msg_box "[trans syntaxerror]"
@@ -1160,6 +1171,21 @@ proc cmsn_ns_handler {item} {
       205 {
           status_log "Warning: Contact does not exist $item\n" red
 	  msg_box "[trans contactdoesnotexist]"
+          return 0
+      }
+      206 {
+          status_log "Warning: Domain name missing $item\n" red
+	  msg_box "[trans contactdoesnotexist]"
+          return 0
+      }
+      209 {
+          status_log "Warning: Invalid username $item\n" red
+	  msg_box "[trans invalidusername]"
+          return 0
+      }
+      215 {
+          status_log "Warning: Domain name missing $item\n" red
+	  msg_box "[trans useralreadyonlist]"
           return 0
       }
       911 {
