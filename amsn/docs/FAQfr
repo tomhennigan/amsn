@@ -1,5 +1,5 @@
-FAQ-fr 1.0
-----------
+FAQ-fr 1.4beta
+--------------
 
 Q: Qu'est-ce que Amsn?
 R: Amsn est un clône de Microsoft Messenger. Il vous permet de rester en contact avec vos amis et d'échanger des messages instantanés et des fichiers.
@@ -8,7 +8,23 @@ INSTALLATION ET LANCEMENT
 =========================
 
 Q: De quoi ai-je besoin pour lancer amsn?
-R: Amsn est écrit en tcl/tk, vous avez donc besoin d'un interpréteur Tcl/Tk, version 8.3 ou supérieur. Vous pouvez le trouver sur http://tcl.sourceforge.net. L'interpréteur est disponible sous Linux, Windows et Macintosh.
+R: Amsn est écrit en tcl/tk, vous avez donc besoin d'un interpréteur Tcl/Tk, version 8.3 ou supérieur. Vous pouvez le trouver sur http://tcl.sourceforge.net. L'interpréteur est disponible sous Linux, Windows et Macintosh. D'autres fonctions additionnelles peuvent nécessiter d'autres programmes, ou libraires, comme l'icône d'amarrage, les images d'affichage, ou la connexion SSL pour le protocole MSN 9.
+
+Q: Comme dois-je installer et lancer amsn ?
+R: Vous devez juste télécharger le fichier amsn-x_xx.tar.gz. Décompressez-le avec la commande suivante :
+	tar xvzf amsn-x_xx.tar.gz
+Celà créera le répertoire msn/, et amsn est installé et prêt à être lancé.
+Pour le lancer, faites :
+	cd msn
+	./amsn
+ou si cela ne fonctionne pas, essayez
+	wish amsn
+Si la commande wish n'existe pas, alors vous n'avez pas installé correctement tcl/tk.
+Si "wish amsn" fonctionne, mais pas "./amsn", éditez le fichier 'amsn' et inscrivez le chemin exact en première ligne. Par défaut :
+/usr/bin/wish
+
+Q: Quand je double-clique sur le fichier "amsn" à partir d'un navigateur de fichiers graphique, comme konqueror ou nautilus, celà ouvre un éditeur de texte au lieu de lancer AMSN!
+R: AMSN est écrit en tcl/tk, un language interprété, aussi le fichier "amsn" est juste un fichier texte avec le code du programme. Le gestionnaire de fichier peut penser que c'est un fichier texte, aussi il lancera un éditeur de texte. Pour lancer AMSN, vous devrez choisir "Ouvrir avec ...", "Lancer avec ..." ou similaire, et utilisez le programme "wish" pour ouvrir le fichier "amsn". Encore,comme vu dans la question précédente, si la commande "wish" n'existe pas, vous avez besoin d'installer tcl/tk.
 
 Q: Comment je crée un raccourci de amsn sur mon bureau de travail ?
 R:Vous avez deux possibilités :
@@ -22,14 +38,54 @@ ln -s /ou/vous/avez/installé/amsn amsn
 Vous pouvez lancer amsn en tapant juste 'amsn' de n'importe où.
 Ensuite ajoutez un icône qui lance la commande 'amsn'.
 
-Q : Comment est-ce que j'obtiens l'amarrage de Gnome pour fonctionner?
-R: Vous devez lancer 'make' dans le répertoire plugins, pour construire le plugin de Gnome. Vous aurez besoin des librairies de développement de Gnome. Quand le plugin est construit, lancez juste amsn et sélectionnez l'ancrage à Gnome dans le menu d'options.
+Q : Comment est-ce que j'obtiens l'amarrage de Gnome/KDE pour fonctionner?
+R: Vous devez lancer 'make' dans le répertoire plugins, pour construire le plugin de l'ancien Gnome1. Vous aurez besoin des librairies de développement de Gnome. Quand le plugin est construit, lancez juste amsn et sélectionnez l'ancrage à Gnome dans le menu d'options.
+Pour construire le nouvel ancrage dans freedesktop (compatible Gnome2 et KDE3), lisez le fichier README dans plugins/traydoc.
 
 UTILISATION
 ===========
 
 Q: Que signifie les contacts en magenta dans ma liste de contacts?
 R: Cela signifie que vous n'êtes pas dans la liste de contacts de cette personne.
+
+Q: Puis-je copier l'adresse d'un contact dans le clipboard ?
+R: Oui, clique droit sur le nom du contact sur la liste de contact, et cliquez cette adresse dans le menu pop-up. L'adresse email du contact sera copié dans le clipboard.
+
+Q: Comment puis-je accéder à l'historique des messages que j'ai envoyé dans la fenêtre de chat ?
+R: Si vous voulez accéder aux messages précédents que vous avez envoyé dans la fenêtre de chat, vous avez seulement besoin d'utiliser les touches de contrôle avec les flèches. Cela fonctionne de la même façon que dans un shell avec Ctrl-Haut qui donne le message précédent et Ctrl-Bas qui donne le suivant.
+
+Q: Dans l'onglet Privé dans les préférences, à quoi servent les quatre listes ?
+R: Il y a quatre listes, connues comme Liste des Personnes Autorisés (LA), Liste des Personnes Bloquées (LB), Liste Inversée (LI) et Liste de Contacts (LC). La dernière liste est évidente, voici les explications sur les 3 autres listes :
+LA : cette liste contient les adresses email des personnes qui ont la permission de vous voir quand vous êtes en ligne et ils peuvent aussi dialoguer avec vous.
+LB : c'est la liste des bloquées qui contient la liste des personnes que vous avez bloquées. Aussi ils ne peuvent pas vous voir quand vous êtes en ligne, et ils ne peuvent pas dialoguer avec vous.
+LI : C'est la liste inversée, elle contient les adresses email qui vous ont ajouté dans leur liste. Les personnes apparaissant en vert dans cette liste sont les personnes qui ne sont pas dans votre liste de contact mais dont vous faites parti de la leur.
+
+Q: Je veux ajouter mes propres smileys, comment puis-je faire ?
+R: Il y a un nouveau bouton dans le menu des smileys qui permet de le faire. Cliquez sur "Ajouter un nouvel émoticon personnalisé" et une fenêtre apparaitra, vous devez y renseigner les champs. Le champs "description" sera renseigné avec ce que vous voulez, il sera seulement la description vue par le tooltip. Le champ "Textes déclencheurs" est ce que vous voulez taper pour que le smiley soit vu, par exemple, les smileys sont déclenchés par :) :-) ... d'autres avec :D :-D :> :-> ... pour en envoyer plusieurs, vous devez les écrire les uns après les autres, séparés par un espace. Si vous voulez un déclencheur qui a déjà un espace comme dans cette exemple "hello there", vous aurez à le mettre entre doubles guillements ...
+par exemple :
+"hello ther" hi "what's up"
+cela fera trois déclencheurs pour le même smiley.
+Le champs "Nom du fichier de l'émoticon" est le nom du fichier gif. Il doit être de taille 19x19 pour que le menu des smileys ne soit pas difforme. Mais il peut avoir la taille que vous voulez, mais nous ne pouvons que vous prévenir sur d'éventuels problèmes qui peuvent arriver ... (menu de smileys corrompu, si vous ajoutez le smiley à votre surnom, la partie "Mon Status" peut aussi être corrompu, etc ...). Vous pouvez donner un chemin d'accès complet, utilisez le bouton de navigation, ou tapez juste le nom du fichier, si c'est un fichier dans ~/.amsn/<profile>/smileys ou dans le répertoire msn/skins/<skin>/smileys. Le fichier sera alors copié dans votre répertoire profil.
+Les mêmes propriétés peuvent être appliquées au champs "Fichier son associé à l'alarme" ... qui est utilisé pour jouer un son quand le smiley apparait ... par exemple le smiley LOL déclenché par LOL fait un son de rire. Le son peut être un fichier .wav ou autre extension supporté par votre playeur de son (à sélectionne dans l'onglet de préférences des applications ... plays, esdplay ou mpg123 si vous voulez des fichiers mp3). Pour que cette entrée soit valable, vous devez activer le bouton "Activer le son".
+Si le fichier GIF est animé, vous devez activé le bouton "Cet émoticon est animé".
+L'option "Cacher cet émoticon du menu" permet de ne pas afficher le smiley dans le menu des smileys, mais il reste toujours activable grâce au texte déclencheur.
+L'option "Utiliser des déclencheurs sensibles à la casse" activée fera la différence entre les déclencheurs "LOL" et "lol".
+Quand vous avez fini vos configurations, pressez le bouton OK, cela affichera des erreurs si vous avez oublié une des trois options (description, déclencheurs et fichier GIF) ou si les fichiers (GIF et/ou son) n'existent pas ou ne sont pas lisibles par l'utilisateur. Si aucun message d'erreur n'est visible, alors vous pouvez utiliser vos nouveaux smileys.
+
+Q: Les surnoms sont maintenant trunqués. Est-ce possible de revenir aux surnoms entiers?
+R: Oui. Vous devez modifier la configuration dans Outils->Préférences->Avancé. Il y a deux options :
+"Raccourcir les surnoms plus long que la largeur de la fenêtre dans le titre et la liste de contacts" et "Raccourcir les surnoms plus long que la largeur de la fenêtre dans les conversations". Après avoir sélectionné vos préférences, relancez amsn.
+
+Q: La détection de bloquage ne fonctionne pas très bien, pourquoi ?
+R: La détection de blocage n'est pas 100% effective. Il y a deux façons de voir qui vous bloque.
+La première est d'essayer de vérifier si l'utilisateur est réellement hors-ligne, ou s'il vous bloque, quand il va apparemment hors-ligne.
+L'autre façon est d'interroger les utilisateurs apparemment hors-ligne dans votre liste de contact, régulièrement (toutes les 5 secondes par exemple). Ça ne peut être aussi rapode, ou le serveur vous bannira pour abus d'envoi de messages.
+La détection est basée sur un échec de protocole. Si vous invitez un utilisateur hors-ligne à dialoguer, et que l'utilisateur est réellement hors-ligne, il retournera un code d'erreur. Si l'utilisateur est en ligne, mais qu'il vous bloque, il retournera un autre code.
+Si vous voulez être sûr, la meilleure façon est un clic droit sur le contact "apparemment" hors-ligne, et choisir "Envoyer un message". Alors, cela ouvrira une fenêtre de dialogue, et sur la barre de status, vous pourrez voir :
+ "L'utilisateur n'est pas en ligne"
+ou
+ "L'utilisateur est en ligne mais il vous a bloqué"
+Dépendant de la situation réelle. Encore, vous pouvez seulement détecter si l'utilisateur est en ligne et qu'il vous bloque. Si l'utilisateur est hors ligne, vous ne pouvez pas savoir.
 
 Q: Quand je quitte la fenêtre amsn en arrière-plan, et que je travaille dans une autre fenêtre, après un certain temps, mon status change en Absent. Est-ce un bug ?
 R: Non, ça fonctionne bien. Amsn détecte les pressions de touches de clavier et les clics de souris DANS la fenêtre de dialogue ou d'amsn. Si vous travaillez dans d'autres fênetres mais que vous n'utilisez pas amsn, et que la fonction Absence automatique soit sélectionnée, votre état sera changé après 5 minutes.
@@ -91,21 +147,14 @@ Q: Puis-je exploiter le son sous Windows ?
 R: Oui, nous avons un petit programmme appelé plwav.exe qui joue les fichiers wav sous windows. Vous pouvez l'utiliser comme commande de son (amsn a besoin de programmes externes pour jouer les sons). Dans le menu, choissisez Options->Préférences->Son et entrez "plwav" comme commande de son.
 
 Q: Quand la fenêtre de notification s'affiche en pop-up, la barre des tâches s'efface partiellement, puis-je y remédier ?
-R: Oui, vous pouvez modifier les valeurs de la position de la fenêtre de notification avec X pixels pour la gauche et Y pixels pour le haut. Pour ce faire, vous pouvez une de ces deux solutions :
-1) Editez le fichier de configuration de amsn, et changez les lignes :
-notifyYoffset yy
-notifyXoffset xx
-où yy et xx sont les valeurs en pixels des axes x et y. Vous devez redémarrer amsn après la modification.
-2) Autre possibilité. Pressez Ctrl+S dans la fenêtre de la liste de contact. Vous aurez la fenêtre appelée Log de status. Vous pouvez entrer des commandes au bas de cette fenêtre. Entrez la commande suivante :
-global config; set config(notifyXoffset) xx; set config(notifyYoffset) yy
-où xx et yy sont les valeurs des axes x et y. Vous n'avez pas besoin de redémarrer amsn pour tester les changements. Vous pouvez même obtenir une fenêtre test d'avertissement en entrant la commande suivante :
-::amsn::notifyAdd Testing {}
+R: Oui, vous pouvez modifier les valeurs de la position de la fenêtre de notification avec X pixels pour la gauche et Y pixels pour le haut. Vous pouvez les changer dans Outils->Préférences->Apparence.
 
 AUTRES
 ======
 
-Q: Si vous choissisez de sauvegarder votre mot de passe, il est sauvegardé en clair (non crypté) dans le fichier de configuration de amsn. N'est-ce pas non sécurisé ?
-R: Il est impossible de sauvegarder le mot de passe dans une forme cryptée. Le mot de passe doit être utilisé pour générer une signature digitale md5 qui doit être envoyée sur le réseau durant l'identification - le mot de passe n'est pas envoyé en clair sur le réseau. Nous ne pouvons pas le sauvegarder dans une forme non réversible comme les mots de passe dans /etc/passwd, parce qu'il est nécessaire de lire le mot de passe pour générer la signature. Si nous utilisions des types de cryptage réversible, alors n'importe qui pourrait le décoder juste en regardant le code amsn. Sur Linux, le fichier de configuration est lisible seulement par son propriétaire. La seule façon d'être sûr que personne ne puisse lire votre mot de passe est de ne pas le sauvegarder.
+Q: AMSN ouvre le port 60000. Est-ce normal ? C'est une porte dérobée ? Pourquoi cela arrive ?
+R: C'est normal. AMSN utilise les sockets comme un système fermé pour certifier que deux instances AMSN utilise le même profil (qui peut causer des problèmes). C'est la meilleur plateforme indépendante de système fermé que nous avons trouvé. Si vous trouvez une meilleure solution, dites-le nous :)
+Si vous regardez ~/.amsn/profiles, vous pouvez voir que le port est utilisé pour chaque profil.
 
 Q: J'ai d'autres questions, pouvez-vous m'aider ?
 R: Oui, nous pouvons. Mais, allez faire un tour sur la page du projet sur SourceForge, à l'adresse suivante http://sourceforge.net/projects/amsn, et vérifiez tous les bugs, lisez les forums pour vérifier si votre problème a déjà une réponse. Ne vérifiez pas seulement les messages marqués comme 'Open'. Les questions déjà répondues sont habituellement marquées comme Closed (fermée).
@@ -113,4 +162,5 @@ Avant de soumettre un bug ou demander de l'aide, n'oubliez de rappeler ces infor
 - version de Amsn.
 - version de Tcl et Tk.
 - la trace de la pile d'erreur soumise (si possible).
+- les derniers messages d'erreur dans la fenêtre de debug (Ctrl+D et Ctrl+S dans la liste de contact).
 Si vous avez encore une question, vous pouvez me mailer à l'adresse suivante : airadier@users.sourceforge.net
