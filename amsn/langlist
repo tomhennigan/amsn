@@ -58,7 +58,7 @@
 	<lang>
 		<langcode>nl</langcode>
 		<name>Dutch (Nederlands)</name>
-		<version>1.117</version>
+		<version>1.118</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -238,7 +238,7 @@
 	<lang>
 		<langcode>sl</langcode>
 		<name>Slovenian (Slovenscina)</name>
-		<version>1.30</version>
+		<version>1.31</version>
 		<encoding>iso8859-2</encoding>
 	</lang>
 	<lang>
