@@ -18,6 +18,18 @@ New versions, and homepage at:
 
 http://amsn.sourceforge.net
 
+
+========================================================
+=== Important note, read this =================
+
+Some people have been noticing frequent hangs when using
+amsn. This is due to a wrong configuration of the sound
+command. By default, the sound player command is 'esdplay'
+(the Gnome sound daemon). If you aren't using esd, go to
+preferences -> sound and change the command to 'play' or
+anyone you like.
+
+
 ========================================================
 === Programmers ===============================
 
