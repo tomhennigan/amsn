@@ -1989,6 +1989,11 @@ namespace eval ::MSN {
 	# messageTo (chatid,txt,ackid)
 	# Just queue the message send
 	proc messageTo { chatid txt ackid {friendlyname "" }} {
+		if { [::MSNMobile::IsMobile $chatid] == 1} {
+		    ::MSNMobile::MessageSend $chatid $txt
+		    return 0
+		}
+
 		if {![chatReady $chatid] && [::abook::getVolatileData [lindex [usersInChat $chatid] 0] state] == "FLN" } {
 			status_log "::MSN::messageTo: chat NOT ready for $chatid\n"
 			::amsn::nackMessage $ackid
@@ -2218,14 +2223,16 @@ namespace eval ::MSN {
 			set command [string range $dataBuffer 0 [expr $idx -1]]
 
 			#check for payload commands:
-			if {[lsearch {MSG NOT PAG} [string range $command 0 2]] != -1} {
-				set length [lindex [split $command] 3]
+			if {[lsearch {MSG NOT PAG IPG} [string range $command 0 2]] != -1} {
+			        set length [lindex [split $command] end]
+			    
 				set remaining [string range $dataBuffer [expr $idx +2] end]
 				#if the whole payload is in the buffer process the command else return
 				if { [string length $remaining] >= $length } {
 					set payload [string range $remaining 0 [expr $length -1]]
 					set dataBuffer [string range $dataBuffer [string length "$command\r\n$payload"] end]
 					set command [encoding convertfrom utf-8 $command]
+				        status_log "sending command $command with payload $payload\n" red
 					$options(-name) handleCommand $command $payload
 				} else {
 					return
@@ -2301,7 +2308,11 @@ namespace eval ::MSN {
 			set message [Message create %AUTO%]
 			$message createFromPayload $payload
 		}
+	    if {[lindex [split $command] 0] == "IPG" } {
+		cmsn_ns_handler [split $command] $payload
+	    } else {
 		cmsn_ns_handler [split $command] $message
+	    }
 	}
 }
 
@@ -2528,6 +2539,7 @@ proc cmsn_sb_msg {sb recv message} {
 
 
 	#A standard message
+
 	if {[string range $content 0 9] == "text/plain"} {
 
 		#TODO: Process fonts in other place
@@ -3327,7 +3339,10 @@ proc cmsn_ns_handler {item {message ""}} {
 				cmsn_ns_msg $item $message
 				return 0
 			}
-
+		    	IPG {
+			    ::MSNMobile::MessageReceived "$message"
+			    return 0
+		    	}
 			VER -
 			INF -
 			CVR -
@@ -5846,5 +5861,201 @@ namespace eval ::MSNAV {
 		::amsn::WinWrite $chatid " $txt\n" green
 		::amsn::WinWrite $chatid "----------" green
 	}
+
+}
+
+
+namespace eval ::MSNMobile {
+    namespace export IsMobile MessageSend MessageReceived OpenMobileWindow
+
+    variable user2chatid
+
+    proc IsMobile { chatid } {
+
+	if { [string first "@" $chatid] != [string last "@" $chatid] && 
+	     [string first "mobile@" $chatid] == 0 } { 
+	    return 1
+	} else {
+	    return 0
+	}
+    }
+
+    proc MessageSend { chatid txt } {
+	
+	set name [string range $chatid 7 end]
+	
+	set msg "<TEXT xml:space=\"preserve\" enc=\"utf-8\">$txt</TEXT>"
+	
+	set msglen [string length $msg]
+	#set plen [string length $msg]
+	::MSN::WriteSBNoNL ns "PGD" "$name 1 $msglen\r\n$msg"
+    }
+
+    proc MessageReceived { data } {
+
+	status_log "Got data : $data" red
+	set idx1 [string first "<TEXT" $data]
+	set idx1 [string first ">" $data $idx1]
+	set idx2 [string first "</TEXT>" $data $idx1]
+	status_log "idx1 $idx1 [string first \"<TEXT\" $data] - idx2 $idx2\n" red
+	if { $idx1 == -1 || $idx2 == -1 } {
+	    return 0
+	}
+	set msg [string range $data [expr $idx1 + 1] [expr $idx2 -1]]
+
+	set idx1 [string first "<FROM" $data]
+	set idx1 [string first "name=\"" $data $idx1]
+	incr idx1 6
+	set idx2 [string first "\"" $data $idx1]
+	incr idx2 -1
+	if { $idx1 == -1 || $idx2 == -1 } {
+	    return 0
+	}
+	set user [string range $data $idx1 $idx2]
+
+	status_log "idx1 $idx1 - idx2 $idx2\n" red
+
+	set chatid [GetChatId $user]
+	
+	if { $chatid == 0 } {
+	    OpenMobileWindow $user
+	    set chatid [GetChatId $user]
+	}
+
+	status_log "Writing mobile msg \"$msg\" on : $chatid\n" red
+	::amsn::WinWrite $chatid "\n[trans mobilesays $user] : \n" says
+	::amsn::WinWrite $chatid "$msg" user
+	
+    }
+
+
+    proc OpenMobileWindow { user } {
+	set chatid [GetChatId $user]
+	status_log "opening chat window for mobile messaging : $chatid\n" red
+
+	if { $chatid == 0 } {
+	    set win [::ChatWindow::Open]
+	    set chatid "mobile@$user"
+	    ::ChatWindow::SetFor $chatid $win
+	    SetChatId $user $chatid
+	    UpdateWindow $win $user
+
+	    if { [winfo exists .bossmode] } {
+		set ::BossMode(${win_name}) "normal"
+		wm state $win withdraw
+	    } else {
+		wm state $win normal
+	    }
+	    
+	    wm deiconify $win
+	} else {
+	    set win [::ChatWindow::For $chatid]
+	    if { [winfo exists .bossmode] } {
+		set ::BossMode(${win_name}) "normal"
+		wm state $win withdraw
+	    } else {
+		wm state $win normal
+	    }
+	    
+	    wm deiconify $win
+	    focus $win
+	}
+    }
+
+    proc UpdateWindow { win_name user_login } {
+	set to [::ChatWindow::GetTopToText $win_name]
+	$to configure -state normal
+	$to delete 0.0 end
+	$to insert end "[trans tomobile]:"
+	$to configure -width [string length "[trans tomobile]:"]
+
+	set title "[trans tomobile] : $user_login"
+	set toptext [::ChatWindow::GetTopText ${win_name}]
+
+	$toptext configure -state normal -font sboldf -height 1 -wrap none
+	
+	set user_name [string map {"\n" " "} [::abook::getDisplayNick $user_login]]
+	set state_code [::abook::getVolatileData $user_login state]
+			
+	if { $state_code == "" } {
+	    set user_state ""
+	    set state_code FLN
+	} else {
+	    set user_state [::MSN::stateToDescription $state_code]
+	}
+	
+	set user_image [::MSN::stateToImage $state_code]
+
+	if {[::config::getKey truncatenames]} {
+	    #Calculate maximum string width
+	    set maxw [winfo width $toptext]
+	    
+	    if { "$user_state" != "" && "$user_state" != "online" } {
+		incr maxw [expr 0-[font measure sboldf -displayof $toptext " \([trans $user_state]\)"]]
+	    }
+	    
+	    incr maxw [expr 0-[font measure sboldf -displayof $toptext " <${user_login}>"]]
+	    $toptext insert end "[trunc ${user_name} ${win_name} $maxw sboldf] <${user_login}>"
+	} else {
+	    $toptext insert end "${user_name} <${user_login}>"
+	}
+
+	#TODO: When we have better, smaller and transparent images, uncomment this
+	#$toptext image create end -image [::skin::loadPixmap $user_image] -pady 0 -padx 2
+	
+	if { "$user_state" != "" && "$user_state" != "online" } {
+	    $toptext insert end "\([trans $user_state]\)"
+	}
+	$toptext insert end "\n"
+	
+	
+	#Change color of top background by the status of the contact
+	::ChatWindow::ChangeColorState $user_login $user_state $state_code ${win_name}
+	
+	
+	#Calculate number of lines, and set top text size
+	set size [$toptext index end]
+	set posyx [split $size "."]
+	set lines [expr {[lindex $posyx 0] - 2}]
+	set ::ChatWindow::titles(${win_name}) ${title}
+	
+	$toptext delete [expr {$size - 1.0}] end
+	$toptext configure -state normal -font sboldf -height $lines -wrap none
+	$toptext configure -state disabled
+	
+	if { [info exists ::ChatWindow::new_message_on(${win_name})] && $::ChatWindow::new_message_on(${win_name}) == 1 } {
+	    wm title ${win_name} "*${title}"
+	} else {
+	    wm title ${win_name} ${title}
+	}
+	
+	update idletasks
+	
+    }
+
+    proc GetChatId { user } {
+	variable user2chatid
+	if { [info exists user2chatid($user)] } {
+	    set chatid [set user2chatid($user)]
+	    set win [::ChatWindow::For $chatid]
+	    if {$win != 0 && [winfo exists $win] } {
+		return $chatid
+	    } else {
+		unset user2chatid($user)
+		return 0
+	    }
+	} else {
+	    return 0
+	}
+
+    }
+
+    proc SetChatId { user chatid } {
+	variable user2chatid
+
+	set user2chatid($user) $chatid
+
+    }
+
 
 }

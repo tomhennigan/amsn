@@ -1895,6 +1895,11 @@ namespace eval ::amsn {
 
 		set chatid [::ChatWindow::Name $win_name]
 
+	    if { [::MSNMobile::IsMobile $chatid] == 1} {
+		status_log "MOBILE CHAT\n" red
+		return 0
+	    }
+	    status_log "KHRAAAAAAAAAAAAAAAAAAA $chatid [::MSNMobile::IsMobile $chatid]\n" red
 
 		if { $skipthistime } {
 			set skipthistime 0
@@ -2088,18 +2093,25 @@ namespace eval ::amsn {
 			set first 0
 			while { [expr {$first + 400}] <= [string length $msg] } {
 				set msgchunk [string range $msg $first [expr {$first + 399}]]
+			    if {[::MSNMobile::IsMobile $chatid] == 0 } {
 				set ackid [after 60000 ::amsn::DeliveryFailed $chatid [list $msgchunk]]
-				::MSN::messageTo $chatid "$msgchunk" $ackid $friendlyname
+			    } else {
+				set ackid 0
+			    }
+			    ::MSN::messageTo $chatid "$msgchunk" $ackid $friendlyname
 				incr first 400
 			}
 		
-		set msgchunk [string range $msg $first end]
-		set ackid [after 60000 ::amsn::DeliveryFailed $chatid [list $msgchunk]]
-
-		#Draw our own message
-		messageFrom $chatid [::abook::getPersonal login] $nick "$msg" user [list $fontfamily $fontstyle $fontcolor] $p4c
-
-		::MSN::messageTo $chatid "$msgchunk" $ackid $friendlyname
+		    set msgchunk [string range $msg $first end]
+		    
+		    if {[::MSNMobile::IsMobile $chatid] == 0 } {
+			set ackid [after 60000 ::amsn::DeliveryFailed $chatid [list $msgchunk]]
+		    } else {
+			set ackid 0
+		    }
+		    #Draw our own message
+		    messageFrom $chatid [::abook::getPersonal login] $nick "$msg" user [list $fontfamily $fontstyle $fontcolor] $p4c
+		    ::MSN::messageTo $chatid "$msgchunk" $ackid $friendlyname
 
 
 		CharsTyped $chatid ""
@@ -5983,6 +5995,16 @@ proc show_umenu {user_login grId x y} {
 	.user_menu add separator
 	.user_menu add command -label "[trans sendmsg]" \
 		-command "::amsn::chatUser ${user_login}"
+
+	if { [::abook::getContactData $user_login MOB] == "Y" } {
+	    set mob_menu_state "normal"
+	} else {
+	    set mob_menu_state "disabled"
+	}
+	.user_menu add command -label "[trans sendmobmsg]" \
+	    -command "::MSNMobile::OpenMobileWindow ${user_login}" -state $mob_menu_state
+	 
+	
 	.user_menu add command -label "[trans sendmail]" \
 		-command "launch_mailer $user_login"
 	.user_menu add command -label "[trans viewprofile]" \
