@@ -266,10 +266,13 @@ proc run_alarm {user msg} {
 	set command $config(soundcommand)
 	set command [string map { "$sound" "" } $command]
 
-	toplevel .${wind_name}
-	wm title .${wind_name} "[trans alarm] $user"
-	label .${wind_name}.txt -text "$msg"
-	pack .${wind_name}.txt
+	if { ([::alarms::getAlarmItem ${user} pic_st] == 1) || ([::alarms::getAlarmItem ${user} sound_st] == 1)} {
+		toplevel .${wind_name}
+		wm title .${wind_name} "[trans alarm] $user"
+		label .${wind_name}.txt -text "$msg"
+		pack .${wind_name}.txt	
+	}
+	
 	if { [::alarms::getAlarmItem ${user} pic_st] == 1 } {
 		image create photo joanna -file [::alarms::getAlarmItem ${user} pic]
 		if { ([image width joanna] < 1024) && ([image height joanna] < 768) } {
@@ -278,12 +281,6 @@ proc run_alarm {user msg} {
 		}
 	}
 
-	if { [::alarms::getAlarmItem ${user} oncommand] == 1 } {
-		string map [list "\$msg" "$msg" "\\" "\\\\" "\$" "\\\$" "\[" "\\\[" "\]" "\\\]" "\(" "\\\(" "\)" "\\\)" "\{" "\\\}" "\"" "\\\"" "\'" "\\\'" ] [::alarms::getAlarmItem ${user} command]
-		catch { eval exec [::alarms::getAlarmItem ${user} command] & } res 
-	}
-
-	status_log "${wind_name}"
 	if { [::alarms::getAlarmItem ${user} sound_st] == 1 } {
 		#need different commands for windows as no kill or bash etc
 		if { $tcl_platform(platform) == "windows" } {
@@ -317,9 +314,14 @@ proc run_alarm {user msg} {
 				pack .${wind_name}.stopmusic -padx 2
 			}
 		}
-	} else {
+	} elseif { [::alarms::getAlarmItem ${user} pic_st] == 1 } {
 		button .${wind_name}.stopmusic -text [trans stopalarm] -command "destroy .${wind_name}"
 		pack .${wind_name}.stopmusic -padx 2
+	}
+	
+	if { [::alarms::getAlarmItem ${user} oncommand] == 1 } {
+		string map [list "\$msg" "$msg" "\\" "\\\\" "\$" "\\\$" "\[" "\\\[" "\]" "\\\]" "\(" "\\\(" "\)" "\\\)" "\{" "\\\}" "\"" "\\\"" "\'" "\\\'" ] [::alarms::getAlarmItem ${user} command]
+		catch { eval exec [::alarms::getAlarmItem ${user} command] & } res 
 	}
 }
 
