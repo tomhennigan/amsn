@@ -112,6 +112,7 @@ clearlog2 Cancella il diario per tutti i tuoi contatti
 clearlog3 Cancella tutti i Log
 clearlog Cancella i Log
 clicktologin Clicca qui per accedere
+clientname Nome client
 close Chiudi
 closed La conversazione con $1 è chiusa per inattività.
 closingdocks Pulsante per chiudere
@@ -146,6 +147,7 @@ customcolor Colore Personalizzato
 custom_edit Crea una faccina personalizzata
 custom_new Aggiungi una nuova faccina personalizzata
 customnick Soprannome Personalizzato
+customstyle Stile personalizzato
 cut Taglia
 date Data
 days Giorni
@@ -164,6 +166,7 @@ directconnection Ho una connessione diretta ad internet (uso la porta 1863)
 disabled Disattivato
 disableprofiles Disattiva i profili (utile per Net-cafè o ambienti condivisi)
 disablessl Disattiva SSL
+disableuserfonts Ignora font utilizzati dai client remoti, usa quelli locali predefiniti
 disconnect $1 si è sconnesso.
 displaychat Mostra le opzioni del testo
 displayp4context Visualizza il contenuto del campo P4-Context come mittente del messaggio
@@ -176,7 +179,6 @@ dockkde Dock KDE
 dontdownload Non scaricare TLS, verrà installato automaticamente
 dontshow Non mostrare
 downloadingtls Download del modulo TLS in corso da:\n $1
-editcurrentstate Modifica il corrente
 editcustomstate Modifica Stato personale
 edit Modifica
 editnewstate Nuove impostazioni personali di auto-risposta
@@ -187,7 +189,6 @@ email E-mail
 emailsinlist Mostra indirizzi e-mail al posto dei nicks nella lista contatti
 emotisounds Emetti un suono per alcune Emoticons
 enabled Attivato
-enablebanner Mostra il banner di aMSN (Sarà necessario riavviare aMSN)
 enableproxy Proxy abilitato
 enableremote Abilita il controllo a distanza
 enablesound Emetti un suono
@@ -239,6 +240,7 @@ groupnewname Nuovo nome
 groupnotempty Il gruppo non è vuoto!
 groupoldname Vecchio nome
 grouprename Rinomina un gruppo
+groups Gruppi
 groupunknown Gruppo sconosciuto
 handle Gestisci
 help Aiuto
@@ -281,6 +283,7 @@ lastlogin Ultimo Login
 lastlogout Ultima Uscita
 lastmsgedme Ultimo Messaggio
 lastmsgtime Ultimo messaggio ricevuto alle $1
+lastseen Ultima volta online
 lclosedwin $1 ha chiuso la finestra su $2
 lconftopriv La conversazione è divenuta una chat privata con $1
 lconvstarted La conversazione è cominciata su $1
@@ -452,6 +455,7 @@ receivefile Sto ricevendo il file
 recentmsg Previeni la chiusura di una finestra di chat quando è appena arrivato un messaggio
 reconnecting Riconnessione al server
 reconnect Sto aspettando che $1 si riconnetta
+reconnect2 Riconnetti su disconnessione
 reject Respingi
 rememberpass Ricorda password
 removeempty Eliminare gruppi vuoti dalla lista contatti
@@ -493,6 +497,7 @@ smileconfig Configurazione delle emoticon personalizzate
 smilefile Nome del file della faccina
 smileintro2 Per favore modifica i campi richiesti per personalizzare questa faccina (guarda le FAQ per un aiuto)
 smileintro Per favore riempi i campi richiesti per creare una nuova faccina personalizzata (guarda le FAQ per un aiuto)
+snackfailed Impossibile caricare Snack, torno al default
 sngdblclick Un click per aprire una nuova finestra per i messaggi
 sound2 Emetti un suono quando i contatti entrano o mandano un messaggio
 soundactive Riproduci un suono anche quando ricevi un messaggio nella finestra attiva
@@ -531,7 +536,7 @@ temp_state Non salvare (Stato temporaneo, si perderà alla chiusura di AMSN)
 textsize Dimensione del testo
 timeremaining Tempo rimanente
 timestamps Mostra il campo Ora nelle finestre di chat
-title Al's Messenger
+title aMSN
 tkerror TK ha incontrato un possibile bug. Segnalatelo, per favore, inviando il file $1 a amsn-bugs@lists.sf.net
 tlsdowncompleted Il file $1 è stato scaricato nella cartella $2. Estrailo, compilalo (se hai scaricato i sorgenti) e installalo in $3.
 tlsexplain Cartella in cui è localizzato il modulo TLS. Se AMSN non riesce a localizzarla, specificarla.\n (E' richiesto per l'autenticazione SSL).
@@ -551,6 +556,7 @@ twonewmail $1 nuovi messaggi di posta
 unblock Sblocca
 uoffline Offline
 uonline Online
+useother Usa un altro programma
 useralreadyonlist L'utente è già nella lista contatti
 userblocked L'utente è online ma ti ha bloccato
 userdata Dati Utente
@@ -558,6 +564,7 @@ usernotonline Questo Utente non è online
 userproperties Proprietà dell'utente $1
 user Utente
 useryourself Non puoi chattare con te stesso
+usesnack Utilizza la libreria Snack (Tcl)
 verifyblocked Controlla le persone che ti stanno bloccando
 version Versione
 viewcontactsby Visualizza contatti per

@@ -283,6 +283,7 @@ lastlogin Zadnja prijava
 lastlogout Zadnja odjava
 lastmsgedme Zadnje sporocilo
 lastmsgtime Zadnje sporocilo prejeto ob $1
+lastseen Nazadnje prijavljen/a
 lclosedwin $1 je zaprl/a okno $2
 lconftopriv Konferenca spremenjena v zasebni pogovor z $1
 lconvstarted Pogovor se je pricel ($1)
@@ -496,6 +497,7 @@ smileconfig Nastavitve tvojih emotikonov
 smilefile Datoteka
 smileintro2 Uredi potrebna polja, ce zelis spremeniti tega smeska (poglej v FAQ za pomoc)
 smileintro Izpolni potrebna polja, ce zelis ustvariti novega lastnega smeska (poglej v FAQ za pomoc)
+snackfailed Snack se ni uspel naloziti, ponastavljam
 sngdblclick Enojni klik odpre okno s pogovorom
 sound2 Predvajaj zvoke ob nekaterih dogodkih
 soundactive Predvajaj zvok tudi ob prejetem sporocilu v aktivnem oknu
@@ -534,7 +536,7 @@ temp_state Ne shrani (Trenutno, bo ponastavljeno ob ponovnem zagonu AMSN)
 textsize Velikost besedila
 timeremaining Cas do konca prenosa
 timestamps Omogoci prikaz casa v pogovorih
-title Al's Messenger
+title aMSN
 tkerror Napaka v TKju. To je amsnjev hrosc, prosim povej zanj. Poslji datoteko $1 na amsn-bugs@lists.sf.net
 tlsdowncompleted Datoteka $1 se je prenesla v imenik $2. Moras jo izvleci, prevesti (ce si pobral izvorno kodo) in namestiti v $3.
 tlsexplain Mapa, kjer je tcl TLS modul. Ce ga AMSN ne najde, nastavi pot.\n(Potrebno za SSL overjenje).

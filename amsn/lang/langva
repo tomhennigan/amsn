@@ -65,7 +65,7 @@ blockinter3 cada
 blockinter4 segons.
 blocklist Llista de bloquejats (LB):
 blockmessage Estes persones estan en línia i t'han bloquejat
-block No admetre
+block Bloquejar
 blockusers Número d'usuaris a comprovar a la volta
 bouncedock Anima l'icon de l'aMSN quan arribe un missatge
 broughtby Portat a vosté per els següents programadors
@@ -112,6 +112,7 @@ clearlog2 Netejar l'historial per a tots els contactes
 clearlog3 Netejar tots els registres
 clearlog Netejar historial
 clicktologin Fes click ací per a iniciar la sessió
+clientname Nom del client
 closed Conversa amb $1 tancada per inactivitat
 close Tancar
 closingdocks Botó de tancar/minimitzar
@@ -283,6 +284,7 @@ lastlogin Última connexió
 lastlogout Última desconnexió
 lastmsgedme Últim missatge
 lastmsgtime Últim missatge rebut a les $1
+lastseen Última vegada connectat
 lclosedwin Has tancat la finestra amb $1
 lconftopriv La conversa passa a ser un privat amb $1
 lconvstarted Comença la conversa amb $1
@@ -496,6 +498,7 @@ smileconfig Configuració personalitzada d'emoticons
 smilefile Nom del fitxer d'emoticon
 smileintro2 Per favor, edita els camps requerits per a personalitzar este emoticon (mira el FAQ per a ajuda)
 smileintro Per favor, completa els camps requerits per a crear un nou emoticon personalitzat (mira el FAQ per a ajuda)
+snackfailed No s'ha pogut carregar Snack, tornarà a l'estat per defecte
 sound2 Reproduix sons quan els contactes es connecten o envien missatges
 soundactive Reproduix sons al rebre missatges també en finestres actives
 soundcommand L'ordre per a reproduir un so (i.e: esdplay)
@@ -551,7 +554,7 @@ truncatenames1 Tallar mots mes llargs que l'ample de la finestra en títols i lli
 truncatenames2 Tallar mots mes llargs que lampli de la finestra en les converses
 truncatenicks Tallar mots mes llargs que l'ample de la finestra
 twonewmail $1 missatges nous en safata d'entrada
-unblock Admetre
+unblock Desbloquejar
 uoffline Desconnectats
 uonline Connectats
 useother Utiltzar un altre programa
@@ -559,9 +562,9 @@ useralreadyonlist L'usuari ja es troba en la llista de contactes.
 userblocked L'usuari està en línia pero t'ha bloquejat
 userdata Dades d'usuari
 userproperties Propietats de l'usuari
-usernotonline L'usuari no està en línia
+usernotonline L'usuari no està connectat
 user Usuari
-useryourself No pots conversar amb tu mateix
+useryourself No pots conversar amb tu mateixa
 usesnack Utilitzar la llibreria Snack (Tcl intern)
 verifyblocked Comprovar la gent que et bloqueja
 version Versió
