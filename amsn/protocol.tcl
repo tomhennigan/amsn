@@ -529,7 +529,7 @@ namespace eval ::MSN {
       set cancelid [after 10000  ::MSN::cancelReceiving $cookie]
 
       fconfigure $sockid -blocking 0
-      fileevent $sockid writable "::MSN::ConnectedMSNFTP $sockid $cancelid $authcookie $filename $cookie"
+      fileevent $sockid writable "::MSN::ConnectedMSNFTP $sockid $cancelid $authcookie \"$filename\" $cookie"
 
       return 1
 
