@@ -6,7 +6,7 @@ actions Perintah
 addacontact Tambahkan nama baru
 addedyou $1 ($2) telah menambahkan anda dalam daftar namanya
 addstate Tambahkan Kondisi Baru
-addto Tambahkan kepada $1
+addto Tambahkan Kepada $1
 addtocontacts Masukkan dalam daftar nama
 addtoo Masukkan orang ini dalam daftar nama saya
 admincontacts Atur daftar nama
@@ -23,7 +23,7 @@ appearance Tampilan
 appearoff Sembunyi
 areacode Kode Area
 aretyping $1 sedang mengetik pesan
-askprofile Register masuk berikut saat ini tidak memiliki profil. Apakah anda ingin menciptakan yang baru? Apabila tidak anda tidak bisa menggunakan Sejarah, atau menyimpan Bunyi Alarm dan Kata Sandi. Apabila iya maka anda akan memiliki aturan terpisah untuk profil baru ini. Klik pada ‘Ciptakan Profil’ untuk menciptakan profil baru untuk $1.
+askprofile Register masuk berikut saat ini tidak memiliki profil. Apakah anda ingin menciptakan yang baru? Apabila tidak anda tidak bisa menggunakan Sejarah, atau menyimpan Bunyi Alarm dan Kata Sandi. Apabila iya maka anda akan memiliki aturan terpisah untuk profil baru ini. Klik pada ?Ciptakan Profil? untuk menciptakan profil baru untuk $1.
 autoaway Tunjukkan saya sebagai 'Tidak Ada' apabila tidak aktif selama
 autoconnect2 Register masuk secara otomatis pada saat a'MSN dinyalakan
 autoconnect Hubungi server saat a'MSN dinyalakan
@@ -32,7 +32,7 @@ autoidle Otomatis ganti status ke 'Tidak Ada Aktivitas'
 autoip IP otomatis
 autonoact Tunjukkan sebagai 'Tidak Aktif' setelah tidak aktif selama
 avoidseen Orang ini dilarang melihat status saya maupun menghubungi saya
-awaymsg1 Tanyakan untuk pesan ‘tidak ada’ setiap kali saya merubah status ke tidak ada/segera kembali/sibuk
+awaymsg1 Tanyakan untuk pesan ?tidak ada? setiap kali saya merubah status ke tidak ada/segera kembali/sibuk
 awaymsg2 Jangan pernah menanyakan dan selalu gunakan pesan tidak ada berikut
 away Tidak ada ditempat
 baduserpass Nama pengguna atau kata sandi salah
@@ -129,17 +129,17 @@ filename Nama Arsip
 filetransfercancelled Transmisi arsip dibatalkan
 filetransfercomplete Transmisi arsip telah usai
 followtext Gulung ke bawah saat tekst baru dimasukkan
-ftacceptedby $1 menerima undangan pengalihan arsip untuk arsip ‘$2’.
+ftacceptedby $1 menerima undangan pengalihan arsip untuk arsip ?$2?.
 ftaccepted Transmisi arsip diterima
 ftaccepting Menerima undangan pengalihan arsip
 ftconnecterror Kesalahan dalam peyambungan ke peer jarak jauh
 ftconnecting Menyambung ke $1 port $2
 ftconnectionlost Sambungan ke peer jarak jauh terputus
-ftgotinvitation $1 ingin mengirim arsip ‘$2’ ($3 bytes). Arsip akan tersimpan dalam direktori $4. Apakah anda ingin menerima arsip ini?
+ftgotinvitation $1 ingin mengirim arsip ?$2? ($3 bytes). Arsip akan tersimpan dalam direktori $4. Apakah anda ingin menerima arsip ini?
 ftportpref Memulai port untuk pengalihan arsip
-ftrejectedby $1 menolak undangan pengalihan arsip untuk arsip ‘$2’.
+ftrejectedby $1 menolak undangan pengalihan arsip untuk arsip ?$2?.
 ftrejected Transmisi arsip ditolak
-ftsendinvitation Undangan pengalihan arsip untuk arsip ‘$2’ ($3 bytes) telah dikirim kepada $1.
+ftsendinvitation Undangan pengalihan arsip untuk arsip ?$2? ($3 bytes) telah dikirim kepada $1.
 gonelunch Sedang makan siang
 groupadd Tambah kelompok
 groupdelete Hapus kelompok
@@ -346,7 +346,8 @@ tabbed Jendela yang ditandai
 textsize Besar huruf
 title Al's Messenger
 to Kepada
-tools Fungsi
+tools Peralatan
+tooltips Aktifkan Tips untuk Peralatan
 transnotexists Arsip yang diminta belum diterjemahkan ke dalam bahasa tersebut.
 traynotcompiled Baki icon tambahan belum dipatuhi. Periksa tambahan/bakilabuhan
 twonewmail $1 email baru dalam Kotak-Masuk

@@ -160,7 +160,7 @@ httpconnection Connect using HTTP method (uses HTTP protocol over port 80)
 ident Identifying
 identity Identity
 inbox Inbox
-internalerror Interal Server Error
+internalerror Internal Server Error
 invalidusername Invalid user name
 invitationcancelled The invitation was cancelled
 invite Invite

@@ -349,6 +349,7 @@ textsize Velikost besedila
 title Al's Messenger
 to Za
 tools Orodja
+tooltips Omogoci Nasvete za Orodja
 transnotexists Zahtevana datoteka se ni bila prevedena v slovenscino.
 traynotcompiled Plugin za tray ikono ni preveden. Preveri plugins/traydock.
 twonewmail $1 novi sporocili v Inboxu
