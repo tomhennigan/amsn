@@ -18,7 +18,8 @@
 #		-background or -bg
 #		-bordercolor or -bc
 #		-borderwidth or -bw
-#		-padwidth
+#		-innerpadx
+#		-innerpady
 #	STANDARD COMMANDS
 #		(all commands available to 'type')
 #	WIDGET SPECIFIC COMMANDS
@@ -29,7 +30,7 @@
 #-----------------------------------------------------------------------
 
 package require snit
-package provide framec 0.1
+package provide framec 0.2
 
 
 snit::widget framec {
@@ -43,7 +44,8 @@ snit::widget framec {
 	option -bd -cgetmethod getOption -configuremethod changeBorderWidth
 	option -background -default #ffffff -cgetmethod getOption -configuremethod changeBackground
 	option -bg -cgetmethod getOption -configuremethod changeBackground
-	option -padwidth -default 0 -cgetmethod getOption -configuremethod changePadWidth
+	option -innerpadx -default 0 -cgetmethod getOption -configuremethod changePadWidthx
+	option -innerpady -default 0 -cgetmethod getOption -configuremethod changePadWidthy
 
 	delegate option * to inner except {-bordercolor -bc -borderwidth -bd -background -bg -padwidth}
 	delegate method * to inner
@@ -59,7 +61,7 @@ snit::widget framec {
 		install padding using frame $border.padding -background $options(-background) -relief solid -borderwidth 0
 		install inner using $itstype $padding.inner -border 0
 
-		pack $inner -side left -padx $options(-padwidth) -pady $options(-padwidth)
+		pack $inner -side left -padx $options(-innerpadx) -pady $options(-innerpady)
 		pack $padding -padx $options(-borderwidth) -pady $options(-borderwidth)
 		pack $border -padx 0 -pady 0
 
@@ -95,9 +97,14 @@ snit::widget framec {
 		$inner configure -background $value
 	}
 
-	method changePadWidth {option value} {
-		set options(-padwidth) $value
-		pack configure $inner -padx $value -pady $value
+	method changePadWidthx {option value} {
+		set options(-innerpadx) $value
+		pack configure $inner -padx $value
+	}
+
+	method changePadWidthy {option value} {
+		set options(-innerpady) $value
+		pack configure $inner -pady $value
 	}
 
 	method getinnerframe {} {
