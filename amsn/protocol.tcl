@@ -2379,9 +2379,7 @@ proc cmsn_sb_handler {sb_name item} {
         ::MSN::AddSBFor $chatid $sb_name
 
         foreach usr_login [sb get $sb_name users] {
-	    if { $config(getdisppic) == 1 } {
 		::MSNP2P::loadUserPic $chatid $usr_login
-	    }
            ::amsn::userJoins $chatid $usr_login
 	}
 
@@ -2818,9 +2816,7 @@ proc cmsn_update_users {sb_name recv} {
           #so you will connect to its sb and be able to chat, but after
           #a while the user will join your old invitation,
           #and get a fake "user joins" message if we don't check it
-	      if { $config(getdisppic) == 1 } {
 		  ::MSNP2P::loadUserPic $chatid $usr_login
-	      }
           if {[::MSN::SBFor $chatid] == $sb_name} {
              ::amsn::userJoins $chatid $usr_login
           }
@@ -2963,8 +2959,18 @@ proc cmsn_change_state {recv} {
 	}
 
 	#TODO: Change this with ::MSN::setUserInfo
+	set oldmsnobj [lindex $user_data 3]
 	set list_users [lreplace $list_users $idx $idx [list $user $user_name $state_no $msnobj]]
 	set list_users [lsort -decreasing -index 2 [lsort -decreasing -index 1 $list_users]]
+
+	if { $oldmsnobj != $msnobj} {
+		#TODO: Improve this, using usersInChat for every chat... useful if user in conference, but not private
+		if {![catch {image inuse user_pic_$user}] && [::MSN::SBFor $user] != 0 && [image inuse user_pic_$user]} {
+			status_log "User changed image while image in use!! Updating!!\n" white
+			::MSNP2P::loadUserPic $user $user
+		}
+	}
+
 
 	cmsn_draw_online 1
    } else {

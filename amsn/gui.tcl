@@ -2094,7 +2094,7 @@ namespace eval ::amsn {
 
 
       set chatid [ChatFor $win_name]
-      
+
       if { $chatid == 0 } {
          status_log "VERY BAD ERROR in ::amsn::closeWindow!!!\n" red
 	 return 0
@@ -2111,6 +2111,18 @@ namespace eval ::amsn {
       unset window_titles(${win_name})
       unset first_message(${win_name})
 
+		#Delete images if not in use
+		catch {destroy $win_name.bottom.pic}
+		set user_list [::MSN::usersInChat $chatid]
+		foreach user_login $user_list {
+			if {![catch {image inuse user_pic_$user_login}]} {
+
+				if {![image inuse user_pic_$user_login]} {
+					status_log "Image user_pic_$user_login not in use, deleting it\n"
+					image delete user_pic_$user_login
+				}
+			}
+		}
       ::MSN::leaveChat $chatid
 
    }
