@@ -277,16 +277,24 @@ namespace eval ::lang {
 		label $frm.txt.text -text " "
 		pack configure $frm.txt.text
 
-		frame $frm.command
-		button $frm.command.load -text "[trans download]" -command "::lang::language_manager_load" -state disabled
-		pack configure $frm.command.load -side right -padx 5
+		frame $frm.command1
+		
+		button $frm.command1.deleteall -text "[trans deleteall]" -command "::lang::language_manager_deleteall"
+		pack configure $frm.command1.deleteall -side left -padx 5
+		
+		button $frm.command1.load -text "[trans download]" -command "::lang::language_manager_load" -state disabled
+		pack configure $frm.command1.load -side right -padx 5
+		
+		frame $frm.command2
 
-		button $frm.command.close -text "[trans close]" -command "::lang::language_manager_close"
-		pack configure $frm.command.close -side right -padx 5
+		button $frm.command2.close -text "[trans close]" -command "::lang::language_manager_close"
+		pack configure $frm.command2.close -side right -padx 5
 
 		pack configure $frm.selection -side top -expand true -fill both -padx 4 -pady 4
 		pack configure $frm.txt -side top -fill x
-		pack configure $frm.command -side top -fill x -padx 10
+		pack configure $frm.command1 -side top -fill x -padx 10
+		pack configure $frm.command2 -side top -fill x -padx 10
+
 
 		} else {
 
@@ -342,8 +350,6 @@ namespace eval ::lang {
 	#///////////////////////////////////////////////////////////////////////
 	proc language_manager_selected { } {
 
-		global gui_language
-
 		set dir [get_language_dir]
 		if { $dir == 0 } {
 			return
@@ -358,19 +364,19 @@ namespace eval ::lang {
 
 		# If the lang selected is the current lang
 		if { $langcode == [::config::getGlobalKey language]} {
-			$w.command.load configure -state disabled -text "[trans delete]"
+			$w.command1.load configure -state disabled -text "[trans delete]"
 			$w.txt.text configure -text "[trans currentlanguage]" -foreground red		
 		# If the file is not available
 		} elseif {[lsearch $::lang::Lang $langcode] == -1 } {
-			$w.command.load configure -state normal -text "[trans download]" -command "[list ::lang::downloadlanguage "$langcode" $selection]"
+			$w.command1.load configure -state normal -text "[trans download]" -command "[list ::lang::downloadlanguage "$langcode" $selection]"
 			$w.txt.text configure -text ""
 		# If the file is protected
-		} elseif { ![file writable "$dir/$lang"] } {
-			$w.command.load configure -state disabled -text "[trans delete]"
+		} elseif { ![file writable "$dir/$lang"] | $langcode == "en" } {
+			$w.command1.load configure -state disabled -text "[trans delete]"
 			$w.txt.text configure -text "[trans filenotwritable]" -foreground red
 		# If the file is available
 		} elseif {[lsearch $::lang::Lang $langcode] != -1 } {
-			$w.command.load configure -state normal -text "[trans delete]" -command "[list ::lang::deletelanguage "$langcode" $selection]"
+			$w.command1.load configure -state normal -text "[trans delete]" -command "[list ::lang::deletelanguage "$langcode" $selection]"
 			$w.txt.text configure -text ""
 		}
 
@@ -391,6 +397,25 @@ namespace eval ::lang {
 		}
 
 
+	}
+	
+	
+	#///////////////////////////////////////////////////////////////////////
+	proc language_manager_deleteall { } {
+	
+		global lang_list
+		
+		set k 0
+		
+		foreach lang $lang_list {
+			set langcode [lindex $lang 0]
+			# If the lang selected is the current lang, the file is protected, or it is English, don't delete the lang
+			if { $langcode != [::config::getGlobalKey language] && $langcode != [::config::getGlobalKey language] && $langcode != "en" } {
+				::lang::deletelanguage "$langcode" "$k"
+			}
+			incr k
+		}
+			
 	}
 
 
@@ -794,6 +819,9 @@ namespace eval ::lang {
 	}
 
 
+	#///////////////////////////////////////////////////////////////////////
+	# This proc is called to update a lang
+	
 	proc UpdateLang { langcodes } {
 	
 		set w ".updatelangplugin"
