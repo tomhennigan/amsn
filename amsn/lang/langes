@@ -34,6 +34,7 @@ checkingver Buscando si hay disponible una nueva versión
 checkver Buscar nuevas versiones
 choosebasefont Elegir tipo de letra
 choosebgcolor Elegir color de fondo
+choosefontcolor Elegir color de la letra
 clicktologin Haga click aquí para iniciar la sesión
 close Cerrar
 closingdocks Botón de cerrar minimiza

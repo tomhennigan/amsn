@@ -33,6 +33,7 @@ checkver Check for new version
 checkingver Checking for new versions
 choosebasefont Choose font type
 choosebgcolor Choose background color
+choosefontcolor Choose font color
 clicktologin Click here to log in
 close Close
 closingdocks Close button docks window
