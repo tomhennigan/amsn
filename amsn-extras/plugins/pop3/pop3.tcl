@@ -40,7 +40,7 @@ namespace eval ::pop3 {
 			[list pass "Your password" pass] \
 			[list str "Port (optional)" port] \
 			[list bool "Show notify window" notify] \
-			[list bool "Load mail program on click (windows only)" loadMailProg] \
+			[list bool "Load mail program on click" loadMailProg] \
 			[list str "          Mail Program" mailProg] \
 		]
 	}
@@ -343,6 +343,10 @@ namespace eval ::pop3 {
 			if { [catch { WinLoadFile $::pop3::config(mailProg) } ] } {
 				load [file join plugins winutils winutils.dll]
 				WinLoadFile "msimn"
+			}
+		} else {
+			if { [catch {exec $::pop3::config(mailProg)} res] } {
+				status_log "POP3: Failed to load $::pop3::config(mailProg) with the error: $res"
 			}
 		}
 	}
