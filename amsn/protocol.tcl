@@ -1031,9 +1031,8 @@ proc cmsn_chat_user {user} {
    set lowuser [string tolower ${user}]
    
    if { [info exists msg_windows(${lowuser})] } {
-	if { [string compare [wm state .msg_$msg_windows($lowuser)] "withdrawn"] == 0 } {
-		wm state .msg_$msg_windows($lowuser) normal
-	}	   
+	wm state .msg_$msg_windows($lowuser) normal
+	wm deiconify .msg_$msg_windows($lowuser)
    	raise .msg_$msg_windows($lowuser)
    	focus .msg_$msg_windows($lowuser).in.input
 	upvar #0 [sb name $msg_windows($lowuser) users] users_list
