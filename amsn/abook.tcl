@@ -687,7 +687,7 @@ namespace eval ::abookGui {
 		pack $nbIdent.customfnick.ent -side left -expand true -fill x
 		pack $nbIdent.customfnick.help -side left
 	
-		label $nbIdent.ycustomfnickl -text "[trans mynick]:"
+		label $nbIdent.ycustomfnickl -text "[trans myfriendlyname]:"
 		frame $nbIdent.ycustomfnick
 		entry $nbIdent.ycustomfnick.ent -font splainf -bg white
 		menubutton $nbIdent.ycustomfnick.help -font sboldf -text "<-" -menu $nbIdent.ycustomfnick.help.menu
