@@ -1,0 +1,226 @@
+amsn_lang_version 2
+about Rólunk
+accept	Elfogad
+acceptfile Fogadott fájl $1, méret $2? Lementve $3
+actions Mûveletek
+addacontact Partner hozzáadása
+addedyou Téged hozzáadott a partnerlistájához
+addtocontacts Hozzáadás a partnerlistához
+addtoo Ennek a személynek hozzáadása a partnerlistához
+admincontacts Partnerek szerkesztése
+admingroups Csoportok szerkesztése
+adverts Hírdetések
+alarmpref Figyelmeztetõ jeézés ennek a felhasználónak
+alarmstatus Figyelmeztetõ jelzés KI/BE kapcsolása ehhez a felhasználóhoz
+allowseen Ez a személy mindig láthat ha bejelentkezem
+appearance Megjelenés
+appearoff Nem látható a bejelentkezés (rejtett üzemmód)
+areacode Területi kód
+aretyping $1 éppen üzenetet gépel
+autoconnect2 Automatikus bejelentkezés az aMSN indításakor
+autoconnect Kapcsolódás az AMSN indulásakor
+autohotmaillog Automatikus Hotmail bejelentkezés
+autoidle Inaktivitás érzékelõ
+autoip Automatikus IP
+autonoact "Nem elérhetö"-ként jelenits meg, ha inaktív vagyok
+avoidseen Ez a személy nem láthat ha bejelentkeztem
+away Elmentem itthonról
+awaymsg2 Nem kérdez, mindig a lenti távolléti üzenetet használja
+baduserpass Rossz felhasználónév vagy jelszó
+bgcolor Az aMSN háttérszínének megváltoztatása
+blankdirect Hagyd üresen a közvetlen kapcsolathoz
+block Blokkolás
+blocked Blokkolva
+broughtby  A fejlesztõk:
+browse Böngészés
+browser Böngészõ
+busy Dolgozom ne zavarj
+cancel Mégsem
+cfgalarm Beállítások, figyelmeztetõ jelzés Hozzáadása/Elvétele
+changefont Betütípus választás
+changenick Becenév váltása
+chatack Csevegés engedélyezése...
+chat Csevegés
+chatreq Csevegés kezdése
+chatsmileys Csevegõ fejecskék
+checkingver Új verzió ellenõrzése folyamatban...
+checkver Új verzó ellenõrzése
+choosebasefont Betûtípus választása
+choosebgcolor Háttérszín választása
+choosefontcolor Betû szín választása
+clicktologin Kattints ide a bejelentkezéshez
+close Bezárás
+closingdocks Bezáró gomb dokkolása az ablakba
+command Parancs
+confirm Biztos vagy benne?
+confirmdelete Biztos ki akarod ezt törölni: $1?
+connecterror Hiba a szerverhez kapcsolódás közben
+connection Kapcsolódás
+contactadded Kapcsolat hozzáadása
+contactdoesnotexist A kapcsolat nem jött létre!
+copy Másolás
+copytogroup Másolás a csoportokba
+countrycode Ország/Régió kód
+cprofile Profil létrehozása
+cut Kivágás
+date Dátum
+days Napok
+dcprofile Ne hozz létre profilt
+default Alapértelmezett beállítás
+delete Törlés
+deliverfail Néhány hiba fordult elõ az üzenet kézbesítése közben
+delprofile2 Jelölje ki azt a profilt, amit ki szeretne törölni
+delprofile Profil törlése
+dockgtk Dokkolás a Gnome-ba
+docking Dokkolás
+dockingoff Dokkolás kikapcsolása
+dockkde Dokkolás a KDE-be
+editprofile Profil szerkesztése
+edit Szerkesztés
+enableproxy Proxy engedélyezése
+encoding2 Karakter kódolásának megváltoztatása
+encoding Enkódolás választása
+entercontactemail Gépeld be a kapcsolat E-mail címét
+enterfilename Gépeld be a fájl nevét
+enternick Gépeld be a beceneved
+examples Példák
+exitamsn Biztosan ki akarsz lépni?
+extras Extra szolgáltatások
+faq Gyakran Ismételt Kérdések
+filedoesnotexist A fájl nem jött létre
+fileman	Fájlkezelö
+filename Fájlnév
+filetransfercancelled Fájl átvitel megszakítva
+filetransfercomplete Fájl átvitel kész
+ftaccepted Fájl átvitel engedélyezése
+ftrejected Fájl átvitel kész
+gonelunch Ebédelni mentem
+groupadd Csoport hozzáadása
+group Csoport
+groupdelete Csoport törlése
+groupexists A csoport már létezik
+groupmissing Nem találom a csoportot
+groupnewname Új név
+groupnotempty A csoport nem üres!
+groupoldname Régi név
+grouprename Csoport átnevezése
+groupunknown Ismeretlen csoport
+handle Kezelés
+helpcontents A segítség összetevõi
+help Segítség
+home Otthon
+ident Azonosítás
+identity Azonosító
+inbox Beérkezõ üzenetek
+invalidusername Hibás felhasználó név
+invite Meghívás
+ipaddress IP Cím
+istyping $1 üzenetet gépel be.
+joins $1 csatlakozott a beszélgetéshez
+keepalive Életbentartás (NAT)
+language Nyelv
+lastmsgtime Az utolsó üzenet beérkezett:
+lclosedwin $1 becsukta a $2 ablakot
+lconvstarted Beszélgetés kezddött az $1-en
+leaveblankforhotmail Hagyd üresen a hotmail web használatához
+leaves $1 elhagyta a beszélgetést
+lenteredconf 1$ belépett a $2 konferenciába
+listeningon Hallgatás a porton $1
+listsmileys Fejecskék listája
+loadcontacts Partnerlista töltése
+loggedotherlocation Megszakítva. Belépés másik helyrõl.
+loggingin Belépve
+loginas Bejelentkezés mint
+login Bejelentkezés
+logout Kilépés
+logsin Bejelentkezett
+mailer Levelezõ
+mobile Mobil
+movetogroup Mozgatás a csoportokba
+msg Üzenet
+msn AMSN
+mustrestart A változtatásokhoz újra kell indítanod a programot
+mystatus Állapotom
+natip Ip felderítés weblappal
+needonline Az állapotod offline!
+newmail $1 új üzeneted van
+newmailfrom Új levél érkezett...
+newmsg Új levél
+newveravailable Újabb verzió  $1 elérhetõ letöltésre.
+next Következõ
+noactivity Nem vagyok itt
+nonewmail Nincs új üzeneted
+nonewver Nincs elérhetõ új verzió
+normal	Normál
+notify értesítés
+notifywin Értesítõ ablak
+nousersinsession Nincs felhasználó a kapcsolatok között
+offline Kapcsolat nélkül
+ok Rendben
+onenewmail 1 új üzeneted van
+online Elérhetõ
+onphone Telefonálok
+openreceived A beérkezett fájlok megnyitása
+options Beállítások
+ordercontactsby Partnerek rendezése
+ordergroupsby Csoportok rendezése
+other Más
+pager Személyi hívó
+pass Jelszó
+paste Beillesztés
+phone Telefon
+picfile Figyelmeztetõ kép fájl (GIF < 500 x 500)
+picstatus Figyelmeztetõ kép KI/BE kapcsolása
+port Port
+prefapps Alkalmazások
+preferences Beállítások
+prefsound Hangok
+properties Beállítások
+proxyconfhttp HTTP proxy elérhetõ beállításai
+proxyconf Proxy beállítása
+publishphones A telefonszámom közzététele
+receivedbytes Érkezett $1 ból $2 bájt
+receivefile Fájl fogadása
+reconnecting Újra kapcsolódás a szerverhez
+reconnect Várakozás a $1kapcsolódására
+reject Elvet
+rememberpass Emlékezz a jelszavamra
+reversed R-beszélgetés
+rightback Késõbb visszajövök
+saveas Mentés másként
+savecontacts A partnerlista mentése
+save Mentés
+says $1 mondja
+sbcon Csatlakozás a kapcsoló mezõhöz
+sendfile Fájl küldése
+send Küldés
+sendmail Levél küldése
+sendmsg Üzenet küldése
+sentbytes Küldve $1 -ból $2 bájt
+servergoingdown Megszakítva: a szerver leállt
+server Szerver
+soundfile Figyelmeztetõ hang fájl
+sound Hang esemény
+soundloop Ismétlõdõ hang
+soundstatus Figyelmeztetõ hang KI/BE kapcsolása
+startoffline Indítás kapcsolat nélkül
+status Állapot
+stopalarm Figyelmeztetõ hang leállítása
+syntaxerror  Szintaktikai hiba
+textsize Szöveg méret
+title Al's Messenger
+tools Eszközök
+to To
+unblock Blokkolás feloldása
+uoffline Kapcsolat nélkül
+uonline Kapcsolatban
+useralreadyonlist A felhasználó már szerepel a listádban
+user Felhasználó
+usernotonline A felhasználó nincs bejelentkezve
+version Verzió
+view Nézet
+viewprofile Profil megtekintése
+willjoin  Várakozok $1  csatlakozására a beszélgetéshez
+work Foglalkozás
+yousay Te mondtad
+youwant Te akartad
