@@ -5203,7 +5203,7 @@ namespace eval ::MSNP2P {
 					return
 				} elseif { $eufguid == "4BD96FC0-AB17-4425-A14A-439185962DC8" }	{
 					status_log "we got an webcam invitation" red
-					::amsn::WinWrite $chatid " [trans webcaminvite [::abook::getNick $dest]]\n" black "" 0
+					::amsn::WinWrite $chatid "\n [trans webcaminvite [::abook::getNick $dest]]" black "" 0
 				}
 			}
 		
@@ -5368,10 +5368,6 @@ namespace eval ::MSNP2P {
 				status_log "MSNP2P | $cSid -> File transfer finished!\n"
 				::amsn::FTProgress fr $cSid [lindex [SessionList get $cSid] 6] $cOffset $cTotalDataSize
 				SessionList set $cSid [list -1 -1 -1 -1 -1 -1 -1 "filetransfersuccessfull" -1 -1]
-				#::amsn::WinWrite $chatid "----------\n" green
-				#::amsn::WinWriteIcon $chatid fticon 3 2
-				#::amsn::WinWrite $chatid " [trans filetransfercomplete]\n\n" green
-				#::amsn::WinWrite $chatid "----------\n" green
 			    }
 			}
 		    } elseif { $cMsgSize == 4 } {
@@ -6003,14 +5999,14 @@ namespace eval ::MSNAV {
 
 		set win_name [::amsn::MakeWindowFor $chatid $txt $fromlogin]
 
-		::amsn::WinWrite $chatid "----------\n" green
+		::amsn::WinWrite $chatid "\n----------\n" green
 		::amsn::WinWrite $chatid $txt green
 		::amsn::WinWrite $chatid " - (" green
 		::amsn::WinWriteClickable $chatid "[trans accept]" "::MSNAV::acceptInvite $cookie [list $requested] $chatid" avyes$cookie
 		::amsn::WinWrite $chatid " / " green
 		::amsn::WinWriteClickable $chatid "[trans reject]" "::MSNAV::cancelSession $cookie [list $requested] $chatid" avno$cookie
 		::amsn::WinWrite $chatid ")\n" green
-		::amsn::WinWrite $chatid "----------\n" green
+		::amsn::WinWrite $chatid "----------" green
 
 		#::MSNAV::acceptInvite $cookie [list $requested] $chatid
 	}
@@ -6047,9 +6043,9 @@ namespace eval ::MSNAV {
 		set txt [trans avaccepted]
 
 		
-		::amsn::WinWrite $chatid "----------\n" green
+		::amsn::WinWrite $chatid "\n----------\n" green
 		::amsn::WinWrite $chatid " $txt\n" green
-		::amsn::WinWrite $chatid "----------\n" green
+		::amsn::WinWrite $chatid "----------" green
 		
 		# We accepted let's init linphone
 		set type [lindex [CookieList get $cookie] 2]
@@ -6131,9 +6127,9 @@ namespace eval ::MSNAV {
 
 		# Show on screen
 		set txt [trans avcanceled]
-		::amsn::WinWrite $chatid "----------\n" green
+		::amsn::WinWrite $chatid "\n----------\n" green
 		::amsn::WinWrite $chatid " $txt\n" green
-		::amsn::WinWrite $chatid "----------\n" green
+		::amsn::WinWrite $chatid "----------" green
 
 		
 		set conntype [::abook::getDemographicField conntype]
@@ -6295,9 +6291,9 @@ namespace eval ::MSNAV {
 		
 			# Show on screen
 			set txt [trans avinitfailed]
-			::amsn::WinWrite $chatid "----------\n" green
+			::amsn::WinWrite $chatid "\n----------\n" green
 			::amsn::WinWrite $chatid " $txt\n" green
-			::amsn::WinWrite $chatid "----------\n" green
+			::amsn::WinWrite $chatid "----------" green
 			return
 		}
 			
