@@ -279,7 +279,7 @@ namespace eval ::amsn {
          wm state $win_name iconic
 
          notifyAdd "[trans says [::MSN::userName $chatid $user]]:\n$msg" \
-            "wm state ${win_name} normal; focus -force ${win_name}.in.input"
+            "wm state ${win_name} normal; focus -force ${win_name}.f.in.input"
 
       }
 
@@ -625,7 +625,7 @@ namespace eval ::amsn {
       pack .${win_name}.f.ys -side right -fill y
       pack .${win_name}.f.text -side right -expand true -fill both
            
-      pack .${win_name}.f.top.textto -side left -expand true -fill y
+      pack .${win_name}.f.top.textto -side left -fill y -anchor nw
       pack .${win_name}.f.top.text -side left -expand true -fill x
 
       pack .${win_name}.f.in.f -side right -fill y
