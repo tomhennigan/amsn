@@ -850,8 +850,8 @@ namespace eval ::ChatWindow {
 		set bar $w.bar
 		::skin::setPixmap tab tab.gif
 		::skin::setPixmap tab_close tab_close.gif
-                ::skin::setPixmap tab_close_hover tab_close_hover.gif
-                ::skin::setPixmap tab_hover tab_hover.gif
+        ::skin::setPixmap tab_close_hover tab_close_hover.gif
+        ::skin::setPixmap tab_hover tab_hover.gif
 		::skin::setPixmap tab_current tab_current.gif
 		::skin::setPixmap tab_flicker tab_flicker.gif
 		::skin::setPixmap moretabs moretabs.gif
@@ -2552,23 +2552,23 @@ namespace eval ::ChatWindow {
 		if { $max_tabs > 0 && $number_tabs > $max_tabs } {
 			#-image [::skin::loadPixmap lesstabs] 
 			#[image width [::skin::loadPixmap lesstabs]] 
-			button $less -image [::skin::loadPixmap lesstabs] \
+			label $less -image [::skin::loadPixmap lesstabs] \
 			    -width $less_w \
-			    -command "::ChatWindow::LessTabs $container $less $more" \
 			    -fg black -bg [::skin::getKey tabbarbg] -bd 0 -relief flat \
 			    -activebackground [::skin::getKey tabbarbg] -activeforeground black \
 			    -highlightthickness 0 -pady 0 -padx 0
+			bind $less <<Button1>> "::ChatWindow::LessTabs $container $less $more"
 			#-image [::skin::loadPixmap moretabs] 
 			#[image width [::skin::loadPixmap lesstabs]] 
-			button $more -image [::skin::loadPixmap moretabs] \
+			label $more -image [::skin::loadPixmap moretabs] \
 			    -width $more_w \
-			    -command "::ChatWindow::MoreTabs $container $less $more" \
 			    -fg black -bg [::skin::getKey tabbarbg] -bd 0 -relief flat \
 			    -activebackground [::skin::getKey tabbarbg] -activeforeground black \
 			    -highlightthickness 0 -pady 0 -padx 0
+			bind $more <<Button1>> "::ChatWindow::MoreTabs $container $less $more"
 			if { $::tcl_version >= 8.4 } {
-				$less configure -overrelief flat -compound center
-				$more configure -overrelief flat -compound center
+				$less configure -compound center
+				$more configure -compound center
 			}			
 			pack $more -side right -expand false -fill both -anchor e
 			pack $less -side right -expand false -fill both -anchor e
