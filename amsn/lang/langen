@@ -372,7 +372,7 @@ name Name
 natip IP detection by web page 
 natkeepalive If you are getting disconnected regularly, enable this KeepAlive
 needonline You still are/appear offline!
-needwinico Need winico03.dll in plugins directory for windows traydocking to work
+needwinico2 Need winico05.dll in the utils/windows directory for windows traydocking to work
 never Never
 new_ft_protocol Use new File Transfer protocol (some bugs remain)
 newmail $1 new messages in Inbox

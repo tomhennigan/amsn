@@ -81,7 +81,7 @@ proc trayicon_init {} {
 		}
 		set ext "[file join utils windows winico05.dll]"
 		if { [file exists $ext] != 1 } {
-			msg_box "[trans needwinico]"
+			msg_box "[trans needwinico2]"
 			close_dock
 			::config::setKey dock 0
 			return
