@@ -1,25 +1,25 @@
-Help file par amsn
+File di jutori par amsn
 
-Richiestis:
-Amsn al è scrit in tcl/tk, cuindi tu às bisugne di un interprit tcl/tk cal funsionedi, version 8.3 o miòr.
-Tu puedis velu al recapit http://tcl.sourceforge.net.
-El interprit is dispunibil par linux,windows e macintosh.
-Cualchi funsionament di plui al podares ve bisugne di cualchi altri program, o librarìs, come le docking icon, le Display Picture, o le conesion SSL par el protocol MSN 9.
+Carateristichis domandadis:
+Amsn al è scrit in tcl/tk, duncje tu âs bisugne di un interprit tcl/tk che al funsionedi, version 8.3 o plui atualizade.
+Tu puedis vêlu al recapit http://tcl.sourceforge.net.
+L' interprit al è dispunibil par linux, windows e macintosh.
+Cualchi fature in plui e podares vê bisugne di cualchi altri programe, o librariis, sicu le docking icon, le Display Picture, o le conession SSL par il protocol MSN 9.
 
-Guide di stafariment:
-Sçiarie el file amsn-x_xx.tar.gz.
-Scompatilu cun el comand:
+Guide di instalazion:
+Scjarie il file amsn-x_xx.tar.gz.
+Decomprimîlu cun il comant:
  gzip -d amsn-x_xx.tar.gz
  tar xvf amsn-x_xx.tar
-Al crearà une directory msn/ e amsn al è stafarìt e pront par là.
-Par falu là, scrìf:
+Al crearà une cartele msn/ e amsn al è instalât e pront par sedi inviât.
+Par inviâlu, scrîf:
  cd msn
  ./amsn
-o se nol và, prove
+o se nol vâ, prove
  wish amsn
-Se el comand wish nol esist, alore no tu às tcl/tk stafarìt coretamentri.
-Se "wish amsn" al funsione, ma "./amsn" no, configure el file 'amsn' e met le trate juste a 'wish' te prime linie.
-Normalmentri, cheste le trate e je:
+Se il comant wish nol esist, alore no tu âs tcl/tk instalât coretementri.
+Se "wish amsn" al funsione, ma "./amsn" no, configure il file 'amsn' insedant le trate juste a 'wish' te prime rie.
+Le trate predefinide e je:
 /usr/bin/wish
 
-Se tu às ançimo berdeis, prove a dopra le FAQ
+Se tu âs ancjemò berdeis, prove a doprâ le FAQ

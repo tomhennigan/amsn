@@ -2,74 +2,110 @@ FAQ 1.2
 --------
 
 D: Ce isal Amsn?
-R: Amsn al'è un clone di Microsoft Messenger. A ti permet di contatà i toi amìs e scambià mes e file.
+R: Amsn al è un clone di Microsoft Messenger. A ti permet di tignîti in contat cui toi amiis e scambiâ mes e file.
 
-STAFARAMENT E ESECUZION
+INSTALAZION E ESECUZION
 =======================
 
-D: Di ce ao bisugne par dopra amsn?
-R: Sçiarie el file amsn-x_xx.tar.gz. Decomprimilu doprant i comands:
+D: Di ce aio bisugne par doprâ amsn?
+R: Amsn al è scrivût in tcl/tk, sicu tu âs bisugne di un interprit tcl/tk (version 8.3 o plui atualizade).
+Tu puedis scjariâ l'interprit su http://tcl.sourceforge.net. L'interprit al è disponibil par linux, windows e macintosh. Cualchi fature in plui e podares ve bisugne di programs o librariis extra, sicu le docking icon, le Display Picture o le conession SSL par il protocol MSN 9.
+
+D: Cemût puedio instalâ e inviâ amsn su unix/linux?
+R: Scjarie il file amsn-x_xx.tar.gz. Decomprimîlu doprant i comants:
   gzip -d amsn-x_xx.tar.gz
   tar xvf amsn-x_xx.tar
-E vignarà creade une directory che varà non amsn/, e amsn al'è stafarìt e pront par sedi dopràt.
-Par falu là:
+E vignarà creade une cartele amsn/, e amsn al è instalât e pront par sedi inviât.
+Par inviâlu, scrîf:
   cd msn
   ./amsn
-o, sa nol funsione, prove
+o, se nol funsione, prove
   wish amsn
-se il comand wish nol esist, al ul di che l'interprit tcl/tc nol è stafarìt coretamentri sul to sistem.
-Se "wish amsn" al funsionie, ma "./amsn" no, cambie il file 'amsn' e met te prime rie le trate juste par il
-/usr/bin/wish
+Se il comant wish nol esist, al ûl dî che l'interprit tcl/tc nol è instalât coretementri.
+Se "wish amsn" al funsione, ma "./amsn" no, cambie il file 'amsn' e met te prime rie il percors just par wish.
+Predefinît al è /usr/bin/wish.
 
-D: Cemùt puedio creà une scurte a amsn tal gnio desktop?
-R: 1.- Gionte une icone al to desktop gnome/kde o al menu, cal fàs la el comando:
-   /la/che/tu/às/stafarìt/msn/amsn
+D: Daspò vê scjariât imagemagick, cemût puedio abilitâ Display Pictures?
+R: Daspò vê instalât imagemagick, và sul barcon des preferencis di AMSN. Frache su "Altris". Va sul cjamp clamât "CONVERT", e frache sul boton "cîr". Va su le cartele là che tu âs instalât imagemagick, e sielç il file "CONVERT.EXE".
+Daspò, salve les preferencis e torne a inviâ AMSN. Va ancjemò tes preferencis, e sielç le opzion "Ative le ricezion des figuris personâlis dai utents" che ere disabilitade prin parce che CONVERT.EXE no si cjatave.
+
+D: Cuant che o frachi dôs voltis il file "amsn" di un gjestôr di file, sicu konqueror o nautilus, a si vierç un program di modifiche di test invezit di inviâ AMSN!
+R: AMSN al è scrivût in tlc/tk, une lenghe interpretade, cussì il file "AMSN" al è just un file di test cun il codis dal program. Il gjestôr di file al po pensâ che al è un file di test, cussì al invie il program di modifiche dal test. Par inviâ AMSN tu âs di sielzi "Vierç cun...", "Invie cun..." o someant, e dopre il program "wish" par vierzi il file "amsn". Ancjemò, sicu vidût te domande prin, se il comant "wish" nol esist, tu âs di instalâ tcl/tk. 
+
+D: Cemût puedio creâ une scurte a amsn tal gno desktop?
+R: 1.- Zonte une icone al to desktop gnome/kde o al menu, cal fâs lâ il comant:
+   /la/che/tu/âs/instalât/msn/amsn
    par esempli
-   /home/iltuonomeutente/msn/amsn
-   2.- Alternativamentri:
-   Come root, crè un colegament simbolic dentri de directory /usr/bin che ponti al file eseguibil amsn
-   ln -s /la/che/tu/às/stafarìt/amsn /usr/bin/amsn
-   In cheste maniere, tu puedis fa là amsn dome scrivint 'amsn' di qualsiasi puest tu ti çiatis.
-   Cumo gionte une icone che fasi la el comand 'amsn'.
+   /home/iltononutent/msn/amsn
+   2.- Altre maniere:
+   Sicu root, cree un leam dentri de cartele /usr/bin che pontedi al file inviabil amsn
+   ln -s /la/che/tu/âs/instalât/amsn /usr/bin/amsn
+   In cheste maniere, tu puedis fâ lâ amsn dome scrivint 'amsn' di cualsisei puest tu ti cjatis.
+   Cumò zonte une icone che fasedi lâ il comant 'amsn'.
    
 D: Cemut puedio fa là le integrazion cun Gnome/KDE?
-R: Tu às di fa là el comand 'make' dentri de directory plugins, par compilà el VIERI GNOME1 plugin. Tu às bisugne des librarìs di svilùp di gnome.Une volte che le compilaziòn dal plugin e je lade ben, tu às dome di fa là amsn e scelgi Gnome Docking, (o Integrazion a Gnome), dal menu des opzions.
-Par compilà el plui gnùf freedesktop (compatibil con Gnome2 e KDE3) docking, lei el file README dentri de directory plugins/traydoc.
+R: Tu âs di fâ lâ il comant 'make' dentri de cartele dai plugins, par compilâ il VIELI GNOME1 plugin. Tu âs bisugne des librariis di svilup di gnome. Une volte che le compilazion dal plugin e je lade ben, tu âs dome di fâ lâ amsn e sielzi Gnome Docking, (o Integrazion a Gnome), dal menu des opzions.
+Par compilâ il plui gnûf freedesktop (compatibil cun Gnome2 e KDE3) docking, lei il file README dentri de cartele plugins/traydoc.
 
-UTILIZAZION
+ÛS
 ===========
 
-D: Ce vuelino di i contats in ros ca son te liste dai contats?
-R: Al ul di che no tu sès presint te liste dai contats di che persone.
+D: Ce vuelino dî i contats in ros che son te liste dai contats?
+R: E vuelin dî che no tu sês presint te liste dai contats di ches personis.
 
-D: Puedio copià el recapit di un contàt te puntaduris?
-R: Si, tast diestri sul contàt presint te liste dai contats, e click sul recapit cal ven fùr tal pop-up menu.
-El recapit email dal contàt al vignarà copiàt te puntaduris.
+D: Puedio copiâ il recapit di un contat te pontaduris?
+R: Si, fracant il boton di drete sul contat presint te liste dai contats, daspò fracant sul recapit cal ven fûr tal barconut di menu.
+Il recapit email dal contat al vignarâ copiât te pontaduris.
 
-D: Cemut puedio rivà al storic dai mes co ai inviàt tai mei balcons di chat?
-R: Se tu ùs rivà ai mes che tu às inviàt in precedenze tai toi balcons di chat, tu às dome di doprà el tast Control cun les frecis di direzion. Al funsione cuasi come te shell, parce che Ctrl-Up al permet di rivà al mes precedent, e Ctrl-Down a chel seguitìv.
+D: Cemut puedio rivâ al storic dai mes che o ai inviât tai mei barcons di chat?
+R: Se tu âs voe di rivâ ai mes che tu âs inviât tai toi barcons di chat, tu âs dome di doprâ il boton Control cun les frecis di direzion. Al funzione cuasi sicu te shell, parcè che Ctrl-Up al permet di rivâ al mes precedent, e Ctrl-Down a chel seguitîv.
 
-D: Tal tab des preferenzis su le privacy, ce vuelino di le cuatri listis?
-R: A son cuatri listis, cognosudis come Arrow List (AL), Block List (BL), Reverse List (RL) e Contact List.
-Le ultime e je clare, cumo o spiegarai ce ca vuelin di ches àtris tre:
-AL : Cheste liste e ten le emails des personis che e son stadis abilitadis a viodius cuan co sès conetùs e puedin comunicà cun vo in ce no si sconetès.
-BL : Cheste e je le block list, le liste che ten le email des personis co vès blocàt.
-Sicome che chest al significhe che no puedin viodius cuan co si conetès, no podaran contataus.
-RL : Cheste e je le reverse list, e ten e recapits email des personis che no son te to liste dai contats ma tu tu sès te lòr.
+D: Tal barcon des preferenzis su le privacy, ce vuelino dî les cuatri listis?
+R: A son cuatri listis, cognossudis sicu Liste permitûts (AL), Liste di utents blocâts (BL), Liste ledrôse (RL) e Liste dai contats.
+Le ultime e je clare, cumò o spieghi ce che vuelin dî ches atris tre:
+AL : Cheste liste e ten i recapits email des personis che e son stadis abilitadis a viodîti cuant che tu sês conetût e puedin comunicâ cun te fin che no tu ti disconetis.
+BL : Cheste e je le liste dai utents blocâts, le liste che ten i recapits email des personis co vês blocât.
+Cause che chest al ûl dî che no puedin vioditi cuant che tu sês conetût, no podaran contatâti.
+RL : Cheste e je le liste ledrôse, e ten i recapits email des personis che no son te to liste dai contats ma tu tu sês te lôr.
 
-BERDEIS DISCROSAS
-=================
+D: O ai voe di zontâ les mes musutis personalizadis, cemût puedio fâlu? 
+R: Tal menu des musutis, al è un gnûf boton che ti permet di fâlu.
+Frache sul boton "Zonte une gnove musute personalizade" e al comparesirà un barcon, tu âs di insedâ tai cjamps domandâts.
+Il cjamp "Descrizion" al â di sedi impostât a ce che tu vuelis, e sarâ dome le descrizion mostrade dai sugjeriments.
+Il cjamp "Scurtis di test" al è ce che tu vuelis scrivi par che e sedi mostrade le musute, par esempli, il rideç normâl
+al à scurtis di test sicu :D :-D :> :-> .... par impostâ plui scurtis, tu âs di scrivîlis une daspò di che altre, disseparadis di un spazi. Se tu vuelis une scurte che e à dizà un spazi dentri, par esempli "mandi mandi", tu âs di metile in mieç a dôs virgulutis..
+Par esempli :
+"mandi mandi" hi "cemût stâtu"
+chestis e saràn 3 scurtis par le midiessime musute.
+Il cjamp "Non dal file de musute" al è il non dal file gif. Al à di sedi di dimension 19x19, cussì il menu des musutis no si imberdee. Tu puedis vê le dimension che tu vuelis, ma e podares intravignî cualchi robe strane... (menu des musutis imberdeât, se tu zontis cheste musute al to sorenon, le part "Gno stât" dal barcon principâl di amsn e podares imberdeasi, ecc...). Tu puedis insedâ un recapit complet, doprâ il boton "Cîr" o juste insedâ il non dal file, se il file al è presint in ~/.amsn/<profile>/smileys o msn/skins/<skin>/smileys. Il file al vignarâ copiât te cartele dal to profîl in câs che tu rimovedis o cambiedis il non dal file origjinâl.
+Il cjamp "File dal sun di alarm" al à les midiessimis proprietâts... chest al è doprât par dâ fûr un sun cuant che e ven mostrade le musute.. par esempli le musute LOL, cun le scurte lol, e vâs lâ un sun di ridade. Il file al à di sedi un .waw o cualsisei estension sopuartade dal to sunadôr (impostilu tal barcon des preferencis des aplicazions ... play, esdplay o mpg123 se tu vuelis che al sedi un file .mp3). Par che cheste vôs e sedi disponibil, tu âs di ativâ le opzion "Dâ fûr un sun"
+Le opzion "Cheste musute e je animade" e ûl dî che il file GIF al è animât, se il file GIF al è animât, e no tu sielzis cheste opzion, le musute e restarà une imagjin.
+Le opzion "Plate dal menu des musutis" e ûl dî che se tu sielzis cheste opzion, le musute no aparesirà tal menu, ma vignarâ simpri mostrade cun les scurtis di test.
+Le opzion des letaris grandis e piçulis e ûl dî che se tu sielzis cheste opzion, les scurtis e vignaran interpretadis in maniere diferente se scrivudis cun letaris grandis o piçulis.
+Cuant che tu finissis di impostâ les preferenzis, frache il boton OK, e vignaran mostrâts i fai in câs che tu vedis dismenteât di impostâ une des primis 3 opzions (descrizion, scurte e file) o in câs che il file (GIF o di sun) nol esistedi o nol sedi leibil dal utent. Se nol ven mostrât nissun fal, tu puedis doprâ les tôs musutis gnovis.
+Divertissiti!
 
-D: Cualchi volte amsn "hangs"(si bloche, nol rispuint), parce?
-R: Dispès, cuan che amsn si bloche, el berdei al dipend de configurazion audio. Al podares sedi dovut al fàt che tu stàs cirint di riprodusi un sun ma el to sistem audio al è ocupàt, e le istruzion di riprodusion a si ferme fin che le schede audio no torne disponibil. Prove a disabilità el sun o a modificà le configurazion dal comand pe riprodusion audio.
+D: I sorenons e son taiâts. Isal pussibil tornâ a meti in vore i sorenons complets?
+R: Si. Par tornâ a meti in vore i sorenons complets, te liste dai contats, tai alarms e tal barcon di chat, và su le sezion des preferenzis avanzadis, dentri tal barcon des preferenzis, e disabilite le opzion.
 
-D: O stoi cirint di fa là amsn ma a mi da el eròr:
+D: Il control di bloc nol è plui disponibil, parcè?
+R: In fal tal protocol che nus à permitût di controlâ se les personis ti vevin blocât al è stât justât.
+Nol è plui pussibil controlâ, cussì nol à plui sens mantignî cheste opzion.
+-
+
+RISOLUZION DAI FAI
+==================
+
+D: Cualchi volte amsn si bloche parcè?
+R: Dispès, cuant che amsn a si bloche, il berdei al dipend de configurazion audio. Al podares sedi causât dal fat che tu stâs cirint di fâ lâ un sun ma il to sisteme audio al è cjapât, e il comant di riproduzion a si ferme fin che le schede audio no torne disponibil. Prove a disabilitâ il sun o a modificâ le configurazion dal comant par le riproduzion audio.
+
+D: O stoi cirint di fâ lâ amsn ma mi ven fûr chest fal:
 bash: ./amsn: bad interpreter: No such file or directory
-R: Tu scugnis stafarà i pachets tcl/tk, parce che tu às bisugne dal interprit wish.Se tu crodis di velu digià stafarìt prove a fa la el comand "wish amsn" al puest di "./amsn". Se in cheste maniere al funsione, cambie le prime rie dal file amsn:
+R: Tu scugnis instalâ i pachets tcl/tk, parcè che tu âs bisugne dal interprit wish. Se tu crodis di vêlu dizà instalât prove a fâ lâ il comant "wish amsn" al puest di "./amsn". Se in cheste maniere al funsione, cambie le prime rie dal file amsn:
  #!/usr/bin/wish
- cun le posizion dal interprit wish
+ cun il recapit dal interprit wish
 
-D: Cuan co fas là amsn al ven fùr chist eròr:
+D: Cuant che o fâs lâ amsn al ven fûr chest fal:
 Error in startup sript: bad option "map": must be
 compare, first, index, last, length, match, range,
 tolower, toupper, trim, trimleft, trimright, wordend,
@@ -79,9 +115,9 @@ while executing
 (in namespace eval "::md5" cript line 65)
 invoked from within
 "namespace eval ::md5 { ... etc
-R: Tu stàs doprant une version di tcl/tk plui vierie de 8.3. Atualize el tcl/tk.
+R: Tu stâs doprant une version di tcl/tk plui vielie de 8.3. Atualize il tcl/tk.
 
-D: Dopo ve atualizàt amsn, chest al è ce cal ven fùr une volte fàt là:
+D: Dopo vê atualizât amsn, chest al è ce che al ven fûr une volte fat lâ:
 Error in startup script: expected integer but got ""
 while executing
 "font create menufont -family $family -size $size
@@ -90,52 +126,57 @@ while executing
 invoked from within
 "::amsn::initlook $family $size $config(backgroundcolor)"
 (file "amsn" line 2184)
-R: E son stàs cambiaments al file di configurazion. Le maniere plui svelte par discrosà chest berdei e je di eliminà el file di configurazion presint te to home directory.
-Elimine el file /home/nondaltoutent/.amsn/config e al varès di là.
+R: E son stàs cambiaments al file di configurazion. Le maniere plui svelte par justâ chest fal e je di rimovi il file di configurazion presint te to cartele home.
+Rimôf il file /home/nondaltoutent/.amsn/config e al vares di lâ.
 
-D: No pues scrivi in cinès / giaponès / atris lenghis in amsn. Ce puedio fà?
-R: Al somè che xcin o altris someants no sedin sopuartàts te version di tcl/tk, e no funsionin nançie cun amsn.Tu às di spietà le prosime version di tcl/tk e sperà che e puartedi xcin.Altrimentri, tu puedis scrivi el test cunt un atri editor, e fa el copie-incole tal balcon di chat.
-Notisie: Internazionalisasiòn e copie-incole. Se tu às berdeis tal incolà caratars in AMSN, sçiarie e stafarìs le version di Tck/Tk di chi:
+D: No pues scrivi in cinês / gjiaponês / atris lenghis in amsn. Ce puedio fâ?
+R: Al somee che xcin o altris someants no sedin sopuartâts te version di tcl/tk, e no funsionedin neancje cun amsn. Tu âs di spietâ le prossime version di tcl/tk e sperâ che e puartedi xcin. Altrimentri, tu puedis scrivi il test cunt'un atri modificadôr di test, e fa il copie-incole tal barcon di chat.
+Gnove: Internazionalizazion e copie-incole. Se tu âs berdeis tal incolâ caratars in AMSN, scjarie e instale le version di Tck/Tk di chi:
 http://jfontain.free.fr/tcl-8.4a3-2.i386.rpm
 http://jfontain.free.fr/tk-8.4a3-2.i386.rpm
 http://jfontain.free.fr/tcl-thread-8.4a3-2.i386.rpm
-Note che ceste e podares une alternative tal càs che no tu rivasis a scrivi diretamentri in AMSN te to lenghe, come el Cinès Tradizionàl doprant xcin.
+Note che cheste e podares sedi une alternative tal câs che no tu rivedis a scrivi diretementri in AMSN te to lenghe, sicu il Cinês Tradizionâl doprant xcin.
 
-D: Puedio doprà AMSN daùr di un proxy server?
-R: Scomenciant de versions seguitivis a le 0.61, al è disponibil el sopuart HTTP proxy. Chest al ul di che tu ti puedis coneti dome se tu ti çiatis daùr di un HTTP proxy (come el squid, par esempli). Se il to server proxy al è di tipo socks5 alore no ti sarà pusibil conetiti, ma el sopuart al socks5 al sta rivant.
+D: Puedio doprà AMSN daûr di un server proxy?
+R: Scomenzant des versions seguitivis a le 0.61, al è disponibil il sopuart HTTP proxy. Chest al ûl dî che tu ti puedis coneti dome se tu ti cjatis daûr di un proxy HTTP (sicu il squid, par esempli). Se il to server proxy al è di sorte socks5 alore no ti sarà pussibil conetiti, ma il sopuart al socks5 al sta rivant.
 
-D: Amsn al somè sedi conetùt, ma tan co cìr di tabaja cun cualchidun o so cìr di cambià el gnio stàt o ven disconetùt. Chest al sucèt dispès, daspò cualchi minùt di inativitàt
-R: Prove a scelgi le vòs "Keepalive (NAT)" dentri dal menu impresç->opzions. A je une soluzion par les conesions a internet condividudis che invie, ogni doi minùts, un pachet fint al server, par mantigni ative le conesiòn.
+D: Amsn al somee sedi conetût, ma tan co cîr di tabaiâ cun cualchidun o se o cîr di cambiâ il gno stât o ven disconetût. Chest al sucêt dispès, daspò cualchi minût di inativitât.
+Probabilmentri o soi daûr di un router o di un filewall.
+R: Prove a sielzi le opzion "Keepalive (NAT)" dentri dal menu imprescj->opzions. A je une soluzion par les conessions a internet condividudis che invie, ogni doi minûts, un pachet pustiç al server, par mantignî ative le conession.
 
-D: Intard tai suns. Ad esempli, se XMMS al va e cualchidun al jentre o tu stàs tabajant cun cualchidun, daspò che XMMS al ven siaràt o cuan che el file audio cal sta lànt al finìs, duç i suns dai events che no podevin sedi fàs là vegnin sunàs in maniere une vore fastidiose.
-R: Tu às diferentis manieris di discrosà el berdei. Se tu stàs doprant KDE, tu puedis configurà XMMS par cal fasedi là i suns cun arts, e doprà artsplay come comand pe riproduzion dai suns par amsn.
-In cheste maniere i suns e saràn misturàts. Se tu stàs doprant Gnome, tu puedis dopra edsplay e configurà xmms par riprodusi tun ESD. Alternativamentri par doprà el comand play, tu puedis creà un script cal controli se el dispositìf /dev/dsp al è ocupàt, o disponibil, prime di fa là el comand "play".
+D: Intard tai suns. Par esempli, se XMMS al vâ e cualchidun al jentre o o stoi tabaiant cun cualchidun, daspò che XMMS al ven sierât o cuant che il file audio cal sta lant al finis, ducj i suns dai events che no podevin sedi fas lâ vegnin sunâts in maniere une vore fastidiose.
+R: Tu âs diferentis manieris di discrosâ chest berdei. Se tu stâs doprant KDE, tu puedis configurâ XMMS par cal fasedi lâ i suns cun arts, e doprâ artsplay sicu comant pe riproduzion dai suns par amsn.
+In cheste maniere i suns e vignaràn misturâts. Se tu stâs doprant Gnome, tu puedis doprâ edsplay e configurâ xmms par riprodusi cun ESD. Alternativementri par doprâ il comant play, tu puedis creâ un script cal controledi se il dispositîf /dev/dsp al è cjapât, o disponibil, prime di fâ lâ il comant "play".
 
-D: O dopri amsn daùr di un firewall, o o stoi doprant IP-Masquerade. L'inviament dai file nol ul funsionà, puedio discrosalu?
-R: Forsit el firewall al bloche le conesions che jentrin. Les stramudis di file e funsionin te seguint maniere: Cuan che tu us mandà el file a cualchidun, al ven mandàt un invìt cal conten el to recapit IP e el numar di puarte.
-A chest punt el client rimìt al à di conetisi al to IP:puarte par comencià le stramude.
-Les puartis dopradis plui dispes e son le 6891, 6892 e cusì vie (le prime stramude e ven fate su le puarte 6892).
-Cussì, se tu stàs doprant un filrewall, tu às di sedi sigùr cal aceti conesions jentrantis su le puarte 6891 (e les atris, se tu ùs ve le posibilitàt di fa plui stramudis di file tal stes moment).
-Se tu ti çiatis dentri di une rèt privade cun recapit privàt, come 192.168.0.x, alore al sarà une vore difizil fa là le stramude file. Tu às bisugne di mandà el recapit internet just (tu puedis inserilu a man o tu puedis domandà a amsn di tiralu fùr di une pagine web), al puest dal recapit di dentri, e domandà al gateway (el computer diretamentri conetùt a internet) di spedì les conesisons jentrantis a le puarte 6891 tal to computer dentri de rèt privade.
+D: O dopri amsn daûr di un firewall, o o stoi doprant IP-Masquerade. L'inviament dai file nol funsione, puedio discrosâ chest berdei?
+R: Forsit il firewall al bloche les conessions che jentrin. Les stramudis di file e funsionin te seguint maniere: Cuant che tu vuelis mandâ el file a cualchidun, al ven mandât un invît che al conten il to recapit IP e un numar di puarte.
+A chest pont il client rimît al à di conetisi al to IP:puarte par començâ le stramude.
+Les puartis dopradis plui dispès e son le 6891, 6892 e cussì vie (le prime stramude e ven fate su le puarte 6892).
+Cussì, se tu stâs doprant un firewall, tu âs di sedi sigûr che al aceti conessions jentrantis su le puarte 6891 (e les atris, se tu vuelis vê le possibilitât di fâ plui stramudis di file tal stes moment).
+Se tu ti cjatis dentri di une rêt privade cun recapit privât, sicu 192.168.0.x, alore al sarà une vore difizil fâ lâ le stramude file. Tu âs bisugne di mandâ il recapit internet just (tu puedis inserîlu a man o domandâ a amsn di tirâlu fûr di une pagjine internet), al puest dal recapit interni, e domandâ al gateway (il computer diretementri conetût a internet) di spedî les conessions jentrantis a le puarte 6891 tal to computer dentri de rêt privade.
 
-ESECUZION IN WINDOWS
+Esecuzion in Windows
 ====================
 
-D: Puedio fa in maniere che i suns a vignidin fàs la in ambient Windows?
-R: Si, o vin un piciul program clamàt plwav.exe che nol fas atri che fa là i wav sòt windows. Tu puedis dopralu come comand par i suns (amsn al à bisugne di cualchi program par pode riprodusi i suns). Scelc il menu Impresç->Opzions->Preferencis->Aplicazions->Aparince.
+D: Puedio fa in maniere che i suns a sedin fas lâ sot windows?
+R: Si, o vin un piçul program clamât plwav.exe che nol fas atri che fâ lâ i wav sot windows. Tu puedis doprâlu sicu comand par i suns (amsn al à bisugne di cualchi program par podê riprodusi i suns). Sielç il menu Imprescj->Opzions->Preferencis->Aplicazions->Aparince e insede "plwaw" sicu comant par il server dal sun.
 
 ALTRI
 =====
 
-D: O ai altris domandis, podeiso judami?
-A: Si, o podin. Ma in prin controle les paginis dal proget sourceforge, disponibilis al recapit
-http://sourceforge.net/projects/amsn, e controle duç i bugs, domandis di sopuart e forums generics par controlà se il to berdei al è sàt digià discrosàt. No sta controlà dome i mes marcàts come "Open". Al è un menu a tendute li che tu puedis selezionà "Closed" o "Pending" te ponte de liste dai mes. Les cuestions digià discrosadis e vegnin marcadis come Closed.
-Prime di mandà un bug o domandà sopuart, tire fùr les siguintis informazions:
+D: Mi soi visât che AMSN al vierç cualchi puarte daspò de 60000. Isal chest normâl? Parcè sucedial chest?
+R: Al è normâl. AMSN al dopre socket sicu sisteme di bloc par impedî che doi programs AMSN e dopredin il midiessim profîl tal stes timp (podares creâ berdeis). Chest al è il miôr sisteme di bloc indipendend tal sisteme operatîf che o vin cjatât. Se tu cjatis un miôr, visinus :)
+Se tu controlis ~/.amsn/profiles, tu puedis viodi le puarte doprade di ogni profîl.
+
+D: O ai altris domandis, podeiso judâmi?
+A: Si, o podin. Ma in prin controle les pagjinis dal progjet sourceforge, disponibilis al recapit
+http://sourceforge.net/projects/amsn, e controle ducj i fai, domandis di sopuart e forums gjenerics par controlâ se il to berdei al è stât dizà discrosât. No stâ a controlâ dome i mes marcâts come "Open". Al è un menu a tendute là che tu puedis sielzi "Closed" o "Pending" te ponte de liste dai mes. Les cuestions dizà discrosadis e vegnin marcadis sicu Closed.
+Prime di mandâ un fal o domandâ sopuart, tire fûr les seguintis informazions:
 - Version di Amsn
 - Version dal interprit Tcl e Tk
-- Stack trace dal eròr mandàt (sa si po)
-- L'ultin mes di eròr tal balcon di debug (acesibil un Ctrl+D e Ctrl+S e liste dai contats).
-Se tu continuis a ve cuestions no discrosadis su amsn, tu pùs contatami a:
-airadier@users.sourceforge.net (in inglès).
+- Stack trace dal fal mandât (se tu rivis)
+- L'ultin mes di fal tal barcon di debug (acessibil un Ctrl+D e Ctrl+S e liste dai contats).
+Se tu âs ancjemò cuestions no discrosadis su amsn, tu puedis contatâmi a:
+airadier@users.sourceforge.net (in inglês).
 
  
