@@ -2727,7 +2727,7 @@ namespace eval ::amsn {
 		if { $ypos < 0 } { set ypos 0 }
 
 		canvas $w.c -bg #EEEEFF -width [::skin::getKey notifwidth] -height [::skin::getKey notifheight] \
-			-relief ridge -borderwidth 0
+			-relief ridge -borderwidth 0 -highlightthickness 0
 		pack $w.c
 
 		switch $type {
