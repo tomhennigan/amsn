@@ -107,7 +107,7 @@ namespace eval ::amsn {
 
 			option add *Menu.activeBorderWidth 0 widgetDefault
 			option add *Menu.highlightThickness 0 widgetDefault
-			option add *Menu.borderWidth 2 widgetDefault
+			option add *Menu.borderWidth 1 widgetDefault
 			option add *Menu.background $menubgcolor
 			option add *Menu.foreground $menufgcolor
 			option add *Menu.activeBackground $menuactivebgcolor
