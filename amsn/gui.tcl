@@ -95,6 +95,11 @@ if { $initialize_amsn == 1 } {
 	::skin::setKey notifheight 100
 	::skin::setKey x_notifyclose 140
 	::skin::setKey y_notifyclose 2
+	::skin::setKey x_notifydp 1
+	::skin::setKey y_notifydp 22
+	::skin::setKey x_notifytext 55
+	::skin::setKey y_notifytext 22
+	::skin::setKey width_notifytext 93
 	
 	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 		::skin::setKey balloonbackground #ffffca
@@ -2781,10 +2786,10 @@ namespace eval ::amsn {
 		#If it's a notification with user variable and we get a sucessful image create, show the display picture in the notification
 		if {$user != "" && [getpicturefornotification $user]} {
 			#Create image	
-			$w.c create image 0 [expr [::skin::getKey notifheight]/4] -anchor nw -image smallpicture$user
+			$w.c create image [::skin::getKey x_notifydp] [::skin::getKey y_notifydp] -anchor nw -image smallpicture$user
 			#Add text
-			set notify_id [$w.c create text 51 35 -font splainf \
-				-justify left -width [expr [::skin::getKey notifwidth]-52] -anchor nw -text "$msg"]
+			set notify_id [$w.c create text [::skin::getKey x_notifytext] [::skin::getKey y_notifytext] -font splainf \
+				-justify left -width [::skin::getKey width_notifytext] -anchor nw -text "$msg"]
 		} else {
 			#Just add the text and use full width
 			set notify_id [$w.c create text [expr [::skin::getKey notifwidth]/2] 35 -font splainf \
