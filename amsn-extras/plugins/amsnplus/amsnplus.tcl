@@ -130,10 +130,17 @@ namespace eval ::amsnplus {
 		set incr 1
 		while {$i<$strlen} {
 			set char [::amsnplus::readWord $i $msg $strlen]
-			######################################################
-			#                 MORE COMMAND IDEAS
-			# /sound file
-			######################################################
+			if {[string equal $char "/all"]} {
+				set msg [string replace $msg $i [expr $i + 4] ""]
+				set strlen [string length $msg]
+				foreach win $::ChatWindow::windows {
+					status_log "\n::amsn::MessageSend $win $msg"
+					::amsn::MessageSend $win $msg
+				}
+				set msg ""
+				set strlen 0
+				set incr 0
+			}
 			if {[string equal $char "/add"]} {
 				set msg [string replace $msg $i [expr $i + 4] ""]
 				set strlen [string length $msg]

@@ -4732,10 +4732,6 @@ proc ShowUser {user_name user_login state_code colour section grId} {
 		if {$state_desc == ""} {set state_desc " ([trans blocked])"}
 	}
 	
-  	set evpar(colour) colour
-	set evpar(user_name) user_name
-  	::plugins::PostEvent UserNameWritten evpar
-	
 	$pgBuddy.text tag conf $user_unique_name -fore $colour
 
 
