@@ -17,22 +17,57 @@
 		after 30000 $self destroy
 	}
 
-	#creates a message object from a received payload
+	#creates a P2PMessage object from a normal Message object
 	method createFromMessage { message } {
-		array set headers [$message getHeaders]
-		set data [$message getBody]
-		set idx [string first "\r\n\r\n" $data]
-		set head [string range $data 0 [expr $idx -1]]
-#		set body [string range $data [expr $idx +4] end]
+#		array set headers [$message getHeaders]
+#		set data [$message getBody]
+#		set idx [string first "\r\n\r\n" $data]
+#		set head [string range $data 0 [expr $idx -1]]
+##		set body [string range $data [expr $idx +4] end]
 		set body [$message getBody]
-		set head [string map {"\r" ""} $head]
-		set heads [split $head "\n"]
-		foreach header $heads {
-			set idx [string first ": " $header]
-			array set headers [list [string range $header 0 [expr $idx -1]] \
-					  [string range $header [expr $idx +2] end]]
-		}
+#		set head [string map {"\r" ""} $head]
+#		set heads [split $head "\n"]
+#		foreach header $heads {
+#			set idx [string first ": " $header]
+#			array set headers [list [string range $header 0 [expr $idx -1]] \
+#					  [string range $header [expr $idx +2] end]]
+#		}
+		binary scan [string range $body 0 48] iiiiiiiiiiii cSid cId cOffset1 cOffset2 cTotalDataSize1 cTotalDataSize2 cMsgSize cFlags cAckId cAckUID cAckSize1 cAckSize2
+		set body [string range $body 48 end]
+		set options(-sessionid) $cSid
+		set options(-identifier) $cId
+		set options(-offset) [int2word $cOffset1 $cOffset2]
+		set options(-totalsize) [int2word $cTotalDataSize1 $cTotalDataSize2]
+		set options(-datalength) $cMsgSize
+		set options(-flag) $cFlags
+		set options(-ackid) $cAckId
+		set options(-ackuid) $cAckUID
+		set options(-acksize) [int2word $cAckSize1 $cAckSize2]
 	}
+
+	method toString { {humanReadable 0} } {
+		set str ""
+		foreach { header info } [array get headers] {
+			set str "$str$header: $info\r\n"
+		}
+		set str "$str\r\n\r\n"
+		if { $humanReadable } {
+			set str "${str}sessionid: $options(-sessionid)\n"
+			set str "${str}identifier: $options(-identifier)\n"
+			set str "${str}offset: $options(-offset)\n"
+			set str "${str}totalsize: $options(-totalsize)\n"
+			set str "${str}datalength: $options(-datalength)\n"
+			set str "${str}flag: $options(-flag)\n"
+			set str "${str}ackid: $options(-ackid)\n"
+			set str "${str}ackuid: $options(-ackuid)\n"
+			set str "${str}acksize: $options(-acksize)\n"
+		} else {
+			#TODO
+		}
+		set str "$str$body"
+		return $str
+	}
+		
 
 #	proc ReadData { message chatid } {
 #		variable chunkedData
@@ -345,35 +380,46 @@ namespace eval ::MSNP2P {
 	# chatid will be used to get the SB ?? Ack alvaro if it's better to use chatid or some way to use the dest email
 	# For now only manages buddy and emoticon transfer
 	# TODO : Error checking on fields (to, from, sizes, etc)
-	proc ReadData { msg chatid } {
+	proc ReadData { message chatid } {
 		global HOME
 		variable chunkedData
 
-		set message [P2PMessage create %AUTO%]
-		$message createFromMessage $msg
+#		set message [P2PMessage create %AUTO%]
+#		$message createFromMessage $msg
 
 		#status_log "called ReadData with $data\n" red
 
 		# Get values from the header
 #		set idx [expr [string first "\r\n\r\n" $data] + 4]
 #		set headend [expr $idx + 48]
-		set data [$message getBody]
+#		set data [$message getBody]
 	    
-	        binary scan [string range $data 0 48] iiiiiiiiiiii cSid cId cOffset1 cOffset2 cTotalDataSize1 cTotalDataSize2 cMsgSize cFlags cAckId cAckUID cAckSize1 cAckSize2
+#	        binary scan [string range $data 0 48] iiiiiiiiiiii cSid cId cOffset1 cOffset2 cTotalDataSize1 cTotalDataSize2 cMsgSize cFlags cAckId cAckUID cAckSize1 cAckSize2
 
-	        set cOffset [int2word $cOffset1 $cOffset2]
-	        set cTotalDataSize [int2word $cTotalDataSize1 $cTotalDataSize2]
-   	        set cAckSize [int2word $cAckSize1 $cAckSize2]
+#	        set cOffset [int2word $cOffset1 $cOffset2]
+#	        set cTotalDataSize [int2word $cTotalDataSize1 $cTotalDataSize2]
+#   	        set cAckSize [int2word $cAckSize1 $cAckSize2]
 
 		#status_log "Read header : $cSid $cId $cOffset $cTotalDataSize $cMsgSize $cFlags $cAckId $cAckUID $cAckSize\n" red
 		#status_log "Sid : $cSid -> " red
 
+		set cSid [$message cget -sessionid]
+		set cId [$message cget -identifier]
+		set cOffset [$message cget -offset]
+		set cTotalDataSize [$message cget -totalsize]
+		set cMsgSize [$message cget -datalength]
+		set cFlags [$message cget -flag]
+		set cAckId [$message cget -ackid]
+		set cAckUID [$message cget -ackuid]
+		set cAckSize [$message cget -acksize]
+		set data [$message getBody]
+
 		if {$cSid == "0" && $cMsgSize != "0" && $cMsgSize != $cTotalDataSize } {
 		
 			if { ![info exists chunkedData($cId)] } {
-				set chunkedData($cId) "[string range $data 48 end-4]"
+				set chunkedData($cId) "[string range $data 0 end-4]"
 			} else {
-				set chunkedData($cId) "$chunkedData($cId)[string range $data 48 end-4]"
+				set chunkedData($cId) "$chunkedData($cId)[string range $data 0 end-4]"
 			}
 			#status_log "Data is now : $chunkedData($cId)\n\n";
 
@@ -503,7 +549,7 @@ namespace eval ::MSNP2P {
 				set context [string range $data $idx $idx2]
 				
 				
-				if { $eufguid == "A4268EEC-FEC5-49E5-95C3-F126696BDBF6" || $eufguid == "5D3E02AB-6190-11D3-BBBB-00C04F795683" || $eufguid == "E073B06B-636E-45B7-ACA4-6D4B5978C93C"} {
+				if { $eufguid == "A4268EEC-FEC5-49E5-95C3-F126696BDBF6" || $eufguid == "5D3E02AB-6190-11D3-BBBB-00C04F795683" || $eufguid == "E073B06B-636E-45B7-ACA4-6D4B5978C93C" || $eufguid =="4BD96FC0-AB17-4425-A14A-439185962DC8"} {
 					status_log "MSNP2P | $sid $dest -> Got INVITE for buddy icon, emoticon, or file transfer, or Wink(MSN 7)\n" red
 					
 					# Make new data structure for this session id
@@ -529,6 +575,9 @@ namespace eval ::MSNP2P {
 					
 						# Let's notify the user that he/she has received a Wink
 						::amsn::WinWrite $chatid "\n [trans winkreceived [::abook::getDisplayNick $chatid]]\n" black "" 0
+					} elseif { $eufguid == "4BD96FC0-AB17-4425-A14A-439185962DC8" }	{
+						status_log "we got an webcam invitation" red
+						::amsn::WinWrite $chatid "\n [trans webcaminvite [::abook::getNick $dest]]" black ""
 					}
 					
 					# Let's send an ACK
@@ -553,9 +602,6 @@ namespace eval ::MSNP2P {
 						::MSN6FT::GotFileTransferRequest $chatid $dest $branchuid $cseq $uid $sid $context
 					}
 					return
-				} elseif { $eufguid == "4BD96FC0-AB17-4425-A14A-439185962DC8" }	{
-					status_log "we got an webcam invitation" red
-					::amsn::WinWrite $chatid "\n [trans webcaminvite [::abook::getNick $dest]]" black "" 0
 				}
 			} elseif { $ctype == "application/x-msnmsgr-transrespbody" } {
 
@@ -724,7 +770,7 @@ namespace eval ::MSNP2P {
 		    if { $fd != "" && $fd != 0 && $fd != -1 } {
 			# File already open and being written to (fd exists)
 			# Lets write data to file
-			puts -nonewline $fd [string range $data 48 [expr 48 + $cMsgSize - 1]]
+			puts -nonewline $fd [string range $data 0 [expr $cMsgSize - 1]]
 			#status_log "MSNP2P | $sid -> FD EXISTS, file already open... with fd = $fd --- $cOffset + $cMsgSize + $cTotalDataSize . Writing DATA to file\n" red
 			# Check if this is last part if splitted
 			if { [expr $cOffset + $cMsgSize] >= $cTotalDataSize } {

@@ -805,7 +805,7 @@ namespace eval ::ChatWindow {
 		
 		set container [CreateContainerWindow]
 		set mainmenu [CreateMainMenu $container]
-		$container conf -menu $mainmenu
+		$container configure -menu $mainmenu
 
 		#we bind <Escape> to close the current tab
 		#set current [GetCurrentWindow $container]
@@ -855,7 +855,8 @@ namespace eval ::ChatWindow {
 		set w ".container_$::ChatWindow::containerid"
 		incr ::ChatWindow::containerid
 			
-		toplevel $w -class Amsn -background [::skin::getKey chatwindowbg]	-borderwidth 0
+		chatwindow $w -background [::skin::getKey chatwindowbg]	-borderwidth 0
+		::Event::registerEvent messageReceived all $w
 		
 		# If there isn't a configured size for Chat Windows, use the default one and store it.
 		if {[catch { wm geometry $w [::config::getKey wincontainersize] } res]} {
@@ -2817,5 +2818,26 @@ namespace eval ::ChatWindow {
 		return $win_name
 
 	}
-
 }
+
+::snit::widget chatwindow {
+
+	hulltype toplevel
+	delegate option * to hull
+
+	constructor {args} {
+#		button $win.open -text Open -command [mymethod open]
+#		button $win.save -text Save -command [mymethod save]
+
+		# ....
+
+		$self configurelist $args
+
+	}
+
+	method messageReceived { message } {
+		puts [$message getBody]
+	}
+}
+
+
