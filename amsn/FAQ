@@ -1,4 +1,4 @@
-FAQ 1.4
+FAQ 1.5
 --------
 
 Q: What is Amsn?
@@ -139,36 +139,13 @@ Have fun.
 
 Q: Nicknames are now truncated. Is it possible to revert back to full nicknames?
 A: Yes. To have nicknames be displayed in their full length on the contact
-list, in the alerts and the chat window, one should go into the configuration
-file and manually change the option there. The option responsible for this
-behavior is called "truncatenames". Search for this string in the configuration
-file of the concerned profile then change its value from 1 to 0. Restart amsn.
-There is no easy way to enable the feature only on the contact list, only in
-the chat windows or in the alerts -- this option affects them all at the same
-time.
-This option cannot be changed with the Preferences window. This might be added
-at some time in the future.
+list, in the alerts and the chat window, go to the advanced preferences section,
+inside the preferences window, and disable it.
 
-Q: Blocking detection doesn't work fine, why?
-A:Hi, the blocking detection is not 100% effective. It has two ways of guessing
-who is blocking you. On the first one, tt just tries to check if a user
-really goes offline, or blocks you, when he apparently goes offline. The other
-way "polls" some apparently offline users in your contact list, every certain amount
-of time (for example 5 seconds). It can't be done too fast, or the server will ban you
-because of flooding.
-The detection is based on a protocol failure. If you invite an offline user to a chat,
-and the user is really offline, it will return an error code. If the user is online, but
-blocking you, it will return another code.
-If you want to be sure, the best way is right click on the "apparently" offline contact,
-and choose "send message". Then, it will open a chat window, and on the status bar you
-will see:
- "User is offline"
-or:
- "User is online but blocking you"
-Depending on what really happens. Again, you can only detect it if the user is online
-and blocking you. If the user is offline, you won't know.
-
-Greets.
+Q: Blocking detection is not available anymore, why?
+A: The protocol bug that allowed us to detect blocking people has been fixed.
+It's no longer possible to detect them, so it makes no sense to include this
+option.
 
 
 TROUBLESHOOTING
@@ -236,9 +213,9 @@ to connect yet, but socks5 support is on the way.
 Q: Amsn looks connected, but when I try to chat with someone or change my state
 I get disconnected. This happens often, after some minutes of inactivity.
 Probably I'm behind a router or firewall.
-A: Try enabling "Keepalive (NAT)" in the tools->options menu. It's a fix for
-shared internet connections that keeps sending a dummy packet to the server
-every 2 minutes, to keep the connection alive.
+A: Try enabling "Keepalive (NAT)" in the tools->options menu, inside advanced
+preferences. It's a fix for shared internet connections that keeps sending a
+dummy packet to the server every 2 minutes, to keep the connection alive.
 
 Q: The sound even is repeating. For example if  XMMS is running and someone
 logged in or you were chatting with someone, after XMMS is closed or the
@@ -282,7 +259,8 @@ enter "plwav" as sound server command.
 Q: When notify window pops up, the windows taskbar partially hides it, can I
 fix this?
 A: Yes, you can move the notify window X pixels to the left and Y pixels to
-the top. You can change this in Tools->Options->Preferences->Appearance.
+the top. You can change this in Tools->Options->Preferences, inside the
+"Advanced" preferences section.
 
 OTHER
 =====
