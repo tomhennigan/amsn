@@ -563,7 +563,7 @@ proc smile_menu { {x 0} {y 0} {text text}} {
     if { [info exists emoticonbinding ] } {unset emoticonbinding}
 
     set x [expr $x - 15]
-    set y [expr $y - 15]
+    set y [expr $y + 15 - [winfo height $w]]
     wm geometry $w +$x+$y
     #It won't work on Windows without this
     update idletasks
@@ -622,11 +622,11 @@ proc create_smile_menu { {x 0} {y 0} } {
 	destroy $w
 	toplevel $w     
     }
-    set x [expr $x - 15]
-    set y [expr $y - 15]
     set xy_geo [calcul_geometry_smileys]
     set x_geo [expr 23*[lindex $xy_geo 0]+8]
     set y_geo [expr 23*[lindex $xy_geo 1]+8]
+    set x [expr $x - 15]
+    set y [expr $y + 15 - $y_geo]
     
     wm geometry $w ${x_geo}x${y_geo}+$x+$y
     wm title $w "[trans msn]"
