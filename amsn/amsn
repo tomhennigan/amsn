@@ -1269,39 +1269,59 @@ proc user_choose {title online command {userslist ""}} {
      set userslist $list_users
    }
 
-   if {[info exists userchoose_req]} {
-      raise .userchoose
-      return 0
-   }
 
-   set userchoose_req true
-   
-   toplevel .userchoose -width 400 -height 300
-   bind .userchoose <Destroy> {
-      if {"%W" == ".userchoose"} {
-         unset userchoose_req
+   set usercount 0
+
+   foreach user $userslist {
+      set user_login [lindex $user 0]
+      set user_state_no [lindex $user 2]
+      set state [lindex $list_states $user_state_no]
+      set state_code [lindex $state 0]
+
+      if {($online != "online") || ($state_code != "FLN")} {
+      	set usercount [expr {$usercount + 1}]
       }
+
    }
 
-   wm title .userchoose $title
-   wm transient .userchoose .
-   wm geometry .userchoose 400x300
- 
-   frame .userchoose.list -class Amsn
-   frame .userchoose.buttons -class Amsn
+   if { $usercount == 1 } {
 
-    
-   listbox .userchoose.list.userlist -yscrollcommand ".userchoose.list.ys set"
-   scrollbar .userchoose.list.ys -command ".userchoose.list.userlist yview" 
-   
-   button  .userchoose.buttons.ok -text "[trans ok]" -command "$command \[string range \[lindex \[.userchoose.list.userlist get active\] end\] 1 end-1\]\n;destroy .userchoose"
-   button  .userchoose.buttons.cancel -text "[trans cancel]" -command "destroy .userchoose"
+     eval {$command $user_login}
+     return 0
 
-   pack .userchoose.list.ys -side right -fill y   
-   pack .userchoose.list.userlist -side left -expand true -fill both
-   pack .userchoose.list -side top -expand true -fill both
-   pack .userchoose.buttons -side bottom
-   pack .userchoose.buttons.cancel .userchoose.buttons.ok -padx 10 -side right   
+   }
+
+
+
+
+   set wname "[focus]_userchoose"
+
+   if { [catch {toplevel $wname -width 400 -height 300} res ] } {
+      raise $wname
+      focus $wname
+      return 0
+
+   }
+
+   wm title $wname $title
+   wm transient $wname .
+   wm geometry $wname 400x300
+
+   frame $wname.list -class Amsn
+   frame $wname.buttons -class Amsn
+
+
+   listbox $wname.list.userlist -yscrollcommand "$wname.list.ys set"
+   scrollbar $wname.list.ys -command "$wname.list.userlist yview"
+
+   button  $wname.buttons.ok -text "[trans ok]" -command "$command \[string range \[lindex \[$wname.list.userlist get active\] end\] 1 end-1\]\n;destroy $wname"
+   button  $wname.buttons.cancel -text "[trans cancel]" -command "destroy $wname"
+
+   pack $wname.list.ys -side right -fill y
+   pack $wname.list.userlist -side left -expand true -fill both
+   pack $wname.list -side top -expand true -fill both
+   pack $wname.buttons -side bottom
+   pack $wname.buttons.cancel $wname.buttons.ok -padx 10 -side right
 
    foreach user $userslist {
       set user_login [lindex $user 0]
@@ -1309,14 +1329,14 @@ proc user_choose {title online command {userslist ""}} {
       set user_state_no [lindex $user 2]
       set state [lindex $list_states $user_state_no]
       set state_code [lindex $state 0]
-      
+
       if {($online != "online") || ($state_code != "FLN")} {
          if {[lsearch $list_bl "$user_login *"] != -1} {
-	 	.userchoose.list.userlist insert end "BLOCKED -> $user_name <$user_login>"
+	 	$wname.list.userlist insert end "BLOCKED -> $user_name <$user_login>"
 	 } else {
-	 	.userchoose.list.userlist insert end "$user_name <$user_login>"
+	 	$wname.list.userlist insert end "$user_name <$user_login>"
       	 }
-      }	 
+      }
 
    }
 }
@@ -2098,26 +2118,38 @@ proc change_name_ok {} {
 #=======================================================================
 
 proc show_chatuserlist {title name command} {
+
+
    global list_users
-   
+
    set userlist [list]
 
    foreach user_info $list_users {
       set user_login [lindex $user_info 0]
       set user_state_no [lindex $user_info 2]
-      if {($user_state_no < 7) && 
+      if {($user_state_no < 7) &&
           ([sb search $name users "$user_login *"] != -1)} {
           set user_name [lindex $user_info 1]
 	  lappend userlist [list $user_login $user_name $user_state_no]
       }
    }
-   
-   if {[llength $userlist] == 1} {      
-     eval "$command [lindex [lindex $userlist 0] 0]"
-   } elseif {[llength $userlist] > 0} {      
-     user_choose $title both $command $userlist
+
+   #Let's add users not in our contact list
+   upvar #0 [sb name $name users] users_list
+
+   foreach user_info $users_list {
+      set user_login [lindex $user_info 0]
+      set user_state_no [lindex $user_info 2]
+      if {($user_state_no < 7) &&
+          ([lsearch $list_users "$user_login *"] == -1)} {
+	  set user_name [lindex $user_info 1]
+	  lappend userlist [list $user_login $user_name $user_state_no]
+      }
    }
 
+   if { [llength $userlist] > 0 } {
+   	user_choose $title both $command $userlist
+   }
 }
 
 proc show_useraddlist {title name command} {
