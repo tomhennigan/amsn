@@ -1,0 +1,6 @@
+#! /bin/sh
+# Shell script to get informations about the current song playing in Amarok
+
+dcop amarok player status>$1
+dcop amarok player nowPlaying>>$1
+dcop amarok player encodedURL>>$1

@@ -3,9 +3,11 @@ musicaddsongtonick Ajouter la musique jouée au pseudo
 musictimeverify Vérifier la musique jouée toutes les ? secondes
 musicnickname Pseudo
 musicseparator Symbole entre le pseudo et la musique
-musicstopmsg Message quand le lecteur est stoppé
+musicstopmsg Message quand le lecteur est arrêté
 musiccurrent Afficher la musique courante
 musicsend Envoyer la musique courante
 musicerr Rien n'est joué, ou le plugin ne peut pas récupérer la musique jouée.
 playing Joue : $1
 musicoserr Votre système d'exploitation ($1) n'est pas encore géré par le plugin Music
+musicplayer Choisissez votre lecteur préféré
+musicstopdefault Lecteur arrêté

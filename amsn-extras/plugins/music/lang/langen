@@ -9,3 +9,5 @@ musicsend Send current song
 musicerr Nothing is playing, or the plugin can't get the music playing.
 playing Playing : $1
 musicoserr Your Operating System ($1) isn't yet supported by the Music plugin
+musicplayer Choose your preferred player
+musicstopdefault Player stopped

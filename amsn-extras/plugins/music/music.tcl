@@ -3,7 +3,7 @@ namespace eval ::music {
 	variable configlist
 	variable name ""
 	variable activated 0
-	variable songfunc [list "" ""]
+	variable playersarray
 	variable musicpluginpath
 
 	#############################################
@@ -14,10 +14,20 @@ namespace eval ::music {
 	proc InitPlugin { dir } {
 		global tcl_platform
 		variable musicpluginpath
-
+		variable playersarray
 		set musicpluginpath $dir
 
-		array set OSes [list "darwin" [list GetSongITunes exec_applescript] "linux" [list GetSongXMMS TreatSongXMMS]]
+		array set OSes [list \
+			"darwin" [list \
+				"ITunes" [list GetSongITunes exec_applescript] \
+			] \
+			"linux" [list \
+				"XMMS" [list GetSongXMMS TreatSongXMMS] \
+				"Amarok" [list GetSongAmarok TreatSongAmarok] \
+			]
+		]
+
+		#loading lang - if version is 0.95b (keep compatibility with 0.94)
 
 		if {![::music::version_094]} {
 			set langdir [append dir "/lang"]
@@ -26,31 +36,29 @@ namespace eval ::music {
 		}
 
 		set os [string tolower $tcl_platform(os)]
-		#status_log "OSes(darwin) $OSes($os)"
+
 		if { ![info exists OSes($os) ] } {
 			if { [::music::version_094] } {
-				msg_box "Your Operating System ($os) isn't yet supported by the Music plugin"
+				msg_box "Your Operating System ($os) isn't yet supported by the music plugin"
 			} else {
 				msg_box [trans musicoserr $os]
 			}
-			::plugins::UnLoadPlugin music
+			::plugins::UnLoadPlugin "Music"
 			return
 		}
-		set ::music::songfunc $OSes($os)
-
+		array set playersarray $OSes($os)
 
 		#RegisterPlugin
-		::plugins::RegisterPlugin music
+		::plugins::RegisterPlugin "Music"
 
 		#Register event
-		::plugins::RegisterEvent music OnConnect newname
-		::plugins::RegisterEvent music OnDisconnect stop
-		::plugins::RegisterEvent music new_chatwindow CreateMusicMenu
-
-		#loading lang - if version is 0.95b (keep compatibility with 0.94)
+		::plugins::RegisterEvent "Music" OnConnect newname
+		::plugins::RegisterEvent "Music" OnDisconnect stop
+		::plugins::RegisterEvent "Music" new_chatwindow CreateMusicMenu
 
 		if {[::music::version_094]} {
 			array set ::music::config [list \
+				player [lindex [array names playersarray] 0] \
 				nickname {} \
 				second {30} \
 				symbol {-} \
@@ -58,23 +66,28 @@ namespace eval ::music {
 				active {0} \
 			]
 			set ::music::configlist [list \
-						[list bool "Add song to the nickname"  active] \
+						#[list rbt [array names [array set OSes($os)]] player] \ How to do choices in 0.94 ?
 						[list str "Verify new song each ? seconds" second] \
+						[list bool "Add song to the nickname"  active] \
 						[list str "Nickname"  nickname] \
 						[list str "Symbol betwen nick and song"  symbol] \
 						[list str "Stopped message"  stop] \
 					]
 		} else {
 			array set ::music::config [list \
+				player [lindex [array names playersarray] 0] \
 				nickname {} \
 				second {30} \
 				symbol {-} \
-				stop {Player stopped} \
+				stop [trans musicstopdefault] \
 				active {0} \
 			]
+
 			set ::music::configlist [list \
-						[list bool "[trans musicaddsongtonick]"  active] \
+						[list label "[trans musicplayer]"] \
+						[list lst [array names playersarray] player] \
 						[list str "[trans musictimeverify]" second] \
+						[list bool "[trans musicaddsongtonick]"  active] \
 						[list str "[trans musicnickname]"  nickname] \
 						[list str "[trans musicseparator]"  symbol] \
 						[list str "[trans musicstopmsg]"  stop] \
@@ -170,22 +183,37 @@ namespace eval ::music {
 	# Gets the current playing song in XMMS       #
 	###############################################
 	proc GetSong {} {
-		variable songfunc
-		return [::music::[lindex $songfunc 0]]
+		variable config
+		variable playersarray
+
+		if {![info exists playersarray([lindex $config(player) 0])] } {
+			return 0
+		}
+		set songfunc $playersarray([lindex $config(player) 0])
+		set retval 0
+		catch {::music::[lindex $songfunc 0]} retval
+		return $retval
 	}
 
 	proc TreatSong {} {
-		variable songfunc
-		return [::music::[lindex $songfunc 1]]
+		variable config
+		variable playersarray
+		if {![info exists playersarray([lindex $config(player) 0])] } {
+			return 0
+		}
+		set songfunc $playersarray([lindex $config(player) 0])
+		set retval 0
+		catch {::music::[lindex $songfunc 1]} retval
+		return $retval
 	}
 
-	###############################################
-	# ::music::GetSongXMMS                        #
-	# ------------------------------------------- #
-	# Gets the current playing song in XMMS       #
-	###############################################
+	#####################################################
+	# ::music::TreatSongXMMS                            #
+	# ------------------------------------------------- #
+	# Not useful to XMMS because no script to execute   #
+	#####################################################
 	proc TreatSongXMMS {} {
-		return
+		return 0
 	}
 
 	###############################################
@@ -197,31 +225,92 @@ namespace eval ::music {
 		#Get the file
 		set file "/tmp/xmms-info"
 		#If file is not there, stop
-		if {![file exist $file]} {return 0}
-		#Open file (read access)
-		set gets [open $file r]
-		#Read lines
-		while {![eof $gets]} {
-			set tmp [gets $gets]
-			set pos [string first ":" $tmp]
-			set index [string map {" " "_"} [string range $tmp 0 $pos]]
-			set info($index) [string range $tmp [expr {$pos+2}] end]
-			unset tmp
+		if {![file exist $file]} {
+			return 0
 		}
+		#Open file (read access)
+		set gets [open $file {NONBLOCK RDONLY}]
+
+		set timeout [clock clicks -milliseconds]
+
+		#We wait the pipe to be filled by xmms-info or 1 seconds elapsed (in case of xmms is closed)
+		set tmp [gets $gets]
+		while { [eof $gets] && [expr [clock clicks -milliseconds]-$timeout]<1000 } {
+			set tmp [gets $gets]
+		}
+
+		#Read lines
+		while { ![eof $gets] } {
+			#The pipe was filled by xmms-info
+			if { $tmp != "" } {
+			set pos [string first ":" $tmp]
+				set index [string map { " " "_" } [string range $tmp 0 $pos]]
+			set info($index) [string range $tmp [expr {$pos+2}] end]
+			}
+			unset tmp
+			set tmp [gets $gets]
+		}
+
 		#Close acess to the file
 		close $gets
 
+		if {[info exists info(Status:)]} {
 		switch -- $info(Status:) {
 			"Playing" { lappend return $info(Title:); lappend return $info(File:) }
 			"Paused" { lappend return $info(Title:); lappend return $info(File:) }
 			"Stopped" { set return 0 }
 			default { set return 0 }
 		}
-
-		#plugins_log xmms "Song is $return\n"
+			#plugins_log music "Song is $return\n"
 		return $return
 	}
 
+		return 0
+	}
+
+	###############################################
+	# ::music::TreatSongAmarok                    #
+	# ------------------------------------------- #
+	# Gets the current playing song in Amarok     #
+	###############################################
+	proc TreatSongAmarok {} {
+		variable musicpluginpath
+		catch {exec sh $musicpluginpath/infoamarok $musicpluginpath/actualsong &}
+		return 0
+	}
+
+	###############################################
+	# ::music::GetSongAmarok                      #
+	# ------------------------------------------- #
+	# Gets the current playing song in Amarok     #
+	###############################################
+	proc GetSongAmarok {} {
+		variable musicpluginpath
+
+		#Find the file to read
+		set file "$musicpluginpath/actualsong"
+		#Verify that the file exist
+		if {![file exist $file]} {return 0}
+		#Open in "read" permission the file (SongIngo)
+		set gets [open $file r]
+
+		#Get the 3 first lines
+		set status [gets $gets]
+		set songart [gets $gets]
+		set path [gets $gets]
+
+		#Close the file
+		close $gets
+
+		if {$status == "0"} {
+			return 0
+		} else {
+			lappend return $songart
+			lappend return [urldecode [string range $path 5 end]]
+		}
+		#plugins_log music "Song is $return\n"
+		return $return
+	}
 
 	################################################
 	# ::music::exec_applescript                    #
@@ -233,10 +322,11 @@ namespace eval ::music {
 	proc exec_applescript {} {
 		variable musicpluginpath
 		catch {exec osascript $musicpluginpath/display_and_send.scpt &}
+		return 0
 	}
 
 	###############################################
-	# ::music::GetSong   ITunes                   #
+	# ::music::GetSongITunes                      #
 	# ------------------------------------------- #
 	# Gets the current playing song in ITunes     #
 	###############################################
@@ -264,7 +354,7 @@ namespace eval ::music {
 			lappend return $songart
 			lappend return $path
 		}
-
+		#plugins_log music "Song is $return\n"
 		return $return
 
 	}
@@ -272,7 +362,7 @@ namespace eval ::music {
 	#######################################################################
 	# ::music::CreateMusicMenu event evpar                                #
 	# ----------------------------------------------                      #
-	# This proc creates the Music submenu shown when a user right clicks  #
+	# This proc creates the music submenu shown when a user right clicks  #
 	# on the output of the chat window if the plugin is loaded            #
 	#######################################################################
 	proc CreateMusicMenu { event evpar } {
@@ -374,10 +464,10 @@ namespace eval ::music {
 	# Happen when we disconnect or when we unload #
 	# This is the Deinit proc                     #
 	###############################################
-	proc stop {{event 0} {epvar 0}} {
+	proc stop {event epvar} {
 		variable config
 		variable activated
-		if {$::music::songfunc == ""} {
+		if {[array size ::music::playersarray]==0} {
 			return
 		}
 		after cancel ::music::newname 0 0
@@ -385,6 +475,10 @@ namespace eval ::music {
 		if {[::MSN::myStatusIs] != "FLN" && $activated } {
 			::music::changenick "$config(nickname)"
 	   	}
+	}
+
+	proc DeInit {} {
+		::music::stop 0 0
 	}
 
 	############################################
