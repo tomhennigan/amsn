@@ -322,7 +322,7 @@ namespace eval ::amsn {
       wm title .about "[trans about] [trans title]"
       
    	  ShowTransient .about
-    
+
       wm state .about withdrawn
       
       
@@ -337,8 +337,8 @@ namespace eval ::amsn {
 #Middle frame (About text)
 	 frame .about.middle
 	 frame .about.middle.list -class Amsn -borderwidth 0
-     text .about.middle.list.text -background white -width 60 -height 30 -wrap word \
-         -yscrollcommand ".about.middle.list.ys set" -font examplef
+     text .about.middle.list.text -background white -width 80 -height 30 -wrap word \
+         -yscrollcommand ".about.middle.list.ys set" -font splainf
       scrollbar .about.middle.list.ys -command ".about.middle.list.text yview"
       pack .about.middle.list.ys -side right -fill y
       pack .about.middle.list.text -side left -expand true -fill both
@@ -348,7 +348,10 @@ namespace eval ::amsn {
 #Bottom frame (Close button)
   	  frame .about.bottom -class Amsn
       button .about.bottom.close -text "[trans close]" -font splainf -command "destroy .about"
-      pack .about.bottom.close
+      button .about.bottom.credits -text "[trans credits]..." -font splainf -command [list ::amsn::showHelpFile CREDITS [trans credits]]
+
+		pack .about.bottom.close -side right
+		pack .about.bottom.credits -side right -padx 20
       pack .about.bottom -side bottom -fill x -pady 3
       
 #Insert the text in .about.middle.list.text
@@ -406,8 +409,8 @@ namespace eval ::amsn {
 #Top frame (Help text area)
 	  frame .show.info
 	  frame .show.info.list -class Amsn -borderwidth 0
-	  text .show.info.list.text -background white -width 60 -height 30 -wrap word \
-         -yscrollcommand ".show.info.list.ys set" -font   examplef
+	  text .show.info.list.text -background white -width 80 -height 30 -wrap word \
+         -yscrollcommand ".show.info.list.ys set" -font   splainf
       scrollbar .show.info.list.ys -command ".show.info.list.text yview"
       pack .show.info.list.ys 	-side right -fill y
       pack .show.info.list.text -expand true -fill both -padx 1 -pady 1
