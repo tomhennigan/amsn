@@ -2516,6 +2516,7 @@ namespace eval ::amsn {
 
 
 	proc ShowInviteList { title win_name } {
+
 		set userlist [list]
 		set chatusers [::MSN::usersInChat [ChatFor $win_name]]
 
@@ -2544,34 +2545,41 @@ namespace eval ::amsn {
 
 	proc ShowInviteMenu { win_name x y } {
 
-		.menu_invite delete 0 end
-
-		set userlist [list]
+		set menulength 0
 		set chatid [ChatFor $win_name]
 		set chatusers [::MSN::usersInChat $chatid]
-		set menulength 0
 
 		foreach user_login [::MSN::sortedContactList] {			
 			set user_state_code [::abook::getVolatileData $user_login state FLN]
 			set user_state_no [::MSN::stateToNumber $user_state_code]
-			
 			if {($user_state_no < 7) && ([lsearch $chatusers $user_login] == -1)} {
 				set menulength [expr $menulength + 1]
-				if { $user_state_code != "NLN" } {
-					.menu_invite add command -label "[::abook::getDisplayNick $user_login] ([trans [::MSN::stateToDescription $user_state_code]])" -command "::amsn::queueinviteUser $chatid $user_login"
-				} else {
-					.menu_invite add command -label "[::abook::getDisplayNick $user_login]" -command "::amsn::queueinviteUser $chatid $user_login"
-				}
 			}
 		}
 
-		if { $menulength != 0 } {
+		if { $menulength > [::config::getKey invitenumber] } {
+			::amsn::ShowInviteList "[trans invite]" $win_name
+		} elseif { $menulength == 0 } {
+			cmsn_draw_otherwindow [trans invite] "::amsn::queueinviteUser [ChatFor $win_name]"
+		} else {
+			.menu_invite delete 0 end			
+			foreach user_login [::MSN::sortedContactList] {			
+				set user_state_code [::abook::getVolatileData $user_login state FLN]
+				set user_state_no [::MSN::stateToNumber $user_state_code]
+			
+				if {($user_state_no < 7) && ([lsearch $chatusers $user_login] == -1)} {		
+					if { $user_state_code != "NLN" } {
+						.menu_invite add command -label "[::abook::getDisplayNick $user_login] ([trans [::MSN::stateToDescription $user_state_code]])" -command "::amsn::queueinviteUser $chatid $user_login"
+					} else {
+						.menu_invite add command -label "[::abook::getDisplayNick $user_login]" -command "::amsn::queueinviteUser $chatid $user_login"
+					}
+				}
+			}
+
 			.menu_invite add separator
+			.menu_invite add command -label "[trans other]..." -command [list cmsn_draw_otherwindow [trans invite] "::amsn::queueinviteUser [ChatFor $win_name]"]
+			tk_popup .menu_invite $x $y
 		}
-
-		.menu_invite add command -label "[trans other]..." -command [list cmsn_draw_otherwindow [trans invite] "::amsn::queueinviteUser [ChatFor $win_name]"]
-
-		tk_popup .menu_invite $x $y
 
 	}
 	
