@@ -282,7 +282,7 @@ namespace eval ::plugins {
 				sxml::end $plugin_info
 				status_log "PLUGINS INFO READ\n" green
 			} res] } {
-				msg_box "ERROR: PLUGIN HAS MALFORMED XML PLUGININFO"
+				msg_box "ERROR: PLUGIN HAS MALFORMED XML PLUGININFO ($path)"
 				return 0
 			}
 		}
@@ -1169,14 +1169,9 @@ namespace eval ::plugins {
 
 		upvar $saved_data sdata
 
-
-
 		catch {set ::plugins::plgversion $sdata(${cstack}:cvs_version)}
 
-
 		return 0
-
-
 
 	}
 
@@ -1241,7 +1236,6 @@ namespace eval ::plugins {
 		sxml::register_routine $id "plugin:lang" "::plugins::XML_OnlinePlugin_Lang"
 		sxml::register_routine $id "plugin:file" "::plugins::XML_OnlinePlugin_File"
 		sxml::parse $id
-
 		sxml::end $id
 
 	}
@@ -1250,14 +1244,11 @@ namespace eval ::plugins {
 	proc XML_OnlinePlugin_CVS { cstack cdata saved_data cattr saved_attr args } {
 
 		upvar $saved_data sdata
-
-		catch {set ::plugins::plgonlineversion $sdata(${cstack}:cvs_version)}
+		
 		catch {set ::plugins::plgonlinerequire $sdata(${cstack}:amsn_version)}
-
+		catch {set ::plugins::plgonlineversion $sdata(${cstack}:cvs_version)}
 
 		return 0
-
-
 
 	}
 
@@ -1460,12 +1451,25 @@ namespace eval ::plugins {
 			set name [lindex $plugin 6]
 			set path "[string range $path 0 end-[expr [string length $name] + 5]]"
 			set pathinfo "$path/plugininfo.xml"
-			get_Version "$pathinfo" "$name"
+			::plugins::get_Version "$pathinfo" "$name"
 			
 			# If the online version could not be downloaded, or plugininfo.xml is protected, stop for this plugin
 			if { [catch {get_OnlineVersion "$pathinfo" "$name"}] || ![file writable $pathinfo] } {
+				status_log "Can't update plugin $name\n" red
 				continue
 			}
+			
+			set wait 0
+			while { ![info exists ::plugins::plgonlinerequire] && $wait < 1000000} {
+				incr wait
+			}
+			
+			if { $wait == 1000000} {
+				continue
+			}
+			
+			status_log "TIME : $wait\n" red
+			
 			# If the online plugin is compatible with the current version of aMSN
 			if { [::plugins::CheckRequirements $::plugins::plgonlinerequire] } {
 
