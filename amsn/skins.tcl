@@ -317,6 +317,9 @@ namespace eval ::skin {
 		#Get file using global path
 		if { "[string range $filename 0 0]" == "/" && [file readable  $filename] } {
 			return "$filename"
+		#Get from personal profile folder (needed for displaypics)
+		} elseif { [file readable [file join $HOME $type $filename]] } {
+			return "[file join $HOME $type $filename]"
 		#Get file from program dir skins folder
 		} elseif { [file readable [file join [set ::program_dir] skins $skin $type $filename]] } {
 			return "[file join [set ::program_dir] skins $skin $type $filename]"
