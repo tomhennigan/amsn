@@ -300,6 +300,7 @@ init_dock
 if {$config(startontray)} {
 	if {$config(dock)!=0} {
 		wm state . withdraw
+		set ishidden 1
 	} else {
 		wm state . iconic
 	}
