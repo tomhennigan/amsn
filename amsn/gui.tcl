@@ -523,6 +523,11 @@ namespace eval ::amsn {
       global config
 
       set filename [ $w.top.fields.file get ]
+      
+      if {![file readable $filename]} {
+      	msg_box "[trans invalidfile [trans filename] $filename]"
+      	return
+      }
 
 
       if {$config(autoftip) == 0 } {
@@ -1532,9 +1537,7 @@ namespace eval ::amsn {
 	}
 	
       menu .${win_name}.menu.msn -tearoff 0 -type normal
-      .${win_name}.menu.msn add command -label "[trans save]" \
-         -command " ChooseFilename .${win_name}.f.out.text ${win_name} "
-      .${win_name}.menu.msn add command -label "[trans saveas]..." \
+      .${win_name}.menu.msn add command -label "[trans savetofile]..." \
          -command " ChooseFilename .${win_name}.f.out.text ${win_name} "
       .${win_name}.menu.msn add separator
       .${win_name}.menu.msn add command -label "[trans sendfile]..." \
@@ -6342,7 +6345,7 @@ proc pictureBrowser {} {
 	set selected_image $config(displaypic)
 
 	frame .picbrowser.pics
-	text .picbrowser.pics.text -width 5 -font sboldf -background white -yscrollcommand ".picbrowser.pics.ys set" \
+	text .picbrowser.pics.text -width 40 -font sboldf -background white -yscrollcommand ".picbrowser.pics.ys set" \
 		-cursor left_ptr -font splainf -selectbackground white -selectborderwidth 0 -exportselection 0 \
 		-relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0 -wrap none
 	scrollbar .picbrowser.pics.ys -command ".picbrowser.pics.text yview"
@@ -6398,6 +6401,24 @@ proc pictureBrowser {} {
 		
 	wm title .picbrowser "[trans picbrowser]"
 	grab .picbrowser
+}
+
+proc getPictureDesc {filename} {
+	if { [file readable "[filenoext $filename].dat"] } {
+		set f [open "[filenoext $filename].dat"]
+		set desc ""
+		while {![eof $f]} {
+			gets $f data
+			if { $desc != "" } {
+				set desc "$desc\n$data"
+			} else {
+				set desc $data
+			}
+		}
+		close $f
+		return $desc
+	}
+	return ""
 }
 
 proc addPicture {the_image pic_text filename} {
@@ -6472,7 +6493,7 @@ proc reloadAvailablePics { } {
 		foreach filename $files {
 			if { [file exists "[filenoext $filename].gif"] } {
 				set the_image [image create photo -file "[filenoext $filename].gif" ]	
-				addPicture $the_image "[trunc [filenoext [file tail $filename]] .picbrowser.pics.text 90 splainf]" [file tail $filename]			
+				addPicture $the_image "[getPictureDesc $filename]" [file tail $filename]			
 				lappend image_names $the_image
 			}
 		}
@@ -6484,7 +6505,7 @@ proc reloadAvailablePics { } {
 		foreach filename $myfiles {
 			if { [file exists "[filenoext $filename].gif"] } {
 				set the_image [image create photo -file "[filenoext $filename].gif" ]	
-				addPicture $the_image "[trunc [filenoext [file tail $filename]] .picbrowser.pics.text 90 splainf]" [file tail $filename]
+				addPicture $the_image "[getPictureDesc $filename]" [file tail $filename]
 				lappend image_names $the_image
 			}
 		}
@@ -6496,7 +6517,7 @@ proc reloadAvailablePics { } {
 		foreach filename $cachefiles {
 			if { [file exists "[filenoext $filename].gif"] } {
 				set the_image [image create photo -file "[filenoext $filename].gif" ]	
-				addPicture $the_image "" "cache/[file tail $filename]"
+				addPicture $the_image "[getPictureDesc $filename]" "cache/[file tail $filename]"
 				lappend image_names $the_image
 			}
 		}
@@ -6530,6 +6551,7 @@ proc pictureDeleteFile {} {
 			set filename [file join $HOME displaypic $selected_image]
 			catch {file delete $filename}
 			catch {file delete [filenoext $filename].gif}
+			catch {file delete [filenoext $filename].dat}
 			set selected_image ""
 			.picbrowser.mypic configure -image no_pic
 			if { [file exists $filename] == 1 } {
@@ -6553,6 +6575,14 @@ proc pictureChooseFile { } {
 			set image_name [image create photo -file [GetSkinFile displaypic "[filenoext [file tail $file]].gif"]]
 			.picbrowser.mypic configure -image $image_name
 			set selected_image "[filenoext [file tail $file]].png"
+			
+			global HOME
+			set desc_file "[filenoext [file tail $file]].dat"
+			set fd [open [file join $HOME displaypic $desc_file] w]
+			status_log "Writing description to $desc_file\n"
+			puts $fd "Today\n[filenoext [file tail $file]].png"
+			close $fd
+			
 			lappend image_names $image_name
 			status_log "Created $image_name\n"
 			return "[filenoext [file tail $file]].png"

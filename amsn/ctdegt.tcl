@@ -1564,22 +1564,26 @@ proc ChooseFilename { twn title } {
 
     # TODO File selection box, use nickname as filename (caller)
     set w .form$title
+	 if {[winfo exists $w]} {
+	 	raise $w
+		return
+	 }
     toplevel $w
-    wm title $w "Save chat session"
-     label $w.msg -justify center -text "Please give a filename"
+    wm title $w [trans savetofile]
+     label $w.msg -justify center -text [trans enterfilename]
      pack $w.msg -side top
 
      frame $w.buttons -class Degt
      pack $w.buttons -side bottom -fill x -pady 2m
-      button $w.buttons.dismiss -text Cancel -command "destroy $w"
-      button $w.buttons.save -text Save \
+      button $w.buttons.dismiss -text [trans cancel] -command "destroy $w"
+      button $w.buttons.save -text [trans save] \
         -command "save_text_file $twn $w.filename.entry; destroy $w"
       pack $w.buttons.save $w.buttons.dismiss -side left -expand 1
 
     frame $w.filename -bd 2 -class Degt
      entry $w.filename.entry -relief sunken -width 40
-     label $w.filename.label -text "Filename:"
-     pack $w.filename.entry -side right 
+     label $w.filename.label -text "[trans filename]:"
+     pack $w.filename.entry -side right
      pack $w.filename.label -side left
     pack $w.msg $w.filename -side top -fill x
     focus $w.filename.entry
@@ -1589,13 +1593,19 @@ proc ChooseFilename { twn title } {
 
 proc save_text_file { w ent } {
 
+    set dstfile [ $ent get ]
+
+	 if {![file writable $dstfile]} {
+	 	msg_box "[trans invalidfile $dstfile [trans filename]]"
+		return
+	 }
+
     set content ""
     set dump [$w  dump  -text 0.0 end]
     foreach { text output index } $dump {
 	set content "${content}${output}"
     }
 
-    set dstfile [ $ent get ]
     set f [ open $dstfile w ]
     puts $f $content
     close $f
@@ -1751,6 +1761,10 @@ proc getdisppic_clicked {} {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.102  2004/01/10 12:57:24  airadier
+# Fixed save_to_file problem when saving a session.
+# Adding descriptions to display pictures
+#
 # Revision 1.101  2004/01/04 07:23:50  germinator2000
 # Remove disabled items in Loging panel (#)
 #
