@@ -10,13 +10,13 @@ When you add new keys, you should do a diff file or send the entire updated lang
 keyname1 translation1
 keyname2 translation2
 
-that is, the keyname, followed by ONE BLANK SPACE (no tabs or similar), and followed by the translated string, no need to include the original english string, or similar. One key per line, no extra blank lines in the middle. Including the keys directly in the email text is a bad idea, as mail clients usually split long lines, which leads to mistakes. 
+that is, the keyname, followed by ONE BLANK SPACE (no tabs or similar), and followed by the translated string, no need to include the original english string, or similar. One key per line, no extra blank lines in the middle. Including the keys directly in the email text is a bad idea, as mail clients usually split long lines, which leads to mistakes.
 
 Other kinds of contribution will be rejected, in order to make the job easier to the manager. 
 
 I hope you understand, there's usually one person in charge of updating the translations, and there are more than 40 languages, so there are many translations and submission. Don't make it more difficult :)
 
-2. For Translators' Managers
+2. For Translations' Managers
 ----------------------------
 
 When a new translation arrives to you, you should only accept it if is a diff file or a complete langXX file, or our users can send always translations as mail, and it's a big job :)
@@ -27,3 +27,18 @@ What should I do if...
 -...I receive two lang files of the same language? Reject one, the oldest, or the less complete.
 
 When you get big contributions (not just 1 or 2 keys), or when you see a person usually send translation updates for a language, you should add him to the credits in the README file. You should tell him about this, and ask him if he wants to be removed (nobody wanted to be removed until now, but it's polite to ask :))
+
+3. For both - Useful toold
+--------------------------
+
+In the lang/ folder you have some useful scripts.
+
+missing.py langXX: will list the missing keys in langXX file. That is, the keys that exist in langen (the master language), but not in langXX file.
+
+errors.py langXX: will list the possible errors in langXX. That is, the apparent keys that are in langXX but not in langen. This usually happens when a key name is mistyped, or when there are spplited lines (a translation is spplited into multiple lines instead of being just one line), or when a key was removed from the langen file because it's no longer used.
+
+dups.sh langXX: will tell you the keys that are duplicated inside the file.
+
+sotlang langXX: will sort the language file. BE CAREFUL. Don't apply sortlang if there are spplited translations, as sorting it will sort these spplited lines, and it will be quite difficult to join them again. So please fix any spplited lines before sorting. Sorting is not mandatory, but it's recommended to sort before commiting to the CVS.
+
+convert.tcl source_file source_encoding dest_file dest_encoding: Converts the given source, in the source encoding, to the given destination file using the given encoding.
