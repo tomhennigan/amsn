@@ -1437,9 +1437,9 @@ namespace eval ::plugins {
 			::plugins::UpdateLangs $name $path $langs
 			::plugins::UpdateFiles $name $path $files
 			}] } {
-			SavePlugininfo "$plugin" "$pathinfo"
-		} else {
 			status_log "Error while updating $name\n" red
+		} else {
+			SavePlugininfo "$plugin" "$pathinfo"
 		}
 
 	}
