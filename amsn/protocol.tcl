@@ -1572,6 +1572,8 @@ proc urldecode {str} {
     set end [string first "%" $str $begin]
     set decode ""
     
+#    puts "Me llega para decodificar: $str"
+    
     while { $end >=0 } {
       set decode "${decode}[string range $str $begin [expr {$end-1}]]"
       set decode "${decode}[format %c 0x[string range $str [expr {$end+1}] [expr {$end+2}]]]"
@@ -1580,6 +1582,9 @@ proc urldecode {str} {
     }
     
     set decode ${decode}[string range $str $begin [string length $str]]
+
+#    puts "Resultado: $decode"
+
     return $decode
 
 #Nuevo a ver si arregla el $ y los corchetes
@@ -1594,6 +1599,10 @@ proc urlencode {str} {
 #   global url_map
 
    set encode ""
+
+#    puts "Me llega para codificar: $str"
+
+   set str [encoding convertto utf-8 $str]
    
    for {set i 0} {$i<[string length $str]} {incr i} {
      set character [string range $str $i $i]
@@ -1602,11 +1611,19 @@ proc urlencode {str} {
        binary scan $character c charval
        binary scan $character s charval
        set charval [expr ( $charval + 0x10000 ) % 0x10000]
-       set encode "${encode}%[format %.2X $charval]"
+       if {$charval <= 0xFF} {
+          set encode "${encode}%[format %.2X $charval]"
+       } else {
+          set charval1 [expr {$charval & 0xFF} ]
+          set charval2 [expr {$charval >> 8}]
+          set encode "${encode}$character"
+       }
      } else {
        set encode "${encode}$character"
      }
    } 
+
+#    puts "Resultado: $encode"
    
    return $encode
 
