@@ -1286,7 +1286,7 @@ proc user_choose {title online command {userslist ""}} {
 
    if { $usercount == 1 } {
 
-     eval {$command $user_login}
+     eval $command $user_login
      return 0
 
    }
@@ -1792,6 +1792,8 @@ proc cmsn_msgwin_top {name txt} {
    .${win_name}.top.text delete 0.0 end
    .${win_name}.top.text insert end $txt
    .${win_name}.top.text configure -state disabled
+
+   #TODO: Should change the size of the top text to fit the users names
 }
 
 proc cmsn_win_write {name txt {colour ""} {fontname ""} {fontstyle ""} {fontcolor ""}} {
