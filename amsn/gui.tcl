@@ -132,7 +132,7 @@ namespace eval ::amsn {
        ".${win_name}.text tag conf ftyes$cookie -underline false;\
        .${win_name}.text conf -cursor left_ptr"
      .${win_name}.text tag bind ftyes$cookie <Button1-ButtonRelease> \
-       "::amsn::AcceptedFT $sb_name $cookie; ::amsn::RecvWin $filename $cookie; ::MSN::acceptFT $sb_name $filename $filesize $cookie"
+       "::amsn::AcceptedFT $sb_name $cookie; ::amsn::RecvWin {$filename} $cookie; ::MSN::acceptFT $sb_name {$filename} $filesize $cookie"
 
      .${win_name}.text tag configure ftno$cookie \
        -foreground darkblue -background white -font bboldf -underline false
@@ -325,7 +325,7 @@ namespace eval ::amsn {
       set bytes2 [expr {$bytes/1024}] 
       set filesize2 "[expr {$filesize/1024}] Kb"      
       set cien 100
-      set percent [expr {$bytes*100/$filesize}]
+      set percent [expr {($bytes/$filesize)*100}]
       
       if { ($bytes >= $filesize) || ($bytes<0)} {
 	 $w.close configure -text "[trans close]" -command "destroy $w"

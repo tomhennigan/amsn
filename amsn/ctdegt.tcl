@@ -272,7 +272,8 @@ proc Preferences { settings } {
 	LabelEntry $nbApps.browser "[trans browser]" myconfig(browser) 20
 	LabelEntry $nbApps.mailer "[trans mailer]" myconfig(mailcommand) 20
 	label $nbApps.mailerhot -text "[trans leaveblankforhotmail]" -font splainf
-	pack $nbApps.browser $nbApps.mailer  $nbApps.mailerhot -side top
+	LabelEntry $nbApps.fileman "[trans filemanager]" myconfig(filemanager) 20
+	pack $nbApps.browser $nbApps.mailer  $nbApps.mailerhot $nbApps.fileman -side top
         bind .cfg <Control-a> { pickNote $nb.p $nbtApps }
 
 	#  .--------------.
@@ -425,6 +426,10 @@ proc LabelEntryGet { path } {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.12  2002/08/15 10:03:00  airadier
+# Credits updated for the new banner.
+# Adding file manager support (for opening received files)
+#
 # Revision 1.11  2002/07/09 23:31:12  lordofscripts
 # - T-THEMES preparation for color themes
 #

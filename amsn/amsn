@@ -338,7 +338,7 @@ proc cmsn_draw_main {} {
    .main_menu.file add separator
    .main_menu.file add command -label "[trans sendfile]..." -state disabled
    .main_menu.file add command -label "[trans openreceived]" \
-      -command "msg_box \"$files_dir\""
+      -command "cmsn_open_received  \"$config(filemanager)\" \"$files_dir\""
    .main_menu.file add separator
    .main_menu.file add command -label "[trans close]" -command "close_cleanup;exit"
 
@@ -523,6 +523,14 @@ proc cmsn_draw_main {} {
 
    cmsn_draw_status
    cmsn_draw_offline
+}
+
+proc cmsn_open_received {fileman location} {
+  if { [string length $fileman] < 1 } {
+    msg_box $location
+  } else {
+    exec $fileman $location &
+  }
 }
 
 proc anti_idle {} {
