@@ -21,7 +21,7 @@
 		<Colors>
 			<balloonbackground>#daeafe</balloonbackground>
 			<balloonborder>#2e8afe</balloonborder>
-			<balloontext>#000000</balloontext>
+			<balloontext>#0000dd</balloontext>
 		</Colors>
 		<Geometry>
 			<notifwidth>150</notifwidth>
@@ -29,6 +29,9 @@
 			<x_notifyclose>132</x_notifyclose>
 			<y_notifyclose>2</y_notifyclose>
 		</Geometry>
+		<Options>
+			<balloonfont>splainf</balloonfont>
+		</Options>
 	</General>
 	<ContactList>
 		<Colors>
@@ -61,7 +64,6 @@
 		</Geometry>
 		<Options>
 			<underline_contact>1</underline_contact>
-			<balloonfont>sboldf</balloonfont>
 			<showdisplaycontactlist>1</showdisplaycontactlist>
 			<emailabovecolorbar>1</emailabovecolorbar>
 		</Options>
