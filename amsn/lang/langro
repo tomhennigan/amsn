@@ -26,9 +26,9 @@ autoidle mod pasiv automat
 autoip IP automat  
 autonoact Arata "Fara Activitate" cind sunt inactiv de
 avoidseen Nu permite persoanei sa ma vada autentificat si sa ma contacteze.
+away Plecat
 awaymsg1 Confirmare inainte de schimbarea starii Plecat/Revin/Ocupat 
 awaymsg2 Never ask and always use the away message below
-away Plecat
 baduserpass Parola sau user gresit!
 bgcolor Schimba culoarea fundalului
 blankdirect Nu complecta pentru autentificare automata
@@ -60,8 +60,8 @@ clicktologin Autentificare
 close Inchide 
 closingdocks Minimizare in loc de inchidere
 command Commanda
-confirmdelete Sigur vrei sa stergi persoana $1?
 confirm Sunteti sigur?
+confirmdelete Sigur vrei sa stergi persoana $1?
 connecterror Conectarea la server a esuat 
 connection Conectie
 contactadded Persoana adaugata
@@ -114,8 +114,8 @@ groupoldname Nume vechi
 grouprename Redenumeste un grup
 groupunknown Grup necunoscut 
 handle Manuieste
-help Ajutor
 helpcontents Continut
+help Ajutor
 history Vizualizeaza jurnalul
 home Home
 ident In curs de identificare
@@ -150,8 +150,8 @@ logfandexp Jurnalizeaza marimile fisierului si expirarea History-ului
 loggedotherlocation Deconectat. Autentificare de la alt calculator.
 loggingin In curs de autentificare
 loginas Autentificare cu
-login Autentificare
 loging Jurnale
+login Autentificare
 logolder Jurnalizeaza numai conversatile care au avut loc in urma cu 
 logout Deautentificare
 logsin tocmai s-a autentificat 
@@ -224,6 +224,7 @@ preflook Setari aMSN
 prefmsging Felul in care arata un mesaj primit
 prefname  Numele sau nick-ul
 prefphone2 Scrie numerele de telefon pe care vrei ca alti sa le vada din lista celor permisi. 
+prefphone Numere de telefon
 prefprofile2 Creaza sau modifica profilul public \n ( descrierea personala pe care o pot vedea altii)
 prefprofile3 Profilul aMSN pentru configurarea utilizatorului
 prefprofile Profilul public
@@ -234,14 +235,14 @@ prefsound Sunete
 profiledconfig Configurare profil
 profiles Profile
 properties Proprietati
-proxyconf Configurare proxy
 proxyconfhttp Configurare pentru suport HTTP proxy 
+proxyconf Configurare proxy
 proxy Sunt in spatele unui server Proxy (HTTP sau SOCKS5)
 publishphones Arata numerele de telefon
 receivedbytes Receptionat $1 of $2 bytes
 receivefile Fisier receptionat
-reconnect Asteapta ca $1 sa se reconecteze
 reconnecting In curs de reconectare la server
+reconnect Asteapta ca $1 sa se reconecteze
 reject rejectare
 rememberpass Retine parola
 reversed Ordine inversa
@@ -262,11 +263,11 @@ server Server
 session Sesiune
 sound2 Avertizare sonora cind peroanele se autentifica sau trimit mesaj
 soundcommand Ar trebui sa fie comanda pentru redare(ex: esdplay)
+sound Sunet
 soundfile Fisieru de avertizare (sunet)
 soundloop Roteste sunetul 
 soundserver Server de sunet
 soundstatus Inchide/Deschide avertizarile
-sound Sunet
 startoffline2 Autentificare invizibila "Apar neautentificat"
 startoffline Incepe neautentificat
 status Stare
@@ -278,8 +279,8 @@ syntaxerror Eroare de sintaxa
 tabbed In fereastra ingrosata
 textsize Marime text
 title MSN Messanger
-to La
 tools Utilitare
+to La
 unblock Deblocheaza
 uoffline Neautentificat
 uonline Autentificat
