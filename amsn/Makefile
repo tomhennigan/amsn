@@ -5,8 +5,8 @@
 #	- integrate to both kde & gnome, check if existing
 #	- Debian ppl should include amsn.debianmenu into debianlinks
 name=amsn
-version=0.60
-release=1
+version=0.62
+release=1b
 module=msn
 
 # Installation paths
@@ -83,7 +83,7 @@ installsubdirs:
 
 # Install core files from root directory
 install: mkdirs newtranscript installsubdirs 
-	@core=`ls amsn langlist README *tcl *htm*`; for corefile in $$core; do \
+	@core=`ls amsn langlist jwakeup README *tcl *htm*`; for corefile in $$core; do \
 		myfile=$(libdir)/$$corefile; \
 		cp $$corefile $(libdir); \
 		echo "rm -f $$myfile" >> .$(transcript); \
