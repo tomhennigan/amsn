@@ -24,7 +24,7 @@ proc load_alarms {} {
    while {[gets $file_id tmp_data] != "-1"} {
       set var_data [split $tmp_data]
       set var_attribute [lindex $var_data 0]
-      set var_value [lindex $var_data 1]
+      set var_value [join [lrange $var_data 1 end]]
       set alarms($var_attribute) $var_value			
    }
    close $file_id
@@ -230,47 +230,68 @@ proc save_alarm_pref { user } {
 
 #Runs the alarm (sound and pic)
 proc run_alarm {user msg} {
-   global alarms program_dir config alarm_win_number
+	global alarms program_dir config alarm_win_number tcl_platform
 
-   incr alarm_win_number
-   set wind_name alarm_${alarm_win_number}
+	incr alarm_win_number
+	set wind_name alarm_${alarm_win_number}
 
-    set command $config(soundcommand)
-    set command [string map { "$sound" "" } $command]
+	set command $config(soundcommand)
+	set command [string map { "$sound" "" } $command]
 
-
-   toplevel .${wind_name}
-   wm title .${wind_name} "[trans alarm] $user"
-   label .${wind_name}.txt -text "$msg"
-   pack .${wind_name}.txt
-   if { ($alarms(${user}_pic_st) == 1) } {
-	image create photo joanna -file $alarms(${user}_pic)
-	if { ([image width joanna] < 500) && ([image height joanna] < 500) } {
-	label .${wind_name}.jojo -image joanna
-	pack .${wind_name}.jojo
+	toplevel .${wind_name}
+	wm title .${wind_name} "[trans alarm] $user"
+	label .${wind_name}.txt -text "$msg"
+	pack .${wind_name}.txt
+	if { ($alarms(${user}_pic_st) == 1) } {
+		image create photo joanna -file $alarms(${user}_pic)
+		if { ([image width joanna] < 500) && ([image height joanna] < 500) } {
+			label .${wind_name}.jojo -image joanna
+			pack .${wind_name}.jojo
+		}
 	}
-   }
 
-    if { [info exists alarms(${user}_oncommand)] && $alarms(${user}_oncommand) == 1 } {
-	string map [list "\$msg" "$msg" "\\" "\\\\" "\$" "\\\$" "\[" "\\\[" "\]" "\\\]" "\(" "\\\(" "\)" "\\\)" "\{" "\\\}" "\"" "\\\"" "\'" "\\\'" ] $alarms(${user}_command)
-	catch { eval exec $alarms(${user}_command) & } res 
-    }
+	if { [info exists alarms(${user}_oncommand)] && $alarms(${user}_oncommand) == 1 } {
+		string map [list "\$msg" "$msg" "\\" "\\\\" "\$" "\\\$" "\[" "\\\[" "\]" "\\\]" "\(" "\\\(" "\)" "\\\)" "\{" "\\\}" "\"" "\\\"" "\'" "\\\'" ] $alarms(${user}_command)
+		catch { eval exec $alarms(${user}_command) & } res 
+	}
 
 	status_log "${wind_name}"
-   if { $alarms(${user}_sound_st) == 1 } {
-	if { $alarms(${user}_loop) == 1 } {
-	    button .${wind_name}.stopmusic -text [trans stopalarm] -command "destroy .${wind_name}; catch { eval exec killall jwakeup } ; catch { eval exec killall -TERM $command }"
-            pack .${wind_name}.stopmusic -padx 2
-	    catch { eval exec ${program_dir}/jwakeup $command $alarms(${user}_sound) & } res
-        } else {
-	    catch { eval exec $command $alarms(${user}_sound) & } res 
-	    button .${wind_name}.stopmusic -text [trans stopalarm] -command "catch { eval exec killall -TERM $command } res ; destroy .${wind_name}"
-            pack .${wind_name}.stopmusic -padx 2
-  	}
-   } else {
-      button .${wind_name}.stopmusic -text [trans stopalarm] -command "destroy .${wind_name}"
-      pack .${wind_name}.stopmusic -padx 2
-   }
+	if { $alarms(${user}_sound_st) == 1 } {
+		#need different commands for windows as no kill or bash etc
+		if { $tcl_platform(platform) == "windows" } {
+			wm attributes .${wind_name} -topmost 1
+			if { $alarms(${user}_loop) == 1 } {
+				global stoploopsound
+				set stoploopsound 0
+				button .${wind_name}.stopmusic -text [trans stopalarm] -command "destroy .${wind_name}; set stoploopsound 1"
+				pack .${wind_name}.stopmusic -padx 2
+				while { $stoploopsound == 0 } {
+					update
+					after 100
+					catch { eval exec "[regsub -all {\\} $command {\\\\}] [regsub -all {/} $alarms(${user}_sound) {\\\\}]" & } res 
+					update
+				}
+			} else {
+				button .${wind_name}.stopmusic -text [trans stopalarm] -command "destroy .${wind_name}"
+				pack .${wind_name}.stopmusic -padx 2
+				update
+				catch { eval exec "[regsub -all {\\} $command {\\\\}] [regsub -all {/} $alarms(${user}_sound) {\\\\}]" & } res 
+			}			
+		} else {
+			if { $alarms(${user}_loop) == 1 } {
+				button .${wind_name}.stopmusic -text [trans stopalarm] -command "destroy .${wind_name}; catch { eval exec killall jwakeup } ; catch { eval exec killall -TERM $command }"
+				pack .${wind_name}.stopmusic -padx 2
+				catch { eval exec ${program_dir}/jwakeup $command $alarms(${user}_sound) & } res
+			} else {
+				catch { eval exec $command $alarms(${user}_sound) & } res 
+				button .${wind_name}.stopmusic -text [trans stopalarm] -command "catch { eval exec killall -TERM $command } res ; destroy .${wind_name}"
+				pack .${wind_name}.stopmusic -padx 2
+			}
+		}
+	} else {
+		button .${wind_name}.stopmusic -text [trans stopalarm] -command "destroy .${wind_name}"
+		pack .${wind_name}.stopmusic -padx 2
+	}
 }
 
 # Switches alarm setting from ON/OFF
