@@ -423,6 +423,7 @@ sourcecode Codi font (necessita ser compilat i instal·lat)
 sslwarning ATENCIÓ!! Desactivant l'SSL, es desactiva el xifrat de la teva contrasenya i serà enviada sense cap protecció per la xarxa.
 startoffline2 Connectar-se silenciosament apareixent en l'estat "Desconnectat"
 startoffline Inicia en l'estat "Simula desconnexió"
+startontray Inicia l'aMSN només amb la safata del sistema
 stateautomsg Missatge automàtic a enviar
 statechange estat canviat a:
 stateedittext Edita els camps que vulguis modificar\ni prem "Desar"
@@ -441,6 +442,7 @@ textsize Mida del text
 timeremaining Temps restant
 timestamps Mostra l'hora a les converses
 title aMSN
+tkerror Hi ha hagut un error de TK, segurament perquè hi ha un error a l'aMSN. Si ens vols ajudar, envia'ns el fitxer $1 a l'adreça amsn-bugs@lists.sf.net 
 tlsdowncompleted El fitxer $1 ha estat desat al directori $2. L'has de descomprimir, compilar (si és el codi font) i instal·lar-lo a dins de $3.
 tlsinstall Assistent d'instal·lació del mòdul TLS
 tlsinstallexp Ara l'aMSN utilitza MSNP9, que requereix un connexió segura a\ntravés del protocol SSL. Per tal d'utilitzar-lo, necessites tenir instal·lat\nel mòdul TLS i no l'he trobat al sistema. Aquest assistent t'ajudarà a obtenir\ni a instal·lar el mòdul. Escull quin tipus de sistema tens per poder obtenir el\nmòdul TLS de manera automàtica
@@ -471,7 +473,9 @@ willjoin Esperant que $1 s'uneixi a la conversa
 work Treball
 wrongfields Els camps "$1", "$2" i/o "$3" no són vàlids
 wrongprofileversion Versió incorrecta del fitxer de configuració del perfil. Per arreglar-ho, esborra el directori $1 o actualitza l'aMSN
+xmmscurrent Mostra la cançó actual
 xmmserr No s'està reproduint res o no tens l'xmms-infopipe instal·lat.
+xmmssend Envia la cançó actual
 xoffset Desplaçament X
 yes Sí
 yoffset Desplaçament Y

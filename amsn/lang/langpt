@@ -442,6 +442,7 @@ textsize Tamanho do Texto
 timeremaining Tempo que falta
 timestamps Activar carimbos de tempo nas janelas de conversação
 title Al's Messenger
+tkerror TK veio com um erro, encontrou um erro no AMSN, por favor reporte-o. Envio o ficheiro $1 para amsn-bugs@lists.sf.net
 tlsdowncompleted O ficheiro $1 foi descarregado para a directoria $2. É necessário descompactá-lo e fazer o 'build' (caso tenha descarregado código fonte) e instalá-lo na directoria $3.
 tlsinstall Assistente de Instalação do Módulo TLS
 tlsinstallexp O aMSN usa agora MSNP9, que necessita de uma ligação\nsegura usando SSL. Para usar SSL, o aMSN necessita de instalar um módulo chamado TLS,\nque não se encontra no seu sistema. Este assistente irá ajudá-lo a descarregar e\na instalar o TLS. Por favor escolha o seu tipo de sistema para que possamos fazer a descarga automática\n dos ficheiros TLS necessários.
