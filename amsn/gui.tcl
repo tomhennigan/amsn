@@ -4181,10 +4181,16 @@ proc clickableImage {tw name image command {padx 0} {pady 0}} {
 proc clickableDisplayPicture {tw type name command {padx 0} {pady 0}} {
 	global HOME;
 	#Get actual display pic name
-	set filename [::config::getKey displaypic];
+	set filename [::config::getKey displaypic]
+	set cache ""
+	#If this is a cache picture
+	if {[string range $filename 0 5] == "cache/"} {
+		set cache "/cache"
+	}
+	
 	#If the display pic doesn't actually exists in format 50x50, take the original one and convert it to 50x50 inside displaypic/small folder
 	if { ![file readable [file join $HOME displaypic small $filename]] } {
-		convert_image_plus "[::skin::GetSkinFile displaypic $filename]" displaypic/small "50x50"
+		convert_image_plus "[::skin::GetSkinFile displaypic $filename]" displaypic/small$cache "50x50"
 	}
 	#Load the smaller display picture
 	if {[load_my_smaller_pic]} {
@@ -4195,8 +4201,8 @@ proc clickableDisplayPicture {tw type name command {padx 0} {pady 0}} {
 			canvas $tw.$name -width [image width [::skin::loadPixmap mystatus_bg]] -height [image height [::skin::loadPixmap mystatus_bg]] -bg white
 			#There's a strange bug on Mac OS X, we need to move the picture and the border at the position 2+2 to see it completely
 			if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-				$tw.$name create image "[expr {[::skin::getKey x_dp_top]+2}]" "[expr {[::skin::getKey y_dp_top]+2}]" -anchor nw -image
-				$tw.$name create image +2 +2 -anchor nw -image [::skin::loadPixmap mystatus_bg] my_pic_small
+				$tw.$name create image "[expr {[::skin::getKey x_dp_top]+2}]" "[expr {[::skin::getKey y_dp_top]+2}]" -anchor nw -image my_pic_small
+				$tw.$name create image +2 +2 -anchor nw -image [::skin::loadPixmap mystatus_bg]
 			} else {
 				$tw.$name create image [::skin::getKey x_dp_top] [::skin::getKey y_dp_top] -anchor nw -image my_pic_small
 				$tw.$name create image 0 0 -anchor nw -image [::skin::loadPixmap mystatus_bg]
@@ -4234,16 +4240,32 @@ proc load_my_smaller_pic {} {
 
 proc getpicturefornotification {email} {
 		global HOME
-		#Get the filename of the cached display picture
-		set filename [::abook::getContactData $email displaypicfile ""]
-		#Convert that cached display picture to 50x50 in cache/small directory if it's not already there and the file exists
-		if { ![file readable [file join $HOME displaypic cache small $filename].gif] && [file readable [file join $HOME displaypic cache $filename].gif]} {
-			convert_image_plus "[file join $HOME displaypic cache ${filename}].gif" displaypic/cache/small "50x50"
-		} 
+		
+		#First verify if the user is another user or he's dumb and he added himself on his contact list
+		if {$email == "[::config::getKey login]"} {
+			#Get the filename of the cached display picture
+			set filename [::config::getKey displaypic]
+			#Convert that cached display picture to 50x50 in small directory if it's not already there and the file exists
+			if { ![file readable [filenoext [::skin::GetSkinFile displaypic/small $filename]].gif] && [file readable [::skin::GetSkinFile displaypic $filename]]} {
+				convert_image_plus "[::skin::GetSkinFile displaypic $filename]" displaypic/small "50x50"
+			}
+			#Set the command to acess the path of the small DP
+			set command "[filenoext [::skin::GetSkinFile displaypic/small $filename]].gif"	
+		} else {
+			#Get the filename of the cached display picture
+			set filename [::abook::getContactData $email displaypicfile ""]
+			#Convert that cached display picture to 50x50 in cache/small directory if it's not already there and the file exists
+			if { ![file readable [file join $HOME displaypic cache small $filename].gif] && [file readable [file join $HOME displaypic cache $filename].gif]} {
+				convert_image_plus "[file join $HOME displaypic cache ${filename}].gif" displaypic/cache/small "50x50"
+			}
+			#Set the command to acess the path of the small DP
+			set command "[file join $HOME displaypic cache small ${filename}].gif"
+		}
+
 		#If the picture now exist, create the image
 		#If not, 2 possibilities -No Imagemagick -The user use no picture, just don't create the image
-		if { [file readable "[file join $HOME displaypic cache small ${filename}].gif"] } {
-			image create photo smallpicture$email -file "[file join $HOME displaypic cache small ${filename}].gif"
+		if { [file readable "$command"] } {
+			image create photo smallpicture$email -file "$command"
 			return 1
 		} else {
 			return 0
