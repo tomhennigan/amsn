@@ -184,8 +184,10 @@ namespace eval ::Proxy {
 			unset proxy_queued_data($name)
 		}
 
-		fileevent [sb get $name sock] readable ""
-		fileevent [sb get $name sock] writable ""
+		catch {
+			fileevent [sb get $name sock] readable ""
+			fileevent [sb get $name sock] writable ""
+		}
 		::MSN::CloseSB $name
 	}
 
