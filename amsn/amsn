@@ -635,6 +635,8 @@ proc cmsn_draw_offline {} {
 
    global sboldf config password pgBuddy
 
+   bind $pgBuddy.text <Configure>  ""
+
    wm title . "[trans title] - [trans offline]"
 
 #   .main.status configure -state normal -font splainf
@@ -918,6 +920,10 @@ proc cmsn_draw_online {} {
    $pgBuddy.text insert end "($my_state_desc) \n" mystatus
 
    set width [expr {[winfo width $pgBuddy.text] - 10} ]
+   
+   if { $width < 75 } {
+       set width 75
+   }
 
    mainbar blank
    mainbar copy colorbar -from 0 0 5 4 
@@ -1025,7 +1031,7 @@ proc cmsn_draw_online {} {
 
    $pgBuddy.text configure -state disabled
    
-#   bind $pgBuddy.text <Configure>  cmsn_draw_online
+   bind $pgBuddy.text <Configure>  "after cancel cmsn_draw_online; after 100 cmsn_draw_online"
 
 }
 
@@ -1667,7 +1673,7 @@ proc cmsn_win_write {name txt {colour ""} {fontname ""} {fontstyle ""} {fontcolo
 
       set tagid [::md5::md5 "$font$fontcolor"]
 
-      status_log "Tagid: $tagid\n" red
+#      status_log "Tagid: $tagid\n" red
 #      status_log "Using font: $font\n" red
 
       if {[catch {.${win_name}.text tag configure $tagid -foreground #$fontcolor -font $font} res] || [string length $fontname] <3} {
