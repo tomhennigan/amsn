@@ -124,6 +124,7 @@ delprofile2 Select the Profile that you would like to have removed
 delprofile Delete Profile
 description Description
 directconnection I have direct connection to the internet (uses port 1863)
+disablessl Disable SSL
 disconnect $1 has disconnected.
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Gnome Dock
@@ -385,6 +386,7 @@ soundloop Loop Sound
 soundserver Sound Server
 soundstatus Sound Alarm
 sourcecode Source Code (needs compiling and installing)
+sslwarning WARNING!! Disabling SSL will disable encryption, so your password will be sent as plain text over the network. Use only for really tricky proxies or network configurations.
 startoffline2 Sign In silently as "Appear Offline"
 startoffline Start Offline
 stateautomsg AutoMessage to Send
