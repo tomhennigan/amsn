@@ -47,6 +47,7 @@ autodetectip Samodejno zaznaj IP naslov
 autohotmaillog Samodejna prijava v Hotmail
 autoidle Samodejno idle stanje
 autoip Samodejni IP
+automessage Samodejno sporocilo
 autonoact Prikazi me kot "Neaktiven", ko sem neaktiven
 avoidseen Ne dovoli tej osebi, da vidi moj status, ko sem prijavljen
 awaymsg1 Vprasam za away sporocilo vsakic, ko zamenjam stanje na Odsoten/Zaposlen?
@@ -159,6 +160,7 @@ disablessl Onemogoci SSL
 disconnect $1 se je odjavil/a.
 displaychat Prikazi nastavitve besedila
 displayp4context Prikazi kontekst P4
+displaypic Prikazna slika
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk gtk pomol
 dockingoff Pristaja prekinjena
@@ -201,6 +203,7 @@ filename Ime datoteke
 filetransfercancelled Prenos datoteke preklican
 filetransfercomplete Prenos datoteke koncan
 followtext Sledi novemu besedilu
+friendlyname Prijazno ime
 ftacceptedby $1 je sprejel/a povabilo za prenos datoteke '$2'
 ftaccepted Sprejem datoteke sprejet
 ftaccepting Sprejemam povabilo za prenos datoteke
@@ -366,6 +369,7 @@ pager Pager
 pass Geslo
 paste Prilepi
 personal Osebno
+phone Telefon
 phones Telefonske stevilke
 picbrowser Prikazi brskalnik slik
 picfile Slikovna datoteka
