@@ -2110,6 +2110,7 @@ namespace eval ::amsn {
 		set evPar(nick) nick
 		set evPar(msg) msg
 		set evPar(chatid) chatid
+		set evPar(win_name) win_name
 		set evPar(fontfamily) fontfamily
 		set evPar(fontstyle) fontstyle
 		set evPar(fontcolor) fontcolor
