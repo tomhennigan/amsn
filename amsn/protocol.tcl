@@ -3208,11 +3208,8 @@ proc cmsn_ns_handler {item} {
 					global loading_list_info
 					::abook::setContact $loading_list_info(last) [lindex $item 1] [lindex $item 2]
 				} else {
-					status_log "THIS IS BADLY PROCESSED!!! BPR!!!\n" red
-					status_log "THIS IS BADLY PROCESSED!!! BPR!!!\n" white
-					#new_contact_list "[lindex $item 1]"
 					# Update entry in address book setContact(email,PH*/M*,phone/setting)
-					#::abook::setContact [lindex $item 2] [lindex $item 3] [lindex $item 4]
+					::abook::setContact [lindex $item 2] [lindex $item 3] [lindex $item 4]
 				}
 				return 0
 			}
