@@ -264,7 +264,7 @@ namespace eval ::pop3 {
 			#test for end of file
 			if { [eof $chan] } {
 				plugins_log pop3 "ERROR : EOF reached in open(2)\n"
-				error
+				error "EOF in ::pop3::Open2"
 			}
 			
 			::pop3::send $chan {} 1
@@ -1064,7 +1064,9 @@ namespace eval ::pop3mime {
 
 			set decoded [word_decode [string range $field $start $end]]
 			foreach {charset - string} $decoded break
-			append result [::encoding convertfrom $charset $string]
+			if {[catch {[append result [::encoding convertfrom $charset $string]]} ]} {
+				append result $string
+			}
 
 			# remove encoded-word and trailing space (RFC 2047, see part 8)
 			# from the rest of the string
