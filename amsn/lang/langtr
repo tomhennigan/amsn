@@ -461,6 +461,7 @@ stateedittext Lütfen deðiþtirmek istediðiniz\nkýsýmlarý deðiþtirip Kaydet'e týkl
 stateinfo Kiþisel Durum ayarlarý
 statename Kiþisel Durumun adý
 statenewtext Lütfen yeni Kiþisel Durumunuzu yaratmak için \n gerekli bilgileri girip Kaydet'e týklayýnýz
+statenick Özel kullancý ismi (deðiþtirmemek için boþ býrakýnýz).
 status Durum
 stopalarm Alarmý durdur!
 storenickname Deðiþik kullanýcý ismi olan özelleþtirilmiþ durumdan sonra asýl kullanýcý ismine dön
