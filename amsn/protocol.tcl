@@ -502,10 +502,13 @@ namespace eval ::MSNFT {
 
    }
    
-   proc cancelFTInvitation { chatid cookie } {
-      #TODO: here we should send CANCEL message
-      cancelFT $cookie
-   }
+    proc cancelFTInvitation { chatid cookie } {
+	if {[::config::getKey new_ft_protocol]} {
+	    #TODO: here we should send CANCEL message so the other side will know it is cancelled
+	} {
+	    rejectFT $chatid $cookie
+	}
+    }	
    
    proc rejectedFT {chatid who cookie} {
       variable filedata

@@ -879,6 +879,9 @@ namespace eval ::amsn {
 		WinWriteClickable $chatid "[trans accept]" \
 			"::amsn::AcceptFT $chatid $cookie" ftyes$cookie
 		WinWrite $chatid " / " green
+		WinWriteClickable $chatid "[trans saveas]" \
+			"::amsn::SaveAsFT $chatid $cookie" ftsaveas$cookie
+		WinWrite $chatid " / " green
 		WinWriteClickable $chatid "[trans reject]" \
 			"::amsn::RejectFT $chatid $cookie" ftno$cookie
 		WinWrite $chatid ")\n" green
@@ -951,8 +954,12 @@ namespace eval ::amsn {
 
 
 	proc SaveAsFT {chatid cookie {varlist ""} } {
-		set filename [tk_getSaveFile -initialfile [lindex $varlist 5] -initialdir [set ::files_dir]]
-		status_log "$filename" blue
+		if {$cookie != -1} {
+			set initialfile [::MSNFT::getFilename $cookie]
+		} {
+			set initialfile [lindex $varlist 5]
+		}
+		set filename [tk_getSaveFile -initialfile $initialfile -initialdir [set ::files_dir]]
 		if {$filename != ""} {
 			AcceptFT $chatid $cookie [list [lindex $varlist 0] [lindex $varlist 1] [lindex $varlist 2] [lindex $varlist 3] [lindex $varlist 4] "$filename"]
 		} {return}
