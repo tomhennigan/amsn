@@ -562,17 +562,17 @@ namespace eval ::smiley {
 		if { $name == "" } {
 			wm title .new_custom "[trans custom_new]"
 			label .new_custom.1.intro -text "[trans smileintro]" -font splainf
-			button .new_custom.buttons.ok -text "[trans ok]" -command ::smiley::NewCustomEmoticonGUI_Ok -padx 5
-			button .new_custom.buttons.delete -text "[trans delete]" -command "" -state disabled -padx 5
+			button .new_custom.buttons.ok -text "[trans ok]" -command ::smiley::NewCustomEmoticonGUI_Ok -padx 10
+			button .new_custom.buttons.delete -text "[trans delete]" -command "" -state disabled -padx 11
 		} else {
 			wm title .new_custom "[trans custom_edit]"
 			label .new_custom.1.intro -text "[trans smileintro2]" -font splainf
-			button .new_custom.buttons.ok -text "[trans ok]" -command [list ::smiley::NewCustomEmoticonGUI_Ok $name] -padx 5
-			button .new_custom.buttons.delete -text "[trans delete]" -command [list ::smiley::NewCustomEmoticonGUI_Delete $name] -padx 5
+			button .new_custom.buttons.ok -text "[trans ok]" -command [list ::smiley::NewCustomEmoticonGUI_Ok $name] -padx 10
+			button .new_custom.buttons.delete -text "[trans delete]" -command [list ::smiley::NewCustomEmoticonGUI_Delete $name] -padx 11
 			$w.name configure -state disabled
 		}
 		
-		button .new_custom.buttons.cancel -text "[trans cancel]" -command [list destroy .new_custom] -padx 5
+		button .new_custom.buttons.cancel -text "[trans cancel]" -command [list destroy .new_custom] -padx 10
 
 		pack .new_custom.buttons.ok -side right -padx 5
 		pack .new_custom.buttons.cancel -side right -padx 5
