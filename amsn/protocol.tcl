@@ -15,6 +15,19 @@ set list_cmdhnd [list]
 
 set sb_list [list]
 
+set list_states {
+	{NLN online #0000A0 online online bonline}
+	{IDL noactivity #008000 online away baway}
+	{BRB rightback #008080 online away baway}
+	{PHN onphone #008080 online busy bbusy}
+	{BSY busy #800000 online busy bbusy}
+	{AWY away #008000 online away baway}
+	{LUN gonelunch #008000 online away baway}
+	{HDN appearoff #404040 offline offline boffline}
+	{FLN offline #404040 offline offline boffline}
+}
+
+
 namespace eval ::MSN {
    #TODO: Export missing procedures (the one whose starts with lowercase)
    namespace export changeName logout changeStatus connect blockUser \
@@ -1254,7 +1267,7 @@ proc sb {do sbn var {value ""}} {
 }
 
 proc read_ns_sock {} {
-   global ns_data ns_stat unread config password
+   global ns_data ns_stat config password
 
    set ns_sock [sb get ns sock]
    if {[eof $ns_sock]} {
@@ -2492,7 +2505,7 @@ proc cmsn_ns_connected {} {
 
 
 proc cmsn_ns_connect { username {password ""}} {
-   global unread list_al list_bl list_fl list_rl config
+   global list_al list_bl list_fl list_rl config
 
    if { ($username == "") || ($password == "")} {
      cmsn_draw_login
@@ -2520,7 +2533,8 @@ proc cmsn_ns_connect { username {password ""}} {
    sb set ns connected "cmsn_ns_connected"
    sb set ns readable "read_ns_sock"
 
-   set unread 0
+   #TODO: Call "on connect" handlers, where hotmail will be registered.
+   set ::hotmail::unread 0
 
    cmsn_socket ns
    

@@ -36,6 +36,83 @@ namespace eval ::amsn {
       ::abookGui::Init
    }
 
+
+   #///////////////////////////////////////////////////////////////////////////////
+   # Draws the about window
+   proc aboutWindow {} {
+
+      global program_dir
+
+      toplevel .about
+      wm title .about "[trans about] [trans title]"
+      wm transient .about .
+      wm state .about withdrawn
+      grab .about
+
+      set developers "\nDidimo Grimaldo\nAlvaro J. Iradier\nKhalaf Philippe\nDave Mifsud"
+      frame .about.top -class Amsn
+      label .about.top.i -image msndroid
+      label .about.top.l -font splainf -text "[trans broughtby]:$developers"
+      pack .about.top.i .about.top.l -side left
+      pack .about.top
+
+      text .about.info -background white -width 60 -height 30 -wrap word \
+         -yscrollcommand ".about.ys set" -font   examplef
+      scrollbar .about.ys -command ".about.info yview"
+      pack .about.ys -side right -fill y
+      pack .about.info -expand true -fill both
+
+      frame .about.bottom -class Amsn
+      button .about.bottom.close -text "[trans close]" -font splainf -command "destroy .about"
+      pack .about.bottom.close
+      pack .about.bottom -expand 1
+
+      set id [open "[file join $program_dir README]" r]
+      .about.info insert 1.0 [read $id]
+
+      close $id
+
+      .about.info configure -state disabled
+      update idletasks
+      wm state .about normal
+      set x [expr {([winfo vrootwidth .about] - [winfo width .about]) / 2}]
+      set y [expr {([winfo vrootheight .about] - [winfo height .about]) / 2}]
+      wm geometry .about +${x}+${y}
+
+   }
+   #///////////////////////////////////////////////////////////////////////////////
+
+   #///////////////////////////////////////////////////////////////////////////////
+   # showHelpFile(filename,windowsTitle)
+   proc showHelpFile {file title} {
+      global program_dir
+      toplevel .show
+      wm title .show "$title"
+      wm transient .show .
+
+      text .show.info -background white -width 60 -height 30 -wrap word \
+         -yscrollcommand ".show.ys set" -font   examplef
+      scrollbar .show.ys -command ".show.info yview"
+      pack .show.ys -side right -fill y
+      pack .show.info -expand true -fill both
+      set id [open "[file join $program_dir $file]" r]
+      .show.info insert 1.0 [read $id]
+      close $id
+      .show.info configure -state disabled
+      update idletasks
+      set x [expr {([winfo vrootwidth .show] - [winfo width .show]) / 2}]
+      set y [expr {([winfo vrootheight .show] - [winfo height .show]) / 2}]
+      wm geometry .show +${x}+${y}
+
+      frame .show.bottom -class Amsn
+      button .show.bottom.close -text "[trans close]" -font splainf -command "destroy .show"
+      pack .show.bottom.close
+      pack .show.bottom -expand 1
+
+      grab .show
+   }
+   #///////////////////////////////////////////////////////////////////////////////
+
    #///////////////////////////////////////////////////////////////////////////////
    # Shows the error message specified by "msg"
    proc errorMsg { msg } {
@@ -580,7 +657,7 @@ namespace eval ::amsn {
       .${win_name}.menu.msn add command -label "[trans sendfile]..." \
          -command "::amsn::FileTransferSend .${win_name}" -state disabled
       .${win_name}.menu.msn add command -label "[trans openreceived]..." \
-         -command "cmsn_open_received \"$files_dir\""
+         -command "launch_filemanager \"$files_dir\""
       .${win_name}.menu.msn add separator
       .${win_name}.menu.msn add command -label "[trans close]" \
          -command "destroy .${win_name}"
@@ -1248,6 +1325,8 @@ namespace eval ::amsn {
    #///////////////////////////////////////////////////////////////////////////////
 
 
+   variable urlcount 0
+   set urlstarts { "http://" "https://" "ftp://" "www." }
 
    #///////////////////////////////////////////////////////////////////////////////
    # WinWrite (chatid,txt,[colour],[fontname,fontstyle,fontcolor])
@@ -1255,7 +1334,10 @@ namespace eval ::amsn {
    # It will use 'colour' as style tag, unles 'colour'=="user", where it will use
    # 'fontname', 'fontstyle' and 'fontcolor' as text parameters.
    proc WinWrite {chatid txt {colour ""} {fontname ""} {fontstyle ""} {fontcolor ""}} {
-      global emotions urlstarts config urlcount
+      global emotions config
+
+      variable urlcount
+      variable urlstarts
 
       set win_name [WindowFor $chatid]
 
@@ -1519,7 +1601,7 @@ namespace eval ::amsn {
       $im put "#$col" -to 0 $i 180 [expr {$i + 1}]
    }
 
-   proc close {} {
+   proc closeAmsn {} {
       set answer [tk_messageBox -message "[trans exitamsn]" -type yesno -icon question -title [trans title]]
       if {$answer == "yes"} {
          close_cleanup
@@ -1531,7 +1613,7 @@ namespace eval ::amsn {
      if {$closingdocks} {
         wm iconify .
      } else {
-        ::amsn::close
+        ::amsn::closeAmsn
      }
    }
 
@@ -1686,7 +1768,7 @@ proc cmsn_draw_main {} {
    .main_menu.file add separator
    .main_menu.file add command -label "[trans sendfile]..." -state disabled
    .main_menu.file add command -label "[trans openreceived]" \
-      -command "cmsn_open_received \"$files_dir\""
+      -command "launch_filemanager \"$files_dir\""
    .main_menu.file add separator
    .main_menu.file add command -label "[trans close]" -command "close_cleanup;exit"
 
@@ -1783,12 +1865,14 @@ proc cmsn_draw_main {} {
    .options add checkbutton -label "[trans closingdocks]" -onvalue 1 -offvalue 0 -variable config(closingdocks) 
 
    #Help menu
-   menu .main_menu.help -tearoff 0 -type normal  
+   menu .main_menu.help -tearoff 0 -type normal
 
-   .main_menu.help add command -label "[trans helpcontents]..." -command "amsn_showhelpfile HELP [list [trans helpcontents]]"
-   .main_menu.help add command -label "FAQ" -command "amsn_showhelpfile FAQ [list [trans faq]]"
+   .main_menu.help add command -label "[trans helpcontents]..." \
+      -command "::amsn::showHelpFile HELP [list [trans helpcontents]]"
+   .main_menu.help add command -label "FAQ" \
+      -command "::amsn::showHelpFile FAQ [list [trans faq]]"
    .main_menu.help add separator
-   .main_menu.help add command -label "[trans about]..." -command cmsn_draw_about
+   .main_menu.help add command -label "[trans about]..." -command ::amsn::aboutWindow
    .main_menu.help add command -label "[trans version]..." -command \
      "msg_box \"[trans version]: $version - [trans date]: $date\n$weburl\""
 
@@ -2425,14 +2509,20 @@ proc toggleGroup {tw name image id {padx 0} {pady 0}} {
 }
 #///////////////////////////////////////////////////////////////////////
 
-
-
+#///////////////////////////////////////////////////////////////////////
+proc clickableImage {tw name image command {padx 0} {pady 0}} {
+   label $tw.$name -image $image -background white
+   $tw.$name configure -cursor hand2 -borderwidth 0
+   bind $tw.$name <Button1-ButtonRelease> $command
+   $tw window create end -window $tw.$name -padx $padx -pady $pady -align center -stretch true
+}
+#///////////////////////////////////////////////////////////////////////
 
 #///////////////////////////////////////////////////////////////////////
 # TODO: move into ::amsn namespace, and maybe improve it
 proc cmsn_draw_online {} {
    global emotions user_stat login list_users list_states user_info list_bl\
-    unread config showonline password pgBuddy bgcolor
+    config showonline password pgBuddy bgcolor
 
    set my_name [urldecode [lindex $user_info 4]]
    set my_state_no [lsearch $list_states "$user_stat *"]
@@ -2553,7 +2643,9 @@ proc cmsn_draw_online {} {
    # Show Mail Notification status
    clickableImage $pgBuddy.text mailbox mailbox {hotmail_login $config(login) $password} 5 0
 
-   if {$unread == 0} {
+   set unread [::hotmail::unreadMessages]
+
+   if { $unread == 0 } {
       $pgBuddy.text insert end "[trans nonewmail]\n" mail
    } elseif {$unread == 1} {
       $pgBuddy.text insert end "[trans onenewmail]\n" mail
@@ -2994,7 +3086,7 @@ proc cmsn_change_name {} {
    wm geometry .change_name -0+100
    wm title .change_name "[trans changenick] - [trans title]"
    wm transient .change_name .
-   canvas .change_name.c -width 300 -height 100 
+   canvas .change_name.c -width 300 -height 100
    pack .change_name.c -expand true -fill both
 
    entry .change_name.c.name -width 40 -bg #FFFFFF -bd 1 \

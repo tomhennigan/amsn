@@ -1,3 +1,18 @@
+namespace eval ::hotmail {
+   variable unread 0
+
+   proc unreadMessages {} {
+      variable unread
+      return $unread
+   }
+
+
+   proc SetUnreadMessages { number } {
+      variable unread
+      set unread $number
+   }
+}
+
 proc hotmail_login {userlogin {pass ""}} {
 # Note: pass can be empty, so user must enter password in the login
 # page.
@@ -194,7 +209,7 @@ proc aim_get_str { bodywithr str } {
 
 
 proc hotmail_procmsg {msg} {
-	global unread config password
+	global config password
 
 	#Nuevo by AIM
 	
@@ -206,8 +221,9 @@ proc hotmail_procmsg {msg} {
 	    set fromaddr [aim_get_str $msg From-Addr]
 	    set msgurl [aim_get_str $msg Message-URL]
 	    status_log "Hotmail: New mail from $from - $fromaddr\n"
-	    set unread [expr {$unread + 1}]
-	    
+
+            ::hotmail::setUnreadMessages [expr { [::hotmail::unreadMessages] + 1}]
+
             ::amsn::notifyAdd "[trans newmailfrom]\n$from\n($fromaddr)" \
 	      "hotmail_viewmsg $msgurl $config(login) $password" newemail
 	    cmsn_draw_online
@@ -218,7 +234,7 @@ proc hotmail_procmsg {msg} {
   	  set noleidos [aim_get_str $msg Inbox-Unread]
 	  status_log "Hotmail: $noleidos unread emails\n"
 	  if { [string length $noleidos] > 0 } {
-	    set unread $noleidos
+	    ::hotmail::setUnreadMessages $noleidos
 	    cmsn_draw_online
 	  }
 	}
@@ -227,15 +243,15 @@ proc hotmail_procmsg {msg} {
 	  set dest [aim_get_str $msg Dest-Folder]
 	  set delta [aim_get_str $msg Message-Delta]
 	  if { $source == "ACTIVE" } {
-  	    set noleidos [expr {$unread - $delta}]
+  	    set noleidos [expr {[::hotmail::unreadMessages] - $delta}]
 	  } elseif {$dest == "ACTIVE"} {
-  	    set noleidos [expr {$unread + $delta}]
+  	    set noleidos [expr {[::hotmail::unreadMessages] + $delta}]
 	  } else {
-	    set noleidos $unread
+	    set noleidos [::hotmail::unreadMessages]
 	  }
 	  status_log "Hotmail cambio mensajes: $noleidos unread emails\n"
 	  if { [string length $noleidos] > 0 } {
-	    set unread $noleidos
+	    ::hotmail::setUnreadMessages $noleidos
 	    cmsn_draw_online
 	  }
 	}

@@ -43,6 +43,7 @@ proc ConfigDefaults {} {
 	set config(adverts) 0
 	set config(autohotlogin) 1
 	set config(autoidle) 1
+	set config(idletime) 300	
 	set config(showonline) 1
 	set config(showoffline) 1
 	set config(listsmileys) 1

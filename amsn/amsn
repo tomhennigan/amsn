@@ -10,6 +10,7 @@
 ###                                              ###############
 ################################################################
 ### airadier at users.sourceforge.net (airadier) ###############
+### Universidad de Zaragoza                      ###############
 ### http://aim.homelinux.com                     ###############
 ################################################################
 ### grimaldo@panama.iaehv.nl (LordOfScripts)     ###############
@@ -36,32 +37,69 @@
 ###
 ###
 
+############################################################
+### Some global variables
+############################################################
 set version "0.80a"
 set date "6/3/2003"
 set weburl "http://amsn.sourceforge.net"
+set program_dir ""
+set HOME ""
+set files_dir ""
 
 
 #=======================================================================
 
 
-#Look if we are launched from a link and set the correct working dir
+############################################################
+### Look if we are launched from a link
+### and set the correct working dir
+############################################################
+
 if {[catch {file readlink [info script]} res]!=0} {
+
+   #Error in readlink, so it's not a symbolic link
    set program_dir [file dirname [info script]]
+
 } else {
-   set resdir [file dirname $res]
+
+   #Recursively update $resdir until it's not a link
+   set program_dir [file dirname $res]
+
    while {[catch {file readlink $res} res2]==0} {
       set res $res2
+
+      #Update $program_dir, depending on absolute or relative path
       if { [string range $res2 0 0]=="/" } {
-         set resdir [file dirname $res2]
+         set program_dir [file dirname $res2]
       } else {
-         set resdir [file join $resdir [file dirname $res2]]
+         set program_dir [file join $resdir [file dirname $res2]]
       }
+
    }
-   set program_dir $resdir
 }
 
-# Setup other important directory paths
 
+############################################################
+### And setup where to find optional packages
+############################################################
+
+lappend auto_path "[file join $program_dir plugins]"
+lappend auto_path "[file join ${HOME} plugins]"
+
+
+############################################################
+### Configure images and sounds folder
+############################################################
+
+set images_folder "[file join $program_dir i]"
+set sounds_folder "[file join $program_dir s]"
+
+
+############################################################
+### Setup other important directory paths
+### depending on the platform
+############################################################
 
 if {$tcl_platform(platform) == "unix"} {
    set HOME "[file join $env(HOME) .amsn]"
@@ -79,29 +117,20 @@ if {$tcl_platform(platform) == "unix"} {
    set files_dir "[file join ${program_dir} amsn_received]"
 }
 
-#set log_dir "[file join ${HOME} logs]"
-
-# And setup where to find optional packages
-lappend auto_path "[file join $program_dir plugins]"
-lappend auto_path "[file join ${HOME} plugins]"
-
-#///////////////////////////////////////////////////////////////////////
-set images_folder "[file join $program_dir i]"
-set sounds_folder "[file join $program_dir s]"
-#///////////////////////////////////////////////////////////////////////
 
 
-
+#TODO: Move this from here ??
 #///////////////////////////////////////////////////////////////////////
 #Notebook Pages (Buddies,News,Calendar,etc.)
 set pgBuddy ""
 set pgNews  ""
 #///////////////////////////////////////////////////////////////////////
- 
 
 
-#///////////////////////////////////////////////////////////////////////
-# Load program modules
+
+############################################################
+#### Load program modules
+############################################################
 source [file join $program_dir ctthemes.tcl]
 source [file join $program_dir notebook.tcl]	;# Notebook Megawidget
 #source [file join $program_dir notebook1.tcl]	;# Notebook Megawidget
@@ -119,65 +148,66 @@ source [file join $program_dir hotmail.tcl]
 source [file join $program_dir checkver.tcl]
 source [file join $program_dir smileys.tcl]
 source [file join $program_dir groups.tcl]	;# Handle buddy groups
-source [file join $program_dir abook.tcl]		;# Handle buddy address book
+source [file join $program_dir abook.tcl]	;# Handle buddy address book
 source [file join $program_dir gui.tcl]
-source [file join $program_dir alarm.tcl]		;# Alarms code (Burger)
-source [file join $program_dir dock.tcl]		;# Docking routines
-source [file join $program_dir loging.tcl]		;# Euh yeh it's for loging :P
-source [file join $program_dir combobox.tcl]		;# The all mighty combobox is here! (B. Oakley)
-#///////////////////////////////////////////////////////////////////////
+source [file join $program_dir alarm.tcl]	;# Alarms code (Burger)
+source [file join $program_dir dock.tcl]	;# Docking routines
+source [file join $program_dir loging.tcl]	;# Euh yeh it's for loging :P
+source [file join $program_dir combobox.tcl]	;# The all mighty combobox is here! (B. Oakley)
 
 
 
-#///////////////////////////////////////////////////////////////////////
-#TODO: Quit unread from here, put it in hotmail (if correct). Same for other variables
-set unread 0
-set urlcount 0
-set urlstarts { "http://" "https://" "ftp://" "www." }
-#end AIM
-#///////////////////////////////////////////////////////////////////////
-
-
-
-set status_show 0
-set list_states {
-	{NLN online #0000A0 online online bonline}
-	{IDL noactivity #008000 online away baway}
-	{BRB rightback #008080 online away baway}
-	{PHN onphone #008080 online busy bbusy}
-	{BSY busy #800000 online busy bbusy}
-	{AWY away #008000 online away baway}
-	{LUN gonelunch #008000 online away baway}
-	{HDN appearoff #404040 offline offline boffline}
-	{FLN offline #404040 offline offline boffline}
-}
-
-
-
-#///////////////////////////////////////////////////////////////////////
-#TODO: Make an amsn::messageBox procedure and move in there
+###TODO: Replace all this msg_box calls with ::amsn::infoMsg
 proc msg_box {msg} {
    ::amsn::infoMsg "$msg"
 }
-#///////////////////////////////////////////////////////////////////////
 
 
+############################################################
+### Extra procedures that go nowhere else
+############################################################
 
-#///////////////////////////////////////////////////////////////////////
+
+#///////////////////////////////////////////////////////////
+# launch_browser(url)
 proc launch_browser { url } {
+
 	global config tcl_platform
+
 	if { $tcl_platform(platform) == "windows" } {
+
 		regsub -all -nocase {htm} $url {ht%6D} url
     		exec rundll32 url.dll,FileProtocolHandler $url &
+
   	} else {
+
 		eval exec $config(browser) $url &
+
 	}
+
+}
+#///////////////////////////////////////////////////////////
+
+
+#///////////////////////////////////////////////////////////////////////
+# launch_browser(directory)
+proc launch_filemanager {location} {
+  global config
+
+  set fileman $config(filemanager)
+
+  if { [string length $fileman] < 1 } {
+    msg_box "[trans checkfilman $location]"
+  } else {
+    lappend fileman $location
+    eval exec [lindex $fileman 0] [lrange $fileman 1 end] &
+  }
+
 }
 #///////////////////////////////////////////////////////////////////////
 
-
-
-#///////////////////////////////////////////////////////////////////////
+#///////////////////////////////////////////////////////////
+# create_dir(path)
 proc create_dir {path} {
    global tcl_platform
 
@@ -188,115 +218,14 @@ proc create_dir {path} {
       }
    }
 }
-#///////////////////////////////////////////////////////////////////////
+#///////////////////////////////////////////////////////////
 
 
-
-#///////////////////////////////////////////////////////////////////////
-# TODO: Move this procedures into the GUI section
-proc cmsn_draw_about {} {
-   global program_dir
-   toplevel .about
-   wm title .about "[trans about] [trans title]"
-   wm transient .about .
-
-   set developers "\nDidimo Grimaldo\nAlvaro J. Iradier\nKhalaf Philippe\nDave Mifsud"
-   frame .about.top -class Amsn
-       label .about.top.i -image msndroid
-       label .about.top.l -font splainf -text "[trans broughtby]:$developers"
-       pack .about.top.i .about.top.l -side left
-   pack .about.top
-
-   text .about.info -background white -width 60 -height 30 -wrap word \
-      -yscrollcommand ".about.ys set" -font   examplef
-   scrollbar .about.ys -command ".about.info yview"
-   pack .about.ys -side right -fill y
-   pack .about.info -expand true -fill both
-   set id [open "[file join $program_dir README]" r]
-   .about.info insert 1.0 [read $id]
-   close $id
-   .about.info configure -state disabled
-   update idletasks
-   set x [expr {([winfo vrootwidth .about] - [winfo width .about]) / 2}]
-   set y [expr {([winfo vrootheight .about] - [winfo height .about]) / 2}]
-   wm geometry .about +${x}+${y}
-
-   frame .about.bottom -class Amsn
-       button .about.bottom.close -text "[trans close]" -font splainf -command "destroy .about"
-       pack .about.bottom.close
-   pack .about.bottom -expand 1
-}
-#///////////////////////////////////////////////////////////////////////
-
-
-
-#///////////////////////////////////////////////////////////////////////
-# TODO: Check if there's a window called ".show" already opened, and
-# close it or we will get an error
-proc amsn_showhelpfile {file title} {
-   global program_dir
-   toplevel .show
-   wm title .show "$title"
-   wm transient .show .
-
-   text .show.info -background white -width 60 -height 30 -wrap word \
-      -yscrollcommand ".show.ys set" -font   examplef
-   scrollbar .show.ys -command ".show.info yview"
-   pack .show.ys -side right -fill y
-   pack .show.info -expand true -fill both
-   set id [open "[file join $program_dir $file]" r]
-   .show.info insert 1.0 [read $id]
-   close $id
-   .show.info configure -state disabled
-   update idletasks
-   set x [expr {([winfo vrootwidth .show] - [winfo width .show]) / 2}]
-   set y [expr {([winfo vrootheight .show] - [winfo height .show]) / 2}]
-   wm geometry .show +${x}+${y}
-
-   frame .show.bottom -class Amsn
-       button .show.bottom.close -text "[trans close]" -font splainf -command "destroy .show"
-       pack .show.bottom.close
-   pack .show.bottom -expand 1
-}
-#///////////////////////////////////////////////////////////////////////
-
-
-
-#///////////////////////////////////////////////////////////////////////
-proc draw_faq {} {
-   global program_dir
-   toplevel .faq
-   wm title .faq "[trans faq]"
-   wm transient .faq .
-
-   text .faq.info -background white -width 60 -height 30 -wrap word \
-      -yscrollcommand ".faq.ys set" -font   examplef
-   scrollbar .faq.ys -command ".faq.info yview"
-   pack .faq.ys -side right -fill y
-   pack .faq.info -expand true -fill both
-   set id [open "[file join $program_dir FAQ]" r]
-   .faq.info insert 1.0 [read $id]
-   close $id
-   .faq.info configure -state disabled
-   update idletasks
-   set x [expr {([winfo vrootwidth .faq] - [winfo width .faq]) / 2}]
-   set y [expr {([winfo vrootheight .faq] - [winfo height .faq]) / 2}]
-   wm geometry .faq +${x}+${y}
-
-   frame .faq.bottom -class Amsn
-       button .faq.bottom.close -text "[trans close]" -font splainf -command "destroy .faq"
-       pack .faq.bottom.close
-   pack .faq.bottom -expand 1
-}
-#///////////////////////////////////////////////////////////////////////
-
-
-
-#///////////////////////////////////////////////////////////////////////
+#///////////////////////////////////////////////////////////////////////////////
+# Enabled/disables status window (for debugging purposes)
 proc toggle_status {} {
-   global status_show
 
-   if {$status_show} {
+   if {"[wm state .status]" == "normal"} {
       wm state .status withdrawn
       set status_show 0
    } else {
@@ -307,23 +236,30 @@ proc toggle_status {} {
 #///////////////////////////////////////////////////////////////////////
 
 
+#///////////////////////////////////////////////////////////////////////////////
+# Returns a timestamp like [HH:MM:SS]
 proc timestamp {} {
    set stamp [clock format [clock seconds] -format %H:%M:%S]
    return "\[$stamp\]"
 }
+#///////////////////////////////////////////////////////////////////////////////
 
 
-#///////////////////////////////////////////////////////////////////////
+#///////////////////////////////////////////////////////////////////////////////
+# Logs the given text with a timestamp using the given color
+# to the status window
 proc status_log {txt {colour ""}} {
 
    .status.info insert end "[timestamp] $txt" $colour
    .status.info yview moveto 1.0
 }
-#///////////////////////////////////////////////////////////////////////
+#///////////////////////////////////////////////////////////////////////////////
 
 
 
 #///////////////////////////////////////////////////////////////////////
+#TODO: Improve menu enabling and disabling using short names, not long
+#      and translated ones
 # configureMenuEntry .main_menu.file "[trans addcontact]" disabled|normal
 proc configureMenuEntry {m e s} {
     $m entryconfigure $e -state $s
@@ -338,7 +274,7 @@ proc close_cleanup {} {
   set config(wingeometry) [wm geometry .]
   set config(showonline)  [::groups::IsExpanded online]
   set config(showoffline) [::groups::IsExpanded offline]
-  
+
   save_config
   save_alarms   ;# Save alarm settings
   SaveLoginList ;# Save list of profiles
@@ -351,44 +287,30 @@ proc close_cleanup {} {
 
 
 
+set idletime 0
+set oldmousepos [list]
 #///////////////////////////////////////////////////////////////////////
-proc cmsn_open_received {location} {
-  global config
-
-  set fileman $config(filemanager)
-  if { [string length $fileman] < 1 } {
-    msg_box "[trans checkfilman $location]"
-  } else {
-    lappend fileman $location
-    eval exec [lindex $fileman 0] [lrange $fileman 1 end] &
-  }
-}
-#///////////////////////////////////////////////////////////////////////
+# Check idle every five seconds and reset idle if the mouse has moved
+proc idleCheck {} {
+   global idletime config oldmousepos
 
 
-#///////////////////////////////////////////////////////////////////////
-proc anti_idle {} {
-  global idletime
-  set idletime 0
-}
-#///////////////////////////////////////////////////////////////////////
+   status_log "Checking idle\n"
+   set mousepos [winfo pointerxy .]
+   if { $mousepos != $oldmousepos } {
+      set oldmousepos $mousepos
+      status_log "Mouse moved\n"
+      set idletime 0
+   }
 
-
-
-#///////////////////////////////////////////////////////////////////////
-# TODO: Use wm vroot to get mouse x and y global position, check it every
-# five seconds and reset idle if the mouse has moved
-proc incr_idle {} {
-   global idletime config
-
-   if {$idletime >= 300 && [::MSN::myStatusIs] == "NLN" && $config(autoidle) == 1} {
+   if {$idletime >= $config(idletime) && [::MSN::myStatusIs] == "NLN" && $config(autoidle) == 1} {
       ::MSN::changeStatus IDL
-   } elseif { $idletime <300 && [::MSN::myStatusIs] == "IDL"} {
+   } elseif { $idletime < $config(idletime) && [::MSN::myStatusIs] == "IDL"} {
       ::MSN::changeStatus NLN
    }
 
    set idletime [expr {$idletime + 5}]
-   after 5000 incr_idle
+   after 5000 idleCheck
 }
 #///////////////////////////////////////////////////////////////////////
 
@@ -418,18 +340,6 @@ proc setColor {w button name options} {
     grab release $w
 }
 #///////////////////////////////////////////////////////////////////////
-
-
-
-#///////////////////////////////////////////////////////////////////////
-proc clickableImage {tw name image command {padx 0} {pady 0}} {
-   label $tw.$name -image $image -background white
-   $tw.$name configure -cursor hand2 -borderwidth 0
-   bind $tw.$name <Button1-ButtonRelease> $command
-   $tw window create end -window $tw.$name -padx $padx -pady $pady -align center -stretch true
-}
-#///////////////////////////////////////////////////////////////////////
-
 
 
 
@@ -759,12 +669,10 @@ if { $config(encoding) != "auto" } {
 
 cmsn_draw_main
 
-set idletime 0
 
-bind all <KeyPress> "anti_idle"
-bind all <ButtonPress> "anti_idle"
+bind all <KeyPress> "set idletime 0"
 
-incr_idle
+idleCheck
 
 degt_protocol_win
 degt_ns_command_win
@@ -773,8 +681,8 @@ after 500 proc_ns
 after 750 proc_sb
 
 if {$version != $config(last_client_version)} {
-   cmsn_draw_about
-  
+   ::amsn::aboutWindow
+
 }
 
 if { $config(autoconnect) == 1 } {
