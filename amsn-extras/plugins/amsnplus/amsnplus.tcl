@@ -54,6 +54,7 @@ namespace eval ::amsnplus {
 		::plugins::RegisterEvent "aMSN Plus" parse_nick parse_nick
 		::plugins::RegisterEvent "aMSN Plus" chat_msg_send parseCommand
 		::plugins::RegisterEvent "aMSN Plus" chat_msg_receive parse_colours
+		::plugins::RegisterEvent "aMSN Plus" chatwindowbutton chat_color_button
 	}
 
 		
@@ -186,6 +187,34 @@ namespace eval ::amsnplus {
 	#//////////////////////////////////////////////////////////////////////////
 
 	###############################################
+	# this adds a button to choose color for our
+	# multi-color text in the chatwindow
+	proc chat_color_button {event epvar} {
+		if { !$::amsnplus::config(allow_colours) } { return }
+		upvar 2 bottom bottom
+		upvar 2 w w
+		button $bottom.buttons.multiple_colors -image [::skin::loadPixmap butfont] -relief flat -padx 3 \
+			-background [::skin::getColor buttonbarbg] -highlightthickness 0 -borderwidth 0 \
+			-highlightbackground [::skin::getColor buttonbarbg] \
+			-command "after 1 ::amsnplus::choose_color $w"
+		if {[string equal $::version "0.94"]} {
+			set_balloon $bottom.buttons.multiple_colors "Add a new color"
+		} else {
+			set_balloon $bottom.buttons.multiple_colors "[trans multiplecolorsbutton]"
+		}
+		pack $bottom.buttons.multiple_colors -side right
+	}
+
+	###############################################
+	# this opens a tk_color_palette to choose an
+	# rgb color in (rrr,ggg,bbb) format
+	proc choose_color { win } {
+		set color [tk_chooseColor -parent $win];
+		set color [::amsnplus::hexToRGB [string replace $color 0 0 ""]];
+		$win.f.bottom.left.in.text insert end $color
+	}
+	
+	###############################################
 	# this colours received messages
 	# there are two ways to colorize text:
 	#   - preset colors -> (!FC<num>) or (!FG<num>) for background -> there are from 0 to 15
@@ -194,7 +223,11 @@ namespace eval ::amsnplus {
 		if { !$::amsnplus::config(allow_colours) } { return }
 		upvar 2 msg msg
 		upvar 2 chatid chatid
-		upvar 2 fontformat fontformat
+		if {[string equal $::version "0.94"]} {
+			set fontformat [::config::getKey mychatfont]
+		} else {
+			upvar 2 fontformat fontformat
+		}
 		set color [lindex $fontformat 2]
 		set style [lindex $fontformat 1]
 		set font [lindex $fontformat 0]
@@ -303,6 +336,44 @@ namespace eval ::amsnplus {
 	}
 
 	################################################
+	# converts hex digit into decimal
+	proc hexToDigit { digit } {
+		if {[string equal $digit "a"]} {
+			return "10"
+		} elseif {[string equal $digit "b"]} {
+			return "11"
+		} elseif {[string equal $digit "c"]} {
+			return "12"
+		} elseif {[string equal $digit "d"]} {
+			return "13"
+		} elseif {[string equal $digit "e"]} {
+			return "14"
+		} elseif {[string equal $digit "f"]} {
+			return "15"
+		} else { return $digit }
+	}
+
+	################################################
+	# converts hex number into decimal
+	proc hexToDec { number } {
+		set low [::amsnplus::hexToDigit [string index $number 1]]
+		set high [::amsnplus::hexToDigit [string index $number 0]]
+		set number [expr $high * 16]
+		set number [expr $number + $low]
+		return $number
+	}
+
+	################################################
+	# this roc converts hex colours into rgb colours
+	proc hexToRGB { colour } {
+		set red [::amsnplus::hexToDec [string range $colour 0 1]]
+		set green [::amsnplus::hexToDec [string range $colour 2 3]]
+		set blue [::amsnplus::hexToDec [string range $colour 4 5]]
+		set colour "($red,$green,$blue)"
+		return $colour
+	}
+
+	################################################
 	# this proc converts msn plus predef. colours
 	# into rgb colours
 	proc colourToRGB { colour } {
@@ -316,6 +387,28 @@ namespace eval ::amsnplus {
 			return "(000,255,000)"
 		} elseif {[string equal $colour "4"]} {
 			return "(255,000,000)"
+		} elseif {[string equal $colour "5"]} {
+			return "(127,000,000)"
+		} elseif {[string equal $colour "6"]} {
+			return "(156,000,156)"
+		} elseif {[string equal $colour "7"]} {
+			return "(252,127,000)"
+		} elseif {[string equal $colour "8"]} {
+			return "(255,255,000)"
+		} elseif {[string equal $colour "9"]} {
+			return "(000,252,000)"
+		} elseif {[string equal $colour "10"]} {
+			return "(000,147,147)"
+		} elseif {[string equal $colour "11"]} {
+			return "(000,255,255)"
+		} elseif {[string equal $colour "12"]} {
+			return "(000,000,252)"
+		} elseif {[string equal $colour "13"]} {
+			return "(255,000,255)"
+		} elseif {[string equal $colour "14"]} {
+			return "(127,127,127)"
+		} elseif {[string equal $colour "15"]} {
+			return "(210,210,210)"
 		} else {
 			return "(000,000,000)"
 		}
