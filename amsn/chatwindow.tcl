@@ -702,7 +702,7 @@ namespace eval ::ChatWindow {
 
 		#TODO: We always want these menus and bindings enabled? Think it!!
 		$msnmenu entryconfigure 3 -state normal
-		$actionsmenu entryconfigure 5 -state normal
+		$actionsmenu entryconfigure 6 -state normal
 
 
 		return $mainmenu
@@ -895,6 +895,8 @@ namespace eval ::ChatWindow {
 			-command "::amsn::ShowChatList \"[trans viewprofile]\" $w ::hotmail::viewProfile"
 		$actionsmenu add command -label "[trans properties]" \
 			-command "::amsn::ShowChatList \"[trans properties]\" $w ::abookGui::showUserProperties"
+		$actionsmenu add command -label "[trans note]" \
+			-command "::amsn::ShowChatList \"[trans note]\" $w ::notes::Display_Notes"
 		$actionsmenu add separator
 		$actionsmenu add command -label "[trans invite]..." \
 			-command "::amsn::ShowInviteList \"[trans invite]\" $w"
