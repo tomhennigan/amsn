@@ -42,6 +42,7 @@ autoaway Tunjukkan saya sebagai 'Tidak Ada' apabila tidak aktif selama
 autocheckver Periksa secara otomatis akan versi baru pada start
 autoconnect Hubungi server saat a'MSN dinyalakan
 autoconnect2 Register masuk secara otomatis pada saat a'MSN dinyalakan
+autodetectip Deteksi alamat IP secara otomatis
 autohotmaillog Otomatis terhubung ke Hotmail
 autoidle Otomatis ganti status ke 'Tidak Ada Aktivitas'
 autoip IP otomatis
@@ -90,6 +91,7 @@ chatreq Mengajak bercakap-cakap
 chatsmileys Tamplikan ekspresi saat percakapan
 chatsmileys2 Tampilkan Emoticon dan Smiley dalam window percakapan
 checkblocking Periksa secara berkelanjutan apakah para pengguna memblokir anda
+checkemail Tampilkan baris pemberitahuan email (inbox) dalam daftar kontak
 checkfilman Berkas yang diterima akan disimpan dalam $1. Mohon periksa aturan pengelolaan berkas dalam window anjuran.
 checkingver Sedang memeriksa versi terbaru
 checkonfln Periksa apakah pengguna tersebut memblokir anda saat dia pergi offline
@@ -127,6 +129,7 @@ corruptconfig Susunan berkas rusak. Menciptakan yang baru. Berkas lama akan disi
 corruptstates Susunan kondisi tertentu rusak. Menciptakan yang baru. Berkas yang lama akan disimpan ke $1. Mohon kirim berkas tersebut kepada kami untuk kami periksa apa yang terjadi.
 countrycode Kode negara/daerah
 cprofile Ciptakan Profil
+credits Kredit
 custom_edit Rubah smiley sesuai kehendak
 custom_new Tambahkan smiley baru sesuai kehendak
 cut Potong
@@ -329,6 +332,7 @@ notify3 Tampilkan jendel pemberitahuan saat e-mail masuk ke dalam Kotak-Masuk
 notifyoffset Atur window pemberitahuan dengan memberikannya aturan keseimbangan posisi
 notifytyping Kirimkan pemberitahuan kepapda pengguna lain saat mengetik
 notifywin Window pemberitahuan
+notinlist Anda tidak berada dalam daftar kontak miliknya
 notls Protokol MSN 9 memerlukan paket tls. Paket ini tampaknya tidak terinstal pada mesin ini. Apabila terinstalasi, cantumkan letak direktori kepustakaan dalam window Anjuran (contoh: /opt/tls/lib). \n \n Tls bisa didownload dari http://tls.sf.net.
 nousersinsession Tidak ada orang lain
 offline Tidak Tersambung
@@ -365,6 +369,7 @@ preferences Pilihan
 preffont Tekst Pesan Saya
 preffont2 Rubah cara orang lain melihat tekst saya dalam percakapan
 preffont3 Rubah huruf dan ukuran tampilan muka a'MSN
+prefft Aturan transfer berkas, peer-to-peer dan NAT
 preflibs Direktori kepustakaan
 preflog1 Pilihan Registrasi dan Sejarah Saya
 preflook Tampilan Pembawa Pesan a'MSN Saya
@@ -406,6 +411,7 @@ reconnecting Memulihkan sambungan ke server
 reject Tolak
 rememberpass Simpan kata sandi
 removefromlist Hilangkan dari daftar ini
+rename Ganti Nama
 reversed Dibalik
 reverselist Daftar Terbalik:
 rightback Segera kembali
