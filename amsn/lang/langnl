@@ -527,3 +527,17 @@ cachedpics $1 opgeslagen plaatjes
 currentdate Huidige datum
 logsbydate Logs sorteren op datum (Geschiedenis laadt een stuk sneller)
 showcachedpics Opgeslagen plaatjes laten zien/verbergen
+alarms Alarms
+change Aanpassen
+customcolor Aangepaste kleur
+customnick Aangepaste Schermnaam
+invalidgroup Ongeldige groep
+lastlogin Vorige login
+lastlogout Vorige logout
+lastmsgedme Laatste bericht
+leavejoinsinchat Laat "verlaat/neemt deel aan gesprek" berichten zien in het chat venster
+nick Schermnaam
+nogroup Geen groep
+recentmsg Onderdruk sluiten van chatvenster wanneer er net een bericht aankomt
+userdata Gebruikersinformatie
+userproperties Eigenschappen van $1
