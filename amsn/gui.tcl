@@ -272,11 +272,16 @@ namespace eval ::amsn {
    # Draws the about window
    proc aboutWindow {} {
 
-      global program_dir
+      global program_dir tcl_platform
 
       toplevel .about
       wm title .about "[trans about] [trans title]"
+      #Disable transient windows on Mac OS X
+      if {$tcl_platform(os) == "Darwin"} {
+      #wm transient .about .
+      } else {
       wm transient .about .
+      }
       wm state .about withdrawn
       grab .about
 
@@ -334,10 +339,15 @@ namespace eval ::amsn {
    #///////////////////////////////////////////////////////////////////////////////
    # showHelpFile(filename,windowsTitle)
    proc showHelpFile {file title} {
-      global program_dir
+      global program_dir tcl_platform
       toplevel .show
       wm title .show "$title"
+     #Disable transient window on Mac OS X 
+     if {$tcl_platform(os) == "Darwin"} {
+      #wm transient .show .
+      } else {
       wm transient .show .
+      }
 
       text .show.info -background white -width 60 -height 30 -wrap word \
          -yscrollcommand ".show.ys set" -font   examplef
@@ -1473,7 +1483,6 @@ namespace eval ::amsn {
 	.${win_name}.menu.apple add separator
 	.${win_name}.menu.apple add command -label "[trans preferences]..." -command Preferences -accelerator "Command-,"
 	.${win_name}.menu.apple add separator
-	} else {
 	}
 	
       menu .${win_name}.menu.msn -tearoff 0 -type normal
@@ -1487,8 +1496,14 @@ namespace eval ::amsn {
       .${win_name}.menu.msn add command -label "[trans openreceived]..." \
          -command "launch_filemanager \"$files_dir\""
       .${win_name}.menu.msn add separator
+      #Add accelerator label to "close" on Mac Version
+      if {$tcl_platform(os) == "Darwin"} {
       .${win_name}.menu.msn add command -label "[trans close]" \
+         -command "destroy .${win_name}" -accelerator "Command-W"
+         } else {
+         .${win_name}.menu.msn add command -label "[trans close]" \
          -command "destroy .${win_name}"
+         }
 
 	menu .${win_name}.menu.edit -tearoff 0 -type normal
 #Change the accelerator on Mac OS X
@@ -1526,10 +1541,18 @@ namespace eval ::amsn {
 		  	.${win_name}.menu.view add checkbutton -label "[trans showdisplaypic]" -command "::amsn::ShowOrHidePicture .${win_name}" -onvalue 1 -offvalue 0 -variable ".${win_name}_show_picture" -state disabled
 		  }
       .${win_name}.menu.view add separator
+      
+      #Remove this menu item on Mac OS X because we "lost" the window instead of just hide it and change accelerator for history on mac os x
+      if {$tcl_platform(os) == "Darwin"} {
+       .${win_name}.menu.view add command -label "[trans history]" -command "::amsn::ShowChatList \"[trans history]\" .${win_name} ::log::OpenLogWin" -accelerator "Command-Option-H"
+      #.${win_name}.menu.view add separator
+      #.${win_name}.menu.view add command -label "[trans hidewindow]" -command "wm state .${win_name} withdraw"
+		} else {
       .${win_name}.menu.view add command -label "[trans history]" -command "::amsn::ShowChatList \"[trans history]\" .${win_name} ::log::OpenLogWin" -accelerator "Ctrl+H"
-      .${win_name}.menu.view add separator
+	  .${win_name}.menu.view add separator
       .${win_name}.menu.view add command -label "[trans hidewindow]" -command "wm state .${win_name} withdraw"
-
+		}
+		
       menu .${win_name}.menu.actions -tearoff 0 -type normal
       .${win_name}.menu.actions add command -label "[trans addtocontacts]" \
          -command "::amsn::ShowAddList \"[trans addtocontacts]\" .${win_name} ::MSN::addUser"
@@ -1612,8 +1635,13 @@ namespace eval ::amsn {
 		label $bottom.pic  -borderwidth 2 -relief solid -image no_pic -background #FFFFFF
 
 		bind $bottom.pic <Button1-ButtonRelease> "::amsn::ShowPicMenu .${win_name} %X %Y\n"
+		#Change mouse button for Mac OS X
+		if {$tcl_platform(os) == "Darwin"} {
+		bind $bottom.pic <Button2-ButtonRelease> "::amsn::ShowPicMenu .${win_name} %X %Y\n"
+		} else {
 		bind $bottom.pic <Button3-ButtonRelease> "::amsn::ShowPicMenu .${win_name} %X %Y\n"
-
+		}
+		
 		#scrollbar .${win_name}.f.top.ys -command ".${win_name}.f.top.text yview"
 
       scrollbar .${win_name}.f.out.ys -command ".${win_name}.f.out.text yview" \
@@ -1679,24 +1707,45 @@ namespace eval ::amsn {
 
       bind $bottom.in.f.send <Return> \
          "::amsn::MessageSend .${win_name} $bottom.in.input; break"
-      bind $bottom.in.input <Control-Return> {%W insert insert "\n"; %W see insert; break}
       bind $bottom.in.input <Shift-Return> {%W insert insert "\n"; %W see insert; break}
       bind $bottom.in.input <Control-KP_Enter> {%W insert insert "\n"; %W see insert; break}
       bind $bottom.in.input <Shift-KP_Enter> {%W insert insert "\n"; %W see insert; break}
+      #Change shorcuts on Mac OS X and ALT=Option on Mac
+      if {$tcl_platform(os) == "Darwin"} {
+      bind $bottom.in.input <Command-Return> {%W insert insert "\n"; %W see insert; break}
+      bind $bottom.in.input <Command-Option-space> BossMode
+      } else {
+      bind $bottom.in.input <Control-Return> {%W insert insert "\n"; %W see insert; break}
       bind $bottom.in.input <Control-Alt-space> BossMode
+      }
+      #The button2 and button 3 are mistaken on Mac OS X. Add control-click to emulate second button (some mac users just have one-buton mouse)
+if {$tcl_platform(os) == "Darwin"} {
+     bind $bottom.in.input <Button2-ButtonRelease> "tk_popup .${win_name}.copypaste %X %Y"
+     bind $bottom.in.input <Control-ButtonRelease> "tk_popup .${win_name}.copypaste %X %Y"
+      bind $bottom.in.input <Button3-ButtonRelease> "paste .${win_name} 1"
+      bind .${win_name}.f.out.text <Button2-ButtonRelease> "tk_popup .${win_name}.copy %X %Y"
+      bind .${win_name}.f.out.text <Button1-ButtonRelease> "copy 0 .${win_name}"
+} else {
 
       bind $bottom.in.input <Button3-ButtonRelease> "tk_popup .${win_name}.copypaste %X %Y"
       bind $bottom.in.input <Button2-ButtonRelease> "paste .${win_name} 1"
       bind .${win_name}.f.out.text <Button3-ButtonRelease> "tk_popup .${win_name}.copy %X %Y"
       bind .${win_name}.f.out.text <Button1-ButtonRelease> "copy 0 .${win_name}"
-
+ }     
+      
       if {$tcl_platform(platform) == "unix" } {
 	  bind .${win_name} <Control-x> "status_log cut\n;copy 1 .${win_name}"
 	  bind .${win_name} <Control-c> "status_log copy\n;copy 0 .${win_name}"
 	  bind .${win_name} <Control-v> "status_log paste\n;paste .${win_name}"
       }
-
-      bind .${win_name} <Control-h> "::amsn::ShowChatList \"[trans history]\" .${win_name} ::log::OpenLogWin"
+      
+      #Change shorcut for history on Mac OS X
+      if {$tcl_platform(os) == "Darwin"} {
+		bind .${win_name} <Command-Option-h> "::amsn::ShowChatList \"[trans history]\" .${win_name} ::log::OpenLogWin"
+      } else {
+		bind .${win_name} <Control-h> "::amsn::ShowChatList \"[trans history]\" .${win_name} ::log::OpenLogWin"
+      }
+      
 
       bind .${win_name} <Destroy> "window_history clear %W; ::amsn::closeWindow .${win_name} %W"
 
@@ -1731,18 +1780,25 @@ namespace eval ::amsn {
 
 		bind $bottom.in.input <Return> "window_history add %W; ::amsn::MessageSend .${win_name} %W; break"
 		bind $bottom.in.input <Key-KP_Enter> "window_history add %W; ::amsn::MessageSend .${win_name} %W; break"
-		bind $bottom.in.input <Alt-s> "window_history add %W; ::amsn::MessageSend .${win_name} %W; break"
+		
 		
 		#Differents shorcuts on Mac OS X
 		if {$tcl_platform(os) == "Darwin"} {
-		bind .${win_name}.f.in.input <Command-w> "destroy .${win_name} %W; break"
+		bind $bottom.in.input <Control-s> "window_history add %W; ::amsn::MessageSend .${win_name} %W; break"
+		bind $bottom.in.input <Command-w> "destroy .${win_name} %W; break"
 		bind .${win_name} <Command-,> "Preferences"
+		bind all <Command-q> {
+	 	close_cleanup;exit
+	 	}
+	 	bind $bottom.in.input <Command-Up> "window_history previous %W; break"
+		bind $bottom.in.input <Command-Down> "window_history next %W; break"
 		} else {
+		bind $bottom.in.input <Alt-s> "window_history add %W; ::amsn::MessageSend .${win_name} %W; break"
 		bind $bottom.in.input <Escape> "destroy .${win_name} %W; break"
-		}
-
 		bind $bottom.in.input <Control-Up> "window_history previous %W; break"
 		bind $bottom.in.input <Control-Down> "window_history next %W; break"
+		}
+
 		set window_titles(.${win_name}) ""
 		set first_message(.${win_name}) 1
 
@@ -1922,7 +1978,7 @@ namespace eval ::amsn {
 
    #///////////////////////////////////////////////////////////////////////////////
    proc ChooseList {title online command other skip {userslist ""}} {
-      global list_users list_bl list_states userchoose_req bgcolor
+      global list_users list_bl list_states userchoose_req bgcolor tcl_platform
 
       if { $userslist == "" } {
          set userslist $list_users
@@ -1969,7 +2025,15 @@ namespace eval ::amsn {
       wm group $wname .
 
       wm title $wname $title
-      wm transient $wname .
+      #Diable transient window on Mac OS X
+      if {$tcl_platform(os) == "Darwin"} {
+      #wm transient $wname .
+	  } else {
+	  wm transient $wname .
+	  }
+      
+      
+      
       wm geometry $wname 280x300
 
       frame $wname.blueframe -background $bgcolor
@@ -3192,10 +3256,24 @@ proc cmsn_draw_main {} {
 
    pack $pgBuddy.text -side right -expand true -fill both -padx 0 -pady 0   
    #pack $pgBuddy.ys -side left -fill y -padx 0 -pady 0
-
+#Command-key for "key shorcut" in Mac OS X
+if {$tcl_platform(os) == "Darwin"} {
+   bind . <Command-s> toggle_status
+   bind . <Command-,> Preferences
+   bind . <Command-Option-space> BossMode
+   } else {
    bind . <Control-s> toggle_status
    bind . <Control-p> Preferences
-   bind . <Control-Alt-space> BossMode
+   bind . <Control-Alt-space> BossMode   
+   }
+
+#Shorcut to Quit aMSN on Mac OS X
+if {$tcl_platform(os) == "Darwin"} {
+bind all <Command-q> {
+	 close_cleanup;exit
+ 
+}
+}
 
    wm protocol . WM_DELETE_WINDOW {::amsn::closeOrDock $config(closingdocks)}
 
@@ -3736,7 +3814,7 @@ proc ProtocolToggled { mainframe } {
 # 
 proc cmsn_draw_login {} {
 
-	global config password loginmode HOME HOME2 protocol
+	global config password loginmode HOME HOME2 protocol tcl_platform
 
 	if {[winfo exists .login]} {
 		raise .login
@@ -3749,8 +3827,12 @@ proc cmsn_draw_login {} {
 	wm group .login .
 	#wm geometry .login 600x220
 	wm title .login "[trans login] - [trans title]"
+	#Disable transient window on Mac OS X
+	if {$tcl_platform(os) == "Darwin"} {
+	#wm transient .login .
+	} else {
 	wm transient .login .
-
+	}
 	set mainframe [LabelFrame:create .login.main -text [trans login] -font splainf]
 
 	radiobutton $mainframe.button -text [trans defaultloginradio] -value 0 -variable loginmode -command "RefreshLogin $mainframe"
@@ -3888,6 +3970,8 @@ proc ButtonCancelLogin { window {email ""} } {
 # Small dialog window with entry to create new profile 
 proc AddProfileWin {} { 
 
+global tcl_platform
+
     if {[winfo exists .add_profile]} { 
 	raise .add_profile 
 	return 0 
@@ -3897,7 +3981,12 @@ proc AddProfileWin {} {
     wm group .add_profile .login 
 
     wm title .add_profile "[trans addprofile]" 
-    wm transient .add_profile . 
+    #Disable transient window on Mac Os X
+    if {$tcl_platform(os) == "Darwin"} {
+    #wm transient .add_profile .
+    } else {
+    wm transient .add_profile .
+    }
     set mainframe [LabelFrame:create .add_profile.main -text [trans  addprofile] -font splainf] 
     label $mainframe.desc -text "[trans addprofiledesc]" -font splainf  -justify left 
     entry $mainframe.login -bg #FFFFFF -bd 1 -font splainf  -highlightthickness 0 -width 35 
@@ -3916,8 +4005,11 @@ proc AddProfileWin {} {
 
 
     bind .add_profile <Return> "AddProfileOk $mainframe" 
-    bind .add_profile <Escape> "grab release .add_profile; destroy  .add_profile" 
-
+    if {$tcl_platform(os) == "Darwin"} {
+    bind .add_profile <Command-w> "grab release .add_profile; destroy  .add_profile" 
+	} else {
+	bind .add_profile <Escape> "grab release .add_profile; destroy  .add_profile"
+	}
 
     pack .add_profile.main .add_profile.buttons -side top -anchor n -expand  true -fill both -padx 10 -pady 10 
     #grab $mainframe 
@@ -3970,7 +4062,7 @@ proc cmsn_draw_online { {delay 0} } {
 	}
 
 	global emotions user_stat login list_users list_states user_info list_bl\
-		config showonline password pgBuddy bgcolor automessage emailBList
+		config showonline password pgBuddy bgcolor automessage emailBList tcl_platform
 
 	set scrollidx [$pgBuddy.ys get]
 
@@ -4061,8 +4153,17 @@ proc cmsn_draw_online { {delay 0} } {
 		$pgBuddy.text tag conf $gtag -fore #000080 -font sboldf
 		$pgBuddy.text tag bind $gtag <Button1-ButtonRelease> \
 			"::groups::ToggleStatus $gname;cmsn_draw_online"
+			#Specific for Mac OS X, Change button3 to button 2 and add control-click
+			if {$tcl_platform(os) == "Darwin"} {
+		$pgBuddy.text tag bind $gtag <Button2-ButtonRelease> \
+			"tk_popup .group_menu %X %Y"
+		$pgBuddy.text tag bind $gtag <Control-ButtonRelease> \
+			"tk_popup .group_menu %X %Y"
+			} else {
 		$pgBuddy.text tag bind $gtag <Button3-ButtonRelease> \
 			"tk_popup .group_menu %X %Y"
+			}
+			
 		$pgBuddy.text tag bind $gtag <Enter> \
 			"$pgBuddy.text tag conf $gtag -under true;$pgBuddy.text conf -cursor hand2"
 		$pgBuddy.text tag bind $gtag <Leave> \
@@ -4074,8 +4175,13 @@ proc cmsn_draw_online { {delay 0} } {
 	# Display MSN logo with user's handle. Make it clickable so
 	# that the user can change his/her status that way
 	clickableImage $pgBuddy.text bigstate $my_image_type {tk_popup .my_menu %X %Y}
+	#Mouse button on Mac OS X with control-button
+	if {$tcl_platform(os) == "Darwin"} {
+		bind $pgBuddy.text.bigstate <Button2-ButtonRelease> {tk_popup .my_menu %X %Y}
+	bind $pgBuddy.text.bigstate <Control-ButtonRelease> {tk_popup .my_menu %X %Y}
+	} else {
 	bind $pgBuddy.text.bigstate <Button3-ButtonRelease> {tk_popup .my_menu %X %Y}
-
+	}
 
 	text $pgBuddy.text.mystatus -font bboldf -height 2 \
 		-width [expr {([winfo width $pgBuddy.text]-45)/[font measure bboldf -displayof $pgBuddy.text "0"]}] \
@@ -4102,8 +4208,12 @@ proc cmsn_draw_online { {delay 0} } {
 		"$pgBuddy.text.mystatus tag conf mystatus -under false;$pgBuddy.text.mystatus conf -cursor left_ptr"
 
 	$pgBuddy.text.mystatus tag bind mystatus <Button1-ButtonRelease> "tk_popup .my_menu %X %Y"
+	#Change button mouse on Mac OS X
+	if {$tcl_platform(os) == "Darwin"} {
+	$pgBuddy.text.mystatus tag bind mystatus <Button2-ButtonRelease> "tk_popup .my_menu %X %Y"
+	} else {
 	$pgBuddy.text.mystatus tag bind mystatus <Button3-ButtonRelease> "tk_popup .my_menu %X %Y"
-
+	}
 	$pgBuddy.text.mystatus insert end "[trans mystatus]: " mystatuslabel
 
 	if { [info exists automessage] && $automessage != -1} {
@@ -4436,7 +4546,7 @@ proc getUniqueValue {} {
 
 #///////////////////////////////////////////////////////////////////////
 proc ShowUser {user_name user_login state state_code colour section grId} {
-    global list_bl list_rl pgBuddy alarms emailBList Bulle config
+    global list_bl list_rl pgBuddy alarms emailBList Bulle config tcl_platform
 
          if {($state_code != "NLN") && ($state_code !="FLN")} {
             set state_desc " ([trans [lindex $state 1]])"
@@ -4537,8 +4647,13 @@ proc ShowUser {user_name user_login state state_code colour section grId} {
 	    $pgBuddy.text.$imagee configure -cursor hand2 -borderwidth 0
             $pgBuddy.text window create $section.last -window $pgBuddy.text.$imagee  -padx 1 -pady 1
 	    bind $pgBuddy.text.$imagee <Button1-ButtonRelease> "switch_alarm $user_login $pgBuddy.text.$imagee"
+	    #Change button mouse and add control-click on Mac OS X
+	    if {$tcl_platform(os) == "Darwin"} {
+	    bind $pgBuddy.text.$imagee <Button2-ButtonRelease> "alarm_cfg $user_login"
+	    bind $pgBuddy.text.$imagee <Control-ButtonRelease> "alarm_cfg $user_login"
+	    } else {
 	    bind $pgBuddy.text.$imagee <Button3-ButtonRelease> "alarm_cfg $user_login"
-
+		}
 	}
 
 
@@ -4592,10 +4707,16 @@ proc ShowUser {user_name user_login state state_code colour section grId} {
             set Bulle(id) \[after 1000 [list balloon %W [list $balloon_message] %X %Y]\]\} "
 
     }
-
-
+#Change mouse button and add control-click on Mac OS X
+if {$tcl_platform(os) == "Darwin"} {
+         $pgBuddy.text tag bind $user_unique_name <Button2-ButtonRelease> "show_umenu $user_login $grId %X %Y"
+         $pgBuddy.text tag bind $user_unique_name <Control-ButtonRelease> "show_umenu $user_login $grId %X %Y"
+          bind $pgBuddy.text.$imgname <Button2-ButtonRelease> "show_umenu $user_login $grId %X %Y"
+          bind $pgBuddy.text.$imgname <Control-ButtonRelease> "show_umenu $user_login $grId %X %Y"
+	} else {
          $pgBuddy.text tag bind $user_unique_name <Button3-ButtonRelease> "show_umenu $user_login $grId %X %Y"
           bind $pgBuddy.text.$imgname <Button3-ButtonRelease> "show_umenu $user_login $grId %X %Y"
+     }
 
          if { $state_code !="FLN" } {
             bind $pgBuddy.text.$imgname <Double-Button-1> "::amsn::chatUser $user_login"
@@ -4816,7 +4937,7 @@ proc cmsn_draw_otherwindow { title command } {
 
 #///////////////////////////////////////////////////////////////////////
 proc newcontact {new_login new_name} {
-   global list_fl newc_allow_block 
+   global list_fl newc_allow_block tcl_platform
 
    set newc_allow_block "1"
 
@@ -4839,7 +4960,13 @@ proc newcontact {new_login new_name} {
 
     wm geometry ${wname} -0+100
     wm title ${wname} "$new_name - [trans title]"
+    
+    #Disable transient window in Mac OS X
+    if {$tcl_platform(os) == "Darwin"} {
+    #wm transient ${wname} .
+    } else {
     wm transient ${wname} .
+    }
     canvas ${wname}.c -width 500 -height 150
     pack ${wname}.c -expand true -fill both
 
@@ -4883,7 +5010,7 @@ proc newcontact {new_login new_name} {
 
 #///////////////////////////////////////////////////////////////////////
 proc cmsn_change_name {} {
-	global user_info
+	global user_info tcl_platform
 
 	if {[winfo exists .change_name]} {
 		raise .change_name
@@ -4894,7 +5021,12 @@ proc cmsn_change_name {} {
 	wm group .change_name .
 	wm geometry .change_name -0+100
 	wm title .change_name "[trans changenick] - [trans title]"
+	#Diable transient window on Mac OS X
+	if {$tcl_platform(os) == "Darwin"} {
+	#wm transient .change_name .
+	} else {
 	wm transient .change_name .
+	}
 
 	label .change_name.label -font sboldf -text "[trans enternick]:"
 
@@ -5604,7 +5736,7 @@ proc check_web_version { token } {
 
 #///////////////////////////////////////////////////////////////////////
 proc check_version {} {
-	global weburl
+	global weburl tcl_platform
 
    toplevel .checking
 
@@ -5894,6 +6026,8 @@ proc window_history { command w } {
 
 proc convert_image { filename size } {
 
+global tcl_platform
+
 	if { ![file exists $filename] } {
 		status_log "Tring to convert file $filename that does not exist\n" error
 		return ""
@@ -5908,12 +6042,21 @@ proc convert_image { filename size } {
 	#status_log "converting returned error : $res\n"
 	#return 0
     #}
-
+	
+	#Specific path to call convert on Mac OSX
 	#First converstion, no size, only .gif
+	if {$tcl_platform(os) == "Darwin"} {
+	if { [catch { exec /usr/local/bin/convert "${filename}" "${filename}.gif" } res] } {
+		status_log "CONVERT ERROR IN CONVERSION 1: $res" white
+		catch {[file delete $filename]}
+		return ""
+	}	
+	} else {
 	if { [catch { exec convert "${filename}" "${filename}.gif" } res] } {
 		status_log "CONVERT ERROR IN CONVERSION 1: $res" white
 		catch {[file delete $filename]}
 		return ""
+	}
 	}
 	
 	set img [image create photo -file "${filename}.gif"]
@@ -5942,7 +6085,19 @@ proc convert_image { filename size } {
 
 		
 	}
+	#Specific path to call convert on Mac OSX
+if {$tcl_platform(os) == "Darwin"} {
 
+	if { $origw != [lindex $sizexy 0] || $origh != [lindex $sizexy 1] } {
+		status_log "Will resize to $resizew x $resizeh \n" blue		
+		catch { file delete ${filename}.gif}
+		if { [catch { exec /usr/local/bin/convert "${filename}" -resize "${resizew}x${resizeh}" "${filename}.gif" } res] } {
+			status_log "CONVERT ERROR IN CONVERSION 2: $res" white
+			catch {[file delete ${filename}]}
+			return ""
+		}
+	}
+} else {
 	
 	if { $origw != [lindex $sizexy 0] || $origh != [lindex $sizexy 1] } {
 		status_log "Will resize to $resizew x $resizeh \n" blue		
@@ -5953,6 +6108,7 @@ proc convert_image { filename size } {
 			return ""
 		}
 	}
+}
 
 	
 	if { [file exists $filename2.png.0] } {
@@ -6003,12 +6159,20 @@ proc convert_image { filename size } {
 	image delete $img
 	
 	catch {file delete ${filename}.gif}
-
+#Specific path to call convert on Mac OSX
+if {$tcl_platform(os) == "Darwin"} {
+	if { [catch { exec /usr/local/bin/convert "${filename2}.gif"  "${filename2}.png"}] } {
+		status_log "CONVERT ERROR IN CONVERSION 3: $res" white
+		catch {[file delete ${filename2}.gif]}
+		return ""
+	}
+} else {
 	if { [catch { exec convert "${filename2}.gif"  "${filename2}.png"}] } {
 		status_log "CONVERT ERROR IN CONVERSION 3: $res" white
 		catch {[file delete ${filename2}.gif]}
 		return ""
 	}
+}
 
 	if { [file exists $filename2.png.0] } {
 		set idx 1
