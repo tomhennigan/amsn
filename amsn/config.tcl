@@ -149,7 +149,13 @@ namespace eval ::config {
      return $config($key)
    }
 
-   proc set {key value} {
+  proc getKey {key} {
+     global config
+     return $config($key)
+   }
+
+
+   proc setKey {key value} {
      global config
      set config($key) $value
    }
