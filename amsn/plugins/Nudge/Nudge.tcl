@@ -1,8 +1,9 @@
 ############################################
 #        ::nudge => Nudges for aMSN        #
 #  ======================================  #
-# Nudge is  a kind of notification		   #
+# Nudge is  a kind of notification	   	   #
 # that was introduced in MSN 7             #
+# TODO: Use real nudge sound			   #
 ############################################
 
 ###########################
@@ -20,26 +21,29 @@ namespace eval ::Nudge {
         	::plugins::RegisterEvent Nudge PacketReceived received
 	        ::plugins::RegisterEvent Nudge chatwindowbutton sendbutton
         	::plugins::RegisterEvent Nudge chatmenu itemmenu
+        	::plugins::RegisterEvent Nudge right_menu clitemmenu
+        	
 	        array set ::Nudge::config {
-        	  	notify {1}
-        	 	notsentinwin {1}
- 				notrecdinwin {1}
-				soundnotsend {1}
-				soundnotrec {1}
-	            shake {0}
-               	shakes {10}
-              	shaketoo {0}
-
+        	notify {1}
+       		notsentinwin {1}
+ 			notrecdinwin {1}
+			soundnotsend {1}
+			soundnotrec {1}
+			shake {0}
+        	shakes {10}
+           	shaketoo {0}
+			addbutton {1}
         	}
 	        set ::Nudge::configlist [list \
-					[list bool "Shake the window when receiving a nudge" shake] \
-      		    	[list bool "Shake the window when sending a nudge" shaketoo] \
+			[list bool "Shake the window when receiving a nudge." shake] \
+      		    	[list bool "Shake the window when sending a nudge." shaketoo] \
                 	[list str "\tShakes per nudge:" shakes] \
-                	[list bool "Notify nudges with popup-window" notify] \
-        	        [list bool "Notify sent nudges in the chatwindow" notsentinwin] \
-        	        [list bool "Notify received nudges in the chatwindow" notrecdinwin] \
-	                [list bool "Play a sound upon sending a nudge" soundnotrec] \
-	                [list bool "Play a sound upon receiving a nudge" soundnotsend] \
+                	[list bool "Notify nudges with popup-window." notify] \
+        	        [list bool "Notify sent nudges in the chatwindow." notsentinwin] \
+        	        [list bool "Notify received nudges in the chatwindow." notrecdinwin] \
+	                [list bool "Play a sound upon sending a nudge." soundnotrec] \
+	                [list bool "Play a sound upon receiving a nudge." soundnotsend] \
+					[list bool "Add a button to send a nudge in the chatwindows." addbutton] \
         	]
 	}
 
@@ -60,7 +64,7 @@ namespace eval ::Nudge {
 		
 			#If the user choosed to have the nudge notified in the window
 			if { $::Nudge::config(notsentinwin) == 1 } {
-				::Nudge::winwrite $chatid "[trans nudge $nick]"
+				::Nudge::winwrite $chatid "[trans nudge $nick]!" bell
 			}
 			
 			#Todo: use the original shake sound of MSN 7
@@ -122,8 +126,10 @@ namespace eval ::Nudge {
 			set n "10"
 			set ::Nudge::config(shakes) 10
 		}
-		
-		catch {set geometry [wm geometry $window]}
+		#Avoid a bug if the user close the chat window just after pressing the button
+		if {[catch {set geometry [wm geometry $window]}]} {
+			return
+		}
 		set index11 [string first "+" $geometry]
 		set index12 [string first "-" $geometry]
 		if {[expr $index11 > $index12 && $index12 != -1] || $index11 == -1} {set index1 $index12} {set index1 $index11}
@@ -159,20 +165,22 @@ namespace eval ::Nudge {
 	# to the other contact                         #
 	################################################	
 	proc sendbutton { event evpar } {
-		upvar 2 evpar newvar
-		upvar 2 bottom bottom
+		if { $::Nudge::config(addbutton) == 1 } {
+			upvar 2 evpar newvar
+			upvar 2 bottom bottom
+			
+			#Create the button with an actual Pixmal
+			#Use after 1 to avoid a bug on Mac OS X when we close the chatwindow before the end of the nudge
+			button $bottom.buttons.nudge -image [::skin::loadPixmap bell] -relief flat -padx 3 \
+			-background [::skin::getColor background2] -highlightthickness 0 -borderwidth 0 \
+			-command "after 1 ::Nudge::send_via_queue $newvar(window_name)"
+			
+			#Define baloon info
+			set_balloon $bottom.buttons.nudge "Send Nudge"
 		
-		#Create the button with an actual Pixmal
-		#Use after 1 to avoid a bug on Mac OS X when we close the chatwindow before the end of the nudge
-		button $bottom.buttons.nudge -image [::skin::loadPixmap bell] -relief flat -padx 3 \
-		-background [::skin::getColor background2] -highlightthickness 0 -borderwidth 0 \
-		-command "after 1 {::Nudge::SendNudge $newvar(window_name)}"
-		
-		#Define baloon info
-		set_balloon $bottom.buttons.nudge "Send Nudge"
-		
-		#Pack the button in the right area
-		pack $bottom.buttons.nudge -side right
+			#Pack the button in the right area
+			pack $bottom.buttons.nudge -side right
+		}
 	}
 
 	################################################
@@ -186,33 +194,90 @@ namespace eval ::Nudge {
 		upvar 2 evPar newvar
 		#Add a separator to the menu
 		$newvar(menu_name).actions add separator
-		
 		#Add label in the menu
 		$newvar(menu_name).actions add command -label "Send Nudge" \
-		-command "::Nudge::SendNudge $newvar(window_name)"
-
+		-command "::Nudge::send_via_queue $newvar(window_name)"
 	}
 	
 	################################################
-	# ::Nudge::SendNudge window_name          	   #
+	# ::Nudge::clitemmenu event epvar      	       #
+	# -------------------------------------------  #
+	# "Send nudge" item, in the rightclick-menu in #
+	# in the contact-list.			   			   #
+	# If you click on that menu item, you will send#
+	# a nudge to the other contact.                #
+	################################################	
+	proc clitemmenu { event evpar } {
+		upvar 2 evPar newvar
+		#Add a separator to the menu
+		$newvar(menu_name) add separator
+		
+		#Add label in the menu
+		$newvar(menu_name) add command -label "Send Nudge" \
+		-command "::Nudge::ClSendNudge $newvar(user_login)"
+	}
+
+	################################################  
+	# ::Nudge::ClSendNudge username                # 
+	# -------------------------------------------  # 
+	# Open the chatwindow to $username and send    # 
+	# this contact a Nudge                         # 
+	################################################
+	proc ClSendNudge { username } {
+
+		set lowuser [string tolower $username]
+		set win_name [::ChatWindow::For $lowuser]	
+		#Determine if a window with that user already exist (0=no window)
+		if { $win_name == 0 } {
+			#Start the conversation
+			::amsn::chatUser $username
+			#Now that we have a window, find the name of this new window
+			set win_name [::ChatWindow::For $lowuser]
+			#Send the nudge via the ChatQueue (to wait that connection is etablished before sending)
+			::Nudge::send_via_queue $win_name
+		} else {
+			#If the window with the contact was already open
+			#Send the nudge via the ChatQueue to reactive the conversation if it was closed
+			::Nudge::send_via_queue $win_name
+		}
+
+		
+	}
+	
+		
+	############################################
+	# ::Nudge::send_via_queue window_name      #
+	# -----------------------------------------#
+	# Send the Nudge via the ChatQueue         #
+	# So, aMSN reconnect on user to send the   #
+	# Nudge if the conversation was closed     #
+	############################################
+	proc send_via_queue {window_name} {
+		set chatid [::ChatWindow::Name $window_name]
+		::MSN::ChatQueue $chatid [list ::Nudge::SendNudge $window_name]
+	}
+
+	################################################
+	# ::Nudge::SendNudge window_name               #
 	# -------------------------------------------  #
 	# Protocole code to send a nudge to someone    #
-	# via the button or the menu Actions           #		
+	# via the button or the menu Actions           #
 	################################################
 	proc SendNudge {window_name} {
 	
 		#Find the SB
 		set chatid [::ChatWindow::Name $window_name]
 		#Check if the user can accept the nudge (MSN 7 protocol needed), if not, stop here.
-		if {![::Nudge::check_clientid $chatid]} {
-			::Nudge::winwrite $chatid \
-			"You cannot sent a Nudge to your contact because they don't have a client that supports Nudges" red
-			return
-		}
+			if {![::Nudge::check_clientid $chatid]} {
+				::Nudge::winwrite $chatid \
+				"You cannot sent a Nudge to your contact because he or she doesn't use a client that supports Nudges." belloff red
+				return
+			}
+	
 		
 		#If the user choosed to have the nudge notified in the window
 		if { $::Nudge::config(notrecdinwin) == 1 } {
-			::Nudge::winwrite $chatid "You have just sent a Nudge"
+			::Nudge::winwrite $chatid "You have just sent a Nudge!" bell
 		}
 		
 		#If the user choosed to have a sound-notify
@@ -226,11 +291,12 @@ namespace eval ::Nudge {
 			::Nudge::shake $window_name $::Nudge::config(shakes)
 		}
 		
+		#Send the packet of the nudge
 		::Nudge::SendPacket $chatid
 	}
 	
 	################################################
-	# ::Nudge::SendPacket chatid             	   #
+	# ::Nudge::SendPacket chatid                   #
 	# -------------------------------------------  #
 	# Protocole code to send a nudge to someone    #
 	# via the button or the menu Actions           #		
@@ -247,25 +313,26 @@ namespace eval ::Nudge {
 	}
 	
 	######################################################
-	# ::Nudge::winwrite chatid text                      #
+	# ::Nudge::winwrite chatid text iconname             #
 	# ---------------------------------------------------#
 	# Use ::amsn::WinWrite to add text in a chat         #
 	# window when we send/receive a nudge                #	
 	# Add a seperation of "-" before and & after the text#	
 	# Add the <bell> pixmap just before the text         # 
 	######################################################
-	proc winwrite {chatid text {color "green"} } {
+	proc winwrite {chatid text iconname {color "green"} } {
 			amsn::WinWrite $chatid "\n----------\n" $color 
-			amsn::WinWriteIcon $chatid bell 3 2
+			amsn::WinWriteIcon $chatid $iconname 3 2
 			amsn::WinWrite $chatid "[timestamp] $text\n----------" $color
 	}
 	
-	###################################################
-	# ::Nudge::check_clientid email                   #
-	# ------------------------------------------------#
-	# Verify in abook if other use use protocol MSN 7 #
-	# Boolean answer                                  #
-	###################################################
+	############################################
+	# ::Nudge::check_clientid email            #
+	# -----------------------------------------#
+	# Verify in abook if the other contact use #
+	# protocol MSN 7                           #
+	# Boolean answer                           #
+	############################################
 	proc check_clientid {email} {
 		if {[::abook::getContactData $email clientid] == "MSN 7.0" } {
 			return 1
@@ -273,4 +340,5 @@ namespace eval ::Nudge {
 			return 0
 		}
 	}
+
 }

@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <plugin>
 	<name>Nudge</name>
-	<author>Alberto Diaz and Jerome Gagnon</author>
+	<author>Jerome Gagnon-Voyer, Karel Demeyer and Alberto Diaz</author>
 	<description>This plugin implements the Nudge feature (From MSN 7.0) into aMSN</description>
 	<amsn_version>0.94</amsn_version>
-	<plugin_version>0.2</plugin_version>
+	<plugin_version>0.3</plugin_version>
 	<plugin_file>Nudge.tcl</plugin_file>
 	<plugin_namespace>Nudge</plugin_namespace>
 	<init_procedure>Init</init_procedure>
