@@ -2,15 +2,28 @@
 #            Emilio's Additions to CCMSN/AMSN
 #        Copyright (c)2002 Coralys Technologies,Inc.
 #	           http://www.coralys.com/
-#		      Revision 1.2.2
 # ***********************************************************
 #
 # $Id$
 #
 
 ###################### Protocol Debugging ###########################
+set degt_protocol_window_visible 0
+
 proc degt_protocol { str } {
     .degt.mid.txt insert end "$str\n"
+}
+
+proc degt_protocol_win_toggle {} {
+    global degt_protocol_window_visible
+
+    if { $degt_protocol_window_visible } {
+	wm state .degt withdraw
+	set degt_protocol_window_visible 0
+    } else {
+	wm state .degt normal
+	set degt_protocol_window_visible 1
+    }
 }
 
 proc degt_protocol_win { } {
@@ -42,164 +55,147 @@ proc degt_protocol_win { } {
     frame .degt.bot -relief sunken -borderwidth 1
     	button .degt.bot.clear  -text "Clear" \
 		-command ".degt.mid.txt delete 0.0 end"
-    	button .degt.bot.close -text [trans close] -command "wm withdraw .degt"
+    	button .degt.bot.close -text [trans close] -command degt_protocol_win_toggle 
 	pack .degt.bot.close .degt.bot.clear -side left
 
     pack .degt.top .degt.mid .degt.bot -side top
 
-    bind . <Control-d> { wm state .degt normal }
-    bind . <Control-t> { wm state .degt withdraw }
+    bind . <Control-d> { degt_protocol_win_toggle }
 }    
 ###################### Preferences Window ###########################
+array set myconfig {}   ; # Cached configuration 
+set proxy_server ""
+set proxy_port ""
+
+proc PreferencesCopyConfig {} {
+    global config myconfig proxy_server proxy_port
+
+    set config_entries [array get config]
+    set items [llength $config_entries]
+    for {set idx 0} {$idx < $items} {incr idx 1} {
+        set var_attribute [lindex $config_entries $idx]; incr idx 1
+	set var_value [lindex $config_entries $idx]
+	# Copy into the cache for modification. We will only
+	# copy back/save if the user chooses to accept new settings.
+	set myconfig($var_attribute) $var_value
+#	puts "CONFIG $var_attribute $var_value"
+    }
+
+    # Now process certain exceptions. Should be reverted
+    # in the SavePreferences procedure
+    set proxy_data [split $myconfig(proxy) ":"]
+    set proxy_server [lindex $proxy_data 0]
+    set proxy_port [lindex $proxy_data 1]
+}
+
 proc PreferencesMenu {m} {
+    bind . <Control-p> { Preferences sound }
+
     $m add command -label [trans prefsound] -command "Preferences sound"
     $m add command -label [trans prefapps] -command "Preferences apps"
+    $m add command -label [trans proxyconf] -command "Preferences proxy"
 }
 
 proc Preferences { settings } {
-    if [ winfo exists .config ] {
+    global config myconfig proxy_server proxy_port
+
+    if [ winfo exists .cfg ] {
         return
     }
 
-    toplevel .config
-    wm title .config [trans preferences]
-    wm iconname .config [trans preferences]
-    wm geometry .config 200x300-1+0
+    PreferencesCopyConfig	;# Load current configuration
 
-    # Add a tab for each of the preference groups.
-    # TODO: If too many then consider using a Menu
-    set f .config.tabs
-    frame $f -bd 1 -relief raised
-	label $f.label -text "" -justify center
-	pack $f.label -side top
-        button $f.sound -text [trans prefsound] -command ConfigSound
-        button $f.apps -text [trans prefapps] -command ConfigApps
-	pack $f.sound $f.apps -side left -fill x
+    toplevel .cfg
+    wm title .cfg [trans preferences]
+    wm iconname .cfg [trans preferences]
+#    wm geometry .cfg 200x300-1+0
 
-    frame .config.body -bd 1 -relief sunken
-	ConfigWorkarea new
+    # Frame to hold the preferences tabs/notebook
+    set nbtSounds [trans prefsound]
+    set nbtApps   [trans prefapps]
+    set nbtProxy  Proxy
+    set nb .cfg.n
+    frame .cfg.n 
+	# Preferences Notebook
+	pack [notebook $nb.p $nbtSounds $nbtApps $nbtProxy] \
+		    -expand 1 -fill both -padx 1m -pady 1m
+	#  .--------.
+	# _| Sounds |________________________________________________
+	set nbSounds [getNote $nb.p $nbtSounds]
+	LabelEntry $nbSounds.play "[trans command]" myconfig(soundcommand) 20
+	pack $nbSounds.play
+        bind .cfg <Control-s> { pickNote $nb.p $nbtSounds }
 
-    frame .config.buttons -bd 1 -relief raised
-	button .config.buttons.save -text [trans save] -command save_config 
-	button .config.buttons.quit -text [trans close] -command "destroy .config"
-	pack .config.buttons.save .config.buttons.quit -side left -fill x
+	#  .--------------.
+	# _| Applications |__________________________________________
+	set nbApps   [getNote $nb.p $nbtApps]
+	LabelEntry $nbApps.browser "[trans browser]" myconfig(browser) 20
+	LabelEntry $nbApps.mailer "[trans mailer]" myconfig(mailcommand) 20
+	pack $nbApps.browser $nbApps.mailer -side top
+        bind .cfg <Control-a> { pickNote $nb.p $nbtApps }
 
-    pack .config.tabs .config.body -side top
-    pack .config.buttons -side bottom
+	#  .--------------.
+	# _|   P r o x y  |__________________________________________
+	set nbProxy [getNote $nb.p $nbtProxy]
+	LabelEntry $nbProxy.server "[trans server]" proxy_server 20
+	LabelEntry $nbProxy.port "[trans port]" proxy_port 5
+	checkbutton $nbProxy.on -variable myconfig(withproxy) \
+		-text "[trans enableproxy]"
+	pack $nbProxy.server $nbProxy.port $nbProxy.on -side top
+        bind .cfg <Control-p> { pickNote $nb.p $nbtProxy }
 
-    # Display the appropriate settings tab in the body frame
-    # Add one case for each of the preference groups
+    # Frame for common buttons (all preferences)
+    frame .cfg.b
+    	button .cfg.b.save -text [trans save] -command "SavePreferences; destroy .cfg"
+    	button .cfg.b.cancel -text [trans close] -command "destroy .cfg" 
+	pack .cfg.b.save .cfg.b.cancel -side left
+
+    pack .cfg.n .cfg.b -side top
+
     switch $settings {
-        sound { ConfigSound }
-        apps  { ConfigApps }
+        sound { pickNote $nb.p $nbtSounds }
+        apps  { pickNote $nb.p $nbtApps }
+        proxy  { pickNote $nb.p $nbtProxy }
 	default { return }
     }
 }
 
-# ConfigWorkarea		clear	empty	new
-#	destroy container	yes	yes	no
-#	create container	yes	yes	yes
-#	populate with label	yes	no	yes
-# TODO Make pack forget <Slave> does it
-proc ConfigWorkarea {action} {
-    # Remove all widgets in the current workarea
-    if {([string compare $action "clear"] == 0) || 
-        ([string compare $action "empty"] == 0)} {
-        destroy .config.body.c
+proc SavePreferences {} {
+    global config myconfig proxy_server proxy_port
+
+    # I. Data Validation & Metavariable substitution
+    # a) Proxy settings
+    set p_server [string trim $proxy_server]
+    set p_port [string trim $proxy_port]
+    if { ($p_server != "") && ($p_port != "") } {
+       set myconfig(proxy) [join [list $p_server $p_port] ":"]
+    } else {
+       set myconfig(proxy) ""
+       set myconfig(withproxy) 0
     }
 
-    # Recreate with an empty area
-    if {([string compare $action "clear"] == 0) ||
-        ([string compare $action "empty"] == 0) ||
-        ([string compare $action "new"] == 0)} {
-	frame .config.body.c -relief raised
+    # II. Copy back into current/active configuration. This
+    #     means it will only be saved if user chose "Save".
+    #	  Remember it is also saved during exit/cleanup
+    set config_entries [array get myconfig]
+    set items [llength $config_entries]
+    for {set idx 0} {$idx < $items} {incr idx 1} {
+        set var_attribute [lindex $config_entries $idx]; incr idx 1
+	set var_value [lindex $config_entries $idx]
+	set config($var_attribute) $var_value
+#	puts "myCONFIG $var_attribute $var_value"
     }
 
-    if {([string compare $action "clear"] == 0) || 
-        ([string compare $action "new"] == 0)} {
-	    # FIXME: If the height is too big in comparison with the
-	    #        size of the config window, the lower (Close) frame
-	    #        may not be visible!
-	    label .config.body.c.l -text "Nothing selected" \
-	    	-justify center -height 15 -width 30
-	    pack .config.body.c.l
-	pack .config.body.c
-    }
+#    puts "Browser $config(browser)"
+#    puts "Mailer $config(mailcommand)"
+#    puts "Proxy $config(proxy)"
+#    puts "Sound $config(soundcommand)"
+#    puts [LabelEntryGet [getNote .cfg.n.p [trans prefapps]].mailer]
+#    puts [LabelEntryGet [getNote .cfg.n.p Proxy].server]
+#    puts [LabelEntryGet [getNote .cfg.n.p Proxy].port]
 
-    return .config.body.c
-}
-
-###################### Preferences:Sound  ###########################
-proc ConfigSound {} {
-    global config
-
-    set f [ConfigWorkarea empty]
-
-    set w $f.data
-    frame $w -relief sunken
-	label $w.title -text [trans prefsound] -justify center -fore red
-	pack $w.title -side top
-	label $w.slbl -text "Command:" -justify left -font sboldf
-	entry $w.sent -text config(soundcommand) -relief sunken \
-	    -width 20 -font splainf 
-	pack $w.slbl $w.sent -side left
-    set w $f.cmd
-    frame $w
-        button $w.ok -text [trans ok] \
-		-command "ConfigSoundApply [$f.data.sent get]"
-	button $w.cancel -text [trans cancel] -command "ConfigWorkarea clear"
-	pack $w.ok $w.cancel -side left -fill x
-
-    pack $f.data $f.cmd -side top
-    pack $f
-}
-
-proc ConfigSoundApply {e} {
-    global config
-
-    ConfigWorkarea clear
-
-    set config(soundcommand) $e
-}
-###################### Preferences:Applications #####################
-proc ConfigApps {} {
-    global config
-
-    set f [ConfigWorkarea empty]
-
-    frame $f.b -relief sunken -bd 1
-	label $f.b.title -text [trans prefapps] -justify center -fore red
-	pack $f.b.title -side top
-    	label $f.b.l -text "Browser:" -justify left -font sboldf
-	entry $f.b.e -text config(browser) -relief sunken \
-	    -width 20 -font splainf 
-        pack $f.b.l $f.b.e -side left 
-    frame $f.m -relief sunken -bd 1
-    	label $f.m.l -text "Mailer:" -justify left -font sboldf
-	set mailer "$config(browser) http://www.hotmail.com"
-	entry $f.m.e -text mailer -relief sunken \
-	    -width 20 -font splainf 
-        pack $f.m.l $f.m.e -side left 
-
-    frame $f.x
-        button $f.x.ok -text [trans ok] \
-		-command "ConfigAppsApply $f"
-	button $f.x.cancel -text [trans cancel] -command "ConfigWorkarea clear"
-	pack $f.x.ok $f.x.cancel -side left -fill x
-
-    pack $f.b $f.m $f.x -side top
-    pack $f
-}
-
-proc ConfigAppsApply {e} {
-    global config
-
-    set browser [$e.b.e get]
-    set mailer [$e.m.e get]
-    ConfigWorkarea clear
-
-    set config(browser) $browser
-    set config(mailcommand) $mailer
+    # Save configuration.
+    save_config
 }
 ###################### Other Features     ###########################
 proc ChooseFilename { twn title } {
@@ -268,4 +264,26 @@ proc fileDialog {w ent operation basename} {
     }
 }
 
+# Usage: LabelEntry .mypath.mailer "Label:" config(mailcommand) 20
+proc LabelEntry { path lbl value width } {
+    upvar $value entvalue
+
+    frame $path
+	label $path.lbl -text $lbl -justify left \
+	    -font sboldf
+	entry $path.ent -text $value -relief sunken \
+	    -width $width -font splainf 
+	pack $path.lbl $path.ent -side left -anchor e -expand 1 -fill x
+#	pack $path.ent $path.lbl -side right -anchor e -expand 1 -fill x
+}
+
+proc LabelEntryGet { path } {
+    return [$path.ent get]
+}
+
 ###################### ****************** ###########################
+# $Log$
+# Revision 1.3  2002/06/15 20:38:13  lordofscripts
+# Reworked preferences dialog using notebook megawidget
+#
+#
