@@ -39,6 +39,7 @@ browse Browse
 browser Browser
 busy Busy
 cancel Cancel
+cannotdeleteprofile Cannot delete profile because it seems to be in use by an Amsn session
 cfgalarm Configure/Add/Remove Alarm
 changefont Change Font
 changenick Change nick
@@ -233,6 +234,7 @@ prefsession My Sign In and Status
 prefshared Shared Connections (only for NAT)
 prefsound Sounds
 profiledconfig Profiled Config
+profileinuse This Profile is being used by another Amsn session, please chose another one
 profiles Profiles
 properties Properties
 proxyconfhttp HTTP proxy support configuration
