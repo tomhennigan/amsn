@@ -46,6 +46,7 @@ namespace eval ::alarms {
 		set my_alarms(${user}_ondisconnect) [getAlarmItem $user ondisconnect]
 		set my_alarms(${user}_command) [getAlarmItem $user command]
 		set my_alarms(${user}_oncommand) [getAlarmItem $user oncommand]
+		set my_alarms(${user}_copied_pic) [getAlarmItem $user copied_pic]
 	
 	}
 	
@@ -161,9 +162,11 @@ namespace eval ::alarms {
 	proc DeleteAlarm { user } {
 		global my_alarms
 
-		#Delete file
-		catch {file delete [getAlarmItem $user pic]}
-		
+		#Delete pic file if it was copied
+		if { [getAlarmItem $user copied_pic] == 1 } {
+			catch {file delete [getAlarmItem $user pic]}
+		}
+	
 		::abook::setContactData $user alarms ""
 		::abook::saveToDisk
 		InitMyAlarms $user
@@ -194,6 +197,7 @@ namespace eval ::alarms {
 						return -1
 					} else {
 						set my_alarms(${user}_pic) $file
+						set my_alarms(${user}_copied_pic) 1
 					}
 				} elseif { ([image width joanna] > 1024) && ([image height joanna] > 768) } {
 					image delete joanna
@@ -203,6 +207,7 @@ namespace eval ::alarms {
 					image delete joanna					
 					catch {file copy -force $my_alarms(${user}_pic) [file join $HOME alarm_${user}.gif]}
 					set my_alarms(${user}_pic) [file join $HOME alarm_${user}.gif]
+					set my_alarms(${user}_copied_pic) 1
 				}
 			}
 		}
@@ -219,6 +224,7 @@ namespace eval ::alarms {
 		set alarms(ondisconnect) $my_alarms(${user}_ondisconnect)
 		set alarms(command) $my_alarms(${user}_command)
 		set alarms(oncommand) $my_alarms(${user}_oncommand)
+		set alarms(copied_pic) $my_alarms(${user}_copied_pic)
 		
 		status_log "alarms: saving alarm for $user\n" blue	
 		::abook::setContactData $user alarms [array get alarms]
