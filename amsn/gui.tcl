@@ -6273,9 +6273,20 @@ proc clear_disp { } {
 
 
 proc bgerror { args } {
+    global errorInfo errorCode HOME
+    
     status_log "\n\n\n\n\n" error
-    status_log "GOT TCL/TK ERROR : $args" red
+    status_log "GOT TCL/TK ERROR : $args\n$errorInfo\n$errorCode\n" red
     status_log "\n\n\n\n\n" error
+    
+    set fd [open [file join $HOME bugreport.amsn] a]
+    
+    puts $fd "Bug generated at [clock format [clock seconds] -format "%D - %T"]\n"
+    puts $fd "Error : $args\nStack : $errorInfo\n\nCode : $errorCode\n\n"
+    puts $fd "==========================================================================\n\n"
+    
 
-    msg_box "[trans tkerror]"
+    close $fd
+
+    msg_box "[trans tkerror [file join $HOME bugreport.amsn]]"
 }
