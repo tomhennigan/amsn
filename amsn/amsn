@@ -116,7 +116,10 @@ if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 	lappend auto_path [file join utils macosx]
 } elseif {$tcl_platform(platform) == "windows"} {
 	lappend auto_path [file join utils windows]
+} elseif {$tcl_platform(platform) == "unix"} {
+	lappend auto_path [file join utils linux]
 }
+
 
 set libtls ""
 
@@ -164,6 +167,7 @@ proc reload_files { } {
 	source proxy.tcl
 	source abook.tcl	;# Handle buddy address book    
 	source protocol.tcl
+	source msnp2p.tcl
 	source ctadverts.tcl
 	source preferences.tcl
 	source hotmail.tcl

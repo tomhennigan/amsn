@@ -96,7 +96,7 @@ proc trayicon_init {} {
 		winico taskbar add $wintrayicon -text "[trans offline]" -callback "taskbar_icon_handler %m %x %y"
 		set statusicon 1
 	} else {
-		set ext "[file join utils traydock libtray.so]"
+		set ext "[file join utils linux traydock libtray.so]"
 		if { ![file exists $ext] } {
 			::config::setKey dock 0
 			msg_box "[trans traynotcompiled]"
