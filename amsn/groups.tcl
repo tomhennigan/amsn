@@ -33,7 +33,7 @@
 namespace eval ::groups {
    namespace export Init Enable Disable Set Rename Delete Add \
    		    RenameCB DeleteCB AddCB \
-		    GetList ToggleStatus UpdateCount
+		    GetList ToggleStatus UpdateCount IsExpanded
 
    #
    # P R I V A T E
@@ -198,7 +198,7 @@ namespace eval ::groups {
  	set groups($gid) $gname
 	incr groupCnt
 	set uMemberCnt($gid) 0
-	set bShowing($gid) "Y"
+	set bShowing($gid) 1
 	::groups::updateMenu menu .group_list
    }
    
@@ -206,14 +206,15 @@ namespace eval ::groups {
 	variable bShowing
 
         if {![info exists bShowing($gid)]} {
-	    return N
+	    return 0
 	}
 
-	if { $bShowing($gid) == "Y" } {
-	    set bShowing($gid) "N"
+	if { $bShowing($gid) == 1 } {
+	    set bShowing($gid) 0
 	} else {
-	    set bShowing($gid) "Y"
+	    set bShowing($gid) 1
 	}
+
 	return $bShowing($gid)
     }
    
@@ -230,6 +231,13 @@ namespace eval ::groups {
 	    incr uMemberCnt($gid) $rel_qty
 	}
 	return $uMemberCnt($gid)
+    }
+    
+    proc IsExpanded {gid} {
+        variable uMemberCnt
+	variable bShowing
+    
+        return $bShowing($gid)
     }
     
    #
@@ -268,8 +276,8 @@ namespace eval ::groups {
 	# display by user-defined groups
 	set uMemberCnt(online)	0
 	set uMemberCnt(offline) 0
-	set bShowing(online)	"Y"
-	set bShowing(offline)	"Y"
+	set bShowing(online)	1
+	set bShowing(offline)	1
    }
 
    # Must only Enable it when the list of groups is already available!
@@ -305,7 +313,7 @@ namespace eval ::groups {
        set groups($nr) $name
        incr groupCnt
        set uMemberCnt($nr) 0
-       set bShowing($nr)   "Y"
+       set bShowing($nr)   1
        status_log "Groups: added group $nr ($name)\n" blue
    }
 
