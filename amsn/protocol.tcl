@@ -1362,7 +1362,7 @@ proc cmsn_sb_msg {sb_name recv} {
 
    if {[::MSN::SBFor $desiredchatid] != $sb_name} {
 
-      #This means the conference has become a private window
+      #This means the conference has become a private window or this is first message
       status_log "sb_msg: this SB is not the preferred for $desiredchatid, changing\n"
       set newchatid [::amsn::chatChange [::MSN::ChatFor $sb_name] $desiredchatid]
 
@@ -1375,6 +1375,10 @@ proc cmsn_sb_msg {sb_name recv} {
          #The GUI accepts the change, so let's change
          status_log "sb_msg: change accepted\n"
 	 set chatid $desiredchatid
+      }
+
+      if { $chatid == 0 } {
+         status_log "sb_msg: UHUH!! chatid == 0, something wrong is going to happen!! check what to do!!\n" white
       }
 
       ::MSN::DelSBFor [::MSN::ChatFor $sb_name] $sb_name
