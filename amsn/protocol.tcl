@@ -3052,10 +3052,19 @@ proc cmsn_change_state {recv} {
 		set msnobj -1
 	}
 
+	
 	if {$user_name == ""} {
 		set user_name [::abook::getNick $user]
 	}
 	
+	
+	if {$user_name != [::abook::getNick $user]} {
+		#Nick differs from the one on our list, so change it
+		#in the server list too
+		::abook::setContactData $user nick $user_name
+		::MSN::changeName $user [encoding convertto utf-8 $encoded_user_name] 1
+	}
+		
 	set custom_user_name [::abook::getDisplayNick $user]
 
 	set state_no [::MSN::stateToNumber $substate ]
@@ -3128,12 +3137,6 @@ proc cmsn_change_state {recv} {
 	#end of alarm system
 
 
-	if {$user_name != [::abook::getNick $user]} {
-		#Nick differs from the one on our list, so change it
-		#in the server list too
-		::MSN::changeName $user [encoding convertto utf-8 $encoded_user_name] 1
-	}
-
 	set maxw [expr {$config(notifwidth)-20}]
 	set short_name [trunc $custom_user_name . $maxw splainf]
 		
@@ -3172,7 +3175,6 @@ proc cmsn_change_state {recv} {
 	set oldmsnobj [::abook::getVolatileData $user msobj]
 	#set list_users [lreplace $list_users $idx $idx [list $user $user_name $state_no $msnobj]]
 	
-	::abook::setContactData $user nick $user_name
 	::abook::setVolatileData $user state $substate
 	::abook::setVolatileData $user msnobj $msnobj
 
