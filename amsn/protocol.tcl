@@ -5492,7 +5492,7 @@ namespace eval ::MSNP2P {
 		    
 		    #If it's a file transfer, display Progress bar
 		    if { [lindex [SessionList get $cSid] 7] == "filetransfer" } {
-			    ::amsn::FTProgress w $cSid "" [trans sbcon]
+			    ::amsn::FTProgress w $cSid "" [trans throughserver]
 			    ::amsn::FTProgress r $cSid [lindex [SessionList get $cSid] 6] $cOffset $cTotalDataSize
 		    }
 		    if { $fd != "" && $fd != 0 && $fd != -1 } {
@@ -5893,7 +5893,7 @@ namespace eval ::MSNP2P {
 		if { $fd == "" } {
 			return
 		}
-		::amsn::FTProgress w $sid "" [trans sbcon]
+		::amsn::FTProgress w $sid "" [trans throughserver]
 
 # 		SendPacketExt [::MSN::SBFor $chatid] $sid [read $fd] 0 0 0 0 0 0 16777264
 # 		close $fd
