@@ -15,7 +15,7 @@ if { $initialize_amsn == 1 } {
 	#Virtual events used by Button-click
 	#On Mac OS X, Control emulate the "right click button"
 	#On Mac OS X, there's a mistake betwen button2 and button3
-	if {$tcl_platform(os) == "Darwin"} {
+	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 		event add <<Button1>> <Button1-ButtonRelease>
 		event add <<Button2>> <Button3-ButtonRelease>
 		event add <<Button3>> <Control-ButtonRelease>
@@ -1613,7 +1613,7 @@ namespace eval ::amsn {
 		}
 
 
-		#Test on Mac OS X(Darwin) if imagemagick is installed and kill all sndplay processes      
+		#Test on Mac OS X(TkAqua) if imagemagick is installed and kill all sndplay processes      
 		if {$tcl_platform(os) == "Darwin"} {
 			if { $config(getdisppic) != 0 } {
 				check_imagemagick
@@ -1623,10 +1623,11 @@ namespace eval ::amsn {
 		menu .${win_name}.menu -tearoff 0 -type menubar  \
 			-borderwidth 0 -activeborderwidth -0
 
-		if {$tcl_platform(os) != "Darwin"} {
-			.${win_name}.menu add cascade -label "[trans msn]" -menu .${win_name}.menu.msn
-		} else {
+		#Change MSN menu on Mac for "File"
+		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 			.${win_name}.menu add cascade -label "[trans file]" -menu .${win_name}.menu.msn
+		} else {
+			.${win_name}.menu add cascade -label "[trans msn]" -menu .${win_name}.menu.msn
 		}
 
 		.${win_name}.menu add cascade -label "[trans edit]" -menu .${win_name}.menu.edit
@@ -1634,7 +1635,7 @@ namespace eval ::amsn {
 		.${win_name}.menu add cascade -label "[trans actions]" -menu .${win_name}.menu.actions
 
 		#Apple menu, only on Mac OS X
-		if {$tcl_platform(os) == "Darwin"} {
+		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 			.${win_name}.menu add cascade -label "Apple" -menu .${win_name}.menu.apple
 			menu .${win_name}.menu.apple -tearoff 0 -type normal
 			.${win_name}.menu.apple add command -label "[trans about] aMSN" -command ::amsn::aboutWindow
@@ -1653,7 +1654,7 @@ namespace eval ::amsn {
 			-command "launch_filemanager \"$files_dir\""
 		.${win_name}.menu.msn add separator
 		#Add accelerator label to "close" on Mac Version
-		if {$tcl_platform(os) == "Darwin"} {
+		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 			.${win_name}.menu.msn add command -label "[trans close]" \
 				-command "destroy .${win_name}" -accelerator "Command-W"
 		} else {
@@ -1663,7 +1664,7 @@ namespace eval ::amsn {
 
 		menu .${win_name}.menu.edit -tearoff 0 -type normal
 		#Change the accelerator on Mac OS X
-			if {$tcl_platform(os) == "Darwin"} {
+			if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 				.${win_name}.menu.edit add command -label "[trans cut]" -command "tk_textCut .${win_name}" -accelerator "Command+X"
 				.${win_name}.menu.edit add command -label "[trans copy]" -command "tk_textCopy .${win_name}" -accelerator "Command+C"
 				.${win_name}.menu.edit add command -label "[trans paste]" -command "tk_textPaste .${win_name}" -accelerator "Command+V"
@@ -1696,7 +1697,7 @@ namespace eval ::amsn {
 		.${win_name}.menu.view add separator
 
 		#Remove this menu item on Mac OS X because we "lost" the window instead of just hide it and change accelerator for history on mac os x
-		if {$tcl_platform(os) == "Darwin"} {
+		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 			.${win_name}.menu.view add command -label "[trans history]" -command "::amsn::ShowChatList \"[trans history]\" .${win_name} ::log::OpenLogWin" -accelerator "Command-Option-H"
 		} else {
 			.${win_name}.menu.view add command -label "[trans history]" -command "::amsn::ShowChatList \"[trans history]\" .${win_name} ::log::OpenLogWin" -accelerator "Ctrl+H"
@@ -1928,7 +1929,7 @@ namespace eval ::amsn {
 		bind .${win_name} <<Paste>> "status_log paste\n;tk_textPaste .${win_name}"
 
 		#Change shorcut for history on Mac OS X
-		if {$tcl_platform(os) == "Darwin"} {
+		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 			bind .${win_name} <Command-Option-h> "::amsn::ShowChatList \"[trans history]\" .${win_name} ::log::OpenLogWin"
 			
 		} else {
@@ -1977,7 +1978,7 @@ namespace eval ::amsn {
 
 
 		#Differents shorcuts on Mac OS X
-		if {$tcl_platform(os) == "Darwin"} {
+		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 			bind $bottom.in.input <Control-s> "window_history add %W; ::amsn::MessageSend .${win_name} %W; break"
 			bind .${win_name} <Command-w> "::amsn::closeWindow .${win_name}; break"
 			bind .${win_name} <Command-,> "Preferences"
@@ -2044,7 +2045,7 @@ namespace eval ::amsn {
 
 		#Make the picture menu appear on the conversation window instead of having it in the bottom of screen (and sometime lost it if the conversation window is in the bottom of the window)
 		global tcl_platform
-		if {$tcl_platform(os) == "Darwin"} {
+		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 			set x [expr $x -50]
 			set y [expr $y - 115]
 		}
@@ -3341,10 +3342,11 @@ proc cmsn_draw_main {} {
 	#Main menu
 	menu .main_menu -tearoff 0 -type menubar  -borderwidth 0 -activeborderwidth -0
 
-	if {$tcl_platform(os) != "Darwin"} {
-		.main_menu add cascade -label "[trans msn]" -menu .main_menu.file
-	} else {
+	#Change the name of the main menu on Mac OS X(TK Aqua) for "File"
+	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 		.main_menu add cascade -label "[trans file]" -menu .main_menu.file
+	} else {
+		.main_menu add cascade -label "[trans msn]" -menu .main_menu.file
 	}
 
 	.main_menu add cascade -label "[trans actions]" -menu .main_menu.actions
@@ -3356,7 +3358,7 @@ proc cmsn_draw_main {} {
 	#.main_menu.tools add separator
 
 	#Apple menu, only on Mac OS X
-	if {$tcl_platform(os) == "Darwin"} {
+	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 		.main_menu add cascade -label "Apple" -menu .main_menu.apple
 		menu .main_menu.apple -tearoff 0 -type normal
 		.main_menu.apple add command -label "[trans about] aMSN" -command ::amsn::aboutWindow
@@ -3693,7 +3695,7 @@ proc cmsn_draw_main {} {
 	}
 
 	#Command-key for "key shorcut" in Mac OS X
-	if {$tcl_platform(os) == "Darwin"} {
+	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 		bind . <Command-s> toggle_status
 		bind . <Command-,> Preferences
 		bind . <Command-Option-space> BossMode
@@ -3704,7 +3706,7 @@ proc cmsn_draw_main {} {
 	}
 
 	#Shorcut to Quit aMSN on Mac OS X
-	if {$tcl_platform(os) == "Darwin"} {
+	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 		bind all <Command-q> {
 			close_cleanup;exit
 		}
@@ -4443,7 +4445,8 @@ proc AddProfileWin {} {
 
 
 	bind .add_profile <Return> "AddProfileOk $mainframe" 
-	if {$tcl_platform(os) == "Darwin"} {
+	#Change key for destroying the window
+	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 		bind .add_profile <Command-w> "grab release .add_profile; destroy  .add_profile" 
 	} else {
 		bind .add_profile <Escape> "grab release .add_profile; destroy  .add_profile"
@@ -4618,7 +4621,7 @@ proc cmsn_draw_online_wrapped {} {
 		#Don't add menu for "Individuals" group
 		if { $gname != 0 } {
 			#Specific for Mac OS X, Change button3 to button 2 and add control-click
-			if {$tcl_platform(os) == "Darwin"} {
+			if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 				$pgBuddy.text tag bind $gtag <Button2-ButtonRelease> "::groups::GroupMenu $gname %X %Y"
 				$pgBuddy.text tag bind $gtag <Control-ButtonRelease> "::groups::GroupMenu $gname %X %Y"
 			} else {
@@ -4666,7 +4669,7 @@ proc cmsn_draw_online_wrapped {} {
 
 	$pgBuddy.text.mystatus tag bind mystatus <Button1-ButtonRelease> "tk_popup .my_menu %X %Y"
 	#Change button mouse on Mac OS X
-	if {$tcl_platform(os) == "Darwin"} {
+	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 		$pgBuddy.text.mystatus tag bind mystatus <Button2-ButtonRelease> "tk_popup .my_menu %X %Y"
 	} else {
 		$pgBuddy.text.mystatus tag bind mystatus <Button3-ButtonRelease> "tk_popup .my_menu %X %Y"
@@ -5155,7 +5158,7 @@ proc ShowUser {user_name user_login state_code colour section grId} {
 		}
 	}
 	#Change mouse button and add control-click on Mac OS X
-	if {$tcl_platform(os) == "Darwin"} {
+	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 		$pgBuddy.text tag bind $user_unique_name <Button2-ButtonRelease> "show_umenu $user_login $grId %X %Y"
 		$pgBuddy.text tag bind $user_unique_name <Control-ButtonRelease> "show_umenu $user_login $grId %X %Y"
 	} else {
@@ -7204,17 +7207,21 @@ proc bgerror { args } {
 #don't change nothing.
 proc ShowTransient {win {parent "."}} {
 	global tcl_platform
-		if {$tcl_platform(os) != "Darwin"} {
+		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		#Empty	
+		} else {
 			wm transient $win $parent
 		}
 }
 
 
-		proc lastKeytyped {typed bottom} {
+#lastkeytyped 
+#Force the focus to bottom.in.input when someone try to write something in out.text
+#On TKAqua (Mac OS X) only
+proc lastKeytyped {typed bottom} {
 
-			if { $typed != ""} {
+		if { $typed != ""} {
 			
 			focus -force $bottom.in.input;$bottom.in.input insert insert $typed
-			
-			}
 		}
+}
