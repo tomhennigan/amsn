@@ -61,12 +61,19 @@ namespace eval ::TeXIM {
 			set localtime [clock seconds]
 
 			set chan [open ${::TeXIM::dir}/temp.tex w]
-			puts $chan "\\documentclass\[10pt\]\{article\}"
-			puts $chan "\\pagestyle{empty}"
+			puts $chan "\\documentclass\[12pt\]\{article\}"
+			puts $chan "\\pagestyle\{empty\}"
+			puts $chan "\\usepackage\[basic\]\{circ\}"
+			puts $chan "\\usepackage\{SIunits\}"
+			puts $chan "\\usepackage\{amsmath\}"
+			puts $chan "\\usepackage\{times\}"
+			puts $chan "\\usepackage\{amstext\}"
+			puts $chan "\\usepackage\{amssymb\}"
 			puts $chan "\\begin\{document\}"
-			puts $chan "\\begin\{huge\}"
+			#puts $chan "\\begin\{huge\}"
 			puts $chan $msg
-			puts $chan "\\end\{huge\}"
+			#puts $msg
+			#puts $chan "\\end\{huge\}"
 			puts $chan "\\end\{document\}"
 			flush $chan
 			close $chan

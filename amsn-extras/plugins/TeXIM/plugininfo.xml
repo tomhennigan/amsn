@@ -8,5 +8,5 @@
 	<plugin_file>TeXIM.tcl</plugin_file>
 	<plugin_namespace>TeXIM</plugin_namespace>
 	<init_procedure>Init</init_procedure>
-        <deinit_procedure>DeInit</deinit_procedure>
+	<deinit_procedure>DeInit</deinit_procedure>
 </plugin>
