@@ -172,6 +172,7 @@ proc reload_files { } {
     source [file join $program_dir remote.tcl  ]    ;# The remote control procedures
     source [file join $program_dir plugins.tcl]	;# Plugins system
     source [file join $program_dir balloon.tcl]       ;# For the balloons tooltip
+    source [file join $program_dir png.tcl]       ;# PNG Parser and zlib deflate in pure TCL (KaKaRoTo)
 
     load_lang
 }
