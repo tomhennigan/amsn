@@ -68,7 +68,6 @@ namespace eval ::amsnplus {
 		::plugins::RegisterEvent "aMSN Plus" chat_msg_receive parse_colours_and_sounds
 		::plugins::RegisterEvent "aMSN Plus" chatwindowbutton chat_color_button
 		::plugins::RegisterEvent "aMSN Plus" chatmenu edit_menu
-		::plugins::RegisterEvent "aMSN Plus" chatmenu add_quicktext
 		::plugins::RegisterEvent "aMSN Plus" OnConnect on_connect
 		
 		if {![::amsnplus::version_094]} {
@@ -167,27 +166,6 @@ namespace eval ::amsnplus {
 	#//////////////////////////////////////////////////////////////////////////
 	#                          ALL ABOUT QUICK TEXT
 	#//////////////////////////////////////////////////////////////////////////
-
-	################################################
-	# this adds the quick text configured entries
-	# in the chat window menu
-	proc add_quicktext {event epvar} {
-		if {!$::amsnplus::config(allow_quicktext)} { return }
-		upvar 2 evPar newvar
-		$newvar(menu_name).actions add separator
-		#Menu item to edit the currents quick texts
-		$newvar(menu_name).actions add command -label "[trans quicktext]" -command "::amsnplus::qtconfig"
-		set i 0
-		#Show all the currents quick texts in the menu
-		while {$i < 10} {
-			set str [lindex $::amsnplus::config(quick_text_$i) 1]
-			set keyword "/[lindex $::amsnplus::config(quick_text_$i) 0]"
-			if { ![string equal $str ""] && ![string equal $keyword ""] } {
-				$newvar(menu_name).actions add command -label $str -command "::amsnplus::insert_text $newvar(window_name) $keyword"
-			}
-			incr i
-		}
-	}
 	
 	################################################
 	# this proc lets configure the quick texts
@@ -233,9 +211,13 @@ namespace eval ::amsnplus {
 			entry $w.middle.left.keyword$i -background #FFFFFF
 			entry $w.middle.right.text$i -background #FFFFFF
 			pack $w.middle.left.keyword$i -fill x -expand true -pady 2
-			$w.middle.left.keyword$i insert end [lindex $::amsnplus::config(quick_text_$i) 0]
+			if {[info exists ::amsnplus::config(quick_text_$i)]} {
+				$w.middle.left.keyword$i insert end [lindex $::amsnplus::config(quick_text_$i) 0]
+			}
 			pack $w.middle.right.text$i -fill x -expand true -pady 2
-			$w.middle.right.text$i insert end [lindex $::amsnplus::config(quick_text_$i) 1]
+			if {[info exists ::amsnplus::config(quick_text_$i)]} {
+				$w.middle.right.text$i insert end [lindex $::amsnplus::config(quick_text_$i) 1]
+			}
 			#Add binding for tab for each entry
 			bind $w.middle.left.keyword$i <Tab> "focus $w.middle.right.text$i; break"
 			set i2 [expr $i + 1]
@@ -344,7 +326,6 @@ namespace eval ::amsnplus {
 	# this creates some commands for editing in the
 	# chat window packed in the edit menu
 	proc edit_menu {event epvar} {
-		if { !$::amsnplus::config(allow_colours) } { return }
 		upvar 2 evPar newvar
 		set bold [binary format c 2]
 		set italic [binary format c 5]
@@ -353,15 +334,37 @@ namespace eval ::amsnplus {
 		set reset [binary format c 15]
 		set screenshot "/screenshot"
 		
-		$newvar(menu_name).actions add separator
-		$newvar(menu_name).actions add command -label "[trans choosecolor]" -command "::amsnplus::choose_color $newvar(window_name)"
-		$newvar(menu_name).actions add command -label "[trans bold]" -command "::amsnplus::insert_text $newvar(window_name) $bold"
-		$newvar(menu_name).actions add command -label "[trans italic]" -command "::amsnplus::insert_text $newvar(window_name) $italic"
-		$newvar(menu_name).actions add command -label "[trans underline]" -command "::amsnplus::insert_text $newvar(window_name) $underline"
-		$newvar(menu_name).actions add command -label "[trans overstrike]" -command "::amsnplus::insert_text $newvar(window_name) $overstrike"
-		$newvar(menu_name).actions add command -label "[trans reset]" -command "::amsnplus::insert_text $newvar(window_name) $reset"
-		$newvar(menu_name).actions add separator
-		$newvar(menu_name).actions add command -label "[trans screenshot]" -command "::amsnplus::insert_text $newvar(window_name) $screenshot"
+		set menu_name $newvar(menu_name)
+		menu ${menu_name}.plusmenu -tearoff 0
+		$newvar(menu_name) add cascade -label "aMSN Plus!" -menu ${menu_name}.plusmenu
+		set plusmenu ${menu_name}.plusmenu
+		
+		if { $::amsnplus::config(allow_colours) } {
+			$plusmenu add command -label "[trans choosecolor]" -command "::amsnplus::choose_color $newvar(window_name)"
+			$plusmenu add command -label "[trans bold]" -command "::amsnplus::insert_text $newvar(window_name) $bold"
+			$plusmenu add command -label "[trans italic]" -command "::amsnplus::insert_text $newvar(window_name) $italic"
+			$plusmenu add command -label "[trans underline]" -command "::amsnplus::insert_text $newvar(window_name) $underline"
+			$plusmenu add command -label "[trans overstrike]" -command "::amsnplus::insert_text $newvar(window_name) $overstrike"
+			$plusmenu add command -label "[trans reset]" -command "::amsnplus::insert_text $newvar(window_name) $reset"
+			$plusmenu add separator
+		}
+
+		$plusmenu add command -label "[trans screenshot]" -command "::amsnplus::insert_text $newvar(window_name) $screenshot"
+		if {$::amsnplus::config(allow_quicktext)} {
+			$plusmenu add separator
+			#Menu item to edit the currents quick texts
+			$plusmenu add command -label "[trans quicktext]" -command "::amsnplus::qtconfig"
+			set i 0
+			#Show all the currents quick texts in the menu
+			while {$i < 10} {
+				set str [lindex $::amsnplus::config(quick_text_$i) 1]
+				set keyword "/[lindex $::amsnplus::config(quick_text_$i) 0]"
+				if { ![string equal $str ""] && ![string equal $keyword ""] } {
+					$plusmenu add command -label $str -command "::amsnplus::insert_text $newvar(window_name) $keyword"
+				}
+				incr i
+			}
+		}
 	}
 
 	###############################################
