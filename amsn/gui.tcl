@@ -4476,9 +4476,8 @@ proc cmsn_draw_online_wrapped {} {
 	bind $pgBuddyTop.bigstate <<Button3>> {tk_popup .my_menu %X %Y}
 	pack $disppic -side left -padx [::skin::getKey bigstate_xpad] -pady [::skin::getKey bigstate_ypad]
 
-	text $pgBuddyTop.mystatus -font bboldf -height 2 \
+	text $pgBuddyTop.mystatus -font bboldf -height 2 -background white -borderwidth 0 -cursor left_ptr \
 		-width [expr {[winfo width $pgBuddy]/[font measure bboldf -displayof $pgBuddyTop "0"]}] \
-		-background white -borderwidth 0 \
 		-relief flat -highlightthickness 0 -selectbackground white -selectborderwidth 0 \
 		-exportselection 0 -relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0
 	pack $pgBuddyTop.mystatus -expand true -fill x -side left -padx 0 -pady 0
@@ -4557,7 +4556,7 @@ proc cmsn_draw_online_wrapped {} {
 
 	if { [::config::getKey checkemail] } {
 		# Show Mail Notification status
-		text $pgBuddyTop.mail -height 1 -background white -borderwidth 0 -wrap none\
+		text $pgBuddyTop.mail -height 1 -background white -borderwidth 0 -wrap none -cursor left_ptr \
 			-relief flat -highlightthickness 0 -selectbackground white -selectborderwidth 0 \
 			-exportselection 0 -relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0
 		if {[::skin::getKey emailabovecolorbar]} {

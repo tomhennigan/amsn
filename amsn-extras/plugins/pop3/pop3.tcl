@@ -433,7 +433,7 @@ namespace eval ::pop3 {
 			set clbar $::pgBuddyTop.colorbar
 			
 			set textb $pgtop.pop3mail
-			text $textb -font bboldf -height 1 -background white -borderwidth 0 -wrap none\
+			text $textb -font bboldf -height 1 -background white -borderwidth 0 -wrap none -cursor left_ptr \
 				-relief flat -highlightthickness 0 -selectbackground white -selectborderwidth 0 \
 				-exportselection 0 -relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0
 			if {[::skin::getKey emailabovecolorbar]} {
