@@ -22,6 +22,7 @@ allowbadwords Matikan sensor terhadap nama panggilan
 allowlist Daftar Boleh (yang dibolehkan)
 allowonlyinal Ijinkan hanya pengguna dalam Daftar Terima untuk menghubungi saya
 allowseen Perbolehkan orang ini untuk melihat status saya dan menghubungi saya
+animatedemoticon Emoticon ini memiliki animasi
 animatedsmileys Mungkinkan smiley dengan animasi
 appearance Tampilan
 appearoff Sembunyi
@@ -374,6 +375,7 @@ stylelog Pilih bentuk di dalam mana anda ingin melihat sejarah anda
 syntaxerror Kesalahan Sintaks
 tabbed Jendela yang ditandai
 textsize Besar huruf
+timeremaining Waktu yang tersisa
 title Al's Messenger
 to Kepada
 tools Peralatan
