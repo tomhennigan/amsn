@@ -5,12 +5,12 @@
 #
 
 name=amsn
-version=0.83
+version=0.91
 release=1a
 module=msn
 
 # Installation paths
-prefix=/usr
+prefix=/usr/local
 exec_prefix=${prefix}
 bindir=${exec_prefix}/bin
 libdir=${prefix}/share/${name}
