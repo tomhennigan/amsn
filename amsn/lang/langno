@@ -5,7 +5,7 @@ addedyou har lagt deg til sin kontaktliste
 addtoo Legg denne person til min kontaktliste
 allowseen La denne person se når jeg er online og kontakte meg
 appearoff Se ut som jeg er offline
-are er
+aretyping $1 er skriver en beskjed
 avoidseen Hindre denne person fra å se når jeg er online og kontakte meg
 away Borte
 blankdirect La stå tom for direkte tilkobling
@@ -31,7 +31,7 @@ gonelunch Ute til lunsj
 help Hjelp
 ident Identifiserer
 invite Invitér
-is er
+istyping $1 er skriver en beskjed
 joins $1 $2 blir med i konversasjonen
 language Språk
 leaves $1 forlater konversasjonen
@@ -74,7 +74,6 @@ server Server
 sound Hendelseslyd
 title Al's Messenger
 to Til
-typing $1 skriver en beskjed
 yousay Du sier
 youwant Du vil ha
 unblock Deblokkér

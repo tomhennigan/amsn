@@ -10,7 +10,7 @@ admingroups Administratör grupper
 adverts reklam
 allowseen Tilllåt denna person att se om jag är online och skriva till mig
 appearoff Verka så som om jag vore offline
-are är
+aretyping $1 är skriver ett medelande
 autohotmaillog Automatisk hotmail logg
 autoip automatisk ip
 avoidseen Undvik att denna person kan se om jag är online och skriva till mig
@@ -75,7 +75,7 @@ inbox inbox
 invalidusername ogiltigt användarnamn
 invite Bjud in
 ipaddress ipadress
-is är
+istyping $1 är skriver ett medelande
 joins $1 $2 kommer in i konversationen
 language Språk
 leaveblankforhotmail lämnas tom för hotmail
@@ -153,7 +153,6 @@ the swedish language.
 title Al's Messenger
 tools verktyg
 to till
-typing $1 skriver ett medelande
 unblock Sluta blockera
 uoffline Offline
 uonline Online

@@ -11,7 +11,7 @@ admingroups Редактировать группы
 adverts Реклама
 allowseen Разрешить этому пользователю видеть мой статус и добавлять меня в свой контакт-лист
 appearoff Отключен
-are 
+aretyping $1 печатает сообщение
 autohotmaillog Автоматический вход на Hotmail
 autoip Автоматичекий показ IP
 avoidseen Запретить пользователю видеть мой статус и добавлять меня в контакт-лист
@@ -73,7 +73,7 @@ inbox Входящие
 invalidusername Неправильное имя пользователя
 invite Пригласить
 ipaddress IP адрес
-is 
+istyping $1 печатает сообщение
 joins $1 $2 присоединяется к беседе
 language Язык
 leaveblankforhotmail Оставьте путым для использования почты Hotmail
@@ -151,7 +151,6 @@ textsize Обьем текста
 title Al's Messenger
 to Кому
 tools инструменты
-typing $1 печатает сообщение
 yousay Вы говорите
 youwant Вы хотите
 unblock Разблокировать

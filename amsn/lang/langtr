@@ -5,7 +5,7 @@ addedyou sizi kontak listesine ekledi
 addtoo Bu kisiyi kontak listesine ekle
 allowseen Bu kisinin bana ulasmasina ve beni cevirim ici olarak gormesine izin ver
 appearoff Cevirim disi gorun
-are  
+aretyping $1 mesaj yaziyor
 avoidseen Bu kisinin bana ulasmasina ve beni cevirim ici olarak gormesine engel ol
 away Uzak
 blankdirect Direk baglanti icin bos birakin
@@ -28,7 +28,7 @@ gonelunch Yemege cikti
 help Yardim
 ident Tanimlaniyor
 invite Cagir
-is  
+istyping $1 mesaj yaziyor
 joins $1 $2 sohbete katiliyor
 language Dil
 leaves $1 sohbetten ayriliyor
@@ -69,7 +69,6 @@ server Sunucu
 sound Ses
 title Al'in Messenger'i
 to Kime
-typing $1 mesaj yaziyor
 yousay Siz
 youwant Siz
 unblock Engeli kaldir

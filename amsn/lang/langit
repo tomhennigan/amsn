@@ -5,7 +5,7 @@ addedyou ti ha aggiunto alla sua lista dei contatti
 addtoo Aggiungi questa persona alla mia lista dei contatti
 allowseen Permetti a questa persona di vedermi e di contattarmi quando sono connesso
 appearoff Invisibile
-are sono
+aretyping $1 sono scrivendo un messaggio
 avoidseen Impedisci a questa persona di vedermi e di contattarmi quando sono connesso
 away Non al computer
 blankdirect Lascia vuoto per connessioni dirette
@@ -28,7 +28,7 @@ gonelunch A pranzo
 help Aiuto
 ident Identificazione
 invite Invita
-is _
+istyping $1 sta scrivendo un messaggio
 joins $1 $2 si unisce alla conversazione
 language Linguaggio
 leaves $1 abbandona la conversazione
@@ -69,7 +69,6 @@ server Server
 sound Attiva suoni
 title Al's Messenger
 to A
-typing $1 sta scrivendo un messaggio
 yousay Tu dici
 youwant Tu vuoi
 unblock Sblocca

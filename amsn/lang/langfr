@@ -11,7 +11,7 @@ admingroups Gérer les groupes
 adverts Publicité ;)
 allowseen Autoriser cette personne à me voir et à me contacter quand je suis connecté
 appearoff Apparaître déconnecté
-are est
+aretyping $1 est en train de taper un message
 autohotmaillog Identification automatique à Hotmail
 autoip IP automatique
 avoidseen Interdire à cette personne de me voir ou de me contacter quand je suis en ligne
@@ -77,7 +77,7 @@ inbox Boite aux lettres
 invalidusername Utilisateur incorrect
 invite Invitation
 ipaddress Adresse IP
-is est
+istyping $1 est en train de taper un message
 joins $1 $2 a rejoint la conversation
 language Langage
 leaveblankforhotmail Laisse vide pour un compte hotmail
@@ -156,7 +156,6 @@ textsize Taille du texte
 title Al's Messenger
 to A
 tools Outils
-typing $1 en train de taper un message
 unblock Débloquer
 uoffline Déconnectés
 uonline Connectés

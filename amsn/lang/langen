@@ -11,7 +11,7 @@ admingroups Admin groups
 adverts Advertisements
 allowseen Allow this person to see when I'm online and contact me
 appearoff Appear offline
-are are
+aretyping $1 are typing a message
 autohotmaillog Auto Hotmail login
 autoip Automatic IP
 avoidseen Avoid this person can see when I'm online and contact me
@@ -77,7 +77,7 @@ inbox In-Box
 invalidusername Invalid user name
 invite Invite
 ipaddress IP Address
-is is
+istyping $1 is typing a message
 joins $1 $2 joins conversation
 language Language
 leaveblankforhotmail Leave blank for using hotmail web
@@ -155,7 +155,6 @@ textsize Text size
 title Al's Messenger
 to To
 tools Tools
-typing $1 typing a message
 yousay You say
 youwant You want
 unblock Unblock

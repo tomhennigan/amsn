@@ -10,7 +10,7 @@ admingroups Administrar grupos
 adverts Anuncios
 allowseen Permitir a esta persoa ver cando estás conectado e contactar
 appearoff Sen conexión
-are están
+aretyping $1 están escribindo unha mensaxe
 autohotmaillog Login hotmail automático
 avoidseen Evitar que esta persoa vexa a túa conexión e contacte contigo
 away Ausente
@@ -62,7 +62,7 @@ identity Identificación
 inbox Bandexa de entrada
 invite Invitar
 ipaddress Dirección IP
-is está
+istyping $1 está escribindo unha mensaxe
 joins $1 $2 únese á conversa
 language Linguaxe
 leaves $1 deixa a conversa
@@ -134,7 +134,6 @@ textsize Tamaño do texto
 title Al's Messenger
 tools Ferramentas
 to Para
-typing $1 escribindo unha mensaxe
 unblock Admitir
 uoffline Desconectados
 uonline Conectados

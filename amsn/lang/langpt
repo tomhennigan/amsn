@@ -5,7 +5,7 @@ addedyou acrescentou-o à sua lista de contactor
 addtoo Acrescentar esta pessoa à minha lista de contactos
 allowseen Permitir a esta pessoa ver quando você está ligado e contactar
 appearoff Sem ligação
-are estão
+aretyping $1 estão escrevendo uma mensagem
 avoidseen Evitar que esta pessoa veja a sua ligação e o contacte
 away Ausente
 blankdirect Deixar em branco para ligação directa
@@ -28,7 +28,7 @@ gonelunch Saí para comer
 help Ajuda
 ident Identificando-se
 invite Convidar
-is está
+istyping $1 está escrevendo uma mensagem
 joins $1 $2 junta-se à conversação
 language Linguagem
 leaves deixa a conversação
@@ -69,7 +69,6 @@ server Servidor
 sound Sons para eventos
 title Al's Messenger
 to Para
-typing $1 escrevendo uma mensagem
 yousay Você diz
 youwant Queres
 unblock Admitir

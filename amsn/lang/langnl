@@ -11,7 +11,7 @@ admingroups Beheer groepen
 adverts Advertenties
 allowseen Laat deze persoon toe om te zien wanneer ik online ben en om mij te contacteren
 appearoff Doe alsof je offline bent
-are ben
+aretyping $1 ben geeft een bericht in
 autohotmaillog Automatisch inloggen in hotmail
 autoip Automatisch IP
 avoidseen Vermijd dat deze persoon kan zien wanneer ik online ben en dat hij mij kan contacteren
@@ -79,7 +79,7 @@ invalidusername Uw gebruikersnaam is fout.
 invite Nodig uit
 ipaddress IP adres
 ipadress IP adres
-is is
+istyping $1 is geeft een bericht in
 joins $1 $2 neemt deel aan conversatie
 language Taal
 leaveblankforhotmail Laat leeg voor gebruiken van hotmail web
@@ -157,7 +157,6 @@ textsize Tekstgrootte
 title Al's Messenger
 to Aan
 tools Systeem
-typing $1 geeft een bericht in
 unblock Deblokkeer
 uoffline Offline
 uonline Online

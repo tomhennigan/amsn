@@ -10,7 +10,7 @@ admingroups Taldeak administratu
 adverts Iragarpen
 allowseen Pertsona honek konektatuta nagoela ikusi dezan eta nirekin kontaktatzeko baimendu
 appearoff Konektatuta
-are daude
+aretyping $1 daude mezubat idazten
 autohotmaillog Hotmailen automatikoki hasi saioa
 autoip IP automatikoa
 avoidseen Pertsona honek konektatuta nagoela ikusi dezan eta nirekin kontaktatzeko galerazi
@@ -64,7 +64,7 @@ identity Identitatea
 inbox Sarrera-bandeja
 invite Gonbidatu
 ipaddress IP Helbidea
-is da
+istyping $1 da mezubat idazten
 joins $1 $2 berriketan sartzen da
 language Hizkuntza
 leaves $1 berriketatik ateratzen da
@@ -136,7 +136,6 @@ textsize Testuaren tamaina
 title Al's Messenger
 to Nori
 tools Tresnak
-typing $1 mezubat idazten
 yousay Zuk diozu
 youwant Zu itxaroten duzu
 unblock Desblokeatu

@@ -11,7 +11,7 @@ admingroups Administrar grups
 adverts Anuncis
 allowseen Deixa que aquesta persona vegi si estic conectat i que contacti amb mi
 appearoff Simula Desconexió
-are són
+aretyping $1 estàn escribint un missatge
 autohotmaillog Conectar-se a Hotmail automàticament
 autoip IP Automàtica
 avoidseen No deixis que aquesta persona vegi si estic conectat i que contacti amb mi
@@ -73,7 +73,7 @@ inbox Bustia
 invalidusername Nom d'usuari invàlid
 invite Convida
 ipaddress Adreça IP
-is és
+istyping $1 està escribint un missatge
 joins $1 $2 s'uneix a la conversa
 language Idioma
 leaveblankforhotmail Deixa en blanc per usar hotmail
@@ -151,7 +151,6 @@ textsize Tamany del text
 title Al's Messenger
 to A
 tools Eines
-typing $1 està escribint un missatge
 yousay Dius
 youwant Vols
 unblock Desbloquejar

@@ -10,7 +10,7 @@ admingroups Verwaltung - Gruppen
 adverts Werbung
 allowseen Dieser Person ermöglichen, zu sehen, wenn ich online bin, und Kontakt mit mir aufzunehmen
 appearoff Als offline anzeigen
-are sind
+aretyping $1 sind gibt eine Nachricht ein
 autohotmaillog Automatische Anmeldung bei Hotmail
 autoip Automatische IP
 avoidseen Dieser Person nicht ermöglichen, zu sehen, wenn ich online bin, und Kontakt mit mir aufzunehmen
@@ -69,7 +69,7 @@ inbox Posteingang
 invalidusername Benutzername ungültig
 invite Einladen
 ipaddress IP-Adresse
-is ist
+istyping $1 ist gibt eine Nachricht ein
 joins $1 $2 wurde dem Chat hinzugefügt
 language Sprache
 leaves $1 hat Chat verlassen
@@ -144,7 +144,6 @@ textsize Textgröße
 title Al's Messenger
 to An
 tools Extras
-typing $1 gibt eine Nachricht ein
 yousay Du sagst
 youwant Du willst
 unblock Blockieren entfernen

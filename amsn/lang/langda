@@ -10,7 +10,7 @@ admingroups Admin grupper
 adverts Reklamer
 allowseen Tillad denne person at se når jeg er online
 appearoff Forstil at være offline
-are er
+aretyping $1 er skriver en besked
 autohotmaillog Hotmail autologin
 autoip Automatisk IP
 avoidseen Undlad denne person at se når jeg er online
@@ -64,7 +64,7 @@ identity Identitet
 inbox In-Box
 invite Inviter
 ipaddress IP Adresse
-is er
+istyping $1 er skriver en besked
 joins $1 $2 tilslutter sig samtale
 language Sprog
 leaves $1 forlader samtale
@@ -136,7 +136,6 @@ textsize Tekst størrelse
 title Al's Messenger
 to Til
 tools Værktøjer
-typing $1 skriver en besked
 yousay Du siger
 youwant Du vil
 unblock Fjern blokkering

@@ -12,7 +12,7 @@ admingroups Administrar grupos
 adverts Anuncios
 allowseen Permitir a esta persona ver cuándo estás conectado y contactar
 appearoff Sin conexión
-are están
+aretyping $1 están escribiendo un mensaje
 autohotmaillog Login hotmail automático
 autoip IP Automática
 avoidseen Evitar que esta persona vea tu conexión y te contacte
@@ -78,7 +78,7 @@ inbox Bandeja de entrada
 invalidusername Nombre de usuario no válido
 invite Invitar
 ipaddress Dirección IP
-is está
+istyping $1 está escribiendo un mensaje
 joins $1 $2 se une a la conversación
 language Idioma
 leaveblankforhotmail Dejar en blanco para usar hotmail
@@ -157,7 +157,6 @@ title Al's Messenger
 tools Herramientas
 tools Herramientas
 to Para
-typing $1 escribiendo un mensaje
 unblock Admitir
 uoffline Desconectados
 uonline Conectados
