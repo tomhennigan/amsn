@@ -327,7 +327,7 @@ proc PreferencesMenu {m} {
 }
 
 proc Preferences { { settings "personal"} } {
-    global config myconfig proxy_server proxy_port images_folder temp_BLP list_BLP Preftabs
+    global config myconfig proxy_server proxy_port temp_BLP list_BLP Preftabs
 
     set temp_BLP $list_BLP
 
@@ -378,10 +378,10 @@ proc Preferences { { settings "personal"} } {
 
 	#  .----------.
 	# _| Personal |________________________________________________
-	image create photo prefpers -file [file join ${images_folder} prefpers.gif]
-	image create photo prefprofile -file [file join ${images_folder} prefprofile.gif]
-	image create photo preffont -file [file join ${images_folder} preffont.gif]
-	image create photo prefphone -file [file join ${images_folder} prefphone.gif]
+	image create photo prefpers -file [GetSkinFile pixmaps prefpers.gif]
+	image create photo prefprofile -file [GetSkinFile pixmaps prefprofile.gif]
+	image create photo preffont -file [GetSkinFile pixmaps preffont.gif]
+	image create photo prefphone -file [GetSkinFile pixmaps prefphone.gif]
 	set frm [Rnotebook:frame $nb $Preftabs(personal)]
 
 	## Nickname Selection Entry Frame ##
@@ -460,9 +460,9 @@ proc Preferences { { settings "personal"} } {
 	
 	#  .------------.
 	# _| Appearance |________________________________________________
-	image create photo preflook -file [file join ${images_folder} preflook.gif]
-	image create photo prefemotic -file [file join ${images_folder} prefemotic.gif]
-	image create photo prefalerts -file [file join ${images_folder} prefalerts.gif]	
+	image create photo preflook -file [GetSkinFile pixmaps preflook.gif]
+	image create photo prefemotic -file [GetSkinFile pixmaps prefemotic.gif]
+	image create photo prefalerts -file [GetSkinFile pixmaps prefalerts.gif]	
 
 	set frm [Rnotebook:frame $nb $Preftabs(appearance)]
 	
@@ -522,20 +522,22 @@ proc Preferences { { settings "personal"} } {
 	pack $lfname.2.loffset -side top -anchor w
 	pack $lfname.2.lxoffset $lfname.2.xoffset $lfname.2.lyoffset $lfname.2.yoffset -side left -anchor w
 	checkbutton $lfname.1.alert1 -text "[trans notify1]" -onvalue 1 -offvalue 0 -variable config(notifyonline)
+	checkbutton $lfname.1.alert1_5 -text "[trans notify1_5]" -onvalue 1 -offvalue 0 -variable config(notifyoffline)
+	checkbutton $lfname.1.alert1_75 -text "[trans notify1_75]" -onvalue 1 -offvalue 0 -variable config(notifystate)
 	checkbutton $lfname.1.alert2 -text "[trans notify2]" -onvalue 1 -offvalue 0 -variable config(notifymsg)
 	checkbutton $lfname.1.alert3 -text "[trans notify3]" -onvalue 1 -offvalue 0 -variable config(notifyemail)
 	checkbutton $lfname.1.sound -text "[trans sound2]" -onvalue 1 -offvalue 0 -variable config(sound)
 	pack $lfname.2 -anchor w -side top -padx 10 -expand 1 -fill both
 	pack $lfname.1 -anchor w -side top -padx 0 -pady 5 -expand 1 -fill both
-	pack $lfname.1.alert1 $lfname.1.alert2 $lfname.1.alert3 $lfname.1.sound -anchor w -side top -padx 10
+	pack $lfname.1.alert1 $lfname.1.alert1_5 $lfname.1.alert1_75 $lfname.1.alert2 $lfname.1.alert3 $lfname.1.sound -anchor w -side top -padx 10
 	frame $frm.dummy -class Degt
 	pack $frm.dummy -anchor n -side top -expand 1 -fill both -pady 150
 	
 	#  .---------.
 	# _| Session |________________________________________________
-	image create photo prefstatus -file [file join ${images_folder} prefstatus.gif]
-	image create photo prefaway -file [file join ${images_folder} prefaway.gif]
-	image create photo prefmsg -file [file join ${images_folder} prefmsg.gif]	
+	image create photo prefstatus -file [GetSkinFile pixmaps prefstatus.gif]
+	image create photo prefaway -file [GetSkinFile pixmaps prefaway.gif]
+	image create photo prefmsg -file [GetSkinFile pixmaps prefmsg.gif]	
 
 	set frm [Rnotebook:frame $nb $Preftabs(session)]
 	
@@ -618,9 +620,9 @@ proc Preferences { { settings "personal"} } {
 
 	#  .--------.
 	# _| Loging |________________________________________________
-	image create photo prefhist -file [file join ${images_folder} prefhist.gif]
-	image create photo prefhist2 -file [file join ${images_folder} prefhist2.gif]
-	image create photo prefhist3 -file [file join ${images_folder} prefhist3.gif]
+	image create photo prefhist -file [GetSkinFile pixmaps prefhist.gif]
+	image create photo prefhist2 -file [GetSkinFile pixmaps prefhist2.gif]
+	image create photo prefhist3 -file [GetSkinFile pixmaps prefhist3.gif]
 
 	set frm [Rnotebook:frame $nb $Preftabs(loging)]
 
@@ -673,9 +675,9 @@ proc Preferences { { settings "personal"} } {
 	
 	#  .------------.
 	# _| Connection |________________________________________________
-	image create photo prefnat -file [file join ${images_folder} prefnat.gif]
-	image create photo prefproxy -file [file join ${images_folder} prefproxy.gif]	
-	image create photo prefremote -file [file join ${images_folder} prefpers.gif]
+	image create photo prefnat -file [GetSkinFile pixmaps prefnat.gif]
+	image create photo prefproxy -file [GetSkinFile pixmaps prefproxy.gif]	
+	image create photo prefremote -file [GetSkinFile pixmaps prefpers.gif]
 
 	set frm [Rnotebook:frame $nb $Preftabs(connection)]
 	
@@ -772,7 +774,7 @@ proc Preferences { { settings "personal"} } {
 
 	#  .--------------.
 	# _| Applications |________________________________________________
-	image create photo prefapps -file [file join ${images_folder} prefpers.gif]
+	image create photo prefapps -file [GetSkinFile pixmaps prefpers.gif]
 
 	set frm [Rnotebook:frame $nb $Preftabs(prefapps)]
 	
@@ -810,7 +812,7 @@ proc Preferences { { settings "personal"} } {
 
 	#  .----------.
 	# _| Profiles |________________________________________________
-	image create photo prefapps -file [file join ${images_folder} prefpers.gif]
+	image create photo prefapps -file [GetSkinFile pixmaps prefpers.gif]
 	
 	## Delete Profiles Frame ##
 	set frm [Rnotebook:frame $nb $Preftabs(profiles)]
@@ -1518,6 +1520,16 @@ proc BlockValidateEntry { widget data type {correct 0} } {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.71  2003/08/10 06:19:45  kakaroto
+# Added skin support
+# Added notify windows on offline/state change
+# fixed bug with anigif when file in a directory with spaces...
+# fixed bug in anigif in case of a call to stop from anigif2
+# config array created while sourcing config.tcl (necessary for skins to work)
+# created pixmaps for the background color of notify windows
+# added "null" files in default skin directories in case a file is missing
+# changed a bit the XML file for a skin (now including a description)
+#
 # Revision 1.70  2003/08/09 10:03:54  kakaroto
 # contact list cached!!! works :) now time for testing... :S
 # corrected little bug with reload_files

@@ -57,15 +57,15 @@ proc new_emoticon {cstack cdata saved_data cattr saved_attr args} {
     global emotions emotions_names emoticon emoticon_number
     upvar $saved_data sdata
     
-    if { ! [info exists sdata(smileys:emoticon:name)] } { return 0 }
-    if { ! [info exists sdata(smileys:emoticon:text)] } { return 0 }
-    if { ! [info exists sdata(smileys:emoticon:file)] } { return 0 }
-    if { [info exists sdata(smileys:emoticon:disabled)] && [is_true $sdata(smileys:emoticon:disabled)] } { return 0 }
+    if { ! [info exists sdata(${cstack}:name)] } { return 0 }
+    if { ! [info exists sdata(${cstack}:text)] } { return 0 }
+    if { ! [info exists sdata(${cstack}:file)] } { return 0 }
+    if { [info exists sdata(${cstack}:disabled)] && [is_true $sdata(${cstack}:disabled)] } { return 0 }
 
-    set name [string trim $sdata(smileys:emoticon:name)]
+    set name [string trim $sdata(${cstack}:name)]
  
-   if { ! ( [info exists sdata(smileys:emoticon:hiden)] && 
-	    [is_true $sdata(smileys:emoticon:hiden)] ) } {
+    if { ! ( [info exists sdata(${cstack}:hiden)] && 
+	     [is_true $sdata(${cstack}:hiden)] ) } {
        set name [format " %03i %s" "$emoticon_number" "$name"]
        set emoticon_number [expr $emoticon_number + 1]
    }
@@ -73,7 +73,7 @@ proc new_emoticon {cstack cdata saved_data cattr saved_attr args} {
     lappend emotions_names "$name"
 
     foreach x [array names sdata] {
-	set x2 [string trim [string map { "smileys:emoticon:" "" } $x]]
+	set x2 [string trim [string map [list "${cstack}:" "" ] $x]]
 	if { $x2 == "_dummy_" } {continue}
 
 	set emotions(${name}_${x2}) [string trim $sdata($x)]
@@ -94,16 +94,17 @@ proc new_emoticon {cstack cdata saved_data cattr saved_attr args} {
 # it will be refreshed
 
 proc load_smileys { } {
-    global emoticon_number sortedemotions program_dir skin smileys_drawn emotions emotions_names smileys_folder
+    global emoticon_number sortedemotions program_dir smileys_drawn emotions emotions_names 
 
     set emoticon_number 0
 
     set emotions_names [list]
     if { [info exists emotions] } {unset emotions}
 
-    set skin_id [sxml::init [file join $program_dir skins $skin settings.xml]]
+    set skin_id [sxml::init [GetSkinFile "" settings.xml]]
 
-    sxml::register_routine $skin_id "smileys:emoticon" new_emoticon
+    sxml::register_routine $skin_id "skin:smileys:emoticon" new_emoticon
+    sxml::register_routine $skin_id "skin:Description" skin_description
     sxml::parse $skin_id
     sxml::end $skin_id
 
@@ -120,7 +121,7 @@ proc load_smileys { } {
 
     
     foreach img_name $emotion_files {
-	image create photo $img_name -file [file join ${smileys_folder} ${img_name}]
+	image create photo $img_name -file [GetSkinFile smileys ${img_name}]
     }
 
     if { [winfo exists .smile_selector]} {destroy .smile_selector} 
@@ -175,7 +176,7 @@ proc valueforemot { emotion var } {
 # a sound if necessary, etc... It scans the widget for every smiley that exists
 
 proc smile_subst {tw {start "0.0"} {enable_sound 0}} {
-    global emotions sortedemotions config smileys_folder smileys_drawn sounds_folder ;# smileys_end_subst
+    global emotions sortedemotions config smileys_drawn ;# smileys_end_subst
     
   
     foreach emotion $sortedemotions {
@@ -210,7 +211,7 @@ proc smile_subst {tw {start "0.0"} {enable_sound 0}} {
 		    set smileys_drawn [expr $smileys_drawn + 1]		      
 		    
 		    label $emoticon -bd 0 -background white
-		    ::anigif::anigif [file join $smileys_folder ${file}] $emoticon
+		    ::anigif::anigif [GetSkinFile smileys ${file}] $emoticon
 		    
 		    $tw window create $pos -window $emoticon       
 		    bind $emoticon <Destroy> "::anigif::destroy $emoticon"		    
@@ -234,7 +235,7 @@ proc smile_subst {tw {start "0.0"} {enable_sound 0}} {
 
 		
 		if { $config(emotisounds) == 1 && $enable_sound == 1 && $sound != "" } {
-		    catch {eval exec $config(soundcommand) [file join $sounds_folder ${sound}] &} res
+		    play_sound $sound
 		}
 
 		
@@ -297,7 +298,7 @@ proc smile_menu { {x 0} {y 0} {text text}} {
 
 
 proc create_smile_menu { {x 0} {y 0} } {
-    global emotions emotions_names smileys_folder config
+    global emotions emotions_names config
     
     set w .smile_selector
     if {[catch {[toplevel $w]} res]} {
@@ -340,7 +341,7 @@ proc create_smile_menu { {x 0} {y 0} } {
 	catch {
  	    if { $animated } {
  		label $w.text.$filename -background [$w.text cget -background]
-  		::anigif::anigif  [file join $smileys_folder ${file}] $w.text.$filename
+  		::anigif::anigif  [GetSkinFile smileys ${file}] $w.text.$filename
  		bind $w.text.$filename <Destroy> "::anigif::destroy $w.text.$filename"	
  	    } else {
 		label $w.text.$filename -image $file -background [$w.text cget -background]

@@ -70,7 +70,7 @@ proc save_alarms {} {
 
 #Function that displays the Alarm configuration for the given user
 proc alarm_cfg { user } {
-   global alarms sounds_folder my_alarms images_folder 
+   global alarms my_alarms
 
    if { [ winfo exists .alarm_cfg ] } {
         return
@@ -85,9 +85,9 @@ proc alarm_cfg { user } {
 	set my_alarms(${user}_loop) $alarms(${user}_loop)
    } else {
 	set my_alarms(${user}) 1
-	set my_alarms(${user}_sound) "${sounds_folder}/alarm.wav"
+       set my_alarms(${user}_sound) "[GetSkinFile sounds alarm.wav]"
 	set my_alarms(${user}_sound_st) 1
-	set my_alarms(${user}_pic) "${images_folder}/alarm.gif"
+       set my_alarms(${user}_pic) "[GetSkinFile pixmaps alarm.gif]"
 	set my_alarms(${user}_pic_st) 1
    }
 
@@ -139,7 +139,7 @@ proc delete_alarm { user} {
 
 #Saves alarm settings for current user on OK press.
 proc save_alarm_pref { user } {
-   global alarms my_alarms sounds_folder images_folder
+   global alarms my_alarms 
    
    if { ($my_alarms(${user}_sound_st) == 1) && ([file exists "$my_alarms(${user}_sound)"] == 0) } {
 	msg_box [trans invalidsound]
@@ -166,12 +166,12 @@ proc save_alarm_pref { user } {
    set alarms(${user}_sound_st) $my_alarms(${user}_sound_st)
    set alarms(${user}_pic_st) $my_alarms(${user}_pic_st)
    if { $my_alarms(${user}_sound) == "" } {
-	set alarms(${user}_sound) "${sounds_folder}/alarm.wav"
+       set alarms(${user}_sound) "[GetSkinFile sounds alarm.wav]"
    } else {
 	set alarms(${user}_sound) $my_alarms(${user}_sound)
    }
    if { $my_alarms(${user}_pic) == "" } {
-	set alarms(${user}_pic) "${sounds_folder}/alarm.wav"
+       set alarms(${user}_pic) "[GetSkinFile sounds alarm.wav]"
    } else {
 	set alarms(${user}_pic) $my_alarms(${user}_pic)
    }

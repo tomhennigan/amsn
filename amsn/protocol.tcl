@@ -2686,9 +2686,14 @@ proc cmsn_change_state {recv} {
 	::MSN::changeName $user $user_name
       }
 
+       set state_no [lsearch $list_states "$substate *"]
 
       if {[lindex $user_data 2] < 7} {		;# User was online before
 
+	  if { $config(notifystate) == 1 &&  $substate != "FLN" && [lindex $recv 0] != "ILN" } {
+	      ::amsn::notifyAdd "$user_name\n[trans statechange] [trans [lindex [lindex $list_states $state_no] 1]]." \
+		  "::amsn::chatUser $user" state state
+	  }
 
 	 #TODO: Is this used for anything???
          #set oldusername [string map {\\ \\\\ \[ \\\[ * \\* ? \\?} \
@@ -2708,19 +2713,23 @@ proc cmsn_change_state {recv} {
          }
       }
 
+
       if {$substate != "FLN"} {
+
 #      	 status_log "Inserting <$user_name> in menu\n" white
 #         .main_menu.msg insert 0 command -label "$user_name <$user>" \
 #            -command "::amsn::chatUser $user"
       } else {
+
+	  if { $config(notifyoffline) == 1 } {
+	      ::amsn::notifyAdd "$user_name\n[trans logsout]." "" offline offline
+	  }
 	  if { $config(checkonfln) == 1 } {
 	      ::MSN::chatTo "$user"	  
 	  }
       }
 
-      set state_no [lsearch $list_states "$substate *"]
-
-      #TODO: Change this with ::MSN::setUserInfo
+       #TODO: Change this with ::MSN::setUserInfo
       set list_users [lreplace $list_users $idx $idx [list $user $user_name $state_no]]
       set list_users [lsort -decreasing -index 2 [lsort -decreasing -index 1 $list_users]]
 

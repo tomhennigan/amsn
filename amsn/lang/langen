@@ -200,6 +200,7 @@ login Log In
 logolder Only log chats that have taken place in the last
 logout Log Out
 logsin has just logged in
+logsout has just logged out
 logsmileys Displays Emoticons and Smileys in aMSN's history windows
 lprivtoconf Private chat turned into Conference with $1
 luclosedwin You have closed the window on $1
@@ -237,6 +238,8 @@ no No
 normal Normal
 nosystemtray System tray not available
 notify1 Display notify window when contacts come online
+notify1_5 Display notify window when contacts goes offline
+notify1_75 Display notify window when contacts changes state
 notify2 Display notify window when new messages are received
 notify3 Display notify window when e-mails reach your Inbox
 notify notify
@@ -336,7 +339,8 @@ startoffline Start Offline
 stateautomsg AutoMessage to Send
 stateedittext Please edit the fields you would like \n to have modified and press Save
 stateinfo Personal State Configuration
-state I want to appear as
+state I want to appear as	
+statechange status changed to : 
 statename Name of Personal State
 statenewtext Please fill the required information to create \n your new Personal State and press Save
 status Status

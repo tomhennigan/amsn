@@ -69,6 +69,8 @@ proc ConfigDefaults {} {
 	#set config(notifywin) 1
 	set config(notifymsg) 1
 	set config(notifyonline) 1
+        set config(notifyoffline) 0
+        set config(notifystate) 0
 	set config(notifyemail) 1
 	set config(natip) 0
 	set config(dock) 0
@@ -93,6 +95,7 @@ proc ConfigDefaults {} {
         set config(emotisounds) 1
         set config(animatedsmileys) 1
         set config(tooltips) 1
+        set config(skin) "default"
 	set password ""
 }
 
@@ -747,4 +750,45 @@ proc lockSvrHdl { sock } {
 	}
 }
 
+#///////////////////////////////////////////////////////////////////////
+# create_dir(path)
+# Creates a directory
+proc create_dir {path} {
+   global tcl_platform
 
+   if {[file isdirectory $path] == 0} {
+      if { [catch {file mkdir $path} res]} {
+         return -1
+      }
+      if {$tcl_platform(platform) == "unix"} {
+         file attributes $path -permissions 00700
+      }
+      return 0
+   } else {
+      return 1
+   }
+}
+#///////////////////////////////////////////////////////////////////////
+
+if { $initialize_amsn == 1 } {
+    ###############################################################
+    create_dir $HOME
+    create_dir $HOME/plugins
+    #create_dir $log_dir
+    #create_dir $files_dir
+    ConfigDefaults
+
+    ;# Load of logins/profiles in combobox
+    ;# Also sets the newest login as config(login)
+    ;# and modifies HOME with the newest user
+    if { [LoadLoginList]==-1 } {
+	exit
+    }
+
+    set config(language) en  ;#Load english as default language to fill trans array
+    load_lang
+
+    load_config		;# So this loads the config of this newest dude
+    scan_languages
+    load_lang
+}

@@ -228,7 +228,6 @@ proc ChCustomState { idx } {
 # mode is 1 for adding a temporary state
 # mode is 2 for editing an old state, need to give idx of state to edit
 proc EditNewState { mode { idx "" } } {
-	global images_folder
 
 	if { $mode == 2 } {
 		if { $idx != "" } {
@@ -247,7 +246,7 @@ proc EditNewState { mode { idx "" } } {
       		return 0
    	}
 
-	image create photo prefaway -file [file join ${images_folder} prefaway.gif]
+	image create photo prefaway -file [file join [GetSkinFile pixmaps prefaway.gif]]
 
    	toplevel .editstate
 	wm group .editstate .

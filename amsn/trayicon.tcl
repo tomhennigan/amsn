@@ -86,11 +86,11 @@ proc trayicon_init {} {
 }
 
 proc statusicon_proc {status} {
-	global systemtray_exist images_folder config statusicon user_info list_states user_stat iconmenu
+	global systemtray_exist config statusicon user_info list_states user_stat iconmenu
 	set cmdline ""
 	set icon .si
 	if { $systemtray_exist == 1 && $statusicon == 0 && $config(dock) == 3} {
-		set pixmap "[file join $images_folder doffline.xpm]"
+		set pixmap "[GetSkinFile pixmaps doffline.xpm]"
 		set statusicon [newti $icon -pixmap $pixmap -tooltip offline]
 		bind $icon <Double-Button-1> iconify_proc
 		bind $icon <Button3-ButtonRelease> "tk_popup $iconmenu %X %Y"
@@ -132,47 +132,47 @@ proc statusicon_proc {status} {
 				
 			switch $status {
 			  "FLN" {
-				set pixmap "[file join $images_folder doffline.xpm]"
+				set pixmap "[GetSkinFile pixmaps doffline.xpm]"
 				set tooltip "[trans offline]"			  
 			  }
 			
 			  "NLN" {
-				set pixmap "[file join $images_folder donline.xpm]"
+				set pixmap "[GetSkinFile pixmaps donline.xpm]"
 				set tooltip "$my_name ($config(login)): [trans online]"
 			  }
 			  
 			  "IDL" {
-				set pixmap "[file join $images_folder dinactive.xpm]"
+				set pixmap "[GetSkinFile pixmaps dinactive.xpm]"
 				set tooltip "$my_name ($config(login)): [trans noactivity]"
 				#$iconmenu entryconfigure 0 -label $tooltip
 			  }
 			  "BSY" {
-				set pixmap "[file join $images_folder dbusy.xpm]"
+				set pixmap "[GetSkinFile pixmaps dbusy.xpm]"
 				set tooltip "$my_name ($config(login)): [trans busy]"
 				#$iconmenu entryconfigure 0 -label $tooltip
 			  }
 			  "BRB" {
-				set pixmap "[file join $images_folder dbrb.xpm]"
+				set pixmap "[GetSkinFile pixmaps dbrb.xpm]"
 				set tooltip "$my_name ($config(login)): [trans rightback]"
 				#$iconmenu entryconfigure 0 -label $tooltip
 			  }
 			  "AWY" {
-				set pixmap "[file join $images_folder daway.xpm]"
+				set pixmap "[GetSkinFile pixmaps daway.xpm]"
 				set tooltip "$my_name ($config(login)): [trans away]"
 				#$iconmenu entryconfigure 0 -label $tooltip
 			  }
 			  "PHN" {
-				set pixmap "[file join $images_folder dphone.xpm]"
+				set pixmap "[GetSkinFile pixmaps dphone.xpm]"
 				set tooltip "$my_name ($config(login)): [trans onphone]"
 				#$iconmenu entryconfigure 0 -label $tooltip
 			  }
 			  "LUN" {
-				set pixmap "[file join $images_folder dlunch.xpm]"
+				set pixmap "[GetSkinFile pixmaps dlunch.xpm]"
 				set tooltip "$my_name ($config(login)): [trans gonelunch]"
 				#$iconmenu entryconfigure 0 -label $tooltip
 			  }
 			  "HDN" {
-				set pixmap "[file join $images_folder dhidden.xpm]"
+				set pixmap "[GetSkinFile pixmaps dhidden.xpm]"
 				set tooltip "$my_name ($config(login)): [trans appearoff]"
 				#$iconmenu entryconfigure 0 -label $tooltip
 			  }
@@ -193,10 +193,10 @@ proc statusicon_proc {status} {
 }
 
 proc mailicon_proc {num} {
-	global systemtray_exist images_folder mailicon config password
+	global systemtray_exist mailicon config password
 	set icon .mi
 	if {$systemtray_exist == 1 && $mailicon == 0 && $config(dock) == 3  && $num >0} {
-		set pixmap "[file join $images_folder unread.gif]"
+		set pixmap "[GetSkinFile pixmaps unread.gif]"
 		if { $num == 1 } {
 			set msg [trans onenewmail]
 		} elseif { $num == 2 } {
@@ -222,7 +222,7 @@ proc mailicon_proc {num} {
 }
 
 proc remove_icon {icon} {
-	global systemtray_exist images_folder config
+	global systemtray_exist config
 	if {$systemtray_exist == 1 && $icon != 0} {
 		removeti $icon
 #                destroy $icon

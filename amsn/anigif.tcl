@@ -60,7 +60,7 @@ namespace eval anigif {
 		set idx 0
 		if { [set ::anigif::${fname}(repeat)] == 0} {
 		    # Non-repeating GIF
-		    ::anigif::stop $w
+		    ::anigif::stop $fname
 		    return
 		}
 	    } 
@@ -85,7 +85,7 @@ namespace eval anigif {
 	    }
 	    [set ::anigif::${fname}(curimage)] copy [lindex $list $idx] -subsample 2 2
 	    if { [lindex $delay $idx] == 0 } {
-		::anigif::stop $w
+		::anigif::stop $fname
 		return
 	    }
 	    update
@@ -100,7 +100,7 @@ namespace eval anigif {
 	set n 0
 	set images {}
 	set delay {}
-	set fname [string map { "/" "_" "." "_" } $fnam]
+	set fname [string map { " " "_" "/" "_" "." "_" } $fnam]
 
 
 	# If the file is already opened 
@@ -132,8 +132,8 @@ namespace eval anigif {
 	# Find Control Records
 	set start [string first "\x21\xF9\x04" $data]
 	while {![catch "image create photo xpic$n$fname \
-      -file ${fnam} \
-      -format \{gif89 -index $n\}"]} {
+      -file  \"${fnam}\" \
+      -format \{gif89 -index $n\}"] } {
 	    set stop [string first "\x00" $data [expr {$start + 1}]]
 	    if {$stop < $start} {
 		break
@@ -225,6 +225,14 @@ namespace eval anigif {
 	} 
 
     } 
+
+    proc stop { fname } {
+	foreach timer [after info] {
+	    if { [lsearch  [lindex [after info $timer] 0] $fname ] != -1 } {
+		after cancel $timer
+	    }
+	}
+    }
 
 }
 

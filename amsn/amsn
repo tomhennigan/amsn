@@ -47,7 +47,6 @@ set weburl "http://amsn.sourceforge.net"
 set program_dir ""
 set HOME ""
 set files_dir ""
-set skin "default"
 
 #=======================================================================
 
@@ -87,16 +86,6 @@ if {[catch {file readlink [info script]} res]!=0} {
 
 lappend auto_path "[file join $program_dir plugins]"
 lappend auto_path "[file join ${HOME} plugins]"
-
-
-############################################################
-### Configure images and sounds folder
-############################################################
-
-set images_folder "[file join $program_dir skins $skin pixmaps]"
-set smileys_folder "[file join $program_dir skins $skin smileys]"
-set sounds_folder "[file join $program_dir skins $skin sounds]"
-
 
 ############################################################
 ### Setup other important directory paths
@@ -149,11 +138,13 @@ proc reload_files { } {
     source [file join $program_dir migmd5.tcl]
     source [file join $program_dir des.tcl]		;# DES encryption
     source [file join $program_dir sxml.tcl]   	;# Simple XML parser
+    source [file join $program_dir lang.tcl]
+    source [file join $program_dir automsg.tcl]
     source [file join $program_dir config.tcl]
+    source [file join $program_dir skins.tcl]       ;# Used for skinning purposes
     source [file join $program_dir proxy.tcl]
     source [file join $program_dir protocol.tcl]
     source [file join $program_dir ctadverts.tcl]
-    source [file join $program_dir lang.tcl]
     source [file join $program_dir ctdegt.tcl]
     source [file join $program_dir hotmail.tcl]
     source [file join $program_dir smileys.tcl]
@@ -168,7 +159,6 @@ proc reload_files { } {
     source [file join $program_dir combobox.tcl]	;# The all mighty combobox is here! (B. Oakley)
     source [file join $program_dir blocking.tcl]    ;# The blocking users feature
     source [file join $program_dir remote.tcl  ]    ;# The remote control procedures
-    source [file join $program_dir automsg.tcl]
     source [file join $program_dir plugins.tcl]	;# Plugins system
     source [file join $program_dir balloon.tcl]       ;# For the balloons tooltip
 
@@ -179,33 +169,12 @@ reload_files
 set initialize_amsn 0
 #///////////////////////////////////////////////////////////////////////
 
-###############################################################
-create_dir $HOME
-create_dir $HOME/plugins
-#create_dir $log_dir
-#create_dir $files_dir
-ConfigDefaults
-
-set config(language) en  ;#Load english as default language to fill trans array
-load_lang
-
 # Init smileys
 load_smileys
-
-;# Load of logins/profiles in combobox
-;# Also sets the newest login as config(login)
-;# and modifies HOME with the newest user
-if { [LoadLoginList]==-1 } {
-   exit
-}
 
 #create_dir $HOME
 set log_dir "[file join ${HOME} logs]"
 #create_dir $log_dir
-
-load_config		;# So this loads the config of this newest dude
-scan_languages
-load_lang
 
 sb set ns name ns
 sb set ns sock ""

@@ -1,4 +1,4 @@
-#Default look
+
 if { $initialize_amsn == 1 } {
     global bgcolor bgcolor2
 
@@ -1009,7 +1009,7 @@ namespace eval ::amsn {
       variable winid
       variable window_titles
       variable first_message
-      global images_folder config HOME files_dir bgcolor bgcolor2 tcl_platform
+      global  config HOME files_dir bgcolor bgcolor2 tcl_platform
 
       set win_name "msg_$winid"
       incr winid
@@ -1021,8 +1021,8 @@ namespace eval ::amsn {
       wm state .${win_name} iconic
       wm title .${win_name} "[trans chat]"
       wm group .${win_name} .
-      wm iconbitmap .${win_name} @[file join ${images_folder} amsn.xbm]
-      wm iconmask .${win_name} @[file join ${images_folder} amsnmask.xbm]
+      wm iconbitmap .${win_name} @[GetSkinFile pixmaps amsn.xbm]
+      wm iconmask .${win_name} @[GetSkinFile pixmaps amsnmask.xbm]
 
       menu .${win_name}.menu -tearoff 0 -type menubar  \
          -borderwidth 0 -activeborderwidth -0
@@ -1939,16 +1939,10 @@ namespace eval ::amsn {
    if { $initialize_amsn == 1 } {
        variable NotifID 0
        variable NotifPos [list]
-       variable im [image create photo -width 180 -height 110]
        
-   
-       #TODO: We will make amsn skinnable, so this should be used only if there not exists
-       # a background bitmap for the notifyWindow
-       for {set i 0} {$i < 110} {incr i} {
-	   set rg [expr {35+$i*2}]
-	   set col [format "%2.2X%2.2XFF" $rg $rg]
-	   $im put "#$col" -to 0 $i 180 [expr {$i + 1}]
-       }
+       variable notifyonline [image create photo -file [GetSkinFile pixmaps notifyonline.gif] -format gif]
+       variable notifyoffline [image create photo -file [GetSkinFile pixmaps notifyoffline.gif] -format gif]
+       variable notifystate [image create photo -file [GetSkinFile pixmaps notifystate.gif] -format gif]
    }
 
    proc closeAmsn {} {
@@ -1987,7 +1981,7 @@ namespace eval ::amsn {
 
    #Adds a message to the notify, that executes "command" when clicked, and
    #plays "sound"
-   proc notifyAdd { msg command {sound ""}} {
+   proc notifyAdd { msg command {sound ""} {type online}} {
 
       global config
 
@@ -1996,8 +1990,9 @@ namespace eval ::amsn {
       #}
       variable NotifID
       variable NotifPos
-      variable im
-      global images_folder
+      variable notifyonline
+      variable notifyoffline
+      variable notifystate
 
       #New name for the window
       set w .notif$NotifID
@@ -2020,13 +2015,25 @@ namespace eval ::amsn {
       if { $xpos < 0 } { set xpos 0 }
       if { $ypos < 0 } { set ypos 0 }
 
-
       canvas $w.c -bg #EEEEFF -width 150 -height 100 \
          -relief ridge -borderwidth 2
       pack $w.c
-
-
-      $w.c create image 75 50 -image $im
+      
+      switch $type {
+	  online {
+	      $w.c create image 75 50 -image $notifyonline
+	  }
+	  offline {
+	      $w.c create image 75 50 -image $notifyoffline
+	  }
+	  state {
+	      $w.c create image 75 50 -image $notifystate
+	  }
+	  default {
+	      $w.c create image 75 50 -image $notifyonline
+	  }
+      }
+ 
       $w.c create image 17 22 -image notifico
       $w.c create image 80 97 -image notifybar
       $w.c create image 142 12 -image notifclose
@@ -2096,7 +2103,7 @@ namespace eval ::amsn {
 
 #///////////////////////////////////////////////////////////////////////
 proc cmsn_draw_main {} {
-   global images_folder program_dir emotion_files version date weburl lang_list \
+   global program_dir emotion_files version date weburl lang_list \
      password config HOME files_dir pgBuddy pgNews bgcolor bgcolor2 argv0 argv langlong
 
    #User status menu
@@ -2280,7 +2287,7 @@ proc cmsn_draw_main {} {
      "msg_box \"[trans version]: $version - [trans date]: $date\n$weburl\""
 
 
-   #image create photo mainback -file [file join ${images_folder} back.gif]
+   #image create photo mainback -file [GetSkinFile pixmaps back.gif]
 
    wm title . "[trans title] - [trans offline]"
    wm command . [concat $argv0 $argv]
@@ -2309,42 +2316,42 @@ proc cmsn_draw_main {} {
    }
    # End of Notebook Creation/Initialization
 
-   image create photo msndroid -file [file join ${images_folder} msnbot.gif]
-   image create photo online -file [file join ${images_folder} online.gif]
-   image create photo offline -file [file join ${images_folder} offline.gif]
-   image create photo away -file [file join ${images_folder} away.gif]
-   image create photo busy -file [file join ${images_folder} busy.gif]
+   image create photo msndroid -file [GetSkinFile pixmaps msnbot.gif]
+   image create photo online -file [GetSkinFile pixmaps online.gif]
+   image create photo offline -file [GetSkinFile pixmaps offline.gif]
+   image create photo away -file [GetSkinFile pixmaps away.gif]
+   image create photo busy -file [GetSkinFile pixmaps busy.gif]
 
-   image create photo bonline -file [file join ${images_folder} bonline.gif]
-   image create photo boffline -file [file join ${images_folder} boffline.gif]
-   image create photo baway -file [file join ${images_folder} baway.gif]
-   image create photo bbusy -file [file join ${images_folder} bbusy.gif]
+   image create photo bonline -file [GetSkinFile pixmaps bonline.gif]
+   image create photo boffline -file [GetSkinFile pixmaps boffline.gif]
+   image create photo baway -file [GetSkinFile pixmaps baway.gif]
+   image create photo bbusy -file [GetSkinFile pixmaps bbusy.gif]
 
-   image create photo mailbox -file [file join ${images_folder} unread.gif]
+   image create photo mailbox -file [GetSkinFile pixmaps unread.gif]
 
-   image create photo contract -file [file join ${images_folder} contract.gif]
-   image create photo expand -file [file join ${images_folder} expand.gif]
+   image create photo contract -file [GetSkinFile pixmaps contract.gif]
+   image create photo expand -file [GetSkinFile pixmaps expand.gif]
 
-   image create photo globe -file [file join ${images_folder} globe.gif]
+   image create photo globe -file [GetSkinFile pixmaps globe.gif]
 
-   image create photo typingimg -file [file join ${images_folder} typing.gif]
-   image create photo miniinfo -file [file join ${images_folder} miniinfo.gif]
-   image create photo miniwarning -file [file join ${images_folder} miniwarn.gif]
+   image create photo typingimg -file [GetSkinFile pixmaps typing.gif]
+   image create photo miniinfo -file [GetSkinFile pixmaps miniinfo.gif]
+   image create photo miniwarning -file [GetSkinFile pixmaps miniwarn.gif]
 
 
-   image create photo butsmile -file [file join ${images_folder} butsmile.gif]
-   image create photo butfont -file [file join ${images_folder} butfont.gif]
-   image create photo butblock -file [file join ${images_folder} butblock.gif]
+   image create photo butsmile -file [GetSkinFile pixmaps butsmile.gif]
+   image create photo butfont -file [GetSkinFile pixmaps butfont.gif]
+   image create photo butblock -file [GetSkinFile pixmaps butblock.gif]
 
-   image create photo fticon -file [file join ${images_folder} fticon.gif]
-   image create photo ftreject -file [file join ${images_folder} ftreject.gif]
+   image create photo fticon -file [GetSkinFile pixmaps fticon.gif]
+   image create photo ftreject -file [GetSkinFile pixmaps ftreject.gif]
 
-   image create photo notifico -file [file join ${images_folder} notifico.gif]
-   image create photo notifclose -file [file join ${images_folder} notifclose.gif] 
+   image create photo notifico -file [GetSkinFile pixmaps notifico.gif]
+   image create photo notifclose -file [GetSkinFile pixmaps notifclose.gif] 
 
-   image create photo blocked -file [file join ${images_folder} blocked.gif]
+   image create photo blocked -file [GetSkinFile pixmaps blocked.gif]
 
-   image create photo colorbar -file [file join ${images_folder} colorbar.gif]
+   image create photo colorbar -file [GetSkinFile pixmaps colorbar.gif]
 
    set barwidth [image width colorbar]
    set barheight [image height colorbar]
@@ -2356,15 +2363,15 @@ proc cmsn_draw_main {} {
    notifybar copy colorbar -from 5 0 15 $barheight -to 5 0 64 $barheight
    notifybar copy colorbar -from [expr {$barwidth-125}] 0 $barwidth $barheight -to 64 0 139 $barheight
 
-   image create photo mailbox -file [file join ${images_folder} unread.gif]
+   image create photo mailbox -file [GetSkinFile pixmaps unread.gif]
 
-   image create photo contract -file [file join ${images_folder} contract.gif]
-   image create photo expand -file [file join ${images_folder} expand.gif]
+   image create photo contract -file [GetSkinFile pixmaps contract.gif]
+   image create photo expand -file [GetSkinFile pixmaps expand.gif]
 
-   image create photo bell -file [file join ${images_folder} bell.gif]
-   image create photo belloff -file [file join ${images_folder} belloff.gif]
+   image create photo bell -file [GetSkinFile pixmaps bell.gif]
+   image create photo belloff -file [GetSkinFile pixmaps belloff.gif]
 
-   image create photo blockedme -file [file join ${images_folder} blockedme.gif]
+   image create photo blockedme -file [GetSkinFile pixmaps blockedme.gif]
 
    text $pgBuddy.text -background white -width 30 -height 0 -wrap none \
       -yscrollcommand "$pgBuddy.ys set" -cursor left_ptr -font splainf \
@@ -2388,7 +2395,7 @@ proc cmsn_draw_main {} {
    # This one is not a banner but a branding. When adverts are enabled
    # they share this space with the branding image. The branding image
    # is cycled in between adverts.
-   adv_show_banner  file ${images_folder}/logolinmsn.gif
+    adv_show_banner  file [GetSkinFile pixmaps logolinmsn.gif]
 
    pack $pgBuddy.ys -side right -fill y -padx 0 -pady 0
    pack $pgBuddy.text -expand true -fill both -padx 0 -pady 0
@@ -2404,15 +2411,15 @@ proc cmsn_draw_main {} {
 
    status_log "Proxy is : $config(proxy)\n"
 
-   #image create photo amsnicon -file [file join ${images_folder} amsnicon.gif]
+   #image create photo amsnicon -file [GetSkinFile pixmaps amsnicon.gif]
    #toplevel .caca
    #label .caca.winicon -image amsnicon
    #pack .caca.winicon
    #wm iconwindow . .caca
 
    #wm iconname . "[trans title]"
-   wm iconbitmap . @[file join ${images_folder} amsn.xbm]
-   wm iconmask . @[file join ${images_folder} amsnmask.xbm]
+   wm iconbitmap . @[GetSkinFile pixmaps amsn.xbm]
+   wm iconmask . @[GetSkinFile pixmaps amsnmask.xbm]
    . conf -menu .main_menu
    
 
@@ -2508,11 +2515,12 @@ proc cmsn_msgwin_sendmail {name} {
 
 #///////////////////////////////////////////////////////////////////////
 proc play_sound {sound} {
-  global config sounds_folder config
-  if { $config(sound) == 1 } {
-    set filename [file join $sounds_folder $sound.wav]
-    catch {eval exec $config(soundcommand) $filename &} res
-  }
+    global config 
+
+    if { $config(sound) == 1 } {
+	set filename [GetSkinFile sounds ${sound}.wav]
+	catch {eval exec $config(soundcommand) $filename &} res
+    }
 }
 #///////////////////////////////////////////////////////////////////////
 
@@ -2835,7 +2843,7 @@ proc cmsn_draw_offline {} {
 
 #///////////////////////////////////////////////////////////////////////
 proc cmsn_draw_signin {} {
-    global config pgBuddy images_folder
+    global config pgBuddy
 
    wm title . "[trans title] - $config(login)"
 
@@ -2848,7 +2856,7 @@ proc cmsn_draw_signin {} {
    $pgBuddy.text insert end "\n\n\n\n\n"
 
    label .loginanim -background [$pgBuddy.text cget -background]
-   ::anigif::anigif [file join ${images_folder} loganim.gif] .loginanim
+   ::anigif::anigif [GetSkinFile pixmaps loganim.gif] .loginanim
 
    $pgBuddy.text insert end " " signin
    $pgBuddy.text window create end -window .loginanim
@@ -4141,26 +4149,6 @@ proc launch_mailer {user_login} {
 }
 #///////////////////////////////////////////////////////////////////////
 
-#///////////////////////////////////////////////////////////////////////
-# create_dir(path)
-# Creates a directory
-proc create_dir {path} {
-   global tcl_platform
-
-   if {[file isdirectory $path] == 0} {
-      if { [catch {file mkdir $path} res]} {
-         return -1
-      }
-      if {$tcl_platform(platform) == "unix"} {
-         file attributes $path -permissions 00700
-      }
-      return 0
-   } else {
-      return 1
-   }
-}
-#///////////////////////////////////////////////////////////////////////
-
 
 #///////////////////////////////////////////////////////////////////////
 # toggle_status()
@@ -4630,6 +4618,7 @@ proc window_history { command w } {
 		if { $idx == $HISTMAX } {
 		    set win_history(${w}) [lrange $win_history(${w}) 1 end]
 		    lappend win_history(${w}) "$msg"
+		    set win_history(${w}_index) $HISTMAX
 		    return
 		}
 
