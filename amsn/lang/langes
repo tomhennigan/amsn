@@ -36,6 +36,7 @@ closingdocks Botón de cerrar minimiza
 command Comando
 connecterror Error conectandose al servidor
 contactadded Contacto añadido
+contactdoesnotexist El contacto que intentas añadir no existe
 date Fecha
 delete Eliminar
 enableproxy Activar proxy
