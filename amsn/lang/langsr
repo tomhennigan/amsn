@@ -47,6 +47,7 @@ chatack Prihvata chat od
 chatreq Zahteva chat
 chatsmileys Chat smajliji
 chatsmileys2 Prikazi Emotikone i Smajlije u chat prozoru
+checkfilman Primljeni fajlovi ce biti snimljeni u $1. Molim te proveri podesavanja fajl menadzera u preferences prozoru.
 checkingver Proveravam novu verziju
 checkver Provera nove verzije
 choosebasefont Izaberi tip fonta
