@@ -276,7 +276,7 @@ degt_ns_command_win
 after 500 proc_ns
 after 750 proc_sb
 
-#If you are on any operating system (except Darwin), test if imagemagick is there. For darwin, the verification is in "proc OpenChatWindow {}"
+#If you are on any operating system (except Darwin), test if imagemagick is there. For darwin, the verification is in "proc ::ChatWindow::Open()"
 if {$tcl_platform(os) != "Darwin"} { 
 	if { [::config::getKey getdisppic] != 0 } {
 		check_imagemagick

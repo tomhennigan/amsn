@@ -252,7 +252,7 @@ namespace eval ::ChatWindow {
 				wm deiconify ${win_name}
 				if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 					lower ${win_name}
-					win_Position_Mac ${win_name}
+					::ChatWindow::MacPosition ${win_name}
 				} else {
 					raise ${win_name}
 				}
@@ -282,7 +282,7 @@ namespace eval ::ChatWindow {
 				#To have the new window "behind" on Mac OS X
 				if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 					lower ${win_name}
-					win_Position_Mac ${win_name}
+					::ChatWindow::MacPosition ${win_name}
 				} else {
 					raise ${win_name}
 				}
@@ -1027,4 +1027,28 @@ namespace eval ::ChatWindow {
 
 	}
 	#///////////////////////////////////////////////////////////////////////////////
+
+
+	#///////////////////////////////////////////////////////////////////////////////
+	# ::ChatWindow::MacPosition
+	# To place the ::ChatWindow::Open at the right place on Mac OS X, because the
+	# window manager will put all the windows in bottom left after some time.
+	# Arguments:
+	#  - chatid => Is the name of the chat to flicker (a passport login)
+	#  - count => [NOT REQUIRED] Can be any number, it's just used in self calls
+ 	proc MacPosition { window } {
+ 		#To know where the window manager want to put the window in X and Y
+ 		set info1 [winfo x $window]
+ 		set info2 [winfo y $window]
+ 		#Determine the maximum place in Y to place a window
+ 		#Size of the screen (in y) - size of the window
+ 		set max [expr [winfo vrootheight $window] - [winfo height $window]]
+ 		#If the position of the window in y is superior to the maximum
+ 		#Then up the window by the size of the window
+ 		if {$info2 > $max} { set info2 [expr {$info2 - [winfo height $window]}] }
+ 		#If the result is smaller than 25 (on small screen) then use 25 
+ 		if { $info2 < 25 } { set info2 25 }
+ 		#Replace the window to the new position on the screen 	
+ 		wm geometry $win +${info1}+${info2}
+	}
 }

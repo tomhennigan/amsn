@@ -193,12 +193,12 @@ namespace eval ::remote {
 
 	set lowuser [string tolower $user]
    
-	set win_name [::amsn::WindowFor $lowuser]
+	set win_name [::ChatWindow::For $lowuser]
 
 	if { $win_name == 0 } {
 	    ::amsn::chatUser "$user"
 	    
-	    while { [set win_name [::amsn::WindowFor $lowuser]] == 0 } { }
+	    while { [set win_name [::ChatWindow::For $lowuser]] == 0 } { }
 	}
 
 #	set input "${win_name}.f.bottom.in.input"
