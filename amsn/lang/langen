@@ -121,6 +121,7 @@ closed Conversation with $1 closed due to inactivity
 closingdocks Close button minimizes
 command Command
 commandstatus Execute command
+configure Configure
 confirm Are you sure?
 confirmbl Are you sure you want to block this contact?
 confirmdelete Are you sure you want to delete $1?
@@ -317,6 +318,7 @@ listsmileys2 Display Emoticons and Smileys in aMSN's main contact list
 listsmileys List smileys
 ljoinedconf $1 has joined conference
 lleftconf $1 has left conference
+load Load
 loadcontacts Load contact list
 logbigger Log file sizes for each contact never exceeds 
 logeventconnect Log the connections

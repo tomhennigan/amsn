@@ -121,6 +121,7 @@ closed Conversación con $1 cerrada por inactividad
 closingdocks Botón de cerrar iconifica la ventana
 command Comando
 commandstatus Ejecutar comando
+configure Configurar
 confirm ¿ Estás seguro ?
 confirmdelete ¿Seguro que deseas borrar a $1?
 confirmdg ¿Estás seguro que deseas borrar este grupo?
@@ -316,6 +317,7 @@ listsmileys Smileys en contactos
 listsmileys2 Mostrar emoticonos y smileys en la lista de contactos de aMSN
 ljoinedconf $1 se une a la conversación
 lleftconf $1 deja la conversación
+load Cargar
 loadcontacts Cargar lista de contactos
 logbigger Archivos de registro de un contacto no superan los
 logeventconnect Registrar las conexiones
