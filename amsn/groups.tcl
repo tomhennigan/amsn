@@ -7,11 +7,10 @@
 #    therefore the menu entry shows "". Currently Exists/GetName check
 #    for this (to prevent error). That ID is reused next time a group
 #    is added.
-#  - Should invoke Enable from some other place, get too many.
 # TODO LIST
 #  - Keep track of transactions pending completion
 #  - Investigate what happens when a group is deleted, which
-#    group inherits the orphans?
+#    group inherits the orphans? -> must not delete if not empty!
 #  - Investigate what happens when a group is deleted, does the
 #    server send a new list? obviously the upper groups get
 #    a reasigned number (???). Remember that the entries in
@@ -47,6 +46,11 @@ namespace eval ::groups {
    variable bShowing;		# (array) Y=shown/expanded N=hidden/collapsed
    variable uMemberCnt;		# (array) member count for that group
    
+   #
+   proc menuCmdDelete {gid {pars ""}} {
+	::groups::Delete $gid dlgMsg
+   }
+
    #<dlgMsg>
    proc dlgMsg {msg} {
        tk_messageBox -icon error -message $msg -type ok
@@ -123,16 +127,22 @@ namespace eval ::groups {
 
    # Used to display the list of groups that are candidates for
    # deletion in the Delete Group... & Rename Group menus
-   proc updateMenu {type path} {
+   proc updateMenu {type path {cb ""} {pars ""}} {
        if {$type == "menu"} {
            $path delete 0 end
        }
        # The Unique Group ID (MSN) is sent with the RemoveGroup message.
        # The first group's ID is zero (0) (MSN)
-       for {set i 0} {$i < $::groups::groupCnt} {incr i} {
-	    set gname [::groups::GetName $i]
+       set glist [::groups::GetList]
+       set gcnt [llength $glist]
+
+       for {set i 0} {$i < $gcnt} {incr i} {
+	    set gid   [lindex $glist $i]	;# Group ID
+	    set gname [::groups::GetName $gid]	;# Group Name (unencoded)
+	     
 	    if {$type == "menu"} {
-	        $path add command -label $gname -command "::groups::Delete $i"
+	        $path add command -label $gname -command "$cb $gid $pars"
+#	        $path add command -label $gname -command "::groups::Delete $i dlgMsg"
 	    } else {
 	        if {$i == 0} {
 	    	    set mpath [tk_optionMenu $path ::groups::groupname $gname]
@@ -140,7 +150,10 @@ namespace eval ::groups {
 		    $mpath add radiobutton -label $gname -variable ::groups::groupname
 		}
 	    }
-	}
+	    # To obtain the label of the i'th menu entry
+	    # set ithLabel [$path entrycget $i -label]
+#puts "updating menu for $i $gname (gid $gid) has label $aaa"
+       }
    }
 
    #
@@ -158,7 +171,7 @@ namespace eval ::groups {
 	set groups($gid) $gname
 
 	# Update the Delete Group... menu
-	::groups::updateMenu menu .group_list
+	::groups::updateMenu menu .group_list ::groups::menuCmdDelete
    }
 
    proc DeleteCB {pdu} {	# RMG 24 12065 15
@@ -181,7 +194,7 @@ namespace eval ::groups {
 	# a new list
 
 	# Update the Delete Group... menu
-	::groups::updateMenu menu .group_list
+	::groups::updateMenu menu .group_list ::groups::menuCmdDelete
    }
 
    proc AddCB {pdu} {	# ADG 23 12064 New%20Group 15 =?Ñ?-CC
@@ -199,7 +212,7 @@ namespace eval ::groups {
 	incr groupCnt
 	set uMemberCnt($gid) 0
 	set bShowing($gid) 1
-	::groups::updateMenu menu .group_list
+	::groups::updateMenu menu .group_list ::groups::menuCmdDelete
    }
    
     proc ToggleStatus {gid} {
@@ -286,7 +299,7 @@ namespace eval ::groups {
    	variable parent
 	variable entryid
 
-	::groups::updateMenu menu .group_list
+	::groups::updateMenu menu .group_list ::groups::menuCmdDelete
 	# The entryid of the parent is 0
 	$parent entryconfigure $entryid -state normal
 	status_log "Groups: menu enabled\n" blue
@@ -323,12 +336,13 @@ namespace eval ::groups {
        variable groups
 
        if {![info exists groups($nr)]} {
-           puts "TODO: Empty slot in groups"
+           puts "TODO: Empty slot $nr in groups"
            return ""
        }
-       if { $nr < $groupCnt } { 
+       if { $nr <= $groupCnt } { 
            return $groups($nr) 
        } else { 
+           puts "TODO: gid $nr too big"
        	   return "" 
        }
    }
@@ -422,6 +436,14 @@ namespace eval ::groups {
 	    return 0
 	}
 
+	# Cannot and must not delete a group until it is empty
+        if {$::groups::uMemberCnt($gid) != 0} {
+	   if {$ghandler != ""} {
+	       set retval [eval "$ghandler \"[trans groupnotempty]!\""]
+	   }
+	    return 0
+	}
+	
 	::MSN::WriteNS "RMG" $gid
 	# MSN sends back "RMG %T %M $gid"
 	# DeleteCB() should be called when we receive the RMG
@@ -441,6 +463,7 @@ namespace eval ::groups {
 	    set var_value [lindex $g_entries $idx]
 	    lappend g_list $var_pk	;# Return the key only
 	}
+        set g_list [lsort -increasing $g_list]
 	return $g_list
     }
 }
