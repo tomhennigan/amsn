@@ -2787,7 +2787,7 @@ namespace eval ::amsn {
 			if { [set ::tcl_platform(platform)] == "windows" } {
 				if { [catch {winflash $win_name -count -1} ] } {
 					if { ![catch { 
-						load [file join [set ::program_dir] plugins winflash flash.dll]
+						load [file join plugins winflash flash.dll]
 						winflash $win_name -count -1
 					} ] } {
 						bind $win_name <FocusIn> "catch \" winflash $win_name -state 0\"; bind $win_name <FocusIn> \"\""
@@ -2795,7 +2795,7 @@ namespace eval ::amsn {
 					}
 					
 				} else {
-					bind $win_name <FocusIn> "catch\"winflash $win_name -state 0\"; bind $win_name <FocusIn> \"\""
+					bind $win_name <FocusIn> "catch \" winflash $win_name -state 0\"; bind $win_name <FocusIn> \"\""
 					return
 				}
 			}
