@@ -1,0 +1,1 @@
+They are still not MSN7'ified as I couldn't open 'm with gimp.  Those ico-things, are they just plain bitmap-files ?

@@ -1,0 +1,625 @@
+<?xml version="1.0"?>
+
+<skin>
+	<Information>
+		<Author>Karel Demeyer</Author>
+		<Contact>kmdemeye@vub.ac.be</Contact>
+		<Description>MSN7 skin by Karel Demeyer</Description>
+		<Version>1.0</Version>
+	</Information>
+<!-- Where the **** should I place the contactlist-colors ? I should have a lookin the code, but I don't have much time right now and -->
+	<General>
+		<Colors>
+			<balloonbgcolor>#daeafe</balloonbgcolor>
+			<balloonbordercolor>#2e8afe</balloonbordercolor>
+			<balloontextcolor>#000000</balloontextcolor>
+			<mainwindowbg>#ced8ef</mainwindowbg>
+		</Colors>
+		<Options>
+			<underline_contact>0</underline_contact>
+
+			<bigstate_xpad>0</bigstate_xpad>
+			<bigstate_ypad>0</bigstate_ypad>
+			<mystatus_xpad>3</mystatus_xpad>
+			<mystatus_ypad>0</mystatus_ypad>
+			<mailbox_xpad>0</mailbox_xpad>
+			<mailbox_ypad>0</mailbox_ypad>
+			<contract_xpad>8</contract_xpad>
+			<contract_ypad>6</contract_ypad>
+			<expand_xpad>8</expand_xpad>
+			<expand_ypad>6</expand_ypad>
+		</Options>
+	</General>
+
+	<ChatWindow>
+		<Colors>
+			<chatwindowbg>#dae4f6</chatwindowbg>
+			<buttonbarbg>#cddaef</buttonbarbg>
+			<chat_buttons_border_color>#4f6ba0</chat_buttons_border_color>
+			<chat_input_border_color>#4f6ba0</chat_input_border_color>
+			<chat_output_border_color>#4f6ba0</chat_output_border_color>
+			<chat_dp_border_color>#4f6ba0</chat_dp_border_color>
+			<sendbuttonbg>#ffffff</sendbuttonbg>
+			<topbarbg>#ebf1fa</topbarbg>
+			<topbartext>#3c4d81</topbartext>
+			<topbarborder>#4f6ba0</topbarborder>
+			<topbarawaybg>#ebf1fa</topbarawaybg>
+			<topbarawaytext>#3c4d81</topbarawaytext>
+			<topbarawayborder>#4f6ba0</topbarawayborder>
+			<topbarbusybg>#ebf1fa</topbarbusybg>
+			<topbarbusytext>#3c4d81</topbarbusytext>
+			<topbarbusyborder>#4f6ba0</topbarbusyborder>
+			<topbarofflinebg>#ebf1fa</topbarofflinebg>
+			<topbarofflinetext>#3c4d81</topbarofflinetext>
+			<topbarofflineborder>#4f6ba0</topbarofflineborder>
+			<statusbarbg>#f7f9fd</statusbarbg>
+			<statusbartext>#3c4d81</statusbartext>
+			<chat_status_border_color>#6b5600</chat_status_border_color>
+		</Colors>
+		<Geometry>
+			<chat_top_padx>7</chat_top_padx>
+			<chat_top_pady>5</chat_top_pady>
+			<chat_paned_padx>4</chat_paned_padx>
+			<chat_paned_pady>0</chat_paned_pady>
+			<chat_output_padx>3</chat_output_padx>
+			<chat_output_pady>0</chat_output_pady>
+			<chat_buttons_padx>3</chat_buttons_padx>
+			<chat_buttons_pady>4</chat_buttons_pady>
+			<chat_input_padx>3</chat_input_padx>
+			<chat_input_pady>0</chat_input_pady>
+			<chat_dp_padx>2</chat_dp_padx>
+			<chat_dp_pady>7</chat_dp_pady>
+			<chat_leftframe_padx>0</chat_leftframe_padx>
+			<chat_leftframe_pady>3</chat_leftframe_pady>
+			<chat_sendbutton_padx>0</chat_sendbutton_padx>
+			<chat_sendbutton_pady>0</chat_sendbutton_pady>
+			<chat_status_padx>5</chat_status_padx>
+			<chat_status_pady>7</chat_status_pady>
+			<chat_sash_pady>3</chat_sash_pady>
+		</Geometry>
+		<Options>
+			<chat_top_border>1</chat_top_border>
+			<chat_output_border>1</chat_output_border>
+			<chat_buttons_border>1</chat_buttons_border>
+			<chat_input_border>1</chat_input_border>
+			<chat_dp_border>1</chat_dp_border>
+			<chat_status_border>0</chat_status_border>
+			<chat_sash_showhandle>0</chat_sash_showhandle>
+		</Options>
+	</ChatWindow>
+
+   <smileys>
+      <size>
+         <smilew>19 </smilew>
+         <smileh>19 </smileh>
+      </size>
+
+      <emoticon>
+         <name> Smiley </name>
+         <text> ":)" </text>
+         <text> ":-)" </text>
+         <file> Smiley.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Open-mouthed smiley </name>
+        <text> ":D" </text>
+         <text> ":-D" </text>
+         <text> ":>" </text>
+         <text> ":->" </text>
+         <file> Open_mouthed_smiley.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Winking smiley </name>
+         <text> ";)" </text>
+         <text> ";-)" </text>
+         <file> Winking_smiley.gif </file>
+		 <animated> yes </animated>
+      </emoticon>
+   
+      <emoticon>
+         <name> Surprised smiley </name>
+         <text> ":o" </text>
+         <text> ":-o" </text>
+         <file> Surprised_smiley.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Smiley with tonque out </name>
+         <text> ":P" </text>
+         <text> ":-P" </text>
+         <file> Smiley_with_tonque_out.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Hot smiley </name>
+         <text> "(H)" </text>
+         <file> Hot_smiley.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Angry smiley </name>
+         <text> ":@" </text>
+         <text> ":-@" </text>
+         <file> Angry_smiley.gif </file>
+      </emoticon>
+   
+     <emoticon>
+         <name> Confused smiley </name>
+         <text> ":s" </text>
+         <text> ":-s" </text>
+         <file> Confused_smiley.gif </file>
+      </emoticon>
+   
+     <emoticon>
+         <name> Embarrassed smiley </name>
+         <text> ":$" </text>
+		 <text> ":-$" </text>
+         <file> Embarrassed_smiley.gif </file>
+      </emoticon>
+   
+     <emoticon>
+         <name> Sad smiley </name>
+         <text> ":(" </text>
+		 <text> ":-(" </text>
+         <file> Sad_smiley.gif </file>
+      </emoticon>
+   
+     <emoticon>
+         <name> Crying face </name>
+         <text> ":'(" </text>
+         <file> Crying_face.gif </file>
+		 <animated> yes </animated>
+      </emoticon>
+   
+      <emoticon>
+         <name> Disappointed smiley </name>
+         <text> ":|" </text>
+         <text> ":-|" </text>
+         <file> Disappointed_smiley.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Angel </name>
+         <text> "(A)" </text>
+         <file> Angel.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Baring teeth smiley </name>
+         <text> "8o|" </text>
+         <file> Baring_teeth_smiley.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Nerd smiley </name>
+         <text> "8-|" </text>
+		  <text> "8|" </text>
+         <file> Nerd_smiley.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Sick smiley </name>
+         <text> "+o(" </text>
+         <file> Sick_smiley.gif </file>
+      </emoticon>
+     
+	 <emoticon>
+         <name> Party Smiley </name>
+         <text> ""&lt;:o)" </text>
+         <file> Party_smiley.gif </file>
+		 <animated> yes </animated>
+      </emoticon>
+	  
+      <emoticon>
+         <name> Sleepy smiley </name>
+         <text> "|-)" </text>
+		  <text> "|)" </text>
+         <file> Sleepy_smiley.gif </file>
+		 <animated> yes </animated>
+      </emoticon>
+   
+      <emoticon>
+         <name> Thinking smiley </name>
+         <text> "*-)" </text>
+         <file> Thinking_smiley.gif </file>
+		 <animated> yes </animated>
+      </emoticon>
+   
+      <emoticon>
+         <name> Don't tell anyone </name>
+         <text> ":-#" </text>
+         <file> Dont_tell_anyone.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Secret telling smiley </name>
+         <text> ":-*" </text>
+         <file> Secret_telling_smiley.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Sarcastic smiley </name>
+         <text> "^o)" </text>
+         <file> Sarcastic_smiley.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Eye-rolling smiley </name>
+         <text> "8-)" </text>
+         <file> Eye_rolling_smiley.gif </file>
+		 <animated> yes </animated>
+      </emoticon>
+   
+      <emoticon>
+         <name> Red heart</name>
+         <text> "(L)" </text>
+         <file> Red_heart.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Broken heart </name>
+         <text> "(U)" </text>
+         <file> Broken_heart.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Messenger </name>
+         <text> "(M)" </text>
+         <file> Messenger.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Cat face </name>
+         <text> "(@)" </text>
+         <file> Cat_face.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Dog face </name>
+         <text> "(&)" </text>
+         <file> Dog_face.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Snail </name>
+         <text> "(sn)" </text>
+         <file> Snail.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Black_sheep.gif </name>
+         <text> "(bah)" </text>
+         <file> Black_sheep.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Sleeping half-moon </name>
+         <text> "(S)" </text>
+         <file> Sleeping_half-moon.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Star.gif </name>
+         <text> "(*)" </text>
+         <file> Star.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Sun </name>
+         <text> "(#)" </text>
+         <file> Sun.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Rainbow </name>
+         <text> "(R)" </text>
+         <file> Rainbow.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Umbrella </name>
+         <text> "(um)" </text>
+         <file> Umbrella.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Right hug </name>
+         <text> "(})" </text>
+         <file> Right_hug.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Red lips </name>
+         <text> "(K)" </text>
+         <file> Red_lips.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Red rose </name>
+         <text> "(F)" </text>
+         <file> Red_rose.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Wilted rose </name>
+         <text> "(W)" </text>
+         <file> Wilted_rose.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Clock </name>
+         <text> "(O)" </text>
+         <file> Clock.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Gift with a bow </name>
+         <text> "(G)" </text>
+         <file> Gift_with_a_bow.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Birthday cake </name>
+         <text> "(^)" </text>
+         <file> Birthday_cake.gif </file>
+		 <animated> yes </animated>
+      </emoticon>
+   
+      <emoticon>
+         <name> Camera </name>
+         <text> "(P)" </text>
+         <file> Camera.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Light_bulb </name>
+         <text> "(I)" </text>
+         <file> Light_bulb.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Coffee cup </name>
+         <text> "(C)" </text>
+         <file> Coffee_cup.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Telephone receiver </name>
+         <text> "(T)" </text>
+         <file> Telephone_receiver.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Mobile phone </name>
+         <text> "(mp)" </text>
+         <file> Mobile_phone.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Auto </name>
+         <text> "(au)" </text>
+         <file> Auto.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Airplane </name>
+         <text> "(ap)" </text>
+         <file> Airplane.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Computer </name>
+         <text> "(co)" </text>
+         <file> Computer.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Money </name>
+         <text> "(mo)" </text>
+         <file> Money.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Filmstrip </name>
+         <text> "(~)" </text>
+         <file> Filmstrip.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Note </name>
+         <text> "(8)" </text>
+         <file> Note.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Pizza </name>
+         <text> "(pi)" </text>
+         <file> Pizza.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Soccer ball </name>
+         <text> "(so)" </text>
+         <file> Soccer_ball.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> E-mail </name>
+         <text> "(E)" </text>
+         <file> Email.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Boy </name>
+         <text> "(Z)" </text>
+         <file> Boy.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Girl </name>
+         <text> "(X)" </text>
+         <file> Girl.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Island with a palm tree </name>
+         <text> "(ip)" </text>
+         <file> Island_with_a_palm_tree.gif </file>
+      </emoticon>
+	  
+	   <emoticon>
+         <name> Thumbs up </name>
+         <text> "(y)" </text>
+         <file> Thumbs_up.gif </file>
+		 <hiden> yes </hiden>
+      </emoticon>
+	  
+	   <emoticon>
+         <name> Thumbs down </name>
+         <text> "(n)" </text>
+         <file> Thumbs_down.gif </file>
+		 <hiden> yes </hiden>
+      </emoticon>
+	  
+	  <emoticon>
+         <name> I dont know </name>
+         <text> ":^)" </text>
+         <file> i_dont_know.gif </file>
+		 <hiden> yes </hiden>
+		 <animated> yes </animated>
+      </emoticon>
+	  
+	  <emoticon>
+         <name> Devil </name>
+         <text> "(6)" </text>
+         <file> Devil.gif </file>
+		 <hiden> yes </hiden>
+      </emoticon>
+	  
+	  <emoticon>
+        <name> Beer mug </name>
+        <text> "(b)" </text>
+        <file> beer.gif </file>
+	    <hiden> yes </hiden>
+      </emoticon>
+	  
+	  <emoticon>
+        <name> Dry martini </name>
+        <text> "(D)" </text>
+        <file> Dry_martini.gif </file>
+	    <hiden> yes </hiden>
+      </emoticon>
+      
+	  <emoticon>
+        <name> Dinner plate </name>
+        <text> "(pl)" </text>
+        <file> Plate.gif </file>
+	    <hiden> yes </hiden>
+      </emoticon>
+	  
+	  <emoticon>
+        <name> Handcuffs </name>
+        <text> "(%)" </text>
+        <file> Handcuffs.gif </file>
+	    <hiden> yes </hiden>
+      </emoticon>
+	  
+	  <emoticon>
+        <name> Bowl </name>
+        <text> "(||)" </text>
+        <file> Bowl.gif </file>
+	    <hiden> yes </hiden>
+      </emoticon>
+	  
+	  <emoticon>
+        <name> Cigarette </name>
+        <text> "(ci)" </text>
+        <file> Cigarette.gif </file>
+	    <hiden> yes </hiden>
+	    <animated> yes </animated>
+      </emoticon> 
+	  
+	  <emoticon>
+        <name> Rain </name>
+        <text> "(st)" </text>
+        <file> rain.gif </file>
+	    <hiden> yes </hiden>
+      </emoticon>
+	  
+	  <emoticon>
+        <name> Lightning </name>
+        <text> "(li)" </text>
+        <file> Lightning.gif </file>
+	    <hiden> yes </hiden>
+	    <animated> yes </animated>
+      </emoticon> 
+	  
+	  <emoticon>
+        <name> Turtle </name>
+        <text> "(tu)" </text>
+        <file> Turtle.gif </file>
+	    <hiden> yes </hiden>
+      </emoticon>
+	  
+	  <emoticon>
+        <name> Asl </name>
+        <text> "(?)" </text>
+        <file> Asl.gif </file>
+	    <hiden> yes </hiden>
+      </emoticon>
+	  
+	  <emoticon>
+        <name> Vampire bat </name>
+        <text> ":-[" </text>
+	    <text> ":[" </text>
+        <file> Vampire_bat.gif </file>
+	    <hiden> yes </hiden>
+	    <animated> yes </animated>
+      </emoticon> 
+	  
+	  <emoticon>
+        <name> Left hug </name>
+        <text> "({)" </text>
+        <file> Left_hug.gif </file>
+	    <hiden> yes </hiden>
+      </emoticon>
+	  
+	  <emoticon>
+        <name> Fingerscrossed </name>
+        <text> "(yn)" </text>
+        <file> Fingerscrossed.gif </file>
+	    <hiden> yes </hiden>
+      </emoticon>
+   
+     <emoticon>
+        <name> Hi five </name>
+        <text> "(h5)" </text>
+        <file> Hi_five.gif </file>
+	    <hiden> yes </hiden>
+      </emoticon>
+	  
+	  <emoticon>
+        <name> What The Fuck </name>
+        <text> ":`(" </text>
+        <file> What_The_Fuck.gif </file>
+	    <hiden> yes </hiden>
+      </emoticon>
+	  
+	  <emoticon>
+        <name> Be Right Back </name>
+        <text> "(brb)" </text>
+        <file> Be_Right_Back.gif </file>
+	    <hiden> yes </hiden>
+      </emoticon>
+	 
+	  <emoticon>
+        <name> Xbox </name>
+        <text> "(xx)" </text>
+        <file> Xbox.gif </file>
+	    <hiden> yes </hiden>
+      </emoticon>
+	  
+   </smileys>
+</skin>
