@@ -68,8 +68,14 @@ if {$tcl_platform(platform) == "unix"} {
    set HOME "[file join $env(HOME) .amsn]"
    set files_dir "[file join $env(HOME) amsn_received]"
 } elseif {$tcl_platform(platform) == "windows"} {
-   set HOME "[file join $env(USERPROFILE) amsn]"
-   set files_dir "[file join $env(USERPROFILE) amsn_received]"
+  if {info exists env(USERPROFILE)} {
+     set HOME "[file join $env(USERPROFILE) amsn]"
+     set files_dir "[file join $env(USERPROFILE) amsn_received]"
+  } else {
+   set HOME "amsn"
+   set files_dir "amsn_received"
+  }
+
 } else {
    set HOME "amsn"
    set files_dir "amsn_received"
