@@ -2495,8 +2495,11 @@ namespace eval ::ChatWindow {
 		} else {
 			#Fix  hidden tabs problem, thanks to Le philousophe
 			pack  ${container}.bar -side top -fill both -expand false
-			pack forget [GetCurrentWindow $container]
-			pack [GetCurrentWindow $container] -side bottom -expand true -fill both
+
+			if { [winfo exists [GetCurrentWindow $container]] } {
+				pack forget [GetCurrentWindow $container]
+				pack [GetCurrentWindow $container] -side bottom -expand true -fill both
+			}
 		}
 
 		if { $max_tabs > 0 && $number_tabs > $max_tabs } {
