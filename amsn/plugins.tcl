@@ -1,11 +1,5 @@
 #Plugins system, preliminary version
 
-#List of available event types, and their parameters:
-#
-# chat_msg_received { userlogin userName msgText }
-#
-# chat_msg_sent
-
 namespace eval ::plugins {
     
     namespace export PostEvent
@@ -30,56 +24,92 @@ namespace eval ::plugins {
 	# Current config being edited, for backup purposes (ei: Cancel)
 	variable cur_config
     }
+
     
+    #################################################################
+    # PostEvent (event argarray)
+    #
+    # This proc can be put anywhere within amsn to call a event.
+    #
+    # Arguments
+    # event - the event that is being called
+    # argarray - name of the array holding the arguments
+    #
+    # Return
+    # none
+    #
     proc PostEvent { event var} {
 	variable pluginsevents 
 	
 	status_log "Plugins System: Calling event $event with variable $var\n"
 	
-	if { [info exists pluginsevents(${event}) ] } {
-	    foreach cmd $pluginsevents(${event}) {
+	if { [info exists pluginsevents(${event}) ] } { # do we have any procs for the event?
+	    foreach cmd $pluginsevents(${event}) { # let's call all of them
 		status_log "Plugins System: Executing $cmd\n"
-		catch { eval $cmd $event $var } res
+		catch { eval $cmd $event $var } res # call
 		status_log "Plugins System: Return $res from event handler $cmd\n"
 	    }
 	}
     }
     
-    proc RegisterPlugin { plugin  description } {
+    #################################################################
+    # RegisterPlugin (plugin)
+    #
+    # This proc registers a plugin into the system. It's only purpose is to let the system know of the plugin's existance.
+    #
+    # Arguments
+    # plugin - name of the plugin
+    #
+    # Return
+    # 0 - plugin already registered
+    # 1 - first time plugin registered
+    #    
+    proc RegisterPlugin { plugin } {
 	variable knownplugins
 	
-	status_log "Plugins System: RegisterPlugin called with $plugin and $description\n"
-	if { [lsearch $knownplugins "$plugin"] != -1} {
+	status_log "Plugins System: RegisterPlugin called with $plugin\n"
+	if { [lsearch $knownplugins "$plugin"] != -1} { # Already registered?
 	    status_log "Plugin System: Trying to register a plugin twice..\n"
-	    return 0
+	    return 0 # Yup, no need to do it again.
 	}
 	
-	lappend plugin "$description"
-	lappend knownplugins [lindex $plugin 0]
+	lappend knownplugins [lindex $plugin 0] # Actual registration
 	
 	
-	status_log "Plugins System: New plugin :\nName : [lindex $plugin 0]\nDescription : $description\n"
-	return 1
+	status_log "Plugins System: New plugin :\nName : [lindex $plugin 0]\n                            "
+	return 1 # First timer :D
 	
     }
     
+    #################################################################
+    # RegisterEvent (plugin event cmd)
+    #
+    # This proc registeres a command to a event
+    #
+    # Arguments
+    # plugin - name of the plugin that the command belongs to
+    # event - the event to register for
+    # cmd - command to register
+    #
+    # Return
+    # none
+    #      
     proc RegisterEvent { plugin event cmd } {
 	variable knownplugins
 	variable pluginsevents
 	status_log "Plugin Systems: RegisterEvent called with $plugin $event $cmd\n"
-	set x [lsearch $knownplugins $plugin]
-	if { $x == -1 } {
+	if { [lsearch $knownplugins $plugin] == -1 } { # UnRegistered?
 	    status_log "Plugins System: Registering an event for an unknown plugin...\n"
-	    return
+	    return # Bye Bye
 	}
-	if {[array names pluginsevents -exact $event] == "$event"} {
-	    if {[lsearch $pluginsevents(${event}) "\:\:$plugin\:\:$cmd"] != -1 } {
+	if {[array names pluginsevents -exact $event] == "$event"} { # Will error if I search with empty key
+	    if {[lsearch $pluginsevents(${event}) "\:\:$plugin\:\:$cmd"] != -1 } { # Event already registered?
 		status_log "Plugins System: Trying to register a event twice"
-		return
+		return # Bye Bye
 	    }
 	}
 	status_log "Plugins System: Binding $event to $cmd\n"
-	lappend pluginsevents(${event}) "\:\:$plugin\:\:$cmd"
+	lappend pluginsevents(${event}) "\:\:$plugin\:\:$cmd" # Add the command to the list
     }
     
     proc UnRegisterEvent {plugin event cmd} {
