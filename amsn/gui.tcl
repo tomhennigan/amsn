@@ -1440,7 +1440,7 @@ namespace eval ::amsn {
 
 		set win_name [WindowFor $chatid]
 
-		if { [lindex [${win_name}.f.out.text yview] 1] == 1.0 } {
+		if { [lindex [${win_name}.f.out.text yview] 1] > 0.95 } {
 		   set scrolling 1
 		} else {
 		   set scrolling 0
@@ -2892,6 +2892,13 @@ namespace eval ::amsn {
 			set p4c 0	
 		}
 		
+		set evPar(0) $nick
+		set evPar(1) $msg
+		set evPar(2) $chatid
+		
+		::plugins::PostEvent chat_msg_send evPar
+		
+		
 		set first 0
 		while { [expr {$first + 400}] <= [string length $msg] } {
 			set msgchunk [string range $msg $first [expr {$first + 399}]]
@@ -2909,6 +2916,8 @@ namespace eval ::amsn {
 
 
 		CharsTyped $chatid ""
+		
+		::plugins::PostEvent chat_msg_sent evPar
 
 	}
 	#///////////////////////////////////////////////////////////////////////////////
@@ -3116,11 +3125,7 @@ namespace eval ::amsn {
 		set evPar(0) $user
 		set evPar(1) [::abook::getDisplayNick $user]
 		set evPar(2) $msg
-		if { "$user" != "$chatid" } {
-			::plugins::PostEvent chat_msg_send evPar
-		} else {
-			::plugins::PostEvent chat_msg_receive evPar
-		}
+		::plugins::PostEvent chat_msg_receive evPar
 				
 		WinWrite $chatid "$customchat" "says" $customfont
 		WinWrite $chatid "$msg\n" $type $fontformat 1 $user
@@ -3129,11 +3134,7 @@ namespace eval ::amsn {
 			::log::PutLog $chatid $nick $msg
 		}
 		
-		if { "$user" != "$chatid" } {
-			::plugins::PostEvent chat_msg_sent evPar
-		} else {
-			::plugins::PostEvent chat_msg_received evPar
-		}
+		::plugins::PostEvent chat_msg_received evPar
 	}
 	#///////////////////////////////////////////////////////////////////////////////
 
