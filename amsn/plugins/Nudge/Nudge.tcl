@@ -62,8 +62,11 @@ namespace eval ::Nudge {
 	# The window $window will 'shake' $n times.   #
 	###############################################
 	proc shake { window n } {
-		set x [winfo x $window]
-		set y [winfo y $window]
+		set geometry [wm geometry $window]
+		set index1 [string first "+" $geometry]
+		set index2 [string last "+" $geometry]
+		set x [string range $geometry [expr $index1 + 1] [expr $index2 -1]]
+		set y [string range $geometry [expr $index2 + 1] end]
 		for {set i 0} {$i < $n} {incr i} {
 			wm geometry $window +[expr $x + 10]+[expr $y + 8]
 			update
