@@ -2142,6 +2142,14 @@ proc cmsn_ns_handler {item} {
 	  msg_box "[trans useralreadyonlist]"
           return 0
       }
+      600 {
+          msg_box "[trans connecterror]"
+	  return 0
+      }
+      601 {
+          msg_box "[trans connecterror]"
+	  return 0
+      }
       911 {
           status_log "Error: User/Password\n" red
 	  set password ""
