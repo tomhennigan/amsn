@@ -1824,7 +1824,7 @@ proc choose_basefont { } {
 		return
 	}
 			
-	set font [SelectFont .basefontsel -parent .cfg -title [trans choosebasefont] -font [::config::getKey basefont] -styles [list]]
+	set font [SelectFont .basefontsel -parent .cfg -title [trans choosebasefont] -font [::config::getGlobalKey basefont] -styles [list]]
 	
 	if { [llength $font] < 2 } {
 		return 0
@@ -1835,8 +1835,9 @@ proc choose_basefont { } {
 
 	set newfont [list $family $size normal]
 
-	if { $newfont != [::config::getKey basefont]} {
-		::config::setKey basefont $newfont
+	if { $newfont != [::config::getGlobalKey basefont]} {
+		::config::setGlobalKey basefont $newfont
+		focus .cfg
 		msg_box [trans mustrestart]
 	}
 

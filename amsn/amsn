@@ -224,8 +224,8 @@ sb set ns data [list]
 sb set ns serv [split $config(start_ns_server) ":"]
 sb set ns stat "d"
 
-set family [lindex $config(basefont) 0]
-set size [lindex $config(basefont) 1]
+set family [lindex [::config::getGlobalKey basefont] 0]
+set size [lindex [::config::getGlobalKey basefont] 1]
 
 ::themes::Init
 degt_Init

@@ -8,7 +8,7 @@
 proc GetSkinFile { type filename } {
     global program_dir HOME2 HOME
 
-    if { [catch { set skin "[::config::get skin]" } ] != 0 } {
+    if { [catch { set skin "[::config::getGlobalKey skin]" } ] != 0 } {
 	set skin "default"
     }
     set defaultskin "default"
@@ -146,7 +146,7 @@ proc SelectSkinGui { } {
 	pack $w.cancel $w.ok -side right
 
 	foreach skin [findskins] {
-		if { [lindex $skin 0] == $config(skin) } { set select $idx } 
+		if { [lindex $skin 0] == [::config::getGlobalKey skin] } { set select $idx } 
 		$w.main.right.box insert end "[lindex $skin 0]"
 		incr idx
 	}
@@ -155,7 +155,7 @@ proc SelectSkinGui { } {
 	    set select 0
 	} 
 
-    status_log "select = $select --- $config(skin)\n"
+    status_log "select = $select --- [::config::getGlobalKey skin]\n"
 
         $w.main.right.box selection set $select
         $w.main.right.box itemconfigure $select -background #AAAAAA
@@ -250,7 +250,7 @@ proc selectskinok { w } {
 
 	set skin [lindex [lindex [findskins] $skinidx] 0]
 	status_log "Chose skin No $skinidx : $skin\n"
-	set config(skin) $skin
+	config::setGlobalKey skin $skin
 	save_config
 	msg_box [trans mustrestart]
 

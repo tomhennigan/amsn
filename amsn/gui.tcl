@@ -2882,7 +2882,7 @@ namespace eval ::amsn {
 
 #      	set txt " $txt"
 
-		set size [expr {[lindex $config(basefont) 1]+$config(textsize)}]
+		set size [expr {[lindex [::config::getGlobalKey basefont] 1]+[::config::getKey textsize]}]
 		set font "\"$fontname\" $size $fontstyle"
 
 		set tagid [::md5::md5 "$font$fontcolor"]
@@ -3713,9 +3713,6 @@ proc choose_font { parent title {initialfont ""} {initialcolor ""}} {
 		return
 	}
 		
-	status_log "$initialfont\n"
-	status_log "[::config::getKey basefont]\n"
-	
 	set selected_font [SelectFont .fontsel -parent $parent -title $title -font $initialfont -initialcolor $initialcolor]
 	return $selected_font
 }
@@ -3726,7 +3723,7 @@ proc change_myfont {win_name} {
 	global config
 
 	set fontname [lindex $config(mychatfont) 0] 
-	set fontsize [expr {[lindex $config(basefont) end-1] + $config(textsize)}]
+	set fontsize [expr {[lindex [::config::getGlobalKey basefont] end-1] + $config(textsize)}]
 	set fontstyle [lindex $config(mychatfont) 1]	
 	set fontcolor [lindex $config(mychatfont) 2]
 
@@ -3754,7 +3751,7 @@ proc change_myfont {win_name} {
 	set config(mychatfont) [list [lindex $selfont 0] [lrange $selfont 2 end] $color]
 
 	
-	set config(textsize) [expr {[lindex $selfont 1]- [lindex $config(basefont) 1]}]
+	set config(textsize) [expr {[lindex $selfont 1]- [lindex [::config::getGlobalKey basefont] 1]}]
 	change_myfontsize $config(textsize) ${win_name}
 
 }
@@ -3771,8 +3768,8 @@ proc change_myfontsize {size name} {
 	set fontfamily \{[lindex $config(mychatfont) 0]\}
 	set fontstyle \{[lindex $config(mychatfont) 1]\}
 
-	if { [llength $config(basefont)] < 3 } { set config(basefont) "Helvetica 11 normal" }
-	set fontsize [expr {[lindex $config(basefont) end-1]+$config(textsize)}]
+	if { [llength [::config::getGlobalKey basefont]] < 3 } { ::config::setGlobalKey basefont [list Helvetica 11 normal] }
+	set fontsize [expr {[lindex [::config::getGlobalKey basefont] end-1]+$config(textsize)}]
 
 	catch {.${name}.f.out.text tag configure yours -font "$fontfamily $fontsize $fontstyle"} res
 	catch {.${name}.f.bottom.in.input configure -font "$fontfamily $fontsize $fontstyle"} res
@@ -6764,10 +6761,6 @@ proc reloadAvailablePics { } {
 
 	.picbrowser.pics.text configure -state normal
 	.picbrowser.pics.text delete 0.0 end
-
-	#if { [catch { set skin "[::config::get skin]" } ] != 0 } {
-	#	set skin "default"
-	#}
 
 		set files [list]
 	#catch {set files [glob -directory [file join $program_dir skins $skin displaypic] *.png] }

@@ -73,11 +73,9 @@ proc ConfigDefaults {} {
 	#Specific configs for Mac OS X (Aqua) first, and for others systers after
 	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 		set config(wingeometry) 275x400-200+200			;#Main window geometry on Mac OS X
-		set config(basefont) "{Lucida Grande} 11 normal"	;#AMSN Mac OS X base font
 		set config(backgroundcolor)  #ECECEC		;#AMSN Mac OS X background color
 	} else {
 		set config(wingeometry) 275x400-0+0			;#Main window geometry
-		set config(basefont) "Helvetica 11 normal"	;#AMSN base font
 		set config(backgroundcolor)  #D8D8E0		;#AMSN background color
 	}
 	
@@ -133,7 +131,6 @@ proc ConfigDefaults {} {
 
 	set config(emotisounds) 1			;#Play sound on certain emoticons
 	set config(animatedsmileys) 1		;#Show animated smileys
-	set config(skin) "default"			;#AMSN skin
 
 	#Custom smileys configuration
 	set config(customsmileys) [list]
@@ -237,10 +234,19 @@ proc ConfigDefaults {} {
 namespace eval ::config {
 
 	proc GlobalDefaults {} {
-		global gconfig
+		global gconfig tcl_platform 
 		setGlobalKey last_client_version ""		
 		setGlobalKey language "en"			;#Default language
-		
+		setGlobalKey skin "default"			;#AMSN skin
+
+		#Specific configs for Mac OS X (Aqua) first, and for others systers after
+		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+			setGlobalKey basefont [list {Lucida Grande} 11 normal]	;#AMSN Mac OS X base font
+		} elseif {$tcl_platform(platform) == "windows"} {
+			setGlobalKey basefont [list Arial 10 normal]
+		} else {
+			setGlobalKey basefont [list Helvetica 11 normal]	;#AMSN base font
+		}
 	}
 
 	proc get {key} {
