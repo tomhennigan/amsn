@@ -1443,7 +1443,7 @@ namespace eval ::amsn {
 	proc ToggleShowPicture { win_name } {
 		upvar #0 ${win_name}_show_picture show_pic
 
-		if { $show_pic } {
+		if { [info exists show_pic] } {
 			set show_pic 0
 		} else {
 			set show_pic 1
