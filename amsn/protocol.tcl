@@ -4062,6 +4062,9 @@ proc cmsn_listupdate {recv} {
 
 		set list_names [process_msnp9_lists [lindex $recv 3]]
 		set groups [split [lindex $recv 4] ,]
+		
+		#Make list unconsistent while receiving contact lists
+		::abook::unsetConsistent
 
 	}
 
@@ -4118,6 +4121,7 @@ proc cmsn_listupdate {recv} {
 		cmsn_draw_online 1
 
 		set contactlist_loaded 1
+		::abook::setConsistent
 	}
 
 }
@@ -4305,7 +4309,9 @@ proc load_contact_list { } {
 	set list_fl [list]
 	set list_users [list]
 	
-	::abook::clearData
+	foreach contact [::abook::getAllContacts] {
+		::abook::setContactData $contact lists ""
+	}
 
 	set contact_id [sxml::init [file join ${HOME} contacts.xml]]
 

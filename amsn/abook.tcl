@@ -13,6 +13,7 @@ namespace eval ::abook {
 		#
 		variable myself "unknown";
 		variable demographics;	# Demographic Information about user
+		variable consistent 0
 	}
 	
 	#
@@ -146,6 +147,7 @@ namespace eval ::abook {
 	proc clearData {} {
 		variable users_data		
 		array unset users_data *
+		unsetConsistent
 	}
 
 	#Sets some data to a user.
@@ -264,7 +266,28 @@ namespace eval ::abook {
 		}
 	}	
 	
+	proc setConsistent {} {
+		variable consistent
+		set consistent 1
+	}
+	
+	proc unsetConsistent {} {
+		variable consistent
+		set consistent 0
+	}
+	
+	
+	proc isConsistent {} {
+		variable consistent
+		return $consistent
+	}
+	
 	proc saveToDisk { {filename ""} } {
+		
+		if { ![isConsistent] } {
+			return
+		}
+	
 		global HOME
 		variable users_data
 		
@@ -277,7 +300,7 @@ namespace eval ::abook {
 		fconfigure $file_id -encoding utf-8
 
 		puts $file_id "<?xml version=\"1.0\" standalone=\"yes\" encoding=\"UTF-8\"?>"
-		puts $file_id "<AMSN_AddressBook>"
+		puts $file_id "<AMSN_AddressBook time=\"[clock seconds]\">"
 		foreach user [array names users_data] {
 			puts $file_id "<contact name=\"[::sxml::xmlreplace $user]\">"
 
@@ -362,14 +385,18 @@ namespace eval ::abookGui {
 	    return 
 	}
 
+	
+	set last_login [::abook::getContactData $email last_login]
+	set last_logout [::abook::getContactData $email last_logout]
 
 	toplevel $w -class ABook
 	wm title $w "[trans about] $email"
 #	wm geometry $w 210x140
 	set nbtIdent "[trans identity]"
 	set nbtPhone "[trans phone]"
+	set nbtOthers "[trans others]"
 	frame $w.n -class ABook
-	    pack [notebook $w.n.p $nbtIdent $nbtPhone] \
+	    pack [notebook $w.n.p $nbtIdent $nbtPhone $nbtOthers] \
 	    	-expand 1 -fill both -padx 1m -pady 1m
 	#  .----------.
 	# _| Identity |________________________________________________
@@ -438,6 +465,19 @@ namespace eval ::abookGui {
 	}
         bind $w <Control-p> "pickNote $w.n.p $nbtPhone"
 
+	#  .----------.
+	# _| Others |________________________________________________
+	set nbOthers [getNote $w.n.p $nbtOthers]
+	$nbOthers configure 
+   	label $nbOthers.e -text "[trans lastlogin]:" -font bboldf 
+   	label $nbOthers.e1 -text $last_login -font splainf -fg blue 
+	label $nbOthers.h -text "[trans lastlogout]:" -font bboldf 
+	label $nbOthers.h1 -text $last_logout -font splainf -fg blue 
+	grid $nbOthers.e -row 0 -column 0 -sticky e
+	grid $nbOthers.e1 -row 0 -column 1 -sticky w
+	grid $nbOthers.h -row 1 -column 0 -sticky e
+	grid $nbOthers.h1 -row 1 -column 1 -sticky w	
+	
 	frame $w.b -class ABook
 	    button $w.b.ok -text "[trans close]" -command "destroy $w"
 
