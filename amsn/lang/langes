@@ -87,6 +87,7 @@ changecustomstate Cambiar a
 changedisplaypic Cambiar imagen mostrada
 changefont Cambiar fuente
 changeglobalnick Establecer apodo global
+changeglobnick Cambiar nick personalizado globalmente
 changenick Cambiar apodo
 changestate $1 cambia su estado a $2
 charscounter Contador de caracteres tecleados en ventana de chat
@@ -337,6 +338,7 @@ myworkphone Mi teléfono de trabajo
 natip Detección de IP por Web
 natkeepalive Si sufres desconexiones continuamente, activa esta opción
 needonline Todavía estás/apareces desconectado
+needwinico Se necesita el archivo winico03.dll en el directorio plugins para que el icono de la bandeja funcione
 never Nunca
 newmail $1 mensajes nuevos en bandeja de entrada
 newmailfrom Nuevo correo de $1 ($2)
@@ -366,6 +368,7 @@ notify2 Mostrar ventana de aviso cuando llegan nuevos mensajes
 notify3 Mostrar ventana de aviso al recibir un nuevo correo electrónico
 notify aviso
 notifyoffset Ajusta la posición de la ventana de aviso mediante un desplazamiento
+notifytimeout Número de milisegundos que permanece la ventana de notificaciones
 notifytyping Enviar a otros usuarios notificaciones cuando se está tecleando
 notifywin Ventana de avisos
 notinlist No estás en su lista de contactos
@@ -473,6 +476,7 @@ servergoingdown Desconectado: El servidor se va a apagar para mantenimiento
 server Servidor
 serverunavailable El servidor no está disponible
 session Sesión
+showbanner Mostrar el cartel de AMSN en la lista de contactos
 showblockedlist Mostrar contactos que te bloquean
 showcachedpics Mostrar imágenes para mostrar almacenadas
 showdisplaypic2 Por defecto, ver la Imagen para Mostrar al abrir una ventana de conversación.
@@ -497,6 +501,7 @@ soundserver Servidor de Sonido
 sound Sonido eventos
 soundstatus Sonido para la alarma
 sourcecode Código fuente
+splashstart Comenzar
 sslwarning ¡¡CUIDADO!! Al desactivar SSL, se desactiva la encriptación, y tu contraseña será enviada a través de la red como texto sin encriptar. Utilizar sólo si es imprescindible, como en algunos servidores proxy, o configuraciones de red muy estrictas.
 startoffline2 Conectarse sigilosamente pareciendo "Desconectado"
 startoffline Comenzar Desconectado
