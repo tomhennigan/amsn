@@ -2084,13 +2084,14 @@ namespace eval ::amsn {
 		set evPar(fontcolor) fontcolor
 		::plugins::PostEvent chat_msg_send evPar
 		
-		
-		set first 0
-		while { [expr {$first + 400}] <= [string length $msg] } {
-			set msgchunk [string range $msg $first [expr {$first + 399}]]
-			set ackid [after 60000 ::amsn::DeliveryFailed $chatid [list $msgchunk]]
-			::MSN::messageTo $chatid "$msgchunk" $ackid $friendlyname
-			incr first 400
+		if {![string equal $msg ""]} {
+			set first 0
+			while { [expr {$first + 400}] <= [string length $msg] } {
+				set msgchunk [string range $msg $first [expr {$first + 399}]]
+				set ackid [after 60000 ::amsn::DeliveryFailed $chatid [list $msgchunk]]
+				::MSN::messageTo $chatid "$msgchunk" $ackid $friendlyname
+				incr first 400
+			}
 		}
 		set msgchunk [string range $msg $first end]
 		set ackid [after 60000 ::amsn::DeliveryFailed $chatid [list $msgchunk]]
