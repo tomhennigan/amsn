@@ -2352,7 +2352,7 @@ namespace eval ::amsn {
 		update idletasks
 		set txt "[trans deliverfail]:\n $msg"
 		WinWrite $chatid "\n[timestamp] [trans deliverfail]:\n" red
-		WinWrite $chatid "$msg" gray
+		WinWrite $chatid "$msg" gray "" 1 [::config::getKey login]
 
 	}
 	#///////////////////////////////////////////////////////////////////////////////
@@ -2697,9 +2697,13 @@ namespace eval ::amsn {
 
 		if {[::config::getKey chatsmileys]} {
 			custom_smile_subst $chatid [::ChatWindow::GetTopText ${win_name}] $text_start end
-			::smiley::substSmileys  [::ChatWindow::GetTopText ${win_name}] $text_start end 0
+			#Replace smileys... if you're sending custom ones, replace them too (last parameter)
 			if { $user == [::config::getKey login] } {
-				::smiley::substYourSmileys [::ChatWindow::GetTopText ${win_name}] $text_start end 0
+				::smiley::substSmileys  [::ChatWindow::GetTopText ${win_name}] $text_start end 0 1
+				#::smiley::substYourSmileys [::ChatWindow::GetTopText ${win_name}] $text_start end 0
+			} else {
+				::smiley::substSmileys  [::ChatWindow::GetTopText ${win_name}] $text_start end 0 0
+
 			}
 		}
 

@@ -165,13 +165,56 @@ namespace eval ::smiley {
 		lappend [::config::getVar customsmileys] $emotion(name)
 		#Store the emoticon data in the custom_emoticons array
 		set custom_emotions($emotion(name)) [array get emotion]
-		#Create the image, and associate it
 
+		variable sortedemotions
+		if {[info exists sortedemotions]} { unset sortedemotions }
+		
 		
 		return 0
 	}
 	
 
+	
+	#///////////////////////////////////////////////////////////////////////////////
+	# proc SortSmileys
+	#
+	# Create a list of available smileys, sorted by symbol length
+	proc SortSmileys {} {
+		global emotions
+		global custom_emotions
+			
+		variable sortedemotions
+		
+		#If no sorted list exists, create it...
+		if { ![info exists sortedemotions]} {
+			set unsortedemotions [list]
+			
+			#Add standard smileys. We just add the symbol, and keyword "standard"
+			foreach name [array names emotions] {
+				lappend unsortedemotions [list $name standard]
+			}
+			
+			#Add our custom smileys. For custom smileys we also add
+			#the smiley name associated to that symbol
+			foreach name [array names custom_emotions] {
+			
+				if { ![info exists custom_emotions($name)] } {
+					status_log "substYourSmileys: Custom smiley $name doesn't exist in custom_emotions array!!\n" red
+					continue
+				}
+			
+				array set emotion $custom_emotions($name)
+				foreach symbol $emotion(text) {
+					lappend unsortedemotions [list $symbol custom $name]
+				}
+			}
+			
+			#TODO: Add SB smileys?
+
+			#Now, sort this list			
+			set sortedemotions [lsort -command ::smiley::CompareSmileyLength $unsortedemotions]
+		}
+	}
 
 	#///////////////////////////////////////////////////////////////////////////////
 	# proc substSmileys { tw {start "0.0"} {end "end"} {contact_list 0} }
@@ -184,46 +227,94 @@ namespace eval ::smiley {
 	# the function scans the text widget (from the $start variable to the end) and
 	# replaces any smileys pattern by the appropriate image (animated or not) and plays
 	# a sound if necessary, etc... It scans the widget for every smiley that exists
-	proc substSmileys {tw {textbegin "0.0"} {end "end"} {contact_list 0}} {
+	proc substSmileys {tw {textbegin "0.0"} {end "end"} {contact_list 0} {include_custom 0}} {
 		global emotions
+		global custom_emotions
 		variable sortedemotions
-		
-		if { ![info exists sortedemotions]} {
-			set sortedemotions [lsort -command ::smiley::CompareSmileyLength [array names emotions]]
-		}
-		
-		#Search for all possible emotions
-		foreach symbol $sortedemotions {
+				
+		SortSmileys
 			
-			#Get the name for this symbol
-			set emotion_name $emotions($symbol)
-
-			if { [ValueForSmiley $emotion_name casesensitive 1] } {set nocase "-exact"} else {set nocase "-nocase"}
-			
-			set start $textbegin
-			
-			#Keep searching umtil no matches
-			while {[set pos [$tw search -exact $nocase -- $symbol $start $end]] != ""} {
+		#Search for all possible emotions, after they are sorted by symbol length
+		foreach emotion_data $sortedemotions {
 		
-				set animated [ValueForSmiley $emotion_name animated 1]
+			#Symbol is first element
+			set symbol [lindex $emotion_data 0]
+			#Type is second element
+			set smiley_type [lindex $emotion_data 1]
+			
+			if { $smiley_type == "custom" } {
+				#If smiley type is custom, replace or ignore it depending on call parameter
+				if { $include_custom == 0} {
+					continue
+				} else {
+					#Get name. It will be 3rd element on the list
+					set name [lindex $emotion_data 2]
+					
+					#Get all emoticon data from custom_emotions array
+					array set emotion $custom_emotions($name)
+					
+					if { [info exists emotion(casesensitive)] && [is_true $emotion(casesensitive)]} {
+						set nocase "-exact"
+					} else {
+						set nocase "-nocase"
+					}
+					
+					set animated [expr {[info exists emotion(animated)] && [is_true $emotion(animated)]}]
+					if { $contact_list == 0 && [info exists emotion(sound)] && $emotion(sound) != "" } {
+						set sound $emotion(sound)
+					} else { set sound "" }
+					set image_name $emotion(image_name)
+					set image_file $emotion(file)
+					
+					
+					array unset emotion
+				}
+				
+			} else {
+				#Get the name for this symbol
+				set emotion_name $emotions($symbol)
+	
+				if { [ValueForSmiley $emotion_name casesensitive 1] } {
+					set nocase "-exact"
+				} else {
+					set nocase "-nocase"
+				}
+				
+				set animated [ValueForSmiley $emotion_name animated 1]			
 				if { $contact_list == 0 && [ValueForSmiley $emotion_name sound] != "" } {
 					set sound [ValueForSmiley $emotion_name sound]
 				} else { set sound "" }
+				set image_name [::skin::loadPixmap $symbol smileys]
+				set image_file [ValueForSmiley $emotion_name file]
 				
-				set start [::smiley::SubstSmiley $tw $pos $symbol [::skin::loadPixmap $symbol smileys] [ValueForSmiley $emotion_name file] $animated $sound]
-		
+				set start $textbegin
+
+			}
+
+			
+			#Keep searching until no matches
+			set start $textbegin
+			while {[set pos [$tw search -exact $nocase -- $symbol $start $end]] != ""} {
+			
+				
+				set start [::smiley::SubstSmiley $tw $pos $symbol $image_name $image_file $animated $sound]
 				#If SubstSmiley returns -1, start from beggining.
 				#See why in SubstSmiley. This is a fix
 				if { $start == -1 } { set start $textbegin }
-
 		
 			}
+			
+			
+			
 			
 		}
 	
 	}
 	
-	#Replace one smiley in the given $tw (text window)
+	#//////////////////////////////////////////////////////////////////////
+	# proc SubstSmiley {tw pos symbol image file animated sound }
+	#
+	# Replace one smiley in the given $tw (text window)
 	proc SubstSmiley { tw pos symbol image file animated { sound "" }} {
 
 		set chars [string length $symbol]
@@ -275,42 +366,7 @@ namespace eval ::smiley {
 		#so we restart from beginning
 		return -1
 	}
-	
-	# proc substYourSmileys { tw {start "0.0"} {end "end"} {contact_list 0} }
-	#
-	# Similar to substSmileys, but replace only your custom smileys
-	proc substYourSmileys {tw {textbegin "0.0"} {end "end"} {contact_list 0}} {
-		global custom_emotions
 		
-		#Search for all possible emotions
-		foreach name [::config::getKey customsmileys] {
-	
-			array set emotion $custom_emotions($name)
-			foreach symbol $emotion(text) {
-			
-				if { [info exists emotion(casesensitive)] && [is_true $emotion(casesensitive)]} {set nocase "-exact"} else {set nocase "-nocase"}
-				
-				set start $textbegin
-				
-				#Keep searching umtil no matches
-				while {[set pos [$tw search -exact $nocase -- $symbol $start $end]] != ""} {
-				
-					set animated [expr {[info exists emotion(animated)] && [is_true $emotion(animated)]}]
-					if { $contact_list == 0 && [info exists emotion(sound)] && $emotion(sound) != "" } {
-						set sound $emotion(sound)
-					} else { set sound "" }
-					
-					set start [::smiley::SubstSmiley $tw $pos $symbol $emotion(image_name) $emotion(file) $animated $sound]
-					#If SubstSmiley returns -1, start from beggining.
-					#See why in SubstSmiley. This is a fix
-					if { $start == -1 } { set start $textbegin }
-			
-				}
-			}
-		}
-	
-	}
-	
 	
 	#///////////////////////////////////////////////////////////////////////////////
 	# proc smileyMenu { {x 0} {y 0} {text text}}
@@ -629,6 +685,9 @@ namespace eval ::smiley {
 		unset custom_emotions($name)
 		if { [winfo exists .smile_selector]} {destroy .smile_selector}
 		
+		#After modifying, clear sortedemotions, could need sorting again
+		variable sortedemotions
+		if {[info exists sortedemotions]} { unset sortedemotions }
 		
 		destroy .new_custom
 
@@ -764,7 +823,12 @@ namespace eval ::smiley {
 		#load_smileys
 		#::skin::reloadSkinSettings [::config::getGlobalKey skin]
 		if { [winfo exists .smile_selector]} {destroy .smile_selector}
+
+		#After modifying, clear sortedemotions, could need sorting again
+		variable sortedemotions
+		if {[info exists sortedemotions]} { unset sortedemotions }
 		
+				
 		#Immediately save settings.xml
 		save_config
 	}
@@ -810,6 +874,10 @@ namespace eval ::smiley {
 	# this is necessary to avoid replacing smaller smileys that may be included inside longer one
 	# for example <:o) (party) may be considered as a :o smiley between < and ) ... 
 	proc CompareSmileyLength { a b } {
+	
+	#Get just the symbol (first element), not the type
+	set a [lindex $a 0]
+	set b [lindex $b 0]
 	
 	if { [string length $a] > [string length $b] } {
 		return -1
@@ -916,6 +984,11 @@ proc process_custom_smileys_SB { txt } {
 
 	#Try to find used smileys in the message	
 	foreach name [::config::getKey customsmileys] {
+	
+		if { ![info exists custom_emotions($name)] } {
+			status_log "process_custom_smileys_SB: Custom smiley $name doesn't exist in custom_emotions array!!\n" red
+			continue
+		}
 		
 		array set emotion $custom_emotions($name)
 		foreach symbol $emotion(text) {
