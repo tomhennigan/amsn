@@ -1,8 +1,52 @@
 namespace eval ::growl {
     variable config
     variable configlist
+    
+    ###############################################
+	# ::growl::InitPlugin dir                     #
+	# ------------------------------------------- #
+	# Load proc of Growl Plugin                   #
+	###############################################	
+	proc InitPlugin { dir } {
+    	::plugins::RegisterPlugin growl
+		source [file join $dir growl.tcl]
+    	
+    	#Package require Growl extension
+    	if {![catch {package require growl}]} {
+			#Continue..
+    	} else {
+   		 	status_log "Plugin system: Growl missing\n"
+   			return 0
+    	}
+    	
+    	#Command to Growl, register application aMSN with 4 kinds of notification
+    	#Use default icon inside the growl folder
+    	catch {growl register aMSN "Online Newstate Offline Newmessage" $dir/growl.png}
+    	#Register events for witch Growl, when someone come online and when we receive a message
+    	::plugins::RegisterEvent growl UserConnect online
+    	::plugins::RegisterEvent growl chat_msg_received newmessage
+    	::plugins::RegisterEvent growl ChangeState changestate
+    	#Default config for the plugin
+    	array set ::growl::config {
+		userconnect {1}
+		lastmessage {0}
+		changestate {0}
+		offline {0}
+    	}
+    	#Config dialog with 4 variables in bolean, choose to keep notifications or not
+    	set ::growl::configlist [list \
+				  [list bool "[trans notify1]"  userconnect] \
+				  [list bool "[trans notify2]" lastmessage] \
+				  [list bool "[trans notify1_75]" changestate] \
+				  [list bool "[trans notify1_5]" offline] \
+				 ]
+	}
 	
-	#Online notification
+    ###############################################
+	# ::growl::online event evpar                 #
+	# ------------------------------------------- #
+	# Show the online notification                #
+	###############################################
     proc online {event evpar} {
     	#Get config from plugin.tcl file
     	variable config
@@ -19,7 +63,12 @@ namespace eval ::growl {
 		}
     }
     
-    #New message notification
+    ###############################################
+	# ::growl::newmessage event evpar             #
+	# ------------------------------------------- #
+	# Show a notification when we receive         #
+	# a message and we are not in aMSN app.       #
+	###############################################
     proc newmessage {event evpar} {
     	variable config
     	upvar 2 evpar newvar
@@ -33,8 +82,14 @@ namespace eval ::growl {
     		if { (($email != [::config::getKey login]) && [focus] == "") && $msg != "" && $config(lastmessage)} {
     			catch {growl post Newmessage $nickname $msg [::growl::getpicture $email]}
     		}
-        }
-    #Change State notification
+ 	}
+        
+    ###############################################
+	# ::growl::changestate event evpar            #
+	# ------------------------------------------- #
+	# Show a notification when                    #
+	# a contact change state or go offline        #
+	###############################################
 	proc changestate {event evpar} {
 		variable config
 		upvar 2 evpar newvar
@@ -79,17 +134,23 @@ namespace eval ::growl {
 			}
 	}
 	
-	#Return the path for the contact's avatar to notifications requests
+    ######################################################
+	# ::growl::getpicture email                          #
+	# ---------------------------------------------------#
+	# Return the path to the actual avatar of the contact#
+	# for the picture of the notification. If no         #
+	# picture exists, just show aMSN icon                #
+	######################################################
 	proc getpicture {email} {
-	global HOME
-	#Get displaypicfile from the abook, so we don't get the actual picture but the picture we received from that user previously
-	set filename [::abook::getContactData $email displaypicfile ""]
-	#If the picture already exist, return the path to that picture, if the picture do not exist, return the default icon of aMSN
-	if { [file readable "[file join $HOME displaypic cache ${filename}].gif"] } {
-		return "[file join $HOME displaypic cache ${filename}].gif"
-	} else {
-		return "icons/growl.png"
-	}
+		global HOME
+		#Get displaypicfile from the abook, so we don't get the actual picture but the picture we received from that user previously
+		set filename [::abook::getContactData $email displaypicfile ""]
+		#If the picture already exist, return the path to that picture, if the picture do not exist, return the default icon of aMSN
+		if { [file readable "[file join $HOME displaypic cache ${filename}].gif"] } {
+			return "[file join $HOME displaypic cache ${filename}].gif"
+		} else {
+			return "icons/growl.png"
+		}
 	}
 	
 
