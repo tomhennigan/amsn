@@ -22,6 +22,7 @@ alarmonmsg Kullanýcý ileti gönderince alarm çalsýn
 alarmonstatus Kullanýcý durum deðiþtirince alarm çalsýn 
 alarmpref Kullanýcýnýn alarm ayarlarý
 alarmstatus Bu kullanýcý için alarmý aç/kapa
+allfiles Tüm Dosyalar
 allowallbutbl Engellenenler dýþýnda herkesin bana ulaþmasýna izin ver
 allowbadwords Kullanýcý isimlerinde sansürü kaldýr
 allowlist Ýzin verilenler
@@ -64,13 +65,14 @@ blocklist Engellenenler listesi
 blockmessage Þu kiþiler baðlý ve sizi engellemiþ durumdalar
 blockusers Bir seferde denetlenecek kullanýcý sayýsý 
 broughtby Yazýlýmý geliþtirenler
-browse gözat
+browse Gözat
 browser Ýnternet tarayýcý
 browserexample (\$url URL ile deðiþtirilecek) Örn: mozilla \$url
 busy Meþgul
 cancel Ýptal Et
 cannotdeleteprofile Profil kullanýmda olduðu için silinemiyor
 cantexec $1 uygulamasi çalýþtýrýlamýyor. Seçenekleri kontrol edin.
+cantremoveothers "Diðer" grubu silinemiyor
 casesensitive Yazýlý karþýlýklarda büyük/küçük harfe duyarlý ol
 cfgalarm Alarmý Düzenle/Ekle/Kaldýr
 cfgalarmall Genel Alarmý Düzenle/Ekle/Kaldýr
@@ -78,7 +80,7 @@ ch_to_state Yeni duruma geç
 changecustomstate Þu duruma geç:
 changedisplaypic Kullanýcý resmini deðiþtir
 changefont Yazitipi deðiþtir
-changenick Kullanýcý ismi deðiþtir
+changenick Kullanýcý ismini deðiþtir
 changestate $1, $2 durumuna geçti
 chatack Sohbet istemi kabul edilen kiþi
 chatmaxmin Bir arkadaþým benimle sohbet penceresi açtýðýnda pencerenin þöyle olmasýný istiyorum:
@@ -104,10 +106,11 @@ clicktologin Baðlanmak için týklayýn
 closed $1 ile olan sohbet etkinlik olmadýðý için kapatýldý.
 close Kapat
 closingdocks Kapatma tuþu küçültsün
-command komut
+command Komut
 commandstatus Komutu çalýþtýr
 confirm Emin misiniz?
 confirmdelete $1 i silmek istediðinizden emin misiniz?
+confirmpurge Diðer kullanýcýlardan alýnan kullanýcý resimleri (sizinkiler deðil) silinecek. Emin misiniz?
 connected Þu an baglýsýnýz
 connecterror Sunucuya baðlanýrken hata oluþtu
 connecting Baðlanýyor
@@ -116,8 +119,11 @@ connectionlost Baðlantý koptu: Sunucuyla baðlantý kesildi
 contactadded Baðlantý eklendi
 contactdoesnotexist Böyle bir baðlantý yok!
 contactlist Baðlantý listesi:
+convertexplain ImageMagick'in CONVERT uygulamasýnýn konumu (Kullanýcý resimleri için gerekli). \nEðer CONVERT zaten varsayýlan konumlardan birindeyse (PATH deðiþkeni) boþ býrakýlabilir.
 copy Kopyala
 copytogroup Gruba kopyala
+corruptconfig Ayarlar dosyasý bozulmuþ. Yenisi oluþturulacak. Eski dosya $1 konumuna kaydedilecek. Sorunu bulmamýz için lütfen bize gönderin.
+corruptstates Kiþisel durumlar ayar dosyasý bozulmuþ. Yenisi oluþturulacak. Eski dosya $1 konumuna kaydedilecek. Sorunu bulmamýz için lütfen bize gönderin.
 countrycode Ülke/Bölge kodum
 cprofile Profil oluþtur
 custom_edit Özel gülen adamý düzenle
@@ -128,6 +134,7 @@ days Gün
 dcprofile Profil oluþturma
 defaultloginradio Varsayýlan ayarlarla baðlan
 default Varsayýlan ayar
+defchatwinsize Sohbet pencereleri için varsayýlan boyutlar (XBOYUTU x YBOYUTU)
 delete Sil
 deletecustomstate Özel durumu sil
 delimiters Tarih ayraçlarý:
@@ -219,6 +226,7 @@ httpconnection HTTP yöntemiyle baðlan (80. porttan HTTP protokolü kullanýr)
 hybrid Melez kip
 identity Kimlik
 ident Kimlik denetleniyor
+imagefiles Resim Dosyalarý
 inbox Gelen kutusu
 insertsmiley Gülen adam koy
 installconvert Kullanýcý resimlerini ve özel gülen adamlarý kullanabilmek için ImageMagick ('convert' programý) kurulmuþ olmalýdýr. Sisteminiz için gereken çaýlýþtýrýlabilir dosyalarý ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ adresinden indirebilirsiniz. Eðer program zaten kuruluysa bu bir hatadýr, lütfen bize bildirin. Bu özellikler þimdilik devredýþýdýr, daha sonra Image Magick'i kurduðunuzda bunlarý Seçenekler'den etkinleþtirebilirsiniz.
@@ -262,6 +270,7 @@ logout Baðlantýyý kes
 logsin baðlandý
 logsmileys Geçmiþ penceresinde gülen adamlar görünsün
 logsout $1 az önce sohbetten ayrýldý.
+longnick Kullanýcý isminiz 130 harften uzun. Bu, resmi MSN protokolünce desteklenmiyor. Bu ismi kullanmak istediðinizden emin misiniz?
 lprivtoconf $1 ile özel görüþme konferansa çevrildi
 luclosedwin $1 de pencereyi kapadýnýz
 mailer E-posta uygulamasý
@@ -303,6 +312,7 @@ nonewver Daha yeni bir sürüm yok
 nopic Resim yok
 noprofileexists Henüz hiçbir profil yok. Eðer profille baðlanmak \nisterseniz bir tane yaratmalýsýnýz. Bu penceredeki \nYeni Profil Ekle düðmesine týklayarak bunu yapabilirsiniz.
 normal normal
+noskins Varsayýlan kabuk skins/ dizininde bulunamadý. AMSN baþlatýlamadý.
 nosystemtray Görev çubuðu yok
 notificationserver ?lk MSN Uyarý Sunucusu (MSN Messenger Sunucusu)
 notify1_5 Baðlantýlar çýkýnca uyarý penceresi göster
@@ -397,6 +407,7 @@ rightback Hemen döneceðim
 saveas Farklý kaydet
 savecontacts Baðlantý listesini kaydet
 save Kaydet
+savechatwinsize Sohbet penceresinin boyutu degiþtiðinde yeni boyutu varsayýlan olarak kaydet. 
 savetofile Dosyaya kaydet
 says $1 diyor ki
 sbcon Switch Board'a baðlanýyor
@@ -431,6 +442,7 @@ soundloop Ses tekrarlasýn
 soundserver Ses Sunucusu
 sound Ses
 soundexample (\$sound = Çalýnacak ses dosyasý) Örn: esdplay \$sound
+soundfiles Ses Dosyalarý
 soundstatus Sesli alarmý aç/kapa
 sourcecode Kaynak kodu (derlenip kurulmasi gerekir)
 sslwarning UYARI!!! SSL'i kapatmak þifrelemeyi engeller, þ?ifreniz düz metin olarak aktarýlýr. Gerçekten kapatmayý gerektiren durumlar olmad?kça kullanmayýnýz.
@@ -460,6 +472,7 @@ timestamps Sohbet pencerelerinde zaman kaydý düþülsün
 title Al'ýn Messenger'ý
 tkerror TK hata verdi; AMSN'de bir hata var, lütfen bildirin. $1 dosyasýný amsn-bugs@lists.sf.net adresine yollayýn. 
 tlsdowncompleted $1 dosyasý $2 dizinine kaydedildi. Sýkýþtýrýlmýþ dosyayý açýp, (kaynak kodsa) derleyip $dizinine kurunuz.
+tlsexplain Tcl TLS modülünün bulunduðu dizin. Eðer AMSN bulamazsa lütfen siz girin. \n(SSL onaylama için gerekli).
 tlsinstallexp AMSN artýk güvenli baðlantý için SSL gerektiren MSNP9 kullanýyor.SSL kullanabilmek\niçin AMSN'nin sisteminizde olmayan TLS kütüphanesini kurmasý gerekiyor. Bu sihirbaz\nTLS indirme kurulumunda size yardýmcý olacaktýr.\n\nLütfen doðru paketin indirilmesi için sistem türünüzü seçiniz.
 tlsinstall TLS kütüphanesi kurulum sihirbazý
 tlsinstcompleted TLS kütüphanesi baþarýyla kuruldu, artýk MSNP9 kullanabilirsniz. Eðer kullanamýyorsanýz, sistem türünüzü yanlýþ seçmiþ olabilirsiniz, ya da sisteminize uygun derlenmiþ TLS sürümü yoktur.
