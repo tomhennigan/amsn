@@ -212,7 +212,7 @@ proc CreateStatesMenu { path } {
 # idx indicates the index of the personal state in the StateList, 
 # otherwise it indicates a normal state change (AWY, BSY, etc)
 proc ChCustomState { idx } {
-	global HOME automessage user_info config automsgsent list_states user_stat
+	global HOME automessage user_info config automsgsent list_states user_stat original_nick
 	set automessage "-1"
 	set redraw 0
 	if { [string is digit $idx] == 1 } {
