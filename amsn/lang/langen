@@ -620,6 +620,7 @@ tabbedglobal A tabbed window for all users in the contact list
 tabbedgroups A tabbed window for users from the same group
 tabbed Tabbed Windows
 tabtitlenick Display nicks in the tabs instead of email
+takesnapshot Take Snapshot
 temp_state Don't save (Temporary state, will be missed when close AMSN)
 textsize Text size
 thismonth This month

@@ -7695,7 +7695,7 @@ proc webcampicture {} {
 		}
 	}
 	#Action button to take the picture
-	button $w.shot -text "Take a Photo" -command "webcampicture_shot"
+	button $w.shot -text "[trans takesnapshot]" -command "webcampicture_shot"
 	pack $w.shot
 
 	wm title $w "[trans webcamshot]"
