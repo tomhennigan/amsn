@@ -112,6 +112,7 @@ clearlog Sohbet kaydýný sil
 clearlog2 Tüm baðlantýlarýn Geçmiþini sil
 clearlog3 Tüm sohbet kayýtlarýný sil
 clicktologin Baðlanmak için týklayýn
+clientname Ýstemci Ýsmi
 close Kapat
 closed $1 ile olan sohbet etkinlik olmadýðý için kapatýldý.
 closingdocks Kapatma tuþu küçültsün
@@ -282,6 +283,7 @@ lastlogin En Son Baðlanma
 lastlogout En Son Çýkýþ
 lastmsgedme Son Ýleti
 lastmsgtime Son iletinin alýndýðý zaman: $1
+lastseen En son baðlý göründüðü saat
 lclosedwin $1 $2'de penceresini kapattý
 lconftopriv $1 ile sohbet özel görüþmeye çevrildi
 lconvstarted Sohbetin baþlama saati $1
@@ -495,6 +497,7 @@ smileconfig Özel gülen adam ayarlarý
 smilefile Gülen adam dosya ismi
 smileintro Özel bir gülen adam yaratmak için ilgili alanlarý doldurunuz \n(yardým için SSS'a bakýnýz)
 smileintro2 Bu gülen adamý özelleþtirmek için ilgili alanlarý düzenleyiniz \n(yardým için SSS'a bakýnýz)
+snackfailed Snack yüklenemedi; varsayýlan kütüphane kullanýlacak.
 sngdblclick Yeni ileti penceresi tek týklamayla açýlsýn
 sound Ses
 sound2 Baðlantýlar girince ya da ileti gönderince ses çýkar

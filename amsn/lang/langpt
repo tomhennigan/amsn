@@ -564,9 +564,24 @@ never Nunca
 changeglobnick Modificar o nick global
 email	Email
 globalnick Insere um padrão para formar todas as alcunhas dos teus contactos. Podes utilizar as seguintes variáveis: \$user_login para o endereço do teu contacto, \$nick para o nick do teu contacto e \$customnick para o nick escolhido para o teu contacto. Por exemplo: '\$user_login é o \$nick' ficará definido como 'contacto@msn.com é o Contacto'
-globalnicktitle	Alcunha (nickname) global
-globaloverride	Padrões de alcunhas globais devem sobrepor-se as alcunhas escolhidas
-needwinico	Necessitas de colocar o ficheiro winico03.dll no directório dos plugins para a funcionalidade de "windows traydocking" funcionar
-showbanner	Mostrar o banner do aMSN
+globalnicktitle Alcunha (nickname) global
+globaloverride Padrões de alcunhas globais devem sobrepor-se as alcunhas escolhidas
+needwinico Necessitas de colocar o ficheiro winico03.dll no directório dos plugins para a funcionalidade de "windows traydocking" funcionar
+showbanner Mostrar o banner do aMSN
 splashstart	Iniciar
-viewcontactsby	Visualizar contactos por
+viewcontactsby Visualizar contactos por
+clientname Nome do cliente
+customstyle Estilo personalizado
+disableuserfonts Ignorar a fonte do utilzador remoto nos chats e usar a minha fonte
+groups Grupos
+lastseen Ultima vez online
+myfriendlyname Meu nome amigável
+mynick Minha alcunha (nickname)
+nogap Sem espaços entre grupos
+notifytimeout Numero de milisegundos antes da janela de notificação deparecer
+reconnect2 Voltar a ligar na perda de ligação
+removeempty Remover grupos vazios da lista de contactos
+snackfailed Snack falhou a carregar, voltado para default
+sngdblclick Único clique para abrir nova janela de mensagem
+useother Usar um programa diferente
+usesnack Utilizar Snack Library (Tcl interna)
