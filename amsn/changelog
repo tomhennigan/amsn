@@ -22,6 +22,7 @@ Version 0.52
 		o Implemented File Transfer (files stored in ~/.amsn/myfiles)
 		o Fixed bug that allowed to start a chat (even though it
 		  never connected) when the user is/appear offline
+		o Preliminary support for address book
 
 Version 0.51
 20020604	o Some fixes and menu reorganizations

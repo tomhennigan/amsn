@@ -31,7 +31,7 @@ namespace eval ::abook {
 
        set groups($nr) $name
        incr groupCnt
-       puts "ABOOK: added group $nr ($name)"
+#       puts "ABOOK: added group $nr ($name)"
    }
    
    proc getGroup {nr} {
@@ -75,6 +75,9 @@ namespace eval ::abook {
    }
 }
 # $Log$
+# Revision 1.2  2002/06/17 00:10:53  lordofscripts
+# *** empty log message ***
+#
 # Revision 1.1  2002/06/17 00:01:57  lordofscripts
 # Handles Address Book containing data about users in the forward list
 #
