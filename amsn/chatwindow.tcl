@@ -1049,10 +1049,10 @@ namespace eval ::ChatWindow {
 		menu $msnmenu -tearoff 0 -type normal
 
 		$msnmenu add command -label "[trans savetofile]..." \
-		    -command " ChooseFilename [::ChatWindow::GetOutText $w] $w"
+		    -command " ChooseFilename \[::ChatWindow::GetOutText \[::ChatWindow::getCurrentTab $w\]\] \[::ChatWindow::getCurrentTab $w\]"
 		$msnmenu add separator
 		$msnmenu add command -label "[trans sendfile]..." \
-		    -command "::amsn::FileTransferSend $w"
+		    -command "::amsn::FileTransferSend \[::ChatWindow::getCurrentTab $w\]"
 		$msnmenu add command -label "[trans openreceived]..." \
 		    -command "launch_filemanager \"$files_dir\""
 		$msnmenu add separator
@@ -1069,7 +1069,6 @@ namespace eval ::ChatWindow {
 		return $msnmenu
 		
 	}
-	
 
 	#############################################
 	# CreateEditMenu $menu
@@ -1084,22 +1083,22 @@ namespace eval ::ChatWindow {
 		#Change the accelerator on Mac OS X
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 			$editmenu add command -label "[trans cut]" \
-				-command "tk_textCut $w" -accelerator "Command+X"
+				-command "tk_textCut \[::ChatWindow::getCurrentTab $w\]" -accelerator "Command+X"
 			$editmenu add command -label "[trans copy]" \
-				-command "tk_textCopy $w" -accelerator "Command+C"
+				-command "tk_textCopy \[::ChatWindow::getCurrentTab $w\]" -accelerator "Command+C"
 			$editmenu add command -label "[trans paste]" \
-				-command "tk_textPaste $w" -accelerator "Command+V"
+				-command "tk_textPaste \[::ChatWindow::getCurrentTab $w\]" -accelerator "Command+V"
 		} else {
 			$editmenu add command -label "[trans cut]" \
-				-command "tk_textCut $w" -accelerator "Ctrl+X"
+				-command "tk_textCut \[::ChatWindow::getCurrentTab $w\]" -accelerator "Ctrl+X"
 			$editmenu add command -label "[trans copy]" \
-				-command "tk_textCopy $w" -accelerator "Ctrl+C"
+				-command "tk_textCopy \[::ChatWindow::getCurrentTab $w\]" -accelerator "Ctrl+C"
 			$editmenu add command -label "[trans paste]" \
-				-command "tk_textPaste $w" -accelerator "Ctrl+V"
+				-command "tk_textPaste \[::ChatWindow::getCurrentTab $w\]" -accelerator "Ctrl+V"
 		}
 		
 		$editmenu add separator
-		$editmenu add command -label "[trans clear]" -command [list ::ChatWindow::Clear $w]
+		$editmenu add command -label "[trans clear]" -command "\[list ::ChatWindow::Clear \[::ChatWindow::getCurrentTab $w\]\]"
 
 		return $editmenu
 	}
@@ -1123,7 +1122,7 @@ namespace eval ::ChatWindow {
 		set ${w}_show_picture 0
 		
 		$viewmenu add checkbutton -label "[trans showdisplaypic]" \
-			-command "::amsn::ShowOrHidePicture $w" -onvalue 1 \
+			-command "::amsn::ShowOrHidePicture \[::ChatWindow::getCurrentTab $w\]" -onvalue 1 \
 		    -offvalue 0 -variable "${w}_show_picture"
 		$viewmenu add separator
 
@@ -1131,15 +1130,15 @@ namespace eval ::ChatWindow {
 		# of just hide it and change accelerator for history on Mac OS X
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 			$viewmenu add command -label "[trans history]" \
-				-command "::amsn::ShowChatList \"[trans history]\" $w ::log::OpenLogWin" \
+				-command "::amsn::ShowChatList \"[trans history]\" \[::ChatWindow::getCurrentTab $w\] ::log::OpenLogWin" \
 				-accelerator "Command-Option-H"
 		} else {
 			$viewmenu add command -label "[trans history]" \
-				-command "::amsn::ShowChatList \"[trans history]\" $w ::log::OpenLogWin" \
+				-command "::amsn::ShowChatList \"[trans history]\" \[::ChatWindow::getCurrentTab $w\] ::log::OpenLogWin" \
 				-accelerator "Ctrl+H"
 			$viewmenu add separator
 			$viewmenu add command -label "[trans hidewindow]" \
-				-command "wm state $w withdraw"
+				-command "wm state \[::ChatWindow::getCurrentTab $w\] withdraw"
 		}
 		
 		$viewmenu add separator
@@ -1200,21 +1199,21 @@ namespace eval ::ChatWindow {
 		menu $actionsmenu -tearoff 0 -type normal
 
 		$actionsmenu add command -label "[trans addtocontacts]" \
-			-command "::amsn::ShowAddList \"[trans addtocontacts]\" $w ::MSN::addUser"
+			-command "::amsn::ShowAddList \"[trans addtocontacts]\" \[::ChatWindow::getCurrentTab $w\] ::MSN::addUser"
 		$actionsmenu add command -label "[trans block]/[trans unblock]" \
-			-command "::amsn::ShowChatList \"[trans block]/[trans unblock]\" $w ::amsn::blockUnblockUser"
+			-command "::amsn::ShowChatList \"[trans block]/[trans unblock]\" \[::ChatWindow::getCurrentTab $w\] ::amsn::blockUnblockUser"
 		$actionsmenu add command -label "[trans viewprofile]" \
-			-command "::amsn::ShowChatList \"[trans viewprofile]\" $w ::hotmail::viewProfile"
+			-command "::amsn::ShowChatList \"[trans viewprofile]\" \[::ChatWindow::getCurrentTab $w\] ::hotmail::viewProfile"
 		$actionsmenu add command -label "[trans properties]" \
-			-command "::amsn::ShowChatList \"[trans properties]\" $w ::abookGui::showUserProperties"
+			-command "::amsn::ShowChatList \"[trans properties]\" \[::ChatWindow::getCurrentTab $w\] ::abookGui::showUserProperties"
 		$actionsmenu add command -label "[trans note]" \
-			-command "::amsn::ShowChatList \"[trans note]\" $w ::notes::Display_Notes"
+			-command "::amsn::ShowChatList \"[trans note]\" \[::ChatWindow::getCurrentTab $w\] ::notes::Display_Notes"
 		$actionsmenu add separator
 		$actionsmenu add command -label "[trans invite]..." \
-			-command "::amsn::ShowInviteList \"[trans invite]\" $w"
+			-command "::amsn::ShowInviteList \"[trans invite]\" \[::ChatWindow::getCurrentTab $w\]"
 		$actionsmenu add separator
 		$actionsmenu add command -label [trans sendmail] \
-			-command "::amsn::ShowChatList \"[trans sendmail]\" $w launch_mailer"
+			-command "::amsn::ShowChatList \"[trans sendmail]\" \[::ChatWindow::getCurrentTab $w\] launch_mailer"
 
 		return $actionsmenu
 	}
@@ -2539,6 +2538,16 @@ namespace eval ::ChatWindow {
 		if {$new == "" } {
 			$more conf -state disabled
 		}
+	}
+
+	proc getCurrentTab { win } {
+		variable containercurrent
+
+		if { [::config::getKey tabbedchat] == 0 } {
+			return $win
+		}
+
+		return $containercurrent($win)
 	}
 
 }
