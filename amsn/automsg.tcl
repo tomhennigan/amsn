@@ -357,7 +357,7 @@ proc EditNewState { mode { idx "" } } {
     # Fill all entries if editing an existing state
     if { $mode == 2 } {
 
-	$lfname.edesc insert end [lindex [StateList get $idx] 0]
+    	$lfname.edesc insert end [lindex [StateList get $idx] 0]
 	$lfname.statebox select [lindex [StateList get $idx] 1]
 	$lfname.emsg insert end [lindex [StateList get $idx] 3]
 	button .editstate.buttons.save -text [trans save] -font sboldf -command "ButtonSaveState $lfname $mode $idx; destroy .editstate"

@@ -610,10 +610,12 @@ proc Preferences { { settings "personal"} } {
 	label $lfname.3.lmsgmode -text [trans msgmode] -padx 10
 	radiobutton $lfname.3.normal -text [trans normal] -value 1 -variable config(msgmode) -state disabled
 	radiobutton $lfname.3.tabbed -text [trans tabbed] -value 2 -variable config(msgmode) -state disabled	
+	checkbutton $lfname.winflicker -text "[trans msgflicker]" -onvalue 1 -offvalue 0 -variable config(flicker)
+	
 	pack $lfname.3.lmsgmode -anchor w -side top -padx 10 
 	pack $lfname.3.normal $lfname.3.tabbed -side left -padx 10
 	
-	pack $lfname.1 $lfname.2 $lfname.3 -anchor w -side top -pady 5
+	pack $lfname.1 $lfname.2 $lfname.3 $lfname.winflicker -anchor w -side top -pady 5
 
 	frame $frm.dummy -class Degt
 	pack $frm.dummy -anchor n -side top -expand 1 -fill both -pady 150
@@ -1529,6 +1531,9 @@ proc BlockValidateEntry { widget data type {correct 0} } {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.73  2003/09/02 08:20:49  burgerman
+# Applied and adapted patches sent by KNO for enhanced alarm functionatily (alarms on status change, on disconnect, on connect and on message)
+#
 # Revision 1.72  2003/08/27 05:41:30  kakaroto
 # Added auto accept file transfer support + show blocked group...
 #

@@ -86,12 +86,20 @@ proc alarm_cfg { user } {
 	set my_alarms(${user}_pic) $alarms(${user}_pic)
 	set my_alarms(${user}_pic_st) $alarms(${user}_pic_st)
 	set my_alarms(${user}_loop) $alarms(${user}_loop)
+	set my_alarms(${user}_onconnect) $alarms(${user}_onconnect)
+	set my_alarms(${user}_onmsg) $alarms(${user}_onmsg)
+	set my_alarms(${user}_onstatus) $alarms(${user}_onstatus)
+	set my_alarms(${user}_ondisconnect) $alarms(${user}_ondisconnect)
    } else {
 	set my_alarms(${user}) 1
-       set my_alarms(${user}_sound) "[GetSkinFile sounds alarm.wav]"
+	set my_alarms(${user}_sound) "[GetSkinFile sounds alarm.wav]"
 	set my_alarms(${user}_sound_st) 1
-       set my_alarms(${user}_pic) "[GetSkinFile pixmaps alarm.gif]"
+	set my_alarms(${user}_pic) "[GetSkinFile pixmaps alarm.gif]"
 	set my_alarms(${user}_pic_st) 1
+	set my_alarms(${user}_onconnect) 1
+	set my_alarms(${user}_onmsg) 0
+	set my_alarms(${user}_onstatus) 0
+	set my_alarms(${user}_ondisconnect) 0
    }
 
    toplevel .alarm_cfg
@@ -120,7 +128,16 @@ proc alarm_cfg { user } {
    pack .alarm_cfg.pic2 -side top -padx 2 -pady 2
 
    checkbutton .alarm_cfg.alarm -text "[trans alarmstatus]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}) -font sboldf
+   checkbutton .alarm_cfg.alarmonconnect -text "[trans alarmonconnect]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_onconnect) -font sboldf
+   checkbutton .alarm_cfg.alarmonmsg -text "[trans alarmonmsg]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_onmsg) -font sboldf
+   checkbutton .alarm_cfg.alarmonstatus -text "[trans alarmonstatus]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_onstatus) -font sboldf
+   checkbutton .alarm_cfg.alarmondisconnect -text "[trans alarmondisconnect]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_ondisconnect) -font sboldf
+
    pack .alarm_cfg.alarm -side top
+   pack .alarm_cfg.alarmonconnect -side top
+   pack .alarm_cfg.alarmonmsg -side top
+   pack .alarm_cfg.alarmonstatus -side top
+   pack .alarm_cfg.alarmondisconnect -side top
 
    frame .alarm_cfg.b -class Degt
    button .alarm_cfg.b.save -text [trans ok] -command "save_alarm_pref $user; destroy .alarm_cfg" -font sboldf
@@ -134,9 +151,9 @@ proc alarm_cfg { user } {
 proc delete_alarm { user} {
    global alarms my_alarms
    if { [info exists alarms(${user})] } {
-	unset alarms(${user}) alarms(${user}_sound) alarms(${user}_sound_st) alarms(${user}_pic) alarms(${user}_pic_st) alarms(${user}_loop)
+	unset alarms(${user}) alarms(${user}_sound) alarms(${user}_sound_st) alarms(${user}_pic) alarms(${user}_pic_st) alarms(${user}_loop)  alarms(${user}_onconnect) alarms(${user}_onmsg) alarms(${user}_onstatus) alarms(${user}_ondisconnect)
    }
-   unset my_alarms(${user}) my_alarms(${user}_sound) my_alarms(${user}_sound_st) my_alarms(${user}_pic) my_alarms(${user}_pic_st) my_alarms(${user}_loop)
+   unset my_alarms(${user}) my_alarms(${user}_sound) my_alarms(${user}_sound_st) my_alarms(${user}_pic) my_alarms(${user}_pic_st) my_alarms(${user}_loop) my_alarms(${user}_onconnect) my_alarms(${user}_onmsg) my_alarms(${user}_onstatus) my_alarms(${user}_ondisconnect)
    cmsn_draw_online
 }
 
@@ -169,23 +186,26 @@ proc save_alarm_pref { user } {
    set alarms(${user}_sound_st) $my_alarms(${user}_sound_st)
    set alarms(${user}_pic_st) $my_alarms(${user}_pic_st)
    if { $my_alarms(${user}_sound) == "" } {
-       set alarms(${user}_sound) "[GetSkinFile sounds alarm.wav]"
+	set alarms(${user}_sound) "[GetSkinFile sounds alarm.wav]"
    } else {
 	set alarms(${user}_sound) $my_alarms(${user}_sound)
    }
    if { $my_alarms(${user}_pic) == "" } {
-       set alarms(${user}_pic) "[GetSkinFile sounds alarm.wav]"
+	set alarms(${user}_pic) "[GetSkinFile sounds alarm.wav]"
    } else {
 	set alarms(${user}_pic) $my_alarms(${user}_pic)
    }
-
+   set alarms(${user}_onconnect) $my_alarms(${user}_onconnect)
+   set alarms(${user}_onmsg) $my_alarms(${user}_onmsg)
+   set alarms(${user}_onstatus) $my_alarms(${user}_onstatus)
+   set alarms(${user}_ondisconnect) $my_alarms(${user}_ondisconnect)
    cmsn_draw_online
 
    unset my_alarms
 }
 
 #Runs the alarm (sound and pic)
-proc run_alarm {user name} {
+proc run_alarm {user msg} {
    global alarms program_dir config alarm_win_number
 
    incr alarm_win_number
@@ -193,7 +213,7 @@ proc run_alarm {user name} {
    
    toplevel .${wind_name}
    wm title .${wind_name} "[trans alarm] $user"
-   label .${wind_name}.txt -text "${name} [trans logsin]"
+   label .${wind_name}.txt -text "$msg"
    pack .${wind_name}.txt
    if { ($alarms(${user}_pic_st) == 1) } {
 	image create photo joanna -file $alarms(${user}_pic)

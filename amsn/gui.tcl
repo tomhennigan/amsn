@@ -1805,8 +1805,13 @@ namespace eval ::amsn {
    # - 'count' can be any number, it's just used in self calls
    proc WinFlicker {chatid {count 0}} {
 
+      global config
       variable window_titles
 
+      if { $config(flicker) == 0 } {
+      	return 0
+      }
+      
       after cancel ::amsn::WinFlicker $chatid 0
       after cancel ::amsn::WinFlicker $chatid 1      
       

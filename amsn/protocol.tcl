@@ -2083,6 +2083,14 @@ proc cmsn_sb_msg {sb_name recv} {
       ::amsn::messageFrom $chatid $typer "$body" user [list $fontfamily $style $fontcolor]
       sb set $sb_name lastmsgtime [clock format [clock seconds] -format %H:%M:%S]
       
+      #if alarm_onmsg is on run it
+      global alarms list_users
+      if { ([info exists alarms(${chatid}_onmsg)]) && ($alarms(${chatid}_onmsg) == 1) && ([info exists alarms(${chatid})]) && ($alarms(${chatid}) == 1)} {
+        set idx [lsearch $list_users "${chatid} *"]
+        set username [lindex [lindex $list_users $idx] 1]
+        run_alarm $chatid  "[trans says $username] $body"
+      }
+
       # Send automessage once to each user
       	if { [info exists automessage] } {
 	if { $automessage != "-1" } {
@@ -2698,6 +2706,47 @@ proc cmsn_change_state {recv} {
       }
    }
 
+#sistema de alarmas (que debe sustituir al anterio que esta implementado mas adelante) de KNO
+   global alarms
+   if {[lindex $recv 0] !="ILN"} {
+   #no es la comprobacion del principio
+     if {[lindex $recv 0] == "FLN"} {
+     #el usuario se ha desconectado
+     set idx [lsearch $list_users "$user *"]
+     set user_name [lindex [lindex $list_users $idx] 1]
+       if { ([info exists alarms([lindex $recv 1]_ondisconnect)]) && ($alarms([lindex $recv 1]_ondisconnect) == 1) && ([info exists alarms([lindex $recv 1])]) && ($alarms([lindex $recv 1]) == 1)} {
+	 run_alarm [lindex $recv 1] [trans disconnect $user_name]
+       }
+     } else {
+	     if { ([info exists alarms([lindex $recv 2]_onstatus)]) && ($alarms([lindex $recv 2]_onstatus) == 1) && ([info exists alarms([lindex $recv 2])]) && ($alarms([lindex $recv 2]) == 1)} {
+       switch -exact [lindex $recv 1] {
+         "NLN" {
+	 	run_alarm [lindex $recv 2] "[trans changestate $user_name [trans online]]"
+	 }
+	 "IDL" {
+	 	run_alarm [lindex $recv 2] "[trans changestate $user_name [trans away]]"
+	 }
+	 "BSY" {
+	 	run_alarm [lindex $recv 2] "[trans changestate $user_name [trans busy]]"
+	 }
+	 "BRB" {
+	 	run_alarm [lindex $recv 2] "[trans changestate $user_name [trans rightback]]"
+	 }
+	 "AWY" {
+	 	run_alarm [lindex $recv 2] "[trans changestate $user_name [trans away]]"
+	 }
+	 "PHN" {
+	 	run_alarm [lindex $recv 2] "[trans changestate $user_name [trans onphone]]"
+	 }
+	 "LUN" {
+	 	run_alarm [lindex $recv 2] "[trans changestate $user_name [trans gonelunch]]"
+	 }
+       }
+       }
+     }
+   }
+#fin sistema de alarmas
+
    set idx [lsearch $list_users "$user *"]
    if {$idx != -1} {
       global list_users list_states alarms
@@ -2734,10 +2783,11 @@ proc cmsn_change_state {recv} {
 	 if { $config(notifyonline) == 1 } {
 	 	::amsn::notifyAdd "$user_name\n[trans logsin]." "::amsn::chatUser $user" online
 	 }
-	 
-         if { ([info exists alarms([lindex $recv 2])]) && ($alarms([lindex $recv 2]) == 1) } {
-             catch { run_alarm [lindex $recv 2] $user_name}        ;# Run Alarm using EMAIL ADDRESS (Burger)
-         }
+
+	 if { ([info exists alarms([lindex $recv 2]_onconnect)]) && ($alarms([lindex $recv 2]_onconnect) == 1) && ([info exists alarms([lindex $recv 2])]) && ($alarms([lindex $recv 2]) == 1)} {
+             #catch { run_alarm [lindex $recv 2] [lindex $recv 3]}        ;# Run Alarm using EMAIL ADDRESS (Burger)
+	     catch { run_alarm [lindex $recv 2] "$user_name [trans logsin]"}
+	 }
       }
 
 

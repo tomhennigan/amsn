@@ -101,6 +101,7 @@ proc ConfigDefaults {} {
         set config(customsmileys2) [list]
         set config(showblockedgroup) 0
         set config(lineflushlog) 1
+	set config(flicker) 1
 	set password ""
 }
 

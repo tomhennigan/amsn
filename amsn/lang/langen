@@ -14,6 +14,10 @@ addtoo Add this person to my contact list
 admincontacts Admin contacts
 admingroups Admin groups
 adverts Advertisements
+alarmonconnect Activate alarm when user comes online
+alarmonmsg Activate alarm when user sends you a message
+alarmonstatus  Activate alarm when user changes state
+alarmondisconnect Activate alarm when user goes offline/invisible 
 alarmpref Alarm Settings for user
 alarmstatus Turn ON/OFF Alarm for this user
 allowallbutbl Allow all users but those in Block List to contact me
@@ -64,6 +68,7 @@ casesensitive Use case-sensitive triggers
 cfgalarm Configure/Add/Remove Alarm
 changefont Change font
 changenick Change nick
+changestate $1 changes state to $2
 chatack Accepting chat from
 chat Chat
 chatmaxmin When a contact opens a chat with me I want it to be:
@@ -120,6 +125,7 @@ dockgtk Gnome Dock
 docking Docking
 dockingoff Docking Off
 dockkde KDE Dock
+disconnect $1 has disconnected.
 edit Edit
 editcurrentstate Edit current
 editnewstate New Personal Automessage State
@@ -228,6 +234,7 @@ move Move
 movetogroup Move to Group
 msgmaxmin When a new message arrives I want it to be :
 msg Message
+msgflicker Flicker chat window title when new message is received on unfocused window.
 msgmode Select how to handle multiple message windows :
 msn AMSN
 mustrestart You must restart the program to apply changes

@@ -15,6 +15,10 @@ addtoo Añadir esta persona a mi lista de contactos
 admincontacts Administrar contactos
 admingroups Administrar grupos
 adverts Anuncios
+alarmonconnect Activar/Desactivar alarma para este usuario cuando se conecte
+alarmonmsg Activar/Desactivar alarma para este usuario cuando te envie un mensaje
+alarmonstatus Activar/Desactivar alarma para este usuario cuando cambie su estado
+alarmondisconnect Activar/Desactivar alarma para este usuario cuando se desconecte
 alarmpref Configuración de alarma para el usuario
 alarmstatus Activar/Desactivar alarma para este usuario
 allowallbutbl Permitir que todos los usuarios excepto los bloqueados me puedan contactar
@@ -65,6 +69,7 @@ casesensitive Diferenciar may/minusculas en disparador
 cfgalarm Configurar/quitar alarma
 changefont Cambiar fuente
 changenick Cambiar apodo
+changestate $1 cambia su estado a $2
 chatack Aceptando conversación de
 chat Conversación
 chatmaxmin Cuando un contacto me abre una conversación, quiero que sea:
@@ -116,6 +121,7 @@ delprofile2 Elige el perfil que te gustaría borrar
 delprofile Borrar Perfil
 description Descripción
 directconnection Tengo una conexión directa a internet (usa el puerto 1863)
+disconnect $1 se ha desconectado
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Icono Gtk
 docking Icono en bandeja de sistema
