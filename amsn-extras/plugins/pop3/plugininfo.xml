@@ -9,4 +9,9 @@
 	<plugin_namespace>pop3</plugin_namespace>
 	<init_procedure>Init</init_procedure>
 	<deinit_procedure>DeInit</deinit_procedure>
+	<cvs_version>1.47</cvs_version>
+	<file>
+		<path>pixmaps/pop3_mailpic.gif</path>
+		<version>1.1</version>
+	</file>
 </plugin>
