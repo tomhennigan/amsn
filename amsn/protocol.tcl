@@ -4709,7 +4709,7 @@ namespace eval ::MSNP2P {
 
 	#Get picture from $user, if cached, or sets image as "loading", and request it
 	#using MSNP2P
-	proc loadUserPic { chatid user } {
+	proc loadUserPic { chatid user {reload "0"} } {
 		global config
 		if { $config(getdisppic) != 1 } {
 			status_log "Display Pics disabled, exiting loadUserPic\n" red
@@ -4732,7 +4732,8 @@ namespace eval ::MSNP2P {
 		}
 
 		global HOME
-		if { ![file readable "[file join $HOME displaypic cache ${filename}].gif"] } {
+		#Reload 1 means that we force aMSN to reload a new display pic 
+		if { ![file readable "[file join $HOME displaypic cache ${filename}].gif"] || $reload == "1" } {
 			status_log "::MSNP2P::GetUser: FILE [file join $HOME displaypic cache ${filename}] doesn't exist!!\n" white
 			image create photo user_pic_$user -file [GetSkinFile displaypic "loading.gif"]
 

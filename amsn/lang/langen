@@ -87,6 +87,7 @@ changedisplaypic Change Display picture
 changefont Change font
 changeglobnick Change Global Nick
 changenick Change nick
+changesize Change size
 changestate $1 changes state to $2
 charscounter Typed characters counter in chat window
 chatack Accepting chat from
@@ -405,6 +406,7 @@ openreceived Open received files
 options Options
 ordercontactsby Order contacts by
 ordergroupsby Order groups by
+original Original
 other Other
 others Others
 p4contextprefix Prefix P4-Context senders with this string

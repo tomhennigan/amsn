@@ -85,6 +85,7 @@ changecustomstate Changer à
 changedisplaypic Modifier l'image affichée
 changefont Changer la police
 changenick Changer de pseudonyme
+changesize Changer la taille
 changestate $1 est maintenant $2
 chat Discuter
 chatack Accepter une discussion avec
@@ -351,6 +352,7 @@ openreceived Ouvrir le dossier de fichiers reçus
 options Options
 ordercontactsby Trier les contacts par
 ordergroupsby Trier les groupes par
+original Originale
 other Autre
 others Autres
 pager Téléavertisseur

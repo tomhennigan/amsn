@@ -2284,18 +2284,47 @@ namespace eval ::amsn {
 
 		set chatid [::amsn::ChatFor $win]
 		set users [::MSN::usersInChat $chatid]
-
+		#Switch to "my picture" or "user picture"
 		$win.picmenu add command -label "[trans showmypic]" \
 			-command [list ::amsn::ChangePicture $win my_pic [trans mypic]]
 		foreach user $users {
 			$win.picmenu add command -label "[trans showuserpic $user]" \
 				-command [list ::amsn::ChangePicture $win user_pic_$user [trans showuserpic $user]]
 		}
+		#Load Change Display Picture window
 		$win.picmenu add separator
 		$win.picmenu add command -label "[trans changedisplaypic]..." -command pictureBrowser
-
+		
+		$win.picmenu add separator
+		#Sub-menu to change size
+		$win.picmenu add cascade -label "[trans changesize]" -menu $win.picmenu.size
+		catch {menu $win.picmenu.size -tearoff 0 -type normal}
+		$win.picmenu.size delete 0 end
+		#4 possible size (someone can add something to let the user choose his size)
+		$win.picmenu.size add command -label "64x64" -command "::amsn::convertsize $user $win 64x64"
+		$win.picmenu.size add command -label "96x96" -command "::amsn::convertsize $user $win 96x96"
+		$win.picmenu.size add command -label "128x128" -command "::amsn::convertsize $user $win 128x128"
+		$win.picmenu.size add command -label "192x192" -command "::amsn::convertsize $user $win 192x192"
+		#Get back to original picture
+		$win.picmenu.size add command -label "[trans original]" -command "::MSNP2P::loadUserPic $chatid $user 1"
 		tk_popup $win.picmenu $x $y
 	}
+	
+	#Convert a big/small picture to another size
+	proc convertsize {user win size} {
+		global HOME
+		#Get the filename of the display picture of the user
+		set filename [::abook::getContactData $user displaypicfile ""]
+		#If he don't have any picture, end that
+		if { $filename == "" } {
+			status_log "No picture found to change size"
+			return
+		}
+		#Convert the picture to the size requested
+		convert_image_plus "[file join $HOME displaypic cache ${filename}].gif" displaypic/cache $size
+		#Create the new photo with the new picture
+		catch {image create photo user_pic_$user -file "[file join $HOME displaypic cache ${filename}].gif"}
+		}
 
 	proc ChangePicture {win picture balloontext {nopack ""}} {
 		global config

@@ -86,6 +86,7 @@ changedisplaypic Changer l'icône
 changefont Changer la police
 changeglobnick Changer le pseudonyme général
 changenick Changer de pseudonyme
+changesize Changer la taille
 changestate $1 a changé de statut : $2
 charscounter Compteur de caractères dans la fenêtre de conversation
 chatack Accepter de discuter avec
@@ -385,6 +386,7 @@ openreceived Ouvrir les fichiers reçus
 options Options
 ordercontactsby Trier les contacts
 ordergroupsby Trier les groupes par
+original Originale
 other Autre
 others Autres
 p4contextprefix Préfixe du champ P4-Context
