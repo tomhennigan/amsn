@@ -242,7 +242,7 @@ namespace eval ::amsnplus {
 	# rgb color in (rrr,ggg,bbb) format
 	proc choose_color { win } {
 		set color [tk_chooseColor -parent $win];
-		if {[string equal $colour ""]} { return }
+		if {[string equal $color ""]} { return }
 		set color [::amsnplus::hexToRGB [string replace $color 0 0 ""]];
 		$win.f.bottom.left.in.text insert end $color
 	}
@@ -256,11 +256,7 @@ namespace eval ::amsnplus {
 		if { !$::amsnplus::config(allow_colours) } { return }
 		upvar 2 msg msg
 		upvar 2 chatid chatid
-		if {[string equal $::version "0.94"]} {
-			set fontformat [::config::getKey mychatfont]
-		} else {
-			upvar 2 fontformat fontformat
-		}
+		set fontformat [::config::getKey mychatfont]
 		set color [lindex $fontformat 2]
 		set style [lindex $fontformat 1]
 		set font [lindex $fontformat 0]
