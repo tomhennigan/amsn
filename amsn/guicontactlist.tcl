@@ -197,11 +197,14 @@ namespace eval ::guiContactList {
 			set img [::skin::loadPixmap expand]
 			set groupcolor [::skin::getKey groupcolorcontract]
 		}
+		#Get the number of user for this group
+		set groupcount [getGroupCount $element]
+		
 		# First we draw our little group toggle button
 		$canvas create image [expr $xpos + $xpad] $ypos -image $img -anchor nw \
 			-tags [list group toggleimg [lindex $element 1]]
-
-		$canvas create text [expr $xpos + [image width $img] + (2*$xpad)] $ypos -text [lindex $element 1] -anchor nw \
+		
+		$canvas create text [expr $xpos + [image width $img] + (2*$xpad)] $ypos -text "[lindex $element 1] $groupcount" -anchor nw \
 			-fill $groupcolor -font sboldf -tags [list group title [lindex $element 1]]
 		
 		set gid [lindex $element 1]
@@ -210,8 +213,27 @@ namespace eval ::guiContactList {
 		
 		return [list $xpos [expr $ypos + 20]]
 	}
-
 	
+	#Get the group count
+	#Depend if user in status/group/hybrid mode
+	proc getGroupCount {element} {
+		set mode [::config::getKey orderbygroup]
+		if { $mode == 0} {
+			#Status mode
+			set groupcount ($::groups::uMemberCnt([lindex $element 0]))
+		}  elseif { $mode == 1} {
+			#Group mode
+			set groupcount ($::groups::uMemberCnt_online([lindex $element 0])/$::groups::uMemberCnt([lindex $element 0]))
+		} elseif { $mode == 2} {
+			#Hybrid mode
+			if {[lindex $element 0] == "offline"} {
+				set groupcount ($::groups::uMemberCnt([lindex $element 0]))
+			} else {
+				set groupcount ($::groups::uMemberCnt_online([lindex $element 0]))	
+			}
+		}
+		return $groupcount
+	}
 	# This procedure returns the contactList having a layout 
 	# exactly as it should be drawn by the GUI
 	proc generateCL {} {
