@@ -290,6 +290,16 @@ namespace eval ::abookGui {
 	label $nbIdent.h1 -text $cd(handle) -font splainf -fg blue -bg $bgcol
 	label $nbIdent.g -text "[trans group]:" -font bboldf -bg $bgcol
 	label $nbIdent.g1 -text $cd(group) -font splainf -fg blue -bg $bgcol
+#	set group_names [::groups::GetList -names]
+#	set group_total [llength $group_names]
+#set cd(newgroup) $cd(group)
+#	set om [tk_optionMenu $nbIdent.g1 $cd(newgroup) [lindex $group_names 0]]
+#	for {set xxx 1} {$xxx < $group_total} {incr xxx} {
+#	  $om add radiobutton -label [lindex $group_names $xxx] \
+#	  	-variable $cd(newgroup)
+#	}
+#set cd(newgroup) $cd(group)
+#	$om configure -font splainf -fg blue -bg $bgcol
 	grid $nbIdent.e -row 0 -column 0 -sticky e
 	grid $nbIdent.e1 -row 0 -column 1 -sticky w
 	grid $nbIdent.h -row 1 -column 0 -sticky e
@@ -362,6 +372,10 @@ namespace eval ::abookGui {
    }
 }
 # $Log$
+# Revision 1.11  2002/07/01 21:30:30  lordofscripts
+# - Now it is possible to move buddies from one group to another. Had to
+#   post a 2nd popup because tk_popup cannot handle cascaded menus
+#
 # Revision 1.10  2002/06/25 23:17:56  lordofscripts
 # -Added handling and keeping info of PRP messages (get/setPersonal)
 #

@@ -40,7 +40,7 @@
 ###
 
 set version "0.52beta"
-set date "06/30/2002"
+set date "07/01/2002"
 set weburl "http://amsn.sourceforge.net"
 
 
@@ -1001,13 +1001,16 @@ proc show_umenu {user_login x y} {
       .user_menu add command -label "[trans unblock]" \
          -command  "unblock_user ${user_login}"
    }
+
+   ::groups::updateMenu menu .move_group_menu ::groups::menuCmdMove $user_login
+
    .user_menu add command -label "[trans delete]" -command "set answer \[tk_messageBox -message \"[trans confirmdelete ${user_login}]\" -type yesno -icon question\]; if {\$answer == \"yes\"} {delete_user ${user_login}}"
-   .user_menu add cascade -label "[trans movetogroup]..." -menu .move_group_menu
+#   .user_menu add cascade -label "[trans movetogroup]..." -menu .move_group_menu 
+   .user_menu add command -label "[trans movetogroup]..." -command "tk_popup .move_group_menu $x $y"
    .user_menu add separator
    .user_menu add command -label "[trans properties]" \
       -command "::abookGui::showEntry $user_login"
 
-   ::groups::updateMenu menu .move_group_menu menuCmdMove $user_login
 
    tk_popup .user_menu $x $y
 }

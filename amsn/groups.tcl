@@ -32,7 +32,8 @@
 namespace eval ::groups {
    namespace export Init Enable Disable Set Rename Delete Add \
    		    RenameCB DeleteCB AddCB \
-		    GetList ToggleStatus UpdateCount IsExpanded
+		    GetList ToggleStatus UpdateCount IsExpanded \
+		    menuCmdMove
 
    #
    # P R I V A T E
@@ -49,6 +50,13 @@ namespace eval ::groups {
    #
    proc menuCmdDelete {gid {pars ""}} {
 	::groups::Delete $gid dlgMsg
+   }
+
+   proc menuCmdMove {newgid {paramlist ""}} {
+    set passport [lindex $paramlist 0]
+    set currgid  [::abook::getGroup $passport -id]
+#    puts "menuCmdMove $passport from $currgid to $newgid"
+    ::MSN::moveUser $passport $currgid $newgid
    }
 
    #<dlgMsg>
@@ -451,7 +459,7 @@ namespace eval ::groups {
         return 1
     }
 
-    proc GetList {} {
+    proc GetList {{opt ""}} {
         variable groups
 
 	set g_list [list]
@@ -461,7 +469,11 @@ namespace eval ::groups {
 	    set var_pk [lindex $g_entries $idx]
 	    incr idx 1
 	    set var_value [lindex $g_entries $idx]
-	    lappend g_list $var_pk	;# Return the key only
+	    if {$opt != "-names"} {
+	        lappend g_list $var_pk	;# Return the key only
+	    } else {
+	        lappend g_list $var_value;# Return the value only
+	    }
 	}
         set g_list [lsort -increasing $g_list]
 	return $g_list
