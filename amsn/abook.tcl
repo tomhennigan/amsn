@@ -122,8 +122,8 @@ namespace eval ::abook {
 		variable users_data
 		array unset users_data *
 		
-		variable volatile_users_data	
-		array unset volatile_users_data *
+		variable users_volatile_data
+		array unset users_volatile_data *
 		
 		unsetConsistent
 	}
@@ -230,7 +230,11 @@ namespace eval ::abook {
 
 	#Returns the user nickname
 	proc getNick { user_login } {
-		return [::abook::getContactData $user_login nick]
+		set nick [::abook::getContactData $user_login nick]
+		if { $nick == "" } {
+			return $user_login
+		}
+		return $nick
 	}
 	
 	#Returns the user nickname, or just email, or custom nick,
