@@ -21,6 +21,7 @@ alarmondisconnect Activer l'alarme quand un utilisateur se déconnecte ou passe e
 alarmonmsg Activer l'alarme quand un utilisateur m'envoie un message
 alarmonstatus Activer l'alarme quand un utilisateur change de statut
 alarmpref Configuration alarme utilisateur
+alarms Alarmes
 alarmstatus Activer/désactiver l'alarme pour cet utilisateur
 allfiles Tous les fichiers
 allowallbutbl Autoriser tout le monde à me contacter sauf les personnes que j'ai bloquées
@@ -70,6 +71,7 @@ browse Naviguer
 browserexample (\$url sera remplacé par l'URL). Ex: mozilla \$url
 browser Navigateur web
 busy Occupé
+cachedpics $1 avatar masqué
 cancel Annuler
 cannotdeleteprofile le profil ne peut être supprimé car il semble utilisé par une session aMSN
 cantexec Impossible d'exécuter l'application : $1. Vérifiez les préférences.
@@ -77,11 +79,13 @@ cantremoveothers Impossible de supprimer le groupe "Autres".
 casesensitive Utiliser des déclencheurs sensibles à la casse
 cfgalarmall Configurer/Ajouter/Supprimer toutes les alarmes
 cfgalarm Configurer/Ajouter/Supprimer alarme
+change Changer
 changecustomstate Changer à
 changedisplaypic Changer l'icône
 changefont Changer la police
 changenick Changer de pseudonyme
 changestate $1 a changé de statut : $2
+charscounter Compteur de charactères dans la fenêtre de conversation
 chatack Accepter de discuter avec
 chat Discuter
 chatmaxmin Quand une fenêtre d'invitation de dialogue s'ouvre, je veux qu'elle soit :
@@ -129,8 +133,11 @@ corruptstates  Fichier de configuration des habitudes corrompu. Créez-en un nouv
 countrycode Mon pays/code région
 cprofile Créer profil
 credits Crédits
+currentdate Date actuelle
+customcolor Couleur personnalisée
 custom_edit Editer un émoticon personnalisé
 custom_new Créer un nouvel émoticon personnalisé
+customnick Pseudo personnalisé
 cut Couper
 date Date
 days Jours
@@ -235,7 +242,11 @@ insertsmiley Inserer émoticônes.
 installconvert Vous devez procéder à l'installation de ImageMagick (programme de conversion) afin de convertir les images au format requis par les serveurs de MSN. Vous pouvez télécharger les fichiers d'installation pour votre système d'exploitation à l'adresse ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Si ce programme est déjà installé, ceci est un bug, veuillez le rapporter.
 internalerror Erreur interne au serveur
 invalidfile Le fichier $2 entré dans le champ "$1" n'existe pas ou n'est pas lisible
-invalidgroup Groupe invalide
+invalidfile2 Le fichier $1 ne peut pas être créée, assurez vous d'avoir les permissions nécessaires.
+invalidpic Le fichier "image" n'existe pas
+invalidpicsize La taille du fichier "image" est trop importante, choisissez un fichier de taille inférieure
+invalidgroup Groupe invalid
+invalidsound Le fichier "son" n'existe pas
 invalidusername Utilisateur incorrect
 invitationcancelled L'invitation a été annulée
 invite Invitation
@@ -249,6 +260,7 @@ keeplog Garder les logs des conversations
 language Langage
 lastlogin Dernière connection
 lastlogout Dernière déconnection
+lastmsgedme Dernier message
 lastmsgtime Dernier message reçu à $1
 lclosedwin $1 a fermé la fenêtre sur $2
 lconftopriv Conférence changée en conversation privée avec $1
@@ -274,6 +286,7 @@ loging Connexion en cours
 login Se connecter
 logolder Seulement logguer les conversation qui ont eu lieu dans les
 logout Se déconnecter
+logsbydate Trier les logs par date (Afficher l'historique charge plus rapidement)
 logsin vient de se connecter
 logsmileys Afficher les Emoticons et les Smiley dans la fenêtre d'historique de aMSN
 logsout vient juste de se déconnecter
@@ -309,6 +322,7 @@ newmsg Nouveau message
 newstate Ajouter un état personnel
 newveravailable Nouvelle version disponible ($1)
 next Suivant
+nick Pseudo
 noactivity Inactif
 nodataavailable Pas de données disponibles pour $1
 nologfile Pas de fichier log pour $1
@@ -332,6 +346,7 @@ notifyoffset Sélectionner la position de la fenêtre de notification en précisant
 notify prévenir
 notifytyping Envoyer aux autres utilisateurs une notification lors de l'usage du clavier
 notifywin Fenêtre de notification
+notinlist Vous ne figurez pas dans sa liste de contact
 notls Le protocole 9 de MSN requiert le module tls. Celui-ci ne semble pas être installé sur le système. S'il est installé,
 nousersinsession Pas d'utilisateur dans cette session
 offline Déconnecté
@@ -405,6 +420,7 @@ readonlywarn AVERTISSEMENT: Le fichier ne sera probablement PAS sauvegardé corre
 receivedbytes $1 de $2 octets reçus
 receiveddir Dossier de fichiers reçus
 receivefile Fichier reçu
+recentmsg Empêcher la fermeture d'une fenêtre de discussion lorsqu'un nouveau message est arrivé.
 reconnect Dans l'attente de la reconnexion de $1
 reconnecting Reconnexion au serveur
 reject Refuser
@@ -434,6 +450,7 @@ server Serveur
 serverunavailable Serveur non disponible
 session Session
 showblockedlist Voir la liste des personnes que vous avez bloqué
+showcachedpics Afficher/Masquer les avatars cachés
 showdisplaypic2 Afficher icône par défaut à l'ouverture d'une fenêtre de discussion
 showdisplaypic Afficher l'icône
 showmypic Mon icône
@@ -466,6 +483,7 @@ stateinfo Configuration de mon statut
 state Je veux apparaître
 statename Nom du statut
 statenewtext Veuillez entrer les informations nécessaires \n a la création de votre nouveau statut et cliquez sur Enregistrer
+statenick surnom personnalisé (laisser vierge pour aucun changement)
 status Statut
 stopalarm Stopper l'alarme
 storenickname Revenir avec son surnom original après avoir un état particulier avec un surnom particulier
@@ -480,7 +498,7 @@ textsize Taille du texte
 timeremaining Temps restant
 timestamps Activation de l'horodateur des fenêtres de chat
 title Al's Messenger ;)
-tkerror TK a rapporté une erreur, il ya un bogue dans AMSN, s'il vous plait rapportez la. Envoyez le fichier $1 à amsn-bugs@lists.sf.net
+tkerror TK a rapporté une erreur, il ya un bogue dans AMSN, s'il vous plait rapportez la. Envoyez le fichier $1 à amns-bug@lists.sf.netcd
 tlsdowncompleted Le fichier $1 a été téléchargé dans le répertoire $2. Vous devez l'extraire, le compiler (si vous avez téléchargé le code source) et l'installer dans $3.
 tlsexplain Dossier où se trouve le module TLS. Si AMSN ne peut pas le trouver, merci de le préciser.\n(Requis pour l'authentification SSL).
 tlsinstall Assistant d'installation du module TLS
@@ -499,10 +517,12 @@ twonewmail $1 nouveaux messages dans votre boîte de réception
 unblock Débloquer
 uoffline Déconnectés
 uonline Connectés
+user Utilisateur
 useralreadyonlist Utilisateur déjà présent dans la liste
 userblocked Cet utilisateur est en ligne mais il vous a bloqué
+userdata Données de l'utilisateur
 usernotonline L'utilisateur n'est pas en ligne
-user Utilisateur
+userproperties Propriétés de l'utilisateur $1
 useryourself Vous ne pouvez pas dialoguer avec vous-même
 verifyblocked Contrôler les personnes qui vous ont bloqué
 version Version
@@ -521,14 +541,3 @@ yoffset Position en Y
 youblocked Vous avez été bloqué
 yousay Vous avez dit
 youwant Vous voulez
-charscounter Compteur de charactères dans la fenêtre de conversation
-invalidfile2 Le fichier $1 ne peut pas être créée, assurez vous d'avoir les permissions nécessaires.
-invalidpicsize La taille du fichier "image" est trop importante, choisissez un fichier de taille inférieure
-invalidpic Le fichier "image" n'existe pas
-invalidsound Le fichier "son" n'existe pas
-statenick surnom personnalisé (laisser vierge pour aucun changement)
-cachedpics	 $1 avatar masqué
-currentdate	Date Actuelle
-logsbydate	Trier les logs par date (Afficher l'historique charge plus rapidement)
-notinlist	Vous ne figurez pas dans sa liste de contact
-showcachedpics	Afficher/Masquer les avatars cachés
