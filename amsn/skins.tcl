@@ -556,6 +556,8 @@ proc SetColors {cstack cdata saved_data cattr saved_attr args} {
     if { [info exists sdata(${cstack}:chatborders)] } { ::skin::setColor chatborders [string trim $sdata(${cstack}:chatborders)] }
     if { [info exists sdata(${cstack}:chatpadx)] } { ::skin::setColor chatpadx [string trim $sdata(${cstack}:chatpadx)] }
     if { [info exists sdata(${cstack}:chatpady)] } { ::skin::setColor chatpady [string trim $sdata(${cstack}:chatpady)] }
+    if { [info exists sdata(${cstack}:statusbarbg)] } { ::skin::setColor statusbarbg [string trim $sdata(${cstack}:statusbarbg)] }
+    if { [info exists sdata(${cstack}:statusbartext)] } { ::skin::setColor statusbartext [string trim $sdata(${cstack}:statusbartext)] }
     return 0
 }
 

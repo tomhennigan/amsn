@@ -722,11 +722,11 @@ namespace eval ::ChatWindow {
 		bind $bottom.pic <Button1-ButtonRelease> "::amsn::ShowPicMenu .${win_name} %X %Y\n"
 		bind $bottom.pic <<Button3>> "::amsn::ShowPicMenu .${win_name} %X %Y\n"
 
-		frame .${win_name}.statusbar -class Amsn -borderwidth [::skin::getColor chatborders] -relief solid
+		frame .${win_name}.statusbar -class Amsn -borderwidth [::skin::getColor chatborders] -relief solid -background [::skin::getColor statusbarbg]
 		text .${win_name}.statusbar.status  -width 5 -height 1 -wrap none \
-			-font bplainf -borderwidth 0
+			-font bplainf -borderwidth 0 -background [::skin::getColor statusbarbg] -foreground [::skin::getColor statusbartext]
 		text .${win_name}.statusbar.charstyped  -width 4 -height 1 -wrap none \
-			-font splainf -borderwidth 0
+			-font splainf -borderwidth 0 -background [::skin::getColor statusbarbg] -foreground [::skin::getColor statusbartext]
 
 		.${win_name}.statusbar.charstyped tag configure center -justify left
 
