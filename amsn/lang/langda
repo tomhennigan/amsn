@@ -4,7 +4,7 @@ accept Accepter
 acceptfile Accepter fil $1, størrelse $2? Gemt i $3
 actions Handlinger
 addacontact Tilføj en kontakt
-addedyou har $1 ($2) tilføjet dig til hans/hendes kontaktliste
+addedyou $1 ($2) har tilføjet dig til hans/hendes kontaktliste
 addprofile Tilføj ny profil
 addprofiledesc Skriv det login-navn som du vil lave en ny profil til.\nProfilerede logins tillader dig at have forskellige konfigurationer for hvert login.\nUden profiler kan du ikke anvende "Historie"-, Alarm- eller "Husk adgangskode"-funktionerne.
 addstate Tilføj ny status
@@ -49,7 +49,7 @@ autoidle Automatisk Inaktiv
 autoip Automatisk IP
 automessage AutoBesked
 autonoact Vis mig som "Ikke aktiv" når jeg har været inaktiv i
-avoidseen Undlad at denne person kan se når jeg er online
+avoidseen Undlad at denne person kan se, når jeg er online
 away Ikke til stede
 awaymsg1 Spørg efter "Ikke til stede" besked hver gang jeg ændrer min status til Ikke til stede/Er straks tilbage/Optaget
 awaymsg2 Spørg ikke og anvend altid beskeden nedenfor
@@ -76,7 +76,7 @@ cachedpics $1 gemte billeder
 cancel Annuller
 cannotdeleteprofile Kan ikke slette profilen da det ser ud til, at profilen er i brug af en aMSN session
 cantexec Kan ikke køre applikationen: $1. Tjek præferencer
-cantremoveothers Kan ikke fjerne "Others"-gruppen
+cantremoveothers Kan ikke fjerne "Andre"-gruppen
 casesensitive Brug case-følsomme tjek
 cfgalarm Konfigurer/Tilføj/Fjern Alarm
 cfgalarmall Konfigurer/Tilføj/Fjern Global Alarm
@@ -135,10 +135,10 @@ countrycode Min Lande-/Regions-kode
 cprofile Opret profil
 credits Credits
 currentdate Nuværende Dato
-customcolor Egendefineret farve
-custom_edit Redigér egendefineret smiley
-custom_new Tilføj ny egendefineret smiley
-customnick Egendefineret kaldenavn
+customcolor Brugerdefineret farve
+custom_edit Redigér brugerdefineret smiley
+custom_new Tilføj ny brugerdefineret smiley
+customnick Brugerdefineret kaldenavn
 cut Klip
 date Dato
 days Dage
@@ -147,7 +147,7 @@ default Oprindelig konfiguration
 defaultloginradio Log ind med standard konfiguration
 defchatwinsize Standardstørrelse for chatvinduer (XSTØRRELSExYSTØRRELSE)
 delete Slet
-deletecustomstate Slet egendefineret status
+deletecustomstate Slet brugerdefineret status
 delimiters Afstandstegn:
 deliverfail Der var et problem med at levere følgende besked
 delprofile Slet profil
@@ -171,7 +171,7 @@ dontshow Vis ikke
 downloadingtls Downloader TLS-modulet fra:\n $1
 edit Rediger
 editcurrentstate Redigér nuværende
-editcustomstate Redigér egendefineret status
+editcustomstate Redigér brugerdefineret status
 editnewstate Ny Personlig Auto-besked-Status
 editprofile Rediger profil
 editstate Redigér Eksisterende Auto-besked-Status
@@ -244,7 +244,7 @@ identity Identitet
 imagefiles Billedfiler
 inbox Indbakke
 insertsmiley Indsæt emoticon
-installconvert Du skal have ImageMagick (konverteringsprogram) installeret for at kunne anvende Buddy-Ikoner og Egendefinerede Emoticons. Du kan downloade programmet til dit operativsystem ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Hvis du allerede har det installeret, så er dette en programfejl, rapportér det venligst. Disse specifikke muligheder vil derfor IKKE blive anvendt, men hvis du senere installerer ImageMagick, så slå disse muligheder til igen under Præferencer.
+installconvert Du skal have ImageMagick (konverteringsprogram) installeret for at kunne anvende Buddy-Ikoner og Brugerdefinerede Emoticons. Du kan downloade programmet til dit operativsystem ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Hvis du allerede har det installeret, så er dette en programfejl, rapportér det venligst. Disse specifikke muligheder vil derfor IKKE blive anvendt, men hvis du senere installerer ImageMagick, så slå disse muligheder til igen under Præferencer.
 internalerror Intern Server-Fejl
 invalidfile Filen $2, der er indtastet i feltet "$1", eksisterer ikke eller er ikke læselig
 invalidfile2 Filnavnet $1 kunne ikke oprettes, tjek om du har de rigtige rettigheder til denne destination.
@@ -325,7 +325,7 @@ needonline Du er/foregiver stadig at være offline!
 newmail $1 nye beskeder i Indbakken
 newmailfrom Ny mail fra $1 ($2)
 newmsg Ny besked
-newstate Tilføj egendefineret status
+newstate Tilføj brugerdefineret status
 newveravailable Det er nu muligt at download den nye version $1
 next Næste
 nick Kaldenavn
@@ -348,7 +348,7 @@ notify1 Vis en besked, når kontaktpersoner er online
 notify1_5 Vis en besked, når kontakter går offline
 notify1_75 Vis en besked, når kontakter ændrer status
 notify2 Vis en besked, når der modtages en onlinemeddelelse
-notify3 Vis en besked, når der modtages en e-mail
+notify3 Vis en besked, når der modtages en email
 notifyoffset Koordinér positionen på popup-beskeder
 notifytyping Send notifikationer til andre brugere, når du skriver
 notifywin Beskedvindue
@@ -466,9 +466,9 @@ shownotify Vis påmindelsesvindue når der sker noget
 showuserpic $1's Display-billede
 skin Skin
 skinselector Vælg Skin
-smileconfig Egendefineret emoticon-konfiguration
+smileconfig Brugerdefineret emoticon-konfiguration
 smilefile Smiley-filnavn
-smileintro Udfyld venligst de krævede felter for at lave en ny egendefineret smiley (se OSSen for hjælp)
+smileintro Udfyld venligst de krævede felter for at lave en ny brugerdefineret smiley (se OSSen for hjælp)
 smileintro2 Redigér venligst de krævede felter for at definere denne smiley (se OSSen for hjælp)
 sound Lyd
 sound2 Afspil lyde, når en kontaktperson logger på eller sender en meddelelse
@@ -492,10 +492,10 @@ stateedittext Redigér venligst felterne som du vil \n ændre og tryk Gem
 stateinfo Personlig Status-konfiguration
 statename Navnet på din Personlige Status
 statenewtext Udfyld venligst de krævede informationer for at oprette \n din nye Personlige Status og tryk Gem
-statenick Egendefineret kaldenavn (efterlad blank for ingen ændringer)
+statenick Brugerdefineret kaldenavn (efterlad blank for ingen ændringer)
 status Status
 stopalarm Stop Alarm
-storenickname Vend tilbage til originalt kaldenavn efter en egendefineret status med egendefineret kaldenavn
+storenickname Vend tilbage til originalt kaldenavn efter en brugerdefineret status med brugerdefineret kaldenavn
 strictfonts Begræns alle skriftfontes størrelse til den valgte (ses på Statusbaren bl.a.)
 stylechat Samme udseende som chats
 stylehist aMSN's historie-udseende
@@ -537,6 +537,7 @@ verifyblocked Søg efter personer der har blokeret dig
 version Version
 view Vis
 viewprofile Vis profil
+webcaminvite $1 har inviteret dig til at starte webcam, men aMSN understøtter ikke dette. 
 willjoin Venter på at $1 slutter sig til samtalen
 work Arbejde
 wrongfields Felterne "$1", "$2" og/eller "$3" er ikke brugbare
