@@ -1198,8 +1198,8 @@ namespace eval ::amsn {
       bind .${win_name}.f.out.text <Button3-ButtonRelease> "tk_popup .${win_name}.copy %X %Y"
       
       if {$tcl_platform(platform) == "unix" } {
-	  bind .${win_name} <Control-x> "status_log cut\n;copy 1 ${win_name}"
-	  bind .${win_name} <Control-c> "status_log copy\n;copy 0 ${win_name}"
+#	  bind .${win_name} <Control-x> "status_log cut\n;copy 1 ${win_name}"
+#	  bind .${win_name} <Control-c> "status_log copy\n;copy 0 ${win_name}"
 	  bind .${win_name} <Control-v> "status_log paste\n;paste ${win_name}"
       }
 
@@ -2886,7 +2886,7 @@ proc login_ok {} {
    
    set newpassword [.login.c.password get]
    
-   ConfigChange ".login.c.signin" [.login.c.signin get]
+    # ConfigChange ".login.c.signin" [.login.c.signin get]
 
    if { $proftrig != 3 } {
    	set password $newpassword

@@ -2123,27 +2123,30 @@ proc ::combobox::HumanizeList {list} {
     }
 }
 
-# This is some backwards-compatibility code to handle TIP 44
-# (http://purl.org/tcl/tip/44.html). For all private tk commands
-# used by this widget, we'll make duplicates of the procs in the
-# combobox namespace. 
-#
-# I'm not entirely convinced this is the right thing to do. I probably
-# shouldn't even be using the private commands. Then again, maybe the
-# private commands really should be public. Oh well; it works so it
-# must be OK...
-foreach command {TabToWindow CancelRepeat ListboxUpDown} {
-    if {[llength [info commands ::combobox::tk$command]] == 1} break;
 
-    set tmp [info commands tk$command]
-    set proc ::combobox::tk$command
-    if {[llength [info commands tk$command]] == 1} {
-        set command [namespace which [lindex $tmp 0]]
-        proc $proc {args} "uplevel $command \$args"
-    } else {
-        if {[llength [info commands ::tk::$command]] == 1} {
-            proc $proc {args} "uplevel ::tk::$command \$args"
-        }
+if { $initialize_amsn == 1 } {
+    # This is some backwards-compatibility code to handle TIP 44
+    # (http://purl.org/tcl/tip/44.html). For all private tk commands
+    # used by this widget, we'll make duplicates of the procs in the
+    # combobox namespace. 
+    #
+    # I'm not entirely convinced this is the right thing to do. I probably
+    # shouldn't even be using the private commands. Then again, maybe the
+    # private commands really should be public. Oh well; it works so it
+    # must be OK...
+    foreach command {TabToWindow CancelRepeat ListboxUpDown} {
+	if {[llength [info commands ::combobox::tk$command]] == 1} break;
+	
+	set tmp [info commands tk$command]
+	set proc ::combobox::tk$command
+	if {[llength [info commands tk$command]] == 1} {
+	    set command [namespace which [lindex $tmp 0]]
+	    proc $proc {args} "uplevel $command \$args"
+	} else {
+	    if {[llength [info commands ::tk::$command]] == 1} {
+		proc $proc {args} "uplevel ::tk::$command \$args"
+	    }
+	}
     }
 }
 

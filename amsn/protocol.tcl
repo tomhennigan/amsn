@@ -3759,7 +3759,12 @@ proc create_contact_list {cstack cdata saved_data cattr saved_attr args } {
 	::abook::setContact $sdata(${cstack}:email) MOB $sdata(${cstack}:mob)
     }
 
-    lappend ${list} "$sdata(${cstack}:email) {$sdata(${cstack}:nickname)}"
+    set contactinfo ""
+
+    lappend contactinfo "$sdata(${cstack}:email)"
+    lappend contactinfo "{$sdata(${cstack}:nickname)}"
+
+    lappend ${list} "$contactinfo"
 
 
     return 0
