@@ -13,15 +13,24 @@ adverts Anuncis
 alarmpref Preferències de l'alarma per l'usuari
 alarmstatus Activar l'alarma per aquest usuari
 allowseen Deixa que aquesta persona vegi si estic connectat i que contacti amb mi
+appearance Aparença
 appearoff Simula desconnexió
+areacode Codi d'àrea
 aretyping $1 estan escrivint un missatge
-autoconnect Connectar-se al iniciar l'AMSN
+askprofile Aquest usuari encara no té un perfil. Vols crear-ne un de nou? $1 Si no el crees, no podràs utilitzar l'historial o desar l'alarma i la contrasenya. $1 Si el crees, tindràs una configuració separada per aquest perfil. $1 $1 Apreta sobre "Crear perfil" per crear un nou perfil per l'usuari $2.
+autoaway Mostra'm en l'estat "Absent" quan no hi hagi activitat en
+autoconnect2 Connectar-se automàticament al iniciar l'aMSN
+autoconnect Connectar-se al iniciar l'aMSN
 autohotmaillog Connectar-se a Hotmail automàticament
 autoidle Canviar a "Sense activitat" de manera automàtica
 autoip IP Automàtica
+autonoact Mostra'm en l'estat "Sense activitat" quan no hi hagi activitat en
 avoidseen No deixis que aquesta persona vegi si estic connectat i que contacti amb mi
-away No hi és
+away Absent
+awaymsg1 Pregunta'm el missatge d'absent cada vegada que canviï a l'estat "Absent", "Un moment" o "Ocupat"
+awaymsg2 No m'ho preguntis mai i utilitza el següent missatge
 baduserpass Nom d'usuari o contrasenya incorrecte
+bgcolor Canvia el color del fons de l'aMSN
 blankdirect Deixa-ho en blanc per a connectar-te directament
 block Bloquejar
 blocked Bloquejat
@@ -31,44 +40,54 @@ browser Navegador
 busy Ocupat
 cancel Cancel·la
 cfgalarm Configurar l'alarma per aquest usuari
-changenick Canvia de nick
+changefont Canvia el tipus de lletra
+changenick Canvia de sobrenom
 chatack Acceptant xat de
-chatreq Demanant xat
-chatsmileys Emoticons al xat
 chat Xat
+chatreq Demanant xat
+chatsmileys2 Mostra emoticons a la finestra de xat
+chatsmileys Emoticons al xat
 checkingver Buscant versions noves
 checkver Busca una versió nova
-choosebackgroundcolor Escull el color de fons
 choosebasefont Escull el tipus de lletra
 choosebgcolor Escull el color de fons
 choosefontcolor Escull el color del tipus de lletra
-choosefont Escull el tipus de lletra
+clearlog2 Netejar l'historial per tots els contactes
+clearlog3 Netejar tots els registres
 clearlog Netejar historial
-clicktologin Fes clic aquí per connectar-te
+clicktologin Apreta aquí per iniciar la sessió
 close Tanca
 closingdocks El botó tancar minimitza la finestra
 command Reproductor
-confirmdelete ¿Estàs segur de voler eliminar a $1?
 confirm Estàs segur?
+confirmdelete ¿Estàs segur de voler eliminar a $1?
 connecterror Error connectant-se amb el servidor
+connection Connexió
 contactadded Contacte inclòs
 contactdoesnotexist ¡El contacte que intentes afegir no existeix!
 copy Copia
 copytogroup Copia al grup
+countrycode Codi de país o regió
+cprofile Crear perfil
 cut Talla
 date Data
+days Dies
+dcprofile No crear perfil
+default Configuració predeterminada
 delete Esborrar
-deliverfail  Hi ha hagut un problema al enviar el missatge
+deliverfail Hi ha hagut un problema al enviar el missatge
 dockgtk Acoplament amb el Gnome
 docking Acoplament
 dockingoff Desactivat
 dockkde Acoplament amb el KDE
 edit Edita
-enableproxy Habilitar el servidor intermediari (Proxy)
+editprofile Editar perfil
+enableproxy Habilitar el servidor intermediari (proxy)
+encoding2 Change the way your characters are encoded
 encoding Escull la codificació dels caràcters
 entercontactemail Escriu l'adreça de correu del contacte
 enterfilename Introdueix el nom del fitxer
-enternick Escriu el teu nick
+enternick Escriu el teu sobrenom
 examples Exemples
 exitamsn ¿Estàs segur de voler sortir?
 extras Serveis extra
@@ -90,9 +109,9 @@ groupnotempty El grup no està buit!
 groupoldname Nom antic
 grouprename Reanomenar un grup
 groupunknown Grup desconegut
-handle Nick
-help Ajuda
+handle Sobrenom
 helpcontents Contiguts
+help Ajuda
 history Mostrar historial
 home Casa
 ident Identifica
@@ -101,41 +120,57 @@ inbox Bústia
 invalidusername Nom d'usuari invàlid
 invite Convida
 ipaddress Adreça IP
+ipdetect Detectar l'adreça IP correcta per transferències de fitxers utilitzant HTTP
 istyping $1 està escrivint un missatge
 joins $1 s'uneix a la conversa
 keepalive Mantenir connexió activa (NAT)
+keeplog2 Log all Conversations to aMSN's History for future viewing
 keeplog Conservar l'historial de les converses
 language Idioma
 lastmsgtime Últim missatge rebut a les $1
 lclosedwin $1 ha tancat la finestra a les $2
-lconftopriv La conversa múltiple canvia a conversa
+lconftopriv La conversa múltiple canvia a conversa privada amb $1
 lconvstarted Conversa iniciada a les $1
 leaveblankforhotmail Deixa en blanc per usar hotmail
 leaves $1 deixa la conversa
 lenteredconf $1 s'uneix a la canversa a les $2
 linprivate EN PRIVAT
 listeningon Escoltant el port $1
+listsmileys2 Mostrar emoticones a la llista de contactes de l'aMSN
 listsmileys Llista d'emoticones
 ljoinedconf $1 s'uneix a la conversa
 lleftconf $1 deixa la conversa
 loadcontacts Obrir una llista de contactes
+logbigger Els fitxers de registre d'un contacte, mai superen els
+logfandexp Mida dels fitxers de registre i expiració de l'historial
 loggedotherlocation Desconnectat. S'ha iniciat la sessió en un altre lloc
 loggingin Connectant-se
 loginas Connectar-se com
+loging Connectant-se
 login Connectar-se
+logolder Registrar només les converses que s'han realitzat en l'últim
 logout Desconnectar-se
 logsin s'acaba de connectar
-lprivtoconf La conversa privada canvia a conversa
+logsmileys Mostrar emoticons a la finestra d'historial de l'aMSN
+lprivtoconf La conversa privada canvia a conversa múltiple amb $1
 luclosedwin Has tancat la finestra a les $1
 mailer Gestor de correu
+maximised Maximitzada
+minimised Minimitzada/Iconificada
+mins minuts
 mobile Mòbil
 movetogroup Moure al grup
+msgmaxmin Quan arribi un nou missatge, vull ser:
 msg Missatge
-msn AMSN
-múltiple amb $1
+msgmode Escull com gestionar finestres de missatges múltiples:
+msn aMSN
 mustrestart Has de reiniciar el programa per a que els canvis tinguin efecte
+myhomephone El meu telèfon de casa
+mymobilephone El meu telèfon mòbil
 mystatus El meu estat
+myworkphone El meu telèfon a la feina
 natip Detecció d'IP a través de pàgina web
+natkeepalive Si et desconnecten contínuament, activa aquesta opció
 needonline En l'estat "Simula desconnexió" no pots enviar missatges!
 newmail $1 missatges nous a la bústia
 newmailfrom Nou missatge de correu de
@@ -147,7 +182,11 @@ nologfile No existeix fitxer d'historial per $1
 nonewmail No hi ha missatges nous a la bústia
 nonewver No hi ha cap versió nova per a baixar-se
 normal Normal
+notify1 Mostrar una finestra d'avís quan un contacte es connecti
+notify2 Mostrar una finestra d'avís quan arribin nous missatges
+notify3 Mostrar una finestra d'avís quan arribi un nou correu electrònic
 notify notificar
+notifyoffset Ajusta la posició de la finestra d'avís mitjançant un desplaçament
 notifywin Finestra d'avís
 nousersinsession No hi ha usuaris a la sessió
 offline Desconnectat
@@ -163,25 +202,44 @@ other Un altre
 pager Paginador
 pass Contrasenya
 paste Enganxa
+personal Personal
 phone Telèfon
 picfile Fitxer d'imatge per a l'alarma (GIF < 500 x 500)
 picstatus Imatge per a l'alarma
 port Port
+prefalerts Les meves alertes i sons d'events
 prefapps Aplicacions
+prefawaymsg Els meus missatges d'absent
+prefemotic Emoticones
 preferences Preferències
+preffont2 Canviar la manera com altres veuen el meu text en una conversa
+preffont3 Canviar el tipus de lletra i la mida de la interfície de l'aMSN
+preffont Texte dels meus missatges
+preflog1 Les meves opcions d'historial i registres
+preflook Aparença del meu aMSN
+prefmsging Interfície dels meus missatges
+prefname El meu nom o sobrenom de l'aMSN
+prefphone2 Escriu els números de telèfon que vols permetre veure als contactes $1 de la teva llista de contactes amb permís $1
+prefphone Els meus números de telèfon
+prefprofile2 Crea o modifica el teu perfil públic (la $1 descripció de tu mateix que poden veure els altres)
+prefprofile El meu perfil públic
+prefproxy Els paràmetres del meu servidor intermedi (proxy)
+prefsession El meu inici de sessió i estat
+prefshared Connexions compartides (només per NAT)
 prefsound So
-privada amb $1
+profiledconfig Configuració de perfil
+profiles Perfils
 properties Propietats
-proxyconf Configuració del servidor intermediari (Proxy)
 proxyconfhttp Configuració del suport per al servidor intermediari HTTP
+proxyconf Configuració del servidor intermediari (proxy)
+proxy Estic darrera un servidor intermedi (HTTP o SOCKS5)
 publishphones Publicar els meus números de telèfon
 receivedbytes Rebuts $1 de $2 bytes
 receivefile Rebent fitxer
-reconnect Esperant a que $1 es reconnecti
 reconnecting Reconnectant-se al servidor
+reconnect Esperant a que $1 es reconnecti
 reject Rebutjar
 rememberpass Recordar contrasenya
-reversed Invertit
 reversed Invertit
 rightback Un moment
 saveas Desar com
@@ -190,25 +248,32 @@ save Desar
 savetofile Desar en fitxer
 says $1 diu
 sbcon Connectant-se a la Switch Board
-send Enviar
 sendfile Enviar fitxer
 sendmail Enviar correu electrònic
 sendmsg Enviar missatge
+send Enviar
 sentbytes Enviats $1 de $2 bytes
 servergoingdown Desconnectat: El servidor s'apagarà per manteniment
 server Servidor
+session Sessió
+sound2 Reprodueix sons quan els contactes es connectin o enviïn missatges
+sound So en un event
 soundfile Fitxer de so de l'alarma
 soundloop Reproducció contínua del so
-sound So en un event
 soundstatus So a l'alarma
+startoffline2 Connectar-se silenciosament apareixent en l'estat "Desconnectat"
 startoffline Iniciar la connexió en l'estat "Simula desconnexió"
 status Estat
 stopalarm Parar l'alarma
-syntaxerror  Error de sintaxi
+stylechat La mateixa aparença que als xats
+stylehist Aparença de l'historial de l'aMSN
+stylelog Escull l'estil en que desitjes veure l'historial
+syntaxerror Error de sintaxi
+tabbed Finestres sobreposades
 textsize Mida del text
 title Al's Messenger
-to A
 tools Eines
+to A
 unblock Desbloquejar
 uoffline Desconnectats
 uonline Connectats
@@ -218,7 +283,9 @@ user Usuari
 version Versió
 viewprofile Mostrar perfil
 view Veure
-willjoin Esperant que $1  s'uneixi a la conversa
+willjoin Esperant que $1 s'uneixi a la conversa
 work Treball
+xoffset Desplaçament X
+yoffset Desplaçament Y
 yousay Dius
 youwant Vols
