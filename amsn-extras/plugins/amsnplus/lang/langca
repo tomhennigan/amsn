@@ -1,6 +1,7 @@
 amsn_lang_version 2
 allowcommands Vols permetre l'ús de comandes en la conversa?
 allowcolours Vols permetre múltiples colors en la conversa?
+bold Negreta
 ccolor \nEl teu color de text és $1.
 cfont \nLa teva font és $1.
 cinfo \nInformació sobre $1: \nNick: $2 \nGrup: $3.
@@ -19,5 +20,9 @@ cstyle \nEl teu estil de font és $1.
 deleted \nHas eliminat $1 de la llista de contactes\nPer afegir-lo de nou, fes: /add $1.
 groupadded \nAfegit el grup $1.
 groupdeleted \nHas eliminat el grup $1 \nPer afegir-lo de nou, fes: /addgroup $1.
+italic Cursiva
 multiplecolorsbutton Afegeix un nou color
+overstrike Tatxat
 parsenicks Vols filtrar la codificació de colors del messenger plus als nicks?
+reset Netejar formats
+underline Subratllat

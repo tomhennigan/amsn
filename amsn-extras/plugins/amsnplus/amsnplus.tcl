@@ -55,6 +55,7 @@ namespace eval ::amsnplus {
 		::plugins::RegisterEvent "aMSN Plus" chat_msg_send parseCommand
 		::plugins::RegisterEvent "aMSN Plus" chat_msg_receive parse_colours
 		::plugins::RegisterEvent "aMSN Plus" chatwindowbutton chat_color_button
+		::plugins::RegisterEvent "aMSN Plus" chatmenu edit_menu
 	}
 
 		
@@ -187,6 +188,25 @@ namespace eval ::amsnplus {
 	#//////////////////////////////////////////////////////////////////////////
 
 	###############################################
+	# this creates some commands for editing in the
+	# chat window packed in the edit menu
+	proc edit_menu {event epvar} {
+		if { !$::amsnplus::config(allow_colours) } { return }
+		upvar 2 evPar newvar
+		set bold "(!FB)"
+		set italic "(!FI)"
+		set underline "(!FU)"
+		set overstrike "(!FS)"
+		set reset "(!FR)"
+		$newvar(menu_name).actions add separator
+		$newvar(menu_name).actions add command -label "[trans bold]" -command "$newvar(window_name).f.bottom.left.in.text insert end $bold"
+		$newvar(menu_name).actions add command -label "[trans italic]" -command "$newvar(window_name).f.bottom.left.in.text insert end $italic"
+		$newvar(menu_name).actions add command -label "[trans underline]" -command "$newvar(window_name).f.bottom.left.in.text insert end $underline"
+		$newvar(menu_name).actions add command -label "[trans overstrike]" -command "$newvar(window_name).f.bottom.left.in.text insert end $overstrike"
+		$newvar(menu_name).actions add command -label "[trans reset]" -command "$newvar(window_name).f.bottom.left.in.text insert end $reset"
+	}
+
+	###############################################
 	# this adds a button to choose color for our
 	# multi-color text in the chatwindow
 	# now add buttons for multi-format text too
@@ -199,10 +219,8 @@ namespace eval ::amsnplus {
 		set amsnpluspath [::config::getKey "amsnpluspluginpath"]
 		#set the path to each pixmap
 		append pixmap1 $amsnpluspath "/pixmaps/multiple_colors.gif"
-		#append pixmap2 $amsnpluspath "/pixmaps/bold.gif"
 		#create the imgages
 		set img1 [image create photo -file $pixmap1 -format gif]
-		#set img2 [image create photo -file $pixmap2 -format gif]
 		#create the texts
 		set bold "(!FB)"
 		#create the widgeds
@@ -210,10 +228,6 @@ namespace eval ::amsnplus {
 			-background [::skin::getColor buttonbarbg] -highlightthickness 0 -borderwidth 0 \
 			-highlightbackground [::skin::getColor buttonbarbg] \
 			-command "after 1 ::amsnplus::choose_color $w"
-		#button $bottom.buttons.bold -image $img2 -relief flat -padx 3 \
-		#	-background [::skin::getColor buttonbarbg] -highlightthickness 0 -borderwidth 0 \
-		#	-command "after 1 $win.f.bottom.left.in.text insert end $bold"
-		#set the balloons
 		if {[string equal $::version "0.94"]} {
 			set_balloon $bottom.buttons.multiple_colors "Add a new color"
 		} else {

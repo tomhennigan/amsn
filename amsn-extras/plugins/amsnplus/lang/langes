@@ -1,6 +1,7 @@
 amsn_lang_version 2
 allowcommands Quieres permitir el uso de comandos en la conversación?
 allowcolours Quieres permitir el uso de multiples colores en la conversación?
+bold Negrita
 ccolor \nTu color de texto es $1.
 cfont \nTu fuente es $1.
 cinfo \nInformacion sobre $1: \nNick: $2 \nGrupo: $3.
@@ -19,5 +20,9 @@ cstyle \nTu estilo de fuente es $1.
 deleted \nHas eliminado $1 de la lista de contactos\nPara añadirlo de nuevo: /add $1.
 groupadded \nAñadido el grupo $1.
 groupdeleted \nHas eliminado el grupo $1 \nPara añadirlo de nuevo: /addgroup $1.
+italic Cursiva
 multiplecolorsbutton Añade un nuevo color
+overstrike Tachado
 parsenicks Quieres filtrar la codificación del messenger plus en los nicks?
+reset Limpiar formatos
+underline Subrayado

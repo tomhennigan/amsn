@@ -1,6 +1,7 @@
 amsn_lang_version 2
 allowcommands Do you want to allow commands in the chat window?
 allowcolours Do you want to allow multiple colours in the chat window?
+bold Bold
 ccolor \nYour text color is $1
 cfont \nYour text font is $1
 cinfo \nContact information:\n$1 \nNick: $2 \nGroup: $3
@@ -19,5 +20,9 @@ cstyle \nYour font style is $1
 deleted \nYou've removed $1 from the list\nTo add this contact again do: /add $1
 groupadded \nAdded group $1.
 groupdeleted \nYou've deleted group $1 \nTo add this group again do: /addgroup $1
+italic Italic
 multiplecolorsbutton Add a new color
+overstrike Overstrike
 parsenicks Do you want to parse the msn plus color codification in nicks?
+reset Reset styles
+underline Underline
