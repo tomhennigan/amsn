@@ -1020,7 +1020,7 @@ namespace eval ::MSN {
 	
 		if { [lindex $item 2] == "FL"} {
 			set contact [lindex $item 4]	;# Email address
-			msg_box "[trans contactadded]\n$contact"
+			msg_box "[trans contactadded]\n[urldecode $contact]"
 		}
 		
 		cmsn_ns_handler $item
