@@ -2015,6 +2015,7 @@ proc sb {do sbn var {value ""}} {
       }
       length {
 	if {![info exists sb_data]} {
+		status_log "BIG ERROR???? TRYING TO GET LENGTH FROM AN UNEXISTING SB: $sbn $var\n" red
 		return 0
 	}
 
