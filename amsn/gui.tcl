@@ -3812,15 +3812,12 @@ proc play_sound {sound_name} {
 
 	if { $config(sound) == 1 } {
 		set sound [GetSkinFile sounds $sound_name]
-		set soundcommand [subst -nocommands -nobackslashes [::config::getKey soundcommand]]
-		string map {"\\" "\\\\" "\[" "\\\[" "\$" "\\\$"} soundcommand
-		if { $tcl_platform(platform) == "windows" } {
-			#added replace \ for \\ in windows as was needed, may be needed for other platforms aswell
-			catch {eval exec $soundcommand &} res
-
-		} else {
-			catch {eval exec $soundcommand &} res
-		}
+		set soundcommand [::config::getKey soundcommand]
+		#Quote everything, or "eval" will fail
+		set soundcommand [string map {"\\" "\\\\" "\[" "\\\[" "\$" "\\\$"} $soundcommand]
+		#Unquote the $sound variable so it's replaced
+		set soundcommand [string map {"\\\$sound" "\$sound" } $soundcommand]
+		catch {eval exec $soundcommand &} res
 		#Kill soundplayer on Mac OS X (sometimes he stays open and eat your CPU)
 		if { $tcl_platform(os) == "Darwin" } {
 			after 30000 [list catch [list exec killall -c sndplay]]
