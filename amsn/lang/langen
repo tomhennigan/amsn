@@ -285,6 +285,7 @@ needonline You still are/appear offline!
 newmail $1 new messages in Inbox
 newmailfrom New mail from $1 ($2)
 newmsg New message
+newstate Add custom state
 newveravailable Newer version $1 available for download
 next Next
 noactivity No activity

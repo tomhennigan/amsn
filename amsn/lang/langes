@@ -285,6 +285,7 @@ needonline Todavía estás/apareces desconectado
 newmail $1 mensajes nuevos en bandeja de entrada
 newmailfrom Nuevo correo de $1 ($2)
 newmsg Nuevo mensaje
+newstate Añadir estado personalizado
 newveravailable Nueva versión $1 disponible para descarga
 next Siguiente
 noactivity Sin actividad

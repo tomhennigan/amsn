@@ -156,10 +156,10 @@ proc CreateStatesMenu { path } {
 			$path.otherstates add cascade -label "[lindex [StateList get $idx] 0]" -menu $path.otherstates.$idx
 		}
 		$path.otherstates add separator
-		$path.otherstates add command -label "[trans other]..." -command "EditNewState 0"
+		$path.otherstates add command -label "[trans newstate]" -command "EditNewState 0"
 		$path add cascade -label [trans morepersonal] -menu $path.otherstates
 	} else {
-		$path add command -label "[trans other]..." -command "EditNewState 0"
+		$path add command -label "[trans newstate]" -command "EditNewState 0"
 	}
 	$path add separator
 	$path add command -label "[trans changenick]..." -command cmsn_change_name
