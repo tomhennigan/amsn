@@ -3551,6 +3551,8 @@ proc cmsn_auth {{recv ""}} {
 				::abook::clearData
 				::abook::setConsistent
 			}
+			::abook::setPersonal nick [urldecode [lindex $recv 4]]	
+			::abook::setPersonal login [lindex $recv 3]
 			recreate_contact_lists
 			#For compatibility only!!
 			load_alarms

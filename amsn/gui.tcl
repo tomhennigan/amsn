@@ -2575,6 +2575,11 @@ namespace eval ::amsn {
 
 		global config
 		set tstamp [timestamp]
+		if { $user == $config(login) } {
+			set nick [::abook::getNick myself]
+		} else {
+			set nick [::abook::getNick $user]
+		}
 		if {$config(truncatenicks)} {
 			if {$config(showtimestamps)} {
 				set says "$tstamp [trans says [list]]:"
@@ -2584,9 +2589,9 @@ namespace eval ::amsn {
 			set win_name [WindowFor $chatid]
 			set maxw [winfo width $win_name.f.out.text]
 			incr maxw [expr -10-[font measure splainf -displayof $win_name "$says"]]
-			set user [trunc [::abook::getNick $user] $win_name $maxw splainf]
+			set user [trunc $nick $win_name $maxw splainf]
 		} else {
-			set user [::abook::getNick $user]
+			set user $nick
 		}
 
 		if {$config(showtimestamps)} {
