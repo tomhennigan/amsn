@@ -547,7 +547,7 @@ proc Preferences { settings } {
 	#  .------------.
 	# _| Connection |________________________________________________
 	image create photo prefnat -file [file join ${images_folder} prefnat.gif]
-	image create photo prefhist2 -file [file join ${images_folder} prefhist2.gif]	
+	image create photo prefproxy -file [file join ${images_folder} prefnat.gif]	
 
 	set frm [Rnotebook:frame $nb 5]
 	set lfname [LabelFrame:create $frm.lfname -text [trans prefshared]]
@@ -558,13 +558,69 @@ proc Preferences { settings } {
 	pack $lfname.1 -side left -padx 0 -pady 5 -expand 1 -fill both
 	checkbutton $lfname.1.keepalive -text "[trans natkeepalive]" -onvalue 1 -offvalue 0 -variable myconfig(keepalive)
 	checkbutton $lfname.1.ip -text "[trans ipdetect]" -onvalue 1 -offvalue 0 -variable myconfig(natip)
-	pack $lfname.1.keepalive $lfname.1.ip -anchor w -side top -padx 10	
+	pack $lfname.1.keepalive $lfname.1.ip -anchor w -side top -padx 10
+	
+	set frm [Rnotebook:frame $nb 5]
+	set lfname [LabelFrame:create $frm.lfname2 -text [trans prefproxy]]
+	pack $frm.lfname2 -anchor n -side top -expand 1 -fill x
+	label $lfname.pshared -image prefproxy
+	pack $lfname.pshared -side left -anchor nw	
+	frame $lfname.1 -class Degt
+	frame $lfname.2 -class Degt
+	frame $lfname.3 -class Degt
+	checkbutton $lfname.1.proxy -text "[trans proxy]" -onvalue 1 -offvalue 0 -variable myconfig(withproxy)
+	pack $lfname.1.proxy -anchor w -side top -padx 10
+	radiobutton $lfname.2.http -text "HTTP" -value http -variable myconfig(proxytype)
+	radiobutton $lfname.2.socks5 -text "SOCKS5" -value socks -variable myconfig(proxytype)	
+	pack $lfname.2.http $lfname.2.socks5 -anchor w -side left -padx 10
+	pack $lfname.1 $lfname.2 $lfname.3 -anchor w -side top -padx 0 -pady 0 -expand 1 -fill both
+	label $lfname.3.lserver -text "[trans server] :" -padx 5 
+	entry $lfname.3.server -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 20
+	label $lfname.3.lport -text "[trans port] :" -padx 5 
+	entry $lfname.3.port -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 5
+	label $lfname.3.luser -text "[trans user] :" -padx 5 
+	entry $lfname.3.user -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 20
+	label $lfname.3.lpass -text "[trans pass] :" -padx 5 
+	entry $lfname.3.pass -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 20 -show "*"
+	grid $lfname.3.lserver -row 1 -column 1 -sticky e
+	grid $lfname.3.server -row 1 -column 2 -sticky w -pady 5
+	grid $lfname.3.lport -row 1 -column 3 -sticky e
+	grid $lfname.3.port -row 1 -column 4 -sticky w -pady 5
+	grid $lfname.3.luser -row 2 -column 1 -sticky e
+	grid $lfname.3.user -row 2 -column 2 -sticky w
+	grid $lfname.3.lpass -row 2 -column 3 -sticky e
+	grid $lfname.3.pass -row 2 -column 4 -sticky w
+
+	frame $frm.dummy -class Degt
+	pack $frm.dummy -anchor n -side top -expand 1 -fill both -pady 150
 
 	#  .--------------.
 	# _| Applications |________________________________________________
+	image create photo prefnat -file [file join ${images_folder} prefnat.gif]
+
 	set frm [Rnotebook:frame $nb 6]
-	label $frm.l6 -text "Welcome frame 1 !" 
-	pack $frm.l6 -fill both -expand 1
+	set lfname [LabelFrame:create $frm.lfname -text [trans prefshared]]
+	pack $frm.lfname -anchor n -side top -expand 1 -fill x
+	label $lfname.pshared -image prefnat
+	pack $lfname.pshared -side left -anchor nw
+	frame $lfname.1 -class Degt
+	pack $lfname.1 -anchor w -side left -padx 0 -pady 5 -expand 1 -fill both
+	label $lfname.1.lbrowser -text "[trans browser] :" -padx 5 
+	entry $lfname.1.browser -bg #FFFFFF -bd 1 -font sboldf -highlightthickness 0 -width 20
+	label $lfname.1.lfileman -text "[trans fileman] :" -padx 5 
+	entry $lfname.1.fileman -bg #FFFFFF -bd 1 -font sboldf -highlightthickness 0 -width 20
+	label $lfname.1.lmailer -text "[trans mailer] :" -padx 5 
+	entry $lfname.1.mailer -bg #FFFFFF -bd 1 -font sboldf -highlightthickness 0 -width 20
+	label $lfname.1.lsound -text "[trans sound] :" -padx 5 
+	entry $lfname.1.sound -bg #FFFFFF -bd 1 -font sboldf -highlightthickness 0 -width 20
+	grid $lfname.1.lbrowser -row 1 -column 1 -sticky w
+	grid $lfname.1.browser -row 1 -column 2 -sticky w
+	grid $lfname.1.lfileman -row 2 -column 1 -sticky w
+	grid $lfname.1.fileman -row 2 -column 2 -sticky w
+	grid $lfname.1.lmailer -row 3 -column 1 -sticky w
+	grid $lfname.1.mailer -row 3 -column 2 -sticky w
+	grid $lfname.1.lsound -row 4 -column 1 -sticky w
+	grid $lfname.1.sound -row 4 -column 2 -sticky w
 
 	#  .----------.
 	# _| Profiles |________________________________________________
@@ -747,9 +803,8 @@ proc LabelFrame:create {w args} {
 
 ###################### ****************** ###########################
 # $Log$
-# Revision 1.22  2003/01/15 02:31:32  burgerman
-# Always commit before traveling in case they decide my laptop is a bomb and blow it to peices with those little bad ass anti-bomb robots
-# Ohh yeh I also did some more work on new preferences.. yippy..
+# Revision 1.23  2003/01/18 17:46:26  burgerman
+# more pref work
 #
 # Revision 1.21  2003/01/12 23:33:03  burgerman
 # more work on preferences, damn these things take long
