@@ -45,11 +45,24 @@ set weburl "http://amsn.sourceforge.net"
 
 #Look if we are launched from a link and set
 #the correct working dir
-if ![catch {file readlink [info script]} res] {
-	set program_dir [file dirname $res]
-} else {
+
+if {[catch {file readlink [info script]} res]!=0} {
+  puts "No es un link: [info script]"
   set program_dir [file dirname [info script]]
+} else {
+   set resdir [file dirname $res]
+   while {[catch {file readlink $res} res2]==0} {      
+     set res $res2
+     if { [string range $res2 0 0]=="/" } {
+       set resdir [file dirname $res2]
+     } else {
+       set resdir [file join $resdir [file dirname $res2]]
+     }
+   }
+   set program_dir $resdir
+
 }
+
 
 #=======================================================================
 set images_folder "[file join $program_dir i]"
@@ -149,14 +162,16 @@ set list_states {{NLN online #0000FF online online bonline}
 #=======================================================================
 if {$tcl_platform(platform) == "unix"} {
    set HOME "$env(HOME)/.amsn"
+   set files_dir "$env(HOME)/amsn_received"
 } elseif {$tcl_platform(platform) == "windows"} {
    set HOME "$env(USERPROFILE)/amsn"
+   set files_dir "$env(USERPROFILE)/amsn_received
 } else {
    set HOME "amsn"
+   set files_dir "amsn_received
 }
 
 set log_dir "${HOME}/logs"
-set files_dir "${HOME}/myfiles"
 
 #=======================================================================
 
