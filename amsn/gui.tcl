@@ -3882,7 +3882,9 @@ proc set_encoding {enc} {
 
 #///////////////////////////////////////////////////////////////////////
 proc cmsn_draw_status {} {
-	global followtext_status
+	global followtext_status queued_status
+	
+	if { [winfo exists .status] } {return}
 	toplevel .status
 	wm group .status .
 	wm state .status withdrawn
@@ -3918,6 +3920,13 @@ proc cmsn_draw_status {} {
 	bind .status.enter <Key-Up> "window_history previous %W"
 	bind .status.enter <Key-Down> "window_history next %W"
 	wm protocol .status WM_DELETE_WINDOW { toggle_status }
+	
+	if { [info exists $queued_status] && [llength $queued_status] > 0 } {
+		foreach item $queued_status {
+			status_log [lindex $item 0] [lindex $item 1]
+		}
+		unset queued_status
+	}
 }
 
 
@@ -5822,14 +5831,16 @@ proc timestamp {} {
 # Logs the given text with a timestamp using the given color
 # to the status window
 proc status_log {txt {colour ""}} {
-	global followtext_status
+	global followtext_status queued_status
 
-	catch { 
+	if { [catch {
 		.status.info insert end "[timestamp] $txt" $colour
 		#puts "[timestamp] $txt"
 		if { $followtext_status == 1 } {
 			catch {.status.info yview moveto 1.0}
 		}
+	}]} {
+		lappend queued_status [list $txt $colour]
 	}
 }
 #///////////////////////////////////////////////////////////////////////////////

@@ -1,3 +1,6 @@
+
+package require AMSN_BWidget
+
 # ***********************************************************
 #            Emilio's Additions to CCMSN/AMSN
 #        Copyright (c)2002 Coralys Technologies,Inc.
@@ -250,7 +253,7 @@ proc Preferences { { settings "personal"} } {
     # Frame for common buttons (all preferences)
     frame .cfg.buttons -class Degt
     button .cfg.buttons.save -text [trans save] -font sboldf -command "SavePreferences; destroy .cfg"
-    button .cfg.buttons.cancel -text [trans close] -font sboldf -command "RestorePreferences; destroy .cfg"
+    button .cfg.buttons.cancel -text [trans close] -font sboldf -command "destroy .cfg"
     pack .cfg.buttons.save .cfg.buttons.cancel -side left -padx 10 -pady 5
     pack .cfg.buttons -side top -fill x
 
@@ -756,20 +759,17 @@ proc Preferences { { settings "personal"} } {
 	# _| Advanced |________________________________________________
 
 	set frm [Rnotebook:frame $nb $Preftabs(advanced)]
-
+	
 	set lfname [LabelFrame:create $frm.lfname -text [trans advancedprefs]]
-	frame $lfname.f
-	scrollbar $lfname.f.ys -command "$lfname.f.opt_list yview"
-	listbox $lfname.f.opt_list -yscrollcommand "$lfname.f.ys set" -font splainf \
-		-background white -highlightthickness 0 -height 1
-	pack $lfname.f.opt_list -side left -expand true -fill both -padx 0 -pady 0
-	pack $lfname.f.ys -side left -fill y -padx 0 -pady 0
-	pack $lfname.f -side top -padx 5 -pady 3 -expand true -fill both
-	set opt_list $lfname.f.opt_list
-
-	reload_advanced_options $opt_list
-
-	bind $opt_list <Double-Button-1> "change_advanced_option $opt_list"
+	
+	#Scrollable frame that will contain advanced optoins
+	ScrolledWindow $lfname.sw -borderwidth 1
+	ScrollableFrame $lfname.sw.sf -constrainedwidth 1
+	$lfname.sw setwidget $lfname.sw.sf
+	set path [$lfname.sw.sf getframe]	
+	pack $lfname.sw -anchor n -side top -expand true -fill both
+	
+	reload_advanced_options $path
 
 	# First Tab
 	#set lfname [LabelFrame:create $frm.lfname -text caca]
@@ -962,41 +962,55 @@ proc Preferences { { settings "personal"} } {
     catch { Rnotebook:raise $nb $Preftabs($settings) }
 
     
-    bind .cfg <Destroy> "RestorePreferences"
+    bind .cfg <Destroy> "RestorePreferences %W"
 	
 
 }
 
-proc reload_advanced_options {opt_list} {
+proc reload_advanced_options {path} {
 	global advanced_options config
 
-	set scrollidx [$opt_list yview]	
-	
-	$opt_list delete 0 end
+	set i 0
 	foreach opt $advanced_options {
 		if {[lindex $opt 0] == "" } {
-			$opt_list insert end " ---- [trans [lindex $opt 1]] ----"
+			label $path.l$i -font bboldf -text "[trans [lindex $opt 1]]"
+			pack $path.l$i -side top -anchor w
 		} elseif {![info exists config([lindex $opt 0])]} {
-			$opt_list insert end " ERROR: Non-existing option \"[lindex $opt 0]\""
+			label $path.l$i -text "ERROR: Non-existing option \"[lindex $opt 0]\"" -font splainf
+			pack $path.l$i -side top -anchor w
+			#$opt_list insert end " ERROR: Non-existing option \"[lindex $opt 0]\""
 		} else {
 			switch [lindex $opt 1] {
 				bool {
-					if { $config([lindex $opt 0]) } {
-						$opt_list insert end " [trans [lindex $opt 2]]: *[trans enabled]*"
-					} else {
-						$opt_list insert end " [trans [lindex $opt 2]]: *[trans disabled]*"
-					}
+					checkbutton $path.cb$i -text [trans [lindex $opt 2]] -font splainf -variable config([lindex $opt 0])
+					pack $path.cb$i -side top -anchor w
+				}
+				folder {
+					frame $path.fr$i
+					button $path.fr$i.browse -text [trans browse]
+					LabelEntry $path.fr$i.le "[trans [lindex $opt 2]]:" config([lindex $opt 0]) 20
+					pack $path.fr$i.le -side left -anchor w -expand true -fill x
+					pack $path.fr$i.browse -side left
+					pack $path.fr$i -side top -anchor w -expand true -fill x
+				}
+				int {
+					LabelEntry $path.le$i "[trans [lindex $opt 2]]:" config([lindex $opt 0]) 20
+					pack $path.le$i -side top -anchor w -expand true -fill x
 				}
 				default {
-					$opt_list insert end " [trans [lindex $opt 2]]: $config([lindex $opt 0])"
+					LabelEntry $path.le$i "[trans [lindex $opt 2]]:" config([lindex $opt 0]) 20
+					pack $path.le$i -side top -anchor w -expand true -fill x
+			#		$opt_list insert end " [trans [lindex $opt 2]]: $config([lindex $opt 0])"
 				}
 			}
 		}
+		incr i
 
 	}
-		$opt_list yview moveto [lindex $scrollidx 0]
 
 }
+
+
 
 proc change_advanced_option {opt_list} {
 	global advanced_options config
@@ -1472,8 +1486,12 @@ proc SavePreferences {} {
 
 }
 
-proc RestorePreferences {} {
+proc RestorePreferences { {win ".cfg"} } {
+	
+	if { $win != ".cfg" } { return }
+
 	global config myconfig proxy_server proxy_port
+	
 
 	set nb .cfg.notebook.nn
 
@@ -1488,6 +1506,14 @@ proc RestorePreferences {} {
 #	puts "myCONFIG $var_attribute $var_value"
 	}
 
+    # Save configuration.
+    save_config
+	::MSN::contactListChanged
+	 ::config::saveGlobal
+
+    if { [::MSN::myStatusIs] != "FLN" } {
+       cmsn_draw_online
+    }	
 #    ::MSN::WriteSB ns "SYN" "0"
 
 	# Save configuration.
@@ -1578,16 +1604,16 @@ proc fileDialog {w ent operation basename} {
 }
 
 # Usage: LabelEntry .mypath.mailer "Label:" config(mailcommand) 20
-proc LabelEntry { path lbl value width } {
-    upvar $value entvalue
+proc LabelEntry { path lbl variable width } {
+    
 
     frame $path -class Degt
 	label $path.lbl -text $lbl -justify left \
-	    -font sboldf
-	entry $path.ent -text $value -relief sunken \
-	    -width $width -font splainf
+	    -font splainff
+	entry $path.ent -textvariable $variable -relief sunken \
+	    -width $width -font splainf -background #FFFFFF
 	pack $path.lbl -side left -anchor e
-	pack $path.ent -side left -anchor e -expand 1 -fill x
+	pack $path.ent -side left -anchor e -expand 1 -fill x -padx 3
 #	pack $path.ent $path.lbl -side right -anchor e -expand 1 -fill x
 }
 
@@ -1733,3 +1759,19 @@ proc choose_basefont { } {
 
 }
 #///////////////////////////////////////////////////////////////////////
+
+proc test_scroll {} {
+	toplevel .test
+	ScrolledWindow .test.sc
+	ScrollableFrame .test.sc.f
+	.test.sc setwidget .test.sc.f
+	set path [.test.sc.f getframe]
+	
+	for {set i 0} {$i < 20 } {incr i} {
+		checkbutton $path.b$i -text "Probando probando" -variable prueba
+		pack $path.b$i -side top
+	
+	}
+	pack .test.sc
+	
+}

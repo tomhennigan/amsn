@@ -3605,7 +3605,6 @@ proc recreate_contact_lists {} {
 	foreach user [::abook::getAllContacts] {
 		foreach list_name [::abook::getLists $user] {
 			::MSN::addToList $list_name $user
-			status_log "Adding user $user to list $list_name\n"
 		}
 	}
 }
