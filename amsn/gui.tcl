@@ -1452,7 +1452,6 @@ namespace eval ::amsn {
 			}
 
 			set user_image [::MSN::stateToImage $state_code]
-
 			if {$config(truncatenames)} {
 				#Calculate maximum string width
 				set maxw [winfo width ${win_name}.f.top.text]
@@ -1476,7 +1475,7 @@ namespace eval ::amsn {
 
 			if { "$user_state" != "" && "$user_state" != "online" } {
 			#set topmsg "${topmsg} \([trans $user_state]\) "
-				${win_name}.f.top.text insert end " \([trans $user_state]\)"
+				${win_name}.f.top.text insert end "\([trans $user_state]\)"
 			}
 			${win_name}.f.top.text insert end "\n"
 			#set topmsg "${topmsg}\n"
@@ -1997,6 +1996,7 @@ namespace eval ::amsn {
 		set bottom .${win_name}.f.bottom
 
 		frame $bottom.buttons -class Amsn -borderwidth 0 -relief solid -background $bgcolor2
+
 
 		frame $bottom.in -class Amsn -background white -relief solid -borderwidth 0
 
@@ -4348,6 +4348,23 @@ proc replay_loop {sound id} {
 	}
 	
 	play_loop $sound $id
+}
+
+#play_Sound_Mac Play sounds on Mac OS X with the extension "QuickTimeTcl"
+proc play_Sound_Mac {sound} {
+			set sound_name [file tail $sound]
+			#Find the name of the sound
+			set sound_small [string first "." "$sound_name"]
+			set sound_small [expr {$sound_small -1}]
+			set sound_small_name [string range $sound_name 0 $sound_small]
+			#Destroy previous song if he already play
+			destroy .fake.$sound_small_name
+			#Create the ""movie"" in QuickTime TCL to play the sound
+			set pwd "[exec pwd]"
+			catch {movie .fake.$sound_small_name -file $pwd/$sound -controller 0}
+			#Play the sound
+			catch {.fake.$sound_small_name play}
+			return
 }
 #///////////////////////////////////////////////////////////////////////
 
@@ -7787,6 +7804,12 @@ proc show_bug_dialog {} {
 
 	button $w.button -text [trans ok] -command "set closed_bug_window 1" -default active -highlightbackground #e8e8e8 -activeforeground #5b76c6
 	pack $w.button -in $w.bot
+	
+	#Execute script on Mac OS X to create a mail in "Mail" application and attach the bugreport to the mail
+	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		button $w.mail -text [trans sendmail] -command "exec open plugins/applescript/mail-bugreport.app" -highlightbackground #e8e8e8 -activeforeground #5b76c6
+		pack $w.mail -in $w.bot
+	}
 
 	bind $w <Return> "set closed_bug_window 1"
 
@@ -7858,22 +7881,7 @@ proc lastKeytyped {typed bottom} {
 			focus -force $bottom.in.input;$bottom.in.input insert insert $typed
 		}
 }
-#play_Sound_Mac Play sounds on Mac OS X with the extension "QuickTimeTcl"
-proc play_Sound_Mac {sound} {
-			set sound_name [file tail $sound]
-			#Find the name of the sound
-			set sound_small [string first "." "$sound_name"]
-			set sound_small [expr {$sound_small -1}]
-			set sound_small_name [string range $sound_name 0 $sound_small]
-			#Destroy previous song if he already play
-			destroy .fake.$sound_small_name
-			#Create the ""movie"" in QuickTime TCL to play the sound
-			set pwd "[exec pwd]"
-			catch {movie .fake.$sound_small_name -file $pwd/$sound -controller 0}
-			#Play the sound
-			catch {.fake.$sound_small_name play}
-			return
-}
+
 #win_PositionMac
 #To place the openchatwindow at the right place on Mac OS X
 #Because the windowmanager will put all the window in bottom left after some time
