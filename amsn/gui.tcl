@@ -129,8 +129,8 @@ namespace eval ::amsn {
 			option add *highlightThickness 0 widgetDefault
 			option add *troughColor #c3c3c3 widgetDefault
 
-			option add *Scrollbar.width		12 widgetDefault
-			option add *Scrollbar.borderWidth		1 widgetDefault
+			option add *Scrollbar.width		10
+			option add *Scrollbar.borderWidth		1 
 			option add *Scrollbar.highlightThickness	0 widgetDefault
 		}
 
