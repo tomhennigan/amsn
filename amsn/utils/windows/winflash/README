@@ -1,0 +1,19 @@
+Hi,
+The winflash.cpp is a huge file, but don't get impressed by it's size and the number of lines, it's almost everything about parsing the options.. which can be pretty hard to do in C... anyways, I've put a lot of commands, so it should be easy to know what you're doing.
+
+first, if you want to compile it, you will need visual studio .net, anyways, visual studio 6.0 won't work because the headers it has are too old and does not contain the FlashWindowEx API prototype. You can also use gcc for win, or borland, or anything else that is new enought. You will also need tcl and tk libraries and header, I got them by installing the ActiveState Tcl binaries for windows. Just go at www.tcl.tk, then click on download, then download binaries, you'll get the activestate page, click on next (no need to enter personal info) then download the windows bianries, install them (I used C:\tcl ) and you're ready to compile.
+
+Now you need to create a new project, I'll use visual studio as an example. Create a new project, and Visual C++ -> Win32, then choose, win32 project, give it a proper name (flash), then click ok, in the new window that pops up, don't press "ok", but click on the "Application Settings" link, then select "DLL", and "empty project"
+then add the two files "flash.cpp" and "flash.h" to your project. 
+Click on Tools->Options, then choose Projects->VC++ Directions
+Then click on the menu that says "show directories for", and choose "Include files", then click on the symbol to add a new folder, then choose C:\tcl\include
+then click on the same menu and choose "Library files", then add the folder "c:\tcl\lib"
+press ok.
+Then you click on the project menu and choose properties
+click on Linker->Command line
+and in the "additional options" field, add this "tcl84.lib tk84.lib" without the quotes.
+then click on ok, then build!!! it should work:)
+
+good luck and sorry for this poor readme file :P
+
+KaKaRoTo
