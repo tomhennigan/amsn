@@ -89,6 +89,7 @@ chatreq Solicitando una conversación
 chatsmileys2 Mostrar emoticonos y smileys en ventanas de chat
 chatsmileys Smileys en chat
 checkblocking Comprobar continuamente si te están bloqueando
+checkemail Mostrar línea de notificación de email (Bandeja de entrada) en lista de contactos
 checkfilman Los archivos recibidos se guardarán en $1. Comprueba la opción de administrador de archivos en la ventana de preferencias.
 checkingver Buscando si hay disponible una nueva versión
 checkonfln Comprobar si un usuario te bloquea cuando aparentemente se desconecta

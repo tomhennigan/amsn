@@ -89,6 +89,7 @@ chatreq Requesting chat
 chatsmileys2 Display Emoticons and Smileys in chat windows
 chatsmileys Chat smileys
 checkblocking Continuously check if users are blocking you
+checkemail Show mail notification line (inbox) in contact list
 checkfilman Received files will be saved in $1. Please check file manager settings in preferences window.
 checkingver Checking for new versions
 checkonfln Check if a user blocked you when he gets offline
