@@ -5878,6 +5878,9 @@ proc show_umenu {user_login grId x y} {
 	#NOT NEEDED ANYMORE! Change it inside preferences!!
 	#.user_menu add separator
 	.user_menu add command -label "[trans cfgalarm]" -command "::abookGui::showUserProperties $user_login; .user_[::md5::md5 $user_login]_prop.nb raise alarms"
+
+	.user_menu add command -label "[trans note]" -command "::notes::Display_Notes $user_login"
+
 	# PostEvent 'right_menu'
 	set evPar(menu_name) .user_menu
 	set evPar(user_login) ${user_login}

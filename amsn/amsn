@@ -186,6 +186,7 @@ proc reload_files { } {
 	source balloon.tcl	;# For the balloons tooltip
 	source png.tcl		;# PNG Parser and zlib deflate in pure TCL (KaKaRoTo)
 	source autoupdate.tcl   ;# AUTOUPDATE!!!!!!!!!! :@
+	source notes.tcl
 
 
 }
