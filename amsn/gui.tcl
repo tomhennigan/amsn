@@ -2339,6 +2339,7 @@ namespace eval ::amsn {
 				set win_name [::ChatWindow::Open $container]
 				::ChatWindow::SetFor $lowuser $win_name
 				::ChatWindow::NameTabButton $container $win_name $lowuser
+				::ChatWindow::SwitchToTab $container $win_name
 				::ChatWindow::NameTabbedWindow $container $lowuser
 			}
 			set ::ChatWindow::first_message($win_name) 0
