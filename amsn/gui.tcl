@@ -316,20 +316,23 @@ namespace eval ::amsn {
          set user_login [lindex $user_info 0]
          set user_name [lindex $user_info 1]
          set user_state_no [lindex $user_info 2]
-	 ;#if { "$user_state_no" == "" } {
-	 ;#   set user_state_no 0
-	 ;#}
-	  #set user_state [lindex [lindex $list_states $user_state_no] 1]
+	  
+	  if { "$user_state_no" == "" } {
+	     set user_state_no 0
+	  }
+
+	  set user_state [lindex [lindex $list_states $user_state_no] 1]
 
 	  set title "${title}${user_name}, "
 
  	  set topmsg "${topmsg}${user_name} <${user_login}> "
 	  #TODO: The state information works, but it doesn't change, only when
 	  #users left/join
-	  ;#if { "$user_state" != "" && "$user_state" != "online" } {
-         ;#   set topmsg "${topmsg} \([trans $user_state]\) "
-	  ;#}
+	  if { "$user_state" != "" && "$user_state" != "online" } {
+            set topmsg "${topmsg} \([trans $user_state]\) "
+	  }
 	  set topmsg "${topmsg}\n"
+	  
       }
 
       set title [string replace $title end-1 end " - [trans chat]"]
@@ -509,6 +512,7 @@ namespace eval ::amsn {
       toplevel .${win_name}
       #TODO: Here we should decide if start withdrawn or normal, depending on an option
       # Here or in userJoins? better use userJoins
+      wm geometry .${win_name} 350x320
       wm state .${win_name} withdrawn
       wm title .${win_name} "[trans chat]"
       wm group .${win_name} .

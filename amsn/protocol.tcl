@@ -788,9 +788,6 @@ namespace eval ::MSN {
          set user_login [lindex $user_info 0]
          set user_name [lindex $user_info 1]
 	  set state [lindex $user_info 2]
-         #set user_state_no [lindex $user_info 2]
-
-         #set state [lindex [lindex $list_states $user_state_no] 1]
 
       } else {
          set user_login $user
@@ -876,12 +873,11 @@ namespace eval ::MSN {
          return 0
       }
 
-      set sb_list [lreplace $sb_list $idx $idx]
-
       catch {
          close [sb get $name sock]
-      } res
+      } res      
 
+      set sb_list [lreplace $sb_list $idx $idx]
 
       unset ${name}_info
    }
@@ -1058,6 +1054,7 @@ namespace eval ::MSN {
          status_log "leaveChat is queued\n" red
          set chat_queues($chatid) [lreplace $chat_queues($chatid) 0 0]	  
 	  CleanChat $chatid
+	  ProcessQueue $chatid	  
 	  return
       }
 
@@ -1712,17 +1709,22 @@ proc cmsn_sb_sessionclosed {sbn} {
       return 0
    }
 
-   set items [expr {[sb length $sbn users] -1}]
-   #TODO: Check if this works
-   #sb set $sbn last_user [sb index $sbn users 0]
-   for {set idx $items} {$idx >= 0} {incr idx -1} {
-      set user_info [sb index $sbn users $idx]
-      sb ldel $sbn users $idx
+   if { [::MSN::SBFor $chatid] == $sbn } {
+      
+      set items [expr {[sb length $sbn users] -1}]
+      #TODO: Check if this works
+      #sb set $sbn last_user [sb index $sbn users 0]
+      for {set idx $items} {$idx >= 0} {incr idx -1} {
+         set user_info [sb index $sbn users $idx]
+         sb ldel $sbn users $idx
 
-      amsn::userLeaves [::MSN::ChatFor $sbn] [list [lindex $user_info 0]]
+         amsn::userLeaves [::MSN::ChatFor $sbn] [list [lindex $user_info 0]]
+      }
+
    }
 
-   #NEW and TODO: check it this works. If session closed, and we'are not the preferred sb for the chat, remove
+
+
    if { [::MSN::SBFor $chatid] != $sbn } {
       ::MSN::DelSBFor $chatid $sbn
    }
