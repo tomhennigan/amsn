@@ -1327,15 +1327,19 @@ namespace eval ::amsn {
       .${win_name}.menu.actions entryconfigure 5 -state normal
 
 		#Better binding, works for tk 8.4 only (see proc TypingNotification too)
-		#.${win_name}.f.in.input edit modified false
-		#bind .${win_name}.f.in.input <<Modified>> "::amsn::TypingNotification .${win_name}"
-      bind .${win_name}.f.in.input <Key> "::amsn::TypingNotification .${win_name}"
-		bind .${win_name}.f.in.input <Key-Meta_L> "break;"
-      bind .${win_name}.f.in.input <Key-Meta_R> "break;"
-      bind .${win_name}.f.in.input <Key-Alt_L> "break;"
-      bind .${win_name}.f.in.input <Key-Alt_R> "break;"
-      bind .${win_name}.f.in.input <Key-Control_L> "break;"
-      bind .${win_name}.f.in.input <Key-Control_R> "break;"
+		if { [catch {
+		   .${win_name}.f.in.input edit modified false
+		   bind .${win_name}.f.in.input <<Modified>> "::amsn::TypingNotification .${win_name}"
+			} res]} {
+			#If fails, fall back to 8.3
+         bind .${win_name}.f.in.input <Key> "::amsn::TypingNotification .${win_name}"
+		   bind .${win_name}.f.in.input <Key-Meta_L> "break;"
+         bind .${win_name}.f.in.input <Key-Meta_R> "break;"
+         bind .${win_name}.f.in.input <Key-Alt_L> "break;"
+         bind .${win_name}.f.in.input <Key-Alt_R> "break;"
+         bind .${win_name}.f.in.input <Key-Control_L> "break;"
+         bind .${win_name}.f.in.input <Key-Control_R> "break;"
+		}
 
       bind .${win_name}.f.in.input <Return> "window_history add %W; ::amsn::MessageSend .${win_name} %W; break"
       bind .${win_name}.f.in.input <Key-KP_Enter> "window_history add %W; ::amsn::MessageSend .${win_name} %W; break"
@@ -1572,14 +1576,16 @@ namespace eval ::amsn {
       set chatid [ChatFor $win_name]
 
 		#Works for tcl/tk 8.4 only...
-		#bind ${win_name}.f.in.input <<Modified>> ""
-		#${win_name}.f.in.input edit modified false
-		#bind ${win_name}.f.in.input <<Modified>> "::amsn::TypingNotification ${win_name}"
+		catch {
+			bind ${win_name}.f.in.input <<Modified>> ""
+			${win_name}.f.in.input edit modified false
+			bind ${win_name}.f.in.input <<Modified>> "::amsn::TypingNotification ${win_name}"
+		}
 
 
       if { $chatid == 0 } {
          status_log "VERY BAD ERROR in ::amsn::TypingNotification!!!\n" red
-	 return 0
+         return 0
       }
 
       #Don't queue unless chat is ready, but try to reconnect
