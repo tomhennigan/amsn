@@ -78,22 +78,19 @@ proc trayicon_init {} {
 
 	destroy .immain
 	set iconmenu .immain           
-#	menu .imstatus -tearoff 0 -type normal              #######     submenu in the icon menu won't work in my setup. why?
-#	.imstatus add command -label [trans online] -command "ChCustomState NLN"
-#	.imstatus add command -label [trans noactivity] -command "ChCustomState IDL"
-#	.imstatus add command -label [trans busy] -command "ChCustomState BSY"
-#	.imstatus add command -label [trans rightback] -command "ChCustomState BRB"
-#	.imstatus add command -label [trans away] -command "ChCustomState AWY"
-#	.imstatus add command -label [trans onphone] -command "ChCustomState PHN"
-#	.imstatus add command -label [trans gonelunch] -command "ChCustomState LUN"
-#	.imstatus add command -label [trans appearoff] -command "ChCustomState HDN"
-#	.imstatus add separator
-#	.imstatus add command -label "[trans changenick]..." -command cmsn_change_name
-#	
-
 	menu $iconmenu -tearoff 0 -type normal
+
+	menu $iconmenu.imstatus -tearoff 0 -type normal
+	$iconmenu.imstatus add command -label [trans online] -command "ChCustomState NLN"
+	$iconmenu.imstatus add command -label [trans noactivity] -command "ChCustomState IDL"
+	$iconmenu.imstatus add command -label [trans busy] -command "ChCustomState BSY"
+	$iconmenu.imstatus add command -label [trans rightback] -command "ChCustomState BRB"
+	$iconmenu.imstatus add command -label [trans away] -command "ChCustomState AWY"
+	$iconmenu.imstatus add command -label [trans onphone] -command "ChCustomState PHN"
+	$iconmenu.imstatus add command -label [trans gonelunch] -command "ChCustomState LUN"
+	$iconmenu.imstatus add command -label [trans appearoff] -command "ChCustomState HDN"
+
 	$iconmenu add command -label "[trans offline]"
-	#$iconmenu add command -label "[trans offline]"
 	$iconmenu add separator
 	if { [string length $config(login)] > 0 } {
 	     if {$password != ""} {
@@ -112,15 +109,18 @@ proc trayicon_init {} {
    	$iconmenu add command -label "[trans sendmail]..." -command "::amsn::ChooseList \"[trans sendmail]\" both \"launch_mailer\" 1 0" -state disabled
    	#$iconmenu add command -label "[trans checkver]..." -command "check_version"
 	$iconmenu add separator
-	$iconmenu add command -label "[trans mystatus]" -state disabled
-	$iconmenu add command -label "   [trans online]" -command "ChCustomState NLN" -state disabled
-	$iconmenu add command -label "   [trans noactivity]" -command "ChCustomState IDL" -state disabled
-	$iconmenu add command -label "   [trans busy]" -command "ChCustomState BSY" -state disabled
-	$iconmenu add command -label "   [trans rightback]" -command "ChCustomState BRB" -state disabled
-	$iconmenu add command -label "   [trans away]" -command "ChCustomState AWY" -state disabled
-	$iconmenu add command -label "   [trans onphone]" -command "ChCustomState PHN" -state disabled
-	$iconmenu add command -label "   [trans gonelunch]" -command "ChCustomState LUN" -state disabled
-	$iconmenu add command -label "   [trans appearoff]" -command "ChCustomState HDN" -state disabled
+#	$iconmenu add command -label "[trans mystatus]" -state disabled
+#	$iconmenu add command -label "   [trans online]" -command "ChCustomState NLN" -state disabled
+#	$iconmenu add command -label "   [trans noactivity]" -command "ChCustomState IDL" -state disabled
+#	$iconmenu add command -label "   [trans busy]" -command "ChCustomState BSY" -state disabled
+#	$iconmenu add command -label "   [trans rightback]" -command "ChCustomState BRB" -state disabled
+#	$iconmenu add command -label "   [trans away]" -command "ChCustomState AWY" -state disabled
+#	$iconmenu add command -label "   [trans onphone]" -command "ChCustomState PHN" -state disabled
+#	$iconmenu add command -label "   [trans gonelunch]" -command "ChCustomState LUN" -state disabled
+#	$iconmenu add command -label "   [trans appearoff]" -command "ChCustomState HDN" -state disabled
+	$iconmenu add cascade -label "[trans mystatus]" -menu $iconmenu.imstatus -state disabled
+	$iconmenu add separator
+	$iconmenu add command -label "[trans close]" -command "close_cleanup;exit"
 	CreateStatesMenu .my_menu
 }
 
@@ -156,19 +156,19 @@ proc statusicon_proc {status} {
 				$iconmenu entryconfigure 5 -state disabled
 				$iconmenu entryconfigure 6 -state disabled
 				$iconmenu entryconfigure 8 -state disabled
-				$iconmenu entryconfigure 9 -state disabled
-				$iconmenu entryconfigure 10 -state disabled
-				$iconmenu entryconfigure 11 -state disabled
-				$iconmenu entryconfigure 12 -state disabled
-				$iconmenu entryconfigure 13 -state disabled
-				$iconmenu entryconfigure 14 -state disabled
-				$iconmenu entryconfigure 15 -state disabled
-				$iconmenu entryconfigure 16 -state disabled 
-				
-				for {set id 17} {$id <= ([StateList size] + 16) } { incr id 1 } {
-					$iconmenu entryconfigure $id -state disabled
-					if { $id == 20 } { break }
-				}
+#				$iconmenu entryconfigure 9 -state disabled
+#				$iconmenu entryconfigure 10 -state disabled
+#				$iconmenu entryconfigure 11 -state disabled
+#				$iconmenu entryconfigure 12 -state disabled
+#				$iconmenu entryconfigure 13 -state disabled
+#				$iconmenu entryconfigure 14 -state disabled
+#				$iconmenu entryconfigure 15 -state disabled
+#				$iconmenu entryconfigure 16 -state disabled 
+#				
+#				for {set id 17} {$id <= ([StateList size] + 16) } { incr id 1 } {
+#					$iconmenu entryconfigure $id -state disabled
+#					if { $id == 20 } { break }
+#				}
 
 			} else {
 				$iconmenu entryconfigure 2 -state normal
@@ -176,19 +176,19 @@ proc statusicon_proc {status} {
 				$iconmenu entryconfigure 5 -state normal
 				$iconmenu entryconfigure 6 -state normal
 				$iconmenu entryconfigure 8 -state normal
-				$iconmenu entryconfigure 9 -state normal
-				$iconmenu entryconfigure 10 -state normal
-				$iconmenu entryconfigure 11 -state normal
-				$iconmenu entryconfigure 12 -state normal
-				$iconmenu entryconfigure 13 -state normal
-				$iconmenu entryconfigure 14 -state normal
-				$iconmenu entryconfigure 15 -state normal
-				$iconmenu entryconfigure 16 -state normal
-				
-				for {set id 17} {$id <= ([StateList size] + 16) } { incr id 1 } {
-					$iconmenu entryconfigure $id -state normal
-					if { $id == 20 } { break }
-				}
+#				$iconmenu entryconfigure 9 -state normal
+#				$iconmenu entryconfigure 10 -state normal
+#				$iconmenu entryconfigure 11 -state normal
+#				$iconmenu entryconfigure 12 -state normal
+#				$iconmenu entryconfigure 13 -state normal
+#				$iconmenu entryconfigure 14 -state normal
+#				$iconmenu entryconfigure 15 -state normal
+#				$iconmenu entryconfigure 16 -state normal
+#				
+#				for {set id 17} {$id <= ([StateList size] + 16) } { incr id 1 } {
+#					$iconmenu entryconfigure $id -state normal
+#					if { $id == 20 } { break }
+#				}
 				
 			}
 				

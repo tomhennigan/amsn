@@ -1879,7 +1879,7 @@ catch {exec killall -c sndplay}
 
 		#Better binding, works for tk 8.4 only (see proc  tification too)
 		if { [catch {
-			$bottom.input edit modified false
+			$bottom.in.input edit modified false
 			bind $bottom.in.input <<Modified>> "::amsn::TypingNotification .${win_name} $bottom.in.input"
 			} res]} {
 			#If fails, fall back to 8.3
@@ -1892,6 +1892,11 @@ catch {exec killall -c sndplay}
 			bind $bottom.in.input <Key-Control_R> "break;"
 			bind $bottom.in.input <Key-Return> "break;"
 		}
+
+		bind $bottom.in.input <Key-Delete> "::amsn::DeleteKeyPressed .${win_name} $bottom.in.input %K"
+		bind $bottom.in.input <Key-BackSpace> "::amsn::DeleteKeyPressed .${win_name} $bottom.in.input %K"
+		global skipthistime
+		set skipthistime 0
 
 		bind $bottom.in.input <Return> "window_history add %W; ::amsn::MessageSend .${win_name} %W; break"
 		bind $bottom.in.input <Key-KP_Enter> "window_history add %W; ::amsn::MessageSend .${win_name} %W; break"
@@ -2243,15 +2248,19 @@ catch {exec killall -c sndplay}
    # the protocol layer to send a typing notificacion to the chat that the window
    # 'win_name' is connected to
    proc TypingNotification { win_name inputbox} {
-      global config
+      global config skipthistime
 
       set chatid [ChatFor $win_name]
 
 
-	if { [string length [$inputbox get 0.0 end-1c]] == 0 } {
-		CharsTyped $chatid ""
+	if { $skipthistime } {
+		set skipthistime 0
 	} else {
-		CharsTyped $chatid [string length [$inputbox get 0.0 end-1c]]
+		if { [string length [$inputbox get 0.0 end-1c]] == 0 } {
+			CharsTyped $chatid ""
+		} else {
+			CharsTyped $chatid [string length [$inputbox get 0.0 end-1c]]
+		}
 	}
 
 		#Works for tcl/tk 8.4 only...
@@ -2276,6 +2285,40 @@ catch {exec killall -c sndplay}
          ::MSN::chatTo $chatid
       }
 
+
+   }
+   #///////////////////////////////////////////////////////////////////////////////
+
+
+
+   #///////////////////////////////////////////////////////////////////////////////
+   # DeleteKeyPressed (win_name inputbox)
+   # Called by a window when the user uses the delete key in a text box. It updates
+   # the number of characters typed to be correct
+   proc DeleteKeyPressed { win_name inputbox key} {
+      global skipthistime
+
+	set skipthistime 1
+
+	set totallength [string length [$inputbox get 0.0 end-1c]]
+	set x [$inputbox tag nextrange sel 0.0]
+	if { $x != "" } {
+		set y [string length [$inputbox get [lindex $x 0] [lindex $x 1]]]
+	} elseif { $key == "Delete" && [string length [$inputbox get 0.0 insert]] == $totallength \
+			|| $key == "BackSpace" && [string length [$inputbox get 0.0 insert]] == 0 } {
+		set y 0
+		set skipthistime 0
+	} else {
+		set y 1
+	}
+	set newlength [expr "$totallength - $y"]
+
+      set chatid [ChatFor $win_name]
+	if { [string length [$inputbox get 0.0 end-1c]] == 0 } {
+		CharsTyped $chatid ""
+	} else {
+		CharsTyped $chatid $newlength
+	}
 
    }
    #///////////////////////////////////////////////////////////////////////////////
@@ -5617,6 +5660,10 @@ proc launch_browser { url {local 0}} {
 		set url "http://$url"
 	}
 
+	if { $tcl_platform(platform)=="windows" && [string tolower [string range $url 0 6]] == "file://" } {
+		set url [string range $url 7 end]
+	}
+
 	status_log "url is $url\n"
 
 	#status_log "Launching browser for url: $url\n"
@@ -5648,7 +5695,7 @@ proc launch_browser { url {local 0}} {
 # launch_filemanager(directory)
 # Launches the configured file manager
 proc launch_filemanager {location} {
-  global config tcl_platform
+  global config
 
   if { [string length $config(filemanager)] < 1 } {
     msg_box "[trans checkfilman $location]"
@@ -5657,18 +5704,10 @@ proc launch_filemanager {location} {
 			set config(filemanager) "$config(filemanager) \$location"
 		}
 
-      if { $tcl_platform(platform) == "windows" } {
-	  set fileman  [string map [list "\$location" "$location"  ] $config(filemanager)]
-      
-	  if {[catch {eval exec [string map {"/" "\\\\" } $fileman] &} res]} {
-	      ::amsn::errorMsg "[trans cantexec $config(filemanager)]"
-	  }
-      } else {
-	  if {[catch {eval exec $config(filemanager) &} res]} {
-	      ::amsn::errorMsg "[trans cantexec $config(filemanager)]"
-	  }
-      }
- 
+
+    if {[catch {eval exec $config(filemanager) &} res]} {
+       ::amsn::errorMsg "[trans cantexec $config(filemanager)]"
+    }
   }
 
 }
