@@ -543,9 +543,12 @@ proc smile_subst {tw {textbegin "0.0"} {end "end"} {contact_list 0}} {
 		    label $emoticon -bd 0 -background white
 		    ::anigif::anigif [GetSkinFile smileys ${file}] $emoticon
 
-		    $tw window create $endpos -window $emoticon
-		    bind $emoticon <Destroy> "::anigif::destroy $emoticon"
-		    $tw tag remove smiley $endpos
+			 #TODO: I just added this to avoid a bug I can't find... someday we can fix it
+		    catch {
+			 	$tw window create $endpos -window $emoticon
+		    	bind $emoticon <Destroy> "::anigif::destroy $emoticon"
+		    	$tw tag remove smiley $endpos
+			 }
 
 		    set tagname  [$tw tag names $endpos]
 		    if { [llength $tagname] == 1 } {
