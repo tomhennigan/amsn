@@ -1387,7 +1387,7 @@ proc cmsn_draw_msgwin {} {
    bind .${win_name}.in.input <Tab> "focus .${win_name}.in.send; break"
 
    bind  .${win_name}.buttons.smileys  <Button1-ButtonRelease> "smile_menu %X %Y .${win_name}.in.input"   
-   bind  .${win_name}.buttons.fontsel  <Button1-ButtonRelease> "tk_chooseFont"   
+   bind  .${win_name}.buttons.fontsel  <Button1-ButtonRelease> "change_myfont ${win_name}"   
    bind  .${win_name}.buttons.block  <Button1-ButtonRelease> "show_chatuserlist \"[trans block]\" $name block_user"
 
    bind .${win_name}.in.send <Return> \
@@ -1403,7 +1403,44 @@ proc cmsn_draw_msgwin {} {
 
    focus .${win_name}.in.input
 
+   change_myfontsize $config(textsize) ${win_name}
+
    return ${name}
+
+}
+
+
+proc change_myfont {win_name} {
+  global config
+
+  set fontsize [expr {[lindex $config(basefont) end-1] + $config(textsize)}]
+  set fontcolor [lindex $config(mychatfont) 2]
+
+  set selfont [tk_chooseFont -title [trans choosefont] -initialfont "\{[lindex $config(mychatfont) 0]\} $fontsize \{[lindex $config(mychatfont) 1]\}"]
+
+  if { [string length $selfont] <1} {
+    return
+  }
+
+  set config(textsize) [expr {[lindex $selfont 1]- [lindex $config(basefont) 1]}]
+  set config(mychatfont) "\{[lindex $selfont 0]\} \{[lindex $selfont 2]\} $fontcolor"
+
+#  status_log "Font selected: $selfont\n"
+
+  set color [tk_chooseColor -title "[trans choosefontcolor]" -parent .${win_name} \
+    -initialcolor #$fontcolor]
+    
+  if { [string length $color] <1} {
+    set color $fontcolor
+  } else {
+    set color [string range $color 1 end]
+  }
+  
+  set config(mychatfont) [lreplace $config(mychatfont) 2 2 $color]
+    
+  status_log "color selected: $color\n"
+
+  change_myfontsize $config(textsize) ${win_name}
 
 }
 
@@ -1417,6 +1454,8 @@ proc change_myfontsize {size name} {
   set fontsize [expr {[lindex $config(basefont) end-1]+$config(textsize)}]
     
   catch {.${name}.text tag configure yours -font "$fontfamily $fontsize $fontstyle"} res
+  catch {.${name}.in.input configure -font "$fontfamily $fontsize $fontstyle"} res
+  catch {.${name}.in.input configure -foreground #[lindex $config(mychatfont) end]} res
   
   #Get old user font and replace its size
   catch {
@@ -1604,7 +1643,7 @@ proc cmsn_win_write {name txt {colour ""} {fontname ""} {fontstyle ""} {fontcolo
    if { $colour == "user" || $colour == "yours" } {
       set size [expr {[lindex $config(basefont) 1]+$config(textsize)}]
       set font "$fontname $size $fontstyle"
-      status_log "Using font: $font\n" red
+#      status_log "Using font: $font\n" red
       if {[catch {.${win_name}.text tag configure $colour -foreground #$fontcolor -font $font} res] || [string length $fontname] <3} {
          status_log "Por defecto\n" red
          .${win_name}.text tag configure $colour -foreground black -font bplainf

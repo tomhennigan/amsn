@@ -853,7 +853,7 @@ proc cmsn_sb_msg {sb_name recv} {
       
 
       
-      status_log "Font: $fontfamily, ($fontstyle) $style, $fontcolor\n" blue
+#      status_log "Font: $fontfamily, ($fontstyle) $style, $fontcolor\n" blue
 
       cmsn_win_write $sb_name \
         "\[$timestamp\] [trans says [urldecode [lindex $recv 2]]]:\n" gray
