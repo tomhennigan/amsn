@@ -143,13 +143,13 @@ proc LoadLoginList {{trigger 0}} {
 	global HOME HOME2 config
 
 	if { $trigger != 0 } {
-	status_log "getting profiles"
+		status_log "getting profiles"
+	} else {
+		set HOME2 $HOME
 	}
 
 	if {([file readable "[file join ${HOME} profiles]"] != 0) || ([file isfile "[file join ${HOME}/profiles]"] != 0)} {
 		set HOMEE $HOME
-	} elseif {([file readable "[file join ${HOME2} profiles]"] != 0) || ([file isfile "[file join ${HOME2}/profiles]"] != 0)} {
-		set HOMEE $HOME2
 	} else {
 		return 1
 	}
