@@ -1,4 +1,4 @@
-package require BWidget
+package require AMSN_BWidget
 
 if { $initialize_amsn == 1 } {
 	global bgcolor bgcolor2

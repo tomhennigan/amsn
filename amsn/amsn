@@ -101,9 +101,8 @@ if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 ### And setup where to find optional packages
 ############################################################
 
-lappend auto_path "[file join $program_dir plugins]"
-lappend auto_path "[file join ${HOME} plugins]"
-
+lappend auto_path [file join $program_dir plugins]
+lappend auto_path [file join ${HOME} plugins]
 
 set libtls ""
 
