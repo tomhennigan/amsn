@@ -797,26 +797,26 @@ proc create_smile_menu { {x 0} {y 0} } {
  	    if { $animated } {
  		label $w.text.$filename -background [$w.text cget -background]
   		::anigif::anigif  [GetSkinFile smileys ${file}] $w.text.$filename
- 		bind $w.text.$filename <Destroy> "::anigif::destroy $w.text.$filename"	
+ 		bind $w.text.$filename <Destroy> [list ::anigif::destroy $w.text.$filename]
  	    } else {
 		label $w.text.$filename -image $file -background [$w.text cget -background]
 	    }
 
 	    $w.text.$filename configure -cursor hand2 -borderwidth 1 -relief flat
 	    
-	    
-	    bind $w.text.$filename <Enter> "$w.text.$filename configure -relief raised"
-	    bind $w.text.$filename <Leave> "$w.text.$filename configure -relief flat"
+
+	    bind $w.text.$filename <Enter>  [list $w.text.$filename configure -relief raised]
+	    bind $w.text.$filename <Leave> [list $w.text.$filename configure -relief flat]
 	    if { $config(tooltips) } {set_balloon $w.text.$filename "$name $symbol"}
 	    $w.text window create end -window $w.text.$filename -padx 1 -pady 1
 #	}
 	
-	
+
     }
 
     label $w.text.custom_new -text "[trans custom_new]"  -width [expr 1+[lindex $xy_geo 0]*3] -background [$w.text cget -background] -font splainf
-    bind $w.text.custom_new <Enter> "$w.text.custom_new configure -relief raised"
-    bind $w.text.custom_new <Leave> "$w.text.custom_new configure -relief flat"
+    bind $w.text.custom_new <Enter> [list $w.text.custom_new configure -relief raised]
+    bind $w.text.custom_new <Leave> [list $w.text.custom_new configure -relief flat]
     bind $w.text.custom_new <Button1-ButtonRelease> "new_custom_emoticon_gui; event generate $w <Leave>"
     
     $w.text insert end "\n"
