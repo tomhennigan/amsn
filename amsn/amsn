@@ -36,7 +36,6 @@
 ### $Id$
 ###
 
-
 set version "0.52dev"
 set date "06/15/2002"
 set weburl "http://amsn.sourceforge.net"
@@ -54,6 +53,30 @@ if ![catch {file readlink [info script]} res] {
 set images_folder "[file join $program_dir i]"
 set sounds_folder "[file join $program_dir s]"
 #=======================================================================
+
+ proc Splash { { art tclpower.gif } { delay 2500 } { artdir "" } } {
+      catch { [ winfo ] } errmsg
+      if { [ string match invalid* $errmsg ] } {
+         return -code error "Splash requires Tk"
+         }
+      set logo [file join $artdir $art]
+      if { [ file exists $logo ] } {
+         frame .splash -borderwidth 4 -relief raised
+         set logo [ image create photo -file $logo ]
+         label .splash.logo -image $logo
+         pack  .splash.logo -fill both
+         place .splash -anchor c -relx .5 -rely .5
+         after $delay destroy .splash
+         update
+         } else {
+         set    msg "Too Bad, splash logo missing!\n"
+         append msg "(file: \"$logo\" not found)"
+         puts  $msg
+         }
+      return {}
+ }
+
+#Splash bonline.gif 3000 $images_folder
 
 #Load program modules
 source [file join $program_dir migmd5.tcl]
@@ -253,7 +276,7 @@ proc cmsn_draw_main {} {
    }
    .main_menu.file add command -label "[trans login]..." -command \
      cmsn_draw_login
-   .main_menu.file add command -label "[trans logout]" -command cmsn_logout 
+   .main_menu.file add command -label "[trans logout]" -command ::MSN::logout
    .main_menu.file add cascade -label "[trans mystatus]" \
      -menu .my_menu -state disabled
    .main_menu.file add separator
@@ -448,7 +471,7 @@ proc cmsn_draw_offline {} {
 
 
    .main.text tag conf start_login -fore #000000 -underline true \
-   -font sboldf -justify center
+      -font sboldf -justify center
    .main.text tag bind start_login <Enter> \
 	    ".main.text tag conf start_login -fore #0000A0 -underline false;\
 	    .main.text conf -cursor hand2"
@@ -609,11 +632,6 @@ proc cmsn_draw_online {} {
    set my_colour [lindex $my_state 2]
    set my_image_type [lindex $my_state 5]
 
-#   .main.status configure -state normal
-#   .main.status delete 0.0 end
-#   .main.status insert end $my_state_desc
-#   .main.status configure -state disabled
-
    .main.text configure -state normal -font splainf
    .main.text delete 0.0 end
 
@@ -653,8 +671,9 @@ proc cmsn_draw_online {} {
    .main.text tag bind offline <Leave> \
    	".main.text tag conf offline -under false;.main.text conf -cursor left_ptr"
 
+
    .main.text insert end "\n"
-   .main.text image create end -image $my_image_type -pady 0 -padx 0
+   .main.text image create end -image $my_image_type -pady 0 -padx 0 
    .main.text insert end "   $my_name " mystatus
    .main.text insert end "($my_state_desc)\n" mystatus
    .main.text image create end -image colorbar
@@ -670,7 +689,7 @@ proc cmsn_draw_online {} {
    } else {
        .main.text image create end -image expand -pady 0 -padx 5
    }
-   .main.text insert end "[trans uonline]\n" online
+   .main.text insert end "[trans uonline]" online
 
    .main.text insert end "\n"
    if { $config(showoffline) } {
@@ -678,7 +697,7 @@ proc cmsn_draw_online {} {
    } else {
        .main.text image create end -image expand -pady 0 -padx 5
    }
-   .main.text insert end "[trans uoffline]\n" offline
+   .main.text insert end "[trans uoffline]" offline
 
    set onlinenum 0
    set offlinenum 0
@@ -699,6 +718,14 @@ proc cmsn_draw_online {} {
       }
       set colour [lindex $state 2]
       set section [lindex $state 3]
+      
+      if { $section == "online"} {
+        incr onlinenum
+      } else {
+        incr offlinenum
+      }
+      
+      
       set image_type [lindex $state 4]
       if {[lsearch $list_bl "$user_login *"] != -1} {
          set image_type "blocked"
@@ -709,23 +736,6 @@ proc cmsn_draw_online {} {
 
       .main.text mark set new_text_start end
       .main.text insert $section.last "$user_name$state_desc\n" $user_login
-#by AIM
-#	   foreach emotion $emotions {
-#	      set symbol [lindex $emotion 0]
-#	      set file [lindex $emotion 1]
-#	      set chars [string length $symbol]
-#	      while {[set pos [.main.text search -exact -nocase \
-#	                              $symbol new_text_start end]] != ""} {
-#	         set posyx [split $pos "."]
-#	         set endpos "[lindex $posyx 0].[expr [lindex $posyx 1] + $chars]"
-#	         .main.text delete $pos $endpos
-
-#	         .main.text image create $pos -image $file -pady 1 -padx 1
-
-#	      }
-#	   }
-#end AIM	
-
 
         .main.text image create $section.last -image $image_type -pady 1 -padx 3
         .main.text insert $section.last "      "
@@ -742,6 +752,9 @@ proc cmsn_draw_online {} {
 
      }
    }
+
+   .main.text insert online.last " ($onlinenum)\n" online
+   .main.text insert offline.last " ($offlinenum)\n" offline
 
    if $config(listsmileys) {
      smile_subst .main.text
@@ -1392,21 +1405,28 @@ proc newcontact {new_login new_name} {
 proc cmsn_draw_notify {} {
    global notify_id images_folder
 
-   status_log "Testing bug: Notify2-1\n"
-   toplevel .notify -width 150 -height 100
+   set im [image create photo -width 180 -height 110]
+
+   for {set i 0} {$i < 110} {incr i} {
+      set rg [expr {35+$i*2}]
+      set col [format "%2.2X%2.2XFF" $rg $rg]
+      $im put "#$col" -to 0 $i 180 [expr {$i + 1}]
+   }
+
+
+   toplevel .notify -width 154 -height 104
    wm title .notify "[trans msn] [trans notify]"
    wm overrideredirect .notify 1
    wm geometry .notify -10-60
    wm transient .notify .
    wm state .notify withdraw
-   status_log "Testing bug: Notify2-2\n"
    
    canvas .notify.c -bg #EEEEFF -width 150 -height 100 \
-      -relief ridge -borderwidth 3
+      -relief ridge -borderwidth 2
    pack .notify.c
-   status_log "Testing bug: Notify2-3\n"
-   image create photo notback -file ${images_folder}/notify.gif
-   .notify.c create image 75 50 -image notback
+
+   .notify.c create image 75 50 -image $im 
+   .notify.c create image 20 25 -image bonline
    
    set notify_id [.notify.c create text 75 50 -font splainf \
       -justify center -width 145]
@@ -1418,7 +1438,7 @@ proc cmsn_draw_notify {} {
      ".notify.c itemconfigure $notify_id -font splainf; \
      .notify.c conf -cursor left_ptr"
    .notify.c bind $notify_id <Button-1> ""   
-   status_log "Testing bug: Notify2-4\n"
+
 }
 
 proc cmsn_update_notify {} {
@@ -1519,6 +1539,17 @@ proc cmsn_change_name {} {
    tkwait visibility .change_name
    grab set .change_name
 }
+
+proc change_name_ok {} {
+   global config
+
+   set new_name [.change_name.c.name get]
+   if {$new_name != ""} {
+      ::MSN::changeName $config(login) $new_name
+   }
+   destroy .change_name
+}
+
 
 #=======================================================================
 

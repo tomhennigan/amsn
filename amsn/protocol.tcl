@@ -24,30 +24,24 @@ for {set i 256} {$i < 65536} {incr i} {
 
 }
 
-proc change_name_ok {} {
-   global config
-
-   set new_name [.change_name.c.name get]
-   if {$new_name != ""} {
-      write_ns_sock "REA" "$config(login) [urlencode $new_name]"
+namespace eval ::MSN {
+   namespace export changeName logout
+   
+   proc changeName { $userlogin newname } {
+      write_ns_sock "REA" "$userlogin [urlencode $newname]"     
    }
-   destroy .change_name
-}
 
-
-proc cmsn_logout {} {
-   global config
-   puts -nonewline [sb get ns sock] "OUT\r\n"
-   status_log "Loging out\n"
-   set list_al [list]
-   set list_bl [list]
-   set list_fl [list]
-   set list_rl [list]      
-   status_log "clearing all lists\n"
-   if {$config(adverts)} {
-      adv_pause
+   proc logout {} {
+      global config
+      puts -nonewline [sb get ns sock] "OUT\r\n"
+      status_log "Loging out\n"
+      if {$config(adverts)} {
+         adv_pause
+      }
    }
 }
+
+
 
 
 proc change_my_status {new_status} {
@@ -927,9 +921,18 @@ proc acceptfilepacket { sockid fileid filesize sbn} {
 
    set win_name "msg_[string tolower ${sbn}]"
 
+   set packet1 1
+
    binary scan $header ccc packet1 packet2 packet3
 	
    #If packet1 is 1 -- Transfer canceled by the other
+   if { $packet1 != 0 } {
+      status_log "File transfer cancelled\n"
+	
+      close $fileid
+      close $sockid
+
+   }
    #If you want to cancel, send "CCL\n"
 	
    set packet2 [expr ($packet2 + 0x100) % 0x100]
@@ -1116,8 +1119,8 @@ proc ns_enter {} {
    .status.enter delete 0 end
    if { [string range $command 0 0] == "/"} {
      puts -nonewline [sb get ns sock] "[string range $command 1 [string length $command]]\r\n"
-   } else {
-     if {[catch {[ eval $command ]} res]} {
+   } elseif {$command != ""} {
+     if {[catch {eval $command} res]} {
         msg_box "$res"
      }
    }
