@@ -337,17 +337,13 @@ proc load_config {} {
 	if { [file exists [file join ${HOME} "config.xml"]] } {
 
 		if { [catch {
-			puts "Here1\n"
 			set file_id [sxml::init [file join ${HOME} "config.xml"]]
-			puts "Here2: $file_id\n"
 
 			sxml::register_routine $file_id "config:entry" "new_config_entry"
 			sxml::register_routine $file_id "config:emoticon" "new_custom_emoticon"
 			set val [sxml::parse $file_id]
-			puts "Here3: $val\n"
 			sxml::end $file_id
 		} res] } {
-			puts "Here: $res\n"
 			::amsn::errorMsg "[trans corruptconfig [file join ${HOME} "cnfoig.xml.old"]]"
 			file copy [file join ${HOME} "config.xml"] [file join ${HOME} "config.xml.old"]
 		}
