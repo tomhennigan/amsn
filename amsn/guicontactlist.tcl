@@ -170,7 +170,6 @@ namespace eval ::guiContactList {
 		}
 
 		set img [::skin::loadPixmap [::MSN::stateToImage $state_code]]
-		set img_hover [::skin::loadPixmap "[::MSN::stateToImage $state_code]_hover"]
 		
 		set text "[::abook::getDisplayNick $email] \([trans [::MSN::stateToDescription $state_code]]\)"
 		
@@ -182,7 +181,7 @@ namespace eval ::guiContactList {
 		set xuline2 [expr $xuline1 + [font measure splainf $text]]
 		set yuline [expr $ynickpos + [font configure splainf -size] / 2]
 		
-		$canvas create image $xpos $ypos -image $img -activeimage $img_hover -anchor nw \
+		$canvas create image $xpos $ypos -image $img -anchor nw \
 			-tags [list contact icon $email]
 		
 		$canvas create text $xnickpos $ynickpos -text $text -anchor w \

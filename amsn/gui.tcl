@@ -3148,16 +3148,11 @@ proc cmsn_draw_main {} {
 	#New image proxy system
 	::skin::setPixmap msndroid msnbot.gif
 	::skin::setPixmap online online.gif
-	::skin::setPixmap online_hover online_hover.gif
 	::skin::setPixmap offline offline.gif
-	::skin::setPixmap offline_hover offline_hover.gif
 	::skin::setPixmap away away.gif
-	::skin::setPixmap away_hover away_hover.gif
 	::skin::setPixmap busy busy.gif
-	::skin::setPixmap busy_hover busy_hover.gif
 	::skin::setPixmap mobile mobile.gif
-	::skin::setPixmap mobile_hover mobile_hover.gif
-
+	
 	::skin::setPixmap bonline bonline.gif
 	::skin::setPixmap boffline boffline.gif
 	::skin::setPixmap baway baway.gif
