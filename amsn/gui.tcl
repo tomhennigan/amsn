@@ -214,7 +214,8 @@ namespace eval ::amsn {
 			option add *background #ECECEC
 			option add *highlightbackground #ECECEC
 			option add *Scrollbar.width 15 userDefault
-			option add *Button.Font macfont userDefault		
+			option add *Button.Font macfont userDefault	
+			option add *Button.highlightBackground #ECECEC userDefault
 		} elseif { $tcl_platform(platform) == "windows"} {
 			option add *background [::skin::getKey menubackground]
 			option add *Scrollbar.width 14 userDefault
