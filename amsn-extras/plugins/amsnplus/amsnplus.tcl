@@ -85,7 +85,7 @@ namespace eval ::amsnplus {
 		#register events
 		::plugins::RegisterEvent "aMSN Plus" parse_nick parse_nick
 		::plugins::RegisterEvent "aMSN Plus" chat_msg_send parseCommand
-		::plugins::RegisterEvent "aMSN Plus" chat_msg_receive parse_colours
+		::plugins::RegisterEvent "aMSN Plus" chat_msg_receive parse_colours_and_sounds
 		::plugins::RegisterEvent "aMSN Plus" chatwindowbutton chat_color_button
 		::plugins::RegisterEvent "aMSN Plus" chatmenu edit_menu
 		::plugins::RegisterEvent "aMSN Plus" chatmenu add_quicktext
@@ -371,6 +371,7 @@ namespace eval ::amsnplus {
 		set underline [binary format c 31]
 		set overstrike [binary format c 6]
 		set reset [binary format c 15]
+		set screenshot "/screenshot"
 		
 		$newvar(menu_name).actions add separator
 		$newvar(menu_name).actions add command -label "[trans choosecolor]" -command "::amsnplus::choose_color $newvar(window_name)"
@@ -379,6 +380,8 @@ namespace eval ::amsnplus {
 		$newvar(menu_name).actions add command -label "[trans underline]" -command "::amsnplus::insert_text $newvar(window_name) $underline"
 		$newvar(menu_name).actions add command -label "[trans overstrike]" -command "::amsnplus::insert_text $newvar(window_name) $overstrike"
 		$newvar(menu_name).actions add command -label "[trans reset]" -command "::amsnplus::insert_text $newvar(window_name) $reset"
+		$newvar(menu_name).actions add separator
+		$newvar(menu_name).actions add command -label "[trans screenshot]" -command "::amsnplus::insert_text $newvar(window_name) $screenshot"
 	}
 
 	###############################################
@@ -451,7 +454,7 @@ namespace eval ::amsnplus {
 	# there are two ways to colorize text:
 	#   - preset colors -> (!FC<num>) or (!FG<num>) for background -> there are from 0 to 15
 	#   - any colour -> (r,g,b) or (r,g,b),(r,g,b) to add background -> palette to choose (take a look at tk widgeds)
-	proc parse_colours {event epvar} {
+	proc parse_colours_and_sounds {event epvar} {
 		if { !$::amsnplus::config(allow_colours) } { return }
 		upvar 2 message msg
 		upvar 2 chatid chatid
@@ -486,6 +489,46 @@ namespace eval ::amsnplus {
 				}
 			}
 			if {[string equal $char [binary format c 4]]} {
+				#predefined sounds
+				set soundsdir [::config::getKey amsnpluspluginpath]/sounds
+				set next_char [string index $msg [expr $i + 1]]
+				if {[string equal "#" $next_char]} {
+					play_sound $soundsdir/shello.wav
+				} elseif {[string equal "E" $next_char]} {
+					play_sound $soundsdir/sbye.wav
+				} elseif {[string equal "!" $next_char]} {
+					play_sound $soundsdir/sbrb.wav
+				} elseif {[string equal "\$" $next_char]} {
+					play_sound $soundsdir/sdoh.wav
+				} elseif {[string equal "2" $next_char]} {
+					play_sound $soundsdir/sboring.wav
+				} elseif {[string equal "5" $next_char]} {
+					play_sound $soundsdir/smad.wav
+				} elseif {[string equal "9" $next_char]} {
+					play_sound $soundsdir/somg.wav
+				} elseif {[string equal "%" $next_char]} {
+					play_sound $soundsdir/skiss.wav
+				} elseif {[string equal "\"" $next_char]} {
+					play_sound $soundsdir/sevillaugh.wav
+				} elseif {[string equal "J" $next_char]} {
+					play_sound $soundsdir/sevil.wav
+				} elseif {[string equal "*" $next_char]} {
+					play_sound $soundsdir/scomeon.wav
+				} elseif {[string equal "L" $next_char]} {
+					play_sound $soundsdir/sright.wav
+				} elseif {[string equal "&" $next_char]} {
+					play_sound $soundsdir/strek.wav
+				} elseif {[string equal "@" $next_char]} {
+					play_sound $soundsdir/sdanger.wav
+				} elseif {[string equal "'" $next_char]} {
+					play_sound $soundsdir/sapplause.wav
+				} elseif {[string equal "+" $next_char]} {
+					play_sound $soundsdir/swoow.wav
+				} elseif {[string equal "," $next_char]} {
+					play_sound $soundsdir/syawnt.wav
+				}
+				set msg [string replace $msg $i [expr $i + 1] ""]
+				set i -1
 			}
 			if {[string equal $char [binary format c 5]]} {
 				set msg [string replace $msg $i [expr $i - 1] ""]
@@ -761,6 +804,7 @@ namespace eval ::amsnplus {
 		upvar 2 fontcolor fontcolor
 		upvar 2 fontstyle fontstyle
 		set strlen [string length $msg]
+		set sound [binary format c 4]
 		set i 0
 		set incr 1
 		while {$i<$strlen} {
@@ -821,6 +865,90 @@ namespace eval ::amsnplus {
 					::amsn::MessageSend $window 0 $msg
 				}
 				set msg ""
+				set strlen 0
+				set incr 0
+			} elseif {[string equal $char "/shello"]} {
+				set msg [append "" $sound "#" [binary format c 3] "7Hello!"]
+				set incr 0
+			} elseif {[string equal $char "/sbye"]} {
+				set msg [append "" $sound "E" [binary format c 3] "12Bye"]
+				set incr 0
+			} elseif {[string equal $char "/sbrb"]} {
+				set msg [append "" $sound "!" [binary format c 3] "10Be right back"]
+				set incr 0			
+			} elseif {[string equal $char "/sdoh"]} {
+				set msg [append "" $sound "\$" [binary format c 3] "4I'm so " [binary format c 2] "stupid" [binary format c 2]]
+				set incr 0
+			} elseif {[string equal $char "/sboring"]} {
+				set msg [append  "" $sound "2" [binary format c 3] "5You're boring! :)"]
+				set incr 0
+			} elseif {[string equal $char "/smad"]} {
+				set msg [append "" $sound "5" [binary format c 3] "14Are you mad?!?"]
+				set incr 0
+			} elseif {[string equal $char "/somg"]} {
+				set msg [append "" $sound "9" [binary format c 3] "4Oh my " [binary format c 2] "God" [binary format c 2]]
+				set incr 0
+			} elseif {[string equal $char "/skiss"]} {
+				set msg [append "" $sound "%" [binary format c 3] "13XxxxXxxxX"]
+				set incr 0
+			} elseif {[string equal $char "/sevillaugh"]} {
+				set msg [append "" $sound "\"" [binary format c 3] "4Mua" [binary format c 3] "5ha" [binary format c 3] "4ha" [binary format c 3] "5ha" [binary format c 3] "4ha" [binary format c 3] "5!"]
+				set incr 0
+			} elseif {[string equal $char "/sevil"]} {
+				set msg [append "" $sound "J" [binary format c 3] "1:\[ :\[ :\["]
+				set incr 0
+			} elseif {[string equal $char "/scomeon"]} {
+				set msg [append "" $sound "*" [binary format c 3] "7Come on!"]
+				set incr 0
+			} elseif {[string equal $char "/sright"]} {
+				set msg [append "" $sound "L" [binary format c 3] "6Right..."]
+				set incr 0
+			} elseif {[string equal $char "/strek"]} {
+				set msg [append "" $sound "&" [binary format c 3] "12Live long and prosper"]
+				set incr 0
+			} elseif {[string equal $char "/sdanger"]} {
+				set msg [append "" $sound "@" [binary format c 3] "2My" [binary format c 3] "55patience " [binary format c 3] "2has its limits" [binary format c 3] "13..." ]
+				set incr 0
+			} elseif {[string equal $char "/sapplause"]} {
+				set msg [append "" $sound "'(h5)(h5)(h5)(h5)(h5)"]
+				set incr 0
+			} elseif {[string equal $char "/swoow"]} {
+				set msg [append "" $sound "+" [binary format c 3] "45" [binary format c 2] "Wooooow!"]
+				set incr 0
+			} elseif {[string equal $char "/syawn"]} {
+				set msg [append "" $sound "," [binary format c 3] "57I'm tired |-)"]
+				set incr 0
+			} elseif {[string equal $char "/screenshot"]} {
+				set msg [string replace $msg $i [expr $i + 11] ""]
+				set strlen [string length $msg]
+				global HOME
+				set shot [append "" $HOME "/screenshot.wxd"]
+				set time_wait [::amsnplus::readWord $i $msg $strlen]
+				
+				#wait if asked
+				if {![string equal $time_wait ""]} {
+					after [expr $time_wait*1000] 
+				}
+				
+				#check platform and use utility form this one
+				global tcl_platform
+				status_log $tcl_platform(platform)
+				if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+					set file ""
+				} elseif {$tcl_platform(platform) == "windows"} {
+					set file ""
+				} elseif {$tcl_platform(platform) == "unix"} {
+					exec xwd -out -root $shot
+					set file [run_convert "$shot" "screenshot.png"]
+				}
+				
+				#send the scheenshot if it had been done!
+				if {![string equal $file ""]} {
+					::amsn::FileTransferSend $win_name $file
+					set msg ""
+				} else { 
+					set msg "You aren't not able to make screenshot! Sorry"
+				}
 				set strlen 0
 				set incr 0
 			} elseif {[string equal $char "/add"]} {

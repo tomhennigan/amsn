@@ -74,10 +74,12 @@ Features:
       None of that quick texts can replace any existing command so check your keyword is not a command, otherwise
       you would execute the command and not the quick text.
       You can also use them by the action menu of the chat window.
+  Sound commands (like quick text but with sound)
 
 Contact:
   If you have a suggestion or some else, write to markitus@catmail.homelinux.org
 
 Thanks:
   Thanks to all AMSN Team for helping me. Without you I couldn't have done it. :-D
-    
+  Thanks to manuc66 for the sound commands.
+  Thanks to jerome for the gui of quick text.

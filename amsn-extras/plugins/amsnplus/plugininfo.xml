@@ -4,12 +4,12 @@
 	<author>Mark & Jerome Gagnon-Voyer</author>
 	<description>aMSN Extension (commands in chat window, coloring nicks...)</description>
 	<amsn_version>0.94</amsn_version>
-	<plugin_version>2.5</plugin_version>
+	<plugin_version>2.6</plugin_version>
 	<plugin_file>amsnplus.tcl</plugin_file>
 	<plugin_namespace>amsnplus</plugin_namespace>
 	<init_procedure>amsnplusStart</init_procedure>
 
-	<cvs_version>1.90</cvs_version>
+	<cvs_version>1.91</cvs_version>
 
 	<lang>
 		<langcode>ca</langcode>
@@ -53,6 +53,6 @@
 
 	<file>
 		<path>readme</path>
-		<version>1.20</version>
+		<version>1.21</version>
 	</file>
 </plugin>
