@@ -3431,7 +3431,7 @@ namespace eval ::amsn {
 		set notify_id [$w.c create text [expr $config(notifwidth)/2] 45 -font splainf \
 		-justify center -width [expr $config(notifwidth)-20] -anchor n -text "$msg"]
 
-		set after_id [after 8000 "::amsn::KillNotify $w $ypos"]
+		set after_id [after [::config::getKey notifytimeout] "::amsn::KillNotify $w $ypos"]
 
 		bind $w.c <Enter> "$w.c configure -cursor hand2"
 		bind $w.c <Leave> "$w.c configure -cursor left_ptr"

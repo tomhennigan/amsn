@@ -191,6 +191,7 @@ proc ConfigDefaults {} {
 		[list local notifystate bool notify1_75] \
 		[list local notifymsg bool notify2] \
 		[list local notifyemail bool notify3] \
+		[list local notifytimeout int notifytimeout] \
                 [list local soundactive bool soundactive] \
 		[list local recentmsg bool recentmsg] \
 		[list title connection] \
@@ -238,6 +239,7 @@ proc ConfigDefaults {} {
 	set config(recentmsg) 0		;#Recent message window closing protection
 	set config(displayp4context) 1	;#Accept P4-Context fieds
 	set config(p4contextprefix) "" ; #Prefix for P4-Context messages
+	set config(notifytimeout) 8000 ; #Number of milisecs before the notify will go away
 	set config(globalnick) ""		;#The global custom nickname (pattern), disabled by default
 	set config(globaloverride) 0		;# Sets whether Global nicknames pattern should override custom nicks, disabled by default
 
