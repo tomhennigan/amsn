@@ -484,12 +484,14 @@ namespace eval ::ChatWindow {
 		if { $win_name == 0 } {
 			if { [::config::getKey tabbedchat] == 0 } {
 				set win_name [::ChatWindow::Open]
+				::ChatWindow::SetFor $chatid $win_name
 			} else {
 				set container [::ChatWindow::GetContainerFor $chatid]
 				set win_name [::ChatWindow::Open $container]
+				::ChatWindow::SetFor $chatid $win_name
+				::ChatWindow::NameTabButton $container $win_name $chatid
 			}
-			::ChatWindow::SetFor $chatid $win_name
-			update idletasks
+			#update idletasks
 			::ChatWindow::TopUpdate $chatid
 
 			if { [::config::getKey showdisplaypic] && $usr_name != ""} {
@@ -2037,7 +2039,7 @@ namespace eval ::ChatWindow {
 		button $tab -image [::skin::loadPixmap tab] \
 		    -command "::ChatWindow::SwitchToTab $container $win" \
 		    -fg black -bg [::skin::getKey sendbuttonbg] -bd 0 -relief flat \
-		    -activebackground [::skin::getKey sendbuttonbg] -activeforeground black -text $win \
+		    -activebackground [::skin::getKey sendbuttonbg] -activeforeground black -text "$win" \
 		    -font sboldf -highlightthickness 0 -pady 0 -padx 0
 		if { $::tcl_version >= 8.4 } {
 			$tab configure -overrelief flat -compound center
@@ -2046,6 +2048,15 @@ namespace eval ::ChatWindow {
 
 		return $tab
 		
+	}
+
+	#///////////////////////////////////////////////////////////////////////////////////
+	# NameTabButton $container $win
+	# This proc changes the name of the tab from $win to $chat_ids($win)
+	proc NameTabButton { container win chatid } {
+		set w [string map { "." "_"} $win]
+		set tab $container.bar.$w
+		$tab configure -text "$chatid"
 	}
 
 	proc SwitchToTab { container win } {

@@ -2334,11 +2334,13 @@ namespace eval ::amsn {
 
 			if { [::config::getKey tabbedchat] == 0 } {
 				set win_name [::ChatWindow::Open]
+				::ChatWindow::SetFor $lowuser $win_name
 			} else {
 				set container [::ChatWindow::GetContainerFor $user]
 				set win_name [::ChatWindow::Open $container]
+				::ChatWindow::SetFor $lowuser $win_name
+				::ChatWindow::NameTabButton $container $win_name $lowuser
 			}
-			::ChatWindow::SetFor $lowuser $win_name
 			set ::ChatWindow::first_message($win_name) 0
 			set chatid [::MSN::chatTo $lowuser]
 
