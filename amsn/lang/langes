@@ -16,6 +16,7 @@ alarmstatus Activar/Desactivar alarma para este usuario
 allowseen Permitir a esta persona ver cuándo estás conectado y contactar
 appearoff Sin conexión
 aretyping $1 están escribiendo un mensaje
+askprofile Este usuario no posee todavía un perfil. Desea crear uno nuevo? $1 En caso contrario no se podrá usar el Historial, o guardar la contraseña y alarmas. $1 Al crearlo, tendrás una configuración personalizada para este perfil. $1 $1 Haz click en "Crear Perfil" para crear un nuevo perfil para $2.
 autoconnect Conectar al arrancar amsn
 autohotmaillog Login hotmail automático
 autoidle Detección de inactividad
@@ -32,6 +33,7 @@ browser Navegador
 busy No disponible
 cancel Cancelar
 cfgalarm Configurar/quitar alarma
+changefont Cambiar fuente
 changenick Cambiar apodo
 chatack Aceptando conversación de
 chat Conversación
@@ -54,8 +56,10 @@ contactadded Contacto añadido
 contactdoesnotexist El contacto que intentas añadir no existe
 copy Copiar
 copytogroup Copiar al grupo
+cprofile Crear Perfil
 cut Cortar
 date Fecha
+dcprofile No Crear Perfil
 delete Eliminar
 deliverfail Ocurrió un problema al enviar el siguiente mensaje
 dockgtk Icono Gtk
@@ -63,6 +67,7 @@ docking Icono en bandeja de sistema
 dockingoff Desactivado
 dockkde Icono KDE
 edit Edición
+editprofile Editar Perfil
 enableproxy Activar proxy
 encoding Codificación de caracteres
 entercontactemail Introduce el email del contacto
@@ -167,6 +172,11 @@ picstatus Imagen para la alarma
 port Puerto
 prefapps Aplicaciones
 preferences Preferencias
+preffont Texto de mis mensajes
+preffont2 Cambia la forma en que otros ven mi texto en la conversación
+prefname Mi nombre/apodo en MSN Messenger
+prefprofile Mi perfil público
+prefprofile2 Crea o modifica tu perfil público (la $1 descripción de ti mismo que otros puede ver)
 prefsound Sonidos
 properties Propiedades
 proxyconf Configuración proxy

@@ -4,14 +4,14 @@ accept Accepter
 acceptfile Accepter fil $1, størrelse $2? Gemt i $3
 actions Handlinger
 addacontact Tilføj en kontakt
-addedyou har tilføjet dig til hans/hendes kontakt liste
-addtocontacts Tilføj til kontakt liste
-addtoo Tilføj denne person til min kontakt liste
+addedyou har tilføjet dig til hans/hendes kontaktliste
+addtocontacts Tilføj til kontaktliste
+addtoo Tilføj denne person til min kontaktliste
 admincontacts Admin kontakter
 admingroups Admin grupper
 adverts Reklamer
 alarmpref Alarm instillinger for bruger
-alarmstatus Slå Alarm TIL/FRA på bruger
+alarmstatus Slå Alarm TIL/FRA for denne bruger
 allowseen Tillad denne person at se når jeg er online
 appearoff Vis som offline
 aretyping $1 skriver en besked
@@ -19,6 +19,7 @@ autoconnect Log på ved start
 autohotmaillog Hotmail autologin
 autoidle Automatisk IngenAktivitet
 autoip Automatisk IP
+askprofile Dette login har ingen profil. Vil du oprette en ny? $1 Hvis du ikke opretter en ny vil du ikke kunne bruge Historien, eller gemme dine Alarmer og password. $1 Hvis du opretter en vil du få en seperat opsætning for denne profil. $1 $1 Klik på "Opret profil" for at oprette en ny profil for $2.
 avoidseen Undlad at denne person kan se når jeg er online
 away Ikke til stede
 baduserpass Forkert brugernavn eller password
@@ -31,6 +32,7 @@ browser Browser
 busy Travlt
 cancel Annuller
 cfgalarm Konfigurer/Tilføj/Fjern Alarm
+changefont Skift font
 changenick Skift kaldenavn
 chatack Accepterer chat fra
 chat Chat
@@ -40,7 +42,8 @@ checkingver Tjekker for ny version
 checkver Tjek for ny version
 choosebasefont Vælg skrifttype
 choosebgcolor Vælg baggrundsfarve
-choosefontcolor Vælg skrifttype farve 
+choosefontcolor Vælg skrifttypefarve
+clearlog Ryd log
 clicktologin Klik her for at logge ind
 close Luk
 closingdocks Luk knap minimerer vinduet
@@ -52,8 +55,10 @@ contactadded Kontakt tilføjet
 contactdoesnotexist Kontakt eksisterer ikke!
 copy Kopier
 copytogroup Kopier til gruppe
+cprofile Opret profil
 cut Klip
 date Dato
+dcprofile Opret ikke profil
 delete Slet
 deliverfail Der var et problem med at levere følgende besked
 dockgtk Gnome Minimer
@@ -61,6 +66,7 @@ docking Minimer
 dockingoff Minimer Ikke
 dockkde KDE Minimer
 edit Rediger
+editprofile Rediger profil
 enableproxy Tilslut proxy
 encoding Vælg encoding
 entercontactemail Skriv kontakt E-mail
@@ -72,10 +78,10 @@ extras Ekstra Services
 faq FAQ (Ofte Stillede Spørgsmål)
 filedoesnotexist Filen eksisterer ikke
 filename Filnavn
-filetransfercancelled Fil overførsel annulleret
-filetransfercomplete Fil overførsel fuldført
-ftaccepted Fil overførsel accepteret
-ftrejected Fil overførsel afvist
+filetransfercancelled Filoverførsel annulleret
+filetransfercomplete Filoverførsel fuldført
+ftaccepted Filoverførsel accepteret
+ftrejected Filoverførsel afvist
 gonelunch Til frokost
 groupadd Tilføj en gruppe
 groupdelete Slet en gruppe
@@ -88,24 +94,33 @@ groupoldname Gammelt navn
 grouprename Omdøb en gruppe
 groupunknown Ukendt gruppe
 handle Håndtere
-helpcontents Hjælp indhold
+helpcontents Indhold
 help Hjælp
+history Vis Historien
 home Hjem
 ident Identificerer
 identity Identiter
 inbox Indbakke
-invalidusername Ugyldigt bruger navn
+invalidusername Ugyldigt brugernavn
 invite Inviter
 ipaddress IP Adresse
 istyping $1 skriver en besked
 joins $1 tilslutter sig samtalen
 keepalive Hold i live (NAT)
+keeplog Gem logs af chat
 language Sprog
 lastmsgtime Sidste besked blev modtaget klokken $1
+lclosedwin $1 har lukket vinduet på $2
+lconftopriv Mødet er lavet til privat chat med $1
+lconvstarted Samtale startet på $1
 leaveblankforhotmail Efterlad blank for at bruge hotmail web
 leaves $1 forlader samtalen
+lenteredconf $1 har tilsluttet sig et møde på $2
+linprivate PRIVAT
 listeningon Lytter på port $1
 listsmileys Liste af smileys
+ljoinedconf $1 har tilsluttet sig mødet
+lleftconf $1 har forladt mødet
 loadcontacts Hent kontaktliste
 loggedotherlocation Afbrudt. Logget ind fra andet sted
 loggingin Logger Ind
@@ -113,6 +128,8 @@ loginas Log ind som
 login Log Ind
 logout Log Ud
 logsin er lige logget ind
+lprivtoconf Privat chat er lavet til et møde med $1
+luclosedwin Du har lukket vinduet på $1
 mailer Mailer
 mobile Mobil
 movetogroup Flyt til gruppe
@@ -128,10 +145,12 @@ newmsg Ny besked
 newveravailable Det er nu muligt at download den nye version $1
 next Næste
 noactivity Ingen aktivitet
+nologfile Der er ingen logfil for $1
 nonewmail Der er ingen nye beskeder i Indbakken
 nonewver Der er ikke nogen ny version at downloade
+normal Normal
 notify giv besked
-notifywin Besked vindue
+notifywin Beskedvindue
 nousersinsession Ingen brugere i session
 offline Offline
 ok Ok
@@ -141,13 +160,14 @@ onphone I telefon
 openreceived Åben modtaget fil
 options Muligheder
 ordercontactsby Sorter kontakter efter
+ordrgroupsby Sorter grupper efter
 other Andre
 pager Pager
 pass Password
 paste Sæt ind
 phone Telefon
-picfile Billed Fil (GIF < 500 x 500)
-picstatus Billed Alarm
+picfile Billedfil (GIF < 500 x 500)
+picstatus Billedalarm
 port Port
 prefapps Programmer
 preferences Egenskaber
@@ -155,24 +175,26 @@ prefsound Lyd
 properties Indstillinger
 proxyconfhttp HTTP proxy support konfiguration
 proxyconf Proxy konfiguration
-publishphones Vise mine telefon numre
-receivedbytes Modtaget $1 af $2 bytes
+publishphones Vis mine telefonnumre
+receivedbytes Modtaget $1 ud af $2 bytes
 receivefile Modtag fil
 reconnecting Genforbinder til server
 reconnect Venter på at $1 genforbinder
 reject Afvis
 rememberpass Husk password
+reversed Omvendt
 rightback Er straks tilbage
 saveas Gem som
 savecontacts Gem kontakt liste
 save Gem
+savetofile Gem i fil
 says $1 siger
 sbcon Forbinder til Switch Board
 sendfile Send fil
 sendmail Send mail
 sendmsg Send besked
 send Send
-sentbytes Har sendt $1 af $2 bytes
+sentbytes Har sendt $1 ud af $2 bytes
 servergoingdown Afbrudt. Server lukker ned.
 server Server
 soundfile Lydfil
@@ -182,8 +204,8 @@ soundstatus Lyd Alarm
 startoffline Start Offline
 status Status
 stopalarm Stop Alarm
-syntaxerror Syntax Error
-textsize Tekst størrelse
+syntaxerror Syntaxfejl
+textsize Tekststørrelse
 title Al's Messenger
 tools Værktøjer
 to Til
@@ -195,6 +217,7 @@ user Bruger
 usernotonline Brugeren er ikke online
 version Version
 view Vis
+viewprofile Vis profil
 willjoin Venter på at $1 tilslutter sig til samtalen
 work Arbejde
 yousay Du siger
