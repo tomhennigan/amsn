@@ -168,6 +168,13 @@ namespace eval ::guiContactList {
 			-fill $colour -font splainf -tags [list contact $email]
 		
 		set grId [getGroupId $email]
+		
+		#Add binding for ballon
+		if { [::config::getKey tooltips] == 1 } {
+			getBalloonMessage $email $element $canvas
+		}
+		
+		#Add binding for click / right click
 		if { [::config::getKey sngdblclick] } {
 			set singordblclick <Button-1>
 		} else {
@@ -178,7 +185,6 @@ namespace eval ::guiContactList {
 			
 		return [list [expr $xpos - 15] [expr $ypos + [image height $img] + 3]]
 	}
-
 	
 	# Draw the group title on the canvas
 	proc drawGroup { canvas element curPos } {
@@ -352,6 +358,45 @@ namespace eval ::guiContactList {
 			}
 		}
 	}
+	
+	#Here we create the balloon message
+	#And we add the binding to the canvas item
+	proc getBalloonMessage {email element canvas} {
+	 	
+	 	#Get variables
+	 	set not_in_reverse [expr {[lsearch [::abook::getLists $email] RL] == -1}]
+	 	set state_code [::abook::getVolatileData $email state FLN]
+	 	
+	 	#If user is not in list, add it to the balloon
+		if {$not_in_reverse} {
+			set balloon_message2 "\n[trans notinlist]"
+		} else {
+			set balloon_message2 ""
+		}
+		
+		#If order in status mode, show the group of the contact in the balloon
+		if {[::config::getKey orderbygroup] == 0} {
+			set groupname [::abook::getGroupsname $email]
+			set balloon_message3 "\n[trans group] : $groupname"
+		} else {
+			set balloon_message3 ""
+		}
+		
+		#If the status is offline, get the last time he was offline
+		if {$state_code == "FLN"} {
+			set balloon_message4 "\n[trans lastseen] : [::abook::dateconvert "[::abook::getContactData $email last_seen]"]"
+		} else {
+			set balloon_message4 ""
+		}
+		
+		#Define the final balloon message
+		set balloon_message "[string map {"%" "%%"} [::abook::getNick $email]]\n$email\n[trans status] : [trans [::MSN::stateToDescription $state_code]] $balloon_message2 $balloon_message3 $balloon_message4\n[trans lastmsgedme] : [::abook::dateconvert "[::abook::getContactData $email last_msgedme]"]"
 
+		#Add binding
+		$canvas bind $email <Enter> +[list balloon_enter %W %X %Y $balloon_message]
+		$canvas bind $email <Motion> +[list balloon_enter %W %X %Y $balloon_message]
+		$canvas bind $email <Leave> \
+			"+set Bulle(first) 0; kill_balloon"
+	}
 	
 }
