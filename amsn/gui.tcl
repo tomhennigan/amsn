@@ -5694,9 +5694,9 @@ proc convert_image { filename size } {
    
     set filename2 [filenoext $filename]
 
-    status_log "converting $filename to $filename2.png with size $size\n"
+    status_log "converting $filename to $filename.gif with size $size\n"
 
-    if { [catch { eval exec convert -size $size -resize ${size} \"$filename\" \"$filename.gif\" } res] } {
+    if { [catch { eval exec convert -size $size -resize ${size} \"$filename\" \"${filename}.gif\" } res] } {
 	msg_box "[trans installconvert]"
 	status_log "converting returned error : $res\n"
 	return 0
@@ -5723,9 +5723,9 @@ proc convert_image { filename size } {
     file delete $filename.gif
 
 
-    catch { eval exec convert \"$filename2.gif\"  \"$filename2.png\"}
+    catch { eval exec convert \"${filename2}.gif\"  \"${filename2}.png\"}
     
-    return $filename2.png
+    return ${filename2}.png
 
 }
 
