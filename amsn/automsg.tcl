@@ -462,6 +462,20 @@ proc DeleteState  { { idx "" } path} {
 	CreateStatesMenu .my_menu
 }
 
+proc DeleteStateListBox  { { idx "" } path} {
+	if { $idx == "" } {
+		return 0
+	} else {
+		StateList unset $idx
+		if { [winfo exists $path] } {
+			$path delete $idx
+		}
+	} 
+
+	# reset menus and listbox
+	CreateStatesMenu .my_menu
+}
+
 #///////////////////////////////////////////////////////////////////////////////
 # new_state {cstack cdata saved_data cattr saved_attr args}
 #

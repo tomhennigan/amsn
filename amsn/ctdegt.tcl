@@ -457,7 +457,7 @@ proc Preferences { { settings "personal"} } {
 	pack $lfname.statelist.box -side left -expand true -fill both
 	frame $lfname.buttons -borderwidth 0
 	button $lfname.buttons.add -text [trans addstate] -font sboldf -command "EditNewState 0" -width 20
-	button $lfname.buttons.del -text [trans delete] -font sboldf -command "DeleteState \[$lfname.statelist.box curselection\]" -width 20
+	button $lfname.buttons.del -text [trans delete] -font sboldf -command "DeleteStateListBox \[$lfname.statelist.box curselection\] $lfname.statelist.box" -width 20
 	button $lfname.buttons.edit -text [trans edit] -font sboldf -command "EditNewState 2 \[$lfname.statelist.box curselection\]" -width 20
 	pack $lfname.buttons.add -side top
 	pack $lfname.buttons.del -side top
