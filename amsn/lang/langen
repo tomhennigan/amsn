@@ -114,6 +114,7 @@ clearlog2 Clear the history for all your contacts
 clearlog3 Clear All Logs
 clearlog Clear Log
 clicktologin Click here to log in
+clientcaps Send x-clientcaps packet to others clients
 clientname Client Name
 close Close
 closed Conversation with $1 closed due to inactivity

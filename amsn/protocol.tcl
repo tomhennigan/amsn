@@ -1328,9 +1328,9 @@ namespace eval ::MSN {
 	proc clientCaps {chatid} {
 
       set sbn [SBFor $chatid]
-	  #If not connected to the user, do nothing
-      if {$sbn == 0 } {
-         return
+	  #If not connected to the user OR if user don't want to send clientCaps info, do nothing
+      if {$sbn == 0 || ![::config::getKey clientcaps]} {
+      	return   
       }
 
       set msg "MIME-Version: 1.0\r\nContent-Type: text/x-clientcaps\r\n\r\n"

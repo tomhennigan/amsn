@@ -142,7 +142,7 @@ namespace eval ::config {
 		::config::setKey ftautoaccept 0
 	
 		::config::setKey shownotify 1 			;#Show notify window (in general, see advanced options)
-	
+		::config::setKey clientcaps 1			;#Send x-clientcaps information to others 3rd Messenger
 		#Remote control options
 		::config::setKey enableremote 0
 		::config::setKey remotepassword ""
@@ -228,6 +228,7 @@ namespace eval ::config {
 			[list local allowbadwords bool allowbadwords] \
 			[list local receiveddir folder receiveddir] \
 			[list local notifytyping bool notifytyping] \
+			[list local clientcaps bool clientcaps] \
 			[list local lineflushlog bool lineflushlog] \
 			[list local autocheckver bool autocheckver] \
 			[list local storename bool storenickname] \
