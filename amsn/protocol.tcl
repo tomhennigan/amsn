@@ -1225,7 +1225,7 @@ namespace eval ::MSN {
 			
 			#If we're not disconnected, connected, or authenticating, then
 			#we have a connection error.
-			if { ("$oldstat"!="d") && ("$oldstat" !="o") && ("$oldstat" !="u") && ("$oldstat" !="us")} {
+			if { ("$oldstat"!="d") && ("$oldstat" !="o") && ("$oldstat" !="u") && ("$oldstat" !="passerror")} {
 				set error_msg [sb get ns error_msg]
 				if { $error_msg != "" } {
 					msg_box "[trans connecterror]: [sb get ns error_msg]"
@@ -3697,6 +3697,7 @@ proc cmsn_ns_handler {item} {
 			}
 			911 {
 				#set password ""
+				sb set ns stat "passerror"
 				::MSN::logout
 				status_log "Error: User/Password\n" red
 				::amsn::errorMsg "[trans baduserpass]"
@@ -4008,6 +4009,7 @@ proc initial_syn_handler {recv} {
 
 proc msnp9_userpass_error {} {
 
+	sb set ns stat "passerror"
 	::MSN::logout
 	status_log "Error: User/Password\n" red
 	::amsn::errorMsg "[trans baduserpass]"
