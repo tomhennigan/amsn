@@ -1,7 +1,7 @@
 amsn_lang_version 2
-about Over
+about About
 acceptfile Accepteer bestand $1, omvang $2? opgeslaan in $3
-actions Taken
+actions Akties
 addacontact Voeg een contact toe
 addedyou Heeft jou toegevoegd aan zijn/haar contactenlijst
 addtocontacts Toevoegen aan contacten
@@ -20,6 +20,7 @@ baduserpass Foutieve gebruikersnaam of paswoord
 blankdirect Laat leeg voor directe connectie
 block Blokkeer
 blocked Geblokeerd
+broughtby Aangeboden door
 browser Browser
 busy Bezig
 cancel Annuleren
@@ -30,6 +31,8 @@ chatreq Verzoek om te chatten
 chatsmileys Toon smileys
 checkingver Aan het controleren op een nieuwe versie
 checkver Controleer of er een nieuwe versie is
+choosebasefont Lettertype
+choosebgcolor Achtergrondkleur
 clicktologin Klik hier om in te loggen
 close Sluiten 
 closingdocks Sluit venster
@@ -43,6 +46,7 @@ copytogroup Kopiëren naar groep
 date Datum
 delete Wis
 enableproxy Gebruik proxy
+encoding Encoding
 entercontactemail Geef contact-email in
 enterfilename Gelieve een bestandsnaam in te geven
 enternick Geef uw nickname in

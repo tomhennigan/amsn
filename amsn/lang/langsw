@@ -15,7 +15,7 @@ autohotmaillog Automatisk hotmail logg
 autoip automatisk ip
 avoidseen Undvik att denna person kan se om jag är online och skriva till mig
 away Borta
-baduserpass ogiltigt användar lösenord
+baduserpass Ogiltigt användar lösenord
 blankdirect Lämna tom för dirket kontakt
 block Blockera
 blocked blockerad
@@ -36,7 +36,7 @@ clicktologin Klicka för att logga in
 close Stäng	
 command kommando
 confirmdelete bekräfta radering $1
-connecterror Fel vid kontakt till server
+connecterror Fel när servern kontaktades
 connecterror uppkopplingen misslyckades
 contactadded Lagt till kontakt
 contactdoesnotexist kontakt existerar inte
@@ -102,15 +102,15 @@ newmsg Nytt medelande
 newveravailable Ny version $1 finns att ladda ner
 next Nästa
 noactivity Ingen aktivitet
-nonewmail 0 nytt medelanden i In-Box
+nonewmail Inga nya medelanden i In-Box
 nonewver Det finns inga nya versioner att ladda ner
-nonewver ingen ny version
+nonewver Ingen ny version
 notify anmärk
 nousersinsession Inga användare i konversationen
-offline Offline
+offline Frånkopplad
 ok Ok
 onenewmail 1 nytt medelanden i In-Box
-online Online
+online Närvarande
 onphone Pratar i telefonen
 openreceived öppnade mottagna
 options Alternativ
@@ -160,8 +160,8 @@ uonline Online
 useralreadyonlist användaren finns redan i listan
 user Användare
 version Version
-view - "titta" or "se". Not a word that is common standalone in
-willjoin Väntar på att $1 ska joina konversationen
-work arbete
+view - sikt
+willjoin Väntar på att $1 ska komma in i konversationen
+work Arbete
 yousay Du säger
 youwant Du vill
