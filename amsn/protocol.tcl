@@ -2676,7 +2676,7 @@ proc cmsn_ns_connected {} {
 
 
 proc cmsn_ns_connect { username {password ""}} {
-   global list_al list_bl list_fl list_rl config
+   global list_al list_bl list_fl list_rl list_users config
 
    if { ($username == "") || ($password == "")} {
      cmsn_draw_login
