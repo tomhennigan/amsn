@@ -1386,7 +1386,7 @@ proc read_sb_sock {sbn} {
 
    } else {
 
-      catch {gets $sb_sock tmp_data res}
+      catch {gets $sb_sock tmp_data} res
       sb append $sbn data $tmp_data
 
       degt_protocol "<-SB($sbn) $tmp_data" sbrecv
@@ -1893,7 +1893,7 @@ proc cmsn_open_sb {sbn recv} {
 proc cmsn_conn_sb {name} {
 
    status_log "cmsn_conn_sb\n"
-   fileevent [sb get $name sock] writable {}
+   catch { fileevent [sb get $name sock] writable {} } res
    sb set $name stat "a"
 
    #Reset timeout timer
@@ -1909,7 +1909,7 @@ proc cmsn_conn_sb {name} {
 proc cmsn_conn_ans {name} {
 
    status_log "cmsn_conn_ans\n"
-   fileevent [sb get $name sock] writable {}
+   catch {fileevent [sb get $name sock] writable {}} res
 
    sb set $name stat "a"
    sb set $name time [clock seconds]
