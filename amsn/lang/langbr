@@ -5,20 +5,34 @@ acceptfile Aceitar arquivo $1, tamanho $2? Salvo em $3
 actions Ações
 addacontact Adicionar um contato
 addedyou $1 ($2) adicionou você à sua lista de contatos
+addprofile Adicionar Novo perfil
+addprofiledesc Entre com o login para o qual você gostaria de criar um novo perfil. \n Per filar logins permite ter diferentes configurações  para cada login. \n Sem os Perfis você não poderá usar o histórico, Alarmes ou lembrar senhas.
 addstate Adicionar Novo Estado
+addto adicionar a $1
 addtocontacts Adicionar à lista de contatos
-addtoo Adicionar esta pessoa à minha lista de contatos
+addtoo Adicionar esta pessoa à minha lista de contato
 admincontacts Gerenciar contatos
 admingroups Gerenciar grupos
 adverts Anúncios
+alarmonconnect Ativar o Alarme quando um usuário conectar
+alarmondisconnect Ativar o Alarme quando um usuário desconecta/fica invisível
+alarmonmsg Ativar o Alarme quando um usuário lhe manda uma mensagem
+alarmonstatus Ativar alarme quando usuário muda de estado
 alarmpref Configuração de avisos para o usuário
 alarmstatus Ativar/Desativar avisos para este usuário
-allowallbutbl Permitir todos usuários menos aqueles na Lista de Bloqeados me contactar
+allowallbutbl Permitir todos usuários menos aqueles na Lista de Bloqueados me contactar
+allowbadwords Desativar censura nos apelidos
+allowlist Lista de autorizados:
+allowonlyinal Permitir apenas contatos de usuários autorizados
 allowseen Permitir que o usuário veja quando eu estou on-line e possa me contactar
+animatedemoticon Este emoticon é animado
+animatedsmileys Ativar smileys animados
 appearance Aparência
 appearoff Aparecer off-line
 areacode DDD
 aretyping $1 está digitando uma mensagem
+autoaccepted Transferência de arquivos aceitado automaticamente
+autoacceptft Pedido de Transferência Automática
 autoaway Me apresente como "Ausente" quando inativo por
 autoconnect2 Logar-me automaticamente quando o aMSN for iniciado.
 autoconnect Conectar automaticamente
@@ -26,7 +40,7 @@ autohotmaillog Logar-se automaticamente no Hotmail
 autoidle Detectar quando eu ficar inativo
 autoip Endereço IP automático
 autonoact Mostre-me como "Inativo" quando não interagir com o aMSN por
-avoidseen Evitar que esta pessoa veja quando eu estou on-line e não permitir que ela me contacte
+avoidseen Evitar que esta pessoa veja quando eu estou on-line e não permitir que ela me contate
 away Ausente
 awaymsg1 Solicitar mensagem quando eu mudar estado para Ausente/Volto Logo/Ocupado
 awaymsg2 Nunca pergunte e sempre utilize a mensagem abaixo
@@ -35,24 +49,31 @@ bgcolor Alterar a cor de fundo do aMSN
 blankdirect Deixar em branco para conexão direta
 block Bloquear
 blocked Bloqueado
+blockedyougroup Mostra um grupo separado para as pessoas que te bloquearam
 blocking Bloqueando
 blockinter1 Quando estiver online checar a cada
 blockinter2 segundos, ou checar a cada:
 blockinter3 cada
+blockinter4 Segundos.
 blocklist Lista de Bloqueados(LB):
 blockmessage Este usuários estão online e bloquearam você
 blockusers Número de usuários para marcar de uma vez
 broughtby  Desenvolvido, para você, pelos seguintes programadores
 browse Listar
+browserexample (\$url será modificada com a URL). Ex: mozilla \$url
 browser Navegador WWW
 busy Ocupado
 cancel Cancelar
 cannotdeleteprofile - Impossível apagar as configurações, pois estão em uso por uma outra sessão do aMSN.
+cantexec Não consegue executar a Aplicação: $1. Ver Preferências
+casesensitive Use as dicas do case-sensitive
 cfgalarm Configurar/desativar avisos
 changefont Mudar a fonte
 changenick Trocar Apelido
+changestate $1 Muda o estado para $2
 chatack Aceitando pedido de conversa de
 chat Conversa
+chatmaxmin Quando um contato abre uma janela de chat eu quero que ele seja:
 chatreq Requisitar conversa
 chatsmileys2 Mostrar Emoticons e Smileys na janela de bate-papo
 chatsmileys Emoticons de conversa
@@ -61,10 +82,12 @@ checkfilman Os arquivos recebidos serão armazenados em $1. Por favor, verifique 
 checkingver Checando por novas versões
 checkonfln Checar se um usuário bloqueou você quando ele entra offline
 checkver Checar se existe nova versão do AMSN
+choosearq Escolha a arquitetura do seu sistema
 choosebasefont Escolher fonte do texto
 choosebgcolor Escolher cor de fundo
 choosecontact Por favor escolha um contato da lista
 choosefontcolor Escolher cor da fonte
+chooseskin Por Favor escolha a skin que deseja usar
 clearlog2 Limpar o histórico de todos os seus contatos
 clearlog3 Limpar todos os logs
 clearlog Limpar log
@@ -82,28 +105,41 @@ connection Conexão
 connectionlost Desconectado: Conexão com servidor foi fechada
 contactadded Contato adicionado
 contactdoesnotexist Contato não existe!
+contactlist Lista de contatos:
 copy Copiar
 copytogroup Copiar para o grupo
 countrycode Código do país ou região
 cprofile Criar Perfil
+custom_edit Edita um smiley personalizado
 custom_new Adicionar um novo smiley
 cut Recortar
 date Data
 days Dias
 dcprofile Não criar Perfil
 default Configuração Padrão
+defaultloginradio Login com a configuração normal
 delete Apagar
 deliverfail Falha no envio da mensagem
 delprofile2 Selecione o Perfil que você gostaria de remover
 delprofile Apagar Perfil
+description Descrição
 directconnection Eu tenho uma conexão direta com a internet(porta 1863)
+disablessl Desativar o SSL
+disconnect $1 Disconectou-se.
+dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Minimizar na bandeja do Gnome
 docking Ícone da bandeja (systray)
 dockingoff Desativado
 dockkde Minimizar na bandeja do KDE
+editcurrentstate Editar estado Atual
 edit Editar
+editnewstate Novo estado pessoal de Automensagem
 editprofile Editar Perfil
+editstate Editar o estado de Automensagem existente
+emotisounds Reproduzir sons com certos emoticons
 enableproxy Habilitar proxy
+enableremote Ativar controle remoto
+enablesound Toca sons
 encoding2 Alterar codificação de caracteres
 encoding Escolher codificação
 entercontactemail Digite o e-mail do contato
@@ -112,18 +148,24 @@ enternick Digite seu apelido
 examples Exemplos
 exitamsn Você tem certeza que deseja sair?
 extras Serviços adicionais
-faq FAQ (Perguntas frequentemente feitas)
+faq FAQ (Perguntas freqüentemente feitas)
 filedoesnotexist Arquivo não existe
 fileman Gerenc. Arquivos
 filename Nome do Arquivo
 filetransfercancelled Transferência de arquivo cancelada
 filetransfercomplete Transferência de arquivo completa
+followtext Deslocar para baixo quando novo texto é inserido
 ftacceptedby $1 aceitou pedido de transferência do arquivo '$2'.
 ftaccepted Transferência de arquivo aceita
 ftaccepting Aceitando pedido de transferência de arquivo
 ftconnecterror Erro na conexão remota
 ftconnecting Conectando em $1 porta $2
+ftconnectionlost Perdida a conexão remota
+ftgotinvitation $1 quer enviar-lhe o arquivo '$2' ($3 bytes). Ele será gravado na pasta $4. Quer receber este arquivo?
+ftportpref Inicializando porta para transferência de arquivos
+ftrejectedby $1 rejeita o pedido de transferência do arquivo '$2'
 ftrejected Transferência de arquivo cancelada
+ftsendinvitation O convite para transferência do arquivo '$2' ($3 bytes) foi enviado para $1
 gonelunch Fui comer, dá licença?
 groupadd Adicionar um grupo
 groupdelete Apagar um grupo
@@ -138,6 +180,8 @@ groupunknown Grupo desconhecido
 handle Manipular
 help Ajuda
 helpcontents Conteúdo da Ajuda
+hiden Esconde os emoticons do menu de smileys
+hidewindow Esconder a Janela
 history Ver histórico
 home Casa
 httpconnection Conectando usando método HTTP(usa o protocolo HTTP na porta 80)
@@ -146,7 +190,9 @@ ident Identificando
 identity Identificar
 inbox Caixa de Entrada
 internalerror Erro Interno do Servidor
+invalidfile Arquivo $2 no campo "$1" não existe ou não pode ser lido
 invalidusername Nome de usuário inválido
+invitationcancelled O convite foi cancelado
 invite Convidar
 ipaddress Endereço IP
 ipdetect Detectar o IP correto para transferência de arquivos usando HTTP
@@ -189,8 +235,10 @@ maximised Maximizado
 minimised Minimizado
 mins minutos
 mobile Celular
+morepersonal Mais estados->
 move Mover
 movetogroup Mover para o grupo
+msgflicker Piscar janela quando receber uma mensagem numa janela que esta aberta mas não está sendo usada.
 msgmaxmin Quando uma mensagem chega eu gostaria de ser:
 msg Mensagem
 msgmode Selecione como lidar com múltiplas janelas de mensagem:
@@ -209,11 +257,17 @@ newmsg Nova mensagem
 newveravailable Nova versão $1 disponível para download
 next Próximo
 noactivity Sem atividade
+nodataavailable Sem dados disponíveis para $1
 nologfile Sem log para $1
 no Não
+noneavailable Nada Disponivél
 nonewmail Sem novas mensagens na Caixa de Entrada
 nonewver Não existe versão mais recente do programa disponível para download
+noprofileexists Não existe de momento nenhum perfil, \n têm de criar um se quiser usar logins perfilados. \nUse o botão Adicionar Novo Perfil nesta janela, para adicionar um novo perfil
 normal Normal
+nosystemtray System tray não está disponível
+notify1_5 Mostra uma janela de notificação quando um contato sai
+notify1_75 Mostra uma janela de notificação quando um contato muda o seu estado
 notify1 Mostrar janela de avisos quando um contato entrar online
 notify2 Mostrar janela de avisos quando chegarem novas mensagens
 notify3 Mostrar janela de avisos quando chegarem e-mails no Hotmail
@@ -238,10 +292,15 @@ personal Pessoal
 phone Telefone
 picfile Imagem a ser exibida em avisos (GIF < 500 x 500)
 picstatus Ativar/Desativar imagem nos avisos
+pluginselector Seleciona plugins
 port Porta
 prefalerts Sons e alertas dos meus eventos
 prefapps Programas
 prefawaymsg Minha mensagem de ausente
+prefblock1 Checar ao desconectar
+prefblock2 Checar continuamente
+prefblock3 "Você foi bloqueado por" grupo
+prefconnection Configurações de conexão
 prefemotic Emoticons e Smileys
 preferences Preferências
 preffont2 Alterar a maneira como os outros \nvêem meu texto em conversas
@@ -253,16 +312,21 @@ prefmsging Minha interface de mensagens
 prefname Meu nome e apelido no MSN
 prefphone2 Números de telefone que as pessoas\nna minha Lista Permitida podem ver
 prefphone Meus números de telefone
+prefprivacy2 Lista de Contatos/Reversos de usuários
+prefprivacy Lista de autorizados/bloqueados do usuário
 prefprofile2 Criar ou Modificar meu perfil público \n (minha descrição para os outros)
 prefprofile3 Perfis de configuração de usuários do aMSN
 prefprofile Meu perfil público
 prefproxy Minhas configurações de proxy
+prefremote Configurações de Conexão Remota
 prefsession Meu login e estado de conexão
 prefshared Conexões compartilhadas (apenas para NAT)
 prefsound Sons
 privacy Privacidade
 profiledconfig Configuração por perfis
+profileexists Você não pode criar um perfil com este login \n pois ele já existe. Por Favor escolha outro login.
 profileinuse - Esta configuração está em uso por outra sessão do MSN, por favor escolha outra.
+profileloginradio Entrar usando um perfil existente
 profiles Perfis
 properties Propriedades
 proxyconf Configuração de Proxy
@@ -270,6 +334,9 @@ proxyconfhttp Suporte a configuração de proxy HTTP
 proxyconnection Eu conecto à internet usando um servidor proxy
 proxy Eu estou atrás de um servidor de proxy (HTTP ou SOCKS5)
 publishphones Exibir meus números de telefone
+raised Maximizado/Minimizado
+readonlymsgbox Diretório sem permissão de escrita. Por Favor ajuste as permissões neste diretório.
+readonlywarn  AVISO: O arquivo provavelmente não será salvo corretamente pois o diretório "Received files" está protegido contra gravação. Por favor verifique se as permissões do diretório ($1) estão corretas antes de transferir o arquivo.
 receivedbytes Recebidos $1 de $2 bytes
 receivefile Arquivo recebido
 reconnect Esperando por $1 para reconectar
@@ -278,6 +345,7 @@ reject Recusar
 rememberpass Lembrar senha
 removefromlist Remover desta lista
 reversed Inverso
+reverselist Lista de reversos:
 rightback Volto logo
 saveas Salvar como
 savecontacts Salvar lista de contatos
@@ -285,6 +353,8 @@ save Salvar
 savetofile Salvar para arquivo
 says $1 diz
 sbcon Conectando ao Switch Board
+selectplugins Por Favor escolha o plugin que quer ativar
+selectskin Por Favor escolha uma skin da lista
 send Enviar
 sendfile Enviar arquivo
 sendmail Enviar e-mail
@@ -293,6 +363,13 @@ sentbytes Enviados $1 de $2 bytes
 servergoingdown Desconectado: Servidor está sendo desligado
 server Servidor
 session Sessão
+showblockedlist Mostra a lista de usuários que bloqueram você
+skinselector Escolha a Skin
+skin Skin 
+smileconfig Configuração normal de emoticon
+smilefile Arquivo do Smiley
+smileintro2 Por Favor edite os campos necessários para customizar este smiley (Leia o FAQ para ajuda)
+smileintro Por favor preencha os campos necessários para criar um novo smiley (Leia o FAQ para ajuda)
 sound2 Tocar sons quando algum contato entrar ou enviar uma mensagem
 soundcommand Comando para tocar sons (ex: play)
 soundfile Arquivo de som para avisos
@@ -302,6 +379,13 @@ sound Som de evento
 soundstatus Ativar/Desativar sons de avisos
 startoffline2 Iniciar conectado mas invisível ("Aparecer Offline")
 startoffline Iniciar desconectado
+stateautomsg Automensagem para Enviar
+statechange Estado mudado para:
+stateedittext Por favor edite os campos que gostaria \n de modificar e tecle Salvar
+stateinfo Configuração do Estado Pessoal
+statename Nome do estado atual
+statenewtext Por favor preencha as informações necessárias para criar \n o seu novo Estado Pessoal e tecle Salvar
+state Quero aparecer como
 status Estado
 stopalarm Desligar avisos
 stylechat Mesma aparência que as janelas de bate-papo
@@ -310,11 +394,14 @@ stylelog Selecione o formato no qual você gostaria de visualizar seu Histórico
 syntaxerror  Erro de sintaxe
 tabbed Janelas em abas
 textsize Tamanho do texto
+timeremaining Tempo restante
 title Al's Messenger
 tools Ferramentas
 tooltips Ativar dicas
 to Para
 transnotexists O arquivo solicitado ainda não foi traduzido para a linguagem atual.
+traynotcompiled O ícone da bandeja não está compilado. Verifique plugins/traydoc
+triggers dicas
 twonewmail $1 nova(s) mensagem(ns) na Caixa de Entrada
 unblock Desbloquear
 uoffline Desconectado
@@ -330,64 +417,11 @@ viewprofile Ver Perfil
 view Visualizar
 willjoin Aguardando $1 entar na conversa
 work Ocupado
+wrongfields O "$1", "$2" e/ou "$3" campos não estão validos
+wrongprofileversion Versão errada do arquivo de configuração do perfil. Para consertar, por favor remova-o do diretório $1, ou atualize o amsn
 xoffset Deslocamento X
 yes Sim
 yoffset Deslocamento Y
 youblocked Você foi bloqueado
 yousay Você diz
 youwant Você quer
-addprofile Adicionar Novo perfil
-addprofiledesc Entre com o login para o qual voce gostaria de criar um novo perfil. \n Perfilar logins permite ter difrentes configurações  para cada login. \n Sem os Perfis você não poderá usar o historico, Alarmes ou lembrar senhas.
-addtoo Adicionar esta pessoa à minha lista de contato
-alarmonconnect Ativar o Alarme quando um usuário conectar
-alarmondisconnect Ativar o Alarme quando um usuário desconecta/fica invisível
-alarmonmsg Ativar o Alarme quando um usuário lhe manda uma mensagem
-alarmonstatus Ativar alarme quando usuário muda de estado
-allowbadwords Desativar censura nos apelidos
-animatedemoticon Este emoticon é animado
-autoaccepted Tranferência de arquivos aceitado automaticamente
-autoacceptft Pedido de Transferência Automática
-blockedyougroup Motra um grupo separado para as pessoas que te bloquearam
-blockinter4 Segundos.
-cantexec Não consegue executar a Aplicação: $1. Ver Preferências
-casesensitive Use as dicas do case-sensitive
-changestate $1 Muda o estado para $2
-chooseskin Por Favor escolha a skin que deseja usar
-custom_edit Edita um smiley personalizado
-defaultloginradio Login com a configuração normal
-description Descrição
-disconnect $1 Disconectou-se.
-editcurrentstate Editar estado Atual
-enablesound Toca sons
-hiden Esconde os emoticons do menu de smileys
-invalidfile Arquivo $2 no campo "$1" não existe ou não pode ser lido
-msgflicker Piscar janela quando receber uma mensagem numa janela que esta aberta mas não está sendo usada.
-noneavailable Nada Disponivél
-noprofileexists Não existe de momento nenhum perfil, \n têm de criar um se quiser usar logins perfilados. \nUse o botão Adicionar Novo Perfil nesta janela, para adicionar um novo perfil
-nosystemtray System tray não está disponível
-notify1_5 Mostra uma janela de notificação quando um contato sai
-notify1_75 Mostra uma janela de notificação quando um contato muda o seu estado
-pluginselector Seleciona plugins
-prefblock1 Checar ao desconectar
-prefblock2 Checar continuamente
-prefblock3 "Você foi bloqueado por" grupo
-prefconnection Configurações de conexão
-prefremote Configurações de Conexão Remota
-profileexists Você não pode criar um perfil com este login \n pois ele já existe. Por Favor escolha outro login.
-profileloginradio Entrar usando um perfil existente
-readonlymsgbox Diretório sem permissão de escrita. Por Favor ajuste as permissões neste directório.
-readonlywarn  AVISO: O arquivo provavelmente não será salvo corretamente pois o diretório "Received files" está protegido contra gravação. Por favor verifique se as permissões do diretório ($1) estão corretas antes de transferir o arquivo.
-selectplugins Por Favor escolha o plugin que quer ativar
-selectskin Por Favor escolha uma skin da lista
-skin Skin 
-skinselector Escolha a Skin
-smileconfig Configuração normal de emoticon
-smilefile Arquivo do Smiley
-smileintro Por favor preencha os campos necessários para criar um novo smiley (Leia o FAQ para ajuda)
-smileintro2 Por Favor edite os campos necessários para customizar este smiley (Leia o FAQ para ajuda)
-state Quero aparecer como
-statename Nome do estado atual
-statechange Estado mudado para:
-timeremaining Tempo restante
-triggers dicas
-wrongfields O "$1", "$2" e/ou "$3" campos não estão validos
