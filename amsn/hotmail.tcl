@@ -18,11 +18,11 @@ proc hotmail_login {userlogin {pass ""}} {
     close $read_id
 
     set userdata [split $userlogin "@"]
-   
+
     set user [lindex $userdata 0]
     set domain [lindex $userdata 1]
-#    set rru "/cgi-bin/HoTMaiL"
-
+    set rru "/cgi-bin/HoTMaiL"
+    
     set page_data [subst -nocommands -nobackslashes $page_data]
 
     if {$tcl_platform(platform) == "unix"} {
@@ -56,7 +56,7 @@ proc hotmail_compose { toaddr userlogin {pass ""} } {
 
     set page_data ""
     while {[gets $read_id tmp_data] != "-1"} {
-      set page_data "$page_data $tmp_data"
+      set page_data "$page_data\n$tmp_data"
     }
 
     close $read_id
