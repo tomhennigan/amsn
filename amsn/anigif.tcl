@@ -106,7 +106,7 @@ namespace eval anigif {
 	    }
 	    update
 	    if { [info exists ::anigif::${fname}(count)] } {
-		after [lindex $delay $idx] "::anigif::anigif2 $fname [expr {$idx + 1}]"
+		after [lindex $delay $idx] [list ::anigif::anigif2 $fname [expr {$idx + 1}]]
 		set ::anigif::${fname}(idx) [incr idx]
 	    }
 	}
