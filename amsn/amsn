@@ -132,8 +132,6 @@ set pgNews  ""
 ############################################################
 set initialize_amsn 1
 
-
-
 proc reload_files { } {
     foreach glob "[info globals] xmms" {
 	global $glob

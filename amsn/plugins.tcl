@@ -184,7 +184,7 @@ namespace eval ::plugins {
 	# make a list of all the possible places to search
 	#TODO: Allow user to choose where to search
 	set search_path [list] 
-	lappend search_path [file join [set ::program_dir plugins]]
+	    lappend search_path [file join [set ::program_dir] plugins]
 	lappend search_path [file join $HOME plugins]
 	lappend search_path [file join $HOME2 plugins]
 	

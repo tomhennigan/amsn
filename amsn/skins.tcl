@@ -242,13 +242,13 @@ namespace eval ::skin {
 		InitSkinDefaults
 
 		
+	
 		#Load smileys info from default skin first
 		set skin_id [sxml::init [GetSkinFile "" settings.xml default]]
 		sxml::register_routine $skin_id "skin:smileys:emoticon" ::smiley::newEmoticon
 		sxml::register_routine $skin_id "skin:smileys:size" ::skin::SetEmoticonSize
 		sxml::parse $skin_id
 		sxml::end $skin_id
-		
 		
 		#Then reload the real skin
 		set skin_id [sxml::init [GetSkinFile "" settings.xml $skin_name]]
@@ -307,7 +307,7 @@ proc GetSkinFile { type filename {skin_override ""} } {
     set defaultskin "default"
 
 
-    if { "[string range $filename 0 1]" == "/" && [file readable  $filename] } {
+    if { "[string range $filename 0 0]" == "/" && [file readable  $filename] } {
 	return "$filename"
     } elseif { [file readable [file join [set ::program_dir] skins $skin $type $filename]] } {
 	    return "[file join [set ::program_dir] skins $skin $type $filename]"
