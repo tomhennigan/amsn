@@ -1371,7 +1371,7 @@ proc SavePreferences {} {
 	}
 
 	set fd [open [file join $HOME2 tlsconfig.tcl] w]
-	puts $fd "set libtls $libtls"
+	puts $fd "set libtls [list $libtls]"
 	close $fd
     }
     
@@ -1605,6 +1605,9 @@ proc BlockValidateEntry { widget data type {correct 0} } {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.87  2003/10/21 23:29:18  airadier
+# Fixed a small bug when saving tlslib in tlsconfig.tcl
+#
 # Revision 1.86  2003/10/08 09:29:39  kakaroto
 # Added base64 support and now HTTP proxy with username/password works with Basic authentication
 #
