@@ -16,6 +16,7 @@ admingroups Gérer les groupes
 advanced Avancé
 advancedprefs Configuration avancée
 adverts Publicité
+agotinvitation $1 vous a invité à un session audio
 alarmonconnect Activer l'alarme quand l'utilisateur se connecte
 alarmondisconnect Activer l'alarme quand l'utilisateur se déconnecte ou passe en mode invisible
 alarmonmsg Activer l'alarme quand l'utilisateur m'envoie un message
@@ -50,6 +51,10 @@ autoidle Absence automatique après une période d'inactivité
 autoip IP Automatique
 automessage Message-automatique
 autonoact Me marquer "Inactif" quand inactif plus de
+avaccepted Appel pour une vidéo-conférence accepté
+avcanceled Appel pour une vidéo-conférence annulé
+avgotinvitation $1 vous a invité à une vidéo-conférence
+avinitfailed Initialisation du plugin Audio/Vidéo échouée. Appel annulé
 avoidseen Interdire à cette personne de me voir ou de me contacter quand je suis en ligne
 away Absent[e]
 awaymsg1 Demander un message d'absence chaque fois que je change de statut pour Absent[e]/Bientôt de retour/Occupé[e]
