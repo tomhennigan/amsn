@@ -1548,7 +1548,7 @@ if { $config(getdisppic) != 0 } {
          -command " ChooseFilename .${win_name}.f.out.text ${win_name} "
       .${win_name}.menu.msn add separator
       .${win_name}.menu.msn add command -label "[trans sendfile]..." \
-         -command "::amsn::FileTransferSend .${win_name}" -state disabled
+         -command "::amsn::FileTransferSend .${win_name}"
       .${win_name}.menu.msn add command -label "[trans openreceived]..." \
          -command "launch_filemanager \"$files_dir\""
       .${win_name}.menu.msn add separator
@@ -1591,13 +1591,9 @@ if { $config(getdisppic) != 0 } {
         -onvalue 1 -offvalue 0 -variable config(chatsmileys)
 		  global .${win_name}_show_picture
 		  set .${win_name}_show_picture 0
-		  if { $config(getdisppic) == 1 } {
 		  	.${win_name}.menu.view add checkbutton -label "[trans showdisplaypic]" -command "::amsn::ShowOrHidePicture .${win_name}" -onvalue 1 -offvalue 0 -variable ".${win_name}_show_picture"
-		  } else {
-		  	.${win_name}.menu.view add checkbutton -label "[trans showdisplaypic]" -command "::amsn::ShowOrHidePicture .${win_name}" -onvalue 1 -offvalue 0 -variable ".${win_name}_show_picture" -state disabled
-		  }
       .${win_name}.menu.view add separator
-      
+
       #Remove this menu item on Mac OS X because we "lost" the window instead of just hide it and change accelerator for history on mac os x
       if {$tcl_platform(os) == "Darwin"} {
        .${win_name}.menu.view add command -label "[trans history]" -command "::amsn::ShowChatList \"[trans history]\" .${win_name} ::log::OpenLogWin" -accelerator "Command-Option-H"
