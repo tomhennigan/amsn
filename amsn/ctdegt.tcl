@@ -892,7 +892,7 @@ proc Preferences { { settings "personal"} } {
 	pack $lfname.reverselist.box -side left -expand true -fill both
 
         frame $lfname.adding
-        entry $lfname.adding.enter
+        entry $lfname.adding.enter -bg white
         button $lfname.adding.addal -text "[trans addto AL]" -command "Add_To_List $lfname AL"
         button $lfname.adding.addbl -text "[trans addto BL]" -command "Add_To_List $lfname BL"
         button $lfname.adding.addfl -text "[trans addto FL]" -command "Add_To_List $lfname FL" 
