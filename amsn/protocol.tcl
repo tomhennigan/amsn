@@ -1498,10 +1498,6 @@ proc sb {do sbn var {value ""}} {
    set sb_tmp "${sbn}_info(${var})"
    upvar #0 $sb_tmp sb_data
 
-   if {![info exists sb_data]} {
-      return ""
-   }
-
    switch $do {
       name {
 	 		return $sb_tmp
@@ -1511,7 +1507,10 @@ proc sb {do sbn var {value ""}} {
 			 return 0
       }
       get {
-	 		return $sb_data
+			if {![info exists sb_data]} {
+				return ""
+			}
+			return $sb_data
       }
       append {
          lappend sb_data $value
@@ -1523,9 +1522,17 @@ proc sb {do sbn var {value ""}} {
          set sb_data [lreplace $sb_data $value $value]
       }
       length {
-         return [llength $sb_data]
+	if {![info exists sb_data]} {
+		return 0
+	}
+
+	 return [llength $sb_data]
       }
       search {
+	if {![info exists sb_data]} {
+		return ""
+	}
+
          return [lsearch $sb_data $value]
       }
       exists {
