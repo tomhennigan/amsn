@@ -739,8 +739,8 @@ namespace eval ::amsnplus {
 		while {$i<$strlen} {
 			set char [::amsnplus::readWord $i $msg $strlen]
 			#check for the external_commands
-			set keyword [string replace $char 0 0 ""]
 			if {[info exists ::amsnplus::external_commands($keyword)]} {
+				set keyword [string replace $char 0 0 ""]
 				set clen [string length $char]
 				set msg [string replace $msg $i [expr $i + $clen]]
 				set strlen [string length $msg]
