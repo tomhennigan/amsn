@@ -471,7 +471,7 @@ namespace eval ::pop3 {
 			
 			set mailheight [expr [$textb.popmailpic cget -height]+(2*[::skin::getKey mailbox_ypad])]
 			#in windows need an extra -2 is to include the extra 1 pixel above and below in a font
-			if {$tcl_platform(platform) == "windows"} {
+			if {$::tcl_platform(platform) == "windows"} {
 				set mailheight [expr $mailheight - 2]
 			}
 			set textheight [font metrics splainf -linespace]
