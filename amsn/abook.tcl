@@ -865,6 +865,8 @@ namespace eval ::abookGui {
 		#pack $w.nb
 		
 		bind $w <Destroy> [list ::abookGui::PropDestroyed $email $w %W]
+		
+		moveinscreen $w 30
 	}
 	
 	proc PropDestroyed { email w win } {

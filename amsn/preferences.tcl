@@ -863,8 +863,44 @@ proc Preferences { { settings "personal"} } {
 
     
     bind .cfg <Destroy> "RestorePreferences %W"
-	
 
+    moveinscreen .cfg 30
+}
+
+#check if a window is outside the screen and move it in
+proc moveinscreen {window {mindist 0}} {
+	update
+
+	set winx [winfo width $window]
+	set winy [winfo height $window]
+	set scrx [winfo screenwidth .]
+	set scry [winfo screenheight .]
+	set winpx [winfo x $window]
+	set winpy [winfo y $window]
+
+	#check if the window is too large to fit on the screen
+	if { [expr "$winx > ($scrx-(2*$mindist))"] } {
+		set winx [expr "$scrx-(2*$mindist)"]
+	}
+	if { [expr "$winy > ($scry-(2*$mindist))"] } {
+		set winy [expr "$scry-(2*$mindist)"]
+	}
+	
+	#check if the window is positioned off the screen
+	if { [expr "$winpx + $winx > ($scrx-$mindist)"] } {
+		set winpx [expr "$scrx-$mindist-$winx"]
+	}
+	if { [expr "$winpx < $mindist"] } {
+		set winpx $mindist
+	}
+	if { [expr "$winpy + $winy > ($scry-$mindist)"] } {
+		set winpy [expr "$scry-$mindist-$winy"]
+	}
+	if { [expr "$winpy < $mindist"] } {
+		set winpy $mindist
+	}
+
+	wm geometry $window "${winx}x${winy}+${winpx}+${winpy}"
 }
 
 proc reload_advanced_options {path} {
