@@ -15,6 +15,7 @@ alarmpref Configuration alarme utilisateur
 alarmstatus Activer/désactiver l'alarme pour cet utilisateur
 allowallbutbl Autoriser tout le monde à me contacter sauf les personnes que j'ai bloquées
 allowlist Liste des personnes autorisées
+allowonlyinal Seulement autoriser les utilisateurs de ma Liste d'acception à me contacter
 allowseen Autoriser cette personne à me voir et à me contacter quand je suis en ligne
 appearance Apparition
 appearoff Apparaître déconnecté
@@ -100,7 +101,7 @@ dockkde Ancrage dans KDE
 edit Edition
 editnewstate Nouvel état avec message automatique personnalisé
 editprofile Modifier profil
-editstate Editer un état existant avec message automatique 
+editstate Editer un état existant avec message automatique
 enableproxy Permettre de passer par un proxy
 enableremote Permettre le contrôle à distance
 encoding2  Changer la manière dont les caractères sont encodés
@@ -262,6 +263,8 @@ prefmsging Mon Interface de messagerie
 prefname Mon Nom/Surnom MSN MESSENGER
 prefphone2 Entrer les numéros de téléphone visibles de votre liste de personnes \n autorisées \n
 prefphone Mes numéros de téléphone
+prefprivacy2 Listes de contacts/à l'envers
+prefprivacy Listes des personnes autorisées/bloquées
 prefprofile2 Créer ou modifier votre profil publique (votre description \n visble par les autres)
 prefprofile3 profils de configuration de l'utilisateur d'aMSN
 prefprofile Mon profil publique
@@ -270,6 +273,7 @@ prefremote Préférences de connexion à distance
 prefsession Ma connexion et statut
 prefshared Connexions partagées (Seulement pour NAT)
 prefsound Sons
+privacy Privé
 profiledconfig Configuration profilée
 profileinuse Profil actuellement utilisé par une autre session Amsn. Veuillez choisir un autre profil.
 profiles Profils
@@ -288,6 +292,7 @@ reject Refuser
 rememberpass Enregistrer le mot de passe
 removefromlist Supprimer de cette liste
 reversed Inverser
+reverselist Liste inversée :
 rightback Bientôt de retour
 saveas Enregistrer sous
 savecontacts Enregistrer la liste des contacts
