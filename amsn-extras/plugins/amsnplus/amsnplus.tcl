@@ -701,17 +701,32 @@ namespace eval ::amsnplus {
 					set values [append values [::amsnplus::readWord $i $msg $strlen]]
 					incr j
 				}
-				if {[lindex $kwdlist 2]} {
-					if {[string equal $values ""]} {
-						$proc $win_name
+				if {[string equal $values ""]} {
+					if {[lindex $kwdlist 2]} {
+						if {[lindex $kwdlist 3]} {
+							$proc $win_name $chatid
+						} else {
+							$proc $win_name
+						}
 					} else {
-						$proc $win_name $values
-					}
+						if {[lindex $kwdlist 3]} {
+							$proc $chatid
+						} else {
+							$proc
+						}					}
 				} else {
-					if {[string equal $values ""]} {
-						$proc
+					if {[lindex $kwdlist 2]} {
+						if {[lindex $kwdlist 3]} {
+							$proc $win_name $chatid $values
+						} else {
+							$proc $win_name $values
+						}
 					} else {
-						$proc $values
+						if {[lindex $kwdlist 3]} {
+							$proc $chatid $values
+						} else {
+							$proc $values
+						}
 					}
 				}
 				set msg ""
