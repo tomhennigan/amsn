@@ -1030,8 +1030,8 @@ namespace eval ::MSN {
 			|| [string compare -length 4 $localip "127."] == 0 \
 			|| [string compare -length 8 $localip "192.168."] == 0 \
 			|| $config(natip) == 1 } {
-				#catch {set token [::http::geturl "http://www.showmyip.com/simple/" \
-				#	-timeout 10000 -command "::MSN::GotMyIPSilent"]}
+				catch {set token [::http::geturl "http://www.showmyip.com/simple/" \
+					-timeout 10000 -command "::MSN::GotMyIPSilent"]}
 			} else {
 				set config(myip) $localip
 				status_log "IP automatically set to: $config(myip)\n" blue
