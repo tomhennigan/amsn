@@ -341,7 +341,6 @@ proc grep { pattern sock } {
 	set pattern "[lindex $pattern 0]@hotmail.com"
     }
 
-    puts "$dataou $colour"
     if {([file readable "$filename"] != 0) && ([file isfile "$filename"] != 0)} {
 	
 	set file_id [open "$filename" r]
