@@ -310,9 +310,10 @@ proc ScrollChange { from w args } {
 		set file [string range $window [expr [string first "anigif_" $window] + 7] end]
 		
 		puts "animated gif disappears -- pos : $pos --- file : $file "
-		destroy $window
-		
+		::anigif::stop $window				
 		$tw image create $pos -name anigif_$file -image $file -pady 1 -padx 1
+		destroy $window
+		::anigif::destroy $window
 	    }
 	    
 	}
