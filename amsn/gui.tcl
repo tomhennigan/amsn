@@ -7372,9 +7372,13 @@ proc show_bug_dialog {} {
 	wm iconname $w Dialog
 	wm protocol $w WM_DELETE_WINDOW "set closed_bug_window 1"
 	
-	if {[winfo viewable [winfo toplevel [winfo parent $w]]] } {
-		wm transient $w [winfo toplevel [winfo parent $w]]
-	}    
+	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		#Empty, NO TRANSIENT ON MAC OS X!!! Plz use ShowTransient when it's possible
+	} else {
+		if {[winfo viewable [winfo toplevel [winfo parent $w]]] } {
+			wm transient $w [winfo toplevel [winfo parent $w]]
+		}
+	}        
 		
 	frame $w.bot
 	frame $w.med
