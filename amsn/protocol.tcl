@@ -4497,7 +4497,7 @@ namespace eval ::MSNP2P {
 				set temporal_username $user
 				::MSNP2P::RequestObject $chatid $user $msnobj
 			} else {
-				catch {image create photo user_pic_$user -file "[file join $HOME displaypic ${sha1d}].gif"}
+			    catch {image create photo user_pic_$user -file "[file join $HOME displaypic ${sha1d}].gif"}
 
 			}
 
@@ -4757,18 +4757,18 @@ namespace eval ::MSNP2P {
 			if { [expr $cOffset + $cMsgSize] >= $cTotalDataSize } {
 			    close $fd
 
+			    global temporal_username temporal_filename
+
 			    status_log "Closed file.. finished writing\n" red
 			    # Lets send an ACK followed by a BYE
 			    SendPacket [::MSN::SBFor $chatid] [MakeACK $sid $cSid $cTotalDataSize $cId $cAckId]
-			    SendPacket [::MSN::SBFor $chatid] [MakePacket $sid [MakeMSNSLP "BYE" ks_test001@hotmail.com $config(login) "19A50529-4196-4DE9-A561-D68B0BF1E83F" 0 [lindex [SessionList get $sid] 5] 0 0] 1]
+			    SendPacket [::MSN::SBFor $chatid] [MakePacket $sid [MakeMSNSLP "BYE" $temporal_username $config(login) "19A50529-4196-4DE9-A561-D68B0BF1E83F" 0 [lindex [SessionList get $sid] 5] 0 0] 1]
 			    set fd -1
-
-				 global temporal_username temporal_filename
 
 			    file rename -force [file join $HOME displaypic cache.png] "${temporal_filename}.png"
 			    set file [filenoext [convert_image ${temporal_filename}.png 96x96]].gif
 
-			    image create photo user_pic_$temporal_username -file $file
+			    image create photo user_pic_${temporal_username} -file $file
 
 			    # Delete Session Vars
 			    SessionList unset $sid
