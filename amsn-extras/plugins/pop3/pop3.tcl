@@ -43,7 +43,7 @@ namespace eval ::pop3 {
 			[list str "          Mail Program" mailProg] \
 		]
 		
-		::pop3::start
+		::pop3::start 0 0
 	}
 
 
