@@ -374,3 +374,21 @@ yoffset Y-koordinat
 youblocked Du har blitt blokkert av
 yousay Du sier
 youwant Du vil
+autodetectip Automatisk gjenkjenning av IP adresse
+charscounter Teller av skrevne bokstaver i pratevinduet
+checkemail Vis epostvarslingslinje (innboks) i kontaktlista
+ch_to_state Skift til ny tilstand
+confirmpurge All lagrede bilder av andre kontakter (ikke ditt bilde) vil bli slettet. Er du sikker?
+convertexplain Filstien til CONVERT programfila, fra ImageMagick ( kreves for bilder av kontakter). \n La stå tom hvis CONVERT er i filstien.
+corruptconfig Konfigurasjonsfila er ødelagt. Lag en ny. Den gamle fila blir lagret til $1. Vær vennlig å send den til oss slik at vi kan sjekke hva som er galt.
+corruptstates Den tilpassede tilstandsinnstillingen er ødelagt. Opprett en ny. Den gamle fila vil bli lagret til $1. Vær vennlig å send den til oss, slik at vi kan sjekke hva som gikk galt.
+credits Bidragsytere
+defchatwinsize Standard størrelse på pratevinduer (XSTØRRELSExYSTØRRELSE)
+deletecustomstate Fjern egendefinerte tilstander
+delimiters Tidsstempel skilletegn:
+disableprofiles Slå av profiler (Nyttig for nettkafeer eller offentlig steder)
+displaychat Vis tekst valg
+editcustomstate Rediger tilpasset tilstand
+editvalue Rediger verdi
+emailsinlist Vis e-post i stedet for kallenavn i kontaktlista
+faileddelete Sletting feilet
