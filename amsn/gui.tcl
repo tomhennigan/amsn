@@ -837,6 +837,8 @@ namespace eval ::amsn {
 		WinWrite $chatid " - (" green
 		WinWriteClickable $chatid "[trans accept]" [list ::amsn::AcceptFT $chatid -1 [list $dest $branchuid $cseq $uid $sid $filename]] ftyes$sid
 		WinWrite $chatid " / " green
+		WinWriteClickable $chatid "[trans saveas]" [list ::amsn::SaveAsFT $chatid -1 [list $dest $branchuid $cseq $uid $sid $filename]] ftsaveas$sid
+		WinWrite $chatid " / " green
 		WinWriteClickable $chatid "[trans reject]" [list ::amsn::RejectFT $chatid -1 [list $sid $branchuid $uid]] ftno$sid
 		WinWrite $chatid ")\n" green
 		WinWrite $chatid "----------" green
@@ -921,6 +923,11 @@ namespace eval ::amsn {
 		${win_name}.f.out.text tag bind ftyes$cookie <Leave> ""
 		${win_name}.f.out.text tag bind ftyes$cookie <Button1-ButtonRelease> ""
 
+		${win_name}.f.out.text tag configure ftsaveas$cookie \
+			-foreground #808080 -background white -font bplainf -underline false
+		${win_name}.f.out.text tag bind ftsaveas$cookie <Enter> ""
+		${win_name}.f.out.text tag bind ftsaveas$cookie <Leave> ""
+		${win_name}.f.out.text tag bind ftsaveas$cookie <Button1-ButtonRelease> ""
 
 		${win_name}.f.out.text tag configure ftno$cookie \
 			-foreground #808080 -background white -font bplainf -underline false
@@ -941,6 +948,16 @@ namespace eval ::amsn {
 		::log::ftlog $email $txt
 
 	}
+
+
+	proc SaveAsFT {chatid cookie {varlist ""} } {
+		set filename [tk_getSaveFile -initialfile [lindex $varlist 5] -initialdir [set ::files_dir]]
+		status_log "$filename" blue
+		if {$filename != ""} {
+			AcceptFT $chatid $cookie [list [lindex $varlist 0] [lindex $varlist 1] [lindex $varlist 2] [lindex $varlist 3] [lindex $varlist 4] "$filename"]
+		} {return}
+	}
+
 
 	proc RejectFT {chatid cookie {varlist ""} } {
 
@@ -964,6 +981,12 @@ namespace eval ::amsn {
 		${win_name}.f.out.text tag bind ftyes$cookie <Enter> ""
 		${win_name}.f.out.text tag bind ftyes$cookie <Leave> ""
 		${win_name}.f.out.text tag bind ftyes$cookie <Button1-ButtonRelease> ""
+
+		${win_name}.f.out.text tag configure ftsaveas$cookie \
+		-foreground #808080 -background white -font bplainf -underline false
+		${win_name}.f.out.text tag bind ftsaveas$cookie <Enter> ""
+		${win_name}.f.out.text tag bind ftsaveas$cookie <Leave> ""
+		${win_name}.f.out.text tag bind ftsaveas$cookie <Button1-ButtonRelease> ""
 
 		${win_name}.f.out.text tag configure ftno$cookie \
 		-foreground #808080 -background white -font bplainf -underline false
