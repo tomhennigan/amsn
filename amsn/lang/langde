@@ -15,15 +15,16 @@ alarmstatus Benachrichtigung für diesen Benutzer an/ausschalten
 allowseen Dieser Person ermöglichen, zu sehen, wenn ich online bin, und Kontakt mit mir aufzunehmen
 appearance Erscheinung
 appearoff Als offline anzeigen
-areacode Postleitzahl
+areacode Vorwahl 
 aretyping $1 geben Nachrichten ein
+askprofile Dieser Login hat noch kein Profil. Wollen Sie ein neues für ihn erstellen? \n Wenn nicht werden Sie die History oder das Speichern ihrer Alarme und Passwörter nicht benutzen können. \n Wenn sie es tun, haben Sie eine eigene Einstellung in dem neuen Profil. \n \n Klicken Sie auf "Profil erstellen" um ein neues Profil für $1 zu erstellen.
 autoaway Setze mich "Away" nach Inaktivität von
 autoconnect2 Automatisch Einloggen wenn aMSN gestartet wird
 autoconnect Automatische Anmeldung beim Starten
 autohotmaillog Automatische Anmeldung bei Hotmail
 autoidle Automatische Senkung des Prozessorverbrauchs wenn inaktiv
 autoip Automatische IP
-autonoact Setze mich "Nat Availible" nach Inaktivität von
+autonoact Setze mich "Not Availible" nach Inaktivität von
 avoidseen Dieser Person nicht ermöglichen, zu sehen, wenn ich online bin, und Kontakt mit mir aufzunehmen
 away Abwesend
 awaymsg1 Jedes mal nach der Away-Nachricht fragen, wenn ich meinen Status zu Away/BRB/Busy wechsle
@@ -67,15 +68,15 @@ contactadded Kontakt hinzugefügt
 contactdoesnotexist Kontakt nicht vorhanden!
 copy Kopieren
 copytogroup Kopieren zur Gruppe
-countrycode Meine Postleitzahl
+countrycode Meine Landesvorwahl
 cprofile Profil erstellen
 cut Ausschneiden
 date Datum
 days Tage
-dcprofile Profil nicht erstellen
+default Standardeinstellung
 delete Löschen
 deliverfail Es trat ein Problem beim Zustellen folgender Nachricht auf
-delprofile2 Wählen sie das Profil das sie Löschen wollen
+delprofile2 Profil auswählen, das gelöscht werden soll.
 delprofile Profil löschen
 dockgtk In GTK festankern
 docking Festankern eingeschaltet
@@ -84,17 +85,16 @@ dockkde In KDE festankern
 edit Ändern
 editprofile Profil ändern
 enableproxy Proxy aktivieren
-encoding2 Ändern sie die Kodierung des Text
-encoding Kodierung auswählen
+encoding2 Encoding Optionen ändern
+encoding Encoding auswählen
 entercontactemail Gib eine E-Mail-Adresse ein
 enterfilename Gib einen Dateinamen ein
 enternick Gib deinen Namen ein
 examples Beispiele
 exitamsn Wirklich beenden?
 extras Extras
-faq Am häufigsten gestellte Fragen
+faq Häufig gestellte Fragen
 filedoesnotexist Datei nicht vorhanden
-fileman Dateimanager
 filename Dateiname
 filetransfercancelled Übertragung abgebrochen
 filetransfercomplete Übertragung abgeschlossen
@@ -114,7 +114,6 @@ groupunknown Unbekannte Gruppe
 handle Handle
 helpcontents Hilfe - Inhalt
 help Hilfe
-history Verlauf
 home Start
 ident Identifiziere
 identity Identität
@@ -122,47 +121,46 @@ inbox Posteingang
 invalidusername Benutzername ungültig
 invite Einladen
 ipaddress IP-Adresse
-ipdetect IP-Adresse für Datei Übertragung über HTTP ermitteln
+ipdetect Korekte IP für Dateiübertragung durch HTTP feststellen
 istyping $1 gibt eine Nachricht ein
 joins $1 wurde dem Chat hinzugefügt
 keepalive Die Verbindung offen halten
-keeplog2 Alle Gespräche in den aMSN Verlauf speichern
-keeplog Gespräche speichern
 language Sprache
 lastmsgtime Letzte Nachricht angekommen am $1
-lclosedwin $1 hat das Fenster mit $2 geschlossen
-lconftopriv Konferenz wurde ein Privat Gespräch mit $1
+lconvstarted Gespräch mit $1 gestartet.
 leaveblankforhotmail Leer lassen, um Hotmail zu benutzen
 leaves $1 hat Chat verlassen
+lenteredconf $1 hat das Gespräch mit $2 betreten.
+linprivate PRIVAT
 listeningon Port $1
+listsmileys2 Emoticons und Smileys in der Kontaktliste anzeigen.
 listsmileys Smiley-Auswahlfenster anzeigen
-ljoinedconf $1 wurde der Konferenz zugefügt
-lleftconf $1 verliess die Konferenz
 loadcontacts Kontaktliste laden
+logbigger Maximale Größe der Log-Datei für einen Kontakt
+logfandexp Begrenzungen für Log-Dateien und History
 loggedotherlocation Verbindung getrennt.
 loggingin Anmeldung läuft...
+loging Loggen 
 login Anmeldung
 loginas Anmelden als
+logolder Nur Unterhaltungen loggen, der letzten
 logout Abmelden
 logsin hat sich gerade angemeldet
-lprivtoconf Privates Gespräch mit $1 wurde eine Konferenz
-luclosedwin Sie haben das Fenster mit $1 geschlossen
+logsmileys Emoticons und Smileys in der History anzeigen
+lprivtoconf Privater Chat wird zum Gespräch mit $1
+luclosedwin Sie haben das Fenster von $1 geschlossen.
 mailer E-Mail
 maximised Maximiert
-minimised Minimiert/Festgeankert
+minimised Minimiert
 mins Minuten
 mobile Mobil
-movetogroup Zur Gruppe verschieben
-msgmaxmin Wenn eine neue Nachricht ankommt, soll sie:
+movetogroup Zur Gruppe bewegen
 msg Nachricht
-msgmode Wie sollten mehrere Nachricht Fenster behandelt werden?
 msn AMSN
 mustrestart Änderungen werden erst nach einem Neustart übernommen
-myhomephone Meine persönliche Telefonnummer
-mymobilephone Meine Händy Nummer
 mystatus Mein Status
-myworkphone Meine Arbeits Telefonnummer
 natip Die IP-Adresse über Webseite ausfindig machen
+natkeepalive Wenn die Verbindung oft getrennt wird, schalten sie diesen KeepAlive an.
 needonline Du bist noch immer offline bzw. wirst als offline angezeigt!
 newmail $1 neue Nachrichten im Posteingang
 newmailfrom Neue E-Mail von
@@ -170,14 +168,12 @@ newmsg Neue Nachricht
 newveravailable Neuere Version $1 steht zur Verfügung
 next Weiter
 noactivity inaktiv
-nologfile Keinen Verlauf für $1
 nonewmail 0 neue Nachrichten im Posteingang
 nonewver Zurzeit keine neue Version verfügbar
-normal Normal
-notify2 Benachrichtigungsfenster anzeigen wenn neue Nachrichten ankommen
-notify3 Benachrichtigungsfenster anzeigen wenn neue E-Mails ankommen
+notify1 Fenster anzeigen wenn ein Kontakt online kommt.
+notify2 Fenster anzeigen wenn eine neue Nachricht empfangen wird.
+notify3 Fenster anzeigen wenn eine eMail ankommt.
 notify Benachrichtigen
-notifyoffset Stellen sie die Position des Benachrichtigungsfenster ein in dem Sie die Versätze eingeben
 notifywin Benachrichtigungsfenster
 nousersinsession Keine Benutzer in Sitzung
 offline Offline
@@ -193,20 +189,36 @@ other Andere
 pager Pager
 pass Passwort
 paste Einfügen
-personal Persönlich
 phone Telefon
 picfile Mit der Benachrichtigung verbundenes Bild (GIF < 500 x 500)
 picstatus Mit der Benachrichtigung verbundenes Bild ein/ausschalten
 port Port
+prefalerts Töne und Klänge
 prefapps Anwendungen
+prefawaymsg Away-Mitteilung
+prefemotic Emoticons und Smileys
 preferences Einstellungen
-prefphone Meine Telefon Nummern
-prefproxy Meine Proxy Einstellungen
+preffont2 Schriftart in der andere meinen Text sehen.
+preffont3 aMSN's Schriftart und Größe
+preffont Schriftart
+preflog1 History und Log-Optionen
+preflook aMSN Messenger Aussehen
+prefmsging Aussehen des Chat-Fensters
+prefname MSN Name/Spitzname
+prefphone2 Telefonnummern, die Kontakte aus \n deiner Allow Liste sehen dürfen \n
+prefphone Telefonnummern
+prefprofile2 Erstelle oder verändere dein MSN-Profil
+prefprofile3 aMSN's Benutzer-Profileinstellungen
+prefprofile Mein öffentliches Profil
+prefproxy Proxyeinstellungen
+prefsession Anmeldung und Status
+prefshared Gemeinsame Verbindung (nur NAT)
 prefsound Akustische Signale
+profiledconfig Profilabhängige Einstellungen
+profiles Profile
 properties Eigenschaften
 proxyconfhttp Konfiguration: HTTP-Proxy-Unterstützung
 proxyconf Proxy-Konfiguration
-proxy Ich bin hinter einen Proxy-Server (HTTP oder SOCKS5)
 publishphones Meine Telefonnummern veröffentlichen
 receivedbytes $1 von $2 Bytes empfangen
 receivefile Datei empfangen
@@ -214,10 +226,12 @@ reconnecting Erneute Anmeldung beim Server
 reconnect Warte, bis $1 wieder angemeldet ist
 reject Abweisen
 rememberpass Passwort speichern
+reversed Umgekehrt
 rightback Bin gleich zurück
 saveas Speichern unter
 savecontacts Kontaktliste speichern
 save Speichern
+savetofile Speichern unter
 says $1 sagt
 sbcon Verbinde mit Server
 sendfile Datei senden
@@ -227,19 +241,27 @@ send Senden
 sentbytes $1 von $2 Bytes gesendet
 servergoingdown Verbindungsabbruch: Serverfehler
 server Server
+session Session
+sound2 Klang wiedergeben, wenn sich ein Kontakt anmeldet oder eine Nachricht schreibt
+soundcommand Muss das Play Kommando sein (Bsp.: esdplay)
 sound Akustische Signale
 soundfile Mit der Benachrichtigung verbundene Klang-Datei
-soundloop Den Klang unendlich abspielen
+soundloop Den Klang unendlisch abspielen
+soundserver Klangserver
 soundstatus Akustisches Signal ein/ausschalten
+startoffline2 Als "Als offline anzeigen" anmelden
 startoffline Offline-Modus beim Start
 status Status
 stopalarm Benachrichtigung stoppen
+stylechat Wie in den Chats
+stylehist Aussehen der aMSN History
+stylelog Format auswählen in dem die History angezeigt werden soll
 syntaxerror  Syntaxfehler
-tabbed Unterfenster
 textsize Textgröße
 title Al's Messenger
 to An
 tools Extras
+transnotexists Die gewünschte Datei wurde noch nicht in die aktuelle Sprache übersetzt.
 unblock Blockieren entfernen
 uoffline Offline
 uonline Online
@@ -247,11 +269,8 @@ useralreadyonlist Benutzer ist bereits in Kontaktliste
 user Benutzer
 usernotonline Benutzer ist nicht online
 version Version
-viewprofile Profil ansehen
 view Ansicht
 willjoin Warte... $1 wird dem Chat hinzugefügt
 work Arbeit
-xoffset X Versatz
-yoffset Y Versatz
 yousay Du sagst
 youwant Du willst
