@@ -63,13 +63,13 @@ proc trayicon_init {} {
 	set statusicon 1
   } else {
 	set ext "[file join $program_dir plugins traydock libtray.so]"
-	if { [file exists $ext] != 1 } {
+	if { ![file exists $ext] } {
+		set config(dock) 0
 		msg_box "[trans traynotcompiled]"
 		close_dock
-		set config(dock) 0
 		return
 	}
-	
+
 	if { $systemtray_exist == 0 && $config(dock) == 3} {
 		load $ext Tray
 		set  systemtray_exist [systemtray_exist]; #a system tray exist?
@@ -77,7 +77,7 @@ proc trayicon_init {} {
   }
 
 	destroy .immain
-	set iconmenu .immain           
+	set iconmenu .immain
 	menu $iconmenu -tearoff 0 -type normal
 
 	menu $iconmenu.imstatus -tearoff 0 -type normal
