@@ -1425,6 +1425,10 @@ proc SavePreferences {} {
        #set config(withproxy) 0
     }
 
+	if {![string is digit $config(initialftport)] || [string length $config(initialftport)] == 0 } {
+		set config(initialftport) 6891
+	}
+
 
 
     # Make sure entries x and y offsets and idle time are digits, if not revert to old values
@@ -1800,6 +1804,9 @@ set $configitem $browsechoose
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.114  2004/02/19 20:15:50  airadier
+# Fixed empty initialftport
+#
 # Revision 1.113  2004/02/19 00:56:51  burgerman
 # apparently this didn't get through!
 #

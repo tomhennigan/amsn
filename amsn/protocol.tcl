@@ -553,7 +553,12 @@ namespace eval ::MSNFT {
       set ipaddr [lindex $filedata($cookie) 5]
       #if error ::AMSN::Error ...
 
+		if {![string is digit $config(initialftport)] || [string length $config(initialftport)] == 0} {
+			set config(initialftport) 6891
+		}
+
       set port $config(initialftport)
+
 
       #Random authcookie
       set authcookie [expr {[clock clicks] % (65536 * 4)}]
