@@ -184,6 +184,11 @@ namespace eval ::amsn {
 			}
 
 			set w .tlsprogress
+			
+			if {[winfo exists $w]} {
+				destroy $w
+			}
+			
 			toplevel $w
 			wm group $w .
 			#wm geometry $w 350x160
@@ -1556,8 +1561,8 @@ namespace eval ::amsn {
 			wm title .${win_name} "[trans chat]"
 		wm group .${win_name} .
 		if {$tcl_platform(platform) != "windows"} {
-			wm iconbitmap .${win_name} @[GetSkinFile pixmaps amsn.xbm]
-			wm iconmask .${win_name} @[GetSkinFile pixmaps amsnmask.xbm]
+			catch {wm iconbitmap .${win_name} "@$bitmap"}
+			catch {wm iconmask .${win_name} @[GetSkinFile pixmaps amsnmask.xbm]}
 		}
 
 
@@ -3647,11 +3652,11 @@ proc cmsn_draw_main {} {
 
 	#wm iconname . "[trans title]"
 	if {$tcl_platform(platform) == "windows"} {
-		wm iconbitmap . [file join icons winicons msn.ico]
-		wm iconbitmap . -default [file join icons winicons msn.ico]
+		catch {wm iconbitmap . [file join icons winicons msn.ico]}
+		catch {wm iconbitmap . -default [file join icons winicons msn.ico]}
 	} else {
-		wm iconbitmap . @[GetSkinFile pixmaps amsn.xbm]
-		wm iconmask . @[GetSkinFile pixmaps amsnmask.xbm]
+		catch {wm iconbitmap . @[GetSkinFile pixmaps amsn.xbm]}
+		catch {wm iconmask . @[GetSkinFile pixmaps amsnmask.xbm]}
 	}
 
 	#allow for display updates so window size is correct
