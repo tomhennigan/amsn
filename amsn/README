@@ -76,7 +76,7 @@ Català: Agusti Dosaiguas
 Czech:	Landsfeld Petr
 
 
-Danish: Anders Bach Nielsen
+Dansk (Danish): Anders Bach Nielsen
 	Thomas Petersen
 	Søren Louring
 	Kim H. Hansen
@@ -84,7 +84,17 @@ Danish: Anders Bach Nielsen
 	Alexander Dan Bartholdy
 	Mark Michelsen
 
+Deutsch (German): Jose H. Freidhof
+	Bernhard Heger
+	Harald Freidhof
+	Leo Spalteholz
+	Lars Ermert
+	Philipp Winter
+	Andreas Krüger
+	Bart W. Kemps
+	Peter Roediger
 
+	
 Dutch (Nederlands): by Jan Keirse
 	D. Emilio Grimaldo
 	Stèphan Eizinga
@@ -100,6 +110,8 @@ Dutch (Nederlands): by Jan Keirse
 	Thijs Bruneel
 	Tomasz Nguyen
 	Bart W. Kemps	
+	
+Ellinika (Greek): by Michail Dimitris	
 	
 English: by Alvaro J. Iradier
 	Gareth Ignatius
@@ -120,11 +132,11 @@ Euskera: by galder@users.sourceforge.net
 	NOTE: just for testing, some words don't match, still need some
 	improvements. Mail galder suggestions and adittions.
 
-French: by Guillaume Vaillant
+Français (French): by Guillaume Vaillant
 	Charles Castelain
 	JM Billaud
 	Frédéric Delrieu
-        Bernard Nauwelaerts
+	Bernard Nauwelaerts
 	Raphael Michel
 	Alain Cabiran
 	Valère
@@ -136,44 +148,26 @@ French: by Guillaume Vaillant
 	Cyril Garcia
 
 
-French (Canadian): by Dominic Genest
+Français (French) Canadian: by Dominic Genest
 	Frédéric Delrieu
 	Olivier Lussier
 	Gavin Sharp
 	Martin Bchale
 
-Finnish: by Kalle Kilpinen
-	Jonni Henttinen
-	Otto Parantainen
-
-Frisian: by Jurjen Huisman
+Frysk (Frisian): by Jurjen Huisman
 	Lyts Famke
 
 Gallego: by David G. Outes
 
-German (Deutsch): Jose H. Freidhof
-	Bernhard Heger
-	Harald Freidhof
-	Leo Spalteholz
-	Lars Ermert
-	Philipp Winter
-	Andreas Krüger
-	Bart W. Kemps
-	Peter Roediger
-
-
-Greek: by Michail Dimitris
-
 Greeklish: by noki[a]
-
-Hungary: by Albert Szoldán
-
-Icelandic: by Einar Th. Einarsson
-	Ísak Ben
 
 Indonesian: by Rai S. Regawa
 
-Italian: by Andrea Di Mento
+Íslenska (Icelandic): by Einar Th. Einarsson
+	Ísak Ben
+
+
+Italiano (Italian): by Andrea Di Mento
 	Goffredo Baroncelli
 	Giuseppe Lanni
 	Adriano Varoli
@@ -189,6 +183,8 @@ Korean: by Baek, Seungsoon
 
 Macedonian: by Todor Tanevski
 
+Magyar (Hungarian): by Albert Szoldán
+
 Mongolian: by Zayabaatar Dagvatur
 
 
@@ -196,10 +192,10 @@ Norwegian: Gunnar Tjomlid
 	Erik Tørrissen / MrIron
 	tg90nor (Thomas Geirhovd)
 
-Polish: Michael Swoboda
+Polski (Polish): Michael Swoboda
 	Adrian Dzikowski
 
-Portuguese: by Gustavo J.A.M. Carneiro
+Português (Portuguese): by Gustavo J.A.M. Carneiro
 	Mario Joao
 	Paulo Almeida
 	Manuel Silva
@@ -220,14 +216,19 @@ Simplified Chinese: by Changchun Zhao
 
 Slovak: by Nico Kovac
 
-Slovenian: by Kostko
+Slovenica (Slovenian): by Kostko
 	Janos Vidali
 
 South African: by Jaco Roeloffs
 
+Suomi (Finnish): by Kalle Kilpinen
+	Jonni Henttinen
+	Otto Parantainen
+
+
 Swahili: by Nsubis
 
-Swedish: by Tom Widerström
+Svenka (Swedish): by Tom Widerström
 	Jimmy Svensson
 	Richard Strand
 
@@ -235,7 +236,7 @@ Tamil: by S. Muguntharaj
 
 Traditional Chinese (Taiwan): by Stanley Chu
 
-Turkish: by Baris Cicek
+Türkçe (Turkish): by Baris Cicek
 	Gurkan Bebek
 	Kemal Ilgar Eroglu
 
