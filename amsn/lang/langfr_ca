@@ -67,6 +67,7 @@ cancel Annuler
 cannotdeleteprofile le profil ne peut être supprimé car il semble utilisé par une autre session aMSN
 cantexec Incapable d'exécuter l'application $1. Vérifiez les paramètres.
 casesensitive Utiliser des déclencheurs sensibles à la casse
+cfgalarmall Configurer/Ajouter/Supprimer une Alarme Globale
 cfgalarm Configurer/Ajouter/Supprimer alarme
 changedisplaypic Modifier l'image affichée
 changefont Changer la police
@@ -97,6 +98,7 @@ closed Conversation fermée pour inactivité ($1)
 close Fermer
 closingdocks Le bouton fermer réduit l'application
 command Commande
+commandstatus Exécuter une commande
 confirmdelete Êtes vous certain de vouloir supprimer $1?
 confirm Êtes vous certain?
 connected Vous êtes maintenant connecté(e)
@@ -140,6 +142,7 @@ editnewstate Nouveau statut avec message automatique personnalisé
 editprofile Modifier profil
 editstate Modifier un statut existant avec message automatique
 emotisounds Jouer un son pour certains émoticons
+enablebanner Montrer la bannière de aMSN (Un redémarrage de aMSN est requis)
 enableproxy Utiliser un proxy
 enableremote Permettre le contrôle à distance
 enablesound Activer le son

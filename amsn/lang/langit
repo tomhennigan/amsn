@@ -67,7 +67,8 @@ cancel Cancella
 cannotdeleteprofile Non posso concellare il profilo perché sembra essere usato da una sessione di aMSN
 cantexec Non posso eseguire l'applicazione: $1. Controlla nelle preferenze
 casesensitive Usa comandi discriminanti tra maiuscole e minuscole
-cfgalarm Configure/Aggiungi/Rimuovi l'allarme
+cfgalarm Configura/Aggiungi/Rimuovi l'allarme
+cfgalarmall Configura/Aggiungi/Rimuovi l'allarme globale
 changedisplaypic Cambia l'immagine personale
 changefont Cambia font
 changenick Cambia nick
@@ -141,6 +142,7 @@ editnewstate Nuove impostazioni personali di auto-risposta
 editprofile Modifica il Profilo
 editstate Modifica delle impostazioni di auto-risposta esistenti
 emotisounds Emetti un suono per alcune Emoticons
+enablebanner Mostra il banner di aMSN (Sarà necessario riavviare aMSN)
 enableproxy Proxy abilitato
 enableremote Abilita il controllo a distanza
 enablesound Emetti un suono

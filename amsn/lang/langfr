@@ -67,6 +67,7 @@ cancel Annuler
 cannotdeleteprofile le profil ne peut être supprimé car il semble utilisé par une session aMSN
 cantexec Impossible d'exécuter l'application : $1. Vérifiez les préférences.
 casesensitive Utiliser des déclencheurs sensibles à la casse
+cfgalarmall Configurer/Ajouter/Supprimer toutes les alarmes
 cfgalarm Configurer/Ajouter/Supprimer alarme
 changedisplaypic Changer l'icône
 changefont Changer la police
@@ -141,6 +142,7 @@ editnewstate Nouvel état avec message automatique personnalisé
 editprofile Modifier profil
 editstate Editer un état existant avec message automatique
 emotisounds Jouer un son pour certains émoticons
+enablebanner Visualiser le bandeau aMSN (Nécessite de relancer aMSN)
 enableproxy Permettre de passer par un proxy
 enableremote Permettre le contrôle à distance
 enablesound Activer le son
