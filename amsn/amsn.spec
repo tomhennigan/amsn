@@ -170,6 +170,7 @@ if test -x /usr/bin/update-menus; then /usr/bin/update-menus; fi
 /usr/share/amsn/lang/langpt
 /usr/share/amsn/lang/langsw
 /usr/share/amsn/lang/langtr
+/usr/share/amsn/lang/langru
 /usr/share/pixmaps/messenger.png
 /etc/X11/applnk/Internet/amsn.desktop
 
