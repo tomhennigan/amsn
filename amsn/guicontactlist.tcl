@@ -284,6 +284,13 @@ namespace eval ::guiContactList {
 				set name [lindex $g_entries $idx]
 				lappend groupList [list $gid $name]
 			}
+			#Sort the list alphabetically
+			if {[::config::getKey ordergroupsbynormal]} {
+				set groupList [lsort -dictionary -index 1 $groupList]
+			} else {
+				set groupList [lsort -decreasing -dictionary -index 1 $groupList]
+			}
+			
 		}
 		
 		# Hybrid Mode, we add offline group
