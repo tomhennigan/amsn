@@ -3,11 +3,11 @@ shake_receive Ryst vinduet når du modtager et vink
 shake_send Ryst vinduet når du sender et vink
 shake_nudge Ryst per vink
 popup_nudge Bekendtgør vink med et beskedvindue
-notify_send Bekendtgør sende vink i chatvinduet.
+notify_send Bekendtgør sendte vink i chatvinduet.
 notify_receive Bekendtgør modtaget vink i chatvinduet
 sound_send Spil en lyd når et vink sendes
 sound_receive Spil en lyd når et vink modtages.
 add_button Tilfør en knap til at sende vink i chatvinduet
 send_nudge Send vink
-no_nudge_support Du kan ikke sende et vink til denne kontakt fordi han eller hun ikke har en version af Msn Messenger der understøtte det
-nudge_sent Du har send et vink
+no_nudge_support Du kan ikke sende et vink til denne kontakt fordi kontaktpersonen ikke har en version af Msn Messenger der understøtte det
+nudge_sent Du har send et vink!

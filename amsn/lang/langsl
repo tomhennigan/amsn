@@ -27,6 +27,7 @@ alarmpref Nastavitve alarma
 alarms Alarmi
 alarmstatus Alarm omogoèen
 allfiles Vse datoteke
+allmonths Vsi meseci
 allow_sms Dovoli stikom, da me kontaktirajo na mobilni napravi
 allowallbutbl Dovoli vsem uporabnikom, razen blokiranim, da me kontaktirajo
 allowbadwords Onemogoèi cenzuro nickov
@@ -596,6 +597,7 @@ state ®elim biti viden kot
 statename Ime osebnega stanja
 statenewtext Prosim vpi¹i potrebne podatke za\ntvoje novo osebno stanje in pritisni Shrani.
 statenick Nick v tem stanju (pusti prazno, èe naj se ne spremeni)
+stats Statistika
 status Stanje
 stopalarm Ustavi alarm
 storenickname Zamenjaj nick na prej¹njega po vrnitvi iz osebnega stanja

@@ -27,6 +27,7 @@ alarmpref Configuração de avisos para usuário
 alarms Alarmes
 alarmstatus Ativar/Desativar avisos para este usuário
 allfiles Todos os Arquivos
+allmonths Todos os Meses
 allow_sms Permitir que usuários entrem em contato comigo pelo meu MSN de celular 
 allowallbutbl Permitir todos usuários menos aqueles na Lista de Bloqueados me contactar
 allowbadwords Desativar censura nos apelidos
@@ -597,6 +598,7 @@ stateinfo Configuração do Estado Pessoal
 statename Nome do estado atual
 statenewtext Por favor preencha as informações necessárias para criar \n o seu novo Estado Pessoal e tecle Salvar
 statenick Apelido personalizado (deixar em branco para não alterar)
+stats Estatisticas
 status Estado
 stopalarm Desligar avisos
 storenickname Retornar ao apelido original depois de um estado personalizado com um apelido personalizado
@@ -625,6 +627,7 @@ tlsinstallexp O AMSN agora usa o MSNP9, que requer o uso de uma conexão segura u
 tlsinstcompleted A instalação do módulo TLS foi bem sucedida, agora você deve conseguir usar o MSNP9. Se não funcionar, então provavelmente você não selecionou o módulo correto, ou um módulo compilado não está disponível para o seu sistema.
 to Para
 today Hoje
+tomobile Para Movel
 tools Ferramentas
 tooltips Ativar dicas
 transnotexists O arquivo solicitado ainda não foi traduzido para a linguagem atual.

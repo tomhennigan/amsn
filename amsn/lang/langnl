@@ -27,6 +27,7 @@ alarmpref Alarminstellingen voor gebruiker
 alarms Alarm
 alarmstatus Alarm inschakelen
 allfiles Alle bestanden
+allmonths Alle maanden
 allow_sms Sta toe dat iemand contact met mij opneemt via MSN mobiel
 allowallbutbl Iedereen die ik niet geblokkeerd heb kan contact met mij opnemen
 allowbadwords Ongecensureerde schermnamen weergeven
@@ -596,6 +597,7 @@ statename Naam voor de persoonlijke status
 statenewtext Vul de benodigde informatie in om je persoonlijke status\nte creëren en klik op Opslaan
 statenick Aangepaste schermnaam (laat het leeg voor geen verandering)
 state Weer te geven status
+stats Statistieken
 status Status
 stopalarm Stop het alarm
 storenickname Herstel de oorspronkelijke schermnaam na een aangepaste status met aangepaste schermnaam.
@@ -624,6 +626,7 @@ tlsinstall TLS Module installatie wizard
 tlsinstcompleted De TLS module is geïnstalleerd. Je zult versie 9 van het MSN protocol nu moeten kunnen gebruiken. Als dit niet werkt, dan heb je vermoedelijk niet de juiste module gekozen, of er bestaat geen kant-en-klare module voor jouw systeem.
 to Aan
 today Vandaag
+tomobile Naar Mobiel
 tools Extra
 tooltips Tooltips weergeven
 transnotexists Het opgevraagde bestand is nog niet vertaald in de gebruikte taal.

@@ -27,6 +27,7 @@ alarmpref Configuration de l'alarme du contact
 alarms Alarmes
 alarmstatus Activer/désactiver l'alarme pour ce contact
 allfiles Tous les fichiers
+allmonths Tous les mois
 allowallbutbl Autoriser tout le monde à me contacter sauf les personnes que j'ai bloquées
 allowbadwords Désactiver la censure des pseudonymes
 allowlist Liste des personnes autorisées :
@@ -129,6 +130,7 @@ clientcaps Envoyer les paquets x-clientcaps aux autres clients ?
 clientname Nom du client
 closed Conversation fermée pour inactivité ($1)
 close Fermer
+closeall Fermer tous les onglets
 closingdocks Le bouton Fermer ancre l'application
 command Commande
 commandstatus Exécuter la commande
@@ -191,7 +193,7 @@ deliverfail Une erreur est survenue lors de l'envoi du message suivant
 delprofile2 Sélectionnez le profil que vous voulez supprimer
 delprofile Supprimer un profil
 description Description
-detach Détacher
+detach Détacher l'onglet
 directconnection J'ai une connexion directe à Internet (utilisation du port 1863)
 disabled Désactivé
 disableprofiles Désactiver les profils (utile pour la cyber-cafés ou pour les environnements partagés)
@@ -367,13 +369,14 @@ logsout vient juste de se déconnecter
 longnick Votre pseudonyme est supèrieur à 130 caractères. Ce n'est pas supporté officiellement par le protocol MSN. Etes-vous sûrs de vouloir le mettre ?
 longp4c Votre pseudonyme de conversation dépasse les 130 caractères. Le client MSN officiel affichera $1. Voulez-vous continuer ?
 lprivtoconf Conversation privée changée en conférence avec $1
-luclosedwin Vous avez fermé la fenêtre sous $1
+luclosedwin Vous avez fermé la fenêtre le $1
 mailerexample (\$recipient = destinataire) Laisser vide pour utiliser Hotmail
 mailer Programme de courrier
 maintenance Le serveur sera hors-service pour cause de maintenance dans $1 minutes
 maximised Maximisé
 minimised Minimisé/Icônifié
 mins minutes
+mobile Mobile
 mobilegrp1 Groupe Mobile
 mobilegrp2 Mettre les contacts dans le groupe "Mobile" quand vous êtes hors connexion (et les trier par status)
 modified modifié[e]
@@ -381,6 +384,7 @@ month Mois
 morepersonal Autres statuts ->
 move Déplacer
 movetogroup Déplacer vers groupe
+msg Message
 msgflicker Faire clignoter la barre de titre d'une fenêtre inactive quand un message est reçu
 msgmaxmin Quand un nouveau message arrive, je veux qu'il soit
 msgmode Choisissez comment manier plusieurs fenêtres de messages :
@@ -595,6 +599,7 @@ state Je veux apparaître
 statename Nom du statut
 statenewtext Veuillez entrer les informations nécessaires\nà la création de votre nouveau statut et cliquez sur Enregistrer
 statenick pseudonyme personnalisé (laisser vierge pour aucun changement)
+stats Statistiques
 status Statut
 stopalarm Stopper l'alarme
 storenickname Remettre le pseudonyme original après un statut personnel avec un pseudonyme différent
@@ -623,6 +628,7 @@ tlsinstallexp aMSN utilise maintenant le protocole 9 de MSN, qui requiert l'util
 tlsinstcompleted L'installation du module TLS a été réussie, vous pouvez maintenant utiliser le protocole 9 de MSN. S'il ne fonctionne pas, alors vous n'avez probablement pas sélectionné le bon module, ou un module compilé n'est pas disponible pour votre système.
 to A
 today Aujourd'hui
+tomobile Au mobile
 tools Outils
 tooltips Activer les info-bulles
 transnotexists Le fichier demandé n'a pas encore été traduit dans votre langue.

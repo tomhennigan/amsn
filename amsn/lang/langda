@@ -27,7 +27,8 @@ alarmpref Alarminstillinger for bruger
 alarms Alarmer
 alarmstatus Slå Alarm TIL/FRA for denne bruger
 allfiles Alle Filer
-allow_sms Tillad personer a kontakte mig pŒ MSN Mobil
+allmonths Alle måneder
+allow_sms Tillad personer a kontakte mig på MSN Mobil
 allowallbutbl Tillad alle brugere, bortset fra dem på min Blokeringsliste, at kontakte mig
 allowbadwords Fjern censurering på kaldenavne
 allowlist Tillad-Liste (TL):
@@ -110,7 +111,7 @@ checkemail Vis mailoplysning (inbox) i kontaktlisten
 checkfilman Modtagne filer vil blive gemt i $1. Kontrollér filoverførsels-indstillingerne i egenskaber-vinduet.
 checkingver Tjekker for ny version
 checkonfln Tjek om en bruger bare har blokeret dig, når han/hun går offline
-checkopenfilecommand V¾r venlig at kontrollere åben fil kommandoen i egenskaber
+checkopenfilecommand Vér venlig at kontrollere åben fil kommandoen i egenskaber
 checkver Tjek for ny version
 choosearq Vælg din system-arkitektur
 choosebasefont Vælg skrifttype
@@ -164,7 +165,7 @@ created Opret
 credits Credits
 currentdate Nuværende Dato
 currentlanguage Det aktuelle sprog
-currentnotes Ênuv¾rende noter
+currentnotes Ênuvérende noter
 custnotifymsg Vis beskedvindue når en ny brugerbesked modtages
 custnotifyoffline Vis beskedvindue når denne kontakt går offline
 custnotifyonline Vis beskedvindue når denne kontakt går online
@@ -222,7 +223,7 @@ editstate Redigér Eksisterende Auto-besked-Status
 editvalue Redigér værdi
 email E-mail
 emailsinlist Vis emails i stedet for kaldenavn i kontaktlisten
-emotisounds Afspil lyde for bestemte emoticons
+emotisounds Afspil lyde for bestemte humørikoner
 emptygroup Tøm gruppen
 enablebanner Vis aMSN's banner (Kræver at aMSN genstartes)
 enabled Aktiveret
@@ -302,9 +303,9 @@ identity Identitet
 ignoreerrors Ignorer andre AMSN fejl indtil slutningen af sessionen
 imagefiles Billedfiler
 inbox Indbakke
-insertsmiley Indsæt emoticon
+insertsmiley Indsæt humørikon
 inserttextnote Insæt teskt i emne feltet og noe feltet derfer klik på gem
-installconvert Du skal have ImageMagick (konverteringsprogram) installeret for at kunne anvende Buddy-Ikoner og Brugerdefinerede Emoticons. Du kan downloade programmet til dit operativsystem ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Hvis du allerede har det installeret, så er dette en programfejl, rapportér det venligst. Disse specifikke muligheder vil derfor IKKE blive anvendt, men hvis du senere installerer ImageMagick, så slå disse muligheder til igen under Præferencer.
+installconvert Du skal have ImageMagick (konverteringsprogram) installeret for at kunne anvende Buddy-Ikoner og Brugerdefinerede Humørikoner. Du kan downloade programmet til dit operativsystem ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Hvis du allerede har det installeret, så er dette en programfejl, rapportér det venligst. Disse specifikke muligheder vil derfor IKKE blive anvendt, men hvis du senere installerer ImageMagick, så slå disse muligheder til igen under Præferencer.
 internalerror Intern Server-Fejl
 invalidfile Filen $2, der er indtastet i feltet "$1", eksisterer ikke eller er ikke læselig
 invalidfile2 Filnavnet $1 kunne ikke oprettes, tjek om du har de rigtige rettigheder til denne destination.
@@ -376,7 +377,7 @@ minimised Minimeret
 mins minutter
 mobile Mobil
 mobilegrp1 Mobil grouppe
-mobilegrp2 Put personer i "Mobil" groppen nŒr de er offline (og sorter efter status)
+mobilegrp2 Put personer i "Mobil" groppen når de er offline (og sorter efter status)
 modified ændret
 month Måned
 morepersonal Flere Status ->
@@ -597,6 +598,7 @@ stateinfo Personlig Status-konfiguration
 statename Navnet på din Personlige Status
 statenewtext Udfyld venligst de krævede informationer for at oprette \n din nye Personlige Status og tryk Gem
 statenick Brugerdefineret kaldenavn (efterlad blank for ingen ændringer)
+stats Statistik
 status Status
 stopalarm Stop Alarm
 storenickname Vend tilbage til originalt kaldenavn efter en brugerdefineret status med brugerdefineret kaldenavn
@@ -625,6 +627,7 @@ tlsinstallexp aMSN anvender nu MSNP9, som kræver brugen af en sikker\nforbindels
 tlsinstcompleted TLS modul-installationen er fuldført - du skulle nu være i stand til at bruge MSNP9. Hvis dette ikke virker, så har du muligvis ikke valgt det rigtige modul, eller også eksisterede der ikke et færdigkompileret modul til din system-type.
 to Til
 today I dag
+tomobile Til Mobil
 tools Værktøjer
 tooltips Anvend værktøjs-tips
 transnotexists Den kaldte fil er ikke blevet oversat til det valgte sprog endnu
