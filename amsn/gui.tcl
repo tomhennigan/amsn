@@ -1716,7 +1716,7 @@ namespace eval ::amsn {
 		wm title .${win_name} "[trans chat]"
 		wm group .${win_name} .
 		if {$tcl_platform(platform) != "windows"} {
-			catch {wm iconbitmap .${win_name} "@$bitmap"}
+			catch {wm iconbitmap .${win_name} @[GetSkinFile pixmaps amsn.xbm]}
 			catch {wm iconmask .${win_name} @[GetSkinFile pixmaps amsnmask.xbm]}
 		}
 
