@@ -2075,11 +2075,13 @@ namespace eval ::amsn {
 			set nick [::abook::getPersonal nick]
 			set p4c 0	
 		}
-		
-		set evPar(nick) $nick
-		set evPar(msg) $msg
-		set evPar(chatid) $chatid
-		
+		#Postevent when we send a message
+		set evPar(nick) nick
+		set evPar(msg) msg
+		set evPar(chatid) chatid
+		set evPar(fontfamily) fontfamily
+		set evPar(fontstyle) fontstyle
+		set evPar(fontcolor) fontcolor
 		::plugins::PostEvent chat_msg_send evPar
 		
 		
