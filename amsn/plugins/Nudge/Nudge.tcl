@@ -32,6 +32,9 @@ namespace eval ::Nudge {
         #Config to show in configuration window	
        	::Nudge::configlist_values
        	
+       	#Load the pictures
+       	::Nudge::setPixmap
+       	
        	#On 0.94, wait 5 seconds after all the plugins are loaded to register
        	#the command /nudge to amsnplus plugin
 		if {[::Nudge::version_094]} {
@@ -270,12 +273,12 @@ namespace eval ::Nudge {
 			#Use after 1 to avoid a bug on Mac OS X when we close the chatwindow before the end of the nudge
 			#Keep compatibility with 0.94 for the getColor
 			if {[::Nudge::version_094]} {
-				button $bottom.buttons.nudge -image [::Nudge::getPixmap nudge] -relief flat -padx 3 \
+				button $bottom.buttons.nudge -image [::skin::loadPixmap nudge] -relief flat -padx 3 \
 				-background [::skin::getColor background2] -highlightthickness 0 -borderwidth 0 \
 				-highlightbackground [::skin::getColor background2] \
 				-command "after 1 ::Nudge::send_via_queue $newvar(window_name)"
 			} else {
-				button $bottom.buttons.nudge -image [::Nudge::getPixmap nudge] -relief flat -padx 3 \
+				button $bottom.buttons.nudge -image [::skin::loadPixmap nudge] -relief flat -padx 3 \
 				-background [::skin::getColor buttonbarbg] -highlightthickness 0 -borderwidth 0 \
 				-highlightbackground [::skin::getColor buttonbarbg] \
 				-command "after 1 ::Nudge::send_via_queue $newvar(window_name)"
@@ -456,51 +459,18 @@ namespace eval ::Nudge {
 		#Look at the version of aMSN to know witch kind of separation we use
 		if {[::Nudge::version_094]} {
 			amsn::WinWrite $chatid "\n----------\n" $color 
-			Nudge::WinWriteIcon $chatid $iconname 3 2
+			amsn::WinWriteIcon $chatid $iconname 3 2
 			amsn::WinWrite $chatid "[timestamp] $text\n----------" $color
 		} else {
 			amsn::WinWrite $chatid "\n" $color
 			amsn::WinWriteIcon $chatid greyline 3
 			amsn::WinWrite $chatid "\n" $color
-			Nudge::WinWriteIcon $chatid $iconname 3 2
+			amsn::WinWriteIcon $chatid $iconname 3 2
 			amsn::WinWrite $chatid "[timestamp] $text\n" $color
 			amsn::WinWriteIcon $chatid greyline 3
 			::Nudge::log "Seperation and message wrote in chatwindow"
 		}
 	}
-	
-	######################################################
-	# ::Nudge::winwriteicon chatid imagename             #
-	# ---------------------------------------------------#
-	# Replacement for ::amsn::WinWriteIcon               #
-	# The only difference is that we use the Nudge icon  #	
-	# from the plugin with ::Nudge::getPixmap            #	
-	# Instead of using skin system                       # 
-	######################################################
-	proc WinWriteIcon { chatid imagename {padx 0} {pady 0}} {
-
-		set win_name [::ChatWindow::For $chatid]
-
-		if { [::ChatWindow::For $chatid] == 0} {
-			return 0
-		}
-
-		if { [lindex [[::ChatWindow::GetTopText ${win_name}] yview] 1] == 1.0 } {
-			set scrolling 1
-		} else {
-			set scrolling 0
-		}
-
-
-		[::ChatWindow::GetTopText ${win_name}] configure -state normal
-		[::ChatWindow::GetTopText ${win_name}] image create end -image [::Nudge::getPixmap $imagename] -pady $pady -padx $pady
-
-		if { $scrolling } { [::ChatWindow::GetTopText ${win_name}] yview end }
-
-
-		[::ChatWindow::GetTopText ${win_name}] configure -state disabled
-	}
-
 	
 	############################################
 	# ::Nudge::check_clientid email            #
@@ -564,26 +534,26 @@ namespace eval ::Nudge {
 		}
 	}
 	############################################
-	# ::Nudge::getPixmap name                  #
+	# ::Nudge::setPixmap                       #
 	# -----------------------------------------#
-	# Get the nudge or nudgeoff pixmap from    #
-	# pixmaps folder inside plugin directory   #
-	# If a folder of the name of the current   #
-	# skin exist in /pixmaps, use the picture  #
-	# inside								   #
+	# Load the nudge pixmaps from plugin in    #
+	# the skin system. Use the pixmap inside   #
+	# the actual_skin_name directory if 	   #
+	# available								   #
 	############################################	
-	proc getPixmap {name} {
-		#Set the path to the pixmap
+	proc setPixmap {} {
+		#Get current directory of the plugin
 		set dir [::config::getKey nudgepluginpath]
-		#Get the name of the currentskin
+		#Get the name of the current skin
 		set actualskin [::config::getGlobalKey skin]
-		#Verify if the picture exist in the folder of the same name of the skin, if yes use that picture
-		#If no, just use the picture inside /pixmaps
-		if {[file readable [file join $dir pixmaps $actualskin $name.gif]]} {
-			set img [image create photo -file [file join $dir pixmaps $actualskin $name.gif] -format gif]
+		#Verify if the files are inside /pixmaps/name_of_plugin
+		#If yes use them, if not use the default pictures in /pixmaps
+		if {[file readable [file join $dir pixmaps $actualskin nudge.gif]] & [file readable [file join $dir pixmaps $actualskin nudgeoff.gif]]} {
+			::skin::setPixmap nudge [file join $dir pixmaps $actualskin nudge.gif]
+			::skin::setPixmap nudgeoff [file join $dir pixmaps $actualskin nudgeoff.gif]
 		} else {
-			set img [image create photo -file [file join $dir pixmaps $name.gif] -format gif]
+			::skin::setPixmap nudge [file join $dir pixmaps nudge.gif]
+			::skin::setPixmap nudgeoff [file join $dir pixmaps nudgeoff.gif]
 		}
-		return $img
 	}
 }
