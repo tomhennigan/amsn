@@ -39,6 +39,7 @@ browse Listar
 browser Navegador WWW
 busy Ocupado
 cancel Cancelar
+cannotdeleteprofile - Impossível apagar as configurações, pois estão em uso por uma outra sessão do aMSN.
 cfgalarm Configurar/desativar avisos
 changefont Mudar a fonte
 changenick Trocar Apelido
@@ -234,6 +235,7 @@ prefshared Conexões compartilhadas (apenas para NAT)
 prefsound Sons
 profiledconfig Configuração por perfis
 profiles Perfis
+profileinuse - Esta configuração está em uso por outra sessão do MSN, por favor escolha outra.
 properties Propriedades
 proxy Eu estou atrás de um servidor de proxy (HTTP ou SOCKS5)
 proxyconf Configuração de Proxy
