@@ -114,6 +114,7 @@ clearlog2 Cancella il diario per tutti i tuoi contatti
 clearlog3 Cancella tutti i Log
 clearlog Cancella i Log
 clicktologin Clicca qui per accedere
+clientcaps Invia pacchetto "x-clientcaps" a clients altrui
 clientname Nome client
 close Chiudi
 closed La conversazione con $1 è chiusa per inattività.
@@ -123,6 +124,10 @@ commandstatus Esegui comando
 confirmdelete Sei sicuro di voler cancellare $1?
 confirmpurge Tutte le immagini salvate dei contatti eccetto le proprie saranno rimosse. Continuare?
 confirm Sei sicuro?
+confirmdg Sei sicuro di voler cancellare questo gruppo?
+confirmdu Sei sicuro di voler cancellare questo utente?
+confirmeg Sei sicuro di voler svuotare questo gruppo?
+confirmrfl Sei sicuro di voler rimuovere quest'utente da questo gruppo?
 connected Adesso sei connesso
 connectedwith Connesso con $1
 connecterror Errore durante la connessione al server
@@ -198,6 +203,7 @@ editvalue Modifica valore
 email E-mail
 emailsinlist Mostra indirizzi e-mail al posto dei nicks nella lista contatti
 emotisounds Emetti un suono per alcune Emoticons
+emptygroup Svuota gruppo
 enabled Attivato
 enableproxy Proxy abilitato
 enableremote Abilita il controllo a distanza

@@ -392,7 +392,7 @@ notify1_5 Mostra uma janela de notificação quando um contato sai
 notify1_75 Mostra uma janela de notificação quando um contato muda o seu estado
 notify2 Mostrar janela de avisos quando chegarem novas mensagens
 notify3 Mostrar janela de avisos quando chegarem e-mails no Hotmail
-notify4 MOstrar janela de notificação quando novas mensagens chegarem em outras pastas
+notify4 Mostrar janela de notificação quando novas mensagens chegarem em outras pastas
 notifyoffset Ajustar a posição da janela de avisos (em relação ao canto inferior direito)
 notifytimeout Números em milisegundos antes da janela de notificação desaparecer
 notifytyping Enviar notificação para os outros usuários de quando eu estou digitando
