@@ -1204,8 +1204,8 @@ namespace eval ::plugins {
 	proc get_OnlineVersion { path plugin } {
 
 		global HOME HOME2
-
-		set ::plugins::plgonlineversion2 ""
+		
+		set ::plugins::plgonlinerequire ""
 		set ::plugins::plgonlineversion ""
 		set ::plugins::plgonlinelang ""
 		set ::plugins::plgonlinefile ""
@@ -1221,6 +1221,10 @@ namespace eval ::plugins {
 		}
 
 		set content [::http::data $token]
+		
+		if { [string first "<html>" "$content"] != -1 } {
+			return 0
+		}
 
 		set filename "[file join $HOME2 $plugin.xml]"
 		
@@ -1228,7 +1232,7 @@ namespace eval ::plugins {
 
 		fconfigure $fid -encoding binary
 
-		puts -nonewline $fid "$content"
+		puts $fid "$content"
 		close $fid
 
 		set id [::sxml::init $filename]
@@ -1237,6 +1241,8 @@ namespace eval ::plugins {
 		sxml::register_routine $id "plugin:file" "::plugins::XML_OnlinePlugin_File"
 		sxml::parse $id
 		sxml::end $id
+		
+		return 1
 
 	}
 
@@ -1453,22 +1459,14 @@ namespace eval ::plugins {
 			set pathinfo "$path/plugininfo.xml"
 			::plugins::get_Version "$pathinfo" "$name"
 			
-			# If the online version could not be downloaded, or plugininfo.xml is protected, stop for this plugin
-			if { [catch {get_OnlineVersion "$pathinfo" "$name"}] || ![file writable $pathinfo] } {
-				status_log "Can't update plugin $name\n" red
+			if { ![file writable $pathinfo] } {
 				continue
 			}
 			
-			set wait 0
-			while { ![info exists ::plugins::plgonlinerequire] && $wait < 1000000} {
-				incr wait
-			}
-			
-			if { $wait == 1000000} {
+			if { [::plugins::get_OnlineVersion "$pathinfo" "$name"] == 0 } {
 				continue
 			}
 			
-			status_log "TIME : $wait\n" red
 			
 			# If the online plugin is compatible with the current version of aMSN
 			if { [::plugins::CheckRequirements $::plugins::plgonlinerequire] } {
