@@ -547,6 +547,7 @@ save Save
 savetofile Save to File
 says $1 says
 sbcon Connecting to Switch Board
+selectall Select all
 selectplugins Please select the plugins you want enabled
 selectskin Please choose a skin from the list
 sendfile Send file
@@ -648,6 +649,7 @@ unload Unload
 uoffline Offline
 uonline Online
 update Update
+updating Updating
 useother Use a different program
 useralreadyonlist User is already on contact list
 userblocked The user is online but blocked you

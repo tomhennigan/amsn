@@ -546,6 +546,7 @@ save Enregistrer
 savetofile Sauvegarder dans un fichier
 says $1 dit
 sbcon Connexion au "Switch Board"
+selectall Tout sélectionner
 selectplugins Sélectionnez un plug-in
 selectskin Sélectionnez dans la liste l'apparence que vous souhaitez utiliser
 send Envoyer
@@ -645,6 +646,7 @@ unload Désactiver
 uoffline Déconnectés
 uonline Connectés
 update Mise à jour
+updating Mise à jour de
 useother Utiliser un programme différent
 useralreadyonlist Utilisateur déjà présent dans la liste
 userblocked Ce contact est en ligne mais vous l'avez bloqué
