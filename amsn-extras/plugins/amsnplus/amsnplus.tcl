@@ -262,6 +262,19 @@ namespace eval ::amsnplus {
 				set strlen [string length $msg]
 				set incr 0
 			}
+			if {[string equal $char "/shell"]} {
+				set msg [string replace $msg $i [expr $i + 6] ""]
+				set command $msg
+				set msg ""
+				set strlen [string length $msg]
+				if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+					::amsn::WinWrite $chatid "\nThis doesn't work on mac os x, take a look at tcl documentation of exec" green
+				} else {
+					exec $command
+					::amsn::WinWrite $chatid "\nExecuting in the shell: $command"
+				}
+				set incr 0
+			}
 			if {[string equal $char "/speak"]} {
 				set msg [string replace $msg $i [expr $i + 6] ""]
 				set strlen [string length $msg]
