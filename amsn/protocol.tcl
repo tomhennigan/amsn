@@ -747,7 +747,7 @@ namespace eval ::MSN {
 
 
          foreach login $typers_list {
-            set idx [sb search $name users "$login *"]
+            set idx [sb search $name users "$login"]
             set usrinfo [sb index $name users $idx]
             set user_login [lindex $usrinfo 0]
             set user_name [lindex $usrinfo 1]
@@ -772,16 +772,20 @@ namespace eval ::MSN {
    }
 
    proc getUserInfo { user } {
-      global list_users list_states list_otherusers
+      global list_users list_states list_otherusers user_info
 
 
-      set user_info [list $user "" ""]
+      set wanted_info [list $user "" ""]
 
       set idx [lsearch $list_users "${user} *"]
 
-      if { $idx != -1} {
+      if { "$user" == "[lindex $user_info 3]" } {
 
-         set user_info [lindex $list_users $idx]
+         set wanted_info [list $user "[urldecode [lindex $user_info 4]]"  ""]
+	 
+      } elseif { $idx != -1} {
+
+         set wanted_info [lindex $list_users $idx]
 
       } else {
 
@@ -789,15 +793,15 @@ namespace eval ::MSN {
 
          if { $idx != -1} {
 
-            set user_info [lindex $list_otherusers $idx]
+            set wanted_info [lindex $list_otherusers $idx]
 
          }
 
       }
 
-      set user_login [lindex $user_info 0]
-      set user_name [lindex $user_info 1]
-      set state [lindex $user_info 2]
+      set user_login [lindex $wanted_info 0]
+      set user_name [lindex $wanted_info 1]
+      set state [lindex $wanted_info 2]
 
       return [list $user_login $user_name $state]
 
@@ -1717,9 +1721,9 @@ proc cmsn_reconnect { name } {
    if {[sb get $name stat] == "n"} {
 
       sb set $name stat "i"
-      cmsn_invite_user $name [lindex [sb get $name last_user] 0]
+      cmsn_invite_user $name [sb get $name last_user]
 
-      ::amsn::chatStatus [::MSN::ChatFor $name] "[trans willjoin [lindex [sb get $name last_user] 0]]..."
+      ::amsn::chatStatus [::MSN::ChatFor $name] "[trans willjoin [sb get $name last_user]]..."
 
    } elseif {[sb get $name stat] == "d"} {
 
@@ -1758,7 +1762,7 @@ proc cmsn_sb_sessionclosed {sbn} {
          set user_info [sb index $sbn users $idx]
          sb ldel $sbn users $idx
 
-         amsn::userLeaves [::MSN::ChatFor $sbn] [list [lindex $user_info 0]]
+         amsn::userLeaves [::MSN::ChatFor $sbn] [list $user_info]
       }
 
    }
@@ -1787,12 +1791,12 @@ proc cmsn_update_users {sb_name recv} {
 
 	  if {[sb get $sb_name stat] != "d"} {
 
-            set leaves [sb search $sb_name users "[lindex $recv 1] *"]
+            set leaves [sb search $sb_name users "[lindex $recv 1]"]
 
 	     sb set $sb_name last_user [sb index $sb_name users $leaves]
 	     sb ldel $sb_name users $leaves
 
-	     set usr_login [lindex [sb index $sb_name users 0] 0]
+	     set usr_login [sb index $sb_name users 0]
 
             if {[sb length $sb_name users] == 1} {
 	        #We were a conference! try to become a private
