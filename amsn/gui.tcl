@@ -4238,6 +4238,12 @@ proc cmsn_draw_online { {delay 0} } {
 		incr gcnt
 	}
 
+	if { [::config::getKey emailsincontactlist] } {
+		::MSN::sortContactList 2 0
+	} else {
+		::MSN::sortContactList 2 1
+	}
+
 	$pgBuddy.text configure -state normal -font splainf
 	$pgBuddy.text delete 0.0 end
 

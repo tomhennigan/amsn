@@ -1323,6 +1323,11 @@ namespace eval ::MSN {
 
    }
 
+	proc sortContactList { index1 index2 } {
+		global list_users
+		set list_users [lsort -decreasing -index $index1 [lsort -decreasing -index $index2 $list_users]]
+	}
+
 	proc setUserInfo { user_login {user_name ""} {user_state_no ""} } {
 		global list_users list_states list_otherusers
 
@@ -1345,7 +1350,7 @@ namespace eval ::MSN {
 			set newuserinfo [lreplace $newuserinfo 2 2 $user_state_no]
 			#set list_users [lreplace $list_users $idx $idx [list $user_login $user_name $user_state_no]]
 			set list_users [lreplace $list_users $idx $idx $newuserinfo]
-			set list_users [lsort -decreasing -index 2 [lsort -decreasing -index 1 $list_users]]
+			#set list_users [lsort -decreasing -index 2 [lsort -decreasing -index 1 $list_users]]
 
 		} else {
 
@@ -3042,7 +3047,7 @@ proc cmsn_change_state {recv} {
 	#TODO: Change this with ::MSN::setUserInfo
 	set oldmsnobj [lindex $user_data 3]
 	set list_users [lreplace $list_users $idx $idx [list $user $user_name $state_no $msnobj]]
-	set list_users [lsort -decreasing -index 2 [lsort -decreasing -index 1 $list_users]]
+	#set list_users [lsort -decreasing -index 2 [lsort -decreasing -index 1 $list_users]]
 
 	status_log "old is $oldmsnobj new is $msnobj\n"
 	if { $oldmsnobj != $msnobj} {
@@ -3992,7 +3997,8 @@ proc list_users_refresh {} {
       }
    }
 
-   set list_users [lsort -decreasing -index 2 [lsort -decreasing -index 1 $list_users_new]]
+   #set list_users [lsort -decreasing -index 2 [lsort -decreasing -index 1 $list_users_new]]
+	set list_users $list_users_new
    cmsn_draw_online 1
 
 }
