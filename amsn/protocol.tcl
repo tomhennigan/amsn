@@ -2081,8 +2081,6 @@ proc proc_ns {} {
 		set item [stringmap {\r ""} $item]
 		set item [split $item]
 		#set item [split [sb index ns data 0]]
-
-		status_log "proc_ns: item is [sb index ns data 0] / $item\n" red
 		sb ldel ns data 0
 
       set result [cmsn_ns_handler $item]
@@ -3213,7 +3211,6 @@ proc cmsn_ns_handler {item} {
 			}
 			PRP {
 				if { [llength $item] == 3 } {
-					status_log "Setting phone [lindex $item 1] [urldecode [lindex $item 2]]\n" white
 			    	::abook::setPersonal [lindex $item 1] [urldecode [lindex $item 2]]
 				} else {
 					new_contact_list "[lindex $item 2]"
@@ -4016,50 +4013,43 @@ proc cmsn_listupdate {recv} {
 
 
 	} else {
+
 		global loading_list_info
 
 		set command LST
 
+		#Get the current contact number
 		set current $loading_list_info(current)
 		set total $loading_list_info(total)
 
+		#Increment the contact number
 		incr loading_list_info(current)
 
 		set username [lindex $recv 1]
 		set nickname [lindex $recv 2]
 
+
 		set list_names [process_msnp9_lists [lindex $recv 3]]
-		#puts "$username --- $list_names"
 		set groups [split [lindex $recv 4] ,]
 
 	}
 
 	foreach list_name $list_names {
 
-		#TODO: What is this for???
-		#List is empty or first user in list
-		if {($current <= 1) && ($command == "LST")} {
-			set $list_name [list]
-			status_log "cmsn_listupdate: Clearing $list_name\n"
-			if {$list_name == "list_al"} { # Here we have the groups already
-				::groups::Enable
-			}
-		}
-
-
 		#If list is not empty, get user information
 		if {$current != 0} {
 			set contact_info ""
-			set user $username
 
 			#Add only if user is not already in list
 			upvar #0 $list_name the_list
-			if { [lsearch $the_list "$user *"] == -1 } {
-				lappend contact_info $user
+			if { [lsearch $the_list "$username *"] == -1 } {
+				lappend contact_info $username
 				lappend contact_info [urldecode $nickname]
 				lappend $list_name $contact_info
 
 				#status_log "cmsn_listupdate: adding to $list_name $contact_info\n"
+			} else {
+				status_log "cmsn_listupdate: user $username already in list $list_name\n" white
 			}
 
 			# New entry in address book setContact(email,FL,groupID)
@@ -4218,7 +4208,7 @@ proc change_BLP_settings { state } {
 }
 
 proc new_contact_list { version } {
-	global list_version contactlist_loaded
+	global list_version contactlist_loaded list_al list_bl list_rl list_fl list_users
 
 	if {[string is digit $version] == 0} {
 		status_log "new_contact_list: Wrong version=$version\n" red
@@ -4229,6 +4219,12 @@ proc new_contact_list { version } {
 	status_log "new_contact_list: new contact list version : $version --- previous was : $list_version\n"
 
 	if { $list_version != $version } {
+
+		set list_al [list]
+		set list_bl [list]
+		set list_rl [list]
+		set list_fl [list]
+		set list_users [list]
 
 		set list_version $version
 		set contactlist_loaded 0
@@ -4298,11 +4294,6 @@ proc load_contact_list { } {
 	if { $ret < 0 } {
 
 		set list_version 0
-		set list_al [list]
-		set list_bl [list]
-		set list_rl [list]
-		set list_fl [list]
-		set list_users [list]
 		#::MSN::WriteSB ns "SYN" "0"
 
 	}
@@ -5099,7 +5090,7 @@ namespace eval ::MSNP2P {
 		append bheader [binary format i $MsgId]
 		append bheader [binword $Offset]
 
-		set CurrentSize [string length $slpdata] 
+		set CurrentSize [string length $slpdata]
 		# We must set TotalSize to the size of data if it is > 1202 bytes otherwise we set to 0
 		if { $TotalSize == 0 } {
 			# This isn't a split message
