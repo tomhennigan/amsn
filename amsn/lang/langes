@@ -101,7 +101,7 @@ clearlog Limpiar historial
 clicktologin Haga click aquí para iniciar la sesión
 close Cerrar
 closed Conversación con $1 cerrada por inactividad
-closingdocks Botón de cerrar minimiza
+closingdocks Botón de cerrar iconifica la ventana
 command Comando
 commandstatus Ejecutar comando
 confirmdelete ¿Seguro que deseas borrar a $1?
@@ -472,7 +472,9 @@ willjoin Esperando que $1 se una a la conversación
 work Trabajo
 wrongfields Los campos "$1", "$2" y/o "$3" no son valido(s)
 wrongprofileversion Versión del archivo de perfiles incorrecta. Por favor borre el directorio $1 para solucionarlo, o actualice amsn.
+xmmscurrent Mostrar canción actual
 xmmserr Nothing is playing, or you dont have xmms-infopipe installed.
+xmmssend Enviar canción actual
 xoffset Desplazamiento X
 yes Si
 yoffset Desplazamiento Y
