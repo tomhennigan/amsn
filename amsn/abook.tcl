@@ -266,7 +266,60 @@ namespace eval ::abook {
 	    set d(valid) N
 	}
     }
-    
+
+	############################################################
+	#New procedures for contact list managing
+	############################################################
+
+	proc clearData {} {
+		variable users_data		
+		array unset users_data *
+	}
+
+	#Sets some data to a user.
+	#user_login: the user_login you want to set data to
+	#field: the field you want to set
+	#data: the data that will be contained in the given field
+	proc setUserData { user_login field data } {
+		variable users_data
+		
+		status_log "::abook::setUserInfo: Setting user ${user_login}($field) to $data\n" blue
+		
+		# There can't be double arrays, so users_data(user) is just a
+		# list like {entry1 data1 entry2 data2 ...}
+		if { [info exists users_data($user_login)] } {
+			#We convert the list to an array, to make it easier
+			array set user_data $users_data($user_login)
+		} else {
+			array set user_data [list]
+		}
+		 
+		set user_data($field) $data
+		
+		#We store the array as a plain list, as we can't have an array of arrays
+		set users_data($user_login) [array get user_data]
+	}
+	
+	proc getUserData { user_login field } {
+		variable users_data
+		
+		if { ![info exists users_data($user_login)] } {
+			status_log "::abook::getUserInfo: ERROR! User doesn't exist in abook!\n" red
+			return ""
+		}
+
+		array set user_data $users_data($user_login)		
+				
+		if { ![info exists user_data($field)] } {
+			status_log "::abook::getUserInfo: ERROR! Field $field doesn't exist for user $user_login!\n" red
+			return ""
+		}
+		
+		return $user_data($field)
+		
+	}
+
+					
 	#Returns the user nickname
 	proc getUserNickname { user_login } {
 		return [lindex [::MSN::getUserInfo $user_login] 1]

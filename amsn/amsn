@@ -150,12 +150,12 @@ proc reload_files { } {
 	source [file join $program_dir gui.tcl] ;#gui.tcl must be at the beggining to make msg_box procedure available for errorss
 	source [file join $program_dir config.tcl]
     source [file join $program_dir proxy.tcl]
-    source [file join $program_dir protocol.tcl]
+    source [file join $program_dir abook.tcl]	;# Handle buddy address book    
+	 source [file join $program_dir protocol.tcl]
     source [file join $program_dir ctadverts.tcl]
     source [file join $program_dir ctdegt.tcl]
     source [file join $program_dir hotmail.tcl]
     source [file join $program_dir groups.tcl]	;# Handle buddy groups
-    source [file join $program_dir abook.tcl]	;# Handle buddy address book
     source [file join $program_dir anigif.tcl]	;# Animated GIFS
     if {$tcl_platform(platform) == "unix"} {
      source [file join $program_dir xmms.tcl]

@@ -2,43 +2,46 @@
 #=======================================================================
 
 if { $initialize_amsn == 1 } {
-    global user_info user_stat list_fl list_rl list_al list_bl list_version
-    global list_users list_BLP list_otherusers list_cmdhnd sb_list list_states contactlist_loaded
+	global user_info user_stat list_fl list_rl list_al list_bl list_version
+	global list_users list_BLP list_otherusers list_cmdhnd sb_list list_states contactlist_loaded
+	
+	set contactlist_loaded 0
+	
+	#To be deprecated and replaced with ::abook thing
+	set user_info ""
+	set user_stat "FLN"
+	set list_fl [list]
+	set list_rl [list]
+	set list_al [list]
+	set list_bl [list]
+	set list_version 0
+	set list_users [list]
+	set list_BLP -1
+	set list_otherusers [list]
+	
+	#Clear all user infomation
+	::abook::clearData
+	
+	set list_cmdhnd [list]
+	
+	set sb_list [list]
 
-    set contactlist_loaded 0
-
-
-    set user_info ""
-    set user_stat "FLN"
-    set list_fl [list]
-    set list_rl [list]
-    set list_al [list]
-    set list_bl [list]
-    set list_version 0
-    set list_users [list]
-    set list_BLP -1
-    #A list for temp users, usually that join chats but are not in your list
-    set list_otherusers [list]
-    set list_cmdhnd [list]
-
-    set sb_list [list]
-
-    #Double array containing:
-    # CODE NAME COLOR ONLINE/OFFLINE  SMALLIMAGE BIGIMAGE
-    set list_states {
-	{NLN online #0000A0 online online bonline}
-        {IDL noactivity #008000 online away baway}
-	{BRB rightback #008080 online away baway}
-	{PHN onphone #008080 online busy bbusy}
-	{BSY busy #800000 online busy bbusy}
-	{AWY away #008000 online away baway}
-	{LUN gonelunch #008000 online away baway}
-	{HDN appearoff #404040 offline offline boffline}
-	{FLN offline #404040 offline offline boffline}
+	#Double array containing:
+	# CODE NAME COLOR ONLINE/OFFLINE  SMALLIMAGE BIGIMAGE
+	set list_states {
+		{NLN online #0000A0 online online bonline}
+		{IDL noactivity #008000 online away baway}
+		{BRB rightback #008080 online away baway}
+		{PHN onphone #008080 online busy bbusy}
+		{BSY busy #800000 online busy bbusy}
+		{AWY away #008000 online away baway}
+		{LUN gonelunch #008000 online away baway}
+		{HDN appearoff #404040 offline offline boffline}
+		{FLN offline #404040 offline offline boffline}
 	}
-
-	    package require base64
-	    package require sha1
+	
+	package require base64
+	package require sha1
 }
 
 
@@ -801,19 +804,20 @@ namespace eval ::MSN {
    unblockUser addUser deleteUser login myStatusIs \
    cancelReceiving cancelSending moveUser
 
-   if { $initialize_amsn == 1 } {
+	if { $initialize_amsn == 1 } {
 
-       variable myStatus FLN
-   }
+		variable myStatus FLN
+	}
 
+	
    proc connect { username password } {
 
-      global config tlsinstalled login_passport_url
-
-      if { $tlsinstalled == 0 && [checking_package_tls] == 0 && $config(nossl) == 0} {
-         ::amsn::installTLS
-          return
-      }
+		global config tlsinstalled login_passport_url
+		
+		if { $tlsinstalled == 0 && [checking_package_tls] == 0 && $config(nossl) == 0} {
+			::amsn::installTLS
+			return
+		}
 
 		if { $config(nossl) == 0 } {
 			http::register https 443 ::tls::socket
@@ -821,8 +825,8 @@ namespace eval ::MSN {
 			catch {http::unregister https}
 		}
 
-      #Log out
-      .main_menu.file entryconfigure 2 -state normal
+		#Log out
+		.main_menu.file entryconfigure 2 -state normal
 
 		::MSN::StartPolling
 		::groups::Reset
@@ -858,161 +862,158 @@ namespace eval ::MSN {
 		}
 		cmsn_ns_connect $username $password
 
-   }
+  	 }
 
-   proc logout {} {
-
-      ::MSN::WriteSBRaw ns "OUT\r\n";
-
-      catch {close [sb get ns sock]} res
-      sb set ns stat "d"
-
-      CloseSB ns
-
-      global config user_stat automessage
-      variable myStatus
-
-      sb set ns serv [split $config(start_ns_server) ":"]
-
-      set myStatus FLN
-      #TODO: Remove user_stat global variable
-      set user_stat FLN
-      status_log "Loging out\n"
-
-      if {$config(enablebanner) && $config(adverts)} {
-         adv_pause
-      }
-
-      ::groups::Disable
-
-      StopPolling
-
-      save_contact_list
-      clean_contact_lists
-
-      set automessage "-1"
-
-      cmsn_draw_offline
-      #Alert dock of status change
-#      send_dock "FLN"
-	send_dock "STATUS" "FLN"
-   }
-
-
-   proc GotREAResponse { recv } {
-
-         global user_info config
-
-         if { [string tolower [lindex $recv 3]] == [string tolower $config(login)] } {
-            set user_info $recv
-				cmsn_draw_online 1
-         }
-
-   }
-
-   proc badNickCheck { userlogin newname recv } {
-
-      if { "[lindex $recv 0]" == "209"} {
-
-         #Try again urlencoding any character
-	 set name [urlencode_all $newname]
-         ::MSN::WriteSB ns "REA" "$userlogin $name"
-	 return 0
-
-      } elseif { "[lindex $recv 0]" == "REA"} {
-         GotREAResponse $recv
-         return 0
-      }
-   }
-
-   proc changeName { userlogin newname { nocache 1 } } {
-
-      global HOME config
-
-      set name [urlencode $newname]
-
-		#What was this nocache thing for??
-      #if { !$nocache && $config(storename) } {
-		# If we use this, copy from automsg.tcl, to write more data...
-      #    set nickcache [open [file join ${HOME} "nick.cache"] w]
-      #    puts $nickcache $newname
-      #    close $nickcache
-      #}
-
-      if { $config(allowbadwords) } {
-         ::MSN::WriteSB ns "REA" "$userlogin $name" \
-      	   "::MSN::badNickCheck $userlogin [list $newname]"
-      } else {
-         ::MSN::WriteSB ns "REA" "$userlogin $name"
-      }
-   }
-
-  proc changeStatus {new_status} {
-      variable myStatus
-      global autostatuschange config clientid
-
-      if { $config(displaypic) != "" } {
-	  ::MSN::WriteSB ns "CHG" "$new_status 268435500 [urlencode [create_msnobj $config(login) 3 [GetSkinFile displaypic $config(displaypic)]]]"
-      } else {
-	  ::MSN::WriteSB ns "CHG" "$new_status 0"
-      }
-      set myStatus $new_status
-
-      #Reset automatic status change to 0
-      set autostatuschange 0
-   }
+	 
+	proc logout {} {
+	
+		::MSN::WriteSBRaw ns "OUT\r\n";
+		
+		catch {close [sb get ns sock]} res
+		sb set ns stat "d"
+		
+		CloseSB ns
+		
+		global config user_stat automessage
+		variable myStatus
+		
+		sb set ns serv [split $config(start_ns_server) ":"]
+		
+		set myStatus FLN
+		#TODO: Remove user_stat global variable
+		set user_stat FLN
+		status_log "Loging out\n"
+		
+		if {$config(enablebanner) && $config(adverts)} {
+			adv_pause
+		}
+		
+		::groups::Disable
+		
+		StopPolling
+		
+		save_contact_list
+		clean_contact_lists
+		
+		set automessage "-1"
+		
+		cmsn_draw_offline
+		#Alert dock of status change
+		#      send_dock "FLN"
+		send_dock "STATUS" "FLN"
+	}
 
 
-   proc myStatusIs {} {
-       variable myStatus
-       return $myStatus
-   }
 
-   proc userIsBlocked {userlogin} {
-      global list_bl
+	proc GotREAResponse { recv } {
+	
+		global user_info config
+	
+		if { [string tolower [lindex $recv 3]] == [string tolower $config(login)] } {
+			set user_info $recv
+			cmsn_draw_online 1
+		}
+	
+	}
 
-      if {[lsearch $list_bl "$userlogin*"] != -1} {
-         return 1
-      } else {
-         return 0
-      }
+	proc badNickCheck { userlogin newname recv } {
 
-   }
+		if { "[lindex $recv 0]" == "209"} {
 
-   proc blockUser { userlogin username} {
-     ::MSN::WriteSB ns REM "AL $userlogin"
-     ::MSN::WriteSB ns ADD "BL $userlogin $userlogin"
-   }
+			#Try again urlencoding any character
+			set name [urlencode_all $newname]
+			::MSN::WriteSB ns "REA" "$userlogin $name"
+			return 0
 
-   proc unblockUser { userlogin username} {
-      ::MSN::WriteSB ns REM "BL $userlogin"
-      ::MSN::WriteSB ns ADD "AL $userlogin $username"
-   }
+		} elseif { "[lindex $recv 0]" == "REA"} {
+			GotREAResponse $recv
+			return 0
+		}
+	}
 
-   # Move user from one group to another group
-   proc moveUser { passport oldGid newGid {userName ""}} {
-      if { $userName == "" } {
-        set userName $passport
-      }
-      set rtrid [::MSN::WriteSB ns "REM" "FL $passport $oldGid"]
-      set atrid [::MSN::WriteSB ns "ADD" "FL $passport [urlencode $userName] $newGid"]
+	proc changeName { userlogin newname { nocache 1 } } {
 
-   }
+		global HOME config
 
-   proc copyUser { passport newGid {userName ""}} {
-      if { $userName == "" } {
-        set userName $passport
-      }
-      set atrid [::MSN::WriteSB ns "ADD" "FL $passport [urlencode $userName] $newGid"]
-   }
+		set name [urlencode $newname]
+
+		if { $config(allowbadwords) } {
+			::MSN::WriteSB ns "REA" "$userlogin $name" \
+				"::MSN::badNickCheck $userlogin [list $newname]"
+		} else {
+			::MSN::WriteSB ns "REA" "$userlogin $name"
+		}
+	}
+
+  
+	proc changeStatus {new_status} {
+		variable myStatus
+		global autostatuschange config clientid
+	
+		if { $config(displaypic) != "" } {
+			::MSN::WriteSB ns "CHG" "$new_status 268435500 [urlencode [create_msnobj $config(login) 3 [GetSkinFile displaypic $config(displaypic)]]]"
+		} else {
+			::MSN::WriteSB ns "CHG" "$new_status 0"
+		}
+		set myStatus $new_status
+	
+		#Reset automatic status change to 0
+		set autostatuschange 0
+		
+	}
 
 
-   proc addUser { userlogin {username ""}} {
-      if { $username == "" } {
-        set username $userlogin
-      }
-      ::MSN::WriteSB ns "ADD" "FL $userlogin $username 0" "::MSN::ADDHandler"
-   }
+	proc myStatusIs {} {
+		variable myStatus
+		return $myStatus
+	}
+
+	proc userIsBlocked {userlogin} {
+		#TODO: Change to use new ::abook system when everything if finished
+		global list_bl
+
+		if {[lsearch $list_bl "$userlogin*"] != -1} {
+			return 1
+		} else {
+			return 0
+		}
+
+	}
+
+	proc blockUser { userlogin username} {
+	::MSN::WriteSB ns REM "AL $userlogin"
+	::MSN::WriteSB ns ADD "BL $userlogin $userlogin"
+	}
+
+	proc unblockUser { userlogin username} {
+		::MSN::WriteSB ns REM "BL $userlogin"
+		::MSN::WriteSB ns ADD "AL $userlogin $username"
+	}
+
+	# Move user from one group to another group
+	proc moveUser { passport oldGid newGid {userName ""}} {
+		if { $userName == "" } {
+			set userName $passport
+		}
+		set rtrid [::MSN::WriteSB ns "REM" "FL $passport $oldGid"]
+		set atrid [::MSN::WriteSB ns "ADD" "FL $passport [urlencode $userName] $newGid"]
+
+	}
+
+	proc copyUser { passport newGid {userName ""}} {
+		if { $userName == "" } {
+		set userName $passport
+		}
+		set atrid [::MSN::WriteSB ns "ADD" "FL $passport [urlencode $userName] $newGid"]
+	}
+
+
+	proc addUser { userlogin {username ""}} {
+		if { $username == "" } {
+		set username $userlogin
+		}
+		::MSN::WriteSB ns "ADD" "FL $userlogin $username 0" "::MSN::ADDHandler"
+	}
    
    proc ADDHandler { item } {
    
