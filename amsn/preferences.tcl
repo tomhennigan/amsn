@@ -232,6 +232,7 @@ proc Preferences { { settings "personal"} } {
     PreferencesCopyConfig	;# Load current configuration
 
     toplevel .cfg
+    wm state .cfg withdraw
 
     if { [LoginList exists 0 [::config::getKey login]] == 1 } {
 	wm title .cfg "[trans preferences] - [trans profiledconfig] - [::config::getKey login]"
@@ -1177,6 +1178,10 @@ proc Preferences { { settings "personal"} } {
     bind .cfg <Destroy> "RestorePreferences %W"
 
     moveinscreen .cfg 30
+    
+    wm state .cfg normal
+    
+    
 }
 
 #check if a window is outside the screen and move it in
