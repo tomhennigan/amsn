@@ -335,6 +335,7 @@ namespace eval ::abook {
 				puts $file_id "</$field>"				
 			}
 			puts $file_id "</contact>"
+			array unset temp_array
 		}
 		puts $file_id "</AMSN_AddressBook>"
 		close $file_id
