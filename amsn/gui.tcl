@@ -353,14 +353,18 @@ namespace eval ::amsn {
    #///////////////////////////////////////////////////////////////////////////////
    # Shows the error message specified by "msg"
    proc errorMsg { msg } {
-      tk_messageBox -type ok -icon error -message $msg -title "[trans title] Error" -parent [focus]
+		set parent [focus]
+		if { $parent == ""} { set parent "."}
+      tk_messageBox -type ok -icon error -message $msg -title "[trans title] Error" -parent $parent
    }
    #///////////////////////////////////////////////////////////////////////////////
 
    #///////////////////////////////////////////////////////////////////////////////
    # Shows the error message specified by "msg"
    proc infoMsg { msg {icon "info"} } {
-      tk_messageBox -type ok -icon $icon -message $msg -title "[trans title]" -parent [focus]
+		set parent [focus]
+		if { $parent == ""} { set parent "."}      
+		tk_messageBox -type ok -icon $icon -message $msg -title "[trans title]" -parent $parent
    }
    #///////////////////////////////////////////////////////////////////////////////
 
@@ -379,8 +383,10 @@ namespace eval ::amsn {
 
    #///////////////////////////////////////////////////////////////////////////////
    proc blockUser {user_login} {
+		set parent [focus]
+		if { $parent == ""} { set parent "."}
 
-       set answer [tk_messageBox -message "[trans confirm]" -type yesno -icon question -title [trans block] -parent [focus]]
+       set answer [tk_messageBox -message "[trans confirm]" -type yesno -icon question -title [trans block] -parent $parent]
        if {$answer == "yes"} {
           set name [::abook::getName ${user_login}]
           ::MSN::blockUser ${user_login} [urlencode $name]
@@ -401,7 +407,10 @@ namespace eval ::amsn {
    proc deleteUser { user_login { grId ""} } {
 
       global alarms
-      set answer [tk_messageBox -message "[trans confirmdelete ${user_login}]" -type yesno -icon question -parent [focus]]
+		set parent [focus]
+		if { $parent == ""} { set parent "."}
+		
+      set answer [tk_messageBox -message "[trans confirmdelete ${user_login}]" -type yesno -icon question -parent $parent]
 
       if {$answer == "yes"} {
 
@@ -2524,7 +2533,10 @@ namespace eval ::amsn {
    }
 
    proc closeAmsn {} {
-      set answer [tk_messageBox -message "[trans exitamsn]" -type yesno -icon question -title [trans title] -parent [focus]]
+		set parent [focus]
+		if { $parent == ""} { set parent "."}
+	
+      set answer [tk_messageBox -message "[trans exitamsn]" -type yesno -icon question -title [trans title] -parent $parent]
       if {$answer == "yes"} {
          close_cleanup
          exit

@@ -1942,24 +1942,75 @@ proc read_sb_sock {sbn} {
 	 
       } else {
 
-         sb append $sbn data $tmp_data
-
-         degt_protocol "<-$sbn $tmp_data\\n" $debugcolor
 
          if {[string range $tmp_data 0 2] == "MSG"} {
             set recv [split $tmp_data]
+				
+				#read_non_blocking $sb_sock [lindex $recv 3] "finished_reading_msg $sbn"
+		set old_handler "[fileevent $sb_sock readable]"
+		fileevent $sb_sock readable "read_non_blocking $sb_sock [lindex $recv 3] \"finished_reading_msg $sbn [list $old_handler] [list $tmp_data]\""
 	    #TODO: Do this non-blocking
-	    fconfigure $sb_sock -blocking 1
-	    set msg_data [read $sb_sock [lindex $recv 3]]
-	    fconfigure $sb_sock -blocking 0
+	    #fconfigure $sb_sock -blocking 1
+	    #set msg_data [read $sb_sock [lindex $recv 3]]
+	    #fconfigure $sb_sock -blocking 0
 
-            degt_protocol "Message Contents:\n$msg_data" msgcontents
+            #degt_protocol "Message Contents:\n$msg_data" msgcontents
 
-	    sb append $sbn data $msg_data
-         }
+	    #sb append $sbn data $msg_data
+         } else {
+	         sb append $sbn data $tmp_data
+
+   	      degt_protocol "<-$sbn $tmp_data\\n" $debugcolor
+			}
       }
    }
       
+}
+
+proc read_non_blocking { sock amount finish_proc {read 0}} {
+   
+	set buffer_name "read_buffer_$sock"
+   upvar #0 $buffer_name read_buffer
+
+	fileevent $sock readable ""
+	
+	if { $read == 0 } {
+		set read_buffer ""
+	} 
+	
+	set to_read [expr {$amount-$read}]
+	set data [read $sock $to_read]
+	set read_buffer "${read_buffer}$data"
+	
+	set read_until_now [string length ${read_buffer}]
+	if { $read_until_now == $amount } {
+		eval $finish_proc
+	} else {
+		fileevent $sock readable "read_non_blocking $sock $amount [list $finish_proc] $read_until_now"
+	}
+}
+
+proc finished_reading_msg {sbn old_handler msg_data} {
+	
+	set sock [sb get $sbn sock]
+
+	set buffer_name "read_buffer_$sock"
+   upvar #0 $buffer_name read_buffer	
+
+   if { $sbn == "ns" } {
+     set debugcolor "nsrecv"
+   } else {
+     set debugcolor "sbrecv"
+   }	
+	
+	sb append $sbn data $msg_data
+	degt_protocol "<-$sbn $msg_data\\n" $debugcolor
+	
+	
+	degt_protocol "Message Contents:\n$read_buffer" msgcontents		
+	sb append $sbn data ${read_buffer}
+	fileevent $sock readable $old_handler
+	unset read_buffer
 }
 
 #Manages the SwitchBoard (SB) structure
