@@ -1,3 +1,7 @@
+###########################################
+# CreatePNG { filename }
+# Parses the PNG file and returns an image containing the data
+#
 
 proc CreatePNG { filename } {
     global pngreader
@@ -21,18 +25,17 @@ proc CreatePNG { filename } {
 	return -1
     }
 
-    foreach name [array names pngreader] {
-	if { [string match $name "img_*"] } {
-	    unset pngreader($name)
-	}
-    }
-
     return [image create photo -data $pngreader(${img}_bitmap)]
 
 
 }
 
-
+########################################
+# ReadPNG { img }
+# Reads the PNG file, from the header until the last 
+# chuck.
+# The img variable is an ID to the image processed
+#
 
 proc ReadPNG { img} {
     global pngreader
@@ -50,6 +53,11 @@ proc ReadPNG { img} {
     
 }
 
+########################################
+# ReadHeader { img }
+# Reads the header and initializes some variables
+#
+
 proc ReadHeader { img } {
     global pngreader
 
@@ -62,6 +70,12 @@ proc ReadHeader { img } {
 	set pngreader(${img}_status) "ERROR"
     }
 }
+
+############################################
+# ReadChunk { img }
+# Reads every chunk and calls the correct function
+# to process the associated chunk.
+#
 
 proc ReadChunk { img } {
     global pngreader
@@ -99,6 +113,14 @@ proc ReadChunk { img } {
 
 }
 
+
+#########################################
+# ProcessIHDR { img chunk }
+# Processes the IHDR chunk, gets image properties and 
+# verifies everything before changing the
+# image processing status
+#
+
 proc ProcessIHDR { img chunk } {
     global pngreader
 
@@ -127,6 +149,13 @@ proc ProcessIHDR { img chunk } {
 
 }
 
+
+##############################################
+# ProcessPLTE { img  chunk }
+# Processes the PLTE chunk, reads every palette info
+# and stores it in the appropriate variable.
+#
+
 proc ProcessPLTE { img chunk } {
     global pngreader
 
@@ -153,12 +182,25 @@ proc ProcessPLTE { img chunk } {
 
 }
 
+########################################
+# ProcessIDAT { img chunk }
+# Processes the IDAT chunk containing the data
+# it just appends all IDAT chunks together
+#
+
 proc ProcessIDAT { img chunk } {
     global pngreader
 
     set pngreader(${img}_IDAT) "$pngreader(${img}_IDAT)$chunk"
 
 }
+
+#######################################
+# ProcessIEND { img chunk } 
+# Processes the IEND chunk, which means an end of file
+# it calls the procs for uncompressing, then filtering
+# before returning the bitmap
+#
 
 proc ProcessIEND { img chunk } {
     global pngreader
@@ -185,6 +227,7 @@ proc ProcessIEND { img chunk } {
 	set idx 0 
 	while { [info exists pngreader(${img}_palette_$idx)] } {
 	    unset pngreader(${img}_palette_$idx)
+	    incr idx
 	}
 	
 	if { $pngreader(${img}_status) != "ERROR" } {
@@ -195,6 +238,12 @@ proc ProcessIEND { img chunk } {
 
 }
 
+#############################################
+# uncompressIDAT { img }
+# Uncompresses the data from the file using
+# the zlib specifications
+#
+
 proc uncompressIDAT { img } {
     global pngreader
 
@@ -203,6 +252,9 @@ proc uncompressIDAT { img } {
     status_log "original data : [string length $zlib]\n"
 
     set pngreader(${img}_zlib) ""
+
+    binary scan $zlib B80 test
+    status_log "Binary data of zlib : \n$test\n"
 
     binary scan [string range $zlib 0 1] B8B8 CMF FLG
     status_log "CMF = $CMF\nFLG = $FLG\n" red
@@ -231,22 +283,27 @@ proc uncompressIDAT { img } {
 	status_log "Got header : $header\n"
 	set bfinal [string range $header 0 0]
 	set btype [string range $header 1 2]
-	set idx [expr $idx + 3]
 
 	status_log "Reading compressed block, with compression type $btype and final bloc = $bfinal\n"
 	switch $btype {
 	    "00" {
-		if { [expr $idx % 8] != 0 } {
-		    set idx [expr $idx + 8 - ( $idx % 8)]
-		}
-		binary scan [string range $zlib $idx [expr $idx + 3]] SS len nlen
-		if { $nlen != [expr - $len - 1] } {
-		    status_log "Len and NLen does not match : $len --- $nlen\n"
+# 		if { [expr $idx % 8] != 0 } {
+# 		    set idx [expr $idx + 8 - ( $idx % 8)]
+# 		}
+		incr idx
+		binary scan [string range $zlib $idx [expr $idx + 3]] B16B16 blen bnlen
+		binary scan [string range $zlib $idx [expr $idx + 3]] SS len nlen 
+		if { [string map { "0" "1" } $bnlen] != $blen } {
+		    status_log "Len and NLen does not match : $blen --- $bnlen\nValues are $len and $nlen\n" red
 		    set pngreader(${img}_status) "ERROR"
 		    return
+		} else {
+		    binary scan [string range $zlib $idx [expr $idx + 1]] S len 
 		}
+
 		status_log "Reading uncompressed block with length $len from index $idx to [expr $idx + 3 + $len]\n"
 		set pngreader(${img}_zlib) "$pngreader(${img}_zlib)[string range $zlib [expr $idx + 4] [expr $idx + 3 + $len]]"
+		set idx [expr $idx + 3 + $len]
 
 	    }
 	    "01" {
@@ -256,7 +313,7 @@ proc uncompressIDAT { img } {
 		status_log "Got Huffman's dynamic compression block, skipping\n"
 	    }
 	    "11" {
-		status_log "Got reserved work 11 for compression type : error\n" error
+		status_log "Got reserved word 11 for compression type : error\n" error
 		set pngreader(${img}_status) "ERROR"
 		return
 	    }
@@ -270,6 +327,11 @@ proc uncompressIDAT { img } {
 
 }
 
+###################################################
+# FilterIDAT { img }
+# filters the uncompressed data using the PNG filtering
+# specifications
+#
 
 proc FilterIDAT { img } {
     global pngreader
@@ -284,5 +346,6 @@ proc FilterIDAT { img } {
 }
 
 proc test { } {
+    reload_files
     CreatePNG ~/.amsn/gklzyffe_hotmail_com/displaypic/cache/05934554a62565262714736497c4a466c6d45644a45647342496b6d3.png
 }
