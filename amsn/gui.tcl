@@ -3918,6 +3918,7 @@ proc cmsn_draw_main {} {
 		wm geometry . +0+30
 	} else {
 		#Set the position on the screen and the size for the contact list, from config
+		update
 		catch {wm geometry . $config(wingeometry)}
 	}
 	

@@ -424,7 +424,7 @@ namespace eval ::abook {
 				}
 			} elseif { [::config::getKey globaloverride] == 1 } {
 				if { $customnick != "" && $globalnick == "" } {
-					return [parseCustomNick $customnic $nick $user_login $globalnickk]
+					return [parseCustomNick $customnick $nick $user_login $globalnick]
 				} elseif { $globalnick != "" } {
 					return [parseCustomNick $globalnick $nick $user_login $globalnick]
 				} else {
