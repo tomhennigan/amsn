@@ -1075,11 +1075,12 @@ namespace eval ::MSN {
       catch {fileevent [sb get $sbn sock] readable "" } res
       catch {fileevent [sb get $sbn sock] writable "" } res
 
-      if { $sbn == "ns" } {
-         proc_ns      
-      } else {
-         proc_sb
-      }
+      #If we keep it here we have problems, specially the proc_ns one (can't connect)
+      #if { $sbn == "ns" } {
+      #   proc_ns      
+      #} else {
+      #   proc_sb
+      #}
       
       set oldstat [sb get $sbn stat]
       set oldsock [sb get $sbn sock]      
@@ -1745,6 +1746,7 @@ proc read_sb_sock {sbn} {
      set debugcolor "sbrecv"
    }
    
+   
    if {[catch {eof $sb_sock} res]} {
 
       status_log "read_sb_sock: Error reading EOF in read_sb_sock: $res\n" red
@@ -1787,12 +1789,14 @@ proc read_sb_sock {sbn} {
       }
    }
    
-   if { $sbn == "ns" } {
-     proc_ns
-   } else {
-     proc_sb
-   }   
-
+   #If we uncomment then, then we can process the SB or NS queue unsorted. Problems!!!
+   #if { $sbn == "ns" } {
+   #  proc_ns
+   #} else {
+   #  proc_sb
+   #}   
+   
+   
 }
 
 #Manages the SwitchBoard (SB) structure
@@ -2603,6 +2607,7 @@ proc cmsn_change_state {recv} {
       set substate "FLN"
    } else {
       if {[lindex $recv 0] == "ILN"} {
+         status_log "Here1\n" white
          set user [lindex $recv 3]
          set user_name [urldecode [lindex $recv 4]]
          set substate [lindex $recv 2]
@@ -2721,6 +2726,7 @@ proc cmsn_ns_handler {item} {
 	 return 0
       }
       ADD {
+      status_log "Here2\n" white
 	     if { [lindex $item 2] == "FL"} {
 	       set contact [lindex $item 4]	;# Email address
 	       set addtrid [lindex $item 3]	;# Transaction ID
