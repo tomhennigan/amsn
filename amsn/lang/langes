@@ -472,6 +472,7 @@ smileintro Rellena los siguientes campos para crear un emoticono personalizado (
 smileintro2 Edita los siguientes campos para personalizar el emoticono (ver FAQ para más información)
 sound Sonido eventos
 sound2 Reproducir sonidos cuando los contactos se conectan o envían mensajes
+soundactive Reproducir sonidos al recibir mensajes también en ventanas activas
 soundcommand El comando para reproducir un sonido (por ej: esdplay)
 soundexample ( \$sound = Archivo de sonido a reproducir) Ej: esdplay \$sound
 soundfile Archivo de sonido

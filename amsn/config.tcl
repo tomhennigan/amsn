@@ -23,6 +23,7 @@ proc ConfigDefaults {} {
 	set config(sound) 1				;#Sound enabled: 0|1
 	set config(mailcommand) ""		;#Command for checking mail. Blank for hotmail
         set config(notifytyping) 1		;#Send typing notifications
+        set config(soundactive) 0               ;#Typing sound even on active window
 
 	#Some Autodetected options
 	if {$tcl_platform(os) == "Darwin"} {
@@ -197,6 +198,7 @@ proc ConfigDefaults {} {
 		[list local lineflushlog bool lineflushlog] \
 		[list local autocheckver bool autocheckver] \
 		[list local storename bool storenickname] \
+                [list local soundactive bool soundactive] \
 		[list global disableprofiles bool disableprofiles] \
 	]
 	set config(tooltips) 1				;#Enable/disable tooltips

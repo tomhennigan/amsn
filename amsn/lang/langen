@@ -471,6 +471,7 @@ smileintro Please complete the required fields to create a new custom smiley (se
 smileintro2 Please edit the required fields to customize this smiley (see the FAQ for help)
 sound Event Sounds
 sound2 Play sounds when contacts sign in or send a message
+soundactive Play sounds when receiving incoming messages also in active windows
 soundcommand This has to be the play command (ex: esdplay)
 soundexample ( \$sound = Sound file to be played) Ex: esdplay \$sound
 soundfile Sound File
