@@ -90,6 +90,8 @@ proc ConfigDefaults {} {
         set config(blockinter2) 300
         set config(blockinter3) 5
         set config(blockusers) 2
+        set config(smileys) "default"
+        set config(emotisounds) 1
 	set password ""
 }
 

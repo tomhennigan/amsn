@@ -1109,7 +1109,7 @@ namespace eval ::amsn {
 
       text .${win_name}.f.top.text  -borderwidth 0 -width 45 -relief flat \
          -height 1 -wrap none -background $bgcolor -foreground $bgcolor2 -highlightthickness 0 \
-	  -selectbackground $bgcolor -selectborderwidth 0 -selectforeground $bgcolor2 -exportselection 0
+	  -selectbackground $bgcolor -selectborderwidth 0 -selectforeground $bgcolor2 -exportselection 1
 
 #-yscrollcommand ".${win_name}.f.top.ys set"
 

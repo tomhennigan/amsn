@@ -46,7 +46,7 @@ set weburl "http://amsn.sourceforge.net"
 set program_dir ""
 set HOME ""
 set files_dir ""
-
+set skin "default"
 
 #=======================================================================
 
@@ -92,9 +92,9 @@ lappend auto_path "[file join ${HOME} plugins]"
 ### Configure images and sounds folder
 ############################################################
 
-set images_folder "[file join $program_dir pixmaps]"
-set smileys_folder "[file join $program_dir smileys]"
-set sounds_folder "[file join $program_dir sounds]"
+set images_folder "[file join $program_dir skins $skin pixmaps]"
+set smileys_folder "[file join $program_dir skins $skin smileys]"
+set sounds_folder "[file join $program_dir skins $skin sounds]"
 
 
 ############################################################

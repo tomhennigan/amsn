@@ -483,8 +483,9 @@ proc Preferences { { settings "personal"} } {
 	pack $lfname.1 -side left -padx 0 -pady 5 -expand 1 -fill both
 	checkbutton $lfname.1.chat -text "[trans chatsmileys2]" -onvalue 1 -offvalue 0 -variable config(chatsmileys)
 	checkbutton $lfname.1.list -text "[trans listsmileys2]" -onvalue 1 -offvalue 0 -variable config(listsmileys)
+        checkbutton $lfname.1.sound -text "[trans emotisounds]" -onvalue 1 -offvalue 0 -variable config(emotisounds)
 	checkbutton $lfname.1.log -text "[trans logsmileys]" -onvalue 1 -offvalue 0 -variable config(logsmileys) -state disabled
-	pack $lfname.1.chat $lfname.1.list $lfname.1.log -anchor w -side top -padx 10
+	pack $lfname.1.chat $lfname.1.list $lfname.1.sound $lfname.1.log -anchor w -side top -padx 10
 
 	## Alerts and Sounds Frame ##
 	set lfname [LabelFrame:create $frm.lfname3 -text [trans prefalerts]]
@@ -1493,6 +1494,9 @@ proc BlockValidateEntry { widget data type {correct 0} } {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.63  2003/06/30 11:23:47  kakaroto
+# added skin support and animated smileys
+#
 # Revision 1.62  2003/06/28 05:38:00  kakaroto
 # added the boss mode
 # added the gui for the blocking thing + using only one SB
