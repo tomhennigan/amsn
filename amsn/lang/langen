@@ -438,7 +438,7 @@ servergoingdown Disconnected: Server is going down
 serverunavailable Server is unavailable
 session Session
 showblockedlist Show list of people who blocked you
-showcachedpics Show/Hide cached display pictures
+showcachedpics Show cached display pictures
 showdisplaypic Show Display Picture
 showdisplaypic2 Show Display Picture by default when a chat window is opened
 showmypic My Display Picture

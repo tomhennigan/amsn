@@ -16,12 +16,12 @@ admingroups Administrar grupos
 advanced Avanzadas
 advancedprefs Configuración de opciones avanzadas
 adverts Anuncios
-alarmonconnect Activar/Desactivar alarma para este usuario cuando se conecte
-alarmondisconnect Activar/Desactivar alarma para este usuario cuando se desconecte
-alarmonmsg Activar/Desactivar alarma para este usuario cuando te envie un mensaje
-alarmonstatus Activar/Desactivar alarma para este usuario cuando cambie su estado
+alarmonconnect Activar alarma para este usuario cuando se conecte
+alarmondisconnect Activar alarma para este usuario cuando se desconecte
+alarmonmsg Activar alarma para este usuario cuando te envie un mensaje
+alarmonstatus Activar alarma para este usuario cuando cambie su estado
 alarmpref Configuración de alarma para el usuario
-alarmstatus Activar/Desactivar alarma para este usuario
+alarmstatus Activar alarma para este usuario
 allfiles Todos los archivos
 allowallbutbl Permitir que todos los usuarios excepto los bloqueados me puedan contactar
 allowbadwords Saltarse la censura en los apodos
@@ -436,7 +436,7 @@ servergoingdown Desconectado: El servidor se va a apagar para mantenimiento
 serverunavailable El servidor no está disponible
 session Sesión
 showblockedlist Mostrar contactos que te bloquean
-showcachedpics Mostrar/Ocultar imágenes para mostrar almacenadas
+showcachedpics Mostrar imágenes para mostrar almacenadas
 showdisplaypic Ver Imagen para Mostrar
 showdisplaypic2 Por defecto, ver la Imagen para Mostrar al abrir una ventana de conversación.
 showmypic Mostrar mi imagen
