@@ -14,6 +14,7 @@ namespace eval ::winskin {
 		::plugins::RegisterEvent winskin OnConnect connected
 
 		array set ::winskin::config {
+			usewinspecs {1}
 			addbuttons {1}
 			hidescroll {0}
 			hidemenu {1}
@@ -27,6 +28,7 @@ namespace eval ::winskin {
 		}
 
 		set ::winskin::configlist [list \
+			[list bool "Use the windows specific code" usewinspecs] \
 			[list bool "Add the buttons" addbuttons] \
 			[list bool "Make sure the scrollbar is always hidden" hidescroll] \
 			[list bool "Hide the menu bar" hidemenu] \
@@ -35,36 +37,13 @@ namespace eval ::winskin {
 			[list bool "Remove the extra space the start of each line (0.95b or later only)" removespace] \
 			[list bool "Remove the state (in brackets) at the end of each line (0.95b or later only)" removestates] \
 			[list bool "Start Skinned (on connection)" startskinned] \
-			[list bool "Always On Top" topmost] \
+			[list bool "Always On Top (only able to disable in windows)" topmost] \
 			[list str "Height of titlebar in pixels (should not need to be changed)" titleheight] \
 		]
 
 		::skin::setPixmap winskin_move move.gif
 		::skin::setPixmap winskin_remove remove.gif
 		::skin::setPixmap winskin_replace replace.gif
-	}
-
-	proc totalGeometry {{w .}} {
-		set geom [wm geometry $w]
-		regexp -- {([0-9]+)x([0-9]+)\+(-?[0-9]+)\+(-?[0-9]+)} $geom -> \
-				width height decorationLeft decorationTop
-		set contentsTop [winfo rooty $w]
-		set contentsLeft [winfo rootx $w]
-
-		# Measure left edge, and assume all edges except top are the
-		# same thickness
-		set decorationThickness [expr {$contentsLeft - $decorationLeft}]
-
-		# Find titlebar and menubar thickness
-		set menubarThickness [expr {$contentsTop - $decorationTop}]
-
-		incr width [expr {2 * $decorationThickness}]
-		incr height $decorationThickness
-		incr height $menubarThickness
-
-		return [list $width $height $decorationLeft $decorationTop]
-
-		return $menubarThickness
 	}
 
 	# ::winskin::switchskin
@@ -97,31 +76,64 @@ namespace eval ::winskin {
 			} else {
 				set menuheight 0
 			}
-			set width [expr {$width - (2 * $contentsleft)}]
+			set newwidth [expr {$width - (2 * $contentsleft)}]
 			#contentsleft for bottom
-			set height [expr {$height - $titleheight - $contentsleft}]
+			set newheight [expr {$height - $titleheight - $contentsleft}]
 			set wx [expr {$wx + $contentsleft}]
 			set wy [expr {$wy + $titleheight + $contentsleft}]
-			wm geometry . "${width}x${height}+${wx}+${wy}"
-			update idletasks
 
-			if { [catch { plugins_log winskin [WinRemoveTitle . $menuheight] } ] } {
-				load [file join $::winskin::dir winutils.dll]
-				plugins_log winskin [WinRemoveTitle . $menuheight]
+			if { $::winskin::config(usewinspecs) == 1 } {
+				wm geometry . "${newwidth}x${newheight}+${wx}+${wy}"
+				update idletasks
+
+				if { [catch { plugins_log winskin [WinRemoveTitle . $menuheight] } ] } {
+					#add catch incase someone tries to run on non windows platform
+					catch {
+						load [file join $::winskin::dir winutils.dll]
+						plugins_log winskin [WinRemoveTitle . $menuheight]
+					}
+				}
+			} else {
+				variable movedheight
+				set movedheight $menuheight
+				set wy [expr {$wy + $movedheight}]
+				wm geometry . "${width}x${height}+${wx}+${wy}"
+				update idletasks
+				wm state . withdrawn
+
+				wm overrideredirect . 1
+				if { $::winskin::config(hidemenu) == 1 } {
+					. conf -menu ""
+				}
+				wm state . normal
 			}
 
 			set skinned 1
 		} else {
-			WinReplaceTitle .
+			if { $::winskin::config(usewinspecs) == 1 } {
+				catch { WinReplaceTitle . }
+			} else {
+				wm state . withdrawn
+				wm overrideredirect . 0
+				update idletasks
+				. conf -menu .main_menu
+				wm state . normal
+			}
 			set skinned 0
 
 			update idletasks
 			scan [wm geometry .] "%dx%d+%d+%d" width height wx wy
-			set width [expr {$width + (2 * $contentsleft)}]
-			set height [expr {$height + $titleheight + $contentsleft}]
+			set newwidth [expr {$width + (2 * $contentsleft)}]
+			set newheight [expr {$height + $titleheight + $contentsleft}]
 			set wx [expr {$wx - $contentsleft}]
 			set wy [expr {$wy - $titleheight - $contentsleft}]
-			wm geometry . "${width}x${height}+${wx}+${wy}"
+			if { $::winskin::config(usewinspecs) == 1 } {
+				wm geometry . "${newwidth}x${newheight}+${wx}+${wy}"
+			} else {
+				variable movedheight
+				set wy [expr {$wy - $movedheight}]
+				wm geometry . "${width}x${height}+${wx}+${wy}"
+			}
 
 			#Some verions of tk don't support this
 			#Remove topmost
@@ -301,7 +313,7 @@ namespace eval ::winskin {
 		set winxpos $wx
 
 		#if skinned need to take borederwidth into account
-		if { $skinned == 1 } {
+		if { ($skinned == 1) && ($::winskin::config(usewinspecs) == 1)} {
 			#set width [expr {$width - (2 * ([winfo rootx .] - ($wx)))}]
 			set width [expr {$width - (2 * $contentsleft)}]
 		}
@@ -311,9 +323,11 @@ namespace eval ::winskin {
 		variable dset
 		set dset 0
 
-		rename ::cmsn_draw_online ""
-		rename xxxxx ::cmsn_draw_online
-		cmsn_draw_online
+		if { [info procs xxxxx] != ""} {
+			rename ::cmsn_draw_online ""
+			rename xxxxx ::cmsn_draw_online
+			cmsn_draw_online
+		}
 	}
 
 	proc drag { } {
@@ -351,19 +365,25 @@ namespace eval ::winskin {
 			set wy [expr {$dy + $y}]
 			wm geometry . "${newwidth}x${newheight}+${winxpos}+${wy}"
 
-			if { $skinned == 1 } {
-				variable contentsleft
+			if { $::winskin::config(usewinspecs) == 1 } {
+				if { $skinned == 1 } {
+					variable contentsleft
 
-				update idletasks
-				set titlemenuheight [expr {[winfo rooty .] - ($wy)}]
-				if { $::winskin::config(hidemenu) == 1 } {
-					set menuheight [expr {$titlemenuheight}]
-				} else {
-					set menuheight 0
-				}
-				if { [catch { plugins_log winskin [WinRemoveTitle . $menuheight] } ] } {
-					load [file join $::winskin::dir winutils.dll]
-					plugins_log winskin [WinRemoveTitle . $menuheight]
+					update idletasks
+					set titlemenuheight [expr {[winfo rooty .] - ($wy)}]
+					if { $::winskin::config(hidemenu) == 1 } {
+						set menuheight [expr {$titlemenuheight}]
+					} else {
+						set menuheight 0
+					}
+
+					if { [catch { plugins_log winskin [WinRemoveTitle . $menuheight] } ] } {
+						#add catch incase someone tries to run on non windows platform
+						catch {
+							load [file join $::winskin::dir winutils.dll]
+							plugins_log winskin [WinRemoveTitle . $menuheight]
+						}
+					}
 				}
 			}
 		}
