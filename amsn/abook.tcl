@@ -402,11 +402,14 @@ namespace eval ::abook {
 		} else {
 			set nick [::abook::getNick $user_login]
 			set customnick [::abook::getContactData $user_login customnick]
+			set globalnick [::config::getKey globalnick]
+
 			if { $globalnick != "" } {
 				#By default, quote backslashes and variables
 				set globalnick [string map {"\\" "\\\\" "\$" "\\\$"} $globalnick]
 				#Now, let's unquote the variables we want to replace
-				set globalnick [string map {"\\\$nick" "\$nick" "\\\$user_login" "\$user_login" "\\\$customnick" "\$customnick"} $globalnick] 				#Return the custom nick, replacing backslashses and variables
+				set globalnick [string map {"\\\$nick" "\$nick" "\\\$user_login" "\$user_login" "\\\$customnick" "\$customnick"} $globalnick]
+				#Return the custom nick, replacing backslashses and variables
 				return [subst -nocommands $globalnick]
 			} elseif { $customnick != "" && $globalnick == "" } {
 				#By default, quote backslashes and variables
