@@ -523,7 +523,7 @@ proc stringmap { substitution str } {
 create_dir $HOME
 create_dir $HOME/plugins
 #create_dir $log_dir
-create_dir $files_dir
+#create_dir $files_dir
 ConfigDefaults
 
 set config(language) en  ;#Load english as default language to fill trans array
@@ -566,6 +566,8 @@ if { $config(receiveddir) != "" } {
    set res [create_dir $config(receiveddir)]
    if { $res >= 0} {
       set files_dir $config(receiveddir)
+   } else {
+      create_dir $files_dir
    }
 }
 

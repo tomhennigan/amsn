@@ -253,6 +253,7 @@ namespace eval ::amsn {
       global config
 
       set filename [ $w.top.fields.file get ]
+            
 
       if {$config(autoftip) == 0 } {
         set config(myip) [ $w.top.fields.ip get ]
@@ -264,94 +265,417 @@ namespace eval ::amsn {
 
       destroy $w
 
-      #Calculate a random cookie
-      set cookie [expr {[clock clicks]  % (65536 * 8)}]
-
-      status_log "Random generated cookie: $cookie\n"
+      if { [catch {set filesize [file size $filename]} res]} {
+	::amsn::errorMsg "[trans filedoesnotexist]"
+	#::amsn::fileTransferProgress c $cookie -1 -1
+	return 1
+      }
       
-      ::amsn::SendWin [file tail $filename] $cookie
+            
+      set chatid [ChatFor $win_name]
+      if { $chatid == 0} {
+         return
+      }
+      #TODO: Check that window is not closed
+
+      #Calculate a random cookie
+      set cookie [expr {([clock clicks]) % (65536 * 8)}]            
+
+      set txt "[trans ftsendinvitation [::MSN::usersInChat $chatid] $filename 6969]"
+      
+      status_log "Random generated cookie: $cookie\n"            
+      WinWrite $chatid "----------\n" gray     
+      WinWriteIcon $chatid fticon 3 2 
+      WinWrite $chatid $txt gray
+      WinWrite $chatid " - (" gray
+      #WinWriteClickable $chatid "[trans yes]" \
+      #  "::amsn::SendFTInvitation $chatid [list $filename] $filesize $ipaddr $cookie" ftyes$cookie
+      #WinWrite $chatid " / " gray
+      WinWriteClickable $chatid "[trans cancel]" \
+        "::amsn::CancelFTInvitation $chatid $cookie" ftno$cookie
+      WinWrite $chatid ")\n" gray 
+      WinWrite $chatid "----------\n" gray
+          
+      
+      #::amsn::SendWin [file tail $filename] $cookie
       #TODO: We should get the chatid just at the beginning, and then go passing it as an argument,
       # so the file transfer won't give an error if the window is closed before clicking OK
-      status_log "sending FT invitation to chatid [ChatFor $win_name] (win_name is $win_name)\n"
-      ::MSN::inviteFT [ChatFor $win_name] $filename $cookie $ipaddr
+      #status_log "sending FT invitation to chatid [ChatFor $win_name] (win_name is $win_name)\n"
+      #::MSN::inviteFT [ChatFor $win_name] $filename $cookie $ipaddr
 
+      ::MSNFT::sendFTInvitation $chatid $filename $filesize $ipaddr $cookie      
+      
       return 0
    }
-
-   #Dialog shown when receiving a file
-   proc fileTransferRecv {filename filesize cookie chatid fromlogin fromname} {
-      global files_dir config
-
-      #Newer version
+   
+   proc SendFTInvitation { chatid filename filesize ipaddr cookie } {
+   
+      #::MSNFT::acceptFT $chatid $cookie
 
       set win_name [WindowFor $chatid]
-
-      if { $win_name == 0 } {
-
-         set win_name [OpenChatWindow]
-	  SetWindowFor $chatid $win_name
-         status_log "NEW - Window doesn't exists in fileTransferRecv, created window named [WindowFor $chatid]\n"
-	  WinTopUpdate $chatid
-
+      if { [WindowFor $chatid] == 0} {
+         return 0
       }
-
-     ${win_name}.f.out.text configure -state normal -font bplainf -foreground black
-
-
+      
      ${win_name}.f.out.text tag configure ftyes$cookie \
-       -foreground #000080 -background white -font bboldf -underline false
-     ${win_name}.f.out.text tag bind ftyes$cookie <Enter> \
-       "${win_name}.f.out.text tag conf ftyes$cookie -underline true;\
-       ${win_name}.f.out.text conf -cursor hand2"
-     ${win_name}.f.out.text tag bind ftyes$cookie <Leave> \
-       "${win_name}.f.out.text tag conf ftyes$cookie -underline false;\
-       ${win_name}.f.out.text conf -cursor left_ptr"
-     ${win_name}.f.out.text tag bind ftyes$cookie <Button1-ButtonRelease> \
-       "::amsn::AcceptedFT $chatid $cookie; ::amsn::RecvWin {$filename} $cookie; ::MSN::acceptFT $chatid {$filename} $filesize $cookie"
+       -foreground #808080 -background white -font bplainf -underline false
+     ${win_name}.f.out.text tag bind ftyes$cookie <Enter> ""
+     ${win_name}.f.out.text tag bind ftyes$cookie <Leave> ""
+     ${win_name}.f.out.text tag bind ftyes$cookie <Button1-ButtonRelease> ""
+
 
      ${win_name}.f.out.text tag configure ftno$cookie \
-       -foreground #000080 -background white -font bboldf -underline false
-     ${win_name}.f.out.text tag bind ftno$cookie <Enter> \
-       "${win_name}.f.out.text tag conf ftno$cookie -underline true;\
-       ${win_name}.f.out.text conf -cursor hand2"
-     ${win_name}.f.out.text tag bind ftno$cookie <Leave> \
-       "${win_name}.f.out.text tag conf ftno$cookie -underline false;\
-       ${win_name}.f.out.text conf -cursor left_ptr"
-     ${win_name}.f.out.text tag bind ftno$cookie <Button1-ButtonRelease> \
-       "::amsn::RejectedFT $chatid $cookie; ::MSN::rejectFT $chatid $cookie"
+       -foreground #808080 -background white -font bplainf -underline false
+     ${win_name}.f.out.text tag bind ftno$cookie <Enter> ""
+     ${win_name}.f.out.text tag bind ftno$cookie <Leave> ""
+     ${win_name}.f.out.text tag bind ftno$cookie <Button1-ButtonRelease> ""
 
-     set txt [trans acceptfile '$filename' $filesize $files_dir]
+     ${win_name}.f.out.text conf -cursor left_ptr
 
-     #TODO: Use Winwrite, os similar, instead of doing it directly
-     ${win_name}.f.out.text insert end "----------\n" gray
-     ${win_name}.f.out.text image create end -image fticon -pady 2 -padx 3
-     ${win_name}.f.out.text insert end "[timestamp] $fromname: $txt" gray
-     ${win_name}.f.out.text insert end " - (" gray
-     ${win_name}.f.out.text insert end "[trans accept]" ftyes$cookie
-     ${win_name}.f.out.text insert end " / " gray
-     ${win_name}.f.out.text insert end "[trans reject]" ftno$cookie
-     ${win_name}.f.out.text insert end " )\n" gray
-     ${win_name}.f.out.text insert end "----------\n" gray
-     ${win_name}.f.out.text yview moveto 1.0
-     ${win_name}.f.out.text configure -state disabled
-     WinFlicker $chatid
+     set txt [trans invitationsent [::MSN::usersInChat $chatid]]
 
-      if { "[wm state ${win_name}]" == "withdrawn" } {
-        wm state ${win_name} iconic
-	if { $config(notifymsg) == 1 } {
-		::amsn::notifyAdd "[trans says $fromname]:\n$txt" \
-		"::amsn::chatUser $chatid"
-	}
-	   #"wm state ${win_name} normal"
+     WinWrite $chatid "----------\n" gray
+     WinWriteIcon $chatid fticon 3 2 
+     WinWrite $chatid " $txt\n" gray
+     WinWrite $chatid "----------\n" gray
+     
+     ::MSNFT::sendFTInvitation $chatid $filename $filesize $ipaddr $cookie
+     
+
+   }
+   
+
+   proc CancelFTInvitation { chatid cookie } {
+   
+      #::MSNFT::acceptFT $chatid $cookie
+
+      set win_name [WindowFor $chatid]
+      if { [WindowFor $chatid] == 0} {
+         return 0
       }
+      
+     #${win_name}.f.out.text tag configure ftyes$cookie \
+     #  -foreground #808080 -background white -font bplainf -underline false
+     #${win_name}.f.out.text tag bind ftyes$cookie <Enter> ""
+     #${win_name}.f.out.text tag bind ftyes$cookie <Leave> ""
+     #${win_name}.f.out.text tag bind ftyes$cookie <Button1-ButtonRelease> ""
 
-      if { [string first ${win_name} [focus]] != 0 } {
-        play_sound type
+     ::MSNFT::cancelFTInvitation $chatid $cookie
+
+     ${win_name}.f.out.text tag configure ftno$cookie \
+       -foreground #808080 -background white -font bplainf -underline false
+     ${win_name}.f.out.text tag bind ftno$cookie <Enter> ""
+     ${win_name}.f.out.text tag bind ftno$cookie <Leave> ""
+     ${win_name}.f.out.text tag bind ftno$cookie <Button1-ButtonRelease> ""
+
+     ${win_name}.f.out.text conf -cursor left_ptr
+
+     set txt [trans invitationcancelled]
+
+     WinWrite $chatid "----------\n" gray
+     WinWriteIcon $chatid ftreject 3 2 
+     WinWrite $chatid " $txt\n" gray
+     WinWrite $chatid "----------\n" gray
+     
+     
+
+   }   
+
+   proc acceptedFT { chatid who filename } {
+   
+     set txt [trans ftacceptedby $who $filename]
+     WinWrite $chatid "----------\n" gray
+     WinWriteIcon $chatid fticon 3 2 
+     WinWrite $chatid " $txt\n" gray
+     WinWrite $chatid "----------\n" gray
+     
+   }   
+   
+   proc rejectedFT { chatid who filename } {
+   
+     set txt [trans ftrejectedby $who $filename]
+     WinWrite $chatid "----------\n" gray
+     WinWriteIcon $chatid ftreject 3 2 
+     WinWrite $chatid " $txt\n" gray
+     WinWrite $chatid "----------\n" gray
+     
+   }
+      
+   #Message shown when receiving a file
+   proc fileTransferRecv {filename filesize cookie chatid fromlogin} {
+      global files_dir config
+
+      set fromname [lindex [::MSN::getUserInfo $fromlogin] 1]
+      set txt [trans ftgotinvitation $fromname '$filename' $filesize $files_dir]      
+      
+      set win_name [MakeWindowFor $chatid $fromlogin $txt]
+      
+      
+     WinWrite $chatid "----------\n" gray     
+     WinWriteIcon $chatid fticon 3 2 
+     WinWrite $chatid $txt gray
+     WinWrite $chatid " - (" gray
+     WinWriteClickable $chatid "[trans accept]" \
+       "::amsn::AcceptFT $chatid $cookie" ftyes$cookie
+     WinWrite $chatid " / " gray
+     WinWriteClickable $chatid "[trans reject]" \
+       "::amsn::RejectFT $chatid $cookie" ftno$cookie
+     WinWrite $chatid ")\n" gray 
+     WinWrite $chatid "----------\n" gray
+     
+   }
+
+
+   proc AcceptFT { chatid cookie } {
+   
+      #::amsn::RecvWin $cookie
+      ::MSNFT::acceptFT $chatid $cookie
+
+      set win_name [WindowFor $chatid]
+      if { [WindowFor $chatid] == 0} {
+         return 0
       }
+      
+     ${win_name}.f.out.text tag configure ftyes$cookie \
+       -foreground #808080 -background white -font bplainf -underline false
+     ${win_name}.f.out.text tag bind ftyes$cookie <Enter> ""
+     ${win_name}.f.out.text tag bind ftyes$cookie <Leave> ""
+     ${win_name}.f.out.text tag bind ftyes$cookie <Button1-ButtonRelease> ""
 
+
+     ${win_name}.f.out.text tag configure ftno$cookie \
+       -foreground #808080 -background white -font bplainf -underline false
+     ${win_name}.f.out.text tag bind ftno$cookie <Enter> ""
+     ${win_name}.f.out.text tag bind ftno$cookie <Leave> ""
+     ${win_name}.f.out.text tag bind ftno$cookie <Button1-ButtonRelease> ""
+
+     ${win_name}.f.out.text conf -cursor left_ptr
+
+     set txt [trans ftaccepted]
+
+     WinWrite $chatid "----------\n" gray
+     WinWriteIcon $chatid fticon 3 2 
+     WinWrite $chatid " $txt\n" gray
+     WinWrite $chatid "----------\n" gray
+     
 
    }
 
+   proc RejectFT {chatid cookie} {
+
+      ::MSNFT::rejectFT $chatid $cookie
+   
+      set win_name [WindowFor $chatid]
+      if { [WindowFor $chatid] == 0} {
+         return 0
+      }
+      
+     ${win_name}.f.out.text tag configure ftyes$cookie \
+       -foreground #808080 -background white -font bplainf -underline false
+     ${win_name}.f.out.text tag bind ftyes$cookie <Enter> ""
+     ${win_name}.f.out.text tag bind ftyes$cookie <Leave> ""
+     ${win_name}.f.out.text tag bind ftyes$cookie <Button1-ButtonRelease> ""
+
+     ${win_name}.f.out.text tag configure ftno$cookie \
+       -foreground #808080 -background white -font bplainf -underline false
+     ${win_name}.f.out.text tag bind ftno$cookie <Enter> ""
+     ${win_name}.f.out.text tag bind ftno$cookie <Leave> ""
+     ${win_name}.f.out.text tag bind ftno$cookie <Button1-ButtonRelease> ""
+
+     ${win_name}.f.out.text conf -cursor left_ptr
+
+     set txt [trans ftrejected]
+     
+     WinWrite $chatid  "----------\n" gray
+     WinWriteIcon $chatid ftreject 3 2
+     WinWrite $chatid "$txt\n" gray
+     WinWrite $chatid "----------\n" gray
+
+   }
+
+   #PRIVATE: Opens Sending Window
+   proc SendWin {filename cookie} {
+      status_log "Creating send progress window\n"
+      set w .ft$cookie
+      toplevel $w
+      wm group $w .
+      wm title $w "[trans sendfile] $filename"
+      wm geometry $w 300x100
+
+      label $w.file -text "$filename"
+      pack $w.file -side top
+      label $w.progress -text "Waiting for file transfer to start"
+      pack $w.progress -side top
+      
+      button $w.close -text "[trans cancel]" -command "::MSN::cancelSending $cookie"
+      pack $w.close -side bottom
+      
+      pack [::dkfprogress::Progress $w.prbar] -fill x -expand 1 -padx 5 -pady 5
+
+
+      wm protocol $w WM_DELETE_WINDOW "::MSN::cancelSending $cookie"
+   }
+
+   #PRIVATE: Opens Receiving Window
+   proc FTWin {cookie filename user} {
+      global bgcolor
+   
+     status_log "Creating receive progress window\n"
+      set w .ft$cookie
+      toplevel $w
+      wm group $w .      
+      wm geometry $w 320x130
+
+      #frame $w.f -class amsnChatFrame -background $bgcolor -borderwidth 0 -relief flat      
+      #set w $ww.f
+      
+      label $w.user -text "[trans user]: $user" -font splainf
+      pack $w.user -side top -anchor w
+      label $w.file -text "[trans filename]: $filename" -font splainf
+      pack $w.file -side top -anchor w
+      
+      pack [::dkfprogress::Progress $w.prbar] -fill x -expand 0 -padx 5 -pady 5 -side top
+      
+      label $w.progress -text "" -font splainf
+      pack $w.progress -side top
+                
+      button $w.close -text "[trans cancel]" -command "::MSNFT::cancelFT $cookie" -font sboldf
+      pack $w.close -side bottom -pady 5
+                        
+      wm title $w "$filename - [trans receivefile]"
+      wm protocol $w WM_DELETE_WINDOW "::MSNFT::cancelFT $cookie"
+   }
+
+
+  
+   #Updates filetransfer progress window/baar
+   #fileTransferProgress mode cookie filename bytes filesize
+   # mode: a=Accepting invitation
+   #       c=Connecting
+   #       w=Waiting for connection
+   #       e=Connect error
+   #       i=Identifying/negotiating
+   #       l=Connection lost
+   #       ca=Cancel
+   #       s=Sending
+   #       r=Receiving
+   #       fr=finish receiving
+   #       fs=finish sending
+   # cookie: ID for the filetransfer
+   # bytes: bytes sent/received (-1 if cancelling)
+   # filesize: total bytes in the file
+   proc FTProgress {mode cookie filename {bytes 0} {filesize 1000}} {
+      # -1 in bytes to transfer cancelled
+      # bytes >= filesize for connection finished
+      set w .ft$cookie
+
+      if { ([winfo exists $w] == 0) && ($mode != "ca")} {
+        FTWin $cookie [::MSNFT::getFilename $cookie] [::MSNFT::getUsername $cookie]        
+      }
+      
+      if {[winfo exists $w] == 0} {
+         return
+      }
+      
+      
+      switch $mode {
+         a {
+            $w.progress configure -text "[trans ftaccepting]..."
+	    set bytes 0
+	    set filesize 1000
+	 }
+         c {
+            $w.progress configure -text "[trans ftconnecting $bytes $filesize]..."
+	    set bytes 0
+	    set filesize 1000
+	 }
+         w {
+            $w.progress configure -text "[trans listeningon $bytes]..."
+	    set bytes 0
+	    set filesize 1000
+	 }
+         e {
+            $w.progress configure -text "[trans ftconnecterror]"
+	    $w.close configure -text "[trans close]" -command "destroy $w"
+            wm protocol $w WM_DELETE_WINDOW "destroy $w"
+	 }
+         i {
+            #$w.progress configure -text "[trans ftconnecting]"
+	 }	 
+         l {
+            $w.progress configure -text "[trans ftconnectionlost]"
+	    $w.close configure -text "[trans close]" -command "destroy $w"
+            wm protocol $w WM_DELETE_WINDOW "destroy $w"
+	 }	
+         r {
+            $w.progress configure -text "[trans receivedbytes $bytes $filesize]"
+	 }	
+         s {
+            $w.progress configure -text "[trans sentbytes $bytes $filesize]"
+	 }	
+         ca {
+            $w.progress configure -text "[trans filetransfercancelled]"
+	    $w.close configure -text "[trans close]" -command "destroy $w"
+            wm protocol $w WM_DELETE_WINDOW "destroy $w"
+	 }	
+	 fs -
+         fr {
+            ::dkfprogress::SetProgress $w.prbar 100
+            $w.progress configure -text "[trans filetransfercomplete]"
+	    $w.close configure -text "[trans close]" -command "destroy $w"
+            wm protocol $w WM_DELETE_WINDOW "destroy $w"
+	    set bytes 1024
+	    set filesize 1024
+	 }	
+      }
+      
+      set bytes2 [expr {int($bytes/1024)}]
+      set filesize2 [expr {int($filesize/1024)}]
+      if { $filesize2 != 0 } {
+        set percent [expr {int(($bytes2*100)/$filesize2)}]
+      } else {
+        set percent 0
+      }
+      
+      ::dkfprogress::SetProgress $w.prbar $percent
+
+
+      return
+      
+      if { $mode == "p" } {
+       $w.progress configure -text "[trans listeningon $bytes]"
+	 return
+      } 
+      
+      
+
+      
+      if { $bytes <0 } {
+	 $w.progress configure -text "[trans filetransfercancelled]"
+      } elseif { $bytes >= $filesize } {
+	 ::dkfprogress::SetProgress $w.prbar 100
+	 $w.progress configure -text "[trans filetransfercomplete]"
+      }
+
+      set bytes2 [expr {$bytes/1024}]
+      set filesize2 [expr {$filesize/1024}]
+      if { $filesize2 != 0 } {
+        set percent [expr {($bytes2*100)/$filesize2}]
+      } else {
+        set percent 100
+      }
+
+      if { ($bytes >= $filesize) || ($bytes<0)} {
+	 $w.close configure -text "[trans close]" -command "destroy $w"
+         wm protocol $w WM_DELETE_WINDOW "destroy $w"
+      } elseif { $mode == "r" } {
+	 $w.progress configure -text "[trans receivedbytes $bytes2 [list $filesize2 Kb]]"
+	 ::dkfprogress::SetProgress $w.prbar $percent
+      } else {
+	 $w.progress configure -text "[trans sentbytes $bytes2 [list $filesize2 Kb]]"
+	 ::dkfprogress::SetProgress $w.prbar $percent
+      }
+   }
 
 
    #///////////////////////////////////////////////////////////////////////////////
@@ -424,19 +748,10 @@ namespace eval ::amsn {
    # The procedure will open a window if it does not exists, add a notifyWindow and
    # play a sound if it's necessary
    proc messageFrom { chatid user msg type {fontformat ""} } {
-   	global config remote_auth
-      variable first_message
+      global remote_auth
 
-      set win_name [WindowFor $chatid]
-
-      if { $win_name == 0 } {
-
-         set win_name [OpenChatWindow]
-	  SetWindowFor $chatid $win_name
-	  WinTopUpdate $chatid
-
-      }
-
+      set win_name [MakeWindowFor $chatid $user $msg]
+       
        if { $remote_auth == 1 } {
 	   if { "$user" == "$config(login)" } {
 	       write_remote "To $chatid : $msg" msgsent
@@ -444,9 +759,30 @@ namespace eval ::amsn {
 	       write_remote "From $user : $msg" msgrcv
 	   }
        } 
-       
 
-       PutMessage $chatid $user $msg $type $fontformat
+      PutMessage $chatid $user $msg $type $fontformat
+      
+            
+   }
+   #///////////////////////////////////////////////////////////////////////////////
+
+
+   #Opens a window if it did not existed, and if it's first message it
+   #adds msg to notify, and plays sound if enabled
+   proc MakeWindowFor { chatid user msg } {
+   
+      global config
+      variable first_message 
+      
+      set win_name [WindowFor $chatid]
+   
+      if { $win_name == 0 } {
+
+          set win_name [OpenChatWindow]
+	  SetWindowFor $chatid $win_name
+	  WinTopUpdate $chatid
+
+      }       
 
       #If window is withdran (Created but not visible) show notify, and change
       #the window state
@@ -467,18 +803,14 @@ namespace eval ::amsn {
          if { $config(newmsgwinstate) == 0 } {
 	    wm deiconify ${win_name}
             raise ${win_name}
-         } else {
-            #wm iconify ${win_name}
-         }
+         } 
       
          play_sound type
 	 
       }
       
+      return $win_name
    }
-   #///////////////////////////////////////////////////////////////////////////////
-
-
 
    #///////////////////////////////////////////////////////////////////////////////
    # WinTopUpdate { chatid }
@@ -1337,31 +1669,26 @@ namespace eval ::amsn {
    #///////////////////////////////////////////////////////////////////////////////
    # PutMessage (chatid,user,msg,type,fontformat)
    # Writes a message into the window related to 'chatid'
-   # - 'user' is the user login. If 'user'=="msg" then the message is taken as a
-   #   system or information message, and "XXXX says:" won't be added at the beginning.
+   # - 'user' is the user login. 
    # - 'msg' is the message itself to be displayed.
    # - 'type' can be red, gray... or any tag defined for the textbox when the windo
    #   was created, or just "user" to use the fontformat parameter
    # - 'fontformat' is a list containing font style and color
    proc PutMessage { chatid user msg type fontformat } {
 
-	global config
-	if { "$user" != "msg" } {
-		WinWrite $chatid "[timestamp] [trans says [lindex [::MSN::getUserInfo $user] 1]]:\n" gray
-	}
-
-
-	WinWrite $chatid "$msg\n" $type [lindex $fontformat 0] [lindex $fontformat 1] [lindex $fontformat 2]
-	WinFlicker $chatid
-
-	if {$config(keep_logs)} {
-		::log::PutLog $chatid $user $msg
-	}
+      global config
+	
+      WinWrite $chatid "[timestamp] [trans says [lindex [::MSN::getUserInfo $user] 1]]:\n" gray
+      WinWrite $chatid "$msg\n" $type $fontformat
+	   
+      if {$config(keep_logs)} {
+         ::log::PutLog $chatid $user $msg
+      }
 
    }
    #///////////////////////////////////////////////////////////////////////////////
 
-
+  
 
    #///////////////////////////////////////////////////////////////////////////////
    # chatStatus (chatid,msg,[icon])
@@ -1404,7 +1731,6 @@ namespace eval ::amsn {
       ${win_name}.status insert end $msg
       ${win_name}.status configure -state disabled
 
-      #TODO: Should change the size of the top text to fit the users names
    }
    #///////////////////////////////////////////////////////////////////////////////
 
@@ -1420,14 +1746,14 @@ namespace eval ::amsn {
 
       variable window_titles
 
+      after cancel ::amsn::WinFlicker $chatid 0
+      after cancel ::amsn::WinFlicker $chatid 1      
+      
       if { [WindowFor $chatid] != 0} {
          set win_name [WindowFor $chatid]
       } else {
          return 0
       }
-
-      after cancel ::amsn::WinFlicker $chatid 0
-      after cancel ::amsn::WinFlicker $chatid 1
 
       if { [string first $win_name [focus]] != 0 } {
 
@@ -1497,47 +1823,55 @@ namespace eval ::amsn {
    set urlstarts { "http://" "https://" "ftp://" "www." }
 
    #///////////////////////////////////////////////////////////////////////////////
-   # WinWrite (chatid,txt,[colour],[fontname,fontstyle,fontcolor])
+   # WinWrite (chatid,txt,tagid,[format])
    # Writes 'txt' into the window related to 'chatid'
-   # It will use 'colour' as style tag, unles 'colour'=="user", where it will use
-   # 'fontname', 'fontstyle' and 'fontcolor' as text parameters.
-   proc WinWrite {chatid txt {colour ""} {fontname ""} {fontstyle ""} {fontcolor ""}} {
+   # It will use 'tagname' as style tag, unles 'tagname'=="user", where it will use
+   # 'fontname', 'fontstyle' and 'fontcolor' as from fontformat
+   proc WinWrite {chatid txt tagname {fontformat ""} } {
+   
       global emotions config
-
-      variable urlcount
-      variable urlstarts
 
       set win_name [WindowFor $chatid]
 
       if { [WindowFor $chatid] == 0} {
          return 0
       }
+      
+      set fontname [lindex $fontformat 0]
+      set fontstyle [lindex $fontformat 1]      
+      set fontcolor [lindex $fontformat 2]
 
       ${win_name}.f.out.text configure -state normal -font bplainf -foreground black
-
 
       set text_start [${win_name}.f.out.text index end]
       set posyx [split $text_start "."]
       set text_start "[expr {[lindex $posyx 0]-1}].[lindex $posyx 1]"
 
-      set tagid $colour
-
-      if { $colour == "user" || $colour == "yours" } {
+      #By default tagid=tagname unless we generate a new one
+      set tagid $tagname
+      
+      if { $tagid == "user" || $tagid == "yours" } {
+      
          set size [expr {[lindex $config(basefont) 1]+$config(textsize)}]
          set font "\"$fontname\" $size $fontstyle"
 
          set tagid [::md5::md5 "$font$fontcolor"]
 
-         if {[catch {${win_name}.f.out.text tag configure $tagid -foreground #$fontcolor -font $font} res] || [string length $fontname] <3} {
+         if { ([string length $fontname] < 3 )
+	      || ([catch {${win_name}.f.out.text tag configure $tagid -foreground #$fontcolor -font $font} res])} {
             status_log "Font $font or color $fontcolor wrong. Using default\n" red
             ${win_name}.f.out.text tag configure $tagid -foreground black -font bplainf
          }
       }
 
       ${win_name}.f.out.text insert end "$txt" $tagid
-
+      
+      
       
       #TODO: Make an url_subst procedure, and improve this using regular expressions
+      variable urlcount
+      variable urlstarts
+
       set endpos $text_start
       
       foreach url $urlstarts {
@@ -1588,176 +1922,54 @@ namespace eval ::amsn {
 
       ${win_name}.f.out.text yview moveto 1.0
       ${win_name}.f.out.text configure -state disabled
+      
+      WinFlicker $chatid
 
    }
    #///////////////////////////////////////////////////////////////////////////////
 
-
-
-   proc AcceptedFT { chatid cookie } {
-   
-
+   proc WinWriteIcon { chatid imagename {padx 0} {pady 0}} {
+      
       set win_name [WindowFor $chatid]
 
-     ${win_name}.f.out.text configure -state normal -font bplainf -foreground black
-
-
-     ${win_name}.f.out.text tag configure ftyes$cookie \
-       -foreground #808080 -background white -font bplainf -underline false
-     ${win_name}.f.out.text tag bind ftyes$cookie <Enter> ""
-     ${win_name}.f.out.text tag bind ftyes$cookie <Leave> ""
-     ${win_name}.f.out.text tag bind ftyes$cookie <Button1-ButtonRelease> ""
-
-
-     ${win_name}.f.out.text tag configure ftno$cookie \
-       -foreground #808080 -background white -font bplainf -underline false
-     ${win_name}.f.out.text tag bind ftno$cookie <Enter> ""
-     ${win_name}.f.out.text tag bind ftno$cookie <Leave> ""
-     ${win_name}.f.out.text tag bind ftno$cookie <Button1-ButtonRelease> ""
-
-     ${win_name}.f.out.text conf -cursor left_ptr
-
-     set txt [trans ftaccepted]
-
-     #TODO: Use WinWrite or similar
-     ${win_name}.f.out.text insert end "----------\n" gray
-     ${win_name}.f.out.text image create end -image fticon -pady 2 -padx 3
-     ${win_name}.f.out.text insert end " $txt\n" gray
-     ${win_name}.f.out.text insert end "----------\n" gray
-
-     ${win_name}.f.out.text yview moveto 1.0
-     ${win_name}.f.out.text configure -state disabled
+      if { [WindowFor $chatid] == 0} {
+         return 0
+      }
+      
+      ${win_name}.f.out.text configure -state normal
+      ${win_name}.f.out.text image create end -image $imagename -pady $pady -padx $pady
+      ${win_name}.f.out.text configure -state disabled
    }
 
-   proc RejectedFT {chatid cookie} {
-
+   proc WinWriteClickable { chatid txt command {tagid ""}} {
+      
       set win_name [WindowFor $chatid]
 
-     #TODO: Use WinWrite or similar (when possible)
-     # Improve WinWrite to support tags, clickable text, and so on
-     ${win_name}.f.out.text configure -state normal -font bplainf -foreground black
-
-
-     ${win_name}.f.out.text tag configure ftyes$cookie \
-       -foreground #808080 -background white -font bplainf -underline false
-     ${win_name}.f.out.text tag bind ftyes$cookie <Enter> ""
-     ${win_name}.f.out.text tag bind ftyes$cookie <Leave> ""
-     ${win_name}.f.out.text tag bind ftyes$cookie <Button1-ButtonRelease> ""
-
-     ${win_name}.f.out.text tag configure ftno$cookie \
-       -foreground #808080 -background white -font bplainf -underline false
-     ${win_name}.f.out.text tag bind ftno$cookie <Enter> ""
-     ${win_name}.f.out.text tag bind ftno$cookie <Leave> ""
-     ${win_name}.f.out.text tag bind ftno$cookie <Button1-ButtonRelease> ""
-
-     ${win_name}.f.out.text conf -cursor left_ptr
-
-     set txt [trans ftrejected]
-
-     ${win_name}.f.out.text insert end "----------\n" gray
-     ${win_name}.f.out.text image create end -image ftreject -pady 2 -padx 3
-     ${win_name}.f.out.text insert end "$txt\n" gray
-     ${win_name}.f.out.text insert end "----------\n" gray
-
-     ${win_name}.f.out.text yview moveto 1.0
-     ${win_name}.f.out.text configure -state disabled
-   }
-
-   #PRIVATE: Opens Sending Window
-   proc SendWin {filename cookie} {
-      status_log "Creating send progress window\n"
-      set w .ft$cookie
-      toplevel $w
-      wm group $w .
-      wm title $w "[trans sendfile] $filename"
-      wm geometry $w 300x100
-
-      label $w.file -text "$filename"
-      pack $w.file -side top
-      label $w.progress -text "Waiting for file transfer to start"
-      pack $w.progress -side top
-      
-      button $w.close -text "[trans cancel]" -command "::MSN::cancelSending $cookie"
-      pack $w.close -side bottom
-      
-      pack [::dkfprogress::Progress $w.prbar] -fill x -expand 1 -padx 5 -pady 5
-
-
-      wm protocol $w WM_DELETE_WINDOW "::MSN::cancelSending $cookie"
-   }
-
-   #PRIVATE: Opens Receiving Window
-   proc RecvWin {filename cookie} {
-     status_log "Creating receive progress window\n"
-      set w .ft$cookie
-      toplevel $w
-      wm group $w .      
-      wm title $w "[trans receivefile] $filename"
-      wm geometry $w 300x100
-
-      label $w.file -text "$filename"
-      pack $w.file -side top
-      label $w.progress -text "Waiting for file transfer to start"
-      pack $w.progress -side top
-      
-      button $w.close -text "[trans cancel]" -command "::MSN::cancelReceiving $cookie"
-      pack $w.close -side bottom
-
-      pack [::dkfprogress::Progress $w.prbar] -fill x -expand 1 -padx 5 -pady 5
-      
-      wm protocol $w WM_DELETE_WINDOW "::MSN::cancelReceiving $cookie"
-   }
-
-
-   #Updates filetransfer progress window/baar
-   #fileTransferProgress mode cookie bytes filesize
-   # mode: c=Cancel
-   #       s=Sending
-   #       r=Receiving
-   # cookie: ID for the filetransfer
-   # bytes: bytes sent/received (-1 if cancelling)
-   # filesize: total bytes in the file
-   proc fileTransferProgress {mode cookie bytes filesize} {
-      # -1 in bytes to transfer cancelled
-      # bytes >= filesize for connection finished
-      set w .ft$cookie
-
-      if { [winfo exists $w] == 0} {
-        return
+      if { [WindowFor $chatid] == 0} {
+         return 0
       }
-
-      if { $mode == "p" } {
-	 $w.progress configure -text "[trans listeningon $bytes]"
-	 return
-      } 
-
       
-      if { $bytes <0 } {
-	 $w.progress configure -text "[trans filetransfercancelled]"
-      } elseif { $bytes >= $filesize } {
-	 ::dkfprogress::SetProgress $w.prbar 100
-	 $w.progress configure -text "[trans filetransfercomplete]"
+      if { $tagid == "" } {
+         set tagid [clock clicks]
       }
-
-      set bytes2 [expr {$bytes/1024}]
-      set filesize2 [expr {$filesize/1024}]
-      if { $filesize2 != 0 } {
-        set percent [expr {($bytes2*100)/$filesize2}]
-      } else {
-        set percent 100
-      }
-
-      if { ($bytes >= $filesize) || ($bytes<0)} {
-	 $w.close configure -text "[trans close]" -command "destroy $w"
-         wm protocol $w WM_DELETE_WINDOW "destroy $w"
-      } elseif { $mode == "r" } {
-	 $w.progress configure -text "[trans receivedbytes $bytes2 [list $filesize2 Kb]]"
-	 ::dkfprogress::SetProgress $w.prbar $percent
-      } else {
-	 $w.progress configure -text "[trans sentbytes $bytes2 [list $filesize2 Kb]]"
-	 ::dkfprogress::SetProgress $w.prbar $percent
-      }
-   }
+      
+      ${win_name}.f.out.text configure -state normal
+      
+      ${win_name}.f.out.text tag configure $tagid \
+        -foreground #000080 -background white -font bboldf -underline false
+	
+      ${win_name}.f.out.text tag bind $tagid <Enter> \
+        "${win_name}.f.out.text tag conf $tagid -underline true;\
+         ${win_name}.f.out.text conf -cursor hand2"
+     ${win_name}.f.out.text tag bind $tagid <Leave> \
+       "${win_name}.f.out.text tag conf $tagid -underline false;\
+        ${win_name}.f.out.text conf -cursor left_ptr"
+     ${win_name}.f.out.text tag bind $tagid <Button1-ButtonRelease> "$command"
+                   
+      ${win_name}.f.out.text configure -state normal
+      ${win_name}.f.out.text insert end "$txt" $tagid
+      ${win_name}.f.out.text configure -state disabled
+   }   
 
    variable NotifID 0
    variable NotifPos [list]
