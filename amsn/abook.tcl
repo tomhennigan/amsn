@@ -97,14 +97,16 @@ namespace eval ::abook {
 
 	if { ![info exists contacts($email)] } {
 	  #                          group nick  PHH   PHW   PHM   MOB
-	  set contacts($email) [list Dummy Dummy Dummy Dummy Dummy Dummy]
+	  set contacts($email) [list 0 "" "" "" "" ""]
 	}
 
 	# Phone numbers are countryCode%20areaCode%20subscriberNumber
         switch $field {
-	    FL {	;# From LST.FL command, contains email, groupId
-		set value [adjustGroup $value]
-		set contacts($email) [list  $value "" "" "" "" "" ]
+	    group {	;# From LST.FL command, contains email, groupId
+		#set value [adjustGroup $value]
+		set value [split $value ,]
+		set contacts($email) [lreplace $contacts($email) 0 0 $value]
+		status_log "Added groups $value for $email\n" white
 	    }
 	    nick {	;# From LST.FL (User handle)
 		set contacts($email) [lreplace $contacts($email) 1 1 $value]
@@ -122,7 +124,7 @@ namespace eval ::abook {
 		set contacts($email) [lreplace $contacts($email) 5 5 $value]
 	    }
 	    default {
-	        puts "setContact unknown field $field -> $value"
+	        status_log "abook::setContact: setContact unknown field $field -> $value\n"
 	    }
 	}
    }
@@ -176,6 +178,27 @@ namespace eval ::abook {
 	return $groupName
    }
    
+   proc addContactToGroup { email grId } {
+      variable contacts
+      set idx [lsearch [lindex $contacts($email) 0] $grId]
+      if { $idx == -1 } {
+         set contacts($email) [lreplace $contacts($email) 0 0 \
+	    [linsert [lindex $contacts($email) 0] 0 $grId] ]
+      }
+   }
+
+   proc removeContactFromGroup { email grId } {
+      variable contacts
+      
+      set idx [lsearch [lindex $contacts($email) 0] $grId]
+      
+      if { $idx != -1 } {
+         set contacts($email) [lreplace $contacts($email) 0 0 \
+	   [lreplace [lindex $contacts($email) 0] $idx $idx]]
+      }
+   }
+   
+      
    # Sends a message to the notification server with the
    # new set of phone numbers. Notice this can only be done
    # for the user and not for the buddies!
@@ -383,6 +406,11 @@ namespace eval ::abookGui {
    }
 }
 # $Log$
+# Revision 1.23  2003/06/20 12:33:50  airadier
+# Support for multiple groups.
+# Added copy to group feature.
+# Removed tray icon destroy, resulted in segfault
+#
 # Revision 1.22  2003/06/15 14:35:28  airadier
 # Added a new translation
 #

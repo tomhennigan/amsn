@@ -922,7 +922,7 @@ namespace eval ::MSN {
 
    }
 
-   proc copyUser { passport oldGid newGid {userName ""}} {
+   proc copyUser { passport newGid {userName ""}} {
       if { $userName == "" } {
         set userName $passport
       }
@@ -948,8 +948,12 @@ namespace eval ::MSN {
 
    }
 
-   proc deleteUser { userlogin } {
-      ::MSN::WriteSB ns REM "FL $userlogin"
+   proc deleteUser { userlogin {grId ""}} {
+      if { $grId == "" } {
+         ::MSN::WriteSB ns REM "FL $userlogin"
+      } else {
+         ::MSN::WriteSB ns REM "FL $userlogin $grId"
+      }
    }
 
 
@@ -2742,8 +2746,9 @@ proc cmsn_ns_handler {item} {
 	 set curr_list [lindex $item 2]
 	 if { ($curr_list == "FL") } {
 	     status_log "PRUEBA1: $item\n" blue
-	     ::abook::setContact [lindex $item 4] FL [lindex $item 6]
+	     #::abook::setContact [lindex $item 4] group [lindex $item 6]
 	     ::abook::setContact [lindex $item 4] nick [lindex $item 5]
+	     ::abook::addContactToGroup [lindex $item 4] [lindex $item 6]	     
 	 }
          cmsn_listupdate $item
          return 0
@@ -2758,7 +2763,7 @@ proc cmsn_ns_handler {item} {
 	 # Everything that is in AL or BL is in either of the above.
 	 # Only FL contains the group membership though...
 	 if { ($curr_list == "FL") } {
-	     ::abook::setContact [lindex $item 6] FL [lindex $item 8]
+	     ::abook::setContact [lindex $item 6] group [lindex $item 8]
 	     ::abook::setContact [lindex $item 6] nick [lindex $item 7]
 	 }
          cmsn_listupdate $item
@@ -2953,15 +2958,30 @@ proc cmsn_ns_msg {recv} {
 
 proc cmsn_listdel {recv} {
    set list_name "list_[string tolower [lindex $recv 2]]"
-   upvar #0 $list_name the_list
-   set idx [lsearch $the_list "[lindex $recv 4] *"]
-   if { $idx != -1 } {
-      set the_list [lreplace $the_list $idx $idx]
+   
+   if { [lindex $recv 5] == "" } {
+      #Remove from all groups!!
+      foreach group [::abook::getGroup [lindex $recv 4] -id] {
+         ::abook::removeContactFromGroup [lindex $recv 4] $group
+      }
    } else {
-      status_log "cmsn_listdel: PANIC!!!\n" red
+      #Remove fromonly one group
+      ::abook::removeContactFromGroup [lindex $recv 4] [lindex $recv 5]
    }
    
-   lists_compare		;# FIX: hmm, maybe I should not run it always!
+   if { [llength [::abook::getGroup [lindex $recv 4] -id]] == 0 } {
+      status_log "Contact is in no groups, removing!!\n" blue
+      upvar #0 $list_name the_list
+      set idx [lsearch $the_list "[lindex $recv 4] *"]
+      if { $idx != -1 } {
+         set the_list [lreplace $the_list $idx $idx]
+      } else {
+         status_log "cmsn_listdel: PANIC!!!\n" red
+      }
+   }
+   
+   
+   #lists_compare		;# FIX: hmm, maybe I should not run it always!
    list_users_refresh
    #::MSN::WriteSB ns "LST" "[lindex $recv 2]"
 }
@@ -3371,10 +3391,15 @@ proc cmsn_listupdate {recv} {
    if {[lindex $recv 4] != 0} {
       set contact_info ""
       set user [lindex $recv 6]
-      lappend contact_info $user
-      lappend contact_info [urldecode [lindex $recv 7]]
-      lappend $list_name $contact_info
-      #status_log "adding to $list_name $contact_info\n"
+      
+      #Add only if user is not already in list
+      upvar #0 $list_name the_list
+      if { [lsearch $the_list "$user *"] == -1 } {      
+         lappend contact_info $user
+         lappend contact_info [urldecode [lindex $recv 7]]
+         lappend $list_name $contact_info
+         status_log "adding to $list_name $contact_info\n"
+      } 
    }
 
    #Last user in list

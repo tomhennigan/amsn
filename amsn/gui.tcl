@@ -180,14 +180,14 @@ namespace eval ::amsn {
    
    
    #///////////////////////////////////////////////////////////////////////////////
-   proc deleteUser { user_login } {
+   proc deleteUser { user_login { grId ""} } {
 
       global alarms
       set answer [tk_messageBox -message "[trans confirmdelete ${user_login}]" -type yesno -icon question]
 
       if {$answer == "yes"} {
 
-         ::MSN::deleteUser ${user_login}
+         ::MSN::deleteUser ${user_login} $grId
          if { [info exists alarms($user_login)] } {
             unset alarms($user_login) alarms(${user_login}_sound) alarms(${user_login}_pic) \
                alarms(${user_login}_sound_st) alarms(${user_login}_pic_st) alarms(${user_login}_loop)
@@ -2999,6 +2999,11 @@ proc cmsn_draw_online {} {
    set my_colour [lindex $my_state 2]
    set my_image_type [lindex $my_state 5]
 
+   #Clear every tag to avoid memory leaks:
+   foreach tag [$pgBuddy.text tag names] {
+      $pgBuddy.text tag delete $tag
+   }
+   
    # Decide which grouping we are going to use
    if {$config(orderbygroup)} {
    
@@ -3222,25 +3227,31 @@ proc cmsn_draw_online {} {
 
 
       # Rename the section if we order by group
-      set user_group [::abook::getGroup $user_login -id]
-      if {$config(orderbygroup)} {
+      foreach user_group [::abook::getGroup $user_login -id] {
+         if {$config(orderbygroup)} {
 
-          set section $user_group
-	  set section "tg$section"
-	  #::groups::UpdateCount $user_group +1
-	  ::groups::UpdateCount $user_group +1 [lindex $state 3]
+            set section $user_group
+	    set section "tg$section"
+	    #::groups::UpdateCount $user_group +1
+	    ::groups::UpdateCount $user_group +1 [lindex $state 3]
 
-      }
+         }
 
-      # Check if the group/section is expanded, display accordingly
-      if {$config(orderbygroup)} {
-	  set myGroupExpanded [::groups::IsExpanded $user_group]
-      } else {
-	  set myGroupExpanded [::groups::IsExpanded $section]
-      }
+         # Check if the group/section is expanded, display accordingly
+         if {$config(orderbygroup)} {
+	    set myGroupExpanded [::groups::IsExpanded $user_group]
+         } else {
+	    set myGroupExpanded [::groups::IsExpanded $section]
+         }
 
-      if {$myGroupExpanded} {
-	  ShowUser $user_name $user_login $state $state_code $colour $section
+         if {$myGroupExpanded} {
+	     ShowUser $user_name $user_login $state $state_code $colour $section $user_group
+         }
+	 
+	 if { !$config(orderbygroup) } {
+	    #Avoid adding users more than once when ordering by online/offline!!
+	    break
+	 }
       }
    }
 
@@ -3276,7 +3287,7 @@ proc cmsn_draw_online {} {
 
 
 #///////////////////////////////////////////////////////////////////////
-proc ShowUser {user_name user_login state state_code colour section} {
+proc ShowUser {user_name user_login state state_code colour section grId} {
     global list_bl list_rl pgBuddy alarms emailBList
 
          if {($state_code != "NLN") && ($state_code !="FLN")} {
@@ -3284,6 +3295,8 @@ proc ShowUser {user_name user_login state state_code colour section} {
 	 } else {
             set state_desc ""
          }
+	 
+	 set user_unique_name "$user_login[clock clicks]"
 
 	 # If user is not in the Reverse List it means (s)he has not
 	 # yet added/approved us. Show their name in yellow. A way
@@ -3308,7 +3321,7 @@ proc ShowUser {user_name user_login state state_code colour section} {
             set image_type "blocked"
       	    if {$state_desc == ""} {set state_desc " ([trans blocked])"}
          }
-           $pgBuddy.text tag conf $user_login -fore $colour
+           $pgBuddy.text tag conf $user_unique_name -fore $colour
 
 
          $pgBuddy.text mark set new_text_start end
@@ -3316,21 +3329,22 @@ proc ShowUser {user_name user_login state state_code colour section} {
 	 set user_lines [split $user_name "\n"]
 	 set last_element [expr {[llength $user_lines] -1 }]
 	 
-	 $pgBuddy.text insert $section.last " $state_desc \n" $user_login
+	 $pgBuddy.text insert $section.last " $state_desc \n" $user_unique_name
 	 for {set i $last_element} {$i >= 0} {set i [expr {$i-1}]} {
 	    if { $i != $last_element} {
 	       set current_line " [lindex $user_lines $i]\n"
 	    } else {
 	       set current_line " [lindex $user_lines $i]"
 	    }
-	    $pgBuddy.text insert $section.last "$current_line" $user_login
+	    $pgBuddy.text insert $section.last "$current_line" $user_unique_name
 	    if { $i != 0} {
 	       $pgBuddy.text insert $section.last "      "
 	    }
 	 }
          #$pgBuddy.text insert $section.last " $user_name$state_desc \n" $user_login
 
-	 set imgname "img[expr {$::groups::uMemberCnt(online)+$::groups::uMemberCnt(offline)}]"
+	 #set imgname "img[expr {$::groups::uMemberCnt(online)+$::groups::uMemberCnt(offline)}]"
+	 set imgname "img[clock clicks]"
          label $pgBuddy.text.$imgname -image $image_type
          $pgBuddy.text.$imgname configure -cursor hand2 -borderwidth 0
          $pgBuddy.text window create $section.last -window $pgBuddy.text.$imgname -padx 3 -pady 1
@@ -3340,7 +3354,8 @@ proc ShowUser {user_name user_login state state_code colour section} {
 	    #set imagee [string range [string tolower $user_login] 0 end-8]
 	    #trying to make it non repetitive without the . in it
 	    #Patch from kobasoft
-	    regsub -all "\[^\[:alnum:\]\]" [string tolower $user_login] "_" imagee
+	    set imagee "alrmimg_[clock clicks]"
+	    #regsub -all "\[^\[:alnum:\]\]" [string tolower $user_login] "_" imagee
 
 	    if { $alarms(${user_login}) == 1 } {
   	 	label $pgBuddy.text.$imagee -image bell
@@ -3358,23 +3373,23 @@ proc ShowUser {user_name user_login state state_code colour section} {
 	}
 
 
-         $pgBuddy.text tag bind $user_login <Enter> \
-             "$pgBuddy.text tag conf $user_login -under true;$pgBuddy.text conf -cursor hand2"
-         $pgBuddy.text tag bind $user_login <Leave> \
-            "$pgBuddy.text tag conf $user_login -under false;$pgBuddy.text conf -cursor left_ptr"
+         $pgBuddy.text tag bind $user_unique_name <Enter> \
+             "$pgBuddy.text tag conf $user_unique_name -under true;$pgBuddy.text conf -cursor hand2"
+         $pgBuddy.text tag bind $user_unique_name <Leave> \
+            "$pgBuddy.text tag conf $user_unique_name -under false;$pgBuddy.text conf -cursor left_ptr"
 
-         $pgBuddy.text tag bind $user_login <Button3-ButtonRelease> "show_umenu $user_login %X %Y"
-          bind $pgBuddy.text.$imgname <Button3-ButtonRelease> "show_umenu $user_login %X %Y"
+         $pgBuddy.text tag bind $user_unique_name <Button3-ButtonRelease> "show_umenu $user_login $grId %X %Y"
+          bind $pgBuddy.text.$imgname <Button3-ButtonRelease> "show_umenu $user_login $grId %X %Y"
 
          if { $state_code !="FLN" } {
             bind $pgBuddy.text.$imgname <Double-Button-1> "::amsn::chatUser $user_login"
-            $pgBuddy.text tag bind $user_login <Double-Button-1> \
+            $pgBuddy.text tag bind $user_unique_name <Double-Button-1> \
 	        "::amsn::chatUser $user_login"
          } else {
             #Delete all binding or we will be able to double click the offline user
 	    #and get a chat window
             bind $pgBuddy.text.$imgname <Double-Button-1> ""
-            $pgBuddy.text tag bind $user_login <Double-Button-1> \
+            $pgBuddy.text tag bind $user_unique_name <Double-Button-1> \
 	        ""
 	 }
 }

@@ -428,18 +428,9 @@ proc setColor {w button name options} {
 
 
 
-#///////////////////////////////////////////////////////////////////////
-proc menuCmdMove {newgid {paramlist ""}} {
-    set passport [lindex $paramlist 0]
-    set currgid  [::abook::getGroup $passport -id]
-    puts "menuCmdMove $passport from $currgid to $newgid"
-}
-#///////////////////////////////////////////////////////////////////////
-
-
 
 #///////////////////////////////////////////////////////////////////////
-proc show_umenu {user_login x y} {
+proc show_umenu {user_login grId x y} {
    global list_bl config alarms
 
    set blocked [::MSN::userIsBlocked $user_login]
@@ -464,16 +455,20 @@ proc show_umenu {user_login x y} {
          -command  "::amsn::unblockUser ${user_login}"
    }
 
-      ::groups::updateMenu menu .move_group_menu ::groups::menuCmdMove $user_login
+      ::groups::updateMenu menu .move_group_menu ::groups::menuCmdMove [list $grId $user_login]
       ::groups::updateMenu menu .copy_group_menu ::groups::menuCmdCopy $user_login
 
 
    if {$config(orderbygroup)} {
       .user_menu add command -label "[trans movetogroup]..." -command "tk_popup .move_group_menu $x $y"
+      .user_menu add command -label "[trans copytogroup]..." -command "tk_popup .copy_group_menu $x $y"
+      .user_menu add command -label "[trans delete]" -command "::amsn::deleteUser ${user_login} $grId" 
    } else {
        .user_menu add command -label "[trans movetogroup]..." -command "tk_popup .move_group_menu $x $y" -state disabled
+       .user_menu add command -label "[trans copytogroup]..." -command "tk_popup .copy_group_menu $x $y" -state disabled
+       .user_menu add command -label "[trans delete]" -command "::amsn::deleteUser ${user_login}"   
    }
-   .user_menu add command -label "[trans delete]" -command "::amsn::deleteUser ${user_login}"
+
    .user_menu add command -label "[trans properties]" \
       -command "::abookGui::showEntry $user_login"
 

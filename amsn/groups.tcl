@@ -47,17 +47,17 @@ namespace eval ::groups {
 
    proc menuCmdCopy {newgid {paramlist ""}} {
     set passport [lindex $paramlist 0]
-    set currgid  [::abook::getGroup $passport -id]
     set name [::abook::getName $passport]
-    ::MSN::copyUser $passport $currgid $newgid $name
+    ::MSN::copyUser $passport $newgid $name
    }
 
 
-   proc menuCmdMove {newgid {paramlist ""}} {
+   proc menuCmdMove {newgid currgid {paramlist ""}} {
+    
     set passport [lindex $paramlist 0]
-    set currgid  [::abook::getGroup $passport -id]
     set name [::abook::getName $passport]
     ::MSN::moveUser $passport $currgid $newgid $name
+    #status_log "Moving user $passport from $currgid to $newgid\n" white
    }
 
    #<dlgMsg>

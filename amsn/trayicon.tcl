@@ -200,8 +200,9 @@ proc mailicon_proc {num} {
 proc remove_icon {icon} {
 	global systemtray_exist images_folder config
 	if {$systemtray_exist == 1 && $icon != 0} {
-                destroy $icon
 		removeti $icon
+#                destroy $icon
+	
 	}
 }
 
