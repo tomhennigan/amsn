@@ -1,0 +1,314 @@
+amsn_lang_version 2
+about Informace
+accept Pøijmout
+acceptfile Pøijmout soubor $1, s délkou $2? Ulo¾ený v $3
+actions Akce
+addacontact Pøidat kontakt
+addedyou $1 ($2) vás pøidal do jeho/její kontakt listu
+addtocontacts Pøidat do kontakt listu
+addtoo Pøidat tuto adresu do kontakt listu
+admincontacts Zmìnit kontakty
+admingroups Zmìnit tøídy
+adverts Reklamy
+alarmpref Nastavení alarmu pro u¾ivatele
+alarmstatus Nastavit alarm ON/OFF pru tohoto uzivatele
+allowseen Dovolit tomuto èloveku sledovat kdy budu pøipojený/á a kontaktovat mì
+appearance Status
+appearoff Nepøipojený
+areacode PSÈ
+aretyping $1 ti právì pí¹e odkaz
+autoaway Zmìnit mùj status na "Nepøítomný" kdy¾ budu neaktivní/á víc jak
+autoconnect2 Pøipojit se automaticky kdy¾ se spustí aMSN
+autoconnect Pøipojit se na aMSN hned na zaèátku
+autohotmaillog Automatický Hotmailový login
+autoidle Auto Neaktivita
+autoip Automaticky IP
+autonoact Zmìnit status na "Neaktivní" kdy¾ nepromluvím víc ne¾
+avoidseen Nedovolit tomuto èlovìku vidìt kdy¾ budu pøipojený/á a kontaktovat mì
+away Nepritomný/á
+awaymsg1 V¾dy se zeptat na dùvod kdy¾ zmìním status na Nepøítomný/HSV/zaneprázdnìný
+awaymsg2 Neptat se nikdy a v¾dy pou¾ít tento dùvod
+baduserpass Nespravný login nebo heslo
+bgcolor Zmìnit barvu aMSN
+blankdirect Nechej bez oznaèení pro pøímé pøipojení na internet
+block Zablokovat
+blocked Zablokované
+blockmessage Tito lidé jsou pøipojení a zablokovali vás
+broughtby Programovali
+browse Prohledat
+browser Prohlí¾eè
+busy Zaneprázdnìný/á
+cancel Zru¹it
+cannotdeleteprofile Nemohu zmazat profil proto¾e ho momentálnì pouzívá aMSN
+cfgalarm Nastavit/Pøidat/Zru¹it alarm
+changefont Zmìnit písmo
+changenick Zmìnit jméno
+chatack Pøijímání chatu od
+chat Chat
+chatreq Ptám se na povolení na chat
+chatsmileys2 Povolit emotikony a smajlíky v oknech
+chatsmileys Smajlíky pre chat
+checkfilman Pøijaté soubory budou ulo¾ené v $1. Prosím prohlédnìte nastavení souborového mana¾era v "Upøednostit"
+checkingver Hledám novìj¹í verzi
+checkver Hledat novìj¹í verzi
+choosebasefont Vyber písmo
+choosebgcolor Vyber barvu pro aMSN
+choosefontcolor Vyber barvu písma
+clearlog2 Vymazat "Historii" pro v¹echny tvoje kontakty
+clearlog3 Vymazat v¹echny logy
+clearlog Vymazat log
+clicktologin Clikni sem na pøipojení
+close Zavøít
+closingdocks Zru¹it options "Zmen¹it"
+command Pøíkaz
+confirm Jsi si jistý/á?
+confirmdelete Jsi si jistý/á ¾e chcete zmazat $1?
+connected Nyní jsi pøipojený/á
+connecterror Chyba pøi pøipojení na server
+connecting Pøipojuji se
+connection Pøipojení
+contactadded Kontakt ulo¾ený
+contactdoesnotexist Kontakt neexistuje!
+copy Kopírovat
+copytogroup Kopírovat do tøídy
+countrycode Mùj kraj/PSC
+cprofile Vytvoøit profil
+cut Vyjmout
+date Datum
+days dny
+dcprofile Nevytvoøit profil
+default Pùvodní profil
+delete Smazat
+deliverfail Vyskytl se problém kdy¾ jsem se pokou¹el odeslat následující odkaz
+delprofile2 Vyberte profil který chcete vymazat
+delprofile Vymazat profil
+dockgtk Gnome port
+docking Port
+dockingoff Vypnutý port
+dockkde KDE Port
+dockfreedesktop FreeDesktop (KDE3/Gnome2)
+edit Editovat
+editprofile Zmìnit profil
+enableproxy Aktivovat proxy
+enableremote Aktivovat kontrolu na dálku
+encoding2 Zmìnit kódování tvého písma
+encoding Vybrat kodování
+entercontactemail Napi¹ kontaktní e-mail
+enterfilename Napi¹ jméno souboru
+enternick Napi¹ tvùj nickname
+examples Pøíklady
+exitamsn Jsi si jistý/á ¾e chce¹ uzavøít program?
+extras Extra Slu¾by
+faq ÈKO (Èasto Kladené Otázky)
+filedoesnotexist Soubor neexistuje
+fileman Nastavení
+filename Jméno souboru
+filetransfercancelled U¾ivatel zru¹il odesílání
+filetransfercomplete Odesílání skonèilo správnì
+ftaccepted Odeslání souboru pøijaté
+ftrejected Odesílání souboru nepøijaté
+gonelunch ©el/¹la jsem jíst
+groupadd Pøidat tøídu
+groupdelete Smazat tøídu
+groupexists Tøída u¾ existuje
+group Tøída
+groupmissing Nemù¾u najít tøídu
+groupnewname Nové jméno
+groupnotempty Tøída není prázdná!
+groupoldname Pøede¹lé jméno
+grouprename Pøemenovat tøídu
+groupunknown Neznámá tøída
+handle Handle
+helpcontents Témata nápovìdy
+help Nápovìda
+history Ukázat logy
+home Domov
+ident Identifikuji
+identity Identifikace
+inbox In-Box
+invalidusername Nepovolené jméno
+invite Pozvat
+ipaddress IP Adresa
+ipdetect Zjistit správnou IP adresu pro odesílání s pomocí HTTP
+istyping $1 ti právì pí¹e vzkaz
+joins $1 se pøipojil do konverzace
+keepalive Keepalive (NAT)
+keeplog2 Logovat v¹echny konverzace do Historie aMSN
+keeplog Ulo¾it logy
+language Jazyk
+lastmsgtime Poslední odkaz pøijatý o $1
+lclosedwin $1 uzavøel okno o $2
+lconftopriv Konference se zmìnila na privátní s $1
+lconvstarted konverzace zaèala o $1
+leaveblankforhotmail Vynechej políèko jestli¾e pou¾ívá¹ Hotmailovu web stránku
+leaves $1 ode¹el z konverzace
+lenteredconf $1 se pøidal do konference o $2
+linprivate Privátní
+listeningon Zkou¹ím port $1
+listsmileys2 Povolit emotikony a smajlíky u¾ v seznamu kontaktù
+listsmileys Smajlíky pro kontakty
+ljoinedconf $1 se pøidal do konference
+lleftconf $1 ode¹el z konference
+loadcontacts Pøidat seznam ze souboru
+logbigger Délka logu pro ka¾dou adresu má limit
+logfandexp Délka logu a platnost Historie
+loggedotherlocation Odpojený. Nìkdo se pøipojil na va¹i adresu z jiného místa.
+loggingin Startuji
+loginas Pøes adresu
+loging Logovaní
+login Log in
+logolder Logovat jen chaty které se konaly v posledních
+logout Odpojit se
+logsin právì se pøipojil/a
+logsmileys Povolit emotikony a smajlíky v oknech Historie aMSN
+lprivtoconf Privátní okno se zmìnilo na konferenci s $1
+luclosedwin Zavøel/a si okno o $1
+mailer Mailer
+maximised Zvìt¹ené okno
+minimised Zmen¹ené okno
+mins minut
+mobile Mobil
+movetogroup Pøemístit do tøídy
+msgmaxmin Kdy¾ dostanu novou zprávu chci
+msg Odkaz
+msgmode Vyber jak kontrolovat vícero konverzací :
+msn aMSN
+mustrestart Musí¹ vypnout a znova zapnout program pro aktivování zmìn
+myhomephone Moje èíslo domù
+mymobilephone Mùj mobilní telefon
+mystatus Mùj status
+myworkphone Moje èíslo do práce
+natip Zistit IP adresu pøes web stránku
+natkeepalive Jestli¾e má¹ slabé pøipojení na internet, aktivuj KeepAlive
+needonline Je¹tì stále nejsi pøipojený/á!
+newmail $1 nových mailù
+newmailfrom Nový mail od $1 ($2)
+newmsg Nový odkaz
+newveravailable Nová verze $1 je dostupná ke stáhnutí
+next Dal¹í
+noactivity Bez aktivity
+nologfile Neexistuje logový soubor pro $1
+nonewmail Nemá¹ nové maily
+nonewver Není nová verze na stáhnutí
+normal Normálnì
+notify1 Ukázat notifikaci kdy¾ se nìkdo pøipojí
+notify2 Ukázat notifikaci kdy¾ dostanu nový odkaz
+notify3 Ukázat notifikaci kdy¾ dostanu nový e-mail
+notify notifikace
+notifyoffset Nastavit pozici notifikaèního okénka nastavením valut
+notifywin Notifikaèní okénko
+nousersinsession Nejsou pøipojení u¾ivatelé
+offline Nepøipojený
+ok OK
+onenewmail 1 nový mail
+online Pøipojený
+onphone Telefonuji
+openreceived Otevøít pøijaté soubory
+options Nastavení
+ordercontactsby Vytøídit kontakty pøes :
+ordergroupsby Vytøídit tøídy pøes :
+other Jiné
+pager Stránkovaè
+pass Heslo
+paste Vlo¾it
+personal Osobní
+phone Telefon
+picfile Obrázkový soubor (GIF < 500 x 500)
+picstatus Obrázkový Alarm
+port Port
+prefalerts Moje termíny a zvuky
+prefapps Aplikace
+prefawaymsg Mùj dùvod kdy¾ budu nepøítomný/á
+prefemotic Emotikony a smajlíky
+preferences Nastavení
+preffont2 Zmìnit styl mého textu pro ostatní lidi
+preffont3 Zmìnit písmo a velikost písma pro aMSN
+preffont Mùj text odkazu
+preflog1 Moje nastavení pro Historii a Logování
+preflook Mùj vzhled pro aMSN Messenger
+prefmsging Interfáze mých odkazù
+prefname Moje jméno/nickname pro MSN Messenger
+prefphone2 Napi¹ telefonní èísla které chce¹ aby byly vidìt \n pro lidi ve tvém kontakt listu \n
+prefphone Moje telefonní èísla
+prefprofile2 Vytvoøit nebo zmìnit mùj profil (\n Informace o vás, kterou ostatní budou moci vidìt)
+prefprofile3 Nastavení profilù aMSN
+prefprofile Mùj veøejný profil
+prefproxy Moje proxy nastavení
+prefremote Moje nastavení pro pøipojení na internet
+prefsession Mùj login a status
+prefshared Spoleèné pøipojení (jen pro NAT)
+prefsound Zvuky
+profiledconfig Konfigurace
+profileinuse Tento profil se momentálnì pou¾ívá pro jiné pøipojení na aMSN, prosím zvolte jiný
+profiles Profily
+properties Data
+proxyconfhttp Nastavení HTTP proxy
+proxyconf Proxy konfigurace
+proxy Pou¾ívám proxy server (HTTP alebo SOCKS5)
+publishphones Ukázat moje telefonne cisla
+receivedbytes Stáhnuto $1 z $2 bytù
+receivefile Soubor byl sta¾ený
+reconnecting Znovu se pøipojuji k serveru
+reconnect Èekám na pøipojení $1
+reject Odmítnout
+rememberpass Zapamatat si heslo
+reversed Naopak
+rightback Hned se vrátím
+saveas Ulo¾it jako
+savecontacts Ulo¾it kontakt list
+save Ulo¾it
+savetofile Ulo¾it do souboru
+says $1 øekl/a:
+sbcon Pøipojuji se na Switch Board
+sendfile Poslat soubor
+sendmail Poslat mail
+sendmsg Zaèít konverzaci
+send Poslat
+sentbytes Odeslané $1 z $2 bytù
+servergoingdown Odpojený: Server se vypl...
+server Server
+session Sezení
+showblockedlist Ukázat seznam lidí kteøí tì zablokovali
+sound2 Spustit zvuk jakmile se nìkdo pøipojí nebo po¹le vzkaz
+soundcommand Toto je pøíkaz na "play" (napr: esdplay)
+sound Zvuk
+soundfile Soubor pro zvuky
+soundloop Opakovat zvuk
+soundserver Zvuk pro server
+soundstatus Zvuk pro alarm
+startoffline2 Pøipojit se tichým zpùsobem, bude¹ pøipojený/á ale ostatní to nebudou vidìt.
+startoffline Pøipojit se tichým zpùsobem
+status Status
+stopalarm Zastavit Alarm
+stylechat Ten samý vzhled jako pro chat
+stylehist Vzhled pro "Historii" aMSN
+stylelog Zvol formát ve kterém chce¹ vidìt tvoji "Historii"
+syntaxerror Chyba v pøíkaze
+tabbed Okna s informací
+textsize Velikost textu
+title Messenger
+tools Slu¾by
+to Pro
+transnotexists Tento soubor je¹tì nebyl pøelo¾ený do tohoto jazyku.
+traynotcompiled Ikona je¹tì nebyla vytvoøená. Nastav Plug-In.
+unblock Odblokovat
+uoffline Nepøipojený
+uonline Pøipojený
+useralreadyonlist U¾ivatel u¾ je v kontakt listu
+usernotonline U¾ivatel není pøipojený
+user U¾ivatel
+userblocked U¾ivatel je pøipojený, ale zablokoval tì
+useryourself Nemù¾e¹ chatovat sám se sebou...
+verifyblocked Ukázat lidi kteøí tì zablokovali
+version Verze
+viewprofile Zobrazit profil
+view Zobrazit
+willjoin Èekám na konverzace s $1
+work Práce
+wrongprofileversion ©patný soubor nastavení profilu. Na upravení, vyma¾te archiv $1, a nebo reinstalujte amsn
+xoffset Hodnota X
+yoffset Hodnota Y
+youblocked Byl/a jsi zablokovaný/á!
+yousay Øekl/a jsi
+youwant Chce¹
+twonewmail $1 nových mailù
