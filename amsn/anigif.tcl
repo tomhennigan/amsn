@@ -50,8 +50,12 @@ namespace eval anigif {
 	    #destroy $w
 	    return
 	} else {
-	    set list [set ::anigif::${fname}(images)]
-	    set delay [set ::anigif::${fname}(delay)]
+	    catch {
+		set list [set ::anigif::${fname}(images)]
+		set delay [set ::anigif::${fname}(delay)]
+	    }
+	    if { ![info exists ::anigif::${fname}] } { return }
+
 	    if { $idx >= [llength $list]  } {
 		set idx 0
 		if { [set ::anigif::${fname}(repeat)] == 0} {
@@ -100,17 +104,12 @@ namespace eval anigif {
 	# If the file is already opened 
 	if { [info exists ::anigif::$fname] && [set ::anigif::${fname}(count)] != 0 } {
 
-	    # set the number of labels containing that anigif
 	    set ::anigif::${fname}(count) [expr [set ::anigif::${fname}(count)] + 1]
-
-	    # sets the settings for the animated gif
 	    set ::anigif::${w}(fname) $fname
-
 	    $w configure -image [set ::anigif::${fname}(curimage)]
 
 	    return
 	} else {
-	    # set the number of labels containing that anigif to 1
 	    set ::anigif::${fname}(count) 1
 	}
 
@@ -209,15 +208,16 @@ namespace eval anigif {
 		foreach imagename [set  ::anigif::${fname}(images)] {
 		    image delete $imagename
 		}
-		unset ::anigif::${w}
-		unset ::anigif::${fname}
-	
+
 		foreach timer [after info] {
 		    if { [lsearch  [lindex [after info $timer] 0] $fname ] != -1 } {
 			after cancel $timer
 		    }
 		}
 
+		unset ::anigif::${w}
+		unset ::anigif::${fname}
+	
 	    } 
 	    
 	} 

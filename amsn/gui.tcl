@@ -909,7 +909,7 @@ namespace eval ::amsn {
    # closed, right?
    # - 'chatid' is the chat name
    # - 'usr_name' is the user email to show in the status message
-   proc userLeaves { chatid usr_name } {
+   proc userLeaves { chatid usr_name closed } {
 
       global config automsgsent
 
@@ -917,7 +917,11 @@ namespace eval ::amsn {
          return 0
       }
 
-      set statusmsg "[timestamp] [trans leaves [lindex [::MSN::getUserInfo $usr_name] 1]]\n"
+      if { $closed } {
+	  set statusmsg "[timestamp] [trans leaves [lindex [::MSN::getUserInfo $usr_name] 1]]\n"
+      } else {
+	  set statusmsg "[timestamp] [trans closed [lindex [::MSN::getUserInfo $usr_name] 1]]\n"
+      }
       WinStatus [ WindowFor $chatid ] $statusmsg
       WinTopUpdate $chatid
 

@@ -1164,7 +1164,7 @@ namespace eval ::MSN {
                set user_info [sb index $sbn users $idx]
                sb ldel $sbn users $idx
 
-               amsn::userLeaves [::MSN::ChatFor $sbn] [list $user_info]
+               amsn::userLeaves [::MSN::ChatFor $sbn] [list $user_info] 0
             }
 
          } else {
@@ -2550,7 +2550,12 @@ proc cmsn_update_users {sb_name recv} {
 	 #Another option for the condition:
 	 # "$chatid" != "[lindex $recv 1]" || ![MSN::chatReady $chatid]
          if { [::MSN::SBFor $chatid] == $sb_name } {
-            ::amsn::userLeaves $chatid [list [lindex $recv 1]]
+	     if { [lindex $recv 2] == "1" } {
+		 ::amsn::userLeaves $chatid [list [lindex $recv 1]] 0
+	     } else {
+		 ::amsn::userLeaves $chatid [list [lindex $recv 1]] 1
+	     }
+
          }
 
       }
