@@ -1834,10 +1834,10 @@ catch {exec killall -c sndplay}
 		event add <<Copy>> <Control-c> <Control-C>
 		event add <<Cut>> <Control-x> <Control-X>
 		 
-	  #bind .${win_name} <<Cut>> "status_log cut\n;copy 1 .${win_name}"
-	  #bind .${win_name} <<Copy>> "status_log copy\n;copy 0 .${win_name}"
-	  #bind .${win_name} <<Paste>> "status_log paste\n;paste .${win_name}"
-      
+	  bind .${win_name} <<Cut>> "status_log cut\n;tk_textCut .${win_name}"
+	  bind .${win_name} <<Copy>> "status_log copy\n;tk_textCopy .${win_name}"
+	  bind .${win_name} <<Paste>> "status_log paste\n;tk_textPaste .${win_name}"
+
       #Change shorcut for history on Mac OS X
       if {$tcl_platform(os) == "Darwin"} {
 		bind .${win_name} <Command-Option-h> "::amsn::ShowChatList \"[trans history]\" .${win_name} ::log::OpenLogWin"
