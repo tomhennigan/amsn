@@ -167,6 +167,9 @@ namespace eval ::ChatWindow {
 	# Arguments:
 	#  - window => Is the chat window widget (.msg_n - Where n is an integer)
 	proc Configured { window } {
+		#only run this if the window is the outer window
+		if { ![string equal $window [winfo toplevel $window]]} { return }
+
 		set chatid [::ChatWindow::Name $window]
 
 		if { $chatid != 0 } {
@@ -174,15 +177,11 @@ namespace eval ::ChatWindow {
 			after 200 "::ChatWindow::TopUpdate $chatid"
 		}
 
-		set geometry [wm geometry $window]
-		set pos_start [string first "+" $geometry]
-
 		if { [::config::getKey savechatwinsize] } {
-			::config::setKey winchatsize  [string range $geometry 0 [expr {$pos_start-1}]]
+			set geometry [wm geometry $window]
+			set pos_start [string first "+" $geometry]
 
-			if { $::tcl_version >= 8.4 } {
-				::config::setKey winchatoutheight [winfo height $window.f.out]
-			}
+			::config::setKey winchatsize  [string range $geometry 0 [expr {$pos_start-1}]]
 		}
 	}
 	#///////////////////////////////////////////////////////////////////////////////
@@ -514,7 +513,7 @@ namespace eval ::ChatWindow {
 		lappend ::ChatWindow::windows "$w"
 
 		#bind on configure for saving the window shape
-		bind $w <Configure> "::ChatWindow::Configured $w"
+		bind $w <Configure> "::ChatWindow::Configured %W"
 
 		# PostEvent 'new_chatwindow' to notify plugins that the window was created
 		set evPar(win) "$w"
@@ -1011,14 +1010,22 @@ namespace eval ::ChatWindow {
 
 		# Bind on focus, so we always put the focus on the input window
 		bind $paned <FocusIn> "focus $input"
-		#bind $paned <Configure> "::ChatWindow::PanedWindowConfigured $paned %w %h"
+		bind $output <Configure> "::ChatWindow::PanedWindowConfigured $output %W %h"
 
 		return $paned
 
 	}
 
-	proc PanedWindowConfigured { paned neww newh } {
-		
+	proc PanedWindowConfigured { output W newh } {
+		#only run this if the window is the outer frame
+		if { ![string equal $output $W]} { return }
+
+		if { [::config::getKey savechatwinsize] } {
+			if { $::tcl_version >= 8.4 } {
+				#::config::setKey winchatoutheight [winfo height $output]
+				::config::setKey winchatoutheight $newh
+			}
+		}
 	}
 
 	proc CreateOutputWindow { w paned } {
