@@ -52,7 +52,7 @@ proc dock_handler { sock } {
 		hotmail_login $config(login) $password
 	} elseif { $l == "SIGNIN" } {
 		global config password
-		::MSN::connect $config(login) $password
+		::MSN::connect
 	} elseif { $l == "SIGNINAS" } {
 		cmsn_draw_login
 	} elseif { $l == "SIGNOUT" } {

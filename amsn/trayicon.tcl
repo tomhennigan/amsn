@@ -114,12 +114,12 @@ proc trayicon_init {} {
 	$iconmenu add separator
 	if { [string length $config(login)] > 0 } {
 	     if {$password != ""} {
-	        #$iconmenu add command -label "[trans login] $config(login)" -command "::MSN::connect $config(login) $password" -state normal
+	        #$iconmenu add command -label "[trans login] $config(login)" -command "::MSN::connect" -state normal
 	     } else {
 	     	#$iconmenu add command -label "[trans login] $config(login)" -command cmsn_draw_login -state normal
 	     }
 	} else {
-	     #$iconmenu add command -label "[trans login]" -command "::MSN::connect $config(login) $password" -state disabled
+	     #$iconmenu add command -label "[trans login]" -command "::MSN::connect" -state disabled
 	}
 	#$iconmenu add command -label "[trans login]..." -command cmsn_draw_login
   	$iconmenu add command -label "[trans logout]" -command "::MSN::logout" -state disabled

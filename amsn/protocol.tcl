@@ -805,9 +805,14 @@ namespace eval ::MSN {
 	}
 
 	
-   proc connect { username password } {
+   proc connect { {passwd ""}} {
 
 		global config tlsinstalled login_passport_url
+		set username [::config::getKey login]
+		if { $passwd == "" } {
+			global password
+			set passwd [set password]
+		}
 
 		sb set ns name ns
 		sb set ns sock ""
@@ -863,7 +868,7 @@ namespace eval ::MSN {
 			after 500 "catch {::http::geturl [list https://nexus.passport.com/rdr/pprdr.asp] -timeout 10000 -command gotNexusReply}"
 		}
 				
-		cmsn_ns_connect $username $password
+		cmsn_ns_connect $username $passwd
 
   	 }
 

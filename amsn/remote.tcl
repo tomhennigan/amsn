@@ -28,7 +28,7 @@ namespace eval ::remote {
 	    set username "[lindex $username 0]@hotmail.com"
 	}
 
-	if { [catch { ::MSN::connect username password } res] } {
+	if { [catch { ::MSN::connect } res] } {
 	    write_remote "[trans connecterror]"
 	} else {
 	    write_remote "[trans connected]"
