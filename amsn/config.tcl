@@ -160,6 +160,7 @@ proc ConfigDefaults {} {
 		[list "" appearance] \
 		[list tooltips bool tooltips] \
 		[list emailsincontactlist bool emailsinlist] \
+		[list leavejoinsinchat bool leavejoinsinchat] \
 		[list animatenotify bool animatenotify] \
 		[list enablebanner bool enablebanner] \
 		[list truncatenames bool truncatenames1] \
@@ -216,6 +217,7 @@ proc ConfigDefaults {} {
 	set config(storename) 1			;#Store original nick in a variable when go to custom states to revert it when go back
 	set config(strictfonts) 0		;#Use strict fonts' size in _ALL_ AMSN's fonts (Disabled by default)
 	set config(emailsincontactlist) 0	;#Display emails instead of nicks in the contact list
+	set config(leavejoinsinchat)	1	;#Display leave/join notifications in chat text area
 	set config(charscounter)	1	;#Display typed characters counter
 	set config(checkemail)	1	;#Show inbox email notification line
 

@@ -1404,11 +1404,10 @@ namespace eval ::amsn {
 				::amsn::ChangePicture $win_name user_pic_$usr_name [trans showuserpic $usr_name] nopack
 			}
 
-			::amsn::WinWriteIcon $chatid minijoins 5 0
-			::amsn::WinWrite $chatid " [trans joins [::abook::getNick $usr_name]]\n" green "" 0
-			#			set statusmsg2 "[timestamp] [trans joins $usr_name]\n"
-			#			${win_name}.f.out.text insert end "$statusmsg2" red
-
+			if { [::config::getKey leavejoinsinchat] == 1 } {
+				::amsn::WinWriteIcon $chatid minijoins 5 0
+				::amsn::WinWrite $chatid " [trans joins [::abook::getNick $usr_name]]\n" green "" 0
+			}
 		}
 
 		if { $config(keep_logs) } {
@@ -1440,8 +1439,11 @@ namespace eval ::amsn {
 		if { $closed } {
 			set statusmsg "[timestamp] [trans leaves $username]\n"
 			set icon minileaves
-			::amsn::WinWriteIcon $chatid minileaves 5 0
-			::amsn::WinWrite $chatid " [trans leaves $username]\n" green "" 0
+			
+			if { [::config::getKey leavejoinsinchat] == 1 } {
+				::amsn::WinWriteIcon $chatid minileaves 5 0
+				::amsn::WinWrite $chatid " [trans leaves $username]\n" green "" 0
+			}
 
 		} else {
 			set statusmsg "[timestamp] [trans closed $username]\n"
