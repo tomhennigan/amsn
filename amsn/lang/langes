@@ -207,7 +207,6 @@ email  E-Mail
 emailsinlist Mostrar e-mails en lugar de apodos en la lista de contactos
 emotisounds Reproducir sonidos asociados a ciertos emoticonos
 emptygroup Vaciar grupo
-enablebanner Mostrar banner de aMSN (Requiere reiniciar aMSN)
 enabled Activado
 enableproxy Activar proxy
 enableremote Activar servidor de control remoto
@@ -239,6 +238,7 @@ friendlyname Apodo en conversación
 ftacceptedby $1 ha aceptado la invitación a la transferencia del archivo '$2'.
 ftaccepted Transferencia de archivo aceptada
 ftaccepting Aceptando invitación a transferencia de archivos
+ftautoclose Cerrar la ventana cuando finalice la transferencia
 ftconnecterror Error conectando con el usuario remoto
 ftconnecting Conectándose a $1 puerto $2
 ftconnectionlost Conexión perdida con el usuario remoto
@@ -594,6 +594,7 @@ truncatenames2 Cortar apodos más largos que el ancho de la ventana en las conver
 truncatenicks Truncar apodos más largos que el ancho de la ventana
 twonewmail $1 mensajes nuevos en bandeja de entrada
 unblock Admitir
+unknown Desconocido
 unload Descargar
 uoffline Desconectados
 uonline Conectados
