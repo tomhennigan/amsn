@@ -191,14 +191,12 @@ namespace eval ::ChatWindow {
 		variable win2tab
 
 		set current [GetCurrentWindow $window]
-		if { $current == "$window" } {
-			::ChatWindow::CloseAll $window
-			destroy $window
-		} else {
-			set currenttab [set win2tab($current)]
-			CloseTab $currenttab
+		set currenttab [set win2tab($current)]
+
+		if { [::ChatWindow::CountTabs $window] == 1 } {
+			::ChatWindow::CloseTab $currenttab
+			return
 		}
-		return
 		
 		set nodot [string map { "." "_"} $window]
 		set w .close$nodot
@@ -206,15 +204,17 @@ namespace eval ::ChatWindow {
 		if { [winfo exists $w] } {
 			return
 		}
+
 		toplevel $w
-		label $w.l -text "[trans detachall]"
+		#label $w.l -text "[trans detachall]"
+		label $w.l -text "[trans closeall]"
 		set f $w.f
 		frame $f
-		button $f.yes -text "[trans yes]" -command "::ChatWindow::DetachAll $window; destroy $window; destroy $w"
-		button $f.no -text "[trans no]" -command "::ChatWindow::CloseAll $window; destroy $window; destroy $w" 
-		pack $f.yes $f.no -side left
+		button $f.yes -text "[trans yes]" -command "::ChatWindow::CloseAll $window; destroy $window; destroy $w"
+		button $f.no -text "[trans no]" -command "::ChatWindow::CloseTab $currenttab; destroy $w" 
+		button $f.cancel -text "[trans cancel]" -command "destroy $w"
+		pack $f.yes $f.no $f.cancel -side left
 		pack $w.l $w.f -side top
-
 	}
 
 	proc DetachAll { w } {
@@ -225,6 +225,17 @@ namespace eval ::ChatWindow {
 			set chatid [::ChatWindow::Name $window]
 			::ChatWindow::UnsetFor $chatid $window
 		}
+	}
+
+	proc CountTabs { w } {
+		variable containerwindows
+		
+		set num 0
+		foreach window [set containerwindows($w)] {
+			incr num
+		}
+
+		return $num
 	}
 
 	proc CloseAll { w } {
