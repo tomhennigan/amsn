@@ -459,7 +459,7 @@ tools Tools
 tooltips Enable tooltips
 to To
 transnotexists The requested file has not been translated into the current language yet.
-traynotcompiled Tray icon plugin is not complied. Check plugins/traydock
+traynotcompiled Tray icon plugin is not compiled. Check plugins/traydock
 triggers Text triggers
 truncatenames1 Truncate nicknames longer than window width in window titles and contact list
 truncatenames2 Truncate nicknames longer than window width inside conversations

@@ -74,6 +74,8 @@ cantexec Kan het programma $1 niet starten, controleer uw instellingen
 casesensitive Gebruik hoofdlettergevoelige triggers
 cfgalarm Alarminstellingen
 cfgalarmall Alle alarminstellingen
+ch_to_state Activeer nieuwe status
+changecustomstate Verander status in
 changedisplaypic Schermafbeelding wijzigen
 changefont Lettertype instellen
 changenick Schermnaam wijzigen
@@ -147,7 +149,7 @@ dontdownload Download TLS niet. Ik installeer het zelf.
 dontshow Verberg
 downloadingtls Bezig met downloaden van TLS vanaf:\n $1
 edit Bewerken
-editcurrentstate Huidige bewerken
+editcustomstate Bewerken
 editnewstate Persoonlijke status toevoegen
 editprofile Bewerk profiel
 editstate Persoonlijke status wijzigen
@@ -167,6 +169,9 @@ errortls Er is een fout opgetreden bij het installeren van de module TLS:
 examples Voorbeelden
 exitamsn Weet u zeker dat u aMSN wilt afsluiten?
 extras Extra diensten
+failed Mislukt
+faileddelete Verwijderen mislukt
+faileddeleteperso Dit plaatje kan niet verwijderd worden omdat het geen persoonlijk beeldbestand is. Alleen plaatjes die bij je persoonlijke profiel horen kun je op deze manier verwijderen.
 faq FAQ (Veel gestelde vragen)
 filedoesnotexist Bestand bestaat niet
 fileman Bestandsbeheer
@@ -434,6 +439,7 @@ statenewtext Vul de benodigde informatie in om uw persoonlijke status\nte creëre
 state Weer te geven status
 status Status
 stopalarm Stop het alarm
+storenickname Herstel de oorspronkelijke schermnaam na een aangepaste status met aangepaste schermnaam.
 stylechat Dezelfde stijl als gesprekken
 stylehist aMSN geschiedenis stijl
 stylelog Kies de opmaak van de geschiedenislogboeken
@@ -446,6 +452,7 @@ title Al's Messenger
 tkerror TK heeft een error gegeven, er zit een bug in amsn, reporteer het astublieft. stuur het bestand $1 naar amsn-bugs@lists.sf.net
 tlsdowncompleted Het bestand $1 is opgeslagen in $2. Pak dit bestand uit, maak er een build van (als u broncode hebt gedownload), en installeer het in $3.
 tlsinstallexp AMSN gebruikt nu versie 9 van het MSN protocol.\nDaarvoor is een met SSL beveiligde verbinding vereist. AMSN heeft hierbij een module\nnodig met de naam TLS, die niet aanwezig is op uw systeem. Deze wizard helpt u bij\nhet downloaden en installeren van TLS. Selecteer het type systeem dat u gebruikt\nzodat de benodigde bestanden automatisch gedownload kunnen worden.
+temp_state Niet opslaan (Tijdelijke status, gaat verloren als AMSN wordt afgesloten)
 tlsinstall TLS Module installatie wizard
 tlsinstcompleted De TLS module is geïnstalleerd. U zou versie 9 van het MSN protocol nu moeten kunnen gebruiken. Als dit niet werkt, dan heb u vermoedelijk niet de juiste module gekozen, of er bestaat geen kant-en-klare module voor uw systeem.
 to Aan

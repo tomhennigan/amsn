@@ -68,6 +68,8 @@ cannotdeleteprofile Kann das Profil nicht löschen, da es anscheinend von einer A
 cantexec Kann $1 nicht ausführen. Überprüfe die Einstellungen
 casesensitive Buchstabenkombinationen verwenden, die auf Groß und Kleinschreibung achten
 cfgalarm Benachrichtigung konfigurieren/hinzufügen/löschen
+ch_to_state Schakel naar nieuwe status
+changecustomstate Schakel naar
 changedisplaypic Anzeigebild ändern
 changefont Die Schriftart ändern
 changenick Namen ändern
@@ -137,6 +139,7 @@ dontdownload TLS nicht downloaden, ich installiere es selbst
 downloadingtls Downloade TLS Modul von:\n $1
 edit Ändern
 editcurrentstate Veränder den derzeitigen 
+editcustomstate Bewerken
 editnewstate Neuer persönlicher Autonachrichten - Status
 editprofile Profil ändern
 editstate Vorhandenen Autonachrichten - Status bearbeiten
@@ -154,6 +157,9 @@ examples Beispiele
 exitamsn Wirklich beenden?
 extras Extras
 faq Häufig gestellte Fragen
+failed Gefaald
+faileddelete Verwijderen is niet gelukt
+faileddeleteperso Deze foto kan niet verwijderd worden omdat het niet je eigen foto is. Alleen fotos in je eigen profiel kunnen op deze manier verwijderd worden.
 filedoesnotexist Datei nicht vorhanden
 fileman Dateimanager
 filemanexample ( \$location wird mit dem Verzeichnis ersetzt ) Bsp: nautilus \$location
@@ -412,11 +418,13 @@ statename Name des Persönlichen Status
 statenewtext Bitte füllen Sie die benötigten Felder aus um Ihren\n Persönlichen Status zu erstellen und drücken Sie Speichern
 status Status
 stopalarm Benachrichtigung stoppen
+storenickname Keer terug naar de originele nickname na een persoonlijke status met een aangepaste nickname
 stylechat Wie in den Chats
 stylehist Aussehen der aMSN History
 stylelog Format auswählen in dem die History angezeigt werden soll
 syntaxerror  Syntaxfehler
 tabbed Unterfenster
+temp_state Niet opslaan (Tijdelijke status zal verwijderd worden wanneer u AMSN afsluit)
 textsize Textgröße
 timeremaining Zeit verbleibend
 title Al's Messenger

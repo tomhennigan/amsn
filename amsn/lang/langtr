@@ -8,13 +8,13 @@ addedyou $1 ($2) sizi baðlantý listesine ekledi
 addprofiledesc Ekleyeceðiniz yeni profilin kullanýcý ismini giriniz.\nKullanýcýlar profiller kullanarak deðiþik ayarlar yapabilirler.\nProfil olmazsa Geçmiþ, Alarmlar ve þifre hatýrlama özelliklerini kullanamazsýnýz.
 addprofile Yeni profil ekle
 addstate Yeni durum ekle
-addto $1ye ekle
+addto $1'ye ekle
 addtocontacts Baðlantý listesine ekle
 addtoo Bu kiþiyi baðlantý listesine ekle
 admincontacts Baðlantýlarý düzenle
 admingroups Gruplarý düzenle
 advanced Geliþmiþ
-advancedprefs Geliþmiþ Ayarlar
+advancedprefs Geliþmiþ seçenek ayarlarý
 adverts reklamlar
 alarmonconnect Kullanýcý baðlanýnca alarm çalsýn
 alarmondisconnect Kullanýcý çýkýnca alarm çalsýn
@@ -27,10 +27,10 @@ allowbadwords Kullanýcý isimlerinde sansürü kaldýr
 allowlist Ýzin verilenler
 allowonlyinal Yalnýzca izin verilenler listesindekiler bana ulaþabilsin
 allowseen Bu kiþi ben çevrim içiyken beni görebilsin ve bana yazabilsin
-allprofilesinuse Tüm profiller kullanýmda
+allprofileinuse Var olan tüm profiller kullanýmda
 animatedemoticon Bu gülen adam hareketlidir
 animatedsmileys Hareketli gülen adamlarý etkinleþtir
-animatenotify Animasyonlu Bildirim Penceresi
+animatenotify Canlandýrmalý uyarý penceresi
 appearance Görünüþ
 appearoff Çevrim dýþý görün
 areacode Alan kodu
@@ -38,7 +38,7 @@ aretyping $1 ileti yazýyor
 autoaccepted Dosya aktarýmý otomatikman kabul edildi
 autoacceptft Dosya aktarým istemlerini otomatikman kabul et
 autoaway Bu süre kadar eylemsiz kalýrsam beni diþarýda göster:
-autocheckver Baþlangýçta yeni versiyon için kontrol et
+autocheckver Açýlýþta kendiliðinden yeni sürüm ara
 autoconnect2 aMSN baþlayýnca kendiliðinden baðlan
 autoconnect Açýlýþta kendiliðinden baðlan
 autohotmaillog Hotmail'e otomatik giriþ
@@ -53,7 +53,7 @@ baduserpass Yanlýþ kullanýcý ismi ya da þifresi
 bgcolor aMSN'in arkaplan rengini deðiþtir
 blankdirect Doðrudan baðlantý için boþ býrakýn
 blocked Engellenmiþ
-blockedyougroup Sizi engelleyenleri ayrý bir grupta göster
+blockedyougroup Sizi engelleyenler ayrý bir grupta gösterilsin
 block Engelle
 blocking Engelleme
 blockinter1 Denetleme þekli baðlý iken her
@@ -65,17 +65,18 @@ blockmessage Þu kiþiler baðlý ve sizi engellemiþ durumdalar
 blockusers Bir seferde denetlenecek kullanýcý sayýsý 
 broughtby Yazýlýmý geliþtirenler
 browse gözat
-browserexample (\$url URL ile deðiþtirilecek) Örn: mozilla \$url
 browser Ýnternet tarayýcý
+browserexample (\$url URL ile deðiþtirilecek) Örn: mozilla \$url
 busy Meþgul
 cancel Ýptal Et
 cannotdeleteprofile Profil kullanýmda olduðu için silinemiyor
 cantexec $1 uygulamasi çalýþtýrýlamýyor. Seçenekleri kontrol edin.
 casesensitive Yazýlý karþýlýklarda büyük/küçük harfe duyarlý ol
 cfgalarm Alarmý Düzenle/Ekle/Kaldýr
-cfgalarmall Düzenle/Kaldýr/Ekle Global Alarm
-changecustomstate Geç
-changedisplaypic Ekran resmini deðiþtir
+cfgalarmall Genel Alarmý Düzenle/Ekle/Kaldýr
+ch_to_state Yeni duruma geç
+changecustomstate Þu duruma geç:
+changedisplaypic Kullanýcý resmini deðiþtir
 changefont Yazitipi deðiþtir
 changenick Kullanýcý ismi deðiþtir
 changestate $1, $2 durumuna geçti
@@ -86,9 +87,9 @@ chatsmileys2 Sohbet penceresinde gülen adamlar görünsün
 chatsmileys Gülen adamlar
 chat Sohbet et
 checkblocking Diðerlerinin beni engelleyip engellemediðini sürekli denetle
-checkfilman Alýnan dosyalar $1 konumuna kaydedilecek. Lütfen seçenekler penceresinde dosya yöneticisi ayarlarýný yapýnýz. 
+checkfilman Alýnan dosyalar $1 konumuna kaydedilecek. Lütfen seçenekler penceresinde dosya yöneticisi ayarlarýný yapýnýz.
 checkingver Yeni sürüm aranýyor
-checkonfln Bir kullanýcýnýn beni engelleyip engellemediðini o çevrim dýþý olunca denetle
+checkonfln Bir kullanýcýnýn beni engelleyip engellemediðini o çevrimdýþý olunca denetle
 checkver Yeni sürüm ara
 choosearq Sistem türünüzü seçin
 choosebasefont Yazýtipini seç
@@ -96,7 +97,6 @@ choosebgcolor Arkaplan rengini seç
 choosecontact Lütfen listeden bir baðlantý seçiniz
 choosefontcolor Yazi rengini seç
 chooseskin Lütfen kullanacaðýnýz kabuðu seçiniz
-ch_to_state Yeni duruma geç
 clearlog2 Tüm baðlantýlarýn Geçmiþini sil
 clearlog3 Tüm sohbet kayýtlarýný sil
 clearlog Sohbet kaydýný sil
@@ -105,9 +105,9 @@ closed $1 ile olan sohbet etkinlik olmadýðý için kapatýldý.
 close Kapat
 closingdocks Kapatma tuþu küçültsün
 command komut
-commandstatus Ýþletilen komut
-confirmdelete $1 i silmek istediðinizden emin misiniz?
+commandstatus Komutu çalýþtýr
 confirm Emin misiniz?
+confirmdelete $1 i silmek istediðinizden emin misiniz?
 connected Þu an baglýsýnýz
 connecterror Sunucuya baðlanýrken hata oluþtu
 connecting Baðlanýyor
@@ -129,16 +129,17 @@ dcprofile Profil oluþturma
 defaultloginradio Varsayýlan ayarlarla baðlan
 default Varsayýlan ayar
 delete Sil
+delimiters Tarih ayraçlarý:
 deliverfail Aþagýdaki iletinin gönderilmesinde hata oluþtu
 delprofile2 Sileceðiniz profili seçiniz
 delprofile Profili sil
 description Tarif
 directconnection Ýnternete doðrudan baðlantým var (1863. portu kullanýr)
-disabled Aktif deðil
-disableprofiles Profilleri iptal et(Ýnternet kafe ve paylaþýlan bilgisayarlar için)
+disabled Devredýþý
+disableprofiles Profilleri devredýþý býrak (?nternet cafe ve paylaþýlan ortamlar için uygun)
 disablessl SSL kullanma
 disconnect $1 ayrýldý
-displaychat Ekran yazý ayarlarý
+displaychat Metin seçeneklerini göster
 dockfreedesktop AçýkMasaüstü (KDE3/Gnome2)
 dockgtk Gnome'da küçültme
 docking Küçültme
@@ -147,16 +148,15 @@ dockkde KDE'de küçültme
 dontdownload TLS'i indirme, kendim kuracaðým
 dontshow Gösterme
 downloadingtls TLS $1 \n adresinden alýnýyor
-editcurrentstate Durumu düzenle
 editcustomstate Düzenle
 edit Düzenle
 editnewstate Yeni Kiþisel Otomatik Mesaj Durumu
 editprofile Profili düzenle
 editstate Var olan otomatik mesaj durumunu düzenle
-editvalue Etiketi düzenle
+editvalue Deðeri deðiþtir
 emotisounds Bazý gülen adamlarda ses çýkar
-enablebanner aMSN banerýný göster(Yeniden baþlatýlmalý)
-enabled Aktif
+enablebanner Amblem gözüksün
+enabled Etkin
 enableproxy proxy ayarlarýný etkinleþtir
 enableremote Uzaktan denetimi etkinleþtir
 enablesound Sesi aç
@@ -169,10 +169,10 @@ errortls TLS kurulumunda hata oluþtu:
 examples Örnekler
 exitamsn Çýkmak istediðinizden emin misiniz?
 extras Ek Hizmetler
-failed Baþarýsýz
-faileddeleteperso Bu resim silinemedi. Çünkü kiþisel resim dosyasý deðildir. Sadece sizin profilinize ait resimler bu yolla silinebilir.
-faileddelete Silinemedi
 faq SYS (Sýkça Yanýtlanan Sorular)
+failed Baþar?lamad?
+faileddelete Silinemedi
+faileddeleteperso Bu resim silinemiyor çünkü ki?isel resim dosyas? deðil. Yaln?zca sizin profilinize ait resimler silinebilirç
 filedoesnotexist Dosya bulunamadý
 fileman Dosya yöneticisi
 filemanexample (\$location dizin ile deðiþtirilecek) Örn: nautilus \$location
@@ -191,7 +191,7 @@ ftportpref Dosya aktarýmlarý için baþlangýç portu
 ftrejectedby $1, '$2' dosyasý için yapýlan aktarým davetini geri çevirdi
 ftrejected Dosya aktarýmý reddedildi
 ftsendinvitation '$2' dosyasý ($3 bayt) için aktarým daveti $1'e gönderildi
-getdisppic Diðer kullanýcýlardan resim alýmýný aktif yap
+getdisppic Diðer kullanýcýlardan kullanýcý resmi alýnabilsin
 gonelunch Yemekte
 groupadd Grup Ekle
 groupdelete Grup Sil
@@ -206,7 +206,7 @@ groupunknown Bilinmeyen grup
 handle Ýsim
 helpcontents Yardým içeriði
 help Yardým
-hidedisplaypic Ekran resmini gösterme
+hidedisplaypic Kullanýcý resmini gösterme
 hiden Gülen adamý menüden çýkar
 hidewindow Pencereyi gizle
 history Geçmiþi göster
@@ -216,7 +216,7 @@ hybrid Melez kip
 identity Kimlik
 ident Kimlik denetleniyor
 inbox Gelen kutusu
-installconvert ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Eðer daha önceden varsa bu bir hatadýr. Lütfen rapor edin. Bu özellikler þimdi iptal edildi. Eðer daha sonra ImageMagik yüklerseniz ayarlardan tekrar aktif hale getirebilirsiniz.
+installconvert Kullanýcý resimlerini ve özel gülen adamlarý kullanabilmek için ImageMagick ('convert' programý) kurulmuþ olmalýdýr. Sisteminiz için gereken çaýlýþtýrýlabilir dosyalarý ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ adresinden indirebilirsiniz. Eðer program zaten kuruluysa bu bir hatadýr, lütfen bize bildirin. Bu özellikler þimdilik devredýþýdýr, daha sonra Image Magick'i kurduðunuzda bunlarý Seçenekler'den etkinleþtirebilirsiniz.
 internalerror Ýç sunucu hatasý
 invalidfile "$1" alanýna girilen $2 dosyasý yok ya da okunamýyor
 invalidusername Geçersiz kullanýcý ismi
@@ -226,7 +226,7 @@ ipaddress IP adresi
 ipdetect HTTP dosya aktarýmlarý için doðru IP'yi belirle
 istyping $1 ileti yazýyor
 joins $1 sohbete katýlýyor
-keepalive Canlý tut (NAT)
+keepalive Canlý tut (NAT Keepalive)
 keeplog2 Daha sonra bakmak için tüm sohbetleri Geçmiþ'e kaydet
 keeplog Sohbetlerin kaydýný tut
 language Dil
@@ -237,6 +237,7 @@ lconvstarted Sohbetin baþlama saati $1
 leaveblankforhotmail Hotmail sayfasýný kullanmak istiyorsanýz bos býrakýn
 leaves $1 sohbetten ayrýlýyor
 lenteredconf $1 $2'de bir konferansa katýldý
+lineflushlog Her satýrdan sonra kayýt dosyasýný güncelle
 linprivate ÖZEL
 listeningon $1. port dinleniyor
 listsmileys2 Baðlantý listesinde gülen adamlar görünsün
@@ -275,11 +276,11 @@ msn AMSN
 mustrestart Yeniliklerin etkinleþmesi için uygulamayý yeniden baþlatmalýsýnýz
 myhomephone Ev telefonum
 mymobilephone Cep telefonum
-mypic Benim resmim :
+mypic Kullanýcý resmim:
 mystatus Durumum
 myworkphone Ev telefonum
 natip Ýnternet sayfasýndan IP belirlenmesi
-natkeepalive Eðer baðlantýnýz sürekli kopuyorsa, bu seçeneði (canlý tut) iþaretleyiniz
+natkeepalive Eðer baðlantýnýz sürekli kopuyorsa, bu seçeneði (canlý tut - Keepalive) iþaretleyiniz
 needonline Hala çevrim dýþý görünüyorsunuz!
 newmailfrom Yeni ileti gönderen: $1 ($2)
 newmail Gelen kutunuzda $1 yeni ileti var
@@ -288,16 +289,16 @@ newveravailable Yeni $1 sürümü indirilmeye hazýr
 next sonraki
 noactivity Etkinlik yok
 nodataavailable $1 hakkýnda bilgi yok
-no Hayýr 
+no Hayýr
 nologfile $1 ile sohbet kaydý yok
 noneavailable Hiçbiri yok
-nonewmail Gelen kutusunda yeni ileti yok 
+nonewmail Gelen kutusunda yeni ileti yok
 nonewver Daha yeni bir sürüm yok
 nopic Resim yok
 noprofileexists Henüz hiçbir profil yok. Eðer profille baðlanmak \nisterseniz bir tane yaratmalýsýnýz. Bu penceredeki \nYeni Profil Ekle düðmesine týklayarak bunu yapabilirsiniz.
 normal normal
-nosystemtray Görev çubuðu yok 
-notificationserver MSN Bildirme Sunucusu (MSN Messenger Suncusu)
+nosystemtray Görev çubuðu yok
+notificationserver ?lk MSN Uyarý Sunucusu (MSN Messenger Sunucusu)
 notify1_5 Baðlantýlar çýkýnca uyarý penceresi göster
 notify1_75 Baðlantýlar durum deðiþtirince uyarý penceresi göster
 notify1 Baðlantýlar girince uyarý penceresi göster
@@ -316,7 +317,7 @@ onphone Telefonda
 openreceived Alinan dosyalarý göster
 options Seçenekler
 ordercontactsby Baðlantýlarý sýralama ölçütü
-ordergroupsby Gruplarý sýralama ölçütü
+ordergroupsby Gruplarýn sýralanýþý
 other Diðer
 others Diðerleri
 pager Çaðrý cihazý
@@ -324,10 +325,10 @@ pass Þifre
 paste Yapýþtýr
 personal Kiþisel
 phone Telefon
-picbrowser Resimleri göster
+picbrowser Kullanýcý resmi tarayýcýsý
 picfile Alarm resmi dosyasý (GIF < 500 x 500)
 picstatus Resimli alarmý aç/kapa
-playing Oynatýlýyor: $1
+playing $1 çalýnýyor
 pluginselector Eklenti seç
 port Port
 prefalerts Alarmlarým ve Seslerim
@@ -349,7 +350,7 @@ prefmsging Ýleti arayüzüm
 prefname MSN Messenger adým/rumuzum
 prefphone2 Ýzin verdiðiniz kiþilerin görmesini \n istediðiniz telefon numaralarýný girin
 prefphone Telefon numaralarým
-prefprivacy2 Kullanýcýnýn Baðlantý/Ters listeleri
+prefprivacy2 Kullanýcýnýn Baðlantý/Karþý listeleri
 prefprivacy Kullanýcýnýn Ýzin Verilenler/Engellenenler listeleri
 prefprofile2 Açýk profilinizi (diðerlerinin \n göreceði bilgiler) yaratýn/deðiþtirin
 prefprofile3 aMSN kullanýcý ayar profili
@@ -384,7 +385,7 @@ reject Geri çevir
 rememberpass Þifreyi hatýrla
 removefromlist Bu listeden çýkar
 reversed ters
-reverselist Ters liste
+reverselist Karþý liste
 rightback Hemen döneceðim
 saveas Farklý kaydet
 savecontacts Baðlantý listesini kaydet
@@ -399,17 +400,17 @@ send Gönder
 sendmail E-posta iletisi gönder
 sendmsg Ýleti günder
 sentbytes $2 baytýn $1 (s)i gönderildi
-serverbusy Sunucu yoðun
 servergoingdown Sunucu kapanýyor: Baðlantý kesildi
 server Sunucu
-serverunavailable Sunucu ulaþýlamaz
+serverbusy Sunucu meþgul
+serverunavailable Sunucuya eriþilemiyor
 session Oturum
-showblockedlist Sizi engelleyenlerin listesini göster
-showdisplaypic2 Chat penceresi açýldýðýnda ekran resmini varsayýlan olarak göster
-showdisplaypic Ekran resmini göster
-showmypic Ekran resmimi göster
-shownotify Olaylar gerçekleþtiðinde hatýrlatma penceresini göster
-showuserpic $1 ekran resmi
+showblockedlist Sizi engelleyenlerin listesi gösterilsin
+showdisplaypic Kullanýcý resmini göster
+showdisplaypic2 Bir sohbet penceresi açýldýðýnda kullanýcý resmini kendiliðinden göster
+showmypic Kullanýcý Resmim
+shownotify Bazý olaylarda uyarý penceresi göster
+showuserpic $1'in kullanýcý resmi
 skin Kabuk
 skinselector Kabuk Seç
 smileconfig Özel gülen adam ayarlarý
@@ -418,17 +419,17 @@ smileintro2 Bu gülen adamý özelleþtirmek için ilgili alanlarý düzenleyiniz \n(ya
 smileintro Özel bir gülen adam yaratmak için ilgili alanlarý doldurunuz \n(yardým için SSS'a bakýnýz)
 sound2 Baðlantýlar girince ya da ileti gönderince ses çýkar
 soundcommand Ses çalma komutu (örn: esdplay)
-soundexample (\$sound = Çalýnacak ses dosyasý) Örn: esdplay \$sound
 soundfile Alarm ses dosyasý
 soundloop Ses tekrarlasýn
 soundserver Ses Sunucusu
 sound Ses
+soundexample (\$sound = Çalýnacak ses dosyasý) Örn: esdplay \$sound
 soundstatus Sesli alarmý aç/kapa
 sourcecode Kaynak kodu (derlenip kurulmasi gerekir)
 sslwarning UYARI!!! SSL'i kapatmak þifrelemeyi engeller, þ?ifreniz düz metin olarak aktarýlýr. Gerçekten kapatmayý gerektiren durumlar olmad?kça kullanmayýnýz.
 startoffline2 Çevrim dýþý görünerek sessizce baðlan
 startoffline Çevrim dýþý olarak baþla
-startontray aMSN sadece trayde baþlasýn
+startontray AMSN'i görev çubuðunda baþlat
 stateautomsg Gönderilecek Otomatik Mesaj
 state Böyle görünmek istiyorum
 statechange Yeni durum:
@@ -438,17 +439,18 @@ statename Kiþisel Durumun adý
 statenewtext Lütfen yeni Kiþisel Durumunuzu yaratmak için \n gerekli bilgileri girip Kaydet'e týklayýnýz
 status Durum
 stopalarm Alarmý durdur!
-storenickname Özel yer ve özel rumuzdan sonra orjinal isme dön
+storenickname Deðiþik kullanýcý ismi olan özelleþtirilmiþ durumdan sonra asýl kullanýcý ismine dön
 stylechat Sohbetler ile ayný görünüþ
 stylehist aMSN Geçmiþ görünüþü
 stylelog Geçmiþinizin görünüþ þeklini seçin
 syntaxerror Yazým hatasý
 tabbed Ýçiçe pencereler
-temp_state Kaydetme (Geçici yer, aMSN kapatýldýðýnda kaybolacaktýr)
+temp_state Kaydetme (Geçici durum, AMSN kapatýlýnca silinecek)
 textsize Metin boyutu
 timeremaining Kalan zaman
+timestamps Sohbet pencerelerinde zaman kaydý düþülsün
 title Al'ýn Messenger'ý
-tkerror TK bir hata oluþturdu. Lütfen $1 dosyasý ile amsn-bugs@lists.sf.net adresine rapor edin.
+tkerror TK hata verdi; AMSN'de bir hata var, lütfen bildirin. $1 dosyasýný amsn-bugs@lists.sf.net adresine yollayýn. 
 tlsdowncompleted $1 dosyasý $2 dizinine kaydedildi. Sýkýþtýrýlmýþ dosyayý açýp, (kaynak kodsa) derleyip $dizinine kurunuz.
 tlsinstallexp AMSN artýk güvenli baðlantý için SSL gerektiren MSNP9 kullanýyor.SSL kullanabilmek\niçin AMSN'nin sisteminizde olmayan TLS kütüphanesini kurmasý gerekiyor. Bu sihirbaz\nTLS indirme kurulumunda size yardýmcý olacaktýr.\n\nLütfen doðru paketin indirilmesi için sistem türünüzü seçiniz.
 tlsinstall TLS kütüphanesi kurulum sihirbazý
@@ -458,10 +460,10 @@ tools Araçlar
 tooltips Ýpuçlarýný etkinleþtir
 transnotexists Bu dosyanýn seçili dile çevirisi henüz yok
 traynotcompiled Görev çubuðu simgesi derlenmemiþ, plugins/traydock'a bakýn
-triggers Yazýlý karþýlýðý 
-truncatenames1 Rumuz pencere baþlýðý ve kontak listesi için büyük
-truncatenames2 Rumuz mesaj penceresi için büyük
-truncatenicks Rumuz pencereden geniþliðinden büyük
+triggers Yazýlý karþýlýðý
+truncatenames1 Pencere baþlýðý ve baðlantý listelerinde pencere geniþliðinden uzun isimleri kýsalt
+turncatenames2 Sohbetlerde pencere geniþliðinden uzun isimleri kýsalt
+truncatenicks Pencere geniþliðinden uzun isimleri kýsalt
 twonewmail Gelen kutunuzda $1 yeni ileti var
 unblock Engeli kaldir
 uoffline Çevrim dýþý
@@ -479,9 +481,9 @@ willjoin $1 in sohbete katýlmasý bekleniyor
 work Ýþ
 wrongfields "$1", "$2" ve/veya "$3" alanlarý geçersiz 
 wrongprofileversion Yanlýþ profil ayar dosyasý sürümü. Düzeltmek için $1 dizinini siliniz ya da aMSN'yi güncelleyiniz
-xmmscurrent Oynatýlan parçayý göster
-xmmserr Hiçbir þey çalýnmýyor, ya da xmms-infopipe yüklü deðil.
-xmmssend Oynatýlan þarkýyý gönder.
+xmmscurrent Çalýnan parçayý göster
+xmmserr Birþey çalýnmýyor, ya da xmms-infopipe kurulu deðil
+xmmssend Çalýnan parçayý gönder
 xoffset X koordinatý
 yes Evet
 yoffset Y koordinatý
