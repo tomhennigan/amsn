@@ -4,18 +4,20 @@
 #########################################################
 
 
+
+
 # Function that loads all alarm settings (usernames, paths and status) from a
 # config file called alarms
+#TODO: REMOVE THIS IN FUTURE VERSIONS. Only kept for compatibility!!!
 proc load_alarms {} {
-	global alarms HOME config alarm_win_number
+	global HOME
 
-	set alarm_win_number 0
 
 	if {([file readable "[file join ${HOME} alarms]"] == 0) ||
-	       ([file isfile "[file join ${HOME}/alarms]"] == 0)} {
+	       ([file isfile "[file join ${HOME} alarms]"] == 0)} {
 		return 1
 	}
-	set file_id [open "${HOME}/alarms" r]
+	set file_id [open "[file join ${HOME} alarms]" r]
 
 	gets $file_id tmp_data
 	if {$tmp_data != "amsn_alarm_version 1"} {	;# config version not supported!
@@ -28,54 +30,20 @@ proc load_alarms {} {
 		set alarms($var_attribute) $var_value			
 	}
 	close $file_id
+	
+	#REMOVE OLD VERSION alarms file.Not used anymore
+	[file delete [file join ${HOME} alarms]]
 }
 
-# Function that writes all alarm settings into a config file called alarms
-proc save_alarms {} {
-	global tcl_platform alarms HOME HOME2 config
-
-	# Only save if current login has a profile
-	if { $HOME == $HOME2 } {
-		return 1
-	}
-
-
-	if { ([info exists alarms]) && ([array size alarms] != 0) } {
-
-		if {$tcl_platform(platform) == "unix"} {
-			set file_id [open "[file join ${HOME} alarms]" w 00600]
-		} else {
-			set file_id [open "[file join ${HOME} alarms]" w]
-		}
-
-		puts $file_id "amsn_alarm_version 1"
-
-		set alarms_array [array get alarms]
-		set items [llength $alarms_array]
-		for {set idx 0} {$idx < $items} {incr idx 1} {
-			set var_attribute [lindex $alarms_array $idx]; incr idx 1
-			set var_value [lindex $alarms_array $idx]
-			puts $file_id "$var_attribute $var_value"
-		}
-		close $file_id
-		#unset alarms
-
-	} else {
-		if {$tcl_platform(platform) == "unix"} {
-			set file_id [open "[file join ${HOME} alarms]" w 00600]
-		} else {
-			set file_id [open "[file join ${HOME} alarms]" w]
-		}
-		puts $file_id "amsn_alarm_version 1"
-		close $file_id
-	}
-}
 
 #Used to avoid raising errors on unset items
 proc getAlarmItem { user item } {
-	global alarms
-	if { [info exists alarms(${user}_${item})] } {
-		return $alarms(${user}_${item})
+
+	#We convert the stored data (a list) into an array
+	array set alarms [::abook::getContactData $user alarms]
+	
+	if { [info exists alarms($item)] } {
+		return $alarms($item)
 	} else {
 		return ""
 	}
@@ -83,29 +51,24 @@ proc getAlarmItem { user item } {
 
 #Function that displays the Alarm configuration for the given user
 proc alarm_cfg { user } {
-	global alarms my_alarms
+	global my_alarms
 
 	if { [ winfo exists .alarm_cfg ] } {
 		return
 	}
 
-	if { [info exists alarms(${user})] } {
-		set my_alarms(${user}) $alarms(${user})
-		set my_alarms(${user}_sound) [getAlarmItem $user sound]
-		set my_alarms(${user}_sound_st) [getAlarmItem $user sound_st]
-		set my_alarms(${user}_pic) [getAlarmItem $user pic]
-		set my_alarms(${user}_pic_st) [getAlarmItem $user pic_st]
-		set my_alarms(${user}_loop) [getAlarmItem $user loop]
-		set my_alarms(${user}_onconnect) [getAlarmItem $user onconnect]
-		set my_alarms(${user}_onmsg) [getAlarmItem $user onmsg]
-		set my_alarms(${user}_onstatus) [getAlarmItem $user onstatus]
-		set my_alarms(${user}_ondisconnect) [getAlarmItem $user ondisconnect]
-		set my_alarms(${user}_command) [getAlarmItem $user command]
-		set my_alarms(${user}_oncommand) [getAlarmItem $user oncommand]
-
-	} else {
-		set my_alarms(${user}) 1
-	}
+	set my_alarms(${user}_enabled) [getAlarmItem $user enabled]
+	set my_alarms(${user}_sound) [getAlarmItem $user sound]
+	set my_alarms(${user}_sound_st) [getAlarmItem $user sound_st]
+	set my_alarms(${user}_pic) [getAlarmItem $user pic]
+	set my_alarms(${user}_pic_st) [getAlarmItem $user pic_st]
+	set my_alarms(${user}_loop) [getAlarmItem $user loop]
+	set my_alarms(${user}_onconnect) [getAlarmItem $user onconnect]
+	set my_alarms(${user}_onmsg) [getAlarmItem $user onmsg]
+	set my_alarms(${user}_onstatus) [getAlarmItem $user onstatus]
+	set my_alarms(${user}_ondisconnect) [getAlarmItem $user ondisconnect]
+	set my_alarms(${user}_command) [getAlarmItem $user command]
+	set my_alarms(${user}_oncommand) [getAlarmItem $user oncommand]
 
 	toplevel .alarm_cfg
 	wm title .alarm_cfg "[trans alarmpref] $user"
@@ -141,7 +104,7 @@ proc alarm_cfg { user } {
 	checkbutton .alarm_cfg.buttonpic -text "[trans picstatus]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_pic_st) -font splainf
 	pack .alarm_cfg.buttonpic -side top -anchor w -expand true -padx 30
 
-	checkbutton .alarm_cfg.alarm -text "[trans alarmstatus]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}) -font splainf
+	checkbutton .alarm_cfg.alarm -text "[trans alarmstatus]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_enabled) -font splainf
 	checkbutton .alarm_cfg.alarmonconnect -text "[trans alarmonconnect]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_onconnect) -font splainf
 	checkbutton .alarm_cfg.alarmonmsg -text "[trans alarmonmsg]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_onmsg) -font splainf
 	checkbutton .alarm_cfg.alarmonstatus -text "[trans alarmonstatus]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_onstatus) -font splainf
@@ -161,33 +124,26 @@ proc alarm_cfg { user } {
 	pack .alarm_cfg.b -side top -padx 0 -pady 4 -anchor e -expand true -fill both
 }
 
-proc unsetAlarmItem { user item } {
-	global alarms
-	if { [info exists alarms(${user}_${item})] } {
-		unset alarms(${user}_${item})
-	}
-}
 
 #Deletes variable settings for current user.
 proc delete_alarm { user } {
-	global alarms my_alarms
+	global my_alarms
 	
-	if { [info exists alarms(${user})] } {
-		unset alarms(${user})
-	}
-	array unset alarms "${user}_*"
 	
-	unset my_alarms(${user}) 
-	array unset my_alarms "${user}_*"
+	status_log "alarms: deleting alarm for $user\n" blue
 	
+	::abook::setContactData $user alarms ""
+	::abook::saveToDisk
+	unset my_alarms
 	
 	cmsn_draw_online
 }
 
 #Saves alarm settings for current user on OK press.
 proc save_alarm_pref { user } {
-	global alarms my_alarms 
+	global my_alarms 
 
+		
 	if { ($my_alarms(${user}_sound_st) == 1) && ([file exists "$my_alarms(${user}_sound)"] == 0) } {
 		msg_box [trans invalidsound]
 		return
@@ -208,35 +164,35 @@ proc save_alarm_pref { user } {
 		}
 	}
 
-	set alarms(${user}) $my_alarms(${user})
-	set alarms(${user}_loop) $my_alarms(${user}_loop)
-	set alarms(${user}_sound_st) $my_alarms(${user}_sound_st)
-	set alarms(${user}_pic_st) $my_alarms(${user}_pic_st)
-	if { $my_alarms(${user}_sound) != "" } {
-		set alarms(${user}_sound) $my_alarms(${user}_sound)
-	}
-	if { $my_alarms(${user}_pic) != "" } {
-		set alarms(${user}_pic) $my_alarms(${user}_pic)
-	}
-	if {![info exists my_alarms(${user}_onconnect)]} {
-		set my_alarms(${user}_onconnect) 0
-	}
-	set alarms(${user}_onconnect) $my_alarms(${user}_onconnect)
-	set alarms(${user}_onmsg) $my_alarms(${user}_onmsg)
-	set alarms(${user}_onstatus) $my_alarms(${user}_onstatus)
-	set alarms(${user}_ondisconnect) $my_alarms(${user}_ondisconnect)
-	set alarms(${user}_command) $my_alarms(${user}_command)
-	set alarms(${user}_oncommand) $my_alarms(${user}_oncommand)
+	set alarms(enabled) $my_alarms(${user}_enabled)
+	set alarms(loop) $my_alarms(${user}_loop)
+	set alarms(sound_st) $my_alarms(${user}_sound_st)
+	set alarms(pic_st) $my_alarms(${user}_pic_st)
+	set alarms(sound) $my_alarms(${user}_sound)
+	set alarms(pic) $my_alarms(${user}_pic)
+	set alarms(onconnect) $my_alarms(${user}_onconnect)
+	set alarms(onmsg) $my_alarms(${user}_onmsg)
+	set alarms(onstatus) $my_alarms(${user}_onstatus)
+	set alarms(ondisconnect) $my_alarms(${user}_ondisconnect)
+	set alarms(command) $my_alarms(${user}_command)
+	set alarms(oncommand) $my_alarms(${user}_oncommand)
+	
+	status_log "alarms: saving alarm for $user\n" blue	
+	::abook::setContactData $user alarms [array get alarms]
+	::abook::saveToDisk
+	
+	destroy .alarm_cfg
 	cmsn_draw_online
-
 	unset my_alarms
-	save_alarms
-	destroy .alarm_cfg	
 }
 
 #Runs the alarm (sound and pic)
 proc run_alarm {user msg} {
-	global alarms program_dir config alarm_win_number tcl_platform
+	global program_dir config tcl_platform alarm_win_number
+	
+	if { ![info exists alarm_win_number] } {
+		set alarm_win_number 0
+	}
 
 	incr alarm_win_number
 	set wind_name alarm_${alarm_win_number}
@@ -248,26 +204,26 @@ proc run_alarm {user msg} {
 	wm title .${wind_name} "[trans alarm] $user"
 	label .${wind_name}.txt -text "$msg"
 	pack .${wind_name}.txt
-	if { ($alarms(${user}_pic_st) == 1) } {
-		image create photo joanna -file $alarms(${user}_pic)
-		if { ([image width joanna] < 500) && ([image height joanna] < 500) } {
+	if { [getAlarmItem ${user} pic_st] == 1 } {
+		image create photo joanna -file [getAlarmItem ${user} pic]
+		if { ([image width joanna] < 1024) && ([image height joanna] < 768) } {
 			label .${wind_name}.jojo -image joanna
 			pack .${wind_name}.jojo
 		}
 	}
 
-	if { [info exists alarms(${user}_oncommand)] && $alarms(${user}_oncommand) == 1 } {
-		string map [list "\$msg" "$msg" "\\" "\\\\" "\$" "\\\$" "\[" "\\\[" "\]" "\\\]" "\(" "\\\(" "\)" "\\\)" "\{" "\\\}" "\"" "\\\"" "\'" "\\\'" ] $alarms(${user}_command)
-		catch { eval exec $alarms(${user}_command) & } res 
+	if { [getAlarmItem ${user} oncommand] == 1 } {
+		string map [list "\$msg" "$msg" "\\" "\\\\" "\$" "\\\$" "\[" "\\\[" "\]" "\\\]" "\(" "\\\(" "\)" "\\\)" "\{" "\\\}" "\"" "\\\"" "\'" "\\\'" ] [getAlarmItem ${user} command]
+		catch { eval exec [getAlarmItem ${user} command] & } res 
 	}
 
 	status_log "${wind_name}"
-	if { $alarms(${user}_sound_st) == 1 } {
+	if { [getAlarmItem ${user} sound_st] == 1 } {
 		#need different commands for windows as no kill or bash etc
 		if { $tcl_platform(platform) == "windows" } {
 			#Some verions of tk don't support this
 			catch { wm attributes .${wind_name} -topmost 1 }
-			if { $alarms(${user}_loop) == 1 } {
+			if { [getAlarmItem ${user} loop] == 1 } {
 				global stoploopsound
 				set stoploopsound 0
 				button .${wind_name}.stopmusic -text [trans stopalarm] -command "destroy .${wind_name}; set stoploopsound 1"
@@ -275,22 +231,22 @@ proc run_alarm {user msg} {
 				while { $stoploopsound == 0 } {
 					update
 					after 100
-					catch { eval exec "[regsub -all {\\} $command {\\\\}] [regsub -all {/} $alarms(${user}_sound) {\\\\}]" & } res 
+					catch { eval exec "[regsub -all {\\} $command {\\\\}] [regsub -all {/} [getAlarmItem ${user} sound] {\\\\}]" & } res 
 					update
 				}
 			} else {
 				button .${wind_name}.stopmusic -text [trans stopalarm] -command "destroy .${wind_name}"
 				pack .${wind_name}.stopmusic -padx 2
 				update
-				catch { eval exec "[regsub -all {\\} $command {\\\\}] [regsub -all {/} $alarms(${user}_sound) {\\\\}]" & } res 
+				catch { eval exec "[regsub -all {\\} $command {\\\\}] [regsub -all {/} [getAlarmItem ${user} sound] {\\\\}]" & } res 
 			}			
 		} else {
-			if { $alarms(${user}_loop) == 1 } {
+			if { [getAlarmItem ${user} loop] == 1 } {
 				button .${wind_name}.stopmusic -text [trans stopalarm] -command "destroy .${wind_name}; catch { eval exec killall jwakeup } ; catch { eval exec killall -TERM $command }"
 				pack .${wind_name}.stopmusic -padx 2
-				catch { eval exec ${program_dir}/jwakeup $command $alarms(${user}_sound) & } res
+				catch { eval exec ${program_dir}/jwakeup $command [getAlarmItem ${user} sound] & } res
 			} else {
-				catch { eval exec $command $alarms(${user}_sound) & } res 
+				catch { eval exec $command [getAlarmItem ${user} sound] & } res 
 				button .${wind_name}.stopmusic -text [trans stopalarm] -command "catch { eval exec killall -TERM $command } res ; destroy .${wind_name}"
 				pack .${wind_name}.stopmusic -padx 2
 			}
@@ -303,22 +259,45 @@ proc run_alarm {user msg} {
 
 # Switches alarm setting from ON/OFF
 proc switch_alarm { user icon} {
-	global alarms
-	if { $alarms($user) == 1 } {
-		set alarms($user) 0
+	#We get the alarms configuration. It's stored as a list, but it's converted to an array
+	array set alarms [::abook::getContactData $user alarms]
+
+	if { [info exists alarms(enabled)] && $alarms(enabled) == 1 } {
+		set alarms(enabled) 0
 	} else {
-		set alarms($user) 1
+		set alarms(enabled) 1
 	}
+	
+	#We set the alarms configuration. We can't store an array, so we convert it to a list
+	::abook::setContactData $user alarms [array get alarms]
 	redraw_alarm_icon $user $icon
 }
 
 # Redraws the alarm icon for current user ONLY without redrawing full list of contacts
-proc redraw_alarm_icon { user icon} {
-	global pgBuddy alarms
+proc redraw_alarm_icon { user icon } {
 
-	if { $alarms($user) == 1 } {
+	if { [getAlarmItem $user enabled] == 1 } {
 		$icon configure -image bell
 	} else {
 		$icon configure -image belloff
 	}
+}
+
+namespace eval ::alarms {
+	proc isEnabled { user } {
+		return [getAlarmItem $user enabled]
+	}
+
+	proc getAlarmItem { user item } {
+	
+		#We convert the stored data (a list) into an array
+		array set alarms [::abook::getContactData $user alarms]
+		
+		if { [info exists alarms($item)] } {
+			return $alarms($item)
+		} else {
+			return ""
+		}
+	}
+
 }

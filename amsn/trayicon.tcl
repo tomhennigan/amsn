@@ -122,7 +122,7 @@ proc trayicon_init {} {
 	     #$iconmenu add command -label "[trans login]" -command "::MSN::connect $config(login) $password" -state disabled
 	}
 	#$iconmenu add command -label "[trans login]..." -command cmsn_draw_login
-  	$iconmenu add command -label "[trans logout]" -command "::MSN::logout; save_alarms" -state disabled
+  	$iconmenu add command -label "[trans logout]" -command "::MSN::logout" -state disabled
 	$iconmenu add command -label "[trans changenick]..." -command cmsn_change_name -state disabled
 	$iconmenu add separator
    	$iconmenu add command -label "[trans sendmsg]..." -command  [list ::amsn::ShowSendMsgList [trans sendmsg] ::amsn::chatUser ] -state disabled

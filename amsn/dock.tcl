@@ -57,7 +57,6 @@ proc dock_handler { sock } {
 		cmsn_draw_login
 	} elseif { $l == "SIGNOUT" } {
 		::MSN::logout
-		save_alarms
 	} elseif { $l == "AMSN_CLOSE" } {
 		close_cleanup
 		exit

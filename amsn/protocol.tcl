@@ -2313,11 +2313,10 @@ proc cmsn_sb_msg {sb_name recv} {
       sb set $sb_name lastmsgtime [clock format [clock seconds] -format %H:%M:%S]
 
       #if alarm_onmsg is on run it
-      global alarms
-      if { ([info exists alarms(${chatid}_onmsg)]) && ($alarms(${chatid}_onmsg) == 1) && ([info exists alarms(${chatid})]) && ($alarms(${chatid}) == 1)} {
+      if { ( [::alarms::isEnabled $chatid] == 1 )&& ( [::alarms::getAlarmItem $chatid onmsg] == 1) } {
 	  set username [::abook::getNick $chatid]
 	  run_alarm $chatid  "[trans says $username] $body"
-      } elseif { ([info exists alarms(all_onmsg)]) && ($alarms(all_onmsg) == 1) && ([info exists alarms(all)]) && ($alarms(all) == 1)} {
+      } elseif { ( [::alarms::isEnabled all] == 1 )&& ( [::alarms::getAlarmItem all onmsg] == 1) } {
 	  set username [::abook::getNick $chatid]	  
 	  run_alarm all  "[trans says $username] $body"
       }
@@ -2928,7 +2927,7 @@ proc cmsn_update_users {sb_name recv} {
 
 #TODO: ::abook system
 proc cmsn_change_state {recv} {
-	global config alarms
+	global config
 
 	#::plugins::PostEvent ChangeState recv list_users list_states
 
@@ -2968,20 +2967,19 @@ proc cmsn_change_state {recv} {
 	
 	
     #alarm system (that must replace the one that was before) - KNO
-	global alarms
 	if {[lindex $recv 0] !="ILN"} {
 	
 		if {[lindex $recv 0] == "FLN"} {
 			#User disconnected
 			
-			if { ([info exists alarms([lindex $recv 1]_ondisconnect)]) && ($alarms([lindex $recv 1]_ondisconnect) == 1) && ([info exists alarms([lindex $recv 1])]) && ($alarms([lindex $recv 1]) == 1)} {
+			if {  ( [::alarms::isEnabled $user] == 1 )&& ( [::alarms::getAlarmItem $user ondisconnect] == 1) } {
 				run_alarm [lindex $recv 1] [trans disconnect $user_name]
-			} elseif { ([info exists alarms(all_ondisconnect)]) && ($alarms(all_ondisconnect) == 1) && ([info exists alarms(all)]) && ($alarms(all) == 1)} {
+			} elseif {  ( [::alarms::isEnabled all] == 1 )&& ( [::alarms::getAlarmItem all ondisconnect] == 1) } {
 				run_alarm all [trans disconnect $user_name]
 			}
 		
 		} else {
-			if { ([info exists alarms([lindex $recv 2]_onstatus)]) && ($alarms([lindex $recv 2]_onstatus) == 1) && ([info exists alarms([lindex $recv 2])]) && ($alarms([lindex $recv 2]) == 1)} {
+			if { ( [::alarms::isEnabled $user] == 1 )&& ( [::alarms::getAlarmItem $user onstatus] == 1) } {
 				switch -exact [lindex $recv 1] {
 					"NLN" {
 					run_alarm [lindex $recv 2] "[trans changestate $user_name [trans online]]"
@@ -3005,7 +3003,7 @@ proc cmsn_change_state {recv} {
 					run_alarm [lindex $recv 2] "[trans changestate $user_name [trans gonelunch]]"
 					}
 				}
-			} elseif {([info exists alarms(all_onstatus)]) && ($alarms(all_onstatus) == 1) && ([info exists alarms(all)]) && ($alarms(all) == 1)} {
+			} elseif { ( [::alarms::isEnabled all] == 1 )&& ( [::alarms::getAlarmItem all onstatus] == 1)} {
 				switch -exact [lindex $recv 1] {
 					"NLN" {
 					run_alarm all "[trans changestate $user_name [trans online]]"
@@ -3070,9 +3068,9 @@ proc cmsn_change_state {recv} {
 			::amsn::notifyAdd "$short_name\n[trans logsin]." "::amsn::chatUser $user" online
 		}
 
-		if { ([info exists alarms([lindex $recv 2]_onconnect)]) && ($alarms([lindex $recv 2]_onconnect) == 1) && ([info exists alarms([lindex $recv 2])]) && ($alarms([lindex $recv 2]) == 1)} {
+		if {  ( [::alarms::isEnabled $user] == 1 )&& ( [::alarms::getAlarmItem $user onconnect] == 1)} {
 			run_alarm [lindex $recv 2] "$user_name [trans logsin]"
-		} elseif { ([info exists alarms(all_onconnect)]) && ($alarms(all_onconnect) == 1) && ([info exists alarms(all)]) && ($alarms(all) == 1)} {	
+		} elseif {  ( [::alarms::isEnabled all] == 1 )&& ( [::alarms::getAlarmItem all onstatus] == 1)} {	
 			run_alarm all "$user_name [trans logsin]"
 		}
 	} 
@@ -3555,6 +3553,8 @@ proc cmsn_auth {{recv ""}} {
 				::abook::clearData
 				::abook::setConsistent
 			}
+			#For compatibility only!!
+			load_alarms
 			load_contact_list
 
 			#We need to wait until the SYN reply comes, or we can send the CHG request before
@@ -3953,8 +3953,6 @@ proc cmsn_ns_connect { username {password ""} {nosignin ""} } {
 	set ::hotmail::unread 0
 
 	cmsn_socket ns
-
-	load_alarms		;# Load alarms config on login
 
 	return 0
 }

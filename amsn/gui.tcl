@@ -490,7 +490,6 @@ namespace eval ::amsn {
 
 	#///////////////////////////////////////////////////////////////////////////////
 	proc deleteUser { user_login { grId ""} } {
-		global alarms
 		set parent [focus]
 		if { $parent == ""} { set parent "."}
 
@@ -498,10 +497,7 @@ namespace eval ::amsn {
 
 		if {$answer == "yes"} {
 			::MSN::deleteUser ${user_login} $grId
-			if { [info exists alarms($user_login)] } {
-				unset alarms($user_login) alarms(${user_login}_sound) alarms(${user_login}_pic) \
-					alarms(${user_login}_sound_st) alarms(${user_login}_pic_st) alarms(${user_login}_loop)
-			}
+			::abook::setContactData $user_login alarms ""
 		}
 	}
 	#///////////////////////////////////////////////////////////////////////////////
@@ -3301,7 +3297,7 @@ proc cmsn_draw_main {} {
 	}
 	.main_menu.file add command -label "[trans login]..." -command \
 	cmsn_draw_login
-	.main_menu.file add command -label "[trans logout]" -command "::MSN::logout; save_alarms"
+	.main_menu.file add command -label "[trans logout]" -command "::MSN::logout"
 	.main_menu.file add cascade -label "[trans mystatus]" \
 		-menu .my_menu -state disabled
 	.main_menu.file add separator
@@ -4854,7 +4850,7 @@ proc getUniqueValue {} {
 
 #///////////////////////////////////////////////////////////////////////
 proc ShowUser {user_name user_login state_code colour section grId} {
-	global pgBuddy alarms emailBList Bulle config tcl_platform
+	global pgBuddy emailBList Bulle config tcl_platform
 
 	if {($state_code != "NLN") && ($state_code !="FLN")} {
 		set state_desc " ([trans [::MSN::stateToDescription $state_code]])"
@@ -4905,7 +4901,7 @@ proc ShowUser {user_name user_login state_code colour section grId} {
 	set statew [font measure splainf -displayof $pgBuddy.text " $state_desc "]
 	set blanksw [font measure splainf -displayof $pgBuddy.text "      "]
 	incr maxw [expr {-25-$statew-$blanksw}]
-	if { [info exists alarms(${user_login})] } {
+	if { [::alarms::isEnabled $user_login] != "" } {
 		incr maxw -25
 	}
 
@@ -4953,15 +4949,16 @@ proc ShowUser {user_name user_login state_code colour section grId} {
        	        	"$pgBuddy.text tag conf $user_unique_name -under false; $pgBuddy.text conf -cursor left_ptr"
 
 	}
+	
 	#	Draw alarm icon if alarm is set
-	if { [info exists alarms(${user_login})] } {
+	if { [::alarms::isEnabled $user_login] != ""} {
 		#set imagee [string range [string tolower $user_login] 0 end-8]
 		#trying to make it non repetitive without the . in it
 		#Patch from kobasoft
 		set imagee "alrmimg_[getUniqueValue]"
 		#regsub -all "\[^\[:alnum:\]\]" [string tolower $user_login] "_" imagee
 
-		if { $alarms(${user_login}) == 1 } {
+		if { [::alarms::isEnabled $user_login] } {
 			label $pgBuddy.text.$imagee -image bell
 		} else {
 			label $pgBuddy.text.$imagee -image belloff
@@ -5857,11 +5854,11 @@ proc configureMenuEntry {m e s} {
 # Makes some cleanup and config save before closing
 proc close_cleanup {} {
 	global HOME config lockSock tcl_platform
+	catch { ::MSN::logout}
 	set config(wingeometry) [wm geometry .]
 
 	save_config
 	::config::saveGlobal
-	save_alarms   ;# Save alarm settings
 
 	LoadLoginList 1
 	# Unlock current profile
@@ -5878,8 +5875,6 @@ proc close_cleanup {} {
 	if { $tcl_platform(os) == "Darwin" } {
 		catch {exec killall -c sndplay}
 	}
-
-	catch {::MSN::logout}
 
 	close_dock    ;# Close down the dock socket
 	catch {file delete [file join $HOME hotlog.htm]} res
@@ -5989,7 +5984,7 @@ proc setColor {w button name options} {
 
 #///////////////////////////////////////////////////////////////////////
 proc show_umenu {user_login grId x y} {
-	global config alarms
+	global config
 
 	set blocked [::MSN::userIsBlocked $user_login]
 	.user_menu delete 0 end
