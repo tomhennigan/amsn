@@ -327,11 +327,6 @@ proc mailicon_proc {num} {
 		if { $config(dock) != 4 } {
 			remove_icon $mailicon
 			set mailicon 0
-			# Workaround for bug in the traydock-plugin - simply re-initialize - BEGIN
-			remove_icon $statusicon
-			set statusicon 0	
-			init_dock
-			# Workaround for bug in the traydock-plugin - simply re-initialize - END
 		} else {
 			winico taskbar delete $winmailicon
 			set mailicon 0

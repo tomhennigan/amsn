@@ -3269,7 +3269,7 @@ proc cmsn_draw_main {} {
      -menu .my_menu -state disabled
    .main_menu.file add separator
    .main_menu.file add command -label "[trans inbox]" -command \
-     "hotmail_login [list $config(login)] [list $password]"
+     [list hotmail_login $config(login) $password]
    .main_menu.file add separator
    .main_menu.file add command -label "[trans savecontacts]..." \
    	-command "debug_cmd_lists -export" -state disabled
@@ -4369,6 +4369,11 @@ proc clickableImage {tw name image command {padx 0} {pady 0}} {
 }
 #///////////////////////////////////////////////////////////////////////
 
+proc do_hotmail_login {} {
+	global config password
+	hotmail_login $config(login) $password
+}
+
 #///////////////////////////////////////////////////////////////////////
 # TODO: move into ::amsn namespace, and maybe improve it
 proc cmsn_draw_online { {delay 0} } {
@@ -4460,7 +4465,7 @@ proc cmsn_draw_online { {delay 0} } {
 
 	#Set up TAGS for mail notification
 	$pgBuddy.text tag conf mail -fore black -underline true -font splainf
-	$pgBuddy.text tag bind mail <Button1-ButtonRelease> "$pgBuddy.text conf -cursor watch;hotmail_login [list $config(login)] [list $password]"
+	$pgBuddy.text tag bind mail <Button1-ButtonRelease> "$pgBuddy.text conf -cursor watch; do_hotmail_login"
 	$pgBuddy.text tag bind mail <Enter> \
 		"$pgBuddy.text tag conf mail -under false;$pgBuddy.text conf -cursor hand2"
 	$pgBuddy.text tag bind mail <Leave> \
@@ -4596,7 +4601,7 @@ proc cmsn_draw_online { {delay 0} } {
 	$pgBuddy.text insert end "\n"
 
 	# Show Mail Notification status
-	clickableImage $pgBuddy.text mailbox mailbox "hotmail_login [list $config(login)] [list $password]" 5 0
+	clickableImage $pgBuddy.text mailbox mailbox [list hotmail_login $config(login) $password] 5 0
 
 	set unread [::hotmail::unreadMessages]
 
