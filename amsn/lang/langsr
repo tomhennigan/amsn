@@ -17,7 +17,6 @@ appearance Izgled
 appearoff Izigravaj da si oflajn
 areacode Postanski Broj
 aretyping $1 kuca poruku
-askprofile Ovaj login trenutno nema profil. Da li zelite da kreirate novi? \n Ako ne necete moci da koristite History, ili da snimite svije alarme i sifre. \n Ako da, imacete posebnu konfiguraciju za ovaj novi profil. \n \n Klikni na "Kreitaj Profil" da bi kreirao novi profil za $1.
 autoaway Prikazi me kao "Otisao" ako sam neaktivan
 autoconnect2 Uloguj se automatski kad se aMSN startuje
 autoconnect Konektuj se kad se amsn startuje

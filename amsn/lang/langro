@@ -1,4 +1,3 @@
-00translationdate Last update 18.02.2004 by arny (arny@arny.ro). If somebody make updates please make a note here.
 amsn_lang_version 2
 about Despre
 accept Accepta
@@ -158,7 +157,6 @@ dockkde Ataseaza in KDE
 dontdownload Nu descarca TLS, O sa il instalez manual
 dontshow Nu arata
 downloadingtls In curs de descarcare modulul TLS de la:\n $1
-editcurrentstate Editare curenta
 editcustomstate Editeaza stare personalizata
 edit Editare
 editnewstate Creeaza o noua stare pentru mesajului automat
@@ -199,8 +197,7 @@ ftaccepting Transfer de fisier acceptat
 ftconnecterror Eroare de conectare la calculatorul de la distanta
 ftconnecting In curs de conectare la $1 portul $2
 ftconnectionlost Conexie intrerupta
-ftgotinvitation $1 trimite fisierul '$2' ($3 bytes). Va fi salvat in directorul $4.
-Vrei sa primesti fisierul?
+ftgotinvitation $1 trimite fisierul '$2' ($3 bytes). Va fi salvat in directorul $4. Vrei sa primesti fisierul?
 ftportpref Foloseste acest port pentru transferurile de fisier
 ftrejectedby $1 a refuzat transferul de fisier pentru fisierul '$2'.
 ftrejected Transfer de fisier refuzat
@@ -278,8 +275,7 @@ logout Deautentificare
 logsin tocmai s-a autentificat
 logsmileys Afiseaza semnele de converatie in fereastra jurnal
 logsout tocmai s-a deautentificat
-longnick Nick-ul tau este mai lung de 130 de caractere. Aceasta nu este suportata
-oficial de catre protocolul MSN. Sigur vrei sa il modifici?
+longnick Nick-ul tau este mai lung de 130 de caractere. Aceasta nu este suportata oficial de catre protocolul MSN. Sigur vrei sa il modifici?
 lprivtoconf Conversatiile private au devenit conferinte cu $1
 luclosedwin Ai inchis fereastra pe (la) $1
 mailerexample ( \$recipient = Recipient ) Nu completa pentru Hotmail
@@ -481,8 +477,7 @@ textsize Marime text
 timeremaining Timp ramas
 timestamps Activeaza delimitarile de timp in fereastra de conversatie
 title aMSN Messanger
-tkerror TK a lansat o eroare. Este un bug in AMSN - te rog anunta-l. Trimite
-fisierul $1 la amsn-bugs@lists.sf.net
+tkerror TK a lansat o eroare. Este un bug in AMSN - te rog anunta-l. Trimite fisierul $1 la amsn-bugs@lists.sf.net
 tlsdowncompleted Fisierul $1 a fost salvat in directorul $2. Trebuie dezarhivat, compilat (daca e codul sursa) si instalat in $3.
 tlsexplain Directorul in care se afla modulul tcl TLS. Daca AMSN nu il poate gasi, te rog specifica.\n(Necesar pentru autentificare SSL).
 tlsinstallexp aMSN necesita MSNP9, care necesita conexie \nsecurizata folosind SSL. Pentru a folosi SSL, aMSN trebuie  sa instaleze un modul numit TLS,\ncare lipseste din sistem. Acest utilitar va ajuta sa descarcati si \nsa instalati TLS. Selectati tipul sistemului pentru a putea descarca automat \nfisierele TLS.
@@ -523,5 +518,3 @@ yoffset Coordonata Y
 youblocked Ai fost blocat
 yousay Tu zici
 youwant Tu vrei
-
-
