@@ -4651,7 +4651,13 @@ proc cmsn_draw_offline {} {
 
 	$pgBuddy.text configure -state normal
 	$pgBuddy.text delete 0.0 end
-
+	
+	
+	#Send postevent "OnDisconnect" to plugin when we disconnect	
+	set evPar(email) [::abook::getPersonal login]
+	set evPar(nick) [::abook::getPersonal nick]
+	::plugins::PostEvent OnDisconnect evPar
+	
 #Iniciar session
 
 	$pgBuddy.text tag conf check_ver -fore #777777 -underline true \

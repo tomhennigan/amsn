@@ -4106,7 +4106,11 @@ proc cmsn_auth {{recv ""}} {
 
 			configureMenuEntry .main_menu.actions "[trans sendmail]..." normal
 			configureMenuEntry .main_menu.actions "[trans sendmsg]..." normal
-
+				
+			#Send postevent "OnConnect" to plugin when we connect	
+			set evPar(email) [::abook::getPersonal login]
+			set evPar(nick) [::abook::getPersonal nick]
+			::plugins::PostEvent OnConnect evPar
 
 			return 0
 		}
@@ -4431,6 +4435,7 @@ proc cmsn_ns_connect { username {password ""} {nosignin ""} } {
 	sb set ns connected "cmsn_ns_connected"
 
 	cmsn_socket ns
+	
 
 	return 0
 }
