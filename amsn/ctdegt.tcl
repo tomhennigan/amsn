@@ -1073,7 +1073,8 @@ proc Preferences { { settings "personal"} } {
     bind .cfg <Destroy> "RestorePreferences"
 	
     tkwait visibility .cfg
-    grab set .cfg
+    #grab set .cfg
+
 }
 
 proc reload_advanced_options {opt_list} {
@@ -1782,6 +1783,9 @@ proc getdisppic_clicked {} {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.107  2004/01/18 13:32:51  airadier
+# Don't grab preferences window, or you won't be able to change font, and other things in pop-up windows.
+#
 # Revision 1.106  2004/01/17 15:32:48  airadier
 # Some improvements in preferences window.
 # Updated spanish translations.
