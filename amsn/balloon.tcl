@@ -54,12 +54,10 @@ proc set_balloon {target message} {
     bindtags $target "[bindtags $target] Bulle"
 }
 
-proc unset_balloon {target} {
+proc change_balloon {target message} {
 	kill_balloon
-	bind $target <Enter> ""
-	bind $target <Button> ""
-	bind $target <Leave> ""
-	bind $target <Motion> ""
+	global Bulle
+	set Bulle($target) $message
 }
 
 proc kill_balloon {} {
