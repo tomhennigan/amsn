@@ -4,6 +4,7 @@ accept Accepter
 acceptfile Accepter le fichier $1 (taille = $2)? enregistré dans $3
 actions Actions
 activeautoupdate Activer la mise à jour automatique
+add Ajouter
 addacontact Ajouter un contact
 addedyou $1 ($2) vous a ajouté dans sa liste de contacts
 addprofile Ajouter un nouveau profil
@@ -121,6 +122,7 @@ clear Effacer
 clearlog2 Effacer l'historique de tous mes contacts
 clearlog3 Effacer tous les historiques
 clearlog Effacer les historiques
+clicktoadd Cliquer sur le bouton Ajouter pour une nouvelle note
 clicktologin Cliquez ici pour vous connecter
 clientname Nom du client
 clientcaps Envoyer les paquets x-clientcaps aux autres clients ?
@@ -144,6 +146,7 @@ connecterror Erreur de connexion
 connecting Se connecter
 connection Connexion
 connectionlost Déconnecté[e] : la connexion avec le serveur a été perdue
+contact Contact
 contactadded Contact ajouté
 contactdoesnotexist Personne introuvable
 contactlist Liste de contacts :
@@ -156,6 +159,7 @@ corruptconfig Fichier de configuration corrompu. Créez-en un nouveau. L'ancien f
 corruptstates  Fichier de configuration des status corrompu. Créez-en un nouveau. L'ancien fichier sera sauvegardé vers $1. Envoyez-le nous afin que nous regardions ce qui s'est passé.
 countrycode Mon pays/code région
 cprofile Créer un profil
+created créé[e]
 credits Crédits
 custnotifymsg Affiche une notification quand vous recevez un message d'un de vos contacts
 custnotifyoffline Affiche une notification quand un de vos contact se déconnecte.
@@ -163,6 +167,7 @@ custnotifyonline Affiche une notification quand un de vos contact se connecte
 custnotifystatus Affiche une notification quand un de vos contact change de status
 currentdate Date actuelle
 currentlanguage Langue actuel
+currentnotes Notes actuelles
 customcolor Couleur personnalisée
 custom_edit Editer un émoticon personnalisé
 custom_new Créer un émoticon personnalisé
@@ -207,8 +212,8 @@ dontdownload Ne pas télécharger TLS, je l'installerai moi-même
 dontshow Ne pas montrer
 download Télécharger
 downloadingtls Téléchargement du module TLS à partir de :\n $1
-editcustomstate Editer le statut personnel
 edit Edition
+editcustomstate Editer le statut personnel
 editnewstate Nouveau statut avec message automatique personnalisé
 editprofile Modifier profil
 editstate Editer un statut existant avec message automatique
@@ -291,10 +296,11 @@ httpconnection Connexion par la méthode HTTP (utilisation du protocole HTTP par 
 hybrid Mode mixte
 ident Identification
 identity Identité
-ignoreerrors Ignorer silencieusement les autres erreurs de aMsn jusqu'à la fin de la session
+ignoreerrors Ignorer silencieusement les autres erreurs de aMSN jusqu'à la fin de la session
 imagefiles Fichiers image
 inbox Boîte aux lettres
 insertsmiley Insérer émoticons
+inserttextnote Remplir les champ Sujet et Note, Puis cliquer sur Enregister
 installconvert Vous devez procéder à l'installation de ImageMagick (programme de convertion) afin de convertir les images au format requis par les serveurs de MSN. Vous pouvez télécharger les fichiers d'installation pour votre système d'exploitation à l'adresse ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Si ce programme est déjà installé, ceci est un bug, veuillez le rapporter.
 internalerror Erreur interne du serveur
 invalidfile2 Le fichier $1 ne peut pas être créée, assurez vous d'avoir les permissions nécessaires.
@@ -366,6 +372,7 @@ maximised Maximisé
 minimised Minimisé/Icônifié
 mins minutes
 mobile Mobile
+modified modifié[e]
 month Mois
 morepersonal Autres statuts ->
 move Déplacer
@@ -401,6 +408,7 @@ newtabbedfeature aMSN a une nouvelle caractéristique pour gérer les conversation
 newveravailable Nouvelle version disponible ($1)
 next Suivant
 nick Pseudonyme
+no Non
 noactivity Inactif
 nodataavailable Pas de données disponibles pour $1
 nogap Aucun espace entre les groupes
@@ -409,13 +417,12 @@ nologfile Pas d'historique pour $1
 noneavailable Pas disponible
 nonewmail Pas de nouveau message
 nonewver Il n'y a pas de nouvelle version disponible
-no Non
 nopic Pas d'icône
 noprofileexists Utiliser les profils... \nUtiliser le boutton Ajouter nouveau profil dans cette fenetre pour en créer un nouveau.
 normal Ordre normal
 noskins Ne trouve l'apparence par défaut dans le dossier skins/. Ne peut lancer aMSN.
 nosystemtray La poubelle n'est pas accessible
-nottabbed Fenêtre normale sans onglets
+note Note
 notificationserver Serveur MSN initial de notification (Serveur MSN Messenger)
 notify1_5 Afficher une notification quand les contacts se déconnectent
 notify1_75 Afficher une notification quand les contacts changent de statut
@@ -430,6 +437,7 @@ notifytyping Envoyer aux autres utilisateurs une notification lors de l'usage du
 notifywin Fenêtre de notification
 notinlist Vous ne figurez pas dans sa liste de contact
 notls Le protocole 9 de MSN requiert le module tls. Celui-ci ne semble pas être installé sur le système. S'il est installé,
+nottabbed Fenêtre normale sans onglets
 nousersinsession Pas d'utilisateur dans cette session
 nudge $1 réclame votre attention
 offline Déconnecté[e]
@@ -589,6 +597,8 @@ style Style
 stylechat Même apparence que les conversations
 stylehist Apparence des historiques d'aMSN
 stylelog Sélectionner le format dans lequel vous voulez voir l'historique
+subject Sujet
+subjectrequired Sujet requis
 syntaxerror Erreur de syntaxe
 tabbed Onglets
 tabbedglobal Une fenêtre à onglets pour tous les utilisateurs se trouvant dans votre liste de contacts
