@@ -1984,8 +1984,8 @@ namespace eval ::amsn {
 		if {$tcl_platform(os) == "Darwin"} {
 			.${win_name}.copy add cascade -label "iTunes" -menu .${win_name}.copy.itunes
 			menu .${win_name}.copy.itunes -tearoff 0 -type normal
-			.${win_name}.copy.itunes add command -label [trans xmmscurrent] -command "catch {exec osascript plugins/applescript/display_and_send.scpt &}; after 5000 itunes ${win_name} 1"
-			.${win_name}.copy.itunes add command -label [trans xmmssend] -command "catch {exec osascript plugins/applescript/display_and_send.scpt &}; after 5000 itunes ${win_name} 2"
+			.${win_name}.copy.itunes add command -label [trans xmmscurrent] -command "catch {exec osascript plugins/applescript/display_and_send.scpt &}; after 7000 itunes ${win_name} 1"
+			.${win_name}.copy.itunes add command -label [trans xmmssend] -command "catch {exec osascript plugins/applescript/display_and_send.scpt &}; after 7000 itunes ${win_name} 2"
 		}
 
 		frame .${win_name}.f -class amsnChatFrame -background [::skin::getColor background1] -borderwidth 0 -relief flat
