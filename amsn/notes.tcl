@@ -62,7 +62,7 @@ namespace eval ::notes {
   	 
   		toplevel $w
   		wm title $w "[trans notes]"
-  		wm geometry $w 675x480+30+30
+  		wm geometry $w 660x535+30+30
 		wm protocol $w DELETE_WINDOW "::notes::Display_Notes_Close"		
 
 
@@ -105,12 +105,20 @@ namespace eval ::notes {
 
 		# Display the E-Mail of the contact
 		frame $w.right.contact
-		label $w.right.contact.note -text "Contact" -font bigfont
-		label $w.right.contact.txt -text "$email\n[::abook::getDisplayNick $email]" -font bold
-		
-		pack configure $w.right.contact.note
-		pack configure $w.right.contact.txt -expand true
-		
+		frame $w.right.contact.right
+		label $w.right.contact.right.note -text "Contact" -font bigfont
+		label $w.right.contact.right.txt -text "$email\n[::abook::getDisplayNick $email]" -font bold
+		pack configure $w.right.contact.right.note
+		pack configure $w.right.contact.right.txt -expand true
+		pack configure $w.right.contact.right -expand true -side right
+
+		# Display the show/hide button
+		frame $w.right.contact.left
+		image create photo hide -format gif -file [::skin::GetSkinFile pixmaps contract.gif]
+		image create photo show -format gif -file [::skin::GetSkinFile pixmaps expand.gif]
+		button $w.right.contact.left.showhide
+		pack configure $w.right.contact.left.showhide -side left
+		pack configure $w.right.contact.left -side left
 
 
 		# Create the listbox containing the notes
@@ -195,9 +203,15 @@ namespace eval ::notes {
 		
 		bind $w.right.subject.txt <Tab> "focus $w.right.note.txt; break"
 
-		# If the E-Mail is not given, display the first contact
+		# If the E-Mail is not given, display the first contact and show the contact list
 		if { $email == "" } {
 			set email [lindex $::notes::contacts 0]
+			$w.right.contact.left.showhide configure -image hide -command "::notes::HideContact"
+		} else {
+			$w.right.contact.left.showhide configure -image show -command "::notes::ShowContact"
+			pack forget $w.contact
+			pack configure $w.right -side right -fill y -expand true
+			wm geometry $w 550x535
 		}
 
 		set ::notes::email $email
@@ -331,7 +345,7 @@ namespace eval ::notes {
 
 		set ::notes::email $contact
 
-		$w.right.contact.txt configure -text "$contact\n[::abook::getDisplayNick $contact]" -font bold
+		$w.right.contact.right.txt configure -text "$contact\n[::abook::getDisplayNick $contact]" -font bold
 
 		$w.right.button.new configure -state normal
 		$w.right.note.txt configure -state normal
@@ -625,6 +639,36 @@ namespace eval ::notes {
 				.notemanager.contact.box itemconfigure $i -background white
 			}
 		}
+
+	}
+
+
+#//////////////////////////////////////////////////////////////
+# 
+
+	proc HideContact { } {
+
+		set w ".notemanager"
+
+		pack forget $w.contact
+		pack configure $w.right -side right -fill y -expand true
+
+  		wm geometry $w 550x535
+
+		$w.right.contact.left.showhide configure -image show -command "::notes::ShowContact"
+
+	}
+
+
+	proc ShowContact { } {
+
+		set w ".notemanager"
+
+  		pack configure $w.contact -side left -fill y
+
+		wm geometry $w 660x535
+
+		$w.right.contact.left.showhide configure -image hide -command "::notes::HideContact"
 
 	}
 
