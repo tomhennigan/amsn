@@ -368,10 +368,10 @@ namespace eval ::amsnplus {
 		pack $w.top.txt -side top
 
 		frame $w.top.top
-		button $w.top.top.amsnplusbutton -image [::skin::loadPixmap amsnplusbutton] -relief flat -padx 3 \
+		label $w.top.top.amsnplusbutton -image [::skin::loadPixmap amsnplusbutton] -relief flat -padx 0 \
 			-background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0 \
 			-highlightbackground [::skin::getKey buttonbarbg] \
-			-command "after 1 ::amsnplus::choose_color $w $w.top.right.entry" -activebackground [::skin::getKey buttonbarbg]
+			-activebackground [::skin::getKey buttonbarbg]
 		button $w.top.top.boldbutton -text "B" -command "::amsnplus::insert_text $w [binary format c 2] $w.top.right.entry"
 		button $w.top.top.italicbutton -text "I" -command "::amsnplus::insert_text $w [binary format c 5] $w.top.right.entry"
 		button $w.top.top.overstrikebutton -text "S" -command "::amsnplus::insert_text $w [binary format c 6] $w.top.right.entry"
