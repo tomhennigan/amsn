@@ -5,24 +5,47 @@ acceptfile ¿Aceptar arquivo $1, tamaño $2 bytes? gardarase en $3
 actions Accións
 addacontact Engadir un contacto
 addedyou $1 ($2) engadiute á súa lista de contactos
+addprofile Engadir un perfil
+addprofiledesc Introduce o nome de usuario para o perfil que qeuiras crear. \nOs perficles che permiten ter configuracións distintas para cada usuario.\nSen un perfil non se pode usar o Historial, Alarmas ou lembrar contraseña.
+addstate Engadir un novo estado
+addto Engadir a $1
 addtocontacts Engadir ós contactos
 addtoo Engadir esta persoa á miña lista de contactos
 admincontacts Administrar contactos
 admingroups Administrar grupos
+advanced Avanzadas
+advancedprefs Configuración de opcións avanzadas
 adverts Anuncios
+alarmonconnect Activar alarma para este usuario cando se conecte
+alarmondisconnect Activar alarma para este usuario cando se desconecte
+alarmonmsg Activar alarma para este usuario cuando che envie unha mensaxe
+alarmonstatus Activar alarma para este usuario cuando cambie su estado
 alarmpref Opcións de alarma para o usuario
+alarms Alarmas
 alarmstatus Activar/Desactivar alarma para este usuario
+allfiles Todolos arquivos
+allowallbutbl Permitir que todolos usuarios excepto os bloqueados me poidan contactar
+allowbadwords Saltarse a censura nos apodos
+allowlist Lista de Aceptados(AL):
+allowonlyinal Permitir so ós usuarios Aceptados contactar conmigo
 allowseen Permitir a esta persoa ver cando estás conectado e contactar
+allprofilesinuse Todolos perfiles que existen están sendo usados actualmente
+animatedemoticon Emoticono con animación
+animatedsmileys Activar emoticonos animados
+animatenotify Fiestra de Notificacións con animación
 appearance Apariencia
 appearoff Sen conexión
 areacode Código de area
 aretyping $1 está escribindo unha mensaxe
-askprofile Este usuario non posúe todavía un perfil. ¿Desexa crear un novo? \nEn caso contrario no se poderá usa-lo Historial, ou guarda-lo contrasinal e alarmas. \n Ó crealo, terás unha configuración personalizada para esteperfil. \n \n Fai click en "Crear Perfil" para crear un novo perfil para$1.
+autoaccepted Transferencia de arquivo aceptada automáticamente
+autoacceptft Aceptar arquivos automáticamente en transferencias
 autoaway Mostrarme "Ausente" cando non hai actividade en
+autocheckver Buscar versións novas automáticamente ó iniciar AMSN
 autoconnect2 Conectarse automáticamente cando se inicia aMSN
 autoconnect Conectar ó arrancar aMSN
+autodetectip Detectar dirección IP automáticamente
 autohotmaillog Login hotmail automático
-autoidle Detección de inactividad
+autoidle Detección de inactividade
 autoip IP automática
 autonoact Mostrarme como "Sen actividade" cando no haxa actividade en
 avoidseen Evitar que esta persoa vexa a túa conexión e entre en contacto contigo
@@ -34,76 +57,162 @@ bgcolor Cambia-la cor de fondo de aMSN
 blankdirect Deixar en branco para conexión directa
 blocked Bloqueado
 block Non admitir
+blockedyougroup Mostrar un grupo aparte cos contactos que che bloquean
+blocking Bloqueo
+blockinter1 Cando estás en estado Conectado, comprobar cada:
+blockinter2 segundos, se non comprobar cada :
+blockinter3 contactos cada
+blockinter4 segundos
+blocklist Lista de Bloqueados(BL):
+blockmessage Os seguientes contactos están conectados e bloqueandote
+blockusers Comprobar continuamente 
 broughtby Traido a Vd. polos seguintes programadores
 browse Examinar
 browser Navegador
 busy Non dispoñible
+cachedpics $1 imaxes para mostrar almaceadas
 cancel Cancelar
 cannotdeleteprofile Non se puido borra-lo perfil. Semella que está sendo utilizado por unha sesión AMSN.
+cantexec Non se pode executa-la aplicación: $1. Comproba as preferencias
+cantremoveothers Non se pode borrar o grupo "Outros"
+casesensitive Diferenciar maiusculas/minusculas en disparador
 cfgalarm Configurar/Quitar alarma
+cfgalarmall Cambiar/Engadir/Quitar alarma global
+change Cambiar
+changecustomstate Cambiar a
+changedisplaypic Cambiar imaxen mostrada
 changefont Cambiar fonte
 changenick Cambiar alcume
 chatack Aceptando conversa de
+changestate $1 cambia o seu estado a $2
+charscounter Contador de caracteres tecleados na fiestra de conversa
 chat Conversa
+chatmaxmin Cando un contacto me abre unha conversa, quero que sexa:
 chatreq Solicitando unha conversa
 chatsmileys2 Mostrar emoticonos e smileys nas fiestras do chat
 chatsmileys Smileys no chat
+checkblocking Comprobar continuamente se che están bloqueando
+checkemail Mostrar liña de notificación de email (Bandexa de entrada) na lista de contactos
 checkfilman Os arquivos recibidos guardaranse en $1. Comproba a opción de administrador de arquivos na fiestra de preferencias.
 checkingver Buscando se hai dispoñible unha nova versión
+checkonfln Comprobar se un usuario che bloquea cando aparentemente se desconecta
 checkver Buscar novas versións
+choosearq Elixa a arquitectura do seu sistema
 choosebasefont Elixir tipo de letra
 choosebgcolor Elixir cor de fondo
+choosecontact Por favor selecciona un contacto da lista
 choosefontcolor Elixir cor da letra
+chooseskin Por favor, elixe o Tema que desexas usar
+ch_to_state Cambiar ó novo estado
 clearlog2 Limpar historial para todo-los contactos
 clearlog3 Limpar todo-los rexistros
 clearlog Limpar historial
 clicktologin Fai click aquí para inicia-la sesión
 close Pechar
+closed Conversa con $1 pechada por inactividade
 closingdocks O botón de pechar minimiza
 command Comando
 confirmdelete ¿Seguro de desexa borrar a $1?
 confirm ¿ Estás seguro ?
+confirmpurge Todalas Imaxes para Mostrar do resto dos contactos (non as túas) serán eliminadas. ¿ Estás seguro ?
+connected Agora estás conectado
 connecterror Error ó conectar co servidor
+connecting Conectando
 connection Conexión
+connectionlost Desconectado: Conexión co servidor pechada
 contactadded Contacto engadido
 contactdoesnotexist O contacto que tentas engadir non existe
+contactlist Lista de Contactos(FL):
+convertexplain Ruta ó arquivo executable CONVERT, do programa ImageMagick (necesario para as\nImáxes para Mostrar). Deixar en blanco se CONVERT se pode atopar no PATH.
 copy Copiar
 copytogroup Copiar ó grupo
+corruptconfig O arquivo configuración está corrupto. Creando un nuevo. O antigo será salvado como $1. Por favor, envíanolo para ver qué ocurriu.
+corruptstates O arquivo da configuración dos autoestados está corrupto. Creando un novo. O antigo será salvado como $1. Por favor, envíanolo para ver qué ocurriu.
 countrycode Código de país/rexión
 cprofile Crear Perfil
+credits Creditos
+currentdate Data actual
+customcolor Cor personal
+custom_edit Editar emoticono personalizado
+custom_new Angadir emoticono personalizado
+customnick Apodo persoal
 cut Cortar
 date Data
 days Días
 dcprofile Non Crear Perfil
 default Configuración por defecto
+defaultloginradio Usar configuración por defecto
+defchatwinsize Tamaño por defecto para as fiestras de conversa (HORIZONTALxVERTICAL)
+deletecustomstate Eliminar estado personalizado
+delimiters Delimitadores da hora:
 delete Eliminar
 deliverfail Houbo un problema mandando a seguinte mensaxe
 delprofile2 Elixe o perfil que che gustaría borrar
 delprofile Borrar Perfil
+description Descripción
+directconnection Teño unha conexión directa a internet (usa o porto 1863)
+disabled Desactivado
+disableprofiles Desactivar perfiles (Útil para cibercafés ou entornos compartidos)
+disablessl Desactivar SSL
+disconnect $1 desconectouse
+displaychat Configuración de mensaxes
+displayp4context Mostrar contido do campo P4-Context como remitente do mensaxe
+displaypic Imaxe para Mostrar
+dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Icono Gtk
 docking icono na bandexa do sistema
 dockingoff Desactivado
 dockkde Icono KDE
+dontdownload Non descargar TLS, instalareino eu mismo
+dontshow Non mostrar
+downloadingtls Descargando o módulo TLS dende:\n $1
 edit Edición
+editcustomstate Editar estado personalizado
+editnewstate Novo mensxe automático para estado personalizado
 editprofile Editar Perfil
+editstate Editar mensaxe automático para estado personalizado
+editvalue Editar valor
+emailsinlist Mostrar e-mails en lugar de apodos na lista de contactos
+emotisounds Reproducir sons asociados a certos emoticonos
+enablebanner Mostrar banner de aMSN (Require reiniciar aMSN)
+enabled Activado
+enableremote Activar servidor de control remoto
+enablesound Reproducir son
 enableproxy Activa-lo proxy
 encoding2 Cambia a forma na que se codifican os caracteres
 encoding Codificación de caracteres
 entercontactemail Introduce o email do contacto
 enterfilename Introduce o nombre do arquivo
 enternick Introduce o teu nick
+errortls Error instalando o módulo TLS:
 examples Exemplos
 exitamsn ¿Seguro que desexa saír?
 extras Servicios adicionais
-faq FAQ (Preguntas frecuentes)
-faq qmf (questións máis frecuentes)
+failed Fallo
+faileddelete Non se puido borrar
+faileddeleteperso Esta imaxe nno se pode borrar porque non é unha imaxe persoal para mostrar. So as imaxes que pertencen o teu perfil persoal poden ser eliminadas así.
+faq FAQ (questións máis frecuentes)
+file Arqivo
 filedoesnotexist O arquivo non existe
 fileman Administrador de Arquivos
 filename Nome do Arquivo
+filemanexample ( \$location será reemplazado polo directorio ) Ex: nautilus \$location
 filetransfercancelled Transferencia do arquivo cancelada
 filetransfercomplete Transferencia do arquivo completada
+followtext Desplazar hacia abaixo cando apareza novo texto
 ftaccepted Transferencia de arquivo aceptada
-ftrejected Transferencia de arquivo rexeitada
+ftacceptedby $1 invitouse a invitación da invitación á transferencia do arquivo '$2'.
+ftaccepting Aceptando invitación a transferencia de arquivos
+ftconnecterror Error conectando co usuario remoto
+ftconnecting Conectándose ó $1 puerto $2
+ftconnectionlost Conexión perdida co usuario remoto
+ftgotinvitation $1 desexa enviarlle o arqui '$2' ($3 bytes). Será gardado no directorio $4. ¿Desexa aceptar ese arquivo?
+ftportpref Usar este porto e os sucesivos para transferencias de arquivos
+ftrejected Transferencia de arquivo cancelada
+ftrejectedby $1 rechazouse a invitación á transferencia do ar	arquivo '$2'.
+ftsendinvitation Unha invitación para a transferencia do arquivo '$2' ($3 bytes) foi enviada a $1.
+fullcontactlist A súa lista de contactos está chea. Necesitará eliminar algún contacto para poder engadir nuevos.
+getdisppic Habilitar la recepción de Imágenes para Mostrar de otros usuarios
 gonelunch Fun comer
 groupadd Engadir un grupo
 groupdelete Borrar un grupo
@@ -118,12 +227,28 @@ groupunknown Grupo descoñecido
 handle Nick
 help Axuda
 helpcontents Temas de axuda
+hidedisplaypic Ocultar Imaxe para Mostrar
+hiden Non mostrar no no menú de emoticonos
+hidewindow Ocultar fiestra
 history Ver historial
 home Casa
+httpconnection Conectar usando o método HTTP (usa protocolo HTTP polo porto 80)
+hybrid Modo híbrido
 ident Identificándose
 identity Identificación
+imagefiles Arquivos de imaxes
 inbox Bandexa de entrada
+insertsmiley Insertar emoticono
+installconvert Debes instalar ImageMagick (comando 'convert') para poder convertir as imaxes ó formato empleado polos servidores de MSN. Podes descargar os binarios para o teu Sistema Operativo dende ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Si xa os tes, isto é un fallo en AMSN, por favor comunícanolo.
+internalerror Erro interno do servidor
+invalidfile O arquivo $2 introducido no campo "$1" non existe ou non se puido leer
+invalidfile2 O archivo $1 non puido crear, asegurate de que tes os permisos apropiados para o arquivo destino.
+invalidgroup Grupo non válido
+invalidpic O arquivo da imaxe elexido non existe
+invalidpicsize A imaxe elexida é demasiado grande, por favor elixa unha máis pequena
+invalidsound O arqivo de son elixido non existe
 invalidusername Nome de usuario inválido
+invitationcancelled A invitación foi cancelada
 invite Invitar
 ipaddress Dirección IP
 ipdetect Detecta-la IP correcta para transferencias usando HTTP
@@ -133,13 +258,18 @@ keepalive Manter activa a conexión (NAT)
 keeplog2 Rexistra-las conversas no historial para velas máis tarde
 keeplog Gardar historial das conversas
 language Linguaxe
+lastlogin Última conexión
+lastlogout Última desconexión
+lastmsgedme Última mensaxe
 lastmsgtime Última mensaxe recibida ás $1
 lclosedwin $1 pechou a fiestra ás $2
 lconftopriv A conversa a ser un privado con $1
 lconvstarted Comeza a conversa ás $1
 leaveblankforhotmail Deixar en branco para usar hotmail
+leavejoinsinchat Mostrar notificacións de "deixa/se une á conversa" na fiestra da conversa
 leaves $1 deixa a conversa
 lenteredconf $1 únese á conversa ás $2
+lineflushlog Escribir históricos a disco liña a liña (sen buffer)
 linprivate EN PRIVADO
 listeningon Escoitando no porto $1
 listsmileys2 Mostrar emoticonos e smileys na lista de contactos de aMSN
@@ -156,24 +286,31 @@ loging Historial
 login Iniciar sesión
 logolder Só rexistrar conversas ocorridas no último
 logout Pechar sesión
+logsbydate Ordear históricos por datas (Ver historial carga muito máis rápido)
 logsin acaba de iniciar sesión
 logsmileys Mostrar emoticonos e smileys na fiestra do historial de aMSN
+logsout acaba de remata-la sesión
+longnick A lonxitude do tu apodo é maior de 130 caracteres. Isto non e soportado oficialmente polo protocolo MSN. ¿Estás seguro de que desexas cambialo?
 lprivtoconf O privado convírtese en conversa múltiple con $1
 luclosedwin Ti pecha-la fiestra ás $1
 mailer Comando de email
+mailerexample ( \$recipient = Destinatario ) Deixar en blanco para usar Hotmail
 maximised Maximizada
 minimised Minimizada/Iconoficada
 mins minutos
-mobile Celular
 mobile Móbil
+morepersonal Máis estados ->
+move Mover
 movetogroup Mover ó grupo
-msgmaxmin Cando unha nova mensaxe chega quero que sexa :
 msg Mensaxe
+msgflicker Parpadeo na barra de título cando chega unha nova á conversa
+msgmaxmin Cando unha nova mensaxe chega quero que sexa :
 msgmode Elixe como manexar fiestras de múltiples mensaxes :
 msn AMSN
 mustrestart Debes reinicia-lo programa para aplica-los cambios
 myhomephone O meu teléfono de casa
 mymobilephone O meu teléfono móbil
+mypic Miña imaxe imaxe para mostrar:
 mystatus Meu estado
 myworkphone O meu teléfono do trabajo
 natip Deteción da IP por Web
@@ -182,19 +319,33 @@ needonline Aínda estás/apareces desconectado
 newmail $1 mensaxes novas na bandexa de entrada
 newmailfrom Novo correo de $1 ($2)
 newmsg Nova mensaxe
+newstate Engadir estado personalizado
 newveravailable Nova versión $1 dispoñible para descarga
 next Seguinte
+nick Apodo
+no Non
 noactivity Sen actividade
+nodataavailable Non hai datos dispoñibles para $1
+nogroup Sen grupo
 nologfile Non existe arquivo de historial para $1
+noneavailable Non hai ningún dispoñible
 nonewmail Non hai mensaxes novas na bandexa de entrada
 nonewver Non hai versións máis actuais dispoñibles
+nopic Sen imaxe
+noprofileexists Actualmente non existe ningún perfil. \n Debes crear un se queres usar os perfiles de usuario. \nUsa o botón "Engadir un perfil" en esta fiestra para crealo.
 normal Normal
+noskins Non se puido atopar o perfil por defecto (default) no cartafol skins/. Non se pode iniciar AMSN
+nosystemtray Bandexa do sistema non dispoñible
+notificationserver Servidor inicial de notificacións MSN (Servidor MSN Messenger)
 notify1 Mostrar ventá de aviso cando un contacto se conecte
 notify2 Mostrar ventá de aviso cando chegan novas mensaxes
 notify3 Mostrar ventá de aviso ó recibir un novo correo electrónico
 notify aviso
 notifyoffset Axusta a posición da ventá de aviso cun desprazamento
-notifywin Ventá de avisos
+notifytyping Enviar a outros usuarios notificacións cando se está tecleando
+notifywin Fiestra de avisos
+notinlist Non estás na súa lista de contactos
+notls A versión 9 do protocolo MSN require usar o paquete "tls". Este paquete non parece estar instalado no equipo. Se está instalado, a ruta ó directorio debería ser especificado na fiestra de Preferencias (ex: /opt/tls/lib). \n \n É posible descargar "tls" en http://tls.sf.net.
 nousersinsession Non hai usuarios na sesión
 offline Desconectado
 ok Aceptar
@@ -206,100 +357,186 @@ options Opcións
 ordercontactsby Ordenar contactos por
 ordergroupsby Ordenar grupos por
 other Outro
+others Outras
+p4contextprefix Prefixar remitentes en P4-Context con esta cadea de caracteres
 pager Paxinador
 pass Contrasinal
 paste Pegar
 personal Personal
 phone Teléfono
+phones Números de teléfono
+picbrowser Navegador de imaxes para mostrar
 picfile Arquivo de imaxen (GIF < 500 x 500)
 picstatus Imaxen para a alarma
+playing Reproducindo: $1
+pluginselector Selector de plug-ins
 port Porto
 prefalerts A miñas alertas e sons de eventos
 prefapps Aplicacións
 prefawaymsg Miñas mensaxes de ausente
+prefblock1 Comprobar cando se desconecta
+prefblock2 Comprobar continuamente
+prefblock3 Grupo "Foches bloqueado por..."
+prefconnection Configuración da conexión
 prefemotic Emoticonos e smileys.
 preferences Preferencias
 preffont2 Cambia-la forma na que outros ven o meu texto na conversa
 preffont3 Cambiar-lo tipo de letra e tamano do interfaz de aMSN
 preffont Texto das miñas mensaxes
+prefft Transferencias de arquivos, igual-a-igual e configuración de NAT
+preflibs Directorio para bibliotecas
 preflog1 Miñas opción do historial e rexistros
 preflook Apariencia do aMSN Messenger
 prefmsging Interfaz das miñas mensaxes
 prefname Meu nome/alcume no MSN Messenger
 prefphone2 Escribe os números que queras permitir ver ós contactos \n na tua lista de Permitidos \n
 prefphone Meus números de teléfono
+prefprivacy Lista de Aceptados/Bloqueados do usuario
+prefprivacy2 Lista de Contactos/Inversa do usuario
 prefprofile2 Crea ou modifica o teu perfil público (a \n descripción de ti mesmo que outros poden ver)
 prefprofile3 Perfiles de configuración dos usuarios
 prefprofile Meu perfil público
 prefproxy Configuración do proxy
+prefremote Configuración de conexión remota
 prefsession Meu inicio de sesión e estado
 prefshared Conexións compartidas (sólo para NAT)
 prefsound Sons
+privacy Privacidade
 profiledconfig Información do perfil
+profileexists Non se pode crear un perfil con este nome de usuario,\n xa existe un co mesmo nome. Por favor elixe outro.
 profileinuse Este perfil está sendo utilizado por outra sesión de AMSN, por favor elixe outro.
+profileloginradio Usar un Perfil existente
 profiles Perfiles
 properties Propiedades
 proxyconf Configuración proxy
 proxyconfhttp Configurar soporte de proxy http
 proxy Estou detrás dun servidor proxy (HTTP ou SOCKS5)
+proxyconnection Conéctome a internet usando un servidor proxy:
 publishphones Publica-los meus números telefónicos
+purge Purgar
+raised Elevada/Desiconificada
+readonlymsgbox A transferencia de arquivos cancelouse porque o directorio de recepción é de sólo lectura. Comproba os permisos de este cartafol.
+readonlywarn AVISO: El arquivo puede NON ser gardado correctamente porque o cartafol de arquivos recibidos parece estar protexido contra escritura. Comproba que os permisos no cartafol ($1) son correctos antes da transferencia
 receivedbytes Recibidos $1 de $2 bytes totais
 receivefile Recibir arquivo
+recentmsg Previr o peche da fiestra da conversa cando unha mensaxe acaba de chegar
 reconnect Agardando que $1 reconecte
 reconnecting Reconectando ó servidor
 reject Rexeitar
 rememberpass Lembrar contrasinal
+removefromlist Borrar de esta lista
+rename Cambiar nome
 reversed Invertido
+reverselist Lista Inversa(RL):
 rightback Volvo nun intre
 saveas Gardar como
+savechatwinsize Ó cambiar o tamaño das fiestras da conversa, gardalo como tamaño por defecto
 savecontacts Gardar lista de contactos
 save Gardar
 savetofile Gardar en arquivo
 says $1 dí
 sbcon Conectando a Switch Board
+selectplugins Marca os plug-ins que desexas activar
+selectskin Elixe un tema (skin) da lista
 send Enviar
 sendfile Enviar arquivo
 sendmail Enviar email
 sendmsg Enviar mensaxe
 sentbytes Enviados $1 de $2 bytes totais
+serverbusy Servidor ocupado
+serverunavailable O servidor non está dispoñible
 servergoingdown Desconectado: O servidor apagarase por cuestión de mantemento
 server Servidor
 session Sesión
+showblockedlist Mostrar contactos que che bloquean
+showcachedpics Mostrar imaxes para mostrar almacenadas
+showdisplaypic Ver Imae para Mostrar
+showdisplaypic2 Por defecto, ve a Imaxe para Mostrar o abrir unha fiestra da conversa.
+showmypic Mostrar a miña imaxe
+shownotify Mostrar fiestra de avisos ó producirse diversos eventos
+showuserpic Imaxe de $1
+skin Tema (skin)
+skinselector Elixir tema(skin)
+smileconfig Configuración de emoticono personalizado
+smilefile Nome do arquivo
+smileintro Enche os seguientes campos para crear un emoticono personalizado (ver FAQ para máis información)
+smileintro2 Edita os seguientes campos para personalizar o emoticono (ver FAQ para máis información)
 sound2 Reproducir sons cando os contactos se conectan ou envían mensaxes
+soundexample ( \$sound = Arquivo de son a reproducir) Ex: esdplay \$sound
+soundfiles Arquivos de sono
 soundcommand Comando para reproducir sons (por ex: esdplay)
 soundfile Arquivo de son
-soundfile Son da alarma
 soundloop Repetir son
 soundserver Servidor de Son
 sound Son nos eventos
 soundstatus Activar/Desactivar son de aviso
+sourcecode Código fonte
+sslwarning ¡¡COIDADO!! O desactivar SSL, desactívase a encriptación, e a túa contrasinal será enviada a través da rede como texto sen encriptar. Utilizar so se é imprescindible, como nalgúns servidores proxy, ou configuracións de rede moi estrictas.
 startoffline2 Conectarse sixilosamente semellando "Desconectado"
 startoffline Comezar Desconectado
+startontray Iniciar AMSN so co icono da bandexa do sistema
+state Quero aparecer coma
+stateautomsg Mensaxe automático ó enviar
+statechange cambia o seu estado a :
+stateedittext Edita os campos que desexes modificar\ny despois pulsa Gardar
+stateinfo Configuración de estados personalizados
+statename Nome do estado personalizado
+statenewtext Enche a información requerida para crear \no novo estado personalizado, e pulsa Gardar
+statenick Nick personalizado (en branco para ningún)
 status Estado
 stopalarm Para-la alarma
+storenickname Volver ó nick orixinal tras un estado personalizado con nick personalizado
+strictfonts Estabrecer todalas fontes de AMSN ó tamaño que eu seleccionei (Barras de estado, e demáis)
 stylechat O mesmo que nos chats
 stylehist apariencia de historial de aMSN
 stylelog Elixe o estilo no que desexas ve-lo historial
 syntaxerror Error de sintaxe
 tabbed Ventás con solapas
+temp_state Non almacenar (Estado temporal, perderase ó reiniciar AMSN)
 textsize Tamaño do texto
+timeremaining Tempo restante
+timestamps Activar hora nas mensaxes
 title Al's Messenger
-tools Ferramentas
+tkerror Produciuse un erro de TK, hai un fallo en amsn, por favor informanos. Para elo envía o arquivo $1 a amsn-bugs@lists.sf.net
+tlsdowncompleted O arquivo $1 descargouse no cartafol $2. Agora debes descomprimirlo, compilalo (se baixaches o código fuente) e instalarlo en $3.
+tlsexplain Cartafol onde se atopa o módulo TLS para tcl. Se AMSN non o atopa,\npor favor especifícao. (Necesario para a autentificación mediante SSL).
+tlsinstall Asistente de instalación do módulo TLS
+tlsinstallexp AMSN agora usa o protocolo MSNP9, que require utilizar unha conexión\nsegura usando SSL. Para poder usar SSL, AMSN precisa un módulo chamado TLS,\ainda que non se puido atopar no seu sistema. Este asistente axudarache a descargar\ne instalar TLS. Por favor, elixa o seu tipo de sistema para poder\ndescargar os arquivos precisados para TLS automáticamente.
+tlsinstcompleted A instalación do módulo TLS concluiu satisfactoriamente, xa deberías poder usar MSNP9. Se non funciona, é probable que no escolleras o tipo de módulo correcto, ou que no exista unha versión compilada para o tu sistema.
 to Para
+tools Ferramentas
+tooltips Activar globos de axuda
 transnotexists O ficheiro en cuestión todavía non foi traducido ó idioma actual.
+traynotcompiled Icono de bandexa non compilado. Mira en plugins/traydock
+triggers Texto disparador
+truncatenames1 Cortar apodos máis longos que o ancho da fiestra en títulos e lista de contactos
+truncatenames2 Cortar apodos máis longos que o ancho da fiestra nas conversas
+truncatenicks Truncar apodos máis longos que o ancho da fiestra
+twonewmail $1 mensaxes novas na bandexa de entrada
 unblock Admitir
 uoffline Desconectados
 uonline Conectados
 useralreadyonlist O usuario xa se atopa na lista de contactos
+userblocked O usuario se atopa online pero estás bloqueado
+userdata Datos de usuario 
 usernotonline O usuario non se atopa conectado.
+userproperties Propiedades do usuario $1
+useryourself Non podes falar contigo mesmo
 user Usuario
 version Versión
 viewprofile Ver perfil
 view Ver
 willjoin Agardando que $1 se una á conversa
 work Traballo
+wrongfields Os campos "$1", "$2" y/o "$3" non son valido(s)
+wrongprofileversion Versión do arquivo de perfiles incorrecta. Por favor borre o directorio $1 para solucionalo, ou actualice amsn.
+xmmscurrent Mostrar canción actual
+xmmserr Non hay canción en reproducción, ou non tes xmms-infopipe instalado.
+xmmssend Enviar canción actual
 xoffset Desprazamento X
 yoffset Desprazamento Y
+yes Si
+youblocked Foches bloqueado
 yousay Ti dis
 youwant Queres
-twonewmail $1 mensaxes novas na bandexa de entrada
+
