@@ -25,7 +25,7 @@ allowbadwords Zuia ukaguzi katika majina-ya-utani.
 allowlist Orodha-ruhusu:
 allowonlyinal Ruhusu watumiaji walio kwenye Orodha-Kubali tu kuwasiliana nami
 allowseen Mruhusu mtu huyu kuniona na kuwasilina nami nipokuwa natumia
-animatedemoticon Kisura-hisia  hichi kinaweza kucheza
+animatedemoticon Kisura-hisia hichi kinaweza kucheza
 animatedsmileys Ruhusu visura kucheza
 appearance Muonekano
 appearoff Onekana sijaunganishwa
@@ -33,19 +33,19 @@ areacode Kodi ya Eneo
 aretyping $1 wana chapa ujumbe
 autoaccepted Muamisho wa faili umekubakilika moja kwa moja
 autoacceptft Kubali maombi ya Muamisho wa Faili moja kwa moja
-autoaway Nionyeshe kama sipo ninapokuwa sijishughulishi kwa
-autoconnect2 Saini moja kwa moja wakati aMSN inapoanzishwa
+autoaway Nionyeshe kama sipo ninapokuwa sijishughulishi kwa dakika
+autoconnect2 Ingia moja kwa moja wakati aMSN inapoanzishwa
 autoconnect Unganisha wakati amsn inaanza
 autohotmaillog Iingia Hotmail yenyewe
 autoidle Auto Sijishughulishi
 autoip IP ya atuomatiki
-autonoact Nionyesha kama "Sijushughulishi" ninapokuwa sifanyi
+autonoact Nionyesha kama "Sijishughulishi" nisipotumia kwa dakika
 avoidseen Epuka mtu huyu kuniona na kuwasiliana nami ninapokuwa natumia
 awaymsg1 Uliza kwa ujumbe wa kuwa mbali kila mara ninapobadilisha hali yangu kuwa Mbali/NSH/Nashughuri
 awaymsg2 Usiniulize na mara zote tumia ujumbe wa kuwa mbali ufatao chini
 away Nipo mbali
 baduserpass Jina la mtumiaji au neno-siri si la kweli
-bgcolor Badilisha rangi ya  nyuma ya aMSN
+bgcolor Badilisha rangi ya nyuma ya aMSN
 blankdirect Acha wazi kwa muunganisho wa moja kwa moja
 blocked Amezuiwa
 blockedyougroup Onyesha kundi la pekeyake kwa watu ambao wamekuzuia
@@ -58,7 +58,7 @@ blocklist Orodha-zuia :
 blockmessage Watu hawa wameunganishwa na wamekuzuia kupiga soga nao
 blockusers Idadi ya watumiaji ya kuwaangalia mara moja
 block Zuia
-broughtby  Imeretwa kwako na watengenezaji wafuatao
+broughtby Imeretwa kwako na watengenezaji wafuatao
 browserexample ( \$url itabadilishwa na URL). MFN: mozilla \$url
 browser Kitandaaji
 browse Tandaa
@@ -76,7 +76,7 @@ chatack Inakubali maongezi kutoka
 chatmaxmin Muongeaji anapoanzisha maongezi na mimi nataka dirisha liwe:
 chat Ongea
 chatreq Inaomba maongezi
-chatsmileys2 Onyesha aikoni za Hisia na Visura kwenye Madirisha ya maongezi
+chatsmileys2 Onyesha Aikoni-hisia na Visura kwenye Madirisha ya maongezi
 chatsmileys Visura vya moengezi
 checkblocking Endelea kunaganlia kama watumiaji wanakuzuia
 checkfilman Mafaili yaliyopokewa yatahifadhiwa katika $1. Tafadhali angalia taratibu za faili-maneja katika dirisha la mapendeleo
@@ -106,7 +106,7 @@ connectionlost Disconnected: Mawasiliano na progrom-tumishi yamesitishwa
 connection Muunganisho
 contactadded Muongeaji ameongezwa
 contactdoesnotexist Muongeaji hayupo!
-contactlist Orodha ya Wazungumzaji :
+contactlist Orodha ya Jamaa zako:
 copy Nakili
 copytogroup Nakili kwenda kwenye kundi
 countrycode Kodi yangu ya Nchi/Mkoa
@@ -129,7 +129,7 @@ disablessl Zuia SSL
 disconnect $1 ameondoka.
 dockfreedesktop MezaHuru (KDE3/Gnome2)
 dockgtk Gnome Doki
-docking Inadoki
+docking Kudoki
 dockingoff Doki Imezimwa
 dockkde KDE Doki
 dontdownload Usishushe TLS, nitaiweka mwenyewe
@@ -139,7 +139,7 @@ edit Hariri
 editnewstate Hali Binafsi Mpya ya Kutuma-ujumbe-yenyewe
 editprofile Hariri Utashi
 editstate Hariri Hali iliyopo ya Kutuma-ujumbe-yenyewe
-emotisounds Cheza sauti wakati wa ikoni-hisia
+emotisounds Cheza sauti wakati wa Aikoni-hisia
 enableproxy Ruhusu proksi
 enableremote Ruhusu kuongoza kutoka sehemu nyingine
 enablesound Cheza sauti
@@ -195,7 +195,7 @@ hybrid Namna mchanganyiko
 ident Inatambulisha
 identity Utambulisho
 inbox Sanduku-Kuingia
-installconvert Lazima uweka ImageMagick (programu ya kubadilisha) ili uweze kubadilisha mfumo wa picha ulingane na ule unaohitajika na programu-tumishi ya MSN. Unaweza kutelemsha bainari kwa ajili ya programu-mama yako ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Kama unayo hii programu basi ni kosa, tafadhali toa ripoti. 
+installconvert Lazima uweka ImageMagick (programu ya kubadilisha) ili uweze kubadilisha mfumo wa picha ulingane na ule unaohitajika na programu-tumishi ya MSN. Unaweza kutelemsha bainari kwa ajili ya programu-mama yako ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Kama unayo hii programu basi ni kosa, tafadhali toa ripoti.
 internalerror tatizo la ndani la programu-tumishi
 invalidfile Faili $2 iliyowekwa katika nafasi "$1" halipo au alisomeki
 invalidusername Jina la mtumiaji siyo la kweli
@@ -218,17 +218,17 @@ leaves $1 aacha mazungumzo
 lenteredconf $1 ameingia kwenye kusanyiko katika $2
 linprivate PEMBENI
 listeningon Sikiliza katika poti $1
-listsmileys2 Onyeasha Aikoni za Hisia na visura kwenye orodha kuu ya waongeaji ya aMSN
+listsmileys2 Onyeasha Aikoni-hisia na visura kwenye orodha kuu ya waongeaji ya aMSN
 listsmileys Orodhesha visura
 ljoinedconf $1 amejiunga na kusanyiko
-lleftconf  $1 ametoka kwenye kusanyiko
+lleftconf $1 ametoka kwenye kusanyiko
 loadcontacts Weka orodha ya waongeaji
 logbigger Ukubwa wa Faili ya hesabu kwa kila muongeaji hauwezi kuzidi
 logfandexp Kuisha kwa wakati kwa Ukubwa wa Faili za Heabu na historia
 loggedotherlocation Ajaunganishwa. Ameingia sehemu nyingine
 loggingin Unaingia
 loginas Ingia kama
-loging Inaweka hesabu
+loging Weka hesabu
 login Ingia ndani
 logolder Hesabu za maongezi tu ambazo zimetokea kwa
 logout Toka nje
@@ -239,9 +239,9 @@ lprivtoconf $1 amefanya Maongezi binafsi kuwa Kusanyiko
 luclosedwin Umefunga dirisha katika $1
 mailerexample ( \$recipient = Mpokeaji ) Acha wazi kwa kutumia hotmail
 mailer Kitumaji
-maximised Imekuzwa
-minimised Imefupishwa/ImefanywaAikoni
-mins dakika
+maximised Kuzwa
+minimised Fupishwa/Fanywa Aikoni
+mins kamili
 mobile simu ya mkononi
 morepersonal Hali zaidi ->
 move Sogeza
@@ -279,7 +279,7 @@ notify1_5 Onyesha dirisha-ufahamisho wakati mzungumzaji anaacha mawasiliano
 notify1_75 Onyesha dirisha-ufahamisho wakati mzungumzaji anabadilisha hali
 notify1 Onyesha dirisha la kufahamishia wakati waongeaji wanapojiunga
 notify2 Onyesha dirisha la kufahamishia wakati ujumbe mpya unapofika
-notify3 Onyesha dirisha la kufahamishia wakati barua-p zinapofikia 
+notify3 Onyesha dirisha la kufahamishia wakati barua-p zinapofikia
 notify fahamisha
 notifyoffset Panga sehemu ya dirisha la kufahamishia kwa kulipa umbali wa sehemu
 notifywin dirisha la kufahamishia
@@ -298,7 +298,7 @@ other Nyingine
 pager Peja
 pass Neno-siri
 paste Gundika
-personal Pesono
+personal Binafsi
 phone Simu
 picfile Faili ya picha (GIF < 500 x 500)
 picstatus Sauti ya picha
@@ -317,12 +317,12 @@ preferences Mapendeleo
 preffont2 Badilisha jinsi wengine wanavyoona maandishi yangu katika maongezi
 preffont3 Badilisha maandishi na ukubwa wa muonekano wa aMSN
 preffont Mandishi ya Ujumbe wangu
-preflibs Maktaba majarada
-preflog1 Historia yangu na chaguo langu la kuingia
-preflook Muonekano wangu wa Mesenja ya aMSN
+preflibs Jarada la Maktaba
+preflog1 Historia na mapendeleo yangu kuingia
+preflook Muonekano wangu katika Mesenja ya aMSN
 prefmsging Sehemu yangu ya Kutumia Ujumbe
-prefname Jina/jina la kutima langu la MSN Mesenja
-prefphone2 Chapa namba za simu ambazo unataka watu \n katika oradha ruksa yako kuona \n
+prefname Jina/Jina-utani langu la kutumia kwenye MSN Mesenja
+prefphone2 Chapa namba za simu ambazo unataka watu \n katika Oradha-ruksa yako kuona \n
 prefphone Namba Zangu za Simu
 prefprivacy2 Orodha-wazungumzaji/Kinyume ya mtumiaji
 prefprivacy Orodha-ruhusu/zuia ya mtumiaji
@@ -331,11 +331,11 @@ prefprofile3 Utashi wa Mpangilio wa mtumiaji wa aMSN
 prefprofile Utashi wangu kwa wote
 prefproxy Mipangilio yangu ya Proksi
 prefremote Mapendeleo ya Muunganisho wa Mbali
-prefsession Kusaini kwangu na Hali halisi
+prefsession Kuingia kwangu na Hali halisi
 prefshared Miunganisho ya kushirikiana (kwa NAT tu)
 prefsound Sauti
 privacy Faragha
-profiledconfig Mpangilio uliotashiwa
+profiledconfig Mpangilio wako
 profileexists Uwezi kutengeneza profaili kwa muungilio huu \n kwasababu tayari upo. Tafadhali chagua muingilio mwingine.
 profileinuse Utashi huu unatumiwa na kipindi kingine cha Amsn, tafadhali chagua mwingine
 profileloginradio Ingia kwa kutumia profaili iliyopo
@@ -357,7 +357,7 @@ reject Kataa
 rememberpass Kumbuka neno-siri
 removefromlist Ondoa kutoka kwenye orodha hii
 reversed Imewekwa kinyume
-reverselist Orodha-kenyume :
+reverselist Orodha-kinyume :
 rightback Narudi sasa hivi
 sanduku-kuingia
 saveas Hifadhi kama
@@ -377,7 +377,7 @@ servergoingdown Imekatishwa: Progamu-tumishi inazimwa
 server Progamu-tumishi
 session Kipindi
 showblockedlist Onyesha orodha ya watu waliokuzuia kupiga soga nao
-showdisplaypic2 Onyesha Picha ya Konyeshwa kama chaguo la awali wakati dirisha la kuchati linafunguliwa
+showdisplaypic2 Onyesha Picha ya Kuonyeshwa kama chaguo la awali wakati dirisha la kuchati linafunguliwa
 showdisplaypic Onyesha Picha ya Kuonyeshwa
 showmypic Picha yangu ya Kuonyeshwa
 showuserpic Picha ya kuonyeshwa ya $1
@@ -397,12 +397,12 @@ soundserver Programu tumishi ya sauti
 soundstatus Sauti ya alamu
 sourcecode Maandishi ya programu (inahitaji kutengenezwa na kuwekwa)
 sslwarning TAHADHARI!! Kuachisha SSL kutazuia inkripsheni, kwahiyo neno-siri laka litatumwa wazi kapitia mtandao. Tumia tu kwa proksi ngumu au mipangilio migumu ya mtandao.
-startoffline2 Saini kimya kimya kama "Onekana Ujaunganishwa"
+startoffline2 Ingia kimya kimya "Onekana Ujaunganishwa"
 startoffline Anza ukiwa ujaunganiswa
 stateautomsg Ujumbe-wa-kujituma wa kutuma
 statechange hali imebadilika kuwa :
 stateedittext Tafadhali hariri nafasi ambazo ungetaka \n zibadilike na bonyeza Hifadhi
-stateinfo  Mipangilio ya Hali Binafsi
+stateinfo Mipangilio ya Hali Binafsi
 statename Jina la Hali Binafsi
 state Nataka nionekane kama
 statenewtext Tafadhili jaza taarifa inayohitajika kutengeneza \n Hali yako binafsi na bonyeza hifadhi
@@ -411,7 +411,7 @@ stopalarm Simamisha alamu
 stylechat Muonekano kama wa maongezi
 stylehist Muaonekano wa historia wa aMSN
 stylelog Chagua jinsi utakavyotaka uione historia yako
-syntaxerror  kosa katika kupanga
+syntaxerror kosa katika kupanga
 tabbed Madirisha yenye Tabu
 textsize Ukubwa wa maandishi
 timeremaining Muda uliobaki
@@ -450,3 +450,122 @@ yoffset nafasi Y
 youblocked Umezuiwa kupiga soga
 yousay Unasema
 youwant Unataka
+advanced  Zaidi
+advancedprefs Mipangilio zaidi
+alarms Alamu
+allfiles Faili zote
+allprofilesinuse Utashi wote uliopo unatumika kwasasa
+animatenotify Chezesha dirisha la ufahamisho
+autocheckver Angalia matoleo mapya wakati programu inapoanza
+autodetectip Tambua anuani ya IP
+automessage AutoMessage
+bouncedock Onyesha ikoni ya aMSN katika doki wakati ujumbe unapokelewa
+cachedpics $1 picha zilozohifadhiwa
+cantremoveothers kundi la "Wengine" haliwezi kuondolewa
+cfgalarmall Panga/Ongeza/Ondoa Alamu za Jumla
+change Badili
+changecustomstate Badilisha kwenda
+changeglobnick Badili Jina-Utani la Jumla
+charscounter Kihesabu herufi zilochapwa katika dirisha la maongezi
+checkemail Onyesha mstali wa utambulisho wa barua (kuingia) katika orodha ya jamaa
+ch_to_state Nenda katika hali mpya
+commandstatus Tumia komandi
+confirmpurge Picha zote za kuonyeshwa za jamaa zako zilizohifadhiwa (sio zako) zitafutwa. Unauhakika?
+continuously Kuondelea
+convertexplain Njia ya CONVERT executable file, kutoka ImageMagick (inahitajika kwa picha za kuonyeshwa).\n Acha wazi kama CONVERT ipo kwenye njia
+corruptconfig Faili ya mpangilio imeharibika. Nyingine inatengezwa. Lazamani litahifadhiwa katika $1. Tafadhali litume kwetu kuongalia nini kilitokea.
+corruptstates Faili ya hali binafsi imeharibika. Nyingine inatengezwa. Lazamani litahifadhiwa katika $1. Tafadhali litume kwetu kuongalia nini kilitokea.
+credits Shukrani
+currentdate Tarehe ya sasa
+custnotifymsg Onyesha dirisha la ufahamisho wakati ujumbe mpya wa mtumiaji umepokelewa
+custnotifyoffline Onyesha dirisha la ufahamisho wakati jamaa huyu anoondoka
+custnotifyonline Onyesha dirisha la ufahamisho wakati jamaa huyu anakuja katika laini
+custnotifystatus Onyesha dirisha la ufahamisho wakati jamaa huyu anabadilisha hali
+customcolor Rangi binafsi
+customnick Jina-Utani binafsi
+defchatwinsize Ukubwa awali wa dirisha la maongezi (XUREFUxYUREFU)
+deletecustomstate Ondoa hali binafsi
+delimiters dilimita za alama-muda:
+disabled Imezuiwa
+disableprofiles Zuia utashi (Nzuri kwa kefu au mazingira ya kushirikiana)
+displaychat Onyesha chuguo za herufi
+displayp4context Onyesha P4-Context field content kama kichwa cha ujumbe
+displaypic Picha ya kuonyesha
+dontshow Lisionyeshe
+editcustomstate Badili hali binafsi
+editvalue Badili thamani
+email Baura-p
+emailsinlist Onyesha anuani za barua-p badala ya majina-utani katika orodha ya jamaa
+enablebanner Onyesha picha ya aMSN (Inahitaji kuanzisha upya aMSN)
+enabled Imaruhusiwa
+faileddelete Imeshindikana kufuta
+faileddeleteperso Picha hii haiwezi kufutwa kwasababu sio faili la picha binafsi. Picha zilizo kwenye utashi binafsi tu zinaweza kuondolewa hivi.
+failed Imesjindwa
+file Faili
+friendlyname Jina la Kirafiki
+fullcontactlist Nasikitika, orodha yako ya jamaa imejaa. Utahitajika kuondoa baadhi ya jamaa ili kuongeza wengine wapya.
+getdisppic Ruhusu kupokea picha za kuonyeshwa kutoka kwa watumiaji wengine
+globalnick Weka kitu cha kutengeneza majina-utani yote ya jamaa zako. Unaweza kutumia majina: \$user_login haya kwa anuani za jamaa zako, \$nick kwa majina-utani ya jamaa zako na  \$customnick kwa majina-utani binafsi ya jamaa zako. Kwa mfano: '\$user_login ni \$nick' itakuwa 'contact@msn.com ni Contact'
+globalnicktitle Jina-Utani la jumla
+globaloverride Mipangilio ya jumla ya majina-utani yatumiwe zidi ya majina-utani ya kupanga
+ignoreerrors Kimyakimya dharau makosa mengine ya AMSN mpaka mwasho wa kutumia
+imagefiles Faili ya Picha
+insertsmiley Chomeka imotikoni
+invalidfile2 Jina la faili $1 halikuwezwa kutengenezwa, hakisha una ruhusa sahihi ya kutengeza hapo.
+invalidgroup Kundi haramu
+invalidpicsize Picha iliyochaguliwa ni kubwa mno, tafadhali chagua ndogo
+invalidpic Faili ya picha iliyotajwa haipo
+invalidsound Faili ya sauti iliyotajwa haipo
+ircstyle IRC staili ya maongezi
+justonce Mara moja tu
+lastlogin Kuingia kwa mwisho
+lastlogout Kuondoka kwa mwisho
+lastmsgedme Ujumbe wa mwisho
+leavejoinsinchat Onyesha "anaondoka/anajiunga maongezi" ufahamisho ndani ya dirisha la maongezi
+lineflushlog Futa faili ya taarifa baada ya kila mstari
+logsbydate Panga taarifa kwa tarehe (Shuhudia historia ikiwekwa haraka sana)
+longnick Jina-utani lako limezidi herufi 130. Hii hairuhusiwa na protokali ya MSN. Unauhakika unataka kuliweka hili jina?
+longp4c Jina lako la kirafiki limezidi herufi 130. Jina la kirafiki litakalotokea katika programu ya MSN litakuwa $1. Unauhakika unataka kuliweka hili jina?
+msnstyle MSN staili ya maongezi
+mypic Picha Yangu ya Kuonyeswa:
+never Usithubutu
+newstate Ongeza hali
+nick Jina-Utani
+nogroup Hakuna kundi
+noskins Ngozi-awali haikuweza kupatikana katika jarada la skins/. AMSN hawezi kuanzishwa
+notificationserver Programu-tumishi ya ufahamisho ya MSN ya awali (MSN Mesenja Programu-tumishi)
+notifytyping Tumia wengine ufahamisho-wa-watumiaji wakati wa kuchapa
+notinlist Haupo katika orodha ya jamaa zake
+others Mengineyo
+p4contextprefix Prefiksi P4-Context senders na string hii
+phones Namba za simu
+picbrowser Brauza ya pichaa za kuonyeshwa
+prefft Mipangilio ya Muamisho wa faili, machine-kwa-machine na NAT
+purge Futa
+receiveddir Jarada la mafaili yaliyopokelewa
+recentmsg Zuia kufunga dirisha la maongezi wakati ujumbe unapokuja tu
+rename Badili jina
+savechatwinsize Hifadhi ukubwa wa dirisha la maongezi kama wa u-awali wakati wa kulirekebisha ukubwa
+serverbusy Programu-tumishi haina nafasi
+serverunavailable Programu-tumishi haipatikani
+showcachedpics Onyesha picha za kuonyeshwa zilizohifadhiwa
+shownotify Onyesha dirisha la kujulisha wakati baadhi ya matukio yanapotokea
+soundactive Cheza sauti wakati wa kupokea ujumbe pia katikia madirisha yanayotumika
+soundfiles Faili za Sauti
+startontray Anzisha katika trei-ikoni tu
+statenick Jina-utani badili (acha wazi kuacha lilopo)
+storenickname Rudia jina-utani la mwanzo baada ya hali na jina-utani la sasa
+strictfonts Zuia ukubwa wa maandishi yote ulingane na niliochagua (Mstari-hali na vingine)
+temp_state Usihifadhi (Hali ya muda, itakosekana wakati wa kufunga AMSN)
+timestamps Ruhusu alama-muda katika madirisha ya maongezi
+tkerror TK imeonyesha kosa, kuna tatizo katika aMSN, tafadhali liwakilishe. Tuma faili $1 kwenda amsn-bugs@lists.sf.net
+tlsexplain Jarada ambako tcl TLS mojuli inapatikana. Kama aMSN haiwezi kulipata, tafadhali orodhesha.\n(Inahitajika kwa muhakikisho wa SSL).
+truncatenames1 Kata majina-utani yaliyozidi upana wa dirisha katika jina la dirisha na orodha ya jamaa
+truncatenames2 Kata majina-utani yaliyozidi upana wa dirisha ndani ya maongezi
+truncatenicks Kata majina-utani yaliyozidi upana wa dirisha
+userdata Data za Mtumiaji
+userproperties Mipangilio ya $1
+viewcontactsby Angalia jamaa kwa
+webcaminvite $1 alikukaribisha kutumia webkam, lakini aMSN haiwezi kutumia chombo hicho.
+xmmscurrent Onyesha wimbo unaotumika
+xmmssend Tuma wimbo unaotumika

@@ -85,6 +85,7 @@ changecustomstate Lülita
 changedisplaypic Vaheta pilt
 changefont Muuda fonti
 changeglobalnick Muuda globaalset hüüdnime
+changeglobnick Muuda globaalset hüüdnime
 change Muuda
 changenick Muuda hüüdnime
 changestate $1 muutis oma saatuse $2
@@ -336,6 +337,7 @@ myworkphone Minu töötelefon
 natip IP määramine veebilehe kaudu
 natkeepalive Kui su ühendus pidevalt katkeb, võimalda see Ülalhoidmine
 needonline Sa oled/ilmud ikka lahtiühendatuna
+needwinico Plugins kataloogi on vaja panna winico03.dll, et Windowsi tray'mine töötaks
 never Mitte kunagi
 newmail $1 uut sõnumit postkastis
 newmailfrom Uus kiri saatjalt $1 ($2)
@@ -472,6 +474,7 @@ servergoingdown Lahtiühendatud: server sulgub
 server Server
 serverunavailable Server pole saadavalis
 session Sessioon
+showbanner Näita aMSN'i bannerit
 showblockedlist Näita listi kasutajatest, kes on sind blokeerinud
 showcachedpics Näita varutud kuvapilte
 showdisplaypic2 Näida pilti vaikimisi kui aken avatakse
@@ -496,6 +499,7 @@ soundserver Heliserver
 soundstatus Helialarm
 sound Sündmusheli
 sourcecode Lähte kood (vajab kompileerimist ja installeerimist)
+splashstart Start
 sslwarning HOIATUS!! SSLi blokeerides ei krüpteerita enam teie paroole ja need saadetakse üle võrgu tavalise tekstina. Kasutada ainult väga keeruka proksi või võrgu konfiguratsiooni korral.
 startoffline2 Logi sisse vaikselt olekuga Offline
 startoffline Stardi lahtiühendatuna

@@ -561,3 +561,12 @@ ircstyle Chat ao estilo do IRC
 justonce Só uma vez
 msnstyle Chat ao estilo do MSN
 never Nunca
+changeglobnick Modificar o nick global
+email	Email
+globalnick Insere um padrão para formar todas as alcunhas dos teus contactos. Podes utilizar as seguintes variáveis: \$user_login para o endereço do teu contacto, \$nick para o nick do teu contacto e \$customnick para o nick escolhido para o teu contacto. Por exemplo: '\$user_login é o \$nick' ficará definido como 'contacto@msn.com é o Contacto'
+globalnicktitle	Alcunha (nickname) global
+globaloverride	Padrões de alcunhas globais devem sobrepor-se as alcunhas escolhidas
+needwinico	Necessitas de colocar o ficheiro winico03.dll no directório dos plugins para a funcionalidade de "windows traydocking" funcionar
+showbanner	Mostrar o banner do aMSN
+splashstart	Iniciar
+viewcontactsby	Visualizar contactos por
