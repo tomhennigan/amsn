@@ -269,7 +269,9 @@ proc run_alarm {user msg} {
 	#only creates popup if it is a picture alarm or its a sound alarm (non looping for windows)
 	if { ([::alarms::getAlarmItem ${user} pic_st] == 1) || ([::alarms::getAlarmItem ${user} sound_st] == 1 && ($tcl_platform(platform) != "windows" || [::alarms::getAlarmItem ${user} loop] == 1) ) } {
 		toplevel .${wind_name}
-		wm title .${wind_name} "[trans alarm] $user"
+		set myDate [ clock format [clock seconds] -format " - %d/%m/%y at %H:%M" ]
+		wm title .${wind_name} "[trans alarm] $user $myDate"	
+		#wm title .${wind_name} "[trans alarm] $user"
 		label .${wind_name}.txt -text "$msg"
 		pack .${wind_name}.txt	
 	}
