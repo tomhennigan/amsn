@@ -3,7 +3,7 @@
 # $Id$
 #=======================================================================
 namespace eval ::abook {
-   namespace export setContact getContact \
+   namespace export setContact getContact getGroup\
    		    setPhone setDemographics getDemographics
 
    #
@@ -86,6 +86,26 @@ namespace eval ::abook {
 	set data(available) Y
    }
 
+   # Used to fetch the group ID so that the caller can order by
+   # group if needed. Returns -1 on error.
+   # ::abook::getGroup my@passport.com -id    : returns group id
+   # ::abook::getGroup my@passport.com -name  : return group name
+   proc getGroup {passport how} {
+   	variable contacts 
+
+	if { ![info exists contacts($passport)] } {
+	    puts "ERROR: unknown contact!"
+	    return -1
+	}
+	
+	set groupId [lindex $contacts($passport) 0]
+	if {$how == "-id"} {
+	    return $groupId
+        }
+	set groupName [::groups::GetName $groupId]
+	return $groupName
+   }
+   
    # Sends a message to the notification server with the
    # new set of phone numbers. Notice this can only be done
    # for the user and not for the buddies!
@@ -276,6 +296,9 @@ namespace eval ::abookGui {
    }
 }
 # $Log$
+# Revision 1.9  2002/06/24 15:15:48  lordofscripts
+# Added getGroup function needed for ordering by groups
+#
 # Revision 1.8  2002/06/24 12:34:56  lordofscripts
 # Use color scheme for showEntry dialog and sticky w for the rightmost
 # column of the notebook tabs to align them to the left side. Increased
