@@ -1075,8 +1075,8 @@ namespace eval ::amsn {
 		foreach user_info $user_list {
 			set user_login [lindex $user_info 0]
 			status_log "DEBUGG: $user_login\n"
-			if { [llength user_list] > 1 } {
-				::log::WriteLog $user_login "C $user : $msg\n"
+			if { [llength $user_list] > 1 } {
+				::log::WriteLog $user_login "$user : $msg\n" 1
 			} else {
 				::log::WriteLog $user_login "$user : $msg\n"
 			}

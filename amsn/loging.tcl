@@ -14,12 +14,14 @@ namespace eval ::log {
 
 proc StartLog { email } {
 
-	global log_dir
+	global log_dir config
 	status_log "DEBUG: Opening log file for $email\n"
-	set user_email [split $email "@"]
-	set user_login [lindex $user_email 0]
-
-	LogArray $email set [open "[file join ${log_dir} ${user_login}]" a+]
+	set dirname [split $config(login) "@ ."]
+	set dirname [join $dirname "_"]
+	file mkdir [file join ${log_dir} ${dirname}]
+	
+	LogArray $email set [open "[file join ${log_dir} ${dirname} ${email}.log]" a+]
+	fconfigure [LogArray $email get] -buffersize 1024
 }
 
 
@@ -64,6 +66,51 @@ proc LogArray { email action {fileid 0}} {
 	}
 }
 
+#///////////////////////////////////////////////////////////////////////////////
+# ConfArray (email action [conf])
+# Controls information for array for chosen user for conference/conversation messages
+# action can be :
+#	newset : Sets new conf if dosen't exist already
+#	set : Sets new conf number for certain user only if never set before
+#	get : Returns conf number for certain user, returns 0 if no conf number set yet
+#	unset : Unsets conf number for certain user.
+
+proc ConfArray { email action {conf 0}} {
+
+	variable ConfInfo
+
+	switch $action {
+		newset {
+			if { [info exists ConfInfo($email)] == 0 } {
+				set ConfInfo($email) $conf
+			}
+		}
+
+		set {
+			if { [info exists ConfInfo($email)] } {
+				set ConfInfo($email) $conf
+			}
+		}
+
+		unset {
+			if { [info exists ConfInfo($email)] } {
+				unset ConfInfo($email)
+			} else {
+				status_log "DEBUG: Calling unset on an unexisting variable\n"
+			}
+		}
+
+		get {
+			if { [info exists ConfInfo($email)] } {
+				return $ConfInfo($email)
+			} else {
+				return 0
+			}
+		}
+	}
+}
+
+
 		
 #///////////////////////////////////////////////////////////////////////////////
 # StopLog (email)
@@ -75,9 +122,11 @@ proc StopLog {email} {
 
 	status_log "DEBUG: Closing log file for $email\n"
 	if { [LogArray $email get] != 0 } {
+		puts -nonewline [LogArray $email get] "\[Window closed on [clock format [clock seconds] -format "%d %b %T"]\]\n\n"
 		close [LogArray $email get]
 	}
 	LogArray $email unset
+	ConfArray $email unset
 }
 
 	
@@ -85,19 +134,38 @@ proc StopLog {email} {
 # WriteLog (email txt)
 # Writes txt to logfile of user given by email
 # Checks if a fileid for current user already exists before writing
+# conf 0 is used for conference messages
 
-proc WriteLog { email txt } {
+proc WriteLog { email txt {conf 0}} {
 
 	set fileid [LogArray $email get]
+
+	ConfArray $email newset $conf
+	set last_conf [ConfArray $email get]
+
+	status_log "$conf $last_conf"
 	
 	if { $fileid != 0 } {
-		status_log "DEBUG : writing to log file of $email\n"
-		puts -nonewline $fileid $txt
+		if { $last_conf != $conf } {
+			if { $conf == 1 } {
+				puts -nonewline $fileid "\[Private chat turned into Conference\]\n"
+				ConfArray $email set $conf
+			} else {
+				puts -nonewline $fileid "\[Conference turned into Private chat\]\n"
+				ConfArray $email set $conf
+			}
+		}
+		puts -nonewline $fileid "[timestamp] $txt"
 	} else {
 		status_log "DEBUG : Opening log file for $email from WriteLog\n"
 		StartLog $email
 		set fileid [LogArray $email get]
-		puts -nonewline $fileid $txt
+		if { $conf == 0 } {
+			puts -nonewline $fileid "\[Conversation started on [clock format [clock seconds] -format "%d %b %T"]\]\n"
+		} else {
+			puts -nonewline $fileid "\[Conference started on [clock format [clock seconds] -format "%d %b %T"]\]\n"
+		}
+		puts -nonewline $fileid "[timestamp] $txt"
 	}
 }
 
