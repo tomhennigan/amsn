@@ -17,7 +17,9 @@ if {[info exist found]} {
   while {![eof $gets]} {
 
    set tmp [gets $gets]
-   set info([lindex $tmp 0]) [lrange $tmp 1 end]
+   set pos [string first ":" $tmp]
+   set index [string map {" " "_"} [string range $tmp 0 $pos]]
+   set info($index) [string range $tmp [expr {$pos+2}] end]
    unset tmp
 
   }
@@ -30,6 +32,7 @@ if {[info exist found]} {
    "Stopped" { set return 0 }
    default { set return 0 }
   }
+  status_log "Song is $return\n"
   return $return
  }
 
