@@ -1676,7 +1676,7 @@ namespace eval ::ChatWindow {
 			}
 		}
 		#set the areas to the colour
-		[::ChatWindow::GetTopFrame ${win_name}] configure -background $colour
+		[::ChatWindow::GetTopFrame ${win_name}] configure -background $colour -bordercolor $bcolour
 		[::ChatWindow::GetTopToText ${win_name}] configure -background $colour -foreground $tcolour \
 						-selectbackground $colour -selectforeground $tcolour
 		[::ChatWindow::GetTopText ${win_name}] configure -background $colour -foreground $tcolour \
