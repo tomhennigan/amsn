@@ -42,6 +42,7 @@ autoaway Mostrarme "Ausente" cuando no hay actividad en
 autocheckver Buscar versiones nuevas automáticamente al iniciar AMSN
 autoconnect2 Conectarse automáticamente cuando se inicia aMSN
 autoconnect Conectar al arrancar amsn
+autodetectip Detectar dirección IP automáticamente
 autohotmaillog Login hotmail automático
 autoidle Detección de inactividad
 autoip IP Automática
@@ -367,6 +368,7 @@ preferences Preferencias
 preffont2 Cambia la forma en que otros ven mi texto en la conversación
 preffont3 Cambiar el tipo de letra y tamaño del interface de aMSN
 preffont Texto de mis mensajes
+prefft Transferencias de archivos, igual-a-igual y configuración de NAT
 preflibs Directorio para bibliotecas
 preflog1 Mis opciones de historial y registros
 preflook Apariencia de mi aMSN Messenger
