@@ -67,7 +67,7 @@ blockinter4 segons.
 blocklist Llista de bloquejats (BL):
 blockmessage Aquesta gent estan connectats i t'han bloquejat
 blockusers Número de contactes a comprovar cada vegada:
-bouncedock Animació del icona aMSN, quan es reb un nou missatge
+bouncedock Anima la icona de l'aMSN quan arribi un missatge
 broughtby Desenvolupat per
 browse Navegar
 browserexample (\$url serà substituïda per l'adreça) Ex: mozilla \$url
@@ -85,6 +85,7 @@ change Canviar
 changecustomstate Canvia a
 changedisplaypic Canviar la Imatge Mostrada 
 changefont Canviar font
+changeglobnick Canviar el sobrenom global
 changenick Canviar el meu sobrenom
 changestate $1 canvia l'estat a $2
 charscounter Comptador de caràcters teclejats a la finestra de conversa
@@ -127,7 +128,7 @@ connectionlost Desconnectat: connexió amb el servidor tancada
 contactadded Contacte inclòs
 contactdoesnotexist ¡El contacte que intentes afegir no existeix!
 contactlist Llista de contactes (FL):
-continuously Continuadament
+continuously Contínuament
 convertexplain Camí al fitxer executable CONVERT, d'ImageMagick (es necessita per veure les imatges).\nDeixa-ho en blanc si CONVERT és al PATH.
 copy Copia
 copytogroup Copia al grup
@@ -141,9 +142,9 @@ custnotifymsg Mostra una finestra de notificació quan es rebi un missatge d'usua
 custnotifyoffline Mostra una finestra de notificació quan aquest contacte es desconnecti
 custnotifyonline Mostra una finestra de notificació quan aquest contacte es connecti
 custnotifystatus Mostra una finestra de notificació quan aquest contacte canviï d'estat
-customcolor Color personalitzat
 custom_edit Editar emoticona personalitzada
 custom_new Afegir emoticona personalitzada
+customcolor Color personalitzat
 customnick Sobrenom personalitzat
 cut Talla
 date Data
@@ -182,6 +183,7 @@ editnewstate Nou missatge automàtic per a un estat personalitzat
 editprofile Editar perfil
 editstate Editar missatge automàtic per a un estat personalitzat
 editvalue Editar valor
+email Correu electrònic
 emailsinlist Mostra les adreces de correu per comptes dels sobrenoms a la llista de contactes
 emotisounds Reproduir sons associats a certes emoticones
 enablebanner Mostra la imatge de l'aMSN (requereix tornar a iniciar l'aMSN)
@@ -223,7 +225,10 @@ ftrejectedby $1 ha rebutjat la invitació per la transferència del fitxer '$2'.
 ftrejected Transferència de fitxers rebutjada
 ftsendinvitation La invitació per la transferència del fitxer '$2' ($3 bytes) ha sigut enviada a $1.
 fullcontactlist La teva llista de contactes està plena. Per poder afegir un nou contacte n'has d'esborrar un altre.
-getdisppic Activa l'opció de rebre la Imatge Mostrada d'altres usuaris 
+getdisppic Activa l'opció de rebre la Imatge Mostrada d'altres usuaris
+globalnick Introdueix un patró per crear els sobrenoms dels teus contactes. Pots utilitzar aquestes variables: \$user_login per l'adreça del teu contacte, \$nick pel sobrenom i \$customnick pel sobrenom personalitzat. Per exemple: '\$user_login és \$nick' serà 'contacte@msn.com és Contacte'
+globalnicktitle Sobrenom global
+globaloverride Els sobrenoms globals han de substituir els sobrenoms personalitzats
 gonelunch Estic menjant
 groupadd Afegir un grup
 groupdelete Esborrar un grup
@@ -247,14 +252,14 @@ httpconnection Connectar-se amb el mètode HTTP (utilitza el protocol HTTP pel po
 hybrid Mode híbrid
 ident Identifica
 identity Identitat
-ignoreerrors Ignorar altres errors fins al final de la sessió
+ignoreerrors Ignora els errors fins que tanqui la sessió
 imagefiles Fitxers d'imatges
 inbox Bústia
 insertsmiley Insereix emoticona
 installconvert Instal·lar conversor: Has d'instal·lar ImageMagick (un programa de conversió) per tal de convertir les imatges al format usat pels servidors de MSN. Pots descarregar els binaris per al teu sistema operatiu a ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ Si ja els tens, llavors és un error, sisplau comunica'l.
 internalerror Error intern del servidor
-invalidfile2 No es pot crear el fitxer $1. Comprova que tinguis els permisos necessaris.
 invalidfile El fitxer $2 introduït al camp "$1" no existeix o no es pot llegir
+invalidfile2 No es pot crear el fitxer $1. Comprova que tinguis els permisos necessaris.
 invalidgroup Grup no vàlid
 invalidpic El fitxer d'imatge no existeix.
 invalidpicsize La imatge és massa gran. Escull-ne una de més petita.
@@ -264,10 +269,10 @@ invitationcancelled La invitació ha sigut cancel·lada
 invite Convida
 ipaddress Adreça IP
 ipdetect Detectar l'adreça IP correcta per transferències de fitxers utilitzant HTTP
-ircstyle Estil de chat IRC
+ircstyle Conversa a l'estil IRC
 istyping $1 està escrivint un missatge
 joins $1 s'uneix a la conversa
-justonce Només un cop
+justonce Només una vegada
 keepalive Mantenir connexió activa (NAT)
 keeplog2 Registrar totes les converses a l'historial de l'aMSN per futures visualitzacions
 keeplog Conservar l'historial de les converses
@@ -322,7 +327,7 @@ msgmaxmin Quan arribi un nou missatge, vull que la finestra sigui:
 msg Missatge
 msgmode Escull com gestionar finestres de missatges múltiples:
 msn aMSN
-msnstyle Estil de chat MSN
+msnstyle Conversa a l'estil MSN
 mustrestart Has de reiniciar l'aMSN si vols que els canvis tinguin efecte
 myhomephone El meu telèfon a casa
 mymobilephone El meu telèfon mòbil
@@ -332,6 +337,7 @@ myworkphone El meu telèfon a la feina
 natip Detecció d'IP a través de pàgina web
 natkeepalive Si et desconnecten contínuament, activa aquesta opció
 needonline En l'estat "Simula desconnexió" no pots enviar missatges!
+needwinico Es necessita el fitxer winico03.dll al directori de connectors perquè funcioni l'acoplament per Windows
 never Mai
 newmail $1 missatges nous a la bústia
 newmailfrom Nou missatge de correu de $1 ($2)
@@ -382,8 +388,8 @@ pager Paginador
 pass Contrasenya
 paste Enganxa
 personal Personal
-phones Números de telèfon
 phone Telèfon
+phones Números de telèfon
 picbrowser Navegador d'Imatge Mostrada
 picfile Fitxer d'imatge per a l'alarma (GIF < 500 x 500)
 picstatus Imatge per a l'alarma
@@ -468,6 +474,7 @@ servergoingdown Desconnectat: El servidor s'apagarà per manteniment
 server Servidor
 serverunavailable El servidor no contesta
 session Sessió
+showbanner Mostra l'anunciació de l'aMSN
 showblockedlist Mostra'm la llista de la gent que em té bloquejat a la seva llista de contactes
 showcachedpics Mostra les imatges mostrades agafades
 showdisplaypic2 Mostra la Imatge Mostrada quan s'obri una nova conversa
@@ -492,6 +499,7 @@ soundserver Servidor de so
 sound So en un event
 soundstatus So a l'alarma
 sourcecode Codi font (necessita ser compilat i instal·lat)
+splashstart Inici
 sslwarning ATENCIÓ!! Desactivant l'SSL, es desactiva el xifrat de la teva contrasenya i serà enviada sense cap protecció per la xarxa.
 startoffline2 Connectar-se silenciosament apareixent en l'estat "Desconnectat"
 startoffline Inicia en l'estat "Simula desconnexió"
@@ -539,15 +547,16 @@ uoffline Desconnectats
 uonline Connectats
 useralreadyonlist L'usuari ja és a la llista de contactes
 userblocked Aquest usuari està connectat però t'ha bloquejat a la seva llista
-userdata Dades d'usuari
 usernotonline L'usuari no està connectat
-userproperties Propietats de l'usuari $1
 user Usuari
+userdata Dades d'usuari
+userproperties Propietats de l'usuari $1
 useryourself No pots conversar amb tu mateix
 verifyblocked Comprova la gent que em té bloquejat a la seva llista
 version Versió
-viewprofile Mostrar perfil
 view Veure
+viewcontactsby Mostra els contactes per
+viewprofile Mostrar perfil
 webcaminvite $1 t'ha convidat a iniciar una conversa amb webcam però l'aMSN encara no ho suporta.
 willjoin Esperant que $1 s'uneixi a la conversa
 work Treball
