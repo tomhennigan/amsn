@@ -4164,10 +4164,26 @@ proc Fill_users_list { path path2} {
 
     foreach user $list_al {
 	$path.allowlist.box insert end [lindex $user 1]
+	set user [lindex $user 0]
+	if {[lsearch $list_rl "$user *"] == -1} {
+	    set colour #FF00FF
+	} else {
+	    set colour #FFFFFF
+	}
+
+	$path.allowlist.box itemconfigure end -background $colour
     }
 
     foreach user $list_bl {
-	$path.blocklist.box insert end [lindex $user 1]
+	$path.blocklist.box insert end [lindex $user 1] 
+	set user [lindex $user 0]
+	if {[lsearch $list_rl "$user *"] == -1} {
+	    set colour #FF00FF
+	} else {
+	    set colour #FFFFFF
+	}
+
+	$path.blocklist.box itemconfigure end -background $colour
     }
 
     foreach user $list_users {

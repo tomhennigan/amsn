@@ -3,7 +3,9 @@
 
 if { $initialize_amsn == 1 } {
     global user_info user_stat list_fl list_rl list_al list_bl list_version
-    global list_users list_BLP list_otherusers list_cmdhnd sb_list list_states
+    global list_users list_BLP list_otherusers list_cmdhnd sb_list list_states contactlist_loaded
+
+    set contactlist_loaded 0
 
 
     set user_info ""
@@ -3740,10 +3742,10 @@ proc process_msnp9_lists { bin } {
 }
 
 proc cmsn_listupdate {recv} {
-   global list_fl list_al list_bl list_rl protocol 
+   global list_fl list_al list_bl list_rl protocol contactlist_loaded
 
+    set contactlist_loaded 0
 
-    
     if { [lindex $recv 0] == "ADD" } {
 	set list_names "list_[string tolower [lindex $recv 2]]"
 	set version [lindex $recv 3]
@@ -3846,6 +3848,11 @@ proc cmsn_listupdate {recv} {
 	list_users_refresh
 	if { $protocol != "9" } {
 	    new_contact_list "$version"
+	    set contactlist_loaded 1
+	} else {
+	    if { $list_name == "list_rl" } {
+		set contactlist_loaded 1
+	    }
 	}
     }
 
@@ -4058,8 +4065,10 @@ proc load_contact_list { } {
 }
 
 proc save_contact_list { } {
-    global HOME list_version list_al list_fl list_rl list_bl list_BLP
-	
+    global HOME list_version list_al list_fl list_rl list_bl list_BLP contactlist_loaded
+
+    if { $contactlist_loaded == 0 } { return }
+
     if {[file readable "[file join ${HOME} contacts.ver]"] != 0} {
 
 	set file_id [open [file join ${HOME} contacts.ver] r]
