@@ -1537,7 +1537,7 @@ namespace eval ::amsn {
 			change_balloon $win.f.bottom.pic.image [trans nopic]
 		} elseif { $nopack == "" } {
 			#grid $win.f.bottom.pic.image -row 0 -column 1 -padx 0 -pady 3 -rowspan 2
-			pack $win.f.bottom.pic.image -side left -padx 0 -pady [::skin::getKey chat_dp_pady] -anchor w
+			pack $win.f.bottom.pic.image -side left -padx 0 -pady 0 -anchor w
 			set h [image height $picture]
 			if { $h < 100 } {
 				set h 100
