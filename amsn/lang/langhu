@@ -3,6 +3,7 @@ about Rólunk
 accept Elfogad
 acceptfile Fogadott fájl $1, méret $2? Lementve $3
 actions Mûveletek
+activeautoupdate Aktív automata-frissítés
 addacontact Partner hozzáadása
 addedyou $1 ($2) Téged hozzáadott a partnerlistájához
 addprofile Új Profil hozzáadása
@@ -16,6 +17,7 @@ admingroups Csoportok szerkesztése
 advanced Haladó
 advancedprefs Haladó beállítások
 adverts Hírdetések
+agotinvitation Felkérés beszélgetésre (hanggal): $1 
 alarmonconnect Riasztás amikor egy felhasználó bejelentkezik
 alarmondisconnect Riasztás amikor egy felhasználó kijelentkezik / kapcsolat elrejtése módba kapcsol
 alarmonmsg Riasztás amikor egy felhasználó üzenetet küldd neked
@@ -50,6 +52,10 @@ autoidle Inaktivitás érzékelõ
 autoip Automatikus IP
 automessage Automata üzenet
 autonoact "Nem elérhetö"-ként jelenits meg, ha inaktív vagyok
+avaccepted Video konferencia felkérés fogadva
+avcanceled Video konferencia felkérés elutasítva
+avgotinvitation Video konferencia felkérés: $1
+avinitfailed Az Audio/Video plugin indítása sikertelen. Hívás megszakítva
 avoidseen Ez a személy nem láthat ha bejelentkeztem
 away Elmentem itthonról
 awaymsg1 Kérjen "nem vagyok itt" üzenetet mindig, amikor Állapotomat Nemvagyok itt/Elfoglalt -ra állítom.
@@ -445,6 +451,7 @@ picfile Figyelmeztetõ kép fájl (GIF < 500 x 500)
 picstatus Figyelmeztetõ kép KI/BE kapcsolása
 playing Lejátszás: $1
 pluginselector Pluginok kiválasztása
+port Port
 prefalerts Saját Riasztásaim és Hangjaim
 prefapps Alkalmazások
 prefawaymsg Nem vagyok itt üzenetem
@@ -589,6 +596,7 @@ tlsexplain A könyvtár ahol a tcl TLS modul van. Ha az AMSN nem találja, légyszív
 tlsinstall TLS Modul telepítõ
 tlsinstallexp Az aMSN mostantól az MSNP9et használja, ami biztonságos SSL kapcsolatot használ. \nHogy használhasd az SSLt, fel kell tenned a TSL nevû modult,\nami nincs feltelepítve. Ez a varázsló segít neked hogy letölthesd és\ntelepíthetsd a TLSt. Légyszíves válaszd ki a rendszeredet, s így le tudom tölteni\na szükséges fájlokat.
 tlsinstcompleted TLS modul sikeresen feltelepítve - mostantól használhatod az MSNP9et. Ha nem mûködik, akkor vagy rossz modult választottál ki, vagy a lefordított modul nem jó a te rendszeredhez.
+to nak
 today Ma
 tools Eszközök
 tooltips eszközsegítségek bekapcsolása
@@ -637,3 +645,9 @@ yoffset Y eltolás
 youblocked Letiltott
 yousay Te mondtad
 youwant Te akartad
+activeautoupdate Aktív automata-frissítés
+agotinvitation Felkérés beszélgetésre (hanggal): $1 
+avaccepted Video konferencia felkérés fogadva
+avcanceled Video konferencia felkérés elutasítva
+avgotinvitation Video konferencia felkérés: $1
+avinitfailed Az Audio/Video plugin indítása sikertelen. Hívás megszakítva

@@ -3,11 +3,11 @@ about Info
 accept Nõustu
 acceptfile Nõustu failiga $1, suurus $2? Salvestatud $3
 actions Tegevused
-activeautoupdate Aktiivene automaatuuendamine
+activeautoupdate Aktiivne automaatuuendamine
 addacontact Lisa sõber
 addedyou $1 ($2) on lisanud sind enda sõbralisti
 addprofile Lisa uus profiil
-addprofiledesc "Sisesta kasutaja, kellele tahad profiili luua. \nKasutaja profiilid võimaldavad iga kasutaja jaoks erinevaid seadeid. \nIlma profiilita sa ei saa kasutada funktsioone Ajalugu, Alarmid ja "Salvesta parool"."
+addprofiledesc Sisesta kasutaja, kellele tahad profiili luua. \nKasutaja profiilid võimaldavad iga kasutaja jaoks erinevaid seadeid. \nIlma profiilita sa ei saa kasutada funktsioone Ajalugu, Alarmid ja "Salvesta parool".
 addstate Lisa uus staatus
 addto Lisa $1-te
 addtocontacts Lisa sõbralisti
@@ -71,7 +71,7 @@ blockinter1 Kui sa oled liinil kontrolli iga
 blockinter2 sekundi jooksul, vastasel juhul iga:
 blockinter3 iga
 blockinter4 sekundi jooksul.
-blocklist Blokeeritud list (BL):
+blocklist Blokeeritute nimekiri (BL):
 blockmessage Need kasutajad on liinil ja on sind blokeerinud
 blockusers Mitut kasutajat korraga kontrollida
 bouncedock Põrgata dokis aMSN'i ikooni kui tuleb uus sõnum
@@ -80,7 +80,7 @@ browse Brausi
 browser Brauser
 browserexample (\$url asendatakse URLiga). Näiteks: mozilla \$url
 busy Kiire
-cachedpics $1 varutud piti
+cachedpics $1 varutud pilti
 cancel Tühista
 cannotdeleteprofile Ei saa profiili kustutada, sest see on aMSNi poolt kasutuses
 cantexec Ei saa käivitada programmi: $1. Kontrolli seadeid
@@ -135,7 +135,7 @@ confirmdelete Oled sa kindel et tahad seda kustutada $1?
 confirmdg Oled kindel, et soovid selle grupi kustutada ?
 confirmdu Oled kindel, et soovid selle kasutaja kustutada ?
 confirmeg Oled kindel, et soovid selle grupi tühjendada ?
-confirmpurge Kõik teiste ksautajate kuvapildid kustutatakse (sinu enda pildid säilivad). Soovid jätkata ?
+confirmpurge Kõik teiste kasutajate kuvapildid kustutatakse (sinu enda pildid säilivad). Soovid jätkata ?
 confirmrfl Oled kindel, et soovid kasutaja sellest grupist kustutada ?
 connected Sa oled nüüd ühendatud
 connectedwith Ühendus saavutatud $1
@@ -145,7 +145,7 @@ connection Ühendus
 connectionlost Ühendus katkestatud: Ühendus serveriga suletud
 contactadded Sõber lisatud
 contactdoesnotexist Seda sõpra ei eksisteeri!
-contactlist Kontaktide list (FL):
+contactlist Kontaktide nimekiri (FL):
 continuously Järjepidevalt
 convertexplain Tee käivitatava failini CONVERT (ImageMagicki osa mis on vajalik kasutajate piltide näitamiseks).\n Jätte tühjaks kui CONVERT asub kataloogitees
 copy Kopeeri
@@ -201,7 +201,7 @@ dockgtk Gnome dokkimine
 docking Dokkimine
 dockingoff Dokkimine väljas
 dockkde KDE dokkimine
-dontdownload Ära salvesta TLSi, ma installeerin selle ise
+dontdownload Ära salvesta TLSi, ma paigaldan selle ise
 dontshow Ära näita
 download Lae alla
 downloadingtls Salvesta TLS moodul saidist:\n $1
@@ -236,7 +236,7 @@ faq KKK (Korduma Kippuvad Küsimused)
 file Fail
 filedoesnotexist Faili ei eksisteeri
 fileman Failihaldur
-filemanexample (\$location asendadakse kataloogiga) Näiteks: nautilus \$location
+filemanexample (\$location asendatakse kataloogiga) Näiteks: nautilus \$location
 filename Failinimi
 filenotwritable Faili ei saa kustutada
 filetransfer Faili saatmine
@@ -248,8 +248,8 @@ filtersx Filtrite valik
 followtext Keri alla kui sisestatakse uus tekst
 friendlyname Sõbralik nimi
 ftaccepted Faili edastamisega nõustutud
-ftacceptedby $1 aksepteeris faili '$2' laadimise
-ftaccepting Aksepteerin faili laadimise
+ftacceptedby $1 aktsepteeris faili '$2' laadimise
+ftaccepting Aktsepteerin faili laadimise
 ftautoclose Ülekande lõpul sulge aken
 ftconnecterror Viga ühenduse loomises teise arvutiga
 ftconnecting Ühendan $1 pordil $2
@@ -294,7 +294,7 @@ inbox Postkast
 insertsmiley Sisesta emotikoon
 installconvert Sa pead installeerima ImageMagicku (konverteerimis programm), et kasutada ikoone ja emotikone. Sa saad laadida failid oma operatsiooni süsteemile aadressilt ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/. Kui sul on see juba installeeritud, siis on see programmi viga ja palun teavita sellest. Need võimalused deaktiviseeritakse hetkel. Kui sa installeerid ImageMagiku hiljem siis saad taas aktiviseerida Seadete valikust.
 internalerror Sisemine serveri viga
-invalidfile "Fail $2 sisestatud väljale "$1" ei eksisteeri või ei ole loetav"
+invalidfile Fail $2 sisestatud väljale "$1" ei eksisteeri või ei ole loetav
 invalidfile2 Ei saa luua faili $1. Kontrolli, et sul oleks vastavad õigused.
 invalidgroup Vigane grupp
 invalidpic Määratud pildifaili pole olemas
@@ -357,7 +357,7 @@ longp4c Sinu Sõbralik nimi on pikem kui 130 märki. Ametlikus MSN versioonis näid
 lprivtoconf Privaatvestlus muudetud konverentsiks isikuga $1
 luclosedwin Sa sulgesid akna $1
 mailer E-posti klient
-mailerexample (\$recipient = Adresaat) Jäta tühjaks kui soovid kasutada Hotmaili
+mailerexample (\$recipient = Adressaat) Jäta tühjaks kui soovid kasutada Hotmaili
 maintenance Server läheb hoolduseks maha $1 minuti pärast.
 maximised Maksimeeritud
 minimised Minimeeritud/Ikoniseeritud
@@ -385,7 +385,6 @@ name Nimi
 natip IP määramine veebilehe kaudu
 natkeepalive Kui su ühendus pidevalt katkeb, võimalda see Ülalhoidmine
 needonline Sa oled/ilmud ikka lahtiühendatuna
-needwinico Plugins kataloogi on vaja panna winico03.dll, et Windowsi tray'mine töötaks
 needwinico2 Selleks, et Windowsi süsteemisalvestamine(tray) töötaks, peab utils/windows kataloog sisaldama faili winico05.dll
 never Mitte kunagi
 new_ft_protocol Kasuta failivahetuseks uut protokolli (võib esineda üksikuid vigu)
@@ -404,14 +403,14 @@ nodataavailable $1 jaoks andmed puuduvad
 nogap Gruppide vahele ei jäeta ruumi
 nogroup Grupp puudub
 nologfile $1 jaoks logifail puudub
-noneavailable 
+noneavailable Pole saadaval
 nonewmail Postkastis pole uusi sõnumeid
 nonewver Pole uuemaid versioone allalaadimiseks saadaval.
 nopic Pilt puudub
 noprofileexists Hetkel ei ole ühtegi profiili, \nsa pead tegema ühe, kui tahad kasutada profiilidega logimist. \nKasuta Lisa uus profiil nuppu, et luua uus profiil
 normal Normaalne
 noskins Ei leidnud algse kesta kestade kataloogist. Ei saa AMSN käivitada
-nosystemtray 
+nosystemtray Süsteemisalv puudub
 notificationserver Algne MSN teadvustus server (MSN Messengeri Server)
 notify Teata
 notify1 Näita teateakent, kui sõbrad tulevad online
@@ -425,7 +424,7 @@ notifytimeout Mitu millisekundit teate akent kuvatakse
 notifytyping Näita teisele kasutajale, et ma trükin teadet
 notifywin Teateaken
 notinlist Sa ei ole tema kontaktide nimekirjas
-notls MSN protokoll 9 vajab TLS paketti. Tundub, et see pakett ei ole installeeritud. Kui see on installeeritud, siis tuleb kontrollida Seadete alt kas kataloog on määratud (näiteks: /opt/tls/lib). \n\nTLS on võimalik laadida aadressilt http://tls.sf.net playing Mängib: $1
+notls MSN protokoll 9 vajab TLS paketti. Tundub, et see pakett ei ole installeeritud. Kui see on installeeritud, siis tuleb kontrollida Seadete alt kas kataloog on määratud (näiteks: /opt/tls/lib). \n\nTLS on võimalik laadida aadressilt http://tls.sf.net 
 nousersinsession Ühtegi kasutajat sessioonis
 nudge $1 soovib sinu tähelepanu
 offline Offline
@@ -474,8 +473,8 @@ prefmsging Minu sõnumikeskkond
 prefname Minu MSN Messengeri nimi/hüüdnimi
 prefphone Minu telefoninumbrid
 prefphone2 Sisesta telefoninumbrid, mida sa lubad inimestel \n oma lubatud-nimekirjas näha \n
-prefprivacy Kasutaja lubamise/Blokeerimise list
-prefprivacy2 Kasutaja kontaktid/Vastupidine list
+prefprivacy Kasutaja lubamise/Blokeerimise nimekiri
+prefprivacy2 Kasutaja kontaktid/Vastupidine nimekiri
 prefprofile Minu avalik profiil
 prefprofile2 Loo või Muuda oma avalik profiil (enda \n kirjeldus, mida teised saavad näha)
 prefprofile3 aMSN'i kasutajaseadete profiilid
@@ -488,7 +487,7 @@ preview Eelvaade
 privacy Privaatsus
 profiledconfig Profiilide seaded
 profileexists Sa ei saa selle kasutajaga profiili luua, \nselline kasutaja juba eksisteerib. Vali teine kasutajatunnus
-profileinuse See profiil on kasutuses teise aMSNi sessiooni poolt, palin vali teine profiil.
+profileinuse See profiil on kasutuses teise aMSNi sessiooni poolt, palun vali teine profiil.
 profileloginradio Logi kasutades eksisteerivat profiili
 profiles Profiilid
 properties Omadused
@@ -515,7 +514,7 @@ removefromlist Eemalda sellest listist
 rename Nimeta ümber
 required_version Plugini mahalaadimine ebaõnnestus. Vajab vähemalt aMSN versiooni $1
 reversed Vastupidine
-reverselist Vastupidine list (RL):
+reverselist Vastupidine nimekiri (RL):
 rightback Kohe tagasi
 save Salvesta
 saveas Salvesta kui
@@ -595,7 +594,7 @@ tkerror TK töös ilmnes viga mis tähendab, et AMSN koodis on bug. Palun teata sel
 tlsdowncompleted Fail nimega $1 salvestati kataloogi $2. Sa pead selle lahti pakkima, kompileerima (juhul kui tõmbasid lähtekoodi) ja paigaldama $3 kataloogi.
 tlsexplain Otsitakse tcl TLS mooduli kataloogi. Kui AMSN ei suuda seda leida siis palun määra see käsitsi.\n(Vajalik SSLi kaudu autentimiseks).
 tlsinstall TLS mooduli installeerimise abiline
-tlsinstallexp aMSN kasutab nüüd MSNP9-t, mis vajab tööks krüptitud\nühendust kasutades SSL-i. Et ksutada SSL-i peab aMSN installeerima mooduli TLS,\nmis on sinu süsteemist puudu. See võlur aitab sul alla laadida ja installeerida TLS-i.\nPalun vali oma süsteemi tüüp, et me saaks automaatselt alla laadida vajalikud TLS failid.
+tlsinstallexp aMSN kasutab nüüd MSNP9-t, mis vajab tööks krüptitud\nühendust kasutades SSL-i. Et kasutada SSL-i peab aMSN installeerima mooduli TLS,\nmis on sinu süsteemist puudu. See võlur aitab sul alla laadida ja installeerida TLS-i.\nPalun vali oma süsteemi tüüp, et me saaks automaatselt alla laadida vajalikud TLS failid.
 tlsinstcompleted TLS mooduli installeerimine õnnestus - sa peaksid nüüd saama kasutada MSNP9-t. Kui see ei tööta, siis tõenäoliselt valisid sa vale mooduli või sinu süsteemi jaoks ei ole kompileeritud moodulit.
 to Kellele
 today Täna
@@ -632,10 +631,10 @@ webcaminvite $1 kutsus sind alustama veebikaamera seanssi kuid aMSN ei toeta sed
 willjoin Ootan, et $1 liituks vestlusega
 winkreceived $1 saatis sulle Winki kuid aMSN ei toeta seda hetkel.
 work Töö
-wrongfields 
+wrongfields Väljad "$1", "$2" ja/või "$3" on vigased
 wrongprofileversion Profiili konfiguratsiooni faili versioon on vale. Parandamiseks kustuta kataloog $1 või uuenda aMSN.
 xmmscurrent Näita mängiva loo nime
-xmmserr Miski ei mängi, või sul ei ole xmms-infopipe installeeritud.
+xmmserr Midagi ei mängi, või sul ei ole xmms-infopipe installeeritud.
 xmmssend Saada see lugu
 xoffset Horisontaalnihe
 year Aasta
@@ -646,4 +645,3 @@ yoffset Vertikaalnihe
 youblocked Sind blokeeris kasutaja
 yousay Sa ütled
 youwant Sa tahad
-

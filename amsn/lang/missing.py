@@ -34,13 +34,13 @@ for line in langen:
     line=line.strip("\n")
     
     if len(line)<=0:
-        print " WARNING: blank line in 'langen', you should remove it"
+        print " ERROR: blank line in 'langen', you should remove it"
         continue
     
     i = string.find(line, ' ')
     
     if i < 0:
-        print " WARNING: invalid key in 'langen', you should remove it"
+        print " ERROR: invalid key in 'langen', you should remove it"
         print " -->",line
         continue
 
@@ -58,17 +58,17 @@ for line in f:
     tokens = string.split(line)
     
     if len(tokens)<=0:
-        print " WARNING: blank line, you should remove it"
+        print " ERROR: blank line, you should remove it"
         continue
 
     if len(tokens)<2:
-        print " WARNING: invalid key, you should remove it"
+        print " ERROR: invalid key, you should remove it"
         print " -->",line
         continue
 
     key = tokens[0]
     if key in loaded_keys:
-        print " WARNING: found duplicated key"
+        print " ERROR: found duplicated key"
         print " -->'"+key+"'. Please remove one of the ocurrences"
         continue
     else:
@@ -76,7 +76,7 @@ for line in f:
     try:
         del msg_list[key]
     except KeyError:
-        print " WARNING: found possibly deprecated key"
+        print " warning: found possibly deprecated key"
 	print " --> '"+key+"'. Please remove it if it's not used in latest AMSN stable version"
 #    print string.rstrip(line)
 

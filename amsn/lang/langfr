@@ -26,6 +26,7 @@ alarmpref Configuration de l'alarme de l'utilisateur
 alarms Alarmes
 alarmstatus Activer/désactiver l'alarme pour cet utilisateur
 allfiles Tous les fichiers
+allow_sms Autoriser mes contacts à me téléphoner sur mon mobile
 allowallbutbl Autoriser tout le monde à me contacter sauf les personnes que j'ai bloquées
 allowbadwords Désactiver la censure des pseudonymes
 allowlist Liste des personnes autorisées :

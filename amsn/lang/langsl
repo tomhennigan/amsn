@@ -26,6 +26,7 @@ alarmpref Nastavitve alarma
 alarms Alarmi
 alarmstatus Alarm omogoèen
 allfiles Vse datoteke
+allow_sms Dovoli stikom, da me kontaktirajo na mobilni napravi
 allowallbutbl Dovoli vsem uporabnikom, razen blokiranim, da me kontaktirajo
 allowbadwords Onemogoèi cenzuro nickov
 allowlist Allow seznam
@@ -530,6 +531,7 @@ send Po¹lji
 sendfile Po¹lji datoteko
 sendmail Po¹lji e-mail
 sendmsg Po¹lji sporoèilo
+sendmobmsg Po¹lji sporoèilo na prenosno napravo
 sentbytes Poslano $1 od $2 bajtov
 server Stre¾nik
 serverbusy Stre¾nik je zaseden
