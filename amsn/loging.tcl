@@ -22,8 +22,11 @@ proc StartLog { email } {
 
 	global log_dir config
 	status_log "DEBUG: Opening log file for $email\n"
-	
-	LogArray $email set [open "[file join ${log_dir} ${email}.log]" a+]
+	set dirname [split $config(login) "@ ."]
+        set dirname [join $dirname "_"]
+        file mkdir [file join ${log_dir} ${dirname}]
+
+	LogArray $email set [open "[file join ${log_dir} ${dirname} ${email}.log]" a+]
 	fconfigure [LogArray $email get] -buffersize 1024
 }
 
