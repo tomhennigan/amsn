@@ -1010,18 +1010,39 @@ namespace eval ::ChatWindow {
 
 		# Bind on focus, so we always put the focus on the input window
 		bind $paned <FocusIn> "focus $input"
+
 		if { $::tcl_version >= 8.4 } {
-			bind $input <Configure> "::ChatWindow::InputPaneConfigured $paned $input $output %W %h"
+			bind $output <Configure> "::ChatWindow::OutputPaneConfigured $paned $input $output %W %h"
 			bind $paned <Configure> "::ChatWindow::PanedWindowConfigured $paned $input $output %W %h"
 		}
+
 
 		return $paned
 
 	}
 
-	proc InputPaneConfigured { paned input output W newh } {
+	proc OutputPaneConfigured { paned input output W newh } {
 		#only run this if the window is the outer frame
 		if { ![string equal $input $W]} { return }
+
+		if { [lindex [[::ChatWindow::GetTopText [winfo toplevel $paned]] yview] 1] == 1.0 } {
+			set scrolling 1
+		} else {
+			set scrolling 0
+		}
+
+
+		#ensure that the input window is minimum size if there is room for it
+		if { [winfo height $input] < [$paned panecget $input -minsize] && 
+		     [winfo height $paned] > [expr [$paned panecget $input -minsize] + [$paned panecget $output -minsize]]} {
+
+			$paned sash mark 0 0 [$paned panecget $input -minsize]
+			$paned sash dragto 0 0 [winfo height $input]
+		}
+
+		if { $scrolling } { after 100 "[::ChatWindow::GetTopText [winfo toplevel $paned]] yview end" }
+
+
 
 		if { [::config::getKey savechatwinsize] } {
 			::config::setKey winchatoutheight [winfo height $output]
@@ -1031,6 +1052,7 @@ namespace eval ::ChatWindow {
 	proc PanedWindowConfigured { paned input output W newh } {
 		#only run this if the window is the outer frame
 		if { ![string equal $paned $W]} { return }
+
 
 		#keep the input pane the same size, only change the output		
 		#dont call the first time it is created
@@ -1046,8 +1068,9 @@ namespace eval ::ChatWindow {
 			$paned sash mark 0 0 $::panedsize($paned)
 			$paned sash dragto 0 0 $newh
 		}
-		
+
 		set ::panedsize($paned) $newh
+
 	}
 
 	proc CreateOutputWindow { w paned } {
@@ -1426,7 +1449,7 @@ namespace eval ::ChatWindow {
 
 		set win_name [::ChatWindow::For $chatid]
 
-		if { [lindex [[::ChatWindow::GetTopText ${win_name}] yview] 1] > 0.95 } {
+		if { [lindex [[::ChatWindow::GetTopText ${win_name}] yview] 1] == 1.0 } {
 		   set scrolling 1
 		} else {
 		   set scrolling 0
