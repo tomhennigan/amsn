@@ -187,7 +187,7 @@ set list_states {{NLN online #0000FF online online bonline}
 #=======================================================================
 
 proc msg_box {msg} {
-   tk_messageBox -type ok -icon info -message $msg -title "[trans title]" 
+   tk_messageBox -type ok -icon info -message $msg -title "[trans title]"
 }
 
 proc launch_browser { url } { 
@@ -1208,8 +1208,12 @@ proc blockun_user { user_login } {
 }   
 
 proc block_user {user_login} {
-    set name [::abook::getName ${user_login}]
-   ::MSN::blockUser ${user_login} [urlencode $name]
+
+    set answer [tk_messageBox -message "[trans confirm]" -type yesno -icon question -title [trans block] -parent [focus]]
+    if {$answer == "yes"} {
+      set name [::abook::getName ${user_login}]
+      ::MSN::blockUser ${user_login} [urlencode $name]
+    }
 }
 
 proc unblock_user {user_login} {
