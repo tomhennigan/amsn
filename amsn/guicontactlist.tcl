@@ -210,10 +210,12 @@ namespace eval ::guiContactList {
 		 
 		$canvas bind $email <<Button3>> "show_umenu $email $grId %X %Y;"
 		$canvas bind $email $singordblclick "::amsn::chatUser $email"
-		$canvas bind $email <Enter> "+$canvas create line $xuline1 $yuline $xuline2 $yuline -fill $colour -tag uline ; $canvas lower uline \
-			$email;$canvas configure -cursor hand2"
-		$canvas bind $email <Leave> "+$canvas delete uline;$canvas configure -cursor left_ptr"
-		
+		#Add binding for underline if the skinner use it
+		if {[::skin::getKey underline_contact]} {
+			$canvas bind $email <Enter> "+$canvas create line $xuline1 $yuline $xuline2 $yuline -fill $colour -tag uline ; $canvas lower uline \
+				$email;$canvas configure -cursor hand2"
+			$canvas bind $email <Leave> "+$canvas delete uline;$canvas configure -cursor left_ptr"
+		}
 		return [list [expr $xpos - 15] [expr $ypos + [image height $img] + 3]]
 	}
 	
