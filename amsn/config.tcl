@@ -21,6 +21,7 @@ proc ConfigDefaults {} {
 
 	set config(sound) 1				;#Sound enabled: 0|1
 	set config(mailcommand) ""		;#Command for checking mail. Blank for hotmail
+        set config(notifytyping) 1		;#Send typing notifications
 
 	#Some Autodetected options
 	if {$tcl_platform(os) == "Darwin"} {
@@ -173,6 +174,7 @@ if {$tcl_platform(os) == "Darwin"} {
 		[list allowbadwords bool allowbadwords] \
 		[list disableprofiles bool disableprofiles] \
 		[list receiveddir str receiveddir] \
+		[list notifytyping bool notifytyping] \
 		[list lineflushlog bool lineflushlog] \
 		[list autocheckver bool autocheckver] \
 		[list storename bool storenickname] \

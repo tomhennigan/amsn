@@ -3744,7 +3744,9 @@ proc sb_change { chatid } {
 
 		#::MSN::WriteSB $sbn "MSG" "U $msg_len"
 		#::MSN::WriteSBRaw $sbn "$msg"
-		::MSN::WriteSBNoNL $sbn "MSG" "U $msg_len\r\n$msg"
+                if { $config(notifytyping) } {
+		   ::MSN::WriteSBNoNL $sbn "MSG" "U $msg_len\r\n$msg"
+                }
 	}
 }
 
