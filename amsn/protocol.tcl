@@ -977,9 +977,9 @@ namespace eval ::MSN {
 
 	  if { $index == -1 } {
 	     #TODO: Should we insert at the beggining? Newer SB's are probably better
-	     #set sb_chatid($chatid) [linsert $sb_chatid($chatid) 0 $sb_name]
+	     set sb_chatid($chatid) [linsert $sb_chatid($chatid) 0 $sb_name]
 	     #difference if sb stat ="o" (already a chat opened)
-	     lappend sb_chatid($chatid) $sb_name
+	     #lappend sb_chatid($chatid) $sb_name
 	  }
 
          set chatid_sb($sb_name) $chatid
@@ -989,6 +989,10 @@ namespace eval ::MSN {
 
    proc DelSBFor { chatid sb_name} {
       variable sb_chatid
+
+      if {![info exists sb_chatid($chatid)]} {
+         return
+      }
 
       set index [lsearch $sb_chatid($chatid) $sb_name]
       set sb_chatid($chatid) [lreplace $sb_chatid($chatid) $index $index]
@@ -1299,12 +1303,19 @@ proc cmsn_sb_msg {sb_name recv} {
 
    set content [lindex [array get headers content-type] 1]
 
+   #Look what is our chatID, depending on the number of users
    set typer [string tolower [lindex $recv 1]]
    upvar #0 [sb name $sb_name users] users_list
    if { [llength $users_list] == 1 } {
       set chatid $typer
    } else {
       set chatid $sb_name ;#For conferences, use sb_name as chatid
+   }
+
+
+   if {[::MSN::SBFor $chatid] != $sb_name} {
+      ::MSN::DelSBFor [::MSN::ChatFor $sb_name] $sb_name
+      ::MSN::AddSBFor $chatid $sb_name
    }
 
    #after cancel "catch \{set idx [sb search $sb_name typers $typer];sb ldel $sb_name typers \$idx;cmsn_show_typers $sb_name\} res"
@@ -1343,8 +1354,6 @@ proc cmsn_sb_msg {sb_name recv} {
       }
 
 
-
-
       #TODO: Remove the font style transformation from here and put it inside messageFrom or gui.tcl
       ::amsn::messageFrom $chatid $typer "$body" user [list $fontfamily $style $fontcolor]
       sb set $sb_name lastmsgtime [clock format [clock seconds] -format %H:%M:%S]
@@ -1362,9 +1371,6 @@ proc cmsn_sb_msg {sb_name recv} {
             sb append $sb_name typers $typer
 	 } 
 	 
-         #cmsn_show_typers $sb_name
-
-
 	 #after 8000 "catch \{set idx [sb search $sb_name typers $typer];sb ldel $sb_name typers \$idx;cmsn_show_typers $sb_name\} res"
 	 #We have to catch it as the sb can be closed before the 8 seconds to delete the typing user
 	 after 8000 "catch \{set idx [sb search $sb_name typers $typer];sb ldel $sb_name typers \$idx;::amsn::updateTypers $chatid\} res"
@@ -1679,24 +1685,18 @@ proc cmsn_update_users {sb_name recv} {
 	     sb ldel $sb_name users $leaves
 	     status_log "BYE - User [lindex $recv 1] leaves. Setting it as last user\n" white
 	        
-            #TODO: change chatid_sb and sb_chatid
-            #look if there exists a window for that user
-
 	     set usr_login [lindex [sb index $sb_name users 0] 0]
+	     #TODO: Maybe try a chatChange if only one user left
 
-	     status_log "BYE - Trying to find an existing window for $usr_login\n"
+	     #status_log "BYE - Trying to find an existing window for $usr_login\n"
 
          } else {
 	     status_log "BYE but sb is in \"d\" state, so the close event has been catch before the BYE...\n"
 	  }
 
 	  set chatid [::MSN::ChatFor $sb_name]
-         set newchatid $chatid
 
-         #set timestamp [clock format [clock seconds] -format %H:%M]
-         #set statusmsg "\[$timestamp\] [trans leaves [lindex $recv 1]]\n"
 	  ::amsn::userLeaves $chatid [list [lindex $recv 1]]
-	  #::amsn::chatStatus $chatid $statusmsg
       }
 
       IRO {
@@ -1715,7 +1715,7 @@ proc cmsn_update_users {sb_name recv} {
 	  status_log "Setting last_user as [list $usr_login $usr_name] in IRO\n"
 
 	  if { [sb length $sb_name users] == 1 } {
-  	     status_log "Here in IRO, creating new sb_chatid($usr_login) and killing old one if existed\n"
+  	     #status_log "Here in IRO, creating new sb_chatid($usr_login) and killing old one if existed\n"
 	     #TODO: Kill sb in sb_chatid if it exists?? keep it? check this again
 	     #Funny thing! You can have two sb attached to the same window, but it works perfect! It
 	     #will use the second one (the one in sb_chatid(CHATID)) to send messages, and the other
@@ -1724,7 +1724,7 @@ proc cmsn_update_users {sb_name recv} {
 	     set chatid $usr_login
 	     set newchatid $usr_login
 
-	     ::MSN::AddSBFor $chatid $sb_name
+	     #::MSN::AddSBFor $chatid $sb_name
 
 	     status_log "IRO - I'm now chatid $chatid (first user)\n"
 
@@ -1739,7 +1739,7 @@ proc cmsn_update_users {sb_name recv} {
             set newchatid $sb_name
 
 	     #Remove old chatid correspondence
-	     ::MSN::DelSBFor $chatid $sb_name
+	     #::MSN::DelSBFor $chatid $sb_name
 	     ::MSN::AddSBFor $newchatid $sb_name
 
 	     status_log "IRO - Now i become conference chatid $newchatid (I was $chatid)\n"
@@ -1754,7 +1754,8 @@ proc cmsn_update_users {sb_name recv} {
 	  # ::amsn::windowReady $chatid in the GUI layer. It's not worth it.
 
 	  if { [::MSN::SBFor $newchatid] == $sb_name} {
-	     ::amsn::userJoins $newchatid $usr_name
+	  #TODO: Quit this?
+	  #   ::amsn::userJoins $newchatid $usr_name
 	  }
 
       }

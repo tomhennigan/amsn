@@ -125,6 +125,15 @@ namespace eval ::amsn {
 
       set win_name [WindowFor $chatid]
 
+      if { $win_name == 0 } {
+
+         set win_name [openWindow]
+	  SetWindowFor $chatid $win_name
+         status_log "NEW - Window doesn't exists in messageFrom, created window named [WindowFor $chatid]\n"
+	  WinTopUpdate $chatid
+
+      }
+
      ${win_name}.text configure -state normal -font bplainf -foreground black
 
 
@@ -428,8 +437,6 @@ namespace eval ::amsn {
       if {[WindowFor $chatid] == 0} {
          return 0
       }
-
-
 
       set typers_list [::MSN::typersInChat $chatid]
 
