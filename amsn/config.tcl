@@ -1219,7 +1219,7 @@ proc CheckLock { email } {
 	set Port [LoginList getlock 0 $email]
 	status_log "CheckLock: LoginList getlock called. Lock=$Port\n" blue
 	if { $Port != 0 } {
-		if { [catch {socket -server phony $Port} newlockSock] != 0  } {
+		if { [catch {socket -server phony -myaddr localhost $Port} newlockSock] != 0  } {
 			status_log "CheckLock Port is already in use: $newlockSock\n" red
 			# port is taken, let's make sure it's a profile lock
 			if { [catch {socket localhost $Port} clientSock] == 0 } {
@@ -1291,7 +1291,7 @@ proc LockProfile { email } {
 	while { $trigger == 0 } {
 		set Port [GetRandomProfilePort]
 		status_log "LockProfile: Got random port $Port\n" blue
-		if { [catch {socket -server lockSvrNew $Port} newlockSock] == 0  } {
+		if { [catch {socket -server lockSvrNew -myaddr localhost $Port} newlockSock] == 0  } {
 			# Got one
 			LoginList changelock 0 $email $Port
 			set lockSock $newlockSock
