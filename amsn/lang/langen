@@ -536,6 +536,7 @@ verifyblocked Check for people blocking you
 version Version
 view View
 viewprofile View Profile
+webcaminvite $1 invited you to start an webcam session, but aMSN does not support this feature.
 willjoin Waiting $1 joins conversation
 work Work
 wrongfields The "$1", "$2" and/or "$3" fields were not valid

@@ -4917,7 +4917,10 @@ namespace eval ::MSNP2P {
 						::amsn::GotFileTransferRequest $chatid $dest $branchuid $cseq $uid $sid $filename $filesize
 					}
 					return
-				}				
+				} elseif { $eufguid == "4BD96FC0-AB17-4425-A14A-439185962DC8" }	{
+					status_log "we got an webcam invitation" red
+					::amsn::WinWrite $chatid " [trans webcaminvite [::abook::getNick $dest]]\n" black "" 0
+				}
 			}
 		
 		}
