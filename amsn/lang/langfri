@@ -34,11 +34,13 @@ bgcolor Feroarje aMSN's eftergrûnkleur
 blankdirect Lit leech foar direkte ferbining
 block Blokkear
 blocked Blokkeard
+blockmessage Dizze minsken binne oan e line, mar hawwe dy blokkeard
 broughtby Oanbean troch de folgende ontwikkelers
 browse Ferkenne
 browser Browser
 busy Beset
 cancel Annulearje
+cannotdeleteprofile Het profyl kon net fuortsmiten wurdde, omdat t derop lyket dat het yn gebruk is, troch een oare amsn-sesje
 cfgalarm Alarm konfigurearje/tafoege/foartsmite
 changefont Feroarje lettertype
 changenick Feroarje skermnamme
@@ -54,16 +56,18 @@ checkver Sjoch foar in neiere fersy
 choosebasefont Lettertype
 choosebgcolor Eftergrûnkleur
 choosefontcolor Kies tekstkleur
-clearlog2 Smit logboek foar alle kontakten foart
-clearlog3 Smit alle logboeken foart
-clearlog Logboek leech meitsje
+clearlog2 Smit alle skiednis foar al dyn contacten fuort
+clearlog3 Smit alle logboeken fuort
+clearlog Smit fuort
 clicktologin Klik hjirre om dy oan te melde
 close Slúte
 closingdocks Slút finster
 command Programma
 confirmdelete Wolst grif $1 foartsmite?
 confirm Wytst it grif?
+connected ferbun
 connecterror Ferbiningsflater
+connecting besig mei ferbyne
 connection Ferbining
 connectionlost De ferbyning mei de server is fuort
 contactadded Kontaktpersoan tafoegd
@@ -82,6 +86,7 @@ deliverfail D'r wie in problem by it beswargje fan de folgende boadskip
 delprofile2 Kies it profyl dast foartsmite wolst
 delprofile Smit profyl foart
 directconnection Ik haw n directe ferbyning mei het internet, troch poarte 1863
+dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Ferbergje foar gnome
 docking Ferberg
 dockingoff Ferbergje út
@@ -89,6 +94,7 @@ dockkde Ferbergje foar KDE
 edit Bewurkje
 editprofile Bewurkje profyl
 enableproxy Brûk proxy
+enableremote meitsje op ofstan betsjinje mogelijk
 encoding2 Feroarje fan encodering by dyn tekens
 encoding Encoderen
 entercontactemail Jou Kontakt-email
@@ -191,6 +197,7 @@ nologfile Gjin logboek foar $1
 nonewmail Gjin berjochten yn In-Box
 nonewver D'r binne gjin neiere fersys beskikber
 normal Normaal
+nosystemtray der is gjin systeembalke oanwezich
 notify1 Toan advysfinster wannear't in kontakt sich oanmeldt
 notify2 Toan advysfinster wannear't neie berjochten ûntfange wurde
 notify3 Toan advysfinster wannear't d'r neie emails ûntfange wurde
@@ -235,10 +242,12 @@ prefprofile2 Meitsje of feroarje in profyl\n (beskriuwing fan dysels dy't oaren 
 prefprofile3 aMSN's konfiguraasjeprofylen foar gebrûkers
 prefprofile Myn profyl
 prefproxy Myn Proxy-ynstellings
+prefremote Ynstellings foar op afstan betsjinje
 prefsession Myn oanmelding en status
 prefshared Dielde ferbiningen (alline foar NAT)
 prefsound Lûd
 profiledconfig Profylkonfiguraasje
+profileinuse Dit profyn wurdt al brukt troch een oare amsn-sesje, do moast een oare utsykje
 profiles Profylen
 properties Eigenskippen
 proxyconfhttp HTTP proxy konfiguraasje ûnderst
@@ -246,6 +255,7 @@ proxyconf Proxy konfiguraasje
 proxyconnection Ik bin mei het internet ferbun troch een proxy server
 proxy Ik meitsje brûk fan in Proxy Server (HTTP of SOCKS5)
 publishphones Publisear myn telefoannûmers
+raised omheech gien
 receivedbytes $1 fan $2 bytes krigen
 receivefile Ûntfang bestân
 reconnecting Op'e nei oan't ferbine mei de server
@@ -268,6 +278,7 @@ sentbytes $1 fan $2 bytes ferstjûrd
 servergoingdown De server giet út
 server Server
 session Sitting
+showblockedlist Lit de list sjen, fan minsken dy dy blokkeart hawwe
 sound2 Spielje lûd as kontakten sich oanmelde of in berjocht stjoere
 soundcommand Dit moat in ôfspielkommando wêse (bg: esdplay)
 soundfile Lûdsbestân
@@ -288,18 +299,25 @@ textsize Tekstgrute
 title Messenger
 to Oan
 tools Ark
+transnotexists Dit bestan is noch nei het Frysk oerset
+traynotcompiled Dizze funksje fan de balke is nog net complileare, sjoch de plugins mar efkes nei.
 unblock Deblokkear
 uoffline Net oanmeld
 uonline Oanmeld
 useralreadyonlist Gebrûker stiet al yn dyn list
+userblocked Dizze bruker is wol oan e line, mar hat dy blokkeart
 user Gebrûker 
 usernotonline De gebrûker is net oanmeld
+useryourself Oebele! Do kinst dochs net mei dysels chatte!
+verifyblocked Sykje ut welke minsken dy blokkeart hawwe
 version Fersy
 view Byld
 viewprofile Profyl werjaan
 willjoin Wachtsje tot $1 de konfersaasje bywenjen sil
 work wurk
+wrongprofileversion Ferkearde profylkonfiguraasje-fersie. Om het te reparearjen, moast het bestan $1 fuortsmite, of amsn efkes update
 xoffset X-posysje
 yoffset Y-posysje
+youblocked Do bist blokkeart
 yousay Do seist
 youwant Do wolst
