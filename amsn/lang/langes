@@ -65,7 +65,9 @@ closingdocks Botón de cerrar minimiza
 command Comando
 confirmdelete ¿Seguro que deseas borrar a $1?
 confirm ¿ Estás seguro ?
+connected Ahora estás conectado
 connecterror Error conectándose al servidor
+connecting Conectando
 connection Conexión
 contactadded Contacto añadido
 contactdoesnotexist El contacto que intentas añadir no existe
@@ -90,6 +92,7 @@ dockkde Icono KDE
 edit Edición
 editprofile Editar Perfil
 enableproxy Activar proxy
+enableremote Activar servidor de control remoto
 encoding2 Cambia la forma en la que los caracteres se codifican
 encoding Codificación de caracteres
 entercontactemail Introduce el email del contacto
@@ -234,6 +237,7 @@ prefprofile2 Crea o modifica tu perfil público (la \n descripción de ti mismo qu
 prefprofile3 Perfiles de configuración de los usuarios
 prefprofile Mi perfil público
 prefproxy Configuración de mi proxy
+prefremote Configuración de conexión remota
 prefsession My inicio de sesión y estado
 prefshared Conexiones compartidas (sólo para NAT)
 prefsound Sonidos
