@@ -121,9 +121,13 @@ close Sluiten
 closingdocks Minimaliseren i.p.v. sluiten
 command Commando
 commandstatus Commandoregel uitvoeren
-confirmdelete Weet je zeker dat je $1 wilt verwijderen?
-confirmpurge Alle opgeslagen schermafbeeldingen van je contactpersonen zullen verwijderd worden. Weet je het zeker?
 confirm Weet je het zeker?
+confirmdelete Weet je zeker dat je $1 wilt verwijderen?
+confirmdg Weet je zeker dat je deze groep wilt verwijderen?
+confirmdu Weet je zeker dat je deze gebruiker wilt verwijderen?
+confirmeg Weet je zeker dat je deze groep leeg wilt maken?
+confirmrfl weet je zeker dat je deze gebruiker uit deze groep wilt verwijderen?
+confirmpurge Alle opgeslagen schermafbeeldingen van je contactpersonen zullen verwijderd worden. Weet je het zeker?
 connected Je bent nu verbonden
 connectedwith Verbonden met $1
 connecterror Fout bij verbinden met server
@@ -199,6 +203,7 @@ editvalue Wijzig waarde
 email E-mail
 emailsinlist E-mail adressen weergeven in de contactpersonenlijst
 emotisounds Geluid bij emoticons gebruiken
+emptygroup Goep leegmaken
 enabled Actief
 enableproxy Gebruik proxy
 enableremote Beheer op afstand toestaan
