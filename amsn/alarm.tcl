@@ -266,7 +266,8 @@ proc run_alarm {user msg} {
 	set command $config(soundcommand)
 	set command [string map { "$sound" "" } $command]
 
-	if { ([::alarms::getAlarmItem ${user} pic_st] == 1) || ([::alarms::getAlarmItem ${user} sound_st] == 1)} {
+	#only creates popup if it is a picture alarm or its a sound alarm (non looping for windows)
+	if { ([::alarms::getAlarmItem ${user} pic_st] == 1) || ([::alarms::getAlarmItem ${user} sound_st] == 1 && ($tcl_platform(platform) != "windows" || [::alarms::getAlarmItem ${user} loop] == 1) ) } {
 		toplevel .${wind_name}
 		wm title .${wind_name} "[trans alarm] $user"
 		label .${wind_name}.txt -text "$msg"
@@ -298,9 +299,9 @@ proc run_alarm {user msg} {
 					update
 				}
 			} else {
-				button .${wind_name}.stopmusic -text [trans stopalarm] -command "destroy .${wind_name}"
-				pack .${wind_name}.stopmusic -padx 2
-				update
+				#button .${wind_name}.stopmusic -text [trans stopalarm] -command "destroy .${wind_name}"
+				#pack .${wind_name}.stopmusic -padx 2
+				#update
 				catch { eval exec "[regsub -all {\\} $command {\\\\}] [regsub -all {/} [::alarms::getAlarmItem ${user} sound] {\\\\}]" & } res 
 			}			
 		} else {
