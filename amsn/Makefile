@@ -47,20 +47,20 @@ installdoc:
 
 
 install: mkdirs installdoc
-	# Installing traydock
-	# cd plugins/traydock
-	# make && cd ..
+	@# Installing traydock
+	@# cd plugins/traydock
+	@# make && cd ..
 
 	mkdir -p ${libdir}
 	cp -a * ${libdir}
 
-	# Copy menu file.
-	# cp ${desklink} ${wmapps}
+	@# Copy menu file.
+	@# cp ${desklink} ${wmapps}
 
-	# Remove CVS directorys.
-	# find ${libdir} -type d -name CVS -exec rm -rf {} \;
+	@# Remove CVS directorys.
+	@# find ${libdir} -type d -name CVS -exec rm -rf {} \;
 
-	# Installing pixmaps.
+	@# Installing pixmaps.
 	mkdir -p ${pdatadir}
 	cp -a icons/32x32/* ${pdatadir}
 
