@@ -2218,7 +2218,18 @@ proc cmsn_update_users {sb_name recv} {
 
             sb set $sb_name last_user $usr_login
 
-	     set chatid $usr_login
+             set chatid $usr_login
+
+             #Don't put it in status if we're not the preferred SB.
+             #It can happen that you invite a user to your sb,
+             #but just in that moment the user invites you,
+             #so you will connect to its sb and be able to chat, but after
+             #a while the user will join your old invitation,
+             #and get a fake "user joins" message if we don't check it
+             if {[::MSN::SBFor $chatid] == $sb_name} {
+                ::amsn::userJoins $chatid $usr_name
+             }
+	     
 
 	  } else {
 
@@ -2241,20 +2252,10 @@ proc cmsn_update_users {sb_name recv} {
 	     status_log "JOI - Another user joins, Now I'm chatid $chatid (I was $oldchatid)\n"
 	     ::amsn::chatChange $oldchatid $chatid
 
+	     ::amsn::userJoins $chatid $usr_name     
+	     
 	  }
 
-	  #Don't put it in status if we're not the preferred SB.
-	  #It can happen that you invite a user to your sb,
-	  #but just in that moment the user invites you,
-	  #so you will connect to its sb and be able to chat, but after
-	  #a while the user will join your old invitation,
-	  #and get a fake "user joins" message if we don't check it
-	  #if {[::MSN::SBFor $chatid] == $sb_name} {
-	  #   ::amsn::userJoins $chatid $usr_name
-	  #}
-	  if {("$chatid" != "$usr_name") || ![::MSN::chatReady $chatid]} {
-	     ::amsn::userJoins $chatid $usr_name
-	  }
       }
    }
 
