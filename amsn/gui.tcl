@@ -735,6 +735,9 @@ namespace eval ::amsn {
 
 			::MSN::ChatQueue $chatid [list ::MSNFT::sendFTInvitation $chatid $filename $filesize $ipaddr $cookie]
 			#::MSNFT::sendFTInvitation $chatid $filename $filesize $ipaddr $cookie
+
+		::log::ftlog $chatid $txt		
+
 		}
 		return 0
 	}
@@ -764,6 +767,10 @@ namespace eval ::amsn {
 		WinWriteIcon $chatid ftreject 3 2
 		WinWrite $chatid " $txt\n" green
 		WinWrite $chatid "----------\n" green
+
+		set email [::MSN::usersInChat $chatid]
+		::log::ftlog $email $txt
+
 	}   
 
 	proc acceptedFT { chatid who filename } {
@@ -771,11 +778,14 @@ namespace eval ::amsn {
 		if { [WindowFor $chatid] == 0} {
 			return 0
 		}   
-		set txt [trans ftacceptedby $who $filename]
+		set txt [trans ftacceptedby [::abook::getDisplayNick $chatid] $filename]
 		WinWrite $chatid "----------\n" green
 		WinWriteIcon $chatid fticon 3 2
 		WinWrite $chatid " $txt\n" green
 		WinWrite $chatid "----------\n" green
+
+		set email [::MSN::usersInChat $chatid]
+		::log::ftlog $email $txt
 	}   
 
 	proc rejectedFT { chatid who filename } {
@@ -783,11 +793,14 @@ namespace eval ::amsn {
 		if { [WindowFor $chatid] == 0} {
 			return 0
 		}   
-		set txt [trans ftrejectedby $who $filename]
+		set txt [trans ftrejectedby [::abook::getDisplayNick $chatid] $filename]
 		WinWrite $chatid "----------\n" green
 		WinWriteIcon $chatid ftreject 3 2
 		WinWrite $chatid " $txt\n" green
 		WinWrite $chatid "----------\n" green
+
+		set email [::MSN::usersInChat $chatid]
+		::log::ftlog $email $txt
 	}
 
 	#////////////////////////////////////////////////////////////////////////////////
@@ -814,6 +827,9 @@ namespace eval ::amsn {
 		WinWriteClickable $chatid "[trans reject]" [list ::amsn::RejectFT $chatid -1 [list $sid $branchuid $uid]] ftno$sid
 		WinWrite $chatid ")\n" green
 		WinWrite $chatid "----------\n" green
+
+		::log::ftlog $dest $txt
+
 		if { ![file writable $files_dir]} {
 			WinWrite $chatid "[trans readonlywarn $files_dir]\n" red
 			WinWrite $chatid "----------\n" green
@@ -851,6 +867,9 @@ namespace eval ::amsn {
 			"::amsn::RejectFT $chatid $cookie" ftno$cookie
 		WinWrite $chatid ")\n" green
 		WinWrite $chatid "----------\n" green
+
+		::log::ftlog $fromlogin $txt
+
 		if { ![file writable $files_dir]} {
 			WinWrite $chatid "[trans readonlywarn $files_dir]\n" red
 			WinWrite $chatid "----------\n" green
@@ -903,6 +922,10 @@ namespace eval ::amsn {
 		WinWriteIcon $chatid fticon 3 2
 		WinWrite $chatid " $txt\n" green
 		WinWrite $chatid "----------\n" green
+
+		set email [::MSN::usersInChat $chatid]
+		::log::ftlog $email $txt
+
 	}
 
 	proc RejectFT {chatid cookie {varlist ""} } {
@@ -944,6 +967,9 @@ namespace eval ::amsn {
 		WinWriteIcon $chatid ftreject 3 2
 		WinWrite $chatid "$txt\n" green
 		WinWrite $chatid "----------\n" green
+
+		set email [::MSN::usersInChat $chatid]
+		::log::ftlog $email $txt
 
 	}
 

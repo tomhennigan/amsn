@@ -630,6 +630,7 @@ proc ParseLog { wname logvar } {
 	${wname}.blueframe.log.txt tag configure NOR -foreground black
 	${wname}.blueframe.log.txt tag configure italic -foreground blue
 	${wname}.blueframe.log.txt tag configure ITA -foreground blue
+	${wname}.blueframe.log.txt tag configure GRE -foreground darkgreen
 
 	set loglines [split $logvar "\n"]
 	set result [list]
@@ -920,5 +921,23 @@ proc eventlogout { } {
 	}
 }
 
+
+#///////////////////////////////////////////////////////////////////////////////
+#Log what concerns filetransferts
+
+proc ftlog {email txt} {
+
+		if { [::config::getKey keep_logs] } {
+			set fileid [LogArray $email get]
+			if { $fileid == 0 } {
+				StartLog $email
+				set fileid [LogArray $email get]
+				puts -nonewline $fileid "\|\"LRED\[[trans lconvstarted [clock format [clock seconds] -format "%d %b %Y %T"]]\]\n"
+			}
+			puts -nonewline $fileid "\|\"LGRA[timestamp]\|\"LGRE $txt\n"
+
+
+		}
+}
 
 }
