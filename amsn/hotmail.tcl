@@ -40,3 +40,76 @@ proc hotmail_login {userlogin {pass ""}} {
    }
 
 }
+
+proc hotmail_viewmsg {msgurl userlogin {pass ""}} {
+#To-do go directly to msgurl
+  hotmail_login $userlogin $pass
+}
+
+proc aim_get_str { bodywithr str } {
+
+    set body [string map {"\r" ""} $bodywithr]
+    set pos [string first $str $body]
+    
+    if { $pos < 0 } {
+      status_log "aim_get_str not found\n"
+      return ""
+    } else {
+	    set inicio [expr { $pos + [string length $str] + 2 } ]
+	    set fin [expr { $inicio + [string first "\n" [string range $body $inicio end]] - 1 } ]
+	    return [string range $body $inicio $fin]
+    }	   
+
+}
+
+
+
+proc hotmail_procmsg {msg} {
+	global unread config password
+
+	#Nuevo by AIM
+	status_log "Hotmail me dice: $msg\n" white
+		
+	set content [aim_get_str $msg Content-Type]
+
+	if {[string range $content 0 29] == "text/x-msmsgsemailnotification"} {					     
+	  if {[aim_get_str $msg From] != ""} {				
+	    set from [aim_get_str $msg From]
+	    set fromaddr [aim_get_str $msg From-Addr]
+	    set msgurl [aim_get_str $msg Message-URL]
+	    status_log "Hotmail: New mail from $from - $fromaddr\n"
+	    set unread [expr $unread + 1]
+	    
+	    cmsn_notify_add [trans newmailfrom]\n$from\n($fromaddr) \
+	      "hotmail_viewmsg $msgurl $config(login) $password"
+	    sonido newemail
+	    cmsn_draw_online
+
+	  } 
+	}
+	if {[string range $content 0 36]  == "text/x-msmsgsinitialemailnotification"} {
+  	  set noleidos [aim_get_str $msg Inbox-Unread]
+	  status_log "Hotmail: $noleidos unread emails\n"
+	  if { [string length $noleidos] > 0 } {
+	    set unread $noleidos
+	    cmsn_draw_online
+	  }
+	}
+	if {[string range $content 0 34]  == "text/x-msmsgsactivemailnotification"} {
+	  set source [aim_get_str $msg Src-Folder]
+	  set dest [aim_get_str $msg Dest-Folder]
+	  set delta [aim_get_str $msg Message-Delta]
+	  if { $source == "ACTIVE" } {
+  	    set noleidos [expr $unread - $delta]
+	  } else {if {$dest == "ACTIVE"} {
+  	    set noleidos [expr $unread + $delta]
+	  }}
+	  status_log "Hotmail cambio mensajes: $noleidos unread emails\n"
+	  if { [string length $noleidos] > 0 } {
+	    set unread $noleidos
+	    cmsn_draw_online
+	  }
+	}
+		#End by AIM
+
+}
