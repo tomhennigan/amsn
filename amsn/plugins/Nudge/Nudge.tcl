@@ -156,13 +156,19 @@ namespace eval ::Nudge {
 	# config and do what it says.                 #
 	###############################################
 	proc received { event evpar } {
-		upvar 2 evpar args
-		upvar 2 chatid chatid
-		upvar 2 nick nick
-		upvar 2 msg msg
+		upvar 2 $evpar args
+		upvar 2 $args(chatid) chatid
+		upvar 2 $args(nick) nick
+		upvar 2 $args(msg) msg
+		#The way to get headers change on 0.95
+		if {[::Nudge::version_094]} {
+			set header "[::MSN::GetHeaderValue $msg Content-Type]"
+		} else {
+			set header "[$msg getHeader Content-Type]"
+		}
 
-		if {[::MSN::GetHeaderValue $msg Content-Type] == "text/x-msnmsgr-datacast" && [::MSN::GetHeaderValue $msg ID] == "1"} {
-			::Nudge::log "\nStart receiving nudge from <[::abook::getDisplayNick $chatid]>\n"
+		if {$header == "text/x-msnmsgr-datacast"} {
+			::Nudge::log "Start receiving nudge from <[::abook::getDisplayNick $chatid]>"
 			#If the user choosed to have the nudge notified in the window
 			if { $::Nudge::config(notsentinwin) == 1 } {
 				::Nudge::winwrite $chatid "[trans nudge $nick]!" nudge
