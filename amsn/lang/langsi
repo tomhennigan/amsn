@@ -443,6 +443,7 @@ statenewtext Prosim vpisi potrebne podatke za \n tvoje novo osebno stanje in pri
 state Zelim biti viden kot
 status Stanje
 stopalarm Ustavi alarm
+storenickname Zamenjaj nick na prejsnjega po vrnitvi iz osebnega stanja
 stylechat Enak izgled kot pogovori
 stylehist Izgled zgodovine
 stylelog Izberi zapis, v katerem zelis videti zgodovino
