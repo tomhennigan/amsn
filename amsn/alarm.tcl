@@ -260,7 +260,8 @@ proc run_alarm {user msg} {
 	if { $alarms(${user}_sound_st) == 1 } {
 		#need different commands for windows as no kill or bash etc
 		if { $tcl_platform(platform) == "windows" } {
-			wm attributes .${wind_name} -topmost 1
+			#Some verions of tk don't support this
+			catch { wm attributes .${wind_name} -topmost 1 }
 			if { $alarms(${user}_loop) == 1 } {
 				global stoploopsound
 				set stoploopsound 0
