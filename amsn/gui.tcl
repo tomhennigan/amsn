@@ -3810,7 +3810,7 @@ proc cmsn_draw_main {} {
 
 	#View the history
 	.main_menu.tools add separator
-	.main_menu.tools add command -label "[trans history]" -command ::log::OpenLogWin -state disabled
+	.main_menu.tools add command -label "[trans history]" -command ::log::OpenLogWin
 
 	#Unnecessary separator when you remove the 2 dockings items menu on Mac OS X
 	if {$tcl_platform(os) != "Darwin"} {
@@ -4640,7 +4640,8 @@ proc cmsn_draw_offline {} {
 	.main_menu.tools entryconfigure 5 -state disabled
 	#Disables View Contacts by
 	.main_menu.tools entryconfigure 6 -state disabled
-
+	#Disable "View History"
+	.main_menu.tools entryconfigure 8 -state disabled
 
 	#Change nick
 	configureMenuEntry .main_menu.actions "[trans changenick]..." disabled
