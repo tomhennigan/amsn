@@ -239,7 +239,6 @@ namespace eval ::amsn {
 		option add *Font splainf userDefault
 		#Use different width for scrollbar on Mac OS X
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-			option add *Entry.borderWidth 0 widgetDefault
 			option add *background #ECECEC
 			option add *highlightbackground #ECECEC
 			option add *Scrollbar.width 15 userDefault

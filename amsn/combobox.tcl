@@ -252,6 +252,7 @@ proc ::combobox::Init {} {
 
 	# these are unique to us...
 	option add *Combobox.elementBorderWidth  0	widgetDefault
+	option add *Combobox.borderWidth 1 widgetDefault
 	option add *Combobox.buttonBackground    $bbg	widgetDefault
 	option add *Combobox.dropdownWidth       {}     widgetDefault
 	option add *Combobox.openCommand         {}     widgetDefault
