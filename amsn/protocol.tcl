@@ -1142,8 +1142,8 @@ namespace eval ::MSN {
 
                amsn::userLeaves [::MSN::ChatFor $sbn] [list $user_info] 0
             }
-            #Try to kill it again in 60 seconds
-            after 60000 "::MSN::CheckKill $sbn"
+            #Try to kill it again in 5 minutes
+            after 300000 "::MSN::CheckKill $sbn"
          } else {
             #It's not the preferred SB,so we can safely delete it from the
 	    #chat and Kill it
