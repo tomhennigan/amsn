@@ -81,13 +81,13 @@ cantremoveothers Ni mogoce izbrisati skupine "Ostali"
 casesensitive Obcutljiv na velikost crk
 cfgalarmall Nastavi globalni alarm
 cfgalarm Nastavi zvocni/slikovni alarm
+change Zamenjaj
 changecustomstate Preklopi v
 changedisplaypic Spremeni osebno sliko
 changefont Zamenjaj pisavo
 changeglobnick Spremeni globalni nick
 changenick Zamenjaj nick
 changestate $1 je spremenil/a stanje na $2
-change Zamenjaj
 charscounter Natipkani znaki v oknu s pogovorom
 chatack Sprejemam pogovor od
 chatmaxmin Ko mi stik zacne pogovor z mano, hocem, da je:
@@ -96,9 +96,9 @@ chatreq Zahtevam pogovor
 chatsmileys2 Prikazi emotikone in smeske v pogovornih oknih
 chatsmileys Smeskoti
 checkblocking Preverjaj, ce te ostali blokirajo
-checkemail Pokazi obvestilo o novi posti v seznamu stikov
 checkfilman Prejete datoteke bodo shranjene v $1. Preveri nastavitve upravljalca datotek v nastavitvah.
 checkingver Preverjam za novo razlicico
+checkemail Pokazi obvestilo o novi posti v seznamu stikov
 checkonfln Preveri, ce te je uporabnik blokiral, ko se odjavi
 checkver Preveri za novo razlicico
 choosearq Izberi arhitekturo sistema
@@ -185,7 +185,6 @@ editvalue Uredi vrednost
 email E-postni naslov
 emailsinlist Pokazi postne naslove namesto nickov v seznamu stikov
 emotisounds Igraj zvok na dolocene emotikone
-enablebanner Prikazi aMSNjevo pasico (Potreben je ponoven zagon aMSN)
 enabled Vkljuceno
 enableproxy Omogoci proxy
 enableremote Omogoci nadzor na daljavo
@@ -225,8 +224,8 @@ ftrejected Prenos datoteke je bil zavrnjen.
 ftsendinvitation $1 bo prejel/a povabilo za prenos datoteke '$2' ($3 bajtov).
 fullcontactlist Tvoj seznam stikov je poln. Da bi dodal novega, moras izbrisati katerega od trenutnih stikov.
 getdisppic Omogoci prejemanje osebne slike od drugih uporabnikov
-globalnicktitle Globalni nick
 globalnick Vnesi vzorec za tvorbo nickov vseh tvojih stikov. Lahko uporabljas te spremenljivke: \$user_login za naslov stika, \$nick za njegov nick in \$customnick za njegov prikazni nick. Primer: '\$user_login je \$nick' bo prikazano kot 'stik@msn.com je Stik'
+globalnicktitle Globalni nick
 globaloverride Veljajo naj vzorci za globalne nicke
 gonelunch Na kosilu
 groupadd Dodaj v skupino
@@ -336,6 +335,7 @@ myworkphone Sluzbeni telefon
 natip IP detekcija od mrezne strani
 natkeepalive Ce te velikokrat odjavi, oznaci to moznost
 needonline Se vedno si/izgledas neprijavljen!
+needwinico Da bi pristaja delovala v Oknih, potrebujes datoteko winico03.dll v mapi plugins
 never Nikoli
 newmail $1 novih sporocil v Inboxu
 newmailfrom Novo sporocilo od $1 ($2)
@@ -386,8 +386,8 @@ pager Pager
 pass Geslo
 paste Prilepi
 personal Osebno
-phones Telefonske stevilke
 phone Telefon
+phones Telefonske stevilke
 picbrowser Prikazi brskalnik slik
 picfile Slikovna datoteka
 picstatus Slika omogocena
@@ -472,6 +472,7 @@ servergoingdown Povezava prekinjena
 server Streznik
 serverunavailable Streznik ni dosegljiv
 session Seja
+showbanner Prikazi aMSNjevo pasico
 showblockedlist Pokazi seznam ljudi, ki so te blokirali
 showcachedpics Pokazi shranjene osebne slike
 showdisplaypic2 Prikazi osebno sliko, ko se odpre pogovor
@@ -496,6 +497,7 @@ soundserver Zvocni streznik
 soundstatus Zvok omogocen
 sound Zvok dogodka
 sourcecode Izvorna koda (potrebno jo je prevesti in namestiti)
+splashstart Start
 sslwarning POZOR!! Onemogocenje SSL-ja bo onemogocilo enkripcijo, tako da bo tvoje geslo poslano kot navadno besedilo. Uporabi le pri kompliciranih nastavitvah proxyja in omrezja.
 startoffline2 Prijavi se kot "Na videz neprijavljen"
 startoffline Zacni neprijavljen
@@ -543,15 +545,15 @@ uoffline Neprijavljeni
 uonline Prijavljeni
 useralreadyonlist Uporabnik je ze na seznamu stikov
 userblocked Uporabnik je prijavljen, a te je blokiral
-userdata Podatki o uporabniku
 usernotonline Uporabnik ni prijavljen
-userproperties Lastnosti uporabnika $1
 user Uporabnik
+userdata Podatki o uporabniku
+userproperties Lastnosti uporabnika $1
 useryourself Ne mores govoriti sam s seboj
 verifyblocked Preveri, kdo te blokira
 version Razlicica
-viewcontactsby Prikazi stike po
 view Pogled
+viewcontactsby Prikaz stikov
 viewprofile Poglej profil
 webcaminvite $1 te je povabil/a na videokanferenco, a aMSN tega ne podpira.
 willjoin Cakam, da se $1 pridruzi pogovoru
