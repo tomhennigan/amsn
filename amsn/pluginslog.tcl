@@ -78,9 +78,10 @@ if { $initialize_amsn == 1 } {
 	proc show_filters {} {
 	    variable window
 	    if {[winfo exists $window.filters] == 1} {
-		return
+	   		raise $window.filters
+			return
 	    }
-	    puts [info exists $window.filters]
+	    
 	    toplevel $window.filters
 	    wm title $window.filters "Plugins Log - [trans filtersx]"
 	    # yes, I am really lazy...
@@ -89,7 +90,7 @@ if { $initialize_amsn == 1 } {
 	    grid $w.msg -column 1 -row 1 -columnspan 2
 	    
 	    set s [llength $::plugins::knownplugins]
-	    puts $s;
+	    
 	    set col 1
 	    set row 2
 	    for {set x 0} {$x<$s} {incr x} {
@@ -106,6 +107,7 @@ if { $initialize_amsn == 1 } {
 	    button $w.update -text "[trans update]" -command "::pluginslog::display"
 	    grid $w.update -columnspan 2 -row $row -column 1
 	    bind $window.filters <Destroy> ::pluginslog::display
+	    moveinscreen $w 30
 	}
 	
 	proc draw {} {
