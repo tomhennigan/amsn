@@ -1470,26 +1470,33 @@ proc read_sb_sock {sbn} {
    } else {
 
       set tmp_data "ERROR READING SB !!!"
-      if {[catch {gets $sb_sock tmp_data} res] || "$tmp_data" == "" } {
-         degt_protocol "<-SB($sbn) GARBAGE. Error: $res" error
-         return 0
+      if {[catch {gets $sb_sock tmp_data} res]} {
 
-      }
-      
-      sb append $sbn data $tmp_data
+         degt_protocol "<-SB($sbn) Read Error, Closing: $res" error
+         cmsn_sb_sessionclosed $sbn
 
-      degt_protocol "<-SB($sbn) $tmp_data\\n" sbrecv
+      } elseif  { "$tmp_data" == "" } {
 
-      if {[string range $tmp_data 0 2] == "MSG"} {
-         set recv [split $tmp_data]
-	 #TODO: Do this non-blocking
-	 fconfigure $sb_sock -blocking 1
-	 set msg_data [read $sb_sock [lindex $recv 3]]
-	 fconfigure $sb_sock -blocking 0
+         update idletasks
+         degt_protocol "<-SB($sbn) READ NOTHING " error
 
-         degt_protocol "Message Contents:\n$msg_data" msgcontents
+      } else {
 
-	 sb append $sbn data $msg_data
+         sb append $sbn data $tmp_data
+
+         degt_protocol "<-SB($sbn) $tmp_data\\n" sbrecv
+
+         if {[string range $tmp_data 0 2] == "MSG"} {
+            set recv [split $tmp_data]
+	    #TODO: Do this non-blocking
+	    fconfigure $sb_sock -blocking 1
+	    set msg_data [read $sb_sock [lindex $recv 3]]
+	    fconfigure $sb_sock -blocking 0
+
+            degt_protocol "Message Contents:\n$msg_data" msgcontents
+
+	    sb append $sbn data $msg_data
+         }
       }
    }
 
@@ -2454,15 +2461,6 @@ proc cmsn_ns_handler {item} {
       REA {
          ::MSN::GotREAResponse $item
 	 return 0
-         #Todo: remove this from here??
-	 status_log "REA in cmsn_ns_handler, so don't remove me\n" red
-         global user_info config
-	      #status_log "Item: $item\n" white
-	      if { [lindex $item 3] == $config(login) } {
-            set user_info $item
-   	      cmsn_draw_online
-	      }
-         return 0
       }
       ADD {
 	     if { [lindex $item 2] == "FL"} {
@@ -2515,9 +2513,6 @@ proc cmsn_ns_handler {item} {
     	    if { $user_stat != [lindex $item 2] } {
 	       set user_stat [lindex $item 2]
 	       cmsn_draw_online
-
-		#TODO: Look if the user is in any chat, then alert that window
-		#about the status chage
 
 	       #Alert dock of status change
 #	       send_dock [lindex $item 2]
