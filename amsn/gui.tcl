@@ -1214,6 +1214,15 @@ namespace eval ::amsn {
 		variable first_message
 
 
+		#if customfnick exists replace the nick with customfnick
+		set customfnick [::abook::getContactData $user customfnick]
+		if { $customfnick != "" } {
+			set nick [::abook::getNick $user]
+			set customnick [::abook::getContactData $user customnick]
+
+			set nick [::abook::parseCustomNick $customfnick $nick $user $customnick]
+		}
+		
 		#If this is the first message, and no focus on window, then show notify
 		#if { $first_message($win_name) == 1 } {
 
