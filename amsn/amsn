@@ -111,6 +111,12 @@ if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 
 lappend auto_path [file join utils]
 lappend auto_path [file join ${HOME} plugins]
+#Specific folder to check for package on platforms
+if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+	lappend auto_path [file join utils macosx]
+} elseif {$tcl_platform(platform) == "windows"} {
+	lappend auto_path [file join utils windows]
+}
 
 set libtls ""
 
@@ -167,7 +173,7 @@ proc reload_files { } {
 		source xmms.tcl
 	}
 	if {$tcl_platform(os) == "Darwin"} {
-		source [file join utils applescript ae.tcl];#AppleEvent support
+		source [file join utils macosx applescript ae.tcl];#AppleEvent support
 	}
 	source alarm.tcl	;# Alarms code (Burger)
 	source dock.tcl		;# Docking routines
