@@ -812,6 +812,8 @@ proc cmsn_sb_msg {sb_name recv} {
       cmsn_win_write $sb_name "$body\n" red
       
 #      status_log "llegamsg: $recv\n"
+
+      sb set $sb_name lastmsgtime [clock format [clock seconds] -format %H:%M:%S]
       
       set idx [sb search $sb_name typers [lindex $recv 1]]
       sb ldel $sb_name typers $idx
@@ -1120,7 +1122,7 @@ proc cmsn_ns_handler {item} {
 	 # Everything that is in AL or BL is in either of the above.
 	 # Only FL contains the group membership though...
 	 if { ($curr_list == "FL") } {
-	     status_log "PRUEBA2: $item\n" blue
+#	     status_log "PRUEBA2: $item\n" blue
 	     ::abook::setContact [lindex $item 6] FL [lindex $item 8]
 	     ::abook::setContact [lindex $item 6] nick [lindex $item 7]
 	 }
