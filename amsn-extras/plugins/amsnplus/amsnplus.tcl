@@ -62,34 +62,49 @@ namespace eval ::amsnplus {
 				[list str "[trans onconnect]" on_connect] \
 			]
 		}
+
+		#creating the menus
+		catch { ::amsnplus::add_plus_menu }
+
 		#register events
 		::plugins::RegisterEvent "aMSN Plus" parse_nick parse_nick
 		::plugins::RegisterEvent "aMSN Plus" chat_msg_send parseCommand
 		::plugins::RegisterEvent "aMSN Plus" chat_msg_receive parse_colours_and_sounds
 		::plugins::RegisterEvent "aMSN Plus" chatwindowbutton chat_color_button
-		::plugins::RegisterEvent "aMSN Plus" chatmenu edit_menu
 		::plugins::RegisterEvent "aMSN Plus" OnConnect on_connect
-		::plugins::RegisterEvent "aMSN Plus" mainmenu add_plus_menu
+		::plugins::RegisterEvent "aMSN Plus" chatmenu edit_menu
 		
 		if {![::amsnplus::version_094]} {
 			::amsnplus::setPixmap
 		}
 	}
 
-
+	####################################################
+	# deinit procedure, all to do when unloading the plugin
+	proc amsnplusStop { } {
+		#removing the plus menu and chat window pixmap
+		.main_menu delete 4
+		::amsnplus::remove_from_chatwindow
+	}
 
 	####################################################
-	#            PLUS MENUS AND PREFERENCES            #
-	####################################################
+	# this proc removes every menu in every chat window
+	# and also the pixmap of amsnplus to choose a color
+	proc remove_from_chatwindow { } {
+	}
+
+
+
+	#//////////////////////////////////////////////////////////////
+	#            PLUS MENUS AND PREFERENCES
+	#//////////////////////////////////////////////////////////////
 	
 	####################################################
 	# creates the plus sub menu in the main gui menu
-	proc add_plus_menu { event evpar } {
-		upvar 2 evPar newvar
-		set menu_name $newvar(menu)
-		menu ${menu_name}.plusmenu -tearoff 0
-		$menu_name add cascade -label "Plus!" -menu ${menu_name}.plusmenu
-		set plusmenu ${menu_name}.plusmenu
+	proc add_plus_menu { } {
+		catch { menu .main_menu.plusmenu -tearoff 0 }
+		.main_menu add cascade -label "Plus!" -menu .main_menu.plusmenu
+		set plusmenu .main_menu.plusmenu
 
 		#entries for the plus menu
 		$plusmenu add command -label "[trans preferences]" -command "::amsnplus::preferences"
@@ -138,6 +153,11 @@ namespace eval ::amsnplus {
 				incr i
 			}
 		}
+	}
+
+	###############################################
+	# this proc creates the preferences window
+	proc preferences { } {
 	}
 
 
