@@ -368,7 +368,7 @@ proc mailicon_proc {num} {
 	# Workaround for bug in the traydock-plugin - statusicon added - END
 	set icon .mi
 	if {$systemtray_exist == 1 && $mailicon == 0 && ([::config::getKey dock] == 3 || [::config::getKey dock] == 4)  && $num >0} {
-		set pixmap "[::skin::GetSkinFile pixmaps unread.gif]"
+		set pixmap "[::skin::GetSkinFile pixmaps unread_tray.gif]"
 		if { $num == 1 } {
 			set msg [trans onenewmail]
 		} elseif { $num == 2 } {
