@@ -23,22 +23,6 @@ http://amsn.sourceforge.net
 
 
 ========================================================
-=== Important note, read this =================
-
-Some people have been noticing frequent hangs when using
-amsn. This is due to a wrong configuration of the sound
-command. By default, the sound player command is 'esdplay'
-(the Gnome sound daemon). If you aren't using esd, go to
-preferences -> sound and change the command to 'play' or
-anyone you like.
-
-A frequent question: what does the magenta color in the
-contact list? Contacts in you contact list that appear
-magenta are contacts that don't have you in their contact
-list.
-
-
-========================================================
 === Programmers ===============================
 
 Alvaro J. Iradier Muro - airadier@users.sourceforge.net

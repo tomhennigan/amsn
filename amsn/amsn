@@ -240,6 +240,33 @@ proc cmsn_draw_about {} {
    pack .about.bottom -expand 1
 }
 
+proc amsn_showhelpfile {file title} {
+   global program_dir
+   toplevel .show
+   wm title .show "$title"
+   wm transient .show .
+
+   text .show.info -background white -width 60 -height 30 -wrap word \
+      -yscrollcommand ".show.ys set" -font   examplef
+   scrollbar .show.ys -command ".show.info yview" 
+   pack .show.ys -side right -fill y
+   pack .show.info -expand true -fill both
+   set id [open "[file join $program_dir $file]" r]
+   .show.info insert 1.0 [read $id]
+   close $id
+   .show.info configure -state disabled
+   update idletasks
+   set x [expr {([winfo vrootwidth .show] - [winfo width .show]) / 2}]
+   set y [expr {([winfo vrootheight .show] - [winfo height .show]) / 2}]
+   wm geometry .show +${x}+${y}
+
+   frame .show.bottom -class Amsn
+       button .show.bottom.close -text "[trans close]" -font splainf -command "destroy .show"
+       pack .show.bottom.close
+   pack .show.bottom -expand 1
+}
+
+
 proc draw_faq {} {
    global program_dir
    toplevel .faq
@@ -452,12 +479,12 @@ proc cmsn_draw_main {} {
    #Help menu
    menu .main_menu.help -tearoff 0 -type normal  
 
-   .main_menu.help add command -label "[trans helpcontents]..." -command cmsn_draw_about
+   .main_menu.help add command -label "[trans helpcontents]..." -command "amsn_showhelpfile HELP [list [trans helpcontents]]"
+   .main_menu.help add command -label "FAQ" -command "amsn_showhelpfile FAQ [list [trans faq]]"
    .main_menu.help add separator
    .main_menu.help add command -label "[trans about]..." -command cmsn_draw_about
    .main_menu.help add command -label "[trans version]..." -command \
      "msg_box \"[trans version]: $version - [trans date]: $date\n$weburl\""
-   .main_menu.help add command -label "FAQ" -command draw_faq
 
 
    image create photo mainback -file [file join ${images_folder} back.gif]

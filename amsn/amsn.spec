@@ -58,7 +58,7 @@ rm -f %{prefix}/bin/amsn
 if test -x /usr/bin/update-menus; then /usr/bin/update-menus; fi
 
 %files
-%doc README LEEME TODO changelog GNUGPL FAQ
+%doc README LEEME TODO changelog GNUGPL FAQ HELP
 /usr/bin/amsn
 /usr/share/amsn/README
 /usr/share/amsn/amsn
