@@ -36,8 +36,13 @@
 				::amsn::MessageSend .${win_name} 0 "[trans playing $song]"
 			}
 			2 {
+			if {$file == "iPod"} { 
+			status_log $file
+			msg_box [trans You can't send file from the iPod];return 0
+			} else {
 				::amsn::FileTransferSend .${win_name} $file
 				return 0
+				}
 			}
 		}
 		return 1
