@@ -13,14 +13,24 @@ adverts Reklami
 alarmpref Podesuvanje na alarm za korisnikot
 alarmstatus Ukluci/iskluci go alarmot za ovoj korisnik
 allowseen Dozvoli ovaa licnost da me vidi i da me kontaktira dodeka sum na linija
+appearance Izgled
 appearoff Neka izgleda deka ne sum na linija
+areacode Regionalen kod
 aretyping $1 pisuvaat poraka
+askprofile Ovoj korisnik momentalno nema profil. Dali bi sakale da kreirate profil za nego? \n Ako ne nema da mozete da koristite istorija, da gi snimate alarmite i lozinkite. \n Ako napravite ke imate odvoena konfiguracija za ovoj profil \n \n Kliknete na "Kreiraj profil" za da kreirate nov profil za $1.
+autoaway Prikazi me kako "Odsuten" koga sum neaktiven 
+autoconnect2 Prijavi me avtomatski pri start na aMSN
+autoconnect Konektiraj se pri start na aMSN
 autohotmaillog Avtomatsko prijavuvanje na Hotmail
 autoidle Avtomatsko setiranje na neaktivnost
 autoip Avtomatska IP adresa
+autonoact Prikazi me kako "Neaktiven" koga sum neaktiven 
 avoidseen Ne dozvoli ovaa licnost da me vidi i da me kontaktira dodeka sum na linija
-away Nastrana
+away Odsuten
+awaymsg1 Prasaj me za poraka sekogas koga go menuvam statusot vo Odsuten
+awaymsg2 Nikogas ne me prasuvaj i koristi gi slednite poraki
 baduserpass Pogresno korisnicko ime ili lozinka
+bgcolor Promeni ja pozadinskata boja na aMSN
 blankdirect Ostavi prazno za direktna vrska
 block Blokiraj
 blocked Blokirano
@@ -30,36 +40,53 @@ browser Prebaruvac
 busy Zafateno
 cancel Ponisti
 cfgalarm Konfiguriraj/Dodadi/Odstrani Alarm
+changefont
 changenick Smeni go prekarot
 chatack Prifakanje na razgovor od
 chat Razgovor
 chatreq Baranje na razgovor
+chatsmileys2 Prikazi emocii i nasmevki vo prozorite za razgovor
 chatsmileys Nasmevki za razgovor
+checkfilman Pimenite datoteki ke bidat snimeni vo $1. Ve molam proverete gi setinzite na fajl menagerot vo opciite.
 checkingver Proveruvam dali ima novi verzii
 checkver Proveri dali ima nova verzija
 choosebasefont Odberi tip na bukvi
 choosebgcolor Odberi boja na pozadinata
 choosefontcolor Odberi boja na bukvite
+clearlog2 Izbrisete ja istorijata za site vasi kontakti
+clearlog3 Izbrisete gi site zabeleski
+clearlog Izbrisete gi zabeleskite
 clicktologin Klikni ovde za da se prijavis
 close Zatvori
 closingdocks Kopce za Zatvaranje Smaluva
 command Naredba
-confirm Dali si siguren?
-confirmdelete Dali si siguren deka sakas da go izbrises $1?
+confirm Dali ste siguren?
+confirmdelete Dali ste siguren deka sakate da go izbrisete $1?
 connecterror Greska pri povrzuvanjeto se serverot
+connection Vrska
 contactadded Kontaktot e dodaden
 contactdoesnotexist Kontaktot ne postoi!
 copy Kopiraj
 copytogroup Kopiraj vo grupa
+countrycode Moja zemja/region kod
+cprofile Kreiraj profil
 cut Iseci
 date Datum
+days Denovi
+dcprofile Ne kreiraj profil
+default Podrazbirana konfiguracija
 delete Izbrisi
+deliverfail Ima problem pri dostavuvanjeto na porakata
+delprofile2 Izberete go profilot koj sakate da go izbrisete
+delprofile Izbrisi go profilot
+dockgtk Gnome namestuvanje
 docking Namesti se zgodno
 dockingoff Vrati se nazad
-dockgtk Gnome namestuvanje
 dockkde KDE Namestuvanje
 edit Editiraj
+editprofile Editiraj go profilot
 enableproxy Aktiviraj proxy
+encoding2 Promeni go nacinot na koj se kodirani bukvite
 encoding Odberi kodiranje
 entercontactemail Vnesi ja e-mail adresata na kontaktot
 enterfilename Vnesi ime na datoteka
@@ -69,6 +96,7 @@ exitamsn Dali si siguren deka sakas da izlezes?
 extras Dodatni Uslugi
 faq FAQ (Cesto Postavuvani Prasanja)
 filedoesnotexist Datotekata ne postoi
+fileman Fajl menager
 filename Datoteka
 filetransfercancelled Prenosot na datotekata e ponisten
 filetransfercomplete Prenosot na datotekata e zavrsen
@@ -81,13 +109,14 @@ groupexists Grupata veke postoi
 group Grupa
 groupmissing Ne mozam da ja najdam grupata
 groupnewname Novo ime
-groupnotempty Grupata ne e prazna
+groupnotempty Grupata ne e prazna!
 groupoldname Staro ime
 grouprename Preimenuvaj grupa
 groupunknown Nepoznata grupa
-handle Handle Sraboti
+handle Sraboti
 helpcontents Sodrzina na pomosta
 help Pomos
+history Pogledaj ja istorijata
 home Doma
 ident Identificaranje
 identity Identitet
@@ -95,30 +124,57 @@ inbox Postensko sandace
 invalidusername Pogresno korisnicko ime
 invite Pokani
 ipaddress IP Adresa
+ipdetect Detektiraj ja tocnata IP za file transfer preku HTTP
 istyping $1 pisuva poraka
 joins $1 se pridruzi na razgovor
 keepalive Odrzuvaj ja ziva (NAT)
+keeplog2 Belezi gi site razgovori vo aMSN za iden pregled
+keeplog Cuvaj gi beleskite od razgovorite
 language Jazik
 lastmsgtime Poslednata poraka e dobiena vo $1
+lclosedwin $1 go zatvori prozorecot na $2
+lconftopriv Konferencijata se pretvori vo privaten razgovor so $1
+lconvstarted Razgovorot zapocna na $1
 leaveblankforhotmail Ostavi prazno za koristenje na hotmail web
 leaves $1 go napusti razgovorot
+lenteredconf $1 stana ucesnik vo konferencijata na $2
+linprivate PRIVATNO
 listeningon Ceka na port $1
+listsmileys2 Prikazuvaj emocii i nasmevki vo glavnata lista na kontakti na aMSN 
 listsmileys Izlistaj gi nasmevkite
+ljoinedconf $1 se pridruzi na konferencijata
+lleftconf $1 ja napusti konferencijata
 loadcontacts Vcitaj ja listata na kontakti
+logbigger Goleminata na beleskite za sekoj kontakt nikogas ne preminuva
+logfandexp Golemina na beleskite i istekuvanje na rokot na istorijata
 loggedotherlocation Vrskata e prekinata. Prijaven na drugo mesto.
-loggingin Prijavuvanje
+loggingin Prijavuvanje vo
 loginas Prijavi se kako
+loging Prijavuvanje
 login Prijavi go/ja
+logolder Belezi gi samo razgovorite od poslednite 
 logout Odjavi se
 logsin tukusto se prijavi
+logsmileys Prikazuvaj emocii i nasmevki vo istorijata na aMSN 
+lprivtoconf Privaten razgovor se pretvori vo konferencija so $1
+luclosedwin Go zatvorivte prozorecot so $1
 mailer Prenesuvac na posta
+maximised Maksimizirano
+minimised Minimizirano
+mins minuti
 mobile Mobilen
 movetogroup Premesti vo grupa
-msg Message Poraka
-msn AMSN
+msgmaxmin Koga nova poraka pristignuva sakam da bide : 
+msg Poraka
+msgmode Izberi kako da se rakuva so poveke prozorci za razgovor
+msn AMSN 
 mustrestart Moras da go restartiras programot za da se primenat promenite
+myhomephone Mojot domasen telefon
+mymobilephone Mojot mobilen telefon
 mystatus Mojot status
+myworkphone Mojot telefon od rabota
 natip detekcija na IP preku web strana
+natkeepalive Ako redovno te diskonektiraat ovozmozi go KeepAlive
 needonline Seuste si/izgledas deka ne si na linija
 newmail $1 Nova poraka vo postenskoto sandace
 newmailfrom Novo pismo od 
@@ -126,9 +182,15 @@ newmsg Nova poraka
 newveravailable Ponova verzija $1 e spremna za simnuvanje
 next Sleden
 noactivity Bez aktivnost
+nologfile Nema beleski za $1
 nonewmail Nema nova poraka vo postenskoto sandace
 nonewver Nema novi verzii spremni za simnuvanje
+normal Normalno
+notify1 Prikazi opomena koga kontaktot se povrzuva
+notify2 Prikazi opomena koga pristignuva nova poraka
+notify3 Prikazi opomena koga pristignuva pismo
 notify opomeni
+notifyoffset Odredi ja pozicijata na opomenuvackiot prozorec
 notifywin Prozorec za opomenuvanje
 nousersinsession Nema korisnici vo sesijata
 offline Ne na linija
@@ -139,33 +201,58 @@ onphone Na telefon
 openreceived Otvori gi primenite datoteki
 options Moznosti
 ordercontactsby Naredi gi kontaktite po
+ordergroupsby Naredi gi grupite po
 other Drugo
 pager Pejdzer
 pass Lozinka
 paste Zalepi
+personal Licno
 phone Telefon
 picfile Datoteka so sliki za alarmi (GIF < 500 x 500)
 picstatus Ukluci/iskluci go slikovniot alarm
 port Port
+prefalerts Moi opomeni i zvuci
 prefapps Aplikacii
+prefawaymsg Moi poraki za odsutnost
+prefemotic emocii-ikoni i nasmevki
 preferences Prilagoduvanja
+preffont2 Promeni go mojot tekst vo razgovorite
+preffont3 Promeni go fontot i negovata golemina na aMSN
+preffont Mojot tekst za poraki
+preflog1 Mojata istorija i opciite za beleski
+preflook Mojot izgled na aMSN 
+prefmsging Mojot interfejs za poraki
+prefname Moeto ime/prekar za MSN mesingerot
+prefphone2 Vnesete gi broevite koi sakate drugite luge da gi vidat
+prefphone Moite  telefonski broevi
+prefprofile2 Kreirajte/Modificirajte go vasiot javen profil
+prefprofile3 Konfiguracijata na korisnicki aMSN profili
+prefprofile Mojot javen profil
+prefproxy Moite proxy setinzi
+prefsession Moeto prijavuvanje i status
+prefshared Deleni konekcii (samo za NAT)
 prefsound Zvuci
+profiledconfig Konfiguracija na profil
+profiles Profili
 properties Osobini
 proxyconfhttp konfiguracija na poddrska za HTTP proxy
 proxyconf Proxy konfiguracija
+proxy Jas sum pozadi proxu server (HTTP ili SOCKS)
 publishphones Objavi gi moite telefonski broevi
 receivedbytes Dobieni se $1 od $2 bajta
 receivefile Primi datoteka
 reconnecting Povtorno povrzuvanje so serverot
 reconnect Cekanje $1 da se povrze povtorno
-reject Odbij
+reject Odbieno
 rememberpass Zapamti ja lozinkata
+reversed Obratno
 rightback Vednas se vrakam
 saveas Snimi kako 
 savecontacts Snimi ja listata na kontakti
 save Snimi
+savetofile Snimi vo datoteka
 says $1 veli
-sbcon Povrzuvanje na kartickata za zamenuvanje
+sbcon Povrzuvanje na kartickata za povrzuvanje
 sendfile Isprati datoteka
 sendmail Isprati pismo
 sendmsg Isprati poraka
@@ -173,26 +260,39 @@ send Isprati
 sentbytes Isprateni se $1 od $2 bajta
 servergoingdown Vrskata e prekinata: Serverot se isklucuva
 server Server
+session Sesija
+sound2 Zvucno signaliziraj koga ke se prijavi nekoj kontakt ili e dobiena poraka
+soundcommand Ova mora da e play komanda (Pr.: esdplay)
 sound Zvuk na nastan
 soundfile Datoteka so zvuci za alarmi
 soundloop Zvuk na povratna vrska
-soundstatus Ukluci/iskluci go zvucniot alarm
+soundserver Server za zvuk
+soundstatus Zvucniot alarm
+startoffline2 Prijavi se tivko kako da "izgledam nepovrzan"
 startoffline Pocni bez povrzuvanje
 status Status
 stopalarm Zapri go alarmot
+stylechat Izgledaj kako razgovorite
+stylehist Izgled na istorijata na aMSN
+stylelog Izberi format vo koj sakate da ja gledate vasata istorija
 syntaxerror Pecatna Greska
+tabbed Poveke prozori vo eden
 textsize Golemina na tekstot
 title Al-ov Mesinger
 tools Alatki
 to Do
 unblock Odblokiraj
 uoffline Nepovrzan
-uonline Na linija
+uonline Povrzan
 useralreadyonlist Korisnikot e veke vo listata na kontakti
+usernotonline Korisnikot ne e povrzan
 user Korisnik
 version Verzija
+viewprofile Pogledaj go profilot
 view Pogled
 willjoin Cekanje $1 da se prikluci na razgovorot
 work Rabota
+xoffset X pomestuvanje
+yoffset Y pomestuvanje
 yousay Ti velis
 youwant Ti sakas

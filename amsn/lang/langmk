@@ -1,10 +1,10 @@
-amsn_lang_version 2 
-about За Програмот
+amsn_lang_version 2
+about За програмот
 accept Прифати
 acceptfile Прифати датотека $1, големина $2? Снимена во $3 
 actions Акции
-addacontact Додади контакт
 addedyou те додаде тебе во неговата/нејзината листа на контакти
+addacontact Додади контакт
 addtocontacts Додади во листа на контакти
 addtoo Додади ја оваа личност во мојата листа на контакти
 admincontacts Администрирај ги контактите
@@ -13,14 +13,24 @@ adverts Реклами
 alarmpref Подесување на аларм за корисникот
 alarmstatus Уклучи/исклучи го алармот за овој корисник
 allowseen Дозволи оваа личност да ме види и да ме контактира додека сум на линија
+appearance Изглед
 appearoff Нека изгледа дека не сум на линија
+areacode Регионален код
 aretyping $1 пишуваат порака
+askprofile Овој контакт нема профил. Дали би сакале да креирате нов профил за него? \n Инаку нема да можете да користите историја, или да ги зачувате алармите и лозинките. \n Ќе имате посебна конфигурација за новиот профил. \n \n Кликнете на ""Креирај профил"" за да креирате нов профил за $1.
+autoaway Прикажи ме како "Одсутен" кога сум неактивен
+autoconnect2 Пријави ме автоматски кога aMSN е стартуван
+autoconnect Поврзи се при старт на amsn
 autohotmaillog Автоматско пријавување на Hotmail
-autoidle Автоматско подесување на неактивност
+autoidle Автоматско неактивност
 autoip Автоматска IP адреса
+autonoact Прикажи ме како "Неактивен" кога сум неактивен
 avoidseen Не дозволувај оваа личност да ме види и да ме контактира додека сум на линија
-away Настрана
+away Одсутен
+awaymsg1 Прашај ме за  порака секогаш кога го менувам статусот во Одсутен/БРБ/Зафатен
+awaymsg2 Никогаш не ме прашувај и секогаш користи користи ги следните пораки
 baduserpass Погрешно корисничко име или лозинка
+bgcolor Смени ја позадинската боја на aMSN
 blankdirect Остави празно за директна врска
 block Блокирај
 blocked Блокирано
@@ -30,46 +40,64 @@ browser Пребарувач
 busy Зафатено
 cancel Поништи
 cfgalarm Конфигурирај/Додади/Одстрани Аларм
+changefont Промени го фонтот
 changenick Смени го прекарот
 chatack Прифаќање на разговор од
 chat Разговор
 chatreq Понуда за разговор
+chatsmileys2 Прикажувај емоции и насмевки во прозорите за разговор
 chatsmileys Насмевки за разговор
+checkfilman Примените датотеки ќе бидат снимени во $1. Ве молиме проверете ги опциите на фајл менаџерот
 checkingver Проверувам дали има нови верзии
 checkver Провери дали има нова верзија
 choosebasefont Одбери тип на букви
 choosebgcolor Одбери боја на позадината
-choosefontcolor Одбери боја на буквите
+choosefontcolor Одберете боја на буквите
+clearlog2 Избриши ја историјата за сите ваши контакти
+clearlog3 Избриши ги сите забелешки
+clearlog Избриши ги забелешките
 clicktologin Кликни овде за да се пријавиш
 close Затвори
 closingdocks Копче за Затварање Смалува
 command Наредба
-confirm Дали си сигурен
-confirmdelete Дали си сигурен дека сакаш да го избришеш $1?
+confirm Дали сте сигурен?
+confirmdelete Дали сте сигурен дека сакаш да го избришеш $1?
 connecterror Грешка при поврзувањето со серверот
+connection Врска
 contactadded Контактот е додаден
 contactdoesnotexist Контактот не постои
 copy Копирај
 copytogroup Копирај во група
+countrycode Моја земја/Регионален код
+cprofile Креирај профил
 cut Исечи
 date Датум
+days Денови
+dcprofile Не креирај профил
+default Подразбирана конфигурација
 delete Избриши
+deliverfail Има проблем при испраќањето на следнава порака
+delprofile2 Селектирај го профилот кој сакате да биде избришан
+delprofile Избриши го профилот
+dockgtk Гноме поставување
 docking Постави се згодно
 dockingoff Врати се назад
-dockgtk Гноме поставување
 dockkde KDE Поставување
 edit Едитирај
+editprofile Едитирај го профилот
 enableproxy Активирај proxy
+encoding2 Избери начин на кодирање на буквите
 encoding Одбери кодирање
 entercontactemail Внеси ја e-mail адресата на контактот
 enterfilename Внеси име на даттека
 enternick Внеси го твојот прекар
 examples Примери
-exitamsn Дали си сигурен дека сакаш да излезеш?
+exitamsn Дали сте сигурен дека сакате да излезете?
 extras Додатни Услуги
 faq FAQ (Често Поставувани Прашања)
 filedoesnotexist Датотеката не постои
-filename Датотека
+fileman Фајл менаџер
+filename Име на  датотека
 filetransfercancelled Преносот на датотеката е поништен
 filetransfercomplete Преносот на датетоката е завршен
 ftaccepted Преносот на датетоката е прифатен
@@ -81,13 +109,14 @@ groupexists Групата веќе постои
 group Група
 groupmissing Не можам да ја најдам групата
 groupnewname Ново име
-groupnotempty Групата не е празна
+groupnotempty Групата не е празна!
 groupoldname Старо име
 grouprename Преименувај група
 groupunknown Непозната група
 handle Сработи
 helpcontents Содржина на помошта
 help Помош
+history Погледајте ја историјата
 home Дома
 ident Идентифицирање
 identity Идентитет
@@ -95,64 +124,120 @@ inbox Поштенско сандаче
 invalidusername Погрешно корисничко име
 invite Покани
 ipaddress IP Адреса
+ipdetect Детектирај ја точната IP адреса за пренос на датотеки користејќи HTTP
 istyping $1 пишува порака
 joins $1 се придружи на разговорот
 keepalive Одржувај ја жива (NAT)
+keeplog2 Бележи ги сите разговори во историјата на aMSN за идни прегледи
+keeplog Чувај ги белешките од сите разговори 
 language Јазик
 lastmsgtime Последната порака е добиена во $1
+lclosedwin $1 го затвори прозорецот на $2
+lconftopriv Конференцијата се претвори во приватен разговор со $1
+lconvstarted Разговорот започна на $1
 leaveblankforhotmail Остави празно за користење на hotmail web
 leaves $1 го напушти разговорот
+lenteredconf $1 влезе во конференцијата со $2
+linprivate ПРИВАТНО
 listeningon Чека на порт $1
+listsmileys2 Прикажувај емоции и насмевки во главната листа на контакти на aMSN 
 listsmileys Излистај ги насмевките
+ljoinedconf $1 се придружи на конференцијата
+lleftconf $1 ја напушти конференцијата
 loadcontacts Вчитај ја листата на контакти
+logbigger Големината на белешките за секој контакте никогаш не преминува
+logfandexp Големината на белешките и историјата истекува
 loggedotherlocation Врската е прекината. Пријавен на друго место.
-loggingin Пријавување
+loggingin Пријавување на
 loginas Пријави се како
+loging Пријавување
 login Пријави го/ја
+logolder Бележи ги само разговорите од последните
 logout Одјави се
 logsin тукушто се пријави
+logsmileys Прикажувај емоции и насмевки во историјата од aMSN
+lprivtoconf Приватниот разговор се претвори во конференција со $1
+luclosedwin Го затворивте прозорот на $1
 mailer Поштар
+maximised Максимизирано
+minimised Минимизирано
+mins минути
 mobile Мобилен
 movetogroup Премести во група
+msgmaxmin Кога нова порака пристигнува сакам да биде:
 msg Порака
+msgmode Избери како да се ракува со  повеќе прозори за пораки:
 msn AMSN
 mustrestart Мораш да го рестартираш програмот за да се применат промените
+myhomephone Мојот домашен телефон
+mymobilephone Мојот мобилен телефон
 mystatus Мојот Статус
+myworkphone Мојот телефон на работа
 natip детекција на IP преку web страна
-needonline Сеуште не си/изгледаш дека не си на линија
+natkeepalive Ако врската ти се прекинува овозможи KeepAlive
+needonline Сеуште не си/изгледаш дека си неповрзан
 newmail $1 нова порака во поштенското сандаче
 newmailfrom Ново писмо од
 newmsg Нова порака
 newveravailable Понова верзија $1 е спремна за симнување
 next Следен
 noactivity Без активност
+nologfile Нема белешки за $1
 nonewmail Нема нова порака во поштенското сандаче
 nonewver Нема нови верзии спремни за симнување
+normal Нормално
+notify1 Прикажи опоменувачки прозорец кога контактот се поврзува
+notify2 Прикажи опоменувачки прозорец кога е примена нова порака
+notify3 Прикажи опоменувачки прозорец кога ново писмо доаѓа
 notify опомена
-notifywin Прозорец за Опоменување
+notifyoffset одреди ја положбата на опоменувачкиот прозорец
+notifywin Прозорец за опоменување
 nousersinsession Нема корисници во сесијата
-offline Не на линија
+offline Неповрзан
 ok Во Ред
 onenewmail 1 нова порака во поштенското сандаче
-online На линија
+online Поврзан
 onphone На телефон
 openreceived Отвори ги добиените датотеки
 options Можности
 ordercontactsby Нареди ги контактите по
+ordergroupsby Нареди ги групите по
 other Друго
 pager Пејџер
 pass Лозинка
 paste Залепи
+personal Лично
 phone Телефон
 picfile Датотека со слики за аларми (GIF < 500 x 500)
 picstatus Уклучи/исклучи го сликовниот аларм
 port Порт
+prefalerts Мои звуци и опомени за настани
 prefapps Апликации
+prefawaymsg Мои пораки за одсутност
+prefemotic Емоции, икони и намевки
 preferences Прилагодувања
+preffont2 Промени го мојоот текст во разговорите
+preffont3 Промени го фонтот и неговата големина на aMSN
+preffont Мојот текст за пораки
+preflog1 Моите опции за историјата и забелешките
+preflook Мојот изглед на aMSN месинџерот
+prefmsging Мојот интерфејс за пораки
+prefname Моето име/прекар за MSN месинџерот
+prefphone2 Напиши ги телефонските броеви кои сакаш \n оние на кои им дозволуваш да ги видат \n
+prefphone Моите телефонски броеви
+prefprofile2 Креирај го или промени го твојот јавен профил \n (она што сакаш другите да го гледаат за тебе \n )
+prefprofile3 Конфигурација на профилите на aMSN корисниците
+prefprofile Мојот јавен профил 
+prefproxy Моите proxy сетинзи
+prefsession Моето пријавување и статус
+prefshared  Делени конекции (само за NAT)
 prefsound Звуци
+profiledconfig Конфигурација на профили
+profiles Профили
 properties Особини
 proxyconfhttp конфигурација на поддршка за HTTP proxy
 proxyconf Proxy конфигурација
+proxy Јас сум позади proxy сервер (HTTP или SOCKS)
 publishphones Објави ги моите телефонски броеви
 receivedbytes Добиени се $1 од $2 бајта
 receivefile Прими датотека
@@ -160,27 +245,38 @@ reconnecting Повторно поврзување со серверот
 reconnect Чекање $1 да се поврзе повторно
 reject Одбиј
 rememberpass Запамти ја лозинката
-rightback Веднас се враќам
-saveas Сними како 
+reversed Обратно
+rightback Веднаш се враќам
+saveas Сними како
 savecontacts Сними ја листата на контакти
 save Сними
+savetofile Сними во датотека
 says $1 вели
-sbcon Поврзување на картичката за заменување
+sbcon Поврзување на картичката за размена
 sendfile Испрати датотека
 sendmail Испрати писмо
 sendmsg Испрати порака
-send Испати
+send Испрати
 sentbytes Испратени се $1 од $2 бајта
 servergoingdown Врската е  прекината: Серверот се исклучува
 server Сервер
+session Сесија
+sound2 Означи го звучно пријавувањето н а контактите или испраќањето на пораките
+soundcommand Ова треба да е команда за play (Пр.: esdplay)
 sound Звук на настан
-soundfile Датотека со звуци за аларми
+soundfile Датотека со звуци
 soundloop Звук на повратна врска
-soundstatus Уклучи/исклучи го звучниот аларм
+soundserver Звучен сервер
+soundstatus Звучен аларм
+startoffline2 Пријави се тивко како "Изгледај неповрзано"
 startoffline Почни без поврзување
 status Статус
 stopalarm Запри го Алармот
+stylechat Ист изглед како разговорите
+stylehist Изглед на aMSN историјата
+stylelog Одбери го форматот во ко сакате да ја гледате историјата
 syntaxerror Печатна грешка
+tabbed Повеќе прозорци во еден
 textsize Големина на текстот
 title Ал-ов Месинџер
 tools Алатки
@@ -189,10 +285,14 @@ unblock Одблокирај
 uoffline Неповрзан
 uonline На линија
 useralreadyonlist Корисникот е веќе во листата на контакти
+usernotonline Корисникот не е поврзан
 user Корисник
 version Верзија
+viewprofile Погледај го профилот
 view Поглед
 willjoin Чекање $1 да се приклучи на разговорот
 work Работа
+xoffset X поместување
+yoffset Y поместување
 yousay Ти велиш
 youwant Ти сакаш
