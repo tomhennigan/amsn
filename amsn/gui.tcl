@@ -470,6 +470,8 @@ namespace eval ::amsn {
 
       set w ${win_name}_sendfile
       if { [ winfo exists $w ] } {
+         if {$filename == ""} { fileDialog2 $w $w.top.fields.file open "" }\
+         else { $w.top.fields.file insert 0 $filename }
          return
       }
 
