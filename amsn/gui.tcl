@@ -2911,6 +2911,10 @@ proc cmsn_draw_main {} {
 	.main_menu add cascade -label "[trans tools]" -menu .main_menu.tools
 	.main_menu add cascade -label "[trans help]" -menu .main_menu.helping
 
+	#add a postevent to modify the main menu
+	set evPar(menu) .main_menu
+	::plugins::PostEvent mainmenu evPar
+
 
 	#.main_menu.tools add separator
 
