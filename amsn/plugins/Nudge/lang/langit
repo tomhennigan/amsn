@@ -1,0 +1,13 @@
+amsn_lang_version 2
+shake_receive Scuoti la finestra quando si riceve una richiesta d'attenzione
+shake_send Scuoti la finestra quando si manda una richiesta d'attenzione
+shake_nudge Scosse per richiesta
+popup_nudge Notifica richieste d'attenzione con una finestra popup
+notify_send Notifica nella finestra di chat richieste d'attenzione inviate
+notify_receive Notifica nella finestra di chat richieste d'attenzione ricevute
+sound_send Emetti un suono all'invio di una richiesta d'attenzione
+sound_receive Emetti un suono al ricevimento di una richiesta d'attenzione
+add_button Aggiungi un pulsante nella finestra di chat per inviare richieste d'attenzione
+send_nudge Richiedi l'attenzione
+no_nudge_support Non puoi inviare una richiesta d'attenzione a questo contatto perche' lui/lei usa un client che non la supporta
+nudge_sent Hai appena inviato una richiesta d'attenzione
