@@ -1892,7 +1892,7 @@ proc proc_ns {} {
       if {$result == 0} {
 	 
       } else {
-         status_log "problem processing NS data!\n" red
+         status_log "problem processing NS data: $item!!\n" red
       }
 
    }
@@ -2607,7 +2607,6 @@ proc cmsn_change_state {recv} {
       set substate "FLN"
    } else {
       if {[lindex $recv 0] == "ILN"} {
-         status_log "Here1\n" white
          set user [lindex $recv 3]
          set user_name [urldecode [lindex $recv 4]]
          set substate [lindex $recv 2]
@@ -2726,7 +2725,6 @@ proc cmsn_ns_handler {item} {
 	 return 0
       }
       ADD {
-      status_log "Here2\n" white
 	     if { [lindex $item 2] == "FL"} {
 	       set contact [lindex $item 4]	;# Email address
 	       set addtrid [lindex $item 3]	;# Transaction ID
@@ -2785,7 +2783,8 @@ proc cmsn_ns_handler {item} {
 	 return 0
       }
       BLP {
-	  change_BLP_settings "$item"	  
+	  change_BLP_settings "$item"	
+	  return 0  
       }
       CHL {
      	  status_log "Challenge received\n" red
