@@ -100,7 +100,7 @@ editstate Редактировать существующее сообщение для автостатуса
 enableproxy Включить прокси
 enableremote Включить удаленный контроль
 encoding2 Выберите кодировку, в которой Вы желаете отправлять сообщения
-encoding Выберите кодировку
+encoding Кодировка
 entercontactemail Введите контактный e-mail
 enterfilename Введите имя файла
 enternick Введите ваш ник
@@ -140,7 +140,7 @@ helpcontents Помощь
 help Помощь
 history История
 home Домой
-httpconnection Соединятся по HTTP протоколу (порт 80)
+httpconnection Соединяться по HTTP протоколу (порт 80)
 ident Идентификация
 identity Идентичность
 inbox Входящие
@@ -159,7 +159,7 @@ lastmsgtime Последнее сообщение принято в $1
 lclosedwin $1 закрыл окно в $2
 lconftopriv Конференция превратилась в приватную беседу с $1
 lconvstarted Беседа началась в
-leaveblankforhotmail Оставьте путым для использования почты Hotmail
+leaveblankforhotmail Оставьте пустым для использования почты Hotmail
 leaves $1 покидает беседу
 lenteredconf $1 присоединился к конференции в $2
 linprivate ПРИВАТНАЯ БЕСЕДА
@@ -178,7 +178,7 @@ loging Ведение лог-файла
 login Подключиться
 logolder Записывать лог-файлы только тех чатов, которые проходили в последние
 logout Отключиться
-logsin подключиться
+logsin подключился
 logsmileys Отображать иконки и смайлики в окне Истории aMSN
 lprivtoconf Приватная беседа превратилась в конференцию с $1
 luclosedwin Вы закрыли окно в $1
@@ -272,7 +272,7 @@ proxyconf настройка прокси
 proxyconnection Использовать прокси-сервер
 proxy Использовать прокси-сервер (HTTP или SOCKS5)
 publishphones Публиковать номера моих телефонов
-raised Восстановленный
+raised Восстановлено
 receivedbytes Получено $1 из $2 байт
 receivefile Получить файл
 reconnecting Повторное подключение 
@@ -288,7 +288,7 @@ savetofile Сохранить в файл
 says $1 говорит
 sbcon Соединение со  Switch Board
 sendfile Отправить файл
-send Отправить
+send Послать
 sendmail Отправить почту
 sendmsg Отправить сообщение
 sentbytes Отправлено $1 из $2 байт
@@ -318,15 +318,15 @@ stylehist Вид Истории aMSN
 stylelog Выберите формат в котором вы хотите просматривать Историю 
 syntaxerror  Синтаксическая ошибка
 tabbed Окна с закладками
-textsize Обьем текста
+textsize Размер шрифта
 title Al's Messenger
 to Кому
-tools инструменты
+tools Инструменты
 transnotexists Запрошенный файл еще не был переведен на выбранный Вами язык
 traynotcompiled Плагин системной панели не скомпилирован.
 unblock Разблокировать
-uoffline Отключиться
-uonline Подключиться
+uoffline Отключены
+uonline Подключены
 useralreadyonlist Пользователь уже добавлен в контакт-лист
 userblocked Пользователь в сети, но заблокирован вами
 user Пользователь
