@@ -322,7 +322,7 @@ proc ScrollChange { from w args } {
 		
 		anigif_info set $window 0
 
-		puts "animated gif disappears -- pos : $pos --- file : $file "
+#		puts "animated gif disappears -- pos : $pos --- file : $file "
 		::anigif::stop $window	
 			
 
@@ -336,7 +336,7 @@ proc ScrollChange { from w args } {
 
 		anigif_info set $window 1
 
-		puts "animated gif appears -- pos : $pos --- file : $file "
+#		puts "animated gif appears -- pos : $pos --- file : $file "
 
 		::anigif::restart $window
 
@@ -548,7 +548,7 @@ proc create_smile_menu { {x 0} {y 0} } {
 	    
 	    bind $w.text.$filename <Enter> "$w.text.$filename configure -relief raised"
 	    bind $w.text.$filename <Leave> "$w.text.$filename configure -relief flat"
-	    set_balloon $w.text.$filename "$name $symbol"
+	    if { $config(tooltips) } {set_balloon $w.text.$filename "$name $symbol"}
 	    $w.text window create end -window $w.text.$filename -padx 1 -pady 1
 	}
 	

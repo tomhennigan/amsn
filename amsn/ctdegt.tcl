@@ -460,19 +460,22 @@ proc Preferences { { settings "personal"} } {
 	label $lfname.1.llook -text "[trans encoding2]" -padx 10
 	button $lfname.1.bencoding -text [trans encoding] -font sboldf -command "show_encodingchoose"
 	pack $lfname.plook -anchor nw -side left
-	pack $lfname.1 -side top -padx 0 -pady 5 -expand 1 -fill both
+	pack $lfname.1 -side top -padx 0 -pady 1 -expand 1 -fill both
 	pack $lfname.1.llook -side left
 	pack $lfname.1.bencoding -side right -padx 15
 	label $lfname.2.llook -text "[trans bgcolor]" -padx 10
 	button $lfname.2.bbgcolor -text [trans choosebgcolor] -font sboldf -command "choose_theme"
-	pack $lfname.2 -side top -padx 0 -pady 5 -expand 1 -fill both
+	pack $lfname.2 -side top -padx 0 -pady 1 -expand 1 -fill both
 	pack $lfname.2.llook -side left	
 	pack $lfname.2.bbgcolor -side right -padx 15
 	label $lfname.3.llook -text "[trans preffont3]" -padx 10
 	button $lfname.3.bfont -text [trans changefont] -font sboldf -command "choose_basefont"
-	pack $lfname.3 -side top -padx 0 -pady 5 -expand 1 -fill both
+	pack $lfname.3 -side top -padx 0 -pady 1 -expand 1 -fill both
 	pack $lfname.3.llook -side left	
 	pack $lfname.3.bfont -side right -padx 15
+        checkbutton $lfname.tooltips -text "[trans tooltips]" -onvalue 1 -offvalue 0 -variable config(tooltips)
+        pack $lfname.tooltips -side left -padx 10
+    
 	
 	## Emoticons Frame ##
 	set lfname [LabelFrame:create $frm.lfname2 -text [trans prefemotic]]
@@ -1495,6 +1498,9 @@ proc BlockValidateEntry { widget data type {correct 0} } {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.66  2003/07/25 09:41:35  kakaroto
+# Added tooltips on user names and preferences option "enable tooltips"
+#
 # Revision 1.65  2003/07/22 15:46:13  airadier
 # Added translation key to "Add to AL/FL/BL"
 #

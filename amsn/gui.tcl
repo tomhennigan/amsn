@@ -3322,7 +3322,7 @@ proc getUniqueValue {} {
 
 #///////////////////////////////////////////////////////////////////////
 proc ShowUser {user_name user_login state state_code colour section grId} {
-    global list_bl list_rl pgBuddy alarms emailBList
+    global list_bl list_rl pgBuddy alarms emailBList Bulle config
 
          if {($state_code != "NLN") && ($state_code !="FLN")} {
             set state_desc " ([trans [lindex $state 1]])"
@@ -3407,10 +3407,30 @@ proc ShowUser {user_name user_login state state_code colour section grId} {
 	}
 
 
-         $pgBuddy.text tag bind $user_unique_name <Enter> \
-	"$pgBuddy.text tag conf $user_unique_name -under true;$pgBuddy.text conf -cursor hand2"
-         $pgBuddy.text tag bind $user_unique_name <Leave> \
-            "$pgBuddy.text tag conf $user_unique_name -under false;$pgBuddy.text conf -cursor left_ptr"
+    if { $config(tooltips) == 1 } {
+	
+	set Bulle($user_unique_name) "$user_name \n $user_login \n [trans status] : [trans [lindex $state 1]] "
+	
+	$pgBuddy.text tag bind $user_unique_name <Enter> \
+	    "$pgBuddy.text tag conf $user_unique_name -under true; $pgBuddy.text conf -cursor hand2; \
+            set Bulle(set) 0;set Bulle(first) 1; set Bulle(id) \[after 1000 [list balloon %W [list $Bulle($user_unique_name)] %X %Y]\]"
+	
+	$pgBuddy.text tag bind $user_unique_name <Leave> \
+	    "$pgBuddy.text tag conf $user_unique_name -under false;	$pgBuddy.text conf -cursor left_ptr; \
+            set Bulle(first) 0; kill_balloon"
+	
+	$pgBuddy.text tag bind $user_unique_name <Motion> \
+	    "if {\[set Bulle(set)\] == 0} \{after cancel \[set Bulle(id)\]; \
+            set Bulle(id) \[after 1000 [list balloon %W [list $Bulle($user_unique_name)] %X %Y]\]\} "
+
+    } else {
+    	$pgBuddy.text tag bind $user_unique_name <Enter> \
+	    "$pgBuddy.text tag conf $user_unique_name -under true; $pgBuddy.text conf -cursor hand2"
+	
+	$pgBuddy.text tag bind $user_unique_name <Leave> \
+	    "$pgBuddy.text tag conf $user_unique_name -under false;	$pgBuddy.text conf -cursor left_ptr"
+    }
+    
 
          $pgBuddy.text tag bind $user_unique_name <Button3-ButtonRelease> "show_umenu $user_login $grId %X %Y"
           bind $pgBuddy.text.$imgname <Button3-ButtonRelease> "show_umenu $user_login $grId %X %Y"

@@ -92,6 +92,7 @@ proc ConfigDefaults {} {
         set config(blockusers) 2
         set config(emotisounds) 1
         set config(animatedsmileys) 1
+        set config(tooltips) 1
 	set password ""
 }
 
