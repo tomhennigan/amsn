@@ -63,8 +63,13 @@ namespace eval ::Nudge {
 	###############################################
 	proc shake { window n } {
 		set geometry [wm geometry $window]
-		set index1 [string first "+" $geometry]
-		set index2 [string last "+" $geometry]
+		set index11 [string first "+" $geometry]
+		set index12 [string first "-" $geometry]
+		if {[expr $index11 > $index12 && $index12 != -1] || $index11 == -1} {set index1 $index12} {set index1 $index11}
+		set index21 [string first "+" $geometry [expr $index1 + 1]]
+		set index22 [string first "-" $geometry [expr $index1 + 1]]
+		if {$index21 == -1} {set index2 $index22} {set index2 $index21}
+		#set index2 [string last "+" $geometry]
 		set x [string range $geometry [expr $index1 + 1] [expr $index2 -1]]
 		set y [string range $geometry [expr $index2 + 1] end]
 		for {set i 0} {$i < $n} {incr i} {
