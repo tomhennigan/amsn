@@ -22,16 +22,16 @@ global lang
      set $i [lindex $args [expr {$i-1}]]
   }
    if {[ catch {
-          if { [string length $lang($msg)] > 0 } {
+         if { [string length $lang($msg)] > 0 } {
             return [subst -nobackslashes -nocommands $lang($msg)]
-          } else {
+         } else {
             return "$msg $args"
-          }
-       }  res] == 1} {
-    return "$msg $args"
-  } else {
-    return $res
-  }
+         }
+      }  res] == 1} {
+      return "$msg $args"
+   } else {
+      return $res
+   }
 
 }
 

@@ -90,7 +90,7 @@ proc degt_ns_command_win_toggle {} {
 # Ctrl-M to toggle raise/hide. This window is for developers only 
 # to issue commands manually to the Notification Server
 proc degt_ns_command_win {} {
-    if [winfo exists .nscmd] {
+    if {[winfo exists .nscmd]} {
         return
     }
 
@@ -253,7 +253,7 @@ proc PreferencesMenu {m} {
 proc Preferences { settings } {
     global config myconfig proxy_server proxy_port
 
-    if [ winfo exists .cfg ] {
+    if {[ winfo exists .cfg ]} {
         return
     }
 
@@ -405,7 +405,7 @@ proc fileDialog {w ent operation basename} {
 	set file [tk_getSaveFile -filetypes $types -parent $w \
 	    -initialfile $basename -defaultextension .txt]
     }
-    if [string compare $file ""] {
+    if { "$file" == "" } {
 	$ent delete 0 end
 	$ent insert 0 $file
 	$ent xview end
@@ -431,6 +431,10 @@ proc LabelEntryGet { path } {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.16  2002/12/16 02:42:52  airadier
+# Some fixes.
+# Syntax checking passed.
+#
 # Revision 1.15  2002/11/16 16:14:06  airadier
 # Fixed colors (not visible under windows) in protocol debug window
 #

@@ -3,6 +3,7 @@
 set docksock 0
 
 proc dock_handler { sock } {
+        global password
 	set l [gets $sock]
 	
 	if { [eof $sock] || ($l == "SESSION_END") || ($l == "") } {

@@ -208,7 +208,7 @@ namespace eval ::abook {
         variable demographics 
 	upvar $cdata d
 
-	if [info exists d(valid)] {
+	if {[info exists d(valid)]} {
 	    set d(langpreference) $demographics(langpreference);# 1033 = English
 	    set d(preferredemail) $demographics(preferredemail)
 	    set d(country) $demographics(country)
@@ -278,7 +278,7 @@ namespace eval ::abookGui {
 	set w [string map { @ "" _ "" - "" . "" } $w]
  	set w ".a$w"	
 
-	if [winfo exists $w] {
+	if {[winfo exists $w]} {
 	    return 
 	}
 
@@ -374,6 +374,10 @@ namespace eval ::abookGui {
    }
 }
 # $Log$
+# Revision 1.18  2002/12/16 02:42:52  airadier
+# Some fixes.
+# Syntax checking passed.
+#
 # Revision 1.17  2002/11/06 12:11:46  airadier
 # Let the contact properties window be the size it wants to be, or texts won't fit...
 #

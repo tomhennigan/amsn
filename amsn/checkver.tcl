@@ -8,43 +8,38 @@ proc checking_ver {} {
    global version weburl
 
 
-   if [catch {
+   if {[catch {
+         set token [::http::geturl {amsn.sourceforge.net/amsn_latest} -timeout 10000]
+         set tmp_data [ ::http::data $token ]
 
+         ::http::cleanup $token
 
-    set token [::http::geturl {amsn.sourceforge.net/amsn_latest} -timeout 10000]
+         set lastver [split $tmp_data "."]
+         set yourver [split $version "."]    
 
-
-    set tmp_data [ ::http::data $token ]
-
-  ::http::cleanup $token
-
-#     status_log "DATOS: $tmp_data\n" white
-     set lastver [split $tmp_data "."]
-     set yourver [split $version "."]    
-
-     if { [lindex $lastver 0] > [lindex $yourver 0] } {
-         set newer 1
-     } else {	
-           # Major version is at least the same
-	   if { [lindex $lastver 1] > [lindex $yourver 1] } {
-	     set newer 1
-	   } else {
-	     set newer 0
-	   }
-     }
+         if { [lindex $lastver 0] > [lindex $yourver 0] } {
+            set newer 1
+         } else {	
+            # Major version is at least the same
+	    if { [lindex $lastver 1] > [lindex $yourver 1] } {
+	       set newer 1
+	    } else {
+	       set newer 0
+	    }
+         }
      
-     if {!$newer} {
-       msg_box "[trans nonewver]"
-     } else {
-       msg_box "[trans newveravailable $tmp_data]\n$weburl"
-     }
+         if {!$newer} {
+            msg_box "[trans nonewver]"
+         } else {
+            msg_box "[trans newveravailable $tmp_data]\n$weburl"
+         }
      
-  } res ] {
-     msg_box "[trans connecterror]"
-  }
+      } res ]} {
+     
+      msg_box "[trans connecterror]"
+   }
 	
-  destroy .checking
-
+   destroy .checking
 }
 
 proc check_version {} {

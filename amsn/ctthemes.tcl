@@ -54,7 +54,7 @@ namespace eval ::themes {
     #	  otherwise ("" or "*") you get *Class.option value
     proc AddClass {name type options {priority ""}} {
         set len [llength $options]
-	if {[expr $len % 2] != 0} {
+	if {[expr {$len % 2}] != 0} {
 	    status_log "Themes ERR: AddClass with incomplete option list"
 	    return
 	}

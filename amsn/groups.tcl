@@ -66,7 +66,7 @@ namespace eval ::groups {
    
    #<dlgAddGroup> Dialog to add a group
    proc dlgAddGroup {} {
-        if [winfo exists .dlgag] {
+        if {[winfo exists .dlgag]} {
             return
 	}
 
@@ -95,7 +95,7 @@ namespace eval ::groups {
    }
 
    proc dlgRenGroup {} {
-        if [winfo exists .dlgrg] {
+        if {[winfo exists .dlgrg]} {
             return
 	}
 
@@ -364,7 +364,7 @@ namespace eval ::groups {
 
         set gname [string trim $gname]
 	for {set i 0} {$i < $::groups::groupCnt} {incr i} {
-	    if [info exists groups($i)] {
+	    if {[info exists groups($i)]} {
 		if {$groups($i) == $gname} {
 		    return 1
 		}
@@ -410,7 +410,7 @@ namespace eval ::groups {
     }
 
     proc Add { gname {ghandler ""}} {
-	if [::groups::Exists $gname] {
+	if {[::groups::Exists $gname]} {
 	   if {$ghandler != ""} {
 	       set retval [eval "$ghandler \"[trans groupexists]!\""]
 	   }

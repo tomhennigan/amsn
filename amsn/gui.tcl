@@ -134,7 +134,7 @@ namespace eval ::amsn {
 
          set win_name [openChatWindow]
 	  SetWindowFor $chatid $win_name
-         status_log "NEW - Window doesn't exists in messageFrom, created window named [WindowFor $chatid]\n"
+         status_log "NEW - Window doesn't exists in fileTransferRecv, created window named [WindowFor $chatid]\n"
 	  WinTopUpdate $chatid
 
       }
@@ -276,6 +276,8 @@ namespace eval ::amsn {
 
       }
 
+      status_log "Calling PutMessage with chatid $chatid\n" red
+
       PutMessage $chatid $user $msg $type $fontformat
 
       if { "[wm state $win_name]" == "withdrawn" } {
@@ -305,9 +307,6 @@ namespace eval ::amsn {
    # window with the user names and states.
    proc WinTopUpdate { chatid } {
 
-      #TODO: Should we check chatReady? I don't think so, look where it's called from.
-      # There should be no problem
-
       variable window_titles
       global list_states
 
@@ -320,9 +319,9 @@ namespace eval ::amsn {
          set user_login [lindex $user_info 0]
          set user_name [lindex $user_info 1]
          set user_state_no [lindex $user_info 2]
-	 #if { "$user_state_no" == "" } {
-	 #   set user_state_no 0
-	 #}
+	 ;#if { "$user_state_no" == "" } {
+	 ;#   set user_state_no 0
+	 ;#}
 	  #set user_state [lindex [lindex $list_states $user_state_no] 1]
 
 	  set title "${title}${user_name}, "
@@ -330,9 +329,9 @@ namespace eval ::amsn {
  	  set topmsg "${topmsg}${user_name} <${user_login}> "
 	  #TODO: The state information works, but it doesn't change, only when
 	  #users left/join
-	  #if { "$user_state" != "" && "$user_state" != "online" } {
-         #   set topmsg "${topmsg} \([trans $user_state]\) "
-	  #}
+	  ;#if { "$user_state" != "" && "$user_state" != "online" } {
+         ;#   set topmsg "${topmsg} \([trans $user_state]\) "
+	  ;#}
 	  set topmsg "${topmsg}\n"
       }
 
@@ -354,7 +353,6 @@ namespace eval ::amsn {
       set window_titles(${win_name}) ${title}
       wm title ${win_name} ${title}
 
-      #TODO: Should change the size of the top text to fit the users names
    }
    #///////////////////////////////////////////////////////////////////////////////
 
@@ -389,7 +387,7 @@ namespace eval ::amsn {
       SetWindowFor $newchatid $win_name
 
       status_log "chatChange: changing $chatid into $newchatid\n"
-      
+
       return $newchatid
 
    }
@@ -407,9 +405,7 @@ namespace eval ::amsn {
    proc userJoins { chatid usr_name } {
 
       if {[WindowFor $chatid] == 0} {
-	  status_log "userJoins: Window doesn't exist\n"
-         set win_name [openChatWindow]
-         SetWindowFor $chatid $win_name
+         return 0
       }
 
       set statusmsg "[timestamp] [trans joins $usr_name]\n"
@@ -588,20 +584,23 @@ namespace eval ::amsn {
       frame .${win_name}.f.out -class Amsn -background white -borderwidth 0 -relief flat
 
       text .${win_name}.f.out.text -borderwidth 0 -background white -width 45 -height 15 -wrap word \
-         -yscrollcommand ".${win_name}.f.out.ys set" -exportselection 1  -relief solid -highlightthickness 0\
-          
+         -yscrollcommand ".${win_name}.f.out.ys set" -exportselection 1  -relief solid -highlightthickness 0 \
+	  -selectborderwidth 1 -exportselection 1
+
 
       frame .${win_name}.f.top -class Amsn -relief flat -borderwidth 0 -background $bgcolor
 
 
       text .${win_name}.f.top.textto  -borderwidth 0 -width [string length "[trans to]:"] -relief solid \
-         -height 1 -wrap none -background $bgcolor -foreground $bgcolor2 -highlightthickness 0
+         -height 1 -wrap none -background $bgcolor -foreground $bgcolor2 -highlightthickness 0 \
+	  -selectbackground $bgcolor -selectforeground $bgcolor2 -selectborderwidth 0 -exportselection 0
       .${win_name}.f.top.textto configure -state normal -font bplainf
       .${win_name}.f.top.textto insert end "[trans to]:"
       .${win_name}.f.top.textto configure -state disabled
 
       text .${win_name}.f.top.text  -borderwidth 0 -width 45 -relief flat \
-         -height 1 -wrap none -background $bgcolor -foreground $bgcolor2 -highlightthickness 0
+         -height 1 -wrap none -background $bgcolor -foreground $bgcolor2 -highlightthickness 0 \
+	  -selectbackground $bgcolor -selectborderwidth 0 -selectforeground $bgcolor2 -exportselection 0
 
 #-yscrollcommand ".${win_name}.f.top.ys set"
 
@@ -614,7 +613,7 @@ namespace eval ::amsn {
       text .${win_name}.f.in.input -background white -width 15 -height 3 -wrap word\
          -font bboldf -borderwidth 0 -relief solid -highlightthickness 0
 
-      frame .${win_name}.f.in.f -class Amsn -borderwidth 0 -relief solid -background white 
+      frame .${win_name}.f.in.f -class Amsn -borderwidth 0 -relief solid -background white
       button .${win_name}.f.in.f.send  -text [trans send] -width 5 -borderwidth 1 -relief solid \
          -command "::amsn::MessageSend .${win_name} .${win_name}.f.in.input" -font bplainf -highlightthickness 0
 
@@ -664,7 +663,8 @@ namespace eval ::amsn {
       .${win_name}.f.out.text tag configure gray -foreground #808080 -background white
       .${win_name}.f.out.text tag configure white -foreground white -background black
       .${win_name}.f.out.text tag configure url -foreground darkblue -background white -font bboldf -underline true
-      #.${win_name}.f.out.text tag configure sel -foreground white -background darkblue
+      .${win_name}.f.out.text tag configure url -foreground darkblue -background white -font bboldf -underline true
+
 
       bind .${win_name}.f.in.input <Tab> "focus .${win_name}.f.in.f.send; break"
 
@@ -781,7 +781,7 @@ namespace eval ::amsn {
         if {($user_state_no < 7) && ([lsearch $chatusers "$user_login *"] != -1)} {
             set user_name [lindex $user_info 1]
             lappend userlist2 [list $user_login $user_name $user_state_no]
-         }
+        }
       }
 
       foreach user_info $chatusers {
@@ -798,7 +798,7 @@ namespace eval ::amsn {
          set user_login [lindex $user_info 0]
          set user_state_no [lindex $user_info 2]
 
-	  if { $user_state_no < 7 } {
+         if { $user_state_no < 7 } {
       	     set user_name [lindex $user_info 1]
       	     lappend userlist [list $user_login $user_name $user_state_no]
          }
@@ -853,7 +853,7 @@ namespace eval ::amsn {
          focus $wname
          return 0
       }
-      
+
       wm group $wname .
 
       wm title $wname $title
@@ -902,7 +902,7 @@ namespace eval ::amsn {
          set user_state_no [lindex $user 2]
 	 if { "$user_state_no" == "" } {
 	    set user_state_no 0
-	 }         
+	 }
 	 set state [lindex $list_states $user_state_no]
          set state_code [lindex $state 0]
 
@@ -934,7 +934,12 @@ namespace eval ::amsn {
 
       set chatid [ChatFor $win_name]
 
-      ::MSN::chatQueue $chatid [list sb_change $chatid]
+      #Don't queue unless chat is ready, but try to reconnect
+      if { [::MSN::chatReady $chatid] } {
+         ::MSN::chatQueue $chatid [list sb_change $chatid]
+      } else {
+         ::MSN::chatTo $chatid
+      }
 
    }
    #///////////////////////////////////////////////////////////////////////////////
@@ -962,7 +967,7 @@ namespace eval ::amsn {
 
       set ackid [after 50000 ::amsn::DeliveryFailed $chatid [list $msg]]
       ::MSN::chatQueue $chatid [list ::MSN::messageTo $chatid "$msg" $ackid]
-      
+
       set fontfamily [lindex $config(mychatfont) 0]
       set fontstyle [lindex $config(mychatfont) 1]
       set fontcolor [lindex $config(mychatfont) 2]
@@ -995,7 +1000,7 @@ namespace eval ::amsn {
    }
    #///////////////////////////////////////////////////////////////////////////////
 
-   
+
 
    #///////////////////////////////////////////////////////////////////////////////
    # DeliveryFailed (chatid,msg)
@@ -1007,7 +1012,7 @@ namespace eval ::amsn {
    }
    #///////////////////////////////////////////////////////////////////////////////
 
-   
+
 
    #///////////////////////////////////////////////////////////////////////////////
    # closeWindow (win_name,path)
@@ -1117,8 +1122,9 @@ namespace eval ::amsn {
 
       if { [string first $win_name [focus]] != 0 } {
 
-         set count  [expr {( $count +1 ) % 2}]
-         if {![catch {
+      set count  [expr {( $count +1 ) % 2}]
+      
+      if {![catch {
 	     if { $count == 1 } {
   	        wm title ${win_name} "[trans newmsg]"
   	     } else {
@@ -1126,7 +1132,7 @@ namespace eval ::amsn {
 	     }
 	  } res]} {
  	     after 300 ::amsn::WinFlicker $chatid $count
-	  }
+      }
       } else {
 
 	  catch {wm title ${win_name} "$window_titles($win_name)"} res
@@ -1213,9 +1219,9 @@ namespace eval ::amsn {
 
       ${win_name}.f.out.text insert end "$txt" $tagid
 
-      if {$config(keep_logs) && [sb exists $name log_fcid]} {	;# LOGS!
-         puts -nonewline [sb get $name log_fcid] $txt
-      }
+      ;#if {$config(keep_logs) && [sb exists $name log_fcid]} {	;# LOGS!
+      ;#   puts -nonewline [sb get $name log_fcid] $txt
+      ;#}
 
 
       set endpos $text_start
@@ -1689,7 +1695,7 @@ proc cmsn_draw_main {} {
 
    .options add checkbutton -label "[trans sound]" -onvalue 1 -offvalue 0 -variable config(sound)
    #Let's disable adverts until it works, it's only problems for know
-   set $config(adverts) 0
+   set config(adverts) 0
    #.options add checkbutton -label "[trans adverts]" -onvalue 1 -offvalue 0 -variable config(adverts) \
    #-command "msg_box \"[trans mustrestart]\""
    .options add checkbutton -label "[trans autohotmaillog]" -onvalue 1 -offvalue 0 -variable config(autohotlogin)
@@ -1808,7 +1814,7 @@ proc cmsn_draw_main {} {
       -borderwidth 1 -elementborderwidth 2
 
    #This shouldn't go here
-   if ($config(withproxy)) {
+   if {$config(withproxy)} {
 
      ::Proxy::Init $config(proxy) "http"
      #::Proxy::Init $config(proxy) $config(proxytype)
@@ -2468,7 +2474,7 @@ proc cmsn_draw_online {} {
  
       if {$myGroupExpanded} {
 	  ShowUser $user_name $user_login $state $state_code $colour $section
-       }
+      }
    }
 
    if {$config(listsmileys)} {
@@ -2558,8 +2564,8 @@ proc ShowUser {user_name user_login state state_code colour section} {
          $pgBuddy.text tag bind $user_login <Button3-ButtonRelease> "show_umenu $user_login %X %Y"
           bind $pgBuddy.text.$imgname <Button3-ButtonRelease> "show_umenu $user_login %X %Y"
 
-          if { $state_code !="FLN" } {
-             bind $pgBuddy.text.$imgname <Double-Button-1> "::amsn::chatUser $user_login"
+         if { $state_code !="FLN" } {
+            bind $pgBuddy.text.$imgname <Double-Button-1> "::amsn::chatUser $user_login"
             $pgBuddy.text tag bind $user_login <Double-Button-1> \
 	        "::amsn::chatUser $user_login"
          }

@@ -145,7 +145,7 @@ set list_states {
 	{LUN gonelunch #00A000 online away baway}
 	{HDN appearoff #404040 offline offline boffline}
 	{FLN offline #404040 offline offline boffline}
-	}
+}
 
 
 
@@ -367,16 +367,16 @@ proc anti_idle {} {
 # TODO: Use wm vroot to get mouse x and y global position, check it every
 # five seconds and reset idle if the mouse has moved
 proc incr_idle {} {
-  global idletime config
+   global idletime config
 
    if {$idletime >= 300 && [::MSN::myStatusIs] == "NLN" && $config(autoidle) == 1} {
-    ::MSN::changeStatus IDL
-  } elseif { $idletime <300 && [::MSN::myStatusIs] == "IDL"} {
-    ::MSN::changeStatus NLN
-  }
+      ::MSN::changeStatus IDL
+   } elseif { $idletime <300 && [::MSN::myStatusIs] == "IDL"} {
+      ::MSN::changeStatus NLN
+   }
 
-  set idletime [expr {$idletime + 5}]
-  after 5000 incr_idle
+   set idletime [expr {$idletime + 5}]
+   after 5000 incr_idle
 }
 #///////////////////////////////////////////////////////////////////////
 
@@ -399,7 +399,7 @@ proc setColor {w button name options} {
     set initialColor [$button cget -$name]
     set color [tk_chooseColor -title "[trans choosebackgroundcolor]" -parent $w \
 	-initialcolor $initialColor]
-    if [string compare $color ""] {
+    if { "$color" == "" } {
         set config(backgroundcolor) $color
 	::themes::ApplyDeep $w $options $color
     }

@@ -40,7 +40,7 @@ proc smile_subst {tw {start "0.0"}} {
       while {[set pos [$tw search -exact -nocase \
 	                              $symbol $start end]] != ""} {
          set posyx [split $pos "."]
-         set endpos "[lindex $posyx 0].[expr [lindex $posyx 1] + $chars]"
+         set endpos "[lindex $posyx 0].[expr {[lindex $posyx 1] + $chars}]"
          $tw delete $pos $endpos
 
          $tw image create $pos -image $file -pady 1 -padx 1
@@ -55,7 +55,7 @@ proc smile_menu { {x 0} {y 0} {text text}} {
    global emotions
 
    set w .smile_selector
-   if {[catch [toplevel $w] res]} {
+   if {[catch {[toplevel $w]} res]} {
       destroy $w
       toplevel $w     
    }

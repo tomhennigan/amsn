@@ -453,13 +453,13 @@ namespace eval ::dkfFontSel {
 	update idletasks
 	if {$options(-parent)==""} {
 	    set x [expr {([winfo screenwidth $w]-[winfo reqwidth $w])/2}]
-	    set y [expr {([winfo screenheigh $w]-[winfo reqheigh $w])/2}]
+	    set y [expr {([winfo screenheight $w]-[winfo reqheight $w])/2}]
 	} else {
 	    set pw $options(-parent)
 	    set x [expr {[winfo x $pw]+
                          ([winfo width $pw]-[winfo reqwidth $w])/2}]
 	    set y [expr {[winfo y $pw]+
-                         ([winfo heigh $pw]-[winfo reqheigh $w])/2}]
+                         ([winfo height $pw]-[winfo reqheight $w])/2}]
 	}
 	wm geometry $w +$x+$y
 	update idletasks
@@ -589,7 +589,7 @@ namespace eval ::dkfFontSel {
 namespace import ::dkfFontSel::dkf_chooseFont
 
 # Is there anything already set up as a standard command?
-if {![info exist tk_chooseFont]} {
+if {![info exists tk_chooseFont]} {
     # If not, set ourselves up using an alias
     interp alias {} tk_chooseFont {} ::dkfFontSel::dkf_chooseFont
 }
