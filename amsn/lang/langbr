@@ -5,6 +5,7 @@ acceptfile Aceitar arquivo $1, tamanho $2? Salvo em $3
 actions Ações
 addacontact Adicionar um contato
 addedyou $1 ($2) adicionou você à sua lista de contatos
+addstate Adicionar Novo Estado
 addtocontacts Adicionar à lista de contatos
 addtoo Adicionar esta pessoa à minha lista de contatos
 admincontacts Gerenciar contatos
@@ -12,6 +13,7 @@ admingroups Gerenciar grupos
 adverts Anúncios
 alarmpref Configuração de avisos para o usuário
 alarmstatus Ativar/Desativar avisos para este usuário
+allowallbutbl Permitir todos usuários menos aqueles na Lista de Bloqeados me contactar
 allowseen Permitir que o usuário veja quando eu estou on-line e possa me contactar
 appearance Aparência
 appearoff Aparecer off-line
@@ -19,8 +21,8 @@ areacode DDD
 aretyping $1 está digitando uma mensagem
 askprofile Este login não possui um perfil. Você gostaria de criar um?\n Sem um profile, você não poderá usar o Histórico de Mensagens, ou salvar seus alarmes e senha.\n Cada perfil cadastrado terá terá uma configuração exclusiva. \n\n Clique em "Criar Perfil" para criar um novo perfil para $1.
 autoaway Me apresente como "Ausente" quando inativo por
-autoconnect Conectar automaticamente
 autoconnect2 Logar-me automaticamente quando o aMSN for iniciado.
+autoconnect Conectar automaticamente
 autohotmaillog Logar-se automaticamente no Hotmail
 autoidle Detectar quando eu ficar inativo
 autoip Endereço IP automático
@@ -34,6 +36,13 @@ bgcolor Alterar a cor de fundo do aMSN
 blankdirect Deixar em branco para conexão direta
 block Bloquear
 blocked Bloqueado
+blocking Bloqueando
+blockinter1 Quando estiver online checar a cada
+blockinter2 segundos, ou checar a cada:
+blockinter3 cada
+blocklist Lista de Bloqueados(LB):
+blockmessage Este usuários estão online e bloquearam você
+blockusers Número de usuários para marcar de uma vez
 broughtby  Desenvolvido, para você, pelos seguintes programadores
 browse Listar
 browser Navegador WWW
@@ -43,34 +52,42 @@ cannotdeleteprofile - Impossível apagar as configurações, pois estão em uso por 
 cfgalarm Configurar/desativar avisos
 changefont Mudar a fonte
 changenick Trocar Apelido
-chat Conversa
 chatack Aceitando pedido de conversa de
+chat Conversa
 chatreq Requisitar conversa
-chatsmileys Emoticons de conversa
 chatsmileys2 Mostrar Emoticons e Smileys na janela de bate-papo
+chatsmileys Emoticons de conversa
+checkblocking Checar continuamente se usuários estão bloqueando você
 checkfilman Os arquivos recebidos serão armazenados em $1. Por favor, verifique as configurações do gerenciador de arquivos na janela "Preferências".
 checkingver Checando por novas versões
+checkonfln Checar se um usuário bloqueou você quando ele entra offline
 checkver Checar se existe nova versão do AMSN
 choosebasefont Escolher fonte do texto
 choosebgcolor Escolher cor de fundo
+choosecontact Por favor escolha um contato da lista
 choosefontcolor Escolher cor da fonte
-clearlog Limpar log
 clearlog2 Limpar o histórico de todos os seus contatos
 clearlog3 Limpar todos os logs
+clearlog Limpar log
 clicktologin Clique aqui para entrar
+closed Conversa com $1 fechada por inatividade
 close Fechar
 closingdocks Botão fechar envia para a barra de tarefas
 command Comando
-confirm Você tem certeza?
 confirmdelete Você tem certeza que quer apagar $1?
+confirm Você tem certeza?
+connected Você está conectado
 connecterror Erro ao conectar-se ao servidor!
+connecting Conectando
 connection Conexão
+connectionlost Desconectado: Conexão com servidor foi fechada
 contactadded Contato adicionado
 contactdoesnotexist Contato não existe!
 copy Copiar
 copytogroup Copiar para o grupo
 countrycode Código do país ou região
 cprofile Criar Perfil
+custom_new Adicionar um novo smiley
 cut Recortar
 date Data
 days Dias
@@ -78,8 +95,9 @@ dcprofile Não criar Perfil
 default Configuração Padrão
 delete Apagar
 deliverfail Falha no envio da mensagem
-delprofile Apagar Perfil
 delprofile2 Selecione o Perfil que você gostaria de remover
+delprofile Apagar Perfil
+directconnection Eu tenho uma conexão direta com a internet(porta 1863)
 dockgtk Minimizar na bandeja do Gnome
 docking Ícone da bandeja (systray)
 dockingoff Desativado
@@ -87,8 +105,8 @@ dockkde Minimizar na bandeja do KDE
 edit Editar
 editprofile Editar Perfil
 enableproxy Habilitar proxy
-encoding Escolher codificação
 encoding2 Alterar codificação de caracteres
+encoding Escolher codificação
 entercontactemail Digite o e-mail do contato
 enterfilename Por favor, digite o nome de um arquivo
 enternick Digite seu apelido
@@ -101,13 +119,17 @@ fileman Gerenc. Arquivos
 filename Nome do Arquivo
 filetransfercancelled Transferência de arquivo cancelada
 filetransfercomplete Transferência de arquivo completa
+ftacceptedby $1 aceitou pedido de transferência do arquivo '$2'.
 ftaccepted Transferência de arquivo aceita
+ftaccepting Aceitando pedido de transferência de arquivo
+ftconnecterror Erro na conexão remota
+ftconnecting Conectando em $1 porta $2
 ftrejected Transferência de arquivo cancelada
 gonelunch Fui comer, dá licença?
-group Grupo
 groupadd Adicionar um grupo
 groupdelete Apagar um grupo
 groupexists Grupo já existente
+group Grupo
 groupmissing Não pude localizar o grupo
 groupnewname Novo Nome
 groupnotempty Grupo não está vazio
@@ -119,9 +141,12 @@ help Ajuda
 helpcontents Conteúdo da Ajuda
 history Ver histórico
 home Casa
+httpconnection Conectando usando método HTTP(usa o protocolo HTTP na porta 80)
+hybrid Modo híbrido
 ident Identificando
 identity Identificar
 inbox Caixa de Entrada
+internalerror Erro Interno do Servidor
 invalidusername Nome de usuário inválido
 invite Convidar
 ipaddress Endereço IP
@@ -129,8 +154,8 @@ ipdetect Detectar o IP correto para transferência de arquivos usando HTTP
 istyping $1 está digitando uma mensagem
 joins $1 entra na conversa
 keepalive Manter conexão ativa (NAT)
-keeplog Manter log da conversação 
 keeplog2 Gravar todas as conversações no Histórico do aMSN para leitura posterior 
+keeplog Manter log da conversação 
 language Idioma
 lastmsgtime Última mensagem recibida em $1
 lclosedwin $1 fechou a janela em $2
@@ -141,8 +166,8 @@ leaves $1 saiu da conversa
 lenteredconf $1 adicionado à conversa em $2
 linprivate EM MODO PRIVATIVO
 listeningon Escutando na porta $1
-listsmileys Ver emoticons
 listsmileys2 Permitir Emoticons e Smileys na janela principal do aMSN
+listsmileys Ver emoticons
 ljoinedconf $1 entrou na conferência
 lleftconf $1 deixou a conferência
 loadcontacts Carregar lista de contatos
@@ -150,13 +175,14 @@ logbigger Tamanho dos arquivos nunca deve exceder
 logfandexp Tamanho dos arquivos e tempo de vida do Histórico 
 loggedotherlocation Você saiu do Messenger porque se conectou em outro local
 loggingin Entrando
-login Entrar
 loginas Entrar como
+login Entrar
 loging Histórico
 logolder Manter apenas conversas dos últimos
 logout Sair
 logsin acabou de entrar
 logsmileys Mostrar Emoticons e Smileys na janela de Histórico do aMSN
+logsout acabou de desconectar
 lprivtoconf Conversa particular convertida em conferência com $1
 luclosedwin Você fechou a janela em $1
 mailer Cliente de e-mail
@@ -164,9 +190,10 @@ maximised Maximizado
 minimised Minimizado
 mins minutos
 mobile Celular
+move Mover
 movetogroup Mover para o grupo
-msg Mensagem
 msgmaxmin Quando uma mensagem chega eu gostaria de ser:
+msg Mensagem
 msgmode Selecione como lidar com múltiplas janelas de mensagem:
 msn AMSN
 mustrestart Você precisa reiniciar o programa para efetuar as mudanças
@@ -184,13 +211,14 @@ newveravailable Nova versão $1 disponível para download
 next Próximo
 noactivity Sem atividade
 nologfile Sem log para $1
+no Não
 nonewmail Sem novas mensagens na Caixa de Entrada
 nonewver Não existe versão mais recente do programa disponível para download
 normal Normal
-notify notificar
 notify1 Mostrar janela de avisos quando um contato entrar online
 notify2 Mostrar janela de avisos quando chegarem novas mensagens
 notify3 Mostrar janela de avisos quando chegarem e-mails no Hotmail
+notify notificar
 notifyoffset Ajustar a posição da janela de avisos (em relação ao canto inferior direito)
 notifywin Janela de avisos
 nousersinsession Nenhum usuário na sessão
@@ -217,29 +245,31 @@ prefapps Programas
 prefawaymsg Minha mensagem de ausente
 prefemotic Emoticons e Smileys
 preferences Preferências
-preffont Minhas mensagens de texto
 preffont2 Alterar a maneira como os outros \nvêem meu texto em conversas
 preffont3 Alterar as fontes da interface do aMSN
+preffont Minhas mensagens de texto
 preflog1 Opções pessoais de Histórico
 preflook Aparência do meu aMSN
 prefmsging Minha interface de mensagens
 prefname Meu nome e apelido no MSN
-prefphone Meus números de telefone
 prefphone2 Números de telefone que as pessoas\nna minha Lista Permitida podem ver
-prefprofile Meu perfil público
+prefphone Meus números de telefone
 prefprofile2 Criar ou Modificar meu perfil público \n (minha descrição para os outros)
 prefprofile3 Perfis de configuração de usuários do aMSN
+prefprofile Meu perfil público
 prefproxy Minhas configurações de proxy
 prefsession Meu login e estado de conexão
 prefshared Conexões compartilhadas (apenas para NAT)
 prefsound Sons
+privacy Privacidade
 profiledconfig Configuração por perfis
-profiles Perfis
 profileinuse - Esta configuração está em uso por outra sessão do MSN, por favor escolha outra.
+profiles Perfis
 properties Propriedades
-proxy Eu estou atrás de um servidor de proxy (HTTP ou SOCKS5)
 proxyconf Configuração de Proxy
 proxyconfhttp Suporte a configuração de proxy HTTP
+proxyconnection Eu conecto à internet usando um servidor proxy
+proxy Eu estou atrás de um servidor de proxy (HTTP ou SOCKS5)
 publishphones Exibir meus números de telefone
 receivedbytes Recebidos $1 de $2 bytes
 receivefile Arquivo recebido
@@ -247,11 +277,12 @@ reconnect Esperando por $1 para reconectar
 reconnecting Reconectando ao servidor
 reject Recusar
 rememberpass Lembrar senha
+removefromlist Remover desta lista
 reversed Inverso
 rightback Volto logo
-save Salvar
 saveas Salvar como
 savecontacts Salvar lista de contatos
+save Salvar
 savetofile Salvar para arquivo
 says $1 diz
 sbcon Conectando ao Switch Board
@@ -260,18 +291,18 @@ sendfile Enviar arquivo
 sendmail Enviar e-mail
 sendmsg Enviar mensagem
 sentbytes Enviados $1 de $2 bytes
-server Servidor
 servergoingdown Desconectado: Servidor está sendo desligado
+server Servidor
 session Sessão
-sound Som de evento
 sound2 Tocar sons quando algum contato entrar ou enviar uma mensagem
 soundcommand Comando para tocar sons (ex: play)
 soundfile Arquivo de som para avisos
 soundloop Repetir Som
 soundserver Servidor de Sons
+sound Som de evento
 soundstatus Ativar/Desativar sons de avisos
-startoffline Iniciar desconectado
 startoffline2 Iniciar conectado mas invisível ("Aparecer Offline")
+startoffline Iniciar desconectado
 status Estado
 stopalarm Desligar avisos
 stylechat Mesma aparência que as janelas de bate-papo
@@ -281,22 +312,28 @@ syntaxerror  Erro de sintaxe
 tabbed Janelas em abas
 textsize Tamanho do texto
 title Al's Messenger
-to Para
 tools Ferramentas
+tooltips Ativar dicas
+to Para
 transnotexists O arquivo solicitado ainda não foi traduzido para a linguagem atual.
+twonewmail $1 nova(s) mensagem(ns) na Caixa de Entrada
 unblock Desbloquear
 uoffline Desconectado
 uonline Conectado
-user Usuário
 useralreadyonlist Usuário já está na lista de contatos
+userblocked Usuário está online mas bloqueou você
 usernotonline Usuário não está online
+user Usuário
+useryourself Não pode conversar com você mesmo
+verifyblocked Checar por pessoas bloqueando você
 version Versão
-view Visualizar
 viewprofile Ver Perfil
+view Visualizar
 willjoin Aguardando $1 entar na conversa
 work Ocupado
 xoffset Deslocamento X
+yes Sim
 yoffset Deslocamento Y
+youblocked Você foi bloqueado
 yousay Você diz
 youwant Você quer
-twonewmail $1 nova(s) mensagem(ns) na Caixa de Entrada

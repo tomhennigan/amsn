@@ -6,6 +6,7 @@ actions Eylemler
 addacontact Yeni baglanti ekle
 addedyou $1 ($2) sizi baglanti listesine ekledi
 addstate Yeni durum ekle
+addto $1ye ekle
 addtocontacts Baglanti listesine ekle
 addtoo Bu kisiyi baglanti listesine ekle
 admincontacts Baglantilari düzenle
@@ -14,21 +15,23 @@ adverts reklamlar
 alarmpref Kullanicinin alarm ayarlari
 alarmstatus Bu kullanici için alarmi aç/kapa
 allowallbutbl Engellenenler disinda herkesin bana ulasmasina izin ver
+allowbadwords Kullanici isimlerinde sansürü kaldir
 allowlist Izin verilenler
 allowonlyinal Yalnizca izin verilenler listesindekiler bana ulasabilsin
 allowseen Bu kisi ben çevrim içiyken beni görebilsin ve bana yazabilsin
+animatedsmileys Hareketli gülen adamlari etkinlestir
 appearance Görünüs
 appearoff Çevrim disi görün
 areacode Alan kodu
 aretyping $1 ileti yaziyor
 askprofile Bu kullanici için profil olusturulmamis. Yeni profil olusturmak ister misiniz? \n Eger olusturmazsaniz Geçmis özelligini kullanamaz, alarm ve sifreleri kaydedemezsiniz. Eger olusturursaniz bu yeni profilin ayri ayarlari olacaktir. \n \n $1 için yeni profil olusturmak istiyorsaniz "Profil olustur"a tiklayiniz.
-autoaway Bu süre kadar eylemsiz kalirsam beni disarida göster
+autoaway Bu süre kadar eylemsiz kalirsam beni disarida göster:
 autoconnect2 aMSN baslayinca kendiliginden baglan
 autoconnect Açilista kendiliginden baglan
 autohotmaillog Hotmail'e otomatik giris
 autoidle Otomatik EtkinlikYok özelligi 
 autoip Otomatik IP
-autonoact Bu süre kadar eylemsiz kalirsam "Etkinlik yok" göster
+autonoact Bu süre kadar eylemsiz kalirsam "Etkinlik yok" göster:
 avoidseen Bu kisi ben çevrim içiyken beni göremesin ve bana yazamasin
 away Disarida
 awaymsg1 Durumumu Disarida/Hemen Dönecek/Mesgul'e her çevirdigimde birakacagim notu sor
@@ -39,7 +42,7 @@ blankdirect Dogrudan baglanti için bos birakin
 blocked Engellenmis
 block Engelle
 blocking Engelleme
-blockinter1 Bagli iken kontrol etme her
+blockinter1 Denetleme sekli bagli iken her
 blockinter2 saniyede bir, yoksa her:
 blockinter3 her
 blocklist Engellenenler listesi
@@ -51,9 +54,10 @@ browser Internet tarayici
 busy Mesgul
 cancel Iptal Et
 cannotdeleteprofile Profil kullanimda oldugu için silinemiyor
+cantexec $1 uygulamasi çalistirilamiyor. Seçenekleri kontrol edin.
 cfgalarm Alarmi Düzenle/Ekle/Kaldir
 changefont Yazitipi degistir
-changenick Kullanici adi degistir
+changenick Kullanici ismi degistir
 chatack Sohbet istemi kabul edilen kisi
 chatmaxmin Bir arkadasim benimle sohbet penceresi açtiginda pencerenin söyle olmasini istiyorum:
 chatreq Sohbet istemi
@@ -73,6 +77,7 @@ clearlog2 Tüm baglantilarin Geçmisini sil
 clearlog3 Tüm sohbet kayitlarini sil
 clearlog Sohbet kaydini sil
 clicktologin Baglanmak için tiklayin
+closed $1 ile olan sohbet etkinlik olmadigi için kapatildi.
 close Kapat
 closingdocks Kapatma tusu küçültsün
 command komut
@@ -116,7 +121,7 @@ encoding2 Alfabe degistirin
 encoding Alfabe seçimi
 entercontactemail Baglantinin e-posta adresini girin
 enterfilename Lütfen bir dosya adi girin
-enternick Kullanici adinizi girin
+enternick Kullanici isminizi girin
 examples Örnekler
 exitamsn Çikmak istediginizden emin misiniz?
 extras Ek Hizmetler
@@ -155,6 +160,7 @@ help Yardim
 history Geçmisi göster
 home Ev
 httpconnection HTTP yöntemiyle baglan (80. porttan HTTP protokolü kullanir)
+hybrid Melez kip
 identity Kimlik
 ident Kimlik denetleniyor
 inbox Gelen kutusu
@@ -195,6 +201,7 @@ logolder Yalniz bu sure oncesine kadar yapilan sohbetlerin kaydini tut
 logout Baglantiyi kes
 logsin baglandi
 logsmileys Geçmis penceresinde gülen adamlar görünsün
+logsout $1 az önce sohbetten ayrildi.
 lprivtoconf $1 ile özel görüsme konferansa çevrildi
 luclosedwin $1 de pencereyi kapadiniz
 mailer E-posta uygulamasi
@@ -230,6 +237,8 @@ nonewmail Gelen kutusunda yeni ileti yok
 nonewver Daha yeni bir sürüm yok
 normal normal
 nosystemtray Görev çubugu yok 
+notify1_5 Baglantilar çikinca uyari penceresi göster
+notify1_75 Baglantilar durum degistirince uyari penceresi göster
 notify1 Baglantilar girince uyari penceresi göster
 notify2 Yeni ileti gelince uyari penceresi göster
 notify3 Yeni e-posta iletisi gelince uyari penceresi göster
@@ -329,6 +338,9 @@ startoffline2 Çevrim disi görünerek sessizce baglan
 startoffline Çevrim disi olarak basla
 stateautomsg Gönderilecek Otomatik Mesaj
 state Böyle görünmek istiyorum
+statechange Yeni durum:
+stateedittext Lütfen degistirmek istediginiz\nkisimlari degistirip Kaydet'e tiklayiniz.
+stateinfo Kisisel Durum ayarlari
 statename Kisisel Durumun adi
 statenewtext Lütfen yeni Kisisel Durumunuzu yaratmak için \n gerekli bilgileri girip Kaydet'e tiklayiniz
 status Durum
@@ -342,6 +354,7 @@ textsize Metin boyutu
 title Al'in Messenger'i
 to Kime
 tools Araçlar
+tooltips Ipuçlarini etkinlestir
 transnotexists Bu dosyanin seçili dile çevirisi henüz yok
 traynotcompiled Görev çubugu simgesi derlenmemis, plugins/traydock'a bakin 
 twonewmail Gelen kutunuzda $1 yeni ileti var

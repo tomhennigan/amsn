@@ -5,6 +5,8 @@ acceptfile Accetto il file $1, dimensioni $2? Salvato in $3
 actions Azioni
 addacontact Aggiungi un contatto
 addedyou $1 ($2) ti ha aggiunto alla sua lista dei contatti
+addstate Aggiungi Nuovo Stato
+addto Aggiungi a $1
 addtocontacts Aggiungere un contatto alla lista
 addtoo Aggiungi questa persona alla mia lista dei contatti
 admincontacts Amministrazione contatti
@@ -12,56 +14,109 @@ admingroups Amministrazione gruppi
 adverts Avvertimenti
 alarmpref Impostazioni dell'allarme dell'utente
 alarmstatus (Dis)Abilita l'allarme per questo utente
+allowallbutbl Permetti a tutti gli utenti tranne quelli nella lista dei bloccati di contattarmi
+allowbadwords Disabilita la censura sui nicknames
+allowlist Permetti la lista:
+allowonlyinal Permetti soltanto agli utenti nella mia lista dei Permessi di contattarmi
 allowseen Permetti a questa persona di vedermi e di contattarmi quando sono connesso
+animatedsmileys Abilita le animazioni delle faccine
+appearance Apparenza
 appearoff Invisibile
+areacode Codice dell'area
 aretyping $1 stanno scrivendo un messaggio
+askprofile Questo login attualmente non possiede un profilo. Vuoi crearne uno nuovo per esso? \n Se non lo farai non ti sarÃ  possibile utilizzare l'History, o salvare i tuoi suoni personalizzati e Password. \n Se lo farai avrai una nuova configurazione separata per questo profilo. \n \n Clicca su "Crea Profilo" per creare un nuovo profilo per $1.
+autoaway Mostrami come "Assente" quando sono inattivo per
+autoconnect2 Accedi automaticamente quando aMSN viene lanciato
 autoconnect Connetti immediatamente all'esecuzione di asmn 
 autohotmaillog Auto-login Hotmail
 autoidle Nessuna attività automatica
 autoip IP automatico
+autonoact Connetti automaticamente alla partenza di aMSN
 avoidseen Impedisci a questa persona di vedermi e di contattarmi quando sono connesso
+awaymsg1 Chiedi di impostare un messaggio di "assente" ogni volta che cambio il mio stato in Assente/Torno Subito/Occupato
+awaymsg2 Non chiedere mai e usa sempre il messaggio di assente qui sotto
 away Non al computer
 baduserpass Username o password sbagliate
+bgcolor Cambia il colore di sfondo di aMSN
 blankdirect Lascia vuoto per connessioni dirette
 block Blocca
 blocked Bloccato
+blocking in blocco
+blockinter1 Quando il tuo stato Ã¨ "In linea" controlla ogni
+blockinter2 secondi, altrimenti controlla ogni :
+blockinter3 ogni
+blocklist Lista di utenti bloccati:
+blockmessage Queste persone sono online e bloccate da te
+blockusers Numero di utenti da controllare subito
 broughtby  Sviluppato da
 browser Browser
 browse Visualizza
 busy Ho da fare
 cancel Cancella
+cannotdeleteprofile Non posso concellare il profilo perchÃ© sembra essere usato da una sessione di aMSN
+cantexec Non posso eseguire l'applicazione: $1. Controlla nelle preferenze
 cfgalarm Configure/Aggiungi/Rimuovi l'allarme
+changefont Cambia font
 changenick Cambia nick
 chatack Sto accentando una chiamata da
 chat Inizia la conversazione
+chatmaxmin Quando un contatto apre una chat con me io voglio essere:
 chatreq Sto chiamando
+chatsmileys2 Mostra le Emoticon e le Faccine nella finestra della chat
 chatsmileys Faccine per la chat
+checkblocking Controlla continuamente se gli utenti ti stanno bloccando
+checkfilman I files ricevuti saranno salvati in $1. Per favore controlla le impostazioni del file manager nella finestra delle preferenze.
 checkingver Sto verificando una nuova versione
+checkonfln Controlla se un utente ti blocca quando va fuori linea.
 checkver Controlla l'esistenza di nuove versioni
 choosebasefont Seleziona il font
 choosebgcolor Cambia il colore di sfondo
+choosecontact Per favore scegli un contatto dalla lista
 choosefontcolor Scegliere il colore del font
+clearlog2 Cancella l'Hisotry per tutti i tuoi contatti
+clearlog3 Cancella tutti i Log
+clearlog Cancella il Log
 clicktologin Clicca qui per accedere
 close Chiudi
+closed La conversazione con $1 Ã¨ chiusa per inattivitÃ .
 closingdocks Pulsante per chiudere
 command Comando
 confirmdelete Sei sicuro di voler cancellare $1?
 confirm Sei sicuro?
+connected Adesso sei connesso
 connecterror Errore durante la connessione al server
+connecting Errore connettendosi con il server
+connection Connessione
+connectionlost Disconnesso: Connessione con il server chiusa
 contactadded Contatto aggiunto
 contactdoesnotexist Il contatto non esiste
+contactlist Lista dei contatti:
 copy Copia
 copytogroup Copia nel gruppo
+countrycode Il mio codice Regionale/Nazionale
+cprofile Crea un profilo
 cut Taglia
 date Data
+days Giorni
+dcprofile Non creare un profilo
+default Configurazione di default
 delete Cancella
 deliverfail Si è verificato un problema nell'inoltro del seguente messaggio
+delprofile2 Seleziona il profilo che ti piacerebbe rimuovere
+delprofile Cancella il profilo
+directconnection Ho una connessione diretta ad internet (usa la porta 1863)
 dockgtk Dock GNOME
 docking Abilita dock
 dockingoff Disabilita dock
 dockkde Dock KDE
 edit Modifica
+editnewstate Nuove impostazioni personali di auto-risposta
+editprofile Modifica il Profilo
+editstate Modifica delle impostazioni di auto-risposta esistenti
+emotisounds Emetti un suono per alcune Emoticons
 enableproxy Proxy abilitato
+enableremote Abilita il controllo a distanza
+encoding2 Cambia il modo in cui sono codificati i caratteri
 encoding Seleziona la codifica
 entercontactemail Inserisci un contatto per e-mail
 enterfilename Inserisci un nome di file
@@ -71,11 +126,22 @@ exitamsn Sei sicuro di voler uscire ?
 extras Servizi extra
 faq FAQ (Risposte alle domande più frequenti)
 filedoesnotexist Il file non esiste
+fileman File Manager
 filename Filename
 filetransfercancelled Trasferimento file cancellato
 filetransfercomplete Trasferimento del file completo
+followtext Segui il nuovo testo quando viene inserito
+ftacceptedby $1 ha accettato l'invito a trasferire il file '$2'.
 ftaccepted Trasferimento del file accettato
+ftaccepting In attesa di accettare l'invito al trasferimento file
+ftconnecterror Errore connettendosi all'utente remoto
+ftconnecting Connessione a $1 porta $2
+ftconnectionlost La connessione con l'utente remoto e caduta.
+ftgotinvitation $1 vuole mandarti il file '$2' ($3 bytes). SarÃ  salvato nella directory $4. Vuoi ricevere questo file?
+ftportpref Porta iniziale per il trasferimento file
+ftrejectedby $1 ha rifiutato l'invito al trasferimento del file '$2'.
 ftrejected Trasferimento del file respinto
+ftsendinvitation L'invito al trasferimento del file '$2' ($3 bytes) Ã¨ stato mandato a $1.
 gonelunch A pranzo
 groupadd Aggiungi un gruppo
 groupdelete Cancella un gruppo
@@ -90,37 +156,70 @@ groupunknown Gruppo sconosciuto
 handle Gestisci
 help Aiuto
 helpcontents Contenuti help
+history Mostra l'History
 home Casa
+httpconnection Connessione usando il metodo HTTP (usa il protocollo HTTP sulla porta 80)
 ident Identificazione
 identity Identità
 inbox In Arrivo
+internalerror Errore interno del server
 invalidusername Username non valido
+invitationcancelled L'invito Ã¨ stato cancellato
 invite Invita
 ipaddress Indirizzo IP
+ipdetect Determina l'IP corretto per il trasferimento file usando l'HTTP
 istyping $1 sta scrivendo un messaggio
 joins $1 si unisce alla conversazione
 keepalive Keepalive (NAT)
+keeplog2 Registra tutte le conversazioni in una History di aMSN per una visione futura
+keeplog Mantiene un registro delle chat
 language Linguaggio
 lastmsgtime Ultimo messaggio ricevuto alle $1
+lclosedwin $1 ha chiuso la finestra su $2
+lconftopriv La conversazione Ã¨ divenuta una chat privata con $1
+lconvstarted La conversazione Ã¨ cominciata su $1
 leaveblankforhotmail Lascia in bianco per l'uso di hotmail
 leaves $1 abbandona la conversazione
+lenteredconf $1 Ã¨ entrato in conversazione su $2
+linprivate IN PRIVATO
 listeningon In attesa sulla porta $1
+listsmileys2 Mostra Emoticons e faccine nella lista contatti principale di aMSN
 listsmileys Elenco faccine
+ljoinedconf $1 Ã¨ entrato a far parte della conversazione
+lleftconf $1 ha lasciato la conversazione
 loadcontacts Carica la lista contatti
+logbigger I file delle registrazioni per ogni contatto non hanno alcun limite dimensionale
+logfandexp Termine prefissato della History e dimensione dei registri
 loggedotherlocation Disconnesso. Loggato da un'altro posto
 loggingin Connessione in corso...
 login Accedi
 loginas Accedi come
+loging Registrazione
+logolder Registra soltanto le chat che hanno preso posto nell'ultimo
 logout Abbandona
 logsin si e' appena connesso
+logsmileys Mostra le emoticon e le facine nella finestra dell'History di aMSN
+lprivtoconf Chat privata divenuta conversazione con $1
+luclosedwin Hai chiuso la finestra su $1
 mailer Client di posta
+maximised Massimizza
+minimised Minimizza/Riduci ad icona
+mins Minuti
 mobile Mobile
+morepersonal PiÃ¹ stati personali ->
+move Muovi
 movetogroup Sposta al gruppo
+msgmaxmin Quando arriva un nuovo messaggio io voglio che sia:
 msg Messaggio
+msgmode Seleziona come gestire le finestre dei messaggi multipli:
 msn AMSN
 mustrestart Devi riavviare il programma per attivare le modifiche
+myhomephone Il mio telefono di casa
+mymobilephone Il mio numero di cellulare
 mystatus Il mio stato
+myworkphone Il mio numero d'ufficio
 natip La rilevazione dell'IP dalla pagina web
+natkeepalive Se la connessione cade continuamente abilita questo Auto-Riconnettitore
 needonline Sembra che tu sia scollegato!
 newmail $1 nuovi messaggi di posta
 newmailfrom Nuova email da $1 ($2)
@@ -128,9 +227,18 @@ newmsg Nuovo messaggio
 newveravailable La nuova versione $1 è disponibile per il download
 next Prossimo
 noactivity Nessuna attività
+nodataavailable Non ci sono dati disponibili per $1
+nologfile Non c'Ã© un file di registro per $1
 nonewmail Nessun nuovo messaggio di posta
 nonewver Non ci sono nuove versioni da scaricare
+no No
+normal Normale
+nosystemtray System tray non disponibile
+notify1 Mostra una finestra di notifica quando i contatti vengono online
+notify2 Mostra una finestra di notifica quando viene ricevuto un nuovo messaggio
+notify3 Mostra una finestra di notifica quando una email raggiunge la tua casella di posta
 notify notifica
+notifyoffset Selziona la posizione della finestra di notifica dandogli delle coordinate di posizione
 notifywin Finestra di Notifica
 nousersinsession Nessun utente nella sessione
 offline Sconnesso
@@ -141,31 +249,68 @@ onphone Al telefono
 openreceived Apri un file ricevuto
 options Opzioni
 ordercontactsby Ordina i contatti per
+ordergroupsby Ordina i gruppi per
 other Altri
 pager Impaginatore
 pass Password
 paste Incolla
+personal Personale
 phone Telefono
 picfile File dell'immagine dell'allarme (GIF < 500x500)
 picstatus (Dis)Abilita l'immagine per l'allarme
 port Porta
+prefalerts Suoni e Allarmi dei miei eventi
 prefapps Applicazioni
+prefawaymsg Il mio messaggio di Assente
+prefblock1 Controlla alla disconnessione
+prefblock2 Controlla continumanente
+prefconnection Impostazioni di connessione
+prefemotic Icone delle emozioni e Faccine
 preferences Preferenze
+preffont2 Cambia il modo in cui gli altri vedono il mio testo nelle chat
+preffont3 Cambia la dimensione e il tipo dei caratteri dell'interfaccio di aMSN
+preffont Il mio testo del mio messaggio
+preflog1 Le mio opzioni di History e registrazione
+preflook L'aspetto del mio aMSN
+prefmsging L'interfaccia dei miei messaggi
+prefname Il nome/soprannome del mio MSN messanger
+prefphone2 Inserisci il numero di telefono che vorresti fosse visto dalle persone \n sulla tua lista permessi \n
+prefphone Il mio numero di telefono
+prefprivacy2 Lista Contatti/Rifiutati dell'utente
+prefprivacy Lista Permessi/Bloccati dell'utente
+prefprofile2 Crea o modifica il tuo profilo pubblico(la \n descrizione di te stesso che gli altri possono vedere)
+prefprofile3 I Profili di configurazione dell'utente di aMSN
+prefprofile Il mio Profilo Pubblico
+prefproxy Le mie Impostazioni Proxy
+prefremote Preferenze della connessione remota
+prefsession La mia Registrazione e Stato
+prefshared Connessioni condivise (solo per NAT)
 prefsound Suono
+privacy Privacy
+profiledconfig Configurazione del Profilo
+profileinuse Questo profilo Ã¨ giÃ  in uso da un'altra sessione di aMSN, per favore sceglierne un altro
+profiles Profili
 properties Proprietà
 proxyconf Configurazione proxy
 proxyconfhttp Configurazione supporto proxy HTTP
+proxyconnection Mi connetto ad internet usando un server proxy:
+proxy Sono dietro un server proxy (HTTP o SOCKS5)
 publishphones Pubblica il mio numero di telefono
+raised Grande/Deiconificato
 receivedbytes Ricevuti $1 byte su $2
 receivefile Sto ricevendo il file
 reconnecting Riconnessione al server
 reconnect Sto aspettando che $1 si riconnetta
 reject Respingi
 rememberpass Ricorda password
+removefromlist Rimuovi da questa lista
+reversed Invertito
+reverselist Invertire la lista (RL)
 rightback Torno subito
 saveas Salva come
 savecontacts Salva la lista contatti
 save Salva
+savetofile Salva nel file
 says $1 dice
 sbcon Connessione a Switch Board
 sendfile Manda file
@@ -175,28 +320,56 @@ sendmsg Manda un messaggio
 sentbytes Mandati $1 byte su $2
 servergoingdown Disconnesso: il server sta andando giù
 server Server
+session Sessione
+showblockedlist Mostra la lista delle persone che ti bloccano
+sound2 Emetti un suono quando i contatti entrano o mandano un messaggio
 sound Attiva suoni
+soundcommand Questo deve essere il comando per emettere il suono (es.: esdplay)
 soundfile File del suono dell'allarme
 soundloop Loop Suono
+soundserver Server sonoro
 soundstatus (Dis)Abilita il suono dell'allarme
+startoffline2 Entra silenziosamente come "Fuori linea"
 startoffline Inizio Offline
+stateautomsg Automessaggio da inviare
+stateedittext Per favore modifica i campi che vorresti \n che fossero modificati e premi Salva
+stateinfo Configurazione dello stato personale
+statename Nome dello stato personale
+statenewtext Per favore inserisci le informazioni richieste per creare \n il tuo nuovo Stato Personale e premi Salva
+state Voglio apparire come
 status Stato
 stopalarm Ferma l'allarme
+stylechat Stesso aspetto delle chat
+stylehist Aspetto dell'History di aMSN
+stylelog Seleziona il formato nel quale vorresti vedere la tua History
 syntaxerror Errore di sintassi
+tabbed Finestre con Barra
 textsize Dimensione del testo
 title Al's Messenger
 to A
 tools Strumenti
+tooltips Abilita i tooltips
+transnotexists Il file richiesto non Ã¨ ancora stato tradotto nel linguaggio corrente.
+traynotcompiled Il plugin per la tray icon non Ã¨ compilato. Controllare plungins/traydock 
+twonewmail $1 nuovi messaggi di posta
 unblock Sblocca
 uoffline Offline
 uonline Online
 useralreadyonlist L'utente è già nella lista contatti
-user Utente
+userblocked L'utente Ã¨ online ma ti ha bloccato
 usernotonline Questo Utente non è online
+user Utente
+useryourself Non puoi chattare con te stesso
+verifyblocked Controlla le persone che ti stanno bloccando
 version Versione
+viewprofile Mostra Profilo
 view Vista
 willjoin Sto aspettando che $1 si unisca alla conversazione
 work Lavoro
+wrongprofileversion Risolvere il problema, per favore rimuovere la directory $1, o aggiornare aMSN
+xoffset spostamento sull'asse delle X
+yes SÃ¬
+yoffset Spostamento sull'asse delle Y
+youblocked Sei stato bloccato
 yousay Tu dici
 youwant Tu vuoi
-twonewmail $1 nuovi messaggi di posta

@@ -15,6 +15,7 @@ adverts Advertenties
 alarmpref Alarm instellingen voor deze gebruiker
 alarmstatus Schakel het alarm voor deze gebruiker aan/uit
 allowallbutbl Sta alle gebruikers toe om contact met mij op te nemen, behalve geblokkeerde
+allowbadwords Toon ongecencureerde schermnamen
 allowlist Lijst met toegestane gebruikers :
 allowonlyinal Sta alleen toegestane gebruikers toe om contact met mij op te nemen
 allowseen Deze persoon toestaan om mijn online-status te zien, en contact met mij op te nemen
@@ -53,6 +54,7 @@ browse Verkennen
 busy Bezet
 cancel Annuleren
 cannotdeleteprofile Kan het profiel niet verwijderen. Het is mogelijk in gebruik bij een aMSN sessie
+cantexec Kan programma $1 niet starten, kijk uw instellingen na
 cfgalarm Alarm configureren/toevoegen/verwijderen
 changefont Verander lettertype
 changenick Verander schermnaam
@@ -75,6 +77,7 @@ clearlog2 Verwijder Geschiedenis voor alle contacten
 clearlog3 Verwijder alle logboeken
 clearlog Logboek leegmaken
 clicktologin Klik hier om je aan te melden
+closed Gesprek met $1 is wegens inactiviteit afgesloten
 close Sluiten
 closingdocks Venster sluiten-knop minimaliseert venster
 command Programma
@@ -157,6 +160,7 @@ help Help
 history Toon geschiedenis
 home Thuis
 httpconnection Verbinden via het HTTP-protocol via poort 80
+hybrid Hybriede modus
 ident Bezig met identificeren
 identity Identiteit
 inbox Postvak IN
@@ -197,6 +201,7 @@ logolder Bewaar alleen de gesprekken de plaatsvonden in de laatste
 logout Afmelden
 logsin heeft zich aangemeld
 logsmileys Toont emoticons en smileys in aMSN's geschiedenisvensters
+logsout heeft zich afgemeld 
 lprivtoconf Privegesprek veranderde in vergadering met $1
 luclosedwin Je hebt het venster gesloten op $1
 mailer E-mail programma
@@ -232,6 +237,8 @@ nonewmail Geen nieuwe berichten in Postvak IN
 nonewver Er zijn geen nieuwere versies beschikbaar
 normal Normaal
 nosystemtray Systeemvak niet beschikbaar
+notify1_5 Toon inlichtingenvenster wanneer een contactpersoon zich afmeld
+notify1_75 Toon inlichtingenvenster wanneer de status van een contactpersoon veranderd
 notify1 Toon inlichtingenvenster wanneer een contact online komt
 notify2 Toon inlichtingenvenster wanneer nieuwe berichten ontvangen worden
 notify3 Toon inlichtingenvenster wanneer er nieuwe emails worden ontvangen
@@ -330,6 +337,7 @@ soundstatus Schakel alarm geluid aan/uit
 startoffline2 Stil aanmelden met "Offline verschijnen"
 startoffline Begin offline
 stateautomsg Automatisch Bericht om te versturen
+statechange status is veranderd in:
 stateedittext Pas de velden aan die je wilt \n veranderen en druk op Opslaan
 state Ik wil verschijnen als
 stateinfo Persoonlijke Staat Configuratie

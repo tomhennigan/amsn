@@ -201,6 +201,7 @@ logolder Hesabu za maongezi tu ambazo zimetokea kwa
 logout Toka nje
 logsin Ameingia sasa hivi
 logsmileys Onyesha Aikoni za Hisia na Visura katika dirisha la historia la aMSN
+logsout ametoka sasa hivi
 lprivtoconf $1 amefanya Maongezi binafsi kuwa Kusanyiko
 luclosedwin Umefunga dirisha katika $1
 mailer Kitumaji
@@ -236,6 +237,8 @@ nonewmail Hakuna ujumbe mpya katika sanduku-kuingia
 nonewver Hakuna toleo jipya kwa ajili kutelemsha
 normal Kawaida
 nosystemtray Trei ya mfumo haipatikani
+notify1_5 Onyesha dirisha-ufahamisho wakati mzungumzaji anaacha mawasiliano
+notify1_75 Onyesha dirisha-ufahamisho wakati mzungumzaji anabadilisha hali
 notify1 Onyesha dirisha la kufahamishia wakati waongeaji wanapojiunga
 notify2 Onyesha dirisha la kufahamishia wakati ujumbe mpya unapofika
 notify3 Onyesha dirisha la kufahamishia wakati barua-p zinapofikia 
@@ -339,6 +342,7 @@ stateautomsg Ujumbe-wa-kujituma wa kutuma
 stateedittext Tafadhali hariri nafasi ambazo ungetaka \n zibadilike na bonyeza Hifadhi
 stateinfo  Mipangilio ya Hali Binafsi
 statename Jina la Hali Binafsi
+state Nataka nionekane kama
 statenewtext Tafadhili jaza taarifa inayohitajika kutengeneza \n Hali yako binafsi na bonyeza hifadhi
 status Hali
 stopalarm Simamisha alamu
