@@ -4,8 +4,23 @@
 	<author>Jerome Gagnon-Voyer</author>
 	<description>Support Growl notification on Mac OS X http://growl.info/</description>
 	<amsn_version>0.94</amsn_version>
-	<plugin_version>1.0</plugin_version>
+	<plugin_version>1.1</plugin_version>
 	<plugin_file>growl.tcl</plugin_file>
 	<plugin_namespace>growl</plugin_namespace>
 	<init_procedure>InitPlugin</init_procedure>
+	<cvs_version>1.8</cvs_version>
+	<file>
+		<path>growl.png</path>
+		<version>1.1</version>
+	</file>
+	<lang>
+		<langcode>en</langcode>
+		<version>1.1</version>
+	</lang>
+	<URL>
+		<main>http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/amsn-extras/plugins/growl/growl.tcl?rev=$version&content-type=text/plain</main>
+		<plugininfo>http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/amsn-extras/plugins/growl/plugininfo.xml?rev=HEAD&content-type=text/plain</plugininfo>
+		<lang>http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/amsn-extras/plugins/growl/lang/lang$langcode?rev=$version&content-type=text/plain</lang>
+		<file>http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/amsn-extras/plugins/growl/$file?rev=$version&content-type=text/plain</file>
+	</URL>
 </plugin>

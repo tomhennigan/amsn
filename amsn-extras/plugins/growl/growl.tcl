@@ -9,39 +9,95 @@ namespace eval ::growl {
 	###############################################	
 	proc InitPlugin { dir } {
     	::plugins::RegisterPlugin growl
-		source [file join $dir growl.tcl]
-    	
+
     	#Package require Growl extension
     	if {![catch {package require growl}]} {
 			#Continue..
     	} else {
-   		 	plugins_log growl "Growl missing\n"
+   		 	plugins_log growl "Growl Tcl Binding is missing from aMSN, compatible with Mac OS X only\n"
+   		 	msg_box "Growl Tcl Binding is missing from aMSN, compatible with Mac OS X only\n"
+   		 	::plugins::UnLoadPlugin "growl"
    			return 0
     	}
     	
-    	#Command to Growl, register application aMSN with 4 kinds of notification
+    	#Command to Growl, register application aMSN with 6 kinds of notification
     	#Use default icon inside the growl folder
     	catch {growl register aMSN "Online Newstate Offline Newmessage Pop Nudge" $dir/growl.png}
-    	#Register events for witch Growl, when someone come online and when we receive a message
-    	::plugins::RegisterEvent growl UserConnect online
+    	
+    	#Register events for growl plugin
+		::growl::RegisterEvent
+		
+		#Load lang files
+		::growl::LoadLangFiles $dir
+		
+    	#Default config for the plugin
+		::growl::ConfigArray
+		
+    	#Add items to configure window
+		::growl::ConfigList
+	}
+	#####################################
+	# ::growl::RegisterEvent            #
+	# --------------------------------- #
+	# Register events to plugin system  #
+	#####################################	
+	proc RegisterEvent {} {
+	   	::plugins::RegisterEvent growl UserConnect online
     	::plugins::RegisterEvent growl chat_msg_received newmessage
     	::plugins::RegisterEvent growl ChangeState changestate
-    	#Default config for the plugin
-    	array set ::growl::config {
-		userconnect {1}
-		lastmessage {1}
-		lastmessage_outside {1}
-		changestate {0}
-		offline {0}
+	}
+	
+	#####################################################
+	# ::growl::LoadLangFiles dir       					#
+	# ------------------------------------------------- #
+	# Load lang files, only if version is 0.95			#
+	# Because 0.94 do not support lang keys for plugins #
+	#####################################################
+	proc LoadLangFiles {dir} {
+		if {![::growl::version_094]} {
+			set langdir [append dir "/lang"]
+			set lang [::config::getGlobalKey language]
+			load_lang $lang $langdir
+		}
+	}
+	########################################
+	# ::growl::ConfigArray                 #
+	# -------------------------------------#
+	# Add config array with default values #
+	########################################	
+	proc ConfigArray {} {
+	    array set ::growl::config {
+			userconnect {1}
+			lastmessage {1}
+			lastmessage_outside {1}
+			changestate {0}
+			offline {0}
     	}
-    	#Config dialog with 4 variables in bolean, choose to keep notifications or not
-    	set ::growl::configlist [list \
-				  [list bool "[trans notify1]"  userconnect] \
-				  [list bool "[trans notify2]" lastmessage] \
-				  [list bool "Show notification for last message received only if focus is outside aMSN" lastmessage_outside] \
-				  [list bool "[trans notify1_75]" changestate] \
-				  [list bool "[trans notify1_5]" offline] \
-				 ]
+	}
+	########################################
+	# ::growl::ConfigList                  #
+	# -------------------------------------#
+	# Add items to configure window        #
+	########################################			
+	proc ConfigList {} {
+	#Use lang items only on aMSN 0.95
+	if {[::growl::version_094]} {
+	   	set ::growl::configlist [list \
+			  [list bool "[trans notify1]"  userconnect] \
+			  [list bool "[trans notify2]" lastmessage] \
+			  [list bool "Show notification for last message received only if focus is outside aMSN" lastmessage_outside] \
+			  [list bool "[trans notify1_75]" changestate] \
+			  [list bool "[trans notify1_5]" offline] \
+			 ]
+		} else {
+			set ::growl::configlist [list \
+			  [list bool "[trans notify1]"  userconnect] \
+			  [list bool "[trans notify2]" lastmessage] \
+			  [list bool "[trans growl_lastmessage_outside]" lastmessage_outside] \
+			  [list bool "[trans notify1_75]" changestate] \
+			  [list bool "[trans notify1_5]" offline] \
+			 ]
+		}
 	}
 	
     ###############################################
@@ -76,6 +132,7 @@ namespace eval ::growl {
     	upvar 2 evpar newvar
     	upvar 2 msg msg
     	upvar 2 user user
+    	upvar 2 chatid chatid
     	#Define the 3 variables, email, nickname and message
     	set email $user
     	set nickname [::abook::getDisplayNick $user]
@@ -89,13 +146,26 @@ namespace eval ::growl {
     				catch {growl post Newmessage $nickname $msg [::growl::getpicture $email]}
     			}
     		} else {
-    			if { (($email != [::config::getKey login]) && ".[lindex [split [focus] .] 1]" != "[::ChatWindow::For $email]") && $msg != "" && $config(lastmessage)} {
-    				catch {growl post Newmessage $nickname $msg [::growl::getpicture $email]}
+    			#Verify if we are using 0.95
+    			if {![version_094]} {
+    				#Support for tab window
+    				if {[::ChatWindow::UseContainer]} {
+    					if { (($email != [::config::getKey login]) && ".[lindex [split [focus] .] 1].[lindex [split [focus] .] 2]" != "[::ChatWindow::For $chatid]") && $msg != "" && $config(lastmessage)} {
+    						catch {growl post Newmessage $nickname $msg [::growl::getpicture $email]}
+    					}
+    				#Support for non-tab window
+    				} else {
+    		  			if { (($email != [::config::getKey login]) && ".[lindex [split [focus] .] 1]" != "[::ChatWindow::For $chatid]") && $msg != "" && $config(lastmessage)} {
+    						catch {growl post Newmessage $nickname $msg [::growl::getpicture $email]}
+    					}
+    				}
+    			#Support for 0.94
+    			} else {
+    					if { (($email != [::config::getKey login]) && ".[lindex [split [focus] .] 1]" != "[::ChatWindow::For $chatid]") && $msg != "" && $config(lastmessage)} {
+    						catch {growl post Newmessage $nickname $msg [::growl::getpicture $email]}
+    					}
     			}
     		}
-    		
-
-
  	}
         
     ###############################################
@@ -145,7 +215,7 @@ namespace eval ::growl {
 		#If someone change state to Offline, this notification use a different register (Offline) than others notifications (NewState)
 		if {$config(offline) && $newstate == "FLN"} {
 			catch {growl post Offline $nickname "[trans changestate $nickname [trans offline]]" [::growl::getpicture $email]}
-			}
+		}
 	}
 	
     ######################################################
@@ -163,7 +233,23 @@ namespace eval ::growl {
 		if { [file readable "[file join $HOME displaypic cache ${filename}].gif"] } {
 			return "[file join $HOME displaypic cache ${filename}].gif"
 		} else {
-			return "icons/growl.png"
+			return
+		}
+	}
+	
+	############################################
+	# ::growl::version_094                     #
+	# -----------------------------------------#
+	# Verify if the version of aMSN is 0.94    #
+	# Useful if we want to keep compatibility  #
+	############################################
+	proc version_094 {} {
+		global version
+		scan $version "%d.%d" y1 y2;
+		if { $y2 == "94" } {
+			return 1
+		} else {
+			return 0
 		}
 	}
 	
