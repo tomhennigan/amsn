@@ -783,7 +783,6 @@ namespace eval ::amsn {
 	   
 	   
        } 
-
       PutMessage $chatid $user $msg $type $fontformat
 
       set evPar [list $user [lindex [::MSN::getUserInfo $user] 1] $msg]            
@@ -898,8 +897,8 @@ namespace eval ::amsn {
 	        incr maxw [expr 0-[font measure sboldf -displayof ${win_name}.f.top.text " \([trans $user_state]\)"]]
 	     }
 		  incr maxw [expr 0-[font measure sboldf -displayof ${win_name}.f.top.text " <${user_login}>"]]
-
-	     ${win_name}.f.top.text insert end "[trunc ${user_name} ${win_name}.f.top.text $maxw sboldf] <${user_login}>"
+		  
+	     ${win_name}.f.top.text insert end "[trunc ${user_name} ${win_name} $maxw sboldf] <${user_login}>"
       } else {
 	     ${win_name}.f.top.text insert end "${user_name} <${user_login}>"
       }
@@ -1312,10 +1311,9 @@ namespace eval ::amsn {
       .${win_name}.f.out.text tag configure green -foreground darkgreen -background white -font bboldf
       .${win_name}.f.out.text tag configure red -foreground red -background white -font bboldf
       .${win_name}.f.out.text tag configure blue -foreground blue -background white -font bboldf
-      .${win_name}.f.out.text tag configure gray -foreground #404040 -background white
+      .${win_name}.f.out.text tag configure gray -foreground #404040 -background white -font splainf
       .${win_name}.f.out.text tag configure white -foreground white -background black
-      .${win_name}.f.out.text tag configure url -foreground #000080 -background white -font bboldf -underline true
-      .${win_name}.f.out.text tag configure url -foreground #000080 -background white -font bboldf -underline true
+      .${win_name}.f.out.text tag configure url -foreground #000080 -background white -font splainf -underline true
 
 
       bind .${win_name}.f.out.text <Configure> "adjust_yscroll .${win_name}.f.out.text .${win_name}.f.out.ys 0 1"
@@ -1328,10 +1326,10 @@ namespace eval ::amsn {
 
       bind .${win_name}.f.in.f.send <Return> \
          "::amsn::MessageSend .${win_name} .${win_name}.f.in.input; break"
-      bind .${win_name}.f.in.input <Control-Return> {%W insert insert "\n"; break}
-      bind .${win_name}.f.in.input <Shift-Return> {%W insert insert "\n"; break}
-      bind .${win_name}.f.in.input <Control-KP_Enter> {%W insert insert "\n"; break}
-      bind .${win_name}.f.in.input <Shift-KP_Enter> {%W insert insert "\n"; break}
+      bind .${win_name}.f.in.input <Control-Return> {%W insert insert "\n"; %W see insert; break}
+      bind .${win_name}.f.in.input <Shift-Return> {%W insert insert "\n"; %W see insert; break}
+      bind .${win_name}.f.in.input <Control-KP_Enter> {%W insert insert "\n"; %W see insert; break}
+      bind .${win_name}.f.in.input <Shift-KP_Enter> {%W insert insert "\n"; %W see insert; break}
       bind .${win_name}.f.in.input <Control-Alt-space> BossMode
 
       bind .${win_name}.f.in.input <Button3-ButtonRelease> "tk_popup .${win_name}.copypaste %X %Y"
@@ -1361,7 +1359,7 @@ namespace eval ::amsn {
       .${win_name}.menu.msn entryconfigure 3 -state normal
       .${win_name}.menu.actions entryconfigure 5 -state normal
 
-		#Better binding, works for tk 8.4 only (see proc TypingNotification too)
+		#Better binding, works for tk 8.4 only (see proc  tification too)
 		if { [catch {
 		   .${win_name}.f.in.input edit modified false
 		   bind .${win_name}.f.in.input <<Modified>> "::amsn::TypingNotification .${win_name}"
@@ -1810,8 +1808,16 @@ namespace eval ::amsn {
    proc PutMessage { chatid user msg type fontformat } {
 
       global config
-	
-      WinWrite $chatid "[timestamp] [trans says [lindex [::MSN::getUserInfo $user] 1]]:\n" gray
+		
+		set tstamp [timestamp]
+		set says "$tstamp [trans says [list]]:"
+		
+      set win_name [WindowFor $chatid]		
+		set maxw [winfo width $win_name.f.out.text]
+		incr maxw [expr -10-[font measure splainf -displayof $win_name "$says"]]
+		set user_trunc [trunc [lindex [::MSN::getUserInfo $user] 1] $win_name $maxw splainf]
+		#set user_trunc [lindex [::MSN::getUserInfo $user] 1]
+      WinWrite $chatid "$tstamp [trans says $user_trunc]:\n" gray
       WinWrite $chatid "$msg\n" $type $fontformat
 	   
       if {$config(keep_logs)} {
@@ -1979,12 +1985,14 @@ namespace eval ::amsn {
       if { [WindowFor $chatid] == 0} {
          return 0
       }
+		
 
        if { [lindex [${win_name}.f.out.ys get] 1] == 1.0 } {
 	   set scrolling 1
        } else {
 	   set scrolling 0
        }
+		 
 
       set fontname [lindex $fontformat 0]
       set fontstyle [lindex $fontformat 1]      
@@ -2018,7 +2026,6 @@ namespace eval ::amsn {
       ${win_name}.f.out.text insert end "$txt" $tagid
       
       
-      
       #TODO: Make an url_subst procedure, and improve this using regular expressions
       variable urlcount
       variable urlstarts
@@ -2050,7 +2057,7 @@ namespace eval ::amsn {
 	   set urlname "url_$urlcount"
 
 	   ${win_name}.f.out.text tag configure $urlname \
-	      -foreground #000080 -background white -font bboldf -underline true
+	      -foreground #000080 -background white -font splainf -underline true
 	      ${win_name}.f.out.text tag bind $urlname <Enter> \
 	      "${win_name}.f.out.text tag conf $urlname -underline false;\
 	      ${win_name}.f.out.text conf -cursor hand2"
@@ -2069,6 +2076,7 @@ namespace eval ::amsn {
       if {$config(chatsmileys)} {
 	  smile_subst ${win_name}.f.out.text $text_start 1
       }
+		
 
 #      vwait smileys_end_subst
 
@@ -2076,6 +2084,7 @@ namespace eval ::amsn {
       ${win_name}.f.out.text configure -state disabled
       
       WinFlicker $chatid
+		
 
    }
    #///////////////////////////////////////////////////////////////////////////////
@@ -3883,8 +3892,8 @@ proc ShowUser {user_name user_login state state_code colour section grId} {
            } else {
               #Middle line, no status description and no status icon
 				  set strw [expr {$maxw+$statew+25}]
-           }
-			  set current_line [trunc $current_line $pgBuddy.text $strw splainf]
+           } 
+			  set current_line [trunc $current_line $pgBuddy $strw splainf]
         }
 
         $pgBuddy.text insert $section.last "$current_line" $user_unique_name
@@ -3998,7 +4007,7 @@ proc trunc {str {window ""} {maxw 0 } {font ""}} {
 	if { $window == "" || $font == "" || $config(truncatenames)!=1} {
 		return $str
 	}
-          
+
 	for {set idx 0} { $idx <= [string length $str]} {incr idx} {
 		if { [font measure $font -displayof $window "[string range $str 0 $idx]..."] > $maxw } {
 			if { [string index $str end] == "\n" } {
@@ -4008,7 +4017,6 @@ proc trunc {str {window ""} {maxw 0 } {font ""}} {
 			}
 		}
 	}
-    
 	return $str
     
     set elen 3  ;# The three characters of "..."
