@@ -1,0 +1,165 @@
+amsn_lang_version 2
+about О программе
+acceptfile Accept file $1, size $2? Saved in $3
+actions Действия
+addacontact Добавить пользователя
+addedyou добавил(а) вас в свой контакт-лист
+addtocontacts Добавить в контакт-лист
+addtoo Добавить этого пользователя в мой контакт-лист
+admincontacts Редактировать пользователей
+admingroups Редактировать группы
+adverts Реклама
+allowseen Разрешить этому пользователю видеть мой статус и добавлять меня в свой контакт-лист
+appearoff Отключен
+are 
+autohotmaillog Автоматический вход на Hotmail
+autoip Автоматичекий показ IP
+avoidseen Запретить пользователю видеть мой статус и добавлять меня в контакт-лист
+away Ушел
+baduserpass Неверное имя пользователя или пароль
+blankdirect Оставить пустым для прямого соединения
+block Блокировать
+blocked Заблокировано
+browser Браузер
+busy Занят
+cancel Отменить
+changenick Изменить ник
+chat Чат
+chatreq Запрос чата
+chatsmileys Смайлики
+chatack Подтверждение чата от
+checkver Новая версия
+checkingver Проверка новой версии
+clicktologin Кликните для входа
+close Закрыть
+closingdocks Закрыть док
+command Команда
+confirmdelete Вы уверены что хотите удалить $1?
+contactadded Пользователь добавлен
+contactdoesnotexist Пользователь не существует
+connecterror Ошибка соединения с сервером
+copytogroup Скопировать в группу 
+date Дата
+delete Удалить
+enableproxy Включить прокси
+entercontactemail Введите контактный e-mail
+enterfilename Введите имя файла
+enternick Введите ваш ник
+examples Примеры
+exitamsn Вы уверены, что хотите выйти?
+extras Дополнительные возможности
+filedoesnotexist Файл не существует
+filename Имя файла
+filetransfercancelled Передача файла отменена
+filetransfercomplete Передача файла завершена
+gonelunch Ушел поесть
+group Группа
+groupadd Добавить группу
+groupdelete Удалить группу
+grouprename Переименовать группу
+groupoldname Старое имя
+groupnewname Новое имя
+groupunknown Неизвестная группа
+groupexists Группа уже существует
+groupmissing Невозможно найти группу
+groupnotempty Группа не пуста!
+handle Handle
+help Помощь
+helpcontents Помощь
+home Домой
+ident Идентификация
+identity Идентичность
+inbox Входящие
+invalidusername Неправильное имя пользователя
+invite Пригласить
+ipaddress IP адрес
+is 
+joins $1 $2 присоединяется к беседе
+language Язык
+leaveblankforhotmail Оставьте путым для использования почты Hotmail
+leaves $1 покидает беседу
+listeningon Прослушивание порта $1
+listsmileys Список смайликов
+loadcontacts Загрузить контакт-лист
+loggedotherlocation Отключено. Подключение в другом месте
+loggingin Подключение
+login Подключиться
+loginas Подключиться как
+logout Отключиться
+logsin подключиться
+mailer Почтовая программа
+mobile Мобильный
+movetogroup Переместить в группу
+mustrestart Для изменения настроек требуется перезапуск программы
+mystatus Мой статус
+msg Сообщение
+msn AMSN
+needonline Вы до сих пор отключены
+newmail $1 новых сообщение во Входящих
+newmailfrom Новая почта от
+newmsg Новое сообщение
+newveravailable Новая версия $1 доступна для скачивания
+next Следующая
+noactivity Нет активности
+nonewmail Нет новых сообщений во Входящих
+nonewver Нет новых версий для скачивания
+notify удостовериться
+nousersinsession Нет пользователей в сессии
+ok ОК
+offline Отключиться
+onenewmail 1 новое сообщение во Входящих
+online На связи
+onphone На телефоне
+openreceived Открыть полученные файлы
+options настройки
+ordercontactsby Сортировать пользователей по
+other Другое
+pager Пейджер
+pass Пароль
+phone Телефон
+port Порт
+prefapps Программы
+preferences Настройки
+prefsound Звуки
+properties Настройки
+proxyconf настройка прокси
+proxyconfhttp настройка поддержки http прокси
+publishphones Публиковать номера моих телефонов
+receivedbytes Получено $1 из $2 байт
+receivefile Получить файл
+reconnect Ожидание $1 до повторного подключения
+reconnecting Повторное подключение 
+rememberpass Вспомнить пароль
+rightback Сейчас вернусь
+save Сохранить
+saveas Сохранить как
+savecontacts Сохранить контакт-лист
+says $1 говорит
+sbcon Соединение со  Switch Board
+send Отправить
+sendfile Отправить файл
+sendmail Отправить почту
+sendmsg Отправить сообщение
+sentbytes Отправлено $1 из $2 байт
+server Сервер
+servergoingdown Отключено: сервер в дауне
+sound Звук событий
+startoffline Запуск в отключенном состоянии
+status Статус
+syntaxerror  Синтаксическая ошибка
+textsize Обьем текста
+title Al's Messenger
+to Кому
+tools инструменты
+typing $1 печатает сообщение
+yousay Вы говорите
+youwant Вы хотите
+unblock Разблокировать
+uoffline Отключиться
+uonline Подключиться
+user Пользователь
+useralreadyonlist Пользователь уже добавлен в контакт-лист
+version Версия
+view Вид
+willjoin Ожидание пока $1 вступит в разговор 
+work Работа
