@@ -426,7 +426,9 @@ namespace eval ::plugins {
 				# increase the counter
 				incr idx
 			}
-
+			if {$idx > "15"} {
+				$w.select.plugin_list configure -height $idx
+			}
 			#do the bindings
 			bind $w.select.plugin_list <<ListboxSelect>> "::plugins::GUI_NewSel"
 			bind $w <<Escape>> "::plugins::GUI_Close"
@@ -1462,7 +1464,6 @@ namespace eval ::plugins {
 			if { [catch {get_OnlineVersion "$pathinfo" "$name"}] || ![file writable $pathinfo] } {
 				continue
 			}
-
 			# If the online plugin is compatible with the current version of aMSN
 			if { [::plugins::CheckRequirements $::plugins::plgonlinerequire] } {
 
