@@ -2801,8 +2801,9 @@ proc cmsn_sb_msg {sb_name recv} {
 			} elseif { $guid == "{02D3C01F-BF30-4825-A83A-DE7AF41648AA}" } {
 				# We got an audio only invitation or audio/video invitation
 				set context [::MSN::GetHeaderValue $body Context-Data]
-				
-				::MSNAV::invitationReceived $cookie $context $chatid $fromlogin
+			#Remove the # on the next line if you want to test audio/video feature (with Linphone, etc...)
+			#Ask Burger for more details..	
+			#	::MSNAV::invitationReceived $cookie $context $chatid $fromlogin
 			}
 		
 		} elseif { $invcommand == "ACCEPT" } {
