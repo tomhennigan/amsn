@@ -346,6 +346,9 @@ namespace eval ::smiley {
 			#Get the first symbol for that smiley
 			set symbol [lindex [ValueForSmiley $name symbols] 0]
 			
+			#This must be cached due to a race condition (if you double click
+			#the smileys menu for first time, the second click can launch
+			#this procedure without all smileys having been created
 			catch { 
 				#TODO: Improve this now we know about quoting a bit more?
 				if { [string match {(%)} $symbol] != 0 } {
@@ -363,6 +366,10 @@ namespace eval ::smiley {
 		foreach name [::config::getKey customsmileys] {
 			array set emotion $custom_emotions($name)
 			set symbol [lindex $emotion(text) 0]
+			
+			#This must be cached due to a race condition (if you double click
+			#the smileys menu for first time, the second click can launch
+			#this procedure without all smileys having been created
 			catch { 
 				#TODO: Improve this now we know about quoting a bit more?
 				if { [string match {(%)} $symbol] != 0 } {
@@ -370,14 +377,14 @@ namespace eval ::smiley {
 				} else {
 					bind $w.c.$temp <Button1-ButtonRelease> "catch {[list $text insert insert $symbol]\; wm state $w withdrawn} res" 
 				}
-			}
-			#Add binding for custom emoticons
-			if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-				
-				bind $w.c.$temp <Button2-ButtonRelease> [list ::smiley::editCustomEmotion $name]
-				bind $w.c.$temp <Control-ButtonRelease> [list ::smiley::editCustomEmotion $name]
-			} else {
-				bind $w.c.$temp <Button3-ButtonRelease> [list ::smiley::editCustomEmotion $name]
+				#Add binding for custom emoticons
+				if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+					
+					bind $w.c.$temp <Button2-ButtonRelease> [list ::smiley::editCustomEmotion $name]
+					bind $w.c.$temp <Control-ButtonRelease> [list ::smiley::editCustomEmotion $name]
+				} else {
+					bind $w.c.$temp <Button3-ButtonRelease> [list ::smiley::editCustomEmotion $name]
+				}
 			}
 			
 			incr temp
