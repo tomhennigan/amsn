@@ -11,6 +11,7 @@ Features:
   Colour Nicks:
     Status: only deletes ·$<num> codification because
             pgBuddy only allows one colour
+	    if set in the config, it colours with the last color set in the codification
   Chat Window Commands:
     Status: adding commands when implemented (now taking
             a look at msg plus commands list for ideas)
@@ -56,4 +57,7 @@ Features:
 
 Contact:
   If you have a suggestion or some else, write to markitus@catmail.homelinux.org
+
+Thanks:
+  Thanks to all AMSN Team for helping me. Without you I couldn't have done it. :-D
     
