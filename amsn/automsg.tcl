@@ -202,7 +202,7 @@ proc CreateStatesMenu { path } {
 	} else {
 		$path add command -label "[trans changedisplaypic]..." -command pictureBrowser -state disabled
 	}
-	$path add command -label "[trans cfgalarmall]..." -command "alarm_cfg all"
+	$path add command -label "[trans cfgalarmall]..." -command "::alarms::configDialog all"
 #	statusicon_proc [MSN::myStatusIs]
 
 	if { $config(dock) != 0 && [winfo exists $iconmenu.imstatus] && $path != "$iconmenu.imstatus" } {

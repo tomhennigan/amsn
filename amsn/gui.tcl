@@ -4968,7 +4968,7 @@ proc ShowUser {user_name user_login state_code colour section grId} {
 		$pgBuddy.text window create $section.last -window $pgBuddy.text.$imagee  -padx 1 -pady 1
 		bind $pgBuddy.text.$imagee <Button1-ButtonRelease> "switch_alarm $user_login $pgBuddy.text.$imagee"
 
-		bind $pgBuddy.text.$imagee <<Button3>> "alarm_cfg $user_login"
+		bind $pgBuddy.text.$imagee <<Button3>> "::alarms::configDialog $user_login"
 	}
 
 
@@ -6027,7 +6027,7 @@ proc show_umenu {user_login grId x y} {
 
 	# Display Alarm Config settings
 	.user_menu add separator
-	.user_menu add command -label "[trans cfgalarm]" -command "alarm_cfg ${user_login}"
+	.user_menu add command -label "[trans cfgalarm]" -command "::alarms::configDialog ${user_login}"
 
 	tk_popup .user_menu $x $y
 }
