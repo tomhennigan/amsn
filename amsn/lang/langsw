@@ -5,12 +5,7 @@ acceptfile Vill du ta emot filen $1 ( $2 bytes ) Den kommer att sparas i $3
 actions Åtgärder
 addacontact Lägg till en kontakt
 addedyou $1 ($2) har lagt till dig på sin kontaktlista.
-addprofiledesc Skriv in det login som du vill skapa profil för. \nProfilerade logins gör så att du kan ha olika inställningar för varje användare som använder aMSN på din dator. \nUtan Profiler så kan du inte använda Historian, Larmen eller ställa in så att aMSN kommer ihåg ditt lösenord.
-addprofile Lägg till ny profil
-addstate Lägg till ny
-addtocontacts Lägg till på din kontaktlista.
-addto Lägg till i $1
-addtoo Lägg till denna person på kontaktlistan.
+addprofiledesc Skriv in det login som du vill skapa profil för. \nProfilerade logins gör så att du kan ha olika inställningar för varje användare som använder aMSN på din dator. \nUtan Profiler så kan du inte använda Historian, Larmen eller ställa in så att aMSN kommer ihåg ditt lösenord.addprofile Lägg till ny profiladdstate Lägg till nyaddtocontacts Lägg till på din kontaktlista.addto Lägg till i $1addtoo Lägg till denna person på kontaktlistan.
 admincontacts Administrera kontakter.
 admingroups Administrera grupper.
 adverts Reklam
@@ -40,8 +35,7 @@ autohotmaillog Automatisk inloggning
 autoidle Sätt min status till Inte vid datorn automatiskt.
 autoip Automatisk IP
 autonoact Visa som "Ingen Aktivitet" efter
-avoidseen Tillåt inte att denna person kan se att jag är uppkopplad eller skriva till mig.
-away Inte vid datorn
+avoidseen Tillåt inte att denna person kan se att jag är uppkopplad eller skriva till mig.away Inte vid datorn
 awaymsg1 Fråga efter meddelande varje gång jag sätter min status till ingen
 awaymsg2 Fråga aldrig och använd alltid nedanstående meddelande
 baduserpass Ogiltigt användarnamn eller lösenord.
@@ -64,8 +58,7 @@ browserexample ( \$url byts ut mot URLen). Ex: opera \$url
 browser Webbläsare
 busy Upptagen
 cancel Avbryt
-cannotdeleteprofile Kan inte ta bort profilen eftersom det verkar som om den används av en Amsn session
-cantexec Kan inte köra: $1. Kolla inställningarna.
+cannotdeleteprofile Kan inte ta bort profilen eftersom det verkar som om den används av en Amsn sessioncantexec Kan inte köra: $1. Kolla inställningarna.
 casesensitive Skilj på stora och små bokstäver
 cfgalarm Konfigurera alarm
 changedisplaypic Ändra visningsbild
@@ -79,8 +72,7 @@ chatreq Efterfrågar chat
 chatsmileys2 Visa 'Emoticons' och Smileys i chat-fönster
 chatsmileys Chat smileys
 checkblocking Kolla om användare blockerar dig kontinuerligt.
-checkfilman Inkomna filer sparas i $1. Välj filhanterare i programinställningarna.
-checkingver Kollar efter nya versioner
+checkfilman Inkomna filer sparas i $1. Välj filhanterare i programinställningarna.checkingver Kollar efter nya versioner
 checkonfln Kolla om användaren blockerade dig då användaren kopplar ner
 checkver Kolla efter ny version
 choosearq Välj din systemarkitektur
@@ -138,9 +130,7 @@ editcurrentstate Ändra
 editnewstate Nytt awaymeddelande
 editprofile Editera Profil
 edit Redigera
-editstate Ändra det nuvarande automeddelandet eller spara alarm eller lösenord. $1 Om du väljer att skapa profil för denna 
-emotisounds Spela upp ljud vid vissa emoticons
-enableproxy Aktivera proxy
+editstate Ändra det nuvarande automeddelandet eller spara alarm eller lösenord. $1 Om du väljer att skapa profil för denna emotisounds Spela upp ljud vid vissa emoticonsenableproxy Aktivera proxy
 enableremote Aktivera fjärranslutning
 enablesound Aktivera ljud
 encoding2 Välj vilken charmap du ska använda
@@ -166,12 +156,10 @@ ftaccepting Accepterar filöverföring
 ftconnecterror Fel: Kan inte ansluta till användaren
 ftconnecting Ansluter till $1 på port $2
 ftconnectionlost Anslutningen till användare avbröts
-ftgotinvitation $1 vill skicka filen '$2' ($3 bytes). Den kommer sparas i $4. Vill du ta emot filen?
-ftportpref Port för filer
+ftgotinvitation $1 vill skicka filen '$2' ($3 bytes). Den kommer sparas i $4. Vill du ta emot filen?ftportpref Port för filer
 ftrejectedby $1 nekade filöverföringen av '$2'.
 ftrejected Filöverföring nekades.
-ftsendinvitation Filöverföringsförfrågan på '$2' ($3 bytes) har skickats till $1.
-getdisppic Aktivera nerladdning av andra användares visningsbilder
+ftsendinvitation Filöverföringsförfrågan på '$2' ($3 bytes) har skickats till $1.getdisppic Aktivera nerladdning av andra användares visningsbilder
 gonelunch På lunch
 groupadd Lägg till grupp
 groupdelete Ta bort gruppen
@@ -196,16 +184,7 @@ hybrid Hybridläge
 ident Identifiering
 identity Identitet
 inbox Inkorg
-installconvert Du måste installera ImageMagick (konverteringsprogram) för att konvertera bilderna till det format som krävs av MSNs servrar. Du kan ladda ner dom binära filerna för ditt operativsystem från ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Om du redan har ImageMagick så har du hittat en bug. Rapportera det till skaparna av aMSN.
-internalerror Internt serverfel
-invalidfile $2 som du skrev i "$1" finns inte eller är inte läsbar.
-invalidusername Ogiltigt användarnamn
-invitationcancelled Inbjudan avböjdes
-invite Bjud in
-ipaddress IP Adress
-ipdetect Sök efter korrekt IP-adress för Filöversändelser via HTTP
-istyping $1 skriver ett meddelande
-joins $1 kommer in i konversationen
+installconvert Du måste installera ImageMagick (konverteringsprogram) för att konvertera bilderna till det format som krävs av MSNs servrar. Du kan ladda ner dom binära filerna för ditt operativsystem från ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Om du redan har ImageMagick så har du hittat en bug. Rapportera det till skaparna av aMSN.internalerror Internt serverfelinvalidfile $2 som du skrev i "$1" finns inte eller är inte läsbar.invalidusername Ogiltigt användarnamninvitationcancelled Inbjudan avböjdesinvite Bjud inipaddress IP Adressipdetect Sök efter korrekt IP-adress för Filöversändelser via HTTPistyping $1 skriver ett meddelandejoins $1 kommer in i konversationen
 keepalive Stäng aldrig av förbindelse till NAT/Proxy server
 keeplog2 Spara alla aMSN loggar
 keeplog Spara chatt-loggar
@@ -247,8 +226,7 @@ mobile Mobil
 morepersonal Mer ->
 move Flytta
 movetogroup Flytta till grupp
-msgflicker Blinka fönstertiteln då du får ett nytt meddelande på ett ofokuserat fönster
-msgmaxmin När ett nytt meddelande kommer så vill jag att det ska vara :
+msgflicker Blinka fönstertiteln då du får ett nytt meddelande på ett ofokuserat fönstermsgmaxmin När ett nytt meddelande kommer så vill jag att det ska vara :
 msg Meddelande
 msgmode Välj hur meddelanderutor ska hanteras :
 msn AMSN
@@ -273,9 +251,7 @@ no Nej
 nonewmail Inga nya meddelanden i Inkorgen
 nonewver Det finns inga nya versioner att ladda ner
 nopic Ingen bild
-noprofileexists Det finns för tillfället inga profiler. \n Du måste skapa en om du vill kunna använda profiler. \n Lägg till en profil med hjälp av knapparna.
-normal Normal
-nosystemtray Aktivitetsfältet är inte tillängligt
+noprofileexists Det finns för tillfället inga profiler. \n Du måste skapa en om du vill kunna använda profiler. \n Lägg till en profil med hjälp av knapparna.normal Normalnosystemtray Aktivitetsfältet är inte tillängligt
 notify1_5 Visa ruta när en användare kopplar ner
 notify1_75 Visa ruta när en användare byter status
 notify1 Visa meddelanderuta när någon loggar in
@@ -284,10 +260,7 @@ notify3 Visa meddelanderuta när nya e-mails ankommer
 notify Meddela
 notifyoffset Välj meddelanderutans position
 notifywin Visa meddelanderuta när någon loggar in
-notls MSN Protocol 9 kräver TLS-paketet. TLS verkar inte vara installerat på denna dator. Om det är installerat så ska sökvägen till TLS vara specifierad i Inställningar. \n Du kan ladda ner TLS från http://tls.sf.net.
-nousersinsession Inga användare i konversationen
-offline Frånkopplad
-ok Ok
+notls MSN Protocol 9 kräver TLS-paketet. TLS verkar inte vara installerat på denna dator. Om det är installerat så ska sökvägen till TLS vara specifierad i Inställningar. \n Du kan ladda ner TLS från http://tls.sf.net.nousersinsession Inga användare i konversationenoffline Frånkoppladok Ok
 onenewmail 1 nytt meddelande i Inkorgen
 online Online
 onphone Pratar i telefon
@@ -337,9 +310,7 @@ prefshared Delade anslutningar (endast för NAT)
 prefsound Ljudinställningar
 privacy Integritet
 profiledconfig Profilkonfiguration
-profileexists Du kan inte skapa en profil med detta inloggningsnamnet eftersom det redan finns.
-profileinuse Denna profil används redan av en annan Amsn session, välj en annan.
-profileloginradio Logga in med en existerande profil
+profileexists Du kan inte skapa en profil med detta inloggningsnamnet eftersom det redan finns.profileinuse Denna profil används redan av en annan Amsn session, välj en annan.profileloginradio Logga in med en existerande profil
 profiles Profiler
 properties Egenskaper
 proxyconfhttp HTTP proxysupport konfiguration
@@ -348,12 +319,7 @@ proxyconnection Jag ansluter till internet via en proxyserver:
 proxy Jag använder en proxyserver (HTTP eller SOCKS5)
 publishphones Dela ut mina telefonnummer
 raised Maximerad
-readonlymsgbox Du kan inte ta emot filen för att mappen som den sparas i är skrivskyddad. Ta bort skrivskyddet och ta emot filen igen.
-readonlywarn VARNING: Filen kommer INTE bli sparad eftersom mappen "Mottagna filer" verkar vara icke-skrivbar. Ge mappen ($1) rätt rättigheter för din användare och försök igen.
-receivedbytes $1 av $2 bytes mottagna
-receivefile Ta emot fil
-reconnecting Återansluter till server
-reconnect Väntar på att $1 ska komma tillbaka
+readonlymsgbox Du kan inte ta emot filen för att mappen som den sparas i är skrivskyddad. Ta bort skrivskyddet och ta emot filen igen.readonlywarn VARNING: Filen kommer INTE bli sparad eftersom mappen "Mottagna filer" verkar vara icke-skrivbar. Ge mappen ($1) rätt rättigheter för din användare och försök igen.receivedbytes $1 av $2 bytes mottagnareceivefile Ta emot filreconnecting Återansluter till serverreconnect Väntar på att $1 ska komma tillbaka
 reject Avslå
 rememberpass Kom ihåg lösenordet
 removefromlist Ta bort från denna lista
@@ -385,28 +351,18 @@ skinselector Välj skin
 skin Skin
 smileconfig Specialgjorda emoticonkonfiguration
 smilefile Smileyns filnamn
-smileintro2 Ändra dom nödvändiga fälten för att ändra denna smileyn (läs FAQ för hjälp)
-smileintro Fyll i dom nödvändiga fälten för att skapa en ny smiley (läs FAQn för hjälp)
-sound2 Spela upp ljud när en kontakt loggar in eller skickar meddelande
-soundcommand Program som ska användas Â för att spela upp ljud (t.ex: esdplay)
-soundexample ( \$sound = Ljudfilen som ska spelas upp) Ex: esdplay \$sound
-soundfile Ljud för informationsmeddelanden.
+smileintro2 Ändra dom nödvändiga fälten för att ändra denna smileyn (läs FAQ för hjälp)smileintro Fyll i dom nödvändiga fälten för att skapa en ny smiley (läs FAQn för hjälp)sound2 Spela upp ljud när en kontakt loggar in eller skickar meddelandesoundcommand Program som ska användas Â för att spela upp ljud (t.ex: esdplay)soundexample ( \$sound = Ljudfilen som ska spelas upp) Ex: esdplay \$soundsoundfile Ljud för informationsmeddelanden.
 sound Ljud
 soundloop Upprepa ljudet i en slinga.
 soundserver Ljudserver
 soundstatus Stäng av /sätt på signalljud.
 sourcecode källkod (behöver kompileras och installeras)
-sslwarning VARNING!! Om du avaktiverar SSL så avaktiveras även kryptering, så ditt lösenord kommer skickas som ren text över nätverket. Använd endast för proxies som inte fungerar annars.
-startoffline2 Logga in som "Visa som offline"
-startoffline Starta som "Visa som Offline"
-stateautomsg Automeddelande som skickas
-statechange ändrade status till: 
+sslwarning VARNING!! Om du avaktiverar SSL så avaktiveras även kryptering, så ditt lösenord kommer skickas som ren text över nätverket. Använd endast för proxies som inte fungerar annars.startoffline2 Logga in som "Visa som offline"startoffline Starta som "Visa som Offline"stateautomsg Automeddelande som skickasstatechange ändrade status till: 
 stateedittext Ändra fälten till det som du \n vill ha och tryck Spara
 stateinfo Personligt meddelandekonfiguration
 state Jag vill vara	
 statename Namn på det personliga medelandet:
-statenewtext Fyll i den nödvändiga informationen för att skapa \n meddelande och tryck Spara
-status Status
+statenewtext Fyll i den nödvändiga informationen för att skapa \n meddelande och tryck Sparastatus Status
 stopalarm Stoppa alla varningar.
 stylechat Samma utseende som chat
 stylehist aMSN's logutseende
@@ -416,18 +372,7 @@ tabbed Tabbade fönsnter
 textsize Textstorlek
 timeremaining Återstående tid
 title Al's Messenger
-tlsdowncompleted Filen $1 laddades ner till $2. Du måste packa upp den och installera den i $3.
-tlsinstallexp AMSN använder MSNP9 vilket kräver en säker anslutning via SSL. \n För att kunna använda AMSN med SSL så måste du installera en modul som heter TLS, \nsom inte finns på denna dator. AMSN kommer hjälpa dig att ladda ner och installera TLS. Välj rätt system så laddas TLS automatiskt ner.
-tlsinstall TLS installation
-tlsinstcompleted TLS installerades. Nu ska du kunna använda MSNP9. Om det inte fungerar så valde du antingen fel modul, eller så var den modulen du valde inte tillänglig för ditt system.
-tools Verktyg
-tooltips Aktivera tooltips
-to Till
-transnotexists Filen har inte blivit översatt till det nuvarande språket än.
-traynotcompiled Aktivitetsfältsikon pluginet har inte kompileras. Kolla i plugins/traydock
-triggers Text
-twonewmail $1 nya meddelanden i Inkorgen
-unblock Ta bort blockering
+tlsdowncompleted Filen $1 laddades ner till $2. Du måste packa upp den och installera den i $3.tlsinstallexp AMSN använder MSNP9 vilket kräver en säker anslutning via SSL. \n För att kunna använda AMSN med SSL så måste du installera en modul som heter TLS, \nsom inte finns på denna dator. AMSN kommer hjälpa dig att ladda ner och installera TLS. Välj rätt system så laddas TLS automatiskt ner.tlsinstall TLS installationtlsinstcompleted TLS installerades. Nu ska du kunna använda MSNP9. Om det inte fungerar så valde du antingen fel modul, eller så var den modulen du valde inte tillänglig för ditt system.tools Verktygtooltips Aktivera tooltipsto Tilltransnotexists Filen har inte blivit översatt till det nuvarande språket än.traynotcompiled Aktivitetsfältsikon pluginet har inte kompileras. Kolla i plugins/traydocktriggers Texttwonewmail $1 nya meddelanden i Inkorgenunblock Ta bort blockering
 uoffline Nedkopplad
 uonline Uppkopplad
 useralreadyonlist Användaren finns redan i listan
@@ -442,8 +387,7 @@ viewprofile Se Profil
 willjoin Väntar på att $1 ska ansluta sig till konversationen
 work Arbete
 wrongfields Fältet "$1", "$2" och/eller "$3" är inte giltigt.
-wrongprofileversion Fel profilversion. För att fixa det, ta bort $1 eller uppgradera Amsn
-xoffset X position
+wrongprofileversion Fel profilversion. För att fixa det, ta bort $1 eller uppgradera Amsnxoffset X position
 yes Ja
 yoffset Y position
 youblocked Du har blivit blockerad
@@ -461,35 +405,20 @@ cfgalarmall	Ändra/Lägg till/Ta bort globalt larm
 changecustomstate	Byt till
 ch_to_state	Byt till nytt stadie
 commandstatus	Utför kommando
-confirmpurge	Alla lagrade andras sparade bilder kommer tas bort (inte din displaybild dock). Är du säker ?
-convertexplain	Sökväg till CONVERT körbarfil, från ImageMagick (Behövs för display bilder).\n Lämna blantk om CONVERT är i sökvägen
-corruptconfig	Configurationsfilen är trasig. Skapa en ny fil. Den gamla filen sparas till $1. Skicka den gärna till oss så vi får se vad som hände.
-corruptstates	Eget tillstånds konfigurationsfilen är felaktig. Skapa en ny. Gamla filen sparas till $1. Vänligen skicka till oss och berätta vad som hände.
-defchatwinsize	Standard storlek för chattfönster (XSIZExYSIZE)
-deletecustomstate	Ta bort eget tillstånd
-delimiters	Timestamps' delimiters:
-disabled	Avaktivera
-disableprofiles	Avaktivera profilers (nyttigt för cyber-cafes or delade miljöer)
-displaychat	Visa text preferenser
-dontshow	Visa inte
-editcustomstate	Edit custom state
+confirmpurge	Alla lagrade andras sparade bilder kommer tas bort (inte din displaybild dock). Är du säker ?convertexplain	Sökväg till CONVERT körbarfil, från ImageMagick (Behövs för display bilder).\n Lämna blantk om CONVERT är i sökvägencorruptconfig	Configurationsfilen är trasig. Skapa en ny fil. Den gamla filen sparas till $1. Skicka den gärna till oss så vi får se vad som hände.corruptstates	Eget tillstånds konfigurationsfilen är felaktig. Skapa en ny. Gamla filen sparas till $1. Vänligen skicka till oss och berätta vad som hände.defchatwinsize	Standard storlek för chattfönster (XSIZExYSIZE)deletecustomstate	Ta bort eget tillstånddelimiters	Timestamps' delimiters:disabled	Avaktiveradisableprofiles	Avaktivera profilers (nyttigt för cyber-cafes or delade miljöer)displaychat	Visa text preferenserdontshow	Visa inteeditcustomstate	Edit custom state
 editvalue	Ändra värde:
 emailsinlist	Visa e-mail-adresser istället för nicks i kontaktlistan
 enablebanner	Visa aMSN's banner (kräver omstart av aMSN)
 enabled	Enabled
 faileddelete	Misslyckades med att ta bort
-faileddeleteperso	Bilden kan inte tas bort. Endast bilder som hör ihop med dina personliga profiler kan tas bort på detta sätt.
-failed	Misslyckades
+faileddeleteperso	Bilden kan inte tas bort. Endast bilder som hör ihop med dina personliga profiler kan tas bort på detta sätt.failed	Misslyckades
 file	Fil
-fullcontactlist	Tyvärr är din kontaktlista full. Du måste ta bort en del för att kunna lägga till fler.
-imagefiles	Bildfiler
+fullcontactlist	Tyvärr är din kontaktlista full. Du måste ta bort en del för att kunna lägga till fler.imagefiles	Bildfiler
 insertsmiley	Lägg till smilie
 lineflushlog	Flusha log-filerna efter varje rad
-longnick	Ditt nick är längre än 130 tecken. Detta är inte stödjs inte officellt av MSN-protokollet. Vill du använda det ändå ?
-mypic	Min visningsbild:
+longnick	Ditt nick är längre än 130 tecken. Detta är inte stödjs inte officellt av MSN-protokollet. Vill du använda det ändå ?mypic	Min visningsbild:
 newstate	Lägg till specificerat tillstånd
-noskins	Kunde inte hitta standard-utseendet i mappen skins/. Kan inte starta AMSN
-notificationserver	Initiera MSN Notification Server (MSN Messenger Server)
+noskins	Kunde inte hitta standard-utseendet i mappen skins/. Kan inte starta AMSNnotificationserver	Initiera MSN Notification Server (MSN Messenger Server)
 notifytyping	Skicka medelanden till andra vid skrivning
 others	Andra
 picbrowser	Visa bilderbläddrare
@@ -501,15 +430,20 @@ serverunavailable	Servern är otillgänglig
 shownotify	Visa medelande när något händer
 soundfiles	Ljudfiler
 startontray	Starta AMSN i tray endast
-storenickname	Återvänd till orginal tillståndet efter det speciella specificerade tillståndet med det specificerade nicket
-strictfonts	Begränsa alla fonters storlek till den jag valt (Statusbar och annat)
-temp_state	Spara inte (Nuvarande tillstånd kommer saknas när du stänger AMSN)
-timestamps	Aktivera tidsstämpel i chattfönster
-tkerror		TK har fått ett fel, det är ingen burk i AMSN, vänligen rapportera buggen. Skicka filen till $1 amsn-bugs@lists.sf.net
-tlsexplain	Mappen där tcl TLS-modulen ligger. Om AMSN inte kan lokalisera den, specificera den.\n(Krävs för SSL authentication).
-truncatenames1	Trunkera nicks längre än fönstrets bred i fönster-titlar samt kontaktlista
-truncatenames2	Trunkera nicks längre än fönstrets bred inuti konversationer
-truncatenicks	Trunkera nicks längre än fönstrets bred
-xmmscurrent	Visa sången som spelas.
-xmmserr		Ingenting spelas eller så har du inte xmms-infopipe installerat.
-xmmssend	Skicka sången som spelas
+storenickname	Återvänd till orginal tillståndet efter det speciella specificerade tillståndet med det specificerade nicketstrictfonts	Begränsa alla fonters storlek till den jag valt (Statusbar och annat)temp_state	Spara inte (Nuvarande tillstånd kommer saknas när du stänger AMSN)timestamps	Aktivera tidsstämpel i chattfönstertkerror		TK har fått ett fel, det är ingen burk i AMSN, vänligen rapportera buggen. Skicka filen till $1 amsn-bugs@lists.sf.nettlsexplain	Mappen där tcl TLS-modulen ligger. Om AMSN inte kan lokalisera den, specificera den.\n(Krävs för SSL authentication).truncatenames1	Trunkera nicks längre än fönstrets bred i fönster-titlar samt kontaktlistatruncatenames2	Trunkera nicks längre än fönstrets bred inuti konversationertruncatenicks	Trunkera nicks längre än fönstrets bredxmmscurrent	Visa sången som spelas.xmmserr		Ingenting spelas eller så har du inte xmms-infopipe installerat.xmmssend	Skicka sången som spelas
+autodetectip	Upptäck IP-adress aoutomatiskt
+cachedpics	$1 lagrade bilder
+charscounter	Räknare för antal skrivna tecken i chatt-fönstret
+checkemail	Visa antal inkomna e-post (hotmail-inboxen) i kontaktlistan.
+credits		Fett med credd till...
+currentdate	Datum
+invalidfile2	Filename $1 kunde inte skapas, kontrollera att du har rätt behörighet.
+invalidpic	Den angivna bildfilen existerar inte.
+invalidpicsize	Den angivna bilden är för stor, var god välj en mindre bild.
+invalidsound	Den angivna ljudfilen existerar inte.
+logsbydate	Ordna loggarna efter datum (se historia visas mycket fortare)
+notinlist	Du finns inte på hans/hennes kontaktlista.
+prefft		Filöverföring, "peer-to-peer" och NAT inställningar.
+rename		Byt namn
+showcachedpics	Visa lagrade visningsbilder.
+statenick	Valfritt smeknamn (lämna blankt för oförändrat smeknamn)
