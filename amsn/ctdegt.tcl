@@ -1068,22 +1068,9 @@ proc Preferences { { settings "personal"} } {
 
     catch { Rnotebook:raise $nb $Preftabs($settings) }
 
-#    switch $settings {
-#         personal { Rnotebook:raise $nb 1 }
-# 	appearance { Rnotebook:raise $nb 2 }
-#         session { Rnotebook:raise $nb 3 }
-#         loging { Rnotebook:raise $nb 4 }
-# 	connection { Rnotebook:raise $nb 5 }
-#         apps { Rnotebook:raise $nb 6 }
-#         profiles { Rnotebook:raise $nb 7 }
-# 	privacy { Rnotebook:raise $nb 8 }
-# 	default { return }
-#     }
     
     bind .cfg <Destroy> "RestorePreferences"
 	
-    tkwait visibility .cfg
-    #grab set .cfg
 
 }
 
