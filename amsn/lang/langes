@@ -69,6 +69,7 @@ blocklist Lista de Bloqueados(BL):
 blockmessage Los siguientes contactos están conectados y bloqueandote
 block No admitir
 blockusers Comprobar continuamente 
+bouncedock Animacion del icono aMSN, cuando un mensaje es recibido
 broughtby Traído a Ud. por los siguientes programadores
 browse Examinar
 browserexample ( \$url se sustituirá por la dirección). Ej: mozilla \$url
