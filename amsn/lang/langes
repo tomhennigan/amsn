@@ -147,6 +147,7 @@ servergoingdown Desconectado: El servidor se va a apagar para mantenimiento
 sound Sonido eventos
 startoffline Comenzar Desconectado
 status Estado
+syntaxerror Error de sintaxis
 textsize Tamaño del texto
 title Al's Messenger
 tools Herramientas
