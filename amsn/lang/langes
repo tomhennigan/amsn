@@ -144,6 +144,7 @@ docking Icono en bandeja de sistema
 dockingoff Desactivado
 dockkde Icono KDE
 dontdownload No descargar TLS, lo instalaré yo mismo
+dontshow No mostrar
 downloadingtls Descargando el módulo TLS desde:\n $1
 editcurrentstate Editar actual
 edit Edición

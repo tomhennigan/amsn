@@ -144,6 +144,7 @@ docking Docking
 dockingoff Docking Off
 dockkde KDE Dock
 dontdownload Don't download TLS, I'll install it myself
+dontshow Don't show
 downloadingtls Downloading TLS module from:\n $1
 editcurrentstate Edit current
 edit Edit
@@ -473,8 +474,8 @@ willjoin Waiting $1 joins conversation
 work Work
 wrongfields The "$1", "$2" and/or "$3" fields were not valid
 wrongprofileversion Wrong profile configuration file version. In order to fix it, please remove directory $1, or update aMSN
-xmmserr Nothing is playing, or you dont have xmms-infopipe installed.
 xmmscurrent Display current song
+xmmserr Nothing is playing, or you dont have xmms-infopipe installed.
 xmmssend Send current song
 xoffset X Offset
 yes Yes

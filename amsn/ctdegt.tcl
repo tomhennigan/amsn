@@ -583,8 +583,9 @@ proc Preferences { { settings "personal"} } {
 	label $lfname.1.lchatmaxmin -text [trans chatmaxmin] -padx 10
 	radiobutton $lfname.1.max -text [trans raised] -value 0 -variable config(newchatwinstate)
 	radiobutton $lfname.1.min -text [trans minimised] -value 1 -variable config(newchatwinstate)
+	radiobutton $lfname.1.no -text [trans dontshow] -value 2 -variable config(newchatwinstate)
 	pack $lfname.1.lchatmaxmin -anchor w -side top -padx 10
-	pack $lfname.1.max $lfname.1.min -side left -padx 10
+	pack $lfname.1.max $lfname.1.min $lfname.1.no -side left -padx 10
 
 	label $lfname.2.lmsgmaxmin -text [trans msgmaxmin] -padx 10
 	radiobutton $lfname.2.max -text [trans raised] -value 0 -variable config(newmsgwinstate)
@@ -1749,6 +1750,9 @@ proc getdisppic_clicked {} {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.100  2003/12/24 11:39:13  airadier
+# Added option to don't show the chat window when a user opens a chat, but wait until first message.
+#
 # Revision 1.99  2003/12/12 12:42:17  airadier
 # Some options moved into advanced preferences
 #

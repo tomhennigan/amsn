@@ -625,10 +625,10 @@ namespace eval ::amsn {
 	if { [WindowFor $chatid] == 0} {
 		return 0
   	}
-  	 
+
 	set fromname [lindex [::MSN::getUserInfo $dest] 1]
   	set txt [trans ftgotinvitation $fromname '$filename' $filesize $files_dir]
-  	set win_name [MakeWindowFor $chatid $txt]
+  	set win_name [MakeWindowFor $chatid $txt $dest]
   	WinWrite $chatid "----------\n" gray
   	WinWriteIcon $chatid fticon 3 2
   	WinWrite $chatid $txt gray
@@ -661,7 +661,7 @@ namespace eval ::amsn {
       set fromname [lindex [::MSN::getUserInfo $fromlogin] 1]
       set txt [trans ftgotinvitation $fromname '$filename' $filesize $files_dir]
 
-      set win_name [MakeWindowFor $chatid $txt]
+      set win_name [MakeWindowFor $chatid $txt $fromlogin]
       
       
      WinWrite $chatid "----------\n" gray
@@ -1052,96 +1052,112 @@ namespace eval ::amsn {
    # the 'fontformat' parameter will be used as font format.
    # The procedure will open a window if it does not exists, add a notifyWindow and
    # play a sound if it's necessary
-   proc messageFrom { chatid user msg type {fontformat ""} } {
-      global remote_auth config
+	proc messageFrom { chatid user msg type {fontformat ""} } {
+		global remote_auth config
 		variable first_message
-
-      set win_name [MakeWindowFor $chatid]
 
 
 		#If this is the first message, and no focus on window, then show notify
-		if { $first_message($win_name) == 1 } {
-
-			set first_message($win_name) 0
+		#if { $first_message($win_name) == 1 } {
 
 			set maxw [expr {$config(notifwidth)-20}]
 			incr maxw [expr 0-[font measure splainf "[trans says [list]]:"]]
 			set nickt [trunc [lindex [::MSN::getUserInfo $user] 1] . $maxw splainf]
 
-			if { ($config(notifymsg) == 1) && ([string first ${win_name} [focus]] != 0)} {
-				notifyAdd "[trans says $nickt]:\n$msg" "::amsn::chatUser $chatid"
+			#if { ($config(notifymsg) == 1) && ([string first ${win_name} [focus]] != 0)} {
+			#	notifyAdd "[trans says $nickt]:\n$msg" "::amsn::chatUser $chatid"
+			#}
+			set tmsg "[trans says $nickt]:\n$msg"
+
+		#}
+
+		set win_name [MakeWindowFor $chatid $tmsg $user]
+
+
+		if { $remote_auth == 1 } {
+
+			if { "$user" != "$chatid" } {
+				write_remote "To $chatid : $msg" msgsent
+			} else {
+				write_remote "From $chatid : $msg" msgrcv
 			}
 
 		}
 
-       if { $remote_auth == 1 } {
+		PutMessage $chatid $user $msg $type $fontformat
 
-	   if { "$user" != "$chatid" } {
-	       write_remote "To $chatid : $msg" msgsent
-	   } else {
-	       write_remote "From $chatid : $msg" msgrcv
-	   }
+		set evPar [list $user [lindex [::MSN::getUserInfo $user] 1] $msg]
+		if { "$user" != "$chatid" } {
+			::plugins::PostEvent chat_msg_sent $evPar
+		} else {
+			::plugins::PostEvent chat_msg_received $evPar
+		}
 
-	   
-	   
-       } 
-      PutMessage $chatid $user $msg $type $fontformat
-
-      set evPar [list $user [lindex [::MSN::getUserInfo $user] 1] $msg]            
-      if { "$user" != "$chatid" } {
-         ::plugins::PostEvent chat_msg_sent $evPar
-      } else { 
-	 ::plugins::PostEvent chat_msg_received $evPar
-      }
-
-            
-            
-   }
-   #///////////////////////////////////////////////////////////////////////////////
+	}
+	#///////////////////////////////////////////////////////////////////////////////
 
 
-   #Opens a window if it did not existed, and if it's first message it
-   #adds msg to notify, and plays sound if enabled
-   proc MakeWindowFor { chatid {msg ""} } {
+	#Opens a window if it did not existed, and if it's first message it
+	#adds msg to notify, and plays sound if enabled
+	proc MakeWindowFor { chatid {msg ""} {usr_name ""} } {
 
-      global config
-      variable first_message
+		global config
+		variable first_message
 
-      set win_name [WindowFor $chatid]
+		set win_name [WindowFor $chatid]
 
-      if { $win_name == 0 } {
+		if { $win_name == 0 } {
 
-          set win_name [OpenChatWindow]
-          SetWindowFor $chatid $win_name
-			 update idletasks
-          WinTopUpdate $chatid
+			set win_name [OpenChatWindow]
+			SetWindowFor $chatid $win_name
+			update idletasks
+			WinTopUpdate $chatid
 
-      }
+			if { $config(showdisplaypic) && $usr_name != ""} {
+				::amsn::ChangePicture $win_name user_pic_$usr_name
+			} else {
+				::amsn::ChangePicture $win_name user_pic_$usr_name nopack
+			}
+
+		}
 
 
-      #If this is the first message, and no focus on window, then show notify
-      if { $first_message($win_name) == 1  && $msg!="" } {
+		#If this is the first message, and no focus on window, then show notify
+		if { $first_message($win_name) == 1  && $msg!="" } {
 
-         set first_message($win_name) 0
+			set first_message($win_name) 0
 
-         if { ($config(notifymsg) == 1) && ([string first ${win_name} [focus]] != 0)} {
-            notifyAdd "$msg" "::amsn::chatUser $chatid"
-	 }
+			if { ($config(notifymsg) == 1) && ([string first ${win_name} [focus]] != 0)} {
+				notifyAdd "$msg" "::amsn::chatUser $chatid"
+			}
 
-      }
+		}
 
-      if { [string first ${win_name} [focus]] != 0 } {
+		#If no focus, and it's a message event, do something to the window
+		if { [string first ${win_name} [focus]] != 0 && $msg != ""} {
 
-         if { $config(newmsgwinstate) == 0 } {
-	    wm deiconify ${win_name}
-            raise ${win_name}
-         }
+			if { $config(newmsgwinstate) == 0 } {
+				wm state ${win_name} normal
+				wm deiconify ${win_name}
+				raise ${win_name}
+			} else {
+				wm state ${win_name} iconic
+			}
 
-         play_sound type.wav
+			play_sound type.wav
 
-      }
+		#If it's not a message event, then it's a window creation (user joins to chat)
+		} elseif { $msg == "" } {
+			if { $config(newchatwinstate) == 0 } {
+				wm state ${win_name} normal
+				wm deiconify ${win_name}
+				raise ${win_name}
+			} else {
+				wm state ${win_name} iconic
+			}
+		}
 
-      return $win_name
+		return $win_name
    }
 
    #///////////////////////////////////////////////////////////////////////////////
@@ -1305,45 +1321,35 @@ namespace eval ::amsn {
 
 
 
-   #///////////////////////////////////////////////////////////////////////////////
-   # userJoins (charid, user_login)
-   # called from the protocol layer when a user JOINS a chat
-   # It should be called after a JOI in the switchboard.
-   # If a window exists, it will show "user joins conversation" in the status bar
-   # - 'chatid' is the chat name
-   # - 'usr_login' is the user that joins email
-   proc userJoins { chatid usr_name } {
+	#///////////////////////////////////////////////////////////////////////////////
+	# userJoins (charid, user_login)
+	# called from the protocol layer when a user JOINS a chat
+	# It should be called after a JOI in the switchboard.
+	# If a window exists, it will show "user joins conversation" in the status bar
+	# - 'chatid' is the chat name
+	# - 'usr_login' is the user that joins email
+	proc userJoins { chatid usr_name } {
 
-	global config
+		global config
 
 		set win_name [WindowFor $chatid]
-      if { $win_name == 0} {
-          set win_name [OpenChatWindow]
-	  		SetWindowFor $chatid $win_name
-
-      }
-
-      #if { "$chatid" == "$usr_name" && [::MSN::chatReady $chatid] } {
-      #   return 0
-      #}
-
-      set statusmsg "[timestamp] [trans joins [lindex [::MSN::getUserInfo $usr_name] 1]]\n"
-      WinStatus [ WindowFor $chatid ] $statusmsg minijoins
-      WinTopUpdate $chatid
-
-		if { $config(showdisplaypic) } {
-			::amsn::ChangePicture $win_name user_pic_$usr_name
-		} else {
-			::amsn::ChangePicture $win_name user_pic_$usr_name nopack
+		if { $win_name == 0 && $config(newchatwinstate)!=2 } {
+			set win_name [MakeWindowFor $chatid "" $usr_name]
 		}
 
+		if { $win_name != 0 } {
 
-	if { $config(keep_logs) } {
-		::log::JoinsConf $chatid $usr_name
+			set statusmsg "[timestamp] [trans joins [lindex [::MSN::getUserInfo $usr_name] 1]]\n"
+			WinStatus [ WindowFor $chatid ] $statusmsg minijoins
+			WinTopUpdate $chatid
+		}
+
+		if { $config(keep_logs) } {
+			::log::JoinsConf $chatid $usr_name
+		}
+
 	}
-
-   }
-   #///////////////////////////////////////////////////////////////////////////////
+	#///////////////////////////////////////////////////////////////////////////////
 
 
    #///////////////////////////////////////////////////////////////////////////////
@@ -1798,12 +1804,7 @@ namespace eval ::amsn {
 		bind .${win_name} <Configure> "::amsn::ConfiguredChatWin .${win_name}"
 
 
-		if { $config(newchatwinstate) == 0 } {
-			wm state .${win_name} normal
-			raise .${win_name}
-		} else {
-			wm state .${win_name} iconic
-		}
+		wm state .${win_name} withdraw
 
 		return ".${win_name}"
 	}
