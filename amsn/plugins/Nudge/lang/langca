@@ -1,0 +1,13 @@
+amsn_lang_version 2
+shake_receive Fes vibrar la finestra quan rebi un nudge
+shake_send Vibra la finestra quan enviï un nudge
+shake_nudge Vibracions per nudge
+popup_nudge Notifica nudges amb popups
+notify_send Notifica els nudges enviats en la finestra del xat
+notify_receive Notifica ens nudges rebuts en la finestra del xat
+sound_send Reprodueix un so quan enviï un nudge
+sound_receive Reprodueix un so quan rebi un nudge.
+add_button Afegeix un botó per enviar un nudge en la finestra del xat
+send_nudge Envia un nudge
+no_nudge_support No pots enviar un nudge al teu contacte perquè no utilitza un client que soporti aquesta característica
+nudge_sent Has enviat un nudge
