@@ -3810,7 +3810,7 @@ proc cmsn_draw_main {} {
 
 	#View the history
 	.main_menu.tools add separator
-	.main_menu.tools add command -label "[trans history]" -command ::log::OpenLogWin
+	.main_menu.tools add command -label "[trans history]" -command ::log::OpenLogWin -state disabled
 
 	#Unnecessary separator when you remove the 2 dockings items menu on Mac OS X
 	if {$tcl_platform(os) != "Darwin"} {
