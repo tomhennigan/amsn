@@ -2320,14 +2320,11 @@ proc cmsn_sb_msg {sb_name recv} {
 
    set typer [string tolower [lindex $recv 1]]
    if { [::config::getKey displayp4context] !=1 || $p4context == "" } {
-   	set typernick [urldecode [lindex $recv 2]]
-	if { $typernick != [::abook::getNick $typer] } {
-		::abook::setContactData $typer nick $typernick
-	}
 	set nick [::abook::getDisplayNick $typer]
    } else {
         set nick "[::config::getKey p4contextprefix]$p4context"
    }
+   #Notice that we're ignoring the nick sent in the own MSG command, and using the one in ::abook
 
    #upvar #0 [sb name $sb_name users] users_list
    set users_list [sb get $sb_name users]
