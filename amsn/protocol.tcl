@@ -3034,7 +3034,7 @@ proc cmsn_change_state {recv} {
 	if {$user_name != [::abook::getNick $user]} {
 		#Nick differs from the one on our list, so change it
 		#in the server list too
-		::MSN::changeName $user $encoded_user_name 0
+		::MSN::changeName $user $encoded_user_name 1
 	}
 
 	set maxw [expr {$config(notifwidth)-20}]
