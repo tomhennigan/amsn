@@ -4319,6 +4319,11 @@ proc process_msnp9_lists { bin } {
 
 	set lists [list]
 	
+	if { $bin == "" } {
+		status_log "process_msnp9_lists: No lists!!!\n" red
+		return $lists
+	}
+	
 	if { [expr {$bin % 2}] } {
 		lappend lists "FL"
 	}
