@@ -1277,10 +1277,10 @@ proc cmsn_auth {{recv ""}} {
          #Add a contact
          .main_menu.tools entryconfigure 0 -state normal
          #Change nick
-         .main_menu.actions entryconfigure 2 -state normal
-         .options entryconfigure 0 -state normal
+	 configureMenuEntry .main_menu.actions "[trans changenick]..." normal
+	 configureMenuEntry .options "[trans changenick]..." normal
          #Publish Phone Numbers
-         .options entryconfigure 1 -state normal	;# Publish
+	 configureMenuEntry .options "[trans publishphones]..." normal
 
 	 return 0
       }
