@@ -588,6 +588,14 @@ proc ChangeLogToDate { w email widget date } {
 
 	::log::ResetSave $w $email
 
+
+	if { [file exists [file join ${log_dir} $date ${email}.log]] } {
+		set size "[::amsn::sizeconvert [file size "[file join ${log_dir} $date ${email}.log]"]]o"
+	} else {
+		set size "0Ko"
+	}
+	wm title $w "[trans history] (${email} - $size)"
+
 	ParseLog $w $logvar
 
 }
