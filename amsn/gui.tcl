@@ -1372,6 +1372,9 @@ namespace eval ::amsn {
 			} else {
 				::amsn::ChangePicture $win_name user_pic_$usr_name [trans showuserpic $usr_name] nopack
 			}
+
+ 			::amsn::WinWrite $chatid "$statusmsg" gray
+
 		}
 
 		if { $config(keep_logs) } {
@@ -1402,6 +1405,8 @@ namespace eval ::amsn {
       if { $closed } {
 	  set statusmsg "[timestamp] [trans leaves $username]\n"
 	  set icon minileaves
+		::amsn::WinWrite $chatid "$statusmsg" gray
+
       } else {
 	  set statusmsg "[timestamp] [trans closed $username]\n"
 	  set icon minileaves
