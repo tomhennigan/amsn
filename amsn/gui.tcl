@@ -472,7 +472,7 @@ namespace eval ::amsn {
       set w .ft$cookie
       toplevel $w
       wm group $w .      
-      wm geometry $w 320x130
+      wm geometry $w 350x160
 
       #frame $w.f -class amsnChatFrame -background $bgcolor -borderwidth 0 -relief flat      
       #set w $ww.f
@@ -485,7 +485,9 @@ namespace eval ::amsn {
       pack [::dkfprogress::Progress $w.prbar] -fill x -expand 0 -padx 5 -pady 5 -side top
       
       label $w.progress -text "" -font splainf
-      pack $w.progress -side top
+      label $w.time -text "" -font splainf
+      pack $w.progress $w.time -side top
+
                 
       button $w.close -text "[trans cancel]" -command "::MSNFT::cancelFT $cookie" -font sboldf
       pack $w.close -side bottom -pady 5
@@ -496,6 +498,8 @@ namespace eval ::amsn {
          wm title $w "$filename - [trans sendfile]"
       }
       wm protocol $w WM_DELETE_WINDOW "::MSNFT::cancelFT $cookie"
+
+       ::dkfprogress::SetProgress $w.prbar 0
    }
 
 
@@ -593,8 +597,9 @@ namespace eval ::amsn {
             set difftime  [expr $currtime - $lasttimes($cookie)]
 
             if {![info exists rates] || ![info exists rates($cookie)]} {
-                set rates($cookie) "??? K/s"
-            }
+                set rates($cookie) "???"
+		set rates(time$cookie) "???"
+            } 
 
             if {$difftime >= $TX_UPDATE_INTERVAL} {
                 # How many bytes did we transfer in the last second?
@@ -604,21 +609,36 @@ namespace eval ::amsn {
                 # the speed in seconds. Divides by 1024 to get it in KBs.
                 # "K" is more polyglot than "KB", right?
                 set r [expr (1.0*$TX_UPDATE_INTERVAL*$diffbytes/$difftime)/1024]
-                set rates($cookie) "[format %.2f $r] K/s"
+		if {$r != 0 } {
+		    if { [catch {set time [expr int {((($filesize - $bytes) / 1024) / $r)}]}] != 0 } {
+			set rates(time$cookie) "???"
+		    } else {
+			set temp1 [expr int {($time / 60)}]
+			set t1 [expr $time - ($temp1 * 60)]
+			set temp2 [expr int {($temp1 / 60)}]
+			set t2 [expr $temp1 - ($temp2 * 60)]
+			set t3 [expr int {($temp2 / 60)}]
+			set rates(time$cookie) [format "%02i:%02i:%02i" $t3 $t2 $t1]
+		    }
+
+		}
+                set rates($cookie) "[format %.2f $r]"
                 unset r
 
                 # Update time and byte counters with new values.
                 set lasttimes($cookie) $currtime
                 set lastbytes($cookie) $bytes
+
             }
 
             if {$mode == "r"} {
                 $w.progress configure -text \
-                    "[trans receivedbytes $bytes $filesize] ($rates($cookie))"
+                    "[trans receivedbytes $bytes $filesize] ($rates($cookie) K/s)"
             } elseif {$mode == "s"} {
                 $w.progress configure -text \
-                    "[trans sentbytes $bytes $filesize] ($rates($cookie))"
+                    "[trans sentbytes $bytes $filesize] ($rates($cookie) K/s)"
             }
+	    $w.time configure -text "[trans timeremaining] :  $rates(time$cookie)"
 	 }	
          ca {
             $w.progress configure -text "[trans filetransfercancelled]"
@@ -651,11 +671,8 @@ namespace eval ::amsn {
       set filesize2 [expr {int($filesize/1024)}]
       if { $filesize2 != 0 } {
         set percent [expr {int(($bytes2*100)/$filesize2)}]
-      } else {
-        set percent 0
-      }
-      
-      ::dkfprogress::SetProgress $w.prbar $percent
+	  ::dkfprogress::SetProgress $w.prbar $percent
+      } 
       
    }
 

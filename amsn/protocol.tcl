@@ -694,7 +694,7 @@ namespace eval ::MSNFT {
    proc SendPacket { sockid fileid filesize cookie } {
       variable filedata
    
-      puts "cookie=$cookie"
+#      puts "cookie=$cookie"
       if {![info exists filedata($cookie)]} {
         status_log "ConnectedMSNFTP: Ignoring file transfer, filedata($cookie) doesn't exists, cancelled\n" red
         return
@@ -718,8 +718,7 @@ namespace eval ::MSNFT {
          set byte1 [expr {$packetsize & 0xFF}]
          set byte2 [expr {$packetsize >> 8}]
 	  
-         catch {puts -nonewline $sockid "\0[format %c $byte1][format %c $byte2]$data"} 
-	 flush $sockid
+	  catch {puts -nonewline $sockid "\0[format %c $byte1][format %c $byte2]$data" ; flush $sockid }
          set sentbytes [expr {$sentbytes + $packetsize}]
 	 ::amsn::FTProgress s $cookie [lindex $filedata($cookie) 0] $sentbytes $filesize
          fileevent $sockid writable "::MSNFT::SendPacket $sockid $fileid $filesize $cookie"
