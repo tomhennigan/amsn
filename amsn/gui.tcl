@@ -2,6 +2,8 @@ package require AMSN_BWidget
 if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 	#Use QuickeTimeTcl on Mac OS X to play sounds
 	package require QuickTimeTcl
+	#Use tclCarbonHICommand for window utilities
+	package require tclCarbonHICommand
 }
 
 if { $initialize_amsn == 1 } {
@@ -269,8 +271,7 @@ namespace eval ::amsn {
 			raise .about
 			return
 		}
-
-
+		
 		if { $localized } {
 			set filename "[file join docs README[::config::getGlobalKey language]]"
 		} else {
@@ -335,7 +336,7 @@ namespace eval ::amsn {
 		set y [expr {([winfo vrootheight .about] - [winfo height .about]) / 2}]
 		wm geometry .about +${x}+${y}
 		moveinscreen .about 30
-
+		
 		#Should we disable resizable? Since when we make the windows smaller (in y), we lost the "Close button"
 		#wm resizable .about 0 0
 	}
@@ -1620,7 +1621,6 @@ namespace eval ::amsn {
 		} else {
 			::amsn::HidePicture $win
 		}
-
 	}
 
 
@@ -3301,17 +3301,27 @@ proc cmsn_draw_main {} {
 
 	#Command-key for "key shortcut" in Mac OS X
 	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		#Status log
 		bind . <Command-s> toggle_status
 		bind . <Command-S> toggle_status
+		#Preferences
 		bind . <Command-,> Preferences
+		#BossMode
 		bind . <Command-Option-space> BossMode
+		#Plugins log
 	    bind . <Option-p> ::pluginslog::toggle
 	    bind . <Option-P> ::pluginslog::toggle
+	    #Minimize contact list
+	    bind . <Command-m> "catch {carbon::processHICommand mini .}"
+	    bind . <Command-M> "catch {carbon::processHICommand mini .}"
 	} else {
+		#Status log
 		bind . <Control-s> toggle_status
+		#Plugins log
 	    bind . <Alt-p> ::pluginslog::toggle
-	    
+	    #Preferences
 		bind . <Control-p> Preferences
+		#Boss mode
 		bind . <Control-Alt-space> BossMode   
 	}
 
@@ -3323,6 +3333,7 @@ proc cmsn_draw_main {} {
 		bind all <Command-Q> {
 			close_cleanup;exit
 		}
+		bind all <Command-Key-1> "raise ."
 	}
 
 	wm protocol . WM_DELETE_WINDOW {::amsn::closeOrDock [::config::getKey closingdocks]}
@@ -3429,11 +3440,11 @@ proc change_myfontsize { size {windows ""}} {
 	}
 	
 	foreach w  $windows {
-
+		catch {
 		[::ChatWindow::GetOutText $w] tag configure yours -font [list $fontfamily $fontsize $fontstyle]
 		[::ChatWindow::GetInputText $w] configure -font [list $fontfamily $fontsize $fontstyle]
 		[::ChatWindow::GetInputText $w] configure -foreground "#$fontcolor"
-	
+	}
 		#Get old user font and replace its size
 		catch {
 			set font [lreplace [[::ChatWindow::GetOutText $w] tag cget user -font] 1 1 $fontsize]
@@ -7589,4 +7600,3 @@ proc highlight_selected_tags { text tags } {
 		}
 	}
 }
-
