@@ -9,9 +9,7 @@
 #    is added.
 #  - Should invoke Enable from some other place, get too many.
 # TODO LIST
-#  - Finalize the message translations
 #  - Keep track of transactions pending completion
-#  - Update GUI menus when a callback is invoked
 #  - Investigate what happens when a group is deleted, which
 #    group inherits the orphans?
 #  - Investigate what happens when a group is deleted, does the
@@ -19,6 +17,7 @@
 #    a reasigned number (???). Remember that the entries in
 #    the address book (::abook) contains the group IDs received
 #    in the Forward List.
+#	* group id is left unused until a new group is added.
 #  - If a user belongs to two groups the gid would be x,y that
 #    causes an error. For now assume only one group.
 #  - Move user from one group to another
@@ -90,7 +89,7 @@ namespace eval ::groups {
 	set bgcol2 #ABC8D2
 
 	toplevel .dlgrg -background $bgcol -highlightcolor $bgcol2
-	wm title .dlgrg "[trans groupadd]"
+	wm title .dlgrg "[trans grouprename]"
 	frame .dlgrg.d -bd 1 -background $bgcol
 	    label .dlgrg.d.lbl -text "[trans groupoldname]:" \
 	    	-background $bgcol
@@ -235,7 +234,7 @@ namespace eval ::groups {
 	::groups::updateMenu menu .group_list
 	# The entryid of the parent is 0
 	$parent entryconfigure $entryid -state normal
-	puts "groups:enable"
+	status_log "Groups: menu enabled\n" blue
    }
 
    # Call this one when going offline (disconnecting)
@@ -256,7 +255,7 @@ namespace eval ::groups {
        set name [urldecode $name]
        set groups($nr) $name
        incr groupCnt
-       puts "groups: added group $nr ($name)"
+       status_log "Groups: added group $nr ($name)\n" blue
    }
 
    # Get a group's name (decoded) given its ID (0..n)
