@@ -3950,9 +3950,6 @@ proc cmsn_listupdate {recv} {
 
 	}
 
-	status_log "Here groups is $groups\n"
-
-
 	foreach list_name $list_names {
 
 		#List is empty or first user in list
