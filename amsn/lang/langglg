@@ -549,8 +549,48 @@ xmmscurrent Mostrar canción actual
 xmmserr Non hay canción en reproducción, ou non tes xmms-infopipe instalado.
 xmmssend Enviar canción actual
 xoffset Desprazamento X
-yes Si
+yes Sí
 yoffset Desprazamento Y
 youblocked Foches bloqueado
 yousay Ti dis
 youwant Queres
+bouncedock Anima-lo icono do aMSN cando unha mensaxe sexa recibida
+changeglobnick Cambiar Nick Global
+clientname Nome do cliente
+continuously Continuamente
+customstyle Personalizar estilo
+dateformat Cambiar formato da data
+day Día
+disableuserfonts Ignorar o tipo de fonte do usuario remoto no chat, e usar o teu tipo de fonte
+email Email
+globalnick Insertar un modelo para forma-los nicks de tódolos teus contactos. Podes usar as seguintes variables: \$user_login para a dirección dos teus conctactos, \$nick para o nick dos teus conctactos e \$customnick para o nick personalizado dos teus conctactos. Por exemplo: '\$user_login é \$nick' será 'contact@msn.com é Contact'
+globalnicktitle Apodo Global
+globaloverride Modelos globales de nicks debería sobreescribir ós nicks personalizados.
+groups Grupos
+ignoreerrors Ignorar silenciosamente outros errores do AMSN ata o final da sesión
+ircstyle Chat estilo IRC
+justonce Soamente unha vez
+lastseen Última conexión
+month Mes
+msnstyle Chat estilo MSN
+myfriendlyname O meu nome amigable
+mynick O meu Nick
+needwinico Necesitas winico03.dll no directorio de plugins para que o traydock funcione
+never Nunca
+newmailfolder Tes $1 novos mensaxes en outras carpetas de Hotmail
+newmailfromother Novo correo noutra carpeta de $1 ($2)
+nogap Sen espacio entre grupos
+notify4 Mostrar ventana de notificación cando se reciba un novo email noutras carpetas
+notifytimeout Número de milisegundos antes de que a ventana de notificación desapareza
+reconnect2 Reconectar se se perde a conexión
+removeempty Borrar grupos vacios da lista de conctactos
+showbanner Mostrar banner de aMSN
+snackfailed Fallo cargando Snack, volvendo ó predeterminado
+sngdblclick Un click abre unha nova ventana de mensaxe
+splashstart Comezar
+today Hoxe
+useother Usar un programa diferente
+usesnack Usar a libreria Snack (Tcl internal)
+viewcontactsby Ver conctactos por
+year Ano
+yesterday Onte

@@ -150,6 +150,8 @@ customnick Özel rumuz
 customstyle Özel stil
 cut Kes
 date Tarih
+dateformat Tarih biçemini degiþtir
+day Gün
 days Gün
 dcprofile Profil oluþturma
 default Varsayýlan ayar
@@ -322,6 +324,7 @@ maximised Büyütülmüþ
 minimised Küçültülmüþ
 mins dakika
 mobile Cep
+month Ay
 morepersonal Diðer Durumlar ->
 move Taþý
 movetogroup Baþka gruba taþý
@@ -345,7 +348,9 @@ needonline Hala çevrim dýþý görünüyorsunuz!
 needwinico Windows'ta küçülme için plugins dizininde winico03.dll olmasý gerekmektedir.
 never Asla
 newmail Gelen kutunuzda $1 yeni ileti var
+newmailfolder Diðer Hotmail dizinlerinde $1 yeni ileti var
 newmailfrom Yeni ileti gönderen: $1 ($2)
+newmailfromother Diðer dizinlerde $1'den yeni ileti var ($2)
 newmsg Yeni ileti
 newstate Yeni özel durum ekle
 newveravailable Yeni $1 sürümü indirilmeye hazýr
@@ -372,6 +377,7 @@ notify1_5 Baðlantýlar çýkýnca uyarý penceresi göster
 notify1_75 Baðlantýlar durum deðiþtirince uyarý penceresi göster
 notify2 Yeni ileti gelince uyarý penceresi göster
 notify3 Yeni e-posta iletisi gelince uyarý penceresi göster
+notify4 Diðer Hotmail dizinlerine e-posta gelince uayrý penceresi göster
 notifyoffset Uyarý penceresinin konumunu giriniz
 notifytimeout Uyarý penceresi kaybolmadan önce geçecek milisaniye sayýsý
 notifytyping Klavyeyi kullandýðým karþý tarafa gözüksün
@@ -544,6 +550,7 @@ tlsinstall TLS kütüphanesi kurulum sihirbazý
 tlsinstallexp AMSN artýk güvenli baðlantý için SSL gerektiren MSNP9 kullanýyor.SSL kullanabilmek\niçin AMSN'nin sisteminizde olmayan TLS kütüphanesini kurmasý gerekiyor. Bu sihirbaz\nTLS indirme kurulumunda size yardýmcý olacaktýr.\n\nLütfen doðru paketin indirilmesi için sistem türünüzü seçiniz.
 tlsinstcompleted TLS kütüphanesi baþarýyla kuruldu, artýk MSNP9 kullanabilirsniz. Eðer kullanamýyorsanýz, sistem türünüzü yanlýþ seçmiþ olabilirsiniz, ya da sisteminize uygun derlenmiþ TLS sürümü yoktur.
 to Kime
+today Bugün
 tools Araçlar
 tooltips Ýpuçlarýný etkinleþtir
 transnotexists Bu dosyanýn seçili dile çevirisi henüz yok
@@ -579,7 +586,9 @@ xmmscurrent Çalýnan parçayý göster
 xmmserr Birþey çalýnmýyor, ya da xmms-infopipe kurulu deðil
 xmmssend Çalýnan parçayý gönder
 xoffset X koordinatý
+year Yýl
 yes Evet
+yesterday Dün
 yoffset Y koordinatý
 youblocked Engellendiniz
 yousay Diyorsunuz ki
