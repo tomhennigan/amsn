@@ -68,6 +68,7 @@ cannotdeleteprofile No se puede borrar este perfil porque parece que está siendo
 cantexec No se puede ejecutar la aplicación: $1. Comprueba las preferencias
 casesensitive Diferenciar may/minusculas en disparador
 cfgalarm Configurar/quitar alarma
+changedisplaypic Cambiar imagen mostrada
 changefont Cambiar fuente
 changenick Cambiar apodo
 changestate $1 cambia su estado a $2
