@@ -1415,6 +1415,11 @@ namespace eval ::amsn {
 		if { [::config::getKey keep_logs] } {
 			::log::JoinsConf $chatid $usr_name
 		}
+		#Postevent when user joins a chat
+		set evPar(usr_name) usr_name
+		set evPar(chatid) chatid
+		set evPar(win_name) win_name
+		::plugins::PostEvent user_joins_chat evPar
 
 	}
 	#///////////////////////////////////////////////////////////////////////////////
@@ -1477,6 +1482,11 @@ namespace eval ::amsn {
 		if { [info exists automsgsent($usr_name)] } {
 			unset automsgsent($usr_name)
 		}
+		#Postevent when user leaves a chat
+		set evPar(usr_name) usr_name
+		set evPar(chatid) chatid
+		set evPar(win_name) win_name
+		::plugins::PostEvent user_leaves_chat evPar
 
 	}
 	#///////////////////////////////////////////////////////////////////////////////

@@ -988,9 +988,12 @@ proc ftlog {email txt} {
 				puts -nonewline $fileid "\|\"LRED\[[trans lconvstarted [clock format [clock seconds] -format "%d %b %Y %T"]]\]\n"
 			}
 			puts -nonewline $fileid "\|\"LGRA[timestamp]\|\"LGRE $txt\n"
-
-
 		}
+		
+		#Postevent when filetrasfer is logged
+		set evPar(email) email
+		set evPar(txt) txt
+		::plugins::PostEvent ft_loged evPar
 }
 
 }
