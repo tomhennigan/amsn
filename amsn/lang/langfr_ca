@@ -80,6 +80,7 @@ delete Effacer
 deliverfail Une erreur est survenue lors de l'envoi du message suivant
 delprofile2 Sélectionner le profil que vous voulez supprimer
 delprofile Supprimer un profil
+dockfreedesktop Bureau de travail libre (KDE3/Gnome2)
 dockgtk Ancrer dans GTK
 docking Ancrage actif
 dockingoff Ancrage inactif
@@ -285,6 +286,7 @@ title Al's Messenger
 to À
 tools Outils
 transnotexists Le fichier demandé n'a pas encore été traduit dans votre langue
+traynotcompiled Le plugin de l'icone de la corbeille n'est pas conforme. Sélectionnez plugins/ancrage de la corbeille
 unblock Débloquer
 uoffline Déconnectés
 uonline Connectés

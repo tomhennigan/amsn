@@ -39,6 +39,7 @@ browse gözat
 browser Internet tarayici
 busy Mesgul
 cancel Iptal Et
+cannotdeleteprofile Profil kullanimda oldugu için silinemiyor
 cfgalarm Alarmi Düzenle/Ekle/Kaldir
 changefont Yazitipi degistir
 changenick Kullanici adi degistir
@@ -79,6 +80,7 @@ delete Sil
 deliverfail Asagidaki iletinin gönderilmesinde hata olustu
 delprofile2 Sileceginiz profili seçiniz
 delprofile Profili sil
+dockfreedesktop AcikMasaüstü (KDE3/Gnome2)
 dockgtk Gnome'da küçültme
 docking Küçültme
 dockingoff Küçültme olsun
@@ -233,6 +235,7 @@ prefsession Baglanti durumum
 prefshared Paylasilan baglantilar (yalniz NAT için)
 prefsound Sesler
 profiledconfig Ayarlarin profili çikarildi
+profileinuse Bu profil baska bir aMSN oturumunda kullaniliyor, lütfen baska birini seçiniz
 profiles profiller
 properties Özellikler
 proxy Bir proxy sunucu arkasindayim (HTTP ya da SOCKS5)
@@ -282,6 +285,7 @@ title Al'in Messenger'i
 to Kime
 tools Araçlar
 transnotexists Bu dosyanin seçili dile çevirisi henüz yok
+traynotcompiled Görev çubugu simgesi derlenmemis, plugins/traydock'a bakin 
 unblock Engeli kaldir
 uoffline Çevrimdisi
 uonline Çevrimiçi
@@ -293,6 +297,7 @@ view Görünüm
 viewprofile Profili gör
 willjoin $1 in sohbete katilmasi bekleniyor
 work Is
+wrongprofileversion Yanlis profil ayar dosyasi sürümü. Düzeltmek için $1 dizinini siliniz ya da aMSN'yi güncelleyiniz
 xoffset X koordinati
 yoffset Y koordinati
 yousay Diyorsunuz ki
