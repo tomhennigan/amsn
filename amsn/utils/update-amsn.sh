@@ -8,8 +8,8 @@
 #v0.1: 18/01/03
 ##############################################################################
 
-AMSNPATH=~/coding/msn
-EXTRASPATH=~/coding/msn/amsn-extras
+AMSNPATH=~/msn
+EXTRASPATH=~/msn/amsn-extras
 
 cd ${AMSNPATH}
 echo "Updating amsn..."
@@ -27,6 +27,19 @@ do
 			ln -s ${EXTRASPATH}/skins/${SKIN} ${AMSNPATH}/skins/${SKIN}
 		else
 			echo "Not linking skin ${SKIN}. Link already exists..."
+		fi
+	fi
+done
+		
+cd ${EXTRASPATH}/plugins
+for PLUGIN in *
+do
+	if [ $PLUGIN != "CVS" ]; then
+		if [ ! -e "${AMSNPATH}/plugins/${PLUGIN}" ]; then	#Link already exists?
+			echo "Linking plugin ${PLUGIN}..."
+			ln -s ${EXTRASPATH}/plugins/${PLUGIN} ${AMSNPATH}/plugins/${PLUGIN}
+		else
+			echo "Not linking plugin ${PLUGIN}. Link already exists..."
 		fi
 	fi
 done
