@@ -170,7 +170,11 @@ namespace eval ::ChatWindow {
 			::config::setKey winchatsize  [string range $geometry 0 [expr {$pos_start-1}]]
 
 			if { $::tcl_version >= 8.4 } {
-				::config::setKey winchatoutheight [lindex [$window.f sash coord 0] 1]
+				set w $window.f.out.text
+				set border [expr {[$w cget -bd] + [$w cget -highlightthickness] + [$w cget -pady]}]
+				set winHeight [expr {[winfo height $w] - 2 * $border}]
+				set lines [expr {1.0 * $winHeight / [font metrics [$w cget -font] -displayof $w -linespace]}]
+				::config::setKey winchatoutlines $lines
 			}
 		}
 	}
@@ -487,19 +491,6 @@ namespace eval ::ChatWindow {
 			pack $top -side top -expand false -fill x -padx [::skin::getColor chatpadx] -pady [::skin::getColor chatpady]
 			pack $statusbar -side bottom -expand false -fill x
 			pack $paned -side top -expand true -fill both -padx [::skin::getColor chatpadx] -pady 0
-		}
-
-		#set the pane sizes
-		if { $::tcl_version >= 8.4 } {
-			#need to set state to normal to change sash position
-			set origstate [wm state $w]
-			wm state $w normal
-
-			update
-
-			$paned sash place 0 0 [::config::getKey winchatoutheight]
-
-			wm state $w $origstate
 		}
 
 		focus $paned
@@ -1036,7 +1027,7 @@ namespace eval ::ChatWindow {
 
 		# Create the widgets
 		ScrolledWindow $out -auto vertical -scrollbar vertical
-		text $text -borderwidth [::skin::getColor chatborders] -foreground white -background white -width 45 -height 5 -wrap word \
+		text $text -borderwidth [::skin::getColor chatborders] -foreground white -background white -width 45 -height [::config::getKey winchatoutlines] -wrap word \
 			-exportselection 1  -relief solid -highlightthickness 0 -selectborderwidth 1
 
 		$out setwidget $text	

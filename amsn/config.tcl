@@ -117,7 +117,7 @@ namespace eval ::config {
 		::config::setKey textsize 2							;#User text size
 		::config::setKey mychatfont "{Helvetica} {} 000000"	;#User chat font
 		::config::setKey winchatsize "350x320"		;#Default chat window size
-		::config::setKey winchatoutheight "150"		;#Default chat window output height
+		::config::setKey winchatoutlines "6"		;#Default chat window output height
 		::config::setKey savechatwinsize 1			;#Save chat window sizes when changed?
 	
 		::config::setKey notifymsg 1				;#Show notify window when a message arrives
