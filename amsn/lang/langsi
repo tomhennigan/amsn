@@ -129,6 +129,7 @@ days Dni
 dcprofile Ne ustvari profila
 defaultloginradio Prijavi se s privzetimi nastavitvami
 default Privzete nastavitve
+deletecustomstate Izbrisi osebno stanje
 delete Izbrisi
 delimiters Krajisci prikaza casa
 deliverfail Pri dostavljanju sporocila je prislo do tezave
@@ -157,6 +158,7 @@ editprofile Uredi profil
 editstate Uredi obstojece stanje za avtomatsko sporocilo
 edit Uredi
 editvalue Uredi vrednost
+emailsinlist Pokazi postne naslove namesto nickov v seznamu stikov
 emotisounds Igraj zvok na dolocene emotikone
 enablebanner Prikazi aMSNjevo pasico (Potreben je ponoven zagon aMSN)
 enabled Vkljuceno
@@ -176,6 +178,7 @@ faileddelete Izbris ni uspel
 faileddeleteperso Te slike ni mogoce izbrisati, ker ni osebna slika. Samo slike, ki pripadajo tvojemu osebnemu profilu, lahko tako izbrises.
 failed Neuspesno
 faq Faq
+file Datoteka
 filedoesnotexist Datoteka ne obstaja
 filemanexample ( \$location bo zamenjan z mapo ) Npr.: nautilus \$location
 fileman Upravljalec datotek
@@ -288,6 +291,7 @@ needonline Se vedno si/izgledas neprijavljen!
 newmail $1 novih sporocil v Inboxu
 newmailfrom Novo sporocilo od $1 ($2)
 newmsg Novo sporocilo
+newstate Dodaj osebno stanje
 newveravailable Nova razlicica $1 je na voljo za prenos
 next Naslednji
 noactivity Ni aktiven/a
@@ -309,6 +313,7 @@ notify2 Prikazi obvestilo ob novem sporocilu
 notify3 Prikazi obvestilo ob novem e-mailu
 notify obvesti
 notifyoffset Nastavi pozicijo obvestilnega okna
+notifytyping Posiljaj sogovornikom obvestilo o tipkanju
 notifywin Prikazi opozorilo ob dogodkih
 notls MSN protokol 9 potrebuje tls. Izgleda, da ni namescen na tem racunalniku. Ce je, vnesi pot do njegovega imenika v nastavitvah (npr.: /opt/tls/lib). \n \ntls lahko poberes s http://tls.sf.net.
 nousersinsession Ni uporabnikov v seji
@@ -444,6 +449,7 @@ state Zelim biti viden kot
 status Stanje
 stopalarm Ustavi alarm
 storenickname Zamenjaj nick na prejsnjega po vrnitvi iz osebnega stanja
+strictfonts Vse pisave naj bodo po moji izbiri (Statusna vrstica in ostalo)
 stylechat Enak izgled kot pogovori
 stylehist Izgled zgodovine
 stylelog Izberi zapis, v katerem zelis videti zgodovino

@@ -129,6 +129,7 @@ dcprofile No crear perfil
 defaultloginradio Configuració per defecte
 default Utilitza la configuració predeterminada
 delete Esborrar
+deletecustomstate Esborrar estat personalitzat
 delimiters Delimitadors de temps:
 deliverfail Hi ha hagut un problema al enviar el missatge
 delprofile2 Selecciona el perfil que t'agradaria eliminar
@@ -155,6 +156,7 @@ editnewstate Nou missatge automàtic per a un estat personalitzat
 editprofile Editar perfil
 editstate Editar missatge automàtic per a un estat personalitzat
 editvalue Editar valor
+emailsinlist Mostra les adreces de correu per comptes dels sobrenoms a la llista de contactes
 emotisounds Reproduir sons associats a certes emoticones
 enablebanner Mostra la imatge de l'aMSN (requereix tornar a iniciar l'aMSN)
 enabled Activat
@@ -193,6 +195,7 @@ ftportpref Utilitza aquest port, o els següents, per les transferències de fitxe
 ftrejectedby $1 ha rebutjat la invitació per la transferència del fitxer '$2'.
 ftrejected Transferència de fitxers rebutjada
 ftsendinvitation La invitació per la transferència del fitxer '$2' ($3 bytes) ha sigut enviada a $1.
+fullcontactlist La teva llista de contactes està plena. Per poder afegir un nou contacte n'has d'esborrar un altre.
 getdisppic Activa l'opció de rebre la Imatge Mostrada d'altres usuaris 
 gonelunch Estic menjant
 groupadd Afegir un grup
@@ -218,6 +221,7 @@ hybrid Mode híbrid
 ident Identifica
 identity Identitat
 inbox Bústia
+insertsmiley Insereix emoticona
 installconvert Instal·lar conversor: Has d'instal·lar ImageMagick (un programa de conversió) per tal de convertir les imatges al format usat pels servidors de MSN. Pots descarregar els binaris per al teu sistema operatiu a ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ Si ja els tens, llavors és un error, sisplau comunica'l.
 internalerror Error intern del servidor
 invalidfile El fitxer $2 introduït al camp "$1" no existeix o no es pot llegir
