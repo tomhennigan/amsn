@@ -75,6 +75,7 @@ casesensitive Diferenciar may/minusculas en disparador
 cfgalarmall Cambiar/Añadir/Quitar alarma global
 cfgalarm Cambiar/quitar alarma
 changedisplaypic Cambiar imagen mostrada
+changecustomstate Cambiar a
 changefont Cambiar fuente
 changenick Cambiar apodo
 changestate $1 cambia su estado a $2
@@ -95,6 +96,7 @@ choosebgcolor Elegir color de fondo
 choosecontact Por favor selecciona un contacto de la lista
 choosefontcolor Elegir color de la letra
 chooseskin Por favor, elige el Tema que deseas usar
+ch_to_state Cambiar al nuevo estado
 clearlog2 Limpiar historial para todos los contactos
 clearlog3 Limpiar todos los registros
 clearlog Limpiar historial
@@ -146,7 +148,7 @@ dockkde Icono KDE
 dontdownload No descargar TLS, lo instalaré yo mismo
 dontshow No mostrar
 downloadingtls Descargando el módulo TLS desde:\n $1
-editcurrentstate Editar actual
+editcustomstate Editar
 edit Edición
 editnewstate Nuevo mensaje automático para estado personalizado
 editprofile Editar Perfil
@@ -431,6 +433,7 @@ stateedittext Edita los campos que desees modificar\ny después pulsa Guardar
 stateinfo Configuración de estados personalizados
 statename Nombre del estado personalizado
 statenewtext Rellena la información requerida para crear \nel nuevo estado personalizado, y pulsa Guardar
+statenick Nick personalizado (en blanco para ninguno)
 state Quiero aparecer como
 status Estado
 stopalarm Detener alarma
@@ -439,6 +442,7 @@ stylehist apariencia de historial de aMSN
 stylelog Elige el estilo en el que deseas ver el historial
 syntaxerror Error de sintaxis
 tabbed Ventanas con solapas
+temp_state No almacenar (Estado temporal, se perderá al reiniciar AMSN)
 textsize Tamaño del texto
 timeremaining Tiempo restante
 timestamps Activar hora en los mensajes

@@ -74,6 +74,8 @@ cantexec Can't execute application: $1. Check preferences
 casesensitive Use case-sensitive triggers
 cfgalarmall Configure/Add/Remove Global Alarm
 cfgalarm Configure/Add/Remove Alarm
+ch_to_state Switch to new state
+changecustomstate Switch to
 changedisplaypic Change Display picture
 changefont Change font
 changenick Change nick
@@ -146,7 +148,7 @@ dockkde KDE Dock
 dontdownload Don't download TLS, I'll install it myself
 dontshow Don't show
 downloadingtls Downloading TLS module from:\n $1
-editcurrentstate Edit current
+editcustomstate Edit
 edit Edit
 editnewstate New Personal Automessage State
 editprofile Edit Profile
@@ -439,6 +441,7 @@ stylehist aMSN's history look
 stylelog Select the format in which you would like to view your History
 syntaxerror Syntax Error
 tabbed Tabbed Windows
+temp_state Don't save (Temporary state, will be missed when close AMSN)
 textsize Text size
 timeremaining Time remaining
 timestamps Enable timestamps on chat windows
