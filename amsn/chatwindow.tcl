@@ -16,7 +16,7 @@ namespace eval ::ChatWindow {
 	variable titles
 	variable windows [list]
 
-	if { [info exists ::ChatWindow::winid] } {
+	if { ![info exists ::ChatWindow::winid] } {
 		# As ::ChatWindow::winid is the index used in the
 		# window widgets for chat windows, we only initialize
 		# it at the first time, to avoid problems with proc
