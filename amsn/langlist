@@ -52,7 +52,7 @@
 	<lang>
 		<langcode>da</langcode>
 		<name>Danish</name>
-		<version>1.30</version>
+		<version>1.31</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -196,7 +196,7 @@
 	<lang>
 		<langcode>nl</langcode>
 		<name>Dutch</name>
-		<version>1.113</version>
+		<version>1.114</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -244,7 +244,7 @@
 	<lang>
 		<langcode>sl</langcode>
 		<name>Slovenian (Slovenscina)</name>
-		<version>1.27</version>
+		<version>1.28</version>
 		<encoding>iso8859-2</encoding>
 	</lang>
 	<lang>
