@@ -250,7 +250,6 @@ needonline Vous êtes toujours déconnecté(e)!
 newmail $1 nouveaux messages
 newmailfrom Nouveau message de $1 ($2)
 newmsg Nouveau message
-newveravailable Nouvelle version disponible
 newveravailable Nouvelle version disponible ($1)
 next Suivant
 noactivity Inactif
@@ -332,7 +331,6 @@ proxyconnection Je me connecte à Internet par un serveur proxy :
 proxy Je suis derrière un serveur proxy (HTTP ou SOCKS5)
 publishphones Publier mes numéros de téléphone
 raised Maximiser/Déiconifier
-readonlymsgbox Le tranfert de fichier a été annulé, car le répertoire de
 readonlymsgbox Le tranfert de fichier a été annulé, car le répertoire de réception est en lecture seule. Veillez modifier les droits d'accès de ce répertoire. 
 readonlywarn AVERTISSEMENT: Le fichier ne sera probablement PAS sauvegardé correctement, car le répertoire de réception de fichiers semble être protégé en écriture. Veillez vous assurer que les droits d'accès du répertoire $1 sont configurés correctement avant de transférer le fichier.
 receivedbytes $1 de $2 octets reçus

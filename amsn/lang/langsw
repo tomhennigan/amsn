@@ -80,7 +80,6 @@ countrycode Min landskod
 cprofile Skapa profil
 cut Klipp ut
 date Datum
-date Datum
 days Dagar
 dcprofile Skapa inte profil
 default Standart konfiguration
@@ -180,7 +179,6 @@ mins minuter
 mobile Mobil
 movetogroup Flytta till grupp
 msgmaxmin När ett nytt meddelande kommer så vill jag att det ska vara :
-msg Meddelande
 msg Meddelande
 msgmode Välj hur meddelanderutor ska hanteras :
 msn AMSN

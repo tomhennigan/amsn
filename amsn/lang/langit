@@ -26,7 +26,6 @@ allowlist Permetti la lista:
 allowonlyinal Permetti soltanto agli utenti nella mia lista dei Permessi di contattarmi
 allowseen Permetti a questa persona di vedermi e di contattarmi quando sono connesso
 animatedemoticon Questa emoticon è animata
-animatedemoticon Questa emoticon è animata
 animatedsmileys Abilita le animazioni delle faccine
 appearance Apparenza
 appearoff Invisibile
@@ -188,7 +187,6 @@ identity Identità
 inbox In Arrivo
 internalerror Errore interno del server
 invalidfile Il file $2 inserito nel campo "$1" non esiste o non è leggibile
-invalidfile Il file $2 inserito nel campo "$1" non esiste o non è leggibile
 invalidusername Username non valido
 invitationcancelled L'invito è stato cancellato
 invite Invita
@@ -225,7 +223,6 @@ logolder Registra soltanto le chat che hanno preso posto nell'ultimo
 logout Abbandona
 logsin si e' appena connesso
 logsmileys Mostra le emoticon e le facine nella finestra dell'History di aMSN
-logsout è appena uscito
 logsout è appena uscito
 lprivtoconf Chat privata divenuta conversazione con $1
 luclosedwin Hai chiuso la finestra su $1

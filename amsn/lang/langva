@@ -3,7 +3,6 @@ about Sobre
 accept Aceptar
 acceptfile ¿Aceptar archiu $1, tamany $2 bytes? Es guardara en $3
 actions Accions
-actions Accions
 addacontact Afegir un contacte
 addedyou $1 ($2) t'ha afegit a la seua llista de contactes
 addtocontacts Afegir a contactes
@@ -68,7 +67,6 @@ connection Conexio
 contactadded Contacte afegit
 contactdoesnotexist El contacte que intentes afegir no existix
 copy Copiar
-copytogroup Copiar al grup
 copytogroup Copiar al grup
 countrycode Codic de païs/regio
 cprofile Crear Perfil
@@ -239,8 +237,6 @@ profiledconfig Informacio de perfil
 profiles Perfils
 properties Propietats
 proxyconf Configuracio proxy
-proxyconf Configuracio proxy
-proxyconfhttp Configurar soport de proxy http
 proxyconfhttp Configurar soport de proxy http
 proxy Estic darrere d'un servidor proxy (HTTP o SOCKS5)
 publishphones Publicar els meus numeros telefonics
@@ -284,7 +280,6 @@ syntaxerror Error de sintaxis
 tabbed Finestres en solapes
 textsize Tamany del text
 title Al's Messenger
-tools Ferramentes
 tools Ferramentes
 to Per a
 unblock Admetre
