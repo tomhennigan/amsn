@@ -39,8 +39,8 @@ autoaccepted Transfert de fichier accepté automatiquement
 autoacceptft Accepter automatiquement les transferts de fichiers
 autoaway Me marquer "Absent" quand inactif plus de
 autocheckver Vérification automatique au démarrage de la verion
-autoconnect Connexion automatique au lancement
 autoconnect2 Me connecter automatiquement quand aMSN est lancé
+autoconnect Connexion automatique au lancement
 autohotmaillog Identification automatique à Hotmail
 autoidle Absence automatique après une période d'inactivité
 autoip IP Automatique
@@ -65,25 +65,26 @@ blockmessage Ces personnes sont en ligne mais vous bloquent
 blockusers Nombre d'utilisateurs à cocher à la fois
 broughtby Développé pour vous par
 browse Naviguer
-browser Navigateur web
 browserexample (\$url sera remplacé par l'URL). Ex: mozilla \$url
+browser Navigateur web
 busy Occupé
 cancel Annuler
 cannotdeleteprofile le profil ne peut être supprimé car il semble utilisé par une session aMSN
 cantexec Impossible d'exécuter l'application : $1. Vérifiez les préférences.
 casesensitive Utiliser des déclencheurs sensibles à la casse
-cfgalarm Configurer/Ajouter/Supprimer alarme
 cfgalarmall Configurer/Ajouter/Supprimer toutes les alarmes
+cfgalarm Configurer/Ajouter/Supprimer alarme
+changecustomstate Changer à
 changedisplaypic Changer l'icône
 changefont Changer la police
 changenick Changer de pseudonyme
 changestate $1 a changé de statut : $2
-chat Discuter
 chatack Accepter de discuter avec
+chat Discuter
 chatmaxmin Quand une fenêtre d'invitation de dialogue s'ouvre, je veux qu'elle soit :
 chatreq Inviter à discuter
-chatsmileys Utiliser les "smileys"
 chatsmileys2 Afficher les Emoticons et les Smileys dans la fenêtre de chat
+chatsmileys Utiliser les "smileys"
 checkblocking Vérifier continuellement si des utilisateurs vous ont bloqué
 checkfilman Les fichiers reçus seront sauvegardés dans $1. Veuillez vérifier les propriétés du gestionnaire de fichier dans la fenêtre de préférences.
 checkingver Recherche d'une nouvelle version
@@ -95,17 +96,18 @@ choosebgcolor Choisir la couleur de fond
 choosecontact Veuillez choisir un contact dans la liste
 choosefontcolor Choisir la couleur de police
 chooseskin sélectionnez l'apparence que vous souhaitez utiliser dans la liste
-clearlog Effacer les logs
+ch_to_state Changer à un nouvel état
 clearlog2 Effacer l'historique de tout les contacts
 clearlog3 Effacer tout les logs
+clearlog Effacer les logs
 clicktologin Cliquez pour vous connecter
-close Fermer
 closed Conversation fermée pour inactivité ($1)
+close Fermer
 closingdocks Le bouton fermer ancre l'application
 command Commande
 commandstatus Exécuter la commande
-confirm Êtes vous sûr?
 confirmdelete Confirmer suppression
+confirm Êtes vous sûr?
 connected Vous êtes maintenant connecté(e)
 connecterror Erreur de connexion
 connecting Se connecter
@@ -129,8 +131,8 @@ defaultloginradio Identification avec la configuration par défaut
 delete Effacer
 delimiters Délimiteurs de l'horodateur
 deliverfail Une erreur est survenue lors de l'envoi du message suivant
-delprofile Supprimer un profil
 delprofile2 Sélectionner le profil que vous voulez supprimer
+delprofile Supprimer un profil
 description Description
 directconnection J'ai une connexion directe à Internet (utilisation du port 1863)
 disabled Désactivé
@@ -146,8 +148,9 @@ dockkde Ancrage dans KDE
 dontdownload Ne pas télécharger TLS, je l'installerai moi-même
 dontshow Ne pas montrer
 downloadingtls Téléchargement du module TLS à partir de :\n $1
-edit Edition
 editcurrentstate Editer l'etat actuel
+editcustomstate Éditer
+edit Edition
 editnewstate Nouvel état avec message automatique personnalisé
 editprofile Modifier profil
 editstate Editer un état existant avec message automatique
@@ -158,8 +161,8 @@ enabled Activé
 enableproxy Permettre de passer par un proxy
 enableremote Permettre le contrôle à distance
 enablesound Activer le son
-encoding Choisir l'encodage
 encoding2  Changer la manière dont les caractères sont encodés
+encoding Choisir l'encodage
 entercontactemail Rajouter un contact de messagerie
 enterfilename Entrez le nom du fichier
 enternick Donner votre pseudonyme
@@ -167,31 +170,34 @@ errortls Erreur lors de l'installation du module TLS:
 examples Exemples
 exitamsn Quitter aMSN?
 extras Services Additionnels
+faileddelete Échec de l'effacement
+faileddeleteperso Cette photo ne peut pas être effacée parce qu'elle n'est pas un fichier de photo personnelle. Seulement les photos qui appartiennent à votre profil personnel peuvent être effacées de cette façon.
+failed Échec
 faq Questions les plus fréquentes
 filedoesnotexist Le fichier n'existe pas
-fileman Gestionnaire de fichiers
 filemanexample ( \$location sera remplacé par le répertoire ) Ex: nautilus \$location
+fileman Gestionnaire de fichiers
 filename Fichier
 filetransfercancelled Transfert de fichier annulé
 filetransfercomplete Transfert de fichier terminé
 followtext Faire défiler lorsque du texte est entré
-ftaccepted Transfert de fichier accepté
 ftacceptedby $1 accepte l'invitation de transfert de fichier pour le fichier '$2'.
+ftaccepted Transfert de fichier accepté
 ftaccepting Acceptez l'invitation de transfert de fichier
 ftconnecterror Erreur de connexion à l'hôte distant
 ftconnecting Connexion à $1 port $2
 ftconnectionlost Connexion avec l'hôte distant perdu
 ftgotinvitation $1 veut vous envoyer le fichier '$2' ($3 bytes). Il sera sauvegardé dans le répertoire $4. Voulez-vous recevoir ce fichier ?
 ftportpref Premier port pour le transfert de fichiers
-ftrejected Transfert de fichier refusé
 ftrejectedby $1 a refusé l'invitation de transfert de fichier pour le fichier '$2'.
+ftrejected Transfert de fichier refusé
 ftsendinvitation L'invitation de transfert du fichier '$2' ($3 bytes) a été envoyé à $1.
 getdisppic Permettre la réception d'icônes de la part d'autres utilisateurs
 gonelunch Parti[e] déjeuner
-group Groupe
 groupadd Ajouter un groupe
 groupdelete Supprimer un groupe
 groupexists Le groupe existe déjà
+group Groupe
 groupmissing Impossible de trouver le groupe
 groupnewname Nouveau nom
 groupnotempty Groupe non vide
@@ -222,8 +228,8 @@ ipdetect Détection de l'IP exacte pour les transferts de fichier utilisant HTTP
 istyping Message en cours de frappe ($1)
 joins $1 a rejoint la conversation
 keepalive Garder la connexion ouverte (NAT)
-keeplog Garder les logs des conversations
 keeplog2 Loguer toutes les conversations dans l'historique de aMSN pour une visualisation ultérieure
+keeplog Garder les logs des conversations
 language Langage
 lastmsgtime Dernier message reçu à $1
 lclosedwin $1 a fermé la fenêtre sur $2
@@ -235,8 +241,8 @@ lenteredconf $1 a rejoint la conférence sur $2
 lineflushlog Effacer les journaux après chaque ligne
 linprivate En privé
 listeningon A l'écoute sur le port $1
-listsmileys Liste des "smileys"
 listsmileys2 Afficher les Emoticons et les Smileys dans la liste de contacts principale d'aMSN
+listsmileys Liste des "smileys"
 ljoinedconf $1 a rejoint la conférence
 lleftconf $1 a quitté la conférence
 loadcontacts Charger la liste de contacts
@@ -244,9 +250,9 @@ logbigger Taille du fichier Log pour chaque contact ne dépasse jamais
 logfandexp Taille fichiers Log et expiration Historique
 loggedotherlocation Déconnecté. Connecté depuis un autre endroit.
 loggingin est en cours de connexion
-login Se connecter
 loginas Se connecter en tant que
 loging Connexion en cours
+login Se connecter
 logolder Seulement logguer les conversation qui ont eu lieu dans les
 logout Se déconnecter
 logsin vient de se connecter
@@ -254,8 +260,8 @@ logsmileys Afficher les Emoticons et les Smiley dans la fenêtre d'historique de 
 logsout vient juste de se déconnecter
 lprivtoconf  Conversation privée changée en conférence avec $1
 luclosedwin Vous avez fermé la fenêtre sous $1
-mailer Programme de courrier
 mailerexample ( \$recipient = Récepteur ) Laisser vide pour utiliser Hotmail
+mailer Programme de courrier
 maximised Maximisé
 minimised Minimisé/Icônifié
 mins minutes
@@ -263,9 +269,9 @@ mobile Mobile
 morepersonal Autres états ->
 move Déplacer
 movetogroup Déplacer vers groupe
-msg Message
 msgflicker faire clignoter la barre de titre d'une fenêtre inactive quand un message est reçu
 msgmaxmin Quand un nouveau message arrive, je veux qu'il soit
+msg Message
 msgmode Choisissez comment manier plusieurs fenêtres de messages :
 msn aMSN
 mustrestart Vous devez redémarrer l'application pour que les changements
@@ -282,25 +288,25 @@ newmailfrom Nouveau message de $1 ($2)
 newmsg Nouveau message
 newveravailable Nouvelle version disponible ($1)
 next Suivant
-no Non
 noactivity Inactif
 nodataavailable Pas de données disponibles pour $1
 nologfile Pas de fichier log pour $1
 noneavailable Pas disponible
 nonewmail Pas de nouveau message
 nonewver Il n'y a pas de nouvelle version disponible
+no Non
 nopic Pas d'icône
 noprofileexists Utiliser les profils... \nUtiliser le boutton Ajouter nouveau profil dans cette fenetre pour en créer un nouveau.
 normal Normal
 nosystemtray La poubelle n'est pas accessible
 notificationserver Serveur MSN initial de notification (Serveur MSN Messenger)
-notify prévenir
-notify1 Afficher une notification quand un contact est en ligne
 notify1_5 Afficher une fenêtre d'information quand les contacts se déconnectent
 notify1_75 Afficher une fenêtre d'information quand les contacts changent de status
+notify1 Afficher une notification quand un contact est en ligne
 notify2 Afficher une notification quand de nouveaux messages sont reçus
 notify3 Afficher une notification quand des emails arrivent dans votre boîte de réception
 notifyoffset Sélectionner la position de la fenêtre de notification en précisant ses coordonnées
+notify prévenir
 notifywin Fenêtre de notification
 notls Le protocole 9 de MSN requiert le module tls. Celui-ci ne semble pas être installé sur le système. S'il est installé,
 nousersinsession Pas d'utilisateur dans cette session
@@ -335,21 +341,21 @@ prefblock3 Groupe "Vous avez été bloqué par"
 prefconnection Préférences de connexion
 prefemotic Emoticons, Icônes et Smileys
 preferences Préférences
-preffont Mon texte du message
 preffont2 Changer la façon dont les autres voient mon texte lors des conversations
 preffont3 Changer la police et la taille de l'interface d'aMSN
+preffont Mon texte du message
 preflibs Répertoires des librairies
 preflog1 Mon historique et mes options de Log
 preflook Apparence de aMSN
 prefmsging Mon Interface de messagerie
 prefname Mon Nom/Surnom MSN MESSENGER
-prefphone Mes numéros de téléphone
 prefphone2 Entrer les numéros de téléphone visibles de votre liste de personnes \n autorisées \n
-prefprivacy Listes des personnes autorisées/bloquées
+prefphone Mes numéros de téléphone
 prefprivacy2 Listes de contacts/à l'envers
-prefprofile Mon profil publique
+prefprivacy Listes des personnes autorisées/bloquées
 prefprofile2 Créer ou modifier votre profil publique (votre description \n visble par les autres)
 prefprofile3 profils de configuration de l'utilisateur d'aMSN
+prefprofile Mon profil publique
 prefproxy Ma configuration Proxy
 prefremote Préférences de connexion à distance
 prefsession Ma connexion et statut
@@ -362,10 +368,10 @@ profileinuse Profil actuellement utilisé par une autre session Amsn. Veuillez ch
 profileloginradio S'identifier avec un profil existant
 profiles Profils
 properties Propriétés
-proxy Je suis derrière un serveur proxy (HTTP ou SOCKS5)
 proxyconf Configuration du proxy
 proxyconfhttp Configuration du support proxy HTTP
 proxyconnection Je me connecte à Internet par un serveur proxy :
+proxy Je suis derrière un serveur proxy (HTTP ou SOCKS5)
 publishphones Publier mes numéros de téléphone
 purge Tout effacer
 raised Maximiser/Déiconifier
@@ -379,13 +385,13 @@ reconnecting Reconnexion au serveur
 reject Refuser
 rememberpass Enregistrer le mot de passe
 removefromlist Supprimer de cette liste
+répertoire.
 reversed Inverser
 reverselist Liste inversée :
 rightback Bientôt de retour
-répertoire.
-save Enregistrer
 saveas Enregistrer sous
 savecontacts Enregistrer la liste des contacts
+save Enregistrer
 savetofile Sauvegarder dans un fichier
 says $1 dit
 sbcon Connexion au "Switch Board"
@@ -396,14 +402,14 @@ sendfile Envoyer un fichier
 sendmail Envoyer un courrier
 sendmsg Envoyer un message
 sentbytes $1 de $2 octets reçus
-server Serveur
 serverbusy Le serveur est occupé
 servergoingdown Serveur en cours d'arrêt
+server Serveur
 serverunavailable Serveur non disponible
 session Session
 showblockedlist Voir la liste des personnes que vous avez bloqué
-showdisplaypic Afficher l'icône
 showdisplaypic2 Afficher icône par défaut à l'ouverture d'une fenêtre de discussion
+showdisplaypic Afficher l'icône
 showmypic Mon icône
 shownotify Affiche le fenêtre de notification quand certains evénements se produisent
 showuserpic Icône de $1
@@ -411,11 +417,11 @@ skin apparence
 skinselector Changer l'apparence
 smileconfig Configuration des émoticons personnalisés
 smilefile Nom du fichier de l'émoticon
-smileintro Veuillez remplir les champs obligatoires pour créer un nouvel émoticon (voir la FAQ pour l'aide)
 smileintro2 Veuillez editer les champs obligatoires pour personnaliser cet émoticon (voir la FAQ pour l'aide)
-sound Événements Sonores
+smileintro Veuillez remplir les champs obligatoires pour créer un nouvel émoticon (voir la FAQ pour l'aide)
 sound2 Jouer un son quand un contact se connecte ou quand un message est reçu
 soundcommand Ceci est la commande de lecture de sons (ex: esdplay)
+sound Événements Sonores
 soundexample ( \$sound = Fichier audio qui sera joué) Ex: esdplay \$sound
 soundfile Fichier son associé à l'alarme
 soundloop Jouer le son en boucle
@@ -423,14 +429,14 @@ soundserver Serveur de Sons
 soundstatus Activer/Désactiver l'alarme sonore
 sourcecode Code source (requiert une compilation et une installation)
 sslwarning ATTENTION !! Désactiver SSL désactivera l'encryptage, votre mot de passe sera alors envoyé en texte plein par le réseau. A n'utiliser pour des proxies ou des configurations de réseau très bonnes.
-startoffline Démarrer déconnecté
 startoffline2 Se connecter directement en : "Apparaître hors ligne"
+startoffline Démarrer déconnecté
 startontray Démarrer AMSN en arrière plan seulement
-state Je veux apparaître
 stateautomsg Message a envoyer automatiquement
 statechange status changé en :
 stateedittext Veuillez éditer les champs que vous \n voulez modifier et cliquez sur Enregistrer
 stateinfo Configuration de mon statut
+state Je veux apparaître
 statename Nom du statut
 statenewtext Veuillez entrer les informations nécessaires \n a la création de votre nouveau statut et cliquez sur Enregistrer
 status Statut
@@ -440,6 +446,7 @@ stylehist Apparence historique d'aMSN
 stylelog Sélectionner le format dans lequel vous voulez voir l'historique
 syntaxerror Erreur de syntaxe
 tabbed Onglets
+temp_state Ne pas enregistrer (État temporaire, va être perdu quand AMSN va être fermé)
 textsize Taille du texte
 timeremaining Temps restant
 timestamps Activation de l'horodateur des fenêtres de chat
@@ -462,15 +469,15 @@ twonewmail $1 nouveaux messages dans votre boîte de réception
 unblock Débloquer
 uoffline Déconnectés
 uonline Connectés
-user Utilisateur
 useralreadyonlist Utilisateur déjà présent dans la liste
 userblocked Cet utilisateur est en ligne mais il vous a bloqué
 usernotonline L'utilisateur n'est pas en ligne
+user Utilisateur
 useryourself Vous ne pouvez pas dialoguer avec vous-même
 verifyblocked Contrôler les personnes qui vous ont bloqué
 version Version
-view Vue
 viewprofile Afficher le profil
+view Vue
 willjoin Dans l'attente que $1 rejoigne la conversation
 work Travail
 wrongfields Les champs "$1", "$2" et/ou "$3" sont invalides

@@ -13,6 +13,8 @@ addtocontacts Baðlantý listesine ekle
 addtoo Bu kiþiyi baðlantý listesine ekle
 admincontacts Baðlantýlarý düzenle
 admingroups Gruplarý düzenle
+advanced Geliþmiþ
+advancedprefs Geliþmiþ Ayarlar
 adverts reklamlar
 alarmonconnect Kullanýcý baðlanýnca alarm çalsýn
 alarmondisconnect Kullanýcý çýkýnca alarm çalsýn
@@ -25,8 +27,10 @@ allowbadwords Kullanýcý isimlerinde sansürü kaldýr
 allowlist Ýzin verilenler
 allowonlyinal Yalnýzca izin verilenler listesindekiler bana ulaþabilsin
 allowseen Bu kiþi ben çevrim içiyken beni görebilsin ve bana yazabilsin
+allprofilesinuse Tüm profiller kullanýmda
 animatedemoticon Bu gülen adam hareketlidir
 animatedsmileys Hareketli gülen adamlarý etkinleþtir
+animatenotify Animasyonlu Bildirim Penceresi
 appearance Görünüþ
 appearoff Çevrim dýþý görün
 areacode Alan kodu
@@ -34,6 +38,7 @@ aretyping $1 ileti yazýyor
 autoaccepted Dosya aktarýmý otomatikman kabul edildi
 autoacceptft Dosya aktarým istemlerini otomatikman kabul et
 autoaway Bu süre kadar eylemsiz kalýrsam beni diþarýda göster:
+autocheckver Baþlangýçta yeni versiyon için kontrol et
 autoconnect2 aMSN baþlayýnca kendiliðinden baðlan
 autoconnect Açýlýþta kendiliðinden baðlan
 autohotmaillog Hotmail'e otomatik giriþ
@@ -60,14 +65,17 @@ blockmessage Þu kiþiler baðlý ve sizi engellemiþ durumdalar
 blockusers Bir seferde denetlenecek kullanýcý sayýsý 
 broughtby Yazýlýmý geliþtirenler
 browse gözat
-browser Ýnternet tarayýcý
 browserexample (\$url URL ile deðiþtirilecek) Örn: mozilla \$url
+browser Ýnternet tarayýcý
 busy Meþgul
 cancel Ýptal Et
 cannotdeleteprofile Profil kullanýmda olduðu için silinemiyor
 cantexec $1 uygulamasi çalýþtýrýlamýyor. Seçenekleri kontrol edin.
 casesensitive Yazýlý karþýlýklarda büyük/küçük harfe duyarlý ol
 cfgalarm Alarmý Düzenle/Ekle/Kaldýr
+cfgalarmall Düzenle/Kaldýr/Ekle Global Alarm
+changecustomstate Geç
+changedisplaypic Ekran resmini deðiþtir
 changefont Yazitipi deðiþtir
 changenick Kullanýcý ismi deðiþtir
 changestate $1, $2 durumuna geçti
@@ -88,6 +96,7 @@ choosebgcolor Arkaplan rengini seç
 choosecontact Lütfen listeden bir baðlantý seçiniz
 choosefontcolor Yazi rengini seç
 chooseskin Lütfen kullanacaðýnýz kabuðu seçiniz
+ch_to_state Yeni duruma geç
 clearlog2 Tüm baðlantýlarýn Geçmiþini sil
 clearlog3 Tüm sohbet kayýtlarýný sil
 clearlog Sohbet kaydýný sil
@@ -379,11 +388,11 @@ smileintro2 Bu gülen adamý özelleþtirmek için ilgili alanlarý düzenleyiniz \n(ya
 smileintro Özel bir gülen adam yaratmak için ilgili alanlarý doldurunuz \n(yardým için SSS'a bakýnýz)
 sound2 Baðlantýlar girince ya da ileti gönderince ses çýkar
 soundcommand Ses çalma komutu (örn: esdplay)
+soundexample (\$sound = Çalýnacak ses dosyasý) Örn: esdplay \$sound
 soundfile Alarm ses dosyasý
 soundloop Ses tekrarlasýn
 soundserver Ses Sunucusu
 sound Ses
-soundexample (\$sound = Çalýnacak ses dosyasý) Örn: esdplay \$sound
 soundstatus Sesli alarmý aç/kapa
 sourcecode Kaynak kodu (derlenip kurulmasi gerekir)
 sslwarning UYARI!!! SSL'i kapatmak þifrelemeyi engeller, þ?ifreniz düz metin olarak aktarýlýr. Gerçekten kapatmayý gerektiren durumlar olmad?kça kullanmayýnýz.

@@ -170,6 +170,9 @@ errortls Error instal·lant el mòdul TLS:
 examples Exemples
 exitamsn Estàs segur de voler sortir?
 extras Serveis extra
+failed Fallit
+faileddelete Esborrat fallit
+faileddeleteperso Aquesta imatge no pot ser esborrada perquè no és una imatge personal. D'aquesta manera, només pots eliminar les imatges del teu perfil.
 faq Preguntes més freqüents (FAQ)
 filedoesnotexist El fitxer no existeix
 filemanexample (\$location serà substituïda pel directori o fitxer) Ex: nautilus \$location
