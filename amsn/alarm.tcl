@@ -288,8 +288,8 @@ proc run_alarm {user msg} {
 		if { [::config::getKey usesnack] } {
 			snack::sound alarmsnd_${alarm_win_number} -load [::alarms::getAlarmItem ${user} sound]
 			snack_play_sound alarmsnd_${alarm_win_number} [::alarms::getAlarmItem ${user} loop]
-			button .${wind_name}.stopmusic -text [trans stopalarm] -command "destroy .${wind_name}; alarmsnd_${alarm_win_number} destroy "
-			wm protocol .${wind_name} WM_DELETE_WINDOW "destroy .${wind_name}; alarmsnd_${alarm_win_number} destroy "
+			button .${wind_name}.stopmusic -text [trans stopalarm] -command "destroy .${wind_name}; alarmsnd_${alarm_win_number} stop; alarmsnd_${alarm_win_number} destroy "
+			wm protocol .${wind_name} WM_DELETE_WINDOW "destroy .${wind_name}; alarmsnd_${alarm_win_number} stop; alarmsnd_${alarm_win_number} destroy "
 			pack .${wind_name}.stopmusic -padx 2
 		} else {
 			#need different commands for windows as no kill or bash etc
