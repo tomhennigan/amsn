@@ -743,6 +743,10 @@ namespace eval ::lang {
 
 	proc UpdateLang { } {
 
+		if { $::cvs == 1 } {
+			return
+		}
+
 		set ::lang::UpdatedLang [list]
 
 		::lang::LoadVersions

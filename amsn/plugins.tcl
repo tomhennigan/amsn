@@ -1376,6 +1376,10 @@ namespace eval ::plugins {
 
 	proc UpdatePlugins { } {
 
+		if { $::cvs == 1 } {
+			return
+		}
+
 		foreach plugin [findplugins] {
 			set path [lindex $plugin 5]
 			set name [lindex $plugin 6]

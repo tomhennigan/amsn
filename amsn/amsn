@@ -47,6 +47,7 @@ wm state . withdraw
 ### Some global variables
 ############################################################
 set version "0.95b"
+set cvs 1
 set date "11/07/2004"
 set weburl "http://amsn.sourceforge.net"
 set program_dir "."

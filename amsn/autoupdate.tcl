@@ -561,7 +561,7 @@ namespace eval ::autoupdate {
 		::http::cleanup $token
 
 		# Auto-update for language files
-		if { [::config::getKey activeautoupdate] } {
+		if { [::config::getKey activeautoupdate] && $::cvs == 0 } {
 			::lang::UpdateLang
 			::plugins::UpdatePlugins
 		}
