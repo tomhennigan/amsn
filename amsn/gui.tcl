@@ -5185,44 +5185,67 @@ proc show_umenu {user_login grId x y} {
 #///////////////////////////////////////////////////////////////////////
 package require http
 
-proc checking_ver {} {
-    global weburl
+proc check_web_version { token } {
+	global version weburl
 
-    set newer [check_version_silent]
+	set newer 0
 
-    set ver [lindex $newer 1]
-    set newer [lindex $newer 0]
+	set tmp_data [ ::http::data $token ]
+	::http::cleanup $token
 
-    if { $newer == 0} {
-	msg_box "[trans nonewver]"
-    } elseif  { $newer == 1 } {
-	msg_box "[trans newveravailable $ver]\n$weburl"
-    } else {
-	msg_box "[trans connecterror]"
-    }
-     
-    destroy .checking
+	set lastver [split $tmp_data "."]
+	set yourver [split $version "."]
+
+	if { [lindex $lastver 0] > [lindex $yourver 0] } {
+		set newer 1
+	} else {
+		# Major version is at least the same
+		if { [lindex $lastver 1] > [lindex $yourver 1] } {
+			set newer 1
+		}
+	}
+
+	if { $newer == 1} {
+		msg_box "[trans newveravailable $tmp_data]\n$weburl"
+	}
+
+	return $newer
+
+
 }
 #///////////////////////////////////////////////////////////////////////
 
 #///////////////////////////////////////////////////////////////////////
 proc check_version {} {
+	global weburl
 
-
-   toplevel .checking -width 250 -height 50
+   toplevel .checking
 
    wm title .checking "[trans title]"
    wm transient .checking .
-   canvas .checking.c -width 250 -height 50 
+   canvas .checking.c -width 250 -height 50
    pack .checking.c -expand true -fill both
 
    .checking.c create text 125 25 -font splainf -anchor n \
 	-text "[trans checkingver]..." -justify center -width 250
 
    tkwait visibility .checking
-   grab set .checking
-   
-   after 1000 checking_ver
+   grab .checking
+
+	update idletasks
+
+	if { [catch {
+		set token [::http::geturl "${weburl}/amsn_latest" -timeout 5000]
+
+		if {[check_web_version $token]==0} {
+			msg_box "[trans nonewver]"
+		}
+
+	} res ]} {
+		msg_box "[trans connecterror]"
+	}
+
+	destroy .checking
 
 	
 }
@@ -5231,36 +5254,13 @@ proc check_version {} {
 
 #///////////////////////////////////////////////////////////////////////
 proc check_version_silent {} {
-    global version
 
-    set newer -1
+	catch {
+		::http::geturl {amsn.sourceforge.net/amsn_latest} -timeout 8000 -command check_web_version
+	}
 
-    set tmp_data 0
-
-    catch {
-	set token [::http::geturl {amsn.sourceforge.net/amsn_latest} -timeout 10000]
-	set tmp_data [ ::http::data $token ]
-
-	::http::cleanup $token
-
-	set lastver [split $tmp_data "."]
-	set yourver [split $version "."]
-
-         if { [lindex $lastver 0] > [lindex $yourver 0] } {
-            set newer 1
-         } else {
-            # Major version is at least the same
-	    if { [lindex $lastver 1] > [lindex $yourver 1] } {
-	       set newer 1
-	    } else {
-	       set newer 0
-	    }
-         }
-
-    }
-
-    return "$newer $tmp_data"
 }
+
 
 #///////////////////////////////////////////////////////////////////////
 proc run_command_otherwindow { command } {
