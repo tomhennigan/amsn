@@ -4352,6 +4352,8 @@ proc cmsn_draw_offline {} {
 	#Added by Trevor Feeney
 	#Disables Group Order menu
 	.main_menu.tools entryconfigure 5 -state disabled
+	#Disables View Contacts by
+	.main_menu.tools entryconfigure 6 -state disabled
 
 
 	#Change nick
