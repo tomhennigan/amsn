@@ -1003,7 +1003,8 @@ namespace eval ::MSN {
       global config
 
       if {($config(keepalive) == 1) && ($config(connectiontype) == "direct")} {
-      	after 60000 "::MSN::PollConnection"
+        after cancel "::MSN::PollConnection"
+      	after 60000 "::MSN::PollConnection"	
       } else {
       	after cancel "::MSN::PollConnection"
       }
