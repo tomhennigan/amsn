@@ -193,6 +193,7 @@ hybrid Modus hybrid
 identity Identitas
 ident Sedang mengidentifikasi
 inbox Kotak-Masuk
+installconvert Anda harus menginstalasi ImageMagick (program konversi) untuk dapat merubah gambar ke dalam format yang diperlukan oleh server MSN. Anda bisa men-download binari untuk Sistem Operasi anda di ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Apabila anda sudah memilikinya, maka itu adalah gangguan (bug) dan mohon dilaporkan.
 internalerror Kesalahan Server Internal
 invalidfile Arsip $2 yang dimasukkan dalam bidang “$1” tidak ada atau tidak dapat dibaca
 invalidusername Nama pengguna salah
