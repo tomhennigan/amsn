@@ -322,6 +322,11 @@ namespace eval ::notes {
 
 		set w ".notemanager"
 
+		if {[$w.contact.box cget -state] == "disabled"} {
+			return
+		}
+
+
 		$w.contact.box itemconfigure $::notes::selectedcontact -background white
 
 		set selection [$w.contact.box curselection]
@@ -454,6 +459,9 @@ namespace eval ::notes {
 
 		}
 
+		bind $w.right.subject.txt <Button1-ButtonRelease> "::notes::Note_New"
+		bind $w.right.note.txt <Button1-ButtonRelease> "::notes::Note_New"
+
 	}
 
 
@@ -515,6 +523,9 @@ namespace eval ::notes {
 
 		}
 
+		bind $w.right.subject.txt <Button1-ButtonRelease> "::notes::Note_New"
+		bind $w.right.note.txt <Button1-ButtonRelease> "::notes::Note_New"
+
 	}
 
 
@@ -536,6 +547,9 @@ namespace eval ::notes {
 		$w.right.notes.box configure -state normal
 		$w.contact.box configure -state normal
 		$w.right.warning.txt configure -text ""
+
+		bind $w.right.subject.txt <Button1-ButtonRelease> "::notes::Note_New"
+		bind $w.right.note.txt <Button1-ButtonRelease> "::notes::Note_New"
 
 		::notes::Update_Notes
 		::notes::Notes_Selected_Note choose $::notes::selected
