@@ -301,12 +301,12 @@ namespace eval ::pop3 {
 				}
 				status_log "POP3 messages: $mails\n"
 			}
+		}
 
+		catch {
 			# Call itself again after x minutes
 			set time [expr {int($::pop3::config(minute) *60000)}]
 			after $time ::pop3::check
-
-			return $mails
 		}
 	}
 

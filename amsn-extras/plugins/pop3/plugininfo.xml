@@ -8,5 +8,5 @@
 	<plugin_file>pop3.tcl</plugin_file>
 	<plugin_namespace>pop3</plugin_namespace>
 	<init_procedure>Init</init_procedure>
-	<deinit_procedure>stop</deinit_procedure>
+	<deinit_procedure>stop 0 0</deinit_procedure>
 </plugin>
