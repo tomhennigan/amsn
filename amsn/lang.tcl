@@ -1,4 +1,5 @@
 set lang_list [list]
+set langenc "iso8859-1"
 
 proc scan_languages {} {
    global lang_list program_dir
@@ -41,7 +42,7 @@ global lang
 
 #Lectura del idioma
 proc load_lang {} {
-   global config lang program_dir lang_list
+   global config lang program_dir lang_list langenc
 
    set file_id [open "[file join $program_dir lang/lang$config(language)]" r]
 

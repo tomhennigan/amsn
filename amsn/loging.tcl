@@ -19,14 +19,14 @@ namespace eval ::log {
 
 proc StartLog { email } {
 
-	global log_dir config
+	global log_dir config langenc
 
 	# if we got no profile, set fileid to 0
 	if { [LoginList exists 0 $config(login)] == 0 } {
 		LogArray $email set 0
 	} else {
 		LogArray $email set [open "[file join ${log_dir} ${email}.log]" a+]
-		fconfigure [LogArray $email get] -buffersize 1024
+		fconfigure [LogArray $email get] -buffersize 1024 -encoding $langenc
 	}
 }
 
@@ -273,7 +273,7 @@ proc JoinsConf { chatid usr_name } {
 
 proc OpenLogWin { email } {
 
-	global bgcolor config log_dir
+	global bgcolor config log_dir langenc
 	
 	set fileid [LogArray $email get]
 	if { $fileid != 0 && $fileid != "stdout"} {
@@ -311,6 +311,7 @@ proc OpenLogWin { email } {
 	
 	if { [file exists [file join ${log_dir} ${email}.log]] == 1 } {
 		set id [open "[file join ${log_dir} ${email}.log]" r]
+		fconfigure $id -encoding $langenc		
 		set logvar [read $id]
 		close $id
 	} else {
