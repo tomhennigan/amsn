@@ -67,6 +67,7 @@ cancel Cancelar
 cannotdeleteprofile Não é possível remover o perfil porque ele está a ser usado numa sessão Amsn
 cantexec Não consegue executar a Aplicação: $1. Ver Preferências
 casesensitive Use as dicas do case-sensitive
+cfgalarmall Configurar/Adicionar/Remorver Alarme Global
 cfgalarm Configurar/Adicinar/Remover Alarme
 changedisplaypic Mudar a imagem
 changefont Mudar Fonte
