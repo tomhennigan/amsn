@@ -285,6 +285,10 @@ namespace eval ::abook {
 	proc setContactData { user_login field data } {
 		global pgc
 		variable users_data
+
+		#post event for amsnplus
+		set evPar(nick) nick
+		::plugins::PostEvent parse_nick evPar
 		
 		set field [string tolower $field]
 		
@@ -301,7 +305,11 @@ namespace eval ::abook {
 			if { [info exists user_data($field)] } {
 				unset user_data($field)
 			}
-		} else { 
+		} else {
+			#post event for amsnplus
+			set evPar(data) data
+			::plugins::PostEvent parse_nick evPar
+
 			set user_data($field) $data
 		}
 

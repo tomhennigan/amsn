@@ -23,7 +23,7 @@ namespace eval ::amsnplus {
 			list [list bool "Allow commands in chat window" allow_commands] \  
 		]
 		#register events
-		#::plugins::RegisterEvent "aMSN Plus" UserNameWritten parse_nick
+		::plugins::RegisterEvent "aMSN Plus" parse_nick parse_nick
 		::plugins::RegisterEvent "aMSN Plus" chat_msg_send parseCommand
 	}
 
@@ -33,33 +33,33 @@ namespace eval ::amsnplus {
 	# and colours nick if enabled
 	# should parse ALSO MULTIPLE COLORS ·$(num,num,num)
 	proc parse_nick {event epvar} {
-		upvar 2 user_name user_name
-		upvar 2 colour colour
-		set strlen [string length $user_name]
+		upvar 2 data data
+		#upvar 2 colour colour
+		set strlen [string length $data]
 		set i 0
 		while {$i < $strlen} {
-			set str [string range $user_name $i [expr $i + 1]]
+			set str [string range $data $i [expr $i + 1]]
 			if {[string equal $str "·\$"]} {
 				if {$::amsnplus::config(colour_nicks)} {
 					#know if the number has 1 or 2 digits
 					set last [expr $i + 3]
-					set char [string index $user_name [expr $i + 3]]
+					set char [string index $data [expr $i + 3]]
 					if {![::amsnplus::is_a_number $char]} {
 						set last [expr $i + 2]
 					}
 					#obtain rbg color
-					set num [string range $user_name [expr $i + 2] $last]
-					set colour [::amsnplus::getColor $num $colour]
+					set num [string range $data [expr $i + 2] $last]
+					#set colour [::amsnplus::getColor $num $colour]
 					
 					incr i
 				}
 				if {!$::amsnplus::config(colour_nicks)} {
 					set last [expr $i + 3]
-					set char [string index $user_name [expr $i + 3]]
+					set char [string index $data [expr $i + 3]]
 					if {![::amsnplus::is_a_number $char]} {
 						set last [expr $i + 2]
 					}
-					set user_name [string replace $user_name $i $last ""]
+					set data [string replace $data $i $last ""]
 				}
 			}
 			if {![string equal $str "·\$"]} {
