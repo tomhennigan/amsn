@@ -70,6 +70,7 @@ browse Prebrskaj
 browser Brskalnik
 browserexample ( \$url bo zamenjan z URL-jem). Npr.: mozilla \$url
 busy Zaposlen
+cachedpics $1 shranjenih slik
 cancel Preklici
 cannotdeleteprofile Ne morem izbrisati profila, ker je v Amsn seji
 cantexec Ne morem izvesti programa $1. Preveri nastavitve.
@@ -130,6 +131,7 @@ corruptstates Datoteka z osebnimi stanji je pokvarjena. Ustvarjam novo. Stara da
 countrycode Oznaka moje drzave
 cprofile Ustvari profil
 credits Zasluge
+currentdate Trenutni datum
 custom_edit Uredi svoje smeske
 custom_new Dodaj svojega smeska
 cut Izrezi
@@ -275,6 +277,7 @@ loging Belezenje
 login Prijavi se
 logolder Belezi samo pogovore, ki so izpred
 logout Odjavi se
+logsbydate Razvrsti loge po datumu (Hitrejse nalaganje zgodovine)
 logsin se je ravnokar prijavil/a
 logsmileys Prikazi emotikone in smeske v zgodovini
 logsout se je ravnokar odjavil/a
@@ -435,6 +438,7 @@ server Streznik
 serverunavailable Streznik ni dosegljiv
 session Seja
 showblockedlist Pokazi seznam ljudi, ki so te blokirali
+showcachedpics Pokazi/skrij shranjene osebne slike
 showdisplaypic2 Prikazi osebno sliko, ko se odpre pogovor
 showdisplaypic Prikazi osebno sliko
 showmypic Moja osebna slika
