@@ -1,0 +1,375 @@
+amsn_lang_version 2
+about Относно
+acceptfile Приема файл $1, големина $2? Записан в $3
+accept Приеми
+actions Действия
+addacontact Добави контакт
+addedyou $1 ($2) Ви добави към неговата/нейната контактна листа
+addstate Добави нов режим
+addto Добави към $1
+addtocontacts Добави към контактната листа
+addtoo Добави към моята контактна листа
+admincontacts Администриране на контакти
+admingroups Администриране на групи
+adverts Реклами
+alarmpref Настройки на аларма за потребителя
+alarmstatus Включи/изключи алармата за този потребител
+allowallbutbl Разреши всички потребители да контакуват с мен, с изключение на тези от "Блокирани"
+allowbadwords Забрани цензурата за прякорите
+allowlist Разрешен списък :
+allowonlyinal Разреши само на потребителите от моята "Приемна" листа да контактуват с мен
+allowseen Разреши на този потребител да вижда когато съм "На линия" и да контактува с мен
+animatedsmileys Разреши анимираните усмивки
+appearance Изглед
+appearoff Показва изключен
+areacode Държавен код
+aretyping $1 пише съобщение
+askprofile Този потребителски акаунт няма профил. Искате ли да направите такъв ? \n Ако не, няма да можете да ползвате опцията "стари съобщения", или да настройвате аларми и да запишете паролата си. \n Ако да, искате ли да имате отделен конфигурационнен файл. \n \n Щракнете на "Създай Профил" за да направите нов профил за $1.
+autoaway Покажи ме като "Away" ако не съм активен
+autoconnect2 Автоматичен вход, след като aMSN е стартиран
+autoconnect Автоматично стартиране след пускане на amsn
+autohotmaillog Автоматично влизане в Hotmail
+autoidle Автоматично без активност
+autoip Автоматично IP
+autonoact Покажи ме като "Not Active" когато няма активност 
+avoidseen Забрани на този потребител да ме вижда, когато съм "На линия" и му забрани да контактува с мен
+away Away
+awaymsg1 Питай за away съобщение всеки път когато сменявам моят статус на Away/BRB/Busy
+awaymsg2 Никога не питай и ползвай текущото съобщение 
+baduserpass Грешно потребителско име или парола
+bgcolor Смени задния цвят на aMSN 
+blankdirect Остави празно за директно свързване
+block Блокирай
+blocked Блокиран
+blocking Блокиране
+blockinter1 Когато Вашият статус е "на линия", проверявай всеки 
+blockinter2 секунди, или проверявай всеки :
+blockinter3 всеки 
+blocklist Блокирана листа :
+blockmessage Тези потребители са на линия и са Ви блокирали 
+blockusers Брой на потребители за еднократна проверка 
+broughtby  Доставен до Вас, благодарение на следните разрабочици
+browse Разгледай
+browser Browser
+busy Зает
+cancel Прекрати
+cannotdeleteprofile Невъзможно да се изтрие профила, понеже се използва от стартиран Amsn
+cantexec Неможе да стартира програмата : $1. Проверете настройките
+cfgalarm Конфигурирай/Добави/Премахни аларма
+changefont Смяна на шрифта
+changenick Смяна на прякора
+chat Разговор
+chatack Приемане на разговор от
+chatmaxmin Когато някой започне разговор с мен, Аз искам да съм:
+chatreq Искане на разговор
+chatsmileys2 Покажи емоции и усмивки в стаята за разговори
+chatsmileys Усмивки
+checkblocking Продължителна проверка ако потребителят ви блокира 
+checkfilman Получените файлове ще бъдат записани в $1. Моля, проверете настройките на файловия мениджър в Настройки.
+checkingver Прожерка за нова версия
+checkonfln Проверка за блокиране от страна на потребителя когато се показва като "Изключен"
+checkver Проверка за нова версия
+choosebasefont Избери тип на шрифта
+choosebgcolor Избери цвят на фона
+choosecontact Избери контакт от листата
+choosefontcolor Избери цвят на шрифта
+clearlog2 Изчисти "минали разговори" за този контакт
+clearlog3 Изчисти всички записи
+clearlog Изчисти запис
+clicktologin Щракни тук за вход
+close Затвори
+closingdocks Close button Minimizes
+command Команда
+confirmdelete Сигурен ли сте, че искате да изтриете $1?
+confirm Сигурен ли сте?
+connected Вече сте свързан
+connecterror Грешка при свързване
+connecting Свързване
+connection Връзка
+connectionlost Изключване: Връзката с сървера затворена
+contactadded Добавен контакт
+contactdoesnotexist Контактът несъществува!
+contactlist Контактна листа :
+copy Копирай
+copytogroup Копирай в група
+countrycode Моята държава/Регионален код
+cprofile Създай профил
+cut Отрежи
+date Дата
+days дни
+dcprofile Не създавай профил
+default Стандартна конфигурация
+delete Изтрии
+deliverfail Излезе проблем при изпращането на това съобщение
+delprofile2 Избери профил който да се изтрие 
+delprofile Изтрии профил
+directconnection Имам директна връзка към Интернет (използва порт 1863)
+dockfreedesktop FreeDesktop (KDE3/Gnome2)
+dockgtk Gnome Dock
+docking Docking
+dockingoff Docking Off
+dockkde KDE Dock
+edit Редактирай
+editnewstate Нов режим на персоналното съобщение
+editprofile Редактирай профил
+editstate Редактирай сегашното автоматично съобщение
+emotisounds Просвирвай звуци на определени емоции
+enableproxy Разреше proxy
+enableremote Разреши отдалечено свързване
+encoding2 Промени визуализирането на кодовата таблица
+encoding Избери кодова таблица
+entercontactemail Въведи e-mail за контакта
+enterfilename Въведи име на файл
+enternick Въведете вашият прякор
+examples Примери
+exitamsn Сигурен ли сте, че искате да излезете?
+extras Допълнителни услуги
+faq FAQ (Често задавани въпроси и отговори)
+filedoesnotexist Файлът несъществува
+fileman Файлов мениджър
+filename Име на файл
+filetransfercancelled Трансфер на файлове - прекратен
+filetransfercomplete Трансфер на файлове - завършен
+followtext Скролирай на долу, когато се въвежда текст
+ftacceptedby $1 приета оферта за трансфер на файл '$2'.
+ftaccepted Файл трансфер приет
+ftaccepting Приемане на оферта за файлов трансфер
+ftconnecterror Грешка при свързване с отдалечения потребител
+ftconnecting Свързване към $1 порт $2
+ftconnectionlost Връзката с отдалечения контакт загубена
+ftgotinvitation $1 иска да ви изпрати файл '$2' ($3 байтове). Ще бъде записан в директория $4. Искате ли да го получите този файл?
+ftportpref Отваряне на порт за файлов трансфер
+ftrejectedby $1 отказана оферта за файлов трансфер за файл '$2'.
+ftrejected Файлов трансфер отказан
+ftsendinvitation Оферта за файлов трансфер за файл '$2' ($3 байтове) бе изпратена до $1.
+gonelunch На обяд
+groupadd Добави група
+group Група
+groupdelete Изтрии група
+groupexists Групата вече съществува
+groupmissing Неможе да открие група
+groupnewname Ново име
+groupnotempty Групата не е празна!
+groupoldname Старо име
+grouprename Преименувай група
+groupunknown Неизвестна група
+handle Handle
+helpcontents Съдържание на Помощна информация
+help Помощ
+history Прегледай "Стари разговори/съобщения"
+home в къщи
+httpconnection Свързване използвайки HTTP метод (използва HTTP протокол през порт 80)
+ident Индетифициране
+identity Индентичност
+inbox Входящи
+internalerror Вътрешна сърверна грешка
+invalidusername Грешно потребителско име
+invitationcancelled Поканата беше прекратена
+invite Покана/Оферта
+ipaddress IP Адрес
+ipdetect Откри правилен IP за файлов трансфер ползвайки HTTP
+istyping $1 пише съобщение
+joins $1 влиза в говорилната
+keepalive Keepalive (NAT)
+keeplog2 Запиши всички разговори в aMSN's History за пре-разглеждане
+keeplog Пази записи от разговорите
+language Език
+lastmsgtime Последно съобщение получено в $1
+lclosedwin $1 затвори прозореца на $2
+lconftopriv Конференцията бе обявена за частен разговор с $1
+lconvstarted Разговорът стартиран на $1
+leaveblankforhotmail Остави празно за да ползва hotmail web
+leaves $1 напусна разговора
+lenteredconf $1 влезе в раговор на $2
+linprivate ЧАСТЕН
+listeningon Слуша на порт $1
+listsmileys2 Покажи емоции и усмивки в aMSN главната контактна листа
+listsmileys Списък с усмивки
+ljoinedconf $1 влезе в конференция
+lleftconf $1 излезе от конференция
+loadcontacts Зареждане на контактната листа
+logbigger Дължината на файла с записа никога няма да е крайна 
+logfandexp Log File Sizes and History Expiry
+loggedotherlocation Изключване, включен сте от друг компютър
+loggingin Влизане в
+login Влез
+loginas Влязхоте кате
+loging Влизане
+logolder Only log chats that have taken place in the last
+logout Изход
+logsin has just logged in
+logsmileys Displays Emoticons and Smileys in aMSN's history windows
+lprivtoconf Private chat turned into Conference with $1
+luclosedwin You have closed the window on $1
+mailer Mailer
+maximised Maximised
+minimised Minimised/Iconified
+mins minutes
+mobile Mobile
+morepersonal More States ->
+move Move
+movetogroup Move to Group
+msgmaxmin When a new message arrives I want it to be :
+msg Message
+msgmode Select how to handle multiple message windows :
+msn AMSN
+mustrestart You must restart the program to apply changes
+myhomephone My Home Phone
+mymobilephone My Mobile Phone
+mystatus My status
+myworkphone My Work Phone
+natip IP detection by web page 
+natkeepalive If you are getting disconnected regularly, enable this KeepAlive
+needonline You still are/appear offline!
+newmail $1 new messages in Inbox
+newmailfrom New mail from $1 ($2)
+newmsg New message
+newveravailable Newer version $1 available for download
+next Next
+noactivity No activity
+nodataavailable No data available for $1
+nologfile No Log file for $1
+nonewmail No new messages in Inbox
+nonewver There are no new versions available to download
+no No
+normal Normal
+nosystemtray System tray not available
+notify1 Display notify window when contacts come online
+notify2 Display notify window when new messages are received
+notify3 Display notify window when e-mails reach your Inbox
+notify notify
+notifyoffset Set the position of the notify window by giving it position offsets
+notifywin Notify Window
+nousersinsession No users in session
+offline Offline
+ok Ok
+onenewmail 1 new message in Inbox
+online Online
+onphone On phone
+openreceived Open received files
+options Options
+ordercontactsby Order contacts by
+ordergroupsby Order groups by
+other Other
+pager Pager
+pass Password
+paste Paste
+personal Personal
+phone Phone
+picfile Picture File (GIF < 500 x 500)
+picstatus Picture Alarm
+port Port
+prefalerts My Event Alerts and Sounds
+prefapps Applications
+prefawaymsg My Away Message
+prefblock1 Check on disconnect
+prefblock2 Continuously check
+prefconnection Connection settings
+prefemotic Emotions Icons and Smileys 
+preferences Preferences
+preffont2 Change the way others see my text in chats
+preffont3 Change aMSN's interface font and size
+preffont My Message Text
+preflog1 My History and Logging Options
+preflook My aMSN Messenger Look
+prefmsging My Messaging Interface
+prefname My MSN Messenger Name/NickName
+prefphone2 Type the phone numbers that you would like people \n on your Allow List to see \n
+prefphone My Phone Numbers
+prefprivacy2 User's Contact/Reverse lists
+prefprivacy User's Allow/Block lists
+prefprofile2 Create or modify your public profile (the \n description of yourself that others can see)
+prefprofile3 aMSN's User Configuration Profiles
+prefprofile My Public Profile
+prefproxy My Proxy Settings
+prefremote Remote Connection Preferences
+prefsession My Sign In and Status
+prefshared Shared Connections (only for NAT)
+prefsound Sounds
+privacy Privacy
+profiledconfig Profiled Config
+profileinuse This Profile is being used by another aMSN session, please chose another one
+profiles Profiles
+properties Properties
+proxyconfhttp HTTP proxy support configuration
+proxyconf Proxy configuration
+proxyconnection I connect to the internet using a proxy server:
+proxy I am behind a Proxy Server (HTTP or SOCKS5)
+publishphones Publish my phone numbers
+raised Raised/Deiconified
+receivedbytes Received $1 of $2 bytes
+receivefile Receive file
+reconnecting Reconnecting to server
+reconnect Waiting for $1 to reconnect
+reject Reject
+rememberpass Remember password
+removefromlist Remove from this list
+reversed Reversed
+reverselist Reverse list :
+rightback Be right back
+saveas Save as
+savecontacts Save contact list
+save Save
+savetofile Save to File
+says $1 says
+sbcon Connecting to Switch Board
+sendfile Send file
+sendmail Send mail
+sendmsg Send message
+send Send
+sentbytes Sent $1 of $2 bytes
+servergoingdown Disconnected: Server is going down
+server Server
+session Session
+showblockedlist Show list of people who blocked you
+sound2 Play sounds when contacts sign in or send a message
+soundcommand This has to be the play command (ex: esdplay)
+sound Event Sounds
+soundfile Sound File
+soundloop Loop Sound
+soundserver Sound Server
+soundstatus Sound Alarm
+startoffline2 Sign In silently as "Appear Offline"
+startoffline Start Offline
+stateautomsg AutoMessage to Send
+stateedittext Please edit the fields you would like \n to have modified and press Save
+stateinfo Personal State Configuration
+state I want to appear as
+statename Name of Personal State
+statenewtext Please fill the required information to create \n your new Personal State and press Save
+status Status
+stopalarm Stop Alarm
+stylechat Same look as chats
+stylehist aMSN's history look
+stylelog Select the format in which you would like to view your History
+syntaxerror Syntax Error
+tabbed Tabbed Windows
+textsize Text size
+title Al's Messenger
+tools Tools
+tooltips Enable tooltips
+to To
+transnotexists The requested file has not been translated into the current language yet.
+traynotcompiled Tray icon plugin is not complied. Check plugins/traydock
+twonewmail $1 new messages in Inbox
+unblock Unblock
+uoffline Offline
+uonline Online
+useralreadyonlist User is already on contact list
+userblocked The user is online but blocked you
+usernotonline The user is not online
+user User
+useryourself You can't chat with yourself
+verifyblocked Check for people blocking you
+version Version
+viewprofile View Profile
+view View
+willjoin Waiting $1 joins conversation
+work Work
+wrongprofileversion Wrong profile config file version. In order to fix it, please remove directory $1, or update amsn
+xoffset X Offset
+yes Yes
+yoffset Y Offset
+youblocked You have been blocked
+yousay You say
+youwant You want
