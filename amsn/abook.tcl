@@ -183,82 +183,88 @@ namespace eval ::abookGui {
 	    return 
 	}
 
-	toplevel $w
+	set bgcol #ABC8CE
+
+#	option add *NoteBook.Label.background $bgcol
+	toplevel $w -background $bgcol
 	wm title $w "[trans about] $email"
-	wm geometry $w 185x140
+	wm geometry $w 210x140
 	set nbtIdent "[trans identity]"
 	set nbtPhone "[trans phone]"
-	frame $w.n
+	frame $w.n -background $bgcol
 	    pack [notebook $w.n.p $nbtIdent $nbtPhone] \
 	    	-expand 1 -fill both -padx 1m -pady 1m
 	#  .----------.
 	# _| Identity |________________________________________________
 	set nbIdent [getNote $w.n.p $nbtIdent]
-   	label $nbIdent.e -text "Email:" -font bboldf
-   	label $nbIdent.e1 -text $email -font splainf -foreground blue
-	label $nbIdent.h -text "[trans handle]:" -font bboldf
-	label $nbIdent.h1 -text $cd(handle) -font splainf -foreground blue
-	label $nbIdent.g -text "[trans group]:" -font bboldf
-	label $nbIdent.g1 -text $cd(group) -font splainf -foreground blue
+	$nbIdent configure -background $bgcol
+   	label $nbIdent.e -text "Email:" -font bboldf -bg $bgcol
+   	label $nbIdent.e1 -text $email -font splainf -fg blue -bg $bgcol
+	label $nbIdent.h -text "[trans handle]:" -font bboldf -bg $bgcol
+	label $nbIdent.h1 -text $cd(handle) -font splainf -fg blue -bg $bgcol
+	label $nbIdent.g -text "[trans group]:" -font bboldf -bg $bgcol
+	label $nbIdent.g1 -text $cd(group) -font splainf -fg blue -bg $bgcol
 	grid $nbIdent.e -row 0 -column 0 -sticky e
-	grid $nbIdent.e1 -row 0 -column 1
+	grid $nbIdent.e1 -row 0 -column 1 -sticky w
 	grid $nbIdent.h -row 1 -column 0 -sticky e
-	grid $nbIdent.h1 -row 1 -column 1
+	grid $nbIdent.h1 -row 1 -column 1 -sticky w
 	grid $nbIdent.g -row 2 -column 0 -sticky e
-	grid $nbIdent.g1 -row 2 -column 1
+	grid $nbIdent.g1 -row 2 -column 1 -sticky w
         bind $w <Control-i> "pickNote $w.n.p $nbtIdent"
 
 	#  .--------.
 	# _| Phones |________________________________________________
 	set nbPhone [getNote $w.n.p $nbtPhone]
+	$nbPhone configure -background $bgcol
 	if { $edit == "" } {
-	label $nbPhone.h -font bboldf -text "[trans home]:"
-	label $nbPhone.h1 -font splainf -text $cd(phh) -foreground blue \
+	label $nbPhone.h -font bboldf -text "[trans home]:" -bg $bgcol
+	label $nbPhone.h1 -font splainf -text $cd(phh) -fg blue -bg $bgcol \
 		-justify left
-	label $nbPhone.w -font bboldf -text "[trans work]:"
-	label $nbPhone.w1 -font splainf -text $cd(phw) -foreground blue \
+	label $nbPhone.w -font bboldf -text "[trans work]:" -bg $bgcol
+	label $nbPhone.w1 -font splainf -text $cd(phw) -fg blue -bg $bgcol\
 		-justify left
-	label $nbPhone.m -font bboldf -text "[trans mobile]:"
-	label $nbPhone.m1 -font splainf -text $cd(phm) -foreground blue \
+	label $nbPhone.m -font bboldf -text "[trans mobile]:" -bg $bgcol
+	label $nbPhone.m1 -font splainf -text $cd(phm) -fg blue -bg $bgcol \
 		-justify left
-	label $nbPhone.p -font bboldf -text "[trans pager]:"
-	label $nbPhone.p1 -font splainf -text $cd(mob) -foreground blue \
+	label $nbPhone.p -font bboldf -text "[trans pager]:" -bg $bgcol
+	label $nbPhone.p1 -font splainf -text $cd(mob) -fg blue -bg $bgcol \
 		-justify left
 	grid $nbPhone.h -row 0 -column 0 -sticky e
-	grid $nbPhone.h1 -row 0 -column 1
+	grid $nbPhone.h1 -row 0 -column 1 -sticky w
 	grid $nbPhone.w -row 1 -column 0 -sticky e
-	grid $nbPhone.w1 -row 1 -column 1
+	grid $nbPhone.w1 -row 1 -column 1 -sticky w
 	grid $nbPhone.m -row 2 -column 0 -sticky e
-	grid $nbPhone.m1 -row 2 -column 1
+	grid $nbPhone.m1 -row 2 -column 1 -sticky w
 	grid $nbPhone.p -row 3 -column 0 -sticky e
-	grid $nbPhone.p1 -row 3 -column 1
+	grid $nbPhone.p1 -row 3 -column 1 -sticky w
 	} else {
 	label $nbPhone.h -font bboldf -text "[trans home]:"
-	entry $nbPhone.h1 -font splainf -text cd(phh) -foreground blue 
+	entry $nbPhone.h1 -font splainf -text cd(phh) -fg blue -bg $bgcol
 	$nbPhone.h1 insert 1 $cd(phh)
-	label $nbPhone.w -font bboldf -text "[trans work]:"
-	entry $nbPhone.w1 -font splainf -text cd(phw) -foreground blue 
+	label $nbPhone.w -font bboldf -text "[trans work]:" -bg $bgcol
+	entry $nbPhone.w1 -font splainf -text cd(phw) -fg blue -bg $bgcol
 	$nbPhone.w1 insert 1 $cd(phw)
-	label $nbPhone.m -font bboldf -text "[trans mobile]:"
-	entry $nbPhone.m1 -font splainf -text cd(phm) -foreground blue
+	label $nbPhone.m -font bboldf -text "[trans mobile]:" -bg $bgcol
+	entry $nbPhone.m1 -font splainf -text cd(phm) -fg blue -bg $bgcol
 	$nbPhone.m1 insert 1 $cd(phm)
-	label $nbPhone.p -font bboldf -text "[trans pager]:"
-	label $nbPhone.p1 -font splainf -text $cd(mob) -foreground blue \
+	label $nbPhone.p -font bboldf -text "[trans pager]:" -bg $bgcol
+	label $nbPhone.p1 -font splainf -text $cd(mob) -fg blue -bg $bgcol \
 		-justify left
 	grid $nbPhone.h -row 0 -column 0 -sticky e
-	grid $nbPhone.h1 -row 0 -column 1
+	grid $nbPhone.h1 -row 0 -column 1 -sticky w
 	grid $nbPhone.w -row 1 -column 0 -sticky e
-	grid $nbPhone.w1 -row 1 -column 1
+	grid $nbPhone.w1 -row 1 -column 1 -sticky w
 	grid $nbPhone.m -row 2 -column 0 -sticky e
-	grid $nbPhone.m1 -row 2 -column 1
+	grid $nbPhone.m1 -row 2 -column 1 -sticky w
 	grid $nbPhone.p -row 3 -column 0 -sticky e
-	grid $nbPhone.p1 -row 3 -column 1
+	grid $nbPhone.p1 -row 3 -column 1 -sticky w
 	}
         bind $w <Control-p> "pickNote $w.n.p $nbtPhone"
 
-	frame $w.b
-	    button $w.b.ok -text "[trans close]" -command "destroy $w"
-	    button $w.b.submit -text "Update" -state disabled \
+	frame $w.b -background $bgcol
+	    button $w.b.ok -text "[trans close]" -command "destroy $w" \
+	    	-bg $bgcol
+	    button $w.b.submit -text "Update" -state disabled -bg $bgcol \
 		    -command "::abookGui::updatePhones $nbPhone h1 w1 m1 p1; destroy $w"
 	    pack $w.b.ok $w.b.submit -side left
 	    if {$edit != ""} {
@@ -270,6 +276,11 @@ namespace eval ::abookGui {
    }
 }
 # $Log$
+# Revision 1.8  2002/06/24 12:34:56  lordofscripts
+# Use color scheme for showEntry dialog and sticky w for the rightmost
+# column of the notebook tabs to align them to the left side. Increased
+# width of dialog so that it shows all the info when data is too long.
+#
 # Revision 1.7  2002/06/20 17:46:14  lordofscripts
 # Moved group-related handling to the "groups" namespace (new)
 #
