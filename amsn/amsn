@@ -1670,7 +1670,7 @@ proc cmsn_change_state {recv} {
       if {$user_name != [lindex $user_data 1]} {
       	#Nick differs from the one on our list, so change it
 	#in the server list too
-#	::MSN::changeName $user $user_name
+	::MSN::changeName $user $user_name
       }
 
       
