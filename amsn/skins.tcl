@@ -79,9 +79,12 @@ namespace eval ::skin {
 	#  - pixmap_file => The image file
 	#  - location => [NOT REQUIRED, defaults to pixmaps]
 	#                Which folder in skins the file is under (eg pixmaps or smileys)
-	proc setPixmap {pixmap_name pixmap_file {location pixmaps}} {
+	#  - fblocation => [NOT REQUIRED] Directory to check if file not found in the skins (for plugins)
+	proc setPixmap {pixmap_name pixmap_file {location pixmaps} {fblocation ""}} {
 		variable ${location}_names
+		variable ${location}_fblocation
 		set ${location}_names($pixmap_name) $pixmap_file
+		set ${location}_fblocation($pixmap_name) $fblocation
 	}
 
 
@@ -93,7 +96,7 @@ namespace eval ::skin {
 	# Arguments:
 	#  - pixmap_name => Name of the image resource to be used in amsn
 	#  - location => [NOT REQUIRED, defaults to pixmaps]
-	#                Which folder in skins the file is under (eg pixmaps or smileys)
+	#                Which folder in the skins folder the file is under (eg pixmaps or smileys)
 	proc loadPixmap {pixmap_name {location pixmaps}} {
 		# Check if pixmap is already loaded
 		variable loaded_${location}
@@ -103,11 +106,12 @@ namespace eval ::skin {
 
 		# Not loaded, so let's load it
 		variable ${location}_names
+		variable ${location}_fblocation
 		if { ! [info exists ${location}_names($pixmap_name) ] } {
 			return ""
 		}
 
-		set loaded_${location}($pixmap_name) [image create photo -file [::skin::GetSkinFile ${location} [set ${location}_names($pixmap_name)]] -format gif]
+		set loaded_${location}($pixmap_name) [image create photo -file [::skin::GetSkinFile ${location} [set ${location}_names($pixmap_name)] "" [set ${location}_fblocation($pixmap_name)]] -format gif]
 		return [set loaded_${location}($pixmap_name)]
 	}
 
@@ -195,15 +199,17 @@ namespace eval ::skin {
 		# Reload all pixmaps
 		variable loaded_pixmaps
 		variable pixmaps_names
+		variable pixmaps_fblocation
 		foreach name [array names loaded_pixmaps] {
-			image create photo $loaded_pixmaps($name) -file [::skin::GetSkinFile pixmaps $pixmaps_names($name) $skin_name] -format gif
+			image create photo $loaded_pixmaps($name) -file [::skin::GetSkinFile pixmaps $pixmaps_names($name) $skin_name $pixmaps_fblocation($name)] -format gif
 		}
 
 		# Reload smileys
 		variable loaded_smileys
 		variable smileys_names
+		variable smileys_fblocation
 		foreach name [array names loaded_smileys] {
-			image create photo $loaded_smileys($name) -file [::skin::GetSkinFile smileys $smileys_names($name) $skin_name] -format gif
+			image create photo $loaded_smileys($name) -file [::skin::GetSkinFile smileys $smileys_names($name) $skin_name $smileys_fblocation($name)] -format gif
 		}
 
 		# Now reload special images that need special treatment
@@ -297,7 +303,8 @@ namespace eval ::skin {
 	#  - type => The subdir in skins/ (pixmaps, sounds, smileys...)
 	#  - filename => The desired filename (for example, online.gif)
 	#  - skin_override => [NOT REQUIRED] Use this skin instead of current
-	proc GetSkinFile { type filename {skin_override ""} } {
+	#  - fblocation => [NOT REQUIRED] Directory to check if file not found in the skins (for plugins)
+	proc GetSkinFile { type filename {skin_override ""} {fblocation ""} } {
 		global HOME2 HOME
 
 		if { [catch { set skin "[::config::getGlobalKey skin]" } ] != 0 } {
@@ -330,6 +337,9 @@ namespace eval ::skin {
 		#Get file from default skin
 		} elseif { [file readable [file join [set ::program_dir] skins $defaultskin $type $filename]] } {
 			return "[file join [set ::program_dir] skins $defaultskin $type $filename]"
+		#Get file from fallback location
+		} elseif { ($fblocation != "") && [file readable [file join $fblocation $filename]] } {
+			return "[file join $fblocation $filename]"
 		} else {
 			return "[file join [set ::program_dir] skins $defaultskin $type null]"
 		}
