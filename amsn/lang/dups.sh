@@ -4,6 +4,8 @@
 # Usage:        ./dups.sh language_file
 #
 # Report duplicated keys for a given language file.
+#
+# $Id$
 
 if [ $# -ne 1 ]; then
     echo "usage: `basename $0` language_file"

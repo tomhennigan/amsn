@@ -8,6 +8,8 @@
 # If the key already exists in the target language file, the associated message
 # will be replaced. In the latter case, the old message will be printed on
 # screen first.
+#
+# $Id$
 
 proc prompt {msg} {
     puts -nonewline "$msg"
