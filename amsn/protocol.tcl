@@ -4304,78 +4304,81 @@ proc load_contact_list { } {
 proc save_contact_list { } {
     global HOME list_version list_al list_fl list_rl list_bl list_BLP contactlist_loaded
 
+	 status_log "Saving contact list... contactlist_loaded=$contactlist_loaded. list_version=$list_version\n" blue
     if { $contactlist_loaded == 0 || $list_version == 0 } { return }
 
-    if {[file readable "[file join ${HOME} contacts.ver]"] != 0} {
+	 status_log "Saving contact list... saving to disk...\n" blue
 
-	set file_id [open [file join ${HOME} contacts.ver] r]
-	gets $file_id version
+	if {[file readable "[file join ${HOME} contacts.ver]"] != 0} {
 
-	if { $version == $list_version } {
-	    close $file_id
-	    return
+		set file_id [open [file join ${HOME} contacts.ver] r]
+		gets $file_id version
+
+		if { $version == $list_version } {
+			close $file_id
+			status_log "Saving contact list... latest list version is already on disk...\n" blue
+			return
+		}
+    }
+	close $file_id
+
+
+	set file_id [open "[file join ${HOME} contacts.ver]" w]
+	puts $file_id "$list_version"
+	close $file_id
+
+	set file_id [open "[file join ${HOME} contacts.xml]" w ]
+
+	fconfigure $file_id -encoding utf-8
+
+	puts $file_id "<?xml version=\"1.0\"?>"
+
+	::abook::getPersonal perso
+	puts $file_id "<contactlist_${list_version}>\n   <BLP>${list_BLP}</BLP>\n   <PHH>[::sxml::xmlreplace [set perso(phh)]]</PHH>\n   <PHW>[::sxml::xmlreplace [set perso(phw)]]</PHW>"
+	puts $file_id "   <PHM>[::sxml::xmlreplace [set perso(phm)]]</PHM>\n   <MOB>[::sxml::xmlreplace [set perso(mob)]]</MOB>\n   <MBE>[::sxml::xmlreplace [set perso(mbe)]]</MBE>"
+
+	foreach group [::groups::GetList] {
+		puts $file_id "   <Group>\n      <gid>${group}</gid>\n      <name>[::sxml::xmlreplace [::groups::GetName $group]]</name>\n   </Group>"
 	}
-    }
+
+	puts $file_id "   <AL>"
 
 
-    set file_id [open "[file join ${HOME} contacts.ver]" w]
-    
-    puts $file_id "$list_version"
+	foreach user $list_al {
+		set user [::sxml::xmlreplace $user]
+		puts $file_id "      <user>\n         <email>[lindex $user 0]</email>\n         <nickname>[lindex $user 1]</nickname>\n      </user>"
+	}
 
-    close $file_id
+	puts $file_id "   </AL>\n\n   <BL>"
 
-    set file_id [open "[file join ${HOME} contacts.xml]" w ]
+	foreach user $list_bl {
+		set user [::sxml::xmlreplace $user]
+		puts $file_id "      <user>\n         <email>[lindex $user 0]</email>\n         <nickname>[lindex $user 1]</nickname>\n      </user>"
+	}
 
-    fconfigure $file_id -encoding utf-8
+	puts $file_id "   </BL>\n\n   <RL>"
 
-    puts $file_id "<?xml version=\"1.0\"?>"
+	foreach user $list_rl {
+		set user [::sxml::xmlreplace $user]
+		puts $file_id "      <user>\n         <email>[lindex $user 0]</email>\n         <nickname>[lindex $user 1]</nickname>\n      </user>"
+	}
 
-    ::abook::getPersonal perso
+	puts $file_id "   </RL>\n\n   <FL>"
 
-    puts $file_id "<contactlist_${list_version}>\n   <BLP>${list_BLP}</BLP>\n   <PHH>[set perso(phh)]</PHH>\n   <PHW>[set perso(phw)]</PHW>"
-    puts $file_id "   <PHM>[set perso(phm)]</PHM>\n   <MOB>[set perso(mob)]</MOB>\n   <MBE>[set perso(mbe)]</MBE>"
+	foreach user $list_fl {
+		::abook::getContact [lindex $user 0] userd
+		set user [::sxml::xmlreplace $user]
 
-    foreach group [::groups::GetList] {
-	puts $file_id "   <Group>\n      <gid>${group}</gid>\n      <name>[::sxml::xmlreplace [::groups::GetName $group]]</name>\n   </Group>"
-    }
+		puts $file_id "      <user>\n         <email>[lindex $user 0]</email>\n         <nickname>[lindex $user 1]</nickname>"
+		puts $file_id "         <gid>[join [::abook::getGroup [lindex $user 0] -id] ,]</gid>\n         <PHH>[::sxml::xmlreplace [set userd(phh)]]</PHH>"
+		puts $file_id "         <PHW>[::sxml::xmlreplace [set userd(phw)]]</PHW>\n         <PHM>[::sxml::xmlreplace [set userd(phm)]]</PHM>\n         <MOB>[::sxml::xmlreplace [set userd(mob)]]</MOB>"
+		puts $file_id "\n      </user>"
+	}
 
-    puts $file_id "   <AL>"
+	puts $file_id "   </FL>\n</contactlist_${list_version}>\n"
 
-
-    foreach user $list_al { 
-	set user [::sxml::xmlreplace $user]
-	puts $file_id "      <user>\n         <email>[lindex $user 0]</email>\n         <nickname>[lindex $user 1]</nickname>\n      </user>"
-    }
-
-    puts $file_id "   </AL>\n\n   <BL>"
-
-    foreach user $list_bl {
-	set user [::sxml::xmlreplace $user]
-	puts $file_id "      <user>\n         <email>[lindex $user 0]</email>\n         <nickname>[lindex $user 1]</nickname>\n      </user>"
-    }
-
-    puts $file_id "   </BL>\n\n   <RL>"
-
-    foreach user $list_rl {
-	set user [::sxml::xmlreplace $user]
-	puts $file_id "      <user>\n         <email>[lindex $user 0]</email>\n         <nickname>[lindex $user 1]</nickname>\n      </user>"
-    }
-
-    puts $file_id "   </RL>\n\n   <FL>"
-
-    foreach user $list_fl {
-	::abook::getContact [lindex $user 0] userd
-	set user [::sxml::xmlreplace $user]
-
-	puts $file_id "      <user>\n         <email>[lindex $user 0]</email>\n         <nickname>[lindex $user 1]</nickname>"
-	puts $file_id "         <gid>[join [::abook::getGroup [lindex $user 0] -id] ,]</gid>\n         <PHH>[set userd(phh)]</PHH>"
-	puts $file_id "         <PHW>[set userd(phw)]</PHW>\n         <PHM>[set userd(phm)]</PHM>\n         <MOB>[set userd(mob)]</MOB>"
-	puts $file_id "\n      </user>"
-    }
-
-    puts $file_id "   </FL>\n</contactlist_${list_version}>\n"
-
-    close $file_id
+	close $file_id
+	status_log "Saving contact list... finished.\n" blue
 
 
 }

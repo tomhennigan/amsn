@@ -5500,6 +5500,12 @@ proc launch_browser { url } {
 
 	global config tcl_platform
 
+	if { [string tolower [string range $url 0 6]] != "http://" } {
+		set url "http://$url"
+	}
+
+	status_log "url is $url\n"
+
 	#status_log "Launching browser for url: $url\n"
 	if { $tcl_platform(platform) == "windows" } {
 
