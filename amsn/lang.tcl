@@ -540,8 +540,12 @@ namespace eval ::lang {
 		fconfigure $fid -encoding binary
 
 		# Download the content of the file from the web
-		set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/msn/lang/$lang?rev=$version&content-type=text/plain" -timeout 10000 -binary 1]
-		set content [::http::data $token]
+		if { [catch {
+			set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/msn/lang/$lang?rev=$version&content-type=text/plain" -timeout 10000 -binary 1]
+			set content [::http::data $token]
+		} ] } {
+			return
+		}
 
 		# Puts the content into the file
 		puts -nonewline $fid "$content"
