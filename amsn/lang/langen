@@ -95,6 +95,7 @@ sendmail Send mail
 sendmsg Send message
 server Server
 sound Event Sound
+startoffline Start Offline
 textsize Text size
 title Al's Messenger
 to To

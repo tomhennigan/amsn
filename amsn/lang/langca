@@ -21,7 +21,7 @@ checkingver Buscant noves versions
 clicktologin Fes clic aquí per conectar-te
 close Tanca
 contactadded Contacte inclòs
-connecterror Error conectant-se al servidor
+set lang(connecterror) "Error conectant-se al servidor"
 date Data
 delete Esborrar
 entercontactemail Escriu l'adreça de correu del contacte
@@ -43,7 +43,7 @@ mustrestart Has de reiniciar el programa per a que els canvis tinguin efecte
 mystatus El meu estat
 msg Missatge
 msn AMSN
-newmail $1 missatges nous a la carpeta d'entrada
+newmail $1 missatges nous a la bustia
 newmailfrom Nou missatge de correu de
 newmsg Nou missatge
 newveravailable Nova versió $1 està disponible per a baixar-se
@@ -69,7 +69,7 @@ says $1 diu
 sbcon Conectant-se a la Switch Board
 send Enviar
 server Servidor
-sound So en un event
+sound Só en un event
 title Al's Messenger
 to A
 typing $1 està escribint un missatge
@@ -81,3 +81,25 @@ uonline Conectats
 user Ususari
 version Versió
 willjoin Esperant a $1 a que s'uneixi a la conversa
+helpcontents Contiguts
+actions Accions
+tools Eines
+inbox Bustia
+savecontacts Guardar la llista de contactes
+loadcontacts Carregar una llista de contactes
+sendfile Enviar arxiu
+openreceived Obrir arxius rebuts
+sendmsg Enviar missatge
+sendmail Enviar missatge de correu
+admincontacts Administrar la llista de contactes
+admingroups Administrar grups
+ordercontactsby Ordenar els contactes per
+options Opcions
+preferences Preferències
+prefsound Só
+prefapps Aplicacions
+adverts Anuncis
+autohotmaillog Conectar-se a Hotmail automàticament
+save Guardar
+chatsmileys 'Smileys' al xat
+listsmileys Llista de 'Smileys'
