@@ -6077,11 +6077,25 @@ proc amsn_save { url token } {
 #///////////////////////////////////////////////////////////////////////
 proc amsn_install { savedir fname } {
 	set old_dir [pwd]
-	cd $::program_dir
-	cd ..
-	if { [catch { set shell [exec "tar xzfp $savedir/$fname"] }] } {
+	cd $savedir
+	if { [catch { set shell [exec tar xzfp "$savedir/$fname"] }] } {
 		.update.q configure -text "Problems occurred during the installation (tar xzfp $savedir/$fname). Please report it."
 	} else {
+		catch { [exec mv "$savedir/amsn-*" "$savedir/msn"] }
+		#copiar els plugins
+		set success [catch { [exec cp "$::program_dir/plugins/*" "$savedir/msn/plugins"] }]
+		#copiar els skins
+		set success [catch { [exec cp "$::program_dir/skins/*" "$savedir/msn/skins"] }]
+		#moure la versió nova a la carpeta on estava
+		if { !$success } {
+			if { [catch { [exec mv "$savedir/msn" "$::program_dir"] }] } {
+				#missatge d'error
+				.update.q configure -text "Problems occurred during the installation (tar xzfp $savedir/$fname). Please report it."
+			}
+		} else {
+			#missatge d'error
+			.update.q configure -text "Problems occurred during the installation (tar xzfp $savedir/$fname). Please report it."
+		}
 		.update.q configure -text "Installation complete: $shell"
 	}
 	cd $old_dir 
