@@ -1,6 +1,6 @@
 amsn_lang_version 2
 about Perihal
-acceptfile Terima file $1, sebesar $2? Simpan di $3
+acceptfile Terima berkas $1, sebesar $2? Simpan di $3
 accept Terima
 actions Perintah
 addacontact Tambahkan nama baru
@@ -31,8 +31,8 @@ appearance Tampilan
 appearoff Sembunyi
 areacode Kode Area
 aretyping $1 sedang mengetik pesan
-autoaccepted Transmisi File diterima secara otomatis
-autoacceptft Terima permintaan Transmisi File secara otomatis
+autoaccepted Transmisi Berkas diterima secara otomatis
+autoacceptft Terima permintaan Transmisi Berkas secara otomatis
 autoaway Tunjukkan saya sebagai 'Tidak Ada' apabila tidak aktif selama
 autoconnect2 Register masuk secara otomatis pada saat a'MSN dinyalakan
 autoconnect Hubungi server saat a'MSN dinyalakan
@@ -60,8 +60,8 @@ blockmessage Orang-orang ini sedang tersambung dan memblokir anda
 blockusers Nomer pengguna agar diperiksa saat ini juga
 broughtby Dipersembahkan oleh
 browse Mengamati
+browser Browser
 browserexample (\$url akan digantikan dengan URL). Contoh: mozilla \$url
-browser Pengamat
 busy Sibuk
 cancel Batalkan
 cannotdeleteprofile Tidak bisa menghapus profil karena tampaknya masih digunakan
@@ -76,10 +76,10 @@ chatack Terima ajakan percakapan dari
 chatmaxmin Saat seorang kontak membuka percakapan dengan saya, saya mau itu menjadi :
 chat Percakapan
 chatreq Mengajak bercakap-cakap
-chatsmileys2 Tampilkan Emoticon dan Smiley dalam jendela percakapan
+chatsmileys2 Tampilkan Emoticon dan Smiley dalam window percakapan
 chatsmileys Tamplikan ekspresi saat percakapan
 checkblocking Periksa secara berkelanjutan apakah para pengguna memblokir anda
-checkfilman Arsip yang diterima akan disimpan dalam $1. Mohon periksa aturan pengelola arsip dalam jendela anjuran.
+checkfilman Berkas yang diterima akan disimpan dalam $1. Mohon periksa aturan pengelolaan berkas dalam window anjuran.
 checkingver Sedang memeriksa versi terbaru
 checkonfln Periksa apakah pengguna tersebut memblokir anda saat dia pergi offline
 checkver Periksa apakah ada versi baru
@@ -95,7 +95,7 @@ clearlog Bersihkan Register
 clicktologin Klik disini untuk Daftar-Masuk
 closed Percakapan dengan $1 ditutup karena tidak aktif
 close Tutup
-closingdocks Tombol Tutup mengecilkan jendela
+closingdocks Tombol Tutup mengecilkan window
 command Perintah
 confirm Apakah anda yakin?
 confirmdelete Apakah anda yakin untuk menghapus $1?
@@ -146,31 +146,31 @@ enablesound Mainkan suara
 encoding2 Pilih Pengkodean
 encoding Pilih jenis pengkodean
 entercontactemail Masukkan alamat e-mail teman
-enterfilename Masukkan nama arsip
+enterfilename Masukkan nama berkas
 enternick Masukkan alias yang anda inginkan
 errortls Masalah dalam menginstal modul TLS:
 examples Contoh
 exitamsn Apakah anda ingin keluar?
 extras Fungsi tambahan
 faq PSD (Pertanyaan yang Sering Ditanyakan)
-filedoesnotexist Arsip tidak ditemukan
+filedoesnotexist Berkas tidak ditemukan
 filemanexample (\$lokasi akan digantikan dengan direktori) Contoh: nautilus \$lokasi
-fileman Pengatur Arsip
-filename Nama Arsip
-filetransfercancelled Transmisi arsip dibatalkan
-filetransfercomplete Transmisi arsip telah usai
+fileman Pengatur Berkas
+filename Nama Berkas
+filetransfercancelled Transmisi berkas dibatalkan
+filetransfercomplete Transmisi berkas telah usai
 followtext Gulung ke bawah saat tekst baru dimasukkan
-ftacceptedby $1 menerima undangan pengalihan arsip untuk arsip ?$2?.
-ftaccepted Transmisi arsip diterima
-ftaccepting Menerima undangan pengalihan arsip
+ftacceptedby $1 menerima undangan pengalihan berkas untuk berkas ?$2?.
+ftaccepted Transmisi berkas diterima
+ftaccepting Menerima undangan pengalihan berkas
 ftconnecterror Kesalahan dalam peyambungan ke peer jarak jauh
 ftconnecting Menyambung ke $1 port $2
 ftconnectionlost Sambungan ke peer jarak jauh terputus
-ftgotinvitation $1 ingin mengirim arsip ?$2? ($3 bytes). Arsip akan tersimpan dalam direktori $4. Apakah anda ingin menerima arsip ini?
-ftportpref Memulai port untuk pengalihan arsip
-ftrejectedby $1 menolak undangan pengalihan arsip untuk arsip ?$2?.
-ftrejected Transmisi arsip ditolak
-ftsendinvitation Undangan pengalihan arsip untuk arsip ?$2? ($3 bytes) telah dikirim kepada $1.
+ftgotinvitation $1 ingin mengirim berkas ?$2? ($3 bytes). Berkas akan tersimpan dalam direktori $4. Apakah anda ingin menerima berkas ini?
+ftportpref Memulai port untuk pengalihan berkas
+ftrejectedby $1 menolak undangan pengalihan berkas untuk berkas ?$2?.
+ftrejected Transmisi berkas ditolak
+ftsendinvitation Undangan pengalihan berkas untuk berkas ?$2? ($3 bytes) telah dikirim kepada $1.
 gonelunch Sedang makan siang
 groupadd Tambah kelompok
 groupdelete Hapus kelompok
@@ -185,8 +185,9 @@ groupunknown Kelompok lain
 handle Pegangan
 help Bantuan
 helpcontents Isi manual
+hidedisplaypic Sembunyikan Gambar Tampilan
 hiden Sembunyikan emoticon dari menu smiley
-hidewindow Sembunyikan Jendela
+hidewindow Sembunyikan Window
 history Lihat Sejarah
 home Rumah
 httpconnection Sambung menggunakan metode HTTP (menggunakan protokol HTTP melalui port 80)
@@ -196,12 +197,12 @@ ident Sedang mengidentifikasi
 inbox Kotak-Masuk
 installconvert Anda harus menginstalasi ImageMagick (program konversi) untuk dapat merubah gambar ke dalam format yang diperlukan oleh server MSN. Anda bisa men-download binari untuk Sistem Operasi anda di ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Apabila anda sudah memilikinya, maka itu adalah gangguan (bug) dan mohon dilaporkan.
 internalerror Kesalahan Server Internal
-invalidfile Arsip $2 yang dimasukkan dalam bidang “$1” tidak ada atau tidak dapat dibaca
+invalidfile Berkas $2 yang dimasukkan dalam bidang “$1” tidak ada atau tidak dapat dibaca
 invalidusername Nama pengguna salah
 invitationcancelled Undangan telah dibatalkan
 invite Undang
 ipaddress Alamat IP
-ipdetect Cari IP yang betul untuk pertukaran arsip melalui HTTP
+ipdetect Cari IP yang betul untuk pertukaran berkas melalui HTTP
 istyping $1 sedang mengetik
 joins $1 ikut dalam percakapan
 keepalive Biarkan Menyala (NAT)
@@ -209,7 +210,7 @@ keeplog2 Simpan semua percakapan ke dalam sejarah a'MSN untuk dilihat di masa ya
 keeplog Simpan register percakapan
 language Bahasa
 lastmsgtime Pesan terakhir diterima pada $1
-lclosedwin $1 telah menutup jendela atas $2
+lclosedwin $1 telah menutup window atas $2
 lconftopriv Konferensi berubah menjadi percakapan pribadi dengan $1
 lconvstarted Percakapan dimulai pada $1
 leaveblankforhotmail Kosongkan untuk menggunakan Hotmail lewat web
@@ -222,8 +223,8 @@ listsmileys Daftar Smiley
 ljoinedconf $1 bergabung dalam konferensi
 lleftconf $1 meninggalkan konferensi
 loadcontacts Baca daftar nama
-logbigger Ukuran register arsip untuk setiap kontak tidak pernah melewati batas
-logfandexp Ukuran register arsip dan masa berlaku sejarah
+logbigger Ukuran register berkas untuk setiap kontak tidak pernah melewati batas
+logfandexp Ukuran register berkas dan masa berlaku sejarah
 loggedotherlocation Terputus. Ada yang Daftar-Masuk dari tempat lain
 loggingin Meregister Masuk
 loginas Register sebagai
@@ -245,9 +246,9 @@ mobile Bergerak
 morepersonal Lebih banyak kondisi ->
 move Pindah
 movetogroup Pindah ke kelompok
-msgflicker Kedipkan jendela percakapan saat pesan baru diterima pada jendela yang tidak fokus.
+msgflicker Kedipkan window percakapan saat pesan baru diterima pada window yang tidak fokus.
 msgmaxmin Saat pesan baru tiba saya menginginkannya untuk:
-msgmode Pilih bagaimana menangani banyak jendela percakapan
+msgmode Pilih bagaimana menangani banyak window percakapan
 msg Pesan
 msn a'MSN
 mustrestart Program ini harus dijalankan ulang supaya perubahannya kelihatan
@@ -269,26 +270,26 @@ nologfile Tidak ada register untuk $1
 noneavailable Tidak Tersedia
 nonewmail Tidak ada email baru di Kotak-Masuk anda
 nonewver Belum ada versi baru
-noprofileexists Tidak ada profil aktif, \n anda harus menciptakan satu apabila anda ingin daftar-masuk berprofil. \nGunakan tombol Tambahkan Profil Baru dalam jendela ini untuk menambahkan profil baru.
+noprofileexists Tidak ada profil aktif, \n anda harus menciptakan satu apabila anda ingin daftar-masuk berprofil. \nGunakan tombol Tambahkan Profil Baru dalam window ini untuk menambahkan profil baru.
 normal Normal
 nosystemtray Baki Sistem tidak tersedia
 no Tidak
-notify1_5 Tampilkan jendela pemberitahuan saat kontak daftar-keluar
-notify1_75 Tampilkan jendela pemberitahuan saat kontak merubah kondisi
+notify1_5 Tampilkan window pemberitahuan saat kontak daftar-keluar
+notify1_75 Tampilkan window pemberitahuan saat kontak merubah kondisi
 notify1 Tampilkan jendel pemberitahuan saat kontak mulai tersambung
 notify2 Tampilkan jendel pemberitahuan saat pesan baru diterima
 notify3 Tampilkan jendel pemberitahuan saat e-mail masuk ke dalam Kotak-Masuk
 notify beri tahu
-notifyoffset Atur jendela pemberitahuan dengan memberikannya aturan keseimbangan posisi
-notifywin Jendela pemberitahuan
-notls Protokol MSN 9 memerlukan paket tls. Paket ini tampaknya tidak terinstal pada mesin ini. Apabila terinstalasi, cantumkan letak direktori kepustakaan dalam jendela Anjuran (contoh: /opt/tls/lib). \n \n Tls bisa didownload dari http://tls.sf.net.
+notifyoffset Atur window pemberitahuan dengan memberikannya aturan keseimbangan posisi
+notifywin Window pemberitahuan
+notls Protokol MSN 9 memerlukan paket tls. Paket ini tampaknya tidak terinstal pada mesin ini. Apabila terinstalasi, cantumkan letak direktori kepustakaan dalam window Anjuran (contoh: /opt/tls/lib). \n \n Tls bisa didownload dari http://tls.sf.net.
 nousersinsession Tidak ada orang lain
 offline Tidak Tersambung
 ok Ok
 onenewmail Ada email baru di Kotak-Masuk
 online Tersambung
 onphone Sedang telepon
-openreceived Buka arsip yang telah diterima
+openreceived Buka berkas yang telah diterima
 options Pilihan
 ordercontactsby Urutkan daftar berdasarkan
 ordergroupsby Atur kelompok berdasarkan
@@ -298,7 +299,7 @@ pass Kata sandi
 paste Tempelkan
 personal Pribadi
 phone Telepon
-picfile Arsip gambar (GIF < 500 x 500)
+picfile Berkas gambar (GIF < 500 x 500)
 picstatus Alarm bergambar
 pluginselector Pilih Tambahan-tambahan (plugins)
 port Pintu
@@ -344,10 +345,10 @@ proxyconnection Saya menyambung ke internet menggunakan server proxy:
 proxy Saya berada di belakang Server Proxy (HTTP atau SOCKS5)
 publishphones Publikasikan telepon saya
 raised Diangkat/Ikon dihilangkan
-readonlymsgbox Transmisi arsip dibatalkan karena daftar tujuan berstatus baca-saja. Mohon rubah status di daftar tujuan tersebut.
-readonlywarn PERINGATAN: Arsip kemungkinan TIDAK akan tersimpan dengan benar karena daftar “Arsip yang Diterima” tampaknya dilindungi terhadap penulisan. Mohon pastikan ijin pada daftar sasaran ($1) telah diatur dengan benar sebelum memindahkan arsip.
+readonlymsgbox Transmisi berkas dibatalkan karena daftar tujuan berstatus baca-saja. Mohon rubah status di daftar tujuan tersebut.
+readonlywarn PERINGATAN: Berkas kemungkinan TIDAK akan tersimpan dengan benar karena daftar “Berkas yang Diterima” tampaknya dilindungi terhadap penulisan. Mohon pastikan ijin pada daftar sasaran ($1) telah diatur dengan benar sebelum memindahkan berkas.
 receivedbytes Telah diterima $1 dari $2 byte
-receivefile Terima arsip
+receivefile Terima berkas
 reconnecting Memulihkan sambungan ke server
 reconnect Menunggu $1 untuk bergabung kembali
 reject Tolak
@@ -359,12 +360,12 @@ rightback Segera kembali
 saveas Simpan dengan nama
 savecontacts Simpan daftar nama
 save Simpan
-savetofile Simpan ke dalam Arsip
+savetofile Simpan ke dalam Berkas
 says $1 bilang
 sbcon Mencoba mengontak Papan Pengendali
 selectplugins Silahkan pilih tambahan-tambahan yang ingin anda mungkinkan.
 selectskin Silahkan pilih kulit dari daftar
-sendfile Kirim arsip
+sendfile Kirim berkas
 send Kirim
 sendmail Kirim e-mail
 sendmsg Kirim pesan
@@ -373,16 +374,20 @@ servergoingdown Terputus: Server sedang bermasalah
 server Server
 session Bagian
 showblockedlist Tunjukkan daftar orang-orang yang memblokir anda
+showdisplaypic2 Tunjukkan Gambar Tampilan sebagai default pada saat window chat terbuka
+showdisplaypic Tunjukkan Gambar Tampilan
+showmypic Gambar Tampilan Saya
+showuserpic Gambar Tampilan $1
 skin Kulit
 skinselector Pilih Kulit
 smileconfig Pengaturan emoticon sesuai kehendak
-smilefile Nama file smiley
+smilefile Nama berkas smiley
 smileintro2 Tolong isi bidang yang diperlukan untuk merubah smiley sesuai kehendak (lihat PSD untuk bantuan)
 smileintro Tolong isi bidang yang diperlukan untuk menciptakan smiley baru sesuai kehendak (lihat PSD untuk bantuan)
 sound2 Mainkan Bunyi saat kontak meregister masuk atau mengirim pesan
 soundcommand Ini harus menjadi perintah bermain (contoh: esdplay)
-soundexample (\$bunyi = Arsip bunyi yang dimainkan) Ex: esdplay \$bunyi
-soundfile Arsip suara
+soundexample (\$bunyi = Berkas bunyi yang dimainkan) Ex: esdplay \$bunyi
+soundfile Berkas suara
 soundloop Putar suara berulang-ulang
 soundserver Server Bunyi
 soundstatus Bunyikan alarm
@@ -404,18 +409,18 @@ stylechat Tampilan sama seperti pada percakapan
 stylehist Sejarah tampilan a'MSN
 stylelog Pilih bentuk di dalam mana anda ingin melihat sejarah anda
 syntaxerror Kesalahan Sintaks
-tabbed Jendela yang ditandai
+tabbed Window yang ditandai
 textsize Besar huruf
 timeremaining Waktu yang tersisa
 title Al's Messenger
-tlsdowncompleted Arsip $1 didownload ke direktori $2. Anda harus mengurainya, membangunnya (apabila anda mendownload kode sumber) dan menginstalasinya dalam $3.
-tlsinstallexp AMSN sekarang menggunakan MSNP9, yang memerlukan penggunaan \nsambungan aman menggunakan SSL. Untuk dapat menggunakan SSL, AMSN memerlukan untuk menginstalasi modul yang dinamakan TLS,\nyang tidak terdapat dalam sistem anda. Penyulap ini akan membantu anda dalam mendownload dan\nmenginstalasi TLS. Mohon pilih jenis sistem anda sehingga kami bisa secara otomatis mendownload\n arsip-arsip TLS yang diperlukan.
+tlsdowncompleted Berkas $1 didownload ke direktori $2. Anda harus mengurainya, membangunnya (apabila anda mendownload kode sumber) dan menginstalasinya dalam $3.
+tlsinstallexp AMSN sekarang menggunakan MSNP9, yang memerlukan penggunaan \nsambungan aman menggunakan SSL. Untuk dapat menggunakan SSL, AMSN memerlukan untuk menginstalasi modul yang dinamakan TLS,\nyang tidak terdapat dalam sistem anda. Penyulap ini akan membantu anda dalam mendownload dan\nmenginstalasi TLS. Mohon pilih jenis sistem anda sehingga kami bisa secara otomatis mendownload\n berkas-berkas TLS yang diperlukan.
 tlsinstall Penyulap instalasi Modul TLS
 tlsinstcompleted Instalasi modul TLS telah berhasil, sekarang anda seharusnya dapat menggunakan MSNP9. Apabila tidak bekerja dengan baik, maka kemungkinan anda tidak memilih modul yang tepat, atau modul yang terkompilasi tidak tersedia untuk sistem anda.
 to Kepada
 tools Peralatan
 tooltips Aktifkan Tips untuk Peralatan
-transnotexists Arsip yang diminta belum diterjemahkan ke dalam bahasa tersebut.
+transnotexists Berkas yang diminta belum diterjemahkan ke dalam bahasa tersebut.
 traynotcompiled Baki icon tambahan belum dipatuhi. Periksa tambahan/bakilabuhan
 triggers Pemicu-pemicu tekst
 twonewmail $1 email baru dalam Kotak-Masuk
@@ -434,7 +439,8 @@ view Tampilan
 willjoin Menunggu $1 untuk bergabung
 work Kerja
 wrongfields Bidang “$1”, “$2” dan/atau “$3” tidak dapat diterima
-wrongprofileversion Versi arsip pengaturan profil yang salah. Untuk memperbaikinya mohon hapus direktori $1 atau perbaharui a'MSN
+wrongprofileversion Versi berkas pengaturan profil yang salah. Untuk memperbaikinya mohon hapus direktori $1 atau perbaharui a'MSN
+xmmserr Tidak ada yang dimainkan, atau anda tidak memiliki xmms-infopipe terinstalasi
 xoffset Keseimbangan Posisi X
 yes Iya
 yoffset Keseimbangan Posisi Y
