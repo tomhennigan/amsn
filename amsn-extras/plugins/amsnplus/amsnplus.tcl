@@ -274,7 +274,22 @@ namespace eval ::amsnplus {
 				::MSN::unblockUser ${user_login} [urlencode $nick]
 				set incr 0
 			}
-			
+			if {[string equal $char "/whois"]} {
+				set msg [string replace $msg $i [expr $i + 6] ""]
+				set strlen [string length $msg]
+				set user_login [::amsnplus::readWord $i $msg $strlen]
+				if {[string equal $user_login ""]} {
+					::amsn::WinWrite $chatid "\nYou must specify a contact" green
+				} else {
+					set ulen [string length $user_login]
+					set msg [string replace $msg $i [expr $i + $ulen] ""]
+					set strlen [string length $msg]
+					set group [::groups::GetName [::abook::getContactData $user_login group]]
+					set nick [::abook::getContactData $user_login nick]
+					::amsn::WinWrite $chatid "\nContact information:\n$user_login\nNick: $nick\nGroup: $group" green
+				}
+				set incr 0
+			}
 			if {[string equal $incr "1"]} { incr i }
 			set incr 1
 		}

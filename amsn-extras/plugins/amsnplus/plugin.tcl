@@ -3,8 +3,6 @@
 ########################################################
 # Maintainer: markitus (markitus@catmail.homelinux.org)
 # Created: 13/09/2004
-# Last Modify: 10/10/2004
-# Version: 0.02
 ########################################################
 
 proc InitPlugin { dir } {
