@@ -99,7 +99,7 @@ proc MakeContactList { lfcontact } {
 			
 			## create the listbox ##
 			listbox $lfcontact.lbcontact.fix.list.lb -background white -yscrollcommand "$lfcontact.lbcontact.fix.list.sb set"
-			scrollbar $lfcontact.lbcontact.fix.list.sb -command "$lfcontact.lbcontac.fix.list.lb yview" -highlightthickness 0 \
+			scrollbar $lfcontact.lbcontact.fix.list.sb -command "$lfcontact.lbcontact.fix.list.lb yview" -highlightthickness 0 \
 				-borderwidth 1 -elementborderwidth 2
 			
 			pack $lfcontact.lbcontact.fix.list.lb -side left -anchor w -expand true -fill both
@@ -126,7 +126,7 @@ proc MakeContactList { lfcontact } {
 		
 		## create the listbox ##
 		listbox $lfcontact.lbcontact.fix.list.lb -background white -yscrollcommand "$lfcontact.lbcontact.fix.list.sb set"
-		scrollbar $lfcontact.lbcontact.fix.list.sb -command "$lfcontact.lbcontac.fix.list.lb yview" -highlightthickness 0 \
+		scrollbar $lfcontact.lbcontact.fix.list.sb -command "$lfcontact.lbcontact.fix.list.lb yview" -highlightthickness 0 \
 			-borderwidth 1 -elementborderwidth 2
 
 		pack $lfcontact.lbcontact.fix.list.lb -side left -anchor w -expand true -fill both
