@@ -295,11 +295,9 @@ proc idleCheck {} {
    global idletime config oldmousepos
 
 
-   status_log "Checking idle\n"
    set mousepos [winfo pointerxy .]
    if { $mousepos != $oldmousepos } {
       set oldmousepos $mousepos
-      status_log "Mouse moved\n"
       set idletime 0
    }
 
