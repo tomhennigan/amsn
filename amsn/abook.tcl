@@ -652,7 +652,7 @@ namespace eval ::abookGui {
 	$nbIdent.sw setwidget $nbIdent.sw.sf
 	set nbIdent [$nbIdent.sw.sf getframe]
 	
-	::alarms::configDialog $email $nbIdent
+	#::alarms::configDialog $email $nbIdent
 	
 	$w.nb compute_size
 	pack $w.nb -expand true -fill both -side top
@@ -660,15 +660,24 @@ namespace eval ::abookGui {
 	
 	frame $w.buttons
 	
-	button $w.buttons.ok -text [trans accept]
-	button $w.buttons.cancel -text [trans cancel]
+	button $w.buttons.ok -text [trans accept] -command [list ::abookGui::PropOk $email $w]
+	button $w.buttons.cancel -text [trans cancel] -command [list destroy $w]
 	
 	pack $w.buttons.ok $w.buttons.cancel -side right -padx 5 -pady 3
 	
 	pack $w.buttons -fill x -side top
 	
    }
-   
+
+   proc PropOk { email w } {
+	set nbIdent [$w.nb getframe userdata]
+	set nbIdent [$nbIdent.sw.sf getframe]
+   	::abook::setContactData $email customnick [$nbIdent.customnickent get]
+   	destroy $w
+	::MSN::contactListChanged
+	cmsn_draw_online
+   }
+         
    proc showEntry { email {edit ""}} {
    		showUserProperties $email
 		return
