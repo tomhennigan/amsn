@@ -60,7 +60,7 @@ namespace eval ::amsnplus {
 				[list bool "[trans colournicks]" colour_nicks] \
 				[list bool "[trans allowcommands]" allow_commands] \
 				[list bool "[trans allowcolours]" allow_colours] \
-				[list bool "[trans quicktext]" allow_quicktext] \
+				[list bool "[trans allowquicktext]" allow_quicktext] \
 			]
 		}
 		#register events
@@ -149,6 +149,7 @@ namespace eval ::amsnplus {
 	proc qtconfig { } {
 		#create the window
 		toplevel .qtconfig -width 600 -height 400
+		wm title .qtconfig "[trans quicktext]"
 		#add an explanation
 		if {[string equal $::version "0.94"]} {
 			label .qtconfig.help -text "Here you should configure your quick text, the keyword and the text.\nThen in the chat window, if you do /keyword, \
@@ -956,19 +957,21 @@ namespace eval ::amsnplus {
 				set incr 0
 			}
 			#check for the quick texts
-			set k 0
-			while {$k < 10} {
-				set word [lindex $::amsnplus::config(quick_text_$k) 0]
-				if {[string equal $char "/$word"]} {
-					set qt [lindex $::amsnplus::config(quick_text_$k) 1]
-					set clen [string length $char]
-					set msg [string replace $msg $i [expr $i + $clen] $qt]
-					set strlen [string length $msg]
-					set qtlen [string length $qt]
-					set i [expr $i + $qtlen]
+			if {$::amsnplus::config(allow_quicktext)} {
+				set k 0
+				while {$k < 10} {
+					set word [lindex $::amsnplus::config(quick_text_$k) 0]
+					if {[string equal $char "/$word"]} {
+						set qt [lindex $::amsnplus::config(quick_text_$k) 1]
+						set clen [string length $char]
+						set msg [string replace $msg $i [expr $i + $clen] $qt]
+						set strlen [string length $msg]
+						set qtlen [string length $qt]
+						set i [expr $i + $qtlen]
+					}
+					incr k
+					set incr 0
 				}
-				incr k
-				set incr 0
 			}
 			if {[string equal $incr "1"]} { incr i }
 			set incr 1

@@ -1,6 +1,7 @@
 amsn_lang_version 2
 allowcommands Do you want to allow commands in the chat window?
 allowcolours Do you want to allow multiple colours in the chat window?
+allowquicktext Do you want to use quick text feature?
 bold Bold
 ccolor \nYour text color is $1
 cfont \nYour text font is $1
@@ -25,5 +26,6 @@ multiplecolorsbutton Add a new color
 overstrike Overstrike
 parsenicks Do you want to parse the msn plus color codification in nicks?
 qthelp Here you should configure your quick text, the keywork and the text.\nThen in the chat window, if you do /keywork, you'll see the text
+quicktext Quick texts
 reset Reset styles
 underline Underline

@@ -1,6 +1,7 @@
 amsn_lang_version 2
 allowcommands Vols permetre l'ús de comandes en la conversa?
 allowcolours Vols permetre múltiples colors en la conversa?
+allowquicktext Vols permetre l'ús dels textes ràpids?
 bold Negreta
 ccolor \nEl teu color de text és $1.
 cfont \nLa teva font és $1.
@@ -25,5 +26,6 @@ multiplecolorsbutton Afegeix un nou color
 overstrike Tatxat
 parsenicks Vols filtrar la codificació de colors del messenger plus als nicks?
 qthelp Aquí pots configurar els textes ràpids, la paraula clau i el text.\nLlavors en la conversa, si escrius /keyword, llavors veuràs el text.
+quicktext Textes ràpids
 reset Netejar formats
 underline Subratllat
