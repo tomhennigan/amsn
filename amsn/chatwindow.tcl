@@ -758,7 +758,7 @@ namespace eval ::ChatWindow {
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 			pack .${win_name}.f.top -side top -fill x -padx 0 -pady 0
 		} else {
-			pack .${win_name}.f.top -side top -fill x -padx 3 -pady [::skin::getColor chatpady]
+			pack .${win_name}.f.top -side top -fill x -padx [::skin::getColor chatpadx] -pady [::skin::getColor chatpady]
 		}
 			
 		pack .${win_name}.statusbar -side bottom -fill x
