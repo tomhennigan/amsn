@@ -1114,7 +1114,8 @@ namespace eval ::amsn {
 
          if {($online != "online") || ($state_code != "FLN")} {
             if {[lsearch $list_bl "$user_login *"] != -1} {
-               $wname.blueframe.list.userlist insert end "BLOCKED -> $user_name <$user_login>"
+               $wname.blueframe.list.userlist insert end "([trans blocked]) $user_name <$user_login>"
+
             } else {
                $wname.blueframe.list.userlist insert end "$user_name <$user_login>"
             }
