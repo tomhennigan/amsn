@@ -1,0 +1,416 @@
+<?xml version="1.0"?>
+
+<!--
+             settings.xml  --- 2003/07/01  --- KaKaRoTo
+   
+   	     Configuration for smileys
+   	     
+   	     file should begin with <skin> and end with </skin> 
+	     A description for the skin must be between a <Description> and </Description>
+	     the smileys configuration must be included between a <smileys> and a  </smileys>
+   	     To define a new emoticon, you must put it between the statements <emoticon> and </emoticon>
+   	     You must define the 3 variables : <name>, <text> and <file> in order to successfully create the emoticon
+   	     You may have as many text statements but only one for name and one for file
+   	     <name> will be the name of the smiley  </name>
+   	     <text> is the text binded to be replaced by the emoticon </text>
+   	     <text> several text attributes can be set </text>
+   	     <file> is the filename of the emoticon image with the extension </file>
+   	     
+   	     A "TRUE" value is either "yes", "y", "true" or "1", a FALSE value is any other value
+   	     The smileys are sorted in the smileys menu depending on their position in this file
+   
+   	     Here are the other options available... maybe more to come :
+   	     <animated> : set it to TRUE to specify it's an animated gif </animated>
+   	     <sound> : sets the filename for playing an emotisound for that smiley with the extension </sound>
+   	     <casesensitive> : set it to TRUE if you want to trigger that smiley on a case sensitive text </casesensitive>
+   	     <disabled> : set it to TRUE and the smiley will be disabled.. same effect as if the whole </disabled>
+   	     emoticon statements were commented
+   	     <hiden> : set it to TRUE if you want to hide the smiley from the smileys menu  </hiden>
+   
+   	     any suggestions, or questions... write to amsn-devel mailing list
+-->
+   
+<skin>
+   
+   <Description>
+   MSN 4 for Mac skin
+   </Description>
+   
+   <Colors>
+   <Background1>#3366D2</Background1>
+   <Background2>#EAE7E4</Background2>
+   </Colors>
+
+
+   <smileys>
+
+      <size>
+         <smilew>19 </smilew>
+         <smileh>19 </smileh>
+      </size>
+
+      <emoticon>
+         <name> Smiley </name>
+         <text> ":)" </text>
+         <text> ":-)" </text>
+         <file> Smiley.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Open-mouthed smiley </name>
+        <text> ":D" </text>
+         <text> ":-D" </text>
+         <text> ":>" </text>
+         <text> ":->" </text>
+         <file> Open_mouthed_smiley.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Winking smiley </name>
+         <text> ";)" </text>
+         <text> ";-)" </text>
+         <file> Winking_smiley.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Surprised smiley </name>
+         <text> ":o" </text>
+         <text> ":-o" </text>
+         <file> Surprised_smiley.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Smiley with tonque out </name>
+         <text> ":P" </text>
+         <text> ":-P" </text>
+         <file> Smiley_with_tonque_out.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Hot smiley </name>
+         <text> "(H)" </text>
+         <file> Hot_smiley.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Angry smiley </name>
+         <text> ":@" </text>
+         <text> ":-@" </text>
+         <file> Angry_smiley.gif </file>
+      </emoticon>
+   
+     <emoticon>
+         <name> Confused smiley </name>
+         <text> ":s" </text>
+         <text> ":-s" </text>
+         <file> Confused_smiley.gif </file>
+      </emoticon>
+   
+     <emoticon>
+         <name> Embarrassed smiley </name>
+         <text> ":$" </text>
+		 <text> ":-$" </text>
+         <file> Embarrassed_smiley.gif </file>
+      </emoticon>
+   
+     <emoticon>
+         <name> Sad smiley </name>
+         <text> ":(" </text>
+		 <text> ":-(" </text>
+         <file> Sad_smiley.gif </file>
+      </emoticon>
+   
+     <emoticon>
+         <name> Crying face </name>
+         <text> ":'(" </text>
+         <file> Crying_face.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Disappointed smiley </name>
+         <text> ":|" </text>
+         <text> ":-|" </text>
+         <file> Disappointed_smiley.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Angel </name>
+         <text> "(A)" </text>
+         <file> Angel.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Baring teeth smiley </name>
+         <text> "8o|" </text>
+         <file> Baring_teeth_smiley.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Nerd smiley </name>
+         <text> "8-|" </text>
+		  <text> "8|" </text>
+         <file> Nerd_smiley.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Sick smiley </name>
+         <text> "+0(" </text>
+         <file> Sick_smiley.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Sleepy smiley </name>
+         <text> "|-)" </text>
+		  <text> "|)" </text>
+         <file> Sleepy_smiley.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Thinking smiley </name>
+         <text> "*-)" </text>
+         <file> Thinking_smiley.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Don't tell anyone </name>
+         <text> ":-#" </text>
+         <file> Dont_tell_anyone.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Secret telling smiley </name>
+         <text> ":-*" </text>
+         <file> Secret_telling_smiley.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Sarcastic smiley </name>
+         <text> "^o)" </text>
+         <file> Sarcastic_smiley.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Eye-rolling smiley </name>
+         <text> "8-)" </text>
+         <file> Eye_rolling_smiley.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Red heart</name>
+         <text> "(L)" </text>
+         <file> Red_heart.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Broken heart </name>
+         <text> "(U)" </text>
+         <file> Broken_heart.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Messenger </name>
+         <text> "(M)" </text>
+         <file> Messenger.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Cat face </name>
+         <text> "(@)" </text>
+         <file> Cat_face.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Dog face </name>
+         <text> "(&)" </text>
+         <file> Dog_face.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Snail </name>
+         <text> "(sn)" </text>
+         <file> Snail.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Black_sheep.gif </name>
+         <text> "(bah)" </text>
+         <file> Black_sheep.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Sleeping half-moon </name>
+         <text> "(S)" </text>
+         <file> Sleeping_half-moon.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Star.gif </name>
+         <text> "(*)" </text>
+         <file> Star.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Sun </name>
+         <text> "(#)" </text>
+         <file> Sun.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Rainbow </name>
+         <text> "(R)" </text>
+         <file> Rainbow.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Umbrella </name>
+         <text> "(um)" </text>
+         <file> Umbrella.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Right hug </name>
+         <text> "(})" </text>
+         <file> Right_hug.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Red lips </name>
+         <text> "(K)" </text>
+         <file> Red_lips.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Red rose </name>
+         <text> "(F)" </text>
+         <file> Red_rose.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Wilted rose </name>
+         <text> "(W)" </text>
+         <file> Wilted_rose.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Clock </name>
+         <text> "(0)" </text>
+         <file> Clock.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Gift with a bow </name>
+         <text> "(G)" </text>
+         <file> Gift_with_a_bow.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Birthday cake </name>
+         <text> "(^)" </text>
+         <file> Birthday_cake.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Camera </name>
+         <text> "(P)" </text>
+         <file> Camera.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Light_bulb </name>
+         <text> "(I)" </text>
+         <file> Light_bulb.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Coffee cup </name>
+         <text> "(C)" </text>
+         <file> Coffee_cup.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Telephone receiver </name>
+         <text> "(T)" </text>
+         <file> Telephone_receiver.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Mobile phone </name>
+         <text> "(mp)" </text>
+         <file> Mobile_phone.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Auto </name>
+         <text> "(au)" </text>
+         <file> Auto.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Airplane </name>
+         <text> "(ap)" </text>
+         <file> Airplane.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Computer </name>
+         <text> "(co)" </text>
+         <file> Computer.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Money </name>
+         <text> "(mo)" </text>
+         <file> Money.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Filmstrip </name>
+         <text> "(~)" </text>
+         <file> Filmstrip.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Note </name>
+         <text> "(8)" </text>
+         <file> Note.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Pizza </name>
+         <text> "(pi)" </text>
+         <file> Pizza.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Soccer ball </name>
+         <text> "(so)" </text>
+         <file> Soccer_ball.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> E-mail </name>
+         <text> "(E)" </text>
+         <file> Email.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Boy </name>
+         <text> "(Z)" </text>
+         <file> Boy.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Girl </name>
+         <text> "(X)" </text>
+         <file> Girl.gif </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Island with a palm tree </name>
+         <text> "(ip)" </text>
+         <file> Island_with_a_palm_tree.gif </file>
+      </emoticon>
+   
+   </smileys>
+   
+</skin>
