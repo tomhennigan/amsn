@@ -2333,7 +2333,7 @@ namespace eval ::ChatWindow {
 		set max_w [image width [::skin::loadPixmap tab]]
 		incr max_w -5
 		if { $users == "" || [llength $users] == 1} {
-			set nick [::abook::getContactData $chatid nick]
+			set nick [::abook::getDisplayNick $chatid]
 			if { $nick == "" || [::config::getKey tabtitlenick] == 0 } {
 				#status_log "writing chatid\n" red
 				$tab configure -text "[trunc $chatid $tab $max_w sboldf]"
