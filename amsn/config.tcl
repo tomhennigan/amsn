@@ -237,16 +237,14 @@ proc save_config {} {
    if { [catch {
          if {$tcl_platform(platform) == "unix"} {
 	    set file_id [open "[file join ${HOME} config.xml]" w 00600]
-	    set file_id2 [open "[file join ${HOME} config]" w 00600]
          } else {
             set file_id [open "[file join ${HOME} config.xml]" w]
-	    set file_id2 [open "[file join ${HOME} config]" w]
          }
       } res]} {
 		return 0
 	}
 
-    status_log "saving contact list. Opening of files returned : $res\n"
+    status_log "saving contact list. Opening of file returned : $res\n"
    set loginback $config(login)
    set passback $password
 
@@ -258,7 +256,6 @@ proc save_config {} {
 
    
     puts $file_id  "<?xml version=\"1.0\"?>\n\n<config>"
-    puts $file_id2 "amsn_config_version 1"
     set config(last_client_version) $version
 
 
@@ -266,7 +263,6 @@ proc save_config {} {
       set var_value $config($var_attribute)
        if { "$var_attribute" != "remotepassword" && "$var_attribute" != "customsmileys" && "$var_attribute" != "customsmileys2"} {
 	   puts $file_id "   <entry>\n      <attribute>$var_attribute</attribute>\n      <value>$var_value</value>\n   </entry>"
-	   puts $file_id2 "$var_attribute $var_value"
        }
     }
 
@@ -275,13 +271,11 @@ proc save_config {} {
 	set key [string range "${loginback}dummykey" 0 7]
 	binary scan [::des::encrypt $key "${password}\n"] h* encpass
 	puts $file_id "   <entry>\n      <attribute>encpassword</attribute>\n      <value>$encpass</value>\n   </entry>"
-	puts $file_id2 "encpassword $encpass"
     }
 
     set key [string range "${loginback}dummykey" 0 7]
     binary scan [::des::encrypt $key "${config(remotepassword)}\n"] h* encpass
     puts $file_id "   <entry>\n      <attribute>remotepassword</attribute>\n      <value>$encpass</value>\n   </entry>\n"
-    puts $file_id2 "remotepassword $encpass"
     
     foreach custom $config(customsmileys2) {
 	puts $file_id "   <emoticon>"
@@ -298,7 +292,6 @@ proc save_config {} {
     puts $file_id "</config>"
 
     close $file_id
-    close $file_id2
 
     set config(login) $loginback
     set password $passback
@@ -317,61 +310,18 @@ proc new_config_entry  {cstack cdata saved_data cattr saved_attr args} {
 }
 
 proc load_config {} {
-    global config HOME password protocol clientid
+	global config HOME password protocol clientid
 
-    set use_xml 1
+	create_dir "[file join ${HOME} smileys]"
 
-    if {([file readable "[file join ${HOME} config.xml]"] == 0) ||
-	([file isfile "[file join ${HOME} config.xml]"] == 0)} {
-	set use_xml 0
-    }
+	ConfigDefaults
 
-    if { $use_xml == 0 && ([file readable "[file join ${HOME} config]"] == 0
-         || [file isfile "[file join ${HOME} config]"] == 0)} {
-	return 1
-    }
-    
-    create_dir "[file join ${HOME} smileys]"
-
-    ConfigDefaults
-    
-
-    if { $use_xml == 1 } {
 	set file_id [sxml::init [file join ${HOME} "config.xml"]]
 	    
 	sxml::register_routine $file_id "config:entry" "new_config_entry"
 	sxml::register_routine $file_id "config:emoticon" "new_custom_emoticon"
-	    
-	if { [sxml::parse $file_id] < 0 } { set use_xml 0 }
+	sxml::parse $file_id
 	sxml::end $file_id
-	
-    }
-
-    if { $use_xml == 0 } {
-	set file_id [open "${HOME}/config" r ]
-	
-	gets $file_id tmp_data
-	if {$tmp_data != "amsn_config_version 1"} {	;# config version not supported!
-	    return 1
-	}
-	
-	while {[gets $file_id tmp_data] != "-1"} {
-	    set var_data [split $tmp_data]
-	    set var_attribute [lindex $var_data 0]
-	    set var_value [join [lrange $var_data 1 end]]
-	    set config($var_attribute) $var_value
-	}
-
-	close $file_id
-	
-    } 
-    
-
-    #0.80 Compatibility
-    if {[info exists config(password)]} {
-	set password $config(password)
-	unset config(password)
-    }
     
         
     if {[info exists config(encpassword)]} {

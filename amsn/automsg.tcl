@@ -5,62 +5,14 @@
 # LoadStateList ()
 # Loads the list of states from the file in the HOME dir
 proc LoadStateList {} {
-    global HOME
-
-    set use_xml 1
-    if {[file readable "[file join ${HOME} states.xml]"] == 0} {
-	set use_xml 0
-    }
-    if { $use_xml == 0 && [file readable "[file join ${HOME} states]"] == 0} {
-	return 1
-    }
-    
-    if { $use_xml == 1 } {
+	global HOME
 
 	StateList clear
 
 	set file_id [sxml::init [file join ${HOME} "states.xml"]]
 	sxml::register_routine $file_id "states:newstate" "new_state"	    
-	if { [sxml::parse $file_id] < 0 } { set use_xml 0 }
+	sxml::parse $file_id
 	sxml::end $file_id
-    }
-
-    if { $use_xml == 0 } {
-	# open file and check version
-	set file_id [open "${HOME}/states" r]
-	fconfigure $file_id -encoding utf-8
-	gets $file_id tmp_data
-	if {$tmp_data != "amsn_states_version 1"} {	;# config version not supported!
-	    msg_box [trans wrongstatesversion $HOME]
-	    close $file_id
-	    return -1
-   	}
-
-	# Now add states from file to list after reseting it
-	StateList clear
-	set idx 0
-	while {[gets $file_id tmp_data] != "-1"} {
-	    lappend new_data $tmp_data
-	    incr idx 1
-	    if { $idx == 3 } {
-		if { $tmp_data == 0 } {
-		    set tmp_data 1 
-		}
-		for { set idx2 0 } { $idx2 < $tmp_data } { incr idx2 1 } {
-		    append message [gets $file_id]
-		    if { $idx2 < [expr {$tmp_data - 1}] } {
-			append message "\n"
-		    }
-		}
-		lappend new_data $message
-		StateList add $new_data
-		set idx 0
-		unset new_data
-		unset message
-	    }
-	}
-	close $file_id
-    } 
 
 }
 
@@ -70,25 +22,6 @@ proc LoadStateList {} {
 proc SaveStateList {} {
     global HOME tcl_platform 
     
-    if {$tcl_platform(platform) == "unix"} {
-	set file_id [open "[file join ${HOME} states]" w 00600]
-    } else {
-	set file_id [open "[file join ${HOME} states]" w]
-    }
-    fconfigure $file_id -encoding utf-8
-    puts $file_id "amsn_states_version 1"
-    
-    set idx 0
-    while { $idx <= [expr {[StateList size] - 1}] } {
-	set tmp [StateList get $idx]
-	puts $file_id "[lindex $tmp 0]"
-	puts $file_id "[lindex $tmp 1]"
-	puts $file_id "[lindex $tmp 2]"
-	puts $file_id "[lindex $tmp 3]"
-	incr idx 1
-    }
-    close $file_id
-
     if {$tcl_platform(platform) == "unix"} {
 	set file_id [open "[file join ${HOME} states.xml]" w 00600]
     } else {
