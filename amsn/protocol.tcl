@@ -1254,7 +1254,6 @@ namespace eval ::MSN {
 #		$sb configure -data ""
 		$sb configure -sock ""
 		$sb configure -stat "d"
-		puts $oldstat
 		
 		if { $sb == "ns" } {
 	
@@ -2417,7 +2416,6 @@ namespace eval ::DirectConnection {
 	}
 
 	method sockError { } {
-		puts sockError
 		::MSN::CloseSB $self
 	}
 
