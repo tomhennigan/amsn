@@ -474,6 +474,9 @@ namespace eval ::MSNFT {
          return 0
       }
 
+      status_log "sentFTInvitation: filename (not converted to utf-8) is [file tail $filename]\n" blue 
+      status_log "sentFTInvitation: filename (converted to utf-8) is [encoding convertto utf-8 [file tail $filename]]\n" blue
+      
       set msg "MIME-Version: 1.0\r\nContent-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
       set msg "${msg}Application-Name: File Transfer\r\n"
       set msg "${msg}Application-GUID: {5D3E02AB-6190-11d3-BBBB-00C04F795683}\r\n"
@@ -486,7 +489,7 @@ namespace eval ::MSNFT {
 
       ::MSN::WriteSBNoNL $sbn "MSG" "U $msg_len\r\n$msg"
 
-      status_log "Invitation to $filename sent: $msg\n" red
+      status_log "sentFTInvitation: Invitation to $filename sent: $msg\n" red
 
       #Change to allow multiple filetransfer
       #set filedata($cookie) [list $sbn "$filename" $filesize $cookie $ipaddr]

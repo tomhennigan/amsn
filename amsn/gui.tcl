@@ -644,7 +644,7 @@ namespace eval ::amsn {
 			WinWrite $chatid "\n" green
 			WinWrite $chatid "----------\n" green
 
-			::MSN::ChatQueue $chatid "::MSNFT::sendFTInvitation $chatid [list $filename] $filesize $ipaddr $cookie"
+			::MSN::ChatQueue $chatid [list ::MSNFT::sendFTInvitation $chatid $filename $filesize $ipaddr $cookie]
 			#::MSNFT::sendFTInvitation $chatid $filename $filesize $ipaddr $cookie
 		}
 		return 0
