@@ -13,7 +13,9 @@ admingroups Admin groups
 adverts Advertisements
 alarmpref Alarm Settings for user
 alarmstatus Turn ON/OFF Alarm for this user
+allowallbutbl Allow all users but those in Block List to contact me
 allowlist Allow list :
+allowonlyinal Only allow users in my Accept List to contact me
 allowseen Allow this person to see when I'm online and contact me
 appearance Appearance
 appearoff Appear offline
@@ -79,7 +81,6 @@ contactdoesnotexist Contact does not exist!
 contactlist Contact list :
 copy Copy
 copytogroup Copy to group
-copytoleft <-- Copy
 countrycode My Country/Region code
 cprofile Create Profile
 cut Cut
@@ -194,9 +195,8 @@ minimised Minimised/Iconified
 mins minutes
 mobile Mobile
 morepersonal More States ->
+move Move
 movetogroup Move to Group
-movetoleft <-- Move 
-movetoright Move -->
 msgmaxmin When a new message arrives I want it to be :
 msg Message
 msgmode Select how to handle multiple message windows :
@@ -261,8 +261,8 @@ prefmsging My Messaging Interface
 prefname My MSN Messenger Name/NickName
 prefphone2 Type the phone numbers that you would like people \n on your Allow List to see \n
 prefphone My Phone Numbers
-prefprivacy User's Allow/Block lists
 prefprivacy2 User's Contact/Reverse lists
+prefprivacy User's Allow/Block lists
 prefprofile2 Create or Modify your public profile (the \n description of yourself that others can see)
 prefprofile3 aMSN's User Configuration Profiles
 prefprofile My Public Profile
