@@ -122,7 +122,6 @@ namespace eval ::guiContactList {
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 			moveinscreen .contactlist 30
 		}
-		puts $curPos
 	}
 
 	# This is the main contactList drawing procedure, it clears the canvas and draws a brand new
@@ -203,8 +202,8 @@ namespace eval ::guiContactList {
 		 
 		$canvas bind $email <<Button3>> "show_umenu $email $grId %X %Y;"
 		$canvas bind $email $singordblclick "::amsn::chatUser $email"
-		$canvas bind $email <Enter> "$canvas create line $xuline1 $yuline $xuline2 $yuline -fill $colour -tag uline"
-		#$canvas bind $email <Leave> "$canvas delete uline"
+		$canvas bind $email <Enter> "$canvas create line $xuline1 $yuline $xuline2 $yuline -fill $colour -tag uline ; $canvas lower uline $email"
+		$canvas bind $email <Leave> "$canvas delete uline"
 		
 		return [list [expr $xpos - 15] [expr $ypos + [image height $img] + 3]]
 	}
@@ -250,8 +249,8 @@ namespace eval ::guiContactList {
 		#Create mouse event bindings
 		$canvas bind $gid <<Button1>> "::groups::ToggleStatus [lindex $element 0];guiContactList::createCLWindow"
 		$canvas bind $gid <<Button3>> "::groups::GroupMenu $gid %X %Y"
-		$canvas bind $gid <Enter> "$canvas create line $xuline1 $yuline $xuline2 $yuline -fill $groupcolor -tag uline"
-		#$canvas bind $gid <Leave> "$canvas delete uline"
+		$canvas bind $gid <Enter> "$canvas create line $xuline1 $yuline $xuline2 $yuline -fill $groupcolor -tag uline ; $canvas lower uline $gid"
+		$canvas bind $gid <Leave> "$canvas delete uline"
 		
 		return [list $xpos [expr $ypos + 20]]
 	}
