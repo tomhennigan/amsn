@@ -131,39 +131,7 @@ set log_dir "${HOME}/logs"
 #=======================================================================
 
 proc msg_box {msg} {
-   global msgbox_request lang
-
-   if {[info exists msgbox_request]} {
-      raise .msgbox
-      return 0
-   }
-
-   set msgbox_request true
-   toplevel .msgbox -width 300 -height 100
-
-   bind .msgbox <Destroy> {
-      if {"%W" == ".msgbox"} {
-         unset msgbox_request
-      }
-   }
-
-
-   wm title .msgbox "[trans title]"
-   wm transient .msgbox .
-   canvas .msgbox.c -width 300 -height 90 -bg #D0D0E0
-   pack .msgbox.c -expand true -fill both
-
-   .msgbox.c create text 150 15 -font sboldf -anchor n \
-	-text "$msg" -justify center -width 260
-
-   button .msgbox.c.ok -text "[trans ok]" -bg #D0D0E0 \
-     -command "destroy .msgbox" -font bboldf
-
-   .msgbox.c create window 150 80 -window .msgbox.c.ok -anchor s
-
-   tkwait visibility .msgbox
-   grab set .msgbox
-
+   tk_messageBox -type ok -icon info -message $msg -title "[trans title]" 
 }
 
 proc launch_browser { url } { 
@@ -299,7 +267,7 @@ proc cmsn_draw_main {} {
    .main_menu.file add command -label "[trans openreceived]" \
       -command "msg_box \"Received files in ${HOME}\""
    .main_menu.file add separator
-   .main_menu.file add command -label "[trans close]" -command exit
+   .main_menu.file add command -label "[trans close]" -command "close_cleanup;exit"
 
    #Actions menu
    set dummy_user "recipient@somewhere.com"

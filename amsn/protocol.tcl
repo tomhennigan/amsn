@@ -320,7 +320,7 @@ proc cmsn_sb_msg {sb_name recv} {
 	  set authcookie [aim_get_str $body AuthCookie]
 	  status_log "Going to receive a file..\n" 
 	  status_log "Body: $body\n"
-	  yesNoDialog "Accept file [lindex $filetoreceive 0], [lindex $filetoreceive 1] bytes?\nSaved to ${HOME}" "amsn_connectfiletransfer $ipaddr $port $authcookie [lindex $filetoreceive 0]"
+	  yesNoDialog "Accept file [lindex $filetoreceive 0], [lindex $filetoreceive 1] bytes?\nSaved to ${HOME}" "amsn_connectfiletransfer $ipaddr $port $authcookie \"[lindex $filetoreceive 0]\""
 	  
 	}		
 
@@ -903,8 +903,14 @@ proc amsn_connectfiletransfer {ipaddr port authcookie filename} {
 
 	#TODO: Receive the file
 	
-        fconfigure $sockid -blocking 1
-	set recvbytes 0
+#        fconfigure $sockid -blocking 1
+#	set recvbytes 0
+
+	fconfigure $sockid -blocking 1 -buffersize 2048 -buffering full
+	
+	fileevent $sockid readable "acceptfilepacket $sockid $fileid $filesize"
+	
+	return 0;
 		
 	
 	while {$recvbytes < $filesize } {
@@ -946,6 +952,36 @@ proc amsn_connectfiletransfer {ipaddr port authcookie filename} {
    return 1;
 }
 
+
+proc acceptfilepacket { sockid fileid filesize } {
+   set header [read $sockid 3]
+
+   binary scan $header ccc packet1 packet2 packet3
+	
+   #If packet1 is 1 -- Transfer canceled by the other
+   #If you want to cancel, send "CCL\n"
+	
+   set packet2 [expr ($packet2 + 0x100) % 0x100]
+   set packet3 [expr ($packet3 + 0x100) % 0x100]
+	
+   set packetsize [expr $packet2 + ($packet3<<8)]
+	
+   status_log "packetsize: $packetsize\n"
+		
+   set thedata [read $sockid $packetsize]
+   puts -nonewline $fileid $thedata
+		
+   set recvbytes [tell $fileid]
+   status_log "Received $recvbytes of $filesize\n"
+	
+   if { $recvbytes >= $filesize} {
+      puts $sockid "BYE 16777989\r"	
+      status_log "File received\n"
+	
+      close $fileid
+      close $sockid
+   }
+}
 
 proc amsn_acceptconnection {sockid hostaddr hostport} {
   global atransfer
