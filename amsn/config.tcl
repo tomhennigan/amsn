@@ -83,6 +83,7 @@ proc ConfigDefaults {} {
         set config(initialftport) 6891
         set config(remotepassword) ""
         set config(enableremote) 0
+	set config(animatenotify) 1
 	set password ""
 }
 

@@ -1958,6 +1958,7 @@ namespace eval ::amsn {
       variable im
       global images_folder
 
+      #New name for the window
       set w .notif$NotifID
       incr NotifID
 
@@ -1968,6 +1969,7 @@ namespace eval ::amsn {
       set xpos $config(notifyXoffset)
       set ypos $config(notifyYoffset)
 
+      #Search for a free notify window position
       while { [lsearch -exact $NotifPos $ypos] >=0 } {
         set ypos [expr {$ypos+105}]
       }
@@ -1977,8 +1979,7 @@ namespace eval ::amsn {
       if { $xpos < 0 } { set xpos 0 }
       if { $ypos < 0 } { set ypos 0 }
 
-      wm geometry $w -$xpos-$ypos
-
+      
       canvas $w.c -bg #EEEEFF -width 150 -height 100 \
          -relief ridge -borderwidth 2
       pack $w.c
@@ -2008,13 +2009,32 @@ namespace eval ::amsn {
       #wm transient $w
       wm state $w normal
 
-      raise $w
+      #raise $w
+      
+      if { $config(animatenotify) } {
+         wm geometry $w -$xpos-[expr {$ypos-100}]         
+	 after 50 "::amsn::growNotify $w $xpos [expr {$ypos-100}] $ypos"
+      } else {      
+         wm geometry $w -$xpos-$ypos
+      }
+
+
 
       if { $sound != ""} {
          play_sound $sound
       }
 
 
+   }
+   
+   proc growNotify { w xpos currenty finaly } {
+      if { $currenty>$finaly} {
+         wm geometry $w -$xpos-$finaly
+	 raise $w
+         return 0
+      }
+      wm geometry $w -$xpos-$currenty
+      after 50 "::amsn::growNotify $w $xpos [expr {$currenty+15}] $finaly"
    }
 
    proc KillNotify { w ypos} {
