@@ -219,23 +219,29 @@ proc StopLog {email {who 0} } {
 # user : user who sent message
 # msg : msg
 
-proc PutLog { chatid user msg } {
+proc PutLog { chatid user msg {fontformat ""}} {
 	
-		set user_list [::MSN::usersInChat $chatid]
-		foreach user_info $user_list {
-			set user_login [lindex $user_info 0]
-			if { [llength $user_list] > 1 } {
-				::log::WriteLog $user_login "\|\"LITA$user \|\"LNOR: $msg\n" 1 $user_list
+	if {$fontformat == ""} {
+		set color "NOR"
+	} else {
+		set color "C[lindex $fontformat 2]"
+	}
+
+	set user_list [::MSN::usersInChat $chatid]
+	foreach user_info $user_list {
+		set user_login [lindex $user_info 0]
+		if { [llength $user_list] > 1 } {
+			::log::WriteLog $user_login "\|\"LITA$user :\|\"L$color $msg\n" 1 $user_list
+		} else {
+			# for 2 windows (1 priv 1 conf)
+			# if conf exists for current user & current chatid is not a conf
+			if { [ConfArray $user_login get] == 1 && $chatid == $user_login} {
+				::log::WriteLog $user_login "\|\"LITA\[[trans linprivate]\] $user :\|\"L$color $msg\n" 2 $user_list
 			} else {
-				# for 2 windows (1 priv 1 conf)
-				# if conf exists for current user & current chatid is not a conf
-				if { [ConfArray $user_login get] == 1 && $chatid == $user_login} {
-					::log::WriteLog $user_login "\|\"LITA\[[trans linprivate]\] $user \|\"LNOR: $msg\n" 2 $user_list
-				} else {
-					::log::WriteLog $user_login "\|\"LITA$user \|\"LNOR: $msg\n" 0 $user_list
-				}
+				::log::WriteLog $user_login "\|\"LITA$user :\|\"L$color $msg\n" 0 $user_list
 			}
 		}
+	}
 }
 
 	
@@ -653,17 +659,35 @@ proc ParseLog { wname logvar } {
 	${wname}.blueframe.log.txt tag configure normal -foreground black
 	${wname}.blueframe.log.txt tag configure NOR -foreground black
 	${wname}.blueframe.log.txt tag configure italic -foreground blue
+	set nbline 0
 	${wname}.blueframe.log.txt tag configure ITA -foreground blue
 	${wname}.blueframe.log.txt tag configure GRE -foreground darkgreen
+		set nbline [expr $nbline + 1]
 
 	set loglines [split $logvar "\n"]
 	set result [list]
 	foreach line $loglines {
 		set aidx 0
 		while {$aidx != -1} {
-			set color [string range $line [expr $aidx + 3] [expr $aidx + 5]]
-			set aidx [expr $aidx + 6]
-			set bidx [string first "\|\"L" $line $aidx]
+			# Checks if the line begins by |"L (it happens when we go to the line in the chat window).
+			# If not, use the tags of the previous line
+			if { $aidx == 0 & [string range $line 0 2] != "\|\"L" } {
+				set bidx -1
+			} else {
+				# If the portion of the line begins by |"LC, there is a color information.
+				# The color is indicated by the 6 fingers after it
+				if {[string index $line [expr $aidx + 3]] == "C"} {
+					set color [string range $line [expr $aidx + 4] [expr $aidx + 9]]
+					${wname}.blueframe.log.txt tag configure C_$nbline -foreground "#$color"
+					set color "C_$nbline"
+					set aidx [expr $aidx + 10]
+				# Else, it is the system with LNOR, LGRA...
+				} else {
+					set color [string range $line [expr $aidx + 3] [expr $aidx + 5]]
+					set aidx [expr $aidx + 6]
+				}
+				set bidx [string first "\|\"L" $line $aidx]
+			}
 			if { [string first "\|\"L" $line] == -1 } {
 				set string [string range $line 0 end]
 			} elseif { $bidx != -1 } {
@@ -768,7 +792,11 @@ proc ParseToFile { logvar filepath } {
 	if { $fileid != 0 } {
 		set aidx 0
 		while {1} {
-			set aidx [expr $aidx + 6]
+			if {[string index $logvar [expr $aidx + 3]] == "C"} {
+				set aidx [expr $aidx + 10]
+			} else {
+				set aidx [expr $aidx + 6]
+			}
 			set bidx [string first "\|\"L" $logvar $aidx]
 			if { $bidx != -1 } {
 				puts -nonewline $fileid [string range $logvar [expr $aidx] [expr $bidx - 1]]
