@@ -13,6 +13,7 @@ addtoo Tilføj denne person til min kontaktliste
 addto Tilføj til $1
 admincontacts Admin kontakter
 admingroups Admin grupper
+advanced Advanceret
 adverts Reklamer
 alarmonconnect Aktivér alarm når en bruger kommer online
 alarmondisconnect Aktivér alarm når en bruger bliver offline/usynlig
@@ -61,11 +62,13 @@ blockusers Antal brugere der skal tjekkes af gangen
 broughtby Bragt til dig af følgende udviklere
 browse Gennemse
 browser Browser
+browserexample ($url bliver udskiftet med en URL). F.eks.: mozilla $url
 busy Travlt
 cancel Annuller
 cannotdeleteprofile Kan ikke slette profilen da det ser ud til, at profilen er i brug af en aMSN session
 cantexec Kan ikke køre applikationen: $1. Tjek præferencer
 casesensitive Brug case-følsomme tjek
+cfgalarmall Konfigurer/Tilføj/Fjern Global Alarm
 cfgalarm Konfigurer/Tilføj/Fjern Alarm
 changedisplaypic Vælg Display-billede
 changefont Skift skrifttype
@@ -87,6 +90,7 @@ choosebasefont Vælg skrifttype
 choosebgcolor Vælg baggrundsfarve
 choosecontact Vælg venligst en kontakt fra listen
 choosefontcolor Vælg skrifttypefarve
+chooseskin Vælg det skin du vil bruge
 clearlog2 Tøm historien for alle dine kontaktpersoner
 clearlog3 Tøm alle log-filer
 clearlog Ryd log
@@ -95,6 +99,7 @@ closed Samtalen med $1 er lukket pga. inaktivitet
 close Luk
 closingdocks Luk-knap minimerer vinduet
 command Kommando
+commandstatus Exekver kommando
 confirmdelete Er du sikker på at du vil slette $1?
 confirm Er du sikker?
 connected Du er nu tilsluttet
@@ -118,6 +123,7 @@ dcprofile Opret ikke profil
 defaultloginradio Log ind med standard konfiguration
 default Oprindelig konfiguration
 delete Slet
+delimiters Afstandstegn:
 deliverfail Der var et problem med at levere følgende besked
 delprofile2 Vælg den profil du vil have fjernet
 delprofile Slet profil
@@ -125,6 +131,7 @@ description Beskrivelse
 directconnection Jeg har en direkte forbindelse til Internettet (anvender port 1863)
 disablessl Anvend ikke SSL
 disconnect $1 er frakoblet
+displaychat Visningstekst instillinger
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Gnome Minimer
 docking Minimer
@@ -138,7 +145,10 @@ editprofile Rediger profil
 edit Rediger
 editstate Redigér Eksisterende Auto-besked-Status
 emotisounds Afspil lyde for bestemte emoticons
+enablebanner Vis aMSN's banner (Kræver at aMSN genstartes)
 enableproxy Tilslut proxy
+enableremote Gør fjernkontrol mulig
+enablesound Afspil lyd
 encoding2 Vælg måden hvorpå dine tegn er kodet
 encoding Vælg kodning
 entercontactemail Skriv kontakt E-mail
@@ -293,6 +303,7 @@ options Muligheder
 ordercontactsby Sorter kontakter efter
 ordergroupsby Sortér grupper efter
 other Andre
+others Andre
 pager Pager
 pass Adgangskode
 paste Sæt ind
@@ -371,8 +382,10 @@ sendmail Send mail
 sendmsg Send besked
 send Send
 sentbytes Har sendt $1 ud af $2 bytes
+serverbusy Serveren er optaget
 servergoingdown Afbrudt. Server lukker ned.
 server Server
+serverunavailable Serveren kan ikke kontaktes
 session Session
 showblockedlist Vis liste over personer som har blokeret dig
 showdisplaypic2 Vis automatisk Display-billede når et chatvindue åbnes
@@ -413,6 +426,7 @@ syntaxerror Syntaksfejl
 tabbed Faneblad vinduer
 textsize Tekststørrelse
 timeremaining Tilbageværende tid
+timestamps Vis tidsstempler i Chat-vinduer
 title Al's Messenger
 tlsdowncompleted Filen $1 er downloadet til biblioteket $2. Du skal udpakke den, bygge den (hvis du downloadede kildekode) og installere den inden i biblioteket $3.
 tlsinstallexp aMSN anvender nu MSNP9, som kræver brugen af en sikker\nforbindelse gennem SSL. For at kunne bruge SSL er aMSN nødt til at installere et modul ved navn TLS,\nsom du mangler på dit system. Denne gennemgang vil hjælpe dig med at downloade og\ninstallere TLS. Vælg venligst din system-type så vi automatisk kan downloade\nde krævede TLS-filer.
