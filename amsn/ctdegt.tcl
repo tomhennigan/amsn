@@ -264,7 +264,13 @@ proc Preferences { settings } {
     PreferencesCopyConfig	;# Load current configuration
 
     toplevel .cfg
-    wm title .cfg [trans preferences]
+
+    if { [LoginList exists 0 $config(login)] == 1 } {
+	wm title .cfg "[trans preferences] - [trans profiledconfig] - $config(login)"
+    } else {
+	wm title .cfg "[trans preferences] - [trans defaultconfig] - $config(login)"
+    }
+
     wm iconname .cfg [trans preferences]
     wm geometry .cfg 500x595
 
@@ -355,6 +361,9 @@ proc Preferences { settings } {
 	grid $lfname.2.lphone5 -row 5 -column 1 -sticky w
 	grid $lfname.2.ephone51 -row 5 -column 2 -sticky w
 	grid $lfname.2.ephone52 -row 5 -column 3 -sticky w
+
+	frame $frm.dummy -class Degt
+	pack $frm.dummy -anchor n -side top -expand 1 -fill both -pady 150
 	
 	#  .------------.
 	# _| Appearance |________________________________________________
@@ -418,25 +427,138 @@ proc Preferences { settings } {
 	pack $lfname.2 -anchor w -side top -padx 10 -expand 1 -fill both
 	pack $lfname.1 -anchor w -side top -padx 0 -pady 5 -expand 1 -fill both
 	pack $lfname.1.alert1 $lfname.1.alert2 $lfname.1.alert3 $lfname.1.sound -anchor w -side top -padx 10
-	
+
+	frame $frm.dummy -class Degt
+	pack $frm.dummy -anchor n -side top -expand 1 -fill both -pady 150
 	
 	#  .---------.
 	# _| Session |________________________________________________
+	image create photo prefstatus -file [file join ${images_folder} prefstatus.gif]
+	image create photo prefaway -file [file join ${images_folder} prefaway.gif]
+	image create photo prefmsg -file [file join ${images_folder} prefmsg.gif]	
+
 	set frm [Rnotebook:frame $nb 3]
-	label $frm.l3 -text "Welcome frame 1 !" 
-	pack $frm.l3 -fill both -expand 1
+	
+	set lfname [LabelFrame:create $frm.lfname -text [trans prefsession]]
+	pack $frm.lfname -anchor n -side top -expand 1 -fill x
+	label $lfname.psession -image prefstatus
+	pack $lfname.psession -anchor nw -side left
+	frame $lfname.1 -class Degt
+	frame $lfname.2 -class Degt
+	frame $lfname.3 -class Degt
+	checkbutton $lfname.1.lautonoact -text "[trans autonoact]" -onvalue 1 -offvalue 0 -variable myconfig(autoidle)
+	entry $lfname.1.eautonoact -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0  -width 3
+	label $lfname.1.lmins -text "[trans mins]" -padx 5
+	pack $lfname.1 -side top -padx 0 -expand 1 -fill both
+	pack $lfname.1.lautonoact $lfname.1.eautonoact $lfname.1.lmins -side left
+	checkbutton $lfname.2.lautoaway -text "[trans autoaway]" -onvalue 1 -offvalue 0 -variable myconfig(autoaway)
+	entry $lfname.2.eautoaway -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0  -width 3
+	label $lfname.2.lmins -text "[trans mins]" -padx 5
+	pack $lfname.2 -side top -padx 0 -expand 1 -fill both
+	pack $lfname.2.lautoaway $lfname.2.eautoaway $lfname.2.lmins -side left
+	checkbutton $lfname.3.lonstart -text "[trans autoconnect2]" -onvalue 1 -offvalue 0 -variable myconfig(autoconnect)
+	checkbutton $lfname.3.lstrtoff -text "[trans startoffline2]" -onvalue 1 -offvalue 0 -variable myconfig(startoffline)
+	pack $lfname.3 -side top -padx 0 -expand 1 -fill both
+	pack $lfname.3.lonstart $lfname.3.lstrtoff -anchor w -side top
+
+	set lfname [LabelFrame:create $frm.lfname2 -text [trans prefawaymsg]]
+	pack $frm.lfname2 -anchor n -side top -expand 1 -fill x
+	label $lfname.psession -image prefaway
+	pack $lfname.psession -anchor nw -side left
+	radiobutton $lfname.awaymsg1 -text [trans awaymsg1] -value 1 -variable myconfig(awaymsg)
+	radiobutton $lfname.awaymsg2 -text [trans awaymsg2] -value 2 -variable myconfig(awaymsg)
+	text $lfname.awayentry -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 60 -height 3
+	pack $lfname.awaymsg1 $lfname.awaymsg2 -anchor w -side top
+	pack $lfname.awayentry -anchor w -side top -padx 10
+
+	set lfname [LabelFrame:create $frm.lfname3 -text [trans prefmsging]]
+	pack $frm.lfname3 -anchor n -side top -expand 1 -fill x
+	label $lfname.pmsging -image prefmsg
+	pack $lfname.pmsging -anchor nw -side left
+	frame $lfname.1 -class Degt
+	frame $lfname.2 -class Degt
+	label $lfname.1.lmsgmaxmin -text [trans msgmaxmin] -padx 10
+	radiobutton $lfname.1.max -text [trans maximised] -value 1 -variable myconfig(msgmaxmin)
+	radiobutton $lfname.1.min -text [trans minimised] -value 2 -variable myconfig(msgmaxmin)
+	pack $lfname.1.lmsgmaxmin -anchor w -side top -padx 10
+	pack $lfname.1.max $lfname.1.min -side left -padx 10
+	label $lfname.2.lmsgmode -text [trans msgmode] -padx 10
+	radiobutton $lfname.2.normal -text [trans normal] -value 1 -variable myconfig(msgmode)
+	radiobutton $lfname.2.tabbed -text [trans tabbed] -value 2 -variable myconfig(msgmode)
+	pack $lfname.2.lmsgmode -anchor w -side top -padx 10
+	pack $lfname.2.normal $lfname.2.tabbed -side left -padx 10
+	pack $lfname.1 $lfname.2 -anchor w -side top
+
+	frame $frm.dummy -class Degt
+	pack $frm.dummy -anchor n -side top -expand 1 -fill both -pady 150
 
 	#  .--------.
 	# _| Loging |________________________________________________
+	image create photo prefhist -file [file join ${images_folder} prefhist.gif]
+	image create photo prefhist2 -file [file join ${images_folder} prefhist2.gif]
+	image create photo prefhist3 -file [file join ${images_folder} prefhist3.gif]
+
 	set frm [Rnotebook:frame $nb 4]
-	label $frm.l4 -text "Welcome frame 1 !" 
-	pack $frm.l4 -fill both -expand 1
+	set lfname [LabelFrame:create $frm.lfname -text [trans preflog1]]
+	pack $frm.lfname -anchor n -side top -expand 1 -fill x
+	label $lfname.plog1 -image prefhist
+	pack $lfname.plog1 -anchor nw -side left
+	checkbutton $lfname.log -text "[trans keeplog2]" -onvalue 1 -offvalue 0 -variable myconfig(keep_logs)
+	pack $lfname.log -anchor w -side top
+	frame $lfname.2 -class Degt
+	label $lfname.2.lstyle -text "[trans stylelog]" -padx 10
+	radiobutton $lfname.2.hist -text [trans stylechat] -value 1 -variable myconfig(logstyle)
+	radiobutton $lfname.2.chat -text [trans stylehist] -value 2 -variable myconfig(logstyle)
+	pack $lfname.2.lstyle -anchor w -side top -padx 10
+	pack $lfname.2.hist $lfname.2.chat -side left -padx 10
+	pack $lfname.2 -anchor w -side top -expand 1 -fill x
+	
+	set lfname [LabelFrame:create $frm.lfname2 -text [trans clearlog]]
+	pack $frm.lfname2 -anchor n -side top -expand 1 -fill x
+	label $lfname.plog1 -image prefhist2
+	pack $lfname.plog1 -anchor nw -side left
+	frame $lfname.1 -class Degt
+	label $lfname.1.lclear -text "[trans clearlog2]" -padx 10
+	button $lfname.1.bclear -text [trans clearlog3] -font sboldf -command "::log::ClearAll"
+	pack $lfname.1.lclear -side left	
+	pack $lfname.1.bclear -side right -padx 15
+	pack $lfname.1 -anchor w -side top -expand 1 -fill x
+
+	set lfname [LabelFrame:create $frm.lfname3 -text [trans logfandexp]]
+	pack $frm.lfname3 -anchor n -side top -expand 1 -fill x
+	label $lfname.plog1 -image prefhist3
+	pack $lfname.plog1 -anchor nw -side left
+	frame $lfname.1 -class Degt
+	checkbutton $lfname.1.lolder -text "[trans logolder]" -onvalue 1 -offvalue 0 -variable myconfig(logexpiry)
+	entry $lfname.1.eolder -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0  -width 3
+	label $lfname.1.ldays -text "[trans days]" -padx 5
+	pack $lfname.1 -side top -padx 0 -expand 1 -fill both
+	pack $lfname.1.lolder $lfname.1.eolder $lfname.1.ldays -side left
+	frame $lfname.2 -class Degt
+	checkbutton $lfname.2.lbigger -text "[trans logbigger]" -onvalue 1 -offvalue 0 -variable myconfig(logmaxsize)
+	entry $lfname.2.ebigger -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0  -width 3
+	label $lfname.2.lmbs -text "MBs" -padx 5
+	pack $lfname.2 -side top -padx 0 -expand 1 -fill both
+	pack $lfname.2.lbigger $lfname.2.ebigger $lfname.2.lmbs -side left
+
+	frame $frm.dummy -class Degt
+	pack $frm.dummy -anchor n -side top -expand 1 -fill both -pady 150
 
 	#  .------------.
 	# _| Connection |________________________________________________
+	image create photo prefnat -file [file join ${images_folder} prefnat.gif]
+	image create photo prefhist2 -file [file join ${images_folder} prefhist2.gif]	
+
 	set frm [Rnotebook:frame $nb 5]
-	label $frm.l5 -text "Welcome frame 1 !" 
-	pack $frm.l5 -fill both -expand 1
+	set lfname [LabelFrame:create $frm.lfname -text [trans prefshared]]
+	pack $frm.lfname -anchor n -side top -expand 1 -fill x
+	label $lfname.pshared -image prefnat
+	pack $lfname.pshared -side left -anchor nw
+	frame $lfname.1 -class Degt
+	pack $lfname.1 -side left -padx 0 -pady 5 -expand 1 -fill both
+	checkbutton $lfname.1.keepalive -text "[trans natkeepalive]" -onvalue 1 -offvalue 0 -variable myconfig(keepalive)
+	checkbutton $lfname.1.ip -text "[trans ipdetect]" -onvalue 1 -offvalue 0 -variable myconfig(natip)
+	pack $lfname.1.keepalive $lfname.1.ip -anchor w -side top -padx 10	
 
 	#  .--------------.
 	# _| Applications |________________________________________________
@@ -625,6 +747,10 @@ proc LabelFrame:create {w args} {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.22  2003/01/15 02:31:32  burgerman
+# Always commit before traveling in case they decide my laptop is a bomb and blow it to peices with those little bad ass anti-bomb robots
+# Ohh yeh I also did some more work on new preferences.. yippy..
+#
 # Revision 1.21  2003/01/12 23:33:03  burgerman
 # more work on preferences, damn these things take long
 # partial fix for windows launch_browser (now hotmail login dosent work on windows, will fix)

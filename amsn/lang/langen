@@ -18,12 +18,17 @@ appearance Appearance
 areacode Area Code
 aretyping $1 are typing a message
 autoconnect Connect on amsn start
+autoconnect2 Sign In automaticly when aMSN is launched
 autohotmaillog Auto Hotmail login
 autoidle Auto NoActivity
 autoip Automatic IP
+autoaway Show me as "Away" when inactive for
+autonoact Show me as "Not Active" when inactive for
 askprofile This login dosen't currently have a profile. Would you like to create a new one for it? $1 If you don't you will not be able to use the History, or save your Alarms and password. $1 If you do you will have a separate configuration for this new profile. $1 $1 Click on "Create Profile" to create a new profile for $2.
 avoidseen Avoid this person can see when I'm online and contact me
 away Away
+awaymsg1 Ask for away message each time I change my status to Away/BRB/Busy
+awaymsg2 Never ask and always use the away message below 
 baduserpass Wrong user name or password
 bgcolor Change aMSN's background color 
 blankdirect Leave blank for direct connection
@@ -48,6 +53,8 @@ choosebasefont Choose font type
 choosebgcolor Choose background color
 choosefontcolor Choose font color
 clearlog Clear Log
+clearlog2 Clear the history for all your contacts
+clearlog3 Clear All Logs
 clicktologin Click here to log in
 close Close
 closingdocks Close button Minimizes
@@ -64,7 +71,9 @@ countrycode My Country/Region code
 cprofile Create Profile
 cut Cut
 date Date
+days Days
 dcprofile Don't Create Profile
+default Default Config
 delete Delete
 deliverfail There was a problem delivering the following message
 docking Docking
@@ -111,10 +120,12 @@ inbox In-Box
 invalidusername Invalid user name
 invite Invite
 ipaddress IP Address
+ipdetect Detect correct IP for File Transfers using HTTP
 istyping $1 is typing a message
 joins $1 joins conversation
 keepalive Keepalive (NAT)
 keeplog Keep Logs of Chats
+keeplog2 Log all Conversations to aMSN's History for future viewing
 language Language
 lastmsgtime Last message received at $1
 lclosedwin $1 has closed the window on $2
@@ -130,20 +141,28 @@ listsmileys2 Display Emoticons and Smileys in aMSN's main contact list
 ljoinedconf $1 has joined conference
 lleftconf $1 has left conference
 loadcontacts Load contact list
+logbigger Log file sizes for each contact never exceed 
+logfandexp Log File Sizes and History Expiry
 loggedotherlocation Disconnected. Logged in other location
 loggingin Logging In
 loginas Login as
 login Log In
 loging Loging
+logolder Only log chats that have taken place in the last
 logout Log Out
 logsin has just logged in
 logsmileys Displays Emoticons and Smileys in aMSN's history windows
 lprivtoconf Private chat turned into Conference with $1
 luclosedwin You have closed the window on $1
 mailer Mailer
+maximised Maximised
+minimised Minimised/Iconified
+mins minutes
 mobile Mobile
 movetogroup Move to Group
 msg Message
+msgmaxmin When a new message arrives I want it to be :
+msgmode Select how to handle multiple message windows :
 msn AMSN
 mustrestart You must restart the program to apply changes
 myhomephone My Home Phone
@@ -151,6 +170,7 @@ mymobilephone My Mobile Phone
 myworkphone My Work Phone
 mystatus My status
 natip IP detection by web page 
+natkeepalive If you are getting disconnected regularly, enable this KeepAlive
 needonline You still are/appear offline!
 newmail $1 new messages in In-Box
 newmailfrom New mail from
@@ -189,18 +209,24 @@ picstatus Picture Alarm
 port Port
 prefalerts My Event Alerts and Sounds
 prefapps Applications
+prefawaymsg My Away Message
 prefemotic Emotions Icons and Smileys 
 preferences Preferences
 preffont My Message Text
 preffont2 Change the way others see my text in chats
 preffont3 Change aMSN's interface font and size
+prefmsging My Messaging Interface
+preflog1 My History and Loging Options
 preflook My aMSN Messenger Look
 prefname My MSN Messenger Name/NickName
 prefphone My Phone Numbers
 prefphone2 Type the phone numbers that you would like people $1 on your Allow List to see $1
 prefprofile My Public Profile
 prefprofile2 Create or Modify your public profile (the $1 description of yourself that others can see)
+prefsession My Sign In and Status
+prefshared Shared Connections (only for NAT)
 prefsound Sounds
+profiledconfig Profiled Config
 profiles Profiles
 properties Properties
 proxyconfhttp HTTP proxy support configuration
@@ -234,9 +260,14 @@ soundfile Sound File
 soundloop Loop Sound
 soundstatus Sound Alarm
 startoffline Start Offline
+startoffline2 Sign In silently as "Appear Offline"
 status Status
 stopalarm Stop Alarm
+stylelog Select the format in wich you would like to view your History
+stylechat Same look as chats
+stylehist aMSN's history look
 syntaxerror  Syntax Error
+tabbed Tabbed Windows
 textsize Text size
 title Al's Messenger
 tools Tools

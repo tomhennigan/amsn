@@ -10,7 +10,7 @@ Ok here is a new version of the TODO list (04/01/03)
 Burger * burger@mwvision.com
 
 
-***Bug Fixes and todo before next release (priority 1)***
+***Bug Fixes and TODO before next release (priority 1)***
 
 # Check Makefile and amsn.spec now that HELP and FAQ files are added. Make sure everything is installed correctly and FAQ and HELP are in the amsn directory.
 # Make good RPMs, for Redhat, Suse, Mandrake, etc.
@@ -21,10 +21,12 @@ Burger * burger@mwvision.com
 # Improve font selection (unify with color selection)
 # Make status change dynamic in chat window and disable input window when YOU go offline
 # Don't save password if login fails becoz of wrong username or password
-# Fix profiles, the url seems to be wrong, says wrong page for me...
+# Fix profiles, use html file for authentication and login to MSN profiles?
 # Notify window is only clickable on the text, should make whole window clickable and add X to close (left and right click)
 # Write procedure to redraw main window for language + font changes
-# Ask if you want to add profile AFTER sucessfull login with new email, not from login window.
+# Fix new profile issues for existing users, should ask them to add profile even if they dont go to "login as"
+# Check for connection state, make sure amsn disconnects if connection goes down.
+# Authorisation request dialogs halt all AMSN, and queue all events, then kaboom when dialog is closed, not good.
 
 File Transfer issues :
 # File Transfer AUTH protocol fix (and add the nick of person sending file to transfer window)
