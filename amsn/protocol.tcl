@@ -3435,10 +3435,8 @@ proc cmsn_change_state {recv} {
 		set substate [lindex $recv 1]
 		set epvar(substate) [lindex $recv 1]
 		set msnobj [urldecode [lindex $recv 5]]
-		#Detect if client use Web Messenger from Microsoft http://webmessenger.msn.com
-		if { [lindex $recv 4] == "512" } {
-			::abook::setContactData $user clientname "Web Messenger"
-		}
+		#Add clientID to abook
+		add_Clientid $user [lindex $recv 4]
 		#Send plugin's postevent
 		::plugins::PostEvent ChangeState epvar
 	
@@ -4787,6 +4785,30 @@ proc filenoext { filename } {
 	return "[string replace $filename [string last . $filename] end]"
 }
 
+#Look for clientid information and add it to ContactData
+#More information on numbers here: http://ceebuh.info/docs/?url=clientid.html
+proc add_Clientid {chatid clientid} {
+	#We look on the clientid number to determine witch client it is
+	#Remember, aMSN 0.94B is known as MSN 7, 0.93 as MSN 6.0
+	switch [string range $clientid 0 3]  {
+		2684 {
+			::abook::setContactData $chatid clientid "MSN 6.0"
+		}
+		5368 {
+			::abook::setContactData $chatid clientid "MSN 6.1"
+		}
+		8053 {
+			::abook::setContactData $chatid clientid "MSN 6.2"
+		}
+		1073 {
+			::abook::setContactData $chatid clientid "MSN 7.0"
+		}
+		512 {
+			::abook::setContactData $chatid clientid "Web Messenger"
+		}
+	}
+}
+
 namespace eval ::MSNP2P {
 	namespace export loadUserPic SessionList ReadData MakePacket MakeACK MakeSLP AcceptFT RejectFT
 
@@ -5177,8 +5199,8 @@ namespace eval ::MSNP2P {
 				set context [string range $data $idx $idx2]
 				
 				
-				if { $eufguid == "A4268EEC-FEC5-49E5-95C3-F126696BDBF6" || $eufguid == "5D3E02AB-6190-11D3-BBBB-00C04F795683"} {
-					status_log "MSNP2P | $sid $dest -> Got INVITE for buddy icon, emoticon, or file transfer\n" red
+				if { $eufguid == "A4268EEC-FEC5-49E5-95C3-F126696BDBF6" || $eufguid == "5D3E02AB-6190-11D3-BBBB-00C04F795683" || $eufguid == "E073B06B-636E-45B7-ACA4-6D4B5978C93C"} {
+					status_log "MSNP2P | $sid $dest -> Got INVITE for buddy icon, emoticon, or file transfer, or Wink(MSN 7)\n" red
 					
 					# Make new data structure for this session id
 					if { $eufguid == "A4268EEC-FEC5-49E5-95C3-F126696BDBF6" } {
@@ -5194,6 +5216,12 @@ namespace eval ::MSNP2P {
 					} elseif { $eufguid == "5D3E02AB-6190-11D3-BBBB-00C04F795683" } {
 						# File transfer
 						SessionList set $sid [list 0 0 0 $dest 0 $uid 0 "filetransfer" "" "$branchuid"]
+					} elseif { $eufguid =="E073B06B-636E-45B7-ACA4-6D4B5978C93C"} {
+					#We received Winks
+					status_log "####WINKS RECEIVED####\n" blue
+					set decoding [base64::decode $context]
+					status_log "$decoding\n" blue
+					status_log "######################\n" blue
 					}
 					
 					# Let's send an ACK
@@ -6335,5 +6363,7 @@ namespace eval ::MSNAV {
 		lp_set_nat_address [::abook::getDemographicField clientip]
 		#lp_set_nat_address [::abook::getDemographicField localip]
 	}
+	
+
 }
 

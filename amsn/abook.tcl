@@ -829,6 +829,7 @@ namespace eval ::abookGui {
 		#Client-name of the user (from Gaim, dMSN, etc)
 		label $nbIdent.clientname -text "[trans clientname]:"
 		label $nbIdent.clientname1 -text [::abook::getContactData $email clientname] -font splainf -fg blue
+		label $nbIdent.clientid -text "([::abook::getContactData $email clientid])" -font splainf -fg blue
 		#Does the user record the conversation or not
 		label $nbIdent.chatlogging -text "[trans loging]:"
 		label $nbIdent.chatlogging1 -text [::abook::getContactData $email chatlogging] -font splainf -fg blue
@@ -845,19 +846,19 @@ namespace eval ::abookGui {
 		label $nbIdent.titlepic -text "[trans displaypic]" -font bboldunderf
 		label $nbIdent.displaypic -image user_pic_$email -highlightthickness 2 -highlightbackground black -borderwidth 0
 				
-		grid $nbIdent.title1 -row 0 -column 0 -pady 5 -padx 5 -columnspan 2 -sticky w 
+		grid $nbIdent.title1 -row 0 -column 0 -pady 5 -padx 5 -columnspan 3 -sticky w 
 		grid $nbIdent.e -row 1 -column 0 -sticky e
-		grid $nbIdent.e1 -row 1 -column 1 -sticky w
+		grid $nbIdent.e1 -row 1 -column 1 -sticky w -columnspan 3
 		grid $nbIdent.h -row 2 -column 0 -sticky e
-		grid $nbIdent.h1 -row 2 -column 1 -sticky w
+		grid $nbIdent.h1 -row 2 -column 1 -sticky w -columnspan 3
 		grid $nbIdent.customnickl -row 3 -column 0 -sticky en
-		grid $nbIdent.customnick -row 3 -column 1 -sticky wne
+		grid $nbIdent.customnick -row 3 -column 1 -sticky wne -columnspan 3
 		grid $nbIdent.customfnickl -row 4 -column 0 -sticky en
-		grid $nbIdent.customfnick -row 4 -column 1 -sticky wne
+		grid $nbIdent.customfnick -row 4 -column 1 -sticky wne -columnspan 3
 		grid $nbIdent.ycustomfnickl -row 5 -column 0 -sticky en
-		grid $nbIdent.ycustomfnick -row 5 -column 1 -sticky wne
+		grid $nbIdent.ycustomfnick -row 5 -column 1 -sticky wne -columnspan 3
 		grid $nbIdent.customcolor -row 6 -column 0 -sticky e
-		grid $nbIdent.customcolorf -row 6 -column 1 -sticky w
+		grid $nbIdent.customcolorf -row 6 -column 1 -sticky w -columnspan 3
 	
 		grid $nbIdent.g -row 7 -column 0 -pady 5 -padx 5 -sticky w
 		grid $nbIdent.g1 -row 8 -column 0 -sticky e
@@ -884,6 +885,7 @@ namespace eval ::abookGui {
 		grid $nbPhone.lastseen1 -row 21 -column 3 -sticky w
 		grid $nbPhone.clientname -row 22 -column 0 -sticky e
 		grid $nbPhone.clientname1 -row 22 -column 1 -sticky w
+		grid $nbPhone.clientid -row 22 -column 1 -sticky e
 		grid $nbPhone.chatlogging -row 22 -column 2 -sticky e
 		grid $nbPhone.chatlogging1 -row 22 -column 3 -sticky w
 		
