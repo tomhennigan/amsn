@@ -3409,12 +3409,11 @@ namespace eval ::amsn {
 		
 		#Check if this is first line in the text, then ignore the \n
 		#at the beginning of the line
-		#DOESN'T WORK OK!!
-		#if { ([lindex $posyx 0] <= 2) && ([lindex $posyx 1] == 0) } {
-		#	if {[string range $txt 0 0] == "\n"} {
-		#		set txt [string range $txt 1 end]
-		#	}
-		#}
+		if { [${win_name}.f.out.text get 1.0 end] == "\n" } {
+			if {[string range $txt 0 0] == "\n"} {
+				set txt [string range $txt 1 end]
+			}
+		}
 		
 
 		#By default tagid=tagname unless we generate a new one
