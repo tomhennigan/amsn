@@ -3,7 +3,7 @@
 #  ======================================  #
 # Nudge is  a kind of notification	   	   #
 # that was introduced in MSN 7             #
-# TODO: Use real nudge sound			   #
+# TODO: Use lang system for keys		   #
 ############################################
 
 ###########################
@@ -181,10 +181,12 @@ namespace eval ::Nudge {
 			if { $y2 == "94" } {
 				button $bottom.buttons.nudge -image [::skin::loadPixmap bell] -relief flat -padx 3 \
 				-background [::skin::getColor background2] -highlightthickness 0 -borderwidth 0 \
+				-highlightbackground [::skin::getColor background2] \
 				-command "after 1 ::Nudge::send_via_queue $newvar(window_name)"
 			} else {
 				button $bottom.buttons.nudge -image [::skin::loadPixmap bell] -relief flat -padx 3 \
 				-background [::skin::getColor buttonbarbg] -highlightthickness 0 -borderwidth 0 \
+				-highlightbackground [::skin::getColor buttonbarbg] \
 				-command "after 1 ::Nudge::send_via_queue $newvar(window_name)"
 			}
 			
