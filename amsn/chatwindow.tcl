@@ -1604,7 +1604,7 @@ namespace eval ::ChatWindow {
 		
 		# Send button in conversation window, specifications and command. Only
 		# compatible with Tcl/Tk 8.4. Disable it on Mac OS X (TkAqua looks better)
-		if { $::tcl_version >= 8.4 && $tcl_platform(os) != "Darwin" } {
+		if { $::tcl_version >= 8.4 || $tcl_platform(os) != "Darwin" } {
 			# New pixmap-skinnable button (For Windows and Unix > Tcl/Tk 8.3)
 			button $sendbutton -image [::skin::loadPixmap sendbutton] \
 				-command "::amsn::MessageSend $w $text" \
