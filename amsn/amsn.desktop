@@ -7,5 +7,6 @@ Comment="MSN Messenger for Linux"
 Comment[fr]="MSN Messenger pour Linux"
 Comment[de]="MSN Messenger für Linux"
 Comment[nl]="MSN Messenger voor Linux"
+Comment[no]="MSN Messenger for Linux"
 Terminal=0
 Type=Application
