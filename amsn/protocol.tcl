@@ -988,7 +988,7 @@ namespace eval ::MSN {
       || [string compare -length 8 $ip "192.168."] == 0 \
       || $config(natip) == 1 } {
         set token [::http::geturl "http://www.showmyip.com/simple/" -timeout 10000]
-        set ip [string trim [::http::data $token]]
+        set ip [lindex [split [::http::data $token]] 0]
         ::http::cleanup $token
         status_log "Called get http ip: $ip, $token\n"	
 
