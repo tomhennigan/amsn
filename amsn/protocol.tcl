@@ -4048,7 +4048,7 @@ proc cmsn_listupdate {recv} {
 		incr loading_list_info(current)
 
 		set username [lindex $recv 1]
-		set nickname [lindex $recv 2]
+		set nickname [urldecode [lindex $recv 2]]
 
 
 		set list_names [process_msnp9_lists [lindex $recv 3]]
@@ -4073,7 +4073,7 @@ proc cmsn_listupdate {recv} {
 			upvar #0 $list_name the_list
 			if { [lsearch $the_list "$username *"] == -1 } {
 				lappend contact_info $username
-				lappend contact_info [urldecode $nickname]
+				lappend contact_info $nickname
 				lappend $list_name $contact_info
 
 				#status_log "cmsn_listupdate: adding to $list_name $contact_info\n"
