@@ -7707,7 +7707,7 @@ proc webcamQuickTime {w} {
 	if { ![catch {seqgrabber $w.preview} res] } {
 		pack $w.preview
 		label $w.zoomtext -text "[trans zoom]:" -font sboldf
-		spinbox $w.zoom -from 1 -to 5 -increment 1 -width 1 -command "$w.preview configure -zoom %s"
+		spinbox $w.zoom -from 1 -to 5 -increment 0.5 -width 2 -command "$w.preview configure -zoom %s"
 		pack $w.zoomtext
 		pack $w.zoom
 		return 1
