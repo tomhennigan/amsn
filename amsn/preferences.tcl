@@ -1677,6 +1677,9 @@ proc SavePreferences {} {
 	# Proxy settings
 	set p_server [string trim $proxy_server]
 	set p_port [string trim $proxy_port]
+	if { ![string is integer -strict $p_port] } {
+		set p_port 8080
+	}
 	set p_user [string trim $proxy_user]
 	set p_pass [string trim $proxy_pass]
 
