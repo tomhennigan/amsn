@@ -1375,41 +1375,42 @@ namespace eval ::MSN {
 
    }
 
-   proc setUserInfo { user_login {user_name ""} {user_state_no ""} } {
-      global list_users list_states list_otherusers
+	proc setUserInfo { user_login {user_name ""} {user_state_no ""} } {
+		global list_users list_states list_otherusers
 
-      set idx [lsearch $list_users "${user_login} *"]
+		status_log "Setting user $user_login to name $user_name and state $user_state_no\n" white
+		set idx [lsearch $list_users "${user_login} *"]
 
-      if { $idx != -1} {
+		if { $idx != -1} {
 
-         set olduserinfo [lindex $list_users $idx]
+			set olduserinfo [lindex $list_users $idx]
 
-         if { "$user_name" == "" } {
-	    set user_name [lindex $olduserinfo 1]
-	 }
+			if { "$user_name" == "" } {
+				set user_name [lindex $olduserinfo 1]
+			}
 
-         if { "$user_state_no" == "" } {
-	    set user_state_no [lindex $olduserinfo 2]
-	 }
+			if { "$user_state_no" == "" } {
+				set user_state_no [lindex $olduserinfo 2]
+			}
 
-	 set newuserinfo [lreplace $olduserinfo 1 1 $user_name]
-	 set newuserinfo [lreplace $newuserinfo 2 2 $user_state_no]
-	 #set list_users [lreplace $list_users $idx $idx [list $user_login $user_name $user_state_no]]
-	 set list_users [lreplace $list_users $idx $idx $newuserinfo]
-	 set list_users [lsort -decreasing -index 2 [lsort -decreasing -index 1 $list_users]]
+			set newuserinfo [lreplace $olduserinfo 1 1 $user_name]
+			set newuserinfo [lreplace $newuserinfo 2 2 $user_state_no]
+			#set list_users [lreplace $list_users $idx $idx [list $user_login $user_name $user_state_no]]
+			set list_users [lreplace $list_users $idx $idx $newuserinfo]
+			set list_users [lsort -decreasing -index 2 [lsort -decreasing -index 1 $list_users]]
 
-      } else {
+		} else {
 
-         set idx [lsearch $list_otherusers "${user_login} *"]
+			set idx [lsearch $list_otherusers "${user_login} *"]
 
-	 if {$idx != -1} {
-	    #TODO: If user_name=="", delete the user. Use this from BYE
-            set list_otherusers [lreplace $list_otherusers $idx $idx [list $user_login $user_name $user_state_no]]
-	 } else {
-            lappend list_otherusers [list $user_login $user_name $user_state_no]
-	 }
+			if {$idx != -1} {
+				#TODO: If user_name=="", delete the user. Use this from BYE
+				set list_otherusers [lreplace $list_otherusers $idx $idx [list $user_login $user_name $user_state_no]]
+			} else {
+				lappend list_otherusers [list $user_login $user_name $user_state_no]
+			}
 
-      }
+		}
 
    }
 
@@ -4479,8 +4480,8 @@ namespace eval ::MSNP2P {
 	proc loadUserPic { chatid user } {
 			#status_log "::MSNP2P::GetUser: Checking if picture for user $user exists\n" blue
 
-			set user_info [::MSN::getUserInfo $user]
-			set msnobj [lindex $user_info 3]
+			set userinfo [::MSN::getUserInfo $user]
+			set msnobj [lindex $userinfo 3]
 
 			#status_log "::MSNP2P::GetUser: MSNOBJ is $msnobj\n" blue
 
@@ -4612,7 +4613,7 @@ namespace eval ::MSNP2P {
 	# For now only manages buddy and emoticon transfer
 	# TODO : Error checking on fields (to, from, sizes, etc)
 	proc ReadData { data chatid } {
-		global config fd user_info HOME
+		global config fd HOME
 
 		status_log "called ReadData with $data\n" red
 
@@ -4763,8 +4764,8 @@ namespace eval ::MSNP2P {
 
 				set session_data [SessionList get $sid]
 				set user_login [lindex $session_data 3]
-				set user_info [::MSN::getUserInfo $user_login]
-				set filename [::MSNP2P::GetFilenameFromMSNOBJ [lindex $user_info 3]]
+				set userinfo [::MSN::getUserInfo $user_login]
+				set filename [::MSNP2P::GetFilenameFromMSNOBJ [lindex $userinfo 3]]
 
 
 			    status_log "Closed file.. finished writing\n" red
@@ -4786,8 +4787,8 @@ namespace eval ::MSNP2P {
 			set session_data [SessionList get $sid]
 			set user_login [lindex $session_data 3]
 			status_log "Got data preparation message, opening file for writing\nSID=$sid, user=$user_login" red
-			set user_info [::MSN::getUserInfo $user_login]
-			set filename [::MSNP2P::GetFilenameFromMSNOBJ [lindex $user_info 3]]
+			set userinfo [::MSN::getUserInfo $user_login]
+			set filename [::MSNP2P::GetFilenameFromMSNOBJ [lindex $userinfo 3]]
 
 			set fd [open "[file join $HOME displaypic ${filename}.png]" "w"]
 			fconfigure $fd -translation binary
