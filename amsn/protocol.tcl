@@ -1911,15 +1911,37 @@ proc read_non_blocking { sock amount finish_proc {read 0}} {
 
 	fileevent $sock readable ""
 
+	if {[catch {eof $sock} res]} {
+
+		status_log "read_non_blocking: Error reading EOF for sock $sock: $res\n" red
+		catch {close $sock}
+		return
+
+	} elseif {[eof $sock]} {
+
+		status_log "read_non_blocking: Eof in sock $sock, closing\n" red
+		catch {close $sock}
+		return
+
+	}
+
 	set buffer_name "read_buffer_$sock"
    upvar #0 $buffer_name read_buffer
 
 	if { $read == 0 } {
 		set read_buffer ""
-	} 
-	
+	}
+
 	set to_read [expr {$amount - $read}]
 	set data [read $sock $to_read]
+
+	if  { "$data" == "" } {
+
+		status_log "read_non_block: Blank read!! Why does this happen??\n" red
+		update idletasks
+	}
+
+
 	set read_buffer "${read_buffer}$data"
 
 	set read_bytes [string length ${data}]
