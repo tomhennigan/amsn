@@ -124,6 +124,28 @@ namespace eval ::ChatWindow {
 
 
 	#///////////////////////////////////////////////////////////////////////////////
+	# ::ChatWindow::GetStatusText (window)
+	# Returns the path to the statusbar text widget in a given window 
+	# Arguments:
+	#  - window => Is the chat window widget (.msg_n - Where n is an integer)
+	proc GetStatusText { window } {
+		return $window.statusbar.status
+	}
+	#///////////////////////////////////////////////////////////////////////////////
+
+
+	#///////////////////////////////////////////////////////////////////////////////
+	# ::ChatWindow::GetStatusCharsTypedText (window)
+	# Returns the path to the statusbar text widget in a given window 
+	# Arguments:
+	#  - window => Is the chat window widget (.msg_n - Where n is an integer)
+	proc GetStatusCharsTypedText { window } {
+		return $window.statusbar.charstyped
+	}
+	#///////////////////////////////////////////////////////////////////////////////
+
+
+	#///////////////////////////////////////////////////////////////////////////////
 	# ::ChatWindow::Clear (window)
 	# Deletes all the text in the chat window's input widget
 	# Arguments:
@@ -993,7 +1015,7 @@ namespace eval ::ChatWindow {
 		$charstyped configure -state disabled
 
 		# Pack them
-		pack $w.statusbar.status -side left -expand true -fill x -padx 0 -pady 0 -anchor w
+		pack $status -side left -expand true -fill x -padx 0 -pady 0 -anchor w
 
 		if { [::config::getKey charscounter] } {
 			pack $charstyped -side right -expand false -padx 0 -pady 0 -anchor e
@@ -1487,15 +1509,15 @@ namespace eval ::ChatWindow {
 
 		if { [winfo exists $win_name] } {
 
-			${win_name}.statusbar.status configure -state normal
-			${win_name}.statusbar.status delete 0.0 end
+			[::ChatWindow::GetStatusText ${win_name}] configure -state normal
+			[::ChatWindow::GetStatusText ${win_name}] delete 0.0 end
 
 			if { "$icon"!=""} {
-				${win_name}.statusbar.status image create end -image [::skin::loadPixmap $icon] -pady 0 -padx 1
+				[::ChatWindow::GetStatusText ${win_name}] image create end -image [::skin::loadPixmap $icon] -pady 0 -padx 1
 			}
 
-			${win_name}.statusbar.status insert end $msg
-			${win_name}.statusbar.status configure -state disabled
+			[::ChatWindow::GetStatusText ${win_name}] insert end $msg
+			[::ChatWindow::GetStatusText ${win_name}] configure -state disabled
 
 		}
 	}

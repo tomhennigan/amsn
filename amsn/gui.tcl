@@ -2261,10 +2261,10 @@ namespace eval ::amsn {
 
 			set msg [string map {"\n" " "} $msg]
 
-			${win_name}.statusbar.charstyped configure -state normal
-			${win_name}.statusbar.charstyped delete 0.0 end
-			${win_name}.statusbar.charstyped insert end $msg center
-			${win_name}.statusbar.charstyped configure -state disabled
+			[::ChatWindow::GetStatusCharsTypedText ${win_name}] configure -state normal
+			[::ChatWindow::GetStatusCharsTypedText ${win_name}] delete 0.0 end
+			[::ChatWindow::GetStatusCharsTypedText ${win_name}] insert end $msg center
+			[::ChatWindow::GetStatusCharsTypedText ${win_name}] configure -state disabled
 		}
 
 	}
