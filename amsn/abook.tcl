@@ -135,6 +135,8 @@ namespace eval ::abook {
 	proc setContactData { user_login field data } {
 		variable users_data
 		
+		set field [string tolower $field]
+		
 		# There can't be double arrays, so users_data(user) is just a
 		# list like {entry1 data1 entry2 data2 ...}
 		if { [info exists users_data($user_login)] } {
@@ -163,6 +165,8 @@ namespace eval ::abook {
 	proc setVolatileData { user_login field data } {
 		variable users_volatile_data
 		
+		set field [string tolower $field]
+		
 		if { [info exists users_volatile_data($user_login)] } {
 			array set volatile_data $users_volatile_data($user_login)
 		} else {
@@ -185,6 +189,8 @@ namespace eval ::abook {
 	proc getContactData { user_login field {defaultval ""}} {
 		variable users_data
 		
+		set field [string tolower $field]
+		
 		if { ![info exists users_data($user_login)] } {
 			return $defaultval
 		}
@@ -202,6 +208,8 @@ namespace eval ::abook {
 	#Returns some previously stored volatile data from a user		
 	proc getVolatileData { user_login field {defaultval ""}} {
 		variable users_volatile_data
+		
+		set field [string tolower $field]
 		
 		if { ![info exists users_volatile_data($user_login)] } {
 			return $defaultval
