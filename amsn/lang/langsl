@@ -111,6 +111,7 @@ checkemail Poka¾i obvestilo o novi po¹ti v seznamu stikov
 checkfilman Prejete datoteke bodo shranjene v $1. Preveri nastavitve upravljalca datotek v nastavitvah.
 checkingver Preverjam za novo razlièico
 checkonfln Preveri, èe te je uporabnik blokiral, ko se odjavi
+checkopenfilecommand Preveri ukaz za odpiranje datotek v oknu z nastavitvami
 checkver Preveri za novo razlièico
 choosearq Izberi arhitekturo sistema
 choosebasefont Izberi vrsto pisave
@@ -372,6 +373,8 @@ maximised Maksimiran
 minimised Minimiran
 mins minut
 mobile Mobilni
+mobilegrp1 Skupina uporabnikov prenosih naprav
+mobilegrp2 Uporabniki prenosnih naprav naj bodo v svoji skupini, ko niso prijavljeni
 modified Popravljeno
 morepersonal Veè stanj ->
 month Mesec
@@ -445,6 +448,9 @@ ok V redu
 onenewmail 1 novo sporoèilo v Inboxu
 online Prijavljen
 onphone Na telefonu
+opendir Odpri imenik
+openfile Odpri
+openfilecommand Ukaz za odpiranje datotek
 openreceived Odpri sprejete datoteke
 options Nastavitve
 ordercontactsby Uredi stike
