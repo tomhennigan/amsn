@@ -438,4 +438,4 @@ youblocked Has sido bloqueado
 yousay Tú dices
 youwant Quieres
 disablessl Desactivar SSL
-sslwarning sslwarning ¡¡CUIDADO!! Al desactivar SSL, se desactiva la encriptación, y tu contraseña será enviada a través de la red como texto sin encriptar. Utilizar sólo si es imprescindible, como en algunos servidores proxy, o configuraciones de red muy estrictas.
+sslwarning ¡¡CUIDADO!! Al desactivar SSL, se desactiva la encriptación, y tu contraseña será enviada a través de la red como texto sin encriptar. Utilizar sólo si es imprescindible, como en algunos servidores proxy, o configuraciones de red muy estrictas.
