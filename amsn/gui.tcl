@@ -302,12 +302,12 @@ namespace eval ::amsn {
       toplevel .about
       wm title .about "[trans about] [trans title]"
       
-
-    ShowTransient .about .
+   	  ShowTransient .about
     
       wm state .about withdrawn
       grab .about
-
+      
+#Top frame (Picture and name of developers)
       set developers "\nDidimo Grimaldo\nAlvaro J. Iradier\nKhalaf Philippe\nDave Mifsud"
       frame .about.top -class Amsn
       label .about.top.i -image msndroid
@@ -315,28 +315,37 @@ namespace eval ::amsn {
       pack .about.top.i .about.top.l -side left
       pack .about.top
 
-      text .about.info -background white -width 60 -height 30 -wrap word \
-         -yscrollcommand ".about.ys set" -font   examplef
-      scrollbar .about.ys -command ".about.info yview"
-      pack .about.ys -side right -fill y
-      pack .about.info -expand true -fill both
+#Middle frame (About text)
+	 frame .about.middle
+	 frame .about.middle.list -class Amsn -borderwidth 0
+     text .about.middle.list.text -background white -width 60 -height 30 -wrap word \
+         -yscrollcommand ".about.middle.list.ys set" -font examplef
+      scrollbar .about.middle.list.ys -command ".about.middle.list.text yview"
+      pack .about.middle.list.ys -side right -fill y
+      pack .about.middle.list.text -side left -expand true -fill both
+      pack .about.middle.list -side top -expand true -fill both -padx 1 -pady 1
+      pack .about.middle -expand true -fill both -side top
 
-      frame .about.bottom -class Amsn
+#Bottom frame (Close button)
+  	  frame .about.bottom -class Amsn
       button .about.bottom.close -text "[trans close]" -font splainf -command "destroy .about"
       pack .about.bottom.close
-      pack .about.bottom -expand 1
-
+      pack .about.bottom -side bottom -fill x -pady 3
+      
+#Insert the text in .about.middle.list.text
       set id [open "[file join $program_dir README]" r]
-      .about.info insert 1.0 [read $id]
+      .about.middle.list.text insert 1.0 [read $id]
 
       close $id
-
-      .about.info configure -state disabled
+      .about.middle.list.text configure -state disabled
       update idletasks
       wm state .about normal
       set x [expr {([winfo vrootwidth .about] - [winfo width .about]) / 2}]
       set y [expr {([winfo vrootheight .about] - [winfo height .about]) / 2}]
       wm geometry .about +${x}+${y}
+      
+      #Should we disable resizable? Since when we make the windows smaller (in y), we lost the "Close button"
+      #wm resizable .about 0 0
 
    }
    #///////////////////////////////////////////////////////////////////////////////
