@@ -46,8 +46,8 @@ wm state . withdraw
 ############################################################
 ### Some global variables
 ############################################################
-set version "0.94b"
-set date "08/31/2004"
+set version "0.94"
+set date "11/06/2004"
 set weburl "http://amsn.sourceforge.net"
 set program_dir "."
 set HOME ""
