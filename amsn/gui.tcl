@@ -1937,7 +1937,7 @@ namespace eval ::amsn {
 
 		load_my_pic
 
-		label $bottom.pic  -borderwidth 1 -relief solid -image no_pic -background #FFFFFF
+		label $bottom.pic  -borderwidth 1 -relief solid -image [::skin::getNoDisplayPicture] -background #FFFFFF
 		set_balloon $bottom.pic [trans nopic]
 		button $bottom.showpic -bd 0 -padx 0 -pady 0 -image imgshow -bg $bgcolor -highlightthickness 0 \
 		-command "::amsn::ToggleShowPicture ${win_name}; ::amsn::ShowOrHidePicture .${win_name}" -font splainf
@@ -2225,7 +2225,7 @@ namespace eval ::amsn {
 		}
 		if { [catch {$win.f.bottom.pic configure -image $picture}] } {
 			status_log "Failed to set picture, using no_pic\n" red
-			$win.f.bottom.pic configure -image no_pic
+			$win.f.bottom.pic configure -image [::skin::getNoDisplayPicture]
 			#unset_balloon $win.f.bottom.pic
 			change_balloon $win.f.bottom.pic [trans nopic]
 		} elseif { $nopack == "" } {
@@ -3823,7 +3823,6 @@ proc cmsn_draw_main {} {
 	::skin::setImage belloff belloff.gif
 
 	::skin::setImage notinlist notinlist.gif
-	::skin::setImage no_pic nopic.gif
 	
 	::skin::loadImage colorbar
 	set barwidth [image width colorbar]
@@ -6994,7 +6993,7 @@ proc reloadAvailablePics { } {
 	set myfiles [glob -nocomplain -directory [file join $HOME displaypic] *.png]
 	set cachefiles [glob -nocomplain -directory [file join $HOME displaypic cache] *.png]
 
-	addPicture no_pic "[trans nopic]" ""
+	addPicture [::skin::getNoDisplayPicture] "[trans nopic]" ""
 
 
 	if { [info exists images_in_use]	} {
@@ -7083,7 +7082,7 @@ proc pictureDeleteFile {} {
 			catch {file delete [filenoext $filename].gif}
 			catch {file delete [filenoext $filename].dat}
 			set selected_image ""
-			.picbrowser.mypic configure -image no_pic
+			.picbrowser.mypic configure -image [::skin::getNoDisplayPicture]
 			if { [file exists $filename] == 1 } {
 				tk_messageBox -message [trans faileddelete] -type ok -icon error -title [trans failed] -parent $parent
 				status_log "Failed: file $filename could not be deleted.\n";

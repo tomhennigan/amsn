@@ -6,11 +6,11 @@
 
 namespace eval ::skin {
 	proc setImage {image_name image_file} {
-		variable loaded_images
-		variable image_names
+		variable loaded_pixmaps
+		variable pixmap_names
 		image create photo $image_name -file [GetSkinFile pixmaps $image_file] -format gif
-		set loaded_images($image_name) 1
-		set image_names($image_name) $image_file
+		set loaded_pixmaps($image_name) 1
+		set pixmap_names($image_name) $image_file
 	}
 	
 	# Right now this procedure does nothing, but in the future, we can
@@ -20,12 +20,30 @@ namespace eval ::skin {
 		return $image_name
 	}
 	
+	#Some special images!
+	
+	proc getNoDisplayPicture { {skin_name ""} } {
+		variable loaded_images
+		if { [info exists loaded_images(no_pic)] } {
+			return no_pic
+		}
+		image create photo no_pic -file [GetSkinFile displaypic nopic.gif $skin_name] -format gif
+		set loaded_images(no_pic) 1
+		return no_pic
+	}
+	
 	proc reloadSkin { {skin_name ""} } {
 		variable loaded_images
-		variable image_names
-		foreach name [array names loaded_images] {
-			image create photo $name -file [GetSkinFile pixmaps $image_names($name) $skin_name] -format gif
+		variable loaded_pixmaps
+		
+		variable pixmap_names
+		foreach name [array names loaded_pixmaps] {
+			image create photo $name -file [GetSkinFile pixmaps $pixmap_names($name) $skin_name] -format gif
 		}
+		
+		#Now reload special images
+		if {[info exists loaded_images(no_pic)]} { unset loaded_images(no_pic) }
+		getNoDisplayPicture $skin_name
 		
 	}
 }
