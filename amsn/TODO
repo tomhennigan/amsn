@@ -44,7 +44,7 @@ Extra Features (priority 3):
 # Notebook like chat windows (as an option)
 # AutoAway Messages
 # Login as Appear Offline (if possible)
-# Send message to someone not on list
+# ** FIXED ** Send message to someone not on list
 # Make sound working on windows (perhaps using pages.infinit.net/cclient/files/sound1.0.html
 # New unified preferences dialog with tabs
 # Encrypt password? (do we really need to?)

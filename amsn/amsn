@@ -409,9 +409,9 @@ proc cmsn_draw_main {} {
    set dummy_user "recipient@somewhere.com"
    menu .main_menu.actions -tearoff 0 -type normal 
    .main_menu.actions add command -label "[trans sendmsg]..." -command \
-   "user_choose \"[trans sendmsg]\" online cmsn_chat_user"
+     "user_choose \"[trans sendmsg]\" online cmsn_chat_user 1"
    .main_menu.actions add command -label "[trans sendmail]..." -command \
-   "user_choose \"[trans sendmail]\" both send_mail"
+     "user_choose \"[trans sendmail]\" both send_mail 1"
    .main_menu.actions add command -label "[trans changenick]..." -command cmsn_change_name
    .main_menu.actions add separator
    .main_menu.actions add command -label "[trans checkver]..." -command "check_version"
@@ -431,9 +431,9 @@ proc cmsn_draw_main {} {
    
    menu .admin_contacts_menu -tearoff 0 -type normal   
    .admin_contacts_menu add command -label "[trans delete]..." \
-      -command  "user_choose \"[trans delete]\" both delete_user "
+      -command  "user_choose \"[trans delete]\" both delete_user 0"
    .admin_contacts_menu add command -label "[trans properties]..." \
-      -command "user_choose \"[trans properties]\" both ::abookGui::showEntry"
+      -command "user_choose \"[trans properties]\" both ::abookGui::showEntry 0"
 
    ::groups::Init .main_menu.tools
    set ::groups::bShowing(online) $config(showonline)
@@ -684,7 +684,7 @@ proc show_encodingchoose {} {
 	 status_log "$enc\n" blue
   }
   set enclist [linsert $enclist 0 [list auto "Automatic" 0]]
-  user_choose "[trans encoding]" both set_encoding $enclist
+  user_choose "[trans encoding]" both set_encoding 0 $enclist
 }
 
 proc set_encoding {enc} {
@@ -1262,7 +1262,7 @@ proc menuCmdMove {newgid {paramlist ""}} {
     puts "menuCmdMove $passport from $currgid to $newgid"
 }
 
-proc user_choose {title online command {userslist ""}} {
+proc user_choose {title online command other {userslist ""}} {
    global list_users list_bl list_states userchoose_req
 
    if { $userslist == "" } {
@@ -1317,11 +1317,21 @@ proc user_choose {title online command {userslist ""}} {
    button  $wname.buttons.ok -text "[trans ok]" -command "$command \[string range \[lindex \[$wname.list.userlist get active\] end\] 1 end-1\]\n;destroy $wname" -font sboldf
    button  $wname.buttons.cancel -text "[trans cancel]" -command "destroy $wname" -font sboldf
 
+
+
    pack $wname.list.ys -side right -fill y
    pack $wname.list.userlist -side left -expand true -fill both
    pack $wname.list -side top -expand true -fill both
+
+   if { $other == 1 } {
+     button  $wname.buttons.other -text "[trans other]..." -command "status_log Other\n" -font sboldf
+     pack $wname.buttons.other $wname.buttons.cancel $wname.buttons.ok -padx 10 -side right
+   } else {
+     pack $wname.buttons.cancel $wname.buttons.ok -padx 10 -side right
+   }
+
    pack $wname.buttons -side bottom
-   pack $wname.buttons.cancel $wname.buttons.ok -padx 10 -side right
+
 
    foreach user $userslist {
       set user_login [lindex $user 0]
@@ -1339,6 +1349,8 @@ proc user_choose {title online command {userslist ""}} {
       }
 
    }
+   
+   bind $wname.list.userlist <Double-Button-1> "$command \[string range \[lindex \[$wname.list.userlist get active\] end\] 1 end-1\]\n;destroy $wname"
 }
 
 proc show_umenu {user_login x y} {
@@ -1468,7 +1480,7 @@ proc cmsn_draw_msgwin {email} {
    .${win_name}.menu.actions add command -label "[trans properties]" \
       -command "show_chatuserlist \"[trans properties]\" $name ::abookGui::showEntry"
    .${win_name}.menu.actions add separator
-   .${win_name}.menu.actions add command -label "[trans invite]..." -command "user_choose \"[trans invite]\" online \"cmsn_invite_user $name\""
+   .${win_name}.menu.actions add command -label "[trans invite]..." -command "user_choose \"[trans invite]\" online \"cmsn_invite_user $name\" 1"
    .${win_name}.menu.actions add command -label "[trans sendfile]..." \
       -command "::amsn::fileTransferSend ${name} ${name} "  -state disabled
    .${win_name}.menu.actions add separator
@@ -2151,7 +2163,7 @@ proc show_chatuserlist {title name command} {
    }
 
    if { [llength $userlist] > 0 } {
-   	user_choose $title both $command $userlist
+   	user_choose $title both $command 1 $userlist
    }
 }
 
@@ -2172,7 +2184,7 @@ proc show_useraddlist {title name command} {
    }
    
    if { [llength $userlist] > 0 } {
-   	user_choose $title both $command $userlist
+   	user_choose $title both $command 1 $userlist
    } else {
    	msg_box "[trans useralreadyonlist]"
    }
