@@ -1,27 +1,21 @@
-Hilfsdatei für amsn
+Hilfsdatei fÃ¼r aMSN
 
 Voraussetzungen:
-Amsn ist in tcl/tk geschrieben, deshalb brauchen Sie nur einen funktionierenden
-tcl/tk Interpreter, Version 8.3 oder neuer. Diesen bekommen Sie bei
-http://tcl.sourceforge.net. Der Interpreter ist für Linux, Macintosh und
-Windows erhältlich. Einige zusätzliche Features könnten extra Anwendungen, oder
-Bibliotheken brauchen, wie das docking icon, das Display Pictures, oder die
-SSL-Verbindung für das MSN Protocol 9.
+aMSN ist in tcl/tk geschrieben, deshalb brauchen Sie nur einen funktionierenden tcl/tk Interpreter, Version 8.3 oder neuer. Diesen bekommen Sie bei http://tcl.sourceforge.net. Der Interpreter ist fÃ¼r Linux, Macintosh und Windows erhÃ¤ltlich.
+Einige zusÃ¤tzliche Features kÃ¶nnten extra Anwendungen, oder Bibliotheken brauchen, wie das docking icon, das Display Pictures, oder die SSL-Verbindung fÃ¼r das MSN Protocol 9.
 
 Installationsanleitung:
-Downloaden Sie die amsn-x_xx.tar.gz Datei. Enttarn Sie sie mit diesem Befehl:
- gzip -d amsn-x_xx.tar.gz
- tar xvf amsn-x_xx.tar
-Dies wird ein msn/ Verzeichnis erzeugen und amsn ist installiert und bereit, 
-gestartet zu werden. Um amsn zu starten, führen Sie folgendes aus:
- cd msn
- ./amsn
+Laden Sie die Datei amsn-x_xx.tar.gz herunter. Entpacken Sie sie mit den Befehlen:
+	gzip -d amsn-x_xx.tar.gz
+	tar xvf amsn-x_xx.tar
+Dies wird ein â€./msn/â€ Verzeichnis erzeugen und aMSN ist installiert und bereit, gestartet zu werden.
+Um aMSN zu starten, fÃ¼hren Sie folgendes aus:
+	cd msn
+	./amsn
 oder, falls das nicht funktioniert, versuchen Sie:
- wish amsn
-Wenn der wish-Befehl nicht existiert, dann haben Sie tcl/tk nicht korrekt
-installiert.
-Wenn "wish amsn" funktioniert, aber "./amsn" nicht, dann editieren Sie die
-"amsn"-Datei und setzen Sie den korrekten Pfad zu wish in der ersten Zeile.
-Standardmäßig ist dieser auf /usr/bin/wish gesetzt.
+	wish amsn
+Wenn der wish-Befehl nicht existiert, dann haben Sie tcl/tk nicht korrekt installiert.
+
+Wenn â€wish amsnâ€ funktioniert, aber â€./amsnâ€ nicht, dann editieren Sie die â€amsnâ€-Datei und setzen Sie den korrekten Pfad zu wish in der ersten Zeile. StandardmÃ¤ÃŸig ist dieser auf /usr/bin/wish gesetzt.
 
 Falls Sie noch immer Probleme haben, lesen Sie bitte die FAQ.
