@@ -11,7 +11,7 @@ set config(last_client_version) ""
 #by AIM
 set config(sound) 1
 set config(browser) "mozilla"
-set config(soundcommand) "esdplay"
+set config(soundcommand) "play"
 set config(language) "en"
 set config(adverts) 0
 set config(autohotlogin) 1

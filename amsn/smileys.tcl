@@ -88,14 +88,13 @@ proc smile_menu { {x 0} {y 0} {text text}} {
          label $w.text.$file -image $file
          $w.text.$file configure -cursor hand2 -borderwidth 1 -relief flat
 
-	 if { [string match {*[\}\{]*} $symbol] != 0 } {
-           bind $w.text.$file <Button1-ButtonRelease> "$text insert insert \"$symbol\"; destroy $w"
-         } elseif { [string match {(%)} $symbol] != 0 } {
+         if { [string match {(%)} $symbol] != 0 } {
            bind $w.text.$file <Button1-ButtonRelease> "catch {$text insert insert \{(%%)\}; destroy $w} res"
 	 } else {
-           bind $w.text.$file <Button1-ButtonRelease> "catch {$text insert insert \{$symbol\}; destroy $w} res"
+           bind $w.text.$file <Button1-ButtonRelease> "catch {[list $text insert insert $symbol]\;[list destroy $w]} res"     
 	 }
-     
+
+
 
          bind $w.text.$file <Enter> "$w.text.$file configure -relief raised"
          bind $w.text.$file <Leave> "$w.text.$file configure -relief flat"
