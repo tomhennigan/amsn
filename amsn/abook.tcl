@@ -237,7 +237,7 @@ namespace eval ::abook {
 		}
 	}	
 
-	proc getLists {passport how} {
+	proc getLists {passport} {
 		return [getContactData $passport lists]
 	}
    

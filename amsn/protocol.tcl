@@ -3029,9 +3029,9 @@ proc cmsn_change_state {recv} {
 		set oldmsnobj [lindex $user_data 3]
 		set list_users [lreplace $list_users $idx $idx [list $user $user_name $state_no $msnobj]]
 		
-		::abook::setUserData $user nick $user_name
-		::abook::setUserData $user state $substate
-		::abook::setUserData $user msnobj $msnobj
+		::abook::setContactData $user nick $user_name
+		::abook::setContactData $user state $substate
+		::abook::setContactData $user msnobj $msnobj
 
 		#status_log "old is $oldmsnobj new is $msnobj\n"
 		if { $oldmsnobj != $msnobj} {
@@ -3108,7 +3108,7 @@ proc cmsn_ns_handler {item} {
 				set curr_list [lindex $item 2]
 				status_log "curr_list=$curr_list\n"
 				if { ($curr_list == "FL") } {
-					::abook::setContact [lindex $item 4] nick [lindex $item 5]
+					::abook::setContactData [lindex $item 4] nick [lindex $item 5]
 					::abook::addContactToGroup [lindex $item 4] [lindex $item 6]
 					status_log "Adding contact to group [lindex $item 6]\n"
 					status_log "After 2: [lindex $item 4] is now in groups: [::abook::getGroup [lindex $item 4] -id]\n"
@@ -3191,10 +3191,10 @@ proc cmsn_ns_handler {item} {
 			BPR {
 				if { [llength $item] == 3} {
 					global loading_list_info
-					::abook::setContact $loading_list_info(last) [lindex $item 1] [lindex $item 2]
+					::abook::setContactData $loading_list_info(last) [lindex $item 1] [lindex $item 2]
 				} else {
 					# Update entry in address book setContact(email,PH*/M*,phone/setting)
-					::abook::setContact [lindex $item 2] [lindex $item 3] [lindex $item 4]
+					::abook::setContactData [lindex $item 2] [lindex $item 3] [lindex $item 4]
 				}
 				return 0
 			}
@@ -3377,37 +3377,48 @@ proc cmsn_ns_msg {recv} {
 
 #TODO: ::abook system
 proc cmsn_listdel {recv} {
-	set list_name "list_[string tolower [lindex $recv 2]]"   
    
+	set user [lindex $recv 4]
+	set list_sort [string toupper [lindex $recv 2]]
+
+	set list_name "list_[string tolower [lindex $recv 2]]"   
+	
+		
 	if { [lindex $recv 2] == "FL" } {
 		if { [lindex $recv 5] == "" } {
 			#Remove from all groups!!
-			foreach group [::abook::getGroup [lindex $recv 4] -id] {
-				::abook::removeContactFromGroup [lindex $recv 4] $group
+			foreach group [::abook::getGroup $user -id] {
+				::abook::removeContactFromGroup $user $group
 			}
 		} else {
 			#Remove fromonly one group
-			::abook::removeContactFromGroup [lindex $recv 4] [lindex $recv 5]
+			::abook::removeContactFromGroup $user [lindex $recv 5]
 		}
 
-		if { [llength [::abook::getGroup [lindex $recv 4] -id]] == 0 } {
+		if { [llength [::abook::getGroup $user -id]] == 0 } {
 			status_log "cmsn_listdel: Contact [lindex $recv 4] is in no groups, removing!!\n" blue
 			upvar #0 $list_name the_list
-			set idx [lsearch $the_list "[lindex $recv 4] *"]
+			set idx [lsearch $the_list "$user *"]
 			if { $idx != -1 } {
 				set the_list [lreplace $the_list $idx $idx]
 			} else {
 				status_log "cmsn_listdel: PANIC_1!!!\n" red
 			}
+			
+			::abook::removeContactFromList $user FL
 		}
+# 		
 	} else {
+# 	
 		upvar #0 $list_name the_list
-		set idx [lsearch $the_list "[lindex $recv 4] *"]
+		set idx [lsearch $the_list "$user *"]
 		if { $idx != -1 } {
 			set the_list [lreplace $the_list $idx $idx]
 		} else {
 			status_log "cmsn_listdel: PANIC_2!!!\n" red
 		}
+		
+		::abook::removeContactFromList $user $list_sort
 	}
 	
 	
@@ -3979,23 +3990,23 @@ proc process_msnp9_lists { bin } {
 	set lists [list]
 	
 	if { [expr {$bin % 2}] } {
-		lappend lists "list_fl"
+		lappend lists "FL"
 	}
 	set bin [expr {$bin >> 1}]
 
 	if { [expr {$bin % 2}] } {
-		lappend lists "list_al"
+		lappend lists "AL"
 	}
 
 	set bin [expr {$bin >> 1}]
 
 	if { [expr {$bin % 2}] } {
-		lappend lists "list_bl"
+		lappend lists "BL"
 	}
 	set bin [expr {$bin >> 1}]
 
 	if { [expr {$bin % 2}] } {
-		lappend lists "list_rl"
+		lappend lists "RL"
 	}
 
 	return $lists
@@ -4009,7 +4020,7 @@ proc cmsn_listupdate {recv} {
 	set contactlist_loaded 0
 
 	if { [lindex $recv 0] == "ADD" } {
-		set list_names "list_[string tolower [lindex $recv 2]]"
+		set list_names "[string toupper [lindex $recv 2]]"
 		set version [lindex $recv 3]
 
 		set command ADD
@@ -4045,10 +4056,17 @@ proc cmsn_listupdate {recv} {
 
 	}
 
-	foreach list_name $list_names {
+	foreach list_sort $list_names {
+	
+		set list_name "list_[string tolower $list_sort]"
 
 		#If list is not empty, get user information
 		if {$current != 0} {
+		
+			
+			::abook::setContactData $username nick $nickname
+			::abook::addContactToList $username $list_sort
+		
 			set contact_info ""
 
 			#Add only if user is not already in list
@@ -4077,10 +4095,16 @@ proc cmsn_listupdate {recv} {
 			}
 		}
 	}
+	
+	set lists [::abook::getLists $username]
+	if { ([lsearch $lists RL] != -1) && ([lsearch $lists AL] < 0) && ([lsearch $lists BL] < 0)} {
+		newcontact $username $nickname
+	}
+	
 
 	#Last user in list
 	if {$current == $total} {
-		lists_compare		;# FIX: hmm, maybe I should not run it always!
+		#lists_compare #Not needed anymore on MSNP9
 		list_users_refresh
 		cmsn_draw_online 1
 
@@ -4217,32 +4241,25 @@ proc change_BLP_settings { state } {
 }
 
 
-#TODO: ::abook system
 proc new_contact_list { version } {
-	global list_version contactlist_loaded list_al list_bl list_rl list_fl list_users
+	global list_version contactlist_loaded
 
 	if {[string is digit $version] == 0} {
 		status_log "new_contact_list: Wrong version=$version\n" red
 		return
-
 	}
 
 	status_log "new_contact_list: new contact list version : $version --- previous was : $list_version\n"
 
 	if { $list_version != $version } {
-
 		set list_version $version
-
 	} else {
-
 		set contactlist_loaded 1
-
 	}
 
 }
 
 
-#TODO: ::abook system
 proc load_contact_list { } {
 	global list_version HOME list_al list_bl list_rl list_fl list_users contactlist_loaded
 
@@ -4278,6 +4295,8 @@ proc load_contact_list { } {
 	set list_rl [list]
 	set list_fl [list]
 	set list_users [list]
+	
+	::abook::clearData
 
 	set contact_id [sxml::init [file join ${HOME} contacts.xml]]
 
@@ -4397,15 +4416,17 @@ proc create_contact_list {cstack cdata saved_data cattr saved_attr args } {
 	upvar $saved_data sdata
 
 	set list "list_[string range $cstack end-6 end-5]"
+	set list_sort [string toupper [string range $cstack end-6 end-5]]
 
-    if { $list == "list_fl" } {
-	::abook::setContact $sdata(${cstack}:email) group [split $sdata(${cstack}:gid) ,]
-	::abook::setContact $sdata(${cstack}:email) nick $sdata(${cstack}:nickname)
-	::abook::setContact $sdata(${cstack}:email) PHH $sdata(${cstack}:phh)
-	::abook::setContact $sdata(${cstack}:email) PHW $sdata(${cstack}:phw)
-	::abook::setContact $sdata(${cstack}:email) PHM $sdata(${cstack}:phm)
-	::abook::setContact $sdata(${cstack}:email) MOB $sdata(${cstack}:mob)
-    }
+	if { $list == "list_fl" } {
+		::abook::setContactData $sdata(${cstack}:email) group [split $sdata(${cstack}:gid) ,]
+		::abook::setContactData $sdata(${cstack}:email) nick $sdata(${cstack}:nickname)
+		::abook::setContactData $sdata(${cstack}:email) PHH $sdata(${cstack}:phh)
+		::abook::setContactData $sdata(${cstack}:email) PHW $sdata(${cstack}:phw)
+		::abook::setContactData $sdata(${cstack}:email) PHM $sdata(${cstack}:phm)
+		::abook::setContactData $sdata(${cstack}:email) MOB $sdata(${cstack}:mob)
+		::abook::addContactToList $sdata(${cstack}:email) $list_sort
+	}
 
 	set contactinfo ""
 
@@ -4421,14 +4442,14 @@ proc create_contact_list {cstack cdata saved_data cattr saved_attr args } {
 
 #TODO: ::abook system
 proc create_group { cstack cdata saved_data cattr saved_attr args } {
-    upvar $saved_data sdata
-	 global config
+	upvar $saved_data sdata
+	global config
 
-  	::groups::Set $sdata(${cstack}:gid) "$sdata(${cstack}:name)"
+	::groups::Set $sdata(${cstack}:gid) "$sdata(${cstack}:name)"
 	if { [info exists config(expanded_group_$sdata(${cstack}:gid))] } {
 		set ::groups::bShowing($sdata(${cstack}:gid)) $config(expanded_group_$sdata(${cstack}:gid))
 	}
-    return 0
+	return 0
 }
 
 
@@ -4447,6 +4468,7 @@ proc finished_loading_list { cstack cdata saved_data cattr saved_attr args } {
 	::abook::setPersonal MBE $sdata(${cstack}:mbe)
 
 	list_users_refresh
+	
 	return 0
 }
 
