@@ -5474,7 +5474,7 @@ proc launch_browser { url } {
 
 	global config tcl_platform
 
-	status_log "Launching browser for url: $url\n"
+	#status_log "Launching browser for url: $url\n"
 	if { $tcl_platform(platform) == "windows" } {
 
 		#regsub -all -nocase {htm} $url {ht%6D} url
@@ -5488,7 +5488,7 @@ proc launch_browser { url } {
 		}
 
 		#if { [catch {eval exec $config(browser) [list $url] &} res ] } {}
-		status_log "Launching $config(browser)\n"		
+		#status_log "Launching $config(browser)\n"		
 		if { [catch {eval exec $config(browser) &} res ] } {
 		   ::amsn::errorMsg "[trans cantexec $config(browser)]"
 		}
