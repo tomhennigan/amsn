@@ -2,7 +2,7 @@
 #=======================================================================
 
 if { $initialize_amsn == 1 } {
-    global user_info user_stat list_fl list_rl list_al list_bl
+    global user_info user_stat list_fl list_rl list_al list_bl list_version
     global list_users list_BLP list_otherusers list_cmdhnd sb_list list_states
 
 
@@ -12,6 +12,7 @@ if { $initialize_amsn == 1 } {
     set list_rl [list]
     set list_al [list]
     set list_bl [list]
+    set list_version 0
     set list_users [list]
     set list_BLP -1
     #A list for temp users, usually that join chats but are not in your list

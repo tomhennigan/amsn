@@ -3146,6 +3146,8 @@ proc cmsn_draw_online { {force 0} } {
        $pgBuddy.text tag conf $gtag -fore #000080 -font sboldf
        $pgBuddy.text tag bind $gtag <Button1-ButtonRelease> \
 	 "::groups::ToggleStatus $gname;cmsn_draw_online"
+       $pgBuddy.text tag bind $gtag <Button3-ButtonRelease> \
+	 "tk_popup .group_menu %X %Y"
        $pgBuddy.text tag bind $gtag <Enter> \
 	    "$pgBuddy.text tag conf $gtag -under true;$pgBuddy.text conf -cursor hand2"
        $pgBuddy.text tag bind $gtag <Leave> \
@@ -3314,6 +3316,8 @@ proc cmsn_draw_online { {force 0} } {
       }
 
 
+       set breaking ""
+
       # Rename the section if we order by group
       foreach user_group [::abook::getGroup $user_login -id] {
          if {$config(orderbygroup)} {
@@ -3324,7 +3328,8 @@ proc cmsn_draw_online { {force 0} } {
 	    ::groups::UpdateCount $user_group +1 [lindex $state 3]
 
 	    if { $config(orderbygroup) == 2 } {
-		if { $state_code == "FLN" } {set section "offline"}
+		if { $state_code == "FLN" } { set section "offline"}
+		if { $breaking == "$user" } { break}
 	    }
 
          }
@@ -3349,7 +3354,7 @@ proc cmsn_draw_online { {force 0} } {
 	    #Avoid adding users more than once when ordering by online/offline!!
 	    break
 	 }
-	  if { $config(orderbygroup) && $state_code == "FLN" } { break  }
+	  if { $config(orderbygroup) == 2 && $state_code == "FLN" } { set breaking $user}
       }
    }
 
@@ -3361,10 +3366,13 @@ proc cmsn_draw_online { {force 0} } {
         for {set gidx 0} {$gidx < $gcnt} {incr gidx} {
 	    set gname [lindex $glist $gidx]
 	    set gtag  "tg$gname"
-	    if {$config(orderbygroup) == 2 && $gname == "offline" } { set gtag "offline" }
+	    if {$config(orderbygroup) == 2 && $gname == "offline" } { 
+		$pgBuddy.text insert offline.last " ($::groups::uMemberCnt(offline))\n" offline
+	    } else {
 	   #$pgBuddy.text insert $gtag.last " ($::groups::uMemberCnt($gname))\n" $gtag
-	   $pgBuddy.text insert ${gtag}.last \
-	      " ($::groups::uMemberCnt_online(${gname})/$::groups::uMemberCnt($gname))\n" $gtag
+		$pgBuddy.text insert ${gtag}.last \
+		    " ($::groups::uMemberCnt_online(${gname})/$::groups::uMemberCnt($gname))\n" $gtag
+	    }
  	}
    } else {
        $pgBuddy.text insert online.last " ($::groups::uMemberCnt(online))\n" online
