@@ -796,7 +796,7 @@ proc ClearLog { email date } {
 	}
 
 
-	set answer [tk_messageBox -message "[trans confirm]" -type yesno -icon question -title [trans clearlog]]
+	set answer [::amsn::messageBox "[trans confirm]" yesno question [trans clearlog]]
 	if {$answer == "yes"} {	
 		global log_dir
 	
@@ -815,7 +815,7 @@ proc ClearAllLogs {} {
 	
 	set parent "."
 	catch {set parent [focus]}
-	set answer [tk_messageBox -message "[trans confirm]" -type yesno -icon question -title [trans clearlog3] -parent $parent]
+	set answer [::amsn::messageBox "[trans confirm]" yesno question [trans clearlog3] $parent]
 	if {$answer == "yes"} {
 
 		global log_dir
