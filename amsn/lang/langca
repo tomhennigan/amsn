@@ -67,6 +67,7 @@ cancel Cancel·la
 cannotdeleteprofile No es pot eliminar el perfil, sembla que està sent utilitzat per una altra sessió aMSN
 cantexec No puc executar l'aplicació $1. Comprova les preferències.
 casesensitive Diferenciar les majúscules i les minúscules als disparadors
+cfgalarmall Configura, afegeix o elimina l'altarma global
 cfgalarm Configurar l'alarma per aquest usuari
 changedisplaypic Canviar la Imatge Mostrada 
 changefont Canviar font
@@ -141,6 +142,7 @@ editnewstate Nou missatge automàtic per a un estat personalitzat
 editprofile Editar perfil
 editstate Editar missatge automàtic per a un estat personalitzat
 emotisounds Reproduir sons associats a certes emoticones
+enablebanner Mostra la imatge de l'aMSN (requereix tornar a iniciar l'aMSN)
 enableproxy Habilitar el servidor intermediari (proxy)
 enableremote Activar control remot
 enablesound Reproduir sons

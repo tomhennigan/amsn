@@ -137,9 +137,13 @@ dockingoff Dokking Av
 dockkde KDE-dokk
 dontdownload ikke last ned TLS, jeg vil installere det selv
 downloadingtls Laster ned TLS-modul fra:\n $1
+editcurrentstate Rediger nåværende
+editnewstate Ny Personlig Auto-beskjed-status
 editprofile Rediger Profil
 edit Rediger
-emotisounds Spill av lyder for certain uttrykksikoner
+editstate Rediger Eksisterende Auto-beskjed-status
+emotisounds Spill av lyder for visse uttrykksikoner
+enablebanner Vis aMSN's banner (krever omstart av aMSN)
 enableproxy Bruk proxy
 enableremote Aktiver fjernkontrollering
 enablesound Spill av lyd
@@ -163,6 +167,8 @@ followtext Scroll ned når ny tekst blir skrevet inn
 ftacceptedby $1 aksepterte invitasjonen til filoverføring av '$2'.
 ftaccepted Sending av fil akseptert
 ftaccepting Aksepterer ivitasjon til filoverføring
+ftconnecting Kobler til $1 port $2
+ftgotinvitation $1 vil sende deg '$2' ($3 bytes). Den vil bli lagret i mappen $4. Ønsker du å motta filen?
 ftrejected Sending av fil avslått
 getdisppic Aktiver mottak av Personlige Bilder fra andre brukere
 gonelunch Ute til lunsj
@@ -180,6 +186,7 @@ handle Handle
 helpcontents Hjelp innhold
 help Hjelp
 hidedisplaypic Skjul Personlig Bilde
+hiden Skjul uttrykksikonet fra smileymenyen
 hidewindow Skjul Vindu
 history Vis Historie
 home Hjem
@@ -204,6 +211,7 @@ loginas Logg inn som
 login Logg inn
 logout Logg ut
 logsin har nettopp logget inn
+logsout har akkurat koblet fra
 mailer Mailer
 maximised Maksimert
 minimised Minimert
@@ -247,6 +255,7 @@ pass Passord
 paste Lim inn
 personal Personlig
 phone Telefon
+picbrowser Personlige Bilder
 picfile Bilde for alarm (GIF < 500 x 500)
 picstatus Skru På / Av bilde alarm
 port Port
@@ -271,6 +280,7 @@ properties Egenskaper
 proxyconfhttp HTTP proxy support konfigurasjon
 proxyconf Proxy konfigurasjon
 publishphones Publiser mine telefonnummer
+purge Tøm
 raised Åpnet
 receivedbytes Mottatt $1 av $2 bytes
 receivefile Motta fil
@@ -299,6 +309,7 @@ showmypic Mitt Personlige Bilde
 showuserpic $1's Personlige Bilde
 skinselector Velg Skall
 skin Skall
+sound2 Spill av lyder når personer logger inn eller sender meg en melding
 soundfile Handlings lyd
 sound Hendelseslyd
 soundloop lyd loop
@@ -335,7 +346,9 @@ work Arbeid
 wrongfields "$1", "$2" og/eller "$3" feltene er ikke gyldig
 wrongprofileversion Feil profil konfigurasjon fil version. For og fikse det, vennligst slett mappen $1, eller oppdater amsn
 xmmserr Ingenting blir spillt, eller så har du ikke installert xmms-infopipe.
+xoffset X-koordinat
 yes Ja
+yoffset Y-koordinat
 youblocked Du har blitt blokkert av
 yousay Du sier
 youwant Du vil

@@ -4795,41 +4795,48 @@ proc newcontact {new_login new_name} {
 
 #///////////////////////////////////////////////////////////////////////
 proc cmsn_change_name {} {
-   global user_info
+	global user_info
 
-   if {[winfo exists .change_name]} {
-      raise .change_name
-      return 0
-   }
- 
-   toplevel .change_name
-   wm group .change_name .
+	if {[winfo exists .change_name]} {
+		raise .change_name
+		return 0
+	}
 
-   wm geometry .change_name -0+100
-   wm title .change_name "[trans changenick] - [trans title]"
-   wm transient .change_name .
-   canvas .change_name.c -width 350 -height 100
-   pack .change_name.c -expand true -fill both
+	toplevel .change_name
+	wm group .change_name .
+	wm geometry .change_name -0+100
+	wm title .change_name "[trans changenick] - [trans title]"
+	wm transient .change_name .
 
-   entry .change_name.c.name -width 40 -bg #FFFFFF -bd 1 \
-      -font splainf
-   button .change_name.c.ok -text [trans ok] -command change_name_ok
-   button .change_name.c.cancel -text [trans cancel] \
-      -command "destroy .change_name"
+	label .change_name.label -font sboldf -text "[trans enternick]:"
 
-   .change_name.c create text 5 10 -font sboldf -anchor nw \
-	-text "[trans enternick]:"
-   .change_name.c create window 5 35 -window .change_name.c.name -anchor nw
-   .change_name.c create window 195 65 -window .change_name.c.ok -anchor ne
-   .change_name.c create window 205 65 -window .change_name.c.cancel -anchor nw
+	frame .change_name.fn
+	entry .change_name.fn.name -width 40 -bg #FFFFFF -bd 1 -font splainf
+	button .change_name.fn.smiley -image butsmile -relief flat -padx 3 -highlightthickness 0
 
-   bind .change_name.c.name <Return> "change_name_ok"
+	frame .change_name.fb
+	button .change_name.fb.ok -text [trans ok] -command change_name_ok -font sboldf
+	button .change_name.fb.cancel -text [trans cancel] -command "destroy .change_name" -font sboldf
 
-   .change_name.c.name insert 0 [urldecode [lindex $user_info 4]]
+
+	pack .change_name.fn.name -side left -fill x -expand true
+	pack .change_name.fn.smiley -side left
+
+	pack .change_name.fb.ok -side left -padx 10
+	pack .change_name.fb.cancel -side left -padx 10
+
+	pack .change_name.label -side top -padx 5 -pady 3 -expand true
+	pack .change_name.fn -side top -fill x -expand true -padx 5
+	pack .change_name.fb -side top -pady 3 -expand true
+
+   bind .change_name.fn.name <Return> "change_name_ok"
+   bind .change_name.fn.smiley  <Button1-ButtonRelease> "smile_menu %X %Y .change_name.fn.name"
+
+   .change_name.fn.name insert 0 [urldecode [lindex $user_info 4]]
 
    tkwait visibility .change_name
-   grab set .change_name
 }
+
 #///////////////////////////////////////////////////////////////////////
 
 
