@@ -6490,7 +6490,7 @@ proc status_log {txt {colour ""}} {
 
 	if { [catch {
 		.status.info insert end "[timestamp] $txt" $colour
-		.status.info delete 0.0 end-200lines
+		.status.info delete 0.0 end-1000lines
 		#puts "[timestamp] $txt"
 		if { $followtext_status == 1 } {
 			catch {.status.info yview moveto 1.0}
@@ -7566,7 +7566,7 @@ proc degt_protocol { str {colour ""}} {
 	
 	.degt.mid.txt insert end "[timestamp] $str\n" $colour
 #	puts "$str"
-	.degt.mid.txt delete 0.0 end-200lines
+	.degt.mid.txt delete 0.0 end-1000lines
 	if { $followtext_degt == 1} {
 		.degt.mid.txt yview moveto 1.0
 	}    
