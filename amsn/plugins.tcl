@@ -43,6 +43,10 @@ namespace eval ::plugins {
 		variable cur_config
 	}
 
+proc lset { list index1 index2 newvalue } {
+        return [list [lrange $list 0 [expr $index1 -1]] $newvalue [lrange $list [expr $index2 + 1] end] ]
+}
+
 
 	###############################################################
 	# PostEvent (event, argarray)
@@ -245,7 +249,7 @@ namespace eval ::plugins {
 				status_log "Plugins System: Found plugin files in $file\n"
 				if { [::plugins::LoadInfo $file] } {
 					lset ::plugins::found $idx 5 [file join [file dirname $file] \
-						[lindex $::plugins::found $idx 5]]
+						[lindex [lindex $::plugins::found $idx] 5]]
 					incr idx
 				}
 			}
