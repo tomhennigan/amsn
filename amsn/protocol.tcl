@@ -466,8 +466,8 @@ namespace eval ::MSNFT {
       #Invitation to filetransfer, initial message
       variable filedata
 
-       ::MSN6FT::SendFT $chatid $filename $filesize
-       return 0
+       #::MSN6FT::SendFT $chatid $filename $filesize
+       #return 0
 
       set sbn [::MSN::SBFor $chatid]
       if {$sbn == 0 } {
@@ -6197,6 +6197,7 @@ namespace eval ::MSN6FT {
 
 	proc connectMsnFTP { sid nonce ip port sending } {
 
+		return
 		::amsn::FTProgress c $sid "" $ip $port
 
 		if { [catch {set sock [ socket $ip $port] } ] } {
@@ -6667,6 +6668,9 @@ namespace eval ::MSN6FT {
 	}
 
 	proc answerFTInvite { sid chatid branchid conntype } {
+
+		return
+
 		::MSNP2P::SessionList set $sid [list -1 -1 -1 -1 -1 -1 -1 -1 -1 "$branchid" ]
 		set session [::MSNP2P::SessionList get $sid]
 		set dest [lindex $session 3]

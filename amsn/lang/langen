@@ -228,6 +228,7 @@ file File
 filemanexample ( \$location will be replaced with the directory ) Ex: nautilus \$location
 fileman File Manager
 filename Filename
+filetransfer File Transfer
 filetransfercancelled File transfer cancelled
 filetransfercomplete File transfer complete
 followtext Scroll down when new text is entered

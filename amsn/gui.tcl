@@ -1027,6 +1027,9 @@ namespace eval ::amsn {
 		} else {
 			wm title $w "$filename - [trans sendfile]"
 		}
+
+		wm title $w "$filename - [trans filetransfer]"
+
 		wm protocol $w WM_DELETE_WINDOW $cancelcmd
 		moveinscreen $w 30
 		
