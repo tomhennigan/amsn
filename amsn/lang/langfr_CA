@@ -569,3 +569,12 @@ showbanner Afficher la publicité de aMSN
 splashstart Démarrer
 viewcontactsby Voir contacts par
 webcaminvite $1 vous a invité(e) à démarrer une session de webcam, cependant aMSN ne supporte pas cette option
+disableuserfonts Ignorer les fontes de l'usager distant dans les discussions et utiliser mes propres fontes
+groups Groupes
+customstyle Style personnalisé
+nogap Aucun espace entre les groupes
+reconnect2 Se reconnecter en cas de déconnexion
+removeempty Enlever les groupes vides de la liste de contacte
+sngdblclick Simple clique pour ouvrir une nouvelle fenêtre de message
+useother Utiliser un programme différent
+usesnack Utiliser la librairie Snak (TCL interne)
