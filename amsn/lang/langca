@@ -17,6 +17,7 @@ allowallbutbl Permet que tots els usuaris, llevat dels bloquejats, contactin amb
 allowlist Llista d'acceptats:
 allowonlyinal Permet que contactin amb mi només els usuaris acceptats
 allowseen Deixa que aquesta persona vegi si estic connectat i que contacti amb mi
+animatedsmileys Activa les emoticones animades
 appearance Aparença
 appearoff Simula desconnexió
 areacode Codi d'àrea
