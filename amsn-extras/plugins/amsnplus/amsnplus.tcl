@@ -235,8 +235,9 @@ namespace eval ::amsnplus {
 				set slen [string length $nstate]
 				set msg ""
 				set strlen [string length $nick]
-				::MSN::changeStatus $nstate
-				set nstate [::MSN::stateToDescription $nstate]
+				set cstate [::amsnplus::descriptionToState $nstate]
+				::MSN::changeStatus $cstate
+				#set nstate [::MSN::stateToDescription $nstate]
 				::amsn::WinWrite $chatid "\nYour new state is: $nstate" green
 				set incr 0
 			}
@@ -263,6 +264,19 @@ namespace eval ::amsnplus {
 			if {[string equal $incr "1"]} { incr i }
 			set incr 1
 		}
+	}
+	
+	####################################################################
+	# this is a proc to parse description to state in order to make
+	# more easier to the user to change the state
+	proc descriptionToState { newstate } {
+		if {[string equal $newstate "online"]} { return "NLN" }
+		if {[string equal $newstate "away"]} { return "AWY" }
+		if {[string equal $newstate "busy"]} { return "BSY" }
+		if {[string equal $newstate "rightback"]} { return "BSY" }
+		if {[string equal $newstate "onphone"]} { return "PHN" }
+		if {[string equal $newstate "gonelunch"]} { return "LUN" }
+		return $newstate
 	}
 
 }
