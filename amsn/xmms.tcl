@@ -33,8 +33,10 @@ if {[info exist found]} {
 
  proc xmms {win_name} {
 
-  if {[GetSong] == "0"} { msg_box "Nothing is playing, or you dont have xmms-infopipe installed." }
+  set playing [GetSong]
 
-  ::amsn::MessageSend .${win_name} 0 "Playing: [GetSong]"
+  if {$playing == "0"} { msg_box [trans xmmserr]; return 0 }
+
+  ::amsn::MessageSend .${win_name} 0 "Playing: $playing"
  }
 }
