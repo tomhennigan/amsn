@@ -34,8 +34,8 @@ comando /donde/este/instalado/amsn
 	por ejemplo
 	/home/tu_usuario/msn/amsn
    2.- Otra forma:
-   Como root, crea uun enlace en /usr/bin al fichero amsn.
-   ls -s /donde/este/instalado/amsn amsn
+   Como root, crea un enlace en /usr/bin al fichero amsn.
+   ln -s /donde/este/instalado/amsn amsn
    De esta forma tu puedes ejecutar amsn solo escribiendo 'amsn' desde
 cualquier lugar.
    Luego añada un icono que ejecute el comando 'amsn'.
