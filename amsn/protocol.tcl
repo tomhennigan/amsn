@@ -2788,7 +2788,31 @@ proc cmsn_sb_msg {sb_name recv} {
 	   MSNP2P::loadUserSmiley $chatid $typer "[set ${chatid}_smileys($smile)]"
        }
 
-
+	} elseif { [string range $content 0 16] == "text/x-clientcaps" } {
+	status_log "Informations from others IM client\n"
+	
+		#Get String for Client-Name (Gaim & dMSN)
+		if {[string first "Client-Name:" $msg] != "-1"} {
+			set begin [expr {[string first "Client-Name:" $msg]+13}]
+			set end   [expr {[string first "\n" $msg $begin]-1}]
+ 			set clientname "[urldecode [string range $msg $begin $end]]"
+ 			status_log "Client-Name:\n$clientname\n"
+   			}
+ 	   #Get String for Chat Logging (Gaim)
+ 	   if {[string first "Chat-Logging" $msg] != "-1"} {
+		    set begin [expr {[string first "Chat-Logging" $msg]+14}]
+		    set end   [expr {[string first "\n" $msg $begin]-1}]
+		    set chatlogging "[urldecode [string range $msg $begin $end]]"
+		    status_log "ChatLogging:\n$chatlogging\n"
+	 	   }
+	    #Get String for Operating System (dMSN)
+ 	   if {[string first "Operating-System:" $msg] != "-1"} {
+	    	set begin [expr {[string first "Operating-System:" $msg]+18}]
+ 		   	set end   [expr {[string first "\n" $msg $begin]-1}]
+ 		   	set operatingsystem "[urldecode [string range $msg $begin $end]]"
+ 		   	status_log "Operating System:\n$operatingsystem\n"
+  		  }
+  		  
    } else {
       status_log "cmsn_sb_msg: === UNKNOWN MSG ===\n$msg\n" red
    }
