@@ -27,6 +27,7 @@ alarmpref Kullanýcýnýn alarm ayarlarý
 alarms Alarmlar
 alarmstatus Bu kullanýcý için alarmý aç/kapa
 allfiles Tüm Dosyalar
+allmonths Tüm aylar
 allowallbutbl Engellenenler dýþýnda herkesin bana ulaþmasýna izin ver
 allowbadwords Kullanýcý isimlerinde sansürü kaldýr
 allowlist ýzin verilenler
@@ -128,6 +129,7 @@ clicktologin Baðlanmak için týklayýn
 clientcaps Diðer istemcilere x-clientcaps paketlerini gönder
 clientname Ýstemci Ýsmi
 close Kapat
+closeall Penceredeki tüm sekmeler kapatýlsýn mý?
 closed $1 ile olan sohbet etkinlik olmadýðý için kapatýldý.
 closingdocks Kapatma tuþu küçültsün
 command Komut
@@ -191,6 +193,7 @@ deliverfail Aþagýdaki iletinin gönderilmesinde hata oluþtu
 delprofile Profili sil
 delprofile2 Sileceðiniz profili seçiniz
 description Tarif
+detach Ayýr
 directconnection Ýnternete doðrudan baðlantým var (1863. portu kullanýr)
 disabled Devredýþý
 disableprofiles Profilleri devredýþý býrak (ýnternet cafe ve paylaþýlan ortamlar için uygun)
@@ -308,6 +311,7 @@ internalerror Ýç sunucu hatasý
 invalidfile "$1" alanýna girilen $2 dosyasý yok ya da okunamýyor
 invalidfile2 $1 dosyasý oluþturulamadý, yazma izniniz olduðundan emin olun.
 invalidgroup Geçersiz grup
+invalidparameter Sunucuya baðlanýrken hata oluþtu: Geçersiz parametre.
 invalidpic Belirttiðiniz resim dosyasý yok
 invalidpicsize Seçilen resim çok büyük, lütfen daha küçük bir resim seçin.
 invalidsound Belirttiðiniz ses dosyasý yok
@@ -563,7 +567,9 @@ showdisplaypic Kullanýcý resmini göster
 showdisplaypic2 Bir sohbet penceresi açýldýðýnda kullanýcý resmini kendiliðinden göster
 showmypic Kullanýcý Resmim
 shownotify Belli olaylarda uyarý penceresi göster
+showpicnotify Uyarý pencerelerinde kullanýcý resimleri gözüksün
 showuserpic $1'in kullanýcý resmi
+signinstatus Baðlanma þekli:
 skin Kabuk
 skinselector Kabuk Seç
 smileconfig Özel gülen adam ayarlarý
@@ -596,6 +602,7 @@ stateinfo Kiþisel Durum ayarlarý
 statename Kiþisel Durumun adý
 statenewtext Lütfen yeni Kiþisel Durumunuzu yaratmak için \n gerekli bilgileri girip Kaydet'e týklayýnýz
 statenick Bu duruma özel rumuz (deðiþtirmemek için boþ býrakýnýz).
+stats Ýstatistikler
 status Durum
 stopalarm Alarmý durdur!
 storenickname Deðiþik rumuzu olan özelleþtirilmiþ durumdan sonra asýl rumuza
@@ -613,6 +620,7 @@ tabbedgroups Ayný gruptan baðlantýlar için tek bir seçmeli pencere
 tabtitlenick Sekmelerde e-posta adresleri yerine rumuzlarý göster
 temp_state Kaydetme (Geçici durum, AMSN kapatýlýnca silinecek)
 textsize Metin boyutu
+thismonth Bu ay
 timeremaining Kalan zaman
 timestamps Sohbet pencerelerinde zaman kaydý düþülsün
 title Al'ýn Messenger'ý
@@ -626,6 +634,7 @@ to Kime
 today Bugün
 tools Araçlar
 tooltips Ýpuçlarýný etkinleþtir
+tomobile Cep telefonuna
 transnotexists Bu dosyanýn seçili dile çevirisi henüz yok
 traynotcompiled Görev çubuðu simgesi derlenmemiþ, plugins/traydock'a bakýn
 triggers Yazýlý karþýlýðý
@@ -654,8 +663,9 @@ view Görünüm
 viewcontactsby Baðlantý isimleri
 viewprofile Profili gör
 webcaminvite $1 sizi kamera kullanmaya davet etti; ancak aMSN'de bu iþlev yok.
+whatsize Seçtiðiniz resim normal kullanýcý resmi boyutunda (96 x 96) deðil.\n Resmin hangi boyda gözükmesini istersiniz?
 willjoin $1 in sohbete katýlmasý bekleniyor
-winkreceived $1 size bir Wink gönderdi. aMSN þu an bu özelliði desteklemiyor.
+winkreceived $1 size bir "göz kýrpma" gönderdi. aMSN þu an bu özelliði desteklemiyor.
 wintitlenick Sekmeli pencerelerde e-posta adresleri yerine rumuzlarý göster
 work Ýþ
 wrongfields "$1", "$2" ve/veya "$3" alanlarý geçersiz 

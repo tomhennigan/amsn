@@ -87,6 +87,7 @@ cachedpics $1 cached pics
 cancel Cancel
 cannotdeleteprofile Cannot delete profile because it seems to be in use by an aMSN session
 cantexec Can't execute application: $1. Check preferences
+cantloadonlineversion Can't recover the On-Line updated list of languages from the Internet
 cantremoveothers Can't remove "Others" group
 casesensitive Use case-sensitive triggers
 cfgalarmall Configure/Add/Remove Global Alarm

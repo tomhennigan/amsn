@@ -28,7 +28,7 @@ alarms Alarm
 alarmstatus Alarm inschakelen
 allfiles Alle bestanden
 allmonths Alle maanden
-allow_sms Sta toe dat iemand contact met mij opneemt via MSN mobiel
+allow_sms Sta toe dat iemand mij een SMS bericht stuurt
 allowallbutbl Iedereen die ik niet geblokkeerd heb kan contact met mij opnemen
 allowbadwords Ongecensureerde schermnamen weergeven
 allowlist [AL] Geaccepteerd
@@ -193,7 +193,7 @@ deliverfail Er was een probleem bij het bezorgen van de volgende boodschap
 delprofile2 Selecteer het profiel waarvan je de locale configuratiebestanden wilt verwijderen
 delprofile Verwijder profiel
 description Omschrijving
-detach Ontkoppelen
+detach Loskoppelen
 directconnection Directe verbinding met het internet (gebruik poort 1863)
 disabled Uitgeschakeld
 disableprofiles Schakel profielen uit (handig voor internet cafés en gedeelde omgevingen)
@@ -311,6 +311,7 @@ internalerror Interne Serverfout
 invalidfile2 Het bestand $1 kan niet aangemaakt worden. Heb je wel de juiste toegangsrechten?
 invalidfile Het bestand "$2", ingevoerd in het veld "$1", bestaat niet of is onleesbaar
 invalidgroup Ongeldige groep
+invalidparameter Fout bij het verbinden met de server: ongeldige parameter
 invalidpic Het opgegeven afbeeldingsbestand bestaat niet.
 invalidpicsize Het opgegeven plaatje is te groot. Zoek alsjeblieft een kleinere uit.
 invalidsound Het opgegeven geluidsbestand bestaat niet.
@@ -552,7 +553,7 @@ sendfile Een bestand of foto verzenden
 sendmail Een e-mail verzenden
 sendmsg Een bericht verzenden
 send Zend
-sendmobmsg Verzonden via MSN mobiel
+sendmobmsg Een SMS bericht verzenden
 sentbytes $1 van de $2 bytes verzonden
 serverbusy Server is bezet
 servergoingdown Verbinding verbroken: De server wordt uitgeschakeld

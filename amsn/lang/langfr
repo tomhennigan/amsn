@@ -546,7 +546,6 @@ save Enregistrer
 savetofile Sauvegarder dans un fichier
 says $1 dit
 sbcon Connexion au "Switch Board"
-selectall Tout sélectionner
 selectplugins Sélectionnez un plug-in
 selectskin Sélectionnez dans la liste l'apparence que vous souhaitez utiliser
 send Envoyer
@@ -567,7 +566,9 @@ showdisplaypic2 Afficher l'icône par défaut à l'ouverture d'une fenêtre de discu
 showdisplaypic Afficher l'icône
 showmypic Mon icône
 shownotify Afficher la fenêtre de notification quand certains événements se produisent
+showpicnotify Montrer l'icône des contacts dans la fenêtre de notification
 showuserpic Icône de $1
+signinstatus Status lors de la connexion
 skin apparence
 skinselector Changer l'apparence
 smileconfig Configuration des émoticons personnalisés
@@ -646,7 +647,6 @@ unload Désactiver
 uoffline Déconnectés
 uonline Connectés
 update Mise à jour
-updating Mise à jour de
 useother Utiliser un programme différent
 useralreadyonlist Utilisateur déjà présent dans la liste
 userblocked Ce contact est en ligne mais vous l'avez bloqué
@@ -665,6 +665,7 @@ webcaminvite $1 vous invite à démarrer un conversation par Webcam, mais aMSN ne 
 willjoin Dans l'attente que $1 rejoigne la conversation
 winkreceived Vous avez reçu un 'clin d'oeil' provenant de $1. Cette fonctionnalité n'est pas encore supporté par aMSN.
 wintitlenick Afficher le pseudonyme dans les fenêtres à onglets au lieu de l'email
+whatsize L'image qui doit être affichée n'est pas à la taille normale : 96x96 \nDans quelle taille voulez-vous que l'image soit affichée ?
 work Travail
 wrongfields Les champs "$1", "$2" et/ou "$3" sont invalides
 wrongprofileversion Mauvaise version du fichier de profil. Afin de la fixer, enlevez le répertoire $1, ou mettez à jour aMSN
