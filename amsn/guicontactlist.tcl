@@ -181,12 +181,16 @@ namespace eval ::guiContactList {
 		
 		set grId [getGroupId $email]
 		
+		#Remove previous bindings
+		$canvas bind $email <Enter> ""
+		$canvas bind $email <Motion> ""
+		$canvas bind $email <Leave> ""
+		
 		#Add binding for balloon
 		if { [::config::getKey tooltips] == 1 } {
 			$canvas bind $email <Enter> +[list balloon_enter %W %X %Y "[getBalloonMessage $email $element]"]
 			$canvas bind $email <Motion> +[list balloon_motion %W %X %Y "[getBalloonMessage $email $element]"]
-			$canvas bind $email <Leave> \
-				"+set Bulle(first) 0; kill_balloon"
+			$canvas bind $email <Leave> "+set Bulle(first) 0; kill_balloon"
 		}
 		
 		#Add binding for click / right click (remebering to get config key for single/dbl click on contacts to open chat)
@@ -245,6 +249,11 @@ namespace eval ::guiContactList {
 		$canvas create text $xuline1 $ypos -text $groupheader -anchor nw \
 			-fill $groupcolor -font sboldf -tags [list group title $gid]
 		
+		#Remove previous bindings
+		$canvas bind $gid <Enter> ""
+		$canvas bind $gid <Motion> ""
+		$canvas bind $gid <Leave> ""
+
 		#Create mouse event bindings
 		$canvas bind $gid <<Button1>> "::groups::ToggleStatus [lindex $element 0];guiContactList::createCLWindow"
 		$canvas bind $gid <<Button3>> "::groups::GroupMenu $gid %X %Y"
