@@ -7506,7 +7506,8 @@ proc play_Sound_Mac {sound_name sound} {
 			#Destroy previous song if he already play
 			destroy .fake.$sound_small_name
 			#Create the ""movie"" in QuickTime TCL to play the sound
-			catch {movie .fake.$sound_small_name -file $sound -controller 0}
+			set pwd "[exec pwd]"
+			catch {movie .fake.$sound_small_name -file $pwd/$sound -controller 0}
 			#Play the sound
 			catch {.fake.$sound_small_name play}
 			return
