@@ -117,11 +117,19 @@ namespace eval ::abook {
 		}
 	}
 
+	################################################################################################################################
+	################################################################################################################################
+	################################################################################################################################
+	############## MOVE ALL PROTOCOL/IP CHECK RELATED PROCEDURES OUT OF ABOOK!! ABOOK SHOULD CARE ONLY ABOUT #######################
+	############## DATA STORAGE, NOT ABOUT SERVERS/IPS/CONNECTIONS OR WHATEVER !!                            #######################
+	
 	# This proc will configure all ip settings, get private ip, see if firewalled or not, and set netid
 	proc getIPConfig { } {
 		variable demographics
 
+		status_log "Getting local IP\n"
 		set demographics(localip) [getLocalIP]
+		status_log "Finished\n"
 		set demographics(upnpnat) "false"
 		set demographics(conntype) [getConnectionType [getDemographicField localip] [getDemographicField clientip]]
 		if { $demographics(conntype) == "Direct-Connect" || $demographics(conntype) == "Firewall" } {
@@ -165,16 +173,46 @@ namespace eval ::abook {
 
 	# This will create a server, and try to connect to it in order to see if firewalled or not
 	proc getFirewalled { port } {
+		global connection_success
 		while { [catch {set sock [socket -server "abook::dummysocketserver" $port] } ] } {
 			incr port
 		}
-		if { [catch {set clientsock [socket [getDemographicField clientip] $port]} ] } {
+		status_log "::abook::getFirewalled: Connecting to [getDemographicField clientip] port $port\n" blue
+		
+		#Need this timeout thing to avoid the socket blocking...
+		set connection_success 0
+		set clientsock [socket -async [getDemographicField clientip] $port]
+		fileevent $clientsock writable [list ::abook::connectionHandler $clientsock]
+		after 1000 ::abook::connectionTimeout
+		vwait connection_success
+		if { $connection_success == 0 } {
 			close $sock
+			catch { close $clientsock }
 			return "Firewall"
 		} else {
 			close $sock
-			close $clientsock
+			catch { close $clientsock }
 			return "Direct-Connect"
+		}
+	}
+	
+	proc connectionTimeout {} {
+		global connection_success
+		status_log "::abook::connectionTimeout\n"
+		set connection_success 0
+	}
+	
+	proc connectionHandler { sock } {
+		#CHECK FOR AN ERROR
+		global connection_success
+		after cancel ::abook::connectionTimeout
+		fileevent $sock writable ""
+		if { [fconfigure $sock -error] != ""} {
+			status_log "::abook::connectionHandler: connection failed\n"
+			set connection_success 0
+		} else {
+			status_log "::abook::connectionHandler: connection succesful\n"
+			set connection_success 1
 		}
 	}
 
@@ -206,6 +244,9 @@ namespace eval ::abook {
 		return [format %u $val]
  
 	}
+	################################################################################################################################
+	################################################################################################################################
+	################################################################################################################################
 
 	#Clears all ::abook stored information
 	proc clearData {} {
