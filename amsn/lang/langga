@@ -69,6 +69,7 @@ blockusers Comprobar continuamente
 broughtby Traido a Vd. polos seguintes programadores
 browse Examinar
 browser Navegador
+browserexample ( \$url sustituirase pola dirección). Ex: mozilla \$url
 busy Non dispoñible
 cachedpics $1 imaxes para mostrar almaceadas
 cancel Cancelar
@@ -112,6 +113,7 @@ close Pechar
 closed Conversa con $1 pechada por inactividade
 closingdocks O botón de pechar minimiza
 command Comando
+commandstatus Executar comando
 confirmdelete ¿Seguro de desexa borrar a $1?
 confirm ¿ Estás seguro ?
 confirmpurge Todalas Imaxes para Mostrar do resto dos contactos (non as túas) serán eliminadas. ¿ Estás seguro ?
@@ -337,9 +339,11 @@ normal Normal
 noskins Non se puido atopar o perfil por defecto (default) no cartafol skins/. Non se pode iniciar AMSN
 nosystemtray Bandexa do sistema non dispoñible
 notificationserver Servidor inicial de notificacións MSN (Servidor MSN Messenger)
-notify1 Mostrar ventá de aviso cando un contacto se conecte
-notify2 Mostrar ventá de aviso cando chegan novas mensaxes
-notify3 Mostrar ventá de aviso ó recibir un novo correo electrónico
+notify1 Mostrar fiestra de aviso cando un contacto se conecte
+notify2 Mostrar fiestra de aviso cando chegan novas mensaxes
+notify3 Mostrar fiestra de aviso ó recibir un novo correo electrónico
+notify1_5 Mostrar fiestra de aviso cando un contacto se desconecte
+notify1_75 Mostrar fiestra de aviso cando un contacto cambia de estado
 notify aviso
 notifyoffset Axusta a posición da ventá de aviso cun desprazamento
 notifytyping Enviar a outros usuarios notificacións cando se está tecleando
@@ -418,6 +422,7 @@ raised Elevada/Desiconificada
 readonlymsgbox A transferencia de arquivos cancelouse porque o directorio de recepción é de sólo lectura. Comproba os permisos de este cartafol.
 readonlywarn AVISO: El arquivo puede NON ser gardado correctamente porque o cartafol de arquivos recibidos parece estar protexido contra escritura. Comproba que os permisos no cartafol ($1) son correctos antes da transferencia
 receivedbytes Recibidos $1 de $2 bytes totais
+receiveddir Cartafol de Arquivos Recibidos
 receivefile Recibir arquivo
 recentmsg Previr o peche da fiestra da conversa cando unha mensaxe acaba de chegar
 reconnect Agardando que $1 reconecte
@@ -523,6 +528,7 @@ usernotonline O usuario non se atopa conectado.
 userproperties Propiedades do usuario $1
 useryourself Non podes falar contigo mesmo
 user Usuario
+verifyblocked Comprobar qué contactos che bloquean
 version Versión
 viewprofile Ver perfil
 view Ver
@@ -539,4 +545,3 @@ yes Si
 youblocked Foches bloqueado
 yousay Ti dis
 youwant Queres
-
