@@ -5,8 +5,8 @@ accept Kabul et
 actions Eylemler
 addacontact Yeni baðlantý ekle
 addedyou $1 ($2) sizi baðlantý listesine ekledi
-addprofile Yeni profil ekle
 addprofiledesc Ekleyeceðiniz yeni profilin kullanýcý ismini giriniz.\nKullanýcýlar profiller kullanarak deðiþik ayarlar yapabilirler.\nProfil olmazsa Geçmiþ, Alarmlar ve þifre hatýrlama özelliklerini kullanamazsýnýz.
+addprofile Yeni profil ekle
 addstate Yeni durum ekle
 addto $1ye ekle
 addtocontacts Baðlantý listesine ekle
@@ -47,9 +47,9 @@ awaymsg2 Hiçbir zaman sorma ve asaðýdaki notu kullan
 baduserpass Yanlýþ kullanýcý ismi ya da þifresi
 bgcolor aMSN'in arkaplan rengini deðiþtir
 blankdirect Doðrudan baðlantý için boþ býrakýn
-block Engelle
 blocked Engellenmiþ
 blockedyougroup Sizi engelleyenleri ayrý bir grupta göster
+block Engelle
 blocking Engelleme
 blockinter1 Denetleme þekli baðlý iken her
 blockinter2 saniyede bir, yoksa her:
@@ -77,7 +77,7 @@ chatsmileys2 Sohbet penceresinde gülen adamlar görünsün
 chatsmileys Gülen adamlar
 chat Sohbet et
 checkblocking Diðerlerinin beni engelleyip engellemediðini sürekli denetle
-checkfilman Alýnan dosyalar $1 konumuna kaydedilecek. Lütfen seçenekler penceresinde dosya yöneticisi ayarlarini yapýnýz. 
+checkfilman Alýnan dosyalar $1 konumuna kaydedilecek. Lütfen seçenekler penceresinde dosya yöneticisi ayarlarýný yapýnýz. 
 checkingver Yeni sürüm aranýyor
 checkonfln Bir kullanýcýnýn beni engelleyip engellemediðini o çevrim dýþý olunca denetle
 checkver Yeni sürüm ara
@@ -86,7 +86,7 @@ choosebgcolor Arkaplan rengini seç
 choosecontact Lütfen listeden bir baðlantý seçiniz
 choosefontcolor Yazi rengini seç
 chooseskin Lütfen kullanacaðýnýz kabuðu seçiniz
-clearlog2 Tüm baðlantýlarýn Geçmisini sil
+clearlog2 Tüm baðlantýlarýn Geçmiþini sil
 clearlog3 Tüm sohbet kayýtlarýný sil
 clearlog Sohbet kaydýný sil
 clicktologin Baðlanmak için týklayýn
@@ -101,7 +101,7 @@ connecterror Sunucuya baðlanýrken hata oluþtu
 connecting Baðlanýyor
 connection Baðlantý
 connectionlost Baðlantý koptu: Sunucuyla baðlantý kesildi
-contactadded Baglanti eklendi
+contactadded Baðlantý eklendi
 contactdoesnotexist Böyle bir baðlantý yok!
 contactlist Baðlantý listesi:
 copy Kopyala
@@ -114,8 +114,8 @@ cut Kes
 date Tarih
 days Gün
 dcprofile Profil oluþturma
-default Varsayýlan ayar
 defaultloginradio Varsayýlan ayarlarla baðlan
+default Varsayýlan ayar
 delete Sil
 deliverfail Aþagýdaki iletinin gönderilmesinde hata oluþtu
 delprofile2 Sileceðiniz profili seçiniz
@@ -128,16 +128,16 @@ dockgtk Gnome'da küçültme
 docking Küçültme
 dockingoff Küçültme olsun
 dockkde KDE'de küçültme
-edit Düzenle
 editcurrentstate Durumu düzenle
+edit Düzenle
 editnewstate Yeni Kiþisel Otomatik Mesaj Durumu
 editprofile Profili düzenle
 editstate Var olan otomatik mesaj durumunu düzenle
-emotisounds Bazý gülen adamlarda ses cikar
+emotisounds Bazý gülen adamlarda ses çýkar
 enableproxy proxy ayarlarýný etkinleþtir
 enableremote Uzaktan denetimi etkinleþtir
 enablesound Sesi aç
-encoding2 Alfabe degiþtirin
+encoding2 Alfabe deðiþtirin
 encoding Alfabe seçimi
 entercontactemail Baðlantýnýn e-posta adresini girin
 enterfilename Lütfen bir dosya adý girin
@@ -171,7 +171,7 @@ group Grup
 groupmissing Grup bulunamadý
 groupnewname Yeni isim
 groupnotempty Grup boþ deðil!
-groupoldname Grubun eski adi
+groupoldname Grubun eski adý
 grouprename Grubu yeniden isimlendir
 groupunknown Bilinmeyen grup
 handle Ýsim
@@ -214,7 +214,7 @@ lleftconf $1 konferanstan ayrýldý
 loadcontacts Baðlantý listesi yükle
 logbigger Her baðlantý için kayýt dosyasý boyutu üst sýnýrý
 logfandexp Kayýt dosya boyutlarý ve Geçmiþ kayýtlarýnýn silinme zamaný 
-loggedotherlocation Baþka bir yerden baðlandýðýnýz için baðlanti kesildi
+loggedotherlocation Baþka bir yerden baðlandýðýnýz için baðlantý kesildi
 loggingin Baðlanýyor
 loginas Kullanýcý ismi seç
 login Baðlan
@@ -234,10 +234,10 @@ mobile Cep
 morepersonal Diðer Durumlar ->
 move Taþý
 movetogroup Baþka gruba taþý
-msg Ýleti
 msgflicker Seçili olmayan sohbet pencereleri ileti gelince yanýp sönsün
 msgmaxmin Yeni ileti geldiðinde þöyle olsun:
 msgmode Birden çok pencereyi nasýl düzenleyeceðinizi belirleyin:
+msg Ýleti
 msn AMSN
 mustrestart Yeniliklerin etkinleþmesi için uygulamayý yeniden baþlatmalýsýnýz
 myhomephone Ev telefonum
@@ -262,14 +262,15 @@ nonewver Daha yeni bir sürüm yok
 noprofileexists Henüz hiçbir profil yok. Eðer profille baðlanmak \nisterseniz bir tane yaratmalýsýnýz. Bu penceredeki \nYeni Profil Ekle düðmesine týklayarak bunu yapabilirsiniz.
 normal normal
 nosystemtray Görev çubuðu yok 
-notify1_5 Baðlantilar çýkýnca uyarý penceresi göster
-notify1_75 Baðlantýlar durum degiþtirince uyarý penceresi göster
+notify1_5 Baðlantýlar çýkýnca uyarý penceresi göster
+notify1_75 Baðlantýlar durum deðiþtirince uyarý penceresi göster
 notify1 Baðlantýlar girince uyarý penceresi göster
 notify2 Yeni ileti gelince uyarý penceresi göster
 notify3 Yeni e-posta iletisi gelince uyarý penceresi göster
 notifyoffset Uyarý penceresinin konumunu giriniz
 notify uyar
 notifywin Uyarý Penceresi
+notls MSN 9 protokolü tls paketini gerektirir. Bu bilgisayarda tls kurulu görünmüyor. Eðer kuruluysa, tls kütüphanesi dizini Seçenekler bölümünde belirtilmelidir (örn: /opt/tls/lib). \n\n tls'yi http://tls.sf.net'ten indirebilirsiniz.
 nousersinsession Ortamda kullanýcý yok
 offline Çevrim dýþý
 ok Tamam
@@ -302,6 +303,7 @@ preferences Seçenekler
 preffont2 Yazýtipim diðerlerine daha baþka gözüksün
 preffont3 aMSN'in arayüz yazýtipi ve metin boyutunu deðiþtir
 preffont Ýleti yazýtipim
+preflibs Kütüphane dizinleri
 preflog1 Geçmiþ ve sohbet kayýt seçeneklerim
 preflook aMSN'imin görünüþü
 prefmsging Ýleti arayüzüm
@@ -364,8 +366,8 @@ skin Kabuk
 skinselector Kabuk Seç
 smileconfig Özel gülen adam ayarlarý
 smilefile Gülen adam dosya ismi
-smileintro Özel bir gülen adam yaratmak için ilgili alanlarý doldurunuz \n(yardým için SSS'a bakýnýz)
 smileintro2 Bu gülen adamý özelleþtirmek için ilgili alanlarý düzenleyiniz \n(yardým için SSS'a bakýnýz)
+smileintro Özel bir gülen adam yaratmak için ilgili alanlarý doldurunuz \n(yardým için SSS'a bakýnýz)
 sound2 Baðlantýlar girince ya da ileti gönderince ses çýkar
 soundcommand Ses çalma komutu (örn: esdplay)
 soundfile Alarm ses dosyasý
