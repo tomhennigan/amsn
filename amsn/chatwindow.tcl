@@ -532,8 +532,8 @@ namespace eval ::ChatWindow {
 				set container [::ChatWindow::GetContainerFor $chatid]
 				set win_name [::ChatWindow::Open $container]
 				::ChatWindow::SetFor $chatid $win_name
-				::ChatWindow::NameTabButton $win_name $chatid
-				set_balloon $::ChatWindow::win2tab($win_name) "[::abook::getContactData $chatid nick]"
+				::ChatWindow::NameTabButton $win_name [::abook::getDisplayNick $chatid]
+				set_balloon $::ChatWindow::win2tab($win_name) "[::abook::getDisplayNick $chatid]"
 
 			}
 			#update idletasks
