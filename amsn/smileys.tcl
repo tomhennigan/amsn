@@ -160,7 +160,7 @@ proc new_custom_emoticon_from_gui { {name ""} } {
 	return
     }
     if { $name == "" } {
-	set name "$new_custom_cfg(name)"
+	    set name "[string map { "\[" "\\\[" "\]" "\\\]" } $new_custom_cfg(name)]"
 	set edit 0
     } else {
 	set edit 1
@@ -220,7 +220,7 @@ proc new_custom_emoticon_from_gui { {name ""} } {
     }
 
     if { $edit == 0} {
-	lappend config(customsmileys) "$name"
+	    lappend config(customsmileys) "${name}"
     }
     load_smileys
     
@@ -457,7 +457,7 @@ proc add_custom_emoticons { } {
 	lappend config(customsmileys2) "$name"
 
 	foreach emotion [array names custom_emotions] {
-	    if { [string match "${x}_*" $emotion ] } {
+		if { [string match [string map { \\ \\\\ \[ \\\[ \] \\\]} "${x}_*"] $emotion ] } {
 		set x2 [string trim [string map [list "${x}_" "" ] $emotion]]
 		
 		set emotions(${name}_${x2}) $custom_emotions($emotion)

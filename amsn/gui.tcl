@@ -2580,11 +2580,13 @@ namespace eval ::amsn {
 
 		global config
 		set tstamp [timestamp]
+
 		if { $user == $config(login) } {
 			set nick [::abook::getNick myself]
 		} else {
 			set nick [::abook::getNick $user]
 		}
+
 		if {$config(truncatenicks)} {
 			if {$config(showtimestamps)} {
 				set says "$tstamp [trans says [list]]:"
@@ -6612,13 +6614,12 @@ proc purgePictures {} {
 
 	set answer [tk_messageBox -message "[trans confirmpurge]" -type yesno -icon question -title [trans purge] -parent .picbrowser]
 	if {$answer == "yes"} {
-		catch {set cachefiles [glob -directory [file join $HOME displaypic cache] *.png]}
-		if { [info exists cachefiles] } {
-			foreach filename $cachefiles {
-				catch { file delete $filename }
-				catch { file delete "[filenoext $filename].gif" }
-			}
+		foreach filename [glob -nocomplain -directory [file join $HOME displaypic cache] *.png] {
+			catch { file delete $filename }
+			catch { file delete "[filenoext $filename].gif" }
+			catch { file delete "[filenoext $filename].dat" }
 		}
+
 	}
 
 }

@@ -4865,10 +4865,10 @@ namespace eval ::MSNP2P {
 			status_log "MSNP2P | $sid $user_login -> opening file $filename for writing with $filename2 as user msnobj\n\n" blue
 			if { $filename == $filename2 } {
 			    create_dir [file join $HOME displaypic cache]
-			    set fd [open "[file join $HOME displaypic cache ${filename}.png]" "w"]
+			    set fd [open "[file join $HOME displaypic cache ${filename}.png]" w]
 			} else {
 			    create_dir [file join $HOME smileys cache]
-			    set fd [open "[file join $HOME smileys cache ${filename}.png]" "w"]   
+			    set fd [open "[file join $HOME smileys cache ${filename}.png]" w]   
 			}
 
 			fconfigure $fd -translation binary
