@@ -365,6 +365,7 @@ notify2 Prikazi obvestilo ob novem sporocilu
 notify3 Prikazi obvestilo ob novem e-mailu
 notify obvesti
 notifyoffset Nastavitve polozaja obvestilnega okna
+notifytimeout Cas prikaza obvestila v milisekundah
 notifytyping Posiljaj sogovornikom obvestilo o tipkanju
 notifywin Obvestila
 notinlist Nisi na njegovem/njenem seznamu stikov
@@ -555,7 +556,7 @@ version Razlicica
 view Pogled
 viewcontactsby Prikaz stikov
 viewprofile Poglej profil
-webcaminvite $1 te je povabil/a na videokanferenco, a aMSN tega ne podpira.
+webcaminvite $1 te je povabil/a na videokonferenco, a aMSN tega ne podpira.
 willjoin Cakam, da se $1 pridruzi pogovoru
 work Delo
 wrongfields Polja "$1", "$2" in/ali "$3" niso veljavna
