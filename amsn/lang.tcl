@@ -12,18 +12,13 @@ proc scan_languages { } {
 	global lang_list
 	set lang_list [list]
 
-	# Wait for sxml.tcl to be loaded
-	after 1 {
+	::lang::LoadVersions
+	set list $::lang::Lang
 
-		::lang::LoadVersions
-		set list $::lang::Lang
-
-		foreach langcode $list {
-			set name [::lang::ReadLang $langcode name]
-			set encoding [::lang::ReadLang $langcode encoding]
-			lappend lang_list "{$langcode} {$name} {$encoding}"
-		}
-
+	foreach langcode $list {
+		set name [::lang::ReadLang $langcode name]
+		set encoding [::lang::ReadLang $langcode encoding]
+		lappend lang_list "{$langcode} {$name} {$encoding}"
 	}
 
 }
@@ -128,7 +123,7 @@ proc load_lang { {langcode "en"} {plugindir ""} } {
 	set langenc ""
 
 	foreach langdata $lang_list {
-		if { [string compare [lindex $langdata 0] $langcode] == 0 } {
+		if { [lindex $langdata 0] == $langcode } {
 			set langenc [lindex $langdata 2]
 			set langlong [lindex $langdata 1]
 		}
@@ -199,13 +194,16 @@ namespace eval ::lang {
 		wm protocol $wname DELETE_WINDOW "::lang::language_manager_close"
 
 		frame $wname.notebook -borderwidth 3
+
 		set nb $wname.notebook
 		NoteBook $nb.nn
 		$nb.nn insert end language -text [trans language]
 		$nb.nn insert end manager -text [trans language_manager]
 
+
 		#  .__________.
 		# _| Language |____
+
 		set frm [$nb.nn getframe language]
 
 		frame $frm.list -class Amsn -borderwidth 0
@@ -251,6 +249,8 @@ namespace eval ::lang {
 		# _| Manager |____
 		set frm [$nb.nn getframe manager]
 
+		if { $::lang::LoadOk == 1 } {		
+
 		# Create a list box where we will put the lang
 		frame $frm.selection -class Amsn -borderwidth 0
 		listbox $frm.selection.box -yscrollcommand "$frm.selection.ys set" -font splainf -background white -relief flat -highlightthickness 0
@@ -270,6 +270,7 @@ namespace eval ::lang {
 			}
 		}
 
+
 		# When a language is selected, execute language_manager_selected
 		bind $frm.selection.box <<ListboxSelect>> "::lang::language_manager_selected"
 
@@ -288,7 +289,24 @@ namespace eval ::lang {
 		pack configure $frm.txt -side top -fill x
 		pack configure $frm.command -side top -fill x -padx 10
 
+		} else {
+
+		frame $frm.txt
+		label $frm.txt.text -text "[trans cantloadonlineversion]" -foreground red
+		pack configure $frm.txt.text
+
+		frame $frm.command
+		button $frm.command.close -text "[trans close]" -command "::lang::language_manager_close"
+		pack configure $frm.command.close -side right -padx 5
+
+		pack configure $frm.txt -side top -fill x
+		pack configure $frm.command -side bottom -fill x -padx 10
+
+		}
+
 		pack $frm -fill both -expand true
+
+
 
 		$nb.nn compute_size
 
@@ -342,11 +360,11 @@ namespace eval ::lang {
 		# If the lang selected is the current lang
 		if { $langcode == [::config::getGlobalKey language]} {
 			$w.command.load configure -state disabled -text "[trans delete]"
-			$w.txt.text configure -text "[trans currentlanguage]" -foreground red
+			$w.txt.text configure -text "[trans currentlanguage]" -foreground red		
 		# If the file is not available
 		} elseif {[lsearch $::lang::Lang $langcode] == -1 } {
 			$w.command.load configure -state normal -text "[trans download]" -command "[list ::lang::getlanguage "$langcode" $selection]"
-			$w.txt.text configure -text " "
+			$w.txt.text configure -text ""
 		# If the file is protected
 		} elseif { ![file writable "$dir/$lang"] } {
 			$w.command.load configure -state disabled -text "[trans delete]"
@@ -354,7 +372,7 @@ namespace eval ::lang {
 		# If the file is available
 		} elseif {[lsearch $::lang::Lang $langcode] != -1 } {
 			$w.command.load configure -state normal -text "[trans delete]" -command "[list ::lang::deletelanguage "$langcode" $selection]"
-			$w.txt.text configure -text " "
+			$w.txt.text configure -text ""
 		}
 
 
@@ -668,23 +686,31 @@ namespace eval ::lang {
 
 	proc LoadOnlineVersions { } {
 
-		set ::lang::OnlineLang ""
+		if { [catch {
 
-		set filename "langlistnew.xml"
+			set ::lang::OnlineLang ""
 
-		set fid [open $filename w]
-		set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/msn/langlist?rev=HEAD&content-type=text/plain" -timeout 10000]
-		set content [::http::data $token]
-		puts -nonewline $fid "$content"
-		close $fid
+			set filename "langlistnew.xml"
 
-		set id [::sxml::init $filename]
-		sxml::register_routine $id "version:lang" "::lang::XMLOnlineLang"
-		sxml::register_routine $id "version:plugin" "::lang::XMLOnlinePlugin"
-		sxml::parse $id
-		sxml::end $id
+			set fid [open $filename w]
+			set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/msn/langlist?rev=HEAD&content-type=text/plain" -timeout 10000]
+			set content [::http::data $token]
+			puts -nonewline $fid "$content"
+			close $fid
 
-		file delete "langlistnew.xml"
+			set id [::sxml::init $filename]
+			sxml::register_routine $id "version:lang" "::lang::XMLOnlineLang"
+			sxml::register_routine $id "version:plugin" "::lang::XMLOnlinePlugin"
+			sxml::parse $id
+			sxml::end $id
+
+			file delete "langlistnew.xml"
+
+		}]} {
+			set ::lang::LoadOk 0
+		} else {
+			set ::lang::LoadOk 1
+		}
 
 
 	}
@@ -718,6 +744,11 @@ namespace eval ::lang {
 
 		::lang::LoadVersions
 		::lang::LoadOnlineVersions
+
+		if { $::lang::LoadOk == 0 } {
+			status_lang "Unable to update language\n" red
+			return
+		}
 
 		foreach langcode $::lang::Lang {
 			set version [::lang::ReadLang $langcode version]
