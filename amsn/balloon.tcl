@@ -117,10 +117,10 @@ proc balloon {target message {cx 0} {cy 0} } {
         wm geometry .balloon +${x}+${y}
         
 	#Focus last windows , in AquaTK ("Mac OS X focus bug")
-	if {$tcl_platform(os) == "Darwin" && $lastfocus !="" } {
-	    after 50 "focus -force $lastfocus"  
+	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua" && $lastfocus!="" } {
+		after 50 "catch {focus -force $lastfocus}"
 	}
-	
+		
 	set Bulle(set) 1
 	after 10000 "kill_balloon"
     }

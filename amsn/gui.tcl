@@ -3177,7 +3177,7 @@ namespace eval ::amsn {
 
 		#Focus last windows , in AquaTK (Mac OS X)
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua" && $lastfocus!="" } {
-			after 50 "focus -force $lastfocus"
+			after 50 "catch {focus -force $lastfocus}"
 		}
 
 		if { $sound != ""} {
