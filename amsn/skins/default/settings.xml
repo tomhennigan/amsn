@@ -49,7 +49,7 @@
 		<Geometry>
 			<chat_top_padx>3</chat_top_padx>
 			<chat_top_pady>3</chat_top_pady>
-			<chat_paned_padx>3</chat_paned_padx>
+			<chat_paned_padx>0</chat_paned_padx>
 			<chat_paned_pady>3</chat_paned_pady>
 			<chat_output_padx>3</chat_output_padx>
 			<chat_output_pady>0</chat_output_pady>
@@ -59,7 +59,7 @@
 			<chat_input_pady>3</chat_input_pady>
 			<chat_dp_padx>0</chat_dp_padx>
 			<chat_dp_pady>1</chat_dp_pady>
-			<chat_leftframe_padx>3</chat_leftframe_padx>
+			<chat_leftframe_padx>0</chat_leftframe_padx>
 			<chat_leftframe_pady>3</chat_leftframe_pady>
 			<chat_sendbutton_padx>3</chat_sendbutton_padx>
 			<chat_sendbutton_pady>3</chat_sendbutton_pady>
