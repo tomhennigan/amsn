@@ -646,6 +646,9 @@ namespace eval ::autoupdate {
 		toplevel $w
 		wm title $w "[trans update]"
 		wm geometry $w 300x300
+		wm protocol $w WM_DELETE_WINDOW "::autoupdate::UpdateLangPlugin_close"
+		
+		bind $w <<Escape>> "::autoupdate::UpdateLangPlugin_close"
 
 		frame $w.text
 		label $w.text.img -image [::skin::loadPixmap download]
@@ -677,7 +680,7 @@ namespace eval ::autoupdate {
 		pack configure $w.update -side top -fill x
 
 		frame $w.button
-		button $w.button.close -text "[trans close]" -command "destroy $w"
+		button $w.button.close -text "[trans close]" -command "::autoupdate::UpdateLangPlugin_close"
 		button $w.button.update -text "[trans update]" -command "::autoupdate::UpdateLangPlugin_update" -default active
 		pack configure $w.button.update -side right -padx 3 -pady 3
 		pack configure $w.button.close -side right -padx 3 -pady 3
@@ -721,8 +724,24 @@ namespace eval ::autoupdate {
 			}
 		}
 
-		destroy ".updatelangplugin"
+		::autoupdate::UpdateLangPlugin_close
 
+	}
+
+
+	#///////////////////////////////////////////////////////////////////////
+	proc UpdateLangPlugin_close { } {
+	
+		global HOME2
+		
+		destroy ".updatelangplugin"
+	
+		foreach plugin [::plugins::findplugins] {
+			set namespace [lindex $plugin 6]
+			set file [file join $HOME2 $namespace.xml]
+			file delete $file
+		}
+		
 	}
 
 

@@ -1210,7 +1210,7 @@ namespace eval ::plugins {
 		set ::plugins::plgonlineversion ""
 		set ::plugins::plgonlinelang ""
 		set ::plugins::plgonlinefile ""
-
+		
 		set program_dir [set ::program_dir]
 
 		if { [string first $HOME $path] != -1 | [string first $HOME2 $path] != -1 } {
@@ -1223,8 +1223,8 @@ namespace eval ::plugins {
 
 		set content [::http::data $token]
 
-		set filename "[file join $HOME plugininfo.xml]"
-
+		set filename "[file join $HOME2 $plugin.xml]"
+		
 		set fid [open $filename w]
 
 		fconfigure $fid -encoding binary
@@ -1410,8 +1410,6 @@ namespace eval ::plugins {
 			fconfigure $fid -encoding binary
 			puts -nonewline $fid "$content"
 			close $fid
-
-			::amsn::notifyAdd "$plugin : $file updated" "" "" plugins
 			
 		}
 
@@ -1579,12 +1577,14 @@ namespace eval ::plugins {
 #/////////////////////////////////////////////////////
 # Save plugininfo.xml
 
-	proc SavePlugininfo { plugin path} {
+	proc SavePlugininfo { plugin path } {
 
-		global HOME
+		global HOME2
+		
+		set name [lindex $plugin 6]
 
 		file delete $path
-		set file "[file join $HOME plugininfo.xml]"
+		set file "[file join $HOME2 $name.xml]"
 		file copy $file $path
 		file delete $file
 
