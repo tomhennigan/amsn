@@ -641,7 +641,7 @@ namespace eval ::amsn {
 		::MSNFT::cancelFTInvitation $chatid $cookie
 
 		[::ChatWindow::GetOutText ${win_name}] tag configure ftno$cookie \
-			-foreground #808080 -background white -font bplainf -underline false
+			-foreground #808080 -font bplainf -underline false
 		[::ChatWindow::GetOutText ${win_name}] tag bind ftno$cookie <Enter> ""
 		[::ChatWindow::GetOutText ${win_name}] tag bind ftno$cookie <Leave> ""
 		[::ChatWindow::GetOutText ${win_name}] tag bind ftno$cookie <Button1-ButtonRelease> ""
@@ -811,19 +811,19 @@ namespace eval ::amsn {
 		}
 
 		[::ChatWindow::GetOutText ${win_name}] tag configure ftyes$cookie \
-			-foreground #808080 -background white -font bplainf -underline false
+			-foreground #808080 -font bplainf -underline false
 		[::ChatWindow::GetOutText ${win_name}] tag bind ftyes$cookie <Enter> ""
 		[::ChatWindow::GetOutText ${win_name}] tag bind ftyes$cookie <Leave> ""
 		[::ChatWindow::GetOutText ${win_name}] tag bind ftyes$cookie <Button1-ButtonRelease> ""
 
 		[::ChatWindow::GetOutText ${win_name}] tag configure ftsaveas$cookie \
-			-foreground #808080 -background white -font bplainf -underline false
+			-foreground #808080 -font bplainf -underline false
 		[::ChatWindow::GetOutText ${win_name}] tag bind ftsaveas$cookie <Enter> ""
 		[::ChatWindow::GetOutText ${win_name}] tag bind ftsaveas$cookie <Leave> ""
 		[::ChatWindow::GetOutText ${win_name}] tag bind ftsaveas$cookie <Button1-ButtonRelease> ""
 
 		[::ChatWindow::GetOutText ${win_name}] tag configure ftno$cookie \
-			-foreground #808080 -background white -font bplainf -underline false
+			-foreground #808080 -font bplainf -underline false
 		[::ChatWindow::GetOutText ${win_name}] tag bind ftno$cookie <Enter> ""
 		[::ChatWindow::GetOutText ${win_name}] tag bind ftno$cookie <Leave> ""
 		[::ChatWindow::GetOutText ${win_name}] tag bind ftno$cookie <Button1-ButtonRelease> ""
@@ -876,19 +876,19 @@ namespace eval ::amsn {
 		}
 
 		[::ChatWindow::GetOutText ${win_name}] tag configure ftyes$cookie \
-		-foreground #808080 -background white -font bplainf -underline false
+		-foreground #808080 -font bplainf -underline false
 		[::ChatWindow::GetOutText ${win_name}] tag bind ftyes$cookie <Enter> ""
 		[::ChatWindow::GetOutText ${win_name}] tag bind ftyes$cookie <Leave> ""
 		[::ChatWindow::GetOutText ${win_name}] tag bind ftyes$cookie <Button1-ButtonRelease> ""
 
 		[::ChatWindow::GetOutText ${win_name}] tag configure ftsaveas$cookie \
-		-foreground #808080 -background white -font bplainf -underline false
+		-foreground #808080 -font bplainf -underline false
 		[::ChatWindow::GetOutText ${win_name}] tag bind ftsaveas$cookie <Enter> ""
 		[::ChatWindow::GetOutText ${win_name}] tag bind ftsaveas$cookie <Leave> ""
 		[::ChatWindow::GetOutText ${win_name}] tag bind ftsaveas$cookie <Button1-ButtonRelease> ""
 
 		[::ChatWindow::GetOutText ${win_name}] tag configure ftno$cookie \
-		-foreground #808080 -background white -font bplainf -underline false
+		-foreground #808080 -font bplainf -underline false
 		[::ChatWindow::GetOutText ${win_name}] tag bind ftno$cookie <Enter> ""
 		[::ChatWindow::GetOutText ${win_name}] tag bind ftno$cookie <Leave> ""
 		[::ChatWindow::GetOutText ${win_name}] tag bind ftno$cookie <Button1-ButtonRelease> ""
@@ -2449,7 +2449,7 @@ namespace eval ::amsn {
 				set urlname "url_$urlcount"
 
 				[::ChatWindow::GetOutText ${win_name}] tag configure $urlname \
-				-foreground #000080 -background white -font splainf -underline true
+				-foreground #000080 -font splainf -underline true
 				[::ChatWindow::GetOutText ${win_name}] tag bind $urlname <Enter> \
 				"[::ChatWindow::GetOutText ${win_name}] tag conf $urlname -underline false;\
 				[::ChatWindow::GetOutText ${win_name}] conf -cursor hand2"
@@ -2553,7 +2553,7 @@ namespace eval ::amsn {
 		[::ChatWindow::GetOutText ${win_name}] configure -state normal
 
 		[::ChatWindow::GetOutText ${win_name}] tag configure $tagid \
-		-foreground #000080 -background white -font bboldf -underline false
+		-foreground #000080 -font bboldf -underline false
 
 		[::ChatWindow::GetOutText ${win_name}] tag bind $tagid <Enter> \
 		"[::ChatWindow::GetOutText ${win_name}] tag conf $tagid -underline true;\
@@ -3560,11 +3560,15 @@ proc cmsn_draw_status {} {
 	pack .status.ys -side right -fill y
 	pack .status.info -expand true -fill both
 
-	.status.info tag configure green -foreground darkgreen -background white
-	.status.info tag configure red -foreground red -background white
+	.status.info tag configure green -foreground darkgreen
+	.status.info tag configure red -foreground red
 	.status.info tag configure white -foreground white -background black
-	.status.info tag configure blue -foreground blue -background white
+	.status.info tag configure white_highl -foreground white -background [.status.info tag cget sel -background]
+	.status.info tag configure blue -foreground blue
 	.status.info tag configure error -foreground white -background black
+	.status.info tag configure error_highl -foreground white -background [.status.info tag cget sel -background]
+	
+	bind .status.info <<Selection>> "highlight_selected_tags %W \{white white_highl error error_highl\}"
 
 	bind .status.enter <Return> "window_history add %W; ns_enter"
 	bind .status.enter <Key-Up> "window_history previous %W"
@@ -3578,7 +3582,6 @@ proc cmsn_draw_status {} {
 		unset queued_status
 	}
 }
-
 
 proc status_save { } {
 	set w .status_save
@@ -6735,15 +6738,15 @@ proc degt_protocol_win { } {
 	scrollbar .degt.mid.sy -command ".degt.mid.txt yview"
 	scrollbar .degt.mid.sx -orient horizontal -command ".degt.mid.txt xview"
 	
-	.degt.mid.txt tag configure error -foreground #ff0000 -background white
-	.degt.mid.txt tag configure nssend -foreground #888888 -background white
-	.degt.mid.txt tag configure nsrecv -foreground #000000 -background white
-	.degt.mid.txt tag configure sbsend -foreground #006666 -background white
-	.degt.mid.txt tag configure sbrecv -foreground #000088 -background white
-	.degt.mid.txt tag configure msgcontents -foreground #004400 -background white
-	.degt.mid.txt tag configure red -foreground red -background white
+	.degt.mid.txt tag configure error -foreground #ff0000
+	.degt.mid.txt tag configure nssend -foreground #888888
+	.degt.mid.txt tag configure nsrecv -foreground #000000
+	.degt.mid.txt tag configure sbsend -foreground #006666
+	.degt.mid.txt tag configure sbrecv -foreground #000088
+	.degt.mid.txt tag configure msgcontents -foreground #004400
+	.degt.mid.txt tag configure red -foreground red
 	.degt.mid.txt tag configure white -foreground white -background black
-	.degt.mid.txt tag configure blue -foreground blue -background white
+	.degt.mid.txt tag configure blue -foreground blue
 	
 	
 	pack .degt.mid.sy -side right -fill y
@@ -7076,4 +7079,38 @@ proc my_TextKeySelect {w new} {
     update idletasks
 }
 
+
+#///////////////////////////////////////////////////////////////////////////////
+# highlight_selected_tags (text, tags)
+# This proc will go through the text widget 'text' add an extra tag to any characters that are
+# selected and have a certain tag. This is used to highlight coloured text.
+# (Use in conjunction with the <<Selection>> event)
+# Arguments:
+# - text => Is the path to the text widget
+# - tags => an even length list containing pairs of tags and their associated extra tags
+proc highlight_selected_tags { text tags } {
+	#first remove all that were previously set
+	foreach { tag tagadd } $tags {
+		$text tag remove $tagadd 1.0 end	
+	}
+	
+	#add highlight tags for selected text
+	if { [scan [$text tag ranges sel] "%s %s" selstart selend] == 2 } {
+		foreach { tag tagadd } $tags {
+			set cur $selstart
+			#add for chars at the start of the selection
+			while { ( [lsearch [$text tag names $cur] $tag] != -1 ) && ( $cur != $selend )} {
+				$text tag add $tagadd $cur
+				set cur [$text index $cur+1chars]
+			}
+			while { [scan [$text tag nextrange $tag $cur $selend] "%s %s" st en] == 2 } {
+				if { $en > $selend } {
+					set en $selend
+				}
+				$text tag add $tagadd $st $en
+				set cur $en
+			}
+		}
+	}
+}
 

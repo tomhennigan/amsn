@@ -138,10 +138,10 @@ namespace eval ::pluginslog {
 	pack $window.ys -side right -fill y
 	pack $window.info -expand true -fill both
 	
-	$window.info tag configure green -foreground darkgreen -background white
-	$window.info tag configure red -foreground red -background white
+	$window.info tag configure green -foreground darkgreen
+	$window.info tag configure red -foreground red
 	$window.info tag configure white -foreground white -background black
-	$window.info tag configure blue -foreground blue -background white
+	$window.info tag configure blue -foreground blue
 	$window.info tag configure error -foreground white -background black
 	
 	wm protocol $window WM_DELETE_WINDOW { ::pluginslog::toggle }

@@ -1179,13 +1179,13 @@ namespace eval ::ChatWindow {
 
 		# Configure our widgets
 		$text configure -state disabled
-		$text tag configure green -foreground darkgreen -background white -font sboldf
-		$text tag configure red -foreground red -background white -font sboldf
-		$text tag configure blue -foreground blue -background white -font sboldf
-		$text tag configure gray -foreground #404040 -background white -font splainf
+		$text tag configure green -foreground darkgreen -font sboldf
+		$text tag configure red -foreground red -font sboldf
+		$text tag configure blue -foreground blue -font sboldf
+		$text tag configure gray -foreground #404040 -font splainf
 		$text tag configure gray_italic -foreground #000000 -background white -font sbolditalf
 		$text tag configure white -foreground white -background black -font sboldf
-		$text tag configure url -foreground #000080 -background white -font splainf -underline true
+		$text tag configure url -foreground #000080 -font splainf -underline true
 
 		# Create our bindings
 		bind $textinner <<Button3>> "tk_popup $w.copy %X %Y"
