@@ -586,8 +586,8 @@ namespace eval ::music {
 		#If amsnplus plugin is loaded, register the command
 		if { [info proc ::amsnplus::add_command] != "" } {
 			#Avoid a bug if someone use an older version of aMSNPlus
-			::amsnplus::add_command showsong ::music::exec_show_command 0 1
-			::amsnplus::add_command sendsong ::music::exec_send_command 0 1
+			catch {::amsnplus::add_command showsong ::music::exec_show_command 0 1}
+			catch {::amsnplus::add_command sendsong ::music::exec_send_command 0 1}
 		}
 	}
 	
