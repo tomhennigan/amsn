@@ -3383,7 +3383,6 @@ proc cmsn_change_state {recv} {
 		set substate "FLN"
 		set epvar(substate) "FLN"
 		set msnobj [::abook::getVolatileData $user msnobj ""]
-		set epvar(state) ""
 		::plugins::PostEvent ChangeState epvar
 	} elseif {[lindex $recv 0] == "ILN"} {
 		#Initial status
@@ -3402,16 +3401,20 @@ proc cmsn_change_state {recv} {
 		set epvar(nick) [urldecode [lindex $recv 3]]
 		set substate [lindex $recv 1]
 		set epvar(substate) [lindex $recv 1]
-		set epvar(prevstate) [lindex $recv 0]
 		set msnobj [urldecode [lindex $recv 5]]
+		#Detect if client use Web Messenger from Microsoft http://webmessenger.msn.com
+		if { [lindex $recv 4] == "512" } {
+			::abook::setContactData $user clientname "Web Messenger"
+		}
+		#Send plugin's postevent
 		::plugins::PostEvent ChangeState epvar
+	
 	}
 	
 	if { $msnobj == "" } {
 		set msnobj -1
 	}
 
-	
 	if {$user_name == ""} {
 		set user_name [::abook::getNick $user]
 	}
