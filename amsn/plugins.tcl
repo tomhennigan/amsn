@@ -1465,7 +1465,7 @@ namespace eval ::plugins {
 	proc UpdateFiles { plugin path files place URL } {
 
 		global HOME HOME2
-
+		
 		set program_dir [set ::program_dir]
 		
 		set w ".updatelangplugin"
@@ -1652,11 +1652,8 @@ namespace eval ::plugins {
 					} else {
 						set version [lindex $::plugins::plgfile $id]
 					}
-					if { [::plugins::DetectNew $version $onlineversion] } {
-					
-						set file [file join $path $file]
-						
-						if { ![file writable $file] } {
+					if { [::plugins::DetectNew $version $onlineversion] } {						
+						if { ![file writable [file join $path $file]] } {
 							set protected 1
 						} else {
 							set filelist [lappend filelist "$file" "$onlineversion"]
