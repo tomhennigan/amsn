@@ -1183,15 +1183,15 @@ namespace eval ::amsn {
       	set first 0
 	while { [expr $first + 400] <= [string length $msg] } {
 		set msgchunk [string range $msg $first [expr $first + 399]]
-		set ackid [after 50000 ::amsn::DeliveryFailed $chatid [list $msgchunk]]
+		set ackid [after 60000 ::amsn::DeliveryFailed $chatid [list $msgchunk]]
 		::MSN::messageTo $chatid "$msgchunk" $ackid
 		incr first 400
 	}
 	set msgchunk [string range $msg $first end]
-	set ackid [after 50000 ::amsn::DeliveryFailed $chatid [list $msgchunk]]
+	set ackid [after 60000 ::amsn::DeliveryFailed $chatid [list $msgchunk]]
 	::MSN::messageTo $chatid "$msgchunk" $ackid
       } else {
-      	set ackid [after 50000 ::amsn::DeliveryFailed $chatid [list $msg]]
+      	set ackid [after 60000 ::amsn::DeliveryFailed $chatid [list $msg]]
       	#::MSN::chatQueue $chatid [list ::MSN::messageTo $chatid "$msg" $ackid]
       	::MSN::messageTo $chatid "$msg" $ackid
       }
