@@ -41,8 +41,9 @@ checkver Controleer of er een nieuwe versie is
 choosebasefont Lettertype
 choosebgcolor Achtergrondkleur
 choosefontcolor Kies tekstkleur
+clearlog Logboek leegmaken
 clicktologin Klik hier om in te loggen
-close Sluiten 
+close Sluiten
 closingdocks Sluit venster
 command Programma
 confirmdelete Wilt u echt $1 verwijderen?
@@ -93,6 +94,7 @@ hebben
 helpcontents Help inhoud
 help Help
 hij mij kan contacteren
+history Geschiedenis
 home Thuis
 ident Bezig met identificeren
 identity Identiteit
@@ -105,12 +107,20 @@ ipadress IP adres
 istyping $1 is bezig met typen
 joins $1 neemt deel aan conversatie
 keepalive Hou verbinding in stand
+keeplog Bewaar logboek van chatgesprekken
 language Taal
 lastmsgtime Laatste bericht ontvangen om $1
+lclosedwin $1 heeft het venster gesloten op $2
+lconftopriv Vergadering veranderde in privechat met $1
+lconvstarted Conversatie gestart op $1
 leaveblankforhotmail Laat leeg voor gebruiken van Hotmail web
 leaves $1 verlaat conversatie
+lenteredconf $1 betrad de vergadering op $2
+linprivate IN PRIVE
 listeningon Bezig met luisteren op poort $1
 listsmileys Toon smileys in lijst
+ljoinedconf $1 nam deel aan de vergadering
+lleftconf $1 heeft de vergadering verlaten
 loadcontacts Bezig met laden van de contactenlijst
 loggedotherlocation U bent reeds aangemeld
 loggingin Bezig met inloggen
@@ -118,23 +128,27 @@ loginas Inloggen als
 login Log In
 logout Log Uit
 logsin heeft zojuist ingelogd
+lprivtoconf Privechat veranderde in vergadering met $1
+luclosedwin Je hebt het venster gesloten op $1
 mailer Mail client
 mobile GSM
 movetogroup Verplaats naar groep
 msg Bericht
 msn AMSN
-mustrestart Je moet het programma herstarten voordat de veranderingen effect 
+mustrestart Je moet het programma herstarten voordat de veranderingen effect
 mystatus Mijn status
 natip   IP detectie via website
-needonline Je bent offline (of doet alsof)  
-newmail $1 nieuwe berichten 
+needonline Je bent offline (of doet alsof)
+newmail $1 nieuwe berichten
 newmailfrom Nieuwe email van
 newmsg Nieuw bericht
 newveravailable Nieuwere versie $1 beschikbaar
 next Volgende
 noactivity Geen activiteit
+nologfile Geen logboek voor $1
 nonewmail 0 nieuwe berichten in In-Box
 nonewver Er zijn geen nieuwere versies beschikbaar
+normal Normaal
 notify Licht in
 notifywin Inlichtingenvenster
 nousersinsession Geen gebruiker in sessie
@@ -146,6 +160,7 @@ onphone Aan de telefoon
 openreceived Open ontvangen bestanden
 options Opties
 ordercontactsby Sorteer contacten op
+ordergroupsby Sorteer groepen op
 other Andere
 pager Beeper
 pass Paswoord
@@ -167,10 +182,12 @@ reconnecting Bezig met opnieuw verbinden met de server
 reconnect Wachten tot $1 opnieuw verbindt
 reject Afwijzen
 rememberpass Bewaar wachtwoord
+reversed Omgekeerd
 rightback Ben zo terug
 saveas Opslaan als
 savecontacts Contactenlijst opslaan
 save Opslaan
+savetofile Bestand opslaan
 says $1 zegt
 sbcon Bezig met verbinden met Switch Board
 sendfile Verzend een bestand
