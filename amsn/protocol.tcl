@@ -986,7 +986,7 @@ namespace eval ::MSN {
 
 	proc blockUser { userlogin username} {
 	::MSN::WriteSB ns REM "AL $userlogin"
-	::MSN::WriteSB ns ADD "BL $userlogin $userlogin"
+	::MSN::WriteSB ns ADD "BL $userlogin $username"
 	}
 
 	proc unblockUser { userlogin username} {

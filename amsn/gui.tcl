@@ -479,7 +479,7 @@ namespace eval ::amsn {
 
 		set answer [tk_messageBox -message "[trans confirm]" -type yesno -icon question -title [trans block] -parent $parent]
 		if {$answer == "yes"} {
-		set name [::abook::getNick ${user_login}]
+			set name [::abook::getNick ${user_login}]
 			::MSN::blockUser ${user_login} [urlencode $name]
 		}
 	}
