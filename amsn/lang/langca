@@ -134,7 +134,7 @@ lastmsgtime Últim missatge rebut a les $1
 lclosedwin $1 ha tancat la finestra a les $2
 lconftopriv La conversa múltiple canvia a conversa privada amb $1
 lconvstarted Conversa iniciada a les $1
-leaveblankforhotmail (deixa-ho en blanc per utilitzar hotmail)
+leaveblankforhotmail Deixa-ho en blanc per utilitzar hotmail
 leaves $1 deixa la conversa
 lenteredconf $1 s'uneix a la canversa a les $2
 linprivate EN PRIVAT
@@ -262,6 +262,7 @@ server Servidor
 session Sessió
 sound2 Reprodueix sons quan els contactes es connectin o enviïn missatges
 sound So en un event
+soundcommand La comanda per reproduir el so (ex: esdplay)
 soundfile Fitxer de so de l'alarma
 soundloop Reproducció contínua del so
 soundserver Servidor de so

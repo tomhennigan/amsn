@@ -263,6 +263,7 @@ server Serveur
 session Session
 sound2 Jouer un son quand un contact se connecte ou quand un message est reçu
 sound Événements Sonores
+soundcommand Ceci est la commande de lecture de sons (ex: esdplay)
 soundfile Fichier son associé à l'alarme
 soundloop Jouer le son en boucle
 soundserver Serveur de Sons
