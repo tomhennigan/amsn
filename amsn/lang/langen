@@ -185,7 +185,6 @@ editvalue Edit value
 email Email
 emailsinlist Show emails instead of nicknames in the contact list
 emotisounds Play sounds for certain emoticons
-enablebanner Show aMSN's banner
 enabled Enabled
 enableproxy Enable proxy
 enableremote Enable remote controlling
@@ -336,6 +335,7 @@ myworkphone My Work Phone
 natip IP detection by web page 
 natkeepalive If you are getting disconnected regularly, enable this KeepAlive
 needonline You still are/appear offline!
+needwinico Need winico03.dll in plugins directory for windows traydocking to work
 never Never
 newmail $1 new messages in Inbox
 newmailfrom New mail from $1 ($2)
@@ -472,6 +472,7 @@ servergoingdown Disconnected: Server is going down
 server Server
 serverunavailable Server is unavailable
 session Session
+showbanner Show aMSN's banner
 showblockedlist Show list of people who blocked you
 showcachedpics Show cached display pictures
 showdisplaypic2 Show Display Picture by default when a chat window is opened

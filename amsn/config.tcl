@@ -173,7 +173,7 @@ proc ConfigDefaults {} {
 		[list local emailsincontactlist bool emailsinlist] \
 		[list local leavejoinsinchat bool leavejoinsinchat] \
 		[list local animatenotify bool animatenotify] \
-		[list local enablebanner bool enablebanner] \
+		[list local enablebanner bool showbanner] \
 		[list local truncatenames bool truncatenames1] \
 		[list local truncatenicks bool truncatenames2] \
 		[list local showtimestamps bool timestamps] \
