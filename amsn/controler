@@ -14,7 +14,7 @@ proc readsocket { } {
 	connect "Amsn server closed"
     } elseif { $response != "" } {
 #	puts "$response"
-	set response [string map { \; \\\; \" \\\" \[ \\\[ \] \\\] \: \\\: \\ \\\\ \* \\\* kl klawi \? \\\?} $response]
+	set response [string map { \; \\\; \" \\\" \[ \\\[ \] \\\] \: \\\: \\ \\\\ \* \\\* \? \\\?} $response]
 	set colour [lindex "$response" end]
 	set response [string map [list "$colour" ""]  $response]
 	set response [string map { \\\\ "^[SLASHCAR]^"} $response]
@@ -35,7 +35,7 @@ proc writesocket { } {
     .controler.res.txt insert end "\n$command\n" command
     .controler.res.txt yview moveto 1.0
 
-    set command [string map { \; \\\; \" \\\" \[ \\\[ \] \\\] \: \\\: \\ \\\\ \* \\\* kl klawi \? \\\?} $command]
+    set command [string map { \; \\\; \" \\\" \[ \\\[ \] \\\] \: \\\: \\ \\\\ \* \\\* \? \\\?} $command]
  #   set command [join $command]
 
 
