@@ -3725,15 +3725,6 @@ proc save_contact_list { } {
 	}
     } 
 
-#     if {[file readable "[file join ${HOME} contacts.xml]"] == 0} {
-# 	set file_id [open "[file join ${HOME} contacts.xml]" w]
-	
-# 	puts $file_id "<?xml version=\"1.0\"?>"
-# 	close $file_id
-#     }
-
-
-
 
     set file_id [open "[file join ${HOME} contacts.ver]" w]
     

@@ -26,7 +26,11 @@ proc StartLog { email } {
 		LogArray $email set 0
 	} else {
 		LogArray $email set [open "[file join ${log_dir} ${email}.log]" a+]
+	    if { $config(lineflushlog) == 1 } {
+		fconfigure [LogArray $email get] -buffering none -encoding utf-8 
+	    } else {
 		fconfigure [LogArray $email get] -buffersize 1024 -encoding utf-8
+	    }
 	}
 }
 
