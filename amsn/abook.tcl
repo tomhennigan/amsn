@@ -620,9 +620,12 @@ namespace eval ::abookGui {
 		
 		NoteBook $w.nb
 		$w.nb insert 0 userdata -text [trans userdata]
-		$w.nb insert 1 alarms -text [trans alarms]
+		$w.nb insert 1 notify -text [trans notifywin]
+		$w.nb insert 2 alarms -text [trans alarms]
 		
+		##############
 		#Userdata page
+		##############
 		set nbIdent [$w.nb getframe userdata]
 		ScrolledWindow $nbIdent.sw
 		set sw $nbIdent.sw
@@ -761,8 +764,34 @@ namespace eval ::abookGui {
 		
 		pack $sw -expand true -fill both
 		
+		##############
+		#Notify page
+		#############
+		set nbIdent [$w.nb getframe notify]
+		ScrolledWindow $nbIdent.sw
+		pack $nbIdent.sw -expand true -fill both
+		ScrollableFrame $nbIdent.sw.sf
+		$nbIdent.sw setwidget $nbIdent.sw.sf
+		set nbIdent [$nbIdent.sw.sf getframe]
 		
+		label $nbIdent.default -font sboldf -text "*" -justify center
+		label $nbIdent.yes -font sboldf -text [trans yes] -justify center
+		label $nbIdent.no -font sboldf -text [trans no] -justify center
+		
+		AddOption $nbIdent nofifonline caca [trans custnotifyonline] 1
+		AddOption $nbIdent nofifoffline caca [trans custnotifyoffline] 2
+		AddOption $nbIdent nofifstatus caca [trans custnotifystatus] 3
+		AddOption $nbIdent nofifmsg caca [trans custnotifymsg] 4
+		
+		grid $nbIdent.default -row 0 -column 0 -sticky we -padx 5
+		grid $nbIdent.yes -row 0 -column 1 -sticky we -padx 5
+		grid $nbIdent.no -row 0 -column 2 -sticky we -padx 5
+		
+
+			
+		##############
 		#Alarms frame
+		##############
 		set nbIdent [$w.nb getframe alarms]
 		ScrolledWindow $nbIdent.sw
 		pack $nbIdent.sw -expand true -fill both
@@ -772,6 +801,9 @@ namespace eval ::abookGui {
 		
 		::alarms::configDialog $email $nbIdent
 		
+		##########
+		#Common
+		##########
 		$w.nb compute_size
 		[$w.nb getframe userdata].sw.sf compute_size
 		[$w.nb getframe alarms].sw.sf compute_size
@@ -789,18 +821,25 @@ namespace eval ::abookGui {
 		pack $w.nb -expand true -fill both -side bottom -padx 3 -pady 3
 		#pack $w.nb
 	}
+	
+	proc AddOption { nbIdent name var text row} {
+		radiobutton $nbIdent.${name}_default -value -1 -variable $var
+		radiobutton $nbIdent.${name}_yes -value 1 -variable $var
+		radiobutton $nbIdent.${name}_no -value 0 -variable $var
+		label $nbIdent.${name} -font splainf -text $text -justify left
+		
+		grid $nbIdent.${name}_default -row $row -column 0 -sticky we
+		grid $nbIdent.${name}_yes -row $row -column 1 -sticky we
+		grid $nbIdent.${name}_no -row $row -column 2 -sticky we
+		
+		grid $nbIdent.${name} -row $row -column 3 -sticky w
+	}
 
 	
 	proc ChangeColor { email w } {
 		global colorval_$email
 		set color  [SelectColor $w.customcolor.dialog  -type dialog  -title "[trans customcolor]" -parent $w]
 		if { $color == "" } { return }
-
-#		if { [string length $color ] > 7 } {
-	#		set color "\#[string range $color 7 end]"
-		#} else {
-			#set color [string range $color 0 6]
-		#}
 
 		set colorval_$email $color
 		$w.customcolorf.col configure -background [set colorval_${email}] -highlightthickness 1 
@@ -813,21 +852,22 @@ namespace eval ::abookGui {
 		$w.customcolorf.col configure -background [$w.customcolorf cget -background] -highlightthickness 0
 	}
 
-   proc PropOk { email w } {
-	   global colorval_$email
-   	if {[::alarms::SaveAlarm $email] != 0 } {
-		return
+	proc PropOk { email w } {
+		global colorval_$email
+		
+		if {[::alarms::SaveAlarm $email] != 0 } {
+			return
+		}
+	
+		set nbIdent [$w.nb getframe userdata]
+		set nbIdent [$nbIdent.sw.sf getframe]
+		::abook::setContactData $email customnick [$nbIdent.customnick.ent get]
+		::abook::setContactData $email customcolor [set colorval_$email]
+		destroy $w
+		unset colorval_$email
+		::MSN::contactListChanged
+		cmsn_draw_online
+		::abook::saveToDisk
 	}
-
-	set nbIdent [$w.nb getframe userdata]
-	set nbIdent [$nbIdent.sw.sf getframe]
-   	::abook::setContactData $email customnick [$nbIdent.customnick.ent get]
-        ::abook::setContactData $email customcolor [set colorval_$email]
-   	destroy $w
-	unset colorval_$email
-	::MSN::contactListChanged
-	cmsn_draw_online
-	::abook::saveToDisk
-   }
          
 }
