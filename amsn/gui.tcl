@@ -4009,11 +4009,13 @@ proc launch_browser { url } {
 
 		#regsub -all -nocase {htm} $url {ht%6D} url
 		regsub -all -nocase {&} $url {^&} url
-    		exec rundll32 url.dll,FileProtocolHandler $url &
+    		catch { exec rundll32 url.dll,FileProtocolHandler $url & } res
 
   	} else {
 
-		eval exec $config(browser) [list $url] &
+		if { [catch {eval exec $config(browser) [list $url] &} res ] } {
+		   ::amsn::errorMsg "[trans cantexec $config(browser)]"
+		}
 
 	}
 
@@ -4033,7 +4035,9 @@ proc launch_filemanager {location} {
     msg_box "[trans checkfilman $location]"
   } else {
     lappend fileman $location
-    eval exec [lindex $fileman 0] [lrange $fileman 1 end] &
+    if {[catch {eval exec [lindex $fileman 0] [lrange $fileman 1 end] &} res]} {
+       ::amsn::errorMsg "[trans cantexec $fileman]"
+    }
   }
 
 }
@@ -4059,7 +4063,9 @@ proc launch_mailer {user_login} {
      return 0
   }
 
-  eval exec $config(mailcommand) $mail_param &
+  if { [catch {eval exec $config(mailcommand) $mail_param &} res]} {
+     ::amsn::errorMsg "[trans cantexec $config(mailcommand)]"
+  }
   return 0
 }
 #///////////////////////////////////////////////////////////////////////

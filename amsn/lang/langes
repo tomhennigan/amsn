@@ -54,6 +54,7 @@ browser Navegador
 busy No disponible
 cancel Cancelar
 cannotdeleteprofile No se puede borrar este perfil porque parece que está siendo usado por otra sesión de amsn
+cantexec No se puede ejecutar la aplicación: $1. Comprueba las preferencias
 cfgalarm Configurar/quitar alarma
 changefont Cambiar fuente
 changenick Cambiar apodo
@@ -345,6 +346,7 @@ syntaxerror Error de sintaxis
 tabbed Ventanas con solapas
 textsize Tamaño del texto
 title Al's Messenger
+tooltips Activar globos de ayuda
 tools Herramientas
 to Para
 transnotexists El archivo solicitado no se encuentra traducido a su idioma.

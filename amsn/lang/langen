@@ -53,6 +53,7 @@ browser Browser
 busy Busy
 cancel Cancel
 cannotdeleteprofile Cannot delete profile because it seems to be in use by an Amsn session
+cantexec Can't execute applicattion: $1. Check preferences
 cfgalarm Configure/Add/Remove Alarm
 changefont Change font
 changenick Change nick
@@ -344,9 +345,9 @@ syntaxerror Syntax Error
 tabbed Tabbed Windows
 textsize Text size
 title Al's Messenger
-to To
 tools Tools
 tooltips Enable tooltips
+to To
 transnotexists The requested file has not been translated into the current language yet.
 traynotcompiled Tray icon plugin is not complied. Check plugins/traydock
 twonewmail $1 new messages in Inbox
