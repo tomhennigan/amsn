@@ -607,7 +607,7 @@ namespace eval ::amsn {
 
 			#Calculate a random cookie
 			set cookie [expr {([clock clicks]) % (65536 * 8)}]
-			set txt "[trans ftsendinvitation [::abook::getDisplayNick $chatid] $filename [sizeconvert $filesize]]"
+			set txt "[trans ftsendinvitation [::abook::getDisplayNick $chatid] $filename [::amsn::sizeconvert $filesize]]"
 
 			status_log "Random generated cookie: $cookie\n"
 			WinWrite $chatid "\n" green
@@ -709,7 +709,7 @@ namespace eval ::amsn {
 		}
 
 		set fromname [::abook::getDisplayNick $dest]
-		set txt [trans ftgotinvitation $fromname '$filename' [sizeconvert $filesize] $files_dir]
+		set txt [trans ftgotinvitation $fromname '$filename' [::amsn::sizeconvert $filesize] $files_dir]
 		set win_name [::ChatWindow::MakeFor $chatid $txt $dest]
 		WinWrite $chatid "\n" green
 		WinWriteIcon $chatid greyline 3
@@ -755,7 +755,7 @@ namespace eval ::amsn {
 		}
 
 		set fromname [::abook::getDisplayNick $fromlogin]
-		set txt [trans ftgotinvitation $fromname '$filename' [sizeconvert $filesize] $files_dir]
+		set txt [trans ftgotinvitation $fromname '$filename' [::amsn::sizeconvert $filesize] $files_dir]
 
 		set win_name [::ChatWindow::MakeFor $chatid $txt $fromlogin]
 
@@ -1065,10 +1065,10 @@ namespace eval ::amsn {
 
 				if {$mode == "r"} {
 					$w.progress configure -text \
-						"[trans receivedbytes [sizeconvert $bytes] [sizeconvert $filesize]] ($rate KB/s)"
+						"[trans receivedbytes [::amsn::sizeconvert $bytes] [::amsn::sizeconvert $filesize]] ($rate KB/s)"
 				} elseif {$mode == "s"} {
 					$w.progress configure -text \
-						"[trans sentbytes [sizeconvert $bytes] [sizeconvert $filesize]] ($rate KB/s)"
+						"[trans sentbytes [::amsn::sizeconvert $bytes] [::amsn::sizeconvert $filesize]] ($rate KB/s)"
 				}
 				$w.time configure -text "[trans timeremaining] :  $timeleft"
 

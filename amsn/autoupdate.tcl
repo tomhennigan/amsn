@@ -226,7 +226,7 @@ namespace eval ::autoupdate {
 			return
 		}
 		::dkfprogress::SetProgress .tlsprogress.prbar [expr {$current*100/$total}]
-		.tlsprogress.progress configure -text "[trans receivedbytes [sizeconvert $current] [sizeconvert $total]]"
+		.tlsprogress.progress configure -text "[trans receivedbytes [::amsn::sizeconvert $current] [::amsn::sizeconvert $total]]"
 
 	}
 
