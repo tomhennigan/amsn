@@ -80,9 +80,8 @@ proc hotmail_procmsg {msg} {
 	    status_log "Hotmail: New mail from $from - $fromaddr\n"
 	    set unread [expr {$unread + 1}]
 	    
-	    cmsn_notify_add [trans newmailfrom]\n$from\n($fromaddr) \
-	      "hotmail_viewmsg $msgurl $config(login) $password"
-	    sonido newemail
+            ::amsn::notifyAdd "[trans newmailfrom]\n$from\n($fromaddr)" \
+	      "hotmail_viewmsg $msgurl $config(login) $password" newemail
 	    cmsn_draw_online
 
 	  } 
