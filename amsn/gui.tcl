@@ -1341,18 +1341,24 @@ namespace eval ::amsn {
 
 
 	#///////////////////////////////////////////////////////////////////////////////
-	# userJoins (charid, user_login)
+	# userJoins (chatid, user_name)
 	# called from the protocol layer when a user JOINS a chat
 	# It should be called after a JOI in the switchboard.
 	# If a window exists, it will show "user joins conversation" in the status bar
 	# - 'chatid' is the chat name
-	# - 'usr_login' is the user that joins email
+	# - 'usr_name' is the user that joins email
 	proc userJoins { chatid usr_name } {
 
 
 		set win_name [::ChatWindow::For $chatid]
+
 		if { $win_name == 0 && [::config::getKey newchatwinstate]!=2 } {
 			set win_name [::ChatWindow::MakeFor $chatid "" $usr_name]
+
+			# PostEvent 'new_conversation' to notify plugins that the window was created
+			set evPar(chatid) $chatid
+			set evPar(usr_name) $usr_name
+			::plugins::PostEvent new_conversation evPar
 		}
 
 		if { $win_name != 0 } {
@@ -2358,6 +2364,12 @@ namespace eval ::amsn {
 			set win_name [::ChatWindow::Open]
 			::ChatWindow::SetFor $lowuser $win_name
 			set ::ChatWindow::first_message($win_name) 0
+			set chatid [::MSN::chatTo $lowuser]
+
+			# PostEvent 'new_conversation' to notify plugins that the window was created
+			set evPar(chatid) $chatid
+			set evPar(usr_name) $user
+			::plugins::PostEvent new_conversation evPar
 		}
 
 		set chatid [::MSN::chatTo $lowuser]
