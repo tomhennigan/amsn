@@ -692,6 +692,9 @@ namespace eval ::abookGui {
 		entry $nbIdent.ycustomfnick.ent -font splainf -bg white
 		menubutton $nbIdent.ycustomfnick.help -font sboldf -text "<-" -menu $nbIdent.ycustomfnick.help.menu
 		menu $nbIdent.ycustomfnick.help.menu -tearoff 0
+		$nbIdent.ycustomfnick.help.menu add command -label [trans nick] -command "$nbIdent.ycustomfnick.ent insert insert \\\$nick"
+		$nbIdent.ycustomfnick.help.menu add command -label [trans email] -command "$nbIdent.ycustomfnick.ent insert insert \\\$user_login"
+		$nbIdent.ycustomfnick.help.menu add separator
 		$nbIdent.ycustomfnick.help.menu add command -label [trans delete] -command "$nbIdent.ycustomfnick.ent delete 0 end"
 		$nbIdent.ycustomfnick.ent insert end [::abook::getContactData $email cust_p4c_name]
 		pack $nbIdent.ycustomfnick.ent -side left -expand true -fill x

@@ -2653,7 +2653,7 @@ namespace eval ::amsn {
 			set nick $friendlyname
 			set p4c 1
 		} elseif { [::abook::getContactData [ChatFor $win_name] cust_p4c_name] != ""} {
-			set friendlyname [::abook::getContactData [ChatFor $win_name] cust_p4c_name]
+			set friendlyname [::abook::parseCustomNick [::abook::getContactData [ChatFor $win_name] cust_p4c_name] [::abook::getPersonal nick] [::abook::getPersonal login] ""]
 			set nick $friendlyname
 			set p4c 1
 		} elseif { [::config::getKey p4c_name] != ""} {
