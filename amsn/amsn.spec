@@ -64,7 +64,6 @@ if test -x /usr/bin/update-menus; then /usr/bin/update-menus; fi
 /usr/share/amsn/amsn
 /usr/share/amsn/uninstall.sh
 /usr/share/amsn/abook.tcl
-/usr/share/amsn/changelog
 /usr/share/amsn/checkver.tcl
 /usr/share/amsn/config.tcl
 /usr/share/amsn/ctadverts.tcl
