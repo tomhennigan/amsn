@@ -6072,6 +6072,7 @@ proc amsn_save { url token } {
 				.update.q configure -text "Installation complete: $shell"
 			}
 			cd $old_dir 
+		}
 	}
 }
 
