@@ -77,8 +77,8 @@ dcprofile Don't Create Profile
 default Default Config
 delete Delete
 deliverfail There was a problem delivering the following message
-delprofile Delete Profile
 delprofile2 Select the Profile that you would like to have removed 
+delprofile Delete Profile
 dockgtk Gnome Dock
 docking Docking
 dockingoff Docking Off
@@ -226,8 +226,8 @@ prefname My MSN Messenger Name/NickName
 prefphone2 Type the phone numbers that you would like people \n on your Allow List to see \n
 prefphone My Phone Numbers
 prefprofile2 Create or Modify your public profile (the \n description of yourself that others can see)
-prefprofile My Public Profile
 prefprofile3 aMSN's User Configuration Profiles
+prefprofile My Public Profile
 prefproxy My Proxy Settings
 prefsession My Sign In and Status
 prefshared Shared Connections (only for NAT)
@@ -262,8 +262,8 @@ servergoingdown Disconnected: Server is going down
 server Server
 session Session
 sound2 Play sounds when contacts sign in or send a message
-sound Event Sound'
 soundcommand This has to be the play command (ex: esdplay)
+sound Event Sound'
 soundfile Sound File
 soundloop Loop Sound
 soundserver Sound Server

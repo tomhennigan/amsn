@@ -13,15 +13,24 @@ adverts reklamlar
 alarmpref Kullanicinin alarm ayarlari
 alarmstatus Bu kullanici için alarmi aç/kapa
 allowseen Bu kisi ben çevrimiçiyken beni görebilsin ve bana yazabilsin
+appearance Görünüs
 appearoff Çevrimdisi görün
+areacode Alan kodu
 aretyping $1 ileti yaziyor
+askprofile Bu kullanici icin profil olusturulmamis. Yeni profil olusturmak ister misiniz? \n Eger olusturmazsaniz Geçmis özelligini kullanamaz, alarm ve sifreleri kaydedemezsiniz. Eger olusturursaniz bu yeni profilin ayri ayarlari olacaktir. \n \n $1 icin yeni profil olusturmak istiyorsaniz "Profil olustur"a tiklayiniz.
+autoaway Bu sure kadar eylemsiz kalirsam beni disarida goster
+autoconnect2 aMSN baslayinca kendiliginden baglan
 autoconnect Açilista kendiliginden baglan
 autohotmaillog Hotmail'e otomatik giris
 autoidle Otomatik EtkinlikYok özelligi 
 autoip Otomatik IP
+autonoact Bu sure kadar eylemsiz kalirsam "Etkinlik yok" goster
 avoidseen Bu kisi ben çevrimiçiyken beni göremesin ve bana yazamasin
-away Uzakta
+away Disarida
+awaymsg1 Durumumu Disarida/Hemen Dönecek/Mesgul'e her çevirdigimde birakacagim notu sor
+awaymsg2 Hiçbir zaman sorma ve asagidaki notu kullan
 baduserpass Yanlis kullanici ismi ya da sifresi
+bgcolor aMSN'in arkaplan rengini degistir
 blankdirect Dogrudan baglanti için bos birakin
 blocked Engellenmis
 block Engelle
@@ -31,16 +40,22 @@ browser internet tarayici
 busy Mesgul
 cancel Iptal Et
 cfgalarm Alarmi Düzenle/Ekle/Kaldir
+changefont Yazitipi degistir
 changenick Kullanici adi degistir
 chatack Sohbet istemi kabul edilen kisi
 chatreq Sohbet istemi
+chatsmileys2 Sohbet penceresinde gülen adamlar görünsün
 chatsmileys Gülen adamlar
 chat Sohbet et
+checkfilman Alinan dosyalar $1 konumuna kaydedilecek. Lütfen seçenekler penceresinde dosya yöneticisi ayarlarini yapiniz. 
 checkingver Yeni sürüm araniyor
 checkver Yeni sürüm ara
 choosebasefont Yazitipini seç
 choosebgcolor Arkaplan rengini seç
 choosefontcolor Yazi rengini seç
+clearlog2 Tüm baglantilarin Geçmisini sil
+clearlog3 Tüm sohbet kayitlarini sil
+clearlog Sohbet kaydini sil
 clicktologin Baglanmak için tiklayin
 close Kapat
 closingdocks Kapatma tusu küçültsün
@@ -48,21 +63,31 @@ command komut
 confirmdelete $1 i silmek istediginizden emin misiniz?
 confirm Emin misiniz?
 connecterror Sunucuya baglanirken hata olustu
+connection Baglanti
 contactadded Baglanti eklendi
 contactdoesnotexist Böyle bir baglanti yok!
 copy Kopyala
 copytogroup Gruba kopyala
+countrycode Ülke/Bölge kodum
+cprofile Profil olustur
 cut Kes
 date Tarih
+days Gün
+dcprofile Profil olusturma
+default Varsayilan ayar
 delete Sil
 deliverfail Asagidaki iletinin gönderilmesinde hata olustu
+delprofile2 Sileceginiz profili seçiniz
+delprofile Profili sil
 dockgtk Gnome'da küçültme
 docking Küçültme
 dockingoff Küçültme olsun
 dockkde KDE'de küçültme
 edit Düzenle
+editprofile Profili düzenle
 enableproxy proxy ayarlarini etkinlestir
-encoding Dil seçimi
+encoding2 Alfabe degistirin
+encoding Alfabe seçimi
 entercontactemail Baglantinin e-posta adresini girin
 enterfilename Lütfen bir dosya adi girin
 enternick Kullanici adinizi girin
@@ -71,6 +96,7 @@ exitamsn Çikmak istediginizden emin misiniz?
 extras Ek Hizmetler
 faq SYS (Sikça Yanitlanan Sorular)
 filedoesnotexist Dosya bulunamadi
+fileman Dosya yöneticisi
 filename Dosya adi
 filetransfercancelled Dosya aktarimi iptal edildi
 filetransfercomplete Dosya aktarimi tamamlandi
@@ -90,6 +116,7 @@ groupunknown Bilinmeyen grup
 handle Isim
 helpcontents Yardim içerigi
 help Yardim
+history Geçmisi göster
 home Ev
 identity Kimlik
 ident Kimlik denetleniyor
@@ -97,30 +124,57 @@ inbox Gelen kutusu
 invalidusername Geçersiz kullanici ismi
 invite Davet et
 ipaddress IP adresi
+ipdetect HTTP dosya aktarimlari icin dogru IP'yi belirle
 istyping $1 ileti yaziyor
 joins $1 sohbete katiliyor
 keepalive Canli tut (NAT)
+keeplog2 Daha sonra bakmak icin tüm sohbetleri Geçmis'e kaydet
+keeplog Sohbetlerin kaydini tut
 language Dil
 lastmsgtime Son iletinin alindigi zaman: $1
+lclosedwin $1 $2'de penceresini kapatti
+lconftopriv $1 ile sohbet özel görüsmeye çevrildi
+lconvstarted Sohbetin baslama saati $1
 leaveblankforhotmail Hotmail sayfasini kullanmak istiyorsaniz bos birakin
 leaves $1 sohbetten ayriliyor
+lenteredconf $1 $2'de bir konferansa katildi
+linprivate ÖZEL
 listeningon $1. port dinleniyor
+listsmileys2 Baglanti listesinde gülen adamlar görünsün
 listsmileys Gülen adamlari listele
+ljoinedconf $1 konferansa katildi
+lleftconf $1 konferanstan ayrildi
 loadcontacts Baglanti listesi yükle
+logbigger Her baglanti icin kayit dosyasi boyutu ust siniri
+logfandexp Kayit dosya boyutlari ve Geçmis kayitlarinin silinme zamani 
 loggedotherlocation Baska bir yerden baglandiginiz için baglanti kesildi
 loggingin Baglaniyor
 loginas Kullanici ismi seç
 login Baglan
+loging Kayda geçirme
+logolder Yalniz bu sure oncesine kadar yapilan sohbetlerin kaydini tut
 logout Baglantiyi kes
 logsin baglandi
+logsmileys Geçmis penceresinde gülen adamlar görünsün
+lprivtoconf $1 ile özel görüsme konferansa çevrildi
+luclosedwin $1 de pencereyi kapadiniz
 mailer E-posta uygulamasi
+maximised Büyütülmüs
+minimised Küçültülmüs
+mins dakika
 mobile Cep
 movetogroup Baska gruba tasi
 msg Ileti
+msgmaxmin Yeni ileti geldiginde söyle olsun:
+msgmode Birden çok pencereyi nasil düzenleyeceginizi belirleyin:
 msn AMSN
 mustrestart Yeniliklerin etkinlesmesi için uygulamayi yeniden baslatmalisiniz
+myhomephone Ev telefonum
+mymobilephone Cep telefonum
 mystatus Durumum
+myworkphone Ev telefonum
 natip Internet sayfasindan IP belirlenmesi
+natkeepalive Eger baglantiniz sürekli kopuyorsa, Canli tut secenegini isaretleyiniz
 needonline Hala çevrimdisi görünüyorsunuz!
 newmailfrom Yeni ileti gönderen:
 newmail Gelen kutunuzda $1 yeni ileti var
@@ -128,8 +182,14 @@ newmsg Yeni ileti
 newveravailable Yeni $1 sürümü indirilmeye hazir
 next sonraki
 noactivity Etkinlik yok
+nologfile $1 ile sohbet kaydi yok
 nonewmail Gelen kutusunda yeni ileti yok 
 nonewver Daha yeni bir sürüm yok
+normal normal
+notify1 Baglantilar girince uyari penceresi göster
+notify2 Yeni ileti gelince uyari penceresi göster
+notify3 Yeni e-posta iletisi uyari penceresi göster
+notifyoffset Uyari penceresinin konumunu giriniz
 notify uyar
 notifywin Uyari Penceresi
 nousersinsession Ortamda kullanici yok
@@ -141,18 +201,41 @@ onphone Telefonda
 openreceived Alinan dosyalari göster
 options Seçenekler
 ordercontactsby Baglantilari siralama ölçütü
+ordergroupsby Gruplari siralama ölçütü
 other Diger
 pager Çagri cihazi
 pass sifre
 paste Yapistir
+personal Kisisel
 phone Telefon
 picfile Alarm resmi dosyasi (GIF < 500 x 500)
 picstatus Resimli alarmi aç/kapa
 port Port
+prefalerts Alarmlarim ve Seslerim
 prefapps Uygulamalar
+prefawaymsg Disaridayken birakacagim not
+prefemotic Gülen adamlar
 preferences Seçenekler
+preffont2 Yazitipim digerlerine daha baska gözüksün
+preffont3 aMSN'in arayüz yazitipi ve metin boyutunu degistir
+preffont Ileti yazitipim
+preflog1 Geçmis ve sohbet kayit seçeneklerim
+preflook aMSN'imin görünüsü
+prefmsging Ileti arayüzüm
+prefname MSN Messenger adim/rumuzum
+prefphone2 Izin verdiginiz kisilerin görmesini \n istediginiz telefon numaralarini girin
+prefphone Telefon numaralarim
+prefprofile2 Aç	ik profilinizi (digerlerinin \n görecegi bilgiler) yaratin/degistirin
+prefprofile3 aMSN kullanici ayar profili
+prefprofile Açik profilim 
+prefproxy proxy ayarlarim
+prefsession Baglanti durumum
+prefshared Paylasilan baglantilar (yalniz NAT için)
 prefsound Sesler
+profiledconfig Ayarlarin profili çikarildi
+profiles profiller
 properties Özellikler
+proxy Bir proxy sunucu arkasindayim (HTTP ya da SOCKS5)
 proxyconfhttp HTTP proxy destegi ayarlari
 proxyconf Proxy ayarlari
 publishphones Telefon numarami göster
@@ -162,27 +245,38 @@ reconnect $1 in yeniden baglanmasi bekleniyor
 reconnecting Sunucuya yeniden baglaniliyor
 reject Geri çevir
 rememberpass sifreyi hatirla
+reversed ters
 rightback Hemen dönecegim
 saveas Farkli kaydet
 savecontacts Baglanti listesini kaydet
 save Kaydet
+savetofile Dosyaya kaydet
 says $1 diyor ki
 sbcon Switch Board'a baglaniyor
 sendfile Dosya gönder
 send Gönder
-sendmail E-posta gönder
+sendmail E-posta iletisi gönder
 sendmsg Ileti günder
 sentbytes $2 baytin $1 (s)i gönderildi
 servergoingdown Sunucu kapaniyor: Baglanti kesildi
 server Sunucu
+session oturum
+sound2 Baglantilar girince ya da ileti gönderince ses çikar
+soundcommand Ses çalma komutu (örn: esdplay)
 soundfile Alarm ses dosyasi
 soundloop Ses tekrarlasin
+soundserver Ses Sunucusu
 sound Ses
 soundstatus Sesli alarmi aç/kapa
+startoffline2 Çevrimdisi görünerek sessizce baglan
 startoffline Çevrimdisi olarak basla
 status Durum
 stopalarm Alarmi durdur!
+stylechat Sohbetler ile ayni görünüs
+stylehist aMSN Geçmis görünüsü
+stylelog Geçmisinizin görünüs seklini secin
 syntaxerror Yazim hatasi
+tabbed Içiçe pencereler
 textsize Metin boyutu
 title Al'in Messenger'i
 to Kime
@@ -195,8 +289,10 @@ user Kullanici
 usernotonline Bu kullanici bagli degil
 version Sürüm
 view Görünüm
-viewprofile Bilgileri gör
+viewprofile Profili gör
 willjoin $1 in sohbete katilmasi bekleniyor
 work Is
+xoffset X koordinati
+yoffset Y koordinati
 yousay Diyorsunuz ki
 youwant Istiyorsunuz ki
