@@ -6633,12 +6633,17 @@ proc pictureBrowser {} {
 	button .picbrowser.purge -command "purgePictures; reloadAvailablePics" -text "[trans purge]..." -font sboldf
 	button .picbrowser.ok -command "set_displaypic \${selected_image};destroy .picbrowser" -text "[trans ok]" -font sboldf
 	button .picbrowser.cancel -command "destroy .picbrowser" -text "[trans cancel]" -font sboldf
+	
+	checkbutton .picbrowser.showcache -command "reloadAvailablePics" -variable show_cached_pics\
+		-font sboldf -text [trans showcachedpics]
 
 	grid .picbrowser.pics -row 0 -column 0 -rowspan 4 -columnspan 3 -padx 3 -pady 3 -sticky nsew
 
-	grid .picbrowser.browse -row 4 -column 0 -padx 3 -pady 3 -sticky ewn
-	grid .picbrowser.delete -row 4 -column 1 -padx 3 -pady 3 -sticky ewn
-	grid .picbrowser.purge -row 4 -column 2 -padx 5 -pady 3 -sticky ewn
+	grid .picbrowser.showcache -row 4 -column 0 -columnspan 3 -sticky w
+	
+	grid .picbrowser.browse -row 5 -column 0 -padx 3 -pady 3 -sticky ewn
+	grid .picbrowser.delete -row 5 -column 1 -padx 3 -pady 3 -sticky ewn
+	grid .picbrowser.purge -row 5 -column 2 -padx 5 -pady 3 -sticky ewn
 
 	grid .picbrowser.mypic_label -row 0 -column 3 -padx 3 -pady 3 -sticky s
 	grid .picbrowser.mypic -row 1 -column 3 -padx 3 -pady 3 -sticky n
@@ -6722,7 +6727,7 @@ proc addPicture {the_image pic_text filename} {
 }
 
 proc reloadAvailablePics { } {
-	global HOME program_dir image_names
+	global HOME program_dir image_names show_cached_pics
 
 	set scrollidx [.picbrowser.pics.text yview]
 
@@ -6793,15 +6798,27 @@ proc reloadAvailablePics { } {
 
 	.picbrowser.pics.text insert end "___________________________\n\n"	
 
-	if { [info exists cachefiles] } {
-		foreach filename $cachefiles {
-			if { [file exists "[filenoext $filename].gif"] } {
-				set the_image [image create photo -file "[filenoext $filename].gif" ]
-				addPicture $the_image "[getPictureDesc $filename]" "cache/[file tail $filename]"
-				lappend image_names $the_image
+	if { [info exists cachefiles]} {
+		if { $show_cached_pics } {
+			foreach filename $cachefiles {
+				if { [file exists "[filenoext $filename].gif"] } {
+					set the_image [image create photo -file "[filenoext $filename].gif" ]
+					addPicture $the_image "[getPictureDesc $filename]" "cache/[file tail $filename]"
+					lappend image_names $the_image
+				}
 			}
+		} else {
+			.picbrowser.pics.text tag configure morepics -font bplainf -underline true
+			.picbrowser.pics.text tag bind morepics <Enter> ".picbrowser.pics.text conf -cursor hand2"
+			.picbrowser.pics.text tag bind morepics <Leave> ".picbrowser.pics.text conf -cursor left_ptr"
+			.picbrowser.pics.text tag bind morepics <Button1-ButtonRelease> "global show_cached_pics; set show_cached_pics 1; reloadAvailablePics"
+
+			.picbrowser.pics.text insert end "  "
+			.picbrowser.pics.text insert end "[trans cachedpics [llength $cachefiles]]..." morepics
+			.picbrowser.pics.text insert end "\n"
+		
 		}
-	}
+	} 
 
 	update idletasks
 
