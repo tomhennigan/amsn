@@ -1,158 +1,161 @@
 amsn_lang_version 2
 about Hakkinda
+acceptfile dosyayi kabul etmek
+actions hareket
 addacontact Yeni kontak
 addedyou sizi kontak listesine ekledi
+addtocontacts kisi ekle
 addtoo Bu kisiyi kontak listesine ekle
+admincontacts adminle temas kurmak
+admingroups admin gruplari
+adverts ilanlar
 allowseen Bu kisinin bana ulasmasina ve beni cevirim ici olarak gormesine izin ver
 appearoff Cevirim disi gorun
 aretyping $1 mesaj yaziyor
+autoip otomatik ip
 avoidseen Bu kisinin bana ulasmasina ve beni cevirim ici olarak gormesine engel ol
 away Uzak
+baduserpass kotu kullanicinin sifresi
 blankdirect Direk baglanti icin bos birakin
+blocked engelli
 block Engel koy
 busy Mesgul
 cancel Iptal
 changenick Kullanici adi degistir
-chat Sohbet et
-chatreq Sohbet istemi
 chatack Sohbet'i kabul edilen 
+chatreq Sohbet istemi
+chatsmileys chat gulusleri
+chat Sohbet et
+checkingver kontrol etmek
+checkver serveri kontrol et
+choosebgcolor renk secme
 clicktologin Baglanmak icin tiklayin
 close Kapat
+command komut
+confirmdelete silmek
+connecterror baglantida hata or= baglanamiyor
 contactadded Kontak eklendi
+contactdoesnotexist anlasma kurulamiyo veya temas yok
+copytogroup gruba kopya etmek
 date Tarih
 delete Sil
+encoding kapatmak
 entercontactemail Kontak e-mail'ini girin
+enterfilename dosyanin adini gir
 enternick Kullanici adini girin
 examples Ornekler
+exitamsn msnden cikis
+extras fazlaliklar
+filedoesnotexist bulunmaz dosya
+filename dosyanin adi
+filetransfercancelled dosya transveri var
+filetransfercomplete dosya transveri bitti
 gonelunch Yemege cikti
+groupadd grup eklemek
+groupdelete grup silme
+groupexists gru cikisi
+group grup
+groupmissing kaybolmus veya bulunamayan grup
+groupnewname yeni grup ismi
+groupnotempty gecici olmayan grup
+groupoldname grubun eski adi
+grouprename grup ismini yenileme
+groupunknown bilinmeyen grup
+handle kontrol etmek
+helpcontents yardima gecmek
 help Yardim
+home ev
+identity kimlik
 ident Tanimlaniyor
+inbox kutu
+invalidusername sucsuz kulllanici ismi
 invite Cagir
+ipaddress ip adresi
 istyping $1 mesaj yaziyor
 joins $1 $2 sohbete katiliyor
 language Dil
+lastmsgtime son mesaj zamani
+leaveblankforhotmail bosluk birakmak hotmail icin
 leaves $1 sohbetten ayriliyor
+listeningon dinlemek
+listsmileys guluslerin listesi
+loadcontacts temas kurmak yuklemek
+loggedotherlocation baska bir yerden baglanmak
 loggingin Baglaniyor
+loginas baglanmak
 login Baglan
 logout Baglantiyi kes
 logsin baglandi
-mustrestart Yeniliklerin uygulanmasi icin programi yeniden baslatmalisiniz
-mystatus Benim konumum
+mailer mail yollayan kisi
+mobile oynak
+movetogroup gruba gecmek
 msg Mesaj
 msn AMSN
-newmail Gelen Kutusunda $1 mesaj var 
+mustrestart Yeniliklerin uygulanmasi icin programi yeniden baslatmalisiniz
+mystatus Benim konumum
+needonline online olmak gerekir
 newmailfrom Yeni mail yollayan 
+newmail Gelen Kutusunda $1 mesaj var 
 newmsg Yeni mesaj
 next Ileri
 noactivity Aktivite yok
 nonewmail Gelen Kutusunda 0 mesaj var 
+nonewver yeni olmamak
 notify uyar
 nousersinsession Ortamda kullanici yok
-ok Tamam
 offline Cevirim disi
+ok Tamam
 onenewmail Gelen Kutusunda 1 mesaj var 
 online Cevirim ici
 onphone Telefonda
+openreceived acik kabullenmek
+options ayarlar
+ordercontactsby sirayla temas kurmak
 other Diger
+pager cagri cihazi
 pass Sifre
+phone telefon
 port Port
-proxyconf Proxy ayari
+prefapps tercihler
+preferences tercih edilicek
+prefsound onceki ses
+properties ozellikler
 proxyconfhttp HTTP proxy destegi ayari
+proxyconf Proxy ayari
+publishphones yayinlanmis telefonlar
+receivedbytes gelen byte
+receivefile dosya gelmesi
 reconnect $1 tekrar baglanmasini bekliyor
 reconnecting Sunucuya tekrar baglaniliyor
 rememberpass Sifreyi hatirla
 rightback Hemen donucek
+saveas biseye gore biriktirmek
+savecontacts temas kurmak
+save kaydet
 says $1 soyler
 sbcon Switch Board'a baglaniyor
+sendfile dosya yollamak
+sendmail mail yollamak
+sendmsg mesaj yollamak
 send Yolla
+sentbytes gonderilennin boyutu
+servergoingdown server  cokuyo
 server Sunucu
 sound Ses
+startoffline offline olarak baslamak
+status durum
+syntaxerror soz dizimi hatasi
+textsize boyut
 title Al'in Messenger'i
 to Kime
-yousay Siz
-youwant Siz
+tools aletler
 unblock Engeli kaldir
 uoffline Cevirim disi
 uonline Cevirim ici
+useralreadyonlist kullanicinin listede olmasi
 user Kullanici
 version Surum
-willjoin $1 sohbete katilmasi bekleniyor
-lastmsgtime son mesaj zamani
-choosebgcolor renk secme
-syntaxerror soz dizimi hatasi
-openreceived acik kabullenmek
-contactdoesnotexist anlasma kurulamiyo veya temas yok
-startoffline offline olarak baslamak
-command komut
-listeningon dinlemek
-mobile oynak
-admingroups admin gruplari
-identity kimlik
-properties ozellikler
-enterfilename dosyanin adini gir
-adverts ilanlar
-extras fazlaliklar
-phone telefon
-groupunknown bilinmeyen grup
-sendmail mail yollamak
-group grup
-sendfile dosya yollamak
-copytogroup gruba kopya etmek
-servergoingdown server  cokuyo
-filename dosyanin adi
-grouprename grup ismini yenileme
-preferences tercih edilicek
-sendmsg mesaj yollamak
 view ustunde gecip incelemek
-groupmissing kaybolmus veya bulunamayan grup
-acceptfile dosyayi kabul etmek
-admincontacts adminle temas kurmak
-filedoesnotexist bulunmaz dosya
-groupoldname grubun eski adi
-loginas baglanmak
-groupexists gru cikisi
-connecterror baglantida hata or= baglanamiyor
-loggedotherlocation baska bir yerden baglanmak
-invalidusername sucsuz kulllanici ismi
-ipaddress ip adresi
-receivefile dosya gelmesi
-checkingver kontrol etmek
-textsize boyut
-addtocontacts kisi ekle
-prefsound onceki ses
-chatsmileys chat gulusleri
-baduserpass kotu kullanicinin sifresi
-home ev
-filetransfercomplete dosya transveri bitti
-status durum
-groupdelete grup silme
-handle kontrol etmek
-mailer mail yollayan kisi
-exitamsn msnden cikis
-listsmileys guluslerin listesi
-save kaydet
-leaveblankforhotmail bosluk birakmak hotmail icin
-movetogroup gruba gecmek
-ordercontactsby sirayla temas kurmak
-checkver serveri kontrol et
-groupnewname yeni grup ismi
-saveas biseye gore biriktirmek
-tools aletler
-blocked engelli
-needonline online olmak gerekir
-autoip otomatik ip
-options ayarlar
-groupnotempty gecici olmayan grup
-sentbytes gonderilennin boyutu
-inbox kutu
-confirmdelete silmek
-nonewver yeni olmamak
-loadcontacts temas kurmak yuklemek
-actions hareket
-publishphones yayinlanmis telefonlar
-helpcontents yardima gecmek
-groupadd grup eklemek
-filetransfercancelled dosya transveri var
-savecontacts temas kurmak
-useralreadyonlist kullanicinin listede olmasi
-encoding kapatmak
+willjoin $1 sohbete katilmasi bekleniyor
+yousay Siz
+youwant Siz

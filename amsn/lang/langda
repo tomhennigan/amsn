@@ -31,8 +31,9 @@ chatreq Forespørg chat
 chatsmileys Chat smilier
 checkingver Tjekker for ny version
 checkver Tjek for ny version
-choosebasefont Vælg font
+choosebasefont Vælg skrifttype
 choosebgcolor Vælg baggrundsfarve
+choosefontcolor Vælg skrifttype farve 
 clicktologin Klik her for at logge ind
 close Luk
 closingdocks Luk knap minimerer vinduet

@@ -9,6 +9,8 @@ addtoo Adauga persoana in lista
 admincontacts Administrare nume
 admingroups Administrare grup
 adverts Avertismente
+alarmpref 
+alarmstatus Opreste/Porneste sunetele
 allowseen  Permite persoanei sa ma vada autentificat si sa ma contacteze.
 appearoff Neautentificat 
 aretyping $1 scrie un mesaj 
@@ -20,10 +22,12 @@ baduserpass Parola sau user gresit!
 blankdirect Nu complecta pentru autentificare automata
 block Blocheaza
 blocked Blocat
+browse Rasfoieste
 browser Navigator
 broughtby Programat de
 busy Ocupat 
 cancel Renunta
+cfgalarm  Configureaza/Adauga/Sterge sunete
 changenick Schimba nick-ul 
 chat Conversatie
 chatreq Cerere de conversatie
@@ -33,6 +37,7 @@ checkver Verifica daca este versiune noua
 checkingver In curs de verificare 
 choosebasefont Alege caracterul 
 choosebgcolor Alege culoarea  
+choosefontcolor Alege culoarea caracterului
 clicktologin Autentificare 
 close Inchide 
 closingdocks Minimizare in loc de inchidere
@@ -74,7 +79,7 @@ home Home
 ident In curs de identificare
 identity Identitate
 inbox Casuta postala
-invalidusername nume gresit 
+invalidusername Nume gresit 
 invite Invita
 ipaddress Adresa IP 
 istyping $1 scrie un mesaj
@@ -122,6 +127,9 @@ other Altul
 pager Pager
 pass Parola
 phone Detalii
+picfile Fisier imagine (poza) (GIF < 500 x 500)
+picstatus Inchide/Deschide avertizarea cu imagine 
+Picture Alarm
 port Port
 prefapps Applicatii
 preferences Preferinte
@@ -132,8 +140,8 @@ proxyconfhttp Configurare HTTP proxy
 publishphones Arata numerele de telefon
 receivedbytes Receptionat $1 of $2 bytes
 receivefile Fisier receptionat
-reconnect Asteapta $1 sa se reconecteze
-reconnecting Reconectat la server
+reconnect Asteapta ca $1 sa se reconecteze
+reconnecting In curs de reconectare la server
 rememberpass Retine parola
 rightback Revin imediat 
 save Salveaza
@@ -149,8 +157,12 @@ sentbytes Trimis $1 of $2 bytes
 server Server
 servergoingdown Deconectat: se inchide serverul
 sound Sunet
+soundfile Fisieru de avertizare (sunet)
+soundloop Roteste sunetul 
+soundstatus Inchide/Deschide avertizarile
 startoffline Incepe  neautentificat
 status Stare
+stopalarm Opreste avertizarea
 syntaxerror Eroare de sintaxa
 textsize Marime text
 title MSN Messanger

@@ -11,7 +11,7 @@ admingroups Administrar grups
 adverts Anuncis
 allowseen Deixa que aquesta persona vegi si estic connectat i que contacti amb mi
 appearoff Simula Desconnexió
-aretyping $1 estàn escrivint un missatge
+aretyping $1 estan escrivint un missatge
 autohotmaillog Connectar-se a Hotmail automàticament
 autoip IP Automàtica
 avoidseen No deixis que aquesta persona vegi si estic connectat i que contacti amb mi
@@ -87,7 +87,7 @@ lastmsgtime Últim missatge rebut a les $1
 leaveblankforhotmail Deixa en blanc per usar hotmail
 leaves $1 deixa la conversa
 listeningon Escoltant el port $1
-listsmileys Llista d'emoticons
+listsmileys Llista d'emoticones
 loadcontacts Carregar una llista de contactes
 loggedotherlocation Desconnectat. S'ha iniciat la sessió en un altre lloc
 loggingin Connectant-se
@@ -96,7 +96,7 @@ loginas Connectar-se com
 logout Desconnectar-se
 logsin s'acaba de connectar
 mailer Gestor de correu
-mobile Mòvil
+mobile Mòbil
 movetogroup Moure al grup
 mustrestart Has de reiniciar el programa per a que els canvis tinguin efecte
 mystatus El meu estat
@@ -128,7 +128,7 @@ phone Telèfon
 port Port
 prefapps Aplicacions
 preferences Preferències
-prefsound Só
+prefsound So
 properties Propietats
 proxyconf Configuració del servidor intermediari (Proxy)
 proxyconfhttp Configuració del suport per al servidor intermediari HTTP
@@ -151,7 +151,7 @@ sendmsg Enviar missatge
 sentbytes Enviats $1 de $2 bytes
 server Servidor
 servergoingdown Desconnectat: El servidor s'apagarà per manteniment
-sound Só en un event
+sound So en un event
 startoffline Començar desconnectat
 status Estat
 syntaxerror  Error de sintàxi
@@ -168,5 +168,5 @@ user Ususari
 useralreadyonlist L'usuari ja és a la llista de contactes
 version Versió
 view Veure
-willjoin Esperant a $1 a que s'uneixi a la conversa
+willjoin Esperant que $1  s'uneixi a la conversa
 work Treball

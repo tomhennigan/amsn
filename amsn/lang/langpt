@@ -1,51 +1,113 @@
 amsn_lang_version 2
 about Acerca de
+acceptfile Aceitar ficheiro
+actions Acções
 addacontact Acrescentar um contacto
 addedyou acrescentou-o à sua lista de contactor
+admincontacts Administrar contactos
+admingroups Grupo de acesso
+addtocontacts Adicionar contacto
 addtoo Acrescentar esta pessoa à minha lista de contactos
+adverts Avisos
 allowseen Permitir a esta pessoa ver quando você está ligado e contactar
 appearoff Sem ligação
 aretyping $1 estão escrevendo uma mensagem
+autohotmaillog Hotmail log automático 
+autoip IP automático
 avoidseen Evitar que esta pessoa veja a sua ligação e o contacte
 away Ausente
+baduserpass Palavra-passe errada 
 blankdirect Deixar em branco para ligação directa
 block Não admitir
+blocked Bloqueado
+broughtby Trazido por
+browser Browser
 busy Ocupado
 cancel Cancelar
 changenick Mudar alcunha
 chat Conversação
 chatreq Requisitando uma conversação
 chatack Aceitando uma conversação de
+chatsmileys Figuras de chat 
+checkingver A verificar versão 
+checkver Verificar versão
+choosebasefont Escolher tipo de letra de base
+choosebgcolor Escolher cor de fund
+choosefontcolor Escolher cor da letra
 clicktologin Clique aqui para iniciar a sessão
 close Fechar
+closingdocks A fechar docks
+command Comando
+confirmdelete Confirmar apagar
+connecterror Erro na ligação 
 contactadded Contacto acrescentado
+contactdoesnotexist O contacto não existe
+copytogroup Copiar para o grupo 
 date Data
 delete Eliminar
+enableproxy Proxy activado
+encoding A codificar
 entercontactemail Introduza o email do contacto
+enterfilename Introduzir nome ficheiro
 enternick Introduza a sua alcunha
 examples Exemplos
+exitamsn Sair de AMSN 
+extras Extras
+filedoesnotexist Ficheiro não existe
+filetransfercancelled Transferência de ficheiro cancelada 
+filename Nome ficheiro
+filetransfercomplete Transferência ficheiro completa
 gonelunch Saí para comer
+group Grupo
+groupadd Adiccionar grupo
+groupdelete Apagar grupo
+groupexists Grupo existe
+groupmissing Grupo não encontrado
+groupnewname Novo nome do grupo
+groupnotempty Grupo não está vazio
+groupoldname Nome anterior do grupo
+grouprename Renomear grupo 
+groupunknown Grupo desconhecido
+handle Manejar
 help Ajuda
+helpcontents Conteúdo do Help 
+home Casa
 ident Identificando-se
+identity Identidade
+inbox Caixa de entrada
+invalidusername Utilizador inválido
 invite Convidar
+ipaddress Endereço IP
 istyping $1 está escrevendo uma mensagem
 joins $1 $2 junta-se à conversação
 language Linguagem
+leaveblankforhotmail Deixar vazio para hotmail 
 leaves deixa a conversação
+lastmsgtime Hora da última mensagem $1
+listeningon Som ligado
+listsmileys Lista de figuras
+loadcontacts Carregar contactos
+loggedotherlocation Log guardado noutra localização
 loggingin Iniciando sessão
 login Iniciar sessão
+loginas Entrar como
 logout Terminar sessão
 logsin acaba de iniciar sessão
+mailer Carteiro
+mobile Telemovel
+movetogroup Mover para o grupo 
 mustrestart Deve reiniciar o programa para aplicar as modificações
 mystatus O meu estado
 msg Mensagem
 msn AMSN
+newveravailable Nova versão disponivel 
 newmail $1 novas mensagens na caixa de correio
 newmailfrom Novo correio de
 newmsg Nova mensagem
 next Seguinte
 noactivity Sem actividade
 nonewmail 0 novas mensagens na caixa de correio
+nonewver Não há versão nova
 notify aviso
 nousersinsession Não existem utilizadores na sessão
 ok Aceitar
@@ -53,27 +115,55 @@ offline Desligado
 onenewmail 1 nova mensagen na caixa de correio
 online Ligado
 onphone Ao telefone
+openreceived Abrir recebidas
+options Opções
+ordercontactsby Ordenar contactos por
 other Outro
+pager Pager 
 pass Senha
+phone Telefone 
 port Porto
+needonline Precisa ligar
+preferences Preferências 
+prefsound Som predefinido
+properties Propriedades
 proxyconf Configuração de proxy
 proxyconfhttp Configurar suporte de proxy http
+publishphones Publicar telefones
+receivedbytes Bytes recebidos
+receivefile Ficheiro recebido
 reconnect Esperando que $1 volta a ligar-se
 reconnecting Ligando-se de novo ao servidor
 rememberpass Recordar senha
 rightback Volto já
+save Guardar
+saveas Guardar como 
+savecontacts Salvar ou guardar contactos 
 says $1 diz
 sbcon Ligando a Switch Board
 send Enviar
+sendfile Enviar ficheiro 
+sendmail Enviar correio 
+sendmsg Enviar mensagem
+sentbytes Enviar bytes
 server Servidor
+servergoingdown A desligar servidor 
 sound Sons para eventos
+startoffline Começar desligado
+status Estado
+syntaxerror Erro de Sintaxe 
+textsize Tamanho de texto 
 title Al's Messenger
 to Para
+tools Ferramentas
 yousay Você diz
 youwant Queres
 unblock Admitir
 uoffline Desligados
 uonline Ligados
 user Utilizador
+useralreadyonlist Utilizador já existente na lista
 version Versão
+view Ver 
 willjoin Esperando que $1 se junte à conversação
+work Trabalho 

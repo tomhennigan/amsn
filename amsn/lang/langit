@@ -33,6 +33,7 @@ checkingver Sto verificando una nuova versione
 checkver Controlla nuova versione
 choosebasefont Seleziona il font
 choosebgcolor Cambia il colore di sfondo
+choosefontcolor Scegliere il colore della tipografia
 clicktologin Clicca qui per accedere
 close Chiudi
 closingdocks Close button docks window
@@ -80,6 +81,7 @@ ipaddress Indirizzo IP
 istyping $1 sta scrivendo un messaggio
 joins $1 $2 si unisce alla conversazione
 language Linguaggio
+lastmsgtime Ultimo messaggio ricevuto alle $1
 leaveblankforhotmail Lascia in bianco per l'uso di hotmail
 leaves $1 abbandona la conversazione
 listeningon In attesa sulla porta $1

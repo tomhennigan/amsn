@@ -1,165 +1,174 @@
 amsn_lang_version 2
 about Om
-acceptfile acceptera fil $1? size $2, saved in $3
-addacontact lägg till kontakt
+acceptfile acceptera fil $1? Storlek $2? Sparad i $3
+actions Händelse
+addacontact Lägg till en kontakt
 addedyou har lagt till dig på hans/hennes kontakts lista
-addtocontacts lägg till kontakt
-addtoo Lägg till denna person på min lista
-admincontacts Administratör kontakter
-admingroups Administratör grupper
-adverts reklam
-allowseen Tilllåt denna person att se om jag är online och skriva till mig
-appearoff Verka så som om jag vore offline
-aretyping $1 är skriver ett medelande
-autohotmaillog Automatisk hotmail logg
-autoip automatisk ip
-avoidseen Undvik att denna person kan se om jag är online och skriva till mig
+addtocontacts Lägg till din kontakt-lista
+addtoo Lägg till denna person till min lista
+admincontacts Administrera kontakter
+admingroups Administrera grupper
+adverts Reklam
+allowseen Tillåt denna person att se om jag är online och kontakta mig
+appearoff Verka offline
+aretyping $1 skriver ett meddelande
+autohotmaillog Automatisk inloggning
+autoidle Automatisk away
+autoip Automatisk ip
+avoidseen Undvik att denna person kan se om jag är online och skriva till 
 away Borta
-baduserpass Ogiltigt användar lösenord
-blankdirect Lämna tom för dirket kontakt
+baduserpass Ogiltigt användarnamn eller lösenord
+blankdirect Lämna tom för direktanslutning
 block Blockera
-blocked blockerad
-browser läsare
+blocked Blockerad
+broughtby Skapat av följande utvecklare:
+browser Webbläsare
 busy Upptagen
 cancel Avbryt
+cfgalarm Konfigurera alarm
 changenick Ändra nick
 chatack Acceptera chat från
 chat Chat
-chatreq Be om chat
-chatsmileys chat smileys
+chatreq Efterfrågar chat
+chatsmileys Chat smileys
 checkingver Kollar efter nya versioner
-checkingver kollar version
 checkver Kolla efter ny version
-checkver kolla version
-choosebasefont välj teckensnitt
+choosebasefont Välj teckensnitt
+choosebgcolor Välj bakgrundfärg
+choosefontcolor Välj typsnitts-färg
 clicktologin Klicka för att logga in
-close Stäng	
-command kommando
-confirmdelete bekräfta radering $1
+close Stäng
+closingdocks Stäng-knappen dockar fönster
+command Kommando
+confirmdelete Bekräfta radering av $1
 connecterror Fel när servern kontaktades
-connecterror uppkopplingen misslyckades
+connecterror Uppkopplingen misslyckades
 contactadded Lagt till kontakt
-contactdoesnotexist kontakt existerar inte
-copytogroup - kopiera till grupp
+contactdoesnotexist Kontakten finns inte!
+copytogroup Kopiera till grupp
 date Datum
-delete Tabort
-enableproxy aktivera proxy
-encoding kodning
+delete Ta bort
+enableproxy Aktivera proxy
+encoding Kodning
 entercontactemail Skriv in kontaktens e-mail
-enterfilename ange filnamn
+enterfilename Ange filnamn
 enternick Skriv in ditt nick
-examples Exempels
-extras extra
+examples Exempel
+exitamsn Är du säker på att du vill avsluta?
+extras Extra
 filedoesnotexist Filen finns inte
-filename - filnamn
+filename Filnamn
 filetransfercancelled Filsändelsen avbröts
-filetransfercomplete filsändningen färdig
+filetransfercomplete Filsändningen färdig
+ftaccept Accepterade fil
 gonelunch Iväg på lunch
-groupadd lägg till grupp
-groupdelete ta bort gruppen
-groupexists gruppen finns
-group - grupp
-groupmissing gruppen saknas
-groupnewname nytt namn på gruppen
-groupnotempty gruppen är ej tom
-groupoldname gruppens gamla namn
-grouprename - döp om grupp
-groupunknown grupp okänd
-handle hantera
-helpcontents hjälp om innehåll
+groupadd Lägg till grupp
+groupdelete Ta bort gruppen
+groupexists Gruppen finns
+group Grupp
+groupmissing Gruppen saknas
+groupnewname Nytt namn på gruppen
+groupnotempty Gruppen är ej tom
+groupoldname Gruppens gamla namn
+grouprename Döp om grupp
+groupunknown Okänd grupp
+handle Hantera
+helpcontents Innehåll
 help Hjälp
-home hem
+home Hem
 ident Identifiering
-identity identitet
-inbox inbox
-invalidusername ogiltigt användarnamn
+identity Identitet
+inbox Inkorg
+invalidusername Ogiltigt användarnamn
 invite Bjud in
-ipaddress ipadress
-istyping $1 är skriver ett medelande
+ipaddress IP Adress
+istyping $1 skriver ett meddelande
 joins $1 $2 kommer in i konversationen
 language Språk
-leaveblankforhotmail lämnas tom för hotmail
+lastmsgtime Senaste meddelandet mottaget $1
+leaveblankforhotmail Lämnas tom för hotmail
 leaves $1 lämnar konversationen
 listeningon lyssnar på $1
-listsmileys lista smileys
-loadcontacts ladda kontakter
-loggedotherlocation loggade annan plats
+listsmileys Visa smileys
+loadcontacts Ladda kontakter
+loggedotherlocation Urloggad! Du är inloggad på ett annat ställe!
 loggingin Loggar in
-loginas logga in som
+loginas Logga in som
 login Logga In
 logout Logga Out
 logsin har just loggat in
-mobile mobil
-movetogroup flytta till grupp
-msg Medelande
+mailer Avsändare
+mobile Mobil
+movetogroup Flytta till grupp
+msg Meddelande
 msn AMSN
-mustrestart Du måste starta om programmet för att ändringarna ska gälla
+mustrestart Du måste starta om programmet för att ändringarna ska gälla mig
 mystatus Min status
-needonline behövs online
-newmail $1 nytt medelanden i In-Box
+needonline Du är fortfarande/verkar vara offline!
+newmail $1 nytt/nya meddelanden i Inkorgen
 newmailfrom Nytt mail från
-newmsg Nytt medelande
+newmsg Nytt meddelande
 newveravailable Ny version $1 finns att ladda ner
 next Nästa
 noactivity Ingen aktivitet
-nonewmail Inga nya medelanden i In-Box
+nonewmail Inga nya meddelanden i Inkorgen
 nonewver Det finns inga nya versioner att ladda ner
-nonewver Ingen ny version
-notify anmärk
+notify Meddela
+notifywin Popup när någon loggar in
 nousersinsession Inga användare i konversationen
 offline Frånkopplad
 ok Ok
-onenewmail 1 nytt medelanden i In-Box
-online Närvarande
+onenewmail 1 nytt meddelande i Inkorgen
+online Uppkopplad
 onphone Pratar i telefonen
-openreceived öppnade mottagna
+openreceived Öppna mottagna filer
 options Alternativ
-ordercontactsby sortera grupperna genom
+ordercontactsby Sortera användare efter
 other Annat
-pager personsökare
+pager Personsökare
 pass Lösenord
-phone telefon
+phone Telefon
 port Port
-prefapps Föredragna program
-preferences - Inställningar
-prefsound Föredragna ljud
-properties egenskaper
-proxyconfhttp HTTP proxy support configuration
-proxyconf Proxy configuration
-publishphones dela ut telefoner
-receivedbytes $1 / $2 mottagna bytes
-receivefile ta emot fil
-reconnecting Återkonnektar till server
-reconnect Väntar på att  $1 ska komma tillbaka
+prefapps Programinställningar
+preferences Inställningar
+prefsound Ljudinställningar
+properties Egenskaper
+proxyconfhttp HTTP proxysupport konfiguration
+proxyconf Proxy-konfiguration
+publishphones Dela ut mina telefonnummer
+receivedbytes Mottaget $1 av $2 bytes
+receivefile Ta emot fil
+reconnecting Återansluter till server
+reconnect Väntar på att $1 ska komma tillbaka
 rememberpass Kom ihåg lösenordet
 rightback Kommer strax tillbaka
-saveas spara som
-savecontacts spara kontakter
-save spara
+saveas Spara som
+savecontacts Spara kontakter
+save Spara
 says $1 säger
-sbcon Switch Board
-sendfile - skicka fil
-sendmsg - Skicka meddelande
+sbcon Ansluter till Switch Board
+sendfile Skicka fil
+sendmail Skicka brev
+sendmsg Skicka meddelande
 send Skicka
-sentbytes $1 / $2 skicka bytes
-servergoingdown - servern stängs av
+sentbytes Skickat $1 av $2 bytes
+servergoingdown Nerkopplad: Server-problem
 server Server
-sound Händelse ljud
-startoffline starta nerkopplad
-status status
-syntaxerror programfel
-textsize text storlek
-the swedish language.
+sound Ljud
+startoffline Starta i Offline-läge
+status Status
+syntaxerror Felaktigt syntax
+textsize Textstorlek
 title Al's Messenger
-tools verktyg
-to till
-unblock Sluta blockera
+tools Verktyg
+to Till
+unblock Ta bort blockering
 uoffline Offline
 uonline Online
-useralreadyonlist användaren finns redan i listan
+useralreadyonlist Användaren finns redan i listan
 user Användare
 version Version
-view - sikt
+view Alternativ
 willjoin Väntar på att $1 ska komma in i konversationen
 work Arbete
 yousay Du säger

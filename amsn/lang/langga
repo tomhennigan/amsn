@@ -4,6 +4,7 @@ acceptfile ¿Aceptar arquivo $1, tamaño $2 bytes? gardarase en $3
 actions Accións
 addacontact Engadir un contacto
 addedyou engadiute á súa lista de contactos
+addtocontacts Engadir a contactos
 addtoo Engadir esta persoa á miña lista de contactos
 admincontacts Administrar contactos
 admingroups Administrar grupos
@@ -12,63 +13,82 @@ allowseen Permitir a esta persoa ver cando estás conectado e contactar
 appearoff Sen conexión
 aretyping $1 están escribindo unha mensaxe
 autohotmaillog Login hotmail automático
+autoip IP automática
 avoidseen Evitar que esta persoa vexa a túa conexión e contacte contigo
 away Ausente
 baduserpass Nome de usuario ou contrasinal incorrectos
 blankdirect Deixar en branco para conexión directa
 blocked Bloqueado
 block Non admitir
+broughtby Traido a Vd. polos seguintes programadores
 browser Navegador
 busy Non dispoñible
 cancel Cancelar
 changenick Cambiar alcume
 chatack Aceptando conversa de
+chatack Aceptando conversa de
 chat Conversa
 chatreq Solicitando unha conversa
 chatsmileys Smileys no chat
-chatack Aceptando conversa de
 checkingver Buscando se hai dispoñible unha nova versión
 checkver Buscar novas versións
+choosebasefont Elixir tipo de letra
+choosebgcolor Elixir cor de fondo
+choosefontcolor Elixir cor da letra
 clicktologin Fai click aquí para inicia-la sesión
 close Cerrar
+closingdocks Botón de cerrar minimiza
 command Comando
+confirmdelete ¿Seguro de desexa borrar a $1?
+connecterror Error ó conectar co servidor
 contactadded Contacto engadido
+contactdoesnotexist O contacto que tentas engadir non existe
+copytogroup Copiar ó grupo
 date Data
 delete Eliminar
 enableproxy Activa-lo proxy
+encoding Codificación de caracteres
 entercontactemail Introduce o email do contacto
 enterfilename Introduce o nombre do arquivo
 enternick Introduce o teu nick
 examples Exemplos
+exitamsn ¿Seguro que desexa saír?
+extras Servicios adicionais
 filedoesnotexist O arquivo non existe
 filename Nome do Arquivo
 filetransfercancelled Transferencia do arquivo cancelada
 filetransfercomplete Transferencia do arquivo completada
 gonelunch Saín comer
-group Grupo
 groupadd Engadir un grupo
 groupdelete Borrar un grupo
-grouprename Cambiar nome ó grupo
-groupoldname Nombre antigo
-groupnewname Novo nome
-groupunknown Grupo descoñecido
 groupexists O grupo xa existe
+group Grupo
 groupmissing Non se pode atopa-lo grupo
+groupnewname Novo nome
+groupnotempty O grupo non está vacío
+groupoldname Nombre antigo
+grouprename Cambiar nome ó grupo
+groupunknown Grupo descoñecido
+handle Nick
 help Axuda
 helpcontents Temas de axuda
 home Casa
 ident Identificándose
 identity Identificación
 inbox Bandexa de entrada
+invalidusername Nome de usuario inválido
 invite Invitar
 ipaddress Dirección IP
 istyping $1 está escribindo unha mensaxe
 joins $1 $2 únese á conversa
 language Linguaxe
+lastmsgtime Última mensaxe recibida ás $1
+leaveblankforhotmail Deixar en branco para usar hotmail
 leaves $1 deixa a conversa
 listeningon Escoitando no porto $1
 listsmileys Smileys nos contactos
 loadcontacts Cargar lista de contactos
+loggedotherlocation Desconectado: iniciouse sesión noutra ubicación
 loggingin Iniciando sesión
 loginas Iniciar sesión como
 login Iniciar sesión
@@ -76,6 +96,7 @@ logout Cerrar sesión
 logsin acaba de iniciar sesión
 mailer Comando de email
 mobile Celular
+movetogroup Mover ó grupo
 msg Mensaxe
 msn AMSN
 mustrestart Debes reiniciar-lo programa para aplica-los cambios
@@ -87,9 +108,9 @@ newmsg Nova mensaxe
 newveravailable Nova versión $1 dispoñible para descarga
 next Seguinte
 noactivity Sen actividade
+nonewmail Non mensaxes novas na bandexa de entrada
 nonewver Non hai versións máis actuais dispoñibles
 notify aviso
-nonewmail Non mensaxes novas na bandexa de entrada
 nousersinsession Non hai usuarios na sesión
 offline Desconectado
 ok Aceptar
@@ -117,9 +138,9 @@ reconnect Agardando que $1 reconecte
 reconnecting Reconectando ó servidor
 rememberpass Lembrar contrasinal
 rightback Volvo nun intre
+saveas Gardar como
 savecontacts Gardar lista de contactos
 save Gardar
-saveas Gardar como
 says $1 dí
 sbcon Conectando a Switch Board
 send Enviar
@@ -127,9 +148,12 @@ sendfile Enviar arquivo
 sendmail Enviar email
 sendmsg Enviar mensaxe
 sentbytes Enviados $1 de $2 bytes totais
+servergoingdown Desconectado: O servidor apagarase por mantemento
 server Servidor
 sound Son eventos
 startoffline Comezar Desconectado
+status Estado
+syntaxerror Error de sintaxe
 textsize Tamaño do texto
 title Al's Messenger
 tools Ferramentas
@@ -137,6 +161,7 @@ to Para
 unblock Admitir
 uoffline Desconectados
 uonline Conectados
+useralreadyonlist O usuario xa se atopa na lista de contactos
 user Usuario
 version Versión
 view Ver

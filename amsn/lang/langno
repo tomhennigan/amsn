@@ -33,6 +33,7 @@ checkver Se etter nyere versjon
 checkingver Ser etter nyere versjon
 choosebasefont Velg skrifttype
 choosebgcolor Velg bakgrunnsfarge
+choosefontcolor Velg skrift farge 
 clicktologin Klikk her for å logge inn
 close Lukk
 closingdocks Lukke-knappen minimerer vinduet
@@ -80,6 +81,7 @@ ipaddress IP addresse
 istyping $1 skriver en beskjed
 joins $1 $2 blir med i samtalen
 language Språk
+lastmsgtime Siste melding ble mottatt: $1
 leaveblankforhotmail La stå tom for å bruke Hotmail web
 leaves $1 forlater samtalen
 listeningon Lytter til port $1

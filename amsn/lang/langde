@@ -69,7 +69,7 @@ inbox Posteingang
 invalidusername Benutzername ungültig
 invite Einladen
 ipaddress IP-Adresse
-istyping $1 ist gibt eine Nachricht ein
+istyping $1 gibt eine Nachricht ein
 joins $1 $2 wurde dem Chat hinzugefügt
 language Sprache
 leaves $1 hat Chat verlassen

@@ -11,6 +11,8 @@ addtoo Añadir esta persona a mi lista de contactos
 admincontacts Administrar contactos
 admingroups Administrar grupos
 adverts Anuncios
+alarmpref Configuración de alarma para el usuario
+alarmstatus Activar/Desactivar alarma para este usuario
 allowseen Permitir a esta persona ver cuándo estás conectado y contactar
 appearoff Sin conexión
 aretyping $1 están escribiendo un mensaje
@@ -23,6 +25,7 @@ baduserpass Nombre de usuario o contraseña incorrectos
 blankdirect Dejar en blanco para conexión directa
 blocked Bloqueado
 block No admitir
+browse Examinar
 browser Navegador
 broughtby Traido a Ud. por los siguientes programadores
 busy No disponible
@@ -130,6 +133,8 @@ other Otro
 pager Paginador
 pass Contraseña
 phone Telefono
+picfile Archivo de imagen de la alarma (GIF < 500 x 500)
+picstatus Activar/Desactivar imagen para la alarma
 port Puerto
 prefapps Aplicaciones
 preferences Preferencias
@@ -158,8 +163,12 @@ sentbytes Enviados $1 de $2 bytes totales
 server Servidor
 servergoingdown Desconectado: El servidor se va a apagar para mantenimiento
 sound Sonido eventos
+soundfile Archivo de sonido de la alarma
+soundloop Sonido repetitivo
+soundstatus Encender/Apagar el sonido de la alarma
 startoffline Comenzar Desconectado
 status Estado
+stopalarm Detener alarma
 syntaxerror Error de sintaxis
 textsize Tamaño del texto
 title Al's Messenger

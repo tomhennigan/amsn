@@ -1,168 +1,181 @@
 amsn_lang_version 2
 about Tietoja
-acceptfile Hyvdksy tiedosto $1, koko $2? Tallennettu $3
+acceptfile Hyväksy tiedosto $1, koko $2? Tallennettu $3
 actions Toiminnot
-addacontact Lisdd henkilv
-addedyou on lisdtty yhteystietoluetteloon
-addtocontacts Lisdd yhteystietoihin
-addtoo Lisdd henkilv minun yhteytietoluetteloon
+addacontact Lisää henkilö
+addedyou on lisännyt sinut yhteystietoihinsa
+addtocontacts Lisää yhteystietoihin
+addtoo Lisää henkilö yhteystietoluettelooni
 admincontacts Hallitse yhteystietoja
-admingroups Hallitse ryhmid
+admingroups Hallitse ryhmiä
 adverts Mainokset
-allowseen Anna henkilvn lupa ndhdd olenko linjoilla ja ottamaan yhteyden minuun
-appearoff Ndkyminen muille off-linessa
-aretyping $1 kirjoittaa viestid
-autohotmaillog Automaattinen Hotmail sisddkirjautuminen
+alarmpref Hälytysasetukset käyttäjälle
+alarmstatus Aseta hälytys päälle/pois 
+allowseen Anna tämän henkilön nähdä online-tilani ja ottaa yhteyttä minuun
+appearoff Näyttäydy muille offline-tilaisena
+aretyping $1 kirjoittavat viestiä
+autohotmaillog Automaattinen kirjautuminen Hotmail-palveluun
+autoidle Poissa-tila päälle määräajan kuluttua (5min) 
 autoip Automaattinen IP
-avoidseen Dld anna kdyttdjdlle lupaa ndhdd olenko linjoilla ja ottaa yhteyttd minuun
+avoidseen Estä tätä henkilöä näkemästä yhteystilaani ja ottamasta yhteyttä minuun
 away Poissa
-baduserpass Vddrd kdyttdjd tai salasana
-blankdirect Leave blank for direct connection
-block Estd
+baduserpass Virheellinen käyttäjänimi tai salasana
+blankdirect Jätä tyhjäksi, jos käytät suoraa yhteyttä
+block Estä
 blocked Estetty
-broughtby  Kehitetty seuraavien mestareiden toimesta
+browse Selaa
 browser Selain
+broughtby  Kehitetty seuraavien kehittäjien toimesta
 busy Varattu
 cancel Peruuta
-changenick Vaihda nikki
-chat Rupattele
-chatreq Pyydd rupattelemaan
-chatsmileys Rupattelun hymivt
-chatack Hyvdksytddn rupatteluun
+cfgalarm Aseta/Lisää/Poista hälytys
+changenick Vaihda lempinimi
+chat Keskustele
+chatreq Pyydä keskusteluun
+chatsmileys Hymiöt
+chatack Hyväksytään keskustelupyyntöä
 checkver Tarkista uusin versio
 checkingver Tarkistaa uusinta versiota
 choosebasefont Valitse fontti
-choosebgcolor Valtse taustavdri
-clicktologin Klikkaa tdstd kirjautuaksesi
+choosebgcolor Valitse taustaväri
+choosefontcolor Valitse fontin väri
+clicktologin Klikkaa tästä kirjautuaksesi
 close Sulje
-closingdocks Sulje painike ankkuroi ikkunan
+closingdocks Sulje-painike pienentää ikkunan
 command Komento
-confirmdelete Halutko varmasti poistaa $1?
-contactadded Yhteystieto lisdtty
+confirmdelete Haluatko varmasti poistaa $1?
+contactadded Yhteystieto lisätty
 contactdoesnotexist Yhteystietoa ei ole!
-connecterror Virhe yhdistettdessd palvelimeen
-copytogroup Kopioi ryhmdlle
-date Pdivdys
-delete Tuhoa
-enableproxy Ota Proxy kdyttvvn
-encoding Valitse enkoodaus
-entercontactemail Anna meiliosoite
+connecterror Virhe yhdistettäessä palvelimelle
+copytogroup Kopio ryhmään
+date Päiväys
+delete Poista
+enableproxy Ota välityspalvelin käyttöön
+encoding Valitse tekstin koodaus
+entercontactemail Anna henkilön sähköpostiosoite
 enterfilename Anna tiedoston nimi
-enternick Syvtd nikkisi
+enternick Anna lempinimesi
 examples Esimerkit
-exitamsn Haluatko varmasti poistua?
-extras Lisdpalvelut
+exitamsn Haluatko varmasti lopettaa?
+extras Lisäpalvelut
 filedoesnotexist Tiedostoa ei ole
+filemanager Tiedostonhallintaohjelma
 filename Tiedoston nimi
 filetransfercancelled Tiedoston siirto keskeytetty
 filetransfercomplete Tiedoston siirto valmis
 gonelunch Lounaalla
-group Ryhmd
-groupadd Lisdd ryhmd
-groupdelete Poista ryhmd
-grouprename Nimed ryhmd uudelleen
+group Ryhmä
+groupadd Lisää ryhmä
+groupdelete Poista ryhmä
+grouprename Nimeä ryhmä uudelleen
 groupoldname Vanha nimi
 groupnewname Uusi nimi
-groupunknown Tuntematon ryhmd
-groupexists Ryhmd on jo olemassa!
-groupmissing Ryhmdd ei lvydy
-groupnotempty Ryhmd ei ole tyhjd!
-handle Kdsittele
-help Jelppi
-helpcontents Jelpin sisdltv
+groupunknown Tuntematon ryhmä
+groupexists Ryhmä on jo olemassa!
+groupmissing Ryhmää ei löydy
+groupnotempty Ryhmä ei ole tyhjä!
+handle Käsittele
+help Apua
+helpcontents Sisältö
 home Koti
-ident Tunnistus kdynnissd
-identity Henkilvllisyys
+ident Tunnistus käynnissä
+identity Henkilöllisyys
 inbox Saapuneet
-invalidusername Vddrd kdyttdjdnimi
+invalidusername Virheellinen käyttäjänimi
 invite Kutsu
-ipaddress IP osoite
-istyping $1 kirjoittaa viestid
-joins $1 $2 liittyy rupatteluun
-language Kidli
+ipaddress IP-osoite
+istyping $1 kirjoittaa viestiä
+joins $1 $2 liittyy keskusteluun
+language Kieli
 lastmsgtime Viimeisin viesti saapunut $1
-leaveblankforhotmail Jdtd tyhjdksi Hotmail webbid varten
-leaves $1 poistuu rupattelusta
-listeningon Tarkkailee porttia $1
-listsmileys Hymivluettelo
+leaveblankforhotmail Jätä tyhjäksi Hotmail web-palvelua varten
+leaves $1 poistui keskustelusta
+listeningon Kuuntelee porttia $1
+listsmileys Hymiöluettelo
 loadcontacts Lataa yhteystiedot
-loggedotherlocation Yhteys katkesi.Olet kirjautuneena muualle.
-loggingin Kirjaudutaan sisdlle
-loginas Kirjaudutaan
-logout Kirjaudutaan ulos
-logsin on juuri kirjautunut sisddn
-mailer Postittaja
+loggedotherlocation Yhteys katkesi. Olet kirjautuneena toisesta paikasta.
+loggingin Kirjaudutaan sisälle
+login Kirjaudu sisälle
+loginas Kirjaudu lempinimellä
+logout Kirjaudu ulos
+logsin on juuri kirjautunut sisään
+mailer Sähköpostiohjelma
 mobile Matkapuhelin
-movetogroup Siirry ryhmddn
-mustrestart Kdynnistd ohjelma uudelleen muutoksien jdlkeen.
-mystatus Tilani
+movetogroup Siirrä ryhmään
+mustrestart Sinun täytyy käynnistää ohjelma uudestaan, että muutokset tulevat voimaan
+mystatus Oma tila
 msg Viesti
 msn AMSN
-needonline Et ole vieldkddn kirjautuneena!
-newmail $1 uutta viestd saapunut
-newmailfrom uusi viesti
+needonline Sinä olet/näyt vieläkin offline-tilaisena!
+newmail $1 uutta viestiä saapunut Saapuneisiin
+newmailfrom Uusi viesti
 newmsg Uusi viesti
 newveravailable Uudempi versio $1 ladattavissa
 next Seuraava
 noactivity Ei toimintaa
-nonewmail Ei uusia viestejd
-nonewver Uusinta versiota ei ole saatavilla
-notify huomioi
-nousersinsession Ei kdyttdjid istunnolla
+nonewmail Ei uusia viestejä Saapuneissa
+nonewver Uudempaa versiota ei ole saatavilla
+notify muistuta
+notifywin Muistutus-ikkuna
+nousersinsession Ei käyttäjiä
 ok Ok
-offline Ei kirjautuneena
-onenewmail 1 uusi viesti saapunut
-online Kirjautuneena
+offline Offline-tila
+onenewmail 1 uusi viesti Saapuneissa
+online Online-tila
 onphone Puhelimessa
-openreceived Avaa saapuneet tiedostot
-options Lisdasetukset
-ordercontactsby Tilaa yhteystiedot
+openreceived Avaa vastaanotetut tiedostot
+options Asetukset
+ordercontactsby Järjestä yhteystiedot
 other Muu
-pager Pager
+pager Hakulaite
 pass Salasana
 phone Puhelin
+picfile Hälytyksen kuva (GIF < 500 x 500)
+picstatus Kuvahälytys päälle/pois
 port Portti
-prefapps Sovellus
+prefapps Sovellukset
 preferences Valinnat
-prefsound Ddnet
+prefsound Äänet
 properties Ominaisuudet
-proxyconf Proxy asetukset
-proxyconfhttp HTTP asetukset
+proxyconf Välityspalvelimen asetukset
+proxyconfhttp HTTP-välityspalvelin asetukset
 publishphones Julkaise puhelinnumeroni
 receivedbytes Vastaanotettu $1 / $2 tavusta
 receivefile Vastaanota tiedosto
 reconnect Odottaa $1 uudelleen kirjautumista
-reconnecting Uudelleen yhdistetddn palvelimeen
+reconnecting Yhdistetään uudelleen palvelimeen
 rememberpass Muista salasana
 rightback Tulen kohta takaisin
 save Tallenna
-saveas Tallenna nimelld
+saveas Tallenna nimellä
 savecontacts Tallenna yhteystiedot
 says $1 sanoo
-sbcon Otataan yhteys Kytkintauluun
-send Ldhetd
-sendfile Ldhetd tiedosto
-sendmail Ldhetd meili
-sendmsg Ldhetd viesti
-sentbytes Ldhetetty $1 / $2 tavusta
+sbcon Otetaan yhteys Kytkintauluun
+send Lähetä
+sendfile Lähetä tiedosto
+sendmail Lähetä sähköpostiviesti
+sendmsg Lähetä viesti
+sentbytes Lähetetty $1 / $2 tavusta
 server Palvelin
-servergoingdown Disconnected: palvelin sammutetaan
-sound Tapahtumien ddni
-startoffline Oloita ilman kirjautumista
+servergoingdown Yhteys katkaistu: palvelin sammutetaan
+sound Tapahtumien äänimerkki
+soundfile Hälytyksen äänitiedosto
+soundloop Soita ääntä silmukassa
+startoffline Aloita offline-tilassa
 status Tila
-syntaxerror Syntax Virhe
+syntaxerror Muotoiluvirhe
 textsize Tekstin koko
-title KK Rupattelu
-to  
-tools Tyvkalut
+title Al's Messenger
+to Vastaanottaja
+tools Työkalut
 yousay Sanot
 youwant Haluat
-unblock Pddstd
-uoffline Ei kirjautuneena
-uonline Kirjautuneena
-user Kdyttvjd
-useralreadyonlist Kdyttdjd on jo yhteystiedoissa
+unblock Päästä
+uoffline Offline-tilassa
+uonline Online-tilassa 
+user Käyttäjä
+useralreadyonlist Käyttäjä on jo yhteystiedoissa
 version Versio
-view Ndytd
-willjoin Odottaa $1 liittymistd rupatteluun
-work Tyv
+view Näkymä
+willjoin Odottaa $1 liittymistä keskusteluun
+work Työ
