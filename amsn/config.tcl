@@ -4,23 +4,26 @@
 
 proc ConfigDefaults {} {
 	global config tcl_platform password auto_path
-	set config(protocol) "9"		;# Which MSN Protocol do you prefeer too use
-	set config(nossl) 0
-	set config(login) ""			;# These are defaults for users without
-	set config(save_password) 0		;# a config file
-	set config(keep_logs) 1
-	set config(proxy) ""
-	set config(connectiontype) direct	;# direct|http|proxy
-	set config(proxytype) "http"		;# http|ssl|socks5
-	set config(proxyuser) ""		;# SOCKS5
-	set config(proxypass) ""		;# SOCKS5
+	set config(protocol) "9"		;# Which MSN Protocol do you prefeer too use: 7|9
+	set config(nossl) 0				;#Disable the use of SSL, so it doesn't requite TLS package: 0|1
+
+	set config(login) ""				;# These are defaults for users without
+	set config(save_password) 0	;# a config file: 0|1
+
+	set config(keep_logs) 1			;#Save log files: 0|1
+
+	set config(connectiontype) direct	;# Connection type: direct|http|proxy
+	set config(proxy) ""						;# If using proxy, proxy host
+	set config(proxytype) "http"			;# Proxy type: http|ssl|socks5
 	set config(proxyauthenticate) 0		;# SOCKS5 use username/password
-	set config(start_ns_server) "messenger.hotmail.com:1863"
-	set config(last_client_version) ""
-	set config(sound) 1
-	set config(mailcommand) ""
+	set config(proxyuser) ""				;# user and password for SOCKS5 proxy
+	set config(proxypass) ""				;#
+
+	set config(sound) 1				;#Sound enabled: 0|1
+	set config(mailcommand) ""		;#Command for checking mail. Blank for hotmail
 
 
+	#Some Autodetected options
 	if {$tcl_platform(platform) == "unix"} {
 	   set config(soundcommand) "play \$sound"
 	   set config(browser) "mozilla \$url"
@@ -34,85 +37,107 @@ proc ConfigDefaults {} {
 	   set config(notifyYoffset) 28
 	   set config(filemanager) "start \$location"
 	} else {
-	   set config(soundcommand) ""
-	   set config(browser) ""
-	   set config(notifyXoffset) 0
+	   set config(soundcommand) ""	;#Sound player command
+	   set config(browser) ""			;#Browser command
+	   set config(filemanager) ""		;#Filemanager command
+
+	   set config(notifyXoffset) 0	;#Notify window offsets
 	   set config(notifyYoffset) 0
-	   set config(filemanager) ""
 	}
 
-	set config(language) "en"
-	set config(adverts) 0
-	set config(autoidle) 1
-	set config(idletime) 5
-	set config(autoaway) 1
-	set config(awaytime) 10
-	set config(showonline) 1
-	set config(showoffline) 1
-	set config(listsmileys) 1
-	set config(chatsmileys) 1
-	set config(startoffline) 0
-	set config(autoftip) 1
-	set config(myip) "127.0.0.1"
-	set config(wingeometry) 275x400-0+0
-	set config(closingdocks) 0
-	set config(backgroundcolor)  "#AABBCC"
-	set config(encoding) auto
-	set config(basefont) "Helvetica 11 normal"
-	set config(backgroundcolor) #D8D8E0
-	set config(textsize) 2
-	set config(mychatfont) "{Helvetica} {} 000000"
-	set config(orderbygroup) 0
-	#Added by Trevor Feeney
-	#Defaults group order to normal
-	set config(ordergroupsbynormal) 1
-	set config(withnotebook) 0
-	set config(keepalive) 1
-	#set config(notifywin) 1
-	set config(notifymsg) 1
-	set config(notifyonline) 1
-        set config(notifyoffline) 0
-        set config(notifystate) 0
-	set config(notifyemail) 1
-	set config(natip) 1
-	set config(dock) 0
-	set config(autoconnect) 0
-	set config(showtimestamps) 1
-	set config(allowbadwords) 1
-	set config(newmsgwinstate) 1
-        set config(newchatwinstate) 1
-	set config(receiveddir) ""
-	# automaticly change nick to custom state
-	set config(autochangenick) 1
-        set config(initialftport) 6891
-        set config(remotepassword) ""
-        set config(enableremote) 0
-        set config(checkonfln) 0
-        set config(checkblocking) 0
-        set config(blockinter1) 60
-        set config(blockinter2) 300
-        set config(blockinter3) 5
-        set config(blockusers) 2
-        set config(emotisounds) 1
-        set config(animatedsmileys) 1
-        set config(skin) "default"
-        set config(ftautoaccept) 0
-        set config(customsmileys) [list]
-        set config(customsmileys2) [list]
-        set config(showblockedgroup) 0
-        set config(lineflushlog) 1
-	set config(flicker) 1
-	set config(autocheckver) 1
-	set config(truncatenames) 1
-	set config(notifwidth) 150
-	set config(notifheight) 100
+	set config(language) "en"			;#Default language
+
+	set config(autoidle) 1				;#Enable/disable auto-idle feature: 0|1
+	set config(idletime) 5				;#Minutes before setting status to idle
+	set config(autoaway) 1				;#Enable/disable auto-away feature: 0|1
+	set config(awaytime) 10				;#Minutes before setting status to away
+
+	set config(showonline) 1			;#Show online users (expand/contract group)
+	set config(showoffline) 1			;#Show offline users (expand/contract group)
+	set config(orderbygroup) 0			;#Order contacts by group: 0=No | 1=Groups | 2=Hybrid
+	set config(ordergroupsbynormal) 1;#Order groups normal or inverted
+
+	set config(listsmileys) 1			;#Show smileys in contact list
+	set config(chatsmileys) 1			;#Show smileys in chat window
+
+	set config(startoffline) 0			;#Start session as offline (hidden)
+
+	set config(autoftip) 1				;#Detect IP for file transfers automatically
+	set config(myip) "127.0.0.1"		;#Your IP
+	set config(natip) 1					;#Use HTTP for guessing IP. Useful for NAT connections
+
+	set config(wingeometry) 275x400-0+0			;#Main window geometry
+	set config(closingdocks) 0						;#Close button minimizes (or docks) main window
+	set config(backgroundcolor)  #D8D8E0		;#AMSN background color
+	set config(basefont) "Helvetica 11 normal"	;#AMSN base font
+	set config(encoding) auto						;#ANSN encoding
+
+	set config(textsize) 2									;#User text size
+	set config(mychatfont) "{Helvetica} {} 000000"	;#User chat font
+
+	set config(notifymsg) 1				;#Show notify window when a message arrives
+	set config(notifyonline) 1			;#Show notify window when a user goes online
+	set config(notifyoffline) 0		;#Show notify window when a user goes offline
+	set config(notifystate) 0			;#Show notify window when a user changes status
+	set config(notifyemail) 1			;#Show notify window when a new mail arrives
+
+	set config(dock) 0					;#Docking type
+
+	set config(allowbadwords) 1		;#Disable censure on nicks
+
+	set config(newmsgwinstate) 1		;#Iconify or restore chat window on new message
+	set config(newchatwinstate) 1		;#Iconify or restore chat window on new chat
+	set config(flicker) 1				;#Flicker window on new message
+
+
+	set config(autochangenick) 1		;# automaticly change nick to custom state
+
+	set config(initialftport) 6891	;#Initial for to be used when sending file transfers
+	set config(ftautoaccept) 0
+
+	#Remote control options
+	set config(enableremote) 0
+	set config(remotepassword) ""
+
+	#Blocking detection options
+	set config(checkonfln) 0
+	set config(checkblocking) 0
+	set config(blockinter1) 60
+	set config(blockinter2) 300
+	set config(blockinter3) 5
+	set config(blockusers) 2
+	set config(showblockedgroup) 0
+
+	set config(emotisounds) 1			;#Play sound on certain emoticons
+	set config(animatedsmileys) 1		;#Show animated smileys
+	set config(skin) "default"			;#AMSN skin
+
+	#Custom smileys configuration
+	set config(customsmileys) [list]
+	set config(customsmileys2) [list]
+
+	#Advanced options, not in preferences window
+	set config(tooltips) 1				;#Enable/disable tooltips
+	set config(animatenotify) 1		;#Animate notify window
+	set config(disableprofiles) 0		;#Disable profiles (useful for cybercafes or similar)
+	set config(disableuserfonts) 0	;#Disable custom fonts for other users (use always yours).
+	set config(keepalive) 1				;#Keep alive connection (ping every minute)
+	set config(autoconnect) 0			;#Automatically connect when amsn starts
+	set config(receiveddir) ""			;#Directory where received files are stored
+	set config(lineflushlog) 1			;#Flush log files after each line
+	set config(autocheckver) 1			;#Automatically check for newer versions on startup
+	set config(truncatenames) 1		;#Truncate nicknames longer than window width
+	set config(notifwidth) 150			;#Notify window width
+	set config(notifheight) 100		;#Notify window height
 	set password ""
 
-	#Advanced options
-	set config(tooltips) 1
-	set config(animatenotify) 1
-	set config(disableprofiles) 0
-	set config(disableuserfonts) 0
+
+	#System options, not intended to be edited (unless you know what you're doing)
+	set config(start_ns_server) "messenger.hotmail.com:1863"
+	set config(last_client_version) ""
+	set config(withnotebook) 0			;#Use notebook tabs in contact lsit
+	set config(showtimestamps) 1		;#Show timestamps on messages
+	set config(adverts) 0				;#Enable banner advertisements
 
 }
 
