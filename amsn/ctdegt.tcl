@@ -11,6 +11,19 @@
 set degt_protocol_window_visible 0
 set degt_command_window_visible 0
 
+proc degt_Init {} {
+    set Entry {bg #FFFFFF foreground #0000FF}
+    set Label {bg #AABBCC foreground #000000}
+    set Text {bg #2200FF foreground #111111}
+    set Button {foreground #111111}
+    set Frame {background #111111}
+    ::themes::AddClass Degt Entry $Entry 90
+    ::themes::AddClass Degt Label $Label 90
+    ::themes::AddClass Degt Text $Text 90
+    ::themes::AddClass Degt Button $Button 90
+    ::themes::AddClass Degt Frame $Frame 90
+}
+
 proc degt_protocol { str } {
     .degt.mid.txt insert end "$str\n"
 }
@@ -36,13 +49,13 @@ proc degt_protocol_win { } {
 
 #   .notify.c insert $debug_id 0 $notify_text
 #   set debug_id [.degt.c create text 75 50 -font {Helvetica 10} \ -justify center]
-    frame .degt.top
+    frame .degt.top -class Degt
         label .degt.top.name -text "Protocol" -justify left
 #        label .degt.top.lines -textvariable lineCnt -justify right
 	pack .degt.top.name -side left -anchor w
 #	pack .degt.top.lines -side right  -anchor e -fill x
 
-    frame .degt.mid
+    frame .degt.mid -class Degt
 	scrollbar .degt.mid.sy -orient vertical -command ".degt.mid.txt yview"
 	scrollbar .degt.mid.sx -orient horizontal -command ".degt.mid.txt xview"
 	text   .degt.mid.txt -relief sunken -height 20 -width 85 -font fixed \
@@ -53,7 +66,7 @@ proc degt_protocol_win { } {
 	pack .degt.mid.sx -side bottom -fill x
 	pack .degt.mid.txt -anchor nw
 
-    frame .degt.bot -relief sunken -borderwidth 1
+    frame .degt.bot -relief sunken -borderwidth 1 -class Degt
     	button .degt.bot.clear  -text "Clear" \
 		-command ".degt.mid.txt delete 0.0 end"
     	button .degt.bot.close -text [trans close] -command degt_protocol_win_toggle 
@@ -83,16 +96,19 @@ proc degt_ns_command_win {} {
     if [winfo exists .nscmd] {
         return
     }
+
     toplevel .nscmd
     wm title .nscmd "MSN Command"
     wm iconname .nscmd "MSNCmd"
     wm state .nscmd withdraw
-    label .nscmd.l -text "NS Command:" -font bboldf
-    entry .nscmd.e -width 20 -bg #FFFFFF
-    pack .nscmd.l .nscmd.e -side left
+    frame .nscmd.f -class Degt
+    label .nscmd.f.l -text "NS Command:" -font bboldf 
+    entry .nscmd.f.e -width 20
+    pack .nscmd.f.l .nscmd.f.e -side left
+    pack .nscmd.f
 
-    bind .nscmd.e <Return> {
-    	set cmd [string trim [.nscmd.e get]]
+    bind .nscmd.f.e <Return> {
+    	set cmd [string trim [.nscmd.f.e get]]
 	if { [string length $cmd] > 0 } {
 	    # There is actually a command typed. If %T found in
 	    # the string replace it by a transaction ID
@@ -118,9 +134,10 @@ proc debug_interpreter {cmd params} {
     }
 }
 
-proc debug_cmd_lists {subcmd} {
+proc debug_cmd_lists {subcmd {basename ""}} {
     global tcl_platform HOME log_dir list_fl list_rl list_al list_bl
 
+    set cmdVersion "1.0"
     # Forward Users List (those we have added to our buddy list)
     foreach user $list_fl {
         set ulogin [lindex $user 0]
@@ -154,25 +171,34 @@ proc debug_cmd_lists {subcmd} {
 	}
     }
 
-    if {$subcmd == "-save"} {
+    if {($subcmd == "-save") || ($subcmd == "-export")} {
+	if {$basename == ""} { set basename "dbg-lists.txt"; }
+	set save_dir $log_dir
+	if {$subcmd == "-export"} { set save_dir $HOME; }
+	set filepath [file join $save_dir $basename]
         if {$tcl_platform(platform) == "unix"} {
-	    set file_id [open "[file join $log_dir dbg-lists.txt]" w 00600]
+	    set file_id [open "$filepath" w 00600]
 	} else {
-	    set file_id [open "[file join $log_dir dbg-lists.txt]" w]
+	    set file_id [open "$filepath" w]
 	}
-	puts $file_id "AMSN Debug Output : FL(forward) RL(reverse) AL(allow) BL(block)"
+	set Date [clock format [clock seconds] -format %c]
+	puts $file_id "# AMSN-Contact-List version $cmdVersion"
+	puts $file_id "# AMSN-Contact-List date $Date"
+	puts $file_id "# AMSN-Contact-List info  FL(forward) RL(reverse) AL(allow) BL(block)"
     }
     set user_entries [array get allBuddies]
     set items [llength $user_entries]
     for {set idx 0} {$idx < $items} {incr idx 1} {
         set vkey [lindex $user_entries $idx]; incr idx 1
 	set gid [::abook::getGroup $vkey -id]
-        if {$subcmd == "-save"} {
-	    puts $file_id "$allBuddies($vkey) $vkey (gid $gid)"
+        set unick  [urlencode [::abook::getName $vkey]]
+        if {($subcmd == "-save") || ($subcmd == "-export")} {
+	    puts $file_id "$allBuddies($vkey) $vkey (gid $gid) $unick"
 	}
     }
-    if {$subcmd == "-save"} {
+    if {($subcmd == "-save") || ($subcmd == "-export")} {
         close $file_id
+	msg_box "$filepath"
     }
 }
 
@@ -229,7 +255,7 @@ proc Preferences { settings } {
     set nbtApps   [trans prefapps]
     set nbtProxy  Proxy
     set nb .cfg.n
-    frame .cfg.n 
+    frame .cfg.n -class Degt
 	# Preferences Notebook
 	pack [notebook $nb.p $nbtSounds $nbtApps $nbtProxy] \
 		    -expand 1 -fill both -padx 1m -pady 1m
@@ -260,7 +286,7 @@ proc Preferences { settings } {
         bind .cfg <Control-p> { pickNote $nb.p $nbtProxy }
 
     # Frame for common buttons (all preferences)
-    frame .cfg.b
+    frame .cfg.b -class Degt
     	button .cfg.b.save -text [trans save] -command "SavePreferences; destroy .cfg"
     	button .cfg.b.cancel -text [trans close] -command "destroy .cfg" 
 	pack .cfg.b.save .cfg.b.cancel -side left
@@ -324,15 +350,15 @@ proc ChooseFilename { twn title } {
      label $w.msg -justify center -text "Please give a filename"
      pack $w.msg -side top
 
-     frame $w.buttons
+     frame $w.buttons -class Degt
      pack $w.buttons -side bottom -fill x -pady 2m
       button $w.buttons.dismiss -text Cancel -command "destroy $w"
       button $w.buttons.save -text Save \
         -command "save_text_file $twn $w.filename.entry; destroy $w"
       pack $w.buttons.save $w.buttons.dismiss -side left -expand 1
 
-    frame $w.filename -bd 2
-     entry $w.filename.entry -relief sunken -width 40  -bg #FFFFFF
+    frame $w.filename -bd 2 -class Degt
+     entry $w.filename.entry -relief sunken -width 40
      label $w.filename.label -text "Filename:"
      pack $w.filename.entry -side right 
      pack $w.filename.label -side left
@@ -384,11 +410,11 @@ proc fileDialog {w ent operation basename} {
 proc LabelEntry { path lbl value width } {
     upvar $value entvalue
 
-    frame $path
+    frame $path -class Degt
 	label $path.lbl -text $lbl -justify left \
 	    -font sboldf
 	entry $path.ent -text $value -relief sunken \
-	    -width $width -font splainf -bg #FFFFFF
+	    -width $width -font splainf
 	pack $path.lbl $path.ent -side left -anchor e -expand 1 -fill x
 #	pack $path.ent $path.lbl -side right -anchor e -expand 1 -fill x
 }
@@ -399,6 +425,9 @@ proc LabelEntryGet { path } {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.11  2002/07/09 23:31:12  lordofscripts
+# - T-THEMES preparation for color themes
+#
 # Revision 1.10  2002/07/03 19:10:15  airadier
 # Changes in colors (didn't look good on some systems)
 #
