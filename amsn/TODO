@@ -20,7 +20,7 @@ DONE	Long messages knock out remote user from chat (if > 400, separate into 400 
 DONE	New unified preferences dialog with tabs
 DONE	Multiple user accounts combo box + separate user config files
 DONE	Refinements to queuing and reconnection issues
--	Improve filetransfers, allow more than one at once. Fix progress bar, and special characters on filenames.
+DONE	Improve filetransfers, allow more than one at once. Fix progress bar, and special characters on filenames.
 -	Improve font selection (unify with color selection)
 -	When selecting a new color for the font in a chat, don't change only
         the color of the text send but the color of the text being writen too (for all window).
@@ -28,8 +28,8 @@ DONE	Make status change dynamic in chat window
 DONE	Disable input window when USER is offline (after offline error)
 -	When queue is cleared, NAK every message in queue
 DONE	After user offline error, clean chat queue for that user.
--	Don't save password if login fails becoz of wrong username or password
--	Fix public profile, use html file for authentication and login to MSN profiles? -> use same system as hotmail login
+DONE	Don't save password if login fails becoz of wrong username or password
+-	Fix public profile, use html file for authentication and login to MSN profiles? -> use same system as hotmail login, but no external .htm file
 DONE	Notify window is only clickable on the text, should make whole window clickable
 -	Add X in corner of notify window to close, maybe make it nicer too (border, etc)
 -	Write procedure to redraw main window for language + font changes
@@ -44,16 +44,16 @@ DONE	Bug fixes in urlencode/decode procedure that didn't allow some characters i
 DONE	Fixed bug when adding a user from a chat window.
 -	Write/Read profiles file on opening/closing login window, not start/stop amsn.
 DONE	Add timeouts when reconnecting or inviting a user to a switchboard, to avoid blocking on it.
--	Same window name bug for filetransfers and help windows
+DONE	Same window name bug for filetransfers and help windows
 -	Possible bug if the password has a semicolon (at the end?). Check.
--	Be able to manually change status to "No activity" - Bug B657836
+DONE	Be able to manually change status to "No activity" - Bug B657836
 -	When we get a NAK from a message, try to enqueue it again, as probably it will success.
 -	Fix focus and children things with list window. (For example add_user from chat window), and dialogs in general.
 DONE	Ctrl, alt and other special keys shouldn't send typing notification.
 DONE	Bug with font selection in preferences window. Saved if "close" clicked, but not if "save" clicked.
 DONE	Read/write profiles on login window for multiple AMSN's
 DONE	Implement lock system to make sure you don't delete profile open on another AMSN window
--	Only change font preferences if save is pressed, revert to old if cancel pressed
+DONE	Only change font preferences if save is pressed, revert to old if cancel pressed
 -	Add receivedir and allowbadword options in preferences
 -	Add disable window flicker in preferences
 
@@ -71,17 +71,20 @@ DONE	Implement lock system to make sure you don't delete profile open on another
 -	Refresh notification area when dock is removed
 
 	**File Transfer issues :
--	File Transfer AUTH protocol fix (and add the nick of person sending file to transfer window)
--	Multiple File receive at once, either allow but fix saved filenames or disallow multiple recv at once
--	Fix conference messaging issues (mass file send)
+-	File Transfer AUTH protocol fix
+DONE	Add the nick of person sending file to transfer window
+DONE	Multiple File receive at once, either allow but fix saved filenames or disallow multiple recv at once
+DONE	Fix conference messaging issues (mass file send)
 -	Display link to received file and click to open
+
+
 -	Option to display or not the chat button bar
 -	Remember chat window positions
 -	Option to enable/disable showing timestamps
 -	Ability to see and edit AL and BL lists, and to check RL list
 -	Add a "typed characters" counter in chat window.
 -	Add an option to remove the amsn banner on contact list.
--	Files with [] don't work? Check that and make sure.
+DONE	Files with [] don't work? Check that and make sure.
 
 	**Alarm system improvements and bugs :
 -	URL Decode names when displaying alarm
@@ -125,10 +128,10 @@ DONE	Gnome2 Docking + KDE Docking
 -	Autoconnect (when connection detected)
 -	Notebook like chat windows (as an option)
 -	AutoAway Messages
--	Encrypt password? (do we really need to? I think not)
+DONE	Encrypt password? (do we really need to? I think not)
 -	Resume File Transfers
 -	Socks5 Proxy Support
--	Option to popup/raise/unminimize message window on message receive
+DONE	Option to popup/raise/unminimize message window on message receive
 -	Direct connection between amsn clients, without sb, real time chat.
 -	Better management of special characters and \n in nicks
 
