@@ -122,7 +122,7 @@ clear Wissen
 clearlog2 Verwijder Geschiedenis voor al je contactpersonen
 clearlog3 Verwijder alle logboeken
 clearlog Logboek legen
-clicktoadd Klik op Toevoegen voor een nieuwe opmerking
+clicktoadd Klik op de knop 'Toevoegen' voor een nieuwe notitie
 clicktologin Klik hier om je aan te melden
 clientcaps Stuur x-clientcaps pakketje naar andere clients
 clientname Client naam
@@ -159,11 +159,11 @@ corruptconfig Het configuratiebestand is beschadigd. Er wordt een nieuw bestand 
 corruptstates Het aangepaste statussen bestand is beschadigd. Er wordt een nieuw bestand aangemaakt. Het oude wordt opgeslagen in $1. Wil je het oude bestand alsjeblieft naar ons opsturen zodat wij kunnen nagaan wat er fout is gegaan?
 countrycode Landnummer
 cprofile Maak profiel
-created Aangemaakt
+created Gemaakt
 credits De makers
 currentdate Huidige datum
 currentlanguage Deze taal gebruikt u nu
-currentnotes Huidige opmerkingen
+currentnotes Huidige notities
 custnotifymsg Geef meldingsvenster weer als een nieuw bericht aankomt
 custnotifyoffline Geef meldingsvenster weer als deze contactpersoon offline gaat
 custnotifyonline Geef meldingsvenster weer als deze contactpersoon online komt
@@ -268,7 +268,7 @@ ftrejectedby $1 weigerde de overdracht van '$2'.
 ftsendinvitation De uitnodiging voor de overdracht van het bestand '$2' ($3 bytes) is verstuurd naar $1
 fullcontactlist Sorry, je contactpersonenlijst is vol. Je moet eerst iemand verwijderen voordat je weer iemand kunt toevoegen.
 getdisppic De schermafbeelding van anderen weergeven tijdens gesprekken
-globalcontainer Globaal venster
+globalcontainer Meerdere gesprekken
 globalnicktitle Algemene schermnaam
 globalnick Voer een patroon in dat gebruikt wordt om een schermnaam te vormen voor al je contactpersonen. Je kunt de volgende variabelen opnemen: \$user_login voor het e-mail adres van de contactpersoon, \$nick voor zijn schermnaam en \$customnick voor zijn aangepaste schermnaam.
 globaloverride Het algemene schermnaam-patroon heeft voorrang op aangepaste schermnamen
@@ -300,7 +300,7 @@ ignoreerrors Negeer de overige AMSN-foutberichten tot het einde van de sessie
 imagefiles Beeldbestanden
 inbox Postvak IN
 insertsmiley Voeg emoticon in
-inserttextnote Voeg tekst toe in het Onderwerp vak en Opmerkingen vak en klik op Bewaren
+inserttextnote Vul de velden 'Onderwerp' en 'Notitie' in, en klik vervolgens op 'Opslaan'
 installconvert Je moet het conversie-programma "ImageMagick" installeren om afbeeldingen te converteren naar de opmaak dat door de MSN-servers wordt gebruikt. Je kunt een versie van ImageMagick voor jouw besturingssysteem downloaden van ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Als deze melding verschijnt terwijl je het al hebt geïnstalleerd, dan is er mogelijk sprake van een bug. Meld dit dan alstublieft.
 internalerror Interne Serverfout
 invalidfile2 Het bestand $1 kan niet aangemaakt worden. Heb je wel de juiste toegangsrechten?
@@ -329,14 +329,14 @@ lastmsgedme Laatste bericht
 lastmsgtime Laatste bericht ontvangen om $1
 lastseen Laatste keer online
 lclosedwin $1 heeft het venster gesloten op $2
-lconftopriv Vergadering veranderde in priv?gesprek met $1
+lconftopriv Vergadering veranderde in privé-gesprek met $1
 lconvstarted Gesprek gestart op $1
 leaveblankforhotmail Laat leeg om Hotmail web te gebruiken
 leavejoinsinchat In het gespreksvenster weergeven dat iemand het gesprek binnenkomt of verlaat.
 leaves $1 verlaat het gesprek
 lenteredconf $1 kwam de vergadering binnen op $2
 lineflushlog Werk logfiles bij na elke regel
-linprivate PRIV
+linprivate PRIVÉ
 listeningon Bezig met luisteren op poort $1
 listsmileys2 Emoticons weergeven in de contactpersonenlijst
 listsmileys Toon emoticons in lijst
@@ -360,10 +360,10 @@ logout Afmelden
 logsbydate Logs sorteren op datum (Geschiedenis laadt een stuk sneller)
 logsin heeft zich aangemeld
 logsmileys Toon emoticons in aMSN's geschiedenisvensters
-logsout heeft zich afgemeld
+logsout heeft zich afgemeld 
 longnick De naam die je hebt ingesteld is langer dan 130 tekens, dit is eigenlijk te lang. Wil je het toch proberen?
 longp4c Je hebt voor 'Schermnaam tijdens gesprek' meer dan 130 tekens opgegeven. Dit wordt niet ondersteund door de originele MSN client, die zal de naam daarom weergeven als $1. Wil je de opgegeven naam toch gebruiken?
-lprivtoconf Priv?gesprek veranderde in vergadering met $1
+lprivtoconf Privé-gesprek veranderde in vergadering met $1
 luclosedwin Je hebt het venster gesloten op $1
 mailer E-mail programma
 mailerexample ( \$recipient = Geadresseerde ) Laat dit veld leeg als je hotmail wilt gebruiken
@@ -372,6 +372,8 @@ maximised Gemaximaliseerd
 minimised Gespreksvenster niet activeren
 mins minuten
 mobile Mobiel
+mobilegrp1 MSN Mobiel groep
+mobilegrp2 Plaats contactpersonen in de MSN Mobiel groep wanneer ze offline zijn (bij sortering op status)
 modified Gewijzigd
 month Maand
 morepersonal Meer persoonlijke statussen ->
@@ -422,7 +424,7 @@ noprofileexists Er zijn momenteel geen profielen,\nJe moet er een aanmaken als j
 normal Oplopend
 noskins Kan aMSN niet starten omdat er geen skins zijn geïnstalleerd in de map skins/.
 nosystemtray Systeemvak niet beschikbaar
-note Opmerking
+note Notitie
 notificationserver Initiële MSN Notificatie Server (MSN Messenger server)
 notify1_5 Melding weergeven wanneer een contactpersoon offline gaat
 notify1_75 Melding weergeven wanneer de status van een contactpersoon wijzigt
@@ -598,7 +600,7 @@ stylechat Dezelfde stijl als gesprekken
 stylehist aMSN geschiedenis stijl
 stylelog Kies de opmaak van de geschiedenislogboeken
 subject Onderwerp
-subjectrequired Onderwerp verplicht
+subjectrequired Er moet een onderwerp worden opgegeven
 syntaxerror Syntaxfout
 tabbed Vensters met tabbladen
 tabbedglobal Alle gesprekken met contactpersonen in één venster

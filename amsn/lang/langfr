@@ -19,19 +19,19 @@ advanced Avancé
 advancedprefs Configuration avancée
 adverts Publicité
 agotinvitation $1 vous a invité à un session audio
-alarmonconnect Activer l'alarme quand l'utilisateur se connecte
-alarmondisconnect Activer l'alarme quand l'utilisateur se déconnecte ou passe en mode invisible
-alarmonmsg Activer l'alarme quand l'utilisateur m'envoie un message
-alarmonstatus Activer l'alarme quand l'utilisateur change de statut
-alarmpref Configuration de l'alarme de l'utilisateur
+alarmonconnect Activer l'alarme quand le contact se connecte
+alarmondisconnect Activer l'alarme quand le contact se déconnecte ou passe en mode invisible
+alarmonmsg Activer l'alarme quand le contact m'envoie un message
+alarmonstatus Activer l'alarme quand le contact change de statut
+alarmpref Configuration de l'alarme du contact
 alarms Alarmes
-alarmstatus Activer/désactiver l'alarme pour cet utilisateur
+alarmstatus Activer/désactiver l'alarme pour ce contact
 allfiles Tous les fichiers
 allow_sms Autoriser mes contacts à me téléphoner sur mon mobile
 allowallbutbl Autoriser tout le monde à me contacter sauf les personnes que j'ai bloquées
 allowbadwords Désactiver la censure des pseudonymes
 allowlist Liste des personnes autorisées :
-allowonlyinal N'autoriser que les utilisateurs de ma liste d'acception à me contacter
+allowonlyinal N'autoriser que les contacts de ma liste d'acception à me contacter
 allowseen Autoriser cette personne à me voir et à me contacter quand je suis en ligne
 allprofilesinuse Tous les profils existants sont présentement utilisés
 animatedemoticon Cet émoticon est animé
@@ -75,7 +75,7 @@ blockinter3 à chaque
 blockinter4 secondes.
 blocklist Liste des personnes bloquées :
 blockmessage Ces personnes sont en ligne mais vous bloquent
-blockusers Nombre d'utilisateurs à cocher à la fois
+blockusers Nombre de contacts à cocher à la fois
 bouncedock Faire rebondir l'icone de aMSN dans le dock lorsque vous recevez un message
 broughtby Développé pour vous par
 browse Parcourir
@@ -105,11 +105,11 @@ chatmaxmin Quand une fenêtre d'invitation de dialogue s'ouvre, je veux qu'elle s
 chatreq Inviter à discuter
 chatsmileys2 Afficher les émoticons et les smileys dans la fenêtre de discussion
 chatsmileys Afficher les émoticons et smileys
-checkblocking Vérifier continuellement si des utilisateurs vous ont bloqué
+checkblocking Vérifier continuellement si des contacts vous ont bloqué
 checkemail Afficher une ligne de notification d'email (Boîte aux lettres) dans la liste des contacts
 checkfilman Les fichiers reçus seront sauvegardés dans $1. Veuillez vérifier les propriétés du gestionnaire de fichier dans la fenêtre de préférences.
 checkingver Recherche d'une nouvelle version
-checkonfln Verifier si un utilisateur vous a bloqué lorsqu'il se déconnecte
+checkonfln Verifier si un contact vous a bloqué lorsqu'il se déconnecte
 checkver Nouvelle version
 choosearq Veuillez choisir votre architecture système
 choosebasefont Choisir la police de caractère
@@ -151,7 +151,7 @@ contactadded Contact ajouté
 contactdoesnotexist Personne introuvable
 contactlist Liste de contacts :
 continuously Continuellement
-conversationwith En conversation avec $1 utilisateurs
+conversationwith En conversation avec $1 contacts
 convertexplain  Chemin vers l'exécutable CONVERT, de ImageMagick (requis pour afficher des images).\n Laisser le blanc si CONVERT est dans le PATH
 copy Copier
 copytogroup Copier vers groupe
@@ -193,7 +193,7 @@ directconnection J'ai une connexion directe à Internet (utilisation du port 1863
 disabled Désactivé
 disableprofiles Désactiver les profils (utile pour la cyber-cafés ou pour les environnements partagés)
 disablessl Désactiver SSL
-disableuserfonts Ignorer la police de l'utilisateur distant dans les discussions, et utiliser sa propre police
+disableuserfonts Ignorer la police du contact distant dans les discussions, et utiliser votre propre police
 disconnect $1 s'est déconnecté.
 disconnectedfrom Déconnecté[e] de $1
 displaychat Options d'affichage du texte
@@ -267,7 +267,7 @@ ftrejectedby $1 a refusé l'invitation de transfert de fichier pour le fichier '$
 ftrejected Transfert de fichier refusé
 ftsendinvitation L'invitation de transfert du fichier '$2' ($3 bytes) a été envoyé à $1.
 fullcontactlist Désolé, votre liste de contact est pleine. Vous devez supprimer des contacts pour en ajouter de nouveaux.
-getdisppic Permettre la réception d'icônes des autres utilisateurs
+getdisppic Permettre la réception d'icônes des autres contacts
 globalcontainer Fenêtre globale
 globalnick Insérez un modèle afin de former les pseudonymes de vos contacts.Vous pouvez utiliser ces variables : \$user_login pour les adresses de vos contacts, \$nick pour les pseudonymes de vos contacts et enfin \$customnick pour les pseudonymes personnalisés de vos contacts. Par exemple : "\$user_login est \$nick" donnera "contact@msn.com est Contact"
 globalnicktitle Pseudonyme général
@@ -372,6 +372,8 @@ maximised Maximisé
 minimised Minimisé/Icônifié
 mins minutes
 mobile Mobile
+mobilegrp1 Groupe Mobile
+mobilegrp2 Mettre les contacts dans le groupe "Mobile" quand vous êtes hors connexion (et les trier par status)
 modified modifié[e]
 month Mois
 morepersonal Autres statuts ->
@@ -433,12 +435,12 @@ notify4 Afficher une notification quand des E-mails arrivent dans les autres dos
 notifyoffset Sélectionner la position de la fenêtre de notification en précisant ses coordonnées
 notify prévenir
 notifytimeout Nombre de milisecondes écoulées avant que la fenêtre d'annonce ne disparaisse
-notifytyping Envoyer aux autres utilisateurs une notification lors de l'usage du clavier
+notifytyping Envoyer aux autres contacts une notification lors de l'usage du clavier
 notifywin Fenêtre de notification
 notinlist Vous ne figurez pas dans sa liste de contact
 notls Le protocole 9 de MSN requiert le module tls. Celui-ci ne semble pas être installé sur le système. S'il est installé,
 nottabbed Fenêtre normale sans onglets
-nousersinsession Pas d'utilisateur dans cette session
+nousersinsession Pas de contacts dans cette session
 nudge $1 réclame votre attention
 offline Déconnecté[e]
 ok Accepter
@@ -601,8 +603,8 @@ subject Sujet
 subjectrequired Sujet requis
 syntaxerror Erreur de syntaxe
 tabbed Onglets
-tabbedglobal Une fenêtre à onglets pour tous les utilisateurs se trouvant dans votre liste de contacts
-tabbedgroups  Une fenêtre à onglets pour tous les utilisateurs se trouvant dans une même groupe
+tabbedglobal Une fenêtre à onglets pour tous les contacts se trouvant dans votre liste de contacts
+tabbedgroups  Une fenêtre à onglets pour tous les contacts se trouvant dans une même groupe
 tabtitlenick Afficher le pseudonyme dans les onglets au lieu de l'email
 temp_state Ne pas enregistrer (état temporaire, sera perdu à la fermeture d'aMSN)
 textsize Taille du texte
@@ -633,10 +635,10 @@ uoffline Déconnectés
 uonline Connectés
 update Mise à jour
 useralreadyonlist Utilisateur déjà présent dans la liste
-userblocked Cet utilisateur est en ligne mais vous l'avez bloqué
-userdata Données de l'utilisateur
-usernotonline L'utilisateur n'est pas en ligne
-userproperties Propriétés de l'utilisateur $1
+userblocked Ce contact est en ligne mais vous l'avez bloqué
+userdata Données du contact
+usernotonline Le contact n'est pas en ligne
+userproperties Propriétés du contact $1
 user Utilisateur
 useother Utiliser un programme différent
 useryourself Vous ne pouvez pas dialoguer avec vous-même
