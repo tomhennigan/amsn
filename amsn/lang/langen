@@ -184,6 +184,7 @@ default Default Config
 defaultloginradio Login with default configuration
 defchatwinsize Default size for chat windows (XSIZExYSIZE)
 delete Delete
+deleteall Delete all
 deletecustomstate Delete custom state
 delimiters Timestamps' delimiters:
 deliverfail There was a problem delivering the following message
