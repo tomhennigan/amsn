@@ -475,7 +475,9 @@ willjoin Cakam, da se $1 pridruzi pogovoru
 work Delo
 wrongfields Polja "$1", "$2" in/ali "$3" niso veljavna
 wrongprofileversion Napacna datoteka nastavitev profila. Da bi jo popravil, odstrani imenik $1 ali posodobi amsn.
+xmmscurrent Pokazi trenutno pesem
 xmmserr Nic se ne igra ali nimas namescenega xmms-infopipe.
+xmmssend Poslji trenutno pesem
 xoffset X odstopanje
 yes Ja
 yoffset Y odstopanje

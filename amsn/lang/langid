@@ -27,6 +27,7 @@ allowbadwords Matikan sensor terhadap nama panggilan
 allowlist Daftar Boleh (yang dibolehkan)
 allowonlyinal Ijinkan hanya pengguna dalam Daftar Terima untuk menghubungi saya
 allowseen Perbolehkan orang ini untuk melihat status saya dan menghubungi saya
+allprofilesinuse Semua profil yang ada sedang dipakai
 animatedemoticon Emotikon ini memiliki animasi
 animatedsmileys Mungkinkan smiley dengan animasi
 animatenotify Jendela Pemberitahuan dengan Animasi
@@ -422,6 +423,7 @@ sourcecode Kode Sumber (perlu kompilasi dan instalasi)
 sslwarning PERINGATAN!! Mematikan SSL akan mematikan enkripsi, sehingga kata sandi anda akan terlihat sebagai tekst biasa pada jaringan. Gunakan hanya untuk pengaturan proxy dan jaringan yang rumit.
 startoffline2 Register Masuk secara diam-diam sebagai 'Tampak Tidak Tersambung'
 startoffline Daftar-Masuk dengan status Offline
+startontray Jalankan AMSN pada baki ikon saja
 stateautomsg Pesan-otomatis untuk Kirim
 statechange status berubah menjadi:
 stateedittext Mohon rubah bagian-bagian yang anda ingin modifikasi dan tekan Simpan
@@ -470,7 +472,9 @@ willjoin Menunggu $1 untuk bergabung
 work Kerja
 wrongfields Bidang “$1”, “$2” dan/atau “$3” tidak dapat diterima
 wrongprofileversion Versi berkas pengaturan profil yang salah. Untuk memperbaikinya mohon hapus direktori $1 atau perbaharui a'MSN
+xmmscurrent Tampilkan lagu yang sekarang ini
 xmmserr Tidak ada yang dimainkan, atau anda tidak memiliki xmms-infopipe terinstalasi
+xmmssend Kirim lagu yang sekarang inis
 xoffset Keseimbangan Posisi X
 yes Iya
 yoffset Keseimbangan Posisi Y

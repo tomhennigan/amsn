@@ -14,6 +14,7 @@ addto Toevoegen aan $1
 admincontacts Contactpersonen beheren
 admingroups Groepen beheren
 advanced Geavanceerd
+advancedprefs Uitgebreide opties instellen
 adverts Advertenties
 alarmonconnect Alarm weergeven bij online komen
 alarmondisconnect Alarm weergeven bij offline gaan
@@ -26,8 +27,10 @@ allowbadwords Ongecensureerde schermnamen weergeven
 allowlist [AL] Geaccepteerd
 allowonlyinal Alleen personen die ik geaccepteerd heb kunnen mij berichten sturen en mijn status zien
 allowseen Deze persoon toestaan om mijn online-status te zien, en contact met mij op te nemen
+allprofilesinuse Alle profielen zijn op dit moment in gebruik
 animatedemoticon Dit is een bewegende emoticon
 animatedsmileys Bewegende emoticons gebruiken
+animatenotify Bewegend mededelingenvenster
 appearance Berichten
 appearoff Offline weergeven
 areacode Netnummer
@@ -35,6 +38,7 @@ aretyping $1 zijn bezig met typen
 autoaccepted Bestandsoverdracht automatisch geaccepteerd
 autoacceptft Automatisch bestandsoverdrachten accepteren
 autoaway Status op "Afwezig" zetten als ik niet actief ben gedurende
+autocheckver Controleer automatisch op nieuwere versies bij het opstarten
 autoconnect2 Automatisch aanmelden wanneer aMSN wordt gestart
 autoconnect Automatisch aanmelden
 autohotmaillog Automatisch aanmelden bij Hotmail
@@ -129,6 +133,8 @@ delprofile2 Selecteer het profiel waarvan u de locale configuratiebestanden wilt
 delprofile Verwijder profiel
 description Omschrijving
 directconnection Directe verbonden met het internet (gebruik poort 1863)
+disabled Uitgeschakeld
+disableprofiles Schakel profielen uit (handig voor internet cafés en gedeelde omgevingen)
 disablessl SSL niet gebruiken
 disconnect $1 is offline gegaan
 displaychat Discussies
@@ -144,8 +150,10 @@ editcurrentstate Huidige bewerken
 editnewstate Persoonlijke status toevoegen
 editprofile Bewerk profiel
 editstate Persoonlijke status wijzigen
+editvalue Wijzig waarde
 emotisounds Geluid bij emoticons gebruiken
 enablebanner aMSN Banner weergeven (werkt pas na opnieuw opstarten)
+enabled Actief
 enableproxy Gebruik proxy
 enableremote Beheer op afstand toestaan
 enablesound Geluid afspelen
@@ -223,6 +231,7 @@ lconvstarted Gesprek gestart op $1
 leaveblankforhotmail Laat leeg om Hotmail web te gebruiken
 leaves $1 verlaat conversatie
 lenteredconf $1 kwam de vergadering binnen op $2
+lineflushlog Werk logfiles bij na elke regel
 linprivate PRIVE
 listeningon Bezig met luisteren op poort $1
 listsmileys2 Emoticons in de contactpersonenlijst weergeven
@@ -283,6 +292,7 @@ nopic Geen afbeelding
 noprofileexists Er zijn momenteel geen profielen, \nU moet er een aanmaken als u aanmeldingsnamen met een profiel wilt gebruiken. \n Gebruik de knop Nieuw profiel aanmaken in dit venster om een nieuw profiel toe te voegen.
 normal Oplopend
 nosystemtray Systeemvak niet beschikbaar
+notificationserver Initiële MSN Notificatie Server (MSN Messenger server)
 notify1_5 Melding weergeven wanneer een contactpersoon offline gaat
 notify1_75 Melding weergeven wanneer de status van een contactpersoon wijzigt
 notify1 Melding weergeven wanneer een contactpersoonen online komt
@@ -361,6 +371,7 @@ raised Discussievenster activeren
 readonlymsgbox De bestandsoverdrachtis geannuleerd vanwege alleen-lezen toegang tot de map voor ontvangen bestanden. Pas de toegangsrechten voor deze map aan.
 readonlywarn WAARSCHUWING: Het bestand zal waarschijnlijk NIET correct worden opgeslagen, omdat de map voor ontvangen bestanden beschermd blijkt te zijn tegen schrijven. Zorg ervoor dat de rechten voor de doelmap ($1) correct zijn ingesteld voordat de bestandsoverdracht wordt gestart.
 receivedbytes $1 van de $2 bytes ontvangen
+receiveddir Map voor ontvangen bestanden
 receivefile Ontvang bestand
 reconnecting Bezig met opnieuw verbinden met de server
 reconnect Wachten tot $1 opnieuw verbindt
@@ -392,6 +403,7 @@ showblockedlist Toon de lijst van mensen die u geblokkeerd hebben
 showdisplaypic2 Schermafbeelding standaard tonen bij het openen van een discussievenster
 showdisplaypic Toon schermafbeelding
 showmypic Mijn Afbeelding
+shownotify Geef mededelingenvenster weer bij bepaalde gebeurtenissen
 showuserpic Afbeelding van $1
 skinselector Skin selecteren
 skin Skin
@@ -411,6 +423,7 @@ sourcecode Broncode (moet gecompileerd en geïnstalleerd worden)
 sslwarning WAARSCHUWING!! Als SSL wordt uitgeschakeld, wordt uw wachtwoord bij het verzenden niet versleuteld. Schakel SSL dus alleen uit als dit noodzakelijk blijkt te zijn om verbinding te kunnen maken.
 startoffline2 Stil aanmelden met "Offline weergeven"
 startoffline Stil aanmelden
+startontray Start aMSN alleen als icoon in het systeemvak
 stateautomsg Automatisch bericht
 statechange status is veranderd in:
 stateedittext Pas de velden aan die u wilt \n veranderen en druk op Opslaan
@@ -439,6 +452,8 @@ tooltips Tooltips weergeven
 transnotexists Het opgevraagde bestand is nog niet vertaald in de gebruikte taal.
 traynotcompiled Taakbalk icoon plugin is niet gecompileerd. Bekijk plugins/traydock
 triggers Tekst triggers
+truncatenames1 Verkort nicks in de contactpersonenlijst en in venstertitels die langer zijn dan het venster breed is
+truncatenames2 Verkort nicks tijdens gesprekken als ze langer zijn dan het venster breed is
 truncatenicks Schermnamen die langer zijn dan de vensterbreedte afbreken
 twonewmail U hebt $1 nieuwe berichten in Postvak IN
 unblock Deblokkeer
@@ -457,7 +472,9 @@ willjoin Wachten tot $1 de conversatie zal bijwonen
 work Werk
 wrongfields De velden "$1", "$2" en/of "$3" waren ongeldig
 wrongprofileversion Verkeerde profiel configuratiebestand versie. Om te repareren, gelieve de map $1 te verwijderen, of aMSN te updaten.
+xmmscurrent Geef weer welk nummer er draait
 xmmserr Er wordt niks afgespeeld of "xmms-infopipe" is niet geïnstalleerd
+xmmssend Verzend het huidige nummer
 xoffset horizontaal
 yes Ja
 yoffset verticaal
