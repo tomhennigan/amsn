@@ -2973,7 +2973,6 @@ proc list_users_refresh {} {
 
 proc lists_compare {} {
    global list_fl list_al list_bl list_rl
-   global newc_allow_block newc_add_to_list newc_exit
    set list_albl [lsort [concat $list_al $list_bl]]
    set list_rl [lsort $list_rl]
 
@@ -2982,21 +2981,26 @@ proc lists_compare {} {
          status_log "$x in your RL list but not in your AL/BL list!\n" white
 	 newcontact [lindex $x 0] [lindex $x 1]
 #         tkwait window .newc
-         if {$newc_exit == "OK"} {
-	    if {$newc_allow_block == "allow"} {
-	       ::MSN::WriteNS "ADD" "AL [lindex $x 0] [urlencode [lindex $x 1]]"
-	    } else {
-	       ::MSN::WriteNS "ADD" "BL [lindex $x 0] [urlencode [lindex $x 1]]"
-	    }
-	    if {$newc_add_to_list} {
-	       ::MSN::addUser [lindex $x 0] [urlencode [lindex $x 1]]
-	    }
-	 } else {;# if clicked on OK, by default Accept List
-#	       ::MSN::WriteNS "ADD" "AL [lindex $x 0] [urlencode [lindex $x 1]]"
-	 }
+
 
       } ;# NOT in AL/BL
    }
+}
+proc newcontact_ok { newc_exit newc_add_to_list x0 x1} {
+    global newc_allow_block
+
+    if {$newc_exit == "OK"} {
+	if {$newc_allow_block == "1"} {
+	    ::MSN::WriteNS "ADD" "AL $x0 [urlencode $x1]"
+	} else {
+	    ::MSN::WriteNS "ADD" "BL $x0 [urlencode $x1]"
+	}
+	if {$newc_add_to_list} {
+	    ::MSN::addUser $x0 [urlencode $x1]
+	}
+    } else {;# if clicked on OK, by default Accept List
+	#	       ::MSN::WriteNS "ADD" "AL [lindex $x 0] [urlencode [lindex $x 1]]"
+    }
 }
 
 proc cmsn_listupdate {recv} {

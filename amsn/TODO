@@ -23,7 +23,7 @@ DONE	Refinements to queuing and reconnection issues
 -	Improve filetransfers, allow more than one at once. Fix progress bar, and special characters on filenames.
 -	Improve font selection (unify with color selection)
 -	When selecting a new color for the font in a chat, don't change only
-        the color of the text send but the color of the text being writen too.
+        the color of the text send but the color of the text being writen too (for all window).
 DONE	Make status change dynamic in chat window
 DONE	Disable input window when USER is offline (after offline error)
 -	When queue is cleared, NAK every message in queue
@@ -54,8 +54,15 @@ DONE	Bug with font selection in preferences window. Saved if "close" clicked, bu
 DONE	Read/write profiles on login window for multiple AMSN's
 DONE	Implement lock system to make sure you don't delete profile open on another AMSN window
 -	Only change font preferences if save is pressed, revert to old if cancel pressed
+-	Add receivedir and allowbadword options in preferences
+-	Add disable window flicker in preferences
 
 	***Existing Feature Improvements (priority 2)***
+
+	**Dock Issues :
+-	New message alert 
+-	Bug if dock started while online
+-	Refresh notification area when dock is removed
 
 	**File Transfer issues :
 -	File Transfer AUTH protocol fix (and add the nick of person sending file to transfer window)
@@ -87,6 +94,8 @@ DONE	"Clear all logs" button (in preferences)
 -	Compress log files with optimal algorithm for txt files
 -	Loging syntax options (timestamps, email or nics, etc)
 DONE	Chinese dosen't work (GB2312)
+-	Display by day/month/year
+-	Display last X lines of the log in the window when opening a chat window with someone
 
 	**WindowsXP issues :
 -	Problem with URLs and top user status in main window on mouse over (spacing under mouse cursour)

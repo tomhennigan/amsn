@@ -3239,10 +3239,9 @@ proc cmsn_proxy {} {
 
 #///////////////////////////////////////////////////////////////////////
 proc newcontact {new_login new_name} {
-   global newc_allow_block newc_add_to_list newc_exit list_fl
+   global list_fl newc_allow_block 
 
-   set newc_allow_block "allow"
-   set newc_exit ""
+   set newc_allow_block "1"
 
    if {[lsearch $list_fl "$new_login *"] != -1} {
       set add_stat "disabled"
@@ -3251,46 +3250,54 @@ proc newcontact {new_login new_name} {
       set add_stat "normal"
       set newc_add_to_list 1
    }
-   toplevel .newc
-   wm group .newc .
 
-   wm geometry .newc -0+100
-   wm title .newc "$new_name - [trans title]"
-   wm transient .newc .
-   canvas .newc.c -width 500 -height 150
-   pack .newc.c -expand true -fill both
+    set login [split $new_login "@ ."]
+    set login [join $login "_"]
+    set wname ".newc_$login"
 
-   button .newc.c.ok -text [trans ok]  \
-      -command "set newc_exit OK;grab release .newc;destroy .newc"
-   button .newc.c.cancel -text [trans cancel]  \
-      -command "grab release .newc;destroy .newc"
+    if { [catch {toplevel ${wname} } ] } {
+	return 0
+    }
+    wm group ${wname} .
 
-  radiobutton .newc.c.allow -variable newc_allow_block \
+    wm geometry ${wname} -0+100
+    wm title ${wname} "$new_name - [trans title]"
+    wm transient ${wname} .
+    canvas ${wname}.c -width 500 -height 150
+    pack ${wname}.c -expand true -fill both
+
+   button ${wname}.c.ok -text [trans ok]  \
+       -command "set newc_exit OK; newcontact_ok \"OK\" $newc_add_to_list \"$new_login\" \"$new_name\";destroy ${wname}"
+   button ${wname}.c.cancel -text [trans cancel]  \
+      -command "newcontact_ok \"CANCEL\" 0 \"$new_login\" \"$new_name\";destroy ${wname}"
+
+  radiobutton ${wname}.c.allow  -value "1" -variable newc_allow_block \
      -text [trans allowseen] \
       -highlightthickness 0 \
-     -activeforeground #FFFFFF -selectcolor #FFFFFF -value allow
-  radiobutton .newc.c.block -variable newc_allow_block \
+     -activeforeground #FFFFFF -selectcolor #FFFFFF
+  radiobutton ${wname}.c.block -value "0" -variable newc_allow_block \
      -text [trans avoidseen] \
       -highlightthickness 0 \
-     -activeforeground #FFFFFF -selectcolor #FFFFFF -value block
-   checkbutton .newc.c.add -var newc_add_to_list -state $add_stat \
+     -activeforeground #FFFFFF -selectcolor #FFFFFF 
+   checkbutton ${wname}.c.add -var newc_add_to_list -state $add_stat \
       -text [trans addtoo] \
       -highlightthickness 0 -activeforeground #FFFFFF -selectcolor #FFFFFF
 
 
-   .newc.c create text 30 5 -font splainf -anchor nw -justify left \
+   ${wname}.c create text 30 5 -font splainf -anchor nw -justify left \
         -text "[trans addedyou $new_name $new_login]" \
         -width 460
-   .newc.c create text 30 40 -font splainf -anchor nw \
+   ${wname}.c create text 30 40 -font splainf -anchor nw \
         -text "[trans youwant]:"
-   .newc.c create window 40 58 -window .newc.c.allow -anchor nw
-   .newc.c create window 40 76 -window .newc.c.block -anchor nw
-   .newc.c create window 30 94 -window .newc.c.add -anchor nw
-   .newc.c create window 245 120 -window .newc.c.ok -anchor ne
-   .newc.c create window 255 120 -window .newc.c.cancel -anchor nw
+   ${wname}.c create window 40 58 -window ${wname}.c.allow -anchor nw
+   ${wname}.c create window 40 76 -window ${wname}.c.block -anchor nw
+   ${wname}.c create window 30 94 -window ${wname}.c.add -anchor nw
+   ${wname}.c create window 245 120 -window ${wname}.c.ok -anchor ne
+   ${wname}.c create window 255 120 -window ${wname}.c.cancel -anchor nw
 
-#   tkwait visibility .newc
-#   grab set .newc
+    bind ${wname} <Destroy> "newcontact_ok \"DESTROY\" 0 \"$new_login\" \"$new_name\""
+#   tkwait visibility ${wname}
+#   grab set ${wname}
 }
 #///////////////////////////////////////////////////////////////////////
 
