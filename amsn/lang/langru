@@ -1,5 +1,6 @@
 amsn_lang_version 2
 about О программе
+accept Принять 
 acceptfile Accept file $1, size $2? Saved in $3
 actions Действия
 addacontact Добавить пользователя
@@ -9,20 +10,26 @@ addtoo Добавить этого пользователя в мой контакт-лист
 admincontacts Редактировать пользователей
 admingroups Редактировать группы
 adverts Реклама
+alarmpref Конфигурация оповещения для этого пользователя
+alarmstatus Вкл./Выкл. оповещение для этого пользователя
 allowseen Разрешить этому пользователю видеть мой статус и добавлять меня в свой контакт-лист
 appearoff Отключен
 aretyping $1 печатает сообщение
 autohotmaillog Автоматический вход на Hotmail
+autoidle Автоматический режим  неактивности
 autoip Автоматичекий показ IP
 avoidseen Запретить пользователю видеть мой статус и добавлять меня в контакт-лист
 away Ушел
-baduserpass Неверное имя пользователя или пароль
+baduserpass Неверное имя  пользователя или пароль
 blankdirect Оставить пустым для прямого соединения
 block Блокировать
 blocked Заблокировано
+broughtby Подготовлено для Вас следующими  разработчиками
+browse Найти
 browser Браузер
 busy Занят
 cancel Отменить
+cfgalarm Настроить/Удалить/Добавить Оповещение
 changenick Изменить ник
 chatack Подтверждение чата от
 chatreq Запрос чата
@@ -30,17 +37,28 @@ chatsmileys Смайлики
 chat Чат
 checkingver Проверка новой версии
 checkver Новая версия
+choosebasefont Выбрать шрифт
+choosebgcolor Выбрать цвет фона
+choosefontcolor Выбрать цвет шрифта
 clicktologin Кликните для входа
 close Закрыть
 closingdocks Закрыть док
 command Команда
+confirm Вы  уверены?
 confirmdelete Вы уверены что хотите удалить $1?
 connecterror Ошибка соединения с сервером
 contactadded Пользователь добавлен
 contactdoesnotexist Пользователь не существует
-copytogroup Скопировать в группу 
+copy Копировать
+copytogroup Скопировать в группу
+cut Вырезать
 date Дата
 delete Удалить
+dockgtk gtk Док
+docking
+dockingoff Выключить Док
+dockkde kde Док
+edit Редактировать
 enableproxy Включить прокси
 entercontactemail Введите контактный e-mail
 enterfilename Введите имя файла
@@ -52,6 +70,8 @@ filedoesnotexist Файл не существует
 filename Имя файла
 filetransfercancelled Передача файла отменена
 filetransfercomplete Передача файла завершена
+ftaccepted Передача Файла принята
+ftrejected Передача Файла не принята
 gonelunch Ушел поесть
 groupadd Добавить группу
 group Группа
@@ -76,6 +96,7 @@ ipaddress IP адрес
 istyping $1 печатает сообщение
 joins $1 присоединяется к беседе
 language Язык
+lastmsgtime Последнее сообщение принято в $1
 leaveblankforhotmail Оставьте путым для использования почты Hotmail
 leaves $1 покидает беседу
 listeningon Прослушивание порта $1
@@ -94,6 +115,7 @@ msg Сообщение
 msn AMSN
 mustrestart Для изменения настроек требуется перезапуск программы
 mystatus Мой статус
+natip Определение IP по веб странице
 needonline Вы до сих пор отключены
 newmail $1 новых сообщение во Входящих
 newmailfrom Новая почта от
@@ -104,6 +126,7 @@ noactivity Нет активности
 nonewmail Нет новых сообщений во Входящих
 nonewver Нет новых версий для скачивания
 notify удостовериться
+notifywin Окно Оповещения
 nousersinsession Нет пользователей в сессии
 offline Отключиться
 ok ОК
@@ -116,7 +139,9 @@ ordercontactsby Сортировать пользователей по
 other Другое
 pager Пейджер
 pass Пароль
+paste Вставить
 phone Телефон
+picfile Файл Картинка (GIF < 500 x 500)
 port Порт
 prefapps Программы
 preferences Настройки
@@ -130,6 +155,7 @@ receivefile Получить файл
 reconnecting Повторное подключение 
 reconnect Ожидание $1 до повторного подключения
 rememberpass Вспомнить пароль
+reject Отказать
 rightback Сейчас вернусь
 saveas Сохранить как
 savecontacts Сохранить контакт-лист
@@ -144,8 +170,11 @@ sentbytes Отправлено $1 из $2 байт
 servergoingdown Отключено: сервер в дауне
 server Сервер
 sound Звук событий
+soundfile Звуковой Файл
+soundstatus Звуковое Оповещение
 startoffline Запуск в отключенном состоянии
 status Статус
+stopalarm Остановить Оповещение
 syntaxerror  Синтаксическая ошибка
 textsize Обьем текста
 title Al's Messenger

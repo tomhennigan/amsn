@@ -191,6 +191,7 @@ uoffline Offline
 uonline Online
 useralreadyonlist User is already on contact list
 user User
+usernotonline The user is not online
 version Version
 view View
 willjoin Waiting $1 joins conversation

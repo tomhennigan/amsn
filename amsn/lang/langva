@@ -1,84 +1,88 @@
 amsn_lang_version 2
 about Sobre 
 accept Aceptar
-acceptfile ¿Aceptar archiu $1, tamany $2 bytes? Es guardara en $3
+acceptfile ¿Aceptar arxiu $1, tamany $2 bytes? Es guardarà en $3
 actions Accions
 actions Accions
 addacontact Afegir un contacte
 addedyou t'ha afegit a la seua llista de contactes
 addtocontacts Afegir a contactes
-addtoo Afegir ad esta persona a la meua llista de contactes
+addtoo Afegir a esta persona a la meua llista de contactes
 admincontacts Administrar contactes
 admingroups Administrar grups
 adverts Anuncis
-alarmpref Configurar avis
-alarmstatus Avis ences/apagat per ad este usuari
-allowseen Permetre ad esta persona vore quan estas conectat i contactar
-appearoff Sense conexio
-aretyping $1 esta escrvint un mensage
-autohotmaillog Login hotmail automatic
-autoidle Marcar com inactiu automaticament
-autoip IP Automatica
-avoidseen Evitar que esta persona veja la teua conexio i te contacte
+alarmpref Configurar avís
+alarmstatus Avís encés/apagat per a este usuari
+allowseen Permetre a esta persona vore quan estàs conectat i contactar
+appearoff Sense conexió
+aretyping $1 està escrivint un missatge
+autohotmaillog Login automàtic amb Hotmail
+autoidle Marcar com inactiu automàticament
+autoip IP Automàtica
+avoidseen Evitar que esta persona veja la teua conexió i et contacte
 away Ausent
 baduserpass Nom d'usuari o contrasenya incorrectes
-blankdirect Dixar en blanc per a la conexio directa
+blankdirect Deixar en blanc per a conexió directa
 blocked Bloquejat
 block No admetre
-broughtby Portat a voste per els siguients programadors
+broughtby Portat fins a vosaltres per els siguients programadors
 browse Explorar
 browser Navegador
 busy No disponible
 cancel Cancelar
-cfgalarm Configurar/afegir/borrar avis
-changenick Canviar mot
-chatack Aceptant conversacio de
-chat Conversacio
-chatreq Solicitant una conversacio
+cfgalarm Configurar/afegir/esborrar avís
+changenick Canviar nick
+chatack Aceptant conversació de
+chat Conversació
+chatreq Solicitant una conversació
 chatsmileys Smileys en chat
-checkingver Buscant si hi ha disponible una nova versio
+checkingver Buscant si hi ha disponible una nova versió
 checkver Buscar noves versions
 choosebasefont Triar tipo de lletra
-choosebgcolor Triar color de fondo
+choosebgcolor Triar color de fons
 choosefontcolor Triar color de la lletra
-clicktologin Fes click aci per a iniciar la sessio
+clicktologin Fes click ací per a iniciar la sessió
 close Tancar
-closingdocks Boto de tancar/minimisar
+closingdocks Botó de tancar/minimitzar
 command Ordre
-confirmdelete ¿Segur que desiges borrar a $1?
+confirm Estàs segur?
+confirmdelete Segur que desitges esborrar $1?
 connecterror Error conectant-se al servidor
 contactadded Contacte afegit
-contactdoesnotexist El contacte que intentes afegir no existix
+contactdoesnotexist El contacte que intentes afegir no existeix
+copy Còpia
 copytogroup Copiar al grup
+cut Talla
 date Data
 delete Eliminar
 dockgtk Icono GTK
 docking Icono en la safata del sistema
 dockingoff Desactivar
 dockkde Icono KDE
+edit Edita
 enableproxy Activar proxy
-encoding Codificacio de caracters
-entercontactemail Introduix el correu-e del contacte
-enterfilename Introduix el nom de l'archiu
-enternick Introduix el teu mot
-examples Eixemples
-exitamsn ¿Estas segur que desiges eixir?
+encoding Codificació de caracters
+entercontactemail Introdueix el correu-e del contacte
+enterfilename Introdueix el nom de l'arxiu
+enternick Introdueix el teu nick
+examples Exemples
+exitamsn Estàs segur que desitges eixir?
 extras Servicis Adicionals
 faq Questions usualment preguntades
-filedoesnotexist L'archiu no existix
-filename Nom d'Archiu
-filetransfercancelled Transferencia de ficher cancelada
-filetransfercomplete Transferencia de ficher completada
-ftaccepted Transferencia d'archiu aceptada
-ftrejected Transferencia d'archiu denegada
+filedoesnotexist L'arxiu no existeix
+filename Nom d'arxiu
+filetransfercancelled Transferència d'arxiu cancelada
+filetransfercomplete Transferència d'arxiu completada
+ftaccepted Transferència d'arxiu aceptada
+ftrejected Transferència d'arxiu denegada
 gonelunch Estic dinant
 groupadd Afegir un grup
-groupdelete Borrar un grup
-groupexists El grup ya existix
+groupdelete Esborrar un grup
+groupexists El grup ja existeix
 group Grup
 groupmissing No es pot trobar el grup
 groupnewname Nou nom
-groupnotempty El grup no esta buit
+groupnotempty El grup no està buit
 groupoldname Nom antic
 grouprename Canviar nom a grup
 groupunknown Grup desconegut
@@ -87,108 +91,109 @@ help Ajuda
 helpcontents Temes d'ajuda
 home Casa
 ident Identificant-se
-identity Identificacio
+identity Identificació
 inbox Safata d'entrada
-invalidusername Nom d'usuari no valit
-invite Invitar
-ipaddress Direccio IP
-istyping $1 esta escrivint un mensage
-joins $1 s'unix a la conversacio
+invalidusername Nom d'usuari no vàlid
+invite Convidar
+ipaddress Direcció IP
+istyping $1 està escrivint un missatge
+joins $1 s'uneix a la conversació
 keepalive Mantindre conectat
 language Idioma
-lastmsgtime Ultim mensage rebut a les $1
-leaveblankforhotmail Deixar en blanc per a usar hotmail
-leaves $1 deixa la conversacio
+lastmsgtime Ultim missatge rebut a les $1
+leaveblankforhotmail Deixar en blanc per a utilitzar hotmail
+leaves $1 deixa la conversació
 listeningon Escoltant en el port $1
 listsmileys Smileys en contactes
 loadcontacts Carregar llista de contactes
-loggedotherlocation Desconectat: S'ha iniciat la sessio en atra ubicacio
-loggingin Iniciant sessio
-loginas Iniciar sessio com 
-login Iniciar sessio
-logout Tancar sessio
-logsin acaba de iniciar sessio
+loggedotherlocation Desconectat: S'ha iniciat la sessió en altra ubicació
+loggingin Iniciant sessió
+loginas Iniciar sessió com 
+login Iniciar sessió
+logout Tancar sessió
+logsin acaba d'iniciar sessió
 mailer Ordre de correu-e
-mobile Mobil
+mobile Mòbil
 movetogroup Moure al grup
-msg Mensage
+msg Missatge
 msn AMSN
 mustrestart Deus reiniciar el programa per a aplicar els canvis
 mystatus El meu estat
-needonline Encara estas/aparentes desconectat
-newmail $1 mensages nous en safata d'entrada
+natip Deteccio d'IP per pàgina web
+needonline Encara estàs/apareixes desconectat
+newmail $1 missatges nous en safata d'entrada
 newmailfrom Nou correu de
-newmsg Nou mensage
-newveravailable Nova versio $1 disponible per a descarrega
-next Siguient
+newmsg Nou missatge
+newveravailable Nova versió $1 disponible per a descarrega
+next Següent
 noactivity Sense activitat
-nonewmail No hi han mensages nous en safata d'entrada
-nonewver No hi han versions mes actuals disponibles
-notify avis
+nonewmail No hi ha missatges nous en safata d'entrada
+nonewver No hi ha versions més actuals disponibles
+notify avís
 notifywin Finestra d'avisos
-nousersinsession No hi han usuaris en la sessio
+nousersinsession No hi ha usuaris en la sessió
 offline Desconectat
 ok Aceptar
-onenewmail 1 mensage nou en safata d'entrada
+onenewmail 1 missatge nou en safata d'entrada
 online Conectat
-onphone Al telefon
-openreceived Obrir archius rebuts
+onphone Al telèfon
+openreceived Obrir arxius rebuts
 options Opcions
 ordercontactsby Ordenar contactes per
-other Atre
+other Altre
 pager Paginador
 pass Contrasenya
-phone Telefon
-picfile Triar ficher d'image per a l'avis (GIF <500x500)
-picstatus Activar/desactivar image per a l'avis
+paste Pegar
+phone Telèfon
+picfile Triar arxiu d'imatge per a l'avís (GIF <500x500)
+picstatus Activar/desactivar imatge per a l'avís
 port Port
 prefapps Aplicacions
-preferences Preferencies
+preferences Preferències
 prefsound Sons
 properties Propietats
-proxyconf Configuracio proxy
+proxyconf Configuració proxy
 proxyconfhttp Configurar soport de proxy http
-publishphones Publicar els meus numeros telefonics
-receivedbytes Recibuts $1 de $2 bytes totals
-receivefile Rebre archiu
+publishphones Publicar els meus números telefònics
+receivedbytes Rebuts $1 de $2 bytes totals
+receivefile Rebre arxiu
 reconnect Esperant que $1 es reconecte
 reconnecting Reconectant al servidor
 reject Denegar
 rememberpass Recordar contrasenya
-rightback Torne enseguida
+rightback Torne de seguida
 saveas Guardar com
 savecontacts Guardar llista de contactes
 save Guardar
 says $1 diu
 sbcon Conectant a Switch Board
 send Enviar
-sendfile Enviar archiu
+sendfile Enviar arxiu
 sendmail Enviar correu-e
-sendmsg Enviar mensage
+sendmsg Enviar missatge
 sentbytes Enviats $1 de $2 bytes totals
-servergoingdown Desconectat: El servidor s'apagara per a manteniment
+servergoingdown Desconectat: El servidor s'apagarà per a manteniment
 server Servidor
-soundfile Archiu de so per a l'avis
-soundloop Reproduir el so continuament
-sound So events
-soundstatus Encendre/Apagar el so de l'avis
-startoffline Esomençar Desconectat
+soundfile Arxiu de sò per a l'avís
+soundloop Reproduir el sò continuadament
+sound Events de sò
+soundstatus Encendre/Apagar el sò de l'avís
+startoffline Començar desconectat
 status Estat
-stopalarm Parar el so de l'avis
+stopalarm Parar el sò de l'avís
 syntaxerror Error de sintaxis
 textsize Tamany del text
 title Al's Messenger
 tools Ferramentes
-tools Ferramentes
 to Per a
-unblock Admetre
+unblock Desbloquejar
 uoffline Desconectats
 uonline Conectats
-useralreadyonlist L'usuario ya es troba en la llista de contactes.
+useralreadyonlist L'usuari ja es troba en la llista de contactes.
 user Usuari
-version Versio
+version Versió
 view Vore
-willjoin Esperant que $1 s'unixca a la conversacio
+willjoin Esperant que $1 s'uneixca a la conversació
 work Treball
 yousay Tu dius
 youwant Vols

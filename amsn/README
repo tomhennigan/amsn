@@ -19,7 +19,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 CCMSN was great but unfortunately its original author
 abandoned the project. Although it was very functional it
 still needed major work to improve its look and feel
-as well as complete the protocol support among many 
+as well as complete the protocol support among many
 other things. That's when we, originally two working on
 it separately, decided to join efforts and bring to you
 this fine (we hope) piece of work ;)
@@ -37,12 +37,14 @@ New versions, and homepage at:
 http://amsn.sourceforge.net
 
 
+
 ========================================================
 === Programmers ===============================
 
 Alvaro J. Iradier Muro - airadier@users.sourceforge.net
 Didimo E. Grimaldo T. - lordofscripts@users.sourceforge.net
 Khalaf G. Philippe - burgerman@users.sourceforge.net
+
 
 ========================================================
 === Multilanguage Support ==============================
@@ -52,42 +54,46 @@ Added by Alvaro J. Iradier.
 Translations to:
 
 Albanian: by Fatos Shema
-             Astrit Zhushi
+	Astrit Zhushi
 
 Brazilian: by Cristiano Leivas
-	      Aurélio Couto Arruda
+	Aurélio Couto Arruda
 
 Catala: Agusti Dosaiguas
-        Albert Astals Cid
+	Albert Astals Cid
 
 Danish: Anders Bach Nielsen
-        Thomas Petersen
+	Thomas Petersen
 	Søren Louring
 	Kim H. Hansen
 
 Deutsch: Jose H. Freidhof,
-         Bernhard Heger
-	 Harald Freidhof
+	Bernhard Heger
+	Harald Freidhof
 
 English: by Alvaro J. Iradier
-            Gareth Ignatius
-            Jody Branter
-	    D. Emilio Grimaldo
+	Gareth Ignatius
+	Jody Branter
+	D. Emilio Grimaldo
+
+Español: by Alvaro J. Iradier
+	D. Emilio Grimaldo
+	Luis Llorente Campo
 
 Estonian: by Martin Leo-Kisand
 
 Euskera: by galder@users.sourceforge.net
-         NOTE: just for testing, some words don't match, still need some
-	 improvements. Mail galder suggestions and adittions.
+	NOTE: just for testing, some words don't match, still need some
+	improvements. Mail galder suggestions and adittions.
 
 French: by Guillaume Vaillant
-           Charles Castelain
+	Charles Castelain
 
 Finnish: by Kalle Kilpinen
-	    Jonni Henttinen
-	    Otto Parantainen
+	Jonni Henttinen
+	Otto Parantainen
 
-Galician: by David G. Outes
+Gallego: by David G. Outes
 
 Greek: by Dimitris Michail
 
@@ -96,17 +102,21 @@ Greeklish: by noki[a]
 Hungary: by Albert Szoldán
 
 Italian: by Andrea Di Mento
-            Goffredo Baroncelli
-	    Giuseppe Lanni
-	    Adriano Varoli
+	Goffredo Baroncelli
+	Giuseppe Lanni
+	Adriano Varoli
+
+Japanese:
 
 Korean: by Baek, Seungsoon
 
+Macedonian: by Todor Tanevski
+
 Nederlands: by Jan Keirse
-	            D. Emilio Grimaldo
-               Stèphan Eizinga
-               Wouter de Bie
-               Jurgen De Backer
+	D. Emilio Grimaldo
+	Stèphan Eizinga
+	Wouter de Bie
+	Jurgen De Backer
 
 Norwegian: Gunnar Tjomlid
 
@@ -114,12 +124,13 @@ Polish: Michael Swoboda
 	Adrian Dzikowski
 
 Portuguese: by Gustavo J.A.M. Carneiro
-	       Mario Joao
+	Mario Joao
 
 Romaian: by Craciun Attila
-	    Arny
+	Arny
 
 Russian: by Andrey Zakirov
+	Dr. Vladimir Dontsov, DDS
 
 Simplified Chinese: by Changchun Zhao
 
@@ -127,19 +138,20 @@ Slovenian: by Kostko
 
 South African: by Jaco Roeloffs
 
-Spanish: by Alvaro J. Iradier
-	 D. Emilio Grimaldo
-
 Swedish: by Tom Widerström
-            Jimmy Svensson
-	    Richard Strand	 
+	Jimmy Svensson
+	Richard Strand
 
 Tamil: by S. Muguntharaj
 
 Traditional Chinese (Taiwan): by Stanley Chu
 
 Turkish: by Baris Cicek
-	    Gurkan Bebek
+	Gurkan Bebek
+	Kemal Ilgar Eroglu
+
+Valenciano: Juan Arnal Arlandis
+
 
 ========================================================
 === Artwork help and icons =============================
@@ -148,6 +160,7 @@ Josué Rivera Ríos
 LadyMariu
 Henry Damewood
 James Houston
+
 
 ========================================================
 === More special thanks and credits ====================

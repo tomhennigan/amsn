@@ -1,161 +1,205 @@
 amsn_lang_version 2
 about Hakkinda
-acceptfile dosyayi kabul etmek
-actions hareket
-addacontact Yeni kontak
-addedyou sizi kontak listesine ekledi
-addtocontacts kisi ekle
-addtoo Bu kisiyi kontak listesine ekle
-admincontacts adminle temas kurmak
-admingroups admin gruplari
-adverts ilanlar
-allowseen Bu kisinin bana ulasmasina ve beni cevirim ici olarak gormesine izin ver
-appearoff Cevirim disi gorun
-aretyping $1 mesaj yaziyor
-autoip otomatik ip
-avoidseen Bu kisinin bana ulasmasina ve beni cevirim ici olarak gormesine engel ol
-away Uzak
-baduserpass kotu kullanicinin sifresi
-blankdirect Direk baglanti icin bos birakin
-blocked engelli
-block Engel koy
+accept Kabul et
+acceptfile $1 dosyasi aktariliyor; boyut $2 bayt; kaydedilen konum $3  
+actions Eylemler
+addacontact Yeni baglanti ekle
+addedyou sizi baglanti listesine ekledi
+addtocontacts Baglanti listesine ekle
+addtoo Bu kisiyi baglanti listesine ekle
+admincontacts Baglantilari düzenle
+admingroups Gruplari düzenle
+adverts reklamlar
+alarmpref Kullanicinin alarm ayarlari
+alarmstatus Bu kullanici için alarmi aç/kapa
+allowseen Bu kisi ben çevrimiçiyken beni görebilsin ve bana yazabilsin
+appearoff Çevrimdisi görün
+aretyping $1 ileti yaziyor
+autoconnect Açilista kendiliginden baglan
+autohotmaillog Hotmail'e otomatik giris
+autoidle Otomatik EylemYok ayari 
+autoip Otomatik IP
+avoidseen Bu kisi ben çevrimiçiyken beni göremesin ve bana yazamasin
+away Uzakta
+baduserpass Yanlis kullanici ismi ya da sifresi
+blankdirect Dogrudan baglanti için bos birakin
+block Engelle
+blocked Engellenmis
+broughtby asagidaki gelistirciler tarafindan tasarlanmistir
+browse gözat
+browser internet tarayici
 busy Mesgul
-cancel Iptal
+cancel Iptal Et
+cfgalarm Alarmi Düzenle/Ekle/Kaldir
 changenick Kullanici adi degistir
-chatack Sohbet'i kabul edilen 
-chatreq Sohbet istemi
-chatsmileys chat gulusleri
+chatack Sohbet istemi kabul edilen kisi
 chat Sohbet et
-checkingver kontrol etmek
-checkver serveri kontrol et
-choosebgcolor renk secme
-clicktologin Baglanmak icin tiklayin
+chatreq Sohbet istemi
+chatsmileys Gülen adamlar
+checkingver Yeni sürüm araniyor
+checkver Yeni sürüm ara
+choosebasefont Yazitipini seç
+choosebgcolor Arkaplan rengini seç
+choosefontcolor Yazi rengini seç
+clicktologin Baglanmak için tiklayin
 close Kapat
+closingdocks Kapatma tusu küçülsün
 command komut
-confirmdelete silmek
-connecterror baglantida hata or= baglanamiyor
-contactadded Kontak eklendi
-contactdoesnotexist anlasma kurulamiyo veya temas yok
-copytogroup gruba kopya etmek
+confirm Emin misiniz?
+confirmdelete $1 i silmek istediginizden emin misiniz?
+connecterror Sunucuya baglanirken hata olustu
+
+contactadded Baglanti eklendi
+contactdoesnotexist Böyle bir baglanti yok!
+copy Kopyala
+copytogroup Gruba kopyala
+cut Kes
 date Tarih
 delete Sil
-encoding kapatmak
-entercontactemail Kontak e-mail'ini girin
-enterfilename dosyanin adini gir
-enternick Kullanici adini girin
-examples Ornekler
-exitamsn msnden cikis
-extras fazlaliklar
-filedoesnotexist bulunmaz dosya
-filename dosyanin adi
-filetransfercancelled dosya transveri var
-filetransfercomplete dosya transveri bitti
-gonelunch Yemege cikti
-groupadd grup eklemek
-groupdelete grup silme
-groupexists gru cikisi
-group grup
-groupmissing kaybolmus veya bulunamayan grup
-groupnewname yeni grup ismi
-groupnotempty gecici olmayan grup
-groupoldname grubun eski adi
-grouprename grup ismini yenileme
-groupunknown bilinmeyen grup
-handle kontrol etmek
-helpcontents yardima gecmek
+docking Küçültme 
+dockingoff Küçültme olsun
+dockgtk Gnome'da küçültme
+dockkde KDE'de küçültme
+edit Düzenle
+enableproxy proxy ayarlarini etkinlestir
+encoding Dil seçimi
+entercontactemail Baglantinin e-posta adresini girin
+enterfilename Lütfen bir dosya adi girin
+enternick Kullanici adinizi girin
+examples Örnekler
+exitamsn Çikmak istediginizden emin misiniz?
+extras Ek Hizmetler
+faq SYS (Sikça Yanitlanan Sorular)
+filedoesnotexist Dosya bulunamadi
+filename Dosya adi
+filetransfercancelled Dosya aktarimi iptal edildi
+filetransfercomplete Dosya aktarimi tamamlandi
+ftaccepted Dosya aktarimi kabul edildi
+gonelunch Yemekte
+groupadd Grup Ekle
+groupdelete Grup Sil
+groupexists Bu grup zaten var
+group Grup
+groupmissing Grup bulunamadi
+groupnewname Yeni isim
+groupnotempty Grup bos degil!
+groupoldname Grubun eski adi
+grouprename Grubu yeniden isimlendir
+groupunknown Bilinmeyen grup
+handle Isim
+helpcontents Yardim içerigi
 help Yardim
-home ev
-identity kimlik
-ident Tanimlaniyor
-inbox kutu
-invalidusername sucsuz kulllanici ismi
-invite Cagir
-ipaddress ip adresi
-istyping $1 mesaj yaziyor
+home Ev
+ident Kimlik denetleniyor
+identity Kimlik
+inbox Gelen kutusu
+invalidusername Geçersiz kullanici ismi
+invite Davet et
+ipaddress IP adresi
+istyping $1 ileti yaziyor
 joins $1 sohbete katiliyor
+keepalive Canli tut (NAT)
 language Dil
-lastmsgtime son mesaj zamani
-leaveblankforhotmail bosluk birakmak hotmail icin
+lastmsgtime Son iletinin alindigi zaman: $1
+leaveblankforhotmail Hotmail sayfasini kullanmak istiyorsaniz bos birakin
 leaves $1 sohbetten ayriliyor
-listeningon dinlemek
-listsmileys guluslerin listesi
-loadcontacts temas kurmak yuklemek
-loggedotherlocation baska bir yerden baglanmak
+listeningon $1. port dinleniyor
+listsmileys Gülen adamlari listele
+loadcontacts Baglanti listesi yükle
+loggedotherlocation Baska bir yerden baglandiginiz için baglanti kesildi
 loggingin Baglaniyor
-loginas baglanmak
+loginas Kullanici ismi seç
 login Baglan
 logout Baglantiyi kes
 logsin baglandi
-mailer mail yollayan kisi
-mobile oynak
-movetogroup gruba gecmek
-msg Mesaj
+mailer E-posta uygulamasi
+mobile Cep
+movetogroup Baska gruba tasi
+msg Ileti
 msn AMSN
-mustrestart Yeniliklerin uygulanmasi icin programi yeniden baslatmalisiniz
-mystatus Benim konumum
-needonline online olmak gerekir
-newmailfrom Yeni mail yollayan 
-newmail Gelen Kutusunda $1 mesaj var 
-newmsg Yeni mesaj
-next Ileri
-noactivity Aktivite yok
-nonewmail Gelen Kutusunda 0 mesaj var 
-nonewver yeni olmamak
+mustrestart Yeniliklerin etkinlesmesi için uygulamayi yeniden baslatmalisiniz
+mystatus Durumum
+natip Internet sayfasindan IP belirlenmesi
+needonline Hala çevrimdisi görünüyorsunuz!
+newmail Gelen kutunuzda $1 yeni ileti var
+newmailfrom Yeni ileti gönderen:
+newmsg Yeni ileti
+newveravailable Yeni $1 sürümü indirilmeye hazir
+next sonraki
+noactivity Etkinlik yok
+nonewmail Gelen kutusunda yeni ileti yok 
+nonewver Daha yeni bir sürüm yok
 notify uyar
+notifywin Uyari Penceresi
 nousersinsession Ortamda kullanici yok
-offline Cevirim disi
+offline Çevrimdisi
 ok Tamam
-onenewmail Gelen Kutusunda 1 mesaj var 
-online Cevirim ici
+onenewmail Gelen kutusunda 1 yeni ileti var 
+online Çevrimiçi
 onphone Telefonda
-openreceived acik kabullenmek
-options ayarlar
-ordercontactsby sirayla temas kurmak
+openreceived Alinan dosyalari göster
+options Seçenekler
+ordercontactsby Baglantilari siralama ölçütü
 other Diger
-pager cagri cihazi
-pass Sifre
-phone telefon
+pager Çagri cihazi
+pass sifre
+paste Yapistir
+phone Telefon
+picfile Alarm resmi dosyasi (GIF < 500 x 500)
+picstatus Resimli alarmi aç/kapa
 port Port
-prefapps tercihler
-preferences tercih edilicek
-prefsound onceki ses
-properties ozellikler
-proxyconfhttp HTTP proxy destegi ayari
-proxyconf Proxy ayari
-publishphones yayinlanmis telefonlar
-receivedbytes gelen byte
-receivefile dosya gelmesi
-reconnect $1 tekrar baglanmasini bekliyor
-reconnecting Sunucuya tekrar baglaniliyor
-rememberpass Sifreyi hatirla
-rightback Hemen donucek
-saveas biseye gore biriktirmek
-savecontacts temas kurmak
-save kaydet
-says $1 soyler
+prefapps Uygulamalar
+preferences Seçenekler
+prefsound Sesler
+properties Özellikler
+proxyconfhttp HTTP proxy destegi ayarlari
+proxyconf Proxy ayarlari
+publishphones Telefon numarami göster
+receivedbytes $2 baytin $1 (s)i alindi
+receivefile Dosyayi al
+reconnecting Sunucuya yeniden baglaniliyor
+reconnect $1 in yeniden baglanmasi bekleniyor
+reject Geri çevir
+rememberpass sifreyi hatirla
+rightback Hemen dönecegim
+saveas Farkli kaydet
+savecontacts Baglanti listesini kaydet
+save Kaydet
+says $1 diyor ki
 sbcon Switch Board'a baglaniyor
-sendfile dosya yollamak
-sendmail mail yollamak
-sendmsg mesaj yollamak
-send Yolla
-sentbytes gonderilennin boyutu
-servergoingdown server  cokuyo
+sendfile Dosya gönder
+sendmail E-posta gönder
+sendmsg Ileti günder
+send Gönder
+sentbytes $2 baytin $1 (s)i gönderildi
+servergoingdown Sunucu kapaniyor: Baglanti kesildi
 server Sunucu
 sound Ses
-startoffline offline olarak baslamak
-status durum
-syntaxerror soz dizimi hatasi
-textsize boyut
+soundfile Alarm ses dosyasi
+soundloop Ses tekrarlasin
+soundstatus Sesli alarmi aç/kapa
+startoffline Çevrimdisi olarak basla
+status Durum
+syntaxerror Yazim hatasi
+textsize Metin boyutu
 title Al'in Messenger'i
 to Kime
-tools aletler
+tools Araçlar
 unblock Engeli kaldir
-uoffline Cevirim disi
-uonline Cevirim ici
-useralreadyonlist kullanicinin listede olmasi
+uoffline Çevrimdisi
+uonline Çevrimiçi
+useralreadyonlist Kullanici zaten baglanti listesinde
 user Kullanici
-version Surum
-view ustunde gecip incelemek
-willjoin $1 sohbete katilmasi bekleniyor
-yousay Siz
-youwant Siz
+version Sürüm
+view Görünüm
+willjoin $1 in sohbete katilmasi bekleniyor
+work Is
+yousay Diyorsunuz ki
+youwant Istiyorsunuz ki
+
+
+
+
+
+
+
