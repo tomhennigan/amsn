@@ -204,9 +204,9 @@ namespace eval ::plugins {
 
 		 $w.select.plugin_list insert $idx $name
 		 if {[lsearch "$loadedplugins" $name] != -1} {
-		     $w.select.plugin_list itemconfigure $idx -background [::skin::getColor background2]
+		     $w.select.plugin_list itemconfigure $idx -background #DDF3FE
 		 } else {
-		     $w.select.plugin_list itemconfigure $idx -background [::skin::getColor background1]
+		     $w.select.plugin_list itemconfigure $idx -background #FFFFFF
 		 }
 		 incr idx
 	     }
@@ -266,7 +266,7 @@ namespace eval ::plugins {
 	 variable w
 	 if { $selection(file) != "" } {
 	     LoadPlugin $selection(name) $selection(file)
-	     $w.select.plugin_list itemconfigure $selection(id) -background [::skin::getColor background2]
+	     $w.select.plugin_list itemconfigure $selection(id) -background #DDF3FE
 	     GUI_NewSel
 	 }
 	 ::plugins::save_config
@@ -275,7 +275,7 @@ namespace eval ::plugins {
      proc GUI_Unload {} {
 	 variable selection
 	 variable w
-	 $w.select.plugin_list itemconfigure $selection(id) -background [::skin::getColor background1]
+	 $w.select.plugin_list itemconfigure $selection(id) -background #FFFFFF
 	 UnLoadPlugin $selection(name)
 	 GUI_NewSel
 	 ::plugins::save_config
