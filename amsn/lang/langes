@@ -81,6 +81,7 @@ delete Eliminar
 deliverfail Ocurrió un problema al enviar el siguiente mensaje
 delprofile2 Elige el perfil que te gustaría borrar
 delprofile Borrar Perfil
+dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Icono Gtk
 docking Icono en bandeja de sistema
 dockingoff Desactivado
@@ -285,6 +286,7 @@ title Al's Messenger
 tools Herramientas
 to Para
 transnotexists El archivo solicitado no se encuentra traducido a su idioma.
+traynotcompiled Icono de bandeja no compilado. Mira en plugins/traydock
 unblock Admitir
 uoffline Desconectados
 uonline Conectados

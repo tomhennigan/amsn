@@ -530,6 +530,14 @@ proc DeleteProfile { email entrypath } {
 		msg_box [trans cannotdeleteprofile]
 		return
 	} else {
+	
+	      set answer [tk_messageBox -message "[trans confirmdelete ${email}]" -type yesno -icon question]
+
+	      if {$answer == "no"} {
+	      	return
+	      }
+	
+	
 		set dir [split $email "@ ."]
 		set dir [join $dir "_"]
 		

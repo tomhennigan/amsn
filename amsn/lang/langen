@@ -84,6 +84,7 @@ dockgtk Gnome Dock
 docking Docking
 dockingoff Docking Off
 dockkde KDE Dock
+dockfreedesktop FreeDesktop (KDE3/Gnome2)
 edit Edit
 editprofile Edit Profile
 enableproxy Enable proxy
@@ -284,6 +285,7 @@ title Al's Messenger
 tools Tools
 to To
 transnotexists The requested file has not been translated into the current language yet.
+traynotcompiled Tray icon plugin is not complied. Check plugins/traydoc
 unblock Unblock
 uoffline Offline
 uonline Online
