@@ -3015,6 +3015,8 @@ proc cmsn_draw_online {} {
 	  set thename [::groups::GetName $gid]
 	  lappend thelistnames [list "$thename" $gid]
        }
+       
+       status_log "We have groups: $thelistnames\n" blue
             
        if {$config(ordergroupsbynormal)} {     
           set sortlist [lsort -dictionary -index 0 $thelistnames ]
@@ -3026,8 +3028,12 @@ proc cmsn_draw_online {} {
        foreach gdata $sortlist {
           lappend glist [lindex $gdata 1]
        }
+       
+       status_log "The sorted groups: $sortlist\n" blue
 
        set gcnt [llength $glist]
+       
+       status_log "Number of groups: $gcnt\n" blue
        
        # Now setup each of the group's defaults
        for {set i 0} {$i < $gcnt} {incr i} {
@@ -3041,6 +3047,8 @@ proc cmsn_draw_online {} {
        set glist [list online offline]
        set gcnt 2
    }
+   
+   status_log "Group list (glist): $glist\n" blue
 
    $pgBuddy.text configure -state normal -font splainf
    $pgBuddy.text delete 0.0 end
@@ -3061,6 +3069,7 @@ proc cmsn_draw_online {} {
        } else {
            set gtag $gname
        }
+       status_log "Setting up tag: $gtag\n" blue
        $pgBuddy.text tag conf $gtag -fore #000080 -font sboldf
        $pgBuddy.text tag bind $gtag <Button1-ButtonRelease> \
 	 "::groups::ToggleStatus $gname;cmsn_draw_online"
@@ -3180,6 +3189,7 @@ proc cmsn_draw_online {} {
 
        set gname [lindex $glist $gidx]
        set gtag  "tg$gname"
+       status_log "Inserting name for group tag $gtag\n" blue
        if { [::groups::IsExpanded $gname] } {
 	   toggleGroup $pgBuddy.text contract$gname contract $gname 5 0
        } else {
@@ -3263,8 +3273,9 @@ proc cmsn_draw_online {} {
         for {set gidx 0} {$gidx < $gcnt} {incr gidx} {
 	    set gname [lindex $glist $gidx]
 	    set gtag  "tg$gname"
+	   status_log "Going to insert member count in tag $gtag\n" blue
 	   #$pgBuddy.text insert $gtag.last " ($::groups::uMemberCnt($gname))\n" $gtag
-	   $pgBuddy.text insert $gtag.last \
+	   $pgBuddy.text insert ${gtag}.last \
 	      " ($::groups::uMemberCnt_online(${gname})/$::groups::uMemberCnt($gname))\n" $gtag
  	}
    } else {
