@@ -1146,9 +1146,15 @@ namespace eval ::amsnplus {
 				::MSN::blockUser $user_login [urlencode $nick]
 				set incr 0
 			} elseif {[string equal $char "/clear"]} {
+				set container [split ::$ChatWindow::msg_windows($chatid) "."]
+				set container ".[lindex $container 1]"
 				set msg [string replace $msg $i [expr $i + 6] ""]
 				set strlen [string length $msg]
-				set chat_win $::ChatWindow::msg_windows($chatid)
+				if { [::ChatWindow::UseContainer] } {
+					set chat_win $container
+				} else {
+					set chat_win $::ChatWindow::msg_windows($chatid)
+				}
 				::ChatWindow::Clear $chat_win
 				set incr 0
 			} elseif {[string equal $char "/color"]} {
