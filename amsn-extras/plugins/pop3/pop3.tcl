@@ -443,7 +443,7 @@ namespace eval ::pop3 {
 		if { $::pop3::config(loadMailProg) } {
 			#Set up TAGS for mail notification
 			$vars(text) tag conf pop3mail -fore black -underline true -font splainf
-			$vars(text) tag bind pop3mail <Button1-ButtonRelease> "$vars(text) conf -cursor watch; ::pop3::loadDefaultEmail"
+			$vars(text) tag bind pop3mail <Button1-ButtonRelease> "$vars(text) conf -cursor watch; after 1 ::pop3::loadDefaultEmail"
 			$vars(text) tag bind pop3mail <Enter> "$vars(text) tag conf pop3mail -under false;$vars(text) conf -cursor hand2"
 			$vars(text) tag bind pop3mail <Leave> "$vars(text) tag conf pop3mail -under true;$vars(text) conf -cursor left_ptr"
 
