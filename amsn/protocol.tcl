@@ -1601,7 +1601,11 @@ proc urldecode {str} {
     
     while { $end >=0 } {
       set decode "${decode}[string range $str $begin [expr {$end-1}]]"
-      set decode "${decode}[format %c 0x[string range $str [expr {$end+1}] [expr {$end+2}]]]"
+
+      if {[catch {set decode "${decode}[format %c 0x[string range $str [expr {$end+1}] [expr {$end+2}]]]"} res]} {
+         set decode "${decode}[format %c 0x[string range $str [expr {$end+1}] [expr {$end+1}]]]"
+      }
+
       set begin [expr {$end+3}]
       set end [string first "%" $str $begin]
     }
