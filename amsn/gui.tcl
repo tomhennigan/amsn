@@ -4781,7 +4781,7 @@ proc cmsn_draw_online_wrapped {} {
 			# 1) we're in hybrid mode and there are no online contacts
 			# 2) or we're in group mode and there're no contacts (online or offline)
 			if {  ($gname == 0 || ([::config::getKey removeempty] && $gname != "offline")) &&
-				(($::groups::uMemberCnt_online($gname) == 0 && [::config::getKey orderbygroup] == 2) ||
+				(($::groups::uMemberCnt_online($gname) == 0 && [::config::getKey orderbygroup] == 2 && $gname != "mobile") ||
 				 ($::groups::uMemberCnt($gname) == 0 && [::config::getKey orderbygroup] == 1) ||
                                  ($gname == "mobile" && $::groups::uMemberCnt($gname) == 0 && $my_mobilegroup == 1)) } {
 				set endidx [split [$pgBuddy.text index $gtag.last] "."]
