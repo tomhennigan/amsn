@@ -506,12 +506,34 @@ proc cmsn_draw_main {} {
 #   .main.status configure -state disabled
 #   bind .main.status <Double-Button-3> toggle_status
    bind . <Control-s> toggle_status
-   bind .main <Destroy> "::amsn::close "
+#   bind . <Destroy> "::amsn::close "
 
    wm protocol . WM_DELETE_WINDOW {::amsn::closeOrDock $config(closingdocks)}
 
    cmsn_draw_status
    cmsn_draw_offline
+}
+
+proc anti_idle {} {
+  global idletime
+  set idletime 0
+}
+
+proc incr_idle {} {
+  global idletime
+  
+  status_log "Idle: $idletime \n" black
+  
+  status_log "My status: [::MSN::myStatusIs]\n" red
+  
+  if {$idletime >= 300 && [::MSN::myStatusIs] == "NLN" } {
+    ::MSN::changeStatus IDL
+  } elseif { [::MSN::myStatusIs] == "IDL"} {
+    ::MSN::changeStatus NLN
+  }
+  
+  set idletime [expr {$idletime + 5}]
+  after 5000 incr_idle
 }
 
 proc choose_theme { } {
@@ -2202,6 +2224,13 @@ if { $config(encoding) != "auto" } {
 }
 
 cmsn_draw_main
+
+set idletime 0
+
+bind all <KeyPress> "anti_idle"
+bind all <Motion> "anti_idle"
+
+incr_idle
 
 degt_protocol_win
 degt_ns_command_win

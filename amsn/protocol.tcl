@@ -29,8 +29,10 @@
 
 namespace eval ::MSN {
    namespace export changeName logout changeStatus connect blockUser \
-   unblockUser addUser deleteUser login myStateIs inviteFT acceptFT rejectFT \
+   unblockUser addUser deleteUser login myStatusIs inviteFT acceptFT rejectFT \
    cancelReceiving cancelSending getMyIP moveUser
+
+   variable myStatus FLN
 
    proc connect { username password } {
       if {[catch { cmsn_ns_connect $username $password } res]} {
@@ -44,7 +46,10 @@ namespace eval ::MSN {
 
    proc logout {} {
       global config
-      puts -nonewline [sb get ns sock] "OUT\r\n"
+      variable myStatus
+      catch {puts -nonewline [sb get ns sock] "OUT\r\n"} res
+
+      set myStatus FLN
       status_log "Loging out\n"
 
       if {$config(adverts)} {
@@ -52,7 +57,13 @@ namespace eval ::MSN {
       }
       ::groups::Disable
 
+
+      cmsn_draw_offline
+
+
    }
+
+
 
    
    proc changeName { userlogin newname } {
@@ -61,15 +72,15 @@ namespace eval ::MSN {
 
 
    proc changeStatus {new_status} {
-      variable myState
+      variable myStatus
       ::MSN::WriteNS "CHG" $new_status
       status_log "Changing state to $new_status\n" red
-      set myState $new_status
+      set myStatus $new_status
    }
 
-   proc myStateIs {} {
-       variable myState
-       return $myState
+   proc myStatusIs {} {
+       variable myStatus
+       return $myStatus
    }
 
    proc blockUser { userlogin username} {
@@ -232,7 +243,6 @@ namespace eval ::MSN {
    #Internal procedures
 
    variable trid 0
-   variable myState FLN
    variable atransfer 
    
    proc WriteSB {sbn cmd param {handler ""}} {
@@ -679,7 +689,8 @@ proc read_ns_sock {} {
       close $ns_sock
       sb set ns stat "d"
       status_log "Closing NS socket!\n" red
-      cmsn_draw_offline
+
+      ::MSN::logout
    } else {
       gets $ns_sock tmp_data
 #      sb append ns data $tmp_data
@@ -990,7 +1001,7 @@ proc cmsn_invite_user {name user} {
 proc cmsn_chat_user {user} {
    set name [cmsn_draw_msgwin]
 
-   if { ([::MSN::myStateIs] == "HDN") || ([::MSN::myStateIs] == "FLN") } {
+   if { ([::MSN::myStatusIs] == "HDN") || ([::MSN::myStatusIs] == "FLN") } {
        msg_box "[trans needonline]"
        return
    }
