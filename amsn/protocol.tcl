@@ -3073,7 +3073,7 @@ proc cmsn_change_state {recv} {
 	if { $oldmsnobj != $msnobj} {
 		#TODO: Improve this, using usersInChat for every chat... useful if user in conference, but not private
 		#Let's check if image exists (the catch thing), then if it exists, let's check if it is in use
-		if {![catch {image inuse user_pic_$user}] && [image inuse user_pic_$user] && [::MSN::SBFor $user] != 0 } {
+		if { [::MSN::SBFor $user] != 0 && [lsearch [image names] user_pic_$user] != -1 } {
 			status_log "User changed image while image in use!! Updating!!\n" white
 			::MSNP2P::loadUserPic $user $user
 		}
