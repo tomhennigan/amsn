@@ -1066,10 +1066,10 @@ namespace eval ::ChatWindow {
 		set input [CreateInputFrame $w $leftframe]
 		set picture [CreatePictureFrame $w $bottom]
 
-		pack $buttons -side top -expand true -fill x -padx [::skin::getColor chatpadx] -pady 0 -anchor n
+		pack $buttons -side top -expand false -fill x -padx [::skin::getColor chatpadx] -pady 0 -anchor n
 		pack $input -side top -expand true -fill both -padx [::skin::getColor chatpadx] -pady [::skin::getColor chatpady] -anchor n
 		pack $leftframe -side left -expand true -fill both -padx 0 -pady 0
-		pack $picture -side right -expand false -padx [::skin::getColor chatpadx] -pady 0 -anchor ne
+		pack $picture -side right -expand false -fill y -padx [::skin::getColor chatpadx] -pady 0 -anchor c
 
 		# Bind the focus
 		bind $bottom <FocusIn> "focus $input"
