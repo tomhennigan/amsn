@@ -10,20 +10,26 @@ Ok here is a new version of the TODO list (04/01/03)
 Burger * burger@mwvision.com
 
 
-***Bug Fixes(priority 1)***
+***Bug Fixes and todo before next release (priority 1)***
 
 # Check Makefile and amsn.spec now that HELP and FAQ files are added. Make sure everything is installed correctly and FAQ and HELP are in the amsn directory.
 # Make good RPMs, for Redhat, Suse, Mandrake, etc.
-# Long messages (> than 1200) knock out remote user from chat (check if from us or from server, limit size anyhows)
-
-
-***Existing Feature Improvements (priority 2)***
+# Long messages knock out remote user from chat (if > 400, separate into 400 byte long fragments and send)
+# New unified preferences dialog with tabs
+# ** DONE ** Multiple user accounts combo box + separate user config files
+# Refinements to queuing and reconnection issues
+# Improve font selection (unify with color selection)
+# Make status change dynamic in chat window and disable input window when YOU go offline
+# Don't save password if login fails becoz of wrong username or password
 
 File Transfer issues :
 # File Transfer AUTH protocol fix (and add the nick of person sending file to transfer window)
 # Multiple File receive at once, either allow but fix saved filenames or disallow multiple recv at once
 # Fix conference messaging issues (mass file send)
 # Display link to received file and click to open
+
+
+***Existing Feature Improvements (priority 2)***
 
 Alarm system improvements and bugs :
 # URL Decode names when displaying alarm
@@ -53,24 +59,21 @@ WindowsXP issues :
 Others
 # Fix display issue when copying a user in more than 1 group (displays the user twice in the same group)
 # Reenable copy option for contact list (currently commented out)
-# Improve font selection (unify with color selection)
-# Make status change dynamic in chat window and disable input window when goes offline
 
 
 ***Extra Features (priority 3)***
 
-# ** DONE ** Multiple user accounts combo box + separate user config files
 # Menu accelerators
 # Gnome2 Docking + KDE Docking
 # Autoconnect (when connection detected)
 # Notebook like chat windows (as an option)
 # AutoAway Messages
-# New unified preferences dialog with tabs
 # Encrypt password? (do we really need to? I think not)
 # Resume File Transfers
 # Socks5 Proxy Support
 # Option to popup/raise/unminimize message window on message receive
 # Option to have local window appear before remote user sends message (only when remote double clicks your name). Some people asked for this... even begged.. so here it is
+# Direct connection between amsn clients, without sb, real time chat.
 
 
 ***Graphical Interface (priority 4)***
