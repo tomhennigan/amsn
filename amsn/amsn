@@ -347,7 +347,7 @@ proc cmsn_draw_main {} {
    
 
    #Order Contacts By submenu
-   menu .order_by -tearoff 0 -type normal -background #D0D0E0
+   menu .order_by -tearoff 0 -type normal 
    .order_by add radio -label "[trans status]" -value 0 \
    	-variable config(orderbygroup) -command "cmsn_draw_online"
    .order_by add radio -label "[trans group]" -value 1 \
@@ -677,19 +677,19 @@ proc cmsn_draw_login {} {
    wm geometry .login
    wm title .login "[trans login] - [trans title]"
    wm transient .login .
-   canvas .login.c -width 400 -height 150 -bg #D0D0E0
+   canvas .login.c -width 400 -height 150
    pack .login.c -expand true -fill both
 
    entry .login.c.signin -width 20 -bg #FFFFFF -bd 1 -font splainf
    entry .login.c.password -width 20 -bg #FFFFFF -bd 1 \
       -font splainf -show "*"
       
-   button .login.c.ok -text [trans ok] -command login_ok -bg #D0D0E0 -font sboldf
-   button .login.c.cancel -text [trans cancel] -bg #D0D0E0 \
+   button .login.c.ok -text [trans ok] -command login_ok  -font sboldf
+   button .login.c.cancel -text [trans cancel] \
       -command "grab release .login;destroy .login" -font sboldf
 
-   checkbutton .login.c.remember -bg #D0D0E0 -variable config(save_password) \
-      -text "[trans rememberpass]" -font sboldf -activebackground #D0D0E0 \
+   checkbutton .login.c.remember -variable config(save_password) \
+      -text "[trans rememberpass]" -font sboldf \
       -highlightthickness 0 -activeforeground #FFFFFF -selectcolor #FFFFFF
 
    .login.c create text 133 12 -font sboldf -anchor ne \
@@ -1558,14 +1558,14 @@ proc cmsn_draw_addcontact {} {
    wm geometry .addcontact -0+100
    wm title .addcontact "[trans addacontact] - [trans title]"
    wm transient .addcontact .
-   canvas .addcontact.c -width 320 -height 150 -bg #D0D0E0
+   canvas .addcontact.c -width 320 -height 150 
    pack .addcontact.c -expand true -fill both
 
    entry .addcontact.c.email -width 30 -bg #FFFFFF -bd 1 \
       -font splainf
-   button .addcontact.c.next -text "[trans next]->" -bg #D0D0E0 \
+   button .addcontact.c.next -text "[trans next]->" \
      -command addcontact_next -font sboldf
-   button .addcontact.c.cancel -text [trans cancel] -bg #D0D0E0 \
+   button .addcontact.c.cancel -text [trans cancel]  \
       -command "grab release .addcontact;destroy .addcontact" -font sboldf
 
    .addcontact.c create text 5 10 -font sboldf -anchor nw \
@@ -1612,7 +1612,7 @@ proc cmsn_proxy {} {
    wm geometry .proxy_conf -0+100
    wm title .proxy_conf "[trans proxyconf] - [trans title]"
    wm transient .proxy_conf .
-   canvas .proxy_conf.c -width 400 -height 150 -bg #D0D0E0
+   canvas .proxy_conf.c -width 400 -height 150 
    pack .proxy_conf.c -expand true -fill both
 
    checkbutton .proxy_conf.c.enable -relief flat -text [trans enableproxy] \
@@ -1680,24 +1680,24 @@ proc newcontact {new_login new_name} {
    wm geometry .newc -0+100
    wm title .newc "$new_name - [trans title]"
    wm transient .newc .
-   canvas .newc.c -width 500 -height 150 -bg #D0D0E0
+   canvas .newc.c -width 500 -height 150 
    pack .newc.c -expand true -fill both
  
-   button .newc.c.ok -text [trans ok] -bg #D0D0E0 \
+   button .newc.c.ok -text [trans ok]  \
       -command "set newc_exit OK;grab release .newc;destroy .newc"
-   button .newc.c.cancel -text [trans cancel] -bg #D0D0E0 \
+   button .newc.c.cancel -text [trans cancel]  \
       -command "grab release .newc;destroy .newc"
 
-  radiobutton .newc.c.allow -bg #D0D0E0 -variable newc_allow_block \
+  radiobutton .newc.c.allow -variable newc_allow_block \
      -text [trans allowseen] \
-     -activebackground #D0D0E0 -highlightthickness 0 \
+      -highlightthickness 0 \
      -activeforeground #FFFFFF -selectcolor #FFFFFF -value allow
-  radiobutton .newc.c.block -bg #D0D0E0 -variable newc_allow_block \
+  radiobutton .newc.c.block -variable newc_allow_block \
      -text [trans avoidseen] \
-     -activebackground #D0D0E0 -highlightthickness 0 \
+      -highlightthickness 0 \
      -activeforeground #FFFFFF -selectcolor #FFFFFF -value block
-   checkbutton .newc.c.add -bg #D0D0E0 -var newc_add_to_list -state $add_stat \
-      -text [trans addtoo] -activebackground #D0D0E0 \
+   checkbutton .newc.c.add -var newc_add_to_list -state $add_stat \
+      -text [trans addtoo] \
       -highlightthickness 0 -activeforeground #FFFFFF -selectcolor #FFFFFF
 
  
@@ -1735,13 +1735,13 @@ proc cmsn_change_name {} {
    wm geometry .change_name -0+100
    wm title .change_name "[trans changenick] - [trans title]"
    wm transient .change_name .
-   canvas .change_name.c -width 300 -height 100 -bg #D0D0E0
+   canvas .change_name.c -width 300 -height 100 
    pack .change_name.c -expand true -fill both
 
    entry .change_name.c.name -width 40 -bg #FFFFFF -bd 1 \
       -font splainf
-   button .change_name.c.ok -text [trans ok] -bg #D0D0E0 -command change_name_ok
-   button .change_name.c.cancel -text [trans cancel] -bg #D0D0E0 \
+   button .change_name.c.ok -text [trans ok] -command change_name_ok
+   button .change_name.c.cancel -text [trans cancel] \
       -command "destroy .change_name"
 
    .change_name.c create text 5 10 -font sboldf -anchor nw \

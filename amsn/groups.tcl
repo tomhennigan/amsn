@@ -281,10 +281,10 @@ namespace eval ::groups {
 	variable uMemberCnt
 
 	# The submenu with the list of defined groups (to be filled)
-	menu .group_list -tearoff 0 -type normal -background #D0D0E0
+	menu .group_list -tearoff 0 -type normal
 
 	# The submenu of standard group actions
-	menu .group_menu -tearoff 0 -type normal -background #D0D0E0
+	menu .group_menu -tearoff 0 -type normal
 	.group_menu add command -label "[trans groupadd]..." \
 		-command ::groups::dlgAddGroup
 	.group_menu add cascade -label "[trans groupdelete]" \
