@@ -7,7 +7,7 @@
 # proc compareSmileyLength { a_name b_name } 
 #
 # Is used to sort the smileys with the longuest length first
-# this is necessary to avoid replacing smaller smileys that may be included inside longuer one 
+# this is necessary to avoid replacing smaller smileys that may be included inside longuer one
 # for example <:o) (party) may be considered as a :o smiley between < and ) ... 
 # Since I can't sort my array.. I'm just sorting the names 
 # I use the emotions_names variable and get the first text element from the real smiley to compare it
@@ -465,81 +465,80 @@ proc valueforemot { emotion var } {
 
 
 #///////////////////////////////////////////////////////////////////////////////
-# proc smile_subst { tw {start "0.0"} {end "end"} {enable_sound 0} }
+# proc smile_subst { tw {start "0.0"} {end "end"} {contact_list 0} }
 #
 # Main function... it substitues smileys patterns into an image in any text widget
 # tw variable is the text widget
 # start is the starting point for wich we scan the text for any smiley to change
-# enable_sound is used to specify if we should play sounds if we find emotisound
+# contact_list is used to specify if we should play sounds if we find emotisound
 # this is used to avoid playing sounds when contact list is refreshed
 # the function scans the text widget (from the $start variable to the end) and
 # replaces any smileys pattern by the appropriate image (animated or not) and plays
 # a sound if necessary, etc... It scans the widget for every smiley that exists
 
-proc smile_subst {tw {start "0.0"} {end "end"} {enable_sound 0}} {
-    global emotions sortedemotions config smileys_drawn ;# smileys_end_subst
+proc smile_subst {tw {textbegin "0.0"} {end "end"} {contact_list 0}} {
+	global emotions sortedemotions config smileys_drawn ;# smileys_end_subst
 
-    foreach emotion $sortedemotions {
-	
-	foreach symbol $emotions(${emotion}_text) {
-	    set chars [string length $symbol]
+	foreach emotion $sortedemotions {
 
-	    
-	    if { [valueforemot "$emotion" casesensitive] } {set nocase "-exact"} else {set nocase "-nocase"}
-	    set sound [valueforemot "$emotion" sound]
-	    set animated [valueforemot "$emotion" animated]
-	    set file [valueforemot "$emotion" file]
-
-	    while {[set pos [$tw search -exact $nocase \
-				 $symbol $start $end]] != ""} {
+		foreach symbol $emotions(${emotion}_text) {
+			set chars [string length $symbol]
 
 
+			if { [valueforemot "$emotion" casesensitive] } {set nocase "-exact"} else {set nocase "-nocase"}
+			set sound [valueforemot "$emotion" sound]
+			set animated [valueforemot "$emotion" animated]
+			set file [valueforemot "$emotion" file]
 
-		set posyx [split $pos "."]
-		set endpos "[lindex $posyx 0].[expr {[lindex $posyx 1] + $chars}]"
+			set start $textbegin
 
-		$tw tag configure smiley -elide true
-		$tw tag add smiley $pos $endpos
+			while {[set pos [$tw search -exact $nocase $symbol $start $end]] != ""} {
 
-		if { $animated && $config(animatedsmileys) } {
+				set posyx [split $pos "."]
+				set endpos "[lindex $posyx 0].[expr {[lindex $posyx 1] + $chars}]"
 
+				if { [lsearch -exact [$tw tag names $pos] "dont_replace_smileys"] != -1 } {
+					set start $endpos
+					continue
+				}
 
-		    set filename [string map { " " "_" "/" "_" "." "_"} $file]
+				$tw tag configure smiley -elide true
+				$tw tag add smiley $pos $endpos
 
-		    
-		    set emoticon $tw.${smileys_drawn}_anigif_$filename	    
-		    set smileys_drawn [expr $smileys_drawn + 1]		      
-		    
-		    label $emoticon -bd 0 -background white
-		    ::anigif::anigif [GetSkinFile smileys ${file}] $emoticon
-		    
-		    $tw window create $endpos -window $emoticon       
-		    bind $emoticon <Destroy> "::anigif::destroy $emoticon"		    
-		    $tw tag remove smiley $endpos
+				if { $animated && $config(animatedsmileys) } {
 
-		    set tagname  [$tw tag names $endpos]
-		    if { [llength $tagname] == 1 } {
-			bind $emoticon <Button3-ButtonRelease> "[$tw tag bind $tagname <Button3-ButtonRelease>]"
-			bind $emoticon <Enter> "[$tw tag bind $tagname <Enter>]"
-			bind $emoticon <Leave> "[$tw tag bind $tagname <Leave>]"
-			
-		    }
-		    
+					set filename [string map { " " "_" "/" "_" "." "_"} $file]
+					set emoticon $tw.${smileys_drawn}_anigif_$filename
+					set smileys_drawn [expr $smileys_drawn + 1]
 
-		} else {
-		    $tw image create $endpos -image $file -pady 1 -padx 1
-		    $tw tag remove smiley $endpos
+					label $emoticon -bd 0 -background white
+					::anigif::anigif [GetSkinFile smileys ${file}] $emoticon
+
+					$tw window create $endpos -window $emoticon
+					bind $emoticon <Destroy> "::anigif::destroy $emoticon"
+					$tw tag remove smiley $endpos
+
+					set tagname  [$tw tag names $endpos]
+					if { [llength $tagname] == 1 } {
+						bind $emoticon <Button3-ButtonRelease> "[$tw tag bind $tagname <Button3-ButtonRelease>]"
+						bind $emoticon <Enter> "[$tw tag bind $tagname <Enter>]"
+						bind $emoticon <Leave> "[$tw tag bind $tagname <Leave>]"
+					}
+
+				} else {
+					$tw image create $endpos -image $file -pady 1 -padx 1
+					$tw tag remove smiley $endpos
+				}
+
+				if { $config(emotisounds) == 1 && $contact_list == 0 && $sound != "" } {
+					play_sound $sound
+				}
+
+				set start $endpos
+
+			}
 		}
-
-		
-		if { $config(emotisounds) == 1 && $enable_sound == 1 && $sound != "" } {
-		    play_sound $sound
-		}
-
-		
-	    }
 	}
-    }
 
 }
 

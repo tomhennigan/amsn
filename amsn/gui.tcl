@@ -3425,7 +3425,7 @@ proc ProtocolToggled { mainframe } {
 
 
 #///////////////////////////////////////////////////////////////////////
-# Main login window, separated profiled or default logins  
+# Main login window, separated profiled or default logins
 # cmsn_draw_login {}
 # 
 proc cmsn_draw_login {} {
@@ -3890,55 +3890,61 @@ proc cmsn_draw_online { {force 0} } {
 	set maxw [expr [winfo width $pgBuddy.text] -30]
 	set short_mailmsg [trunc $mailmsg $pgBuddy.text $maxw splainf]
 	$pgBuddy.text insert end "$short_mailmsg\n" mail
+	$pgBuddy.text tag add dont_replace_smileys mail.first mail.last
 
 #end AIM
 
-   $pgBuddy.text insert end "\n"
-   # For each named group setup its heading where >><< image
-   # appears together with the group name and total nr. of handles
-   # [<<] My Group Name (n)
-   for {set gidx 0} {$gidx < $gcnt} {incr gidx} {
+	$pgBuddy.text insert end "\n"
+	# For each named group setup its heading where >><< image
+	# appears together with the group name and total nr. of handles
+	# [<<] My Group Name (n)
+	for {set gidx 0} {$gidx < $gcnt} {incr gidx} {
 
-       set gname [lindex $glist $gidx]
-       set gtag  "tg$gname"
-       if { [::groups::IsExpanded $gname] } {
-	   toggleGroup $pgBuddy.text contract$gname contract $gname 5 0
-       } else {
-	   toggleGroup $pgBuddy.text expand$gname expand $gname 5 0
-       }
+		set gname [lindex $glist $gidx]
+		set gtag  "tg$gname"
+		if { [::groups::IsExpanded $gname] } {
+			toggleGroup $pgBuddy.text contract$gname contract $gname 5 0
+		} else {
+			toggleGroup $pgBuddy.text expand$gname expand $gname 5 0
+		}
 
-       # Show the group's name/title
-       if {$config(orderbygroup)} {
+		# Show the group's name/title
+		if {$config(orderbygroup)} {
 
-           # For user defined groups we don't have/need translations
-	   set gtitle [::groups::GetName $gname]
-	   if { $config(orderbygroup) == 2 } {
-	       if { $gname == "offline" } {
-		   set gtitle "[trans uoffline]"
-		   set gtag "offline"
-	       }
-	   }
-	   if { $gname == "blocked" } {
-	       set gtitle "[trans youblocked]"
-	       set gtag "blocked"
-	   }
-           $pgBuddy.text insert end $gtitle $gtag
+			# For user defined groups we don't have/need translations
+			set gtitle [::groups::GetName $gname]
 
-       } else {
+			if { $config(orderbygroup) == 2 } {
+				if { $gname == "offline" } {
+					set gtitle "[trans uoffline]"
+					set gtag "offline"
+				}
+			}
 
-	    if {$gname == "online"} {
-	        $pgBuddy.text insert end "[trans uonline]" online
-	    } elseif {$gname == "offline" } {
-	        $pgBuddy.text insert end "[trans uoffline]" offline
-	    } elseif { $config(showblockedgroup) == 1 && [llength [array names emailBList] ] != 0 } {
-		$pgBuddy.text insert end "[trans youblocked]" blocked
-	    }
+			if { $gname == "blocked" } {
+				set gtitle "[trans youblocked]"
+				set gtag "blocked"
+			}
 
+			$pgBuddy.text insert end $gtitle $gtag
+			$pgBuddy.text tag add dont_replace_smileys $gtag.first $gtag.last
 
-       }
-       $pgBuddy.text insert end "\n"
+		} else {
 
-   }
+			if {$gname == "online"} {
+				$pgBuddy.text insert end "[trans uonline]" online
+				$pgBuddy.text tag add dont_replace_smileys online.first online.last
+			} elseif {$gname == "offline" } {
+				$pgBuddy.text insert end "[trans uoffline]" offline
+				$pgBuddy.text tag add dont_replace_smileys offline.first offline.last
+			} elseif { $config(showblockedgroup) == 1 && [llength [array names emailBList] ] != 0 } {
+				$pgBuddy.text insert end "[trans youblocked]" blocked
+				$pgBuddy.text tag add dont_replace_smileys blocked.first blocked.last
+			}
+
+		}
+		$pgBuddy.text insert end "\n"
+	}
 
    ::groups::UpdateCount online clear
    ::groups::UpdateCount offline clear
@@ -4066,16 +4072,7 @@ proc cmsn_draw_online { {force 0} } {
 
 	#Don't replace smileys in all text, to avoid replacing in mail notification
 	if {$config(listsmileys)} {
-		for {set gidx 0} {$gidx < $gcnt} {incr gidx} {
-
-			set gname [lindex $glist $gidx]
-			set gtag  "tg$gname"
-			if {![catch {set startpos [$pgBuddy.text index $gtag.first]} res]} {
-				set startpos [split $startpos "."]
-				set startpos "[expr {[lindex $startpos 0]+1}].[lindex $startpos 1]"
-				smile_subst $pgBuddy.text $startpos $gtag.last
-			}
-		}
+		smile_subst $pgBuddy.text 0.0 end 1
 	}
 
 }
