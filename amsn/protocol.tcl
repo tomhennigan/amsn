@@ -541,6 +541,7 @@ namespace eval ::MSN {
 
          set firstbyte [read $sockid 1]
          puts -nonewline $fileid $firstbyte
+
          fconfigure $sockid -blocking 0
 
          set recvbytes [tell $fileid]	 		
@@ -563,8 +564,10 @@ namespace eval ::MSN {
 	
          close $fileid
          close $sockid
+	 return
       } else {
          fileevent $sockid readable "::MSN::ReceivePacket $sockid $fileid $filesize $cookie"
+	 return
       }
    }
 
