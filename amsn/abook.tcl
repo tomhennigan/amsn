@@ -574,7 +574,7 @@ namespace eval ::abookGui {
 		
 		label $nbIdent.title1 -text [trans identity] -font bboldunderf
 		
-		label $nbIdent.e -text "Email:"
+		label $nbIdent.e -text "Email:" -wraplength 300 
 		label $nbIdent.e1 -text $email -font splainf -fg blue 
 		
 		label $nbIdent.h -text "[trans nick]:"
@@ -620,7 +620,7 @@ namespace eval ::abookGui {
 			set groups "$groups[::groups::GetName $gid]\n"
 		}
 		set groups [string range $groups 0 end-1]
-		label $nbIdent.g1 -text $groups -font splainf -fg blue -justify left
+		label $nbIdent.g1 -text $groups -font splainf -fg blue -justify left -wraplength 300 
 		
 		
 		label $nbIdent.titlephones -text [trans phones] -font bboldunderf
@@ -628,16 +628,16 @@ namespace eval ::abookGui {
 		set nbPhone $nbIdent
 		label $nbPhone.phh -text "[trans home]:" 
 		label $nbPhone.phh1 -font splainf -text [::abook::getContactData $email phh] -fg blue \
-		-justify left
+		-justify left -wraplength 300 
 		label $nbPhone.phw -text "[trans work]:"
 		label $nbPhone.phw1 -font splainf -text [::abook::getContactData $email phw] -fg blue \
-			-justify left
+			-justify left -wraplength 300 
 		label $nbPhone.phm -text "[trans mobile]:" 
 		label $nbPhone.phm1 -font splainf -text [::abook::getContactData $email phm] -fg blue \
-		-justify left
+		-justify left -wraplength 300 
 		label $nbPhone.php -text "[trans pager]:" 
 		label $nbPhone.php1 -font splainf -text [::abook::getContactData $email mob] -fg blue \
-		-justify left
+		-justify left -wraplength 300 
 		
 		label $nbIdent.titleothers -text [trans others] -font bboldunderf 
 		
