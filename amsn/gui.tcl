@@ -437,15 +437,16 @@ namespace eval ::amsn {
 
 
    #///////////////////////////////////////////////////////////////////////////////
-   # FileTransferSend (chatid)
+   # FileTransferSend (chatid (filename))
    # Shows the file transfer window, for window win_name
-   proc FileTransferSend { win_name } {
+   proc FileTransferSend { win_name {filename ""}} {
       global config
 
       set w ${win_name}_sendfile
       toplevel $w
       wm group $w .
       wm title $w "[trans sendfile]"
+
       label $w.msg -justify center -text "[trans enterfilename]"
       pack $w.msg -side top -pady 5
 
@@ -478,7 +479,8 @@ namespace eval ::amsn {
 
       focus $w.top.fields.file
 
-      fileDialog2 $w $w.top.fields.file open ""
+      if {$filename == ""} { fileDialog2 $w $w.top.fields.file open "" }\
+      else { $w.top.fields.file insert 0 $filename }
    }
 
    #PRIVATE: called by the FileTransferSend Dialog
@@ -1535,7 +1537,11 @@ namespace eval ::amsn {
       .${win_name}.copy add command -label [trans copy] -command "status_log copy\n;copy 0 .${win_name}"
 
       if {[info exist xmms(loaded)]} {
-       .${win_name}.copy add command -label XMMS -command "xmms ${win_name} 1"
+       .${win_name}.copy add cascade -label "XMMS" -menu .${win_name}.copy.xmms
+
+       menu .${win_name}.copy.xmms -tearoff 0 -type normal
+       .${win_name}.copy.xmms add command -label [trans xmmscurrent] -command "xmms ${win_name} 1"
+       .${win_name}.copy.xmms add command -label [trans xmmssend] -command "xmms ${win_name} 2"
       }
 
       frame .${win_name}.f -class amsnChatFrame -background $bgcolor -borderwidth 0 -relief flat

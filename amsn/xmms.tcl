@@ -44,7 +44,7 @@ if {[info exist found]} {
   if {$action == "1"} {
    ::amsn::MessageSend .${win_name} 0 "[trans playing $song]"
   } elseif {$action == "2"} {
-#   ::MSNFT::SendFile ${win_name} $file
+   ::amsn::FileTransferSend .${win_name} $file
    return 0
   }
  }
