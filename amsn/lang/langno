@@ -18,6 +18,7 @@ allowbadwords Slå av sensur av kallenavn
 allowonlyinal La kun de som er i Allow List kontakte meg
 allowseen La denne personen se meg når jeg er online og kontakte meg
 animatedsmileys Bruk animerte smilefjes
+appearance Tilgjengelighet
 appearoff Se ut som jeg er offline
 aretyping $1 skriver en beskjed
 autoaccepted Fil overføring akseptert automatisk
@@ -33,7 +34,7 @@ away Borte
 awaymsg1 Spør etter away beskjed vær gang jeg går som Away/BRB/Busy
 awaymsg2 Aldri spør, men bruk away beskjeden under
 baduserpass Feil brukernavn eller passord
-bgcolor Skift aMSN's bakgrunn farge
+bgcolor Skift aMSN's bakgrunnsfarge
 blankdirect La stå tom for direkte tilkobling
 block Blokker
 blocked Blokkert
@@ -65,7 +66,8 @@ checkingver Ser etter nyere versjon
 checkver Se etter nyere versjon
 choosebasefont Velg skrifttype
 choosebgcolor Velg bakgrunnsfarge
-choosefontcolor Velg skrift farge 
+choosefontcolor Velg skrift farge
+chooseskin Velg hvilket skall du vil bruke
 clicktologin Klikk her for å logge inn
 close Lukk
 closingdocks Lukke-knappen minimerer vinduet
@@ -74,11 +76,13 @@ confirmdelete Er du sikker på at du vil slette $1?
 connecterror Feil ved tilkobling til server
 contactadded Kontakten er lagt til
 contactdoesnotexist Kontakten eksisterer ikke!
+copy Kopier
 copytogroup Kopier til gruppe
 countrycode Min Lands-/Regionkode
 cut Klipp ut
 date Dato
 days Dager
+default Standardkonfigurasjon
 delete Slett
 disablessl Deaktiver SSL
 editprofile Rediger Profil
@@ -171,6 +175,7 @@ ordercontactsby Sorter kontakter etter
 other Andre
 pager Personsøker
 pass Passord
+paste Lim inn
 personal Personlig
 phone Telefon
 picfile Bilde for alarm (GIF < 500 x 500)
@@ -178,9 +183,14 @@ picstatus Skru På / Av bilde alarm
 port Port
 prefapps Applikasjoner
 preferences Innstillinger
+preffont2 Endre min meldingstekst og størrelse
+preffont3 Endre aMSN's skrift og størrelse
+preffont Min meldingstekst
 prefname Mitt MSN Messenger Navn/Kallenavn
 prefphone2 Skriv inn telefonnummerene som du vil at personer \n på din Tillatte-liste skal se\n
 prefphone Mine Telefonnummer
+prefprofile2 Opprett eller modifiser min offentlige profil \n(beskrivelse av meg selv som andre kan se)
+prefprofile Min Offentlige Profil
 prefsound Lyder
 profiles Profiler
 properties Egenskaper
