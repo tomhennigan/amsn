@@ -159,8 +159,10 @@ proc load_lang { {langcode "en"} {plugindir ""} } {
       }
       set l_msg [string range $tmp_data 0 [expr {$pos -1}]]
       set l_trans [string range $tmp_data [expr {$pos +1}] $posend]
-      if { ![info exists lang($l_msg)] } {
-      	set lang($l_msg) $l_trans
+      if { ![info exists lang($l_msg)] && ![string equal $plugindir "lang"] } {
+      	  set lang($l_msg) $l_trans
+      } elseif { [string equal $plugindir "lang"] } {
+      	  set lang($l_msg) $l_trans
       }
    }
    close $file_id
