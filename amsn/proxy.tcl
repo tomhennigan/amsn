@@ -603,18 +603,10 @@ source socks.tcl	;# SOCKS5 proxy support
 						set log [string range $log [expr {[lindex $recv 3]}] end]
 
 						$name handleCommand $command $msg_data
-#						set evcommand [$name cget -payload_handler]
-#						lappend evcommand $command
-#						lappend evcommand $msg_data
-#						eval $evcommand
 						#degt_protocol " Message contents:\n$msg_data" msgcontents
 
 						#sb append $name data $msg_data
 					} else {
-#						set evalcomm [$name cget -command_handler]
-#						lappend evalcomm $command
-#						eval $evalcomm
-						status_log "command --$command--"
 						$name handleCommand $command
 					}
 
@@ -669,7 +661,7 @@ source socks.tcl	;# SOCKS5 proxy support
 				#status_log "PROXY POST polling connection ($name):\n$tmp_data\n" blue      
 				set options(-proxy_writing) $tmp_data
 				if { [catch {puts -nonewline [$name cget -sock] "$tmp_data" } res]} {
-					connect $name [list $self RetryWrite $name]
+					$self connect [list $self RetryWrite $name]
 					return 0
 				}
 
