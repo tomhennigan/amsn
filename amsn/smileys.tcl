@@ -1,21 +1,31 @@
 #
 # $Id$
 #
-set emotions {{":-)" smile} {":)" smile}  {";-)" wink} {";)" wink} {":-D" smiled} {":D" smiled} {":>" smiled}
+set emotions {
+
+	{":-)" smile} {":)" smile}  {";-)" wink} {";)" wink} {":-D" smiled} {":D" smiled} {":>" smiled}
 	{":-P" smilep} {":P" smilep}  {":-(" sad} {":(" sad} {":-<" sad} {":<" sad} {":-|" disgust} {":|" disgust}
 	{":-S" crooked} {":S" crooked} {":-O" smileo} {":O" smileo} {":'(" smilec} {":`(" smilec2} 
 	{":@" angry}  {":-@" angry} {":->" smiled} {"8o|" aggresive} {":$" smilemb} {":-$" smilemb} {":-#" zip} 
 	{":*" kiss } {":-*" kiss} {":^)" new7} {"8-|" glasses} {"8-)" new5} {"|-)" new4} {"+o(" new3}
-	{"*-)" new2} {"^o)" new1} {"<:o)" party} {"(Y)" thumbu} {"(N)" thumbd} {"(L)" love} {"(U)" unlove}
-	{"(K)" lips} {"(G)" gift} {"(F)" rose} {"(X)" emgirl} {"(Z)" emboy}
-	{"(P)" photo} {"(B)" beer} {"(D)" coctail} {"(T)" emphone} {"(@)" emcat}
-	{"(C)" emcup} {"(I)" embulb} {"(H)" emhottie} {"(S)" emsleep}
-	{"(*)" emstar} {"(8)" emnote} {"(E)" email} {"(M)" messenger}
-	{":-\[" vampire} {":\[" vampire} {"(\})" girlhug} {"(\{)" boyhug}
-	{"(A)" angel} {"(6)" devil} {"(^)" cake} {"(O)" clk}
-	 {"(&)" dog} {"(W)" rosew} 
-	 {"(#)" sun} {"(R)" rainbow}
-	{"(%)" handcuffs} {"(~)" film} {"(?)" asl}}
+	{"*-)" new2} {"^o)" new1} {"(H)" emhottie} {"(BRB)" brb} {"<:o)" party} {"(A)" angel}  {"(6)" devil}
+	{"(L)" love} {"(U)" unlove} {"(K)" lips} {"(F)" rose} {"(W)" rosew} 
+	
+	
+	{"(B)" beer} {"(D)" coctail} {"(C)" emcup} {"(^)" cake} {"(PL)" toilet} {"(PI)" pizza}
+	
+	{"(T)" emphone} {"(mp)" mobphone} {"(E)" email} {"(CO)" computer} {"(O)" clk} {"(P)" photo} {"(~)" film} 
+	{"(I)" embulb} {"(%)" handcuffs} {"(||)" chopsticks} {"(UM)" umbrella} {"(XX)" xbox} {"(MO)" money}
+	{"(G)" gift} {"(CI)" cigarette} {"(AU)" car} {"(AP)" plane} {"(SO)" football} {"(8)" emnote} {"(?)" asl}
+	
+	{"(*)" emstar} {"(S)" emsleep} {"(R)" rainbow} {"(ST)" rain} {"(#)" sun} {"(LI)" storm} {"(IP)" island}
+	
+	 {"(&)" dog} {"(@)" emcat} {"(TU)" turtle} {"(SN)" turtle} {"(BAH)" turtle} {":-\[" vampire} {":\[" vampire}
+	 
+	 {"(M)" messenger} {"(\{)" boyhug} {"(Z)" emboy} {"(\})" girlhug} {"(X)" emgirl} {"(Y)" thumbu} {"(N)" thumbd} 
+	 {"(YN)" fingerscrossed} {"(h5)" hifive}
+		   	  
+}
 
 proc compareSmileyLength { a b } {
 
@@ -36,7 +46,9 @@ set emotion_files {smile smiled smileo smilep wink sad crooked disgust thumbu
 	emphone emcat emcup embulb emhottie emsleep emstar emnote email
 	messenger vampire girlhug boyhug angel devil cake clk angry dog rosew
 	smilec smilec2 smilemb smilemb sun rainbow handcuffs film asl aggresive
-	zip kiss new7 glasses new5 new4 new3 new2 new1 party}
+	zip kiss new7 glasses new5 new4 new3 new2 new1 party toilet pizza mobphone
+	computer chopsticks umbrella xbox money cigarette car plane rain storm
+	island turtle snail sheep brb fingerscrossed hifive football}
 
 
 foreach img_name $emotion_files {
@@ -78,7 +90,7 @@ proc smile_menu { {x 0} {y 0} {text text}} {
    }
    set x [expr {$x-10}]
    set y [expr {$y-10}]
-   wm geometry $w 238x146+$x+$y
+   wm geometry $w [expr 23*10+8]x[expr 23*8+8]+$x+$y
    wm title $w "[trans msn]"
    wm overrideredirect $w 1
    wm transient $w
