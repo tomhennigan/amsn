@@ -192,9 +192,11 @@ proc check_imagemagick {} {
 	if  { $found != -1  } {
 		set config(convertpath) "$found"
 		set config(getdisppic) 1
+		return 1
 	} else {
 		#-1 means you want them enabled, but imagemagic is not installed...
 		set config(getdisppic) -1
+		return 0
 	}
 
 }
