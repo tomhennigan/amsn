@@ -44,12 +44,12 @@ cfgalarm Configurar l'alarma per aquest usuari
 changefont Canviar font
 changenick Canviar el meu sobrenom
 chatack Acceptant xat de
-chat Xat
 chatreq Demanant xat
 chatsmileys2 Mostrar emoticones a la finestra del xat
 chatsmileys Emoticones al xat
-checkingver Buscant versions noves
+chat Xat
 checkfilman Els fitxers rebuts es desaran a $1. Comprova l'opció de l'administrador de fitxers a la finestra de preferències.
+checkingver Buscant versions noves
 checkver Busca una versió nova
 choosebasefont Canviar la font
 choosebgcolor Canviar el color de fons
@@ -61,8 +61,8 @@ clicktologin Apreta aquí per iniciar la sessió
 close Tancar
 closingdocks El botó tancar minimitza la finestra
 command Reproductor
-confirm Estàs segur?
 confirmdelete ¿Estàs segur de voler eliminar a $1?
+confirm Estàs segur?
 connecterror Error connectant-se amb el servidor
 connection Connexió
 contactadded Contacte inclòs
@@ -78,8 +78,8 @@ dcprofile No crear perfil
 default Configuració predeterminada
 delete Esborrar
 deliverfail Hi ha hagut un problema al enviar el missatge
-delprofile Esborrar perfil
 delprofile2 Selecciona el perfil que t'agradaria eliminar
+delprofile Esborrar perfil
 dockgtk Acoplament amb el Gnome
 docking Acoplament
 dockingoff Desactivat
@@ -115,8 +115,8 @@ groupoldname Nom antic
 grouprename Reanomenar un grup
 groupunknown Grup desconegut
 handle Sobrenom
-helpcontents Contiguts
 help Ajuda
+helpcontents Contiguts
 history Mostrar historial
 home Casa
 ident Identifica
@@ -151,8 +151,8 @@ logfandexp Mida dels fitxers de registre i expiració de l'historial
 loggedotherlocation Desconnectat. S'ha iniciat la sessió en un altre lloc
 loggingin Connectant-se
 loginas Connectar-se com
-loging Connectant-se
 login Connectar-se
+loging Connectant-se
 logolder Registrar només les converses que s'han realitzat en els últims
 logout Desconnectar-se
 logsin s'acaba de connectar
@@ -226,9 +226,9 @@ prefmsging Interfície dels missatges
 prefname Sobrenom a l'aMSN
 prefphone2 Escriu els números de telèfon que vols permetre veure als contactes \n de la teva llista de contactes amb permís \n
 prefphone Números de telèfon
-prefprofile Perfil públic
 prefprofile2 Crea o modifica el teu perfil públic\n(la teva descripció que poden veure els altres)
 prefprofile3 Configuració dels perfils d'usuari de l'aMSN
+prefprofile Perfil públic
 prefproxy Paràmetres del servidor intermedi (proxy)
 prefsession Inici de sessió
 prefshared Connexions compartides (només per NAT)
@@ -237,14 +237,14 @@ profiledconfig Configuració de perfil
 profileinuse Aquest perfil està sent utilitzat per una altra sessió aMSN. Per favor, escull-ne un altre
 profiles Perfils
 properties Propietats
-proxyconfhttp Configuració del suport per al servidor intermediari HTTP
 proxyconf Configuració del servidor intermediari (proxy)
+proxyconfhttp Configuració del suport per al servidor intermediari HTTP
 proxy Estic darrera un servidor intermedi (HTTP o SOCKS5)
 publishphones Publicar els meus números de telèfon
 receivedbytes Rebuts $1 de $2 bytes
 receivefile Rebent fitxer
-reconnecting Reconnectant-se al servidor
 reconnect Esperant a que $1 es reconnecti
+reconnecting Reconnectant-se al servidor
 reject Rebutjar
 rememberpass Recordar contrasenya
 reversed Invertit
@@ -255,20 +255,20 @@ save Desar
 savetofile Desar en fitxer
 says $1 diu
 sbcon Connectant-se a la Switch Board
+send Enviar
 sendfile Enviar fitxer
 sendmail Enviar correu electrònic
 sendmsg Enviar missatge
-send Enviar
 sentbytes Enviats $1 de $2 bytes
 servergoingdown Desconnectat: El servidor s'apagarà per manteniment
 server Servidor
 session Sessió
 sound2 Reprodueix sons quan els contactes es connectin o enviïn missatges
-sound So en un event
 soundcommand La comanda per reproduir el so (ex: esdplay)
 soundfile Fitxer de so de l'alarma
 soundloop Reproducció contínua del so
 soundserver Servidor de so
+sound So en un event
 soundstatus So a l'alarma
 startoffline2 Connectar-se silenciosament apareixent en l'estat "Desconnectat"
 startoffline Iniciar la connexió en l'estat "Simula desconnexió"
@@ -281,8 +281,8 @@ syntaxerror Error de sintaxi
 tabbed Finestres sobreposades
 textsize Mida del text
 title Al's Messenger
-tools Eines
 to A
+tools Eines
 transnotexists Aquest fitxer encara no ha estat traduït
 unblock Desbloquejar
 uoffline Desconnectats
@@ -295,6 +295,7 @@ viewprofile Mostrar perfil
 view Veure
 willjoin Esperant que $1 s'uneixi a la conversa
 work Treball
+wrongprofileversion Versió incorrecta del fitxer de configuració del perfil. Per arreglar-ho, esborra el directori $1 o actualitza l'aMSN
 xoffset Desplaçament X
 yoffset Desplaçament Y
 yousay Dius

@@ -1,61 +1,107 @@
 amsn_lang_version 2
-about About
-acceptfile Accept file $1, size $2? Saved in $3
-actions Actions
+about Info
+accept Nõustu
+acceptfile Nõustu failiga $1, suurus $2? Salvestatud $3
+actions Tegevused
 addacontact Lisa sõber
 addedyou on lisanud sind enda sõbralisti
 addtocontacts Lisa sõbralisti
 addtoo Lisa see inimene oma sõbralisti
-admincontacts Admin contacts
-admingroups Admin groups
+admincontacts Halda sõpru
+admingroups Halda gruppe
 adverts Reklaamid
-allowseen Luba sellel inimesel ennast ühendatud näha
-appearoff Ilmu lahtiühendatud
+alarmpref Alarmi seaded kasutajale
+alarmstatus Alarm selle kasutaja puhul Sees/Väljas
+allowseen Luba sellel inimesel ennast ühendatuna näha
+appearance Välimus
+appearoff Ilmu lahtiühendatuna
+areacode Piirkonnakood
 aretyping $1 trükivad mingit sõnumit
+askprofile Sellele nimele ei ole hetkel profiili. Kas soovid sellele uut luua? \n Kui ei, siis ei saa kasutada Ajalugu ega salvestada oma alarme ja salasõna. \n Kui jah, siis on uuel profiilil eraldi seadistus. \n \n Vajuta "Loo profiil", et luua uus profiil $1.
+autoaway Näita mind "Eemal", kui pole tegevust
+autoconnect2 Logi automaatselt sisse, kui aMSN käivitub
+autoconnect Ühenda aMSN'i käivitumisel
 autohotmaillog Automaatne Hotmaili sisselogimine
+autoidle Automaatne "Pole tegevust" 
 autoip Automaatne IP
-avoidseen Väldi seda inimest mind ühendatud nägemast
+autonoact Näita mind "Pole tegevust", kui pole tegevust
+avoidseen Väldi seda inimest mind ühendatuna nägemast
 away Eemal
+awaymsg1 Küsi Eemal-teadet iga kord, kui sean oma staatuseks Eemal/Kohe tagasi/Kiire
+awaymsg2 Ära kunagi küsi ja alati kasuta järgnevat Eemal-teadet
 baduserpass Vale kasutajanimi või parool
+bgcolor Muuda aMSN'i taustavärvi
 blankdirect Jäta tühjaks otseühenduse puhul
 block Blokeeri
 blocked Blokeeritud
-broughtby  Toodut teile järgnevate isikute poolt
+broughtby  Toodud teieni järgnevate isikute poolt
+browse Brausi
 browser Brauser
-busy Tal on kiire
-cancel tühista
+busy Kiire
+cancel Tühista
+cfgalarm Seadista/Lisa/Eemalda alarm
+changefont Muuda fonti
 changenick Muuda hüüdnime
-chatack Nõustun Chatiga
-chat Chat
-chatreq Requesting chat
-chatsmileys Chat smileys
+chatack Nõustun vestlusega
+chat Vestlus
+chatreq Palun vestlust
+chatsmileys2 Näita emotsioone vestlusakendes
+chatsmileys Vestluse emotsioonid
+checkfilman Saadud failid salvestatakse $1. Palun kontrollige failihalduri seadeid Sätted-aknas
 checkingver Kontrollin uuendusi
 checkver Kontrolli uuendusi
 choosebasefont Vali fondi tüüp
 choosebgcolor Vali tausta värv
-clicktologin Vajuta siia et sisse logida
+choosefontcolor Vali fondi värv
+clearlog2 Tühjenda kõikide kontaktide Ajalugu
+clearlog3 Tühjenda kõik logid
+clearlog Tühjenda logi
+clicktologin Vajuta siia, et sisse logida
 close Sulge
-closingdocks Close button docks window
+closingdocks Sulgemisnupp minimeerib akna
 command Käsk
-confirmdelete Oled sa kindel et tahd seda kustutada$1?
+confirm Oled kindel?
+confirmdelete Oled sa kindel et tahad seda kustutada $1?
 connecterror Viga serveriga ühendamisel
+connection Ühendus
 contactadded Sõber lisatud
 contactdoesnotexist Seda sõpra ei eksisteeri!
+copy Kopeeri
 copytogroup Kopeeri gruppi
+countrycode Minu riigi/regioonikood
+cprofile Loo profiil
+cut Lõika
 date Kuupäev
+days päeval
+dcprofile Ära loo profiili
+default Standardseadistus
 delete Kustuta
-enableproxy Pane proxy peale
-encoding Vali encodimine
+deliverfail Järgneva sõnumi edastamisega tekkis probleem
+delprofile2 Vali profiil, mida soovid eemaldada
+delprofile Kustuta profiil
+dockgtk Gnome dokkimine
+docking Dokkimine
+dockingoff Dokkimine väljas
+dockkde KDE dokkimine
+edit Toimeta
+editprofile Muuda profiili
+enableproxy Võimalda proxy
+encoding2 Muuda oma märkide kodeeringut
+encoding Vali kodeering
 entercontactemail Sisesta sõbra e-maili aadress
-enterfilename Palun sisesta failinimi
+enterfilename Sisesta failinimi
 enternick Sisesta oma hüüdnimi
 examples Näited
-exitamsn Oled ikka kindel et tahad väljuda?
+exitamsn Oled kindel, et tahad väljuda?
 extras Lisateenused
+faq KKK (Korduma Kippuvad Küsimused)
 filedoesnotexist Faili ei eksisteeri
+fileman Failihaldur
 filename Failinimi
 filetransfercancelled Faili edastamine tühistatud
 filetransfercomplete Faili edastamine õnnestunud!
+ftaccepted Faili edastamisega nõustutud
+ftrejected Faili edastamisest keeldutud
 gonelunch Lõunale läinud
 groupadd Lisa grupp
 groupdelete Kustuta grupp
@@ -65,104 +111,188 @@ groupmissing Ei suuda gruppi leida
 groupnewname Uus nimi
 groupnotempty Grupp ei ole tühi!
 groupoldname Vana nimi
-grouprename Nimet grupp üle
+grouprename Nimeta grupp ümber
 groupunknown Tundmatu grupp
-handle Handle
+handle Nimi
+helpcontents Abi sisu
 help Abi
-helpcontents Abi pealkirjad
+history Vaata Ajalugu
 home Kodu
-identity Tuvasta
-ident Tuvastamine
-inbox kastis
+ident Tuvastan
+identity Isiksus
+inbox Postkast
 invalidusername Halb kasutajanimi
 invite Kutsu
-ipaddress IP Aadress
+ipaddress IP aadress
+ipdetect Määra õige IP failiülekanneteks kasutades HTTP-d
 istyping $1 kirjutab sõnumit
 joins $1 liitub vestlusega
+keepalive Ülalhoidmine (NAT)
+keeplog2 Logi kõik vestlused aMSN'i Ajalukku, et neid tulevikus vaadata
+keeplog Säilita vestluste logisid
 language Keel
-leaveblankforhotmail Jäta tühjaks et kasutada Hotmaili veebi
+lastmsgtime Viimane sõnum saadud $1
+lclosedwin $1 sulges akna $2
+lconftopriv Konverents muudetud privaatvestluseks isikuga $1
+lconvstarted Vestlust alustatud $1
+leaveblankforhotmail Jäta tühjaks, et kasutada Hotmaili veebi
 leaves $1 lahkub vestluselt
+lenteredconf $1 liitus konverentsiga $2
+linprivate PRIVAATNE
 listeningon Kuulan porti $1
-listsmileys Nimekiri smileys
+listsmileys2 Näita emotsioone aMSN'i peamises sõbranimekirjas
+listsmileys Emotsioonide nimekiri
+ljoinedconf $1 liitus konverentsiga
+lleftconf $1 lahkus konverentsist
 loadcontacts Lae sõbranimekiri
-loggedotherlocation Lashtiühendatud.Logitud teise kohta
+logbigger Logifailide suurus iga sõbraga ei ületa
+logfandexp Logifailide suurus ja Ajaloo kestvus
+loggedotherlocation Lahtiühendatud. Sisse logitud mujal
 loggingin Login sisse
 loginas Logi sisse kui
+loging Logimine
 login Logi sisse
+logolder Logi ainult vestlusi, mis toimunud viimasel
 logout Logi välja
 logsin on just sisse loginud
-mailer Mailer
+logsmileys Näitab emotsioone aMSN'i Ajaloo akendes
+lprivtoconf Privaatvestlus muudetud konverentsiks isikuga $1
+luclosedwin Sa sulgesid akna $1
+mailer E-posti klient
+maximised Maksimeeritud
+minimised Minimeeritud/Ikoniseeritud
+mins minutit
 mobile Mobiil
 movetogroup Liiguta gruppi
+msgmaxmin Kui uus sõnum saabub, peab see olema:
 msg Sõnum
+msgmode Vali, kuidas käsitleda mitut sõnumiakent:
 msn AMSN
-mustrestart Sa pead programmi uuesti käivitama et muudatusi rakendada
+mustrestart Muudatuste rakendamiseks pead programmi uuesti käivitama.
+myhomephone Minu kodune telefon
+mymobilephone Minu mobiiltelefon
 mystatus Minu olek
+myworkphone Minu töötelefon
+natip IP määramine veebilehe kaudu
+natkeepalive Kui su ühendus pidevalt katkeb, võimalda see Ülalhoidmine
 needonline Sa oled/ilmud ikka lahtiühendatuna
-newmail $1 kastis üks uus sõnum
-newmailfrom Uus mail.Kust-
+newmail $1 uut sõnumit postkastis
+newmailfrom Uus kiri saatjalt
 newmsg Uus sõnum
-newveravailable Kunagi pole versioon $1 allalaadimiseks saadaval
-next Järgmine
+newveravailable Uuem versioon $1 allalaadimiseks saadaval
+next Edasi
 noactivity Pole tegevust
-nonewmail Kastis pole ühtegi uut sõnumit
-nonewver Pole ühtegi versiooni allalaadimiseks saadaval.
-notify teata
+nologfile $1 jaoks logifail puudub
+nonewmail Postkastis pole uusi sõnumeid
+nonewver Pole uuemaid versioone allalaadimiseks saadaval.
+normal Normaalne
+notify1 Näita teateakent, kui sõbrad tulevad online
+notify2 Näita teateakent, kui saabuvad uued sõnumid
+notify3 Näita teateakent, kui postkasti saabuvad uued kirjad
+notify Teata
+notifyoffset Määra teateakna asukoht, andes ette asukoha nihked
+notifywin Teateaken
 nousersinsession Ühtegi kasutajat sessioonis
-offline Lahtiühendatud
-ok olgu
-onenewmail 1 uus sõnum kastis
-online Ühendatud
+offline Offline
+ok Olgu
+onenewmail 1 uus sõnum postkastis
+online Online
 onphone Telefonil
 openreceived Ava saadud failid
-options Sättimine
-ordercontactsby Telli sõpru-
-other Teine/teised
-pager Pager
+options Seaded
+ordercontactsby Sorteeri sõpru
+ordergroupsby Sorteeri gruppe
+other Muu
+pager Piipar
 pass Salasõna
+paste Kleebi
+personal Isiklik
 phone Telefon
+picfile Pildifail (GIF < 500 x 500)
+picstatus Pildialarm
 port Port
+prefalerts Minu sündmuste hoiatused ja helid
 prefapps Programmid
+prefawaymsg Minu Eemal-teade
+prefemotic Emotsioonid
 preferences Sätted
+preffont2 Muuda, kuidas teised vestlustes minu teksti näevad
+preffont3 Muuda aMSN'i keskkonna fonti ja suurust
+preffont Minu sõnumi tekst
+preflog1 Minu Ajaloo ja logimise seaded
+preflook Minu aMSN Messengeri välimus
+prefmsging Minu sõnumikeskkond
+prefname Minu MSN Messengeri nimi/hüüdnimi
+prefphone2 Trüki telefoninumbrid, mida sa lubad inimestel \n oma lubatud-nimekirjas näha \n
+prefphone Minu telefoninumbrid
+prefprofile2 Loo või Muuda oma avalik profiil (enda \n kirjeldus, mida teised saavad näha)
+prefprofile3 aMSN'i kasutajaseadete profiilid
+prefprofile Minu avalik profiil
+prefproxy Minu proxy seaded
+prefsession Minu sisselogimine ja olek
+prefshared Jagatud ühendused (ainult NAT)
 prefsound Helid
-properties Properties
-proxyconfhttp HTTP proxy support konfigureerimine
-proxyconf Proxy konfigureerimine
+profiles Profiilid
+properties Omadused
+proxyconfhttp HTTP proxy toetuse seadistamine
+proxyconf Proxy seadistamine
+proxy Olen proxy serveri taga (HTTP või SOCKS5)
 publishphones Avalda mu telefoni numbrid
-receivedbytes Kätte saanud $1 sellest $2 baitides
-receivefile Tiri fail
+receivedbytes Kätte saanud $1/$2 baiti
+receivefile Võta vastu fail
 reconnecting Uuesti ühendan serveriga
-reconnect Ootan  $1 järgi uuesti ühendamiseks
+reconnect Ootan $1 uuesti ühendumist
+reject Keeldu
 rememberpass Mäleta parooli
-rightback Olen kohe tagasi
+reversed Vastupidine
+rightback Kohe tagasi
 saveas Salvesta kui
-savecontacts Salvesta sõbra nimekiri
+savecontacts Salvesta sõbranimekiri
 save Salvesta
+savetofile Salvesta faili
 says $1 ütleb
 sbcon Ühendan "Switchboardiga"...
 sendfile Saada fail
-sendmail Saada mail
+sendmail Saada kiri
 sendmsg Saada sõnum
 send Saada
-sentbytes saadetud $1 sellest $2 baite
-servergoingdown Lahtuühendatud.server sulgub
+sentbytes Saadetud $1/$2 baiti
+servergoingdown Lahtiühendatud: server sulgub
 server Server
-sound Event Sound
+session Sessioon
+sound2 Mängi heli, kui sõbrad sisse logivad või sõnumi saadavad
+soundcommand See peab olema play käsk (nt. esdplay)
+sound Sündmusheli
+soundfile Helifail
+soundloop Korda heli
+soundserver Heliserver
+soundstatus Helialarm
+startoffline2 Logi sisse vaikselt olekuga Offline
 startoffline Stardi lahtiühendatuna
 status Olek
-syntaxerror  Syntaxi viga
+stopalarm Peata alarm
+stylechat Sama välimus nagu vestlustel
+stylehist aMSN'i Ajaloo välimus
+stylelog Vali, kuidas soovid oma Ajalugu vaadata
+syntaxerror Süntaksi viga
+tabbed Kaartidena
 textsize Teksti suurus
-title Al-i sõnumisaatja
-to kuhu
+title Al's Messenger
 tools Tööriistad
-unblock Ärablokeeri enam
-uoffline Lahtiühendatud
-uonline Ühendatud
+to Kellele
+transnotexists Vajalikku faili pole veel eesti keelde tõlgitud.
+unblock Ära blokeeri enam
+uoffline Offline
+uonline Online
 useralreadyonlist Kasutaja on juba sõbranimekirjas
+usernotonline Kasutaja ei ole online
 user Kasutaja
 version Versioon
-view vaade
-willjoin Ootan et $1 liituks vestlusega
+viewprofile Vaata profiili
+view Vaade
+willjoin Ootan, et $1 liituks vestlusega
 work Töö
+xoffset Horisontaalnihe
+yoffset Vertikaalnihe
 yousay Sa ütled
 youwant Sa tahad
