@@ -318,7 +318,7 @@ proc PreferencesMenu {m} {
 }
 
 proc Preferences { { settings ""} } {
-    global config myconfig proxy_server proxy_port images_folder
+    global config myconfig proxy_server proxy_port images_folder list_BLP
 
     if {[ winfo exists .cfg ]} {
         return
@@ -806,7 +806,7 @@ proc Preferences { { settings ""} } {
 	frame $lfname.allowlist -relief sunken -borderwidth 3
         label $lfname.allowlist.label -text "[trans allowlist]"
 	listbox $lfname.allowlist.box -yscrollcommand "$lfname.allowlist.ys set" -font splainf -background \
-	white -relief flat -highlightthickness 0 -height 5
+	white -relief flat -highlightthickness 0 -height 6 -width 25
 	scrollbar $lfname.allowlist.ys -command "$lfname.allowlist.box yview" -highlightthickness 0 \
          -borderwidth 1 -elementborderwidth 2
         pack $lfname.allowlist.label $lfname.allowlist.box -side top -expand true
@@ -817,7 +817,7 @@ proc Preferences { { settings ""} } {
         frame $lfname.blocklist -relief sunken -borderwidth 3
         label $lfname.blocklist.label -text "[trans blocklist]"
 	listbox $lfname.blocklist.box -yscrollcommand "$lfname.blocklist.ys set" -font splainf -background \
-	white -relief flat -highlightthickness 0 -height 5
+	white -relief flat -highlightthickness 0 -height 6 -width 25
 	scrollbar $lfname.blocklist.ys -command "$lfname.blocklist.box yview" -highlightthickness 0 \
          -borderwidth 1 -elementborderwidth 2
         pack $lfname.blocklist.label $lfname.blocklist.box -side top -expand true
@@ -826,12 +826,13 @@ proc Preferences { { settings ""} } {
 
 
 	frame $lfname.buttons -borderwidth 0
-	button $lfname.buttons.right -text [trans movetoright] -font sboldf -command "Allow_to_Block $lfname" -width 20
-	button $lfname.buttons.left -text [trans movetoleft] -font sboldf -command "Block_to_Allow $lfname" -width 20
-	pack $lfname.buttons.right $lfname.buttons.left -side top
+	button $lfname.buttons.right -text [trans movetoright] -font sboldf -command "Allow_to_Block $lfname" -width 10
+	button $lfname.buttons.left -text [trans movetoleft] -font sboldf -command "Block_to_Allow $lfname" -width 10
+	pack $lfname.buttons.right $lfname.buttons.left  -side top
     
         label $lfname.status -text ""
-        pack $lfname.status -side bottom  -anchor w -padx 10 -pady 10 -expand 1 -fill both
+        checkbutton $lfname.allowall -text "[trans allowallusers]" -onvalue 1 -offvalue 0 -variable list_BLP
+        pack $lfname.status $lfname.allowall -side bottom  -anchor w -fill x
 	pack $lfname.allowlist $lfname.buttons $lfname.blocklist -anchor w -side left -padx 10 -pady 10 -expand 1 -fill both
 
         bind $lfname.allowlist.box <Button3-ButtonRelease> "create_users_list_popup $lfname \"allow\" %X %Y"
@@ -847,7 +848,7 @@ proc Preferences { { settings ""} } {
 	frame $lfname.contactlist -relief sunken -borderwidth 3
         label $lfname.contactlist.label -text "[trans contactlist]"
 	listbox $lfname.contactlist.box -yscrollcommand "$lfname.contactlist.ys set" -font splainf -background \
-	white -relief flat -highlightthickness 0 -height 5
+	white -relief flat -highlightthickness 0 -height 6 -width 25
 	scrollbar $lfname.contactlist.ys -command "$lfname.contactlist.box yview" -highlightthickness 0 \
          -borderwidth 1 -elementborderwidth 2
         pack $lfname.contactlist.label $lfname.contactlist.box -side top -expand true
@@ -857,7 +858,7 @@ proc Preferences { { settings ""} } {
 	frame $lfname.reverselist -relief sunken -borderwidth 3
         label $lfname.reverselist.label -text "[trans reverselist]"
 	listbox $lfname.reverselist.box -yscrollcommand "$lfname.reverselist.ys set" -font splainf -background \
-	white -relief flat -highlightthickness 0 -height 5
+	white -relief flat -highlightthickness 0 -height 6 -width 25
 	scrollbar $lfname.reverselist.ys -command "$lfname.reverselist.box yview" -highlightthickness 0 \
          -borderwidth 1 -elementborderwidth 2
         pack $lfname.reverselist.label $lfname.reverselist.box -side top -expand true
@@ -866,13 +867,13 @@ proc Preferences { { settings ""} } {
 
 
 	frame $lfname.buttons -borderwidth 0
-	button $lfname.buttons.right -text [trans copytoright] -font sboldf -command "" -width 20 -state disabled
-	button $lfname.buttons.left -text [trans copytoleft] -font sboldf -command "Reverse_to_Contact $lfname" -width 20 
+	button $lfname.buttons.right -text [trans movetonull] -font sboldf -command "Remove_Contact $lfname" -width 15
+	button $lfname.buttons.left -text [trans copytoleft] -font sboldf -command "Reverse_to_Contact $lfname" -width 15
 	pack $lfname.buttons.right $lfname.buttons.left -side top
 
         label $lfname.status -text ""
 
-        pack $lfname.status -side bottom  -anchor w -padx 10 -pady 10 -expand 1 -fill both 
+        pack $lfname.status -side bottom  -anchor w  -fill x
 	pack $lfname.contactlist $lfname.buttons $lfname.reverselist -anchor w -side left -padx 10 -pady 10 -expand 1 -fill both
 
         bind $lfname.contactlist.box <Button3-ButtonRelease> "create_users_list_popup $lfname \"contact\" %X %Y"
@@ -1118,6 +1119,9 @@ proc SavePreferences {} {
     set config(remotepassword) "$myconfig(remotepassword)"
 
 
+    # Save configuration of the BLP ( Allow all other users to see me online )
+    updateAllowAllUsers
+
     # Save configuration.
     save_config
 
@@ -1138,6 +1142,8 @@ proc RestorePreferences {} {
 	set config($var_attribute) $var_value
 #	puts "myCONFIG $var_attribute $var_value"
     }
+
+    ::MSN::WriteSB ns "SYN" "0"
 
     # Save configuration.
     #save_config
@@ -1274,6 +1280,9 @@ proc LabelFrame:create {w args} {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.56  2003/06/15 09:59:34  kakaroto
+# added support for the BLP command ( allow users not in my allow/block list to see me online)
+#
 # Revision 1.55  2003/06/15 07:31:38  kakaroto
 # The user's list manipulation support (The privacy tab)
 #

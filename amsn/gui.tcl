@@ -3750,6 +3750,22 @@ proc Reverse_to_Contact { path } {
 
 }
 
+proc Remove_Contact { path } {
+
+    if { [$path.contactlist.box curselection] == "" } {
+	$path.status configure -text "[trans choosecontact]"
+    }  else {
+
+	$path.status configure -text ""
+
+	set user [$path.contactlist.box get active]
+
+	set user [NickToEmail "$user" "contact"]
+
+	Remove_from_list "contact" $user
+    }
+}
+
 proc Allow_to_Block { path } {
     global list_rl list_users
 
@@ -3782,6 +3798,27 @@ proc Block_to_Allow  { path } {
 
     }
 
+}
+
+
+proc AllowAllUsers { state } {
+    global list_BLP
+
+    set list_BLP $state
+
+    updateAllowAllUsers
+}
+
+proc updateAllowAllUsers { } {
+    global list_BLP
+    
+    if { $list_BLP == 1 } {
+	::MSN::WriteSB ns "BLP" "AL"
+    } elseif { $list_BLP == 0} {
+	::MSN::WriteSB ns "BLP" "BL"
+    } else {
+	return
+    }
 }
 
 proc VerifySelect { path list } {

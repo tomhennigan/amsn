@@ -9,6 +9,7 @@ set list_rl [list]
 set list_al [list]
 set list_bl [list]
 set list_users [list]
+set list_BLP -1
 #A list for temp users, usually that join chats but are not in your list
 set list_otherusers [list]
 set list_cmdhnd [list]
@@ -2775,9 +2776,11 @@ proc cmsn_ns_handler {item} {
          return 0
       }
       GTC -
-      BLP -
       SYN {
 	 return 0
+      }
+      BLP {
+	  change_BLP_settings "$item"	  
       }
       CHL {
      	  status_log "Challenge received\n" red
@@ -2876,6 +2879,12 @@ proc cmsn_ns_handler {item} {
       }
       601 {
 	  return 0
+      }
+      500 {
+	  ::MSN::logout          
+	  status_log "Error:Internal server error\n" red
+	  ::amsn::errorMsg "[trans internalerror]"
+          return 0
       }
       911 {
 	  set password ""      
@@ -3452,4 +3461,19 @@ proc urlencode {str} {
    }
    #status_log "urlencode: original=$str\n   utf-8=$utfstr\n   encoded=$encode\n"
    return $encode
+}
+
+proc change_BLP_settings { item } {
+    global list_BLP
+
+    set state [lindex $item 3]
+
+    if { "$state" == "AL" } {
+	set list_BLP 1
+    } elseif { "$state" == "BL" } {
+	set list_BLP 0
+    } else {
+	set list_BLP -1
+    }
+    
 }

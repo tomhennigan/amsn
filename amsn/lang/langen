@@ -13,6 +13,7 @@ admingroups Admin groups
 adverts Advertisements
 alarmpref Alarm Settings for user
 alarmstatus Turn ON/OFF Alarm for this user
+allowallusers Allow Other users to see me online
 allowlist Allow list :
 allowseen Allow this person to see when I'm online and contact me
 appearance Appearance
@@ -79,8 +80,7 @@ contactdoesnotexist Contact does not exist!
 contactlist Contact list :
 copy Copy
 copytogroup Copy to group
-copytoleft <-- Copy 
-copytoright Copy -->
+copytoleft <-- Copy
 countrycode My Country/Region code
 cprofile Create Profile
 cut Cut
@@ -150,6 +150,7 @@ httpconnection Connect using HTTP method (uses HTTP protocol over port 80)
 ident Identifying
 identity Identity
 inbox In-Box
+internalerror Interal Server Error
 invalidusername Invalid user name
 invitationcancelled The invitation was cancelled
 invite Invite
@@ -196,6 +197,7 @@ mobile Mobile
 morepersonal More States ->
 movetogroup Move to Group
 movetoleft <-- Move 
+movetonull mv user > /dev/null
 movetoright Move -->
 msgmaxmin When a new message arrives I want it to be :
 msg Message
