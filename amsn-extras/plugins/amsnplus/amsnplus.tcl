@@ -399,8 +399,8 @@ namespace eval ::amsnplus {
 			set_balloon $bottom.buttons.multiple_colors "Add a new color"
 		} else {
 			button $bottom.buttons.multiple_colors -image $img1 -relief flat -padx 3 \
-				-background [::skin::getColor buttonbarbg] -highlightthickness 0 -borderwidth 0 \
-				-highlightbackground [::skin::getColor buttonbarbg] \
+				-background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0 \
+				-highlightbackground [::skin::getKey buttonbarbg] \
 				-command "after 1 ::amsnplus::choose_color $w"
 			set_balloon $bottom.buttons.multiple_colors "[trans multiplecolorsbutton]"
 		}
