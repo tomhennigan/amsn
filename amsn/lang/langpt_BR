@@ -561,3 +561,34 @@ ircstyle Chat estilo IRC
 justonce Somente uma vez
 msnstyle Chat estilo MSN
 never Nunca
+amsn_lang_version 2
+changeglobnick Alterar o Apelido Global
+clientname Nome do Cliente
+customstyle Estilo customizado
+dateformat Alterar formato da data
+day Dia
+disableuserfonts Ignorar fonte do usuário remoto nos chats, e usar seus próprios tipos de fontes
+email E-mail
+globalnick Insira uma expressão para formar o apelido de todos os seus contatos. Você pode usar estas variáveis: \$user_login para o e-mail do seu contato, \$nick para o apelido dos seus contatos e \$customnick para o apelido customizado dos seus contatos. Por exemplo: '\$user_login é o \$nick' será 'contato@msn.com é o contato'
+globalnicktitle Apelido Global
+groups Grupos
+lastseen Última vez on-line
+month Mês
+myfriendlyname Meu nome amigável
+mynick Meu apelido
+needwinico Necessário o arquivo winico03.dll no diretório de plugins Para o traydocking do windows funcionar
+newmailfolder Você tem $1 novas mensagens em outras pastas do Hotmail
+newmailfromother Nova mensagem em outra pasta de $1 ($2)
+nogap Nenhum espaço entre grupos
+notify4 MOstrar janela de notificação quando novas mensagens chegarem em outras pastas
+notifytimeout Números em milisegundos antes da janela de notificação desaparecer
+reconnect2 Reconectar ou cancelar
+removeempty Remover grupos vazios da lista de contatos
+showbanner Mostrar baner do aMSN
+sngdblclick Clique único para abrir uma nova janela de mensagem
+splashstart Iniciar
+today Hoje
+useother Usar um programa diferente
+viewcontactsby Visualizar contatos por
+year Ano
+yesterday Ontem

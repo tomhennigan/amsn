@@ -348,6 +348,7 @@ needonline Se vedno si/izgledas neprijavljen!
 needwinico Da bi pristaja delovala v Oknih, potrebujes datoteko winico03.dll v mapi plugins
 never Nikoli
 newmail $1 novih sporocil v Inboxu
+newmailfolder $1 novih sporocil v ostalih imenikih
 newmailfrom Novo sporocilo od $1 ($2)
 newmsg Novo sporocilo
 newstate Dodaj osebno stanje
