@@ -35,22 +35,21 @@ namespace eval ::plugins {
 	
 	status_log "Plugin System: Calling event $event with variable $var in the level $level\n"
 	
-	foreach plugin $pluginslist {
-	    status_log "Next plugin: $plugin\n"
-	    set plugin [lindex $plugin 0]
-	    if { [info exists pluginsevents(${plugin}_${event}) ] } {
-		    catch { eval ::${plugin}::$pluginsevents(${plugin}_${event}) $var $level } res
-		status_log "Return $res from event $event of plugin $plugin\n"
+	if { [info exists pluginsevents(${event}) ] } {
+	    foreach cmd $pluginsevents(${event}) {
+		status_log "Plugin System: Executing $cmd\n"
+		catch { eval $cmd $var $level } res
+		status_log "Plugin System: Return $res from event handler $cmd\n"
 	    }
 	}
     }
+    
     proc RegisterPlugin { plugin  description } {
 	variable pluginslist
 	
 	status_log "Plugin System: RegisterPlugin called with $plugin and $description\n"
-	status_log "Plugin System: This is the pluginslist: $pluginslist\n"
 	if { [lsearch $pluginslist "$plugin"] != -1} {
-	    status_log "Trying to register a plugin twice..\n"
+	    status_log "Plugin System: Trying to register a plugin twice..\n"
 	    return 0
 	}
 	
@@ -58,7 +57,7 @@ namespace eval ::plugins {
 	lappend pluginslist [lindex $plugin 0]
 	
 	
-	status_log "New plugin :\nName : [lindex $plugin 0]\nDescription : $description\n"
+	status_log "Plugin System: New plugin :\nName : [lindex $plugin 0]\nDescription : $description\n"
 	return 1
     }
 
@@ -68,7 +67,7 @@ namespace eval ::plugins {
 	
 	status_log "Plugin System: UnRegisterPlugin called\n"
 	if { [lsearch $pluginslist "$plugin"] == -1 } {
-	    status_log "Trying to unregister an unregistered plugin..\n"
+	    status_log "Plugin System: Trying to unregister an unregistered plugin..\n"
 	    return 0
 	}
 	
@@ -89,14 +88,12 @@ namespace eval ::plugins {
 	variable pluginsevents
 	status_log "Plugin System: RegisterEvent called with $plugin $event $cmd\n"
 	set x [lsearch $pluginslist $plugin]
-	status_log "Plugin System: The result of lsearch was $x\n"
 	    if { $x != -1 } {
-		status_log "Binding $event to $cmd\n"
-		set pluginsevents(${plugin}_${event}) $cmd
+		status_log "Plugin System: Binding $event to $cmd\n"
+		lappend pluginsevents(${event}) "\:\:$plugin\:\:$cmd"
 	    } else {
-		status_log "Registering an event for an unknown plugin...\n"
+		status_log "Plugin System: Registering an event for an unknown plugin...\n"
 	    }
-	status_log "Plugin System: Event registered\n"
     }
     
     proc findplugins { } {
@@ -110,14 +107,14 @@ namespace eval ::plugins {
 	foreach dir $search_path {
 	    
 	    foreach file [glob -nocomplain -directory $dir */plugin.tcl] {
-		status_log "Found plugin files in $file\n"
+		status_log "Plugin System: Found plugin files in $file\n"
 		set plugin $file
 		set dirname [string map [list "$dir/" ""] [file dirname $file] ]
 		set desc ""
 		if { [file readable [file join [file dirname $file] desc.txt] ] } {
 		    set fd [open [file join [file dirname $file] desc.txt]]
 		    set desc [string trim [read $fd]]
-		    status_log "plugin $dirname has description : $desc\n"
+		    status_log "Plugin System: plugin $dirname has description : $desc\n"
 		    close $fd
 		}
 		lappend plugin $dirname
@@ -162,8 +159,7 @@ namespace eval ::plugins {
             set plugins(${idx}_name) $name
             set plugins(${idx}_desc) $desc
 	    
-            status_log "Adding plugin to selector: $name\n"
-            $w.select.plugin_list insert $idx $name
+           $w.select.plugin_list insert $idx $name
             if {[lsearch "$loadedplugins" $name] != -1} {
                 $w.select.plugin_list itemconfigure $idx -background "$bgcolor2"
             } else {
@@ -205,7 +201,6 @@ namespace eval ::plugins {
         $w.desc.name configure -text $selection(name)
         set selection(file) $plugins(${selection(id)}_file)
         set selection(desc) $plugins(${selection(id)}_desc)
-        status_log "Plugin System: these plugins are loaded: $loadedplugins\n"
         if {[lsearch "$loadedplugins" $selection(name)] != -1 } {
 	    $w.command.load configure -state active -text "Unload" -command "::plugins::GUI_Unload"
             if {[info exists ::${selection(name)}::configlist] == 1} {
@@ -223,7 +218,6 @@ namespace eval ::plugins {
 	global bgcolor2
         variable selection
         variable w
-        status_log "Plugin System: Load Button clicked!\n"
         if { $selection(file) != "" } {
             LoadPlugin $selection(name) $selection(file)
             $w.select.plugin_list itemconfigure $selection(id) -background "$bgcolor2"
@@ -235,7 +229,6 @@ namespace eval ::plugins {
 	 global bgcolor
 	 variable selection
 	 variable w
-	 status_log "Plugin System: Unload Button clicked!\n"
 	 $w.select.plugin_list itemconfigure $selection(id) -background "$bgcolor"
 	 UnLoadPlugin $selection(name)
 	 GUI_NewSel
@@ -243,10 +236,9 @@ namespace eval ::plugins {
     proc GUI_Config {} {
         variable selection
         variable w
-        status_log "Plugin System: GUI_Config called\n"
         set name $selection(name)
         if {$name != ""} {
-            status_log "Calling ConfigPlugin in the $name namespace\n"
+            status_log "Plugin System: Calling ConfigPlugin in the $name namespace\n"
 	    if {[info exists ::${name}::configlist] == 0} {
 		status_log "Plugin System: No Configuration variable for $name.\n"
                 set x [toplevel $w.error]
@@ -288,7 +280,7 @@ namespace eval ::plugins {
 
     proc UnLoadPlugin {plugin} {
 	variable loadedplugins
-        status_log "Unloading plugin $plugin\n"
+        status_log "Plugin System: Unloading plugin $plugin\n"
 	set loadedplugins [lreplace $loadedplugins [lsearch $loadedplugins "$plugin"] [lsearch $loadedplugins "$plugin"]]
 	UnRegisterPlugin $plugin
 	if {[info procs "::${plugin}::DeInitPlugin"] == "::${plugin}::DeInitPlugin"} {
@@ -311,7 +303,6 @@ namespace eval ::plugins {
 	variable pluginslist
 	variable loadedplugins
 	status_log "Plugin System: LoadPlugin called with $plugin $file\n"
-	status_log "Plugin System: Trying to source $file for $plugin\n"
 	catch { source $file }
 	lappend loadedplugins $plugin
 	lappend pluginslist $file
