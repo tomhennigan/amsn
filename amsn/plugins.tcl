@@ -12,9 +12,17 @@ proc plugins_log {plugin msg} {
 	}
 }
 
+#if {[package vcompare [package provide Tcl] 8.4] < 0} {
+#	proc lset { list index1 index2 newvalue } {
+#		set list [list [lrange $list 0 [expr $index1 -1]] $newvalue [lrange $list [expr $index2 + 1] end] ]
+#	}
+#}
+
 if {[package vcompare [package provide Tcl] 8.4] < 0} {
-	proc lset { list index1 index2 newvalue } {
-		set list [list [lrange $list 0 [expr $index1 -1]] $newvalue [lrange $list [expr $index2 + 1] end] ]
+	proc tcl::K {a b} {return $a}
+	proc lset {listName index val} {
+		upvar $listName list
+		set list [lreplace [tcl::K $list [set list {}]] $index $index $val]
 	}
 }
 
