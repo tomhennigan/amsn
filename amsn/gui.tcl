@@ -2048,7 +2048,7 @@ catch {exec killall -c sndplay}
    }
 
    proc queueinviteUser { chatid user } {
-      ::MSN::ChatQueue $chatid "::MSN::inviteUser $chatid $user"
+      ::MSN::ChatQueue $chatid [list ::MSN::inviteUser $chatid $user]
    }
    
    proc ShowChatList {title win_name command} {
