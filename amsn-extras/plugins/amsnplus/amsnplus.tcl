@@ -3,8 +3,6 @@
 ########################################################
 # Maintainer: markitus (markitus@catmail.homelinux.org)
 # Created: 13/09/2004
-# Last Modify: 10/10/2004
-# Version: 0.03
 ########################################################
 
 namespace eval ::amsnplus {
@@ -130,8 +128,8 @@ namespace eval ::amsnplus {
 				set ulen [string length $user_login]
 				set msg [string replace $msg $i [expr $i + $ulen] ""]
 				set strlen [string length $msg]
-				set nick [::abook::getNick ${user_login}]
-				::MSN::blockUser ${user_login} [urlencode $nick]
+				set nick [::abook::getNick $user_login]
+				::MSN::blockUser $user_login [urlencode $nick]
 				set incr 0
 			}
 			if {[string equal $char "/clear"]} {
@@ -142,9 +140,9 @@ namespace eval ::amsnplus {
 				set incr 0
 			}
 			if {[string equal $char "/color"]} {
-				set msg [string replace $msg $i [expr $i + 5] ""]
-				set fontcolor [string range $msg [expr $i + 1] [expr $i + 6]]
-				set msg [string replace $msg $i [expr $i + 7] ""]
+				set msg [string replace $msg $i [expr $i + 6] ""]
+				set fontcolor [string range $msg $i [expr $i + 5]]
+				set msg [string replace $msg $i [expr $i + 6] ""]
 				set strlen [string length $msg]
 				set incr 0
 			}
@@ -224,10 +222,10 @@ namespace eval ::amsnplus {
 				set strlen [string length $msg]
 				set file [::amsnplus::readWord $i $msg $strlen]
 				if {[string equal $file ""]} {
-					::amsn::FileTransferSend ${win_name}
+					::amsn::FileTransferSend $win_name
 				}
 				if {![string equal $file ""]} {
-					::amsn::FileTransferSend ${win_name} $file
+					::amsn::FileTransferSend $win_name $file
 				}
 				set msg ""
 				set strlen [string length $msg]
@@ -248,7 +246,7 @@ namespace eval ::amsnplus {
 				set strlen [string length $msg]
 				set nstate [::amsnplus::readWord $i $msg $strlen]
 				set slen [string length $nstate]
-				set msg [string replace $msg $i [expr $i + $slen]
+				set msg [string replace $msg $i [expr $i + $slen]]
 				set strlen [string length $nick]
 				set cstate [::amsnplus::descriptionToState $nstate]
 				::MSN::changeStatus $cstate
@@ -276,6 +274,7 @@ namespace eval ::amsnplus {
 				::MSN::unblockUser ${user_login} [urlencode $nick]
 				set incr 0
 			}
+			
 			if {[string equal $incr "1"]} { incr i }
 			set incr 1
 		}
