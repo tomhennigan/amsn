@@ -576,7 +576,7 @@ proc custom_smile_subst2 { chatid tw textbegin end } {
 	set start $textbegin
 	status_log "result $tw search -exact -nocase bb $start $end : [$tw search -exact -nocase bb $start $end]--- $start -- $textbegin\n"
 
-	while { [set pos [$tw search -exact -nocase $symbol $start $end]] != "" } {
+	while {[set pos [$tw search -exact -nocase -- $symbol $start $end]] != ""} {
 	    status_log "Found match at pos : $pos\n" red
 
 	    set posyx [split $pos "."]
