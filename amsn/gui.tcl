@@ -2638,7 +2638,7 @@ namespace eval ::amsn {
 
 	#Adds a message to the notify, that executes "command" when clicked, and
 	#plays "sound"
-	proc notifyAdd { msg command {sound ""} {type online}} {
+	proc notifyAdd { msg command {sound ""} {type online} {user ""}} {
 
 		global tcl_platform
 		if { [winfo exists .bossmode] } {
@@ -2714,16 +2714,25 @@ namespace eval ::amsn {
 				$w.c create image 0 0 -anchor nw -image [::skin::loadPixmap notifyonline]
 			}
 		}
-
-		#$w.c create image 17 22 -image [::skin::loadPixmap notifico]
+		#If it's a notification with user variable and we get a sucessful image create, show the display picture in the notification
+		if {$user != "" && [getpicturefornotification $user]} {
+			#Create image	
+			$w.c create image 0 [expr [::skin::getKey notifheight]/4] -anchor nw -image smallpicture$user
+			#Add text
+			set notify_id [$w.c create text 51 35 -font splainf \
+				-justify left -width [expr [::skin::getKey notifwidth]-52] -anchor nw -text "$msg"]
+		} else {
+			#Just add the text and use full width
+			set notify_id [$w.c create text [expr [::config::getKey notifwidth]/2] 35 -font splainf \
+				-justify center -width [expr [::config::getKey notifwidth]-20] -anchor n -text "$msg"]
+		}
+		
 		$w.c create image [::skin::getKey x_notifyclose] [::skin::getKey y_notifyclose] -anchor nw -image [::skin::loadPixmap notifclose]
+
 
 		if {[string length $msg] >100} {
 			set msg "[string range $msg 0 100]..."
 		}
-
-		set notify_id [$w.c create text [expr [::skin::getKey notifwidth]/2] 45 -font splainf \
-		-justify center -width [expr [::skin::getKey notifwidth]-20] -anchor n -text "$msg"]
 
 		set after_id [after [::config::getKey notifytimeout] "::amsn::KillNotify $w $ypos"]
 
@@ -4177,9 +4186,10 @@ proc clickableDisplayPicture {tw type name command {padx 0} {pady 0}} {
 		#If not (ie for contacts _on_ list), then just draw as label.
 		if {$type == "mystatus"} {
 			canvas $tw.$name -width [image width [::skin::loadPixmap mystatus_bg]] -height [image height [::skin::loadPixmap mystatus_bg]] -bg white
+			#There's a strange bug on Mac OS X, we need to move the picture and the border at the position 2+2 to see it completely
 			if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 				$tw.$name create image +2 +2 -anchor nw -image [::skin::loadPixmap mystatus_bg]
-				$tw.$name create image eval[[::skin::getKey x_dp_top]+2] eval[[::skin::getKey y_dp_top]+2] -anchor nw -image my_pic_small
+				$tw.$name create image "[expr {[::skin::getKey x_dp_top]+2}]" "[expr {[::skin::getKey y_dp_top]+2}]" -anchor nw -image my_pic_small
 			} else {
 				$tw.$name create image 0 0 -anchor nw -image [::skin::loadPixmap mystatus_bg]
 				$tw.$name create image [::skin::getKey x_dp_top] [::skin::getKey y_dp_top] -anchor nw -image my_pic_small
@@ -4214,6 +4224,25 @@ proc load_my_smaller_pic {} {
 		return 0
 	}
 }
+
+proc getpicturefornotification {email} {
+		global HOME
+		#Get the filename of the cached display picture
+		set filename [::abook::getContactData $email displaypicfile ""]
+		#Convert that cached display picture to 50x50 in cache/small directory if it's not already there and the file exists
+		if { ![file readable [file join $HOME displaypic cache small $filename].gif] && [file readable [file join $HOME displaypic cache $filename].gif]} {
+			convert_image_plus "[file join $HOME displaypic cache ${filename}].gif" displaypic/cache/small "50x50"
+		} 
+		#If the picture now exist, create the image
+		#If not, 2 possibilities -No Imagemagick -The user use no picture, just don't create the image
+		if { [file readable "[file join $HOME displaypic cache small ${filename}].gif"] } {
+			image create photo smallpicture$email -file "[file join $HOME displaypic cache small ${filename}].gif"
+			return 1
+		} else {
+			return 0
+		}
+}
+	
 #///////////////////////////////////////////////////////////////////////
 
 proc do_hotmail_login {} {

@@ -3406,7 +3406,7 @@ proc cmsn_change_state {recv} {
 	#end of alarm system
 
 
-	set maxw [expr {[::config::getKey notifwidth]-20}]
+	set maxw [expr {([::skin::getKey notifwidth]-53)*2} ]
 	set short_name [trunc $custom_user_name . $maxw splainf]
 		
 	#User logsout
@@ -3421,7 +3421,7 @@ proc cmsn_change_state {recv} {
 		if { ([::config::getKey notifyoffline] == 1 && [::abook::getContactData $user notifyoffline -1] != 0) ||
 		     [::abook::getContactData $user notifyoffline -1] == 1 } {
 			#Show notify window if globally enabled, and not locally disabled, or if just locally enabled
-			::amsn::notifyAdd "$short_name\n[trans logsout]." "" offline offline
+			::amsn::notifyAdd "$short_name\n[trans logsout]." "" offline offline $user
 		}
 		
 	# User was online before, so it's just a status change, and it's not
@@ -3431,7 +3431,7 @@ proc cmsn_change_state {recv} {
 		if { ([::config::getKey notifystate] == 1 && [::abook::getContactData $user notifystatus -1] != 0) ||
 		     [::abook::getContactData $user notifystatus -1] == 1 } {
 			::amsn::notifyAdd "$short_name\n[trans statechange]\n[trans [::MSN::stateToDescription $substate]]." \
-				"::amsn::chatUser $user" state state
+				"::amsn::chatUser $user" state state $user
 		}
 
 		#Notify in the events
@@ -3451,7 +3451,7 @@ proc cmsn_change_state {recv} {
 		
 		if { ([::config::getKey notifyonline] == 1 && [::abook::getContactData $user notifyonline -1] != 0) ||
 		     [::abook::getContactData $user notifyonline -1] == 1 } {
-			::amsn::notifyAdd "$short_name\n[trans logsin]." "::amsn::chatUser $user" online
+			::amsn::notifyAdd "$short_name\n[trans logsin]." "::amsn::chatUser $user" online online $user
 		}
 
 		if {  ( [::alarms::isEnabled $user] == 1 )&& ( [::alarms::getAlarmItem $user onconnect] == 1)} {
