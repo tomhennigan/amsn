@@ -114,6 +114,7 @@ clearlog Bersihkan Register
 clearlog2 Bersihkan sejarah untuk semua kontak
 clearlog3 Bersihkan semua register
 clicktologin Klik disini untuk Daftar-Masuk
+clientcaps Kirim paket x-clientcaps kepada klient yang lain
 clientname Nama Klien
 close Tutup
 closed Percakapan dengan $1 ditutup karena tidak aktif
@@ -122,7 +123,11 @@ command Perintah
 commandstatus Jalankan Perintah
 confirm Apakah anda yakin?
 confirmdelete Apakah anda yakin untuk menghapus $1?
+confirmdg Apakah anda yakin ingin menghapus kelompok (grup) ini?
+confirmdu Apakah anda yakin ingin menghapus pengguna ini?
+confirmeg Apakah anda yakin inigin mengosongkan kelompok (grup) ini?
 confirmpurge Semua gambar tampilan tersimpan dari kontak lain (bukan gambar tampilan anda) akan dihapus. Apakah anda yakin?
+confirmrfl Apakah anda yakin ingin menghapus pengguna tersebut dari kelompok (grup) ini?
 connected Sekarang anda tersambung
 connectedwith Tersambung dengan $1
 connecterror Ada masalah saat menghubungi server
@@ -198,6 +203,7 @@ editvalue Rubah Nilai/Makna
 email Email (Surat Elektronik)
 emailsinlist Tampilkan email sebagai ganti dari nama panggilan dalam daftar kontak
 emotisounds Mainkan suara pada emoticon tertentu
+emptygroup Kosongkan kelompok (grup)
 enablebanner Tampilkan spanduk aMSN (aMSN perlu di-restart)
 enabled Memungkinkan
 enableproxy Nyalakan proxy

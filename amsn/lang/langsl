@@ -1,15 +1,15 @@
 amsn_lang_version 2
 about O programu
-acceptfile Ali sprejmes datoteko $1, njena velikost je $2? Shranjeno v $3
 accept Sprejmi
+acceptfile Ali sprejme¹ datoteko $1, njena velikost je $2? Shranjeno v $3
 actions Akcije
 addacontact Dodaj stik
 addedyou $1 ($2) vas je dodal/a na svoj seznam stikov
-addprofiledesc Vpisi uporabnisko ime, ki ga bo uporabljal ta profil.\nProfili omogocajo razlicne nastavitve za razlicne prijave.\nBrez profilov ne mores uporabljati zgodovine, alarmov ali shraniti gesla.
 addprofile Dodaj profil
+addprofiledesc Vpi¹i uporabni¹ko ime, ki ga bo uporabljal ta profil. \nProfili omogoèajo razliène nastavitve za razliène prijave.\nBrez profilov ne more¹ uporabljati zgodovine, alarmov ali shraniti gesla.
 addstate Dodaj novo stanje
-addtocontacts Dodaj na seznam stikov
 addto Dodaj na $1
+addtocontacts Dodaj na seznam stikov
 addtoo Dodaj to osebo na moj seznam stikov
 admincontacts Uredi stike
 admingroups Uredi skupine
@@ -18,69 +18,70 @@ advancedprefs Dodatne nastavitve
 adverts Reklame
 alarmonconnect Vklopi alarm, ko se stik prijavi
 alarmondisconnect Vklopi alarm, ko se stik odjavi
-alarmonmsg Vklopi alarm, ko ti stik poslje sporocilo
+alarmonmsg Vklopi alarm, ko ti stik po¹lje sporoèilo
 alarmonstatus Vklopi alarm, ko stik zamenja stanje
 alarmpref Nastavitve alarma
 alarms Alarmi
-alarmstatus Alarm omogocen
+alarmstatus Alarm omogoèen
 allfiles Vse datoteke
 allowallbutbl Dovoli vsem uporabnikom, razen blokiranim, da me kontaktirajo
-allowbadwords Onemogoci cenzuro nickov
+allowbadwords Onemogoèi cenzuro nickov
 allowlist Allow seznam
 allowonlyinal Dovoli kontakt le uporabnikom v Allow seznamu
-allowseen Dovoli tej osebi da vidi moj status ko sem prijavljen
-allprofilesinuse Vsi obstojeci profili so v uporabi
+allowseen Dovoli tej osebi da vidi moj status, ko sem prijavljen
+allprofilesinuse Vsi obstojeèi profili so v uporabi
 animatedemoticon Ta emotikon je animiran
-animatedsmileys Omogoci animirane smeske
+animatedsmileys Omogoèi animirane sme¹ke
 animatenotify Animirana obvestila
 appearance Izgled
 appearoff Na videz neprijavljen
-areacode Omrezna stevilka
-aretyping $1 pisejo sporocilo
-autoaccepted Prenos datoteke avtomaticno sprejet
-autoacceptft Avtomaticno sprejmi prihajajoce datoteke
-autoaway Prikazi me kot "Odsoten", ko sem neaktiven
-autocheckver Samodejno preveri za novo razlicico
-autoconnect2 Prijavi se ob zagonu aMSN
+areacode Omre¾na ¹tevilka
+aretyping $1 pi¹ejo sporoèilo
+autoaccepted Prenos datoteke avtomatièno sprejet
+autoacceptft Avtomatièno sprejmi prihajajoèe datoteke
+autoaway Prika¾i me kot "Odsoten", ko sem neaktiven
+autocheckver Samodejno preveri za novo razlièico
 autoconnect Prijavi se ob zagonu amsn
+autoconnect2 Prijavi se ob zagonu aMSN
 autodetectip Samodejno zaznaj IP naslov
 autohotmaillog Samodejna prijava v Hotmail
-autoidle Samodejno idle stanje
+autoidle Samodejno neaktivno stanje
 autoip Samodejni IP
-automessage Samodejno sporocilo
-autonoact Prikazi me kot "Neaktiven", ko sem neaktiven
+automessage Samodejno sporoèilo
+autonoact Prika¾i me kot "Neaktiven", ko sem neaktiven
 avoidseen Ne dovoli tej osebi, da vidi moj status, ko sem prijavljen
-awaymsg1 Vprasam za away sporocilo vsakic, ko zamenjam stanje na Odsoten/Zaposlen?
-awaymsg2 Vedno uporabi to sporocilo
 away Odsoten
-baduserpass Napacno uporabnisko ime ali geslo
+awaymsg1 Vpra¹am za away sporoèilo vsakiè, ko zamenjam stanje na Odsoten/Zaposlen?
+awaymsg2 Vedno uporabi to sporoèilo
+baduserpass Napaèno uporabni¹ko ime ali geslo
 bgcolor Zamenjaj barvo ozadja
 blankdirect Pustite prazno za neposredno povezavo
 block Blokiraj
 blocked Blokiran
-blockedyougroup Pokazi posebej stike, ki so te blokirali
+blockedyougroup Poka¾i posebej stike, ki so te blokirali
 blocking Blokiranje
 blockinter1 Ko si prijavljen, preveri vsakih
 blockinter2 sekund, sicer pa
 blockinter3 ljudi vsakih
-blockinter4 sekund
+blockinter4 sekund.
 blocklist Block seznam
 blockmessage Ti ljudje so prijavljeni in so te blokirali
 blockusers Hkrati preveri
-bouncedock aMSNjeva ikona v opravilni vrstici naj utripa ob prejetem sporocilu
+bouncedock aMSNjeva ikona v opravilni vrstici naj utripa ob prejetem sporoèilu
 broughtby Naredili naslednji programerji
 browse Prebrskaj
 browser Brskalnik
 browserexample ( \$url bo zamenjan z URL-jem). Npr.: mozilla \$url
 busy Zaposlen
 cachedpics $1 shranjenih slik
-cancel Preklici
+cancel Preklièi
 cannotdeleteprofile Ne morem izbrisati profila, ker je v Amsn seji
 cantexec Ne morem izvesti programa $1. Preveri nastavitve.
-cantremoveothers Ni mogoce izbrisati skupine "Ostali"
-casesensitive Obcutljiv na velikost crk
+cantremoveothers Ni mogoèe izbrisati skupine "Ostali"
+casesensitive Obèutljiv na velikost èrk
+cfgalarm Nastavi zvoèni/slikovni alarm
 cfgalarmall Nastavi globalni alarm
-cfgalarm Nastavi zvocni/slikovni alarm
+ch_to_state Preklopi v novo stanje
 change Zamenjaj
 changecustomstate Preklopi v
 changedisplaypic Spremeni osebno sliko
@@ -90,139 +91,144 @@ changenick Zamenjaj nick
 changesize Spremeni velikost
 changestate $1 je spremenil/a stanje na $2
 charscounter Natipkani znaki v oknu s pogovorom
-chatack Sprejemam pogovor od
-chatmaxmin Ko mi stik zacne pogovor z mano, hocem, da je:
 chat Pogovor
+chatack Sprejemam pogovor od
+chatmaxmin Ko stik zaène pogovor z mano, hoèem, da je:
 chatreq Zahtevam pogovor
-chatsmileys2 Prikazi emotikone in smeske v pogovornih oknih
-chatsmileys Smeskoti
-checkblocking Preverjaj, ce te ostali blokirajo
+chatsmileys Sme¹koti
+chatsmileys2 Prika¾i emotikone in sme¹ke v pogovornih oknih
+checkblocking Preverjaj, èe te ostali blokirajo
+checkemail Poka¾i obvestilo o novi po¹ti v seznamu stikov
 checkfilman Prejete datoteke bodo shranjene v $1. Preveri nastavitve upravljalca datotek v nastavitvah.
-checkingver Preverjam za novo razlicico
-checkemail Pokazi obvestilo o novi posti v seznamu stikov
-checkonfln Preveri, ce te je uporabnik blokiral, ko se odjavi
-checkver Preveri za novo razlicico
+checkingver Preverjam za novo razlièico
+checkonfln Preveri, èe te je uporabnik blokiral, ko se odjavi
+checkver Preveri za novo razlièico
 choosearq Izberi arhitekturo sistema
 choosebasefont Izberi vrsto pisave
 choosebgcolor Izberi barvo ozadja
 choosecontact Prosim izberi stik s seznama
 choosefontcolor Izberi barvo pisave
 chooseskin Prosim izberi skin, ki bi ga rad uporabil
-ch_to_state Preklopi v novo stanje
-clear Pocisti
-clearlog2 Pocisti zgodovino za vse stike
-clearlog3 Pocisti vse dnevnike
-clearlog Pocisti dnevnik
-clicktologin Pritisni tukaj za prijavo
+clear Poèisti
+clearlog Poèisti dnevnik
+clearlog2 Poèisti zgodovino za vse stike
+clearlog3 Poèisti vse dnevnike
+clicktologin Klikni sem za prijavo
+clientcaps Po¹lji x-clientcaps paketek drugim odjemalcem
 clientname Odjemalec
-closed Povezava z $1 zaprta zaradi neaktivnosti
 close Zapri
+closed Povezava z $1 zaprta zaradi neaktivnosti
 closingdocks Gumb za zaprtje minimira okno
-commandstatus Izvedi ukaz
 command Ukaz
-confirm Ali si preprican ?
-confirmdelete Ali si preprican, da bos zbrisal $1?
-confirmpurge Vse shranjene slike drugih stikov (ne tvoje slike) bodo izbrisane. Si preprican?
+commandstatus Izvedi ukaz
+confirm Ali si preprièan ?
+confirmdelete Ali si preprièan, da ¾eli¹ zbrisati $1?
+confirmdg Ali si preprièan, da ¾eli¹ zbrisati to skupino?
+confirmdu Ali si preprièan, da ¾eli¹ zbrisati ta stik?
+confirmeg Ali si preprièan, da ¾eli¹ izprazniti to skupino?
+confirmpurge Vse shranjene slike drugih stikov (ne tvoje slike) bodo izbrisane. Si preprièan?
+confirmrfl Ali si preprièan, da ¾eli¹ ta stik odstraniti iz te skupine?
 connected Zdaj si povezan
 connectedwith Povezan z $1
-connecterror Napaka pri povezavi na streznik
+connecterror Napaka pri povezavi na stre¾nik
 connecting Povezujem se
-connectionlost Povezava s streznikom prekinjena
 connection Povezava
+connectionlost Povezava s stre¾nikom prekinjena
 contactadded Stik dodan
 contactdoesnotexist Stik ne obstaja!
 contactlist Seznam stikov
 continuously Neprestano
-convertexplain Pot do programa CONVERT iz ImageMagicka (potreben za osebne slike).\n Pusti prazno, ce je pot ze dolocena.
+convertexplain Pot do programa CONVERT iz ImageMagicka (potreben za osebne slike).\n Pusti prazno, èe je pot ¾e doloèena.
 copy Kopiraj
 copytogroup Dodaj v skupino
-corruptconfig Nastavitvena datoteka je pokvarjena. Ustvarjam novo. Stara datoteka bo shranjena v $1. Prosim, poslji jo, da preverimo, kaj se je zgodilo.
-corruptstates Datoteka z osebnimi stanji je pokvarjena. Ustvarjam novo. Stara datoteka bo shranjena v $1. Prosim, poslji jo, da preverimo, kaj se je zgodilo.
-countrycode Oznaka moje drzave
+corruptconfig Nastavitvena datoteka je pokvarjena. Ustvarjam novo. Stara datoteka bo shranjena v $1. Prosim, po¹lji jo, da preverimo, kaj se je zgodilo.
+corruptstates Datoteka z osebnimi stanji je pokvarjena. Ustvarjam novo. Stara datoteka bo shranjena v $1. Prosim, po¹lji jo, da preverimo, kaj se je zgodilo.
+countrycode Oznaka moje dr¾ave
 cprofile Ustvari profil
 credits Zasluge
 currentdate Trenutni datum
-custnotifymsg Prikazi obvestilo, ko ti ta stik poslje sporocilo
-custnotifyoffline Prikazi obvestilo, ko se ta stik odjavi
-custnotifyonline Prikazi obvestilo, ko se ta stik prijavi
-custnotifystatus Prikazi obvestilo, ko ta stik spremeni stanje
+custnotifymsg Prika¾i obvestilo, ko ti ta stik po¹lje sporoèilo
+custnotifyoffline Prika¾i obvestilo, ko se ta stik odjavi
+custnotifyonline Prika¾i obvestilo, ko se ta stik prijavi
+custnotifystatus Prika¾i obvestilo, ko ta stik spremeni stanje
+custom_edit Uredi svoje sme¹ke
+custom_new Dodaj svojega sme¹ka
 customcolor Barva
-custom_edit Uredi svoje smeske
-custom_new Dodaj svojega smeska
 customnick Prikazni nick
-customstyle Uporabniski nacin pogovora
-cut Izrezi
+customstyle Uporabni¹ki naèin pogovora
+cut Izre¾i
 date Datum
 dateformat Spremeni obliko datuma
 day Dan
 days Dni
 dcprofile Ne ustvari profila
-defaultloginradio Prijavi se s privzetimi nastavitvami
 default Privzete nastavitve
+defaultloginradio Prijavi se s privzetimi nastavitvami
 defchatwinsize Privzeta velikost okna s pogovorom (XxY)
-deletecustomstate Izbrisi osebno stanje
-delete Izbrisi
-delimiters Krajisci prikaza casa
-deliverfail Pri dostavljanju sporocila je prislo do tezave
+delete Izbri¹i
+deletecustomstate Izbri¹i osebno stanje
+delimiters Kraji¹èi prikaza èasa
+deliverfail Pri dostavljanju sporoèila je pri¹lo do te¾ave
+delprofile Izbri¹i profil
 delprofile2 Izberi profil, ki bi ga rad izbrisal
-delprofile Izbrisi profil
 description Opis
 directconnection Neposredna povezava (vrata 1863)
-disabled Izkljuceno
-disableprofiles Izkljuci profile (Uporabno v kiberkavarnah in skupinskem okolju)
-disablessl Onemogoci SSL
+disabled Izkljuèeno
+disableprofiles Izkljuèi profile (Uporabno v kiberkavarnah in skupinskem okolju)
+disablessl Onemogoèi SSL
 disableuserfonts Prezri sogovornikove nastavitve pisave
 disconnect $1 se je odjavil/a.
 disconnectedfrom Povezava z $1 prekinjena
-displaychat Prikazi nastavitve besedila
+displaychat Prika¾i nastavitve besedila
 displayeventconnect Prikazuj prijave stikov
 displayeventdisconnect Prikazuj odijave stikov
 displayeventemail Prikazuj prejetja e-mailov
 displayeventstate Prikazuj spremembe stanja stikov
-displayp4context Prikazi kontekst P4
+displayp4context Prika¾i kontekst P4
 displaypic Prikazna slika
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk gtk pomol
-dockingoff Pristaja prekinjena
 docking Pristaja
+dockingoff Pristaja prekinjena
 dockkde kde pomol
 dontdownload Ne poberi TLS-ja, namestil ga bom sam
-dontshow Ne prikazi
+dontshow Ne prika¾i
 downloadingtls Pobiram modul TLS iz:\n $1
-editcustomstate Uredi
-editnewstate Novo osebno stanje za avtomatsko sporocilo
-editprofile Uredi profil
-editstate Uredi obstojece stanje za avtomatsko sporocilo
 edit Uredi
+editcustomstate Uredi
+editnewstate Novo osebno stanje za avtomatsko sporoèilo
+editprofile Uredi profil
+editstate Uredi obstojeèe stanje za avtomatsko sporoèilo
 editvalue Uredi vrednost
-email E-posta
-emailsinlist Pokazi postne naslove namesto nickov v seznamu stikov
-emotisounds Igraj zvok na dolocene emotikone
-enabled Vkljuceno
-enableproxy Omogoci proxy
-enableremote Omogoci nadzor na daljavo
+email E-po¹ta
+emailsinlist Poka¾i po¹tne naslove namesto nickov v seznamu stikov
+emotisounds Igraj zvok na doloèene emotikone
+emptygroup Izprazni skupino
+enabled Vkljuèeno
+enableproxy Omogoèi proxy
+enableremote Omogoèi nadzor na daljavo
 enablesound Igraj zvok
-encoding2 Spremeni nacin kodiranja znakov
 encoding Izberi kodiranje
+encoding2 Spremeni naèin kodiranja znakov
 entercontactemail Vnesi e-mail osebe
 enterfilename Prosim vnesi ime datoteke
 enternick Vnesi svoj nick
 errortls Napaka pri namestitvi modula TLS:
-eventhistory Prikazi zgodovino dogodkov
+eventhistory Prika¾i zgodovino dogodkov
 examples Primeri
-exitamsn Ali si preprican, da zelis zapustiti program?
+exitamsn Ali si preprièan, da ¾eli¹ zapustiti program?
 extras Dodatne storitve
+failed Neuspe¹no
 faileddelete Izbris ni uspel
-faileddeleteperso Te slike ni mogoce izbrisati, ker ni osebna slika. Samo slike, ki pripadajo tvojemu osebnemu profilu, lahko tako izbrises.
-failed Neuspesno
+faileddeleteperso Te slike ni mogoèe izbrisati, ker ni osebna slika. Samo slike, ki pripadajo tvojemu osebnemu profilu, lahko tako izbri¹e¹.
 faq Faq
 file Datoteka
 filedoesnotexist Datoteka ne obstaja
-filemanexample ( \$location bo zamenjan z mapo ) Npr.: nautilus \$location
 fileman Upravljalec datotek
+filemanexample ( \$location bo zamenjan z mapo ) Npr.: nautilus \$location
 filename Ime datoteke
 filetransfercancelled Prenos datoteke preklican
-filetransfercomplete Prenos datoteke koncan
+filetransfercomplete Prenos datoteke konèan
 followtext Sledi novemu besedilu
 friendlyname Prijazno ime
 ftacceptedby $1 je sprejel/a povabilo za prenos datoteke '$2'
@@ -231,21 +237,21 @@ ftaccepting Sprejemam povabilo za prenos datoteke
 ftconnecterror Napaka pri povezovanju z drugo stranjo
 ftconnecting Povezujem se na $1, vrata $2
 ftconnectionlost Povezava z drugo stranjo prekinjena
-ftgotinvitation $1 ti zeli poslati datoteko '$2' ($3 bajtov). Shranjena bo v $4. Jo zelis sprejeti?
-ftportpref Uporabi ta in visja vrata za prenos datotek
+ftgotinvitation $1 ti ¾eli poslati datoteko '$2' ($3 bajtov). Shranjena bo v $4. Jo ¾eli¹ sprejeti?
+ftportpref Uporabi ta in vi¹ja vrata za prenos datotek
 ftrejectedby $1 je zavrnil/a povabilo za prenos datoteke '$2'.
 ftrejected Prenos datoteke je bil zavrnjen.
 ftsendinvitation $1 bo prejel/a povabilo za prenos datoteke '$2' ($3 bajtov).
-fullcontactlist Tvoj seznam stikov je poln. Da bi dodal novega, moras izbrisati katerega od trenutnih stikov.
-getdisppic Omogoci prejemanje osebne slike od drugih uporabnikov
-globalnick Vnesi vzorec za tvorbo nickov vseh tvojih stikov. Lahko uporabljas te spremenljivke: \$user_login za naslov stika, \$nick za njegov nick in \$customnick za njegov prikazni nick. Primer: '\$user_login je \$nick' bo prikazano kot 'stik@msn.com je Stik'
+fullcontactlist Tvoj seznam stikov je poln. Da bi dodal novega, mora¹ izbrisati katerega od trenutnih stikov.
+getdisppic Omogoèi prejemanje osebne slike od drugih uporabnikov
+globalnick Vnesi vzorec za tvorbo nickov vseh tvojih stikov. Lahko uporablja¹ te spremenljivke: \$user_login za naslov stika, \$nick za njegov nick in \$customnick za njegov prikazni nick. Primer: '\$user_login je \$nick' bo prikazano kot 'stik@msn.com je Stik'
 globalnicktitle Globalni nick
-globaloverride Prikazi globalni nick namesto prikaznega
+globaloverride Prika¾i globalni nick namesto prikaznega
 gonelunch Na kosilu
 group Skupina
-groupadd Dodaj v skupino
-groupdelete Izbrisi skupino
-groupexists Skupina ze obstaja
+groupadd Dodaj skupino
+groupdelete Izbri¹i skupino
+groupexists Skupina ¾e obstaja
 groupmissing Ne morem najti skupine
 groupnewname Novo ime
 groupnotempty Skupina ni prazna!
@@ -254,153 +260,153 @@ grouprename Preimenuj skupino
 groups Skupine
 groupunknown Neznana skupina
 handle Ime
-helpcontents Vsebina pomoci
-help Pomoc
+help Pomoè
+helpcontents Vsebina pomoèi
 hidedisplaypic Skrij osebno sliko
-hiden Ne pokazi emotikona v menuju smeskov
+hiden Ne poka¾i emotikona v menuju sme¹kov
 hidewindow Skrij okno
-history Prikazi zgodovino
+history Prika¾i zgodovino
 home Doma
 httpconnection HTTP povezava (vrata 80)
-hybrid Hibridni nacin
+hybrid Hibridni naèin
 ident Identificiram
 identity Identiteta
-ignoreerrors Ne kazi vec sporocil o napakah do zaprtja programa
+ignoreerrors Ne ka¾i veè sporoèil o napakah do zaprtja programa
 imagefiles Slike
 inbox Inbox
 insertsmiley Vstavi emotikon
-installconvert Namestiti moras ImageMagick (program za pretvarjanje), da bi pretvarjal slike v format, ki ga potrebujejo MSN-jevi strzniki. Binarne datoteke za tvoj operacijski sistem lahko poberes s ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Ce ga ze imas, je to hrosc. Prosim, povej zanj.
-internalerror Notranja napaka streznika
-invalidfile2 Datoteke $1 ni mogoce ustvariti, prepricaj se, da imas prava dovoljenja za ta cilj
+installconvert Namestiti mora¹ ImageMagick (program za pretvarjanje), da bi pretvarjal slike v format, ki ga potrebujejo MSN-jevi stre¾niki. Binarne datoteke za tvoj operacijski sistem lahko pobere¹ s ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . èe ga ze ima¹, je to hro¹è. Prosim, povej zanj.
+internalerror Notranja napaka stre¾nika
 invalidfile Datoteka $2 iz polja "$1" ne obstaja ali ni berljiva
-invalidgroup Napacna skupina
-invalidpicsize Slika je prevelika, izberi manjso
+invalidfile2 Datoteke $1 ni mogoèe ustvariti, preprièaj se, da ima¹ prava dovoljenja za ta cilj.
+invalidgroup Napaèna skupina
+invalidpicsize Slika je prevelika, izberi manj¹o
 invalidpic Slika ne obstaja
 invalidsound Zvok ne obstaja
-invalidusername Napacno uporabnisko ime
+invalidusername Napaèno uporabni¹ko ime
 invitationcancelled Povabilo je bilo preklicano
 invite Povabi
 ipaddress IP Naslov
 ipdetect Zaznaj IP za prenose datotek preko HTTP
-ircstyle IRC nacin pogovora
-istyping $1 pise sporocilo
-joins $1 se je pridruzil/a pogovoru
+ircstyle IRC naèin pogovora
+istyping $1 pi¹e sporoèilo
+joins $1 se je pridru¾il/a pogovoru
 justonce Samo enkrat
-keepalive Drzi zivo (NAT)
-keeplog2 Belezi vse pogovore v aMSN dnevnik za kasnejsi pregled
+keepalive Dr¾i ¾ivo (NAT)
 keeplog Hrani dnevnik pogovorov
+keeplog2 Bele¾i vse pogovore v aMSN dnevnik za kasnej¹i pregled
 language Jezik
 lastlogin Zadnja prijava
 lastlogout Zadnja odjava
-lastmsgedme Zadnje sporocilo
-lastmsgtime Zadnje sporocilo prejeto ob $1
+lastmsgedme Zadnje sporoèilo
+lastmsgtime Zadnje sporoèilo prejeto ob $1
 lastseen Nazadnje prijavljen/a
 lclosedwin $1 je zaprl/a okno $2
 lconftopriv Konferenca spremenjena v zasebni pogovor z $1
-lconvstarted Pogovor se je pricel ($1)
-leaveblankforhotmail Pusti prazno za uporabo Hotmail storitev
-leavejoinsinchat Pokazi obvestilo o pridruzitvi/zapuscanju pogovora znotraj okna
+lconvstarted Pogovor se je prièel ($1)
+leaveblankforhotmail Pusti prazno za uporabo Hotmail storitve
+leavejoinsinchat Pokazi obvestilo o pridru¾itvi/zapu¹èanju pogovora znotraj okna
 leaves $1 je zapustil/a pogovor
-lenteredconf $1 je vstopil v konferenca na $2
-lineflushlog Pisi dnevnik vrstico za vrstico (brez medpomnilnika)
+lenteredconf $1 je vstopil/a v konferenco na $2
+lineflushlog Pi¹i dnevnik vrstico za vrstico (brez medpomnilnika)
 linprivate ZASEBNO
-listeningon Poslusam na vratih $1
-listsmileys2 Prikazi emotikone in smeske v seznamu stikov
-listsmileys Seznam smeskov
-ljoinedconf $1 se je pridruzil/a konferenci
+listeningon Poslu¹am na vratih $1
+listsmileys Seznam sme¹kov
+listsmileys2 Prika¾i emotikone in sme¹ke v seznamu stikov
+ljoinedconf $1 se je pridru¾il/a konferenci
 lleftconf $1 je zapustil/a konferenco
-loadcontacts Nalozi seznam stikov
-logbigger Dnevniska datoteka za vsak stik je lahko velika najvec
-logeventconnect Belezi prijave
-logeventdisconnect Belezi odjave
-logeventemail Belezi prejetje e-mailov
-logeventstate Belezi spremembe statusov
-logfandexp Velikost dnevniskih datotek in izteka zgodovine
+loadcontacts Nalo¾i seznam stikov
+logbigger Dnevni¹ka datoteka za vsak stik je lahko velika najveè
+logeventconnect Bele¾i prijave
+logeventdisconnect Bele¾i odjave
+logeventemail Bele¾i prejetje e-mailov
+logeventstate Bele¾i spremembe statusov
+logfandexp Velikost dnevni¹kih datotek in izteka zgodovine
 loggedotherlocation Povezava prekinjena. Povezan drugje.
 loggingin Prijavljam
-loginas Prijavi se kot
-loging Belezenje
 login Prijavi se
-logolder Belezi samo pogovore, ki so izpred
+loginas Prijavi se kot
+loging Bele¾enje
+logolder Bele¾i samo pogovore, ki so izpred
 logout Odjavi se
-logsbydate Razvrsti loge po datumu (Hitrejse nalaganje zgodovine)
+logsbydate Razvrsti loge po datumu (Hitrej¹e nalaganje zgodovine)
 logsin se je ravnokar prijavil/a
-logsmileys Prikazi emotikone in smeske v zgodovini
 logsout se je ravnokar odjavil/a
-longnick Tvoj nick je daljsi od 130 znakov. To ni uradno podprto v MSNjevem protokolu. Si preprican, da hoces imeti tak nick?
-longp4c Tvoje prijazno ime je daljse od 130 znakov. Prijazno ime, ki bo prikazano na uradnem MSNjevem odjemalcu, bo $1. Si preprican, da hoces imeti tako prijazno ime?
-lprivtoconf Zasebni pogovor spremenjen v konferenco na $1
+logsmileys Prika¾i emotikone in sme¹ke v zgodovini
+longnick Tvoj nick je dalj¹i od 130 zankov. To ni uradno podprto v MSNjevem protokolu. Si preprièan, da hoèe¹ imeti tak nick?
+longp4c Tvoje prijazno ime je dalj¹e od 130 znakov. Prijazno ime, ki bo prikazano na uradnem MSNjevem odjemalcu, bo $1. Si preprièan, da hoèe¹ imeti tako prijazno ime?
+lprivtoconf Zasebni pogovor spremenjen v konferenco ($1)
 luclosedwin Zaprli ste okno ($1)
-mailerexample ( \$recipient = prejemnik ) Pusti prazno za uporabo Hotmaila
 mailer Mailer
+mailerexample ( \$recipient = prejemnik ) Pusti prazno za uporabo Hotmaila
 maximised Maksimiran
 minimised Minimiran
 mins minut
 mobile Mobilni
+morepersonal Veè stanj ->
 month Mesec
-morepersonal Vec stanj ->
 move Premakni
 movetogroup Premakni v skupino
-msgflicker Naslov okna s pogovorom naj utripa, ce prejme sporocilo, ko ni aktivno
-msgmaxmin Ko prispe novo sporocilo, hocem da je:
-msgmode Izberi nacin prikazovanja vec pogovornih oken:
-msg Sporocilo
+msg Sporoèilo
+msgflicker Naslov okna s pogovorom naj utripa, èe prejme sporoèilo, ko ni aktivno
+msgmaxmin Ko prispe novo sporoèilo, hoèem da je:
+msgmode Izberi naèin prikazovanja vec pogovornih oken:
 msn AMSN
-msnstyle MSN nacin pogovora
-mustrestart Da bi spremembe prisle v veljavo, moras program ponovno zagnati
+msnstyle MSN naèin pogovora
+mustrestart Da bi spremembe pri¹le v veljavo, mora¹ program ponovno zagnati
 myfriendlyname Moje prijazno ime
-myhomephone Domaci telefon
+myhomephone Domaèi telefon
 mymobilephone Mobilni telefon
 mynick Moj nick
 mypic Moja osebna slika:
 mystatus Moje stanje
-myworkphone Sluzbeni telefon
-natip IP detekcija od mrezne strani
-natkeepalive Ce te velikokrat odjavi, oznaci to moznost
-needonline Se vedno si/izgledas neprijavljen!
-needwinico Da bi pristaja delovala v Oknih, potrebujes datoteko winico03.dll v mapi plugins
+myworkphone Slu¾beni telefon
+natip IP poizvedba s spletne strani
+natkeepalive èe te velikokrat odjavi, oznaèi to mo¾nost
+needonline ©e vedno si/izgleda¹ neprijavljen!
+needwinico Da bi pristaja delovala v Oknih, potrebuje¹ datoteko winico05.dll v mapi plugins
 never Nikoli
-newmail $1 novih sporocil v Inboxu
-newmailfolder $1 novih sporocil v ostalih imenikih
-newmailfrom Novo sporocilo od $1 ($2)
-newmailfromother Novo sporocilo v drugem imeniku od $1 ($2)
-newmsg Novo sporocilo
+newmail $1 novih sporoèil v Inboxu
+newmailfolder $1 novih sporoèil v ostalih imenikih
+newmailfrom Novo sporoèilo od $1 ($2)
+newmailfromother Novo sporoèilo v drugem imeniku od $1 ($2)
+newmsg Novo sporoèilo
 newstate Dodaj osebno stanje
-newveravailable Nova razlicica $1 je na voljo za prenos
+newveravailable Nova razlièica $1 je na voljo za prenos
 next Naslednji
 nick Nick
 no Ne
-noactivity Ni aktiven/a
+noactivity Neaktiven
 nodataavailable Ni podatkov za $1
 nogap Brez praznega prostora med skupinami
 nogroup Brez skupine
 nologfile Brez dnevnika za $1
 noneavailable Noben ni na voljo
-nonewmail Ni novih sporocil v Inboxu
-nonewver Ni novih razlicic na voljo za prenos
+nonewmail Ni novih sporoèil v Inboxu
+nonewver Ni novih razlièic na voljo za prenos
 nopic Brez slike
-noprofileexists Trenutno ni profilov.\nDa jih uporabljas, ustvari novega\nz gumbom dodaj profil.
+noprofileexists Trenutno ni profilov.\nDa jih uporablja¹, ustvari novega\nz gumbom dodaj profil.
 normal Normalno
-noskins Privzetega skina ni v imeniku skins/ . AMSNja ni mogoce zagnati.
+noskins Privzetega skina ni v imeniku skins/ . AMSNja ni mogoèe zagnati.
 nosystemtray Tray ni na voljo
-notificationserver Zacetni MSNjev streznik (MSN Messengerjev streznik)
-notify1_5 Prikazi obvestilo, ko se kdo odjavi
-notify1_75 Prikazi obvestilo, ko kdo zamenja stanje
-notify1 Prikazi obvestilo, ko se kdo prijavi
-notify2 Prikazi obvestilo ob novem sporocilu
-notify3 Prikazi obvestilo ob novem e-mailu
-notify4 Prikazi obvestilo ob novem e-mailu v drugem imeniku
+notificationserver Zaèetni MSNjev stre¾nik (MSN Messengerjev stre¾nik)
 notify obvesti
-notifyoffset Nastavitve polozaja obvestilnega okna
-notifytimeout Cas prikaza obvestila v milisekundah
-notifytyping Posiljaj sogovornikom obvestilo o tipkanju
+notify1 Prika¾i obvestilo, ko se kdo prijavi
+notify1_5 Prika¾i obvestilo, ko se kdo odjavi
+notify1_75 Prika¾i obvestilo, ko kdo zamenja stanje
+notify2 Prika¾i obvestilo ob novem sporoèilu
+notify3 Prika¾i obvestilo ob novem e-mailu
+notify4 Prika¾i obvestilo ob novem e-mailu v drugem imeniku
+notifyoffset Nastavitve polo¾aja obvestilnega okna
+notifytimeout èas prikaza obvestila v milisekundah
+notifytyping Po¹iljaj sogovornikom obvestilo o tipkanju
 notifywin Obvestila
 notinlist Nisi na njegovem/njenem seznamu stikov
-notls MSN protokol 9 potrebuje tls. Izgleda, da ni namescen na tem racunalniku. Ce je, vnesi pot do njegovega imenika v nastavitvah (npr.: /opt/tls/lib). \n \ntls lahko poberes s http://tls.sf.net.
+notls MSN protokol 9 potrebuje tls. Izgleda, da ni name¹èen na tem raèunalniku. èe je, vnesi pot do njegovega imenika v nastavitvah (npr.: /opt/tls/lib).\n\ntls lahko pobere¹ s http://tls.sf.net.
 nousersinsession Ni uporabnikov v seji
 offline Neprijavljen
-ok Ok
-onenewmail 1 novo sporocilo v Inboxu
+ok V redu
+onenewmail 1 novo sporoèilo v Inboxu
 online Prijavljen
 onphone Na telefonu
 openreceived Odpri sprejete datoteke
@@ -416,195 +422,195 @@ pass Geslo
 paste Prilepi
 personal Osebno
 phone Telefon
-phones Telefonske stevilke
-picbrowser Prikazi brskalnik slik
+phones Telefonske ¹tevilke
+picbrowser Prika¾i brskalnik slik
 picfile Slikovna datoteka
-picstatus Slika omogocena
+picstatus Slika omogoèena
 playing Igram: $1
 pluginselector Izberi plugine
 port Vrata
 prefalerts Alarmi in zvoki
 prefapps Aplikacije
-prefawaymsg Sporocilo ob odsotnosti
+prefawaymsg Sporoèilo ob odsotnosti
 prefblock1 Preveri ob odjavi
 prefblock2 Preverjaj
 prefblock3 Skupina "Blokirajo te"
 prefconnection Nastavitve povezave
-prefemotic Emotikoni in smeski
+prefemotic Emotikoni in sme¹ki
 preferences Nastavitve
+preffont Sporoèila
 preffont2 Spremeni pisavo, kot jo vidijo drugi
-preffont3 Spremeni pisavo uporabniskega vmesnika
-preffont Tekst mojih sporocil
+preffont3 Spremeni pisavo uporabni¹kega vmesnika
 prefft Nastavitve prenosa datotek, P2P in NAT
-preflibs Imenik s knjizicami
+preflibs Imenik s knji¾icami
 preflog1 Zgodovina in dnevnik
 preflogevent Zgodovina dogodkov
-preflook Izgled uporabniskega vmesnika
-prefmsging Uporabniski vmesnik sporocil
+preflook Izgled uporabni¹kega vmesnika
+prefmsging Uporabni¹ki vmesnik sporoèil
 prefname Moje ime/nickname
-prefphone2 Vpisi telefonske stevilke za katere zelis da so vidne \n tistim, ki so na Allow seznamu. \n
-prefphone Moje telefonske stevilke
+prefphone Moje telefonske ¹tevilke
+prefphone2 Vpi¹i telefonske ¹tevilke za katere ¾eli¹, da so vidne\ntistim, ki so na Allow seznamu.\n
 prefprivacy2 Seznam stikov
 prefprivacy Allow in Block seznama
-prefprofile2 Ustvari/spremeni javni profil \n (tvoj opis, ki ga lahko vidijo drugi)
-prefprofile3 aMSNjevi uporabniski profili nastavitev
 prefprofile Moj javni profil
-prefproxy Nastavitve proxy streznika
+prefprofile2 Ustvari/spremeni javni profil \n(tvoj opis, ki ga lahko vidijo drugi)
+prefprofile3 aMSNjevi uporabni¹ki profili nastavitev
+prefproxy Nastavitve proxy stre¾nika
 prefremote Nastavitve nadzora na daljavo
 prefsession Moja prijava in stanje
 prefshared Deljena povezava (samo NAT)
 prefsound Zvoki
 privacy Zasebnost
 profiledconfig Nastavitve profilov
-profileexists Ne mores ustvariti profila s tem uporabniskim imenom, \nker ze obstaja. Uporabi drugo uporabnisko ime.
+profileexists Ne more¹ ustvariti profila s tem uporabni¹kim imenom,\nker ze obstaja. Uporabi drugo uporabni¹ko ime.
 profileinuse Ta profil uporablja druga seja Amsn. Prosim izberi drugega.
 profileloginradio Prijavi se s profilom
 profiles Profili
 properties Lastnosti
-proxyconfhttp Podpora HTTP proxyju
-proxyconf Nastavitve proxyja
-proxyconnection Proxy povezava:
 proxy Sem za proxy streznikom (HTTP ali SOCKS5)
-publishphones Objavi moje tel. stevilke
-purge Ocisti
+proxyconf Nastavitve proxyja
+proxyconfhttp Podpora HTTP proxyju
+proxyconnection Proxy povezava:
+publishphones Objavi moje tel. ¹tevilke
+purge Oèisti
 raised V oknu
-readonlymsgbox Prenos datoteke je preklican, ker je ciljna mapa samo za branje. Popravi njena ovoljenja.
-readonlywarn OPOZORILO: Datoteka verjetno NE bo shranjena pravilno, ker je mapa "Prejetedatoteke"zascitena za pisanje. Pred prenosom preveri, ce so dovoljenja ciljne mape ($1) nastavljene pravilno.
+readonlymsgbox Prenos datoteke je preklican, ker je ciljna mapa samo za branje. Popravi njena dovoljenja.
+readonlywarn OPOZORILO: Datoteka verjetno NE bo shranjena pravilno, ker je mapa "Prejete datoteke" za¹èitena za pisanje. Pred prenosom preveri, èe so dovoljenja ciljne mape ($1) nastavljena pravilno.
 receivedbytes Prejeto $1 od $2 bajtov
 receiveddir Mapa s prejetimi datotekami
 receivefile Sprejmi datoteko
-recentmsg Prepreci zapiranje okna s pogovorom takoj po prejemu sporocila
-reconnect Cakam, da se $1 ponovno poveze
+recentmsg Prepreèi zapiranje okna s pogovorom takoj po prejemu sporoèila
+reconnect èakam, da se $1 ponovno pove¾e
 reconnect2 Ponovna prijava ob prekinitvi povezave
-reconnecting Povezujem se s streznikom
+reconnecting Povezujem se s stre¾nikom
 reject zavrni
 rememberpass Shrani geslo
 removeempty Odstrani prazne skupine iz seznama stikov
-removefromlist Zbrisi s tega seznama
+removefromlist Zbri¹i s tega seznama
 rename Preimenuj
 reversed Zamenjano
 reverselist Ljudje, ki si jim stik
 rightback Takoj bom nazaj
+save Shrani
 saveas Shrani kot
 savechatwinsize Shrani spremembe velikosti oken s pogovori
 savecontacts Shrani seznam stikov
-save Shrani
 savetofile Shrani v datoteko
 says $1 pravi
 sbcon Povezujem se na Switch Board
-selectplugins Izberi plugin, ki ga zelis omogociti
+selectplugins Izberi plugin, ki ga ¾eli¹ omogoèiti
 selectskin Izberi skin s seznama
-sendfile Poslji datoteko
-sendmail Poslji e-mail
-sendmsg Poslji sporocilo
-send Poslji
+send Po¹lji
+sendfile Po¹lji datoteko
+sendmail Po¹lji e-mail
+sendmsg Po¹lji sporoèilo
 sentbytes Poslano $1 od $2 bajtov
-serverbusy Streznik je zaseden
+server Stre¾nik
+serverbusy Stre¾nik je zaseden
 servergoingdown Povezava prekinjena
-server Streznik
-serverunavailable Streznik ni dosegljiv
+serverunavailable Stre¾nik ni dosegljiv
 session Seja
-showbanner Prikazi aMSNjevo pasico
-showblockedlist Pokazi seznam ljudi, ki so te blokirali
-showcachedpics Pokazi shranjene osebne slike
-showdisplaypic2 Prikazi osebno sliko, ko se odpre pogovor
-showdisplaypic Prikazi osebno sliko
+showbanner Prika¾i aMSNjevo pasico
+showblockedlist Poka¾i seznam ljudi, ki so te blokirali
+showcachedpics Poka¾i shranjene osebne slike
+showdisplaypic Prika¾i osebno sliko
+showdisplaypic2 Prika¾i osebno sliko, ko se odpre pogovor
 showmypic Moja osebna slika
-shownotify Pokazi obvestilo ob nekaterih dogodkih
+shownotify Poka¾i obvestilo ob nekaterih dogodkih
 showuserpic Osebna slika uporabnika $1
-skinselector Izberi skin
 skin Skin
+skinselector Izberi skin
 smileconfig Nastavitve tvojih emotikonov
 smilefile Datoteka
-smileintro2 Uredi potrebna polja, ce zelis spremeniti tega smeska (poglej v FAQ za pomoc)
-smileintro Izpolni potrebna polja, ce zelis ustvariti novega lastnega smeska (poglej v FAQ za pomoc)
-snackfailed Snack se ni uspel naloziti, ponastavljam
+smileintro Izpolni potrebna polja, èe ¾eli¹ ustvariti novega lastnega sme¹ka (poglej v FAQ za pomoè)
+smileintro2 Uredi potrebna polja, èe ¾eli¹ spremeniti tega sme¹ka (poglej v FAQ za pomoè)
+snackfailed Snack se ni uspel nalo¾iti, ponastavljam
 sngdblclick Enojni klik odpre okno s pogovorom
-sound2 Predvajaj zvoke ob nekaterih dogodkih
-soundactive Predvajaj zvok tudi ob prejetem sporocilu v aktivnem oknu
-soundcommand To mora biti ukaz play (npr. esdplay)
-soundexample ( \$sound = Zvocna datoteka) Npr.: esdplay \$sound
-soundfiles Zvoki
-soundfile Zvocna datoteka
-soundloop Ponavljaj
-soundserver Zvocni streznik
-soundstatus Zvok omogocen
 sound Zvok dogodka
+sound2 Predvajaj zvoke ob nekaterih dogodkih
+soundactive Predvajaj zvok tudi ob prejetem sporoèilu v aktivnem oknu
+soundcommand To mora biti ukaz play (npr. esdplay)
+soundexample ( \$sound = Zvoèna datoteka) Npr.: esdplay \$sound
+soundfile Zvoèna datoteka
+soundfiles Zvoki
+soundloop Ponavljaj
+soundserver Zvoèni stre¾nik
+soundstatus Zvok omogoèen
 sourcecode Izvorna koda (potrebno jo je prevesti in namestiti)
 splashstart Start
-sslwarning POZOR!! Onemogocenje SSL-ja bo onemogocilo enkripcijo, tako da bo tvoje geslo poslano kot navadno besedilo. Uporabi le pri kompliciranih nastavitvah proxyja in omrezja.
+sslwarning POZOR!! Onemogoèenje SSL-ja bo onemogoèilo enkripcijo, tako da bo tvoje geslo poslano kot navadno besedilo. Uporabi le pri kompliciranih nastavitvah proxyja in omre¾ja.
+startoffline Zaèni neprijavljen
 startoffline2 Prijavi se kot "Na videz neprijavljen"
-startoffline Zacni neprijavljen
-startontray Zazeni AMSN kot ikono v trayu
-stateautomsg Avtomatsko sporocilo
+startontray Za¾eni AMSN kot ikono v trayu
+stateautomsg Avtomatsko sporoèilo
 statechange je status spremenil/a na:
-stateedittext Prosim uredi polja, ki bi \n jih rad spremenil in pritisni Shrani.
+stateedittext Prosim uredi polja, ki bi\njih rad spremenil in pritisni Shrani.
 stateinfo Nastavitev osebnega stanja
+state ®elim biti viden kot
 statename Ime osebnega stanja
-statenewtext Prosim vpisi potrebne podatke za \n tvoje novo osebno stanje in pritisni Shrani.
-statenick Nick v tem stanju (pusti prazno, ce naj se ne spremeni)
-state Zelim biti viden kot
+statenewtext Prosim vpi¹i potrebne podatke za\ntvoje novo osebno stanje in pritisni Shrani.
+statenick Nick v tem stanju (pusti prazno, èe naj se ne spremeni)
 status Stanje
 stopalarm Ustavi alarm
-storenickname Zamenjaj nick na prejsnjega po vrnitvi iz osebnega stanja
+storenickname Zamenjaj nick na prej¹njega po vrnitvi iz osebnega stanja
 strictfonts Vse pisave naj bodo po moji izbiri (Statusna vrstica in ostalo)
 stylechat Enak izgled kot pogovori
 stylehist Izgled zgodovine
-stylelog Izberi zapis, v katerem zelis videti zgodovino
-syntaxerror  Napaka v sintaksi
+stylelog Izberi zapis, v katerem ¾eli¹ videti zgodovino
+syntaxerror Napaka v sintaksi
 tabbed Okna z "uhlji"
 temp_state Ne shrani (Trenutno, bo ponastavljeno ob ponovnem zagonu AMSN)
 textsize Velikost besedila
-timeremaining Cas do konca prenosa
-timestamps Omogoci prikaz casa v pogovorih
+timeremaining èas do konca prenosa
+timestamps Omogoèi prikaz èasa v pogovorih
 title aMSN
-tkerror Napaka v TKju. To je amsnjev hrosc, prosim povej zanj. Poslji datoteko $1 na amsn-bugs@lists.sf.net
-tlsdowncompleted Datoteka $1 se je prenesla v imenik $2. Moras jo izvleci, prevesti (ce si pobral izvorno kodo) in namestiti v $3.
-tlsexplain Mapa, kjer je tcl TLS modul. Ce ga AMSN ne najde, nastavi pot.\n(Potrebno za SSL overjenje).
-tlsinstall Carovnik za namestitev modula TLS
-tlsinstallexp AMSN uporablja MSNP9, ki potrebuje varno\npovezavo s SSL-jem. Da bi uporabljal SSL, mora AMSN namestiti modul TLS,\nki ga ni na tvojem racunalniku. Ta carovnik ti bo pomagal pobrati in\nnamestiti TLS. Prosim izberi tvoj sistem, da lahko poberem\npotrebne TLS datoteke.
-tlsinstcompleted Namestitev modula TLS je bila uspesna; zdaj naj bi bilo mogoce uporabljati MSNP9. Ce ne deluje, verjetno nisi izbral pravega modula ali pa prevedenega ni na voljo za tvoj sistem.
+tkerror Napaka v TKju. To je amsnjev hro¹è, prosim povej zanj. Po¹lji datoteko $1 na amsn-bugs@lists.sf.net
+tlsdowncompleted Datoteka $1 se je prenesla v imenik $2. Mora¹ jo izvleèi, prevesti (èe si pobral izvorno kodo) in namestiti v $3.
+tlsexplain Mapa, kjer je tcl TLS modul. èe ga AMSN ne najde, nastavi pot.\n(Potrebno za SSL overjenje).
+tlsinstall èarovnik za namestitev modula TLS
+tlsinstallexp AMSN uporablja MSNP9, ki potrebuje varno\npovezavo s SSL-jem. Da bi uporabljal SSL, mora AMSN namestiti modul TLS,\nki ga ni na tvojem raèunalniku. Ta èarovnik ti bo pomagal pobrati in\nnamestiti TLS. Prosim izberi tvoj sistem, da lahko poberem\npotrebne TLS datoteke.
+tlsinstcompleted Namestitev modula TLS je bila uspe¹na; zdaj naj bi bilo mogoèe uporabljati MSNP9. èe ne deluje, verjetno nisi izbral pravega modula ali pa prevedenega ni na voljo za tvoj sistem.
+to Za
 today Danes
 tools Orodja
-tooltips Omogoci tooltipe
-to Za
-transnotexists Zahtevana datoteka se ni bila prevedena v slovenscino.
+tooltips Omogoèi tooltipe
+transnotexists Zahtevana datoteka ¹e ni bila prevedena v sloven¹èino.
 traynotcompiled Plugin za tray ikono ni preveden. Preveri plugins/traydock.
-triggers Smeska sprozijo
-truncatenames1 Skrajsaj nicke, ki ne stojijo v naslovu okna in v seznamu stikov
-truncatenames2 Skrajsaj nicke, ki ne stojijo v oknu s pogovorom
-truncatenicks Skrajsaj nicke, ki ne stojijo v oknu
-twonewmail $1 novi sporocili v Inboxu
+triggers Sme¹ka spro¾ijo
+truncatenames1 Skraj¹aj nicke, ki ne stojijo v naslovu okna in v seznamu stikov
+truncatenames2 Skraj¹aj nicke, ki ne stojijo v oknu s pogovorom
+truncatenicks Skraj¹aj nicke, ki ne stojijo v oknu
+twonewmail 2 novi sporoèili v Inboxu
 unblock Odblokiraj
 uoffline Neprijavljeni
 uonline Prijavljeni
 useother Uporabi drugi program
-useralreadyonlist Uporabnik je ze na seznamu stikov
-userblocked Uporabnik je prijavljen, a te je blokiral
-usernotonline Uporabnik ni prijavljen
 user Uporabnik
+useralreadyonlist Uporabnik je ¾e na seznamu stikov
+userblocked Uporabnik je prijavljen, a te je blokiral
 userdata Podatki o uporabniku
+usernotonline Uporabnik ni prijavljen
 userproperties Lastnosti uporabnika $1
-useryourself Ne mores govoriti sam s seboj
-usesnack Uporabi knjizico Snack (vgrajena v Tcl)
+useryourself Ne more¹ govoriti sam s seboj
+usesnack Uporabi knji¾ico Snack (vgrajena v Tcl)
 verifyblocked Preveri, kdo te blokira
-version Razlicica
+version Razlièica
 view Pogled
 viewcontactsby Prikaz stikov
 viewprofile Poglej profil
 webcaminvite $1 te je povabil/a na videokonferenco, a aMSN tega ne podpira.
-willjoin Cakam, da se $1 pridruzi pogovoru
+willjoin èakam, da se $1 pridru¾i pogovoru
 work Delo
 wrongfields Polja "$1", "$2" in/ali "$3" niso veljavna
-wrongprofileversion Napacna datoteka nastavitev profila. Da bi jo popravil, odstrani imenik $1 ali posodobi amsn.
-xmmscurrent Pokazi trenutno pesem
-xmmserr Nic se ne igra ali nimas namescenega xmms-infopipe.
-xmmssend Poslji trenutno pesem
+wrongprofileversion Napaèna datoteka nastavitev profila. Da bi jo popravil, odstrani imenik $1 ali posodobi amsn.
+xmmscurrent Poka¾i trenutno pesem
+xmmserr Niè se ne igra ali nima¹ name¹èenega xmms-infopipe.
+xmmssend Po¹lji trenutno pesem
 xoffset X odstopanje
 year Leto
 yes Ja
-yesterday Vceraj
+yesterday Vèeraj
 yoffset Y odstopanje
 youblocked Blokirajo te
-yousay Pravis
-youwant Hoces
+yousay Pravi¹
+youwant Hoèe¹

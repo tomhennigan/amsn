@@ -123,7 +123,11 @@ command Gorchymyn
 commandstatus Gweithredu gorchymyn
 confirm Ydych chi'n siwr?
 confirmdelete Ydych chi'n siwr eich bod am ddileu $1?
+confirmdg Ydych chi'n siwr eich bod am ddileu'r grwp?
+confirmdu Ydych chi'n siwr eich bod am ddileu'r defnyddiwr?
+confirmeg Ydych chi'n siwr eich bod am wagio'r grwp?
 confirmpurge Bydd pob darlun arddangos gan gysylltiadau eraill (nid eich darluniau arddangos chi) yn cael eu dileu. Ydych chi'n siwr?
+confirmrfl Ydych chi'n siwr eich bod am ddileu'r defnyddiwr o'r grwp?
 connected Rydych wedi eich cysylltu
 connectedwith Connected with $1
 connecterror Gwall wrth gysylltu â'r gweinydd
@@ -200,6 +204,7 @@ editvalue Golygu gwerth
 email E-bost
 emailsinlist Dangos e-bost yn lle llysenw yn y rhestr cyswllt	
 emotisounds Seiniau rhai emoticons
+emptygroup Gwagio'r grwp
 enablebanner Dangos baner aMSN (Angen ailgychwyn aMSN)	
 enabled Galluogwyd
 enableproxy Galluogi dirprwy
@@ -218,7 +223,7 @@ extras Gwasanaethau Ychwanegol
 failed Methu
 faileddelete Methu dileu
 faileddeleteperso Nid oes modd dileu'r darlun am nad yw'n ffeil darlun personol. Dim ond lluniau sy'n perthyn i'ch proffil personol y mae modd eu tynnui fel hyn..
-faq Cwestiynau poblogaidd
+faq Cwestiynau poblogaidd	
 file Ffeil
 filedoesnotexist Nid yw'r ffeil yn bodoli	
 fileman Rheolwr Ffeiliau
@@ -412,7 +417,7 @@ onphone Ar y ffôn
 openreceived Agor ffeiliau derbyniwyd
 options Dewisiadau
 ordercontactsby Trefnu cysylltiadau yn ôl
-ordergroupsby Trefnu grwp yn ôl
+ordergroupsby Trefnu grwp yn ôl	
 original Gwreiddiol
 other Arall
 others Eraill

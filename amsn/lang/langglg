@@ -594,3 +594,25 @@ usesnack Usar a libreria Snack (Tcl internal)
 viewcontactsby Ver conctactos por
 year Ano
 yesterday Onte
+changesize Cambiar o tamaño
+clear Limpar	
+clientcaps Enviar paquetes x-clientcaps a outros clientes
+confirmdg ¿Está seguro de que quere borrar este grupo?
+confirmdu ¿Está seguro de que quere borrar este usuario?
+confirmeg ¿Está seguro de que quere vaciar este grupo?
+confirmrfl ¿Está seguro de que quere eliminar a este usuario do grupo?
+connectedwith Conectado como $1
+disconnectedfrom Concectado desde $1
+displayeventconnect Mostrar cando se conectan os meus contactos
+displayeventdisconnect Mostrar cando se desconectan os meus contactos
+displayeventemail Mostrar cando se reciba un novo correio electrónico
+displayeventstate Mostrar cando os meus contactos cambien de estado
+emptygroup Grupo valeiro
+eventhistory Ver o historial de sucesos
+logeventconnect Rexistrar as conexións
+logeventdisconnect Rexistrar as desconexións 
+logeventemail Rexistrar cando se reciba un correio electrónico
+logeventstate Rexistrar os cambios de estado
+original Orixinal
+preflogevent O meu Historial
+style Estilo
