@@ -159,7 +159,7 @@ namespace eval ::guiContactList {
 
 		set img [::skin::loadPixmap [::MSN::stateToImage $state_code]]
 		
-		set text "[::abook::getContactData $email nick] \([trans [::MSN::stateToDescription $state_code]]\)"
+		set text "[::abook::getDisplayNick $email] \([trans [::MSN::stateToDescription $state_code]]\)"
 		
 		$canvas create image $xpos $ypos -image $img -anchor nw \
 			-tags [list contact icon $email]
