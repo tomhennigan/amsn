@@ -1151,7 +1151,7 @@ proc ::combobox::DoInternalWidgetCommand {w subwidget command args} {
 	    listbox,get    {regsub "get"    $result "list get"    result}
 	    listbox,size   {regsub "size"   $result "list size"   result}
 	}
-	error $result
+	status_log "ERROR, ERROR, combobox.tcl :  $result\n\n" red
 
     } else {
 	return $result

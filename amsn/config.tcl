@@ -1018,6 +1018,11 @@ proc DeleteProfile { email entrypath } {
 			msg_box [trans cannotdeleteprofile]
 			return
 		}
+
+		if {[$entrypath curselection] == "" } {
+			msg_box [trans cannotdeleteprofile]
+			return
+		}
 		
 		catch { file delete -force [file join $HOME2 $dir] }
 		$entrypath list delete [$entrypath curselection]
