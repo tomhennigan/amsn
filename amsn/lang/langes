@@ -370,6 +370,7 @@ natkeepalive Si sufres desconexiones continuamente, activa esta opción
 needonline Todavía estás/apareces desconectado
 needwinico Se necesita el archivo winico03.dll en el directorio plugins para que el icono de la bandeja funcione
 never Nunca
+new_ft_protocol Usar el nuevo protocolo de transferencias de ficheros (INESTABLE)
 newmail $1 mensajes nuevos en bandeja de entrada
 newmailfolder Tienes $1 mensajes nuevos en otras carpetas de Hotmail
 newmailfrom Nuevo correo de $1 ($2)
