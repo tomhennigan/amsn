@@ -2845,40 +2845,45 @@ namespace eval ::amsn {
 			set win_name [WindowFor $chatid]
 			set maxw [winfo width $win_name.f.out.text]
 			incr maxw [expr -10-[font measure splainf -displayof $win_name "$says"]]
-			set user [trunc $nick $win_name $maxw splainf]
-		} else {
-			set user $nick
+			set nick [trunc $nick $win_name $maxw splainf]
 		}
 
+		if { [::abook::getContactData $user customcolor] != "" } {
+			set color [string trim [::abook::getContactData $user customcolor] "#"]
+		} else {
+			set color 404040
+		}
+
+		if { $p4c == 1 } {
+			if { $color == 404040 } { set color 000000 }
+			set style [list "bold" "italic"]
+		} else {
+			set style {}
+		}
+
+		set font [lindex [::config::getGlobalKey basefont] 0]
+		if { $font == "" } { set font "Helvetica"}		
+
+		set customfont [list $font $style $color]
+
 		if {$config(showtimestamps)} {
-			WinWrite $chatid "$tstamp " gray
+			WinWrite $chatid "$tstamp " "says" $customfont
 		} 
-		
-		status_log "goooo [::config::getKey chatstyle]\n"
+
 		switch [::config::getKey chatstyle] {
 			msn {
-				if { $p4c == 1 } {
-					WinWrite $chatid "[trans says $user]:\n" gray_italic
-				} else {
-					WinWrite $chatid "[trans says $user]:\n" gray
-				}
-				
+				WinWrite $chatid "[trans says $nick]:\n" "says" $customfont
 				WinWrite $chatid "$msg\n" $type $fontformat
 			}
 			
 			irc {
-				if { $p4c == 1 } {
-					WinWrite $chatid "<$user> " gray_italic
-				} else {
-					WinWrite $chatid "<$user> " gray
-				}
-				
+				WinWrite $chatid "<$nick> " "says" $customfont
 				WinWrite $chatid "$msg\n" $type $fontformat
 			}
 		}
 
 		if {$config(keep_logs)} {
-			::log::PutLog $chatid $user $msg
+			::log::PutLog $chatid $nick $msg
 		}
 	}
 	#///////////////////////////////////////////////////////////////////////////////
@@ -3106,7 +3111,8 @@ namespace eval ::amsn {
 	# WinWrite (chatid,txt,tagid,[format])
 	# Writes 'txt' into the window related to 'chatid'
 	# It will use 'tagname' as style tag, unless 'tagname'=="user", where it will use
-	# 'fontname', 'fontstyle' and 'fontcolor' as from fontformat
+	# 'fontname', 'fontstyle' and 'fontcolor' as from fontformat, or 'tagname'=="says"
+	# where it will use the same format as "user" but size 11.
 	proc WinWrite {chatid txt tagname {fontformat ""} {flicker 1} } {
 
 		global emotions config ;#smileys_end_subst
@@ -3144,13 +3150,14 @@ namespace eval ::amsn {
 		#By default tagid=tagname unless we generate a new one
 		set tagid $tagname
 
-		if { $tagid == "user" || $tagid == "yours" } {
+		if { $tagid == "user" || $tagid == "yours" || $tagid == "says" } {
 
-#      	set txt " $txt"
-
-		set size [expr {[lindex [::config::getGlobalKey basefont] 1]+[::config::getKey textsize]}]
+		if { $tagid == "says" } {
+			set size 11
+		} else {
+			set size [expr {[lindex [::config::getGlobalKey basefont] 1]+[::config::getKey textsize]}]
+		}
 		set font "\"$fontname\" $size $fontstyle"
-
 		set tagid [::md5::md5 "$font$fontcolor"]
 
 		if { ([string length $fontname] < 3 )
