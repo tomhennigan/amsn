@@ -513,11 +513,17 @@ namespace eval ::plugins {
 		    } elseif {[lindex $confitem 0] == "ext"} { # button
 			button $confwin.$i -text [lindex $confitem 1] -command ::${name}::[lindex $confitem 2]
 			grid $confwin.$i -column 1 -row $row -sticky w -padx 20 -pady 5
-		    } elseif {[lindex $confitem 0] == "str"} { # label
+		    } elseif {[lindex $confitem 0] == "str"} { # string
 			entry $confwin.${i}e -textvariable ::${name}::config([lindex $confitem 2])
 			label $confwin.${i}l -text [lindex $confitem 1]
 			grid $confwin.${i}l -column 1 -row $row -sticky w -padx 20
-			grid $confwin.${i}e -column 2 -row $row	-sticky w	    }
+			grid $confwin.${i}e -column 2 -row $row	-sticky w
+		    } elseif {[lindex $confitem 0] == "pass"} { # password string
+			entry $confwin.${i}e -textvariable ::${name}::config([lindex $confitem 2]) -show "*"
+			label $confwin.${i}l -text [lindex $confitem 1]
+			grid $confwin.${i}l -column 1 -row $row -sticky w -padx 20
+			grid $confwin.${i}e -column 2 -row $row	-sticky w
+		    }
 		}
 	    }
 	    # grid the frame
