@@ -3236,9 +3236,15 @@ proc cmsn_ns_handler {item} {
           return 0
       }
       600 {
+	  ::MSN::logout
+	  status_log "Error: Server is busy\n" red
+	  ::amsn::errorMsg "[trans serverbusy]"
 	  return 0
       }
       601 {
+	  ::MSN::logout
+	  status_log "Error: Server is unavailable\n" red
+	  ::amsn::errorMsg "[trans serverunavailable]"
 	  return 0
       }
       500 {
