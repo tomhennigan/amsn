@@ -6040,6 +6040,23 @@ proc ToLittleEndian { bin length } {
 	return $binout
 }
 
+proc ToLittleEndian { bin length } {
+	if { $::tcl_platform(byteOrder) == "littleEndian" } { return }
+	
+	if { $length == 2 } { set type S } elseif {$length == 4} { set type I } else { return }
+	
+	set binout ""
+	while { $bin != "" } {
+		set in [string range $bin 0 $length]
+		binary scan $in [string tolower $type] out
+		set out [binary format $out $type]
+		set binout "${binout}${out}"
+		set bin [string replace $bin 0 $length]
+	}
+	return $binout
+}
+
+
 proc int2word { int1 int2 } {
 	if { $int2>0} {
 		status_log "Warning!!!! int was a 64-bit integer!! Ignoring for tcl/tk 8.3 compatibility!!!!\n" white
@@ -6669,6 +6686,7 @@ namespace eval ::MSN6FT {
 			#set filename [string map { "\x00" "" } $filename]
 		#} else {
 		binary scan $context x20A[expr $size - 24] filename
+		set filename [ToBigEndian $filename 2]
 		set filename [encoding convertfrom unicode "$filename\x00"]
 
 
