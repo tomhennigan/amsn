@@ -1190,7 +1190,8 @@ namespace eval ::amsn {
       frame .${win_name}.f.out -class Amsn -background white -borderwidth 0 -relief flat
 
       text .${win_name}.f.out.text -borderwidth 0 -background white -width 45 -height 15 -wrap word \
-	  -yscrollcommand ".${win_name}.f.out.ys set" -exportselection 1  -relief solid -highlightthickness 0 \
+	  -yscrollcommand "adjust_yscroll .${win_name}.f.out.text .${win_name}.f.out.ys" -exportselection 1  \
+	  -relief solid -highlightthickness 0 \
 	  -selectborderwidth 1
 
 
@@ -1243,10 +1244,10 @@ namespace eval ::amsn {
       pack .${win_name}.status -side bottom -fill x
       pack .${win_name}.f.in -side bottom -fill x -pady 3 -padx 3
       pack .${win_name}.f.buttons -side bottom -fill x -padx 3 -pady 0
-      pack .${win_name}.f.out.ys -side right -fill y -padx 0
       pack .${win_name}.f.out -expand true -fill both -padx 3 -pady 0
       pack .${win_name}.f.out.text -side right -expand true -fill both -padx 2 -pady 2
-
+      pack .${win_name}.f.out.ys -side right -fill y -padx 0
+      
       pack .${win_name}.f.top.textto -side left -fill y -anchor nw -padx 0 -pady 3
       pack .${win_name}.f.top.text -side left -expand true -fill x -padx 4 -pady 3
 
@@ -2217,6 +2218,28 @@ namespace eval ::amsn {
 
 
 
+proc adjust_yscroll {text bar begin end } {
+
+  global scrollbar_packed_$bar
+  
+  if { $begin == 0 && $end == 1 } {
+     pack forget $bar
+     if {[info exists scrollbar_packed_$bar]} {
+        unset scrollbar_packed_$bar
+     }
+  } else {
+     if { ! [info exists scrollbar_packed_$bar]} {
+        pack forget $text
+        pack $bar -side right -fill y -padx 0 -pady 0 
+        pack $text -side right -expand true -fill both
+	set scrollbar_packed_$bar 1
+     }
+     $bar set $begin $end   
+       
+  }
+  
+}
+
 #///////////////////////////////////////////////////////////////////////
 proc cmsn_draw_main {} {
    global program_dir emotion_files version date weburl lang_list \
@@ -2279,7 +2302,7 @@ proc cmsn_draw_main {} {
      "hotmail_login $config(login) $password"
    .main_menu.file add separator
    .main_menu.file add command -label "[trans savecontacts]..." \
-   	-command "debug_cmd_lists -export contactlist" -state disabled
+   	-command "debug_cmd_lists -export $pgBuddy.ys setcontactlist" -state disabled
    .main_menu.file add command -label "[trans loadcontacts]..." -state disabled
    .main_menu.file add separator
    .main_menu.file add command -label "[trans sendfile]..." -state disabled
@@ -2493,9 +2516,10 @@ proc cmsn_draw_main {} {
    image create photo blockedme -file [GetSkinFile pixmaps blockedme.gif]
 
    text $pgBuddy.text -background white -width 30 -height 0 -wrap none \
-      -yscrollcommand "$pgBuddy.ys set" -cursor left_ptr -font splainf \
+      -yscrollcommand "adjust_yscroll $pgBuddy.text $pgBuddy.ys" -cursor left_ptr -font splainf \
       -selectbackground white -selectborderwidth 0 -exportselection 0 \
       -relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0
+      
    scrollbar $pgBuddy.ys -command "$pgBuddy.text yview" -highlightthickness 0 \
       -borderwidth 1 -elementborderwidth 2
 
@@ -2516,8 +2540,8 @@ proc cmsn_draw_main {} {
    # is cycled in between adverts.
     adv_show_banner  file [GetSkinFile pixmaps logolinmsn.gif]
 
-   pack $pgBuddy.ys -side right -fill y -padx 0 -pady 0
-   pack $pgBuddy.text -expand true -fill both -padx 0 -pady 0
+   pack $pgBuddy.text -side right -expand true -fill both -padx 0 -pady 0   
+   #pack $pgBuddy.ys -side left -fill y -padx 0 -pady 0
 
    bind . <Control-s> toggle_status
    bind . <Control-p> Preferences
