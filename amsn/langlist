@@ -2,12 +2,6 @@
 
 <version>
 	<lang>
-		<langcode>af</langcode>
-		<name>South African</name>
-		<version>1.6</version>
-		<encoding>iso8859-1</encoding>
-	</lang>
-	<lang>
 		<langcode>al</langcode>
 		<name>Albanian</name>
 		<version>1.11</version>
@@ -62,10 +56,10 @@
 		<encoding>iso8859-15</encoding>
 	</lang>
 	<lang>
-		<langcode>ee</langcode>
-		<name>Estonian</name>
-		<version>1.34</version>
-		<encoding>iso8859-4</encoding>
+		<langcode>nl</langcode>
+		<name>Dutch (Nederlands)</name>
+		<version>1.116</version>
+		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
 		<langcode>ei</langcode>
@@ -80,20 +74,26 @@
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
+		<langcode>es</langcode>
+		<name>Español (Spanish)</name>
+		<version>1.224</version>
+		<encoding>iso8859-1</encoding>
+	</lang>
+	<lang>
 		<langcode>eo</langcode>
 		<name>Esperanto</name>
 		<version>1.7</version>
 		<encoding>utf-8</encoding>
 	</lang>
 	<lang>
-		<langcode>es</langcode>
-		<name>Spanish</name>
-		<version>1.224</version>
-		<encoding>iso8859-1</encoding>
+		<langcode>ee</langcode>
+		<name>Estonian</name>
+		<version>1.34</version>
+		<encoding>iso8859-4</encoding>
 	</lang>
 	<lang>
 		<langcode>eu</langcode>
-		<name>Basque (Euskera)</name>
+		<name>Euskera (Basque)</name>
 		<version>1.30</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
@@ -194,12 +194,6 @@
 		<encoding>utf-8</encoding>
 	</lang>
 	<lang>
-		<langcode>nl</langcode>
-		<name>Dutch</name>
-		<version>1.116</version>
-		<encoding>iso8859-1</encoding>
-	</lang>
-	<lang>
 		<langcode>no</langcode>
 		<name>Norwegian</name>
 		<version>1.38</version>
@@ -246,6 +240,12 @@
 		<name>Slovenian (Slovenscina)</name>
 		<version>1.30</version>
 		<encoding>iso8859-2</encoding>
+	</lang>
+	<lang>
+		<langcode>af</langcode>
+		<name>South African</name>
+		<version>1.6</version>
+		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
 		<langcode>sr</langcode>
