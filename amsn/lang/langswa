@@ -15,6 +15,7 @@ adverts Matangazo
 alarmpref Mipangilio ya sauti kwa mtumiaji
 alarmstatus ZIMA/WASHA sauti kwa mtumiaji huyu
 allowallbutbl Ruhusu watumiaji wote, isipokuwa wale waliopo kwenye Orodha-zuia, kuwasiliana nami
+allowbadwords Zuia ukaguzi katika majina-ya-utani.
 allowlist Orodha-ruhusu:
 allowonlyinal Ruhusu watumiaji walio kwenye Orodha-Kubali tu kuwasiliana nami
 allowseen Mruhusu mtu huyu kuniona na kuwasilina nami nipokuwa natumia
@@ -53,6 +54,7 @@ browse Tandaa
 busy Ninashughuli
 cancel Sitisha
 cannotdeleteprofile Utashi hauwezi kufutwa kwani unaonekana ukitumika kwenye kipindi kingine cha Amsn
+cantexec Siwezi kuendesha programu: $1. Angalia mapendeleo
 cfgalarm Panga/Ongeza/Ondoa Sauti
 changefont Badilisha Maandishi
 changenick Badilisha jina
@@ -284,6 +286,7 @@ prefremote Mapendeleo ya Muunganisho wa Mbali
 prefsession Kusaini kwangu na Hali halisi
 prefshared Miunganisho ya kushirikiana (kwa NAT tu)
 prefsound Sauti
+privacy Faragha
 profiledconfig Mpangilio uliotashiwa
 profileinuse Utashi huu unatumiwa na kipindi kingine cha Amsn, tafadhali chagua mwingine
 profiles Utashi
