@@ -4941,6 +4941,18 @@ proc trunc {str {window ""} {maxw 0 } {font ""}} {
     return $s
 }
 
+proc tk_textCopy { w } {
+	copy 0 $w
+}
+
+proc tk_textCut { w } {
+	copy 1 $w
+}
+
+proc tk_textPaste { w } {
+	paste $w
+}
+
 
 #///////////////////////////////////////////////////////////////////////
 proc copy { cut w } {
