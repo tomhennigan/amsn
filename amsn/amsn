@@ -38,7 +38,7 @@
 
 
 set version "0.52dev"
-set date "06/05/2002"
+set date "06/10/2002"
 set weburl "http://amsn.sourceforge.net"
 
 
@@ -845,11 +845,13 @@ proc delete_user {user_login} {
 proc send_mail {user_login} {
   global config
 
-  set mail_param ""
+  set mail_param $user_login #By default, just the address
   if {[string first "balsa" $config(mailcommand)] != -1} {
       set mail_param "--compose=$user_login"
   } elseif {[string first "mozilla" $config(mailcommand)] != -1} {
       set mail_param "-compose mailto:$user_login"
+  } elseif {[string first "sylpheed" $config(mailcommand)] != -1} {
+      set mail_param "--compose $user_login"
   }
 
   exec $config(mailcommand) $mail_param &
