@@ -54,7 +54,6 @@ namespace eval dkfprogress {
     proc SetProgress {win value {range 100}} {
 	set progress [expr {int(100*$value)/int($range)}]
 	set relwidth [expr {double($value)/double($range)}]
-
 	variable progressPercent
 	place conf $win.l.fill -relwidth $relwidth
 	set progressPercent($win) "${progress}%"
