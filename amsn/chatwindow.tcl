@@ -804,7 +804,7 @@ namespace eval ::ChatWindow {
 		#we bind <Escape> to close the current tab
 		#set current [GetCurrentWindow $container]
 		#set currenttab [set win2tab($current)]
-		bind $container <Escape> "::ChatWindow::CloseTab \[set ::ChatWindow::win2tab(\[::ChatWindow::GetCurrentWindow $container\])\]"
+		bind $container <<Escape>> "::ChatWindow::CloseTab \[set ::ChatWindow::win2tab(\[::ChatWindow::GetCurrentWindow $container\])\]"
 		
 		#Send a postevent for the creation of menu
 		set evPar(window_name) "$container"
