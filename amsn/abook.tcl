@@ -960,7 +960,7 @@ namespace eval ::abookGui {
 			bind $w <Destroy> [list ::abookGui::PropDestroyed $email $w %W]
 		}
 		
-		#moveinscreen $w 30
+		moveinscreen $w 30
 		status_log YOYOYO
 	}
 	
