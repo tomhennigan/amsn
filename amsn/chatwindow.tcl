@@ -444,39 +444,16 @@ namespace eval ::ChatWindow {
 	# ::ChatWindow::Open () 
 	# Creates a new chat window and returns its name (.msg_n - Where n is winid)
 	proc Open { } {
-		global  HOME files_dir tcl_platform xmms
+		global  HOME tcl_platform
 
-		set win_name "msg_$::ChatWindow::winid"
-		incr ::ChatWindow::winid
 
-		toplevel .${win_name} -class Amsn
+		#Define this events, in case they were not defined by Tk
+		event add <<Paste>> <Control-v> <Control-V>
+		event add <<Copy>> <Control-c> <Control-C>
+		event add <<Cut>> <Control-x> <Control-X>
 
-		# If there isn't a configured size for Chat Windows, use the default one and store it.
-		if {[catch { wm geometry .${win_name} [::config::getKey winchatsize] } res]} {
-			wm geometry .${win_name} 350x390
-			::config::setKey winchatsize 350x390
-			status_log "No config(winchatsize). Setting default size for chat window\n" red
-		}
 
-		if {$tcl_platform(platform) == "windows"} {
-		    wm geometry .${win_name} +0+0
-		}
-
-		if { [winfo exists .bossmode] } {
-			set ::BossMode(.${win_name}) "iconic"
-			wm state .${win_name} withdraw
-		} else {
-			wm state .${win_name} iconic
-		}
-
-		wm title .${win_name} "[trans chat]"
-		wm group .${win_name} .
-
-		# If the platform is NOT windows, set the windows' icon to our xbm
-		if {$tcl_platform(platform) != "windows"} {
-			catch {wm iconbitmap .${win_name} @[GetSkinFile pixmaps amsn.xbm]}
-			catch {wm iconmask .${win_name} @[GetSkinFile pixmaps amsnmask.xbm]}
-		}
+		set w [CreateTopLevelWindow]
 
 		# Test on Mac OS X(TkAqua) if ImageMagick is installed and kill all sndplay processes      
 		if {$tcl_platform(os) == "Darwin"} {
@@ -485,463 +462,821 @@ namespace eval ::ChatWindow {
 			}
 		}
 
-		menu .${win_name}.menu -tearoff 0 -type menubar -borderwidth 0 -activeborderwidth -0
+		set mainmenu [CreateMainMenu $w]
+		$w conf -menu $mainmenu
+
+		set copypastemenu [CreateCopyPasteMenu $w]
+		set copymenu [CreateCopyMenu $w]
+
+		
+		#Send a postevent for the creation of menu
+		set evPar(window_name) "$w"
+		set evPar(menu_name) "$mainmenu"
+		::plugins::PostEvent chatmenu evPar
+
+		# Create the window's elements
+		set top [CreateTopFrame $w]
+		set statusbar [CreateStatusBar $w]
+		set paned [CreatePanedWindow $w]
+
+		# Pack them
+
+		# Remove thin border on Mac OS X to improve the appearance (padx)
+		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+			pack $top -side top -expand false -fill x -padx 0 -pady 0
+		} else {
+			pack $top -side top -expand false -fill x -padx [::skin::getColor chatpadx] -pady [::skin::getColor chatpady]
+		}
+		
+		pack $paned -side top -expand true -fill both -padx 0 -pady 0
+		pack $statusbar -side top -expand false -fill x
+
+
+		focus $paned
+
+		# Sets the font size to the one stored in our configuration file
+		change_myfontsize [::config::getKey textsize] $w
+
+
+		# Set the properties of this chat window in our ::ChatWindow namespace
+		# variables to be accessible from other procs in the namespace
+		set ::ChatWindow::titles($w) ""
+		set ::ChatWindow::first_message($w) 1
+		set ::ChatWindow::recent_message($w) 0
+		lappend ::ChatWindow::windows "$w"
+
+		# PostEvent 'new_chatwindow' to notify plugins that the window was created
+		set evPar(win) "$w"
+		::plugins::PostEvent new_chatwindow evPar
+
+		wm state $w withdraw
+		return "$w"
+	}
+	#///////////////////////////////////////////////////////////////////////////////
+
+
+	###################################################
+	# CreateTopLevelWindow
+	# This proc should create the toplevel window for a chat window
+	# configure it and then return it's pathname
+	#
+	proc CreateTopLevelWindow { } {
+		global tcl_platform
+		set w ".msg_$::ChatWindow::winid"
+		incr ::ChatWindow::winid
+
+		toplevel $w -class Amsn
+
+		# If there isn't a configured size for Chat Windows, use the default one and store it.
+		if {[catch { wm geometry $w [::config::getKey winchatsize] } res]} {
+			wm geometry $w 350x390
+			::config::setKey winchatsize 350x390
+			status_log "No config(winchatsize). Setting default size for chat window\n" red
+		}
+
+		if {$tcl_platform(platform) == "windows"} {
+		    wm geometry $w +0+0
+		}
+
+		if { [winfo exists .bossmode] } {
+			set ::BossMode($w) "iconic"
+			wm state $w withdraw
+		} else {
+			wm state $w iconic
+		}
+
+		wm title $w "[trans chat]"
+		wm group $w .
+
+		# If the platform is NOT windows, set the windows' icon to our xbm
+		if {$tcl_platform(platform) != "windows"} {
+			catch {wm iconbitmap $w @[GetSkinFile pixmaps amsn.xbm]}
+			catch {wm iconmask $w @[GetSkinFile pixmaps amsnmask.xbm]}
+		}
+
+
+		# Create the necessary bindings
+		bind $w <<Cut>> "status_log cut\n;tk_textCut $w"
+		bind $w <<Copy>> "status_log copy\n;tk_textCopy $w"
+		bind $w <<Paste>> "status_log paste\n;tk_textPaste $w"
+
+		#Change shortcut for history on Mac OS X
+		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+			bind $w <Command-Option-h> \
+				"::amsn::ShowChatList \"[trans history]\" $w ::log::OpenLogWin"
+		} else {
+			bind $w <Control-h> \
+				"::amsn::ShowChatList \"[trans history]\" $w ::log::OpenLogWin"
+		}
+
+		bind $w <<Escape>> "::ChatWindow::Close $w; break"
+		bind $w <Destroy> "window_history clear %W; ::ChatWindow::Closed $w %W"
+
+		#Different shortcuts on Mac OS X
+		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+			bind $w <Command-,> "Preferences"
+			bind all <Command-q> {
+				close_cleanup;exit
+			}
+		}
+
+
+		# These bindings are handlers for closing the window (Leave the SB, store settings...)
+		bind $w <Configure> "::ChatWindow::Configured $w"
+		wm protocol $w WM_DELETE_WINDOW "::ChatWindow::Close $w"
+
+
+		return $w
+
+	}
+
+
+	#############################################
+	# CreateMainMenu $w
+	# This proc should create the main menu of the chat window
+	# it only creates the menu supposed to appear in the menu bar actually
+	#
+	proc CreateMainMenu { w } {
+
+		set mainmenu $w.menu	
+
+		menu $mainmenu -tearoff 0 -type menubar -borderwidth 0 -activeborderwidth -0
+
+		set msnmenu [CreateMsnMenu $w $mainmenu]
+		set editmenu [CreateEditMenu $w $mainmenu]
+		set viewmenu [CreateViewMenu $w $mainmenu]
+		set actionsmenu [CreateActionsMenu $w $mainmenu]
+		set applemenu [CreateAppleMenu $mainmenu]
+
 
 		# Change MSN menu's caption on Mac for "File" to match the Apple UI Standard
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-			.${win_name}.menu add cascade -label "[trans file]" -menu .${win_name}.menu.msn
+			$mainmenu add cascade -label "[trans file]" -menu $msnmenu
 		} else {
-			.${win_name}.menu add cascade -label "[trans msn]" -menu .${win_name}.menu.msn
+			$mainmenu add cascade -label "[trans msn]" -menu $msnmenu
 		}
 
-		.${win_name}.menu add cascade -label "[trans edit]" -menu .${win_name}.menu.edit
-		.${win_name}.menu add cascade -label "[trans view]" -menu .${win_name}.menu.view
-		.${win_name}.menu add cascade -label "[trans actions]" -menu .${win_name}.menu.actions
+		$mainmenu add cascade -label "[trans edit]" -menu $editmenu
+		$mainmenu add cascade -label "[trans view]" -menu $viewmenu
+		$mainmenu add cascade -label "[trans actions]" -menu $actionsmenu
 
 		# Apple menu, only on Mac OS X for legacy reasons (Each OS X app have one Apple menu)
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-			.${win_name}.menu add cascade -label "Apple" -menu .${win_name}.menu.apple
-			menu .${win_name}.menu.apple -tearoff 0 -type normal
-			.${win_name}.menu.apple add command -label "[trans about] aMSN" \
-				-command ::amsn::aboutWindow
-			.${win_name}.menu.apple add separator
-			.${win_name}.menu.apple add command -label "[trans preferences]..." \
-				-command Preferences -accelerator "Command-,"
-			.${win_name}.menu.apple add separator
+			$mainmenu add cascade -label "Apple" -menu $applemenu
 		}
 
-		menu .${win_name}.menu.msn -tearoff 0 -type normal
-		.${win_name}.menu.msn add command -label "[trans savetofile]..." \
-			-command " ChooseFilename .${win_name}.f.out.text ${win_name} "
-		.${win_name}.menu.msn add separator
-		.${win_name}.menu.msn add command -label "[trans sendfile]..." \
-			-command "::amsn::FileTransferSend .${win_name}"
-		.${win_name}.menu.msn add command -label "[trans openreceived]..." \
-			-command "launch_filemanager \"$files_dir\""
-		.${win_name}.menu.msn add separator
+		#TODO: We always want these menus and bindings enabled? Think it!!
+		$msnmenu entryconfigure 3 -state normal
+		$actionsmenu entryconfigure 5 -state normal
 
+
+		return $mainmenu
+	}
+
+
+	#############################################
+	# CreateAppleMenu $menu
+	# This proc should create the Apple submenu of the chat window
+	#
+	proc CreateAppleMenu { menu } {
+		set applemenu $menu.apple
+		menu $applemenu -tearoff 0 -type normal
+		$applemenu add command -label "[trans about] aMSN" \
+		    -command ::amsn::aboutWindow
+		$applemenu add separator
+		$applemenu add command -label "[trans preferences]..." \
+		    -command Preferences -accelerator "Command-,"
+		$applemenu add separator
+
+		return $applemenu
+	}
+
+	#############################################
+	# CreateMsnMenu $menu
+	# This proc should create the Amsn submenu of the chat window
+	#
+	proc CreateMsnMenu { w menu } {
+		global files_dir
+
+		set msnmenu $menu.msn
+		menu $msnmenu -tearoff 0 -type normal
+
+		$msnmenu add command -label "[trans savetofile]..." \
+		    -command " ChooseFilename $w.f.out.text $w"
+		$msnmenu add separator
+		$msnmenu add command -label "[trans sendfile]..." \
+		    -command "::amsn::FileTransferSend $w"
+		$msnmenu add command -label "[trans openreceived]..." \
+		    -command "launch_filemanager \"$files_dir\""
+		$msnmenu add separator
+		
 		#Add accelerator label to "close" on Mac Version
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-			.${win_name}.menu.msn add command -label "[trans close]" \
-				-command "destroy .${win_name}" -accelerator "Command-W"
+			$msnmenu add command -label "[trans close]" \
+			    -command "destroy $w" -accelerator "Command-W"
 		} else {
-			.${win_name}.menu.msn add command -label "[trans close]" \
-				-command "destroy .${win_name}"
+			$msnmenu add command -label "[trans close]" \
+			    -command "destroy $w"
 		}
 
-		menu .${win_name}.menu.edit -tearoff 0 -type normal
+		return $msnmenu
+		
+	}
+	
+
+	#############################################
+	# CreateEditMenu $menu
+	# This proc should create the Edit submenu of the chat window
+	#
+	proc CreateEditMenu { w menu } {
+
+		set editmenu $menu.edit
+
+		menu $editmenu -tearoff 0 -type normal
 
 		#Change the accelerator on Mac OS X
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-			.${win_name}.menu.edit add command -label "[trans cut]" \
-				-command "tk_textCut .${win_name}" -accelerator "Command+X"
-			.${win_name}.menu.edit add command -label "[trans copy]" \
-				-command "tk_textCopy .${win_name}" -accelerator "Command+C"
-			.${win_name}.menu.edit add command -label "[trans paste]" \
-				-command "tk_textPaste .${win_name}" -accelerator "Command+V"
+			$editmenu add command -label "[trans cut]" \
+				-command "tk_textCut $w" -accelerator "Command+X"
+			$editmenu add command -label "[trans copy]" \
+				-command "tk_textCopy $w" -accelerator "Command+C"
+			$editmenu add command -label "[trans paste]" \
+				-command "tk_textPaste $w" -accelerator "Command+V"
 		} else {
-			.${win_name}.menu.edit add command -label "[trans cut]" \
-				-command "tk_textCut .${win_name}" -accelerator "Ctrl+X"
-			.${win_name}.menu.edit add command -label "[trans copy]" \
-				-command "tk_textCopy .${win_name}" -accelerator "Ctrl+C"
-			.${win_name}.menu.edit add command -label "[trans paste]" \
-				-command "tk_textPaste .${win_name}" -accelerator "Ctrl+V"
+			$editmenu add command -label "[trans cut]" \
+				-command "tk_textCut $w" -accelerator "Ctrl+X"
+			$editmenu add command -label "[trans copy]" \
+				-command "tk_textCopy $w" -accelerator "Ctrl+C"
+			$editmenu add command -label "[trans paste]" \
+				-command "tk_textPaste $w" -accelerator "Ctrl+V"
 		}
 		
-		.${win_name}.menu.edit add separator
-		.${win_name}.menu.edit add command -label "[trans clear]" -command [list ::ChatWindow::Clear .${win_name}]
-		
-		menu .${win_name}.menutextsize -tearoff 0 -type normal
+		$editmenu add separator
+		$editmenu add command -label "[trans clear]" -command [list ::ChatWindow::Clear $w]
 
-		.${win_name}.menutextsize add command -label "+8" -command "change_myfontsize 8"
-		.${win_name}.menutextsize add command -label "+6" -command "change_myfontsize 6"
-		.${win_name}.menutextsize add command -label "+4" -command "change_myfontsize 4"
-		.${win_name}.menutextsize add command -label "+2" -command "change_myfontsize 2"
-		.${win_name}.menutextsize add command -label "+1" -command "change_myfontsize 1"
-		.${win_name}.menutextsize add command -label "+0" -command "change_myfontsize 0"
-		.${win_name}.menutextsize add command -label " -1" -command "change_myfontsize -1"
-		.${win_name}.menutextsize add command -label " -2" -command "change_myfontsize -2"
+		return $editmenu
+	}
 
-		menu .${win_name}.menu.view -tearoff 0 -type normal
 
-		.${win_name}.menu.view add cascade -label "[trans textsize]" -menu .${win_name}.menutextsize
-		.${win_name}.menu.view add separator
-		.${win_name}.menu.view add checkbutton -label "[trans chatsmileys]" \
+	#############################################
+	# CreateViewMenu $menu
+	# This proc should create the View submenu of the chat window
+	#
+	proc CreateViewMenu { w menu } {
+		global ${w}_show_picture
+
+		set viewmenu $menu.view
+		menu $viewmenu -tearoff 0 -type normal
+
+		$viewmenu add cascade -label "[trans textsize]" -menu [CreateTextSizeMenu $viewmenu]
+		$viewmenu add separator
+		$viewmenu add checkbutton -label "[trans chatsmileys]" \
 			-onvalue 1 -offvalue 0 -variable [::config::getVar chatsmileys]
 
-		global .${win_name}_show_picture
-		set .${win_name}_show_picture 0
+		set ${w}_show_picture 0
 		
-		.${win_name}.menu.view add checkbutton -label "[trans showdisplaypic]" \
-			-command "::amsn::ShowOrHidePicture .${win_name}" -onvalue 1 \
-			-offvalue 0 -variable ".${win_name}_show_picture"
-		.${win_name}.menu.view add separator
+		$viewmenu add checkbutton -label "[trans showdisplaypic]" \
+			-command "::amsn::ShowOrHidePicture $w" -onvalue 1 \
+		    -offvalue 0 -variable "${w}_show_picture"
+		$viewmenu add separator
 
 		# Remove this menu item on Mac OS X because we "lost" the window instead
 		# of just hide it and change accelerator for history on Mac OS X
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-			.${win_name}.menu.view add command -label "[trans history]" \
-				-command "::amsn::ShowChatList \"[trans history]\" .${win_name} ::log::OpenLogWin" \
+			$viewmenu add command -label "[trans history]" \
+				-command "::amsn::ShowChatList \"[trans history]\" $w ::log::OpenLogWin" \
 				-accelerator "Command-Option-H"
 		} else {
-			.${win_name}.menu.view add command -label "[trans history]" \
-				-command "::amsn::ShowChatList \"[trans history]\" .${win_name} ::log::OpenLogWin" \
+			$viewmenu add command -label "[trans history]" \
+				-command "::amsn::ShowChatList \"[trans history]\" $w ::log::OpenLogWin" \
 				-accelerator "Ctrl+H"
-			.${win_name}.menu.view add separator
-			.${win_name}.menu.view add command -label "[trans hidewindow]" \
-				-command "wm state .${win_name} withdraw"
+			$viewmenu add separator
+			$viewmenu add command -label "[trans hidewindow]" \
+				-command "wm state $w withdraw"
 		}
 		
-		.${win_name}.menu.view add separator
-		.${win_name}.menu.view add cascade -label "[trans style]" -menu .${win_name}.menu.view.style
+		$viewmenu add separator
+		$viewmenu add cascade -label "[trans style]" -menu [CreateStyleMenu $viewmenu]
 
-		menu .${win_name}.menu.view.style -tearoff 0 -type normal
+		return $viewmenu
+	}
 
-		.${win_name}.menu.view.style add radiobutton -label "[trans msnstyle]" \
+	#############################################
+	# CreateTextSizeMenu $menu
+	# This proc should create the TextSize submenu of the View menu
+	# of the chat window
+	#
+	proc CreateTextSizeMenu { menu } {
+		set textsizemenu $menu.textsize
+		menu $textsizemenu -tearoff 0 -type normal
+
+		foreach size {8 6 4 2 1 0 -0 -2 } { 
+			if {$size > 0 } {
+				$textsizemenu add command -label "+$size" -command "change_myfontsize $size"
+			} else {
+				$textsizemenu add command -label "$size" -command "change_myfontsize $size"
+			}
+		}
+		
+		return $textsizemenu
+	}
+
+	#############################################
+	# CreateStyleMenu $menu
+	# This proc should create the Style submenu of the View menu
+	# of the chat window
+	#
+	proc CreateStyleMenu { menu } { 
+
+		set stylemenu $menu.style
+		menu $stylemenu -tearoff 0 -type normal
+
+		$stylemenu add radiobutton -label "[trans msnstyle]" \
 			-value "msn" -variable [::config::getVar chatstyle]
-		.${win_name}.menu.view.style add radiobutton -label "[trans ircstyle]" \
+		$stylemenu add radiobutton -label "[trans ircstyle]" \
 			-value "irc" -variable [::config::getVar chatstyle]
-		.${win_name}.menu.view.style add radiobutton -label "[trans customstyle]..." \
+		$stylemenu add radiobutton -label "[trans customstyle]..." \
 			-value "custom" -variable [::config::getVar chatstyle] \
 			-command "::amsn::enterCustomStyle"
 
-		menu .${win_name}.menu.actions -tearoff 0 -type normal
+		return $stylemenu
 
-		.${win_name}.menu.actions add command -label "[trans addtocontacts]" \
-			-command "::amsn::ShowAddList \"[trans addtocontacts]\" .${win_name} ::MSN::addUser"
-		.${win_name}.menu.actions add command -label "[trans block]/[trans unblock]" \
-			-command "::amsn::ShowChatList \"[trans block]/[trans unblock]\" .${win_name} ::amsn::blockUnblockUser"
-		.${win_name}.menu.actions add command -label "[trans viewprofile]" \
-			-command "::amsn::ShowChatList \"[trans viewprofile]\" .${win_name} ::hotmail::viewProfile"
-		.${win_name}.menu.actions add command -label "[trans properties]" \
-			-command "::amsn::ShowChatList \"[trans properties]\" .${win_name} ::abookGui::showUserProperties"
-		.${win_name}.menu.actions add separator
-		.${win_name}.menu.actions add command -label "[trans invite]..." \
-			-command "::amsn::ShowInviteList \"[trans invite]\" .${win_name}"
-		.${win_name}.menu.actions add separator
-		.${win_name}.menu.actions add command -label [trans sendmail] \
-			-command "::amsn::ShowChatList \"[trans sendmail]\" .${win_name} launch_mailer"
-			
-		.${win_name} conf -menu .${win_name}.menu
+	}
 
-		menu .${win_name}.copypaste -tearoff 0 -type normal
+	#############################################
+	# CreateActionsMenu $menu
+	# This proc should create the Actions submenu of the chat window
+	#
+	proc CreateActionsMenu { w menu } {
+		set actionsmenu $menu.actions
 
-		.${win_name}.copypaste add command -label [trans cut] \
-			-command "status_log cut\n;tk_textCut .${win_name}"
-		.${win_name}.copypaste add command -label [trans copy] \
-			-command "status_log copy\n;tk_textCopy .${win_name}"
-		.${win_name}.copypaste add command -label [trans paste] \
-			-command "status_log paste\n;tk_textPaste .${win_name}"
+		menu $actionsmenu -tearoff 0 -type normal
 
-		menu .${win_name}.copy -tearoff 0 -type normal
+		$actionsmenu add command -label "[trans addtocontacts]" \
+			-command "::amsn::ShowAddList \"[trans addtocontacts]\" $w ::MSN::addUser"
+		$actionsmenu add command -label "[trans block]/[trans unblock]" \
+			-command "::amsn::ShowChatList \"[trans block]/[trans unblock]\" $w ::amsn::blockUnblockUser"
+		$actionsmenu add command -label "[trans viewprofile]" \
+			-command "::amsn::ShowChatList \"[trans viewprofile]\" $w ::hotmail::viewProfile"
+		$actionsmenu add command -label "[trans properties]" \
+			-command "::amsn::ShowChatList \"[trans properties]\" $w ::abookGui::showUserProperties"
+		$actionsmenu add separator
+		$actionsmenu add command -label "[trans invite]..." \
+			-command "::amsn::ShowInviteList \"[trans invite]\" $w"
+		$actionsmenu add separator
+		$actionsmenu add command -label [trans sendmail] \
+			-command "::amsn::ShowChatList \"[trans sendmail]\" $w launch_mailer"
 
-		.${win_name}.copy add command -label [trans copy] \
-			-command "status_log copy\n;copy 0 .${win_name}"
+		return $actionsmenu
+	}
+
+
+	################################################
+	# CreateCopyPasteMenu
+	# This proc creates the menu shown when a user right clicks 
+	# on the input of the chat window
+	#
+	proc CreateCopyPasteMenu { w } {
+		set menu $w.copypaste
+
+		menu $menu -tearoff 0 -type normal
+
+		$menu add command -label [trans cut] \
+			-command "status_log cut\n;tk_textCut $w"
+		$menu add command -label [trans copy] \
+			-command "status_log copy\n;tk_textCopy $w"
+		$menu add command -label [trans paste] \
+			-command "status_log paste\n;tk_textPaste $w"
+
+		return $menu
+	}
+	
+	################################################
+	# CreateCopyMenu
+	# This proc creates the menu shown when a user right clicks 
+	# on the output of the chat window
+	#
+	proc CreateCopyMenu { w } {
+		global xmms
+
+		set menu $w.copy
+
+		menu $menu -tearoff 0 -type normal
+
+		$menu add command -label [trans copy] \
+			-command "status_log copy\n;copy 0 $w"
 
 		# Creates de XMMS extension's menu if the plugin is loaded
 		if { [info exist xmms(loaded)] } {
-			.${win_name}.copy add cascade -label "XMMS" -menu .${win_name}.copy.xmms
-			menu .${win_name}.copy.xmms -tearoff 0 -type normal
-			.${win_name}.copy.xmms add command -label [trans xmmscurrent] -command "xmms ${win_name} 1"
-			.${win_name}.copy.xmms add command -label [trans xmmssend] -command "xmms ${win_name} 2"
+			$menu add cascade -label "XMMS" -menu [CreateXmmsMenu $w $menu]
+
 		}
+
+		return $menu
+	}
+
+	################################################
+	# CreateCopyMenu
+	# This proc creates the Xmms submenu shown when a user right clicks 
+	# on the output of the chat window if the plugin is loaded
+	#
+	proc CreateXmmsMenu { w menu } {
+		set xmmsmenu $menu.xmms
+
+		menu $xmmsmenu -tearoff 0 -type normal
+		$xmmsmenu add command -label [trans xmmscurrent] -command "xmms $w 1"
+		$xmmsmenu add command -label [trans xmmssend] -command "xmms $w 2"	
+		return $xmmsmenu
+	}
+
+	###################################################
+	# CreateTopFrame
+	# This proc creates the top frame of a chatwindow
+	#
+	proc CreateTopFrame { w } {
+
+		# set our widget's names
+		set top $w.top
+		set to $top.to
+		set text $top.text
+
+		# Create our frame
+		frame $top -class amsnChatFrame -relief solid -borderwidth [::skin::getColor chatborders] -background [::skin::getColor topbarbg]
+
+		# Create the to widget
+		text $to  -borderwidth 0 -width [string length "[trans to]:"] \
+		    -relief solid -height 1 -wrap none -background [::skin::getColor topbarbg] \
+		    -foreground [::skin::getColor topbartext] -highlightthickness 0 \
+		    -selectbackground [::skin::getColor topbarbg] -selectforeground [::skin::getColor topbartext] \
+		    -selectborderwidth 0 -exportselection 0 -padx 5 -pady 3
 		
-		#Send a postevent for the creation of menu
-		set evPar(window_name) ".${win_name}"
-		set evPar(menu_name) ".${win_name}.menu"
-		::plugins::PostEvent chatmenu evPar
+		# Configure it
+		$to configure -state normal -font bplainf
+		$to insert end "[trans to]:"
+		$to configure -state disabled
 
-		frame .${win_name}.f -class amsnChatFrame -background [::skin::getColor chatwindowbg] -borderwidth 0 -relief flat
-		ScrolledWindow .${win_name}.f.out -auto vertical -scrollbar vertical
-		text .${win_name}.f.out.text -borderwidth [::skin::getColor chatborders] -foreground white -background white -width 45 -height 5 -wrap word \
-			-exportselection 1  -relief solid -highlightthickness 0 -selectborderwidth 1
-
-		.${win_name}.f.out setwidget .${win_name}.f.out.text
-
-		frame .${win_name}.f.top -class Amsn -relief solid -borderwidth [::skin::getColor chatborders] -background [::skin::getColor topbarbg]
-		text .${win_name}.f.top.textto  -borderwidth 0 -width [string length "[trans to]:"] \
-			-relief solid -height 1 -wrap none -background [::skin::getColor topbarbg] \
-			-foreground [::skin::getColor topbartext] -highlightthickness 0 \
-			-selectbackground [::skin::getColor topbarbg] -selectforeground [::skin::getColor topbartext] \
-			-selectborderwidth 0 -exportselection 0 -padx 5 -pady 3
-
-		.${win_name}.f.top.textto configure -state normal -font bplainf
-		.${win_name}.f.top.textto insert end "[trans to]:"
-		.${win_name}.f.top.textto configure -state disabled
-
-		text .${win_name}.f.top.text  -borderwidth 0 -width 45 -relief flat -height 1 -wrap none \
+		# Create the text widget
+		text $text  -borderwidth 0 -width 45 -relief flat -height 1 -wrap none \
 			-background [::skin::getColor topbarbg] -foreground [::skin::getColor topbartext] \
 			-highlightthickness 0 -selectbackground [::skin::getColor topbarbg] -selectborderwidth 0 \
 			-selectforeground [::skin::getColor topbartext] -exportselection 1
+		
+		# Configure it
+		$text configure -state disabled
 
+
+		# Pack our widgets
+		pack $to -side left -expand false -anchor w -padx 0 -pady 3
+		pack $text -side right -expand true -fill x -anchor e -padx 4 -pady 3
+
+		return $top
+	}
+
+
+	###################################################
+	# CreateStatusBar
+	# This proc creates the status bar of a chatwindow
+	#
+	proc CreateStatusBar { w } {
+		
+		# Name our widgets
+		set statusbar $w.statusbar
+		set status $statusbar.status
+		set charstyped $statusbar.charstyped
+
+		# Create our widgets
+		frame $statusbar -class Amsn -borderwidth [::skin::getColor chatborders] -relief solid -background [::skin::getColor statusbarbg]
+		text $status  -width 5 -height 1 -wrap none \
+			-font bplainf -borderwidth 0 -background [::skin::getColor statusbarbg] -foreground [::skin::getColor statusbartext]
+		text $charstyped  -width 4 -height 1 -wrap none \
+			-font splainf -borderwidth 0 -background [::skin::getColor statusbarbg] -foreground [::skin::getColor statusbartext]
+
+
+		# Configure them
+		$charstyped tag configure center -justify left
+		$status configure -state disabled
+		$charstyped configure -state disabled
+
+		# Pack them
+		pack $w.statusbar.status -side left -expand true -fill x -padx 0 -pady 0 -anchor w
+
+		if { [::config::getKey charscounter] } {
+			pack $charstyped -side right -expand false -padx 0 -pady 0 -anchor e
+		}
+
+		return $statusbar
+	}
+
+	proc CreatePanedWindow { w } {
+		
+		set paned $w.f
+		panedwindow $paned -background [::skin::getColor chatwindowbg] -borderwidth 0 -relief flat -orient vertical
+		set output [CreateOutputWindow $w $paned]
+		set input [CreateInputWindow $w $paned]
+
+
+		#Remove thin border on Mac OS X (padx)
+		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+			pack $output -expand true -fill both -padx 0 -pady 0
+		} else {
+			pack $output -expand true -fill both -padx [::skin::getColor chatpadx] -pady 0
+		}
+
+		pack $input -side top -expand true -fill both -padx 0 -pady [::skin::getColor chatpady]
+
+		$paned add $output $input
+		$paned paneconfigure $output -minsize 150 
+		$paned paneconfigure $input -minsize 100 -height 150
+
+		# Bind on focus, so we always put the focus on the input window
+		bind $paned <FocusIn> "focus $input"
+
+
+		return $paned
+
+	}
+
+	proc CreateOutputWindow { w paned } {
+		
+		# Name our widgets
+		set out $paned.out
+		set text $out.text
+		
+		# Widget name from another proc
+		set bottom $paned.bottom
+
+		# Create the widgets
+		ScrolledWindow $out -auto vertical -scrollbar vertical
+		text $text -borderwidth [::skin::getColor chatborders] -foreground white -background white -width 45 -height 5 -wrap word \
+			-exportselection 1  -relief solid -highlightthickness 0 -selectborderwidth 1
+
+		$out setwidget $text	
+
+		# Configure our widgets
+		$text configure -state disabled
+		$text tag configure green -foreground darkgreen -background white -font sboldf
+		$text tag configure red -foreground red -background white -font sboldf
+		$text tag configure blue -foreground blue -background white -font sboldf
+		$text tag configure gray -foreground #404040 -background white -font splainf
+		$text tag configure gray_italic -foreground #000000 -background white -font sbolditalf
+		$text tag configure white -foreground white -background black -font sboldf
+		$text tag configure url -foreground #000080 -background white -font splainf -underline true
+
+		# Create our bindings
+		bind $text <<Button3>> "tk_popup $w.copy %X %Y"
+
+		# Do not bind copy command on button 1 on Mac OS X 
+		if {![catch {tk windowingsystem} wsystem] && $wsystem != "aqua"} {
+			bind $text <Button1-ButtonRelease> "copy 0 $w"
+		}
+
+		# When someone type something in out.text, regive the focus to in.input and insert that key
+		bind $text <KeyPress> "lastKeytyped %A $bottom"
+
+
+		#Added to stop amsn freezing when control-up pressed in the output window
+		#If you can find why it is freezing and can stop it remove this line
+		bind $text <Control-Up> "break"
+
+		return $out
+	}
+
+	proc CreateInputWindow { w paned } {
+
+		status_log "Creating input frame\n"
+		# Name our widgets
+		set bottom $paned.bottom
+		set leftframe $bottom.left
+
+		# Create the bottom frame widget
 		# Change color of border on Mac OS X
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-			frame .${win_name}.f.bottom -class Amsn -borderwidth 0 -relief solid \
+			frame $bottom -class Amsn -borderwidth 0 -relief solid \
 				-background [::skin::getColor buttonbarbg]
 		} else {
-			frame .${win_name}.f.bottom -class Amsn -borderwidth 0 -relief solid \
+			frame $bottom -class Amsn -borderwidth 0 -relief solid \
 				-background [::skin::getColor chatwindowbg]
 		}
 
-		set bottom .${win_name}.f.bottom
+		# Create The left frame
+		frame $leftframe -class Amsn -background blue -relief solid -borderwidth [::skin::getColor chatborders]
 
-		frame $bottom.buttons -class Amsn -borderwidth [::skin::getColor chatborders] -relief solid -background [::skin::getColor buttonbarbg]
-		frame $bottom.in -class Amsn -background white -relief solid -borderwidth [::skin::getColor chatborders]
-		text $bottom.in.input -background white -width 15 -height 3 -wrap word -font bboldf \
+		# Create the other widgets for the bottom frame
+		set buttons [CreateButtonBar $w $leftframe]
+		set input [CreateInputFrame $w $leftframe]
+		set picture [CreatePictureFrame $w $bottom]
+
+		pack $buttons -side top -expand true -fill x -padx [::skin::getColor chatpadx] -pady 0 -anchor n
+		pack $input -side top -expand true -fill both -padx [::skin::getColor chatpadx] -pady [::skin::getColor chatpady] -anchor n
+		pack $leftframe -side left -expand true -fill both -padx 0 -pady 0
+		pack $picture -side right -expand false -padx [::skin::getColor chatpadx] -pady 0 -anchor ne
+
+		# Bind the focus
+		bind $bottom <FocusIn> "focus $input"
+
+		return $bottom
+
+	}
+
+	proc CreateInputFrame { w bottom} { 
+		global tcl_platform
+
+		# Name our widgets
+		set input $bottom.in
+		set sendbutton $input.send
+		set text $input.text
+
+
+		# Create The input frame
+		frame $input -class Amsn -background white -relief solid -borderwidth [::skin::getColor chatborders]
+		
+		# Create the text widget and the send button widget
+		text $text -background white -width 15 -height 3 -wrap word -font bboldf \
 			-borderwidth 0 -relief solid -highlightthickness 0 -exportselection 1
-		frame $bottom.in.f -class Amsn -borderwidth 0 -relief solid -background white
-
+		
 		# Send button in conversation window, specifications and command. Only
 		# compatible with Tcl/Tk 8.4. Disable it on Mac OS X (TkAqua looks better)
 		if { $::tcl_version >= 8.4 && $tcl_platform(os) != "Darwin" } {
 			# New pixmap-skinnable button (For Windows and Unix > Tcl/Tk 8.3)
-			button $bottom.in.f.send -image [::skin::loadPixmap sendbutton] \
-				-command "::amsn::MessageSend .${win_name} $bottom.in.input" \
+			button $sendbutton -image [::skin::loadPixmap sendbutton] \
+				-command "::amsn::MessageSend $w $text" \
 				-fg black -bg white -bd 0 -relief flat -overrelief flat \
 				-activebackground white -activeforeground #8c8c8c -text [trans send] \
 				-font sboldf -compound center -highlightthickness 0
 		} else {
 			# Standard grey flat button (For Tcl/Tk < 8.4 and Mac OS X)
-			button $bottom.in.f.send  -text [trans send] -width 6 -borderwidth 1 \
-				-relief solid -command "::amsn::MessageSend .${win_name} $bottom.in.input" \
+			button $sendbutton  -text [trans send] -width 6 -borderwidth 1 \
+				-relief solid -command "::amsn::MessageSend $w $text" \
 				-font bplainf -highlightthickness 0 -highlightbackground white
 		}
 
-		# This proc is called to load the Display Picture if exists and is readable
-		load_my_pic
 
-		label $bottom.pic -borderwidth 1 -relief solid -image [::skin::getNoDisplayPicture] -background #FFFFFF
-		set_balloon $bottom.pic [trans nopic]
-		button $bottom.showpic -bd 0 -padx 0 -pady 0 -image [::skin::loadPixmap imgshow] \
-			-bg [::skin::getColor chatwindowbg] -highlightthickness 0 -font splainf \
-			-command "::amsn::ToggleShowPicture ${win_name}; ::amsn::ShowOrHidePicture .${win_name}"
-		set_balloon $bottom.showpic [trans showdisplaypic]
+		# Configure my widgets
+		$sendbutton configure -state disabled
+		$text configure -state normal
 
-		grid $bottom.showpic -row 0 -column 2 -padx 0 -pady [::skin::getColor chatpady] -rowspan 2 -sticky ns
-		grid columnconfigure $bottom 3 -minsize 3
-		bind $bottom.pic <Button1-ButtonRelease> "::amsn::ShowPicMenu .${win_name} %X %Y\n"
-		bind $bottom.pic <<Button3>> "::amsn::ShowPicMenu .${win_name} %X %Y\n"
-
-		frame .${win_name}.statusbar -class Amsn -borderwidth [::skin::getColor chatborders] -relief solid -background [::skin::getColor statusbarbg]
-		text .${win_name}.statusbar.status  -width 5 -height 1 -wrap none \
-			-font bplainf -borderwidth 0 -background [::skin::getColor statusbarbg] -foreground [::skin::getColor statusbartext]
-		text .${win_name}.statusbar.charstyped  -width 4 -height 1 -wrap none \
-			-font splainf -borderwidth 0 -background [::skin::getColor statusbarbg] -foreground [::skin::getColor statusbartext]
-
-		.${win_name}.statusbar.charstyped tag configure center -justify left
-
-		button $bottom.buttons.smileys  -image [::skin::loadPixmap butsmile] -relief flat -padx 5 \
-			-background [::skin::getColor buttonbarbg] -highlightthickness 0 -borderwidth 0
-		set_balloon $bottom.buttons.smileys [trans insertsmiley]
-		button $bottom.buttons.fontsel -image [::skin::loadPixmap butfont] -relief flat -padx 5 \
-			-background [::skin::getColor buttonbarbg] -highlightthickness 0 -borderwidth 0
-		set_balloon $bottom.buttons.fontsel [trans changefont]
-		button $bottom.buttons.block -image [::skin::loadPixmap butblock] -relief flat -padx 5 \
-			-background [::skin::getColor buttonbarbg] -highlightthickness 0 -borderwidth 0
-		set_balloon $bottom.buttons.block [trans block]
-		button $bottom.buttons.sendfile -image [::skin::loadPixmap butsend] -relief flat -padx 5 \
-			-background [::skin::getColor buttonbarbg] -highlightthickness 0 -borderwidth 0
-		set_balloon $bottom.buttons.sendfile [trans sendfile]
-		button $bottom.buttons.invite -image [::skin::loadPixmap butinvite] -relief flat -padx 5 \
-			-background [::skin::getColor buttonbarbg] -highlightthickness 0 -borderwidth 0
-		set_balloon $bottom.buttons.invite [trans invite]
-		
-		pack $bottom.buttons.fontsel $bottom.buttons.smileys -side left -pady 2
-		pack $bottom.buttons.block $bottom.buttons.sendfile $bottom.buttons.invite -side right -pady 2
-		
-		#send chatwindowbutton postevent
-		set evpar(bottom) $bottom.buttons
-		set evpar(window_name) ".${win_name}"
-		::plugins::PostEvent chatwindowbutton evPar
-		
-		# Remove thin border on Mac OS X to improve the appearance (padx)
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-			pack .${win_name}.f.top -side top -fill x -padx 0 -pady 0
-		} else {
-			pack .${win_name}.f.top -side top -fill x -padx [::skin::getColor chatpadx] -pady [::skin::getColor chatpady]
-		}
-			
-		pack .${win_name}.statusbar -side bottom -fill x
-		grid .${win_name}.statusbar.status -row 0 -column 0 -padx 0 -pady 0 -sticky we
-
-		if { [::config::getKey charscounter] } {
-			grid .${win_name}.statusbar.charstyped -row 0 -column 0 -padx 0 -pady 0 -sticky e
-		}
-
-		grid columnconfigure .${win_name}.statusbar 0 -weight 1
-		grid columnconfigure .${win_name}.statusbar 1
-		grid $bottom.in -row 1 -column 0 -padx [::skin::getColor chatpadx] -pady [::skin::getColor chatpady]  -sticky nsew
-		grid $bottom.buttons -row 0 -column 0 -padx [::skin::getColor chatpadx] -pady 0 -sticky ewns
-		grid column $bottom 0 -weight 1
-
-		#Remove thin border on Mac OS X (padx)
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-				pack .${win_name}.f.out -expand true -fill both -padx 0 -pady 0
-			} else {
-				pack .${win_name}.f.out -expand true -fill both -padx [::skin::getColor chatpadx] -pady 0
-			}
-		
-		pack .${win_name}.f.top.textto -side left -fill y -anchor nw -padx 0 -pady 3
-		pack .${win_name}.f.top.text -side left -expand true -fill x -padx 4 -pady 3
-
-		pack .${win_name}.f.bottom -side top -expand false -fill x -padx 0 -pady [::skin::getColor chatpady]
-
-		pack $bottom.in.f.send -fill both -expand true
-		pack $bottom.in.input -side left -expand true -fill both -padx 1 -pady 1
-		pack $bottom.in.f -side left -fill y -padx [::skin::getColor chatpadx] -pady 4
-
-		pack .${win_name}.f -expand true -fill both -padx 0 -pady 0
-
-		.${win_name}.f.top.text configure -state disabled
-		.${win_name}.f.out.text configure -state disabled
-		.${win_name}.statusbar.status configure -state disabled
-		.${win_name}.statusbar.charstyped configure -state disabled
-		.${win_name}.f.out.text tag configure green -foreground darkgreen -background white -font sboldf
-		.${win_name}.f.out.text tag configure red -foreground red -background white -font sboldf
-		.${win_name}.f.out.text tag configure blue -foreground blue -background white -font sboldf
-		.${win_name}.f.out.text tag configure gray -foreground #404040 -background white -font splainf
-		.${win_name}.f.out.text tag configure gray_italic -foreground #000000 -background white -font sbolditalf
-		.${win_name}.f.out.text tag configure white -foreground white -background black -font sboldf
-		.${win_name}.f.out.text tag configure url -foreground #000080 -background white -font splainf -underline true
-		$bottom.in.f.send configure -state disabled
-		$bottom.in.input configure -state normal
-		
-		bind $bottom.in.input <Tab> "focus $bottom.in.f.send; break"
-		bind  $bottom.buttons.smileys  <Button1-ButtonRelease> "::smiley::smileyMenu %X %Y $bottom.in.input"
-		bind  $bottom.buttons.fontsel  <Button1-ButtonRelease> "after 1 change_myfont ${win_name}"
-		bind  $bottom.buttons.block  <Button1-ButtonRelease> \
-			"::amsn::ShowChatList \"[trans block]/[trans unblock]\" .${win_name} ::amsn::blockUnblockUser"
-		bind $bottom.buttons.sendfile <Button1-ButtonRelease> "::amsn::FileTransferSend .${win_name}"
-		bind $bottom.buttons.invite <Button1-ButtonRelease> "::amsn::ShowInviteMenu .${win_name} %X %Y"
-		bind $bottom.in.f.send <Return> "::amsn::MessageSend .${win_name} $bottom.in.input; break"
-		bind $bottom.in.input <Shift-Return> {%W insert insert "\n"; %W see insert; break}
-		bind $bottom.in.input <Control-KP_Enter> {%W insert insert "\n"; %W see insert; break}
-		bind $bottom.in.input <Shift-KP_Enter> {%W insert insert "\n"; %W see insert; break}
+		# Create my bindings
+		bind $text <Tab> "focus $sendbutton; break"
+		bind $sendbutton <Return> "::amsn::MessageSend $w $text; break"
+		bind $text <Shift-Return> {%W insert insert "\n"; %W see insert; break}
+		bind $text <Control-KP_Enter> {%W insert insert "\n"; %W see insert; break}
+		bind $text <Shift-KP_Enter> {%W insert insert "\n"; %W see insert; break}
 
 		# Change shortcuts on Mac OS X (TKAqua). ALT=Option Control=Command on Mac
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-			bind $bottom.in.input <Command-Return> {%W insert insert "\n"; %W see insert; break}
-			bind $bottom.in.input <Command-Option-space> BossMode
-			bind $bottom.in.input <Command-a> {%W tag add sel 1.0 {end - 1 chars};break}
+			bind $text <Command-Return> {%W insert insert "\n"; %W see insert; break}
+			bind $text <Command-Option-space> BossMode
+			bind $text <Command-a> {%W tag add sel 1.0 {end - 1 chars};break}
 		} else {
-			bind $bottom.in.input <Control-Return> {%W insert insert "\n"; %W see insert; break}
-			bind $bottom.in.input <Control-Alt-space> BossMode
-			bind $bottom.in.input <Control-a> {%W tag add sel 1.0 {end - 1 chars};break}
+			bind $text <Control-Return> {%W insert insert "\n"; %W see insert; break}
+			bind $text <Control-Alt-space> BossMode
+			bind $text <Control-a> {%W tag add sel 1.0 {end - 1 chars};break}
 		}
 
-		bind $bottom.in.input <<Button3>> "tk_popup .${win_name}.copypaste %X %Y"
-		bind $bottom.in.input <<Button2>> "paste .${win_name} 1"
-		bind .${win_name}.f.out.text <<Button3>> "tk_popup .${win_name}.copy %X %Y"
-
-		# Do not bind copy command on button 1 on Mac OS X 
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-			# Do nothing
-		} else {
-			bind .${win_name}.f.out.text <Button1-ButtonRelease> "copy 0 .${win_name}"
-		}
-
-		# When someone type something in out.text, regive the focus to in.input and insert that key
-		bind .${win_name}.f.out.text <KeyPress> "lastKeytyped %A $bottom"
-
-		#Define this events, in case they were not defined by Tk
-		event add <<Paste>> <Control-v> <Control-V>
-		event add <<Copy>> <Control-c> <Control-C>
-		event add <<Cut>> <Control-x> <Control-X>
-
-		bind .${win_name} <<Cut>> "status_log cut\n;tk_textCut .${win_name}"
-		bind .${win_name} <<Copy>> "status_log copy\n;tk_textCopy .${win_name}"
-		bind .${win_name} <<Paste>> "status_log paste\n;tk_textPaste .${win_name}"
-
-		#Change shortcut for history on Mac OS X
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-			bind .${win_name} <Command-Option-h> \
-				"::amsn::ShowChatList \"[trans history]\" .${win_name} ::log::OpenLogWin"
-		} else {
-			bind .${win_name} <Control-h> \
-				"::amsn::ShowChatList \"[trans history]\" .${win_name} ::log::OpenLogWin"
-		}
-
-		bind .${win_name} <Destroy> "window_history clear %W; ::ChatWindow::Closed .${win_name} %W"
-		focus $bottom.in.input
-
-		# Sets the font size to the one stored in our configuration file
-		change_myfontsize [::config::getKey textsize] .${win_name}
-
-		#TODO: We always want these menus and bindings enabled? Think it!!
-		$bottom.in.input configure -state normal
-		$bottom.in.f.send configure -state normal
-		.${win_name}.menu.msn entryconfigure 3 -state normal
-		.${win_name}.menu.actions entryconfigure 5 -state normal
+		bind $text <<Button3>> "tk_popup $w.copypaste %X %Y"
+		bind $text <<Button2>> "paste $w 1"
 
 		#Better binding, works for Tk 8.4 only (see proc tification too)
 		if { [catch {
-			$bottom.in.input edit modified false
-			bind $bottom.in.input <<Modified>> "::amsn::TypingNotification .${win_name} $bottom.in.input"
+			$text edit modified false
+			bind $text <<Modified>> "::amsn::TypingNotification $w $text"
 		} res]} {
 			#If fails, fall back to 8.3
-			bind $bottom.in.input <Key> "::amsn::TypingNotification .${win_name} $bottom.in.input"
-			bind $bottom.in.input <Key-Meta_L> "break;"
-			bind $bottom.in.input <Key-Meta_R> "break;"
-			bind $bottom.in.input <Key-Alt_L> "break;"
-			bind $bottom.in.input <Key-Alt_R> "break;"
-			bind $bottom.in.input <Key-Control_L> "break;"
-			bind $bottom.in.input <Key-Control_R> "break;"
-			bind $bottom.in.input <Key-Return> "break;"
+			bind $text <Key> "::amsn::TypingNotification $w $text"
+			bind $text <Key-Meta_L> "break;"
+			bind $text <Key-Meta_R> "break;"
+			bind $text <Key-Alt_L> "break;"
+			bind $text <Key-Alt_R> "break;"
+			bind $text <Key-Control_L> "break;"
+			bind $text <Key-Control_R> "break;"
+			bind $text <Key-Return> "break;"
 		}
 
-		bind $bottom.in.input <Key-Delete> "::amsn::DeleteKeyPressed .${win_name} $bottom.in.input %K"
-		bind $bottom.in.input <Key-BackSpace> "::amsn::DeleteKeyPressed .${win_name} $bottom.in.input %K"
-		bind $bottom.in.input <Key-Up> {my_TextSetCursor %W [::amsn::UpKeyPressed %W]; break}
-		bind $bottom.in.input <Key-Down> {my_TextSetCursor %W [::amsn::DownKeyPressed %W]; break}
-		bind $bottom.in.input <Shift-Key-Up> {my_TextKeySelect %W [::amsn::UpKeyPressed %W]; break}
-		bind $bottom.in.input <Shift-Key-Down> {my_TextKeySelect %W [::amsn::DownKeyPressed %W]; break}
+		bind $text <Key-Delete> "::amsn::DeleteKeyPressed $w $text %K"
+		bind $text <Key-BackSpace> "::amsn::DeleteKeyPressed $w $text %K"
+		bind $text <Key-Up> {my_TextSetCursor %W [::amsn::UpKeyPressed %W]; break}
+		bind $text <Key-Down> {my_TextSetCursor %W [::amsn::DownKeyPressed %W]; break}
+		bind $text <Shift-Key-Up> {my_TextKeySelect %W [::amsn::UpKeyPressed %W]; break}
+		bind $text <Shift-Key-Down> {my_TextKeySelect %W [::amsn::DownKeyPressed %W]; break}
 
 		global skipthistime
 		set skipthistime 0
 
-		bind $bottom.in.input <Return> "window_history add %W; ::amsn::MessageSend .${win_name} %W; break"
-		bind $bottom.in.input <Key-KP_Enter> "window_history add %W; ::amsn::MessageSend .${win_name} %W; break"
-		bind .${win_name} <<Escape>> "::ChatWindow::Close .${win_name}; break"
+		bind $text <Return> "window_history add %W; ::amsn::MessageSend $w %W; break"
+		bind $text <Key-KP_Enter> "window_history add %W; ::amsn::MessageSend $w %W; break"
 
 		#Different shortcuts on Mac OS X
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-			bind $bottom.in.input <Control-s> "window_history add %W; ::amsn::MessageSend .${win_name} %W; break"
-			bind .${win_name} <Command-,> "Preferences"
-			bind all <Command-q> {
-				close_cleanup;exit
-			}
-			bind $bottom.in.input <Command-Up> "window_history previous %W; break"
-			bind $bottom.in.input <Command-Down> "window_history next %W; break"
+			bind $text <Control-s> "window_history add %W; ::amsn::MessageSend $w %W; break"
+			bind $text <Command-Up> "window_history previous %W; break"
+			bind $text <Command-Down> "window_history next %W; break"
 		} else {
-			bind $bottom.in.input <Alt-s> "window_history add %W; ::amsn::MessageSend .${win_name} %W; break"
-			bind $bottom.in.input <Control-Up> "window_history previous %W; break"
-			bind $bottom.in.input <Control-Down> "window_history next %W; break"
+			bind $text <Alt-s> "window_history add %W; ::amsn::MessageSend $w %W; break"
+			bind $text <Control-Up> "window_history previous %W; break"
+			bind $text <Control-Down> "window_history next %W; break"
 		}
 
-		#Added to stop amsn freezing when control-up pressed in the output window
-		#If you can find why it is freezing and can stop it remove this line
-		bind .${win_name}.f.out.text <Control-Up> "break"
+		bind $input <FocusIn> "focus $text"
 
-		# Set the properties of this chat window in our ::ChatWindow namespace
-		# variables to be accessible from other procs in the namespace
-		set ::ChatWindow::titles(.${win_name}) ""
-		set ::ChatWindow::first_message(.${win_name}) 1
-		set ::ChatWindow::recent_message(.${win_name}) 0
-		lappend ::ChatWindow::windows ".${win_name}"
 
-		# These bindings are handlers for closing the window (Leave the SB, store settings...)
-		bind .${win_name} <Configure> "::ChatWindow::Configured .${win_name}"
-		wm protocol .${win_name} WM_DELETE_WINDOW "::ChatWindow::Close .${win_name}"
- 
-		# PostEvent 'new_chatwindow' to notify plugins that the window was created
-		set evPar(win) ".${win_name}"
-		::plugins::PostEvent new_chatwindow evPar
-
-		wm state .${win_name} withdraw
-		return ".${win_name}"
+		# Pack My input frame widgets
+		pack $text -side left -expand true -fill both -padx 1 -pady 1
+		pack $sendbutton -side left -fill y -padx [::skin::getColor chatpadx] -pady 4	
+		
+		return $input
 	}
-	#///////////////////////////////////////////////////////////////////////////////
 
+	proc CreateButtonBar { w bottom } {
+
+		status_log "Creating button bar\n"
+		# Name our widgets
+		set buttons $bottom.buttons
+		set smileys $buttons.smileys
+		set fontsel $buttons.fontsel
+		set block $buttons.block
+		set sendfile $buttons.sendfile
+		set invite $buttons.invite
+
+		# widget name from another proc
+		set input $bottom.in.text
+
+
+		# Create them along with their respective tooltips
+		frame $buttons -class Amsn -borderwidth [::skin::getColor chatborders] -relief solid -background [::skin::getColor buttonbarbg]	
+
+		button $smileys  -image [::skin::loadPixmap butsmile] -relief flat -padx 5 \
+			-background [::skin::getColor buttonbarbg] -highlightthickness 0 -borderwidth 0
+		set_balloon $smileys [trans insertsmiley]
+
+		button $fontsel -image [::skin::loadPixmap butfont] -relief flat -padx 5 \
+			-background [::skin::getColor buttonbarbg] -highlightthickness 0 -borderwidth 0
+		set_balloon $fontsel [trans changefont]
+
+		button $block -image [::skin::loadPixmap butblock] -relief flat -padx 5 \
+			-background [::skin::getColor buttonbarbg] -highlightthickness 0 -borderwidth 0
+		set_balloon $block [trans block]
+
+		button $sendfile -image [::skin::loadPixmap butsend] -relief flat -padx 5 \
+			-background [::skin::getColor buttonbarbg] -highlightthickness 0 -borderwidth 0
+		set_balloon $sendfile [trans sendfile]
+
+		button $invite -image [::skin::loadPixmap butinvite] -relief flat -padx 5 \
+			-background [::skin::getColor buttonbarbg] -highlightthickness 0 -borderwidth 0
+		set_balloon $invite [trans invite]
+
+		# Pack them
+		pack $fontsel $smileys -side left -pady 2
+		pack $block $sendfile $invite -side right -pady 2
+
+		# Create our bindings
+		bind  $smileys  <Button1-ButtonRelease> "::smiley::smileyMenu %X %Y $input"
+		bind  $fontsel  <Button1-ButtonRelease> "after 1 change_myfont [string range $w 1 end]"
+		bind  $block  <Button1-ButtonRelease> \
+			"::amsn::ShowChatList \"[trans block]/[trans unblock]\" $w ::amsn::blockUnblockUser"
+		bind $sendfile <Button1-ButtonRelease> "::amsn::FileTransferSend $w"
+		bind $invite <Button1-ButtonRelease> "::amsn::ShowInviteMenu $w %X %Y"
+
+		#send chatwindowbutton postevent
+		set evpar(bottom) $buttons
+		set evpar(window_name) "$w"
+		::plugins::PostEvent chatwindowbutton evPar
+
+		return $buttons
+	}
+
+	proc CreatePictureFrame { w bottom } {
+
+		status_log "Creating picture frame\n"
+		# Name our widgets
+		set frame $bottom.pic
+		set picture $frame.image
+		set showpic $frame.showpic
+
+		# Create them
+		frame $frame -class Amsn -borderwidth 0 -relief solid -background white	
+		label $picture -borderwidth 1 -relief solid -image [::skin::getNoDisplayPicture] -background #FFFFFF
+
+		set_balloon $picture [trans nopic]
+		button $showpic -bd 0 -padx 0 -pady 0 -image [::skin::loadPixmap imgshow] \
+			-bg [::skin::getColor chatwindowbg] -highlightthickness 0 -font splainf \
+			-command "::amsn::ToggleShowPicture $w; ::amsn::ShowOrHidePicture $w"
+		set_balloon $showpic [trans showdisplaypic]
+
+		# Pack them 
+		pack $picture -side left -padx 0 -pady [::skin::getColor chatpady] -anchor w
+		pack $showpic -side right -expand true -fill y -padx 0 -pady [::skin::getColor chatpady] -anchor e
+
+		# Create our bindings
+		bind $picture <Button1-ButtonRelease> "::amsn::ShowPicMenu $w %X %Y\n"
+		bind $picture <<Button3>> "::amsn::ShowPicMenu $w %X %Y\n"
+
+
+		# This proc is called to load the Display Picture if exists and is readable
+		load_my_pic
+
+		return $frame
+
+	}
 
 	#///////////////////////////////////////////////////////////////////////////////
 	# ::ChatWindow::SetFor (chatid, window)
@@ -1013,8 +1348,8 @@ namespace eval ::ChatWindow {
 		   set scrolling 0
 		}
 
-		${win_name}.f.top.text configure -state normal -font sboldf -height 1 -wrap none
-		${win_name}.f.top.text delete 0.0 end
+		${win_name}.top.text configure -state normal -font sboldf -height 1 -wrap none
+		${win_name}.top.text delete 0.0 end
 
 		foreach user_login $user_list {
 			set user_name [string map {"\n" " "} [::abook::getDisplayNick $user_login]]
@@ -1031,40 +1366,40 @@ namespace eval ::ChatWindow {
 
 			if {[::config::getKey truncatenames]} {
 				#Calculate maximum string width
-				set maxw [winfo width ${win_name}.f.top.text]
+				set maxw [winfo width ${win_name}.top.text]
 
 				if { "$user_state" != "" && "$user_state" != "online" } {
-					incr maxw [expr 0-[font measure sboldf -displayof ${win_name}.f.top.text " \([trans $user_state]\)"]]
+					incr maxw [expr 0-[font measure sboldf -displayof ${win_name}.top.text " \([trans $user_state]\)"]]
 				}
 
-				incr maxw [expr 0-[font measure sboldf -displayof ${win_name}.f.top.text " <${user_login}>"]]
-				${win_name}.f.top.text insert end "[trunc ${user_name} ${win_name} $maxw sboldf] <${user_login}>"
+				incr maxw [expr 0-[font measure sboldf -displayof ${win_name}.top.text " <${user_login}>"]]
+				${win_name}.top.text insert end "[trunc ${user_name} ${win_name} $maxw sboldf] <${user_login}>"
 			} else {
-				${win_name}.f.top.text insert end "${user_name} <${user_login}>"
+				${win_name}.top.text insert end "${user_name} <${user_login}>"
 			}
 
 			set title "${title}${user_name}, "
 
 			#TODO: When we have better, smaller and transparent images, uncomment this
-			#${win_name}.f.top.text image create end -image [::skin::loadPixmap $user_image] -pady 0 -padx 2
+			#${win_name}.top.text image create end -image [::skin::loadPixmap $user_image] -pady 0 -padx 2
 
 			if { "$user_state" != "" && "$user_state" != "online" } {
-				${win_name}.f.top.text insert end "\([trans $user_state]\)"
+				${win_name}.top.text insert end "\([trans $user_state]\)"
 			}
-			${win_name}.f.top.text insert end "\n"
+			${win_name}.top.text insert end "\n"
 		}
 
 		set title [string replace $title end-1 end " - [trans chat]"]
 
 		#Calculate number of lines, and set top text size
-		set size [${win_name}.f.top.text index end]
+		set size [${win_name}.top.text index end]
 		set posyx [split $size "."]
 		set lines [expr {[lindex $posyx 0] - 2}]
 		set ::ChatWindow::titles(${win_name}) ${title}
 		
-		${win_name}.f.top.text delete [expr {$size - 1.0}] end
-		${win_name}.f.top.text configure -state normal -font sboldf -height $lines -wrap none
-		${win_name}.f.top.text configure -state disabled
+		${win_name}.top.text delete [expr {$size - 1.0}] end
+		${win_name}.top.text configure -state normal -font sboldf -height $lines -wrap none
+		${win_name}.top.text configure -state disabled
 
 		if { [info exists ::ChatWindow::new_message_on(${win_name})] && $::ChatWindow::new_message_on(${win_name}) == 1 } {
 			wm title ${win_name} "*${title}"

@@ -1887,7 +1887,7 @@ proc RestorePreferences { {win ".cfg"} } {
 proc ChooseFilename { twn title } {
 
     # TODO File selection box, use nickname as filename (caller)
-    set w .form$title
+    set w .form[string map {"." ""} $title]
 	 if {[winfo exists $w]} {
 	 	raise $w
 		return

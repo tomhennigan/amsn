@@ -1441,7 +1441,7 @@ namespace eval ::amsn {
 		#from the user that left. Then, change it
 		set current_image ""
 		#Catch it, because the window might be closed
-		catch {set current_image [$win_name.f.bottom.pic cget -image]}
+		catch {set current_image [$win_name.f.bottom.pic.image cget -image]}
 		if { [string compare $current_image "user_pic_$usr_name"]==0} {
 			set users_in_chat [::MSN::usersInChat $chatid]
 			set new_user [lindex $users_in_chat 0]
@@ -1523,7 +1523,7 @@ namespace eval ::amsn {
 	}
 
 	proc ToggleShowPicture { win_name } {
-		upvar #0 .${win_name}_show_picture show_pic
+		upvar #0 ${win_name}_show_picture show_pic
 
 		if { $show_pic } {
 			set show_pic 0
@@ -1557,7 +1557,7 @@ namespace eval ::amsn {
 		$win.picmenu add separator
 		$win.picmenu add command -label "[trans changedisplaypic]..." -command pictureBrowser
 		
-		set user [$win.f.bottom.pic cget -image]
+		set user [$win.f.bottom.pic.image cget -image]
 		if { $user != "no_pic" && $user != "my_pic" } {
 			set user [string range $user 9 end]
 			$win.picmenu add separator
@@ -1593,27 +1593,28 @@ namespace eval ::amsn {
 		}
 
 	proc ChangePicture {win picture balloontext {nopack ""}} {
-		#pack $win.bottom.pic -side left -padx 2 -pady 2
+		#pack $win.bottom.pic.image -side left -padx 2 -pady 2
 		upvar #0 ${win}_show_picture show_pic
 
 		set yview [lindex [${win}.f.out.text yview] 1]
 
 
 		if { $balloontext != "" } {
-			#unset_balloon $win.f.bottom.pic
-			change_balloon $win.f.bottom.pic $balloontext
+			#unset_balloon $win.f.bottom.pic.image
+			change_balloon $win.f.bottom.pic.image $balloontext
 		}
-		if { [catch {$win.f.bottom.pic configure -image $picture}] } {
+		if { [catch {$win.f.bottom.pic.image configure -image $picture}] } {
 			status_log "Failed to set picture, using no_pic\n" red
-			$win.f.bottom.pic configure -image [::skin::getNoDisplayPicture]
-			#unset_balloon $win.f.bottom.pic
-			change_balloon $win.f.bottom.pic [trans nopic]
+			$win.f.bottom.pic.image configure -image [::skin::getNoDisplayPicture]
+			#unset_balloon $win.f.bottom.pic.image
+			change_balloon $win.f.bottom.pic.image [trans nopic]
 		} elseif { $nopack == "" } {
-			grid $win.f.bottom.pic -row 0 -column 1 -padx 0 -pady 3 -rowspan 2
-			#grid forget $win.f.bottom.showpic
-			$win.f.bottom.showpic configure -image [::skin::loadPixmap imghide]
-			#unset_balloon $win.f.bottom.showpic
-			change_balloon $win.f.bottom.showpic [trans hidedisplaypic]
+			#grid $win.f.bottom.pic.image -row 0 -column 1 -padx 0 -pady 3 -rowspan 2
+			pack $win.f.bottom.pic.image -side left -padx 0 -pady [::skin::getColor chatpady] -anchor w
+			#grid forget $win.f.bottom.pic.showpic
+			$win.f.bottom.pic.showpic configure -image [::skin::loadPixmap imghide]
+			#unset_balloon $win.f.bottom.pic.showpic
+			change_balloon $win.f.bottom.pic.showpic [trans hidedisplaypic]
 			set show_pic 1
 		}
 
@@ -1627,12 +1628,12 @@ namespace eval ::amsn {
 
 	proc HidePicture { win } {
 		global ${win}_show_picture
-		grid forget $win.f.bottom.pic
+		pack forget $win.f.bottom.pic.image
 
-		#grid $win.f.bottom.showpic -row 0 -column 1 -padx 0 -pady 0 -rowspan 2
+		#grid $win.f.bottom.pic.showpic -row 0 -column 1 -padx 0 -pady 0 -rowspan 2
 		#Change here to change the icon, instead of text
-		$win.f.bottom.showpic configure -image [::skin::loadPixmap imgshow]
-		change_balloon $win.f.bottom.showpic [trans showdisplaypic]
+		$win.f.bottom.pic.showpic configure -image [::skin::loadPixmap imgshow]
+		change_balloon $win.f.bottom.pic.showpic [trans showdisplaypic]
 
 		set ${win}_show_picture 0
 
@@ -1641,7 +1642,7 @@ namespace eval ::amsn {
 	proc ShowOrHidePicture { win } {
 		upvar #0 ${win}_show_picture value
 		if { $value == 1} {
-			::amsn::ChangePicture $win [$win.f.bottom.pic cget -image] ""
+			::amsn::ChangePicture $win [$win.f.bottom.pic.image cget -image] ""
 		} else {
 			::amsn::HidePicture $win
 		}
@@ -2417,7 +2418,7 @@ namespace eval ::amsn {
 		#We have a window for that chatid, raise it
 		raise ${win_name}
 
-		focus ${win_name}.f.bottom.in.input
+		focus ${win_name}.f.bottom.left.in.text
 
 	}
 	#///////////////////////////////////////////////////////////////////////////////
@@ -3366,8 +3367,8 @@ proc change_myfontsize { size {windows ""}} {
 	foreach w  $windows {
 
 		$w.f.out.text tag configure yours -font [list $fontfamily $fontsize $fontstyle]
-		$w.f.bottom.in.input configure -font [list $fontfamily $fontsize $fontstyle]
-		$w.f.bottom.in.input configure -foreground "#$fontcolor"
+		$w.f.bottom.left.in.text configure -font [list $fontfamily $fontsize $fontstyle]
+		$w.f.bottom.left.in.text configure -foreground "#$fontcolor"
 	
 		#Get old user font and replace its size
 		catch {
