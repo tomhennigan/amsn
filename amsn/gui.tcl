@@ -2428,7 +2428,8 @@ proc login_ok {} {
 	vwait proftrig
    }
    
-   if { $password != "" && $config(login) != "" } {
+   SaveLoginList
+  if { $password != "" && $config(login) != "" } {
 	::MSN::connect [list $config(login)] [list $password]
   } else {
   	cmsn_draw_login
@@ -2448,6 +2449,8 @@ proc cmsn_draw_login {} {
       raise .login
       return 0
    }
+
+   LoadLoginList 1
 
    set oldlogin $config(login)
    toplevel .login

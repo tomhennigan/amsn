@@ -139,8 +139,12 @@ proc load_config {} {
 # LoadLoginList ()
 # Loads the list of logins/profiles from the profiles file in the HOME dir
 # sets up the first user in list as config(login)
-proc LoadLoginList {} {
+proc LoadLoginList {{trigger 0}} {
 	global HOME HOME2 config
+
+	if { $trigger != 0 } {
+	status_log "getting profiles"
+	}
 	
 	if {([file readable "[file join ${HOME} profiles]"] != 0) || ([file isfile "[file join ${HOME}/profiles]"] != 0)} {
 		
@@ -156,12 +160,14 @@ proc LoadLoginList {} {
 	close $file_id
 	}
 	
-	set HOME2 $HOME
-	if { [LoginList get 0] != 0 } {
-		set temp [LoginList get 0]
-		set dirname [split $temp "@ ."]
-		set dirname [join $dirname "_"]
-		set HOME "[file join $HOME2 $dirname]"
+	if { $trigger == 0 } {
+		set HOME2 $HOME
+		if { [LoginList get 0] != 0 } {
+			set temp [LoginList get 0]
+			set dirname [split $temp "@ ."]
+			set dirname [join $dirname "_"]
+			set HOME "[file join $HOME2 $dirname]"
+		}
 	}
 }
 

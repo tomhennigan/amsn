@@ -7,7 +7,7 @@ namespace eval ::hotmail {
    }
 
 
-   proc SetUnreadMessages { number } {
+   proc setUnreadMessages { number } {
       variable unread
       set unread $number
    }
