@@ -5386,7 +5386,7 @@ namespace eval ::MSNP2P {
 						set port [string range $data $idx $idx2]
 						status_log "MSNP2P | $sid -> Receiver is listening with $addr : $port\n" red
 						#after 5500 "::MSNP2P::SendData $sid $chatid [lindex [SessionList get $sid] 8]"
-						connectMsnFTP $sid $nonce $addr $port
+						::MSN6FT::connectMsnFTP $sid $nonce $addr $port
 					} elseif { $listening == "false" } {
 						status_log "MSNP2P | $sid -> Receiver is not listening, sending INVITE\n" red
 						::MSN6FT::SendFTInvite2 $sid $chatid
