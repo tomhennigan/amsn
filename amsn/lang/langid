@@ -72,7 +72,7 @@ busy Sibuk
 cancel Batalkan
 cannotdeleteprofile Tidak bisa menghapus profil karena tampaknya masih digunakan
 cantexec Aplikasi tidak bisa dijalankan: $1. Periksa pilihan
-"cantremoveothers Tidak dapat mengilangkan group ""Lain-lain"""
+cantremoveothers Tidak dapat mengilangkan group "Lain-lain"
 casesensitive Gunakan pemicu yang sensitif terhadap bentuk huruf (besar/kecil)
 cfgalarm Rubah Pengaturan/Tambah/Hapus alarm
 cfgalarmall Atur/Tambahkan/Hilangkan Alarm Global
@@ -158,9 +158,7 @@ dontdownload Jangan download TLS, saya akan memasangnya sendiri
 dontshow Jangan Ditampilkan
 downloadingtls Sedang mendownload modul TLS dari:\n $1
 edit Ubah
-editcurrentstate Ubah keadaan saat ini
 editcustomstate Ubah kondisi tertentu
-editcustomstate Rubah
 editnewstate Kondisi untuk Pesan-otomatis Pribadi Baru
 editprofile Ubah Profil
 editstate Rubah Keadaan Pesan-otomatis yang sudah ada
@@ -204,7 +202,7 @@ ftportpref Memulai port untuk pengalihan berkas
 ftrejected Transmisi berkas ditolak
 ftrejectedby $1 menolak undangan pengalihan berkas untuk berkas ?$2?.
 ftsendinvitation Undangan pengalihan berkas untuk berkas ?$2? ($3 bytes) telah dikirim kepada $1.
-fullcontactlist Maar, daftar kontak anda penuh. Anda harus menghapus sebagian kontak untuk dapat menambahkan yang baru.
+fullcontactlist Maar, daftar kontak anda penuh.. Anda harus menghapus sebagian kontak untuk dapat menambahkan yang baru.
 getdisppic Mungkinkan penerimaan Gambar Tampilan dari pengguna yang lain
 gonelunch Sedang makan siang
 group Kelompok
