@@ -1,0 +1,298 @@
+amsn_lang_version 2
+about Om
+accept Accepter
+acceptfile Accepter fil $1, størrelse $2? Gemt i $3
+actions Handlinger
+addacontact Tilføj en kontakt
+addedyou har tilføjet dig til hans/hendes kontaktliste
+addtocontacts Tilføj til kontaktliste
+addtoo Tilføj denne person til min kontaktliste
+admincontacts Admin kontakter
+admingroups Admin grupper
+adverts Reklamer
+alarmpref Alarm instillinger for bruger
+alarmstatus Slå Alarm TIL/FRA for denne bruger
+allowseen Tillad denne person at se når jeg er online
+appearance Udseende
+appearoff Vis som offline
+areacode Områdenummer
+aretyping $1 skriver en besked
+askprofile Dette login har ingen profil. Vil du oprette en ny? $1 Hvis du ikke opretter en ny vil du ikke kunne bruge Historien, eller gemme dine Alarmer og password. $1 Hvis du opretter en vil du få en seperat opsætning for denne profil. $1 $1 Klik på "Opret profil" for at oprette en ny profil for $2.
+autoaway Vis mig som "Ikke til stede" når jeg har været inaktiv i
+autoconnect2 automatisk log på når aMSN startes
+autoconnect Log på ved start
+autohotmaillog Hotmail autologin
+autoidle Automatisk IngenAktivitet
+autoip Automatisk IP
+autonoact Vis mig som "Ikke aktiv" når jeg har været inaktiv i
+avoidseen Undlad at denne person kan se når jeg er online
+away Ikke til stede
+awaymsg1 Spørg efter "Ikke til stede" besked hver gang jeg ændrer min status til Ikke til stede/Er straks tilbage/Optaget
+awaymsg2 Spørg ikke og anvend altid beskeden nedenfor
+baduserpass Forkert brugernavn eller password
+bgcolor Ændre aMSN's baggrundsfarve
+blankdirect Efterlad blank for direkte forbindelse
+block Bloker
+blocked Blokeret
+broughtby Bragt til dig af følgende udviklere
+browse Browse
+browser Browser
+busy Travlt
+cancel Annuller
+cfgalarm Konfigurer/Tilføj/Fjern Alarm
+changefont Skift font
+changenick Skift kaldenavn
+chatack Accepterer chat fra
+chat Chat
+chatreq Forespørg chat
+chatsmileys2 Vis grafik (humørikoner) i onlinemeddelelser
+chatsmileys Chat smileys
+checkfilman Modtagne filer vil blive gemt i $1. Kontrollér filoverførsels-indstillingerne i egenskaber vinduet.
+checkingver Tjekker for ny version
+checkver Tjek for ny version
+choosebasefont Vælg skrifttype
+choosebgcolor Vælg baggrundsfarve
+choosefontcolor Vælg skrifttypefarve
+clearlog2 Tøm historien for alle dine kontaktpersoner
+clearlog3 Tøm alle log-filer
+clearlog Ryd log
+clicktologin Klik her for at logge ind
+close Luk
+closingdocks Luk knap minimerer vinduet
+command Kommando
+confirmdelete Er du sikker på at du vil slette $1?
+confirm Er du sikker?
+connecterror Kunne ikke få forbindelse til server
+connection Forbindelse
+contactadded Kontakt tilføjet
+contactdoesnotexist Kontakt eksisterer ikke!
+copy Kopier
+copytogroup Kopier til gruppe
+countrycode Min Lande/Region kode
+cprofile Opret profil
+cut Klip
+date Dato
+days Dage
+dcprofile Opret ikke profil
+default Oprindelig konfiguration
+delete Slet
+deliverfail Der var et problem med at levere følgende besked
+delprofile2 Vælg den profil du vil have fjernet
+delprofile Slet profil
+dockgtk Gnome Minimer
+docking Minimer
+dockingoff Minimer Ikke
+dockkde KDE Minimer
+editprofile Rediger profil
+edit Rediger
+enableproxy Tilslut proxy
+encoding2 Ændre måden dine characters er kodet på
+encoding Vælg encoding
+entercontactemail Skriv kontakt E-mail
+enterfilename Skriv filnavnet
+enternick Skriv dit nick
+examples Eksempler
+exitamsn Er du sikker på at du vil afslutte?
+extras Ekstra Services
+faq FAQ (Ofte Stillede Spørgsmål)
+filedoesnotexist Filen eksisterer ikke
+fileman Ændre kodning
+filename Filnavn
+filetransfercancelled Filoverførsel annulleret
+filetransfercomplete Filoverførsel fuldført
+ftaccepted Filoverførsel accepteret
+ftrejected Filoverførsel afvist
+gonelunch Til frokost
+groupadd Tilføj en gruppe
+groupdelete Slet en gruppe
+groupexists Gruppen eksisterer allerede
+group Gruppe
+groupmissing Kan ikke finde gruppen
+groupnewname Nyt navn
+groupnotempty Gruppen er ikke tom!
+groupoldname Gammelt navn
+grouprename Omdøb en gruppe
+groupunknown Ukendt gruppe
+handle Håndtere
+helpcontents Indhold
+help Hjælp
+history Vis Historien
+home Hjem
+ident Identificerer
+identity Identiter
+inbox Indbakke
+invalidusername Ugyldigt brugernavn
+invite Inviter
+ipaddress IP Adresse
+ipdetect Find korrekt IP for Fil overførsler over HTTP
+istyping $1 skriver en besked
+joins $1 tilslutter sig samtalen
+keepalive Hold i live (NAT)
+keeplog2 Logger alle samtaler til aMSN's historie til senere visning
+keeplog Gem logs af chat
+language Sprog
+lastmsgtime Sidste besked blev modtaget klokken $1
+lclosedwin $1 har lukket vinduet på $2
+lconftopriv Mødet er lavet til privat chat med $1
+lconvstarted Samtale startet på $1
+leaveblankforhotmail Efterlad blank for at bruge hotmail web
+leaves $1 forlader samtalen
+lenteredconf $1 har tilsluttet sig et møde på $2
+linprivate PRIVAT
+listeningon Lytter på port $1
+listsmileys2 Vis grafik (humørikoner) i aMSN's hovedkontaktliste
+listsmileys Liste af smileys
+ljoinedconf $1 har tilsluttet sig mødet
+lleftconf $1 har forladt mødet
+loadcontacts Hent kontaktliste
+logbigger Logfilstørrelser for hver kontakt overskrides aldrig
+logfandexp Log Filstørrelser og historie overskridelse
+loggedotherlocation Afbrudt. Logget ind fra andet sted
+loggingin Logger Ind
+loginas Log ind som
+loging Logging
+login Log Ind
+logolder Kun log chats der har fundet sted på det sidste
+logout Log Ud
+logsin er lige logget ind
+logsmileys Vis grafik (humørikoner) i aMSN's historie vinduer
+lprivtoconf Privat chat er lavet til et møde med $1
+luclosedwin Du har lukket vinduet på $1
+mailer Mailer
+maximised Maksimeret
+minimised Minimeret
+mins minutter
+mobile Mobil
+movetogroup Flyt til gruppe
+msg Besked
+msgmaxmin Når en ny meddelelse modtages vil jeg have den til at være :
+msgmode Vælg hvordan flerfoldige meddelelsesvinduer skal håndteres :
+msn AMSN
+mustrestart Du skal genstarte programmet for at ændringerne træder i kraft
+myhomephone Min hjemmetelefon
+mymobilephone Min mobiltelefon
+mystatus Min status
+myworkphone Min arbejdstelefon
+natip Check IP via Internet side
+natkeepalive Vælg denne KeepAlive, hvis du ofte bliver logget af
+needonline Du er/forestiller stadig at være offline!
+newmail $1 nye beskeder i Indbakken
+newmailfrom Ny mail fra
+newmsg Ny besked
+newveravailable Det er nu muligt at download den nye version $1
+next Næste
+noactivity Ingen aktivitet
+nologfile Der er ingen logfil for $1
+nonewmail Der er ingen nye beskeder i Indbakken
+nonewver Der er ikke nogen ny version at downloade
+normal Normal
+notify1 Vis en besked, når kontaktpersoner er online
+notify2 Vis en besked, når der modtages en onlinemeddelelse
+notify3 Vis en besked, når der modtages en e-mail
+notify giv besked
+notifyoffset Sæt possitionen på beskederne, ved at give den offsets
+notifywin Beskedvindue
+nousersinsession Ingen brugere i session
+offline Offline
+ok Ok
+onenewmail 1 ny besked i Indbakken
+online Online
+onphone I telefon
+openreceived Åben modtaget fil
+options Muligheder
+ordercontactsby Sorter kontakter efter
+ordergroupsby Sortér grupper efter
+other Andre
+pager Pager
+pass Password
+paste Sæt ind
+personal Personlig
+phone Telefon
+picfile Billedfil (GIF < 500 x 500)
+picstatus Billedalarm
+port Port
+prefalerts Mine handlingslyde og alarmer
+prefapps Programmer
+prefawaymsg Min "Ikke til stede" besked
+prefemotic Animationer og Humørikoner
+preferences Egenskaber
+preffont2 Ændre måden andre ser min tekst på i onlinemeddelelser
+preffont3 Ændre aMSN's skrifttyper og størrelser
+preffont Min beskedtekst
+preflog1 Min historie og logging indstillinger
+preflook Mit aMSN messenger udseende
+prefmsging Mit Messenger Interface
+prefname Mit MSN Messenger navn/nick
+prefphone2 Skriv de telefonnumre, som du vil have folk \n på din Godkend Liste til at kunne se \n
+prefphone Mine telefonnumre
+prefprofile2 Opret eller rette din offentlige profil \n (beskrivelsen af dig selv, som andre kan se)
+prefprofile3 aMSN's Bruger Konfiguration profiler
+prefprofile Min offentlige profil
+prefproxy Mine proxy-indstillinger
+prefsession Min log ind og status
+prefshared Delte Forbindelser (kun for NAT)
+prefsound Lyd
+profiledconfig Profilerede konfigurationer
+profiles Profiler
+properties Indstillinger
+proxyconfhttp HTTP proxy support konfiguration
+proxyconf Proxy konfiguration
+proxy Jeg befinder mig bag en Proxy Server (HTTP or SOCKS5)
+publishphones Vis mine telefonnumre
+receivedbytes Modtaget $1 ud af $2 bytes
+receivefile Modtag fil
+reconnecting Genforbinder til server
+reconnect Venter på at $1 genforbinder
+reject Afvis
+rememberpass Husk password
+reversed Omvendt
+rightback Er straks tilbage
+saveas Gem som
+savecontacts Gem kontakt liste
+save Gem
+savetofile Gem i fil
+says $1 siger
+sbcon Forbinder til Switch Board
+sendfile Send fil
+sendmail Send mail
+sendmsg Send besked
+send Send
+sentbytes Har sendt $1 ud af $2 bytes
+servergoingdown Afbrudt. Server lukker ned.
+server Server
+session Session
+sound2 Afspil lyde, når en kontaktperson logger på eller sender en meddelelse
+soundcommand Dette skal være afspilningskommandoen (eksempel: esdplay)
+soundfile Lydfil
+soundloop Gentag Lyd
+sound Lyd
+soundserver Lydserver
+soundstatus Lyd Alarm
+startoffline2 Log på som "Vis som offline"
+startoffline Start Offline
+status Status
+stopalarm Stop Alarm
+stylechat Samme udseende som chats
+stylehist aMSN's historie udseende
+stylelog Vælg formatet du vil have vist din historie i
+syntaxerror Syntaxfejl
+tabbed Faneblad vinduer
+textsize Tekststørrelse
+title Al's Messenger
+tools Værktøjer
+to Til
+unblock Fjern blokkering
+uoffline Offline
+uonline Online
+useralreadyonlist Brugeren er allerede på din kontakt liste
+user Bruger
+usernotonline Brugeren er ikke online
+version Version
+viewprofile Vis profil
+view Vis
+willjoin Venter på at $1 tilslutter sig til samtalen
+work Arbejde
+xoffset X Offset
+yoffset Y Offset
+yousay Du siger
+youwant Du vil have
