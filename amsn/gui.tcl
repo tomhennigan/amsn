@@ -3460,7 +3460,7 @@ proc ShowUser {user_name user_login state state_code colour section grId} {
 	 #set user_name [stringmap {"\n" "\n           "} $user_name]
 	 set user_lines [split $user_name "\n"]
 	 set last_element [expr {[llength $user_lines] -1 }]
-	 
+
 	 $pgBuddy.text insert $section.last " $state_desc \n" $user_unique_name
 	 for {set i $last_element} {$i >= 0} {set i [expr {$i-1}]} {
 	    if { $i != $last_element} {
@@ -3505,30 +3505,44 @@ proc ShowUser {user_name user_login state state_code colour section grId} {
 	}
 
 
+    $pgBuddy.text tag bind $user_unique_name <Enter> \
+	    "$pgBuddy.text tag conf $user_unique_name -under true; $pgBuddy.text conf -cursor hand2"
+
+    $pgBuddy.text tag bind $user_unique_name <Leave> \
+	    "$pgBuddy.text tag conf $user_unique_name -under false;	$pgBuddy.text conf -cursor left_ptr"
+
+    bind $pgBuddy.text.$imgname <Enter> \
+	    "$pgBuddy.text tag conf $user_unique_name -under true; $pgBuddy.text conf -cursor hand2"
+    bind $pgBuddy.text.$imgname <Leave> \
+	    "$pgBuddy.text tag conf $user_unique_name -under false;	$pgBuddy.text conf -cursor left_ptr"
+
+
     if { $config(tooltips) == 1 } {
-	
+
 	set balloon_message "$user_name \n $user_login \n [trans status] : [trans [lindex $state 1]] "
-	
+
 	$pgBuddy.text tag bind $user_unique_name <Enter> \
-	    "$pgBuddy.text tag conf $user_unique_name -under true; $pgBuddy.text conf -cursor hand2; \
-            set Bulle(set) 0;set Bulle(first) 1; set Bulle(id) \[after 1000 [list balloon %W [list $balloon_message)] %X %Y]\]"
-	
+	    "+set Bulle(set) 0;set Bulle(first) 1; set Bulle(id) \[after 1000 [list balloon %W [list $balloon_message)] %X %Y]\]"
+
 	$pgBuddy.text tag bind $user_unique_name <Leave> \
-	    "$pgBuddy.text tag conf $user_unique_name -under false; $pgBuddy.text conf -cursor left_ptr; \
-            set Bulle(first) 0; kill_balloon"
-	
+	    "+set Bulle(first) 0; kill_balloon"
+
 	$pgBuddy.text tag bind $user_unique_name <Motion> \
 	    "if {\[set Bulle(set)\] == 0} \{after cancel \[set Bulle(id)\]; \
             set Bulle(id) \[after 1000 [list balloon %W [list $balloon_message] %X %Y]\]\} "
 
-    } else {
-    	$pgBuddy.text tag bind $user_unique_name <Enter> \
-	    "$pgBuddy.text tag conf $user_unique_name -under true; $pgBuddy.text conf -cursor hand2"
-	
-	$pgBuddy.text tag bind $user_unique_name <Leave> \
-	    "$pgBuddy.text tag conf $user_unique_name -under false;	$pgBuddy.text conf -cursor left_ptr"
-    }
-    
+	bind $pgBuddy.text.$imgname <Enter> \
+	    "+set Bulle(set) 0;set Bulle(first) 1; set Bulle(id) \[after 1000 [list balloon %W [list $balloon_message)] %X %Y]\]"
+
+	bind $pgBuddy.text.$imgname <Leave> \
+	    "+set Bulle(first) 0; kill_balloon"
+
+	bind $pgBuddy.text.$imgname <Motion> \
+	    "if {\[set Bulle(set)\] == 0} \{after cancel \[set Bulle(id)\]; \
+            set Bulle(id) \[after 1000 [list balloon %W [list $balloon_message] %X %Y]\]\} "
+
+    } 
+
 
          $pgBuddy.text tag bind $user_unique_name <Button3-ButtonRelease> "show_umenu $user_login $grId %X %Y"
           bind $pgBuddy.text.$imgname <Button3-ButtonRelease> "show_umenu $user_login $grId %X %Y"
