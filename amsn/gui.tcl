@@ -1873,6 +1873,7 @@ namespace eval ::amsn {
 
 
 		bind $bottom.in.input <Tab> "focus $bottom.in.f.send; break"
+		
 
 		bind  $bottom.buttons.smileys  <Button1-ButtonRelease> "smile_menu %X %Y $bottom.in.input"
 		bind  $bottom.buttons.fontsel  <Button1-ButtonRelease> "change_myfont ${win_name}"
@@ -1886,21 +1887,24 @@ namespace eval ::amsn {
 		bind $bottom.in.input <Shift-Return> {%W insert insert "\n"; %W see insert; break}
 		bind $bottom.in.input <Control-KP_Enter> {%W insert insert "\n"; %W see insert; break}
 		bind $bottom.in.input <Shift-KP_Enter> {%W insert insert "\n"; %W see insert; break}
-		#Change shorcuts on Mac OS X and ALT=Option on Mac
-		if {$tcl_platform(os) == "Darwin"} {
+		#Change shorcuts on TKAqua(Mac OS X), ALT=Option Control=Command on Mac
+		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 			bind $bottom.in.input <Command-Return> {%W insert insert "\n"; %W see insert; break}
 			bind $bottom.in.input <Command-Option-space> BossMode
+			bind $bottom.in.input <Command-a> {%W tag add sel 1.0 {end - 1 chars};break}
 		} else {
 			bind $bottom.in.input <Control-Return> {%W insert insert "\n"; %W see insert; break}
 			bind $bottom.in.input <Control-Alt-space> BossMode
+			bind $bottom.in.input <Control-a> {%W tag add sel 1.0 {end - 1 chars};break}
 		}
 
 		bind $bottom.in.input <<Button3>> "tk_popup .${win_name}.copypaste %X %Y"
 		bind $bottom.in.input <<Button2>> "paste .${win_name} 1"
 		bind .${win_name}.f.out.text <<Button3>> "tk_popup .${win_name}.copy %X %Y"
 		
+		
 		#Do not bind copy command on button 1 on Mac OS X 
-		if {$tcl_platform(os) != "Darwin"} {
+		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 			bind .${win_name}.f.out.text <Button1-ButtonRelease> "copy 0 .${win_name}"
 		} 
 		
