@@ -1,22 +1,21 @@
 amsn_lang_version 2
-about A Propos...
+about À Propos...
 acceptfile Accepter le fichier $1 (taille = $2)? enregistré dans $3
 actions Actions
 addacontact Ajouter un contact
 addedyou vous a ajouté dans sa liste de contacts
-addtocontacts Ajouter au contacts
+addtocontacts Ajouter aux contacts
 addtoo Ajouter cette personne à ma liste de contacts
-admincontacts Gérer le contacts
+admincontacts Gérer les contacts
 admingroups Gérer les groupes
-adverts Publicité ;)
-allowseen Autoriser cette personne à me voir et à me contacter quand je 
+adverts Publicité
+allowseen Autoriser cette personne à me voir et à me contacter quand je
 suis connecté
 appearoff Apparaître déconnecté
 aretyping $1 est en train de taper un message
 autohotmaillog Identification automatique à Hotmail
 autoip IP automatique
-avoidseen Interdire à cette personne de me voir ou de me contacter quand 
-je suis en ligne
+avoidseen Interdire à cette personne de me voir ou de me contacter quand je suis en ligne
 away Absent
 baduserpass Mauvais nom d'utilisateur ou mot de passe
 blankdirect Laisser vide pour une connexion sans proxy
@@ -101,6 +100,7 @@ movetogroup Deplacer vers groupe
 msg Message
 msn AMSN
 mustrestart Vous devez redémarrer l'application pour que les changements 
+
 prennent effet
 mystatus Mon état
 needonline Vous êtes toujours déconnecté!
@@ -117,7 +117,7 @@ notify prévenir
 nousersinsession Pas d'utilisateurs dans cette session
 offline Déconnecté
 ok Accepter
-onenewmail $1 nouveau message
+onenewmail 1 nouveau message
 online Connecté
 onphone Au téléphone
 openreceived Ouvrir les fichiers reçus
@@ -153,7 +153,7 @@ sendmsg Envoyer un message
 sentbytes $1 de $2 octets reçus
 server Serveur
 servergoingdown Serveur en cours d'arrêt
-sound Evénements Sonores
+sound Événements Sonores
 startoffline Démarrer déconnecté
 status Statut
 syntaxerror Erreur de syntaxe
