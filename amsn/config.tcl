@@ -87,7 +87,7 @@ proc ConfigDefaults {} {
         set config(remotepassword) ""
         set config(enableremote) 0
 	set config(animatenotify) 1
-        set config(checkonfln) 1
+        set config(checkonfln) 0
         set config(checkblocking) 0
         set config(blockinter1) 60
         set config(blockinter2) 300
