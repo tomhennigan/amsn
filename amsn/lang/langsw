@@ -49,11 +49,13 @@ newmsg Nytt medelande
 newveravailable Ny version $1 finns att ladda ner
 next Nästa
 noactivity Ingen aktivitet
+nonewmail 0 nytt medelanden i In-Box
 nonewver Det finns inga nya versioner att ladda ner
 notify anmärk
 nousersinsession Inga användare i konversationen
 ok Ok
 offline Offline
+onenewmail 1 nytt medelanden i In-Box
 online Online
 onphone Pratar i telefonen
 other Annat

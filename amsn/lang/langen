@@ -99,11 +99,13 @@ newmsg New message
 newveravailable Newer version $1 available for download
 next Next
 noactivity No activity
+nonewmail No new messages in In-Box
 nonewver There are no new versions available to download
 notify notify
 nousersinsession No users in session
 ok Ok
 offline Offline
+onenewmail 1 new message in In-Box
 online Online
 onphone On phone
 openreceived Open received files

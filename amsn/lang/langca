@@ -78,11 +78,13 @@ newmsg Nou missatge
 newveravailable Nova versió $1 està disponible per a baixar-se
 next Següent
 noactivity Sense activitat
+nonewmail No missatges nous a la bustia
 nonewver No hi ha cap nova versió per a baixar-se
 notify notificar
 nousersinsession No hi ha usuaris a la sessió
 ok Bé
 offline Desconectat
+onenewmail 1 missatge nou a la bustia
 online Conectat
 onphone Al telèfon
 openreceived Obrir arxius rebuts

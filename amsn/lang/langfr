@@ -83,16 +83,18 @@ mustrestart Vous devez redémarrer l'application pour que les changements prennen
 mystatus Mon état
 needonline Vous êtes toujours déconnecté!
 neweravailable nouvelle version disponible ($1)
-newmail $1 nouveau[x] message[s]
+newmail $1 nouveaux messages
 newmailfrom Nouveau message de
 newmsg Nouveau message
 next Suivant
 noactivity Inactif
+nonewmail 0 nouveau[x] message[s]
 nonewver Il n'y a pas de nouvelle version disponible
 notify prévenir
 nousersinsession Pas d'utilisateurs dans cette session
 offline Déconnecté
 ok Accepter
+onenewmail $1 nouveau message
 online Connecté
 onphone Au téléphone
 openreceived Ouvrir les fichiers reçus

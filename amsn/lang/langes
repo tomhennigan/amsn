@@ -100,11 +100,13 @@ newmsg Nuevo mensaje
 newveravailable Nueva versión $1 disponible para descarga
 next Siguiente
 noactivity Sin actividad
+nonewmail No hay mensajes nuevos en bandeja de entrada
 nonewver No hay versiones más actuales disponibles
 notify aviso
 nousersinsession No hay usuarios en la sesión
 offline Desconectado
 ok Aceptar
+onenewmail 1 mensaje nuevos en bandeja de entrada
 online Conectado
 onphone Al teléfono
 openreceived Abrir archivos recibidos

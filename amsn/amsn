@@ -798,7 +798,14 @@ proc cmsn_draw_online {} {
    # Show Mail Notification status 
    clickableImage $pgBuddy.text mailbox mailbox {hotmail_login $config(login) $password} 5 0
 
-   $pgBuddy.text insert end "[trans newmail $unread]\n" mail
+   if {$unread == 0} {
+      $pgBuddy.text insert end "[trans nonewmail]\n" mail
+   } elseif {$unread == 1} {
+      $pgBuddy.text insert end "[trans onenewmail]\n" mail
+   } else {
+      $pgBuddy.text insert end "[trans newmail $unread]\n" mail
+   }
+
 #end AIM
 
    $pgBuddy.text insert end "\n"

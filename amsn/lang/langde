@@ -95,11 +95,13 @@ newmsg Neue Nachricht
 newveravailable Neuere Version $1 steht zur Verfügung
 next Weiter
 noactivity inaktiv
+nonewmail 0 neue Nachrichten im Posteingang
 nonewver Zurzeit keine neue Version verfügbar
 notify Benachrichtigen
 nousersinsession Keine Benutzer in Sitzung
 ok OK
 offline Offline
+onenewmail 1 neue Nachrichten im Posteingang
 online Online
 onphone Am Telefon
 openreceived Empfangene Datei(en) aufrufen

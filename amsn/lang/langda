@@ -89,11 +89,13 @@ newmsg Nye besked
 newveravailable Ny verson $1 tilgængelig
 next Næste
 noactivity Ingen aktivitet
+nonewmail 0 nye beskeder i In-Box
 nonewver Der er ikke nogen ny version at downloade
 notify giv besked
 nousersinsession Ingen brugere i session
 ok Ok
 offline Offline
+onenewmail 1 nye beskeder i In-Box
 online Online
 onphone I telefon
 openreceived Åben modtaget fil

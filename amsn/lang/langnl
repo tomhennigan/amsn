@@ -89,11 +89,13 @@ newmsg Nieuw bericht
 newveravailable Nieuwere versie $1 beschikbaar
 next Volgende
 noactivity Geen activiteit
+nonewmail 0 nieuw bericht in In-Box
 nonewver Er zijn geen nieuwere versies beschikbaar
 notify Licht in
 nousersinsession Geen gebruiker in sessie
 ok Ok
 offline Offline
+onenewmail 1 nieuw bericht in In-Box
 online Online
 onphone Aan het telefoneren
 openreceived Open ontvangen bestanden

@@ -45,10 +45,12 @@ newmailfrom Yeni mail yollayan
 newmsg Yeni mesaj
 next Ileri
 noactivity Aktivite yok
+nonewmail Gelen Kutusunda 0 mesaj var 
 notify uyar
 nousersinsession Ortamda kullanici yok
 ok Tamam
 offline Cevirim disi
+onenewmail Gelen Kutusunda 1 mesaj var 
 online Cevirim ici
 onphone Telefonda
 other Diger

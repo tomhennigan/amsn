@@ -45,10 +45,12 @@ newmailfrom Novo correio de
 newmsg Nova mensagem
 next Seguinte
 noactivity Sem actividade
+nonewmail 0 novas mensagens na caixa de correio
 notify aviso
 nousersinsession Não existem utilizadores na sessão
 ok Aceitar
 offline Desligado
+onenewmail 1 nova mensagen na caixa de correio
 online Ligado
 onphone Ao telefone
 other Outro

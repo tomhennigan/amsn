@@ -45,10 +45,12 @@ newmailfrom Nuova email da
 newmsg Nuovo messaggio
 next Prossimo
 noactivity Nessuna attivita'
+nonewmail 0 nuove e-mail nella mailbox
 notify notifica
 nousersinsession Nessun utente nella sessione
 ok Ok
 offline Offline
+onenewmail 1 nuove e-mail nella mailbox
 online Online
 onphone Al telefono
 other Altri

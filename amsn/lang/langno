@@ -49,11 +49,13 @@ newmsg Ny melding
 newveravailable Nyere versjon $1 tilgjengelig for nedlasting
 next Neste
 noactivity Ingen aktivitet
+nonewmail 0 nye meldinger i innboksen
 nonewver Det er ingen nye versjoner klare til nedlasting
 notify gi beskjed
 nousersinsession Ingen brukere i sesjonen
 ok OK
 offline Offline
+nonewmail 1 nye meldinger i innboksen
 online Online
 onphone I telefonen
 other Abdre
