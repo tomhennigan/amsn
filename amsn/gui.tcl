@@ -5784,7 +5784,7 @@ proc launch_browser { url {local 0}} {
 	if { $tcl_platform(platform) == "windows" } {
 
 		#regsub -all -nocase {htm} $url {ht%6D} url
-		regsub -all -nocase {&} $url {^&} url
+		#regsub -all -nocase {&} $url {^&} url
 		catch { exec rundll32 url.dll,FileProtocolHandler $url & } res
 
 	} else {
