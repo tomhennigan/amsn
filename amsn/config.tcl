@@ -398,7 +398,7 @@ proc LoginList { action age {email ""} {lock ""} } {
 			if { $idx == -1 } {
 				return -1
 			} else {
-			    return $LockList([lindex $tmp_list [expr $idx-1]])
+			    	return $LockList([lindex $tmp_list [expr {$idx-1}]])
 			}
 		}
 
@@ -409,7 +409,7 @@ proc LoginList { action age {email ""} {lock ""} } {
 				status_log "changelock called on unexisting email : $email, shouldn't happen!\n" red
 				return -1
 			} else {
-			    set LockList([lindex $tmp_list [expr $idx-1]]) $lock
+			    	set LockList([lindex $tmp_list [expr {$idx-1}]]) $lock
 			}
 		}
 
