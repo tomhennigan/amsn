@@ -1310,7 +1310,7 @@ proc Preferences { { settings "personal"} } {
     pack .cfg.notebook -side bottom -fill both -expand true -padx 5 -pady 5
     
     
-    InitPref
+    InitPref 1
     UpdatePreferences
 
     #wm geometry .cfg [expr [Rnotebook:totalwidth $nb] + 50]x595
@@ -1438,63 +1438,74 @@ proc check_int {text} {
 }
 
 # This is where we fill in the Entries of the Preferences
-proc InitPref {} {
+proc InitPref { {fullinit 0} } {
 	global Preftabs proxy_user proxy_pass
 	set nb .cfg.notebook
 
-        set proxy_user [::config::getKey proxyuser]
-        set proxy_pass [::config::getKey proxypass]
-
-	# Insert nickname if online, disable if offline
-	#set lfname [Rnotebook:frame $nb $Preftabs(personal)]
-	set lfname [$nb.nn getframe personal]
-	set lfname [$lfname.sw.sf getframe]
-	if { [::MSN::myStatusIs] == "FLN" } {
-		$lfname.lfname.f.f.1.name.entry configure -state disabled
-	} else {
-		$lfname.lfname.f.f.1.name.entry configure -state normal
-		$lfname.lfname.f.f.1.name.entry delete 0 end
-		$lfname.lfname.f.f.1.name.entry insert 0 [::abook::getPersonal nick]
-	}
-
-	$lfname.lfname.f.f.1.p4c.entry delete 0 end
-	$lfname.lfname.f.f.1.p4c.entry insert 0 [::config::getKey p4c_name]
-
-	# Get My Phone numbers and insert them
-	set lfname "$lfname.lfname4.f.f"
-	if { [::MSN::myStatusIs] == "FLN" } {
-		$lfname.2.ephone1 configure -state disabled
-		$lfname.2.ephone31 configure -state disabled
-		$lfname.2.ephone32 configure -state disabled
-		$lfname.2.ephone41 configure -state disabled
-		$lfname.2.ephone42 configure -state disabled
-		$lfname.2.ephone51 configure -state disabled
-		$lfname.2.ephone52 configure -state disabled
-	} else {
-		$lfname.2.ephone1 configure -state normal
-		$lfname.2.ephone31 configure -state normal
-		$lfname.2.ephone32 configure -state normal
-		$lfname.2.ephone41 configure -state normal
-		$lfname.2.ephone42 configure -state normal
-		$lfname.2.ephone51 configure -state normal
-		$lfname.2.ephone52 configure -state normal
-		$lfname.2.ephone1 delete 0 end
-		$lfname.2.ephone31 delete 0 end
-		$lfname.2.ephone32 delete 0 end
-		$lfname.2.ephone41 delete 0 end
-		$lfname.2.ephone42 delete 0 end
-		$lfname.2.ephone51 delete 0 end
-		$lfname.2.ephone52 delete 0 end
+	if { $fullinit } {
+		set proxy_user [::config::getKey proxyuser]
+		set proxy_pass [::config::getKey proxypass]
+	
+		# Insert nickname if online, disable if offline
+		#set lfname [Rnotebook:frame $nb $Preftabs(personal)]
+		set lfname [$nb.nn getframe personal]
+		set lfname [$lfname.sw.sf getframe]
+		if { [::MSN::myStatusIs] == "FLN" } {
+			$lfname.lfname.f.f.1.name.entry configure -state disabled
+		} else {
+			$lfname.lfname.f.f.1.name.entry configure -state normal
+			$lfname.lfname.f.f.1.name.entry delete 0 end
+			$lfname.lfname.f.f.1.name.entry insert 0 [::abook::getPersonal nick]
+		}
+	
+		$lfname.lfname.f.f.1.p4c.entry delete 0 end
+		$lfname.lfname.f.f.1.p4c.entry insert 0 [::config::getKey p4c_name]
+	
 		
-		$lfname.2.ephone1 insert 0 [lindex [split [::abook::getPersonal PHH] " "] 0]
-		$lfname.2.ephone31 insert 0 [lindex [split [::abook::getPersonal PHH] " "] 1]
-		$lfname.2.ephone32 insert 0 [join [lrange [split [::abook::getPersonal PHH] " "] 2 end]]
-		$lfname.2.ephone41 insert 0 [lindex [split [::abook::getPersonal PHW] " "] 1]
-		$lfname.2.ephone42 insert 0 [join [lrange [split [::abook::getPersonal PHW] " "] 2 end]]
-		$lfname.2.ephone51 insert 0 [lindex [split [::abook::getPersonal PHM] " "] 1]
-		$lfname.2.ephone52 insert 0 [join [lrange [split [::abook::getPersonal PHM] " "] 2 end]]
+		# Get My Phone numbers and insert them
+		set lfname "$lfname.lfname4.f.f"
+		if { [::MSN::myStatusIs] == "FLN" } {
+			$lfname.2.ephone1 configure -state disabled
+			$lfname.2.ephone31 configure -state disabled
+			$lfname.2.ephone32 configure -state disabled
+			$lfname.2.ephone41 configure -state disabled
+			$lfname.2.ephone42 configure -state disabled
+			$lfname.2.ephone51 configure -state disabled
+			$lfname.2.ephone52 configure -state disabled
+		} else {
+			$lfname.2.ephone1 configure -state normal
+			$lfname.2.ephone31 configure -state normal
+			$lfname.2.ephone32 configure -state normal
+			$lfname.2.ephone41 configure -state normal
+			$lfname.2.ephone42 configure -state normal
+			$lfname.2.ephone51 configure -state normal
+			$lfname.2.ephone52 configure -state normal
+			$lfname.2.ephone1 delete 0 end
+			$lfname.2.ephone31 delete 0 end
+			$lfname.2.ephone32 delete 0 end
+			$lfname.2.ephone41 delete 0 end
+			$lfname.2.ephone42 delete 0 end
+			$lfname.2.ephone51 delete 0 end
+			$lfname.2.ephone52 delete 0 end
+			
+			$lfname.2.ephone1 insert 0 [lindex [split [::abook::getPersonal PHH] " "] 0]
+			$lfname.2.ephone31 insert 0 [lindex [split [::abook::getPersonal PHH] " "] 1]
+			$lfname.2.ephone32 insert 0 [join [lrange [split [::abook::getPersonal PHH] " "] 2 end]]
+			$lfname.2.ephone41 insert 0 [lindex [split [::abook::getPersonal PHW] " "] 1]
+			$lfname.2.ephone42 insert 0 [join [lrange [split [::abook::getPersonal PHW] " "] 2 end]]
+			$lfname.2.ephone51 insert 0 [lindex [split [::abook::getPersonal PHM] " "] 1]
+			$lfname.2.ephone52 insert 0 [join [lrange [split [::abook::getPersonal PHM] " "] 2 end]]
+		}
+		
+		# Init remote preferences
+		#set lfname [Rnotebook:frame $nb $Preftabs(connection)]
+		set lfname [$nb.nn getframe connection]	
+		set lfname [$lfname.sw.sf getframe]
+		$lfname.lfname3.f.f.2.pass delete 0 end
+		$lfname.lfname3.f.f.2.pass insert 0 "[::config::getKey remotepassword]"
+		
 	}
-
+		
 	# Lets fill our profile combobox
 	#set lfname [Rnotebook:frame $nb $Preftabs(others)]
 	set lfname [$nb.nn getframe others]
@@ -1533,14 +1544,6 @@ proc InitPref {} {
         #set lfname [Rnotebook:frame $nb $Preftabs(privacy)]
 	set lfname [$nb.nn getframe privacy]
         Fill_users_list "$lfname.lfname.f.f" "$lfname.lfname2.f.f"
-
-
-        # Init remote preferences
-        #set lfname [Rnotebook:frame $nb $Preftabs(connection)]
-	set lfname [$nb.nn getframe connection]	
-	set lfname [$lfname.sw.sf getframe]
-        $lfname.lfname3.f.f.2.pass delete 0 end
-        $lfname.lfname3.f.f.2.pass insert 0 "[::config::getKey remotepassword]"
 
 }
 
