@@ -227,7 +227,7 @@ namespace eval ::config {
 			[list local p4contextprefix str p4contextprefix] \
 			[list title others] \
 			[list local allowbadwords bool allowbadwords] \
-			[list local receiveddir folder receiveddir] \
+			[list local libtls_temp folder TLS tlsexplain] \
 			[list local notifytyping bool notifytyping] \
 			[list local clientcaps bool clientcaps] \
 			[list local lineflushlog bool lineflushlog] \
@@ -240,7 +240,7 @@ namespace eval ::config {
 		::config::setKey animatenotify 1		;#Animate notify window
 		::config::setKey disableuserfonts 0	;#Disable custom fonts for other users (use always yours).
 		::config::setKey autoconnect 0			;#Automatically connect when amsn starts
-		::config::setKey receiveddir ""			;#Directory where received files are stored
+		::config::setKey libtls_temp ""			;#TLS
 		::config::setKey lineflushlog 1			;#Flush log files after each line
 		::config::setKey autocheckver 1			;#Automatically check for newer versions on startup
 		::config::setKey truncatenames 1		;#Truncate nicknames longer than window width in windows' title

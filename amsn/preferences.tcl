@@ -350,10 +350,10 @@ proc dlgDelUser { lfcontact } {
 }
 
 proc Preferences { { settings "personal"} } {
-    global myconfig proxy_server proxy_port temp_BLP list_BLP Preftabs libtls_temp libtls proxy_user proxy_pass rbsel rbcon
+    global myconfig proxy_server proxy_port temp_BLP list_BLP Preftabs libtls proxy_user proxy_pass rbsel rbcon
 
     set temp_BLP $list_BLP
-    set libtls_temp $libtls
+    ::config::setKey libtls_temp $libtls
 
     if {[ winfo exists .cfg ]} {
     	raise .cfg
@@ -1055,6 +1055,23 @@ proc Preferences { { settings "personal"} } {
 	}
 	
 
+	## File transfert directory frame ##
+	set lfname [LabelFrame:create $frm.lfname4 -text [trans receiveddir]]
+	pack $frm.lfname4 -anchor n -side top -expand 1 -fill x
+	label $lfname.pshared -image [::skin::loadPixmap prefapps]
+	pack $lfname.pshared -side left -anchor nw
+
+	frame $lfname.1 -class Degt
+	pack $lfname.1 -anchor w -side left -padx 0 -pady 5 -fill none
+	label $lfname.1.receivedpath -text [trans receiveddir] -padx 5 -font sboldf
+	entry $lfname.1.receiveddir -bg #FFFFFF -bd 1 -width 45 -highlightthickness 0 -textvariable [::config::getVar receiveddir]
+	button $lfname.1.browse -text [trans browse] -command "Browse_Dialog_file [::config::getVar receiveddir]"
+
+	grid $lfname.1.receivedpath -row 1 -column 1 -sticky w
+	grid $lfname.1.receiveddir -row 1 -column 2 -sticky w
+	grid $lfname.1.browse -row 1 -column 3 -sticky w
+
+
 	## Library directories frame ##
 	set lfname [LabelFrame:create $frm.lfname2 -text [trans preflibs]]
 	pack $frm.lfname2 -anchor n -side top -expand 1 -fill x
@@ -1063,22 +1080,11 @@ proc Preferences { { settings "personal"} } {
 
 	frame $lfname.1 -class Degt
 	pack $lfname.1 -anchor w -side left -padx 0 -pady 5 -fill none
-	label $lfname.1.llibtls -text "TLS" -padx 5 -font sboldf
-	entry $lfname.1.libtls -bg #FFFFFF -bd 1 -width 45 -highlightthickness 0 -textvariable libtls_temp
-	label $lfname.1.llibtlsexp -text [trans tlsexplain] -justify left -font examplef
-	button $lfname.1.browsetls -text [trans browse] -command "Browse_Dialog_dir libtls_temp"
-
 	label $lfname.1.lconvertpath -text "CONVERT" -padx 5 -font sboldf
 	entry $lfname.1.convertpath -bg #FFFFFF -bd 1 -width 45 -highlightthickness 0 -textvariable [::config::getVar convertpath]
 	label $lfname.1.lconvertpathexp -text [trans convertexplain] -justify left -font examplef
 	button $lfname.1.browseconv -text [trans browse] -command "Browse_Dialog_file [::config::getVar convertpath]"
 
-
-
-	grid $lfname.1.llibtls -row 1 -column 1 -sticky w
-	grid $lfname.1.libtls  -row 1 -column 2 -sticky w
-	grid $lfname.1.browsetls  -row 1 -column 3 -padx 5 -sticky w
-	grid $lfname.1.llibtlsexp  -row 2 -column 2 -columnspan 3 -sticky w
 	grid $lfname.1.lconvertpath -row 3 -column 1 -sticky w
 	grid $lfname.1.convertpath  -row 3 -column 2 -sticky w
 	grid $lfname.1.browseconv  -row 3 -column 3 -padx 5 -sticky w
@@ -1289,7 +1295,7 @@ proc Preferences { { settings "personal"} } {
 
     # Frame for common buttons (all preferences)
     frame .cfg.buttons -class Degt
-    button .cfg.buttons.save -text [trans save] -font sboldf -command "SavePreferences; destroy .cfg"
+    button .cfg.buttons.save -text [trans save] -default active -font sboldf -command "SavePreferences; destroy .cfg"
     button .cfg.buttons.cancel -text [trans close] -font sboldf -command "destroy .cfg"
     bind .cfg <<Escape>> "destroy .cfg"
     pack .cfg.buttons.save .cfg.buttons.cancel -side right -padx 10 -pady 5
@@ -1665,7 +1671,7 @@ proc setCfgFonts {path value} {
 
 
 proc SavePreferences {} {
-	global myconfig proxy_server proxy_port list_BLP temp_BLP Preftabs libtls libtls_temp proxy_user proxy_pass
+	global myconfig proxy_server proxy_port list_BLP temp_BLP Preftabs libtls proxy_user proxy_pass
 
 	set nb .cfg.notebook
 	
@@ -1793,8 +1799,8 @@ proc SavePreferences {} {
 
 
 	# Save tls package configuration
-	if { $libtls_temp != $libtls } {
-		set libtls $libtls_temp
+	if { [::config::getKey libtls_temp] != $libtls } {
+		set libtls [::config::getKey libtls_temp]
 		global auto_path HOME2 tlsinstalled
 		if { $libtls != "" && [lsearch $auto_path $libtls] == -1 } {
 			lappend auto_path $libtls
@@ -2034,7 +2040,6 @@ proc BlockValidateEntry { widget data type {correct 0} } {
 #proc Browse_Dialog {}
 #Browse dialog function (used in TLS directory and convert file), first show the dialog (choose folder or choose file), after check if user choosed something, if yes, set the new variable
 proc Browse_Dialog_dir {configitem {initialdir ""}} {
-	global libtls_temp
 	
 	if { $initialdir == "" } {
 		set initialdir [set $configitem]
@@ -2051,7 +2056,7 @@ proc Browse_Dialog_dir {configitem {initialdir ""}} {
 }
 
 proc Browse_Dialog_file {configitem {initialfile ""}} {
-	global libtls_temp
+
 	if { $initialfile == "" } {
 		set initialfile [set $configitem]
 	}
