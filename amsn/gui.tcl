@@ -4625,7 +4625,8 @@ proc cmsn_draw_online_wrapped {} {
 		pack forget .main.eventmenu
 	}
 
-
+	set evpar(text) $pgBuddy.text
+	::plugins::PostEvent ContactListDrawn evpar
 }
 #///////////////////////////////////////////////////////////////////////
 
