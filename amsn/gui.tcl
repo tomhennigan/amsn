@@ -4136,7 +4136,6 @@ proc cmsn_draw_online { {delay 0} } {
 	$pgBuddy.text insert end "$short_mailmsg\n" mail
 	$pgBuddy.text tag add dont_replace_smileys mail.first mail.last
 
-	$pgBuddy.text insert end "\n"
 	# For each named group setup its heading where >><< image
 	# appears together with the group name and total nr. of handles
 	# [<<] My Group Name (n)
