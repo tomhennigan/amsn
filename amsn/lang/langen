@@ -122,7 +122,7 @@ ftgotinvitation $1 wants to send you the file '$2' ($3 bytes). It will be saved 
 ftportpref Use this port and succesives for filetransfers
 ftrejectedby $1 rejected file transfer invitation for file '$2'.
 ftrejected File transfer rejected
-ftsendinvitation File transfer invitation for file '$2' ($3 bytes) was be sent to $1.
+ftsendinvitation File transfer invitation for file '$2' ($3 bytes) has been sent to $1.
 gonelunch Gone to lunch
 groupadd Add a group
 groupdelete Delete a group
