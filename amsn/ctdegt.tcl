@@ -246,8 +246,8 @@ proc PreferencesMenu {m} {
     bind . <Control-p> { Preferences sound }
 
     $m add command -label [trans personal] -command "Preferences personal"
-    $m add command -label [trans general] -command "Preferences appearance"
-    $m add command -label [trans options] -command "Preferences session"
+    $m add command -label [trans appearance] -command "Preferences appearance"
+    $m add command -label [trans session] -command "Preferences session"
     $m add command -label [trans loging] -command "Preferences loging"
     $m add command -label [trans connection] -command "Preferences connection"
     $m add command -label [trans prefapps] -command "Preferences apps"
@@ -528,7 +528,7 @@ proc Preferences { settings } {
 	pack $lfname.plog1 -anchor nw -side left
 	frame $lfname.1 -class Degt
 	label $lfname.1.lclear -text "[trans clearlog2]" -padx 10
-	button $lfname.1.bclear -text [trans clearlog3] -font sboldf -command "::log::ClearAll" -state disabled
+	button $lfname.1.bclear -text [trans clearlog3] -font sboldf -command "::log::ClearAllLogs"
 	pack $lfname.1.lclear -side left	
 	pack $lfname.1.bclear -side right -padx 15
 	pack $lfname.1 -anchor w -side top -expand 1 -fill x
@@ -656,12 +656,12 @@ proc Preferences { settings } {
 	label $lfname.ldelprofile -text "[trans delprofile2]" -padx 5
 	frame $lfname.1 -class Degt
 	combobox::combobox $lfname.1.profile -editable true -highlightthickness 0 -width 25 -bg #FFFFFF -font splainf 
-	button $lfname.1.bdel -text [trans delprofile] -font sboldf -command "status_log \"[$lfname.1.profile get]\"; DeleteProfile [${lfname}.1.profile get]"
+	button $lfname.1.bdel -text [trans delprofile] -font sboldf -command "DeleteProfile \[${lfname}.1.profile get\] $lfname.1.profile"
 	pack $lfname.ldelprofile -anchor w -side top
 	pack $lfname.1.profile -anchor w -side left -padx 10
 	pack $lfname.1.bdel -anchor e -side left -padx 15
 	pack $lfname.1 -anchor w -side top -expand 1 -fill x
-		
+	
     setCfgFonts $nb splainf
 
     Rnotebook:totalwidth $nb
@@ -971,6 +971,12 @@ proc LabelFrame:create {w args} {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.29  2003/01/26 03:02:31  burgerman
+# +Preferences finished, Delete all Logs and Delete profile working.
+# +Made new profiles use DEFAULT profile initially
+# +Still problem on language changes, dosent notify you on create or use default profile, will be fixed after main window redraw is done and working.
+# +duno what else i did cant remember...
+#
 # Revision 1.28  2003/01/25 05:36:22  burgerman
 # Prefs nearly done, gotta work on clear all logs and delete profile
 # updated TODO

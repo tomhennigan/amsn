@@ -20,9 +20,6 @@ namespace eval ::log {
 proc StartLog { email } {
 
 	global log_dir config
-#       set dirname [split $config(login) "@ ."]
-#        set dirname [join $dirname "_"]
-#        file mkdir [file join ${log_dir} ${dirname}]
 
 	# if we got no profile, set fileid to 0
 	if { [LoginList exists 0 $config(login)] == 0 } {
@@ -480,12 +477,26 @@ proc ParseToFile { logvar filepath } {
 
 proc ClearLog { email } {
 	
-	global config log_dir
+	global log_dir
 	
 	catch { file delete [file join ${log_dir} ${email}.log] }
 
 	OpenLogWin $email
 }
-	
 
-}	
+
+#///////////////////////////////////////////////////////////////////////////////
+# ClearAllLogs ()
+# Deletes the all the log files
+#
+
+proc ClearAllLogs {} {
+	
+	global log_dir
+
+	catch { file delete -force ${log_dir} }
+	create_dir $log_dir
+
+}
+
+}

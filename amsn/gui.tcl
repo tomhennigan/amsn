@@ -1618,8 +1618,8 @@ proc cmsn_draw_main {} {
    .my_menu add command -label "[trans changenick]..." -command cmsn_change_name
 
    #Preferences dialog/menu
-   #menu .pref_menu -tearoff 0 -type normal
-#	PreferencesMenu .pref_menu
+   menu .pref_menu -tearoff 0 -type normal
+   PreferencesMenu .pref_menu
 
    menu .user_menu -tearoff 0 -type normal
    menu .move_group_menu -tearoff 0 -type normal
@@ -1726,14 +1726,14 @@ proc cmsn_draw_main {} {
    menu .options -tearoff 0 -type normal
    .options add command -label "[trans changenick]..." -state disabled \
       -command cmsn_change_name -state disabled
-   .options add command -label "[trans publishphones]..." -state disabled \
+#   .options add command -label "[trans publishphones]..." -state disabled \
       -command "::abookGui::showEntry $config(login) -edit"
    .options add separator
-#   .options add cascade -label "[trans preferences]..." -menu .pref_menu
-   .options add command -label "[trans language]..." -command "show_languagechoose"
-   .options add command -label "[trans encoding]..." -command "show_encodingchoose"
-   .options add command -label "[trans choosebasefont]..." -command "choose_basefont"
-   .options add command -label "[trans choosebgcolor]..." -command "choose_theme"
+   .options add cascade -label "[trans preferences]..." -menu .pref_menu
+#   .options add command -label "[trans language]..." -command "show_languagechoose"
+#   .options add command -label "[trans encoding]..." -command "show_encodingchoose"
+#   .options add command -label "[trans choosebasefont]..." -command "choose_basefont"
+#   .options add command -label "[trans choosebgcolor]..." -command "choose_theme"
  
    .options add cascade -label "[trans docking]" -menu .dock_menu
    menu .dock_menu -tearoff 0 -type normal
@@ -1746,16 +1746,16 @@ proc cmsn_draw_main {} {
    set config(adverts) 0
    #.options add checkbutton -label "[trans adverts]" -onvalue 1 -offvalue 0 -variable config(adverts) \
    #-command "msg_box \"[trans mustrestart]\""
-   .options add checkbutton -label "[trans autohotmaillog]" -onvalue 1 -offvalue 0 -variable config(autohotlogin)
-   .options add checkbutton -label "[trans autoidle]" -onvalue 1 -offvalue 0 -variable config(autoidle)
-   .options add checkbutton -label "[trans notifywin]" -onvalue 1 -offvalue 0 -variable config(notifywin)
-   .options add checkbutton -label "[trans startoffline]" -onvalue 1 -offvalue 0 -variable config(startoffline) 
-   .options add checkbutton -label "[trans autoconnect]" -onvalue 1 -offvalue 0 -variable config(autoconnect) 
-   .options add checkbutton -label "[trans chatsmileys]" -onvalue 1 -offvalue 0 -variable config(chatsmileys)
-   .options add checkbutton -label "[trans listsmileys]" -onvalue 1 -offvalue 0 -variable config(listsmileys)
-   .options add checkbutton -label "[trans keepalive]" -onvalue 1 -offvalue 0 -variable config(keepalive) -command "::MSN::TogglePolling"
-   .options add checkbutton -label "[trans keeplog]" -onvalue 1 -offvalue 0 -variable config(keep_logs)
-   .options add checkbutton -label "[trans natip]" -onvalue 1 -offvalue 0 -variable config(natip)
+#   .options add checkbutton -label "[trans autohotmaillog]" -onvalue 1 -offvalue 0 -variable config(autohotlogin)
+#   .options add checkbutton -label "[trans autoidle]" -onvalue 1 -offvalue 0 -variable config(autoidle)
+#   .options add checkbutton -label "[trans notifywin]" -onvalue 1 -offvalue 0 -variable config(notifywin)
+#   .options add checkbutton -label "[trans startoffline]" -onvalue 1 -offvalue 0 -variable config(startoffline) 
+#   .options add checkbutton -label "[trans autoconnect]" -onvalue 1 -offvalue 0 -variable config(autoconnect) 
+#   .options add checkbutton -label "[trans chatsmileys]" -onvalue 1 -offvalue 0 -variable config(chatsmileys)
+#   .options add checkbutton -label "[trans listsmileys]" -onvalue 1 -offvalue 0 -variable config(listsmileys)
+#   .options add checkbutton -label "[trans keepalive]" -onvalue 1 -offvalue 0 -variable config(keepalive) -command "::MSN::TogglePolling"
+#   .options add checkbutton -label "[trans keeplog]" -onvalue 1 -offvalue 0 -variable config(keep_logs)
+#   .options add checkbutton -label "[trans natip]" -onvalue 1 -offvalue 0 -variable config(natip)
    .options add checkbutton -label "[trans closingdocks]" -onvalue 1 -offvalue 0 -variable config(closingdocks) 
 
    #Help menu
@@ -2225,7 +2225,7 @@ proc cmsn_draw_offline {} {
    configureMenuEntry .main_menu.file "[trans savecontacts]..." disabled
 
    #Publish Phone Numbers
-   configureMenuEntry .options "[trans publishphones]..." disabled
+#   configureMenuEntry .options "[trans publishphones]..." disabled
 }
 #///////////////////////////////////////////////////////////////////////
 

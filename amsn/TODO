@@ -15,19 +15,19 @@ Burger * burger@mwvision.com
 # Check Makefile and amsn.spec now that HELP and FAQ files are added. Make sure everything is installed correctly and FAQ and HELP are in the amsn directory.
 # Make good RPMs, for Redhat, Suse, Mandrake, etc.
 # Long messages knock out remote user from chat (if > 400, separate into 400 byte long fragments and send)
-# New unified preferences dialog with tabs
+# ** DONE ** New unified preferences dialog with tabs
 # ** DONE ** Multiple user accounts combo box + separate user config files
 # Refinements to queuing and reconnection issues
 # Improve font selection (unify with color selection)
 # Make status change dynamic in chat window and disable input window when YOU go offline
 # Don't save password if login fails becoz of wrong username or password
-# Fix profiles, use html file for authentication and login to MSN profiles?
+# Fix public profile, use html file for authentication and login to MSN profiles?
 # Notify window is only clickable on the text, should make whole window clickable and add X to close (left and right click)
 # Write procedure to redraw main window for language + font changes
 # Fix new profile issues for existing users, should ask them to add profile even if they dont go to "login as"
 # Check for connection state, make sure amsn disconnects if connection goes down.
 # Authorisation request dialogs halt all AMSN, and queue all events, then kaboom when dialog is closed, not good.
-# Fix use of default config for non profile logins (currently uses hard coded default config)
+# ** DONE ** Fix use of default config for non profile logins (currently uses hard coded default config)
 # Improve enabling/disabling menu entries procedure, make language independant
 # When notify window is for a file transfer, clicking on it triggers a bug! 
 

@@ -294,11 +294,12 @@ proc ConfigChange { window email } {
 		NewProfileAsk $email
 	}
 
+	load_lang
+	### REPLACE THIS BY MAIN WINDOW REDRAW
 	if { $config(language) != $oldlang } {
 		msg_box [trans mustrestart]		
 	}
  
-	load_lang
 	.login.c.password delete 0 end
 	.login.c.password insert 0 $password
 }
@@ -311,14 +312,19 @@ proc ConfigChange { window email } {
 # email : email of new profile
 # value : If 1 create new profile, if 0 use default profile
 proc CreateProfile { email value } {
-	global HOME HOME2 config log_dir
+	global HOME HOME2 config log_dir password
 	if { $value == 1 } {
 		status_log "Creating new profile"
 		# Create a new profile with $email
 		create_dir $HOME
 		set log_dir "[file join ${HOME} logs]"
 		create_dir $log_dir
-		ConfigDefaults
+		set temphome $HOME
+		set HOME $HOME2
+		load_config
+		set config(login) ""
+		set password ""
+		set HOME $temphome
 		LoginList add 0 $email
 	} else {
 		status_log "not creating new profile"
@@ -330,18 +336,26 @@ proc CreateProfile { email value } {
 		set config(keep_logs) 0
 		.login.c.remember configure -state disabled
 	}
+
+	### ADD WINDOW REDRAW HERE
 }
 
 #///////////////////////////////////////////////////////////////////////////////
 # DeleteProfile ( email )
 # Delete profile given by email, has to be different than the current profile
-proc DeleteProfile { email } {
+# entrypath : Path to the combobox containing the profiles list in preferences
+proc DeleteProfile { email entrypath } {
 	global config HOME2
 	if { $email == $config(login) } {
 		msg_box [trans cannotdeleteprofile]
 		return
 	} else {
 		LoginList unset 0 $email
-		file delete -force [file join $HOME2 $email]
+		
+		set email [split $email "@ ."]
+		set email [join $email "_"]
+		catch { file delete -force [file join $HOME2 $email] }
+		$entrypath list delete [$entrypath curselection]
+		$entrypath select 0
 	}
 }
