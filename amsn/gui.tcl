@@ -746,7 +746,7 @@ namespace eval ::amsn {
          set user_login [lindex $user_info 0]
          set user_state_no [lindex $user_info 2] 
 	  #TODO: Check state here? Does it mind if the user is offline?
-         if {($user_state_no < 7) && ([lsearch $list_users "$user_login *"] == -1)} {
+         if {([lsearch $list_users "$user_login *"] == -1)} {
 	     set user_name [lindex $user_info 1]
 	     lappend userlist [list $user_login $user_name $user_state_no]
          }

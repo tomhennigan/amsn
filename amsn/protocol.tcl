@@ -152,10 +152,10 @@ namespace eval ::MSN {
       set msg [encoding convertto utf-8 $msg]
       puts -nonewline $sock $msg
 
-      status_log "Invitation to $filename sent\n" red
+      status_log "Invitation to $filename sent: $msg\n" red
 
       #Change to allow multiple filetransfer
-      set atransfer($cookie) [list $sbn $filename $filesize $cookie $ipaddr]
+      set atransfer($cookie) [list $sbn "$filename" $filesize $cookie $ipaddr]
 
    }
 
@@ -181,7 +181,7 @@ namespace eval ::MSN {
       puts $sock "MSG $::MSN::trid N $msg_len"
       puts -nonewline $sock $msg
 
-      set atransfer($cookie) [list $sbn $filename $filesize $cookie]
+      set atransfer($cookie) [list $sbn "$filename" $filesize $cookie]
 
    }
 
@@ -564,7 +564,7 @@ namespace eval ::MSN {
       set cancelid [after 20000  ::MSN::cancelReceiving $cookie]
 
       fconfigure $sockid -blocking 0
-      fileevent $sockid writable "::MSN::ConnectedMSNFTP $sockid $cancelid $authcookie \"$filename\" $cookie"
+      fileevent $sockid writable "::MSN::ConnectedMSNFTP $sockid $cancelid $authcookie \{$filename\} $cookie"
 
       return 1
 
@@ -1500,8 +1500,8 @@ proc cmsn_sb_msg {sb_name recv} {
          set fromnick "[urldecode [lindex $recv 2]]"
 
 	 if {[string range $guid 0 37] == "{5D3E02AB-6190-11d3-BBBB-00C04F795683}"}	 {
-  	   ::amsn::fileTransferRecv $filename $filesize $cookie [::MSN::ChatFor $sb_name] $fromlogin $fromnick
-  	   set filetoreceive [list $filename $filesize]
+  	   ::amsn::fileTransferRecv "$filename" $filesize $cookie [::MSN::ChatFor $sb_name] $fromlogin $fromnick
+  	   set filetoreceive [list "$filename" $filesize]
          }
 
       } else {
@@ -1922,7 +1922,6 @@ proc cmsn_change_state {recv} {
       if {$user_name != [lindex $user_data 1]} {
       	#Nick differs from the one on our list, so change it
 	#in the server list too
-	status_log "This can give an error if no encoded, so TODO FIX IT\n" red
 	::MSN::changeName $user $user_name
       }
 
@@ -2491,7 +2490,15 @@ proc urldecode {str} {
     while { $end >=0 } {
       set decode "${decode}[string range $str $begin [expr {$end-1}]]"
 
-      set carval [format %d 0x[string range $str [expr {$end+1}] [expr {$end+2}]]]
+
+      if {[catch {set carval [format %d 0x[string range $str [expr {$end+1}] [expr {$end+2}]]]} res]} {
+         if {[catch {set carval [format %d 0x[string range $str [expr {$end+1}] [expr {$end+1}]]]} res]} {
+            binary scan [string range $str [expr {$end+1}] [expr {$end+1}]] c carval
+	    status_log "proc urldecode: strange thing number 2 with string: $str\n" red
+	 } else {
+	    status_log "proc urldecode: strange thing number 1 with string: $str\n" red	 
+	 }
+      }
       if {$carval > 128} {
       	set carval [expr { $carval - 0x100 }]
       }

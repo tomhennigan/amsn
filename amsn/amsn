@@ -360,7 +360,7 @@ proc cmsn_open_received {location} {
 
   set fileman $config(filemanager)
   if { [string length $fileman] < 1 } {
-    msg_box "$location. Check file manager setting in preferences"
+    msg_box "[trans checkfilman $location]"
   } else {
     lappend fileman $location
     eval exec [lindex $fileman 0] [lrange $fileman 1 end] &
