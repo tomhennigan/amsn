@@ -75,14 +75,50 @@ namespace eval ::MSN {
    }
 
 
+   proc GotREAResponse { recv } {
 
+         global user_info config
+
+         status_log "recv: $recv\n" blue
+
+         if { [lindex $recv 3] == $config(login) } {
+            set user_info $recv
+            cmsn_draw_online
+         }
+
+   }
+
+   proc badNickCheck { userlogin newname recv } {
+
+      if { "[lindex $recv 0]" == "209"} {
+
+         status_log "Nick not accepted\n" white
+
+         #Try again urlencoding any character
+	 set name [urlencode_all $newname]
+         if { [string length $name] > 350} {
+           set name [string range $name 0 350]
+         }
+         ::MSN::WriteNS "REA" "$userlogin $name"
+	 return 0
+
+      } elseif { "[lindex $recv 0]" == "REA"} {
+         status_log "Nick accepted\n" white
+         GotREAResponse $recv
+         return 0
+      }
+   }
 
    proc changeName { userlogin newname } {
+
       set name [urlencode $newname]
       if { [string length $name] > 350} {
         set name [string range $name 0 350]
       }
-      ::MSN::WriteNS "REA" "$userlogin $name"
+
+      ::MSN::WriteNS "REA" "$userlogin $name" \
+      	"::MSN::badNickCheck $userlogin [list $newname]"
+
    }
 
 
@@ -345,7 +381,7 @@ namespace eval ::MSN {
       incr trid
 
       if {[catch {puts [sb get $sbn sock] "$cmd $trid $param\r"} res]} {
-         status_log "::MSN::WriteSB: UHUH BAD BAD, problem when writing to the socket...\n" WHITE
+         status_log "::MSN::WriteSB: problem when writing to the socket...\n" WHITE
 	  catch {close $sbn} res
 	  cmsn_sb_sessionclosed $sbn
          return 0
@@ -374,6 +410,12 @@ namespace eval ::MSN {
       return $thistrid
    }
 
+   #Write command to the NS without trid, or new line characters
+   proc WriteNSRaw {cmd} {
+
+      puts -nonewline [sb get ns sock] "$cmd"
+      degt_protocol "->NS $cmd"
+   }
 
    proc AnswerChallenge { item } {
       if { [lindex $item 1] != 0 } {
@@ -744,7 +786,7 @@ namespace eval ::MSN {
    proc typersInChat { chatid } {
 
       set name [SBFor $chatid]
-      
+
       if { $name == 0 } {
         return [list]
       }
@@ -793,7 +835,7 @@ namespace eval ::MSN {
       if { "$user" == "[lindex $user_info 3]" } {
 
          set wanted_info [list $user "[urldecode [lindex $user_info 4]]"  ""]
-	 
+
       } elseif { $idx != -1} {
 
          set wanted_info [lindex $list_users $idx]
@@ -867,8 +909,11 @@ namespace eval ::MSN {
       global sb_list
 
       if { ([::MSN::myStatusIs] == "HDN") || ([::MSN::myStatusIs] == "FLN") } {
-         msg_box "[trans needonline]"
-         return 0
+         #Moved to error 913
+         #msg_box "[trans needonline]"
+
+
+	 #return 0
       }
 
       set lowuser [string tolower ${user}]
@@ -930,7 +975,7 @@ namespace eval ::MSN {
 
       catch {
          close [sb get $name sock]
-      } res      
+      } res
 
       set sb_list [lreplace $sb_list $idx $idx]
 
@@ -958,6 +1003,8 @@ namespace eval ::MSN {
 	  after 60000 "::MSN::KillSB ${name}"
 
       }
+
+      ::amsn::chatDisabled $chatid
    }
 
    proc leaveChat { chatid } {
@@ -1064,7 +1111,7 @@ namespace eval ::MSN {
       }
 
       set index [lsearch $sb_chatid($chatid) $sb_name]
-      
+
       if { $index == -1 } {
          return 0
       }
@@ -1087,6 +1134,18 @@ namespace eval ::MSN {
    }
 
 
+   proc ClearQueue {chatid } {
+
+      variable chat_queues
+
+      if {![info exists chat_queues($chatid)]} {
+         return 0
+      }
+
+      unset chat_queues($chatid)
+
+   }
+
    proc ProcessQueue { chatid {count 0} } {
 
       variable chat_queues
@@ -1107,9 +1166,9 @@ namespace eval ::MSN {
       set command [lindex $chat_queues($chatid) 0]
       if { $command == -1 } {
          status_log "leaveChat is queued\n" red
-         set chat_queues($chatid) [lreplace $chat_queues($chatid) 0 0]	  
+         set chat_queues($chatid) [lreplace $chat_queues($chatid) 0 0]
 	  CleanChat $chatid
-	  ProcessQueue $chatid	  
+	  ProcessQueue $chatid
 	  return
       }
 
@@ -1142,7 +1201,7 @@ namespace eval ::MSN {
 
 
    }
-   
+
    #///////////////////////////////////////////////////////////////////////////////
    # SendChatMsg (chatid,txt,ackid)
    # Sends the message 'txt' to the given 'chatid'. The CHAT MUST BE READY or the
@@ -1577,8 +1636,8 @@ proc cmsn_sb_handler {sb_name item} {
    set ret_trid [lindex $item 1]
    set idx [lsearch $list_cmdhnd "$ret_trid *"]
    if {$idx != -1} {		;# Command has a handler associated!
-      eval "[lindex [lindex $list_cmdhnd $idx] 1] {$item}"
       status_log "evaluating handler for $ret_trid\n"
+      eval "[lindex [lindex $list_cmdhnd $idx] 1] {$item}"
       return 0
    } else {
    switch [lindex $item 0] {
@@ -1619,7 +1678,10 @@ proc cmsn_sb_handler {sb_name item} {
       217 {
           #TODO: Check what we do with sb stat "?", disable chat window?
 	   # this should be related to user state changes
-          status_log "Error: user is not online [join $item]\n" red
+	  #sb get $sb_name stat
+	  ::MSN::ClearQueue [::MSN::ChatFor $sb_name]
+	  ::MSN::CleanChat [::MSN::ChatFor $sb_name]
+	  status_log "Error: user is not online [join $item]\n" red
 	   msg_box "[trans usernotonline]"
           return 0
       }
@@ -1676,6 +1738,14 @@ proc cmsn_rng {recv} {
 
 proc cmsn_open_sb {sbn recv} {
    global config
+
+   if {[lindex $recv 0] == "913"} {
+          status_log "Error: Not allowed when offline\n" red
+          ::MSN::ClearQueue [::MSN::ChatFor $sbn]
+          ::MSN::CleanChat [::MSN::ChatFor $sbn]
+          msg_box "[trans needonline]"
+          return 1
+   }
 
    if {[lindex $recv 4] != "CKI"} {
       status_log "$sbn: Unknown SP requested!\n" red
@@ -2034,8 +2104,8 @@ proc cmsn_ns_handler {item} {
    set ret_trid [lindex $item 1]
    set idx [lsearch $list_cmdhnd "$ret_trid *"]
    if {$idx != -1} {		;# Command has a handler associated!
-      eval "[lindex [lindex $list_cmdhnd $idx] 1] \"$item\""
       status_log "evaluating handler for $ret_trid\n"
+      eval "[lindex [lindex $list_cmdhnd $idx] 1] \"$item\""
       return 0
    } else {
    switch [lindex $item 0] {
@@ -2061,13 +2131,17 @@ proc cmsn_ns_handler {item} {
          return [cmsn_rng $item]
       }
       REA {
+         ::MSN::GotREAResponse $item
+	 return 0
+         #Todo: remove this from here??
+	 status_log "REA in cmsn_ns_handler, so don't remove me\n" red
          global user_info config
 	      #status_log "Item: $item\n" white
 	      if { [lindex $item 3] == $config(login) } {
             set user_info $item
    	      cmsn_draw_online
 	      }
-         return 0	 
+         return 0
       }
       ADD {
 	     if { [lindex $item 2] == "FL"} {
@@ -2216,11 +2290,6 @@ proc cmsn_ns_handler {item} {
 	  msg_box "[trans invalidusername]"
           return 0
       }
-      209 {
-          status_log "Warning: Invalid fusername $item\n" red
-	  msg_box "[trans invalidusername]"
-          return 0
-      }
       210 {
           status_log "Warning: User list full $item\n" red
           return 0
@@ -2243,11 +2312,6 @@ proc cmsn_ns_handler {item} {
 	  ::amsn::errorMsg "[trans baduserpass]"
           return 0
       }
-      913 {
-          status_log "Error: Not allowed when offline\n" red
-	  msg_box "[trans notallowedoffline]"
-          return 0
-      }     
       "" {
          return 0
       }
@@ -2696,8 +2760,7 @@ proc urldecode {str} {
     return [encoding convertfrom utf-8 $decode]
 }
 
-proc urlencode {str} {
-#   global url_map
+proc urlencode_all {str} {
 
    set encode ""
 
@@ -2718,6 +2781,40 @@ proc urlencode {str} {
           #set charval2 [expr {$charval >> 8}]
           #set encode "${encode}$character"
        }
+   }
+   #status_log "urlencode: original=$str\n   utf-8=$utfstr\n   encoded=$encode\n"
+   return $encode
+}
+
+
+proc urlencode {str} {
+#   global url_map
+
+   set encode ""
+
+   set utfstr [encoding convertto utf-8 $str]
+
+
+   for {set i 0} {$i<[string length $utfstr]} {incr i} {
+       set character [string range $utfstr $i $i]
+
+       if {[string match {[^a-zA-Z0-9]} $character]==0} {
+          binary scan $character c charval
+          #binary scan $character s charval
+          set charval [expr {($charval + 0x100) % 0x100}]
+          #set charval [expr {( $charval + 0x10000 ) % 0x10000}]
+          if {$charval <= 0xFF} {
+             set encode "${encode}%[format %.2X $charval]"
+          } else {
+             status_log "THIS SHOULDN'T HAPPEN, CHECK proc urlencode!!!\n" red
+
+             #set charval1 [expr {$charval & 0xFF} ]
+             #set charval2 [expr {$charval >> 8}]
+             #set encode "${encode}$character"
+          }
+      } else {
+         set encode "${encode}${character}"
+      }
    }
    #status_log "urlencode: original=$str\n   utf-8=$utfstr\n   encoded=$encode\n"
    return $encode

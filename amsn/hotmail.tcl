@@ -210,7 +210,7 @@ proc aim_get_str { bodywithr str } {
 
 	    set inicio [expr { $pos + [string length $str] + 2 } ]
 	    set fin [expr { $inicio + [string first "\n" [string range $body $inicio end]] - 1 } ]
-	    status_log "aim_get_str found ${str}: [string range $body $inicio $fin]\n"
+	    #status_log "aim_get_str found ${str}: [string range $body $inicio $fin]\n"
 	    return [string range $body $inicio $fin]
     }
 

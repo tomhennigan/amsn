@@ -22,8 +22,8 @@ DONE	Multiple user accounts combo box + separate user config files
 -	Improve filetransfers, allow more than one at once. Fix progress bar, and special characters on filenames.
 -	Improve font selection (unify with color selection)
 DONE	Make status change dynamic in chat window
--	Disable input window when USER is offline (after offline error)
--	After user offline error, clean chat queue for that user.
+PARTIAL	Disable input window when USER is offline (after offline error)
+DONE	After user offline error, clean chat queue for that user.
 -	Don't save password if login fails becoz of wrong username or password
 -	Fix public profile, use html file for authentication and login to MSN profiles? -> use same system as hotmail login
 DONE	Notify window is only clickable on the text, should make whole window clickable
