@@ -96,7 +96,7 @@ namespace eval ::pluginslog {
 	set col 1
 	set row 2
 	for {set x 0} {$x<$s} {incr x} {
-		checkbutton $w.check$x -text [lindex $tmplist $x] -command "::pluginslog::filter \"[lindex $tmplist $x]\""
+		checkbutton $w.check$x -text [lindex $tmplist $x] -command "::pluginslog::filter \"[lindex $tmplist $x]\" ; ::pluginslog::redisplay"
 		grid $w.check$x -column $col -row $row -sticky w
 		if {$col == 2} {
 			set col 1
@@ -106,9 +106,9 @@ namespace eval ::pluginslog {
 		}
 	}
 	incr row
-	button $w.update -text "[trans update]" -command "destroy $w" ;# "::pluginslog::redisplay"
+	button $w.update -text "[trans close]" -command "destroy $w" ;# "::pluginslog::redisplay"
 	grid $w.update -columnspan 2 -row $row -column 1
-	bind $w <Destroy> "::pluginslog::redisplay; bind $w <Destroy> \"\""
+	bind $w <Destroy> ;#"::pluginslog::redisplay; bind $w <Destroy> \"\""
 	moveinscreen $w 30
     }
     
