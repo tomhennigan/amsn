@@ -18,9 +18,7 @@ static int ChanMatch (Tcl_Channel chan, CONST char *fileName, Tcl_Obj *format,in
   if (image.Load(fileName, CXIMAGE_FORMAT_UNKNOWN)) {
     *widthPtr = image.GetWidth();
     *heightPtr = image.GetHeight();
-    printf("matchs.\n");
     return true;
-    printf("doesn't match\n");
   } 
 
   return false;
