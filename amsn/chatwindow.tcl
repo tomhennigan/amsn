@@ -172,6 +172,76 @@ namespace eval ::ChatWindow {
 
 
 	#///////////////////////////////////////////////////////////////////////////////
+	# ::ChatWindow::Flicker (chatid, [count])
+	# Called when a window must flicker, and called by itself to produce the flickering
+	# effect. It will flicker the window until it gets the focus.
+	# Arguments:
+	#  - chatid => Is the name of the chat to flicker (a passport login)
+	#  - count => [NOT REQUIRED] Can be any number, it's just used in self calls
+	proc Flicker {chatid {count 0}} {
+		if { [::ChatWindow::For $chatid] != 0} {
+			set window [::ChatWindow::For $chatid]
+		} else {
+			return 0
+		}
+
+
+		if { [::config::getKey flicker] == 0 } {
+			if { [string first $window [focus]] != 0 } {
+				catch {wm title ${window} "*$::ChatWindow::titles($window)"} res
+				set ::ChatWindow::new_message_on(${window}) 1
+				bind ${window} <FocusIn> "::ChatWindow::GotFocus ${window}"
+			}
+		return 0
+		}
+
+		after cancel ::ChatWindow::Flicker $chatid 0
+		after cancel ::ChatWindow::Flicker $chatid 1
+
+		if { [string first $window [focus]] != 0 } {
+
+			# If user uses Windows, call winflash to flash the window, this is done by calling the winflash proc
+			# that should be created by the flash.dll extension. so we do it in a catch statement, if it fails
+			# Then load the extension before calling winflash. If this one or the first one were successful,
+			# we add a bind on FocusIn to call the winflash with the -state 0 option to disable it and we return.
+			if { [set ::tcl_platform(platform)] == "windows" } {
+				if { [catch {winflash $window -count -1} ] } {
+					if { ![catch { 
+						load [file join plugins winflash flash.dll]
+						winflash $window -count -1
+					} ] } {
+						bind $window <FocusIn> "catch \" winflash $window -state 0\"; bind $window <FocusIn> \"\""
+						return
+					}
+					
+				} else {
+					bind $window <FocusIn> "catch \" winflash $window -state 0\"; bind $window <FocusIn> \"\""
+					return
+				}
+			}
+
+
+			set count  [expr {( $count +1 ) % 2}]
+
+			if {![catch {
+				if { $count == 1 } {
+					wm title ${window} "[trans newmsg]"
+				} else {
+					wm title ${window} "$::ChatWindow::titles($window)"
+				}
+			} res]} {
+				after 300 ::ChatWindow::Flicker $chatid $count
+			}
+		} else {
+
+			catch {wm title ${window} "$::ChatWindow::titles($window)"} res
+		}
+
+	}
+	#///////////////////////////////////////////////////////////////////////////////
+
+
+	#///////////////////////////////////////////////////////////////////////////////
 	# ::ChatWindow::For (chatid)
 	# Returns the name of the window (.msg_n) that should show the messages and 
 	# information related to the chat 'chatid'.
@@ -197,6 +267,31 @@ namespace eval ::ChatWindow {
 			catch {wm title ${window} "$::ChatWindow::titles(${window})"} res
 			bind ${window} <FocusIn> ""
 		}
+	}
+	#///////////////////////////////////////////////////////////////////////////////
+
+
+	#///////////////////////////////////////////////////////////////////////////////
+	# ::ChatWindow::MacPosition
+	# To place the ::ChatWindow::Open at the right place on Mac OS X, because the
+	# window manager will put all the windows in bottom left after some time.
+	# Arguments:
+	#  - chatid => Is the name of the chat to flicker (a passport login)
+	#  - count => [NOT REQUIRED] Can be any number, it's just used in self calls
+ 	proc MacPosition { window } {
+ 		#To know where the window manager want to put the window in X and Y
+ 		set info1 [winfo x $window]
+ 		set info2 [winfo y $window]
+ 		#Determine the maximum place in Y to place a window
+ 		#Size of the screen (in y) - size of the window
+ 		set max [expr [winfo vrootheight $window] - [winfo height $window]]
+ 		#If the position of the window in y is superior to the maximum
+ 		#Then up the window by the size of the window
+ 		if {$info2 > $max} { set info2 [expr {$info2 - [winfo height $window]}] }
+ 		#If the result is smaller than 25 (on small screen) then use 25 
+ 		if { $info2 < 25 } { set info2 25 }
+ 		#Replace the window to the new position on the screen 	
+ 		wm geometry $win +${info1}+${info2}
 	}
 	#///////////////////////////////////////////////////////////////////////////////
 
@@ -957,98 +1052,4 @@ namespace eval ::ChatWindow {
 		}
 	}
 	#///////////////////////////////////////////////////////////////////////////////
-
-
-	#///////////////////////////////////////////////////////////////////////////////
-	# ::ChatWindow::Flicker (chatid, [count])
-	# Called when a window must flicker, and called by itself to produce the flickering
-	# effect. It will flicker the window until it gets the focus.
-	# Arguments:
-	#  - chatid => Is the name of the chat to flicker (a passport login)
-	#  - count => [NOT REQUIRED] Can be any number, it's just used in self calls
-	proc Flicker {chatid {count 0}} {
-		if { [::ChatWindow::For $chatid] != 0} {
-			set window [::ChatWindow::For $chatid]
-		} else {
-			return 0
-		}
-
-
-		if { [::config::getKey flicker] == 0 } {
-			if { [string first $window [focus]] != 0 } {
-				catch {wm title ${window} "*$::ChatWindow::titles($window)"} res
-				set ::ChatWindow::new_message_on(${window}) 1
-				bind ${window} <FocusIn> "::ChatWindow::GotFocus ${window}"
-			}
-		return 0
-		}
-
-		after cancel ::ChatWindow::Flicker $chatid 0
-		after cancel ::ChatWindow::Flicker $chatid 1
-
-		if { [string first $window [focus]] != 0 } {
-
-			# If user uses Windows, call winflash to flash the window, this is done by calling the winflash proc
-			# that should be created by the flash.dll extension. so we do it in a catch statement, if it fails
-			# Then load the extension before calling winflash. If this one or the first one were successful,
-			# we add a bind on FocusIn to call the winflash with the -state 0 option to disable it and we return.
-			if { [set ::tcl_platform(platform)] == "windows" } {
-				if { [catch {winflash $window -count -1} ] } {
-					if { ![catch { 
-						load [file join plugins winflash flash.dll]
-						winflash $window -count -1
-					} ] } {
-						bind $window <FocusIn> "catch \" winflash $window -state 0\"; bind $window <FocusIn> \"\""
-						return
-					}
-					
-				} else {
-					bind $window <FocusIn> "catch \" winflash $window -state 0\"; bind $window <FocusIn> \"\""
-					return
-				}
-			}
-
-
-			set count  [expr {( $count +1 ) % 2}]
-
-			if {![catch {
-				if { $count == 1 } {
-					wm title ${window} "[trans newmsg]"
-				} else {
-					wm title ${window} "$::ChatWindow::titles($window)"
-				}
-			} res]} {
-				after 300 ::ChatWindow::Flicker $chatid $count
-			}
-		} else {
-
-			catch {wm title ${window} "$::ChatWindow::titles($window)"} res
-		}
-
-	}
-	#///////////////////////////////////////////////////////////////////////////////
-
-
-	#///////////////////////////////////////////////////////////////////////////////
-	# ::ChatWindow::MacPosition
-	# To place the ::ChatWindow::Open at the right place on Mac OS X, because the
-	# window manager will put all the windows in bottom left after some time.
-	# Arguments:
-	#  - chatid => Is the name of the chat to flicker (a passport login)
-	#  - count => [NOT REQUIRED] Can be any number, it's just used in self calls
- 	proc MacPosition { window } {
- 		#To know where the window manager want to put the window in X and Y
- 		set info1 [winfo x $window]
- 		set info2 [winfo y $window]
- 		#Determine the maximum place in Y to place a window
- 		#Size of the screen (in y) - size of the window
- 		set max [expr [winfo vrootheight $window] - [winfo height $window]]
- 		#If the position of the window in y is superior to the maximum
- 		#Then up the window by the size of the window
- 		if {$info2 > $max} { set info2 [expr {$info2 - [winfo height $window]}] }
- 		#If the result is smaller than 25 (on small screen) then use 25 
- 		if { $info2 < 25 } { set info2 25 }
- 		#Replace the window to the new position on the screen 	
- 		wm geometry $win +${info1}+${info2}
-	}
 }
