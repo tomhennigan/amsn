@@ -47,6 +47,7 @@ changefont Cambiar fuente
 changenick Cambiar apodo
 chatack Aceptando conversación de
 chat Conversación
+chatmaxmin Cuando un contacto me abre una conversación, quiero que sea:
 chatreq Solicitando una conversación
 chatsmileys2 Mostrar emoticonos y smileys en ventanas de chat
 chatsmileys Smileys en chat
@@ -69,6 +70,7 @@ connected Ahora estás conectado
 connecterror Error conectándose al servidor
 connecting Conectando
 connection Conexión
+connectionlost Desconectado: Conexión con el servidor cerrada
 contactadded Contacto añadido
 contactdoesnotexist El contacto que intentas añadir no existe
 copy Copiar
@@ -84,6 +86,7 @@ delete Eliminar
 deliverfail Ocurrió un problema al enviar el siguiente mensaje
 delprofile2 Elige el perfil que te gustaría borrar
 delprofile Borrar Perfil
+directconnection Tengo una conexión directa a internet (usa el puerto 1863)
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Icono Gtk
 docking Icono en bandeja de sistema
@@ -125,6 +128,7 @@ help Ayuda
 helpcontents Temas de ayuda
 history Ver historial
 home Casa
+httpconnection Conectar usando el método HTTP (usa protocolo HTTP por el puerto 80)
 ident Identificándose
 identity Identificación
 inbox Bandeja de entrada
@@ -167,7 +171,7 @@ lprivtoconf El privado se convierte en conversación múltiple con $1
 luclosedwin Tú cierras la ventana a las $1
 mailer Comando de email
 maximised Maximizada
-minimised Minimizada/Iconoficada
+minimised Minimizada/Iconificada
 mins minutos
 mobile Celular
 movetogroup Mover al grupo
@@ -222,6 +226,7 @@ port Puerto
 prefalerts Mis alertas y sonidos de eventos
 prefapps Aplicaciones
 prefawaymsg Mi mensajes de ausente
+prefconnection Configuración de la conexión
 prefemotic Emoticonos y smileys.
 preferences Preferencias
 preffont2 Cambia la forma en que otros ven mi texto en la conversación
@@ -247,8 +252,10 @@ profiles Perfiles
 properties Propiedades
 proxyconf Configuración proxy
 proxyconfhttp Configurar soporte de proxy http
+proxyconnection Me conecto a internet usando un servidor proxy:
 proxy Estoy detrás de un servidor proxy (HTTP o SOCKS5)
 publishphones Publicar mis números telefónicos
+raised Elevada/Desiconificada
 receivedbytes Recibidos $1 de $2 bytes totales
 receivefile Recibir archivo
 reconnect Esperando que $1 se reconecte

@@ -46,6 +46,7 @@ changefont Change Font
 changenick Change nick
 chatack Accepting chat from
 chat Chat
+chatmaxmin When a contact opens a chat with me I want it to be:
 chatreq Requesting chat
 chatsmileys2 Display Emoticons and Smileys in chat windows
 chatsmileys Chat smileys
@@ -68,6 +69,7 @@ connected You are now connected
 connecterror Error connecting to server
 connecting Connecting
 connection Connection
+connectionlost Disconnected: Connection with server closed
 contactadded Contact added
 contactdoesnotexist Contact does not exist!
 copy Copy
@@ -83,11 +85,12 @@ delete Delete
 deliverfail There was a problem delivering the following message
 delprofile2 Select the Profile that you would like to have removed 
 delprofile Delete Profile
+directconnection I have direct connection to the internet (uses port 1863)
+dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Gnome Dock
 docking Docking
 dockingoff Docking Off
 dockkde KDE Dock
-dockfreedesktop FreeDesktop (KDE3/Gnome2)
 edit Edit
 editprofile Edit Profile
 enableproxy Enable proxy
@@ -124,6 +127,7 @@ helpcontents Help contents
 help Help
 history View History
 home Home
+httpconnection Connect using HTTP method (uses HTTP protocol over port 80)
 ident Identifying
 identity Identity
 inbox In-Box
@@ -221,6 +225,7 @@ port Port
 prefalerts My Event Alerts and Sounds
 prefapps Applications
 prefawaymsg My Away Message
+prefconnection Connection settings
 prefemotic Emotions Icons and Smileys 
 preferences Preferences
 preffont2 Change the way others see my text in chats
@@ -246,8 +251,10 @@ profiles Profiles
 properties Properties
 proxyconfhttp HTTP proxy support configuration
 proxyconf Proxy configuration
+proxyconnection I connect to the internet using a proxy server:
 proxy I am behind a Proxy Server (HTTP or SOCKS5)
 publishphones Publish my phone numbers
+raised Raised/Deiconified
 receivedbytes Received $1 of $2 bytes
 receivefile Receive file
 reconnecting Reconnecting to server
@@ -297,9 +304,9 @@ unblock Unblock
 uoffline Offline
 uonline Online
 useralreadyonlist User is already on contact list
+userblocked The user is online but blocked you
 usernotonline The user is not online
 user User
-userblocked The user is online but blocked you
 useryourself You can't chat with yourself
 verifyblocked Check for people blocking you
 version Version
