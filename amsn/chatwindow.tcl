@@ -1005,7 +1005,7 @@ namespace eval ::ChatWindow {
 				pack $output -expand true -fill both -padx 3 -pady 0
 			}
 
-			pack $input -side top -expand true -fill both -padx 0 -pady [::skin::getColor chatpady]
+			pack $input -side top -expand false -fill both -padx 0 -pady [::skin::getColor chatpady]
 		}
 
 		# Bind on focus, so we always put the focus on the input window
