@@ -290,8 +290,7 @@ proc dlgCopyUser {} {
 proc BuidarGrup { lfcontact } {
 	global rbsel
 	if {![info exists rbsel]} {return;}
-	set answer [tk_messageBox -title "[trans confirm]" -message "[trans confirmeg]" -type yesno -icon question \
-		-parent .cfg]
+	set answer [::amsn::messageBox "[trans confirmeg]" yesno question "[trans confirm]" .cfg]
 	if { $answer == "no" } { return; }
 	if { $rbsel == 0 } { return; }
 	set contacts [::MSN::getList FL]
@@ -312,8 +311,7 @@ proc BuidarGrup { lfcontact } {
 proc dlgDelGroup { lfgroup lfcontact } {
 	global rbsel
 	if {![info exists rbsel]} {return;}
-	set answer [tk_messageBox -title "[trans confirm]" -message "[trans confirmdg]" -type yesno -icon question \
-		-parent .cfg]
+	set answer [::amsn::messageBox  "[trans confirmdg]" yesno question "[trans confirm]" .cfg]
 	if { $answer == "no" } { return; }
 	::groups::Delete $rbsel dlgMsg
 	RefreshGroupList $lfgroup $lfcontact
@@ -333,8 +331,7 @@ proc dlgRFL { lfcontact } {
 	global rbsel rbcon
 	if {![info exists rbcon]} {return;}
 	if {![info exists rbsel]} {return;}
-	set answer [tk_messageBox -title "[trans confirm]" -message "[trans confirmrfl]" -type yesno -icon question \
-		-parent .cfg]
+	set answer [::amsn::messageBox "[trans confirmrfl]" yesno question "[trans confirm]" .cfg]
 	if { $answer == "no" } { return; }
 	if { $rbsel != -1 } {
 		::MSN::deleteUser $rbcon $rbsel
@@ -346,8 +343,7 @@ proc dlgRFL { lfcontact } {
 proc dlgDelUser { lfcontact } {
 	global rbcon
 	if {![info exists rbcon]} {return;}
-	set answer [tk_messageBox -title "[trans confirm]" -message "[trans confirmdu]" -type yesno -icon question \
-		-parent .cfg]
+	set answer [::amsn::messageBox "[trans confirmdu]" yesno question "[trans confirm]" .cfg]
 	if { $answer == "no" } { return; }
 	::MSN::deleteUser $rbcon
 	RefreshContactList $lfcontact
