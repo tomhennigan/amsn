@@ -4498,6 +4498,8 @@ proc cmsn_draw_online_wrapped {} {
 			set mailmsg "[trans onenewmail]\n"
 		} elseif {$unread == 2} {
 			set mailmsg "[trans twonewmail 2]\n"
+		} elseif {$unread < 0} {
+			set mailmsg "[trans nonewmail]\n"
 		} else {
 			set mailmsg "[trans newmail $unread]\n"
 		}
