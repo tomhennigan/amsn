@@ -1,6 +1,6 @@
 namespace eval ::pluginslog {
     #counter: keeps the count
-    variable idx 0
+    variable idx -1
     #log: this is what keeps track of the log
     variable log
     #filter: this is the filters
@@ -13,8 +13,8 @@ namespace eval ::pluginslog {
     proc plugins_log {plugin msg} {
 	variable idx
 	variable log
-	set log($idx) [list $plugin $msg]
 	incr idx
+	set log($idx) [list $plugin $msg]
 	::pluginslog::display
     }
     
@@ -27,7 +27,7 @@ namespace eval ::pluginslog {
 	    wm state $window normal
 	    set status_show 1
 	    raise $window
-	    ::pluginslog::display
+	    #::pluginslog::display
 	}
     }
     
@@ -37,42 +37,32 @@ namespace eval ::pluginslog {
 	variable window
 	variable filters
 	variable followtext
-	$window.info delete 1.0 end
-	for {set x 0} {$x < $idx} {incr x} {
-	    set plugin [lindex $::pluginslog::log($x) 0]
-	    #	    puts {[llength $filters]}
-	    #	    puts [llength $filters]
-	    #	    puts {[lsearch $filters $plugin]}
-	    #	    puts [lsearch $filters $plugin]
-	    #	    puts {$filters}
-	    #	    puts $filters
-	    #	    puts ""
-	    #if no filters, show all
-	    #if in filter, show it.
-	    if {[llength $filters] == 0 || [lsearch $filters $plugin] != -1} { 
-		$window.info insert end "[timestamp] $plugin: [lindex $pluginslog::log($x) 1]"
+	set plugin [lindex $::pluginslog::log($idx) 0]
+	#	    puts {[llength $filters]}
+	#	    puts [llength $filters]
+	#	    puts {[lsearch $filters $plugin]}
+	#	    puts [lsearch $filters $plugin]
+	#	    puts {$filters}
+	#	    puts $filters
+	#	    puts ""
+	#if no filters, show all
+	#if in filter, show it.
+	if {[llength $filters] == 0 || [lsearch $filters $plugin] != -1} { 
+		$window.info insert end "[timestamp] $plugin: [lindex $pluginslog::log($idx) 1]"
 		#If option "scroll down when new text is entered" 
 		if {$followtext} {
-		    catch {$window.info yview end}
+			catch {$window.info yview end}
 		}
-	    }
 	}
     }
     
     proc filter {plugin} {
 	variable filters
-	if {[lsearch $filters $plugin] == -1} {
+	set idx [lsearch $filters $plugin]
+	if {$idx == -1} {
 	    lappend filters $plugin
 	} else {
-	    #know any better method to remove a item from a list?
-	    set tmp [list]
-	    set s [llength $filters]
-	    for {set x 0} {$x<$s} {incr x} {
-		if {[lindex $filters $x] != $plugin} {
-		    lappend tmp [lindex $filters $x]
-		}
-	    }
-	    set filters $tmp
+	    set filters [lreplace $filters $idx $idx]
 	}
     }
     
@@ -108,9 +98,9 @@ namespace eval ::pluginslog {
 	    }
 	}
 	    incr row
-	button $w.update -text "[trans update]" -command "::pluginslog::display"
+	button $w.update -text "[trans update]" ;#-command "::pluginslog::display"
 	grid $w.update -columnspan 2 -row $row -column 1
-	bind $window.filters <Destroy> ::pluginslog::display
+	bind $window.filters <Destroy> ;#::pluginslog::display
 	moveinscreen $w 30
     }
     
