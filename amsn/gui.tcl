@@ -4069,10 +4069,7 @@ proc cmsn_draw_online { {delay 0} } {
 		}
 	}
 
-	status_log "Scrollidx is $scrollidx\n" blue
-	$pgBuddy.ys set [lindex $scrollidx 0] [lindex $scrollidx 1]
-	$pgBuddy.text yview moveto [lindex $scrollidx 0]
-
+	$pgBuddy.text configure -state disabled
 
 	#Init Preferences if window is open
 	if { [winfo exists .cfg] } {
@@ -4091,8 +4088,10 @@ proc cmsn_draw_online { {delay 0} } {
 		smile_subst $pgBuddy.text.mystatus
 		smile_subst $pgBuddy.text 0.0 end
 	}
+	update idletasks
+	$pgBuddy.ys set [lindex $scrollidx 0] [lindex $scrollidx 1]
+	$pgBuddy.text yview moveto [lindex $scrollidx 0]
 
-	$pgBuddy.text configure -state disabled
 
 
 }
