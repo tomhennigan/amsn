@@ -5753,15 +5753,15 @@ proc convert_image_plus { filename type size } {
 
 
 proc change_displaypic { } {
-    global config 
+    global config
 
     set w .change_disp
-    
+
    if {[winfo exists $w]} {
       raise $w
       return 0
    }
- 
+
    toplevel $w
    wm group $w .
 
@@ -5775,7 +5775,7 @@ proc change_displaypic { } {
    button $f.ok -text [trans ok] -command change_disp_ok
    button $f.cancel -text [trans cancel] \
       -command "destroy $w"
-    button $f.clear -text [trans clear] -command "clear_disp"
+    button $f.clear -text [trans nopic] -command "clear_disp"
     pack $f.ok $f.clear $f.cancel -side left
 
 
@@ -5791,9 +5791,9 @@ proc change_displaypic { } {
     }
 
     bind $f.file <Return> "change_disp_ok"
-    
+
     pack  $f.lfile $f.file $f.browse -side left
-    
+
     pack $w.filename $w.buttons -side top
     tkwait visibility $w
     grab set $w
@@ -5805,7 +5805,7 @@ proc change_disp_ok { } {
     global config
 
     set w .change_disp
-    
+
     set file [$w.filename.file get]
 
     if { $file != "" } {
@@ -5816,7 +5816,7 @@ proc change_disp_ok { } {
 		catch {image create photo my_pic -file "[GetSkinFile displaypic $config(displaypic).gif]"}
     }
 
-    
+
 
     ::MSN::changeStatus [set ::MSN::myStatus]
 
@@ -5829,6 +5829,7 @@ proc clear_disp { } {
 
     set config(displaypic) ""
 
+	 catch {image create photo my_pic -file "[GetSkinFile displaypic nopic.gif]"}
     ::MSN::changeStatus [set ::MSN::myStatus]
 
     destroy .change_disp
