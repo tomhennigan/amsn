@@ -6818,13 +6818,14 @@ proc reloadAvailablePics { } {
 #proc chooseFileDialog {basename {initialfile ""} {types {{"All files"         *}} }} {}
 proc chooseFileDialog {basename {initialfile ""} {types { {"All Files" {*.*}}} }} {
 	set parent "."
-		catch {set parent [focus]}
+	catch {set parent [focus]}
 
+	global  starting_dir
 	if { "$initialfile" == "" } {
-		return [tk_getOpenFile -filetypes $types -parent $parent]
+		return [tk_getOpenFile -filetypes $types -parent $parent -initialdir $starting_dir]
 	} else {
 		return [tk_getOpenFile -filetypes $types -parent $parent \
-			-initialfile $initialfile ]
+			-initialfile $initialfile]
 	}
 }
 

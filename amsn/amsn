@@ -70,6 +70,7 @@ while {[catch {file readlink [file join $program_dir $program]} program]== 0} {
 	set program [file tail $program]
 }
 
+set starting_dir [pwd]
 cd $program_dir
 unset program
 unset program_dir
