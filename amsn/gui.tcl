@@ -2274,9 +2274,9 @@ namespace eval ::amsn {
       }
 
       if {$config(chatsmileys)} {
-	  smile_subst ${win_name}.f.out.text $text_start 1
+	  smile_subst ${win_name}.f.out.text $text_start end 1
       }
-		
+
 
 #      vwait smileys_end_subst
 
@@ -3985,9 +3985,6 @@ proc cmsn_draw_online { {force 0} } {
        }
    }
 
-    if {$config(listsmileys)} {
-	smile_subst $pgBuddy.text
-    }
 
    if {$config(orderbygroup)} {
         for {set gidx 0} {$gidx < $gcnt} {incr gidx} {
@@ -4038,6 +4035,16 @@ proc cmsn_draw_online { {force 0} } {
 	bind . <Configure> "configured_main_win"
 	#wm protocol . WM_RESIZE_WINDOW "cmsn_draw_online 0"
 
+
+	#Don't replace smileys in all text, to avoid replacing in mail notification
+	if {$config(listsmileys)} {
+		for {set gidx 0} {$gidx < $gcnt} {incr gidx} {
+
+			set gname [lindex $glist $gidx]
+			set gtag  "tg$gname"
+			catch {smile_subst $pgBuddy.text $gtag.first $gtag.last}
+		}
+	}
 
 }
 #///////////////////////////////////////////////////////////////////////
@@ -4220,7 +4227,7 @@ proc ShowUser {user_name user_login state state_code colour section grId} {
 	    "if {\[set Bulle(set)\] == 0} \{after cancel \[set Bulle(id)\]; \
             set Bulle(id) \[after 1000 [list balloon %W [list $balloon_message] %X %Y]\]\} "
 
-    } 
+    }
 
 
          $pgBuddy.text tag bind $user_unique_name <Button3-ButtonRelease> "show_umenu $user_login $grId %X %Y"
@@ -4237,6 +4244,7 @@ proc ShowUser {user_name user_login state state_code colour section grId} {
             $pgBuddy.text tag bind $user_unique_name <Double-Button-1> \
 	        ""
 	 }
+
 }
 #///////////////////////////////////////////////////////////////////////
 

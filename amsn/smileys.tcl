@@ -465,48 +465,43 @@ proc valueforemot { emotion var } {
 
 
 #///////////////////////////////////////////////////////////////////////////////
-# proc smile_subst { tw {start "0.0"} {enable_sound 0} }
+# proc smile_subst { tw {start "0.0"} {end "end"} {enable_sound 0} }
 #
 # Main function... it substitues smileys patterns into an image in any text widget
 # tw variable is the text widget
 # start is the starting point for wich we scan the text for any smiley to change
 # enable_sound is used to specify if we should play sounds if we find emotisound
 # this is used to avoid playing sounds when contact list is refreshed
-# the function scans the text widget (from the $start variable to the end) and 
+# the function scans the text widget (from the $start variable to the end) and
 # replaces any smileys pattern by the appropriate image (animated or not) and plays
 # a sound if necessary, etc... It scans the widget for every smiley that exists
 
-proc smile_subst {tw {start "0.0"} {enable_sound 0}} {
+proc smile_subst {tw {start "0.0"} {end "end"} {enable_sound 0}} {
     global emotions sortedemotions config smileys_drawn ;# smileys_end_subst
-    
-  
+
     foreach emotion $sortedemotions {
 	
-	set file [valueforemot "$emotion" file]
-	set filename [string map { " " "_" "/" "_" "." "_"} $file]
-
 	foreach symbol $emotions(${emotion}_text) {
 	    set chars [string length $symbol]
 
 
-	    set animated [valueforemot "$emotion" animated]
-	    set sound [valueforemot "$emotion" sound]
 	    if { [valueforemot "$emotion" casesensitive] } {set nocase "-exact"} else {set nocase "-nocase"}
-	    if { $config(animatedsmileys) == 0 } {set animated 0}
-
-
 	    while {[set pos [$tw search -exact $nocase \
-				 $symbol $start end]] != ""} {
+				 $symbol $start $end]] != ""} {
+
+	    set animated [valueforemot "$emotion" animated]
+
 		set posyx [split $pos "."]
 		set endpos "[lindex $posyx 0].[expr {[lindex $posyx 1] + $chars}]"
 
 		$tw tag configure smiley -elide true
 		$tw tag add smiley $pos $endpos
-#		$tw tag bind smiley <<Selection>> "puts \"selected\""
 
-#		$tw delete $pos $endpos
+		if { $animated && $config(animatedsmileys) } {
 
-		if { $animated } {
+		   set file [valueforemot "$emotion" file]
+			set filename [string map { " " "_" "/" "_" "." "_"} $file]
+
 		    
 		    set emoticon $tw.${smileys_drawn}_anigif_$filename	    
 		    set smileys_drawn [expr $smileys_drawn + 1]		      
@@ -532,12 +527,15 @@ proc smile_subst {tw {start "0.0"} {enable_sound 0}} {
 
 
 		} else {
+
+			 set file [valueforemot "$emotion" file]
 		    $tw image create $endpos -image $file -pady 1 -padx 1
 		    $tw tag remove smiley $endpos
 		}
 
 		
 		if { $config(emotisounds) == 1 && $enable_sound == 1 && $sound != "" } {
+	    set sound [valueforemot "$emotion" sound]
 		    play_sound $sound
 		}
 
