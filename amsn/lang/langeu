@@ -4,13 +4,14 @@ acceptfile Onartu $1 fitxategia, tamaina $2? $3 gisa gordeta
 actions Ekintzak
 addacontact Kontaktua gehitu
 addedyou k bere kontaktuen zerrendara gehitu zaitu
+addtocontacts Kontaktu zerrendara gehitu
 addtoo Pertsona hau zure kontaktuen zerrendara gehitu
 admincontacts Kontaktuak administratu
 admingroups Taldeak administratu
 adverts Iragarpen
 allowseen Pertsona honek konektatuta nagoela ikusi dezan eta nirekin kontaktatzeko baimendu
 appearoff Konektatuta
-aretyping $1 daude mezubat idazten
+aretyping $1 idazten daude
 autohotmaillog Hotmailen automatikoki hasi saioa
 autoip IP automatikoa
 avoidseen Pertsona honek konektatuta nagoela ikusi dezan eta nirekin kontaktatzeko galerazi
@@ -19,83 +20,100 @@ baduserpass Erabiltzaile izena edo pasahitza ez da zuzena
 blankdirect Konexio zuzena erabiltzeko zuriz utzi
 block Blokeatu
 blocked Blokeatuta
+broughtby Honako progamatzaile hauei esker AMSN erabili dezakezu
 browser Nabigatzailea
 busy Okupatuta
 cancel Utzi
 changenick Ezizena aldatu
-chat Txat
+chatack -ren txata onartzen
 chatreq Txat eskakizuna
 chatsmileys Smiley-ak txatean
-chatack -ren txata onartzen
+chat Txat
+checkingver Bertsio berriagorik dagoen egiaztatzen
 checkver Bertsio berria dagoen egiaztatu
-checkingver Bertsio berriak dauden egiaztatzen
+choosebasefont Letra-mota hautatu
+choosebgcolor Atzeko planoko kolorea hautatu
 clicktologin Klik egin hemen saioa hasteko
 close Itzi
+closingdocks Ixteko botoiak minimizatzen du
 command Komandoa
-contactadded Kontaktua gehituta
+confirmdelete $1 ezabatzearekin ados zaude?
 connecterror Akatsa zerbitzarira konektatzerakoan
+contactadded Kontaktua gehituta
+contactdoesnotexist Kontaktua ez da existitzen
+copytogroup Taldera kopiatu
 date Data
 delete Ezabatu
 enableproxy Proxya gaitu
+encoding Kodeatzen
 entercontactemail Kontaktuaren e-posta sartu
 enterfilename Fitxategi-izena sartu mesedez
 enternick Zure ezizena sartu
 examples Adibideak
+exitamsn Zihur programatik atera nahi zarela?
+extras Zerbitzu osagarriak
 filedoesnotexist Fitxategia ez da existitzen
 filename Fitxategi-izena
 filetransfercancelled Fitxategien transferentzia bertan behera utzita
 filetransfercomplete Fitxategien transferentzia osatuta
 gonelunch Jatera joanda
-group Taldea
 groupadd Talde bat gehitu
 groupdelete Talde bat ezabatu
-grouprename Talde bat berizendatu
-groupoldname Izen zaharra
-groupnewname Izen berria
-groupunknown Talde ezezaguna
 groupexists Talde hau badago lehendik
 groupmissing Taldea ez dago
+groupnewname Izen berria
+groupnotempty Taldea ez dago utzik!
+groupoldname Izen zaharra
+grouprename Talde bat berizendatu
+group Taldea
+groupunknown Talde ezezaguna
 handle Heldulekua
-help Laguntza
 helpcontents Laguntzaren edukiak
+help Laguntza
 home Etxea
 ident Identifikatzen
 identity Identitatea
 inbox Sarrera-bandeja
+invalidusername Erabiltzaile izen ez zuzena
 invite Gonbidatu
 ipaddress IP Helbidea
-istyping $1 da mezubat idazten
+istyping $1 mezu bat idazten dago
 joins $1 $2 berriketan sartzen da
 language Hizkuntza
+lastmsgtime Azken mezuaren ordua
+leaveblankforhotmail Zuriz utzi Hotmailen weba erabiliko baduzu
 leaves $1 berriketatik ateratzen da
 listeningon $1 ataka entzuten
 listsmileys Smiley-ak kontaktuan
 loadcontacts Kontaktuen zerrenda kargatu
+loggedotherlocation Deskonektaturik: Beste lekuren batean saioa hasi da
 loggingin Saioa hasi
-login Saioa hasi
 loginas Beste saio bat hasteko
+login Saioa hasi
 logout Saioa amaitu
 logsin oraintxe bertan saioa hasi du
 mailer Bidalketa-funtzioa
 mobile Mugikorra
-mustrestart Aldaketak aplikatzeko programa berrabiarazi behar duzu
-mystatus Nire egoera
+movetogroup Taldera mugitu
 msg Mezua
 msn AMSN
+mustrestart Aldaketak aplikatzeko programa berrabiarazi behar duzu
+mystatus Nire egoera
 needonline Oraindik deskonektatuta zaude edo deskonektatuta ematen duzu!
+newmail 0 mezu berri zure sarrera-bandejan
 newmail $1 mezu berri zure sarrera-bandejan
 newmailfrom -ren mezu berria
 newmsg Mezu berria
 newveravailable $1 bertsio berria deskargatzeko erabilgarri
 next Hurrengoa
 noactivity Ez dago aktibitaterik
-newmail 0 mezu berri zure sarrera-bandejan
+nonewmail Ez dago mezu berririk
 nonewver Ez dago bertsio berriagorik deskargatzeko erabilgarri
 notify jakinarazi
 nousersinsession Ez dago erabiltzailerik saioan
-ok Ok
 offline Deskonektatuta
-onenewmail 1 mezu berri zure sarrera-bandejan
+ok Ok
+onenewmail Mezu berri bat zure sarrera-bandejan
 online Konektatuta
 onphone Telefonoz hitzegiten
 openreceived Ireki jasotako fitxategia
@@ -110,8 +128,8 @@ prefapps Aplikazioak
 preferences Hobespenak
 prefsound Soinuak
 properties Propietateak
+proxyconfhttp HTTP proxyaren konfigurazioa
 proxyconf Proxyaren konfigurazioa
-proxyconfhttp HTTP proxy support configuration
 publishphones Nire telefono zenbakiak argitara eman
 receivedbytes $2 byteetako $1 jasota
 receivefile Fitxategia jaso
@@ -119,30 +137,34 @@ reconnect $1 birkonektatzera itxaroten
 reconnecting Zerbitzariara birkonektatzen
 rememberpass Pasahitza gogoratu
 rightback Oraintxe bueltan nago
-save Gorde
 saveas Gorde Honela
 savecontacts Kontaktu zerrenda gorde
-says $1 dio
+save Gorde
+says $1(e)k dio
 sbcon Switch Board-era konektatzen
 send Bidali
 sendfile Fitxategia bidali
 sendmail E-posta bidali
 sendmsg Mezua bidali
 sentbytes $2 bytetako $1 bidaliak
+servergoingdown Deskonektaturik: Zerbitzaria mantentze lanetarako itzaliko da
 server Zerbitzaria
 sound Gertaeren soinuak
 startoffline Deskonektatuta hasi
+status Egoera
+syntaxerror Akats sintaktikoa
 textsize Testuaren tamaina
 title Al's Messenger
 to Nori
 tools Tresnak
-yousay Zuk diozu
-youwant Zu itxaroten duzu
 unblock Desblokeatu
 uoffline Deskonektatuta
 uonline Konektatuta
+useralreadyonlist Erabiltzailea kontaktuen zerrendan dago jada
 user Erabiltzaile
 version Bertsioa
 view Ikuspegia
 willjoin $1 berriketan sartzera itxaroten
 work Lana
+yousay Zuk diozu
+youwant Zu itxaroten duzu
