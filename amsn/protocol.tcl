@@ -934,7 +934,18 @@ namespace eval ::MSN {
       if { $username == "" } {
         set username $userlogin
       }
-      ::MSN::WriteSB ns "ADD" "FL $userlogin $username 0"
+      ::MSN::WriteSB ns "ADD" "FL $userlogin $username 0" "::MSN::ADDHandler"
+   }
+   
+   proc ADDHandler { item } {
+   
+      if { [lindex $item 2] == "FL"} {
+         set contact [lindex $item 4]	;# Email address
+         msg_box "[trans contactadded]\n$contact"
+      }
+      
+      cmsn_ns_handler $item
+
    }
 
    proc deleteUser { userlogin } {
@@ -1117,6 +1128,8 @@ namespace eval ::MSN {
 	 
 	 	 	       
       } else {
+      
+         proc_sb
   
          set chatid [::MSN::ChatFor $sbn]
 
@@ -2725,11 +2738,6 @@ proc cmsn_ns_handler {item} {
 	 return 0
       }
       ADD {
-	     if { [lindex $item 2] == "FL"} {
-	       set contact [lindex $item 4]	;# Email address
-	       set addtrid [lindex $item 3]	;# Transaction ID
-	       msg_box "[trans contactadded]\n$contact"
-	   }
 
 	 set curr_list [lindex $item 2]
 	 if { ($curr_list == "FL") } {
@@ -2944,7 +2952,18 @@ proc cmsn_ns_msg {recv} {
 
 
 proc cmsn_listdel {recv} {
-   ::MSN::WriteSB ns "LST" "[lindex $recv 2]"
+   set list_name "list_[string tolower [lindex $recv 2]]"
+   upvar #0 $list_name the_list
+   set idx [lsearch $the_list "[lindex $recv 4] *"]
+   if { $idx != -1 } {
+      set the_list [lreplace $the_list $idx $idx]
+   } else {
+      status_log "cmsn_listdel: PANIC!!!\n" red
+   }
+   
+   lists_compare		;# FIX: hmm, maybe I should not run it always!
+   list_users_refresh
+   #::MSN::WriteSB ns "LST" "[lindex $recv 2]"
 }
 
 proc cmsn_auth {{recv ""}} {
@@ -3333,6 +3352,13 @@ proc cmsn_listupdate {recv} {
 
    set list_name "list_[string tolower [lindex $recv 2]]"
 
+   #If we have an ADD command, convert it to a list of only one user
+   if {[lindex $recv 0] == "ADD"} {		;# FIX: guess I should really
+      set recv [linsert $recv 4 "1" "1"]	;# get it out of here!!
+      status_log "ADDING...\n" blue
+   }   
+   
+   #List is empty or first user in list
    if {([lindex $recv 4] <= 1) && ([lindex $recv 0] == "LST")} {
       set $list_name [list]
       status_log "clearing $list_name\n"
@@ -3341,11 +3367,7 @@ proc cmsn_listupdate {recv} {
        }
    }
 
-   if {[lindex $recv 0] == "ADD"} {		;# FIX: guess I should really
-      set recv [linsert $recv 4 "1" "1"]	;# get it out of here!!
-      status_log "ADDING...\n" blue
-   }
-
+   #If list is not empty, get user information
    if {[lindex $recv 4] != 0} {
       set contact_info ""
       set user [lindex $recv 6]
@@ -3355,6 +3377,7 @@ proc cmsn_listupdate {recv} {
       #status_log "adding to $list_name $contact_info\n"
    }
 
+   #Last user in list
    if {[lindex $recv 4] == [lindex $recv 5]} {
       lists_compare		;# FIX: hmm, maybe I should not run it always!
       list_users_refresh
