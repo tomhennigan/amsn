@@ -3866,14 +3866,6 @@ proc SSLToggled {} {
 	}
 }
 
-proc ProtocolToggled { mainframe } {
-	global config
-	if {$config(protocol) == 9 } {
-		$mainframe.nossl configure -state normal
-	} else {
-		$mainframe.nossl configure -state disabled
-	}
-}
 
 
 #///////////////////////////////////////////////////////////////////////
@@ -3925,9 +3917,11 @@ proc cmsn_draw_login {} {
 	-text "[trans rememberpass]" -font splainf -highlightthickness 0 -pady 5 -padx 10
 	checkbutton $mainframe.offline -variable config(startoffline) \
 	-text "[trans startoffline]" -font splainf -highlightthickness 0 -pady 5 -padx 10
-	radiobutton $mainframe.msnp7 -text "MSN Protocol 7" -value 7 -variable config(protocol) -padx 10 -command "ProtocolToggled $mainframe"
-	radiobutton $mainframe.msnp9 -text "MSN Protocol 9" -value 9 -variable config(protocol) -padx 10 -command "ProtocolToggled $mainframe"
-	checkbutton $mainframe.nossl -text "[trans disablessl]" -variable config(nossl) -padx 10 -command SSLToggled
+
+	#Set it, in case someone changes preferences...
+	set config(protocol) 9
+
+ checkbutton $mainframe.nossl -text "[trans disablessl]" -variable config(nossl) -padx 10 -command SSLToggled
 
 	label $mainframe.example -text "[trans examples] :\ncopypastel@hotmail.com\nelbarney@msn.com\nexample@passport.com" -font examplef -padx 10
 	
@@ -3951,8 +3945,6 @@ proc cmsn_draw_login {} {
 	grid $mainframe.example -row 1 -column 4 -rowspan 4
 
 	if { $config(disableprofiles) != 1 } {
-		grid $mainframe.msnp7 -row 5 -column 1 -sticky en -columnspan 4
-		grid $mainframe.msnp9 -row 6 -column 1 -sticky en -columnspan 4
 		grid $mainframe.nossl -row 7 -column 1 -sticky en -columnspan 4
 	}
 
