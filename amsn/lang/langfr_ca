@@ -1,0 +1,299 @@
+amsn_lang_version 2
+about À propos de...
+accept Accepter
+acceptfile Accepter le fichier $1 (taille = $2)? enregistré dans $3
+actions Actions
+addacontact Ajouter un contact
+addedyou vous a ajouté dans sa liste de contacts
+addtocontacts Ajouter aux contacts
+addtoo Ajouter cette personne à ma liste de contacts
+admincontacts Gérer les contacts
+admingroups Gérer les groupes
+adverts Publicité
+alarmpref Configuration de l'alarme utilisateur
+alarmstatus Activer/désactiver l'alarme pour cet utilisateur
+allowseen Autoriser cette personne à me voir et à me contacter quand je suis en ligne
+appearance Apparition
+appearoff Apparaître déconnecté
+areacode Code régional
+aretyping $1 est en train de taper un message
+askprofile Cet utilisateur n'a pas encore de profil. Voulez vous en créer un nouveau ? \n Si vous ne le faites pas, vous ne pourrez pas utiliser l'historique, ni sauvegarder vos alertes ou mots de passe. \n Si vous le faites, un nouveau fichier de configuration pour ce profil sera créé. \n \n Cliquez sur "Créer Profil" pour créer un nouveau profil pour $1.
+autoaway Me marquer "Absent" quand je suis inactif depuis plus de
+autoconnect2 Me connecter automatiquement quand aMSN est lancé
+autoconnect Connexion automatique au lancement
+autohotmaillog Identification automatique à Hotmail
+autoidle Absence automatique après une période d'inactivité
+autoip IP automatique
+autonoact Me marquer "inactif" quand je suis inactif depuis plus de
+avoidseen Interdire à cette personne de me voir ou de me contacter quand je suis en ligne
+away Absent
+awaymsg1 Demander un message d'absence chaque fois que je change de statut pour Absent/DRB/Occupé
+awaymsg2 Ne jamais demander et toujours utiliser le message ci-dessous
+baduserpass Mauvais nom d'utilisateur ou mot de passe
+bgcolor Changer la couleur de fond de aMSN
+blankdirect Laisser vide pour une connexion sans proxy
+block Bloquer
+blocked Bloqué
+broughtby Développé pour vous par
+browse Naviguer
+browser Navigateur web
+busy Occupé
+cancel Annuler
+cfgalarm Configurer/Ajouter/Supprimer alarme
+changefont Changer la police
+changenick Changer de pseudonyme
+chatack Accepter de discuter avec
+chat Discuter
+chatreq Inviter à discuter
+chatsmileys2 Afficher les émoticons dans la fenêtre de clavardage
+chatsmileys Utiliser les émoticons
+checkfilman Les fichiers reçus seront sauvegardés dans $1. Veuillez vérifier les propriétés du gestionnaire de fichier dans la fenêtre de préférences. 
+checkingver Recherche d'une nouvelle version
+checkver Nouvelle version
+choosebasefont Choisir la police de caractères
+choosebgcolor Choisir la couleur de fond
+choosefontcolor Choisir la couleur de police
+clearlog2 Effacer l'historique de tous les contacts
+clearlog3 Effacer tous les logs
+clearlog Effacer les logs
+clicktologin Cliquez pour vous connecter
+close Fermer
+closingdocks Le bouton fermer ancre l'application
+command Commande
+confirmdelete Confirmer la suppression
+confirm Êtes vous sûr?
+connecterror Erreur de connexion
+connection Connexion
+contactadded Contact ajouté
+contactdoesnotexist Personne introuvable
+copy Copier
+copytogroup Copier vers groupe
+countrycode Mon pays ou code de région
+cprofile Créer un profil
+cut Couper
+date Date
+days Jours
+dcprofile Ne pas créer de profil
+default Configuration par défaut
+delete Effacer
+deliverfail Une erreur est survenue lors de l'envoi du message suivant
+delprofile2 Sélectionner le profil que vous voulez supprimer
+delprofile Supprimer un profil
+dockgtk Ancrer dans GTK
+docking Ancrage actif
+dockingoff Ancrage inactif
+dockkde Ancrage dans KDE
+edit Édition
+editprofile Modifier profil
+enableproxy Utiliser un proxy
+encoding2  Changer la manière dont les caractères sont encodés
+encoding Choisir l'encodage
+entercontactemail Rajouter un contact de messagerie
+enterfilename Entrez le nom du fichier
+enternick Donner votre pseudonyme
+examples Exemples
+exitamsn Quitter aMSN?
+extras Services Additionnels
+faq Questions les plus fréquentes
+filedoesnotexist Le fichier n'existe pas
+fileman Gestionnaire de fichiers
+filename Fichier
+filetransfercancelled Transfert de fichier annulé
+filetransfercomplete Transfert de fichier terminé
+ftaccepted Transfert de fichier accepté
+ftrejected Transfert de fichier refusé
+gonelunch Parti[e] manger
+groupadd Ajouter un groupe
+groupdelete Supprimer un groupe
+groupexists Le groupe existe déjà
+group Groupe
+groupmissing Impossible de trouver le groupe
+groupnewname Nouveau nom
+groupnotempty Groupe non vide
+groupoldname Ancien nom
+grouprename Renommer un groupe
+groupunknown Groupe inconnu
+handle Pseudonyme
+help Aide
+helpcontents Contenu de l'aide
+history Voir l'historique
+home Domicile
+ident Identification
+identity Identité
+inbox Boîte aux lettres
+invalidusername Utilisateur incorrect
+invite Invitation
+ipaddress Adresse IP
+ipdetect Détection de l'IP exacte pour les transferts de fichier utilisant HTTP
+istyping $1 est en train de taper un message
+joins $1 a rejoint la conversation
+keepalive Garder la connexion ouverte (NAT)
+keeplog2 Conserver toutes les conversations dans l'historique de aMSN pour une visualisation ultérieure
+keeplog Conserver les conversations
+language Langue
+lastmsgtime Dernier message reçu à $1
+lclosedwin $1 a fermé la fenêtre sur $2
+lconftopriv Conférence changée en conversation privée avec $1
+lconvstarted Conversation commencée le $1
+leaveblankforhotmail Laisser vide pour un compte Hotmail
+leaves $1 a quitté la conversation
+lenteredconf $1 a rejoint la conférence sur $2
+linprivate En privé
+listeningon A l'écoute sur le port $1
+listsmileys2 Afficher les émoticons dans la liste de contacts principale d'aMSN
+listsmileys Liste des émoticons
+ljoinedconf $1 a rejoint la conférence
+lleftconf $1 a quitté la conférence
+loadcontacts Charger la liste de contacts
+logbigger La taille du fichier journal pour chaque contact ne dépasse jamais
+logfandexp La taille des fichiers journaux et l'expiration de l'historique
+loggedotherlocation Déconnecté. Connecté depuis un autre endroit.
+loggingin est en cours de connexion
+loginas Se connecter en tant que
+loging Connexion en cours
+login Se connecter
+logolder Seulement conserver les conversation qui ont eu lieu dans les
+logout Se déconnecter
+logsin vient de se connecter
+logsmileys Afficher les émoticons dans la fenêtre d'historique de aMSN
+lprivtoconf  Conversation privée changée en conférence avec $1
+luclosedwin Vous avez fermé la fenêtre sous $1
+mailer Programme de courrier
+maximised Maximisé
+minimised Minimisé/Icônifié
+mins minutes
+mobile Mobile
+movetogroup Déplacer vers un groupe
+msgmaxmin Quand un nouveau message arrive, je veux qu'il soit
+msg Message
+msgmode Choisissez comment manier plusieurs fenêtres de messages :
+msn AMSN
+mustrestart Vous devez redémarrer l'application pour que les changements soient effectifs
+myhomephone Mon numéro à la maison
+mymobilephone Mon numéro de portable
+mystatus Mon état
+myworkphone Mon numéro au travail
+natip Détection de l'adresse IP par page web
+natkeepalive Si vous vous déconnectez régulièrement, activez cette option
+needonline Vous ne pouvez pas écrire un message si vous êtes invisible ou déconnecté
+neweravailable Nouvelle version disponible ($1)
+newmail $1 nouveau(x) message(s)
+newmailfrom Nouveau message de
+newmsg Nouveau message
+newveravailable Nouvelle version disponible
+next Suivant
+noactivity Inactif
+nologfile Pas de fichier journal pour $1
+nonewmail Pas de nouveau message
+nonewver Il n'y a pas de nouvelle version disponible
+normal Normal
+notify1 Afficher un avertissement quand un contact est en ligne
+notify2 Afficher un avertissement quand de nouveaux messages sont reçus
+notify3 Afficher un avertissement quand des courriels arrivent dans votre boîte de réception
+notifyoffset Sélectionner la position de la fenêtre d'avertissement en précisant ses coordonnées
+notify prévenir
+notifywin Fenêtre d'avertissement
+nousersinsession Pas d'utilisateur dans cette session
+offline Déconnecté
+ok Accepter
+onenewmail un nouveau message
+online Connecté
+onphone Au téléphone
+openreceived Ouvrir les fichiers reçus
+options Options
+ordercontactsby Trier les contacts par
+ordergroupsby Trier les groupes par
+other Autre
+pager Pager
+pass Mot de passe
+paste Coller
+personal Personnel
+phone Téléphone
+picfile Image associée à l'alarme (GIF < 500 x 500)
+picstatus Activer/Désactiver l'image associée à l'alarme
+port Port
+prefalerts Mes alertes d'évènements et sons
+prefapps Applications
+prefawaymsg Mon message d'absence
+prefemotic Émoticons et icônes
+preferences Préférences
+preffont2 Changer la façon dont les autres voient mon texte lors des conversations
+preffont3 Changer la police et la taille de l'interface d'aMSN
+preffont Mon texte du message
+preflog1 Mon historique et mes options de Log
+preflook Apparence de Amsn
+prefmsging Mon interface de messagerie
+prefname Mon nom/surnom MSN Messenger
+prefphone2 Entrer les numéros de téléphone visibles de votre liste de personnes \n autorisées \n
+prefphone Mes numéros de téléphone
+prefprofile2 Créer ou modifier votre profil publique (votre description \n visble par les autres)
+prefprofile3 profils de configuration de l'utilisateur d'aMSN
+prefprofile Mon profil publique
+prefproxy Ma configuration Proxy
+prefsession Ma connexion et mon statut
+prefshared Connexions partagées (Seulement pour NAT)
+prefsound Sons
+profiledconfig Configuration par profils
+profiles Profils
+properties Propriétés
+proxyconf Configuration du proxy
+proxyconfhttp Configuration du support proxy HTTP
+proxy Je suis derrière un serveur proxy (HTTP ou SOCKS5)
+publishphones Publier mes numéros de téléphone
+receivedbytes $1 de $2 octets reçus
+receivefile Fichier reçu
+reconnect Dans l'attente de la reconnexion de $1
+reconnecting Reconnexion au serveur
+reject Refuser
+rememberpass Enregistrer le mot de passe
+reversed Inverser
+rightback Bientôt de retour
+saveas Enregistrer sous
+savecontacts Enregistrer la liste des contacts
+save Enregistrer
+savetofile Sauvegarder dans un fichier
+says $1 dit
+sbcon Connexion au "Switch Board"
+send Envoyer
+sendfile Envoyer un fichier
+sendmail Envoyer un courrier
+sendmsg Envoyer un message
+sentbytes $1 de $2 octets reçus
+servergoingdown Serveur en cours d'arrêt
+server Serveur
+session Session
+sound2 Jouer un son quand un contact se connecte ou quand un message est reçu
+sound Évènements Sonores
+soundcommand Ceci est la commande de lecture de sons (ex: esdplay)
+soundfile Fichier de son associé à l'alarme
+soundloop Jouer le son en boucle
+soundserver Serveur de Sons
+soundstatus Activer ou désactiver l'alarme sonore
+startoffline2 Se connecter en mode invisible
+startoffline Démarrer déconnecté
+status Statut
+stopalarm Arrêter l'alarme
+stylechat Même apparence que les conversations
+stylehist Apparence historique d'aMSN
+stylelog Sélectionner le format dans lequel vous voulez voir l'historique
+syntaxerror Erreur de syntaxe
+tabbed Onglets
+textsize Taille du texte
+title Al's Messenger
+to À
+tools Outils
+unblock Débloquer
+uoffline Déconnectés
+uonline Connectés
+useralreadyonlist Utilisateur déjà présent dans la liste
+usernotonline L'utilisateur n'est pas en ligne
+user Utilisateur
+version Version
+viewprofile Afficher le profil
+view Vue
+willjoin Dans l'attente que $1 rejoigne la conversation
+work Travail
+xoffset Position en X
+yoffset Position en Y
+yousay Vous avez dit
+youwant Vous voulez
