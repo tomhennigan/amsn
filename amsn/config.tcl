@@ -104,6 +104,8 @@ proc save_config {} {
    } else {
       		set file_id [open "[file join ${HOME} config]" w]
    }
+   
+   fconfigure $file_id -translation {binary binary}
 
    set loginback $config(login)
    set passback $password
@@ -124,8 +126,9 @@ proc save_config {} {
       set var_value [lindex $config_entries $idx]
       puts $file_id "$var_attribute $var_value"
    }
-   if {$config(save_password)} {
-      puts $file_id "password ${password}"
+   if { ($config(save_password)) && ($password != "")} {
+      set key [string range "${loginback}dummykey" 0 7]
+      puts $file_id "password [::des::encrypt $key "${password}\n"]"
    }
    close $file_id
    
@@ -141,7 +144,8 @@ proc load_config {} {
       return 1
    }
    ConfigDefaults
-   set file_id [open "${HOME}/config" r]
+   set file_id [open "${HOME}/config" r ]
+   fconfigure $file_id -translation {binary binary}
    gets $file_id tmp_data
    if {$tmp_data != "amsn_config_version 1"} {	;# config version not supported!
       return 1
@@ -153,7 +157,11 @@ proc load_config {} {
       set config($var_attribute) $var_value
    }
    if {[info exists config(password)]} {
-      set password $config(password)
+      set key [string range "$config(login)dummykey" 0 7]
+      set password [::des::decrypt $key $config(password)]
+      #puts "Password length is: [string first "\n" $password]\n"
+      set password [string range $password 0 [expr { [string first "\n" $password] -1 }]]
+      #puts "Password is: $password\nHi\n"      
       unset config(password)
    }
    close $file_id

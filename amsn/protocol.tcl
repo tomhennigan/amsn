@@ -455,7 +455,7 @@ namespace eval ::MSN {
 
       #Finally, to write, use write_proc (by default ::MSN::DirectWrite)      
       set command "[sb get $sbn write_proc] [list $cmd]"
-      status_log "Evaluating: $command\n" white
+      #status_log "Evaluating: $command\n" white
       catch {eval $command}
       
 
