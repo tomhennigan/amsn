@@ -2850,7 +2850,7 @@ proc cmsn_draw_main {} {
 	#.main_menu.actions add command -label "[trans showblockedlist]..." -command "VerifyBlocked ; show_blocked"
 	.main_menu.actions add command -label "[trans changenick]..." -command cmsn_change_name
 	.main_menu.actions add separator
-	.main_menu.actions add command -label "[trans checkver]..." -command "check_version"
+	.main_menu.actions add command -label "[trans checkver]..." -command "::autoupdate::check_version"
 
 
 	#Order Contacts By submenu
@@ -3632,7 +3632,7 @@ proc cmsn_draw_offline {} {
 		"$pgBuddy.text tag conf check_ver -fore #000000 -underline true;\
 		$pgBuddy.text conf -cursor left_ptr"
 	$pgBuddy.text tag bind check_ver <Button1-ButtonRelease> \
-		"check_version"
+		"::autoupdate::check_version"
 
 	$pgBuddy.text tag conf lang_sel -fore #777777 -underline true \
 		-font splainf -justify left
@@ -5854,195 +5854,6 @@ proc show_umenu {user_login grId x y} {
 	
 	tk_popup .user_menu $x $y
 }
-#Create the download link (change on the differents platforms)
-proc get_download_link {new_version} {
-	set new_version [string replace $new_version 1 1 "_"]
-	#set new_version [string replace $new_version 1 1 "-"]
-	append amsn_url "http://aleron.dl.sourceforge.net/sourceforge/amsn/amsn-" $new_version
-	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-		append amsn_url ".dmg"
-	} elseif { $::tcl_platform(platform)=="windows" } {
-		append amsn_url ".exe"
-	} else { 
-		append amsn_url ".tar.gz"
-	}
-	
-	return $amsn_url
-}
-
-#///////////////////////////////////////////////////////////////////////
-proc amsn_download_progress { url token {total 0} {current 0} } {
-	set w .downloadwindow
-	#Config cancel button to cancel the download
-	$w.bottom.cancel configure -command "::http::reset $token"
-	bind $w <<Escape>> "::http::reset $token"
-	bind $w <<Destroy>> "::http::reset $token"
-	wm protocol $w WM_DELETE_WINDOW "::http::reset $token"
-	#Check if url is valid
-	if { $total == 0 } {
-		$w.top.text configure -text "Couldn't get $url"
-		$w.bottom.cancel configure -text "Close" -command "destroy $w"
-		bind $w <<Escape>> "destroy $w"
-		bind $w <<Destroy>> "destroy $w"
-		wm protocol $w WM_DELETE_WINDOW "destroy $w"
-		return
-	}
-	#Update progress bar and text bar, use size in KB and MB
-	::dkfprogress::SetProgress $w.bottom.prbar [expr {$current*100/$total}]
-	$w.top.text configure -text "$url\n[trans receivedbytes [::amsn::sizeconvert $current] [::amsn::sizeconvert $total]]"
-}
-
-#///////////////////////////////////////////////////////////////////////
-proc amsn_choose_dir { url token } {
-	set w .downloadwindow
-	#If user cancel the download
-	if { [::http::status $token] == "reset" } {
-		::http::cleanup $token
-		$w.top.text configure -text "Download canceled."
-		$w.bottom.cancel configure -text "Close" -command "destroy $w"
-		bind $w <<Escape>> "destroy $w"
-		bind $w <<Destroy>> "destroy $w"
-		wm protocol $w WM_DELETE_WINDOW "destroy $w"
-		return
-	}
-	#If it's impossible to get the URL
-	if { [::http::status $token] != "ok" || [::http::ncode $token] != 200 } {
-		$w.top.text configure -text "Couldn't get $url"
-		$w.bottom.cancel configure -text "Close" -command "destroy $w"
-		bind $w <<Escape>> "destroy $w"
-		bind $w <<Destroy>> "destroy $w"
-		wm protocol $w WM_DELETE_WINDOW "destroy $w"
-		return
-	}
-	#If the download is over, remove cancel button and progress bar
-	destroy $w.bottom.prbar
-	destroy $w.bottom.cancel
-	
-	#Get default location for each platform
-	set location [get_default_location]
-	set namelocation [lindex $location 0]
-	set defaultlocation [lindex $location 1]
-	
-	$w.top.text configure -text "Save file on $namelocation?"
-	#Create 2 buttons, save and save as
-	button $w.bottom.save -command "amsn_save $url $token $defaultlocation" -text "Save" -default active
-	button $w.bottom.saveas -command "amsn_save_as $url $token $defaultlocation" -text "Save in another directory" -default normal
-	pack $w.bottom.save
-	pack $w.bottom.saveas -pady 5
-	#If user try to close the window, just save in default directory
-	bind $w <<Escape>> "amsn_save $url $token $defaultlocation"
-	bind $w <<Destroy>> "amsn_save $url $token $defaultlocation"
-	wm protocol $w WM_DELETE_WINDOW "amsn_save $url $token $defaultlocation"
-}
-
-#When user click on save in another directory, he gets a window to choose the directory
-proc amsn_save_as {url token defaultlocation} {
-	set location [tk_chooseDirectory -initialdir $defaultlocation]
-	if { $location !="" } {
-		amsn_save $url $token $location
-	} else {
-		return
-	}
-}
-
-#Define default directory on the three platforms 
-#(It's ok For Mac OS X, change it on your platform if you feel it's not good)
-proc get_default_location {} {
-	global files_dir env
-	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-		set namelocation "Desktop"
-		set defaultlocation "[file join $env(HOME) Desktop]"
-	} elseif { $::tcl_platform(platform)=="windows" } {
-		set namelocation "Desktop"
-		set defaultlocation "$files_dir"
-	} else { 
-		set namelocation "Home folder"
-		set defaultlocation "[file join $env(HOME)]"
-	}
-	lappend location $namelocation
-	lappend location $defaultlocation
-	return $location
-}
-
-#///////////////////////////////////////////////////////////////////////
-proc amsn_save { url token location} {
-	
-	set savedir $location
-	set w .downloadwindow
-	
-	#Save the file
-	set lastslash [expr {[string last "/" $url]+1}]
-	set fname [string range $url $lastslash end]
-	
-	if { [catch {
-		set file_id [open [file join $savedir $fname] w]
-		fconfigure $file_id -translation {binary binary} -encoding binary
-		puts -nonewline $file_id [::http::data $token]
-		close $file_id
-	}]} {
-		#Can't save the file at this place
-		#Get informations of the default location for this system
-		set location [get_default_location]
-		set namelocation [lindex $location 0]
-		set defaultlocation [lindex $location 1]
-		#Show the button to choose a new file location or use default location
-		$w.top.text configure -text "File can't be saved at this place."
-		$w.bottom.save configure -command "amsn_save $url $token $defaultlocation" -text "Save in default location" -default active
-		$w.bottom.saveas configure -command "amsn_save_as $url $token $defaultlocation" -text "Choose new file location" -default normal
-		
-		bind $w <<Escape>> "amsn_save $url $token $defaultlocation"
-		bind $w <<Destroy>> "amsn_save $url $token $defaultlocation"
-		wm protocol $w WM_DELETE_WINDOW "amsn_save $url $token $defaultlocation"
-	} else {
-		#The saving is a sucess, show a button to open directory of the saved file and close button
-		$w.top.text configure -text "Done\n Saved $fname in $savedir."
-		$w.bottom.save configure -command "launch_filemanager \"$savedir\";destroy $w" -text "Open directory" -default normal
-		$w.bottom.saveas configure -command "destroy $w" -text "Close" -default active
-		#if { $::tcl_platform(platform)=="unix" } {
-		#	button $w.bottom.install -text "Install" -command "amsn_install_linux $savedir $fname"
-		#	pack $w.bottom.install
-		#}
-		#if { $::tcl_platform(platform)=="windows" } {
-		#	button $w.bottom.install -text "Install" -command "amsn_install_windows $savedir $fname"
-		#	pack $w.bottom.install
-		#}
-		bind $w <<Escape>> "destroy $w"
-		bind $w <<Destroy>> "destroy $w"
-		wm protocol $w WM_DELETE_WINDOW "destroy $w"
-	}
-
-}
-
-#///////////////////////////////////////////////////////////////////////
-proc amsn_install_windows { savedir fname } {
-}
-
-#///////////////////////////////////////////////////////////////////////
-#proc amsn_install_linux { savedir fname } {
-#	set old_dir [pwd]
-#	cd $savedir
-#	if { [catch { set shell [exec tar xzfp "$savedir/$fname"] }] } {
-#		.update.q configure -text "Problems occurred during the installation (tar xzfp $savedir/$fname). Please report it."
-#	} else {
-#		catch { [exec mv "$savedir/amsn-*" "$savedir/msn"] }
-#		#copiar els plugins
-#		set success [catch { [exec cp "$::program_dir/plugins/*" "$savedir/msn/plugins"] }]
-#		#copiar els skins
-#		set success [catch { [exec cp "$::program_dir/skins/*" "$savedir/msn/skins"] }]
-#		#moure la versi�nova a la carpeta on estava
-#		if { !$success } {
-#			if { [catch { [exec mv "$savedir/msn" "$::program_dir"] }] } {
-#				#missatge d'error
-#				.update.q configure -text "Problems occurred during the installation (tar xzfp $savedir/$fname). Please report it."
-#			}
-#		} else {
-#			#missatge d'error
-#			.update.q configure -text "Problems occurred during the installation (tar xzfp $savedir/$fname). Please report it."
-#		}
-#		.update.q configure -text "Installation complete: $shell"
-#	}
-#	cd $old_dir 
-#}
 
 #///////////////////////////////////////////////////////////////////////
 proc run_command_otherwindow { command } {

@@ -154,7 +154,7 @@ proc trayicon_init {} {
 	$iconmenu add separator
    	$iconmenu add command -label "[trans sendmsg]..." -command  [list ::amsn::ShowSendMsgList [trans sendmsg] ::amsn::chatUser ] -state disabled
    	$iconmenu add command -label "[trans sendmail]..." -command [list ::amsn::ShowSendEmailList [trans sendmail] launch_mailer] -state disabled
-   	#$iconmenu add command -label "[trans checkver]..." -command "check_version"
+   	#$iconmenu add command -label "[trans checkver]..." -command "::autoupdate::check_version"
 	$iconmenu add separator
 #	$iconmenu add command -label "[trans mystatus]" -state disabled
 #	$iconmenu add command -label "   [trans online]" -command "ChCustomState NLN" -state disabled
