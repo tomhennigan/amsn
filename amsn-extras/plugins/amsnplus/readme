@@ -55,24 +55,13 @@ Features:
       and the commands are resolved in order.
       So if you send /color blue text /color red, you'll see text in red.
   Multiple colours in chat window:
-    Status: works perfectly
     Mini How-To:
-      You can add colour to your text by predefined colors (!FC followed by a number from 0 to 15 and closed by ) f.e. (!FC3)
-      or by an rgb colour format (red,green,blue) f.e. (255,000,000) is red
-      You can notice that the 2nd way can be used by the button on the chat window (at left, above the text input). If
+      You can notice that you can use the button on the chat window (at left, above the text input). If
       you click, you'll see a colour chooser, when you're done, click ok and you'll see that some text has been added, don't
       remove this text or you won't see the color. That's all!
   Multi-formatted text in chat window:
-    Status: works perfectly but remains some buttons to be added in the chat window
     Mini How-To:
-      You can change your style of font by some text:
-        (!FB) sets bold/no-bold
-	(!FI) sets italic/no-italic
-	(!FU) sets underline/no-underline
-	(!FS) sets overstrike/no-overstrike
-	(!FR) resets the style to none of them
-      Try it and you'll get it in a while.
-      You also can do this by the action menu in the chat window.
+      You can do this by the action menu in the chat window. Very easy.
   Quick Texts:
     Status: the configurator gui needs improvement
     Mini How-To:
