@@ -85,7 +85,7 @@ namespace eval anigif {
 		return
 	    }
 	    update
-	    set ::anigif::${fname}(loop) [after [lindex $delay $idx] "::anigif::anigif2 $fname [expr {$idx + 1}]"]
+	    after [lindex $delay $idx] "::anigif::anigif2 $fname [expr {$idx + 1}]"
 	    set ::anigif::${fname}(idx) [incr idx]
 	}
     }
@@ -193,22 +193,18 @@ namespace eval anigif {
     }
 
     proc destroy {w} {
-	puts "destroying $w"
 
 	catch { 
 	    if { ![info exists ::anigif::${w}] } {
-		puts "already destroyed"
 		return
 	    }
 	    set fname [set ::anigif::${w}(fname)]
  
 	    if { [expr [set ::anigif::${fname}(count)] - 1]} {
-		puts "minus 1"
 		set ::anigif::${fname}(count) [expr [set ::anigif::${fname}(count)] - 1]
 		unset ::anigif::${w}
 		
 	    } else {
-		puts "destroying..."
 		image delete [set ::anigif::${fname}(curimage)]
 		foreach imagename [set  ::anigif::${fname}(images)] {
 		    image delete $imagename
@@ -216,6 +212,12 @@ namespace eval anigif {
 		unset ::anigif::${w}
 		unset ::anigif::${fname}
 	
+		foreach timer [after info] {
+		    if { [lsearch  [lindex [after info $timer] 0] $fname ] != -1 } {
+			after cancel $timer
+		    }
+		}
+
 	    } 
 	    
 	} 
