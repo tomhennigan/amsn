@@ -3956,8 +3956,8 @@ proc cmsn_draw_main {} {
 
 	#wm iconname . "[trans title]"
 	if {$tcl_platform(platform) == "windows"} {
-		catch {wm iconbitmap . [file join icons winicons msn.ico]}
-		catch {wm iconbitmap . -default [file join icons winicons msn.ico]}
+		catch {wm iconbitmap . [GetSkinFile winicons msn.ico]}
+		catch {wm iconbitmap . -default [GetSkinFile winicons msn.ico]}
 	} else {
 		catch {wm iconbitmap . @[GetSkinFile pixmaps amsn.xbm]}
 		catch {wm iconmask . @[GetSkinFile pixmaps amsnmask.xbm]}
@@ -6558,7 +6558,7 @@ proc BossMode { } {
 			if { [::config::getKey dock] == 4 } {
 				wm state .bossmode withdraw
 				wm protocol .bossmode WM_DELETE_WINDOW "wm state .bossmode withdraw"
-				catch {wm iconbitmap .bossmode [file join icons winicons bossmode.ico]}
+				catch {wm iconbitmap .bossmode [GetSkinFile winicons bossmode.ico]}
 				statusicon_proc "BOSS"
 			} else {
 				wm protocol .bossmode WM_DELETE_WINDOW "BossMode"

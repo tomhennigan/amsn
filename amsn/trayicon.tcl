@@ -88,7 +88,7 @@ proc trayicon_init {} {
 			return
 		}
 		set systemtray_exist 1
-		set wintrayicon [winico create [file join icons winicons msn.ico]]
+		set wintrayicon [winico create [GetSkinFile winicons msn.ico]]
 		winico taskbar add $wintrayicon -text "[trans offline]" -callback "taskbar_icon_handler %m %x %y"
 		set statusicon 1
 	} else {
@@ -246,7 +246,7 @@ proc statusicon_proc {status} {
 				set pixmap "[GetSkinFile pixmaps doffline.xpm]"
 				set tooltip "[trans offline]"
 				if { $config(dock) == 4 } {
-					set trayicon [winico create [file join icons winicons offline.ico]]
+					set trayicon [winico create [GetSkinFile winicons offline.ico]]
 				}
 			  }
 			
@@ -254,7 +254,7 @@ proc statusicon_proc {status} {
 				set pixmap "[GetSkinFile pixmaps donline.xpm]"
 				set tooltip "$my_name ($config(login)): [trans online]"
 				if { $config(dock) == 4 } {
-					set trayicon [winico create [file join icons winicons online.ico]]
+					set trayicon [winico create [GetSkinFile winicons online.ico]]
 				}
 			  }
 			  
@@ -262,62 +262,62 @@ proc statusicon_proc {status} {
 				set pixmap "[GetSkinFile pixmaps dinactive.xpm]"
 				set tooltip "$my_name ($config(login)): [trans noactivity]"
 				if { $config(dock) == 4 } {
-					set trayicon [winico create [file join icons winicons inactive.ico]]
+					set trayicon [winico create [GetSkinFile winicons inactive.ico]]
 				}
 			  }
 			  "BSY" {
 				set pixmap "[GetSkinFile pixmaps dbusy.xpm]"
 				set tooltip "$my_name ($config(login)): [trans busy]"
 				if { $config(dock) == 4 } {
-					set trayicon [winico create [file join icons winicons busy.ico]]
+					set trayicon [winico create [GetSkinFile winicons busy.ico]]
 				}
 			  }
 			  "BRB" {
 				set pixmap "[GetSkinFile pixmaps dbrb.xpm]"
 				set tooltip "$my_name ($config(login)): [trans rightback]"
 				if { $config(dock) == 4 } {
-					set trayicon [winico create [file join icons winicons brb.ico]]
+					set trayicon [winico create [GetSkinFile winicons brb.ico]]
 				}
 			  }
 			  "AWY" {
 				set pixmap "[GetSkinFile pixmaps daway.xpm]"
 				set tooltip "$my_name ($config(login)): [trans away]"
 				if { $config(dock) == 4 } {
-					set trayicon [winico create [file join icons winicons away.ico]]
+					set trayicon [winico create [GetSkinFile winicons away.ico]]
 				}
 			  }
 			  "PHN" {
 				set pixmap "[GetSkinFile pixmaps dphone.xpm]"
 				set tooltip "$my_name ($config(login)): [trans onphone]"
 				if { $config(dock) == 4 } {
-					set trayicon [winico create [file join icons winicons phone.ico]]
+					set trayicon [winico create [GetSkinFile winicons phone.ico]]
 				}
 			  }
 			  "LUN" {
 				set pixmap "[GetSkinFile pixmaps dlunch.xpm]"
 				set tooltip "$my_name ($config(login)): [trans gonelunch]"
 				if { $config(dock) == 4 } {
-					set trayicon [winico create [file join icons winicons lunch.ico]]
+					set trayicon [winico create [GetSkinFile winicons lunch.ico]]
 				}
 			  }
 			  "HDN" {
 				set pixmap "[GetSkinFile pixmaps dhidden.xpm]"
 				set tooltip "$my_name ($config(login)): [trans appearoff]"
 				if { $config(dock) == 4 } {
-					set trayicon [winico create [file join icons winicons hidden.ico]]
+					set trayicon [winico create [GetSkinFile winicons hidden.ico]]
 				}
 			  }
 			  "BOSS" {   #for bossmode, only for win at the moment
 				#set pixmap "[GetSkinFile pixmaps doffline.xpm]"
 				set tooltip "[trans pass]"
 				if { $config(dock) == 4 } {
-					set trayicon [winico create [file join icons winicons bossmode.ico]]
+					set trayicon [winico create [GetSkinFile winicons bossmode.ico]]
 				}
 			  }
 			  default {
 				set pixmap "null"
 				if { $config(dock) == 4 } {
-					set trayicon [winico create [file join icons winicons msn.ico]]
+					set trayicon [winico create [GetSkinFile winicons msn.ico]]
 				}
 			  }
 			}
@@ -376,7 +376,7 @@ proc mailicon_proc {num} {
 			set mailicon [newti $icon -pixmap $pixmap -tooltip $msg]
 			bind $icon <Button-1> [list hotmail_login $config(login) $password]
 		} else {
-			set winmailicon [winico create [file join icons winicons unread.ico]]
+			set winmailicon [winico create [GetSkinFile winicons unread.ico]]
 			winico taskbar add $winmailicon -text $msg -callback "taskbar_mail_icon_handler %m %x %y"
 			set mailicon 1
 		}
