@@ -128,7 +128,7 @@ clicktoadd Haz click en Añadir para crear una nueva nota
 clicktologin Haga click aquí para iniciar la sesión
 clientcaps Enviar paquetes x-clientcaps a otros clientes
 clientname Nombre del cliente
-closeall ¿Cerrar todas las patillas de la ventana?
+closeall ¿Cerrar todas las pestañas de la ventana?
 close Cerrar
 closed Conversación con $1 cerrada por inactividad
 closingdocks Botón de cerrar iconifica la ventana
@@ -411,7 +411,7 @@ newmailfrom Nuevo correo de $1 ($2)
 newmailfromother Nuevo correo electrónico de $1 ($2) en otras carpetas
 newmsg Nuevo mensaje
 newstate Añadir estado personalizado
-newtabbedfeature AMSN tiene una nueva función para gestionar las conversaciones. Ahora puedes tener todas las ventanas de un mismo grupo, o de toda la lista de contactos, en una sola ventana con patillas. Por favor, elige el modo en que AMSN debería gestionar las conversaciones
+newtabbedfeature AMSN tiene una nueva función para gestionar las conversaciones. Ahora puedes tener todas las ventanas de un mismo grupo, o de toda la lista de contactos, en una sola ventana con pestañas. Por favor, elige el modo en que AMSN debería gestionar las conversaciones
 newveravailable Nueva versión $1 disponible para descarga
 next Siguiente
 nick Apodo
@@ -444,7 +444,7 @@ notifytyping Enviar a otros usuarios notificaciones cuando se está tecleando
 notifywin Ventana de avisos
 notinlist No estás en su lista de contactos
 notls La versión 9 del protocolo MSN requiere usar el paquete "tls". Este paquete no parece estar instalado en el equipo. Si está instalado, la ruta al directorio debería ser especificado en la ventana de Preferencias (ej: /opt/tls/lib). \n \n Es posible descargar "tls" en http://tls.sf.net.
-nottabbed Ventanas normales sin patillas
+nottabbed Ventanas normales sin pestañas
 nousersinsession No hay usuarios en la sesión
 nudge $1 reclama tu atención
 offline Desconectado
@@ -613,10 +613,10 @@ stylelog Elige el estilo en el que deseas ver el historial
 subject Asunto
 subjectrequired Asunto requerido
 syntaxerror Error de sintaxis
-tabbedglobal Una ventana con patillas para todos los usuarios
-tabbedgroups Una ventana con patillas para cada grupo
+tabbedglobal Una ventana con pestañas para todos los usuarios
+tabbedgroups Una ventana con pestañas para cada grupo
 tabbed Ventanas con solapas
-tabtitlenick Mostrar apodos en lugar de emails en las patillas
+tabtitlenick Mostrar apodos en lugar de emails en las pestañas
 temp_state No almacenar (Estado temporal, se perderá al reiniciar AMSN)
 textsize Tamaño del texto
 thismonth Este mes
@@ -665,7 +665,7 @@ webcaminvite $1 te ha invitado a una sesión de videoconferencia, pero AMSN todav
 whatsize La imagen seleccionada no es del tamaño predefinido (96x96). ¿A qué tamaño te gustaría que fuera mostrada?
 willjoin Esperando que $1 se una a la conversación
 winkreceived Has recibido un Wink de $1, estas animaciones no estan disponibles en esta versión de aMSN.
-wintitlenick Mostrar apodos en lugar de email en las ventanas con patillas
+wintitlenick Mostrar apodos en lugar de email en las ventanas con pestañas
 work Trabajo
 wrongfields Los campos "$1", "$2" y/o "$3" no son valido(s)
 wrongprofileversion Versión del archivo de perfiles incorrecta. Por favor borre el directorio $1 para solucionarlo, o actualice amsn.
