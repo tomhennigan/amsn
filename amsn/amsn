@@ -306,3 +306,5 @@ if {$config(startontray)} {
 } else {
 	wm state . normal
 }
+
+vwait events
