@@ -444,6 +444,7 @@ proc OpenLogWin { {email ""} } {
 	ParseLog $wname $logvar
 
 	button $wname.buttons.close -text "[trans close]" -command "destroy $wname"
+	button $wname.buttons.stat -text "[trans stat]" -command "::log::stat"
 	button $wname.buttons.save -text "[trans savetofile]" -command "::log::SaveToFile ${wname} ${email} [list ${logvar}]"
   	button $wname.buttons.clear -text "[trans clearlog]" \
 				    -command "if { !\[winfo exists $wname.top.date.list\] } { \
@@ -466,6 +467,7 @@ proc OpenLogWin { {email ""} } {
  	pack $wname.blueframe.log -side top -expand true -fill both -padx 4 -pady 4
 	pack $wname.blueframe -side top -expand true -fill both
 	pack $wname.buttons.close -padx 0 -side left
+	pack $wname.buttons.stat -padx 0 -side right
 	pack $wname.buttons.save -padx 0 -side right
 	pack $wname.buttons.clear -padx 0 -side right
 	pack $wname.buttons -side bottom -fill x -pady 3
@@ -976,7 +978,7 @@ proc eventlogout { } {
 
 
 #///////////////////////////////////////////////////////////////////////////////
-#Log what concerns filetransferts
+# Log what concerns filetransferts
 
 proc ftlog {email txt} {
 
@@ -994,6 +996,101 @@ proc ftlog {email txt} {
 		set evPar(email) email
 		set evPar(txt) txt
 		::plugins::PostEvent ft_loged evPar
+		
 }
+
+
+#///////////////////////////////////////////////////////////////////////////////
+# Sort the contact by the log size
+
+proc sortalllog { } {
+
+	global log_dir
+
+	set contactlist [::abook::getAllContacts]
+	
+	set contactsize [list]
+	
+	foreach email $contactlist {
+	
+		set size 0
+	
+		if { [file exists [file join ${log_dir} ${email}.log]] == 1 } {
+			set size [file size [file join ${log_dir} ${email}.log]]
+		}
+		
+		if { [::config::getKey logsbydate] == 1 } {
+			foreach date [glob -nocomplain -types f [file join ${log_dir} * ${email}.log]] {
+				set date [getfilename [file dirname $date]]
+				if { [catch { clock scan "1 $date"}] == 0 } {
+						set date [clock scan "1 $date"]
+						set date "[clock format $date -format "%B"] [clock format $date -format "%Y"]"
+						incr size [file size [file join ${log_dir} ${date} ${email}.log]]
+				}
+			}
+		}
+		
+		set contactsize [lappend contactsize [list $email $size]]
+	
+	}
+	
+	set contactsize [lsort -integer -index 1 -decreasing $contactsize]
+	
+	return $contactsize
+	
+}
+
+	
+#///////////////////////////////////////////////////////////////////////////////
+# Make a stat window
+
+proc stat { } {
+
+	set w .stat
+	
+	if { [winfo exists $w] } {
+		raise $w
+		return
+	}
+
+	toplevel $w
+	
+	wm title $w "[trans stat]"
+	wm geometry $w 300x300
+	
+	ScrolledWindow $w.list
+	ScrollableFrame $w.list.sf -constrainedwidth 1
+	$w.list setwidget $w.list.sf
+	pack $w.list -anchor n -side top -fill both
+	set frame [$w.list.sf getframe]
+	
+	set contactsize [::log::sortalllog]
+	
+	set id 0
+	
+	foreach contact $contactsize {
+		set email [lindex $contact 0]
+		set size [lindex $contact 1]
+		if { $size == 0 } {
+			break
+		}
+		incr id
+		set wlabel "label_$id"
+		label $frame.$wlabel -text "$id) $email ([::amsn::sizeconvert $size]o)"
+		pack configure $frame.$wlabel -side top
+	}
+	
+	frame $w.button
+	button $w.button.close -text "[trans close]" -command "destroy $w"
+	pack configure $w.button.close -side right -padx 10 -pady 10
+	pack configure $w.button -side bottom -fill x -expand true
+	
+	bind $w <<Escape>> "destroy $w"
+	moveinscreen $w 30
+	
+	
+}
+
+
 
 }
