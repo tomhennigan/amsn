@@ -131,6 +131,7 @@ corruptstates El archivo de la configuración de los autoestados está corrupto. C
 countrycode Código de país/región
 cprofile Crear Perfil
 credits Creditos
+currentdate Fecha actual
 custom_edit Editar emoticono personalizado
 custom_new Añadir emoticono personalizado
 cut Cortar
@@ -276,6 +277,7 @@ loginas Iniciar sesión como
 loging Historial
 logolder Registrar sólamente conversaciones ocurridas en el último
 logout Cerrar sesión
+logsbydate Ordenar históricos por fechas (Ver historial carga mucho mas rápido)
 logsin acaba de iniciar sesión
 logsmileys Mostrar emoticonos y smileys en la ventana de historial de aMSN
 logsout acaba de terminar la sesión
