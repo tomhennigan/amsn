@@ -28,6 +28,11 @@ void readMaster() {
 
 
 	f=fopen(MASTERFILE,"r");
+	if (f==NULL) {
+		fprintf(stderr,"Can't open master language file: %s\n",MASTERFILE);
+		exit (-1);
+	}
+	
 	fscanf(f,"%s %d\n",buffer,&ver);
 
 
@@ -78,6 +83,10 @@ int countMissingFor(char *langfile) {
 	char keyname[MAXKEYLENGTH];
 
 	f=fopen(langfile,"r");
+	if (f==NULL) {
+		fprintf(stderr,"Can't open %s lang file\n",langfile);
+		return keynum;
+	}
 
 	for (i=0;i<keynum;i++) {
 		keytable[i]->missing=1;
@@ -88,6 +97,7 @@ int countMissingFor(char *langfile) {
 		if(feof(f)) break;
 
 		fscanf(f,"%s",keyname);
+		
 		while (fgetc(f)!='\n') if (feof(f)) break;
 
 		for (i=0;i<keynum;i++) {
@@ -118,32 +128,42 @@ void checkMissingFor(char *langfile,char *langname,char *langcode,char *langenc)
 	char keyname[MAXKEYLENGTH];
 	char langfilename[255];
 	
+	for (i=0;i<keynum;i++) {
+		keytable[i]->missing=1;
+	}	
+	
 	sprintf(langfilename,"%s.dat",langfile);
 
 	f=fopen(langfile,"r");
+	
 	lf=fopen(langfilename,"w");
-
-	for (i=0;i<keynum;i++) {
-		keytable[i]->missing=1;
+	if (lf==NULL) {
+		fprintf(stderr,"Can't open %s for writing\n",langfilename);
+		return;
 	}
-
-
-	do {
-		if(feof(f)) break;
-
-
-		fscanf(f,"%s",keyname);
-		while (fgetc(f)!='\n') if (feof(f)) break;
-
-
-		for (i=0;i<keynum;i++) {
-			if (!strcmp(keytable[i]->keyname,keyname)) {
-				keytable[i]->missing=0;
-				break;
+	
+	if (f==NULL) {
+		fprintf(stderr,"Can't open %s lang file\n",langfile);
+	
+	} else {
+		do {
+			if(feof(f)) break;
+	
+	
+			fscanf(f,"%s",keyname);
+			while (fgetc(f)!='\n') if (feof(f)) break;
+	
+	
+			for (i=0;i<keynum;i++) {
+				if (!strcmp(keytable[i]->keyname,keyname)) {
+					keytable[i]->missing=0;
+					break;
+				}
 			}
-		}
-
-	} while(1);
+	
+		} while(1);
+		fclose(f);
+	}
 
 	num=0;
 	for (i=0;i<keynum;i++) {
@@ -159,8 +179,6 @@ void checkMissingFor(char *langfile,char *langname,char *langcode,char *langenc)
 		}
 	}
 
-
-	fclose(f);
 	fclose(lf);
 }
 
@@ -173,6 +191,10 @@ void checkMissing() {
 	char langname[100];
 
 	f=fopen(LISTFILE,"r");
+	if (f==NULL) {
+		fprintf(stderr,"langlist file missing\n");
+		exit (-1);
+	}	
 
 	do {
 		fscanf(f,"%s",langcode);
@@ -200,6 +222,10 @@ void writeMasterKeys() {
 	int i;
 	
 	f=fopen("master.dat","w");
+	if (f==NULL) {
+		fprintf(stderr,"Can't open master.dat for writing");
+		exit (-1);
+	}
 
 	for(i=0;i<keynum;i++) {
 		fprintf(f,"%s %s\n",keytable[i]->keyname,keytable[i]->translation);
@@ -212,13 +238,21 @@ void writeMasterKeys() {
 void writeLangList() {
 	FILE *f,*listfile;
 	char langfile[50];
-	char langcode[10];
+	char langcode[20];
 	char langenc[50];
 	char langname[100];
 	int num;
 
 	f=fopen(LISTFILE,"r");
+	if (f==NULL) {
+		fprintf(stderr,"langlist file missing\n");
+		exit (-1);
+	}
 	listfile=fopen(LANGLISTDAT,"w");
+	if (listfile==NULL) {
+		fprintf(stderr,"Can't open langlist.dat for writing\n");
+		exit (-1);
+	}
 
 	do {
 		fscanf(f,"%s",langcode);
@@ -232,6 +266,7 @@ void writeLangList() {
 		langname[strlen(langname)-1]=0;
 
 		sprintf(langfile,"lang%s",langcode);
+		
 		num=countMissingFor(langfile);
 
 		fprintf(listfile,"lang%s.dat %s %d %s\n",langcode,langenc,num,langname);
@@ -245,9 +280,7 @@ void writeLangList() {
 int main () {
 
 	readMaster();
-
 	writeLangList();
-
 	checkMissing();
 	writeMasterKeys();
 
