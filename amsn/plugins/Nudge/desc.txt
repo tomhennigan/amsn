@@ -1,0 +1,5 @@
+Nudge plugin
+By Jerome Gagnon-Voyer and Alberto Diaz
+Nudges are a kind of notification that was introduced in MSN 7
+Actual support: Receive only
+Action: Show notify window (default) and/or shake the window
