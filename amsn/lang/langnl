@@ -114,6 +114,7 @@ clearlog2 Verwijder Geschiedenis voor al je contactpersonen
 clearlog3 Verwijder alle logboeken
 clearlog Logboek legen
 clicktologin Klik hier om je aan te melden
+clientcaps Stuur x-clientcaps pakketje naar andere clients
 clientname Client naam
 closed Het gesprek met $1 is wegens inactiviteit afgesloten
 close Sluiten

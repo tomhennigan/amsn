@@ -87,6 +87,7 @@ changedisplaypic Kullanýcý resmini deðiþtir
 changefont Yazitipi deðiþtir
 changeglobnick Rumuz þablonunu deðiþtir
 changenick Rumuz deðiþtir
+changesize Boyutu deðiþtir
 changestate $1, $2 durumuna geçti
 charscounter Sohbet penceresinde girilen harf sayacý
 chat Sohbet et
@@ -108,6 +109,7 @@ choosecontact Lütfen listeden bir baðlantý seçiniz
 choosefontcolor Yazi rengini seç
 chooseskin Lütfen kullanacaðýnýz kabuðu seçiniz
 ch_to_state Yeni duruma geç
+clear Temizle
 clearlog Sohbet kaydýný sil
 clearlog2 Tüm baðlantýlarýn Geçmiþini sil
 clearlog3 Tüm sohbet kayýtlarýný sil
@@ -122,6 +124,7 @@ confirm Emin misiniz?
 confirmdelete $1 i silmek istediðinizden emin misiniz?
 confirmpurge Diðer kullanýcýlardan alýnan kullanýcý resimleri (sizinkiler deðil) silinecek. Emin misiniz?
 connected þu an baglýsýnýz
+connectedwith $1 ile baðlandý
 connecterror Sunucuya baðlanýrken hata oluþtu
 connecting Baðlanýyor
 connection Baðlantý
@@ -138,7 +141,7 @@ corruptstates Kiþisel durumlar ayar dosyasý bozulmuþ. Yenisi oluþturulacak. Eski
 countrycode Ülke/Bölge kodum
 cprofile Profil oluþtur
 credits Emeði Geçenler
-currentdate Bugünün Tarihi
+currentdate Bugün
 custnotifymsg Bu kiþiden yeni ileti gelince uyarý penceresi göster
 custnotifyoffline Bu kullanýcý baðlantýsýný kesince uyarý penceresi göster
 custnotifyonline Bu kullanýcý baðlanýnca uyarý penceresi göster
@@ -170,7 +173,12 @@ disableprofiles Profilleri devredýþý býrak (ýnternet cafe ve paylaþýlan ortamlar
 disablessl SSL kullanma
 disableuserfonts Sohbetlerde karþý tarafýn yazýtipini dikkate alma ve kendi yazýtipini kullan
 disconnect $1 ayrýldý
+disconnectedfrom $1'den çýktý
 displaychat Metin seçeneklerini göster
+displayeventconnect Arkadaþlar baðlanýnca göster
+displayeventdisconnect Arkadaþlar çýkýnca göster
+displayeventemail Bir e-posta gelince göster
+displayeventstate Arkadaþlar durum deðiþtirince göster
 displayp4context Ýletiyi gönderen olarak P4-Ýçeriði alanýný göster
 displaypic Kullanýcý Resmi
 dockfreedesktop AçýkMasaüstü (KDE3/Gnome2)
@@ -200,6 +208,7 @@ entercontactemail Baðlantýnýn e-posta adresini girin
 enterfilename Lütfen bir dosya adý girin
 enternick Rumuzunuzu girin
 errortls TLS kurulumunda hata oluþtu:
+eventhistory Geçmiþ olaylara bak
 examples Örnekler
 exitamsn Çýkmak istediðinizden emin misiniz?
 extras Ek Hizmetler
@@ -302,6 +311,10 @@ ljoinedconf $1 konferansa katýldý
 lleftconf $1 konferanstan ayrýldý
 loadcontacts Baðlantý listesi yükle
 logbigger Her baðlantý için kayýt dosyasý boyutu üst sýnýrý
+logeventconnect Baðlantýlarý kayda geçir
+logeventdisconnect Baðlantýdan çýkýþlarý kayda geçir
+logeventemail Gelen e-postalarý kayda geçir
+logeventstate Durum deðiþimlerini kayda geçir
 logfandexp Kayýt dosya boyutlarý ve Geçmiþ kayýtlarýnýn silinme zamaný 
 loggedotherlocation Baþka bir yerden baðlandýðýnýz için baðlantý kesildi
 loggingin Baðlanýyor
@@ -377,7 +390,7 @@ notify1_5 Baðlantýlar çýkýnca uyarý penceresi göster
 notify1_75 Baðlantýlar durum deðiþtirince uyarý penceresi göster
 notify2 Yeni ileti gelince uyarý penceresi göster
 notify3 Yeni e-posta iletisi gelince uyarý penceresi göster
-notify4 Diðer Hotmail dizinlerine e-posta gelince uayrý penceresi göster
+notify4 Diðer Hotmail dizinlerine e-posta gelince uyarý penceresi göster
 notifyoffset Uyarý penceresinin konumunu giriniz
 notifytimeout Uyarý penceresi kaybolmadan önce geçecek milisaniye sayýsý
 notifytyping Klavyeyi kullandýðým karþý tarafa gözüksün
@@ -390,10 +403,11 @@ ok Tamam
 onenewmail Gelen kutusunda 1 yeni ileti var
 online Çevrim içi
 onphone Telefonda
-openreceived Alinan dosyalarý göster
+openreceived Alýnan dosyalarý göster
 options Seçenekler
 ordercontactsby Baðlantýlarý sýralama ölçütü
 ordergroupsby Gruplarýn sýralanýþý
+original Özgün
 other Diðer
 others Diðerleri
 p4contextprefix P4-Ýçerik göndericilerin önüne bu metni ekle
@@ -424,6 +438,7 @@ preffont3 aMSN'in arayüz yazýtipi ve metin boyutunu deðiþtir
 prefft Dosya aktarýmý, p2p ve NAT ayarlarý
 preflibs Kütüphane dizinleri
 preflog1 Geçmiþ ve sohbet kayýt seçeneklerim
+preflogevent Geçmiþ Olaylarým
 preflook aMSN'imin görünüþü
 prefmsging ýleti arayüzüm
 prefname MSN Messenger kullanýcý ismim (rumuzum)

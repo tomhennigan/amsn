@@ -584,3 +584,27 @@ globalnick Insérez un modèle afin de former les pseudonymes de vos contacts.Vous
 globaloverride Modèles de pseudonymes devant remplacer les pseudonymes personnalisés
 p4contextprefix	Préfixe du champ P4-Context
 soundactive Jouer un son même lorsque le message arrive dans la fenêtre active
+clear Nettoyer
+clientname Nom du Client
+connectedwith Connecté avec $1
+dateformat Changer le format de la date
+day Jour
+disconnectedfrom Déconnecté de $1
+displayeventconnect Afficher quand mes contacts sont en ligne
+displayeventdisconnect Afficher quand mes contacts sont hors ligne
+displayeventemail Afficher quand un courriel est reçu
+displayeventstate Afficher quand les contacts changent de statut
+eventhistory Voir l'historique des événements
+lastseen Dernière fois en ligne
+logeventconnect Journaliser les connexions
+logeventdisconnect Journaliser les déconnexions
+logeventemail Journaliser quand un courriel est reçu
+logeventstate Journaliser les changements de statut
+month Mois
+newmailfolder Vous avez $1 nouveaux messages dans d'autres dossiers Hotmail
+newmailfromother Nouveaux courriels dans un autre dossier de $1 ($2)
+notify4 Afficher la fenêtre de notification lorsque de nouveaux courriels sont reçu dans les autres dossiers
+preflogevent Mes Historiques d'événements
+today Aujourd'hui
+year Année
+yesterday Hier

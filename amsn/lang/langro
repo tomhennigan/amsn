@@ -87,6 +87,7 @@ changedisplaypic Schimba poza afisata
 changefont Schimba caracterul
 changeglobnick Schimba nick-ul global
 changenick Schimba nick-ul
+changesize Schimba marimea
 changestate $1 si-a schimbat starea in $2
 charscounter Contorul de caractere tastate in fereastra de chat.
 chat Conversatie
@@ -108,6 +109,7 @@ choosecontact Alege un contact (persoana) din lista
 choosefontcolor Alege culoarea caracterului
 chooseskin Alege Skin-ul
 ch_to_state Treci intr-o noua stare
+clear Anuleaza
 clearlog Sterge jurnalul
 clearlog2 Sterge jurnalul pentru toate contactele
 clearlog3 Sterge toate jurnalele
@@ -122,6 +124,7 @@ confirm Sunteti sigur?
 confirmdelete Sigur vrei sa stergi persoana $1?
 confirmpurge Toate imaginile stocate de la celelalte persoane vor fi sterse (nu si imaginile tale). Esti sigur?
 connected Conectat
+connectedwith Conectat cu $1
 connecterror Conectarea la server a esuat
 connecting In curs de conectare
 connection Conexiune
@@ -150,6 +153,8 @@ customnick Nume personalizat
 customstyle Stil personalizat
 cut Sterge
 date Data
+dateformat Schimba formatul datei
+day Zi
 days Zile
 dcprofile Nu crea profil
 default Configurarea implicita
@@ -168,7 +173,12 @@ disableprofiles Dezactiveaza profilele
 disablessl Dezactiveaza SSL
 disableuserfonts Foloseste fonturile proprii si ignora fonturile celui din conversatie
 disconnect $1 s-a deconectat.
+disconnectedfrom Deconectat de la $1
 displaychat Afiseaza optiunile de text
+displayeventconnect Afiseaza cand persoana devine autentificata
+displayeventdisconnect Afiseaza cand persoana se deautentifica
+displayeventemail Afiseaza cand soseste un e-mail
+displayeventstate Afiseaza cand persoana isi schimba starea
 displayp4context Arata continutul campului P4-Context ca si mesaj  
 displaypic Afiseaza poza
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
@@ -198,6 +208,7 @@ entercontactemail Introduce email-ul persoanei
 enterfilename Introduce fisier
 enternick Introduce nick-ul
 errortls Eroare la instalarea modulului TLS:
+eventhistory Afiseaza evenimentele jurnalizate
 examples Exemple
 exitamsn Sigur vrei sa inchizi?
 extras Servicii suplimentare
@@ -300,6 +311,10 @@ ljoinedconf $1 sa alaturat conferintei
 lleftconf $1 a parasit conferinta
 loadcontacts Incarca lista de contacte
 logbigger Marimea junalului pentru fiecare contact sa nu depaseasca
+logeventconnect Jurnalizeaza conexiunea
+logeventdisconnect Jurnalizeaza deconectarile
+logeventemail Jurnalizeaza cand soseste un e-mail
+logeventstate Jurnalizeaza schimbarile de stari
 logfandexp Jurnalizeaza marimile fisierului si expirarea jurnalului
 loggedotherlocation Deconectat. Autentificare de la alt calculator.
 loggingin In curs de autentificare
@@ -322,6 +337,7 @@ maximised Marit
 minimised Micsorata
 mins Minute
 mobile Mobil
+month Luna
 morepersonal Alte stari ->
 move Muta
 movetogroup Muta in grupul
@@ -345,7 +361,9 @@ needonline Esti sau Apari neautentificat !
 needwinico Este nevoie de winico03.dll in directorul plugins ca minimizarea ferestrei sa functioneze
 never Niciodata
 newmail $1 Mesaje noi in casuta postala
+newmailfolder Ai un $1 mesaj nou intr-un alt director Hotmail
 newmailfrom Ai primit e-mail nou de la $1 ($2)
+newmailfromother E-mail nou in alt director de la $1 ($2)
 newmsg Mesaj nou
 newstate Adaugare stare personalizata
 newveravailable Versiune noua de $1 este disponibil pentru descarcare.
@@ -372,6 +390,7 @@ notify1_5 Afiseaza fereastra de atentionare cand cineva se deautentifica
 notify1_75 Afiseaza fereastra de atentionare cand persoana isi schimba starea
 notify2 Afiseaza fereastra de atentionare cand primesc mesaje noi
 notify3 Afiseaza fereastra de atentionare cand este e-mail nou in casuta postala
+notify4 Cand soseste un e-mail nou intr-un alt director, afiseaza fereastra de atentionare
 notifyoffset Stabileste unde sa apara fereastra de avertizare folosind coordonatele
 notifytimeout Numarul de milisecunde pana cand fereastra de notificare sa dispara
 notifytyping Trimite notificare utilizatorilor cand se tasteaza
@@ -388,6 +407,7 @@ openreceived Deschide fisierul primit
 options Optiuni
 ordercontactsby Sorteaza persoanele dupa
 ordergroupsby Sorteaza grupurle dupa
+original Original
 other Altul
 others Altele
 p4contextprefix Prefixeaza trimitatorii P4-Context cu acest string 
@@ -419,6 +439,7 @@ preffont3 Schimba interfata si marimea fontului in aMSN
 prefft Trasnfer de fisier, p2p si setari de NAT
 preflibs Directorul cu biblioteci
 preflog1 Jurnal si optiuni de jurnalizare
+preflogevent Evenimentele mele jurnalizate
 preflook Setari aMSN
 prefmsging Felul in care arata un mesaj primit
 prefname  Numele sau nick-ul
@@ -545,6 +566,7 @@ tlsinstall Instalarea Modulului TLS
 tlsinstallexp aMSN necesita MSNP9, care necesita conexie \nsecurizata folosind SSL. Pentru a folosi SSL, aMSN trebuie  sa instaleze un modul numit TLS,\ncare lipseste din sistem. Acest utilitar va ajuta sa descarcati si \nsa instalati TLS. Selectati tipul sistemului pentru a putea descarca automat \nfisierele TLS.
 tlsinstcompleted Instalarea modulului TLS a reusit, acum ar trebui sa folositi MSNP9. Daca nu functioneaza MSNP9, atunci probabil nu ati selectat modulul corespunzator sistemului, sau nu exista modul compilat pentru sistemul pe care il folositi.
 to La
+today Azi
 tools Utilitare
 tooltips Porneste descrierile elementelor de control
 transnotexists Fisierul cerut nu a fost inca tradus.
@@ -580,7 +602,9 @@ xmmscurrent Afiseaza melodia curenta
 xmmserr Nu se reda nimic, sau nu aveti instalat xmms-infopipe.
 xmmssend Trimite melodia curenta
 xoffset Coordonata X
+year An
 yes Da
+yesterday Ieri
 yoffset Coordonata Y
 youblocked Ai fost blocat
 yousay Tu zici
