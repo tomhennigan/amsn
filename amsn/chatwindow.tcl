@@ -850,14 +850,15 @@ namespace eval ::ChatWindow {
 		set bar $w.bar
 		::skin::setPixmap tab tab.gif
 		::skin::setPixmap tab_close tab_close.gif
-        ::skin::setPixmap tab_close_hover tab_close_hover.gif
-        ::skin::setPixmap tab_hover tab_hover.gif
+		::skin::setPixmap tab_close_hover tab_close_hover.gif
+		::skin::setPixmap tab_hover tab_hover.gif
 		::skin::setPixmap tab_current tab_current.gif
 		::skin::setPixmap tab_flicker tab_flicker.gif
 		::skin::setPixmap moretabs moretabs.gif
 		::skin::setPixmap lesstabs lesstabs.gif
 
-		frame $bar -class Amsn -relief solid -bg [::skin::getKey tabbarbg] -bd 0
+		frame $bar -class Amsn -relief solid -bg [::skin::getKey tabbarbg] -bd 0 \
+                -padx [::skin::getKey chat_tabbar_padx] -pady [::skin::getKey chat_tabbar_pady]
 
 		return $bar
 	}
