@@ -2826,8 +2826,12 @@ catch {exec killall -c sndplay}
 	
       set answer [tk_messageBox -message "[trans exitamsn]" -type yesno -icon question -title [trans title] -parent $parent]
       if {$answer == "yes"} {
-         close_cleanup
-         exit
+       #Kill soundplayer when we quit aMSN-Mac (sometime he stay open and eat your CPU)
+	if { $tcl_platform(os) == "Darwin" } {
+		catch [exec killall -c sndplay]
+	}
+	close_cleanup
+	exit
       }
    }
 
@@ -5665,11 +5669,6 @@ proc close_cleanup {} {
   SaveLoginList
   SaveStateList
   
- #Kill soundplayer when we quit aMSN (sometime he stay open and eat your CPU)
-if {$tcl_platform(os) == "Darwin"} {
-catch {exec killall -c sndplay}
-}
-
   catch {::MSN::logout}
   
   close_dock    ;# Close down the dock socket
