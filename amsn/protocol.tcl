@@ -2128,12 +2128,18 @@ proc sb {do sbn var {value ""}} {
 	return 0
 }
 
+proc proc_sb_watchdog {} {
+	status_log "ALERT: PROC_SB STOPPED WORKING!!!!!!!" red
+	proc_sb
+}
+
 
 proc proc_sb {} {
 	global sb_list
 
 	after cancel proc_sb
-
+	after 4000 proc_sb_watchdog
+	
 	#status_log "Processing SB\n"	
 	foreach sbn $sb_list {
 		while {[sb length $sbn data]} {
@@ -2162,7 +2168,7 @@ proc proc_sb {} {
 		}
 	}
 	
-
+	after cancel proc_sb_watchdog
 	after 250 proc_sb
 	return 1
 }
