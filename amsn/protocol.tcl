@@ -3379,7 +3379,7 @@ proc msnp9_auth_error {} {
 proc gotNexusReply {str token {total 0} {current 0}} {
 	if { [::http::status $token] != "ok" || [::http::ncode $token ] != 200 } {
 		::http::cleanup $token
-		status_log "gotNexysReply: error in nexus reply, getting url manually\n"
+		status_log "gotNexusReply: error in nexus reply, getting url manually\n"
 		msnp9_do_auth $str "https://login.passport.com/login2.srf"
 		return
 	}
@@ -3435,7 +3435,7 @@ proc msnp9_do_auth {str url} {
 	global config password
 
 	set head [list Authorization "Passport1.4 OrgVerb=GET,OrgURL=http%3A%2F%2Fmessenger%2Emsn%2Ecom,sign-in=$config(login),pwd=$password,$str"]
-	if { $config(nossl) == 1 } {
+	if { $config(nossl) == 1 || ($config(connectiontype) != "direct" && $config(connectiontype) != "http") } {
 		set url [string map { https:// http:// } $url]
 	}
 	status_log "msnp9_do_auth: Getting $url\n"
@@ -3503,7 +3503,9 @@ proc cmsn_auth_msnp9 {{recv ""}} {
 			foreach x [split [lrange $recv 4 end] ","] { set info([lindex [split $x "="] 0]) [lindex [split $x "="] 1] }
 			set info(all) [lrange $recv 4 end]
 
-			if {$config(nossl) || [catch {::http::geturl https://nexus.passport.com/rdr/pprdr.asp -command "gotNexusReply [list $info(all)]"}]} {
+			if {$config(nossl)
+			|| ($config(connectiontype) != "direct" && $config(connectiontype) != "http")
+			||[catch {puts "Here"; ::http::geturl https://nexus.passport.com/rdr/pprdr.asp -timeout 5000 -command "gotNexusReply [list $info(all)]" }]} {
 				msnp9_do_auth [list $info(all)] https://login.passport.com/login2.srf
 			}
 
