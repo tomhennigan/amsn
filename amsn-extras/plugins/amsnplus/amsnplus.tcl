@@ -228,6 +228,7 @@ namespace eval ::amsnplus {
 	# rgb color in (rrr,ggg,bbb) format
 	proc choose_color { win } {
 		set color [tk_chooseColor -parent $win];
+		if {[string equal $colour ""]} { return }
 		set color [::amsnplus::hexToRGB [string replace $color 0 0 ""]];
 		$win.f.bottom.left.in.text insert end $color
 	}
