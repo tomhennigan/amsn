@@ -322,17 +322,35 @@ proc Preferences { { settings "personal"} } {
 	
 	label $lfname.1.lchatmaxmin -text [trans chatmaxmin] -padx 10
 	radiobutton $lfname.1.max -text [trans raised] -value 0 -variable config(newchatwinstate)
-	radiobutton $lfname.1.min -text [trans minimised] -value 1 -variable config(newchatwinstate)
+	
+	#Don't show the minimised option on Mac OS X because that does'nt work in TkAqua
+	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		#Empty 
+	} else {
+		radiobutton $lfname.1.min -text [trans minimised] -value 1 -variable config(newchatwinstate)
+	}
+	
 	radiobutton $lfname.1.no -text [trans dontshow] -value 2 -variable config(newchatwinstate)
 	pack $lfname.1.lchatmaxmin -anchor w -side top -padx 10
-	pack $lfname.1.max $lfname.1.min $lfname.1.no -side left -padx 10
-
-	label $lfname.2.lmsgmaxmin -text [trans msgmaxmin] -padx 10
-	radiobutton $lfname.2.max -text [trans raised] -value 0 -variable config(newmsgwinstate)
-	radiobutton $lfname.2.min -text [trans minimised] -value 1 -variable config(newmsgwinstate)
-	pack $lfname.2.lmsgmaxmin -anchor w -side top -padx 10
-	pack $lfname.2.max $lfname.2.min -side left -padx 10
-
+	
+	#Don't pack the minimised option on Mac OS X because that does'nt work in TkAqua
+	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		pack $lfname.1.max $lfname.1.no -side left -padx 10
+	} else {
+		pack $lfname.1.max $lfname.1.min $lfname.1.no -side left -padx 10
+	}
+	
+	#Don't enable this option on Mac OS X because we can't minimized window this way with TkAqua
+	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		#empty
+	} else {
+		label $lfname.2.lmsgmaxmin -text [trans msgmaxmin] -padx 10
+		radiobutton $lfname.2.max -text [trans raised] -value 0 -variable config(newmsgwinstate)
+		radiobutton $lfname.2.min -text [trans minimised] -value 1 -variable config(newmsgwinstate)
+		pack $lfname.2.lmsgmaxmin -anchor w -side top -padx 10
+		pack $lfname.2.max $lfname.2.min -side left -padx 10
+	}
+	
 	#label $lfname.3.lmsgmode -text [trans msgmode] -padx 10
 	#radiobutton $lfname.3.normal -text [trans normal] -value 1 -variable config(msgmode) -state disabled
 	#radiobutton $lfname.3.tabbed -text [trans tabbed] -value 2 -variable config(msgmode) -state disabled
