@@ -235,8 +235,9 @@ proc ReadPOST { name } {
       catch {gets $sock tmp_data} res        
       set tmp_data [stringmap { "\r" "" } $tmp_data]
       
-      if { $tmp_data != "HTTP/1.0 200 OK" } {
-         status_log "Proxy POST Headers ($name)\n $tmp_data\n" red
+      if { ([string range $tmp_data 9 11] != "200") && ([string range $tmp_data 9 11] != "100")} {
+      #if { ($tmp_data != "HTTP/1.0 200 OK") && ($tmp_data != "HTTP/1.1 100 Continue") } {}
+         status_log "Proxy POST Headers ($name)\n$tmp_data\n" red
    	 sb set $name "d"  
          fileevent [sb get $name sock] readable [sb get $name readable]        
 	 catch {close $sock} res
@@ -343,6 +344,10 @@ proc Read { name } {
 }
 ###################################################################
 # $Log$
+# Revision 1.7  2003/06/02 22:07:34  airadier
+# Support to connect directly via http port 80!!!
+# Set "gateway.messenger.hotmail.com:80" as proxy server, and done!
+#
 # Revision 1.6  2003/06/02 01:36:37  airadier
 # Proxy POST support quite finished (still misses catching errors and that things)
 #
