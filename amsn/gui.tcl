@@ -2288,21 +2288,19 @@ proc login_ok {} {
 
 #///////////////////////////////////////////////////////////////////////
 proc cmsn_draw_login {} {
-   global config password login_request proftrig
+   global config password proftrig
 
    set proftrig 0
 
-   if {[info exists login_request]} {
+   if {[winfo exists login_request]} {
       raise .login
       return 0
    }
 
-   set login_request true
    set oldlogin $config(login)
    toplevel .login
    wm group .login .
-   bind .login <Destroy> {if {"%W" == ".login"} { unset login_request } }
-
+   
    wm geometry .login
    wm title .login "[trans login] - [trans title]"
    wm transient .login .
@@ -2367,6 +2365,7 @@ proc cmsn_draw_login {} {
    bind .login.c.password <Return> "login_ok; break"
    bind .login <Escape> "grab release .login;ConfigChange .login $oldlogin; destroy .login"
    bind .login <Return> "login_ok; break"
+   bind .login <Destroy> "if \{ \[grab status .login\] == \"local\" \} \{ConfigChange .login $oldlogin\}"
 
    tkwait visibility .login
    grab set .login

@@ -309,11 +309,12 @@ proc ConfigChange { window email } {
 		set config(login) $email
 		set config(save_password) 0
 		set config(startoffline) 0
-		#NewProfileAsk $email
 	}
-	 
-	.login.c.password delete 0 end
-	.login.c.password insert 0 $password
+	
+	if { [winfo exists .login] } {
+		.login.c.password delete 0 end
+		.login.c.password insert 0 $password
+	}
 	}
 }
 
