@@ -808,7 +808,14 @@ namespace eval ::MSN {
    proc connect { username password } {
 
 		global config tlsinstalled login_passport_url
+
+		sb set ns name ns
+		sb set ns sock ""
+		sb set ns data [list]
+		sb set ns serv [split $config(start_ns_server) ":"]
+		sb set ns stat "d"
 		
+				
 		if { $tlsinstalled == 0 && [checking_package_tls] == 0 && $config(nossl) == 0} {
 			::amsn::installTLS
 			return
@@ -855,6 +862,7 @@ namespace eval ::MSN {
 			set login_passport_url 0
 			after 500 "catch {::http::geturl [list https://nexus.passport.com/rdr/pprdr.asp] -timeout 10000 -command gotNexusReply}"
 		}
+				
 		cmsn_ns_connect $username $password
 
   	 }
@@ -1200,24 +1208,31 @@ namespace eval ::MSN {
 		#} else {
 		#   proc_sb
 		#}
+		
+		set sock [sb get $sbn sock]
 
-		set oldstat [sb get $sbn stat]
-		set oldsock [sb get $sbn sock]
-
-		sb set $sbn stat "d"
-		sb set $sbn sock ""
-
-		if {$oldsock != ""} {
-			catch {close $oldsock} res
+		if {$sock != ""} {
+			catch {close $sock} res
 		}
+		
+		sb append $sbn data ""
 
+	}
+	#///////////////////////////////////////////////////////////////////////
+   
+	proc ClearSB { sbn } {
+
+		status_log "::MSN::ClearSB $sbn called\n" green
+		
+		set oldstat [sb get $sbn stat]
+		sb set $sbn data ""
+		sb set $sbn sock ""
+		sb set $sbn stat "d"
+		
 		if { $sbn == "ns" } {
-
-			status_log "Closing NS socket! (stat= $oldstat)\n" red
 			if { ("$oldstat" != "d") && ("$oldstat" != "u") } {
 				logout
 			}
-
 			if { ("$oldstat"!="d") && ("$oldstat" !="o") && ("$oldstat" !="u") && ("$oldstat" !="us")} {
 				set error_msg [sb get ns error_msg]
 				if { $error_msg != "" } {
@@ -1226,7 +1241,7 @@ namespace eval ::MSN {
 					msg_box "[trans connecterror]"
 				}
 			}
-
+		
 			if { ("$oldstat"=="o") } {
 				set error_msg [sb get ns error_msg]
 				if { $error_msg != "" } {
@@ -1234,17 +1249,15 @@ namespace eval ::MSN {
 				} else {
 					msg_box "[trans connectionlost]"
 				}
+				status_log "Connection lost\n" red
 			}
-
+			
 		} else {
-
-			proc_sb
-			CheckKill $sbn
-	
+			CheckKill $sbn	
 		}
+		
 	}
 	#///////////////////////////////////////////////////////////////////////
-   
    
 	proc AnswerChallenge { item } {
 		if { [lindex $item 1] != 0 } {
@@ -2127,6 +2140,12 @@ proc proc_sb {} {
 			set item [split $item]
 			
 			sb ldel $sbn data 0
+			
+			if { $item == "" } {
+				::MSN::ClearSB $sbn
+				break
+			}
+			
 			set result [cmsn_sb_handler $sbn $item]
 			if {$result == 0} {
 		
@@ -2157,6 +2176,7 @@ proc proc_ns {} {
 	#status_log "Processing NS\n"	
 	while {[sb length ns data]} {
 		set item [sb index ns data 0]
+		
 
 		set item [encoding convertfrom utf-8 $item]
 		
@@ -2164,6 +2184,12 @@ proc proc_ns {} {
 		set item [split $item]
 		sb ldel ns data 0
 
+		if { $item == "" } {
+			status_log "proc_ns: NS Socket was closed\n" green
+			::MSN::ClearSB ns
+			break
+		}		
+		
 		set result [cmsn_ns_handler $item]
 		if {$result != 0} {
 			status_log "problem processing NS data: $item!!\n" red
@@ -3307,6 +3333,7 @@ proc cmsn_ns_handler {item} {
 				if { [lindex $item 1] == "OTH"} {
 					::MSN::logout
 					msg_box "[trans loggedotherlocation]"
+					status_log "Logged other location\n" red
 					return 0
 				} else {
 					::MSN::logout
