@@ -2537,10 +2537,10 @@ proc cmsn_sb_msg {sb_name recv} {
       #if alarm_onmsg is on run it
       if { ( [::alarms::isEnabled $chatid] == 1 )&& ( [::alarms::getAlarmItem $chatid onmsg] == 1) } {
 	  set username [::abook::getDisplayNick $chatid]
-	  run_alarm $chatid  "[trans says $username] $body"
+	  run_alarm $chatid  "[trans says $username]: $body"
       } elseif { ( [::alarms::isEnabled all] == 1 )&& ( [::alarms::getAlarmItem all onmsg] == 1) } {
 	  set username [::abook::getDisplayNick $chatid]	  
-	  run_alarm all  "[trans says $username] $body"
+	  run_alarm all  "[trans says $username]: $body"
       }
 
 
