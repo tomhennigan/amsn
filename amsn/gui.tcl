@@ -201,6 +201,7 @@ namespace eval ::amsn {
 
 			::dkfprogress::SetProgress $w.prbar 0
 
+			set tok 0
 			if {[ catch {set tok [::http::geturl $downloadurl -progress "::amsn::downloadTLSProgress $downloadurl" -command "::amsn::downloadTLSCompleted $downloadurl"]} res ]} {
 				errorDownloadingTLS $res $tok
 			} else {
