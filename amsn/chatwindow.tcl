@@ -2305,6 +2305,8 @@ namespace eval ::ChatWindow {
 
 		::ChatWindow::UpdateContainerTitle $container
 
+		#make the focus
+		focus [::ChatWindow::GetInputText $win]
 
 	}
 
