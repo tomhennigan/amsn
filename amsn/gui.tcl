@@ -3470,7 +3470,8 @@ proc cmsn_draw_main {} {
 	
 	
 	frame .main.f -class Amsn -relief flat -background white
-	ScrolledWindow .main.f.sw -auto vertical -scrollbar vertical
+	pack .main -fill both -expand true 
+	pack .main.f -expand true -fill both -padx 4 -pady 4 -side top
 	#pack .main -expand true -fill both
 	#pack .main.f -expand true  -fill both  -padx 4 -pady 4 -side top
 
@@ -3478,17 +3479,17 @@ proc cmsn_draw_main {} {
 	# page paths must be used for adding new widgets to the
 	# notebook tabs.
 	if {$config(withnotebook)} {
-		notebook:create .main.nb -bgcolor #AABBCC -font sboldf \
-			 -pappend "Buddies" -pappend "News"
-		 set pgBuddy [notebook:getpage .main.nb 0]
-		 set pgNews  [notebook:getpage .main.nb 1]
-		 pack .main.nb -fill both -expand 1
+		NoteBook .main.f.nb -background white 
+		.main.f.nb insert end buddies -text "Buddies"
+		.main.f.nb insert end news -text "News"
+		 set pgBuddy [.main.f.nb getframe buddies]
+		 set pgNews  [.main.f.nb getframe news]
+		 .main.f.nb raise buddies
+		 .main.f.nb compute_size
+		 pack .main.f.nb -fill both -expand true -side top
 	} else {
-		set pgBuddy .main.f.sw
+		set pgBuddy .main.f
 		set pgNews  ""
-		pack .main -fill both -expand true 
-		pack .main.f -expand true -fill both -padx 4 -pady 4 -side top
-		pack .main.f.sw -expand true -fill both
 	}
 	# End of Notebook Creation/Initialization
 
@@ -3559,6 +3560,10 @@ proc cmsn_draw_main {} {
 
 	image create photo blockedme -file [GetSkinFile pixmaps blockedme.gif]
 	image create photo no_pic -file [GetSkinFile displaypic nopic.gif]
+	
+	ScrolledWindow $pgBuddy.sw -auto vertical -scrollbar vertical
+	pack $pgBuddy.sw -expand true -fill both
+	set pgBuddy $pgBuddy.sw
 	
 	text $pgBuddy.text -background white -width 30 -height 0 -wrap none \
 		-cursor left_ptr -font splainf \
