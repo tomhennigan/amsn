@@ -861,190 +861,150 @@ namespace eval ::amsn {
 
 
 
-   #Updates filetransfer progress window/baar
-   #fileTransferProgress mode cookie filename bytes filesize
-   # mode: a=Accepting invitation
-   #       c=Connecting
-   #       w=Waiting for connection
-   #       e=Connect error
-   #       i=Identifying/negotiating
-   #       l=Connection lost
-   #       ca=Cancel
-   #       s=Sending
-   #       r=Receiving
-   #       fr=finish receiving
-   #       fs=finish sending
-   # cookie: ID for the filetransfer
-   # bytes: bytes sent/received (-1 if cancelling)
-   # filesize: total bytes in the file
-   # chatid used for MSNP9 through server transfers
-   ####
-   # The following constant is the interval in milliseconds at which (roughly)
-   # the transfer speed will be updated on the file transfer window.
-   variable TX_UPDATE_INTERVAL 1000
-   #
-   proc FTProgress {mode cookie filename {bytes 0} {filesize 1000} {chatid 0}} {
-      # -1 in bytes to transfer cancelled
-      # bytes >= filesize for connection finished
+	#Updates filetransfer progress window/baar
+	#fileTransferProgress mode cookie filename bytes filesize
+	# mode: a=Accepting invitation
+	#       c=Connecting
+	#       w=Waiting for connection
+	#       e=Connect error
+	#       i=Identifying/negotiating
+	#       l=Connection lost
+	#       ca=Cancel
+	#       s=Sending
+	#       r=Receiving
+	#       fr=finish receiving
+	#       fs=finish sending
+	# cookie: ID for the filetransfer
+	# bytes: bytes sent/received (-1 if cancelling)
+	# filesize: total bytes in the file
+	# chatid used for MSNP9 through server transfers
+	####
+	#
+	proc FTProgress {mode cookie filename {bytes 0} {filesize 1000} {chatid 0}} {
+		# -1 in bytes to transfer cancelled
+		# bytes >= filesize for connection finished
 
-      variable TX_UPDATE_INTERVAL
-      variable lasttimes    ;# Array. Times in ms since the last interval.
-      variable lastbytes    ;# Array. Bytes since the last interval.
-      variable rates        ;# Array. Last rates.
+		variable firsttimes    ;# Array. Times in ms when the FT started.
 
-      set w .ft$cookie
+		set w .ft$cookie
 
-      if { ([winfo exists $w] == 0) && ($mode != "ca")} {
-        FTWin $cookie [::MSNFT::getFilename $cookie] [::MSNFT::getUsername $cookie] $chatid        
-      }
-      
-      if {[winfo exists $w] == 0} {
-         return
-      }
-      
-      
-      switch $mode {
-         a {
-            $w.progress configure -text "[trans ftaccepting]..."
-	    set bytes 0
-	    set filesize 1000
-	 }
-         c {
-            $w.progress configure -text "[trans ftconnecting $bytes $filesize]..."
-	    set bytes 0
-	    set filesize 1000
-	 }
-         w {
-            $w.progress configure -text "[trans listeningon $bytes]..."
-	    set bytes 0
-	    set filesize 1000
-	 }
-         e {
-            $w.progress configure -text "[trans ftconnecterror]"
-	    $w.close configure -text "[trans close]" -command "destroy $w"
-            wm protocol $w WM_DELETE_WINDOW "destroy $w"
-	 }
-         i {
-            #$w.progress configure -text "[trans ftconnecting]"
-	 }
-         l {
-            $w.progress configure -text "[trans ftconnectionlost]"
-	    $w.close configure -text "[trans close]" -command "destroy $w"
-            wm protocol $w WM_DELETE_WINDOW "destroy $w"
-	 }
-         r -
-         s {
-            # Keep the last values in three arrays: one for the bytes, one for
-            # the time and a last for the transfer rate itself. (These are
-            # cookie-indexed arrays since we might have multiple transfers at
-            # the same time and they should not interfere with each other.) The
-            # time counter is used to calculate the intervals in milliseconds.
-            # The purpose of the byte counter is to keep track of how many
-            # bytes we transfered in the last interval. Transfer rates are
-            # updated every TX_UPDATE_INTERVAL milliseconds, based on the
-            # values stored in both arrays.
-
-            if {![info exists lasttimes] || ![info exists lasttimes($cookie)]} {
-                set lasttimes($cookie) 0
-            }
-            if {![info exists lastbytes] || ![info exists lastbytes($cookie)]} {
-                set lastbytes($cookie) 0
-            }
-
-            set currtime  [clock clicks -milliseconds]
-            set difftime  [expr {$currtime - $lasttimes($cookie)}]
-
-            if {![info exists rates] || ![info exists rates($cookie)]} {
-                set rates($cookie) "???"
-		set rates(time$cookie) "???"
-            } 
-
-            if {$difftime >= $TX_UPDATE_INTERVAL} {
-                # How many bytes did we transfer in the last second?
-                set diffbytes [expr {$bytes - $lastbytes($cookie)}]
-
-                # Times a thousand because we used milliseconds and we want
-                # the speed in seconds. Divides by 1024 to get it in KBs.
-                # "K" is more polyglot than "KB", right?
-                set r [expr {(1.0*$TX_UPDATE_INTERVAL*$diffbytes/$difftime)/1024}]
-		if {$r != 0 } {
-		    if { [catch {set time [expr {int (((($filesize - $bytes) / 1024) / $r))}]}] != 0 } {
-			set rates(time$cookie) "???"
-		    } else {
-			set temp1 [expr {int (($time / 60))}]
-			set t1 [expr {$time - ($temp1 * 60)}]
-			set temp2 [expr {int (($temp1 / 60))}]
-			set t2 [expr {$temp1 - ($temp2 * 60)}]
-			set t3 [expr {int (($temp2 / 60))}]
-			set rates(time$cookie) [format "%02i:%02i:%02i" $t3 $t2 $t1]
-		    }
-
+		if { ([winfo exists $w] == 0) && ($mode != "ca")} {
+			FTWin $cookie [::MSNFT::getFilename $cookie] [::MSNFT::getUsername $cookie] $chatid
 		}
-                set rates($cookie) "[format %.2f $r]"
-                unset r
 
-                # Update time and byte counters with new values.
-                set lasttimes($cookie) $currtime
-                set lastbytes($cookie) $bytes
+		if {[winfo exists $w] == 0} {
+			return
+		}
 
-            }
+		switch $mode {
+			a {
+				$w.progress configure -text "[trans ftaccepting]..."
+				set bytes 0
+				set filesize 1000
+			}
+			c {
+				$w.progress configure -text "[trans ftconnecting $bytes $filesize]..."
+				set bytes 0
+				set filesize 1000
+			}
+			w {
+				$w.progress configure -text "[trans listeningon $bytes]..."
+				set bytes 0
+				set filesize 1000
+			}
+			e {
+				$w.progress configure -text "[trans ftconnecterror]"
+				$w.close configure -text "[trans close]" -command "destroy $w"
+				wm protocol $w WM_DELETE_WINDOW "destroy $w"
+			}
+			i {
+				#$w.progress configure -text "[trans ftconnecting]"
+			}
+			l {
+				$w.progress configure -text "[trans ftconnectionlost]"
+				$w.close configure -text "[trans close]" -command "destroy $w"
+				wm protocol $w WM_DELETE_WINDOW "destroy $w"
+			}
+			r -
+			s {
 
-            if {$mode == "r"} {
-                $w.progress configure -text \
-                    "[trans receivedbytes $bytes $filesize] ($rates($cookie) K/s)"
-            } elseif {$mode == "s"} {
-                $w.progress configure -text \
-                    "[trans sentbytes $bytes $filesize] ($rates($cookie) K/s)"
-            }
-	    $w.time configure -text "[trans timeremaining] :  $rates(time$cookie)"
-	 }	
-         ca {
-            $w.progress configure -text "[trans filetransfercancelled]"
-	    $w.close configure -text "[trans close]" -command "destroy $w"
-            wm protocol $w WM_DELETE_WINDOW "destroy $w"
-	 }	
-	 fs -
-         fr {
-            ::dkfprogress::SetProgress $w.prbar 100
-            $w.progress configure -text "[trans filetransfercomplete]"
-	    $w.close configure -text "[trans close]" -command "destroy $w"
-            wm protocol $w WM_DELETE_WINDOW "destroy $w"
-	    set bytes 1024
-	    set filesize 1024
+				#Calculate how many seconds has transmission lasted
+				if {![info exists firsttimes] || ![info exists firsttimes($cookie)]} {
+					set firsttimes($cookie) [clock seconds]
+					set difftime 0
+				} else {
+					set difftime  [expr {[clock seconds] - $firsttimes($cookie)}]
+				}
 
-	 }	
-      }
 
-      switch $mode {
-         e - l  - ca - fs - fr {
-            # Whenever a file transfer is terminated in a way or in another,
-            # remove the counters for this cookie.
-            if {[info exists lastbytes($cookie)]} { unset lastbytes($cookie) }
-            if {[info exists lasttimes($cookie)]} { unset lasttimes($cookie) }
-            if {[info exists rates($cookie)]}     { unset rates($cookie) }
-         }
-      }
-      
-      set bytes2 [expr {int($bytes/1024)}]
-      set filesize2 [expr {int($filesize/1024)}]
-      if { $filesize2 != 0 } {
-        set percent [expr {int(($bytes2*100)/$filesize2)}]
-	  ::dkfprogress::SetProgress $w.prbar $percent
-      } 
-      
-   }
+				if { $difftime == 0 || $bytes == 0} {
+					set rate "???"
+					set timeleft "-"
+				} else {
+					#Calculate rate and time
+					set rate [format "%.1f" [expr {(1.0*$bytes / $difftime) / 1024.0 } ]]
+					set secleft [expr {(($filesize - $bytes) / $bytes) * $difftime} ]
+					set t1 [expr {$secleft % 60 }] ;#Seconds
+					set secleft [expr {int($secleft / 60)}]
+					set t2 [expr {$secleft % 60 }] ;#Minutes
+					set secleft [expr {int($secleft / 60)}]
+					set t3 $secleft ;#Hours
+					set timeleft [format "%02i:%02i:%02i" $t3 $t2 $t1]
+				}
+
+				if {$mode == "r"} {
+					$w.progress configure -text \
+						"[trans receivedbytes $bytes $filesize] ($rate KB/s)"
+				} elseif {$mode == "s"} {
+					$w.progress configure -text \
+						"[trans sentbytes $bytes $filesize] ($rate KB/s)"
+				}
+				$w.time configure -text "[trans timeremaining] :  $timeleft"
+			}
+			ca {
+				$w.progress configure -text "[trans filetransfercancelled]"
+				$w.close configure -text "[trans close]" -command "destroy $w"
+				wm protocol $w WM_DELETE_WINDOW "destroy $w"
+			}
+			fs -
+			fr {
+				::dkfprogress::SetProgress $w.prbar 100
+				$w.progress configure -text "[trans filetransfercomplete]"
+				$w.close configure -text "[trans close]" -command "destroy $w"
+				wm protocol $w WM_DELETE_WINDOW "destroy $w"
+				set bytes 1024
+				set filesize 1024
+			}
+		}
+
+		switch $mode {
+			e - l  - ca - fs - fr {
+				# Whenever a file transfer is terminated in a way or in another,
+				# remove the counters for this cookie.
+				if {[info exists firsttimes($cookie)]} { unset firsttimes($cookie) }
+			}
+		}
+
+		set bytes2 [expr {int($bytes/1024)}]
+		set filesize2 [expr {int($filesize/1024)}]
+		if { $filesize2 != 0 } {
+			set percent [expr {int(($bytes2*100)/$filesize2)}]
+			::dkfprogress::SetProgress $w.prbar $percent
+		}
+
+	}
 
 
    #///////////////////////////////////////////////////////////////////////////////
    # ChatFor (win_name)
    # Returns the name of the chat assigned to window 'win_name'
    proc ChatFor { win_name } {
-   
+
          variable chat_ids
 	 if { [info exists chat_ids($win_name)]} {
 	    return $chat_ids($win_name)
 	 }
-	  
+
 	 return 0
    }
    #///////////////////////////////////////////////////////////////////////////////
