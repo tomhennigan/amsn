@@ -793,29 +793,29 @@ proc Preferences { { settings "personal"} } {
 	pack $lfname.1 -anchor w -side left -padx 0 -pady 5 -expand 1 -fill both
 	label $lfname.1.lbrowser -text "[trans browser] :" -padx 5 -font sboldf
 	entry $lfname.1.browser -bg #FFFFFF -bd 1 -highlightthickness 0 -width 20 -textvariable config(browser)
-	label $lfname.1.lbrowserex -text "[trans browserexample]" -font examplef -padx 5 
+	label $lfname.1.lbrowserex -text "[trans browserexample]" -font examplef
 	label $lfname.1.lfileman -text "[trans fileman] :" -padx 5 -font sboldf
 	entry $lfname.1.fileman -bg #FFFFFF -bd 1 -highlightthickness 0 -width 20 -textvariable config(filemanager)
-	label $lfname.1.lfilemanex -text "[trans filemanexample]" -font examplef -padx 5 	
+	label $lfname.1.lfilemanex -text "[trans filemanexample]" -font examplef
 	label $lfname.1.lmailer -text "[trans mailer] :" -padx 5 -font sboldf
 	entry $lfname.1.mailer -bg #FFFFFF -bd 1 -highlightthickness 0 -width 20 -textvariable config(mailcommand)
-	label $lfname.1.lmailerex -text "[trans mailerexample]" -font examplef -padx 5 
+	label $lfname.1.lmailerex -text "[trans mailerexample]" -font examplef
 	label $lfname.1.lsound -text "[trans soundserver] :" -padx 5 -font sboldf
 	entry $lfname.1.sound -bg #FFFFFF -bd 1 -highlightthickness 0 -width 20 -textvariable config(soundcommand)
-	label $lfname.1.lsoundex -text "[trans soundexample]" -font examplef -padx 5
+	label $lfname.1.lsoundex -text "[trans soundexample]" -font examplef
 
-	grid $lfname.1.lbrowser -row 1 -column 1 -sticky w
-	grid $lfname.1.browser -row 1 -column 2 -sticky w
-	grid $lfname.1.lbrowserex -row 1 -column 3 -sticky w
-	grid $lfname.1.lfileman -row 2 -column 1 -sticky w
-	grid $lfname.1.fileman -row 2 -column 2 -sticky w
-	grid $lfname.1.lfilemanex -row 2 -column 3 -sticky w
-	grid $lfname.1.lmailer -row 3 -column 1 -sticky w
-	grid $lfname.1.mailer -row 3 -column 2 -sticky w
-	grid $lfname.1.lmailerex -row 3 -column 3 -sticky w
-	grid $lfname.1.lsound -row 4 -column 1 -sticky w
-	grid $lfname.1.sound -row 4 -column 2 -sticky w
-	grid $lfname.1.lsoundex -row 4 -column 3 -sticky w
+	grid $lfname.1.lbrowser -row 1 -column 1 -sticky e
+	grid $lfname.1.browser -row 1 -column 2 -sticky we
+	grid $lfname.1.lbrowserex -row 2 -column 2 -columnspan 1 -sticky w
+	grid $lfname.1.lfileman -row 3 -column 1 -sticky e
+	grid $lfname.1.fileman -row 3 -column 2 -sticky we
+	grid $lfname.1.lfilemanex -row 4 -column 2 -columnspan 1 -sticky w
+	grid $lfname.1.lmailer -row 5 -column 1 -sticky e
+	grid $lfname.1.mailer -row 5 -column 2 -sticky we
+	grid $lfname.1.lmailerex -row 6 -column 2 -columnspan 1 -sticky w
+	grid $lfname.1.lsound -row 7 -column 1 -sticky e
+	grid $lfname.1.sound -row 7 -column 2 -sticky we
+	grid $lfname.1.lsoundex -row 8 -column 2 -columnspan 1 -sticky w
 
 	## Library directories frame ##
 	set lfname [LabelFrame:create $frm.lfname2 -text [trans preflibs]]
@@ -835,15 +835,15 @@ proc Preferences { { settings "personal"} } {
 	label $lfname.1.lconvertpathexp -text [trans convertexplain] -justify left -font examplef
 	button $lfname.1.browseconv -text [trans browse]
 	
-	
-	grid $lfname.1.llibtls -row 1 -column 1 -sticky w
-	grid $lfname.1.libtls  -row 1 -column 2 -sticky w
+
+	grid $lfname.1.llibtls -row 1 -column 1 -sticky e
+	grid $lfname.1.libtls  -row 1 -column 2 -sticky we
 	grid $lfname.1.browsetls  -row 1 -column 3 -sticky w
-	grid $lfname.1.llibtlsexp  -row 2 -column 2 -columnspan 2 -sticky w
-	grid $lfname.1.lconvertpath -row 3 -column 1 -sticky w
-	grid $lfname.1.convertpath  -row 3 -column 2 -sticky w
-	grid $lfname.1.browseconv  -row 3 -column 3 -sticky w	
-	grid $lfname.1.lconvertpathexp  -row 4 -column 2 -columnspan 2 -sticky w
+	grid $lfname.1.llibtlsexp  -row 2 -column 2 -columnspan 3 -sticky w
+	grid $lfname.1.lconvertpath -row 3 -column 1 -sticky e
+	grid $lfname.1.convertpath  -row 3 -column 2 -sticky we
+	grid $lfname.1.browseconv  -row 3 -column 3 -sticky w
+	grid $lfname.1.lconvertpathexp  -row 4 -column 2 -columnspan 3 -sticky w
 
 
 	frame $frm.dummy -class Degt
@@ -1782,6 +1782,10 @@ proc getdisppic_clicked {} {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.106  2004/01/17 15:32:48  airadier
+# Some improvements in preferences window.
+# Updated spanish translations.
+#
 # Revision 1.105  2004/01/17 13:36:30  elezeta
 # Commented all the blocking-detection code
 #
