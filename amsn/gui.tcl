@@ -8,7 +8,20 @@ if { $initialize_amsn == 1 } {
     if { ![info exists bgcolor2] } {
 	set bgcolor2 #D0D0F0
     }
-
+    
+#Virtual events used by Button-click
+#On Mac OS X, Control emulate the "right click button"
+#On Mac OS X, there's a mistake betwen button2 and button3
+if {$tcl_platform(os) == "Darwin"} {
+event add <<Button1>> <Button1-ButtonRelease>
+event add <<Button2>> <Button3-ButtonRelease>
+event add <<Button3>> <Control-ButtonRelease>
+event add <<Button3>> <Button2-ButtonRelease>
+} else {
+event add <<Button1>> <Button1-ButtonRelease>
+event add <<Button2>> <Button2-ButtonRelease>
+event add <<Button3>> <Button3-ButtonRelease>
+}
 }
 
 namespace eval ::amsn {
@@ -1628,12 +1641,8 @@ namespace eval ::amsn {
 		label $bottom.pic  -borderwidth 2 -relief solid -image no_pic -background #FFFFFF
 
 		bind $bottom.pic <Button1-ButtonRelease> "::amsn::ShowPicMenu .${win_name} %X %Y\n"
-		#Change mouse button for Mac OS X
-		if {$tcl_platform(os) == "Darwin"} {
-		bind $bottom.pic <Button2-ButtonRelease> "::amsn::ShowPicMenu .${win_name} %X %Y\n"
-		} else {
-		bind $bottom.pic <Button3-ButtonRelease> "::amsn::ShowPicMenu .${win_name} %X %Y\n"
-		}
+		bind $bottom.pic <<Button3>> "::amsn::ShowPicMenu .${win_name} %X %Y\n"
+
 		
 		#scrollbar .${win_name}.f.top.ys -command ".${win_name}.f.top.text yview"
 
@@ -1711,20 +1720,11 @@ namespace eval ::amsn {
       bind $bottom.in.input <Control-Return> {%W insert insert "\n"; %W see insert; break}
       bind $bottom.in.input <Control-Alt-space> BossMode
       }
-      #The button2 and button 3 are mistaken on Mac OS X. Add control-click to emulate second button (some mac users just have one-buton mouse)
-if {$tcl_platform(os) == "Darwin"} {
-     bind $bottom.in.input <Button2-ButtonRelease> "tk_popup .${win_name}.copypaste %X %Y"
-     bind $bottom.in.input <Control-ButtonRelease> "tk_popup .${win_name}.copypaste %X %Y"
-      bind $bottom.in.input <Button3-ButtonRelease> "paste .${win_name} 1"
-      bind .${win_name}.f.out.text <Button2-ButtonRelease> "tk_popup .${win_name}.copy %X %Y"
-      bind .${win_name}.f.out.text <Button1-ButtonRelease> "copy 0 .${win_name}"
-} else {
 
-      bind $bottom.in.input <Button3-ButtonRelease> "tk_popup .${win_name}.copypaste %X %Y"
-      bind $bottom.in.input <Button2-ButtonRelease> "paste .${win_name} 1"
-      bind .${win_name}.f.out.text <Button3-ButtonRelease> "tk_popup .${win_name}.copy %X %Y"
+      bind $bottom.in.input <<Button3>> "tk_popup .${win_name}.copypaste %X %Y"
+      bind $bottom.in.input <<Button2>> "paste .${win_name} 1"
+      bind .${win_name}.f.out.text <<Button3>> "tk_popup .${win_name}.copy %X %Y"
       bind .${win_name}.f.out.text <Button1-ButtonRelease> "copy 0 .${win_name}"
- }     
       
       if {$tcl_platform(platform) == "unix" } {
 	  bind .${win_name} <Control-x> "status_log cut\n;copy 1 .${win_name}"
@@ -4144,6 +4144,8 @@ proc cmsn_draw_online { {delay 0} } {
 			"tk_popup .group_menu %X %Y"
 			}
 			
+
+			
 		$pgBuddy.text tag bind $gtag <Enter> \
 			"$pgBuddy.text tag conf $gtag -under true;$pgBuddy.text conf -cursor hand2"
 		$pgBuddy.text tag bind $gtag <Leave> \
@@ -4155,13 +4157,7 @@ proc cmsn_draw_online { {delay 0} } {
 	# Display MSN logo with user's handle. Make it clickable so
 	# that the user can change his/her status that way
 	clickableImage $pgBuddy.text bigstate $my_image_type {tk_popup .my_menu %X %Y}
-	#Mouse button on Mac OS X with control-button
-	if {$tcl_platform(os) == "Darwin"} {
-		bind $pgBuddy.text.bigstate <Button2-ButtonRelease> {tk_popup .my_menu %X %Y}
-	bind $pgBuddy.text.bigstate <Control-ButtonRelease> {tk_popup .my_menu %X %Y}
-	} else {
-	bind $pgBuddy.text.bigstate <Button3-ButtonRelease> {tk_popup .my_menu %X %Y}
-	}
+	bind $pgBuddy.text.bigstate <<Button3>> {tk_popup .my_menu %X %Y}
 
 	text $pgBuddy.text.mystatus -font bboldf -height 2 \
 		-width [expr {([winfo width $pgBuddy.text]-45)/[font measure bboldf -displayof $pgBuddy.text "0"]}] \
@@ -4627,13 +4623,9 @@ proc ShowUser {user_name user_login state state_code colour section grId} {
 	    $pgBuddy.text.$imagee configure -cursor hand2 -borderwidth 0
             $pgBuddy.text window create $section.last -window $pgBuddy.text.$imagee  -padx 1 -pady 1
 	    bind $pgBuddy.text.$imagee <Button1-ButtonRelease> "switch_alarm $user_login $pgBuddy.text.$imagee"
-	    #Change button mouse and add control-click on Mac OS X
-	    if {$tcl_platform(os) == "Darwin"} {
-	    bind $pgBuddy.text.$imagee <Button2-ButtonRelease> "alarm_cfg $user_login"
-	    bind $pgBuddy.text.$imagee <Control-ButtonRelease> "alarm_cfg $user_login"
-	    } else {
-	    bind $pgBuddy.text.$imagee <Button3-ButtonRelease> "alarm_cfg $user_login"
-		}
+
+	    bind $pgBuddy.text.$imagee <<Button3>> "alarm_cfg $user_login"
+
 	}
 
 
@@ -4691,12 +4683,10 @@ proc ShowUser {user_name user_login state state_code colour section grId} {
 if {$tcl_platform(os) == "Darwin"} {
          $pgBuddy.text tag bind $user_unique_name <Button2-ButtonRelease> "show_umenu $user_login $grId %X %Y"
          $pgBuddy.text tag bind $user_unique_name <Control-ButtonRelease> "show_umenu $user_login $grId %X %Y"
-          bind $pgBuddy.text.$imgname <Button2-ButtonRelease> "show_umenu $user_login $grId %X %Y"
-          bind $pgBuddy.text.$imgname <Control-ButtonRelease> "show_umenu $user_login $grId %X %Y"
 	} else {
-         $pgBuddy.text tag bind $user_unique_name <Button3-ButtonRelease> "show_umenu $user_login $grId %X %Y"
-          bind $pgBuddy.text.$imgname <Button3-ButtonRelease> "show_umenu $user_login $grId %X %Y"
+          $pgBuddy.text tag bind $user_unique_name <Button3-ButtonRelease> "show_umenu $user_login $grId %X %Y"
      }
+bind $pgBuddy.text.$imgname <<Button3>> "show_umenu $user_login $grId %X %Y"
 
          if { $state_code !="FLN" } {
             bind $pgBuddy.text.$imgname <Double-Button-1> "::amsn::chatUser $user_login"
@@ -6493,3 +6483,4 @@ proc bgerror { args } {
 	wm transient $wintransient .
 	}
 	}
+	
