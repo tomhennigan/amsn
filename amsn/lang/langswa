@@ -193,6 +193,7 @@ hybrid Namna mchanganyiko
 ident Inatambulisha
 identity Utambulisho
 inbox Sanduku-Kuingia
+installconvert Lazima uweka ImageMagick (programu ya kubadilisha) ili uweze kubadilisha mfumo wa picha ulingane na ule unaohitajika na programu-tumishi ya MSN. Unaweza kutelemsha bainari kwa ajili ya programu-mama yako ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Kama unayo hii programu basi ni kosa, tafadhali toa ripoti. 
 internalerror tatizo la ndani la programu-tumishi
 invalidfile Faili $2 iliyowekwa katika nafasi "$1" halipo au alisomeki
 invalidusername Jina la mtumiaji siyo la kweli
