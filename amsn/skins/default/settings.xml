@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 
 <!--
-###########################################################
-#                    aMSN Default Skin                    #
-# ======================================================= #
-#      - Made by Tom Jenkins (tom@thejenkins.org)         #
-#      - Requires (at least) aMSN 0.95                    #
-###########################################################
+#####################################################################
+#                    aMSN Default Skin                             #
+#                                                                   #
+#      - Made by Tom Jenkins (one_big_offspringfreak@yahoo.co.uk)#
+#      - Requires (at least) aMSN 0.95                            #
+####################################################################
 -->
 
 <skin>
@@ -23,11 +23,13 @@
 			<balloonbordercolor>#2e8afe</balloonbordercolor>
 			<balloontextcolor>#000000</balloontextcolor>
 			<mainwindowbg>#aaaaaa</mainwindowbg>
+			<groupcolorextend>#000000</groupcolorextend>
+			<groupcolorcontract>#cccccc</groupcolorcontract>
 		</Colors>
 		<Options>
 			<underline_contact>1</underline_contact>
 			<balloonfont>sboldf</balloonfont>
-			<showdisplaycontactlist>0</showdisplaycontactlist>
+			<showdisplaycontactlist>1</showdisplaycontactlist>
 		</Options>
 	</General>
 
@@ -55,8 +57,7 @@
 			<statusbarbg>#fcfcee</statusbarbg>
 			<statusbartext>#000000</statusbartext>
 			<chat_status_border_color>#6b5600</chat_status_border_color>
-			<groupcolorextend>#000080</groupcolorextend>
-			<groupcolorcontract>#000080</groupcolorcontract>
+
 		</Colors>
 		
 		<Geometry>
@@ -79,6 +80,20 @@
 			<chat_status_padx>1</chat_status_padx>
 			<chat_status_pady>0</chat_status_pady>
 			<chat_sash_pady>2</chat_sash_pady>
+			<bigstate_xpad>0</bigstate_xpad>
+			<bigstate_ypad>0</bigstate_ypad>
+			<mystatus_xpad>3</mystatus_xpad>
+			<mystatus_ypad>0</mystatus_ypad>
+			<mailbox_xpad>0</mailbox_xpad>
+			<mailbox_ypad>0</mailbox_ypad>
+			<contract_xpad>8</contract_xpad>
+			<contract_ypad>6</contract_ypad>
+			<expand_xpad>8</expand_xpad>
+			<expand_ypad>6</expand_ypad>
+			<notifwidth>150</notifwidth>
+			<notifheight>100</notifheight>
+			<x_notifyclose>100</x_notifyclose>
+			<y_notifyclose>2</y_notifyclose>
 		</Geometry>
 		
 		<Options>
