@@ -38,8 +38,8 @@
 ### $Id$
 ###
 
-set version "0.52dev"
-set date "06/24/2002"
+set version "0.52beta"
+set date "06/26/2002"
 set weburl "http://amsn.sourceforge.net"
 
 
@@ -243,8 +243,8 @@ proc configureMenuEntry {m e s} {
 proc close_cleanup {} {
   global HOME config
   set config(wingeometry) [wm geometry .]
-  set config(showonline) $::groups::bShowing(online)
-  set config(showoffline) $::groups::bShowing(offline)
+  set config(showonline)  [::groups::IsExpanded online]
+  set config(showoffline) [::groups::IsExpanded offline]
   save_config
   catch {file delete [file join $HOME hotlog.htm]} res
 }
@@ -337,7 +337,7 @@ proc cmsn_draw_main {} {
 
    #Order Contacts By submenu
    menu .order_by -tearoff 0 -type normal -background #D0D0E0
-   .order_by add radio -label "[trans name]" -value 0 \
+   .order_by add radio -label "[trans status]" -value 0 \
    	-variable config(orderbygroup)
    .order_by add radio -label "[trans group]" -value 1 \
    	-variable config(orderbygroup)
@@ -348,9 +348,11 @@ proc cmsn_draw_main {} {
      cmsn_draw_addcontact
    .main_menu.tools add cascade -label "[trans admincontacts]" -command \
      "" -state disabled
+
    ::groups::Init .main_menu.tools
    set ::groups::bShowing(online) $config(showonline)
    set ::groups::bShowing(offline) $config(showoffline)
+
    .main_menu.tools add separator
    .main_menu.tools add cascade -label "[trans ordercontactsby]" \
      -menu .order_by
@@ -676,7 +678,7 @@ proc clickableImage {tw name image command {padx 0} {pady 0}} {
 proc toggleGroup {tw name image id {padx 0} {pady 0}} {
    label $tw.$name -image $image
    $tw.$name configure -cursor hand2 -borderwidth 0 
-   bind $tw.$name <Button-1> "::groups::ToggleStatus $id; cmsn_draw_online"
+   bind $tw.$name <Button1-ButtonRelease> "::groups::ToggleStatus $id; cmsn_draw_online"
    $tw window create end -window $tw.$name -padx $padx -pady $pady
 }
 
@@ -693,14 +695,11 @@ proc cmsn_draw_online {} {
 
    # Decide which grouping we are going to use
    if {$config(orderbygroup)} {
-       set glist [::groups::GetList]
-       set glist [lsort $glist]
-       set glength [llength $glist]
-       set gcnt $glength
+       set glist [lsort [::groups::GetList]]
+       set gcnt [llength $glist]
        # Now setup each of the group's defaults
-       for {set i 0} {$i < $glength} {incr i} {
+       for {set i 0} {$i < $gcnt} {incr i} {
 	   set gid [lindex $glist $i]
-	   set ::groups::bShowing($gid) "Y"
 	   set ::groups::uMemberCnt($gid) 0
        }
    } else {	# Order by Online/Offline
@@ -746,24 +745,6 @@ proc cmsn_draw_online {} {
 
    }
 
-   .main.text tag conf online -fore #000000 -font sboldf
-   .main.text tag bind online <Button1-ButtonRelease> \
-      "::groups::ToggleStatus online;cmsn_draw_online"
-   .main.text tag bind online <Enter> \
-      ".main.text tag conf online -under true;.main.text conf -cursor hand2"
-   .main.text tag bind online <Leave> \
-      ".main.text tag conf online -under false;.main.text conf -cursor left_ptr"
-
-
-   .main.text tag conf offline -fore #000000 -font sboldf
-   .main.text tag bind offline <Button1-ButtonRelease> \
-      "::groups::ToggleStatus offline;cmsn_draw_online"
-   .main.text tag bind offline <Enter> \
-      ".main.text tag conf offline -under true;.main.text conf -cursor hand2"
-   .main.text tag bind offline <Leave> \
-      ".main.text tag conf offline -under false;.main.text conf -cursor left_ptr"
-
-
    .main.text insert end "\n"
 
    # Display MSN logo with user's handle. Make it clickable so
@@ -777,7 +758,7 @@ proc cmsn_draw_online {} {
    .main.text image create end -image colorbar 
    .main.text insert end "\n"
 
-   # Show Mail status notifications
+   # Show Mail Notification status 
    clickableImage .main.text mailbox mailbox {hotmail_login $config(login) $password} 5 0
 
    .main.text insert end "[trans newmail $unread]\n" mail
@@ -790,7 +771,7 @@ proc cmsn_draw_online {} {
    for {set gidx 0} {$gidx < $gcnt} {incr gidx} {
        set gname [lindex $glist $gidx]
        set gtag  "tg$gname"
-       if { $::groups::bShowing($gname) == "Y" } {
+       if { [::groups::IsExpanded $gname] } {
 	   toggleGroup .main.text contract$gname contract $gname 5 0
        } else {
 	   toggleGroup .main.text expand$gname expand $gname 5 0
@@ -839,11 +820,17 @@ proc cmsn_draw_online {} {
 	  ::groups::UpdateCount $user_group +1
       }
       
-      if { ($state_code == "FLN" || $::groups::bShowing(online) != "N") \
-        && ($state_code != "FLN" || $::groups::bShowing(offline) != "N") } {
+      # Do NOT display buddy if...
+      #	  1. state is FLN(offline) and !showoffline, or
+      #	  2. state is NLN(online) and !showonline and !orderByGroup, or
+      #   3. orderByGroup and group is not collapsed
+      set myGroupExpanded [::groups::IsExpanded $user_group]
+       if { ($config(orderbygroup) == 1 && $myGroupExpanded == 1) || \
+            ($state_code == "NLN" && $config(showonline))
+	  } {
          if {($state_code != "NLN") && ($state_code !="FLN")} {
             set state_desc " ([trans [lindex $state 1]])"
-            } else {
+	 } else {
             set state_desc ""
          }
       
@@ -893,7 +880,7 @@ proc cmsn_draw_online {} {
         for {set gidx 0} {$gidx < $gcnt} {incr gidx} {
 	    set gname [lindex $glist $gidx]
 	    set gtag  "tg$gname"
-	   .main.text insert $gtag.last " ($::groups::uMemberCnt(online))\n" $gtag
+	   .main.text insert $gtag.last " ($::groups::uMemberCnt($gname))\n" $gtag
  	}
    } else {
        .main.text insert online.last " ($::groups::uMemberCnt(online))\n" online
