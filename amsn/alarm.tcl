@@ -142,7 +142,7 @@ proc alarm_cfg { user } {
    pack .alarm_cfg.pic1.browse -side left
    pack .alarm_cfg.pic1 -side top -padx 10 -pady 2 -anchor w -fill x
    checkbutton .alarm_cfg.buttonpic -text "[trans picstatus]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_pic_st) -font splainf
-   pack .alarm_cfg.button -side top -anchor w -expand true -padx 30
+   pack .alarm_cfg.buttonpic -side top -anchor w -expand true -padx 30
 
    checkbutton .alarm_cfg.alarm -text "[trans alarmstatus]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}) -font splainf
    checkbutton .alarm_cfg.alarmonconnect -text "[trans alarmonconnect]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_onconnect) -font splainf
@@ -177,11 +177,13 @@ proc delete_alarm { user} {
 #Saves alarm settings for current user on OK press.
 proc save_alarm_pref { user } {
    global alarms my_alarms 
-   
+
    if { ($my_alarms(${user}_sound_st) == 1) && ([file exists "$my_alarms(${user}_sound)"] == 0) } {
 	msg_box [trans invalidsound]
 	return
    }
+
+	status_log "Here $my_alarms(${user}_pic_st)\n" white
 
    if { ($my_alarms(${user}_pic_st) == 1) } {
 	if { ([file exists "$my_alarms(${user}_pic)"] == 0) } {
@@ -189,7 +191,7 @@ proc save_alarm_pref { user } {
 		return
    	} else {
 		image create photo joanna -file $my_alarms(${user}_pic)
-		if { ([image width joanna] > 300) && ([image height joanna] > 400) } {
+		if { ([image width joanna] > 1024) && ([image height joanna] > 768) } {
 	    		image delete joanna
 	    		msg_box [trans invalidpicsize]
 	    		return
