@@ -315,7 +315,7 @@ proc FilterIDAT { img } {
 
 proc testpng { file } {
     reload_files
-    source plugins/tclzlib/tclzlib.tcl
+    source utils/tclzlib/tclzlib.tcl
 
 
     set im [CreatePNG [::skin::GetSkinFile displaypic ${file}.png]] 
@@ -330,7 +330,7 @@ proc testpng { file } {
 proc testpng2 { file } {
     reload_files
 
-    source msn/plugins/tclzlib/tclzlib.tcl
+    source msn/utils/tclzlib/tclzlib.tcl
 
     set im [CreatePNG [::skin::GetSkinFile displaypic ${file}.png]] 
     if {$im != -1} {

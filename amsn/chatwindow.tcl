@@ -549,6 +549,7 @@ namespace eval ::ChatWindow {
 				::ChatWindow::SetFor $chatid $win_name
 				::ChatWindow::NameTabButton $win_name [::abook::getDisplayNick $chatid]
 				set_balloon $::ChatWindow::win2tab($win_name) "[::abook::getDisplayNick $chatid]"
+				::ChatWindow::SwitchToTab $container [::ChatWindow::GetCurrentWindow $container]
 
 			}
 			#update idletasks
@@ -2369,6 +2370,12 @@ namespace eval ::ChatWindow {
 
 		set title ""
 
+		if { [info exists containerwindows($container)] &&
+		     [lsearch [set containerwindows($container)] $win] == -1 } { 
+			status_log "can't switch to a window that doesn't belong to the correct container"
+			return 
+		}
+
 		if { [info exists containercurrent($container)] && [set containercurrent($container)] != "" } {
 			set w [set containercurrent($container)]
 			pack forget $w
@@ -2497,10 +2504,10 @@ namespace eval ::ChatWindow {
 			#Fix  hidden tabs problem, thanks to Le philousophe
 			pack  ${container}.bar -side top -fill both -expand false
 
-			if { [winfo exists [GetCurrentWindow $container]] } {
-				pack forget [GetCurrentWindow $container]
-				pack [GetCurrentWindow $container] -side bottom -expand true -fill both
-			}
+			#if { [winfo exists [GetCurrentWindow $container]] } {
+			#	pack forget [GetCurrentWindow $container]
+			#	pack [GetCurrentWindow $container] -side bottom -expand true -fill both
+			#}
 		}
 
 		if { $max_tabs > 0 && $number_tabs > $max_tabs } {
@@ -2754,7 +2761,7 @@ namespace eval ::ChatWindow {
 				} 
 				image {
 					if { [string first "#" $value] != -1 } {
-						set value [string range $value 0 [expr [string first "#" $value] -1]]
+						set value [string range $value 0 [expr [string last "#" $value] -1]]
 					}
 					$w image create $index -image $value
 				}
