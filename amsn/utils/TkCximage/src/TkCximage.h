@@ -112,6 +112,16 @@ inline void APPENDLOG (const int i) {
 #endif
 }
 
+inline void APPENDLOG (const void * i) {
+#ifdef LOGS_ENABLED
+  if (logfile) {
+    fprintf(logfile," %X", i);
+    fflush(logfile);
+  }
+#endif
+}
+
+
 inline void INITLOGS () {
 #ifdef LOGS_ENABLED
 logfile = fopen(LOGPATH, "a");
@@ -124,6 +134,7 @@ logfile = fopen(LOGPATH, "a");
 typedef struct gif_info {
 	CxImage * image;
 	Tk_PhotoHandle Handle;
+	void * HandleMaster;
 	int NumFrames;
 	int CurrentFrame;
 } GifInfo ;

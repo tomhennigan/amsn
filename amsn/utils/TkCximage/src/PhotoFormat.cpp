@@ -177,6 +177,7 @@ int ObjRead (Tcl_Interp *interp, Tcl_Obj *data, Tcl_Obj *format, Tk_PhotoHandle 
 	AnimatedGifInfo->CurrentFrame = 1;
 	AnimatedGifInfo->NumFrames = numframes;
 	AnimatedGifInfo->Handle = imageHandle;
+	AnimatedGifInfo->HandleMaster  = *((void **) (imageHandle));
 	AnimatedGifInfo->image = new CxImage;
 	AnimatedGifInfo->image->RetreiveAllFrame();
 	AnimatedGifInfo->image->SetFrame(numframes - 1);
@@ -330,7 +331,9 @@ void AnimateGif(ClientData data) {
 	GifInfo *Info = (GifInfo *)data;
 	if(g_EnableAnimated && Info) {
 		CxImage *image = Info->image->GetFrameNo(Info->CurrentFrame);
-		if(CopyImageToTk(NULL, image, Info->Handle, image->GetWidth(), image->GetHeight(), false) == TCL_OK) {
+		void * tkMaster = *((void **) (Info->Handle));
+
+		if(tkMaster == Info->HandleMaster && CopyImageToTk(NULL, image, Info->Handle, image->GetWidth(), image->GetHeight(), false) == TCL_OK) {
 			Info->CurrentFrame++;
 			if(Info->CurrentFrame == Info->NumFrames)
 				Info->CurrentFrame = 0;
@@ -338,7 +341,11 @@ void AnimateGif(ClientData data) {
 			Tcl_CreateTimerHandler(image->GetFrameDelay()?10*image->GetFrameDelay():40, AnimateGif, data);
 
 		} else {
-			
+		  LOG("Image destroyed, deleting... tkMaster was : ");
+		  APPENDLOG( tkMaster );
+		  APPENDLOG(" - ");
+		  APPENDLOG( Info->HandleMaster);
+		  
 			Info->image->DestroyGifFrames();
 			delete Info->image;
 			delete Info;
