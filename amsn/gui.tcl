@@ -590,6 +590,7 @@ namespace eval ::amsn {
 #		set filename [ $w.top.fields.file get ]
 		if { $filename == "" } {
 			set filename [tk_getOpenFile -filetypes  {{"All Files" {*.*}}} -parent $win_name -title "[trans sendfile]" -initialdir $starting_dir]
+			status_log $filename
 		}
 		
 		if { $filename == "" } { return }
@@ -1744,6 +1745,7 @@ namespace eval ::amsn {
 			.${win_name}.copy add cascade -label "iTunes" -menu .${win_name}.copy.itunes
 			menu .${win_name}.copy.itunes -tearoff 0 -type normal
 			.${win_name}.copy.itunes add command -label [trans xmmscurrent] -command "itunes ${win_name} 1"
+			.${win_name}.copy.itunes add command -label [trans xmmssend] -command "itunes ${win_name} 2"
 		}
 
 		frame .${win_name}.f -class amsnChatFrame -background $bgcolor -borderwidth 0 -relief flat
