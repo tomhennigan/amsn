@@ -192,6 +192,13 @@ proc reload_files { } {
 
 }
 
+
+proc after_info { } {
+	foreach f [after info] {
+		status_log "After $f : [after info $f]\n" red
+	}
+}
+
 proc check_imagemagick {} {
 
 	if {[::config::getKey convertpath] == ""} {

@@ -2329,8 +2329,11 @@ namespace eval ::amsn {
 
 		set win_name [::ChatWindow::For $lowuser]
 
+		set creating_window 0
+
 		if { $win_name == 0 } {
 
+			set creating_window 1
 			if { [::ChatWindow::UseContainer] == 0 } {
 				set win_name [::ChatWindow::Open]
 				::ChatWindow::SetFor $lowuser $win_name
@@ -2338,9 +2341,6 @@ namespace eval ::amsn {
 				set container [::ChatWindow::GetContainerFor $user]
 				set win_name [::ChatWindow::Open $container]
 				::ChatWindow::SetFor $lowuser $win_name
-				::ChatWindow::NameTabButton $container $win_name $lowuser
-				::ChatWindow::SwitchToTab $container $win_name
-				::ChatWindow::NameTabbedWindow $container $lowuser
 			}
 			set ::ChatWindow::first_message($win_name) 0
 			set chatid [::MSN::chatTo $lowuser]
@@ -2352,6 +2352,10 @@ namespace eval ::amsn {
 		}
 
 		set chatid [::MSN::chatTo $lowuser]
+
+		if { [::ChatWindow::UseContainer] != 0 && $creating_window == 1} {
+			::ChatWindow::NameTabButton $win_name $chatid
+		}
 
 		if { "$chatid" != "${lowuser}" } {
 			status_log "Error in ::amsn::chatUser, expected same chatid as user, but was different\n" red

@@ -148,6 +148,7 @@ contactadded Contact added
 contactdoesnotexist Contact does not exist!
 contactlist Contact list (FL):
 continuously Continuously
+conversationwith $1 users in conversation
 convertexplain Path to CONVERT executable file, from ImageMagick (required for Display Pictures).\n Leave blanck if CONVERT is in the path
 copy Copy
 copytogroup Copy to group

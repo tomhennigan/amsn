@@ -2232,7 +2232,6 @@ namespace eval ::MSN {
 					set payload [string range $remaining 0 [expr $length -1]]
 					set dataBuffer [string range $dataBuffer [string length "$command\r\n$payload"] end]
 					set command [encoding convertfrom utf-8 $command]
-				        status_log "sending command $command with payload $payload\n" red
 					$options(-name) handleCommand $command $payload
 				} else {
 					return

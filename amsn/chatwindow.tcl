@@ -28,7 +28,8 @@ namespace eval ::ChatWindow {
 		variable winid 0
 		variable containers
 		variable containerwindows
-		variable tabtowin
+		variable tab2win
+		variable win2tab
 		variable containercurrent
 		variable containerid 0
 	}
@@ -186,6 +187,18 @@ namespace eval ::ChatWindow {
 	}
 
 	proc ContainerClose { window } {
+		variable win2tab
+
+		set current [GetCurrentWindow $window]
+		if { $current == "$window" } {
+			::ChatWindow::CloseAll $window
+			destroy $window
+		} else {
+			set currenttab [set win2tab($current)]
+			CloseTab $currenttab
+		}
+		return
+		
 		set nodot [string map { "." "_"} $window]
 		set w .close$nodot
 
@@ -339,6 +352,9 @@ namespace eval ::ChatWindow {
 
 			::config::setKey wincontainersize  [string range $geometry 0 [expr {$pos_start-1}]]
 		}
+		if { [winfo exists ${window}.bar] } {
+			CheckForTooManyTabs $window
+		}
 	}
 
 	#///////////////////////////////////////////////////////////////////////////////
@@ -353,6 +369,13 @@ namespace eval ::ChatWindow {
 			set window [::ChatWindow::For $chatid]
 		} else {
 			return 0
+		}
+
+		set container [GetContainerFromWindow $window]
+		if { $container != "" } {
+			status_log "Calling flickertab\n" red
+			FlickerTab $window 
+			return
 		}
 
 		if { [::config::getKey flicker] == 0 } {
@@ -489,8 +512,8 @@ namespace eval ::ChatWindow {
 				set container [::ChatWindow::GetContainerFor $chatid]
 				set win_name [::ChatWindow::Open $container]
 				::ChatWindow::SetFor $chatid $win_name
-				::ChatWindow::SwitchToTab $container $win_name
-				::ChatWindow::NameTabButton $container $win_name $chatid
+				::ChatWindow::NameTabButton $win_name $chatid
+
 			}
 			#update idletasks
 			::ChatWindow::TopUpdate $chatid
@@ -750,7 +773,13 @@ namespace eval ::ChatWindow {
 	proc CreateTabBar { w } {
 		set bar $w.bar
 		::skin::setPixmap tab tab.gif
-		frame $bar -class Amsn -relief solid
+		::skin::setPixmap tab_hover tab_hover.gif
+		::skin::setPixmap tab_current tab_current.gif
+		::skin::setPixmap tab_flicker tab_flicker.gif
+		::skin::setPixmap moretabs moretabs.gif
+		::skin::setPixmap lesstabs lesstabs.gif
+
+		frame $bar -class Amsn -relief solid -bg white
 
 		return $bar
 	}
@@ -1913,7 +1942,7 @@ namespace eval ::ChatWindow {
 		$toptext configure -state normal -font sboldf -height $lines -wrap none
 		$toptext configure -state disabled
 
-		if { [UseContainer] == 0 } {
+		if { [GetContainerFromWindow $win_name] == "" } {
 			if { [info exists ::ChatWindow::new_message_on(${win_name})] && $::ChatWindow::new_message_on(${win_name}) == 1 } {
 				wm title ${win_name} "*${title}"
 			} else {
@@ -1984,6 +2013,40 @@ namespace eval ::ChatWindow {
 	}
 	#///////////////////////////////////////////////////////////////////////////////
 
+	proc FlickerTab { win {new 1}} {
+		variable win2tab
+		variable winflicker
+
+		if { $win == 0 || ![info exists win2tab($win)] } { return }
+
+		if { $win == [GetCurrentWindow [winfo toplevel $win]] } { return }
+
+		set tab $win2tab($win)
+
+		after cancel "::ChatWindow::FlickerTab $win 0"
+		if { $new == 1 || ![info exists winflicker($win)]} {
+			set winflicker($win) 0
+		}
+
+		set count [set winflicker($win)]
+
+		if { [expr $count % 2] == 0 } {
+			$tab configure -image [::skin::loadPixmap tab_flicker]
+		} else {
+			$tab configure -image [::skin::loadPixmap tab]	
+		}
+
+		incr winflicker($win)
+
+		if { $count > 10 } {
+			$tab configure -image [::skin::loadPixmap tab_flicker]
+			return
+		}
+
+		
+		after 1000 "::ChatWindow::FlickerTab $win 0"
+
+	}
 
 	proc GetContainerFor { user } {
 		variable containers
@@ -2013,29 +2076,55 @@ namespace eval ::ChatWindow {
 
 	proc AddWindowToContainer { container win } {
 		variable containerwindows
-		variable tabtowin
 
 		if { ![info exists containerwindows($container)] } {
+
+			set tab [CreateTabButton $container $win]
+			pack $tab -side left -expand false -fill both -anchor e
+
 			set containerwindows($container) $win
 			SwitchToTab $container $win
 		} else {
 			if { [lsearch [set containerwindows($container)] $win] == -1 } {
+				set tab [CreateTabButton $container $win]
+				pack $tab -side left -expand false -fill both -anchor e
+
 				lappend containerwindows($container) $win
 			} else {
 				return
 			}
 		}
 
-		set tab [CreateTabButton $container $win]
-		pack $tab -side left -expand false -fill both
+		CheckForTooManyTabs $container
+	}
+
+
+	proc GetContainerFromWindow { win } {
+		variable containerwindows
+
+		if { ![info exists containerwindows] } {
+			return ""
+		} else {
+			foreach container [array names containerwindows] {
+				if { [lsearch [set containerwindows($container)] $win] != -1 } {
+					return $container
+				}
+			}
+		}
+
+		return ""
 
 	}
 
 	proc CreateTabButton { container win} {
+		variable tab2win
+		variable win2tab
+
 		set w [string map { "." "_"} $win]
 		set tab $container.bar.$w
 
 		button $tab -image [::skin::loadPixmap tab] \
+		    -width [image width [::skin::loadPixmap tab]] \
 		    -command "::ChatWindow::SwitchToTab $container $win" \
 		    -fg black -bg [::skin::getKey sendbuttonbg] -bd 0 -relief flat \
 		    -activebackground [::skin::getKey sendbuttonbg] -activeforeground black -text "$win" \
@@ -2045,55 +2134,146 @@ namespace eval ::ChatWindow {
 		}
 
 
+		bind $tab <Enter> "::ChatWindow::TabEntered $tab $win"
+		bind $tab <Leave> "::ChatWindow::TabLeft $tab"
+		bind $tab <<Button2>> "::ChatWindow::CloseTab $tab"
+
+
+		set tab2win($tab) $win
+		set win2tab($win) $tab
 		return $tab
 		
 	}
 
+	proc CloseTab { tab } {
+		variable containercurrent
+		variable containerprevious
+		variable containerwindows
+		variable tab2win
+		variable win2tab
+		
+		set win [set tab2win($tab)]
+
+		set container [winfo toplevel $win]
+
+		destroy $win
+		destroy [set win2tab($win)]
+		set idx [lsearch [set containerwindows($container)] $win]
+		set containerwindows($container) [lreplace [set containerwindows($container)] $idx $idx]
+		unset win2tab($win)
+		unset tab2win($tab)
+
+		if { [info exists containerprevious($container)] && [set containerprevious($container)] != "" } {
+			set newwin [set containerprevious($container)]
+			if { [GetContainerFromWindow $newwin] != $container } {
+				set newwin [lindex [set containerwindows($container)] 0]
+			}
+		} else {
+			set newwin [lindex [set containerwindows($container)] 0]	
+		}
+
+		CheckForTooManyTabs $container
+
+		if { $newwin == "" } { 
+			set containercurrent($container) ""
+			destroy $container
+		} else {
+			SwitchToTab $container $newwin
+		}
+		
+	}
+
+	proc TabEntered { tab win } {
+		after cancel "::ChatWindow::FlickerTab $win"; 
+		set ::ChatWindow::oldpixmap($tab) [$tab cget -image] 
+		$tab configure -image [::skin::loadPixmap tab_hover]
+		
+	}
+	
+	proc TabLeft {tab } {
+		if { [info exists ::ChatWindow::oldpixmap($tab)] } { 
+			set image [set ::ChatWindow::oldpixmap($tab)]
+		} else {
+			set image [::skin::loadPixmap tab]
+		}
+
+		set win [set ::ChatWindow::tab2win($tab)]
+		if { $win == [GetCurrentWindow [winfo toplevel $win]] } { 
+			set image [::skin::loadPixmap tab_current]
+		}
+
+		$tab configure -image $image
+	 }
+
 	#///////////////////////////////////////////////////////////////////////////////////
 	# NameTabButton $container $win
 	# This proc changes the name of the tab from $win to $chat_ids($win)
-	proc NameTabButton { container win chatid } {
-		set w [string map { "." "_"} $win]
-		set tab $container.bar.$w
-		if {[::config::getKey tabtitlenick]==1} {
-			$tab configure -text "[::abook::getNick $chatid]"
-		} else {
-			$tab configure -text "$chatid"
+	proc NameTabButton { win chatid } {
+		variable win2tab
+		
+		set tab [set win2tab($win)]
+		set users [::MSN::usersInChat $chatid]
+		status_log "naming tab $win with chatid info $chatid\n" red
+		set max_w [image width [::skin::loadPixmap tab]]
+		if { $users == "" || [llength $users] == 1} {
+			set nick [::abook::getContactData $chatid nick]
+			if { $nick == "" } {
+				status_log "writing chatid\n" red
+				$tab configure -text "[trunc $chatid $tab $max_w sboldf]"
+			} else {
+				status_log "found nick $nick\n" red
+				$tab configure -text "[trunc $nick $tab $max_w sboldf]"
+			}
+		} elseif { [llength $users] != 1 } {
+			set number [llength $users]
+			status_log "Conversation with $number users\n" red
+			$tab configure -text "[trunc [trans conversationwith $number] $tab $max_w sboldf]"
 		}
+		
+	}
+
+
+	proc GetCurrentWindow { container } {
+		variable containercurrent
+
+		if { [info exists containercurrent($container)] && [set containercurrent($container)] != "" } {
+			return [set containercurrent($container)]
+		} else {
+			return $container
+		}
+
 	}
 
 	proc SwitchToTab { container win } {
 		variable containercurrent
-		set w [string map { "." "_"} $win]
-		set tab $container.bar.$w
+		variable win2tab
+		variable containerprevious
+
 
 		if { [info exists containercurrent($container)] && [set containercurrent($container)] != "" } {
-			pack forget [set containercurrent($container)]
-
-			#un-highlighting the old current tab of the current container
-			set current $containercurrent($container)
-			set wcurrent [string map { "." "_"} $current]
-			$container.bar.$wcurrent configure -fg black -bg white -activebackground white -activeforeground black
-
-			#hightlighting the current tab of the current container
-			$tab configure -fg white -bg black -activebackground black -activeforeground white
-
-			#changing the window name
-			set email [::ChatWindow::Name $win]
-			wm title $container "$email"
+			set w [set containercurrent($container)]
+			pack forget $w
+			set containerprevious($container) $w
+			if { [info exists win2tab($w)] } {
+				set tab $win2tab($w)
+				$tab configure -image [::skin::loadPixmap tab]
+			}
 		}
 
 		set  containercurrent($container) $win
 		pack $win -side top -expand true -fill both
 
-	}
-
-	proc NameTabbedWindow { container chatid } {
-		if {[::config::getKey wintitlenick]==1} {
-			wm title $container "[::abook::getNick $chatid]"
-		} else {
-			wm title $container "$chatid"
+		if { ![info exists containerprevious($container)] } {
+			set containerprevious($container) $win
 		}
+
+		if { [info exists win2tab($win)] } {
+			set tab $win2tab($win)
+			$tab configure -image [::skin::loadPixmap tab_current]
+		}
+
+		wm title $container [set ::ChatWindow::titles($win)] 
+		
 	}
 
 
@@ -2109,12 +2289,197 @@ namespace eval ::ChatWindow {
 		#	set istabbed 0
 		#}
 
+
 		if { $istabbed == 1 || $istabbed == 2 } {
 			return 1
 		} else {
 			return 0
 		}
 
+	}
+
+	proc CheckForTooManyTabs { container } {
+		variable containerwindows
+		variable visibletabs
+		variable win2tab
+
+		set bar_w [winfo width ${container}.bar]
+		set tab_w [image width [::skin::loadPixmap tab]]
+
+		set less_w [font measure sboldf <]
+		set more_w [font measure sboldf >]
+
+		set bar_w [expr $bar_w - $less_w - $more_w]
+		#[image width [::skin::loadPixmap moretabs]] 
+		#- [image width [::skin::loadPixmap lesstabs]]]
+
+		set max_tabs [expr int(floor($bar_w / $tab_w))]
+		set number_tabs [llength [set containerwindows($container)]]
+	
+		set less ${container}.bar.less
+		set more ${container}.bar.more
+		destroy $less
+		destroy $more
+
+		status_log "Got $number_tabs tabs in $container that has a max of $max_tabs\n" red
+
+		if { $max_tabs > 0 && $number_tabs > $max_tabs } {
+			#-image [::skin::loadPixmap lesstabs] 
+			#[image width [::skin::loadPixmap lesstabs]] 
+			button $less -text "<" \
+			    -width 1 \
+			    -command "::ChatWindow::LessTabs $container $less $more" \
+			    -fg black -bg [::skin::getKey sendbuttonbg] -bd 0 -relief flat \
+			    -activebackground [::skin::getKey sendbuttonbg] -activeforeground black \
+			    -highlightthickness 0 -pady 0 -padx 0
+
+			#-image [::skin::loadPixmap moretabs] 
+			#[image width [::skin::loadPixmap lesstabs]] 
+			button $more -text ">" \
+			    -width 1 \
+			    -command "::ChatWindow::MoreTabs $container $less $more" \
+			    -fg black -bg [::skin::getKey sendbuttonbg] -bd 0 -relief flat \
+			    -activebackground [::skin::getKey sendbuttonbg] -activeforeground black \
+			    -highlightthickness 0 -pady 0 -padx 0
+
+			if { $::tcl_version >= 8.4 } {
+				$less configure -overrelief flat -compound center
+				$more configure -overrelief flat -compound center
+			}
+			
+			pack $more -side right -expand false -fill both -anchor e
+			pack $less -side right -expand false -fill both -anchor e
+
+			UpdateVisibleTabs $container  $max_tabs
+		
+			UpdateLessMoreButtons $container $less $more
+
+
+		} else {
+			set visibletabs($container) [set containerwindows($container)]
+		}
+
+		foreach window [set containerwindows($container)] {
+			set tab [set win2tab($window)]
+			catch {pack forget $tab}
+		}
+		foreach window [set visibletabs($container)] {
+			set tab [set win2tab($window)]
+			pack $tab -side left -expand false -fill both -anchor e
+		}
+
+	}
+
+	proc LessTabs { container less more} {
+		variable visibletabs
+		variable containerwindows
+		variable win2tab
+
+		set visible [set visibletabs($container)]
+		set windows [set containerwindows($container)]
+
+		set first [lindex $visible 0]
+		set last [lindex $visible end]
+
+		set idx [lsearch $windows $first]
+		incr idx -1
+
+		set new [lindex $windows $idx]
+		if {$new != "" } {
+			set tab [set win2tab($new)]
+			catch {pack forget [set win2tab($last)]}
+			if { $first != $last } {
+				pack $tab -side left -expand false -fill both -anchor e -before [set win2tab($first)]
+			} else {
+				pack $tab -side left -expand false -fill both -anchor e
+			}
+			set visibletabs($container) [lrange $visible 0 end-1] 
+			set visibletabs($container) [linsert [set visibletabs($container)] 0 $new]
+		} else {
+			$less conf -state disabled
+		}
+		$more conf -state normal	
+
+		UpdateLessMoreButtons $container $less $more
+		
+	}
+
+	proc MoreTabs { container less more} {
+		variable visibletabs
+		variable containerwindows
+		variable win2tab
+
+		set visible [set visibletabs($container)]
+		set windows [set containerwindows($container)]
+
+		set first [lindex $visible 0]
+		set last [lindex $visible end]
+
+		set idx [lsearch $windows $last]
+		incr idx 
+
+		set new [lindex $windows $idx]
+		if {$new != "" } {
+			set tab [set win2tab($new)]
+			catch {pack forget [set win2tab($first)]}
+			pack $tab -side left -expand false -fill both -anchor e
+			set visibletabs($container) [lrange $visible 1 end]
+			lappend visibletabs($container) $new
+			
+		} else {
+			$more conf -state disabled
+		}
+		$less conf -state normal
+
+		UpdateLessMoreButtons $container $less $more
+	}
+
+	proc UpdateVisibleTabs { container max } {
+		variable visibletabs
+		variable containerwindows
+
+		set visible [set visibletabs($container)]
+		set windows [set containerwindows($container)]
+
+		set first_idx [lsearch $windows [lindex $visible 0]]
+		if {$first_idx == -1 } {
+			set first_idx [lsearch $windows [lindex $visible 0]]
+		}
+		
+		set visible [lrange $windows $first_idx [expr $first_idx + $max - 1]]
+		if { [llength $visible] < $max } {
+			set visible [lrange $windows end-[expr $max -1] end]
+		}
+
+		set visibletabs($container) $visible
+
+	}
+
+	proc UpdateLessMoreButtons { container less more } {
+		variable visibletabs
+		variable containerwindows
+
+		set visible [set visibletabs($container)]
+		set windows [set containerwindows($container)]
+		
+		set first [lindex $visible 0]
+		set last [lindex $visible end]
+		
+		set idx [lsearch $windows $first]
+		incr idx -1
+		
+		set new [lindex $windows $idx]
+		if {$new == "" } {
+			$less conf -state disabled
+		}
+		
+		set idx [lsearch $windows $last]
+		incr idx 
+		
+		set new [lindex $windows $idx]
+		if {$new == "" } {
+			$more conf -state disabled
+		}
 	}
 
 }
