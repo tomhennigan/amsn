@@ -4296,10 +4296,11 @@ proc play_sound_other {sound} {
 	set soundcommand [::config::getKey soundcommand]
 	#Quote everything, or "eval" will fail
 	set soundcommand [string map { "\\" "\\\\" "\[" "\\\[" "\$" "\\\$" "\[" "\\\[" } $soundcommand]
+	set soundcommand [string map { "\\" "\\\\" "\[" "\\\[" "\$" "\\\$" "\[" "\\\[" } $soundcommand]
 	#Unquote the $sound variable so it's replaced
-	set soundcommand [string map { "\\\$sound" "\${sound}" } $soundcommand]
+	set soundcommand [string map { "\\\\\\\$sound" "\${sound}" } $soundcommand]
 	
-	catch {eval exec $soundcommand &} res
+	catch {eval eval exec $soundcommand &} res
 }
 
 #Play sound in a loop
