@@ -17,6 +17,20 @@ set emotions {{":-)" smile} {":)" smile}  {";-)" wink} {";)" wink} {":-D" smiled
 	 {"(#)" sun} {"(R)" rainbow}
 	{"(%)" handcuffs} {"(~)" film} {"(?)" asl}}
 
+proc compareSmileyLength { a b } {
+
+  if { [string length [lindex $a 0]] > [string length [lindex $b 0]] } {
+    return -1
+  } elseif { [string length [lindex $a 0]] < [string length [lindex $b 0]] } {
+    return 1
+  } else {
+    return 0
+  }
+
+}	
+	
+set sortedemotions [lsort -command compareSmileyLength $emotions]
+
 set emotion_files {smile smiled smileo smilep wink sad crooked disgust thumbu
 	thumbd love unlove lips gift rose emgirl emboy photo beer coctail
 	emphone emcat emcup embulb emhottie emsleep emstar emnote email
@@ -31,9 +45,10 @@ foreach img_name $emotion_files {
 
 
 proc smile_subst {tw {start "0.0"}} {
-  global emotions
+  global sortedemotions
 
-   foreach emotion $emotions {
+  
+   foreach emotion $sortedemotions {
 	   
       set symbol [lindex $emotion 0]
       set file [lindex $emotion 1]
