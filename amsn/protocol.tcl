@@ -938,6 +938,10 @@ namespace eval ::MSN {
 
 		set name [urlencode $newname]
 
+		if { $userlogin == "" } {
+			return
+		}
+
 		if { $config(allowbadwords) } {
 			::MSN::WriteSB ns "REA" "$userlogin $name" \
 				"::MSN::badNickCheck $userlogin [list $newname]"
