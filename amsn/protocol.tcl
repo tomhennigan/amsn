@@ -3465,7 +3465,7 @@ proc gotAuthReply { str token } {
 proc msnp9_do_auth {str url} {
 	global config password
 
-	set head [list Authorization "Passport1.4 OrgVerb=GET,OrgURL=http%3A%2F%2Fmessenger%2Emsn%2Ecom,sign-in=$config(login),pwd=${password},${str}"]
+	set head [list Authorization "Passport1.4 OrgVerb=GET,OrgURL=http%3A%2F%2Fmessenger%2Emsn%2Ecom,sign-in=$config(login),pwd=[urlencode ${password}],${str}"]
 	if { $config(nossl) == 1 || ($config(connectiontype) != "direct" && $config(connectiontype) != "http") } {
 		set url [string map { https:// http:// } $url]
 	}
