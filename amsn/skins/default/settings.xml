@@ -42,6 +42,10 @@
      <Background2>#fafafa</Background2>
    </Colors>
 
+   <ContactListColors>
+     <online>#FF004C</online>
+     <away>#000FFF</away>
+   </ContactListColors>
 
 
 

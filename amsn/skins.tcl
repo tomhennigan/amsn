@@ -6,6 +6,8 @@
 
 namespace eval ::skin {
 
+	variable ContactListColors
+
 	##################################
 	#  Colors Management Procedures  #
 	##################################
@@ -18,6 +20,21 @@ namespace eval ::skin {
 			return $default
 		}
 	}
+
+	proc getContactListColor { state } {
+		variable ContactListColors
+		if { [info exists ContactListColors($state)] } {
+			return [set ContactListColors($state)]
+		} else {
+			return ""
+		}
+	}
+
+	proc setContactListColor { state color } {
+		variable ContactListColors
+		set ContactListColors($state) $color
+	}
+
 
 	proc setColor {color value} {
 		set ::skin($color) $value
@@ -238,6 +255,7 @@ namespace eval ::skin {
 		set ::loading_skin $skin_name
 		sxml::register_routine $skin_id "skin:Description" skin_description
 		sxml::register_routine $skin_id "skin:Colors" SetColors
+		sxml::register_routine $skin_id "skin:ContactListColors" SetContactListColors
 		sxml::register_routine $skin_id "skin:smileys:emoticon" ::smiley::newEmoticon
 		sxml::register_routine $skin_id "skin:smileys:size" ::skin::SetEmoticonSize
 		sxml::parse $skin_id
@@ -520,6 +538,22 @@ proc SetColors {cstack cdata saved_data cattr saved_attr args} {
     if { [info exists sdata(${cstack}:balloontextcolor)] } { ::skin::setColor balloontext [string trim $sdata(${cstack}:balloontextcolor)] }
     if { [info exists sdata(${cstack}:balloonbgcolor)] } { ::skin::setColor balloonbackground [string trim $sdata(${cstack}:balloonbgcolor)] }
     if { [info exists sdata(${cstack}:balloonbordercolor)] } { ::skin::setColor balloonborder [string trim $sdata(${cstack}:balloonbordercolor)] }
+    return 0
+}
+
+
+proc SetContactListColors {cstack cdata saved_data cattr saved_attr args} {
+    upvar $saved_data sdata
+    
+    if { [info exists sdata(${cstack}:online)] } { ::skin::setContactListColor online [string trim $sdata(${cstack}:online)] }
+    if { [info exists sdata(${cstack}:noactivity)] } { ::skin::setContactListColor noactivity [string trim $sdata(${cstack}:noactivity)] }
+    if { [info exists sdata(${cstack}:rightback)] } { ::skin::setContactListColor rightback [string trim $sdata(${cstack}:rightback)] }
+    if { [info exists sdata(${cstack}:onphone)] } { ::skin::setContactListColor onphone [string trim $sdata(${cstack}:onphone)] }
+    if { [info exists sdata(${cstack}:busy)] } { ::skin::setContactListColor busy [string trim $sdata(${cstack}:busy)] }
+    if { [info exists sdata(${cstack}:away)] } { ::skin::setContactListColor away [string trim $sdata(${cstack}:away)] }
+    if { [info exists sdata(${cstack}:gonelunch)] } { ::skin::setContactListColor gonelunch [string trim $sdata(${cstack}:gonelunch)] }
+    if { [info exists sdata(${cstack}:appearoff)] } { ::skin::setContactListColor appearoff [string trim $sdata(${cstack}:appearoff)] }
+    if { [info exists sdata(${cstack}:offline)] } { ::skin::setContactListColor offline [string trim $sdata(${cstack}:offline)] }
     return 0
 }
 
