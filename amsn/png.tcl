@@ -316,7 +316,7 @@ proc FilterIDAT { img } {
 proc testpng { file } {
     reload_files
     source plugins/tclzlib/tclzlib.tcl
-#    CreatePNG ~/.amsn/gklzyffe_hotmail_com/displaypic/cache/05934554a62565262714736497c4a466c6d45644a45647342496b6d3.png
+
 
     set im [CreatePNG [GetSkinFile displaypic ${file}.png]] 
     if {$im != -1} {
@@ -329,7 +329,7 @@ proc testpng { file } {
 
 proc testpng2 { file } {
     reload_files
-#    CreatePNG ~/.amsn/gklzyffe_hotmail_com/displaypic/cache/05934554a62565262714736497c4a466c6d45644a45647342496b6d3.png
+
     source msn/plugins/tclzlib/tclzlib.tcl
 
     set im [CreatePNG [GetSkinFile displaypic ${file}.png]] 
@@ -343,7 +343,6 @@ proc testpng2 { file } {
 
 proc testpng3 { file } {
     reload_files
-#    CreatePNG ~/.amsn/gklzyffe_hotmail_com/displaypic/cache/05934554a62565262714736497c4a466c6d45644a45647342496b6d3.png
 
     set im [CreatePNG [GetSkinFile displaypic ${file}.png]] 
     if {$im != -1} {
