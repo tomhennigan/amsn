@@ -76,7 +76,7 @@
 	<lang>
 		<langcode>en</langcode>
 		<name>English</name>
-		<version>1.268</version>
+		<version>1.269</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -88,7 +88,7 @@
 	<lang>
 		<langcode>es</langcode>
 		<name>Spanish</name>
-		<version>1.208</version>
+		<version>1.209</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -106,7 +106,7 @@
 	<lang>
 		<langcode>fr</langcode>
 		<name>French (France)</name>
-		<version>1.111</version>
+		<version>1.112</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -244,7 +244,7 @@
 	<lang>
 		<langcode>sl</langcode>
 		<name>Slovenian (Slovenscina)</name>
-		<version>1.19</version>
+		<version>1.20</version>
 		<encoding>iso8859-2</encoding>
 	</lang>
 	<lang>
