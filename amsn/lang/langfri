@@ -5,8 +5,11 @@ accept Oannimme
 actions Aksje
 addacontact Foeg in kontakt ta
 addedyou $1 ($2) hat dy tafoegd oan syn/har kontaktenlist
+addprofiledesc Vul de neije log-yn yn, wer atst n nei profyl foar meitsje wolst. \n Profylearde log-yns litte dy ta om ferskeidene konfiguraasjes foar eltse log-yn. \n Sonder profylen kinst de skiednis, alarm en wachtwurdherinnerje net bruke.
+addprofile Foech n nei profyl ta.
 addstate  Foech n neije tastan ta
 addtocontacts Tafoegje oan kontaktenlist
+addto Foech ta oan $1
 addtoo Foeg dizze persoan ta oan myn kontaktenlist
 admincontacts Behear kontakten
 admingroups Behear groepen
@@ -14,14 +17,17 @@ adverts Advertinsjes
 alarmpref Alarmynstellings foar dizze gebrûker
 alarmstatus Doch alarm oan/út foar dizze gebrûker
 allowallbutbl  Stean alle brukers, beheale de minsken dy ik blokkeart haw, ta om contact mei my te sykjen
+allowbadwords Skakel de censuur op schul-nammen ut.
 allowlist  Betrouwbar-liste
 allowonlyinal Stean allinich de minsken ut myn Betrouwbar-liste ta om om contact mei my te sykjen
 allowseen Stea dizze persoan ta om te sjen wannear't ik oanmeld bin, en om my te sprekke
+animatedemoticon Dizze Gnysker is beweeglyk.
+animatedsmileys Skakel bewegende Gnyskers oan.
 appearance Status
 appearoff Ferskyn "Net oanmeld"
 areacode Geakode
 aretyping $1 binne oan't type
-askprofile Dizze oanmelding hat gjin profyl. Wolst in profyl oanmeitsje? \n Ast it net wols, kist de Skiednis net brûke of dyn alarmen en wachtwurden bewarje.\n Ast it wol wolst, hast in aparte konfiguraasje foar dit neie profyl.  \n \n Klik op "Meitsje Profyl" om in nei profyl te meitsje foar $1.
+autoacceptft Automaties bestans-oerstjoering akseptearje
 autoaway Feroarje myn status yn "Net oanwêzich" as't ik net warber bin nei
 autoconnect2 Automatysk oanmelde wannear't aMSN start wurdt
 autoconnect Automatysk oanmelde
@@ -38,14 +44,22 @@ bgcolor Feroarje aMSN's eftergrûnkleur
 blankdirect Lit leech foar direkte ferbining
 block Blokkear
 blocked Blokkeard
+blockedyougroup Lit n aparte groep sjen foar minsken dy t dy blokkeart hawwe
+blocking Blokkearen
+blockinter1 At dyn staus op "oan e lyne" stiet, controlear dan eltse
+blockinter2 seconden, oars controlear dan eltse:
+blockinter3 seconden.
 blocklist Blokkear-liste
 blockmessage Dizze minsken binne oan e line, mar hawwe dy blokkeard
+blockusers Oantal brukers om gelyk te controlearen
 broughtby Oanbean troch de folgende ontwikkelers
 browse Ferkenne
 browser Browser
 busy Beset
 cancel Annulearje
 cannotdeleteprofile Het profyl kon net fuortsmiten wurdde, omdat t derop lyket dat het yn gebruk is, troch een oare amsn-sesje
+cantexec Ik kin het programma $1 net utfoere. Controlear de ynstellings mar efkes.
+casesensitive Haadlettergefoelig
 cfgalarm Alarm konfigurearje/tafoege/foartsmite
 changefont Feroarje lettertype
 changenick Feroarje skermnamme
@@ -55,8 +69,10 @@ chatmaxmin At ien een gesprek mei my begjint, dan wol ik het finster:
 chatreq Freagje om te chatten
 chatsmileys2 Toan emoticons en smileys yn chat-finsters
 chatsmileys Toan emoticons
+checkblocking Controlear constant of minsken dy blokkeare.
 checkfilman Ûntfangen bestânen wurde bewarre yn $1. Sjoch de ynstellings fan it bestânbehear by ynstellings.
 checkingver Op in neiere fersy oan't kontrolearje 
+checkonfln Controlear of een bruker dy blokkeart hat, at hy "oan e lyne" komt.
 checkver Sjoch foar in neiere fersy
 choosebasefont Lettertype
 choosebgcolor Eftergrûnkleur
@@ -66,6 +82,7 @@ clearlog2 Smit alle skiednis foar al dyn contacten fuort
 clearlog3 Smit alle logboeken fuort
 clearlog Smit fuort
 clicktologin Klik hjirre om dy oan te melde
+closed Dyn konversaasje mei $1 is sluten, omdat jimme net actief genoch binne.
 close Slúte
 closingdocks Slút finster
 command Programma
@@ -83,15 +100,19 @@ copy Kopiearje
 copytogroup Kopiearje nei groep
 countrycode Myn lân/geakode
 cprofile Meitsje profyl
+custom_edit Bewurkje dyn eigen  Gnysker
+custom_new Meitsje neije Gnysker
 cut Knippe
 date \nDatum
 days Dagen
 dcprofile Gjin profyl oanmeitsje
+defaultloginradio Ynlogge mei de gewoane ynstellings.
 default Standaard konfiguraasje
 delete Wis
 deliverfail D'r wie in problem by it beswargje fan de folgende boadskip
 delprofile2 Kies it profyl dast foartsmite wolst
 delprofile Smit profyl foart
+description Beskriuwing
 directconnection Ik haw n directe ferbyning mei het internet, troch poarte 1863
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Ferbergje foar gnome
@@ -99,11 +120,14 @@ docking Ferberg
 dockingoff Ferbergje út
 dockkde Ferbergje foar KDE
 edit Bewurkje
+editcurrentstate Bewurkje dizze
 editnewstate Nei automatisch berjocht
 editprofile Bewurkje profyl
 editstate Bewurkje een besteand automatisch berjocht
+emotisounds Spielje gelud by bepaalde gnyskers
 enableproxy Brûk proxy
 enableremote meitsje op ofstan betsjinje mogelijk
+enablesound Spielje geluk
 encoding2 Feroarje fan encodering by dyn tekens
 encoding Encoderen
 entercontactemail Jou Kontakt-email
@@ -144,13 +168,16 @@ groupunknown Onbekende groep
 handle Dwaan
 helpcontents Help inhâld
 help Help
+hiden Verberg dizze Gnysker yn t Gnysker-menu.
 history Besjoch Skiednis
 home Thús
 httpconnection Ferbyne mei een HTTP-protocol, oer poarte 80
+hybrid Twa-slachtige modus
 identity Identiteit
 ident Oan't identificearje
 inbox Inbox
 internalerror   Ynterne Server Fout
+invalidfile Bestan $2 ynvult yn fjild "$1" bestiet net, of is net lesber.
 invalidusername Dyn gebrûkersnamme is net júst.
 invitationcancelled bestansferstjoering is ofkitst
 invite Noegje út
@@ -187,6 +214,7 @@ logolder Alline gesprekken bewarje dy't plak fûn yn'e ôfrûne
 logout Meld ôf
 logsin hat sich krekt oanmeld
 logsmileys Toan emoticons en smileys yn aMSN's Skiednisfinsters
+logsout Utlogge
 lprivtoconf Privechat feroare yn Gearkomste mei $1
 luclosedwin Do hast it finster slúten op $1
 mailer Mail-client
@@ -221,8 +249,11 @@ nologfile Gjin logboek foar $1
 no nee
 nonewmail Gjin berjochten yn In-Box
 nonewver D'r binne gjin neiere fersys beskikber
+noprofileexists Der binne op t stut gjin profylen, \n moast ien meitsje atst profylearde ynlogs bruke wolst. \n Bruk de "foch nei profyl ta"-knop yn dit skerm om een nei profyl te meitsjen.
 normal Normaal
 nosystemtray der is gjin systeembalke oanwezich
+notify1_5 Lit yn een skermke sjen at minsken fan e lyne gean.
+notify1_75 Lit yn een skermke sjen at minsken de status feroarje.
 notify1 Toan advysfinster wannear't in kontakt sich oanmeldt
 notify2 Toan advysfinster wannear't neie berjochten ûntfange wurde
 notify3 Toan advysfinster wannear't d'r neie emails ûntfange wurde
@@ -251,6 +282,9 @@ port Poarte
 prefalerts Myn Alarm en Lûd
 prefapps Programma's
 prefawaymsg Myn ôfwezich-berjocht
+prefblock1 Controlear by contact-ferbrekke
+prefblock2 Controlear constant
+prefblock3 Bist blokkeart troch"- groep
 prefconnection FerbyningsYnstellings
 prefemotic Emoticons en smileys
 preferences Ynstellings
@@ -275,7 +309,9 @@ prefshared Dielde ferbiningen (alline foar NAT)
 prefsound Lûd
 privacy privacy
 profiledconfig Profylkonfiguraasje
+profileexists Kinst net een profyl meitsje by dizze log-yn, omdat er al een profyl by is. Bruk een oare log-yn.
 profileinuse Dit profyn wurdt al brukt troch een oare amsn-sesje, do moast een oare utsykje
+profileloginradio By Ynlogge een besteand profyl bruke
 profiles Profylen
 properties Eigenskippen
 proxyconfhttp HTTP proxy konfiguraasje ûnderst
@@ -309,6 +345,10 @@ servergoingdown De server giet út
 server Server
 session Sitting
 showblockedlist Lit de list sjen, fan minsken dy dy blokkeart hawwe
+smileconfig Eigen Gnysker-ynstellings
+smilefile Gnysker bestansnamme:
+smileintro2 Bewurkje de benedigde fjilden om een neije eigen Gnysker te meitsjen
+smileintro Ful de benedigde fjilden yn om een neije Gnysker te meitjen. Foar hulp, sjoch yn de FAQ.
 sound2 Spielje lûd as kontakten sich oanmelde of in berjocht stjoere
 soundcommand Dit moat in ôfspielkommando wêse (bg: esdplay)
 soundfile Lûdsbestân
@@ -319,6 +359,7 @@ soundstatus Skakel alarmlûd oan/út
 startoffline2 'Stil' oanmelde mei "Net oanmeld"-status
 startoffline Begjin "Net oanmeld"
 stateautomsg Automatisch Berjocht om te stjoeren:
+statechange Status feroare yn:
 stateedittext Bewurkje de fjilden die'st graach \n feroare hawwe wolst, en druk dan op Opslaan
 state Ik wol ferskyne as:
 stateinfo Persoanlyke Tastan Ynstellings
@@ -332,18 +373,21 @@ stylelog Kies it foarmaat wêrst dyn Skiednis besjen wolst
 syntaxerror Syntaxflater
 tabbed 'Tabbed' finsters
 textsize Tekstgrute
+timeremaining Tiid oer
 title Messenger
 to Oan
 tools Ark
+tooltips Gereedschapstips oansette
 transnotexists Dit bestan is noch nei het Frysk oerset
 traynotcompiled Dizze funksje fan de balke is nog net complileare, sjoch de plugins mar efkes nei.
+triggers Tekst spul
 twonewmail $1 neie berjochten
 unblock Deblokkear
 uoffline Net oanmeld
 uonline Oanmeld
 useralreadyonlist Gebrûker stiet al yn dyn list
 userblocked Dizze bruker is wol oan e line, mar hat dy blokkeart
-user Gebrûker 
+user Gebrûker
 usernotonline De gebrûker is net oanmeld
 useryourself Oebele! Do kinst dochs net mei dysels chatte!
 verifyblocked Sykje ut welke minsken dy blokkeart hawwe
@@ -352,6 +396,7 @@ view Byld
 viewprofile Profyl werjaan
 willjoin Wachtsje tot $1 de konfersaasje bywenjen sil
 work wurk
+wrongfields "$1", "$2" en of "$3" binne net goed ynfult.
 wrongprofileversion Ferkearde profylkonfiguraasje-fersie. Om het te reparearjen, moast het bestan $1 fuortsmite, of amsn efkes update
 xoffset X-posysje
 yes ja
