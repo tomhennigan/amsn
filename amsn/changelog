@@ -6,6 +6,15 @@ lordofscripts	D.E. Grimaldo <lordofscripts at users.sourceforge.net) (>0.3p3)
 alvaro       	Alvaro Iradier <airadier at users.sourceforge.net) (>=0.4)
 ###############################################################################
 
+Version 0.61
+20020706
+		o Updated languages: nederlands, català, swedish
+		o Added languages: russian, traditional chinese (Taiwan)
+		o Move to group bug fixed.
+		o System encoding selection.
+		o Minor bug fixes.
+		o Font and background selection.
+		
 Version 0.60
 20020702
   	        o Added some messages to the main language catalogs 

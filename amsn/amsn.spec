@@ -5,7 +5,7 @@
 
 Summary: MSN Messenger clone for Linux
 Name: amsn
-Version: 0.61
+Version: 0.62
 Release: 1
 Copyright: GPL
 Group: Applications/Internet
@@ -131,6 +131,7 @@ if test -x /usr/bin/update-menus; then /usr/bin/update-menus; fi
 /usr/share/amsn/i/love.gif
 /usr/share/amsn/i/messenger.gif
 /usr/share/amsn/i/messenger.png
+/usr/share/amsn/i/msnbot.gif
 /usr/share/amsn/i/notifico.gif
 /usr/share/amsn/i/offline.gif
 /usr/share/amsn/i/online.gif
