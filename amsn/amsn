@@ -1502,7 +1502,7 @@ proc cmsn_draw_msgwin {email} {
    .${win_name}.text tag configure url -foreground darkblue -background white -font bboldf -underline true
 
    
-   after 270000 sb_change_fake $name
+   #after 270000 sb_change_fake $name
    
    bind .${win_name}.in.input <Tab> "focus .${win_name}.in.send; break"
 
@@ -1578,6 +1578,7 @@ proc change_myfontsize {size name} {
 
 proc cmsn_destroyed_msgwin {name winpath email} {
    global sb_list ${name}_info config msg_windows
+   
    set win_name "msg_[string tolower ${name}]"
 
    if {"${winpath}" != ".${win_name}"} {

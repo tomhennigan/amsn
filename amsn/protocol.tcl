@@ -218,7 +218,31 @@ namespace eval ::MSN {
 
    proc getMyIP {} {
       set sock [sb get ns sock]
-      return [lindex [fconfigure $sock -sockname] 0]
+
+      status_log "Called getmyip"
+      
+      set ip [lindex [fconfigure $sock -sockname] 0]
+
+      status_log "$ip"
+      
+      if { [string compare -length 3 $ip "10."] == 0 \
+      || [string compare -length 4 $ip "127."] == 0 \
+      || [string compare -length 8 $ip "192.168."] == 0 } {
+      	status_log "called get http ip"
+	set token [::http::geturl "http://www2.simflex.com/ip.shtml" -timeout 10000]
+	
+	set ip [::http::data $token]
+	
+	set ip [string range $ip 162 176]
+	set idx [string first "\n" $ip]
+	set ip [string range $ip 0 [expr $idx-1] ]
+	status_log "$ip\n$token"
+	
+	::http::cleanup $token
+      	unset token
+      }
+      
+      return $ip
    }
 
 
@@ -1060,8 +1084,15 @@ proc cmsn_rng {recv} {
    global config msg_windows
 
    set emaill [lindex $recv 5]
-   
-   set sbn [cmsn_draw_msgwin $emaill]
+
+   if { [info exists msg_windows($emaill)] } {
+   	set sbn $msg_windows($emaill)
+	
+	catch { close [sb get $sbn sock] }
+	
+   } else {
+   	set sbn [cmsn_draw_msgwin $emaill]
+   }
    
    sb set $sbn serv [split [lindex $recv 2] ":"]
    sb set $sbn connected "cmsn_conn_ans $sbn"
@@ -1133,6 +1164,9 @@ proc cmsn_reconnect {name} {
       cmsn_msgwin_top $name \
          "[trans reconnect [sb get $name last_user]]..."
    } elseif {[sb get $name stat] == "d"} {
+
+ 	status_log "Calling reconnect with d tag"
+   
       sb set $name stat "rc"
       sb set $name invite [lindex [sb get $name last_user] 0]
       ::MSN::WriteNS "XFR" "SB" "cmsn_open_sb $name"
@@ -1466,6 +1500,7 @@ proc sb_change_fake { sbn } {
 	global typing config ${sbn}_info
 	
 	if { $typing != $sbn && [info exists ${sbn}_info] } {
+				
 		set typing $sbn	
 
 		after 4000 "set typing \"\""
@@ -1476,10 +1511,12 @@ proc sb_change_fake { sbn } {
 		set msg_len [string length $msg]
 
 		incr ::MSN::trid
-		puts $sock "MSG $::MSN::trid U $msg_len"
-		puts -nonewline $sock $msg
+		set res [catch { puts $sock "MSG $::MSN::trid U $msg_len" }]
+		set res [catch { puts -nonewline $sock $msg }]
 	
-		after 270000 sb_change_fake $sbn
+		if { $res == 0 } {
+			after 270000 sb_change_fake $sbn
+		}
 	}
 
 }
