@@ -1,0 +1,27 @@
+Instructiuni de instalare aMSN
+
+aMSN este scris in TCL/TK, pentru a rula aplicatia aveti nevoie de un 
+interpretor TCL/TK. Daca nu dispuneti de unul, atunci puteti descarca
+de la http://tcl.sourceforge.net. Interpretorul este disponibil pentru
+linux, windows si machintosh. Totusi, cateva din caracteristicile aMSN
+necesita programe suplimentare, biblioteci pentru a rula optim.
+
+Instalare:
+Descarcati amsn-x_xx.tar.gz file. 
+Dezarhivati cu comanda:
+  gzip -d amsn-x_xx.tar.gz
+  tar xvf amsn-x_xx.tar
+Se va crea un director msn/ .
+Pentru a porni aplicatia executati:
+  cd msn
+  ./amsn
+sau daca aceasta comanda nu functioneaza atunci incercati
+  wish amsn
+Daca comanda 'wish' nu exista atunci inseamna ca nu aveti instalat corect TCL/TC.
+Daca comanda "wish amsn" functioneaza dar aplicatia nu, atunci editati fisierul
+'amsn' si selectati calea catre interpretorul de comenzi din prima linie.
+Implicti este setata calea: /usr/bin/wish
+
+Daca totusi aveti difilcutati in a rula aplicatia atunci puteti consulta FAQ.
+
+

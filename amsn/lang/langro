@@ -135,6 +135,10 @@ countrycode Tara / Cod postal
 cprofile Creare Profil
 credits Multumiri
 currentdate Data curenta
+custnotifymsg Afiseaza fereastra de avertizare cand soseste un mesaj nou de la un utilizator nou
+custnotifyoffline Afiseaza fereastra de avertizare cand partenerul de chat se deautentifica
+custnotifyonline Afiseaza fereastra de avertizare cand acest contact se autentifica
+custnotifystatus Afiseaza fereastra de avertizare cand acest contact isi schimba starea
 customcolor Culoare personalizata
 custom_edit Editeaza semnele de conversatie create
 custom_new Adauga semne de conversatie noi
@@ -472,6 +476,7 @@ smileintro Complecteaza campurile necesare pentru a crea un nou semn de conversa
 smileintro2 Editeaza campurile necesare pentru a modifica un semn de conversatie (citeste FAQ)
 sound Sunet
 sound2 Avertizare sonora cand persoanele se autentifica sau trimit mesaj
+soundactive La receptionarea unui mesaj reda sunete chiar si in fereastra de conversatie
 soundcommand Ar trebui sa fie comanda pentru redare(ex: esdplay)
 soundexample ( \$sound = Sunet care sa fie redat ) Ex: esdplay \$sound
 soundfile Fisierul de avertizare (sunet)
@@ -536,6 +541,7 @@ verifyblocked Verifica persoanele are te-au blocat
 version Versiune
 view Vizualizare
 viewprofile Vizualizare profil
+webcaminvite $1 a initiat o sesiune de webcam, dar aMSN nu are implementat aceasta optiune
 willjoin Asteapta ca $1 sa se alature conversatiei
 work Lucru
 wrongfields Campurile "$1", "$2" si/sau "$3" nu sunt valide
