@@ -68,6 +68,7 @@ cannotdeleteprofile No es pot eliminar el perfil, sembla que està sent utilitzat
 cantexec No puc executar l'aplicació $1. Comprova les preferències.
 casesensitive Diferenciar les majúscules i les minúscules als disparadors
 cfgalarm Configurar l'alarma per aquest usuari
+changedisplaypic Canviar la teva imatge
 changefont Canviar font
 changenick Canviar el meu sobrenom
 changestate $1 canvia l'estat a $2
