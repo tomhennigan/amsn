@@ -52,7 +52,7 @@ namespace eval ::config {
 			::config::setKey notifyXoffset 100
 			::config::setKey notifyYoffset 75
 			::config::setKey filemanager "open \$location"   
-			::config::setKey usesnack 0
+			::config::setKey usesnack 1
 		} elseif {$tcl_platform(platform) == "unix"} {
 			::config::setKey soundcommand "play \$sound"
 			::config::setKey browser "mozilla \$url"
