@@ -79,7 +79,7 @@ Others
 # Option to popup/raise/unminimize message window on message receive
 # Option to have local window appear before remote user sends message (only when remote double clicks your name). Some people asked for this... even begged.. so here it is
 # Direct connection between amsn clients, without sb, real time chat.
-
+# Better management of special characters and \n in nicks
 
 ***Graphical Interface (priority 4)***
 
