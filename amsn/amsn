@@ -841,7 +841,7 @@ proc login_ok {} {
    grab release .login
    destroy .login
 
-   MSN::connect $config(login) $password
+   ::MSN::connect $config(login) $password
 
 }
 
@@ -1448,11 +1448,13 @@ proc cmsn_draw_notify {} {
       -justify center -width 145]
 
    .notify.c bind $notify_id <Enter> \
-     ".notify.c itemconfigure $notify_id -font sboldf;\
-     .notify.c conf -cursor hand2"
+     ".notify.c conf -cursor hand2"
+#     ".notify.c itemconfigure $notify_id -font sboldf;\
+
    .notify.c bind $notify_id <Leave> \
-     ".notify.c itemconfigure $notify_id -font splainf; \
-     .notify.c conf -cursor left_ptr"
+     ".notify.c conf -cursor left_ptr"
+#     ".notify.c itemconfigure $notify_id -font splainf; \
+
    .notify.c bind $notify_id <Button-1> ""   
 
 }
