@@ -3864,9 +3864,11 @@ proc fileDialog2 {w ent operation basename {types {{"All files"         *}} }} {
     #
     #---------------------------------------------------------
     #   set types {{"All files"		*} }
+    
+    global starting_dir
 
     if {$operation == "open"} {
-	set file [tk_getOpenFile -filetypes $types -parent $w]
+	set file [tk_getOpenFile -filetypes $types -parent $w -initialdir $starting_dir]
     } else {
 	set file [tk_getSaveFile -filetypes $types -parent $w \
 	    -initialfile $basename]

@@ -583,11 +583,11 @@ namespace eval ::amsn {
 	}
 
 	proc FileTransferSend { win_name {filename ""} } {
-		global config
+		global config starting_dir
 
 #		set filename [ $w.top.fields.file get ]
 		if { $filename == "" } {
-			set filename [tk_getOpenFile -filetypes  {{"All Files" {*.*}}} -parent $win_name -title "[trans sendfile]"]
+			set filename [tk_getOpenFile -filetypes  {{"All Files" {*.*}}} -parent $win_name -title "[trans sendfile]" -initialdir $starting_dir]
 		}
 		
 		if { $filename == "" } { return }

@@ -79,6 +79,7 @@ cantremoveothers Can't remove "Others" group
 casesensitive Use case-sensitive triggers
 cfgalarm Configure/Add/Remove Alarm
 cfgalarmall Configure/Add/Remove Global Alarm
+change Change
 changecustomstate Switch to
 changedisplaypic Change Display picture
 changefont Change font
@@ -133,9 +134,9 @@ countrycode My Country/Region code
 cprofile Create Profile
 credits Credits
 currentdate Current Date
+customcolor Custom color
 custom_edit Edit custom smiley
 custom_new Add new custom smiley
-customcolor Custom color
 customnick Custom Nick
 cut Cut
 date Date

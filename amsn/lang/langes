@@ -79,6 +79,7 @@ cantremoveothers No se puede borrar el grupo "Otros"
 casesensitive Diferenciar may/minusculas en disparador
 cfgalarm Cambiar/quitar alarma
 cfgalarmall Cambiar/Añadir/Quitar alarma global
+change Cambiar
 changecustomstate Cambiar a
 changedisplaypic Cambiar imagen mostrada
 changefont Cambiar fuente
@@ -133,9 +134,9 @@ countrycode Código de país/región
 cprofile Crear Perfil
 credits Creditos
 currentdate Fecha actual
+customcolor Color personal
 custom_edit Editar emoticono personalizado
 custom_new Añadir emoticono personalizado
-customcolor Color personal
 customnick Apodo personal
 cut Cortar
 date Fecha
