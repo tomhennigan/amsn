@@ -23,7 +23,6 @@ appearance Aparência
 appearoff Aparecer como desligado
 areacode Código de zona
 aretyping $1 está a escrever uma mensagem
-askprofile Este login não tem um perfil. Gostaria de o criar? \n Se não o fizer, não lhe será possível usar o Histórco, ou guardar os seus alarmes e palavras chaves. \n se o fizer ficará com uma configuração à parte para este novo perfil. \n \n Carregue em "Criar Perfil" para Criar um novo perfil para $1.
 autoaway Mostrar-me como "Ausente" quando estiver inactivo por
 autoconnect2 Conectar automaticamente quando aMSN é executado
 autoconnect conectar no arranque do amsn
@@ -371,3 +370,54 @@ yoffset espaço Y
 youblocked Você foi bloqueado
 yousay Você diz
 youwant Queres
+addprofile Adicionar Novo perfil
+addprofiledesc Introduza o login para o qual voce gostaria de criar um novo perfil. \n Perfilar logins permite ter difrentes configurações  para cada login. \n Sem os Perfiles voçe não poderá usar o historico, Alarmes ou  relembrar password's.
+alarmonconnect Activa o Alarme quando um user se liga
+alarmondisconnect Activa o Alarme quando um user se desliga
+alarmonmsg Activa o Alarme quando um user lhe manda uma mensagem
+alarmonstatus Liga/Desliga o Alarme para este user
+allowbadwords Permite todos os user excepto os users na Block list de me contactarem
+animatedemoticon Esta emoçao é animada
+autoaccepted Tranferência de ficheiro aceitado automaticamente
+autoacceptft Pedido de Transferência Automática
+blockedyougroup Motra um grupo separado para as pessoas que te bloquearam
+blockinter4 Segundos.
+cantexec Não consegue executar a Aplicação: $1. Ver Preferências
+casesensitive Use as dicas do case-sensitive
+changestate $1 Muda o estado para $2
+chooseskin Por Favor escolha a skin que deseja usar
+closed A conversação com $1 fechada devido à inactividade
+custom_edit Edita os tipos de sorrisos
+custom_new Adiciona novos tipos de sorrisos
+defaultloginradio Login com a configuração normal
+description Descrição
+disconnect $1 Disconectou-se.
+editcurrentstate Editar Corrente estado
+enablesound Toca sons em certas emoções
+hiden Esconde as emoções do menu de surrisos
+hybrid Modo híbrido
+invalidfile Ficheiro $2 entrou em conflito "$1" não existe ou não pode ser lido
+logsout Acabou de sair
+msgflicker Tremular de luz quando se recebe uma mensagem numa janela que esta aberta mas não a ser usada.
+noneavailable Nada Disponivél
+noprofileexists Não existe de momento nenhum perfil, \n têm de criar um se quiser usar logins perfilados. \nUse o botão Adicionar Novo Perfil nesta janela, para adicionar um novo perfil
+notify1_5 Mostra uma janela de notificação quando um contacto sai
+notify1_75 Mostra uma janela de notificação quando um contacto muda o seu estado
+pluginselector Seleciona plugins
+prefblock3 "Você foi bloqueado por" grupo
+profileexists Você não pode criar um perfil com este login \n devido a existência de um com o mesmo login. Por Favor escolha outro login.
+profileloginradio Entrar usando um perfil existente
+readonlymsgbox A transferência foi cancelada devido a directória que estava a receber o ficheiro ser read-only. Por Favor arranje as permissões nesta directória
+readonlywarn AVISO: O ficheiro provavelmente NÃO irá ser guardado correctamente, devido à Directória "Received Files"  parecer estar write-protected. Por favor tenha a certexa que a permissão da directória ($1) está posta correctamente antes de transferir o ficheiro.
+selectplugins Por Favor escolha o plugin que quer activar
+selectskin Por Favor escolha uma skin da lista
+skin skin (pele)
+skinselector Escolha a skin
+smileconfig Configuração normal de emoções
+smilefile Nome do Ficheiro de sorrisos
+smileintro Por favor preencha o campo requirido para criar um novo sorriso (Leia o FAQ para ajuda)
+smileintro2 Por Favor edite os campos requiridos para normalizar este sorriso (Leia o FAQ para ajuda)
+statechange Estado mudado para:
+timeremaining Tempo que falta
+triggers dicas
+wrongfields O "$1", "$2" e/ou "$3" campos não estão validos
