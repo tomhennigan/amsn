@@ -22,6 +22,7 @@ alarmonmsg Ativar o Alarme quando um usuário lhe manda uma mensagem
 alarmonstatus Ativar alarme quando usuário muda de estado
 alarmpref Configuração de avisos para o usuário
 alarmstatus Ativar/Desativar avisos para este usuário
+allfiles Todos os Arquivos
 allowallbutbl Permitir todos usuários menos aqueles na Lista de Bloqueados me contactar
 allowbadwords Desativar censura nos apelidos
 allowlist Lista de autorizados:
@@ -71,6 +72,7 @@ busy Ocupado
 cancel Cancelar
 cannotdeleteprofile - Impossível apagar as configurações, pois estão em uso por uma outra sessão do aMSN.
 cantexec Não consegue executar a Aplicação: $1. Ver Preferências
+cantremoveothers Não é possivel remover o grupo "Outros"
 casesensitive Use as dicas do case-sensitive
 cfgalarmall Configurar/Adicionar/Remover Alarme Global
 cfgalarm Configurar/desativar avisos
@@ -107,6 +109,7 @@ closingdocks Botão fechar envia para a barra de tarefas
 command Comando
 commandstatus Executar comando
 confirmdelete Você tem certeza que quer apagar $1?
+confirmpurge Todas as figuras de tela armazenadas de outros contatos (não as suas figuras) serão apagadas. Tem Certeza?
 confirm Você tem certeza?
 connected Você está conectado
 connecterror Erro ao conectar-se ao servidor!
@@ -116,8 +119,11 @@ connectionlost Desconectado: Conexão com servidor foi fechada
 contactadded Contato adicionado
 contactdoesnotexist Contato não existe!
 contactlist Lista de contatos:
+convertexplain Diretório do programa CONVERT, do ImageMagick (requerido para as figuras de tela).\n Deixe em braco caso CONVERT esteja no diretório
 copy Copiar
 copytogroup Copiar para o grupo
+corruptconfig O arquivo de configuração está corrompido. Criando configuração nova. A configuração antiga será salvo em $1. Por favor mande para nós analisarmos o problema.
+corruptstates O arquivo de configuração dos estados está corrompido. Criando configuração nova. A configuração antiga será salvo em $1. Por favor mande para nós analisarmos o problema.
 countrycode Código do país ou região
 cprofile Criar Perfil
 custom_edit Edita um smiley personalizado
@@ -128,6 +134,7 @@ days Dias
 dcprofile Não criar Perfil
 default Configuração Padrão
 defaultloginradio Login com a configuração normal
+defchatwinsize Tamanho padrão para as janelas de chat (XSIZExYSIZE)
 delete Apagar
 deletecustomstate Excluir estado personalizado
 delimiters Delimitadores de timestamps:
@@ -220,6 +227,7 @@ httpconnection Conectando usando método HTTP(usa o protocolo HTTP na porta 80)
 hybrid Modo híbrido
 ident Identificando
 identity Identificar
+imagefiles Arquivos de Imagem
 inbox Caixa de Entrada
 insertsmiley Inserir emotion
 installconvert Você deve instalar ImageMagick (programa conversor) para converter as imagens para o formato requerido pelos servidores MSN. Você pode pegar os binários para o seu Sistema Operacional em ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/. Se você já o tem, então isto é um bug, favor reportá-lo.
@@ -244,6 +252,7 @@ lconvstarted Conversação iniciada com $1
 leaveblankforhotmail Deixar em branco para utilizar o Hotmail
 leaves $1 saiu da conversa
 lenteredconf $1 adicionado à conversa em $2
+lineflushlog Atualizar os logs a cada linha
 linprivate EM MODO PRIVATIVO
 listeningon Escutando na porta $1
 listsmileys2 Permitir Emoticons e Smileys na janela principal do aMSN
@@ -263,6 +272,7 @@ logout Sair
 logsin acabou de entrar
 logsmileys Mostrar Emoticons e Smileys na janela de Histórico do aMSN
 logsout acabou de desconectar
+longnick Seu apelido contém mais de 130 caracteres. Isso não é oficialmente suportado pela rede do MSN. Tem certeza que deseja continuar?
 lprivtoconf Conversa particular convertida em conferência com $1
 luclosedwin Você fechou a janela em $1
 mailer Cliente de e-mail
@@ -304,6 +314,7 @@ nonewver Não existe versão mais recente do programa disponível para download
 nopic Sem imagem para exibição
 noprofileexists Não existe de momento nenhum perfil, \n têm de criar um se quiser usar logins perfilados. \nUse o botão Adicionar Novo Perfil nesta janela, para adicionar um novo perfil
 normal Normal
+noskins Não foi possível encontrar o skin padrão na pasta skins/. Não é possível iniciar o AMSN
 nosystemtray System tray não está disponível
 notificationserver Servidor Inicial de Notificação do MSN (Servidor MSN Messenger)
 notify1_5 Mostra uma janela de notificação quando um contato sai
@@ -396,6 +407,7 @@ reversed Inverso
 reverselist Lista de reversos:
 rightback Volto logo
 saveas Salvar como
+savechatwinsize Salvar o tamanho da janela como padrão quando redimensionado
 savecontacts Salvar lista de contatos
 save Salvar
 savetofile Salvar para arquivo
@@ -429,6 +441,7 @@ sound2 Tocar sons quando algum contato entrar ou enviar uma mensagem
 soundcommand Comando para tocar sons (ex: play)
 soundexample ( \$sound = Arquivo de áudio a ser reproduzido) Ex: esdplay \$sound
 soundfile Arquivo de som para avisos
+soundfiles Arquivos de Som
 soundloop Repetir Som
 soundserver Servidor de Sons
 sound Som de evento
@@ -461,6 +474,7 @@ timestamps Habilitar timestamps nas janelas de chat
 title Al's Messenger
 tkerror O TK trouxe um erro, existem um bug no amsn, por favor, informe ele. Envie o arquivo $1 para amsn-bugs@lists.sf.net
 tlsdowncompleted Arquivo $1 foi descarregado no diretório $2. Você deve extraí-lo, compilá-lo (se você pegou o código-fonte) e instalá-lo em $3.
+tlsexplain Diretório onde o módulo tcl TLS é encontrado. Se o AMSN não puder encontrar, favor especificar manualmente.\n(Requerido para autenticação SSL)
 tlsinstall Assistente de Instalação do Módulo TLS
 tlsinstallexp O AMSN agora usa o MSNP9, que requer o uso de uma conexão segura usando o SSL. Para usar o SSL, o AMSN precisa instalar um módulo chamado TLS, que falta no seu sistema. Este assistente o ajudará a descarregar e instalar o TLS. Favor escolher o tipo do seu sistema para que possamos automaticamente descarregar os arquivos TLS necessários.
 tlsinstcompleted A instalação do módulo TLS foi bem sucedida, agora você deve conseguir usar o MSNP9. Se não funcionar, então provavelmente você não selecionou o módulo correto, ou um módulo compilado não está disponível para o seu sistema.

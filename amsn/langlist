@@ -7,6 +7,7 @@ cs iso8859-2 Cesky
 cy utf-8 Cymraeg\Welsh
 da iso8859-1 Danish
 de iso8859-1 Deutsch
+ei iso8859-1 Eivissenc
 en iso8859-1 English
 es iso8859-1 Español
 eo utf-8 Esperanto
@@ -43,3 +44,4 @@ sw iso8859-1 Swedish
 ta iso8859-1 Tamil
 zh-tw big5 Traditional Chinese(Taiwan)
 tr iso8859-9 Turkish
+va iso8859-1 Valenciano
