@@ -184,6 +184,7 @@ namespace eval ::plugins {
 
 	     #do the bindings
 	     bind $w.select.plugin_list <<ListboxSelect>> "::plugins::GUI_NewSel"
+	     bind $w <<Escape>> "::plugins::GUI_Close"
 
 	     #display the widgets
 	     grid $w.select.plugin_list -row 1 -column 1 -sticky nsew

@@ -216,7 +216,8 @@ proc SelectSkinGui { } {
 	white -relief flat -highlightthickness 0  -height 8 -width 30
 	scrollbar $w.main.right.ys -command "$w.main.right.box yview" -highlightthickness 0 \
 	-borderwidth 1 -elementborderwidth 2
-    
+
+	bind $w <<Escape>> "selectskincancel $w"
 	pack $w.main.left.images -in $w.main.left -side top -expand 0 -fill both
 	pack $w.main.left.desc -in $w.main.left -side bottom -expand 1 -fill both
 	pack $w.main.left -in $w.main -side left -expand 1 -fill both

@@ -1154,9 +1154,10 @@ proc Preferences { { settings "personal"} } {
     frame .cfg.buttons -class Degt
     button .cfg.buttons.save -text [trans save] -font sboldf -command "SavePreferences; destroy .cfg"
     button .cfg.buttons.cancel -text [trans close] -font sboldf -command "destroy .cfg"
+    bind .cfg <<Escape>> "destroy .cfg"
     pack .cfg.buttons.save .cfg.buttons.cancel -side right -padx 10 -pady 5
     pack .cfg.buttons -side bottom -fill x
-    
+
     
     #Rnotebook:totalwidth $nb
     $nb.nn raise personal

@@ -77,6 +77,10 @@ namespace eval ::groups {
 			::groups::Add "[.dlgag.d.ent get]" dlgMsg; 
 			destroy .dlgag
 		}
+		bind .dlgag <<Escape>> {
+			set pgc 0
+			destroy .dlgag;
+		}
 		frame .dlgag.b 
 		button .dlgag.b.ok -text "[trans ok]"   \
 			-command {
@@ -124,6 +128,7 @@ namespace eval ::groups {
 			destroy .dlgrg }
 		button .dlgrg.b.cancel -text "[trans cancel]"  \
 			-command "set pgc 0; destroy .dlgrg"
+		bind .dlgrg <<Escape>> "set pgc 0; destroy .dlgrg"
 		pack .dlgrg.b.ok .dlgrg.b.cancel -side right -padx 5
 			
 		pack .dlgrg.d .dlgrg.n -side top

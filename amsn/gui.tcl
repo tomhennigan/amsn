@@ -451,6 +451,7 @@ namespace eval ::amsn {
 		#Bottom frame (Close button)
 		frame .about.bottom -class Amsn
 		button .about.bottom.close -text "[trans close]" -command "destroy .about"
+		bind .about <<Escape>> "destroy .about"
 		button .about.bottom.credits -text "[trans credits]..." -command [list ::amsn::showHelpFile CREDITS [trans credits]]
 
 		pack .about.bottom.close -side right
@@ -526,6 +527,7 @@ namespace eval ::amsn {
 
 		#Bottom frame (Close button)
 		button .show.close -text "[trans close]" -command "destroy .show"
+		bind .show <<Escape>> "destroy .show"
 		pack .show.close
 		pack .show.close -side top -anchor e -padx 5 -pady 3
 
@@ -5866,6 +5868,7 @@ proc cmsn_draw_addcontact {} {
 	button .addcontact.b.next -text "[trans next]->" -command addcontact_next
 	button .addcontact.b.cancel -text [trans cancel] \
 		-command "set pcc 0; destroy .addcontact" 
+	bind .addcontact <<Escape>> "set pcc 0; destroy .addcontact"
 	pack .addcontact.b.next .addcontact.b.cancel -side right -padx 5
 
 	
@@ -6046,6 +6049,7 @@ proc cmsn_change_name {} {
 	frame $w.fb
 	button $w.fb.ok -text [trans ok] -command change_name_ok 
 	button $w.fb.cancel -text [trans cancel] -command "destroy $w"
+	bind $w <<Escape>> "destroy $w"
 
 
 	pack $w.fn.label $w.fn.name $w.fn.newline $w.fn.smiley -side left -fill x -expand true
