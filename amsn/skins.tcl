@@ -13,7 +13,7 @@ proc GetSkinFile { type filename } {
     }
     set defaultskin "default"
 
-    if { [file readable  $filename] } {
+    if { "[file normalize $filename]" == "$filename" && [file readable  $filename] } {
 	return "$filename"
     } elseif { [file readable [file join $pwd $program_dir skins $skin $type $filename]] } {
 	return "[file join $pwd $program_dir skins $skin $type $filename]"

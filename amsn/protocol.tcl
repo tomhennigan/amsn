@@ -2947,7 +2947,7 @@ proc cmsn_ns_handler {item} {
 	 return 0
       }
       BLP {
-	  puts "$item == [llength $item]"
+#	  puts "$item == [llength $item]"
 	  if { $protocol == "9" && [llength $item] == 3} {
 	      change_BLP_settings "[lindex $item 1]"
 	  } else {
