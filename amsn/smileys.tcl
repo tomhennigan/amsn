@@ -268,7 +268,7 @@ proc new_custom_emoticon_gui {{name ""}} {
     label $w.lfile -text "[trans smilefile]" -font splainf
     entry $w.file -textvariable new_custom_cfg(file)  -background white -font splainf
     button $w.browsefile -text "[trans browse]" -command [list fileDialog2 .new_custom $w.file open "" \
-	 	[list [list [trans imagefiles] [list *.gif *.jpg *.jpeg *.bmp *.png]] [list [trans allfiles] *]]] -width 10 -font sboldf
+	 	[list [list [trans imagefiles] [list *.gif *.GIF *.jpg *.JPG *.bmp *.BMP *.png *.PNG]] [list [trans allfiles] *]]] -width 10 -font sboldf
 
     label $w.lsound -text "[trans soundfile]" -font splainf
     entry $w.sound -textvariable new_custom_cfg(sound)  -background white -font splainf

@@ -6977,7 +6977,7 @@ proc pictureChooseFile { } {
 	}
 
 
-	set file [chooseFileDialog "" "" [list [list [trans imagefiles] [list *.gif *.jpg *.jpeg *.bmp *.png]] [list [trans allfiles] *]]]
+	set file [chooseFileDialog "" "" [list [list [trans imagefiles] [list *.gif *.GIF *.jpg *.JPG *.bmp *.BMP *.png *.PNG]] [list [trans allfiles] *]]]
 
 	if { $file != "" } {
 		if { ![catch {convert_image_plus $file displaypic "96x96"} res]} {
