@@ -68,6 +68,7 @@ if { $initialize_amsn == 1 } {
 	::skin::setKey menuforeground #000000 
 	::skin::setKey menuactivebackground #565672
 	::skin::setKey menuactiveforeground #ffffff
+	::skin::setKey showdisplaycontactlist 0
 	::skin::setKey balloontext #000000 
 
 	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
@@ -4148,6 +4149,46 @@ proc clickableImage {tw name image command {padx 0} {pady 0}} {
 	bind $tw.$name <Button1-ButtonRelease> $command
 	$tw window create end -window $tw.$name -padx $padx -pady $pady -align center -stretch true
 }
+
+#Clickable display picture in the contact list
+proc clickableDisplayPicture {tw name command {padx 0} {pady 0}} {
+	global HOME;
+	#Get actual display pic name
+	set filename [::config::getKey displaypic];
+	#If the display pic doesn't actually exists in format 50x50, take the original one and convert it to 50x50 inside displaypic/small folder
+	if { ![file readable [file join $HOME displaypic small $filename]] } {
+		convert_image_plus "[::skin::GetSkinFile displaypic $filename]" displaypic/small "50x50"
+	}
+	#Load the smaller display picture
+	if {[load_my_smaller_pic]} {
+		#Create the clickable display picture
+		label $tw.$name -image my_pic_small -background white
+		$tw.$name configure -cursor hand2 -borderwidth 0
+		bind $tw.$name <Button1-ButtonRelease> $command
+		$tw window create end -window $tw.$name -padx $padx -pady $pady -align center -stretch true
+	} else {
+		#Change key to the skin for to disable clickable display picture
+		status_log "Change key to the skin for to disable clickable display picture" blue
+		::skin::setKey showdisplaycontactlist 0
+		
+	}
+}
+
+proc load_my_smaller_pic {} {
+	
+	#Trying to set smaller display picture
+	if {[file readable [filenoext [::skin::GetSkinFile displaypic/small [::config::getKey displaypic]]].gif]} {
+		#The smaller display picture exists, now create it
+		image create photo my_pic_small -file "[filenoext [::skin::GetSkinFile displaypic/small [::config::getKey displaypic]]].gif"
+		return 1
+	} else {
+		global pgBuddy
+		status_log "load_my_smaller_pic: Picture not found!!Show the default amsn status icon instead\n" blue
+		set my_image_type [::MSN::stateToBigImage [::MSN::myStatusIs]]
+		clickableImage $pgBuddy.text bigstate $my_image_type {tk_popup .my_menu %X %Y} [::skin::getKey bigstate_xpad] [::skin::getKey bigstate_ypad]
+		return 0
+	}
+}
 #///////////////////////////////////////////////////////////////////////
 
 proc do_hotmail_login {} {
@@ -4295,10 +4336,15 @@ proc cmsn_draw_online_wrapped {} {
 	}
 
 	#$pgBuddy.text insert end "\n"
-
+	
 	# Display MSN logo with user's handle. Make it clickable so
 	# that the user can change his/her status that way
-	clickableImage $pgBuddy.text bigstate $my_image_type {tk_popup .my_menu %X %Y} [::skin::getKey bigstate_xpad] [::skin::getKey bigstate_ypad]
+	# Verify if the skinner wants to replace the status picture for the display picture
+	if { ![::skin::getKey showdisplaycontactlist] } {
+		clickableImage $pgBuddy.text bigstate $my_image_type {tk_popup .my_menu %X %Y} [::skin::getKey bigstate_xpad] [::skin::getKey bigstate_ypad]
+	} else {
+		clickableDisplayPicture $pgBuddy.text bigstate {tk_popup .my_menu %X %Y} [::skin::getKey bigstate_xpad] [::skin::getKey bigstate_ypad]
+	}
 	bind $pgBuddy.text.bigstate <<Button3>> {tk_popup .my_menu %X %Y}
 
 	text $pgBuddy.text.mystatus -font bboldf -height 2 \
@@ -6362,6 +6408,8 @@ proc load_my_pic {} {
 	}
 }
 
+
+
 proc pictureBrowser {} {
 	global selected_image
 
@@ -6666,6 +6714,7 @@ proc pictureChooseFile { } {
 
 			lappend image_names $image_name
 			status_log "Created $image_name\n"
+			
 			return "[filenoext [file tail $file]].png"
 		} else {
 			status_log "Error converting $file: $res\n"

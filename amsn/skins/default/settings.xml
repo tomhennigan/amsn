@@ -27,6 +27,7 @@
 		<Options>
 			<underline_contact>1</underline_contact>
 			<balloonfont>sboldf</balloonfont>
+			<showdisplaycontactlist>0</showdisplaycontactlist>
 		</Options>
 	</General>
 
