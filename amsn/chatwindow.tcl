@@ -1,6 +1,6 @@
 #########################################
 #    Chat Window code abstraction       #
-#           By Alberto D�z             #
+#           By Alberto D�z            #
 #########################################
 namespace eval ::ChatWindow {
 
@@ -1011,17 +1011,40 @@ namespace eval ::ChatWindow {
 		# Bind on focus, so we always put the focus on the input window
 		bind $paned <FocusIn> "focus $input"
 
+		bind $input <Configure> "::ChatWindow::InputPaneConfigured $paned $input $output %W %h"
 		if { $::tcl_version >= 8.4 } {
 			bind $output <Configure> "::ChatWindow::OutputPaneConfigured $paned $input $output %W %h"
 			bind $paned <Configure> "::ChatWindow::PanedWindowConfigured $paned $input $output %W %h"
 		}
 
-
 		return $paned
-
 	}
 
-	proc OutputPaneConfigured { paned input output W newh } {
+
+	proc GetSashHeight { paned } {
+		set sashheight [expr { [$paned cget -sashpad ] + [$paned cget -sashwidth]}]
+		if { [ $paned cget -showhandle ] } {
+			set handleheight [expr { [$paned cget -sashpad ] + (([$paned cget -sashwidth]+1)/2) + ([$paned cget -handlesize]/2) }]
+			if { $handleheight > $sashheight } {
+				set sashheight $handleheight
+			}
+		}
+
+		return $sashheight
+	}
+
+	proc SetSashPos { paned input output } {
+		set bottomsize [winfo height $input]
+		if { $bottomsize < [$paned panecget $input -minsize] } {
+			set bottomsize [$paned panecget $input -minsize]
+		}
+
+		set sashheight [::ChatWindow::GetSashHeight $paned]
+
+		$paned sash place 0 0 [expr {[winfo height $paned] - ($bottomsize + $sashheight)}]
+	}
+
+	proc InputPaneConfigured { paned input output W newh } {
 		#only run this if the window is the outer frame
 		if { ![string equal $input $W]} { return }
 
@@ -1031,17 +1054,19 @@ namespace eval ::ChatWindow {
 			set scrolling 0
 		}
 
+		if { $::tcl_version >= 8.4 } {
+			#check that the drag adhered to minsize input pane
+			#first checking that there is enough room otherwise you get an infinite loop
+			if { ( [winfo height $input] < [$paned panecget $input -minsize] ) \
+					&& ( [winfo height $output] > [$paned panecget $output -minsize] ) \
+					&& ( [winfo height $paned] > [$paned panecget $output -minsize] ) } {
 
-		#ensure that the input window is minimum size if there is room for it
-		if { [winfo height $input] < [$paned panecget $input -minsize] && 
-		     [winfo height $paned] > [expr [$paned panecget $input -minsize] + [$paned panecget $output -minsize]]} {
-
-			$paned sash mark 0 0 [$paned panecget $input -minsize]
-			$paned sash dragto 0 0 [winfo height $input]
+				::ChatWindow::SetSashPos $paned $input $output
+			}
 		}
 
-		if { $scrolling } { after 100 "[::ChatWindow::GetTopText [winfo toplevel $paned]] yview end" }
 
+		if { $scrolling } { after 100 "[::ChatWindow::GetTopText [winfo toplevel $paned]] yview end" }
 
 
 		if { [::config::getKey savechatwinsize] } {
@@ -1049,28 +1074,35 @@ namespace eval ::ChatWindow {
 		}
 	}
 
+	# this proc is only needed when the sash is moved manually
+	# and the input pane is off the screen so the obove doesnt get called
+	proc OutputPaneConfigured { paned input output W newh } {
+		#only run this if the window is the outer frame
+		if { ![string equal $output $W]} { return }
+
+		#only run if input frame not visible
+		if { [winfo height $paned] <= [lindex [$paned sash coord 0] 1] + [::ChatWindow::GetSashHeight $paned] } {
+		
+			#check that the drag adhered to minsize for the input pane
+			if { ( [winfo height $input] < [$paned panecget $input -minsize] ) \
+					&& ( [winfo height $output] > [$paned panecget $output -minsize] ) \
+					&& ( [winfo height $paned] > [$paned panecget $output -minsize] ) } {
+
+				::ChatWindow::SetSashPos $paned $input $output
+			}
+		}
+	}
+	
 	proc PanedWindowConfigured { paned input output W newh } {
 		#only run this if the window is the outer frame
 		if { ![string equal $paned $W]} { return }
 
-
 		#keep the input pane the same size, only change the output		
 		#dont call the first time it is created
-		#as the input size hasnt been checked yet
-		if { [info exists ::panedsize($paned)] } {
-			#ensure that the input window is minimum size if there is room for it
-			if { [winfo height $input] < [$paned panecget $input -minsize] } {
-				$paned sash mark 0 0 [$paned panecget $input -minsize]
-				$paned sash dragto 0 0 [winfo height $input]
-				incr ::panedsize($paned) [$paned panecget $input -minsize]
-				incr ::panedsize($paned) -[winfo height $input]
-			}
-			$paned sash mark 0 0 $::panedsize($paned)
-			$paned sash dragto 0 0 $newh
+		#as the input size hasnt been set yet
+		if {([winfo height $input] != 1) || ([winfo height $output] != 1) } {
+			::ChatWindow::SetSashPos $paned $input $output
 		}
-
-		set ::panedsize($paned) $newh
-
 	}
 
 	proc CreateOutputWindow { w paned } {
