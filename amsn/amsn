@@ -134,9 +134,6 @@ proc reload_files { } {
     }
 
     source [file join ctthemes.tcl]
-    source [file join notebook.tcl]	;# Notebook Megawidget
-    #source [file join notebook1.tcl]	;# Notebook Megawidget
-    source [file join rnotebook.tcl]	;# Notebook Megawidget
     source [file join progressbar.tcl]	;# Progressbar Megawidget
     source [file join migmd5.tcl]
     source [file join des.tcl]		;# DES encryption

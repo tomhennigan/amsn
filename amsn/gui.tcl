@@ -47,11 +47,13 @@ namespace eval ::amsn {
 
 		if { $config(strictfonts) } {
 			font create bboldf -family $family -size $size -weight bold
+			font create bboldunderf -family $family -size $size -weight bold -underline true
 			font create bplainf -family $family -size $size -weight normal
 			font create bigfont -family $family -size $size -weight bold
 			font create examplef -family $family -size $size -weight normal
 		} else {
 			font create bboldf -family $family -size [expr {$size+1}] -weight bold
+			font create bboldunderf -family $family -size [expr {$size+1}] -weight bold -underline true
 			font create bplainf -family $family -size [expr {$size+1}] -weight normal
 			font create bigfont -family $family -size [expr {$size+2}] -weight bold
 			font create examplef -family $family -size [expr {$size-2}] -weight normal

@@ -26,12 +26,21 @@ namespace eval ::alarms {
 	}
 	
 	#Function that displays the Alarm configuration for the given user
-	proc configDialog { user } {
+	proc configDialog { user {window ""} } {
 		global my_alarms
 	
-		if { [ winfo exists .alarm_cfg ] } {
-			return
+		if { $window == "" } {
+			if { [ winfo exists .alarm_cfg ] } {
+				return
+			}
+			toplevel .alarm_cfg
+			wm title .alarm_cfg "[trans alarmpref] $user"
+			wm iconname .alarm_cfg [trans alarmpref]
+			set w .alarm_cfg
+		} else {
+			set w $window
 		}
+		
 	
 		set my_alarms(${user}_enabled) [getAlarmItem $user enabled]
 		set my_alarms(${user}_sound) [getAlarmItem $user sound]
@@ -46,58 +55,58 @@ namespace eval ::alarms {
 		set my_alarms(${user}_command) [getAlarmItem $user command]
 		set my_alarms(${user}_oncommand) [getAlarmItem $user oncommand]
 	
-		toplevel .alarm_cfg
-		wm title .alarm_cfg "[trans alarmpref] $user"
-		wm iconname .alarm_cfg [trans alarmpref]
+		if { $window == "" } {
+			label $w.title -text "[trans alarmpref]: $user" -font bboldf
+			pack $w.title -side top -padx 15 -pady 15
+		}
 	
-		label .alarm_cfg.title -text "[trans alarmpref]: $user" -font bboldf
-		pack .alarm_cfg.title -side top -padx 15 -pady 15
+		frame $w.sound1
+		LabelEntry $w.sound1.entry "[trans soundfile]" my_alarms(${user}_sound) 30
+		button $w.sound1.browse -text [trans browse] -command {fileDialog2 $w $w.sound1.entry.ent open "" } -font sboldf
+		pack $w.sound1.entry -side left -expand true -fill x
+		pack $w.sound1.browse -side left
+		pack $w.sound1 -side top -padx 10 -pady 2 -anchor w -fill x
+		checkbutton $w.button -text "[trans soundstatus]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_sound_st) -font splainf
+		checkbutton $w.button2 -text "[trans soundloop]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_loop) -font splainf
+		pack $w.button -side top -anchor w -expand true -padx 30
+		pack $w.button2 -side top -anchor w -expand true -padx 30
 	
-		frame .alarm_cfg.sound1
-		LabelEntry .alarm_cfg.sound1.entry "[trans soundfile]" my_alarms(${user}_sound) 30
-		button .alarm_cfg.sound1.browse -text [trans browse] -command {fileDialog2 .alarm_cfg .alarm_cfg.sound1.entry.ent open "" } -font sboldf
-		pack .alarm_cfg.sound1.entry -side left -expand true -fill x
-		pack .alarm_cfg.sound1.browse -side left
-		pack .alarm_cfg.sound1 -side top -padx 10 -pady 2 -anchor w -fill x
-		checkbutton .alarm_cfg.button -text "[trans soundstatus]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_sound_st) -font splainf
-		checkbutton .alarm_cfg.button2 -text "[trans soundloop]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_loop) -font splainf
-		pack .alarm_cfg.button -side top -anchor w -expand true -padx 30
-		pack .alarm_cfg.button2 -side top -anchor w -expand true -padx 30
+		frame $w.command1
+		LabelEntry $w.command1.entry "[trans command]" my_alarms(${user}_command) 30
+		pack $w.command1.entry -side left -expand true -fill x
+		pack $w.command1 -side top -padx 10 -pady 2 -anchor w -fill x
+		checkbutton $w.buttoncomm -text "[trans commandstatus]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_oncommand) -font splainf
+		pack $w.buttoncomm -side top -anchor w -expand true -padx 30
 	
-		frame .alarm_cfg.command1
-		LabelEntry .alarm_cfg.command1.entry "[trans command]" my_alarms(${user}_command) 30
-		pack .alarm_cfg.command1.entry -side left -expand true -fill x
-		pack .alarm_cfg.command1 -side top -padx 10 -pady 2 -anchor w -fill x
-		checkbutton .alarm_cfg.buttoncomm -text "[trans commandstatus]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_oncommand) -font splainf
-		pack .alarm_cfg.buttoncomm -side top -anchor w -expand true -padx 30
+		frame $w.pic1
+		LabelEntry $w.pic1.entry "[trans picfile]" my_alarms(${user}_pic) 30
+		button $w.pic1.browse -text [trans browse] -command {fileDialog2 $w $w.pic1.entry.ent open "" } -font sboldf
+		pack $w.pic1.entry -side left -expand true -fill x
+		pack $w.pic1.browse -side left
+		pack $w.pic1 -side top -padx 10 -pady 2 -anchor w -fill x
+		checkbutton $w.buttonpic -text "[trans picstatus]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_pic_st) -font splainf
+		pack $w.buttonpic -side top -anchor w -expand true -padx 30
 	
-		frame .alarm_cfg.pic1
-		LabelEntry .alarm_cfg.pic1.entry "[trans picfile]" my_alarms(${user}_pic) 30
-		button .alarm_cfg.pic1.browse -text [trans browse] -command {fileDialog2 .alarm_cfg .alarm_cfg.pic1.entry.ent open "" } -font sboldf
-		pack .alarm_cfg.pic1.entry -side left -expand true -fill x
-		pack .alarm_cfg.pic1.browse -side left
-		pack .alarm_cfg.pic1 -side top -padx 10 -pady 2 -anchor w -fill x
-		checkbutton .alarm_cfg.buttonpic -text "[trans picstatus]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_pic_st) -font splainf
-		pack .alarm_cfg.buttonpic -side top -anchor w -expand true -padx 30
+		checkbutton $w.alarm -text "[trans alarmstatus]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_enabled) -font splainf
+		checkbutton $w.alarmonconnect -text "[trans alarmonconnect]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_onconnect) -font splainf
+		checkbutton $w.alarmonmsg -text "[trans alarmonmsg]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_onmsg) -font splainf
+		checkbutton $w.alarmonstatus -text "[trans alarmonstatus]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_onstatus) -font splainf
+		checkbutton $w.alarmondisconnect -text "[trans alarmondisconnect]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_ondisconnect) -font splainf
 	
-		checkbutton .alarm_cfg.alarm -text "[trans alarmstatus]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_enabled) -font splainf
-		checkbutton .alarm_cfg.alarmonconnect -text "[trans alarmonconnect]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_onconnect) -font splainf
-		checkbutton .alarm_cfg.alarmonmsg -text "[trans alarmonmsg]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_onmsg) -font splainf
-		checkbutton .alarm_cfg.alarmonstatus -text "[trans alarmonstatus]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_onstatus) -font splainf
-		checkbutton .alarm_cfg.alarmondisconnect -text "[trans alarmondisconnect]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_ondisconnect) -font splainf
+		pack $w.alarm -side top -anchor w -expand true -padx 30
+		pack $w.alarmonconnect -side top -anchor w -expand true -padx 30
+		pack $w.alarmonmsg -side top -anchor w -expand true -padx 30
+		pack $w.alarmonstatus -side top -anchor w -expand true -padx 30
+		pack $w.alarmondisconnect -side top -anchor w -expand true -padx 30
 	
-		pack .alarm_cfg.alarm -side top -anchor w -expand true -padx 30
-		pack .alarm_cfg.alarmonconnect -side top -anchor w -expand true -padx 30
-		pack .alarm_cfg.alarmonmsg -side top -anchor w -expand true -padx 30
-		pack .alarm_cfg.alarmonstatus -side top -anchor w -expand true -padx 30
-		pack .alarm_cfg.alarmondisconnect -side top -anchor w -expand true -padx 30
-	
-		frame .alarm_cfg.b -class Degt
-		button .alarm_cfg.b.save -text [trans ok] -command "::alarms::SaveAlarm $user" -font sboldf
-		button .alarm_cfg.b.cancel -text [trans close] -command "destroy .alarm_cfg; unset my_alarms" -font sboldf
-		button .alarm_cfg.b.delete -text [trans delete] -command "; destroy .alarm_cfg; ::alarms::DeleteAlarm $user" -font sboldf
-		pack .alarm_cfg.b.save .alarm_cfg.b.cancel .alarm_cfg.b.delete -side right -padx 10
-		pack .alarm_cfg.b -side top -padx 0 -pady 4 -anchor e -expand true -fill both
+		if { $window == "" } {
+			frame $w.b -class Degt
+			button $w.b.save -text [trans ok] -command "::alarms::SaveAlarm $user; destroy $w" -font sboldf
+			button $w.b.cancel -text [trans close] -command "destroy $w; unset my_alarms" -font sboldf
+			button $w.b.delete -text [trans delete] -command "; destroy $w; ::alarms::DeleteAlarm $user" -font sboldf
+			pack $w.b.save $w.b.cancel $w.b.delete -side right -padx 10
+			pack $w.b -side top -padx 0 -pady 4 -anchor e -expand true -fill both
+		}
 	}
 	
 	#Deletes variable settings for current user.
@@ -166,7 +175,6 @@ namespace eval ::alarms {
 		::abook::setContactData $user alarms [array get alarms]
 		::abook::saveToDisk
 		
-		destroy .alarm_cfg
 		cmsn_draw_online
 		unset my_alarms
 	}
