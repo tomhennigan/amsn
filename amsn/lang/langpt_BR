@@ -549,3 +549,8 @@ p4contextprefix Adicionar este prefixo ao campo de contexto-P4 de remetente
 recentmsg Evitar fechar uma janela de consersação quando uma mensagem acaba de chegar
 showcachedpics Mostrar figuras de tela armazenadas
 soundactive Reproduzir sons quando receber mensagens também nas janelas ativas
+custnotifymsg Exibir janela de notificação quando uma nova mensagem de usuário for recebida 
+custnotifyoffline Exibir janela de notificação quando este contato ficar offline 
+custnotifyonline Exibir janela de notificação quando este contato ficar online 
+custnotifystatus Exibir janela de notificação quandoeste contato mudar o status 
+webcaminvite $1 convidou você à iniciar uma sessão com webcam, mas o aMSN não suporta esta característica 
