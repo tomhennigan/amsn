@@ -320,5 +320,9 @@ namespace eval ::pop3 {
 		set maxw [expr [winfo width $vars(text)] -30]
 		set short_mailmsg [trunc $mailmsg $vars(text) $maxw splainf]
 		$vars(text) insert end "$short_mailmsg\n"
+
+		if { ![::config::getKey checkemail] } {
+			$vars(text) insert end "\n"
+		}
 	}
 }
