@@ -168,3 +168,131 @@ proc load_lang { {langcode "en"} {plugindir ""} } {
    close $file_id
    return 0
 }
+
+
+
+proc get_available_language {} {
+
+	global lang_list
+
+	set dir "[pwd]/lang"
+
+	set available [list]
+
+	foreach lang $lang_list {
+		set file [lindex $lang 0]
+		if { [file exists "$dir/lang$file"] } {
+			lappend available $file
+		}
+	}
+
+	set available_lang_list $available
+}
+
+
+proc getlanguage { lang selection } {
+
+	global weburl
+
+	set dir "[pwd]/lang"
+
+	set fid [open "[file join ${dir} $lang]" w]
+
+	set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/msn/lang/$lang?rev=HEAD&content-type=text/plain" -timeout 10000]
+	set content [::http::data $token]
+
+	puts -nonewline $fid "$content"
+
+	close $fid
+
+	catch {
+		.langmanager.selection.box itemconfigure $selection -background #DDF3FE
+		language_manager_selected
+	}
+	
+
+}
+
+
+proc deletelanguage { lang selection } {
+	
+	set dir "[pwd]/lang"
+
+	file delete "$dir/$lang"
+
+	catch {
+		.langmanager.selection.box itemconfigure $selection -background #FFFFFF
+		language_manager_selected
+	}
+}
+
+
+proc language_manager { } {
+
+	global lang_list
+
+	set available [get_available_language]
+
+	set w ".langmanager"
+	
+	if {[winfo exists $w]} {
+		raise $w
+		return
+	}
+
+	toplevel $w
+	wm title $w "[trans langmanager]"
+	wm geometry $w 260x200+30+30
+
+	label $w.text -text "[trans selectlanguage] :"
+
+	pack configure $w.text -side top
+
+	frame $w.selection -relief sunken -borderwidth 3
+	listbox $w.selection.box -yscrollcommand "$w.selection.ys set" -font splainf -background white -relief flat -highlightthickness 0 -height 10
+	scrollbar $w.selection.ys -command "$w.selection.box yview" -highlightthickness 0 -borderwidth 1 -elementborderwidth 2
+	pack $w.selection.ys -side right -fill y
+	pack $w.selection.box -side left -expand true -fill both
+	
+	foreach lang $lang_list {
+		set langcode [lindex $lang 0]
+		set langname [lindex $lang 1]
+		$w.selection.box insert end "$langname"
+		if { [lsearch $available $langcode] != -1 } {
+			$w.selection.box itemconfigure end -background #DDF3FE
+		} else {
+			$w.selection.box itemconfigure end -background #FFFFFF
+		}
+	}
+
+	bind $w.selection.box <<ListboxSelect>> "language_manager_selected"
+
+	frame $w.command
+	button $w.command.load -text "[trans load]" -command "language_manager_load" -state disabled
+	button $w.command.close -text "[trans close]" -command "destroy $w"
+	pack configure $w.command.load -side top
+	pack configure $w.command.close -side bottom
+
+	pack configure $w.selection -side left
+	pack configure $w.command -side right
+}	
+
+proc language_manager_selected { } {
+
+	global lang_list
+
+	set w ".langmanager"
+
+	set selection [$w.selection.box curselection]
+	set langcode [lindex [lindex $lang_list $selection] 0]
+
+	set available [get_available_language]
+
+	if {[lsearch $available $langcode] != -1 } {
+		$w.command.load configure -state normal -text "[trans unload]" -command "[list deletelanguage "lang$langcode" $selection]"
+	} else {
+		$w.command.load configure -state normal -text "[trans load]" -command "[list getlanguage "lang$langcode" $selection]"
+	}
+
+}
+
