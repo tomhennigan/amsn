@@ -96,7 +96,7 @@ prefsound Sounds
 properties Properties
 proxyconf Proxy configuration
 proxyconfhttp HTTP proxy support configuration
-receivedbyes Received $1 of $2 bytes
+receivedbytes Received $1 of $2 bytes
 receivefile Receive file
 reconnect Waiting for $1 to reconnect
 reconnecting Reconnecting to server

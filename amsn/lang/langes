@@ -61,6 +61,7 @@ loginas Iniciar sesión como
 login Iniciar sesión
 logout Cerrar sesión
 logsin acaba de iniciar sesión
+mailer Comando de email
 mobile Celular
 msg Mensaje
 msn AMSN
@@ -84,6 +85,7 @@ openreceived Abrir archivos recibidos
 options Opciones
 ordercontactsby Ordenar contactos por
 other Otro
+pager Paginador
 pass Contraseña
 phone Telefono
 port Puerto
