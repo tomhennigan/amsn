@@ -33,7 +33,7 @@ namespace eval ::amsn {
 		blockUnblockUser blockUser unblockUser deleteUser\
 		fileTransferRecv fileTransferProgress\
 		errorMsg notifyAdd initLook messageFrom chatChange userJoins\
-		userLeaves updateTypers ackMessage nackMessage closeWindow \
+		userLeaves updateTypers ackMessage nackMessage closedWindow \
 		chatStatus chatUser
 
 	##PUBLIC
@@ -1556,6 +1556,7 @@ namespace eval ::amsn {
 		variable winid
 		variable window_titles
 		variable first_message
+		variable recent_message
 		global  config HOME files_dir bgcolor bgcolor2 tcl_platform xmms
 
 		set win_name "msg_$winid"
@@ -1901,7 +1902,7 @@ namespace eval ::amsn {
 		}
 
 
-		bind .${win_name} <Destroy> "window_history clear %W; ::amsn::closeWindow .${win_name} %W"
+		bind .${win_name} <Destroy> "window_history clear %W; ::amsn::closedWindow .${win_name} %W"
 
 		focus $bottom.in.input
 
@@ -1944,7 +1945,7 @@ namespace eval ::amsn {
 		#Differents shorcuts on Mac OS X
 		if {$tcl_platform(os) == "Darwin"} {
 			bind $bottom.in.input <Control-s> "window_history add %W; ::amsn::MessageSend .${win_name} %W; break"
-			bind .${win_name} <Command-w> "destroy .${win_name} %W; break"
+			bind .${win_name} <Command-w> "::amsn::closeWindow .${win_name}; break"
 			bind .${win_name} <Command-,> "Preferences"
 			bind all <Command-q> {
 				close_cleanup;exit
@@ -1953,16 +1954,18 @@ namespace eval ::amsn {
 			bind $bottom.in.input <Command-Down> "window_history next %W; break"
 		} else {
 			bind $bottom.in.input <Alt-s> "window_history add %W; ::amsn::MessageSend .${win_name} %W; break"
-			bind $bottom.in.input <Escape> "destroy .${win_name} %W; break"
+			bind $bottom.in.input <Escape> "::amsn::closeWindow .${win_name}; break"
 			bind $bottom.in.input <Control-Up> "window_history previous %W; break"
 			bind $bottom.in.input <Control-Down> "window_history next %W; break"
 		}
 
 		set window_titles(.${win_name}) ""
 		set first_message(.${win_name}) 1
+		set recent_message(.${win_name}) 0
 
 		bind .${win_name} <Configure> "::amsn::ConfiguredChatWin .${win_name}"
 
+		wm protocol .${win_name} WM_DELETE_WINDOW "::amsn::closeWindow .${win_name}"
 
 		wm state .${win_name} withdraw
 
@@ -2524,13 +2527,30 @@ namespace eval ::amsn {
 	#///////////////////////////////////////////////////////////////////////////////
 
 
-
 	#///////////////////////////////////////////////////////////////////////////////
-	# closeWindow (win_name,path)
+	# closedWindow (win_name,path)
+	# Called when a window is about to be closed
+	proc closeWindow { win_name} {
+		variable recent_message
+		
+		status_log "Going to close window $win_name\n" white
+		if { $recent_message($win_name) == 1 } {
+			status_log "Recent message exists\n" white
+			set recent_message($win_name) 0
+		} else {
+			status_log "Closing\n" white
+			destroy $win_name
+		}
+		
+	}
+
+	
+	#///////////////////////////////////////////////////////////////////////////////
+	# closedWindow (win_name,path)
 	# Called when a window and its children are destroyed. When the main window is
 	# detroyed ('win_name'=='path') then it tells the protocol layer to leave the
 	# chat related to 'win_name', and unsets variables used for that window
-	proc closeWindow { win_name path } {
+	proc closedWindow { win_name path } {
 
 		#Only run when the parent window close event comes
 		if { "$win_name" != "$path" } {
@@ -2541,12 +2561,13 @@ namespace eval ::amsn {
 		global config
 		variable window_titles
 		variable first_message
+		variable recent_message
 
 
 		set chatid [ChatFor $win_name]
 
 		if { $chatid == 0 } {
-			status_log "VERY BAD ERROR in ::amsn::closeWindow!!!\n" red
+			status_log "VERY BAD ERROR in ::amsn::closedWindow!!!\n" red
 			return 0
 		}
 
@@ -2560,6 +2581,7 @@ namespace eval ::amsn {
 		UnsetWindowFor $chatid $win_name
 		unset window_titles(${win_name})
 		unset first_message(${win_name})
+		unset recent_message(${win_name})
 
 		#Delete images if not in use
 		catch {destroy $win_name.bottom.pic}
@@ -2629,7 +2651,6 @@ namespace eval ::amsn {
 		#	set tiempo_out 0
 
 		WinWrite $chatid "$msg\n" $type $fontformat
-
 
 		if {$config(keep_logs)} {
 			::log::PutLog $chatid $user $msg
@@ -2974,10 +2995,21 @@ namespace eval ::amsn {
 		if { $flicker } {
 			WinFlicker $chatid
 		}
+		
+		variable recent_message
+		
+		after cancel [list ::amsn::cancelRecent ${win_name}]
+		set recent_message(${win_name}) 1
+		after 5000 [list ::amsn::cancelRecent ${win_name}]
 
 
 	}
 	#///////////////////////////////////////////////////////////////////////////////
+	
+	proc cancelRecent {win_name} {
+		variable recent_message
+		set recent_message($win_name) 0
+	}
 
 	proc WinWriteIcon { chatid imagename {padx 0} {pady 0}} {
 
