@@ -2640,34 +2640,45 @@ namespace eval ::Event {
 			}
 
 			text/x-msmsgsinvite {
-				set msg $message
-				set message [P2PMessage create %AUTO%]
-				$message createFromMessage $msg
-
 				#File transfers or other invitations
-				set invcommand [$message getHeader Invitation-Command]
-				set cookie [$message getHeader Invitation-Cookie]
 				set fromlogin [lindex $command 1]
 
+				#OK, what happens now is, we have to extract the info from the
+				#body, which looks like the MIME header. Therefore, we simply
+				#steal the code for extracting the headers, and replace
+				#getHeader with array get.
+
+				set head  [string map {"\r\n" "\n"} [$message getBody]]
+				set heads [split $head "\n"]
+				
+				foreach header $heads {
+					set idx [string first ": " $header]
+					array set headers [list [string range $header 0 [expr $idx -1]] \
+					                  [string range $header [expr $idx +2] end]]
+				}
+				
+				set invcommand [lindex [array get headers Invitation-Command] 1]
+				set cookie [lindex [array get headers Invitation-Cookie] 1]
+				
+				#Do we need this? Looks a bit... untidy
 				puts $invcommand
 				puts $cookie
 
 				if {$invcommand == "INVITE" } {
 		
-					set guid [$message getHeader Application-GUID]
-		
+					set guid [lindex [array get headers Application-GUID] 1]
+					
 					#An invitation, generate invitation event
 					if { $guid == "{5D3E02AB-6190-11d3-BBBB-00C04F795683}" } {
 						#We have a file transfer here
-		
-						set filename [$message getHeader Application-File]
-						set filesize [$message getHeader Application-FileSize]
+						set filename [lindex [array get headers Application-File] 1]
+						set filesize [lindex [array get headers Application-FileSize] 1]
 		
 						::MSNFT::invitationReceived $filename $filesize $cookie $chatid $fromlogin
 		
 					} elseif { $guid == "{02D3C01F-BF30-4825-A83A-DE7AF41648AA}" } {
 						# We got an audio only invitation or audio/video invitation
-						set context [$message getHeader Context-Data]
+						set context [lindex [array get headers Context-Data] 1]
 						#Remove the # on the next line if you want to test audio/video feature (with Linphone, etc...)
 						#Ask Burger for more details..	
 						::MSNAV::invitationReceived $cookie $context $chatid $fromlogin
@@ -2676,7 +2687,7 @@ namespace eval ::Event {
 				} elseif { $invcommand == "ACCEPT" } {
 					# let's see if it's an A/V session cancel
 					if { [::MSNAV::CookieList get $cookie] != 0 } {
-						set ip [$message getHeader IP-Address]
+						set ip [lindex [array get headers IP-Address] 1]
 						::MSNAV::readAccept $cookie $ip $chatid
 			
 					} else {
@@ -2692,7 +2703,7 @@ namespace eval ::Event {
 						::MSNAV::cancelSession $cookie $chatid "TIMEOUT"
 					} else {
 						# prolly an FT
-						set cancelcode [$message getHeader Cancel-Code]
+						set cancelcode [lindex [array get headers Cancel-Code] 1]
 						if { $cancelcode == "FTTIMEOUT" } {
 							::MSNFT::timeoutedFT $cookie
 						} elseif { $cancelcode == "REJECT" } {
@@ -5559,6 +5570,8 @@ namespace eval ::MSNAV {
 		# Let's get the requested part from our context
 		set idx [expr [string first "Capabilities:" $context] - 1]
 		set requested [string range $context 0 $idx]
+
+		status_log "requested: $requested\n"
 
 		# Check if it's Audio only or AV
 		if { [string first "SIP_V" $requested] == -1 } {

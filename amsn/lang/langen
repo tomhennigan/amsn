@@ -660,6 +660,7 @@ viewcontactsby View contacts by
 viewprofile View Profile
 view View
 webcaminvite $1 invited you to start an webcam session, but aMSN does not support this feature.
+whatsize The image you have requested is not the normal display picture\nsize (96x96) What size would you like the image to be displayed as?
 willjoin Waiting $1 joins conversation
 winkreceived You have received a Wink from $1. This feature is not currently supported by aMSN.
 wintitlenick Display nicks in a tabbed window instead of email
