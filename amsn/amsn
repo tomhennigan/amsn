@@ -1028,7 +1028,7 @@ proc cmsn_draw_msgwin {} {
    .${win_name}.menu.actions add command -label [trans addtocontacts] -command "" -state disabled
    .${win_name}.menu.actions add command -label [trans block] -command "" -state disabled
    .${win_name}.menu.actions add command -label [trans seeprofile] -command "" -state disabled
-   .${win_name}.menu.actions add command -label [trans propierties] -command "" -state disabled
+   .${win_name}.menu.actions add command -label [trans properties] -command "" -state disabled
    .${win_name}.menu.actions add separator
    .${win_name}.menu.actions add cascade -label [trans invite] -menu .${win_name}.menu.actions.invite
    .${win_name}.menu.actions add command -label "[trans sendfile]..." \
