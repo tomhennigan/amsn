@@ -2144,16 +2144,11 @@ namespace eval ::amsn {
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 			#Empty
 		} else {
-		bind .${win_name}.f.out.text <Button1-ButtonRelease> "copy 0 .${win_name}"
+			bind .${win_name}.f.out.text <Button1-ButtonRelease> "copy 0 .${win_name}"
 		}
 		
 		#When someone type something in out.text, regive the focus to in.input and insert that key
-		#On Mac OS X (Aqua) only	
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-
-			bind .${win_name}.f.out.text <KeyPress> "lastKeytyped %A $bottom"
-
-		}
+		bind .${win_name}.f.out.text <KeyPress> "lastKeytyped %A $bottom"
 
 
 		#Define this events, in case they were not defined by Tk
@@ -7874,10 +7869,9 @@ proc ShowTransient {win {parent "."}} {
 
 #lastkeytyped 
 #Force the focus to bottom.in.input when someone try to write something in out.text
-#On TKAqua (Mac OS X) only
 proc lastKeytyped {typed bottom} {
 
-		if { $typed != ""} {
+		if {[regexp \[a-zA-Z\] $typed]} {
 			
 			focus -force $bottom.in.input;$bottom.in.input insert insert $typed
 		}
