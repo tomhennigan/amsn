@@ -60,14 +60,3 @@ namespace eval dkfprogress {
 
 namespace import dkfprogress::Progress dkfprogress::SetProgress
 
-# ----------------------------------------------------------------------
-pack [Progress .progress] -fill both -expand 1
-
-proc timer {win limit delay {value 0}} {
-    SetProgress $win $value $limit
-    incr value
-    if {$value >= $limit} {set value 0}
-    after $delay [list timer $win $limit $delay $value]
-}
-
-timer .progress 62 200

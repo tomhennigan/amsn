@@ -80,6 +80,7 @@ set sounds_folder "[file join $program_dir s]"
 
 #Load program modules
 source [file join $program_dir notebook.tcl]	;# Notebook Megawidget
+source [file join $program_dir progressbar.tcl]	;# Progressbar Megawidget
 source [file join $program_dir migmd5.tcl]
 source [file join $program_dir config.tcl]
 source [file join $program_dir protocol.tcl]

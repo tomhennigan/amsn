@@ -52,7 +52,7 @@ namespace eval ::amsn {
       
       status_log "Random generated cookie: $cookie\n"
       
-      ::amsn::SendWin $filename $cookie
+      ::amsn::SendWin [file tail $filename] $cookie
       ::MSN::inviteFT $sbn $filename $cookie
       return 0
    }
@@ -73,7 +73,8 @@ namespace eval ::amsn {
       set w .ft$cookie
       toplevel $w
       wm title $w "[trans sendfile] $filename"
-
+      wm geometry $w 300x100
+      
       label $w.file -text "$filename"
       pack $w.file -side top
       label $w.progress -text "Waiting for file transfer to start"
@@ -81,6 +82,9 @@ namespace eval ::amsn {
       
       button $w.close -text "[trans cancel]" -command "::MSN::cancelSending $cookie"
       pack $w.close -side bottom
+      
+      pack [::dkfprogress::Progress $w.prbar] -fill x -expand 1 -padx 5 -pady 5
+      
       
       wm protocol $w WM_DELETE_WINDOW "::MSN::cancelSending $cookie"
    }
@@ -90,6 +94,7 @@ namespace eval ::amsn {
       set w .ft$cookie
       toplevel $w
       wm title $w "[trans receivefile] $filename"
+      wm geometry $w 300x100
 
       label $w.file -text "$filename"
       pack $w.file -side top
@@ -98,6 +103,8 @@ namespace eval ::amsn {
       
       button $w.close -text "[trans cancel]" -command "::MSN::cancelReceiving $cookie"
       pack $w.close -side bottom
+
+      pack [::dkfprogress::Progress $w.prbar] -fill x -expand 1 -padx 5 -pady 5
       
       wm protocol $w WM_DELETE_WINDOW "::MSN::cancelReceiving $cookie"     
    }
@@ -115,16 +122,25 @@ namespace eval ::amsn {
       if { $bytes <0 } {
 	 $w.progress configure -text "[trans filetransfercancelled]"
       } elseif { $bytes >= $filesize } {
+	 ::dkfprogress::SetProgress $w.prbar 100
 	 $w.progress configure -text "[trans filetransfercomplete]"
       }
+      
+      set bytes2 [expr {$bytes/1024}] 
+      set filesize2 "[expr {$filesize/1024}] Kb"      
+      set cien 100
+      set percent [expr {$bytes*100/$filesize}]
+      status_log "precent: $percent\n"
       
       if { ($bytes >= $filesize) || ($bytes<0)} {
 	 $w.close configure -text "[trans close]" -command "destroy $w"
          wm protocol $w WM_DELETE_WINDOW "destroy $w"
       } elseif { $mode == "r" } {
-	 $w.progress configure -text "[trans receivedbytes $bytes $filesize]"
+	 $w.progress configure -text "[trans receivedbytes $bytes2 $filesize2]"
+	 ::dkfprogress::SetProgress $w.prbar $percent
       } else {
-	 $w.progress configure -text "[trans sentbytes $bytes $filesize]"
+	 $w.progress configure -text "[trans sentbytes $bytes2 $filesize2]"
+	 ::dkfprogress::SetProgress $w.prbar $percent
       }
    }
    

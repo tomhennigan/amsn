@@ -512,8 +512,6 @@ namespace eval ::MSN {
      set recvbytes [tell $fileid]
      set packetrest [expr {2045 - ($recvbytes % 2045)}]
 
-     status_log "Reading, file pos $recvbytes\n"
-
       if {$packetrest == 2045} { 
          #Need a full packet, header included
 
