@@ -4612,7 +4612,13 @@ namespace eval ::MSNP2P {
 		# Get values from the header
 		set idx [expr [string first "\r\n\r\n" $data] + 4]
 		set headend [expr $idx + 48]
-		binary scan [string range $data $idx $headend] iiwwiiiiw cSid cId cOffset cTotalDataSize cMsgSize cFlags cAckId cAckUID cAckSize
+		#binary scan [string range $data $idx $headend] iiwwiiiiw cSid cId cOffset cTotalDataSize cMsgSize cFlags cAckId cAckUID cAckSize
+		binary scan [string range $data $idx $headend] iiiiiiiiiiii cSid cId cOffsetL cOffsetH cTotalDataSizeL cTotalDataSizeH cMsgSize cFlags cAckId cAckUID cAckSizeL cAckSizeH
+
+		#WARNING!!! Ignoring high bytes of 64bits integer, bad???
+		set cOffset $cOffsetL
+		set cTotalDataSize $cTotalDataSizeL
+		set cAckSize $cAckSizeL
 
 		status_log "Read header : $cSid $cId $cOffset $cTotalDataSize $cMsgSize $cFlags $cAckId $cAckUID $cAckSize\n" red
 
