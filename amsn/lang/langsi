@@ -76,12 +76,10 @@ checkfilman Prejete datoteke bodo shranjene v $1. Preveri nastavitve upravljalca
 checkingver Preverjam za nove verzije
 checkonfln Preveri, ce te je uporabnik blokiral, ko se odjavi
 checkver Preveri za novo verzijo
-choosebackgroundcolor Izberi barvo ozadja
 choosebasefont Izberi vrsto pisave
 choosebgcolor Izberi barvo ozadja
 choosecontact Prosim izberi stik s seznama
 choosefontcolor Izberi barvo pisave
-choosefont Izberi pisavo
 clearlog2 Pocisti zgodovino za vse stike
 clearlog3 Pocisti vse dnevnike
 clearlog Pocisti dnevnik
@@ -197,7 +195,7 @@ language Jezik
 lastmsgtime Zadnje sporocilo prejeto ob $1
 lclosedwin $1 je zaprl/a okno $2
 lconftopriv Konferenca spremenjena v zasebni pogovor z $1
-lconvstarted Pogovor na $1 se je pricel
+lconvstarted Pogovor se je pricel ($1)
 leaveblankforhotmail Pusti prazno za uporabo Hotmail storitev
 leaves $1 je zapustil/a pogovor
 lenteredconf $1 je vstopil v konferenca na $2
@@ -221,7 +219,7 @@ logsin se je ravnokar prijavil/a
 logsmileys Prikazi emotikone in smeske v zgodovini
 logsout se je ravnokar odjavil/a
 lprivtoconf Zasebni pogovor spremenjen v konferenco na $1
-luclosedwin Zaprli ste okno za $1
+luclosedwin Zaprli ste okno ($1)
 mailer Mailer
 maximised Maksimiran
 minimised Minimiran
@@ -409,3 +407,22 @@ yoffset Y odstopanje
 youblocked Blokirajo te
 yousay Pravis
 youwant Hoces
+alarmonconnect Vklopi alarm, ko se stik prijavi
+alarmondisconnect Vklopi alarm, ko se stik odjavi
+alarmonmsg Vklopi alarm, ko ti stik poslje sporocilo
+alarmonstatus Vklopi alarm, ko stik zamenja stanje
+blockinter4 sekund
+changestate $1 je spremenil/a stanje na $2
+chooseskin Prosim izberi skin, ki bi ga rad uporabil
+disconnect $1 se je odjavil/a.
+msgflicker Naslov okna s pogovorom naj utripa, ce prejme sporocilo, ko ni aktivno
+noneavailable Noben ni na voljo
+notls MSN protokol 9 potrebuje tls. Izgleda, da ni namescen na tem racunalniku. Ce je, vnesi pot do njegovega imenika v nastavitvah (npr.: /opt/tls/lib). \n \ntls lahko poberes s http://tls.sf.net.
+pluginselector Izberi plugine
+preflibs Imenik s knjizicami
+readonlymsgbox Prenos datoteke je preklican, ker je ciljna mapa samo za branje. Popravi njena ovoljenja.
+readonlywarn OPOZORILO: Datoteka verjetno NE bo shranjena pravilno, ker je mapa "Prejetedatoteke"zascitena za pisanje. Pred prenosom preveri, ce so dovoljenja ciljne mape ($1) nastavljene pravilno.
+selectplugins Izberi plugin, ki ga zelis omogociti
+selectskin Izberi skin s seznama
+skin Skin
+skinselector Izberi skin
