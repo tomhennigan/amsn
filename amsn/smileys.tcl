@@ -222,8 +222,10 @@ proc new_custom_emoticon_from_gui { {name ""} } {
     if { $edit == 0} {
 	lappend config(customsmileys) "$name"
     }
-
     load_smileys
+    
+    #Immediately save settings.xml
+     save_config
 }
 
 #///////////////////////////////////////////////////////////////////////////////
