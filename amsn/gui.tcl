@@ -1341,6 +1341,12 @@ namespace eval ::amsn {
 			set statusmsg "[timestamp] [trans joins [lindex [::MSN::getUserInfo $usr_name] 1]]\n"
 			WinStatus [ WindowFor $chatid ] $statusmsg minijoins
 			WinTopUpdate $chatid
+
+			if { $config(showdisplaypic) && $usr_name != ""} {
+				::amsn::ChangePicture $win_name user_pic_$usr_name
+			} else {
+				::amsn::ChangePicture $win_name user_pic_$usr_name nopack
+			}
 		}
 
 		if { $config(keep_logs) } {
