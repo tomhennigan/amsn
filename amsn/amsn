@@ -2142,7 +2142,7 @@ proc lists_compare {} {
 	       ::MSN::WriteNS "ADD" "BL [lindex $x 0] [urlencode [lindex $x 1]]"
 	    }
 	    if {$newc_add_to_list} {
-	       ::MSN::WriteNS "ADD" "FL [lindex $x 0] [urlencode [lindex $x 1]]"
+	       ::MSN::addUser [lindex $x 0] [urlencode [lindex $x 1]]
 	    }
 	 } else {;# if clicked on OK, by default Accept List	  
 #	       ::MSN::WriteNS "ADD" "AL [lindex $x 0] [urlencode [lindex $x 1]]"
