@@ -46,6 +46,7 @@ autodetectip Detecteer het IP adres automatisch
 autohotmaillog Automatisch aanmelden bij Hotmail
 autoidle Automatisch "Geen Activiteit"
 autoip Automatisch IP
+automessage Automatisch bericht
 autonoact Status op "Geen Activiteit" zetten als ik niet actief ben gedurende
 avoidseen Voorkom dat deze persoon kan zien of ik online ben en contact met mij opneemt.
 away Afwezig
@@ -121,7 +122,7 @@ connection Verbinding
 connectionlost De verbinding met de server is gesloten
 contactadded Aan uw contactenlijst is toegevoegd
 contactdoesnotexist Contactpersoon bestaat niet!
-contactlist [FL] Mijn contactpersonen
+contactlist Mijn contactpersonen
 convertexplain Pad naar het programma 'convert' van ImageMagick (dit is nodig voor scherm afbeeldingen). \nLeeglaten indien 'convert' binnen het zoekpad staat.
 copy Kopiëren
 copytogroup Contactpersoon kopiëren naar
@@ -140,7 +141,7 @@ default Standaard configuratie
 defaultloginradio Inloggen met de standaardconfiguratie
 defchatwinsize Standaard grootte voor chatvensters (Xgrootte x Ygrootte)
 delete Verwijderen
-deletecustomstate Verwijder aangepaste instelling
+deletecustomstate Verwijder aangepaste status
 delimiters Haakjes om tijden heen:
 deliverfail Er was een probleem bij het bezorgen van de volgende boodschap
 delprofile Verwijder profiel
@@ -152,6 +153,8 @@ disableprofiles Schakel profielen uit (handig voor internet cafés en gedeelde om
 disablessl SSL niet gebruiken
 disconnect $1 is offline gegaan
 displaychat Discussies
+displayp4context Toon de inhoud van het P4-Context veld als verzender van de boodschap
+displaypic Schermafbeelding
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Gnome systeemvak
 docking Systeemvak
@@ -161,14 +164,14 @@ dontdownload Download TLS niet. Ik installeer het zelf.
 dontshow Verberg
 downloadingtls Bezig met downloaden van TLS vanaf:\n $1
 edit Bewerken
-editcustomstate Wijzig aangepaste instelling
+editcustomstate Wijzig aangepaste status
 editnewstate Persoonlijke status toevoegen
 editprofile Bewerk profiel
 editstate Persoonlijke status wijzigen
 editvalue Wijzig waarde
-emailsinlist Geef e-mail adressen weer in de contactpersonenlijst
+emailsinlist E-mail adressen weergeven in de contactpersonenlijst
 emotisounds Geluid bij emoticons gebruiken
-enablebanner aMSN Banner weergeven (werkt pas na opnieuw opstarten)
+enablebanner AMSN Banner weergeven (werkt pas na opnieuw opstarten)
 enabled Actief
 enableproxy Gebruik proxy
 enableremote Beheer op afstand toestaan
@@ -184,7 +187,7 @@ exitamsn Weet u zeker dat u aMSN wilt afsluiten?
 extras Extra diensten
 failed Mislukt
 faileddelete Verwijderen mislukt
-faileddeleteperso Dit plaatje kan niet verwijderd worden omdat het geen persoonlijk beeldbestand is. Alleen plaatjes die bij je persoonlijke profiel horen kun je op deze manier verwijderen.
+faileddeleteperso Dit plaatje kan niet verwijderd worden omdat het geen persoonlijk beeldbestand is. Alleen plaatjes die zijn opgeslagen in je persoonlijke profiel kun je op deze manier verwijderen.
 faq FAQ (Veel gestelde vragen)
 file Bestand
 filedoesnotexist Bestand bestaat niet
@@ -194,19 +197,20 @@ filename Bestandsnaam
 filetransfercancelled Bestandsoverdracht geannuleerd
 filetransfercomplete Bestandsoverdracht voltooid
 followtext Scroll naar beneden als er nieuwe tekst is ingevoerd
+friendlyname Vriendschappelijke naam
 ftaccepted Bestandsoverdracht geaccepteerd
 ftacceptedby $1 accepteert de overdracht van het bestand '$2'
 ftaccepting Bestandsoverdracht accepteren
 ftconnecterror Fout bij verbinden met de contactpersoon
 ftconnecting Bezig met verbinden met $1 via poort $2
 ftconnectionlost De verbinding met de andere gebruiker is verbroken
-ftgotinvitation $1 wil u het bestand '$2' ($3 bytes) toesturen. Het wordt opgeslagen in de map$4. Wilt u dit bestand ontvangen?
-ftportpref Start de poort voor bestandsoverdracht
+ftgotinvitation $1 wil u het bestand '$2' ($3 bytes) toesturen. Het zal worden opgeslagen in de map $4. Wilt u dit bestand ontvangen?
+ftportpref Start bestandsoverdracht op poort
 ftrejected Bestandsoverdracht geweigerd
 ftrejectedby $1 weigerde de overdracht van '$2'.
 ftsendinvitation De uitnodiging voor de overdracht van het bestand '$2' ($3 bytes) is verstuurd naar $1
-fullcontactlist Het spijt me, je contactpersonenlijst is vol. Je moet eerst iemand verwijderen voordat je weer anderen kunt toevoegen.
-getdisppic De schermafbeelding van anderen weergeven in gesprekken
+fullcontactlist Sorry, je contactpersonenlijst is vol. Je moet eerst iemand verwijderen voordat je weer iemand kunt toevoegen.
+getdisppic De schermafbeelding van anderen weergeven tijdens gesprekken
 gonelunch Lunchpauze
 group Groep
 groupadd Nieuwe groep maken
@@ -226,7 +230,7 @@ hiden Deze emoticon niet in het menu weergeven
 hidewindow Venster verbergen
 history Geschiedenis tonen
 home Thuis
-httpconnection Verbinden via het HTTP-protocol via poort 80
+httpconnection Verbinding maken via het HTTP-protocol
 hybrid Hybride modus
 ident Bezig met identificeren
 identity Identiteit
@@ -245,24 +249,24 @@ invitationcancelled De uitnodiging is geannuleerd
 invite Nodig uit
 ipaddress IP-adres
 ipdetect Detecteer het IP-adres voor bestandsoverdracht via HTTP
-istyping $1 is bezig met typen
+istyping $1 is aan het typen
 joins $1 neemt deel aan het gesprek
 keepalive Verbinding in stand houden (NAT)
-keeplog Logboek van gesprekken bijhouden
+keeplog Gesprekken opslaan in een logboek
 keeplog2 In een logboek automatisch een geschiedenis bijhouden van de gesprekken
 language Taal
 lastmsgtime Laatste bericht ontvangen om $1
 lclosedwin $1 heeft het venster gesloten op $2
-lconftopriv Vergadering veranderde in privegesprek met $1
+lconftopriv Vergadering veranderde in privé-gesprek met $1
 lconvstarted Gesprek gestart op $1
 leaveblankforhotmail Laat leeg om Hotmail web te gebruiken
-leaves $1 verlaat conversatie
+leaves $1 verlaat het gesprek
 lenteredconf $1 kwam de vergadering binnen op $2
 lineflushlog Werk logfiles bij na elke regel
-linprivate PRIVE
+linprivate PRIVÉ
 listeningon Bezig met luisteren op poort $1
 listsmileys Toon emoticons in lijst
-listsmileys2 Emoticons in de contactpersonenlijst weergeven
+listsmileys2 Emoticons weergeven in de contactpersonenlijst
 ljoinedconf $1 nam deel aan de vergadering
 lleftconf $1 heeft de vergadering verlaten
 loadcontacts Laad de lijst van contactpersonen
@@ -279,7 +283,7 @@ logsin heeft zich aangemeld
 logsmileys Toon emoticons in aMSN's geschiedenisvensters
 logsout heeft zich afgemeld 
 longnick De naam die je hebt ingesteld is langer dan 130 tekens, dit is eigenlijk te lang. Wil je het toch proberen?
-lprivtoconf Privegesprek veranderde in vergadering met $1
+lprivtoconf Privé-gesprek veranderde in vergadering met $1
 luclosedwin U hebt het venster gesloten op $1
 mailer E-mail programma
 mailerexample ( \$recipient = Geadresseerde ) Laat dit veld leeg als u hotmail wilt gebruiken
@@ -298,7 +302,7 @@ msn AMSN
 mustrestart U moet het programma herstarten voordat de veranderingen effect hebben
 myhomephone Mijn telefoonnummer (thuis)
 mymobilephone Mijn mobiele nummer
-mypic Mijn Afbeelding
+mypic Mijn afbeelding
 mystatus Mijn status
 myworkphone Mijn telefoonnummer (werk)
 natip  IP detectie via website
@@ -346,11 +350,13 @@ ordercontactsby Contactpersonen sorteren op
 ordergroupsby Sortering groepen
 other Andere
 others Overigen
+p4contextprefix Plaats volgende tekst voor P4-context verzenders
 pager Semafoon
 pass Wachtwoord
 paste Plakken
 personal Persoonlijk
 phone Abonneenummer
+phones Telefoonnummers
 picbrowser Afbeeldingenbrowser weergeven
 picfile Alarmafbeelding (GIF < 500 x 500 pixels)
 picstatus Alarmafbeelding gebruiken
@@ -409,7 +415,7 @@ receivefile Ontvang bestand
 reconnect Wachten tot $1 opnieuw verbindt
 reconnecting Bezig met opnieuw verbinden met de server
 reject Afwijzen
-rememberpass Onthoud wachtwoord
+rememberpass Wachtwoord onthouden
 removefromlist Verwijder uit deze lijst
 rename Hernoemen
 reversed Aflopend
@@ -465,7 +471,7 @@ stateautomsg Automatisch bericht
 statechange status is veranderd in:
 stateedittext Pas de velden aan die u wilt \n veranderen en druk op Opslaan
 stateinfo Configuratie persoonlijke status
-statename Personlijke statusnaam
+statename Naam voor de persoonlijke status
 statenewtext Vul de benodigde informatie in om uw persoonlijke status\nte creëren en klik op Opslaan
 statenick Aangepaste schermnaam (laat het leeg voor geen verandering)
 status Status
@@ -473,7 +479,7 @@ stopalarm Stop het alarm
 storenickname Herstel de oorspronkelijke schermnaam na een aangepaste status met aangepaste schermnaam.
 strictfonts Beperk de lettergrootte overal tot wat ik heb ingesteld, ook in de statusbalk e.d.
 stylechat Dezelfde stijl als gesprekken
-stylehist aMSN geschiedenis stijl
+stylehist AMSN geschiedenis stijl
 stylelog Kies de opmaak van de geschiedenislogboeken
 syntaxerror Syntaxfout
 tabbed Vensters met tabbladen
@@ -502,7 +508,7 @@ unblock Deblokkeer
 uoffline Offline
 uonline Online
 user Gebruiker
-useralreadyonlist Gebruiker staat al in uw lijst
+useralreadyonlist Deze gebruiker staat al in uw lijst
 userblocked De gebruiker is online maar heeft u geblokkeerd
 usernotonline De gebruiker is offline
 useryourself U kan niet met uzelf chatten
@@ -541,7 +547,3 @@ nogroup Geen groep
 recentmsg Onderdruk sluiten van chatvenster wanneer er net een bericht aankomt
 userdata Gebruikersinformatie
 userproperties Eigenschappen van $1
-displayp4context Toon de inhoud van het P4-Context veld als verzender van de boodschap
-p4contextprefix Plaats volgende tekst voor P4-context verzenders
-displaypic Toon figuur
-phones Telefoonnummers

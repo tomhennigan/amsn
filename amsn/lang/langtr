@@ -21,6 +21,7 @@ alarmondisconnect Kullanýcý çýkýnca alarm çalsýn
 alarmonmsg Kullanýcý ileti gönderince alarm çalsýn
 alarmonstatus Kullanýcý durum deðiþtirince alarm çalsýn 
 alarmpref Kullanýcýnýn alarm ayarlarý
+alarms Alarmlar
 alarmstatus Bu kullanýcý için alarmý aç/kapa
 allfiles Tüm Dosyalar
 allowallbutbl Engellenenler dýþýnda herkesin bana ulaþmasýna izin ver
@@ -46,6 +47,7 @@ autodetectip IP adresini kendiliðinden bul
 autohotmaillog Hotmail'e otomatik giriþ
 autoidle Otomatik EtkinlikYok özelliði 
 autoip Otomatik IP
+automessage OtoÝleti
 autonoact Bu süre kadar eylemsiz kalýrsam "Etkinlik yok" göster:
 avoidseen Bu kiþi ben çevrim içiyken beni göremesin ve bana yazamasýn
 away Dýþarýda
@@ -79,6 +81,7 @@ casesensitive Yazýlý karþýlýklarda büyük/küçük harfe duyarlý ol
 cfgalarm Alarmý Düzenle/Ekle/Kaldýr
 cfgalarmall Genel Alarmý Düzenle/Ekle/Kaldýr
 changecustomstate Þu duruma geç:
+change Deðiþtir
 changedisplaypic Kullanýcý resmini deðiþtir
 changefont Yazitipi deðiþtir
 changenick Kullanýcý ismini deðiþtir
@@ -132,8 +135,10 @@ countrycode Ülke/Bölge kodum
 cprofile Profil oluþtur
 credits Emeði Geçenler
 currentdate Bugünün Tarihi
+customcolor Özel renk
 custom_edit Özel gülen adamý düzenle
 custom_new Yeni özel gülen adam ekle
+customnick Özel kullanýcý ismi
 cut Kes
 date Tarih
 days Gün
@@ -154,6 +159,8 @@ disableprofiles Profilleri devredýþý býrak (ýnternet cafe ve paylaþýlan ortamlar
 disablessl SSL kullanma
 disconnect $1 ayrýldý
 displaychat Metin seçeneklerini göster
+displayp4context Ýletiyi gönderen olarak P4-Ýçeriði alanýný göster
+displaypic Kullanýcý Resmi
 dockfreedesktop AçýkMasaüstü (KDE3/Gnome2)
 dockgtk Gnome'da küçültme
 docking Küçültme
@@ -196,6 +203,7 @@ filename Dosya adý
 filetransfercancelled Dosya aktarýmý iptal edildi
 filetransfercomplete Dosya aktarýmý tamamlandý
 followtext Yeni metin girilince aþaði kaydýr
+friendlyname Dost Ýsmi 
 ftacceptedby $1, '$2' dosyasý için yapýlan aktarým davetini kabul etti
 ftaccepted Dosya aktarýmý kabul edildi
 ftaccepting Dosya aktarým davetini kabul ediyor
@@ -239,6 +247,7 @@ installconvert Kullanýcý resimlerini ve özel gülen adamlarý kullanabilmek için I
 internalerror ýç sunucu hatasý
 invalidfile "$1" alanýna girilen $2 dosyasý yok ya da okunamýyor
 invalidfile2 $1 dosyasý oluþturulamadý, yazma izniniz olduðundan emin olun.
+invalidgroup Geçersiz grup
 invalidpic Belirttiðiniz resim dosyasý yok
 invalidpicsize Seçilen resim çok büyük, lütfen daha küçük bir resim seçin.
 invalidsound Belirttiðiniz ses dosyasý yok
@@ -253,11 +262,15 @@ keepalive Canlý tut (NAT Keepalive)
 keeplog2 Daha sonra bakmak için tüm sohbetleri Geçmiþ'e kaydet
 keeplog Sohbetlerin kaydýný tut
 language Dil
+lastlogin En Son Baðlanma
+lastlogout En Son Çýkýþ
+lastmsgedme Son Ýleti
 lastmsgtime Son iletinin alýndýðý zaman: $1
 lclosedwin $1 $2'de penceresini kapattý
 lconftopriv $1 ile sohbet özel görüþmeye çevrildi
 lconvstarted Sohbetin baþlama saati $1
 leaveblankforhotmail Hotmail sayfasýný kullanmak istiyorsanýz bos býrakýn
+leavejoinsinchat "Katýlýyor/Ayrýlýyor" uyarýlarýný sohbet penceresi içinde göster
 leaves $1 sohbetten ayrýlýyor
 lenteredconf $1 $2'de bir konferansa katýldý
 lineflushlog Her satýrdan sonra kayýt dosyasýný güncelle
@@ -313,8 +326,10 @@ newmsg Yeni ileti
 newstate Yeni özel durum ekle
 newveravailable Yeni $1 sürümü indirilmeye hazýr
 next sonraki
+nick Kullanýcý Ýsmi
 noactivity Etkinlik yok
 nodataavailable $1 hakkýnda bilgi yok
+nogroup Grup yok
 no Hayýr
 nologfile $1 ile sohbet kaydý yok
 noneavailable Hiçbiri yok
@@ -325,7 +340,7 @@ noprofileexists Henüz hiçbir profil yok. Eðer profille baðlanmak \nisterseniz bi
 normal normal
 noskins Varsayýlan kabuk skins/ dizininde bulunamadý. AMSN baþlatýlamadý.
 nosystemtray Görev çubuðu yok
-notificationserver ýlk MSN Uyarý Sunucusu (MSN Messenger Sunucusu)
+notificationserver Ýlk MSN Uyarý Sunucusu (MSN Messenger Sunucusu)
 notify1_5 Baðlantýlar çýkýnca uyarý penceresi göster
 notify1_75 Baðlantýlar durum deðiþtirince uyarý penceresi göster
 notify1 Baðlantýlar girince uyarý penceresi göster
@@ -349,10 +364,12 @@ ordercontactsby Baðlantýlarý sýralama ölçütü
 ordergroupsby Gruplarýn sýralanýþý
 other Diðer
 others Diðerleri
+p4contextprefix P4-Ýçerik göndericilerin önüne bu metni ekle
 pager Çaðrý cihazý
 pass þifre
 paste Yapýþtýr
 personal Kiþisel
+phones Telefon numaralarý
 phone Telefon
 picbrowser Kullanýcý resmi tarayýcýsý
 picfile Alarm resmi dosyasý (GIF < 500 x 500)
@@ -409,6 +426,7 @@ readonlywarn UYARI: Alýnan dosyalar dizini salt okunur olduðu için \n dosya büyü
 receivedbytes $2 baytýn $1 (s)i alýndý
 receiveddir Alýnan Dosyalar dizini
 receivefile Dosyayý al
+recentmsg Az önce gelmiþ ileti varsa sohbet penceresinin kapatýlmasýný engelle
 reconnect $1 in yeniden baðlanmasý bekleniyor
 reconnecting Sunucuya yeniden baðlanýlýyor
 reject Geri çevir
@@ -507,8 +525,10 @@ uoffline Çevrim dýþý
 uonline Çevrim içi
 useralreadyonlist Kullanýcý zaten baðlantý listesinde
 userblocked Bu kullanýcý baðli ama sizi engellemiþ
+userdata Kullanýcý Bilgileri
 user Kullanýcý
 usernotonline Bu kullanýcý baðlý deðil
+userproperties $'in kullanýcý özellikleri
 useryourself Kendi kendinizle sohbet edemezsiniz
 verifyblocked Sizi engellemiþ kullanýcýlarý belirle
 version Sürüm
