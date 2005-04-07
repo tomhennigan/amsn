@@ -131,6 +131,8 @@
 			<chat_status_padx>5</chat_status_padx>
 			<chat_status_pady>7</chat_status_pady>
 			<chat_sash_pady>3</chat_sash_pady>
+			<chat_tabbar_padx>0</chat_tabbar_padx>
+			<chat_tabbar_pady>0</chat_tabbar_pady>
 		</Geometry>
 	</ChatWindow>
 
