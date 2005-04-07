@@ -139,13 +139,12 @@
 		</Geometry>
 		
 		<Options>
-			<chat_container_border>1</chat_container_border>
-                        <chat_top_border>0</chat_top_border>
-			<chat_output_border>0</chat_output_border>
-			<chat_buttons_border>0</chat_buttons_border>
-			<chat_input_border>0</chat_input_border>
+                        <chat_top_border>1</chat_top_border>
+			<chat_output_border>1</chat_output_border>
+			<chat_buttons_border>1</chat_buttons_border>
+			<chat_input_border>1</chat_input_border>
 			<chat_dp_border>1</chat_dp_border>
-			<chat_status_border>0</chat_status_border>
+			<chat_status_border>1</chat_status_border>
 			<chat_sash_showhandle>0</chat_sash_showhandle>
 		</Options>
 	</ChatWindow>
