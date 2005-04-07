@@ -709,7 +709,7 @@ namespace eval ::ChatWindow {
 		radiobutton $f.r1 -text "[trans tabbedglobal]" -variable [::config::getVar tabbedchat] -value 1
 		radiobutton $f.r2 -text "[trans tabbedgroups]" -variable [::config::getVar tabbedchat] -value 2
 		radiobutton $f.r3 -text "[trans nottabbed]" -variable [::config::getVar tabbedchat] -value 0
-																							   
+
 
 		button $w.ok -text "[trans ok]" -command "destroy $w"
 
@@ -753,7 +753,7 @@ namespace eval ::ChatWindow {
 		set copypastemenu [CreateCopyPasteMenu $w]
 		set copymenu [CreateCopyMenu $w]
 
-		# Test on Mac OS X(TkAqua) if ImageMagick is installed   
+		# Test on Mac OS X(TkAqua) if ImageMagick is installed
 		if {$tcl_platform(os) == "Darwin"} {
 			if { [::config::getKey getdisppic] != 0 } {
 				check_imagemagick
@@ -816,10 +816,10 @@ namespace eval ::ChatWindow {
 		$container.menu.msn delete "[trans close]"
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 			$container.menu.msn add command -label "[trans close]" \
-			    -command "::ChatWindow::CloseTabInContainer $container" -accelerator "Command-W"
+				-command "::ChatWindow::CloseTabInContainer $container" -accelerator "Command-W"
 		} else {
 			$container.menu.msn add command -label "[trans close]" \
-			    -command "::ChatWindow::CloseTabInContainer $container"
+				-command "::ChatWindow::CloseTabInContainer $container"
 		}
 		
 
@@ -858,7 +858,7 @@ namespace eval ::ChatWindow {
 		::skin::setPixmap lesstabs lesstabs.gif
 
 		frame $bar -class Amsn -relief solid -bg [::skin::getKey tabbarbg] -bd 0 \
-                -padx [::skin::getKey chat_tabbar_padx] -pady [::skin::getKey chat_tabbar_pady]
+			-padx [::skin::getKey chat_tabbar_padx] -pady [::skin::getKey chat_tabbar_pady]
 
 		return $bar
 	}
@@ -885,7 +885,7 @@ namespace eval ::ChatWindow {
 		}
 
 		if {$tcl_platform(platform) == "windows"} {
-		    wm geometry $w +0+0
+			wm geometry $w +0+0
 		}
 
 		if { [winfo exists .bossmode] } {
@@ -913,10 +913,10 @@ namespace eval ::ChatWindow {
 		#Change shortcut for history on Mac OS X
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 			bind $w <Command-Option-h> \
-			    "::amsn::ShowChatList \"[trans history]\" \[::ChatWindow::GetCurrentWindow $w\] ::log::OpenLogWin"
+				"::amsn::ShowChatList \"[trans history]\" \[::ChatWindow::GetCurrentWindow $w\] ::log::OpenLogWin"
 		} else {
 			bind $w <Control-h> \
-			    "::amsn::ShowChatList \"[trans history]\" \[::ChatWindow::GetCurrentWindow $w\] ::log::OpenLogWin"
+				"::amsn::ShowChatList \"[trans history]\" \[::ChatWindow::GetCurrentWindow $w\] ::log::OpenLogWin"
 		}
 
 		bind $w <<Escape>> "::ChatWindow::ContainerClose $w; break"
@@ -925,8 +925,8 @@ namespace eval ::ChatWindow {
 		#Different shortcuts on Mac OS X
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 			bind $w <Command-,> "Preferences"
-	   		bind $w <Command-m> "catch {carbon::processHICommand mini $w}"
-	   		bind $w <Command-M> "catch {carbon::processHICommand mini $w}"
+			bind $w <Command-m> "catch {carbon::processHICommand mini $w}"
+			bind $w <Command-M> "catch {carbon::processHICommand mini $w}"
 		}
 
 
@@ -997,7 +997,7 @@ namespace eval ::ChatWindow {
 		}
 
 		if {$tcl_platform(platform) == "windows"} {
-		    wm geometry $w +0+0
+			wm geometry $w +0+0
 		}
 
 		if { [winfo exists .bossmode] } {
@@ -1037,8 +1037,8 @@ namespace eval ::ChatWindow {
 		#Different shortcuts on Mac OS X
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 			bind $w <Command-,> "Preferences"
-		 	bind $w <Command-m> "catch {carbon::processHICommand mini $w}"
-	    	bind $w <Command-M> "catch {carbon::processHICommand mini $w}"
+			bind $w <Command-m> "catch {carbon::processHICommand mini $w}"
+			bind $w <Command-M> "catch {carbon::processHICommand mini $w}"
 		}
 
 
@@ -1102,10 +1102,10 @@ namespace eval ::ChatWindow {
 		set applemenu $menu.apple
 		menu $applemenu -tearoff 0 -type normal
 		$applemenu add command -label "[trans about] aMSN" \
-		    -command ::amsn::aboutWindow
+			-command ::amsn::aboutWindow
 		$applemenu add separator
 		$applemenu add command -label "[trans preferences]..." \
-		    -command Preferences -accelerator "Command-,"
+			-command Preferences -accelerator "Command-,"
 		$applemenu add separator
 
 		return $applemenu
@@ -1122,21 +1122,21 @@ namespace eval ::ChatWindow {
 		menu $msnmenu -tearoff 0 -type normal
 
 		$msnmenu add command -label "[trans savetofile]..." \
-		    -command " ChooseFilename \[::ChatWindow::GetOutText \[::ChatWindow::getCurrentTab $w\]\] \[::ChatWindow::getCurrentTab $w\]"
+			-command " ChooseFilename \[::ChatWindow::GetOutText \[::ChatWindow::getCurrentTab $w\]\] \[::ChatWindow::getCurrentTab $w\]"
 		$msnmenu add separator
 		$msnmenu add command -label "[trans sendfile]..." \
-		    -command "::amsn::FileTransferSend \[::ChatWindow::getCurrentTab $w\]"
+			-command "::amsn::FileTransferSend \[::ChatWindow::getCurrentTab $w\]"
 		$msnmenu add command -label "[trans openreceived]..." \
-		    -command "launch_filemanager \"$files_dir\""
+			-command "launch_filemanager \"$files_dir\""
 		$msnmenu add separator
 		
 		#Add accelerator label to "close" on Mac Version
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 			$msnmenu add command -label "[trans close]" \
-			    -command "::ChatWindow::Close $w" -accelerator "Command-W"
+				-command "::ChatWindow::Close $w" -accelerator "Command-W"
 		} else {
 			$msnmenu add command -label "[trans close]" \
-			    -command "::ChatWindow::Close $w"
+				-command "::ChatWindow::Close $w"
 		}
 
 		return $msnmenu
@@ -1197,7 +1197,7 @@ namespace eval ::ChatWindow {
 		
 		$viewmenu add checkbutton -label "[trans showdisplaypic]" \
 			-command "::amsn::ToggleShowPicture \[::ChatWindow::getCurrentTab $w\]; ::amsn::ShowOrHidePicture \[::ChatWindow::getCurrentTab $w\]" -onvalue 1 \
-		    -offvalue 0 -variable "${w}_show_picture"
+			-offvalue 0 -variable "${w}_show_picture"
 		
 
 		# Remove this menu item on Mac OS X because we "lost" the window instead
@@ -1291,7 +1291,7 @@ namespace eval ::ChatWindow {
 		$actionsmenu add command -label "[trans sendmail]..." \
 			-command "::amsn::ShowChatList \"[trans sendmail]\" \[::ChatWindow::getCurrentTab $w\] launch_mailer"
 		$actionsmenu add command -label "[trans sendfile]..." \
-		    -command "::amsn::FileTransferSend \[::ChatWindow::getCurrentTab $w\]"
+			-command "::amsn::FileTransferSend \[::ChatWindow::getCurrentTab $w\]"
 
 			
 		return $actionsmenu
@@ -1966,9 +1966,9 @@ namespace eval ::ChatWindow {
 		set toptext [::ChatWindow::GetTopText ${win_name}]
 
 		if { [lindex [[::ChatWindow::GetOutText ${win_name}] yview] 1] == 1.0 } {
-		   set scrolling 1
+			set scrolling 1
 		} else {
-		   set scrolling 0
+			set scrolling 0
 		}
 
 		$toptext configure -state normal -font sboldf -height 1 -wrap none
@@ -2168,7 +2168,7 @@ namespace eval ::ChatWindow {
 		if { $container != "" } {
 			if { ![info exists ::ChatWindow::new_message_on(${container})] &&
 			     [string first $container [focus]] != 0 } {
-			     Flicker $container
+				Flicker $container
 			}	
 		}
 		
@@ -2259,22 +2259,22 @@ namespace eval ::ChatWindow {
 		#	set btcmd "btimg83"
 		#}
 
-                #New canvas-based tab
+		#New canvas-based tab
 		canvas $tab -bg [::skin::getKey tabbarbg] -bd 0 -relief flat -width [image width [::skin::loadPixmap tab]] \
-                -height [image height [::skin::loadPixmap tab]]
-                
-                $tab create image 0 0 -anchor nw -image [::skin::loadPixmap tab] -tag tab_bg
-                $tab create text [::skin::getKey tab_text_x] [::skin::getKey tab_text_y] -anchor nw -text "$win" -tag tab_text -font sboldf -width [::skin::getKey tab_text_width]
-                $tab create image [::skin::getKey tab_close_x] [::skin::getKey tab_close_y] -anchor nw -image [::skin::loadPixmap tab_close] -activeimage [::skin::loadPixmap tab_close_hover] -tag tab_close
-                
-                #Old button based tab
-                #$btcmd $tab -image [::skin::loadPixmap tab] \
-		 #   -width [image width [::skin::loadPixmap tab]] \
-		 #   -command "::ChatWindow::SwitchToTab $container $win" \
-		 #   -fg black -bg [::skin::getKey tabbarbg] -bd 0 -relief flat \
-		 #   -activebackground [::skin::getKey tabbarbg] \
-		 #   -activeforeground black -text "$win" \
-		 #   -font sboldf -highlightthickness 0 -pady 0 -padx 0 
+			-height [image height [::skin::loadPixmap tab]] -highlightthickness 0
+
+		$tab create image 0 0 -anchor nw -image [::skin::loadPixmap tab] -tag tab_bg
+		$tab create text [::skin::getKey tab_text_x] [::skin::getKey tab_text_y] -anchor nw -text "$win" -tag tab_text -font sboldf -width [::skin::getKey tab_text_width]
+		$tab create image [::skin::getKey tab_close_x] [::skin::getKey tab_close_y] -anchor nw -image [::skin::loadPixmap tab_close] -activeimage [::skin::loadPixmap tab_close_hover] -tag tab_close
+
+		#Old button based tab
+		#$btcmd $tab -image [::skin::loadPixmap tab] \
+		#   -width [image width [::skin::loadPixmap tab]] \
+		#   -command "::ChatWindow::SwitchToTab $container $win" \
+		#   -fg black -bg [::skin::getKey tabbarbg] -bd 0 -relief flat \
+		#   -activebackground [::skin::getKey tabbarbg] \
+		#   -activeforeground black -text "$win" \
+		#   -font sboldf -highlightthickness 0 -pady 0 -padx 0 
 		#if { $::tcl_version >= 8.4 } {
 		#	$tab configure -overrelief flat -compound center
 		#}
@@ -2284,8 +2284,8 @@ namespace eval ::ChatWindow {
 		bind $tab <Leave> "::ChatWindow::TabLeft $tab"
 		bind $tab <<Button2>> "::ChatWindow::CloseTab $tab"
 		$tab bind tab_close <ButtonRelease-1> "::ChatWindow::CloseTab $tab"
-                $tab bind tab_bg <ButtonRelease-1> "::ChatWindow::SwitchToTab $container $win"
-                $tab bind tab_text <ButtonRelease-1> "::ChatWindow::SwitchToTab $container $win"
+		$tab bind tab_bg <ButtonRelease-1> "::ChatWindow::SwitchToTab $container $win"
+		$tab bind tab_text <ButtonRelease-1> "::ChatWindow::SwitchToTab $container $win"
 
 		set tab2win($tab) $win
 		set win2tab($win) $tab
@@ -2522,8 +2522,8 @@ namespace eval ::ChatWindow {
 
 		set less_w [image width [::skin::loadPixmap moretabs]] 
 		set more_w [image width [::skin::loadPixmap lesstabs]]
-                
-                #set less_w [font measure sboldf <]
+
+		#set less_w [font measure sboldf <]
 		#set more_w [font measure sboldf >]
 
 		set bar_w [expr $bar_w - $less_w - $more_w]
