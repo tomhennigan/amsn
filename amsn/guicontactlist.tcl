@@ -179,7 +179,7 @@ namespace eval ::guiContactList {
 		#Set up underline co-ords
 		set xuline1 $xnickpos
 		set xuline2 [expr $xuline1 + [font measure splainf $text]]
-		set yuline [expr $ynickpos + [font configure splainf -size] / 2]
+		set yuline [expr $ynickpos + 1 + [font configure splainf -size] / 2]
 		
 		$canvas create image $xpos $ypos -image $img -anchor nw \
 			-tags [list contact icon $email]
@@ -215,6 +215,9 @@ namespace eval ::guiContactList {
 			$canvas bind $email <Enter> "+$canvas create line $xuline1 $yuline $xuline2 $yuline -fill $colour -tag uline ; $canvas lower uline \
 				$email;$canvas configure -cursor hand2"
 			$canvas bind $email <Leave> "+$canvas delete uline;$canvas configure -cursor left_ptr"
+		} else {
+			$canvas bind $email <Enter> "+$canvas configure -cursor hand2"
+			$canvas bind $email <Leave> "+$canvas configure -cursor left_ptr"
 		}
 		return [list [expr $xpos - 15] [expr $ypos + [image height $img] + [::skin::getKey buddy_ypad]]]
 	}
@@ -248,7 +251,7 @@ namespace eval ::guiContactList {
 		#Setup co-ords for underline on hover
 		set xuline1 [expr $xpos + [image width $img] + (2*$xpad)]
 		set xuline2 [expr $xuline1 + [font measure sboldf $groupheader]]
-		set yuline [expr $ypos + [font configure sboldf -size] + 2 ]
+		set yuline [expr $ypos + [font configure sboldf -size] + 3 ]
 		
 		#set the group id, our ids are integers and tags can't be so add gid_ to start
 		set gid gid_[lindex $element 0]
