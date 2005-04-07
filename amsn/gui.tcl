@@ -7166,15 +7166,17 @@ proc getPicSize { filename type } {
 	}
 
 	#IMPORTANT: If convertpath is blank, set it to "convert"
-	if { [::config::getKey convertpath] == "" } {
-		::config::setKey convertpath "convert"
-	}
+	#if { [::config::getKey convertpath] == "" } {
+	#	::config::setKey convertpath "convert"
+	#}
 
 	#First conversion, no size, only .gif
-	if { [catch { exec [::config::getKey convertpath] "${filename}" "${tempfile}.gif" } res]} {
-		status_log "CONVERT ERROR IN CONVERSION 1: $res" white
-		return ""
-	}
+	#if { [catch { exec [::config::getKey convertpath] "${filename}" "${tempfile}.gif" } res]} {
+	#	status_log "CONVERT ERROR IN CONVERSION 1: $res" white
+	#	return ""
+	#}
+	
+	PictureConvert ${filename} ${tempfile}.gif
 	
 	set img [image create photo -file "${tempfile}.gif"]
 	
@@ -7200,7 +7202,7 @@ proc pictureChooseFile { } {
 		if { $cursize != "96x96"} {
 			set convertsize [AskDPSize $cursize]
 		}
-		if { ![catch {convert_image_plus $file displaypic "96x96"} res]} {
+		if { ![catch {convert_image_plus $file displaypic $convertsize} res]} {
 			set image_name [image create photo -file [::skin::GetSkinFile "displaypic" "[filenoext [file tail $file]].gif"]]
 			.picbrowser.mypic configure -image $image_name
 			set selected_image "[filenoext [file tail $file]].png"
