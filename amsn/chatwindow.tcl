@@ -857,8 +857,11 @@ namespace eval ::ChatWindow {
 		::skin::setPixmap moretabs moretabs.gif
 		::skin::setPixmap lesstabs lesstabs.gif
 
-		frame $bar -class Amsn -relief solid -bg [::skin::getKey tabbarbg] -bd 0 \
-			-padx [::skin::getKey chat_tabbar_padx] -pady [::skin::getKey chat_tabbar_pady]
+		frame $bar -class Amsn -relief solid -bg [::skin::getKey tabbarbg] -bd 0
+
+    if { $::tcl_version >= 8.4 } {
+        $bar configure  -padx [::skin::getKey chat_tabbar_padx] -pady [::skin::getKey chat_tabbar_pady]
+    }
 
 		return $bar
 	}
@@ -946,7 +949,11 @@ namespace eval ::ChatWindow {
 
 		status_log "tabbed window is : $w\n" red
 
-		frame $w -background [::skin::getKey chatwindowbg] -relief solid -bd 0 -padx 0 -pady 0
+		frame $w -background [::skin::getKey chatwindowbg] -relief solid -bd 0
+    
+    if { $::tcl_version >= 8.4 } {
+        $w configure -padx 0 -pady 0
+    }
 
 		# If the platform is NOT windows, set the windows' icon to our xbm
 		if {$tcl_platform(platform) != "windows"} {
