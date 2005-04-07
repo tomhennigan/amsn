@@ -78,13 +78,13 @@
 
 	<ChatWindow>
 		<Colors>
-			<chatwindowbg>#d3d2e2</chatwindowbg>
+                        <chatwindowbg>#d3d2e2</chatwindowbg>
 			<buttonbarbg>#f4f4f4</buttonbarbg>
 			<tabbarbg>#d3d2e2</tabbarbg>
-			<chat_buttons_border_color>#646464</chat_buttons_border_color>
+                        <chat_buttons_border_color>#646464</chat_buttons_border_color>
 			<chat_input_border_color>#646464</chat_input_border_color>
 			<chat_output_border_color>#646464</chat_output_border_color>
-			<chat_dp_border_color>#646464</chat_dp_border_color>
+			<chat_dp_border_color>#aaaaaa</chat_dp_border_color>
 			<sendbuttonbg>#ffffff</sendbuttonbg>
 			<topbarbg>#f3f3ff</topbarbg>
 			<topbarbg_sel>#d8d8ff</topbarbg_sel>
@@ -110,7 +110,9 @@
 		</Colors>
 		
 		<Geometry>
-			<chat_top_padx>1</chat_top_padx>
+                        <chat_tabbar_padx>2</chat_tabbar_padx>
+                        <chat_tabbar_pady>0</chat_tabbar_pady>
+                        <chat_top_padx>1</chat_top_padx>
 			<chat_top_pady>0</chat_top_pady>
 			<chat_paned_padx>1</chat_paned_padx>
 			<chat_paned_pady>1</chat_paned_pady>
@@ -121,31 +123,29 @@
 			<chat_input_padx>0</chat_input_padx>
 			<chat_input_pady>0</chat_input_pady>
 			<chat_dp_padx>2</chat_dp_padx>
-			<chat_dp_pady>1</chat_dp_pady>
+			<chat_dp_pady>0</chat_dp_pady>
 			<chat_leftframe_padx>0</chat_leftframe_padx>
 			<chat_leftframe_pady>0</chat_leftframe_pady>
 			<chat_sendbutton_padx>3</chat_sendbutton_padx>
 			<chat_sendbutton_pady>3</chat_sendbutton_pady>
 			<chat_status_padx>1</chat_status_padx>
-			<chat_status_pady>4</chat_status_pady>
+			<chat_status_pady>0</chat_status_pady>
 			<chat_sash_pady>4</chat_sash_pady>
                         <tab_text_x>5</tab_text_x>
-                        <tab_text_y>5</tab_text_y>
+                        <tab_text_y>9</tab_text_y>
                         <tab_text_width>80</tab_text_width>
                         <tab_close_x>85</tab_close_x>
-                        <tab_close_y>5</tab_close_y>
-            <chat_tabbar_padx>0</chat_tabbar_padx>
-            <chat_tabbar_pady>0</chat_tabbar_pady>
-                        
+                        <tab_close_y>9</tab_close_y>
 		</Geometry>
 		
 		<Options>
-			<chat_top_border>1</chat_top_border>
-			<chat_output_border>1</chat_output_border>
-			<chat_buttons_border>1</chat_buttons_border>
-			<chat_input_border>1</chat_input_border>
+			<chat_container_border>1</chat_container_border>
+                        <chat_top_border>0</chat_top_border>
+			<chat_output_border>0</chat_output_border>
+			<chat_buttons_border>0</chat_buttons_border>
+			<chat_input_border>0</chat_input_border>
 			<chat_dp_border>1</chat_dp_border>
-			<chat_status_border>1</chat_status_border>
+			<chat_status_border>0</chat_status_border>
 			<chat_sash_showhandle>0</chat_sash_showhandle>
 		</Options>
 	</ChatWindow>
