@@ -110,7 +110,7 @@
 		</Colors>
 		
 		<Geometry>
-                        <chat_tabbar_padx>2</chat_tabbar_padx>
+                        <chat_tabbar_padx>1</chat_tabbar_padx>
                         <chat_tabbar_pady>0</chat_tabbar_pady>
                         <chat_top_padx>1</chat_top_padx>
 			<chat_top_pady>0</chat_top_pady>
