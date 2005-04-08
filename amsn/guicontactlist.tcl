@@ -1,12 +1,11 @@
 # TODO
 #
-# * mobile group support (allmost DONE; maybe needs a fix for count of offline group? -> could this be tested ?)
-# * translate individuals group and make it always first
-# * notification if you are not in the contact's buddylist (DONE)
+# - mobile group support (DONE - problem with counting fixed)
+# ? translate individuals group and make it always first (DONE - ugly hack ? :|)
+# - notification if you are not in the contact's buddylist (DONE)
 # * smiley substitution
 # * nickname truncation
 # * make the scrollbar work when scrolling hovering the canvas
-
 
 
 
@@ -143,7 +142,9 @@ namespace eval ::guiContactList {
 		$canvas addtag items all
 		$canvas delete items
 
-		$canvas create image 0 0 -image [::skin::loadPixmap back] -anchor nw
+		#this line should be done with the other skin::setpixmap's 
+		::skin::setPixmap back back.gif
+		$canvas create image 0 0 -image [::skin::loadPixmap back] -anchor nw -tag backgroundimage
 
 		# Now let's get a contact list
 		set contactList [generateCL]
@@ -302,6 +303,8 @@ namespace eval ::guiContactList {
 		#Create mouse event bindings
 		$canvas bind $gid <<Button1>> "::groups::ToggleStatus [lindex $element 0];guiContactList::createCLWindow"
 		$canvas bind $gid <<Button3>> "::groups::GroupMenu $gid %X %Y"
+
+
 		$canvas bind $gid <Enter> "+$canvas create line $xuline1 $yuline $xuline2 $yuline -fill $groupcolor -tag uline ; $canvas lower uline \
 			$gid;$canvas configure -cursor hand2"
 		$canvas bind $gid <Leave> "+$canvas delete uline;$canvas configure -cursor left_ptr"
@@ -409,8 +412,14 @@ namespace eval ::guiContactList {
 			for {set idx 0} {$idx < $items} {incr idx 1} {
 				set gid [lindex $g_entries $idx]
 				incr idx 1
-				set name [lindex $g_entries $idx]
-				lappend groupList [list $gid $name]
+				#jump over the individuals group as it should not be\
+				 sorted alphabetically and allways be first
+				if {$gid == 0} {
+					continue
+				} else {
+					set name [lindex $g_entries $idx]
+					lappend groupList [list $gid $name]
+				}
 			}
 			#Sort the list alphabetically
 			if {[::config::getKey ordergroupsbynormal]} {
@@ -418,7 +427,13 @@ namespace eval ::guiContactList {
 			} else {
 				set groupList [lsort -decreasing -dictionary -index 1 $groupList]
 			}
-			
+
+			#Now we have to add the "individuals" group, translated and as first
+				#maybe someone should do this a better way, but I had\
+				 problems with the 'linsert' command
+			set groupList "\{0 \{[trans nogroup]\}\} $groupList"
+
+
 		}
 		
 		# Hybrid Mode, we add mobile and offline group
@@ -442,7 +457,7 @@ namespace eval ::guiContactList {
 		# Online/Offline mode
 		if { $mode == 0 } {
 			if { $status == "FLN" } {
-				if { [::abook::getContactData $email MOB] == "Y" && [::config::getKey showMobileGroup] == 1} {
+				if { [::abook::getVolatileData $email MOB] == "Y" && [::config::getKey showMobileGroup] == 1} {
 					return "mobile"
 				} else {
 					return "offline"
@@ -459,7 +474,7 @@ namespace eval ::guiContactList {
 		# Hybrid Mode, we add offline group
 		if { $mode == 2 } {
 			if { $status == "FLN" } {
-				if { [::abook::getContactData $email MOB] == "Y" && [::config::getKey showMobileGroup] == 1} {
+				if { [::abook::getVolatileData $email MOB] == "Y" && [::config::getKey showMobileGroup] == 1} {
 					return "mobile"
 				} else {
 					return "offline"
