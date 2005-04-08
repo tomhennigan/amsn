@@ -1,3 +1,15 @@
+# TODO
+#
+# * mobile group support (allmost DONE; maybe needs a fix for count of offline group? -> could this be tested ?)
+# * translate individuals group and make it always first
+# * notification if you are not in the contact's buddylist (DONE)
+# * smiley substitution
+# * nickname truncation
+# * make the scrollbar work when scrolling hovering the canvas
+
+
+
+
 namespace eval ::guiContactList {
 	namespace export drawCL
 	
@@ -104,13 +116,13 @@ namespace eval ::guiContactList {
 		toplevel .contactlist
 		wm title .contactlist "[trans title] - [::config::getKey login]"
 		frame .contactlist.fr
+
 		
 		canvas $clcanvas -width [lindex $clbox 2] -height [lindex $clbox 3] -background white \
 			-scrollregion [list 0 0 1000 1000] -xscrollcommand ".contactlist.fr.xs set" -yscrollcommand ".contactlist.fr.ys set"
 		scrollbar .contactlist.fr.ys -command ".contactlist.fr.c yview" 
 		scrollbar .contactlist.fr.xs -orient horizontal -command ".contactlist.fr.c xview"
-		
-		
+
 		pack .contactlist.fr.ys -side right -fill y
 		pack $clcanvas -expand true -fill both
 		pack .contactlist.fr
@@ -137,7 +149,7 @@ namespace eval ::guiContactList {
 		set contactList [generateCL]
 
 		# Let's draw each element of this list
-		set curPos [list 20 20]
+		set curPos [list 0 0]
 		foreach element $contactList {
 			# We check the type, and call the appropriate draw function, these can be extended	
 			# We got a contact
@@ -170,6 +182,12 @@ namespace eval ::guiContactList {
 		}
 
 		set img [::skin::loadPixmap [::MSN::stateToImage $state_code]]
+
+		if { [::abook::getVolatileData $email MOB] == "Y" && $state_code == "FLN"} {
+			set img [::skin::loadPixmap mobile]
+		} else {
+			set img [::skin::loadPixmap [::MSN::stateToImage $state_code]]
+		}
 		
 		set text "[::abook::getDisplayNick $email] \([trans [::MSN::stateToDescription $state_code]]\)"
 		
@@ -183,10 +201,23 @@ namespace eval ::guiContactList {
 		
 		$canvas create image $xpos $ypos -image $img -anchor nw \
 			-tags [list contact icon $email]
-		
-		$canvas create text $xnickpos $ynickpos -text $text -anchor w \
-			-fill $colour -font splainf -tags [list contact $email]
-		
+
+		#if you are not on this contact's list, show the icon
+		if {[expr {[lsearch [::abook::getLists $email] RL] == -1}]} {
+
+			set icon [::skin::loadPixmap notinlist]
+
+			$canvas create image [expr $xnickpos -3] $ynickpos -image $icon -anchor w \
+				-tags [list contact icon $email]
+
+			$canvas create text [expr $xnickpos + [image width $icon]] $ynickpos -text $text -anchor w \
+				-fill $colour -font splainf -tags [list contact $email]
+
+		} else {
+
+			$canvas create text $xnickpos $ynickpos -text $text -anchor w \
+				-fill $colour -font splainf -tags [list contact $email]
+		}	
 		set grId [getGroupId $email]
 		
 		#Remove previous bindings
@@ -290,7 +321,7 @@ namespace eval ::guiContactList {
 			set groupcount $::groups::uMemberCnt_online([lindex $element 0])/$::groups::uMemberCnt([lindex $element 0])
 		} elseif { $mode == 2} {
 			#Hybrid mode
-			if {[lindex $element 0] == "offline"} {
+			if {[lindex $element 0] == "offline" || [lindex $element 0] == "mobile"} {
 				set groupcount $::groups::uMemberCnt([lindex $element 0])
 			} else {
 				set groupcount $::groups::uMemberCnt_online([lindex $element 0])	
@@ -319,9 +350,7 @@ namespace eval ::guiContactList {
 			set grId [lindex $group 0]
 			
 			# if group is empty and remove empty groups is set (or this is Individuals group) then skip this group
-			if { ($grId == 0 || ([::config::getKey removeempty] && $grId != "offline" && $grId != "mobile")) &&
-				[getGroupCount $group] == 0
-			} {
+			if { ($grId == 0 || ([::config::getKey removeempty] && $grId != "offline" && $grId != "mobile")) && [getGroupCount $group] == 0 } {
 				continue
 			}
 
@@ -363,8 +392,12 @@ namespace eval ::guiContactList {
 		
 		# Online/Offline mode
 		if { $mode == 0 } {
-			set groupList [list [list "online" [trans online]] [list "offline" [trans offline]]]
-		
+
+			if {[::config::getKey showMobileGroup] == 1} {
+				set groupList [list [list "online" [trans online]] [list "mobile" [trans mobile]] [list "offline" [trans offline]]]
+			} else {
+				set groupList [list [list "online" [trans online]] [list "offline" [trans offline]]]
+			}
 		# Group mode
 		} elseif { $mode == 1 || $mode == 2} {
 			set groupList [list]
@@ -388,8 +421,11 @@ namespace eval ::guiContactList {
 			
 		}
 		
-		# Hybrid Mode, we add offline group
+		# Hybrid Mode, we add mobile and offline group
 		if { $mode == 2 } {
+			if {[::config::getKey showMobileGroup] == 1} {
+				lappend groupList [list "mobile" [trans mobile]]
+			}
 			lappend groupList [list "offline" [trans offline]]
 		}
 		
@@ -406,7 +442,11 @@ namespace eval ::guiContactList {
 		# Online/Offline mode
 		if { $mode == 0 } {
 			if { $status == "FLN" } {
-				return "offline"
+				if { [::abook::getContactData $email MOB] == "Y" && [::config::getKey showMobileGroup] == 1} {
+					return "mobile"
+				} else {
+					return "offline"
+				}
 			} else {
 				return "online"
 			}
@@ -419,7 +459,11 @@ namespace eval ::guiContactList {
 		# Hybrid Mode, we add offline group
 		if { $mode == 2 } {
 			if { $status == "FLN" } {
-				return "offline"
+				if { [::abook::getContactData $email MOB] == "Y" && [::config::getKey showMobileGroup] == 1} {
+					return "mobile"
+				} else {
+					return "offline"
+				}
 			} else {
 				return [::abook::getGroups $email]
 			}
