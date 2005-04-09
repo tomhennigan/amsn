@@ -2,17 +2,14 @@
 #
 # - mobile group support (DONE - problem with counting fixed)
 # / translate individuals group and make it always first (DONE - ugly hack ? :|)
-# - notification if you are not in the contact's buddylist (DONE)
 # * smiley substitution	
 # * support for multiline nicks
 # * nickname truncation
-# / make the scrollbar work when scrolling the mousewheel hovering the canvas/scrollbar (DONE)
-# - background picture should not scroll ! (DONE)
 # * scrollbar should be removed when not used
 # * fix problem when canvas' scrollablearea is smaller then window and you scoll up
 # / drag 'n drop contacts for groupchange (DONE - needs some testing though so it's stable enough to not lose contacts :p)
 # * make sure everything works on mac/windows (like mousevents on mac for example!)
-# - remove the (online) after a nickname (DONE)
+
 
 
 namespace eval ::guiContactList {
@@ -358,7 +355,7 @@ namespace eval ::guiContactList {
 
 		#if user wants to move to a place that's not possible, just leave the contact\
 		 in the current group (other words: "don't do anything")
-		if {$groupID != "offline" && $groupID != "mobile" $groupID != "" && $groupID != [getGroupId $email]} { 
+		if {$groupID != "offline" && $groupID != "mobile" && $groupID != "" && $groupID != [getGroupId $email]} { 
 			#move the contact
 			set oldgrId [getGroupId $email]
 			status_log "Gonna move $email from $oldgrId to $groupID"
