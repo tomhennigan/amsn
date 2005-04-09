@@ -2710,7 +2710,7 @@ namespace eval ::Event {
 			
 					} else {
 						#Generate "accept" event
-						::MSNFT::acceptReceived $cookie $chatid $fromlogin $message [array get headers]
+						::MSNFT::acceptReceived $cookie $chatid $fromlogin $message
 					}
 		
 				} elseif { $invcommand =="CANCEL" } {
