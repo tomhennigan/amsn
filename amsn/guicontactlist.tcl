@@ -3,10 +3,11 @@
 # - mobile group support (DONE - problem with counting fixed)
 # ? translate individuals group and make it always first (DONE - ugly hack ? :|)
 # - notification if you are not in the contact's buddylist (DONE)
-# * smiley substitution
+# * smiley substitution	
+# * support for multiline nicks
 # * nickname truncation
-# * make the scrollbar work when scrolling hovering the canvas
-
+# - make the scrollbar work when scrolling the mousewheel hovering the canvas/scrollbar (DONE)
+# - background picture should not scroll ! (DONE)
 
 
 namespace eval ::guiContactList {
@@ -163,8 +164,30 @@ namespace eval ::guiContactList {
 		}
 		
 		#set height of canvas
-		$canvas configure -scrollregion [list 0 0 1000 [expr [lindex $curPos 1] + 20]]
+		set canvaslength [expr [lindex $curPos 1] + 20]
+
+		$canvas configure -scrollregion [list 0 0 1000 $canvaslength]
+
+		#set scrolling bindings for canvas/scrollbar; TODO: bgimage needs to stay !
+		bind $canvas <ButtonPress-5> "::guiContactList::scrollCL up $canvaslength"		
+		bind $canvas <ButtonPress-4> "::guiContactList::scrollCL down $canvaslength"
+
+		bind .contactlist.fr.ys <ButtonPress-5> "::guiContactList::scrollCL up $canvaslength"
+		bind .contactlist.fr.ys <ButtonPress-4> "::guiContactList::scrollCL down $canvaslength"
 	}
+
+	#scroll the canvas up/down
+	proc scrollCL {direction canvaslength} {
+		if {$direction == "up"} {
+			.contactlist.fr.c yview scroll 1 units
+		} else {
+			.contactlist.fr.c yview scroll -1 units
+		}
+		#here we have to redraw the background-image behind all the other stuff
+		.contactlist.fr.c coords backgroundimage 0 [expr int([expr [lindex [.contactlist.fr.c yview] 0] * $canvaslength])]
+
+	}
+			
 
 	# Draw the contact on the canvas
 	proc drawContact { canvas element curPos } {
@@ -211,14 +234,17 @@ namespace eval ::guiContactList {
 			$canvas create image [expr $xnickpos -3] $ynickpos -image $icon -anchor w \
 				-tags [list contact icon $email]
 
-			$canvas create text [expr $xnickpos + [image width $icon]] $ynickpos -text $text -anchor w \
-				-fill $colour -font splainf -tags [list contact $email]
-
+			set nicknameXpos [expr $xnickpos + [image width $icon]]
 		} else {
-
-			$canvas create text $xnickpos $ynickpos -text $text -anchor w \
-				-fill $colour -font splainf -tags [list contact $email]
+			set nicknameXpos $xnickpos
 		}	
+
+		#following should be replaced with a call for a proc that draws the text with\
+		 substituted smileys, truncation and multi-line nickname support  (changes $ypos!)
+		$canvas create text $nicknameXpos $ynickpos\
+			 -text $text -anchor w -fill $colour -font splainf\
+			 -tags [list contact $email]
+
 		set grId [getGroupId $email]
 		
 		#Remove previous bindings
@@ -301,7 +327,7 @@ namespace eval ::guiContactList {
 		$canvas bind $gid <Leave> ""
 
 		#Create mouse event bindings
-		$canvas bind $gid <<Button1>> "::groups::ToggleStatus [lindex $element 0];guiContactList::createCLWindow"
+		$canvas bind $gid <<Button1>> "::groups::ToggleStatus [lindex $element 0];guiContactList::drawCL $canvas"
 		$canvas bind $gid <<Button3>> "::groups::GroupMenu $gid %X %Y"
 
 
