@@ -1,14 +1,14 @@
 # TODO
 #
-# - mobile group support (DONE - problem with counting fixed)
 # / translate individuals group and make it always first (DONE - ugly hack ? :|)
 # * smiley substitution	
 # * support for multiline nicks
 # * nickname truncation
 # * scrollbar should be removed when not used
-# * fix problem when canvas' scrollablearea is smaller then window and you scoll up
+# * fix problem when canvas' scrollablearea is smaller then window and you scroll up
 # / drag 'n drop contacts for groupchange (DONE - needs some testing though so it's stable enough to not lose contacts :p)
 # * make sure everything works on mac/windows (like mousevents on mac for example!)
+# * change cursor while dragging
 
 
 
@@ -219,18 +219,23 @@ namespace eval ::guiContactList {
 			set img [::skin::loadPixmap [::MSN::stateToImage $state_code]]
 		}
 		
+		set nicktext [::abook::getDisplayNick $email]
+
 		if {$state_code != "NLN"} {
-			set text "[::abook::getDisplayNick $email] \([trans [::MSN::stateToDescription $state_code]]\)"
+			set statetext "\([trans [::MSN::stateToDescription $state_code]]\)"
+
 		} else {
-			set text "[::abook::getDisplayNick $email]"
+			set statetext ""
 		}
+
+		set fulltext "$nicktext $statetext"
 		
 		set xnickpos [expr $xpos + [image width $img] + 5]
 		set ynickpos [expr $ypos + [image height $img]/2]
 
 		#Set up underline co-ords
 		set xuline1 $xnickpos
-		set xuline2 [expr $xuline1 + [font measure splainf $text]]
+		set xuline2 [expr $xuline1 + [font measure splainf $fulltext]]
 		set yuline [expr $ynickpos + 1 + [font configure splainf -size] / 2]
 		
 		$canvas create image $xpos $ypos -image $img -anchor nw \
@@ -249,11 +254,11 @@ namespace eval ::guiContactList {
 			set nicknameXpos $xnickpos
 		}	
 
-		#following should be replaced with a call for a proc that draws the text with\
-		 substituted smileys, truncation and multi-line nickname support  (changes $ypos!)
-		$canvas create text $nicknameXpos $ynickpos\
-			 -text $text -anchor w -fill $colour -font splainf\
-			 -tags [list contact $email]
+
+		#call the proc that draws the nickname
+			#in the future, this should return the new $ypos or the change of $ypos
+		drawNickname $canvas $nicknameXpos $ynickpos $nicktext $statetext $colour $email 
+
 
 		set grId [getGroupId $email]
 		
@@ -288,7 +293,7 @@ namespace eval ::guiContactList {
 			$canvas bind $email <Leave> "+$canvas configure -cursor left_ptr"
 		}
 
-		#drag bindings; needs macification ;)
+#TODO		#drag bindings; needs macification ;)
 		$canvas bind $email <ButtonPress-2> "::guiContactList::contactPress $email $canvas"
 		$canvas bind $email <B2-Motion> "::guiContactList::contactMove $email $canvas"
 		$canvas bind $email <ButtonRelease-2> "::guiContactList::contactReleased $email $canvas"
@@ -296,6 +301,20 @@ namespace eval ::guiContactList {
 		return [list [expr $xpos - 15] [expr $ypos + [image height $img] + [::skin::getKey buddy_ypad]]]
 	}
 	
+
+
+	#procedure that draws the nickname, substitutes smileys/multilines, truncates
+	# should return the new yposition (as it can be more because of multi-lines
+	proc drawNickname {canvas xcoord ycoord nicktext statetext colour email} {
+#TODO: a lot of work ;)
+		#set maxwidth foo
+
+		$canvas create text $xcoord $ycoord -text "$nicktext $statetext"\
+			-anchor w -fill $colour -font splainf -tags [list contact $email]
+	}
+
+
+
 
 
 	#Contact dragging procs
@@ -322,7 +341,10 @@ namespace eval ::guiContactList {
 
 		}
 	proc contactReleased {email canvas} {
-		#check where we are, move in the underlying group
+
+		#kill the balloon if it came up, otherwise itjust stays
+		set Bulle(first) 0; kill_balloon
+
 
 		#first see what's the coordinates of the icon
 		set iconYCoord [lindex [$canvas coords $email] 1]
@@ -344,7 +366,10 @@ namespace eval ::guiContactList {
 			if { [$canvas coords gid_$grId] != ""} {
 				#get the coordinates of the group
 				set grYCoord [lindex [$canvas coords gid_$grId] 1]
-				if {$grYCoord <= $iconYCoord} {
+
+				#this +5 is to make dragging a contact on a group's name\
+				 or 5 pixels above the group's name possible
+				if {$grYCoord <= [expr $iconYCoord + 5]} {
 					set groupID $grId
 				}
 			}
@@ -367,6 +392,8 @@ namespace eval ::guiContactList {
 		}
 
 	}
+
+
 
 
 
@@ -545,7 +572,7 @@ namespace eval ::guiContactList {
 			}
 
 			#Now we have to add the "individuals" group, translated and as first
-				#maybe someone should do this a better way, but I had\
+#TODO				#maybe someone should do this a better way, but I had\
 				 problems with the 'linsert' command
 			set groupList "\{0 \{[trans nogroup]\}\} $groupList"
 
