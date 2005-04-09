@@ -11,6 +11,8 @@
 # * scrollbar should be removed when not used
 # * fix problem when canvas' scrollablearea is smaller then window and you scoll up
 # / drag 'n drop contacts for groupchange (DONE - needs some testing though so it's stable enough to not lose contacts :p)
+# * make sure everything works on mac/windows (like mousevents on mac for example!)
+# - remove the (online) after a nickname (DONE)
 
 
 namespace eval ::guiContactList {
@@ -220,7 +222,11 @@ namespace eval ::guiContactList {
 			set img [::skin::loadPixmap [::MSN::stateToImage $state_code]]
 		}
 		
-		set text "[::abook::getDisplayNick $email] \([trans [::MSN::stateToDescription $state_code]]\)"
+		if {$state_code != "NLN"} {
+			set text "[::abook::getDisplayNick $email] \([trans [::MSN::stateToDescription $state_code]]\)"
+		} else {
+			set text "[::abook::getDisplayNick $email]"
+		}
 		
 		set xnickpos [expr $xpos + [image width $img] + 5]
 		set ynickpos [expr $ypos + [image height $img]/2]
@@ -285,7 +291,7 @@ namespace eval ::guiContactList {
 			$canvas bind $email <Leave> "+$canvas configure -cursor left_ptr"
 		}
 
-		#drag bindings
+		#drag bindings; needs macification ;)
 		$canvas bind $email <ButtonPress-2> "::guiContactList::contactPress $email $canvas"
 		$canvas bind $email <B2-Motion> "::guiContactList::contactMove $email $canvas"
 		$canvas bind $email <ButtonRelease-2> "::guiContactList::contactReleased $email $canvas"
@@ -352,15 +358,17 @@ namespace eval ::guiContactList {
 
 		#if user wants to move to a place that's not possible, just leave the contact\
 		 in the current group (other words: "don't do anything")
-		if {$groupID != "offline" && $groupID != "mobile" && $groupID != [getGroupId $email]} { 
+		if {$groupID != "offline" && $groupID != "mobile" $groupID != "" && $groupID != [getGroupId $email]} { 
 			#move the contact
 			set oldgrId [getGroupId $email]
 			status_log "Gonna move $email from $oldgrId to $groupID"
 			::groups::menuCmdMove $groupID $oldgrId $email
-		} 		
+#TODO: how to code this better (without the 'after') ?
+			after 1000 ::guiContactList::drawCL $canvas
+		} else {
+			::guiContactList::drawCL $canvas
+		}
 
-		#redraw the CL with a moved user; how to code this better (without the 'after') ?
-		after 1000 ::guiContactList::drawCL $canvas
 	}
 
 
