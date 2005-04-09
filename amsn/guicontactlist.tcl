@@ -1,13 +1,16 @@
 # TODO
 #
 # - mobile group support (DONE - problem with counting fixed)
-# ? translate individuals group and make it always first (DONE - ugly hack ? :|)
+# / translate individuals group and make it always first (DONE - ugly hack ? :|)
 # - notification if you are not in the contact's buddylist (DONE)
 # * smiley substitution	
 # * support for multiline nicks
 # * nickname truncation
-# - make the scrollbar work when scrolling the mousewheel hovering the canvas/scrollbar (DONE)
+# / make the scrollbar work when scrolling the mousewheel hovering the canvas/scrollbar (DONE)
 # - background picture should not scroll ! (DONE)
+# * scrollbar should be removed when not used
+# * fix problem when canvas' scrollablearea is smaller then window and you scoll up
+# / drag 'n drop contacts for groupchange (DONE - needs some testing though so it's stable enough to not lose contacts :p)
 
 
 namespace eval ::guiContactList {
@@ -157,7 +160,7 @@ namespace eval ::guiContactList {
 			# We got a contact
 			if { [lindex $element 0] == "C" } {
 				set curPos [drawContact $canvas $element $curPos]
-			# It must be a group title
+#			# It must be a group title
 			} else {
 				set curPos [drawGroup $canvas $element $curPos]
 			}
@@ -168,22 +171,26 @@ namespace eval ::guiContactList {
 
 		$canvas configure -scrollregion [list 0 0 1000 $canvaslength]
 
-		#set scrolling bindings for canvas/scrollbar; TODO: bgimage needs to stay !
-		bind $canvas <ButtonPress-5> "::guiContactList::scrollCL up $canvaslength"		
-		bind $canvas <ButtonPress-4> "::guiContactList::scrollCL down $canvaslength"
+		#set scrolling bindings for canvas/scrollbar
+		bind $canvas <ButtonPress-5> "::guiContactList::scrollCL down $canvaslength"		
+		bind $canvas <ButtonPress-4> "::guiContactList::scrollCL up $canvaslength"
 
-		bind .contactlist.fr.ys <ButtonPress-5> "::guiContactList::scrollCL up $canvaslength"
-		bind .contactlist.fr.ys <ButtonPress-4> "::guiContactList::scrollCL down $canvaslength"
+		bind .contactlist.fr.ys <ButtonPress-5> "::guiContactList::scrollCL down $canvaslength"
+		bind .contactlist.fr.ys <ButtonPress-4> "::guiContactList::scrollCL up $canvaslength"
+
 	}
 
 	#scroll the canvas up/down
 	proc scrollCL {direction canvaslength} {
-		if {$direction == "up"} {
+#TODO: remove the implicit use of ".contactlist.fr..c" to make it work in other windows
+		if {$direction == "down"} {
 			.contactlist.fr.c yview scroll 1 units
+			
+
 		} else {
 			.contactlist.fr.c yview scroll -1 units
 		}
-		#here we have to redraw the background-image behind all the other stuff
+		#here we have to move the background-image
 		.contactlist.fr.c coords backgroundimage 0 [expr int([expr [lindex [.contactlist.fr.c yview] 0] * $canvaslength])]
 
 	}
@@ -277,9 +284,87 @@ namespace eval ::guiContactList {
 			$canvas bind $email <Enter> "+$canvas configure -cursor hand2"
 			$canvas bind $email <Leave> "+$canvas configure -cursor left_ptr"
 		}
+
+		#drag bindings
+		$canvas bind $email <ButtonPress-2> "::guiContactList::contactPress $email $canvas"
+		$canvas bind $email <B2-Motion> "::guiContactList::contactMove $email $canvas"
+		$canvas bind $email <ButtonRelease-2> "::guiContactList::contactReleased $email $canvas"
+
 		return [list [expr $xpos - 15] [expr $ypos + [image height $img] + [::skin::getKey buddy_ypad]]]
 	}
 	
+
+
+	#Contact dragging procs
+	proc contactPress {email canvas} {
+		global OldX
+		global OldY
+		#store old coordinates
+		set OldX [winfo pointerx .]
+		set OldY [winfo pointery .]
+	}
+	proc contactMove {email canvas} {
+		global OldX
+		global OldY
+		#change coordinates 
+		set NewX [winfo pointerx .]
+		set NewY [winfo pointery .]
+		set ChangeX [expr $OldX - $NewX]
+		set ChangeY [expr $OldY - $NewY]
+
+		$canvas move $email [expr $ChangeX * -1] [expr $ChangeY * -1]
+
+		set OldX [winfo pointerx .]
+		set OldY [winfo pointery .]
+
+		}
+	proc contactReleased {email canvas} {
+		#check where we are, move in the underlying group
+
+		#first see what's the coordinates of the icon
+		set iconYCoord [lindex [$canvas coords $email] 1]
+
+
+		#now we have to find the group whose ycoord is the first less then this coord
+
+		#beginsituation: group to move to is group where we began
+		set groupID [getGroupId $email]
+
+		set groupList [getGroupList]
+
+		#cycle to the list of groups and select the group where the user drags to
+		foreach group $groupList {
+			#get the group ID
+			set grId [lindex $group 0]
+
+			#Only go for groups that are actually drawn on the list
+			if { [$canvas coords gid_$grId] != ""} {
+				#get the coordinates of the group
+				set grYCoord [lindex [$canvas coords gid_$grId] 1]
+				if {$grYCoord <= $iconYCoord} {
+					set groupID $grId
+				}
+			}
+		}
+
+		#remove the contact from the canvas as it's gonna be redrawn on the right place
+		$canvas delete $email
+
+		#if user wants to move to a place that's not possible, just leave the contact\
+		 in the current group (other words: "don't do anything")
+		if {$groupID != "offline" && $groupID != "mobile" && $groupID != [getGroupId $email]} { 
+			#move the contact
+			set oldgrId [getGroupId $email]
+			status_log "Gonna move $email from $oldgrId to $groupID"
+			::groups::menuCmdMove $groupID $oldgrId $email
+		} 		
+
+		#redraw the CL with a moved user; how to code this better (without the 'after') ?
+		after 1000 ::guiContactList::drawCL $canvas
+	}
+
+
+
 	# Draw the group title on the canvas
 	proc drawGroup { canvas element curPos } {
 		set xpos [lindex $curPos 0]
