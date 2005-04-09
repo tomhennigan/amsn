@@ -42,21 +42,18 @@ namespace eval ::MSNFT {
       }
    }
 
-   proc acceptReceived {cookie chatid fromlogin message body} {
+   proc acceptReceived {cookie chatid fromlogin message} {
 
       variable filedata
-	  set usebody 0
 
 	  #status_log "DATA: $cookie $chatid $fromlogin $message $body\n"
-
-	  array set bodyheaders $body
 
       if {![info exists filedata($cookie)]} {
          return
       }
 
       #set requestdata [string range $requestdata 0 [expr {[string length requestdata] -2}]]
-      set requestdata [lindex [array get bodyheaders Request-Data] 1]
+      set requestdata [$message getField Request-Data]
       
       status_log "Ok, so here we have cookie=$cookie, requestdata=$requestdata\n" red
       
@@ -65,7 +62,7 @@ namespace eval ::MSNFT {
 		return
 	  }
 
-      set ipaddr [lindex [array get bodyheaders $requestdata] 1] 
+      set ipaddr [$message getField $requestdata]
 
       #If IP field is blank, and we are sender, Send the File and requested IP (SendFile)
       if { ($ipaddr == "") && ([getTransferType $cookie]=="send") } {
@@ -81,8 +78,8 @@ namespace eval ::MSNFT {
       #If message comes from sender, and we are receiver, connect
       } elseif { ($fromlogin == [lindex $filedata($cookie) 3]) && ([getTransferType $cookie]=="receive")} {
       	after cancel "::MSNFT::timeoutedFT $cookie"
-      	set port [lindex [array get bodyheaders Port] 1]
-      	set authcookie [lindex [array get bodyheaders AuthCookie] 1]
+      	set port [$message getField Port]
+      	set authcookie [$message getField AuthCookie]
       	#status_log "Body: $body\n"
       	ConnectMSNFTP $ipaddr $port $authcookie $cookie
       }
@@ -2214,6 +2211,7 @@ namespace eval ::Event {
 
 ::snit::type Message {
 
+	variable fields
 	variable headers 
 	variable body ""
 
@@ -2234,10 +2232,26 @@ namespace eval ::Event {
 			array set headers [list [string range $header 0 [expr $idx -1]] \
 					  [string range $header [expr $idx +2] end]]
 		}
+		
+		set body   [string map {"\r\n" "\n"} $body]
+		set bsplit [split $body "\n"]
+		foreach field $bsplit {
+			set idx [string first ": " $field]
+			array set fields [list [string range $field  0  [expr $idx -1]] \
+			                       [string range $field [expr $idx +2] end]]
+		}
 	}
 
 	method getBody { } {
 		return $body
+	}
+
+	method getField { name } {
+		return [lindex [array get fields $name] 1]
+	}
+	
+	method getFields { } {
+		return [array get fields]
 	}
 
 	method getHeader { name } {
@@ -2654,17 +2668,14 @@ namespace eval ::Event {
 				#steal the code for extracting the headers, and replace
 				#getHeader with array get.
 
-				set head  [string map {"\r\n" "\n"} [$message getBody]]
-				set heads [split $head "\n"]
+				#The above is no longer true! the message object now has a function,
+				#getField, that works just like getHeader, except it gets... you
+				#guessed it - a field from the body.
 				
-				foreach header $heads {
-					set idx [string first ": " $header]
-					array set headers [list [string range $header 0 [expr $idx -1]] \
-					                  [string range $header [expr $idx +2] end]]
-				}
+				set invcommand [$message getField Invitation-Command]
+				set cookie [$message getField Invitation-Cookie]
 				
-				set invcommand [lindex [array get headers Invitation-Command] 1]
-				set cookie [lindex [array get headers Invitation-Cookie] 1]
+				status_log "Command: $invcommand Message: $message\n" blue
 				
 				#Do we need this? Looks a bit... untidy
 				puts $invcommand
@@ -2672,19 +2683,20 @@ namespace eval ::Event {
 
 				if {$invcommand == "INVITE" } {
 		
-					set guid [lindex [array get headers Application-GUID] 1]
+					#set guid [lindex [array get headers Application-GUID] 1]
+					set guid [$message getField Application-GUID]
 					
 					#An invitation, generate invitation event
 					if { $guid == "{5D3E02AB-6190-11d3-BBBB-00C04F795683}" } {
 						#We have a file transfer here
-						set filename [lindex [array get headers Application-File] 1]
-						set filesize [lindex [array get headers Application-FileSize] 1]
+						set filename [$message getField Application-File]
+						set filesize [$message getField Application-FileSize]
 		
 						::MSNFT::invitationReceived $filename $filesize $cookie $chatid $fromlogin
 		
 					} elseif { $guid == "{02D3C01F-BF30-4825-A83A-DE7AF41648AA}" } {
 						# We got an audio only invitation or audio/video invitation
-						set context [lindex [array get headers Context-Data] 1]
+						set context [$message getField Context-Data]
 						#Remove the # on the next line if you want to test audio/video feature (with Linphone, etc...)
 						#Ask Burger for more details..	
 						::MSNAV::invitationReceived $cookie $context $chatid $fromlogin
@@ -2693,7 +2705,7 @@ namespace eval ::Event {
 				} elseif { $invcommand == "ACCEPT" } {
 					# let's see if it's an A/V session cancel
 					if { [::MSNAV::CookieList get $cookie] != 0 } {
-						set ip [lindex [array get headers IP-Address] 1]
+						set ip [$message getField IP-Address]
 						::MSNAV::readAccept $cookie $ip $chatid
 			
 					} else {
@@ -2708,7 +2720,7 @@ namespace eval ::Event {
 						::MSNAV::cancelSession $cookie $chatid "TIMEOUT"
 					} else {
 						# prolly an FT
-						set cancelcode [lindex [array get headers Cancel-Code] 1]
+						set cancelcode [$message getField Cancel-Code]
 						if { $cancelcode == "FTTIMEOUT" } {
 							::MSNFT::timeoutedFT $cookie
 						} elseif { $cancelcode == "REJECT" } {
