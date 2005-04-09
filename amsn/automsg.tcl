@@ -337,9 +337,9 @@ proc EditNewState { mode { idx "" } } {
 	pack .editstate.1.laway -fill both -side left
     
 	label $lfname.ldesc -text "[trans statename] :" -font splainf 
-	entry $lfname.edesc -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 40
+	entry $lfname.edesc -bg #FFFFFF -font splainf -width 40
 	label $lfname.lnick -text "[trans statenick] :" -font splainf
-	entry $lfname.enick -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 40
+	entry $lfname.enick -bg #FFFFFF -font splainf  -width 40
 	menubutton $lfname.nickhelp -font sboldf -text "<-" -menu $lfname.nickhelp.menu
 	menu $lfname.nickhelp.menu -tearoff 0
 	$lfname.nickhelp.menu add command -label [trans nick] -command "$lfname.enick insert insert \\\$nick"
@@ -406,7 +406,7 @@ proc EditNewState { mode { idx "" } } {
 	#else {
 	#	$lfname.enick insert end [::abook::getPersonal nick]
 	#}
-	button .editstate.buttons.save -text [trans ok] -command "ButtonSaveState $lfname $idx; destroy .editstate"
+	button .editstate.buttons.save -text [trans ok] -command "ButtonSaveState $lfname $idx; destroy .editstate" -default active
 	pack .editstate.buttons.save .editstate.buttons.cancel -side right -padx 10 -pady 5
 	pack .editstate.buttons -side top -fill x -pady 10
 	moveinscreen .editstate
