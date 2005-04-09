@@ -63,7 +63,7 @@ namespace eval ::notes {
   		toplevel $w
   		wm title $w "[trans note]"
   		wm geometry $w 660x535+30+30
-		wm protocol $w DELETE_WINDOW "::notes::Display_Notes_Close"		
+  		wm protocol $w DELETE_WINDOW "::notes::Display_Notes_Close"		
 
 
 		# Create the frame containing the list of the contacts
@@ -82,11 +82,8 @@ namespace eval ::notes {
 
 		# Sorts contacts
 		set sortedcontact_list [lsort -dictionary $contact_list]
-
 		set ::notes::contacts $sortedcontact_list
-
 		set ::notes::contactswithnotes [list]
-
 		# Search contacts with notes
 		foreach contact $sortedcontact_list {
 			if { [file exists [file join $HOME notes ${contact}_note.xml]] == 1 } {
@@ -112,7 +109,6 @@ namespace eval ::notes {
 		pack configure $w.right.contact.right.note
 		pack configure $w.right.contact.right.txt -expand true
 		pack configure $w.right.contact.right -expand true -side right
-
 		# Display the show/hide button
 		frame $w.right.contact.left
 		image create photo hide -format gif -file [::skin::GetSkinFile pixmaps contract.gif]
@@ -149,7 +145,7 @@ namespace eval ::notes {
 		# Display the note
 		frame $w.right.note -relief sunken -borderwidth 3
 		label $w.right.note.desc -text "[trans note]" -font bold
-		text $w.right.note.txt -yscrollcommand "$w.right.note.ys set" -font splainf -background white -relief flat -highlightthickness 0 -height 7 -width 60 -state disabled -wrap word
+		text $w.right.note.txt -yscrollcommand "$w.right.note.ys set" -font splainf -background white -relief flat -highlightthickness 0 -height 7 -width 60 -state disabled -wrap word -exportselection 1
   		scrollbar $w.right.note.ys -command "$w.right.note.txt yview" -highlightthickness 0 -borderwidth 1 -elementborderwidth 2
   		pack $w.right.note.desc -expand true -fill both
   		pack $w.right.note.ys -side right -fill y
@@ -175,8 +171,6 @@ namespace eval ::notes {
 		pack configure $w.right.button.edit -side left -padx 3 -pady 3
 		pack configure $w.right.button.delete -side right -padx 3 -pady 3
 		pack configure $w.right.button.new -side right -padx 3 -pady 3
-
-
 		# Create the close button
 		frame $w.right.close
 		button $w.right.close.button -text "[trans close]" -command "::notes::Display_Notes_Close"
@@ -192,7 +186,7 @@ namespace eval ::notes {
 		
   	   	 
   		pack configure $w.contact -side left -fill y
-		pack configure $w.right.contact -side top -fill x
+  		pack configure $w.right.contact -side top -fill x
 		pack configure $w.right.notes -side top -fill y
 		pack configure $w.right.info -side top -fill x
 		pack configure $w.right.subject -side top -fill x
@@ -207,9 +201,11 @@ namespace eval ::notes {
 		# If the E-Mail is not given, display the first contact and show the contact list
 		if { $email == "" } {
 			set email [lindex $::notes::contacts 0]
-			$w.right.contact.left.showhide configure -image hide -command "::notes::HideContact"
+			
+$w.right.contact.left.showhide configure -image hide -command "::notes::HideContact"
 		} else {
 			$w.right.contact.left.showhide configure -image show -command "::notes::ShowContact"
+
 			pack forget $w.contact
 			pack configure $w.right -side right -fill y -expand true
 			wm geometry $w 550x535
@@ -230,22 +226,50 @@ namespace eval ::notes {
 		::notes::Update_Contact_Background
 
 		bind $w <<Escape>> "::notes::Display_Notes_Close"
+		
+		bind $w <<Cut>> "tk_textCut $w.right.note.txt"
+		bind $w <<Copy>> "tk_textCopy $w.right.note.txt"
+		bind $w <<Paste>> "::notes::Paste"
+		
+	}
+
+
+#//////////////////////////////////////////////////////////////
+
+	proc Paste { } {
+	
+	set w ".notemanager"
+	set text [clipboard get]
+	$w.right.note.txt insert insert "$text"
+	
 	}
 
 
 #//////////////////////////////////////////////////////////////
 # When the window is closed
 
+
+
 	proc Display_Notes_Close { } {
 
+
+
 		unset -nocomplain ::notes::email
+
 		unset -nocomplain ::notes::selected
+
 		unset -nocomplain ::notes::selectedcontact
+
 		unset -nocomplain ::notes::notes
+
 		unset -nocomplain ::notes::contacts
+
 		unset -nocomplain ::notes::contactswithnotes
 
+
 		destroy .notemanager
+
+
 
 	}
 
@@ -307,7 +331,6 @@ namespace eval ::notes {
 
 		$w.right.button.edit configure -state normal
 		$w.right.button.delete configure -state normal
-
 		$w.contact.box itemconfigure $::notes::selectedcontact -background gray
 
 		
@@ -322,7 +345,6 @@ namespace eval ::notes {
 		global HOME
 
 		set w ".notemanager"
-
 		if {[$w.contact.box cget -state] == "disabled"} {
 			return
 		}
@@ -331,7 +353,6 @@ namespace eval ::notes {
 		$w.contact.box itemconfigure $::notes::selectedcontact -background white
 
 		set selection [$w.contact.box curselection]
-
 		set ::notes::selectedcontact $selection
 		set ::notes::selected "-1"
 
@@ -368,7 +389,6 @@ namespace eval ::notes {
 		#Add binding for the subject and note field
 		bind $w.right.subject.txt <Button1-ButtonRelease> "::notes::Note_New"
 		bind $w.right.note.txt <Button1-ButtonRelease> "::notes::Note_New"
-
 		::notes::Update_Contact_Background
 
 	}
@@ -391,12 +411,12 @@ namespace eval ::notes {
 		::notes::Update_Notes
 
 		$w.right.notes.box selection set $selection
-
+		
 		if { $selection == [.notemanager.right.notes.box size] } {
 			$w.right.button.edit configure -state disabled
 			$w.right.button.delete configure -state disabled
 		}
-
+		
 		if { [.notemanager.right.notes.box size] == 0 } {
 			file delete [file join $HOME notes ${::notes::email}_note.xml]
 			set idx [lsearch $::notes::contactswithnotes $::notes::email]
@@ -459,7 +479,7 @@ namespace eval ::notes {
 			::notes::Notes_Selected_Note choose $::notes::selected
 
 		}
-
+		
 		bind $w.right.subject.txt <Button1-ButtonRelease> "::notes::Note_New"
 		bind $w.right.note.txt <Button1-ButtonRelease> "::notes::Note_New"
 
@@ -548,7 +568,6 @@ namespace eval ::notes {
 		$w.right.notes.box configure -state normal
 		$w.contact.box configure -state normal
 		$w.right.warning.txt configure -text ""
-
 		bind $w.right.subject.txt <Button1-ButtonRelease> "::notes::Note_New"
 		bind $w.right.note.txt <Button1-ButtonRelease> "::notes::Note_New"
 
@@ -641,50 +660,46 @@ namespace eval ::notes {
 
 
 #//////////////////////////////////////////////////////////////
+
 # Update the background of the items of the contact list
 
-	proc Update_Contact_Background { } {
+proc Update_Contact_Background { } {
 
-		for {set i 0} {$i< [expr [llength $::notes::contacts]]} {incr i} {
-			if { $i == $::notes::selectedcontact } {
-				.notemanager.contact.box itemconfigure $i -background gray
-			} elseif { [lsearch $::notes::contactswithnotes [lindex $::notes::contacts $i]] != -1 } {
-				.notemanager.contact.box itemconfigure $i -background #DDF3FE
-			} else {
-				.notemanager.contact.box itemconfigure $i -background white
-			}
+	for {set i 0} {$i< [expr [llength $::notes::contacts]]} {incr i} {
+		if { $i == $::notes::selectedcontact } {
+			.notemanager.contact.box itemconfigure $i -background gray
+		} elseif { [lsearch $::notes::contactswithnotes [lindex $::notes::contacts $i]] != -1 } {
+			.notemanager.contact.box itemconfigure $i -background #DDF3FE
+		} else {
+			.notemanager.contact.box itemconfigure $i -background white
 		}
 
 	}
+	
+}
 
 
 #//////////////////////////////////////////////////////////////
-# 
+#
 
-	proc HideContact { } {
+proc HideContact { } {
 
-		set w ".notemanager"
-
-		pack forget $w.contact
-		pack configure $w.right -side right -fill y -expand true
-
-  		wm geometry $w 550x535
-
-		$w.right.contact.left.showhide configure -image show -command "::notes::ShowContact"
-
-	}
+	set w ".notemanager"
+	pack forget $w.contact
+	pack configure $w.right -side right -fill y -expand true
+	wm geometry $w 550x535
+	$w.right.contact.left.showhide configure -image show -command "::notes::ShowContact"
+	
+}
 
 
-	proc ShowContact { } {
+proc ShowContact { } {
 
-		set w ".notemanager"
-
-  		pack configure $w.contact -side left -fill y
-
-		wm geometry $w 660x535
-
-		$w.right.contact.left.showhide configure -image hide -command "::notes::HideContact"
-
-	}
+	set w ".notemanager"
+	pack configure $w.contact -side left -fill y
+	wm geometry $w 660x535
+	$w.right.contact.left.showhide configure -image hide -command "::notes::HideContact"
+	
+}
 
 }
