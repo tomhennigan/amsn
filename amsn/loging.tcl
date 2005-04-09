@@ -1027,7 +1027,10 @@ proc sortalllog { } {
 				if { [catch { clock scan "1 $date"}] == 0 } {
 						set date [clock scan "1 $date"]
 						set date "[clock format $date -format "%B"] [clock format $date -format "%Y"]"
-						incr size [file size [file join ${log_dir} ${date} ${email}.log]]
+						set file [file join ${log_dir} ${date} ${email}.log]
+						if { [file exists $file] } {
+							incr size [file size $file]
+						}
 				}
 			}
 		}
@@ -1196,7 +1199,7 @@ proc stats { } {
 		}
 		incr id
 		set wlabel "label_$id"
-		label $frame.$wlabel -text "$id) $email ([::amsn::sizeconvert $size]o)"
+		label $frame.$wlabel -text "$id) $email ([::amsn::sizeconvert $size]b)"
 		pack configure $frame.$wlabel -side top
 	}
 	
@@ -1243,7 +1246,7 @@ proc stats_select { id wname month} {
 		}
 		incr id
 		set wlabel "label_$id"
-		label $frame.$wlabel -text "$id) $email ([::amsn::sizeconvert $size]o)"
+		label $frame.$wlabel -text "$id) $email ([::amsn::sizeconvert $size]b)"
 		pack configure $frame.$wlabel -side top
 	}
 	
