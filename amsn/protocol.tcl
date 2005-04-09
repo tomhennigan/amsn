@@ -42,46 +42,49 @@ namespace eval ::MSNFT {
       }
    }
 
-   proc acceptReceived {cookie chatid fromlogin message} {
+   proc acceptReceived {cookie chatid fromlogin message body} {
 
       variable filedata
+	  set usebody 0
+
+	  #status_log "DATA: $cookie $chatid $fromlogin $message $body\n"
+
+	  array set bodyheaders $body
 
       if {![info exists filedata($cookie)]} {
          return
       }
 
-      set requestdata [$message getHeader Request-Data]
-      set requestdata [string range $requestdata 0 [expr {[string length requestdata] -2}]]
-
+      #set requestdata [string range $requestdata 0 [expr {[string length requestdata] -2}]]
+      set requestdata [lindex [array get bodyheaders Request-Data] 1]
+      
       status_log "Ok, so here we have cookie=$cookie, requestdata=$requestdata\n" red
       
-      if { $requestdata != "IP-Address" } {
-         status_log "Requested data is not IP-Address!!: $requestdata\n" red
-	 return
-      }
+      if { $requestdata != "IP-Address:" } {
+      	status_log "Requested data is not IP-Address!!: $requestdata\n" red
+		return
+	  }
 
-      set ipaddr [$message getHeader $requestdata]
+      set ipaddr [lindex [array get bodyheaders $requestdata] 1] 
 
       #If IP field is blank, and we are sender, Send the File and requested IP (SendFile)
       if { ($ipaddr == "") && ([getTransferType $cookie]=="send") } {
 
-         status_log "Invitation to filetransfer $cookie accepted\n" black
-	 ::amsn::acceptedFT $chatid $fromlogin [getFilename $cookie]
-	 set newcookie [::md5::md5 "$cookie$fromlogin"]
-	 set filedata($newcookie) $filedata($cookie)
-         SendFile $newcookie $cookie
-      #TODO: Show accept or reject messages from other users? (If transferType=="receive")
+      	status_log "Invitation to filetransfer $cookie accepted\n" black
+	 	::amsn::acceptedFT $chatid $fromlogin [getFilename $cookie]
+	 	set newcookie [::md5::md5 "$cookie$fromlogin"]
+	 	set filedata($newcookie) $filedata($cookie)
+      	SendFile $newcookie $cookie
+      	#TODO: Show accept or reject messages from other users? (If transferType=="receive")
       } elseif {($ipaddr == "") && ([getTransferType $cookie]!="send")} {
-         ::amsn::acceptedFT $chatid $fromlogin [getFilename $cookie]
+      	::amsn::acceptedFT $chatid $fromlogin [getFilename $cookie]
       #If message comes from sender, and we are receiver, connect
       } elseif { ($fromlogin == [lindex $filedata($cookie) 3]) && ([getTransferType $cookie]=="receive")} {
-
-         after cancel "::MSNFT::timeoutedFT $cookie"
-         set port [$message getHeader Port]
-         set authcookie [$message getHeader AuthCookie]
-         #status_log "Body: $body\n"
-         ConnectMSNFTP $ipaddr $port $authcookie $cookie
-
+      	after cancel "::MSNFT::timeoutedFT $cookie"
+      	set port [lindex [array get bodyheaders Port] 1]
+      	set authcookie [lindex [array get bodyheaders AuthCookie] 1]
+      	#status_log "Body: $body\n"
+      	ConnectMSNFTP $ipaddr $port $authcookie $cookie
       }
    }
 
@@ -2694,9 +2697,8 @@ namespace eval ::Event {
 						::MSNAV::readAccept $cookie $ip $chatid
 			
 					} else {
-			
 						#Generate "accept" event
-						::MSNFT::acceptReceived $cookie $chatid $fromlogin $message
+						::MSNFT::acceptReceived $cookie $chatid $fromlogin $message [array get headers]
 					}
 		
 				} elseif { $invcommand =="CANCEL" } {
