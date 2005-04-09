@@ -1411,7 +1411,7 @@ namespace eval ::plugins {
 		foreach { langcode version} $langcodes {
 		
 			if { [winfo exists $w] } {
-				$w.update.txt configure -text "Updating $plugin : lang$langcode..."
+				$w.update.txt configure -text "[trans updating] $plugin : lang$langcode..."
 			}
 
 			if { $place == 1 } {
@@ -1475,7 +1475,7 @@ namespace eval ::plugins {
 		foreach { file version } $files {
 
 			if { [winfo exists $w] } {
-				$w.update.txt configure -text "Updating $plugin : $file..."
+				$w.update.txt configure -text "[trans updating] $plugin : $file..."
 			}
 
 			if { $place == 1 } {
@@ -1629,7 +1629,7 @@ namespace eval ::plugins {
 						
 							set file [file join $path "lang" lang$langcode]
 							
-							if { ![file writable $file] } {
+							if { [file exists $file] && ![file writable $file] } {
 								set protected 1
 							} else {
 								set langlist [lappend langlist "$langcode" "$onlineversion"]
@@ -1654,8 +1654,9 @@ namespace eval ::plugins {
 					} else {
 						set version [lindex $::plugins::plgfile $id]
 					}
-					if { [::plugins::DetectNew $version $onlineversion] } {						
-						if { ![file writable [file join $path $file]] } {
+					if { [::plugins::DetectNew $version $onlineversion] } {
+						set file2 [file join $path $file]
+						if { [file exists $file2] && ![file writable $file2] } {
 							set protected 1
 						} else {
 							set filelist [lappend filelist "$file" "$onlineversion"]
