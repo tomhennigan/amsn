@@ -84,6 +84,7 @@ if { $initialize_amsn == 1 } {
 	::skin::setKey menuactiveforeground #ffffff
 	::skin::setKey showdisplaycontactlist 0
 	::skin::setKey emailabovecolorbar 0
+	::skin::setKey underline_contact 0
 	::skin::setKey bigstate_xpad 0
 	::skin::setKey bigstate_ypad 0
 	::skin::setKey mystatus_xpad 3
