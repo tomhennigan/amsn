@@ -212,7 +212,126 @@ namespace eval ::plugins {
 		}
 	}
 
+	###############################################################
+        # calledFrom ()
+        #
+        # Finds out if a proc was called by a plugin.
+	#
+        # Arguments
+        # none
+        #
+        # Return
+        # -1 - not called by a plugin
+	# $pluginnamespace - the namespace of the plugin calling the proc
+        #
 
+	proc calledFrom {} {
+	    set proc [info level -2]
+	    #will create the following list if called from namespace:
+	    # {} {} namespace {} proc
+	    #anyone know how to fix this?
+	    set parts [split $proc ":"]
+
+
+	    if {[llength $parts] > 1} {
+		#see above comment why '2'
+		set namespace [lindex $parts 2]
+	    } else {
+		#it is just a top level proc :(
+		return -1
+	    }
+
+	    if {[::plugins::namespaceExists $namespace] == 1} {
+		return $namespace
+	    } else {
+		#this namespace dosn't belong to any plugin
+		return -1
+	    }
+	}
+
+	###############################################################
+        # namespaceExists (namespace)
+        #
+	# finds out if a namespace belongs to a plugin
+        #
+        # Arguments
+        # namespace - namespace to check for (without ::)
+        #
+        # Return
+	# -1 - nope
+	# 1 - yup
+        #
+
+	proc namespaceExists {namespace} {
+	    variable plugins
+	
+	    #get info
+	    set plist [array get plugins]
+	    #loop till something returns
+	    while {1} {
+		#it's not there!
+		set idx [lsearch -exact $plist $namespace]
+		if {$idx == -1} {
+		    return -1
+		}
+		
+		#is this an actual key?
+		set key [lindex $plist [expr $idx -1] ]
+		#will return the following list if a namespace
+		# idx plugin namespace
+		set klist [split $key "_"]
+		if {[lindex $klist 2] == "namespace"} {
+		    return 1
+		}
+
+		#make the list from last found to end so we won't be searching the same item
+		set plist [lrange $plist [expr $idx + 1] end]
+	    }
+	}
+
+
+	###############################################################
+        # updatePluginsArray ()
+        #
+        # Updates the plugins array which holds info about plugins
+        #
+        # Arguments
+        # none
+        #
+        # Return
+        # number of plugins in array
+        #
+	
+	proc updatePluginsArray { } {
+	    variable plugins
+	    set idx 0
+	    foreach plugin [findplugins] {
+		# extract the info
+		set name [lindex $plugin 0]
+		set author [lindex $plugin 1]
+		set desc [lindex $plugin 2]
+		set required_amsn_version [lindex $plugin 3]
+		set plugin_version [lindex $plugin 4]
+		set plugin_file [lindex $plugin 5]
+		set plugin_namespace [lindex $plugin 6]
+		set init_proc [lindex $plugin 7]
+		
+		# add the info to our plugins array in the form counterid_infotype
+		# the counterid is the same as the id of the plugin in the listbox
+		set plugins(${idx}_name) $name
+		set plugins(${idx}_author) $author
+		set plugins(${idx}_desc) $desc
+		set plugins(${idx}_required_amsn_version) $required_amsn_version
+		set plugins(${idx}_plugin_version) $plugin_version
+		set plugins(${idx}_plugin_file) $plugin_file
+		set plugins(${idx}_plugin_namespace) $plugin_namespace
+		set plugins(${idx}_init_proc) $init_proc
+		incr idx
+	    }
+	    return $idx
+	}
+	
+	
 	###############################################################
 	# findplugins ()
 	#
@@ -388,43 +507,18 @@ namespace eval ::plugins {
 			button $w.command.config -text "[trans configure]" -command "::plugins::GUI_Config" ;#-state disabled
 			button $w.command.close -text [trans close] -command "::plugins::GUI_Close"
  
-			# add the plugins to the list
-			# idx will be used as a counter
-			set idx 0
 			# loop through all the found plugins
-			foreach plugin [findplugins] {
-				# extract the info
-				set name [lindex $plugin 0]
-				set author [lindex $plugin 1]
-				set desc [lindex $plugin 2]
-				set required_amsn_version [lindex $plugin 3]
-				set plugin_version [lindex $plugin 4]
-				set plugin_file [lindex $plugin 5]
-				set plugin_namespace [lindex $plugin 6]
-				set init_proc [lindex $plugin 7]
-
-				# add the info to our plugins array in the form counterid_infotype
-				# the counterid is the same as the id of the plugin in the listbox
-				set plugins(${idx}_name) $name
-				set plugins(${idx}_author) $author
-				set plugins(${idx}_desc) $desc
-				set plugins(${idx}_required_amsn_version) $required_amsn_version
-				set plugins(${idx}_plugin_version) $plugin_version
-				set plugins(${idx}_plugin_file) $plugin_file
-				set plugins(${idx}_plugin_namespace) $plugin_namespace
-				set plugins(${idx}_init_proc) $init_proc
-		
-				# add the plugin name to the list at counterid position
-				$w.select.plugin_list insert $idx $name
-				# if the plugin is loaded, color it one color. otherwise use other colors
-				#TODO: Why not use skins?
-				if {[lsearch "$loadedplugins" $name] != -1} {
-					$w.select.plugin_list itemconfigure $idx -background #DDF3FE
-				} else {
-					$w.select.plugin_list itemconfigure $idx -background #FFFFFF
-				}
-				# increase the counter
-				incr idx
+			set plugs [::plugins::updatePluginsArray]
+			for {set idx 0} {$idx < $plugs} {incr idx} {
+			    # add the plugin name to the list at counterid position
+			    $w.select.plugin_list insert $idx $plugins(${idx}_name)
+			    # if the plugin is loaded, color it one color. otherwise use other colors
+			    #TODO: Why not use skins?
+			    if {[lsearch "$loadedplugins" $plugins(${idx}_name)] != -1} {
+				$w.select.plugin_list itemconfigure $idx -background #DDF3FE
+			    } else {
+				$w.select.plugin_list itemconfigure $idx -background #FFFFFF
+			    }
 			}
 			if {$idx > "15"} {
 				$w.select.plugin_list configure -height $idx
@@ -1739,3 +1833,4 @@ namespace eval ::plugins {
 
 
 }
+
