@@ -178,6 +178,10 @@ namespace eval ::guiContactList {
 		bind .contactlist.fr.ys <ButtonPress-5> "::guiContactList::scrollCL down $canvaslength"
 		bind .contactlist.fr.ys <ButtonPress-4> "::guiContactList::scrollCL up $canvaslength"
 
+
+		#make sure after redrawing the bgimage is on the right place
+		.contactlist.fr.c coords backgroundimage 0 [expr int([expr [lindex [.contactlist.fr.c yview] 0] * $canvaslength])]
+
 	}
 
 	#scroll the canvas up/down
