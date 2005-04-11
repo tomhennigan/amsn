@@ -881,7 +881,6 @@ namespace eval ::MSN {
 
 		set proxy [ns cget -proxy]
 		$proxy finish ns
-		$proxy destroy
 		ns configure -stat "d"
 		
 		CloseSB ns
