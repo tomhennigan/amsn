@@ -1,10 +1,10 @@
 amsn_lang_version 2
-add Adauga
 about Despre
 accept Accepta
 acceptfile Accept fisierul $1, marime $2? Salvat in $3
 actions Actiuni
 activeautoupdate Active auto-update
+add Adauga
 addacontact Adauga o persoana noua  
 addedyou Te-a adaugat in lista lui/ei de contacte
 addprofile Adauga un profil nou
@@ -34,6 +34,7 @@ allowonlyinal Numai cei din lista celor acceptati sa ma contacteze
 allowseen Permite persoanei sa ma vada autentificat si sa ma contacteze.
 allow_sms Permite utilizatorilor sa ma contacteze pe mobilul MSN
 allprofilesinuse Toate profilele existente sunt utilizate momentan
+allmonths Toate lunile
 animatedemoticon Acest semn este animat
 animatedsmileys Activeaza semnele de conversatie animate
 animatenotify Fereastra de atentionare animata
@@ -86,6 +87,7 @@ cachedpics Poza retinuta al lui $1
 cancel Renunta
 cannotdeleteprofile Nu se poate sterge profilul deoarece este folosit de o sesiune aMSN
 cantexec Nu pot executa aplicatia: $1. Verifica preferintele
+cantloadonlineversion De pe internet, nu se poate recupera lista cu actualizarile de limba
 cantremoveothers Nu pot sterge grupul "Others"
 casesensitive Foloseste declansatoarele cu majuscule semnificative
 cfgalarm Configureaza/Adauga/Sterge sunete
@@ -128,6 +130,7 @@ clicktologin Autentificare
 clientcaps Trimite pachete x-clientcaps la alti clienti
 clientname Numele clientului
 close Inchide
+closeall Inchid toate filele din fereastra?
 closed Incheiat conversatia cu $1 pentru inactivitate
 closingdocks Minimizare in loc de inchidere
 command Commanda
@@ -191,6 +194,7 @@ deliverfail Eroare la trimiterea mesajului
 delprofile Sterge profilul
 delprofile2 Selecteaza profilul pe care vrei sa il stergi
 description Descriere
+detach Detaseaza
 directconnection Legatura directa cu internetul (foloseste portul 1863)
 disabled Dezactivat
 disableprofiles Dezactiveaza profilele
@@ -308,6 +312,7 @@ internalerror Eroare interna a server-ului
 invalidfile Fisierul $2 introdus in campul "$1" nu exista sau nu poate fi citit
 invalidfile2 Fisierul $1 nu a putut fi creat. Verifica daca ai permisiile corecte.
 invalidgroup Grup invalid
+invalidparameter Parametru invalid: eroare la conectare
 invalidpic Poza aleasa nu exista.
 invalidpicsize Poza aleasa este prea mare, alege altul mai mic.
 invalidsound Fisierul de sunet ales nu exista.
@@ -543,6 +548,7 @@ savecontacts Salveaza lista
 savetofile Salveaza in fisier
 says $1 a scris
 sbcon In curs de conectare
+selectall Selecteaza tot
 selectplugins Selecteaza Plugin-urile pe care vreti sa le activati
 selectskin Alege un Skin din lista
 send Trimite
@@ -563,7 +569,9 @@ showdisplaypic Arata poza
 showdisplaypic2 La deschiderea ferestrei de chat arata poza implicit
 showmypic Poza mea
 shownotify Afiseaza fereastra de atentionare cand are loc ceva eveniment
+showpicnotify In fereastra de notificare, afiseaza poza utilizatorilor
 showuserpic Poza lui $1
+signinstatus Starea autentificarii
 skin Skin
 skinselector Selecteaza Skin-ul
 smileconfig Configurarea semnelor de conversatie
@@ -596,6 +604,7 @@ stateinfo Configurea starii persolanale
 statename Numele starii personale
 statenewtext Introdu informatia pentru a crea \n starea personala si apasa Salveaza
 statenick Creaza un nick nou (pentru a nu schimba lasa necomplectat)
+stats Statistici
 status Stare
 stopalarm Opreste avertizarea
 storenickname Revenire la nick-ul original dupa o stare personalizata cu un nick
@@ -611,8 +620,10 @@ tabbed In fereastra ingrosata
 tabbedglobal O bara de file pentru toti utilizatorii in lista de contacte
 tabbedgroups O bara de file pentru utilizatorii din acelas grup
 tabtitlenick Afiseaza nickurile in bara de file in loc de email
+takesnapshot Captureaza
 temp_state Nu salva (Stare temporara, nu se va salva cand este inchis AMSN)
 textsize Marime text
+thismonth Luna aceasta
 timeremaining Timp ramas
 timestamps Activeaza delimitarile de timp in fereastra de conversatie
 title aMSN Messanger
@@ -624,6 +635,7 @@ tlsinstallexp aMSN necesita MSNP9, care necesita conexie \nsecurizata folosind S
 tlsinstcompleted Instalarea modulului TLS a reusit, acum ar trebui sa folositi MSNP9. Daca nu functioneaza MSNP9, atunci probabil nu ati selectat modulul corespunzator sistemului, sau nu exista modul compilat pentru sistemul pe care il folositi.
 to La
 today Azi
+tomobile Pe mobil
 tools Utilitare
 tooltips Porneste descrierile elementelor de control
 transnotexists Fisierul cerut nu a fost inca tradus.
@@ -639,6 +651,8 @@ unload Descarca
 uoffline Neautentificat
 uonline Autentificat
 update Actualizare
+updating In curs de actualizare
+useasdp Use as Display Picture
 useother Foloseste alt program
 user Utilizator
 useralreadyonlist Exista deja pe lista
@@ -654,6 +668,8 @@ view Vizualizare
 viewcontactsby Afiseaza persoanele dupa
 viewprofile Vizualizare profil
 webcaminvite $1 a initiat o sesiune de webcam, dar aMSN nu are implementat aceasta optiune
+webcamshot Poza cu webcam-ul
+whatsize Poaza ceruta nu este in limita normala (96x96)\nIn ce marime ati vrea sa fie afisata?
 willjoin Asteapta ca $1 sa se alature conversatiei
 winkreceived Ai primit o avertizare de la $1. Aceasta optiune nu este implementat in aMSN. 
 wintitlenick Afiseaza nickurile in intr-o singura fila in loc de email
@@ -672,3 +688,4 @@ yoffset Coordonata Y
 youblocked Ai fost blocat
 yousay Tu zici
 youwant Tu vrei
+
