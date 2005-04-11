@@ -990,20 +990,22 @@ namespace eval ::plugins {
 	# none
 	#
 	proc LoadPlugins {} {
-		variable loadedplugins
-		::plugins::UnLoadPlugins
-		load_config
-		foreach {plugin} [findplugins] {
-			set name [lindex $plugin 0]
-			set required_version [lindex $plugin 3]
-			set file [lindex $plugin 5]
-			set plugin_namespace [lindex $plugin 6]
-			set init_proc [lindex $plugin 7]
-			if {[lsearch $loadedplugins $name] != -1} {
-				LoadPlugin $name $required_version $file $plugin_namespace $init_proc
-			}
+	    variable loadedplugins
+	    variable plugins
+	    ::plugins::UnLoadPlugins
+	    load_config
+	    set plugs [::plugins::updatePluginsArray]
+	    for {set idx 0} {$idx < $plugs} {incr idx} {
+		set name $::plugins::plugins(${idx}_name)
+		set required_version $::plugins::plugins(${idx}_required_amsn_version)
+		set file $::plugins::plugins(${idx}_plugin_file)
+		set plugin_namespace $::plugins::plugins(${idx}_plugin_namespace)
+		set init_proc $::plugins::plugins(${idx}_init_proc)
+		if {[lsearch $loadedplugins $name] != -1} {
+		    LoadPlugin $name $required_version $file $plugin_namespace $init_proc
 		}
-		::plugins::PostEvent AllPluginsLoaded evPar
+	    }
+	    ::plugins::PostEvent AllPluginsLoaded evPar
 	}
 
 
