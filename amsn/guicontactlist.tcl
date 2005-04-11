@@ -9,6 +9,7 @@
 # / drag 'n drop contacts for groupchange (DONE - needs some testing though so it's stable enough to not lose contacts :p)
 # * make sure everything works on mac/windows (like mousevents on mac for example!)
 # * change cursor while dragging
+# * use scrolledwindow for scrolling instead of this if possible with background
 
 
 
@@ -159,7 +160,7 @@ namespace eval ::guiContactList {
 			# We got a contact
 			if { [lindex $element 0] == "C" } {
 				set curPos [drawContact $canvas $element $curPos]
-#			# It must be a group title
+			# It must be a group title
 			} else {
 				set curPos [drawGroup $canvas $element $curPos]
 			}
@@ -281,7 +282,7 @@ namespace eval ::guiContactList {
 			set singordblclick <Double-Button-1>
 		}
 		 
-		$canvas bind $email <<Button3>> "show_umenu $email $grId %X %Y;"
+		$canvas bind $email <<Button3>> "show_umenu $email $grId %X %Y"
 		$canvas bind $email $singordblclick "::amsn::chatUser $email"
 		#Add binding for underline if the skinner use it
 		if {[::skin::getKey underline_contact]} {
@@ -307,7 +308,25 @@ namespace eval ::guiContactList {
 	# should return the new yposition (as it can be more because of multi-lines
 	proc drawNickname {canvas xcoord ycoord nicktext statetext colour email} {
 #TODO: a lot of work ;)
-		#set maxwidth foo
+		#set maxwidth [winfo width $canvas]
+
+
+#Idea:
+
+#Generate a list of all smileys, like this: [list [list "trigger1" "smiley1name"] [list "trigger2" "smiley2name"] ...]  with an entry for every trigger (just normal smileys, not custom ones); largest triggers first  -> this also means a smiley can have more then one entry in this list (one per trigger actually)
+
+#set textlist [list [list text "$nicktext"]]
+
+#search string for triggers, replace them with [list smiley filename], search 'm in the order of the smileyslist, when a trigger is found, the [list text "..."] where it came from should be replaced by "[list text "textbeforetrigger"] [list smiley filename] [list text "textaftertrigger"]"
+
+#when there are no triggers found anymore in every [list text "..."] string, we're done parsing
+
+#so after some work, the text should have become a list like this: [list [list text "This is some sample text"] [list smiley filename] [list text "with a smiley"]]
+
+#with multilines: after some work, the text should have become a list like this: [list [list text "This is some sample text"] [list smiley filename] [list text "with a smiley"] [list newline] [list text "text on second line"]
+
+#I guess then it's easy to draw this and when the Xpos is coming close to ($maxwidth - [lenght of $statetext plus ome spacing]) stop the thing and draw the statetext 
+
 
 		$canvas create text $xcoord $ycoord -text "$nicktext $statetext"\
 			-anchor w -fill $colour -font splainf -tags [list contact $email]
@@ -339,58 +358,96 @@ namespace eval ::guiContactList {
 		set OldX [winfo pointerx .]
 		set OldY [winfo pointery .]
 
+#TODO: Make the canvas scroll if we hover the vertical edges of the canvas
+#	Make the dragged contact stay under the cursor
+#	Make it keep scrolling as long as we are in the area also if we don't move (extra proc)
+
+		set canvaslength [lindex [$canvas cget -scrollregion] 3]
+
+		while { [winfo pointerx .] == $NewX && [lindex [$canvas coords $email] 1] >= [expr [winfo height $canvas] - 20] } {
+			after 300 
+			::guiContactList::scrollCL down $canvaslength
+
+			
+		}
+		
+		if {[lindex [$canvas coords $email] 1] <= 20} {
+			after 300 
+			::guiContactList::scrollCL up $canvaslength
+		}
+
+		
 		}
 	proc contactReleased {email canvas} {
 
-		#kill the balloon if it came up, otherwise itjust stays
+		#kill the balloon if it came up, otherwise it just stays there
 		set Bulle(first) 0; kill_balloon
 
+		#check with Xcoord if we're still on the canvas
+		set iconXCoord [lindex [$canvas coords $email] 0]
 
-		#first see what's the coordinates of the icon
-		set iconYCoord [lindex [$canvas coords $email] 1]
+#TODO		#if we drag off the list; now it's only on the left, make it also "if bigger then\
+		 viewable area of canvas
+		if {$iconXCoord < 0} { 
+#TODO			#here we should trigger an event that can be used by plugins
+			# for example, the contact tray plugin could create trays like this
 
+			#trigger event
 
-		#now we have to find the group whose ycoord is the first less then this coord
+			::guiContactList::drawCL $canvas
+		} else {
+		
 
-		#beginsituation: group to move to is group where we began
-		set groupID [getGroupId $email]
+			#first see what's the coordinates of the icon
+			set iconYCoord [lindex [$canvas coords $email] 1]
 
-		set groupList [getGroupList]
+			#now we have to find the group whose ycoord is the first less then this coord
 
-		#cycle to the list of groups and select the group where the user drags to
-		foreach group $groupList {
-			#get the group ID
-			set grId [lindex $group 0]
+			#beginsituation: group to move to is group where we began
+			set oldgrId [getGroupId $email]
+			set newgrId $oldgrId
 
-			#Only go for groups that are actually drawn on the list
-			if { [$canvas coords gid_$grId] != ""} {
-				#get the coordinates of the group
-				set grYCoord [lindex [$canvas coords gid_$grId] 1]
+			set groupList [getGroupList]
 
-				#this +5 is to make dragging a contact on a group's name\
-				 or 5 pixels above the group's name possible
-				if {$grYCoord <= [expr $iconYCoord + 5]} {
-					set groupID $grId
+			#cycle to the list of groups and select the group where the user drags to
+			foreach group $groupList {
+				#get the group ID
+				set grId [lindex $group 0]
+
+				#Only go for groups that are actually drawn on the list
+				if { [$canvas coords gid_$grId] != ""} {
+					#get the coordinates of the group
+					set grYCoord [lindex [$canvas coords gid_$grId] 1]
+	
+					#this +5 is to make dragging a contact on a group's name\
+					 or 5 pixels above the group's name possible
+					if {$grYCoord <= [expr $iconYCoord + 5]} {
+						set newgrId $grId
+					}
 				}
 			}
-		}
+	
+			#remove the contact from the canvas as it's gonna be redrawn on the right place	
+			$canvas delete $email
 
-		#remove the contact from the canvas as it's gonna be redrawn on the right place
-		$canvas delete $email
-
-		#if user wants to move to a place that's not possible, just leave the contact\
-		 in the current group (other words: "don't do anything")
-		if {$groupID != "offline" && $groupID != "mobile" && $groupID != "" && $groupID != [getGroupId $email]} { 
-			#move the contact
 			set oldgrId [getGroupId $email]
-			status_log "Gonna move $email from $oldgrId to $groupID"
-			::groups::menuCmdMove $groupID $oldgrId $email
-#TODO: how to code this better (without the 'after') ?
-			after 1000 ::guiContactList::drawCL $canvas
-		} else {
-			::guiContactList::drawCL $canvas
-		}
+			#if user wants to move from/to a place that's not possible, just leave the\
+			 contact in the current group (other words: "don't do anything")
 
+			if {[string is integer $newgrId] && $newgrId != $oldgrId && [string is integer $oldgrId]} {
+				#move the contact
+		
+					status_log "Gonna move $email from $oldgrId to $newgrId"
+					::groups::menuCmdMove $newgrId $oldgrId $email
+					status_log "$email is now in [getGroupId $email]"
+#TODO: how to code this better (without the 'after') ?
+					status_log "Waiting 1 second"
+					after 1000 ::guiContactList::drawCL $canvas
+			} else {
+				status_log "! Can't move $email from \"$oldgrId\" to \"$newgrId\""
+				::guiContactList::drawCL $canvas
+			}
+		}
 	}
 
 
@@ -544,7 +601,7 @@ namespace eval ::guiContactList {
 			} else {
 				set groupList [list [list "online" [trans online]] [list "offline" [trans offline]]]
 			}
-		# Group mode
+		# Group/Hybrid mode
 		} elseif { $mode == 1 || $mode == 2} {
 			set groupList [list]
 			# We get the array of groups from abook
