@@ -2,11 +2,16 @@
 #
 # / translate individuals group and make it always first (DONE - ugly hack ? :|)
 # / smiley substitution	 -> still very slow .. fixable -> see comments on code
+#   FIX: On creation of the contactlist, create a list of all contacts with their parsed nick
+#	 On nickchange of a contact or when one comes online, change it in this list (event!)
+#	 When we drawContact, we don't ask the nickname of the contact but the parsed one that is stored
+#
 # * support for multiline nicks
+#   FIX: In smileys.tcl, add parsing and then in drawNick here change Ypos
+#
 # * nickname truncation
-# * scrollbar should be removed when not used
-# * fix problem when canvas' scrollablearea is smaller then window and you scroll up
-# / drag 'n drop contacts for groupchange (DONE - needs some testing though so it's stable enough to not lose contacts :p)
+# * nickname underline
+# * scroll the canvas while dragging if you come near to the border
 # * make sure everything works on mac/windows (like mousevents on mac for example! + backrgound fixed)
 # * change cursor while dragging
 # - use scrolledwindow for scrolling instead of this if possible with background (DONE)
@@ -114,21 +119,23 @@ namespace eval ::guiContactList {
 			return
 		}
 
-		set clbox [list 0 0 1000 1000]
+		set clbox [list 0 0 2000 1500]
 
 		toplevel .contactlist
 		wm title .contactlist "[trans title] - [::config::getKey login]"
 
-		ScrolledWindow .contactlist.fr -auto vertical -scrollbar vertical
+		#color should be skinnable:
+		ScrolledWindow .contactlist.fr -auto vertical -scrollbar vertical -bg white -bd 0
 
-		
+		#color should be skinnable:
 		canvas $clcanvas -width [lindex $clbox 2] -height [lindex $clbox 3] -background white
 
 		.contactlist.fr setwidget $clcanvas
 		pack .contactlist.fr
 
-		drawCL $clcanvas
-		
+		#is needed so the window size can be measured
+		after 1 ::guiContactList::drawCL $clcanvas
+
 		catch {wm geometry .contactlist [::config::getKey wingeometry]}
 		#To avoid the bug of window behind the bar menu on Mac OS X
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
@@ -150,8 +157,11 @@ namespace eval ::guiContactList {
 		# Now let's get a contact list
 		set contactList [generateCL]
 
+		#the nicktruncation needs the width of the viewable area of the canvas
+#		update -> slows it down as hell -> makes flicker etc
+
 		# Let's draw each element of this list
-		set curPos [list 0 0]
+		set curPos [list 0 10]
 		foreach element $contactList {
 			# We check the type, and call the appropriate draw function, these can be extended	
 			# We got a contact
@@ -165,8 +175,11 @@ namespace eval ::guiContactList {
 		
 		#set height of canvas
 		set canvaslength [expr [lindex $curPos 1] + 20]
+#update
+		#set canvaswidth [winfo width $canvas]
 
-		$canvas configure -scrollregion [list 0 0 1000 $canvaslength]
+		$canvas configure -scrollregion [list 0 0 2000 $canvaslength]
+		#bind .contactlist <Configure> "update; $canvas configure -height [winfo height $canvas];update"
 
 		#set scrolling bindings for canvas/scrollbar
 		bind $canvas <ButtonPress-5> "::guiContactList::scrollCL down $canvaslength"		
@@ -174,7 +187,8 @@ namespace eval ::guiContactList {
 
 		bind .contactlist.fr.vscroll <ButtonPress-5> "::guiContactList::scrollCL down $canvaslength"
 		bind .contactlist.fr.vscroll <ButtonPress-4> "::guiContactList::scrollCL up $canvaslength"
-
+		#on resizing the canvas needs to be redrawn so the truncation is right
+		bind $canvas <Configure> "after 1 ::guiContactList::drawCL $canvas"
 
 		#make sure after redrawing the bgimage is on the right place
 		.contactlist.fr.c coords backgroundimage 0 [expr int([expr [lindex [.contactlist.fr.c yview] 0] * $canvaslength])]
@@ -183,18 +197,20 @@ namespace eval ::guiContactList {
 
 	#scroll the canvas up/down
 	proc scrollCL {direction canvaslength} {
-#TODO: remove the implicit use of ".contactlist.fr..c" to make it work in other windows
-		if {$direction == "down"} {
-			.contactlist.fr.c yview scroll 1 units
+#TODO: remove the implicit use of ".contactlist.fr.c" to make it work in other windows
+		if {[winfo height .contactlist.fr.c] <= $canvaslength} {
+			if {$direction == "down"} {
+				.contactlist.fr.c yview scroll 1 units
 			
 
-		} else {
-			.contactlist.fr.c yview scroll -1 units
-		}
+			} else {
+				.contactlist.fr.c yview scroll -1 units
+			}
 		
-		#here we have to move the background-image
-#TODO:		# why doesn't this work on Windows ?
+			#here we have to move the background-image
+#TODO:			# why doesn't this work on Windows ?
 			.contactlist.fr.c coords backgroundimage 0 [expr int([expr [lindex [.contactlist.fr.c yview] 0] * $canvaslength])]
+		}
 	}
 			
 
@@ -303,7 +319,8 @@ namespace eval ::guiContactList {
 	proc drawNickname {canvas xcoord ycoord nicktext statetext colour tag} {
 		set email [::guiContactList::getEmailFromTag $tag]
 
-#TODO:trunc	#set maxwidth [winfo width $canvas]
+#TODO:trunc
+		set maxwidth [winfo width .contactlist]
 
 
 #TODO: only parse nicknames when changed, as an extra info thing in the contact's list
