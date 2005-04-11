@@ -2233,8 +2233,7 @@ namespace eval ::Event {
 					  [string range $header [expr $idx +2] end]]
 		}
 		
-		set body   [string map {"\r\n" "\n"} $body]
-		set bsplit [split $body "\n"]
+		set bsplit [split [string map {"\r\n" "\n"} $body] "\n"]
 		foreach field $bsplit {
 			set idx [string first ": " $field]
 			array set fields [list [string range $field  0  [expr $idx -1]] \
