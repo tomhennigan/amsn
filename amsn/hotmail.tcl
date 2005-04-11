@@ -274,97 +274,97 @@ proc decode_from_field { from } {
 	
 }
 
-proc hotmail_procmsg {msg} {
+proc hotmail_procmsg {message} {
 	global password
 
 	#Nuevo by AIM
 	
-	set content [$msg getHeader Content-Type]
-	set message [Message create %AUTO%]
-	$message createFromPayload "[$msg getBody]\r\n"
+	set content [lindex [split [$message getHeader Content-Type] ";"] 0 ]
+#	set message [Message create %AUTO%]
+#	$message createFromPayload "[$msg getBody]\r\n"
+	switch $content {
+		"text/x-msmsgsemailnotification" {     
+			if {[set from [$message getField From]] != ""} {
+				set fromaddr [$message getField From-Addr]
+				if {[catch {set from [decode_from_field $from]} res]} {
+					status_log "Fail to decode from field: $res\n" res
+					set from $fromaddr
+				}
+				set msgurl [$message getField Message-URL]
+				status_log "Hotmail: New mail from $from - $fromaddr\n"
 
-	if {[string range $content 0 29] == "text/x-msmsgsemailnotification"} {     
-		if {[$message getHeader From] != ""} {
-			set from [$message getHeader From]
-			set fromaddr [$message getHeader From-Addr]
-			if {[catch {set from [decode_from_field $from]} res]} {
-				status_log "Fail to decode from field: $res\n" res
-				set from $fromaddr
+				set dest [$message getField Dest-Folder]
+				if {$dest == "ACTIVE"} {
+					::hotmail::setUnreadMessages [expr { [::hotmail::unreadMessages] + 1}]
+					::hotmail::addFrom $from $fromaddr
+					cmsn_draw_online
+					if { [::config::getKey notifyemail] == 1 } {
+						::amsn::notifyAdd "[trans newmailfrom $from $fromaddr]" \
+							"hotmail_viewmsg $msgurl [::config::getKey login] $password" newemail
+					}
+				} else {
+					if { [::config::getKey notifyemailother] == 1 } {
+						::amsn::notifyAdd "[trans newmailfromother $from $fromaddr]" \
+							"hotmail_viewmsg $msgurl [::config::getKey login] $password" newemail
+					}
+				}
 			}
-			set msgurl [$message getHeader Message-URL]
-			status_log "Hotmail: New mail from $from - $fromaddr\n"
 
-			set dest [$message getHeader Dest-Folder]
-			if {$dest == "ACTIVE"} {
-				::hotmail::setUnreadMessages [expr { [::hotmail::unreadMessages] + 1}]
-				::hotmail::addFrom $from $fromaddr
+			::log::eventmail $from
+	
+		}
+		#Get the number of unread messages
+		"text/x-msmsgsinitialemailnotification" {
+			#Number of unread messages in inbox
+			set noleidos [$message getField Inbox-Unread]
+			#Get the URL of inbox directory in hotmail
+			set msgurl [$message getField Inbox-URL]
+			status_log "Hotmail: $noleidos unread emails\n"
+			#Remember the number of unread mails in inbox and create a notify window if necessary
+			if { [string length $noleidos] > 0 && $noleidos != 0} {
+				::hotmail::setUnreadMessages $noleidos
+				::hotmail::emptyFroms
 				cmsn_draw_online
-				if { [::config::getKey notifyemail] == 1 } {
-					::amsn::notifyAdd "[trans newmailfrom $from $fromaddr]" \
-						"hotmail_viewmsg $msgurl [::config::getKey login] $password" newemail
+				if { [::config::getKey notifyemail] == 1} {
+					::amsn::notifyAdd "[trans newmail $noleidos]" \
+						"hotmail_login [::config::getKey login] $password" newemail
 				}
+			}
+
+
+			#Number of unread messages in other folders
+			set folderunread [$message getField Folders-Unread]
+			#URL of folder directory in Hotmail
+			set msgurl [$message getField Folders-URL]
+			status_log "Hotmail: $folderunread unread emails in others folders \n"
+			#If the pref notifyemail is active and more than 0 email unread, show a notify on connect
+			if { [::config::getKey notifyemailother] == 1 && [string length $folderunread] > 0} {
+				::amsn::notifyAdd "[trans newmailfolder $folderunread]" \
+					"hotmail_viewmsg $msgurl [::config::getKey login] $password" newemail
+			}
+		}
+	
+		"text/x-msmsgsactivemailnotification" {
+			set source [$message getField Src-Folder]
+			set dest [$message getField Dest-Folder]
+			set delta [$message getField Message-Delta]
+			if { $source == "ACTIVE" } {
+				set unread [expr {[::hotmail::unreadMessages] - $delta}]
+				::hotmail::emptyFroms
+				if { $unread < 0 } {
+					status_log "number of unread hotmail messages is $unread, setting to 0\n" red
+					set unread 0
+				}
+			} elseif {$dest == "ACTIVE"} {
+				set unread [expr {[::hotmail::unreadMessages] + $delta}]
 			} else {
-				if { [::config::getKey notifyemailother] == 1 } {
-					::amsn::notifyAdd "[trans newmailfromother $from $fromaddr]" \
-						"hotmail_viewmsg $msgurl [::config::getKey login] $password" newemail
-				}
+				set unread [::hotmail::unreadMessages]
 			}
-		}
-
-		::log::eventmail $from
-	
-	}
-	#Get the number of unread messages
-	if {[string range $content 0 36]  == "text/x-msmsgsinitialemailnotification"} {
-		#Number of unread messages in inbox
-		set noleidos [$message getHeader Inbox-Unread]
-		#Get the URL of inbox directory in hotmail
-		set msgurl [$message getHeader Inbox-URL]
-		status_log "Hotmail: $noleidos unread emails\n"
-		#Remember the number of unread mails in inbox and create a notify window if necessary
-		if { [string length $noleidos] > 0 && $noleidos != 0} {
-			::hotmail::setUnreadMessages $noleidos
-			::hotmail::emptyFroms
-			cmsn_draw_online
-			if { [::config::getKey notifyemail] == 1} {
-				::amsn::notifyAdd "[trans newmail $noleidos]" \
-					"hotmail_login [::config::getKey login] $password" newemail
+			status_log "Hotmail num of messages changed: $unread unread emails\n"
+			if { [string length $unread] > 0 } {
+				::hotmail::setUnreadMessages $unread
+				cmsn_draw_online
 			}
-		}
-
-
-		#Number of unread messages in other folders
-		set folderunread [$message getHeader Folders-Unread]
-		#URL of folder directory in Hotmail
-		set msgurl [$message getHeader Folders-URL]
-		status_log "Hotmail: $folderunread unread emails in others folders \n"
-		#If the pref notifyemail is active and more than 0 email unread, show a notify on connect
-		if { [::config::getKey notifyemailother] == 1 && [string length $folderunread] > 0} {
-			::amsn::notifyAdd "[trans newmailfolder $folderunread]" \
-				"hotmail_viewmsg $msgurl [::config::getKey login] $password" newemail
-		}
-	}
-	
-	if {[string range $content 0 34]  == "text/x-msmsgsactivemailnotification"} {
-		set source [$message getHeader Src-Folder]
-		set dest [$message getHeader Dest-Folder]
-		set delta [$message getHeader Message-Delta]
-		if { $source == "ACTIVE" } {
-			set unread [expr {[::hotmail::unreadMessages] - $delta}]
-			::hotmail::emptyFroms
-			if { $unread < 0 } {
-				status_log "number of unread hotmail messages is $unread, setting to 0\n" red
-				set unread 0
-			}
-		} elseif {$dest == "ACTIVE"} {
-			set unread [expr {[::hotmail::unreadMessages] + $delta}]
-		} else {
-			set unread [::hotmail::unreadMessages]
-		}
-		status_log "Hotmail num of messages changed: $unread unread emails\n"
-		if { [string length $unread] > 0 } {
-			::hotmail::setUnreadMessages $unread
-			cmsn_draw_online
 		}
 	}
 	#End by AIM
