@@ -144,6 +144,9 @@ if { $initialize_amsn == 1 } {
 		event add <<Copy>> <Control-c> <Control-C>
 		event add <<Cut>> <Control-x> <Control-X>
 	}
+	
+	#Set the default option for canvas -highlightthickness
+	option add *Canvas.highlightThickness 0
 }
 
 namespace eval ::amsn {
