@@ -209,7 +209,7 @@ namespace eval ::smiley {
 				}
 			}
 			
-			#TODO: Add SB smileys?
+#TODO: Add SB smileys?
 
 			#Now, sort this list			
 			set sortedemotions [lsort -command ::smiley::CompareSmileyLength $unsortedemotions]
@@ -449,6 +449,104 @@ namespace eval ::smiley {
 		event generate $w <Enter>
 	
 	}
+
+
+	#//////////////////////////////////////////////////////////////////
+	#proc that changes a string into a list with seperated text/smileys
+	proc parseMessageToList { name {contact_list 0} {include_custom 0} } {
+		global emotions
+		global custom_emotions
+		variable sortedemotions
+				
+		SortSmileys
+
+		set l [list [ list "text" "$name" ]]
+		set llength 1
+			
+		#Search for all possible emotions, after they are sorted by symbol length
+		foreach emotion_data $sortedemotions {
+		
+			#Symbol is first element
+			set symbol [lindex $emotion_data 0]
+			#Type is second element
+			set smiley_type [lindex $emotion_data 1]
+			
+			if { $smiley_type == "custom" } {
+				#If smiley type is custom, replace or ignore it depending on call parameter
+				if { $include_custom == 0} {
+					continue
+				} else {
+					#Get name. It will be 3rd element on the list
+					set name [lindex $emotion_data 2]
+					
+					#Get all emoticon data from custom_emotions array
+					array set emotion $custom_emotions($name)
+					
+					if { [info exists emotion(casesensitive)] && [is_true $emotion(casesensitive)]} {
+						set nocase "-exact"
+					} else {
+						set nocase "-nocase"
+					}
+					
+					set animated [expr {[info exists emotion(animated)] && [is_true $emotion(animated)]}]
+					if { $contact_list == 0 && [info exists emotion(sound)] && $emotion(sound) != "" } {
+						set sound $emotion(sound)
+					} else {
+						set sound ""
+					}
+					set image_name $emotion(image_name)
+					set image_file $emotion(file)
+					
+					
+					array unset emotion
+				}
+				
+			} else {
+				#Get the name for this symbol
+				set emotion_name $emotions($symbol)
+	
+				if { [ValueForSmiley $emotion_name casesensitive 1] } {
+					set nocase "-exact"
+				} else {
+					set nocase "-nocase"
+				}
+				
+				set animated [ValueForSmiley $emotion_name animated 1]			
+				if { $contact_list == 0 && [ValueForSmiley $emotion_name sound] != "" } {
+					set sound [ValueForSmiley $emotion_name sound]
+				} else {
+					set sound ""
+				}
+				set image_name [::skin::loadPixmap $symbol smileys]
+				set image_file [ValueForSmiley $emotion_name file]
+				
+			}
+
+			set listpos 0
+			#Keep searching until no matches
+#TODO: make it not case sensitive
+			while { $listpos < $llength } {
+				if { ([lindex $l $listpos 0] == "text") && ([set pos [string first $symbol [lindex $l $listpos 1]]] != -1) } {
+					set p1 [string range [lindex $l $listpos 1] 0 [expr $pos-1]]
+					set p2 $image_name
+					set p3 [string range [lindex $l $listpos 1] [expr $pos+[string length $symbol]] end]
+
+#TODO:					#need to change for an 'in-place' lreplace
+					set l [lreplace $l $listpos $listpos [list text $p1] [list smiley $p2] [list text $p3] ]
+
+					incr llength 2
+				} else {
+					incr listpos
+				}
+			}
+		}
+
+#TODO: also parse newlines as [list newline]
+
+		return $l
+	}
+
+
 	
 	#Create ONE smiley in the smileys menu
 	proc CreateSmileyInMenu {w cols rows smiw smih emot_num name symbol image file animated} {
