@@ -1,7 +1,7 @@
 # TODO
 #
 # / translate individuals group and make it always first (DONE - ugly hack ? :|)
-# * smiley substitution	
+# / smiley substitution	 -> still very slow .. fixable -> see comments on code
 # * support for multiline nicks
 # * nickname truncation
 # * scrollbar should be removed when not used
@@ -194,9 +194,10 @@ namespace eval ::guiContactList {
 		} else {
 			.contactlist.fr.c yview scroll -1 units
 		}
+		
 		#here we have to move the background-image
-		.contactlist.fr.c coords backgroundimage 0 [expr int([expr [lindex [.contactlist.fr.c yview] 0] * $canvaslength])]
-
+#TODO:		# why doesn't this work on Windows ?
+			.contactlist.fr.c coords backgroundimage 0 [expr int([expr [lindex [.contactlist.fr.c yview] 0] * $canvaslength])]
 	}
 			
 
@@ -304,33 +305,64 @@ namespace eval ::guiContactList {
 	# should return the new yposition (as it can be more because of multi-lines
 	proc drawNickname {canvas xcoord ycoord nicktext statetext colour tag} {
 		set email [::guiContactList::getEmailFromTag $tag]
-#TODO: a lot of work ;)
-		#set maxwidth [winfo width $canvas]
+
+#TODO:trunc	#set maxwidth [winfo width $canvas]
 
 
-#Idea:
+#TODO: only parse nicknames when changed, as an extra info thing in the contact's list
+		set msglist [::smiley::parseMessageToList $nicktext 1]
+		set Xpos $xcoord
+		set Ypos $ycoord
 
-#Generate a list of all smileys, like this: [list [list "trigger1" "smiley1name"] [list "trigger2" "smiley2name"] ...]  with an entry for every trigger (just normal smileys, not custom ones); largest triggers first  -> this also means a smiley can have more then one entry in this list (one per trigger actually)
-
-#set textlist [list [list text "$nicktext"]]
-
-#search string for triggers, replace them with [list smiley filename], search 'm in the order of the smileyslist, when a trigger is found, the [list text "..."] where it came from should be replaced by "[list text "textbeforetrigger"] [list smiley filename] [list text "textaftertrigger"]"
-
-#when there are no triggers found anymore in every [list text "..."] string, we're done parsing
-
-#so after some work, the text should have become a list like this: [list [list text "This is some sample text"] [list smiley filename] [list text "with a smiley"]]
-
-#with multilines: after some work, the text should have become a list like this: [list [list text "This is some sample text"] [list smiley filename] [list text "with a smiley"] [list newline] [list text "text on second line"]
-
-#I guess then it's easy to draw this and when the Xpos is coming close to ($maxwidth - [lenght of $statetext plus ome spacing]) stop the thing and draw the statetext 
+		foreach unit $msglist {
+			if {[lindex $unit 0] == "text"} {
 
 
+				#store the text as a string
+				set textpart [lindex $unit 1]
+
+				#check if it's really containing text
+				if {$textpart == ""} {continue}
+
+#TODO:truncation		#check if text is not too long and should be truncated, then\
+				 first truncate it and restore it in $textpart
 
 
-		$canvas create text $xcoord $ycoord -text "$nicktext $statetext"\
+				#draw the text
+				$canvas create text $Xpos $Ypos	-text $textpart -anchor w\
+					-fill $colour -font splainf -tags [list contact $tag nicktext]
+
+				#change the coords
+				set Xpos [expr $Xpos + [font measure splainf $textpart]]
+			} elseif {[lindex $unit 0] == "smiley"} {
+
+				set smileyname [lindex $unit 1]
+
+#TODO:truncation		#check for available place
+
+				#draw the smiley
+				$canvas create image $Xpos $Ypos -image $smileyname -anchor w\
+					-tags [list contact $tag smiley]
+
+				#change the coords
+				set Xpos [expr $Xpos + [image width $smileyname]]
+			}
+
+
+		#end the foreach loop
+		}
+
+		$canvas create text $Xpos $Ypos	-text " $statetext" -anchor w\
+			-fill $colour -font splainf -tags [list contact $tag statetext]
+		set Xpos [expr $Xpos + [font measure splainf " $statetext"]]
+
+
+
+#old code: the underlining should be redone
+		#$canvas create text $xcoord $ycoord -text "$nicktext $statetext"\
 			-anchor w -fill $colour -font splainf -tags [list contact $tag]
 
-
+#TODO: underlining
 
 		#Remove previous bindings
 		$canvas bind $tag <Enter> ""
