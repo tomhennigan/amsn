@@ -198,10 +198,19 @@ namespace eval ::guiContactList {
 
 	# Draw the contact on the canvas
 	proc drawContact { canvas element curPos } {
+		#we need to know what group we are drawing in
+		global groupDrawn
+
 		set xpos [expr [lindex $curPos 0] + 15]
 		set ypos [lindex $curPos 1]
 		
 		set email [lindex $element 1]
+
+		set grId $groupDrawn
+
+		# the tag can't be just $email as users can be in more then one group
+		set tag "_$email"
+		set tag "$groupDrawn$tag"
 
 		set state_code [::abook::getVolatileData $email state FLN]
 		
@@ -229,18 +238,14 @@ namespace eval ::guiContactList {
 			set statetext ""
 		}
 
-		set fulltext "$nicktext $statetext"
+
 		
 		set xnickpos [expr $xpos + [image width $img] + 5]
 		set ynickpos [expr $ypos + [image height $img]/2]
 
-		#Set up underline co-ords
-		set xuline1 $xnickpos
-		set xuline2 [expr $xuline1 + [font measure splainf $fulltext]]
-		set yuline [expr $ynickpos + 1 + [font configure splainf -size] / 2]
 		
 		$canvas create image $xpos $ypos -image $img -anchor nw \
-			-tags [list contact icon $email]
+			-tags [list contact icon $tag]
 
 		#if you are not on this contact's list, show the icon
 		if {[expr {[lsearch [::abook::getLists $email] RL] == -1}]} {
@@ -248,7 +253,7 @@ namespace eval ::guiContactList {
 			set icon [::skin::loadPixmap notinlist]
 
 			$canvas create image [expr $xnickpos -3] $ynickpos -image $icon -anchor w \
-				-tags [list contact icon $email]
+				-tags [list contact icon $tag]
 
 			set nicknameXpos [expr $xnickpos + [image width $icon]]
 		} else {
@@ -258,21 +263,18 @@ namespace eval ::guiContactList {
 
 		#call the proc that draws the nickname
 			#in the future, this should return the new $ypos or the change of $ypos
-		drawNickname $canvas $nicknameXpos $ynickpos $nicktext $statetext $colour $email 
+		drawNickname $canvas $nicknameXpos $ynickpos $nicktext $statetext $colour $tag 
 
 
-		set grId [getGroupId $email]
+
 		
-		#Remove previous bindings
-		$canvas bind $email <Enter> ""
-		$canvas bind $email <Motion> ""
-		$canvas bind $email <Leave> ""
+
 		
 		#Add binding for balloon
 		if { [::config::getKey tooltips] == 1 } {
-			$canvas bind $email <Enter> +[list balloon_enter %W %X %Y "[getBalloonMessage $email $element]"]
-			$canvas bind $email <Motion> +[list balloon_motion %W %X %Y "[getBalloonMessage $email $element]"]
-			$canvas bind $email <Leave> "+set Bulle(first) 0; kill_balloon"
+			$canvas bind $tag <Enter> +[list balloon_enter %W %X %Y "[getBalloonMessage $email $element]"]
+			$canvas bind $tag <Motion> +[list balloon_motion %W %X %Y "[getBalloonMessage $email $element]"]
+			$canvas bind $tag <Leave> "+set Bulle(first) 0; kill_balloon"
 		}
 		
 		#Add binding for click / right click (remembering to get config key for single/dbl click on contacts to open chat)
@@ -282,23 +284,13 @@ namespace eval ::guiContactList {
 			set singordblclick <Double-Button-1>
 		}
 		 
-		$canvas bind $email <<Button3>> "show_umenu $email $grId %X %Y"
-		$canvas bind $email $singordblclick "::amsn::chatUser $email"
-		#Add binding for underline if the skinner use it
-		if {[::skin::getKey underline_contact]} {
-			$canvas bind $email <Enter> "+$canvas create line $xuline1 $yuline $xuline2 $yuline -fill $colour -tag uline ; $canvas lower uline \
-				$email;$canvas configure -cursor hand2"
-			$canvas bind $email <Leave> "+$canvas delete uline;$canvas configure -cursor left_ptr"
-		} else {
-			$canvas bind $email <Enter> "+$canvas configure -cursor hand2"
-			$canvas bind $email <Leave> "+$canvas configure -cursor left_ptr"
-		}
+		$canvas bind $tag <<Button3>> "show_umenu $email $grId %X %Y"
+		$canvas bind $tag $singordblclick "::amsn::chatUser $email"
 
 #TODO		#drag bindings; needs macification ;)
-		$canvas bind $email <ButtonPress-2> "::guiContactList::contactPress $email $canvas"
-		$canvas bind $email <B2-Motion> "::guiContactList::contactMove $email $canvas"
-		$canvas bind $email <ButtonRelease-2> "::guiContactList::contactReleased $email $canvas"
-
+		$canvas bind $tag <ButtonPress-2> "::guiContactList::contactPress $tag $canvas"
+		$canvas bind $tag <B2-Motion> "::guiContactList::contactMove $tag $canvas"
+		$canvas bind $tag <ButtonRelease-2> "::guiContactList::contactReleased $tag $canvas"
 		return [list [expr $xpos - 15] [expr $ypos + [image height $img] + [::skin::getKey buddy_ypad]]]
 	}
 	
@@ -306,7 +298,8 @@ namespace eval ::guiContactList {
 
 	#procedure that draws the nickname, substitutes smileys/multilines, truncates
 	# should return the new yposition (as it can be more because of multi-lines
-	proc drawNickname {canvas xcoord ycoord nicktext statetext colour email} {
+	proc drawNickname {canvas xcoord ycoord nicktext statetext colour tag} {
+		set email [::guiContactList::getEmailFromTag $tag]
 #TODO: a lot of work ;)
 		#set maxwidth [winfo width $canvas]
 
@@ -328,23 +321,49 @@ namespace eval ::guiContactList {
 #I guess then it's easy to draw this and when the Xpos is coming close to ($maxwidth - [lenght of $statetext plus ome spacing]) stop the thing and draw the statetext 
 
 
+
+
 		$canvas create text $xcoord $ycoord -text "$nicktext $statetext"\
-			-anchor w -fill $colour -font splainf -tags [list contact $email]
+			-anchor w -fill $colour -font splainf -tags [list contact $tag]
+
+
+
+		#Remove previous bindings
+		$canvas bind $tag <Enter> ""
+		$canvas bind $tag <Motion> ""
+		$canvas bind $tag <Leave> ""
+
+		#Set up underline co-ords
+		set xuline1 $xcoord
+		set xuline2 [expr $xuline1 + [font measure splainf "$nicktext $statetext"]]
+		set yuline [expr $ycoord + 1 + [font configure splainf -size] / 2]
+
+		#Add binding for underline if the skinner use it
+		if {[::skin::getKey underline_contact]} {
+			$canvas bind $tag <Enter> "+$canvas create line $xuline1 $yuline $xuline2 $yuline -fill $colour -tag uline ; $canvas lower uline $tag ; $canvas configure -cursor hand2"
+			$canvas bind $tag <Leave> "+$canvas delete uline;$canvas configure -cursor left_ptr"
+		} else {
+			$canvas bind $tag <Enter> "+$canvas configure -cursor hand2"
+			$canvas bind $tag <Leave> "+$canvas configure -cursor left_ptr"
+		}
+
 	}
 
 
 
 
 
+
+	####################################
 	#Contact dragging procs
-	proc contactPress {email canvas} {
+	proc contactPress {tag canvas} {
 		global OldX
 		global OldY
 		#store old coordinates
 		set OldX [winfo pointerx .]
 		set OldY [winfo pointery .]
 	}
-	proc contactMove {email canvas} {
+	proc contactMove {tag canvas} {
 		global OldX
 		global OldY
 		#change coordinates 
@@ -353,7 +372,7 @@ namespace eval ::guiContactList {
 		set ChangeX [expr $OldX - $NewX]
 		set ChangeY [expr $OldY - $NewY]
 
-		$canvas move $email [expr $ChangeX * -1] [expr $ChangeY * -1]
+		$canvas move $tag [expr $ChangeX * -1] [expr $ChangeY * -1]
 
 		set OldX [winfo pointerx .]
 		set OldY [winfo pointery .]
@@ -364,27 +383,26 @@ namespace eval ::guiContactList {
 
 		set canvaslength [lindex [$canvas cget -scrollregion] 3]
 
-		while { [winfo pointerx .] == $NewX && [lindex [$canvas coords $email] 1] >= [expr [winfo height $canvas] - 20] } {
-			after 300 
-			::guiContactList::scrollCL down $canvaslength
-
-			
-		}
+	#	if {[lindex [$canvas coords $email] 1] >= [expr [winfo height $canvas] - 20] } {
+	#		after 300 
+	#		::guiContactList::scrollCL down $canvaslength
+	#	}  -> won't work this way
 		
-		if {[lindex [$canvas coords $email] 1] <= 20} {
-			after 300 
-			::guiContactList::scrollCL up $canvaslength
-		}
-
 		
 		}
-	proc contactReleased {email canvas} {
+
+
+
+	proc contactReleased {tag canvas} {
+		#first get the info out of the tag
+		set email [::guiContactList::getEmailFromTag $tag]
+		set grId [::guiContactList::getGrIdFromTag $tag]
 
 		#kill the balloon if it came up, otherwise it just stays there
 		set Bulle(first) 0; kill_balloon
 
 		#check with Xcoord if we're still on the canvas
-		set iconXCoord [lindex [$canvas coords $email] 0]
+		set iconXCoord [lindex [$canvas coords $tag] 0]
 
 #TODO		#if we drag off the list; now it's only on the left, make it also "if bigger then\
 		 viewable area of canvas
@@ -399,12 +417,12 @@ namespace eval ::guiContactList {
 		
 
 			#first see what's the coordinates of the icon
-			set iconYCoord [lindex [$canvas coords $email] 1]
+			set iconYCoord [lindex [$canvas coords $tag] 1]
 
 			#now we have to find the group whose ycoord is the first less then this coord
 
 			#beginsituation: group to move to is group where we began
-			set oldgrId [getGroupId $email]
+			set oldgrId $grId
 			set newgrId $oldgrId
 
 			set groupList [getGroupList]
@@ -428,9 +446,8 @@ namespace eval ::guiContactList {
 			}
 	
 			#remove the contact from the canvas as it's gonna be redrawn on the right place	
-			$canvas delete $email
+			$canvas delete $tag
 
-			set oldgrId [getGroupId $email]
 			#if user wants to move from/to a place that's not possible, just leave the\
 			 contact in the current group (other words: "don't do anything")
 
@@ -453,9 +470,13 @@ namespace eval ::guiContactList {
 
 
 
-
+	####################################
 	# Draw the group title on the canvas
 	proc drawGroup { canvas element curPos } {
+		#the drawContact proc needs to know what group it is drawing in
+		global groupDrawn
+		set groupDrawn [lindex $element 0]
+
 		set xpos [lindex $curPos 0]
 		set ypos [lindex $curPos 1]
 		if { ![::config::getKey nogap] } {
@@ -718,6 +739,17 @@ namespace eval ::guiContactList {
 		#Define the final balloon message
 		set balloon_message "[string map {"%" "%%"} [::abook::getNick $email]]\n$email\n[trans status] : [trans [::MSN::stateToDescription $state_code]] $balloon_message2 $balloon_message3 $balloon_message4\n[trans lastmsgedme] : [::abook::dateconvert "[::abook::getContactData $email last_msgedme]"]"
 		return $balloon_message	
+	}
+
+	proc getEmailFromTag { tag } {
+		set pos [string first _ $tag]
+		set email [string range $tag [expr $pos + 1] end]
+	return $email
+	}
+	proc getGrIdFromTag { tag } {
+		set pos [string first _ $tag]
+		set grId [string range $tag 0 [expr $pos -1]]
+	return $grId
 	}
 	
 }
