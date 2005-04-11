@@ -7,9 +7,9 @@
 # * scrollbar should be removed when not used
 # * fix problem when canvas' scrollablearea is smaller then window and you scroll up
 # / drag 'n drop contacts for groupchange (DONE - needs some testing though so it's stable enough to not lose contacts :p)
-# * make sure everything works on mac/windows (like mousevents on mac for example!)
+# * make sure everything works on mac/windows (like mousevents on mac for example! + backrgound fixed)
 # * change cursor while dragging
-# * use scrolledwindow for scrolling instead of this if possible with background
+# - use scrolledwindow for scrolling instead of this if possible with background (DONE)
 
 
 
@@ -118,16 +118,13 @@ namespace eval ::guiContactList {
 
 		toplevel .contactlist
 		wm title .contactlist "[trans title] - [::config::getKey login]"
-		frame .contactlist.fr
+
+		ScrolledWindow .contactlist.fr -auto vertical -scrollbar vertical
 
 		
-		canvas $clcanvas -width [lindex $clbox 2] -height [lindex $clbox 3] -background white \
-			-scrollregion [list 0 0 1000 1000] -xscrollcommand ".contactlist.fr.xs set" -yscrollcommand ".contactlist.fr.ys set"
-		scrollbar .contactlist.fr.ys -command ".contactlist.fr.c yview" 
-		scrollbar .contactlist.fr.xs -orient horizontal -command ".contactlist.fr.c xview"
+		canvas $clcanvas -width [lindex $clbox 2] -height [lindex $clbox 3] -background white
 
-		pack .contactlist.fr.ys -side right -fill y
-		pack $clcanvas -expand true -fill both
+		.contactlist.fr setwidget $clcanvas
 		pack .contactlist.fr
 
 		drawCL $clcanvas
@@ -175,8 +172,8 @@ namespace eval ::guiContactList {
 		bind $canvas <ButtonPress-5> "::guiContactList::scrollCL down $canvaslength"		
 		bind $canvas <ButtonPress-4> "::guiContactList::scrollCL up $canvaslength"
 
-		bind .contactlist.fr.ys <ButtonPress-5> "::guiContactList::scrollCL down $canvaslength"
-		bind .contactlist.fr.ys <ButtonPress-4> "::guiContactList::scrollCL up $canvaslength"
+		bind .contactlist.fr.vscroll <ButtonPress-5> "::guiContactList::scrollCL down $canvaslength"
+		bind .contactlist.fr.vscroll <ButtonPress-4> "::guiContactList::scrollCL up $canvaslength"
 
 
 		#make sure after redrawing the bgimage is on the right place
@@ -430,6 +427,7 @@ namespace eval ::guiContactList {
 
 
 	proc contactReleased {tag canvas} {
+#TODO: copying instead of moving when CTRL is pressed
 		#first get the info out of the tag
 		set email [::guiContactList::getEmailFromTag $tag]
 		set grId [::guiContactList::getGrIdFromTag $tag]
