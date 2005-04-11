@@ -836,7 +836,7 @@ namespace eval ::plugins {
 			# Grid the frame
 			grid $confwin -column 1 -row 1
 			# Create and grid the buttons
-			button $winconf.save -text [trans save] -command "::plugins::GUI_SaveConfig $winconf"
+			button $winconf.save -text [trans save] -command "::plugins::GUI_SaveConfig $winconf $name"
 			button $winconf.cancel -text [trans cancel] -command "::plugins::GUI_CancelConfig $winconf $namespace"
 			grid $winconf.save -column 1 -row 2 -sticky e -pady 5 -padx 5
 			grid $winconf.cancel -column 2 -row 2 -sticky e -pady 5 -padx 5
@@ -870,12 +870,19 @@ namespace eval ::plugins {
 	# plugins configuration and then destroy the Configuration Window
 	#
 	# Arguments
-	# w - The configuration window widget path 
+	# w - The configuration window widget path
+	# name - The name of the plugin that was changed (if any)
 	#
 	# Return
 	# none
 	#
-	proc GUI_SaveConfig { w } {
+	proc GUI_SaveConfig { w {name ""}} {
+		if { $name != "" } {
+			#add a postevent to warn the plugin when it is configured
+			set evPar(name) $name
+			::plugins::PostEvent PluginConfigured evPar
+		}
+
 		::plugins::save_config
 		destroy $w;
 	}
