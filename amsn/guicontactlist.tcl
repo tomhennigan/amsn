@@ -10,7 +10,7 @@
 # * nickname truncation
 # * nickname underline
 # * scroll the canvas while dragging if you come near to the border
-# * make sure everything works on mac/windows (like mousevents on mac for example! + backrgound fixed)
+# * make sure everything works on mac/windows (fixed background)
 # * change cursor while dragging
 
 
