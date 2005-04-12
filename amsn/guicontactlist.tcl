@@ -12,6 +12,7 @@
 # * scroll the canvas while dragging if you come near to the border
 # * make sure everything works on mac/windows (fixed background)
 # * change cursor while dragging
+# * there is a problem when dragging someone .. only mobile/offline showing :|
 
 
 
@@ -105,9 +106,9 @@ namespace eval ::guiContactList {
 		}
 	}
 
-	# Draws the contact list, for now in a new windows
+
+	# Draws the contact list, for now in a new window
 	proc createCLWindow {} {
-	
 		set clcanvas ".contactlist.fr.c"
 
 		if { [winfo exists .contactlist] } {
@@ -131,7 +132,9 @@ namespace eval ::guiContactList {
 		pack .contactlist.fr
 
 		#Before drawing the CLcanvas, we set up the array with the parsed nicknames
+		status_log "guiContactList: Parsing all nicknames ..."
 		createNicknameArray
+		status_log "guiContactList: Done."
 
 		#is needed so the window size can be measured
 		after 1 ::guiContactList::drawCL $clcanvas
@@ -143,8 +146,8 @@ namespace eval ::guiContactList {
 		}
 	}
 
-	# This is the main contactList drawing procedure, it clears the canvas and draws a brand new
-	# contact list in it's place
+	# This is the main contactList drawing procedure, it clears the canvas and draws a brand 
+	# new contact list in it's place
 	proc drawCL { canvas } {
 
 		# First we delete all the canvas items
@@ -173,18 +176,13 @@ namespace eval ::guiContactList {
 		
 		#set height of canvas
 		set canvaslength [expr [lindex $curPos 1] + 20]
-#update
-		#set canvaswidth [winfo width $canvas]
-
 		$canvas configure -scrollregion [list 0 0 2000 $canvaslength]
-		#bind .contactlist <Configure> "update; $canvas configure -height [winfo height $canvas];update"
 
 		#set scrolling bindings for canvas/scrollbar
-		bind $canvas <ButtonPress-5> "::guiContactList::scrollCL down $canvaslength"		
-		bind $canvas <ButtonPress-4> "::guiContactList::scrollCL up $canvaslength"
-
-		bind .contactlist.fr.vscroll <ButtonPress-5> "::guiContactList::scrollCL down $canvaslength"
-		bind .contactlist.fr.vscroll <ButtonPress-4> "::guiContactList::scrollCL up $canvaslength"
+		bind $canvas <ButtonPress-5> "::guiContactList::scrollCL $canvas down"		
+		bind $canvas <ButtonPress-4> "::guiContactList::scrollCL $canvas up"
+		bind .contactlist.fr.vscroll <ButtonPress-5> "::guiContactList::scrollCL $canvas down"
+		bind .contactlist.fr.vscroll <ButtonPress-4> "::guiContactList::scrollCL $canvas up"
 		#on resizing the canvas needs to be redrawn so the truncation is right
 		bind $canvas <Configure> "::guiContactList::drawCL $canvas"
 
@@ -193,30 +191,17 @@ namespace eval ::guiContactList {
 
 	}
 
-	#scroll the canvas up/down
-	proc scrollCL {direction canvaslength} {
-#TODO: remove the implicit use of ".contactlist.fr.c" to make it work in other windows
-		if {[winfo height .contactlist.fr.c] <= $canvaslength} {
-			if {$direction == "down"} {
-				.contactlist.fr.c yview scroll 1 units
-			
-
-			} else {
-				.contactlist.fr.c yview scroll -1 units
-			}
 		
-			#here we have to move the background-image
-#TODO:			# why doesn't this work on Windows ?
-			.contactlist.fr.c coords backgroundimage 0 [expr int([expr [lindex [.contactlist.fr.c yview] 0] * $canvaslength])]
-		}
-	}
-			
 
 	# Draw the contact on the canvas
 	proc drawContact { canvas element curPos } {
 		#we need to know what group we are drawing in
 		global groupDrawn
+		#we are gonna get the parsed nicknaes out of the array created
 		global nicknameArray
+
+		#the underline list
+		global underlinst
 
 		#set all the info needed for drawing, $xpos and $ypos shouldn't be altered,
 		# $xnickpos and $ynickpos are used for this purpose
@@ -253,32 +238,36 @@ namespace eval ::guiContactList {
 			set statetext ""
 		}
 
-		
-		set xnickpos [expr $xpos + [image width $img] + 5]
-		set ynickpos [expr $ypos + [image height $img]/2]
-
-		
+	
 		$canvas create image $xpos $ypos -image $img -anchor nw \
 			-tags [list contact icon $tag]
 
-		#if you are not on this contact's list, show the icon
+		#set the beginning coords for the next drawings
+		set xnickpos [expr $xpos + [image width $img] + 5]
+		set ynickpos [expr $ypos + [image height $img]/2]
+
+		#if you are not on this contact's list, show the notification icon
 		if {[expr {[lsearch [::abook::getLists $email] RL] == -1}]} {
 
 			set icon [::skin::loadPixmap notinlist]
 
-			$canvas create image [expr $xnickpos -3] $ynickpos -image $icon -anchor w \
-				-tags [list contact icon $tag]
+			$canvas create image [expr $xnickpos -3] $ynickpos -image \
+			 [::skin::loadPixmap notinlist] -anchor w -tags [list contact icon $tag]
 
 			set xnickpos [expr $xnickpos + [image width $icon]]
 		}
 
+		#Now we're gonna draw the nickname itself
 
-#TODO:trunc
-#		set maxwidth [winfo width .contactlist]
+
 
 #TODO: make a list of lists  with coords of pieces of text that should be underlined
+#	ala [list [xcoord ycoord lenght] ...]
+
+		set underlinst [list [list 0 0 0] ]
 
 		set parsednick $nicknameArray("$email")
+#TODO:trunc	set maxwidth [winfo width .contactlist]
 
 		foreach unit $parsednick {
 			if {[lindex $unit 0] == "text"} {
@@ -297,9 +286,17 @@ namespace eval ::guiContactList {
 				#draw the text
 				$canvas create text $xnickpos $ynickpos -text $textpart -anchor w\
 					-fill $colour -font splainf -tags [list contact $tag nicktext]
+				set textwidth [font measure splainf $textpart]
+
+
+
+				#append underline coords
+				set yunderline [expr $ynickpos + 1 + [font configure splainf -size] / 2]]
+				lappend $underlinst [list $xnickpos $yunderline $textwidth]
 
 				#change the coords
-				set xnickpos [expr $xnickpos + [font measure splainf $textpart]]
+				set xnickpos [expr $xnickpos + $textwidth]
+
 			} elseif {[lindex $unit 0] == "smiley"} {
 
 				set smileyname [lindex $unit 1]
@@ -313,8 +310,6 @@ namespace eval ::guiContactList {
 				#change the coords
 				set xnickpos [expr $xnickpos + [image width $smileyname]]
 			}
-
-
 		#end the foreach loop
 		}
 
@@ -334,19 +329,12 @@ namespace eval ::guiContactList {
 		$canvas bind $tag <Enter> "+$canvas configure -cursor hand2"
 		$canvas bind $tag <Leave> "+$canvas configure -cursor left_ptr"
 
-
 #TODO: underlining
-#old code: the underlining should be redone
-		#Set up underline co-ords
-#		set xuline1 $nicknameXpos
-#		set xuline2 [expr $xuline1 + [font measure splainf "$nicktext $statetext"]]
-#		set yuline [expr $ynickpos + 1 + [font configure splainf -size] / 2]
-
 		#Add binding for underline if the skinner use it
-#		if {[::skin::getKey underline_contact]} {
-#			$canvas bind $tag <Enter> "+$canvas create line $xuline1 $yuline $xuline2 $yuline -fill $colour -tag uline ; $canvas lower uline $tag"
+		if {[::skin::getKey underline_contact]} {
+#			$canvas bind $tag <Enter> "+::guiContactList::underlineList $canvas $underlinst $colour $tag"
 #			$canvas bind $tag <Leave> "+$canvas delete uline"
-#		}
+		}
 
 
 		
@@ -792,9 +780,37 @@ namespace eval ::guiContactList {
 		set userList [::MSN::sortedContactList]
 		foreach user $userList {
 			set usernick "[::abook::getDisplayNick $user]"
-			set nicknameArray($user) "[::smiley::parseMessageToList $usernick 1]"
+			set nicknameArray("$user") "[::smiley::parseMessageToList $usernick 1]"
 		}
 
 	}	
+
+	#scroll the canvas up/down
+	proc scrollCL {canvas direction} {
+		set canvaslength [lindex [$canvas cget -scrollregion] 3]
+
+		if {[winfo height $canvas] <= $canvaslength} {
+			if {$direction == "down"} {
+				$canvas yview scroll 1 units
+			
+
+			} else {
+				$canvas yview scroll -1 units
+			}
+		
+			#here we have to move the background-image
+#TODO:			# why doesn't this work on Windows ?
+			$canvas coords backgroundimage 0 [expr int([expr [lindex [.contactlist.fr.c yview] 0] * $canvaslength])]
+		}
+	}
+	
+	#proc that draws horizontal lines from this list of [list xcoord xcoord linelength] lists
+	proc underlineList { canvas lines colour nicktag} {
+#		status_log "going to underline: $lines"
+		foreach line $lines {
+			$canvas create line [lindex $line 0] [lindex $line 1] [expr [lindex $line 0] + [lindex $line 2]] [lindex $line 1] -fill $colour -tag uline
+		}
+		$canvas lower uline $nicktag
+	}
 
 }
