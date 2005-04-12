@@ -264,7 +264,7 @@ namespace eval ::guiContactList {
 #TODO: make a list of lists  with coords of pieces of text that should be underlined
 #	ala [list [xcoord ycoord lenght] ...]
 
-		set underlinst [list [list 0 0 0] ]
+		set underlinst [list [list 0 0 0]]
 
 		set parsednick $nicknameArray("$email")
 #TODO:trunc	set maxwidth [winfo width .contactlist]
@@ -287,13 +287,14 @@ namespace eval ::guiContactList {
 				$canvas create text $xnickpos $ynickpos -text $textpart -anchor w\
 					-fill $colour -font splainf -tags [list contact $tag nicktext]
 				set textwidth [font measure splainf $textpart]
-
+				set textheight [expr [font configure splainf -size]/2 ]
 
 
 				#append underline coords
-				set yunderline [expr $ynickpos + 1 + [font configure splainf -size] / 2]]
-				lappend $underlinst [list $xnickpos $yunderline $textwidth]
-
+				set textheight
+				set yunderline [expr $ynickpos + 1 + $textheight ]
+				status_log "underline: [list $xnickpos $yunderline $textwidth]"
+				lappend underlinst [list $xnickpos $yunderline $textwidth]
 				#change the coords
 				set xnickpos [expr $xnickpos + $textwidth]
 
@@ -332,8 +333,8 @@ namespace eval ::guiContactList {
 #TODO: underlining
 		#Add binding for underline if the skinner use it
 		if {[::skin::getKey underline_contact]} {
-#			$canvas bind $tag <Enter> "+::guiContactList::underlineList $canvas $underlinst $colour $tag"
-#			$canvas bind $tag <Leave> "+$canvas delete uline"
+			$canvas bind $tag <Enter> "+::guiContactList::underlineList $canvas [list $underlinst] $colour $tag"
+			$canvas bind $tag <Leave> "+$canvas delete uline"
 		}
 
 
@@ -808,6 +809,7 @@ namespace eval ::guiContactList {
 	proc underlineList { canvas lines colour nicktag} {
 #		status_log "going to underline: $lines"
 		foreach line $lines {
+			status_log "line: $line"
 			$canvas create line [lindex $line 0] [lindex $line 1] [expr [lindex $line 0] + [lindex $line 2]] [lindex $line 1] -fill $colour -tag uline
 		}
 		$canvas lower uline $nicktag
