@@ -129,8 +129,11 @@ if { $initialize_amsn == 1 } {
 	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 		event add <<Button1>> <Button1-ButtonRelease>
 		event add <<Button2>> <Button3-ButtonRelease>
+		event add <<Button2-Press>> <ButtonPress-3>
+		event add <<Button2-Motion>> <B3-Motion>
 		event add <<Button3>> <Control-ButtonRelease>
 		event add <<Button3>> <Button2-ButtonRelease>
+		event add <<Button3-Press>> <ButtonPress-2>
 		event add <<Escape>> <Command-w> <Command-W>
 		event add <<Paste>> <Command-v> <Command-V>
 		event add <<Copy>> <Command-c> <Command-C>
@@ -138,7 +141,11 @@ if { $initialize_amsn == 1 } {
 	} else {
 		event add <<Button1>> <Button1-ButtonRelease>
 		event add <<Button2>> <Button2-ButtonRelease>
+		event add <<Button2-Press>> <ButtonPress-2>
+		event add <<Button2-Motion>> <B2-Motion>
 		event add <<Button3>> <Button3-ButtonRelease>
+		event add <<Button3-Press>> <ButtonPress-3>
+		event add <<Button3-Motion>> <B3-Motion>
 		event add <<Escape>> <Escape>
 		event add <<Paste>> <Control-v> <Control-V>
 		event add <<Copy>> <Control-c> <Control-C>
@@ -343,7 +350,9 @@ namespace eval ::amsn {
 		close $id
 
 		.about.middle.list.text configure -state disabled
+
 		update idletasks
+
 		wm state .about normal
 		set x [expr {([winfo vrootwidth .about] - [winfo width .about]) / 2}]
 		set y [expr {([winfo vrootheight .about] - [winfo height .about]) / 2}]
@@ -411,6 +420,7 @@ namespace eval ::amsn {
 		close $id
 
 		.show.info.list.text configure -state disabled
+
 		update idletasks
 
 		set x [expr {([winfo vrootwidth .show] - [winfo width .show]) / 2}]
@@ -1228,13 +1238,14 @@ namespace eval ::amsn {
 
 		#if customfnick exists replace the nick with customfnick
 		set customfnick [::abook::getContactData $user customfnick]
+
 		if { $customfnick != "" } {
 			set nick [::abook::getNick $user]
 			set customnick [::abook::getContactData $user customnick]
 
 			set nick [::abook::parseCustomNick $customfnick $nick $user $customnick]
 		}
-		
+
 
 		set maxw [expr {[::skin::getKey notifwidth]-20}]
 		incr maxw [expr 0-[font measure splainf "[trans says [list]]:"]]
@@ -1250,8 +1261,11 @@ namespace eval ::amsn {
 
 		if { $remote_auth == 1 } {
 			if { "$user" != "$chatid" } {
+
 				write_remote "To $chatid : $msg" msgsent
+
 			} else {
+
 				write_remote "From $chatid : $msg" msgrcv
 			}
 		}
@@ -1606,7 +1620,9 @@ namespace eval ::amsn {
 		}
 		
 		if {$yview == 1} {
+	
 			update idletasks
+		
 			[::ChatWindow::GetOutText $win] see end 
 		}
 
@@ -2035,7 +2051,9 @@ namespace eval ::amsn {
 			return [$inputbox index "@$xpos,[expr $ypos-$height]"]
 		} else {
 			$inputbox yview scroll -1 units
+		
 			update
+		
 			set ypos [lindex [$inputbox bbox insert] 1]
 			set height [lindex [$inputbox bbox insert] 3]
 			if { $ypos > $height } {
@@ -2063,7 +2081,9 @@ namespace eval ::amsn {
 			return [$inputbox index "@$xpos,[expr $ypos+$height]"]
 		} else {
 			$inputbox yview scroll +1 units
+		
 			update
+			
 			set ypos [lindex [$inputbox bbox insert] 1]
 			set height [lindex [$inputbox bbox insert] 3]
 			set inputboxheight [lindex [$inputbox configure -height] end]
@@ -2210,7 +2230,9 @@ namespace eval ::amsn {
 		if { [::ChatWindow::For $chatid] == 0} {
 			chatUser $chatid
 		}
+	
 		update idletasks
+	
 		set txt "[trans deliverfail]:\n $msg"
 		WinWrite $chatid "\n[timestamp] [trans deliverfail]:\n" red
 		WinWrite $chatid "$msg" gray "" 1 [::config::getKey login]
@@ -2235,7 +2257,6 @@ namespace eval ::amsn {
 	}
 
 	proc PutMessageWrapped { chatid user nick msg type fontformat {p4c 0 }} {
-
 		
 		if { [::config::getKey showtimestamps] } {
 			set tstamp [timestamp]
@@ -2243,7 +2264,7 @@ namespace eval ::amsn {
 			set tstamp ""
 		}
 
-		
+	
 		switch [::config::getKey chatstyle] {
 			msn {
 				::config::setKey customchatstyle "\$tstamp [trans says \$nick]:\n"
@@ -2306,17 +2327,17 @@ namespace eval ::amsn {
 		set message $msg
 		set evPar(message) message
 		::plugins::PostEvent chat_msg_receive evPar
-	
+
 		if {![string equal $msg ""]} {
 
 			WinWrite $chatid "$message" $type $fontformat 1 $user
-			
+		
 			if {[::config::getKey keep_logs]} {
 				::log::PutLog $chatid $nick $msg $fontformat
-				
+			
 			}
 		}
-		
+	
 		::plugins::PostEvent chat_msg_received evPar
 	}
 	#///////////////////////////////////////////////////////////////////////////////
@@ -2399,9 +2420,13 @@ namespace eval ::amsn {
 			} else {
 
 				set container [::ChatWindow::GetContainerFor $user]
+			
 				set win_name [::ChatWindow::Open $container]
+			
 				::ChatWindow::SetFor $lowuser $win_name
+			
 			}
+		
 			set ::ChatWindow::first_message($win_name) 0
 			set chatid [::MSN::chatTo $lowuser]
 
@@ -2409,6 +2434,7 @@ namespace eval ::amsn {
 			set evPar(chatid) $chatid
 			set evPar(usr_name) $user
 			::plugins::PostEvent new_conversation evPar
+
 		}
 
 		set chatid [::MSN::chatTo $lowuser]
@@ -2738,8 +2764,6 @@ namespace eval ::amsn {
 		if { [winfo exists .bossmode] } {
 			return 
 		}
-		#Define lastfocus (for Mac OS X focus bug)
-		set lastfocus [focus]
 
 		if { [::config::getKey shownotify] == 0 } {
 			return;
@@ -2853,11 +2877,6 @@ namespace eval ::amsn {
 		} else {
 			wm geometry $w -$xpos-[expr {$ypos-100}]
 			after 50 "::amsn::growNotify $w $xpos [expr {$ypos-100}] $ypos"
-		}
-
-		#Focus last windows , in AquaTK (Mac OS X)
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua" && $lastfocus!="" } {
-			after 50 "catch {focus -force $lastfocus}"
 		}
 
 		if { $sound != ""} {
@@ -3379,7 +3398,9 @@ proc cmsn_draw_main {} {
 	}
 
 		#Unhide main window now that it has finished being created
+		
 		update
+	
 		wm state . normal
 		#Set the position on the screen and the size for the contact list, from config
 		catch {wm geometry . [::config::getKey wingeometry]}
@@ -3390,7 +3411,9 @@ proc cmsn_draw_main {} {
 	
 	
 	#allow for display updates so window size is correct
+	
 	update idletasks
+	
 
 }
 #///////////////////////////////////////////////////////////////////////
@@ -3607,7 +3630,9 @@ proc play_finished {pipe sound id} {
 		fileevent $pipe readable {}
 		catch {close $pipe}
 		if { [info exist looping_sound($id)] } {
+	
 			update
+	
 			#after 1000 [list play_loop $sound $id]
 			after 1000 [list replay_loop $sound $id]
 		}
@@ -4987,7 +5012,9 @@ proc cmsn_draw_online_wrapped {} {
 	if {[::config::getKey listsmileys]} {
 		::smiley::substSmileys $pgBuddy.text 0.0 end
 	}
+
 	update idletasks
+
 	$pgBuddy.text yview moveto [lindex $scrollidx 0]
 
 	#Pack what is necessary for event menu
@@ -7248,7 +7275,7 @@ proc AskDPSize { cursize } {
 	radiobutton .askdpsize.rb.default -text "96x96 ([trans normal])" -value "96x96" -variable dpsize
 	radiobutton .askdpsize.rb.small -text "64x64" -value "64x64" -variable dpsize
 	
-	button .askdpsize.okb -text [trans ok] -command "set done 1"
+	button .askdpsize.okb -text [trans ok] -command "set done 1" -default active
 	
 	pack .askdpsize.lwhatsize -side top -anchor w -pady 10 -padx 10
 	pack .askdpsize.rb.retain -side top -anchor w
@@ -7712,7 +7739,9 @@ proc show_bug_dialog {} {
 	bind $w <Return> "set closed_bug_window 1"
 
 	wm withdraw $w
+
 	update idletasks
+
 	set x [expr {[winfo screenwidth $w]/2 - [winfo reqwidth $w]/2 \
 		- [winfo vrootx [winfo parent $w]]}]
 	set y [expr {[winfo screenheight $w]/2 - [winfo reqheight $w]/2 \
@@ -7824,7 +7853,9 @@ proc my_TextKeySelect {w new} {
     }
     $w mark set insert $new
     $w see insert
+
     update idletasks
+
 }
 
 
@@ -7921,6 +7952,8 @@ proc webcampicture {} {
 #Create video frame (seqgrabber) and add zoom option to .webcampicture window
 proc webcamQuickTime {w} {
 	if { ![catch {seqgrabber $w.preview} res] } {
+		#Remove audio on this QuickTimeTCl grabber (I use catch because only the latest version of QTCL support it)
+		catch {$w.preview configure -volume 0}
 		pack $w.preview
 		label $w.zoomtext -text "[trans zoom]:" -font sboldf
 		spinbox $w.zoom -from 1 -to 5 -increment 0.5 -width 2 -command "$w.preview configure -zoom %s"

@@ -362,6 +362,8 @@ namespace eval ::ChatWindow {
 	#///////////////////////////////////////////////////////////////////////////////
 
 	proc ContainerConfigured { window } {
+
+	
 		#only run this if the window is the outer window
 		if { ![string equal $window [winfo toplevel $window]]} { return }
 
@@ -371,22 +373,27 @@ namespace eval ::ChatWindow {
 			after cancel "::ChatWindow::TopUpdate $chatid"
 			after 200 "::ChatWindow::TopUpdate $chatid"
 		}
+
 		set geometry [wm geometry $window]
 		set pos_start [string first "+" $geometry]
 		#Look if the window changed size with the configure
+
 		if {[::config::getKey wincontainersize] != "[string range $geometry 0 [expr {$pos_start-1}]]"} {
 			set sizechanged 1
 		} else {
 			set sizechanged 0
 		}
+
 		#Save size of current container
 		if { [::config::getKey savechatwinsize] } {
 			::config::setKey wincontainersize  [string range $geometry 0 [expr {$pos_start-1}]]
 		}
+	
 		#If the window changed size use checkfortoomanytabs
 		if { [winfo exists ${window}.bar] && $sizechanged} {
 			CheckForTooManyTabs $window 0
 		}
+
 	}
 
 	#///////////////////////////////////////////////////////////////////////////////
@@ -540,30 +547,46 @@ namespace eval ::ChatWindow {
 	#  - [msg ""] => [NOT REQUIRED] The message sent to us (first message)
 	#  - [usr_name ""] => [NOT REQUIRED] Is the user who sends the message
 	proc MakeFor { chatid {msg ""} {usr_name ""} } {
+		set lastfocus [focus]
 		set win_name [::ChatWindow::For $chatid]
 
 		# If there wasn't a window created and assigned to $chatid, let's create one
 		# through ::ChatWindow::Open and assign it to $chatid with ::ChatWindow::SetFor
 		if { $win_name == 0 } {
+
 			if { [UseContainer] == 0 } {
+
 				set win_name [::ChatWindow::Open]
+
 				::ChatWindow::SetFor $chatid $win_name
+
 			} else {
+
 				set container [::ChatWindow::GetContainerFor $chatid]
+
 				set win_name [::ChatWindow::Open $container]
+	
 				::ChatWindow::SetFor $chatid $win_name
+	
 				::ChatWindow::NameTabButton $win_name [::abook::getDisplayNick $chatid]
+
 				set_balloon $::ChatWindow::win2tab($win_name) "[::abook::getDisplayNick $chatid]"
+	
 				::ChatWindow::SwitchToTab $container [::ChatWindow::GetCurrentWindow $container]
+
 
 			}
 			#update idletasks
+
 			::ChatWindow::TopUpdate $chatid
 
 			if { [::config::getKey showdisplaypic] && $usr_name != ""} {
+		
 				::amsn::ChangePicture $win_name user_pic_$usr_name [trans showuserpic $usr_name]
+				
 			} else {
 				::amsn::ChangePicture $win_name user_pic_$usr_name [trans showuserpic $usr_name] nopack
+				
 			}
 		}
 
@@ -579,14 +602,9 @@ namespace eval ::ChatWindow {
 		# If this is the first message, and no focus on window, then show notify
 		if { $::ChatWindow::first_message($win_name) == 1  && $msg!="" } {
 			set ::ChatWindow::first_message($win_name) 0
-			
-			if { [string first ${win_name} [focus]] != 0} {
-				if { ([::config::getKey notifymsg] == 1 && [::abook::getContactData $chatid notifymsg -1] != 0) ||
-				[::abook::getContactData $chatid notifymsg -1] == 1 } {
-					::amsn::notifyAdd "$msg" "::amsn::chatUser $chatid"
-				}
-			}
-			
+	
+
+		
 			if { [::config::getKey newmsgwinstate] == 0 } {
 				if { [winfo exists .bossmode] } {
 					set ::BossMode(${win_name}) "normal"
@@ -603,7 +621,17 @@ namespace eval ::ChatWindow {
 				} else {
 					raise ${top_win}
 				}
-
+				
+			if { [string first ${win_name} [focus]] != 0} {
+				if { ([::config::getKey notifymsg] == 1 && [::abook::getContactData $chatid notifymsg -1] != 0) ||
+				[::abook::getContactData $chatid notifymsg -1] == 1 } {
+					::amsn::notifyAdd "$msg" "::amsn::chatUser $chatid"
+					#Regive focus on Mac OS X
+					if { ![catch {tk windowingsystem} wsystem] && $wsystem == "aqua" } {
+						after 200 "catch {focus -force $lastfocus}"
+					}
+				}
+			}
 			} else {
 				# Iconify the window unless it was raised by the user already.
 				if { [wm state $top_win] != "normal" && [wm state $top_win] != "zoomed" } {
@@ -674,6 +702,7 @@ namespace eval ::ChatWindow {
 				after 1000 [list catch [list tclEndCarbonNotification]]
 			}
 		}
+
 		return $win_name
 	}
 	#///////////////////////////////////////////////////////////////////////////////
@@ -772,7 +801,7 @@ namespace eval ::ChatWindow {
 		pack $statusbar -side bottom -expand false -fill x -padx [::skin::getKey chat_status_padx] -pady [::skin::getKey chat_status_pady]
 		pack $paned -side top -expand true -fill both -padx [::skin::getKey chat_paned_padx]\
 		 -pady [::skin::getKey chat_paned_pady]
-		
+
 		focus $paned
 
 		# Sets the font size to the one stored in our configuration file
@@ -794,6 +823,7 @@ namespace eval ::ChatWindow {
 		if { !([UseContainer] == 0 || $container == "" )} {
 			AddWindowToContainer $container $w
 		}
+
 		return "$w"
 	}
 	#///////////////////////////////////////////////////////////////////////////////
@@ -836,6 +866,7 @@ namespace eval ::ChatWindow {
 		
 		
 		#bind on configure for saving the window shape
+		
 		bind $container <Configure> "::ChatWindow::ContainerConfigured %W"
 
 		set tabbar [CreateTabBar $container] 
@@ -850,8 +881,10 @@ namespace eval ::ChatWindow {
 		set bar $w.bar
 		::skin::setPixmap tab tab.gif
 		::skin::setPixmap tab_close tab_close.gif
+
 		::skin::setPixmap tab_close_hover tab_close_hover.gif
 		::skin::setPixmap tab_hover tab_hover.gif
+
 		::skin::setPixmap tab_current tab_current.gif
 		::skin::setPixmap tab_flicker tab_flicker.gif
 		::skin::setPixmap moretabs moretabs.gif
@@ -942,6 +975,7 @@ namespace eval ::ChatWindow {
 
 
 	proc CreateTabbedWindow { container } {
+
 		global tcl_platform
 
 		set w "${container}.msg_${::ChatWindow::winid}"
@@ -981,7 +1015,7 @@ namespace eval ::ChatWindow {
 
 
 		return $w
-
+	
 	}
 	###################################################
 	# CreateTopLevelWindow
@@ -1705,7 +1739,6 @@ namespace eval ::ChatWindow {
 		$text configure -state normal
 
 		# Create my bindings
-		bind $text <Tab> "focus $sendbutton; break"
 		bind $sendbutton <Return> "::amsn::MessageSend $w $text; break"
 		#Don't insert picture if TCL 8.3 or Mac OS X because it's the old-style button
 		if { $::tcl_version >= 8.4 } {
@@ -1727,6 +1760,7 @@ namespace eval ::ChatWindow {
 			bind $text <Control-Alt-space> BossMode
 			bind $text <Control-a> {%W tag add sel 1.0 {end - 1 chars};break}
 			bind $text <Control-A> {%W tag add sel 1.0 {end - 1 chars};break}
+			bind $text <Tab> "focus $sendbutton; break"
 		}
 
 		bind $text <<Button3>> "tk_popup $w.copypaste %X %Y"
@@ -1885,9 +1919,8 @@ namespace eval ::ChatWindow {
 		set pictureinner [$picture getinnerframe]
 
 		set_balloon $pictureinner [trans nopic]
-		button $showpic -bd 0 -padx 0 -pady 0 -image [::skin::loadPixmap imgshow] \
+		label $showpic -bd 0 -padx 0 -pady 0 -image [::skin::loadPixmap imgshow] \
 			-bg [::skin::getKey chatwindowbg] -highlightthickness 0 -font splainf \
-			-command "::amsn::ToggleShowPicture $w; ::amsn::ShowOrHidePicture $w" \
 			-highlightbackground [::skin::getKey chatwindowbg] -activebackground [::skin::getKey chatwindowbg]
 		set_balloon $showpic [trans showdisplaypic]
 
@@ -1896,6 +1929,7 @@ namespace eval ::ChatWindow {
 		pack $showpic -side right -expand true -fill y -padx 0 -pady 0 -anchor e
 
 		# Create our bindings
+		bind $showpic <<Button1>> "::amsn::ToggleShowPicture $w; ::amsn::ShowOrHidePicture $w"
 		bind $pictureinner <Button1-ButtonRelease> "::amsn::ShowPicMenu $w %X %Y\n"
 		bind $pictureinner <<Button3>> "::amsn::ShowPicMenu $w %X %Y\n"
 
@@ -1958,6 +1992,7 @@ namespace eval ::ChatWindow {
 	# Arguments:
 	#  - chatid => Is the chat id of the window, the passport account of the buddy
 	proc TopUpdate { chatid } {
+
 		if { [::ChatWindow::For $chatid] == 0 } {
 			return 0
 		}
@@ -2055,6 +2090,7 @@ namespace eval ::ChatWindow {
 		update idletasks
 
 		after cancel "::ChatWindow::TopUpdate $chatid"
+
 		after 5000 "::ChatWindow::TopUpdate $chatid"
 
 	}
@@ -2192,7 +2228,9 @@ namespace eval ::ChatWindow {
 			if { [info exists containers(global)] && $containers(global) != ""} {
 				return $containers(global)
 			} else {
+	
 				set containers(global) [CreateNewContainer]
+		
 				return $containers(global)
 			}
 
@@ -2201,7 +2239,9 @@ namespace eval ::ChatWindow {
 			if { [info exists containers($gid)] && $containers($gid) != ""} {
 				return $containers($gid)
 			} else {
+
 				set containers($gid) [CreateNewContainer]
+			
 				return $containers($gid)
 			}
 		} else {
@@ -2584,7 +2624,6 @@ namespace eval ::ChatWindow {
 			UpdateVisibleTabs $container  $max_tabs		
 			UpdateLessMoreButtons $container $less $more
 
-
 		} else {
 			set visibletabs($container) [set containerwindows($container)]
 
@@ -2853,6 +2892,7 @@ namespace eval ::ChatWindow {
 		
 
 		update idletasks
+
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 			::ChatWindow::MacPosition ${top_win}
 		}
