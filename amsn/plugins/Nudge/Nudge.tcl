@@ -164,11 +164,13 @@ namespace eval ::Nudge {
 		#The way to get headers change on 0.95
 		if {[::Nudge::version_094]} {
 			set header "[::MSN::GetHeaderValue $msg Content-Type]"
+			set ID "[::MSN::GetHeaderValue $msg ID]"
 		} else {
 			set header "[$msg getHeader Content-Type]"
+			set ID "[$msg getField ID]"
 		}
 
-		if {$header == "text/x-msnmsgr-datacast"} {
+		if {$header == "text/x-msnmsgr-datacast" && $ID == "1"} {
 			::Nudge::log "Start receiving nudge from <[::abook::getDisplayNick $chatid]>"
 			#If the user choosed to have the nudge notified in the window
 			if { $::Nudge::config(notsentinwin) == 1 } {
