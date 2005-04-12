@@ -306,9 +306,11 @@ namespace eval ::guiContactList {
 		$canvas bind $tag $singordblclick "::amsn::chatUser $email"
 
 #TODO		#drag bindings; needs macification ;)
-		$canvas bind $tag <ButtonPress-2> "::guiContactList::contactPress $tag $canvas"
-		$canvas bind $tag <B2-Motion> "::guiContactList::contactMove $tag $canvas"
-		$canvas bind $tag <ButtonRelease-2> "::guiContactList::contactReleased $tag $canvas"
+
+		$canvas bind $tag <<Button2-Press>> "::guiContactList::contactPress $tag $canvas"
+		$canvas bind $tag <<Button2-Motion>> "::guiContactList::contactMove $tag $canvas"
+		$canvas bind $tag <<Button2>> "::guiContactList::contactReleased $tag $canvas"
+
 		return [list [expr $xpos - 15] [expr $ypos + [image height $img] + [::skin::getKey buddy_ypad]]]
 	}
 	
