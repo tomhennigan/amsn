@@ -291,11 +291,8 @@ int CopyImageToTk(Tcl_Interp * interp, CxImage *image, Tk_PhotoHandle Photo, int
 		return TCL_ERROR;
 	}
 
-	pixelPtr = (BYTE *) malloc(size);
-	memcpy(pixelPtr, buffer, size);
-
 	Tk_PhotoImageBlock block = {
-		pixelPtr,		// pixel ptr
+		buffer,		// pixel ptr
 		width,
 		height,
 		width*4,	// pitch : number of bytes separating 2 adjacent pixels vertically
