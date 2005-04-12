@@ -8063,3 +8063,9 @@ proc webcampicture_saveas {preview} {
 	}
 
 }
+
+#To avoid a bug inside panedwindow, by Youness
+rename ::tk::panedwindow::Cursor ::tk::panedwindow::Original_Cursor
+proc ::tk::panedwindow::Cursor { args } {
+	catch { eval ::tk::panedwindow::Original_Cursor $args }
+}
