@@ -1,10 +1,8 @@
 # TODO
 #
 # / translate individuals group and make it always first (DONE - ugly hack ? :|)
-# / smiley substitution	 -> still very slow .. fixable -> see comments on code
-#   FIX: On creation of the contactlist, create a list of all contacts with their parsed nick
-#	 On nickchange of a contact or when one comes online, change it in this list (event!)
-#	 When we drawContact, we don't ask the nickname of the contact but the parsed one that is stored
+# * Use an event to change the parsed nickname of someone <when the contact changes his nick>
+#   ('comes online' top?), and redraw the canvas (can't just redraw contact as it can be multiline)
 #
 # * support for multiline nicks
 #   FIX: In smileys.tcl, add parsing and then in drawNick here change Ypos
@@ -14,7 +12,6 @@
 # * scroll the canvas while dragging if you come near to the border
 # * make sure everything works on mac/windows (like mousevents on mac for example! + backrgound fixed)
 # * change cursor while dragging
-# - use scrolledwindow for scrolling instead of this if possible with background (DONE)
 
 
 
@@ -133,6 +130,9 @@ namespace eval ::guiContactList {
 		.contactlist.fr setwidget $clcanvas
 		pack .contactlist.fr
 
+		#Before drawing the CLcanvas, we set up the array with the parsed nicknames
+		createNicknameArray
+
 		#is needed so the window size can be measured
 		after 1 ::guiContactList::drawCL $clcanvas
 
@@ -146,6 +146,7 @@ namespace eval ::guiContactList {
 	# This is the main contactList drawing procedure, it clears the canvas and draws a brand new
 	# contact list in it's place
 	proc drawCL { canvas } {
+
 		# First we delete all the canvas items
 		$canvas addtag items all
 		$canvas delete items
@@ -156,9 +157,6 @@ namespace eval ::guiContactList {
 
 		# Now let's get a contact list
 		set contactList [generateCL]
-
-		#the nicktruncation needs the width of the viewable area of the canvas
-#		update -> slows it down as hell -> makes flicker etc
 
 		# Let's draw each element of this list
 		set curPos [list 0 10]
@@ -188,7 +186,7 @@ namespace eval ::guiContactList {
 		bind .contactlist.fr.vscroll <ButtonPress-5> "::guiContactList::scrollCL down $canvaslength"
 		bind .contactlist.fr.vscroll <ButtonPress-4> "::guiContactList::scrollCL up $canvaslength"
 		#on resizing the canvas needs to be redrawn so the truncation is right
-		bind $canvas <Configure> "after 1 ::guiContactList::drawCL $canvas"
+		bind $canvas <Configure> "::guiContactList::drawCL $canvas"
 
 		#make sure after redrawing the bgimage is on the right place
 		.contactlist.fr.c coords backgroundimage 0 [expr int([expr [lindex [.contactlist.fr.c yview] 0] * $canvaslength])]
@@ -218,20 +216,21 @@ namespace eval ::guiContactList {
 	proc drawContact { canvas element curPos } {
 		#we need to know what group we are drawing in
 		global groupDrawn
+		global nicknameArray
+
+		#set all the info needed for drawing, $xpos and $ypos shouldn't be altered,
+		# $xnickpos and $ynickpos are used for this purpose
 
 		set xpos [expr [lindex $curPos 0] + 15]
 		set ypos [lindex $curPos 1]
 		
 		set email [lindex $element 1]
-
 		set grId $groupDrawn
 
 		# the tag can't be just $email as users can be in more then one group
-		set tag "_$email"
-		set tag "$groupDrawn$tag"
+		set tag "_$email"; set tag "$grId$tag"
 
 		set state_code [::abook::getVolatileData $email state FLN]
-		
 		
 		if { [::abook::getContactData $email customcolor] != "" } {
 			set colour [::abook::getContactData $email customcolor] 
@@ -239,15 +238,13 @@ namespace eval ::guiContactList {
 			set colour [::MSN::stateToColor $state_code]
 		}
 
-		set img [::skin::loadPixmap [::MSN::stateToImage $state_code]]
-
 		if { [::abook::getVolatileData $email MOB] == "Y" && $state_code == "FLN"} {
 			set img [::skin::loadPixmap mobile]
 		} else {
 			set img [::skin::loadPixmap [::MSN::stateToImage $state_code]]
 		}
 		
-		set nicktext [::abook::getDisplayNick $email]
+		set parsednick $nicknameArray("$email")
 
 		if {$state_code != "NLN"} {
 			set statetext "\([trans [::MSN::stateToDescription $state_code]]\)"
@@ -255,7 +252,6 @@ namespace eval ::guiContactList {
 		} else {
 			set statetext ""
 		}
-
 
 		
 		set xnickpos [expr $xpos + [image width $img] + 5]
@@ -273,19 +269,85 @@ namespace eval ::guiContactList {
 			$canvas create image [expr $xnickpos -3] $ynickpos -image $icon -anchor w \
 				-tags [list contact icon $tag]
 
-			set nicknameXpos [expr $xnickpos + [image width $icon]]
-		} else {
-			set nicknameXpos $xnickpos
-		}	
+			set xnickpos [expr $xnickpos + [image width $icon]]
+		}
 
 
-		#call the proc that draws the nickname
-			#in the future, this should return the new $ypos or the change of $ypos
-		drawNickname $canvas $nicknameXpos $ynickpos $nicktext $statetext $colour $tag 
+#TODO:trunc
+#		set maxwidth [winfo width .contactlist]
+
+#TODO: make a list of lists  with coords of pieces of text that should be underlined
+
+		set parsednick $nicknameArray("$email")
+
+		foreach unit $parsednick {
+			if {[lindex $unit 0] == "text"} {
+
+
+				#store the text as a string
+				set textpart [lindex $unit 1]
+
+				#check if it's really containing text
+				if {$textpart == ""} {continue}
+
+#TODO:truncation		#check if text is not too long and should be truncated, then\
+				 first truncate it and restore it in $textpart
+
+
+				#draw the text
+				$canvas create text $xnickpos $ynickpos -text $textpart -anchor w\
+					-fill $colour -font splainf -tags [list contact $tag nicktext]
+
+				#change the coords
+				set xnickpos [expr $xnickpos + [font measure splainf $textpart]]
+			} elseif {[lindex $unit 0] == "smiley"} {
+
+				set smileyname [lindex $unit 1]
+
+#TODO:truncation		#check for available place
+
+				#draw the smiley
+				$canvas create image $xnickpos $ynickpos -image $smileyname -anchor w\
+					-tags [list contact $tag smiley]
+
+				#change the coords
+				set xnickpos [expr $xnickpos + [image width $smileyname]]
+			}
+
+
+		#end the foreach loop
+		}
+
+		$canvas create text $xnickpos $ynickpos	-text "  $statetext" -anchor w\
+			-fill $colour -font splainf -tags [list contact $tag statetext]
+		#alter the xnickpos again for underlining
+		set xnickpos [expr $xnickpos + [font measure splainf " $statetext"]]
 
 
 
-		
+		#Remove previous bindings
+		$canvas bind $tag <Enter> ""
+		$canvas bind $tag <Motion> ""
+		$canvas bind $tag <Leave> ""
+
+		#Change cursor on nick hover - binding
+		$canvas bind $tag <Enter> "+$canvas configure -cursor hand2"
+		$canvas bind $tag <Leave> "+$canvas configure -cursor left_ptr"
+
+
+#TODO: underlining
+#old code: the underlining should be redone
+		#Set up underline co-ords
+#		set xuline1 $nicknameXpos
+#		set xuline2 [expr $xuline1 + [font measure splainf "$nicktext $statetext"]]
+#		set yuline [expr $ynickpos + 1 + [font configure splainf -size] / 2]
+
+		#Add binding for underline if the skinner use it
+#		if {[::skin::getKey underline_contact]} {
+#			$canvas bind $tag <Enter> "+$canvas create line $xuline1 $yuline $xuline2 $yuline -fill $colour -tag uline ; $canvas lower uline $tag"
+#			$canvas bind $tag <Leave> "+$canvas delete uline"
+#		}
+
 
 		
 		#Add binding for balloon
@@ -314,95 +376,6 @@ namespace eval ::guiContactList {
 		return [list [expr $xpos - 15] [expr $ypos + [image height $img] + [::skin::getKey buddy_ypad]]]
 	}
 	
-
-
-	#procedure that draws the nickname, substitutes smileys/multilines, truncates
-	# should return the new yposition (as it can be more because of multi-lines
-	proc drawNickname {canvas xcoord ycoord nicktext statetext colour tag} {
-		set email [::guiContactList::getEmailFromTag $tag]
-
-#TODO:trunc
-		set maxwidth [winfo width .contactlist]
-
-
-#TODO: only parse nicknames when changed, as an extra info thing in the contact's list
-		set msglist [::smiley::parseMessageToList $nicktext 1]
-		set Xpos $xcoord
-		set Ypos $ycoord
-
-		foreach unit $msglist {
-			if {[lindex $unit 0] == "text"} {
-
-
-				#store the text as a string
-				set textpart [lindex $unit 1]
-
-				#check if it's really containing text
-				if {$textpart == ""} {continue}
-
-#TODO:truncation		#check if text is not too long and should be truncated, then\
-				 first truncate it and restore it in $textpart
-
-
-				#draw the text
-				$canvas create text $Xpos $Ypos	-text $textpart -anchor w\
-					-fill $colour -font splainf -tags [list contact $tag nicktext]
-
-				#change the coords
-				set Xpos [expr $Xpos + [font measure splainf $textpart]]
-			} elseif {[lindex $unit 0] == "smiley"} {
-
-				set smileyname [lindex $unit 1]
-
-#TODO:truncation		#check for available place
-
-				#draw the smiley
-				$canvas create image $Xpos $Ypos -image $smileyname -anchor w\
-					-tags [list contact $tag smiley]
-
-				#change the coords
-				set Xpos [expr $Xpos + [image width $smileyname]]
-			}
-
-
-		#end the foreach loop
-		}
-
-		$canvas create text $Xpos $Ypos	-text " $statetext" -anchor w\
-			-fill $colour -font splainf -tags [list contact $tag statetext]
-		set Xpos [expr $Xpos + [font measure splainf " $statetext"]]
-
-
-
-#old code: the underlining should be redone
-		#$canvas create text $xcoord $ycoord -text "$nicktext $statetext"\
-			-anchor w -fill $colour -font splainf -tags [list contact $tag]
-
-#TODO: underlining
-
-		#Remove previous bindings
-		$canvas bind $tag <Enter> ""
-		$canvas bind $tag <Motion> ""
-		$canvas bind $tag <Leave> ""
-
-		#Set up underline co-ords
-		set xuline1 $xcoord
-		set xuline2 [expr $xuline1 + [font measure splainf "$nicktext $statetext"]]
-		set yuline [expr $ycoord + 1 + [font configure splainf -size] / 2]
-
-		#Add binding for underline if the skinner use it
-		if {[::skin::getKey underline_contact]} {
-			$canvas bind $tag <Enter> "+$canvas create line $xuline1 $yuline $xuline2 $yuline -fill $colour -tag uline ; $canvas lower uline $tag ; $canvas configure -cursor hand2"
-			$canvas bind $tag <Leave> "+$canvas delete uline;$canvas configure -cursor left_ptr"
-		} else {
-			$canvas bind $tag <Enter> "+$canvas configure -cursor hand2"
-			$canvas bind $tag <Leave> "+$canvas configure -cursor left_ptr"
-		}
-
-	}
-
-
-
 
 
 
@@ -446,6 +419,8 @@ namespace eval ::guiContactList {
 
 
 	proc contactReleased {tag canvas} {
+		global OldX
+		global OldY
 #TODO: copying instead of moving when CTRL is pressed
 		#first get the info out of the tag
 		set email [::guiContactList::getEmailFromTag $tag]
@@ -518,6 +493,9 @@ namespace eval ::guiContactList {
 				::guiContactList::drawCL $canvas
 			}
 		}
+		#remove those vars as they're not in use anymore
+		unset OldX
+		unset OldY
 	}
 
 
@@ -799,10 +777,24 @@ namespace eval ::guiContactList {
 		set email [string range $tag [expr $pos + 1] end]
 	return $email
 	}
+
 	proc getGrIdFromTag { tag } {
 		set pos [string first _ $tag]
 		set grId [string range $tag 0 [expr $pos -1]]
 	return $grId
 	}
-	
+
+	proc createNicknameArray {} {
+		global nicknameArray
+
+		array set nicknameArray { }	
+
+		set userList [::MSN::sortedContactList]
+		foreach user $userList {
+			set usernick "[::abook::getDisplayNick $user]"
+			set nicknameArray($user) "[::smiley::parseMessageToList $usernick 1]"
+		}
+
+	}	
+
 }
