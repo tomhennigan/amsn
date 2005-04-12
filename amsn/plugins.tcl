@@ -226,6 +226,11 @@ namespace eval ::plugins {
         #
 
 	proc calledFrom {} {
+		#check for execution from the top level
+		set l [info level]
+		if {$l < 3} {
+			return -1
+		}
 	    set proc [info level -2]
 	    #will create the following list if called from namespace:
 	    # {} {} namespace {} proc
