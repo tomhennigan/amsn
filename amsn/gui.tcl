@@ -154,6 +154,12 @@ if { $initialize_amsn == 1 } {
 	
 	#Set the default option for canvas -highlightthickness
 	option add *Canvas.highlightThickness 0
+	
+	#To avoid a bug inside panedwindow, by Youness
+	rename ::tk::panedwindow::Cursor ::tk::panedwindow::Original_Cursor
+	proc ::tk::panedwindow::Cursor { args } {
+		catch { eval ::tk::panedwindow::Original_Cursor $args }
+	}
 }
 
 namespace eval ::amsn {
@@ -8062,10 +8068,4 @@ proc webcampicture_saveas {preview} {
 		PictureSave $preview $filename
 	}
 
-}
-
-#To avoid a bug inside panedwindow, by Youness
-rename ::tk::panedwindow::Cursor ::tk::panedwindow::Original_Cursor
-proc ::tk::panedwindow::Cursor { args } {
-	catch { eval ::tk::panedwindow::Original_Cursor $args }
 }
