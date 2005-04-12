@@ -293,7 +293,6 @@ namespace eval ::guiContactList {
 				#append underline coords
 				set textheight
 				set yunderline [expr $ynickpos + 1 + $textheight ]
-				status_log "underline: [list $xnickpos $yunderline $textwidth]"
 				lappend underlinst [list $xnickpos $yunderline $textwidth]
 				#change the coords
 				set xnickpos [expr $xnickpos + $textwidth]
@@ -809,7 +808,6 @@ namespace eval ::guiContactList {
 	proc underlineList { canvas lines colour nicktag} {
 #		status_log "going to underline: $lines"
 		foreach line $lines {
-			status_log "line: $line"
 			$canvas create line [lindex $line 0] [lindex $line 1] [expr [lindex $line 0] + [lindex $line 2]] [lindex $line 1] -fill $colour -tag uline
 		}
 		$canvas lower uline $nicktag
