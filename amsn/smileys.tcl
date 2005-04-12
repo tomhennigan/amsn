@@ -457,20 +457,21 @@ namespace eval ::smiley {
 		global emotions
 		global custom_emotions
 		variable sortedemotions
-				
-		SortSmileys
+
+		#This is a poor place for sort smileys should be done only when adding new smileys to the list?
+		#SortSmileys
 
 		set l [list [ list "text" "$name" ]]
 		set llength 1
-			
+
 		#Search for all possible emotions, after they are sorted by symbol length
 		foreach emotion_data $sortedemotions {
-		
+
 			#Symbol is first element
 			set symbol [lindex $emotion_data 0]
 			#Type is second element
 			set smiley_type [lindex $emotion_data 1]
-			
+
 			if { $smiley_type == "custom" } {
 				#If smiley type is custom, replace or ignore it depending on call parameter
 				if { $include_custom == 0} {
@@ -478,16 +479,16 @@ namespace eval ::smiley {
 				} else {
 					#Get name. It will be 3rd element on the list
 					set name [lindex $emotion_data 2]
-					
+
 					#Get all emoticon data from custom_emotions array
 					array set emotion $custom_emotions($name)
-					
+
 					if { [info exists emotion(casesensitive)] && [is_true $emotion(casesensitive)]} {
 						set nocase "-exact"
 					} else {
 						set nocase "-nocase"
 					}
-					
+		
 					set animated [expr {[info exists emotion(animated)] && [is_true $emotion(animated)]}]
 					if { $contact_list == 0 && [info exists emotion(sound)] && $emotion(sound) != "" } {
 						set sound $emotion(sound)
@@ -496,11 +497,11 @@ namespace eval ::smiley {
 					}
 					set image_name $emotion(image_name)
 					set image_file $emotion(file)
-					
-					
+		
+		
 					array unset emotion
 				}
-				
+		
 			} else {
 				#Get the name for this symbol
 				set emotion_name $emotions($symbol)
@@ -510,8 +511,8 @@ namespace eval ::smiley {
 				} else {
 					set nocase "-nocase"
 				}
-				
-				set animated [ValueForSmiley $emotion_name animated 1]			
+	
+				set animated [ValueForSmiley $emotion_name animated 1]
 				if { $contact_list == 0 && [ValueForSmiley $emotion_name sound] != "" } {
 					set sound [ValueForSmiley $emotion_name sound]
 				} else {
@@ -519,25 +520,40 @@ namespace eval ::smiley {
 				}
 				set image_name [::skin::loadPixmap $symbol smileys]
 				set image_file [ValueForSmiley $emotion_name file]
-				
 			}
 
 			set listpos 0
 			#Keep searching until no matches
 #TODO: make it not case sensitive
 			while { $listpos < $llength } {
-				if { ([lindex $l $listpos 0] == "text") && ([set pos [string first $symbol [lindex $l $listpos 1]]] != -1) } {
+				if { ([lindex $l $listpos 0] != "text") } {
+					incr listpos
+					continue
+				}
+				
+				if {[set pos [string first $symbol [lindex $l $listpos 1]]] != -1 } {
 					set p1 [string range [lindex $l $listpos 1] 0 [expr $pos-1]]
 					set p2 $image_name
 					set p3 [string range [lindex $l $listpos 1] [expr $pos+[string length $symbol]] end]
 
-#TODO:					#need to change for an 'in-place' lreplace
+#TODO: #need to change for an 'in-place' lreplace (here and below)
 					set l [lreplace $l $listpos $listpos [list text $p1] [list smiley $p2] [list text $p3] ]
 
 					incr llength 2
-				} else {
-					incr listpos
+					
+					if { $p3 == "" } {
+						set listpos2 [expr $listpos+2]
+						set l [lreplace $l $listpos2 $listpos2]
+						incr llength -1
+					}
+					if { $p1 == "" } {
+						set l [lreplace $l $listpos $listpos]
+						incr llength -1
+						incr listpos -1
+					}
 				}
+				#text can never be followed by another set of text
+				incr listpos 2
 			}
 		}
 
