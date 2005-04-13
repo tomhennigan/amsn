@@ -9,11 +9,11 @@
 #
 # * nickname truncation
 # * scroll the canvas while dragging if you come near to the border
-# * make sure everything works on mac/windows (fixed background)
-# * change cursor while dragging
+# * change cursor while dragging (Should we ?)
 # * there is a problem when dragging someone .. only mobile/offline showing :|
 # * better click-on-contact bindings, now in all cases a chatwindow comes up, also for offline/mobile users
 # * background doesn't move when using the scrollbar
+#   FIX: add an input to scrolled window as a contact that should be run after a scroll has been done
 
 
 
@@ -152,6 +152,7 @@ namespace eval ::guiContactList {
 	proc drawCL { canvas } {
 		#we don't need this anymore when drawing is finished .; so we'll unset it
 		global groupDrawn
+		global OnTheMove
 
 		# First we delete all the canvas items
 		$canvas addtag items all
@@ -163,6 +164,8 @@ namespace eval ::guiContactList {
 
 		# Now let's get a contact list
 		set contactList [generateCL]
+
+		set OnTheMove 0
 
 		# Let's draw each element of this list
 		set curPos [list 0 10]
@@ -205,7 +208,6 @@ namespace eval ::guiContactList {
 		global groupDrawn
 		#we are gonna get the parsed nicknaes out of the array created
 		global nicknameArray
-
 
 		#set all the info needed for drawing, $xpos and $ypos shouldn't be altered,
 		# $xnickpos and $ynickpos are used for this purpose
@@ -324,6 +326,9 @@ namespace eval ::guiContactList {
 		set yunderline [expr $ynickpos + $textheight + 1]
 		lappend underlinst [list $xnickpos $yunderline $textwidth]
 
+
+		#The bindings:
+		
 		#Remove previous bindings
 		$canvas bind $tag <Enter> ""
 		$canvas bind $tag <Motion> ""
@@ -332,14 +337,6 @@ namespace eval ::guiContactList {
 		#Change cursor on nick hover - binding
 		$canvas bind $tag <Enter> "+$canvas configure -cursor hand2"
 		$canvas bind $tag <Leave> "+$canvas configure -cursor left_ptr"
-
-#TODO: don't underline while dragging (has some problems)
-		#Add binding for underline if the skinner use it
-		if {[::skin::getKey underline_contact]} {
-			$canvas bind $tag <Enter> "+::guiContactList::underlineList $canvas [list $underlinst] $colour $tag"
-			$canvas bind $tag <Leave> "+$canvas delete uline_$tag"
-		}
-
 
 		
 		#Add binding for balloon
@@ -367,6 +364,14 @@ namespace eval ::guiContactList {
 		$canvas bind $tag <<Button2-Motion>> "::guiContactList::contactMove $tag $canvas"
 		$canvas bind $tag <<Button2>> "::guiContactList::contactReleased $tag $canvas"
 
+
+#TODO: don't underline while dragging (has some problems)
+		#Add binding for underline if the skinner use it
+		if {[::skin::getKey underline_contact]} {
+			$canvas bind $tag <Enter> "::guiContactList::underlineList $canvas [list $underlinst] $colour $tag"
+			$canvas bind $tag <Leave> "+$canvas delete uline"
+		}
+
 		return [list [expr $xpos - 15] [expr $ypos + [image height $img] + [::skin::getKey buddy_ypad]]]
 	}
 	
@@ -378,10 +383,14 @@ namespace eval ::guiContactList {
 	proc contactPress {tag canvas} {
 		global OldX
 		global OldY
+		global OnTheMove
 		#store old coordinates
 		set OldX [winfo pointerx .]
 		set OldY [winfo pointery .]
+		set OnTheMove 1
+		$canvas delete uline_$tag
 	}
+
 	proc contactMove {tag canvas} {
 		global OldX
 		global OldY
@@ -407,15 +416,16 @@ namespace eval ::guiContactList {
 	#		after 300 
 	#		::guiContactList::scrollCL down $canvaslength
 	#	}  -> won't work this way
+		$canvas delete uline_$tag
 		
-		
-		}
+	}
 
 
 
 	proc contactReleased {tag canvas} {
 		global OldX
 		global OldY
+		global OnTheMove
 #TODO: copying instead of moving when CTRL is pressed
 		#first get the info out of the tag
 		set email [::guiContactList::getEmailFromTag $tag]
@@ -433,8 +443,8 @@ namespace eval ::guiContactList {
 #TODO			#here we should trigger an event that can be used by plugins
 			# for example, the contact tray plugin could create trays like this
 
+			status_log "guiContactList: contact dragged off the CL"
 			#trigger event
-
 			::guiContactList::drawCL $canvas
 		} else {
 		
@@ -488,6 +498,7 @@ namespace eval ::guiContactList {
 				::guiContactList::drawCL $canvas
 			}
 		}
+		set OnTheMove 0
 		#remove those vars as they're not in use anymore
 		unset OldX
 		unset OldY
@@ -552,7 +563,7 @@ namespace eval ::guiContactList {
 		$canvas bind $gid <<Button3>> "::groups::GroupMenu $gid %X %Y"
 
 
-		$canvas bind $gid <Enter> "+$canvas create line $xuline1 $yuline $xuline2 $yuline -fill $groupcolor -tags [list [list uline_$gid uline]]; $canvas lower uline_$gid \
+		$canvas bind $gid <Enter> "+$canvas create line $xuline1 $yuline $xuline2 $yuline -fill $groupcolor -tags [list [list uline_$gid uline $gid]]; $canvas lower uline_$gid \
 			$gid;$canvas configure -cursor hand2"
 		$canvas bind $gid <Leave> "+$canvas delete uline_$gid;$canvas configure -cursor left_ptr"
 		
@@ -813,10 +824,12 @@ namespace eval ::guiContactList {
 	
 	#proc that draws horizontal lines from this list of [list xcoord xcoord linelength] lists
 	proc underlineList { canvas lines colour nicktag} {
-#		status_log "going to underline: $lines"
-		foreach line $lines {
-			$canvas create line [lindex $line 0] [lindex $line 1] [expr [lindex $line 0] + [lindex $line 2]] [lindex $line 1] -fill $colour -tags [list uline_$nicktag $nicktag]
-		}
+		global OnTheMove
+		if {!$OnTheMove} {
+			foreach line $lines {
+				$canvas create line [lindex $line 0] [lindex $line 1] [expr [lindex $line 0] + [lindex $line 2]] [lindex $line 1] -fill $colour -tags [list uline_$nicktag $nicktag uline]
+			}
+		}	
 		$canvas lower uline_$nicktag $nicktag
 	}
 
