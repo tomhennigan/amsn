@@ -1,6 +1,5 @@
 # TODO
 #
-# / translate individuals group and make it always first (DONE - ugly hack ? :|)
 # * Use an event to change the parsed nickname of someone <when the contact changes his nick>
 #   ('comes online' top?), and redraw the canvas (can't just redraw contact as it can be multiline)
 #
@@ -8,14 +7,19 @@
 #   FIX: In smileys.tcl, add parsing and then in drawNick here change Ypos
 #
 # * nickname truncation
+#
 # * scroll the canvas while dragging if you come near to the border
-# * change cursor while dragging (Should we ?)
-# * there is a problem when dragging someone .. only mobile/offline showing :|
-# * better click-on-contact bindings, now in all cases a chatwindow comes up, also for offline/mobile users
+#
+# * change cursor while dragging (should we ?)
+#
+#** better click-on-contact bindings, now in all cases a chatwindow comes up, also for offline/mobile users
+#
 # * background doesn't move when using the scrollbar
 #   FIX: add an input to scrolled window as a contact that should be run after a scroll has been done
 #
 # * set right mousewheel bindings
+#
+# * animated smileys on CL -> I hope this is possible easily ?
 
 
 namespace eval ::guiContactList {
@@ -280,6 +284,8 @@ namespace eval ::guiContactList {
 
 		set textheight [expr [font configure splainf -size]/2 ]
 
+		set relnickcolour $nickcolour
+
 		foreach unit $parsednick {
 			if {[lindex $unit 0] == "text"} {
 
@@ -295,12 +301,12 @@ namespace eval ::guiContactList {
 
 				#draw the text
 				$canvas create text $xnickpos $ynickpos -text $textpart -anchor w\
-					-fill $nickcolour -font splainf -tags [list contact $tag nicktext]
+					-fill $relnickcolour -font splainf -tags [list contact $tag nicktext]
 				set textwidth [font measure splainf $textpart]
 
 				#append underline coords
 				set yunderline [expr $ynickpos + $textheight + 1]
-				lappend underlinst [list $xnickpos $yunderline $textwidth $nickcolour]
+				lappend underlinst [list $xnickpos $yunderline $textwidth $relnickcolour]
 				#change the coords
 				set xnickpos [expr $xnickpos + $textwidth]
 
@@ -319,7 +325,11 @@ namespace eval ::guiContactList {
 			} elseif {[lindex $unit 0] == "colour"} {
 				# a plugin like aMSN Plus! could make the text lists\
 				 contain an extra variable for colourchanges
-				set nickcolour [lindex $unit 1]
+				set relnickcolour [lindex $unit 1]
+				if {$relnickcolour == "reset"} {
+					set relnickcolour $nickcolour
+				}
+
 			}
 
 		#end the foreach loop
