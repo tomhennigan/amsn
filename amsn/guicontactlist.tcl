@@ -364,11 +364,9 @@ namespace eval ::guiContactList {
 		$canvas bind $tag <<Button2-Motion>> "::guiContactList::contactMove $tag $canvas"
 		$canvas bind $tag <<Button2>> "::guiContactList::contactReleased $tag $canvas"
 
-
-#TODO: don't underline while dragging (has some problems)
 		#Add binding for underline if the skinner use it
 		if {[::skin::getKey underline_contact]} {
-			$canvas bind $tag <Enter> "::guiContactList::underlineList $canvas [list $underlinst] $colour $tag"
+			$canvas bind $tag <Enter> "+::guiContactList::underlineList $canvas [list $underlinst] $colour $tag"
 			$canvas bind $tag <Leave> "+$canvas delete uline"
 		}
 
@@ -437,14 +435,15 @@ namespace eval ::guiContactList {
 		#check with Xcoord if we're still on the canvas
 		set iconXCoord [lindex [$canvas coords $tag] 0]
 
-#TODO		#if we drag off the list; now it's only on the left, make it also "if bigger then\
-		 viewable area of canvas
+#TODO		#if we drag off the list; now it's only on the left, make it also "if bigger then viewable area of canvas
 		if {$iconXCoord < 0} { 
 #TODO			#here we should trigger an event that can be used by plugins
 			# for example, the contact tray plugin could create trays like this
 
 			status_log "guiContactList: contact dragged off the CL"
+
 			#trigger event
+
 			::guiContactList::drawCL $canvas
 		} else {
 		
@@ -491,7 +490,7 @@ namespace eval ::guiContactList {
 					::groups::menuCmdMove $newgrId $oldgrId $email
 					status_log "$email is now in [getGroupId $email]"
 #TODO: how to code this better (without the 'after') ?
-					status_log "Waiting 1 second"
+					status_log "Waiting 1 second before redraw"
 					after 1000 ::guiContactList::drawCL $canvas
 			} else {
 				status_log "! Can't move $email from \"$oldgrId\" to \"$newgrId\""
