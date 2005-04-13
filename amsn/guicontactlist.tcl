@@ -265,13 +265,13 @@ namespace eval ::guiContactList {
 
 
 
-#TODO: make a list of lists  with coords of pieces of text that should be underlined
-#	ala [list [xcoord ycoord lenght] ...]
 
 		set underlinst [list [list 0 0 0]]
 
 		set parsednick $nicknameArray("$email")
 #TODO:trunc	set maxwidth [winfo width .contactlist]
+
+		set textheight [expr [font configure splainf -size]/2 ]
 
 		foreach unit $parsednick {
 			if {[lindex $unit 0] == "text"} {
@@ -291,11 +291,9 @@ namespace eval ::guiContactList {
 				$canvas create text $xnickpos $ynickpos -text $textpart -anchor w\
 					-fill $colour -font splainf -tags [list contact $tag nicktext]
 				set textwidth [font measure splainf $textpart]
-				set textheight [expr [font configure splainf -size]/2 ]
-
 
 				#append underline coords
-				set yunderline [expr $ynickpos + 1 + $textheight ]
+				set yunderline [expr $ynickpos + $textheight + 1]
 				lappend underlinst [list $xnickpos $yunderline $textwidth]
 				#change the coords
 				set xnickpos [expr $xnickpos + $textwidth]
@@ -316,12 +314,15 @@ namespace eval ::guiContactList {
 		#end the foreach loop
 		}
 
+#TODO: a skinsetting for state-colour
 		$canvas create text $xnickpos $ynickpos	-text "  $statetext" -anchor w\
 			-fill $colour -font splainf -tags [list contact $tag statetext]
-		#alter the xnickpos again for underlining
-		set xnickpos [expr $xnickpos + [font measure splainf " $statetext"]]
 
+		set textwidth [font measure splainf  " $statetext"]
 
+		#append underline coords
+		set yunderline [expr $ynickpos + $textheight + 1]
+		lappend underlinst [list $xnickpos $yunderline $textwidth]
 
 		#Remove previous bindings
 		$canvas bind $tag <Enter> ""
@@ -332,7 +333,7 @@ namespace eval ::guiContactList {
 		$canvas bind $tag <Enter> "+$canvas configure -cursor hand2"
 		$canvas bind $tag <Leave> "+$canvas configure -cursor left_ptr"
 
-#TODO: underlining
+#TODO: don't underline while dragging (has some problems)
 		#Add binding for underline if the skinner use it
 		if {[::skin::getKey underline_contact]} {
 			$canvas bind $tag <Enter> "+::guiContactList::underlineList $canvas [list $underlinst] $colour $tag"
@@ -354,12 +355,14 @@ namespace eval ::guiContactList {
 		} else {
 			set singordblclick <Double-Button-1>
 		}
-		 
+
+		#binding for right click		 
 		$canvas bind $tag <<Button3>> "show_umenu $email $grId %X %Y"
+
+#TODO: have the action depend on the 'state' (for mobile/offline contacts!)
 		$canvas bind $tag $singordblclick "::amsn::chatUser $email"
 
-#TODO		#drag bindings; needs macification ;)
-
+		#bindings for dragging
 		$canvas bind $tag <<Button2-Press>> "::guiContactList::contactPress $tag $canvas"
 		$canvas bind $tag <<Button2-Motion>> "::guiContactList::contactMove $tag $canvas"
 		$canvas bind $tag <<Button2>> "::guiContactList::contactReleased $tag $canvas"
