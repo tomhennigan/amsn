@@ -8,11 +8,12 @@
 #   FIX: In smileys.tcl, add parsing and then in drawNick here change Ypos
 #
 # * nickname truncation
-# * nickname underline
 # * scroll the canvas while dragging if you come near to the border
 # * make sure everything works on mac/windows (fixed background)
 # * change cursor while dragging
 # * there is a problem when dragging someone .. only mobile/offline showing :|
+# * better click-on-contact bindings, now in all cases a chatwindow comes up, also for offline/mobile users
+# * background doesn't move when using the scrollbar
 
 
 
@@ -149,6 +150,8 @@ namespace eval ::guiContactList {
 	# This is the main contactList drawing procedure, it clears the canvas and draws a brand 
 	# new contact list in it's place
 	proc drawCL { canvas } {
+		#we don't need this anymore when drawing is finished .; so we'll unset it
+		global groupDrawn
 
 		# First we delete all the canvas items
 		$canvas addtag items all
@@ -174,6 +177,9 @@ namespace eval ::guiContactList {
 			}
 		}
 		
+		#remove unused vars
+		unset groupDrawn
+
 		#set height of canvas
 		set canvaslength [expr [lindex $curPos 1] + 20]
 		$canvas configure -scrollregion [list 0 0 2000 $canvaslength]
@@ -200,8 +206,6 @@ namespace eval ::guiContactList {
 		#we are gonna get the parsed nicknaes out of the array created
 		global nicknameArray
 
-		#the underline list
-		global underlinst
 
 		#set all the info needed for drawing, $xpos and $ypos shouldn't be altered,
 		# $xnickpos and $ynickpos are used for this purpose
@@ -291,7 +295,6 @@ namespace eval ::guiContactList {
 
 
 				#append underline coords
-				set textheight
 				set yunderline [expr $ynickpos + 1 + $textheight ]
 				lappend underlinst [list $xnickpos $yunderline $textwidth]
 				#change the coords
@@ -333,7 +336,7 @@ namespace eval ::guiContactList {
 		#Add binding for underline if the skinner use it
 		if {[::skin::getKey underline_contact]} {
 			$canvas bind $tag <Enter> "+::guiContactList::underlineList $canvas [list $underlinst] $colour $tag"
-			$canvas bind $tag <Leave> "+$canvas delete uline"
+			$canvas bind $tag <Leave> "+$canvas delete uline_$tag"
 		}
 
 
@@ -379,6 +382,7 @@ namespace eval ::guiContactList {
 	proc contactMove {tag canvas} {
 		global OldX
 		global OldY
+
 		#change coordinates 
 		set NewX [winfo pointerx .]
 		set NewY [winfo pointery .]
@@ -545,9 +549,9 @@ namespace eval ::guiContactList {
 		$canvas bind $gid <<Button3>> "::groups::GroupMenu $gid %X %Y"
 
 
-		$canvas bind $gid <Enter> "+$canvas create line $xuline1 $yuline $xuline2 $yuline -fill $groupcolor -tag uline ; $canvas lower uline \
+		$canvas bind $gid <Enter> "+$canvas create line $xuline1 $yuline $xuline2 $yuline -fill $groupcolor -tags [list [list uline_$gid uline]]; $canvas lower uline_$gid \
 			$gid;$canvas configure -cursor hand2"
-		$canvas bind $gid <Leave> "+$canvas delete uline;$canvas configure -cursor left_ptr"
+		$canvas bind $gid <Leave> "+$canvas delete uline_$gid;$canvas configure -cursor left_ptr"
 		
 		return [list $xpos [expr $ypos + 20]]
 	}
@@ -808,9 +812,9 @@ namespace eval ::guiContactList {
 	proc underlineList { canvas lines colour nicktag} {
 #		status_log "going to underline: $lines"
 		foreach line $lines {
-			$canvas create line [lindex $line 0] [lindex $line 1] [expr [lindex $line 0] + [lindex $line 2]] [lindex $line 1] -fill $colour -tag uline
+			$canvas create line [lindex $line 0] [lindex $line 1] [expr [lindex $line 0] + [lindex $line 2]] [lindex $line 1] -fill $colour -tags [list uline_$nicktag $nicktag]
 		}
-		$canvas lower uline $nicktag
+		$canvas lower uline_$nicktag $nicktag
 	}
 
 }
