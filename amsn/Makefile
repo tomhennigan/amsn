@@ -5,7 +5,7 @@
 #
 
 name=amsn
-version=0.91
+version=0.95
 release=1a
 module=msn
 
