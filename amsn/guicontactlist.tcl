@@ -14,7 +14,8 @@
 # * better click-on-contact bindings, now in all cases a chatwindow comes up, also for offline/mobile users
 # * background doesn't move when using the scrollbar
 #   FIX: add an input to scrolled window as a contact that should be run after a scroll has been done
-
+#
+# * set right mousewheel bindings
 
 
 namespace eval ::guiContactList {
@@ -224,9 +225,9 @@ namespace eval ::guiContactList {
 		set state_code [::abook::getVolatileData $email state FLN]
 		
 		if { [::abook::getContactData $email customcolor] != "" } {
-			set colour [::abook::getContactData $email customcolor] 
+			set nickcolour [::abook::getContactData $email customcolor] 
 		} else {
-			set colour [::MSN::stateToColor $state_code]
+			set nickcolour [::MSN::stateToColor $state_code]
 		}
 
 		if { [::abook::getVolatileData $email MOB] == "Y" && $state_code == "FLN"} {
@@ -243,8 +244,16 @@ namespace eval ::guiContactList {
 		} else {
 			set statetext ""
 		}
+#TODO: a skinsetting for state-colour
+		set statecolour grey
+		set statewidth [font measure splainf "$statetext"]
 
-	
+
+#TODO: skin setting to draw buddypicture; statusicon should become inoc + status overlay
+#like:	draw icon or small puddypicture
+#	overlay it with the status-emblem
+
+		#draw status-icon
 		$canvas create image $xpos $ypos -image $img -anchor nw \
 			-tags [list contact icon $tag]
 
@@ -265,12 +274,8 @@ namespace eval ::guiContactList {
 
 		#Now we're gonna draw the nickname itself
 
+		set underlinst [list [list 0 0 0 black]]
 
-
-
-		set underlinst [list [list 0 0 0]]
-
-		set parsednick $nicknameArray("$email")
 #TODO:trunc	set maxwidth [winfo width .contactlist]
 
 		set textheight [expr [font configure splainf -size]/2 ]
@@ -288,15 +293,14 @@ namespace eval ::guiContactList {
 #TODO:truncation		#check if text is not too long and should be truncated, then\
 				 first truncate it and restore it in $textpart
 
-
 				#draw the text
 				$canvas create text $xnickpos $ynickpos -text $textpart -anchor w\
-					-fill $colour -font splainf -tags [list contact $tag nicktext]
+					-fill $nickcolour -font splainf -tags [list contact $tag nicktext]
 				set textwidth [font measure splainf $textpart]
 
 				#append underline coords
 				set yunderline [expr $ynickpos + $textheight + 1]
-				lappend underlinst [list $xnickpos $yunderline $textwidth]
+				lappend underlinst [list $xnickpos $yunderline $textwidth $nickcolour]
 				#change the coords
 				set xnickpos [expr $xnickpos + $textwidth]
 
@@ -312,20 +316,29 @@ namespace eval ::guiContactList {
 
 				#change the coords
 				set xnickpos [expr $xnickpos + [image width $smileyname]]
+			} elseif {[lindex $unit 0] == "colour"} {
+				# a plugin like aMSN Plus! could make the text lists\
+				 contain an extra variable for colourchanges
+				set nickcolour [lindex $unit 1]
 			}
+
 		#end the foreach loop
 		}
 
-#TODO: a skinsetting for state-colour
-		$canvas create text $xnickpos $ynickpos	-text "  $statetext" -anchor w\
-			-fill $colour -font splainf -tags [list contact $tag statetext]
+		if {$statetext != ""} {
 
-		set textwidth [font measure splainf  " $statetext"]
+		#set the spacing (if this needs to be underlined, we'll draw the state as "  $statetext" and remove the spacing
+		set xnickpos [expr $xnickpos + 5]
+
+		$canvas create text $xnickpos $ynickpos	-text "$statetext" -anchor w\
+			-fill $statecolour -font splainf -tags [list contact $tag statetext]
+
 
 		#append underline coords
 		set yunderline [expr $ynickpos + $textheight + 1]
-		lappend underlinst [list $xnickpos $yunderline $textwidth]
+		lappend underlinst [list $xnickpos $yunderline $statewidth $statecolour]
 
+		}
 
 		#The bindings:
 		
@@ -366,7 +379,7 @@ namespace eval ::guiContactList {
 
 		#Add binding for underline if the skinner use it
 		if {[::skin::getKey underline_contact]} {
-			$canvas bind $tag <Enter> "+::guiContactList::underlineList $canvas [list $underlinst] $colour $tag"
+			$canvas bind $tag <Enter> "+::guiContactList::underlineList $canvas [list $underlinst] $tag"
 			$canvas bind $tag <Leave> "+$canvas delete uline"
 		}
 
@@ -822,11 +835,11 @@ namespace eval ::guiContactList {
 	}
 	
 	#proc that draws horizontal lines from this list of [list xcoord xcoord linelength] lists
-	proc underlineList { canvas lines colour nicktag} {
+	proc underlineList { canvas lines nicktag} {
 		global OnTheMove
 		if {!$OnTheMove} {
 			foreach line $lines {
-				$canvas create line [lindex $line 0] [lindex $line 1] [expr [lindex $line 0] + [lindex $line 2]] [lindex $line 1] -fill $colour -tags [list uline_$nicktag $nicktag uline]
+				$canvas create line [lindex $line 0] [lindex $line 1] [expr [lindex $line 0] + [lindex $line 2]] [lindex $line 1] -fill [lindex $line 3] -tags [list uline_$nicktag $nicktag uline]
 			}
 		}	
 		$canvas lower uline_$nicktag $nicktag
