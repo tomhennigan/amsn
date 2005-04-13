@@ -24,12 +24,6 @@
 		<name>Bosnian (Bosanski)</name>
 		<version>1.2</version>
 		<encoding>iso8859-1</encoding>
-	<lang>
-		<langcode>bg</langcode>
-		<name>Bulgarian (Български)</name>
-		<version>1.1</version>
-		<encoding>iso8859-5</encoding>
-	</lang>
 	</lang>
 	<lang>
 		<langcode>ca</langcode>
