@@ -1,27 +1,22 @@
 # TODO
 #
-# * Use an event to change the parsed nickname of someone <when the contact changes his nick>
-#   ('comes online' top?), and redraw the canvas (can't just redraw contact as it can be multiline)
+# * set right mousewheel bindings (windows/mac)
 #
-# * support for multiline nicks
-#   FIX: In smileys.tcl, add parsing and then in drawNick here change Ypos
+# * better click-on-contact bindings, now in all cases a chatwindow comes up, also for offline/mobile users
 #
-# * nickname truncation
+# * redraw on skinchange
 #
 # * scroll the canvas while dragging if you come near to the border
 #
 # * change cursor while dragging (should we ?)
 #
-#** better click-on-contact bindings, now in all cases a chatwindow comes up, also for offline/mobile users
-#
 # * background doesn't move when using the scrollbar
-#   FIX: add an input to scrolled window as a contact that should be run after a scroll has been done
+#   FIX: add an input to scrolled window as a command that should be run after a scroll has been done (then we don't need to do this in scrollCL neither)
 #
-# * set right mousewheel bindings
+# * animated smileys on CL -> I hope this is possible easily with TkCxImage?
 #
-# * animated smileys on CL -> I hope this is possible easily ?
 #
-# * redraw on skinchange
+# ... check the "TODO" items in the comments ;) .. there are quite some ;)
 
 
 namespace eval ::guiContactList {
@@ -135,20 +130,19 @@ namespace eval ::guiContactList {
 		wm title .contactlist "[trans title] - [::config::getKey login]"
 
 		#color should be skinnable:
+#TODO: feed ScrolledWindow a command for when scrolling
 		ScrolledWindow .contactlist.fr -auto vertical -scrollbar vertical -bg white -bd 0
 
-		#color should be skinnable:
+#TODO:		#color should be skinnable:
 		canvas $clcanvas -width [lindex $clbox 2] -height [lindex $clbox 3] -background white
 
 		.contactlist.fr setwidget $clcanvas
 		pack .contactlist.fr
 
 		#Before drawing the CLcanvas, we set up the array with the parsed nicknames
-		status_log "guiContactList: Parsing all nicknames ..."
 		createNicknameArray
-		status_log "guiContactList: Done."
 
-		#is needed so the window size can be measured
+		#'after' is needed so the window size can be measured right
 		after 1 ::guiContactList::drawCL $clcanvas
 
 		catch {wm geometry .contactlist [::config::getKey wingeometry]}
@@ -169,13 +163,14 @@ namespace eval ::guiContactList {
 		$canvas addtag items all
 		$canvas delete items
 
-		#this line should be done with the other skin::setpixmap's 
+#TODO:		#this line should be done with the other skin::setpixmap's 
 		::skin::setPixmap back back.gif
 		$canvas create image 0 0 -image [::skin::loadPixmap back] -anchor nw -tag backgroundimage
 
 		# Now let's get a contact list
 		set contactList [generateCL]
 
+		#Before drawing we set the "we are draggin, sir" variable on 0
 		set OnTheMove 0
 
 		# Let's draw each element of this list
@@ -191,33 +186,51 @@ namespace eval ::guiContactList {
 			}
 		}
 		
-		#remove unused vars
+		#remove unused vars; groupDrawn only needed when drawing contacts
 		unset groupDrawn
 
 		#set height of canvas
 		set canvaslength [expr [lindex $curPos 1] + 20]
 		$canvas configure -scrollregion [list 0 0 2000 $canvaslength]
 
-		#set scrolling bindings for canvas/scrollbar
-		bind $canvas <ButtonPress-5> "::guiContactList::scrollCL $canvas down"		
-		bind $canvas <ButtonPress-4> "::guiContactList::scrollCL $canvas up"
-		bind .contactlist.fr.vscroll <ButtonPress-5> "::guiContactList::scrollCL $canvas down"
-		bind .contactlist.fr.vscroll <ButtonPress-4> "::guiContactList::scrollCL $canvas up"
+
+#TODO		#scrollbindings: make 'm work for every platform !
+#		 scrolledwindow should be feeded a command that moves the background 
+#		 so it's also at the right place when the bar is dragged
+		if {[string equal [tk windowingsystem] "classic"] || [string equal [tk windowingsystem] "aqua"]} {
+			bind $canvas <MouseWheel> {
+			%W yview scroll [expr {- (%D)}] units ;
+			$canvas coords backgroundimage 0 [expr int([expr [lindex [$canvas yview] 0] * $canvaslength])]
+			}
+
+			bind [winfo parent $canvas].vscroll <MouseWheel> {
+			%W yview scroll [expr {- (%D)}] units ;
+			$canvas coords backgroundimage 0 [expr int([expr [lindex [$canvas yview] 0] * $canvaslength])]  }
+  		} else {
+
+			bind $canvas <ButtonPress-5> "::guiContactList::scrollCL $canvas down"		
+			bind $canvas <ButtonPress-4> "::guiContactList::scrollCL $canvas up"
+#TODO: remove implicit use ..
+			bind [winfo parent $canvas].vscroll <ButtonPress-5> "::guiContactList::scrollCL $canvas down"
+			bind [winfo parent $canvas].vscroll <ButtonPress-4> "::guiContactList::scrollCL $canvas up"
+
+		}
+
 		#on resizing the canvas needs to be redrawn so the truncation is right
 		bind $canvas <Configure> "::guiContactList::drawCL $canvas"
 
 		#make sure after redrawing the bgimage is on the right place
-		.contactlist.fr.c coords backgroundimage 0 [expr int([expr [lindex [.contactlist.fr.c yview] 0] * $canvaslength])]
+		$canvas coords backgroundimage 0 [expr int([expr [lindex [$canvas yview] 0] * $canvaslength])]
 
 	}
 
 		
 
-	# Draw the contact on the canvas
+	# Draw a contact on the canvas
 	proc drawContact { canvas element curPos } {
 		#we need to know what group we are drawing in
 		global groupDrawn
-		#we are gonna get the parsed nicknaes out of the array created
+		#we are gonna get the parsed nicknames out of the array created
 		global nicknameArray
 
 		#set all the info needed for drawing, $xpos and $ypos shouldn't be altered,
@@ -240,24 +253,30 @@ namespace eval ::guiContactList {
 			set nickcolour [::MSN::stateToColor $state_code]
 		}
 
+#TODO: hovers for these
 		if { [::abook::getVolatileData $email MOB] == "Y" && $state_code == "FLN"} {
 			set img [::skin::loadPixmap mobile]
 		} else {
 			set img [::skin::loadPixmap [::MSN::stateToImage $state_code]]
 		}
+#TODO: skinsetting to have buddypictures in their place (this is default in MSN7!)
+#	with a pixmap border and also status-emblem overlay in bottom right corner
+
 		
 		set parsednick $nicknameArray("$email")
 
+		set nickstatespacing 0
+		set statetext ""
 		if {$state_code != "NLN"} {
+#TODO: skinsetting for the spacing between nicknames and the status
+			set nickstatespacing 5
 			set statetext "\([trans [::MSN::stateToDescription $state_code]]\)"
-
-		} else {
-			set statetext ""
 		}
 #TODO: a skinsetting for state-colour
 		set statecolour grey
 		set statewidth [font measure splainf $statetext]
-		set nickstatespacing 5
+
+
 
 #TODO: skin setting to draw buddypicture; statusicon should become inoc + status overlay
 #like:	draw icon or small puddypicture
@@ -266,6 +285,9 @@ namespace eval ::guiContactList {
 		#draw status-icon
 		$canvas create image $xpos $ypos -image $img -anchor nw \
 			-tags [list contact icon $tag]
+
+		set hoversquarex1 [expr $xpos + [image width $img] + 3]
+		set hoversquarey1 [expr $ypos - 2]
 
 		#set the beginning coords for the next drawings
 		set xnickpos [expr $xpos + [image width $img] + 5]
@@ -287,6 +309,7 @@ namespace eval ::guiContactList {
 		set underlinst [list [list 0 0 0 black]]
 
 		set maxwidth [winfo width .contactlist.fr.c]
+		set hoversquarex2 [expr $maxwidth - 2]
 
 		set ellips "..."
 
@@ -347,7 +370,15 @@ namespace eval ::guiContactList {
 				if {[expr $relxnickpos + [image width $smileyname]] > $maxwidth} {
 					#This line is full, don't draw anything anymore before we start a new line
 					set linefull 1
-#TODO: draw ellipsis
+
+					$canvas create text $relxnickpos $ynickpos -text $ellips -anchor w\
+				-fill $relnickcolour -font splainf -tags [list contact $tag nicktext]
+					set textwidth [font measure splainf $ellips]
+
+					#append underline coords
+					set yunderline [expr $ynickpos + $textheight + 1]
+					lappend underlinst [list $relxnickpos $yunderline $textwidth $relnickcolour]
+
 					continue
 				}
 
@@ -355,7 +386,7 @@ namespace eval ::guiContactList {
 				$canvas create image $relxnickpos $ynickpos -image $smileyname -anchor w\
 					-tags [list contact $tag smiley]
 
-				#the next should come lower because this line is higher due to the smiley in it
+				#the next should come lower because this line is higher due to the smiley in it .. or not ? ;)
 				if {[image height $smileyname] >= $ychange} {
 					set ychange [image height $smileyname]
 				}
@@ -399,6 +430,8 @@ namespace eval ::guiContactList {
 
 		}
 
+		set hoversquarey2 [expr $ypos + $ychange -2]
+
 		#The bindings:
 		
 		#Remove previous bindings
@@ -441,6 +474,12 @@ namespace eval ::guiContactList {
 			$canvas bind $tag <Enter> "+::guiContactList::underlineList $canvas [list $underlinst] $tag"
 			$canvas bind $tag <Leave> "+$canvas delete uline"
 		}
+
+
+#little fantasy with an error
+#		$canvas bind $tag <Enter> "+$canvas create rectangle $hoversquarex1 $hoversquarey1 $hoversquarex2 $hoversquarey2 -tags rect"
+#		$canvas bind $tag <Leave> "+$canvas delete rect"
+
 
 		return [list [expr $xpos - 15] [expr $ypos + $ychange + [::skin::getKey buddy_ypad]]]
 	}
@@ -561,9 +600,6 @@ namespace eval ::guiContactList {
 					status_log "Gonna move $email from $oldgrId to $newgrId"
 					::groups::menuCmdMove $newgrId $oldgrId $email
 					status_log "$email is now in [getGroupId $email]"
-#TODO: how to code this better (without the 'after') ?
-					status_log "Waiting 1 second before redraw"
-					#after 1000 ::guiContactList::drawCL $canvas
 			} else {
 				status_log "! Can't move $email from \"$oldgrId\" to \"$newgrId\""
 				::guiContactList::drawCL $canvas
@@ -888,8 +924,9 @@ namespace eval ::guiContactList {
 			}
 		
 			#here we have to move the background-image
-#TODO:			# why doesn't this work on Windows ?
-			$canvas coords backgroundimage 0 [expr int([expr [lindex [.contactlist.fr.c yview] 0] * $canvaslength])]
+			# this should be done as a command given to scrolledwindow, so it also
+			# works when dragging the scrollbar
+			$canvas coords backgroundimage 0 [expr int([expr [lindex [$canvas yview] 0] * $canvaslength])]
 		}
 	}
 	
