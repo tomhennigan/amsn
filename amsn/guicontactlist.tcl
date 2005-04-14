@@ -20,6 +20,8 @@
 # * set right mousewheel bindings
 #
 # * animated smileys on CL -> I hope this is possible easily ?
+#
+# * redraw on skinchange
 
 
 namespace eval ::guiContactList {
@@ -254,8 +256,8 @@ namespace eval ::guiContactList {
 		}
 #TODO: a skinsetting for state-colour
 		set statecolour grey
-		set statewidth [font measure splainf "$statetext"]
-
+		set statewidth [font measure splainf $statetext]
+		set nickstatespacing 5
 
 #TODO: skin setting to draw buddypicture; statusicon should become inoc + status overlay
 #like:	draw icon or small puddypicture
@@ -284,15 +286,28 @@ namespace eval ::guiContactList {
 
 		set underlinst [list [list 0 0 0 black]]
 
-#TODO:trunc	set maxwidth [winfo width .contactlist]
+		set maxwidth [winfo width .contactlist.fr.c]
+
+		set ellips "..."
+
+		#leave some place for the statustext, the elipsis (...) and the spacing + sapcing of border
+		set maxwidth [expr $maxwidth - $statewidth - [font measure splainf $ellips] - $nickstatespacing - 5]
+
+		set linefull 0
 
 		set textheight [expr [font configure splainf -size]/2 ]
 
+		#this is the var for the y-change
+		set ychange [image height $img]
+
 		set relnickcolour $nickcolour
+		set relxnickpos $xnickpos
 
 		foreach unit $parsednick {
 			if {[lindex $unit 0] == "text"} {
 
+				#check if we are still allowed to write text
+				if {$linefull} {continue}
 
 				#store the text as a string
 				set textpart [lindex $unit 1]
@@ -300,32 +315,57 @@ namespace eval ::guiContactList {
 				#check if it's really containing text
 				if {$textpart == ""} {continue}
 
-#TODO:truncation		#check if text is not too long and should be truncated, then\
-				 first truncate it and restore it in $textpart
+				#check if text is not too long and should be truncated, then\
+				 first truncate it and restore it in $textpart and set the linefull
+				if {[expr $relxnickpos + [font measure splainf $textpart]] > $maxwidth} {
+					set textpart [::guiContactList::truncateText $textpart [expr $maxwidth - $relxnickpos]]
+					set textpart "$textpart$ellips"
+
+					set linefull 1
+				}
 
 				#draw the text
-				$canvas create text $xnickpos $ynickpos -text $textpart -anchor w\
-					-fill $relnickcolour -font splainf -tags [list contact $tag nicktext]
+				$canvas create text $relxnickpos $ynickpos -text $textpart -anchor w\
+				-fill $relnickcolour -font splainf -tags [list contact $tag nicktext]
 				set textwidth [font measure splainf $textpart]
 
 				#append underline coords
 				set yunderline [expr $ynickpos + $textheight + 1]
-				lappend underlinst [list $xnickpos $yunderline $textwidth $relnickcolour]
+				lappend underlinst [list $relxnickpos $yunderline $textwidth $relnickcolour]
 				#change the coords
-				set xnickpos [expr $xnickpos + $textwidth]
+				set relxnickpos [expr $relxnickpos + $textwidth]
 
 			} elseif {[lindex $unit 0] == "smiley"} {
 
+				#check if we are still allowed to draw smileys
+				if {$linefull} {continue}
+
 				set smileyname [lindex $unit 1]
 
-#TODO:truncation		#check for available place
+#TODO:truncation
+				if {[expr $relxnickpos + [image width $smileyname]] > $maxwidth} {
+					set linefull 1
+					continue
+				}
 
 				#draw the smiley
-				$canvas create image $xnickpos $ynickpos -image $smileyname -anchor w\
+				$canvas create image $relxnickpos $ynickpos -image $smileyname -anchor w\
 					-tags [list contact $tag smiley]
 
+				#the next should come lower because this line is higher due to the smiley in it
+				set ychange [image height $smileyname]
+
 				#change the coords
-				set xnickpos [expr $xnickpos + [image width $smileyname]]
+				set relxnickpos [expr $relxnickpos + [image width $smileyname]]
+			} elseif {[lindex $unit 0] == "newline"} {
+
+				set relxnickpos $xnickpos
+				set ynickpos [expr $ynickpos + $ychange]
+				set ypos [expr $ypos + $ychange]
+
+				#new line, we can draw again !
+				set linefull 0
+
 			} elseif {[lindex $unit 0] == "colour"} {
 				# a plugin like aMSN Plus! could make the text lists\
 				 contain an extra variable for colourchanges
@@ -342,15 +382,15 @@ namespace eval ::guiContactList {
 		if {$statetext != ""} {
 
 		#set the spacing (if this needs to be underlined, we'll draw the state as "  $statetext" and remove the spacing
-		set xnickpos [expr $xnickpos + 5]
+		set relxnickpos [expr $relxnickpos + $nickstatespacing]
 
-		$canvas create text $xnickpos $ynickpos	-text "$statetext" -anchor w\
+		$canvas create text $relxnickpos $ynickpos -text "$statetext" -anchor w\
 			-fill $statecolour -font splainf -tags [list contact $tag statetext]
 
 
 		#append underline coords
 		set yunderline [expr $ynickpos + $textheight + 1]
-		lappend underlinst [list $xnickpos $yunderline $statewidth $statecolour]
+		lappend underlinst [list $relxnickpos $yunderline $statewidth $statecolour]
 
 		}
 
@@ -397,7 +437,7 @@ namespace eval ::guiContactList {
 			$canvas bind $tag <Leave> "+$canvas delete uline"
 		}
 
-		return [list [expr $xpos - 15] [expr $ypos + [image height $img] + [::skin::getKey buddy_ypad]]]
+		return [list [expr $xpos - 15] [expr $ypos + $ychange + [::skin::getKey buddy_ypad]]]
 	}
 	
 
@@ -518,7 +558,7 @@ namespace eval ::guiContactList {
 					status_log "$email is now in [getGroupId $email]"
 #TODO: how to code this better (without the 'after') ?
 					status_log "Waiting 1 second before redraw"
-					after 1000 ::guiContactList::drawCL $canvas
+					#after 1000 ::guiContactList::drawCL $canvas
 			} else {
 				status_log "! Can't move $email from \"$oldgrId\" to \"$newgrId\""
 				::guiContactList::drawCL $canvas
@@ -866,7 +906,24 @@ namespace eval ::guiContactList {
 		set usernick "[::abook::getDisplayNick $user]"
 		set nicknameArray("$user") "[::smiley::parseMessageToList $usernick 1]"
 #TODO: get this implicit use of ".contactlist.fr.c" out of here
-		drawCL .contactlist.fr.c
+		after 1000 ::guiContactList::drawCL .contactlist.fr.c
 
+	}
+
+	proc truncateText { text maxwidth } {
+
+		set shortened ""
+		set stringlength [string length $text]
+
+		#store stringlength
+		for {set x 0} {$x < $stringlength} {incr x} {
+			set nextchar [string range $text $x $x]
+			set nextstring "$shortened$nextchar"
+			if {[font measure splainf $nextstring] > $maxwidth} {
+				break
+			}
+			set shortened "$nextstring"
+		}
+		return $shortened
 	}
 }
