@@ -321,6 +321,7 @@ namespace eval ::guiContactList {
 					set textpart [::guiContactList::truncateText $textpart [expr $maxwidth - $relxnickpos]]
 					set textpart "$textpart$ellips"
 
+					#This line is full, don't draw anything anymore before we start a new line
 					set linefull 1
 				}
 
@@ -342,9 +343,11 @@ namespace eval ::guiContactList {
 
 				set smileyname [lindex $unit 1]
 
-#TODO:truncation
+
 				if {[expr $relxnickpos + [image width $smileyname]] > $maxwidth} {
+					#This line is full, don't draw anything anymore before we start a new line
 					set linefull 1
+#TODO: draw ellipsis
 					continue
 				}
 
@@ -353,7 +356,9 @@ namespace eval ::guiContactList {
 					-tags [list contact $tag smiley]
 
 				#the next should come lower because this line is higher due to the smiley in it
-				set ychange [image height $smileyname]
+				if {[image height $smileyname] >= $ychange} {
+					set ychange [image height $smileyname]
+				}
 
 				#change the coords
 				set relxnickpos [expr $relxnickpos + [image width $smileyname]]
