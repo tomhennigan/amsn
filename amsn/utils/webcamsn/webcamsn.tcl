@@ -150,13 +150,17 @@ proc EncodeFromWebcam { filename } {
 
     puts $debug "Creating widgets and sequencer :\n"
 
-    set img [image create photo]
-    seqgrabber .seq
+    
+    
 
     catch {destroy .webcam}
     toplevel .webcam
-    label .webcam.l -image $img
-    pack .webcam.l
+    seqgrabber .webcam.seq -width 160
+    pack .webcam.seq
+    set img [image create photo]
+   #If you want to see the pictures you shot, uncomment the 2 next lines
+   # label .webcam.l -image $img
+   # pack .webcam.l
     set ::sem 0
     set ::frame 0
     puts $debug "Creating encoder"
@@ -164,13 +168,23 @@ proc EncodeFromWebcam { filename } {
 
     puts $debug "$encoder - [::Webcamsn::NumberOfOpenCodecs]"
 
+	
+	
+	
     for {set i 0 } { $i < 1000 } { incr i} {
         if { ![winfo exists .webcam] } {
                 break 
         }
 
 	puts $debug "encoding frame [::Webcamsn::NbFrames $encoder]"
-	.seq picture $img
+	
+	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		.webcam.seq image shot $img
+		#shot .webcam.seq $img
+	} else {
+		.webcam.seq picture $img
+	}
+	
 	if { [catch {set data [::Webcamsn::Encode $encoder $img]} res] } {
 	    puts $debug "ERROR : $res\n"
 	} else {
@@ -180,6 +194,7 @@ proc EncodeFromWebcam { filename } {
 	    puts -nonewline $fd $header
 	    puts -nonewline $fd $data
 	}
+	
 
 	after 10 "incr ::sem"
 	tkwait variable ::sem
@@ -191,6 +206,9 @@ proc EncodeFromWebcam { filename } {
     puts $debug "$encoder - [::Webcamsn::NumberOfOpenCodecs]"
     ::Webcamsn::Close $encoder
     puts $debug "$encoder - [::Webcamsn::NumberOfOpenCodecs]"
+
+}
+proc shot {w img} {
 
 }
 
