@@ -465,7 +465,7 @@ namespace eval ::smiley {
 		set llength 1
 
 		#Search for all possible emotions, after they are sorted by symbol length
-		foreach emotion_data $sortedemotions {
+		foreach emotion_data [concat $sortedemotions [list [list "\n" "newline"]]] {
 
 			#Symbol is first element
 			set symbol [lindex $emotion_data 0]
@@ -502,6 +502,13 @@ namespace eval ::smiley {
 					array unset emotion
 				}
 		
+			} elseif { $smiley_type == "newline" } {
+				set emotion_name "newline"
+				set nocase "-exact"
+				set animated 0
+				set sound ""
+				set image_name "__newline__"
+				set image_file ""
 			} else {
 				#Get the name for this symbol
 				set emotion_name $emotions($symbol)
@@ -537,7 +544,11 @@ namespace eval ::smiley {
 					set p3 [string range [lindex $l $listpos 1] [expr $pos+[string length $symbol]] end]
 
 #TODO: #need to change for an 'in-place' lreplace (here and below)
-					set l [lreplace $l $listpos $listpos [list text $p1] [list smiley $p2] [list text $p3] ]
+					if { $p2 == "__newline__" } {
+						set l [lreplace $l $listpos $listpos [list text $p1] [list "newline"] [list text $p3] ]
+					} else {
+						set l [lreplace $l $listpos $listpos [list text $p1] [list smiley $p2] [list text $p3] ]
+					}
 
 					incr llength 2
 					
