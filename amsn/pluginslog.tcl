@@ -65,12 +65,15 @@ namespace eval ::pluginslog {
 	variable window
 	variable filters
 
+	set arraysize [array size log]
+	if { $arraysize == 500 } {
+		set startpos $idx
+	} else {
+		set startpos 0
+	}
 	$window.info delete 1.0 end
-	for {set count 0} {$count < [array size log]} {incr count} {
-		set x [expr $count + $idx]
-		if { $x > 499 } {
-			incr x -500
-		}
+	for {set count 0} {$count < $arraysize} {incr count} {
+		set x [expr ($count + $startpos)%500]
 		set plugin [lindex $::pluginslog::log($x) 0]
 		#if no filters, show all
 		#if in filter, show it.
