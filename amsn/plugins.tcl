@@ -168,11 +168,10 @@ namespace eval ::plugins {
 
 		# do stuff only if there is a such a command for the event
 		#TODO: do we need to check if such a event exists?
-		if {[lsearch $pluginsevents(${event}) "\:\:$namespace\:\:$cmd"] != -1} {
+		set pos [lsearch $pluginsevents(${event}) "\:\:$namespace\:\:$cmd"]
+		if {$pos != -1} {
 			# the long erase way to remove a item from the list
-			set pluginsevents(${event}) [lreplace $pluginsevents(${event}) \
-				[lsearch $pluginsevents(${event}) "\:\:$namespace\:\:$cmd"] \
-				[expr [lsearch $pluginsevents(${event}) "\:\:$namespace\:\:$cmd"] +1] ""]
+			set pluginsevents(${event}) [lreplace $pluginsevents(${event}) $pos $pos]
 			plugins_log core "Event \:\:$namespace\:\:$cmd on $event unregistered ...\n"
 		} else {
 			plugins_log core "Trying to unregister a unknown event...\n"
@@ -207,7 +206,7 @@ namespace eval ::plugins {
 				plugins_log core "UnRegistering command $x from $pluginsevents(${event})...\n"
 				# the long remove item procedure
 				# TODO: move this into a proc?
-				set pluginsevents(${event}) [lreplace $pluginsevents(${event}) $x [expr $x +1] ""]
+				set pluginsevents(${event}) [lreplace $pluginsevents(${event}) $x $x]
 			}
 		}
 	}
