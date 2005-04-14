@@ -311,6 +311,9 @@ namespace eval ::abook {
 
 		#We store the array as a plain list, as we can't have an array of arrays
 		set users_data($user_login) [array get user_data]
+
+		#an event used by guicontactlist to know when a user changed his nick (or state)
+		::Event::fireEvent contactDataChange abook $user_login
 		
 		#We make this to notify preferences > groups to be refreshed
 		set pgc 1

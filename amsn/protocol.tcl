@@ -2167,6 +2167,7 @@ namespace eval ::Event {
 
 	#add all events here as a variable
 	variable messageReceived
+	variable contactDataChange
 	#end of possible events
 	
 	# sends to all interested listeners the event that occured
