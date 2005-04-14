@@ -115,6 +115,8 @@ namespace eval ::guiContactList {
 
 	# Draws the contact list, for now in a new window
 	proc createCLWindow {} {
+
+
 		set clcanvas ".contactlist.fr.c"
 
 		if { [winfo exists .contactlist] } {
@@ -122,6 +124,8 @@ namespace eval ::guiContactList {
 			drawCL $clcanvas
 			return
 		}
+
+		::Event::registerEvent contactDataChange abook ::guiContactList::userDataChanged
 
 		set clbox [list 0 0 2000 1500]
 
@@ -855,4 +859,14 @@ namespace eval ::guiContactList {
 		$canvas lower uline_$nicktag $nicktag
 	}
 
+	#this proc gets called by an event in abook.tcl when a user's data is altering
+	proc userDataChanged { contactDataChange user } {
+		global nicknameArray
+		#Change the user's parsed nickname
+		set usernick "[::abook::getDisplayNick $user]"
+		set nicknameArray("$user") "[::smiley::parseMessageToList $usernick 1]"
+#TODO: get this implicit use of ".contactlist.fr.c" out of here
+		drawCL .contactlist.fr.c
+
+	}
 }
