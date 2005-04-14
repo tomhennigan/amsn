@@ -5,8 +5,7 @@ if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 }
 catch {package require QuickTimeTcl}
 catch {package require TkCximage}
-	
-	
+
 
 if { $initialize_amsn == 1 } {
 	init_ticket putmessage
@@ -4139,12 +4138,10 @@ proc cmsn_draw_login {} {
 	entry $mainframe.passentry2 -bg #FFFFFF  -font splainf  -width 25 -show "*"
 	checkbutton $mainframe.remember -variable [::config::getVar save_password] \
 		-text "[trans rememberpass]" -font splainf -highlightthickness 0 -pady 5 -padx 10
-	#checkbutton $mainframe.offline -variable [::config::getVar startoffline] \
-	#	-text "[trans startoffline]" -font splainf -highlightthickness 0 -pady 5 -padx 10
 	
 	#Combobox to choose our state on connect
 	label $mainframe.statetext -text "[trans signinstatus]" -font splainf
-	combobox::combobox $mainframe.statelist -editable false -highlightthickness 0 -width 15 -bg #FFFFFF -font splainf -textvariable [::config::getVar connectas]
+	combobox::combobox $mainframe.statelist -editable false -highlightthickness 0 -width 15 -bg #FFFFFF -font splainf -command remember_state_list
 	$mainframe.statelist list delete 0 end
 	set i 0
 	while {$i < "8"} {
@@ -4153,10 +4150,11 @@ proc cmsn_draw_login {} {
 		$mainframe.statelist list insert end $description
 		incr i
 	}
-	if {[::config::getKey connectas] != ""} {
+	if {[string is digit -strict "[::config::getKey connectas]"]} {
 		$mainframe.statelist select "[::config::getKey connectas]"
 	} else {
 		$mainframe.statelist select "0"
+		status_log "Variable connectas is not digital [::config::getKey connectas]\n" red
 	}
 
 	#Set it, in case someone changes preferences...
@@ -4226,6 +4224,22 @@ proc cmsn_draw_login {} {
 	moveinscreen .login 30
 }
 
+proc remember_state_list {w value} {
+		set i 0
+		while {$i < "8"} {
+			set statecode "[::MSN::numberToState $i]"
+			set description "[trans [::MSN::stateToDescription $statecode]]"
+			
+			if {$description == $value} {
+				::config::setKey connectas $i
+				return
+			}	
+			incr i
+		}
+		#If there's a problem (no status found), connect as online
+		status_log "Can't find the startup status, variable: [::config::getKey connectas] " red
+		::config::setKey connectas 0
+}
 #///////////////////////////////////////////////////////////////////////
 # proc RefreshLogin { mainframe }
 # Called after pressing a radio button in the Login screen to enable/disable
@@ -7329,11 +7343,15 @@ proc clear_disp { } {
 
 proc PictureCxImageLoaded { } {
 
-	foreach lib [info loaded] {
-		if { [lindex $lib 1] == "Tkcximage" } {
-			return 1
-		} 
-	}
+
+
+		foreach lib [info loaded] {
+			if { [lindex $lib 1] == "Tkcximage" } {
+				set tkcximageloaded 1
+				return 1
+			} 
+		}
+	
 	return 0
 }
 

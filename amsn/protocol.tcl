@@ -407,7 +407,6 @@ namespace eval ::MSNFT {
          ::amsn::FTProgress r $cookie [lindex $filedata($cookie) 0] $recvbytes $filesize
          update idletasks
 	 
-	 
          fconfigure $sockid -blocking 1
          set header [read $sockid 3]
 
@@ -630,6 +629,7 @@ namespace eval ::MSNFT {
       status_log "FTNegotiation: I RECEIVE: $tmpdata\n"
    
       if { $tmpdata == "" } {
+         
          update idletasks
          return
       }
@@ -1479,7 +1479,6 @@ namespace eval ::MSN {
 		catch {
 			set idx [$sb search -typers $typer]
 			$sb delTyper $idx
-		
 			#TODO: Call CHAT layer instead of GUI layer
 			set chatid [::MSN::ChatFor $sb]
 			if { $chatid != "" } {
@@ -2320,6 +2319,7 @@ namespace eval ::Event {
 				set command [encoding convertfrom utf-8 $command]
 				$options(-name) handleCommand $command
 			}
+			
 			update idletasks
 		}
 	}
@@ -2623,7 +2623,6 @@ namespace eval ::Event {
 				::amsn::messageFrom $chatid $typer $nick "$body" user [list $fontfamily $style $fontcolor] $p4c_enabled
 				set options(-lastmsgtime) [clock format [clock seconds] -format %H:%M:%S]
 				::abook::setContactData $typer last_msgedme [clock format [clock seconds] -format "%D - %H:%M:%S"]
-	
 				#if alarm_onmsg is on run it
 				if { ( [::alarms::isEnabled $typer] == 1 )&& ( [::alarms::getAlarmItem $typer onmsg] == 1) } {
 					set username [::abook::getDisplayNick $typer]
@@ -2632,7 +2631,6 @@ namespace eval ::Event {
 					set username [::abook::getDisplayNick $typer]	  
 					run_alarm $typer  $username "[trans says $username]: $body"
 				}
-
 				global automessage
 				# Send automessage once to each user
 				if { [info exists automessage] } {
@@ -2648,15 +2646,14 @@ namespace eval ::Event {
 						}
 					}
 				}
-
 				::MSN::DelSBTyper $self $typer
 
 			}
-
+			
 			text/x-msmsgscontrol {
 				::MSN::addSBTyper $self $typer
 			}
-
+			
 			text/x-msmsgsinvite {
 				#File transfers or other invitations
 				set fromlogin [lindex $command 1]
@@ -2672,17 +2669,22 @@ namespace eval ::Event {
 				
 				set invcommand [$message getField Invitation-Command]
 				set cookie [$message getField Invitation-Cookie]
+
 				
+
 				status_log "Command: $invcommand Message: $message\n" blue
 				
+
 				#Do we need this? Looks a bit... untidy
 				puts $invcommand
 				puts $cookie
 
 				if {$invcommand == "INVITE" } {
+
 		
 					#set guid [lindex [array get headers Application-GUID] 1]
 					set guid [$message getField Application-GUID]
+
 					
 					#An invitation, generate invitation event
 					if { $guid == "{5D3E02AB-6190-11d3-BBBB-00C04F795683}" } {
@@ -2691,13 +2693,14 @@ namespace eval ::Event {
 						set filesize [$message getField Application-FileSize]
 		
 						::MSNFT::invitationReceived $filename $filesize $cookie $chatid $fromlogin
-		
+
 					} elseif { $guid == "{02D3C01F-BF30-4825-A83A-DE7AF41648AA}" } {
 						# We got an audio only invitation or audio/video invitation
 						set context [$message getField Context-Data]
 						#Remove the # on the next line if you want to test audio/video feature (with Linphone, etc...)
 						#Ask Burger for more details..	
 						::MSNAV::invitationReceived $cookie $context $chatid $fromlogin
+
 					}
 		
 				} elseif { $invcommand == "ACCEPT" } {
@@ -2707,6 +2710,8 @@ namespace eval ::Event {
 						::MSNAV::readAccept $cookie $ip $chatid
 			
 					} else {
+
+
 						#Generate "accept" event
 						::MSNFT::acceptReceived $cookie $chatid $fromlogin $message
 					}
@@ -2725,6 +2730,7 @@ namespace eval ::Event {
 							::MSNFT::rejectedFT $chatid $fromlogin $cookie
 						}
 					}
+			
 				} else {
 		
 					#... other types of commands
@@ -2766,7 +2772,6 @@ namespace eval ::Event {
 			}
 		}
 	}
-
 	method search { option index } {
 		return [lsearch $options($option) $index]
 	}
@@ -3998,20 +4003,11 @@ proc initial_syn_handler {recv} {
 		ChCustomState $::oldstatus
 		send_dock "STATUS" $::oldstatus
 		unset ::oldstatus
-	} elseif {[::config::getKey connectas] != ""} {
+	} elseif {[string is digit -strict "[::config::getKey connectas]"]} {
 		#Protocol code to choose our state on connect
-		set goodstatecode ""
-		set i 0
-		while {$i < "9"} {
-			set statecode "[::MSN::numberToState $i]"
-			set description "[trans [::MSN::stateToDescription $statecode]]"
-			
-			if {$description == [::config::getKey connectas]} {
-				set goodstatecode $statecode
-				break
-			}	
-			incr i
-		}
+		set number [::config::getKey connectas]
+		set goodstatecode "[::MSN::numberToState $number]"
+
 		if {$goodstatecode != ""} {
 			ChCustomState "$goodstatecode"
 			send_dock "STATUS" "$goodstatecode"
@@ -6133,9 +6129,7 @@ namespace eval ::MSNMobile {
 	} else {
 	    wm title ${win_name} ${title}
 	}
-	
 	update idletasks
-	
     }
 
     proc GetChatId { user } {
