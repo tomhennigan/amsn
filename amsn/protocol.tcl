@@ -2176,11 +2176,12 @@ namespace eval ::Event {
 	#            notify all listeners for all events with that name
 	proc fireEvent { eventName caller args } {
 		variable $eventName
-		foreach { caller listener } [array get $eventName $caller] {
-			$listener $eventName $args
-		}
-		foreach { caller listener } [array get $eventName all] {
-			$listener $eventName $args
+		foreach call [list $caller "all"] {
+			if { [array names $eventName $call] == $call } {
+				foreach listener [set ${eventName}($call)] {
+					$listener $eventName $args
+				}
+			}
 		}
 	}
 
@@ -2192,7 +2193,7 @@ namespace eval ::Event {
 	# listener:  the object that wants to receive the events
 	proc registerEvent { eventName caller listener } {
 		variable $eventName
-		array set $eventName [list $caller $listener]
+		lappend ${eventName}($caller) $listener
 	}
 }
 
