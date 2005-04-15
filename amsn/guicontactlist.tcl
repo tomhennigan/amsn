@@ -6,7 +6,7 @@
 #
 # * redraw on skinchange
 #
-# * scroll the canvas while dragging if you come near to the border
+# * scroll the canvas while dragging if you come near to the border -> heavy one :|
 #
 # * change cursor while dragging (should we ?)
 #
@@ -322,9 +322,10 @@ namespace eval ::guiContactList {
 
 		set ellips "..."
 
-		#leave some place for the statustext, the elipsis (...) and the spacing + sapcing of border
+		#leave some place for the statustext, the elipsis (...) and the spacing + spacing of border
 		set maxwidth [expr $maxwidth - $statewidth - [font measure splainf $ellips] - $nickstatespacing - 5]
 
+		#we can draw as long as the line isn't full
 		set linefull 0
 
 		set textheight [expr [font configure splainf -size]/2 ]
@@ -952,12 +953,18 @@ namespace eval ::guiContactList {
 
 	#this proc gets called by an event in abook.tcl when a user's data is altering
 	proc userDataChanged { contactDataChange user } {
-		global nicknameArray
-		#Change the user's parsed nickname
-		set usernick "[::abook::getDisplayNick $user]"
-		set nicknameArray("$user") "[::smiley::parseMessageToList $usernick 1]"
+#check if we are alive, if not don't do anything
+#get explicit use out ...
+		if {[winfo exists .contactlist.fr.c]} {
+
+			global nicknameArray
+			#Change the user's parsed nickname
+			set usernick "[::abook::getDisplayNick $user]"
+			set nicknameArray("$user") "[::smiley::parseMessageToList $usernick 1]"
 #TODO: get this implicit use of ".contactlist.fr.c" out of here
-		after 1000 ::guiContactList::drawCL .contactlist.fr.c
+			after 1000 ::guiContactList::drawCL .contactlist.fr.c
+
+		}
 
 	}
 
