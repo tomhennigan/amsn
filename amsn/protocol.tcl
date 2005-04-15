@@ -1237,7 +1237,7 @@ namespace eval ::MSN {
 		if {$sock != ""} {
 			set proxy [$sb cget -proxy]
 			$proxy finish $sb
-			$proxy destroy
+#			$proxy destroy
 		}
 		
 #		#Append an empty string to the SB buffer. This will cause the
@@ -1584,7 +1584,7 @@ namespace eval ::MSN {
 			#fileevent [$name cget -sock] writable ""
 			set proxy [$sb cget -proxy]
 			$proxy finish $sb
-			$proxy destroy
+#			$proxy destroy
 		} res
 
 		set sb_list [lreplace $sb_list $idx $idx ]
