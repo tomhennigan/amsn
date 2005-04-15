@@ -112,7 +112,7 @@ namespace eval ::guiContactList {
 
 	# Draws the contact list, for now in a new window
 	proc createCLWindow {} {
-
+	global tcl_platform
 
 		set clcanvas ".contactlist.fr.c"
 
@@ -150,25 +150,18 @@ namespace eval ::guiContactList {
 #		 so it's also at the right place when the bar is dragged
 
 		#MAC classic/osx and windows
-		if {[string equal [tk windowingsystem] "classic"] || [string equal [tk windowingsystem] "aqua"] || [string equal [tk windowingsystem] "win32"]} {
-			#bind the canvas
-			bind $clcanvas <MouseWheel> {
-				if {%D >= 0} {
- 					::guiContactList::scrollCL $clcanvas up
-				} else {
-					::guiContactList::scrollCL $clcanvas down
-				}
-			}
-			#bind the scrollbar
-			bind [winfo parent $clcanvas].vscroll <MouseWheel> {
-				if {%D >= 0} {
- 					::guiContactList::scrollCL $clcanvas up
-				} else {
-					::guiContactList::scrollCL $clcanvas down
-				}
-			}
-		#x11 (linux)
-  		} else {
+		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua" || $tcl_platform(platform) == "windows"} {
+		
+		bind $canvas <MouseWheel> {
+			%W yview scroll [expr {- (%D)}] units ;
+			$canvas coords backgroundimage 0 [expr int([expr [lindex [$canvas yview] 0] * $canvaslength])]
+		}
+			bind [winfo parent $canvas].vscroll <MouseWheel> {
+			%W yview scroll [expr {- (%D)}] units ;
+			$canvas coords backgroundimage 0 [expr int([expr [lindex [$canvas yview] 0] * $canvaslength])]  
+		}
+
+		} else {
 			bind $clcanvas <ButtonPress-5> "::guiContactList::scrollCL $clcanvas down"		
 			bind $clcanvas <ButtonPress-4> "::guiContactList::scrollCL $clcanvas up"
 #TODO: remove implicit use ..
@@ -224,7 +217,6 @@ namespace eval ::guiContactList {
 		set canvaslength [expr [lindex $curPos 1] + 20]
 		$canvas configure -scrollregion [list 0 0 2000 $canvaslength]
 
-
 		#on resizing the canvas needs to be redrawn so the truncation is right
 		bind $canvas <Configure> "::guiContactList::drawCL $canvas"
 
@@ -266,11 +258,16 @@ namespace eval ::guiContactList {
 		if { [::abook::getVolatileData $email MOB] == "Y" && $state_code == "FLN"} {
 			set img [::skin::loadPixmap mobile]
 		} else {
+		
+
 			set img [::skin::loadPixmap [::MSN::stateToImage $state_code]]
 		}
 #TODO: skinsetting to have buddypictures in their place (this is default in MSN7!)
 #	with a pixmap border and also status-emblem overlay in bottom right corner
 
+		
+			
+		
 		
 		set parsednick $nicknameArray("$email")
 
