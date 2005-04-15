@@ -2165,20 +2165,19 @@ namespace eval ::MSN {
 
 namespace eval ::Event {
 
-	#add all events here as a variable
-	variable messageReceived
-	variable contactDataChange
-	#end of possible events
+	variable eventsArray
 	
 	# sends to all interested listeners the event that occured
 	# eventName: name of the event that happened
 	# caller:    the object that fires the event, set to all to 
 	#            notify all listeners for all events with that name
 	proc fireEvent { eventName caller args } {
-		variable $eventName
+		variable eventsArray
+		#fire events registered for both the current caller and 'all'
 		foreach call [list $caller "all"] {
-			if { [array names $eventName $call] == $call } {
-				foreach listener [set ${eventName}($call)] {
+			#first check there were some events registered to caller or it will fail
+			if { [array names eventsArray "$eventName,$call"] == "$eventName,$call" } {
+				foreach listener [set eventsArray($eventName,$call)] {
 					$listener $eventName $args
 				}
 			}
@@ -2192,8 +2191,8 @@ namespace eval ::Event {
 	#            register for all events with that name
 	# listener:  the object that wants to receive the events
 	proc registerEvent { eventName caller listener } {
-		variable $eventName
-		lappend ${eventName}($caller) $listener
+		variable eventsArray
+		lappend eventsArray($eventName,$caller) $listener
 	}
 }
 
