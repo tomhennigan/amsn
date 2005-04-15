@@ -1561,7 +1561,8 @@ namespace eval ::plugins {
 		if { $id != -1 } {
 			set file "[file join $path "lang" "lang$langcode"]"
 			file delete $file
-			set ::plugins::plglang [lreplace $::plugins::plglang $id $id]
+			set id2 [expr $id + 1]
+			set ::plugins::plglang [lreplace $::plugins::plglang $id $id2]
 			status_log "Plugin autoupdate : delete $file\n" blue
 		}
 
