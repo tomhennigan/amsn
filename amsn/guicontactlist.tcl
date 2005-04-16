@@ -154,19 +154,27 @@ namespace eval ::guiContactList {
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 #TODO: fox mac bindings -> Jerome's job ;)
 		
-		bind $canvas <MouseWheel> {
-			%W yview scroll [expr {- (%D)}] units ;
-			$canvas coords backgroundimage 0 [expr int([expr [lindex [$canvas yview] 0] * $canvaslength])]
-		}
-			bind [winfo parent $canvas].vscroll <MouseWheel> {
-			%W yview scroll [expr {- (%D)}] units ;
-			$canvas coords backgroundimage 0 [expr int([expr [lindex [$canvas yview] 0] * $canvaslength])]  
-		}
+			bind $canvas <MouseWheel> {
+				%W yview scroll [expr {- (%D)}] units ;
+				$canvas coords backgroundimage 0 [expr int([expr [lindex [$canvas yview] 0] * $canvaslength])]
+			}
+				bind [winfo parent $canvas].vscroll <MouseWheel> {
+				%W yview scroll [expr {- (%D)}] units ;
+				$canvas coords backgroundimage 0 [expr int([expr [lindex [$canvas yview] 0] * $canvaslength])]  
+			}
 
 		} elseif {$tcl_platform(platform) == "windows"} {
 #TODO: fox mac bindings -> Arieh's job ;)
-			bind $clcanvas <MouseWheel> "::guiContactList::scrollCL $clcanvas [expr {- (%D)}]"
-			bind [winfo parent $clcanvas].vscroll <MouseWheel> "::guiContactList::scrollCL $clcanvas [expr {- (%D)}]"
+			#bind $clcanvas <MouseWheel> {
+			#	::guiContactList::scrollCL $clcanvas [expr {- (%D)}]
+			#}
+			bind [winfo parent [winfo parent $clcanvas]] <MouseWheel> {
+				if {%D >= 0} {
+					::guiContactList::scrollCL .contactlist.fr.c up
+				} else {
+					::guiContactList::scrollCL .contactlist.fr.c down
+				}
+			}
 
 		} else {
 			bind $clcanvas <ButtonPress-5> "::guiContactList::scrollCL $clcanvas down"		
@@ -596,7 +604,7 @@ namespace eval ::guiContactList {
 	
 					#this +5 is to make dragging a contact on a group's name\
 					 or 5 pixels above the group's name possible
-					if {$grYCoord bind $canvas <MouseWheel> {<= [expr $iconYCoord + 5]} {
+					if {$grYCoord <= [expr $iconYCoord + 5]} {
 						set newgrId $grId
 					}
 				}
