@@ -15,6 +15,7 @@
 #
 # * animated smileys on CL -> I hope this is possible easily with TkCxImage?
 #
+# * draw tooltips on creation
 #
 # ... check the "TODO" items in the comments ;) .. there are quite some ;)
 
@@ -150,7 +151,8 @@ namespace eval ::guiContactList {
 #		 so it's also at the right place when the bar is dragged
 
 		#MAC classic/osx and windows
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua" || $tcl_platform(platform) == "windows"} {
+		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+#TODO: fox mac bindings -> Jerome's job ;)
 		
 		bind $canvas <MouseWheel> {
 			%W yview scroll [expr {- (%D)}] units ;
@@ -160,6 +162,11 @@ namespace eval ::guiContactList {
 			%W yview scroll [expr {- (%D)}] units ;
 			$canvas coords backgroundimage 0 [expr int([expr [lindex [$canvas yview] 0] * $canvaslength])]  
 		}
+
+		} elseif {$tcl_platform(platform) == "windows"} {
+#TODO: fox mac bindings -> Arieh's job ;)
+			bind $clcanvas <MouseWheel> "::guiContactList::scrollCL $clcanvas [expr {- (%D)}]"
+			bind [winfo parent $clcanvas].vscroll <MouseWheel> "::guiContactList::scrollCL $clcanvas [expr {- (%D)}]"
 
 		} else {
 			bind $clcanvas <ButtonPress-5> "::guiContactList::scrollCL $clcanvas down"		
@@ -589,7 +596,7 @@ namespace eval ::guiContactList {
 	
 					#this +5 is to make dragging a contact on a group's name\
 					 or 5 pixels above the group's name possible
-					if {$grYCoord <= [expr $iconYCoord + 5]} {
+					if {$grYCoord bind $canvas <MouseWheel> {<= [expr $iconYCoord + 5]} {
 						set newgrId $grId
 					}
 				}
@@ -922,7 +929,7 @@ namespace eval ::guiContactList {
 		set canvaslength [lindex [$canvas cget -scrollregion] 3]
 
 		if {[winfo height $canvas] <= $canvaslength} {
-			if {$direction == "down"} {
+			if {$direction == "down" || $direction == "-1"} {
 				$canvas yview scroll 1 units
 			
 
