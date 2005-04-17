@@ -970,7 +970,7 @@ namespace eval ::guiContactList {
 #TODO: plugin-event for aMSN plus for example
 			set evpar(array) nicknameArray
 			set evpar(user) user
-			::plugins::PostEvent NickArrayCreated evpar
+			::plugins::PostEvent NickArrayDataChanged evpar
 #TODO: get this implicit use of ".contactlist.fr.c" out of here
 			after 1000 ::guiContactList::drawCL .contactlist.fr.c
 
