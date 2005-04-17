@@ -142,6 +142,10 @@ namespace eval ::guiContactList {
 
 		#Before drawing the CLcanvas, we set up the array with the parsed nicknames
 		createNicknameArray
+#TODO: plugin-event for aMSN plus for example
+		set evpar(array) nicknameArray
+		::plugins::PostEvent NickArrayCreated evpar
+
 
 		#'after' is needed so the window size can be measured right
 		after 1 ::guiContactList::drawCL $clcanvas
@@ -252,6 +256,7 @@ namespace eval ::guiContactList {
 		#set all the info needed for drawing, $xpos and $ypos shouldn't be altered,
 		# $xnickpos and $ynickpos are used for this purpose
 
+#TODO: skinsetting for spacing '15'
 		set xpos [expr [lindex $curPos 0] + 15]
 		set ypos [lindex $curPos 1]
 		
@@ -273,8 +278,6 @@ namespace eval ::guiContactList {
 		if { [::abook::getVolatileData $email MOB] == "Y" && $state_code == "FLN"} {
 			set img [::skin::loadPixmap mobile]
 		} else {
-		
-
 			set img [::skin::loadPixmap [::MSN::stateToImage $state_code]]
 		}
 #TODO: skinsetting to have buddypictures in their place (this is default in MSN7!)
@@ -307,9 +310,6 @@ namespace eval ::guiContactList {
 		$canvas create image $xpos $ypos -image $img -anchor nw \
 			-tags [list contact icon $tag]
 
-		set hoversquarex1 [expr $xpos + [image width $img] + 3]
-		set hoversquarey1 [expr $ypos - 2]
-
 		#set the beginning coords for the next drawings
 		set xnickpos [expr $xpos + [image width $img] + 5]
 		set ynickpos [expr $ypos + [image height $img]/2]
@@ -327,10 +327,10 @@ namespace eval ::guiContactList {
 
 		#Now we're gonna draw the nickname itself
 
-		set underlinst [list [list 0 0 0 black]]
+		#reset the underlining's list
+		set underlinst [list]
 
 		set maxwidth [winfo width .contactlist.fr.c]
-		set hoversquarex2 [expr $maxwidth - 2]
 
 		set ellips "..."
 
@@ -452,7 +452,6 @@ namespace eval ::guiContactList {
 
 		}
 
-		set hoversquarey2 [expr $ypos + $ychange -2]
 
 		#The bindings:
 		
@@ -496,11 +495,6 @@ namespace eval ::guiContactList {
 			$canvas bind $tag <Enter> "+::guiContactList::underlineList $canvas [list $underlinst] $tag"
 			$canvas bind $tag <Leave> "+$canvas delete uline"
 		}
-
-
-#little fantasy with an error
-#		$canvas bind $tag <Enter> "+$canvas create rectangle $hoversquarex1 $hoversquarey1 $hoversquarex2 $hoversquarey2 -tags rect"
-#		$canvas bind $tag <Leave> "+$canvas delete rect"
 
 
 		return [list [expr $xpos - 15] [expr $ypos + $ychange + [::skin::getKey buddy_ypad]]]
@@ -973,6 +967,10 @@ namespace eval ::guiContactList {
 			#Change the user's parsed nickname
 			set usernick "[::abook::getDisplayNick $user]"
 			set nicknameArray("$user") "[::smiley::parseMessageToList $usernick 1]"
+#TODO: plugin-event for aMSN plus for example
+			set evpar(array) nicknameArray
+			set evpar(user) user
+			::plugins::PostEvent NickArrayCreated evpar
 #TODO: get this implicit use of ".contactlist.fr.c" out of here
 			after 1000 ::guiContactList::drawCL .contactlist.fr.c
 
