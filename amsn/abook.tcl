@@ -619,7 +619,16 @@ namespace eval ::abook {
 				array set temp_array $users_data($user)
 				puts $file_id "$user,$temp_array([array names temp_array "nick"])"
 			}
+		} elseif { [string equal $type "ctt"] } {
+			puts $file_id "<?xml version=\"1.0\"?>\n<messenger>\n\t<service name=\".NET Messenger Service\">\n\t\t<contactlist>"
+			foreach user [array names users_data] {
+				if { [string first "@" $user] != -1 } {
+					puts $file_id "\t\t\t<contact>$user</contact>"
+				}
+			}
+			puts $file_id "\t\t</contactlist>\n\t</service>\n</messenger>"
 		}
+			
 
 		close $file_id
 	}
@@ -682,6 +691,26 @@ namespace eval ::abook {
 		}
 		
 		return 0	
+		
+	}
+	
+	
+	proc importContactcsv { filename } {
+		
+		set file_id [open $filename r]
+		fconfigure $file_id -encoding utf-8
+		set content [read $file_id]
+		close $file_id
+		set contacts [split $content "\n"]
+		
+		foreach contact $contacts {
+			if { [string first "@" $contact] != -1 } {
+				set coma [string first "," $contact]
+				set email [string range $contact 0 [expr $coma - 1]]
+				status_log "$email\n" red
+				#::MSN::addUser "$email" "" 0
+			}
+		}
 		
 	}
 	
