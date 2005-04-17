@@ -142,10 +142,6 @@ namespace eval ::guiContactList {
 
 		#Before drawing the CLcanvas, we set up the array with the parsed nicknames
 		createNicknameArray
-#TODO: plugin-event for aMSN plus for example
-		set evpar(array) nicknameArray
-		::plugins::PostEvent NickArrayCreated evpar
-
 
 		#'after' is needed so the window size can be measured right
 		after 1 ::guiContactList::drawCL $clcanvas
@@ -923,6 +919,10 @@ namespace eval ::guiContactList {
 			set usernick "[::abook::getDisplayNick $user]"
 			set nicknameArray("$user") "[::smiley::parseMessageToList $usernick 1]"
 		}
+
+#TODO: plugin-event for aMSN plus for example
+		set evpar(array) nicknameArray
+		::plugins::PostEvent NickArrayCreated evpar
 
 	}	
 
