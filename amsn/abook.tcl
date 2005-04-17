@@ -613,7 +613,6 @@ namespace eval ::abook {
 				array unset temp_array
 			}
 			puts $file_id "</AMSN_AddressBook>"
-			close $file_id
 		} elseif { [string equal $type "csv"] } {
 			puts $file_id "email,name"
 			foreach user [array names users_data] {
@@ -621,6 +620,8 @@ namespace eval ::abook {
 				puts $file_id "$user,$temp_array([array names temp_array "nick"])"
 			}
 		}
+
+		close $file_id
 	}
 
 	
