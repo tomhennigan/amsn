@@ -142,7 +142,13 @@ namespace eval ::music {
 			"linux" [list \
 				"XMMS" [list GetSongXMMS TreatSongXMMS] \
 				"Amarok" [list GetSongAmarok TreatSongAmarok] \
-			]
+			] \
+			"windows nt" [list \
+				"WinAmp" [list GetSongWinamp TreatSongWinamp] \
+			] \
+			"windows 95" [list \
+				"WinAmp" [list GetSongWinamp TreatSongWinamp] \
+			] \
 		]
 		#Get current OS platform
 		set os [string tolower $tcl_platform(os)]
@@ -438,6 +444,57 @@ namespace eval ::music {
 		}
 		return $return
 
+	}
+
+	###############################################
+	# ::music::TreatSongWinamp                    #
+	# ------------------------------------------- #
+	# Gets the current playing song in Winamp     #
+	###############################################
+	proc TreatSongWinamp {} {
+		variable musicpluginpath
+		catch {exec $musicpluginpath/musicwa.exe >$musicpluginpath/actualsong &}
+		return 0
+	}
+
+	###############################################
+	# ::music::GetSongAmarok                      #
+	# ------------------------------------------- #
+	# Gets the current playing song in Amarok     #
+	###############################################
+	proc GetSongWinamp {} {
+		variable musicpluginpath
+
+		#Find the file to read
+		set file "$musicpluginpath/actualsong"
+		#Verify that the file exist
+		if {![file exist $file]} {return 0}
+		#Open in "read" permission the file (SongIngo)
+		set gets [open $file r]
+
+		#Get the 4 first lines
+		set status [gets $gets]
+		set song [gets $gets]
+		set art [gets $gets]
+		set path [gets $gets]
+
+		#Close the file
+		close $gets
+
+		if {$status == "0"} {
+			return 0
+		} else {
+			#Define in witch order we want to show the song (from the config)
+			#Use the separator(from the cong) betwen song and artist
+			if {$::music::config(songart) == 1} {
+				append songart $song " " $::music::config(separator) " " $art
+			} elseif {$::music::config(songart) == 2} {
+				append songart $art " " $::music::config(separator) " " $song
+			}
+			lappend return $songart
+			lappend return $path
+		}
+		return $return
 	}
 
 	#######################################################################
