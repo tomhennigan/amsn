@@ -373,7 +373,7 @@ namespace eval ::guiContactList {
 
 				#append underline coords
 				set yunderline [expr $ynickpos + $textheight + 1]
-				lappend underlinst [list $relxnickpos $yunderline $textwidth $relnickcolour]
+				lappend underlinst [list [expr $relxnickpos - $xpos] [expr $yunderline - $ypos] $textwidth $relnickcolour]
 				#change the coords
 				set relxnickpos [expr $relxnickpos + $textwidth]
 
@@ -395,7 +395,7 @@ namespace eval ::guiContactList {
 
 					#append underline coords
 					set yunderline [expr $ynickpos + $textheight + 1]
-					lappend underlinst [list $relxnickpos $yunderline $textwidth $relnickcolour]
+					lappend underlinst [list $relxnickpos - $xpos]  [expr $yunderline - $ypos] $textwidth $relnickcolour]
 
 					continue
 				}
@@ -444,7 +444,7 @@ namespace eval ::guiContactList {
 
 		#append underline coords
 		set yunderline [expr $ynickpos + $textheight + 1]
-		lappend underlinst [list $relxnickpos $yunderline $statewidth $statecolour]
+		lappend underlinst [list [expr $relxnickpos - $xpos] [expr $yunderline - $ypos] $statewidth $statecolour]
 
 		}
 
@@ -948,10 +948,15 @@ namespace eval ::guiContactList {
 	
 	#proc that draws horizontal lines from this list of [list xcoord xcoord linelength] lists
 	proc underlineList { canvas lines nicktag} {
+		set poslist [$canvas coords $nicktag]
+		set xpos [lindex $poslist 0]
+	status_log $poslist
+		set ypos [lindex $poslist 1]
 		global OnTheMove
+
 		if {!$OnTheMove} {
 			foreach line $lines {
-				$canvas create line [lindex $line 0] [lindex $line 1] [expr [lindex $line 0] + [lindex $line 2]] [lindex $line 1] -fill [lindex $line 3] -tags [list uline_$nicktag $nicktag uline]
+				$canvas create line [expr [lindex $line 0] + $xpos]  [expr  [lindex $line 1] + $ypos] [expr [lindex $line 0] + [lindex $line 2] + $xpos] [expr [lindex $line 1] + $ypos] -fill [lindex $line 3] -tags [list uline_$nicktag $nicktag uline]
 			}
 		}	
 		$canvas lower uline_$nicktag $nicktag
@@ -994,4 +999,5 @@ namespace eval ::guiContactList {
 		}
 		return $shortened
 	}
+
 }
