@@ -1246,7 +1246,7 @@ namespace eval ::ChatWindow {
 		if {[catch {tk windowingsystem} wsystem] || $wsystem != "aqua"} {
 			$viewmenu add separator
 			$viewmenu add command -label "[trans hidewindow]" \
-				-command "wm state \[::ChatWindow::getCurrentTab $w\] withdraw"
+				-command "wm state \[winfo toplevel \[::ChatWindow::getCurrentTab $w\]\] withdraw"
 		}
 		
 		return $viewmenu
