@@ -3220,6 +3220,8 @@ proc cmsn_change_state {recv} {
 		set user_name [urldecode [lindex $recv 4]]
 		set substate [lindex $recv 2]
 		set msnobj [urldecode [lindex $recv 6]]
+		#Add clientID to abook
+		add_Clientid $user [lindex $recv 5]
 		#I don't think we should add ChangeState PostEvent here...
 	} else {
 		#Coming online or changing state
