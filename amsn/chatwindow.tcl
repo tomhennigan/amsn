@@ -2456,7 +2456,7 @@ namespace eval ::ChatWindow {
 		variable containerprevious
 
 		set title ""
-
+		if { [info exists containercurrent($container)] == 1 && [set containercurrent($container)] == $win } { return }
 		if { [info exists containerwindows($container)] &&
 		     [lsearch [set containerwindows($container)] $win] == -1 } { 
 			status_log "can't switch to a window that doesn't belong to the correct container"
