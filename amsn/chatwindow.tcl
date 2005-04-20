@@ -2464,7 +2464,9 @@ namespace eval ::ChatWindow {
 			return 
 		}
 		
-		if { [info exists containercurrent($container)] == 1 && [set containercurrent($container)] == $win && [llength [set containerwindows($container)]] > 1  } { return }
+		#Don't switch if tab clicked is already current tab. > 2 used because otherwise windows for new mesages dont appear. this means this is
+		#only effective with three or more tabs open. hope someone can find how to fix this.
+		if { [info exists containercurrent($container)] == 1 && [set containercurrent($container)] == $win && [llength [set containerwindows($container)]] > 2  } { return }
 		
 		if { [info exists containercurrent($container)] && [set containercurrent($container)] != "" } {
 			set w [set containercurrent($container)]
