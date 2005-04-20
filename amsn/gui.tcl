@@ -1306,6 +1306,7 @@ namespace eval ::amsn {
 		menu $w.fn.help.menu -tearoff 0
 		$w.fn.help.menu add command -label [trans nick] -command "$w.fn.ent insert insert \\\$nick"
 		$w.fn.help.menu add command -label [trans timestamp] -command "$w.fn.ent insert insert \\\$tstamp"
+		$w.fn.help.menu add command -label [trans newline] -command "$w.fn.ent insert insert \\\$newline"
 		$w.fn.help.menu add separator
 		$w.fn.help.menu add command -label [trans delete] -command "$w.fn.ent delete 0 end"
 		$w.fn.ent insert end [::config::getKey customchatstyle]
@@ -2285,7 +2286,7 @@ namespace eval ::amsn {
 		#By default, quote backslashes and variables
 		set customchat [string map {"\\" "\\\\" "\$" "\\\$" "\(" "\\\(" } [::config::getKey customchatstyle]]
 		#Now, let's unquote the variables we want to replace
-		set customchat [string map { "\\\$nick" "\${nick}" "\\\$tstamp" "\${tstamp}" } $customchat]
+		set customchat [string map { "\\\$nick" "\${nick}" "\\\$tstamp" "\${tstamp}" "\\\$newline" "\n" } $customchat]
 
 		if { [::abook::getContactData $user customcolor] != "" } {
 			set color [string trim [::abook::getContactData $user customcolor] "#"]

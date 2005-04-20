@@ -407,6 +407,7 @@ needonline You still are/appear offline!
 needwinico2 Need winico05.dll in the utils/windows directory for windows traydocking to work
 never Never
 new_ft_protocol Use new File Transfer protocol (some bugs remain)
+newline Newline
 newmail $1 new messages in Inbox
 newmailfolder You have $1 new messages in other Hotmail folders
 newmailfrom New mail from $1 ($2)
@@ -625,6 +626,7 @@ temp_state Don't save (Temporary state, will be missed when close AMSN)
 textsize Text size
 thismonth This month
 timeremaining Time remaining
+timestamp Timestamp
 timestamps Enable timestamps on chat windows
 title aMSN
 tkerror TK has brought an error, there is a bug in amsn, please report it. Send the file $1 to amsn-bugs@lists.sf.net
