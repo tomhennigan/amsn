@@ -2273,7 +2273,7 @@ namespace eval ::amsn {
 	
 		switch [::config::getKey chatstyle] {
 			msn {
-				::config::setKey customchatstyle "\$tstamp [trans says \$nick]:\n"
+				::config::setKey customchatstyle "\$tstamp [trans says \$nick]: \$newline"
 			}
 			
 			irc {
