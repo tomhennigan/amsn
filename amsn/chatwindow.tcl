@@ -2454,15 +2454,18 @@ namespace eval ::ChatWindow {
 		variable containercurrent
 		variable win2tab
 		variable containerprevious
+		variable containerwindows
 
 		set title ""
-		if { [info exists containercurrent($container)] == 1 && [set containercurrent($container)] == $win } { return }
+		
 		if { [info exists containerwindows($container)] &&
 		     [lsearch [set containerwindows($container)] $win] == -1 } { 
 			status_log "can't switch to a window that doesn't belong to the correct container"
 			return 
 		}
-
+		
+		if { [info exists containercurrent($container)] == 1 && [set containercurrent($container)] == $win && [llength [set containerwindows($container)]] > 1  } { return }
+		
 		if { [info exists containercurrent($container)] && [set containercurrent($container)] != "" } {
 			set w [set containercurrent($container)]
 			pack forget $w
@@ -2472,7 +2475,9 @@ namespace eval ::ChatWindow {
 				$tab itemconfigure tab_bg -image [::skin::loadPixmap tab]
 			}
 		}
+		
 
+		
 		set  containercurrent($container) $win
 		pack $win -side bottom -expand true -fill both
 
