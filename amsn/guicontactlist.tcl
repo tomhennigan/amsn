@@ -395,7 +395,7 @@ namespace eval ::guiContactList {
 
 					#append underline coords
 					set yunderline [expr $ynickpos + $textheight + 1]
-					lappend underlinst [list $relxnickpos - $xpos]  [expr $yunderline - $ypos] $textwidth $relnickcolour]
+					lappend underlinst [list [expr {$relxnickpos - $xpos}]  [expr {$yunderline - $ypos}] $textwidth $relnickcolour]
 
 					continue
 				}
