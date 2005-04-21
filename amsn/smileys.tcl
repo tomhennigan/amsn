@@ -384,8 +384,8 @@ namespace eval ::smiley {
 		if { ! [winfo exists $w]} { CreateSmileyMenu }
 		
 		wm state $w normal
-		set x [expr $x - 15]
-		set y [expr $y + 15 - [winfo height $w]]
+		set x [expr {$x - 15}]
+		set y [expr {$y + 15 - [winfo height $w]}]
 		wm geometry $w +$x+$y
 		#It won't work on Windows without this
 		update idletasks
@@ -539,9 +539,9 @@ namespace eval ::smiley {
 				}
 				
 				if {[set pos [string first $symbol [lindex $l $listpos 1]]] != -1 } {
-					set p1 [string range [lindex $l $listpos 1] 0 [expr $pos-1]]
+					set p1 [string range [lindex $l $listpos 1] 0 [expr {$pos - 1}]]
 					set p2 $image_name
-					set p3 [string range [lindex $l $listpos 1] [expr $pos+[string length $symbol]] end]
+					set p3 [string range [lindex $l $listpos 1] [expr {$pos + [string length $symbol]}] end]
 
 #TODO: #need to change for an 'in-place' lreplace (here and below)
 					if { $p2 == "__newline__" } {
@@ -553,7 +553,7 @@ namespace eval ::smiley {
 					incr llength 2
 					
 					if { $p3 == "" } {
-						set listpos2 [expr $listpos+2]
+						set listpos2 [expr {$listpos + 2}]
 						set l [lreplace $l $listpos2 $listpos2]
 						incr llength -1
 					}
@@ -632,11 +632,11 @@ namespace eval ::smiley {
 		set rows [expr {ceil(double($emoticon_number) / $cols)+1}]
 
 		#status_log "Smileys: $emoticon_number. Cols: $cols. Rows: $rows\n" white
-		set cols [expr int($cols)]
-		set rows [expr int($rows)]
+		set cols [expr {int($cols)}]
+		set rows [expr {int($rows)}]
 		
-		set x_geo [expr $smiw*$cols +2 ]
-		set y_geo [expr $smih*$rows +2 ]
+		set x_geo [expr {$smiw*$cols + 2} ]
+		set y_geo [expr {$smih*$rows + 2} ]
 		
 		
 		wm state $w withdrawn
@@ -688,7 +688,7 @@ namespace eval ::smiley {
 		bind $w.c.custom_new <Button1-ButtonRelease> "::smiley::newCustomEmoticonGUI; event generate $w <Leave>"
 		
 		set ypos [expr {(($rows-1)*$smih + ($smih/2))}]
-		$w.c create window  0 $ypos -window $w.c.custom_new -width [expr $x_geo - 2] -height $smih -anchor w
+		$w.c create window  0 $ypos -window $w.c.custom_new -width [expr {$x_geo - 2}] -height $smih -anchor w
 		
 		
 		bind $w <Enter> "bind $w <Leave> \"bind $w <Leave> \\\"wm state $w withdrawn\\\"\""
@@ -1088,11 +1088,11 @@ proc parse_x_mms_emoticon { data chatid } {
     set start 0
     while { $start < [string length $data]} {
 	set end [string first "	" $data $start]
-	set symbol [string range $data $start [expr $end - 1]]
-	set start [expr $end + 1]
+	set symbol [string range $data $start [expr {$end - 1}]]
+	set start [expr {$end + 1}]
 	set end [string first "	" $data $start]
-	set msnobj [string range $data $start [expr $end - 1]]
-	set start [expr $end + 1]
+	set msnobj [string range $data $start [expr {$end - 1}]]
+	set start [expr {$end + 1}]
 
 	set smile($symbol) "$msnobj"
     }
