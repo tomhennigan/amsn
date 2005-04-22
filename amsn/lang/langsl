@@ -407,6 +407,7 @@ needonline ©e vedno si/izgleda¹ neprijavljen!
 needwinico2 Da bi pristaja delovala v Oknih, potrebuje¹ datoteko winico05.dll v mapi utils/windows
 never Nikoli
 new_ft_protocol Uporabi nov protokol za prenos datotek (¹e nekaj hro¹èev)
+newline Nova vrstica
 newmail $1 novih sporoèil v Inboxu
 newmailfolder $1 novih sporoèil v ostalih imenikih
 newmailfrom Novo sporoèilo od $1 ($2)
@@ -625,6 +626,7 @@ temp_state Ne shrani (Trenutno, bo ponastavljeno ob ponovnem zagonu AMSN)
 textsize Velikost besedila
 thismonth Ta mesec
 timeremaining èas do konca prenosa
+timestamp Prikaz èasa
 timestamps Omogoèi prikaz èasa v pogovorih
 title aMSN
 tkerror Napaka v TKju. To je amsnjev hro¹è, prosim povej zanj. Po¹lji datoteko $1 na amsn-bugs@lists.sf.net

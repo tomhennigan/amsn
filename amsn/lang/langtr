@@ -87,6 +87,7 @@ cachedpics $1 saklanmýþ resim
 cancel Ýptal Et
 cannotdeleteprofile Profil kullanýmda olduðu için silinemiyor
 cantexec $1 uygulamasi çalýþtýrýlamýyor. Seçenekleri kontrol edin.
+cantloadonlineversion Güncellenmiþ diller listesi internetten alýnamadý
 cantremoveothers "Diðer" grubu silinemiyor
 casesensitive Yazýlý karþýlýklarda büyük/küçük harfe duyarlý ol
 cfgalarm Alarmý Düzenle/Ekle/Kaldýr
@@ -532,7 +533,7 @@ reconnect $1 in yeniden baðlanmasý bekleniyor
 reconnect2 Baðlantý koparsa yeniden baðlan
 reconnecting Sunucuya yeniden baðlanýlýyor
 reject Geri çevir
-rememberpass þifreyi hatýrla
+rememberpass Þifreyi hatýrla
 removeempty Boþ gruplarý baðlantý listesinden çýkar
 removefromlist Bu listeden çýkar
 rename Yeniden adlandýr
@@ -547,6 +548,7 @@ savecontacts Baðlantý listesini kaydet
 savetofile Dosyaya kaydet
 says $1 diyor ki
 sbcon Switch Board'a baðlanýyor
+selectall Hepsini seç
 selectplugins Lütfen etkinleþtireceðiniz eklentileri seçiniz
 selectskin Lütfen listeden bir kabuk seçiniz
 send Gönder
@@ -618,6 +620,7 @@ tabbed Sekmeli pencereler
 tabbedglobal Tüm baðlantýlar için tek bir sekmeli pencere
 tabbedgroups Ayný gruptan baðlantýlar için tek bir seçmeli pencere
 tabtitlenick Sekmelerde e-posta adresleri yerine rumuzlarý göster
+takesnapshot Görüntü al
 temp_state Kaydetme (Geçici durum, AMSN kapatýlýnca silinecek)
 textsize Metin boyutu
 thismonth Bu ay
@@ -632,9 +635,9 @@ tlsinstallexp AMSN artýk güvenli baðlantý için SSL gerektiren MSNP9 kullanýyor.S
 tlsinstcompleted TLS kütüphanesi baþarýyla kuruldu, artýk MSNP9 kullanabilirsniz. Eðer kullanamýyorsanýz, sistem türünüzü yanlýþ seçmiþ olabilirsiniz, ya da sisteminize uygun derlenmiþ TLS sürümü yoktur.
 to Kime
 today Bugün
+tomobile Cep telefonuna
 tools Araçlar
 tooltips Ýpuçlarýný etkinleþtir
-tomobile Cep telefonuna
 transnotexists Bu dosyanýn seçili dile çevirisi henüz yok
 traynotcompiled Görev çubuðu simgesi derlenmemiþ, plugins/traydock'a bakýn
 triggers Yazýlý karþýlýðý
@@ -648,6 +651,8 @@ unload Kaldýr
 uoffline Çevrim dýþý
 uonline Çevrim içi
 update Güncelle
+updating Güncelliyor
+useasdp Kullanýcý resmi olarak kullan
 useother Baþka bir yazýlým kullan
 user Kullanýcý
 useralreadyonlist Kullanýcý zaten baðlantý listesinde
@@ -663,6 +668,7 @@ view Görünüm
 viewcontactsby Baðlantý isimleri
 viewprofile Profili gör
 webcaminvite $1 sizi kamera kullanmaya davet etti; ancak aMSN'de bu iþlev yok.
+webcamshot Resim çek
 whatsize Seçtiðiniz resim normal kullanýcý resmi boyutunda (96 x 96) deðil.\n Resmin hangi boyda gözükmesini istersiniz?
 willjoin $1 in sohbete katýlmasý bekleniyor
 winkreceived $1 size bir "göz kýrpma" gönderdi. aMSN þu an bu özelliði desteklemiyor.
@@ -682,3 +688,4 @@ yoffset Y koordinatý
 youblocked Engellendiniz
 yousay Diyorsunuz ki
 youwant Ýstiyorsunuz ki
+zoom Büyüt
