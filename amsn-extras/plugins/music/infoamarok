@@ -4,13 +4,13 @@
 #Amarok is launched ?
 if dcop|grep amarok 1>/dev/null ; then
 	#Yes so we get the info
-	dcop amarok player status>$1
-	dcop amarok player title>>$1
-	dcop amarok player artist>>$1
-	dcop amarok player encodedURL>>$1
+	dcop amarok player status
+	dcop amarok player title
+	dcop amarok player artist
+	dcop amarok player encodedURL
 else
 	#No so we set to state stopped
-	echo 0 >$1
+	echo 0
 fi
 
 exit 0
