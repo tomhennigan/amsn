@@ -695,6 +695,16 @@ namespace eval ::abook {
 	}
 	
 	
+	proc importContact { } {
+	
+		set filename [chooseFileDialog]
+		status_log "$filename\n" red
+		if { $filename != "" } {
+			::abook::importContactcsv $filename
+		}
+		
+	}
+	
 	proc importContactcsv { filename } {
 		
 		set file_id [open $filename r]
@@ -707,8 +717,8 @@ namespace eval ::abook {
 			if { [string first "@" $contact] != -1 } {
 				set coma [string first "," $contact]
 				set email [string range $contact 0 [expr $coma - 1]]
-				status_log "$email\n" red
-				#::MSN::addUser "$email" "" 0
+				status_log "Addind $email\n" red
+				::MSN::addUser "$email" "" 0
 			}
 		}
 		

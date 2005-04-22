@@ -3910,6 +3910,8 @@ proc cmsn_auth {{recv ""}} {
 			.main_menu.file entryconfigure 5 -state normal
 			#savecontactlist
 			.main_menu.file entryconfigure 7 -state normal
+			#LoadContactlist
+			.main_menu.file entryconfigure 8 -state normal
 
 			#Add a contact
 			.main_menu.tools entryconfigure 0 -state normal
