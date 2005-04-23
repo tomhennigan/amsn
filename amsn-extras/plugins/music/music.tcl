@@ -19,6 +19,8 @@ namespace eval ::music {
 		#Load translation keys (lang files)
 		::music::LoadLangFiles $dir
 		
+		::music::LoadPixmaps $dir
+
 		#Verify the OS is supported before loading the plugin
 		#And configure default players for each OS
 		if {![::music::OsVerification]} { return }
@@ -40,6 +42,24 @@ namespace eval ::music {
 		after 5000 ::music::add_command 0 0
 	}
 	
+	#####################################################
+	# ::music::LoadLangFiles dir                        #
+	# ------------------------------------------------- #
+	# Load pixmaps files                                #
+	#####################################################
+	proc LoadPixmaps {dir} {
+		if {[string equal $::version "0.94"]} {
+			::skin::setPixmap musicshown_pic [file join $dir pixmaps notespic.gif]
+		} else {
+			::skin::setPixmap musicshown_pic notespic.gif pixmaps [file join $dir pixmaps]
+		}
+		if {[string equal $::version "0.94"]} {
+			::skin::setPixmap musichidden_pic [file join $dir pixmaps notesdispic.gif]
+		} else {
+			::skin::setPixmap musichidden_pic notesdispic.gif pixmaps [file join $dir pixmaps]
+		}
+	}
+
 	#####################################
 	# ::music::RegisterEvent            #
 	# --------------------------------- #
@@ -48,6 +68,7 @@ namespace eval ::music {
 	proc RegisterEvent {} {
 		::plugins::RegisterEvent "Music" OnConnect newname
 		::plugins::RegisterEvent "Music" OnDisconnect stop
+		::plugins::RegisterEvent "Music" ContactListColourBarDrawn draw
 		::plugins::RegisterEvent "Music" new_chatwindow CreateMusicMenu
 		::plugins::RegisterEvent "Music" AllPluginsLoaded add_command
 	}
@@ -706,4 +727,60 @@ namespace eval ::music {
 	proc exec_send_command {win_name} {
 		::music::menucommand $win_name 2
 	}
+
+	#######################################################################
+	# ::music::draw                                                       #
+	# ------------------------------------------------------------------- #
+	# Add an icon in the contact list to show/hide the song in the nick   #
+	# Arguments:                                                          #
+	#  event -> The event wich runs the proc (Supplied by Plugins System) #
+	#  evPar -> The array of parameters (Supplied by Plugins System)      #
+	#######################################################################
+	proc draw {event evPar} {
+		upvar 2 $evPar vars
+
+		if {$::music::config(active)} {
+			set icon musicshown_pic
+		} else {
+			set icon musichidden_pic
+		}
+
+		if {[string equal $::version "0.94"]} {
+			set textb $vars(text)
+
+			clickableImage $textb musicpic $icon {set ::music::config(active) [expr !$::music::config(active)];cmsn_draw_online} 5 0
+		} else {
+			#TODO: add parameter to event and get rid of hardcoded variable
+			set pgtop $::pgBuddyTop
+			set clbar $::pgBuddyTop.colorbar
+
+			set textb $pgtop.musicpic
+			set notewidth [expr [image width [::skin::loadPixmap $icon]]/[font measure bboldf "0"]+1]
+			set noteheight [expr [image height [::skin::loadPixmap $icon]]/[font metrics bboldf -linespace]+1]
+
+			text $textb -font bboldf -height 1 -background white -borderwidth 0 -wrap none -cursor left_ptr \
+				-relief flat -highlightthickness 0 -selectbackground white -selectborderwidth 0 \
+				-exportselection 0 -relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0 -width $notewidth -height $noteheight
+
+			pack $textb -expand false -after $clbar -side right -padx 0 -pady 0
+
+			$textb configure -state normal
+
+			clickableImage $textb musicpic $icon {set ::music::config(active) [expr !$::music::config(active)];cmsn_draw_online} [::skin::getKey mailbox_xpad] [::skin::getKey mailbox_ypad]
+
+		}
+
+		if {[::music::version_094]} {
+			set balloon_message "Click here to show/hide the song in your nick"
+		} else {
+			set baloondefault [trans musicballontext]
+		}
+
+		bind $textb.musicpic <Enter> +[list balloon_enter %W %X %Y $balloon_message]
+		bind $textb.musicpic <Leave> "+set ::Bulle(first) 0; kill_balloon;"
+		bind $textb.musicpic <Motion> +[list balloon_motion %W %X %Y $balloon_message]
+
+		$textb configure -state disabled
+	}
+
 }
