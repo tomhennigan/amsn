@@ -70,7 +70,7 @@
 	<lang>
 		<langcode>en</langcode>
 		<name>English</name>
-		<version>1.293</version>
+		<version>1.294</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -232,7 +232,7 @@
 	<lang>
 		<langcode>sl</langcode>
 		<name>Slovenian (slovenščina)</name>
-		<version>1.32</version>
+		<version>1.33</version>
 		<encoding>iso8859-2</encoding>
 	</lang>
 	<lang>
@@ -274,7 +274,7 @@
 	<lang>
 		<langcode>tr</langcode>
 		<name>Turkish (Türkçe)</name>
-		<version>1.49</version>
+		<version>1.50</version>
 		<encoding>iso8859-9</encoding>
 	</lang>
 	<lang>
