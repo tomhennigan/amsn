@@ -615,15 +615,21 @@ namespace eval ::abook {
 			puts $file_id "</AMSN_AddressBook>"
 		} elseif { [string equal $type "csv"] } {
 			puts $file_id "email,name"
-			foreach user [array names users_data] {
-				array set temp_array $users_data($user)
-				puts $file_id "$user,$temp_array([array names temp_array "nick"])"
+			foreach contact [::abook::getAllContacts] {
+				if { [string last "FL" [::abook::getContactData $contact lists]] != -1 } {
+					array set temp_array $users_data($contact)
+					if { [info exists temp_array([array names temp_array "nick"])] } {
+						puts $file_id "$contact,$temp_array([array names temp_array "nick"])"
+					} else {
+						puts $file_id "$contact,"
+					}
+				}
 			}
 		} elseif { [string equal $type "ctt"] } {
 			puts $file_id "<?xml version=\"1.0\"?>\n<messenger>\n\t<service name=\".NET Messenger Service\">\n\t\t<contactlist>"
-			foreach user [array names users_data] {
-				if { [string first "@" $user] != -1 } {
-					puts $file_id "\t\t\t<contact>$user</contact>"
+			foreach contact [::abook::getAllContacts] {
+				if { [string last "FL" [::abook::getContactData $contact lists]] != -1 } {
+					puts $file_id "\t\t\t<contact>$contact</contact>"
 				}
 			}
 			puts $file_id "\t\t</contactlist>\n\t</service>\n</messenger>"
@@ -698,31 +704,77 @@ namespace eval ::abook {
 	proc importContact { } {
 	
 		set filename [chooseFileDialog]
-		status_log "$filename\n" red
+
 		if { $filename != "" } {
-			::abook::importContactcsv $filename
+			if { [string match -nocase "*.ctt" "$filename"] } {
+				::abook::importContactctt $filename
+			} elseif { [string match -nocase "*.csv" "$filename"] } {
+				::abook::importContactcsv $filename
+			}
 		}
 		
 	}
 	
 	proc importContactcsv { filename } {
+	
+		set ImportedContact [list]
 		
 		set file_id [open $filename r]
 		fconfigure $file_id -encoding utf-8
 		set content [read $file_id]
 		close $file_id
-		set contacts [split $content "\n"]
+		set lines [split $content "\n"]
 		
-		foreach contact $contacts {
-			if { [string first "@" $contact] != -1 } {
-				set coma [string first "," $contact]
-				set email [string range $contact 0 [expr $coma - 1]]
-				status_log "Addind $email\n" red
-				::MSN::addUser "$email" "" 0
+		foreach line $lines {
+			if { [string first "@" $line] != -1 } {
+				set coma [string first "," $line]
+				set contact [string range $line 0 [expr $coma - 1]]
+				set ImportedContact [lappend ImportedContact $contact]
 			}
 		}
 		
+		::abook::importContactList $ImportedContact
+		
 	}
+	
+	proc importContactctt { filename } {
+	
+		status_log "Salut\n" red
+	
+		set ImportedContact [list]
+		
+		set file_id [open $filename r]
+		fconfigure $file_id -encoding utf-8
+		set content [read $file_id]
+		close $file_id
+		set lines [split $content "\n"]
+		
+		status_log "$lines"
+		
+		foreach line $lines {
+			set id1 [string first "<contact>" $line]
+			set id2 [string first "</contact>" $line]
+			if { $id1 != -1 && $id2 != -1 } {
+				incr id1 9
+				incr id2 -1
+				set contact [string range "$line" $id1 $id2]
+				set ImportedContact [lappend ImportedContact $contact]
+			}
+		}
+		
+		::abook::importContactList $ImportedContact
+
+	}
+	
+	proc importContactList { ImportedContact } {
+	
+		foreach contact $ImportedContact {
+			status_log "Importation of contacts : $contact\n" red
+			::MSN::WriteSB ns "ADD" "FL $contact $contact 0"
+		}
+				
+	}
+
 	
 
 }

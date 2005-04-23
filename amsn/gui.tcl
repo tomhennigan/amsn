@@ -6011,13 +6011,57 @@ proc NotInContactList { user } {
 
 #saves the contactlist to a file
 proc saveContacts { } {
-	set types {
-		{{Comma Seperated Values}       {.csv}        }
+
+
+	set w ".savecontacts"
+
+	if { [winfo exists $w] } {
+		raise $w
+		return
 	}
-	set filename [tk_getSaveFile -filetypes $types]
+		
+	toplevel $w
+	wm title $w "[trans options]"
+		
+	frame $w.format
+	radiobutton $w.format.ctt -text "[trans formatctt]" -value "ctt" -variable format
+	radiobutton $w.format.csv -text "[trans formatcsv]" -value "csv" -variable format
+	$w.format.ctt select
+	pack configure $w.format.ctt -side top -fill x -expand true
+	pack configure $w.format.csv -side top -fill x -expand true
+	
+	frame $w.button
+	button $w.button.save -text "[trans save]" -command "saveContacts2"
+	button $w.button.cancel -text "[trans cancel]" -command "destroy $w"
+	pack configure $w.button.save -side right -padx 3 -pady 3
+	pack configure $w.button.cancel -side right -padx 3 -pady 3
+	
+	pack configure $w.format -side top -fill both -expand true
+	pack configure $w.button -side top -fill x -expand true
+	
+	
+}
+	
+	
+proc saveContacts2 { } {
+	
+	upvar 1 format format
+	
+	if { $format == "ctt" } {
+		set types [list { {Messenger Contacts} {.ctt} }]
+	} elseif { $format == "csv" } {
+		set types [list { {Comma Seperated Values} {.csv} }]
+	}
+	set filename [tk_getSaveFile -filetypes $types -defaultextension ".$format"]
 	if {$filename != ""} {
-		::abook::saveToDisk $filename "csv"
+		if { [string match "$filename" "*.$format"] == 0 } {
+			set filename "$filename.$format"
+			::abook::saveToDisk $filename $format
+		}
 	}
+	
+	destroy .savecontacts
+	
 }
 
 ###TODO: Replace all this msg_box calls with ::amsn::infoMsg
