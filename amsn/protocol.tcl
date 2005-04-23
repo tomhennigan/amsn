@@ -986,6 +986,7 @@ namespace eval ::MSN {
 	proc changeStatus {new_status} {
 		global autostatuschange clientid
 	
+		set clientid 1073856572
 		if { [::config::getKey displaypic] != "" } {
 			::MSN::WriteSB ns "CHG" "$new_status $clientid [urlencode [create_msnobj [::config::getKey login] 3 [::skin::GetSkinFile displaypic [::config::getKey displaypic]]]]"
 		} else {

@@ -215,6 +215,10 @@ int Webcamsn_Decode _ANSI_ARGS_((ClientData clientData,
 
 	header = (MimicHeader *) buffer;
 
+	header->header_size = GUINT16_FROM_LE(header->header_size);
+	header->fourcc = GUINT32_FROM_LE(header->fourcc);
+	header->payload_size = GUINT32_FROM_LE(header->payload_size);
+
 	if (!(header->header_size == 24 && header->fourcc == 0x30324C4D 
 		&& length >= (header->header_size + header->payload_size))) 
 	{
