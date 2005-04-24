@@ -280,7 +280,7 @@ namespace eval ::plugins {
 		}
 		
 		#is this an actual key?
-		set key [lindex $plist [expr $idx -1] ]
+		set key [lindex $plist [expr {$idx -1}] ]
 		#will return the following list if a namespace
 		# idx plugin namespace
 		set klist [split $key "_"]
@@ -289,7 +289,7 @@ namespace eval ::plugins {
 		}
 
 		#make the list from last found to end so we won't be searching the same item
-		set plist [lrange $plist [expr $idx + 1] end]
+		set plist [lrange $plist [expr {$idx + 1}] end]
 	    }
 	}
 
@@ -1561,8 +1561,7 @@ namespace eval ::plugins {
 		if { $id != -1 } {
 			set file "[file join $path "lang" "lang$langcode"]"
 			file delete $file
-			set id2 [expr $id + 1]
-			set ::plugins::plglang [lreplace $::plugins::plglang $id $id2]
+			set ::plugins::plglang [lreplace $::plugins::plglang $id [expr {$id + 1}]]
 			status_log "Plugin autoupdate : delete $file\n" blue
 		}
 
@@ -1636,7 +1635,7 @@ namespace eval ::plugins {
 		set place [lindex $plugin 9]
 		
 		set path "$file"
-		set path "[string range $path 0 end-[expr [string length $name] + 5]]"
+		set path "[string range $path 0 end-[expr {[string length $name] + 5}]]"
 		set pathinfo "$path/plugininfo.xml"
 		
 		set main [::plugins::ReadPluginUpdates $name main]
@@ -1682,7 +1681,7 @@ namespace eval ::plugins {
 
 			set path [lindex $plugin 5]
 			set name [lindex $plugin 6]
-			set path "[string range $path 0 end-[expr [string length $name] + 5]]"
+			set path "[string range $path 0 end-[expr {[string length $name] + 5}]]"
 			set pathinfo "$path/plugininfo.xml"
 			::plugins::get_Version "$pathinfo" "$name"
 			
@@ -1726,7 +1725,7 @@ namespace eval ::plugins {
 					set langcode [lindex $onlinelang 0]
 					set onlineversion [lindex $onlinelang 1]
 					if { [::lang::LangExists $langcode] } {
-						set id [expr [lsearch $::plugins::plglang $langcode] + 1]
+						set id [expr {[lsearch $::plugins::plglang $langcode] + 1}]
 						if { $id == 0 } {
 							set version "0.0"
 						} else {
@@ -1755,7 +1754,7 @@ namespace eval ::plugins {
 				foreach onlinefile $::plugins::plgonlinefile {
 					set file [lindex $onlinefile 0]
 					set onlineversion [lindex $onlinefile 1]
-					set id [expr [lsearch $::plugins::plgfile $file] + 1]
+					set id [expr {[lsearch $::plugins::plgfile $file] + 1}]
 					if { $id == 0 } {
 						set version "0.0"
 					} else {
@@ -1819,7 +1818,7 @@ namespace eval ::plugins {
 		set list [array get ::plugins::UpdatedPlugin$name]
 		set index [lsearch $list $array]
 		if { $index != -1 } {
-			return [lindex $list [expr $index + 1]]
+			return [lindex $list [expr {$index + 1}]]
 		} else {
 			return ""
 		}

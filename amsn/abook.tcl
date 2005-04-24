@@ -728,7 +728,7 @@ namespace eval ::abook {
 		foreach line $lines {
 			if { [string first "@" $line] != -1 } {
 				set coma [string first "," $line]
-				set contact [string range $line 0 [expr $coma - 1]]
+				set contact [string range $line 0 [expr {$coma - 1}]]
 				set ImportedContact [lappend ImportedContact $contact]
 			}
 		}

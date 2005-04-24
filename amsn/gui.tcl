@@ -1253,7 +1253,7 @@ namespace eval ::amsn {
 
 
 		set maxw [expr {[::skin::getKey notifwidth]-20}]
-		incr maxw [expr 0-[font measure splainf "[trans says [list]]:"]]
+		incr maxw [expr {0-[font measure splainf "[trans says [list]]:"]}]
 		set nickt [trunc $nick $maxw splainf]
 
 		#if { ([::config::getKey notifymsg] == 1) && ([string first ${win_name} [focus]] != 0)} {
@@ -1530,8 +1530,8 @@ namespace eval ::amsn {
 		#Make the picture menu appear on the conversation window instead of having it in the bottom of screen (and sometime lost it if the conversation window is in the bottom of the window)
 		global tcl_platform
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-			set x [expr $x -50]
-			set y [expr $y - 115]
+			incr x -50
+			incr y -115
 		}
 
 		set chatid [::ChatWindow::Name $win]
@@ -1798,7 +1798,7 @@ namespace eval ::amsn {
 			set user_state_code [::abook::getVolatileData $user_login state FLN]
 			set user_state_no [::MSN::stateToNumber $user_state_code]
 			if {($user_state_no < 7) && ([lsearch $chatusers $user_login] == -1)} {
-				set menulength [expr $menulength + 1]
+				incr menulength 1
 			}
 		}
 
@@ -2028,7 +2028,7 @@ namespace eval ::amsn {
 		} else {
 			set y 1
 		}
-		set newlength [expr "$totallength - $y"]
+		set newlength [expr {$totallength - $y}]
 
 		set chatid [::ChatWindow::Name $win_name]
 		if { [string length [$inputbox get 0.0 end-1c]] == 0 } {
@@ -2050,11 +2050,11 @@ namespace eval ::amsn {
 		$inputbox see insert
 		
 		set bbox [$inputbox bbox insert]
-		set xpos [expr [lindex $bbox 0]+[lindex $bbox 2]/2]
+		set xpos [expr {[lindex $bbox 0]+[lindex $bbox 2]/2}]
 		set ypos [lindex $bbox 1]
 		set height [lindex $bbox 3]
 		if { $ypos > $height } {
-			return [$inputbox index "@$xpos,[expr $ypos-$height]"]
+			return [$inputbox index "@$xpos,[expr {$ypos-$height}]"]
 		} else {
 			$inputbox yview scroll -1 units
 		
@@ -2063,7 +2063,7 @@ namespace eval ::amsn {
 			set ypos [lindex [$inputbox bbox insert] 1]
 			set height [lindex [$inputbox bbox insert] 3]
 			if { $ypos > $height } {
-				return [$inputbox index "@$xpos,[expr $ypos-$height]"]
+				return [$inputbox index "@$xpos,[expr {$ypos-$height}]"]
 			}
 		}
 		return [$inputbox index insert]
@@ -2079,12 +2079,12 @@ namespace eval ::amsn {
 		$inputbox see insert
 		
 		set bbox [$inputbox bbox insert]
-		set xpos [expr [lindex $bbox 0]+[lindex $bbox 2]/2]
+		set xpos [expr {[lindex $bbox 0]+[lindex $bbox 2]/2}]
 		set ypos [lindex $bbox 1]
 		set height [lindex $bbox 3]
 		set inputboxheight [lindex [$inputbox configure -height] end]
-		if { [expr $ypos+$height] < [expr $inputboxheight*$height] } {
-			return [$inputbox index "@$xpos,[expr $ypos+$height]"]
+		if { [expr {$ypos+$height}] < [expr {$inputboxheight*$height}] } {
+			return [$inputbox index "@$xpos,[expr {$ypos+$height}]"]
 		} else {
 			$inputbox yview scroll +1 units
 		
@@ -2093,8 +2093,8 @@ namespace eval ::amsn {
 			set ypos [lindex [$inputbox bbox insert] 1]
 			set height [lindex [$inputbox bbox insert] 3]
 			set inputboxheight [lindex [$inputbox configure -height] end]
-			if { [expr $ypos+$height] < [expr $inputboxheight*$height] } {
-				return [$inputbox index "@$xpos,[expr $ypos+$height]"]
+			if { [expr {$ypos+$height}] < [expr {$inputboxheight*$height}] } {
+				return [$inputbox index "@$xpos,[expr {$ypos+$height}]"]
 			}
 		}
 		return [$inputbox index insert]
@@ -2316,7 +2316,7 @@ namespace eval ::amsn {
 			set win_name [::ChatWindow::For $chatid]
 			set maxw [winfo width [::ChatWindow::GetOutText $win_name]]
 			#status_log "Custom font is $customfont\n" red
-			incr maxw [expr -10-[font measure $measurefont -displayof $win_name "$says"]]
+			incr maxw [expr {-10-[font measure $measurefont -displayof $win_name "$says"]}]
 			set nick [trunc $oldnick $win_name $maxw splainf]
 		}
 
@@ -2809,7 +2809,7 @@ namespace eval ::amsn {
 
 		#Search for a free notify window position
 		while { [lsearch -exact $NotifPos $ypos] >=0 } {
-			set ypos [expr {$ypos+105}]
+			incr ypos 105
 		}
 		lappend NotifPos $ypos
 
@@ -2847,8 +2847,8 @@ namespace eval ::amsn {
 				-justify left -width [::skin::getKey width_notifytext] -anchor nw -text "$msg"]
 		} else {
 			#Just add the text and use full width
-			set notify_id [$w.c create text [expr [::skin::getKey notifwidth]/2] 35 -font splainf \
-				-justify center -width [expr [::skin::getKey notifwidth]-20] -anchor n -text "$msg"]
+			set notify_id [$w.c create text [expr {[::skin::getKey notifwidth]/2}] 35 -font splainf \
+				-justify center -width [expr {[::skin::getKey notifwidth]-20}] -anchor n -text "$msg"]
 		}
 		
 		$w.c create image [::skin::getKey x_notifyclose] [::skin::getKey y_notifyclose] -anchor nw -image [::skin::loadPixmap notifclose]
@@ -3663,7 +3663,7 @@ proc play_Sound_Mac {sound} {
 			set sound_name [file tail $sound]
 			#Find the name of the sound without .wav or .mp3, etc
 			set sound_small [string first "." "$sound_name"]
-			set sound_small [expr {$sound_small -1}]
+			incr sound_small -1
 			set sound_small_name [string range $sound_name 0 $sound_small]
 			#Necessary for Mac OS 10.2 compatibility
 			#Find the path of the sound, begin with skins/.. or /..
@@ -4676,8 +4676,8 @@ proc cmsn_draw_online_wrapped {} {
 		$pgBuddyTop.mystatus insert end "\n" mystatuslabel
 	}
 
-	set maxw [expr [winfo width [winfo parent $pgBuddyTop]]-[$pgBuddyTop.bigstate cget -width]-(2*[::skin::getKey bigstate_xpad])]
-	incr maxw [expr 0-[font measure bboldf -displayof $pgBuddyTop.mystatus " ($my_state_desc)" ]]
+	set maxw [expr {[winfo width [winfo parent $pgBuddyTop]]-[$pgBuddyTop.bigstate cget -width]-(2*[::skin::getKey bigstate_xpad])}]
+	incr maxw [expr {0-[font measure bboldf -displayof $pgBuddyTop.mystatus " ($my_state_desc)" ]}]
 	set my_short_name [trunc $my_name $pgBuddyTop.mystatus $maxw bboldf]
 	$pgBuddyTop.mystatus insert end "$my_short_name " mystatus
 	$pgBuddyTop.mystatus insert end "($my_state_desc)" mystatus
@@ -4703,7 +4703,7 @@ proc cmsn_draw_online_wrapped {} {
 	set size [$pgBuddyTop.mystatus index end]
 	set posyx [split $size "."]
 	set lines [expr {[lindex $posyx 0] - 1}]
-	if { [expr [llength [$pgBuddyTop.mystatus image names]] + [llength [$pgBuddyTop.mystatus window names]]] } { incr lines }
+	if { [expr {[llength [$pgBuddyTop.mystatus image names]] + [llength [$pgBuddyTop.mystatus window names]]} ] } { incr lines }
 
 	$pgBuddyTop.mystatus configure -state normal -height $lines -wrap none
 	$pgBuddyTop.mystatus configure -state disabled
@@ -4735,10 +4735,10 @@ proc cmsn_draw_online_wrapped {} {
 		$pgBuddyTop.mail tag bind mail <Leave> "$pgBuddyTop.mail tag conf mail -under true;$pgBuddyTop.mail conf -cursor left_ptr"
 
 		clickableImage $pgBuddyTop.mail mailbox mailbox [list hotmail_login [::config::getKey login] $password] [::skin::getKey mailbox_xpad] [::skin::getKey mailbox_ypad]
-		set mailheight [expr [$pgBuddyTop.mail.mailbox cget -height]+(2*[::skin::getKey mailbox_ypad])]
+		set mailheight [expr {[$pgBuddyTop.mail.mailbox cget -height]+(2*[::skin::getKey mailbox_ypad])}]
 		#in windows need an extra -2 is to include the extra 1 pixel above and below in a font
 		if {$tcl_platform(platform) == "windows" || ![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-			set mailheight [expr $mailheight - 2]
+			incr mailheight -2
 		}
 		set textheight [font metrics splainf -linespace]
 		if { $mailheight < $textheight } {
@@ -4774,7 +4774,7 @@ proc cmsn_draw_online_wrapped {} {
 		set evpar(msg) mailmsg
   		::plugins::PostEvent ContactListEmailsDraw evpar	
 
-		set maxw [expr [winfo width [winfo parent $pgBuddyTop]]-[$pgBuddyTop.mail.mailbox cget -width]-(2*[::skin::getKey mailbox_xpad])]
+		set maxw [expr {[winfo width [winfo parent $pgBuddyTop]]-[$pgBuddyTop.mail.mailbox cget -width]-(2*[::skin::getKey mailbox_xpad])}]
 		set short_mailmsg [trunc $mailmsg $pgBuddyTop.mail $maxw splainf]
 		$pgBuddyTop.mail insert end "$short_mailmsg" {mail dont_replace_smileys}
 
@@ -5144,7 +5144,7 @@ proc ShowUser {user_name user_login state_code colour section grId} {
 		incr maxw -25
 	}
 
-	for {set i $last_element} {$i >= 0} {set i [expr {$i-1}]} {
+	for {set i $last_element} {$i >= 0} {incr i -1} {
 		if { $i != $last_element} {
 			set current_line " [lindex $user_lines $i]\n"
 		} else {
@@ -5374,9 +5374,9 @@ proc trunc {str {window ""} {maxw 0 } {font ""}} {
 	set slen [string length $str]
 
 	if {$nchars <= $elen || $slen <= $elen || $nchars >= $slen} {
-		set s [string range $str 0 [expr $nchars - 1]]
+		set s [string range $str 0 [expr {$nchars - 1}]]
 	} else {
-		set s "[string range $str 0 [expr $nchars - $elen - 1]]..."
+		set s "[string range $str 0 [expr {$nchars - $elen - 1}]]..."
 	}
 
 	return $s
@@ -6331,7 +6331,7 @@ proc idleCheck {} {
 	if { [string is digit [::config::getKey awaytime]] && [string is digit [::config::getKey idletime]] } {
 	#Avoid running this if the settings are not digits, which can happen while changing preferences
 		set second [expr {[::config::getKey awaytime] * 60}]
-		set first [expr [::config::getKey idletime] * 60]
+		set first [expr {[::config::getKey idletime] * 60}]
 		
 		set changed 0
 		
@@ -6666,7 +6666,6 @@ proc window_history { command w } {
 			}
 
 			incr idx -1
-			#set idx [expr {$idx - 1}]
 			set win_history(${w}_index) $idx
 
 			$w delete $zero end
@@ -6679,7 +6678,6 @@ proc window_history { command w } {
 			if { $idx ==  $win_history(${w}_count) } { return -1}
 
 			incr idx
-			#set idx [expr $idx +1]
 			set win_history(${w}_index) $idx
 			$w delete $zero end
 			#	    if {! [info exists win_history(${w}_${idx})] } { }
@@ -6785,8 +6783,8 @@ proc convert_image { filename destdir size } {
 	set img [image create photo -file "${tempfile}.gif"]
 	set centerx [expr { [image width $img] /2 } ]
 	set centery [expr { [image height $img] /2 } ]
-	set halfw [expr [lindex $sizexy 0] / 2]
-	set halfh [expr [lindex $sizexy 1] / 2]
+	set halfw [expr {[lindex $sizexy 0] / 2}]
+	set halfh [expr {[lindex $sizexy 1] / 2}]
 	set x1 [expr {$centerx-$halfw}]
 	set y1 [expr {$centery-$halfh}]
 	if { $x1 < 0 } {

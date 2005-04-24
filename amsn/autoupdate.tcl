@@ -546,7 +546,7 @@ namespace eval ::autoupdate {
 			#Actual time in seconds
 			set actualtime "[clock seconds]"
 			#Number of seconds for 3 days
-			set three_days "[expr 60*60*24*3]"
+			set three_days "[expr {60*60*24*3}]"
 			#If you tant to test just with 60 seconds, add # on the previous line and remove the # on the next one
 			#set three_days "60"
 			#Compare the difference betwen actualtime and the time when he clicked
@@ -817,7 +817,7 @@ namespace eval ::autoupdate {
 	proc ReadLangSelected { langcode } {
 
 		set lang [array get ::autoupdate::lang]
-		set id [expr [lsearch $lang $langcode] + 1]
+		set id [expr {[lsearch $lang $langcode] + 1}]
 		return [lindex $lang $id]
 
 	}
@@ -827,7 +827,7 @@ namespace eval ::autoupdate {
 	proc ReadPluginSelected { plugin } {
 
 		set plugins [array get ::autoupdate::plugin]
-		set id [expr [lsearch $plugins $plugin] + 1]
+		set id [expr {[lsearch $plugins $plugin] + 1}]
 		return [lindex $plugins $id]
 
 	}
