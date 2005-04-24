@@ -367,7 +367,7 @@ namespace eval ::music {
 		}
 
 		#Read lines
-		while { ![eof $gets] } {
+		while { ![eof $gets] && $tmp != ""} {
 			#The pipe was filled by xmms-info
 			if { $tmp != "" } {
 			set pos [string first ":" $tmp]
