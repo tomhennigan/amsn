@@ -1,64 +1,197 @@
 
 package require AMSN_BWidget
 
-proc test {} {
-	
-	::skin::setPixmap prefpers prefpers.gif
-	::skin::setPixmap prefprofile prefprofile.gif
-	::skin::setPixmap preffont preffont.gif
-	::skin::setPixmap prefphone prefphone.gif
-	
-	
-	if { [LoginList exists 0 [::config::getKey login]] == 1 } {
-		PreferencesWindow .prefs -title "[trans preferences] - [trans profiledconfig] - [::config::getKey login]"
-	} else {
-		PreferencesWindow .prefs -title "[trans preferences] - [trans defaultconfig] - [::config::getKey login]"
-	}
-	
-	#####################################################
-	# Section "Personal"
-	#####################################################
-	set section [PreferencesSection create .prefs.personal -text [trans personal]]
-	
-	set frame [ItemsFrame create .prefs.personal.nicks -text [trans prefname] -icon prefpers]
-	$frame addItem [TextEntry create .prefs.personal.nicks.nick -width 50 -text "[trans enternick] :"]
-	$frame addItem [TextEntry create .prefs.personal.nicks.chat -width 50 -text "[trans friendlyname] :"]
-	$section addItem $frame
-	
-	set frame [ItemsFrame create .prefs.personal.preffont -text [trans preffont] -icon preffont]
-	$frame addItem [Label create .prefs.personal.preffont.info -text [trans preffont2]]
-	$frame addItem [TextEntry create .prefs.personal.preffont.info2 -text [trans changefont]]
-	$section addItem $frame
+#TODO:
+#Put items frame and listbox in scrollbars!!
 
-	set frame [ItemsFrame create .prefs.personal.prefphone -text [trans prefphone] -icon prefphone]
-	$frame addItem [Label create .prefs.personal.prefphone.info -text [trans prefphone2]]
-	$frame addItem [TextEntry create .prefs.personal.prefphone.country -text [trans countrycode] -width 5]
-	$frame addItem [TextEntry create .prefs.personal.prefphone.area -text [trans areacode]]
-	#$frame addItem [TextEntry create .prefs.personal.preffont.test -text "Test"]
-	$section addItem $frame
+namespace eval Preferences {
+
+	proc Show {} {
+
+		if [winfo exists .prefs] {
+			raise .prefs
+			catch {focus -force .prefs}
+			return
+		}
+		
+		#Set pixmaps
+		::skin::setPixmap prefpers prefpers.gif
+		::skin::setPixmap prefprofile prefprofile.gif
+		::skin::setPixmap preffont preffont.gif
+		::skin::setPixmap prefphone prefphone.gif
+		
+		
+		if { [LoginList exists 0 [::config::getKey login]] == 1 } {
+			PreferencesWindow .prefs -title "[trans preferences] - [trans profiledconfig] - [::config::getKey login]" -savecommand ::Preferences::Save
+		} else {
+			PreferencesWindow .prefs -title "[trans preferences] - [trans defaultconfig] - [::config::getKey login]" -savecommand ::Preferences::Save
+		}
+		
+		#####################################################
+		# Section "Personal"
+		#####################################################
+		set section [PreferencesSection .prefs.personal -text [trans personal]]
+		
+		set frame [ItemsFrame .prefs.personal.nicks -text [trans prefname] -icon prefpers]
+		$frame addItem [TextEntry .prefs.personal.nicks.nick -width 50 -text "[trans enternick] :" \
+			-storecommand ::Preferences::StoreNick -retrievecommand [list ::abook::getPersonal nick]]
+		$frame addItem [TextEntry .prefs.personal.nicks.chat -width 50 -text "[trans friendlyname] :" \
+			-variable [::config::getVar p4c_name]]
+		$section addItem $frame
+		
+		set frame [ItemsFrame .prefs.personal.preffont -text [trans preffont] -icon preffont]
+		$frame addItem [Label .prefs.personal.preffont.lab -text [trans preffont2]]
+		$frame addItem [CommandButton .prefs.personal.preffont.changefont -text [trans changefont] \
+			-variable [::config::getVar mychatfont] -buttoncommand ::Preferences::ChangeFont]
+		$section addItem $frame
+	
+		set frame [ItemsFrame .prefs.personal.prefphone -text [trans prefphone] -icon prefphone]
+		#$frame addItem [Label create .prefs.personal.prefphone.lab -text [trans prefphone2]]
+		$frame addItem [TextEntry .prefs.personal.prefphone.home -text [trans myhomephone] -width 20 \
+			-retrievecommand [list ::abook::getPersonal PHH]]
+		$frame addItem [TextEntry .prefs.personal.prefphone.work -text [trans myworkphone] -width 20 \
+			-retrievecommand [list ::abook::getPersonal PHW]]
+		$frame addItem [TextEntry .prefs.personal.prefphone.mobile -text [trans mymobilephone] -width 20 \
+			-retrievecommand [list ::abook::getPersonal PHM]]
+		$frame addItem [CheckBox .prefs.personal.prefphone.allowsms -text [trans allow_sms] \
+			-onvalue "Y" -offvalue "N" -storecommand [list ::abook::setPhone pager] -retrievecommand [list ::abook::getPersonal MOB]]
+		$section addItem $frame
+		
+
+		.prefs addSection $section
 	
 	
-	.prefs addSection $section
+		####################################################
+		# Section ...
+		#####################################################
+		set section [PreferencesSection .prefs.caca -text "Test"]
+		$section addSection [PreferencesSection .prefs.caca2 -text "Test2"]
+		$section addSection [PreferencesSection .prefs.caca3 -text "Test3"]
+		
+		.prefs addSection $section
+			
+		.prefs show .prefs_window
 	
-	set section [PreferencesSection create .prefs.caca -text "Caca"]
-	$section addSection [PreferencesSection create .prefs.caca2 -text "Caca2"]
-	$section addSection [PreferencesSection create .prefs.caca3 -text "Caca3"]
+		Configure 1
+		
+	}
+
+	proc Configure { {fullinit 0} } {
+
+		if {![winfo exists .prefs]} {
+			return
+		} 
+
+		if { $fullinit } {
 	
-	.prefs addSection $section
+			.prefs.personal.nicks.chat setValue [::config::getKey p4c_name]
+			if { [::MSN::myStatusIs] == "FLN" } {
+				.prefs.personal.nicks.nick configure -enabled 0
+				.prefs.personal.prefphone.home configure -enabled 0
+				.prefs.personal.prefphone.work configure -enabled 0
+				.prefs.personal.prefphone.mobile configure -enabled 0
+				.prefs.personal.prefphone.allowsms configure -enabled 0
+				
+			} else {
+				.prefs.personal.nicks.nick configure -enabled 1
+				.prefs.personal.prefphone.home configure -enabled 1
+				.prefs.personal.prefphone.work configure -enabled 1
+				.prefs.personal.prefphone.mobile configure -enabled 1
+			}
+			if { [::abook::getPersonal MBE] == "N" } {
+				.prefs.personal.prefphone.allowsms -enabled 0
+			}
+		}
+
 	
-	.prefs show
+	}
+
+	proc Save {} {
+
+		# Check and save phone numbers		
+		if { [::MSN::myStatusIs] != "FLN" } {
+			#set lfname [Rnotebook:frame $nb $Preftabs(personal)]
+			set home [urlencode [.prefs.personal.prefphone.home getValue]]
+			set work [urlencode [.prefs.personal.prefphone.work getValue]]
+			set mobile [urlencode [.prefs.personal.prefphone.mobile getValue]]
+			if { $home != [::abook::getPersonal PHH] } {
+				::abook::setPhone home $home
+			}
+			if { $work != [::abook::getPersonal PHW] } {
+				::abook::setPhone work $work
+			}
+			if { $mobile != [::abook::getPersonal PHM] } {
+				::abook::setPhone mobile $mobile
+			}
+		}
+	}
+
+
+	proc ChangeFont { currentfont } {
+
+		#Get current font configuration
+		set fontname [lindex $currentfont 0] 
+		set fontstyle [lindex $currentfont 1]
+		set fontcolor [lindex $currentfont 2]
 	
+		if { [catch {
+				set selfont_and_color [choose_font .prefs_window [trans choosebasefont] [list $fontname 12 $fontstyle] "#$fontcolor"]
+			}]} {
+			
+			set selfont_and_color [choose_font .prefs_window [trans choosebasefont] [list "helvetica" 12 [list]] #000000]
+			
+		}
+		
+		set selfont [lindex $selfont_and_color 0]
+		set selcolor [lindex $selfont_and_color 1]
 	
+		if { $selfont == ""} {
+			return $currentfont
+		}
+		
+		set sel_fontfamily [lindex $selfont 0]
+		set sel_fontstyle [lrange $selfont 2 end]
+		
+		
+		if { $selcolor == "" } {
+			set selcolor $fontcolor
+		} else {
+			set selcolor [string range $selcolor 1 end]
+		}
+		
+		return [list $sel_fontfamily $sel_fontstyle $selcolor]
+	}
+
+	proc StoreNick { nick } {
+		if {$nick != "" && $nick != [::abook::getPersonal nick] && [::MSN::myStatusIs] != "FLN"} {
+			::MSN::changeName [::config::getKey login] $nick
+		}
+	}
+
 }
 
-
 #This object type is a generic and abstract preference item.
+# OPTIONS
+# -variable	The variable where the value will be stored/retrieved
+# -retrievecommand	
+#		A command that needs to be called to retrieve the initial value of the text entry
+# -storecommand		
+#		A command that needs to be called to store the value of the text entry when the "store"
+#		method is called. The command will be appended one argument, the text entry value
+# -enabled	Enables or disabled the item
+# METHODS
+# getValue()	Return the current value of the item
+# setValue(val) Sets the value of the item
+# draw(path)	Draws the item inside the specified container
+# store()	Store the item value in the related variable
 ::snit::type PreferenceItem {
 	
 	#The variable where the items stores its data
-	option -variable -readonly yes -default ""
-	option -retrievecommand -readonly yes -default ""
-	option -storecommand -readonly yes -default ""
+	option -variable -readonly no -default ""
+	#The command that must be executed to retrieve the value. This command should return the variable value
+	option -retrievecommand -readonly no -default ""
+	#The command that must be executed to store the command. The value in the widget will be appended as parameter to the command
+	option -storecommand -readonly no -default ""
 	
 	#Enable or disable the item
 	option -enabled -default true
@@ -67,25 +200,73 @@ proc test {} {
 	#Common methods for all preference items
 	##########################################
 	
+	constructor {args} {
+		$self configurelist $args
+	}
+
+	onconfigure -variable { val } {
+		upvar $val var
+		$self setValue $var
+		set options(-variable) $val
+	}
+	onconfigure -retrievecommand { val } {	
+		$self setValue [eval $val]
+		set options(-retrievecommand) $val
+	}
+
+	variable value ""
+
 	#Return the item value
 	method getValue {} {
+		return $value
 	}
 	
 	#Set the item value
 	method setValue {new_val} {
+		set value $new_val
 	}
 	
 	#Draw the element in the given widget path (path must be a container)
 	method draw {path} {
+		label $path.l -text "Preference item"
+		pack $path.l
 	}
 
-	#Store the current value to the related variable
+	#Store the object values
 	method store {} {
+		if {!$options(-enabled)} {
+			status_log "$self disabled, not storing\n" blue
+			return
+		}
+		status_log "Storing $self, value [$self getValue]\n" blue
+		if { $options(-variable) != "" } {
+			status_log "   in variable $options(-variable)\n" blue
+			upvar $options(-variable) var
+			set var [$self getValue]
+		}		
+		if { $options(-storecommand) != "" } {
+			status_log "   with command $options(-storecommand)\n" blue
+			eval [concat $options(-storecommand) [list [$self getValue]]]
+		}
+		
+	}
+
+	method valueVar {} {
+		return [myvar value]
 	}
 }
 
 #This type is child of PreferenceItem. It groups some options under a 
 #frame with a label and an icon.
+#Usage:
+# OPTIONS
+# -text 	The text to be shown in the frame header
+# -icon 	A picture to be shown at the left, inside the frame
+# -expand 	The frame should expand in the container. Defaults to YES
+# -fill		The frame should fill all available space in X, Y or BOTH. Defaults to X
+# -enabled	The frame and contained items is enabled/disabled
+# METHODS
+# addItem(item)		Add a PreferenceItem inside this frame
 ::snit::type ItemsFrame {
 
 	#Delegate to PreferenceItem by default
@@ -106,15 +287,16 @@ proc test {} {
 		#Destroy the PreferenceItem object
 		$preferenceitem destroy
 		
+		#Destroy child items
+		foreach item $items {
+			$item destroy
+		}
+
 		#Destroy the container frame
 		if [winfo exists $itemPath.f] {
 			destroy $itemPath.f
 		}
 		
-		#Destroy child items
-		foreach item $items {
-			$item destroy
-		}
 	}
 	
 	#########################
@@ -142,6 +324,7 @@ proc test {} {
 	#Triggered when the -enabled option is changed
 	onconfigure -enabled { val } {
 		set options(-enabled) $val
+		$preferenceitem configure -enabled $val
 		#Now tell all the children to enable themshelves
 		set num 0
 		foreach item $items {
@@ -192,16 +375,18 @@ proc test {} {
 }
 
 #A text entry item. Child of PreferenceItem
+#Usage:
+# OPTIONS
+# -text 	The text to be shown next to the text entry
+# -width	The width of the text entry
+# -onchange	A command that is called everytime the text entry changes to validate the input
+# -enabled	Enables or disabled the text entry
+# METHODS
 ::snit::type TextEntry {
 	
 	#Delegate to PrferenceItem!!
 	delegate method * to preferenceitem
 	delegate option * to preferenceitem
-
-	#The variable where the items stores its data
-	option -variable -readonly yes -default ""
-	option -retrievecommand -readonly yes -default ""
-	option -storecommand -readonly yes -default ""
 	
 	#Enable or disable the item
 	option -enabled -default true
@@ -212,16 +397,6 @@ proc test {} {
 	constructor {args} {
 		install preferenceitem using PreferenceItem %AUTO%
 		$self configurelist $args
-		
-		if { $options(-variable) != "" } {
-			upvar $options(-variable) var
-			$self setValue $var
-		}
-		
-		if { $options(-retrievecommand) != "" } {
-			$self setValue [eval $options(-retrievecommand)]
-		}
-		
 	}
 	
 	destructor {
@@ -235,13 +410,13 @@ proc test {} {
 	#########################
 	#Static options (creation time)
 	#########################
+	#Command to be triggered when the item changes
+	option -onchange -readonly yes -default ""
 	
 	#Text for the item label
 	option -text -readonly yes -default ""
 	#With of the textfield
 	option -width -readonly yes -default ""
-	#Command to be triggered when the item changes
-	option -onchange -readonly yes -default ""
 	
 	#########################
 	#Dinamic options
@@ -250,25 +425,16 @@ proc test {} {
 	#Triggered when the -enabled option is changed
 	onconfigure -enabled { val } {
 		set options(-enabled) $val
-		if { $val } {
-			$itemPath.t configure -state normal 
-		} else {
-			$itemPath.t configure -state disabled
+		$preferenceitem configure -enabled $val
+		if {[winfo exists $itemPath.t]} {
+			if { $val } {
+				$itemPath.t configure -state normal 
+			} else {
+				$itemPath.t configure -state disabled
+			}
 		}
 	}
-
-	variable value ""
-	
-	#Return the item value
-	method getValue {} {
-		return $value
-	}
-	
-	#Set the item value
-	method setValue {new_val} {
-		set value $new_val
-	}
-	
+		
 	#Draw the text box in the given path
 	method draw { path } {
 
@@ -292,32 +458,197 @@ proc test {} {
 		
 		#...a text entry (can have defined width or not)
 		if { [string is integer -strict $options(-width)] } {
-			entry $path.t -width $options(-width) -background white -state $state -textvariable [varname value] \
+			entry $path.t -width $options(-width) -background white -state $state -textvariable [$self valueVar] \
 				-validate all -validatecommand $validatecommand
 			pack $path.t -side right -expand false -padx 5 -pady 3
 			pack $path.l -side right -expand false -padx 5 -pady 3
 		} else {
-			entry $path.t -background white -state $state -textvariable [varname value] \
+			entry $path.t -background white -state $state -textvariable [$self valueVar] \
 				-validate all -validatecommand $validatecommand
 			pack $path.t -side right -expand true -fill x -padx 5 -pady 3
 			pack $path.l -side right -expand false -padx 5 -pady 3
 		}
 	}
 	
-	#Store the object values
-	method store {} {
+}
+
+#A check box item. Child of PreferenceItem
+#Usage:
+# OPTIONS
+# -text 	The text to be shown next to the check button
+# -onchange	A command that is called everytime the check button value changes
+# -enabled	Enables or disabled the checkbutton
+# -onvalue	The value that the item will take when the checkbutton is checked. Defaults to 1
+# -offvalue	The value that the item will take when the checkbutton is not checked. Defaults to 0
+# METHODS
+::snit::type CheckBox {
+	
+	#Delegate to PrferenceItem!!
+	delegate method * to preferenceitem
+	delegate option * to preferenceitem
+
+	#Enable or disable the item
+	option -enabled -default true
 		
-		if { $options(-variable) != "" } {
-			upvar $options(-variable) var
-			set var [$self getValue]
+	#The widget path
+	variable itemPath ""
+		
+	constructor {args} {
+		install preferenceitem using PreferenceItem %AUTO%
+		$self configurelist $args
+	}
+	
+	destructor {
+		#Destroy the PreferenceItem instance
+		$preferenceitem destroy
+		#Destroy widgets
+		destroy $itemPath.c
+	}
+	
+	#########################
+	#Static options (creation time)
+	#########################
+	#Command to be triggered when the item changes
+	option -onchange -readonly yes -default ""
+	
+	#Text for the item label
+	option -text -readonly yes -default ""
+	#ON/OFF values
+	option -onvalue -readonly yes -default 1
+	option -offvalue -readonly yes -default 0
+	
+	#########################
+	#Dynamic options
+	#########################
+	
+	#Triggered when the -enabled option is changed
+	onconfigure -enabled { val } {
+		set options(-enabled) $val
+		$preferenceitem configure -enabled $val
+		if {[winfo exists $itemPath.c]} {
+			if { $val } {
+				$itemPath.c configure -state normal 
+			} else {
+				$itemPath.c configure -state disabled
+			}
+		}
+	}
+
+	
+	#Draw the text box in the given path
+	method draw { path } {
+
+		set itemPath $path
+		#Draw an input box
+		
+		if { $options(-enabled) } {
+			set state normal
+		} else {
+			set state disabled
+		}
+
+		if { $options(-onchange) != "" } {
+			set changecommand [list $options(-onchange) $self %s %S]
+		} else {
+			set changecommand ""
 		}
 		
-		if { $options(-storecommand) != "" } {
-			eval [concat $options(-storecommand) [$self getValue]]
-		}
+		#...a checkbutton entry
+		checkbutton $path.c -text $options(-text) -font sboldf -state $state -variable [$self valueVar] \
+			-command $changecommand -onvalue $options(-onvalue) -offvalue $options(-offvalue)
+
+		pack $path.c -side right -expand false -padx 5 -pady 3
+	}
+	
+}
+
+#A command button. Child of PreferenceItem
+#Usage:
+# OPTIONS
+# -text 	The text to be shown in the button
+# -buttoncommand
+#		The command that will be launched when the button is pressed. When this happens, the current item value will be appended as
+#		a parameter to this command. The return value of the command is then stored as new item value
+# -enabled	Enables or disabled the checkbutton
+# METHODS
+::snit::type CommandButton {
+	
+	#Delegate to PrferenceItem!!
+	delegate method * to preferenceitem
+	delegate option * to preferenceitem
+
+	#The variable where the items stores its data
+	option -buttoncommand -readonly yes -default ""
+	
+	#Enable or disable the item
+	option -enabled -default true
 		
+	#The widget path
+	variable itemPath ""
+		
+	constructor {args} {
+		install preferenceitem using PreferenceItem %AUTO%
+		$self configurelist $args
+	}
+	
+	destructor {
+		#Destroy the PreferenceItem instance
+		$preferenceitem destroy
+		#Destroy widgets
+		destroy $itemPath.b
+	}
+	
+	#########################
+	#Static options (creation time)
+	#########################
+	#Text for the item label
+	option -text -readonly yes -default ""
+	
+	#########################
+	#Dynamic options
+	#########################
+	
+	#Triggered when the -enabled option is changed
+	onconfigure -enabled { val } {
+		set options(-enabled) $val
+		$preferenceitem configure -enabled $val
+		if {[winfo exists $itemPath.b]} {
+			if { $val } {
+				$itemPath.b configure -state normal 
+			} else {
+				$itemPath.b configure -state disabled
+			}
+		}
+	}
+	
+	#Draw the button in the given path
+	method draw { path } {
+
+		set itemPath $path
+		#Draw an input box
+		
+		if { $options(-enabled) } {
+			set state normal
+		} else {
+			set state disabled
+		}
+
+	
+		button $path.b -text $options(-text) -font sboldf -state $state -command [mymethod buttonPressed]
+		pack $path.b -expand false -padx 5 -pady 3
+	}
+	
+
+	method buttonPressed {} {
+		if { $options(-buttoncommand) != "" } {
+			set the_command [concat $options(-buttoncommand) [list [$self getValue]]]
+			set value [eval $the_command]
+			$self setValue $value
+		}
+
 	}
 }
+
 
 
 #A text entry item. Child of PreferenceItem
@@ -358,11 +689,7 @@ proc test {} {
 	method draw { path } {
 
 		set itemPath $path
-		#Draw an input box
-		
-		#Composed by a label... and...
 		label $path.l -text $options(-text) -font splainf
-
 		pack $path.l -anchor center
 	}
 }
@@ -375,6 +702,7 @@ proc test {} {
 	
 	#Window title
 	option -title ""
+	option -savecommand ""
 	
 	constructor {args} {
 		install preferencessection using PreferencesSection %AUTO%
@@ -391,8 +719,6 @@ proc test {} {
 			destroy $wname
 		}
 		
-		#Destroy ourself
-		destroy $self
 	}
 
 	#A list with section objects, one per listbox element
@@ -400,17 +726,27 @@ proc test {} {
 	variable wname ""
 	
 	#Show the preferences window
-	method show { } {
+	method show { path } {
 	
 		#Create a window name and remember it
-		set w ${self}_window
-		set wname $w
+		set wname $path
 		
 		#Create the toplevel window
-		toplevel $w
-		wm title $w $options(-title)
-    		bind $w <Destroy> [list $self destroyWindow %W]
+		toplevel $wname
+		wm title $wname $options(-title)
+    		bind $wname <Destroy> [list $self destroyWindow %W]
+		bind $wname <<Escape>> [list destroy $wname]
 		
+		#Create the buttons
+		set w [frame $wname.buttons]
+		button $w.save -text [trans save] -default active -command [list $self savePressed]
+		button $w.cancel -text [trans close] -command [list destroy $wname]
+		pack $w.save $w.cancel -side right -padx 10 -pady 5
+		pack $w -side bottom -fill x -expand false
+
+		#Create the sections listbox and items area
+		set w [frame $wname.top]
+
 		#Create the sections listbox 
 		listbox $w.sections -bg white
 		#Create the items frame
@@ -419,12 +755,13 @@ proc test {} {
 		#Do the packing
 		pack $w.sections -side left -fill y
 		pack $w.items -side right -fill both -expand true
-		
+		bind $w.sections <<ListboxSelect>> [list $self sectionSelected]
+		pack $w -side top -fill both -expand true
+
 		#Add sections to the listbox
 		foreach section [$self getSectionsList] {
 			set sectionNames [concat $sectionNames [$section insertIntoList $w.sections 0]]
 		}
-		bind $w.sections <<ListboxSelect>> [list $self sectionSelected]
 		
 	}
 	
@@ -432,11 +769,11 @@ proc test {} {
 	method sectionSelected { } {
 
 		#Get the section object name from the sectionNames list	
-		set idx [$wname.sections curselection]
+		set idx [$wname.top.sections curselection]
 		set section [lindex $sectionNames $idx]
 		
 		#Create a new frames item, destroying previous one
-		set items "$wname.items.f"
+		set items "$wname.top.items.f"
 		if {[winfo exists $items]} {
 			destroy $items
 		}
@@ -452,6 +789,16 @@ proc test {} {
 		if { $w == $wname } {
 			destroy $self
 		}
+	}
+
+	method savePressed { } {
+		if { $options(-savecommand) != "" } {
+			$options(-savecommand)
+		}
+
+		$self storeItems
+
+		destroy $wname
 	}
 	
 }
@@ -528,6 +875,16 @@ proc test {} {
 		}
 	}
 
+	method storeItems { } {
+		#Add all subsections and append the result of the function call to the sections list
+		foreach subsection $sections_list {
+			$subsection storeItems
+		}
+		foreach item $items_list {
+			$item store
+		}
+	}
+
 }
 
 
@@ -546,6 +903,8 @@ proc new_preferences {} {
 	
 	.pref_win 
 }
+
+
 
 if { $initialize_amsn == 1 } {
 	global myconfig proxy_server proxy_port proxy_user proxy_pass rbsel rbcon pgc
@@ -2360,7 +2719,7 @@ proc SavePreferences {} {
 		if { $work != [::abook::getPersonal PHW] } {
 			::abook::setPhone work $work
 		}
-		if { $work != [::abook::getPersonal PHM] } {
+		if { $mobile != [::abook::getPersonal PHM] } {
 			::abook::setPhone mobile $mobile
 		}
 		if {$pager != [::abook::getPersonal MOB] } {

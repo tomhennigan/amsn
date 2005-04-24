@@ -3952,9 +3952,11 @@ proc cmsn_draw_offline {} {
 	#   configureMenuEntry .options "[trans publishphones]..." disabled
 
 	#Initialize Preferences if window is open
+	#TODO. Better than this, trigger an event, and listen in prefrences for that event
 	if { [winfo exists .cfg] } {
 		InitPref
 	}
+	::Preferences::Configure
 }
 #///////////////////////////////////////////////////////////////////////
 
@@ -5019,9 +5021,12 @@ proc cmsn_draw_online_wrapped {} {
 	$pgBuddy.text configure -state disabled
 
 	#Init Preferences if window is open
+        #TODO. Better than this, trigger an event, and listen in prefrences for that event
+
 	if { [winfo exists .cfg] } {
 		InitPref
 	}
+	::Preferences::Configure
 
 	global wingeom
 	set wingeom [list [winfo width .] [winfo height .]]
