@@ -2441,6 +2441,13 @@ namespace eval ::amsn {
 			set evPar(usr_name) $user
 			::plugins::PostEvent new_conversation evPar
 
+			if { [::config::getKey showdisplaypic] && $user != ""} {
+				::amsn::ChangePicture $win_name user_pic_$user [trans showuserpic $user]
+			} else {
+				::amsn::ChangePicture $win_name user_pic_$user [trans showuserpic $user] nopack
+			}
+
+
 		}
 
 		set chatid [::MSN::chatTo $lowuser]
