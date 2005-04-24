@@ -613,10 +613,20 @@ namespace eval ::MSNCAM {
 		setObjOption $sid rid $rid
 
 	
-		set ip_idx 1 
+		set ip_idx 7 
 		set ips [list]
 		while { 1 } {
-			set ip [GetXmlEntry $list "tcpipaddress${ip_idx}"]
+			if { $ip_idx == 7 } {
+				set ip [GetXmlEntry $list "tcpexternalip"]
+			} elseif { $ip_idx == 6 } {
+				set ip [GetXmlEntry $list "udpexternalip"]
+			} elseif {$ip_idx > 0 } {
+				set ip [GetXmlEntry $list "tcpipaddress${ip_idx}"]
+			} else {
+				break
+			}
+
+
 			if {$ip != "" } {
 				foreach port_idx { tcpport tcplocalport tcpexternalport } {
 					set port [GetXmlEntry $list "${port_idx}"]
@@ -628,38 +638,80 @@ namespace eval ::MSNCAM {
 						}
 					}
 				}
-				incr ip_idx
-			} else {
-				break
 			}
+
+			incr ip_idx -1
 		}
 
-		if { $inviter } {
+		
+		if { $producer } {
 			SendReceivedViewerData $chatid $sid
 		} else {
 			status_log "::MSNCAM::SendXML $chatid $sid" red
 			SendXML $chatid $sid
 		}
 
+		setObjOption $sid ips $ips
+
 		set connected 0
-		status_log "les ips : $ips\n" red
-		foreach connection $ips {
+		status_log "the ips : $ips\n" red
+		for {set idx 0} { $idx < [llength $ips] } {incr idx} {
+			set connection [lindex $ips $idx]
 			set ip [lindex $connection 0]
 			set port [lindex $connection 1]
 			set sock [lindex $connection 2]
 
-			if { $connected == 1 } {
-				catch {close $sock}
-				continue
+			
+			catch {fconfigure $sock -blocking 1 -buffering none -translation {binary binary} }
+			fileevent $sock readable "::MSNCAM::CheckConnected $sid $sock "
+			fileevent $sock writable "::MSNCAM::CheckConnected $sid $sock "
+		}
+	}
+
+
+	proc CheckConnected { sid socket}  {
+		status_log "fileevent CheckConnectd for socket $socket\n"
+
+		fileevent $socket readable ""
+		fileevent $socket writable ""
+
+		if { [eof $socket] || [fconfigure $socket -error] != "" } {
+			status_log "Socket didn't connect $socket : [eof $socket] || [fconfigure $socket -error]\n" red
+			close $socket
+			set ips [getObjOption $sid ips]
+			for {set idx 0} { $idx < [llength $ips] } {incr idx } {
+				set connection [lindex $ips $idx]
+				set ip [lindex $connection 0]
+				set port [lindex $connection 1]
+				set sock [lindex $connection 2]
+				
+				if {$sock == $socket } { 
+					set ips [lreplace $ips $idx $idx]
+					setObjOption $sid ips $ips
+					break
+				}
 			}
 
-			if { [fconfigure $sock -error] == "" } {
-				status_log "Connected through $ip : $port\n"
-				fconfigure $sock -blocking 1 -buffering none -translation {binary binary} 
-				fileevent $sock readable "::MSNCAM::ReadFromSock $sock"
-				fileevent $sock writable "::MSNCAM::WriteToSock $sock"
-				set connected 1
+		} else {
+			status_log "Connected on socket $socket : [eof $socket] || [fconfigure $socket -error]\n" red
+			set ips [getObjOption $sid ips]
+			for {set idx 0 } { $idx < [llength $ips] } {incr idx } {
+				set connection [lindex $ips $idx]
+				set ip [lindex $connection 0]
+				set port [lindex $connection 1]
+				set sock [lindex $connection 2]
+				
+				if {$sock == $socket } { continue }
+
+				fileevent $sock readable ""
+				fileevent $sock writable ""	
+
+				catch {close $sock}
 			}
+
+			fileevent $socket readable "::MSNCAM::ReadFromSock $sock"
+			fileevent $socket writable "::MSNCAM::WriteToSock $sock"
+			
 		}
 	}
 

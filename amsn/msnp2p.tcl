@@ -743,7 +743,7 @@ namespace eval ::MSNP2P {
 					if { $type == "filetransfer" } {
 						::MSN6FT::SendFTInvite2 $sid $chatid
 					} elseif { $type == "webcam" } {
-						::MSNCAM::SendAcceptInvite $sid $chatid
+						#::MSNCAM::SendAcceptInvite $sid $chatid
 					}
 				} else {
 					status_log "Error sending file $filename, got answer to invite :\n$data\n\n" red
@@ -826,7 +826,7 @@ namespace eval ::MSNP2P {
 			::amsn::FTProgress w $cSid "" [trans throughserver]
 			::amsn::FTProgress r $cSid [lindex [SessionList get $cSid] 6] $cOffset $cTotalDataSize
 		}
-		if { $type == "filetransfer" && $fd != "" && $fd != 0 && $fd != -1 } {
+		if { $type != "webcam" && $fd != "" && $fd != 0 && $fd != -1 } {
 			# File already open and being written to (fd exists)
 			# Lets write data to file
 			puts -nonewline $fd [string range $data 0 [expr $cMsgSize - 1]]
