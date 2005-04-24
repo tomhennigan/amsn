@@ -586,10 +586,18 @@ namespace eval ::MSNP2P {
 						::amsn::WinWrite $chatid "\n [trans winkreceived [::abook::getDisplayNick $chatid]]\n" black "" 0
 					} elseif { $eufguid == "4BD96FC0-AB17-4425-A14A-439185962DC8" || 
 						   $eufguid == "1C9AA97E-9C05-4583-A3BD-908A196F1E92" }	{
+
+						if { $eufguid == "4BD96FC0-AB17-4425-A14A-439185962DC8" } {
+							set producer 0
+						} else {
+							set producer 1
+						}
+
 						status_log "we got an webcam invitation" red
 						::amsn::WinWrite $chatid "\n [trans webcaminvite [::abook::getNick $dest]]" black ""
 						SessionList set $sid [list 0 0 0 $dest 0 $uid 0 "webcam" "" "$branchuid"]
-						::MSNCAM::AcceptWebcam $chatid $dest $branchuid $cseq $uid $sid
+						
+						::MSNCAM::AcceptWebcam $chatid $dest $branchuid $cseq $uid $sid $producer
 					#answerFtInvite $sid $chatid $branchuid $conntype
 				}
 				
@@ -661,7 +669,7 @@ namespace eval ::MSNP2P {
 					if {$type == "filetransfer" } {
 						::MSN6FT::connectMsnFTP $sid $nonce $addr $port 0
 					} elseif { $type == "webcam" } {
-						::MSNCAM::connectMsnCam $sid $nonce $addr $port 0
+						::MSNCAM::connectMsnCam2 $sid $nonce $addr $port 0
 					}
 				}
 			}
@@ -735,7 +743,7 @@ namespace eval ::MSNP2P {
 					if { $type == "filetransfer" } {
 						::MSN6FT::SendFTInvite2 $sid $chatid
 					} elseif { $type == "webcam" } {
-						::MSNCAM::SendFinalInvite $sid $chatid
+						::MSNCAM::SendAcceptInvite $sid $chatid
 					}
 				} else {
 					status_log "Error sending file $filename, got answer to invite :\n$data\n\n" red
@@ -779,6 +787,31 @@ namespace eval ::MSNP2P {
 		}
 		return
 	}
+	# Check if we got BYE message
+	if { [string first "603 Decline" $data] != -1 } {
+		# Lets get the call ID and find our SessionID
+		set idx [expr [string first "Call-ID: \{" $data] + 10]
+		set idx2 [expr [string first "\}" $data $idx] - 1]
+		set uid [string range $data $idx $idx2]
+		set sid [SessionList findcallid $uid]
+		status_log "MSNP2P | $sid -> Got DECLINE for UID : $uid\n" red
+
+		if { $sid != -1 } {
+			# Send a BYE ACK
+			SendPacket [::MSN::SBFor $chatid] [MakeACK $sid 0 $cTotalDataSize $cId $cAckId]
+			status_log "MSNP2P | $sid -> Sending DECLINE ACK\n" red
+
+			# If it's a file transfer, advise the user it has been canceled
+			if { [lindex [SessionList get $sid] 7] == "webcam" } {
+				::MSNCAM::SendSyn $sid $chatid
+			}
+
+					
+		} else {
+			status_log "MSNP2P | $sid -> Got a DECLINE for unexisting SessionID\n" red
+		}
+	}
+
 
 	# Let's check for data preparation messages and data messages
 	if { $cSid != 0 } {
@@ -786,13 +819,14 @@ namespace eval ::MSNP2P {
 		if { [lindex [SessionList get $cSid] 7] == "ftcanceled" } { return }
 		set sid $cSid
 		set fd [lindex [SessionList get $cSid] 6]
-		
+		set type [lindex [SessionList get $cSid] 7]
+
 		#If it's a file transfer, display Progress bar
-		if { [lindex [SessionList get $cSid] 7] == "filetransfer" } {
+		if { $type == "filetransfer" } {
 			::amsn::FTProgress w $cSid "" [trans throughserver]
 			::amsn::FTProgress r $cSid [lindex [SessionList get $cSid] 6] $cOffset $cTotalDataSize
 		}
-		if { $fd != "" && $fd != 0 && $fd != -1 } {
+		if { $type == "filetransfer" && $fd != "" && $fd != 0 && $fd != -1 } {
 			# File already open and being written to (fd exists)
 			# Lets write data to file
 			puts -nonewline $fd [string range $data 0 [expr $cMsgSize - 1]]
@@ -869,9 +903,52 @@ namespace eval ::MSNP2P {
 			SendPacket [::MSN::SBFor $chatid] [MakeACK $sid $cSid $cTotalDataSize $cId $cAckId]
 			#status_log "MSNP2P | $sid $user_login -> Sent an ACK for DATA PREP Message\n" red
 			SessionList set $sid [list -1 -1 -1 -1 -1 -1 $fd -1 -1 -1]
+		} elseif { $type == "webcam" } {
+			# WEBCAM TO COMPLETE
+			
+			set h1 [string range $data 0 3]
+			set h2 [string range $data 4 9]
+			set msg [string range $data 10 [expr { $cMsgSize - 1}]]
+			set msg [encoding convertfrom unicode $msg]
+			status_log "Received data for webcam $sid : $data\n$msg\n" red
+
+			if {[expr $cOffset + $cMsgSize] >= $cTotalDataSize} {
+				SendPacket [::MSN::SBFor $chatid] [MakeACK $sid $cSid $cTotalDataSize $cId $cAckId]
+			}
+
+			if { $msg == "syn\x00" } {
+				::MSNCAM::SendAck $sid $chatid
+			} elseif { $msg == "ack\x00" } {
+				set producer [getObjOption $sid producer]
+				status_log "Received the ack for webcam\n" red
+
+				if {$producer} {
+					status_log "We should send the XML\n" red
+					::MSNCAM::SendXML $chatid $sid
+				}
+
+			} elseif { $msg == "receivedViewerData\x00" } {
+				status_log "ReceivedViewData received\n" red
+			} elseif {[string first "<producer>" $msg] == 0 || [string first "<viewer>" $msg] == 0 || $cOffset != 0} {
+				set xml [getObjOption $sid xml]
+				set xml "${xml}[string range $data 0 [expr { $cMsgSize - 1}]]"					
+						
+				setObjOption $sid xml $xml
+				
+				if { [expr $cOffset + $cMsgSize] >= $cTotalDataSize } {	 
+					set xml [string range $xml 10 end]
+					setObjOption $sid xml $xml
+
+					::MSNCAM::ReceivedXML $chatid $sid
+				}
+			
+			} else {
+				status_log "UNKNOWN" red
+			}
+			
+
 		} else {
-			# This is a DATA message, lets receive
-			#	puts -nonewline $fd [string range $data $headend [expr $headend + $cMsgSize]]
+			status_log "Received data for unknown type : $sid\n" red
 		}
 	}
 }
@@ -963,8 +1040,8 @@ proc MakePacket { sid slpdata {nullsid "0"} {MsgId "0"} {TotalSize "0"} {Offset 
 	append bheader [binary format i $flags]
 	
 	# Just give the Ack Session ID some dumbo random number
-	#append bheader [binary format i [myRand 4369 6545000]]
-	append bheader [binary format i 67152542]
+	append bheader [binary format i [myRand 4369 6545000]]
+	#append bheader [binary format i 67152542]
 
 	# Set last 2 ack fields to 0
 	append bheader [binary format i 0][binword 0]
@@ -1039,7 +1116,8 @@ proc MakeACK { sid originalsid originalsize originalid originaluid } {
 # method :		INVITE, BYE, OK, DECLINE
 # contenttype : 	0 for application/x-msnmsgr-sessionreqbody (Starting a session)
 #			1 for application/x-msnmsgr-transreqbody (Starting transfer)
-#			1 for application/x-msnmsgr-transreqbody (Starting transfer)
+#			2 for application/x-msnmsgr-transrespbody (Starting transfer)
+#                       3 for null (starting webcam)
 #
 # If INVITE method is chosen then A, B, C, D and/or E are used dependinf on contenttype
 # for 0 we got : "EUF-GUID", "SessionID", "AppID" and "Context" (E not used)
@@ -1113,6 +1191,9 @@ proc MakeMSNSLP { method to from branchuid cseq uid maxfwds contenttype {A ""} {
 			append data "Content-Type: application/x-msnmsgr-transreqbody\r\n"
 		} elseif { $contenttype == 2 } {
 			append data "Content-Type: application/x-msnmsgr-transrespbody\r\n"
+		} elseif { $contenttype == 3 } {
+			append data "Content-Type: null\r\n"
+			set body ""
 		}
 	}
 	append data "Content-Length: [expr [string length $body]]\r\n\r\n"

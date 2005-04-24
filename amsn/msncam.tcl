@@ -38,49 +38,21 @@ namespace eval ::MSNCAM {
 	namespace export SendFT AcceptFT RejectFT handleMsnFT
 	
 	
-	proc SendInvite { chatid {guid "4BD96FC0-AB17-4425-A14A-439185962DC8"}} {
-
-		status_log "Sending Webcam Request\n"
-
-		set sid [expr int([expr rand() * 1000000000])%125000000 + 4]
-		# Generate BranchID and CallID
-		set branchid "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [expr [expr int([expr rand() * 1000000])%65450]] + 4369]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
-		set callid "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [expr [expr int([expr rand() * 1000000])%65450]] + 4369]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
-		
-		set dest [lindex [::MSN::usersInChat $chatid] 0]
-		
-
-		# This is a fixed value... it must be that way or the invite won't work
-		set context "\{B8BE70DE-E2CA-4400-AE03-88FF85B9F4E8\}"
-		set context [encoding convertto unicode $context]
-
-		::MSNP2P::SessionList set $sid [list 0 0 0 $dest 0 $callid 0 "webcam" "$context" "$branchid"]
-		status_log "branchid : [lindex [::MSNP2P::SessionList get $sid] 9]\n"
-
-		
-		
-		# Create and send our packet
-		set slpdata [::MSNP2P::MakeMSNSLP "INVITE" $dest [::config::getKey login] $branchid 0 $callid 0 0 $guid $sid 4 \
-				 [string map { "\n" "" } [::base64::encode "$context"]]]
-		::MSNP2P::SendPacketExt [::MSN::SBFor $chatid] $sid $slpdata 1
-		status_log "Sent an INVITE to [::MSN::usersInChat $chatid]  on chatid $chatid for webcam\n" red
-		
-	}
-
-	proc AskWebcam { chatid } {
-		SendInvite $chatid "1C9AA97E-9C05-4583-A3BD-908A196F1E92"
-	}
-
 	#//////////////////////////////////////////////////////////////////////////////
 	# AcceptFT ( chatid dest branchuid cseq uid sid filename1 )
 	# This function is called when a file transfer is accepted by the user
-	proc AcceptWebcam { chatid dest branchuid cseq uid sid } {
+	proc AcceptWebcam { chatid dest branchuid cseq uid sid producer} {
+
+		setObjOption $sid producer $producer
+		setObjOption $sid inviter 0
+
 
 		# Let's make and send a 200 OK Message
 		set slpdata [::MSNP2P::MakeMSNSLP "OK" $dest [::config::getKey login] $branchuid [expr $cseq + 1] $uid 0 0 $sid]
 		::MSNP2P::SendPacket [::MSN::SBFor $chatid] [::MSNP2P::MakePacket $sid $slpdata 1]
 
 		SendAcceptInvite $sid $chatid
+		status_log "::MSNCAM::SendAcceptInvite $sid $chatid\n" green
 	}
 
 	
@@ -106,15 +78,140 @@ namespace eval ::MSNCAM {
 			if { $conntype == "" } {set conntype "Firewall" }
 		}
 
+
 		::MSNP2P::SessionList set $sid [list -1 -1 -1 -1 "INVITE1" -1 -1 -1 -1 $branchid]
 
-		set slpdata [::MSNP2P::MakeMSNSLP "INVITE" $dest [::config::getKey login] $branchid 0 $callid 0 1 "TRUDPv1 TCPv1" \
+		set slpdata [::MSNP2P::MakeMSNSLP "INVITE" $dest [::config::getKey login] $branchid "0 " $callid 0 1 "TRUDPv1 TCPv1" \
 				 $netid $conntype $upnp "false"]
+		status_log "size : [string length $slpdata]\n" red
 		::MSNP2P::SendPacket [::MSN::SBFor $chatid] [::MSNP2P::MakePacket $sid $slpdata 1]
 		
 	}
-	
-	
+
+	proc SendSyn { sid chatid } {
+		set MsgId [lindex [::MSNP2P::SessionList get $sid] 0]
+		set dest [lindex [::MSNP2P::SessionList get $sid] 3]
+		incr MsgId
+		::MSNP2P::SessionList set $sid [list $MsgId -1 -1 -1 -1 -1 -1 -1 -1 -1 ]
+
+
+		set h1 "\x80[binary format s [myRand 0 65000]]\x01"
+		set h2 "\x08\x00\x08\x00"
+		set syn [encoding convertto unicode "\x00syn\x00"]
+		set footer "\x00\x00\x00\x04"
+		set msg "${h1}${h2}${syn}"
+
+		set size [string length $msg]
+
+		set data "[binary format ii $sid $MsgId][binword 0][binword $size][binary format iiii $size 0 [expr int([expr rand() * 1000000000])%125000000 + 4] 0][binword 0]${msg}${footer}"
+
+		set theader "MIME-Version: 1.0\r\nContent-Type: application/x-msnmsgrp2p\r\nP2P-Dest: $dest\r\n\r\n"
+
+
+		::MSNP2P::SendPacket [::MSN::SBFor $chatid] "${theader}${data}"
+	}
+
+
+	proc SendAck { sid chatid } {
+		set MsgId [lindex [::MSNP2P::SessionList get $sid] 0]
+		set dest [lindex [::MSNP2P::SessionList get $sid] 3]
+		incr MsgId
+		::MSNP2P::SessionList set $sid [list $MsgId -1 -1 -1 -1 -1 -1 -1 -1 -1 ]
+
+		set h1 "\x80\xea\x00\x00"
+		set h2 "\x08\x00\x08\x00"
+		set syn [encoding convertto unicode "\00ack\x00"]
+		set footer "\x00\x00\x00\x04"
+		set msg "${h1}${h2}${syn}"
+
+		set size [string length $msg]
+
+		set data "[binary format ii $sid $MsgId][binword 0][binword $size][binary format iiii $size 0 [expr int([expr rand() * 1000000000])%125000000 + 4] 0][binword 0]${msg}${footer}"
+		
+		set theader "MIME-Version: 1.0\r\nContent-Type: application/x-msnmsgrp2p\r\nP2P-Dest: $dest\r\n\r\n"
+
+		::MSNP2P::SendPacket [::MSN::SBFor $chatid] "${theader}${data}"
+
+	}
+	proc SendReceivedViewerData { chatid sid } {
+		set MsgId [lindex [::MSNP2P::SessionList get $sid] 0]
+		set dest [lindex [::MSNP2P::SessionList get $sid] 3]
+		incr MsgId
+		::MSNP2P::SessionList set $sid [list $MsgId -1 -1 -1 -1 -1 -1 -1 -1 -1 ]
+
+
+		set h1 "\x80\xec[binary format s [myRand 0 255]]\x03"
+		set h2 "\x08\x00\x26\x00"
+		set syn [encoding convertto unicode "\00receivedViewerData\x00"]
+		set footer "\x00\x00\x00\x04"
+		set msg "${h1}${h2}${syn}"
+
+		set size [string length $msg]
+
+		set data "[binary format ii $sid $MsgId][binword 0][binword $size][binary format iiii $size 0 [expr int([expr rand() * 1000000000])%125000000 + 4] 0][binword 0]${msg}${footer}"
+
+		set theader "MIME-Version: 1.0\r\nContent-Type: application/x-msnmsgrp2p\r\nP2P-Dest: $dest\r\n\r\n"
+
+
+		::MSNP2P::SendPacket [::MSN::SBFor $chatid] "${theader}${data}"
+	}
+
+	proc AskWebcam { chatid } {
+		SendInvite $chatid "1C9AA97E-9C05-4583-A3BD-908A196F1E92"
+	}
+
+	proc SendInvite { chatid {guid "4BD96FC0-AB17-4425-A14A-439185962DC8"}} {
+			
+		status_log "Sending Webcam Request\n"
+
+		set sid [expr int([expr rand() * 1000000000])%125000000 + 4]
+		# Generate BranchID and CallID
+		set branchid "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [expr [expr int([expr rand() * 1000000])%65450]] + 4369]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
+		set callid "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [expr [expr int([expr rand() * 1000000])%65450]] + 4369]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
+		
+		set dest [lindex [::MSN::usersInChat $chatid] 0]
+		
+
+		# This is a fixed value... it must be that way or the invite won't work
+		set context "\{B8BE70DE-E2CA-4400-AE03-88FF85B9F4E8\}"
+		set context [encoding convertto unicode $context]
+
+		::MSNP2P::SessionList set $sid [list 0 0 0 $dest 0 $callid 0 "webcam" "$context" "$branchid"]
+
+		setObjOption $sid inviter 1
+		if { $guid == "4BD96FC0-AB17-4425-A14A-439185962DC8" } {
+			setObjOption $sid producer 1
+		} else {
+			setObjOption $sid producer 0
+		}
+
+		status_log "branchid : [lindex [::MSNP2P::SessionList get $sid] 9]\n"
+
+		
+		
+		# Create and send our packet
+		set slpdata [::MSNP2P::MakeMSNSLP "INVITE" $dest [::config::getKey login] $branchid 0 $callid 0 0 $guid $sid 4 \
+				 [string map { "\n" "" } [::base64::encode "$context"]]]
+		::MSNP2P::SendPacketExt [::MSN::SBFor $chatid] $sid $slpdata 1
+		status_log "Sent an INVITE to [::MSN::usersInChat $chatid]  on chatid $chatid for webcam\n" red
+		
+	}
+
+	proc answerCamInvite { sid chatid branchid } {
+		
+		
+		::MSNP2P::SessionList set $sid [list -1 -1 -1 -1 -1 -1 -1 -1 -1 "$branchid" ]
+		set session [::MSNP2P::SessionList get $sid]
+		set dest [lindex $session 3]
+		set callid [lindex $session 5]
+
+		set slpdata [::MSNP2P::MakeMSNSLP "DECLINE" $dest [::config::getKey login] $branchid 1 $callid 0 3]
+		::MSNP2P::SendPacket [::MSN::SBFor $chatid] [::MSNP2P::MakePacket $sid $slpdata 1]
+		
+		SendSyn $sid $chatid
+
+	}
+
 	proc SendFinalInvite { sid chatid} {
 		
 		set session [::MSNP2P::SessionList get $sid]
@@ -127,10 +224,10 @@ namespace eval ::MSNCAM {
 		set listening [abook::getDemographicField listening]
 
 		::MSNP2P::SessionList set $sid [list -1 -1 -1 -1 "INVITE2" -1 -1 -1 -1 -1]
-	
-			if {$listening == "true" } {
+
+		if {$listening == "true" } {
 			set nonce "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [expr [expr int([expr rand() * 1000000])%65450]] + 4369]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
-			set port [OpenCamPort [config::getKey initialftport] $nonce $sid 1]
+			set port [OpenCamPort2 [config::getKey initialftport] $nonce $sid 1]
 			set clientip [::abook::getDemographicField clientip]
 			set localip [::abook::getDemographicField localip]
 		} else {
@@ -153,53 +250,42 @@ namespace eval ::MSNCAM {
 		}
 	}
 
-	proc answerCamInvite { sid chatid branchid } {
-		
-		
-		::MSNP2P::SessionList set $sid [list -1 -1 -1 -1 -1 -1 -1 -1 -1 "$branchid" ]
-		set session [::MSNP2P::SessionList get $sid]
-		set dest [lindex $session 3]
-		set callid [lindex $session 5]
 
-		set conntype [abook::getDemographicField conntype]
 
-		set listening [abook::getDemographicField listening]
-		#set listening "false"
-
-		if {$listening == "true" } {
-			set nonce "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [expr [expr int([expr rand() * 1000000])%65450]] + 4369]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
-			set port [OpenCamPort [config::getKey initialftport] $nonce $sid 0]
-			set clientip [::abook::getDemographicField clientip]
-			set localip [::abook::getDemographicField localip]
-		} else {
-			set nonce "00000000-0000-0000-0000-000000000000"
-			set port ""
-			set clientip ""
-			set localip ""
-		}
-
-		set clientip $localip
-
-		set slpdata [::MSNP2P::MakeMSNSLP "OK" $dest [::config::getKey login] $branchid 1 $callid 0 2 "TCPv1" "$listening" "$nonce" "$clientip"\
-				 "$port" "$localip" "$port"]
-
-		::MSNP2P::SendPacket [::MSN::SBFor $chatid] [::MSNP2P::MakePacket $sid $slpdata 1]
-
-	}
-
-	proc OpenCamPort { port nonce sid sending} {
-		while { [catch {set sock [socket -server "::MSNCAM::handleMsnCam  $nonce $sid $sending" $port] } ] } {
+	proc OpenCamPort { port rid session sid} {
+		while { [catch {set sock [socket -server "::MSNCAM::handleMsnCam $sid $rid $session" $port] } ] } {
 			incr port
 		}
 		status_log "Opening server on port $port\n" red
 		return $port
 	}
 	
-	proc handleMsnCam { nonce sid sending sock ip port } {
+	proc OpenCamPort2 { port nonce sid sending} {
+		while { [catch {set sock [socket -server "::MSNCAM::handleMsnCam2 $sid $nonce $sending" $port] } ] } {
+			incr port
+		}
+		status_log "Opening server on port $port\n" red
+		return $port
+	}
 
+	proc handleMsnCam { sid rid session sock ip port } {
+		setObjOption $sock rid $rid
+		setObjOption $sock session $session
+		setObjOption $sock sid $sid
+		setObjOption $sock server 1
+		setObjOption $sock state "AUTH"
+
+		status_log "Received connection from $ip on port $port - socket $sock\n" red
+		fconfigure $sock -blocking 1 -buffering none -translation {binary binary} 
+
+		fileevent $sock readable "::MSNCAM::ReadFromSock $sock"
+		#fileevent $sock writable "::MSN6FT::WriteToSock $sock"		
+	}
+
+	proc handleMsnCam2 { sid nonce sending sock ip port } {
+		setObjOption $sock sending $sending
 		setObjOption $sock nonce $nonce
 		setObjOption $sock sid $sid
-		setObjOption $sock sending $sending
 		setObjOption $sock server 1
 		setObjOption $sock state "FOO"
 
@@ -212,8 +298,31 @@ namespace eval ::MSNCAM {
 
 
 
+	proc connectMsnCam { sid session rid ip port } {
+			
 
-	proc connectMsnCam { sid nonce ip port sending } {
+		if { [catch {set sock [ socket $ip $port] } ] } {
+			status_log "ERROR CONNECTING TO THE SERVER\n\n" red 
+			return 0
+		} else {
+
+			setObjOption $sock rid $rid
+			setObjOption $sock sid $sid
+			setObjOption $sock session $session
+			setObjOption $sock server 0
+			setObjOption $sock state "AUTH"
+
+			status_log "connectedto $ip on port $port  - $sock\n" red
+
+			fconfigure $sock -blocking 1 -buffering none -translation {binary binary} 
+			fileevent $sock readable "::MSNCAM::ReadFromSock $sock"
+			fileevent $sock writable "::MSNCAM::WriteToSock $sock"
+			return 1
+		}
+	}
+
+
+	proc connectMsnCam2 { sid nonce ip port sending } {
 			
 
 		if { [catch {set sock [ socket $ip $port] } ] } {
@@ -226,7 +335,8 @@ namespace eval ::MSNCAM {
 			setObjOption $sock server 0
 			setObjOption $sock state "FOO"
 
-			status_log "connectedto $ip on port $port  - $sock\n"
+			status_log "connectedto $ip on port $port  - $sock\n" red
+
 			fconfigure $sock -blocking 1 -buffering none -translation {binary binary} 
 			fileevent $sock readable "::MSNCAM::ReadFromSock $sock"
 			fileevent $sock writable "::MSNCAM::WriteToSock $sock"
@@ -241,66 +351,79 @@ namespace eval ::MSNCAM {
 		set server [getObjOption $sock server]
 		set state [getObjOption $sock state]
 
+		set rid [getObjOption $sock rid]
+		set session [getObjOption $sock session]
 
-		set size [read $sock 4]
 
-		if {$size == "" && [eof $sock] } {
-			status_log "WebCam Socket $sock closed\n"
-			close $sock
-			return
-		}
+	#	set size [read $sock 4]
 
-		if { $size == "" } {
-			update idletasks
-			return
-		}
+	 	if { [eof $sock] } {
+ 			status_log "WebCam Socket $sock closed\n"
+ 			close $sock
+ 			return
+ 		}
 
-		binary scan $size i size
-		set data [read $sock $size]
+# 		if { $size == "" } {
+# 			update idletasks
+# 			return
+# 		}
 
-		status_log "Received Data on socket $sock sending=$sending - server=$server - state=$state : \n$data\n" red
+# 		binary scan $size i size
+# 		set data [read $sock $size]
 
-		if { $data == "" } {
-			update idletasks
-			return
-		}
+		#set data [read $sock]
+		set data ""
+		#status_log "Received Data on socket $sock sending=$sending - server=$server - state=$state : \n$data\n" red
+	
+		#if { $data == "" } {
+		#	update idletasks
+		#	return
+		#}
 
 		switch $state {
-			"FOO"
+
+			"AUTH" 
 			{
 				if { $server } {
-					if { $data == "foo\x00" } {
-						setObjOption $sock state "GET_NONCE"
-					}
-				}
-			}
-			
-			"GET_NONCE"
-			{
-				if { $nonce == [GetNonceFromData $data]} {
-					::MSNP2P::SessionList set $sid [list -1 -1 -1 -1 "DATASEND" -1 -1 -1 -1 -1]
-
-					if { $server } {
-						setObjOption $sock state "SEND_NONCE"
+					gets $sock data 
+					if { $data == "recipientid=$rid&sessionid=$session\r" } {
+						gets $sock  
+						setObjOption $sock state "CONNECTED"
 						fileevent $sock writable "::MSNCAM::WriteToSock $sock"
+					}
+				}	
+			}
+			"CONNECTED"
+			{
+				if { $server } {
+					gets $sock data 
+					if { $data == "recipientrid=$rid&session=$session\r" } {
+						gets $sock  
+						setObjOption $sock state "RECEIVE"
 					} else {
-						if {$sending } {
-							setObjOption $sock state "SEND_NONCE"
-							fileevent $sock writable "::MSNCAM::WriteToSock $sock"	
-						} else {
-							setObjOption $sock state "RECEIVE"
-						}
+						status_log "ERROR : $data\n" red
+					}
+				} else {
+					gets $sock data 
+					if { $data == "connected\r" } {
+						gets $sock  
+						puts -nonewline $sock "connected\r\n\r\n"
+						setObjOption $sock state "RECEIVE"
+					} else {
+						status_log "ERROR : $data\n" red
 					}
 				}
 			}
 
 			"RECEIVE"
 			{
-				if { [WriteDataToFile $data] == "0" } {
-					SendDataAck $sock $data
-					setObjOption $sock state "END"
-
+				set header [read $sock 24]
+				set size [GetCamDataSize $header]
+				if { $size > 0 } {
+					set data "$header[read $sock $size]"
+					ShowCamFrame $sid $data
 				}
+			
 			}
 
 			default 
@@ -311,6 +434,9 @@ namespace eval ::MSNCAM {
 			}
 
 		}
+
+		#puts  "Received Data on socket $sock sending=$sending - server=$server - state=$state : \n$data\n" 
+		#status_log "Received Data on socket $sock sending=$sending - server=$server - state=$state : \n$data\n" red
 
 		
 
@@ -323,6 +449,8 @@ namespace eval ::MSNCAM {
 		set server [getObjOption $sock server]
 		set state [getObjOption $sock state]
 
+		set rid [getObjOption $sock rid]
+		set session [getObjOption $sock session]
 
 		fileevent $sock writable ""
 
@@ -331,32 +459,18 @@ namespace eval ::MSNCAM {
 
 		switch $state {
 
-			"FOO"
+			"AUTH" 
 			{
-				if { $server == 0} {
-					set data "[binary format i 4]foo\x00"
-					setObjOption $sock state "SEND_NONCE"
-					fileevent $sock writable "::MSNCAM::WriteToSock $sock"
-				}
+				if { $server == 0 } {
+					set data "recipientid=$rid&sessionid=$session\r\n\r\n"
+					setObjOption $sock state "CONNECTED"
+				}	
 			}
-
-			"SEND_NONCE"
+			"CONNECTED"
 			{
-				set data "[binary format i 48][GetDataFromNonce $nonce $sid]"
-				if { $server } {
-					if {$sending } {
-						setObjOption $sock state "SEND_SYN"
-						fileevent $sock writable "::MSNCAM::WriteToSock $sock"	
-					} else {
-						setObjOption $sock state "RECEIVE"
-					}
-				} else {
-					setObjOption $sock state "GET_NONCE"
-				}
-				
+				set data "connected\r\n\r\n"
+				setObjOption $sock state "SEND"
 			}
-
-		
 			"SEND"
 			{
 				
@@ -367,8 +481,6 @@ namespace eval ::MSNCAM {
 					fileevent $sock writable "::MSNCAM::WriteToSock $sock"
 				}
 			}
-
-			
 
 		}
 
@@ -663,5 +775,227 @@ namespace eval ::MSNCAM {
 		::MSNP2P::SessionList unset $sid
 	}
 
+
+	proc CreateInvitationXML { sid } {
+		set session [getObjOption $sid session]
+		if {$session == "" } {
+			set session [myRand 9000 9999]
+		}
+
+		set rid [getObjOption $sid rid]
+		if { $rid == "" } {
+			set rid [myRand 100 199]
+		}
+		set udprid [expr {$rid + 1}]
+		set conntype [abook::getDemographicField conntype]
+		set listening [abook::getDemographicField listening]
+
+		set producer [getObjOption $sid producer]
+
+
+		if {$listening == "true" } {
+			set port [OpenCamPort [config::getKey initialftport] $rid $session $sid]
+			set clientip [::abook::getDemographicField clientip]
+			set localip [::abook::getDemographicField localip]
+		} else {
+			set port ""
+			set clientip ""
+			set localip ""
+		}
+
+		if { $producer } {
+			set begin_type "<producer>"
+			set end_type "</producer>"
+		} else {
+			set begin_type "<viewer>"
+			set end_type "</viewer>"
+		}
+
+		set header "<version>2.0</version><rid>$rid</rid><session>$session</session><ctypes>0</ctypes><cpu>730</cpu>"
+		set tcp "<tcp><tcpport>$port</tcpport>								<tcplocalport>$port</tcplocalport>								<tcpexternalport>$port</tcpexternalport><tcpipaddress1>$clientip</tcpipaddress1></tcp>"
+		set udp "<udp><udplocalport>0</udplocalport><udpexternalport>0</udpexternalport><udpexternalip>$clientip</udpexternalip><a1_port>$port</a1_port><b1_port>$port</b1_port><b2_port>$port</b2_port><b3_port>$port</b3_port><symmetricallocation>0</symmetricallocation><symmetricallocationincrement>0</symmetricallocationincrement><udpinternalipaddress1>$localip</udpinternalipaddress1></udp>"
+		set footer "<codec></codec><channelmode>1</channelmode>"
+
+		set xml "${begin_type}${header}${tcp}${footer}${end_type}\r\n\r\n\x00"
+		
+		#set xml "<viewer><version>2.0</version><rid>$rid</rid><session>$session</session><ctypes>0</ctypes><cpu>730</cpu><tcp><tcpport>33762</tcpport>								<tcplocalport>9049</tcplocalport>								<tcpexternalport>33762</tcpexternalport><tcpipaddress1>192.168.1.1</tcpipaddress1><tcpipaddress2>$clientip</tcpipaddress2></tcp><udp><udplocalport>62037</udplocalport><udpexternalport>62037</udpexternalport><udpexternalip>$clientip</udpexternalip><a1_port>41635</a1_port><b1_port>62037</b1_port><b2_port>62037</b2_port><b3_port>62037</b3_port><symmetricallocation>0</symmetricallocation><symmetricallocationincrement>0</symmetricallocationincrement><udpinternalipaddress1>192.168.1.1</udpinternalipaddress1></udp><codec></codec><channelmode>1</channelmode></viewer>\r\n\r\n\x00"
+
+		return $xml
+
+	}
+
+	proc ReceivedXML {chatid sid } {
+		set producer [getObjOption $sid producer]
+		set inviter [getObjOption $sid inviter]
+
+		set xml [getObjOption $sid xml]
+		set xml [encoding convertfrom unicode $xml]
+		set xml [string map  { "\r\n\r\n\x00" ""} $xml]
+
+		status_log "Got XML : $xml\n" red
+
+
+		set list [xml2list $xml]
+
+		set session [GetXmlEntry $list "session"]
+		set rid [GetXmlEntry $list "rid"]
+		set tcpport [GetXmlEntry $list "tcpport"]
+
+
+		status_log "Found session $session and rid $rid\n" red
+		
+
+		setObjOption $sid session $session
+		setObjOption $sid rid $rid
+
+		connectMsnCam $sid $session $rid "192.168.1.201" $tcpport
+
+		if { $inviter } {
+			SendReceivedViewerData $chatid $sid
+		} else {
+			status_log "::MSNCAM::SendXML $chatid $sid" red
+			SendXML $chatid $sid
+		}
+
+
+	}
+
+	proc SendXML { chatid sid } {
+		set producer [getObjOption $sid producer]
+		set inviter [getObjOption $sid inviter]
+
+		set xml [CreateInvitationXML $sid]
+		set xml [encoding convertto unicode $xml]
+
+		setObjOption $sid my_xml $xml
+
+		set int [binary format i [myRand 0 255]]
+		if {$producer } {
+			set h1 "\x80\x00\x00\x00"
+			set h2 "\x08\x00"
+		} else {
+			set h1 "\x80\x00\x09\x00"
+			set h2 "\x08\x00"
+		}
+
+		set size [string length $xml]
+		
+		set msg "${h1}${h2}[binary format i $size]${xml}"
+
+
+		SendXMLChunk $chatid $sid $msg 0 [string length $msg]
+
+
+		return
+
+	}
+
+	proc SendXMLChunk { chatid sid msg offset totalsize } {
+		set MsgId [lindex [::MSNP2P::SessionList get $sid] 0]
+		set dest [lindex [::MSNP2P::SessionList get $sid] 3]
+		incr MsgId
+		::MSNP2P::SessionList set $sid [list $MsgId -1 -1 -1 -1 -1 -1 -1 -1 -1 ]
+		
+
+		if { [expr $offset + 1202] < $totalsize } {
+			set footer "\x00\x00\x00\x04"
+			set to_send [string range $msg 0 1201]
+			set size [string length $to_send]
+			set data "[binary format ii $sid $MsgId][binword $offset][binword $totalsize][binary format iiii $size 0 [expr int([expr rand() * 1000000000])%125000000 + 4] 0][binword 0]${to_send}${footer}"
+
+			set theader "MIME-Version: 1.0\r\nContent-Type: application/x-msnmsgrp2p\r\nP2P-Dest: $dest\r\n\r\n"
+
+			set data "${theader}${data}"
+			set msg_len [string length $data]
+
+			::MSNP2P::SendPacket [::MSN::SBFor $chatid] "$data"
+			set offset [expr $offset + 1202]
+			set msg [string range $msg 1202 end]
+			SendXMLChunk $chatid $sid $msg $offset $totalsize
+		} else {
+			set footer "\x00\x00\x00\x04"
+			set to_send $msg
+			set size [string length $to_send]
+			set data "[binary format ii $sid $MsgId][binword $offset][binword $totalsize][binary format iiii $size 0 [expr int([expr rand() * 1000000000])%125000000 + 4] 0][binword 0]${to_send}${footer}"
+
+			set theader "MIME-Version: 1.0\r\nContent-Type: application/x-msnmsgrp2p\r\nP2P-Dest: $dest\r\n\r\n"
+
+			set data "${theader}${data}"
+			set msg_len [string length $data]
+
+			::MSNP2P::SendPacket [::MSN::SBFor $chatid] "$data"			
+		
+		}
+	}
+
+	proc GetCamDataSize { data } {
+		binary scan $data ssssiiii h_size w h r1 p_size fcc r2 r3
+		
+		binary scan "\x30\x32\x4C\x4D" I r_fcc
+		
+		if { [string length $data] < 24 } {
+			return 0
+		}
+		
+		if { $h_size != 24 } {
+			status_log "invalid - $h_size" red
+			return -1
+		}
+		if { $fcc != $r_fcc} {
+			status_log "fcc invalide - $fcc - $r_fcc" red
+			return -1
+		}
+		#status_log "resolution : $w x $h - $h_size $p_size \n" red
+		
+		return $p_size
+		
+	}
+
+	proc ShowCamFrame { sid data } {
+		if { ! [info exists ::webcamsn_loaded] } { ExtensionLoaded }
+		if { ! $::webcamsn_loaded } { return }
+
+		set window [getObjOption $sid window]
+		set decoder [getObjOption $sid codec]
+
+		if { $decoder == "" } {
+			set decoder [::Webcamsn::NewDecoder]
+			setObjOption $sid codec $decoder
+		}
+
+		if { $window == "" } {
+			set window .webcam_$sid
+			toplevel $window
+			set img [image create photo]
+			label $window.l -image $img
+			pack $window.l
+
+			setObjOption $sid window $window
+			setObjOption $sid image $img
+		}
+
+		set img [getObjOption $sid image]
+
+		::Webcamsn::Decode $decoder $img $data
+		
+
+	}
+
+	proc ExtensionLoaded { } {
+		if { [info exists ::webcamsn_loaded] && $::webcamsn_loaded } { return 1}
+
+		catch {package require webcamsn}
+
+		foreach lib [info loaded] {
+			if { [lindex $lib 1] == "Webcamsn" } {
+				set ::webcamsn_loaded 1
+				return 1
+			} 
+		}
+		return 0
+	}
+
 }
+
+
 
