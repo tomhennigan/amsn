@@ -375,8 +375,8 @@ luclosedwin Vous avez fermé la fenêtre le $1
 mailerexample (\$recipient = destinataire) Laisser vide pour utiliser Hotmail
 mailer Programme de courrier
 maintenance Le serveur sera hors-service pour cause de maintenance dans $1 minutes
-maximised Maximisé
-minimised Minimisé/Icônifié
+maximised Maximisée
+minimised Minimisée/Icônifiée
 mins minutes
 mobile Mobile
 mobilegrp1 Groupe Mobile
@@ -388,7 +388,7 @@ move Déplacer
 movetogroup Déplacer vers groupe
 msg Message
 msgflicker Faire clignoter la barre de titre d'une fenêtre inactive quand un message est reçu
-msgmaxmin Quand un nouveau message arrive, je veux qu'il soit
+msgmaxmin Quand un nouveau message arrive, je veux qu'elle soit
 msgmode Choisissez comment manier plusieurs fenêtres de messages :
 msn aMSN
 msnstyle Chat de type MSN
@@ -412,6 +412,7 @@ newmailfolder $1 nouveaux messages dans les autres dossiers Hotmail
 newmailfrom Nouveau message de $1 ($2)
 newmailfromother Nouveau message dans un autre dossier de $1 ($2)
 newmsg Nouveau message
+newline Nouvelle ligne
 newstate Ajouter un statut personnel
 newtabbedfeature aMSN a une nouvelle caractéristique pour gérer les conversations : vous pouvez maintenant avoir toutes vos fenêtres pour le même groupe ou pour la liste complète de vos contacts dans une fenêtre à onglets. Merci de choisir la manière dont vous souhaitez que aMSN gère vos conversations
 newveravailable Nouvelle version disponible ($1)
@@ -626,6 +627,7 @@ textsize Taille du texte
 thismonth Ce mois-ci
 timeremaining Temps restant
 timestamps Activer l'horodateur des fenêtres de discussion
+timestamp Horodateur
 title aMSN
 tkerror TK a rapporté une erreur, il y a un bogue dans aMSN, veuillez le rapportez en envoyant le fichier $1 à amsn-bugs@lists.sf.net
 tlsdowncompleted Le fichier $1 a été téléchargé dans le répertoire $2. Vous devez l'extraire, le compiler (si vous avez téléchargé le code source) et l'installer dans $3.
@@ -688,3 +690,4 @@ yoffset Position en Y
 youblocked Vous avez été bloqué
 yousay Vous avez dit
 youwant Vous voulez
+zoom Zoom

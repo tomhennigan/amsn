@@ -87,6 +87,7 @@ cachedpics $1 varutud pilti
 cancel Tühista
 cannotdeleteprofile Ei saa profiili kustutada, sest see on aMSNi poolt kasutuses
 cantexec Ei saa käivitada programmi: $1. Kontrolli seadeid
+cantloadonlineversion Ei saa internetist laadida keelefailide uuendusi
 cantremoveothers Ei saa eemaldada gruppi Muud
 casesensitive Kasuta tõusutundlikke päästikuid
 cfgalarm Seadista/Lisa/Eemalda alarm
@@ -311,6 +312,7 @@ internalerror Sisemine serveri viga
 invalidfile Fail $2 sisestatud väljale "$1" ei eksisteeri või ei ole loetav
 invalidfile2 Ei saa luua faili $1. Kontrolli, et sul oleks vastavad õigused.
 invalidgroup Vigane grupp
+invalidparameter Viga serveriga ühendamisel: vigane parameeter
 invalidpic Määratud pildifaili pole olemas
 invalidpicsize Valitud pilt on liiga suur, palun vali väiksem
 invalidsound Määratud helifaili pole olemas
@@ -546,6 +548,7 @@ savecontacts Salvesta sõbranimekiri
 savetofile Salvesta faili
 says $1 ütleb
 sbcon Ühendan "Switchboardiga"...
+selectall Vali kõik
 selectplugins Palun vali plugin, mida soovin sisse lülitada
 selectskin Palun vali skin listist
 send Saada
@@ -568,6 +571,7 @@ showmypic Minu pilt
 shownotify Mõndade sündmuste korral näita teadvustavat akent
 showpicnotify Näita teavitusaknas kasutaja pilti
 showuserpic $1'e pilt
+signinstatus Olek sisselogimisel
 skin Skin
 skinselector Vali skin
 smileconfig Emotikonide konfigureerimine
@@ -616,6 +620,7 @@ tabbed Kaartidena
 tabbedglobal Kõik inimesed on ühes tabidega aknas
 tabbedgroups Samas grupis olevad inimesed ühes tabidega aknas
 tabtitlenick Soovid e-maili asemel tabides hüüdnime näidata ?
+takesnapshot Tee pilt
 temp_state Ära salvesta (Ajutine seisund mida ei salvestata AMSNi sulgemisel)
 textsize Teksti suurus
 thismonth Käesoleval kuul
@@ -646,6 +651,8 @@ unload Lae maha
 uoffline Offline
 uonline Online
 update Uuenda
+updating Uuendan
+useasdp Kasuta pildina
 useother Kasuta muud programmi
 user Kasutaja
 useralreadyonlist Kasutaja on juba sõbranimekirjas
@@ -661,6 +668,7 @@ view Vaade
 viewcontactsby Vaata kontakte sorteerides
 viewprofile Vaata profiili
 webcaminvite $1 kutsus sind alustama veebikaamera seanssi kuid aMSN ei toeta seda võimalust
+webcamshot Veebikaamera pilt
 whatsize Pilt mida sa küsid ei ole tavasuuruses (96x96).\n Mis suuruses sa seda näidata soovid ?
 willjoin Ootan, et $1 liituks vestlusega
 winkreceived $1 saatis sulle Winki kuid aMSN ei toeta seda hetkel.
@@ -680,3 +688,4 @@ yoffset Vertikaalnihe
 youblocked Sind blokeeris kasutaja
 yousay Sa ütled
 youwant Sa tahad
+zoom Suurenda

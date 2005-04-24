@@ -410,6 +410,7 @@ needwinico2 Es necesita winico05.dll a la carpeta utils/windows pel windows tryd
 needwinico Es necessita el fitxer winico03.dll al directori de connectors perquè funcioni l'acoplament per Windows
 never Mai
 new_ft_protocol Utilitza el nou protocol de transferència de fitxers (en fase de proves)
+newline Nova linia
 newmail $1 missatges nous a la bústia
 newmailfolder Tens $1 missatges nous a les carpetes de Hotmail
 newmailfrom Nou missatge de correu de $1 ($2)
@@ -628,6 +629,7 @@ temp_state Sense desar (estat temporal que serà eliminat quan tanquis l'aMSN)
 textsize Mida del text
 thismonth Aquest mes
 timeremaining Temps restant
+timestamp Marques d'hora
 timestamps Mostra l'hora a les converses
 title aMSN
 tkerror Hi ha hagut un error de TK, segurament perquè hi ha un error a l'aMSN. Si ens vols ajudar, envia'ns el fitxer $1 a l'adreça amsn-bugs@lists.sf.net 
