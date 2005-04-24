@@ -748,7 +748,7 @@ namespace eval ::music {
 		if {[string equal $::version "0.94"]} {
 			set textb $vars(text)
 
-			clickableImage $textb musicpic $icon {set ::music::config(active) [expr !$::music::config(active)];cmsn_draw_online} 5 0
+			clickableImage $textb musicpic $icon {set ::music::config(active) [expr !$::music::config(active)];::plugins::save_config;cmsn_draw_online} 5 0
 		} else {
 			#TODO: add parameter to event and get rid of hardcoded variable
 			set pgtop $::pgBuddyTop
@@ -766,7 +766,7 @@ namespace eval ::music {
 
 			$textb configure -state normal
 
-			clickableImage $textb musicpic $icon {set ::music::config(active) [expr !$::music::config(active)];cmsn_draw_online} [::skin::getKey mailbox_xpad] [::skin::getKey mailbox_ypad]
+			clickableImage $textb musicpic $icon {set ::music::config(active) [expr !$::music::config(active)];::plugins::save_config;cmsn_draw_online} [::skin::getKey mailbox_xpad] [::skin::getKey mailbox_ypad]
 
 		}
 
