@@ -95,9 +95,10 @@ namespace eval ::MSNCAM {
 		::MSNP2P::SessionList set $sid [list $MsgId -1 -1 -1 -1 -1 -1 -1 -1 -1 ]
 
 
-		set h1 "\x80[binary format s [myRand 0 65000]]\x01"
-		set h2 "\x08\x00\x08\x00"
-		set syn [encoding convertto unicode "\x00syn\x00"]
+		set h1 "\x80[binary format s [myRand 0 65000]]\x01\x08\x00"
+		set syn [ToUnicode "syn\x00"]
+		set h2 [binary format i [string length $syn]]
+		
 		set footer "\x00\x00\x00\x04"
 		set msg "${h1}${h2}${syn}"
 
@@ -118,11 +119,13 @@ namespace eval ::MSNCAM {
 		incr MsgId
 		::MSNP2P::SessionList set $sid [list $MsgId -1 -1 -1 -1 -1 -1 -1 -1 -1 ]
 
-		set h1 "\x80\xea\x00\x00"
-		set h2 "\x08\x00\x08\x00"
-		set syn [encoding convertto unicode "\00ack\x00"]
+		set h1 "\x80\xea\x00\x00\x08\x00"
+	
+		set ack [ToUnicode "ack\x00"]
+		set h2 [binary format i [string length $ack]]
+
 		set footer "\x00\x00\x00\x04"
-		set msg "${h1}${h2}${syn}"
+		set msg "${h1}${h2}${ack}"
 
 		set size [string length $msg]
 
@@ -141,10 +144,12 @@ namespace eval ::MSNCAM {
 
 
 		set h1 "\x80\xec[binary format s [myRand 0 255]]\x03"
-		set h2 "\x08\x00\x26\x00"
-		set syn [encoding convertto unicode "\00receivedViewerData\x00"]
+
+		set recv [ToUnicode "\00receivedViewerData\x00"]
+		set h2 [binary format i [string length $recv]]
+
 		set footer "\x00\x00\x00\x04"
-		set msg "${h1}${h2}${syn}"
+		set msg "${h1}${h2}${recv}"
 
 		set size [string length $msg]
 
@@ -173,9 +178,8 @@ namespace eval ::MSNCAM {
 		
 
 		# This is a fixed value... it must be that way or the invite won't work
-		set context "\{B8BE70DE-E2CA-4400-AE03-88FF85B9F4E8\}"
-		set context [encoding convertto unicode $context]
-
+		set context [ToUnicode "\{B8BE70DE-E2CA-4400-AE03-88FF85B9F4E8\}"]
+		
 		::MSNP2P::SessionList set $sid [list 0 0 0 $dest 0 $callid 0 "webcam" "$context" "$branchid"]
 
 		setObjOption $sid inviter 1
@@ -601,7 +605,7 @@ namespace eval ::MSNCAM {
 		set inviter [getObjOption $sid inviter]
 
 		set xml [getObjOption $sid xml]
-		set xml [encoding convertfrom unicode $xml]
+		set xml [FromUnicode $xml]
 		set xml [string map  { "\r\n\r\n\x00" ""} $xml]
 
 		status_log "Got XML : $xml\n" red
@@ -731,7 +735,7 @@ namespace eval ::MSNCAM {
 		set inviter [getObjOption $sid inviter]
 
 		set xml [CreateInvitationXML $sid]
-		set xml [encoding convertto unicode $xml]
+		set xml [ToUnicode $xml]
 
 		setObjOption $sid my_xml $xml
 

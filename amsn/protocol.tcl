@@ -4758,7 +4758,7 @@ proc ToBigEndian { bin length } {
 	
 	set binout ""
 	incr length -1
-	while { $bin != "" } {
+	while { [string length $bin] > $length } {
 		set in [string range $bin 0 $length]
 		binary scan $in [string tolower $type] out
 		set out [binary format $type $out]
@@ -4768,6 +4768,37 @@ proc ToBigEndian { bin length } {
 	return $binout
 }
 
+proc ToUnicode { text } {
+	status_log "Converting $text to unicode\n" red
+
+	set text [encoding convertfrom $text]
+	status_log "text msg is : $text\n" red
+	set text [encoding convertto unicode $text]
+	status_log "text msg is : $text\n" red
+	#set text [binary format a* $text]
+	status_log "text msg is : $text\n" red
+	set text [ToLittleEndian $text 2]
+	status_log "text msg is : $text\n" red
+
+	return $text
+}
+
+proc FromUnicode { text } {
+	status_log "Converting $text from unicode\n" red
+
+	#binary scan $text A* text
+	status_log "text msg is : $text\n" red
+
+	set text [ToBigEndian "$text" 2]
+	status_log "text msg is : $text\n" red
+	set text [encoding convertfrom unicode "$text"]
+	status_log "text msg is : $text\n" red
+
+	set text [encoding convertto "$text"]
+	status_log "text msg is : $text\n" red
+
+	return $text
+}
 
 proc int2word { int1 int2 } {
 	if { $int2>0} {
@@ -4809,20 +4840,11 @@ namespace eval ::MSN6FT {
 		set context "[binary format i 574][binary format i 2][binary format i $filesize][binary format i 0][binary format i $nopreview]"
 		
 		
-		set file [getfilename $filename]
-		status_log "$file\n" red
-		set file [encoding convertfrom $file]
-		status_log "$file\n" red
-		set file [encoding convertto unicode $file]
-		status_log "$file\n" red
-		set bfile [binary format a* $file]
-		status_log "$bfile\n" red
-		set bfile [ToLittleEndian $bfile 2]
-		set context "${context}${bfile}"
-		set remaining_length [expr 574 - [string length $context] - 4]
-		set context "$context[string repeat "\x00" $remaining_length]"
-		set context "$context\xFF\xFF\xFF\xFF"
+		set file [ToUnicode [getfilename $filename]]
 
+		set file [binary format a550 $file]
+		set context "${context}${file}\xFF\xFF\xFF\xFF"
+		
 		if { $nopreview == 0 } {
 
 			create_dir [file join [set ::HOME] FT cache]
@@ -5405,11 +5427,9 @@ namespace eval ::MSN6FT {
 		binary scan [string range $context 8 11] i filesize
 		binary scan [string range $context 16 19] i nopreview
 		
-		binary scan $context x20A[expr $size - 24] filename
+		set filename [FromUnicode [string range $context 20 [expr {$size - 5}]]]
 
-		set filename [ToBigEndian "$filename\x00" 2]
-		set filename [encoding convertfrom unicode "$filename"]
-
+		binary scan $filename A* filename
 
 		if { $nopreview == 0 } {
 			set previewdata [string range $context $size end]

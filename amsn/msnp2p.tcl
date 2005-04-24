@@ -909,7 +909,7 @@ namespace eval ::MSNP2P {
 			set h1 [string range $data 0 3]
 			set h2 [string range $data 4 9]
 			set msg [string range $data 10 [expr { $cMsgSize - 1}]]
-			set msg [encoding convertfrom unicode $msg]
+			set msg [FromUnicode $msg]
 			status_log "Received data for webcam $sid : $data\n$msg\n" red
 
 			if {[expr $cOffset + $cMsgSize] >= $cTotalDataSize} {
