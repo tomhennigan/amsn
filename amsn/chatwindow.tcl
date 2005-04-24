@@ -322,15 +322,17 @@ namespace eval ::ChatWindow {
 		#Delete images if not in use
 		catch {destroy $window.bottom.pic}
 		set user_list [::MSN::usersInChat $chatid]
-		foreach user_login $user_list {
-			if {![catch {image inuse user_pic_$user_login}]} {
-
-				if {![image inuse user_pic_$user_login]} {
-					status_log "Image user_pic_$user_login not in use, deleting it\n"
-					image delete user_pic_$user_login
-				}
-			}
-		}
+		
+		#Don't delete images! They are used for contact list balloons
+		#foreach user_login $user_list {
+		#	if {![catch {image inuse user_pic_$user_login}]} {
+		#
+		#		if {![image inuse user_pic_$user_login]} {
+		#			status_log "Image user_pic_$user_login not in use, deleting it\n"
+		#			image delete user_pic_$user_login
+		#		}
+		#	}
+		#}
 		::MSN::leaveChat $chatid
 	}
 	#///////////////////////////////////////////////////////////////////////////////

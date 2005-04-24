@@ -29,7 +29,7 @@ bind Bulle <Enter> {
     set Bulle(set) 0
     set Bulle(first) 1
     set win %W 
-    set Bulle(id) [after 1000 [list balloon ${win} $Bulle(${win}) %X %Y]]
+    set Bulle(id) [after 1000 [list balloon ${win} $Bulle(${win}) $BullePic(${win}) %X %Y]]
 }
 
 bind Bulle <Button> {
@@ -46,20 +46,24 @@ bind Bulle <Motion> {
     if {$Bulle(set) == 0} {
         after cancel $Bulle(id)
 	set win %W
-        set Bulle(id) [after 1000 [list balloon ${win} $Bulle(${win}) %X %Y]]
+        set Bulle(id) [after 1000 [list balloon ${win} $Bulle(${win}) $BullePic(${win}) %X %Y]]
     }
 }
 
-proc set_balloon {target message} {
+proc set_balloon {target message {pic ""}} {
     global Bulle
+    global BullePic
     set Bulle(${target}) ${message}
+    set BullePic(${target}) ${pic}
     bindtags ${target} "[bindtags ${target}] Bulle"
 }
 
-proc change_balloon {target message} {
+proc change_balloon {target message {pic ""}} {
 	kill_balloon
 	global Bulle
+    global BullePic
     set Bulle(${target}) ${message}
+    set BullePic(${target}) ${pic}
 }
 
 proc kill_balloon {} {
@@ -73,7 +77,7 @@ proc kill_balloon {} {
     }
 }
 
-proc balloon {target message {cx 0} {cy 0} } {
+proc balloon {target message pic {cx 0} {cy 0} } {
     global Bulle tcl_platform
     #Last focus variable for "Mac OS X focus bug" with balloon
     set lastfocus [focus]
@@ -103,17 +107,29 @@ proc balloon {target message {cx 0} {cy 0} } {
 	} else {
 		wm overrideredirect .balloon 1
 	}
+
+	frame .balloon.f -bg [::skin::getKey balloonbackground]
+	pack .balloon.f
+	if { $pic != "" } {
+		label .balloon.f.pic -image $pic -bg [::skin::getKey balloonbackground]
+		pack .balloon.f.pic -side left -padx 2 -pady 2
+		set iwidth [image width $pic]
+	} else {
+		set iwidth 0
+	}
+
 	
-	set wlength [expr {[winfo screenwidth .] - $x - 5}]
+	set wlength [expr {[winfo screenwidth .] - $x - 15 - $iwidth }]
 	#If available width is less than 200 pixels, make the balloon
 	#200 pixels width, and move it to the left so it's inside the screen
 	if { $wlength < 200 } {
-	    set offset [expr {$wlength - 200}]
-	    incr x $offset
-	    set wlength 200
+	    #set offset [expr {$wlength - 200 - [image width $pic] - 10}]
+	    #incr x $offset
+		set x [expr { [winfo screenwidth . ] - 200 - 15 - $iwidth } ]
+		set wlength 200
 	}
 
-        label .balloon.l \
+        label .balloon.f.l \
 	    -text ${message} -relief flat \
 	    -bg [::skin::getKey balloonbackground] -fg [::skin::getKey balloontext] -padx 2 -pady 0 -anchor w -font [::skin::getKey balloonfont] -justify left -wraplength $wlength
 	if {$tcl_platform(platform) == "windows"} {
@@ -125,7 +141,7 @@ proc balloon {target message {cx 0} {cy 0} } {
 		}
 	}
 	
-	pack .balloon.l -side left -padx $bw -pady $bw
+	pack .balloon.f.l -side left -padx $bw -pady $bw
         wm geometry .balloon +${x}+${y}
         
 	#Focus last windows , in AquaTK ("Mac OS X focus bug")

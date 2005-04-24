@@ -133,6 +133,21 @@ namespace eval ::skin {
 		return no_pic
 	}
 
+	proc getDisplayPicture { email } {
+		global HOME
+		if {![catch {image width user_pic_$email}] } {
+			return user_pic_$email
+		}
+
+		set filename [::abook::getContactData $email displaypicfile ""]
+		if { [file readable "[file join $HOME displaypic cache ${filename}].gif"] } {
+			catch {image create photo user_pic_$email -file "[file join $HOME displaypic cache ${filename}].gif"}
+		} else {
+			return [getNoDisplayPicture]
+		}
+		return user_pic_$email
+	}
+
 
 	################################################################
 	# ::skin::getColorBar ([skin_name])

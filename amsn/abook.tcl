@@ -948,20 +948,8 @@ namespace eval ::abookGui {
 		label $nbIdent.chatlogging -text "[trans loging]:"
 		label $nbIdent.chatlogging1 -text [::abook::getContactData $email chatlogging] -font splainf -fg blue
 
-		set msnobj [::abook::getVolatileData $email msnobj]
-		#set filename [::MSNP2P::GetFilenameFromMSNOBJ $msnobj]
-		set filename [::abook::getContactData $email displaypicfile ""]
-		global HOME
-		if { [file readable "[file join $HOME displaypic cache ${filename}].gif"] } {
-			catch {image create photo user_pic_$email -file "[file join $HOME displaypic cache ${filename}].gif"}
-		} else {
-			##################################################################################################
-			# TODO: TAKE A LOOK HERE!!!! THIS SHOULD BE USING ::skin::getNoDisplayPicture FOR LOAD ON DEMAND #
-			##################################################################################################
-			image create photo user_pic_$email -file [::skin::GetSkinFile displaypic "nopic.gif"]
-		}
 		label $nbIdent.titlepic -text "[trans displaypic]" -font bboldunderf
-		label $nbIdent.displaypic -image user_pic_$email -highlightthickness 2 -highlightbackground black -borderwidth 0
+		label $nbIdent.displaypic -image [::skin::getDisplayPicture $email] -highlightthickness 2 -highlightbackground black -borderwidth 0
 				
 		grid $nbIdent.title1 -row 0 -column 0 -pady 5 -padx 5 -columnspan 3 -sticky w 
 		grid $nbIdent.e -row 1 -column 0 -sticky e
