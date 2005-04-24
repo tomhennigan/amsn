@@ -474,7 +474,7 @@ namespace eval ::MSNCAM {
 			"SEND"
 			{
 				
-				if { [SendFileToSock $sock] == "0" } {
+				if { [set data [CaptureCamFrame $sid]] == "0" } {
 					setObjOption $sock state "END"
 					fileevent $sock writable ""	
 				} else {
@@ -848,7 +848,27 @@ namespace eval ::MSNCAM {
 		setObjOption $sid session $session
 		setObjOption $sid rid $rid
 
-		connectMsnCam $sid $session $rid "192.168.1.201" $tcpport
+		set connect 1
+		set ip_idx 1 
+		while { $connect == 1 } {
+			set ip [GetXmlEntry $list "tcpipaddress${ip_idx}"]
+			if {$ip != "" } {
+				foreach port_idx { tcpport tcplocalport tcpexternalport } {
+					set port [GetXmlEntry $list "${port_idx}"]
+					if {$port != "" } {
+						status_log "Trying to connect to $ip at port $port\n" red
+						if { [connectMsnCam $sid $session $rid "$ip" $port] } {
+							set connect 0
+							break
+						}
+					}
+				}
+				incr ip_idx
+			} else {
+				set connect 0
+				break
+			}
+		}
 
 		if { $inviter } {
 			SendReceivedViewerData $chatid $sid
@@ -978,6 +998,45 @@ namespace eval ::MSNCAM {
 
 		::Webcamsn::Decode $decoder $img $data
 		
+
+	}
+
+
+	proc GetCamFrame { sid data } {
+		if { ! [info exists ::webcamsn_loaded] } { ExtensionLoaded }
+		if { ! $::webcamsn_loaded } { return }
+
+		set window [getObjOption $sid window]
+		set encoder [getObjOption $sid codec]
+
+		if { $encoder == "" } {
+			set encoder [::Webcamsn::NewEncoder HIGH]
+			setObjOption $sid codec $encoder
+		}
+
+		if { $window == "" } {
+			set window .webcam_$sid
+			toplevel $window
+			set img [image create photo]
+			label $window.l -image $img
+			pack $window.l
+
+			setObjOption $sid window $window
+			setObjOption $sid image $img
+		}
+
+		set img [getObjOption $sid image]
+
+		set data [::Webcamsn::Encode $encoder $img]
+		if { [catch {set data [::Webcamsn::Encode $encoder $img]} res] } {
+			status_log "Error encoding frame : $res\n"
+			return ""
+		} else {
+			set header "[binary format ssssi 24 160 120 0 [string length $data]]"
+			set header "$header\x4D\x4C\x32\x30\x00\x00\x00\x00\x00\x00\x00\x00"
+
+			set data "${header}${data}"
+		}	
 
 	}
 

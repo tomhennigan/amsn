@@ -929,17 +929,17 @@ proc list2xml list {
 proc GetXmlEntry { list find {stack ""}} {
 
 	set idx [lsearch $list "*$find*"]
-	status_log "Found idx : $idx - [llength $list]\n" red
+	#status_log "Found idx : $idx - [llength $list]\n" red
 	while { ([llength $list] > 3 || $idx != 0) && $idx != -1 } {
 		set list [lindex $list $idx]
 		set idx [lsearch $list "*$find*"]
-		status_log "Found idx : $idx in list $list\n" red
+		#status_log "Found idx : $idx in list $list\n" red
 	}
 	if { $idx == 0 } {
-		status_log "Found it in $list\n" red
+		#status_log "Found it in $list\n" red
 		set value [lindex $list 2]
 		set value [lindex $value 0]
-		status_log "Value is : $value - [lrange $value 1 end]\n" red
+		#status_log "Value is : $value - [lrange $value 1 end]\n" red
 		return [lrange $value 1 end]
 	} else {
 		return ""
