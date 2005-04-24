@@ -669,7 +669,7 @@ proc ParseLog { wname logvar } {
 	set loglines [split $logvar "\n"]
 	set result [list]
 	foreach line $loglines {
-		set nbline [expr $nbline + 1]
+		incr nbline
 		set aidx 0
 		while {$aidx != -1} {
 			# Checks if the line begins by |"L (it happens when we go to the line in the chat window).
@@ -679,24 +679,24 @@ proc ParseLog { wname logvar } {
 			} else {
 				# If the portion of the line begins by |"LC, there is a color information.
 				# The color is indicated by the 6 fingers after it
-				if {[string index $line [expr $aidx + 3]] == "C"} {
-					set color [string range $line [expr $aidx + 4] [expr $aidx + 9]]
+				if {[string index $line [expr {$aidx + 3}]] == "C"} {
+					set color [string range $line [expr {$aidx + 4}] [expr {$aidx + 9}]]
 					${wname}.blueframe.log.txt tag configure C_$nbline -foreground "#$color"
 					set color "C_$nbline"
-					set aidx [expr $aidx + 10]
+					incr aidx 10
 				# Else, it is the system with LNOR, LGRA...
 				} else {
-					set color [string range $line [expr $aidx + 3] [expr $aidx + 5]]
-					set aidx [expr $aidx + 6]
+					set color [string range $line [expr {$aidx + 3}] [expr {$aidx + 5}]]
+					incr aidx 6
 				}
 				set bidx [string first "\|\"L" $line $aidx]
 			}
 			if { [string first "\|\"L" $line] == -1 } {
 				set string [string range $line 0 end]
 			} elseif { $bidx != -1 } {
-				set string [string range $line [expr $aidx] [expr $bidx - 1]]
+				set string [string range $line $aidx [expr {$bidx - 1}]]
 			} else {
-				set string [string range $line [expr $aidx] end]
+				set string [string range $line $aidx end]
 			}
 			lappend result $string [list $color]
 			set aidx $bidx
@@ -795,17 +795,17 @@ proc ParseToFile { logvar filepath } {
 	if { $fileid != 0 } {
 		set aidx 0
 		while {1} {
-			if {[string index $logvar [expr $aidx + 3]] == "C"} {
-				set aidx [expr $aidx + 10]
+			if {[string index $logvar [expr {$aidx + 3}]] == "C"} {
+				incr aidx 10
 			} else {
-				set aidx [expr $aidx + 6]
+				incr aidx 6
 			}
 			set bidx [string first "\|\"L" $logvar $aidx]
 			if { $bidx != -1 } {
-				puts -nonewline $fileid [string range $logvar [expr $aidx] [expr $bidx - 1]]
+				puts -nonewline $fileid [string range $logvar $aidx [expr {$bidx - 1}]]
 				set aidx $bidx
 			} else {
-				puts -nonewline $fileid [string range $logvar [expr $aidx] end]
+				puts -nonewline $fileid [string range $logvar $aidx end]
 				break
 			}
 		}
@@ -1112,7 +1112,7 @@ proc getAllDates { } {
 		set datelisterror [list]
 	
 		foreach date [glob -nocomplain -types d -path "${log_dir}/" *] {
-			set idx [expr [string last "/" $date] + 1]
+			set idx [expr {[string last "/" $date] + 1}]
 			set date2 [string range $date $idx end]
 		
 			if { [catch {
