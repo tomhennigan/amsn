@@ -3193,7 +3193,7 @@ proc cmsn_update_users {sb recv} {
 			::MSNP2P::loadUserPic $chatid $usr_login
 			
 			if {[::MSN::SBFor $chatid] == $sb} {
-				::amsn::userJoins $chatid $usr_login
+				::amsn::userJoins $chatid $usr_login 0
 			}
 		}
 	}
@@ -3391,13 +3391,19 @@ proc cmsn_change_state {recv} {
 
 	#status_log "old is $oldmsnobj new is $msnobj\n"
 	if { $oldmsnobj != $msnobj} {
-
-		global sb_list
-		foreach sb $sb_list {
-			set users_in_chat [$sb cget -users]
-			if { [lsearch $users_in_chat $user] != -1 } {
-				status_log "User changed image while image in use!! Updating!!\n" white
-				::MSNP2P::loadUserPic [::MSN::ChatFor $sb] $user
+		if { [::config::getKey lazypicretrieval] } {
+			global sb_list
+			foreach sb $sb_list {
+				set users_in_chat [$sb cget -users]
+				if { [lsearch $users_in_chat $user] != -1 } {
+					status_log "User changed image while image in use!! Updating!!\n" white
+					::MSNP2P::loadUserPic [::MSN::ChatFor $sb] $user
+				}
+			}
+		} else {
+			if { [::MSN::myStatusIs] != "FLN" && [::MSN::myStatusIs] != "HDN"} {	
+				set chat_id [::MSN::chatTo $user]
+				::MSN::ChatQueue $chat_id [list ::MSNP2P::loadUserPic $chat_id $user]
 			}
 		}
 	}

@@ -1343,12 +1343,12 @@ namespace eval ::amsn {
 	# If a window exists, it will show "user joins conversation" in the status bar
 	# - 'chatid' is the chat name
 	# - 'usr_name' is the user that joins email
-	proc userJoins { chatid usr_name } {
+	proc userJoins { chatid usr_name {create_win 1} } {
 
 
 		set win_name [::ChatWindow::For $chatid]
 
-		if { $win_name == 0 && [::config::getKey newchatwinstate]!=2 } {
+		if { $create_win && $win_name == 0 && [::config::getKey newchatwinstate]!=2 } {
 			set win_name [::ChatWindow::MakeFor $chatid "" $usr_name]
 
 			# PostEvent 'new_conversation' to notify plugins that the window was created

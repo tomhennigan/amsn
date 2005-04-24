@@ -143,7 +143,7 @@ namespace eval ::skin {
 		if { [file readable "[file join $HOME displaypic cache ${filename}].gif"] } {
 			catch {image create photo user_pic_$email -file "[file join $HOME displaypic cache ${filename}].gif"}
 		} else {
-			return [getNoDisplayPicture]
+			image create photo user_pic_$email -file [::skin::GetSkinFile displaypic nopic.gif] -format gif
 		}
 		return user_pic_$email
 	}
