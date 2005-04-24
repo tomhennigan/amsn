@@ -3143,6 +3143,7 @@ proc cmsn_draw_main {} {
  	.main_menu.tools add command -label "[trans pluginselector]..." -command ::plugins::PluginGui
 	.main_menu.tools add command -label "[trans skinselector]..." -command ::skinsGUI::SelectSkin
 	.main_menu.tools add command -label "[trans preferences]..." -command Preferences
+	.main_menu.tools add command -label "[trans preferences](NEW, TESTING)..." -command Preferences::Show
 
 	#Help menu
 	menu .main_menu.helping -tearoff 0 -type normal

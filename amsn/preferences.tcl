@@ -19,6 +19,10 @@ namespace eval Preferences {
 		::skin::setPixmap prefprofile prefprofile.gif
 		::skin::setPixmap preffont preffont.gif
 		::skin::setPixmap prefphone prefphone.gif
+
+		::skin::setPixmap preflook preflook.gif
+		::skin::setPixmap prefemotic prefemotic.gif
+		::skin::setPixmap prefalerts prefalerts.gif
 		
 		
 		if { [LoginList exists 0 [::config::getKey login]] == 1 } {
@@ -33,25 +37,25 @@ namespace eval Preferences {
 		set section [PreferencesSection .prefs.personal -text [trans personal]]
 		
 		set frame [ItemsFrame .prefs.personal.nicks -text [trans prefname] -icon prefpers]
-		$frame addItem [TextEntry .prefs.personal.nicks.nick -width 50 -text "[trans enternick] :" \
+		$frame addItem [TextEntry .prefs.personal.nicks.nick -width 40 -text "[trans enternick] :" \
 			-storecommand ::Preferences::StoreNick -retrievecommand [list ::abook::getPersonal nick]]
-		$frame addItem [TextEntry .prefs.personal.nicks.chat -width 50 -text "[trans friendlyname] :" \
+		$frame addItem [TextEntry .prefs.personal.nicks.chat -width 40 -text "[trans friendlyname] :" \
 			-variable [::config::getVar p4c_name]]
 		$section addItem $frame
 		
 		set frame [ItemsFrame .prefs.personal.preffont -text [trans preffont] -icon preffont]
-		$frame addItem [Label .prefs.personal.preffont.lab -text [trans preffont2]]
+		$frame addItem [Label .prefs.personal.preffont.lab -text [trans preffont2] -align center]
 		$frame addItem [CommandButton .prefs.personal.preffont.changefont -text [trans changefont] \
 			-variable [::config::getVar mychatfont] -buttoncommand ::Preferences::ChangeFont]
 		$section addItem $frame
 	
 		set frame [ItemsFrame .prefs.personal.prefphone -text [trans prefphone] -icon prefphone]
 		#$frame addItem [Label create .prefs.personal.prefphone.lab -text [trans prefphone2]]
-		$frame addItem [TextEntry .prefs.personal.prefphone.home -text [trans myhomephone] -width 20 \
+		$frame addItem [TextEntry .prefs.personal.prefphone.home -text "[trans myhomephone]:" -width 20 \
 			-retrievecommand [list ::abook::getPersonal PHH]]
-		$frame addItem [TextEntry .prefs.personal.prefphone.work -text [trans myworkphone] -width 20 \
+		$frame addItem [TextEntry .prefs.personal.prefphone.work -text "[trans myworkphone]:" -width 20 \
 			-retrievecommand [list ::abook::getPersonal PHW]]
-		$frame addItem [TextEntry .prefs.personal.prefphone.mobile -text [trans mymobilephone] -width 20 \
+		$frame addItem [TextEntry .prefs.personal.prefphone.mobile -text "[trans mymobilephone]:" -width 20 \
 			-retrievecommand [list ::abook::getPersonal PHM]]
 		$frame addItem [CheckBox .prefs.personal.prefphone.allowsms -text [trans allow_sms] \
 			-onvalue "Y" -offvalue "N" -storecommand [list ::abook::setPhone pager] -retrievecommand [list ::abook::getPersonal MOB]]
@@ -59,7 +63,28 @@ namespace eval Preferences {
 		
 
 		.prefs addSection $section
-	
+
+		####################################################
+		# Section Interface
+		#####################################################
+		set section [PreferencesSection interface -text [trans appearance]]
+		.prefs addSection $section
+
+		set frame [ItemsFrame look -text [trans preflook] -icon preflook]
+		$frame addItem [Label preflook.labenc -text "[trans encoding2]:" -align left]
+		$frame addItem [CommandButton preflook.encoding -text [trans encoding] -align left\
+			-variable [::config::getVar encoding] -buttoncommand ::Preferences::ChangeEncoding]
+
+		$frame addItem [Label preflook.labfont -text "[trans preffont3]:" -align left]
+		$frame addItem [CommandButton preflook.font -text [trans changefont] -align left\
+			-variable [::config::getGlobalVar basefont] -buttoncommand ::Preferences::ChangeBaseFont]
+
+		$frame addItem [Label preflook.labdate -text "[trans dateformat]:" -align left]
+		$frame addItem [RadioGroup preflook.date \
+			-texts [list "[trans month]/[trans day]/[trans year]" "[trans day]/[trans month]/[trans year]" "[trans year]/[trans month]/[trans day]"] \
+			-values [list MDY DMY YMD] -variable [::config::getVar dateformat]]
+
+		$section addItem $frame
 	
 		####################################################
 		# Section ...
@@ -108,6 +133,8 @@ namespace eval Preferences {
 
 	proc Save {} {
 
+		set must_restart 0
+		
 		# Check and save phone numbers		
 		if { [::MSN::myStatusIs] != "FLN" } {
 			#set lfname [Rnotebook:frame $nb $Preftabs(personal)]
@@ -124,6 +151,16 @@ namespace eval Preferences {
 				::abook::setPhone mobile $mobile
 			}
 		}
+		
+		if { [preflook.font getValue] != [::config::getGlobalKey basefont]} {
+			set must_restart 1
+		}
+
+		if { $must_restart } {
+			msg_box [trans mustrestart]
+		}
+
+
 	}
 
 
@@ -135,10 +172,10 @@ namespace eval Preferences {
 		set fontcolor [lindex $currentfont 2]
 	
 		if { [catch {
-				set selfont_and_color [choose_font .prefs_window [trans choosebasefont] [list $fontname 12 $fontstyle] "#$fontcolor"]
+				set selfont_and_color [SelectFont .fontsel -parent .prefs_window -title [trans choosebasefont] -font [list $fontname 12 $fontstyle] -initialcolor "#$fontcolor"]
 			}]} {
 			
-			set selfont_and_color [choose_font .prefs_window [trans choosebasefont] [list "helvetica" 12 [list]] #000000]
+			set selfont_and_color [SelectFont .fontsel -parent .prefs_window -title [trans choosebasefont] -font [list "helvetica" 12 [list]] -initialcolor "#000000"]
 			
 		}
 		
@@ -160,6 +197,35 @@ namespace eval Preferences {
 		}
 		
 		return [list $sel_fontfamily $sel_fontstyle $selcolor]
+	}
+
+	proc ChangeBaseFont {currentfont} {
+		if { [winfo exists .basefontsel] } {
+			raise .basefontsel
+			return
+		}
+
+	
+		if { [catch {
+			set font [SelectFont .basefontsel -parent .prefs_window -title [trans choosebasefont] -font $currentfont -styles [list]]
+			}]} {
+		
+			set font [SelectFont .basefontsel -parent .prefs_window -title [trans choosebasefont] -font [list "helvetica" 12 [list]] -styles [list]]
+		
+		}
+
+		set family [lindex $font 0]
+		set size [lindex $font 1]
+			
+		if { $family == "" || $size == ""} {
+			return $currentfont
+		}
+
+		return [list $family $size normal]
+	}
+
+	proc ChangeEncoding { currentenc } {
+		::amsn::messageBox "TODO" yesno question "[trans confirm]" .prefs_window
 	}
 
 	proc StoreNick { nick } {
@@ -347,7 +413,7 @@ namespace eval Preferences {
 		if { $options(-icon) != "" } {
 			frame $f.f
 			label $f.icon -image [::skin::loadPixmap $options(-icon)]
-			pack $f.icon -side left
+			pack $f.icon -side left -padx 5 -pady 5
 			pack $f.f -side left -fill x -expand true
 			
 			set f $f.f
@@ -562,6 +628,102 @@ namespace eval Preferences {
 	
 }
 
+#A group of radio buttons. Child of PreferenceItem
+#Usage:
+# OPTIONS
+# -texts	A list with one text for every checkbutton
+# -values	A list of values corresponding to every selection. Defaults to 0, 1, 2...
+# -onchange	A command that is called everytime the radio button value changes
+# -enabled	Enables or disabled the radio buttons
+# METHODS
+::snit::type RadioGroup {
+	
+	#Delegate to PrferenceItem!!
+	delegate method * to preferenceitem
+	delegate option * to preferenceitem
+
+	#Enable or disable the item
+	option -enabled -default true
+		
+	#The widget path
+	variable itemPath ""
+		
+	constructor {args} {
+		install preferenceitem using PreferenceItem %AUTO%
+		$self configurelist $args
+	}
+	
+	destructor {
+		#Destroy the PreferenceItem instance
+		$preferenceitem destroy
+		#Destroy widgets
+		destroy $itemPath.f
+	}
+	
+	#########################
+	#Static options (creation time)
+	#########################
+	#Command to be triggered when the item changes
+	option -onchange -readonly yes -default ""
+	
+	#Text for the item label
+	option -texts -readonly yes -default [list]
+	option -values -readonly yes -default [list]
+	
+	#########################
+	#Dynamic options
+	#########################
+	
+	#Triggered when the -enabled option is changed
+	onconfigure -enabled { val } {
+		set options(-enabled) $val
+		$preferenceitem configure -enabled $val
+		if {[winfo exists $itemPath.f]} {
+			foreach child [winfo children $itemPath.f] {
+				if { $val } {
+					$child configure -state normal 
+				} else {
+					$child configure -state disabled
+				}
+			}
+		}
+	}
+
+	
+	#Draw the text box in the given path
+	method draw { path } {
+
+		set itemPath $path
+		#Draw an input box
+		
+		if { $options(-enabled) } {
+			set state normal
+		} else {
+			set state disabled
+		}
+
+		if { $options(-onchange) != "" } {
+			set changecommand [list $options(-onchange) $self %s %S]
+		} else {
+			set changecommand ""
+		}
+		
+		frame $path.f
+
+		set i 0
+		foreach text $options(-texts) {
+			radiobutton $path.f.rb$i -text $text -font sboldf -state $state -variable [$self valueVar] \
+				-command $changecommand -value [lindex $options(-values) $i]
+			pack $path.f.rb$i -side top -anchor nw
+			incr i
+		}
+
+		pack $path.f -side left -expand false -padx 5 -pady 3
+	}
+	
+}
+
+
 #A command button. Child of PreferenceItem
 #Usage:
 # OPTIONS
@@ -603,6 +765,7 @@ namespace eval Preferences {
 	#########################
 	#Text for the item label
 	option -text -readonly yes -default ""
+	option -align -readonly yes -default center
 	
 	#########################
 	#Dynamic options
@@ -633,9 +796,21 @@ namespace eval Preferences {
 			set state disabled
 		}
 
+		switch $options(-align) {
+			left {
+				set anchor w
+			}
+			right {
+				set anchor e
+			}
+			default {
+				set anchor center
+			}
+
+		}
 	
 		button $path.b -text $options(-text) -font sboldf -state $state -command [mymethod buttonPressed]
-		pack $path.b -expand false -padx 5 -pady 3
+		pack $path.b -expand false -padx 5 -pady 3 -anchor $anchor
 	}
 	
 
@@ -652,6 +827,10 @@ namespace eval Preferences {
 
 
 #A text entry item. Child of PreferenceItem
+#Usage:
+# OPTIONS
+# -text		The text that is shown in the label
+# -align	right | left | center
 ::snit::type Label {
 	
 	#Delegate to PrferenceItem!!
@@ -680,6 +859,7 @@ namespace eval Preferences {
 	
 	#Text for the item label
 	option -text -readonly yes -default ""
+	option -align -readonly yes -default center
 	
 	#########################
 	#Dinamic options
@@ -688,9 +868,23 @@ namespace eval Preferences {
 	#Draw the text box in the given path
 	method draw { path } {
 
+		switch $options(-align) {
+			left {
+				set anchor w
+			}
+			right {
+				set anchor e
+			}
+			default {
+				set anchor center
+			}
+
+		}
+		
+
 		set itemPath $path
 		label $path.l -text $options(-text) -font splainf
-		pack $path.l -anchor center
+		pack $path.l -anchor $anchor
 	}
 }
 
@@ -748,7 +942,7 @@ namespace eval Preferences {
 		set w [frame $wname.top]
 
 		#Create the sections listbox 
-		listbox $w.sections -bg white
+		listbox $w.sections -bg white -width 15
 		#Create the items frame
 		frame $w.items
 		
@@ -763,6 +957,7 @@ namespace eval Preferences {
 			set sectionNames [concat $sectionNames [$section insertIntoList $w.sections 0]]
 		}
 		
+		wm geometry $wname 625x450
 	}
 	
 	#Invoked when a section is selected in the listbox
@@ -778,7 +973,7 @@ namespace eval Preferences {
 			destroy $items
 		}
 		frame $items
-		pack $items -anchor nw -fill y
+		pack $items -anchor nw -fill both
 		
 		#Show the selected section
 		$section show $items
