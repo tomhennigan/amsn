@@ -344,7 +344,7 @@ namespace eval ::MSNCAM {
 	proc ReadFromSock { sock } { 
 		set nonce [getObjOption $sock nonce]
 		set sid [getObjOption $sock sid]
-		set sending [getObjOption $sock sending]
+		set producer [getObjOption $sid producer]
 		set server [getObjOption $sock server]
 		set state [getObjOption $sock state]
 
@@ -394,6 +394,7 @@ namespace eval ::MSNCAM {
 			{
 				if { $server } {
 					gets $sock data 
+					status_log "Received Data on socket $sock sending=$producer - server=$server - state=$state : \n$data\n" red
 					if { $data == "recipientrid=$rid&session=$session\r" } {
 						gets $sock  
 						setObjOption $sock state "RECEIVE"
@@ -402,10 +403,17 @@ namespace eval ::MSNCAM {
 					}
 				} else {
 					gets $sock data 
+					status_log "Received Data on socket $sock sending=$producer - server=$server - state=$state : \n$data\n" red
 					if { $data == "connected\r" } {
 						gets $sock  
 						puts -nonewline $sock "connected\r\n\r\n"
-						setObjOption $sock state "RECEIVE"
+						status_log "Sending \"connected\" to the server\n" red
+						if { $producer } {
+							setObjOption $sock state "SEND"
+							fileevent $sock writable "::MSNCAM::WriteToSock $sock"
+						} else {
+							setObjOption $sock state "RECEIVE"
+						}
 					} else {
 						status_log "ERROR : $data\n" red
 					}
@@ -477,7 +485,7 @@ namespace eval ::MSNCAM {
 			"SEND"
 			{
 				
-				if { [set data [CaptureCamFrame $sid]] == "0" } {
+				if { [set data [GetCamFrame $sid]] == "0" } {
 					setObjOption $sock state "END"
 					fileevent $sock writable ""	
 				} else {
@@ -694,6 +702,10 @@ namespace eval ::MSNCAM {
 
 		} else {
 			status_log "Connected on socket $socket : [eof $socket] || [fconfigure $socket -error]\n" red
+
+			fileevent $socket readable "::MSNCAM::ReadFromSock $socket"
+			fileevent $socket writable "::MSNCAM::WriteToSock $socket"
+
 			set ips [getObjOption $sid ips]
 			for {set idx 0 } { $idx < [llength $ips] } {incr idx } {
 				set connection [lindex $ips $idx]
@@ -709,8 +721,7 @@ namespace eval ::MSNCAM {
 				catch {close $sock}
 			}
 
-			fileevent $socket readable "::MSNCAM::ReadFromSock $sock"
-			fileevent $socket writable "::MSNCAM::WriteToSock $sock"
+
 			
 		}
 	}
