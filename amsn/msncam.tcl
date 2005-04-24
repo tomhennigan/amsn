@@ -301,7 +301,7 @@ namespace eval ::MSNCAM {
 	proc connectMsnCam { sid session rid ip port } {
 			
 
-		if { [catch {set sock [ socket $ip $port] } ] } {
+		if { [catch {set sock [socket -async $ip $port] } ] } {
 			status_log "ERROR CONNECTING TO THE SERVER\n\n" red 
 			return 0
 		} else {
@@ -314,10 +314,7 @@ namespace eval ::MSNCAM {
 
 			status_log "connectedto $ip on port $port  - $sock\n" red
 
-			fconfigure $sock -blocking 1 -buffering none -translation {binary binary} 
-			fileevent $sock readable "::MSNCAM::ReadFromSock $sock"
-			fileevent $sock writable "::MSNCAM::WriteToSock $sock"
-			return 1
+			return $sock
 		}
 	}
 
@@ -454,6 +451,12 @@ namespace eval ::MSNCAM {
 
 		fileevent $sock writable ""
 
+		if { [fconfigure $sock -error] != "" } {
+			status_log "ERROR writing to socket!!!" red
+			close $sock
+			return
+		}
+
 
 		set data ""
 
@@ -493,160 +496,6 @@ namespace eval ::MSNCAM {
 		
 	}
 
-
-	proc GetNonceFromData { data } {
-		set bnonce [string range $data 32 end]
-		binary scan $bnonce H2H2H2H2H2H2H2H2H4H* n1 n2 n3 n4 n5 n6 n7 n8 n9 n10
-		set nonce [string toupper "$n4$n3$n2$n1-$n6$n5-$n8$n7-$n9-$n10"]
-		status_log "Got NONCE : $nonce\n" red
-		return $nonce
-		
-	}
-
-	proc GetDataFromNonce { nonce sid } {
-
-		status_log "GetDataFromNonce\n"
-
-		set n1 [string range $nonce 6 7]
-		set n2 [string range $nonce 4 5]
-		set n3 [string range $nonce 2 3]
-		set n4 [string range $nonce 0 1]
-		set n5 [string range $nonce 11 12]
-		set n6 [string range $nonce 9 10]
-		set n7 [string range $nonce 16 17]
-		set n8 [string range $nonce 14 15]
-		set n9 [string range $nonce 19 22]
-		set n10 [string range $nonce 24 end]
-
-		set nonce [string toupper "$n4$n3$n2$n1-$n6$n5-$n8$n7-$n9-$n10"]
-		#		status_log "Got NONCE : $nonce\n" red
-
-		set bnonce [binary format H2H2H2H2H2H2H2H2H4H* $n1 $n2 $n3 $n4 $n5 $n6 $n7 $n8 $n9 $n10]
-		status_log "got Binary NONCE : $bnonce\n" red
-
-		set MsgId [lindex [::MSNP2P::SessionList get $sid] 0]
-		incr MsgId
-
-
-		set data "[binary format iiiiiiii 0 $MsgId 0 0 0 0 0 256]$bnonce"
-		incr MsgId
-		::MSNP2P::SessionList set $sid [list $MsgId -1 -1 -1 -1 -1 -1 -1 -1 -1]
-
-		return $data
-
-	}
-
-	proc WriteDataToFile { data } {
-
-		#puts -nonewline $data
-		return
-
-		binary scan [string range $data 0 47] iiiiiiiiiiii cSid cId cOffset1 cOffset2 cTotalDataSize1 cTotalDataSize2 cMsgSize cFlags cAckId cAckUID cAckSize1 cAckSize2
-
-
-		if { ![info exists cAckSize2] } {
-			return
-		}
-
-		set fd [lindex [::MSNP2P::SessionList get $cSid] 6]
-		set cOffset [int2word $cOffset1 $cOffset2]
-		set cTotalDataSize [int2word $cTotalDataSize1 $cTotalDataSize2]
-		set cAckSize [int2word $cAckSize1 $cAckSize2]
-
-		set cRemaining [expr $cTotalDataSize - $cOffset - $cMsgSize]
-
-		if { [catch { puts -nonewline "[string range $data 48 end]" } res] } {
-			status_log "ERROR WRITING DATA TO FILE : $fd - $data\n" red
-		}
-		
-
-		#status_log "Received data : remainging $cRemaining\n" 
-		
-		if {$cRemaining == 0 } {
-			catch {close $fd}
-		}
-		return $cRemaining
-
-
-	}
-
-	proc SendByeAck { sock data } {
-	
-		set sid [getObjOption $sock sid]
-
-		binary scan [string range $data 0 47] iiiiiiiiiiii cSid cId cOffset1 cOffset2 cTotalDataSize1 cTotalDataSize2 cMsgSize cFlags cAckId cAckUID cAckSize1 cAckSize2
-
-		if { ![info exists cAckSize2] } {
-			return
-		}
-
-		set cOffset [int2word $cOffset1 $cOffset2]
-		set cTotalDataSize [int2word $cTotalDataSize1 $cTotalDataSize2]
-		set cAckSize [int2word $cAckSize1 $cAckSize2]
-
-		set MsgId [lindex [::MSNP2P::SessionList get $sid] 0]
-		incr MsgId
-		::MSNP2P::SessionList set $sid [list $MsgId -1 -1 -1 -1 -1 -1 -1 -1 -1]
-
-
-		set out [binary format ii 0 $MsgId][binword 0][binword $cTotalDataSize][binary format iiii 0 2 $cId $cAckId][binword $cTotalDataSize]
-
-
-		puts -nonewline $sock "[binary format i 48]$out"
-		status_log "Sending Bye ACK :  $out\n" red
-
-
-	}
-
-	proc SendDataAck { sock data } {
-			
-		set sid [getObjOption $sock sid]
-
-		binary scan [string range $data 0 47] iiiiiiiiiiii cSid cId cOffset1 cOffset2 cTotalDataSize1 cTotalDataSize2 cMsgSize cFlags cAckId cAckUID cAckSize1 cAckSize2
-
-		if { ![info exists cAckSize2] } {
-			return
-		}
-
-		set cOffset [int2word $cOffset1 $cOffset2]
-		set cTotalDataSize [int2word $cTotalDataSize1 $cTotalDataSize2]
-		set cAckSize [int2word $cAckSize1 $cAckSize2]
-		
-		set SessionInfo [::MSNP2P::SessionList get $sid]
-		set MsgId [lindex $SessionInfo 0]
-		set Destination [lindex $SessionInfo 3]
-		incr MsgId
-		::MSNP2P::SessionList set $sid [list $MsgId -1 -1 -1 -1 -1 -1 -1 -1 -1]
-
-		set out [binary format ii $sid $MsgId][binword 0][binword $cTotalDataSize][binary format iiii 0 2 $cId $cAckId][binword $cTotalDataSize]
-
-		status_log "Writing ack on sock $sock : $out\n" red
-
-		puts -nonewline $sock "[binary format i [string length $out]]$out"
-	}
-	
-	proc SendDataBye { sock } {
-		
-		set sid [getObjOption $sock sid]
-
-		set SessionInfo [::MSNP2P::SessionList get $sid]
-		set dest [lindex $SessionInfo 3]
-		set callid [lindex $SessionInfo 5]
-		set branchid [lindex $SessionInfo 9]
-
-		set MsgId [lindex $SessionInfo 0]
-		incr MsgId
-
-	        set bye [::MSNP2P::MakeMSNSLP "BYE" $dest [::config::getKey login] $branchid 0 $callid 0 0]
-		set size [string length $bye]
-
-		set bheader [binary format ii 0 $MsgId][binword 0][binword $size][binary format iiii $size 0 [expr int([expr rand() * 1000000000])%125000000 + 4] 0][binword 0]
-
-
-		return "${bheader}${bye}"
-
-	}
-
 	proc CloseSocket { sock } {
 
 		set sid [getObjOption $sock sid]
@@ -662,91 +511,6 @@ namespace eval ::MSNCAM {
 	}
 
 
-	proc SendFileToSock  { sock } {
-
-		return 0
-
-	
-		set sid [getObjOption $sock sid]
-	
-		set fd [lindex [::MSNP2P::SessionList get $sid] 6]
-		if { $fd == 0 || $fd == "" } {
-			set filename [lindex [::MSNP2P::SessionList get $sid] 8]
-			set fd [open "${filename}"]
-			::MSNP2P::SessionList set $sid [list -1 [file size "${filename}"] -1 -1 -1 -1 $fd -1 -1 -1]
-			fconfigure $fd -translation {binary binary}
-		}
-
-		#		status_log "Sending file with fd : $fd\n" red
-
-		set MsgId [lindex [::MSNP2P::SessionList get $sid] 0]
-		set DataSize [lindex [::MSNP2P::SessionList get $sid] 1]
-		set Offset [lindex [::MSNP2P::SessionList get $sid] 2]
-
-		if {$DataSize == 0 } {
-			status_log "Correcting DataSize\n" green
-			set filename [lindex [::MSNP2P::SessionList get $sid] 8]
-			set DataSize [file size "${filename}"]
-			::MSNP2P::SessionList set $sid [list -1 $DataSize -1 -1 -1 -1 $fd -1 -1 -1]	
-		}
-
-		set data [read $fd 1352]
-		set out "[binary format iiiiiiiiiiii $sid $MsgId $Offset 0 $DataSize 0 [string length $data] 16777264 [expr int([expr rand() * 1000000000])%125000000 + 4] 0 0 0]$data"
-
-		catch { puts -nonewline $sock  "[binary format i [string length $out]]$out" }
-
-		::amsn::FTProgress s $sid "" [expr $Offset + [string length $data]] $DataSize
-		#status_log "Writing file to socket $sock, send $Offset of $DataSize\n" red
-
-		set Offset [expr $Offset + [string length $data]]
-
-		::MSNP2P::SessionList set $sid [list -1 -1 $Offset -1 -1 -1 -1 -1 -1 -1]
-
-		#		status_log "Sending : $out"
-
-		if { [expr $DataSize - $Offset] == "0"} {
-			catch { close $fd }
-			::amsn::FTProgress fs $sid ""
-		}
-
-		return [expr $DataSize - $Offset]
-	}
-
-
-	proc GotFileTransferRequest { chatid dest branchuid cseq uid sid context } {
-		binary scan [string range $context 0 3] i size
-		binary scan [string range $context 8 11] i filesize
-		binary scan [string range $context 16 19] i nopreview
-		
-		binary scan $context x20A[expr $size - 24] filename
-
-		set filename [ToBigEndian "$filename\x00" 2]
-		set filename [encoding convertfrom unicode "$filename"]
-
-
-		if { $nopreview == 0 } {
-			set previewdata [string range $context $size end]
-			set dir [file join [set ::HOME] FT cache]
-			create_dir $dir
-			set fd [open "[file join $dir ${sid}.png ]" "w"]
-			fconfigure $fd -translation binary
-			puts -nonewline $fd "$previewdata"
-			close $fd
-			set file [png_to_gif [file join $dir ${sid}.png]]
-			if { $file != "" } {
-				set file [filenoext $file].gif
-				::skin::setPixmap FT_preview_${sid} "[file join $dir ${sid}.gif]"
-			}
-		}
-
-		status_log "context : $context \n size : $size \n filesize : $filesize \n nopreview : $nopreview \nfilename : $filename\n"
-		::MSNFT::invitationReceived $filename $filesize $sid $chatid $dest 1
-		::amsn::GotFileTransferRequest $chatid $dest $branchuid $cseq $uid $sid $filename $filesize
-
-	}
-
-
-	
 	
 	#//////////////////////////////////////////////////////////////////////////////
 	# CancelFT ( chatid sid )
@@ -848,24 +612,24 @@ namespace eval ::MSNCAM {
 		setObjOption $sid session $session
 		setObjOption $sid rid $rid
 
-		set connect 1
+	
 		set ip_idx 1 
-		while { $connect == 1 } {
+		set ips [list]
+		while { 1 } {
 			set ip [GetXmlEntry $list "tcpipaddress${ip_idx}"]
 			if {$ip != "" } {
 				foreach port_idx { tcpport tcplocalport tcpexternalport } {
 					set port [GetXmlEntry $list "${port_idx}"]
 					if {$port != "" } {
 						status_log "Trying to connect to $ip at port $port\n" red
-						if { [connectMsnCam $sid $session $rid "$ip" $port] } {
-							set connect 0
-							break
+						set socket [connectMsnCam $sid $session $rid "$ip" $port]
+						if { $socket != 0 } {
+							lappend ips [list $ip $port $socket]
 						}
 					}
 				}
 				incr ip_idx
 			} else {
-				set connect 0
 				break
 			}
 		}
@@ -877,7 +641,26 @@ namespace eval ::MSNCAM {
 			SendXML $chatid $sid
 		}
 
+		set connected 0
+		status_log "les ips : $ips\n" red
+		foreach connection $ips {
+			set ip [lindex $connection 0]
+			set port [lindex $connection 1]
+			set sock [lindex $connection 2]
 
+			if { $connected == 1 } {
+				catch {close $sock}
+				continue
+			}
+
+			if { [fconfigure $sock -error] == "" } {
+				status_log "Connected through $ip : $port\n"
+				fconfigure $sock -blocking 1 -buffering none -translation {binary binary} 
+				fileevent $sock readable "::MSNCAM::ReadFromSock $sock"
+				fileevent $sock writable "::MSNCAM::WriteToSock $sock"
+				set connected 1
+			}
+		}
 	}
 
 	proc SendXML { chatid sid } {
