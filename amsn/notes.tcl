@@ -296,7 +296,7 @@ $w.right.contact.left.showhide configure -image hide -command "::notes::HideCont
 			}
 
 			last {
-				set selection [expr [.notemanager.right.notes.box size] - 1]
+				set selection [expr {[.notemanager.right.notes.box size] - 1}]
 				$w.right.notes.box selection set $selection
 			}
 
@@ -665,7 +665,7 @@ $w.right.contact.left.showhide configure -image hide -command "::notes::HideCont
 
 proc Update_Contact_Background { } {
 
-	for {set i 0} {$i< [expr [llength $::notes::contacts]]} {incr i} {
+	for {set i 0} {$i< [llength $::notes::contacts]} {incr i} {
 		if { $i == $::notes::selectedcontact } {
 			.notemanager.contact.box itemconfigure $i -background gray
 		} elseif { [lsearch $::notes::contactswithnotes [lindex $::notes::contacts $i]] != -1 } {
