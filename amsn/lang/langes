@@ -335,6 +335,7 @@ lastlogout Última desconexión
 lastmsgedme Último mensaje
 lastmsgtime Último mensaje recibido a las $1
 lastseen Última vez visto en línea
+lazypicretrieval Recuperación "vaga" de las imágenes para mostrar
 lclosedwin $1 ha cerrado la ventana a las $2
 lconftopriv La conversación pasa a ser un privado con $1
 lconvstarted Comienza la conversación a las $1
@@ -407,6 +408,7 @@ needonline Todavía estás/apareces desconectado
 needwinico2 Se requiere el archivo winico05.dll en la carpeta utils/windows para que funcione el icono en la bandeja del sistema
 never Nunca
 new_ft_protocol Usar el nuevo protocolo de transferencias de ficheros (INESTABLE)
+newline Salto de línea
 newmail $1 mensajes nuevos en bandeja de entrada
 newmailfolder Tienes $1 mensajes nuevos en otras carpetas de Hotmail
 newmailfrom Nuevo correo de $1 ($2)
@@ -625,6 +627,7 @@ temp_state No almacenar (Estado temporal, se perderá al reiniciar AMSN)
 textsize Tamaño del texto
 thismonth Este mes
 timeremaining Tiempo restante
+timestamp Estampa temporal
 timestamps Activar hora en los mensajes
 title aMSN
 tkerror Se ha producido un error de TK, hay un fallo en amsn, por favor informanos. Para ello envía el archivo $1 a amsn-bugs@lists.sf.net
