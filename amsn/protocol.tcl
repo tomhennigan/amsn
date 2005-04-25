@@ -5653,7 +5653,10 @@ namespace eval ::MSNAV {
 		}
 
 		set win_name [::ChatWindow::MakeFor $chatid $txt $fromlogin]
-
+if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		::amsn::WinWrite $chatid "\nAudio/Video requests are not supported on Mac OS X, only Webcam" green
+		return
+}
 		::amsn::WinWrite $chatid "\n----------\n" green
 		::amsn::WinWrite $chatid $txt green
 		::amsn::WinWrite $chatid " - (" green
@@ -5662,6 +5665,8 @@ namespace eval ::MSNAV {
 		::amsn::WinWriteClickable $chatid "[trans reject]" "::MSNAV::cancelSession $cookie [list $requested] $chatid" avno$cookie
 		::amsn::WinWrite $chatid ")\n" green
 		::amsn::WinWrite $chatid "----------" green
+		
+		
 
 		#::MSNAV::acceptInvite $cookie [list $requested] $chatid
 	}
