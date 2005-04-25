@@ -453,7 +453,7 @@ namespace eval ::MSNCAM {
 						setObjOption $sock state "RECEIVE"
 					    }
 					} else {
-						status_log "ERROR : $data\n" red
+						status_log "ERROR1 : $data\n" red
 					}
 
 				} else {
@@ -471,7 +471,7 @@ namespace eval ::MSNCAM {
 							setObjOption $sock state "RECEIVE"
 						}
 					} else {
-						status_log "ERROR : $data\n" red
+						status_log "ERROR2 : $data\n" red
 					}
 				}
 			}
@@ -965,7 +965,8 @@ namespace eval ::MSNCAM {
 	}
 
 	proc Grab_Mac { grabber socket encoder img } {
-		$grabber image "::MSNCAM::ImageReady_Mac $socket $encoder" $img
+		$grabber image "::MSNCAM::ImageReady_Mac" $img
+		::MSNCAM::ImageReady_Mac $socket $encoder $grabber $img
 	    catch {fileevent $socket writable "::MSNCAM::WriteToSock $socket"}
 	}
 
