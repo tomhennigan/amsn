@@ -39,6 +39,42 @@ namespace eval ::MSNCAM {
 	
 	
 	#//////////////////////////////////////////////////////////////////////////////
+	# CancelFT ( chatid sid )
+	# This function is called when a file transfer is canceled by the user
+	proc CancelCam { chatid sid } {
+		set session_data [::MSNP2P::SessionList get $sid]
+		set user_login [lindex $session_data 3]
+	    set callid [lindex $session_data 5]
+	    set socket [getObjOption $sid socket]
+		
+	    set branchid "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [expr [expr int([expr rand() * 1000000])%65450]] + 4369]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
+
+
+		status_log "Canceling webcam $sid with $chatid \n" red
+	    ::MSNP2P::SendPacket [::MSN::SBFor $chatid] [::MSNP2P::MakePacket $sid [::MSNP2P::MakeMSNSLP "BYE" $user_login [::config::getKey login] $branchid 0 $callid 0 1 "dAMAgQ==\r\n"] 1]
+	
+	    if { $socket != "" } {
+		status_log "Connected through socket $socket : closing socket\n" red
+		catch { close $socket}
+	    }
+	    
+		
+	}
+
+	#//////////////////////////////////////////////////////////////////////////////
+	# RejectFT ( chatid sid branchuid uid )
+	# This function is called when a file transfer is rejected/canceled
+	proc RejectFT { chatid sid branchuid uid } {
+		# All we need to do is send a DECLINE
+		set slpdata [::MSNP2P::MakeMSNSLP "DECLINE" [lindex [::MSNP2P::SessionList get $sid] 3] [::config::getKey login] $branchuid 1 $uid 0 0 $sid]
+		::MSNP2P::SendPacket [::MSN::SBFor $chatid] [::MSNP2P::MakePacket $sid $slpdata 1]
+
+		# And we unset our sid vars
+		::MSNP2P::SessionList unset $sid
+	}
+
+
+	#//////////////////////////////////////////////////////////////////////////////
 	# AcceptFT ( chatid dest branchuid cseq uid sid filename1 )
 	# This function is called when a file transfer is accepted by the user
 	proc AcceptWebcam { chatid dest branchuid cseq uid sid producer} {
@@ -46,6 +82,9 @@ namespace eval ::MSNCAM {
 		setObjOption $sid producer $producer
 		setObjOption $sid inviter 0
 
+		if { $producer } {
+		    setObjOption $sid source 0
+		}
 
 		# Let's make and send a 200 OK Message
 		set slpdata [::MSNP2P::MakeMSNSLP "OK" $dest [::config::getKey login] $branchuid [expr $cseq + 1] $uid 0 0 $sid]
@@ -143,9 +182,9 @@ namespace eval ::MSNCAM {
 		::MSNP2P::SessionList set $sid [list $MsgId -1 -1 -1 -1 -1 -1 -1 -1 -1 ]
 
 
-		set h1 "\x80\xec[binary format s [myRand 0 255]]\x03"
+		set h1 "\x80\xec[binary format c [myRand 0 255]]\x03\x08\x00"
 
-		set recv [ToUnicode "\00receivedViewerData\x00"]
+		set recv [ToUnicode "receivedViewerData\x00"]
 		set h2 [binary format i [string length $recv]]
 
 		set footer "\x00\x00\x00\x04"
@@ -185,6 +224,9 @@ namespace eval ::MSNCAM {
 		setObjOption $sid inviter 1
 		if { $guid == "4BD96FC0-AB17-4425-A14A-439185962DC8" } {
 			setObjOption $sid producer 1
+	
+		    setObjOption $sid source 0
+	
 		} else {
 			setObjOption $sid producer 0
 		}
@@ -388,6 +430,7 @@ namespace eval ::MSNCAM {
 				if { $server } {
 					gets $sock data 
 					if { $data == "recipientid=$rid&sessionid=$session\r" } {
+					    status_log "Received Data on socket $sock sending=$producer - server=$server - state=$state : \n$data\n" red
 						gets $sock  
 						setObjOption $sock state "CONNECTED"
 						fileevent $sock writable "::MSNCAM::WriteToSock $sock"
@@ -399,17 +442,26 @@ namespace eval ::MSNCAM {
 				if { $server } {
 					gets $sock data 
 					status_log "Received Data on socket $sock sending=$producer - server=$server - state=$state : \n$data\n" red
-					if { $data == "recipientrid=$rid&session=$session\r" } {
-						gets $sock  
+
+					if { $data == "connected\r" } {
+					    gets $sock  
+					    setObjOption $sid socket $sock
+					    if { $producer } {
+						setObjOption $sock state "SEND"
+						fileevent $sock writable "::MSNCAM::WriteToSock $sock"
+					    } else {
 						setObjOption $sock state "RECEIVE"
+					    }
 					} else {
 						status_log "ERROR : $data\n" red
 					}
+
 				} else {
 					gets $sock data 
 					status_log "Received Data on socket $sock sending=$producer - server=$server - state=$state : \n$data\n" red
 					if { $data == "connected\r" } {
 						gets $sock  
+					    setObjOption $sid socket $sock
 						puts -nonewline $sock "connected\r\n\r\n"
 						status_log "Sending \"connected\" to the server\n" red
 						if { $producer } {
@@ -437,7 +489,7 @@ namespace eval ::MSNCAM {
 
 			default 
 			{
-				status_log "option not defined... receiving data closing..." red
+				status_log "option $state not defined... receiving data closing... : \n$data\n" red
 				setObjOption $sock state "END"
 				close $sock
 			}
@@ -484,17 +536,11 @@ namespace eval ::MSNCAM {
 			"CONNECTED"
 			{
 				set data "connected\r\n\r\n"
-				setObjOption $sock state "SEND"
 			}
 			"SEND"
 			{
-				
-				if { [set data [GetCamFrame $sid]] == "0" } {
-					setObjOption $sock state "END"
-					fileevent $sock writable ""	
-				} else {
-					fileevent $sock writable "::MSNCAM::WriteToSock $sock"
-				}
+				after 100 "::MSNCAM::GetCamFrame $sid $sock"
+				#fileevent $sock writable "::MSNCAM::WriteToSock $sock"
 			}
 
 		}
@@ -524,34 +570,6 @@ namespace eval ::MSNCAM {
 
 
 	
-	#//////////////////////////////////////////////////////////////////////////////
-	# CancelFT ( chatid sid )
-	# This function is called when a file transfer is canceled by the user
-	proc CancelFT { chatid sid } {
-		set session_data [::MSNP2P::SessionList get $sid]
-		set user_login [lindex $session_data 3]
-		
-		status_log "MSNP2P | $sid -> User canceled FT, sending BYE to chatid : $chatid and SB : [::MSN::SBFor $chatid]\n" red
-		::MSNP2P::SendPacket [::MSN::SBFor $chatid] [::MSNP2P::MakePacket $sid [::MSNP2P::MakeMSNSLP "BYE" $user_login [::config::getKey login] "19A50529-4196-4DE9-A561-D68B0BF1E83F" 0 [lindex $session_data 5] 0 0] 1]
-		::amsn::FTProgress ca $sid [lindex [::MSNP2P::SessionList get $sid] 6]
-
-		# Change sid type to canceledft
-		::MSNP2P::SessionList set $sid [list -1 -1 -1 -1 -1 -1 -1 "ftcanceled" -1 -1]
-	}
-
-	#//////////////////////////////////////////////////////////////////////////////
-	# RejectFT ( chatid sid branchuid uid )
-	# This function is called when a file transfer is rejected/canceled
-	proc RejectFT { chatid sid branchuid uid } {
-		# All we need to do is send a DECLINE
-		set slpdata [::MSNP2P::MakeMSNSLP "DECLINE" [lindex [::MSNP2P::SessionList get $sid] 3] [::config::getKey login] $branchuid 1 $uid 0 0 $sid]
-		::MSNP2P::SendPacket [::MSN::SBFor $chatid] [::MSNP2P::MakePacket $sid $slpdata 1]
-
-		# And we unset our sid vars
-		::MSNP2P::SessionList unset $sid
-	}
-
-
 	proc CreateInvitationXML { sid } {
 		set session [getObjOption $sid session]
 		if {$session == "" } {
@@ -628,7 +646,7 @@ namespace eval ::MSNCAM {
 		set ip_idx 7 
 		set ips [list]
 		while { 1 } {
-			if { $ip_idx == 7 } {
+		    if { $ip_idx == 7 } {
 				set ip [GetXmlEntry $list "tcpexternalip"]
 			} elseif { $ip_idx == 6 } {
 				set ip [GetXmlEntry $list "udpexternalip"]
@@ -652,7 +670,8 @@ namespace eval ::MSNCAM {
 				}
 			}
 
-			incr ip_idx -1
+		
+		    incr ip_idx -1
 		}
 
 		
@@ -846,23 +865,30 @@ namespace eval ::MSNCAM {
 
 		set img [getObjOption $sid image]
 
-		::Webcamsn::Decode $decoder $img $data
+		catch {::Webcamsn::Decode $decoder $img $data}
 		
 
 	}
 
 
-	proc GetCamFrame { sid data } {
+	proc GetCamFrame { sid socket } {
 		if { ! [info exists ::webcamsn_loaded] } { ExtensionLoaded }
 		if { ! $::webcamsn_loaded } { return }
 
-		set window [getObjOption $sid window]
-		set encoder [getObjOption $sid codec]
+		if { ! [info exists ::capture_loaded] } { CaptureLoaded }
+		if { ! $::capture_loaded } { return }
 
-		if { $encoder == "" } {
-			set encoder [::Webcamsn::NewEncoder HIGH]
-			setObjOption $sid codec $encoder
-		}
+
+		set window [getObjOption $sid window]
+		set img [getObjOption $sid image]
+		set encoder [getObjOption $sid codec]
+	    set grabber .grabber
+	    set grab_proc [getObjOption $sid grab_proc]
+
+	    if { $encoder == "" } {
+		set encoder [::Webcamsn::NewEncoder HIGH]
+		setObjOption $sid codec $encoder
+	    }
 
 		if { $window == "" } {
 			set window .webcam_$sid
@@ -875,33 +901,112 @@ namespace eval ::MSNCAM {
 			setObjOption $sid image $img
 		}
 
-		set img [getObjOption $sid image]
+	    if { ![winfo exists $grabber] } {
+			if { [set ::tcl_platform(platform)] == "windows" } {
+				set grabber [tkvideo $grabber]
+				set source [getObjOption $sid source]
+				$grabber configure -source $source
+				$grabber start
+				setObjOption $sid grab_proc "Grab_Windows"
+		
+			} elseif { [set ::tcl_platform(os)] == "Darwin" } {
+				set grabber [seqgrabber $grabber]
+				setObjOption $sid grab_proc "Grab_Mac"
+			} else {
+				return
+			}
+			setObjOption $sid grabber $grabber
+		set grab_proc [getObjOption $sid grab_proc]
+		status_log "grab_proc is $grab_proc - [getObjOption $sid grab_proc]\n" red
+	    }
 
-		set data [::Webcamsn::Encode $encoder $img]
-		if { [catch {set data [::Webcamsn::Encode $encoder $img]} res] } {
-			status_log "Error encoding frame : $res\n"
-			return ""
+	    if { $grab_proc == "" } {
+		if { [set ::tcl_platform(platform)] == "windows" } {
+		    setObjOption $sid grab_proc "Grab_Windows"
+		
+		} elseif { [set ::tcl_platform(os)] == "Darwin" } {
+		    setObjOption $sid grab_proc "Grab_Mac"
 		} else {
-			set header "[binary format ssssi 24 160 120 0 [string length $data]]"
-			set header "$header\x4D\x4C\x32\x30\x00\x00\x00\x00\x00\x00\x00\x00"
+		    return
+		}
+		set grab_proc [getObjOption $sid grab_proc]
+		status_log "grab_proc is $grab_proc - [getObjOption $sid grab_proc]\n" red
+	    }
 
-			set data "${header}${data}"
-		}	
+	    $grab_proc $grabber $socket $encoder $img
 
 	}
+	proc SendFrame { sock encoder img } {
 
+		if { [catch {set data [::Webcamsn::Encode $encoder $img]} res] } {
+			status_log "Error encoding frame : $res\n"
+		    return 
+		} else {
+		    set header "[binary format ssssi 24 [::Webcamsn::GetWidth $encoder] [::Webcamsn::GetHeight $encoder] 0 [string length $data]]"
+		    set header "${header}\x4D\x4C\x32\x30\x00\x00\x00\x00\x00\x00\x00\x00"
+
+			set data "${header}${data}"
+		} 
+		catch {
+		    if { ![eof $sock] && [fconfigure $sock -error] == "" } {
+			puts -nonewline $sock "$data"
+		    }
+		}
+		
+	}
+
+	proc Grab_Windows {grabber socket encoder img} {
+		if { ![catch { $grabber picture $img} res] } {
+			SendFrame $socket $encoder $img
+		} else {
+		    status_log "error grabbing : $res\n" red
+		}
+	    catch {fileevent $socket writable "::MSNCAM::WriteToSock $socket"}
+	}
+
+	proc Grab_Mac { grabber socket encoder img } {
+		$grabber image "::MSNCAM::ImageReady_Mac $socket $encoder" $img
+	    catch {fileevent $socket writable "::MSNCAM::WriteToSock $socket"}
+	}
+
+	proc ImageReady_Mac {socket encoder w img } {
+		SendFrame $socket $encoder $img
+	}
+
+	proc CaptureLoaded { } {
+		if { [info exists ::capture_loaded] && $::capture_loaded } { return 1}
+
+		if { [set ::tcl_platform(platform)] == "windows" } {
+			set extension "tkvideo"
+		} elseif { [set ::tcl_platform(os)] == "Darwin" } {
+			set extension "QuickTimeTcl"
+		} else {
+			set ::capture_loaded 0
+			return
+		}
+
+		if { [catch {package require $extension}] } { 
+			set ::capture_loaded 0
+			return 0	
+		} else {
+			set ::capture_loaded 1
+			return 1
+		}
+
+	}
 	proc ExtensionLoaded { } {
 		if { [info exists ::webcamsn_loaded] && $::webcamsn_loaded } { return 1}
 
 		catch {package require webcamsn}
 
-		foreach lib [info loaded] {
-			if { [lindex $lib 1] == "Webcamsn" } {
-				set ::webcamsn_loaded 1
-				return 1
-			} 
+
+		if { [catch {package require webcamsn}] } { 
+			set ::webcamsn_loaded 0
+			return 0	
+		} else {
+			set ::webcamsn_loaded 1
+			return 1
 		}
-		return 0
 	}
 
 }

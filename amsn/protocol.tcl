@@ -95,7 +95,7 @@ namespace eval ::MSNFT {
    
    proc getFilename { cookie } {
       variable filedata        
-      if {[info exists filedata($cookie)]} {        
+      if {[info exists filedata($cookie)]} {
          return [lindex $filedata($cookie) 0]
       }
       return ""

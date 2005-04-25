@@ -1114,10 +1114,12 @@ proc MakeACK { sid originalsid originalsize originalid originaluid } {
 #	# MakeMSNSLP ( method to from branchuid cseq maxfwds contenttentype [A] [B] [C] [D] [E] [F] [G])
 # This function creates the appropriate MSNSLP packets
 # method :		INVITE, BYE, OK, DECLINE
-# contenttype : 	0 for application/x-msnmsgr-sessionreqbody (Starting a session)
-#			1 for application/x-msnmsgr-transreqbody (Starting transfer)
+# contenttype : 	0 for application/x-msnmsgr-sessionreqbody (Starting a session) or sessionclosebody for a BYE
+#			1 for application/x-msnmsgr-transreqbody (Starting transfer) or sessionclosebody for a BYE and use A 
+#                                                                                                                 as context
 #			2 for application/x-msnmsgr-transrespbody (Starting transfer)
 #                       3 for null (starting webcam)
+#                       
 #
 # If INVITE method is chosen then A, B, C, D and/or E are used dependinf on contenttype
 # for 0 we got : "EUF-GUID", "SessionID", "AppID" and "Context" (E not used)
@@ -1177,6 +1179,9 @@ proc MakeMSNSLP { method to from branchuid cseq uid maxfwds contenttype {A ""} {
 		}
 	} elseif { $method == "DECLINE" } {
 		append body "SessionID: ${A}\r\n"
+	} elseif { $method == "BYE" && $contenttype == 1} {
+		append body "Context: ${A}"
+		
 	}
 	append body "\r\n\x00"
 	
