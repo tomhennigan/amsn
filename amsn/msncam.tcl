@@ -226,9 +226,11 @@ namespace eval ::MSNCAM {
 			setObjOption $sid producer 1
 	
 		    setObjOption $sid source 0
+		    ::amsn::WinWrite $chatid "\nSend request to send webcam\n" green
 	
 		} else {
 			setObjOption $sid producer 0
+			::amsn::WinWrite $chatid "\nSend request to receive webcam\n" green
 		}
 
 		status_log "branchid : [lindex [::MSNP2P::SessionList get $sid] 9]\n"
