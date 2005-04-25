@@ -984,11 +984,24 @@ namespace eval ::MSNCAM {
 	}
 
 	proc Grab_Mac { grabber socket encoder img } {
-		$grabber image "::MSNCAM::ImageReady_Mac" $img
-		::MSNCAM::ImageReady_Mac $socket $encoder $grabber $img
-	    catch {fileevent $socket writable "::MSNCAM::WriteToSock $socket"}
-	}
+		if {[winfo ismapped $grabber]} {
+			$grabber image ImageReady_Mac $img
+			::MSNCAM::ImageReady_Mac $socket $encoder $grabber $img
+	  		catch {fileevent $socket writable "::MSNCAM::WriteToSock $socket"}
+	    } else {
+	    	after 3000 ::MSNCAM::Send_Delay_Mac $grabber $socket $encoder $img
 
+	    }
+	    
+	}
+	
+proc Send_Delay_Mac { grabber socket encoder img } {
+
+$grabber image ImageReady_Mac $img
+#::MSNCAM::ImageReady_Mac $socket $encoder $grabber $img
+catch {fileevent $socket writable "::MSNCAM::WriteToSock $socket"}
+
+}
 	proc ImageReady_Mac {socket encoder w img } {
 		SendFrame $socket $encoder $img
 	}
