@@ -884,7 +884,11 @@ namespace eval ::MSNCAM {
 		set window [getObjOption $sid window]
 		set img [getObjOption $sid image]
 		set encoder [getObjOption $sid codec]
-	    set grabber .grabber
+		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+	   		set grabber .grabber.seq
+	    } else {
+	    	set grabber .grabber
+	    }
 	    set grab_proc [getObjOption $sid grab_proc]
 
 	    if { $encoder == "" } {
@@ -894,11 +898,16 @@ namespace eval ::MSNCAM {
 
 		if { $window == "" } {
 			set window .webcam_$sid
-			toplevel $window
-			set img [image create photo]
-			label $window.l -image $img
-			pack $window.l
-
+			
+			#Don't show the sending frame on Mac OS X (we already have the grabber)
+			if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+				set img [image create photo]
+			} else {
+				set img [image create photo]
+				toplevel $window
+				label $window.l -image $img
+				pack $window.l
+			}
 			setObjOption $sid window $window
 			setObjOption $sid image $img
 		}
@@ -912,7 +921,12 @@ namespace eval ::MSNCAM {
 				setObjOption $sid grab_proc "Grab_Windows"
 		
 			} elseif { [set ::tcl_platform(os)] == "Darwin" } {
+				if { ![winfo exists .grabber] } {
+					toplevel .grabber
+				}
 				set grabber [seqgrabber $grabber]
+				pack $grabber
+				catch {$grabber configure -volume 0}
 				setObjOption $sid grab_proc "Grab_Mac"
 			} else {
 				return
@@ -920,6 +934,7 @@ namespace eval ::MSNCAM {
 			setObjOption $sid grabber $grabber
 		set grab_proc [getObjOption $sid grab_proc]
 		status_log "grab_proc is $grab_proc - [getObjOption $sid grab_proc]\n" red
+		status_log "SID of this connection is $sid\n" red
 	    }
 
 	    if { $grab_proc == "" } {
@@ -935,7 +950,9 @@ namespace eval ::MSNCAM {
 		status_log "grab_proc is $grab_proc - [getObjOption $sid grab_proc]\n" red
 	    }
 
-	    $grab_proc $grabber $socket $encoder $img
+	    if {[catch {$grab_proc $grabber $socket $encoder $img} res]} {
+	    	status_log "Trying to call the grabber but get an error $res\n" red
+	    }
 
 	}
 	proc SendFrame { sock encoder img } {
