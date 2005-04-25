@@ -3387,10 +3387,12 @@ proc cmsn_change_state {recv} {
 	
 	::abook::setVolatileData $user state $substate
 	::abook::setVolatileData $user msnobj $msnobj
-	::abook::setContactData $user displaypicfile [::MSNP2P::GetFilenameFromMSNOBJ $msnobj]
+	set oldPic [::abook::getContactData $user displaypicfile]
+	set newPic [::MSNP2P::GetFilenameFromMSNOBJ $msnobj]
+	::abook::setContactData $user displaypicfile $newPic
 
-	#status_log "old is $oldmsnobj new is $msnobj\n"
-	if { $oldmsnobj != $msnobj} {
+	if { $oldPic != $newPic} {
+		status_log "picture changed for user $user\n" white
 		if { [::config::getKey lazypicretrieval] } {
 			global sb_list
 			foreach sb $sb_list {
