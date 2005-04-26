@@ -319,22 +319,6 @@ namespace eval ::music {
 	}
 
 	#####################################################
-	# ::music::exec_async                               #
-	# ------------------------------------------------- #
-	# Execute the specified path and store the result   #
-	# in actualsong.                                    #
-	# Use with after to make it asynchronous            #
-	#####################################################
-	proc exec_async {path} {
-		if { [catch { exec $path} result ] } {
-			status_log "Error retreiving song : $result"
-		} else {
-			set ::music::actualsong $result
-			# whatever processing goes here
-		}
-	}
-
-	#####################################################
 	# ::music::TreatSongXMMS                            #
 	# ------------------------------------------------- #
 	# Not useful to XMMS because no script to execute   #
@@ -367,7 +351,7 @@ namespace eval ::music {
 		}
 
 		#Read lines
-		while { ![eof $gets] && $tmp != ""} {
+		while { ![eof $gets] } {
 			#The pipe was filled by xmms-info
 			if { $tmp != "" } {
 			set pos [string first ":" $tmp]
