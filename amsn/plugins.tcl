@@ -840,8 +840,8 @@ namespace eval ::plugins {
 			# Grid the frame
 			grid $confwin -column 1 -row 1
 			# Create and grid the buttons
-			button $winconf.save -text [trans save] -command "::plugins::GUI_SaveConfig $winconf $name"
-			button $winconf.cancel -text [trans cancel] -command "::plugins::GUI_CancelConfig $winconf $namespace"
+			button $winconf.save -text [trans save] -command "[list ::plugins::GUI_SaveConfig $winconf $name]"
+			button $winconf.cancel -text [trans cancel] -command "[list ::plugins::GUI_CancelConfig $winconf $namespace]"
 			grid $winconf.save -column 1 -row 2 -sticky e -pady 5 -padx 5
 			grid $winconf.cancel -column 2 -row 2 -sticky e -pady 5 -padx 5
 			moveinscreen $winconf 30
