@@ -198,9 +198,9 @@ namespace eval ::guiContactList {
 			#}
 			bind [winfo parent [winfo parent $clcanvas]] <MouseWheel> {
 				if {%D >= 0} {
-					::guiContactList::scrollCL .contactlist.fr.c up
+					::guiContactList::scrollCL .contactlist.sw.cvs up
 				} else {
-					::guiContactList::scrollCL .contactlist.fr.c down
+					::guiContactList::scrollCL .contactlist.sw.cvs down
 				}
 			}
 
@@ -356,7 +356,7 @@ status_log "event triggered: $eventused with variable: $email"
 				set tag "_$gid"; set tag $email$tag
 				
 				set currentPos [$canvas coords $tag]
-
+status_log "MOVING CONTACT WITH TAG: $tag ;  currentpos: $currentPos  ; curPos: $curPos"
 				$canvas move $tag [expr [lindex $curPos 0] - [lindex $currentPos 0]] [expr [lindex $curPos 1] - [lindex $currentPos 1]]
 
 				set curPos [list [lindex $curPos 0] [expr [lindex $curPos 1] + $nickheightArray("$email")] ]
