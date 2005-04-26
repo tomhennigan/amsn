@@ -491,8 +491,9 @@ namespace eval ::MSNCAM {
 
 			default 
 			{
-				status_log "option $state not defined... receiving data closing... : \n$data\n" red
-				setObjOption $sock state "END"
+#gets $sock data
+status_log "option $state of socket $sock : [getObjOption $sock state] not defined.. receiving data [gets $sock]... closing \n" red
+setObjOption $sock state "END"
 				close $sock
 			}
 
@@ -883,7 +884,7 @@ namespace eval ::MSNCAM {
 
 		set window [getObjOption $sid window]
 		set img [getObjOption $sid image]
-		set encoder [getObjOption $sid codec]
+		set encoder [getObjOption $socket codec]
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 	   		set grabber .grabber.seq
 	    } else {
@@ -893,7 +894,7 @@ namespace eval ::MSNCAM {
 
 	    if { $encoder == "" } {
 		set encoder [::Webcamsn::NewEncoder HIGH]
-		setObjOption $sid codec $encoder
+		setObjOption $socket codec $encoder
 	    }
 
 		if { $window == "" } {
@@ -956,7 +957,10 @@ namespace eval ::MSNCAM {
 
 	}
 	proc SendFrame { sock encoder img } {
-
+		#If the img is not at the right size, don't encode (crash issue..)
+		if { [image width $img] != "320" || [image heigh $img] != "240" } {
+			return
+		}
 		if { [catch {set data [::Webcamsn::Encode $encoder $img]} res] } {
 			status_log "Error encoding frame : $res\n"
 		    return 
@@ -985,24 +989,27 @@ namespace eval ::MSNCAM {
 
 	proc Grab_Mac { grabber socket encoder img } {
 		if {[winfo ismapped $grabber]} {
+			set socker_ [getObjOption $img socket]
+			set encoder_ [getObjOption $img encoder]
+			
+			if { $socker_ == "" || $encoder_ == "" } {
+				setObjOption $img socket $socket
+				setObjOption $img encoder $encoder
+			}
 			$grabber image ImageReady_Mac $img
-			::MSNCAM::ImageReady_Mac $socket $encoder $grabber $img
-	  		catch {fileevent $socket writable "::MSNCAM::WriteToSock $socket"}
-	    } else {
-	    	after 3000 ::MSNCAM::Send_Delay_Mac $grabber $socket $encoder $img
+			::MSNCAM::ImageReady_Mac $grabber $img
+		}
 
-	    }
+		catch {fileevent $socket writable "::MSNCAM::WriteToSock $socket"}
 	    
 	}
 	
-proc Send_Delay_Mac { grabber socket encoder img } {
+	
 
-$grabber image ImageReady_Mac $img
-#::MSNCAM::ImageReady_Mac $socket $encoder $grabber $img
-catch {fileevent $socket writable "::MSNCAM::WriteToSock $socket"}
-
-}
-	proc ImageReady_Mac {socket encoder w img } {
+	proc ImageReady_Mac {w img } {
+		set socket [getObjOption $img socket]
+		set encoder [getObjOption $img encoder]
+		if { $socket == "" || $encoder == "" } { return }
 		SendFrame $socket $encoder $img
 	}
 
