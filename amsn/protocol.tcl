@@ -1491,6 +1491,10 @@ namespace eval ::MSN {
 		#TODO: Call CHAT layer instead of GUI layer
 		set chatid [::MSN::ChatFor $sb]
 		if { $chatid != "" } {
+			if {[::ChatWindow::For $chatid] == 0} {
+				#Chat window not yet created so we make it and signal to the user that a contact has joined the convo
+				::amsn::userJoins $chatid $typer
+			}
 			::amsn::updateTypers $chatid
 		}
 	
@@ -2503,7 +2507,6 @@ namespace eval ::Event {
 		
 					foreach usr_login [$self cget -users] {
 						::MSNP2P::loadUserPic $chatid $usr_login
-						::amsn::userJoins $chatid $usr_login
 					}
 					return 0
 				}
