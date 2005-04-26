@@ -298,6 +298,9 @@ namespace eval ::guiContactList {
 
 
 	proc contactChanged { eventused email } {
+
+	if { [winfo exists .contactlist] } {
+
 		global nicknameArray
 status_log "event triggered: $eventused with variable: $email"
 
@@ -310,6 +313,7 @@ status_log "event triggered: $eventused with variable: $email"
 			::guiContactList::drawContact .contactlist.sw.cvs $element $group
 		}
 		::guiContactList::organiseList .contactlist.sw.cvs
+	  }
 	}
 
 
