@@ -353,7 +353,7 @@ status_log "event triggered: $eventused with variable: $email"
 				#move it to it's place an set the new curPos
 				set email [lindex $element 1]
 				set gid $groupDrawn
-				set tag "_$email"; set tag $gid$tag
+				set tag "_$gid"; set tag $email$tag
 				
 				set currentPos [$canvas coords $tag]
 
@@ -507,7 +507,7 @@ status_log "event triggered: $eventused with variable: $email"
 		set grId $groupID
 
 		# the tag can't be just $email as users can be in more then one group
-		set tag "_$email"; set tag "$grId$tag"
+		set tag "_$grId"; set tag "$email$tag"
 
 		$canvas delete $tag
 
@@ -1202,17 +1202,15 @@ status_log "event triggered: $eventused with variable: $email"
 
 	proc getEmailFromTag { tag } {
 		set pos [string first _ $tag]
-		set email [string range $tag [expr $pos + 1] end]
+		set email [string range $tag 0 [expr $pos -1]]
 	return $email
 	}
 
 	proc getGrIdFromTag { tag } {
 		set pos [string first _ $tag]
-		set grId [string range $tag 0 [expr $pos -1]]
+		set grId [string range $tag [expr $pos + 1] end]
 	return $grId
 	}
-
-
 
 }
 
