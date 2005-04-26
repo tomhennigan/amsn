@@ -15,7 +15,94 @@
 
 
 namespace eval ::guiContactList {
+	namespace export drawCL
+	
+	#//////////////////////////////////////////////////////////////////////////////
+	# guiContactList (action [id] [varlist])
+	# Data Structure for Contact List elements, linked list style :
+	# 1 - Element Type		(type) Can be GROUP or CONTACT
+	# 4 - Next Element		(nextid)
+	# 5 - Previous Element		(previousid)
+	#
+	# action can be :
+	#	get : This method returns the wanted info, 0 if non existent
+	#	set : This method sets the variables for the given id, takes 2 arguments (variableid newvalue).
+	#	insert : Adds new element, if id = -1, adds at end of list, otherwise adds right after element with given id.
+	#	unset : This method removes the given id variables
+	#	last : Return id of last element
+	#	first : Return id of first element
+	#	
+	proc guiContactList { action { id "" } { varlist "-1" } } {
+		variable type
+		variable nextId
+		variable previousId
 
+		switch $action {
+			get {
+				if { [info exists type($id)] } {
+					switch $varlist {
+						type {
+							return $type($id)
+						}
+						nextId {
+							return $nextId($id)
+						}
+						previousId {
+							return $previousId($id)
+						}
+					}
+					# found, return values
+				} else {
+					# id not found, return 0
+					return 0
+				}
+			}
+
+			set {
+				# This overwrites previous vars
+				switch [lindex $varlist 0] {
+					type {
+						set type($id) [lindex $varlist 1]
+					} 
+					nextId {
+						set nextId($id) [lindex $varlist 1]
+					} 
+					previousId {
+						set previousId($id) [lindex $varlist 1]
+					} 
+				}
+			}
+
+			insert {
+				if { $id == -1 } {
+					
+				}
+			}
+
+			unset {
+				# Lets connect previous and next together
+				set nextId($previousId($id)) $nextId($id)
+				set previousId($nextId($id)) $previousId($id)
+				
+				# Now remove it's items
+				if { [info exists type($id)] } {
+					unset type($id)
+				} else {
+					status_log "Trying to unset type($id) but do not exist\n" red
+				}
+				if { [info exists nextId($id)] } {
+					unset nextId($id)
+				} else {
+					status_log "Trying to unset nextId($id) but dosent exist\n" red
+				}
+				if { [info exists previousId($id)] } {
+					unset previousId($id)
+				} else {
+					status_log "Trying to unset previousId($id) but dosent exist\n" red
+				}
+			}
+		}
+	}
 
 
 	#/////////////////////////////////////////////////////////////////////
