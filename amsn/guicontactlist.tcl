@@ -7,7 +7,9 @@
 # * background doesn't move when using the scrollbar 
 #        -> needs a FIX in ScrolledWindow code to have a command feeded run when scrolling
 # * animated smileys on CL -> I hope this is possible easily with TkCxImage?
-# * 
+# * good beginning size for window on first draw
+# *
+# *
 # * ... cfr. "TODO:" msgs in code
 
 
@@ -135,7 +137,7 @@ namespace eval ::guiContactList {
 		#create the window
 		toplevel $window
 		wm title $window "[trans title] - [::config::getKey login]"
-
+		wm geometry $window 1000x1000
 		#set up the 'ScrolledWindow' container for the canvas
 		ScrolledWindow $clcontainer -auto vertical -scrollbar vertical -bg white -bd 0
 #TODO:	* ScrolledWindow should be feeded a command run on scroll (reset the image)
@@ -152,7 +154,6 @@ namespace eval ::guiContactList {
 		$clcontainer setwidget $clcanvas
 		#pack the scrolledwindow in the window
 		pack $clcontainer
-
 		#parse the nicknames for smiley/newline substitution
 		createNicknameArray
 
@@ -225,6 +226,9 @@ namespace eval ::guiContactList {
 		}
 
 		bind $clcanvas <Configure> "::guiContactList::drawList $clcanvas"
+
+		#set the size
+		wm geometry $window 300x600
 	}
 
 
