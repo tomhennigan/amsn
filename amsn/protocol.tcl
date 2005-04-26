@@ -919,6 +919,10 @@ namespace eval ::MSN {
 		set automessage "-1"
 		
 		cmsn_draw_offline
+
+		#an event to let the GUI know we are actually logged out now
+		::Event::fireEvent loggedOut protocol
+
 		#Alert dock of status change
 		#      send_dock "FLN"
 		send_dock "STATUS" "FLN"
@@ -934,12 +938,15 @@ namespace eval ::MSN {
 			::abook::setPersonal nick [urldecode [lindex $recv 4]]
 			send_dock STATUS [::MSN::myStatusIs]
 			cmsn_draw_online 1
+			#an event used by guicontactlist to know when we changed our nick
+			::Event::fireEvent myNickChange protocol
 		} else {
 			#This is another one nick change
 			::abook::setContactData [lindex $recv 3] nick [urldecode [lindex $recv 4]]
-
+			#an event used by guicontactlist to know when a contact changed nick
+			::Event::fireEvent contactNickChange protocol [lindex $recv 3]
 		}
-	
+
 	}
 
 	#Handler when we're setting our nick, so we check if the nick is allowed or not
@@ -992,7 +999,7 @@ namespace eval ::MSN {
 		} else {
 			::MSN::WriteSB ns "CHG" "$new_status $clientid"
 		}
-	
+
 		#Reset automatic status change to 0
 		set autostatuschange 0
 		
@@ -1021,11 +1028,17 @@ namespace eval ::MSN {
 	proc blockUser { userlogin username} {
 	::MSN::WriteSB ns REM "AL $userlogin"
 	::MSN::WriteSB ns ADD "BL $userlogin $username"
+
+	#an event to let the GUI know a user is blocked
+	after 500 ::Event::fireEvent blockedContact protocol $userlogin
+
 	}
 
 	proc unblockUser { userlogin username} {
 		::MSN::WriteSB ns REM "BL $userlogin"
 		::MSN::WriteSB ns ADD "AL $userlogin $username"
+	#an event to let the GUI know a user is unblocked
+	after 500 ::Event::fireEvent unblockedContact protocol $userlogin
 	}
 
 	# Move user from one group to another group
@@ -1036,6 +1049,10 @@ namespace eval ::MSN {
 		set atrid [::MSN::WriteSB ns "ADD" "FL $passport [urlencode $userName] $newGid"]
 		set rtrid [::MSN::WriteSB ns "REM" "FL $passport $oldGid"]
 
+		#an event to let the GUI know a user is moved between 2 groups
+		::Event::fireEvent movedContact protocol $passport $oldGid $newGid
+
+
 	}
 
 	#Copy user from one group to another
@@ -1044,6 +1061,8 @@ namespace eval ::MSN {
 		set userName $passport
 		}
 		set atrid [::MSN::WriteSB ns "ADD" "FL $passport [urlencode $userName] $newGid"]
+		#an event to let the GUI know a user is copied/added to a group
+		::Event::fireEvent addedUser protocol $passport $newGid
 	}
 
 
@@ -1058,6 +1077,8 @@ namespace eval ::MSN {
 			set username $userlogin
 		}
 		::MSN::WriteSB ns "ADD" "FL $userlogin $username $gid" "::MSN::ADDHandler"
+		#an event to let the GUI know a user is copied/added to a group
+		::Event::fireEvent addedUser protocol $passport $newGid
 	}
    
 	
@@ -1086,6 +1107,8 @@ namespace eval ::MSN {
 		} else {
 			::MSN::WriteSB ns REM "FL $userlogin $grId"
 		}
+		#an event to let the GUI know a user is removed from a group / the list
+		::Event::fireEvent deletedUser protocol $userlogin $grId
 	}
 
 	##################################################
@@ -3213,7 +3236,11 @@ proc cmsn_change_state {recv} {
 		set substate "FLN"
 		set evpar(substate) substate
 		set msnobj [::abook::getVolatileData $user msnobj ""]
+	#an event used by guicontactlist to know when a contact changed state
+	after 500 ::Event::fireEvent contactStateChange protocol $user
+
 		::plugins::PostEvent ChangeState evpar
+
 	} elseif {[lindex $recv 0] == "ILN"} {
 		#Initial status when we log in
 		set user [lindex $recv 3]
@@ -3235,6 +3262,10 @@ proc cmsn_change_state {recv} {
 		set msnobj [urldecode [lindex $recv 5]]
 		#Add clientID to abook
 		add_Clientid $user [lindex $recv 4]
+
+	#an event used by guicontactlist to know when a contact changed state
+	after 500 ::Event::fireEvent contactStateChange protocol $user
+
 		#Send plugin's postevent
 		::plugins::PostEvent ChangeState evpar
 	
@@ -3254,6 +3285,10 @@ proc cmsn_change_state {recv} {
 		#in the server list too
 		::abook::setContactData $user nick $user_name
 		::MSN::changeName $user [encoding convertto utf-8 $encoded_user_name] 1
+
+	#an event used by guicontactlist to know when we changed our nick
+	::Event::fireEvent contactNickChange protocol $user
+
 	}
 		
 	set custom_user_name [::abook::getDisplayNick $user]

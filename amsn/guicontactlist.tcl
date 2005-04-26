@@ -161,8 +161,11 @@ namespace eval ::guiContactList {
 
 		#register events
 #TODO:	* here we should register all needed events
-	 #::Event::registerEvent contactNickChange all ::guiContactList::contactChanged
-	 #::Event::registerEvent contactStateChange all ::guiContactList::contactChanged
+	 ::Event::registerEvent contactNickChange all ::guiContactList::contactChanged
+	 ::Event::registerEvent contactStateChange all ::guiContactList::contactChanged
+	 ::Event::registerEvent blockedContact all ::guiContactList::contactChanged
+	 ::Event::registerEvent unblockedContact all ::guiContactList::contactChanged
+
 
 
 #TODO:	* create the bindings for scrolling (using procs "IsMac" etc)
@@ -177,7 +180,7 @@ namespace eval ::guiContactList {
 
 		#MAC classic/osx and windows
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-#TODO: fox mac bindings -> Jerome's job ;)
+#TODO: fix mac bindings -> Jerome's job ;)
 		
 			bind $canvas <MouseWheel> {
 				%W yview scroll [expr {- (%D)}] units ;
@@ -189,7 +192,7 @@ namespace eval ::guiContactList {
 			}
 
 		} elseif {$tcl_platform(platform) == "windows"} {
-#TODO: fox mac bindings -> Arieh's job ;)
+#TODO: fix win bindings -> Arieh's job ;)
 			#bind $clcanvas <MouseWheel> {
 			#	::guiContactList::scrollCL $clcanvas [expr {- (%D)}]
 			#}
@@ -202,9 +205,9 @@ namespace eval ::guiContactList {
 			}
 
 		} else {
+			#we're on X11 ! (I suppose ;))
 			bind $clcanvas <ButtonPress-5> "::guiContactList::scrollCL $clcanvas down"		
 			bind $clcanvas <ButtonPress-4> "::guiContactList::scrollCL $clcanvas up"
-#TODO: remove implicit use ..
 			bind [winfo parent $clcanvas].vscroll <ButtonPress-5> "::guiContactList::scrollCL $clcanvas down"
 			bind [winfo parent $clcanvas].vscroll <ButtonPress-4> "::guiContactList::scrollCL $clcanvas up"
 		}
@@ -290,11 +293,17 @@ namespace eval ::guiContactList {
 	}
 
 
-	proc contactChanged { contactNickChanged email } {
-status_log "event triggered contactChanged : $email"
+	proc contactChanged { eventused email } {
+		global nicknameArray
+status_log "event triggered: $eventused with variable: $email"
+
+		set usernick "[::abook::getDisplayNick $email]"
+		set nicknameArray("$email") "[::smiley::parseMessageToList $usernick 1]"
+
 		set groupslist [list [getGroupId $email]]
 		foreach group $groupslist {
-			drawContact .contactlist.sw.cvs [list "C" $email]  $group
+			set element [list "C" $email]
+			::guiContactList::drawContact .contactlist.sw.cvs $element $group
 		}
 		::guiContactList::organiseList .contactlist.sw.cvs
 	}
@@ -510,11 +519,18 @@ status_log "event triggered contactChanged : $email"
 			set nickcolour [::MSN::stateToColor $state_code]
 		}
 
-		if { [::abook::getVolatileData $email MOB] == "Y" && $state_code == "FLN"} {
+
+		if { [::MSN::userIsBlocked $email] } {
+			set img [::skin::loadPixmap blocked]
+		} elseif { [::abook::getVolatileData $email MOB] == "Y" && $state_code == "FLN"} {
 			set img [::skin::loadPixmap mobile]
 		} else {
 			set img [::skin::loadPixmap [::MSN::stateToImage $state_code]]
 		}
+
+
+
+
 #TODO:	* hovers for the status-icons
 #	* skinsetting to have buddypictures in their place (this is default in MSN7!)
 #	   with a pixmap border and also status-emblem overlay in bottom right corner		

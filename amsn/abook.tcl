@@ -1239,6 +1239,10 @@ namespace eval ::abookGui {
 		::abook::setContactData $email customfnick [$nbIdent.customfnick.ent get]
 		::abook::setContactData $email cust_p4c_name [$nbIdent.ycustomfnick.ent get]
 		::abook::setContactData $email customcolor [set colorval_$email]
+
+		#an event used by guicontactlist to know when a nick changed
+		after 500 ::Event::fireEvent contactNickChange abook $email
+
 		
 		#Store custom notification options
 		::abook::setContactData $email notifyonline [set ::notifyonline($email)]
