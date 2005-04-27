@@ -1160,7 +1160,7 @@ proc stats { } {
 	toplevel $w
 	
 	wm title $w "[trans stats]"
-	wm geometry $w 300x300
+	wm geometry $w 300x390
 		
 	set months [::log::getAllDates]
 	
@@ -1251,6 +1251,7 @@ proc stats_select { id wname month} {
 	}
 	
 	$w.select.list configure -editable false -command "::log::stats_select $id"
+	$w.list.sf yview moveto 0
 	
 	
 }
