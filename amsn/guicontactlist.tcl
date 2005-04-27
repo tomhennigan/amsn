@@ -7,7 +7,7 @@
 # * background doesn't move when using the scrollbar 
 #        -> needs a FIX in ScrolledWindow code to have a command feeded run when scrolling
 # * animated smileys on CL -> I hope this is possible easily with TkCxImage?
-# * good beginning size for window on first draw
+# * events when the groupview option is changed to redraw the whole list
 # *
 # *
 # * ... cfr. "TODO:" msgs in code
@@ -225,6 +225,7 @@ namespace eval ::guiContactList {
 			moveinscreen .contactlist 30
 		}
 
+
 		bind $clcanvas <Configure> "::guiContactList::drawList $clcanvas"
 
 		#set the size
@@ -364,7 +365,13 @@ status_log "event triggered: $eventused with variable: $email"
 				set tag "_$gid"; set tag $email$tag
 				
 				set currentPos [$canvas coords $tag]
-status_log "MOVING CONTACT WITH TAG: $tag ;  currentpos: $currentPos  ; curPos: $curPos"
+#status_log "MOVING CONTACT WITH TAG: $tag ;  currentpos: $currentPos  ; curPos: $curPos"
+				if { $currentPos == ""} {
+
+			status_log "WARNING: contact NOT moved: $email"
+					return
+				}
+
 				$canvas move $tag [expr [lindex $curPos 0] - [lindex $currentPos 0]] [expr [lindex $curPos 1] - [lindex $currentPos 1]]
 
 				set curPos [list [lindex $curPos 0] [expr [lindex $curPos 1] + $nickheightArray("$email")] ]
@@ -377,6 +384,12 @@ status_log "MOVING CONTACT WITH TAG: $tag ;  currentpos: $currentPos  ; curPos: 
 
 				set tag "gid_"; set tag $tag$gid
 				set currentPos [$canvas coords $tag]
+
+				if { $currentPos == ""} {
+			status_log "WARNING: group NOT moved: $gid"
+					return
+				}
+
 				$canvas move $tag [expr [lindex $curPos 0] - [lindex $currentPos 0]] [expr [lindex $curPos 1] - [lindex $currentPos 1]]
 
 				set curPos [list [lindex $curPos 0] [expr [lindex $curPos 1] + 20] ]
