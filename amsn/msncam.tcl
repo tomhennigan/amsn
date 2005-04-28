@@ -929,6 +929,20 @@ setObjOption $sock state "END"
 				pack $grabber
 				catch {$grabber configure -volume 0}
 				setObjOption $sid grab_proc "Grab_Mac"
+
+			} elseif { [set ::tcl_platform(os)] == "Linux" } {
+				toplevel $grabber
+
+				wm withdraw $grabber
+				#status_log "Source : [getObjOption $sid source]"
+				::Capture::Init "/dev/video"
+				scale $window.b -from 0 -to 65535 -resolution 1 -showvalue 1 -label "B" -command "::Capture::SetBrightness" -orient horizontal
+				scale $window.c -from 0 -to 65535 -resolution 1 -showvalue 1 -label "C" -command "::Capture::SetContrast" -orient horizontal
+				$window.b set 49500
+				$window.c set 39000
+				pack $window.b -expand true -fill x
+				pack $window.c -expand true -fill x
+				setObjOption $sid grab_proc "Grab_Linux"
 			} else {
 				return
 			}
@@ -944,6 +958,10 @@ setObjOption $sock state "END"
 		
 		} elseif { [set ::tcl_platform(os)] == "Darwin" } {
 		    setObjOption $sid grab_proc "Grab_Mac"
+
+		} elseif { [set ::tcl_platform(os)] == "Linux" } {
+		    setObjOption $sid grab_proc "Grab_Linux"
+
 		} else {
 		    return
 		}
@@ -987,6 +1005,15 @@ setObjOption $sock state "END"
 	    catch {fileevent $socket writable "::MSNCAM::WriteToSock $socket"}
 	}
 
+	proc Grab_Linux {grabber socket encoder img} {
+		if { ![catch { ::Capture::Grab $img} res] } {
+			SendFrame $socket $encoder $img
+		} else {
+		    status_log "error grabbing : $res\n" red
+		}
+	    catch {fileevent $socket writable "::MSNCAM::WriteToSock $socket"}
+	}
+
 	proc Grab_Mac { grabber socket encoder img } {
 		if {[winfo ismapped $grabber]} {
 			set socker_ [getObjOption $img socket]
@@ -1020,6 +1047,8 @@ setObjOption $sock state "END"
 			set extension "tkvideo"
 		} elseif { [set ::tcl_platform(os)] == "Darwin" } {
 			set extension "QuickTimeTcl"
+		} elseif { [set ::tcl_platform(os)] == "Linux" } {
+			set extension "capture"
 		} else {
 			set ::capture_loaded 0
 			return
