@@ -1,4 +1,4 @@
-/*	
+/*
 		File : webcamsn.h
 
 		Description : Header file for the webcamsn extension for tk. A wrapper for libmimdec
@@ -59,7 +59,7 @@ extern "C"
 
 typedef unsigned char  BYTE;
 
-#define SIZE (3* 320 * 240)
+//#define SIZE (3* 320 * 240)
 
 
 // External functions
@@ -70,13 +70,24 @@ EXTERN int Capture_SafeInit _ANSI_ARGS_((Tcl_Interp *interp));
 EXTERN int Capture_Initialize _ANSI_ARGS_((ClientData clientData,
 								Tcl_Interp *interp,
 								int objc,
-								Tcl_Obj *CONST objv[])); 
+								Tcl_Obj *CONST objv[]));
 
 EXTERN int Capture_Grab _ANSI_ARGS_((ClientData clientData,
 								Tcl_Interp *interp,
 								int objc,
-								Tcl_Obj *CONST objv[])); 
+								Tcl_Obj *CONST objv[]));
 
+EXTERN int Capture_SContrast _ANSI_ARGS_((ClientData clientData,
+								Tcl_Interp *interp,
+								int objc,
+								Tcl_Obj *CONST objv[]));
+
+EXTERN int Capture_SBrightness _ANSI_ARGS_((ClientData clientData,
+								Tcl_Interp *interp,
+								int objc,
+								Tcl_Obj *CONST objv[]));
+
+EXTERN int Capture_DeInitialize _ANSI_ARGS_((ClientData clientData));
 
 # undef TCL_STORAGE_CLASS
 # define TCL_STORAGE_CLASS DLLIMPORT

@@ -3,6 +3,8 @@
 static int fvideo;
 static struct video_mbuf       mb;
 static char *mmbuf;
+static struct video_window     vw;
+static int bright, cont, hue, colour;
 
 int Capture_Initialize _ANSI_ARGS_((ClientData clientData,
 			      Tcl_Interp *interp,
@@ -12,18 +14,22 @@ int Capture_Initialize _ANSI_ARGS_((ClientData clientData,
 
   char * dev = NULL;
 
-   
+
   struct video_capability vcap;
   struct video_channel    vc;
   struct video_picture    vp;
-  int bright = 42767, cont = 22767, hue = 32767, colour = 44767;
   int i;
+
+  bright = 42767;
+  cont = 22767;
+  hue = 32767;
+  colour = 44767;
 
 
   if( objc != 2) {
     Tcl_AppendResult (interp, "Wrong number of args.\nShould be \"::Capture::Init device\"" , (char *) NULL);
     return TCL_ERROR;
-  } 
+  }
 
   dev = Tcl_GetStringFromObj(objv[1], NULL);
 
@@ -35,10 +41,10 @@ int Capture_Initialize _ANSI_ARGS_((ClientData clientData,
   if (ioctl(fvideo, VIDIOCGCAP, &vcap) < 0) {
     perror("VIDIOCGCAP");
     exit(1);
-  } 
+  }
 
 
-    fprintf(stderr,"Video Capture Device Name : %s\n",vcap.name);
+    /*fprintf(stderr,"Video Capture Device Name : %s\n",vcap.name);
     fprintf(stderr,"%d < width < %d : %d < height < %d\n",
 	    vcap.minwidth, vcap.maxwidth, vcap.minheight, vcap.maxheight);
     if (vcap.type & VID_TYPE_CAPTURE) fprintf(stderr, "Can capture\n");
@@ -50,7 +56,7 @@ int Capture_Initialize _ANSI_ARGS_((ClientData clientData,
     if (vcap.type & VID_TYPE_FRAMERAM) fprintf(stderr, "Overwrites frame buffer\n");
     if (vcap.type & VID_TYPE_SCALES) fprintf(stderr, "Image scaling\n");
     if (vcap.type & VID_TYPE_MONOCHROME) fprintf(stderr, "Grey scale only\n");
-    if (vcap.type & VID_TYPE_SUBCAPTURE) fprintf(stderr, "Can subcapture\n");
+    if (vcap.type & VID_TYPE_SUBCAPTURE) fprintf(stderr, "Can subcapture\n");*/
 
     for(i=0; i<vcap.channels; i++) {
       vc.channel = i;
@@ -58,7 +64,7 @@ int Capture_Initialize _ANSI_ARGS_((ClientData clientData,
 	perror("VIDIOCGCHAN");
 	exit(1);
       }
-      fprintf(stderr,"Video Source (%d) Name : %s\n",i, vc.name);
+      /*fprintf(stderr,"Video Source (%d) Name : %s\n",i, vc.name);
       fprintf(stderr, "channel %d: %s ", vc.channel, vc.name);
       fprintf(stderr, "%d tuners, has ", vc.tuners);
       if (vc.flags & VIDEO_VC_TUNER) fprintf(stderr, "tuner(s) ");
@@ -67,15 +73,15 @@ int Capture_Initialize _ANSI_ARGS_((ClientData clientData,
       fprintf(stderr, "\ntype: ");
       if (vc.type & VIDEO_TYPE_TV) fprintf(stderr, "TV ");
       if (vc.type & VIDEO_TYPE_CAMERA) fprintf(stderr, "CAMERA ");
-      fprintf(stderr, "norm: %d\n", vc.norm);
+      fprintf(stderr, "norm: %d\n", vc.norm);*/
     }
     if(ioctl(fvideo, VIDIOCGPICT, &vp)<0){
       perror("VIDIOCGPICT");
       exit;
     }
-    fprintf(stderr, "picture: brightness %d hue %d colour %d\n",
+    /*fprintf(stderr, "picture: brightness %d hue %d colour %d\n",
 	    vp.brightness, vp.hue, vp.colour);
-    fprintf(stderr, "contrast %d whiteness %d depth %d\n", 
+    fprintf(stderr, "contrast %d whiteness %d depth %d\n",
 	    vp.contrast, vp.whiteness, vp.depth);
     fprintf(stderr, "palettes: ");
     if (vp.palette & VIDEO_PALETTE_GREY) fprintf(stderr, "GREY ");
@@ -92,7 +98,7 @@ int Capture_Initialize _ANSI_ARGS_((ClientData clientData,
     if (vp.palette & VIDEO_PALETTE_YUV411P) fprintf(stderr, "YUV411P ");
     if (vp.palette & VIDEO_PALETTE_YUV420P) fprintf(stderr, "YUV420P ");
     if (vp.palette & VIDEO_PALETTE_YUV422P) fprintf(stderr, "YUV422P ");
-    fprintf(stderr, "\n"); 
+    fprintf(stderr, "\n");*/
 
 
   vc.channel = 0;
@@ -103,6 +109,14 @@ int Capture_Initialize _ANSI_ARGS_((ClientData clientData,
     return TCL_ERROR;
   }
 
+  if(ioctl(fvideo, VIDIOCGWIN, &vw)<0){
+    perror("VIDIOCGWIN");
+    return TCL_ERROR;
+  }
+
+  //fprintf(stderr, "window: x %d y %d w %d h %d\n",vw.x,vw.y,vw.width,vw.height);
+  //fprintf(stderr, "window: flags %d chromakey %d\n",vw.flags,vw.chromakey);
+
   /* set default picture parameters */
   vp.depth = 24;
 
@@ -112,10 +126,10 @@ int Capture_Initialize _ANSI_ARGS_((ClientData clientData,
   vp.colour = colour;
 
   vp.palette = VIDEO_PALETTE_RGB24;
-  //if (ioctl(fvideo, VIDIOCSPICT, &vp)) {
-  //  perror("set picture");
-  //  return TCL_ERROR;
-  // }
+  if (ioctl(fvideo, VIDIOCSPICT, &vp)) {
+    perror("set picture");
+    return TCL_ERROR;
+  }
 
   if (ioctl(fvideo, VIDIOCGMBUF, &mb)) {
     perror("get mbuf");
@@ -132,6 +146,15 @@ int Capture_Initialize _ANSI_ARGS_((ClientData clientData,
   return TCL_OK;
 }
 
+int Capture_DeInitialize _ANSI_ARGS_((ClientData clientData))
+{
+  munmap(mmbuf,mb.size);
+  mmbuf=(char *) -1;
+  close(fvideo);
+  fvideo=0;
+  return TCL_OK;
+}
+
 int Capture_Grab _ANSI_ARGS_((ClientData clientData,
 			      Tcl_Interp *interp,
 			      int objc,
@@ -139,20 +162,20 @@ int Capture_Grab _ANSI_ARGS_((ClientData clientData,
 {
   char * image_name = NULL;
   Tk_PhotoHandle Photo;
-  
+
   struct video_mmap       mm;
   int i, j, x;
   int zero = 0, one = 1;
   BYTE * image_data = NULL;
   mm.frame  = 0;
-  mm.height = 240;
-  mm.width  = 320;
+  mm.height = vw.height; //240;
+  mm.width  = vw.width; //320;
   mm.format = VIDEO_PALETTE_RGB24;
 
   if( objc != 2) {
     Tcl_AppendResult (interp, "Wrong number of args.\nShould be \"::Capture::Grab image_name\"" , (char *) NULL);
     return TCL_ERROR;
-  } 
+  }
 
   image_name = Tcl_GetStringFromObj(objv[1], NULL);
 
@@ -172,25 +195,29 @@ int Capture_Grab _ANSI_ARGS_((ClientData clientData,
     return TCL_ERROR;
   }
 
-  image_data = (BYTE *) malloc(SIZE);
+  image_data = (BYTE *) malloc(mm.width*mm.height*3);
 
   //fprintf(stderr, "save %d bytes @ %p -> %p\n", msize, mmbuf, image_data);
-  memcpy(image_data, mmbuf+mb.offsets[0], SIZE);
+  if((int) mmbuf<0){
+  	Tcl_AppendResult(interp, "You don't call Init", NULL);
+  	return TCL_ERROR;
+  }
+  memcpy(image_data, mmbuf+mb.offsets[0], mm.width*mm.height*3);
 
-  
+
   Tk_PhotoBlank(Photo);
-  
+
 #if TK_MINOR_VERSION == 3
   Tk_PhotoSetSize(Photo, mm.width, mm.height);
-#endif 
+#endif
 #if TK_MINOR_VERSION == 4
   Tk_PhotoSetSize(Photo, mm.width, mm.height);
-#endif 
+#endif
 #if TK_MINOR_VERSION == 5
   Tk_PhotoSetSize(interp, Photo, mm.width, mm.height);
 #endif
-  
-  
+
+
   Tk_PhotoImageBlock block = {
     image_data,		// pixel ptr
     mm.width,
@@ -199,29 +226,102 @@ int Capture_Grab _ANSI_ARGS_((ClientData clientData,
     3,			// pixel size : size in bytes of one pixel .. 4 = RGBA
   };
 
-  block.offset[0] = 0;
+  block.offset[0] = 2;
   block.offset[1] = 1;
-  block.offset[2] = 2;
-  
+  block.offset[2] = 0;
+
 #if TK_MINOR_VERSION == 3
   Tk_PhotoPutBlock(Photo, &block, 0, 0, mm.width, mm.height);
-#endif 
+#endif
 #if TK_MINOR_VERSION == 4
   Tk_PhotoPutBlock(Photo, &block, 0, 0, mm.width, mm.height, TK_PHOTO_COMPOSITE_OVERLAY);
-#endif 
+#endif
 #if TK_MINOR_VERSION == 5
   Tk_PhotoPutBlock(interp, Photo, &block, 0, 0, mm.width, mm.height, TK_PHOTO_COMPOSITE_OVERLAY);
 #endif
 
   free(image_data);
 
+#if TK_MINOR_VERSION == 3
+  Tk_PhotoSetSize(Photo, 320, 240);
+#endif
+#if TK_MINOR_VERSION == 4
+  Tk_PhotoSetSize(Photo, 320, 240);
+#endif
+#if TK_MINOR_VERSION == 5
+  Tk_PhotoSetSize(interp, Photo, 320, 240);
+#endif
+
   return TCL_OK;
 }
 
+int Capture_SBrightness _ANSI_ARGS_((ClientData clientData,
+			      Tcl_Interp *interp,
+			      int objc,
+			      Tcl_Obj *CONST objv[]))
+{
+  struct video_picture    vp;
+  int brightness=0;
 
+  if( objc != 2) {
+    Tcl_AppendResult (interp, "Wrong number of args.\nShould be \"::Capture::SetBrightness bright\"" , (char *) NULL);
+    return TCL_ERROR;
+  }
+  if(Tcl_GetIntFromObj(interp, objv[1], &brightness)==TCL_ERROR) return TCL_ERROR;
+  if (brightness>65535) return TCL_ERROR;
+  bright=brightness;
+
+  vp.depth = 24;
+
+  vp.brightness = bright;
+  vp.contrast = cont;
+  vp.hue = hue;
+  vp.colour = colour;
+
+  vp.palette = VIDEO_PALETTE_RGB24;
+  if (ioctl(fvideo, VIDIOCSPICT, &vp)) {
+    perror("set picture");
+    return TCL_ERROR;
+  }
+
+  return TCL_OK;
+
+}
+
+int Capture_SContrast _ANSI_ARGS_((ClientData clientData,
+			      Tcl_Interp *interp,
+			      int objc,
+			      Tcl_Obj *CONST objv[]))
+{
+  struct video_picture    vp;
+  int contrast=0;
+
+  if( objc != 2) {
+    Tcl_AppendResult (interp, "Wrong number of args.\nShould be \"::Capture::SetContrast contrast\"" , (char *) NULL);
+    return TCL_ERROR;
+  }
+  if(Tcl_GetIntFromObj(interp, objv[1], &contrast)==TCL_ERROR) return TCL_ERROR;
+  if (contrast>65535) return TCL_ERROR;
+  cont=contrast;
+
+  vp.depth = 24;
+
+  vp.brightness = bright;
+  vp.contrast = cont;
+  vp.hue = hue;
+  vp.colour = colour;
+
+  vp.palette = VIDEO_PALETTE_RGB24;
+  if (ioctl(fvideo, VIDIOCSPICT, &vp)) {
+    perror("set picture");
+    return TCL_ERROR;
+  }
+
+  return TCL_OK;
+
+}
 
 int Capture_Init (Tcl_Interp *interp ) {
-	
 
   //Check Tcl version is 8.3 or higher
   if (Tcl_InitStubs(interp, "8.3", 0) == NULL) {
@@ -234,11 +334,15 @@ int Capture_Init (Tcl_Interp *interp ) {
   }
 
 
- 
+
   Tcl_CreateObjCommand(interp, "::Capture::Init", Capture_Initialize,
-		       (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL); 
+		       (ClientData)NULL, (Tcl_CmdDeleteProc *)Capture_DeInitialize);
   Tcl_CreateObjCommand(interp, "::Capture::Grab", Capture_Grab,
-		       (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL); 
+		       (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
+  Tcl_CreateObjCommand(interp, "::Capture::SetBrightness", Capture_SBrightness,
+		       (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
+  Tcl_CreateObjCommand(interp, "::Capture::SetContrast", Capture_SContrast,
+		       (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
 
 
   // end of Initialisation
@@ -246,5 +350,6 @@ int Capture_Init (Tcl_Interp *interp ) {
 }
 
 int Capture_SafeInit (Tcl_Interp *interp ) {
+
   return Capture_Init(interp);
 }
