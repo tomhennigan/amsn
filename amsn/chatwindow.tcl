@@ -1534,7 +1534,6 @@ namespace eval ::ChatWindow {
 		set win [string first "." $paned $win]
 		incr win -1
 		set win [string range $paned 0 $win]
-		status_log "window is : $win\n"
 		if { [lindex [[::ChatWindow::GetOutText $win] yview] 1] == 1.0 } {
 			set scrolling 1
 		} else {
@@ -1934,6 +1933,10 @@ namespace eval ::ChatWindow {
 		bind $showpic <<Button1>> "::amsn::ToggleShowPicture $w; ::amsn::ShowOrHidePicture $w"
 		bind $pictureinner <Button1-ButtonRelease> "::amsn::ShowPicMenu $w %X %Y\n"
 		bind $pictureinner <<Button3>> "::amsn::ShowPicMenu $w %X %Y\n"
+		#reset the minsize of pane when configured (not tcl 8.3)
+		if { $::tcl_version >= 8.4 } {
+			bind $picture <Configure> "::ChatWindow::ImageResized $w %h [::skin::getKey chat_dp_pady]"
+		}
 
 
 		# This proc is called to load the Display Picture if exists and is readable
@@ -1942,6 +1945,31 @@ namespace eval ::ChatWindow {
 		return $frame
 
 	}
+
+	#///////////////////////////////////////////////////////////////////////////////
+	# ::ChatWindow::ImageResized (win, height, padding)
+	# Resets the minsize for the bottom frame when the image size changes
+	# Arguments:
+	#  - win => Is the window where the image has been changed
+	#  - height => Is the new height of the image
+	#  - padding => Is the padding around the image
+	proc ImageResized { win height padding} {
+		#TODO: need to remove hard coding here
+		set picheight [image height [$win.f.bottom.pic.image cget -image]]
+		if { $height < $picheight } {
+			set height $picheight
+		}
+
+		set h [expr {$height + ( 2 * $padding ) }]
+		if { $h < 100 } {
+			set h 100
+		}
+		
+		
+		status_log "setting bottom pane misize for $win to $h\n"
+		$win.f paneconfigure $win.f.bottom -minsize $h	
+	}
+
 
 	#///////////////////////////////////////////////////////////////////////////////
 	# ::ChatWindow::SetFor (chatid, window)

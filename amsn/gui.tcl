@@ -1579,16 +1579,7 @@ namespace eval ::amsn {
 		#Convert the picture to the size requested
 		convert_image_plus "[file join $HOME displaypic cache ${filename}].gif" displaypic/cache $size
 		#Create the new photo with the new picture
-		catch {image create photo user_pic_$user -file "[file join $HOME displaypic cache ${filename}].gif"}
-		set h [image height user_pic_$user]
-		if { $h < 100 } {
-			set h 100
-		}
-		status_log "setting bottom pane misize to $h\n"
-		if { $::tcl_version >= 8.4 } {                   
-			$win.f paneconfigure $win.f.bottom -minsize $h	
-		}
-		
+		catch {image create photo user_pic_$user -file "[file join $HOME displaypic cache ${filename}].gif"}		
 	}
 
 	proc ChangePicture {win picture balloontext {nopack ""}} {
@@ -1612,14 +1603,6 @@ namespace eval ::amsn {
 			change_balloon $pictureinner [trans nopic]
 		} elseif { $nopack == "" } {
 			pack $win.f.bottom.pic.image -side left -padx 0 -pady 0 -anchor w
-			set h [image height $picture]
-			if { $h < 100 } {
-				set h 100
-			}
-			status_log "setting bottom pane misize to $h\n"
-			if { $::tcl_version >= 8.4 } {                   
-				$win.f paneconfigure $win.f.bottom -minsize $h
-			}
 			$win.f.bottom.pic.showpic configure -image [::skin::loadPixmap imghide]
 			change_balloon $win.f.bottom.pic.showpic [trans hidedisplaypic]
 			set show_pic 1
