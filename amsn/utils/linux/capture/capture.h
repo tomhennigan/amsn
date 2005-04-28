@@ -59,15 +59,17 @@ extern "C"
 
 typedef unsigned char  BYTE;
 
-//#define SIZE (3* 320 * 240)
-
-
 // External functions
 EXTERN int Capture_Init _ANSI_ARGS_((Tcl_Interp *interp));
 EXTERN int Capture_SafeInit _ANSI_ARGS_((Tcl_Interp *interp));
 
 
-EXTERN int Capture_Initialize _ANSI_ARGS_((ClientData clientData,
+EXTERN int Capture_Open _ANSI_ARGS_((ClientData clientData,
+								Tcl_Interp *interp,
+								int objc,
+								Tcl_Obj *CONST objv[]));
+
+EXTERN int Capture_Close _ANSI_ARGS_((ClientData clientData,
 								Tcl_Interp *interp,
 								int objc,
 								Tcl_Obj *CONST objv[]));
@@ -77,17 +79,15 @@ EXTERN int Capture_Grab _ANSI_ARGS_((ClientData clientData,
 								int objc,
 								Tcl_Obj *CONST objv[]));
 
-EXTERN int Capture_SContrast _ANSI_ARGS_((ClientData clientData,
+EXTERN int Capture_SetContrast _ANSI_ARGS_((ClientData clientData,
 								Tcl_Interp *interp,
 								int objc,
 								Tcl_Obj *CONST objv[]));
 
-EXTERN int Capture_SBrightness _ANSI_ARGS_((ClientData clientData,
+EXTERN int Capture_SetBrightness _ANSI_ARGS_((ClientData clientData,
 								Tcl_Interp *interp,
 								int objc,
 								Tcl_Obj *CONST objv[]));
-
-EXTERN int Capture_DeInitialize _ANSI_ARGS_((ClientData clientData));
 
 # undef TCL_STORAGE_CLASS
 # define TCL_STORAGE_CLASS DLLIMPORT
