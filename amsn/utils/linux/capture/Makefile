@@ -20,7 +20,7 @@ CC		= gcc -pipe
 
 INCLUDES	=  ${TCL_INC_SPEC} ${TK_INC_SPEC} 
 
-CFLAGS    	= -O2  
+CFLAGS    	= -O2  -Wall
 
 CC_SWITCHS 	= ${CFLAGS} ${DEFINES} ${INCLUDES} 
 

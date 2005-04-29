@@ -22,7 +22,7 @@ static int curentCaptureNumber=0;
 // Functions to manage lists       //
 /////////////////////////////////////
 
-struct capture_listitem* lstCreateItem(){ // Create an item in the list and put it at the begin
+struct capture_item* lstCreateItem(){ // Create an item in the list and put it at the begin
 	struct capture_listitem* newItem;
 	newItem=(struct capture_listitem *) malloc(sizeof(struct capture_listitem));
 	if(newItem!=NULL){
@@ -33,10 +33,10 @@ struct capture_listitem* lstCreateItem(){ // Create an item in the list and put 
 		}
 		openeddevices=newItem;
 	}
-	return newItem;
+	return &newItem->data;
 }
 
-struct capture_listitem* lstGetItem(char *captureName){ //Get the item with the specified name
+struct capture_listitem* lstGetListItem(char *captureName){ //Get the list item with the specified name
 	struct capture_listitem* item=openeddevices;
 	while(item!=NULL){
 		if(strcmp(item->data.captureName,captureName)==0){
@@ -47,7 +47,16 @@ struct capture_listitem* lstGetItem(char *captureName){ //Get the item with the 
 	return item;
 }
 
-void lstDeleteItem(struct capture_listitem* item){
+struct capture_item* lstGetItem(char *captureName){ //Get the item with the specified name
+	struct capture_listitem* listitem=lstGetListItem(captureName);
+	if(listitem!=NULL)
+		return &listitem->data;
+	else
+		return NULL;
+}
+
+void lstDeleteItem(char *captureName){
+	struct capture_listitem* item=lstGetListItem(captureName);
 	if(item!=NULL){
 		if(item->prev_item==NULL){ //The first item
 			openeddevices=item->next_item;
@@ -109,13 +118,76 @@ int Capture_ListDevices _ANSI_ARGS_((ClientData clientData,
 
 		device[0]=Tcl_NewStringObj(filename,-1);
 		device[1]=Tcl_NewStringObj(vcap.name,-1);
-		lstDevice=Tcl_NewListObj(2,&device[0]);
+		lstDevice=Tcl_NewListObj(2,device);
 		Tcl_ListObjAppendElement(interp,lstAll,lstDevice);
 
 		close(fd);
 		sprintf(filename, "/dev/video%d", device_idx);
 
 	}
+	Tcl_SetObjResult(interp,lstAll);
+	return TCL_OK;
+}
+
+int Capture_ListChannels _ANSI_ARGS_((ClientData clientData,
+			      Tcl_Interp *interp,
+			      int objc,
+			      Tcl_Obj *CONST objv[]))
+{
+	char * dev = NULL;
+	struct video_capability vcap;
+	struct video_channel    vc;
+	int i;
+	int fvideo;
+	Tcl_Obj* channel[2]={NULL,NULL};
+	Tcl_Obj* lstChannel=NULL;
+	Tcl_Obj* lstAll=NULL;
+
+	if( objc != 2) {
+		Tcl_AppendResult (interp, "Wrong number of args.\nShould be \"::Capture::ListChannels devicename\"" , (char *) NULL);
+		return TCL_ERROR;
+	}
+
+	dev = Tcl_GetStringFromObj(objv[1], NULL);
+
+	if ((fvideo = open(dev, O_RDONLY))==-1){
+		Tcl_AppendResult (interp, "Error opening device" , (char *) NULL);
+		return TCL_ERROR;
+	}
+	if (ioctl(fvideo, VIDIOCGCAP, &vcap) < 0) {
+		Tcl_AppendResult (interp, "Error getting capabilities" , (char *) NULL);
+		close(fvideo);
+		return TCL_ERROR;
+	}
+
+	lstAll=Tcl_NewListObj(0, NULL);
+
+	for(i=0; i<vcap.channels; i++) {
+		vc.channel = i;
+		if (ioctl(fvideo, VIDIOCGCHAN, &vc) < 0){
+			Tcl_AppendResult (interp, "Error getting capabilities" , (char *) NULL);
+			close(fvideo);
+			return TCL_ERROR;
+		}
+		fprintf(stderr,"Video Source (%d) Name : %s\n",i, vc.name);
+		fprintf(stderr, "channel %d: %s ", vc.channel, vc.name);
+		fprintf(stderr, "%d tuners, has ", vc.tuners);
+		if (vc.flags & VIDEO_VC_TUNER) fprintf(stderr, "tuner(s) ");
+		if (vc.flags & VIDEO_VC_AUDIO) fprintf(stderr, "audio ");
+		fprintf(stderr, "\ntype: ");
+		if (vc.type & VIDEO_TYPE_TV) fprintf(stderr, "TV ");
+		if (vc.type & VIDEO_TYPE_CAMERA) fprintf(stderr, "CAMERA ");
+		fprintf(stderr, "norm: %d\n", vc.norm);
+
+		channel[0]=Tcl_NewIntObj(vc.channel);
+		channel[1]=Tcl_NewStringObj(vc.name,-1);
+		lstChannel=Tcl_NewListObj(2,channel);
+		Tcl_ListObjAppendElement(interp,lstAll,lstChannel);
+
+	}
+
+	close(fvideo);
+
 	Tcl_SetObjResult(interp,lstAll);
 	return TCL_OK;
 }
@@ -130,7 +202,7 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
 	int fvideo;
 	int channel;
 	char mmapway=0;
-	struct capture_listitem* captureItem=NULL;
+	struct capture_item* captureItem=NULL;
 
 	struct video_capability vcap;
 	struct video_channel    vc;
@@ -138,10 +210,10 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
 	struct video_window     vw;
 
 	BYTE* image_data=NULL;
-	char *mmbuf; //To uncomment if we use mmap : not for now
+	char *mmbuf=NULL; //To uncomment if we use mmap : not for now
 	struct video_mbuf       mb;
 
-	int i;
+	//int i;
 	int bright, cont, hue, colour;
 
 	bright = 42767;
@@ -191,7 +263,7 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
 		return TCL_ERROR;
 	}
 
-	for(i=0; i<vcap.channels; i++) {
+/*	for(i=0; i<vcap.channels; i++) {
 		vc.channel = i;
 		if (ioctl(fvideo, VIDIOCGCHAN, &vc) < 0){
 			perror("VIDIOCGCHAN");
@@ -207,7 +279,7 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
 		if (vc.type & VIDEO_TYPE_TV) fprintf(stderr, "TV ");
 		if (vc.type & VIDEO_TYPE_CAMERA) fprintf(stderr, "CAMERA ");
 		fprintf(stderr, "norm: %d\n", vc.norm);
-	}
+	}*/
 
 	if(ioctl(fvideo, VIDIOCGPICT, &vp)<0){
 		perror("VIDIOCGPICT");
@@ -321,17 +393,17 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
 		return TCL_ERROR;
 	}
 
-	sprintf(captureItem->data.captureName,"capture%d",curentCaptureNumber);
+	sprintf(captureItem->captureName,"capture%d",curentCaptureNumber);
 	curentCaptureNumber++;
-	captureItem->data.fvideo=fvideo;
-	memcpy(&captureItem->data.vw,&vw,sizeof(captureItem->data.vw));
+	captureItem->fvideo=fvideo;
+	memcpy(&captureItem->vw,&vw,sizeof(captureItem->vw));
 
 	if(mmapway){
-		memcpy(&captureItem->data.mb,&mb,sizeof(captureItem->data.mb));
-		captureItem->data.mmbuf=mmbuf;
+		memcpy(&captureItem->mb,&mb,sizeof(captureItem->mb));
+		captureItem->mmbuf=mmbuf;
 	}
 
-	Tcl_SetObjResult(interp, Tcl_NewStringObj(captureItem->data.captureName,-1));
+	Tcl_SetObjResult(interp, Tcl_NewStringObj(captureItem->captureName,-1));
 
 	return TCL_OK;
 }
@@ -342,7 +414,7 @@ int Capture_Close _ANSI_ARGS_((ClientData clientData,
 			      Tcl_Obj *CONST objv[]))
 {
 	char *captureDescriptor=NULL;
-	struct capture_listitem *capItem=NULL;
+	struct capture_item *capItem=NULL;
 	if( objc != 2) {
 		Tcl_AppendResult (interp, "Wrong number of args.\nShould be \"::Capture::Close capturedescriptor\"" , (char *) NULL);
 		return TCL_ERROR;
@@ -354,12 +426,12 @@ int Capture_Close _ANSI_ARGS_((ClientData clientData,
 		return TCL_ERROR;
 	}
 
-	if(capItem->data.mmbuf){
-		munmap(capItem->data.mmbuf,capItem->data.mb.size);
+	if(capItem->mmbuf){
+		munmap(capItem->mmbuf,capItem->mb.size);
 	}
 
-	close(capItem->data.fvideo);
-	lstDeleteItem(capItem);
+	close(capItem->fvideo);
+	lstDeleteItem(captureDescriptor);
 	return TCL_OK;
 }
 
@@ -368,7 +440,7 @@ int Capture_Grab _ANSI_ARGS_((ClientData clientData,
 			      int objc,
 			      Tcl_Obj *CONST objv[]))
 {
-	struct capture_listitem*    capItem=NULL;
+	struct capture_item*    capItem=NULL;
 	char *                  captureDescriptor=NULL;
 
 	char *                  image_name = NULL;
@@ -396,25 +468,25 @@ int Capture_Grab _ANSI_ARGS_((ClientData clientData,
 		return TCL_ERROR;
 	}
 
-	/*if(ioctl(capItem->data.fvideo, VIDIOCGWIN, &vw)<0){
+	/*if(ioctl(capItem->fvideo, VIDIOCGWIN, &vw)<0){
 		perror("VIDIOCGWIN");
 		return TCL_ERROR;
 	}*/
 
-	memcpy(&vw,&capItem->data.vw,sizeof(vw));
+	memcpy(&vw,&capItem->vw,sizeof(vw));
 
-	if (capItem->data.mmbuf){
+	if (capItem->mmbuf){
 		mm.frame  = 0;
 		mm.height = vw.height;
 		mm.width  = vw.width;
 		mm.format = VIDEO_PALETTE_RGB24;
 
-		if(ioctl(capItem->data.fvideo, VIDIOCMCAPTURE, &mm)<0){
+		if(ioctl(capItem->fvideo, VIDIOCMCAPTURE, &mm)<0){
 			perror("VIDIOCMCAPTURE");
 			return TCL_ERROR;
 		}
 
-		if(ioctl(capItem->data.fvideo, VIDIOCSYNC, &mm.frame)<0){
+		if(ioctl(capItem->fvideo, VIDIOCSYNC, &mm.frame)<0){
 			perror("VIDIOCSYNC");
 			return TCL_ERROR;
 		}
@@ -422,11 +494,11 @@ int Capture_Grab _ANSI_ARGS_((ClientData clientData,
 
 	image_data = (BYTE *) malloc(vw.width*vw.height*3);
 
-	if (capItem->data.mmbuf){
-		memcpy(image_data, capItem->data.mmbuf+capItem->data.mb.offsets[0], mm.width*mm.height*3);
+	if (capItem->mmbuf){
+		memcpy(image_data, capItem->mmbuf+capItem->mb.offsets[0], mm.width*mm.height*3);
 	}
 	else {
-		read(capItem->data.fvideo,image_data,vw.width*vw.height*3);
+		read(capItem->fvideo,image_data,vw.width*vw.height*3);
 	}
 
 	Tk_PhotoBlank(Photo);
@@ -485,7 +557,7 @@ int Capture_SetBrightness _ANSI_ARGS_((ClientData clientData,
 			      Tcl_Obj *CONST objv[]))
 {
 	char *                  captureDescriptor=NULL;
-	struct capture_listitem*    capItem=NULL;
+	struct capture_item*    capItem=NULL;
 	int                     brightness=0;
 	struct video_picture    vp;
 
@@ -508,14 +580,14 @@ int Capture_SetBrightness _ANSI_ARGS_((ClientData clientData,
 		return TCL_ERROR;
 	}
 
-	if(ioctl(capItem->data.fvideo, VIDIOCGPICT, &vp)<0){
+	if(ioctl(capItem->fvideo, VIDIOCGPICT, &vp)<0){
 		perror("VIDIOCGPICT");
 		return TCL_ERROR;
 	}
 
 	vp.brightness = brightness;
 
-	if (ioctl(capItem->data.fvideo, VIDIOCSPICT, &vp)) {
+	if (ioctl(capItem->fvideo, VIDIOCSPICT, &vp)) {
 		perror("VIDIOCSPICT");
 		return TCL_ERROR;
 	}
@@ -529,7 +601,7 @@ int Capture_SetContrast _ANSI_ARGS_((ClientData clientData,
 			      Tcl_Obj *CONST objv[]))
 {
 	char *                  captureDescriptor=NULL;
-	struct capture_listitem*    capItem=NULL;
+	struct capture_item*    capItem=NULL;
 	int                     contrast=0;
 	struct video_picture    vp;
 
@@ -554,14 +626,14 @@ int Capture_SetContrast _ANSI_ARGS_((ClientData clientData,
 		return TCL_ERROR;
 	}
 
-	if(ioctl(capItem->data.fvideo, VIDIOCGPICT, &vp)<0){
+	if(ioctl(capItem->fvideo, VIDIOCGPICT, &vp)<0){
 		perror("VIDIOCGPICT");
 		return TCL_ERROR;
 	}
 
 	vp.contrast = contrast;
 
-	if (ioctl(capItem->data.fvideo, VIDIOCSPICT, &vp)) {
+	if (ioctl(capItem->fvideo, VIDIOCSPICT, &vp)) {
 		perror("VIDIOCSPICT");
 		return TCL_ERROR;
 	}
@@ -602,6 +674,8 @@ int Capture_Init (Tcl_Interp *interp ) {
 	}
 
 	Tcl_CreateObjCommand(interp, "::Capture::ListDevices", Capture_ListDevices,
+			(ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
+	Tcl_CreateObjCommand(interp, "::Capture::ListChannels", Capture_ListChannels,
 			(ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
 	Tcl_CreateObjCommand(interp, "::Capture::Open", Capture_Open,
 			(ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);

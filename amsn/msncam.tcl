@@ -1082,7 +1082,7 @@ setObjOption $sock state "END"
 
 	proc IsGrabberValid { grabber } {
 #		status_log "Testing grabber : $grabber"
-		if { ! $::capture_loaded } { return 0 }
+		if { ![expr [info exists ::capture_loaded] && $::capture_loaded] } { return 0 }
 		if { [set ::tcl_platform(platform)] == "windows" } {
 			return [winfo exists $grabber]
 		} elseif { [set ::tcl_platform(os)] == "Darwin" } {
@@ -1093,7 +1093,7 @@ setObjOption $sock state "END"
 	}
 
 	proc CloseGrabber { grabber } {
-		if { ! $::capture_loaded } { return }
+		if { ![expr [info exists ::capture_loaded] && $::capture_loaded] } { return }
 		if { [set ::tcl_platform(os)] == "Linux" } {
 			::Capture::Close $grabber
 		} elseif { [set ::tcl_platform(os)] == "Darwin" } {
@@ -1105,7 +1105,7 @@ setObjOption $sock state "END"
 	}
 
 	proc CaptureLoaded { } {
-		if { [info exists ::capture_loaded] && $::capture_loaded } { return 1}
+		if { [info exists ::capture_loaded] && $::capture_loaded } { return 1 }
 
 		if { [set ::tcl_platform(platform)] == "windows" } {
 			set extension "tkvideo"

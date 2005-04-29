@@ -13,6 +13,7 @@
 // Include files, must include windows.h before tk.h and tcl.h before tk.h or else compiling errors
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
