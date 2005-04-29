@@ -3,6 +3,7 @@ load [pwd]/capture.so
 puts "[::Capture::ListDevices]"
 puts "[::Capture::ListChannels /dev/video]"
 set grabber [::Capture::Open /dev/video 0]
+puts "[::Capture::GetGrabber /dev/video 0]"
 
 wm protocol . WM_DELETE_WINDOW {::Capture::Close $grabber; exit}
 

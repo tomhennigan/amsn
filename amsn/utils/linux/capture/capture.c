@@ -2,6 +2,8 @@
 
 struct capture_item {
 	char captureName[32];
+	char devicePath[32];
+	int channel;
 	int fvideo;
 	struct video_window vw;
 	char *mmbuf; //To uncomment if we use mmap : not for now
@@ -105,15 +107,20 @@ int Capture_ListDevices _ANSI_ARGS_((ClientData clientData,
 
 	lstAll=Tcl_NewListObj(0, NULL);
 
-	strcpy(filename, "/dev/video");
-	//	sprintf(filename, "/dev/video", device_idx);
-	while((fd = open(filename, O_RDONLY)) != -1) {
-
+//	strcpy(filename, "/dev/video");
+	sprintf(filename, "/dev/video");
+	while( ((fd = open(filename, O_RDONLY)) != -1) || (errno != ENOENT) ){
+//		fprintf(stderr,"Device %d : fd=%d errno=%d\n",device_idx,fd,errno);
 //		fprintf(stderr,"%s : %d\n",filename,fd);
 
-		if (ioctl(fd, VIDIOCGCAP, &vcap) < 0) {
-			perror("VIDIOCGCAP");
-			return TCL_ERROR;
+		if (fd!=-1) {
+			if (ioctl(fd, VIDIOCGCAP, &vcap) < 0) {
+				perror("VIDIOCGCAP");
+				return TCL_ERROR;
+			}
+		}
+		else {
+			vcap.name[0]='\0';
 		}
 
 		device[0]=Tcl_NewStringObj(filename,-1);
@@ -190,6 +197,36 @@ int Capture_ListChannels _ANSI_ARGS_((ClientData clientData,
 
 	Tcl_SetObjResult(interp,lstAll);
 	return TCL_OK;
+}
+
+int Capture_GetGrabber _ANSI_ARGS_((ClientData clientData,
+			      Tcl_Interp *interp,
+			      int objc,
+			      Tcl_Obj *CONST objv[]))
+{
+	char * dev = NULL;
+	int channel;
+	struct capture_listitem* item=openeddevices;
+
+	if( objc != 3) {
+		Tcl_AppendResult (interp, "Wrong number of args.\nShould be \"::Capture::Init device channel\"" , (char *) NULL);
+		return TCL_ERROR;
+	}
+
+	dev = Tcl_GetStringFromObj(objv[1], NULL);
+
+	if(Tcl_GetIntFromObj(interp, objv[2], &channel)==TCL_ERROR){
+		return TCL_ERROR;
+	}
+
+	while(item!=NULL){
+		if((strcasecmp(dev,item->data.devicePath)==0) && (channel == item->data.channel)){
+			Tcl_SetObjResult(interp, Tcl_NewStringObj(item->data.captureName,-1));
+			break;
+		}
+	}
+	return TCL_OK;
+
 }
 
 int Capture_Open _ANSI_ARGS_((ClientData clientData,
@@ -396,6 +433,10 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
 
 	sprintf(captureItem->captureName,"capture%d",curentCaptureNumber);
 	curentCaptureNumber++;
+
+	strncpy(captureItem->devicePath,dev,sizeof(captureItem->devicePath));
+	captureItem->channel=channel;
+
 	captureItem->fvideo=fvideo;
 	memcpy(&captureItem->vw,&vw,sizeof(captureItem->vw));
 
@@ -679,6 +720,8 @@ int Capture_Init (Tcl_Interp *interp ) {
 	Tcl_CreateObjCommand(interp, "::Capture::ListChannels", Capture_ListChannels,
 			(ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
 	Tcl_CreateObjCommand(interp, "::Capture::Open", Capture_Open,
+			(ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
+	Tcl_CreateObjCommand(interp, "::Capture::GetGrabber", Capture_GetGrabber,
 			(ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
 	Tcl_CreateObjCommand(interp, "::Capture::Close", Capture_Close,
 			(ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
