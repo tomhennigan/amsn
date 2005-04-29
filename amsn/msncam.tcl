@@ -351,7 +351,7 @@ namespace eval ::MSNCAM {
 		fconfigure $sock -blocking 1 -buffering none -translation {binary binary}
 
 		set connected_ips [getObjOption $sid connected_ips]
-		lappend connected_ips [list $ip $port $socket]
+		lappend connected_ips [list $ip $port $sock]
 		setObjOption $sid connected_ips $connected_ips
 
 		if { [getObjOption $sid socket] == "" } {
