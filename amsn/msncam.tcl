@@ -462,7 +462,7 @@ namespace eval ::MSNCAM {
 						setObjOption $sock state "CONNECTED"
 						fileevent $sock writable "::MSNCAM::WriteToSock $sock"
 					} else {
-						status_log "Received $data instead of recipientid=$my_rid&sessionid=${session} -- [expr $data == \"recipientid=${my_rid}&sessionid=${session}\r\" " red
+						status_log "Received $data instead of recipientid=$my_rid&sessionid=${session} -- [expr $data == \"recipientid=${my_rid}&sessionid=${session}\r\"]\n" red
 						AuthFailed $sid $sock
 					}
 				}
@@ -486,7 +486,7 @@ namespace eval ::MSNCAM {
 					    }
 					} else {
 						AuthFailed $sid $sock
-						status_log "ERROR1 : $data\n" red
+						status_log "ERROR1 : $data - [eof $sock] - [gets $sock] - [gets $sock]\n" red
 					}
 
 				} else {
@@ -715,7 +715,7 @@ namespace eval ::MSNCAM {
 
 	proc ConnectSockets { sid } {
 	
-		set remote_sock getObjOption $sid socket
+		set remote_sock [getObjOption $sid socket]
 		if {$remote_sock != "" } {
 			fileevent $sock readable "::MSNCAM::ReadFromSock $sock"
 		}
