@@ -36,16 +36,31 @@ proc getObjOption { obj option } {
 }
 namespace eval ::MSNCAM {
 	namespace export SendFT AcceptFT RejectFT handleMsnFT
+	#//////////////////////////////////////////////////////////////////////////////
+	# CamCanceled ( chat sid )
+	#  This function is called when a file transfer is canceled by the remote contact
+	proc CamCanceled { chatid sid } {
+		set grabber [getObjOption $sid grabber]
+		set window [getObjOption $sid window]
 
+		if { [::MSNCAM::IsGrabberValid $grabber] } {
+			::MSNCAM::CloseGrabber $grabber
+		}
+		if { [winfo exists $window] } {
+			destroy $window
+		}
+	}
 
 	#//////////////////////////////////////////////////////////////////////////////
 	# CancelFT ( chatid sid )
 	# This function is called when a file transfer is canceled by the user
 	proc CancelCam { chatid sid } {
+
 		set session_data [::MSNP2P::SessionList get $sid]
 		set user_login [lindex $session_data 3]
-	    set callid [lindex $session_data 5]
-	    set socket [getObjOption $sid socket]
+		set callid [lindex $session_data 5]
+		set socket [getObjOption $sid socket]
+		setObjOption $socket state "END"
 
 	    set branchid "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [expr [expr int([expr rand() * 1000000])%65450]] + 4369]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
 
@@ -58,7 +73,7 @@ namespace eval ::MSNCAM {
 		catch { close $socket}
 	    }
 
-
+		#::MSNP2P::SessionList unset $sid
 	}
 
 	#//////////////////////////////////////////////////////////////////////////////
@@ -81,6 +96,7 @@ namespace eval ::MSNCAM {
 
 		setObjOption $sid producer $producer
 		setObjOption $sid inviter 0
+		setObjOption $sid chatid $chatid
 
 		if { $producer } {
 		    setObjOption $sid source 0
@@ -222,6 +238,7 @@ namespace eval ::MSNCAM {
 		::MSNP2P::SessionList set $sid [list 0 0 0 $dest 0 $callid 0 "webcam" "$context" "$branchid"]
 
 		setObjOption $sid inviter 1
+		setObjOption $sid chatid $chatid
 		if { $guid == "4BD96FC0-AB17-4425-A14A-439185962DC8" } {
 			setObjOption $sid producer 1
 
@@ -847,6 +864,8 @@ setObjOption $sock state "END"
 		if { ! [info exists ::webcamsn_loaded] } { ExtensionLoaded }
 		if { ! $::webcamsn_loaded } { return }
 
+		if { [getObjOption [getObjOption $sid socket] state] == "END" } { return }
+
 		set window [getObjOption $sid window]
 		set decoder [getObjOption $sid codec]
 
@@ -858,10 +877,13 @@ setObjOption $sock state "END"
 		if { $window == "" } {
 			set window .webcam_$sid
 			toplevel $window
+			set chatid [getObjOption $sid chatid]
+			bind $window <Destroy> "::MSNCAM::CancelCam $chatid $sid"
 			set img [image create photo]
 			label $window.l -image $img
 			pack $window.l
-
+			button $window.q -command "destroy $window" -text "Stop receiving Webcam"
+			pack $window.q -expand true -fill x
 			setObjOption $sid window $window
 			setObjOption $sid image $img
 		}
@@ -875,21 +897,22 @@ setObjOption $sock state "END"
 
 
 	proc GetCamFrame { sid socket } {
+
 		if { ! [info exists ::webcamsn_loaded] } { ExtensionLoaded }
 		if { ! $::webcamsn_loaded } { return }
 
 		if { ! [info exists ::capture_loaded] } { CaptureLoaded }
 		if { ! $::capture_loaded } { return }
 
+		if { [getObjOption $socket state] == "END" } { return }
 
 		set window [getObjOption $sid window]
 		set img [getObjOption $sid image]
 		set encoder [getObjOption $socket codec]
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-			set grabber .grabber.seq
-		} else {
-			set grabber .grabber
-		}
+
+		set grabber [getObjOption $sid grabber]
+		set chatid [getObjOption $sid chatid]
+
 		set grab_proc [getObjOption $sid grab_proc]
 
 		if { $encoder == "" } {
@@ -906,15 +929,22 @@ setObjOption $sock state "END"
 			} else {
 				set img [image create photo]
 				toplevel $window
+
 				label $window.l -image $img
 				pack $window.l
+				button $window.q -command "destroy $window" -text "Stop sending Webcam"
+				pack $window.q -expand true -fill x
 			}
 			setObjOption $sid window $window
 			setObjOption $sid image $img
 		}
 
-		if { ![winfo exists $grabber] } {
+		if { ![::MSNCAM::IsGrabberValid $grabber] } {
+			status_log "Invalid grabber : $grabber"
+
 			if { [set ::tcl_platform(platform)] == "windows" } {
+
+				set grabber .grabber
 				set grabber [tkvideo $grabber]
 				set source [getObjOption $sid source]
 				$grabber configure -source $source
@@ -922,6 +952,8 @@ setObjOption $sock state "END"
 				setObjOption $sid grab_proc "Grab_Windows"
 
 			} elseif { [set ::tcl_platform(os)] == "Darwin" } {
+
+				set grabber .grabber.seq
 				if { ![winfo exists .grabber] } {
 					toplevel .grabber
 				}
@@ -931,28 +963,31 @@ setObjOption $sock state "END"
 				setObjOption $sid grab_proc "Grab_Mac"
 
 			} elseif { [set ::tcl_platform(os)] == "Linux" } {
-				set grabber [getObjOption $sid grabber]
-				if { $grabber == "" } {
-					#status_log "Source : [getObjOption $sid source]"
-					set grabber [::Capture::Open "/dev/video" 0]
-					setObjOption $sid grab_proc "Grab_Linux"
 
-					#wm protocol $window WM_DELETE_WINDOW "::Capture::Close $grabber; setObjOption $sid grabber \"\"; destroy $window; setObjOption $sid window \"\""
+				#status_log "Source : [getObjOption $sid source]"
+				set grabber [::Capture::Open "/dev/video" 0]
+				setObjOption $sid grab_proc "Grab_Linux"
 
-					scale $window.b -from 0 -to 65535 -resolution 1 -showvalue 1 -label "B" -command "::Capture::SetBrightness $grabber" -orient horizontal
-					scale $window.c -from 0 -to 65535 -resolution 1 -showvalue 1 -label "C" -command "::Capture::SetContrast $grabber" -orient horizontal
-					$window.b set 49500
-					$window.c set 39000
-					pack $window.b -expand true -fill x
-					pack $window.c -expand true -fill x
-				}
+				scale $window.b -from 0 -to 65535 -resolution 1 -showvalue 1 -label "B" -command "::Capture::SetBrightness $grabber" -orient horizontal
+				scale $window.c -from 0 -to 65535 -resolution 1 -showvalue 1 -label "C" -command "::Capture::SetContrast $grabber" -orient horizontal
+				$window.b set 49500
+				$window.c set 39000
+				pack $window.b -expand true -fill x
+				pack $window.c -expand true -fill x
+
 			} else {
 				return
 			}
+			status_log "Created grabber : $grabber"
 			setObjOption $sid grabber $grabber
 			set grab_proc [getObjOption $sid grab_proc]
 			status_log "grab_proc is $grab_proc - [getObjOption $sid grab_proc]\n" red
 			status_log "SID of this connection is $sid\n" red
+		}
+
+		if { [winfo exists $window] && [bind $window <Destroy>] == "" } {
+			bind $window <Destroy> "if { \[::MSNCAM::IsGrabberValid $grabber\] } { ::MSNCAM::CancelCam $chatid $sid; ::MSNCAM::CloseGrabber $grabber}"
+			status_log "if { \[::MSNCAM::IsGrabberValid $grabber\] } { ::MSNCAM::CancelCam $chatid $sid; ::MSNCAM::CloseGrabber $grabber}"
 		}
 		#status_log "test : $::tcl_platform(os) , [winfo exists $window.b]"
 
@@ -1043,6 +1078,30 @@ setObjOption $sock state "END"
 		set encoder [getObjOption $img encoder]
 		if { $socket == "" || $encoder == "" } { return }
 		SendFrame $socket $encoder $img
+	}
+
+	proc IsGrabberValid { grabber } {
+#		status_log "Testing grabber : $grabber"
+		if { ! $::capture_loaded } { return 0 }
+		if { [set ::tcl_platform(platform)] == "windows" } {
+			return [winfo exists $grabber]
+		} elseif { [set ::tcl_platform(os)] == "Darwin" } {
+			return [winfo exists $grabber]
+		} elseif { [set ::tcl_platform(os)] == "Linux" } {
+			return [::Capture::IsValid $grabber]
+		}
+	}
+
+	proc CloseGrabber { grabber } {
+		if { ! $::capture_loaded } { return }
+		if { [set ::tcl_platform(os)] == "Linux" } {
+			::Capture::Close $grabber
+		} elseif { [set ::tcl_platform(os)] == "Darwin" } {
+			destroy $grabber
+			destroy .grabber
+		} elseif { [set ::tcl_platform(platform)] == "windows" } {
+			destroy $grabber
+		}
 	}
 
 	proc CaptureLoaded { } {

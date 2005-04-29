@@ -137,7 +137,7 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
 	struct video_picture    vp;
 	struct video_window     vw;
 
-	BYTE testbuffer=0;
+	BYTE* image_data=NULL;
 	char *mmbuf; //To uncomment if we use mmap : not for now
 	struct video_mbuf       mb;
 
@@ -294,8 +294,9 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
 		return TCL_ERROR;
 	}
 
+	image_data = (BYTE *) malloc(vw.width*vw.height*3);
 
-	if (read(fvideo,&testbuffer,1)==-1){ //Try the mmap way if read fails
+	if (read(fvideo,image_data,vw.width*vw.height*3)==-1){ //Try the mmap way if read fails
 		mmapway=1;
 		perror("read failed -> switching to mmap way\nerrno");
 		if (ioctl(fvideo, VIDIOCGMBUF, &mb)) {
@@ -311,6 +312,8 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
 			return TCL_ERROR;
 		}
 	}
+
+	free(image_data);
 
 	if((captureItem=lstCreateItem())==NULL){
 		perror("lstCreateItem");
@@ -566,6 +569,26 @@ int Capture_SetContrast _ANSI_ARGS_((ClientData clientData,
 	return TCL_OK;
 }
 
+int Capture_IsValid _ANSI_ARGS_((ClientData clientData,
+			      Tcl_Interp *interp,
+			      int objc,
+			      Tcl_Obj *CONST objv[]))
+{
+	char *                  captureDescriptor=NULL;
+
+	if( objc != 2) {
+		Tcl_AppendResult (interp, "Wrong number of args.\nShould be \"::Capture::IsValid capturedescriptor\"" , (char *) NULL);
+		return TCL_ERROR;
+	}
+
+	captureDescriptor = Tcl_GetStringFromObj(objv[1], NULL);
+
+	Tcl_SetObjResult(interp, Tcl_NewBooleanObj( lstGetItem(captureDescriptor) != NULL ) );
+
+	return TCL_OK;
+
+}
+
 int Capture_Init (Tcl_Interp *interp ) {
 
 	//Check Tcl version is 8.3 or higher
@@ -589,6 +612,8 @@ int Capture_Init (Tcl_Interp *interp ) {
 	Tcl_CreateObjCommand(interp, "::Capture::SetBrightness", Capture_SetBrightness,
 			(ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
 	Tcl_CreateObjCommand(interp, "::Capture::SetContrast", Capture_SetContrast,
+			(ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
+	Tcl_CreateObjCommand(interp, "::Capture::IsValid", Capture_IsValid,
 			(ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
 
 	// end of Initialisation
