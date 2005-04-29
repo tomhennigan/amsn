@@ -435,6 +435,7 @@ namespace eval ::MSNCAM {
 		set state [getObjOption $sock state]
 
 		set my_rid [getObjOption $sid my_rid]
+		set rid [getObjOption $sid rid]
 		set session [getObjOption $sid session]
 
 
@@ -455,8 +456,8 @@ namespace eval ::MSNCAM {
 			{
 				if { $server } {
 					gets $sock data
+					status_log "Received Data on socket $sock $my_rid - $rid server=$server - state=$state : \n$data\n" red
 					if { $data == "recipientid=$my_rid&sessionid=$session\r" } {
-						status_log "Received Data on socket $sock sending=$producer - server=$server - state=$state : \n$data\n" red
 						gets $sock
 						setObjOption $sock state "CONNECTED"
 						fileevent $sock writable "::MSNCAM::WriteToSock $sock"
@@ -848,7 +849,7 @@ namespace eval ::MSNCAM {
 			
 		}
 
-		CheckConnectSuccess $sid
+		after 5000 "CheckConnectSuccess $sid"
 	}
 
 	proc RemoveSocketFromList { list socket } {
