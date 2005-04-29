@@ -105,10 +105,10 @@ int Capture_ListDevices _ANSI_ARGS_((ClientData clientData,
 
 	lstAll=Tcl_NewListObj(0, NULL);
 
-//	strcpy(filename, "/dev/video");
-	sprintf(filename, "/dev/video%d", device_idx);
+	strcpy(filename, "/dev/video");
+	//	sprintf(filename, "/dev/video", device_idx);
 	while((fd = open(filename, O_RDONLY)) != -1) {
-		device_idx ++;
+
 //		fprintf(stderr,"%s : %d\n",filename,fd);
 
 		if (ioctl(fd, VIDIOCGCAP, &vcap) < 0) {
@@ -123,7 +123,7 @@ int Capture_ListDevices _ANSI_ARGS_((ClientData clientData,
 
 		close(fd);
 		sprintf(filename, "/dev/video%d", device_idx);
-
+		device_idx ++;
 	}
 	Tcl_SetObjResult(interp,lstAll);
 	return TCL_OK;
@@ -381,6 +381,7 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
 				PROT_READ, MAP_SHARED, fvideo, 0);
 		if((int)mmbuf < 0){
 			perror("mmap");
+			close(fvideo);
 			return TCL_ERROR;
 		}
 	}

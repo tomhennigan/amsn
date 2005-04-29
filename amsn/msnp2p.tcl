@@ -933,6 +933,7 @@ namespace eval ::MSNP2P {
 
 			} elseif { $msg == "receivedViewerData\x00" } {
 				status_log "ReceivedViewData received\n" red
+				::MSNCAM::ConnectSockets $sid
 			} elseif {[string first "<producer>" $msg] == 0 || [string first "<viewer>" $msg] == 0 || $cOffset != 0} {
 				set xml [getObjOption $sid xml]
 				set xml "${xml}[string range $data 0 [expr { $cMsgSize - 1}]]"
