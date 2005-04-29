@@ -1142,9 +1142,14 @@ status_log "event triggered: $eventused with variable: $email"
 		global OnTheMove
 #TODO: copying instead of moving when CTRL is pressed
 		#first get the info out of the tag
-		set email [::guiContactList::getEmailFromTag $tag]
-		set grId [::guiContactList::getGrIdFromTag $tag]
 
+		status_log "tag is: $tag"
+
+		set email [::guiContactList::getEmailFromTag $tag]
+		status_log "email is: $email"
+
+		set grId [::guiContactList::getGrIdFromTag $tag]
+		status_log "grId is: $grId"
 		#kill the balloon if it came up, otherwise it just stays there
 		set Bulle(first) 0; kill_balloon
 
@@ -1222,13 +1227,13 @@ status_log "event triggered: $eventused with variable: $email"
 
 
 	proc getEmailFromTag { tag } {
-		set pos [string first _ $tag]
+		set pos [string last _ $tag]
 		set email [string range $tag 0 [expr $pos -1]]
 	return $email
 	}
 
 	proc getGrIdFromTag { tag } {
-		set pos [string first _ $tag]
+		set pos [string last _ $tag]
 		set grId [string range $tag [expr $pos + 1] end]
 	return $grId
 	}
