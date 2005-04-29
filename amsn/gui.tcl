@@ -3258,6 +3258,8 @@ proc cmsn_draw_main {} {
 	::skin::setPixmap butsend_hover butsend_hover.gif
 	::skin::setPixmap butinvite butinvite.gif
 	::skin::setPixmap butinvite_hover butinvite_hover.gif
+	::skin::setPixmap butwebcam butwebcam.gif
+	::skin::setPixmap butwebcam_hover butwebcam_hover.gif
 	::skin::setPixmap butnewline newline.gif
 	::skin::setPixmap sendbutton sendbut.gif
 	::skin::setPixmap sendbutton_hover sendbut_hover.gif

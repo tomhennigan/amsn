@@ -1840,6 +1840,7 @@ namespace eval ::ChatWindow {
 		set block $buttonsinner.block
 		set sendfile $buttonsinner.sendfile
 		set invite $buttonsinner.invite
+		set webcam $buttonsinner.webcam
 
 		# widget name from another proc
 		set input [::ChatWindow::GetInputText $w]
@@ -1875,17 +1876,26 @@ namespace eval ::ChatWindow {
 			-background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0\
 			-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg]
 		set_balloon $invite [trans invite]
+
+		#Webcam button
+#TODO:	* Should this maybe only be shown if we have a configured webcam and the contact is known to be able to receive cams ?
+		label $webcam -image [::skin::loadPixmap butwebcam] -relief flat -padx 0 \
+			-background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0\
+			-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg]
+		set_balloon $webcam [trans sendwebcaminvite]
 	
 		# Pack them
 		pack $fontsel $smileys -side left -padx 0 -pady 0
-		pack $block $sendfile $invite -side right -padx 0 -pady 0
+		pack $block $webcam $sendfile $invite -side right -padx 0 -pady 0
 	
 		bind $smileys  <<Button1>> "::smiley::smileyMenu \[winfo pointerx $w\] \[winfo pointery $w\] $input"
 		bind $fontsel  <<Button1>> "after 1 change_myfont [string range $w 1 end]"
 		bind $block    <<Button1>> "::amsn::ShowChatList \"[trans block]/[trans unblock]\" $w ::amsn::blockUnblockUser"
 		bind $sendfile <<Button1>> "::amsn::FileTransferSend $w"
 		bind $invite   <<Button1>> "::amsn::ShowInviteMenu $w \[winfo pointerx $w\] \[winfo pointery $w\]"
-		
+		bind $webcam   <<Button1>> "::amsn::ShowChatList \"[trans sendwebcaminvite]\" $w ::MSNCAM::SendInvite"
+
+
 		# Create our bindings
 		bind  $smileys  <Enter> "$smileys configure -image [::skin::loadPixmap butsmile_hover]"
 		bind  $smileys  <Leave> "$smileys configure -image [::skin::loadPixmap butsmile]"
@@ -1898,6 +1908,8 @@ namespace eval ::ChatWindow {
 		bind $sendfile <Leave> "$sendfile configure -image [::skin::loadPixmap butsend]"
 		bind $invite <Enter> "$invite configure -image [::skin::loadPixmap butinvite_hover]"
 		bind $invite <Leave> "$invite configure -image [::skin::loadPixmap butinvite]"
+		bind $webcam <Enter> "$webcam configure -image [::skin::loadPixmap butwebcam_hover]"
+		bind $webcam <Leave> "$webcam configure -image [::skin::loadPixmap butwebcam]"
 		
 		#send chatwindowbutton postevent
 		set evPar(bottom) $buttonsinner
