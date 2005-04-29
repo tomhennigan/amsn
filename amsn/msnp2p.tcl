@@ -445,7 +445,7 @@ namespace eval ::MSNP2P {
 
 			# Let us check if any of our sessions is waiting for an ACK
 			set sid [SessionList findid $cAckId]
-			#status_log "GOT SID : $sid for Ackid : $cAckId\n"
+			status_log "GOT SID : $sid for Ackid : $cAckId\n"
 			if { $sid != -1 } {
 			 	#status_log "MSNP2P | $sid -> Got MSNP2P ACK " red
 
@@ -481,7 +481,7 @@ namespace eval ::MSNP2P {
 			}
 			return
 		}
-
+		status_log "ReadData : data : $data"
 		# Check if this is an INVITE message
 		if { [string first "INVITE MSNMSGR" $data] != -1 } {
 			#status_log "Got an invitation!\n" red
@@ -663,9 +663,9 @@ namespace eval ::MSNP2P {
 						set idx2 [expr [string first "\r\n" $data $idx] -1]
 						set port [string range $data $idx $idx2]
 					}
-			
+
 					status_log "MSNP2P | $sid -> Receiver is listening with $addr : $port\n" red
-				
+
 					#after 5500 "::MSNP2P::SendData $sid $chatid [lindex [SessionList get $sid] 8]"
 					if {$type == "filetransfer" } {
 						::MSN6FT::connectMsnFTP $sid $nonce $addr $port 0
@@ -927,7 +927,9 @@ namespace eval ::MSNP2P {
 			}
 
 			if { $msg == "syn\x00" } {
+				::MSNCAM::SendSyn $sid $chatid
 				::MSNCAM::SendAck $sid $chatid
+
 			} elseif { $msg == "ack\x00" } {
 				set producer [getObjOption $sid producer]
 				status_log "Received the ack for webcam\n" red

@@ -116,6 +116,7 @@ namespace eval ::MSNCAM {
 
 		SendAcceptInvite $sid $chatid
 		status_log "::MSNCAM::SendAcceptInvite $sid $chatid\n" green
+		SendSyn $sid $chatid
 	}
 
 
@@ -152,6 +153,10 @@ namespace eval ::MSNCAM {
 	}
 
 	proc SendSyn { sid chatid } {
+		if { [getObjOption $sid send_syn] == 1 } {
+			status_log "Try to send double syn"
+			return
+		}
 		set MsgId [lindex [::MSNP2P::SessionList get $sid] 0]
 		set dest [lindex [::MSNP2P::SessionList get $sid] 3]
 		incr MsgId
@@ -173,6 +178,7 @@ namespace eval ::MSNCAM {
 
 
 		::MSNP2P::SendPacket [::MSN::SBFor $chatid] "${theader}${data}"
+		setObjOption $sid send_syn 1
 	}
 
 
@@ -356,7 +362,7 @@ namespace eval ::MSNCAM {
 
 		if { [getObjOption $sid socket] == "" } {
 			setObjOption $sid socket $sock
-			#fileevent $sock readable "::MSNCAM::ReadFromSock $sock"
+			fileevent $sock readable "::MSNCAM::ReadFromSock $sock"
 		}
 
 	}
@@ -462,7 +468,6 @@ namespace eval ::MSNCAM {
 						setObjOption $sock state "CONNECTED"
 						fileevent $sock writable "::MSNCAM::WriteToSock $sock"
 					} else {
-						status_log "Received $data instead of recipientid=$my_rid&sessionid=${session} -- [expr $data == \"recipientid=${my_rid}&sessionid=${session}\r\"]\n" red
 						AuthFailed $sid $sock
 					}
 				}
@@ -507,7 +512,7 @@ namespace eval ::MSNCAM {
 						}
 					} else {
 						AuthFailed $sid $sock
-						status_log "ERROR2 : $data\n" red
+						status_log "ERROR2 : $data - [eof $sock] - [gets $sock] - [gets $sock]\n" red
 					}
 				}
 			}
@@ -714,16 +719,10 @@ namespace eval ::MSNCAM {
 	}
 
 	proc ConnectSockets { sid } {
-	
-		set remote_sock [getObjOption $sid socket]
-		if {$remote_sock != "" } {
-			fileevent $sock readable "::MSNCAM::ReadFromSock $sock"
-		}
-
 
 		set xml [getObjOption $sid xml]
 		set list [xml2list $xml]
-		
+
 		set ip_idx 7
 		set ips [list]
 		while { 1 } {
