@@ -657,7 +657,7 @@ namespace eval ::autoupdate {
 
 		toplevel $w
 		wm title $w "[trans update]"
-		wm geometry $w 300x340
+		wm geometry $w 320x360
 		wm protocol $w WM_DELETE_WINDOW "::autoupdate::UpdateLangPlugin_close"
 		
 		bind $w <<Escape>> "::autoupdate::UpdateLangPlugin_close"
@@ -705,14 +705,14 @@ namespace eval ::autoupdate {
 		frame $w.button
 		button $w.button.selectall -text "[trans selectall]" -command "::autoupdate::UpdateLangPlugin_selectall"
 		button $w.button.unselectall -text "[trans unselectall]" -command "::autoupdate::UpdateLangPlugin_unselectall"
-		button $w.button.update -text "[trans update]" -command "::autoupdate::UpdateLangPlugin_update" -default active
 		pack configure $w.button.selectall -side left -padx 3 -pady 3
 		pack configure $w.button.unselectall -side left -padx 3 -pady 3
-		pack configure $w.button.update -side right -padx 3 -pady 3
 		pack configure $w.button -side top -fill x
 		
 		frame $w.button2
 		button $w.button2.close -text "[trans close]" -command "::autoupdate::UpdateLangPlugin_close"
+		button $w.button2.update -text "[trans update]" -command "::autoupdate::UpdateLangPlugin_update" -default active
+		pack configure $w.button2.update -side left -padx 3 -pady 3
 		pack configure $w.button2.close -side right -padx 3 -pady 3
 		pack configure $w.button2 -side top -fill x
 		
@@ -729,6 +729,7 @@ namespace eval ::autoupdate {
 	
 		pack forget $w.list
 		pack forget $w.button
+		pack forget $w.button2.update
 
 		label $w.update.txt -text ""
 		pack configure $w.update.txt -fill x
