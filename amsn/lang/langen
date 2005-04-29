@@ -43,6 +43,7 @@ appearance Appearance
 appearoff Appear offline
 areacode Area Code
 aretyping $1 are typing a message
+askwebcam Ask this user to see his/her webcam
 author Author
 autoaccepted File transfer accepted automatically
 autoacceptft Automatically accept File Transfer requests
@@ -558,6 +559,7 @@ sendmail Send mail
 sendmobmsg Send to Mobile device
 sendmsg Send message
 send Send
+sendwebcaminvite Invite a user to see your webcam
 sentbytes Sent $1 of $2 bytes
 serverbusy Server is busy
 servergoingdown Disconnected: Server is going down

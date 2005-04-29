@@ -1335,8 +1335,12 @@ namespace eval ::ChatWindow {
 			-command "::amsn::ShowChatList \"[trans sendmail]\" \[::ChatWindow::getCurrentTab $w\] launch_mailer"
 		$actionsmenu add command -label "[trans sendfile]..." \
 			-command "::amsn::FileTransferSend \[::ChatWindow::getCurrentTab $w\]"
+		$actionsmenu add command -label "[trans sendwebcaminvite]..." \
+			-command "::amsn::ShowChatList \"[trans sendwebcaminvite]\" \[::ChatWindow::getCurrentTab $w\] ::MSNCAM::SendInvite"
+		$actionsmenu add command -label "[trans askwebcam]..." \
+			-command "::amsn::ShowChatList \"[trans askwebcam]\" \[::ChatWindow::getCurrentTab $w\] ::MSNCAM::AskWebcam"
 
-			
+		
 		return $actionsmenu
 	}
 
