@@ -356,7 +356,7 @@ namespace eval ::MSNCAM {
 
 		if { [getObjOption $sid socket] == "" } {
 			setObjOption $sid socket $sock
-			fileevent $sock readable "::MSNCAM::ReadFromSock $sock"
+			#fileevent $sock readable "::MSNCAM::ReadFromSock $sock"
 		}
 
 	}
@@ -457,11 +457,12 @@ namespace eval ::MSNCAM {
 				if { $server } {
 					gets $sock data
 					status_log "Received Data on socket $sock $my_rid - $rid server=$server - state=$state : \n$data\n" red
-					if { $data == "recipientid=$my_rid&sessionid=$session\r" } {
+					if { $data == "recipientid=${my_rid}&sessionid=${session}\r" } {
 						gets $sock
 						setObjOption $sock state "CONNECTED"
 						fileevent $sock writable "::MSNCAM::WriteToSock $sock"
 					} else {
+						status_log "Received $data instead of recipientid=$my_rid&sessionid=${session} -- [expr $data == \"recipientid=${my_rid}&sessionid=${session}\r\" " red
 						AuthFailed $sid $sock
 					}
 				}
@@ -713,14 +714,20 @@ namespace eval ::MSNCAM {
 	}
 
 	proc ConnectSockets { sid } {
+	
+		set remote_sock getObjOption $sid socket
+		if {$remote_sock != "" } {
+			fileevent $sock readable "::MSNCAM::ReadFromSock $sock"
+		}
+
 
 		set xml [getObjOption $sid xml]
 		set list [xml2list $xml]
-
+		
 		set ip_idx 7
 		set ips [list]
 		while { 1 } {
-		    if { $ip_idx == 7 } {
+			if { $ip_idx == 7 } {
 				set ip [GetXmlEntry $list "tcpexternalip"]
 			} elseif { $ip_idx == 6 } {
 				set ip [GetXmlEntry $list "udpexternalip"]

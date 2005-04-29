@@ -741,13 +741,14 @@ namespace eval ::MSNP2P {
 					if { $type == "filetransfer" } {
 						::MSN6FT::connectMsnFTP $sid $nonce $addr $port 1
 					} elseif { $type == "webcam" } {
-						# WEBCAM, should connect to receiver...
+						::MSNCAM::SendSyn $sid $chatid
 					}
 				} elseif { $listening == "false" } {
 					status_log "MSNP2P | $sid -> Receiver is not listening, sending INVITE\n" red
 					if { $type == "filetransfer" } {
 						::MSN6FT::SendFTInvite2 $sid $chatid
 					} elseif { $type == "webcam" } {
+						::MSNCAM::SendSyn $sid $chatid
 						#::MSNCAM::SendAcceptInvite $sid $chatid
 					}
 				} else {
