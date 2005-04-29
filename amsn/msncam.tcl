@@ -36,8 +36,8 @@ proc getObjOption { obj option } {
 }
 namespace eval ::MSNCAM {
 	namespace export CancelCam SendInvite AskWebcam CamCanceled
-	
-	
+
+
 	#//////////////////////////////////////////////////////////////////////////////
 	# CamCanceled ( chat sid )
 	#  This function is called when a file transfer is canceled by the remote contact
@@ -46,7 +46,7 @@ namespace eval ::MSNCAM {
 		set window [getObjOption $sid window]
 
 		if { [::MSNCAM::IsGrabberValid $grabber] } {
-			::MSNCAM::CloseGrabber $grabber
+			::MSNCAM::CloseGrabber $grabber $window
 		}
 		if { [winfo exists $window] } {
 			destroy $window
@@ -107,7 +107,7 @@ namespace eval ::MSNCAM {
 		setObjOption $sid chatid $chatid
 
 		if { $producer } {
-		    setObjOption $sid source 0
+		    setObjOption $sid source [::config::getKey "webcamDevice" "0"]
 		}
 
 		# Let's make and send a 200 OK Message
@@ -250,7 +250,7 @@ namespace eval ::MSNCAM {
 		if { $guid == "4BD96FC0-AB17-4425-A14A-439185962DC8" } {
 			setObjOption $sid producer 1
 
-		    setObjOption $sid source 0
+		    setObjOption $sid source [::config::getKey "webcamDevice" "0"]
 		    ::amsn::WinWrite $chatid "\nSend request to send webcam\n" green
 
 		} else {
@@ -342,7 +342,7 @@ namespace eval ::MSNCAM {
 	}
 
 	proc handleMsnCam { sid sock ip port } {
-	
+
 		setObjOption $sock sid $sid
 		setObjOption $sock server 1
 		setObjOption $sock state "AUTH"
@@ -521,7 +521,7 @@ namespace eval ::MSNCAM {
 				}
 
 			}
-			"END" 
+			"END"
 			{
 				status_log "Closing socket $sock because it's in END state\n" red
 				close $sock
@@ -589,8 +589,8 @@ namespace eval ::MSNCAM {
 			{
 				after 100 "::MSNCAM::GetCamFrame $sid $sock"
 				#fileevent $sock writable "::MSNCAM::WriteToSock $sock"
-			} 
-			"END"  
+			}
+			"END"
 			{
 				status_log "Closing socket $sock because it's in END state\n" red
 				close $sock
@@ -667,7 +667,7 @@ namespace eval ::MSNCAM {
 		} else {
 			set tcp "${tcp}</tcp>"
 		}
-		
+
 		set udp "<udp><udplocalport>0</udplocalport><udpexternalport>0</udpexternalport><udpexternalip>$clientip</udpexternalip><a1_port>$port</a1_port><b1_port>$port</b1_port><b2_port>$port</b2_port><b3_port>$port</b3_port><symmetricallocation>0</symmetricallocation><symmetricallocationincrement>0</symmetricallocationincrement><udpinternalipaddress1>$localip</udpinternalipaddress1></udp>"
 		set footer "<codec></codec><channelmode>1</channelmode>"
 
@@ -750,7 +750,7 @@ namespace eval ::MSNCAM {
 
 		setObjOption $sid ips $ips
 
-		foreach connection $ips { 
+		foreach connection $ips {
 			set sock [lindex $connection 2]
 
 			catch {fconfigure $sock -blocking 1 -buffering none -translation {binary binary} }
@@ -758,7 +758,7 @@ namespace eval ::MSNCAM {
 			fileevent $sock writable "::MSNCAM::CheckConnected $sid $sock "
 		}
 
-		after 5000 "::MSNCAM::CheckConnectSuccess $sid" 
+		after 5000 "::MSNCAM::CheckConnectSuccess $sid"
 
 	}
 
@@ -769,7 +769,7 @@ namespace eval ::MSNCAM {
 		if { [llength $ips] == 0 && [llength $connected_ips] == 0
 		     && [getObjOption $sid canceled] != 1} {
 			status_log "No socket was connected\n" red
-			::MSNCAM::CancelCam [getObjOption $sid chatid] $sid 
+			::MSNCAM::CancelCam [getObjOption $sid chatid] $sid
 		}
 	}
 
@@ -796,7 +796,7 @@ namespace eval ::MSNCAM {
 				set ip [lindex $connection 0]
 				set port [lindex $connection 1]
 				set sock [lindex $connection 2]
-				
+
 				if {$sock == $socket } {
 					break
 				}
@@ -805,7 +805,7 @@ namespace eval ::MSNCAM {
 			set connected_ips [getObjOption $sid connected_ips]
 			lappend connected_ips [list $ip $port $socket]
 			setObjOption $sid connected_ips $connected_ips
-			
+
 			if { [getObjOption $sid socket] == "" } {
 				setObjOption $sid socket $socket
 				fileevent $socket readable "::MSNCAM::ReadFromSock $socket"
@@ -832,21 +832,21 @@ namespace eval ::MSNCAM {
 	proc AuthFailed { sid socket } {
 		set list [RemoveSocketFromList [getObjOption $sid connected_ips] $socket]
 		setObjOption $sid connected_ips $list
-		
+
 		setObjOption $sid socket ""
 
 		status_log "Authentification on socket $socket failed\n" red
 		if {[llength $list] > 0 } {
 			set element [lindex $list 0]
 			set socket [lindex $element 2]
-			
+
 			setObjOption $sid socket $socket
 			fileevent $socket readable "::MSNCAM::ReadFromSock $socket"
 
 			if { [getObjOption $sid server] == 0 } {
 				fileevent $socket writable "::MSNCAM::WriteToSock $socket"
 			}
-			
+
 		}
 
 		after 5000 "::MSNCAM::CheckConnectSuccess $sid"
@@ -860,7 +860,7 @@ namespace eval ::MSNCAM {
 			set ip [lindex $connection 0]
 			set port [lindex $connection 1]
 			set sock [lindex $connection 2]
-			
+
 			if {$sock == $socket } {
 				set ips [lreplace $ips $idx $idx]
 				return $ips
@@ -878,13 +878,13 @@ namespace eval ::MSNCAM {
 				CloseUnusedSockets $sid $used_socket  $ips
 				setObjOption $sid ips ""
 			}
-	
+
 			set ips [getObjOption $sid connected_ips]
 			status_log "Closing connected_ips $ips\n" red
 			if { $ips != "" } {
 				CloseUnusedSockets $sid $used_socket $ips
 			}
-			
+
 			status_log "resetting ips and connected_ipss\n red"
 
 			if { $used_socket != "" } {
@@ -893,7 +893,7 @@ namespace eval ::MSNCAM {
 					set port [lindex [fconfigure $used_socket -peer] 2]}] } {
 					lappend ips [list $ip $port $used_socket]
 				}
-			
+
 				setObjOption $sid connected_ips $ips
 			}
 		} else {
@@ -903,21 +903,21 @@ namespace eval ::MSNCAM {
 				set ip [lindex $connection 0]
 				set port [lindex $connection 1]
 				set sock [lindex $connection 2]
-				
+
 				status_log "verifying $ip : $port on $sock \n" red
 				if {$sock == $used_socket } { continue }
-				
+
 				status_log "Closing $sock\n" red
 				catch {
 					fileevent $sock readable ""
 					fileevent $sock writable ""
 				}
-				
+
 				status_log "fileevents reset\n" red
 				catch {close $sock}
 				status_log "closed\n" red
 			}
-			
+
 		}
 		status_log "Finished\n" red
 	}
@@ -1062,8 +1062,35 @@ namespace eval ::MSNCAM {
 		set window [getObjOption $sid window]
 		set img [getObjOption $sid image]
 		set encoder [getObjOption $socket codec]
+		set source [getObjOption $sid source]
+
+		if { [set ::tcl_platform(os)] == "Linux" } {
+			if {$source == "0" } { set source "/dev/video0:0" }
+			set pos [string last ":" $source]
+			set dev [string range $source 0 [expr $pos-1]]
+			set channel [string range $source [expr $pos+1] end]
+		}
 
 		set grabber [getObjOption $sid grabber]
+		if { $grabber == "" } {
+			if { [set ::tcl_platform(platform)] == "windows" } {
+				foreach grabberItm [array names ::grabbers] {
+					if {[$grabberItm cget -source] == $source} {
+						set grabber $grabberItm
+						break
+					}
+				}
+				if { $grabber == "" } {
+					set grabber .grabber
+				}
+			} elseif { [set ::tcl_platform(os)] == "Darwin" } {
+
+				set grabber .grabber.seq
+			} elseif { [set ::tcl_platform(os)] == "Linux" } {
+				set grabber [::Capture::GetGrabber $dev $channel]
+			}
+		}
+
 		set chatid [getObjOption $sid chatid]
 
 		set grab_proc [getObjOption $sid grab_proc]
@@ -1088,6 +1115,12 @@ namespace eval ::MSNCAM {
 				button $window.q -command "destroy $window" -text "Stop sending Webcam"
 				pack $window.q -expand true -fill x
 			}
+			if { [info exists ::grabbers($grabber)] } {
+				set windows ::grabbers($grabber)
+				lappend windows $window
+				set ::grabbers($grabber) windows
+			}
+
 			setObjOption $sid window $window
 			setObjOption $sid image $img
 		}
@@ -1116,9 +1149,12 @@ namespace eval ::MSNCAM {
 				setObjOption $sid grab_proc "Grab_Mac"
 
 			} elseif { [set ::tcl_platform(os)] == "Linux" } {
+				set pos [string last ":" $source]
+				set dev [string range $source 0 [expr $pos-1]]
+				set channel [string range $source [expr $pos+1] end]
 
-				#status_log "Source : [getObjOption $sid source]"
-				set grabber [::Capture::Open "/dev/video" 0]
+				set grabber [::Capture::Open $dev $channel]
+
 				setObjOption $sid grab_proc "Grab_Linux"
 
 				scale $window.b -from 0 -to 65535 -resolution 1 -showvalue 1 -label "B" -command "::Capture::SetBrightness $grabber" -orient horizontal
@@ -1132,6 +1168,7 @@ namespace eval ::MSNCAM {
 				return
 			}
 			status_log "Created grabber : $grabber"
+			set ::grabbers($grabber) [list $window]
 			setObjOption $sid grabber $grabber
 			set grab_proc [getObjOption $sid grab_proc]
 			status_log "grab_proc is $grab_proc - [getObjOption $sid grab_proc]\n" red
@@ -1139,8 +1176,7 @@ namespace eval ::MSNCAM {
 		}
 
 		if { [winfo exists $window] && [bind $window <Destroy>] == "" } {
-			bind $window <Destroy> "if { \[::MSNCAM::IsGrabberValid $grabber\] } { ::MSNCAM::CancelCam $chatid $sid; ::MSNCAM::CloseGrabber $grabber}"
-			status_log "if { \[::MSNCAM::IsGrabberValid $grabber\] } { ::MSNCAM::CancelCam $chatid $sid; ::MSNCAM::CloseGrabber $grabber}"
+			bind $window <Destroy> "if { \[::MSNCAM::IsGrabberValid $grabber\] } { ::MSNCAM::CancelCam $chatid $sid; ::MSNCAM::CloseGrabber $grabber $window}"
 		}
 		#status_log "test : $::tcl_platform(os) , [winfo exists $window.b]"
 
@@ -1245,8 +1281,26 @@ namespace eval ::MSNCAM {
 		}
 	}
 
-	proc CloseGrabber { grabber } {
-		if { ![expr [info exists ::capture_loaded] && $::capture_loaded] } { return }
+	proc CloseGrabber { grabber window } {
+		if { !([info exists ::capture_loaded] && $::capture_loaded ) } { return }
+
+		if { ![info exists ::grabbers($grabber)] } { return }
+
+		set windows $::grabbers($grabber)
+		#status_log "For grabber $grabber : windows are $windows"
+		set idx [lsearch $windows $window]
+
+		if { $idx == -1 } {
+			status_log "Window $window not found in $windows"
+			return
+		}
+		set windows [lreplace $windows $idx $idx]
+		status_log "Removed window $window idx : $idx from windows"
+		status_log "Now windows is $windows"
+		set ::grabbers($grabber) $windows
+
+		if { [llength $windows] > 0 } { return }
+
 		if { [set ::tcl_platform(os)] == "Linux" } {
 			::Capture::Close $grabber
 		} elseif { [set ::tcl_platform(os)] == "Darwin" } {
@@ -1255,6 +1309,8 @@ namespace eval ::MSNCAM {
 		} elseif { [set ::tcl_platform(platform)] == "windows" } {
 			destroy $grabber
 		}
+		unset ::grabbers($grabber)
+
 	}
 
 	proc CaptureLoaded { } {
@@ -1276,6 +1332,7 @@ namespace eval ::MSNCAM {
 			return 0
 		} else {
 			set ::capture_loaded 1
+			array set ::grabbers {}
 			return 1
 		}
 
