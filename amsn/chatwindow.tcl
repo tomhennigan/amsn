@@ -2357,7 +2357,14 @@ namespace eval ::ChatWindow {
 			-height [image height [::skin::loadPixmap tab]] -highlightthickness 0
 
 		$tab create image 0 0 -anchor nw -image [::skin::loadPixmap tab] -tag tab_bg
-		$tab create text [::skin::getKey tab_text_x] [::skin::getKey tab_text_y] -anchor nw -text "$win" -tag tab_text -font sboldf -width [::skin::getKey tab_text_width]
+
+		set nick [string trim $win] ;# to avoid havng a blank tab if the user has  a nick like "\n\n\n my nick"
+		set idx [string first "\n" $nick]
+		if { $idx != -1 } {
+		        set nick [string range $nick 0 [expr {$idx -1}]]
+		}
+
+		$tab create text [::skin::getKey tab_text_x] [::skin::getKey tab_text_y] -anchor nw -text "$nick" -tag tab_text -font sboldf -width [::skin::getKey tab_text_width]
 		$tab create image [::skin::getKey tab_close_x] [::skin::getKey tab_close_y] -anchor nw -image [::skin::loadPixmap tab_close] -activeimage [::skin::loadPixmap tab_close_hover] -tag tab_close
 
 		#Old button based tab
