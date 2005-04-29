@@ -849,7 +849,7 @@ namespace eval ::MSNCAM {
 			
 		}
 
-		after 5000 "CheckConnectSuccess $sid"
+		after 5000 "::MSNCAM::CheckConnectSuccess $sid"
 	}
 
 	proc RemoveSocketFromList { list socket } {
