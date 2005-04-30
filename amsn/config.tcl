@@ -6,13 +6,13 @@ namespace eval ::config {
 
 	proc configDefaults {} {
 		global tcl_platform password auto_path advanced_options
-	
+
 		::config::setKey protocol "9"		;# Which MSN Protocol do you prefer to use: 9
 		::config::setKey nossl 0			;#Disable the use of SSL, so it doesn't requite TLS package: 0|1
-	
+
 		::config::setKey login ""			;# These are defaults for users without
 		::config::setKey save_password 0		;# a config file: 0|1
-	
+
 		::config::setKey keep_logs 1			;#Save log files: 0|1
 		::config::setKey display_event_connect 1	;#Display when someone connect
 		::config::setKey display_event_disconnect 1	;#Display when someone disconnect
@@ -22,26 +22,26 @@ namespace eval ::config {
 		::config::setKey log_event_disconnect 0	;#Log when someone disconnect
 		::config::setKey log_event_email 0		;#Log when a new E-Mail is received
 		::config::setKey log_event_state 0		;#Log changement of status
-	
+
 		::config::setKey connectiontype direct	;# Connection type: direct|http|proxy
 		::config::setKey proxy ""			;# If using proxy, proxy host
 		::config::setKey proxytype "http"		;# Proxy type: http|ssl|socks5
 		::config::setKey proxyauthenticate 0		;# SOCKS5 use username/password
 		::config::setKey proxyuser ""		;# user and password for SOCKS5 proxy
 		::config::setKey proxypass ""		;#
-	
+
 		::config::setKey sound 1			;#Sound enabled: 0|1
 		::config::setKey mailcommand ""		;#Command for checking mail. Blank for hotmail
 		::config::setKey notifytyping 1		;#Send typing notifications
 		::config::setKey soundactive 0               ;#Typing sound even on active window
-		
+
 		::config::setKey chatstyle	"msn"		;#Chat display style
-	
+
 		::config::setKey reconnect 1			;#Variable for amsn to reconnect on loss
-	
+
 		::config::setKey dock 0				;#Docking type
 								;#Changed later for windows to 4
-	
+
 		#Some Autodetected options
 		if {$tcl_platform(os) == "Darwin"} {
 			set osversion [string range "$tcl_platform(osVersion)" 0 0]
@@ -82,27 +82,27 @@ namespace eval ::config {
 			::config::setKey notifyYoffset 0
 			::config::setKey usesnack 0			;#Use the Snack library for sounds
 		}
-		
+
 		::config::setKey autoidle 1				;#Enable/disable auto-idle feature: 0|1
 		::config::setKey idletime 5				;#Minutes before setting status to idle
 		::config::setKey autoaway 1				;#Enable/disable auto-away feature: 0|1
 		::config::setKey awaytime 10				;#Minutes before setting status to away
-	
+
 		::config::setKey orderbygroup 0			;#Order contacts by group: 0=No | 1=Groups | 2=Hybrid
 		::config::setKey ordergroupsbynormal 1		;#Order groups normal or inverted
-	
+
 		::config::setKey dateformat MDY			;#Change date format (eg Month/Day/Year)
-	
+
 		::config::setKey listsmileys 1			;#Show smileys in contact list
 		::config::setKey chatsmileys 1			;#Show smileys in chat window
-	
+
 		::config::setKey startoffline 0			;#Start session as offline (hidden)
-	
+
 		::config::setKey autoftip 1				;#Detect IP for file transfers automatically
 		::config::setKey myip "127.0.0.1"			;#Your IP
 		::config::setKey manualip "127.0.0.1"		;#Manual IP
-	
-		
+
+
 		#Specific configs for Mac OS X (Aqua) first, and for others systems after
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 			::config::setKey wingeometry 275x400-200+200		;#Main window geometry on Mac OS X
@@ -112,24 +112,24 @@ namespace eval ::config {
 			::config::setKey wingeometry 275x400-0+0			;#Main window geometry
 			::config::setKey backgroundcolor  #D8D8E0		;#AMSN background color
 		}
-		
+
 		::config::setKey closingdocks 0						;#Close button minimizes (or docks) main window
 
 		::config::setKey encoding auto						;#ANSN encoding
-	
+
 		::config::setKey textsize 2							;#User text size
 		::config::setKey mychatfont "{Helvetica} {} 000000"	;#User chat font
 		::config::setKey winchatsize "350x320"		;#Default chat window size
 		::config::setKey winchatoutheight "200"		;#Default chat window output height
 		::config::setKey savechatwinsize 1			;#Save chat window sizes when changed?
-	
+
 		::config::setKey notifymsg 1				;#Show notify window when a message arrives
 		::config::setKey notifyonline 1			;#Show notify window when a user goes online
 		::config::setKey notifyoffline 0			;#Show notify window when a user goes offline
 		::config::setKey notifystate 0			;#Show notify window when a user changes status
 		::config::setKey notifyemail 1			;#Show notify window when a new mail arrives
 		::config::setKey notifyemailother 0			;#Show notify window when a new mail arrives in other folders
-	
+
 		#Specific for Mac OS X, if newchatwinstate=1, new windows of message never appear
 		if {$tcl_platform(os) == "Darwin"} {
 			::config::setKey newchatwinstate 0		;#Iconify or restore chat window on new chat
@@ -138,24 +138,24 @@ namespace eval ::config {
 			::config::setKey newchatwinstate 1		;#Iconify or restore chat window on new chat
 			::config::setKey newmsgwinstate 1		;#Iconify or restore chat window on new message
 		}
-		
+
 		::config::setKey flicker 1				;#Flicker window on new message
 		::config::setKey showdisplaypic 1		;#Show display picture as default
 		::config::setKey lazypicretrieval 0		;#Retrieve display pics in a lazy way, only when chatting to that user
 
 		::config::setKey autochangenick 1		;# automaticly change nick to custom state
-	
+
 		::config::setKey initialftport 6891	;#Initial for to be used when sending file transfers
 		::config::setKey ftautoaccept 0		;#Auto-Accept file transfer request (Off by default)
 		::config::setKey ftautoclose 0		;#Auto-close file transfer windows when finished
 		::config::setKey new_ft_protocol 0	;#Use new FileTransfer protocol (Off by default)
-	
+
 		::config::setKey shownotify 1 			;#Show notify window (in general, see advanced options)
 		::config::setKey clientcaps 1			;#Send x-clientcaps information to others 3rd Messenger
 		#Remote control options
 		::config::setKey enableremote 0
 		::config::setKey remotepassword ""
-	
+
 		#Blocking detection options
 		::config::setKey checkonfln 0
 		::config::setKey checkblocking 0
@@ -164,10 +164,10 @@ namespace eval ::config {
 		::config::setKey blockinter3 5
 		::config::setKey blockusers 2
 		::config::setKey showblockedgroup 0
-	
+
 		::config::setKey emotisounds 1			;#Play sound on certain emoticons
 		::config::setKey animatedsmileys 1		;#Show animated smileys
-	
+
 		#Custom smileys configuration
 		::config::setKey customsmileys [list]
 		::config::setKey custom_smileys 1
@@ -181,11 +181,11 @@ namespace eval ::config {
 		} else {
 		::config::setKey convertpath "/usr/local/bin/convert"		;#Path for convert (from imagemagick) on Mac OS X
 		}
-	
+
 		#Advanced options, not in preferences window
 		# Create the entry in the list and then, set
 		# the variable at bottom
-		
+
 		#List like:
 		#	"" trans_section_name_1
 		#  optionname1 type1 trans_name1 trans_desc1(optional)
@@ -285,21 +285,21 @@ namespace eval ::config {
 		::config::setKey notifytimeout 8000 ; #Number of milisecs before the notify will go away
 		::config::setKey globalnick ""		;#The global custom nickname (pattern), disabled by default
 		::config::setKey globaloverride 0		;# Sets whether Global nicknames pattern should override custom nicks, disabled by default
-	
+
 		#System options, not intended to be edited (unless you know what you're doing)
 		set password ""
 		::config::setKey withnotebook 0			;#Use notebook tabs in contact list
-	
+
 		::config::setKey adverts 0				;#Enable banner advertisements
 		::config::setKey displaypic "amsn.png"                   ;# Display picture
 		::config::setKey getdisppic 1
 
 	}
-	
+
 	proc globalDefaults {} {
 		global gconfig tcl_platform
-		
-		setGlobalKey last_client_version ""		
+
+		setGlobalKey last_client_version ""
 		setGlobalKey language [detect_language "en"]	;#Default language
 		setGlobalKey skin "default"			;#AMSN skin
 		setGlobalKey disableprofiles 0 ;#Disable profiles (useful for cybercafes or similar)
@@ -325,31 +325,31 @@ namespace eval ::config {
 			return $default
 		}
 	}
-	
+
 	proc getVar {key} {
 		return "::config($key)"
 	}
-	
+
 	proc getKeys {} {
 		return [array names ::config]
 	}
-	
+
 	proc getAll {} {
 		return [array get ::config]
 	}
-	
-			
+
+
 	proc setKey {key value} {
 		set ::config($key) $value
 	}
-	
+
 	proc setAll {values} {
 		array set ::config $values
 	}
-	
+
 	proc unsetKey {key} {
 		unset ::config($key)
-	}	
+	}
 
 	proc getGlobalKey {key {default ""}} {
 		if { [info exists ::gconfig($key)] } {
@@ -358,7 +358,7 @@ namespace eval ::config {
 			return $default
 		}
 	}
-	
+
 	proc getGlobalVar {key} {
 		return "::gconfig($key)"
 	}
@@ -370,7 +370,7 @@ namespace eval ::config {
 	proc getGlobalAll {} {
 		return [array get ::gconfig]
 	}
-	
+
 	proc setGlobalKey {key value} {
 		set ::gconfig($key) $value
 	}
@@ -394,7 +394,7 @@ namespace eval ::config {
 		global gconfig HOME2 HOME
 
 		globalDefaults
-		
+
 		if { [info exists HOME2] } {
 			set config_file [file join ${HOME2} "gconfig.xml"]
 		} else {
@@ -449,9 +449,9 @@ namespace eval ::config {
 
 proc save_config {} {
 	global tcl_platform HOME HOME2 version password custom_emotions
-	
+
 	status_log "save_config: saving config for user [::config::getKey login] in $HOME]\n" black
-	
+
 	if { [catch {
 		if {$tcl_platform(platform) == "unix"} {
 			set file_id [open "[file join ${HOME} config.xml]" w 00600]
@@ -474,7 +474,7 @@ proc save_config {} {
 
 	#Start of config file
 	puts $file_id  "<?xml version=\"1.0\"?>\n\n<config>"
-	
+
 	#Save all keys except special ones
 	foreach var_attribute [::config::getKeys] {
 		set var_value [::config::getKey $var_attribute]
@@ -485,7 +485,7 @@ proc save_config {} {
 	}
 
 	#Save encripted password
-	if { ([::config::getKey save_password]) && ($password != "")} {	
+	if { ([::config::getKey save_password]) && ($password != "")} {
 		set key [string range "${loginback}dummykey" 0 7]
 		binary scan [::des::encrypt $key "${password}\n"] h* encpass
 		puts $file_id "   <entry>\n      <attribute>encpassword</attribute>\n      <value>$encpass</value>\n   </entry>"
@@ -510,16 +510,16 @@ proc save_config {} {
 		puts $file_id "   </emoticon>\n"
 	}
 
-	#End of config file	
+	#End of config file
 	puts $file_id "</config>"
-	
+
 	close $file_id
-	
+
 	::config::setKey login $loginback
 	set password $passback
-	
+
 	status_log "save_config: Config saved\n" black
-    
+
 
 }
 
@@ -540,12 +540,12 @@ proc load_config {} {
 
 	set user_login [::config::getKey login]
 	status_log "load_config: Started. HOME=$HOME, config(login)=$user_login\n"
-	
+
 	#Set default values
 	::config::configDefaults
 
 	if { [file exists [file join ${HOME} "config.xml"]] } {
-	
+
 		status_log "load_config: loading file [file join ${HOME} config.xml]\n" blue
 
 		if { [catch {
@@ -557,7 +557,7 @@ proc load_config {} {
 			sxml::end $file_id
 			status_log "load_config: Config loaded\n" green
 			if { [winfo exists .smile_selector]} { destroy .smile_selector }
-			
+
 		} res] } {
 			::amsn::errorMsg "[trans corruptconfig [file join ${HOME} "config.xml.old"]]"
 			file copy -force [file join ${HOME} "config.xml"] [file join ${HOME} "config.xml.old"]
@@ -565,7 +565,7 @@ proc load_config {} {
 			::config::configDefaults
 			file delete [file join ${HOME} "config.xml"]
 		}
-		
+
 		#Force the change of the default background color and other specific Mac things
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 			set bgcolormac [::config::getKey backgroundcolor]
@@ -586,7 +586,7 @@ proc load_config {} {
 					} else {
 						::config::setKey soundcommand "./sndplay \$sound"
 					}
-				}			
+				}
 			}
 	}
 	#Sometimes, if there is a bugreport when opening a new window, the size of the window savez will be 1x1
@@ -631,17 +631,17 @@ proc load_config {} {
 		status_log "load_config: Empty login !!! FIXING\n" red
 		::config::setKey login $user_login
 	}
-    
+
 	if { [::config::getKey enableremote] } {
 		init_remote_DS
 	}
-    
+
 	#set the banner for this user when switching users
 	global initialize_amsn
 	if { $initialize_amsn != 1 } {
 		resetBanner
 	}
-    
+
 	#load Snack when being used
 	if { [::config::getKey usesnack] } {
 		if {![catch {package require snack}]} {
@@ -651,8 +651,8 @@ proc load_config {} {
 			save_config
 			#msg_box [trans snackfailed]
 		}
-	} 
-    
+	}
+
 	::plugins::LoadPlugins
 }
 
@@ -666,13 +666,13 @@ proc LoadLoginList {{trigger 0}} {
 
 	#puts stdout "called loadloginlist\n"
 	status_log "LoadLoginList: starting\n" blue
-	
+
 	if { $trigger != 0 } {
 		status_log "LoadLoginList: getting profiles\n" blue
 	} else {
 		set HOME2 $HOME
 	}
-		
+
 
 	if {([file readable "[file join ${HOME} profiles]"] != 0) && ([file isfile "[file join ${HOME} profiles]"] != 0)} {
 		set HOMEE $HOME
@@ -683,16 +683,16 @@ proc LoadLoginList {{trigger 0}} {
 	}
 
 	status_log "LoadLoginList: HOME=$HOME, HOME2=$HOME2, HOMEE=$HOMEE\n" blue
-	
-	
+
+
 	set file_id [open "[file join ${HOMEE} profiles]" r]
 	gets $file_id tmp_data
 	if {$tmp_data != "amsn_profiles_version 1"} {	;# config version not supported!
 		#msg_box [trans wrongprofileversion $HOME]
 		close $file_id
-		
+
 		set OLDHOME $HOME
-		
+
 		status_log "LoadLoginList: Recreating profiles file\n" blue
 
 		if { [catch {set file_id [open "[file join ${HOMEE} profiles]" w]}]} {
@@ -715,7 +715,7 @@ proc LoadLoginList {{trigger 0}} {
 			}
 		}
 		close $file_id
-		
+
 		set HOME $OLDHOME
 
 		return [LoadLoginList $trigger]
@@ -726,7 +726,7 @@ proc LoadLoginList {{trigger 0}} {
 	for { set idx 0 } { $idx <= $top } {incr idx 1 } {
 		LoginList unset 0 [LoginList get 0]
 	}
-	
+
 	# Now add profiles from file to list
 	while {[gets $file_id tmp_data] != "-1"} {
 		set temp_data [split $tmp_data]
@@ -743,31 +743,31 @@ proc LoadLoginList {{trigger 0}} {
 			set user_login [::config::getKey login]
 			set HOME $oldHOME
 		}
-		
-		
+
+
 #	    puts "temp data : $temp_data"
 		if { $locknum == "" } {
 		   #Profile without lock, give it 0
 		   set locknum 0
 		}
-		
+
 		LoginList add 0 $user_login $locknum
 		status_log "LoadLoginList: adding profile $user_login with lock num $locknum\n" blue
 	}
 	close $file_id
 
-	
+
 	# Modify HOME dir to current profile, chose a non locked profile, if none available go to default
 	if { $trigger == 0 } {
-		
+
 		#If profiles are disabled, don't load one
 		if { [::config::getGlobalKey disableprofiles] == 1 } {
-			status_log "LoadLoginList: profiles disabled, ignoring\n" blue		
+			status_log "LoadLoginList: profiles disabled, ignoring\n" blue
 			::config::setKey login ""
 			set HOME2 $HOME
 			return
-		}		
-		
+		}
+
 		status_log "LoadLoginList: getting an initial profile\n" blue
 		set HOME2 $HOME
 		set flag 0
@@ -788,9 +788,9 @@ proc LoadLoginList {{trigger 0}} {
 			#set dirname [join $dirname "_"]
 			set HOME "[file join $HOME2 $dirname]"
 			::config::setKey login "$temp"
-			status_log "LoadLoginList: we found a free profile: $temp\n" green		
+			status_log "LoadLoginList: we found a free profile: $temp\n" green
 		} else {
-			status_log "LoadLoginList: using default profile\n" green			
+			status_log "LoadLoginList: using default profile\n" green
 			::config::setKey login ""
 		}
 		SaveLoginList
@@ -810,7 +810,7 @@ proc SaveLoginList {} {
       		set file_id [open "[file join ${HOME2} profiles]" w]
 	}
 	puts $file_id "amsn_profiles_version 1"
-	
+
 	set idx [LoginList size 0]
 	while { $idx >= 0 } {
 		puts $file_id "[LoginList get $idx] [LoginList getlock 0 [LoginList get $idx]]"
@@ -831,7 +831,7 @@ proc SaveLoginList {} {
 #	getlock : Returns lock code for given email, if non existant returns -1.
 #	changelock : changes lock for user given by email to lock port given by lock
 #	lockexists : checks if lock exists for some profile, returns 1 if true, 0 if false
-#	unset : Removes profile given by email from the list and moves 
+#	unset : Removes profile given by email from the list and moves
 #		all elements up by 1 (age is ignored)
 #       size : Returns [array size ProfileList] - 1
 #	show : Dumps list to status_log, for debugging purposes only
@@ -850,7 +850,7 @@ proc LoginList { action age {email ""} {lock ""} } {
 				for {set idx [expr {[array size ProfileList] - 1}]} {$idx >= 0} {incr idx -1} {
 					set ProfileList([expr {$idx + 1}]) $ProfileList($idx)
 					set LockList([expr {$idx + 1}]) $LockList($idx)
-				} 
+				}
 				set ProfileList(0) $email
 				set LockList(0) $lock
 			} else {
@@ -886,7 +886,7 @@ proc LoginList { action age {email ""} {lock ""} } {
 				return 0
 			}
 		}
-		
+
 		exists {
 			set tmp_list [array get ProfileList]
 			set idx [lsearch $tmp_list "$email"]
@@ -896,7 +896,7 @@ proc LoginList { action age {email ""} {lock ""} } {
 				return 1
 			}
 		}
-		
+
 		getlock {
 			set tmp_list [array get ProfileList]
 			set idx [lsearch $tmp_list "$email"]
@@ -928,7 +928,7 @@ proc LoginList { action age {email ""} {lock ""} } {
 				return 1
 			}
 		}
-				
+
 		size {
 			return [expr {[array size ProfileList] - 1}]
 		}
@@ -953,43 +953,43 @@ proc ConfigChange { window email } {
 
 	if { $email != "" } {
 		status_log "ConfigChange: Valid email\n" green
-		
+
 		if { $email != [::config::getKey login] } {
 			status_log "ConfigChange: Email changed\n" blue
-			
+
 			if { [LoginList exists 0 [::config::getKey login]] == 1 } {
 				save_config
 			}
-		
+
 			if { [LoginList exists 0 $email] == 1 } {
-			
+
 				status_log "ConfigChange: Login exists\n" blue
-				
+
 				# Profile exists, make the switch
 				set OLDHOME $HOME
-				
+
 				set dirname [string map {"@" "_" "." "_"} $email]
 				#set dirname [split $email "@ ."]
 				#set dirname [join $dirname "_"]
 				set HOME "[file join $HOME2 $dirname]"
-						
-				if { [CheckLock $email] == -1 } { 
+
+				if { [CheckLock $email] == -1 } {
 					status_log "ConfigChange: Profile is locked\n" blue
-					
+
 					msg_box [trans profileinuse]
 					set HOME $OLDHOME
-					
+
 					# Reselect previous element in combobox
 					set cb [$window list get 0 [LoginList size 0]]
 					set index [lsearch $cb [::config::getKey login]]
 					$window select $index
 				} else {
 					status_log "ConfigChange: Profile is free\n" green
-				
+
 					if { [info exists password] } {
 						set password ""
 					}
-		
+
 					# Make sure we delete old lock
 					if { [info exists lockSock] } {
 						if { $lockSock != 0 } {
@@ -997,36 +997,42 @@ proc ConfigChange { window email } {
 							unset lockSock
 						}
 					}
-		
+
 					if { [LoginList exists 0 [::config::getKey login]] } {
 						LoginList changelock 0 [::config::getKey login] 0
 					}
-					
+
 					config::setKey login $email
 					load_config
-		
+
 					::config::setKey protocol 9
-		
+
 					LoginList add 0 $email
 					set log_dir "[file join ${HOME} logs]"
-				
+
 					# port isn't taken or port taken by other program, meaning profile ain't locked
 					# let's setup the new lock
 					LockProfile $email
 					SaveLoginList
 					cmsn_draw_offline
-					
+
 				}
 			}
 		}
-		
+
 		if { [winfo exists .login] } {
 			.login.main.f.f.passentry2 delete 0 end
 			if { [info exists password] } {
 				.login.main.f.f.passentry2 insert 0 $password
 			}
+			if {[string is digit -strict "[::config::getKey connectas]"]} {
+				.login.main.f.f.statelist select "[::config::getKey connectas]"
+			} else {
+				.login.main.f.f.statelist select "0"
+				status_log "Variable connectas is not digital [::config::getKey connectas]\n" red
+			}
 		}
-	} 
+	}
 }
 
 
@@ -1055,8 +1061,8 @@ proc SwitchProfileMode { value } {
 				# Going back to default profile
 				set loginmode 0
 				RefreshLogin .login.main.f.f 1
-			} elseif { $idx > [LoginList size 0] } { 
-				msg_box [trans allprofilesinuse] 
+			} elseif { $idx > [LoginList size 0] } {
+				msg_box [trans allprofilesinuse]
 				# Going back to default profile
 				set loginmode 0
 				RefreshLogin .login.main.f.f 1
@@ -1071,7 +1077,7 @@ proc SwitchProfileMode { value } {
 		}
 	} else {
 		# Switching to default profile, remove lock on previous profiles if needed
-		
+
 		# Make sure we delete old lock
 		if { [info exists lockSock] } {
 			if { $lockSock != 0 } {
@@ -1084,13 +1090,13 @@ proc SwitchProfileMode { value } {
 			SaveLoginList
 		}
 
-		# Load default config 
+		# Load default config
 		set HOME $HOME2
-		
+
 		config::setKey login ""
 		load_config
 		set log_dir ""
-				
+
 		# Set variables for default profile
 		::config::setKey save_password 0
 		::config::setKey keep_logs 0
@@ -1108,7 +1114,7 @@ proc SwitchProfileMode { value } {
 # email : email of new profile
 proc CreateProfile { email } {
 	global HOME HOME2 log_dir password lockSock loginmode
-	
+
 	if { [LoginList exists 0 $email] == 1 } {
 		msg_box [trans profileexists]
 		return -1
@@ -1118,37 +1124,37 @@ proc CreateProfile { email } {
 	if { ($HOME == $HOME2) && ([file exists [file join $HOME2 config.xml]] == 0) } {
 		save_config
 	}
-	
+
 	set oldlogin [::config::getKey login]
 
 	status_log "Creating new profile for $email\n" blue
 	# Create a new profile with $email
 	# Set HOME dir and create it
 	set dirname [string map {"@" "_" "." "_"} $email]
-	
+
 	#set dirname [split $email "@ ."]
 	#set dirname [join $dirname "_"]
 	set newHOMEdir "[file join $HOME2 $dirname]"
 	create_dir $newHOMEdir
 	set log_dir "[file join ${newHOMEdir} logs]"
 	create_dir $log_dir
-	
+
 	# Load default config initially
 	file copy -force [file join $HOME2 config.xml] $newHOMEdir
-	
+
 	set oldhome $HOME
 	set HOME $newHOMEdir
-	
+
 	::config::setKey login $email
 	load_config
 	save_config
-	
+
 	::config::setKey login $oldlogin
 	set HOME $oldhome
 	load_config
 	unset oldhome
 	unset newHOMEdir
-		
+
 	# Add to login list
 	LoginList add 0 $email 0
 	SaveLoginList
@@ -1202,7 +1208,7 @@ proc DeleteProfile { email entrypath } {
 		msg_box [trans cannotdeleteprofile]
 		return
 	}
-	
+
 	set answer [::amsn::messageBox "[trans confirmdelete ${email}]" yesno question]
 
 	if {$answer == "no"} {
@@ -1213,18 +1219,18 @@ proc DeleteProfile { email entrypath } {
 
 	#set dir [split $email "@ ."]
 	#set dir [join $dir "_"]
-	
+
 
 	set entryidx [$entrypath curselection]
 	if {$entryidx == "" } {
 		set entryidx 0
 	}
-	
+
 	catch { file delete -force [file join $HOME2 $dir] }
 	$entrypath list delete $entryidx
 	$entrypath select 0
 	LoginList unset 0 $email
-       
+
 	# Lets save it into the file
 	SaveLoginList
 
@@ -1249,7 +1255,7 @@ proc CheckLock { email } {
 				fconfigure $clientSock -buffering line
 				puts $clientSock "AMSN_LOCK_PING"
 				vwait response
-				
+
 				#set response [gets $clientSock]
 				if { $response == "AMSN_LOCK_PONG" } {
 					status_log "CheckLock: Got PONG response\n" green
@@ -1268,7 +1274,7 @@ proc CheckLock { email } {
 		}
 	} else {
 		status_log "CheckLock: Port is zero\n" blue
-		
+
 	}
 	return 0
 }
@@ -1287,7 +1293,7 @@ proc lockcltHdl { sock } {
 proc GetRandomProfilePort { } {
 
 	set trigger 0
-	
+
 	while { $trigger == 0 } {
 		# Generate random port between 60535 and 65535
 		set Port [expr rand()]
@@ -1320,7 +1326,7 @@ proc LockProfile { email } {
 		} else {
 			status_log "Failed to use port $Port: $newlockSock\n" red
 		}
-	
+
 	}
 	if { $trigger == 1 } {
 		#vwait events
@@ -1339,21 +1345,21 @@ proc lockSvrNew { sock addr port} {
 
 proc lockSvrHdl { sock } {
 	status_log "lockSvrHdl: handling connection\n" blue
-	
+
 	set command [gets $sock]
-	
+
 	if {[eof $sock]} {
 	    catch {close $sock}
 	    close_remote $sock
 	} else {
 		if { $command == "AMSN_LOCK_PING" } {
 			status_log "lockSvrHdl: PING - PONG\n" blue
-			
+
 			catch {puts $sock "AMSN_LOCK_PONG"}
 		} else {
 		    read_remote $command $sock
 		}
-	   
+
 	}
 }
 
@@ -1387,10 +1393,10 @@ if { $initialize_amsn == 1 } {
 	scan_languages
 	::config::configDefaults
 	::config::loadGlobal
-	
+
 	load_lang ;#Load default english language
 	load_lang [::config::getGlobalKey language]
-	
+
 	;# Load of logins/profiles in combobox
 	;# Also sets the newest login as config(login)
 	;# and modifies HOME with the newest user
