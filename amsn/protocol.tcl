@@ -1078,7 +1078,7 @@ namespace eval ::MSN {
 		}
 		::MSN::WriteSB ns "ADD" "FL $userlogin $username $gid" "::MSN::ADDHandler"
 		#an event to let the GUI know a user is copied/added to a group
-		::Event::fireEvent addedUser protocol $passport $newGid
+		::Event::fireEvent addedUser protocol $username $gid
 	}
    
 	
@@ -2222,6 +2222,7 @@ namespace eval ::Event {
 		variable eventsArray
 		lappend eventsArray($eventName,$caller) $listener
 	}
+
 }
 
 ::snit::type Test {
@@ -3239,6 +3240,7 @@ proc cmsn_change_state {recv} {
 		set substate "FLN"
 		set evpar(substate) substate
 		set msnobj [::abook::getVolatileData $user msnobj ""]
+	status_log "contactStateChange in protocol cmsn_change_state FLN"
 	#an event used by guicontactlist to know when a contact changed state
 	after 500 ::Event::fireEvent contactStateChange protocol $user
 
@@ -3266,6 +3268,7 @@ proc cmsn_change_state {recv} {
 		#Add clientID to abook
 		add_Clientid $user [lindex $recv 4]
 
+	status_log "contactStateChange in protocol cmsn_change_state $user"
 	#an event used by guicontactlist to know when a contact changed state
 	after 500 ::Event::fireEvent contactStateChange protocol $user
 
