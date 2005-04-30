@@ -10,7 +10,7 @@ namespace eval ::ChatWindow {
 	#///////////////////////////////////////////////////////////////////////////////
 	# Namespace variables, relative to chat windows' data. In the code are accessible
 	# through '::namespace::variable' syntax (to avoid local instances of the variable
-	# and have the scope more clear).
+	# and have the scope more clear).af
 
 	# As ::ChatWindow::winid is the index used in the
 	# window widgets for chat windows, we only initialize
@@ -1864,7 +1864,7 @@ namespace eval ::ChatWindow {
 		label $block -image [::skin::loadPixmap butblock] -relief flat -padx 0 \
 			-background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0\
 			-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg]
-		after 500 ::ChatWindow::SetBlockBalloon $w $block
+		after 1 ::ChatWindow::SetBlockBalloon $w $block
 		
 		#Send file button
 		label $sendfile -image [::skin::loadPixmap butsend] -relief flat -padx 0 \
@@ -1902,7 +1902,7 @@ namespace eval ::ChatWindow {
 		bind  $smileys  <Leave> "$smileys configure -image [::skin::loadPixmap butsmile]"
 		bind  $fontsel  <Enter> "$fontsel configure -image [::skin::loadPixmap butfont_hover]"
 		bind  $fontsel  <Leave> "$fontsel configure -image [::skin::loadPixmap butfont]"
-		bind $block <Enter> "$block configure -image [::skin::loadPixmap butblock_hover]"
+		bind $block <Enter> "$block configure -image [::skin::loadPixmap butblock_hover]; ::ChatWindow::SetBlockBalloon $w $block"
 		bind $block <Leave> "$block configure -image [::skin::loadPixmap butblock]"
 		
 		bind $sendfile <Enter> "$sendfile configure -image [::skin::loadPixmap butsend_hover]"
