@@ -1823,6 +1823,7 @@ namespace eval ::ChatWindow {
 		return $input
 	}
 
+
 	proc CreateButtonBar { w bottom } {
 
 		status_log "Creating button bar\n"
@@ -1863,7 +1864,7 @@ namespace eval ::ChatWindow {
 		label $block -image [::skin::loadPixmap butblock] -relief flat -padx 0 \
 			-background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0\
 			-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg]
-		set_balloon $block [trans block]
+		after 500 ::ChatWindow::SetBlockBalloon $w $block
 		
 		#Send file button
 		label $sendfile -image [::skin::loadPixmap butsend] -relief flat -padx 0 \
@@ -1918,6 +1919,28 @@ namespace eval ::ChatWindow {
 
 		return $buttons
 	}
+
+	proc SetBlockText {win_name} {
+		set Chatters [::MSN::usersInChat [::ChatWindow::Name $win_name]]
+		set NrOfChatters [llength $Chatters]
+
+		if { $NrOfChatters == 0 || $NrOfChatters > 1} {
+			return "[trans block]/[trans unblock]"
+		} else {
+			if {[::MSN::userIsBlocked [lindex $Chatters 0]] == 0} {
+				return "[trans block]"
+			} else {
+				return "[trans unblock]"
+			}
+		}
+	}
+
+	proc SetBlockBalloon {win_name block} {
+		set text [SetBlockText $win_name]
+		set_balloon $block $text
+	}
+
+
 
 	proc CreatePictureFrame { w bottom } {
 
