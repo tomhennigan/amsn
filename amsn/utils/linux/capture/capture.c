@@ -109,7 +109,7 @@ int Capture_ListDevices _ANSI_ARGS_((ClientData clientData,
 
 //	strcpy(filename, "/dev/video");
 	sprintf(filename, "/dev/video");
-	while( ((fd = open(filename, O_RDONLY)) != -1) || (errno != ENOENT) ){
+	while( ((fd = open(filename, O_RDONLY)) != -1) || ((errno != ENOENT) && (errno != ENODEV)) ){
 //		fprintf(stderr,"Device %d : fd=%d errno=%d\n",device_idx,fd,errno);
 //		fprintf(stderr,"%s : %d\n",filename,fd);
 
@@ -416,7 +416,7 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
 
 		mmbuf = (unsigned char*)mmap(0, mb.size,
 				PROT_READ, MAP_SHARED, fvideo, 0);
-		if((int)mmbuf < 0){
+		if(mmbuf == MAP_FAILED){
 			perror("mmap");
 			close(fvideo);
 			return TCL_ERROR;
