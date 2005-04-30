@@ -3,20 +3,20 @@
 
 if { $initialize_amsn == 1 } {
 	global list_BLP list_cmdhnd sb_list contactlist_loaded
-	
+
 	set contactlist_loaded 0
-	
+
 	#To be deprecated and replaced with ::abook thing
 	set list_BLP -1
-	
+
 	#Clear all user infomation
 	::abook::clearData
-	
+
 	set list_cmdhnd [list]
-	
+
 	set sb_list [list]
 
-	
+
 	package require base64
 	package require sha1
 	package require snit
@@ -54,9 +54,9 @@ namespace eval ::MSNFT {
 
       #set requestdata [string range $requestdata 0 [expr {[string length requestdata] -2}]]
       set requestdata [$message getField Request-Data]
-      
+
       status_log "Ok, so here we have cookie=$cookie, requestdata=$requestdata\n" red
-      
+
       if { $requestdata != "IP-Address:" } {
       	status_log "Requested data is not IP-Address!!: $requestdata\n" red
 		return
@@ -86,15 +86,15 @@ namespace eval ::MSNFT {
    }
 
    proc getUsername { cookie } {
-      variable filedata        
-      if {[info exists filedata($cookie)]} {        
+      variable filedata
+      if {[info exists filedata($cookie)]} {
          return [lindex $filedata($cookie) 3]
       }
       return ""
    }
-   
+
    proc getFilename { cookie } {
-      variable filedata        
+      variable filedata
       if {[info exists filedata($cookie)]} {
          return [lindex $filedata($cookie) 0]
       }
@@ -102,19 +102,19 @@ namespace eval ::MSNFT {
    }
 
    proc getTransferType { cookie } {
-      variable filedata        
-      if {[info exists filedata($cookie)]} {        
+      variable filedata
+      if {[info exists filedata($cookie)]} {
          return [lindex $filedata($cookie) 4]
       }
       return ""
    }
-   
-   
+
+
 
    proc cancelFT { cookie } {
-      variable filedata        
-      if {[info exists filedata($cookie)]} {        
-         ::amsn::FTProgress ca $cookie [lindex $filedata($cookie) 0]   
+      variable filedata
+      if {[info exists filedata($cookie)]} {
+         ::amsn::FTProgress ca $cookie [lindex $filedata($cookie) 0]
 	 set sockid [lindex $filedata($cookie) 6]
 	 catch {puts $sockid "CCL\n"}
          DeleteFT $cookie
@@ -122,25 +122,25 @@ namespace eval ::MSNFT {
       }
 
    }
-   
+
    proc timeoutedFT { cookie } {
-      variable filedata        
-      after cancel "::MSNFT::timeoutedFT $cookie"      
-      if {[info exists filedata($cookie)]} {        
-         ::amsn::FTProgress e $cookie [lindex $filedata($cookie) 0]      
+      variable filedata
+      after cancel "::MSNFT::timeoutedFT $cookie"
+      if {[info exists filedata($cookie)]} {
+         ::amsn::FTProgress e $cookie [lindex $filedata($cookie) 0]
          DeleteFT $cookie
 	 status_log "File transfer timeouted\n"
       }
 
    }
-   
+
    proc FinishedFT { cookie } {
       variable filedata
-      
+
       DeleteFT $cookie
       status_log "File transfer finished ok\n"
    }
-   
+
    proc DeleteFT { cookie } {
       variable filedata
       if {[info exists filedata($cookie)] }  {
@@ -152,16 +152,16 @@ namespace eval ::MSNFT {
 	 catch {close $sockid}
          status_log "Closing FT file $fileid\n"
 	 catch {close $fileid}
-      
+
          unset filedata($cookie)
       }
    }
-   
-   
-   #################################         
+
+
+   #################################
    #All about receiving files
    #################################
-   
+
    proc acceptFT {chatid cookie} {
       #Send the acceptation for a file transfer, request IP
       variable filedata
@@ -220,7 +220,7 @@ namespace eval ::MSNFT {
 
    }
 
-   
+
    proc ConnectMSNFTP {ipaddr port authcookie cookie} {
       #I connect to a remote host to retrieve the file
       variable filedata
@@ -379,34 +379,34 @@ namespace eval ::MSNFT {
    proc ReceivePacket { sockid fileid filesize cookie} {
       #Get a packet from the file transfer
       variable filedata
-      
+
       if {![info exists filedata($cookie)]} {
         status_log "ConnectedMSNFTP: Ignoring file transfer, filedata($cookie) doesn't exists, cancelled\n" red
         return
-      }     
-      
-            
+      }
+
+
       if { [eof $sockid] } {
          status_log "ReveivePacket EOF\n" white
           set filename [lindex $filedata($cookie) 0]
 	  cancelFT $cookie
-	  ::amsn::FTProgress l $cookie $filename	 
+	  ::amsn::FTProgress l $cookie $filename
 	 return
       }
 
      fileevent $sockid readable ""
 
-     
+
      set recvbytes [tell $fileid]
      set packetrest [expr {2045 - ($recvbytes % 2045)}]
-               
+
 
       if {$packetrest == 2045} {
          #Need a full packet, header included
 
          ::amsn::FTProgress r $cookie [lindex $filedata($cookie) 0] $recvbytes $filesize
          update idletasks
-	 
+
          fconfigure $sockid -blocking 1
          set header [read $sockid 3]
 
@@ -441,23 +441,23 @@ namespace eval ::MSNFT {
          set thedata [read $sockid $packetrest]
          catch {puts -nonewline $fileid $thedata}
          set recvbytes [tell $fileid]
-      }   	
-      
+      }
+
       if { $recvbytes >= $filesize} {
-         #::amsn::fileTransferProgress r $cookie $recvbytes $filesize	 
+         #::amsn::fileTransferProgress r $cookie $recvbytes $filesize
          catch {puts $sockid "BYE 16777989\r"}
          status_log "File received\n"
 	 ::amsn::FTProgress fr $cookie [lindex $filedata($cookie) 0] $recvbytes $filesize
          FinishedFT $cookie
-	 
+
       } else {
          fileevent $sockid readable "::MSNFT::ReceivePacket $sockid $fileid $filesize $cookie"
-	 
+
       }
 
    }
-   
-   
+
+
    ###################################
    #All about sending files
    ###################################
@@ -471,16 +471,16 @@ namespace eval ::MSNFT {
       	::MSN6FT::SendFT $chatid $filename $filesize
        	return 0
       }
-       
+
 
       set sbn [::MSN::SBFor $chatid]
       if {$sbn == 0 } {
          return 0
       }
 
-      status_log "sentFTInvitation: filename (not converted to utf-8) is [file tail $filename]\n" blue 
+      status_log "sentFTInvitation: filename (not converted to utf-8) is [file tail $filename]\n" blue
       status_log "sentFTInvitation: filename (converted to utf-8) is [encoding convertto utf-8 [file tail $filename]]\n" blue
-      
+
       set msg "MIME-Version: 1.0\r\nContent-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
       set msg "${msg}Application-Name: File Transfer\r\n"
       set msg "${msg}Application-GUID: {5D3E02AB-6190-11d3-BBBB-00C04F795683}\r\n"
@@ -488,7 +488,7 @@ namespace eval ::MSNFT {
       set msg "${msg}Invitation-Cookie: $cookie\r\n"
       set msg "${msg}Application-File: [file tail $filename]\r\n"
       set msg "${msg}Application-FileSize: $filesize\r\n\r\n"
-      set msg [encoding convertto utf-8 $msg]      
+      set msg [encoding convertto utf-8 $msg]
       set msg_len [string length $msg]
 
       ::MSN::WriteSBNoNL $sbn "MSG" "U $msg_len\r\n$msg"
@@ -501,45 +501,45 @@ namespace eval ::MSNFT {
       after 300000 "::MSNFT::DeleteFT $cookie"
 
    }
-   
+
     proc cancelFTInvitation { chatid cookie } {
 	if {[::config::getKey new_ft_protocol]} {
 	    #TODO: here we should send CANCEL message so the other side will know it is cancelled
 	} {
 	    rejectFT $chatid $cookie
 	}
-    }	
-   
+    }
+
    proc rejectedFT {chatid who cookie} {
       variable filedata
-   
+
       if {![info exists filedata($cookie)]} {
          return
       }
-      
+
       ::amsn::rejectedFT $chatid $who [getFilename $cookie]
 
-   }   
+   }
 
-   
+
    proc SendFile { cookie oldcookie} {
       #File transfer accepted by remote, send final ACK
       variable filedata
 
       status_log "Here in sendfile\n" red
-      if {![info exists filedata($cookie)]} {        
-        return 
+      if {![info exists filedata($cookie)]} {
+        return
       }
 
       status_log "File transfer ok, begin\n"
 
       set sbn [::MSN::SBFor [lindex $filedata($cookie) 2]]
-      
+
       if { $sbn == 0 } {
          cancelFT $cookie
-         return  
+         return
       }
-      
+
       #Invitation accepted, send IP and Port to connect to
       #option: possibility to enter IP address (firewalled connections)
       set ipaddr [lindex $filedata($cookie) 5]
@@ -554,7 +554,7 @@ namespace eval ::MSNFT {
 
       #Random authcookie
       set authcookie [expr {[clock clicks] % (65536 * 4)}]
-            
+
       while {[catch {set sockid [socket -server "::MSNFT::AcceptConnection $cookie $authcookie" $port]} res]} {
          incr port
       }
@@ -563,7 +563,7 @@ namespace eval ::MSNFT {
       # but that makes the authcookie thing difficult...
       lappend filedata($oldcookie) $sockid
       after 300000 "catch {close $sockid}"
-            
+
       set msg "MIME-Version: 1.0\r\nContent-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
       set msg "${msg}Invitation-Command: ACCEPT\r\n"
       set msg "${msg}Invitation-Cookie: $oldcookie\r\n"
@@ -585,24 +585,24 @@ namespace eval ::MSNFT {
 
 
    proc AcceptConnection {cookie authcookie sockid hostaddr hostport} {
-      
-      
+
+
       variable filedata
-                
+
       if {![info exists filedata($cookie)]} {
         status_log "AcceptConnection: Ignoring file transfer, filedata($cookie) doesn't exists, cancelled\n" red
         return
-      }     
-      
+      }
+
       lappend filedata($cookie) $sockid
-      
+
       status_log "::MSNFT::AcceptConnection have connection from $hostaddr : $hostport\n" white
-                            
-      fconfigure $sockid -blocking 0 -buffering none -translation {binary binary} 
+
+      fconfigure $sockid -blocking 0 -buffering none -translation {binary binary}
       fileevent $sockid readable "::MSNFT::FTSendNegotiation $sockid $cookie 0 $authcookie"
-      
+
       ::amsn::FTProgress i $cookie [lindex $filedata($cookie) 0]
-           
+
    }
 
    proc FTSendNegotiation { sockid cookie state {authcookie ""}} {
@@ -610,70 +610,70 @@ namespace eval ::MSNFT {
       variable filedata
 
       #puts "Here2 state=$state cookie=$cookie sockid=$sockid"
-      
+
       if {![info exists filedata($cookie)]} {
         status_log "ConnectedMSNFTP: Ignoring file transfer, filedata($cookie) doesn't exists, cancelled\n" red
         return
-      }     
-      
-            
+      }
+
+
       if { [eof $sockid] } {
-         status_log "FTSendNegotiation:: EOF\n" white	 
+         status_log "FTSendNegotiation:: EOF\n" white
 	 set filename [lindex $filedata($cookie) 0]
 	 cancelFT $cookie
 	 ::amsn::FTProgress l $cookie $filename
 	 return
       }
-      
+
       gets $sockid tmpdata
       status_log "FTNegotiation: I RECEIVE: $tmpdata\n"
-   
+
       if { $tmpdata == "" } {
-         
+
          update idletasks
          return
       }
-      
+
       switch $state {
       	0 {
            if { [regexp "^VER\ ?\[0-9\]* MSNFTP" $tmpdata] } {
-              catch {fileevent $sockid readable "::MSNFT::FTSendNegotiation $sockid $cookie 1 $authcookie"}              
+              catch {fileevent $sockid readable "::MSNFT::FTSendNegotiation $sockid $cookie 1 $authcookie"}
 	      catch {puts $sockid "VER MSNFTP\r"}
-              
+
               status_log "FTSendNegotiation: I SEND: VER MSNFTP\r\n"
-	      
+
 	   } else {
 	      status_log "FT failed in state 0\n" red
-	      cancelFT $cookie	      
+	      cancelFT $cookie
 	   }
-	   
+
 	}
       	1 {
-	
+
            if {[string range $tmpdata 0 2] == "USR"} {
               set filename [lindex $filedata($cookie) 0]
               set filesize [lindex $filedata($cookie) 1]
-	      
+
 	      #Comprobar authcookie y nombre de usuario
-	      
-	      catch {fileevent $sockid readable "::MSNFT::FTSendNegotiation $sockid $cookie 2"}              
+
+	      catch {fileevent $sockid readable "::MSNFT::FTSendNegotiation $sockid $cookie 2"}
 	      catch {puts $sockid "FIL $filesize\r"}
 	      status_log "SENT: FIL $filesize\n"
 
-	      
+
 	   } else {
 	      status_log "FT failed in state 1\n" red
 	      cancelFT $cookie
-	      
+
 	   }
-	   
-	}	
+
+	}
       	2 {
-	
+
            if {[string range $tmpdata 0 2] == "TFR"} {
               set filename [lindex $filedata($cookie) 0]
               set filesize [lindex $filedata($cookie) 1]
-	      
+
               #Send the file
               #TODO, what if not exists?
               if {[catch {set fileid [open $filename r]} res]} {
@@ -688,34 +688,34 @@ namespace eval ::MSNFT {
 	      fileevent $sockid writable "::MSNFT::SendPacket $sockid $fileid $filesize $cookie"
               fileevent $sockid readable "::MSNFT::MonitorTransfer $sockid $cookie"
 
-	      
+
 	   } else {
 	      status_log "FT failed in state 2\n" red
 	      cancelFT $cookie
-	      
+
 	   }
-	   
-	}	
+
+	}
 	default {
 	   status_log "FTNegotiation: Unknown state!!!\n" white
 	   cancelFT $cookie
 	}
       }
    }
-   
-   
+
+
    proc SendPacket { sockid fileid filesize cookie } {
       variable filedata
-   
+
 #      puts "cookie=$cookie"
       if {![info exists filedata($cookie)]} {
         status_log "ConnectedMSNFTP: Ignoring file transfer, filedata($cookie) doesn't exists, cancelled\n" red
         return
-      }     
-      
+      }
+
       #Send a packet for the file transfer
       fileevent $sockid writable ""
-      
+
       set sentbytes [tell $fileid]
 
       if {[expr {$filesize-$sentbytes >2045}]} {
@@ -724,33 +724,33 @@ namespace eval ::MSNFT {
          set packetsize [expr {$filesize-$sentbytes}]
       }
 
-   
+
       if {$packetsize>0} {
          set data [read $fileid $packetsize]
-	  
+
          set byte1 [expr {$packetsize & 0xFF}]
          set byte2 [expr {$packetsize >> 8}]
-	  
+
 	  catch {puts -nonewline $sockid "\0[format %c $byte1][format %c $byte2]$data" ; flush $sockid }
          set sentbytes [expr {$sentbytes + $packetsize}]
 	 ::amsn::FTProgress s $cookie [lindex $filedata($cookie) 0] $sentbytes $filesize
          fileevent $sockid writable "::MSNFT::SendPacket $sockid $fileid $filesize $cookie"
 
-      } 
-      
+      }
+
 
    }
 
    proc MonitorTransfer { sockid cookie} {
-      
+
       #puts "Monitortransfer"
       variable filedata
-      
+
       if {![info exists filedata($cookie)]} {
         status_log "::MSNFT::MonitorTransfer:  Ignoring file transfer, filedata($cookie) doesn't exists, cancelled\n" red
         return
-      }     
-                  
+      }
+
       if { [eof $sockid] } {
          status_log "MonitorTransfer EOF\n" white
 	 cancelFT $cookie
@@ -758,7 +758,7 @@ namespace eval ::MSNFT {
       }
 
       fileevent $sockid readable ""
-      
+
       #Monitor messages from the receiving host in a file transfer
       catch {fconfigure $sockid -blocking 1}
       if {[catch {gets $sockid datos} res]} {
@@ -766,27 +766,27 @@ namespace eval ::MSNFT {
 	 cancelFT $cookie
          return
       }
-      
+
       status_log "Got from remote side: $datos\n"
       if {[string range $datos 0 2] == "CCL"} {
          status_log "::MSNFT::MonitorTransfer: Connection cancelled\n"
 	 cancelFT $cookie
          return
       }
-  
+
       if {[string range $datos 0 2] == "BYE"} {
          status_log "::MSNFT::MonitorTransfer: Connection finished\n"
-         ::amsn::FTProgress fs $cookie [lindex $filedata($cookie) 0]	 
+         ::amsn::FTProgress fs $cookie [lindex $filedata($cookie) 0]
 	 FinishedFT $cookie
          return
       }
-      
+
       cancelFT $cookie
-      
+
 
    }
 
-  
+
 }
 
 namespace eval ::MSN {
@@ -826,30 +826,30 @@ namespace eval ::MSN {
 	proc reconnect { error_msg } {
 		cmsn_draw_reconnect $error_msg
 		after 5000 ::MSN::connect
-		
+
 	}
 
 	proc cancelReconnect { } {
-	
+
 		after cancel ::MSN::connect
 		unset ::oldstatus
 		::MSN::logout
-		
+
 	}
-	
-	
+
+
 	proc connect { {passwd ""}} {
-	
+
 		#Cancel any pending reconnect
 		after cancel ::MSN::connect
 
-		
+
 		if { [ns cget -stat] != "d" } {
 			return
 		}
-		
+
 		set username [::config::getKey login]
-		
+
 		if { $passwd == "" } {
 			global password
 			set passwd [set password]
@@ -857,7 +857,7 @@ namespace eval ::MSN {
 
 		ns configure -stat "d" -sock "" \
 			-server [split [::config::getKey start_ns_server] ":"]
-		
+
 		#Setup the conection
 		setup_connection ns
 		#Call the pre authentication
@@ -870,54 +870,54 @@ namespace eval ::MSN {
 
   	 }
 
-	 
+
 	proc logout {} {
 
 		::abook::lastSeen
 
 		::log::eventlogout
-		
+
 		::MSN::WriteSBRaw ns "OUT\r\n";
 
 		set proxy [ns cget -proxy]
 		$proxy finish ns
 		ns configure -stat "d"
-		
+
 		CloseSB ns
-		
+
 		global automessage
-		
+
 		ns configure -server [split [::config::getKey start_ns_server] ":"]
-		
+
 		setMyStatus FLN
 		status_log "Loging out\n"
-		
+
 		if {[::config::getKey enablebanner] && [::config::getKey adverts]} {
 			adv_pause
 		}
-		
+
 		::groups::Disable
-		
+
 		StopPolling
-		
+
 		::abook::saveToDisk
-		
+
 		global list_BLP emailBList
-	
+
 		::MSN::clearList AL
 		::MSN::clearList BL
 		::MSN::clearList FL
 		::MSN::clearList RL
-		
+
 		set list_BLP -1
 		if { [info exists emailBList] } {
 			unset emailBList
 		}
-		
+
 		::abook::unsetConsistent
-		
+
 		set automessage "-1"
-		
+
 		cmsn_draw_offline
 
 		#an event to let the GUI know we are actually logged out now
@@ -931,8 +931,8 @@ namespace eval ::MSN {
 
 	#Callback procedure called when a REA (screen name change) message is received
 	proc GotREAResponse { recv } {
-	
-	
+
+
 		if { [string tolower [lindex $recv 3]] == [string tolower [::config::getKey login]] } {
 			#This is our own nick change
 			::abook::setPersonal nick [urldecode [lindex $recv 4]]
@@ -971,7 +971,7 @@ namespace eval ::MSN {
 		if { $userlogin == "" } {
 			return
 		}
-		
+
 		if { $nourlencode } {
 			set name $newname
 		} else {
@@ -988,11 +988,11 @@ namespace eval ::MSN {
 		}
 	}
 
-  
+
 	#Procedure called to change our status
 	proc changeStatus {new_status} {
 		global autostatuschange clientid
-	
+
 #		set clientid 805306412
 		if { [::config::getKey displaypic] != "" } {
 			::MSN::WriteSB ns "CHG" "$new_status $clientid [urlencode [create_msnobj [::config::getKey login] 3 [::skin::GetSkinFile displaypic [::config::getKey displaypic]]]]"
@@ -1002,7 +1002,7 @@ namespace eval ::MSN {
 
 		#Reset automatic status change to 0
 		set autostatuschange 0
-		
+
 	}
 
 
@@ -1010,7 +1010,7 @@ namespace eval ::MSN {
 		variable myStatus
 		return $myStatus
 	}
-	
+
 	proc setMyStatus { status } {
 		variable myStatus
 		set myStatus $status
@@ -1020,7 +1020,7 @@ namespace eval ::MSN {
 		set lists [::abook::getLists $userlogin]
 		if { [lsearch $lists BL] != -1} {
 			return 1
-		} 
+		}
 		return 0
 
 	}
@@ -1058,7 +1058,7 @@ namespace eval ::MSN {
 	#Copy user from one group to another
 	proc copyUser { passport newGid {userName ""}} {
 		if { $userName == "" } {
-		set userName $passport
+			set userName $passport
 		}
 		set atrid [::MSN::WriteSB ns "ADD" "FL $passport [urlencode $userName] $newGid"]
 		#an event to let the GUI know a user is copied/added to a group
@@ -1072,30 +1072,30 @@ namespace eval ::MSN {
 		if {[string match "*@*" $userlogin] < 1 } {
 			set domain "@hotmail.com"
 			set userlogin $userlogin$domain
-		}		
+		}
 		if { $username == "" } {
 			set username $userlogin
 		}
 		::MSN::WriteSB ns "ADD" "FL $userlogin $username $gid" "::MSN::ADDHandler"
-		#an event to let the GUI know a user is copied/added to a group
-		::Event::fireEvent addedUser protocol $username $gid
 	}
-   
-	
+
+
 	#Handler for the ADD message, to show the ADD messagebox
 	proc ADDHandler { item } {
-	
 		if { [lindex $item 2] == "FL"} {
-			set contact [lindex $item 4]	;# Email address
-			msg_box "[trans contactadded]\n[urldecode $contact]"
+			set contact [urldecode [lindex $item 4]]    ;# Email address
+			#an event to let the GUI know a user is copied/added to a group
+			set newGid [lindex $item 6]
+			::Event::fireEvent addedUser protocol $contact $newGid
+			msg_box "[trans contactadded]\n$contact"
 		}
-		
+
 		if { [lindex $item 0] == 500 } {
 			#Instead of disconnection, transform into error 201
 			cmsn_ns_handler [lreplace $item 0 0 201]
 			return
 		}
-		
+
 		cmsn_ns_handler $item
 
 	}
@@ -1129,8 +1129,8 @@ namespace eval ::MSN {
 	#Stop sending the keepalive message
 	proc StopPolling {} {
 		after cancel "::MSN::PollConnection"
-	}   
-   
+	}
+
 	#Send a keepalive message
 	proc PollConnection {} {
 		#Let's try to keep the connection alive... sometimes it gets closed if we
@@ -1150,7 +1150,7 @@ namespace eval ::MSN {
 	proc WriteSB {sbn cmd param {handler ""}} {
 		WriteSBNoNL $sbn $cmd "$param\r\n" $handler
 	}
-   
+
 	#Write a string to the given SB, with no NewLine, adding the transfer ID
 	proc WriteSBNoNL {sbn cmd param {handler ""}} {
 
@@ -1158,14 +1158,14 @@ namespace eval ::MSN {
 
 		set msgid [incr trid]
 		set msgtxt "$cmd $msgid $param"
-		
+
 		WriteSBRaw $sbn $msgtxt
-		
+
 		if {$handler != ""} {
 			global list_cmdhnd
 			lappend list_cmdhnd [list $trid $handler]
-		}         
-		
+		}
+
 		return $msgid
 	}
 
@@ -1175,10 +1175,10 @@ namespace eval ::MSN {
 			return
 		}
 		#Finally, to write, use a wrapper, so it's transparent to use
-		#a direct connection, a proxy, or anything      
+		#a direct connection, a proxy, or anything
 		set proxy [$sbn cget -proxy]
 		catch {$proxy write $sbn $cmd} res
-		
+
 		if { $res == 0 } {
 			if {$sbn != "ns" } {
 				degt_protocol "->$sbn-[$sbn cget -sock] $cmd" sbsend
@@ -1192,14 +1192,14 @@ namespace eval ::MSN {
 	}
 
 
-	########################################################################	
+	########################################################################
 	# Check if the old closed preferred SB is still the preferred SB, or
 	# close it if not.
 	proc CheckKill { sb } {
-	
+
 		#Kill any remaining timers
 		after cancel "::MSN::CheckKill $sb"
-	
+
 		if { [info procs $sb] == "" } {
 			#The SB was destroyed
 			return
@@ -1208,7 +1208,7 @@ namespace eval ::MSN {
 			#The SB is connected again, forget about killing
 			return
 		} else {
-		
+
 			#Get the chatid
 			set chatid [::MSN::ChatFor $sb]
 
@@ -1225,26 +1225,26 @@ namespace eval ::MSN {
 				#It's the preferred SB, so keep it for the moment
 				set items [expr {[llength [$sb cget -users]] -1}]
 				status_log "Session $sb closed, there are [expr {$items+1}] users: [$sb cget -users]\n" blue
-				
+
 				for {set idx $items} {$idx >= 0} {incr idx -1} {
 					set user_info [lindex [$sb cget -users] $idx]
 					$sb delUser $idx
 					amsn::userLeaves [::MSN::ChatFor $sb] [list $user_info] 0
 				}
-				
+
 				#Try to kill it again in 5 minutes
 				after 300000 "::MSN::CheckKill $sb"
-				
+
 			} else {
 				#It's not the preferred SB,so we can safely delete it from the
 				#chat and Kill it
 				DelSBFor $chatid $sb
 				::MSN::KillSB $sb
 			}
-		}		
+		}
 	}
-   
-	
+
+
 	#///////////////////////////////////////////////////////////////////////
 	# Usually called from anywhere when a problem is found when writing or
 	# reading a SB. It closes the sock.
@@ -1255,7 +1255,7 @@ namespace eval ::MSN {
 		status_log "::MSN::CloseSB $sb Called\n" green
 		catch {fileevent [$sb cget -sock] readable "" } res
 		catch {fileevent [$sb cget -sock] writable "" } res
-		
+
 		set sock [$sb cget -sock]
 
 		if {$sock != ""} {
@@ -1263,7 +1263,7 @@ namespace eval ::MSN {
 			$proxy finish $sb
 #			$proxy destroy
 		}
-		
+
 #		#Append an empty string to the SB buffer. This will cause the
 #		#actual SB cleaning, but will allow to process all buffer
 #		#before doing the cleaning
@@ -1278,13 +1278,13 @@ namespace eval ::MSN {
 	proc ClearSB { sb } {
 
 		status_log "::MSN::ClearSB $sb called\n" green
-		
+
 		set oldstat [$sb cget -stat]
 #		$sb configure -data ""
 		$sb configure -sock ""
 		$sb configure -stat "d"
-		
-		if { [string first NS $sb] != -1 || $sb == "ns" } {	
+
+		if { [string first NS $sb] != -1 || $sb == "ns" } {
 			status_log "clearing sb $sb. oldstat=$oldstat"
 			set mystatus [::MSN::myStatusIs]
 
@@ -1292,11 +1292,11 @@ namespace eval ::MSN {
 			if { ("$oldstat" != "d") && ("$oldstat" != "u") } {
 				logout
 			}
-			
+
 			#If we're not disconnected, connected, or authenticating, then
 			#we have a connection error.
 			if { ("$oldstat"!="d") && ("$oldstat" !="o") && ("$oldstat" !="u") && ("$oldstat" !="closed")} {
-				
+
 				set error_msg [ns cget -error_msg]
 				#Reconnect if necessary
 				if { [::config::getKey reconnect] == 1 } {
@@ -1308,17 +1308,17 @@ namespace eval ::MSN {
 					}
 					return
 				}
-				
+
 				if { $error_msg != "" } {
 					msg_box "[trans connecterror]: [ns cget -error_msg]"
 				} else {
 					msg_box "[trans connecterror]"
 				}
 			}
-		
+
 			#If we were connected, we have lost the connection
 			if { ("$oldstat"=="o") } {
-				
+
 				set error_msg [ns cget -error_msg]
 				#Reconnect if necessary
 				if { [::config::getKey reconnect] == 1 } {
@@ -1330,7 +1330,7 @@ namespace eval ::MSN {
 					}
 					return
 				}
-				
+
 				if { $error_msg != "" } {
 					msg_box "[trans connectionlost]: [ns cget -error_msg]"
 				} else {
@@ -1338,19 +1338,19 @@ namespace eval ::MSN {
 				}
 				status_log "Connection lost\n" red
 			}
-			
+
 		} else {
 			#Check if we can kill the SB (clear all related info
-			CheckKill $sb	
+			CheckKill $sb
 		}
-		
+
 	}
 	#///////////////////////////////////////////////////////////////////////
-   
+
 	########################################################################
 	#Answer the server challenge. This is a handler for CHL message
 	proc AnswerChallenge { item } {
-	
+
 		if { [lindex $item 1] != 0 } {
 			status_log "Invalid challenge\n" red
 		} else {
@@ -1366,8 +1366,8 @@ namespace eval ::MSN {
 	}
 
 	proc CALReceived {sb_name user item} {
-	
-		switch [lindex $item 0] {   
+
+		switch [lindex $item 0] {
 			216 {
 				# if you try to begin a chat session with someone who blocked you and is online
 				set chatid [::MSN::ChatFor $sb_name]
@@ -1382,13 +1382,13 @@ namespace eval ::MSN {
 				#sb get $sb_name stat
 				set chatid [::MSN::ChatFor $sb_name]
 				::MSN::ClearQueue $chatid
-				# DO NOT cleanchat... it's needed for ::ChatWindow::TopUpdate 
+				# DO NOT cleanchat... it's needed for ::ChatWindow::TopUpdate
 				# ::MSN::CleanChat $chatid
 				::amsn::chatStatus $chatid "$user: [trans usernotonline]\n" miniwarning
 				#msg_box "[trans usernotonline]"
 				user_not_blocked $user
 				return 0
-			} 
+			}
 			713 {
 				status_log "CALReceived: 713 USER TOO ACTIVE \nStoping the VerifyBlocked procedure\n" white
 				StopVerifyBlocked
@@ -1396,9 +1396,9 @@ namespace eval ::MSN {
 			}
 		}
 	}
-	
-	
-	
+
+
+
 	########################################################################
 	########################################################################
 	########################################################################
@@ -1406,7 +1406,7 @@ namespace eval ::MSN {
 	########################################################################
 	########################################################################
 	########################################################################
-	
+
 	########################################################################
 	#Send x-clientcaps packet, for third-party MSN client
 	proc clientCaps {chatid} {
@@ -1414,7 +1414,7 @@ namespace eval ::MSN {
       set sbn [SBFor $chatid]
 	  #If not connected to the user OR if user don't want to send clientCaps info, do nothing
       if {$sbn == 0 || ![::config::getKey clientcaps]} {
-      	return   
+      	return
       }
 
       set msg "MIME-Version: 1.0\r\nContent-Type: text/x-clientcaps\r\n\r\n"
@@ -1428,8 +1428,8 @@ namespace eval ::MSN {
       }
       #Add the log information to the $msg
       set msg "${msg}Chat-Logging: $chatlogging\r\n"
-      
-      #Jerome: I disable that feature because I'm not sure users will like to provide theses kinds of 
+
+      #Jerome: I disable that feature because I'm not sure users will like to provide theses kinds of
       #informations to everybody, but it can be useful later..
       #Verify the platform (feel free to improve it if you want better details, like bsd, etc)
       #if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
@@ -1445,12 +1445,12 @@ namespace eval ::MSN {
       #set msg [encoding convertto utf-8 $msg]
       set msg_len [string length $msg]
       WriteSBNoNL $sbn "MSG" "U $msg_len\r\n$msg"
-	
+
       status_log "Send text/x-clientcaps\n" red
       #status_log "$msg" red
 
    }
-   
+
 	# Return a list of users in chat, or last user in chat is chat is closed
 	proc usersInChat { chatid } {
 
@@ -1460,34 +1460,34 @@ namespace eval ::MSN {
 			status_log "usersInChat: no SB for chat $chatid!! (shouldn't happen?)\n" white
 			return [list]
 		}
-	
-	
+
+
 		set user_list [$sb cget -users]
-	
+
 		if { [llength $user_list] } {
 			return $user_list
 		} else {
 			return [list [$sb cget -last_user]]
 		}
-	
+
 	}
 
 	########################################################################
 	#Set the given $typer as a typing user. He will be removed after 6
 	#seconds.
 	proc addSBTyper { sb typer } {
-		
+
 		set idx [$sb search -typers $typer]
 		if {$idx == -1} {
 			#Add if not already typing
 			$sb addTyper $typer
 		}
-	
+
 		#Cancel last DelSBTyper timer
 		after cancel [list ::MSN::DelSBTyper $sb $typer]
 		#Remove typer after 6 seconds without a new notification
 		after 6000 [list ::MSN::DelSBTyper $sb $typer]
-		
+
 		#TODO: Call CHAT layer instead of GUI layer
 		set chatid [::MSN::ChatFor $sb]
 		if { $chatid != "" } {
@@ -1497,9 +1497,9 @@ namespace eval ::MSN {
 			}
 			::amsn::updateTypers $chatid
 		}
-	
-	}	
-	
+
+	}
+
 	########################################################################
 	#Remove the given typer from the chat typers list
 	proc DelSBTyper {sb typer} {
@@ -1513,16 +1513,16 @@ namespace eval ::MSN {
 				::amsn::updateTypers $chatid
 			}
 		}
-		
+
 	}
-	
+
 	########################################################################
 	#Return a list of users currently typing in the given chat
 	proc typersInChat { chatid } {
 
 		set sb [SBFor $chatid]
 		if { $sb == 0 } {
-			status_log "typersInChat: no SB for chat $chatid!!\n" white        
+			status_log "typersInChat: no SB for chat $chatid!!\n" white
 			return [list]
 		}
 
@@ -1536,7 +1536,7 @@ namespace eval ::MSN {
 
 	}
 
-	
+
 	proc lastMessageTime { chatid } {
 		set sb [SBFor $chatid]
 		if {$sb != 0} {
@@ -1546,20 +1546,20 @@ namespace eval ::MSN {
 		}
 	}
 
-   
+
 	if { $initialize_amsn == 1 } {
 		variable sb_num 0
 	}
 
-	
+
 	proc GetNewSB {} {
 		return [SB create %AUTO%]
 	}
-	
+
 	proc chatTo { user } {
 
 		global sb_list
-	
+
 #		set lowuser [string tolower ${user}]
 		set lowuser $user
 
@@ -1579,7 +1579,7 @@ namespace eval ::MSN {
 
 			status_log "::MSN::chatTo: Opening chat to user $user\n"
 			status_log "::MSN::chatTo: No SB available, creating new: $sb\n"
-	
+
 			$sb configure -stat "d"
 			$sb configure -title [trans chat]
 			$sb configure -last_user $lowuser
@@ -1589,7 +1589,7 @@ namespace eval ::MSN {
 		}
 		#Now we have a SB ready for reconnection
 		cmsn_reconnect $sb
-		
+
 		return $lowuser
 	}
 
@@ -1598,7 +1598,7 @@ namespace eval ::MSN {
 	#Totally remove the given SB
 	proc KillSB { sb } {
 		global sb_list
-		
+
 		status_log "::MSN::KillSB: Killing SB $sb\n"
 
 		set idx [lsearch -exact $sb_list $sb]
@@ -1620,7 +1620,7 @@ namespace eval ::MSN {
 		$sb destroy
 	}
 
-   
+
 	########################################################################
 	#Totally clean a chat. Remove all associated SBs
 	proc CleanChat { chatid } {
@@ -1644,7 +1644,7 @@ namespace eval ::MSN {
 
 		::amsn::chatDisabled $chatid
 	}
-   
+
 
 	########################################################################
 	#Enqueue a -1 command to the chat Queue. This will produce a call
@@ -1652,7 +1652,7 @@ namespace eval ::MSN {
 	proc leaveChat { chatid } {
 		ChatQueue $chatid -1
 	}
-		
+
 
 	#///////////////////////////////////////////////////////////////////////////////
 	# chatReady (chatid)
@@ -1666,12 +1666,12 @@ namespace eval ::MSN {
 			return 0
 		}
 
-		set sb_sock [$sb cget -sock]	
+		set sb_sock [$sb cget -sock]
 
 		if { "$sb_sock" == "" } {
 			return 0
 		}
-		
+
 		# This next two are necessary because SBFor doesn't
 		# always return a ready SB
 		if { "[$sb cget -stat]" != "o" } {
@@ -1707,16 +1707,16 @@ namespace eval ::MSN {
 
 		if { [info exists sb_chatid($chatid)] } {
 			if { [llength $sb_chatid($chatid)] > 0 } {
-	
+
 				#Try to find a connected SB, return it and move to front
 				set idx -1
 				foreach sb $sb_chatid($chatid) {
-					incr idx 
+					incr idx
 					if {![catch {$sb cget -stat} res ]} {
 						if { "[$sb cget -stat]" == "o" } {
-	
+
 							set sb_sock [$sb cget -sock]
-		
+
 							if { "$sb_sock" != "" } {
 								if {$idx!=0} {
 									set sb_chatid($chatid) [lreplace $sb_chatid($chatid) $idx $idx]
@@ -1732,7 +1732,7 @@ namespace eval ::MSN {
 				return [lindex $sb_chatid($chatid) 0]
 			}
 		}
-			
+
 		status_log "::MSN::SBFor: Requested SB for non existent chatid $chatid\n" blue
 		return 0
 
@@ -1741,45 +1741,45 @@ namespace eval ::MSN {
 	########################################################################
 	# Given a SB, return  the chatid it's associated to
 	proc ChatFor { sb_name } {
-	
+
 		variable chatid_sb
 
 		if {[info exists chatid_sb($sb_name)]} {
 			return $chatid_sb($sb_name)
 		}
 
-		status_log "::MSN::ChatFor: SB $sb_name is not associated to any chat\n" blue                         
+		status_log "::MSN::ChatFor: SB $sb_name is not associated to any chat\n" blue
 		return 0
 	}
 
-   
+
 	########################################################################
 	# Add the given SB to the list of usable SBs for that chat
 	proc AddSBFor { chatid sb_name} {
 		variable sb_chatid
 		variable chatid_sb
-	
+
 		if { $chatid == "" } {
 			status_log "::MNS::AddSBFor: BIG ERROR!!! chatid is blank. sb_name is $sb_name\n" white
 			return 0
 		}
-	
+
 		if { $sb_name == "" } {
 			status_log "::MNS::AddSBFor: BIG ERROR!!! sb_name is blank. chatid is $chatid\n" white
 			return 0
 		}
-	
-	
+
+
 		if {![info exists sb_chatid($chatid)]} {
 			set sb_chatid($chatid) [list]
 			status_log "::MSN::AddSBFor: Creating sb_chatid list for $chatid\n"
 		}
-	
+
 		set index [lsearch $sb_chatid($chatid) $sb_name]
-		
+
 		set oldsb_chatid $sb_chatid($chatid);
 		set moved_to_beginning 0
-		
+
 		if { $index == -1 } {
 			#Should we insert at the begining? Newer SB's are probably better
 			set sb_chatid($chatid) [linsert $sb_chatid($chatid) 0 $sb_name]
@@ -1789,13 +1789,13 @@ namespace eval ::MSN {
 			set sb_chatid($chatid) [lreplace $sb_chatid($chatid) $index $index]
 			set sb_chatid($chatid) [linsert $sb_chatid($chatid) 0 $sb_name]
 		}
-	
+
 		set chatid_sb($sb_name) $chatid
-	
+
 		if { $oldsb_chatid != $sb_chatid($chatid) } {
-			status_log "::MSN::AddSBFor: Adding SB $sb_name to chat $chatid\n" blue	 
-			if {$moved_to_beginning} {	   
-				status_log "AddSBFor: sb $sb_name already in $chatid. Moving to preferred SB\n" blue	    
+			status_log "::MSN::AddSBFor: Adding SB $sb_name to chat $chatid\n" blue
+			if {$moved_to_beginning} {
+				status_log "AddSBFor: sb $sb_name already in $chatid. Moving to preferred SB\n" blue
 			}
 			status_log "::MSN::AddSBFor: sb_chatid($chatid) was $oldsb_chatid\n" blue
 			status_log "::MSN::AddSBFor: sb_chatid($chatid) is now $sb_chatid($chatid)\n" blue
@@ -1863,7 +1863,7 @@ namespace eval ::MSN {
 
 	}
 
-	
+
 	########################################################################
 	# Check for pending events in the chat queue, and try to process them
 	proc ProcessQueue { chatid {count 0} } {
@@ -1882,14 +1882,14 @@ namespace eval ::MSN {
 		# Too many retries!
 		if { $count >= 15 } {
 			#TODO: Should we clean queue or anything?
-			set chat_queues($chatid) [lreplace $chat_queues($chatid) 0 0]         
-			ProcessQueue $chatid 14 
+			set chat_queues($chatid) [lreplace $chat_queues($chatid) 0 0]
+			ProcessQueue $chatid 14
 			return
 		}
 
 		#Get next pending command
 		set command [lindex $chat_queues($chatid) 0]
-		
+
 		if { $command == -1 } {
 			#This command means we closed the chat window, or similar. Leave chat!
 			status_log "::MSN::ProcessQueue: processing leaveChat in queue for $chatid\n" black
@@ -2002,13 +2002,13 @@ namespace eval ::MSN {
 			set smilemsg_len [string length $smilemsg]
 			WriteSBNoNL $sbn "MSG" "A $smilemsg_len\r\n$smilemsg"
 			set msgacks($::MSN::trid) $ackid
-		} 
-		
+		}
+
 		WriteSBNoNL $sbn "MSG" "A $msg_len\r\n$msg"
-		
+
 		#Setting trid - ackid correspondence
 		set msgacks($::MSN::trid) $ackid
-		
+
 		global typing
 		if { [info exists typing($sbn)] } {
 			after cancel "unset typing($sbn)"
@@ -2041,19 +2041,19 @@ namespace eval ::MSN {
 	#TODO remove this proc after deleting the stuff that needs it in the proxy code
 	#///////////////////////////////////////////////////////////////////////////////
 	proc GetHeaderValue { bodywithr name } {
-	
+
 		set body "\n[string map {"\r" ""} $bodywithr]"
 		set pos [string first "\n${name}:" $body]
-	
+
 		if { $pos < 0 } {
 			return ""
-		} else {	
+		} else {
 			set strstart [expr { $pos + [string length $name] + 3 } ]
 			set strend [expr { $strstart + [string first "\n" [string range $body $strstart end]] - 1 } ]
 			return [string range $body $strstart $strend]
 		}
 		#///////////////////////////////////////////////////////////////////////////////
-	
+
 	}
 
 
@@ -2061,36 +2061,36 @@ namespace eval ::MSN {
 	# Return a sorted version of the contact list
 	proc sortedContactList { } {
 		variable list_users
-		
+
 		#Don't sort list again if it's already sorted
 		if { $list_users == "" } {
 			set list_users [lsort -increasing -command ::MSN::CompareState [lsort -increasing -command ::MSN::CompareNick [::MSN::getList FL]]]
 		}
 		return $list_users
 	}
-	
+
 	#Mark the contact list as changed
 	proc contactListChanged { } {
 		variable list_users
 		set list_users ""
 	}
-	
+
 	#Return the given list
 	proc getList { list_type } {
 		variable list_${list_type}
 		return [set list_${list_type}]
 	}
-	
+
 	#Clear the given list
 	proc clearList { list_type } {
-		variable list_${list_type} 
+		variable list_${list_type}
 		set list_${list_type}  [list]
-		
+
 		#Clean sorted list cache
 		variable list_users
 		set list_users ""
 	}
-	
+
 	#Add a user to a list
 	proc addToList {list_type user} {
 		variable list_${list_type}
@@ -2101,33 +2101,33 @@ namespace eval ::MSN {
 			status_log "::MSN::addToList: User $user already on list $list_type\n" red
 		}
 
-		#Clean sorted list cache				
+		#Clean sorted list cache
 		variable list_users
 		set list_users ""
-		
+
 	}
-	
+
 	#Delete a user from a list
 	proc deleteFromList {list_type user} {
-		variable list_${list_type} 
-		
+		variable list_${list_type}
+
 		set idx [lsearch [set list_${list_type}] $user]
 		if { $idx != -1 } {
 			set list_${list_type} [lreplace [set list_${list_type}] $idx $idx]
 		} else {
 			status_log "::MSN::deleteFromList: User $user is not on list $list_type\n" red
 		}
-		
+
 		#Clean sorted list cache
 		variable list_users
 		set list_users ""
 	}
-	
+
 	#Compare two states, for sorting
 	proc CompareState { item1 item2 } {
 		set state1 [::MSN::stateToNumber [::abook::getVolatileData $item1 state FLN]]
 		set state2 [::MSN::stateToNumber [::abook::getVolatileData $item2 state FLN]]
-				
+
 		if { $state1 < $state2 } {
 			return -1
 		} elseif { $state1 > $state2 } {
@@ -2140,13 +2140,13 @@ namespace eval ::MSN {
 	#Compare two nicks, for sorting
 	proc CompareNick { item1 item2 } {
 		return [string compare -nocase [::abook::getDisplayNick $item1] [::abook::getDisplayNick $item2]]
-	}	
-	
+	}
+
 	proc stateToNumber { state_code } {
 		variable list_states
 		return [lsearch $list_states "$state_code *"]
 	}
-	
+
 	proc numberToState { state_number } {
 		variable list_states
 		return [lindex [lindex $list_states $state_number] 0]
@@ -2155,15 +2155,15 @@ namespace eval ::MSN {
 	proc stateToDescription { state_code } {
 		variable list_states
 		set state [lindex $list_states [lsearch $list_states "$state_code *"]]
-		return [lindex $state 1]	
+		return [lindex $state 1]
 	}
-	
-	
+
+
 	proc stateToColor { state_code } {
 		variable list_states
 		set state [lindex $list_states [lsearch $list_states "$state_code *"]]
 		set skincolor [::skin::getKey "contact_[lindex $state 1]"]
-                                      
+
 		if { $skincolor == "" } {
 			return [lindex $state 2]
 		} else {
@@ -2174,30 +2174,30 @@ namespace eval ::MSN {
 	proc stateToSection { state_code } {
 		variable list_states
 		set state [lindex $list_states [lsearch $list_states "$state_code *"]]
-		return [lindex $state 3]	
+		return [lindex $state 3]
 	}
-		
+
 	proc stateToImage { state_code } {
 		variable list_states
 		set state [lindex $list_states [lsearch $list_states "$state_code *"]]
-		return [lindex $state 4]	
+		return [lindex $state 4]
 	}
 
 	proc stateToBigImage { state_code } {
 		variable list_states
 		set state [lindex $list_states [lsearch $list_states "$state_code *"]]
-		return [lindex $state 5]	
-	}	
+		return [lindex $state 5]
+	}
 
 }
 
 namespace eval ::Event {
 
 	variable eventsArray
-	
+
 	# sends to all interested listeners the event that occured
 	# eventName: name of the event that happened
-	# caller:    the object that fires the event, set to all to 
+	# caller:    the object that fires the event, set to all to
 	#            notify all listeners for all events with that name
 	proc fireEvent { eventName caller args } {
 		variable eventsArray
@@ -2215,7 +2215,7 @@ namespace eval ::Event {
 	# registers a listener for an event
 	# the listener has to have a method the same as the eventName
 	# eventName: name of the event to listen to
-	# caller:    the object that fires the event, set to all to 
+	# caller:    the object that fires the event, set to all to
 	#            register for all events with that name
 	# listener:  the object that wants to receive the events
 	proc registerEvent { eventName caller listener } {
@@ -2240,7 +2240,7 @@ namespace eval ::Event {
 ::snit::type Message {
 
 	variable fields
-	variable headers 
+	variable headers
 	variable body ""
 
 	constructor {args} {
@@ -2260,7 +2260,7 @@ namespace eval ::Event {
 			array set headers [list [string range $header 0 [expr $idx -1]] \
 					  [string range $header [expr $idx +2] end]]
 		}
-		
+
 		set bsplit [split [string map {"\r\n" "\n"} $body] "\n"]
 		foreach field $bsplit {
 			set idx [string first ": " $field]
@@ -2276,7 +2276,7 @@ namespace eval ::Event {
 	method getField { name } {
 		return [lindex [array get fields $name] 1]
 	}
-	
+
 	method getFields { } {
 		return [array get fields]
 	}
@@ -2333,7 +2333,7 @@ namespace eval ::Event {
 			#check for payload commands:
 			if {[lsearch {MSG NOT PAG IPG} [string range $command 0 2]] != -1} {
 			        set length [lindex [split $command] end]
-			    
+
 				set remaining [string range $dataBuffer [expr $idx +2] end]
 				#if the whole payload is in the buffer process the command else return
 				if { [string length $remaining] >= $length } {
@@ -2349,7 +2349,7 @@ namespace eval ::Event {
 				set command [encoding convertfrom utf-8 $command]
 				$options(-name) handleCommand $command
 			}
-			
+
 			update idletasks
 		}
 	}
@@ -2364,14 +2364,14 @@ namespace eval ::Event {
 			catch {fileevent $sock readable ""}
 			$self sockError
 			return 0
-		} elseif {[eof $sock]} {	
+		} elseif {[eof $sock]} {
 			status_log "Read EOF in $self, closing\n" red
 			catch {fileevent $sock readable ""}
 			$self sockError
 			return 0
 		} else {
 			set tmp_data "ERROR READING SOCKET !!!"
-			if {[catch {set tmp_data [read $sock]} res]} {	
+			if {[catch {set tmp_data [read $sock]} res]} {
 				status_log "Read error in $self, closing: $res\n" red
 				catch {fileevent $sock readable ""}
 				$self sockError
@@ -2474,7 +2474,7 @@ namespace eval ::Event {
 		global list_cmdhnd msgacks
 		set ret_trid [lindex $command 1]
 		set idx [lsearch $list_cmdhnd "$ret_trid *"]
-	
+
 		if {$idx != -1} {		;# Command has a handler associated!
 			status_log "sb::handleCommand: Evaluating handler for $ret_trid in SB $self\n"
 			set cmd "[lindex [lindex $list_cmdhnd $idx] 1] {$command}"
@@ -2505,7 +2505,7 @@ namespace eval ::Event {
 						set chatid $self
 					}
 					::MSN::AddSBFor $chatid $self
-		
+
 					foreach usr_login [$self cget -users] {
 						::MSNP2P::loadUserPic $chatid $usr_login
 					}
@@ -2579,7 +2579,7 @@ namespace eval ::Event {
 
 		#Get the current chatid
 		set chatid [::MSN::ChatFor $self]
-	
+
 		if { $chatid != 0} {
 			if { "$chatid" != "$desiredchatid" } {
 				#Our chatid is different than the desired one!! try to change
@@ -2611,7 +2611,7 @@ namespace eval ::Event {
 			text/plain {
 				::Event::fireEvent messageReceived $self $message
 				set body [$message getBody]
-				
+
 				#TODO: Process fonts in other place
 				set fonttype [$message getHeader X-MMS-IM-Format]
 
@@ -2657,7 +2657,7 @@ namespace eval ::Event {
 					set username [::abook::getDisplayNick $typer]
 					run_alarm $typer  $username "[trans says $username]: $body"
 				} elseif { ( [::alarms::isEnabled all] == 1 )&& ( [::alarms::getAlarmItem all onmsg] == 1) } {
-					set username [::abook::getDisplayNick $typer]	  
+					set username [::abook::getDisplayNick $typer]
 					run_alarm $typer  $username "[trans says $username]: $body"
 				}
 				global automessage
@@ -2678,11 +2678,11 @@ namespace eval ::Event {
 				::MSN::DelSBTyper $self $typer
 
 			}
-			
+
 			text/x-msmsgscontrol {
 				::MSN::addSBTyper $self $typer
 			}
-			
+
 			text/x-msmsgsinvite {
 				#File transfers or other invitations
 				set fromlogin [lindex $command 1]
@@ -2695,14 +2695,14 @@ namespace eval ::Event {
 				#The above is no longer true! the message object now has a function,
 				#getField, that works just like getHeader, except it gets... you
 				#guessed it - a field from the body.
-				
+
 				set invcommand [$message getField Invitation-Command]
 				set cookie [$message getField Invitation-Cookie]
 
-				
+
 
 				status_log "Command: $invcommand Message: $message\n" blue
-				
+
 
 				#Do we need this? Looks a bit... untidy
 				puts $invcommand
@@ -2710,43 +2710,43 @@ namespace eval ::Event {
 
 				if {$invcommand == "INVITE" } {
 
-		
+
 					#set guid [lindex [array get headers Application-GUID] 1]
 					set guid [$message getField Application-GUID]
 
-					
+
 					#An invitation, generate invitation event
 					if { $guid == "{5D3E02AB-6190-11d3-BBBB-00C04F795683}" } {
 						#We have a file transfer here
 						set filename [$message getField Application-File]
 						set filesize [$message getField Application-FileSize]
-		
+
 						::MSNFT::invitationReceived $filename $filesize $cookie $chatid $fromlogin
 
 					} elseif { $guid == "{02D3C01F-BF30-4825-A83A-DE7AF41648AA}" } {
 						# We got an audio only invitation or audio/video invitation
 						set context [$message getField Context-Data]
 						#Remove the # on the next line if you want to test audio/video feature (with Linphone, etc...)
-						#Ask Burger for more details..	
+						#Ask Burger for more details..
 						::MSNAV::invitationReceived $cookie $context $chatid $fromlogin
 
 					}
-		
+
 				} elseif { $invcommand == "ACCEPT" } {
 					# let's see if it's an A/V session cancel
 					if { [::MSNAV::CookieList get $cookie] != 0 } {
 						set ip [$message getField IP-Address]
 						::MSNAV::readAccept $cookie $ip $chatid
-			
+
 					} else {
 
 
 						#Generate "accept" event
 						::MSNFT::acceptReceived $cookie $chatid $fromlogin $message
 					}
-		
+
 				} elseif { $invcommand =="CANCEL" } {
-		
+
 					# let's see if it's an A/V session cancel
 					if { [::MSNAV::CookieList get $cookie] != 0 } {
 						::MSNAV::cancelSession $cookie $chatid "TIMEOUT"
@@ -2759,9 +2759,9 @@ namespace eval ::Event {
 							::MSNFT::rejectedFT $chatid $fromlogin $cookie
 						}
 					}
-			
+
 				} else {
-		
+
 					#... other types of commands
 				}
 			}
@@ -2781,7 +2781,7 @@ namespace eval ::Event {
 				parse_x_mms_emoticon [$message getBody] $chatid
 				status_log "got smileys : [array names ${chatid}_smileys]\n" blue
 				foreach smile [array names ${chatid}_smileys] {
-					if { $smile == "dummy" } { continue } 
+					if { $smile == "dummy" } { continue }
 					MSNP2P::loadUserSmiley $chatid $typer "[set ${chatid}_smileys($smile)]"
 				}
 			}
@@ -2863,7 +2863,7 @@ proc cmsn_rng {recv} {
 	$sb configure -connected [list cmsn_conn_ans $sb]
 	$sb configure -auth_cmd "ANS"
 	$sb configure -auth_param "[::config::getKey login] [lindex $recv 4] [lindex $recv 1]"
-	
+
 	lappend sb_list "$sb"
 
 	status_log "Accepting conversation from: [lindex $recv 5]... (Got ANS1 in SB $sb\n" green
@@ -2879,7 +2879,7 @@ proc cmsn_open_sb {sb recv} {
 	if {[info procs $sb] == ""} {
 		return 0
 	}
-	
+
 	#TODO: I hope this works. If stat is not "c" (trying to connect), ignore
 	if { [$sb cget -stat] != "c" } {
 		return 0
@@ -2899,7 +2899,7 @@ proc cmsn_open_sb {sb recv} {
 		status_log "cmsn_open_sb: SB $sb: Unknown SP requested!\n" red
 		return 1
 	}
-	
+
 	status_log "cmsn_open_sb: Opening SB $sb\n" green
 
 	$sb configure -server [split [lindex $recv 3] ":"]
@@ -2909,7 +2909,7 @@ proc cmsn_open_sb {sb recv} {
 
 
 	::amsn::chatStatus [::MSN::ChatFor $sb] "[trans sbcon]...\n" miniinfo ready
-	setup_connection $sb	
+	setup_connection $sb
 	cmsn_socket $sb
 	return 0
 }
@@ -2917,7 +2917,7 @@ proc cmsn_open_sb {sb recv} {
 
 
 proc cmsn_conn_sb {sb sock} {
-   
+
 	catch { fileevent $sock writable "" } res
 
 	#Reset timeout timer
@@ -2927,9 +2927,9 @@ proc cmsn_conn_sb {sb sock} {
 
 	set cmd [$sb cget -auth_cmd]
 	set param [$sb cget -auth_param]
-	
+
 	::MSN::WriteSB $sb $cmd $param "cmsn_connected_sb $sb"
-	
+
 	::amsn::chatStatus [::MSN::ChatFor $sb] "[trans ident]...\n" miniinfo ready
 
 }
@@ -2938,7 +2938,7 @@ proc cmsn_conn_sb {sb sock} {
 proc cmsn_conn_ans {sb sock} {
 
 	#status_log "cmsn_conn_ans: Connected to invitation SB $name...\n" green
-	
+
 	catch {fileevent $sock writable {}} res
 
 	$sb configure -time [clock seconds]
@@ -2956,7 +2956,7 @@ proc cmsn_conn_ans {sb sock} {
 proc cmsn_connected_sb {sb recv} {
 
 	#status_log "cmsn_connected_sb: SB $name connected\n" green
-	
+
 	$sb configure -time [clock seconds]
 	$sb configure -stat "i"
 
@@ -2989,52 +2989,52 @@ proc cmsn_reconnect { sb } {
 
 	switch [$sb cget -stat] {
 		"n" {
-			
+
 			status_log "cmsn_reconnect: stat = n , SB= $sb, user=[$sb cget -last_user]\n" green
-			
+
 			$sb configure -time [clock seconds]
 			$sb configure -stat "i"
-	
+
 			cmsn_invite_user $sb [$sb cget -last_user]
-	
+
 			::amsn::chatStatus [::MSN::ChatFor $sb] \
 				"[trans willjoin [$sb cget -last_user]]..." miniinfo ready
-	
-		} 
-		
+
+		}
+
 		"d" {
-	
+
 			status_log "cmsn_reconnect: stat = d , SB= $sb, user=[$sb cget -last_user]\n" green
-			
+
 			$sb configure -time [clock seconds]
-	
+
 			$sb configure -sock ""
 			#$sb configure -data [list]
 			$sb configure -users [list]
 			$sb configure -typers [list]
 			$sb configure -title [trans chat]
 			$sb configure -lastmsgtime 0
-	
+
 			$sb configure -stat "c"
 			$sb configure -invite [$sb cget -last_user]
-	
+
 			if { [ns cget -stat] != "o" } {
 				set chatid [::MSN::ChatFor $sb]
 				::MSN::ClearQueue $chatid
 				::MSN::CleanChat $chatid
-				::amsn::chatStatus $chatid "[trans needonline]\n" miniwarning	
+				::amsn::chatStatus $chatid "[trans needonline]\n" miniwarning
 				return
 			}
-			
+
 			::MSN::WriteSB ns "XFR" "SB" "cmsn_open_sb $sb"
 			::amsn::chatStatus [::MSN::ChatFor $sb] "[trans chatreq]..." miniinfo ready
-	
-		} 
-		
+
+		}
+
 		"i" {
-	
-			#status_log "cmsn_reconnect: stat = i , SB= $name\n" green   
-		
+
+			#status_log "cmsn_reconnect: stat = i , SB= $name\n" green
+
 			if { [expr {[clock seconds] - [$sb cget -time]}] > 15 } {
 				status_log "cmsn_reconnect: called again while inviting timeouted for sb $sb\n" red
 				#catch { fileevent [$name cget -sock] readable "" } res
@@ -3044,13 +3044,13 @@ proc cmsn_reconnect { sb } {
 				$sb configure -stat "d"
 				cmsn_reconnect $sb
 			}
-	
+
 		}
-		
+
 		"c" {
-	
-			#status_log "cmsn_reconnect: stat = c , SB= $name\n" green      
-		
+
+			#status_log "cmsn_reconnect: stat = c , SB= $name\n" green
+
 			if { [expr {[clock seconds] - [$sb cget -time]}] > 10 } {
 				status_log "cmsn_reconnect: called again while reconnect timeouted for sb $sb\n" red
 				#set command [list "::[$name cget -connection_wrapper]::finish" $name]
@@ -3058,15 +3058,15 @@ proc cmsn_reconnect { sb } {
 				$sb configure -stat "d"
 				cmsn_reconnect $sb
 			}
-	
-		} 
-		
+
+		}
+
 		"cw" -
 		"pw" -
 		"a" {
-			
-			#status_log "cmsn_reconnect: stat =[$name cget -stat] , SB= $name\n" green         
-	
+
+			#status_log "cmsn_reconnect: stat =[$name cget -stat] , SB= $name\n" green
+
 			if { [expr {[clock seconds] - [$sb cget -time]}] > 10 } {
 				status_log "cmsn_reconnect: called again while authentication timeouted for sb $sb\n" red
 				#catch { fileevent [$name cget -sock] readable "" } res
@@ -3076,7 +3076,7 @@ proc cmsn_reconnect { sb } {
 				$sb configure -stat "d"
 				cmsn_reconnect $sb
 			}
-		} 
+		}
 		"" {
 			status_log "cmsn_reconnect: SB $name stat is [$name cget -stat]. This is bad, should delete it and create a new one\n" red
 			catch {
@@ -3085,8 +3085,8 @@ proc cmsn_reconnect { sb } {
 				::MSN::KillSB $sb
 				::MSN::chatTo $chatid
 			}
-			
-		} 
+
+		}
 		default {
 			status_log "cmsn_reconnect: SB $sb stat is [$sb cget -stat]\n" red
 		}
@@ -3106,8 +3106,8 @@ proc cmsn_update_users {sb recv} {
 		BYE {
 
 			set chatid [::MSN::ChatFor $sb]
-			
-			
+
+
 			set leaves [$sb search -users "[lindex $recv 1]"]
 			$sb configure -last_user [lindex [$sb cget -users] $leaves]
 			$sb delUser $leaves
@@ -3116,7 +3116,7 @@ proc cmsn_update_users {sb recv} {
 
 			if { [llength [$sb cget -users]] == 1 } {
 				#We were a conference! try to become a private
-				
+
 				set desiredchatid $usr_login
 
 				set newchatid [::ChatWindow::Change $chatid $desiredchatid]
@@ -3130,19 +3130,19 @@ proc cmsn_update_users {sb recv} {
 					status_log "cmsn_update_users: change accepted from $chatid to $desiredchatid\n"
 
 					::MSN::DelSBFor $chatid $sb
-					::MSN::AddSBFor $newchatid $sb   
-					
+					::MSN::AddSBFor $newchatid $sb
 
-					               
+
+
 					set chatid $newchatid
-					
-					
+
+
 				}
 
 			} elseif { [llength [$sb cget -users]] == 0 && [$sb cget -stat] != "d" } {
 				$sb configure -stat "n"
 			}
-	
+
 			#Another option for the condition:
 			# "$chatid" != "[lindex $recv 1]" || ![MSN::chatReady $chatid]
 			if { [::MSN::SBFor $chatid] == $sb } {
@@ -3176,12 +3176,12 @@ proc cmsn_update_users {sb recv} {
 
 			set usr_login [string tolower [lindex $recv 1]]
 			set usr_name [urldecode [lindex $recv 2]]
-		
+
 			$sb addUser [list $usr_login]
 
 			::abook::setContactData $usr_login nick $usr_name
-		
-		
+
+
 			if { [llength [$sb cget -users]] == 1 } {
 
 				$sb configure -last_user $usr_login
@@ -3190,23 +3190,23 @@ proc cmsn_update_users {sb recv} {
 			} else {
 
 				#More than 1 user, change into conference
-		
+
 				#Procedure to change chatid-sb correspondences
 				set oldchatid [::MSN::ChatFor $sb]
-	
+
 				if { $oldchatid == 0 } {
 					status_log "cmsn_update_users: JOI - VERY BAD ERROR, oldchatid = 0. CHECK!!\n" white
 					return 0
 				}
-	
+
 				set chatid $sb
-	
+
 				#Remove old chatid correspondence
 				::MSN::DelSBFor $oldchatid $sb
 				::MSN::AddSBFor $chatid $sb
-		
+
 				status_log "cmsn_update_users: JOI - Another user joins, Now I'm chatid $chatid (I was $oldchatid)\n"
-				
+
 				::ChatWindow::Change $oldchatid $chatid
 
 			}
@@ -3218,7 +3218,7 @@ proc cmsn_update_users {sb recv} {
 			#a while the user will join your old invitation,
 			#and get a fake "user joins" message if we don't check it
 			::MSNP2P::loadUserPic $chatid $usr_login
-			
+
 			if {[::MSN::SBFor $chatid] == $sb} {
 				::amsn::userJoins $chatid $usr_login 0
 			}
@@ -3274,9 +3274,9 @@ proc cmsn_change_state {recv} {
 
 		#Send plugin's postevent
 		::plugins::PostEvent ChangeState evpar
-	
+
 	}
-	
+
 	if { $msnobj == "" } {
 		set msnobj -1
 	}
@@ -3284,8 +3284,8 @@ proc cmsn_change_state {recv} {
 	if {$user_name == ""} {
 		set user_name [::abook::getNick $user]
 	}
-	
-	
+
+
 	if {$user_name != [::abook::getNick $user]} {
 		#Nick differs from the one on our list, so change it
 		#in the server list too
@@ -3296,24 +3296,24 @@ proc cmsn_change_state {recv} {
 	::Event::fireEvent contactNickChange protocol $user
 
 	}
-		
+
 	set custom_user_name [::abook::getDisplayNick $user]
 
 	set state_no [::MSN::stateToNumber $substate ]
-	
-	
+
+
     #alarm system (that must replace the one that was before) - KNO
 	if {[lindex $recv 0] !="ILN"} {
-	
+
 		if {[lindex $recv 0] == "FLN"} {
 			#User disconnected
-			
+
 			if {  ( [::alarms::isEnabled $user] == 1 )&& ( [::alarms::getAlarmItem $user ondisconnect] == 1) } {
 				run_alarm $user $custom_user_name [trans disconnect $custom_user_name]
 			} elseif {  ( [::alarms::isEnabled all] == 1 )&& ( [::alarms::getAlarmItem all ondisconnect] == 1) } {
 				run_alarm $user $custom_user_name [trans disconnect $custom_user_name]
 			}
-		
+
 		} else {
 			if { ( [::alarms::isEnabled $user] == 1 )&& ( [::alarms::getAlarmItem $user onstatus] == 1) } {
 				switch -exact [lindex $recv 1] {
@@ -3371,22 +3371,22 @@ proc cmsn_change_state {recv} {
 
 	set maxw [expr {([::skin::getKey notifwidth]-53)*2} ]
 	set short_name [trunc $custom_user_name . $maxw splainf]
-		
+
 	#User logsout
 	if {$substate == "FLN"} {
-		
+
 		#Register last logout, last seen and notify it in the events
 		::abook::setContactData $user last_logout [clock format [clock seconds] -format "%D - %H:%M:%S"]
 		::abook::setContactData $user last_seen [clock format [clock seconds] -format "%D - %H:%M:%S"]
 		::log::eventdisconnect $custom_user_name
 
-		
+
 		if { ([::config::getKey notifyoffline] == 1 && [::abook::getContactData $user notifyoffline -1] != 0) ||
 		     [::abook::getContactData $user notifyoffline -1] == 1 } {
 			#Show notify window if globally enabled, and not locally disabled, or if just locally enabled
 			::amsn::notifyAdd "$short_name\n[trans logsout]." "" offline offline $user
 		}
-		
+
 	# User was online before, so it's just a status change, and it's not
 	# an initial state notification
 	} elseif {[::abook::getVolatileData $user state FLN] != "FLN" && [lindex $recv 0] != "ILN"  } {
@@ -3401,9 +3401,9 @@ proc cmsn_change_state {recv} {
 		::log::eventstatus $custom_user_name [::MSN::stateToDescription $substate]
 
 	} elseif {[lindex $recv 0] == "NLN"} {	;# User was offline, now online
-		
+
 		user_not_blocked "$user"
-		
+
 		#Register last login and notify it in the events
 		::abook::setContactData $user last_login [clock format [clock seconds] -format "%D - %H:%M:%S"]
 		::log::eventconnect $custom_user_name
@@ -3411,7 +3411,7 @@ proc cmsn_change_state {recv} {
 		set evPar(user) user
 		set evPar(user_name) custom_user_name
 		::plugins::PostEvent UserConnect evPar
-		
+
 		if { ([::config::getKey notifyonline] == 1 && [::abook::getContactData $user notifyonline -1] != 0) ||
 		     [::abook::getContactData $user notifyonline -1] == 1 } {
 			::amsn::notifyAdd "$short_name\n[trans logsin]." "::amsn::chatUser $user" online online $user
@@ -3419,13 +3419,13 @@ proc cmsn_change_state {recv} {
 
 		if {  ( [::alarms::isEnabled $user] == 1 )&& ( [::alarms::getAlarmItem $user onconnect] == 1)} {
 			run_alarm $user $custom_user_name "$custom_user_name [trans logsin]"
-		} elseif {  ( [::alarms::isEnabled all] == 1 )&& ( [::alarms::getAlarmItem all onstatus] == 1)} {	
+		} elseif {  ( [::alarms::isEnabled all] == 1 )&& ( [::alarms::getAlarmItem all onstatus] == 1)} {
 			run_alarm $user $custom_user_name "$custom_user_name [trans logsin]"
 		}
-	} 
+	}
 	set oldmsnobj [::abook::getVolatileData $user msobj]
 	#set list_users [lreplace $list_users $idx $idx [list $user $user_name $state_no $msnobj]]
-	
+
 	::abook::setVolatileData $user state $substate
 	::abook::setVolatileData $user msnobj $msnobj
 	set oldPic [::abook::getContactData $user displaypicfile]
@@ -3444,17 +3444,17 @@ proc cmsn_change_state {recv} {
 				}
 			}
 		} else {
-			if { [::MSN::myStatusIs] != "FLN" && [::MSN::myStatusIs] != "HDN"} {	
+			if { [::MSN::myStatusIs] != "FLN" && [::MSN::myStatusIs] != "HDN"} {
 				set chat_id [::MSN::chatTo $user]
 				::MSN::ChatQueue $chat_id [list ::MSNP2P::loadUserPic $chat_id $user]
 			}
 		}
 	}
-	
-	
+
+
 	::MSN::contactListChanged
 	cmsn_draw_online 1
-		
+
 }
 
 
@@ -3569,7 +3569,7 @@ proc cmsn_ns_handler {item {message ""}} {
 					::MSN::clearList RL
 					::MSN::clearList AL
 					::groups::Reset
-					
+
 					set loading_list_info(version) [lindex $item 2]
 					set loading_list_info(total) [lindex $item 3]
 					set loading_list_info(current) 1
@@ -3793,25 +3793,25 @@ proc cmsn_ns_msg {recv message} {
 		set d(kv) [$message getHeader kv]
 		set d(sid) [$message getHeader sid]
 		set d(sessionstart) [clock seconds]
-		set d(clientip) [$message getHeader ClientIP]		     
+		set d(clientip) [$message getHeader ClientIP]
 		::abook::setDemographics d
-				
+
 		::config::setKey myip $d(clientip)
 		status_log "My IP is [::config::getKey myip]\n"
 	} else {
-		hotmail_procmsg $message	 
+		hotmail_procmsg $message
 	}
 }
 
 
 #TODO: ::abook system
 proc cmsn_listdel {recv} {
-   
+
 	set user [lindex $recv 4]
 	set list_sort [string toupper [lindex $recv 2]]
 
-	
-		
+
+
 	if { [lindex $recv 2] == "FL" } {
 		if { [lindex $recv 5] == "" } {
 			#Remove from all groups!!
@@ -3828,14 +3828,14 @@ proc cmsn_listdel {recv} {
 			::MSN::deleteFromList FL $user
 			::abook::removeContactFromList $user FL
 		}
-# 		
+#
 	} else {
-# 	
-		::MSN::deleteFromList $list_sort $user		
+#
+		::MSN::deleteFromList $list_sort $user
 		::abook::removeContactFromList $user $list_sort
 	}
-	
-	
+
+
 	cmsn_draw_online 1
 	global contactlist_loaded
 	set contactlist_loaded 1
@@ -3932,14 +3932,14 @@ proc cmsn_auth {{recv ""}} {
 
 			save_config						;# CONFIG
 			::config::saveGlobal
-			
+
 			if { [::abook::loadFromDisk] < 0 } {
 				::abook::clearData
 				::abook::setConsistent
 			}
-			
 
-			::abook::setPersonal nick [urldecode [lindex $recv 4]]	
+
+			::abook::setPersonal nick [urldecode [lindex $recv 4]]
 			::abook::setPersonal login [lindex $recv 3]
 			recreate_contact_lists
 
@@ -3972,20 +3972,20 @@ proc cmsn_auth {{recv ""}} {
 			.main_menu.tools entryconfigure 5 -state normal
 			#Enables View contacts by
 			.main_menu.tools entryconfigure 6 -state normal
-			
+
 			#Enable View History
 			.main_menu.tools entryconfigure 8 -state normal
 			#Enable View Event logging
 			.main_menu.tools entryconfigure 9 -state normal
-			
+
 			#Change nick
 			configureMenuEntry .main_menu.actions "[trans changenick]..." normal
 			#configureMenuEntry .options "[trans changenick]..." normal
 
 			configureMenuEntry .main_menu.actions "[trans sendmail]..." normal
 			configureMenuEntry .main_menu.actions "[trans sendmsg]..." normal
-				
-			#Send postevent "OnConnect" to plugin when we connect	
+
+			#Send postevent "OnConnect" to plugin when we connect
 			::plugins::PostEvent OnConnect evPar
 
 			return 0
@@ -3999,13 +3999,13 @@ proc cmsn_auth {{recv ""}} {
 
 proc recreate_contact_lists {} {
 
-	
+
 	#There's no need to recreate groups, as ::groups already gets all data
-	#from ::abook	
+	#from ::abook
 	foreach groupid [::groups::GetList] {
 		::groups::Set $groupid [::groups::GetName $groupid]
 		if { [::config::getKey expanded_group_$groupid]!="" } {
-			set ::groups::bShowing($groupid) [::config::getKey expanded_group_$groupid]		
+			set ::groups::bShowing($groupid) [::config::getKey expanded_group_$groupid]
 		} else {
 			set ::groups::bShowing($groupid) 1
 			::config::setKey expanded_group_$groupid 1
@@ -4025,7 +4025,7 @@ proc recreate_contact_lists {} {
 			::MSN::addToList $list_name $user
 		}
 	}
-	
+
 }
 
 proc initial_syn_handler {recv} {
@@ -4071,7 +4071,7 @@ proc initial_syn_handler {recv} {
 			ChCustomState "NLN"
 			send_dock "STATUS" "NLN"
 		}
-		
+
 	} else {
 		ChCustomState "NLN"
 		send_dock "STATUS" "NLN"
@@ -4105,16 +4105,16 @@ proc msnp9_authenticate { ticket } {
 		::MSN::WriteSB ns "USR" "TWN S $ticket"
 		ns configure -stat "us"
 	} else {
-		
+
 		status_log "Connection timeouted\n" white
 		::MSN::logout
-		
+
 		#Reconnect if necessary
 		if { [::config::getKey reconnect] == 1 } {
 			::MSN::reconnect "[trans connecterror]: Connection timed out"
 			return
 		}
-		
+
 		msg_box "[trans connecterror]: Connection timed out"
 	}
 	return
@@ -4167,7 +4167,7 @@ proc ns_enter {} {
 			status_log "$res\n"
 		}
 	}
-   
+
 }
 
 proc setup_connection {name} {
@@ -4181,7 +4181,7 @@ proc setup_connection {name} {
 #		$name configure -connection_wrapper DirectConnection
 
 #	} elseif {[::config::getKey connectiontype] == "http"} {
-	
+
 # 		$name configure -connection_wrapper HTTPConnection
 #		$name configure -proxy_host ""
 #		$name configure -proxy_port ""
@@ -4196,10 +4196,10 @@ proc setup_connection {name} {
 
 		#status_log "cmsn_socket: Calling proxy::Setup now\n" green
 		#::Proxy::Setup next readable_handler $name
-		
-		
+
+
 #	} elseif {[::config::getKey connectiontype] == "proxy" && [::config::getKey proxytype] == "http"} {
-	
+
 		#TODO: Right now it's always HTTP proxy!!
 #		$name configure -connection_wrapper HTTPConnection
 #		set proxy [::config::getKey proxy]
@@ -4208,19 +4208,19 @@ proc setup_connection {name} {
 #		$name configure -proxy_authenticate [::config::getKey proxyauthenticate]
 #		$name configure -proxy_user [::config::getKey proxyuser]
 #		$name configure -proxy_password [::config::getKey proxypass]
-	
+
 		#status_log "cmsn_socket: Setting up Proxy connection (type=[::config::getKey proxytype])\n" green
 		#::Proxy::Init [::config::getKey proxy] [::config::getKey proxytype]
 		#::Proxy::LoginData [::config::getKey proxyauthenticate] [::config::getKey proxyuser] [::config::getKey proxypass]
-	
+
 		#set proxy_serv [split [::config::getKey proxy] ":"]
 		#set tmp_serv [lindex $proxy_serv 0]
-		#set tmp_port [lindex $proxy_serv 1]        
+		#set tmp_port [lindex $proxy_serv 1]
 		#::Proxy::OnCallback "dropped" "proxy_callback"
-		
+
 		#status_log "cmsn_connect: Calling proxy::Setup now\n" green
 		#::Proxy::Setup next readable_handler $name
-	
+
 #	} else {
 #		::config::setKey connectiontype "direct"
  #		$name configure -connection_wrapper DirectConnection
@@ -4229,24 +4229,24 @@ proc setup_connection {name} {
 
 proc cmsn_socket {name} {
 
-	
+
 	$name configure -time [clock seconds]
 	$name configure -stat "cw"
 	$name configure -error_msg ""
-	
+
 	set proxy [$name cget -proxy]
 	if {[$proxy connect $name]<0} {
 		::MSN::CloseSB $name
 	}
-	 
-	
-	
+
+
+
 	#if { [catch {set sock [socket -async $tmp_serv $tmp_port]} res ] } {
 	#	$sb configure -error_msg $res
 	#	::MSN::CloseSB $name
 	#	return
 	#}
-	
+
 	#$sb configure -sock $sock
 	#fconfigure $sock -buffering none -translation {binary binary} -blocking 0
 	#fileevent $sock readable $readable_handler
@@ -4263,10 +4263,10 @@ proc cmsn_ns_connected {sock} {
 		status_log "cmsn_ns_connected ERROR: $error_msg\n" red
 		::MSN::CloseSB ns
 		return
-	}   
-	
+	}
+
 	ns configure -stat "a"
-	
+
 
 	cmsn_auth
 	if {[::config::getKey enablebanner] && [::config::getKey adverts]} {
@@ -4288,12 +4288,12 @@ proc cmsn_ns_connect { username {password ""} {nosignin ""} } {
 	::MSN::clearList AL
 	::MSN::clearList BL
 	::MSN::clearList RL
-	
+
 	if {[ns cget -stat] != "d"} {
 		set proxy [ns cget -proxy]
 		$proxy finish ns
 	}
-	
+
 	ns configure -stat "c"
 
 	if { $nosignin == "" } {
@@ -4309,7 +4309,7 @@ proc cmsn_ns_connect { username {password ""} {nosignin ""} } {
 
 	::MSN::StartPolling
 	::groups::Reset
-	
+
 	#TODO: Call "on connect" handlers, where hotmail will be registered.
 	set ::hotmail::unread 0
 
@@ -4320,7 +4320,7 @@ proc cmsn_ns_connect { username {password ""} {nosignin ""} } {
 	ns configure -connected "cmsn_ns_connected"
 
 	cmsn_socket ns
-	
+
 
 	return 0
 }
@@ -4330,12 +4330,12 @@ proc cmsn_ns_connect { username {password ""} {nosignin ""} } {
 proc process_msnp9_lists { bin } {
 
 	set lists [list]
-	
+
 	if { $bin == "" } {
 		status_log "process_msnp9_lists: No lists!!!\n" red
 		return $lists
 	}
-	
+
 	if { [expr {$bin % 2}] } {
 		lappend lists "FL"
 	}
@@ -4399,23 +4399,23 @@ proc cmsn_listupdate {recv} {
 
 		set list_names [process_msnp9_lists [lindex $recv 3]]
 		set groups [split [lindex $recv 4] ,]
-		
+
 		#Make list unconsistent while receiving contact lists
 		::abook::unsetConsistent
 
 		#Remove user from all lists while receiving List data
 		::abook::setContactData $username lists ""
-		
-		
+
+
 	}
 
 	::abook::setContactData $username nick $nickname
-	
+
 	foreach list_sort $list_names {
-	
+
 		#If list is not empty, get user information
 		if {$current != 0} {
-		
+
 			::abook::addContactToList $username $list_sort
 			::MSN::addToList $list_sort $username
 
@@ -4424,25 +4424,25 @@ proc cmsn_listupdate {recv} {
 				::abook::setContactData $username group $groups
 				set loading_list_info(last) $username
 				::abook::setVolatileData $username state "FLN"
-				
+
 			}
 		}
 	}
-	
+
 	set lists [::abook::getLists $username]
 	if { ([lsearch $lists RL] != -1) && ([lsearch $lists AL] < 0) && ([lsearch $lists BL] < 0)} {
 		newcontact $username $nickname
 	}
-	
+
 	::MSN::contactListChanged
-	
+
 	#Last user in list
 	if {$current == $total} {
 		cmsn_draw_online 1
 
 		set contactlist_loaded 1
 		::abook::setConsistent
-		::abook::saveToDisk	
+		::abook::saveToDisk
 	}
 
 }
@@ -4466,7 +4466,7 @@ proc urldecode {str} {
 		if {[catch {set carval [format %d 0x$hexvalue]} res]} {
 			set decode "${decode}\%"
 			set begin [expr {$end+1}]
-		
+
 		} else {
 			if {$carval > 128} {
 				set carval [expr { $carval - 0x100 }]
@@ -4479,7 +4479,7 @@ proc urldecode {str} {
 			#if {[catch {set decode2 "${decode2}[format %c 0x[string range $str [expr {$end+1}] [expr {$end+2}]]]"} res]} {
 			#   catch {set decode2 "${decode2}[format %c 0x[string range $str [expr {$end+1}] [expr {$end+1}]]]"} res
 			#}
-	
+
 			set begin [expr {$end+3}]
 		}
 		set end [string first "%" $str $begin]
@@ -4608,7 +4608,7 @@ proc checking_package_tls { }  {
 		set tlsinstalled 1
 		return 1
 	}
-    
+
 }
 
 proc create_msnobj { Creator type filename } {
@@ -4621,7 +4621,7 @@ proc create_msnobj { Creator type filename } {
 	close $fd
 
 	set file [filenoext [getfilename $filename]]
-	
+
 	set size [string length $data]
 
 	set sha1d [::base64::encode [binary format H* [::sha1::sha1 $data]]]
@@ -4631,7 +4631,7 @@ proc create_msnobj { Creator type filename } {
 	set msnobj "<msnobj Creator=\"$Creator\" Size=\"$size\" Type=\"$type\" Location=\"[urlencode $file].tmp\" Friendly=\"AAA=\" SHA1D=\"$sha1d\" SHA1C=\"$sha1c\"/>"
 
 	set msnobjcontext($msnobj) $filename
-	
+
 	return $msnobj
 }
 
@@ -4657,7 +4657,7 @@ proc fileext { filename } {
 #############################################################
 # xclientcaps_received msg chatid                           #
 # ----------------------------------------------------------#
-# Packets received from 3rd party client (not by MSN)       #                      
+# Packets received from 3rd party client (not by MSN)       #
 # Add the information to ContactData                        #
 # More information:                                         #
 # http://www.chat.solidhouse.com/msninterop/clientcaps.php  #
@@ -4679,10 +4679,10 @@ proc xclientcaps_received {msg chatid} {
 			set chatlogging "[urldecode [string range $msg $begin $end]]"
 			#status_log "ChatLogging:\n$chatlogging\n"
 			#Add this information to abook
-			if {$chatlogging == "Y"} { 
-				set chatlogging "[trans yes]" 
-			} else { 
-				set chatlogging "[trans no]" 
+			if {$chatlogging == "Y"} {
+				set chatlogging "[trans yes]"
+			} else {
+				set chatlogging "[trans no]"
 			}
 			::abook::setContactData $chatid chatlogging $chatlogging
 		}
@@ -4752,7 +4752,7 @@ proc add_Clientid {chatid clientid} {
 # in $minute minutes.                         #
 ###############################################
 proc system_message {msg} {
-		
+
 	if {[string first "Arg1:" $msg] != "-1"} {
 		#Find the minute variable
 		set minute [$message getHeader Arg1]
@@ -4779,11 +4779,11 @@ proc binword { word } {
 
 proc ToLittleEndian { bin length } {
 	if { $::tcl_platform(byteOrder) == "littleEndian" } { return "$bin"}
-	
+
 	if { $length == 2 } { set type s } elseif {$length == 4} { set type i } else { return "$bin"}
-	
+
 	set binout ""
-	incr length -1 
+	incr length -1
 	while { $bin != "" } {
 		set in [string range $bin 0 $length]
 		binary scan $in [string toupper $type] out
@@ -4796,9 +4796,9 @@ proc ToLittleEndian { bin length } {
 
 proc ToBigEndian { bin length } {
 	if { $::tcl_platform(byteOrder) == "littleEndian" } { return "$bin"}
-	
+
 	if { $length == 2 } { set type S } elseif {$length == 4} { set type I } else { return "$bin"}
-	
+
 	set binout ""
 	incr length -1
 	while { [string length $bin] > $length } {
@@ -4853,8 +4853,8 @@ proc int2word { int1 int2 } {
 
 namespace eval ::MSN6FT {
 	namespace export SendFT AcceptFT RejectFT handleMsnFT
-	
-	
+
+
 	proc SendFT { chatid filename filesize} {
 
 		status_log "Sending File $filename with size $filesize to $chatid\n"
@@ -4863,9 +4863,9 @@ namespace eval ::MSN6FT {
 		# Generate BranchID and CallID
 		set branchid "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [expr [expr int([expr rand() * 1000000])%65450]] + 4369]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
 		set callid "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [expr [expr int([expr rand() * 1000000])%65450]] + 4369]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
-		
+
 		set dest [lindex [::MSN::usersInChat $chatid] 0]
-		
+
 #		set session [::MSNP2P::Session %AUTO% -totalsize $filesize -dest $dest -callid $callid \
 #		-type "filetransfer" -filename $filename -branchid $branchid]
 #		::MSNP2P::putSession $sid $session
@@ -4881,21 +4881,21 @@ namespace eval ::MSN6FT {
 			set nopreview 1
 		}
 		set context "[binary format i 574][binary format i 2][binary format i $filesize][binary format i 0][binary format i $nopreview]"
-		
-		
+
+
 		set file [ToUnicode [getfilename $filename]]
 
 		set file [binary format a550 $file]
 		set context "${context}${file}\xFF\xFF\xFF\xFF"
-		
+
 		if { $nopreview == 0 } {
 
 			create_dir [file join [set ::HOME] FT cache]
 
 			set file [convert_file "$filename" "[file join [set ::HOME] FT cache ${callid}.png]" "96x96"]
 
-			if { [catch { open $file} fd] == 0 } { 
-				
+			if { [catch { open $file} fd] == 0 } {
+
 				fconfigure $fd -translation {binary binary }
 				set context "$context[read $fd]"
 				close $fd
@@ -4903,20 +4903,20 @@ namespace eval ::MSN6FT {
 		}
 
 
-		
-		
+
+
 		# Create and send our packet
 		set slpdata [::MSNP2P::MakeMSNSLP "INVITE" $dest [::config::getKey login] $branchid 0 $callid 0 0 "5D3E02AB-6190-11D3-BBBB-00C04F795683" $sid 2 \
 				 [string map { "\n" "" } [::base64::encode "$context"]]]
 		::MSNP2P::SendPacketExt [::MSN::SBFor $chatid] $sid $slpdata 1
 		status_log "Sent an INVITE to [::MSN::usersInChat $chatid]  on chatid $chatid for filetransfer of filename $filename\n" red
-		
+
 	}
-	
-	
-	
+
+
+
 	proc SendFTInvite { sid chatid} {
-		
+
 		set session [::MSNP2P::SessionList get $sid]
 		set branchid [lindex $session 9]
 		set callid [lindex $session 5]
@@ -4945,13 +4945,13 @@ namespace eval ::MSN6FT {
 		set slpdata [::MSNP2P::MakeMSNSLP "INVITE" $dest [::config::getKey login] $branchid 0 $callid 0 1 "TCPv1" \
 				 $netid $conntype $upnp "false"]
 		::MSNP2P::SendPacket [::MSN::SBFor $chatid] [::MSNP2P::MakePacket $sid $slpdata 1]
-		
+
 		after 5000 "::MSNP2P::SendDataFile $sid $chatid [list [lindex [::MSNP2P::SessionList get $sid] 8]] \"INVITE1\""
 	}
-	
-	
+
+
 	proc SendFTInvite2 { sid chatid} {
-		
+
 		set session [::MSNP2P::SessionList get $sid]
 		set branchid [lindex $session 9]
 		set callid [lindex $session 5]
@@ -4962,7 +4962,7 @@ namespace eval ::MSN6FT {
 		set listening [abook::getDemographicField listening]
 
 		set fd [open [lindex $session 8] "r"]
-		fconfigure $fd -translation {binary binary} 
+		fconfigure $fd -translation {binary binary}
 
 		::MSNP2P::SessionList set $sid [list -1 -1 -1 -1 "INVITE2" -1 $fd -1 -1 -1]
 
@@ -4984,7 +4984,7 @@ namespace eval ::MSN6FT {
 			::MSNP2P::SendPacket [::MSN::SBFor $chatid] [::MSNP2P::MakePacket $sid $slpdata 1]
 				after 5000 "::MSNP2P::SendDataFile $sid $chatid [list [lindex [::MSNP2P::SessionList get $sid] 8]] \"INVITE2\""
 		} else {
-		
+
 			after 5000 "::MSNP2P::SendDataFile $sid $chatid [list [lindex [::MSNP2P::SessionList get $sid] 8]] \"INVITE2\""
 		}
 	}
@@ -4997,10 +4997,10 @@ namespace eval ::MSN6FT {
 		status_log "Opening server on port $port\n" red
 		return $port
 	}
-       
+
 	proc handleMsnFT { nonce sid sending sock ip port } {
 		variable sockState
-		variable sockNonce 
+		variable sockNonce
 		variable sockSid
 
 		set sockNonce($sock) $nonce
@@ -5013,31 +5013,31 @@ namespace eval ::MSN6FT {
 		}
 
 		status_log "Received connection from $ip on port $port - socket $sock\n"
-		fconfigure $sock -blocking 1 -buffering none -translation {binary binary} 
+		fconfigure $sock -blocking 1 -buffering none -translation {binary binary}
 
 		fileevent $sock readable "::MSN6FT::ReadFromSock $sock"
-		#fileevent $sock writable "::MSN6FT::WriteToSock $sock"		
+		#fileevent $sock writable "::MSN6FT::WriteToSock $sock"
 	}
 
 
 
 
 	proc connectMsnFTP { sid nonce ip port sending } {
-	
+
 	#Use new FT protocol only if the user choosed this option in advanced preferences.
     if {[::config::getKey new_ft_protocol]} {
    		#Nothing
     } else {
    		return
     }
-	
+
 		::amsn::FTProgress c $sid "" $ip $port
 
 		if { [catch {set sock [ socket $ip $port] } ] } {
-			status_log "ERROR CONNECTING TO THE SERVER\n\n" red 
+			status_log "ERROR CONNECTING TO THE SERVER\n\n" red
 		} else {
 			variable sockState
-			variable sockNonce 
+			variable sockNonce
 			variable sockSid
 
 			if { $sending == "1" } {
@@ -5050,15 +5050,15 @@ namespace eval ::MSN6FT {
 			set sockSid($sock) $sid
 
 			status_log "connectedto $ip on port $port  - $sock\n"
-			fconfigure $sock -blocking 1 -buffering none -translation {binary binary} 
+			fconfigure $sock -blocking 1 -buffering none -translation {binary binary}
 			fileevent $sock readable "::MSN6FT::ReadFromSock $sock"
 			fileevent $sock writable "::MSN6FT::WriteToSock $sock"
 		}
 	}
 
 
-	proc ReadFromSock { sock } { 
-		variable sockNonce 
+	proc ReadFromSock { sock } {
+		variable sockNonce
 		variable sockState
 		variable sockSid
 
@@ -5092,16 +5092,16 @@ namespace eval ::MSN6FT {
 
 		switch $state {
 			10 -
-			0 
+			0
 			{
 				if { $data == "foo\x00" } {
 					set sockState($sock) [expr $sockState($sock) + 1]
 				}
 			}
-		       
+
 			1 -
 			11 -
-			22 
+			22
 			{
 				if { $sockNonce($sock) == [GetNonceFromData $data]} {
 					variable sockSid
@@ -5123,11 +5123,11 @@ namespace eval ::MSN6FT {
 					::MSNP2P::SessionList set $sid [list -1 -1 -1 -1 "DATASEND" -1 -1 -1 -1 -1]
 
 					set sockState($sock) [expr $sockState($sock) + 1 ]
-				}		
+				}
 			}
 
 			33 -
-			13 
+			13
 			{
 				if { [WriteDataToFile $data] == "0" } {
 					SendDataAck $sock $data
@@ -5137,14 +5137,14 @@ namespace eval ::MSN6FT {
 			}
 
 			24 -
-			4 
+			4
 			{
 				set sockState($sock) [expr $sockState($sock) + 1 ]
 				fileevent $sock writable "::MSN6FT::WriteToSock $sock"
 			}
-			
+
 			34 -
-			14 
+			14
 			{
 				SendByeAck $sock $data
 				#CloseSocket $sock
@@ -5152,12 +5152,12 @@ namespace eval ::MSN6FT {
 			}
 
 			6 -
-			26 
+			26
 			{
 				#CloseSocket $sock
-				close $sock		
+				close $sock
 			}
-			default 
+			default
 			{
 				set sockState($sock) 100
 				close $sock
@@ -5165,10 +5165,10 @@ namespace eval ::MSN6FT {
 
 		}
 
-		
+
 
 	}
-	proc WriteToSock { sock } { 
+	proc WriteToSock { sock } {
 
 		variable sockState
 		variable sockNonce
@@ -5185,7 +5185,7 @@ namespace eval ::MSN6FT {
 		switch $sockState($sock) {
 
 			20 -
-			30 
+			30
 			{
 				set data "[binary format i 4]foo\x00"
 				set sockState($sock) [expr $sockState($sock) + 1 ]
@@ -5194,33 +5194,33 @@ namespace eval ::MSN6FT {
 
 			21 -
 			31 -
-			12 
+			12
 			{
 				set data "[binary format i 48][GetDataFromNonce $sockNonce($sock) $sid]"
 				set sockState($sock) [expr $sockState($sock) + 1 ]
-		
+
 			}
 
 			2  {
 				set data "[binary format i 48][GetDataFromNonce $sockNonce($sock) $sid]"
 				set sockState($sock) [expr $sockState($sock) + 1 ]
-				fileevent $sock writable "::MSN6FT::WriteToSock $sock"		
+				fileevent $sock writable "::MSN6FT::WriteToSock $sock"
 			}
 
 			23 -
-			3 
+			3
 			{
-		
+
 				if { [SendFileToSock $sock] == "0" } {
 					set sockState($sock) [expr $sockState($sock) + 1 ]
-					fileevent $sock writable ""	
+					fileevent $sock writable ""
 				} else {
 					fileevent $sock writable "::MSN6FT::WriteToSock $sock"
 				}
 			}
 
 			5 -
-			25 
+			25
 			{
 				set data [SendDataBye $sock]
 				set data "[binary format i [string length $data]]$data"
@@ -5236,7 +5236,7 @@ namespace eval ::MSN6FT {
 		}
 
 
-		
+
 	}
 
 
@@ -5246,7 +5246,7 @@ namespace eval ::MSN6FT {
 		set nonce [string toupper "$n4$n3$n2$n1-$n6$n5-$n8$n7-$n9-$n10"]
 		status_log "Got NONCE : $nonce\n" red
 		return $nonce
-		
+
 	}
 
 	proc GetDataFromNonce { nonce sid } {
@@ -5301,14 +5301,14 @@ namespace eval ::MSN6FT {
 		 if { [catch { puts -nonewline $fd "[string range $data 48 end]" } res] } {
 			 status_log "ERROR WRITING DATA TO FILE : $fd - $data\n" red
 		 }
-		 
 
-		 #status_log "Received data : remainging $cRemaining\n" 
-			 
+
+		 #status_log "Received data : remainging $cRemaining\n"
+
 		 ::amsn::FTProgress r $cSid "" [expr $cOffset + $cMsgSize] $cTotalDataSize
 
 		 if {$cRemaining == 0 } {
-			 ::amsn::FTProgress fr $cSid "" 
+			 ::amsn::FTProgress fr $cSid ""
 			 catch {close $fd}
 		 }
 		 return $cRemaining
@@ -5320,7 +5320,7 @@ namespace eval ::MSN6FT {
 		variable sockSid
 
 		set sid $sockSid($sock)
-		
+
 
 		binary scan [string range $data 0 47] iiiiiiiiiiii cSid cId cOffset1 cOffset2 cTotalDataSize1 cTotalDataSize2 cMsgSize cFlags cAckId cAckUID cAckSize1 cAckSize2
 
@@ -5350,7 +5350,7 @@ namespace eval ::MSN6FT {
 		variable sockSid
 
 		set sid $sockSid($sock)
-		
+
 
 		binary scan [string range $data 0 47] iiiiiiiiiiii cSid cId cOffset1 cOffset2 cTotalDataSize1 cTotalDataSize2 cMsgSize cFlags cAckId cAckUID cAckSize1 cAckSize2
 
@@ -5361,7 +5361,7 @@ namespace eval ::MSN6FT {
 		set cOffset [int2word $cOffset1 $cOffset2]
 		set cTotalDataSize [int2word $cTotalDataSize1 $cTotalDataSize2]
 		set cAckSize [int2word $cAckSize1 $cAckSize2]
-		
+
 		set SessionInfo [::MSNP2P::SessionList get $sid]
 		set MsgId [lindex $SessionInfo 0]
 		set Destination [lindex $SessionInfo 3]
@@ -5374,12 +5374,12 @@ namespace eval ::MSN6FT {
 
 		puts -nonewline $sock "[binary format i [string length $out]]$out"
 	}
-	
+
 	proc SendDataBye { sock } {
 		variable sockSid
 
 		set sid $sockSid($sock)
-	
+
 		set SessionInfo [::MSNP2P::SessionList get $sid]
 		set dest [lindex $SessionInfo 3]
 		set callid [lindex $SessionInfo 5]
@@ -5420,7 +5420,7 @@ namespace eval ::MSN6FT {
 		variable sockSid
 
 		set sid $sockSid($sock)
-		
+
 		set fd [lindex [::MSNP2P::SessionList get $sid] 6]
 		if { $fd == 0 || $fd == "" } {
 			set filename [lindex [::MSNP2P::SessionList get $sid] 8]
@@ -5439,7 +5439,7 @@ namespace eval ::MSN6FT {
 			status_log "Correcting DataSize\n" green
 			set filename [lindex [::MSNP2P::SessionList get $sid] 8]
 			set DataSize [file size "${filename}"]
-			::MSNP2P::SessionList set $sid [list -1 $DataSize -1 -1 -1 -1 $fd -1 -1 -1]	
+			::MSNP2P::SessionList set $sid [list -1 $DataSize -1 -1 -1 -1 $fd -1 -1 -1]
 		}
 
 		set data [read $fd 1352]
@@ -5469,7 +5469,7 @@ namespace eval ::MSN6FT {
 		binary scan [string range $context 0 3] i size
 		binary scan [string range $context 8 11] i filesize
 		binary scan [string range $context 16 19] i nopreview
-		
+
 		set filename [FromUnicode [string range $context 20 [expr {$size - 5}]]]
 
 		binary scan $filename A* filename
@@ -5496,14 +5496,14 @@ namespace eval ::MSN6FT {
 	}
 
 	proc answerFTInvite { sid chatid branchid conntype } {
-	
+
 	#Use new FT protocol only if the user choosed this option in advanced preferences.
     if {[::config::getKey new_ft_protocol]} {
    		#Nothing
     } else {
    		return
     }
-	
+
 		::MSNP2P::SessionList set $sid [list -1 -1 -1 -1 -1 -1 -1 -1 -1 "$branchid" ]
 		set session [::MSNP2P::SessionList get $sid]
 		set dest [lindex $session 3]
@@ -5532,9 +5532,9 @@ namespace eval ::MSN6FT {
 		::MSNP2P::SendPacket [::MSN::SBFor $chatid] [::MSNP2P::MakePacket $sid $slpdata 1]
 
 	}
-	
-	
-	
+
+
+
 	#//////////////////////////////////////////////////////////////////////////////
 	# AcceptFT ( chatid dest branchuid cseq uid sid filename1 )
 	# This function is called when a file transfer is accepted by the user
@@ -5544,7 +5544,7 @@ namespace eval ::MSN6FT {
 		# Let's open the file
 		set filename [file join ${files_dir} $filename1]
 		set origfile $filename
-		
+
 		set num 1
 		while { [file exists $filename] } {
 	                set filename "[filenoext $origfile] $num[fileext $origfile]"
@@ -5579,7 +5579,7 @@ namespace eval ::MSN6FT {
 	proc CancelFT { chatid sid } {
 		set session_data [::MSNP2P::SessionList get $sid]
 		set user_login [lindex $session_data 3]
-		
+
 		status_log "MSNP2P | $sid -> User canceled FT, sending BYE to chatid : $chatid and SB : [::MSN::SBFor $chatid]\n" red
 		::MSNP2P::SendPacket [::MSN::SBFor $chatid] [::MSNP2P::MakePacket $sid [::MSNP2P::MakeMSNSLP "BYE" $user_login [::config::getKey login] "19A50529-4196-4DE9-A561-D68B0BF1E83F" 0 [lindex $session_data 5] 0 0] 1]
 		::amsn::FTProgress ca $sid [lindex [::MSNP2P::SessionList get $sid] 6]
@@ -5624,7 +5624,7 @@ namespace eval ::MSNAV {
 		variable LocalSID
 		variable Invite
 		variable Type
-		
+
 		switch $action {
 			get {
 				if { [info exists LocalSID($cookie)] } {
@@ -5675,8 +5675,8 @@ namespace eval ::MSNAV {
 	# cookie :		invitation cookie
 	# context:		Requested:SIP_A,SIP_V;Capabilities:SIP_A,SIP_V;
 	# dosen't return nothing
-	proc invitationReceived {cookie context chatid fromlogin} {		
-		
+	proc invitationReceived {cookie context chatid fromlogin} {
+
 		# Now we write the request to the screen
 		set fromname [::abook::getDisplayNick $fromlogin]
 
@@ -5708,12 +5708,12 @@ if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 		::amsn::WinWriteClickable $chatid "[trans reject]" "::MSNAV::cancelSession $cookie [list $requested] $chatid" avno$cookie
 		::amsn::WinWrite $chatid ")\n" green
 		::amsn::WinWrite $chatid "----------" green
-		
-		
+
+
 
 		#::MSNAV::acceptInvite $cookie [list $requested] $chatid
 	}
-	
+
 	#//////////////////////////////////////////////////////////////////////////////
 	# acceptInvite ( cookie requested chatid )
 	# This function is called when we the user accepts an A/V invitation
@@ -5721,7 +5721,7 @@ if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 	# requested :		Requested:SIP_A,SIP_V;
 	# dosen't return nothing
 	proc acceptInvite {cookie requested chatid} {
-		
+
 		# let's fix the visuals
 		set win_name [::ChatWindow::For $chatid]
 		if { [::ChatWindow::For $chatid] == 0} {
@@ -5745,15 +5745,15 @@ if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 
 		set txt [trans avaccepted]
 
-		
+
 		::amsn::WinWrite $chatid "\n----------\n" green
 		::amsn::WinWrite $chatid " $txt\n" green
 		::amsn::WinWrite $chatid "----------" green
-		
+
 		# We accepted let's init linphone
 		set type [lindex [CookieList get $cookie] 2]
 		if { [prepareLinphone $chatid $type] == -1 } {
-			# Remove the catch here.. I added it because I'm too lazy to 
+			# Remove the catch here.. I added it because I'm too lazy to
 			# test if I made an error in the syntax or anything..
 			catch {cancelSession $cookie $chatid USER_CANCELED}
 			return
@@ -5770,37 +5770,37 @@ if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 	# requested:		Requested:SIP_A,SIP_V;
 	# returns -1 if something is missing
 	proc acceptInvitationPacket {cookie requested chatid} {
-		
+
 		set sessionid "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [expr [expr int([expr rand() * 1000000])%65450]] + 4369]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
 		CookieList set $cookie [list $sessionid -1 -1]
-		
+
 		# we need the connection type
 		set conntype [::abook::getDemographicField conntype]
 		if { $conntype == "" } {
 			return -1
 		}
 		#set conntype "DIRECT-CONNECT"
-		
+
 		set msg "MIME-Version: 1.0\r\nContent-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
 		set msg "${msg}Invitation-Command: ACCEPT\r\n"
 		set msg "${msg}Context-Data: $requested\r\n"
 		set msg "${msg}Invitation-Cookie: $cookie\r\n"
 		set msg "${msg}Session-ID: {$sessionid}\r\n"
 		set msg "${msg}Session-Protocol: SM1\r\n"
-		
+
 		set msg "${msg}[MakeConnType $conntype]"
-		
+
 		set msg "${msg}Launch-Application: TRUE\r\n"
 		set msg "${msg}Request-Data: IP-Address:\r\n"
 		set msg "${msg}[MakeIP]"
-		
+
 		set msg [encoding convertto utf-8 $msg]
 		set msg_len [string length $msg]
-		
+
 		::MSN::WriteSBNoNL [::MSN::SBFor $chatid] "MSG" "A $msg_len\r\n$msg"
 
 	}
-	
+
 	#//////////////////////////////////////////////////////////////////////////////
 	# cancelSession ( cookie chatid code)
 	# This function cancels the A/V session of the given cookie
@@ -5808,11 +5808,11 @@ if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 	# code :		the cancel code (TIMEOUT, REJECT, ..what else)
 	# returns nothing
 	proc cancelSession {cookie chatid code}	{
-		
+
 		set win_name [::ChatWindow::For $chatid]
 		if { [::ChatWindow::For $chatid] == 0} {
 			return 0
-		}   
+		}
 
 		# Disable accept/Cancel
 		[::ChatWindow::GetOutText ${win_name}] tag configure avyes$cookie \
@@ -5837,7 +5837,7 @@ if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 		::amsn::WinWrite $chatid " $txt\n" green
 		::amsn::WinWrite $chatid "----------" green
 
-		
+
 		set conntype [::abook::getDemographicField conntype]
 		#set conntype "Direct-Connect"
 
@@ -5847,18 +5847,18 @@ if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 		set msg "${msg}Cancel-Code: USER_CANCEL\r\n"
 		set msg "${msg}Invitation-Cookie: $cookie\r\n"
 		set msg "${msg}Session-ID: {[lindex [CookieList get $cookie] 0]}\r\n"
-		
+
 		set msg "${msg}[MakeConnType $conntype]"
-		
+
 		set msg [encoding convertto utf-8 $msg]
 		set msg_len [string length $msg]
-		
+
 		::MSN::WriteSBNoNL [::MSN::SBFor $chatid] "MSG" "A $msg_len\r\n$msg"
 
 		# kill linphone
 		catch { lp_terminate_dialog }
 		catch { lp_uninit }
-		
+
 		CookieList unset $cookie
 	}
 
@@ -5875,16 +5875,16 @@ if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 		# let's check our type
 		if { [lindex [CookieList get $cookie] 1] == 0 } {
 			# ok this is a 2nd accept
-						
+
 			# now connect to him
 			lp_invite "<sip:${ip}>"
 		} else {
 			# ok so we invited, and this is his ACCEPT to our invite
 			# we need to send our own accept
-					
+
 			# get our session id
 			set sessionid [lindex [CookieList get $cookie] 0]
-			
+
 			# we need the connection type
 			set conntype [::abook::getDemographicField conntype]
 			#set conntype "Direct-Connect"
@@ -5896,11 +5896,11 @@ if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 			set msg "${msg}Invitation-Command: ACCEPT\r\n"
 			set msg "${msg}Invitation-Cookie: $cookie\r\n"
 			set msg "${msg}Session-ID: {$sessionid}\r\n"
-		
+
 			set msg "${msg}[MakeConnType $conntype]"
-			
+
 			set msg "${msg}Launch-Application: TRUE\r\n"
-		
+
 			set msg "${msg}[MakeIP]"
 
 			set msg [encoding convertto utf-8 $msg]
@@ -5928,7 +5928,7 @@ if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 		set cookie [expr {([clock clicks]) % (65536 * 8)}]
 
 		CookieList set $cookie [list $sessionid 1 $type]
-		
+
 		# we need the connection type
 		set conntype [::abook::getDemographicField conntype]
 		if { $conntype == "" } {
@@ -5938,7 +5938,7 @@ if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 		set msg "${msg}Application-Name: an audio conversation\r\n"
 		set msg "${msg}Application-GUID: {02D3C01F-BF30-4825-A83A-DE7AF41648AA}\r\n"
 		set msg "${msg}Session-Protocol: SM1\r\n"
-		
+
 		if { $type == "A" } {
 			set msg "${msg}Context-Data: Requested:SIP_A,;Capabilities:SIP_A,SIP_V,;\r\n"
 		} else {
@@ -5948,17 +5948,17 @@ if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 		set msg "${msg}Invitation-Command: INVITE\r\n"
 		set msg "${msg}Invitation-Cookie: $cookie\r\n"
 		set msg "${msg}Session-ID: {$sessionid}\r\n"
-		
+
 		set msg "${msg}[MakeConnType $conntype]"
-				
+
 		set msg [encoding convertto utf-8 $msg]
 		set msg_len [string length $msg]
-		
+
 		::MSN::WriteSBNoNL [::MSN::SBFor $chatid] "MSG" "S $msg_len\r\n$msg"
 
 	}
 
-	
+
 	proc MakeConnType { conntype } {
 		#set conntype "Direct-Connect"
 		set msg "Conn-Type: $conntype\r\n"
@@ -5975,7 +5975,7 @@ if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 		return $msg
 	}
 
-	proc MakeIP { } { 
+	proc MakeIP { } {
 		set msg "IP-Address: [::abook::getDemographicField clientip]:5060\r\n"
 		set msg "${msg}IP-Address-Enc64: [::base64::encode [::abook::getDemographicField clientip]:5060 ]\r\n\r\n"
 		#set msg "IP-Address: [::abook::getDemographicField localip]:5060\r\n"
@@ -5983,11 +5983,11 @@ if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 
 		return $msg
 	}
-	
+
 	proc prepareLinphone { chatid type } {
 		if { [LoadExtension] == 0 } {
 			DisplayError $chatid
-			return -1 
+			return -1
 		}
 		catch { lp_init } res
 		# Check if init works good
@@ -5995,7 +5995,7 @@ if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 			DisplayError $chatid
 			return -1
 		}
-			
+
 		if { $type == "A" } {
 			lp_disable_video
 			lp_show_local_video 0
@@ -6004,7 +6004,7 @@ if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 			lp_enable_video
 			lp_show_local_video 1
 		}
-		
+
 		lp_set_sip_port 5060
 		lp_set_audio_port 7078
 		lp_set_video_port 9078
@@ -6015,16 +6015,16 @@ if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 
 	proc LoadExtension { } {
 		if { [ExtensionLoaded] == 0 } {
-			catch { load plugins/linphone/linphone.so} 
-		} 
-		return [ExtensionLoaded]		
+			catch { load plugins/linphone/linphone.so}
+		}
+		return [ExtensionLoaded]
 	}
 
 	proc ExtensionLoaded { } {
 		foreach lib [info loaded] {
 			if { [lindex $lib 1] == "Linphone" } {
 				return 1
-			} 
+			}
 		}
 		return 0
 	}
@@ -6034,8 +6034,8 @@ if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 		set win_name [::ChatWindow::For $chatid]
 		if { [::ChatWindow::For $chatid] == 0} {
 			return 0
-		}   
-		
+		}
+
 		# Show on screen
 		set txt [trans avinitfailed]
 		::amsn::WinWrite $chatid "\n----------\n" green
@@ -6053,8 +6053,8 @@ namespace eval ::MSNMobile {
 
     proc IsMobile { chatid } {
 
-	if { [string first "@" $chatid] != [string last "@" $chatid] && 
-	     [string first "mobile@" $chatid] == 0 } { 
+	if { [string first "@" $chatid] != [string last "@" $chatid] &&
+	     [string first "mobile@" $chatid] == 0 } {
 	    return 1
 	} else {
 	    return 0
@@ -6062,11 +6062,11 @@ namespace eval ::MSNMobile {
     }
 
     proc MessageSend { chatid txt } {
-	
+
 	set name [string range $chatid 7 end]
-	
+
 	set msg "<TEXT xml:space=\"preserve\" enc=\"utf-8\">$txt</TEXT>"
-	
+
 	set msglen [string length $msg]
 	#set plen [string length $msg]
 	::MSN::WriteSBNoNL ns "PGD" "$name 1 $msglen\r\n$msg"
@@ -6097,7 +6097,7 @@ namespace eval ::MSNMobile {
 	status_log "idx1 $idx1 - idx2 $idx2\n" red
 
 	set chatid [GetChatId $user]
-	
+
 	if { $chatid == 0 } {
 	    OpenMobileWindow $user
 	    set chatid [GetChatId $user]
@@ -6106,7 +6106,7 @@ namespace eval ::MSNMobile {
 	status_log "Writing mobile msg \"$msg\" on : $chatid\n" red
 	::amsn::WinWrite $chatid "\n[trans mobilesays $user] : \n" says
 	::amsn::WinWrite $chatid "$msg" user
-	
+
     }
 
 
@@ -6127,7 +6127,7 @@ namespace eval ::MSNMobile {
 	    } else {
 		wm state $win normal
 	    }
-	    
+
 	    wm deiconify $win
 	} else {
 	    set win [::ChatWindow::For $chatid]
@@ -6137,7 +6137,7 @@ namespace eval ::MSNMobile {
 	    } else {
 		wm state $win normal
 	    }
-	    
+
 	    wm deiconify $win
 	    focus $win
 	}
@@ -6154,27 +6154,27 @@ namespace eval ::MSNMobile {
 	set toptext [::ChatWindow::GetTopText ${win_name}]
 
 	$toptext configure -state normal -font sboldf -height 1 -wrap none
-	
+
 	set user_name [string map {"\n" " "} [::abook::getDisplayNick $user_login]]
 	set state_code [::abook::getVolatileData $user_login state]
-			
+
 	if { $state_code == "" } {
 	    set user_state ""
 	    set state_code FLN
 	} else {
 	    set user_state [::MSN::stateToDescription $state_code]
 	}
-	
+
 	set user_image [::MSN::stateToImage $state_code]
 
 	if {[::config::getKey truncatenames]} {
 	    #Calculate maximum string width
 	    set maxw [winfo width $toptext]
-	    
+
 	    if { "$user_state" != "" && "$user_state" != "online" } {
 		incr maxw [expr 0-[font measure sboldf -displayof $toptext " \([trans $user_state]\)"]]
 	    }
-	    
+
 	    incr maxw [expr 0-[font measure sboldf -displayof $toptext " <${user_login}>"]]
 	    $toptext insert end "[trunc ${user_name} ${win_name} $maxw sboldf] <${user_login}>"
 	} else {
@@ -6183,27 +6183,27 @@ namespace eval ::MSNMobile {
 
 	#TODO: When we have better, smaller and transparent images, uncomment this
 	#$toptext image create end -image [::skin::loadPixmap $user_image] -pady 0 -padx 2
-	
+
 	if { "$user_state" != "" && "$user_state" != "online" } {
 	    $toptext insert end "\([trans $user_state]\)"
 	}
 	$toptext insert end "\n"
-	
-	
+
+
 	#Change color of top background by the status of the contact
 	::ChatWindow::ChangeColorState $user_login $user_state $state_code ${win_name}
-	
-	
+
+
 	#Calculate number of lines, and set top text size
 	set size [$toptext index end]
 	set posyx [split $size "."]
 	set lines [expr {[lindex $posyx 0] - 2}]
 	set ::ChatWindow::titles(${win_name}) ${title}
-	
+
 	$toptext delete [expr {$size - 1.0}] end
 	$toptext configure -state normal -font sboldf -height $lines -wrap none
 	$toptext configure -state disabled
-	
+
 	if { [info exists ::ChatWindow::new_message_on(${win_name})] && $::ChatWindow::new_message_on(${win_name}) == 1 } {
 	    wm title ${win_name} "*${title}"
 	} else {
