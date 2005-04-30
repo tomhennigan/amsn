@@ -6054,7 +6054,7 @@ proc saveContacts2 { } {
 	} elseif { $format == "csv" } {
 		set types [list { {Comma Seperated Values} {.csv} }]
 	}
-	set filename [tk_getSaveFile -filetypes $types -defaultextension ".$format"]
+	set filename [tk_getSaveFile -filetypes $types -defaultextension ".$format" -initialfile "amsncontactlist.$format"]
 	if {$filename != ""} {
 		if { [string match "$filename" "*.$format"] == 0 } {
 			set filename "$filename.$format"
