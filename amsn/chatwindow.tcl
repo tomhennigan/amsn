@@ -630,7 +630,7 @@ namespace eval ::ChatWindow {
 					::amsn::notifyAdd "$msg" "::amsn::chatUser $chatid"
 					#Regive focus on Mac OS X
 					if { ![catch {tk windowingsystem} wsystem] && $wsystem == "aqua" } {
-						after 200 "catch {focus -force $lastfocus}"
+						after 1000 "catch {focus -force $lastfocus}"
 					}
 				}
 			}
@@ -1974,7 +1974,11 @@ namespace eval ::ChatWindow {
 		bind $pictureinner <<Button3>> "::amsn::ShowPicMenu $w %X %Y\n"
 		#reset the minsize of pane when configured (not tcl 8.3)
 		if { $::tcl_version >= 8.4 } {
-			bind $picture <Configure> "::ChatWindow::ImageResized $w %h [::skin::getKey chat_dp_pady]"
+			if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+				#Disable temporary, crash issue with that line
+			} else {
+				bind $picture <Configure> "::ChatWindow::ImageResized $w %h [::skin::getKey chat_dp_pady]"
+			}
 		}
 
 
