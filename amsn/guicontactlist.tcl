@@ -166,6 +166,8 @@ namespace eval ::guiContactList {
 	 ::Event::registerEvent contactStateChange all ::guiContactList::contactChanged
 	 ::Event::registerEvent blockedContact all ::guiContactList::contactChanged
 	 ::Event::registerEvent unblockedContact all ::guiContactList::contactChanged
+	 ::Event::registerEvent movedContact all ::guiContactList::contactChanged
+	 ::Event::registerEvent addedUser all ::guiContactList::contactChanged
 
 
 
@@ -298,25 +300,45 @@ namespace eval ::guiContactList {
 	}
 
 
-	proc contactChanged { eventused email } {
+	proc contactChanged { eventused email { gidlist ""} } {
+	 if { [winfo exists .contactlist] } {
 
-	if { [winfo exists .contactlist] } {
-
-		global nicknameArray
-status_log "event triggered: $eventused with variable: $email"
-
-		set usernick "[::abook::getDisplayNick $email]"
-		set nicknameArray("$email") "[::smiley::parseMessageToList $usernick 1]"
-
-		set groupslist [list [getGroupId $email]]
-		foreach group $groupslist {
-			set element [list "C" $email]
-			::guiContactList::drawContact .contactlist.sw.cvs $element $group
+		#redraw the groups
+		if {$eventused == "contactStateChange" } {
+			set gidlist [list [::abook::getGroups $email] offline mobile ]
 		}
-		::guiContactList::organiseList .contactlist.sw.cvs
-	  }
-	}
 
+		if {$gidlist != "" && $eventused != "contactNickChange"} {
+			 foreach group $gidlist {
+				#set the element list for the changed group
+				set groupelement [list $group "[::groups::GetName $group]"]
+				if {$group == "offline" || $group == "mobile"} {
+					set groupelement [list $group "$group"]
+				}	
+
+				#redraw the group
+				::guiContactList::drawGroup .contactlist.sw.cvs $groupelement
+	status_log "REDRAWN: $groupelement"
+				
+			}
+		}
+		
+
+		#redraw the contact
+		if {$eventused != "movedContact"} {
+			set groupslist [list [getGroupId $email]]
+			foreach group $groupslist {
+				set contactelement [list "C" $email]
+				::guiContactList::drawContact .contactlist.sw.cvs $contactelement $group
+	status_log "REDRAWN: $contactelement"
+			}
+		}
+
+		#reorganise the list
+		::guiContactList::organiseList .contactlist.sw.cvs
+
+	 }
+	}
 
 
 
