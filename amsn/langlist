@@ -52,7 +52,7 @@
 	<lang>
 		<langcode>da</langcode>
 		<name>Danish (dansk)</name>
-		<version>1.36</version>
+		<version>1.37</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -82,7 +82,7 @@
 	<lang>
 		<langcode>ee</langcode>
 		<name>Estonian (eesti keel)</name>
-		<version>1.35</version>
+		<version>1.36</version>
 		<encoding>iso8859-4</encoding>
 	</lang>
 	<lang>
@@ -160,7 +160,7 @@
 	<lang>
 		<langcode>it</langcode>
 		<name>Italian (italiano)</name>
-		<version>1.47</version>
+		<version>1.48</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -208,7 +208,7 @@
 	<lang>
 		<langcode>pt_BR</langcode>
 		<name>Portuguese - Brazil</name>
-		<version>1.19</version>
+		<version>1.20</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
