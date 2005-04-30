@@ -803,13 +803,7 @@ namespace eval ::plugins {
 						lst {
 							# This configuration item is a listbox that stores the selected item.
 							set height [llength [lindex $confitem 1]]
-							set width 0
-							foreach item [lindex $confitem 1] {
-								if { [string length "$item"] > $width } {
-									set width [string length "$item"]
-								}
-							}
-							listbox $confwin.$i -height $height -width $width -bg white
+							listbox $confwin.$i -height $height -width 0 -bg white
 							foreach item [lindex $confitem 1] {
 								$confwin.$i insert end $item
 							}
