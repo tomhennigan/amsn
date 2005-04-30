@@ -335,6 +335,7 @@ lastlogout Viimati logis välja
 lastmsgedme Viimane sõnum
 lastmsgtime Viimane sõnum saadud $1
 lastseen Viimati nähtud
+lazypicretrieval Laisk piltide tõmbamine
 lclosedwin $1 sulges akna $2
 lconftopriv Konverents muudetud privaatvestluseks isikuga $1
 lconvstarted Vestlust alustatud $1
@@ -407,6 +408,7 @@ needonline Sa oled/ilmud ikka lahtiühendatuna
 needwinico2 Selleks, et Windowsi süsteemisalvestamine(tray) töötaks, peab utils/windows kataloog sisaldama faili winico05.dll
 never Mitte kunagi
 new_ft_protocol Kasuta failivahetuseks uut protokolli (võib esineda üksikuid vigu)
+newline Uus rida
 newmail $1 uut sõnumit postkastis
 newmailfolder Sul on Hotmaili kirjakastis $1 uut kirja
 newmailfrom Uus kiri saatjalt $1 ($2)
@@ -625,6 +627,7 @@ temp_state Ära salvesta (Ajutine seisund mida ei salvestata AMSNi sulgemisel)
 textsize Teksti suurus
 thismonth Käesoleval kuul
 timeremaining Aega on jäänud
+timestamp kellaaeg
 timestamps Luba ajatemplid vestluse aknas
 title Al's Messenger
 tkerror TK töös ilmnes viga mis tähendab, et AMSN koodis on bug. Palun teata sellest saates aadressile amsn-bugs@lists.sf.net fail $1

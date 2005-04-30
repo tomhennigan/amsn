@@ -1,4 +1,5 @@
 amsn_lang_version 2
+lazypicretrieval langsomme Display Billed oplysninger
 about Om
 accept Accepter
 acceptfile Accepter fil $1, størrelse $2? Gemt i $3
@@ -408,6 +409,7 @@ needonline Du er/foregiver stadig at være offline!
 needwinico2 Har brug for winico05.dll i utils/windows biblioteket for at Windows kan opbevare programmet i systembakken
 never Aldrig
 new_ft_protocol Brug ny FTP-protokol (fortsat enkelte bugs)
+newline Ny linje
 newmail $1 nye beskeder i Indbakken
 newmailfolder Du har $1 nye beskeder i andre Hotmail biblioteker
 newmailfrom Ny mail fra $1 ($2)
@@ -626,6 +628,7 @@ temp_state Gem ikke (Midlertidig status, vil blive glemt, når du lukker AMSN)
 textsize Tekststørrelse
 thismonth Denne måned
 timeremaining Tilbageværende tid
+timestamp Tids stemple
 timestamps Vis tidsstempler i Chat-vinduer
 title Al's Messenger
 tkerror TK har skabt en fejl, der er en fejl i amsn, rapportér den venligst. Send filen $1 til amsn-bugs@lists.sf.net

@@ -676,3 +676,20 @@ yoffset Deslocamento Y
 youblocked Você foi bloqueado
 yousay Você diz
 youwant Você quer
+lazypicretrieval Requisição de Figuras de Display
+cantloadonlineversion Não foi possível obter a lista atualizada de linguagens disponíveis na Internet
+closeall Fechar todas tabelas da janela?
+detach Desconectar
+invalidparameter Erro conectando ao servidor: parâmetro inválido
+newline Nova Linha
+selectall Selecionar tudo
+showpicnotify Mostrar figuras do usuário na janela de notificação
+signinstatus Status da conexão
+takesnapshot Tirar Foto
+thismonth Este mês
+timestamp Horário 
+updating Atualizando 
+useasdp Usar como figura de display
+webcamshot Foto da WebCam
+whatsize A imagem que você requisitou não é possue um tamanho (96x96) normal de figura para display\n Com que tamanho você gostaria que a figurasse fosse mostrada?
+zoom Zoom 
