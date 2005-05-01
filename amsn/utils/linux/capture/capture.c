@@ -397,11 +397,11 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
 
 	vp.palette = VIDEO_PALETTE_RGB24;
 
-	if (ioctl(fvideo, VIDIOCSPICT, &vp)) {
-		perror("set picture");
-		close(fvideo);
-		return TCL_ERROR;
-	}
+/* 	if (ioctl(fvideo, VIDIOCSPICT, &vp)) { */
+/* 		perror("set picture"); */
+/* 		close(fvideo); */
+/* 		return TCL_ERROR; */
+/* 	} */
 
 	image_data = (BYTE *) malloc(vw.width*vw.height*3);
 
@@ -567,6 +567,7 @@ int Capture_Grab _ANSI_ARGS_((ClientData clientData,
 	block.offset[0] = 2;
 	block.offset[1] = 1;
 	block.offset[2] = 0;
+	block.offset[3] = -1;
 
 	#if TK_MINOR_VERSION == 3
 		Tk_PhotoPutBlock(Photo, &block, 0, 0, vw.width, vw.height);
@@ -593,71 +594,53 @@ int Capture_Grab _ANSI_ARGS_((ClientData clientData,
 	return TCL_OK;
 }
 
-int Capture_SetBrightness _ANSI_ARGS_((ClientData clientData,
+int Capture_AccessSettings _ANSI_ARGS_((ClientData clientData,
 			      Tcl_Interp *interp,
 			      int objc,
 			      Tcl_Obj *CONST objv[]))
 {
-	char *                  captureDescriptor=NULL;
-	struct capture_item*    capItem=NULL;
-	int                     brightness=0;
-	struct video_picture    vp;
+	char *captureDescriptor = NULL;
+	char *proc = NULL;
+	struct capture_item *capItem = NULL;
+	int new_value = 0;
+	int setting = 0;
+	struct video_picture vp;
 
-	if( objc != 3) {
-		Tcl_AppendResult (interp, "Wrong number of args.\nShould be \"::Capture::SetBrightness capturedescriptor bright\"" , (char *) NULL);
+
+	proc = Tcl_GetStringFromObj(objv[0], NULL);
+
+	if (!strcmp(proc, "::Capture::SetBrightness")) {
+	  setting = SETTINGS_SET_BRIGHTNESS;
+	} else if (!strcmp(proc, "::Capture::SetContrast")) {
+	  setting = SETTINGS_SET_CONTRAST;
+	} else if (!strcmp(proc, "::Capture::SetHue")) {
+	  setting = SETTINGS_SET_HUE;
+	} else if (!strcmp(proc, "::Capture::SetColour")) {
+	  setting = SETTINGS_SET_COLOUR;
+	} else if (!strcmp(proc, "::Capture::GetBrightness")) {
+	  setting = SETTINGS_GET_BRIGHTNESS;
+	} else if (!strcmp(proc, "::Capture::GetContrast")) {
+	  setting = SETTINGS_GET_CONTRAST;
+	} else if (!strcmp(proc, "::Capture::GetHue")) {
+	  setting = SETTINGS_GET_HUE;
+	} else if (!strcmp(proc, "::Capture::GetColour")) {
+	  setting = SETTINGS_GET_COLOUR;
+	} 
+
+	if ( setting == 0 ) {
+	  Tcl_ResetResult(interp);
+	  Tcl_AppendResult (interp, "Wrong procedure name, should be either one of those : \n" , (char *) NULL);
+	  Tcl_AppendResult (interp, "::Capture::SetBrightness, ::Capture::SetContrast, ::Capture::SetHue, ::Capture::SetColour\n" , (char *) NULL);
+	  Tcl_AppendResult (interp, "::Capture::GetBrightness, ::Capture::GetContrast, ::Capture::GetHue, ::Capture::GetColour" , (char *) NULL);
+	  return TCL_ERROR;
+	}
+	
+	if ( (setting & SETTINGS_SET) && objc != 3) {
+		Tcl_WrongNumArgs (interp, 1, objv, "capture_descriptor new_value");
 		return TCL_ERROR;
 	}
-
-	if(Tcl_GetIntFromObj(interp, objv[2], &brightness)==TCL_ERROR){
-		return TCL_ERROR;
-	}
-	if (brightness>65535) {
-		Tcl_AppendResult (interp, "Invalid brightness. brightness < 655535" , (char *) NULL);
-		return TCL_ERROR;
-	}
-
-	captureDescriptor = Tcl_GetStringFromObj(objv[1], NULL);
-	if((capItem=lstGetItem(captureDescriptor))==NULL){
-		Tcl_AppendResult (interp, "Invalid capture descriptor. Please call Open before." , (char *) NULL);
-		return TCL_ERROR;
-	}
-
-	if(ioctl(capItem->fvideo, VIDIOCGPICT, &vp)<0){
-		perror("VIDIOCGPICT");
-		return TCL_ERROR;
-	}
-
-	vp.brightness = brightness;
-
-	if (ioctl(capItem->fvideo, VIDIOCSPICT, &vp)) {
-		perror("VIDIOCSPICT");
-		return TCL_ERROR;
-	}
-
-	return TCL_OK;
-}
-
-int Capture_SetContrast _ANSI_ARGS_((ClientData clientData,
-			      Tcl_Interp *interp,
-			      int objc,
-			      Tcl_Obj *CONST objv[]))
-{
-	char *                  captureDescriptor=NULL;
-	struct capture_item*    capItem=NULL;
-	int                     contrast=0;
-	struct video_picture    vp;
-
-	if( objc != 3) {
-		Tcl_AppendResult (interp, "Wrong number of args.\nShould be \"::Capture::SetBrightness capturedescriptor bright\"" , (char *) NULL);
-		return TCL_ERROR;
-	}
-
-	if(Tcl_GetIntFromObj(interp, objv[2], &contrast)==TCL_ERROR){
-		return TCL_ERROR;
-	}
-
-	if (contrast>65535) {
-		Tcl_AppendResult (interp, "Invalid contrast. contrast < 655535" , (char *) NULL);
+	if ( (setting & SETTINGS_GET) && objc != 2) {
+		Tcl_WrongNumArgs (interp, 1, objv, "capture_descriptor");
 		return TCL_ERROR;
 	}
 
@@ -668,20 +651,64 @@ int Capture_SetContrast _ANSI_ARGS_((ClientData clientData,
 		return TCL_ERROR;
 	}
 
+	if (setting & SETTINGS_SET) {
+	  if(Tcl_GetIntFromObj(interp, objv[2], &new_value)==TCL_ERROR){
+	    return TCL_ERROR;
+	  }
+	  
+	  if (new_value>65535 || new_value < 0) {
+	    Tcl_AppendResult (interp, "Invalid value. should be between 0 and 65535" , (char *) NULL);
+	    return TCL_ERROR;
+	  }
+	}
+
+
 	if(ioctl(capItem->fvideo, VIDIOCGPICT, &vp)<0){
 		perror("VIDIOCGPICT");
 		return TCL_ERROR;
 	}
 
-	vp.contrast = contrast;
+	Tcl_ResetResult(interp);
 
-	if (ioctl(capItem->fvideo, VIDIOCSPICT, &vp)) {
-		perror("VIDIOCSPICT");
-		return TCL_ERROR;
+	switch (setting) {
+	case SETTINGS_SET_BRIGHTNESS :
+	  vp.brightness = new_value;
+	  break;
+	case SETTINGS_SET_HUE:
+	  vp.hue = new_value;
+	  break;
+	case SETTINGS_SET_COLOUR:
+	  vp.colour = new_value;
+	  break;
+	case SETTINGS_SET_CONTRAST:
+	  vp.contrast = new_value;
+	  break;
+	case SETTINGS_GET_BRIGHTNESS:
+	  Tcl_SetObjResult(interp, Tcl_NewIntObj(vp.brightness));
+	  break;
+	case SETTINGS_GET_HUE:
+	  Tcl_SetObjResult(interp, Tcl_NewIntObj(vp.hue));
+	  break;
+	case SETTINGS_GET_COLOUR:
+	  Tcl_SetObjResult(interp, Tcl_NewIntObj(vp.colour));
+	  break;
+	case SETTINGS_GET_CONTRAST:
+	  Tcl_SetObjResult(interp, Tcl_NewIntObj(vp.contrast));
+	  break;
+	default:
+	  break;
+	}
+
+	if ( setting & SETTINGS_SET) {
+	  if (ioctl(capItem->fvideo, VIDIOCSPICT, &vp)) {
+	    perror("VIDIOCSPICT");
+	    return TCL_ERROR;
+	  }
 	}
 
 	return TCL_OK;
 }
+
 
 int Capture_IsValid _ANSI_ARGS_((ClientData clientData,
 			      Tcl_Interp *interp,
@@ -727,10 +754,25 @@ int Capture_Init (Tcl_Interp *interp ) {
 			(ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
 	Tcl_CreateObjCommand(interp, "::Capture::Grab", Capture_Grab,
 			(ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
-	Tcl_CreateObjCommand(interp, "::Capture::SetBrightness", Capture_SetBrightness,
+
+	Tcl_CreateObjCommand(interp, "::Capture::SetBrightness", Capture_AccessSettings,
 			(ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
-	Tcl_CreateObjCommand(interp, "::Capture::SetContrast", Capture_SetContrast,
+	Tcl_CreateObjCommand(interp, "::Capture::SetContrast", Capture_AccessSettings,
 			(ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
+	Tcl_CreateObjCommand(interp, "::Capture::SetHue", Capture_AccessSettings,
+			(ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
+	Tcl_CreateObjCommand(interp, "::Capture::SetColour", Capture_AccessSettings,
+			(ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
+
+	Tcl_CreateObjCommand(interp, "::Capture::GetBrightness", Capture_AccessSettings,
+			(ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
+	Tcl_CreateObjCommand(interp, "::Capture::GetContrast", Capture_AccessSettings,
+			(ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
+	Tcl_CreateObjCommand(interp, "::Capture::GetHue", Capture_AccessSettings,
+			(ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
+	Tcl_CreateObjCommand(interp, "::Capture::GetColour", Capture_AccessSettings,
+			(ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
+
 	Tcl_CreateObjCommand(interp, "::Capture::IsValid", Capture_IsValid,
 			(ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
 
