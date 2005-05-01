@@ -361,7 +361,7 @@ namespace eval ::MSNCAM {
 		setObjOption $sid connected_ips $connected_ips
 
 		if { [getObjOption $sid socket] == "" } {
-			setObjOption $sid socket $sock
+			#setObjOption $sid socket $sock
 			fileevent $sock readable "::MSNCAM::ReadFromSock $sock"
 		}
 
@@ -429,11 +429,6 @@ namespace eval ::MSNCAM {
 
 
 		set sid [getObjOption $sock sid]
-		if { [getObjOption $sid socket] != $sock } {
-			return
-		} else {
-			fileevent $sock readable "::MSNCAM::ReadFromSock $sock"
-		}
 
 		set nonce [getObjOption $sock nonce]
 		set producer [getObjOption $sid producer]
@@ -444,7 +439,20 @@ namespace eval ::MSNCAM {
 		set rid [getObjOption $sid rid]
 		set session [getObjOption $sid session]
 
+		if { $server == 0 && [getObjOption $sid socket] != $sock && $state != "CONNECTED" } {
+			return
+		}
+		if { $server == 1 && [getObjOption $sid socket] != $sock && $state != "AUTH" } {
+			return
+		}
+		if { $server == 0 && $state == "CONNECTED" && [getObjOption $sid socket] != "" } {
+			return
+		}
+		if { $server == 1 && $state == "AUTH" && [getObjOption $sid socket] != "" } {
+			return
+		}
 
+		fileevent $sock readable "::MSNCAM::ReadFromSock $sock"
 
 
 	 	if { [eof $sock] } {
@@ -467,6 +475,8 @@ namespace eval ::MSNCAM {
 						gets $sock
 						setObjOption $sock state "CONNECTED"
 						fileevent $sock writable "::MSNCAM::WriteToSock $sock"
+						setObjOption $sid socket $sock
+						CloseUnusedSockets $sid $sock
 					} else {
 						AuthFailed $sid $sock
 					}
@@ -499,7 +509,8 @@ namespace eval ::MSNCAM {
 					status_log "Received Data on socket $sock sending=$producer - server=$server - state=$state : \n$data\n" red
 					if { $data == "connected\r" } {
 						gets $sock
-					    setObjOption $sid socket $sock
+						setObjOption $sid socket $sock
+						CloseUnusedSockets $sid $sock
 						puts -nonewline $sock "connected\r\n\r\n"
 						status_log "Sending \"connected\" to the server\n" red
 						if { $producer } {
@@ -553,9 +564,6 @@ namespace eval ::MSNCAM {
 
 
 		set sid [getObjOption $sock sid]
-		if { [getObjOption $sid socket] != $sock } {
-			return
-		}
 
 		set nonce [getObjOption $sock nonce]
 		set sending [getObjOption $sock sending]
@@ -565,12 +573,18 @@ namespace eval ::MSNCAM {
 		set rid [getObjOption $sid rid]
 		set session [getObjOption $sid session]
 
+		if { $server == 0 && [getObjOption $sid socket] != $sock && $state != "AUTH" } {
+			return
+		}
+		if { $server == 1 && [getObjOption $sid socket] != $sock && $state != "CONNECTED" } {
+			return
+		}
 
 		# Uncomment next line to test for failed authentifications...
 		#set session 0
 
 		if { [fconfigure $sock -error] != "" } {
-			status_log "ERROR writing to socket!!!" red
+			status_log "ERROR writing to socket!!! : [fconfigure $sock -error]" red
 			close $sock
 			return
 		}
@@ -724,7 +738,11 @@ namespace eval ::MSNCAM {
 		set list [xml2list $xml]
 
 		set ip_idx 7
-		set ips [list]
+		set ips [getObjOption $sid ips]
+		if { $ips == "" } {
+			set ips [list]
+		}
+
 		while { 1 } {
 			if { $ip_idx == 7 } {
 				set ip [GetXmlEntry $list "tcpexternalip"]
@@ -813,7 +831,7 @@ namespace eval ::MSNCAM {
 			setObjOption $sid connected_ips $connected_ips
 
 			if { [getObjOption $sid socket] == "" } {
-				setObjOption $sid socket $socket
+				#setObjOption $sid socket $socket
 				fileevent $socket readable "::MSNCAM::ReadFromSock $socket"
 				fileevent $socket writable "::MSNCAM::WriteToSock $socket"
 			}
@@ -839,21 +857,21 @@ namespace eval ::MSNCAM {
 		set list [RemoveSocketFromList [getObjOption $sid connected_ips] $socket]
 		setObjOption $sid connected_ips $list
 
-		setObjOption $sid socket ""
+		#setObjOption $sid socket ""
 
 		status_log "Authentification on socket $socket failed\n" red
-		if {[llength $list] > 0 } {
-			set element [lindex $list 0]
-			set socket [lindex $element 2]
+		#if {[llength $list] > 0 } {
+		#	set element [lindex $list 0]
+		#	set socket [lindex $element 2]
 
-			setObjOption $sid socket $socket
-			fileevent $socket readable "::MSNCAM::ReadFromSock $socket"
+		#	setObjOption $sid socket $socket
+		#	fileevent $socket readable "::MSNCAM::ReadFromSock $socket"
 
-			if { [getObjOption $sid server] == 0 } {
-				fileevent $socket writable "::MSNCAM::WriteToSock $socket"
-			}
+		#	if { [getObjOption $sid server] == 0 } {
+		#		fileevent $socket writable "::MSNCAM::WriteToSock $socket"
+		#	}
 
-		}
+		#}
 
 		after 5000 "::MSNCAM::CheckConnectSuccess $sid"
 	}
