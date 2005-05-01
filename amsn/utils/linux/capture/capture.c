@@ -329,20 +329,20 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
 	fprintf(stderr, "contrast %d whiteness %d depth %d\n",
 		vp.contrast, vp.whiteness, vp.depth);
 	fprintf(stderr, "palettes: ");
-	if (vp.palette & VIDEO_PALETTE_GREY) fprintf(stderr, "GREY ");
-	if (vp.palette & VIDEO_PALETTE_HI240) fprintf(stderr, "HI240 ");
-	if (vp.palette & VIDEO_PALETTE_RGB565) fprintf(stderr, "RGB565 ");
-	if (vp.palette & VIDEO_PALETTE_RGB555) fprintf(stderr, "RGB555 ");
-	if (vp.palette & VIDEO_PALETTE_RGB24) fprintf(stderr, "RGB24 ");
-	if (vp.palette & VIDEO_PALETTE_YUYV) fprintf(stderr, "YUYV ");
-	if (vp.palette & VIDEO_PALETTE_UYVY) fprintf(stderr, "UYVY ");
-	if (vp.palette & VIDEO_PALETTE_YUV411) fprintf(stderr, "YUV411 ");
-	if (vp.palette & VIDEO_PALETTE_YUV420) fprintf(stderr, "YUV420 ");
-	if (vp.palette & VIDEO_PALETTE_YUV422) fprintf(stderr, "YUV422 ");
-	if (vp.palette & VIDEO_PALETTE_RAW) fprintf(stderr, "RAW ");
-	if (vp.palette & VIDEO_PALETTE_YUV411P) fprintf(stderr, "YUV411P ");
-	if (vp.palette & VIDEO_PALETTE_YUV420P) fprintf(stderr, "YUV420P ");
-	if (vp.palette & VIDEO_PALETTE_YUV422P) fprintf(stderr, "YUV422P ");
+	if ((vp.palette & VIDEO_PALETTE_GREY) == VIDEO_PALETTE_GREY) fprintf(stderr, "GREY ");
+	if ((vp.palette & VIDEO_PALETTE_HI240) == VIDEO_PALETTE_HI240) fprintf(stderr, "HI240 ");
+	if ((vp.palette & VIDEO_PALETTE_RGB565) == VIDEO_PALETTE_RGB565) fprintf(stderr, "RGB565 ");
+	if ((vp.palette & VIDEO_PALETTE_RGB555) == VIDEO_PALETTE_RGB555) fprintf(stderr, "RGB555 ");
+	if ((vp.palette & VIDEO_PALETTE_RGB24) == VIDEO_PALETTE_RGB24) fprintf(stderr, "RGB24 ");
+	if ((vp.palette & VIDEO_PALETTE_YUYV) == VIDEO_PALETTE_YUYV) fprintf(stderr, "YUYV ");
+	if ((vp.palette & VIDEO_PALETTE_UYVY) == VIDEO_PALETTE_UYVY) fprintf(stderr, "UYVY ");
+	if ((vp.palette & VIDEO_PALETTE_YUV411) == VIDEO_PALETTE_YUV411) fprintf(stderr, "YUV411 ");
+	if ((vp.palette & VIDEO_PALETTE_YUV420) == VIDEO_PALETTE_YUV420) fprintf(stderr, "YUV420 ");
+	if ((vp.palette & VIDEO_PALETTE_YUV422) == VIDEO_PALETTE_YUV422) fprintf(stderr, "YUV422 ");
+	if ((vp.palette & VIDEO_PALETTE_RAW) == VIDEO_PALETTE_RAW) fprintf(stderr, "RAW ");
+	if ((vp.palette & VIDEO_PALETTE_YUV411P) == VIDEO_PALETTE_YUV411P) fprintf(stderr, "YUV411P ");
+	if ((vp.palette & VIDEO_PALETTE_YUV420P) == VIDEO_PALETTE_YUV420P) fprintf(stderr, "YUV420P ");
+	if ((vp.palette & VIDEO_PALETTE_YUV422P) == VIDEO_PALETTE_YUV422P) fprintf(stderr, "YUV422P ");
 	fprintf(stderr, "\n");
 
 
