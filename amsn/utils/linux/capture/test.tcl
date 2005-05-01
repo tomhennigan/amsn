@@ -1,6 +1,6 @@
 #!/usr/bin/tclsh
 lappend auto_path [pwd]
-package require Capture
+package require capture
 
 #puts "Device list : [::Capture::ListDevices]"
 #puts "[::Capture::ListChannels /dev/video]"
