@@ -108,7 +108,7 @@ int Capture_ListDevices _ANSI_ARGS_((ClientData clientData,
 	lstAll=Tcl_NewListObj(0, NULL);
 
 //	strcpy(filename, "/dev/video");
-	sprintf(filename, "/dev/video");
+	sprintf(filename, "/dev/video%d", device_idx);
 	while( ((fd = open(filename, O_RDONLY)) != -1) || ((errno != ENOENT) && (errno != ENODEV)) ){
 //		fprintf(stderr,"Device %d : fd=%d errno=%d\n",device_idx,fd,errno);
 //		fprintf(stderr,"%s : %d\n",filename,fd);
@@ -129,8 +129,8 @@ int Capture_ListDevices _ANSI_ARGS_((ClientData clientData,
 		Tcl_ListObjAppendElement(interp,lstAll,lstDevice);
 
 		close(fd);
-		sprintf(filename, "/dev/video%d", device_idx);
 		device_idx ++;
+		sprintf(filename, "/dev/video%d", device_idx);
 	}
 	Tcl_SetObjResult(interp,lstAll);
 	return TCL_OK;
@@ -625,7 +625,7 @@ int Capture_AccessSettings _ANSI_ARGS_((ClientData clientData,
 	  setting = SETTINGS_GET_HUE;
 	} else if (!strcmp(proc, "::Capture::GetColour")) {
 	  setting = SETTINGS_GET_COLOUR;
-	} 
+	}
 
 	if ( setting == 0 ) {
 	  Tcl_ResetResult(interp);
@@ -634,7 +634,7 @@ int Capture_AccessSettings _ANSI_ARGS_((ClientData clientData,
 	  Tcl_AppendResult (interp, "::Capture::GetBrightness, ::Capture::GetContrast, ::Capture::GetHue, ::Capture::GetColour" , (char *) NULL);
 	  return TCL_ERROR;
 	}
-	
+
 	if ( (setting & SETTINGS_SET) && objc != 3) {
 		Tcl_WrongNumArgs (interp, 1, objv, "capture_descriptor new_value");
 		return TCL_ERROR;
@@ -655,7 +655,7 @@ int Capture_AccessSettings _ANSI_ARGS_((ClientData clientData,
 	  if(Tcl_GetIntFromObj(interp, objv[2], &new_value)==TCL_ERROR){
 	    return TCL_ERROR;
 	  }
-	  
+
 	  if (new_value>65535 || new_value < 0) {
 	    Tcl_AppendResult (interp, "Invalid value. should be between 0 and 65535" , (char *) NULL);
 	    return TCL_ERROR;

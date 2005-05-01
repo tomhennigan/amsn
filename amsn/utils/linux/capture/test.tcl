@@ -260,7 +260,7 @@ proc ShowPropertiesPage { capture_fd {img ""}} {
 	scale $slides.h -from 0 -to 65535 -resolution 1 -showvalue 1 -label "Hue" -command "Properties_Set $slides.h h $capture_fd" -orient horizontal
 	scale $slides.co -from 0 -to 65535 -resolution 1 -showvalue 1 -label "Colour" -command "Properties_Set $slides.co co $capture_fd" -orient horizontal
 
-	pack $slides.b $slides.c $slides.h $slides.co -side top
+	pack $slides.b $slides.c $slides.h $slides.co -side top -expand true -fill x 
 
 	frame $buttons -relief sunken -borderwidth 3
 	button $buttons.ok -text "Ok" -command "destroy $window"
