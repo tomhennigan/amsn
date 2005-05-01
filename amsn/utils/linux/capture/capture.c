@@ -390,18 +390,18 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
 	/* set default picture parameters */
 	vp.depth = 24;
 
-	vp.brightness = bright;
-	vp.contrast = cont;
-	vp.hue = hue;
-	vp.colour = colour;
+/* 	vp.brightness = bright; */
+/* 	vp.contrast = cont; */
+/* 	vp.hue = hue; */
+/* 	vp.colour = colour; */
 
 	vp.palette = VIDEO_PALETTE_RGB24;
 
-/* 	if (ioctl(fvideo, VIDIOCSPICT, &vp)) { */
-/* 		perror("set picture"); */
-/* 		close(fvideo); */
-/* 		return TCL_ERROR; */
-/* 	} */
+	if (ioctl(fvideo, VIDIOCSPICT, &vp)) {
+		perror("set picture");
+		close(fvideo);
+		return TCL_ERROR;
+	}
 
 	image_data = (BYTE *) malloc(vw.width*vw.height*3);
 
@@ -700,6 +700,8 @@ int Capture_AccessSettings _ANSI_ARGS_((ClientData clientData,
 	}
 
 	if ( setting & SETTINGS_SET) {
+	  vp.depth = 24;
+	  vp.palette = VIDEO_PALETTE_RGB24;
 	  if (ioctl(capItem->fvideo, VIDIOCSPICT, &vp)) {
 	    perror("VIDIOCSPICT");
 	    return TCL_ERROR;
