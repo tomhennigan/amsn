@@ -9,5 +9,5 @@ sound_send Jouer un son lors de l'envoi d'un nudge
 sound_receive Jouer un son lors de la réception d'un nudge.
 add_button Ajouter un bouton à la fenêtre de discussion pour envoyer directement un nudge
 send_nudge Envoyer un nudge
-no_nudge_support Vous ne pouvez pas envoyer un nudge car votre contact utilise un logiciel qui qui ne supporte pas les nudges
+no_nudge_support Vous ne pouvez pas envoyer un nudge car votre contact utilise un logiciel qui ne supporte pas les nudges
 nudge_sent Vous avez envoyé un nudge
