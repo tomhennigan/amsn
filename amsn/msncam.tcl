@@ -45,7 +45,7 @@ namespace eval ::MSNCAM {
 		set grabber [getObjOption $sid grabber]
 		set window [getObjOption $sid window]
 
-		if { [::MSNCAM::IsGrabberValid $grabber] } {
+		if { [::CAMGUI::IsGrabberValid $grabber] } {
 			::MSNCAM::CloseGrabber $grabber $window
 		}
 		if { [winfo exists $window] } {
@@ -1074,7 +1074,7 @@ namespace eval ::CAMGUI {
 			setObjOption $socket codec $encoder
 		}
 
-		if { ![::MSNCAM::IsGrabberValid $grabber] } {
+		if { ![::CAMGUI::IsGrabberValid $grabber] } {
 			status_log "Invalid grabber : $grabber"
 
 			if { [set ::tcl_platform(platform)] == "windows" } {
@@ -1556,7 +1556,7 @@ namespace eval ::CAMGUI {
 
 		frame $slides
 		scale $slides.b -from 0 -to 65535 -resolution 1 -showvalue 1 -label "Brightness" -command "::CAMGUI::Properties_SetLinux $slides.b b $capture_fd" -orient horizontal
-		scale $slides.c -from 0 -to 65535 -resolution 1 -showvalue 1 -label "Constrast" -command "::CAMGUI::Properties_SetLinux $slides.c c $capture_fd" -orient horizontal
+		scale $slides.c -from 0 -to 65535 -resolution 1 -showvalue 1 -label "Contrast" -command "::CAMGUI::Properties_SetLinux $slides.c c $capture_fd" -orient horizontal
 		scale $slides.h -from 0 -to 65535 -resolution 1 -showvalue 1 -label "Hue" -command "::CAMGUI::Properties_SetLinux $slides.h h $capture_fd" -orient horizontal
 		scale $slides.co -from 0 -to 65535 -resolution 1 -showvalue 1 -label "Colour" -command "::CAMGUI::Properties_SetLinux $slides.co co $capture_fd" -orient horizontal
 
