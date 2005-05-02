@@ -46,7 +46,7 @@ namespace eval ::MSNCAM {
 		set window [getObjOption $sid window]
 
 		if { [::CAMGUI::IsGrabberValid $grabber] } {
-			::MSNCAM::CloseGrabber $grabber $window
+			::CAMGUI::CloseGrabber $grabber $window
 		}
 		if { [winfo exists $window] } {
 			destroy $window
