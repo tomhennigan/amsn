@@ -79,15 +79,15 @@ namespace eval ::MSNCAM {
 
 		status_log "Canceling webcam $sid with $chatid \n" red
 		::MSNP2P::SendPacket [::MSN::SBFor $chatid] [::MSNP2P::MakePacket $sid [::MSNP2P::MakeMSNSLP "BYE" $user_login [::config::getKey login] $branchid 0 $callid 0 1 "dAMAgQ==\r\n"] 1]
-		
+
 		if { $socket != "" } {
 			status_log "Connected through socket $socket : closing socket\n" red
 			catch { close $socket}
 			CloseUnusedSockets $sid ""
 		}
-		
+
 		CamCanceled $chatid $sid
-		
+
 		#::MSNP2P::SessionList unset $sid
 	}
 
@@ -458,7 +458,7 @@ namespace eval ::MSNCAM {
 				set size [GetCamDataSize $header]
 				if { $size > 0 } {
 					set data "$header[read $sock $size]"
-					::MSNCAM::ShowCamFrame $sid $data
+					::CAMGUI::ShowCamFrame $sid $data
 				}
 
 			}
@@ -530,7 +530,7 @@ namespace eval ::MSNCAM {
 			}
 			"SEND"
 			{
-				after 100 "::MSNCAM::GetCamFrame $sid $sock"
+				after 100 "::CAMGUI::GetCamFrame $sid $sock"
 				#fileevent $sock writable "::MSNCAM::WriteToSock $sock"
 			}
 			"END"
@@ -960,6 +960,35 @@ namespace eval ::MSNCAM {
 
 	}
 
+	proc SendFrame { sock encoder img } {
+		#If the img is not at the right size, don't encode (crash issue..)
+		if { [image width $img] != "320" || [image heigh $img] != "240" } {
+			return
+		}
+		if { [catch {set data [::Webcamsn::Encode $encoder $img]} res] } {
+			status_log "Error encoding frame : $res\n"
+		    return
+		} else {
+		    set header "[binary format ssssi 24 [::Webcamsn::GetWidth $encoder] [::Webcamsn::GetHeight $encoder] 0 [string length $data]]"
+		    set header "${header}\x4D\x4C\x32\x30\x00\x00\x00\x00\x00\x00\x00\x00"
+
+			set data "${header}${data}"
+		}
+		catch {
+		    if { ![eof $sock] && [fconfigure $sock -error] == "" } {
+			puts -nonewline $sock "$data"
+		    }
+		}
+
+	}
+
+
+
+
+}
+
+namespace eval ::CAMGUI {
+
 	proc ShowCamFrame { sid data } {
 		if { ! [info exists ::webcamsn_loaded] } { ExtensionLoaded }
 		if { ! $::webcamsn_loaded } { return }
@@ -992,9 +1021,7 @@ namespace eval ::MSNCAM {
 
 		catch {::Webcamsn::Decode $decoder $img $data}
 
-
 	}
-
 
 	proc GetCamFrame { sid socket } {
 
@@ -1047,32 +1074,6 @@ namespace eval ::MSNCAM {
 			setObjOption $socket codec $encoder
 		}
 
-		if { $window == "" } {
-			set window .webcam_$sid
-
-			#Don't show the sending frame on Mac OS X (we already have the grabber)
-			if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-				set img [image create photo]
-			} else {
-				set img [image create photo]
-				toplevel $window
-
-				label $window.l -image $img
-				pack $window.l
-				button $window.q -command "destroy $window" -text "Stop sending Webcam"
-				pack $window.q -expand true -fill x
-				bind $window <Destroy> "::MSNCAM::CancelCam $chatid $sid"
-			}
-			if { [info exists ::grabbers($grabber)] } {
-				set windows ::grabbers($grabber)
-				lappend windows $window
-				set ::grabbers($grabber) $windows
-			}
-
-			setObjOption $sid window $window
-			setObjOption $sid image $img
-		}
-
 		if { ![::MSNCAM::IsGrabberValid $grabber] } {
 			status_log "Invalid grabber : $grabber"
 
@@ -1105,25 +1106,49 @@ namespace eval ::MSNCAM {
 
 				setObjOption $sid grab_proc "Grab_Linux"
 
-				scale $window.b -from 0 -to 65535 -resolution 1 -showvalue 1 -label "B" -command "::Capture::SetBrightness $grabber" -orient horizontal
-				scale $window.c -from 0 -to 65535 -resolution 1 -showvalue 1 -label "C" -command "::Capture::SetContrast $grabber" -orient horizontal
-				$window.b set 49500
-				$window.c set 39000
-				pack $window.b -expand true -fill x
-				pack $window.c -expand true -fill x
+				#scale $window.b -from 0 -to 65535 -resolution 1 -showvalue 1 -label "B" -command "::Capture::SetBrightness $grabber" -orient horizontal
+				#scale $window.c -from 0 -to 65535 -resolution 1 -showvalue 1 -label "C" -command "::Capture::SetContrast $grabber" -orient horizontal
+				#$window.b set 49500
+				#$window.c set 39000
+				#pack $window.b -expand true -fill x
+				#pack $window.c -expand true -fill x
 
 			} else {
 				return
 			}
 			status_log "Created grabber : $grabber"
-			set ::grabbers($grabber) [list $window]
+			set ::grabbers($grabber) [list ]
 			setObjOption $sid grabber $grabber
 			set grab_proc [getObjOption $sid grab_proc]
 			status_log "grab_proc is $grab_proc - [getObjOption $sid grab_proc]\n" red
 			status_log "SID of this connection is $sid\n" red
 		}
 
-		#status_log "test : $::tcl_platform(os) , [winfo exists $window.b]"
+		if { $window == "" } {
+			set window .webcam_$sid
+
+			#Don't show the sending frame on Mac OS X (we already have the grabber)
+			if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+				set img [image create photo]
+			} else {
+				set img [image create photo]
+				toplevel $window
+
+				label $window.l -image $img
+				pack $window.l
+				button $window.settings -command "::CAMGUI::ShowPropertiesPage $grabber $img" -text "Show properties page"
+				pack $window.settings -expand true -fill x
+				button $window.q -command "destroy $window" -text "Stop sending Webcam"
+				pack $window.q -expand true -fill x
+				bind $window <Destroy> "::MSNCAM::CancelCam $chatid $sid"
+			}
+			set windows ::grabbers($grabber)
+			lappend windows $window
+			set ::grabbers($grabber) $windows
+
+			setObjOption $sid window $window
+			setObjOption $sid image $img
+		}
 
 		if { $grab_proc == "" } {
 			if { [set ::tcl_platform(platform)] == "windows" } {
@@ -1148,32 +1173,9 @@ namespace eval ::MSNCAM {
 
 	}
 
-	proc SendFrame { sock encoder img } {
-		#If the img is not at the right size, don't encode (crash issue..)
-		if { [image width $img] != "320" || [image heigh $img] != "240" } {
-			return
-		}
-		if { [catch {set data [::Webcamsn::Encode $encoder $img]} res] } {
-		
-			status_log "Error encoding frame : $res\n"
-		    return
-		} else {
-			set header "[binary format ssssi 24 [::Webcamsn::GetWidth $encoder] [::Webcamsn::GetHeight $encoder] 0 [string length $data]]"
-			set header "${header}\x4D\x4C\x32\x30\x00\x00\x00\x00\x00\x00\x00\x00"
-
-			set data "${header}${data}"
-		}
-		catch {
-		    if { ![eof $sock] && [fconfigure $sock -error] == "" } {
-			puts -nonewline $sock "$data"
-		    }
-		}
-
-	}
-
 	proc Grab_Windows {grabber socket encoder img} {
 		if { ![catch { $grabber picture $img} res] } {
-			SendFrame $socket $encoder $img
+			::MSNCAM::SendFrame $socket $encoder $img
 		} else {
 		    status_log "error grabbing : $res\n" red
 		}
@@ -1182,7 +1184,7 @@ namespace eval ::MSNCAM {
 
 	proc Grab_Linux {grabber socket encoder img} {
 		if { ![catch { ::Capture::Grab $grabber $img} res] } {
-			SendFrame $socket $encoder $img
+			::MSNCAM::SendFrame $socket $encoder $img
 		} else {
 		    status_log "error grabbing : $res\n" red
 		}
@@ -1206,12 +1208,11 @@ namespace eval ::MSNCAM {
 
 	}
 
-
 	proc ImageReady_Mac {w img } {
 		set socket [getObjOption $img socket]
 		set encoder [getObjOption $img encoder]
 		if { $socket == "" || $encoder == "" } { return }
-		SendFrame $socket $encoder $img
+		::MSNCAM::SendFrame $socket $encoder $img
 	}
 
 	proc IsGrabberValid { grabber } {
@@ -1285,6 +1286,7 @@ namespace eval ::MSNCAM {
 		}
 
 	}
+
 	proc ExtensionLoaded { } {
 		if { [info exists ::webcamsn_loaded] && $::webcamsn_loaded } { return 1}
 
@@ -1297,7 +1299,457 @@ namespace eval ::MSNCAM {
 		}
 	}
 
+
+	proc ChooseDevice { } {
+		if { ! [info exists ::capture_loaded] } { CaptureLoaded }
+		if { ! $::capture_loaded } { return }
+
+		if { [set ::tcl_platform(os)] == "Linux" } {
+			ChooseDeviceLinux
+		} elseif { [set ::tcl_platform(os)] == "Darwin" } {
+			$grabber videosettings
+		} elseif { [set ::tcl_platform(platform)] == "windows" } {
+			ChooseDeviceWindows
+		}
+	}
+
+	proc ShowPropertiesPage { grabber img } {
+		if { ! [info exists ::capture_loaded] } { CaptureLoaded }
+		if { ! $::capture_loaded } { return }
+
+		if { [set ::tcl_platform(os)] == "Linux" } {
+			ShowPropertiesPageLinux $grabber $img
+		} elseif { [set ::tcl_platform(os)] == "Darwin" } {
+			return
+		} elseif { [set ::tcl_platform(platform)] == "windows" } {
+			$grabber property_page filter
+		}
+	}
+
+	proc ChooseDeviceLinux { } {
+
+		set ::CAMGUI::webcam_preview ""
+
+		set window .webcam_chooser
+		set lists $window.lists
+		set devs $lists.devices
+		set chans $lists.channels
+		set buttons $window.buttons
+		set status $window.status
+		set preview $window.preview
+		set settings $window.settings
+		set devices [::Capture::ListDevices]
+
+		destroy $window
+		toplevel $window
+
+
+		frame $lists
+
+
+		frame $devs -relief sunken -borderwidth 3
+		label $devs.label -text "Devices"
+		listbox $devs.list -yscrollcommand "$devs.ys set" -background \
+		white -relief flat -highlightthickness 0 -height 5
+		scrollbar $devs.ys -command "$devs.list yview" -highlightthickness 0 \
+		-borderwidth 1 -elementborderwidth 2
+		pack $devs.label $devs.list -side top -expand false -fill x
+		pack $devs.ys -side right -fill y
+		pack $devs.list -side left -expand true -fill both
+
+
+		frame $chans -relief sunken -borderwidth 3
+		label $chans.label -text "Channels"
+		listbox $chans.list -yscrollcommand "$chans.ys set"  -background \
+		white -relief flat -highlightthickness 0 -height 5 -selectmode extended
+		scrollbar $chans.ys -command "$chans.list yview" -highlightthickness 0 \
+		-borderwidth 1 -elementborderwidth 2
+		pack $chans.label $chans.list -side top -expand false -fill x
+		pack $chans.ys -side right -fill y
+		pack $chans.list -side left -expand true -fill both
+
+		pack $devs $chans -side left
+
+		label $status -text "Please choose a device"
+
+		set img [image create photo]
+		label $preview -image $img
+		button $settings -text "Camera Settings"
+
+		frame $buttons -relief sunken -borderwidth 3
+		button $buttons.ok -text "Ok" -command "::CAMGUI::Choose_OkLinux $window $devs.list $chans.list $img $devices"
+		button $buttons.cancel -text "Cancel" -command "::CAMGUI::Choose_CancelLinux $window $img"
+		wm protocol $window WM_DELETE_WINDOW "::CAMGUI::Choose_CancelLinux $window $img"
+		#bind $window <Destroy> "::CAMGUI::Choose_CancelLinux $window $img $preview"
+		pack $buttons.ok $buttons.cancel -side left
+
+		pack $lists $status $preview $settings $buttons -side top
+
+		bind $devs.list <Button1-ButtonRelease> "::CAMGUI::FillChannelsLinux $devs.list $chans.list $status $devices"
+		bind $chans.list <Button1-ButtonRelease> "::CAMGUI::StartPreviewLinux $devs.list $chans.list $status $preview $settings $devices"
+
+		foreach device $devices {
+			set dev [lindex $device 0]
+			set name [lindex $device 1]
+
+			if {$name == "" } {
+				set name "Device $dev is busy"
+			}
+
+			$devs.list insert end $name
+		}
+
+		tkwait window $window
+	}
+
+	proc FillChannelsLinux { device_w chan_w status devices } {
+
+		$chan_w delete 0 end
+
+		if { [$device_w curselection] == "" } {
+			$status configure -text "Please choose a device"
+			return
+		}
+		set dev [$device_w curselection]
+
+		set device [lindex $devices $dev]
+		set device [lindex $device 0]
+
+		if { [catch {set channels [::Capture::ListChannels $device]} res] } {
+			$status configure -text $res
+			return
+		}
+
+		foreach chan $channels {
+			$chan_w insert end [lindex $chan 1]
+		}
+
+		$status configure -text "Please choose a Channel"
+	}
+
+	proc StartPreviewLinux { device_w chan_w status preview_w settings devices } {
+
+	# 	if { [$device_w curselection] == "" } {
+	# 		$status configure -text "Please choose a device"
+	# 		return
+	# 	}
+
+		if { [$chan_w curselection] == "" } {
+			$status configure -text "Please choose a Channel"
+			return
+		}
+
+		set img [$preview_w cget -image]
+		if {$img == "" } {
+			return
+		}
+
+		set dev [$device_w curselection]
+		set chan [$chan_w curselection]
+
+		set device [lindex $devices $dev]
+		set device [lindex $device 0]
+
+
+		if { [catch {set channels [::Capture::ListChannels $device]} res] } {
+			$status configure -text $res
+			return
+		}
+
+		set channel [lindex $channels $chan]
+		set channel [lindex $channel 0]
+
+		if { [::Capture::IsValid $::CAMGUI::webcam_preview] } {
+			::Capture::Close $::CAMGUI::webcam_preview
+		}
+
+		if { [catch {set ::CAMGUI::webcam_preview [::Capture::Open $device $channel]} res] } {
+			$status configure -text $res
+			return
+		}
+
+		$settings configure -command "$preview_w configure -image \"\"; ::CAMGUI::ShowPropertiesPage $::CAMGUI::webcam_preview $img; status_log \"Img is $img\"; $preview_w configure -image $img"
+		after 0 "::CAMGUI::PreviewLinux $::CAMGUI::webcam_preview $img"
+
+	}
+
+	proc PreviewLinux { grabber img } {
+		set semaphore ::CAMGUI::sem_$grabber
+		set $semaphore 0
+
+		while { [::Capture::IsValid $grabber] && [lsearch [image names] $img] != -1 } {
+			::Capture::Grab $grabber $img
+			after 100 "incr $semaphore"
+			tkwait variable $semaphore
+		}
+	}
+
+	proc Choose_OkLinux { w device_w chan_w img devices } {
+
+		#if { [$device_w curselection] == "" } {
+		#	::CAMGUI::Choose_CancelLinux $w $img
+		#	return
+		#}
+
+		if { [$chan_w curselection] == "" } {
+			::CAMGUI::Choose_CancelLinux $w $img
+			return
+		}
+
+		set dev [$device_w curselection]
+		set chan [$chan_w curselection]
+
+
+
+		set device [lindex $devices $dev]
+		set device [lindex $device 0]
+
+
+		if { [catch {set channels [::Capture::ListChannels $device]} res] } {
+			::CAMGUI::Choose_CancelLinux $w $img
+			return
+		}
+
+		set channel [lindex $channels $chan]
+		set channel [lindex $channel 0]
+
+
+		::config::setKey "webcamDevice" "$device:$channel"
+
+		::CAMGUI::Choose_CancelLinux $w $img
+	}
+
+	proc Choose_CancelLinux { w  img } {
+
+		if { [::Capture::IsValid $::CAMGUI::webcam_preview] } {
+			::Capture::Close $::CAMGUI::webcam_preview
+		}
+
+		image delete $img
+
+		if { [winfo exists .properties_$::CAMGUI::webcam_preview] } {
+			destroy .properties_$::CAMGUI::webcam_preview
+		}
+
+		destroy $w
+	}
+
+	proc ShowPropertiesPageLinux { capture_fd {img ""}} {
+
+		if { ![::Capture::IsValid $capture_fd] } {
+			return
+		}
+
+		set window .properties_$capture_fd
+		set slides $window.slides
+		set preview $window.preview
+		set buttons $window.buttons
+
+		set init_b [::Capture::GetBrightness $capture_fd]
+		set init_c [::Capture::GetContrast $capture_fd]
+		set init_h [::Capture::GetHue $capture_fd]
+		set init_co [::Capture::GetColour $capture_fd]
+
+		destroy $window
+		toplevel $window
+		grab set $window
+
+		frame $slides
+		scale $slides.b -from 0 -to 65535 -resolution 1 -showvalue 1 -label "Brightness" -command "::CAMGUI::Properties_SetLinux $slides.b b $capture_fd" -orient horizontal
+		scale $slides.c -from 0 -to 65535 -resolution 1 -showvalue 1 -label "Constrast" -command "::CAMGUI::Properties_SetLinux $slides.c c $capture_fd" -orient horizontal
+		scale $slides.h -from 0 -to 65535 -resolution 1 -showvalue 1 -label "Hue" -command "::CAMGUI::Properties_SetLinux $slides.h h $capture_fd" -orient horizontal
+		scale $slides.co -from 0 -to 65535 -resolution 1 -showvalue 1 -label "Colour" -command "::CAMGUI::Properties_SetLinux $slides.co co $capture_fd" -orient horizontal
+
+		pack $slides.b $slides.c $slides.h $slides.co -expand true -fill x
+
+		frame $buttons -relief sunken -borderwidth 3
+		button $buttons.ok -text "Ok" -command "grab release $window; destroy $window"
+		button $buttons.cancel -text "Cancel" -command "::CAMGUI::Properties_CancelLinux $window $capture_fd $init_b $init_c $init_h $init_co"
+		wm protocol $window WM_DELETE_WINDOW "::CAMGUI::Properties_CancelLinux $window $capture_fd $init_b $init_c $init_h $init_co"
+
+
+		pack $buttons.ok $buttons.cancel -side left
+
+		if { $img == "" } {
+			set img [image create photo]
+		}
+		label $preview -image $img
+
+		after 0 "::CAMGUI::PreviewLinux $capture_fd $img"
+
+		pack $slides -fill x -expand true
+		pack $preview $buttons -side top
+
+
+		$slides.b set $init_b
+		$slides.c set $init_c
+		$slides.h set $init_h
+		$slides.co set $init_co
+
+		return $window
+
+	}
+
+	proc Properties_SetLinux { w property capture_fd new_value } {
+
+		switch $property {
+			b {
+				::Capture::SetBrightness $capture_fd $new_value
+				set val [::Capture::GetBrightness $capture_fd]
+				$w set $val
+			}
+			c {
+				::Capture::SetContrast $capture_fd $new_value
+				set val [::Capture::GetContrast $capture_fd]
+				$w set $val
+			}
+			h
+			{
+				::Capture::SetHue $capture_fd $new_value
+				set val [::Capture::GetHue $capture_fd]
+				$w set $val
+			}
+			co
+			{
+				::Capture::SetColour $capture_fd $new_value
+				set val [::Capture::GetColour $capture_fd]
+				$w set $val
+			}
+		}
+
+	}
+
+	proc Properties_CancelLinux { window capture_fd init_b init_c init_h init_co } {
+
+		::Capture::SetBrightness $capture_fd $init_b
+		::Capture::SetContrast $capture_fd $init_c
+		::Capture::SetHue $capture_fd $init_h
+		::Capture::SetColour $capture_fd $init_co
+		grab release $window
+		destroy $window
+	}
+
+
+	proc ChooseDeviceWindows { } {
+
+		set window .webcam_chooser
+		set lists $window.lists
+		set devs $lists.devices
+		set chans $lists.channels
+		set buttons $window.buttons
+		set status $window.status
+		set preview $window.preview
+		set settings $window.settings
+		tkvideo .webcam_preview
+		set devices [.webcam_preview devices]
+
+		destroy $window
+		toplevel $window
+
+
+		frame $lists
+
+
+		frame $devs -relief sunken -borderwidth 3
+		label $devs.label -text "Devices"
+		listbox $devs.list -yscrollcommand "$devs.ys set" -background \
+		white -relief flat -highlightthickness 0 -height 5
+		scrollbar $devs.ys -command "$devs.list yview" -highlightthickness 0 \
+		-borderwidth 1 -elementborderwidth 2
+		pack $devs.label $devs.list -side top -expand false -fill x
+		pack $devs.ys -side right -fill y
+		pack $devs.list -side left -expand true -fill both
+
+
+		pack $devs -side left
+
+		label $status -text "Please choose a device"
+
+		set img [image create photo]
+		label $preview -image $img
+		button $settings -text "Camera Settings" -command ".webcam_preview property_page filter"
+
+		frame $buttons -relief sunken -borderwidth 3
+		button $buttons.ok -text "Ok" -command "::CAMGUI::Choose_OkWindows $window $devs.list $img $devices"
+		button $buttons.cancel -text "Cancel" -command "destroy $window"
+		#wm protocol $window WM_DELETE_WINDOW "::CAMGUI::Choose_CancelLinux $window $img $preview"
+		bind $window <Destroy> "::CAMGUI::Choose_CancelWindows $window $img $preview"
+		pack $buttons.ok $buttons.cancel -side left
+
+		pack $lists $status $preview $settings $buttons -side top
+
+		bind $devs.list <Button1-ButtonRelease> "::CAMGUI::StartPreviewWindows $devs.list $status $preview $settings $devices"
+
+		foreach device $devices {
+
+			$devs.list insert end $device
+		}
+
+		tkwait window $window
+	}
+
+	proc Choose_OkWindows { w device_w img devices } {
+
+		if { [$device_w curselection] == "" } {
+			destroy $w
+			return
+		}
+
+		set dev [$device_w curselection]
+
+
+
+		#set device [lindex $devices $dev]
+		#set device [lindex $device 0]
+
+
+		::config::setKey "webcamDevice" "$device:$channel"
+
+		destroy $w
+	}
+
+	proc Choose_CancelWindows { w  img preview } {
+
+		destroy .webcam_preview
+
+		image delete $img
+
+		#destroy $w
+	}
+
+	proc StartPreviewWindows { device_w status preview_w settings devices } {
+
+		if { [$device_w curselection] == "" } {
+			$status configure -text "Please choose a device"
+			return
+		}
+
+		set img [$preview_w cget -image]
+		if {$img == "" } {
+			return
+		}
+
+		set device [$device_w curselection]
+
+
+		if { [catch { .webcam_preview configure -source $device } res] } {
+			$status configure -text $res
+			return
+		}
+
+		after 0 "::CAMGUI::PreviewLinux $::webcam_preview $img"
+
+	}
+
+	proc PreviewWindows { grabber img } {
+		set semaphore ::CAMGUI::sem_$grabber
+		set $semaphore 0
+
+		while { [winfo exists $grabber] && [lsearch [image names] $img] != -1 } {
+			$grabber picture $img
+			after 100 "incr $semaphore"
+			tkwait variable $semaphore
+		}
+	}
+
 }
-
-
-
