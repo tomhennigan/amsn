@@ -7,7 +7,7 @@ TK_INC_SPEC 	= -I/usr/include/tk8.4
 TK_STUB_LIB_SPEC = -L/usr/lib/tk8.4 -ltk8.4
 
 
-SHLIB_LD     	= gcc -pipe -shared
+SHLIB_LD     	= gcc -pipe -shared -fPIC
 
 NAME		= capture
 OUTPUT		= capture.so
@@ -16,7 +16,7 @@ SOURCES		= capture.c
 OBJECTS 	= capture.o
 
 
-CC		= gcc -pipe
+CC		= gcc -pipe -fPIC
 
 INCLUDES	=  ${TCL_INC_SPEC} ${TK_INC_SPEC} 
 
