@@ -1,73 +1,97 @@
 #include "capture.h"
 
-struct capture_item {
-	char captureName[32];
-	char devicePath[32];
-	int channel;
-	int fvideo;
-	struct video_window vw;
-	char *mmbuf; //To uncomment if we use mmap : not for now
-	struct video_mbuf       mb;
+
+static struct list_ptr* opened_devices = NULL;
+static int curentCaptureNumber = 0;
+
+
+struct list_ptr {
+	struct list_ptr* prev_item;
+	struct list_ptr* next_item;
+	struct data_item* element;
 };
-
-struct capture_listitem {
-	struct capture_listitem* prev_item;
-	struct capture_listitem* next_item;
-	struct capture_item data;
-};
-
-static struct capture_listitem* openeddevices=NULL;
-static int curentCaptureNumber=0;
-
 
 /////////////////////////////////////
 // Functions to manage lists       //
 /////////////////////////////////////
 
-struct capture_item* lstCreateItem(){ // Create an item in the list and put it at the begin
-	struct capture_listitem* newItem;
-	newItem=(struct capture_listitem *) malloc(sizeof(struct capture_listitem));
-	if(newItem!=NULL){
-		memset(newItem,0,sizeof(struct capture_listitem));
-		newItem->next_item=openeddevices;
-		if (openeddevices!=NULL) {
-			openeddevices->prev_item=newItem;
+struct data_item* lstCreateItem(){ // Create an item in the list and put it at the begin
+	struct list_ptr* newItem;
+	newItem = (struct list_ptr *) malloc(sizeof(struct list_ptr));
+
+	if(newItem){
+		memset(newItem,0,sizeof(struct list_ptr));
+		newItem->next_item = g_list;
+		if (g_list) {
+			g_list->prev_item = newItem;
 		}
-		openeddevices=newItem;
-	}
-	return &newItem->data;
+		g_list = newItem;
+
+		newItem->element = (struct data_item *) malloc(sizeof(struct data_item));
+		memset(newItem->element, 0, sizeof(struct data_item));
+		return newItem->element;
+	} else
+	  return NULL;
+	
+
 }
 
-struct capture_listitem* lstGetListItem(char *captureName){ //Get the list item with the specified name
-	struct capture_listitem* item=openeddevices;
-	while(item!=NULL){
-		if(strcmp(item->data.captureName,captureName)==0){
-			break;
-		}
-		item=item->next_item;
-	}
-	return item;
+struct list_ptr* lstGetListItem(char *list_element_id){ //Get the list item with the specified name
+  struct list_ptr* item = g_list;
+
+  while(item && strcmp(item->element->list_element_id, list_element_id))
+    item = item->next_item;
+  
+  return item;
+
 }
 
-struct capture_item* lstGetItem(char *captureName){ //Get the item with the specified name
-	struct capture_listitem* listitem=lstGetListItem(captureName);
-	if(listitem!=NULL)
-		return &listitem->data;
+
+struct data_item* lstAddItem(struct data_item* item) {
+  if (!item) return NULL;
+  if (lstGetListItem(item->list_element_id)) return NULL;
+
+  struct list_ptr* newItem;
+  newItem = (struct list_ptr *) malloc(sizeof(struct list_ptr));
+
+  if(newItem) {
+    memset(newItem,0,sizeof(struct list_ptr));
+    newItem->element = item;
+
+    newItem->next_item = g_list;
+
+    if (g_list) {
+      g_list->prev_item = newItem;
+    }
+    g_list = newItem;
+    return newItem->element;
+  } else
+    return NULL;
+
+}
+
+struct data_item* lstGetItem(char *list_element_id){ //Get the item with the specified name
+	struct list_ptr* listitem = lstGetListItem(list_element_id);
+	if(listitem)
+		return listitem->element;
 	else
 		return NULL;
 }
 
-void lstDeleteItem(char *captureName){
-	struct capture_listitem* item=lstGetListItem(captureName);
-	if(item!=NULL){
-		if(item->prev_item==NULL){ //The first item
-			openeddevices=item->next_item;
-		}
-		else {
-			(item->prev_item)->next_item=item->next_item;
-		}
-		free(item);
+struct data_item* lstDeleteItem(char *list_element_id){
+	struct list_ptr* item = lstGetListItem(list_element_id);
+	struct data_item* element = NULL;
+	if(item){
+	  element = item->element;
+	  if(item->prev_item==NULL){ //The first item
+	    g_list = item->next_item;
+	  }
+	  else {
+	    (item->prev_item)->next_item = item->next_item;
+	  }
+	  free(item);
 	}
+	return element;
 }
 
 
@@ -206,7 +230,7 @@ int Capture_GetGrabber _ANSI_ARGS_((ClientData clientData,
 {
 	char * dev = NULL;
 	int channel;
-	struct capture_listitem* item=openeddevices;
+	struct list_ptr* item = opened_devices;
 
 	if( objc != 3) {
 		Tcl_AppendResult (interp, "Wrong number of args.\nShould be \"::Capture::Init device channel\"" , (char *) NULL);
@@ -219,9 +243,9 @@ int Capture_GetGrabber _ANSI_ARGS_((ClientData clientData,
 		return TCL_ERROR;
 	}
 
-	while(item!=NULL){
-		if((strcasecmp(dev,item->data.devicePath)==0) && (channel == item->data.channel)){
-			Tcl_SetObjResult(interp, Tcl_NewStringObj(item->data.captureName,-1));
+	while(item){
+		if((strcasecmp(dev,item->element->devicePath)==0) && (channel == item->element->channel)){
+			Tcl_SetObjResult(interp, Tcl_NewStringObj(item->element->captureName,-1));
 			break;
 		}
 	}
@@ -425,8 +449,10 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
 
 	free(image_data);
 
-	if((captureItem=lstCreateItem())==NULL){
-		perror("lstCreateItem");
+	captureItem = (struct capture_item *) malloc(sizeof(struct capture_item));
+
+	if (lstAddItem(captureItem)==NULL){
+		perror("lstAddItem");
 		close(fvideo);
 		return TCL_ERROR;
 	}
@@ -444,6 +470,7 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
 		memcpy(&captureItem->mb,&mb,sizeof(captureItem->mb));
 		captureItem->mmbuf=mmbuf;
 	}
+
 
 	Tcl_SetObjResult(interp, Tcl_NewStringObj(captureItem->captureName,-1));
 
@@ -474,6 +501,7 @@ int Capture_Close _ANSI_ARGS_((ClientData clientData,
 
 	close(capItem->fvideo);
 	lstDeleteItem(captureDescriptor);
+	free(capItem);
 	return TCL_OK;
 }
 

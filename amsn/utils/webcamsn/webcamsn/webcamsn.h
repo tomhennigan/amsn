@@ -19,9 +19,8 @@
 #include <windows.h>
 #endif
 
-#include <string>
-#include <list>
-using namespace std;
+#include "string.h"
+
 
 #include <tcl.h>
 #include <tk.h>
@@ -78,19 +77,23 @@ typedef struct mimic_header {
 
 enum codec_types {ENCODER, DECODER_UNINITIALIZED, DECODER_INITIALIZED};
 
-typedef struct _CodecInfo {
+struct CodecInfo {
 	MimCtx * codec;
-	codec_types type;
-	string name;
+	enum codec_types type;
+	char name[30];
 	unsigned int frames;
-} CodecInfo;
+};
+
+typedef struct CodecInfo CodecInfo;
+
+#define g_list Codecs
+#define data_item CodecInfo
+#define list_element_id name
 
 #define MAX_INTERFRAMES 15
 
 
 EXTERN BYTE * RGBA2RGB(Tk_PhotoImageBlock data);
-EXTERN CodecInfo * FindCodec(string name);
-EXTERN void RemoveCodec(string name);
 
 
 // External functions

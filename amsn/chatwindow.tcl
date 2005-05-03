@@ -894,9 +894,9 @@ namespace eval ::ChatWindow {
 
 		frame $bar -class Amsn -relief solid -bg [::skin::getKey tabbarbg] -bd 0
 
-    if { $::tcl_version >= 8.4 } {
-        $bar configure  -padx [::skin::getKey chat_tabbar_padx] -pady [::skin::getKey chat_tabbar_pady]
-    }
+		if { $::tcl_version >= 8.4 } {
+			$bar configure  -padx [::skin::getKey chat_tabbar_padx] -pady [::skin::getKey chat_tabbar_pady]
+		}
 
 		return $bar
 	}

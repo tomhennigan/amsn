@@ -10,11 +10,102 @@
 // Include the header file
 #include "webcamsn.h"
 
+
+struct list_ptr {
+	struct list_ptr* prev_item;
+	struct list_ptr* next_item;
+	struct data_item* element;
+};
+
+/////////////////////////////////////
+// Functions to manage lists       //
+/////////////////////////////////////
+
+struct data_item* lstCreateItem(){ // Create an item in the list and put it at the begin
+	struct list_ptr* newItem;
+	newItem = (struct list_ptr *) malloc(sizeof(struct list_ptr));
+
+	if(newItem){
+		memset(newItem,0,sizeof(struct list_ptr));
+		newItem->next_item = g_list;
+		if (g_list) {
+			g_list->prev_item = newItem;
+		}
+		g_list = newItem;
+
+		newItem->element = (struct data_item *) malloc(sizeof(struct data_item));
+		memset(newItem->element, 0, sizeof(struct data_item));
+		return newItem->element;
+	} else
+	  return NULL;
+	
+
+}
+
+struct list_ptr* lstGetListItem(char *list_element_id){ //Get the list item with the specified name
+  struct list_ptr* item = g_list;
+
+  while(item && strcmp(item->element->list_element_id, list_element_id))
+    item = item->next_item;
+  
+  return item;
+
+}
+
+
+struct data_item* lstAddItem(struct data_item* item) {
+  if (!item) return NULL;
+  if (lstGetListItem(item->list_element_id)) return NULL;
+
+  struct list_ptr* newItem;
+  newItem = (struct list_ptr *) malloc(sizeof(struct list_ptr));
+
+  if(newItem) {
+    memset(newItem,0,sizeof(struct list_ptr));
+    newItem->element = item;
+
+    newItem->next_item = g_list;
+
+    if (g_list) {
+      g_list->prev_item = newItem;
+    }
+    g_list = newItem;
+    return newItem->element;
+  } else
+    return NULL;
+
+}
+
+struct data_item* lstGetItem(char *list_element_id){ //Get the item with the specified name
+	struct list_ptr* listitem = lstGetListItem(list_element_id);
+	if(listitem)
+		return listitem->element;
+	else
+		return NULL;
+}
+
+struct data_item* lstDeleteItem(char *list_element_id){
+	struct list_ptr* item = lstGetListItem(list_element_id);
+	struct data_item* element = NULL;
+	if(item){
+	  element = item->element;
+	  if(item->prev_item==NULL){ //The first item
+	    g_list = item->next_item;
+	  }
+	  else {
+	    (item->prev_item)->next_item = item->next_item;
+	  }
+	  free(item);
+	}
+	return element;
+}
+
+
+
 int encoder_counter = 0;
 int decoder_counter = 0;
 
-list<CodecInfo *> Codecs;
-
+struct list_ptr *Codecs;
 
 CodecInfo * FindCodec(string name) {
 	list<CodecInfo*>::iterator iter;

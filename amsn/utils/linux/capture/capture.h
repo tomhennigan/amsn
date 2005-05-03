@@ -80,6 +80,25 @@ typedef unsigned char  BYTE;
 #define SETTINGS_GET_CONTRAST (SETTINGS_GET | SETTINGS_CONTRAST)
 
 
+// Structures for the list
+
+struct capture_item {
+	char captureName[32];
+	char devicePath[32];
+	int channel;
+	int fvideo;
+	struct video_window vw;
+	char *mmbuf; //To uncomment if we use mmap : not for now
+	struct video_mbuf       mb;
+};
+
+
+// Defines for compatibility with the list code..
+#define g_list opened_devices
+#define data_item capture_item
+#define list_element_id captureName
+
+
 // External functions
 EXTERN int Capture_Init _ANSI_ARGS_((Tcl_Interp *interp));
 EXTERN int Capture_SafeInit _ANSI_ARGS_((Tcl_Interp *interp));
@@ -100,12 +119,7 @@ EXTERN int Capture_Grab _ANSI_ARGS_((ClientData clientData,
 								int objc,
 								Tcl_Obj *CONST objv[]));
 
-EXTERN int Capture_SetContrast _ANSI_ARGS_((ClientData clientData,
-								Tcl_Interp *interp,
-								int objc,
-								Tcl_Obj *CONST objv[]));
-
-EXTERN int Capture_SetBrightness _ANSI_ARGS_((ClientData clientData,
+EXTERN int Capture_AccessSettings _ANSI_ARGS_((ClientData clientData,
 								Tcl_Interp *interp,
 								int objc,
 								Tcl_Obj *CONST objv[]));

@@ -363,18 +363,6 @@ namespace eval ::MSNCAM {
 		set rid [getObjOption $sid rid]
 		set session [getObjOption $sid session]
 
-		if { $server == 0 && [getObjOption $sid socket] != $sock && $state != "CONNECTED" } {
-			return
-		}
-		if { $server == 1 && [getObjOption $sid socket] != $sock && $state != "AUTH" } {
-			return
-		}
-		if { $server == 0 && $state == "CONNECTED" && [getObjOption $sid socket] != "" } {
-			return
-		}
-		if { $server == 1 && $state == "AUTH" && [getObjOption $sid socket] != "" } {
-			return
-		}
 
 		fileevent $sock readable "::MSNCAM::ReadFromSock $sock"
 
@@ -408,27 +396,7 @@ namespace eval ::MSNCAM {
 			}
 			"CONNECTED"
 			{
-				if { $server } {
-					gets $sock data
-					status_log "Received Data on socket $sock sending=$producer - server=$server - state=$state : \n$data\n" red
-
-					if { $data == "connected\r" } {
-					    gets $sock
-					    setObjOption $sid socket $sock
-					    if { $producer } {
-						    setObjOption $sock state "SEND"
-						    fileevent $sock writable "::MSNCAM::WriteToSock $sock"
-						    AuthSuccessfull $sid $sock
-					    } else {
-						    setObjOption $sock state "RECEIVE"
-						    AuthSuccessfull $sid $sock
-					    }
-					} else {
-						AuthFailed $sid $sock
-						status_log "ERROR1 : $data - [eof $sock] - [gets $sock] - [gets $sock]\n" red
-					}
-
-				} else {
+				if { $server == 0 } {
 					gets $sock data
 					status_log "Received Data on socket $sock sending=$producer - server=$server - state=$state : \n$data\n" red
 					if { $data == "connected\r" } {
@@ -451,6 +419,42 @@ namespace eval ::MSNCAM {
 					}
 				}
 			}
+			"SEND" -
+			"CONNECTED2" 
+			{
+				if {$server} {
+					
+					set data [read $sock 13]
+					status_log "Received Data on socket $sock sending=$producer - server=$server - state=$state : \n$data\n" red
+					
+					if { $data == "connected\r\n\r\n" } {
+						setObjOption $sid socket $sock
+						if { $producer == 0} {
+							setObjOption $sock state "RECEIVE"
+						}
+					} elseif { $producer == 0 } {
+						set header "${data}[read $sock 11]"
+						setObjOption $sock state "RECEIVE"
+						
+						set size [GetCamDataSize $header]
+						if { $size > 0 } {
+							set data "$header[read $sock $size]"
+							::CAMGUI::ShowCamFrame $sid $data
+						} else {
+							setObjOption $sock state "END"
+							status_log "ERROR1 : $data - invalid data received" red	
+						}
+						
+					} else {
+						setObjOption $sock state "END"
+						status_log "ERROR1 : $data - [eof $sock] - [gets $sock] - [gets $sock]\n" red
+					}
+					
+				} else {
+					setObjOption $sock state "END"
+					status_log "ERROR1 : $data - should never received data on state $state when we're the client\n" red	
+				}
+			}
 
 			"RECEIVE"
 			{
@@ -459,13 +463,21 @@ namespace eval ::MSNCAM {
 				if { $size > 0 } {
 					set data "$header[read $sock $size]"
 					::CAMGUI::ShowCamFrame $sid $data
+				} else {
+					#AuthFailed $sid $sock
+					setObjOption $sock state "END"
+					status_log "ERROR1 : $data - invalid data received" red	
+
 				}
 
 			}
 			"END"
 			{
+				set chatid [getObjOption $sid chatid]
 				status_log "Closing socket $sock because it's in END state\n" red
-				close $sock
+				#close $sock
+				CancelCam $chatid $sid
+				
 			}
 			default
 			{
@@ -492,16 +504,11 @@ namespace eval ::MSNCAM {
 		set sending [getObjOption $sock sending]
 		set server [getObjOption $sock server]
 		set state [getObjOption $sock state]
+		set producer [getObjOption $sid producer]
 
 		set rid [getObjOption $sid rid]
 		set session [getObjOption $sid session]
 
-		if { $server == 0 && [getObjOption $sid socket] != $sock && $state != "AUTH" } {
-			return
-		}
-		if { $server == 1 && [getObjOption $sid socket] != $sock && $state != "CONNECTED" } {
-			return
-		}
 
 		# Uncomment next line to test for failed authentifications...
 		#set session 0
@@ -527,6 +534,14 @@ namespace eval ::MSNCAM {
 			"CONNECTED"
 			{
 				set data "connected\r\n\r\n"
+				if { $producer } {
+					setObjOption $sock state "SEND"
+					fileevent $sock writable "::MSNCAM::WriteToSock $sock"
+					AuthSuccessfull $sid $sock
+				} else {
+					setObjOption $sock state "CONNECTED2"
+					AuthSuccessfull $sid $sock
+				}
 			}
 			"SEND"
 			{
@@ -535,8 +550,10 @@ namespace eval ::MSNCAM {
 			}
 			"END"
 			{
+				set chatid [getObjOption $sid chatid]
 				status_log "Closing socket $sock because it's in END state\n" red
-				close $sock
+				#close $sock
+				CancelCam $chatid $sid
 			}
 
 		}
@@ -571,6 +588,8 @@ namespace eval ::MSNCAM {
 		if {$session == "" } {
 			set session [myRand 9000 9999]
 		}
+
+		setObjOption $sid session $session
 
 		set rid [getObjOption $sid my_rid]
 		if { $rid == "" } {
@@ -657,6 +676,9 @@ namespace eval ::MSNCAM {
 
 	proc ConnectSockets { sid } {
 
+		set auth [getObjOption $sid authenticated]
+		if { $auth == 1} { return }
+
 		set xml [getObjOption $sid xml]
 		set list [xml2list $xml]
 
@@ -665,6 +687,7 @@ namespace eval ::MSNCAM {
 		if { $ips == "" } {
 			set ips [list]
 		}
+
 
 		while { 1 } {
 			if { $ip_idx == 7 } {
@@ -773,6 +796,8 @@ namespace eval ::MSNCAM {
 		status_log "Authentification on socket $socket successfull [fileevent $socket readable] - [fileevent $socket writable]\n" red
 		CloseUnusedSockets $sid $socket
 
+		setObjOption $sid authenticated 1
+
 		status_log "wtf  : [fileevent $socket readable] - [fileevent $socket writable]\n" red
 	}
 
@@ -782,6 +807,7 @@ namespace eval ::MSNCAM {
 
 		#setObjOption $sid socket ""
 
+		close $socket
 		status_log "Authentification on socket $socket failed\n" red
 		#if {[llength $list] > 0 } {
 		#	set element [lindex $list 0]
