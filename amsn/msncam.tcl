@@ -1142,7 +1142,7 @@ namespace eval ::CAMGUI {
 				pack $window.q -expand true -fill x
 				bind $window <Destroy> "::MSNCAM::CancelCam $chatid $sid"
 			}
-			set windows ::grabbers($grabber)
+			set windows $::grabbers($grabber)
 			lappend windows $window
 			set ::grabbers($grabber) $windows
 
