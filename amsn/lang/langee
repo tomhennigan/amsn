@@ -42,6 +42,7 @@ appearance Välimus
 appearoff Ilmu lahtiühendatuna
 areacode Piirkonnakood
 aretyping $1 trükivad mingit sõnumit
+askwebcam Küsi kasutajalt veebikaamera näitamist
 author Autor
 autoaccepted Faili laadimine automaatselt lubatud
 autoacceptft Automaatselt nõustu faili laadimisega
@@ -558,6 +559,7 @@ sendfile Saada fail
 sendmail Saada kiri
 sendmobmsg saada mobiilile
 sendmsg Saada sõnum
+sendwebcaminvite Kutsu kasutaja oma veebikaamerat vaatama
 sentbytes Saadetud $1/$2 baiti
 server Server
 serverbusy Server on hõivatud
@@ -651,6 +653,7 @@ twonewmail $1 uut sõnumit postkastis
 unblock Ära blokeeri enam
 unknown Tundmatu
 unload Lae maha
+unselectall Eemalda valikud
 uoffline Offline
 uonline Online
 update Uuenda

@@ -42,6 +42,7 @@ appearance Apparence
 appearoff Apparaître déconnecté[e]
 areacode Code régional
 aretyping $1 sont en train de taper un message
+askwebcam Demander à ce contact de voir sa webcam
 author Auteur
 autoaccepted Transfert de fichier accepté automatiquement
 autoacceptft Accepter automatiquement les transferts de fichiers
@@ -335,6 +336,7 @@ lastlogout Dernière déconnexion
 lastmsgedme Dernier message
 lastmsgtime Dernier message reçu à $1
 lastseen Dernière fois vu
+lazypicretrieval Récupération des icônes des contacts lors d'une conversation
 lclosedwin $1 a fermé la fenêtre sur $2
 lconftopriv Conférence changée en conversation privée avec $1
 lconvstarted Conversation commencée le $1
@@ -557,6 +559,7 @@ sendfile Envoyer un fichier
 sendmail Envoyer un courrier
 sendmobmsg Envoyer un message au mobile
 sendmsg Envoyer un message
+sendwebcaminvite Inviter un contact à voir votre webcam
 sentbytes $1 sur $2 octets envoyés
 serverbusy Le serveur est occupé
 servergoingdown Serveur en cours d'arrêt
@@ -650,6 +653,7 @@ twonewmail $1 nouveaux messages dans votre boîte de réception
 unblock Débloquer
 unknown Inconnu
 unload Désactiver
+unselectall Ne rien sélectionner
 uoffline Déconnectés
 uonline Connectés
 update Mise à jour

@@ -42,6 +42,7 @@ appearance Interfaccia
 appearoff Invisibile
 areacode Codice dell'area
 aretyping $1 stanno scrivendo un messaggio
+askwebcam Chiedi all'utente di vedere dalla sua webcam
 author Autore
 autoaccepted Traferimento file accettato automaticamente
 autoacceptft Accetta automaticamente le richieste di trasferimento file
@@ -558,6 +559,7 @@ send Invia
 sendmail Manda e-mail
 sendmobmsg Invia a dispositivo mobile
 sendmsg Manda un messaggio
+sendwebcaminvite Invita l'utente a vedere dalla tua webcam
 sentbytes Mandati $1 byte su $2
 serverbusy Il server è occupato
 servergoingdown Sei stato disconnesso poiche' il server si sta fermando
@@ -651,6 +653,7 @@ twonewmail $1 nuovi messaggi di posta
 unblock Sblocca
 unknown Sconosciuto
 unload Interrompi
+unselectall Deseleziona tutto
 uoffline Sconnesso
 uonline In linea
 update Aggiornamento

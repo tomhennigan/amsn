@@ -42,6 +42,7 @@ appearance Izgled
 appearoff Na videz neprijavljen
 areacode Omre¾na ¹tevilka
 aretyping $1 pi¹ejo sporoèilo
+askwebcam Ogled preko spletne kamere stika
 author Avtor
 autoaccepted Prenos datoteke avtomatièno sprejet
 autoacceptft Avtomatièno sprejmi prihajajoèe datoteke
@@ -335,6 +336,7 @@ lastlogout Zadnja odjava
 lastmsgedme Zadnje sporoèilo
 lastmsgtime Zadnje sporoèilo prejeto ob $1
 lastseen Nazadnje prijavljen/a
+lazypicretrieval Poèasno prejemanje prikaznih slik
 lclosedwin $1 je zaprl/a okno $2
 lconftopriv Konferenca spremenjena v zasebni pogovor z $1
 lconvstarted Pogovor se je prièel ($1)
@@ -558,6 +560,7 @@ sendmail Po¹lji e-mail
 sendmsg Po¹lji sporoèilo
 sendmobmsg Po¹lji sporoèilo na prenosno napravo
 sentbytes Poslano $1 od $2 bajtov
+sendwebcaminvite Poka¾i sliko tvoje spletne kamere stiku
 server Stre¾nik
 serverbusy Stre¾nik je zaseden
 servergoingdown Povezava prekinjena
@@ -650,6 +653,7 @@ twonewmail 2 novi sporoèili v Inboxu
 unblock Odblokiraj
 unknown Neznan
 unload Ustavi
+unselectall Odznaèi vse
 uoffline Neprijavljeni
 uonline Prijavljeni
 update Posodobi

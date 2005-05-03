@@ -42,6 +42,7 @@ appearance Apariència
 appearoff Sense connexió
 areacode Codi d'àrea
 aretyping $1 està escrivint un missatge
+askwebcam Preguta a este usuari per vore la seua webcam
 author Autor
 autoaccepted Transferència de fitxers acceptada automàticament
 autoacceptft Acceptar transferències de fitxers automàticament
@@ -335,6 +336,7 @@ lastlogout Última desconnexió
 lastmsgedme Últim missatge
 lastmsgtime Últim missatge rebut a les $1
 lastseen Última vegada connectat
+lazypicretrieval Recuperació "mandrosa" de les imatges per a mostrar
 lclosedwin Has tancat la finestra amb $1
 lconftopriv La conversa passa a ser un privat amb $1
 lconvstarted Comença la conversa amb $1
@@ -407,6 +409,7 @@ needonline Encara estàs/aparentes desconnectat
 needwinico2 Necessites winico05.dll en el directori utils/windows per a que funcione la minimització a la safata del sistema
 never Mai
 new_ft_protocol Utilizar el nou protocol de Transferència de Fitxers (encara té alguns errors menors)
+newline Següent línia
 newmail $1 missatges nous en safata d'entrada
 newmailfolder Tens $1 nous missatges en altres carpets de Hotmail
 newmailfrom Nou correu de $1 ($2)
@@ -552,6 +555,7 @@ selectall Seleccionar tots
 selectplugins Per favor, selecciona els plug-ins que vols activar
 selectskin Per favor, selecciona una pell (skin) de la llista
 send Enviar
+sendwebcaminvite Invita a un usuari a vore la teua webcam
 sendfile Enviar arxiu
 sendmail Enviar correu-e
 sendmobmsg Enviar a un dispositiu mòbil
@@ -625,6 +629,7 @@ temp_state No emmagatzemar (Estat temporal, es perdrà en reiniciar AMSN)
 textsize Tamany del text
 thismonth Este mes
 timeremaining Temps restant
+timestamp Marca temporal
 timestamps Activar hora en els missatges
 title aMSN
 tkerror S'ha produït un error de TK, hi ha una errada en AMSN, per favor informa'ns. Per a fer-ho envia l'arxiu a amsn-bugs@lists.sf.net
@@ -648,6 +653,7 @@ twonewmail $1 missatges nous en safata d'entrada
 unblock Desbloquejar
 unknown Desconegut
 unload Descarregar
+unselectall Des-seleccionar-ho tot
 uoffline Desconnectats
 uonline Connectats
 update Actualitzar
@@ -688,3 +694,4 @@ yoffset Desplaçament Y
 youblocked Has sigut bloquejat per
 yousay Tu dius
 youwant Vols
+zoom Ampliació

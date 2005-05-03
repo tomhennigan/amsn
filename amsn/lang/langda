@@ -1,5 +1,4 @@
 amsn_lang_version 2
-lazypicretrieval langsomme Display Billed oplysninger
 about Om
 accept Accepter
 acceptfile Accepter fil $1, størrelse $2? Gemt i $3
@@ -36,13 +35,14 @@ allowlist Tillad-Liste (TL):
 allowonlyinal Tillad kun brugere fra min Acceptér-Liste at kontakte mig
 allowseen Tillad denne person at se når jeg er online
 allprofilesinuse Alle eksisterende profiler er i brug
-animatedemoticon Dette emoticon er animeret
+animatedemoticon Dette humørikon er animeret
 animatedsmileys Anvend animerede smileys
 animatenotify Animeret Beskedvindue
 appearance Udseende
 appearoff Vis som offline
 areacode Områdenummer
 aretyping $1 skriver en besked
+askwebcam Spørger om at se hans/huns webcam
 author Forfatter
 autoaccepted Fil-overførsel automatisk acceptéret
 autoacceptft Acceptér fil-overførsels-forespørgelser automatisk
@@ -296,7 +296,7 @@ handle Kaldenavn
 help Hjælp
 helpcontents Indhold i Hjælp
 hidedisplaypic Skjul Display-billede
-hiden Skjul emoticonerne fra smileys-menuen
+hiden Skjul humørikonerne fra smileys-menuen
 hidewindow Skjul Vindue
 history Vis Historien
 home Hjem
@@ -374,6 +374,7 @@ longnick Dit kaldenavn er længere end 130 tegn. Dette er ikke officielt understø
 longp4c Dit Vennenavn er længere end 130 tegn. Det Vennenavn, der vil fremstå på den officielle MSN-klient, vil være $1. Er du sikker på, at du vil anvende navnet?
 lprivtoconf Privat chat er lavet til et møde med $1
 luclosedwin Du har lukket vinduet på $1
+lazypicretrieval Langsomme Display Billed oplysninger
 mailer Mailer
 mailerexample ( \$recipient = Modtager ) Efterlad tom for at anvende Hotmail
 maintenance Serveren afbrydes for vedligeholdelse om $1 minuter
@@ -460,7 +461,7 @@ onphone I telefon
 opendir åben mappe
 openfile åben
 openfilecommand åben fil
-openreceived Åbn modtagne filer
+openreceived åben modtagne filer
 options Muligheder
 ordercontactsby Sorter kontakter efter
 ordergroupsby Sortér grupper efter
@@ -555,6 +556,7 @@ selectall Vælg alt
 selectplugins Vælg venligst de plugins du vil anvende
 selectskin Vælg venligst et skin fra listen
 send Send
+sendwebcaminvite Inviter en kontatk til at se dit webcam
 sendfile Send fil
 sendmail Send mail
 sendmobmsg $1 Send til Mobil
@@ -577,7 +579,7 @@ showuserpic $1's Display-billede
 signinstatus Login status
 skin Skin
 skinselector Vælg Skin
-smileconfig Brugerdefineret emoticon-konfiguration
+smileconfig Brugerdefineret humørikon-konfiguration
 smilefile Smiley-filnavn
 smileintro Udfyld venligst de krævede felter for at lave en ny brugerdefineret smiley (se OSSen for hjælp)
 smileintro2 Redigér venligst de krævede felter for at definere denne smiley (se OSSen for hjælp)
@@ -656,6 +658,7 @@ uoffline Offline
 uonline Online
 update Opdater
 updating Opdatere
+unselectall Vélge alt fra
 useother Benyt et andet program
 useasdp Brug som Display Billed
 user Bruger
@@ -672,7 +675,7 @@ viewcontactsby Se kontakter efter
 viewprofile Vis profil
 view Vis
 webcamshot Webcam Shot
-webcaminvite $1 har inviteret dig til at starte webcam, men aMSN understøtter ikke dette. 
+webcaminvite $1 har inviteret dig til at starte webcam samtale
 whatsize Billedt du har anmodet er ikke det normale fremviste billed\nstørrelse (96x96) VIlken størrelse vil du have billedt vist som?
 willjoin Venter på at $1 slutter sig til samtalen
 winkreceived Du har modtaget et blink fra $1. Denne funktion understøttes ikke endnu af aMSN.
@@ -684,7 +687,7 @@ xmmscurrent Vis nuværende sang
 xmmserr Der er ingenting, der spiller, eller også har du ikke xmms-infopipe installeret.
 xmmssend Send nuværende sang
 xoffset X-koordinat
-year År
+year år
 yes Ja
 yesblock Ja og blokér
 yesterday I går
