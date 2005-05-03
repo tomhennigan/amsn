@@ -11,38 +11,28 @@
 #include "webcamsn.h"
 
 
+
+
+int encoder_counter = 0;
+int decoder_counter = 0;
+
+struct list_ptr *Codecs;
+
+
+
+
 struct list_ptr {
 	struct list_ptr* prev_item;
 	struct list_ptr* next_item;
 	struct data_item* element;
 };
 
+
 /////////////////////////////////////
 // Functions to manage lists       //
 /////////////////////////////////////
 
-struct data_item* lstCreateItem(){ // Create an item in the list and put it at the begin
-	struct list_ptr* newItem;
-	newItem = (struct list_ptr *) malloc(sizeof(struct list_ptr));
-
-	if(newItem){
-		memset(newItem,0,sizeof(struct list_ptr));
-		newItem->next_item = g_list;
-		if (g_list) {
-			g_list->prev_item = newItem;
-		}
-		g_list = newItem;
-
-		newItem->element = (struct data_item *) malloc(sizeof(struct data_item));
-		memset(newItem->element, 0, sizeof(struct data_item));
-		return newItem->element;
-	} else
-	  return NULL;
-	
-
-}
-
-struct list_ptr* lstGetListItem(char *list_element_id){ //Get the list item with the specified name
+struct list_ptr* Webcamsn_lstGetListItem(char *list_element_id){ //Get the list item with the specified name
   struct list_ptr* item = g_list;
 
   while(item && strcmp(item->element->list_element_id, list_element_id))
@@ -52,12 +42,25 @@ struct list_ptr* lstGetListItem(char *list_element_id){ //Get the list item with
 
 }
 
+int Webcamsn_lstListSize(){ 
+  struct list_ptr* item = g_list;
+  int ret = 0;
 
-struct data_item* lstAddItem(struct data_item* item) {
-  if (!item) return NULL;
-  if (lstGetListItem(item->list_element_id)) return NULL;
+  while(item) {
+    item = item->next_item;
+    ret = ret + 1;
+  }
+  
+  return ret;
 
+}
+
+struct data_item* Webcamsn_lstAddItem(struct data_item* item) {
   struct list_ptr* newItem;
+
+  if (!item) return NULL;
+  if (Webcamsn_lstGetListItem(item->list_element_id)) return NULL;
+
   newItem = (struct list_ptr *) malloc(sizeof(struct list_ptr));
 
   if(newItem) {
@@ -76,62 +79,33 @@ struct data_item* lstAddItem(struct data_item* item) {
 
 }
 
-struct data_item* lstGetItem(char *list_element_id){ //Get the item with the specified name
-	struct list_ptr* listitem = lstGetListItem(list_element_id);
+struct data_item* Webcamsn_lstGetItem(char *list_element_id){ //Get the item with the specified name
+	struct list_ptr* listitem = Webcamsn_lstGetListItem(list_element_id);
 	if(listitem)
 		return listitem->element;
 	else
 		return NULL;
 }
 
-struct data_item* lstDeleteItem(char *list_element_id){
-	struct list_ptr* item = lstGetListItem(list_element_id);
+struct data_item* Webcamsn_lstDeleteItem(char *list_element_id){
+	struct list_ptr* item = Webcamsn_lstGetListItem(list_element_id);
 	struct data_item* element = NULL;
-	if(item){
+
+	if(item) {
 	  element = item->element;
-	  if(item->prev_item==NULL){ //The first item
+	  if(item->prev_item==NULL) //The first item
 	    g_list = item->next_item;
-	  }
-	  else {
+	  else
 	    (item->prev_item)->next_item = item->next_item;
-	  }
+
+	  if (item->next_item) 
+	    (item->next_item)->prev_item = item->prev_item;
+
 	  free(item);
 	}
 	return element;
 }
 
-
-
-int encoder_counter = 0;
-int decoder_counter = 0;
-
-struct list_ptr *Codecs;
-
-CodecInfo * FindCodec(string name) {
-	list<CodecInfo*>::iterator iter;
-
-	for (iter = Codecs.begin() ; iter != Codecs.end(); iter++) {
-		if ((*iter)->name == name) {
-			return *iter;
-		}
-	}
-	return NULL;
-
-}
-
-
-void RemoveCodec(string name) {
-	list<CodecInfo*>::iterator iter;
-
-	for (iter = Codecs.begin() ; iter != Codecs.end(); iter++) {
-		if ((*iter)->name == name) {
-			delete *iter;
-			Codecs.erase(iter);
-			break;
-		}
-	}
-	return;
-}
 
 BYTE * RGBA2RGB(Tk_PhotoImageBlock data) {
 	int i;
@@ -155,8 +129,8 @@ int Webcamsn_NewDecoder _ANSI_ARGS_((ClientData clientData,
 								Tcl_Obj *CONST objv[])) 
 {
 	CodecInfo *new_decoder;
-	char name[15];
-	
+	char name[30];
+	char *req_name = NULL;
 
 	// We verify the arguments
 	if( objc > 2) {
@@ -164,25 +138,28 @@ int Webcamsn_NewDecoder _ANSI_ARGS_((ClientData clientData,
 		return TCL_ERROR;
 	} 
 
-	new_decoder = new CodecInfo;
+	new_decoder = (struct CodecInfo *) malloc(sizeof(struct CodecInfo));
+	
 
 	if ( objc == 2) {
-		if (FindCodec(name) == NULL) {
-			strcpy(name, Tcl_GetStringFromObj(objv[1], NULL));
-		}else {
-			sprintf(name, "decoder%d", ++decoder_counter);
-		}
+	  // Set the requested name and see if it exists...
+	  req_name = Tcl_GetStringFromObj(objv[1], NULL);
+	  if (Webcamsn_lstGetItem(req_name) == NULL) {
+	    strcpy(name, req_name );
+	  }else {
+	    sprintf(name, "decoder%d", ++decoder_counter);
+	  }
 	} else {
-		sprintf(name, "decoder%d", ++decoder_counter);
+	  sprintf(name, "decoder%d", ++decoder_counter);
 	}
 
 
 	new_decoder->codec = mimic_open();
-	new_decoder->name = name;
+	strcpy(new_decoder->name, name);
 	new_decoder->type = DECODER_UNINITIALIZED;
 	new_decoder->frames = 0;
 
-	Codecs.push_back(new_decoder);
+	Webcamsn_lstAddItem(new_decoder);
 
 	Tcl_ResetResult(interp);
 	Tcl_AppendResult(interp, name, NULL);
@@ -201,7 +178,8 @@ int Webcamsn_NewEncoder _ANSI_ARGS_((ClientData clientData,
 	CodecInfo *new_encoder;
 	MimCtx * encoder = NULL;
 	char name[15];
-	string strResolution = "";
+	char * req_name = NULL;
+	char * strResolution = NULL;
 	MimicResEnum resolution;
 
 
@@ -214,9 +192,9 @@ int Webcamsn_NewEncoder _ANSI_ARGS_((ClientData clientData,
 
 	strResolution = Tcl_GetStringFromObj(objv[1], NULL);
 
-	if (strResolution == "LOW") {
+	if (!strcmp(strResolution, "LOW")) {
 		resolution = MIMIC_RES_LOW;
-	} else if (strResolution == "HIGH") {
+	} else if (!strcmp(strResolution, "HIGH")) {
 		resolution = MIMIC_RES_HIGH;
 	} else {
 		Tcl_ResetResult(interp);
@@ -225,29 +203,31 @@ int Webcamsn_NewEncoder _ANSI_ARGS_((ClientData clientData,
 
 	}
 
-	new_encoder = new CodecInfo;
+	new_encoder = (struct CodecInfo *) malloc(sizeof(struct CodecInfo));
 
 
 	if ( objc == 3) {
-		if (FindCodec(name) == NULL) {
-			strcpy(name, Tcl_GetStringFromObj(objv[2], NULL));
-		}else {
-			sprintf(name, "encoder%d", ++encoder_counter);
-		}
+	  // Set the requested name and see if it exists...
+	  req_name = Tcl_GetStringFromObj(objv[2], NULL);
+	  if (Webcamsn_lstGetItem(req_name) == NULL) {
+	    strcpy(name, req_name);
+	  }else {
+	    sprintf(name, "encoder%d", ++encoder_counter);
+	  }
 	} else {
-		sprintf(name, "encoder%d", ++encoder_counter);
+	  sprintf(name, "encoder%d", ++encoder_counter);
 	}
 
 
 	new_encoder->codec = mimic_open();
-	new_encoder->name = name;
+	strcpy(new_encoder->name, name);
 	new_encoder->type = ENCODER;
 	new_encoder->frames = 0;
 
 	mimic_encoder_init(new_encoder->codec, resolution);
 
 
-	Codecs.push_back(new_encoder);
+	Webcamsn_lstAddItem(new_encoder);
 
 	Tcl_ResetResult(interp);
 	Tcl_AppendResult(interp, name, NULL);
@@ -261,7 +241,7 @@ int Webcamsn_Decode _ANSI_ARGS_((ClientData clientData,
 								int objc,
 								Tcl_Obj *CONST objv[]))
 {
-	string name = "";
+	char * name = NULL;
 	CodecInfo * decoder;
 	
 	char * image_name = NULL;
@@ -283,15 +263,15 @@ int Webcamsn_Decode _ANSI_ARGS_((ClientData clientData,
 
 	name = Tcl_GetStringFromObj(objv[1], NULL);
 
-	decoder = FindCodec(name);
+	decoder = Webcamsn_lstGetItem(name);
 
 	if (!decoder) {
-		Tcl_AppendResult (interp, "Invalid decoder : " , name.c_str(), (char *) NULL);
+		Tcl_AppendResult (interp, "Invalid decoder : " , name, (char *) NULL);
 		return TCL_ERROR;
 	}
 
 	if (decoder->type == ENCODER) {
-		Tcl_AppendResult (interp, name.c_str(), " is an encoder, not a decoder" , (char *) NULL);
+		Tcl_AppendResult (interp, name, " is an encoder, not a decoder" , (char *) NULL);
 		return TCL_ERROR;
 	}
 
@@ -388,7 +368,7 @@ int Webcamsn_Encode _ANSI_ARGS_((ClientData clientData,
 								int objc,
 								Tcl_Obj *CONST objv[])) 
 {
-	string name = "";
+	char * name = NULL;
 	CodecInfo * encoder;
 	
 	char * image_name = NULL;
@@ -411,15 +391,15 @@ int Webcamsn_Encode _ANSI_ARGS_((ClientData clientData,
 
 	name = Tcl_GetStringFromObj(objv[1], NULL);
 
-	encoder = FindCodec(name);
+	encoder = Webcamsn_lstGetItem(name);
 
 	if (!encoder) {
-		Tcl_AppendResult (interp, "Invalid encoder : " , name.c_str(), (char *) NULL);
+		Tcl_AppendResult (interp, "Invalid encoder : " , name, (char *) NULL);
 		return TCL_ERROR;
 	}
 
 	if (encoder->type != ENCODER) {
-		Tcl_AppendResult (interp, name.c_str(), " is a decoder, not an encoder" , (char *) NULL);
+		Tcl_AppendResult (interp, name, " is a decoder, not an encoder" , (char *) NULL);
 		return TCL_ERROR;
 	}
 
@@ -465,7 +445,7 @@ int Webcamsn_SetQuality _ANSI_ARGS_((ClientData clientData,
 								Tcl_Obj *CONST objv[])) 
 {
 	int quality = 0;
-	string name = "";
+	char * name = NULL;
 	CodecInfo * encoder;
 
 	// We verify the arguments
@@ -476,15 +456,15 @@ int Webcamsn_SetQuality _ANSI_ARGS_((ClientData clientData,
 
 	name = Tcl_GetStringFromObj(objv[1], NULL);
 
-	encoder = FindCodec(name);
+	encoder = Webcamsn_lstGetItem(name);
 
 	if (!encoder) {
-		Tcl_AppendResult (interp, "Invalid encoder : " , name.c_str(), (char *) NULL);
+		Tcl_AppendResult (interp, "Invalid encoder : " , name, (char *) NULL);
 		return TCL_ERROR;
 	}
 
 	if (encoder->type != ENCODER) {
-		Tcl_AppendResult (interp, name.c_str(), " is a decoder, not an encoder" , (char *) NULL);
+		Tcl_AppendResult (interp, name, " is a decoder, not an encoder" , (char *) NULL);
 		return TCL_ERROR;
 	}
 	
@@ -495,7 +475,7 @@ int Webcamsn_SetQuality _ANSI_ARGS_((ClientData clientData,
 	if (mimic_set_property(encoder->codec, "quality", &quality)) {
 		return TCL_OK;
 	} else {
-		Tcl_AppendResult(interp, "unable to change quality of encoder : ", name.c_str(), (char *) NULL);
+		Tcl_AppendResult(interp, "unable to change quality of encoder : ", name, (char *) NULL);
 		return TCL_ERROR;
 	}
 	
@@ -508,7 +488,7 @@ int Webcamsn_GetWidth _ANSI_ARGS_((ClientData clientData,
 {
 	int width = 0;
 
-	string name = "";
+	char * name = NULL;
 	CodecInfo * codec;
 
 	// We verify the arguments
@@ -519,10 +499,10 @@ int Webcamsn_GetWidth _ANSI_ARGS_((ClientData clientData,
 
 
 	name = Tcl_GetStringFromObj(objv[1], NULL);
-	codec = FindCodec(name);
+	codec = Webcamsn_lstGetItem(name);
 
 	if (!codec) {
-		Tcl_AppendResult (interp, "Invalid encoder/decoder : " , name.c_str(), (char *) NULL);
+		Tcl_AppendResult (interp, "Invalid encoder/decoder : " , name, (char *) NULL);
 		return TCL_ERROR;
 	}
 
@@ -536,7 +516,7 @@ int Webcamsn_GetWidth _ANSI_ARGS_((ClientData clientData,
 		Tcl_SetObjResult(interp, Tcl_NewIntObj(width));
 		return TCL_OK;
 	} else {
-		Tcl_AppendResult(interp, "unable to get width for codec : ", name.c_str(), (char *) NULL);
+		Tcl_AppendResult(interp, "unable to get width for codec : ", name, (char *) NULL);
 		return TCL_ERROR;
 	}	
 }
@@ -548,7 +528,7 @@ int Webcamsn_GetHeight _ANSI_ARGS_((ClientData clientData,
 {
 	int height = 0;
 
-	string name = "";
+	char * name = NULL;
 	CodecInfo * codec;
 
 	// We verify the arguments
@@ -559,10 +539,10 @@ int Webcamsn_GetHeight _ANSI_ARGS_((ClientData clientData,
 
 
 	name = Tcl_GetStringFromObj(objv[1], NULL);
-	codec = FindCodec(name);
+	codec = Webcamsn_lstGetItem(name);
 
 	if (!codec) {
-		Tcl_AppendResult (interp, "Invalid encoder/decoder : " , name.c_str(), (char *) NULL);
+		Tcl_AppendResult (interp, "Invalid encoder/decoder : " , name, (char *) NULL);
 		return TCL_ERROR;
 	}
 
@@ -576,7 +556,7 @@ int Webcamsn_GetHeight _ANSI_ARGS_((ClientData clientData,
 		Tcl_SetObjResult(interp, Tcl_NewIntObj(height));
 		return TCL_OK;
 	} else {
-		Tcl_AppendResult(interp, "unable to get height for codec : ", name.c_str(), (char *) NULL);
+		Tcl_AppendResult(interp, "unable to get height for codec : ", name, (char *) NULL);
 		return TCL_ERROR;
 	}
 
@@ -591,7 +571,7 @@ int Webcamsn_GetQuality _ANSI_ARGS_((ClientData clientData,
 {
 	int quality = 0;
 
-	string name = "";
+	char * name = NULL;
 	CodecInfo * codec;
 
 	// We verify the arguments
@@ -602,10 +582,10 @@ int Webcamsn_GetQuality _ANSI_ARGS_((ClientData clientData,
 
 
 	name = Tcl_GetStringFromObj(objv[1], NULL);
-	codec = FindCodec(name);
+	codec = Webcamsn_lstGetItem(name);
 
 	if (!codec) {
-		Tcl_AppendResult (interp, "Invalid encoder/decoder : " , name.c_str(), (char *) NULL);
+		Tcl_AppendResult (interp, "Invalid encoder/decoder : " , name, (char *) NULL);
 		return TCL_ERROR;
 	}
 
@@ -619,7 +599,7 @@ int Webcamsn_GetQuality _ANSI_ARGS_((ClientData clientData,
 		Tcl_SetObjResult(interp, Tcl_NewIntObj(quality));
 		return TCL_OK;
 	} else {
-		Tcl_AppendResult(interp, "Unable to get the quality of the codec : ", name.c_str(), (char *) NULL);
+		Tcl_AppendResult(interp, "Unable to get the quality of the codec : ", name, (char *) NULL);
 		return TCL_ERROR;
 	}
 
@@ -632,7 +612,7 @@ int Webcamsn_Close _ANSI_ARGS_((ClientData clientData,
 								int objc,
 								Tcl_Obj *CONST objv[]))
 {
-	string name = "";
+	char * name = NULL;
 	CodecInfo * codec;
 
 	// We verify the arguments
@@ -643,15 +623,16 @@ int Webcamsn_Close _ANSI_ARGS_((ClientData clientData,
 
 
 	name = Tcl_GetStringFromObj(objv[1], NULL);
-	codec = FindCodec(name);
+	codec = Webcamsn_lstGetItem(name);
 
 	if (!codec) {
-		Tcl_AppendResult (interp, "Invalid encoder/decoder : " , name.c_str(), (char *) NULL);
+		Tcl_AppendResult (interp, "Invalid encoder/decoder : " , name, (char *) NULL);
 		return TCL_ERROR;
 	}
 
 	mimic_close(codec->codec);
-	RemoveCodec(name);
+	Webcamsn_lstDeleteItem(name);
+	free(codec);
 
 	return TCL_OK;
 	
@@ -664,7 +645,7 @@ int Webcamsn_Count _ANSI_ARGS_((ClientData clientData,
 								Tcl_Obj *CONST objv[]))
 {
 
-	Tcl_SetObjResult(interp, Tcl_NewIntObj((int) Codecs.size()));
+	Tcl_SetObjResult(interp, Tcl_NewIntObj(Webcamsn_lstListSize()));
 	return TCL_OK;
 }
 
@@ -674,7 +655,7 @@ int Webcamsn_Frames _ANSI_ARGS_((ClientData clientData,
 								Tcl_Obj *CONST objv[]))
 {
 
-	string name = "";
+	char * name = NULL;
 	CodecInfo * codec;
 
 	// We verify the arguments
@@ -685,10 +666,10 @@ int Webcamsn_Frames _ANSI_ARGS_((ClientData clientData,
 
 
 	name = Tcl_GetStringFromObj(objv[1], NULL);
-	codec = FindCodec(name);
+	codec = Webcamsn_lstGetItem(name);
 
 	if (!codec) {
-		Tcl_AppendResult (interp, "Invalid encoder/decoder : " , name.c_str(), (char *) NULL);
+		Tcl_AppendResult (interp, "Invalid encoder/decoder : " , name, (char *) NULL);
 		return TCL_ERROR;
 	}
 
