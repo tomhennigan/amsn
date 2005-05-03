@@ -15,28 +15,7 @@ struct list_ptr {
 // Functions to manage lists       //
 /////////////////////////////////////
 
-struct data_item* lstCreateItem(){ // Create an item in the list and put it at the begin
-	struct list_ptr* newItem;
-	newItem = (struct list_ptr *) malloc(sizeof(struct list_ptr));
-
-	if(newItem){
-		memset(newItem,0,sizeof(struct list_ptr));
-		newItem->next_item = g_list;
-		if (g_list) {
-			g_list->prev_item = newItem;
-		}
-		g_list = newItem;
-
-		newItem->element = (struct data_item *) malloc(sizeof(struct data_item));
-		memset(newItem->element, 0, sizeof(struct data_item));
-		return newItem->element;
-	} else
-	  return NULL;
-	
-
-}
-
-struct list_ptr* lstGetListItem(char *list_element_id){ //Get the list item with the specified name
+struct list_ptr* Capture_lstGetListItem(char *list_element_id){ //Get the list item with the specified name
   struct list_ptr* item = g_list;
 
   while(item && strcmp(item->element->list_element_id, list_element_id))
@@ -47,11 +26,12 @@ struct list_ptr* lstGetListItem(char *list_element_id){ //Get the list item with
 }
 
 
-struct data_item* lstAddItem(struct data_item* item) {
-  if (!item) return NULL;
-  if (lstGetListItem(item->list_element_id)) return NULL;
+struct data_item* Capture_lstAddItem(struct data_item* item) {
+  struct list_ptr* newItem = NULL;
 
-  struct list_ptr* newItem;
+  if (!item) return NULL;
+  if (Capture_lstGetListItem(item->list_element_id)) return NULL;
+
   newItem = (struct list_ptr *) malloc(sizeof(struct list_ptr));
 
   if(newItem) {
@@ -64,33 +44,38 @@ struct data_item* lstAddItem(struct data_item* item) {
       g_list->prev_item = newItem;
     }
     g_list = newItem;
+
     return newItem->element;
   } else
     return NULL;
 
 }
 
-struct data_item* lstGetItem(char *list_element_id){ //Get the item with the specified name
-	struct list_ptr* listitem = lstGetListItem(list_element_id);
+struct data_item* Capture_lstGetItem(char *list_element_id){ //Get the item with the specified name
+	struct list_ptr* listitem = Capture_lstGetListItem(list_element_id);
 	if(listitem)
 		return listitem->element;
 	else
 		return NULL;
 }
 
-struct data_item* lstDeleteItem(char *list_element_id){
-	struct list_ptr* item = lstGetListItem(list_element_id);
+struct data_item* Capture_lstDeleteItem(char *list_element_id){
+	struct list_ptr* item = Capture_lstGetListItem(list_element_id);
 	struct data_item* element = NULL;
-	if(item){
+
+	if(item) {
 	  element = item->element;
-	  if(item->prev_item==NULL){ //The first item
+	  if(item->prev_item==NULL) //The first item
 	    g_list = item->next_item;
-	  }
-	  else {
+	  else 
 	    (item->prev_item)->next_item = item->next_item;
-	  }
+	 
+	  if (item->next_item) 
+	    (item->next_item)->prev_item = item->prev_item;
+
 	  free(item);
 	}
+
 	return element;
 }
 
@@ -248,10 +233,33 @@ int Capture_GetGrabber _ANSI_ARGS_((ClientData clientData,
 			Tcl_SetObjResult(interp, Tcl_NewStringObj(item->element->captureName,-1));
 			break;
 		}
+		item = item->next_item;
 	}
 	return TCL_OK;
 
 }
+
+
+int Capture_ListGrabbers _ANSI_ARGS_((ClientData clientData,
+			      Tcl_Interp *interp,
+			      int objc,
+			      Tcl_Obj *CONST objv[]))
+{
+	struct list_ptr* item = opened_devices;
+
+	if( objc != 1) {
+		Tcl_AppendResult (interp, "Wrong number of args.\nShould be \"::Capture::ListGrabbers\"" , (char *) NULL);
+		return TCL_ERROR;
+	}
+
+	while(item){
+	  fprintf(stderr, "Grabber : %s for device %s and channel %d\n", item->element->captureName, item->element->devicePath, item->element->channel);
+	  item = item->next_item;
+	}
+	return TCL_OK;
+
+}
+
 
 int Capture_Open _ANSI_ARGS_((ClientData clientData,
 			      Tcl_Interp *interp,
@@ -450,8 +458,9 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
 	free(image_data);
 
 	captureItem = (struct capture_item *) malloc(sizeof(struct capture_item));
+	memset(captureItem, 0, sizeof(struct capture_item));
 
-	if (lstAddItem(captureItem)==NULL){
+	if (Capture_lstAddItem(captureItem)==NULL){
 		perror("lstAddItem");
 		close(fvideo);
 		return TCL_ERROR;
@@ -460,7 +469,7 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
 	sprintf(captureItem->captureName,"capture%d",curentCaptureNumber);
 	curentCaptureNumber++;
 
-	strncpy(captureItem->devicePath,dev,sizeof(captureItem->devicePath));
+	strcpy(captureItem->devicePath,dev);
 	captureItem->channel=channel;
 
 	captureItem->fvideo=fvideo;
@@ -469,6 +478,8 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
 	if(mmapway){
 		memcpy(&captureItem->mb,&mb,sizeof(captureItem->mb));
 		captureItem->mmbuf=mmbuf;
+	} else {
+	  captureItem->mmbuf = NULL;
 	}
 
 
@@ -490,7 +501,7 @@ int Capture_Close _ANSI_ARGS_((ClientData clientData,
 	}
 
 	captureDescriptor = Tcl_GetStringFromObj(objv[1], NULL);
-	if((capItem=lstGetItem(captureDescriptor))==NULL) {
+	if((capItem=Capture_lstGetItem(captureDescriptor))==NULL) {
 		Tcl_AppendResult (interp, "Invalid capture descriptor. Please call Open before." , (char *) NULL);
 		return TCL_ERROR;
 	}
@@ -500,7 +511,7 @@ int Capture_Close _ANSI_ARGS_((ClientData clientData,
 	}
 
 	close(capItem->fvideo);
-	lstDeleteItem(captureDescriptor);
+	Capture_lstDeleteItem(captureDescriptor);
 	free(capItem);
 	return TCL_OK;
 }
@@ -533,7 +544,7 @@ int Capture_Grab _ANSI_ARGS_((ClientData clientData,
 		return TCL_ERROR;
 	}
 
-	if( (capItem=lstGetItem(captureDescriptor)) == NULL){
+	if( (capItem=Capture_lstGetItem(captureDescriptor)) == NULL){
 		Tcl_AppendResult (interp, "Invalid capture descriptor. Please call Open before." , (char *) NULL);
 		return TCL_ERROR;
 	}
@@ -543,7 +554,7 @@ int Capture_Grab _ANSI_ARGS_((ClientData clientData,
 		return TCL_ERROR;
 	}*/
 
-	memcpy(&vw,&capItem->vw,sizeof(vw));
+	memcpy(&vw,&(capItem->vw),sizeof(vw));
 
 	if (capItem->mmbuf){
 		mm.frame  = 0;
@@ -674,7 +685,7 @@ int Capture_AccessSettings _ANSI_ARGS_((ClientData clientData,
 
 	captureDescriptor = Tcl_GetStringFromObj(objv[1], NULL);
 
-	if((capItem=lstGetItem(captureDescriptor))==NULL){
+	if((capItem=Capture_lstGetItem(captureDescriptor))==NULL){
 		Tcl_AppendResult (interp, "Invalid capture descriptor. Please call Open before." , (char *) NULL);
 		return TCL_ERROR;
 	}
@@ -754,7 +765,7 @@ int Capture_IsValid _ANSI_ARGS_((ClientData clientData,
 
 	captureDescriptor = Tcl_GetStringFromObj(objv[1], NULL);
 
-	Tcl_SetObjResult(interp, Tcl_NewBooleanObj( lstGetItem(captureDescriptor) != NULL ) );
+	Tcl_SetObjResult(interp, Tcl_NewBooleanObj( Capture_lstGetItem(captureDescriptor) != NULL ) );
 
 	return TCL_OK;
 
@@ -805,6 +816,9 @@ int Capture_Init (Tcl_Interp *interp ) {
 
 	Tcl_CreateObjCommand(interp, "::Capture::IsValid", Capture_IsValid,
 			(ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
+	Tcl_CreateObjCommand(interp, "::Capture::ListGrabbers", Capture_ListGrabbers,
+			(ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
+
 
 	// end of Initialisation
 	return TCL_OK;

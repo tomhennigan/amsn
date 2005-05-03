@@ -414,8 +414,8 @@ namespace eval ::MSNCAM {
 							AuthSuccessfull $sid $sock
 						}
 					} else {
-						AuthFailed $sid $sock
 						status_log "ERROR2 : $data - [eof $sock] - [gets $sock] - [gets $sock]\n" red
+						AuthFailed $sid $sock
 					}
 				}
 			}
@@ -1143,7 +1143,7 @@ namespace eval ::CAMGUI {
 				return
 			}
 			status_log "Created grabber : $grabber"
-			set ::grabbers($grabber) [list ]
+			set ::grabbers($grabber) [list]
 			setObjOption $sid grabber $grabber
 			set grab_proc [getObjOption $sid grab_proc]
 			status_log "grab_proc is $grab_proc - [getObjOption $sid grab_proc]\n" red
