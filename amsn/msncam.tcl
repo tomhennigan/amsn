@@ -1322,7 +1322,7 @@ namespace eval ::CAMGUI {
 		} elseif { [set ::tcl_platform(os)] == "Darwin" } {
 			return
 		} elseif { [set ::tcl_platform(platform)] == "windows" } {
-			$grabber property_page filter
+			$grabber propertypage filter
 		}
 	}
 
@@ -1671,14 +1671,14 @@ namespace eval ::CAMGUI {
 
 		frame $buttons -relief sunken -borderwidth 3
 		button $buttons.ok -text "Ok" -command "::CAMGUI::Choose_OkWindows $window $devs.list $img $devices"
-		button $buttons.cancel -text "Cancel" -command "destroy $window"
-		#wm protocol $window WM_DELETE_WINDOW "::CAMGUI::Choose_CancelLinux $window $img $preview"
-		bind $window <Destroy> "::CAMGUI::Choose_CancelWindows $window $img $preview"
+		button $buttons.cancel -text "Cancel" -command  "::CAMGUI::Choose_CancelWindows $window $img $preview"
+		wm protocol $window WM_DELETE_WINDOW   "::CAMGUI::Choose_CancelWindows $window $img $preview"
+		#bind $window <Destroy> "::CAMGUI::Choose_CancelWindows $window $img $preview"
 		pack $buttons.ok $buttons.cancel -side left
 
 		pack $lists $status $preview $settings $buttons -side top
 
-		bind $devs.list <Button1-ButtonRelease> "::CAMGUI::StartPreviewWindows $devs.list $status $preview $settings $devices"
+		bind $devs.list <Button1-ButtonRelease> "::CAMGUI::StartPreviewWindows $devs.list $status $preview $settings"
 
 		foreach device $devices {
 
@@ -1691,7 +1691,7 @@ namespace eval ::CAMGUI {
 	proc Choose_OkWindows { w device_w img devices } {
 
 		if { [$device_w curselection] == "" } {
-			destroy $w
+			::CAMGUI::Choose_CancelWindows
 			return
 		}
 
@@ -1705,7 +1705,7 @@ namespace eval ::CAMGUI {
 
 		::config::setKey "webcamDevice" "$device:$channel"
 
-		destroy $w
+		::CAMGUI::Choose_CancelWindows
 	}
 
 	proc Choose_CancelWindows { w  img preview } {
@@ -1714,10 +1714,10 @@ namespace eval ::CAMGUI {
 
 		image delete $img
 
-		#destroy $w
+		destroy $w
 	}
 
-	proc StartPreviewWindows { device_w status preview_w settings devices } {
+	proc StartPreviewWindows { device_w status preview_w settings } {
 
 		if { [$device_w curselection] == "" } {
 			$status configure -text "Please choose a device"
@@ -1730,14 +1730,14 @@ namespace eval ::CAMGUI {
 		}
 
 		set device [$device_w curselection]
-
-
+		catch { .webcam_preview stop }
 		if { [catch { .webcam_preview configure -source $device } res] } {
 			$status configure -text $res
 			return
 		}
+		.webcam_preview start
 
-		after 0 "::CAMGUI::PreviewLinux $::webcam_preview $img"
+		after 0 "::CAMGUI::PreviewWindows .webcam_preview $img"
 
 	}
 
