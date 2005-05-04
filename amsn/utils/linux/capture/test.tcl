@@ -1,4 +1,4 @@
-#!/usr/bin/tclsh
+#!/usr/bin/wish
 lappend auto_path [pwd]
 package require capture
 

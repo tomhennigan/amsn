@@ -1,10 +1,10 @@
 # Directories in which the Tcl core can be found
 TCL_INC_SPEC 	= -I/usr/include/tcl8.4
-TCL_STUB_LIB_SPEC = -L/usr/lib/tcl8.4 -ltcl8.4
+TCL_STUB_LIB_SPEC = -L/usr/lib/tcl8.4 -ltclstub8.4
 
 # Directories in which the Tk core can be found
 TK_INC_SPEC 	= -I/usr/include/tk8.4
-TK_STUB_LIB_SPEC = -L/usr/lib/tk8.4 -ltk8.4
+TK_STUB_LIB_SPEC = -L/usr/lib/tk8.4 -ltkstub8.4
 
 
 SHLIB_LD     	= gcc -pipe -shared -fPIC
