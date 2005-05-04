@@ -85,6 +85,12 @@ proc balloon {target message pic {cx 0} {cy 0} } {
     after cancel "kill_balloon"
     if {$Bulle(first) == 1 } {
         set Bulle(first) 2
+	
+	if { [string equal -length 11 $message "--command--"] } {
+		set command [string range $message 11 end]
+		set message [eval $command]
+	}
+	
 	if { $cx == 0 && $cy == 0 } {
 	    set x [expr [winfo rootx ${target}] + ([winfo width ${target}]/2)]
 	    set y [expr [winfo rooty ${target}] + [winfo height ${target}] + 2]
