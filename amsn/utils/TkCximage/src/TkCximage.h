@@ -50,7 +50,7 @@ extern "C"
 
 
 
-#define ENABLE_LOGS 1
+#define ENABLE_LOGS 0
 #define ANIMATE_GIFS 1
 
 
