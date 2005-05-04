@@ -525,6 +525,8 @@ int Capture_Grab _ANSI_ARGS_((ClientData clientData,
 	char *                  captureDescriptor=NULL;
 
 	char *                  image_name = NULL;
+
+	Tk_PhotoImageBlock	block;
 	Tk_PhotoHandle          Photo;
 	BYTE *                  image_data = NULL;
 
@@ -584,24 +586,20 @@ int Capture_Grab _ANSI_ARGS_((ClientData clientData,
 
 	Tk_PhotoBlank(Photo);
 
-	#if TK_MINOR_VERSION == 3
-		Tk_PhotoSetSize(Photo, vw.width, vw.height);
-	#endif
-	#if TK_MINOR_VERSION == 4
-		Tk_PhotoSetSize(Photo, vw.width, vw.height);
-	#endif
+	Tk_PhotoSetSize(
 	#if TK_MINOR_VERSION == 5
-		Tk_PhotoSetSize(interp, Photo, vw.width, vw.height);
+			interp, 
 	#endif
+			Photo, vw.width, vw.height);
 
 
-	Tk_PhotoImageBlock block = {
-		image_data,	// pixel ptr
-		vw.width,
-		vw.height,
-		vw.width*3,	// pitch : number of bytes separating 2 adjacent pixels vertically
-		3,		// pixel size : size in bytes of one pixel .. 4 = RGBA
-		};
+
+	block.pixelPtr  = image_data;		// pixel ptr
+	block.width = vw.width;
+	block.height = vw.height;
+	block.pitch = vw.width*3;
+	block.pixelSize = 3;
+
 
 	block.offset[0] = 2;
 	block.offset[1] = 1;
@@ -620,16 +618,11 @@ int Capture_Grab _ANSI_ARGS_((ClientData clientData,
 
 	free(image_data);
 
-	#if TK_MINOR_VERSION == 3
-		Tk_PhotoSetSize(Photo, 320, 240);
-	#endif
-	#if TK_MINOR_VERSION == 4
-		Tk_PhotoSetSize(Photo, 320, 240);
-	#endif
+	Tk_PhotoSetSize(
 	#if TK_MINOR_VERSION == 5
-		Tk_PhotoSetSize(interp, Photo, 320, 240);
+		interp, 
 	#endif
-
+		Photo, 320, 240);
 	return TCL_OK;
 }
 

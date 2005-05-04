@@ -246,6 +246,7 @@ int Webcamsn_Decode _ANSI_ARGS_((ClientData clientData,
 	
 	char * image_name = NULL;
 	Tk_PhotoHandle Photo;
+	Tk_PhotoImageBlock block;
 
 	MimicHeader *header;
 	BYTE * buffer = NULL;
@@ -318,40 +319,33 @@ int Webcamsn_Decode _ANSI_ARGS_((ClientData clientData,
 
 		decoder->frames++;
 
-		Tk_PhotoBlank(Photo);
-
-		#if TK_MINOR_VERSION == 3
-			Tk_PhotoSetSize(Photo, width, height);
-		#endif 
-		#if TK_MINOR_VERSION == 4
-			Tk_PhotoSetSize(Photo, width, height);
-		#endif 
+		Tk_PhotoSetSize(
 		#if TK_MINOR_VERSION == 5
-			Tk_PhotoSetSize(interp, Photo, width, height);
+			interp, 
 		#endif
+			Photo, width, height);
 
 
-		Tk_PhotoImageBlock block = {
-			output,		// pixel ptr
-			width,
-			height,
-			width*3,	// pitch : number of bytes separating 2 adjacent pixels vertically
-			3,			// pixel size : size in bytes of one pixel .. 4 = RGBA
-		};
+		block.pixelPtr  = output;		// pixel ptr
+		block.width = width;
+		block.height = height;
+		block.pitch = width*3;
+		block.pixelSize = 3;
 
 		block.offset[0] = 0;
 		block.offset[1] = 1;
 		block.offset[2] = 2;
+		block.offset[3] = -1;
 
-		#if TK_MINOR_VERSION == 3
-			Tk_PhotoPutBlock(Photo, &block, 0, 0, width, height);
-		#endif 
-		#if TK_MINOR_VERSION == 4
-			Tk_PhotoPutBlock(Photo, &block, 0, 0, width, height, TK_PHOTO_COMPOSITE_OVERLAY);
-		#endif 
-		#if TK_MINOR_VERSION == 5
-			Tk_PhotoPutBlock(interp, Photo, &block, 0, 0, width, height, TK_PHOTO_COMPOSITE_OVERLAY);
-		#endif
+		Tk_PhotoPutBlock(
+			#if TK_MINOR_VERSION == 5
+			interp, 
+			#endif
+				Photo, &block, 0, 0, width, height
+			#if TK_MINOR_VERSION > 3 
+				,TK_PHOTO_COMPOSITE_OVERLAY
+			#endif 
+			);
 	
 		free(output);
 
@@ -375,7 +369,6 @@ int Webcamsn_Encode _ANSI_ARGS_((ClientData clientData,
 	Tk_PhotoHandle Photo;
 	Tk_PhotoImageBlock photoData;
 
-	MimicHeader *header;
 	BYTE * buffer = NULL;
 	BYTE * FrameData = NULL;
 	BYTE * output = NULL;
