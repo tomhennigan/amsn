@@ -34,6 +34,7 @@ snit::widgetadaptor pixmapscroll {
 	variable last 1
 	#TODO: needs to be initialised for first use (can we initialise in a better spot?)
 	variable newsize 1000
+	variable active_element ""
 
 
 	option -activebackground -default #ffffff
@@ -198,8 +199,6 @@ set orientation vertical
 		$canvas delete trough1
 		$canvas delete trough2
 		if { $options(-orient) == "vertical" } {
-			#puts hi
-			puts $sliderpos
 			$canvas create rectangle 0 $arrow1height [image width $troughimage] $sliderpos -fill "" -outline "" -tag trough1
 			$canvas create rectangle 0 [expr $sliderpos + $slidersize] [image width $troughimage] [expr $newsize - $arrow2height] -fill "" -outline "" -tag trough2
 		} else {
@@ -208,24 +207,29 @@ set orientation vertical
 		}
 	}
 
-	method activate { {element ""} } {
-		return ""
+	method activate { {element "return"} } {
+		if { $element == "return" } {
+			return $active_element
+		}
+
+		if { ($element == "arrow1") || ($element == "arrow2") || ($element == "slider") } {
+			set active_element $element
+		} else {
+			set active_element ""
+		}
 	}
 
 	method delta { deltaX deltaY } {
-puts $newsize
 		if {$options(-orient) == "vertical" } {
 			set number [expr $deltaY.0 / ($newsize - ($arrow1height + $arrow2height))]
 		} else {
 			set number [expr $deltaX.0 / ($newsize - ($arrow1width + $arrow2width) - [image width $sliderimage])]
 		}
 	
-		puts $number
 		return $number
 	}
 
 	method fraction { x y } {
-
 		if { $options(-orient) == "vertical" } {
 			set pos [expr 1 - ($newsize - $y) / $newsize.0]
 		} else {
