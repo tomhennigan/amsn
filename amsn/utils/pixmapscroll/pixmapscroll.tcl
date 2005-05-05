@@ -133,23 +133,23 @@ set orientation vertical
 		$canvas delete $arrow1image
 		$canvas delete $arrow2image
 		$canvas create image 0 0 -anchor nw -image $arrow1image -activeimage $arrow1image_hover -tag $arrow1image
-	
+
 		if { $options(-orient) == "vertical" } {
 			$canvas create image 0 $newsize -anchor sw -image $arrow2image -activeimage $arrow2image_hover -tag $arrow2image
 		} else {
 			$canvas create image $newsize 0 -anchor ne -image $arrow2image -activeimage $arrow2image_hover -tag $arrow2image
 		}
-	
+
 		#Drawing Slider
 		if { $options(-orient) == "vertical" } {
 			set slidersize [lindex [split [expr ($visible * ($newsize - ($arrow1height + $arrow2height)))] .] 0]
-		
+
 			#Make sure slider doesn't get negative size
 			set minsize [expr [image height $slidertopimage] + [image height $sliderbottomimage] + [image height $sliderbodyimage]]
 			if { $slidersize < $minsize } {
 				set slidersize $minsize
 			}
-		
+
 			$sliderimage blank
 			$sliderimage copy $slidertopimage
 			$sliderimage copy $sliderbodyimage -to 0 [image height $slidertopimage] [image width $sliderbodyimage] [expr {$slidersize - [image height $sliderbottomimage] }]
@@ -165,13 +165,13 @@ set orientation vertical
 			if { $sliderpos > [expr $newsize - $arrow1height - $slidersize] } { set sliderpos [expr $newsize - $arrow1height - $slidersize] }
 			$canvas delete $sliderimage
 			$canvas create image 0 $sliderpos -anchor nw -image $sliderimage -activeimage $sliderimage_hover -tag $sliderimage
-		
+
 		} else {
 			set slidersize [lindex [split [expr ($visible * ($newsize - ($arrow1width + $arrow2width)))] .] 0]
-		
+
 			#Make sure slider doesn't get negative size
 			set minsize [expr {[image height $slidertopimage] + [image height $sliderbottomimage] + [image height $sliderbodyimage]}]
-		
+
 			if { $slidersize < $minsize } {
 				set slidersize $minsize
 			}
@@ -186,7 +186,7 @@ set orientation vertical
 			$sliderimage_hover copy $slidertopimage_hover
 			$sliderimage_hover copy $sliderbodyimage_hover -to [image width $slidertopimage_hover] 0 [expr {$slidersize - [image width $sliderbottomimage_hover]}] [image height $sliderbodyimage_hover]
 			$sliderimage_hover copy $sliderbottomimage_hover -to [expr {$slidersize - [image width $sliderbottomimage_hover]}] 0 -shrink
-		
+
 			set sliderpos [expr {($first * ($newsize - ($arrow1width + $arrow2width))) + $arrow1width}]
 
 			if { $sliderpos < $arrow1width } { set sliderpos $arrow1width }
@@ -194,7 +194,7 @@ set orientation vertical
 			$canvas delete $sliderimage
 			$canvas create image $sliderpos 0 -anchor nw -image $sliderimage -activeimage $sliderimage_hover -tag $sliderimage
 		}
-	
+
 		#Drawing "virtual troughs"
 		$canvas delete trough1
 		$canvas delete trough2
@@ -225,7 +225,7 @@ set orientation vertical
 		} else {
 			set number [expr $deltaX.0 / ($newsize - ($arrow1width + $arrow2width) - [image width $sliderimage])]
 		}
-	
+
 		return $number
 	}
 
@@ -251,18 +251,18 @@ set orientation vertical
 		if { $options(-orient) == "vertical" } {
 			if { $y <= $arrow1height } { return "arrow1" }
 			if { $y >= [expr $newsize - $arrow2height] } { return "arrow2" }
-	
+
 			if { $y >= [lindex $sliderpos 1] && $y <= [expr [lindex $sliderpos 1] + $slidersize] } { return "slider" }
-	
+
 			if { $y >= [lindex trough1coords 1] && $y <= [lindex $trough1coords 3] } { return "trough1" }
 			if { $y >= [lindex trough2coords 1] && $y <= [lindex $trough2coords 3] } { return "trough2" }
 
 		} else {
 			if { $x <= $arrow1width } { return "arrow1" }
 			if { $x >= [expr $newsize - $arrow2width] } { return "arrow2" }
-	
+
 			if { $x >= [lindex $sliderpos 0] && $x <= [expr [lindex $sliderpos 0] + $slidersize] } { return "slider" }
-	
+
 			if { $x >= [lindex trough1coords 0] && $x <= [lindex $trough1coords 2] } { return "trough1" }
 			if { $x >= [lindex trough2coords 0] && $x <= [lindex $trough2coords 2] } { return "trough2" }
 		}
