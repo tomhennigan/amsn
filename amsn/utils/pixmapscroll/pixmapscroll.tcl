@@ -1,3 +1,6 @@
+#Pixmapscroll 0.9 by Arieh Schneier and Tom Jenkins
+#A scrollbar widget that uses pixmaps so you can have pretty-fied tk scrollbars!
+
 package require snit
 package provide pixmapscroll 0.9
 
