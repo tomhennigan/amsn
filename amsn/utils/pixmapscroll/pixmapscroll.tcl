@@ -6,23 +6,61 @@ package provide pixmapscroll 0.9
 
 snit::widgetadaptor pixmapscroll {
 
-	typecomponent arrow1image
-	typecomponent arrow2image
-	typecomponent slidertopimage
-	typecomponent sliderbodyimage
-	typecomponent sliderbottomimage
-	typecomponent troughsrcimage
+	typecomponent vertical_arrow1image
+	typecomponent vertical_arrow2image
+	typecomponent vertical_slidertopimage
+	typecomponent vertical_sliderbodyimage
+	typecomponent vertical_sliderbottomimage
+	typecomponent vertical_troughsrcimage
 
-	typecomponent arrow1image_hover
-	typecomponent arrow2image_hover
-	typecomponent slidertopimage_hover
-	typecomponent sliderbodyimage_hover
-	typecomponent sliderbottomimage_hover
+	typecomponent vertical_arrow1image_hover
+	typecomponent vertical_arrow2image_hover
+	typecomponent vertical_slidertopimage_hover
+	typecomponent vertical_sliderbodyimage_hover
+	typecomponent vertical_sliderbottomimage_hover
 
-	typevariable arrow1width
-	typevariable arrow1height
-	typevariable arrow2width
-	typevariable arrow2height
+	typevariable vertical_arrow1width
+	typevariable vertical_arrow1height
+	typevariable vertical_arrow2width
+	typevariable vertical_arrow2height
+
+
+	typecomponent horizontal_arrow1image
+	typecomponent horizontal_arrow2image
+	typecomponent horizontal_slidertopimage
+	typecomponent horizontal_sliderbodyimage
+	typecomponent horizontal_sliderbottomimage
+	typecomponent horizontal_troughsrcimage
+
+	typecomponent horizontal_arrow1image_hover
+	typecomponent horizontal_arrow2image_hover
+	typecomponent horizontal_slidertopimage_hover
+	typecomponent horizontal_sliderbodyimage_hover
+	typecomponent horizontal_sliderbottomimage_hover
+
+	typevariable horizontal_arrow1width
+	typevariable horizontal_arrow1height
+	typevariable horizontal_arrow2width
+	typevariable horizontal_arrow2height
+
+
+	component arrow1image
+	component arrow2image
+	component slidertopimage
+	component sliderbodyimage
+	component sliderbottomimage
+	component troughsrcimage
+
+	component arrow1image_hover
+	component arrow2image_hover
+	component slidertopimage_hover
+	component sliderbodyimage_hover
+	component sliderbottomimage_hover
+
+	variable arrow1width
+	variable arrow1height
+	variable arrow2width
+	variable arrow2height
 
 	component sliderimage
 	component troughimage
@@ -60,41 +98,63 @@ snit::widgetadaptor pixmapscroll {
 	option -width -default 14
 
 	typeconstructor {
+		foreach orientation {horizontal vertical} {
+			set ${orientation}_arrow1image [image create photo -file $orientation/arrow1.gif]
+			set ${orientation}_arrow2image [image create photo -file $orientation/arrow2.gif]
+			set ${orientation}_slidertopimage [image create photo -file $orientation/slidertop.gif]
+			set ${orientation}_sliderbodyimage [image create photo -file $orientation/sliderbody.gif]
+			set ${orientation}_sliderbottomimage [image create photo -file $orientation/sliderbottom.gif]
+			set ${orientation}_troughsrcimage [image create photo -file $orientation/trough.gif]
 
-#TODO: remove this hardcoding and allow for both
-#set orientation horizontal
-set orientation vertical
+			set ${orientation}_arrow1image_hover [image create photo -file $orientation/arrow1_hover.gif]
+			set ${orientation}_arrow2image_hover [image create photo -file $orientation/arrow2_hover.gif]
+			set ${orientation}_slidertopimage_hover [image create photo -file $orientation/slidertop_hover.gif]
+			set ${orientation}_sliderbodyimage_hover [image create photo -file $orientation/sliderbody_hover.gif]
+			set ${orientation}_sliderbottomimage_hover [image create photo -file $orientation/sliderbottom_hover.gif]
 
-		set arrow1image [image create photo -file $orientation/arrow1.gif]
-		set arrow2image [image create photo -file $orientation/arrow2.gif]
-		set slidertopimage [image create photo -file $orientation/slidertop.gif]
-		set sliderbodyimage [image create photo -file $orientation/sliderbody.gif]
-		set sliderbottomimage [image create photo -file $orientation/sliderbottom.gif]
-		set troughsrcimage [image create photo -file $orientation/trough.gif]
-
-		set arrow1image_hover [image create photo -file $orientation/arrow1_hover.gif]
-		set arrow2image_hover [image create photo -file $orientation/arrow2_hover.gif]
-		set slidertopimage_hover [image create photo -file $orientation/slidertop_hover.gif]
-		set sliderbodyimage_hover [image create photo -file $orientation/sliderbody_hover.gif]
-		set sliderbottomimage_hover [image create photo -file $orientation/sliderbottom_hover.gif]
-
-		set arrow1width [image width $arrow1image]
-		set arrow1height [image height $arrow1image]
-		set arrow2width [image width $arrow2image]
-		set arrow2height [image height $arrow2image]
-
+			set ${orientation}_arrow1width [image width [set ${orientation}_arrow1image]]
+			set ${orientation}_arrow1height [image height [set ${orientation}_arrow1image]]
+			set ${orientation}_arrow2width [image width [set ${orientation}_arrow2image]]
+			set ${orientation}_arrow2height [image height [set ${orientation}_arrow2image]]
+		}
 	}
 
-
 	constructor {args} {
-		installhull using canvas -bg white -bd 0 -highlightthickness 0 -width $arrow1width -height $arrow1height
+		installhull using canvas -bg white -bd 0 -highlightthickness 0
 		set canvas $hull
 
 		$self configurelist $args
 
+		if { $options(-orient) == "vertical" } {
+			set orientation "vertical"
+		} else {
+			set orientation "horizontal"
+		}
+
+		set arrow1image [set ${orientation}_arrow1image]
+		set arrow2image [set ${orientation}_arrow2image]
+		set slidertopimage [set ${orientation}_slidertopimage]
+		set sliderbodyimage [set ${orientation}_sliderbodyimage]
+		set sliderbottomimage [set ${orientation}_sliderbottomimage]
+		set troughsrcimage [set ${orientation}_troughsrcimage]
+
+		set arrow1image_hover [set ${orientation}_arrow1image_hover]
+		set arrow2image_hover [set ${orientation}_arrow2image_hover]
+		set slidertopimage_hover [set ${orientation}_slidertopimage_hover]
+		set sliderbodyimage_hover [set ${orientation}_sliderbodyimage_hover]
+		set sliderbottomimage_hover [set ${orientation}_sliderbottomimage_hover]
+
+		set arrow1width [set ${orientation}_arrow1width]
+		set arrow1height [set ${orientation}_arrow1height]
+		set arrow2width [set ${orientation}_arrow2width]
+		set arrow2height [set ${orientation}_arrow2height]
+
+
 		set sliderimage [image create photo]
 		set troughimage [image create photo]
 		set sliderimage_hover [image create photo]
+
+		$canvas configure -width $arrow1width -height $arrow1height
 
 		$canvas create image 0 0 -anchor nw -image $troughimage -tag $troughimage
 
@@ -105,7 +165,7 @@ set orientation vertical
 			}
 		} else {
 			bind $canvas <Configure> {
-				%W Setnewsize %h
+				%W Setnewsize %w
 				%W DrawScrollbar
 			}
 		}
