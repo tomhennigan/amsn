@@ -1227,7 +1227,7 @@ namespace eval ::CAMGUI {
 				setObjOption $img encoder $encoder
 			}
 			$grabber image ImageReady_Mac $img
-			::MSNCAM::ImageReady_Mac $grabber $img
+			::CAMGUI::ImageReady_Mac $grabber $img
 		}
 
 		catch {fileevent $socket writable "::MSNCAM::WriteToSock $socket"}
