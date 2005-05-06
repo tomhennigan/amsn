@@ -3,7 +3,7 @@
 
 static struct list_ptr* opened_devices = NULL;
 static int curentCaptureNumber = 0;
-
+static int debug = 1;
 
 struct list_ptr {
 	struct list_ptr* prev_item;
@@ -78,6 +78,79 @@ struct data_item* Capture_lstDeleteItem(char *list_element_id){
 
 	return element;
 }
+
+BYTE clamp_value(int value)
+{
+    if (value < 0)
+        return 0;
+    else if (value > 255)
+        return 255;
+    else
+        return value;
+}
+
+
+
+void YUV420P_to_RGB24 (const BYTE *input,
+                 BYTE* output_rgb,
+                 int width,
+                 int height)
+{
+    BYTE *src_y, *src_cb, *src_cr;
+    BYTE *dst_rgb;
+    unsigned int i, j, rgb_stride;
+    
+    const BYTE *p_y, *p_cb, *p_cr;
+    BYTE *p_rgb;
+    int v;
+
+    src_y  = input;
+    src_cb = input + (width * height);
+    src_cr = input + (width * height) + ((width / 2) * (height / 2));
+    
+    rgb_stride = width * 3;
+    dst_rgb = output_rgb + (rgb_stride * (height - 1));
+    
+    for (i = 0; i < height; i++) {
+
+        p_y = src_y;
+        p_cb = src_cb;
+        p_cr = src_cr;
+
+        p_rgb = dst_rgb;
+
+        for (j = 0; j < width; j++) {
+ 
+            v = ((p_y[0] * 65536) + ((p_cr[0] - 128) * 133169)) / 65536;
+            p_rgb[2] = clamp_value(v);
+
+            v = ((p_y[0] * 65536) - ((p_cr[0] - 128) * 25821) - ((p_cb[0] - 128) * 38076)) / 65536;
+            p_rgb[1] = clamp_value(v);
+
+            v = ((p_y[0] * 65536) + ((p_cb[0] - 128) * 74711)) / 65536;
+            p_rgb[0] = clamp_value(v);
+
+            p_y++;
+            if ((j + 1) % 2 == 0) {
+                p_cb++;
+                p_cr++;
+            }
+
+            p_rgb += 3;
+        }
+
+        src_y += width;
+        if ((i + 1) % 2 == 0) {
+            src_cb += (width + 1) / 2;
+            src_cr += (width + 1) / 2;
+        }
+
+        dst_rgb -= rgb_stride;
+
+    }
+
+}
+
 
 
 /////////////////////////////////////
@@ -282,13 +355,7 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
 	char *mmbuf=NULL; //To uncomment if we use mmap : not for now
 	struct video_mbuf       mb;
 
-	//int i;
-	int bright, cont, hue, colour;
-
-	bright = 42767;
-	cont = 22767;
-	hue = 32767;
-	colour = 44767;
+	int size, width, height;
 
 	if( objc != 3) {
 		Tcl_AppendResult (interp, "Wrong number of args.\nShould be \"::Capture::Init device channel\"" , (char *) NULL);
@@ -312,97 +379,83 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
 		return TCL_ERROR;
 	}
 
+	if (debug) {
+	  fprintf(stderr,"Video Capture Device Name : %s\n",vcap.name);
+	  fprintf(stderr,"%d < width < %d : %d < height < %d\n",
+		  vcap.minwidth, vcap.maxwidth, vcap.minheight, vcap.maxheight);
+	  if (vcap.type & VID_TYPE_CAPTURE) fprintf(stderr, "Can capture\n");
+	  if (vcap.type & VID_TYPE_TUNER) fprintf(stderr, "Has tuner\n");
+	  if (vcap.type & VID_TYPE_TELETEXT) fprintf(stderr, "Has teletext\n");
+	  if (vcap.type & VID_TYPE_OVERLAY) fprintf(stderr, "Can overlay\n");
+	  if (vcap.type & VID_TYPE_CHROMAKEY) fprintf(stderr, "Chromakeyed overlay\n");
+	  if (vcap.type & VID_TYPE_CLIPPING) fprintf(stderr, "Overlay clipping\n");
+	  if (vcap.type & VID_TYPE_FRAMERAM) fprintf(stderr, "Overwrites frame buffer\n");
+	  if (vcap.type & VID_TYPE_SCALES) fprintf(stderr, "Image scaling\n");
+	  if (vcap.type & VID_TYPE_MONOCHROME) fprintf(stderr, "Grey scale only\n");
+	  if (vcap.type & VID_TYPE_SUBCAPTURE) fprintf(stderr, "Can subcapture\n");
+	  
+	  if(channel>=vcap.channels){
+	    Tcl_AppendResult (interp, "Invalid channel" , (char *) NULL);
+	    return TCL_ERROR;
+	  }
 
-	fprintf(stderr,"Video Capture Device Name : %s\n",vcap.name);
-	fprintf(stderr,"%d < width < %d : %d < height < %d\n",
-		vcap.minwidth, vcap.maxwidth, vcap.minheight, vcap.maxheight);
-	if (vcap.type & VID_TYPE_CAPTURE) fprintf(stderr, "Can capture\n");
-	if (vcap.type & VID_TYPE_TUNER) fprintf(stderr, "Has tuner\n");
-	if (vcap.type & VID_TYPE_TELETEXT) fprintf(stderr, "Has teletext\n");
-	if (vcap.type & VID_TYPE_OVERLAY) fprintf(stderr, "Can overlay\n");
-	if (vcap.type & VID_TYPE_CHROMAKEY) fprintf(stderr, "Chromakeyed overlay\n");
-	if (vcap.type & VID_TYPE_CLIPPING) fprintf(stderr, "Overlay clipping\n");
-	if (vcap.type & VID_TYPE_FRAMERAM) fprintf(stderr, "Overwrites frame buffer\n");
-	if (vcap.type & VID_TYPE_SCALES) fprintf(stderr, "Image scaling\n");
-	if (vcap.type & VID_TYPE_MONOCHROME) fprintf(stderr, "Grey scale only\n");
-	if (vcap.type & VID_TYPE_SUBCAPTURE) fprintf(stderr, "Can subcapture\n");
-
-	if(channel>=vcap.channels){
-		Tcl_AppendResult (interp, "Invalid channel" , (char *) NULL);
-		return TCL_ERROR;
+	  if(ioctl(fvideo, VIDIOCGPICT, &vp)<0){
+	    perror("VIDIOCGPICT");
+	    close(fvideo);
+	    return TCL_ERROR;
+	  }
+	  
+	  fprintf(stderr, "picture: brightness %d hue %d colour %d\n",
+		  vp.brightness, vp.hue, vp.colour);
+	  fprintf(stderr, "contrast %d whiteness %d depth %d\n",
+		  vp.contrast, vp.whiteness, vp.depth);
+	  fprintf(stderr, "palettes: ");
+	  if (vp.palette == VIDEO_PALETTE_GREY) fprintf(stderr, "GREY ");
+	  if (vp.palette == VIDEO_PALETTE_HI240) fprintf(stderr, "HI240 ");
+	  if (vp.palette == VIDEO_PALETTE_RGB565) fprintf(stderr, "RGB565 ");
+	  if (vp.palette == VIDEO_PALETTE_RGB555) fprintf(stderr, "RGB555 ");
+	  if (vp.palette == VIDEO_PALETTE_RGB24) fprintf(stderr, "RGB24 ");
+	  if (vp.palette == VIDEO_PALETTE_YUYV) fprintf(stderr, "YUYV ");
+	  if (vp.palette == VIDEO_PALETTE_UYVY) fprintf(stderr, "UYVY ");
+	  if (vp.palette == VIDEO_PALETTE_YUV411) fprintf(stderr, "YUV411 ");
+	  if (vp.palette == VIDEO_PALETTE_YUV420) fprintf(stderr, "YUV420 ");
+	  if (vp.palette == VIDEO_PALETTE_YUV422) fprintf(stderr, "YUV422 ");
+	  if (vp.palette == VIDEO_PALETTE_RAW) fprintf(stderr, "RAW ");
+	  if (vp.palette == VIDEO_PALETTE_YUV411P) fprintf(stderr, "YUV411P ");
+	  if (vp.palette == VIDEO_PALETTE_YUV420P) fprintf(stderr, "YUV420P ");
+	  if (vp.palette == VIDEO_PALETTE_YUV422P) fprintf(stderr, "YUV422P ");
+	  fprintf(stderr, "\n");
 	}
-
-/*	for(i=0; i<vcap.channels; i++) {
-		vc.channel = i;
-		if (ioctl(fvideo, VIDIOCGCHAN, &vc) < 0){
-			perror("VIDIOCGCHAN");
-			close(fvideo);
-			return TCL_ERROR;
-		}
-		fprintf(stderr,"Video Source (%d) Name : %s\n",i, vc.name);
-		fprintf(stderr, "channel %d: %s ", vc.channel, vc.name);
-		fprintf(stderr, "%d tuners, has ", vc.tuners);
-		if (vc.flags & VIDEO_VC_TUNER) fprintf(stderr, "tuner(s) ");
-		if (vc.flags & VIDEO_VC_AUDIO) fprintf(stderr, "audio ");
-		fprintf(stderr, "\ntype: ");
-		if (vc.type & VIDEO_TYPE_TV) fprintf(stderr, "TV ");
-		if (vc.type & VIDEO_TYPE_CAMERA) fprintf(stderr, "CAMERA ");
-		fprintf(stderr, "norm: %d\n", vc.norm);
-	}*/
-
-	if(ioctl(fvideo, VIDIOCGPICT, &vp)<0){
-		perror("VIDIOCGPICT");
-		close(fvideo);
-		return TCL_ERROR;
-	}
-
-	fprintf(stderr, "picture: brightness %d hue %d colour %d\n",
-		vp.brightness, vp.hue, vp.colour);
-	fprintf(stderr, "contrast %d whiteness %d depth %d\n",
-		vp.contrast, vp.whiteness, vp.depth);
-	fprintf(stderr, "palettes: ");
-	if ((vp.palette & VIDEO_PALETTE_GREY) == VIDEO_PALETTE_GREY) fprintf(stderr, "GREY ");
-	if ((vp.palette & VIDEO_PALETTE_HI240) == VIDEO_PALETTE_HI240) fprintf(stderr, "HI240 ");
-	if ((vp.palette & VIDEO_PALETTE_RGB565) == VIDEO_PALETTE_RGB565) fprintf(stderr, "RGB565 ");
-	if ((vp.palette & VIDEO_PALETTE_RGB555) == VIDEO_PALETTE_RGB555) fprintf(stderr, "RGB555 ");
-	if ((vp.palette & VIDEO_PALETTE_RGB24) == VIDEO_PALETTE_RGB24) fprintf(stderr, "RGB24 ");
-	if ((vp.palette & VIDEO_PALETTE_YUYV) == VIDEO_PALETTE_YUYV) fprintf(stderr, "YUYV ");
-	if ((vp.palette & VIDEO_PALETTE_UYVY) == VIDEO_PALETTE_UYVY) fprintf(stderr, "UYVY ");
-	if ((vp.palette & VIDEO_PALETTE_YUV411) == VIDEO_PALETTE_YUV411) fprintf(stderr, "YUV411 ");
-	if ((vp.palette & VIDEO_PALETTE_YUV420) == VIDEO_PALETTE_YUV420) fprintf(stderr, "YUV420 ");
-	if ((vp.palette & VIDEO_PALETTE_YUV422) == VIDEO_PALETTE_YUV422) fprintf(stderr, "YUV422 ");
-	if ((vp.palette & VIDEO_PALETTE_RAW) == VIDEO_PALETTE_RAW) fprintf(stderr, "RAW ");
-	if ((vp.palette & VIDEO_PALETTE_YUV411P) == VIDEO_PALETTE_YUV411P) fprintf(stderr, "YUV411P ");
-	if ((vp.palette & VIDEO_PALETTE_YUV420P) == VIDEO_PALETTE_YUV420P) fprintf(stderr, "YUV420P ");
-	if ((vp.palette & VIDEO_PALETTE_YUV422P) == VIDEO_PALETTE_YUV422P) fprintf(stderr, "YUV422P ");
-	fprintf(stderr, "\n");
-
-
+	  
 	vc.channel = channel;
 	vc.type = VIDEO_TYPE_CAMERA;
 	vc.norm = 0;
 	if(ioctl(fvideo, VIDIOCSCHAN, &vc) < 0){
-		perror("VIDIOCSCHAN");
-		close(fvideo);
-		return TCL_ERROR;
+	  perror("VIDIOCSCHAN");
+	  close(fvideo);
+	  return TCL_ERROR;
 	}
-
+	
 	if(ioctl(fvideo, VIDIOCGWIN, &vw)<0){
-		perror("VIDIOCGWIN");
-		close(fvideo);
-		return TCL_ERROR;
+	  perror("VIDIOCGWIN");
+	  close(fvideo);
+	  return TCL_ERROR;
 	}
-
-	fprintf(stderr, "window: x %d y %d w %d h %d\n",vw.x,vw.y,vw.width,vw.height);
-	fprintf(stderr, "window: flags %d chromakey %d\n",vw.flags,vw.chromakey);
-
+	
+	if (debug) {
+	  fprintf(stderr, "window: x %d y %d w %d h %d\n",vw.x,vw.y,vw.width,vw.height);
+	  fprintf(stderr, "window: flags %d chromakey %d\n",vw.flags,vw.chromakey);
+	}
+	  
 	vw.x=0;
 	vw.y=0;
 	vw.width=GetGoodSize(vcap.minwidth,vcap.maxwidth,320);
 	vw.height=GetGoodSize(vcap.minheight,vcap.maxheight,240);
 
-	fprintf(stderr, "window: x %d y %d w %d h %d\n",vw.x,vw.y,vw.width,vw.height);
-	fprintf(stderr, "window: flags %d chromakey %d\n",vw.flags,vw.chromakey);
+	if (debug) {
+	  fprintf(stderr, "window: x %d y %d w %d h %d\n",vw.x,vw.y,vw.width,vw.height);
+	  fprintf(stderr, "window: flags %d chromakey %d\n",vw.flags,vw.chromakey);
+	}
 
 	if(ioctl(fvideo, VIDIOCSWIN, &vw)<0){
 		perror("VIDIOCSWIN");
@@ -410,52 +463,56 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
 		return TCL_ERROR;
 	}
 
-	/*if(ioctl(fvideo, VIDIOCGWIN, &vw)<0){
+
+	width = vw.width;
+	height = vw.height;
+
+	if(ioctl(fvideo, VIDIOCGWIN, &vw)<0){
 		perror("VIDIOCGWIN");
 		close(fvideo);
 		return TCL_ERROR;
 	}
 
-	fprintf(stderr, "window: x %d y %d w %d h %d\n",vw.x,vw.y,vw.width,vw.height);
-	fprintf(stderr, "window: flags %d chromakey %d\n",vw.flags,vw.chromakey);*/
-
-	/* set default picture parameters */
-	vp.depth = 24;
-
-/* 	vp.brightness = bright; */
-/* 	vp.contrast = cont; */
-/* 	vp.hue = hue; */
-/* 	vp.colour = colour; */
-
-	vp.palette = VIDEO_PALETTE_RGB24;
-
-	if (ioctl(fvideo, VIDIOCSPICT, &vp)) {
-		perror("set picture");
-		close(fvideo);
-		return TCL_ERROR;
+	if (debug) {
+	  fprintf(stderr, "window: x %d y %d w %d h %d\n",vw.x,vw.y,vw.width,vw.height);
+	  fprintf(stderr, "window: flags %d chromakey %d\n",vw.flags,vw.chromakey);
 	}
 
-	image_data = (BYTE *) malloc(vw.width*vw.height*3);
 
-	if (read(fvideo,image_data,vw.width*vw.height*3)==-1){ //Try the mmap way if read fails
-		mmapway=1;
-		perror("read failed -> switching to mmap way\nerrno");
-		if (ioctl(fvideo, VIDIOCGMBUF, &mb)) {
-			perror("VIDIOCGMBUF");
-			close(fvideo);
-			return TCL_ERROR;
-		}
+	if (vw.width) width = vw.width;
+	if (vw.height) height = vw.height;
 
-		mmbuf = (unsigned char*)mmap(0, mb.size,
-				PROT_READ, MAP_SHARED, fvideo, 0);
-		if(mmbuf == MAP_FAILED){
-			perror("mmap");
-			close(fvideo);
-			return TCL_ERROR;
-		}
+	if (vp.palette == VIDEO_PALETTE_RGB24) {
+	  size = width * height * 3;
+	} else if (vp.palette == VIDEO_PALETTE_YUV420P) {
+	  size = (width * height * 3 ) / 2 ;
+	} else {
+	  Tcl_AppendResult (interp, "Your webcam supports a palette that this extension does not support yet" , (char *) NULL);
+	  return TCL_ERROR;
+	}
+	
+	image_data = (BYTE *) malloc(size);
+
+	mmapway = 1;
+	if (ioctl(fvideo, VIDIOCGMBUF, &mb)) {
+	  mmapway = 0;
+	  perror("VIDIOCGMBUF");
+	}
+	
+	mmbuf = (unsigned char*)mmap(0, mb.size,
+				     PROT_READ, MAP_SHARED, fvideo, 0);
+	if(mmbuf == MAP_FAILED){
+	  mmapway = 0;
+	  perror("mmap");
 	}
 
-	free(image_data);
+	if (mmapway == 0) {
+	  if (read(fvideo,image_data,size)==-1) {
+	    perror("read failed");
+	    close(fvideo);
+	    return TCL_ERROR;
+	  }
+	}
 
 	captureItem = (struct capture_item *) malloc(sizeof(struct capture_item));
 	memset(captureItem, 0, sizeof(struct capture_item));
@@ -466,6 +523,14 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
 		return TCL_ERROR;
 	}
 
+	captureItem->image_data = image_data;
+	captureItem->palette = vp.palette;
+
+	if (captureItem->palette == VIDEO_PALETTE_YUV420P) {
+	  captureItem->rgb_buffer = (BYTE *) malloc(width * height * 3);
+	} 
+
+
 	sprintf(captureItem->captureName,"capture%d",curentCaptureNumber);
 	curentCaptureNumber++;
 
@@ -473,11 +538,16 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
 	captureItem->channel=channel;
 
 	captureItem->fvideo=fvideo;
-	memcpy(&captureItem->vw,&vw,sizeof(captureItem->vw));
+
+	captureItem->width = width;
+	captureItem->height = height;
+	captureItem->size = size;
+
+
 
 	if(mmapway){
-		memcpy(&captureItem->mb,&mb,sizeof(captureItem->mb));
-		captureItem->mmbuf=mmbuf;
+	  memcpy(&captureItem->mb,&mb,sizeof(captureItem->mb));
+	  captureItem->mmbuf=mmbuf;
 	} else {
 	  captureItem->mmbuf = NULL;
 	}
@@ -495,6 +565,7 @@ int Capture_Close _ANSI_ARGS_((ClientData clientData,
 {
 	char *captureDescriptor=NULL;
 	struct capture_item *capItem=NULL;
+
 	if( objc != 2) {
 		Tcl_AppendResult (interp, "Wrong number of args.\nShould be \"::Capture::Close capturedescriptor\"" , (char *) NULL);
 		return TCL_ERROR;
@@ -505,6 +576,12 @@ int Capture_Close _ANSI_ARGS_((ClientData clientData,
 		Tcl_AppendResult (interp, "Invalid capture descriptor. Please call Open before." , (char *) NULL);
 		return TCL_ERROR;
 	}
+	
+	if (capItem->image_data)
+	  free(capItem->image_data);
+
+	if (capItem->rgb_buffer)
+	  free(capItem->rgb_buffer);
 
 	if(capItem->mmbuf){
 		munmap(capItem->mmbuf,capItem->mb.size);
@@ -528,9 +605,7 @@ int Capture_Grab _ANSI_ARGS_((ClientData clientData,
 
 	Tk_PhotoImageBlock	block;
 	Tk_PhotoHandle          Photo;
-	BYTE *                  image_data = NULL;
 
-	struct video_window     vw;
 	struct video_mmap       mm;
 
 	if( objc != 3) {
@@ -551,18 +626,12 @@ int Capture_Grab _ANSI_ARGS_((ClientData clientData,
 		return TCL_ERROR;
 	}
 
-	/*if(ioctl(capItem->fvideo, VIDIOCGWIN, &vw)<0){
-		perror("VIDIOCGWIN");
-		return TCL_ERROR;
-	}*/
-
-	memcpy(&vw,&(capItem->vw),sizeof(vw));
 
 	if (capItem->mmbuf){
 		mm.frame  = 0;
-		mm.height = vw.height;
-		mm.width  = vw.width;
-		mm.format = VIDEO_PALETTE_RGB24;
+		mm.height = capItem->height;
+		mm.width  = capItem->width;
+		mm.format = capItem->palette;
 
 		if(ioctl(capItem->fvideo, VIDIOCMCAPTURE, &mm)<0){
 			perror("VIDIOCMCAPTURE");
@@ -575,13 +644,10 @@ int Capture_Grab _ANSI_ARGS_((ClientData clientData,
 		}
 	}
 
-	image_data = (BYTE *) malloc(vw.width*vw.height*3);
-
 	if (capItem->mmbuf){
-		memcpy(image_data, capItem->mmbuf+capItem->mb.offsets[0], mm.width*mm.height*3);
-	}
-	else {
-		read(capItem->fvideo,image_data,vw.width*vw.height*3);
+		memcpy(capItem->image_data, capItem->mmbuf+capItem->mb.offsets[0], capItem->size);
+	} else {
+		read(capItem->fvideo,capItem->image_data, capItem->size);
 	}
 
 	Tk_PhotoBlank(Photo);
@@ -590,14 +656,20 @@ int Capture_Grab _ANSI_ARGS_((ClientData clientData,
 	#if TK_MINOR_VERSION == 5
 			interp, 
 	#endif
-			Photo, vw.width, vw.height);
+			Photo, capItem->width, capItem->height);
 
 
 
-	block.pixelPtr  = image_data;		// pixel ptr
-	block.width = vw.width;
-	block.height = vw.height;
-	block.pitch = vw.width*3;
+	if (capItem->palette == VIDEO_PALETTE_RGB24) {
+	  block.pixelPtr  = capItem->image_data;	
+	} else if (capItem->palette == VIDEO_PALETTE_YUV420P) {
+	  YUV420P_to_RGB24 (capItem->image_data, capItem->rgb_buffer, capItem->width,capItem->height);
+	  block.pixelPtr  = capItem->rgb_buffer;
+	} 
+
+	block.width = capItem->width;
+	block.height = capItem->height;
+	block.pitch = capItem->width*3;
 	block.pixelSize = 3;
 
 
@@ -607,16 +679,14 @@ int Capture_Grab _ANSI_ARGS_((ClientData clientData,
 	block.offset[3] = -1;
 
 	#if TK_MINOR_VERSION == 3
-		Tk_PhotoPutBlock(Photo, &block, 0, 0, vw.width, vw.height);
+		Tk_PhotoPutBlock(Photo, &block, 0, 0, capItem->width, capItem->height);
 	#endif
 	#if TK_MINOR_VERSION == 4
-		Tk_PhotoPutBlock(Photo, &block, 0, 0, vw.width, vw.height, TK_PHOTO_COMPOSITE_OVERLAY);
+		Tk_PhotoPutBlock(Photo, &block, 0, 0, capItem->width, capItem->height, TK_PHOTO_COMPOSITE_OVERLAY);
 	#endif
 	#if TK_MINOR_VERSION == 5
-		Tk_PhotoPutBlock(interp, Photo, &block, 0, 0, vw.width, vw.height, TK_PHOTO_COMPOSITE_OVERLAY);
+		Tk_PhotoPutBlock(interp, Photo, &block, 0, 0, capItem->width, capItem->height, TK_PHOTO_COMPOSITE_OVERLAY);
 	#endif
-
-	free(image_data);
 
 	Tk_PhotoSetSize(
 	#if TK_MINOR_VERSION == 5

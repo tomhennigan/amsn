@@ -83,13 +83,18 @@ typedef unsigned char  BYTE;
 // Structures for the list
 
 struct capture_item {
-	char captureName[32];
-	char devicePath[32];
-	int channel;
-	int fvideo;
-	struct video_window vw;
-	char *mmbuf; //To uncomment if we use mmap : not for now
-	struct video_mbuf       mb;
+  char captureName[32];
+  char devicePath[32];
+  int channel;
+  int fvideo;
+  int width;
+  int height;
+  int size;
+  char *mmbuf; //To uncomment if we use mmap : not for now
+  struct video_mbuf       mb;
+  int palette;
+  BYTE *image_data;
+  BYTE *rgb_buffer;
 };
 
 
