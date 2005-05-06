@@ -415,6 +415,7 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
 	  if (vp.palette == VIDEO_PALETTE_RGB565) fprintf(stderr, "RGB565 ");
 	  if (vp.palette == VIDEO_PALETTE_RGB555) fprintf(stderr, "RGB555 ");
 	  if (vp.palette == VIDEO_PALETTE_RGB24) fprintf(stderr, "RGB24 ");
+	  if (vp.palette == VIDEO_PALETTE_RGB32) fprintf(stderr, "RGB32 ");
 	  if (vp.palette == VIDEO_PALETTE_YUYV) fprintf(stderr, "YUYV ");
 	  if (vp.palette == VIDEO_PALETTE_UYVY) fprintf(stderr, "UYVY ");
 	  if (vp.palette == VIDEO_PALETTE_YUV411) fprintf(stderr, "YUV411 ");
@@ -484,7 +485,9 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
 
 	if (vp.palette == VIDEO_PALETTE_RGB24) {
 	  size = width * height * 3;
-	} else if (vp.palette == VIDEO_PALETTE_YUV420P) {
+	} else if (vp.palette == VIDEO_PALETTE_RGB32) {
+	  size = width * height * 4;
+	} else if (vp.palette == VIDEO_PALETTE_YUV420P || vp.palette == VIDEO_PALETTE_YUV420) {
 	  size = (width * height * 3 ) / 2 ;
 	} else {
 	  fprintf(stderr, "Your webcam supports a palette that this extension does not support yet");
@@ -528,7 +531,7 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
 	captureItem->image_data = image_data;
 	captureItem->palette = vp.palette;
 
-	if (captureItem->palette == VIDEO_PALETTE_YUV420P) {
+	if (captureItem->palette == VIDEO_PALETTE_YUV420P || captureItem->palette == VIDEO_PALETTE_YUV420) {
 	  captureItem->rgb_buffer = (BYTE *) malloc(width * height * 3);
 	} 
 
@@ -661,16 +664,9 @@ int Capture_Grab _ANSI_ARGS_((ClientData clientData,
 			Photo, capItem->width, capItem->height);
 
 
-
-	if (capItem->palette == VIDEO_PALETTE_RGB24) {
-	  block.pixelPtr  = capItem->image_data;	
-	} else if (capItem->palette == VIDEO_PALETTE_YUV420P) {
-	  YUV420P_to_RGB24 (capItem->image_data, capItem->rgb_buffer, capItem->width,capItem->height);
-	  block.pixelPtr  = capItem->rgb_buffer;
-	} 
-
 	block.width = capItem->width;
 	block.height = capItem->height;
+
 	block.pitch = capItem->width*3;
 	block.pixelSize = 3;
 
@@ -679,6 +675,18 @@ int Capture_Grab _ANSI_ARGS_((ClientData clientData,
 	block.offset[1] = 1;
 	block.offset[2] = 0;
 	block.offset[3] = -1;
+
+	if (capItem->palette == VIDEO_PALETTE_RGB24 ) {
+	  block.pixelPtr  = capItem->image_data;	
+	} else if (capItem->palette == VIDEO_PALETTE_RGB32) {
+	  block.pixelPtr  = capItem->image_data;
+	  block.pitch = capItem->width*4;
+	  block.pixelSize = 4;
+	} else if (capItem->palette == VIDEO_PALETTE_YUV420P || capItem->palette == VIDEO_PALETTE_YUV420) {
+	  YUV420P_to_RGB24 (capItem->image_data, capItem->rgb_buffer, capItem->width,capItem->height);
+	  block.pixelPtr  = capItem->rgb_buffer;
+	} 
+
 
 	#if TK_MINOR_VERSION == 3
 		Tk_PhotoPutBlock(Photo, &block, 0, 0, capItem->width, capItem->height);
