@@ -487,7 +487,9 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
 	} else if (vp.palette == VIDEO_PALETTE_YUV420P) {
 	  size = (width * height * 3 ) / 2 ;
 	} else {
+	  fprintf(stderr, "Your webcam supports a palette that this extension does not support yet");
 	  Tcl_AppendResult (interp, "Your webcam supports a palette that this extension does not support yet" , (char *) NULL);
+	  close(fvideo);
 	  return TCL_ERROR;
 	}
 	
