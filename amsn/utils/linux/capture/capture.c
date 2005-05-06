@@ -109,7 +109,7 @@ void YUV420P_to_RGB24 (const BYTE *input,
     src_cr = input + (width * height) + ((width / 2) * (height / 2));
     
     rgb_stride = width * 3;
-    dst_rgb = output_rgb + (rgb_stride * (height - 1));
+    dst_rgb = output_rgb; // + (rgb_stride * (height - 1));
     
     for (i = 0; i < height; i++) {
 
@@ -145,7 +145,7 @@ void YUV420P_to_RGB24 (const BYTE *input,
             src_cr += (width + 1) / 2;
         }
 
-        dst_rgb -= rgb_stride;
+        dst_rgb += rgb_stride;
 
     }
 
