@@ -150,6 +150,8 @@ namespace eval ::MSNP2P {
 
 		global HOME
 		#Reload 1 means that we force aMSN to reload a new display pic
+		#Destroy it before to avoid TkCxImage to redraw animated gif above the good display pic
+		destroy user_pic_$user
 		if { ![file readable "[file join $HOME displaypic cache ${filename}].gif"] || $reload == "1" } {
 			status_log "::MSNP2P::GetUser: FILE [file join $HOME displaypic cache ${filename}] doesn't exist!!\n" white
 			image create photo user_pic_$user -file [::skin::GetSkinFile "displaypic" "loading.gif"]
