@@ -125,6 +125,11 @@ snit::widgetadaptor pixmapscroll {
 
 		$self configurelist $args
 
+		#add abbreviations
+		if { ($options(-orient) == "v") || ($options(-orient) == "vert") } {
+			set options(-orient) "vertical"
+		}
+
 		if { $options(-orient) == "vertical" } {
 			set orientation "vertical"
 		} else {
