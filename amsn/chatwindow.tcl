@@ -1336,9 +1336,9 @@ namespace eval ::ChatWindow {
 		$actionsmenu add command -label "[trans sendfile]..." \
 			-command "::amsn::FileTransferSend \[::ChatWindow::getCurrentTab $w\]"
 		$actionsmenu add command -label "[trans sendwebcaminvite]..." \
-			-command "::amsn::ShowChatList \"[trans sendwebcaminvite]\" \[::ChatWindow::getCurrentTab $w\] ::MSNCAM::SendInvite"
+			-command "::amsn::ShowChatList \"[trans sendwebcaminvite]\" \[::ChatWindow::getCurrentTab $w\] ::MSNCAM::SendInviteQueue"
 		$actionsmenu add command -label "[trans askwebcam]..." \
-			-command "::amsn::ShowChatList \"[trans askwebcam]\" \[::ChatWindow::getCurrentTab $w\] ::MSNCAM::AskWebcam"
+			-command "::amsn::ShowChatList \"[trans askwebcam]\" \[::ChatWindow::getCurrentTab $w\] ::MSNCAM::AskWebcamQueue"
 
 		
 		return $actionsmenu
@@ -1894,7 +1894,7 @@ namespace eval ::ChatWindow {
 		bind $block    <<Button1>> "::amsn::ShowChatList \"[trans block]/[trans unblock]\" $w ::amsn::blockUnblockUser"
 		bind $sendfile <<Button1>> "::amsn::FileTransferSend $w"
 		bind $invite   <<Button1>> "::amsn::ShowInviteMenu $w \[winfo pointerx $w\] \[winfo pointery $w\]"
-		bind $webcam   <<Button1>> "::amsn::ShowChatList \"[trans sendwebcaminvite]\" $w ::MSNCAM::SendInvite"
+		bind $webcam   <<Button1>> "::amsn::ShowChatList \"[trans sendwebcaminvite]\" $w ::MSNCAM::SendInviteQueue"
 
 
 		# Create our bindings

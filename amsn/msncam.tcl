@@ -236,11 +236,19 @@ namespace eval ::MSNCAM {
 
 		::MSNP2P::SendPacket [::MSN::SBFor $chatid] "${theader}${data}"
 	}
-
+	
+	#Askwebcam queue, open connection before sending invitation
+	proc AskWebcamQueue { chatid } {
+		::MSN::ChatQueue $chatid [list ::MSNCAM::AskWebcam $chatid]
+	}
+	
 	proc AskWebcam { chatid } {
 		SendInvite $chatid "1C9AA97E-9C05-4583-A3BD-908A196F1E92"
 	}
-
+	#SendInvite queue, open connection before sending invitation
+	proc SendInviteQueue {chatid} {
+		::MSN::ChatQueue $chatid [list ::MSNCAM::SendInvite $chatid]
+	}
 	proc SendInvite { chatid {guid "4BD96FC0-AB17-4425-A14A-439185962DC8"}} {
 
 		status_log "Sending Webcam Request\n"
@@ -264,11 +272,10 @@ namespace eval ::MSNCAM {
 			setObjOption $sid producer 1
 
 		    setObjOption $sid source [::config::getKey "webcamDevice" "0"]
-		    ::amsn::WinWrite $chatid "\nSend request to send webcam\n" green
-
+		    ::CAMGUI::InvitationToSendSent $chatid
 		} else {
 			setObjOption $sid producer 0
-			::amsn::WinWrite $chatid "\nSend request to receive webcam\n" green
+			::CAMGUI::InvitationToReceiveSent $chatid
 		}
 
 		status_log "branchid : [lindex [::MSNP2P::SessionList get $sid] 9]\n"
@@ -1325,7 +1332,33 @@ namespace eval ::CAMGUI {
 		}
 	}
 
-
+	#Executed when you invite someone to a webcam session and he refuses the request
+	proc InvitationDeclined {chatid} {
+		::amsn::WinWrite $chatid "\n" green
+		::amsn::WinWriteIcon $chatid greyline 3
+		::amsn::WinWrite $chatid "\n" green
+		::amsn::WinWriteIcon $chatid butwebcam 3 2
+		::amsn::WinWrite $chatid "[timestamp] [::abook::getDisplayNick $chatid] rejected invitation for webcam session\n" green
+		::amsn::WinWriteIcon $chatid greyline 3
+	}
+	#Executed when you invite someone to send your webcam
+	proc InvitationToSendSent {chatid} {
+		::amsn::WinWrite $chatid "\n" green
+		::amsn::WinWriteIcon $chatid greyline 3
+		::amsn::WinWrite $chatid "\n" green
+		::amsn::WinWriteIcon $chatid butwebcam 3 2
+		::amsn::WinWrite $chatid "[timestamp] Send request to send webcam\n" green
+		::amsn::WinWriteIcon $chatid greyline 3
+	}
+	#Executed when you invite someone to receive his webcam
+	proc InvitationToReceiveSent {chatid} {
+		::amsn::WinWrite $chatid "\n" green
+		::amsn::WinWriteIcon $chatid greyline 3
+		::amsn::WinWrite $chatid "\n" green
+		::amsn::WinWriteIcon $chatid butwebcam 3 2
+		::amsn::WinWrite $chatid "[timestamp] Send request to receive webcam\n" green
+		::amsn::WinWriteIcon $chatid greyline 3
+	}
 	proc ChooseDevice { } {
 		if { ! [info exists ::capture_loaded] } { CaptureLoaded }
 		if { ! $::capture_loaded } { return }

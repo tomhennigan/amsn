@@ -596,7 +596,7 @@ namespace eval ::MSNP2P {
 						}
 
 						status_log "we got an webcam invitation" red
-						::amsn::WinWrite $chatid "\n [trans webcaminvite [::abook::getNick $dest]]" black ""
+						::amsn::WinWrite $chatid "\n[timestamp] [::abook::getNick $dest] invited you to start a webcam session and actually you can't refuse it!" red ""
 						SessionList set $sid [list 0 0 0 $dest 0 $uid 0 "webcam" "" "$branchuid"]
 
 						::MSNCAM::AcceptWebcam $chatid $dest $branchuid $cseq $uid $sid $producer
@@ -816,6 +816,7 @@ namespace eval ::MSNP2P {
 			# If it's a file transfer, advise the user it has been canceled
 			if { [lindex [SessionList get $sid] 7] == "webcam" } {
 				::MSNCAM::SendSyn $sid $chatid
+				::CAMGUI::InvitationDeclined $chatid
 			}
 
 
@@ -921,7 +922,9 @@ namespace eval ::MSNP2P {
 			set h1 [string range $data 0 3]
 			set h2 [string range $data 4 9]
 			set msg [string range $data 10 [expr { $cMsgSize - 1}]]
+
 			set msg [FromUnicode $msg]
+
 			status_log "Received data for webcam $sid : $data\n$msg\n" red
 
 			if {[expr $cOffset + $cMsgSize] >= $cTotalDataSize} {
@@ -929,7 +932,9 @@ namespace eval ::MSNP2P {
 			}
 
 			if { $msg == "syn\x00" } {
+
 				::MSNCAM::SendSyn $sid $chatid
+
 				::MSNCAM::SendAck $sid $chatid
 
 			} elseif { $msg == "ack\x00" } {
