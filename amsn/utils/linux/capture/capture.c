@@ -428,6 +428,44 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
 	  fprintf(stderr, "\n");
 	}
 	  
+	vp.palette = VIDEO_PALETTE_RGB24;
+	if(ioctl(fvideo, VIDIOSGPICT, &vp)<0){
+	  vp.palette = VIDEO_PALETTE_RGB32;
+	  if(ioctl(fvideo, VIDIOSGPICT, &vp)<0){
+	    vp.palette = VIDEO_PALETTE_YUV420;
+	    if(ioctl(fvideo, VIDIOSGPICT, &vp)<0){
+	      vp.palette = VIDEO_PALETTE_YUV420P;
+	      if(ioctl(fvideo, VIDIOSGPICT, &vp)<0){
+		if(ioctl(fvideo, VIDIOCGPICT, &vp)<0){
+		  perror("VIDIOCGPICT");
+		  close(fvideo);
+		  return TCL_ERROR;
+		}
+	      }
+	    }
+	  }
+	}
+
+	if(debug) {
+	  fprintf(stderr, "setting palette to : ");
+	  if (vp.palette == VIDEO_PALETTE_GREY) fprintf(stderr, "GREY ");
+	  if (vp.palette == VIDEO_PALETTE_HI240) fprintf(stderr, "HI240 ");
+	  if (vp.palette == VIDEO_PALETTE_RGB565) fprintf(stderr, "RGB565 ");
+	  if (vp.palette == VIDEO_PALETTE_RGB555) fprintf(stderr, "RGB555 ");
+	  if (vp.palette == VIDEO_PALETTE_RGB24) fprintf(stderr, "RGB24 ");
+	  if (vp.palette == VIDEO_PALETTE_RGB32) fprintf(stderr, "RGB32 ");
+	  if (vp.palette == VIDEO_PALETTE_YUYV) fprintf(stderr, "YUYV ");
+	  if (vp.palette == VIDEO_PALETTE_UYVY) fprintf(stderr, "UYVY ");
+	  if (vp.palette == VIDEO_PALETTE_YUV411) fprintf(stderr, "YUV411 ");
+	  if (vp.palette == VIDEO_PALETTE_YUV420) fprintf(stderr, "YUV420 ");
+	  if (vp.palette == VIDEO_PALETTE_YUV422) fprintf(stderr, "YUV422 ");
+	  if (vp.palette == VIDEO_PALETTE_RAW) fprintf(stderr, "RAW ");
+	  if (vp.palette == VIDEO_PALETTE_YUV411P) fprintf(stderr, "YUV411P ");
+	  if (vp.palette == VIDEO_PALETTE_YUV420P) fprintf(stderr, "YUV420P ");
+	  if (vp.palette == VIDEO_PALETTE_YUV422P) fprintf(stderr, "YUV422P ");
+	  fprintf(stderr, "\n");
+	}
+
 	vc.channel = channel;
 	vc.type = VIDEO_TYPE_CAMERA;
 	vc.norm = 0;
