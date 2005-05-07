@@ -296,9 +296,9 @@ snit::widgetadaptor pixmapscroll {
 
 	method fraction { x y } {
 		if { $options(-orient) == "vertical" } {
-			set pos [expr {1 - ($newsize - $y) / $newsize.0}]
+			set pos [expr 1 - ($newsize - $y) / $newsize.0]
 		} else {
-			set pos [expr {1 - ($newsize - $x) / $newsize.0}]
+			set pos [expr 1 - ($newsize - $x) / $newsize.0]
 		}
 		return $pos
 	}
@@ -309,11 +309,11 @@ snit::widgetadaptor pixmapscroll {
 
 	method identify { x y } {
 		set sliderpos [$canvas coords $sliderimage]
-		set slidersize [image height $sliderimage]
 		set trough1coords [$canvas coords trough1]
 		set trough2coords [$canvas coords trough2]
 
 		if { $options(-orient) == "vertical" } {
+			set slidersize [image height $sliderimage]
 			if { $y <= $arrow1height } { return "arrow1" }
 			if { $y >= [expr {$newsize - $arrow2height}] } { return "arrow2" }
 
@@ -323,6 +323,7 @@ snit::widgetadaptor pixmapscroll {
 			if { $y >= [lindex trough2coords 1] && $y <= [lindex $trough2coords 3] } { return "trough2" }
 
 		} else {
+			set slidersize [image width $sliderimage]
 			if { $x <= $arrow1width } { return "arrow1" }
 			if { $x >= [expr {$newsize - $arrow2width}] } { return "arrow2" }
 
