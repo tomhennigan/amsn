@@ -164,7 +164,7 @@ snit::widgetadaptor pixmapscroll {
 				%W DrawScrollbar
 			}
 		} else {
-			bind $canvas <Configure> {
+			bind $self <Configure> {
 				%W Setnewsize %w
 				%W DrawScrollbar
 			}
