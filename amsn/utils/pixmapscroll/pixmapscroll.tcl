@@ -202,10 +202,10 @@ snit::widgetadaptor pixmapscroll {
 
 		#Drawing Slider
 		if { $options(-orient) == "vertical" } {
-			set slidersize [lindex [split [expr ($visible * ($newsize - ($arrow1height + $arrow2height)))] .] 0]
+			set slidersize [lindex [split [expr {$visible * ($newsize - ($arrow1height + $arrow2height))}] .] 0]
 
 			#Make sure slider doesn't get negative size
-			set minsize [expr [image height $slidertopimage] + [image height $sliderbottomimage] + [image height $sliderbodyimage]]
+			set minsize [expr {[image height $slidertopimage] + [image height $sliderbottomimage] + [image height $sliderbodyimage]}]
 			if { $slidersize < $minsize } {
 				set slidersize $minsize
 			}
@@ -222,15 +222,15 @@ snit::widgetadaptor pixmapscroll {
 
 			set sliderpos [expr {($first * ($newsize - ($arrow1height + $arrow2height))) + $arrow1height}]
 			if { $sliderpos < $arrow1height } { set sliderpos $arrow1height }
-			if { $sliderpos > [expr $newsize - $arrow1height - $slidersize] } { set sliderpos [expr $newsize - $arrow1height - $slidersize] }
+			if { $sliderpos > [expr {$newsize - $arrow1height - $slidersize}] } { set sliderpos [expr {$newsize - $arrow1height - $slidersize}] }
 			$canvas delete $sliderimage
 			$canvas create image 0 $sliderpos -anchor nw -image $sliderimage -activeimage $sliderimage_hover -tag $sliderimage
 
 		} else {
-			set slidersize [lindex [split [expr ($visible * ($newsize - ($arrow1width + $arrow2width)))] .] 0]
+			set slidersize [lindex [split [expr {$visible * ($newsize - ($arrow1width + $arrow2width))}] .] 0]
 
 			#Make sure slider doesn't get negative size
-			set minsize [expr {[image height $slidertopimage] + [image height $sliderbottomimage] + [image height $sliderbodyimage]}]
+			set minsize [expr {[image width $slidertopimage] + [image width $sliderbottomimage] + [image width $sliderbodyimage]}]
 
 			if { $slidersize < $minsize } {
 				set slidersize $minsize
@@ -250,7 +250,7 @@ snit::widgetadaptor pixmapscroll {
 			set sliderpos [expr {($first * ($newsize - ($arrow1width + $arrow2width))) + $arrow1width}]
 
 			if { $sliderpos < $arrow1width } { set sliderpos $arrow1width }
-			if { $sliderpos > [expr $newsize - $arrow1width - $slidersize] } { set sliderpos [expr $newsize - $arrow1width - $slidersize] }
+			if { $sliderpos > [expr {$newsize - $arrow1width - $slidersize}] } { set sliderpos [expr {$newsize - $arrow1width - $slidersize}] }
 			$canvas delete $sliderimage
 			$canvas create image $sliderpos 0 -anchor nw -image $sliderimage -activeimage $sliderimage_hover -tag $sliderimage
 		}
@@ -260,10 +260,10 @@ snit::widgetadaptor pixmapscroll {
 		$canvas delete trough2
 		if { $options(-orient) == "vertical" } {
 			$canvas create rectangle 0 $arrow1height [image width $troughimage] $sliderpos -fill "" -outline "" -tag trough1
-			$canvas create rectangle 0 [expr $sliderpos + $slidersize] [image width $troughimage] [expr $newsize - $arrow2height] -fill "" -outline "" -tag trough2
+			$canvas create rectangle 0 [expr {$sliderpos + $slidersize}] [image width $troughimage] [expr {$newsize - $arrow2height}] -fill "" -outline "" -tag trough2
 		} else {
 			$canvas create rectangle $arrow1width 0 $sliderpos [image height $troughimage] -fill "" -outline "" -tag trough1
-			$canvas create rectangle [expr $sliderpos + $slidersize] 0 [expr $newsize - $arrow2width] [image height $troughimage] -fill "" -outline "" -tag trough2
+			$canvas create rectangle [expr {$sliderpos + $slidersize}] 0 [expr {$newsize - $arrow2width}] [image height $troughimage] -fill "" -outline "" -tag trough2
 		}
 	}
 
@@ -281,9 +281,9 @@ snit::widgetadaptor pixmapscroll {
 
 	method delta { deltaX deltaY } {
 		if {$options(-orient) == "vertical" } {
-			set number [expr $deltaY.0 / ($newsize - ($arrow1height + $arrow2height))]
+			set number [expr {$deltaY.0 / ($newsize - ($arrow1height + $arrow2height))}]
 		} else {
-			set number [expr $deltaX.0 / ($newsize - ($arrow1width + $arrow2width) - [image width $sliderimage])]
+			set number [expr {$deltaX.0 / ($newsize - ($arrow1width + $arrow2width) - [image width $sliderimage])}]
 		}
 
 		return $number
@@ -291,9 +291,9 @@ snit::widgetadaptor pixmapscroll {
 
 	method fraction { x y } {
 		if { $options(-orient) == "vertical" } {
-			set pos [expr 1 - ($newsize - $y) / $newsize.0]
+			set pos [expr {1 - ($newsize - $y) / $newsize.0}]
 		} else {
-			set pos [expr 1 - ($newsize - $x) / $newsize.0]
+			set pos [expr {1 - ($newsize - $x) / $newsize.0}]
 		}
 		return $pos
 	}
@@ -310,18 +310,18 @@ snit::widgetadaptor pixmapscroll {
 
 		if { $options(-orient) == "vertical" } {
 			if { $y <= $arrow1height } { return "arrow1" }
-			if { $y >= [expr $newsize - $arrow2height] } { return "arrow2" }
+			if { $y >= [expr {$newsize - $arrow2height}] } { return "arrow2" }
 
-			if { $y >= [lindex $sliderpos 1] && $y <= [expr [lindex $sliderpos 1] + $slidersize] } { return "slider" }
+			if { $y >= [lindex $sliderpos 1] && $y <= [expr {[lindex $sliderpos 1] + $slidersize}] } { return "slider" }
 
 			if { $y >= [lindex trough1coords 1] && $y <= [lindex $trough1coords 3] } { return "trough1" }
 			if { $y >= [lindex trough2coords 1] && $y <= [lindex $trough2coords 3] } { return "trough2" }
 
 		} else {
 			if { $x <= $arrow1width } { return "arrow1" }
-			if { $x >= [expr $newsize - $arrow2width] } { return "arrow2" }
+			if { $x >= [expr {$newsize - $arrow2width}] } { return "arrow2" }
 
-			if { $x >= [lindex $sliderpos 0] && $x <= [expr [lindex $sliderpos 0] + $slidersize] } { return "slider" }
+			if { $x >= [lindex $sliderpos 0] && $x <= [expr {[lindex $sliderpos 0] + $slidersize}] } { return "slider" }
 
 			if { $x >= [lindex trough1coords 0] && $x <= [lindex $trough1coords 2] } { return "trough1" }
 			if { $x >= [lindex trough2coords 0] && $x <= [lindex $trough2coords 2] } { return "trough2" }
@@ -349,10 +349,10 @@ snit::widgetadaptor pixmapscroll {
 
 		if { $options(-orient) == "vertical" } {
 			set sliderpos [lindex [$canvas coords $sliderimage] 1]
-			$canvas coords $sliderimage 0 [expr $sliderpos + [delta 0 [expr $newtop - $oldtop]]]
+			$canvas coords $sliderimage 0 [expr {$sliderpos + [delta 0 [expr {$newtop - $oldtop}]]}]
 		} else {
 			set sliderpos [lindex [$canvas coords $sliderimage] 0]
-			$canvas coords $sliderimage [expr $sliderpos + [delta 0 [expr $newtop - $oldtop]]] 0
+			$canvas coords $sliderimage [expr {$sliderpos + [delta 0 [expr {$newtop - $oldtop}]]}] 0
 		}
 
 	}
