@@ -96,7 +96,7 @@ void YUV420P_to_RGB24 (const BYTE *input,
                  int width,
                  int height)
 {
-    BYTE *src_y, *src_cb, *src_cr;
+    const BYTE *src_y, *src_cb, *src_cr;
     BYTE *dst_rgb;
     unsigned int i, j, rgb_stride;
     
@@ -429,13 +429,13 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
 	}
 	  
 	vp.palette = VIDEO_PALETTE_RGB24;
-	if(ioctl(fvideo, VIDIOSGPICT, &vp)<0){
+	if(ioctl(fvideo, VIDIOCSPICT, &vp)<0){
 	  vp.palette = VIDEO_PALETTE_RGB32;
-	  if(ioctl(fvideo, VIDIOSGPICT, &vp)<0){
+	  if(ioctl(fvideo, VIDIOCSPICT, &vp)<0){
 	    vp.palette = VIDEO_PALETTE_YUV420;
-	    if(ioctl(fvideo, VIDIOSGPICT, &vp)<0){
+	    if(ioctl(fvideo, VIDIOCSPICT, &vp)<0){
 	      vp.palette = VIDEO_PALETTE_YUV420P;
-	      if(ioctl(fvideo, VIDIOSGPICT, &vp)<0){
+	      if(ioctl(fvideo, VIDIOCSPICT, &vp)<0){
 		if(ioctl(fvideo, VIDIOCGPICT, &vp)<0){
 		  perror("VIDIOCGPICT");
 		  close(fvideo);
