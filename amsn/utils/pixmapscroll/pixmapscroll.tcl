@@ -286,9 +286,9 @@ snit::widgetadaptor pixmapscroll {
 
 	method delta { deltaX deltaY } {
 		if {$options(-orient) == "vertical" } {
-			set number [expr {$deltaY.0 / ($newsize - ($arrow1height + $arrow2height))}]
+			set number [expr $deltaY.0 / ($newsize - ($arrow1height + $arrow2height))]
 		} else {
-			set number [expr {$deltaX.0 / ($newsize - ($arrow1width + $arrow2width) - [image width $sliderimage])}]
+			set number [expr $deltaX.0 / ($newsize - ($arrow1width + $arrow2width))]
 		}
 
 		return $number
@@ -328,8 +328,8 @@ snit::widgetadaptor pixmapscroll {
 
 			if { $x >= [lindex $sliderpos 0] && $x <= [expr {[lindex $sliderpos 0] + $slidersize}] } { return "slider" }
 
-			if { $x >= [lindex trough1coords 0] && $x <= [lindex $trough1coords 2] } { return "trough1" }
-			if { $x >= [lindex trough2coords 0] && $x <= [lindex $trough2coords 2] } { return "trough2" }
+			if { $x >= [lindex $trough1coords 0] && $x <= [lindex $trough1coords 2] } { return "trough1" }
+			if { $x >= [lindex $trough2coords 0] && $x <= [lindex $trough2coords 2] } { return "trough2" }
 		}
 	}
 
