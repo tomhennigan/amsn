@@ -13,11 +13,14 @@ font create plain -family helvetica -size 11 -weight bold
 . config -bg #ffffff
 
 
-text .t -highlightthickness 0 -bd 0 -relief solid -bg white -wrap none
+text .t -highlightthickness 0 -bd 0 -relief solid -bg #eeddee -wrap none
 pixmapscroll .sy -command {.t yview} -orient vertical
 pixmapscroll .sx -command {.t xview} -orient horizontal
 .t configure -yscrollcommand {.sy set} -xscrollcommand {.sx set}
-pack .sx -padx 0 -pady 0 -side bottom -fill x -expand true
-pack .sy -padx 0 -pady 0 -side right -fill y -expand true
-pack .t -after .sy -fill both -expand true
+pack .sx -padx 0 -pady 0 -side bottom -fill x
+pack .sy -padx 0 -pady 0 -side right -fill y
+pack .t -fill both -expand true
+for {set x 0} {$x<10} {incr x} {
+	.t insert end "$x abcdefghijklmnopqrstuvwxyz."
+}
 .t insert end "a\nb\nc\nd\ne\nf\ng\nh\ni\nj\nk\nl\nm\no\np\nq\nr\ns\nt\nu\nv\nw\nx\ny\nz\n0\n1\n2\n3\n4\n5\n6\n7\n8\n9"
