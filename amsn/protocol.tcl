@@ -3434,7 +3434,7 @@ proc cmsn_change_state {recv} {
 
 	if { $oldPic != $newPic} {
 		status_log "picture changed for user $user\n" white
-		if { [::config::getKey lazypicretrieval] } {
+		if { [::config::getKey lazypicretrieval] || [::MSN::userIsBlocked $user]} {
 			global sb_list
 			foreach sb $sb_list {
 				set users_in_chat [$sb cget -users]
