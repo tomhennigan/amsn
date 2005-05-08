@@ -67,6 +67,7 @@
 			<expand_ypad>6</expand_ypad>
 			<x_dp_top>1</x_dp_top>
 			<y_dp_top>1</y_dp_top>
+			<buddy_ypad>15</buddy_ypad>			
 			<buddy_ypad>3</buddy_ypad>
 		</Geometry>
 		<Options>

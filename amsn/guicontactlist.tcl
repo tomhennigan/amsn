@@ -162,8 +162,10 @@ namespace eval ::guiContactList {
 
 		#register events
 #TODO:	* here we should register all needed events
-	 ::Event::registerEvent contactNickChange all ::guiContactList::contactChanged
-	 ::Event::registerEvent contactStateChange all ::guiContactList::contactChanged
+	 ::Event::registerEvent contactDataChange all ::guiContactList::contactChanged
+
+#	 ::Event::registerEvent contactNickChange all ::guiContactList::contactChanged
+#	 ::Event::registerEvent contactStateChange all ::guiContactList::contactChanged
 	 ::Event::registerEvent blockedContact all ::guiContactList::contactChanged
 	 ::Event::registerEvent unblockedContact all ::guiContactList::contactChanged
 	 ::Event::registerEvent movedContact all ::guiContactList::contactChanged
@@ -303,25 +305,34 @@ namespace eval ::guiContactList {
 	proc contactChanged { eventused email { gidlist ""} } {
 	 if { [winfo exists .contactlist] } {
 
+status_log "CONTACTCHANGED: $email"
+
+		if {$email == "contactlist" } { return }
+		if {$email == "myself" } { return }
+
+
 		#redraw the groups
-		if {$eventused == "contactStateChange" } {
-			set gidlist [list [::abook::getGroups $email] offline mobile ]
-		}
-
-		if {$gidlist != "" && $eventused != "contactNickChange"} {
-			 foreach group $gidlist {
-				#set the element list for the changed group
-				set groupelement [list $group "[::groups::GetName $group]"]
-				if {$group == "offline" || $group == "mobile"} {
-					set groupelement [list $group "$group"]
-				}	
-
-				#redraw the group
-				::guiContactList::drawGroup .contactlist.sw.cvs $groupelement
-	status_log "REDRAWN: $groupelement"
-				
-			}
-		}
+#		if {$eventused == "contactStateChange" } {
+#			set gidlist [list [::abook::getGroups $email] offline mobile ]
+#		}
+#
+#		if {$gidlist != "" && $eventused != "contactNickChange"} {
+#			 foreach group $gidlist {
+#				#set the element list for the changed group
+#				set groupelement [list $group "[::groups::GetName $group]"]
+#				if {$group == "offline" || $group == "mobile"} {
+#					set groupelement [list $group "$group"]
+#				}	
+#
+#				#redraw the group
+#				::guiContactList::drawGroup .contactlist.sw.cvs $groupelement
+#	status_log "REDRAWN: $groupelement"
+#				
+#			}
+#		}
+		#as I can't make it work properly, let's redraw all groups for now:
+		::guiContactList::drawGroups .contactlist.sw.cvs
+		
 		
 
 		#redraw the contact
@@ -394,12 +405,23 @@ namespace eval ::guiContactList {
 					return
 				}
 
-				$canvas move $tag [expr [lindex $curPos 0] - [lindex $currentPos 0]] [expr [lindex $curPos 1] - [lindex $currentPos 1]]
+				set xpad [::skin::getKey buddy_xpad]
+				set ypad [::skin::getKey buddy_ypad]
 
-				set curPos [list [lindex $curPos 0] [expr [lindex $curPos 1] + $nickheightArray("$email")] ]
+				$canvas move $tag [expr [lindex $curPos 0] - [lindex $currentPos 0] + $xpad] [expr [lindex $curPos 1] - [lindex $currentPos 1]]
+
+				set curPos [list [lindex $curPos 0] [expr [lindex $curPos 1] + $nickheightArray("$email") + $ypad] ]
 
 			# It must be a group title
 			} else {
+				if { [::groups::IsExpanded [lindex $element 0]] } {
+					set xpad [::skin::getKey contract_xpad]
+					set ypad [::skin::getKey contract_ypad]
+				} else {
+					set xpad [::skin::getKey expand_xpad]
+					set ypad [::skin::getKey expand_ypad]
+				}
+
 				#move it to it's place an set the new curPos
 				set gid [lindex $element 0]
 				set groupDrawn $gid
@@ -412,9 +434,11 @@ namespace eval ::guiContactList {
 					return
 				}
 
-				$canvas move $tag [expr [lindex $curPos 0] - [lindex $currentPos 0]] [expr [lindex $curPos 1] - [lindex $currentPos 1]]
+				set curPos [list [lindex $curPos 0] [expr [lindex $curPos 1] +$ypad] ]
 
-				set curPos [list [lindex $curPos 0] [expr [lindex $curPos 1] + 20] ]
+				$canvas move $tag [expr [lindex $curPos 0] - [lindex $currentPos 0] + $xpad] [expr [lindex $curPos 1] - [lindex $currentPos 1]]
+
+				set curPos [list [lindex $curPos 0] [expr [lindex $curPos 1] + 20] + $ypad]
 #TODO:	* change this '20' to the right value
 			}
 		}		
@@ -634,7 +658,7 @@ namespace eval ::guiContactList {
 		set ellips "..."
 
 		#leave some place for the statustext, the elipsis (...) and the spacing + spacing of border and - the beginningborder
-		set maxwidth [expr $maxwidth - $statewidth - [font measure splainf $ellips] - $nickstatespacing - 5 - $Xbegin]
+		set maxwidth [expr $maxwidth - $statewidth - [font measure splainf $ellips] - $nickstatespacing - 5 - $Xbegin - [::skin::getKey buddy_xpad]]
 
 # TODO:	* an option for a X-padding for buddies .. should be set here and in the organising proc
 
@@ -809,8 +833,8 @@ namespace eval ::guiContactList {
 		$canvas bind $tag <Leave> "+$canvas configure -cursor left_ptr"
 
 		#now store the nickname [and] height in the nickarray
-		set nickheight [expr $ychange + [::skin::getKey buddy_ypad] ]
-		set nickheightArray("$email") $nickheight
+#		set nickheight [expr $ychange + [::skin::getKey buddy_ypad] ]
+		set nickheightArray("$email") $ychange
 #status_log "nickheight $email: $nickheight"
 
 	}

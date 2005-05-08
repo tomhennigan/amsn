@@ -91,7 +91,7 @@ if { $initialize_amsn == 1 } {
 	::skin::setKey mailbox_xpad 2
 	::skin::setKey mailbox_ypad 2
 	::skin::setKey contract_xpad 8
-	::skin::setKey contract_xpad 6
+	::skin::setKey contract_ypad 6
 	::skin::setKey expand_xpad 8
 	::skin::setKey expand_ypad 6
 	::skin::setKey x_dp_top 4
@@ -100,6 +100,7 @@ if { $initialize_amsn == 1 } {
 	::skin::setKey balloonborderwidth 1
 	::skin::setKey balloonborder #2e8afe
 	::skin::setKey balloontext #0000dd
+	::skin::setKey buddy_xpad 15
 	::skin::setKey buddy_ypad 3
 
 	::skin::setKey notifwidth 150
