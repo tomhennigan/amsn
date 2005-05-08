@@ -42,6 +42,7 @@ appearance Weergave
 appearoff Offline weergeven
 areacode Netnummer
 aretyping $1 zijn bezig met typen
+askwebcam Vraag deze gebruiker opf je zijn/haar webcam mag bekijken
 author Auteur
 autoaccepted Bestandsoverdracht automatisch geaccepteerd
 autoacceptft Automatisch bestandsoverdrachten accepteren
@@ -556,6 +557,7 @@ sendmail Een e-mail verzenden
 sendmsg Een bericht verzenden
 send Zend
 sendmobmsg Een SMS bericht verzenden
+sendwebcaminvite Nodig deze gebruik uit je webcam te bekijken
 sentbytes $1 van de $2 bytes verzonden
 serverbusy Server is bezet
 servergoingdown Verbinding verbroken: De server wordt uitgeschakeld
