@@ -199,11 +199,11 @@ namespace eval ::guiContactList {
 		
 			bind $canvas <MouseWheel> {
 				%W yview scroll [expr {- (%D)}] units ;
-				$canvas coords backgroundimage 0 [expr int([expr [lindex [$canvas yview] 0] * $canvaslength])]
+				#$clcanvas coords backgroundimage 0 [expr int([expr [lindex [$clcanvas yview] 0] * $canvaslength])]
 			}
 				bind [winfo parent $canvas].vscroll <MouseWheel> {
 				%W yview scroll [expr {- (%D)}] units ;
-				$canvas coords backgroundimage 0 [expr int([expr [lindex [$canvas yview] 0] * $canvaslength])]  
+				#$clcanvas coords backgroundimage 0 [expr int([expr [lindex [$clcanvas yview] 0] * $canvaslength])]  
 			}
 
 		} elseif {$tcl_platform(platform) == "windows"} {
