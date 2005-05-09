@@ -120,6 +120,16 @@ namespace eval ::guiContactList {
 
 		#here we load images used in this code:
 		::skin::setPixmap back back.gif
+		::skin::setPixmap upleft box_upleft.gif
+		::skin::setPixmap up box_up.gif
+		::skin::setPixmap upright box_upright.gif
+		::skin::setPixmap left box_left.gif
+		::skin::setPixmap body box_body.gif
+		::skin::setPixmap right box_right.gif
+		::skin::setPixmap downleft box_downleft.gif
+		::skin::setPixmap down box_down.gif
+		::skin::setPixmap downright box_downright.gif
+
 
 		#set easy names for the widgets
 		set window .contactlist
@@ -376,6 +386,7 @@ status_log "CONTACTCHANGED: $email"
 		# make sure we move 'm to an invisible place first
 		$canvas move items 100000 100000
 
+		$canvas delete box
 		# Now let's get an exact contact list
 		set contactList [getContactList]
 
@@ -387,6 +398,12 @@ status_log "CONTACTCHANGED: $email"
 
 # TODO:	* an option for a X-padding for buddies .. should be set here and for teh truncation 
 #		in the nickdraw proc
+
+
+######
+#first line for the "boxes" 
+		set DrawingFirstGroup 1
+######
 
 		foreach element $contactList {
 			# We check the type, and call the appropriate draw function, these can be extended	
@@ -434,14 +451,121 @@ status_log "CONTACTCHANGED: $email"
 					return
 				}
 
-				set curPos [list [lindex $curPos 0] [expr [lindex $curPos 1] +$ypad] ]
+######				
+				set maxwidth [winfo width $canvas]
+				set width [expr $maxwidth - 5 - $Xbegin]
+				status_log "width for drazwing box: $width"
+				if {$width <= 30} {set width 300}
 
+
+				#if we're not drawing the first group, we should draw the end of the box of the group before here\
+				 and change the curPos
+				if {!$DrawingFirstGroup} {
+
+					set bodYend [expr [lindex $curPos 1] - [::skin::getKey buddy_ypad]]
+
+
+					#here we should draw the body
+					set height [expr $bodYend - $bodYbegin]
+					if {$height >0} {
+						image create photo boxbodysmall_$groupDrawn -height [image height [::skin::loadPixmap left]] -width $width
+						boxbodysmall_$groupDrawn copy [::skin::loadPixmap left] -to 0 0 [image width [::skin::loadPixmap left]]  [image height [::skin::loadPixmap left]]
+						boxbodysmall_$groupDrawn copy [::skin::loadPixmap body] -to  [image width [::skin::loadPixmap left]] 0 [expr $width -  [image width [::skin::loadPixmap right]]]  [image height [::skin::loadPixmap body]]
+						boxbodysmall_$groupDrawn copy [::skin::loadPixmap right] -to [expr $width -  [image width [::skin::loadPixmap right]]] 0 $width  [image height [::skin::loadPixmap right]]
+						image create photo boxbody_$groupDrawn -height $height -width $width
+						boxbody_$groupDrawn copy boxbodysmall_$groupDrawn -to 0 0 $width $height
+						image delete boxbodysmall_$groupDrawn
+					
+						#draw it
+						$canvas create image 5 $bodYbegin -image boxbody_$groupDrawn -anchor nw \
+							-tags [list box box_body $gid]
+					}
+
+
+
+					#create endbar of the box
+					image create photo boxdownbar_$groupDrawn -height [image height [::skin::loadPixmap down]] -width $width
+					boxdownbar_$groupDrawn copy [::skin::loadPixmap downleft] -to 0 0 [image width [::skin::loadPixmap downleft]]  [image height [::skin::loadPixmap downleft]]
+					boxdownbar_$groupDrawn copy [::skin::loadPixmap down] -to  [image width [::skin::loadPixmap downleft]] 0 [expr $width -  [image width [::skin::loadPixmap downright]]]  [image height [::skin::loadPixmap down]]
+					boxdownbar_$groupDrawn copy [::skin::loadPixmap downright] -to [expr $width -  [image width [::skin::loadPixmap downright]]] 0 $width  [image height [::skin::loadPixmap downright]]
+					$canvas create image 5 $bodYend -image boxdownbar_$groupDrawn -anchor nw \
+						-tags [list box box_downbar $gid]
+
+
+					set curPos [list [lindex $curPos 0] [expr [lindex $curPos 1]+$ypad] ]
+
+				} else {
+######			
+					set curPos [list [lindex $curPos 0] [lindex $curPos 1] ]
+				}
+######
+				#create upbar of the box
+				image create photo boxupbar_$groupDrawn -height [image height [::skin::loadPixmap up]] -width $width
+				boxupbar_$groupDrawn copy [::skin::loadPixmap upleft] -to 0 0 [image width [::skin::loadPixmap upleft]]  [image height [::skin::loadPixmap upleft]]
+				boxupbar_$groupDrawn copy [::skin::loadPixmap up] -to  [image width [::skin::loadPixmap upleft]] 0 [expr $width -  [image width [::skin::loadPixmap upright]]]  [image height [::skin::loadPixmap up]]
+				boxupbar_$groupDrawn copy [::skin::loadPixmap upright] -to [expr $width -  [image width [::skin::loadPixmap upright]]] 0 $width  [image height [::skin::loadPixmap upright]]
+
+				#draw it
+				set topYbegin [expr [lindex $curPos 1] -5]
+				$canvas create image 5 $topYbegin -image boxupbar_$groupDrawn -anchor nw \
+					-tags [list box box_upbar $gid]
+
+				#save the endypos for next body drawing
+				set bodYbegin [expr $topYbegin + [image height [::skin::loadPixmap up]]]
+######
+
+			
 				$canvas move $tag [expr [lindex $curPos 0] - [lindex $currentPos 0] + $xpad] [expr [lindex $curPos 1] - [lindex $currentPos 1]]
 
+
 				set curPos [list [lindex $curPos 0] [expr [lindex $curPos 1] + 20] + $ypad]
-#TODO:	* change this '20' to the right value
+#TODO:	* change this '20' (height of the title) to the right value
+
+				#as we already drew a group, the next won't be the first anymore
+				set DrawingFirstGroup 0
+			#end the "else it's a group"
 			}
-		}		
+
+		#end of foreach
+		}
+
+
+		
+			#now do the body and the end for the last group:
+
+			set bodYend [expr [lindex $curPos 1] - [::skin::getKey buddy_ypad] - 10]
+
+
+			#here we should draw the body
+			set height [expr $bodYend - $bodYbegin]
+			if {$height > 0} {
+				image create photo boxbodysmall_$groupDrawn -height [image height [::skin::loadPixmap left]] -width $width
+				boxbodysmall_$groupDrawn copy [::skin::loadPixmap left] -to 0 0 [image width [::skin::loadPixmap left]]  [image height [::skin::loadPixmap left]]
+				boxbodysmall_$groupDrawn copy [::skin::loadPixmap body] -to  [image width [::skin::loadPixmap left]] 0 [expr $width -  [image width [::skin::loadPixmap right]]]  [image height [::skin::loadPixmap body]]
+				boxbodysmall_$groupDrawn copy [::skin::loadPixmap right] -to [expr $width -  [image width [::skin::loadPixmap right]]] 0 $width  [image height [::skin::loadPixmap right]]
+				image create photo boxbody_$groupDrawn -height $height -width $width
+				boxbody_$groupDrawn copy boxbodysmall_$groupDrawn -to 0 0 $width $height
+				image delete boxbodysmall_$groupDrawn
+					
+				#draw it
+				$canvas create image 5 [expr $bodYbegin + 20] -image boxbody_$groupDrawn -anchor nw \
+					-tags [list box box_body $gid]
+			}
+
+			#create endbar of the box
+			image create photo boxdownbar_$groupDrawn -height [image height [::skin::loadPixmap down]] -width $width
+			boxdownbar_$groupDrawn copy [::skin::loadPixmap downleft] -to 0 0 [image width [::skin::loadPixmap downleft]]  [image height [::skin::loadPixmap downleft]]
+			boxdownbar_$groupDrawn copy [::skin::loadPixmap down] -to  [image width [::skin::loadPixmap downleft]] 0 [expr $width -  [image width [::skin::loadPixmap downright]]]  [image height [::skin::loadPixmap down]]
+			boxdownbar_$groupDrawn copy [::skin::loadPixmap downright] -to [expr $width -  [image width [::skin::loadPixmap downright]]] 0 $width  [image height [::skin::loadPixmap downright]]
+			$canvas create image 5 $bodYend -image boxdownbar_$groupDrawn -anchor nw \
+						-tags [list box box_downbar $gid]
+
+
+
+
+		#get the group-boxes behind the groups and contacts
+		$canvas lower box items
+					
 
 		#set height of canvas
 		set canvaslength [expr [lindex $curPos 1] + 20]
