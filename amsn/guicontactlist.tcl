@@ -480,9 +480,9 @@ status_log "CONTACTCHANGED: $email"
 						#draw it
 						$canvas create image $boXpad $bodYbegin -image boxbody_$groupDrawn -anchor nw \
 							-tags [list box box_body $gid]
+					} else {
+						set bodYend $bodYbegin
 					}
-
-
 
 					#create endbar of the box
 					image create photo boxdownbar_$groupDrawn -height [image height [::skin::loadPixmap down]] -width $width
@@ -493,7 +493,7 @@ status_log "CONTACTCHANGED: $email"
 						-tags [list box box_downbar $gid]
 
 
-					set curPos [list [lindex $curPos 0] [expr [lindex $curPos 1]+$ypad] ]
+					set curPos [list [lindex $curPos 0] [expr [lindex $curPos 1]+ $ypad] ]
 
 				} else {
 ######			
@@ -524,6 +524,7 @@ status_log "CONTACTCHANGED: $email"
 
 				#as we already drew a group, the next won't be the first anymore
 				set DrawingFirstGroup 0
+
 			#end the "else it's a group"
 			}
 
@@ -551,6 +552,8 @@ status_log "CONTACTCHANGED: $email"
 				#draw it
 				$canvas create image $boXpad $bodYbegin -image boxbody_$groupDrawn -anchor nw \
 					-tags [list box box_body $gid]
+			} else {
+				set bodYend $bodYbegin
 			}
 
 			#create endbar of the box
