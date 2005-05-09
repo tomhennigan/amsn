@@ -47,6 +47,7 @@ namespace eval ::MSNCAM {
 
 		if { [::CAMGUI::IsGrabberValid $grabber] } {
 			::CAMGUI::CloseGrabber $grabber $window
+			#draw a notification in the window (gui)
 			::CAMGUI::CamCanceled $chatid
 		}
 		if { [winfo exists $window] } {
@@ -1348,7 +1349,7 @@ namespace eval ::CAMGUI {
 		::amsn::WinWriteIcon $chatid greyline 3
 		::amsn::WinWrite $chatid "\n" green
 		::amsn::WinWriteIcon $chatid butwebcam 3 2
-		::amsn::WinWrite $chatid "[timestamp] [::abook::getDisplayNick $chatid] canceled the webcam session\n" green
+		::amsn::WinWrite $chatid "[timestamp] The webcam session with [::abook::getDisplayNick $chatid] has been canceled\n" green
 		::amsn::WinWriteIcon $chatid greyline 3
 	}
 	#Executed when you invite someone to send your webcam
