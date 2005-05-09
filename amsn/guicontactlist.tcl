@@ -197,14 +197,13 @@ namespace eval ::guiContactList {
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 #TODO: fix mac bindings -> Jerome's job ;)
 		
-			bind $canvas <MouseWheel> {
+			bind $clcanvas <MouseWheel> {
 				%W yview scroll [expr {- (%D)}] units ;
-				#$clcanvas coords backgroundimage 0 [expr int([expr [lindex [$clcanvas yview] 0] * $canvaslength])]
+
+	#			$canvas coords backgroundimage 0 [expr int([expr [lindex [$canvas yview] 0] * $canvaslength])]
+				::guiContactList::moveBGimage $clcanvas
 			}
-				bind [winfo parent $canvas].vscroll <MouseWheel> {
-				%W yview scroll [expr {- (%D)}] units ;
-				#$clcanvas coords backgroundimage 0 [expr int([expr [lindex [$clcanvas yview] 0] * $canvaslength])]  
-			}
+
 
 		} elseif {$tcl_platform(platform) == "windows"} {
 #TODO: fix win bindings -> Arieh's job ;)
@@ -243,7 +242,7 @@ namespace eval ::guiContactList {
 		bind $clcanvas <Configure> "::guiContactList::drawList $clcanvas"
 
 		#set the size
-		wm geometry $window 300x600
+		#wm geometry $window 300x600
 	}
 
 
