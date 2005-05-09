@@ -454,7 +454,7 @@ status_log "CONTACTCHANGED: $email"
 ######				
 				set maxwidth [winfo width $canvas]
 				set width [expr $maxwidth - 5 - $Xbegin]
-				status_log "width for drazwing box: $width"
+#				status_log "width for drazwing box: $width"
 				if {$width <= 30} {set width 300}
 
 
@@ -548,7 +548,7 @@ status_log "CONTACTCHANGED: $email"
 				image delete boxbodysmall_$groupDrawn
 					
 				#draw it
-				$canvas create image 5 [expr $bodYbegin + 20] -image boxbody_$groupDrawn -anchor nw \
+				$canvas create image 5 $bodYbegin -image boxbody_$groupDrawn -anchor nw \
 					-tags [list box box_body $gid]
 			}
 
