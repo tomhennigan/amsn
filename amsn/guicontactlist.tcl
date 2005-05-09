@@ -453,7 +453,8 @@ status_log "CONTACTCHANGED: $email"
 
 ######				
 				set maxwidth [winfo width $canvas]
-				set width [expr $maxwidth - 5 - $Xbegin]
+				set boXpad 10
+				set width [expr $maxwidth - ($boXpad*2)]
 #				status_log "width for drazwing box: $width"
 				if {$width <= 30} {set width 300}
 
@@ -477,7 +478,7 @@ status_log "CONTACTCHANGED: $email"
 						image delete boxbodysmall_$groupDrawn
 					
 						#draw it
-						$canvas create image 5 $bodYbegin -image boxbody_$groupDrawn -anchor nw \
+						$canvas create image $boXpad $bodYbegin -image boxbody_$groupDrawn -anchor nw \
 							-tags [list box box_body $gid]
 					}
 
@@ -488,7 +489,7 @@ status_log "CONTACTCHANGED: $email"
 					boxdownbar_$groupDrawn copy [::skin::loadPixmap downleft] -to 0 0 [image width [::skin::loadPixmap downleft]]  [image height [::skin::loadPixmap downleft]]
 					boxdownbar_$groupDrawn copy [::skin::loadPixmap down] -to  [image width [::skin::loadPixmap downleft]] 0 [expr $width -  [image width [::skin::loadPixmap downright]]]  [image height [::skin::loadPixmap down]]
 					boxdownbar_$groupDrawn copy [::skin::loadPixmap downright] -to [expr $width -  [image width [::skin::loadPixmap downright]]] 0 $width  [image height [::skin::loadPixmap downright]]
-					$canvas create image 5 $bodYend -image boxdownbar_$groupDrawn -anchor nw \
+					$canvas create image $boXpad $bodYend -image boxdownbar_$groupDrawn -anchor nw \
 						-tags [list box box_downbar $gid]
 
 
@@ -507,7 +508,7 @@ status_log "CONTACTCHANGED: $email"
 
 				#draw it
 				set topYbegin [expr [lindex $curPos 1] -5]
-				$canvas create image 5 $topYbegin -image boxupbar_$groupDrawn -anchor nw \
+				$canvas create image $boXpad $topYbegin -image boxupbar_$groupDrawn -anchor nw \
 					-tags [list box box_upbar $gid]
 
 				#save the endypos for next body drawing
@@ -548,7 +549,7 @@ status_log "CONTACTCHANGED: $email"
 				image delete boxbodysmall_$groupDrawn
 					
 				#draw it
-				$canvas create image 5 $bodYbegin -image boxbody_$groupDrawn -anchor nw \
+				$canvas create image $boXpad $bodYbegin -image boxbody_$groupDrawn -anchor nw \
 					-tags [list box box_body $gid]
 			}
 
@@ -557,7 +558,7 @@ status_log "CONTACTCHANGED: $email"
 			boxdownbar_$groupDrawn copy [::skin::loadPixmap downleft] -to 0 0 [image width [::skin::loadPixmap downleft]]  [image height [::skin::loadPixmap downleft]]
 			boxdownbar_$groupDrawn copy [::skin::loadPixmap down] -to  [image width [::skin::loadPixmap downleft]] 0 [expr $width -  [image width [::skin::loadPixmap downright]]]  [image height [::skin::loadPixmap down]]
 			boxdownbar_$groupDrawn copy [::skin::loadPixmap downright] -to [expr $width -  [image width [::skin::loadPixmap downright]]] 0 $width  [image height [::skin::loadPixmap downright]]
-			$canvas create image 5 $bodYend -image boxdownbar_$groupDrawn -anchor nw \
+			$canvas create image $boXpad $bodYend -image boxdownbar_$groupDrawn -anchor nw \
 						-tags [list box box_downbar $gid]
 
 
