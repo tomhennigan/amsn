@@ -533,7 +533,7 @@ status_log "CONTACTCHANGED: $email"
 		
 			#now do the body and the end for the last group:
 
-			set bodYend [expr [lindex $curPos 1] - [::skin::getKey buddy_ypad] - 10]
+			set bodYend [expr [lindex $curPos 1] - [::skin::getKey buddy_ypad] ]
 
 
 			#here we should draw the body
