@@ -6,6 +6,8 @@ package provide pixmapscroll 0.9
 
 snit::widgetadaptor pixmapscroll {
 
+	typevariable scrollbarlist {}
+
 	typecomponent vertical_arrow1image
 	typecomponent vertical_arrow2image
 	typecomponent vertical_slidertopimage
@@ -98,25 +100,7 @@ snit::widgetadaptor pixmapscroll {
 	option -width -default 14
 
 	typeconstructor {
-		foreach orientation {horizontal vertical} {
-			set ${orientation}_arrow1image [image create photo -file $orientation/arrow1.gif]
-			set ${orientation}_arrow2image [image create photo -file $orientation/arrow2.gif]
-			set ${orientation}_slidertopimage [image create photo -file $orientation/slidertop.gif]
-			set ${orientation}_sliderbodyimage [image create photo -file $orientation/sliderbody.gif]
-			set ${orientation}_sliderbottomimage [image create photo -file $orientation/sliderbottom.gif]
-			set ${orientation}_troughsrcimage [image create photo -file $orientation/trough.gif]
-
-			set ${orientation}_arrow1image_hover [image create photo -file $orientation/arrow1_hover.gif]
-			set ${orientation}_arrow2image_hover [image create photo -file $orientation/arrow2_hover.gif]
-			set ${orientation}_slidertopimage_hover [image create photo -file $orientation/slidertop_hover.gif]
-			set ${orientation}_sliderbodyimage_hover [image create photo -file $orientation/sliderbody_hover.gif]
-			set ${orientation}_sliderbottomimage_hover [image create photo -file $orientation/sliderbottom_hover.gif]
-
-			set ${orientation}_arrow1width [image width [set ${orientation}_arrow1image]]
-			set ${orientation}_arrow1height [image height [set ${orientation}_arrow1image]]
-			set ${orientation}_arrow2width [image width [set ${orientation}_arrow2image]]
-			set ${orientation}_arrow2height [image height [set ${orientation}_arrow2image]]
-		}
+		$type reloadimages ""
 	}
 
 	constructor {args} {
@@ -176,6 +160,16 @@ snit::widgetadaptor pixmapscroll {
 		}
 
 		bindtags $self "Pixmapscroll $self all"
+		
+		lappend scrollbarlist $self
+	}
+
+	destructor {
+		set ndx [lsearch $scrollbarlist $self]
+
+		if {$ndx != -1} {
+			set scrollbarlist [lreplace $scrollbarlist $ndx $ndx]
+		}
 	}
 
 	method Setnewsize { news } {
@@ -367,6 +361,32 @@ snit::widgetadaptor pixmapscroll {
 			$canvas coords $sliderimage [expr {$sliderpos + [delta 0 [expr {$newtop - $oldtop}]]}] 0
 		}
 
+	}
+	
+	typemethod reloadimages { dir } {
+		foreach orientation {horizontal vertical} {
+			set ${orientation}_arrow1image [image create photo ${orientation}_arrow1image -file [file join $dir $orientation/arrow1.gif]]
+			set ${orientation}_arrow2image [image create photo ${orientation}_arrow2image -file [file join $dir $orientation/arrow2.gif]]
+			set ${orientation}_slidertopimage [image create photo ${orientation}_slidertopimage -file [file join $dir $orientation/slidertop.gif]]
+			set ${orientation}_sliderbodyimage [image create photo ${orientation}_sliderbodyimage -file [file join $dir $orientation/sliderbody.gif]]
+			set ${orientation}_sliderbottomimage [image create photo ${orientation}_sliderbottomimage -file [file join $dir $orientation/sliderbottom.gif]]
+			set ${orientation}_troughsrcimage [image create photo ${orientation}_troughsrcimage -file [file join $dir $orientation/trough.gif]]
+
+			set ${orientation}_arrow1image_hover [image create photo ${orientation}_arrow1image_hover -file [file join $dir $orientation/arrow1_hover.gif]]
+			set ${orientation}_arrow2image_hover [image create photo ${orientation}_arrow2image_hover -file [file join $dir $orientation/arrow2_hover.gif]]
+			set ${orientation}_slidertopimage_hover [image create photo ${orientation}_slidertopimage_hover -file [file join $dir $orientation/slidertop_hover.gif]]
+			set ${orientation}_sliderbodyimage_hover [image create photo ${orientation}_sliderbodyimage_hover -file [file join $dir $orientation/sliderbody_hover.gif]]
+			set ${orientation}_sliderbottomimage_hover [image create photo ${orientation}_sliderbottomimage_hover -file [file join $dir $orientation/sliderbottom_hover.gif]]
+
+			set ${orientation}_arrow1width [image width [set ${orientation}_arrow1image]]
+			set ${orientation}_arrow1height [image height [set ${orientation}_arrow1image]]
+			set ${orientation}_arrow2width [image width [set ${orientation}_arrow2image]]
+			set ${orientation}_arrow2height [image height [set ${orientation}_arrow2image]]
+		}
+		
+		foreach scrollwidget $scrollbarlist {
+			$scrollwidget DrawScrollbar
+		}
 	}
 }
 
