@@ -14,7 +14,7 @@ set ::preview ""
 wm protocol . WM_DELETE_WINDOW {
 	if { [::Capture::IsValid $::grabber] } { ::Capture::Close $::grabber }
 	if { [::Capture::IsValid $::preview] } { ::Capture::Close $::preview }
-	exit 
+	exit
 }
 
 set img [image create photo]
@@ -44,7 +44,7 @@ proc ChooseDevice { } {
 
 
 	frame $devs -relief sunken -borderwidth 3
-        label $devs.label -text "Devices" 
+        label $devs.label -text "Devices"
 	listbox $devs.list -yscrollcommand "$devs.ys set" -background \
 	    white -relief flat -highlightthickness 0 -height 5
 	scrollbar $devs.ys -command "$devs.list yview" -highlightthickness 0 \
@@ -86,18 +86,18 @@ proc ChooseDevice { } {
 	foreach device $::devices {
 		set dev [lindex $device 0]
 		set name [lindex $device 1]
-		
+
 		if {$name == "" } {
 			set name "Device $dev is busy"
 		}
-		
+
 		$devs.list insert end $name
 	}
 
 	tkwait window $window
 }
 
-proc FillChannels { device_w chan_w status } { 
+proc FillChannels { device_w chan_w status } {
 
 	$chan_w delete 0 end
 
@@ -112,7 +112,7 @@ proc FillChannels { device_w chan_w status } {
 
 	if { [catch {set channels [::Capture::ListChannels $::device]} res] } {
 		$status configure -text $res
-		return	
+		return
 	}
 
 	foreach chan $channels {
@@ -144,11 +144,11 @@ proc StartPreview { device_w chan_w status preview_w settings } {
 
 # 	set device [lindex $::devices $dev]
 # 	set device [lindex $device 0]
-       	
-	
+
+
 	if { [catch {set channels [::Capture::ListChannels $::device]} res] } {
 		$status configure -text $res
-		return	
+		return
 	}
 
 	set channel [lindex $channels $chan]
@@ -160,12 +160,12 @@ proc StartPreview { device_w chan_w status preview_w settings } {
 
 	if { [catch {set ::preview [::Capture::Open $::device $channel]} res] } {
 		$status configure -text $res
-		return	
+		return
 	}
 
 	$settings configure -command "ShowPropertiesPage $::preview $img"
 	after 0 "StartGrab $::preview $img"
-	
+
 }
 
 proc Choose_Ok { w device_w chan_w img} {
@@ -191,11 +191,11 @@ proc Choose_Ok { w device_w chan_w img} {
 
 # 	set device [lindex $::devices $dev]
 # 	set device [lindex $device 0]
-	
-	
+
+
 	if { [catch {set channels [::Capture::ListChannels $::device]} res] } {
 		destroy $w
-		return	
+		return
 	}
 
 	set channel [lindex $channels $chan]
@@ -256,11 +256,11 @@ proc ShowPropertiesPage { capture_fd {img ""}} {
 
 	frame $slides
 	scale $slides.b -from 0 -to 65535 -resolution 1 -showvalue 1 -label "Brightness" -command "Properties_Set $slides.b b $capture_fd" -orient horizontal
-	scale $slides.c -from 0 -to 65535 -resolution 1 -showvalue 1 -label "Constrast" -command "Properties_Set $slides.c c $capture_fd" -orient horizontal
+	scale $slides.c -from 0 -to 65535 -resolution 1 -showvalue 1 -label "Contrast" -command "Properties_Set $slides.c c $capture_fd" -orient horizontal
 	scale $slides.h -from 0 -to 65535 -resolution 1 -showvalue 1 -label "Hue" -command "Properties_Set $slides.h h $capture_fd" -orient horizontal
 	scale $slides.co -from 0 -to 65535 -resolution 1 -showvalue 1 -label "Colour" -command "Properties_Set $slides.co co $capture_fd" -orient horizontal
 
-	pack $slides.b $slides.c $slides.h $slides.co -side top -expand true -fill x 
+	pack $slides.b $slides.c $slides.h $slides.co -side top -expand true -fill x
 
 	frame $buttons -relief sunken -borderwidth 3
 	button $buttons.ok -text "Ok" -command "destroy $window"
@@ -309,7 +309,7 @@ proc Properties_Set { w property capture_fd new_value } {
 			set val [::Capture::GetHue $capture_fd]
 			$w set $val
 		}
-		co 
+		co
 		{
 			::Capture::SetColour $capture_fd $new_value
 			set val [::Capture::GetColour $capture_fd]
@@ -319,7 +319,7 @@ proc Properties_Set { w property capture_fd new_value } {
 
 }
 proc Properties_Cancel { window capture_fd init_b init_c init_h init_co } {
-	
+
 	::Capture::SetBrightness $capture_fd $init_b
 	::Capture::SetContrast $capture_fd $init_c
 	::Capture::SetHue $capture_fd $init_h
