@@ -1709,13 +1709,15 @@ namespace eval ::ChatWindow {
 				-bordercolor [::skin::getKey chat_input_border_color]
 		
 		# set our inner widget's names
-		set sendbutton [$input getinnerframe].send
+		set sendbuttonframe [$input getinnerframe].sbframe
+		set sendbutton $sendbuttonframe.send
 		set text [$input getinnerframe].text
 
 		# Create the text widget and the send button widget
 		text $text -background white -width 15 -height 3 -wrap word -font bboldf \
 			-borderwidth 0 -relief solid -highlightthickness 0 -exportselection 1
 		
+		frame $sendbuttonframe -borderwidth 0 -bg [::skin::getKey sendbuttonbg]
 		# Send button in conversation window, specifications and command. Only
 		# compatible with Tcl/Tk 8.4. Disable it on Mac OS X (TkAqua looks better)
 		if { ($::tcl_version >= 8.4) && ($tcl_platform(os) != "Darwin") } {
@@ -1816,8 +1818,14 @@ namespace eval ::ChatWindow {
 
 		# Pack My input frame widgets
 		pack $text -side left -expand true -fill both -padx 1 -pady 1
-		pack $sendbutton -fill y -side left -padx [::skin::getKey chat_sendbutton_padx]\
+		pack $sendbutton -side top
+		pack $sendbuttonframe -side left -padx [::skin::getKey chat_sendbutton_padx]\
 			-pady [::skin::getKey chat_sendbutton_pady]
+
+		#send chatsendbutton postevent
+		set evPar(window_name) "$w"
+		set evPar(bottomleft) [$input getinnerframe]
+		::plugins::PostEvent chatsendbutton evPar
 		
 		
 		return $input
