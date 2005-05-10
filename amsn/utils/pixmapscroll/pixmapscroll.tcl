@@ -188,10 +188,16 @@ snit::widgetadaptor pixmapscroll {
 		#Drawing Trough
 		if { $options(-orient) == "vertical" } {
 			$troughimage blank
-			$troughimage copy $troughsrcimage -to 0 0 [image width $troughsrcimage] $newsize -zoom 1 [expr { $newsize / [image height $troughsrcimage] }]
+			set zoom [expr { $newsize / [image height $troughsrcimage] }]
+			if { $zoom > 0 } {
+				$troughimage copy $troughsrcimage -to 0 0 [image width $troughsrcimage] $newsize -zoom 1 $zoom
+			}
 		} else {
 			$troughimage blank
-			$troughimage copy $troughsrcimage -to 0 0 $newsize [image height $troughsrcimage] -zoom [expr { $newsize / [image width $troughsrcimage] }] 1
+			set zoom [expr { $newsize / [image width $troughsrcimage] }]
+			if { $zoom > 0 } {
+				$troughimage copy $troughsrcimage -to 0 0 $newsize [image height $troughsrcimage] -zoom $zoom 1
+			}
 		}
 
 		#Drawing Arrows
