@@ -518,4 +518,32 @@ if {![string equal [tk windowingsystem] "x11"]} {
     bind Pixmapscroll <Shift-Option-MouseWheel> {
         tk::ScrollByUnits %W h [expr {-10 * (%D)}]
     }
+} else {
+    bind Pixmapscroll <ButtonPress-5> {
+        tk::ScrollByUnits %W v 1
+    }
+    bind Pixmapscroll <ButtonPress-4> {
+        tk::ScrollByUnits %W v -1
+    }
+
+    bind Pixmapscroll <Option-ButtonPress-5> {
+        tk::ScrollByUnits %W v 10
+    }
+    bind Pixmapscroll <Option-ButtonPress-4> {
+        tk::ScrollByUnits %W v -10
+    }
+
+    bind Pixmapscroll <Shift-ButtonPress-5> {
+        tk::ScrollByUnits %W h 1
+    }
+    bind Pixmapscroll <Shift-ButtonPress-4> {
+        tk::ScrollByUnits %W h -1
+    }
+
+    bind Pixmapscroll <Shift-Option-ButtonPress-5> {
+        tk::ScrollByUnits %W h 10
+    }
+    bind Pixmapscroll <Shift-Option-ButtonPress-4> {
+        tk::ScrollByUnits %W h -10
+    }
 }
