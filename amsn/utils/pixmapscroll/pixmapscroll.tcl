@@ -175,7 +175,7 @@ snit::widgetadaptor pixmapscroll {
 			}
 		}
 
-		bindtags $self "Scrollbar $self all"
+		bindtags $self "Pixmapscroll $self all"
 	}
 
 	method Setnewsize { news } {
@@ -364,3 +364,132 @@ snit::widgetadaptor pixmapscroll {
 	}
 }
 
+
+#Bindings copied straight from Scrollbar bindings
+#Can't just use the Scrollbar tag as they aren't bound for windows or mac
+
+bind Pixmapscroll <Enter> {
+    if {$tk_strictMotif} {
+	set tk::Priv(activeBg) [%W cget -activebackground]
+	%W config -activebackground [%W cget -background]
+    }
+    %W activate [%W identify %x %y]
+}
+bind Pixmapscroll <Motion> {
+    %W activate [%W identify %x %y]
+}
+
+# The "info exists" command in the following binding handles the
+# situation where a Leave event occurs for a scrollbar without the Enter
+# event.  This seems to happen on some systems (such as Solaris 2.4) for
+# unknown reasons.
+
+bind Pixmapscroll <Leave> {
+    if {$tk_strictMotif && [info exists tk::Priv(activeBg)]} {
+	%W config -activebackground $tk::Priv(activeBg)
+    }
+    %W activate {}
+}
+bind Pixmapscroll <1> {
+    tk::ScrollButtonDown %W %x %y
+}
+bind Pixmapscroll <B1-Motion> {
+    tk::ScrollDrag %W %x %y
+}
+bind Pixmapscroll <B1-B2-Motion> {
+    tk::ScrollDrag %W %x %y
+}
+bind Pixmapscroll <ButtonRelease-1> {
+    tk::ScrollButtonUp %W %x %y
+}
+bind Pixmapscroll <B1-Leave> {
+    # Prevents <Leave> binding from being invoked.
+}
+bind Pixmapscroll <B1-Enter> {
+    # Prevents <Enter> binding from being invoked.
+}
+bind Pixmapscroll <2> {
+    tk::ScrollButton2Down %W %x %y
+}
+bind Pixmapscroll <B1-2> {
+    # Do nothing, since button 1 is already down.
+}
+bind Pixmapscroll <B2-1> {
+    # Do nothing, since button 2 is already down.
+}
+bind Pixmapscroll <B2-Motion> {
+    tk::ScrollDrag %W %x %y
+}
+bind Pixmapscroll <ButtonRelease-2> {
+    tk::ScrollButtonUp %W %x %y
+}
+bind Pixmapscroll <B1-ButtonRelease-2> {
+    # Do nothing:  B1 release will handle it.
+}
+bind Pixmapscroll <B2-ButtonRelease-1> {
+    # Do nothing:  B2 release will handle it.
+}
+bind Pixmapscroll <B2-Leave> {
+    # Prevents <Leave> binding from being invoked.
+}
+bind Pixmapscroll <B2-Enter> {
+    # Prevents <Enter> binding from being invoked.
+}
+bind Pixmapscroll <Control-1> {
+    tk::ScrollTopBottom %W %x %y
+}
+bind Pixmapscroll <Control-2> {
+    tk::ScrollTopBottom %W %x %y
+}
+
+bind Pixmapscroll <Up> {
+    tk::ScrollByUnits %W v -1
+}
+bind Pixmapscroll <Down> {
+    tk::ScrollByUnits %W v 1
+}
+bind Pixmapscroll <Control-Up> {
+    tk::ScrollByPages %W v -1
+}
+bind Pixmapscroll <Control-Down> {
+    tk::ScrollByPages %W v 1
+}
+bind Pixmapscroll <Left> {
+    tk::ScrollByUnits %W h -1
+}
+bind Pixmapscroll <Right> {
+    tk::ScrollByUnits %W h 1
+}
+bind Pixmapscroll <Control-Left> {
+    tk::ScrollByPages %W h -1
+}
+bind Pixmapscroll <Control-Right> {
+    tk::ScrollByPages %W h 1
+}
+bind Pixmapscroll <Prior> {
+    tk::ScrollByPages %W hv -1
+}
+bind Pixmapscroll <Next> {
+    tk::ScrollByPages %W hv 1
+}
+bind Pixmapscroll <Home> {
+    tk::ScrollToPos %W 0
+}
+bind Pixmapscroll <End> {
+    tk::ScrollToPos %W 1
+}
+
+if {![string equal [tk windowingsystem] "x11"]} {
+    bind Pixmapscroll <MouseWheel> {
+        tk::ScrollByUnits %W v [expr {- (%D)}]
+    }
+    bind Pixmapscroll <Option-MouseWheel> {
+        tk::ScrollByUnits %W v [expr {-10 * (%D)}]
+    }
+    bind Pixmapscroll <Shift-MouseWheel> {
+        tk::ScrollByUnits %W h [expr {- (%D)}]
+    }
+    bind Pixmapscroll <Shift-Option-MouseWheel> {
+        tk::ScrollByUnits %W h [expr {-10 * (%D)}]
+    }
+}
