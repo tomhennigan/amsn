@@ -4814,7 +4814,7 @@ proc ToBigEndian { bin length } {
 proc ToUnicode { text } {
 	status_log "Converting $text to unicode\n" red
 
-	set text [encoding convertfrom $text]
+#	set text [encoding convertfrom $text]
 	status_log "text msg is : $text\n" red
 	set text [encoding convertto unicode $text]
 	status_log "text msg is : $text\n" red
@@ -4837,7 +4837,7 @@ proc FromUnicode { text } {
 	set text [encoding convertfrom unicode "$text"]
 	status_log "text msg is : $text\n" red
 
-	set text [encoding convertto "$text"]
+#	set text [encoding convertto "$text"]
 	status_log "text msg is : $text\n" red
 
 	return $text
