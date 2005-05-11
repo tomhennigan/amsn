@@ -7263,22 +7263,11 @@ proc getPicSize { filename type } {
 		return ""
 	}
 
-	#IMPORTANT: If convertpath is blank, set it to "convert"
-	#if { [::config::getKey convertpath] == "" } {
-	#	::config::setKey convertpath "convert"
-	#}
-
-	#First conversion, no size, only .gif
-	#if { [catch { exec [::config::getKey convertpath] "${filename}" "${tempfile}.gif" } res]} {
-	#	status_log "CONVERT ERROR IN CONVERSION 1: $res" white
-	#	return ""
-	#}
-	
-	PictureConvert ${filename} ${tempfile}.gif
+	::picture::Convert ${filename} ${tempfile}.gif
 	
 	set img [image create photo -file "${tempfile}.gif"]
 	
-	return "[image width $img]x[image height $img]"
+	return "[image width $img]x[image height $img];image delete $img"
 }
 
 proc pictureChooseFile { } {
@@ -7384,150 +7373,6 @@ proc clear_disp { } {
 	::MSN::changeStatus [set ::MSN::myStatus]
 
 }
-#############TKCXIMAGE#############
-#############TKCXIMAGE#############
-#############TKCXIMAGE#############
-
-proc PictureCxImageLoaded { } {
-
-
-
-		foreach lib [info loaded] {
-			if { [lindex $lib 1] == "Tkcximage" } {
-				set tkcximageloaded 1
-				return 1
-			} 
-		}
-	
-	return 0
-}
-
-proc PictureConvert {original destination} {
-	if {[PictureCxImageLoaded]} {
-		#Use TkCxImage
-		if { [catch { ::CxImage::Convert "$original" "$destination" } res ] } {
-			status_log "Unable to convert picture with TkCximage \n$res" blue
-			return
-		} else {
-			return $destination
-		}
-	} else {
-		#Use Imagemagick
-		
-		#IMPORTANT: If convertpath is blank, set it to "convert"
-		if { [::config::getKey convertpath] == "" } {
-			::config::setKey convertpath "convert"
-		}
-		
-		if { [catch { exec [::config::getKey convertpath] "$original" "$destination" } res] } {
-			status_log "Unable to convert picture with ImageMagick: $res" blue
-			return
-		} else {
-			return $destination
-		}
-
-	}
-
-}
-
-proc PictureResize {photo width height} {
-	if {[PictureCxImageLoaded]} {
-		#TkCximage
-		if { [catch { ::CxImage::Resize $photo $width $height } res ] } {
-			status_log "Unable to resize picture with TkCximage \n$res"r
-			return
-		} else {
-			return $photo
-		}
-	} else {
-		#ImageMagick
-		#if { [catch { exec [::config::getKey convertpath] "${filename}" -resize "${width}x${height}" "${tempfile}.gif"} res] } {
-		#	status_log "CONVERT ERROR IN CONVERSION 2: $res" white
-		#	return ""
-		#}
-	}
-	
-}
-
-#Alpha opacity for border (between 0 and 255)	
-proc PictureThumbnail { photo width height bordercolor {alpha ""} } {
-	if {[PictureCxImageLoaded]} {
-		if {$alpha == ""} {
-		
-			if { [catch {::CxImage::Thumbnail $photo $width $height $bordercolor} res] != 0 } {
-				status_log "Unable to create thumbnail with TkCximage \n$res" blue
-				return
-			}	else {
-				return $photo
-			}
-		} else {
-			
-			if { [catch {::CxImage::Thumbnail $photo $width $height $bordercolor -alpha $alpha} res ] != 0 } {
-				status_log "Unable to create thumbnail with TkCximage \n$res" blue
-				return
-			} else {
-				return $photo
-			}
-			
-		}
-	}	
-}
-
-proc PictureCrop {photo x1 y1 x2 y2} {
-
-	set temp [image create photo]
-	
-	if {[PictureCxImageLoaded]} {
-		if { [catch {$temp copy $photo -from $x1 $y1 $x2 $y2} res ] != 0 } {
-			status_log "Unable to crop image with TkCxImage\n$res" blue
-			return
-		} else {
-			return $temp
-		}
-	}
-}
-
-#Format supported: "cxgif" "cxpng" "cxjpg" "cxtga"
-proc PictureSave {photo destination {format ""}} {
-	if {[PictureCxImageLoaded]} {
-		if {$format != ""} {
-			if { [catch {$photo write $destination -format $format} res] != 0} {
-				status_log "Error Saving to the file with TkCximage : \n$res" blue
-				return
-			} else {
-				return $destination
-			}
-		} else {
-			if { [catch {$photo write $destination} res] != 0} {
-				status_log "Error Saving to the file with TkCximage : \n$res" blue
-				return
-			} else {
-				return $destination
-			}
-		}
-	} else {
-		#Without TkCxImage
-		set destination "[filenoext $destination].gif"
-		if { [catch {$photo write $destination -format gif} res] != 0} {
-				status_log "Error Saving to the file without TkCximage : \n$res" blue
-				return
-		} else {
-			return $destination
-		}
-	}
-}
-proc PictureGetSkinFile {directory file {format "gif"}} {
-	if {[PictureCxImageLoaded]} {
-		#With TkCximage
-		set photo [image create photo -file [::skin::GetSkinFile "$directory" "[filenoext [file tail $file]].$format"]]
-		return $photo
-	} else {
-		#Without TkCximage
-		set photo [image create photo -file [::skin::GetSkinFile "$directory" "[filenoext [file tail $file]].gif"]]
-		return $photo
-	}
-}
-
 ###################### Protocol Debugging ###########################
 if { $initialize_amsn == 1 } {
 	global degt_protocol_window_visible degt_command_window_visible
@@ -8096,7 +7941,7 @@ proc webcampicture_save {preview} {
 	if { ![catch {convert_image_plus $file displaypic "96x96"} res]} {
 		
 		#Set image_name
-		set image_name [PictureGetSkinFile displaypic $file png]
+		set image_name [::picture::GetSkinFile displaypic $file png]
 		#Change picture in .mypic frame of .picbrowser
 		.picbrowser.mypic configure -image $image_name
 		
@@ -8130,7 +7975,7 @@ proc webcampicture_saveas {preview} {
 	set filename [tk_getSaveFile -initialfile $file -initialdir [set ::files_dir]]
 
 	if {$filename != ""} { 
-		PictureSave $preview $filename
+		::picture::Save $preview $filename
 	}
 
 }
