@@ -97,7 +97,7 @@ snit::widgetadaptor pixmapscroll {
 	option -activerelief -default raised
 	option -command -default {}
 	option -elementborderwidth -default -1
-	option -width -default 14
+	option -width -default 14 -configuremethod SetWidth
 
 	typeconstructor {
 		$type reloadimages "" 1
@@ -143,7 +143,11 @@ snit::widgetadaptor pixmapscroll {
 		set troughimage [image create photo]
 		set sliderimage_hover [image create photo]
 
-		$canvas configure -width $arrow1width -height $arrow1height
+		if { $options(-orient) == "vertical" } {
+			$self configure -width $arrow1width
+		} else {
+			$self configure -width $arrow1height
+		}
 
 		$canvas create image 0 0 -anchor nw -image $troughimage -tag $troughimage
 
@@ -169,6 +173,15 @@ snit::widgetadaptor pixmapscroll {
 
 		if {$ndx != -1} {
 			set scrollbarlist [lreplace $scrollbarlist $ndx $ndx]
+		}
+	}
+
+	method SetWidth {option value} {
+		set options($option) $value
+		if { $options(-orient) == "vertical" } {
+			$canvas configure -width $value
+		} else {
+			$canvas configure -height $value
 		}
 	}
 
@@ -383,6 +396,11 @@ snit::widgetadaptor pixmapscroll {
 		}
 		
 		foreach scrollwidget $scrollbarlist {
+			if { [$scrollwidget cget -orient] == "vertical" } {
+				$scrollwidget configure -width [set ${orientation}_arrow1width]
+			} else {
+				$scrollwidget configure -width [set ${orientation}_arrow1height]
+			}
 			$scrollwidget DrawScrollbar
 		}
 	}
