@@ -100,7 +100,7 @@ snit::widgetadaptor pixmapscroll {
 	option -width -default 14
 
 	typeconstructor {
-		$type reloadimages ""
+		$type reloadimages "" 1
 	}
 
 	constructor {args} {
@@ -363,20 +363,18 @@ snit::widgetadaptor pixmapscroll {
 
 	}
 	
-	typemethod reloadimages { dir } {
+	typemethod reloadimages { dir {force 0} } {
 		foreach orientation {horizontal vertical} {
-			set ${orientation}_arrow1image [image create photo ${orientation}_arrow1image -file [file join $dir $orientation/arrow1.gif]]
-			set ${orientation}_arrow2image [image create photo ${orientation}_arrow2image -file [file join $dir $orientation/arrow2.gif]]
-			set ${orientation}_slidertopimage [image create photo ${orientation}_slidertopimage -file [file join $dir $orientation/slidertop.gif]]
-			set ${orientation}_sliderbodyimage [image create photo ${orientation}_sliderbodyimage -file [file join $dir $orientation/sliderbody.gif]]
-			set ${orientation}_sliderbottomimage [image create photo ${orientation}_sliderbottomimage -file [file join $dir $orientation/sliderbottom.gif]]
-			set ${orientation}_troughsrcimage [image create photo ${orientation}_troughsrcimage -file [file join $dir $orientation/trough.gif]]
-
-			set ${orientation}_arrow1image_hover [image create photo ${orientation}_arrow1image_hover -file [file join $dir $orientation/arrow1_hover.gif]]
-			set ${orientation}_arrow2image_hover [image create photo ${orientation}_arrow2image_hover -file [file join $dir $orientation/arrow2_hover.gif]]
-			set ${orientation}_slidertopimage_hover [image create photo ${orientation}_slidertopimage_hover -file [file join $dir $orientation/slidertop_hover.gif]]
-			set ${orientation}_sliderbodyimage_hover [image create photo ${orientation}_sliderbodyimage_hover -file [file join $dir $orientation/sliderbody_hover.gif]]
-			set ${orientation}_sliderbottomimage_hover [image create photo ${orientation}_sliderbottomimage_hover -file [file join $dir $orientation/sliderbottom_hover.gif]]
+			foreach pic {arrow1 arrow2 slidertop sliderbody sliderbottom} {
+				foreach hov {{} _hover} {
+					if { [file exists [file join $dir $orientation/${pic}${hov}.gif]] || $force } {
+						set ${orientation}_${pic}image${hov} [image create photo ${orientation}_${pic}image${hov} -file [file join $dir $orientation/${pic}${hov}.gif]]
+					}
+				}
+			}
+			if { [file exists [file join $dir $orientation/trough.gif]] || $force } {
+				set ${orientation}_troughsrcimage [image create photo ${orientation}_troughsrcimage -file [file join $dir $orientation/trough.gif]]
+			}
 
 			set ${orientation}_arrow1width [image width [set ${orientation}_arrow1image]]
 			set ${orientation}_arrow1height [image height [set ${orientation}_arrow1image]]
