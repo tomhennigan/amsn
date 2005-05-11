@@ -37,7 +37,7 @@ allow_sms Autoriser mes contacts à me téléphoner sur mon mobile
 allprofilesinuse Tous les profils existants sont présentement utilisés
 animatedemoticon Cet émoticon est animé
 animatedsmileys Activer les émoticons animés
-animatenotify Animer la fenêtre de notifications
+animatenotify Animer la fenêtre d'annonces
 appearance Apparence
 appearoff Apparaître déconnecté[e]
 areacode Code régional
@@ -104,12 +104,12 @@ changestate $1 a changé de statut : $2
 charscounter Compteur de caractères dans la fenêtre de conversation
 chatack Accepter de discuter avec
 chat Discuter
-chatmaxmin Quand une fenêtre d'invitation de dialogue s'ouvre, je veux qu'elle soit :
+chatmaxmin Quand une fenêtre de conversation s'ouvre, je veux qu'elles soient :
 chatreq Inviter à discuter
-chatsmileys2 Afficher les émoticons et les smileys dans la fenêtre de discussion
+chatsmileys2 Afficher les émoticons et les smileys dans la fenêtre de conversation
 chatsmileys Afficher les émoticons et smileys
 checkblocking Vérifier continuellement si des contacts vous ont bloqué
-checkemail Afficher une ligne de notification d'email (Boîte aux lettres) dans la liste des contacts
+checkemail Afficher une ligne d'annonce d'email (Boîte aux lettres) dans la liste des contacts
 checkfilman Les fichiers reçus seront sauvegardés dans $1. Veuillez vérifier les propriétés du gestionnaire de fichier dans la fenêtre de préférences.
 checkingver Recherche d'une nouvelle version
 checkonfln Verifier si un contact vous a bloqué lorsqu'il se déconnecte
@@ -169,10 +169,10 @@ credits Crédits
 currentdate Date actuelle
 currentlanguage Langue actuelle
 currentnotes Notes actuelles
-custnotifymsg Affiche une notification quand vous recevez un message d'un de vos contacts
-custnotifyoffline Affiche une notification quand un de vos contact se déconnecte.
-custnotifyonline Affiche une notification quand un de vos contact se connecte
-custnotifystatus Affiche une notification quand un de vos contact change de status
+custnotifymsg Annoncer quand vous recevez un message d'un de vos contacts
+custnotifyoffline Annoncer quand un de vos contact se déconnecte.
+custnotifyonline Annoncer quand un de vos contact se connecte
+custnotifystatus Annoncer quand un de vos contact change de status
 customcolor Couleur personnalisée
 custom_edit Editer un émoticon personnalisé
 custom_new Créer un émoticon personnalisé
@@ -186,7 +186,7 @@ days Jours
 dcprofile Ne pas créer de profil
 default Configuration par défaut
 defaultloginradio Connexion avec la configuration par défaut
-defchatwinsize Taille par défaut des fenêtres de discussion (Largeur x Hauteur)
+defchatwinsize Taille par défaut des fenêtres de conversation (Largeur x Hauteur)
 deleteall Tout supprimer
 deletecustomstate Suppression du statut personnel
 delete Supprimer
@@ -200,7 +200,7 @@ directconnection J'ai une connexion directe à Internet (utilisation du port 1863
 disabled Désactivé
 disableprofiles Désactiver les profils (utile pour la cyber-cafés ou pour les environnements partagés)
 disablessl Désactiver SSL
-disableuserfonts Ignorer la police du contact distant dans les discussions, et utiliser votre propre police
+disableuserfonts Ignorer la police du contact distant dans les conversations, et utiliser votre propre police
 disconnect $1 s'est déconnecté.
 disconnectedfrom Déconnecté[e] de $1
 displaychat Options d'affichage du texte
@@ -216,7 +216,7 @@ docking Ancrage actif
 dockingoff Pas d'ancrage
 dockkde Ancrage dans KDE
 dontdownload Ne pas télécharger TLS, je l'installerai moi-même
-dontshow Ne pas montrer
+dontshow Ne pas la montrer
 downloadingtls Téléchargement du module TLS à partir de :\n $1
 download Télécharger
 editcustomstate Editer le statut personnel
@@ -341,7 +341,7 @@ lclosedwin $1 a fermé la fenêtre sur $2
 lconftopriv Conférence changée en conversation privée avec $1
 lconvstarted Conversation commencée le $1
 leaveblankforhotmail Laisser vide pour un compte Hotmail
-leavejoinsinchat Montrer les notifications "Départ/Arrivées dans la conversation" au sein de la fenêtre de discussion
+leavejoinsinchat Annoncer les "Départ/Arrivées dans la conversation" au sein de la fenêtre de conversation
 leaves Départ de $1
 lenteredconf $1 a rejoint la conférence sur $2
 lineflushlog Ecrire l'historique à chaque ligne
@@ -390,7 +390,7 @@ move Déplacer
 movetogroup Déplacer vers groupe
 msg Message
 msgflicker Faire clignoter la barre de titre d'une fenêtre inactive quand un message est reçu
-msgmaxmin Quand un nouveau message arrive, je veux qu'elle soit
+msgmaxmin Quand un nouveau message arrive, je veux qu'elles soient
 msgmode Choisissez comment manier plusieurs fenêtres de messages :
 msn aMSN
 msnstyle Chat de type MSN
@@ -435,21 +435,21 @@ normal Ordre normal
 noskins Ne trouve l'apparence par défaut dans le dossier skins/. Ne peut lancer aMSN.
 nosystemtray La poubelle n'est pas accessible
 note Note
-notificationserver Serveur MSN initial de notification (Serveur MSN Messenger)
-notify1_5 Afficher une notification quand les contacts se déconnectent
-notify1_75 Afficher une notification quand les contacts changent de statut
-notify1 Afficher une notification quand un contact est en ligne
-notify2 Afficher une notification quand de nouveaux messages sont reçus
-notify3 Afficher une notification quand des E-mails arrivent dans votre boîte de réception
-notify4 Afficher une notification quand des E-mails arrivent dans les autres dossiers
-notifyoffset Sélectionner la position de la fenêtre de notification en précisant ses coordonnées
+notificationserver Annonce  initiale du Serveur MSN (Serveur MSN Messenger)
+notify1_5 Annoncer quand les contacts se déconnectent
+notify1_75 Annoncer quand les contacts changent de statut
+notify1 Annoncer quand un contact est en ligne
+notify2 Annoncer quand de nouveaux messages sont reçus
+notify3 Annoncer quand des E-mails arrivent dans votre boîte de réception
+notify4 Annoncer quand des E-mails arrivent dans les autres dossiers
+notifyoffset Sélectionner la position de la fenêtre d'annonce en précisant ses coordonnées
 notify prévenir
 notifytimeout Nombre de milisecondes écoulées avant que la fenêtre d'annonce ne disparaisse
-notifytyping Envoyer aux autres contacts une notification lors de l'usage du clavier
-notifywin Fenêtre de notification
+notifytyping Envoyer aux autres contacts une annonce à propos de l'usage du clavier
+notifywin Fenêtre d'annonce
 notinlist Vous ne figurez pas dans sa liste de contact
 notls Le protocole 9 de MSN requiert le module tls. Celui-ci ne semble pas être installé sur le système. S'il est installé,
-nottabbed Fenêtre normale sans onglets
+nottabbed Fenêtres normales sans onglets
 nousersinsession Pas de contacts dans cette session
 nudge $1 réclame votre attention
 offline Déconnecté[e]
@@ -497,7 +497,7 @@ preflibs Répertoires des bibliothèques
 preflog1 Mon historique et ses options
 preflogevent Mon historique d'événements
 preflook Apparence de aMSN
-prefmsging Mes fenêtres de discussion
+prefmsging Mes fenêtres de conversation
 prefname Mon nom/pseudonyme MSN Messenger
 prefphone2 Entrer les numéros de téléphone visibles par la liste des personnes autorisées\n
 prefphone Mes numéros de téléphone
@@ -525,13 +525,13 @@ proxyconnection Je me connecte à Internet via un serveur proxy :
 proxy Je suis derrière un serveur proxy (HTTP ou SOCKS5)
 publishphones Publier mes numéros de téléphone
 purge Tout effacer
-raised Maximisé/Désicônifié
+raised Maximisée/Désicônifiée
 readonlymsgbox Le tranfert de fichier a été annulé, car le répertoire de réception est en lecture seule. Veillez modifier les droits d'accès de ce répertoire.
 readonlywarn AVERTISSEMENT: Le fichier ne sera probablement PAS sauvegardé correctement, car le répertoire de réception de fichiers semble être protégé en écriture. Veuillez vous assurer que les droits d'accès du répertoire $1 sont configurés correctement avant de transférer le fichier.
 receivedbytes $1 sur $2 octets reçus
 receiveddir Dossier des fichiers reçus
 receivefile Fichier reçu
-recentmsg Empêcher la fermeture d'une fenêtre de discussion lorsqu'un nouveau message est arrivé.
+recentmsg Empêcher la fermeture d'une fenêtre de conversation lorsqu'un nouveau message est arrivé.
 reconnect2 Se reconnecter en cas de déconnexion
 reconnect Dans l'attente de la reconnexion de $1
 reconnecting Reconnexion au serveur
@@ -545,7 +545,7 @@ reversed Ordre inversé
 reverselist Liste inversée :
 rightback Bientôt de retour
 saveas Enregistrer sous
-savechatwinsize Sauvegarder en tant que taille par défaut la taille de la fenêtre de discussion quand elle est changée.
+savechatwinsize Sauvegarder en tant que taille par défaut la taille de la fenêtre de conversation quand elle est changée.
 savecontacts Enregistrer la liste des contacts
 save Enregistrer
 savetofile Sauvegarder dans un fichier
@@ -569,11 +569,11 @@ session Session
 showbanner Affiche la bannière d'aMSN
 showblockedlist Voir la liste des personnes que vous avez bloqué
 showcachedpics Afficher/Masquer les icônes cachées
-showdisplaypic2 Afficher l'icône par défaut à l'ouverture d'une fenêtre de discussion
+showdisplaypic2 Afficher l'icône par défaut à l'ouverture d'une fenêtre de conversation
 showdisplaypic Afficher l'icône
 showmypic Mon icône
-shownotify Afficher la fenêtre de notification quand certains événements se produisent
-showpicnotify Montrer l'icône des contacts dans la fenêtre de notification
+shownotify Afficher la fenêtre d'annonce quand certains événements se produisent
+showpicnotify Montrer l'icône des contacts dans la fenêtre d'annonce
 showuserpic Icône de $1
 signinstatus Status lors de la connexion
 skin apparence
@@ -583,7 +583,7 @@ smilefile Nom du fichier de l'émoticon
 smileintro2 Veuillez editer les champs obligatoires pour personnaliser cet émoticon (voir la FAQ pour l'aide)
 smileintro Veuillez remplir les champs obligatoires pour créer un nouvel émoticon (voir la FAQ pour l'aide)
 snackfailed Snack n'a pas pu se lancer, retour à la valeur par défaut
-sngdblclick Un click simple ouvre une nouvelle fenêtre de discussion
+sngdblclick Un click simple ouvre une nouvelle fenêtre de conversation
 sound2 Jouer un son quand un contact se connecte ou quand un message est reçu
 soundactive Jouer un son même lorsque le message arrive dans la fenêtre active
 soundcommand Ceci est la commande de lecture de sons (ex: esdplay)
@@ -621,7 +621,7 @@ subjectrequired Sujet requis
 subject Sujet
 syntaxerror Erreur de syntaxe
 tabbedglobal Une fenêtre à onglets pour tous les contacts se trouvant dans votre liste de contacts
-tabbedgroups Une fenêtre à onglets pour tous les contacts se trouvant dans une même groupe
+tabbedgroups Une fenêtre à onglets pour tous les contacts se trouvant dans un même groupe
 tabbed Onglets
 tabtitlenick Afficher, dans les onglets, le pseudonyme au lieu de l'email
 takesnapshot Prendre une impression d'écran
@@ -629,7 +629,7 @@ temp_state Ne pas enregistrer (état temporaire, sera perdu à la fermeture d'aMSN
 textsize Taille du texte
 thismonth Ce mois-ci
 timeremaining Temps restant
-timestamps Activer l'horodateur des fenêtres de discussion
+timestamps Activer l'horodateur des fenêtres de conversation
 timestamp Horodateur
 title aMSN
 tkerror TK a rapporté une erreur, il y a un bogue dans aMSN, veuillez le rapportez en envoyant le fichier $1 à amsn-bugs@lists.sf.net
