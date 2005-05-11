@@ -20,6 +20,12 @@ snit::widgetadaptor pixmapscroll {
 	typecomponent vertical_slidertopimage_hover
 	typecomponent vertical_sliderbodyimage_hover
 	typecomponent vertical_sliderbottomimage_hover
+	
+	typecomponent vertical_arrow1image_pressed
+	typecomponent vertical_arrow2image_pressed
+	typecomponent vertical_slidertopimage_pressed
+	typecomponent vertical_sliderbodyimage_pressed
+	typecomponent vertical_sliderbottomimage_pressed
 
 	typevariable vertical_arrow1width
 	typevariable vertical_arrow1height
@@ -39,6 +45,12 @@ snit::widgetadaptor pixmapscroll {
 	typecomponent horizontal_slidertopimage_hover
 	typecomponent horizontal_sliderbodyimage_hover
 	typecomponent horizontal_sliderbottomimage_hover
+	
+	typecomponent horizontal_arrow1image_pressed
+	typecomponent horizontal_arrow2image_pressed
+	typecomponent horizontal_slidertopimage_pressed
+	typecomponent horizontal_sliderbodyimage_pressed
+	typecomponent horizontal_sliderbottomimage_pressed
 
 	typevariable horizontal_arrow1width
 	typevariable horizontal_arrow1height
@@ -58,6 +70,12 @@ snit::widgetadaptor pixmapscroll {
 	component slidertopimage_hover
 	component sliderbodyimage_hover
 	component sliderbottomimage_hover
+	
+	component arrow1image_pressed
+	component arrow2image_pressed
+	component slidertopimage_pressed
+	component sliderbodyimage_pressed
+	component sliderbottomimage_pressed
 
 	variable arrow1width
 	variable arrow1height
@@ -67,6 +85,7 @@ snit::widgetadaptor pixmapscroll {
 	component sliderimage
 	component troughimage
 	component sliderimage_hover
+	component sliderimage_pressed
 
 	variable canvas
 	variable visible 1
@@ -97,10 +116,10 @@ snit::widgetadaptor pixmapscroll {
 	option -activerelief -default raised
 	option -command -default {}
 	option -elementborderwidth -default -1
-	option -width -default 14 -configuremethod SetWidth
+	option -width -default 14
 
 	typeconstructor {
-		$type reloadimages "" 1
+		$type reloadimages ""
 	}
 
 	constructor {args} {
@@ -132,6 +151,13 @@ snit::widgetadaptor pixmapscroll {
 		set slidertopimage_hover [set ${orientation}_slidertopimage_hover]
 		set sliderbodyimage_hover [set ${orientation}_sliderbodyimage_hover]
 		set sliderbottomimage_hover [set ${orientation}_sliderbottomimage_hover]
+		
+		set arrow1image_pressed [set ${orientation}_arrow1image_pressed]
+		set arrow2image_pressed [set ${orientation}_arrow2image_pressed]
+		set slidertopimage_pressed [set ${orientation}_slidertopimage_pressed]
+		set sliderbodyimage_pressed [set ${orientation}_sliderbodyimage_pressed]
+		set sliderbottomimage_pressed [set ${orientation}_sliderbottomimage_pressed]
+		
 
 		set arrow1width [set ${orientation}_arrow1width]
 		set arrow1height [set ${orientation}_arrow1height]
@@ -142,15 +168,22 @@ snit::widgetadaptor pixmapscroll {
 		set sliderimage [image create photo]
 		set troughimage [image create photo]
 		set sliderimage_hover [image create photo]
+		set sliderimage_pressed [image create photo]
+
+		$canvas configure -width $arrow1width -height $arrow1height
+
+		# Draw components:
+		$canvas create image 0 0 -anchor nw -image $troughimage -tag $troughimage
+		$canvas create image 0 0 -anchor nw -image $sliderimage -activeimage $sliderimage_hover -tag $sliderimage
+		$canvas create image 0 0 -anchor nw -image $arrow1image -activeimage $arrow1image_hover -tag $arrow1image
 
 		if { $options(-orient) == "vertical" } {
-			$self configure -width $arrow1width
+			$canvas create image 0 $newsize -anchor sw -image $arrow2image -activeimage $arrow2image_hover -tag $arrow2image
 		} else {
-			$self configure -width $arrow1height
+			$canvas create image $newsize 0 -anchor ne -image $arrow2image -activeimage $arrow2image_hover -tag $arrow2image
 		}
 
-		$canvas create image 0 0 -anchor nw -image $troughimage -tag $troughimage
-
+		# Set configure bindings:
 		if { $options(-orient) == "vertical" } {
 			bind $self <Configure> {
 				%W Setnewsize %h
@@ -165,6 +198,9 @@ snit::widgetadaptor pixmapscroll {
 
 		bindtags $self "Pixmapscroll $self all"
 		
+		bind $self <Button-1> "$self PressedImage %x %y"
+		bind $self <ButtonRelease-1> "puts release; $self ReleasedImage %x %y"
+		
 		lappend scrollbarlist $self
 	}
 
@@ -176,46 +212,45 @@ snit::widgetadaptor pixmapscroll {
 		}
 	}
 
-	method SetWidth {option value} {
-		set options($option) $value
-		if { $options(-orient) == "vertical" } {
-			$canvas configure -width $value
-		} else {
-			$canvas configure -height $value
-		}
-	}
-
 	method Setnewsize { news } {
 		set newsize $news
+	}
+	
+	method PressedImage { x y } {
+		set element [$self identify $x $y]
+		switch $element {
+			"slider" { $canvas itemconfigure $sliderimage -image $sliderimage_pressed -activeimage $sliderimage_pressed }
+			"arrow1" { $canvas itemconfigure $arrow1image -image $arrow1image_pressed -activeimage $arrow1image_pressed }
+			"arrow2" { $canvas itemconfigure $arrow2image -image $arrow2image_pressed -activeimage $arrow2image_pressed }
+			default { return }
+		}
+	}
+	
+	method ReleasedImage { x y } {
+		$canvas itemconfigure $sliderimage -image $sliderimage -activeimage $sliderimage_hover
+		$canvas itemconfigure $arrow1image -image $arrow1image -activeimage $arrow1image_hover
+		$canvas itemconfigure $arrow2image -image $arrow2image -activeimage $arrow2image_hover
 	}
 
 	#Draw or redraw the scrollbar
 	method DrawScrollbar { } {
 	
+	
+		
+		#Drawing Arrows:
+		if { $options(-orient) == "vertical" } {
+			$canvas coords $arrow2image 0 $newsize
+		} else {
+			$canvas coords $arrow2image $newsize 0
+		}
+
 		#Drawing Trough
 		if { $options(-orient) == "vertical" } {
 			$troughimage blank
-			set zoom [expr { $newsize / [image height $troughsrcimage] }]
-			if { $zoom > 0 } {
-				$troughimage copy $troughsrcimage -to 0 0 [image width $troughsrcimage] $newsize -zoom 1 $zoom
-			}
+			$troughimage copy $troughsrcimage -to 0 0 [image width $troughsrcimage] $newsize
 		} else {
 			$troughimage blank
-			set zoom [expr { $newsize / [image width $troughsrcimage] }]
-			if { $zoom > 0 } {
-				$troughimage copy $troughsrcimage -to 0 0 $newsize [image height $troughsrcimage] -zoom $zoom 1
-			}
-		}
-
-		#Drawing Arrows
-		$canvas delete $arrow1image
-		$canvas delete $arrow2image
-		$canvas create image 0 0 -anchor nw -image $arrow1image -activeimage $arrow1image_hover -tag $arrow1image
-
-		if { $options(-orient) == "vertical" } {
-			$canvas create image 0 $newsize -anchor sw -image $arrow2image -activeimage $arrow2image_hover -tag $arrow2image
-		} else {
-			$canvas create image $newsize 0 -anchor ne -image $arrow2image -activeimage $arrow2image_hover -tag $arrow2image
+			$troughimage copy $troughsrcimage -to 0 0 $newsize [image height $troughsrcimage]
 		}
 
 		#Drawing Slider
@@ -237,12 +272,23 @@ snit::widgetadaptor pixmapscroll {
 			$sliderimage_hover copy $slidertopimage_hover
 			$sliderimage_hover copy $sliderbodyimage_hover -to 0 [image height $slidertopimage_hover] [image width $sliderbodyimage_hover] [expr {$slidersize - [image height $sliderbottomimage_hover] }]
 			$sliderimage_hover copy $sliderbottomimage_hover -to 0 [expr {$slidersize - [image height $sliderbottomimage_hover]}] -shrink
+			
+			$sliderimage_pressed blank
+			$sliderimage_pressed copy $slidertopimage_pressed
+			$sliderimage_pressed copy $sliderbodyimage_pressed -to 0 [image height $slidertopimage_pressed] [image width $sliderbodyimage_pressed] [expr {$slidersize - [image height $sliderbottomimage_pressed] }]
+			$sliderimage_pressed copy $sliderbottomimage_pressed -to 0 [expr {$slidersize - [image height $sliderbottomimage_pressed]}] -shrink
 
+			# Set the slider's position:
 			set sliderpos [expr {($first * ($newsize - ($arrow1height + $arrow2height))) + $arrow1height}]
+			
+			# Check to avoid slight moving of scrollbar during resizing when at top or bottom:
+			if { [lindex [$self get] 0] == 0 } { set sliderpos $arrow1height }
+			if { [lindex [$self get] 1] == 1 } { set sliderpos [expr $newsize - $arrow2height - $slidersize] }
+			
+			# Make sure the slider doesn't escape the trough!
 			if { $sliderpos < $arrow1height } { set sliderpos $arrow1height }
 			if { $sliderpos > [expr {$newsize - $arrow1height - $slidersize}] } { set sliderpos [expr {$newsize - $arrow1height - $slidersize}] }
-			$canvas delete $sliderimage
-			$canvas create image 0 $sliderpos -anchor nw -image $sliderimage -activeimage $sliderimage_hover -tag $sliderimage
+			$canvas coords $sliderimage 0 $sliderpos
 
 		} else {
 			set slidersize [lindex [split [expr {$visible * ($newsize - ($arrow1width + $arrow2width))}] .] 0]
@@ -265,12 +311,16 @@ snit::widgetadaptor pixmapscroll {
 			$sliderimage_hover copy $sliderbodyimage_hover -to [image width $slidertopimage_hover] 0 [expr {$slidersize - [image width $sliderbottomimage_hover]}] [image height $sliderbodyimage_hover]
 			$sliderimage_hover copy $sliderbottomimage_hover -to [expr {$slidersize - [image width $sliderbottomimage_hover]}] 0 -shrink
 
+			$sliderimage_pressed blank
+			$sliderimage_pressed copy $slidertopimage_pressed
+			$sliderimage_pressed copy $sliderbodyimage_pressed -to [image width $slidertopimage_pressed] 0 [expr {$slidersize - [image width $sliderbottomimage_pressed]}] [image height $sliderbodyimage_pressed]
+			$sliderimage_pressed copy $sliderbottomimage_pressed -to [expr {$slidersize - [image width $sliderbottomimage_pressed]}] 0 -shrink
+
 			set sliderpos [expr {($first * ($newsize - ($arrow1width + $arrow2width))) + $arrow1width}]
 
 			if { $sliderpos < $arrow1width } { set sliderpos $arrow1width }
 			if { $sliderpos > [expr {$newsize - $arrow1width - $slidersize}] } { set sliderpos [expr {$newsize - $arrow1width - $slidersize}] }
-			$canvas delete $sliderimage
-			$canvas create image $sliderpos 0 -anchor nw -image $sliderimage -activeimage $sliderimage_hover -tag $sliderimage
+			$canvas coords $sliderimage $sliderpos 0
 		}
 
 		#Drawing "virtual troughs"
@@ -382,6 +432,11 @@ snit::widgetadaptor pixmapscroll {
 				foreach hov {{} _hover} {
 					if { [file exists [file join $dir $orientation/${pic}${hov}.gif]] || $force } {
 						set ${orientation}_${pic}image${hov} [image create photo ${orientation}_${pic}image${hov} -file [file join $dir $orientation/${pic}${hov}.gif]]
+					}
+				}
+				foreach press {{} _pressed} {
+					if { [file exists [file join $dir $orientation/${pic}${press}.gif]] || $force } {
+						set ${orientation}_${pic}image${press} [image create photo ${orientation}_${pic}image${press} -file [file join $dir $orientation/${pic}${press}.gif]]
 					}
 				}
 			}
