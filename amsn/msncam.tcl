@@ -997,7 +997,8 @@ namespace eval ::MSNCAM {
 
 	proc SendFrame { sock encoder img } {
 		#If the img is not at the right size, don't encode (crash issue..)
-		if { [image width $img] != "320" || [image heigh $img] != "240" } {
+		if { [image width $img] != "320" || [image height $img] != "240" } {
+			status_log "webcam: Wrong size: Width is [image width $img] and height is [image height $img]\n" red
 			return
 		}
 		if { [catch {set data [::Webcamsn::Encode $encoder $img]} res] } {
@@ -1093,7 +1094,6 @@ namespace eval ::CAMGUI {
 					set grabber .grabber_$sid
 				}
 			} elseif { [set ::tcl_platform(os)] == "Darwin" } {
-
 				set grabber .grabber.seq
 			} elseif { [set ::tcl_platform(os)] == "Linux" } {
 				set grabber [::Capture::GetGrabber $dev $channel]
@@ -1122,12 +1122,10 @@ namespace eval ::CAMGUI {
 				setObjOption $sid grab_proc "Grab_Windows"
 
 			} elseif { [set ::tcl_platform(os)] == "Darwin" } {
-
-				set grabber .grabber.seq
 				if { ![winfo exists .grabber] } {
 					toplevel .grabber
 				}
-				set grabber [seqgrabber $grabber]
+				set grabber [seqgrabber $grabber -height 240]
 				pack $grabber
 				catch {$grabber configure -volume 0}
 				setObjOption $sid grab_proc "Grab_Mac"
@@ -1394,13 +1392,7 @@ namespace eval ::CAMGUI {
 		if { [set ::tcl_platform(os)] == "Linux" } {
 			ChooseDeviceLinux
 		} elseif { [set ::tcl_platform(os)] == "Darwin" } {
-			if { ![winfo exists .grabber] } {
-				toplevel .grabber
-				set grabber [seqgrabber $grabber]
-			} else {
-				set grabber .grabber
-			}
-			$grabber videosettings
+			ChooseDeviceMac
 		} elseif { [set ::tcl_platform(platform)] == "windows" } {
 			ChooseDeviceWindows
 		}
@@ -1418,7 +1410,22 @@ namespace eval ::CAMGUI {
 			$grabber propertypage filter
 		}
 	}
-
+	#There's a limit of one grabber maximum wih QuickTime TCL
+	#To use the videosettings, the grabber needs to be open
+	#So we have to verify if it's open, if not we have to create it
+	proc ChooseDeviceMac {} {
+		set grabber .grabber.seq
+		if {![::CAMGUI::IsGrabberValid $grabber]} {
+			
+			if { ![winfo exists .grabber] } {
+				toplevel .grabber
+			}
+			set grabber [seqgrabber $grabber -height 240]
+			pack $grabber
+			catch {$grabber configure -volume 0}
+		}
+		$grabber videosettings
+	}
 	proc ChooseDeviceLinux { } {
 
 		set ::CAMGUI::webcam_preview ""
