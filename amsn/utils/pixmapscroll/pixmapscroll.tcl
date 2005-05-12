@@ -91,8 +91,7 @@ snit::widgetadaptor pixmapscroll {
 	variable visible 1
 	variable first 0
 	variable last 1
-	#TODO: needs to be initialised for first use (can we initialise in a better spot?)
-	variable newsize 1000
+	variable newsize 1
 	variable active_element ""
 
 
@@ -116,10 +115,10 @@ snit::widgetadaptor pixmapscroll {
 	option -activerelief -default raised
 	option -command -default {}
 	option -elementborderwidth -default -1
-	option -width -default 14
+	option -width -default 14 -configuremethod SetWidth
 
 	typeconstructor {
-		$type reloadimages ""
+		$type reloadimages "" 1
 	}
 
 	constructor {args} {
@@ -170,8 +169,6 @@ snit::widgetadaptor pixmapscroll {
 		set sliderimage_hover [image create photo]
 		set sliderimage_pressed [image create photo]
 
-		$canvas configure -width $arrow1width -height $arrow1height
-
 		# Draw components:
 		$canvas create image 0 0 -anchor nw -image $troughimage -tag $troughimage
 		$canvas create image 0 0 -anchor nw -image $sliderimage -activeimage $sliderimage_hover -tag $sliderimage
@@ -181,6 +178,13 @@ snit::widgetadaptor pixmapscroll {
 			$canvas create image 0 $newsize -anchor sw -image $arrow2image -activeimage $arrow2image_hover -tag $arrow2image
 		} else {
 			$canvas create image $newsize 0 -anchor ne -image $arrow2image -activeimage $arrow2image_hover -tag $arrow2image
+		}
+
+		# Set width / height
+		if { $options(-orient) == "vertical" } {
+			$self configure -width $arrow1width
+		} else {
+			$self configure -width $arrow1height
 		}
 
 		# Set configure bindings:
@@ -215,7 +219,16 @@ snit::widgetadaptor pixmapscroll {
 	method Setnewsize { news } {
 		set newsize $news
 	}
-	
+
+	method SetWidth {option value} {
+		set options($option) $value
+		if { $options(-orient) == "vertical" } {
+			$canvas configure -width $value
+		} else {
+			$canvas configure -height $value
+		}
+	}
+
 	method PressedImage { x y } {
 		set element [$self identify $x $y]
 		switch $element {
@@ -429,14 +442,9 @@ snit::widgetadaptor pixmapscroll {
 	typemethod reloadimages { dir {force 0} } {
 		foreach orientation {horizontal vertical} {
 			foreach pic {arrow1 arrow2 slidertop sliderbody sliderbottom} {
-				foreach hov {{} _hover} {
+				foreach hov {{} _hover _pressed} {
 					if { [file exists [file join $dir $orientation/${pic}${hov}.gif]] || $force } {
 						set ${orientation}_${pic}image${hov} [image create photo ${orientation}_${pic}image${hov} -file [file join $dir $orientation/${pic}${hov}.gif]]
-					}
-				}
-				foreach press {{} _pressed} {
-					if { [file exists [file join $dir $orientation/${pic}${press}.gif]] || $force } {
-						set ${orientation}_${pic}image${press} [image create photo ${orientation}_${pic}image${press} -file [file join $dir $orientation/${pic}${press}.gif]]
 					}
 				}
 			}
