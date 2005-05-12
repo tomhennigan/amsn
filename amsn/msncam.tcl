@@ -238,12 +238,12 @@ namespace eval ::MSNCAM {
 
 		::MSNP2P::SendPacket [::MSN::SBFor $chatid] "${theader}${data}"
 	}
-	
+
 	#Askwebcam queue, open connection before sending invitation
 	proc AskWebcamQueue { chatid } {
 		::MSN::ChatQueue $chatid [list ::MSNCAM::AskWebcam $chatid]
 	}
-	
+
 	proc AskWebcam { chatid } {
 		SendInvite $chatid "1C9AA97E-9C05-4583-A3BD-908A196F1E92"
 	}
@@ -429,13 +429,13 @@ namespace eval ::MSNCAM {
 				}
 			}
 			"SEND" -
-			"CONNECTED2" 
+			"CONNECTED2"
 			{
 				if {$server} {
-					
+
 					set data [read $sock 13]
 					status_log "Received Data on socket $sock sending=$producer - server=$server - state=$state : \n$data\n" red
-					
+
 					if { $data == "connected\r\n\r\n" } {
 						setObjOption $sid socket $sock
 						if { $producer == 0} {
@@ -444,24 +444,24 @@ namespace eval ::MSNCAM {
 					} elseif { $producer == 0 } {
 						set header "${data}[read $sock 11]"
 						setObjOption $sock state "RECEIVE"
-						
+
 						set size [GetCamDataSize $header]
 						if { $size > 0 } {
 							set data "$header[read $sock $size]"
 							::CAMGUI::ShowCamFrame $sid $data
 						} else {
 							setObjOption $sock state "END"
-							status_log "ERROR1 : $data - invalid data received" red	
+							status_log "ERROR1 : $data - invalid data received" red
 						}
-						
+
 					} else {
 						setObjOption $sock state "END"
 						status_log "ERROR1 : $data - [eof $sock] - [gets $sock] - [gets $sock]\n" red
 					}
-					
+
 				} else {
 					setObjOption $sock state "END"
-					status_log "ERROR1 : $data - should never received data on state $state when we're the client\n" red	
+					status_log "ERROR1 : $data - should never received data on state $state when we're the client\n" red
 				}
 			}
 
@@ -475,7 +475,7 @@ namespace eval ::MSNCAM {
 				} else {
 					#AuthFailed $sid $sock
 					setObjOption $sock state "END"
-					status_log "ERROR1 : $data - invalid data received" red	
+					status_log "ERROR1 : $data - invalid data received" red
 
 				}
 
@@ -486,7 +486,7 @@ namespace eval ::MSNCAM {
 				status_log "Closing socket $sock because it's in END state\n" red
 				#close $sock
 				CancelCam $chatid $sid
-				
+
 			}
 			default
 			{
@@ -1139,6 +1139,23 @@ namespace eval ::CAMGUI {
 
 				set grabber [::Capture::Open $dev $channel]
 
+				set init_b [::Capture::GetBrightness $grabber]
+				set init_c [::Capture::GetContrast $grabber]
+				set init_h [::Capture::GetHue $grabber]
+				set init_co [::Capture::GetColour $grabber]
+
+				set settings [::config::getKey "webcam$dev:$channel" "$init_b:$init_c:$init_h:$init_co"]
+				set settings [split $settings ":"]
+				set init_b [lindex $settings 0]
+				set init_c [lindex $settings 1]
+				set init_h [lindex $settings 2]
+				set init_co [lindex $settings 3]
+
+				::Capture::SetBrightness $grabber $init_b
+				::Capture::SetContrast $grabber $init_c
+				::Capture::SetHue $grabber $init_h
+				::Capture::SetColour $grabber $init_co
+
 				setObjOption $sid grab_proc "Grab_Linux"
 
 				#scale $window.b -from 0 -to 65535 -resolution 1 -showvalue 1 -label "B" -command "::Capture::SetBrightness $grabber" -orient horizontal
@@ -1377,6 +1394,12 @@ namespace eval ::CAMGUI {
 		if { [set ::tcl_platform(os)] == "Linux" } {
 			ChooseDeviceLinux
 		} elseif { [set ::tcl_platform(os)] == "Darwin" } {
+			if { ![winfo exists .grabber] } {
+				toplevel .grabber
+				set grabber [seqgrabber $grabber]
+			} else {
+				set grabber .grabber
+			}
 			$grabber videosettings
 		} elseif { [set ::tcl_platform(platform)] == "windows" } {
 			ChooseDeviceWindows
@@ -1409,6 +1432,11 @@ namespace eval ::CAMGUI {
 		set preview $window.preview
 		set settings $window.settings
 		set devices [::Capture::ListDevices]
+
+		if { [llength $devices] == 0 } {
+			tk_messageBox -message "You haven't devices installed"
+			return
+		}
 
 		destroy $window
 		toplevel $window
@@ -1538,6 +1566,23 @@ namespace eval ::CAMGUI {
 			return
 		}
 
+		set init_b [::Capture::GetBrightness $::CAMGUI::webcam_preview]
+		set init_c [::Capture::GetContrast $::CAMGUI::webcam_preview]
+		set init_h [::Capture::GetHue $::CAMGUI::webcam_preview]
+		set init_co [::Capture::GetColour $::CAMGUI::webcam_preview]
+
+		set sets [::config::getKey "webcam$device:$channel" "$init_b:$init_c:$init_h:$init_co"]
+		set sets [split $sets ":"]
+		set init_b [lindex $sets 0]
+		set init_c [lindex $sets 1]
+		set init_h [lindex $sets 2]
+		set init_co [lindex $sets 3]
+
+		::Capture::SetBrightness $::CAMGUI::webcam_preview $init_b
+		::Capture::SetContrast $::CAMGUI::webcam_preview $init_c
+		::Capture::SetHue $::CAMGUI::webcam_preview $init_h
+		::Capture::SetColour $::CAMGUI::webcam_preview $init_co
+
 		$settings configure -command "$preview_w configure -image \"\"; ::CAMGUI::ShowPropertiesPage $::CAMGUI::webcam_preview $img; status_log \"Img is $img\"; $preview_w configure -image $img"
 		after 0 "::CAMGUI::PreviewLinux $::CAMGUI::webcam_preview $img"
 
@@ -1604,7 +1649,7 @@ namespace eval ::CAMGUI {
 		destroy $w
 	}
 
-	proc ShowPropertiesPageLinux { capture_fd {img ""}} {
+	proc ShowPropertiesPageLinux { capture_fd {img ""} } {
 
 		if { ![::Capture::IsValid $capture_fd] } {
 			return
@@ -1615,10 +1660,34 @@ namespace eval ::CAMGUI {
 		set preview $window.preview
 		set buttons $window.buttons
 
+		set device ""
+		set channel ""
+
+		set grabbers [::Capture::ListGrabbers]
+		status_log "Grabbers : $grabbers"
+		foreach grabber $grabbers {
+			if { [lindex $grabber 0] == $capture_fd } {
+				set device [lindex $grabber 1]
+				set channel [lindex $grabber 2]
+			}
+		}
+
 		set init_b [::Capture::GetBrightness $capture_fd]
 		set init_c [::Capture::GetContrast $capture_fd]
 		set init_h [::Capture::GetHue $capture_fd]
 		set init_co [::Capture::GetColour $capture_fd]
+
+		set settings [::config::getKey "webcam$device:$channel" "$init_b:$init_c:$init_h:$init_co"]
+		set settings [split $settings ":"]
+		set init_b [lindex $settings 0]
+		set init_c [lindex $settings 1]
+		set init_h [lindex $settings 2]
+		set init_co [lindex $settings 3]
+
+		::Capture::SetBrightness $capture_fd $init_b
+		::Capture::SetContrast $capture_fd $init_c
+		::Capture::SetHue $capture_fd $init_h
+		::Capture::SetColour $capture_fd $init_co
 
 		destroy $window
 		toplevel $window
@@ -1633,7 +1702,8 @@ namespace eval ::CAMGUI {
 		pack $slides.b $slides.c $slides.h $slides.co -expand true -fill x
 
 		frame $buttons -relief sunken -borderwidth 3
-		button $buttons.ok -text "Ok" -command "grab release $window; destroy $window"
+		status_log "::CAMGUI::Properties_OkLinux $window $capture_fd $device $channel"
+		button $buttons.ok -text "Ok" -command "::CAMGUI::Properties_OkLinux $window $capture_fd $device $channel"
 		button $buttons.cancel -text "Cancel" -command "::CAMGUI::Properties_CancelLinux $window $capture_fd $init_b $init_c $init_h $init_co"
 		wm protocol $window WM_DELETE_WINDOW "::CAMGUI::Properties_CancelLinux $window $capture_fd $init_b $init_c $init_h $init_co"
 
@@ -1688,6 +1758,18 @@ namespace eval ::CAMGUI {
 		}
 
 	}
+
+	proc Properties_OkLinux { window capture_fd device channel } {
+
+		set brightness [::Capture::GetBrightness $capture_fd]
+		set contrast [::Capture::GetContrast $capture_fd]
+		set hue [::Capture::GetHue $capture_fd]
+		set colour [::Capture::GetColour $capture_fd]
+		::config::setKey "webcam$device:$channel" "$brightness:$contrast:$hue:$colour"
+		grab release $window
+		destroy $window
+	}
+
 
 	proc Properties_CancelLinux { window capture_fd init_b init_c init_h init_co } {
 

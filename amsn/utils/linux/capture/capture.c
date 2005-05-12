@@ -20,7 +20,7 @@ struct list_ptr* Capture_lstGetListItem(char *list_element_id){ //Get the list i
 
   while(item && strcmp(item->element->list_element_id, list_element_id))
     item = item->next_item;
-  
+
   return item;
 
 }
@@ -67,10 +67,10 @@ struct data_item* Capture_lstDeleteItem(char *list_element_id){
 	  element = item->element;
 	  if(item->prev_item==NULL) //The first item
 	    g_list = item->next_item;
-	  else 
+	  else
 	    (item->prev_item)->next_item = item->next_item;
-	 
-	  if (item->next_item) 
+
+	  if (item->next_item)
 	    (item->next_item)->prev_item = item->prev_item;
 
 	  free(item);
@@ -99,7 +99,7 @@ void YUV420P_to_RGB24 (const BYTE *input,
     const BYTE *src_y, *src_cb, *src_cr;
     BYTE *dst_rgb;
     unsigned int i, j, rgb_stride;
-    
+
     const BYTE *p_y, *p_cb, *p_cr;
     BYTE *p_rgb;
     int v;
@@ -107,10 +107,10 @@ void YUV420P_to_RGB24 (const BYTE *input,
     src_y  = input;
     src_cb = input + (width * height);
     src_cr = input + (width * height) + ((width / 2) * (height / 2));
-    
+
     rgb_stride = width * 3;
     dst_rgb = output_rgb; // + (rgb_stride * (height - 1));
-    
+
     for (i = 0; i < height; i++) {
 
         p_y = src_y;
@@ -120,7 +120,7 @@ void YUV420P_to_RGB24 (const BYTE *input,
         p_rgb = dst_rgb;
 
         for (j = 0; j < width; j++) {
- 
+
             v = ((p_y[0] * 65536) + ((p_cr[0] - 128) * 133169)) / 65536;
             p_rgb[2] = clamp_value(v);
 
@@ -319,16 +319,28 @@ int Capture_ListGrabbers _ANSI_ARGS_((ClientData clientData,
 			      Tcl_Obj *CONST objv[]))
 {
 	struct list_ptr* item = opened_devices;
+	Tcl_Obj* grabber[3]={NULL,NULL,NULL};
+	Tcl_Obj* lstGrabber=NULL;
+	Tcl_Obj* lstAll=NULL;
 
 	if( objc != 1) {
 		Tcl_AppendResult (interp, "Wrong number of args.\nShould be \"::Capture::ListGrabbers\"" , (char *) NULL);
 		return TCL_ERROR;
 	}
 
+	lstAll=Tcl_NewListObj(0, NULL);
+
 	while(item){
-	  fprintf(stderr, "Grabber : %s for device %s and channel %d\n", item->element->captureName, item->element->devicePath, item->element->channel);
-	  item = item->next_item;
+		fprintf(stderr, "Grabber : %s for device %s and channel %d\n", item->element->captureName, item->element->devicePath, item->element->channel);
+		grabber[0]=Tcl_NewStringObj(item->element->captureName,-1);
+		grabber[1]=Tcl_NewStringObj(item->element->devicePath,-1);
+		grabber[2]=Tcl_NewIntObj(item->element->channel);
+		lstGrabber=Tcl_NewListObj(3,grabber);
+		Tcl_ListObjAppendElement(interp,lstAll,lstGrabber);
+		item = item->next_item;
 	}
+
+	Tcl_SetObjResult(interp,lstAll);
 	return TCL_OK;
 
 }
@@ -393,7 +405,7 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
 	  if (vcap.type & VID_TYPE_SCALES) fprintf(stderr, "Image scaling\n");
 	  if (vcap.type & VID_TYPE_MONOCHROME) fprintf(stderr, "Grey scale only\n");
 	  if (vcap.type & VID_TYPE_SUBCAPTURE) fprintf(stderr, "Can subcapture\n");
-	  
+
 	  if(channel>=vcap.channels){
 	    Tcl_AppendResult (interp, "Invalid channel" , (char *) NULL);
 	    return TCL_ERROR;
@@ -404,7 +416,7 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
 	    close(fvideo);
 	    return TCL_ERROR;
 	  }
-	  
+
 	  fprintf(stderr, "picture: brightness %d hue %d colour %d\n",
 		  vp.brightness, vp.hue, vp.colour);
 	  fprintf(stderr, "contrast %d whiteness %d depth %d\n",
@@ -427,7 +439,7 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
 	  if (vp.palette == VIDEO_PALETTE_YUV422P) fprintf(stderr, "YUV422P ");
 	  fprintf(stderr, "\n");
 	}
-	  
+
 	vp.palette = VIDEO_PALETTE_RGB24;
 	if(ioctl(fvideo, VIDIOCSPICT, &vp)<0){
 	  vp.palette = VIDEO_PALETTE_RGB32;
@@ -474,18 +486,18 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
 	  close(fvideo);
 	  return TCL_ERROR;
 	}
-	
+
 	if(ioctl(fvideo, VIDIOCGWIN, &vw)<0){
 	  perror("VIDIOCGWIN");
 	  close(fvideo);
 	  return TCL_ERROR;
 	}
-	
+
 	if (debug) {
 	  fprintf(stderr, "window: x %d y %d w %d h %d\n",vw.x,vw.y,vw.width,vw.height);
 	  fprintf(stderr, "window: flags %d chromakey %d\n",vw.flags,vw.chromakey);
 	}
-	  
+
 	vw.x=0;
 	vw.y=0;
 	vw.width=GetGoodSize(vcap.minwidth,vcap.maxwidth,320);
@@ -533,7 +545,7 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
 	  close(fvideo);
 	  return TCL_ERROR;
 	}
-	
+
 	image_data = (BYTE *) malloc(size);
 
 	mmapway = 1;
@@ -541,7 +553,7 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
 	  mmapway = 0;
 	  perror("VIDIOCGMBUF");
 	}
-	
+
 	mmbuf = (unsigned char*)mmap(0, mb.size,
 				     PROT_READ, MAP_SHARED, fvideo, 0);
 	if(mmbuf == MAP_FAILED){
@@ -571,7 +583,7 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
 
 	if (captureItem->palette == VIDEO_PALETTE_YUV420P || captureItem->palette == VIDEO_PALETTE_YUV420) {
 	  captureItem->rgb_buffer = (BYTE *) malloc(width * height * 3);
-	} 
+	}
 
 
 	sprintf(captureItem->captureName,"capture%d",curentCaptureNumber);
@@ -619,7 +631,7 @@ int Capture_Close _ANSI_ARGS_((ClientData clientData,
 		Tcl_AppendResult (interp, "Invalid capture descriptor. Please call Open before." , (char *) NULL);
 		return TCL_ERROR;
 	}
-	
+
 	if (capItem->image_data)
 	  free(capItem->image_data);
 
@@ -697,7 +709,7 @@ int Capture_Grab _ANSI_ARGS_((ClientData clientData,
 
 	Tk_PhotoSetSize(
 	#if TK_MINOR_VERSION == 5
-			interp, 
+			interp,
 	#endif
 			Photo, capItem->width, capItem->height);
 
@@ -715,7 +727,7 @@ int Capture_Grab _ANSI_ARGS_((ClientData clientData,
 	block.offset[3] = -1;
 
 	if (capItem->palette == VIDEO_PALETTE_RGB24 ) {
-	  block.pixelPtr  = capItem->image_data;	
+	  block.pixelPtr  = capItem->image_data;
 	} else if (capItem->palette == VIDEO_PALETTE_RGB32) {
 	  block.pixelPtr  = capItem->image_data;
 	  block.pitch = capItem->width*4;
@@ -723,7 +735,7 @@ int Capture_Grab _ANSI_ARGS_((ClientData clientData,
 	} else if (capItem->palette == VIDEO_PALETTE_YUV420P || capItem->palette == VIDEO_PALETTE_YUV420) {
 	  YUV420P_to_RGB24 (capItem->image_data, capItem->rgb_buffer, capItem->width,capItem->height);
 	  block.pixelPtr  = capItem->rgb_buffer;
-	} 
+	}
 
 
 	#if TK_MINOR_VERSION == 3
@@ -738,7 +750,7 @@ int Capture_Grab _ANSI_ARGS_((ClientData clientData,
 
 	Tk_PhotoSetSize(
 	#if TK_MINOR_VERSION == 5
-		interp, 
+		interp,
 	#endif
 		Photo, 320, 240);
 	return TCL_OK;
