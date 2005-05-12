@@ -93,6 +93,9 @@ snit::widgetadaptor pixmapscroll {
 	variable last 1
 	variable newsize 1
 	variable active_element ""
+	variable hidden 0
+	variable packinfo ""
+	variable packlist {}
 
 
 	option -activebackground -default #ffffff
@@ -116,6 +119,8 @@ snit::widgetadaptor pixmapscroll {
 	option -command -default {}
 	option -elementborderwidth -default -1
 	option -width -default 14 -configuremethod SetWidth
+	
+	option -autohide -default 0 -configuremethod ChangeHide
 
 	typeconstructor {
 		$type reloadimages "" 1
@@ -203,7 +208,7 @@ snit::widgetadaptor pixmapscroll {
 		bindtags $self "Pixmapscroll $self all"
 		
 		bind $self <Button-1> "$self PressedImage %x %y"
-		bind $self <ButtonRelease-1> "puts release; $self ReleasedImage %x %y"
+		bind $self <ButtonRelease-1> "$self ReleasedImage %x %y"
 		
 		lappend scrollbarlist $self
 	}
@@ -226,6 +231,35 @@ snit::widgetadaptor pixmapscroll {
 			$canvas configure -width $value
 		} else {
 			$canvas configure -height $value
+		}
+	}
+
+	method ChangeHide {option value} {
+		set options($option) $value
+		$self HideUnhide
+	}
+
+	method HideUnhide {} {
+		if { ($visible == 1) && ($hidden == 0) && ($options(-autohide))} {
+			if { ![catch { set packinfo [pack info $self] }] } {
+				set packlist [pack slaves [winfo parent $self]]
+				set packlist [lrange $packlist [expr {[lsearch $packlist $self] + 1}] end]
+				pack forget $self
+				set hidden 1
+			}
+		}
+		
+		if { ($hidden == 1) && ( ($visible != 1) || (!$options(-autohide)) ) } {
+			#only pack if isn't currently packed
+			if { [catch { pack info $self }] } {
+				foreach child $packlist {
+					if { ![catch { pack info $child } ] } {
+						break
+					}
+				}
+				eval pack $self $packinfo -before $child
+			}
+			set hidden 0
 		}
 	}
 
@@ -416,6 +450,8 @@ snit::widgetadaptor pixmapscroll {
 
 		set visible [expr {$last - $first}]
 		$self DrawScrollbar
+
+		$self HideUnhide
 	}
 
 
