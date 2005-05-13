@@ -1685,7 +1685,7 @@ namespace eval ::plugins {
 			
 			set place [::plugins::get_OnlineVersion "$pathinfo" "$name" "$::plugins::URL_plugininfo"]
 			
-			if { $place == 0 } {
+			if { $place == 0 || ![info exist ::plugins::plgonlinerequire] || $::plugins::plgonlinerequire == ""} {
 				continue
 			}
 			
