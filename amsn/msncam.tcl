@@ -52,6 +52,7 @@ namespace eval ::MSNCAM {
 		}
 		if { [winfo exists $window] } {
 			destroy $window
+			::CAMGUI::CamCanceled $chatid
 		}
 		set listening [getObjOption $sid listening_socket]
 		if { $listening != "" } {
