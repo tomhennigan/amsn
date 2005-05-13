@@ -14,18 +14,21 @@ snit::widgetadaptor pixmapscroll {
 	typecomponent vertical_sliderbodyimage
 	typecomponent vertical_sliderbottomimage
 	typecomponent vertical_troughsrcimage
+	typecomponent vertical_slidergripimage
 
 	typecomponent vertical_arrow1image_hover
 	typecomponent vertical_arrow2image_hover
 	typecomponent vertical_slidertopimage_hover
 	typecomponent vertical_sliderbodyimage_hover
 	typecomponent vertical_sliderbottomimage_hover
+	typecomponent vertical_slidergripimage_hover
 	
 	typecomponent vertical_arrow1image_pressed
 	typecomponent vertical_arrow2image_pressed
 	typecomponent vertical_slidertopimage_pressed
 	typecomponent vertical_sliderbodyimage_pressed
 	typecomponent vertical_sliderbottomimage_pressed
+	typecomponent vertical_slidergripimage_pressed
 
 	typevariable vertical_arrow1width
 	typevariable vertical_arrow1height
@@ -39,18 +42,21 @@ snit::widgetadaptor pixmapscroll {
 	typecomponent horizontal_sliderbodyimage
 	typecomponent horizontal_sliderbottomimage
 	typecomponent horizontal_troughsrcimage
+	typecomponent horizontal_slidergripimage
 
 	typecomponent horizontal_arrow1image_hover
 	typecomponent horizontal_arrow2image_hover
 	typecomponent horizontal_slidertopimage_hover
 	typecomponent horizontal_sliderbodyimage_hover
 	typecomponent horizontal_sliderbottomimage_hover
+	typecomponent horizontal_slidergripimage_hover
 	
 	typecomponent horizontal_arrow1image_pressed
 	typecomponent horizontal_arrow2image_pressed
 	typecomponent horizontal_slidertopimage_pressed
 	typecomponent horizontal_sliderbodyimage_pressed
 	typecomponent horizontal_sliderbottomimage_pressed
+	typecomponent horizontal_slidergripimage_pressed
 
 	typevariable horizontal_arrow1width
 	typevariable horizontal_arrow1height
@@ -64,18 +70,21 @@ snit::widgetadaptor pixmapscroll {
 	component sliderbodyimage
 	component sliderbottomimage
 	component troughsrcimage
+	component slidergripimage
 
 	component arrow1image_hover
 	component arrow2image_hover
 	component slidertopimage_hover
 	component sliderbodyimage_hover
 	component sliderbottomimage_hover
+	component slidergripimage_hover
 	
 	component arrow1image_pressed
 	component arrow2image_pressed
 	component slidertopimage_pressed
 	component sliderbodyimage_pressed
 	component sliderbottomimage_pressed
+	component slidergripimage_pressed
 
 	variable arrow1width
 	variable arrow1height
@@ -149,19 +158,21 @@ snit::widgetadaptor pixmapscroll {
 		set sliderbodyimage [set ${orientation}_sliderbodyimage]
 		set sliderbottomimage [set ${orientation}_sliderbottomimage]
 		set troughsrcimage [set ${orientation}_troughsrcimage]
+		set slidergripimage [set ${orientation}_slidergripimage]
 
 		set arrow1image_hover [set ${orientation}_arrow1image_hover]
 		set arrow2image_hover [set ${orientation}_arrow2image_hover]
 		set slidertopimage_hover [set ${orientation}_slidertopimage_hover]
 		set sliderbodyimage_hover [set ${orientation}_sliderbodyimage_hover]
 		set sliderbottomimage_hover [set ${orientation}_sliderbottomimage_hover]
+		set slidergripimage_hover [set ${orientation}_slidergripimage_hover]
 		
 		set arrow1image_pressed [set ${orientation}_arrow1image_pressed]
 		set arrow2image_pressed [set ${orientation}_arrow2image_pressed]
 		set slidertopimage_pressed [set ${orientation}_slidertopimage_pressed]
 		set sliderbodyimage_pressed [set ${orientation}_sliderbodyimage_pressed]
 		set sliderbottomimage_pressed [set ${orientation}_sliderbottomimage_pressed]
-		
+		set slidergripimage_pressed [set ${orientation}_slidergripimage_pressed]		
 
 		set arrow1width [set ${orientation}_arrow1width]
 		set arrow1height [set ${orientation}_arrow1height]
@@ -174,7 +185,6 @@ snit::widgetadaptor pixmapscroll {
 		set sliderimage_hover [image create photo]
 		set sliderimage_pressed [image create photo]
 
-		# Draw components:
 		$canvas create image 0 0 -anchor nw -image $troughimage -tag $troughimage
 		$canvas create image 0 0 -anchor nw -image $sliderimage -activeimage $sliderimage_hover -tag $sliderimage
 		$canvas create image 0 0 -anchor nw -image $arrow1image -activeimage $arrow1image_hover -tag $arrow1image
@@ -309,21 +319,34 @@ snit::widgetadaptor pixmapscroll {
 			if { $slidersize < $minsize } {
 				set slidersize $minsize
 			}
+			set gripPos [expr {($slidersize/2) - ([image height $slidergripimage]/2)}]
+			if {$gripPos < 0} {set gripPos 1}
+
 
 			$sliderimage blank
 			$sliderimage copy $slidertopimage
 			$sliderimage copy $sliderbodyimage -to 0 [image height $slidertopimage] [image width $sliderbodyimage] [expr {$slidersize - [image height $sliderbottomimage] }]
 			$sliderimage copy $sliderbottomimage -to 0 [expr {$slidersize - [image height $sliderbottomimage]}] -shrink
+			if  {[expr {$slidersize - [image height $sliderbottomimage] }] >= [image height $slidergripimage]} {
+				$sliderimage copy $slidergripimage -to 0 $gripPos
+			}
+
 
 			$sliderimage_hover blank
 			$sliderimage_hover copy $slidertopimage_hover
 			$sliderimage_hover copy $sliderbodyimage_hover -to 0 [image height $slidertopimage_hover] [image width $sliderbodyimage_hover] [expr {$slidersize - [image height $sliderbottomimage_hover] }]
 			$sliderimage_hover copy $sliderbottomimage_hover -to 0 [expr {$slidersize - [image height $sliderbottomimage_hover]}] -shrink
+			if  {[expr {$slidersize - [image height $sliderbottomimage_hover] }] >= [image height $slidergripimage_hover]} {
+				$sliderimage_hover copy $slidergripimage_hover -to 0 $gripPos
+			}
 			
 			$sliderimage_pressed blank
 			$sliderimage_pressed copy $slidertopimage_pressed
 			$sliderimage_pressed copy $sliderbodyimage_pressed -to 0 [image height $slidertopimage_pressed] [image width $sliderbodyimage_pressed] [expr {$slidersize - [image height $sliderbottomimage_pressed] }]
 			$sliderimage_pressed copy $sliderbottomimage_pressed -to 0 [expr {$slidersize - [image height $sliderbottomimage_pressed]}] -shrink
+			if  {[expr {$slidersize - [image height $sliderbottomimage_pressed] }] >= [image height $slidergripimage_pressed]} {
+				$sliderimage_pressed copy $slidergripimage_pressed -to 0 $gripPos
+			}
 
 			# Set the slider's position:
 			set sliderpos [expr {($first * ($newsize - ($arrow1height + $arrow2height))) + $arrow1height}]
@@ -477,7 +500,7 @@ snit::widgetadaptor pixmapscroll {
 	
 	typemethod reloadimages { dir {force 0} } {
 		foreach orientation {horizontal vertical} {
-			foreach pic {arrow1 arrow2 slidertop sliderbody sliderbottom} {
+			foreach pic {arrow1 arrow2 slidertop sliderbody sliderbottom slidergrip} {
 				foreach hov {{} _hover _pressed} {
 					if { [file exists [file join $dir $orientation/${pic}${hov}.gif]] || $force } {
 						set ${orientation}_${pic}image${hov} [image create photo ${orientation}_${pic}image${hov} -file [file join $dir $orientation/${pic}${hov}.gif]]
@@ -487,7 +510,6 @@ snit::widgetadaptor pixmapscroll {
 			if { [file exists [file join $dir $orientation/trough.gif]] || $force } {
 				set ${orientation}_troughsrcimage [image create photo ${orientation}_troughsrcimage -file [file join $dir $orientation/trough.gif]]
 			}
-
 			set ${orientation}_arrow1width [image width [set ${orientation}_arrow1image]]
 			set ${orientation}_arrow1height [image height [set ${orientation}_arrow1image]]
 			set ${orientation}_arrow2width [image width [set ${orientation}_arrow2image]]
