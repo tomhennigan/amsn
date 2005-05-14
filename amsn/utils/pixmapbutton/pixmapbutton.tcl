@@ -238,6 +238,9 @@ snit::widgetadaptor pixmapbutton {
 	method BuildImage { width height } {
 		variable img
 		$img blank
+		$img_hover blank
+		$img_pressed blank
+		$img_disabled blank
 		set minwidth [expr 4 * 4]
 		set minheight [image height $srcimg]
 		
@@ -359,7 +362,8 @@ snit::widgetadaptor pixmapbutton {
 		$img_hover copy $centreimg_hover -to 4 2 [expr $width - 4] [expr $height - 2]
 		$img_hover copy $rightimg_hover -to [expr $width - 4] 2 $width [expr $height - 2]
 		$img_hover copy $srcimg_hover -from 0 [expr [image height $srcimg_hover] - 2] 4 [image height $srcimg_hover] -to 0 [expr $height - 2]
-		$img_hover copy $bottomimg_hover -to 4 [expr [image height $img_hover] - 2]
+		#Here we use [image height $img] to fix bug where bottom disappears. Todo: find out why ;)
+		$img_hover copy $bottomimg_hover -to 4 [expr [image height $img] - 2]
 		$img_hover copy $srcimg_hover -from [expr [image width $srcimg_hover] - 4] [expr [image height $srcimg_hover] - 2] [image width $srcimg_hover] [image height $srcimg_hover] -to [expr $width - 4] [expr $height - 2]
 
 		#Add emblem
@@ -407,7 +411,7 @@ snit::widgetadaptor pixmapbutton {
 		$img_pressed copy $centreimg_pressed -to 4 2 [expr $width - 4] [expr $height - 2]
 		$img_pressed copy $rightimg_pressed -to [expr $width - 4] 2 $width [expr $height - 2]
 		$img_pressed copy $srcimg_pressed -from 0 [expr [image height $srcimg_pressed] - 2] 4 [image height $srcimg_pressed] -to 0 [expr $height - 2]
-		$img_pressed copy $bottomimg_pressed -to 4 [expr [image height $img_pressed] - 2]
+		$img_pressed copy $bottomimg_pressed -to 4 [expr [image height $img] - 2]
 		$img_pressed copy $srcimg_pressed -from [expr [image width $srcimg_pressed] - 4] [expr [image height $srcimg_pressed] - 2] [image width $srcimg_pressed] [image height $srcimg_pressed] -to [expr $width - 4] [expr $height - 2]
 		
 		#Add emblem
@@ -455,8 +459,8 @@ snit::widgetadaptor pixmapbutton {
 		$img_disabled copy $centreimg_disabled -to 4 2 [expr $width - 4] [expr $height - 2]
 		$img_disabled copy $rightimg_disabled -to [expr $width - 4] 2 $width [expr $height - 2]
 		$img_disabled copy $srcimg_disabled -from 0 [expr [image height $srcimg_disabled] - 2] 4 [image height $srcimg_disabled] -to 0 [expr $height - 2]
-		$img_disabled copy $bottomimg_disabled -to 4 [expr [image height $img_disabled] - 2]
-		$img_disabled copy $srcimg_disabled -from [expr [image width $srcimg_disabled] - 4] [expr [image height $srcimg_disabled] - 2] [image width $srcimg_disabled] [image height $srcimg_disabled] -to [expr $width - 4] [expr $height - 2]
+		$img_disabled copy $bottomimg_disabled -to 4 [expr [image height $img] - 2]
+		$img_disabled copy $srcimg_disabled -from [expr [image width $srcimg_disabled] - 4] [expr [image height $srcimg_disabled] - 2] -to [expr $width - 4] [expr $height - 2]
 		
 		#Add emblem
 		if { $options(-emblemimage) != "" } {
