@@ -3237,7 +3237,9 @@ proc cmsn_draw_main {} {
 	::skin::setPixmap mailbox unread.gif
 
 	::skin::setPixmap contract contract.gif
+	::skin::setPixmap contract_hover contract_hover.gif
 	::skin::setPixmap expand expand.gif
+	::skin::setPixmap expand_hover expand_hover.gif
 
 	::skin::setPixmap globe globe.gif
 	::skin::setPixmap download download.gif

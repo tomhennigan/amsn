@@ -186,9 +186,6 @@ namespace eval ::guiContactList {
 #TODO:	* create the bindings for scrolling (using procs "IsMac" etc)
 
 
-
-
-
 #TODO		#scrollbindings: make 'm work for every platform !
 #		 scrolledwindow should be feeded a command that moves the background 
 #		 so it's also at the right place when the bar is dragged
@@ -454,7 +451,6 @@ status_log "CONTACTCHANGED: $email"
 				set maxwidth [winfo width $canvas]
 				set boXpad 10
 				set width [expr $maxwidth - ($boXpad*2)]
-#				status_log "width for drazwing box: $width"
 				if {$width <= 30} {set width 300}
 
 
@@ -611,11 +607,13 @@ status_log "CONTACTCHANGED: $email"
 			#set padding between image and text
 			set xpad [::skin::getKey contract_xpad]
 			set img [::skin::loadPixmap contract]
+			set img_hover [::skin::loadPixmap contract_hover]
 			set groupcolor [::skin::getKey groupcolorextend]
 		} else {
 			#set padding between image and text
 			set xpad [::skin::getKey expand_xpad]
 			set img [::skin::loadPixmap expand]
+			set img_hover [::skin::loadPixmap contract_expand]
 			set groupcolor [::skin::getKey groupcolorcontract]
 		}
 
@@ -633,8 +631,8 @@ status_log "CONTACTCHANGED: $email"
 		set textxpos [expr $xpos + [image width $img] + $xpad]
 
 		# First we draw our little group toggle button
-		$canvas create image $xpos $ypos -image $img -anchor nw \
-			-tags [list group toggleimg $gid]
+		$canvas create image $xpos $ypos -image $img -activeimage $img_hover -anchor nw \
+			-tags [list group toggleimg $gid img$gid]
 
 		# then the group's name
 		$canvas create text $textxpos $ypos -text $groupnametext -anchor nw \
@@ -663,7 +661,6 @@ status_log "CONTACTCHANGED: $email"
 		$canvas bind $gid <Leave> ""
 		$canvas bind $gid <<Button1>> ""
 		$canvas bind $gid <<Button3>> ""
-
 
 		$canvas bind $gid <<Button1>> "+::guiContactList::toggleGroup [list $element] $canvas"
 		$canvas bind $gid <<Button3>> "+::groups::GroupMenu $gid %X %Y"
