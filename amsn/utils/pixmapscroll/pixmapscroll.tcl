@@ -264,10 +264,11 @@ snit::widgetadaptor pixmapscroll {
 			if { [catch { pack info $self }] } {
 				foreach child $packlist {
 					if { ![catch { pack info $child } ] } {
+						append packinfo " -before $child"
 						break
 					}
 				}
-				eval pack $self $packinfo -before $child
+				eval pack $self $packinfo
 			}
 			set hidden 0
 		}
