@@ -1955,7 +1955,9 @@ namespace eval ::MSN {
 
 		#set sock [$sbn cget -sock]
 
-		set txt_send [encoding convertto utf-8 [string map {"\n" "\r\n"} $txt]]
+		set txt_send [string map {"\r\n" "\n"} $txt]
+		set txt_send [string map {"\n" "\r\n"} $txt_send]
+		set txt_send [encoding convertto identity $txt_send]
 
 		set fontfamily [lindex [::config::getKey mychatfont] 0]
 		set fontstyle [lindex [::config::getKey mychatfont] 1]
@@ -2648,7 +2650,8 @@ namespace eval ::Event {
 					set style [lindex [::config::getKey mychatfont] 1]
 					#set fontcolor [lindex [::config::getKey mychatfont] 2]
 				}
-				set body [encoding convertfrom utf-8 [string map {"\r\n" "\n"} $body]]
+				set body [encoding convertfrom identity [string map {"\r\n" "\n"} $body]]
+
 				::amsn::messageFrom $chatid $typer $nick "$body" user [list $fontfamily $style $fontcolor] $p4c_enabled
 				set options(-lastmsgtime) [clock format [clock seconds] -format %H:%M:%S]
 				::abook::setContactData $typer last_msgedme [clock format [clock seconds] -format "%D - %H:%M:%S"]

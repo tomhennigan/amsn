@@ -1394,6 +1394,7 @@ if { $initialize_amsn == 1 } {
 	::config::configDefaults
 	::config::loadGlobal
 
+
 	load_lang ;#Load default english language
 	load_lang [::config::getGlobalKey language]
 

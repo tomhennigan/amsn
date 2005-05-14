@@ -6243,9 +6243,10 @@ proc status_log {txt {colour ""}} {
 	}
 
 	if { [catch {
+		#puts "[timestamp] $txt"
+
 		.status.info insert end "[timestamp] $txt" $colour
 		.status.info delete 0.0 end-1000lines
-		#puts "[timestamp] $txt"
 		if { $followtext_status == 1 } {
 			catch {.status.info yview end}
 		}
