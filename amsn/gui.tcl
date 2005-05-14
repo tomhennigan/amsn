@@ -3196,7 +3196,7 @@ proc cmsn_draw_main {} {
 	
 	
 	
-	frame .main.f -class Amsn -relief flat -background white
+	frame .main.f -class Amsn -relief flat -background white -borderwidth 0
 	pack .main -fill both -expand true 
 	pack .main.f -expand true -fill both -padx 4 -pady 4 -side top
 	#pack .main -expand true -fill both
