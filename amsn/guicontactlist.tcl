@@ -613,7 +613,7 @@ status_log "CONTACTCHANGED: $email"
 			#set padding between image and text
 			set xpad [::skin::getKey expand_xpad]
 			set img [::skin::loadPixmap expand]
-			set img_hover [::skin::loadPixmap contract_expand]
+			set img_hover [::skin::loadPixmap expand_hover]
 			set groupcolor [::skin::getKey groupcolorcontract]
 		}
 
