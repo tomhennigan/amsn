@@ -127,7 +127,9 @@ snit::widgetadaptor pixmapbutton {
 		set topimg_disabled [image create photo -width [expr [lindex $buttonsize 0] - 4] -height 2]
 		set bottomimg_disabled [image create photo -width [expr [lindex $buttonsize 0] - 4] -height 2]
 		set srcimg_disabled [image create photo -file button_disabled.gif]
-
+		
+		set emblemimage_disabled [image create photo]
+		
 		#-------------------------
 
 
@@ -149,7 +151,10 @@ snit::widgetadaptor pixmapbutton {
 		
 		$button create image 0 0 -anchor nw -image $img -tag img
 		$button create text [expr [lindex $buttonsize 0] / 2] [expr [lindex $buttonsize 1] / 2] -anchor c -text $options(-text) -fill $options(-foreground) -tag txt
-		$button create image 0 0 -anchor nw -image $options(-emblemimage) -tag emblem
+		
+		$emblemimage_disabled copy $options(-emblemimage) -shrink
+		$emblemimage_disabled configure -palette 16
+		$button create image 0 0 -anchor nw -image $options(-emblemimage) -disabledimage $emblemimage_disabled -tag emblem
 
 		if { $options(-font) == "" } {
 			font create font -family helvetica -size 11 -weight bold
@@ -261,6 +266,11 @@ snit::widgetadaptor pixmapbutton {
 		
 		$button coords txt $txtposx $txtposy
 		$button coords emblem $xpos $ypos
+		if {$options(-state) == "disabled" } {
+			$button itemconfigure emblem -state disabled
+		} else {
+			$button itemconfigure emblem -state normal
+		}
 
 		switch $options(-state) {
 			"normal" { $button itemconfigure img -image $img }
