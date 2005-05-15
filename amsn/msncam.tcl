@@ -1226,6 +1226,8 @@ namespace eval ::CAMGUI {
 
 	proc Grab_Windows {grabber socket encoder img} {
 		if { ![catch { $grabber picture $img} res] } {
+			#We crop the image to avoid bad sizes
+			$img configure -width 320 -height 240
 			::MSNCAM::SendFrame $socket $encoder $img
 		} else {
 		    status_log "error grabbing : $res\n" red
@@ -1417,7 +1419,7 @@ namespace eval ::CAMGUI {
 	proc ChooseDeviceMac {} {
 		set grabber .grabber.seq
 		if {![::CAMGUI::IsGrabberValid $grabber]} {
-			
+
 			if { ![winfo exists .grabber] } {
 				toplevel .grabber
 			}
