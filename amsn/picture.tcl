@@ -7,11 +7,20 @@ catch {package require TkCximage}
 set ::tkcximageloaded 0
 	#Proc to check if tkcximage is loaded
 	proc Loaded {} {
-
+		global tcl_platform
 		if {$::tkcximageloaded} {
 			return 1
 		} else {
 			catch {package require TkCximage}
+			#Fix a strange bug where sometimes package require TkCximage doesn't work
+			if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+				catch {load [file join utils macosx TkCximage TkCximage.dylib]}
+			} elseif { $tcl_platform(platform) == "windows"} {
+				catch {load [file join utils TkCximage TkCximage.dll]}
+			} else {
+				catch {load [file join utils TkCximage TkCximage.so]}
+			}
+			
 			foreach lib [info loaded] {
 				if { [lindex $lib 1] == "Tkcximage" } {
 					set ::tkcximageloaded 1
