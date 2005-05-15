@@ -198,7 +198,7 @@ namespace eval ::Nudge {
 			
 			#If Growl plugin is loaded, show the notification, Mac OS X only
 			if { [info proc ::growl::InitPlugin] != "" } {
-				catch {growl post Nudge Nudge [trans nudge $nick]}
+				catch {growl post Nudge Nudge [trans nudge $nick] [::growl::getpicture $chatid]}
 				::Nudge::log "Show growl notification"
 			}
 			
