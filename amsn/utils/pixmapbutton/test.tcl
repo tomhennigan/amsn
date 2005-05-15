@@ -19,8 +19,8 @@ pixmapbutton .b1 -command "puts ok" -font plain -emblemimage icon2 -emblempos "l
 
 pixmapbutton .b2 -command "puts cancel" -font plain -emblemimage icon -emblempos "left center" -fg red
 
-pack .b1 -side left -padx 5 -pady 5 -fill none -expand false
-pack .b2 -side right -padx 5 -pady 5 -fill none -expand false
+pack .b1 -side left -padx 5 -pady 5 -fill x -expand true
+pack .b2 -side right -padx 5 -pady 5 -fill x -expand true
 .b1 configure -text "Ok"
 .b2 configure -text "Cancel"
 #.ok configure -font massive

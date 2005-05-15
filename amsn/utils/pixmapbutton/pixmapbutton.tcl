@@ -139,7 +139,8 @@ snit::widgetadaptor pixmapbutton {
 		bind $self <Configure> "$self DrawButton %w %h"
 
 		bind $self <Enter> "$self ButtonHovered"
-		bind $self <Leave> "$self ButtonUnhovered"
+		bind $self <B1-Leave> "$self ButtonUnhovered down"
+		bind $self <Leave> "$self ButtonUnhovered up"
 		bind $self <Button-1> "$self ButtonPressed"
 		bind $self <ButtonRelease-1> "$self ButtonReleased"
 		#-------------------------
@@ -148,6 +149,7 @@ snit::widgetadaptor pixmapbutton {
 		
 		$button create image 0 0 -anchor nw -image $img -tag img
 		$button create text [expr [lindex $buttonsize 0] / 2] [expr [lindex $buttonsize 1] / 2] -anchor c -text $options(-text) -fill $options(-foreground) -tag txt
+		$button create image 0 0 -anchor nw -image $options(-emblemimage) -tag emblem
 
 		if { $options(-font) == "" } {
 			font create font -family helvetica -size 11 -weight bold
@@ -165,17 +167,29 @@ snit::widgetadaptor pixmapbutton {
 
 	method ButtonHovered { } {
 		global potent
+		
+		puts potent:$potent
 		if {$options(-state) != "disabled" } {
-			$button itemconfigure img -image $img_hover
-			if { $potent == "no" } { set $potent "yes" }
+			if { $potent == "maybe" } {
+				set $potent "yes"
+				$button itemconfigure img -image $img_pressed
+			} else {
+				set potent "no"
+				$button itemconfigure img -image $img_hover
+			}
 		}
 	}
 	
-	method ButtonUnhovered { } {
+	method ButtonUnhovered { pressed } {
 		global potent
+		puts pressed:$pressed
 		if {$options(-state) != "disabled" } {
 			$button itemconfigure img -image $img
-			set potent "no"
+			if { $potent == "yes" } {
+				set potent "maybe"
+			} else {
+				set potent "no"
+			}
 		}
 	}
 	
@@ -193,9 +207,11 @@ snit::widgetadaptor pixmapbutton {
 			if { $potent == "yes" } {
 				$button itemconfigure img -image $img_hover
 				$self invoke
-			} elseif { $potent == "no" } {
+				set potent "no"
+			} else {
+				set potent "no"
 				$button itemconfigure img -image $img
-			} else { }
+			}
 		}
 	}
 	
@@ -213,20 +229,39 @@ snit::widgetadaptor pixmapbutton {
 		if { $options(-emblemimage) != "" } {
 			switch [lindex $options(-emblempos) 0] {
 				"left" {
+					set xpos 4
 					set txtposx [expr ([lindex $buttonsize 0] + [image width $options(-emblemimage)]) / 2]
 				}
 
-				"center" { set txtposx [expr [lindex $buttonsize 0] / 2] }
+				"center" {
+					set txtposx [expr [lindex $buttonsize 0] / 2]
+					set xpos [expr $width / 2 - ([image width $options(-emblemimage)] / 2)]
+					set xpos [lindex [split $xpos .] 0]
+				}
 
 				"right" {
 					set txtposx [expr ([lindex $buttonsize 0] - [image width $options(-emblemimage)]) / 2]
+					set xpos [expr $width - 4 - ([image width $options(-emblemimage)])]
+					set xpos [lindex [split $xpos .] 0]
+				}
+			}
+			switch [lindex $options(-emblempos) 1] {
+				"top" {
+					set ypos 2
+				}
+				"center" {
+					set ypos [expr $height / 2 - ([image height $options(-emblemimage)] / 2)]
+					set ypos [lindex [split $ypos .] 0]
+				}
+				"bottom" {
+					set ypos [expr $height - 2 - ([image height $options(-emblemimage)])]
 				}
 			}
 		}
 		
 		$button coords txt $txtposx $txtposy
-		
-		
+		$button coords emblem $xpos $ypos
+
 		switch $options(-state) {
 			"normal" { $button itemconfigure img -image $img }
 			"active" { $button itemconfigure img -image $img_hover }
@@ -247,6 +282,9 @@ snit::widgetadaptor pixmapbutton {
 		if { $height < $minheight } { set height $minheight }
 		if { $width < $minwidth } { set width $minwidth }
 
+		#---------------------
+		# Normal button
+		#---------------------
 		#Resize left section:
 		$leftimg configure -width 4 -height [expr [image height $srcimg] - (2 * 2)]
 		$leftimg blank
@@ -289,40 +327,10 @@ snit::widgetadaptor pixmapbutton {
 		$img copy $bottomimg -to 4 [expr [image height $img] - 2]
 		$img copy $srcimg -from [expr [image width $srcimg] - 4] [expr [image height $srcimg] - 2] [image width $srcimg] [image height $srcimg] -to [expr $width - 4] [expr $height - 2]
 		
-		#Add emblem (also calculate position for this and other states emblem)
-		if { $options(-emblemimage) != "" } {
-			switch [lindex $options(-emblempos) 0] {
-				"left" {
-					set xpos 4
-				}
-				"center" {
-					set xpos [expr $width / 2 - ([image width $options(-emblemimage)] / 2)]
-					set xpos [lindex [split $xpos .] 0]
-				}
-				"right" {
-					set xpos [expr $width - 4 - ([image width $options(-emblemimage)])]
-					set xpos [lindex [split $xpos .] 0]
-				}
-			}
-
-			switch [lindex $options(-emblempos) 1] {
-				"top" {
-					set ypos 2
-				}
-				"center" {
-					set ypos [expr $height / 2 - ([image height $options(-emblemimage)] / 2)]
-					set ypos [lindex [split $ypos .] 0]
-				}
-				"bottom" {
-					set ypos [expr $height - 2 - ([image height $options(-emblemimage)])]
-					#set ypos [lindex [split $ypos .] 0]
-				}
-			}
-
-			$img copy $options(-emblemimage) -to $xpos $ypos
-		}
-
 		
+		#---------------------
+		# Hovered button
+		#---------------------
 		#Resize left section:
 		$leftimg_hover configure -width 4 -height [expr [image height $srcimg_hover] - (2 * 2)]
 		$leftimg_hover blank
@@ -366,12 +374,10 @@ snit::widgetadaptor pixmapbutton {
 		$img_hover copy $bottomimg_hover -to 4 [expr [image height $img] - 2]
 		$img_hover copy $srcimg_hover -from [expr [image width $srcimg_hover] - 4] [expr [image height $srcimg_hover] - 2] [image width $srcimg_hover] [image height $srcimg_hover] -to [expr $width - 4] [expr $height - 2]
 
-		#Add emblem
-		if { $options(-emblemimage) != "" } {
-			$img_hover copy $options(-emblemimage) -to $xpos $ypos
-		}
-		
-		
+
+		#---------------------
+		# Pressed button
+		#---------------------		
 		#Resize left section:
 		$leftimg_pressed configure -width 4 -height [expr [image height $srcimg_pressed] - (2 * 2)]
 		$leftimg_pressed blank
@@ -414,12 +420,10 @@ snit::widgetadaptor pixmapbutton {
 		$img_pressed copy $bottomimg_pressed -to 4 [expr [image height $img] - 2]
 		$img_pressed copy $srcimg_pressed -from [expr [image width $srcimg_pressed] - 4] [expr [image height $srcimg_pressed] - 2] [image width $srcimg_pressed] [image height $srcimg_pressed] -to [expr $width - 4] [expr $height - 2]
 		
-		#Add emblem
-		if { $options(-emblemimage) != "" } {
-			$img_pressed copy $options(-emblemimage) -to $xpos $ypos
-		}
 
-
+		#---------------------
+		# Disabled button
+		#---------------------
 		#Resize left section:
 		$leftimg_disabled configure -width 4 -height [expr [image height $srcimg_disabled] - (2 * 2)]
 		$leftimg_disabled blank
@@ -462,10 +466,6 @@ snit::widgetadaptor pixmapbutton {
 		$img_disabled copy $bottomimg_disabled -to 4 [expr [image height $img] - 2]
 		$img_disabled copy $srcimg_disabled -from [expr [image width $srcimg_disabled] - 4] [expr [image height $srcimg_disabled] - 2] -to [expr $width - 4] [expr $height - 2]
 		
-		#Add emblem
-		if { $options(-emblemimage) != "" } {
-			$img_disabled copy $options(-emblemimage) -to $xpos $ypos
-		}
 
 	}
 
