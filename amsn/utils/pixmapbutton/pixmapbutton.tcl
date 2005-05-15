@@ -140,7 +140,8 @@ snit::widgetadaptor pixmapbutton {
 
 		bind $self <Configure> "$self DrawButton %w %h"
 
-		bind $self <Enter> "$self ButtonHovered"
+		bind $self <B1-Enter> "$self ButtonHovered down"
+		bind $self <Enter> "$self ButtonHovered up"
 		bind $self <B1-Leave> "$self ButtonUnhovered down"
 		bind $self <Leave> "$self ButtonUnhovered up"
 		bind $self <Button-1> "$self ButtonPressed"
@@ -164,19 +165,17 @@ snit::widgetadaptor pixmapbutton {
 		} else {
 			$button itemconfigure txt -font $options(-font)
 		}
-		
-		
+
 		$self SetSize
 		$self BuildImage [lindex $buttonsize 0] [lindex $buttonsize 1]
 	}
 
-	method ButtonHovered { } {
+	method ButtonHovered { pressed } {
 		global potent
-		
-		puts potent:$potent
+
 		if {$options(-state) != "disabled" } {
-			if { $potent == "maybe" } {
-				set $potent "yes"
+			if { $pressed == "down" } {
+				set potent "yes"
 				$button itemconfigure img -image $img_pressed
 			} else {
 				set potent "no"
@@ -187,19 +186,20 @@ snit::widgetadaptor pixmapbutton {
 	
 	method ButtonUnhovered { pressed } {
 		global potent
-		puts pressed:$pressed
+
 		if {$options(-state) != "disabled" } {
 			$button itemconfigure img -image $img
-			if { $potent == "yes" } {
+			if { $pressed == "down" } {
 				set potent "maybe"
 			} else {
-				set potent "no"
+				
 			}
 		}
 	}
 	
 	method ButtonPressed { } {
 		global potent
+
 		if {$options(-state) != "disabled" } {
 			$button itemconfigure img -image $img_pressed
 			set potent "yes"
@@ -493,7 +493,6 @@ snit::widgetadaptor pixmapbutton {
 	}
 
 	method changeForeground {option value} {
-		puts boo
 		$button itemconfigure txt -fill $value
 		set options(-foreground) $value
 	}

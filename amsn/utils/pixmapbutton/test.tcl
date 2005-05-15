@@ -24,5 +24,5 @@ pack .b2 -side right -padx 5 -pady 5 -fill x -expand true
 .b1 configure -text "Ok"
 .b2 configure -text "Cancel"
 #.ok configure -font massive
-.b1 configure -state disabled
+#.b1 configure -state disabled
 .b2 configure -fg black
