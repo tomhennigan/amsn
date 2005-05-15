@@ -8,93 +8,32 @@ snit::widgetadaptor pixmapscroll {
 
 	typevariable scrollbarlist {}
 
-	typecomponent vertical_arrow1image
-	typecomponent vertical_arrow2image
-	typecomponent vertical_slidertopimage
-	typecomponent vertical_sliderbodyimage
-	typecomponent vertical_sliderbottomimage
-	typecomponent vertical_troughsrcimage
-	typecomponent vertical_slidergripimage
+	foreach orientation {horizontal vertical} {
+		foreach pic {arrow1 arrow2 slidertop sliderbody sliderbottom slidergrip} {
+			foreach hov {{} _hover _pressed} {
+				typecomponent ${orientation}_${pic}image${hov}
+			}
+		}
+		typecomponent ${orientation}_troughsrcimage
 
-	typecomponent vertical_arrow1image_hover
-	typecomponent vertical_arrow2image_hover
-	typecomponent vertical_slidertopimage_hover
-	typecomponent vertical_sliderbodyimage_hover
-	typecomponent vertical_sliderbottomimage_hover
-	typecomponent vertical_slidergripimage_hover
-	
-	typecomponent vertical_arrow1image_pressed
-	typecomponent vertical_arrow2image_pressed
-	typecomponent vertical_slidertopimage_pressed
-	typecomponent vertical_sliderbodyimage_pressed
-	typecomponent vertical_sliderbottomimage_pressed
-	typecomponent vertical_slidergripimage_pressed
+		typevariable ${orientation}_arrow1width
+		typevariable ${orientation}_arrow1height
+		typevariable ${orientation}_arrow2width
+		typevariable ${orientation}_arrow2height
+	}
 
-	typevariable vertical_arrow1width
-	typevariable vertical_arrow1height
-	typevariable vertical_arrow2width
-	typevariable vertical_arrow2height
-
-
-	typecomponent horizontal_arrow1image
-	typecomponent horizontal_arrow2image
-	typecomponent horizontal_slidertopimage
-	typecomponent horizontal_sliderbodyimage
-	typecomponent horizontal_sliderbottomimage
-	typecomponent horizontal_troughsrcimage
-	typecomponent horizontal_slidergripimage
-
-	typecomponent horizontal_arrow1image_hover
-	typecomponent horizontal_arrow2image_hover
-	typecomponent horizontal_slidertopimage_hover
-	typecomponent horizontal_sliderbodyimage_hover
-	typecomponent horizontal_sliderbottomimage_hover
-	typecomponent horizontal_slidergripimage_hover
-	
-	typecomponent horizontal_arrow1image_pressed
-	typecomponent horizontal_arrow2image_pressed
-	typecomponent horizontal_slidertopimage_pressed
-	typecomponent horizontal_sliderbodyimage_pressed
-	typecomponent horizontal_sliderbottomimage_pressed
-	typecomponent horizontal_slidergripimage_pressed
-
-	typevariable horizontal_arrow1width
-	typevariable horizontal_arrow1height
-	typevariable horizontal_arrow2width
-	typevariable horizontal_arrow2height
-
-
-	component arrow1image
-	component arrow2image
-	component slidertopimage
-	component sliderbodyimage
-	component sliderbottomimage
+	foreach pic {arrow1 arrow2 slidertop sliderbody sliderbottom slidergrip slider} {
+		foreach hov {{} _hover _pressed} {
+			component ${pic}image${hov}
+		}
+	}
 	component troughsrcimage
-	component slidergripimage
-
-	component arrow1image_hover
-	component arrow2image_hover
-	component slidertopimage_hover
-	component sliderbodyimage_hover
-	component sliderbottomimage_hover
-	component slidergripimage_hover
-	
-	component arrow1image_pressed
-	component arrow2image_pressed
-	component slidertopimage_pressed
-	component sliderbodyimage_pressed
-	component sliderbottomimage_pressed
-	component slidergripimage_pressed
+	component troughimage
 
 	variable arrow1width
 	variable arrow1height
 	variable arrow2width
 	variable arrow2height
-
-	component sliderimage
-	component troughimage
-	component sliderimage_hover
-	component sliderimage_pressed
 
 	variable canvas
 	variable visible 1
@@ -105,7 +44,6 @@ snit::widgetadaptor pixmapscroll {
 	variable hidden 0
 	variable packinfo ""
 	variable packlist {}
-
 
 	option -activebackground -default #ffffff
 	option -background -default #eae7e4
@@ -152,33 +90,17 @@ snit::widgetadaptor pixmapscroll {
 			set orientation "horizontal"
 		}
 
-		set arrow1image [set ${orientation}_arrow1image]
-		set arrow2image [set ${orientation}_arrow2image]
-		set slidertopimage [set ${orientation}_slidertopimage]
-		set sliderbodyimage [set ${orientation}_sliderbodyimage]
-		set sliderbottomimage [set ${orientation}_sliderbottomimage]
+		foreach pic {arrow1 arrow2 slidertop sliderbody sliderbottom slidergrip} {
+			foreach hov {{} _hover _pressed} {
+				set ${pic}image${hov} [set ${orientation}_${pic}image${hov}]
+			}
+		}
 		set troughsrcimage [set ${orientation}_troughsrcimage]
-		set slidergripimage [set ${orientation}_slidergripimage]
-
-		set arrow1image_hover [set ${orientation}_arrow1image_hover]
-		set arrow2image_hover [set ${orientation}_arrow2image_hover]
-		set slidertopimage_hover [set ${orientation}_slidertopimage_hover]
-		set sliderbodyimage_hover [set ${orientation}_sliderbodyimage_hover]
-		set sliderbottomimage_hover [set ${orientation}_sliderbottomimage_hover]
-		set slidergripimage_hover [set ${orientation}_slidergripimage_hover]
-		
-		set arrow1image_pressed [set ${orientation}_arrow1image_pressed]
-		set arrow2image_pressed [set ${orientation}_arrow2image_pressed]
-		set slidertopimage_pressed [set ${orientation}_slidertopimage_pressed]
-		set sliderbodyimage_pressed [set ${orientation}_sliderbodyimage_pressed]
-		set sliderbottomimage_pressed [set ${orientation}_sliderbottomimage_pressed]
-		set slidergripimage_pressed [set ${orientation}_slidergripimage_pressed]		
 
 		set arrow1width [set ${orientation}_arrow1width]
 		set arrow1height [set ${orientation}_arrow1height]
 		set arrow2width [set ${orientation}_arrow2width]
 		set arrow2height [set ${orientation}_arrow2height]
-
 
 		set sliderimage [image create photo]
 		set troughimage [image create photo]
@@ -292,9 +214,6 @@ snit::widgetadaptor pixmapscroll {
 
 	#Draw or redraw the scrollbar
 	method DrawScrollbar { } {
-	
-	
-		
 		#Drawing Arrows:
 		if { $options(-orient) == "vertical" } {
 			$canvas coords $arrow2image 0 $newsize
