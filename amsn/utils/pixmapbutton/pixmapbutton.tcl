@@ -7,40 +7,45 @@ snit::widgetadaptor pixmapbutton {
 	#-------------------
 	# Image components
 	#-------------------
-	component img
-	component img_hover
-	component img_pressed
-	component img_disabled
+	variable img
+	variable img_hover
+	variable img_pressed
+	variable img_disabled
 
-	component leftimg
-	component leftimg_hover
-	component leftimg_pressed
-	component leftimg_disabled
+	variable leftimg
+	variable leftimg_hover
+	variable leftimg_pressed
+	variable leftimg_disabled
 
-	component centreimg
-	component centreimg_hover
-	component centreimg_pressed
-	component centreimg_disabled
+	variable centreimg
+	variable centreimg_hover
+	variable centreimg_pressed
+	variable centreimg_disabled
 
-	component rightimg
-	component rightimg_hover
-	component rightimg_pressed
-	component rightimg_disabled
+	variable rightimg
+	variable rightimg_hover
+	variable rightimg_pressed
+	variable rightimg_disabled
 
-	component topimg
-	component topimg_hover
-	component topimg_pressed
-	component topimg_disabled
+	variable topimg
+	variable topimg_hover
+	variable topimg_pressed
+	variable topimg_disabled
 	
-	component bottomimg
-	component bottomimg_hover
-	component bottomimg_pressed
-	component bottomimg_disabled
+	variable bottomimg
+	variable bottomimg_hover
+	variable bottomimg_pressed
+	variable bottomimg_disabled
 	
-	component srcimg
-	component srcimg_hover
-	component srcimg_pressed
-	component srcimg_disabled
+	variable srcimg
+	variable srcimg_hover
+	variable srcimg_pressed
+	variable srcimg_disabled
+	
+	variable border_top
+	variable border_left
+	variable border_right
+	variable border_bottom
 	
 
 	component button
@@ -84,46 +89,46 @@ snit::widgetadaptor pixmapbutton {
 
 		$self configurelist $args
 
-
 		# Setting various variables
-		global buttonsize
 		set buttonsize [list 0 0]
-		typevariable potent
-		typevariable state
-		global potent
-		global state
+		set border_left 6
+		set border_top 6
+		set border_right 6
+		set border_bottom 6
 		set state $options(-state)
 		set potent "no"
 
 		set img [image create photo -width [lindex $buttonsize 0] -height [lindex $buttonsize 1]]
-		set leftimg [image create photo -width 4 -height [expr [lindex $buttonsize 1] - (2 * 2)]]
-		set centreimg [image create photo -width [expr [lindex $buttonsize 0] - (4 * 2)] -height [expr [lindex $buttonsize 1] - (2 * 2)]]
-		set rightimg [image create photo -width 4 -height [expr [lindex $buttonsize 1] - (2 * 2)]]
-		set topimg [image create photo -width [expr [lindex $buttonsize 0] - 4] -height 2]
-		set bottomimg [image create photo -width [expr [lindex $buttonsize 0] - 4] -height 2]
+		set leftimg [image create photo -width $border_left -height [expr [lindex $buttonsize 1] - $border_top - $border_bottom]]
+		set centreimg [image create photo -width [expr [lindex $buttonsize 0] - $border_left - $border_right] -height [expr [lindex $buttonsize 1] - $border_top - $border_bottom]]
+		set rightimg [image create photo -width $border_right -height [expr [lindex $buttonsize 1] - $border_top - $border_bottom]]
+		set topimg [image create photo -width [expr [lindex $buttonsize 0] - $border_right] -height $border_top]
+		set bottomimg [image create photo -width [expr [lindex $buttonsize 0] - $border_right] -height $border_top]
 		set srcimg [image create photo -file button.gif]
 
+
 		set img_hover [image create photo -width [lindex $buttonsize 0] -height [lindex $buttonsize 1]]
-		set leftimg_hover [image create photo -width 4 -height [expr [lindex $buttonsize 1] - (2 * 2)]]
-		set centreimg_hover [image create photo -width [expr [lindex $buttonsize 0] - (4 * 2)] -height [expr [lindex $buttonsize 1] - (2 * 2)]]
-		set rightimg_hover [image create photo -width 4 -height [expr [lindex $buttonsize 1] - (2 * 2)]]
+		set leftimg_hover [image create photo -width $border_left -height [expr [lindex $buttonsize 1] - $border_top - $border_bottom]]
+		set centreimg_hover [image create photo -width [expr [lindex $buttonsize 0] - $border_left - $border_right] -height [expr [lindex $buttonsize 1] - $border_top - $border_bottom]]
+		set rightimg_hover [image create photo -width 4 -height [expr [lindex $buttonsize 1] - $border_top - $border_bottom]]
 		set topimg_hover [image create photo -width [expr [lindex $buttonsize 0] - 4] -height 2]
 		set bottomimg_hover [image create photo -width [expr [lindex $buttonsize 0] - 4] -height 2]
 		set srcimg_hover [image create photo -file button_hover.gif]
 
 
 		set img_pressed [image create photo -width [lindex $buttonsize 0] -height [lindex $buttonsize 1]]
-		set leftimg_pressed [image create photo -width 4 -height [expr [lindex $buttonsize 1] - (2 * 2)]]
-		set centreimg_pressed [image create photo -width [expr [lindex $buttonsize 0] - (4 * 2)] -height [expr [lindex $buttonsize 1] - (2 * 2)]]
-		set rightimg_pressed [image create photo -width 4 -height [expr [lindex $buttonsize 1] - (2 * 2)]]
+		set leftimg_pressed [image create photo -width $border_left -height [expr [lindex $buttonsize 1] - $border_top - $border_bottom]]
+		set centreimg_pressed [image create photo -width [expr [lindex $buttonsize 0] - $border_left - $border_right] -height [expr [lindex $buttonsize 1] - $border_top - $border_bottom]]
+		set rightimg_pressed [image create photo -width 4 -height [expr [lindex $buttonsize 1] - $border_top - $border_bottom]]
 		set topimg_pressed [image create photo -width [expr [lindex $buttonsize 0] - 4] -height 2]
 		set bottomimg_pressed [image create photo -width [expr [lindex $buttonsize 0] - 4] -height 2]
 		set srcimg_pressed [image create photo -file button_pressed.gif]
 
+
 		set img_disabled [image create photo -width [lindex $buttonsize 0] -height [lindex $buttonsize 1]]
-		set leftimg_disabled [image create photo -width 4 -height [expr [lindex $buttonsize 1] - (2 * 2)]]
-		set centreimg_disabled [image create photo -width [expr [lindex $buttonsize 0] - (4 * 2)] -height [expr [lindex $buttonsize 1] - (2 * 2)]]
-		set rightimg_disabled [image create photo -width 4 -height [expr [lindex $buttonsize 1] - (2 * 2)]]
+		set leftimg_disabled [image create photo -width $border_left -height [expr [lindex $buttonsize 1] - $border_top - $border_bottom]]
+		set centreimg_disabled [image create photo -width [expr [lindex $buttonsize 0] - $border_left - $border_right] -height [expr [lindex $buttonsize 1] - $border_top - $border_bottom]]
+		set rightimg_disabled [image create photo -width 4 -height [expr [lindex $buttonsize 1] - $border_top - $border_bottom]]
 		set topimg_disabled [image create photo -width [expr [lindex $buttonsize 0] - 4] -height 2]
 		set bottomimg_disabled [image create photo -width [expr [lindex $buttonsize 0] - 4] -height 2]
 		set srcimg_disabled [image create photo -file button_disabled.gif]
@@ -154,7 +159,7 @@ snit::widgetadaptor pixmapbutton {
 		$button create text [expr [lindex $buttonsize 0] / 2] [expr [lindex $buttonsize 1] / 2] -anchor c -text $options(-text) -fill $options(-foreground) -tag txt
 		
 		$emblemimage_disabled copy $options(-emblemimage) -shrink
-		$emblemimage_disabled configure -palette 8
+		$emblemimage_disabled configure -palette 32
 		$button create image 0 0 -anchor nw -image $options(-emblemimage) -disabledimage $emblemimage_disabled -tag emblem
 
 		if { $options(-font) == "" } {
@@ -234,7 +239,7 @@ snit::widgetadaptor pixmapbutton {
 		if { $options(-emblemimage) != "" } {
 			switch [lindex $options(-emblempos) 0] {
 				"left" {
-					set xpos 4
+					set xpos $border_left
 					set txtposx [expr ([lindex $buttonsize 0] + [image width $options(-emblemimage)]) / 2]
 				}
 
@@ -246,20 +251,20 @@ snit::widgetadaptor pixmapbutton {
 
 				"right" {
 					set txtposx [expr ([lindex $buttonsize 0] - [image width $options(-emblemimage)]) / 2]
-					set xpos [expr $width - 4 - ([image width $options(-emblemimage)])]
+					set xpos [expr $width - $border_right - ([image width $options(-emblemimage)])]
 					set xpos [lindex [split $xpos .] 0]
 				}
 			}
 			switch [lindex $options(-emblempos) 1] {
 				"top" {
-					set ypos 2
+					set ypos $border_top
 				}
 				"center" {
 					set ypos [expr $height / 2 - ([image height $options(-emblemimage)] / 2)]
 					set ypos [lindex [split $ypos .] 0]
 				}
 				"bottom" {
-					set ypos [expr $height - 2 - ([image height $options(-emblemimage)])]
+					set ypos [expr $height - $border_bottom - ([image height $options(-emblemimage)])]
 				}
 			}
 		}
@@ -295,186 +300,189 @@ snit::widgetadaptor pixmapbutton {
 		#---------------------
 		# Normal button
 		#---------------------
+		
 		#Resize left section:
-		$leftimg configure -width 4 -height [expr [image height $srcimg] - (2 * 2)]
+		$leftimg configure -width $border_left -height [expr [image height $srcimg] - $border_top - $border_bottom]
 		$leftimg blank
-		$leftimg copy $srcimg -from 0 2 4 [expr [image height $srcimg] - 2] -to 0 0
-		::CxImage::Resize $leftimg 4 [expr $height - (2 * 2)]
+		$leftimg copy $srcimg -from 0 $border_top $border_left [expr [image height $srcimg] - $border_bottom] -to 0 0
+		::CxImage::Resize $leftimg $border_left [expr $height - $border_top - $border_bottom]
 		
 		#Resize middle section:
-		$centreimg configure -width [expr $width - (2 * 4)] -height [expr [image height $srcimg] - (2 * 2)]
+		$centreimg configure -width [expr $width - $border_left - $border_right] -height [expr [image height $srcimg] - $border_top - $border_bottom]
 		$centreimg blank
-		$centreimg copy $srcimg -from 4 2 [expr [image width $srcimg] - 4] [expr [image height $srcimg] - 2] -to 0 0 [expr $width - (2 * 4)] [expr $height - (2 * 2)]
-		::CxImage::Resize $centreimg [expr $width - (2 * 4)] [expr $height - (2 * 2)]
+		$centreimg copy $srcimg -from $border_left $border_top [expr [image width $srcimg] - $border_right] [expr [image height $srcimg] - $border_bottom] -to 0 0 [expr $width - $border_left - $border_right] [expr $height - $border_top - $border_bottom]
+		::CxImage::Resize $centreimg [expr $width - $border_left - $border_right] [expr $height - $border_top - $border_bottom]
 
 		#Resize right section:
-		$rightimg configure -width 4 -height [expr [image height $srcimg] - (2 * 2)]
+		$rightimg configure -width $border_right -height [expr [image height $srcimg] - $border_top - $border_bottom]
 		$rightimg blank
-		$rightimg copy $srcimg -from [expr [image width $srcimg] - 4] 2 [image width $srcimg] [expr [image height $srcimg] - 2] -to 0 0
-		::CxImage::Resize $rightimg 4 [expr $height - (2 * 2)]
+		$rightimg copy $srcimg -from [expr [image width $srcimg] - $border_right] $border_top [image width $srcimg] [expr [image height $srcimg] - $border_bottom] -to 0 0
+		::CxImage::Resize $rightimg $border_right [expr $height - $border_top - $border_bottom]
 		
 		#Resize top section:
-		$topimg configure -width [expr [image width $srcimg] - (2 * 4)] -height 2
+		$topimg configure -width [expr [image width $srcimg] - $border_left - $border_right] -height $border_top
 		$topimg blank
-		$topimg copy $srcimg -from 4 0 [expr [image width $srcimg] - 4] 2
-		::CxImage::Resize $topimg [expr $width - (4 * 2)] 2
+		$topimg copy $srcimg -from $border_left 0 [expr [image width $srcimg] - $border_right] $border_top
+		::CxImage::Resize $topimg [expr $width - $border_left - $border_right] $border_top
 		
 		#Resize bottom section:
-		$bottomimg configure -width [expr [image width $srcimg] - (2 * 4)] -height 2
+		$bottomimg configure -width [expr [image width $srcimg] - $border_left - $border_right] -height $border_bottom
 		$bottomimg blank
-		$bottomimg copy $srcimg -from 4 [expr [image height $srcimg] - 2] [expr [image width $srcimg] - 4] [image height $srcimg]
-		::CxImage::Resize $bottomimg [expr $width - (4 * 2)] 2
+		$bottomimg copy $srcimg -from $border_left [expr [image height $srcimg] - $border_bottom] [expr [image width $srcimg] - $border_right] [image height $srcimg]
+		::CxImage::Resize $bottomimg [expr $width - $border_left - $border_right] $border_bottom
 
 		#Build up button image:
 		$img configure -width $width -height $height
-		$img copy $srcimg -from 0 0 4 2 -to 0 0
-		$img copy $topimg -to 4 0 [expr $width - 4] 2
-		$img copy $srcimg -from [expr [image width $srcimg] - 4] 0 [image width $srcimg] 2 -to [expr $width - 4] 0
-		$img copy $leftimg -to 0 2
-		$img copy $centreimg -to 4 2
-		$img copy $rightimg -to [expr $width - 4] 2
-		$img copy $srcimg -from 0 [expr [image height $srcimg] - 2] 4 [image height $srcimg] -to 0 [expr $height - 2]
-		$img copy $bottomimg -to 4 [expr [image height $img] - 2]
-		$img copy $srcimg -from [expr [image width $srcimg] - 4] [expr [image height $srcimg] - 2] [image width $srcimg] [image height $srcimg] -to [expr $width - 4] [expr $height - 2]
-		
-		
-		#---------------------
+		$img copy $srcimg -from 0 0 $border_left $border_top -to 0 0
+		$img copy $topimg -to $border_left 0 [expr $width - $border_right] $border_top
+		$img copy $srcimg -from [expr [image width $srcimg] - $border_right] 0 [image width $srcimg] $border_top -to [expr $width - $border_right] 0
+		$img copy $leftimg -to 0 $border_top
+		$img copy $centreimg -to $border_left $border_top
+		$img copy $rightimg -to [expr $width - $border_right] $border_top
+		$img copy $srcimg -from 0 [expr [image height $srcimg] - $border_bottom] $border_left [image height $srcimg] -to 0 [expr $height - $border_bottom]
+		$img copy $bottomimg -to $border_left [expr [image height $img] - $border_bottom]
+		$img copy $srcimg -from [expr [image width $srcimg] - $border_right] [expr [image height $srcimg] - $border_bottom] [image width $srcimg] [image height $srcimg] -to [expr $width - $border_right] [expr $height - $border_bottom]
+
+
+		#-----------------------------------------------
 		# Hovered button
-		#---------------------
+		#-----------------------------------------------
+		
 		#Resize left section:
-		$leftimg_hover configure -width 4 -height [expr [image height $srcimg_hover] - (2 * 2)]
+		$leftimg_hover configure -width $border_left -height [expr [image height $srcimg_hover] - $border_top - $border_bottom]
 		$leftimg_hover blank
-		$leftimg_hover copy $srcimg_hover -from 0 2 4 [expr [image height $srcimg_hover] - 2] -to 0 0
-		::CxImage::Resize $leftimg_hover 4 [expr $height - (2 * 2)]
+		$leftimg_hover copy $srcimg_hover -from 0 $border_top $border_left [expr [image height $srcimg_hover] - $border_bottom] -to 0 0
+		::CxImage::Resize $leftimg_hover $border_left [expr $height - $border_top - $border_bottom]
 		
 		#Resize middle section:
-		$centreimg_hover configure -width [expr $width - (2 * 4)] -height [expr [image height $srcimg_hover] - (2 * 2)]
+		$centreimg_hover configure -width [expr $width - $border_left - $border_right] -height [expr [image height $srcimg_hover] - $border_top - $border_bottom]
 		$centreimg_hover blank
-		$centreimg_hover copy $srcimg_hover -from 4 2 [expr [image width $srcimg_hover] - 4] [expr [image height $srcimg_hover] - 2] -to 0 0 [expr $width - (2 * 4)] [expr $height - (2 * 2)]
-		::CxImage::Resize $centreimg_hover [expr $width - (2 * 4)] [expr $height - (2 * 2)]
+		$centreimg_hover copy $srcimg_hover -from $border_left $border_top [expr [image width $srcimg_hover] - $border_right] [expr [image height $srcimg_hover] - $border_bottom] -to 0 0 [expr $width - $border_left - $border_right] [expr $height - $border_top - $border_bottom]
+		::CxImage::Resize $centreimg_hover [expr $width - $border_left - $border_right] [expr $height - $border_top - $border_bottom]
 
 		#Resize right section:
-		$rightimg_hover configure -width 4 -height [expr [image height $srcimg_hover] - (2 * 2)]
+		$rightimg_hover configure -width $border_right -height [expr [image height $srcimg_hover] - $border_top - $border_bottom]
 		$rightimg_hover blank
-		$rightimg_hover copy $srcimg_hover -from [expr [image width $srcimg_hover] - 4] 2 [image width $srcimg_hover] [expr [image height $srcimg_hover] - 2] -to 0 0
-		::CxImage::Resize $rightimg_hover 4 [expr $height - (2 * 2)]
+		$rightimg_hover copy $srcimg_hover -from [expr [image width $srcimg_hover] - $border_right] $border_top [image width $srcimg_hover] [expr [image height $srcimg] - $border_bottom] -to 0 0
+		::CxImage::Resize $rightimg_hover $border_right [expr $height - $border_top - $border_bottom]
 		
 		#Resize top section:
-		$topimg_hover configure -width [expr [image width $srcimg_hover] - (2 * 4)] -height 2
+		$topimg_hover configure -width [expr [image width $srcimg_hover] - $border_left - $border_right] -height $border_top
 		$topimg_hover blank
-		$topimg_hover copy $srcimg_hover -from 4 0 [expr [image width $srcimg_hover] - 4] 2
-		::CxImage::Resize $topimg_hover [expr $width - (4 * 2)] 2
+		$topimg_hover copy $srcimg_hover -from $border_left 0 [expr [image width $srcimg_hover] - $border_right] $border_top
+		::CxImage::Resize $topimg_hover [expr $width - $border_left - $border_right] $border_top
 		
 		#Resize bottom section:
-		$bottomimg_hover configure -width [expr [image width $srcimg_hover] - (2 * 4)] -height 2
+		$bottomimg_hover configure -width [expr [image width $srcimg_hover] - $border_left - $border_right] -height $border_bottom
 		$bottomimg_hover blank
-		$bottomimg_hover copy $srcimg_hover -from 4 [expr [image height $srcimg_hover] - 2] [expr [image width $srcimg_hover] - 4] [image height $srcimg_hover]
-		::CxImage::Resize $bottomimg_hover [expr $width - (4 * 2)] 2
+		$bottomimg_hover copy $srcimg_hover -from $border_left [expr [image height $srcimg_hover] - $border_bottom] [expr [image width $srcimg_hover] - $border_right] [image height $srcimg_hover]
+		::CxImage::Resize $bottomimg_hover [expr $width - $border_left - $border_right] $border_bottom
 
 		#Build up button image:
-		$img configure -width $width -height $height
-		$img_hover copy $srcimg_hover -from 0 0 4 2 -to 0 0
-		$img_hover copy $topimg_hover -to 4 0 [expr $width - 4] 2
-		$img_hover copy $srcimg_hover -from [expr [image width $srcimg_hover] - 4] 0 [image width $srcimg_hover] 2 -to [expr $width - 4] 0
-		$img_hover copy $leftimg_hover -to 0 2 4 [expr $height - 2]
-		$img_hover copy $centreimg_hover -to 4 2 [expr $width - 4] [expr $height - 2]
-		$img_hover copy $rightimg_hover -to [expr $width - 4] 2 $width [expr $height - 2]
-		$img_hover copy $srcimg_hover -from 0 [expr [image height $srcimg_hover] - 2] 4 [image height $srcimg_hover] -to 0 [expr $height - 2]
-		#Here we use [image height $img] to fix bug where bottom disappears. Todo: find out why ;)
-		$img_hover copy $bottomimg_hover -to 4 [expr [image height $img] - 2]
-		$img_hover copy $srcimg_hover -from [expr [image width $srcimg_hover] - 4] [expr [image height $srcimg_hover] - 2] [image width $srcimg_hover] [image height $srcimg_hover] -to [expr $width - 4] [expr $height - 2]
+		$img_hover configure -width $width -height $height
+		$img_hover copy $srcimg_hover -from 0 0 $border_left $border_top -to 0 0
+		$img_hover copy $topimg_hover -to $border_left 0 [expr $width - $border_right] $border_top
+		$img_hover copy $srcimg_hover -from [expr [image width $srcimg_hover] - $border_right] 0 [image width $srcimg_hover] $border_top -to [expr $width - $border_right] 0
+		$img_hover copy $leftimg_hover -to 0 $border_top
+		$img_hover copy $centreimg_hover -to $border_left $border_top
+		$img_hover copy $rightimg_hover -to [expr $width - $border_right] $border_top
+		$img_hover copy $srcimg_hover -from 0 [expr [image height $srcimg_hover] - $border_bottom] $border_left [image height $srcimg_hover] -to 0 [expr $height - $border_bottom]
+		$img_hover copy $bottomimg_hover -to $border_left [expr [image height $img_hover] - $border_bottom]
+		$img_hover copy $srcimg_hover -from [expr [image width $srcimg_hover] - $border_right] [expr [image height $srcimg_hover] - $border_bottom] [image width $srcimg_hover] [image height $srcimg_hover] -to [expr $width - $border_right] [expr $height - $border_bottom]
 
 
-		#---------------------
+		#-----------------------------------------------
 		# Pressed button
-		#---------------------		
+		#-----------------------------------------------
+		
 		#Resize left section:
-		$leftimg_pressed configure -width 4 -height [expr [image height $srcimg_pressed] - (2 * 2)]
+		$leftimg_pressed configure -width $border_left -height [expr [image height $srcimg_pressed] - $border_top - $border_bottom]
 		$leftimg_pressed blank
-		$leftimg_pressed copy $srcimg_pressed -from 0 2 4 [expr [image height $srcimg_pressed] - 2] -to 0 0
-		::CxImage::Resize $leftimg_pressed 4 [expr $height - (2 * 2)]
+		$leftimg_pressed copy $srcimg_pressed -from 0 $border_top $border_left [expr [image height $srcimg_pressed] - $border_bottom] -to 0 0
+		::CxImage::Resize $leftimg_pressed $border_left [expr $height - $border_top - $border_bottom]
 		
 		#Resize middle section:
-		$centreimg_pressed configure -width [expr $width - (2 * 4)] -height [expr [image height $srcimg_pressed] - (2 * 2)]
+		$centreimg_pressed configure -width [expr $width - $border_left - $border_right] -height [expr [image height $srcimg_pressed] - $border_top - $border_bottom]
 		$centreimg_pressed blank
-		$centreimg_pressed copy $srcimg_pressed -from 4 2 [expr [image width $srcimg_pressed] - 4] [expr [image height $srcimg_pressed] - 2] -to 0 0 [expr $width - (2 * 4)] [expr $height - (2 * 2)]
-		::CxImage::Resize $centreimg_pressed [expr $width - (2 * 4)] [expr $height - (2 * 2)]
+		$centreimg_pressed copy $srcimg_pressed -from $border_left $border_top [expr [image width $srcimg_pressed] - $border_right] [expr [image height $srcimg_pressed] - $border_bottom] -to 0 0 [expr $width - $border_left - $border_right] [expr $height - $border_top - $border_bottom]
+		::CxImage::Resize $centreimg_pressed [expr $width - $border_left - $border_right] [expr $height - $border_top - $border_bottom]
 
 		#Resize right section:
-		$rightimg_pressed configure -width 4 -height [expr [image height $srcimg_pressed] - (2 * 2)]
+		$rightimg_pressed configure -width $border_right -height [expr [image height $srcimg_pressed] - $border_top - $border_bottom]
 		$rightimg_pressed blank
-		$rightimg_pressed copy $srcimg_pressed -from [expr [image width $srcimg_pressed] - 4] 2 [image width $srcimg_pressed] [expr [image height $srcimg_pressed] - 2] -to 0 0
-		::CxImage::Resize $rightimg_pressed 4 [expr $height - (2 * 2)]
+		$rightimg_pressed copy $srcimg_pressed -from [expr [image width $srcimg_pressed] - $border_right] $border_top [image width $srcimg_pressed] [expr [image height $srcimg] - $border_bottom] -to 0 0
+		::CxImage::Resize $rightimg_pressed $border_right [expr $height - $border_top - $border_bottom]
 		
 		#Resize top section:
-		$topimg_pressed configure -width [expr [image width $srcimg_pressed] - (2 * 4)] -height 2
+		$topimg_pressed configure -width [expr [image width $srcimg_pressed] - $border_left - $border_right] -height $border_top
 		$topimg_pressed blank
-		$topimg_pressed copy $srcimg_pressed -from 4 0 [expr [image width $srcimg_pressed] - 4] 2
-		::CxImage::Resize $topimg_pressed [expr $width - (4 * 2)] 2
+		$topimg_pressed copy $srcimg_pressed -from $border_left 0 [expr [image width $srcimg_pressed] - $border_right] $border_top
+		::CxImage::Resize $topimg_pressed [expr $width - $border_left - $border_right] $border_top
 		
 		#Resize bottom section:
-		$bottomimg_pressed configure -width [expr [image width $srcimg_pressed] - (2 * 4)] -height 2
+		$bottomimg_pressed configure -width [expr [image width $srcimg_pressed] - $border_left - $border_right] -height $border_bottom
 		$bottomimg_pressed blank
-		$bottomimg_pressed copy $srcimg_pressed -from 4 [expr [image height $srcimg_pressed] - 2] [expr [image width $srcimg_pressed] - 4] [image height $srcimg_pressed]
-		::CxImage::Resize $bottomimg_pressed [expr $width - (4 * 2)] 2
+		$bottomimg_pressed copy $srcimg_pressed -from $border_left [expr [image height $srcimg_pressed] - $border_bottom] [expr [image width $srcimg_pressed] - $border_right] [image height $srcimg_pressed]
+		::CxImage::Resize $bottomimg_pressed [expr $width - $border_left - $border_right] $border_bottom
 
 		#Build up button image:
-		$img configure -width $width -height $height
-		$img_pressed copy $srcimg_pressed -from 0 0 4 2 -to 0 0
-		$img_pressed copy $topimg_pressed -to 4 0 [expr $width - 4] 2
-		$img_pressed copy $srcimg_pressed -from [expr [image width $srcimg_pressed] - 4] 0 [image width $srcimg_pressed] 2 -to [expr $width - 4] 0
-		$img_pressed copy $leftimg_pressed -to 0 2 4 [expr $height - 2]
-		$img_pressed copy $centreimg_pressed -to 4 2 [expr $width - 4] [expr $height - 2]
-		$img_pressed copy $rightimg_pressed -to [expr $width - 4] 2 $width [expr $height - 2]
-		$img_pressed copy $srcimg_pressed -from 0 [expr [image height $srcimg_pressed] - 2] 4 [image height $srcimg_pressed] -to 0 [expr $height - 2]
-		$img_pressed copy $bottomimg_pressed -to 4 [expr [image height $img] - 2]
-		$img_pressed copy $srcimg_pressed -from [expr [image width $srcimg_pressed] - 4] [expr [image height $srcimg_pressed] - 2] [image width $srcimg_pressed] [image height $srcimg_pressed] -to [expr $width - 4] [expr $height - 2]
-		
+		$img_pressed configure -width $width -height $height
+		$img_pressed copy $srcimg_pressed -from 0 0 $border_left $border_top -to 0 0
+		$img_pressed copy $topimg_pressed -to $border_left 0 [expr $width - $border_right] $border_top
+		$img_pressed copy $srcimg_pressed -from [expr [image width $srcimg_pressed] - $border_right] 0 [image width $srcimg_pressed] $border_top -to [expr $width - $border_right] 0
+		$img_pressed copy $leftimg_pressed -to 0 $border_top
+		$img_pressed copy $centreimg_pressed -to $border_left $border_top
+		$img_pressed copy $rightimg_pressed -to [expr $width - $border_right] $border_top
+		$img_pressed copy $srcimg_pressed -from 0 [expr [image height $srcimg_pressed] - $border_bottom] $border_left [image height $srcimg_pressed] -to 0 [expr $height - $border_bottom]
+		$img_pressed copy $bottomimg_pressed -to $border_left [expr [image height $img_pressed] - $border_bottom]
+		$img_pressed copy $srcimg_pressed -from [expr [image width $srcimg_pressed] - $border_right] [expr [image height $srcimg_pressed] - $border_bottom] [image width $srcimg_pressed] [image height $srcimg_pressed] -to [expr $width - $border_right] [expr $height - $border_bottom]
 
-		#---------------------
+		
+		#-----------------------------------------------
 		# Disabled button
-		#---------------------
+		#-----------------------------------------------
+
 		#Resize left section:
-		$leftimg_disabled configure -width 4 -height [expr [image height $srcimg_disabled] - (2 * 2)]
+		$leftimg_disabled configure -width $border_left -height [expr [image height $srcimg_disabled] - $border_top - $border_bottom]
 		$leftimg_disabled blank
-		$leftimg_disabled copy $srcimg_disabled -from 0 2 4 [expr [image height $srcimg_disabled] - 2] -to 0 0
-		::CxImage::Resize $leftimg_disabled 4 [expr $height - (2 * 2)]
+		$leftimg_disabled copy $srcimg_disabled -from 0 $border_top $border_left [expr [image height $srcimg_disabled] - $border_bottom] -to 0 0
+		::CxImage::Resize $leftimg_disabled $border_left [expr $height - $border_top - $border_bottom]
 		
 		#Resize middle section:
-		$centreimg_disabled configure -width [expr $width - (2 * 4)] -height [expr [image height $srcimg_disabled] - (2 * 2)]
+		$centreimg_disabled configure -width [expr $width - $border_left - $border_right] -height [expr [image height $srcimg_disabled] - $border_top - $border_bottom]
 		$centreimg_disabled blank
-		$centreimg_disabled copy $srcimg_disabled -from 4 2 [expr [image width $srcimg_disabled] - 4] [expr [image height $srcimg_disabled] - 2] -to 0 0 [expr $width - (2 * 4)] [expr $height - (2 * 2)]
-		::CxImage::Resize $centreimg_disabled [expr $width - (2 * 4)] [expr $height - (2 * 2)]
+		$centreimg_disabled copy $srcimg_disabled -from $border_left $border_top [expr [image width $srcimg_disabled] - $border_right] [expr [image height $srcimg_disabled] - $border_bottom] -to 0 0 [expr $width - $border_left - $border_right] [expr $height - $border_top - $border_bottom]
+		::CxImage::Resize $centreimg_disabled [expr $width - $border_left - $border_right] [expr $height - $border_top - $border_bottom]
 
 		#Resize right section:
-		$rightimg_disabled configure -width 4 -height [expr [image height $srcimg_disabled] - (2 * 2)]
+		$rightimg_disabled configure -width $border_right -height [expr [image height $srcimg_disabled] - $border_top - $border_bottom]
 		$rightimg_disabled blank
-		$rightimg_disabled copy $srcimg_disabled -from [expr [image width $srcimg_disabled] - 4] 2 [image width $srcimg_disabled] [expr [image height $srcimg_disabled] - 2] -to 0 0
-		::CxImage::Resize $rightimg_disabled 4 [expr $height - (2 * 2)]
+		$rightimg_disabled copy $srcimg_disabled -from [expr [image width $srcimg_disabled] - $border_right] $border_top [image width $srcimg_disabled] [expr [image height $srcimg] - $border_bottom] -to 0 0
+		::CxImage::Resize $rightimg_disabled $border_right [expr $height - $border_top - $border_bottom]
 		
 		#Resize top section:
-		$topimg_disabled configure -width [expr [image width $srcimg_disabled] - (2 * 4)] -height 2
+		$topimg_disabled configure -width [expr [image width $srcimg_disabled] - $border_left - $border_right] -height $border_top
 		$topimg_disabled blank
-		$topimg_disabled copy $srcimg_disabled -from 4 0 [expr [image width $srcimg_disabled] - 4] 2
-		::CxImage::Resize $topimg_disabled [expr $width - (4 * 2)] 2
+		$topimg_disabled copy $srcimg_disabled -from $border_left 0 [expr [image width $srcimg_disabled] - $border_right] $border_top
+		::CxImage::Resize $topimg_disabled [expr $width - $border_left - $border_right] $border_top
 		
 		#Resize bottom section:
-		$bottomimg_disabled configure -width [expr [image width $srcimg_disabled] - (2 * 4)] -height 2
+		$bottomimg_disabled configure -width [expr [image width $srcimg_disabled] - $border_left - $border_right] -height $border_bottom
 		$bottomimg_disabled blank
-		$bottomimg_disabled copy $srcimg_disabled -from 4 [expr [image height $srcimg_disabled] - 2] [expr [image width $srcimg_disabled] - 4] [image height $srcimg_disabled]
-		::CxImage::Resize $bottomimg_disabled [expr $width - (4 * 2)] 2
+		$bottomimg_disabled copy $srcimg_disabled -from $border_left [expr [image height $srcimg_disabled] - $border_bottom] [expr [image width $srcimg_disabled] - $border_right] [image height $srcimg_disabled]
+		::CxImage::Resize $bottomimg_disabled [expr $width - $border_left - $border_right] $border_bottom
 
 		#Build up button image:
-		$img configure -width $width -height $height
-		$img_disabled copy $srcimg_disabled -from 0 0 4 2 -to 0 0
-		$img_disabled copy $topimg_disabled -to 4 0 [expr $width - 4] 2
-		$img_disabled copy $srcimg_disabled -from [expr [image width $srcimg_disabled] - 4] 0 [image width $srcimg_disabled] 2 -to [expr $width - 4] 0
-		$img_disabled copy $leftimg_disabled -to 0 2 4 [expr $height - 2]
-		$img_disabled copy $centreimg_disabled -to 4 2 [expr $width - 4] [expr $height - 2]
-		$img_disabled copy $rightimg_disabled -to [expr $width - 4] 2 $width [expr $height - 2]
-		$img_disabled copy $srcimg_disabled -from 0 [expr [image height $srcimg_disabled] - 2] 4 [image height $srcimg_disabled] -to 0 [expr $height - 2]
-		$img_disabled copy $bottomimg_disabled -to 4 [expr [image height $img] - 2]
-		$img_disabled copy $srcimg_disabled -from [expr [image width $srcimg_disabled] - 4] [expr [image height $srcimg_disabled] - 2] -to [expr $width - 4] [expr $height - 2]
+		$img_disabled configure -width $width -height $height
+		$img_disabled copy $srcimg_disabled -from 0 0 $border_left $border_top -to 0 0
+		$img_disabled copy $topimg_disabled -to $border_left 0 [expr $width - $border_right] $border_top
+		$img_disabled copy $srcimg_disabled -from [expr [image width $srcimg_disabled] - $border_right] 0 [image width $srcimg_disabled] $border_top -to [expr $width - $border_right] 0
+		$img_disabled copy $leftimg_disabled -to 0 $border_top
+		$img_disabled copy $centreimg_disabled -to $border_left $border_top
+		$img_disabled copy $rightimg_disabled -to [expr $width - $border_right] $border_top
+		$img_disabled copy $srcimg_disabled -from 0 [expr [image height $srcimg_disabled] - $border_bottom] $border_left [image height $srcimg_disabled] -to 0 [expr $height - $border_bottom]
+		$img_disabled copy $bottomimg_disabled -to $border_left [expr [image height $img_disabled] - $border_bottom]
+		$img_disabled copy $srcimg_disabled -from [expr [image width $srcimg_disabled] - $border_right] [expr [image height $srcimg_disabled] - $border_bottom] [image width $srcimg_disabled] [image height $srcimg_disabled] -to [expr $width - $border_right] [expr $height - $border_bottom]
 		
 
 	}
