@@ -42,6 +42,7 @@ snit::widgetadaptor pixmapscroll {
 	variable newsize 1
 	variable active_element ""
 	variable hidden 0
+	variable greyed 0
 	variable packinfo ""
 	variable packlist {}
 
@@ -171,28 +172,80 @@ snit::widgetadaptor pixmapscroll {
 		$self HideUnhide
 	}
 
-	method HideUnhide {} {
-		if { ($visible == 1) && ($hidden == 0) && ($options(-autohide))} {
-			if { ![catch { set packinfo [pack info $self] }] } {
-				set packlist [pack slaves [winfo parent $self]]
-				set packlist [lrange $packlist [expr {[lsearch $packlist $self] + 1}] end]
-				pack forget $self
-				set hidden 1
+	method Hide { } {
+		if { ![catch { set packinfo [pack info $self] }] } {
+			set packlist [pack slaves [winfo parent $self]]
+			set packlist [lrange $packlist [expr {[lsearch $packlist $self] + 1}] end]
+			pack forget $self
+			set hidden 1
+		}	
+	}
+
+	method UnHide {} {
+		#only pack if isn't currently packed
+		if { [catch { pack info $self }] } {
+			foreach child $packlist {
+				if { ![catch { pack info $child } ] } {
+					append packinfo " -before $child"
+					break
+				}
 			}
+			eval pack $self $packinfo
 		}
 		
-		if { ($hidden == 1) && ( ($visible != 1) || (!$options(-autohide)) ) } {
-			#only pack if isn't currently packed
-			if { [catch { pack info $self }] } {
-				foreach child $packlist {
-					if { ![catch { pack info $child } ] } {
-						append packinfo " -before $child"
-						break
-					}
-				}
-				eval pack $self $packinfo
+		set hidden 0
+	}
+
+	method Grey { } {
+		$self ChangePalette 32
+		set greyed 1
+	}
+
+	method UnGrey { } {
+		$self ChangePalette 256/256/256
+		set greyed 0
+	}
+
+	method ChangePalette { palette } {
+		
+		foreach pic {arrow1 arrow2 slidertop sliderbody sliderbottom slidergrip slider} {
+			foreach hov {{} _hover _pressed} {
+				catch {[set ${pic}image${hov}] configure -palette $palette} res
 			}
-			set hidden 0
+		}
+		catch { $troughsrcimage configure -palette $palette}
+		catch { $troughimage configure -palette $palette}
+	}
+
+	method HideUnhide { } {
+			# hide it or grey it out
+		if { $visible == 1} {
+			if {$options(-autohide)} {
+				# Hide it
+				if {$hidden == 0} {
+					$self Hide
+				}
+			} else {
+				# grey it
+				if {$hidden == 1 } {
+					# Unhide it first
+					$self UnHide
+				}
+				if {$greyed == 0 } {
+					$self Grey
+				}
+			}
+
+		} else {
+			# Unhide or ungrey
+			if { $hidden == 1 } {
+				$self UnHide
+			}
+		
+			if { $greyed == 1 } {
+				$self UnGrey
+			}
+	
 		}
 	}
 
