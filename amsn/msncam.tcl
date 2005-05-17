@@ -48,13 +48,23 @@ namespace eval ::MSNCAM {
 		#draw a notification in the window (gui)
 		::CAMGUI::CamCanceled $chatid
 
-
-		if { [::CAMGUI::IsGrabberValid $grabber] } {
-			::CAMGUI::CloseGrabber $grabber $window
+		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+			set grabber .grabber.seq
+			#Delete the button of current cams sending, on Mac OS X, if it exists
+			if { [winfo exists .grabber.delete_$sid] } {
+				destroy .grabber.delete_$sid
+				set ::activegrabbers [expr {$::activegrabbers - 1}]
+			}
+			
+		} else {
+			if { [::CAMGUI::IsGrabberValid $grabber] } {
+				::CAMGUI::CloseGrabber $grabber $window
+			}
 		}
 		if { [winfo exists $window] } {
 			wm protocol $window WM_DELETE_WINDOW "destroy $window"
 		}
+		
 		set listening [getObjOption $sid listening_socket]
 		if { $listening != "" } {
 			close $listening
@@ -1121,15 +1131,21 @@ namespace eval ::CAMGUI {
 				set source [getObjOption $sid source]
 				$grabber configure -source $source
 				$grabber start
+				
 				setObjOption $sid grab_proc "Grab_Windows"
 
 			} elseif { [set ::tcl_platform(os)] == "Darwin" } {
 				if { ![winfo exists .grabber] } {
 					toplevel .grabber
+					wm protocol .grabber WM_DELETE_WINDOW "::CAMGUI::CloseGrabberWindowMac"
 				}
+				#Add grabber to the window
 				set grabber [seqgrabber $grabber -height 240]
 				pack $grabber
 				catch {$grabber configure -volume 0}
+				#Add button to change settings
+				button .grabber.settings -command "::CAMGUI::ChooseDeviceMac" -text "Change video settings"
+				pack .grabber.settings
 				setObjOption $sid grab_proc "Grab_Mac"
 
 			} elseif { [set ::tcl_platform(os)] == "Linux" } {
@@ -1182,6 +1198,23 @@ namespace eval ::CAMGUI {
 			#Don't show the sending frame on Mac OS X (we already have the grabber)
 			if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 				set img [image create photo]
+				set w .grabber
+				
+				if { [winfo exists $w] } {
+					if {![winfo exists $w.label]} {
+						label $w.label -text "List of people you are currently sending webcam\nClick to cancel"
+						pack $w.label
+					}
+					#Add button for each contact you are sending webcam
+					set buttontext [trunc [::abook::getDisplayNick $chatid] . 200 splainf]
+					button $w.delete_$sid -command "::MSNCAM::CancelCam $chatid $sid" -text $buttontext
+					pack $w.delete_$sid
+					if {![info exists ::activegrabbers]} {
+						set ::activegrabbers 0
+					}
+					set ::activegrabbers [expr {$::activegrabbers + 1}]			
+				}
+				
 			} else {
 				set img [image create photo]
 				toplevel $window
@@ -1267,6 +1300,17 @@ namespace eval ::CAMGUI {
 		set encoder [getObjOption $img encoder]
 		if { $socket == "" || $encoder == "" } { return }
 		::MSNCAM::SendFrame $socket $encoder $img
+	}
+	
+	proc CloseGrabberWindowMac {} {
+		
+		#If there's no webcam grabber active, destroy the window
+		if {$::activegrabbers < 1} {
+			destroy .grabber
+			set ::activegrabbers 0
+		} else {
+			msg_box "You have to cancel all webcam sessions before closing the window"
+		}
 	}
 
 	proc IsGrabberValid { grabber } {
@@ -1423,10 +1467,13 @@ namespace eval ::CAMGUI {
 
 			if { ![winfo exists .grabber] } {
 				toplevel .grabber
+				wm protocol .grabber WM_DELETE_WINDOW "::CAMGUI::CloseGrabberWindowMac"
 			}
 			set grabber [seqgrabber $grabber -height 240]
 			pack $grabber
 			catch {$grabber configure -volume 0}
+			button .grabber.settings -command "::CAMGUI::ChooseDeviceMac" -text "Change video settings"
+			pack .grabber.settings
 		}
 		$grabber videosettings
 	}
