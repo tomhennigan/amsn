@@ -5201,7 +5201,7 @@ namespace eval ::MSN6FT {
 					setObjOption $sock sending 0
 					fileevent $sock writable ""
 				} else {
-					after 50 "fileevent $sock writable \"::MSN6FT::WriteToSock $sock\""
+					fileevent $sock writable "::MSN6FT::WriteToSock $sock"
 				}
 			}
 
