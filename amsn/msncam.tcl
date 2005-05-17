@@ -44,15 +44,16 @@ namespace eval ::MSNCAM {
 	proc CamCanceled { chatid sid } {
 		set grabber [getObjOption $sid grabber]
 		set window [getObjOption $sid window]
+		
+		#draw a notification in the window (gui)
+		::CAMGUI::CamCanceled $chatid
+
 
 		if { [::CAMGUI::IsGrabberValid $grabber] } {
 			::CAMGUI::CloseGrabber $grabber $window
-			#draw a notification in the window (gui)
-			::CAMGUI::CamCanceled $chatid
 		}
 		if { [winfo exists $window] } {
-			destroy $window
-			::CAMGUI::CamCanceled $chatid
+			wm protocol $window WM_DELETE_WINDOW "destroy $window"
 		}
 		set listening [getObjOption $sid listening_socket]
 		if { $listening != "" } {
@@ -1044,7 +1045,7 @@ namespace eval ::CAMGUI {
 			set window .webcam_$sid
 			toplevel $window
 			set chatid [getObjOption $sid chatid]
-			bind $window <Destroy> "::MSNCAM::CancelCam $chatid $sid"
+			wm protocol $window WM_DELETE_WINDOW "::MSNCAM::CancelCam $chatid $sid"
 			set img [image create photo]
 			label $window.l -image $img
 			pack $window.l
@@ -1191,7 +1192,7 @@ namespace eval ::CAMGUI {
 				pack $window.settings -expand true -fill x
 				button $window.q -command "destroy $window" -text "Stop sending Webcam"
 				pack $window.q -expand true -fill x
-				bind $window <Destroy> "::MSNCAM::CancelCam $chatid $sid"
+				wm protocol $window WM_DELETE_WINDOW "::MSNCAM::CancelCam $chatid $sid"
 			}
 			set windows $::grabbers($grabber)
 			lappend windows $window

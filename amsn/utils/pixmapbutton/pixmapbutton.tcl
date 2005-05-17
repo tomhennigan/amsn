@@ -154,7 +154,7 @@ snit::widgetadaptor pixmapbutton {
 		$button create text [expr [lindex $buttonsize 0] / 2] [expr [lindex $buttonsize 1] / 2] -anchor c -text $options(-text) -fill $options(-foreground) -tag txt
 		
 		$emblemimage_disabled copy $options(-emblemimage) -shrink
-		$emblemimage_disabled configure -palette 16
+		$emblemimage_disabled configure -palette 8
 		$button create image 0 0 -anchor nw -image $options(-emblemimage) -disabledimage $emblemimage_disabled -tag emblem
 
 		if { $options(-font) == "" } {
