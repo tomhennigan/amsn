@@ -419,15 +419,18 @@ namespace eval ::MSNP2P {
 		if {$cSid == "0" && $cMsgSize != "0" && $cMsgSize != $cTotalDataSize } {
 
 			if { ![info exists chunkedData($cId)] } {
-				set chunkedData($cId) "[string range $data 0 end-4]"
+				set chunkedData($cId) "[string range $data 0 [expr { $cMsgSize - 1}]]"
 			} else {
-				set chunkedData($cId) "$chunkedData($cId)[string range $data 0 end-4]"
+				set chunkedData($cId) "$chunkedData($cId)[string range $data 0 [expr { $cMsgSize - 1}]]"
 			}
-			#status_log "Data is now : $chunkedData($cId)\n\n";
+#			status_log "Data is now : $chunkedData($cId)\n\n";
+			status_log "chunked data :  $cTotalDataSize - $cMsgSize - $cOffset - [string length $chunkedData($cId)]"
 
-			if { $cTotalDataSize != [string length $chunkedData($cId)] } {
+			if { $cTotalDataSize != [expr $cMsgSize + $cOffset] } {
+			#	status_log "not enough data to complete chunk...$cTotalDataSize - $cOffset - $cMsgSize - [string length $chunkedData($cId)]" 
 				return
 			} else {
+				#status_log "data completed... $cTotalDataSize - $cOffset - [string length $chunkedData($cId)]"
 				set data $chunkedData($cId)
 				#				set headend 0
 				set cMsgSize $cTotalDataSize
@@ -1035,6 +1038,10 @@ proc MakePacket { sid slpdata {nullsid "0"} {MsgId "0"} {TotalSize "0"} {Offset 
 	} elseif { $Offset == 0 } {
 		# Offset is different than 0, we need to incr the MsgId to prepare our next message
 		incr MsgId
+	}
+
+	if {[string is digit $Offset] == 0 || $Offset == ""} {
+		set Offset 0
 	}
 
 	append bheader [binary format i $MsgId]

@@ -2250,6 +2250,12 @@ namespace eval ::Event {
 		after 30000 $self destroy
 	}
 
+	method setRaw { data } {
+		set body $data
+		array set header {}
+		array set fields {}
+	}
+
 	#creates a message object from a received payload
 	method createFromPayload { payload } {
 		set idx [string first "\r\n\r\n" $payload]
@@ -2773,7 +2779,7 @@ namespace eval ::Event {
 				set p2pmessage [P2PMessage create %AUTO%]
 				$p2pmessage createFromMessage $message
 				::MSNP2P::ReadData $p2pmessage $chatid
-				status_log [$p2pmessage toString 1]
+				#status_log [$p2pmessage toString 1]
 			}
 
 			text/x-mms-emoticon -
@@ -4774,7 +4780,9 @@ proc myRand { min max } {
 
 
 proc binword { word } {
-
+	if {$word == "" || [string is digit $word] == 0 } {
+		set word 0
+	}
 	return [binary format ii $word 0]
 	#return [binary format ii [expr $word % 4294967296] [expr ( $word - ( $word % 4294967296)) / 4294967296 ]]
 
@@ -4875,6 +4883,8 @@ namespace eval ::MSN6FT {
 #		status_log "branchid : [::MSNP2P::$sessions($sid) cget -branchid]\n"
 
 		::MSNP2P::SessionList set $sid [list 0 $filesize 0 $dest 0 $callid 0 "filetransfer" "$filename" "$branchid"]
+		setObjOption $sid chatid $chatid
+
 		status_log "branchid : [lindex [::MSNP2P::SessionList get $sid] 9]\n"
 
 		set ext [string tolower [string range [fileext $filename] 1 end]]
@@ -4981,6 +4991,7 @@ namespace eval ::MSN6FT {
 			set localip ""
 		}
 
+
 		if { $listening == "true" } {
 			set slpdata [::MSNP2P::MakeMSNSLP "INVITE" $dest [::config::getKey login] $branchid 1 $callid 0 2 "TCPv1" "$listening" "$nonce" "$clientip"\
 					 "$port" "$localip" "$port"]
@@ -5002,18 +5013,12 @@ namespace eval ::MSN6FT {
 	}
 
 	proc handleMsnFT { nonce sid sending sock ip port } {
-		variable sockState
-		variable sockNonce
-		variable sockSid
 
-		set sockNonce($sock) $nonce
-		set sockSid($sock) $sid
-
-		if { $sending == 1 } {
-			set sockState($sock) 0
-		} else {
-			set sockState($sock) 10
-		}
+		setObjOption $sid sending $sending
+		setObjOption $sock nonce $nonce
+		setObjOption $sock state "FOO"
+		setObjOption $sock server 1
+		setObjOption $sock sid $sid
 
 		status_log "Received connection from $ip on port $port - socket $sock\n"
 		fconfigure $sock -blocking 1 -buffering none -translation {binary binary}
@@ -5027,31 +5032,25 @@ namespace eval ::MSN6FT {
 
 	proc connectMsnFTP { sid nonce ip port sending } {
 
-	#Use new FT protocol only if the user choosed this option in advanced preferences.
-    if {[::config::getKey new_ft_protocol]} {
-   		#Nothing
-    } else {
-   		return
-    }
-
+		#Use new FT protocol only if the user choosed this option in advanced preferences.
+		if {[::config::getKey new_ft_protocol]} {
+			#Nothing
+		} else {
+			return
+		}
+		
 		::amsn::FTProgress c $sid "" $ip $port
 
 		if { [catch {set sock [ socket $ip $port] } ] } {
 			status_log "ERROR CONNECTING TO THE SERVER\n\n" red
 		} else {
-			variable sockState
-			variable sockNonce
-			variable sockSid
 
-			if { $sending == "1" } {
-				set sockState($sock) 20
-			} else {
-				set sockState($sock) 30
-			}
-
-			set sockNonce($sock) $nonce
-			set sockSid($sock) $sid
-
+			setObjOption $sid sending $sending
+			setObjOption $sock nonce $nonce
+			setObjOption $sock state "FOO"
+			setObjOption $sock server 0
+			setObjOption $sock sid $sid
+			
 			status_log "connectedto $ip on port $port  - $sock\n"
 			fconfigure $sock -blocking 1 -buffering none -translation {binary binary}
 			fileevent $sock readable "::MSN6FT::ReadFromSock $sock"
@@ -5061,14 +5060,18 @@ namespace eval ::MSN6FT {
 
 
 	proc ReadFromSock { sock } {
-		variable sockNonce
-		variable sockState
-		variable sockSid
+		set sid [getObjOption $sock sid]
+		set state [getObjOption $sock state]
+		set server [getObjOption $sock server]
+		set sending [getObjOption $sid sending]
 
-		set sid $sockSid($sock)
+		if { $sid == "" } {
+			status_log "Can't find sid for socket $sock!!! ERROR" red
+			close $sock
+			return
+		}
 
 		set size [read $sock 4]
-
 
 
 		if {$size == "" && [eof $sock] } {
@@ -5085,8 +5088,7 @@ namespace eval ::MSN6FT {
 		binary scan $size i size
 		set data [read $sock $size]
 
-		set state $sockState($sock)
-#		status_log "Received Data on socket $sock status $state: $data\n" red
+		#status_log "Received Data on socket $sock status $state: $data\n" red
 
 		if { $data == "" } {
 			update idletasks
@@ -5094,76 +5096,51 @@ namespace eval ::MSN6FT {
 		}
 
 		switch $state {
-			10 -
-			0
+			"FOO"
 			{
-				if { $data == "foo\x00" } {
-					set sockState($sock) [expr $sockState($sock) + 1]
-				}
+				if { $server && $data == "foo\x00" } {
+					setObjOption $sock state "NONCE_GET"
+				} 
 			}
 
-			1 -
-			11 -
-			22
+			"NONCE_GET"
 			{
-				if { $sockNonce($sock) == [GetNonceFromData $data]} {
-					variable sockSid
-					set sid $sockSid($sock)
-
+				set nonce [getObjOption $sock nonce]
+				
+				if { $server && $nonce == [GetNonceFromData $data]} {
 					::MSNP2P::SessionList set $sid [list -1 -1 -1 -1 "DATASEND" -1 -1 -1 -1 -1]
 
-					set sockState($sock) [expr $sockState($sock) + 1 ]
-					fileevent $sock writable "::MSN6FT::WriteToSock $sock"
+					if { $server } {
+						setObjOption $sock state "NONCE_SEND"
+						fileevent $sock writable "::MSN6FT::WriteToSock $sock"
+					} else {
+						setObjOption $sock state "CONNECTED"
+						if { $sending } {
+							fileevent $sock writable "::MSN6FT::WriteToSock $sock"	
+						}
+					}
 				}
 			}
 
-			32
+			"CONNECTED"
 			{
-				if { $sockNonce($sock) == [GetNonceFromData $data]} {
-					variable sockSid
-					set sid $sockSid($sock)
+				set message [Message create %AUTO%]
+				$message setRaw $data
 
-					::MSNP2P::SessionList set $sid [list -1 -1 -1 -1 "DATASEND" -1 -1 -1 -1 -1]
+ 				set p2pmessage [P2PMessage create %AUTO%]
+ 				$p2pmessage createFromMessage $message
+ 				::MSNP2P::ReadData $p2pmessage [getObjOption $sid chatid]
 
-					set sockState($sock) [expr $sockState($sock) + 1 ]
-				}
+# 				if { [WriteDataToFile $data] == "0" } {
+# 					SendDataAck $sock $data
+# 					set sockState($sock) [expr $sockState($sock) + 1 ]
+
+# 				}
 			}
 
-			33 -
-			13
-			{
-				if { [WriteDataToFile $data] == "0" } {
-					SendDataAck $sock $data
-					set sockState($sock) [expr $sockState($sock) + 1 ]
-
-				}
-			}
-
-			24 -
-			4
-			{
-				set sockState($sock) [expr $sockState($sock) + 1 ]
-				fileevent $sock writable "::MSN6FT::WriteToSock $sock"
-			}
-
-			34 -
-			14
-			{
-				SendByeAck $sock $data
-				#CloseSocket $sock
-				close $sock
-			}
-
-			6 -
-			26
-			{
-				#CloseSocket $sock
-				close $sock
-			}
 			default
 			{
-				set sockState($sock) 100
-				close $sock
+				catch {close $sock}
 			}
 
 		}
@@ -5172,70 +5149,67 @@ namespace eval ::MSN6FT {
 
 	}
 	proc WriteToSock { sock } {
+		set sid [getObjOption $sock sid]
+		set state [getObjOption $sock state]
+		set server [getObjOption $sock server]
+		set sending [getObjOption $sid sending]
 
-		variable sockState
-		variable sockNonce
-		variable sockSid
-
-		set sid $sockSid($sock)
+		if { $sid == "" } {
+			status_log "Can't find sid for socket $sock!!! ERROR" red
+			close $sock
+			return
+		}
 
 		fileevent $sock writable ""
 
 
 		set data ""
-		set state $sockState($sock)
 
-		switch $sockState($sock) {
 
-			20 -
-			30
+		switch $state {
+
+			"FOO"			
 			{
-				set data "[binary format i 4]foo\x00"
-				set sockState($sock) [expr $sockState($sock) + 1 ]
-				fileevent $sock writable "::MSN6FT::WriteToSock $sock"
-			}
-
-			21 -
-			31 -
-			12
-			{
-				set data "[binary format i 48][GetDataFromNonce $sockNonce($sock) $sid]"
-				set sockState($sock) [expr $sockState($sock) + 1 ]
-
-			}
-
-			2  {
-				set data "[binary format i 48][GetDataFromNonce $sockNonce($sock) $sid]"
-				set sockState($sock) [expr $sockState($sock) + 1 ]
-				fileevent $sock writable "::MSN6FT::WriteToSock $sock"
-			}
-
-			23 -
-			3
-			{
-
-				if { [SendFileToSock $sock] == "0" } {
-					set sockState($sock) [expr $sockState($sock) + 1 ]
-					fileevent $sock writable ""
-				} else {
+				if { $server == 0 } {
+					set data "[binary format i 4]foo\x00"
+					setObjOption $sock state "NONCE_SEND"
 					fileevent $sock writable "::MSN6FT::WriteToSock $sock"
 				}
 			}
 
-			5 -
-			25
+			"NONCE_SEND"
 			{
-				set data [SendDataBye $sock]
-				set data "[binary format i [string length $data]]$data"
-				set sockState($sock) [expr $sockState($sock) + 1 ]
+				
+				set nonce [getObjOption $sock nonce]
+				
+				set data "[GetDataFromNonce $nonce $sid]"
+				if { $server } {
+					setObjOption $sock state "CONNECTED"
+					if { $sending } {
+						fileevent $sock writable "::MSN6FT::WriteToSock $sock"	
+					}
+				} else {
+					setObjOption $sock state "NONCE_GET"
+				}
+
 			}
 
+			"CONNECTED"
+			{
+
+				if { $sending && [SendFileToSock $sock] == "0" } {
+					setObjOption $sock sending 0
+					fileevent $sock writable ""
+				} else {
+					after 50 "fileevent $sock writable \"::MSN6FT::WriteToSock $sock\""
+				}
+			}
 
 		}
 
 		if { $data != "" } {
 #			status_log "Writing Data on socket $sock with state $state : $data\n" red
-			puts -nonewline $sock "$data"
+			puts -nonewline $sock "[binary format i [string length $data]]$data"
 		}
 
 
@@ -5285,127 +5259,11 @@ namespace eval ::MSN6FT {
 
 	}
 
-	proc WriteDataToFile { data } {
-
-		 binary scan [string range $data 0 47] iiiiiiiiiiii cSid cId cOffset1 cOffset2 cTotalDataSize1 cTotalDataSize2 cMsgSize cFlags cAckId cAckUID cAckSize1 cAckSize2
-
-
-		if { ![info exists cAckSize2] } {
-			return
-		}
-
-		 set fd [lindex [::MSNP2P::SessionList get $cSid] 6]
-		 set cOffset [int2word $cOffset1 $cOffset2]
-		 set cTotalDataSize [int2word $cTotalDataSize1 $cTotalDataSize2]
-		 set cAckSize [int2word $cAckSize1 $cAckSize2]
-
-		 set cRemaining [expr $cTotalDataSize - $cOffset - $cMsgSize]
-
-		 if { [catch { puts -nonewline $fd "[string range $data 48 end]" } res] } {
-			 status_log "ERROR WRITING DATA TO FILE : $fd - $data\n" red
-		 }
-
-
-		 #status_log "Received data : remainging $cRemaining\n"
-
-		 ::amsn::FTProgress r $cSid "" [expr $cOffset + $cMsgSize] $cTotalDataSize
-
-		 if {$cRemaining == 0 } {
-			 ::amsn::FTProgress fr $cSid ""
-			 catch {close $fd}
-		 }
-		 return $cRemaining
-
-
-	}
-
-	proc SendByeAck { sock data } {
-		variable sockSid
-
-		set sid $sockSid($sock)
-
-
-		binary scan [string range $data 0 47] iiiiiiiiiiii cSid cId cOffset1 cOffset2 cTotalDataSize1 cTotalDataSize2 cMsgSize cFlags cAckId cAckUID cAckSize1 cAckSize2
-
-		if { ![info exists cAckSize2] } {
-			return
-		}
-
-		set cOffset [int2word $cOffset1 $cOffset2]
-		set cTotalDataSize [int2word $cTotalDataSize1 $cTotalDataSize2]
-		set cAckSize [int2word $cAckSize1 $cAckSize2]
-
-		set MsgId [lindex [::MSNP2P::SessionList get $sid] 0]
-		incr MsgId
-		::MSNP2P::SessionList set $sid [list $MsgId -1 -1 -1 -1 -1 -1 -1 -1 -1]
-
-
-		set out [binary format ii 0 $MsgId][binword 0][binword $cTotalDataSize][binary format iiii 0 2 $cId $cAckId][binword $cTotalDataSize]
-
-
-		puts -nonewline $sock "[binary format i 48]$out"
-		status_log "Sending Bye ACK :  $out\n" red
-
-
-	}
-
-	proc SendDataAck { sock data } {
-		variable sockSid
-
-		set sid $sockSid($sock)
-
-
-		binary scan [string range $data 0 47] iiiiiiiiiiii cSid cId cOffset1 cOffset2 cTotalDataSize1 cTotalDataSize2 cMsgSize cFlags cAckId cAckUID cAckSize1 cAckSize2
-
-		if { ![info exists cAckSize2] } {
-			return
-		}
-
-		set cOffset [int2word $cOffset1 $cOffset2]
-		set cTotalDataSize [int2word $cTotalDataSize1 $cTotalDataSize2]
-		set cAckSize [int2word $cAckSize1 $cAckSize2]
-
-		set SessionInfo [::MSNP2P::SessionList get $sid]
-		set MsgId [lindex $SessionInfo 0]
-		set Destination [lindex $SessionInfo 3]
-		incr MsgId
-		::MSNP2P::SessionList set $sid [list $MsgId -1 -1 -1 -1 -1 -1 -1 -1 -1]
-
-		set out [binary format ii $sid $MsgId][binword 0][binword $cTotalDataSize][binary format iiii 0 2 $cId $cAckId][binword $cTotalDataSize]
-
-		status_log "Writing ack on sock $sock : $out\n" red
-
-		puts -nonewline $sock "[binary format i [string length $out]]$out"
-	}
-
-	proc SendDataBye { sock } {
-		variable sockSid
-
-		set sid $sockSid($sock)
-
-		set SessionInfo [::MSNP2P::SessionList get $sid]
-		set dest [lindex $SessionInfo 3]
-		set callid [lindex $SessionInfo 5]
-		set branchid [lindex $SessionInfo 9]
-
-		set MsgId [lindex $SessionInfo 0]
-		incr MsgId
-
-	        set bye [::MSNP2P::MakeMSNSLP "BYE" $dest [::config::getKey login] $branchid 0 $callid 0 0]
-		set size [string length $bye]
-
-		set bheader [binary format ii 0 $MsgId][binword 0][binword $size][binary format iiii $size 0 [expr int([expr rand() * 1000000000])%125000000 + 4] 0][binword 0]
-
-
-		return "${bheader}${bye}"
-
-	}
 
 	proc CloseSocket { sock } {
 
 		#return
-		variable sockSid
-		set sid $sockSid($sock)
+		set sid [getObjOption $sock sid]
 
 		set MsgId [lindex [::MSNP2P::SessionList get $sid] 0]
 
@@ -5420,9 +5278,7 @@ namespace eval ::MSN6FT {
 
 	proc SendFileToSock  { sock } {
 
-		variable sockSid
-
-		set sid $sockSid($sock)
+		set sid [getObjOption $sock sid]
 
 		set fd [lindex [::MSNP2P::SessionList get $sid] 6]
 		if { $fd == 0 || $fd == "" } {
@@ -5473,7 +5329,7 @@ namespace eval ::MSN6FT {
 		binary scan [string range $context 8 11] i filesize
 		binary scan [string range $context 16 19] i nopreview
 
-		set filename [FromUnicode [string range $context 20 [expr {$size - 5}]]]
+		set filename [FromUnicode [string range $context 20 569]]
 
 		binary scan $filename A* filename
 
@@ -5491,6 +5347,7 @@ namespace eval ::MSN6FT {
 				::skin::setPixmap FT_preview_${sid} "[file join $dir ${sid}.gif]"
 			}
 		}
+		setObjOption $sid chatid $chatid
 
 		status_log "context : $context \n size : $size \n filesize : $filesize \n nopreview : $nopreview \nfilename : $filename\n"
 		::MSNFT::invitationReceived $filename $filesize $sid $chatid $dest 1

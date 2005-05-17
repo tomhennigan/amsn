@@ -628,6 +628,7 @@ takesnapshot Take Snapshot
 temp_state Don't save (Temporary state, will be missed when close AMSN)
 textsize Text size
 thismonth This month
+throughserver Through server
 timeremaining Time remaining
 timestamp Timestamp
 timestamps Enable timestamps on chat windows
