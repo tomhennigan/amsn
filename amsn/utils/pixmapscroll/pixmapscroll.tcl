@@ -197,24 +197,24 @@ snit::widgetadaptor pixmapscroll {
 	}
 
 	method Grey { } {
-		$self ChangePalette 32
+		$self ChangePalette 32 2
 		set greyed 1
 	}
 
 	method UnGrey { } {
-		$self ChangePalette 256/256/256
+		$self ChangePalette 256/256/256 1
 		set greyed 0
 	}
 
-	method ChangePalette { palette } {
+	method ChangePalette { palette gamma } {
 		
 		foreach pic {arrow1 arrow2 slidertop sliderbody sliderbottom slidergrip slider} {
 			foreach hov {{} _hover _pressed} {
-				catch {[set ${pic}image${hov}] configure -palette $palette} res
+				catch {[set ${pic}image${hov}] configure -palette $palette -gamma $gamma} res
 			}
 		}
-		catch { $troughsrcimage configure -palette $palette}
-		catch { $troughimage configure -palette $palette}
+		catch { $troughsrcimage configure -palette $palette -gamma $gamma}
+		catch { $troughimage configure -palette $palette -gamma $gamma}
 	}
 
 	method HideUnhide { } {
