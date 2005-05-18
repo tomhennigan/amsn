@@ -189,14 +189,20 @@ namespace eval ::ChatWindow {
 
 	proc ContainerClose { window } {
 		variable win2tab
-
+		
 		set current [GetCurrentWindow $window]
 		set currenttab [set win2tab($current)]
-
-		if { [::ChatWindow::CountTabs $window] == 1 } {
+		#If there is just one tab OR user choosed to always close one tab when clicking the close button
+		if { [::ChatWindow::CountTabs $window] == 1 || [::config::getKey ContainerCloseAction] == 2} {
 			::ChatWindow::CloseTab $currenttab
 			return
 		}
+		#If user choosed to always close all tabs when clicking the close button
+		if {[::config::getKey ContainerCloseAction] == 1} {
+			::ChatWindow::CloseAll $window; destroy $window
+			return
+		}
+		
 		
 		set nodot [string map { "." "_"} $window]
 		set w .close$nodot
@@ -207,15 +213,58 @@ namespace eval ::ChatWindow {
 		}
 
 		toplevel $w
-		#label $w.l -text "[trans detachall]"
-		label $w.l -text "[trans closeall]"
-		set f $w.f
-		frame $f
-		button $f.yes -text "[trans yes]" -command "::ChatWindow::CloseAll $window; destroy $window; destroy $w"
-		button $f.no -text "[trans no]" -command "::ChatWindow::CloseTab $currenttab; destroy $w" 
-		button $f.cancel -text "[trans cancel]" -command "destroy $w"
-		pack $f.yes $f.no $f.cancel -side left
-		pack $w.l $w.f -side top
+		wm title $w "[trans closeall]"
+		
+		#Create the 2 frames
+		frame $w.top
+		frame $w.buttons
+		
+		#Create the picture of warning (at left)
+		label $w.top.bitmap -image [::skin::loadPixmap warning]
+		pack $w.top.bitmap -side left -pady 5 -padx 10
+		
+		label $w.top.question -text "[trans closeall]" -font bigfont
+		pack $w.top.question -pady 5 -padx 10
+		
+	
+		checkbutton $w.top.remember -text [trans remembersetting] -variable [::config::getVar remember]
+		pack $w.top.remember -pady 5 -padx 10 -side left
+		
+		#Create the buttons
+		button $w.buttons.yes -text "[trans yes]" -command "::ChatWindow::ContainerCloseAction yes $window $w"
+		button $w.buttons.no -text "[trans no]" -command "::ChatWindow::ContainerCloseAction no $currenttab $w" -default active
+		button $w.buttons.cancel -text "[trans cancel]" -command "destroy $w"
+		pack $w.buttons.yes -pady 5 -padx 5 -side right
+		pack $w.buttons.cancel -pady 5 -padx 5 -side left
+		pack $w.buttons.no -pady 5 -padx 5 -side right
+		
+		#Pack frames
+		pack $w.top -pady 5 -padx 5 -side top
+		pack $w.buttons -pady 5 -padx 5 -fill x
+
+		moveinscreen $w 30
+		bind $w <<Escape>> "destroy $w"
+		
+		
+	}
+	
+	#Action to do when someone chooses yes/or inside ContainerClose
+	proc ContainerCloseAction {action window w} {
+		
+		if {$action == "yes"} {
+			::ChatWindow::CloseAll $window; destroy $window; destroy $w
+			if {[::config::getKey remember]} {
+				msg_box remember1
+				::config::setKey ContainerCloseAction 1
+			}
+		} else {
+			::ChatWindow::CloseTab $window; destroy $w
+			if {[::config::getKey remember]} {
+				msg_box remember2
+				::config::setKey ContainerCloseAction 2
+			}
+		}	
+	
 	}
 
 	proc DetachAll { w } {

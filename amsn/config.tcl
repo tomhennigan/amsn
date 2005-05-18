@@ -174,6 +174,7 @@ namespace eval ::config {
 		::config::setKey logsbydate 1
 		::config::setKey p4c_name ""
 		::config::setKey tabbedchat 2
+		::config::setKey ContainerCloseAction 0
 		::config::setKey showMobileGroup 1
 
 		if {$tcl_platform(os) != "Darwin"} {
@@ -1246,10 +1247,10 @@ proc CheckLock { email } {
 	set Port [LoginList getlock 0 $email]
 	status_log "CheckLock: LoginList getlock called. Lock=$Port\n" blue
 	if { $Port != 0 } {
-		if { [catch {socket -server phony -myaddr [info hostname] $Port} newlockSock] != 0  } {
+		if { [catch {socket -server phony -myaddr localhost $Port} newlockSock] != 0  } {
 			status_log "CheckLock Port is already in use: $newlockSock\n" red
 			# port is taken, let's make sure it's a profile lock
-			if { [catch {socket [info hostname] $Port} clientSock] == 0 } {
+			if { [catch {socket localhost $Port} clientSock] == 0 } {
 				status_log "CheckLock: Can connect to port. Sending PING\n" blue
 				fileevent $clientSock readable "lockcltHdl $clientSock"
 				fconfigure $clientSock -buffering line
@@ -1318,7 +1319,7 @@ proc LockProfile { email } {
 	while { $trigger == 0 } {
 		set Port [GetRandomProfilePort]
 		status_log "LockProfile: Got random port $Port\n" blue
-		if { [catch {socket -server lockSvrNew -myaddr [info hostname] $Port} newlockSock] == 0  } {
+		if { [catch {socket -server lockSvrNew -myaddr localhost $Port} newlockSock] == 0  } {
 			# Got one
 			LoginList changelock 0 $email $Port
 			set lockSock $newlockSock

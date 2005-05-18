@@ -43,6 +43,7 @@ appearance Appearance
 appearoff Appear offline
 areacode Area Code
 aretyping $1 are typing a message
+askeachtime Ask each time
 askwebcam Ask this user to see his/her webcam
 author Author
 autoaccepted File transfer accepted automatically
@@ -132,6 +133,9 @@ clicktologin Click here to log in
 clientcaps Send x-clientcaps packet to others clients
 clientname Client Name
 closeall Close all the tabs in the window?
+closealltabs Close all tabs
+closelabel When you click the close button in a tabbed chat window
+closeonly Close only the current tab
 close Close
 closed Conversation with $1 closed due to inactivity
 closingdocks Close button minimizes
@@ -537,6 +541,7 @@ reconnecting Reconnecting to server
 reconnect Waiting for $1 to reconnect
 reject Reject
 rememberpass Remember password
+remembersetting Remember this setting
 removeempty Remove empty groups from the contact list
 removefromlist Remove from this list
 rename Rename

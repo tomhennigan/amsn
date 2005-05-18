@@ -1756,6 +1756,7 @@ proc Preferences { { settings "personal"} } {
 	frame $lfname.1 -class Degt
 	frame $lfname.2 -class Degt
 	frame $lfname.3 -class Degt
+	frame $lfname.4 -class Degt
 	
 	label $lfname.1.lchatmaxmin -text [trans chatmaxmin]
 	radiobutton $lfname.1.max -text [trans raised] -value 0 -variable [::config::getVar newchatwinstate] -padx 17
@@ -1798,15 +1799,25 @@ proc Preferences { { settings "personal"} } {
 	radiobutton $lfname.3.tabbedglobal -text [trans tabbedglobal] -value 1 -variable [::config::getVar tabbedchat] -padx 17
 	radiobutton $lfname.3.tabbedgroups -text [trans tabbedgroups] -value 2 -variable [::config::getVar tabbedchat] -padx 17
 	
+	label $lfname.4.containermode -text [trans closelabel]
+	radiobutton $lfname.4.containerask -text [trans askeachtime] -value 0 -variable [::config::getVar ContainerCloseAction] -padx 17
+	radiobutton $lfname.4.containercloseall -text [trans closealltabs] -value 1 -variable [::config::getVar ContainerCloseAction] -padx 17
+	radiobutton $lfname.4.containerclosetab -text [trans closeonly] -value 2 -variable [::config::getVar ContainerCloseAction] -padx 17
+	
 	grid $lfname.3.lmsgmode  -row 1 -column 1 -sticky w
 	grid $lfname.3.nottabbed -row 2 -column 1 -sticky w
 	grid $lfname.3.tabbedglobal -row 3 -column 1 -sticky w
 	grid $lfname.3.tabbedgroups -row 4 -column 1 -sticky w
 	
+	grid $lfname.4.containermode  -row 1 -column 1 -sticky w
+	grid $lfname.4.containerask -row 2 -column 1 -sticky w
+	grid $lfname.4.containercloseall -row 2 -column 2 -sticky w
+	grid $lfname.4.containerclosetab -row 2 -column 3 -sticky w	
+	
 	checkbutton $lfname.winflicker -text "[trans msgflicker]" -onvalue 1 -offvalue 0 -variable [::config::getVar flicker]
 	checkbutton $lfname.showdisplaypic -text "[trans showdisplaypic2]" -onvalue 1 -offvalue 0 -variable [::config::getVar showdisplaypic]
 
-	pack $lfname.1 $lfname.2 $lfname.3 $lfname.winflicker $lfname.showdisplaypic -anchor w -side top
+	pack $lfname.1 $lfname.2 $lfname.3 $lfname.4 $lfname.winflicker $lfname.showdisplaypic -anchor w -side top
 
 	$nb.nn compute_size
 	[$nb.nn getframe session].sw.sf compute_size
@@ -2472,7 +2483,7 @@ proc Preferences { { settings "personal"} } {
 
 #check if a window is outside the screen and move it in
 proc moveinscreen {window {mindist 0}} {
-	
+
 	update
 
 	#Small check to verify the window really exist
