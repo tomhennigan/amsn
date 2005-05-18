@@ -7269,8 +7269,9 @@ proc getPicSize { filename type } {
 	::picture::Convert ${filename} ${tempfile}.gif
 	
 	set img [image create photo -file "${tempfile}.gif"]
-	
-	return "[image width $img]x[image height $img];image delete $img"
+	set return "[image width $img]x[image height $img]"
+	image delete $img
+	return $return
 }
 
 proc pictureChooseFile { } {
