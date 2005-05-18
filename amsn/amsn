@@ -327,7 +327,7 @@ if {$version != [::config::getGlobalKey last_client_version]} {
    catch {file delete [file join $HOME2 bugreport.amsn]}
    #Force to change to Lucida Grande 12 on OS X, just one time when we switch version
    if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-	   setGlobalKey basefont [list {Lucida Grande} 12 normal]
+	   ::config::setGlobalKey basefont [list {Lucida Grande} 12 normal]
 	}
 }
 
