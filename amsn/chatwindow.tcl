@@ -619,8 +619,7 @@ namespace eval ::ChatWindow {
 	
 				::ChatWindow::NameTabButton $win_name [::abook::getDisplayNick $chatid]
 
-				set_balloon $::ChatWindow::win2tab($win_name) "[::abook::getDisplayNick $chatid]"
-	
+				set_balloon $::ChatWindow::win2tab($win_name) "--command--::ChatWindow::SetNickText $chatid"
 				::ChatWindow::SwitchToTab $container [::ChatWindow::GetCurrentWindow $container]
 
 
@@ -1974,7 +1973,7 @@ namespace eval ::ChatWindow {
 
 		return $buttons
 	}
-
+	#Show a different ballon if the user is currently blocked or unblocked
 	proc SetBlockText {win_name} {
 		set Chatters [::MSN::usersInChat [::ChatWindow::Name $win_name]]
 		set NrOfChatters [llength $Chatters]
@@ -1988,6 +1987,11 @@ namespace eval ::ChatWindow {
 				return "[trans unblock]"
 			}
 		}
+	}
+	#Show the nickname of someone in the balloon
+	#If someone changed nick, the new nick appear in the new balloon
+	proc SetNickText {chatid} {
+		return [::abook::getDisplayNick $chatid]
 	}
 
 

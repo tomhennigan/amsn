@@ -518,7 +518,7 @@ namespace eval ::amsn {
 		toplevel $w
 		wm title $w "[trans delete] - $user_login"
 
-		#Create the three frames
+		#Create the 2 frames
 		frame $w.top
 		frame $w.buttons
 
@@ -2440,7 +2440,7 @@ namespace eval ::amsn {
 
 		if { [::ChatWindow::UseContainer] != 0 && $creating_window == 1} {
 			::ChatWindow::NameTabButton $win_name [::abook::getDisplayNick $chatid]
-			set_balloon $::ChatWindow::win2tab($win_name) "[::abook::getDisplayNick $chatid]"
+			set_balloon $::ChatWindow::win2tab($win_name) "--command--::ChatWindow::SetNickText $chatid"
 		}
 
 		if { "$chatid" != "${lowuser}" } {
@@ -7925,10 +7925,10 @@ proc webcampicture_save {preview} {
 	set idx 1
 	while { [file exists [file join $HOME displaypic webcam{$idx}.jpg]] } { incr idx }
 	set file "[file join $HOME displaypic webcam{$idx}.jpg]"
+	
 	#We first save it in jpeg
-	if { [info exists quicktimetcl::version] } {
-		$preview write "$file" -format quicktimejpeg
-	}
+	$preview write "$file"
+	
 	#We verify if imagemagick is there
 	if { [catch { exec [::config::getKey convertpath] } res] } {
 		msg_box "[trans installconvert]"
