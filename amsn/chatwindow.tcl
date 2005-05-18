@@ -254,13 +254,11 @@ namespace eval ::ChatWindow {
 		if {$action == "yes"} {
 			::ChatWindow::CloseAll $window; destroy $window; destroy $w
 			if {[::config::getKey remember]} {
-				msg_box remember1
 				::config::setKey ContainerCloseAction 1
 			}
 		} else {
 			::ChatWindow::CloseTab $window; destroy $w
 			if {[::config::getKey remember]} {
-				msg_box remember2
 				::config::setKey ContainerCloseAction 2
 			}
 		}	
