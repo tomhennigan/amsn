@@ -1241,19 +1241,51 @@ namespace eval ::amsn {
 	# the 'fontformat' parameter will be used as font format.
 	# The procedure will open a window if it does not exists, add a notifyWindow and
 	# play a sound if it's necessary
-	proc messageFrom { chatid user nick msg type {fontformat ""} {p4c 0} } {
+	proc messageFrom { chatid user nick message type {p4c 0} } {
 		global remote_auth
 
-		#if customfnick exists replace the nick with customfnick
-		set customfnick [::abook::getContactData $user customfnick]
+		set fonttype [$message getHeader X-MMS-IM-Format]
 
-		if { $customfnick != "" } {
-			set nick [::abook::getNick $user]
-			set customnick [::abook::getContactData $user customnick]
+		set begin [expr {[string first "FN=" $fonttype]+3}]
+		set end   [expr {[string first ";" $fonttype $begin]-1}]
+		set fontfamily "[urldecode [string range $fonttype $begin $end]]"
 
-			set nick [::abook::parseCustomNick $customfnick $nick $user $customnick]
+		set begin [expr {[string first "EF=" $fonttype]+3}]
+		set end   [expr {[string first ";" $fonttype $begin]-1}]
+		set fontstyle "[urldecode [string range $fonttype $begin $end]]"
+
+		set begin [expr {[string first "CO=" $fonttype]+3}]
+		set end   [expr {[string first ";" $fonttype $begin]-1}]
+		set fontcolor "000000[urldecode [string range $fonttype $begin $end]]"
+		set fontcolor "[string range $fontcolor end-1 end][string range $fontcolor end-3 end-2][string range $fontcolor end-5 end-4]"
+
+		set style [list]
+		if {[string first "B" $fontstyle] >= 0} {
+			lappend style "bold"
+		}
+		if {[string first "I" $fontstyle] >= 0} {
+			lappend style "italic"
+		}
+		if {[string first "U" $fontstyle] >= 0} {
+			lappend style "underline"
+		}
+		if {[string first "S" $fontstyle] >= 0} {
+			lappend style "overstrike"
 		}
 
+		if { [::config::getKey disableuserfonts] } {
+
+			#if customfnick exists replace the nick with customfnick
+			set customfnick [::abook::getContactData $user customfnick]
+
+			if { $customfnick != "" } {
+				set nick [::abook::getNick $user]
+				set customnick [::abook::getContactData $user customnick]
+
+				set nick [::abook::parseCustomNick $customfnick $nick $user $customnick]
+			}
+		}
+		set msg [$message getBody]
 
 		set maxw [expr {[::skin::getKey notifwidth]-20}]
 		incr maxw [expr {0-[font measure splainf "[trans says [list]]:"]}]
@@ -1278,7 +1310,7 @@ namespace eval ::amsn {
 			}
 		}
 
-		PutMessage $chatid $user $nick $msg $type $fontformat $p4c
+		PutMessage $chatid $user $nick $msg $type [list $fontfamily $style $fontcolor] $p4c
 
 #		set evPar [list $user [::abook::getDisplayNick $user] $msg]
 		
@@ -2170,8 +2202,39 @@ namespace eval ::amsn {
 		    } else {
 			set ackid 0
 		    }
+
+		    set message [Message create %AUTO%]
+		    $message setBody $msg
+		    #TODO: where is the best place to put this code?
+
+		    set color "000000$fontcolor"
+		    set color "[string range $color end-1 end][string range $color end-3 end-2][string range $color end-5 end-4]"
+
+		    set style ""
+
+		    if { [string first "bold" $fontstyle] >= 0 } {
+		    	set style "${style}B"
+		    }
+		    if { [string first "italic" $fontstyle] >= 0 } {
+			set style "${style}I"
+		    }
+		    if { [string first "overstrike" $fontstyle] >= 0 } {
+			set style "${style}S"
+		    }
+		    if { [string first "underline" $fontstyle] >= 0 } {
+			set style "${style}U"
+		    }
+
+		    set format ""
+		    set format "{$format}FN=[urlencode $fontfamily]; "
+		    set format "{$format}EF=$style; "
+		    set format "{$format}CO=$color; "
+		    set format "{$format}CS=0; "
+		    set format "{$format}PF=22"
+		    $message setHeader [list X-MMS-IM-Format "$format"]
+
 		    #Draw our own message
-		    messageFrom $chatid [::abook::getPersonal login] $nick "$msg" user [list $fontfamily $fontstyle $fontcolor] $p4c
+		    messageFrom $chatid [::abook::getPersonal login] $nick $message user $p4c
 		    ::MSN::messageTo $chatid "$msgchunk" $ackid $friendlyname
 
 

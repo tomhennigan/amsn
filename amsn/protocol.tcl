@@ -2296,6 +2296,14 @@ namespace eval ::Event {
 	method getHeaders { } {
 		return [array get headers]
 	}
+
+	method setBody { txt } {
+		set body $txt
+	}
+
+	method setHeader { list } {
+		array set headers $list
+	}
 }
 
 
@@ -2618,47 +2626,9 @@ namespace eval ::Event {
 		switch $contentType {
 			text/plain {
 				::Event::fireEvent messageReceived $self $message
-				set body [$message getBody]
+				$message setBody [encoding convertfrom identity [string map {"\r\n" "\n"} [$message getBody]]]
 
-				#TODO: Process fonts in other place
-				set fonttype [$message getHeader X-MMS-IM-Format]
-
-				set begin [expr {[string first "FN=" $fonttype]+3}]
-				set end   [expr {[string first ";" $fonttype $begin]-1}]
-				set fontfamily "[urldecode [string range $fonttype $begin $end]]"
-
-				set begin [expr {[string first "EF=" $fonttype]+3}]
-				set end   [expr {[string first ";" $fonttype $begin]-1}]
-				set fontstyle "[urldecode [string range $fonttype $begin $end]]"
-
-				set begin [expr {[string first "CO=" $fonttype]+3}]
-				set end   [expr {[string first ";" $fonttype $begin]-1}]
-				set fontcolor "000000[urldecode [string range $fonttype $begin $end]]"
-				set fontcolor "[string range $fontcolor end-1 end][string range $fontcolor end-3 end-2][string range $fontcolor end-5 end-4]"
-
-				set style [list]
-				if {[string first "B" $fontstyle] >= 0} {
-					lappend style "bold"
-				}
-				if {[string first "I" $fontstyle] >= 0} {
-					lappend style "italic"
-				}
-				if {[string first "U" $fontstyle] >= 0} {
-					lappend style "underline"
-				}
-				if {[string first "S" $fontstyle] >= 0} {
-					lappend style "overstrike"
-				}
-
-				#TODO: Remove the font style transformation from here and put it inside messageFrom or gui.tcl
-				if { [::config::getKey disableuserfonts] } {
-					set fontfamily [lindex [::config::getKey mychatfont] 0]
-					set style [lindex [::config::getKey mychatfont] 1]
-					#set fontcolor [lindex [::config::getKey mychatfont] 2]
-				}
-				set body [encoding convertfrom identity [string map {"\r\n" "\n"} $body]]
-
-				::amsn::messageFrom $chatid $typer $nick "$body" user [list $fontfamily $style $fontcolor] $p4c_enabled
+				::amsn::messageFrom $chatid $typer $nick $message user $p4c_enabled
 				set options(-lastmsgtime) [clock format [clock seconds] -format %H:%M:%S]
 				::abook::setContactData $typer last_msgedme [clock format [clock seconds] -format "%D - %H:%M:%S"]
 				#if alarm_onmsg is on run it
