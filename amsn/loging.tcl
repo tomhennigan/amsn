@@ -514,8 +514,8 @@ proc LogsByDate {wname email init} {
 
 		$wname.top.date.list list insert end "[trans currentdate]"
 		foreach date $sorteddate_list {
-			status_log "Adding date [trans [clock format $date -format "%B"]] [clock format $date -format "%Y"]\n" blue
-			$wname.top.date.list list insert end "[trans [clock format $date -format "%B"]] [clock format $date -format "%Y"]"
+			status_log "Adding date [clock format $date -format "%B"] [clock format $date -format "%Y"]\n" blue
+			$wname.top.date.list list insert end "[clock format $date -format "%B"] [clock format $date -format "%Y"]"
 		}
 		if { $erdate_list != "" } {
 			$wname.top.date.list list insert end "_ _ _ _ _"
