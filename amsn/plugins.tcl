@@ -500,7 +500,7 @@ namespace eval ::plugins {
 			label $w.author
 			label $w.desc_title -text [trans description] -font sboldf
 			label $w.desc -textvariable ::plugins::selection(desc) -width 40 \
-				-wraplength 250 -justify left -anchor w
+				-wraplength 300 -justify left -anchor w
 			# holds the 'command center' buttons
 			button $w.load -text "[trans load]" -command "::plugins::GUI_Load" -state disabled
 			button $w.config -text "[trans configure]" -command "::plugins::GUI_Config" ;#-state disabled
@@ -527,20 +527,20 @@ namespace eval ::plugins {
 			bind $w <<Escape>> "::plugins::GUI_Close"
 
 			pack $w.plugin_list -fill both -side left
-			pack $w.name_title -padx 10 -anchor w
-			pack $w.name -padx 20 -anchor w -fill x
-			pack $w.version_title -padx 10 -anchor w
-			pack $w.version -padx 20 -anchor w -fill x
-			pack $w.author_title -padx 10 -anchor w
-			pack $w.author -padx 20 -anchor w -fill x
-			pack $w.desc_title -padx 10 -anchor w
-			pack $w.desc -padx 20 -anchor w -fill x
-			pack $w.load -padx 5 -pady 5 -side right -anchor se
-			pack $w.config -padx 5 -pady 5 -side right -anchor se
+			pack $w.name_title -padx 5 -anchor w
+			pack $w.name -padx 5 -anchor w
+			pack $w.version_title -padx 5 -anchor w
+			pack $w.version -padx 5 -anchor w 
+			pack $w.author_title -padx 5 -anchor w
+			pack $w.author -padx 5 -anchor w
+			pack $w.desc_title -padx 5 -anchor w
+			pack $w.desc -anchor nw -expand true -fill x -padx 5
 			pack $w.close -padx 5 -pady 5 -side right -anchor se
+			pack $w.config -padx 5 -pady 5 -side right -anchor se
+			pack $w.load -padx 5 -pady 5 -side right -anchor se
+
 		    }
 
-		# not really sure what this does...
 		moveinscreen $w 30
 		return
 	}
