@@ -489,66 +489,56 @@ namespace eval ::plugins {
 			toplevel $w
 			wm title $w [trans pluginselector]
 			# create widgets
-			# frame that holds the selection dialog
-			frame $w.select
 			# listbox with all the plugins
-			listbox $w.select.plugin_list -background "white" -height 15
-			# frame that holds the plugins info like name and description
-			frame $w.desc
-			label $w.desc.name_title -text [trans name] -font sboldf
-			label $w.desc.name
-			label $w.desc.version_title -text [trans version] -font sboldf
-			label $w.desc.version
-			label $w.desc.author_title -text [trans author] -font sboldf
-			label $w.desc.author
-			label $w.desc.desc_title -text [trans description] -font sboldf
-			label $w.desc.desc -textvariable ::plugins::selection(desc) -width 40 \
+			listbox $w.plugin_list -background "white" -height 15
+			# holds the plugins info like name and description
+			label $w.name_title -text [trans name] -font sboldf
+			label $w.name
+			label $w.version_title -text [trans version] -font sboldf
+			label $w.version
+			label $w.author_title -text [trans author] -font sboldf
+			label $w.author
+			label $w.desc_title -text [trans description] -font sboldf
+			label $w.desc -textvariable ::plugins::selection(desc) -width 40 \
 				-wraplength 250 -justify left -anchor w
-			# frame that holds the 'command center' buttons
-			frame $w.command
-			#TODO: translate "load"
-			button $w.command.load -text "[trans load]" -command "::plugins::GUI_Load" -state disabled
-			button $w.command.config -text "[trans configure]" -command "::plugins::GUI_Config" ;#-state disabled
-			button $w.command.close -text [trans close] -command "::plugins::GUI_Close"
+			# holds the 'command center' buttons
+			button $w.load -text "[trans load]" -command "::plugins::GUI_Load" -state disabled
+			button $w.config -text "[trans configure]" -command "::plugins::GUI_Config" ;#-state disabled
+			button $w.close -text [trans close] -command "::plugins::GUI_Close"
  
 			# loop through all the found plugins
 			set plugs [::plugins::updatePluginsArray]
 			for {set idx 0} {$idx < $plugs} {incr idx} {
 			    # add the plugin name to the list at counterid position
-			    $w.select.plugin_list insert $idx $plugins(${idx}_name)
+			    $w.plugin_list insert $idx $plugins(${idx}_name)
 			    # if the plugin is loaded, color it one color. otherwise use other colors
 			    #TODO: Why not use skins?
 			    if {[lsearch "$loadedplugins" $plugins(${idx}_name)] != -1} {
-				$w.select.plugin_list itemconfigure $idx -background #DDF3FE
+				$w.plugin_list itemconfigure $idx -background #DDF3FE
 			    } else {
-				$w.select.plugin_list itemconfigure $idx -background #FFFFFF
+				$w.plugin_list itemconfigure $idx -background #FFFFFF
 			    }
 			}
 			if {$idx > "15"} {
-				$w.select.plugin_list configure -height $idx
+				$w.plugin_list configure -height $idx
 			}
 			#do the bindings
-			bind $w.select.plugin_list <<ListboxSelect>> "::plugins::GUI_NewSel"
+			bind $w.plugin_list <<ListboxSelect>> "::plugins::GUI_NewSel"
 			bind $w <<Escape>> "::plugins::GUI_Close"
 
-			# display the widgets
-			grid $w.select.plugin_list -row 1 -column 1 -sticky nsew
-			grid $w.desc.name_title -row 1 -column 1 -sticky w -padx 10
-			grid $w.desc.name -row 2 -column 1 -sticky w -padx 20
-			grid $w.desc.version_title -row 3 -column 1 -sticky w -padx 10
-			grid $w.desc.version -row 4 -column 1 -sticky w -padx 20
-			grid $w.desc.author_title -row 5 -column 1 -sticky w -padx 10
-			grid $w.desc.author -row 6 -column 1 -sticky w -padx 20
-			grid $w.desc.desc_title -row 7 -column 1 -sticky w -padx 10
-			grid $w.desc.desc -row 8 -column 1 -sticky w -padx 20
-			grid $w.command.load -column 1 -row 1 -sticky e -padx 5 -pady 5
-			grid $w.command.config -column 2 -row 1 -sticky e -padx 5 -pady 5
-			grid $w.command.close -column 3 -row 1 -sticky e -padx 5 -pady 5
-			#grid the frames
-			grid $w.select -column 1 -row 1 -rowspan 2 -sticky nw
-			grid $w.desc -column 2 -row 1 -sticky n
-			grid $w.command -column 1 -row 2 -columnspan 2 -sticky se
-		}
+			pack $w.plugin_list -fill both -side left
+			pack $w.name_title -padx 10 -anchor w
+			pack $w.name -padx 20 -anchor w -fill x
+			pack $w.version_title -padx 10 -anchor w
+			pack $w.version -padx 20 -anchor w -fill x
+			pack $w.author_title -padx 10 -anchor w
+			pack $w.author -padx 20 -anchor w -fill x
+			pack $w.desc_title -padx 10 -anchor w
+			pack $w.desc -padx 20 -anchor w -fill x
+			pack $w.load -padx 5 -pady 5 -side right -anchor se
+			pack $w.config -padx 5 -pady 5 -side right -anchor se
+			pack $w.close -padx 5 -pady 5 -side right -anchor se
+		    }
 
 		# not really sure what this does...
 		moveinscreen $w 30
@@ -578,7 +568,7 @@ namespace eval ::plugins {
 		variable loadedplugins
 
 		# find the id of the currently selected plugin
-		set selection(id) [$w.select.plugin_list curselection]
+		set selection(id) [$w.plugin_list curselection]
 		# if the selection is empty, end proc
 		if { $selection(id) == "" } {
 			return
@@ -594,28 +584,28 @@ namespace eval ::plugins {
 		set selection(plugin_version) $plugins(${selection(id)}_plugin_version)
 
 		# update the description
-		$w.desc.name configure -text $selection(name)
-		$w.desc.author configure -text $selection(author)
-		$w.desc.version configure -text $selection(plugin_version)
+		$w.name configure -text $selection(name)
+		$w.author configure -text $selection(author)
+		$w.version configure -text $selection(plugin_version)
 		
 		# update the buttons
 
-			$w.command.config configure -state normal
+		$w.config configure -state normal
 
 		if {[lsearch "$loadedplugins" $selection(name)] != -1 } {
 			# if the plugin is loaded, enable the Unload button
-			$w.command.load configure -state normal -text [trans unload] -command "::plugins::GUI_Unload"
+			$w.load configure -state normal -text [trans unload] -command "::plugins::GUI_Unload"
 			# if the plugin has a configlist, then enable configuration.
 			# Otherwise disable it
 			if {[info exists ::${selection(namespace)}::configlist] == 1} {
-				$w.command.config configure -state normal
+				$w.config configure -state normal
 			} else {
-				$w.command.config configure -state disabled
+				$w.config configure -state disabled
 			}
 		} else { # plugin is not loaded
 			# enable the load button and disable config button
-			$w.command.load configure -state normal -text "[trans load]" -command "::plugins::GUI_Load"
-			$w.command.config configure -state disabled
+			$w.load configure -state normal -text "[trans load]" -command "::plugins::GUI_Load"
+			$w.config configure -state disabled
 		}
 	}
 
@@ -650,7 +640,7 @@ namespace eval ::plugins {
 				return
 			}
 			# change the color in the listbox
-			$w.select.plugin_list itemconfigure $selection(id) -background #DDF3FE
+			$w.plugin_list itemconfigure $selection(id) -background #DDF3FE
 			#Call PostEvent Load
 			#Keep in variable if we are online or not
 			if {[ns cget -stat] == "o" } {
@@ -686,7 +676,7 @@ namespace eval ::plugins {
 		# window path
 		variable w
 		# change the color
-		$w.select.plugin_list itemconfigure $selection(id) -background #FFFFFF
+		$w.plugin_list itemconfigure $selection(id) -background #FFFFFF
 		# Call PostEvent Unload
 		# Verify if we are online or offline
 		if {[ns cget -stat] == "o" } {	   
@@ -720,126 +710,125 @@ namespace eval ::plugins {
 	# none
 	#
 	proc GUI_Config { } {
-		# selection, will configure it
-		variable selection
-		# window path
-		variable w
-		#If the window is already here, just raise it to the front
-		if { [winfo exists $w.winconf] } {
-			raise $w.winconf
-			return
-		}
-		# current config, see it's declaration for more info
-		variable cur_config
-
-		# get the name
-		set name $selection(name)
-		set namespace $selection(namespace)
-		# continue if something is selected
-		if {$name != "" && $namespace != ""} {
-			plugins_log core "Calling ConfigPlugin in the $name namespace\n"
-			# is there a config list?
-			if {[info exists ::${namespace}::configlist] == 0} {
-				# no config list, do a error.
-				#TODO: instead a error, just put a label "Nothing to configure" in the configure dialog
-				plugins_log core "No Configuration variable for $name.\n"
-				set x [toplevel $w.error]
-				label $x.title -text "Error in Plugin!"
-				label $x.label -text "No Configuration variable for $name.\n"
-				button $x.ok -text [trans ok] -command "destroy $x"
-				grid $x.title -column 1 -row 1
-				grid $x.label -column 1 -row 2
-				grid $x.ok -column 1 -row 3
-			} else { # configlist exists
-				# backup the current config
-				array set cur_config [array get ::${namespace}::config]
-				# create the window
-				set winconf [toplevel $w.winconf]
-				set confwin [frame $winconf.area]
-				# id used for the item name in the widget
-				set i 0
-				# row to be used
-				set row 0
-				# loop through all the items
-				foreach confitem [set ::${namespace}::configlist] {
-					# Increment both variables
-					incr i
-					incr row
-					# Check the configuration item type and create it in the GUI
-					switch [lindex $confitem 0] {
-						label {
-							# This configuration item is a label (Simply text to show)
-							label $confwin.$i -text [lindex $confitem 1]
-							grid $confwin.$i -column 1 -row $row -sticky w -padx 10
-						}
-						bool {
-							# This configuration item is a checkbox (Boolean variable)
-							checkbutton $confwin.$i -text [lindex $confitem 1] -variable \
-								::${namespace}::config([lindex $confitem 2])
-							grid $confwin.$i -column 1 -row $row -sticky w -padx 20
-						}
-						ext {
-							# This configuration item is a button (Action related to key)
-							button $confwin.$i -text [lindex $confitem 1] -command \
-								::${namespace}::[lindex $confitem 2]
-							grid $confwin.$i -column 1 -row $row -sticky w -padx 20 -pady 5
-						}
-						str {
-							# This configuration item is a text input (Text string variable)
-							entry $confwin.${i}e -textvariable \
-								::${namespace}::config([lindex $confitem 2]) -bg white
-							label $confwin.${i}l -text [lindex $confitem 1]
-							grid $confwin.${i}l -column 1 -row $row -sticky w -padx 20
-							grid $confwin.${i}e -column 2 -row $row	-sticky w
-						}
-						pass {
-							# This configuration item is a password input (Text string variable)
-							entry $confwin.${i}e -show "*" -textvariable \
-								::${namespace}::config([lindex $confitem 2])
-							label $confwin.${i}l -text [lindex $confitem 1]
-							grid $confwin.${i}l -column 1 -row $row -sticky w -padx 20
-							grid $confwin.${i}e -column 2 -row $row	-sticky w
-						}
-						lst {
-							# This configuration item is a listbox that stores the selected item.
-							set height [llength [lindex $confitem 1]]
-							listbox $confwin.$i -height $height -width 0 -bg white
-							foreach item [lindex $confitem 1] {
-								$confwin.$i insert end $item
-							}
-							bind $confwin.$i <<ListboxSelect>> "::plugins::lst_refresh $confwin.$i ::${namespace}::config([lindex $confitem 2])"
-							grid $confwin.$i -column 1 -row $row -sticky w -padx 40
-						}
-						rbt {
-							# This configuration item contains checkbutton
-							set buttonlist [lrange $confitem 1 end-1]
-							set value 0
-							foreach item $buttonlist {
-								incr value
-								radiobutton $confwin.$i -text "$item" -variable ::${namespace}::config([lindex $confitem end]) -value $value
-								grid $confwin.$i -column 1 -row $row -sticky w -padx 40
-								incr i
-								incr row
-							}
-							incr i -1
-							incr row -1
-						}
-					}
+	    # selection, will configure it
+	    variable selection
+	    # window path
+	    variable w
+	    #If the window is already here, just raise it to the front
+	    if { [winfo exists $w.winconf] } {
+		raise $w.winconf
+		return
+	    }
+	    # current config, see it's declaration for more info
+	    variable cur_config
+	    
+	    # get the name
+	    set name $selection(name)
+	    set namespace $selection(namespace)
+	    # continue if something is selected
+	    if {$name != "" && $namespace != ""} {
+		plugins_log core "Calling ConfigPlugin in the $name namespace\n"
+		# is there a config list?
+		if {[info exists ::${namespace}::configlist] == 0} {
+		    # no config list, do a error.
+		    #TODO: instead a error, just put a label "Nothing to configure" in the configure dialog
+		    plugins_log core "No Configuration variable for $name.\n"
+		    set x [toplevel $w.error]
+		    label $x.title -text "Error in Plugin!"
+		    label $x.label -text "No Configuration variable for $name.\n"
+		    button $x.ok -text [trans ok] -command "destroy $x"
+		    pack $x.title
+		    pack $x.label
+		    pack $x.ok
+		} else { # configlist exists
+		    # backup the current config
+		    array set cur_config [array get ::${namespace}::config]
+		    # create the window
+		    set winconf [toplevel $w.winconf]
+		    set confwin [frame $winconf.area]
+		    # id used for the item name in the widget
+		    set i 0
+		    # loop through all the items
+		    foreach confitem [set ::${namespace}::configlist] {
+			# Increment both variables
+			incr i
+			# Check the configuration item type and create it in the GUI
+			switch [lindex $confitem 0] {
+			    label {
+				# This configuration item is a label (Simply text to show)
+				label $confwin.$i -text [lindex $confitem 1]
+				pack $confwin.$i -anchor w -padx 10
+			    }
+			    bool {
+				# This configuration item is a checkbox (Boolean variable)
+				checkbutton $confwin.$i -text [lindex $confitem 1] -variable \
+				    ::${namespace}::config([lindex $confitem 2])
+				pack $confwin.$i -anchor w -padx 20
+			    }
+			    ext {
+				# This configuration item is a button (Action related to key)
+				button $confwin.$i -text [lindex $confitem 1] -command \
+				    ::${namespace}::[lindex $confitem 2]
+				pack $confwin.$i -anchor w -padx 20 -pady 5
+			    }
+			    str {
+				# This configuration item is a text input (Text string variable)
+				set frame [frame $confwin.f$i]
+				entry $frame.${i}e -textvariable \
+				    ::${namespace}::config([lindex $confitem 2]) -bg white
+				label $frame.${i}l -text [lindex $confitem 1]
+				pack $frame.${i}l -anchor w -side left -padx 20
+				pack $frame.${i}e -anchor w -side left -fill x
+				pack $frame -fill x
+			    }
+			    pass {
+				# This configuration item is a password input (Text string variable)
+				set frame [frame $confwin.f$i]
+				entry $frame.${i}e -show "*" -textvariable \
+				    ::${namespace}::config([lindex $confitem 2])
+				label $frame.${i}l -text [lindex $confitem 1]
+				pack $frame.${i}l -anchor w -side left -padx 20
+				pack $frame.${i}e -anchor w -side left -fill x
+				pack $frame -fill x -anchor w
+			    }
+			    lst {
+				# This configuration item is a listbox that stores the selected item.
+				set height [llength [lindex $confitem 1]]
+				listbox $confwin.$i -height $height -width 0 -bg white
+				foreach item [lindex $confitem 1] {
+				    $confwin.$i insert end $item
 				}
+				bind $confwin.$i <<ListboxSelect>> "::plugins::lst_refresh $confwin.$i ::${namespace}::config([lindex $confitem 2])"
+				pack $confwin.$i -anchor w -padx 40
+			    }
+			    rbt {
+				# This configuration item contains checkbutton
+				set buttonlist [lrange $confitem 1 end-1]
+				set value 0
+				foreach item $buttonlist {
+				    incr value
+				    radiobutton $confwin.$i -text "$item" -variable ::${namespace}::config([lindex $confitem end]) -value $value
+				    pack $confwin.$i -anchor w -padx 40
+				    incr i
+				}
+				incr i -1
+			    }
 			}
-			
-			# set the name of the winconf
-			wm title $w.winconf "[trans configure] $selection(name)"
-
-			# Grid the frame
-			grid $confwin -column 1 -row 1
-			# Create and grid the buttons
-			button $winconf.save -text [trans save] -command "[list ::plugins::GUI_SaveConfig $winconf $name]"
-			button $winconf.cancel -text [trans cancel] -command "[list ::plugins::GUI_CancelConfig $winconf $namespace]"
-			grid $winconf.save -column 1 -row 2 -sticky e -pady 5 -padx 5
-			grid $winconf.cancel -column 2 -row 2 -sticky e -pady 5 -padx 5
-			moveinscreen $winconf 30
+		    }
 		}
+		
+		# set the name of the winconf
+		wm title $w.winconf "[trans configure] $selection(name)"
+		
+		# Grid the frame
+		pack $confwin -fill x
+		# Create and grid the buttons
+		button $winconf.save -text [trans save] -command "[list ::plugins::GUI_SaveConfig $winconf $name]"
+		button $winconf.cancel -text [trans cancel] -command "[list ::plugins::GUI_CancelConfig $winconf $namespace]"
+		pack $winconf.save -anchor se -pady 5 -padx 5 -side right
+		pack $winconf.cancel -anchor se -pady 5 -padx 5 -side right
+		moveinscreen $winconf 30
+	    }
 	}
 
 
