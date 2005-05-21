@@ -2634,10 +2634,10 @@ namespace eval ::Event {
 				#if alarm_onmsg is on run it
 				if { ( [::alarms::isEnabled $typer] == 1 )&& ( [::alarms::getAlarmItem $typer onmsg] == 1) } {
 					set username [::abook::getDisplayNick $typer]
-					run_alarm $typer  $username "[trans says $username]: $body"
+					run_alarm $typer  $username "[trans says $username]: $message"
 				} elseif { ( [::alarms::isEnabled all] == 1 )&& ( [::alarms::getAlarmItem all onmsg] == 1) } {
 					set username [::abook::getDisplayNick $typer]
-					run_alarm $typer  $username "[trans says $username]: $body"
+					run_alarm $typer  $username "[trans says $username]: $message"
 				}
 				global automessage
 				# Send automessage once to each user
@@ -5373,6 +5373,7 @@ namespace eval ::MSN6FT {
 
 		# Let's open the file
 		set filename [file join ${files_dir} $filename1]
+
 		set origfile $filename
 
 		set num 1
@@ -5399,7 +5400,7 @@ namespace eval ::MSN6FT {
 		# Let's make and send a 200 OK Message
 		set slpdata [::MSNP2P::MakeMSNSLP "OK" $dest [::config::getKey login] $branchuid [expr $cseq + 1] $uid 0 0 $sid]
 		::MSNP2P::SendPacket [::MSN::SBFor $chatid] [::MSNP2P::MakePacket $sid $slpdata 1]
-		::amsn::FTProgress a $sid $filename1 $dest 1000 $chatid
+		::amsn::FTProgress a $sid $filename $dest 1000 $chatid
 		status_log "MSNP2P | $sid -> Sent 200 OK Message for File Transfer\n" red
 	}
 
