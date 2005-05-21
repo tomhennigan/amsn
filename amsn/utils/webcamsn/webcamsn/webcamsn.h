@@ -58,8 +58,7 @@ extern "C"
 
 typedef unsigned char  BYTE;
 typedef unsigned short WORD;
-typedef unsigned long  DWORD;
-typedef unsigned int   UINT; 
+typedef unsigned int  DWORD;
 
 
 typedef struct mimic_header {

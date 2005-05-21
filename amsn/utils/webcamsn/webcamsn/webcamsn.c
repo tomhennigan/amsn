@@ -16,7 +16,7 @@
 int encoder_counter = 0;
 int decoder_counter = 0;
 
-struct list_ptr *Codecs;
+struct list_ptr *Codecs = NULL;
 
 
 
