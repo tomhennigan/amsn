@@ -59,15 +59,29 @@ typedef unsigned int guint32;
 #define GUINT32_FROM_LE(val) ( (guint32) (IDX(val, 0) + IDX(val, 1) * 256 + \
         IDX(val, 2) * 65536 + IDX(val, 3) * 16777216)) 
 
+
+#ifdef BYTE_ORDER_BE
+#define SHIFT_1(res) (res << 24)
+#define SHIFT_2(res) (res << 16)
+#define SHIFT_3(res) (res << 8)
+#define SHIFT_4(res) (res)
+#else 
+#define SHIFT_1(res) (res)
+#define SHIFT_2(res) (res << 8)
+#define SHIFT_3(res) (res << 16)
+#define SHIFT_4(res) (res << 24)
+#endif
+
+
 #define GUINT16_TO_LE(val) ( (guint16) (\
-        ((guint16) (val % 256) & 0xff) | \
-        ((guint16) ((val / POW_2_8) % 256) & 0xff) << 8 ))
+        SHIFT_1(((guint16) (val % 256) & 0xff)) | \
+        SHIFT_2(((guint16) ((val / POW_2_8) % 256) & 0xff)) ))
 
 #define GUINT32_TO_LE(val) ( (guint32) (\
-        ((guint32) (val % 256 ) & 0xff) | \
-        ((guint32) ((val / POW_2_8) % 256) & 0xff) << 8 | \
-        ((guint32) ((val / POW_2_16) % 256 ) & 0xff) << 16 | \
-        ((guint32) ((val / POW_2_24) % 256 ) & 0xff) << 24 ))
+        SHIFT_1(((guint32) (val % 256 ) & 0xff)) | \
+        SHIFT_2(((guint32) ((val / POW_2_8) % 256) & 0xff))| \
+        SHIFT_3(((guint32) ((val / POW_2_16) % 256 ) & 0xff)) | \
+        SHIFT_4(((guint32) ((val / POW_2_24) % 256 ) & 0xff)) ))
 
 
 #undef g_new
