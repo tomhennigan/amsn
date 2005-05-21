@@ -2634,10 +2634,10 @@ namespace eval ::Event {
 				#if alarm_onmsg is on run it
 				if { ( [::alarms::isEnabled $typer] == 1 )&& ( [::alarms::getAlarmItem $typer onmsg] == 1) } {
 					set username [::abook::getDisplayNick $typer]
-					run_alarm $typer  $username "[trans says $username]: $message"
+					run_alarm $typer  $username "[trans says $username]: [$message getBody]"
 				} elseif { ( [::alarms::isEnabled all] == 1 )&& ( [::alarms::getAlarmItem all onmsg] == 1) } {
 					set username [::abook::getDisplayNick $typer]
-					run_alarm $typer  $username "[trans says $username]: $message"
+					run_alarm $typer  $username "[trans says $username]: [$message getBody]"
 				}
 				global automessage
 				# Send automessage once to each user
