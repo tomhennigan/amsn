@@ -44,7 +44,7 @@ namespace eval ::MSNCAM {
 	proc CamCanceled { chatid sid } {
 		set grabber [getObjOption $sid grabber]
 		set window [getObjOption $sid window]
-		
+
 		#draw a notification in the window (gui)
 		::CAMGUI::CamCanceled $chatid
 
@@ -55,7 +55,7 @@ namespace eval ::MSNCAM {
 				destroy .grabber.delete_$sid
 				set ::activegrabbers [expr {$::activegrabbers - 1}]
 			}
-			
+
 		} else {
 			if { [::CAMGUI::IsGrabberValid $grabber] } {
 				::CAMGUI::CloseGrabber $grabber $window
@@ -63,8 +63,9 @@ namespace eval ::MSNCAM {
 		}
 		if { [winfo exists $window] } {
 			wm protocol $window WM_DELETE_WINDOW "destroy $window"
+			$window.q configure -command "destroy $window"
 		}
-		
+
 		set listening [getObjOption $sid listening_socket]
 		if { $listening != "" } {
 			close $listening
@@ -1059,7 +1060,7 @@ namespace eval ::CAMGUI {
 			set img [image create photo]
 			label $window.l -image $img
 			pack $window.l
-			button $window.q -command "destroy $window" -text "Stop receiving Webcam"
+			button $window.q -command "::MSNCAM::CancelCam $chatid $sid" -text "Stop receiving Webcam"
 			pack $window.q -expand true -fill x
 			setObjOption $sid window $window
 			setObjOption $sid image $img
@@ -1131,7 +1132,7 @@ namespace eval ::CAMGUI {
 				set source [getObjOption $sid source]
 				$grabber configure -source $source
 				$grabber start
-				
+
 				setObjOption $sid grab_proc "Grab_Windows"
 
 			} elseif { [set ::tcl_platform(os)] == "Darwin" } {
@@ -1199,7 +1200,7 @@ namespace eval ::CAMGUI {
 			if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 				set img [image create photo]
 				set w .grabber
-				
+
 				if { [winfo exists $w] } {
 					if {![winfo exists $w.label]} {
 						label $w.label -text "List of people you are currently sending webcam\nClick to cancel"
@@ -1212,9 +1213,9 @@ namespace eval ::CAMGUI {
 					if {![info exists ::activegrabbers]} {
 						set ::activegrabbers 0
 					}
-					set ::activegrabbers [expr {$::activegrabbers + 1}]			
+					set ::activegrabbers [expr {$::activegrabbers + 1}]
 				}
-				
+
 			} else {
 				set img [image create photo]
 				toplevel $window
@@ -1223,7 +1224,7 @@ namespace eval ::CAMGUI {
 				pack $window.l
 				button $window.settings -command "::CAMGUI::ShowPropertiesPage $grabber $img" -text "Show properties page"
 				pack $window.settings -expand true -fill x
-				button $window.q -command "destroy $window" -text "Stop sending Webcam"
+				button $window.q -command "::MSNCAM::CancelCam $chatid $sid" -text "Stop sending Webcam"
 				pack $window.q -expand true -fill x
 				wm protocol $window WM_DELETE_WINDOW "::MSNCAM::CancelCam $chatid $sid"
 			}
@@ -1301,9 +1302,9 @@ namespace eval ::CAMGUI {
 		if { $socket == "" || $encoder == "" } { return }
 		::MSNCAM::SendFrame $socket $encoder $img
 	}
-	
+
 	proc CloseGrabberWindowMac {} {
-		
+
 		#If there's no webcam grabber active, destroy the window
 		if {$::activegrabbers < 1} {
 			destroy .grabber
