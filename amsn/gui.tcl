@@ -1,9 +1,10 @@
 package require AMSN_BWidget
 if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 	#Use tclCarbonHICommand for window utilities
-	package require tclCarbonHICommand
+	catch {package require tclCarbonHICommand}
+	catch {package require QuickTimeTcl}
+	catch {load utils/macosx/Quicktimetcl3.1/quicktimetcl3.1.dylib}
 }
-catch {package require QuickTimeTcl}
 catch {package require TkCximage}
 
 
