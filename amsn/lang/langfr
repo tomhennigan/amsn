@@ -42,6 +42,7 @@ appearance Apparence
 appearoff Apparaître déconnecté[e]
 areacode Code régional
 aretyping $1 sont en train de taper un message
+askeachtime Demander à chaque fois
 askwebcam Demander à ce contact de voir sa webcam
 author Auteur
 autoaccepted Transfert de fichier accepté automatiquement
@@ -132,13 +133,16 @@ clientcaps Envoyer les paquets x-clientcaps aux autres clients ?
 clientname Nom du client
 closed Conversation fermée pour inactivité ($1)
 close Fermer
-closeall Fermer tous les onglets
+closeall Fermer tous les onglets de la fenêtre ?
+closealltabs Fermer tous les onglets
+closelabel Lorsque vous cliquez sur le bouton Fermer dans une fenêtre de conversation à onglets
+closeonly Ne fermer que l'onglet courant
 closingdocks Le bouton Fermer ancre l'application
 command Commande
 commandstatus Exécuter la commande
 configure Configurer
 confirmbl Etes-vous sûr de vouloir bloquer ce contact ?
-confirmdelete Confirmer suppression
+confirmdelete Confirmer la suppression
 confirmdg Etes-vous sûr de vouloir supprimer ce groupe ?
 confirmdu Etes-vous sûr de vouloir supprimer ce contact ?
 confirmeg Etes-vous sûr de vouloir vider ce groupe ?
@@ -408,7 +412,7 @@ natkeepalive Si vous êtes souvent déconnecté involontairement, activez cet optio
 needonline Vous êtes toujours déconnecté[e]!
 needwinico2 Winico05.dll doit figurer dans le dossier utilitaires/windows pour que l'intégration dans le dock fonctionne
 never Jamais
-new_ft_protocol Utiliser le nouveau protocol de téléchargement de fichiers (certains peuvent bogues subsistent)
+new_ft_protocol Utiliser le nouveau protocol de téléchargement de fichiers (certains peuvent bugs subsistent)
 newmail $1 nouveaux messages
 newmailfolder $1 nouveaux messages dans les autres dossiers Hotmail
 newmailfrom Nouveau message de $1 ($2)
@@ -537,6 +541,7 @@ reconnect Dans l'attente de la reconnexion de $1
 reconnecting Reconnexion au serveur
 reject Refuser
 rememberpass Enregistrer le mot de passe
+remembersetting Enregistrer ce paramètre
 removeempty Retirer les groupes vides de la liste des contacts
 removefromlist Supprimer de cette liste
 rename Renommer
@@ -628,11 +633,12 @@ takesnapshot Prendre une impression d'écran
 temp_state Ne pas enregistrer (état temporaire, sera perdu à la fermeture d'aMSN)
 textsize Taille du texte
 thismonth Ce mois-ci
+throughserver Par le serveur
 timeremaining Temps restant
 timestamps Activer l'horodateur des fenêtres de conversation
 timestamp Horodateur
 title aMSN
-tkerror TK a rapporté une erreur, il y a un bogue dans aMSN, veuillez le rapportez en envoyant le fichier $1 à amsn-bugs@lists.sf.net
+tkerror TK a rapporté une erreur, il y a un bug dans aMSN, veuillez le rapportez en envoyant le fichier $1 à amsn-bugs@lists.sf.net
 tlsdowncompleted Le fichier $1 a été téléchargé dans le répertoire $2. Vous devez l'extraire, le compiler (si vous avez téléchargé le code source) et l'installer dans $3.
 tlsexplain Dossier où se trouve le module TLS. Si aMSN ne peut le trouver, veuillez préciser son emplacement.\n(Requis pour l'authentification SSL).
 tlsinstall Assistant d'installation du module TLS

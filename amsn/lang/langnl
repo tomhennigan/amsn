@@ -42,6 +42,7 @@ appearance Weergave
 appearoff Offline weergeven
 areacode Netnummer
 aretyping $1 zijn bezig met typen
+askeachtime Elke keer vragen
 askwebcam Vraag deze gebruiker of je zijn/haar webcam mag bekijken
 author Auteur
 autoaccepted Bestandsoverdracht automatisch geaccepteerd
@@ -133,6 +134,9 @@ clientname Client naam
 close Sluiten
 closed Het gesprek met $1 is wegens inactiviteit afgesloten
 closeall Alle tabbladen in dit venster sluiten?
+closealltabs worden alle tabbladen gesloten
+closelabel Bij het klikken op de sluitknop van een venster met meerdere tabbladen
+closeonly wordt alleen het zichtbare tabblad gesloten
 closingdocks Minimaliseren i.p.v. sluiten
 command Commando
 commandstatus Commandoregel uitvoeren
@@ -336,6 +340,7 @@ lastlogout Vorige logout
 lastmsgedme Laatste bericht
 lastmsgtime Laatste bericht ontvangen om $1
 lastseen Laatste keer online
+lazypicretrieval Ophalen van schermafbeeldingen beperken
 lclosedwin $1 heeft het venster gesloten op $2
 lconftopriv Vergadering veranderde in privé-gesprek met $1
 lconvstarted Gesprek gestart op $1
@@ -408,6 +413,7 @@ needonline Je bent niet online
 needwinico2 Het bestand winico05.dll moet in de map utils/windows om het Windows systeemvak te kunnen gebruiken.
 never Nooit
 new_ft_protocol Gebruik het nieuwe protocol voor bestandsoverdracht (er zijn nog enkele bugs)
+newline Nieuwe regel
 newmail Je hebt $1 nieuwe berichten in Postvak IN
 newmailfolder Je hebt $1 nieuwe berichten in andere Hotmail-mappen
 newmailfrom Nieuwe e-mail van $1 ($2)
@@ -535,6 +541,7 @@ reconnect Wachten tot $1 opnieuw verbindt
 reconnect2 Opnieuw verbinden als de verbinding wegvalt
 reject Afwijzen
 rememberpass Wachtwoord onthouden
+remembersetting Deze instelling onthouden
 removeempty Lege groepen verwijderen uit de contactpersonenlijst
 removefromlist Verwijder uit deze lijst
 rename Hernoemen
@@ -626,7 +633,9 @@ takesnapshot Maak een momentopname
 temp_state Niet opslaan (Tijdelijke status, gaat verloren als aMSN wordt afgesloten)
 textsize Tekstgrootte
 thismonth Deze maand
+throughserver Via server
 timeremaining Resterende tijd
+timestamp Tijdstempel
 timestamps Tijd weergeven in gespreksvensters
 title Al's Messenger
 tkerror TK heeft een fout gegeven, er zit een bug in aMSN, rapporteer het alsjeblieft. stuur het bestand $1 naar amsn-bugs@lists.sf.net
@@ -650,6 +659,7 @@ twonewmail Je hebt $1 nieuwe berichten in Postvak IN
 unblock Deblokkeer
 unknown Onbekend
 unload Deactiveren
+unselectall Alles deselecteren
 uoffline Offline
 uonline Online
 update Bijwerken
@@ -690,3 +700,4 @@ yoffset verticaal
 youblocked Je bent geblokkeerd
 yousay Jij zegt
 youwant Jij wilt
+zoom Zoom

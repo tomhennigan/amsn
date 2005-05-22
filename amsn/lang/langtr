@@ -42,6 +42,8 @@ appearance Görünüþ
 appearoff Çevrim dýþý görün
 areacode Alan kodu
 aretyping $1 ileti yazýyor
+askeachtime Her zaman sor
+askwebcam Bu kiþiden kamera görüntüsünü iste
 author Yazan
 autoaccepted Dosya aktarýmý otomatikman kabul edildi
 autoacceptft Dosya aktarým istemlerini otomatikman kabul et
@@ -131,8 +133,11 @@ clientcaps Diðer istemcilere x-clientcaps paketlerini gönder
 clientname Ýstemci Ýsmi
 close Kapat
 closeall Penceredeki tüm sekmeler kapatýlsýn mý?
+closealltabs Tüm sekmeleri kapat
 closed $1 ile olan sohbet etkinlik olmadýðý için kapatýldý.
-closingdocks Kapatma tuþu küçültsün
+closelabel Sekmeli bir sohbet penceresinde kapatma düðmesine basýlýnca
+closeonly Sadece seçili sekmeyi kapat
+closingdocks Kapatma düðmesi küçültsün
 command Komut
 commandstatus Komutu çalýþtýr
 configure Ayarla
@@ -335,6 +340,7 @@ lastlogout En Son Çýkýþ
 lastmsgedme Son Ýleti
 lastmsgtime Son iletinin alýndýðý zaman: $1
 lastseen En son baðlý göründüðü saat
+lazypicretrieval Yavaþlatýlmýþ kullanýci resmi yüklmesi 
 lclosedwin $1 $2'de penceresini kapattý
 lconftopriv $1 ile sohbet özel görüþmeye çevrildi
 lconvstarted Sohbetin baþlama saati $1
@@ -407,6 +413,7 @@ needonline Hala çevrim dýþý görünüyorsunuz!
 needwinico2  Windows'ta küçülme için winico05.dll'in utils/windows dizininde bulunmasý gerekmektedir.
 never Asla
 new_ft_protocol Yeni dosya aktarým protokolü (hala bazý hatalarý var)
+newline Yeni satýr
 newmail Gelen kutunuzda $1 yeni ileti var
 newmailfolder Diðer Hotmail dizinlerinde $1 yeni ileti var
 newmailfrom Yeni ileti gönderen: $1 ($2)
@@ -534,6 +541,7 @@ reconnect2 Baðlantý koparsa yeniden baðlan
 reconnecting Sunucuya yeniden baðlanýlýyor
 reject Geri çevir
 rememberpass Þifreyi hatýrla
+remembersetting Bu ayarlarý hatýrla
 removeempty Boþ gruplarý baðlantý listesinden çýkar
 removefromlist Bu listeden çýkar
 rename Yeniden adlandýr
@@ -556,6 +564,7 @@ sendfile Dosya gönder
 sendmail E-posta iletisi gönder
 sendmobmsg Taþýnabilir aygýta gönder
 sendmsg Ýleti günder
+sendwebcaminvite Bir kullanýcýyý kameranýzý izlemeye davet edin
 sentbytes $2 baytýn $1 (s)i gönderildi
 server Sunucu
 serverbusy Sunucu meþgul
@@ -624,7 +633,9 @@ takesnapshot Görüntü al
 temp_state Kaydetme (Geçici durum, AMSN kapatýlýnca silinecek)
 textsize Metin boyutu
 thismonth Bu ay
+throughserver Sunucu üzerinden
 timeremaining Kalan zaman
+timestamp Zaman kaydý
 timestamps Sohbet pencerelerinde zaman kaydý düþülsün
 title Al'ýn Messenger'ý
 tkerror TK hata verdi; AMSN'de bir hata var. Lütfen $1 dosyasýný amsn-bugs@lists.sf.net adresine yollayarak hatayý bildirin. 
@@ -648,6 +659,7 @@ twonewmail Gelen kutunuzda $1 yeni ileti var
 unblock Engeli kaldir
 unknown Bilinmiyor
 unload Kaldýr
+unselectall Tüm seçimi iptal et
 uoffline Çevrim dýþý
 uonline Çevrim içi
 update Güncelle
