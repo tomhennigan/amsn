@@ -47,6 +47,9 @@ snit::widgetadaptor pixmapbutton {
 	variable border_right
 	variable border_bottom
 	
+	variable potent
+	variable buttonsize
+	
 
 	component button
 
@@ -77,14 +80,14 @@ snit::widgetadaptor pixmapbutton {
 	option -emblempos -default [list right center]
 	#-------------------------
 
-	delegate option * to button except {-borderwidth -bd -background -bg -class -width -height}
+	delegate option * to button except {-borderwidth -bd -class -width -height}
 
 
 	#-------------------------
 	# Create the widget
 	#-------------------------
 	constructor {args} {
-		installhull using canvas -bg #ffffff -bd 0 -highlightthickness 0 -width 80 -height 25
+		installhull using canvas -bd 0 -highlightthickness 0 -width 80 -height 25
 		set button $hull
 
 		$self configurelist $args
@@ -176,7 +179,6 @@ snit::widgetadaptor pixmapbutton {
 	}
 
 	method ButtonHovered { pressed } {
-		global potent
 
 		if {$options(-state) != "disabled" } {
 			if { $pressed == "down" } {
@@ -190,7 +192,6 @@ snit::widgetadaptor pixmapbutton {
 	}
 	
 	method ButtonUnhovered { pressed } {
-		global potent
 
 		if {$options(-state) != "disabled" } {
 			$button itemconfigure img -image $img
@@ -203,7 +204,6 @@ snit::widgetadaptor pixmapbutton {
 	}
 	
 	method ButtonPressed { } {
-		global potent
 
 		if {$options(-state) != "disabled" } {
 			$button itemconfigure img -image $img_pressed
@@ -212,7 +212,7 @@ snit::widgetadaptor pixmapbutton {
 	}
 	
 	method ButtonReleased { } {
-		global potent
+		
 		if {$options(-state) != "disabled" } {
 			if { $potent == "yes" } {
 				$button itemconfigure img -image $img_hover
@@ -226,8 +226,6 @@ snit::widgetadaptor pixmapbutton {
 	}
 	
 	method DrawButton { width height } {
-		variable img
-		global buttonsize
 		$self SetSize
 		$self BuildImage $width $height
 		$button coords img 0 0
@@ -286,7 +284,7 @@ snit::widgetadaptor pixmapbutton {
 	}
 	
 	method BuildImage { width height } {
-		variable img
+
 		$img blank
 		$img_hover blank
 		$img_pressed blank
@@ -510,7 +508,6 @@ snit::widgetadaptor pixmapbutton {
 	}
 
 	method SetSize { } {
-		global buttonsize
 		set width [expr [font measure $options(-font) -displayof $self $options(-text)] + [font measure $options(-font) -displayof $self "    "]]
 		set height [image height $img]
 		if { [font configure $options(-font) -size] > [image height $img] } { set height [expr [font configure $options(-font) -size] + (2 * 2)] }

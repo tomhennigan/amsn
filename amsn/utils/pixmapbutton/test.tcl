@@ -15,9 +15,9 @@ font create massive -family helvetica -size 32
 image create photo icon -file icon.gif
 image create photo icon2 -file icon2.gif
 
-pixmapbutton .b1 -command "puts ok" -font plain -emblemimage icon2 -emblempos "left center"
+pixmapbutton .b1 -command "puts ok" -font plain -emblemimage icon2 -emblempos "right center"
 
-pixmapbutton .b2 -command "puts cancel" -font plain -emblemimage icon -emblempos "left center" -fg red
+pixmapbutton .b2 -command "puts cancel" -font plain -emblemimage icon -emblempos "right center" -fg red
 
 pack .b1 -side left -padx 5 -pady 5 -fill x -expand true
 pack .b2 -side right -padx 5 -pady 5 -fill x -expand true
