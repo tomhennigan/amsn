@@ -151,7 +151,7 @@ void YUV_to_RGB24 (const BYTE *input,
   for (i = 0; i < height; i++) {
         p_cb = src_cb; p_cr = src_cr;
 
-        for (j = 0; j < width; j++, src_y++) {
+        for (j = 0; j < width; j++, src_y++, output_rgb+=3) {
 	  // Convert to BGR
 	  YUV2RGB(*src_y, *p_cb, *p_cr, &output_rgb[2], &output_rgb[1], &output_rgb[0]);
 
@@ -538,6 +538,11 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
 	if (debug) {
 	  fprintf(stderr, "window: x %d y %d w %d h %d\n",vw.x,vw.y,vw.width,vw.height);
 	  fprintf(stderr, "window: flags %d chromakey %d\n",vw.flags,vw.chromakey);
+	}
+
+	if (ioctl(fvideo, VIDIOCGMBUF, &mb)) {
+	  mmapway = 0;
+	  perror("VIDIOCGMBUF");
 	}
 
 	if(ioctl(fvideo, VIDIOCSWIN, &vw)<0){
