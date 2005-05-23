@@ -79,6 +79,7 @@ typedef unsigned char  BYTE;
 #define SETTINGS_GET_COLOUR (SETTINGS_GET | SETTINGS_COLOUR)
 #define SETTINGS_GET_CONTRAST (SETTINGS_GET | SETTINGS_CONTRAST)
 
+#define CLAMP(value) (value < 0 ? 0 : value > 255 ? 255 : value)
 
 // Structures for the list
 
@@ -93,6 +94,8 @@ struct capture_item {
   char *mmbuf; //To uncomment if we use mmap : not for now
   struct video_mbuf       mb;
   int palette;
+  int UV_odd;
+  int UV_even;
   BYTE *image_data;
   BYTE *rgb_buffer;
 };

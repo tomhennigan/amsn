@@ -1,6 +1,12 @@
 #include "capture.h"
 
 
+static long int crv_tab[256];
+static long int cbu_tab[256];
+static long int cgu_tab[256];
+static long int cgv_tab[256];
+
+
 static struct list_ptr* opened_devices = NULL;
 static int curentCaptureNumber = 0;
 static int debug = 1;
@@ -79,75 +85,88 @@ struct data_item* Capture_lstDeleteItem(char *list_element_id){
 	return element;
 }
 
-BYTE clamp_value(int value)
+
+/////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////
+///////////////////////     COLORSPACE PROCS     ////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////
+void InitConvtTbl()
 {
-    if (value < 0)
-        return 0;
-    else if (value > 255)
-        return 255;
-    else
-        return value;
+   int crv,cbu,cgu,cgv;
+   int i;   
+   
+   crv = 89830; // 1.370705 << 16; 
+   cgu = 22127; // 0.337633 << 16;
+   cgv = 45744; // 0.698001 << 16;
+   cbu = 113538; // 1.732446 << 16; 
+
+   for (i = 0; i < 256; i++) {
+      crv_tab[i] = (i-128) * crv;
+      cbu_tab[i] = (i-128) * cbu;
+      cgu_tab[i] = (i-128) * cgu;
+      cgv_tab[i] = (i-128) * cgv;
+   }
+	 
 }
 
 
 
-void YUV420P_to_RGB24 (const BYTE *input,
+void YUV2RGB(BYTE y, BYTE u, BYTE v, BYTE *r, BYTE *g, BYTE *b) {
+
+  //   Or you can use one of these equations if you don't want to use the table
+  //   r = y + 1.370705 * v;
+  //   g = y - 0.698001 * v - 0.337633 * u;
+  //   b = y + 1.732446 * u;
+
+  int temp;
+  temp = (y + crv_tab[v])>>16;
+  *r = CLAMP(temp);  
+  temp = (y - cgu_tab[u] - cgv_tab[v]) >>16;
+  *g = CLAMP(temp);
+  temp = (y + cbu_tab[u]) >>16;
+  *b = CLAMP(temp);
+}
+
+
+void YUV_to_RGB24 (const BYTE *input,
                  BYTE* output_rgb,
                  int width,
-                 int height)
+                 int height,
+		   int uv_odd, int uv_even, int planar)
 {
-    const BYTE *src_y, *src_cb, *src_cr;
-    BYTE *dst_rgb;
-    unsigned int i, j, rgb_stride;
+  const BYTE *src_y, *src_cb, *src_cr;
+  unsigned int i, j;
+  
+  const BYTE *p_cb, *p_cr;
+ 
+  int each_column = 4 / uv_odd;
+  int each_row = uv_odd == uv_even ? 1 : each_column;
 
-    const BYTE *p_y, *p_cb, *p_cr;
-    BYTE *p_rgb;
-    int v;
+  src_y  = input;
+  src_cb = input + width * height;
+  src_cr = input + width * height + ((width / each_column) * (height / each_row));
 
-    src_y  = input;
-    src_cb = input + (width * height);
-    src_cr = input + (width * height) + ((width / 2) * (height / 2));
 
-    rgb_stride = width * 3;
-    dst_rgb = output_rgb; // + (rgb_stride * (height - 1));
+  for (i = 0; i < height; i++) {
+        p_cb = src_cb; p_cr = src_cr;
 
-    for (i = 0; i < height; i++) {
+        for (j = 0; j < width; j++, src_y++) {
+	  // Convert to BGR
+	  YUV2RGB(*src_y, *p_cb, *p_cr, &output_rgb[2], &output_rgb[1], &output_rgb[0]);
 
-        p_y = src_y;
-        p_cb = src_cb;
-        p_cr = src_cr;
-
-        p_rgb = dst_rgb;
-
-        for (j = 0; j < width; j++) {
-
-            v = ((p_y[0] * 65536) + ((p_cr[0] - 128) * 133169)) / 65536;
-            p_rgb[2] = clamp_value(v);
-
-            v = ((p_y[0] * 65536) - ((p_cr[0] - 128) * 25821) - ((p_cb[0] - 128) * 38076)) / 65536;
-            p_rgb[1] = clamp_value(v);
-
-            v = ((p_y[0] * 65536) + ((p_cb[0] - 128) * 74711)) / 65536;
-            p_rgb[0] = clamp_value(v);
-
-            p_y++;
-            if ((j + 1) % 2 == 0) {
+	  if ((j + 1) % each_column == 0) {
                 p_cb++;
                 p_cr++;
             }
+	}
 
-            p_rgb += 3;
+        if ((i + 1) % each_row == 0) {
+            src_cb += width / each_column;
+            src_cr += width / each_column; 
         }
 
-        src_y += width;
-        if ((i + 1) % 2 == 0) {
-            src_cb += (width + 1) / 2;
-            src_cr += (width + 1) / 2;
-        }
-
-        dst_rgb += rgb_stride;
-
-    }
+  }
 
 }
 
@@ -368,6 +387,7 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
 	struct video_mbuf       mb;
 
 	int size, width, height;
+	int UV_odd = 0, UV_even = 0;
 
 	if( objc != 3) {
 		Tcl_AppendResult (interp, "Wrong number of args.\nShould be \"::Capture::Init device channel\"" , (char *) NULL);
@@ -444,14 +464,26 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
 	if(ioctl(fvideo, VIDIOCSPICT, &vp)<0){
 	  vp.palette = VIDEO_PALETTE_RGB32;
 	  if(ioctl(fvideo, VIDIOCSPICT, &vp)<0){
-	    vp.palette = VIDEO_PALETTE_YUV420;
+	    vp.palette = VIDEO_PALETTE_YUV420P;
 	    if(ioctl(fvideo, VIDIOCSPICT, &vp)<0){
-	      vp.palette = VIDEO_PALETTE_YUV420P;
+	      vp.palette = VIDEO_PALETTE_YUV420;
 	      if(ioctl(fvideo, VIDIOCSPICT, &vp)<0){
-		if(ioctl(fvideo, VIDIOCGPICT, &vp)<0){
-		  perror("VIDIOCGPICT");
-		  close(fvideo);
-		  return TCL_ERROR;
+		vp.palette = VIDEO_PALETTE_YUV422P;
+		if(ioctl(fvideo, VIDIOCSPICT, &vp)<0){
+		  vp.palette = VIDEO_PALETTE_YUV422;
+		  if(ioctl(fvideo, VIDIOCSPICT, &vp)<0){
+		    vp.palette = VIDEO_PALETTE_YUV411P;
+		    if(ioctl(fvideo, VIDIOCSPICT, &vp)<0){
+		      vp.palette = VIDEO_PALETTE_YUV411;
+		      if(ioctl(fvideo, VIDIOCSPICT, &vp)<0){
+			if(ioctl(fvideo, VIDIOCGPICT, &vp)<0){
+			  perror("VIDIOCGPICT");
+			  close(fvideo);
+			  return TCL_ERROR;
+			}
+		      }
+		    }
+		  }
 		}
 	      }
 	    }
@@ -539,9 +571,21 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
 	  size = width * height * 4;
 	} else if (vp.palette == VIDEO_PALETTE_YUV420P || vp.palette == VIDEO_PALETTE_YUV420) {
 	  size = (width * height * 3 ) / 2 ;
+	  UV_odd = 2;
+	  UV_even = 0;
+	} else if (vp.palette == VIDEO_PALETTE_YUV422P || vp.palette == VIDEO_PALETTE_YUV422) {
+	  size = width * height * 2 ;
+	  UV_odd = 2;
+	  UV_even = 2;
+	} else if (vp.palette == VIDEO_PALETTE_YUV411P || vp.palette == VIDEO_PALETTE_YUV411) {
+	  size = (width * height * 3) / 2 ;
+	  UV_odd = 1;
+	  UV_even = 1;
 	} else {
-	  fprintf(stderr, "Your webcam supports a palette that this extension does not support yet");
-	  Tcl_AppendResult (interp, "Your webcam supports a palette that this extension does not support yet" , (char *) NULL);
+	  if (debug)
+	    fprintf(stderr, "Your webcam uses a palette that this extension does not support yet");
+
+	  Tcl_AppendResult (interp, "Your webcam uses a palette that this extension does not support yet" , (char *) NULL);
 	  close(fvideo);
 	  return TCL_ERROR;
 	}
@@ -580,8 +624,10 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
 
 	captureItem->image_data = image_data;
 	captureItem->palette = vp.palette;
+	captureItem->UV_odd = UV_odd;
+	captureItem->UV_even = UV_even;
 
-	if (captureItem->palette == VIDEO_PALETTE_YUV420P || captureItem->palette == VIDEO_PALETTE_YUV420) {
+	if (captureItem->palette != VIDEO_PALETTE_RGB24 && captureItem->palette != VIDEO_PALETTE_RGB32) {
 	  captureItem->rgb_buffer = (BYTE *) malloc(width * height * 3);
 	}
 
@@ -662,6 +708,7 @@ int Capture_Grab _ANSI_ARGS_((ClientData clientData,
 	Tk_PhotoHandle          Photo;
 
 	struct video_mmap       mm;
+	int planar;
 
 	if( objc != 3) {
 		Tcl_AppendResult (interp, "Wrong number of args.\nShould be \"::Capture::Grab capturedescriptor image_name\"" , (char *) NULL);
@@ -726,15 +773,32 @@ int Capture_Grab _ANSI_ARGS_((ClientData clientData,
 	block.offset[2] = 0;
 	block.offset[3] = -1;
 
-	if (capItem->palette == VIDEO_PALETTE_RGB24 ) {
+	planar = 0;
+
+	switch (capItem->palette) {
+	case VIDEO_PALETTE_RGB24:
 	  block.pixelPtr  = capItem->image_data;
-	} else if (capItem->palette == VIDEO_PALETTE_RGB32) {
+	  break;
+	case VIDEO_PALETTE_RGB32:
 	  block.pixelPtr  = capItem->image_data;
 	  block.pitch = capItem->width*4;
 	  block.pixelSize = 4;
-	} else if (capItem->palette == VIDEO_PALETTE_YUV420P || capItem->palette == VIDEO_PALETTE_YUV420) {
-	  YUV420P_to_RGB24 (capItem->image_data, capItem->rgb_buffer, capItem->width,capItem->height);
+	break;
+
+	case VIDEO_PALETTE_YUV411P:
+	case VIDEO_PALETTE_YUV420P:
+	case VIDEO_PALETTE_YUV422P:
+	  planar = 1;
+	case VIDEO_PALETTE_YUV420:
+	case VIDEO_PALETTE_YUV422:
+	case VIDEO_PALETTE_YUV411:
+	  YUV_to_RGB24 (capItem->image_data, capItem->rgb_buffer, capItem->width,capItem->height,
+			capItem->UV_odd, capItem->UV_even, planar);
 	  block.pixelPtr  = capItem->rgb_buffer;
+	  break;
+	default:
+	  // Should never be here...
+	  break;
 	}
 
 
@@ -942,6 +1006,7 @@ int Capture_Init (Tcl_Interp *interp ) {
 	Tcl_CreateObjCommand(interp, "::Capture::ListGrabbers", Capture_ListGrabbers,
 			(ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
 
+	InitConvtTbl();
 
 	// end of Initialisation
 	return TCL_OK;
