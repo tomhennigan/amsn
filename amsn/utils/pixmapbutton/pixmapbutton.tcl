@@ -48,7 +48,8 @@ snit::widgetadaptor pixmapbutton {
 	variable border_bottom
 	
 	variable potent
-	variable buttonsize
+	variable buttonwidth
+	variable buttonheight
 	
 
 	component button
@@ -93,7 +94,8 @@ snit::widgetadaptor pixmapbutton {
 		$self configurelist $args
 
 		# Setting various variables
-		set buttonsize [list 0 0]
+		set buttonwidth 0
+		set buttonheight 0
 		set border_left 6
 		set border_top 6
 		set border_right 6
@@ -101,39 +103,39 @@ snit::widgetadaptor pixmapbutton {
 		set state $options(-state)
 		set potent "no"
 
-		set img [image create photo -width [lindex $buttonsize 0] -height [lindex $buttonsize 1]]
-		set leftimg [image create photo -width $border_left -height [expr [lindex $buttonsize 1] - $border_top - $border_bottom]]
-		set centreimg [image create photo -width [expr [lindex $buttonsize 0] - $border_left - $border_right] -height [expr [lindex $buttonsize 1] - $border_top - $border_bottom]]
-		set rightimg [image create photo -width $border_right -height [expr [lindex $buttonsize 1] - $border_top - $border_bottom]]
-		set topimg [image create photo -width [expr [lindex $buttonsize 0] - $border_right] -height $border_top]
-		set bottomimg [image create photo -width [expr [lindex $buttonsize 0] - $border_right] -height $border_top]
+		set img [image create photo -width $buttonwidth -height $buttonheight]
+		set leftimg [image create photo -width $border_left -height [expr $buttonheight - $border_top - $border_bottom]]
+		set centreimg [image create photo -width [expr $buttonwidth - $border_left - $border_right] -height [expr $buttonheight - $border_top - $border_bottom]]
+		set rightimg [image create photo -width $border_right -height [expr $buttonheight - $border_top - $border_bottom]]
+		set topimg [image create photo -width [expr $buttonwidth - $border_right] -height $border_top]
+		set bottomimg [image create photo -width [expr $buttonwidth - $border_right] -height $border_top]
 		set srcimg [image create photo -file button.gif]
 
 
-		set img_hover [image create photo -width [lindex $buttonsize 0] -height [lindex $buttonsize 1]]
-		set leftimg_hover [image create photo -width $border_left -height [expr [lindex $buttonsize 1] - $border_top - $border_bottom]]
-		set centreimg_hover [image create photo -width [expr [lindex $buttonsize 0] - $border_left - $border_right] -height [expr [lindex $buttonsize 1] - $border_top - $border_bottom]]
-		set rightimg_hover [image create photo -width 4 -height [expr [lindex $buttonsize 1] - $border_top - $border_bottom]]
-		set topimg_hover [image create photo -width [expr [lindex $buttonsize 0] - 4] -height 2]
-		set bottomimg_hover [image create photo -width [expr [lindex $buttonsize 0] - 4] -height 2]
+		set img_hover [image create photo -width $buttonwidth -height $buttonheight]
+		set leftimg_hover [image create photo -width $border_left -height [expr $buttonheight - $border_top - $border_bottom]]
+		set centreimg_hover [image create photo -width [expr $buttonwidth - $border_left - $border_right] -height [expr $buttonheight - $border_top - $border_bottom]]
+		set rightimg_hover [image create photo -width 4 -height [expr $buttonheight - $border_top - $border_bottom]]
+		set topimg_hover [image create photo -width [expr $buttonwidth - 4] -height 2]
+		set bottomimg_hover [image create photo -width [expr $buttonwidth - 4] -height 2]
 		set srcimg_hover [image create photo -file button_hover.gif]
 
 
-		set img_pressed [image create photo -width [lindex $buttonsize 0] -height [lindex $buttonsize 1]]
-		set leftimg_pressed [image create photo -width $border_left -height [expr [lindex $buttonsize 1] - $border_top - $border_bottom]]
-		set centreimg_pressed [image create photo -width [expr [lindex $buttonsize 0] - $border_left - $border_right] -height [expr [lindex $buttonsize 1] - $border_top - $border_bottom]]
-		set rightimg_pressed [image create photo -width 4 -height [expr [lindex $buttonsize 1] - $border_top - $border_bottom]]
-		set topimg_pressed [image create photo -width [expr [lindex $buttonsize 0] - 4] -height 2]
-		set bottomimg_pressed [image create photo -width [expr [lindex $buttonsize 0] - 4] -height 2]
+		set img_pressed [image create photo -width $buttonwidth -height $buttonheight]
+		set leftimg_pressed [image create photo -width $border_left -height [expr $buttonheight - $border_top - $border_bottom]]
+		set centreimg_pressed [image create photo -width [expr $buttonwidth - $border_left - $border_right] -height [expr $buttonheight - $border_top - $border_bottom]]
+		set rightimg_pressed [image create photo -width 4 -height [expr $buttonheight - $border_top - $border_bottom]]
+		set topimg_pressed [image create photo -width [expr $buttonwidth - 4] -height 2]
+		set bottomimg_pressed [image create photo -width [expr $buttonwidth - 4] -height 2]
 		set srcimg_pressed [image create photo -file button_pressed.gif]
 
 
-		set img_disabled [image create photo -width [lindex $buttonsize 0] -height [lindex $buttonsize 1]]
-		set leftimg_disabled [image create photo -width $border_left -height [expr [lindex $buttonsize 1] - $border_top - $border_bottom]]
-		set centreimg_disabled [image create photo -width [expr [lindex $buttonsize 0] - $border_left - $border_right] -height [expr [lindex $buttonsize 1] - $border_top - $border_bottom]]
-		set rightimg_disabled [image create photo -width 4 -height [expr [lindex $buttonsize 1] - $border_top - $border_bottom]]
-		set topimg_disabled [image create photo -width [expr [lindex $buttonsize 0] - 4] -height 2]
-		set bottomimg_disabled [image create photo -width [expr [lindex $buttonsize 0] - 4] -height 2]
+		set img_disabled [image create photo -width $buttonwidth -height $buttonheight]
+		set leftimg_disabled [image create photo -width $border_left -height [expr $buttonheight - $border_top - $border_bottom]]
+		set centreimg_disabled [image create photo -width [expr $buttonwidth - $border_left - $border_right] -height [expr $buttonheight - $border_top - $border_bottom]]
+		set rightimg_disabled [image create photo -width 4 -height [expr $buttonheight - $border_top - $border_bottom]]
+		set topimg_disabled [image create photo -width [expr $buttonwidth - 4] -height 2]
+		set bottomimg_disabled [image create photo -width [expr $buttonwidth - 4] -height 2]
 		set srcimg_disabled [image create photo -file button_disabled.gif]
 		
 		set emblemimage_disabled [image create photo]
@@ -159,7 +161,7 @@ snit::widgetadaptor pixmapbutton {
 		
 		
 		$button create image 0 0 -anchor nw -image $img -tag img
-		$button create text [expr [lindex $buttonsize 0] / 2] [expr [lindex $buttonsize 1] / 2] -anchor c -text $options(-text) -fill $options(-foreground) -tag txt
+		$button create text [expr $buttonwidth / 2] [expr $buttonheight / 2] -anchor c -text $options(-text) -fill $options(-foreground) -tag txt
 		
 		$emblemimage_disabled copy $options(-emblemimage) -shrink
 		$emblemimage_disabled configure -palette 32
@@ -175,7 +177,7 @@ snit::widgetadaptor pixmapbutton {
 		}
 
 		$self SetSize
-		$self BuildImage [lindex $buttonsize 0] [lindex $buttonsize 1]
+		$self BuildImage $buttonwidth $buttonheight
 	}
 
 	method ButtonHovered { pressed } {
@@ -229,26 +231,27 @@ snit::widgetadaptor pixmapbutton {
 		$self SetSize
 		$self BuildImage $width $height
 		$button coords img 0 0
-		set buttonsize [list [winfo width $self] $height]
+		set buttonwidth [winfo width $self]
+		set buttonheight $height
 		
-		set txtposx [expr [lindex $buttonsize 0] / 2]
-		set txtposy [expr [lindex $buttonsize 1] / 2]
+		set txtposx [expr $buttonwidth / 2]
+		set txtposy [expr $buttonheight / 2]
 		
 		if { $options(-emblemimage) != "" } {
 			switch [lindex $options(-emblempos) 0] {
 				"left" {
 					set xpos $border_left
-					set txtposx [expr ([lindex $buttonsize 0] + [image width $options(-emblemimage)]) / 2]
+					set txtposx [expr ($buttonwidth + [image width $options(-emblemimage)]) / 2]
 				}
 
 				"center" {
-					set txtposx [expr [lindex $buttonsize 0] / 2]
+					set txtposx [expr $buttonwidth / 2]
 					set xpos [expr $width / 2 - ([image width $options(-emblemimage)] / 2)]
 					set xpos [lindex [split $xpos .] 0]
 				}
 
 				"right" {
-					set txtposx [expr ([lindex $buttonsize 0] - [image width $options(-emblemimage)]) / 2]
+					set txtposx [expr ($buttonwidth - [image width $options(-emblemimage)]) / 2]
 					set xpos [expr $width - $border_right - ([image width $options(-emblemimage)])]
 					set xpos [lindex [split $xpos .] 0]
 				}
@@ -508,16 +511,14 @@ snit::widgetadaptor pixmapbutton {
 	}
 
 	method SetSize { } {
-		set width [expr [font measure $options(-font) -displayof $self $options(-text)] + [font measure $options(-font) -displayof $self "    "]]
-		set height [image height $img]
+		set buttonwidth [expr [font measure $options(-font) -displayof $self $options(-text)] + [font measure $options(-font) -displayof $self "    "]]
+		set buttonheight [image height $img]
 		if { [font configure $options(-font) -size] > [image height $img] } { set height [expr [font configure $options(-font) -size] + (2 * 2)] }
 		if { $options(-emblemimage) != "" } {
-			incr width [image width $options(-emblemimage)]
+			incr buttonwidth [image width $options(-emblemimage)]
 		}
 		
-		set buttonsize "$width $height"
-		
-		$button configure -width $width -height $height
+		$button configure -width $buttonwidth -height $buttonheight
 	}
 
 	method getText { option } {
