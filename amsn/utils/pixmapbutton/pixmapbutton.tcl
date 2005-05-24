@@ -76,6 +76,7 @@ snit::widgetadaptor pixmapbutton {
 	option -activeforeground -default darkgreen
 	option -highlightthickness -default 0
 	option -command -default ""
+	option -default -default "normal"
 	option -state -default "normal"
 	option -emblemimage -default ""
 	option -emblempos -default [list right center]
@@ -109,34 +110,34 @@ snit::widgetadaptor pixmapbutton {
 		set rightimg [image create photo -width $border_right -height [expr $buttonheight - $border_top - $border_bottom]]
 		set topimg [image create photo -width [expr $buttonwidth - $border_right] -height $border_top]
 		set bottomimg [image create photo -width [expr $buttonwidth - $border_right] -height $border_top]
-		set srcimg [image create photo -file button.gif]
+		set srcimg [::skin::loadPixmap button]
 
 
 		set img_hover [image create photo -width $buttonwidth -height $buttonheight]
 		set leftimg_hover [image create photo -width $border_left -height [expr $buttonheight - $border_top - $border_bottom]]
 		set centreimg_hover [image create photo -width [expr $buttonwidth - $border_left - $border_right] -height [expr $buttonheight - $border_top - $border_bottom]]
-		set rightimg_hover [image create photo -width 4 -height [expr $buttonheight - $border_top - $border_bottom]]
-		set topimg_hover [image create photo -width [expr $buttonwidth - 4] -height 2]
-		set bottomimg_hover [image create photo -width [expr $buttonwidth - 4] -height 2]
-		set srcimg_hover [image create photo -file button_hover.gif]
+		set rightimg_hover [image create photo -width $border_right -height [expr $buttonheight - $border_top - $border_bottom]]
+		set topimg_hover [image create photo -width [expr $buttonwidth - $border_right] -height $border_top]
+		set bottomimg_hover [image create photo -width [expr $buttonwidth - $border_right] -height $border_bottom]
+		set srcimg_hover [::skin::loadPixmap button_hover]
 
 
 		set img_pressed [image create photo -width $buttonwidth -height $buttonheight]
 		set leftimg_pressed [image create photo -width $border_left -height [expr $buttonheight - $border_top - $border_bottom]]
 		set centreimg_pressed [image create photo -width [expr $buttonwidth - $border_left - $border_right] -height [expr $buttonheight - $border_top - $border_bottom]]
-		set rightimg_pressed [image create photo -width 4 -height [expr $buttonheight - $border_top - $border_bottom]]
-		set topimg_pressed [image create photo -width [expr $buttonwidth - 4] -height 2]
-		set bottomimg_pressed [image create photo -width [expr $buttonwidth - 4] -height 2]
-		set srcimg_pressed [image create photo -file button_pressed.gif]
+		set rightimg_pressed [image create photo -width $border_right -height [expr $buttonheight - $border_top - $border_bottom]]
+		set topimg_pressed [image create photo -width [expr $buttonwidth - $border_right] -height $border_top]
+		set bottomimg_pressed [image create photo -width [expr $buttonwidth - $border_right] -height $border_bottom]
+		set srcimg_pressed [::skin::loadPixmap button_pressed]
 
 
 		set img_disabled [image create photo -width $buttonwidth -height $buttonheight]
 		set leftimg_disabled [image create photo -width $border_left -height [expr $buttonheight - $border_top - $border_bottom]]
 		set centreimg_disabled [image create photo -width [expr $buttonwidth - $border_left - $border_right] -height [expr $buttonheight - $border_top - $border_bottom]]
-		set rightimg_disabled [image create photo -width 4 -height [expr $buttonheight - $border_top - $border_bottom]]
-		set topimg_disabled [image create photo -width [expr $buttonwidth - 4] -height 2]
-		set bottomimg_disabled [image create photo -width [expr $buttonwidth - 4] -height 2]
-		set srcimg_disabled [image create photo -file button_disabled.gif]
+		set rightimg_disabled [image create photo -width $border_right -height [expr $buttonheight - $border_top - $border_bottom]]
+		set topimg_disabled [image create photo -width [expr $buttonwidth - $border_right] -height $border_top]
+		set bottomimg_disabled [image create photo -width [expr $buttonwidth - $border_right] -height $border_bottom]
+		set srcimg_disabled [::skin::loadPixmap button_disabled]
 		
 		set emblemimage_disabled [image create photo]
 		
@@ -156,6 +157,11 @@ snit::widgetadaptor pixmapbutton {
 		bind $self <Leave> "$self ButtonUnhovered up"
 		bind $self <Button-1> "$self ButtonPressed"
 		bind $self <ButtonRelease-1> "$self ButtonReleased"
+		bind $self <KeyPress-Return> "$self ButtonPressed;$self ButtonReleased"
+		
+		if { $options(-default) == "active" } {
+			focus $self
+		}
 		#-------------------------
 
 		
@@ -163,10 +169,12 @@ snit::widgetadaptor pixmapbutton {
 		$button create image 0 0 -anchor nw -image $img -tag img
 		$button create text [expr $buttonwidth / 2] [expr $buttonheight / 2] -anchor c -text $options(-text) -fill $options(-foreground) -tag txt
 		
-		$emblemimage_disabled copy $options(-emblemimage) -shrink
-		$emblemimage_disabled configure -palette 32
-		$button create image 0 0 -anchor nw -image $options(-emblemimage) -disabledimage $emblemimage_disabled -tag emblem
-
+		if { $options(-emblemimage) != "" } {
+			$emblemimage_disabled copy $options(-emblemimage) -shrink
+			$emblemimage_disabled configure -palette 32
+			$button create image 0 0 -anchor nw -image $options(-emblemimage) -disabledimage $emblemimage_disabled -tag emblem
+		}
+		
 		if { $options(-font) == "" } {
 			font create font -family helvetica -size 11 -weight bold
 			set $options(-font) "font"
@@ -268,15 +276,16 @@ snit::widgetadaptor pixmapbutton {
 					set ypos [expr $height - $border_bottom - ([image height $options(-emblemimage)])]
 				}
 			}
+			$button coords emblem $xpos $ypos
+			if {$options(-state) == "disabled" } {
+				$button itemconfigure emblem -state disabled
+			} else {
+				$button itemconfigure emblem -state normal
+			}
 		}
 		
 		$button coords txt $txtposx $txtposy
-		$button coords emblem $xpos $ypos
-		if {$options(-state) == "disabled" } {
-			$button itemconfigure emblem -state disabled
-		} else {
-			$button itemconfigure emblem -state normal
-		}
+		
 
 		switch $options(-state) {
 			"normal" { $button itemconfigure img -image $img }
