@@ -388,6 +388,7 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
 
 	int size, width, height;
 	int UV_odd = 0, UV_even = 0;
+	int rw = 0;
 
 	if( objc != 3) {
 		Tcl_AppendResult (interp, "Wrong number of args.\nShould be \"::Capture::Init device channel\"" , (char *) NULL);
@@ -400,9 +401,13 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
 		return TCL_ERROR;
 	}
 
-	if ((fvideo = open(dev, O_RDONLY)) < 0) {
-		perror("open");
-		return TCL_ERROR;
+	rw = 1;
+	if ((fvideo = open(dev, O_RDWR)) < 0) {
+	  rw = 0;
+	  if ((fvideo = open(dev, O_RDONLY)) < 0) {
+	    perror("open");
+	    return TCL_ERROR;
+	  }
 	}
 
 	if (ioctl(fvideo, VIDIOCGCAP, &vcap) < 0) {
@@ -603,8 +608,11 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
 	  perror("VIDIOCGMBUF");
 	}
 
-	mmbuf = (unsigned char*)mmap(0, mb.size,
-				     PROT_READ, MAP_SHARED, fvideo, 0);
+	if (rw)
+	  mmbuf = (unsigned char*)mmap(0, mb.size, PROT_READ|PROT_WRITE, MAP_SHARED, fvideo, 0);
+	else
+	  mmbuf = (unsigned char*)mmap(0, mb.size, PROT_READ, MAP_SHARED, fvideo, 0);
+
 	if(mmbuf == MAP_FAILED){
 	  mmapway = 0;
 	  perror("mmap");
