@@ -8,9 +8,88 @@
 
 #include "TkCximage.h"
 
+static struct list_ptr* animated_gifs = NULL;
+
+struct list_ptr {
+	struct list_ptr* prev_item;
+	struct list_ptr* next_item;
+	struct data_item* element;
+};
+
+/////////////////////////////////////
+// Functions to manage lists       //
+/////////////////////////////////////
+
+struct list_ptr* TkCxImage_lstGetListItem(Tk_PhotoHandle list_element_id){ //Get the list item with the specified name
+  struct list_ptr* item = g_list;
+
+  while(item && (item->element->list_element_id != list_element_id))
+    item = item->next_item;
+
+  return item;
+
+}
+
+
+struct data_item* TkCxImage_lstAddItem(struct data_item* item) {
+  struct list_ptr* newItem = NULL;
+
+  if (!item) return NULL;
+  if (TkCxImage_lstGetListItem(item->list_element_id)) return NULL;
+
+  newItem = (struct list_ptr *) malloc(sizeof(struct list_ptr));
+
+  if(newItem) {
+    memset(newItem,0,sizeof(struct list_ptr));
+    newItem->element = item;
+
+    newItem->next_item = g_list;
+
+    if (g_list) {
+      g_list->prev_item = newItem;
+    }
+    g_list = newItem;
+
+    return newItem->element;
+  } else
+    return NULL;
+
+}
+
+struct data_item* TkCxImage_lstGetItem(Tk_PhotoHandle list_element_id){ //Get the item with the specified name
+	struct list_ptr* listitem = TkCxImage_lstGetListItem(list_element_id);
+	if(listitem)
+		return listitem->element;
+	else
+		return NULL;
+}
+
+struct data_item* TkCxImage_lstDeleteItem(Tk_PhotoHandle list_element_id){
+	struct list_ptr* item = TkCxImage_lstGetListItem(list_element_id);
+	struct data_item* element = NULL;
+
+	if(item) {
+	  element = item->element;
+	  if(item->prev_item==NULL) //The first item
+	    g_list = item->next_item;
+	  else
+	    (item->prev_item)->next_item = item->next_item;
+
+	  if (item->next_item)
+	    (item->next_item)->prev_item = item->prev_item;
+
+	  free(item);
+	}
+
+	return element;
+}
+
+////////////////////////////
+// TkCxImage code         //
+////////////////////////////
 
 int ChanMatch (Tcl_Channel chan, CONST char *fileName, Tcl_Obj *format,int *widthPtr,
-		      int *heightPtr, Tcl_Interp *interp) 
+		      int *heightPtr, Tcl_Interp *interp)
 {
   CxImage image;
 
@@ -32,12 +111,12 @@ int ChanMatch (Tcl_Channel chan, CONST char *fileName, Tcl_Obj *format,int *widt
     APPENDLOG(*heightPtr); //
 
     return true;
-  } 
+  }
 
   return false;
 }
-					  
-					  
+
+
 int ObjMatch (Tcl_Obj *data, Tcl_Obj *format, int *widthPtr, int *heightPtr, Tcl_Interp *interp) {
 
   BYTE * buffer = NULL;
@@ -51,7 +130,7 @@ int ObjMatch (Tcl_Obj *data, Tcl_Obj *format, int *widthPtr, int *heightPtr, Tcl
 
   LOG(""); //
 
-  if (image.Decode(buffer, length, CXIMAGE_FORMAT_GIF) || 
+  if (image.Decode(buffer, length, CXIMAGE_FORMAT_GIF) ||
       image.Decode(buffer, length, CXIMAGE_FORMAT_PNG) ||
       image.Decode(buffer, length, CXIMAGE_FORMAT_JPG) ||
       image.Decode(buffer, length, CXIMAGE_FORMAT_TGA) ||
@@ -66,7 +145,7 @@ int ObjMatch (Tcl_Obj *data, Tcl_Obj *format, int *widthPtr, int *heightPtr, Tcl
     APPENDLOG(*heightPtr); //
 
     return true;
-  } 
+  }
 
   LOG("Unknown format");
 
@@ -74,7 +153,7 @@ int ObjMatch (Tcl_Obj *data, Tcl_Obj *format, int *widthPtr, int *heightPtr, Tcl
 }
 
 int ChanRead (Tcl_Interp *interp, Tcl_Channel chan, CONST char *fileName, Tcl_Obj *format, Tk_PhotoHandle imageHandle,
-		     int destX, int destY, int width, int height, int srcX, int srcY) 
+		     int destX, int destY, int width, int height, int srcX, int srcY)
 {
 	Tcl_Obj *data = Tcl_NewObj();
 
@@ -91,7 +170,7 @@ int ChanRead (Tcl_Interp *interp, Tcl_Channel chan, CONST char *fileName, Tcl_Ob
 }
 
 int ObjRead (Tcl_Interp *interp, Tcl_Obj *data, Tcl_Obj *format, Tk_PhotoHandle imageHandle,
-		    int destX, int destY, int width, int height, int srcX, int srcY) 
+		    int destX, int destY, int width, int height, int srcX, int srcY)
 {
 
 	BYTE * buffer = NULL;
@@ -107,11 +186,11 @@ int ObjRead (Tcl_Interp *interp, Tcl_Obj *data, Tcl_Obj *format, Tk_PhotoHandle 
   FileData = Tcl_GetByteArrayFromObj(data, &length);
 
 
-  if (! image.Decode(FileData, length, CXIMAGE_FORMAT_GIF) && 
-      ! image.Decode(FileData, length, CXIMAGE_FORMAT_PNG) && 
+  if (! image.Decode(FileData, length, CXIMAGE_FORMAT_GIF) &&
+      ! image.Decode(FileData, length, CXIMAGE_FORMAT_PNG) &&
       ! image.Decode(FileData, length, CXIMAGE_FORMAT_JPG) &&
       ! image.Decode(FileData, length, CXIMAGE_FORMAT_TGA) &&
-      ! image.Decode(FileData, length, CXIMAGE_FORMAT_BMP)) 
+      ! image.Decode(FileData, length, CXIMAGE_FORMAT_BMP))
     return TCL_ERROR;
 
 #if ANIMATE_GIFS
@@ -165,7 +244,7 @@ int ObjRead (Tcl_Interp *interp, Tcl_Obj *data, Tcl_Obj *format, Tk_PhotoHandle 
 #else
 #if TK_MINOR_VERSION == 4
   Tk_PhotoPutBlock(imageHandle, &block, destX, destY, width, height, TK_PHOTO_COMPOSITE_OVERLAY);
-#else 
+#else
 #if TK_MINOR_VERSION == 5
   Tk_PhotoPutBlock((Tcl_Interp *) NULL, imageHandle, &block, destX, destY, width, height, TK_PHOTO_COMPOSITE_OVERLAY);
 #endif
@@ -173,49 +252,66 @@ int ObjRead (Tcl_Interp *interp, Tcl_Obj *data, Tcl_Obj *format, Tk_PhotoHandle 
 #endif
 
 #if  ANIMATE_GIFS
+	LOG("Getting item");
+	APPENDLOG(imageHandle);
+	GifInfo* item=TkCxImage_lstGetItem(imageHandle);
+	if(item!=NULL) {
+		LOG("Got item in Animated list");
+		Tcl_DeleteTimerHandler(item->timerToken);
+		item->image->DestroyGifFrames();
+		delete item->image;
+		LOG("Deleting AnimatedGifInfo");
+		APPENDLOG(item->Handle);
+		TkCxImage_lstDeleteItem(item->Handle);
+		delete item;
+	}
   // If it's an animated gif, take care of it right here
-  if(g_EnableAnimated && numframes > 1) {
-	GifInfo * AnimatedGifInfo = new GifInfo;
-	CxImage *image = NULL;
+	if(g_EnableAnimated && numframes > 1) {
 
-	AnimatedGifInfo->CurrentFrame = 1;
-	AnimatedGifInfo->NumFrames = numframes;
-	AnimatedGifInfo->Handle = imageHandle;
-	AnimatedGifInfo->HandleMaster  = *((void **) (imageHandle));
-	AnimatedGifInfo->image = new CxImage;
-	AnimatedGifInfo->image->RetreiveAllFrame();
-	AnimatedGifInfo->image->SetFrame(numframes - 1);
-	AnimatedGifInfo->image->Decode(FileData, length, CXIMAGE_FORMAT_GIF);
+		GifInfo * AnimatedGifInfo = new GifInfo;
+		CxImage *image = NULL;
 
-	for(int i = 0; i < numframes; i++){
-		if(AnimatedGifInfo->image->GetFrameNo(i) != AnimatedGifInfo->image) {
-			AnimatedGifInfo->image->GetFrameNo(i)->Flip();
-		}
-	}
+		AnimatedGifInfo->CurrentFrame = 1;
+		AnimatedGifInfo->NumFrames = numframes;
+		AnimatedGifInfo->Handle = imageHandle;
+		AnimatedGifInfo->HandleMaster  = *((void **) (imageHandle));
+		AnimatedGifInfo->image = new CxImage;
+		AnimatedGifInfo->image->RetreiveAllFrame();
+		AnimatedGifInfo->image->SetFrame(numframes - 1);
+		AnimatedGifInfo->image->Decode(FileData, length, CXIMAGE_FORMAT_GIF);
 
-	/*
-	// Store each frame
-	for(int i = 0; i < numframes; i++){
-		currentFrame = new CxImage();
-		currentFrame->SetFrame(i);
-		if(currentFrame->Decode(FileData, length, CXIMAGE_FORMAT_GIF) && currentFrame->Flip()) {
-			AnimatedGifInfo->Frames[i] = currentFrame;
-		} else {
-			delete currentFrame;
-			for(int i = 0; i < numframes; i++){
-				delete AnimatedGifInfo->Frames[i];
-				AnimatedGifInfo->Frames[i] = NULL;
+		for(int i = 0; i < numframes; i++){
+			if(AnimatedGifInfo->image->GetFrameNo(i) != AnimatedGifInfo->image) {
+				AnimatedGifInfo->image->GetFrameNo(i)->Flip();
 			}
-			delete AnimatedGifInfo->Frames;
-			AnimatedGifInfo->Frames = NULL;
-			delete AnimatedGifInfo;
-			AnimatedGifInfo = NULL;
 		}
+		LOG("Adding AnimatedGifInfo");
+		APPENDLOG(imageHandle);
+		TkCxImage_lstAddItem(AnimatedGifInfo);
+
+		/*
+		// Store each frame
+		for(int i = 0; i < numframes; i++){
+			currentFrame = new CxImage();
+			currentFrame->SetFrame(i);
+			if(currentFrame->Decode(FileData, length, CXIMAGE_FORMAT_GIF) && currentFrame->Flip()) {
+				AnimatedGifInfo->Frames[i] = currentFrame;
+			} else {
+				delete currentFrame;
+				for(int i = 0; i < numframes; i++){
+					delete AnimatedGifInfo->Frames[i];
+					AnimatedGifInfo->Frames[i] = NULL;
+				}
+				delete AnimatedGifInfo->Frames;
+				AnimatedGifInfo->Frames = NULL;
+				delete AnimatedGifInfo;
+				AnimatedGifInfo = NULL;
+			}
+		}
+	*/
+		if (AnimatedGifInfo)
+			AnimatedGifInfo->timerToken=Tcl_CreateTimerHandler(AnimatedGifInfo->image->GetFrameNo(0)->GetFrameDelay(), AnimateGif, (ClientData) AnimatedGifInfo);
 	}
-*/
-	if (AnimatedGifInfo)
-		Tcl_CreateTimerHandler(AnimatedGifInfo->image->GetFrameNo(0)->GetFrameDelay(), AnimateGif, (ClientData) AnimatedGifInfo);
-  }
 
 #endif // ANIMATE_GIFS
 
@@ -236,7 +332,7 @@ int ChanWrite (Tcl_Interp *interp, CONST char *fileName, Tcl_Obj *format, Tk_Pho
   if (format) {
     cxFormat = Tcl_GetStringFromObj(format, NULL);
     Type = GetFileTypeFromFormat(cxFormat);
-  } 
+  }
 
   if (Type == CXIMAGE_FORMAT_UNKNOWN) {
     Type = GetFileTypeFromFileName((char *) fileName);
@@ -252,7 +348,7 @@ int ChanWrite (Tcl_Interp *interp, CONST char *fileName, Tcl_Obj *format, Tk_Pho
     alpha = 1;
   }
 
-  if(!image.CreateFromArray(pixelPtr, blockPtr->width, blockPtr->height, 
+  if(!image.CreateFromArray(pixelPtr, blockPtr->width, blockPtr->height,
 			    8 * blockPtr->pixelSize, blockPtr->pitch, true))
     {
       free(pixelPtr);
@@ -264,7 +360,7 @@ int ChanWrite (Tcl_Interp *interp, CONST char *fileName, Tcl_Obj *format, Tk_Pho
   if (alpha == 0)
     image.AlphaDelete();
 
-  if (Type == CXIMAGE_FORMAT_GIF) 
+  if (Type == CXIMAGE_FORMAT_GIF)
     image.DecreaseBpp(8, true);
 
   if (!image.Save(fileName, Type)) {
@@ -288,8 +384,8 @@ int StringWrite (Tcl_Interp *interp, Tcl_Obj *format, Tk_PhotoImageBlock *blockP
   if (format) {
     cxFormat = Tcl_GetStringFromObj(format, NULL);
     Type = GetFileTypeFromFormat(cxFormat);
-  } 
-	
+  }
+
   if (Type == CXIMAGE_FORMAT_UNKNOWN) {
     Type = CXIMAGE_FORMAT_GIF;
   }
@@ -300,14 +396,14 @@ int StringWrite (Tcl_Interp *interp, Tcl_Obj *format, Tk_PhotoImageBlock *blockP
     alpha = 1;
   }
 
-  if(!image.CreateFromArray(pixelPtr, blockPtr->width, blockPtr->height, 
-			    8 * blockPtr->pixelSize, blockPtr->pitch, true)) 
+  if(!image.CreateFromArray(pixelPtr, blockPtr->width, blockPtr->height,
+			    8 * blockPtr->pixelSize, blockPtr->pitch, true))
     {
       free(pixelPtr);
       Tcl_AppendResult(interp, image.GetLastError(), NULL);
       return TCL_ERROR;
     }
-  
+
   free(pixelPtr);
   if (alpha == 0)
     image.AlphaDelete();
@@ -315,8 +411,8 @@ int StringWrite (Tcl_Interp *interp, Tcl_Obj *format, Tk_PhotoImageBlock *blockP
   if (Type == CXIMAGE_FORMAT_GIF)
     image.DecreaseBpp(8, true);
 
-		
-  if (!image.Encode(buffer, size, Type) ) {		
+
+  if (!image.Encode(buffer, size, Type) ) {
     Tcl_AppendResult(interp, image.GetLastError(), NULL);
     return TCL_ERROR;
   }
@@ -342,16 +438,19 @@ void AnimateGif(ClientData data) {
 			if(Info->CurrentFrame == Info->NumFrames)
 				Info->CurrentFrame = 0;
 
-			Tcl_CreateTimerHandler(image->GetFrameDelay()?10*image->GetFrameDelay():40, AnimateGif, data);
+			Info->timerToken=Tcl_CreateTimerHandler(image->GetFrameDelay()?10*image->GetFrameDelay():40, AnimateGif, data);
 
 		} else {
 		  LOG("Image destroyed, deleting... tkMaster was : ");
 		  APPENDLOG( tkMaster );
 		  APPENDLOG(" - ");
 		  APPENDLOG( Info->HandleMaster);
-		  
+
 			Info->image->DestroyGifFrames();
 			delete Info->image;
+			LOG("Deleting AnimatedGifInfo");
+			APPENDLOG(Info->Handle);
+			TkCxImage_lstDeleteItem(Info->Handle);
 			delete Info;
 			Info = NULL;
 		}
@@ -362,7 +461,7 @@ void AnimateGif(ClientData data) {
 		else
 			currentFrame = Info->NumFrames;
 		CxImage *image = Info->image->GetFrameNo(currentFrame);
-		Tcl_CreateTimerHandler(image->GetFrameDelay()?10*image->GetFrameDelay():40, AnimateGif, data);
+		Info->timerToken=Tcl_CreateTimerHandler(image->GetFrameDelay()?10*image->GetFrameDelay():40, AnimateGif, data);
 	}
 
 }

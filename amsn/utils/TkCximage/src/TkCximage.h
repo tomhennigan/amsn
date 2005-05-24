@@ -1,4 +1,4 @@
-/*	
+/*
 		File : flash.h
 
 		Description : Header file for the flash window extension for tk
@@ -65,7 +65,7 @@ EXTERN FILE * logfile;
 #define LOGS_ENABLED
 #include <time.h>
 
-inline void timestamp() { 
+inline void timestamp() {
   time_t t;
   time(&t);
   strftime(currenttime, 29, "[%D %T]", localtime(&t));
@@ -137,12 +137,19 @@ typedef struct gif_info {
 	void * HandleMaster;
 	int NumFrames;
 	int CurrentFrame;
+	Tcl_TimerToken timerToken;
 } GifInfo ;
 
 
 
 EXTERN void AnimateGif(ClientData data);
 EXTERN int g_EnableAnimated;
+
+// Defines for compatibility with the list code..
+#define g_list animated_gifs
+#define data_item gif_info
+#define list_element_id Handle
+
 #endif // ANIMATE_GIFS
 
 
