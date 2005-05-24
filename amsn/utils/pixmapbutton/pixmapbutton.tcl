@@ -150,7 +150,6 @@ snit::widgetadaptor pixmapbutton {
 		#pack $self
 
 		bind $self <Configure> "$self DrawButton %w %h"
-
 		bind $self <B1-Enter> "$self ButtonHovered down"
 		bind $self <Enter> "$self ButtonHovered up"
 		bind $self <B1-Leave> "$self ButtonUnhovered down"
@@ -226,8 +225,8 @@ snit::widgetadaptor pixmapbutton {
 		if {$options(-state) != "disabled" } {
 			if { $potent == "yes" } {
 				$button itemconfigure img -image $img_hover
-				$self invoke
 				set potent "no"
+				$self invoke
 			} else {
 				set potent "no"
 				$button itemconfigure img -image $img
