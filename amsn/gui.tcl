@@ -1,4 +1,5 @@
 package require AMSN_BWidget
+package require pixmapbutton
 if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 	#Use tclCarbonHICommand for window utilities
 	catch {package require tclCarbonHICommand}
@@ -44,7 +45,17 @@ if { $initialize_amsn == 1 } {
 	::skin::setKey statusbartext #000000
 	::skin::setKey groupcolorextend #000080
 	::skin::setKey groupcolorcontract #000080
+	
+	::skin::setKey button_border_left 6
+	::skin::setKey button_border_right 6
+	::skin::setKey button_border_top 6
+	::skin::setKey button_border_bottom 6
 
+	::skin::setKey button_ring_border_left 2
+	::skin::setKey button_ring_border_right 2
+	::skin::setKey button_ring_border_top 2
+	::skin::setKey button_ring_border_bottom 2
+	
 	::skin::setKey chat_top_padx 0
 	::skin::setKey chat_top_pady 0
 	::skin::setKey chat_paned_padx 0
@@ -3332,6 +3343,14 @@ proc cmsn_draw_main {} {
 	::skin::setPixmap sendbutton_hover sendbut_hover.gif
  	::skin::setPixmap imgshow imgshow.gif
 	::skin::setPixmap imghide imghide.gif
+	
+	::skin::setPixmap button button.gif
+	::skin::setPixmap button_hover button_hover.gif
+	::skin::setPixmap button_pressed button_pressed.gif
+	::skin::setPixmap button_disabled button_disabled.gif
+	
+	::skin::setPixmap ring ring.gif
+	::skin::setPixmap ring_disabled ring_disabled.gif
 
 	::skin::setPixmap fticon fticon.gif
 	::skin::setPixmap ftreject ftreject.gif
