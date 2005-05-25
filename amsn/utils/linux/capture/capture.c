@@ -217,6 +217,7 @@ int Capture_ListDevices _ANSI_ARGS_((ClientData clientData,
 		if (fd!=-1) {
 			if (ioctl(fd, VIDIOCGCAP, &vcap) < 0) {
 				perror("VIDIOCGCAP");
+				close(fd);
 				return TCL_ERROR;
 			}
 		}
@@ -389,6 +390,7 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
 	int size, width, height;
 	int UV_odd = 0, UV_even = 0;
 	int rw = 0;
+	float bpp = 3;
 
 	if( objc != 3) {
 		Tcl_AppendResult (interp, "Wrong number of args.\nShould be \"::Capture::Init device channel\"" , (char *) NULL);
@@ -433,6 +435,7 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
 
 	  if(channel>=vcap.channels){
 	    Tcl_AppendResult (interp, "Invalid channel" , (char *) NULL);
+	    close(fvideo);
 	    return TCL_ERROR;
 	  }
 
@@ -545,15 +548,10 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
 	  fprintf(stderr, "window: flags %d chromakey %d\n",vw.flags,vw.chromakey);
 	}
 
-	if (ioctl(fvideo, VIDIOCGMBUF, &mb)) {
-	  mmapway = 0;
-	  perror("VIDIOCGMBUF");
-	}
-
 	if(ioctl(fvideo, VIDIOCSWIN, &vw)<0){
 		perror("VIDIOCSWIN");
-		close(fvideo);
-		return TCL_ERROR;
+		/*close(fvideo);
+		  return TCL_ERROR;*/
 	}
 
 
@@ -574,21 +572,28 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
 
 	if (vw.width) width = vw.width;
 	if (vw.height) height = vw.height;
+	if(width >= 320 && height >= 240){
+	  width = 320;
+	  height = 240;
+	} else {
+	  width = 160;
+	  height = 120;
+	}
 
 	if (vp.palette == VIDEO_PALETTE_RGB24) {
-	  size = width * height * 3;
+	  bpp = 3;
 	} else if (vp.palette == VIDEO_PALETTE_RGB32) {
-	  size = width * height * 4;
+	  bpp = 4;
 	} else if (vp.palette == VIDEO_PALETTE_YUV420P || vp.palette == VIDEO_PALETTE_YUV420) {
-	  size = (width * height * 3 ) / 2 ;
+	  bpp = 3 / 2;
 	  UV_odd = 2;
 	  UV_even = 0;
 	} else if (vp.palette == VIDEO_PALETTE_YUV422P || vp.palette == VIDEO_PALETTE_YUV422) {
-	  size = width * height * 2 ;
+	  bpp = 2;
 	  UV_odd = 2;
 	  UV_even = 2;
 	} else if (vp.palette == VIDEO_PALETTE_YUV411P || vp.palette == VIDEO_PALETTE_YUV411) {
-	  size = (width * height * 3) / 2 ;
+	  bpp = 3 / 2;
 	  UV_odd = 1;
 	  UV_even = 1;
 	} else {
@@ -600,6 +605,7 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
 	  return TCL_ERROR;
 	}
 
+	size = width * height * bpp;
 	image_data = (BYTE *) malloc(size);
 
 	mmapway = 1;
@@ -655,7 +661,7 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
 
 	captureItem->width = width;
 	captureItem->height = height;
-	captureItem->size = size;
+	captureItem->bpp = bpp;
 
 
 
@@ -712,24 +718,34 @@ int Capture_Grab _ANSI_ARGS_((ClientData clientData,
 			      int objc,
 			      Tcl_Obj *CONST objv[]))
 {
-	struct capture_item*    capItem=NULL;
-	char *                  captureDescriptor=NULL;
-
+	struct capture_item*    capItem = NULL;
+	char *                  captureDescriptor = NULL;
 	char *                  image_name = NULL;
+	char * 			resolution = NULL;
 
 	Tk_PhotoImageBlock	block;
 	Tk_PhotoHandle          Photo;
 
 	struct video_mmap       mm;
 	int planar;
+	int width, height, size;
 
-	if( objc != 3) {
-		Tcl_AppendResult (interp, "Wrong number of args.\nShould be \"::Capture::Grab capturedescriptor image_name\"" , (char *) NULL);
+	if( objc != 3 && objc != 4) {
+		Tcl_AppendResult (interp, "Wrong number of args.\nShould be \"::Capture::Grab capturedescriptor image_name ?resolution?\"" , (char *) NULL);
 		return TCL_ERROR;
 	}
 
 	captureDescriptor = Tcl_GetStringFromObj(objv[1], NULL);
 	image_name = Tcl_GetStringFromObj(objv[2], NULL);
+
+	if (objc == 4) {
+	  resolution = Tcl_GetStringFromObj(objv[3], NULL);
+	  if ( strcmp(resolution, "LOW") && strcmp(resolution, "HIGH")) {
+	    Tcl_AppendResult(interp, "The resolution should be either \"LOW\" or \"HIGH\"", NULL);
+	    return TCL_ERROR;
+	  }
+	}
+
 
 	if ( (Photo = Tk_FindPhoto(interp, image_name)) == NULL) {
 		Tcl_AppendResult(interp, "The image you specified is not a valid photo image", NULL);
@@ -741,11 +757,26 @@ int Capture_Grab _ANSI_ARGS_((ClientData clientData,
 		return TCL_ERROR;
 	}
 
+	if (resolution && !strcmp(resolution, "HIGH")) {
+	  if (capItem->width == 320 && capItem->height == 240) {
+	    width = 320;
+	    height = 240;
+	  } else {
+	    Tcl_AppendResult(interp, "The webcam will only support a LOW resolution", NULL);
+	    return TCL_ERROR;
+	  }
+	} else if (resolution && !strcmp(resolution, "LOW")) {
+	  width = 160;
+	  height = 120;
+	} else {
+	  width = capItem->width;
+	  height = capItem->height;
+	}
 
 	if (capItem->mmbuf){
 		mm.frame  = 0;
-		mm.height = capItem->height;
-		mm.width  = capItem->width;
+		mm.height = height;
+		mm.width  = width;
 		mm.format = capItem->palette;
 
 		if(ioctl(capItem->fvideo, VIDIOCMCAPTURE, &mm)<0){
@@ -759,10 +790,11 @@ int Capture_Grab _ANSI_ARGS_((ClientData clientData,
 		}
 	}
 
+	size = width * height * capItem->bpp;
 	if (capItem->mmbuf){
-		memcpy(capItem->image_data, capItem->mmbuf+capItem->mb.offsets[0], capItem->size);
+		memcpy(capItem->image_data, capItem->mmbuf+capItem->mb.offsets[0], size);
 	} else {
-		read(capItem->fvideo,capItem->image_data, capItem->size);
+		read(capItem->fvideo,capItem->image_data, size);
 	}
 
 	Tk_PhotoBlank(Photo);
@@ -771,13 +803,13 @@ int Capture_Grab _ANSI_ARGS_((ClientData clientData,
 	#if TK_MINOR_VERSION == 5
 			interp,
 	#endif
-			Photo, capItem->width, capItem->height);
+			Photo, width, height);
 
 
-	block.width = capItem->width;
-	block.height = capItem->height;
+	block.width = width;
+	block.height = height;
 
-	block.pitch = capItem->width*3;
+	block.pitch = width*3;
 	block.pixelSize = 3;
 
 
@@ -794,7 +826,7 @@ int Capture_Grab _ANSI_ARGS_((ClientData clientData,
 	  break;
 	case VIDEO_PALETTE_RGB32:
 	  block.pixelPtr  = capItem->image_data;
-	  block.pitch = capItem->width*4;
+	  block.pitch = width*4;
 	  block.pixelSize = 4;
 	break;
 
@@ -805,7 +837,7 @@ int Capture_Grab _ANSI_ARGS_((ClientData clientData,
 	case VIDEO_PALETTE_YUV420:
 	case VIDEO_PALETTE_YUV422:
 	case VIDEO_PALETTE_YUV411:
-	  YUV_to_RGB24 (capItem->image_data, capItem->rgb_buffer, capItem->width,capItem->height,
+	  YUV_to_RGB24 (capItem->image_data, capItem->rgb_buffer, width,height,
 			capItem->UV_odd, capItem->UV_even, planar);
 	  block.pixelPtr  = capItem->rgb_buffer;
 	  break;
@@ -815,15 +847,17 @@ int Capture_Grab _ANSI_ARGS_((ClientData clientData,
 	}
 
 
-	#if TK_MINOR_VERSION == 3
-		Tk_PhotoPutBlock(Photo, &block, 0, 0, capItem->width, capItem->height);
-	#endif
-	#if TK_MINOR_VERSION == 4
-		Tk_PhotoPutBlock(Photo, &block, 0, 0, capItem->width, capItem->height, TK_PHOTO_COMPOSITE_OVERLAY);
-	#endif
+
+	Tk_PhotoPutBlock(
 	#if TK_MINOR_VERSION == 5
-		Tk_PhotoPutBlock(interp, Photo, &block, 0, 0, capItem->width, capItem->height, TK_PHOTO_COMPOSITE_OVERLAY);
+		interp,
 	#endif
+		Photo, &block, 0, 0, width, height 
+	#if TK_MINOR_VERSION > 3 
+		,TK_PHOTO_COMPOSITE_OVERLAY
+	#endif
+		);
+
 
 	Tk_PhotoSetSize(
 	#if TK_MINOR_VERSION == 5

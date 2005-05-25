@@ -90,7 +90,7 @@ struct capture_item {
   int fvideo;
   int width;
   int height;
-  int size;
+  float bpp;
   char *mmbuf; //To uncomment if we use mmap : not for now
   struct video_mbuf       mb;
   int palette;
