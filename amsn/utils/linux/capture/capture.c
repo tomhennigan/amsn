@@ -538,10 +538,10 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
 	  fprintf(stderr, "window: flags %d chromakey %d\n",vw.flags,vw.chromakey);
 	}
 
-	vw.x=0;
-	vw.y=0;
-	vw.width=GetGoodSize(vcap.minwidth,vcap.maxwidth,320);
-	vw.height=GetGoodSize(vcap.minheight,vcap.maxheight,240);
+	vw.x = 0;
+	vw.y = 0;
+	vw.width = GetGoodSize(vcap.minwidth, vcap.maxwidth, HIGH_RES_W);
+	vw.height = GetGoodSize(vcap.minheight, vcap.maxheight, HIGH_RES_H);
 
 	if (debug) {
 	  fprintf(stderr, "window: x %d y %d w %d h %d\n",vw.x,vw.y,vw.width,vw.height);
@@ -572,12 +572,12 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
 
 	if (vw.width) width = vw.width;
 	if (vw.height) height = vw.height;
-	if(width >= 320 && height >= 240){
-	  width = 320;
-	  height = 240;
+	if(width >= HIGH_RES_W && height >= HIGH_RES_H){
+	  width = HIGH_RES_W;
+	  height = HIGH_RES_H;
 	} else {
-	  width = 160;
-	  height = 120;
+	  width = LOW_RES_W;
+	  height = LOW_RES_H;
 	}
 
 	if (vp.palette == VIDEO_PALETTE_RGB24) {
@@ -727,6 +727,7 @@ int Capture_Grab _ANSI_ARGS_((ClientData clientData,
 	Tk_PhotoHandle          Photo;
 
 	struct video_mmap       mm;
+	struct video_window     vw;
 	int planar;
 	int width, height, size;
 
@@ -758,20 +759,25 @@ int Capture_Grab _ANSI_ARGS_((ClientData clientData,
 	}
 
 	if (resolution && !strcmp(resolution, "HIGH")) {
-	  if (capItem->width == 320 && capItem->height == 240) {
-	    width = 320;
-	    height = 240;
+	  if (capItem->width == HIGH_RES_W && capItem->height == HIGH_RES_H) {
+	    width = HIGH_RES_W;
+	    height = HIGH_RES_H;
 	  } else {
 	    Tcl_AppendResult(interp, "The webcam will only support a LOW resolution", NULL);
 	    return TCL_ERROR;
 	  }
 	} else if (resolution && !strcmp(resolution, "LOW")) {
-	  width = 160;
-	  height = 120;
+	  width = LOW_RES_W;
+	  height = LOW_RES_H;
 	} else {
 	  width = capItem->width;
 	  height = capItem->height;
 	}
+	vw.x=0;
+	vw.y=0;
+	vw.width=width;
+	vw.height=height;
+	ioctl(capItem->fvideo, VIDIOCSWIN, &vw);
 
 	if (capItem->mmbuf){
 		mm.frame  = 0;
@@ -859,11 +865,6 @@ int Capture_Grab _ANSI_ARGS_((ClientData clientData,
 		);
 
 
-	Tk_PhotoSetSize(
-	#if TK_MINOR_VERSION == 5
-		interp,
-	#endif
-		Photo, 320, 240);
 	return TCL_OK;
 }
 

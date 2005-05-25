@@ -10,6 +10,7 @@ package require capture
 set devices [::Capture::ListDevices]
 set ::grabber ""
 set ::preview ""
+set ::res "HIGH"
 
 wm protocol . WM_DELETE_WINDOW {
 	if { [::Capture::IsValid $::grabber] } { ::Capture::Close $::grabber }
@@ -17,13 +18,25 @@ wm protocol . WM_DELETE_WINDOW {
 	exit
 }
 
+
 set img [image create photo]
 label .l -image $img
+button .r -text "Switch resolution" -command "SwitchResolution $::grabber"
 button .s -text "Camera Settings" -command "ShowPropertiesPage $::grabber $img"
-button .c -text "Choose device" -command "ChooseDevice; .s configure -command \"ShowPropertiesPage \$::grabber $img\"; StartGrab \$::grabber $img"
+button .c -text "Choose device" -command "ChooseDevice; .r configure -command \"SwitchResolution \$::grabber\" ;.s configure -command \"ShowPropertiesPage \$::grabber $img\"; StartGrab \$::grabber $img"
 
-pack .l .s .c -side top
+pack .l .r .s .c -side top
 
+
+proc SwitchResolution { grabber } {
+	if { $::res == "HIGH" } {
+		set ::res "LOW"
+	} elseif { $::res == "LOW" } {
+		set ::res "HIGH"
+	} else { 
+		set ::res "HIGH"
+	}
+}
 
 proc ChooseDevice { } {
 
@@ -332,7 +345,7 @@ proc StartGrab { grabber img } {
 	set $semaphore 0
 
 	while { [::Capture::IsValid $grabber] && [lsearch [image names] $img] != -1 } {
-		::Capture::Grab $grabber $img
+		::Capture::Grab $grabber $img $::res
 		after 100 "incr $semaphore"
 		tkwait variable $semaphore
 	}

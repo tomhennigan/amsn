@@ -34,8 +34,6 @@ all : ${OUTPUT}
 %.o: %.c
 	$(CC) -c $(CC_SWITCHS) $<
 
-
-
 ${OUTPUT}: ${OBJECTS} 
 	${SHLIB_LD} ${OBJECTS} $(LIBSN) -o $@ 
 

@@ -79,6 +79,12 @@ typedef unsigned char  BYTE;
 #define SETTINGS_GET_COLOUR (SETTINGS_GET | SETTINGS_COLOUR)
 #define SETTINGS_GET_CONTRAST (SETTINGS_GET | SETTINGS_CONTRAST)
 
+#define HIGH_RES_W 320
+#define HIGH_RES_H 240
+#define LOW_RES_W 160
+#define LOW_RES_H 120
+
+
 #define CLAMP(value) (value < 0 ? 0 : value > 255 ? 255 : value)
 
 // Structures for the list
