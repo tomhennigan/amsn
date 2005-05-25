@@ -1011,8 +1011,15 @@ namespace eval ::MSNCAM {
 	proc SendFrame { sock encoder img } {
 		#If the img is not at the right size, don't encode (crash issue..)
 		if { [image width $img] != "320" || [image height $img] != "240" } {
-			status_log "webcam: Wrong size: Width is [image width $img] and height is [image height $img]\n" red
-			return
+			#status_log "webcam: Wrong size: Width is [image width $img] and height is [image height $img]\n" red
+			#return
+			
+			#We crop the image to avoid bad sizes
+			#This is a test..seems to work well for bad-sized ratio camera
+			if { [image width $img] != "0" || [image height $img] != "0" } {
+				$img configure -width 320 -height 240
+			}
+			
 		}
 		if { [catch {set data [::Webcamsn::Encode $encoder $img]} res] } {
 			status_log "Error encoding frame : $res\n"
@@ -1254,8 +1261,6 @@ namespace eval ::CAMGUI {
 
 	proc Grab_Windows {grabber socket encoder img} {
 		if { ![catch { $grabber picture $img} res] } {
-			#We crop the image to avoid bad sizes
-			$img configure -width 320 -height 240
 			::MSNCAM::SendFrame $socket $encoder $img
 		} else {
 		    status_log "error grabbing : $res\n" red
@@ -1309,7 +1314,7 @@ namespace eval ::CAMGUI {
 	
 		#Add grabber to the window
 		#Show message error if it's not possible
-		if { ![catch {seqgrabber $w.seq -height 240} res] } {
+		if { ![catch {seqgrabber $w.seq -width 320} res] } {
 			
 			catch {$w.seq configure -volume 0}
 			pack $w.seq
@@ -1470,6 +1475,51 @@ namespace eval ::CAMGUI {
 		::amsn::WinWrite $chatid "[timestamp] Send request to receive webcam\n" green
 		::amsn::WinWriteIcon $chatid greyline 3
 	}
+	
+	proc WebcamWizard {} {
+	
+		set w .webcamwizard
+		if {[winfo exists $w]} {
+			raise $w
+			return 1
+		}
+		toplevel $w
+		label $w.webcampic -image [::skin::loadPixmap butwebcam]
+		frame $w.abooktype
+		label $w.abooktype.text -text "Type" -font sboldf
+		label $w.abooktype.abook -text [::abook::getDemographicField conntype]
+		frame $w.abooklistening
+		label $w.abooklistening.text -text "Listening" -font sboldf
+		label $w.abooklistening.abook -text [::abook::getDemographicField listening]
+		pack $w.webcampic
+		pack $w.abooktype.text  -padx 5 -side left
+		pack $w.abooktype.abook -padx 5 -side right
+		pack $w.abooktype -expand true
+		
+		pack $w.abooklistening.text -padx 5 -side left
+		pack $w.abooklistening.abook -padx 5 -side right
+		pack $w.abooklistening -expand true
+		
+		if {[::abook::getDemographicField conntype] == "IP-Restrict-NAT" && [::abook::getDemographicField listening] == "false"} {
+			label $w.abookresult -text "You are firewalled or behind a router!" -font sboldf
+		} else {
+			label $w.abookresult -text "Your ports are well configured" -font sboldf
+		}
+		
+		pack $w.abookresult -expand true -padx 5
+		
+		#Add button to change settings
+		button $w.settings -command "::CAMGUI::ChooseDevice" -text "Change video settings"
+		pack $w.settings
+		
+		wm geometry $w 300x150
+		
+		moveinscreen $w 30
+		
+	
+	}
+	
+	
 	proc ChooseDevice { } {
 		if { ! [info exists ::capture_loaded] } { CaptureLoaded }
 		if { ! $::capture_loaded } { return }
