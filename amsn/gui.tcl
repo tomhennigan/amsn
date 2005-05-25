@@ -3775,7 +3775,9 @@ proc show_encodingchoose {} {
 	set encodings [lsort $encodings]
 	set enclist [list]
 	foreach enc $encodings {
-		lappend enclist [list $enc $enc]
+		if { $enc != "unicode" } {
+			lappend enclist [list $enc $enc]
+		}
 	}
 	set enclist [linsert $enclist 0 [list "Automatic" auto]]
 	::amsn::listChoose "[trans encoding]" $enclist set_encoding 0 1
@@ -3787,7 +3789,11 @@ proc show_encodingchoose {} {
 #///////////////////////////////////////////////////////////////////////
 proc set_encoding {enc} {
 	if {[catch {encoding system $enc} res]} {
-		msg_box "Selected encoding not available, selecting auto"
+		if { $enc != "auto" } {
+			msg_box "Selected encoding not available, setting back to automatic"
+		} else {
+			catch {encoding system $::auto_encoding }
+		}
 		::config::setKey encoding auto
 	} else {
 		::config::setKey encoding $enc

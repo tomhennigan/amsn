@@ -284,6 +284,8 @@ if { $size == "" } { set size "11"}
 ::amsn::initLook $family $size [::config::getKey backgroundcolor]
 
 
+set ::auto_encoding [encoding system]
+
 if { [::config::getKey encoding] != "auto" } {
   set_encoding [::config::getKey encoding]
 }

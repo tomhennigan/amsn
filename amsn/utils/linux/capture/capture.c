@@ -614,6 +614,12 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
 	  perror("VIDIOCGMBUF");
 	}
 
+	if (mmapway && debug) {
+	  fprintf(stderr, "mmap buffer successfully allocated\n");
+	  fprintf(stderr, "size: %d with %d frames\n",mb.size, mb.frames);
+	}
+
+
 	if (rw)
 	  mmbuf = (unsigned char*)mmap(0, mb.size, PROT_READ|PROT_WRITE, MAP_SHARED, fvideo, 0);
 	else
@@ -622,7 +628,7 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
 	if(mmbuf == MAP_FAILED){
 	  mmapway = 0;
 	  perror("mmap");
-	}
+	} 
 
 	if (mmapway == 0) {
 	  if (read(fvideo,image_data,size)==-1) {
@@ -662,7 +668,7 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
 	captureItem->width = width;
 	captureItem->height = height;
 	captureItem->bpp = bpp;
-
+	captureItem->frame = -1;
 
 
 	if(mmapway){
@@ -780,25 +786,44 @@ int Capture_Grab _ANSI_ARGS_((ClientData clientData,
 	ioctl(capItem->fvideo, VIDIOCSWIN, &vw);
 
 	if (capItem->mmbuf){
-		mm.frame  = 0;
-		mm.height = height;
-		mm.width  = width;
-		mm.format = capItem->palette;
 
-		if(ioctl(capItem->fvideo, VIDIOCMCAPTURE, &mm)<0){
-			perror("VIDIOCMCAPTURE");
-			return TCL_ERROR;
-		}
+	  mm.frame = capItem->frame;
+	  mm.frame++;
+	  if (mm.frame >= capItem->mb.frames)
+	    mm.frame = 0;
 
-		if(ioctl(capItem->fvideo, VIDIOCSYNC, &mm.frame)<0){
-			perror("VIDIOCSYNC");
-			return TCL_ERROR;
-		}
+	  mm.height = height;
+	  mm.width  = width;
+	  mm.format = capItem->palette;
+	  
+	  if(ioctl(capItem->fvideo, VIDIOCMCAPTURE, &mm)<0){
+	    perror("VIDIOCMCAPTURE");
+	    return TCL_ERROR;
+	  }
+
+	  if (capItem->frame == -1 ) {
+	    if (capItem->mb.frames >= 2) {
+	      mm.frame  = 1;
+	      if(ioctl(capItem->fvideo, VIDIOCMCAPTURE, &mm)<0){
+		perror("VIDIOCMCAPTURE");
+		return TCL_ERROR;
+	      }
+	    }
+	    capItem->frame = 0;
+	  }
+	  
+	  if(ioctl(capItem->fvideo, VIDIOCSYNC, &(capItem->frame))<0){
+	    perror("VIDIOCSYNC");
+	    return TCL_ERROR;
+	  }
+
+	  capItem->frame = mm.frame;
+
 	}
 
 	size = width * height * capItem->bpp;
 	if (capItem->mmbuf){
-		memcpy(capItem->image_data, capItem->mmbuf+capItem->mb.offsets[0], size);
+		memcpy(capItem->image_data, capItem->mmbuf+capItem->mb.offsets[capItem->frame], size);
 	} else {
 		read(capItem->fvideo,capItem->image_data, size);
 	}
