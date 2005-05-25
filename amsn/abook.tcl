@@ -19,6 +19,11 @@ namespace eval ::abook {
 		#saved to disk without breaking anything
 		
 		variable consistent 0
+
+		# This list stores the names of the fields about the visual representation of the buddy.
+		# When this fields gets changed, we fire an event to redraw that contact on our CL.
+		variable VisualData [list nick customnick customfnick cust_p4c_name customcolor]
+
 		global pgc pcc
 	}
 	
@@ -285,7 +290,7 @@ namespace eval ::abook {
 	proc setContactData { user_login field data } {
 		global pgc
 		variable users_data
-		
+
 		set field [string tolower $field]
 		
 		# There can't be double arrays, so users_data(user) is just a
@@ -296,7 +301,18 @@ namespace eval ::abook {
 		} else {
 			array set user_data [list]
 		}
-		
+
+		# An event used by guicontactlist to know when a user changed his nick (or state)
+		if { [lsearch -exact $::abook::VisualData $field] > -1 } {
+			if { [info exists user_data($field)] && $user_data($field) != $data } {
+				puts stdout "ATTENTION! Visual Data has changed! Redraw CL! $field - $data"
+				::Event::fireEvent contactDataChange abook $user_login
+			} elseif { ![info exists user_data($field)] && $data != ""} {
+				puts stdout "ATTENTION! Visual Data has changed! Redraw CL! $field - $data"
+				::Event::fireEvent contactDataChange abook $user_login
+			}
+		}
+
 		if { $data == "" } {
 			if { [info exists user_data($field)] } {
 				unset user_data($field)
@@ -311,11 +327,55 @@ namespace eval ::abook {
 
 		#We store the array as a plain list, as we can't have an array of arrays
 		set users_data($user_login) [array get user_data]
-
-		#an event used by guicontactlist to know when a user changed his nick (or state)
-		::Event::fireEvent contactDataChange abook $user_login
 		
 		#We make this to notify preferences > groups to be refreshed
+		set pgc 1
+	}
+
+	proc setAtomicContactData { user_login fields_list data_list } {
+		global pgc
+		variable users_data
+
+		set fields_list [string tolower $fields_list]
+
+		if { [info exists users_data($user_login)] } {
+			array set user_data $users_data($user_login)
+		} else {
+			array set user_data [list]
+		}
+
+		# This loop iterates over the lists of fields and data, so when it finds that one of
+		# the fields has to do with visual information, it throws an event and breaks the loop
+		foreach field $fields_list data $data_list {
+			if { [lsearch -exact $::abook::VisualData $field] > -1 } {
+				if { [info exists user_data($field)] && $user_data($field) != $data } {
+					puts stdout "ATTENTION! Visual Data has changed! Redraw CL! $field - $data"
+					::Event::fireEvent contactDataChange abook $user_login
+					break
+				} elseif { ![info exists user_data($field)] && $data != ""} {
+					puts stdout "ATTENTION! Visual Data has changed! Redraw CL! $field - $data"
+					::Event::fireEvent contactDataChange abook $user_login
+					break
+				}
+			}
+		}
+
+		# This other loop iterates over the entire lists, replacing the value in user_data(array)
+		# if needed. There are two different loops because this one cannot be broke.
+		foreach field $fields_list data $data_list {
+			if { $data == "" } {
+				if { [info exists user_data($field)] } {
+					unset user_data($field)
+				}
+			} else {
+				#post event for amsnplus
+				set evPar(data) data
+				::plugins::PostEvent parse_nick evPar
+				set user_data($field) $data
+			}
+		}
+
+		set users_data($user_login) [array get user_data]
 		set pgc 1
 	}
 
@@ -1235,20 +1295,14 @@ namespace eval ::abookGui {
 	
 		set nbIdent [$w.nb getframe userdata]
 		set nbIdent [$nbIdent.sw.sf getframe]
-		::abook::setContactData $email customnick [$nbIdent.customnick.ent get]
-		::abook::setContactData $email customfnick [$nbIdent.customfnick.ent get]
-		::abook::setContactData $email cust_p4c_name [$nbIdent.ycustomfnick.ent get]
-		::abook::setContactData $email customcolor [set colorval_$email]
 
-		#an event used by guicontactlist to know when a nick changed
-		after 500 ::Event::fireEvent contactNickChange abook $email
+		# Store custom display information options
+		::abook::setAtomicContactData $email [list customnick customfnick cust_p4c_name customcolor] \
+			[list [$nbIdent.customnick.ent get] [$nbIdent.customfnick.ent get] [$nbIdent.ycustomfnick.ent get] [set colorval_$email]]
 
-		
-		#Store custom notification options
-		::abook::setContactData $email notifyonline [set ::notifyonline($email)]
-		::abook::setContactData $email notifyoffline [set ::notifyoffline($email)]
-		::abook::setContactData $email notifystatus [set ::notifystatus($email)]
-		::abook::setContactData $email notifymsg [set ::notifymsg($email)]
+		# Store custom notification options
+		::abook::setAtomicContactData $email [list notifyonline notifyoffline notifystatus notifymsg] \
+			[list [set ::notifyonline($email)] [set ::notifyoffline($email)] [set ::notifystatus($email)] [set ::notifymsg($email)]]
 		
 		destroy $w
 		unset colorval_$email

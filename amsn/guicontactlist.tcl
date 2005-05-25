@@ -13,12 +13,9 @@
 # * ... cfr. "TODO:" msgs in code
 
 
-
-
-
 namespace eval ::guiContactList {
 	namespace export drawCL
-	
+
 	#//////////////////////////////////////////////////////////////////////////////
 	# guiContactList (action [id] [varlist])
 	# Data Structure for Contact List elements, linked list style :
@@ -172,14 +169,11 @@ namespace eval ::guiContactList {
 
 		#register events
 #TODO:	* here we should register all needed events
-	 ::Event::registerEvent contactDataChange all ::guiContactList::contactChanged
-
-#	 ::Event::registerEvent contactNickChange all ::guiContactList::contactChanged
-#	 ::Event::registerEvent contactStateChange all ::guiContactList::contactChanged
-	 ::Event::registerEvent blockedContact all ::guiContactList::contactChanged
-	 ::Event::registerEvent unblockedContact all ::guiContactList::contactChanged
-	 ::Event::registerEvent movedContact all ::guiContactList::contactChanged
-	 ::Event::registerEvent addedUser all ::guiContactList::contactChanged
+		::Event::registerEvent contactDataChange all ::guiContactList::contactChanged
+		::Event::registerEvent blockedContact all ::guiContactList::contactChanged
+		::Event::registerEvent unblockedContact all ::guiContactList::contactChanged
+		::Event::registerEvent movedContact all ::guiContactList::contactChanged
+		::Event::registerEvent addedUser all ::guiContactList::contactChanged
 
 
 

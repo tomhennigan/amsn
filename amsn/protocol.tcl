@@ -3355,8 +3355,8 @@ proc cmsn_change_state {recv} {
 	if {$substate == "FLN"} {
 
 		#Register last logout, last seen and notify it in the events
-		::abook::setContactData $user last_logout [clock format [clock seconds] -format "%D - %H:%M:%S"]
-		::abook::setContactData $user last_seen [clock format [clock seconds] -format "%D - %H:%M:%S"]
+		::abook::setAtomicContactData $user [list last_logout last_seen] \
+			[list [clock format [clock seconds] -format "%D - %H:%M:%S"] [clock format [clock seconds] -format "%D - %H:%M:%S"]]
 		::log::eventdisconnect $custom_user_name
 
 
