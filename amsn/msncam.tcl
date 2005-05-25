@@ -1136,17 +1136,10 @@ namespace eval ::CAMGUI {
 				setObjOption $sid grab_proc "Grab_Windows"
 
 			} elseif { [set ::tcl_platform(os)] == "Darwin" } {
-				if { ![winfo exists .grabber] } {
-					toplevel .grabber
-					wm protocol .grabber WM_DELETE_WINDOW "::CAMGUI::CloseGrabberWindowMac"
-				}
 				#Add grabber to the window
-				set grabber [seqgrabber $grabber -height 240]
-				pack $grabber
-				catch {$grabber configure -volume 0}
-				#Add button to change settings
-				button .grabber.settings -command "::CAMGUI::ChooseDeviceMac" -text "Change video settings"
-				pack .grabber.settings
+				if {![::CAMGUI::CreateGrabberWindowMac]} {
+					return
+				}
 				setObjOption $sid grab_proc "Grab_Mac"
 
 			} elseif { [set ::tcl_platform(os)] == "Linux" } {
@@ -1295,16 +1288,59 @@ namespace eval ::CAMGUI {
 		catch {fileevent $socket writable "::MSNCAM::WriteToSock $socket"}
 
 	}
-
+	
 	proc ImageReady_Mac {w img } {
 		set socket [getObjOption $img socket]
 		set encoder [getObjOption $img encoder]
 		if { $socket == "" || $encoder == "" } { return }
 		::MSNCAM::SendFrame $socket $encoder $img
 	}
-
+	
+	#We use that proc when we try to create the grabber window
+	proc CreateGrabberWindowMac {} {
+		set w .grabber
+		#Stop if the grabber is already there
+		if { [winfo exists $w] } {
+			return 1
+		}
+		
+		toplevel $w
+		wm protocol $w WM_DELETE_WINDOW "::CAMGUI::CloseGrabberWindowMac"
+	
+		#Add grabber to the window
+		#Show message error if it's not possible
+		if { ![catch {seqgrabber $w.seq -height 240} res] } {
+			
+			catch {$w.seq configure -volume 0}
+			pack $w.seq
+					
+			#Add button to change settings
+			button $w.settings -command "::CAMGUI::ChooseDeviceMac" -text "Change video settings"
+			pack $w.settings
+			
+			#Add zoom option
+			label $w.zoomtext -text "[trans zoom]:" -font sboldf
+			spinbox $w.zoom -from 1 -to 5 -increment 0.5 -width 2 -command "$w.seq configure -zoom %s"
+			pack $w.zoomtext
+			pack $w.zoom
+		} else {
+			destroy $w
+			#If it's not possible to create the video frame, show the error
+			::amsn::messageBox "$res" ok error "[trans failed]"
+			return 0
+		}
+		
+		return 1
+	}
+	
+	#This proc is used when someone try to close the grabber window
 	proc CloseGrabberWindowMac {} {
-
+		#If the variable activegrabbers doesn't exist, create one and delete the window
+		if {![info exists ::activegrabbers]} {
+			destroy .grabber
+			set ::activegrabbers 0
+		}
+		
 		#If there's no webcam grabber active, destroy the window
 		if {$::activegrabbers < 1} {
 			destroy .grabber
@@ -1464,17 +1500,8 @@ namespace eval ::CAMGUI {
 	#So we have to verify if it's open, if not we have to create it
 	proc ChooseDeviceMac {} {
 		set grabber .grabber.seq
-		if {![::CAMGUI::IsGrabberValid $grabber]} {
-
-			if { ![winfo exists .grabber] } {
-				toplevel .grabber
-				wm protocol .grabber WM_DELETE_WINDOW "::CAMGUI::CloseGrabberWindowMac"
-			}
-			set grabber [seqgrabber $grabber -height 240]
-			pack $grabber
-			catch {$grabber configure -volume 0}
-			button .grabber.settings -command "::CAMGUI::ChooseDeviceMac" -text "Change video settings"
-			pack .grabber.settings
+		if {![::CAMGUI::CreateGrabberWindowMac]} {
+				return
 		}
 		$grabber videosettings
 	}

@@ -7930,49 +7930,22 @@ proc btimg83 {w {args {}} } {
 #Actually only compatible with QuickTimeTcl, but support for TkVideo could be added
 proc webcampicture {} {
 
-	set w .webcampicture
-	if { [winfo exists $w] } {
-		raise $w
-		return
-	}
-	toplevel $w
-	#Verify if user have QuickTimeTcl
 	if { [info exists quicktimetcl::version] } {
-		#Show webcam picture, if it's not possible destroy close the window
-		if { ![webcamQuickTime $w] } {
-			destroy $w
+		set w .grabber
+		if {![::CAMGUI::CreateGrabberWindowMac]} {
 			return
 		}
-	}
-	#Action button to take the picture
-	button $w.shot -text "[trans takesnapshot]" -command "webcampicture_shot"
-	pack $w.shot
-
-	wm title $w "[trans webcamshot]"
-	moveinscreen $w 30
-}
-
-#Create video frame (seqgrabber) and add zoom option to .webcampicture window
-proc webcamQuickTime {w} {
-	if { ![catch {seqgrabber $w.preview} res] } {
-		#Remove audio on this QuickTimeTCl grabber (I use catch because only the latest version of QTCL support it)
-		catch {$w.preview configure -volume 0}
-		pack $w.preview
-		label $w.zoomtext -text "[trans zoom]:" -font sboldf
-		spinbox $w.zoom -from 1 -to 5 -increment 0.5 -width 2 -command "$w.preview configure -zoom %s"
-		pack $w.zoomtext
-		pack $w.zoom
-		return 1
-	} else {
-		#If it's not possible to create the video frame, show the error
-		::amsn::messageBox "$res" ok error "[trans failed]"
-		return 0
+	
+		#Action button to take the picture
+		button $w.shot -text "[trans takesnapshot]" -command "webcampicture_shot"
+		pack $w.shot
 	}
 }
+
 #Take a photo on the webcam with QuickTimeTCL
-proc webcampictureQuickTime {} {
+proc webcampictureQuickTime {w} {
 	set preview [image create photo]
-	.webcampicture.preview picture $preview
+	$w.seq picture $preview
 	return $preview
 }
 #Create the window to accept or refuse the photo
@@ -7985,7 +7958,7 @@ proc webcampicture_shot {} {
 	toplevel $w
 	#Get the picture if we use QuickTimeTCL
 	if { [info exists quicktimetcl::version] } {
-		set preview [webcampictureQuickTime]
+		set preview [webcampictureQuickTime .grabber]
 	}
 	
 	label $w.stillpreview -image $preview
@@ -8011,7 +7984,7 @@ proc webcampicture_save {preview} {
 	set file "[file join $HOME displaypic webcam{$idx}.jpg]"
 	
 	#We first save it in jpeg
-	$preview write "$file"
+	::picture::Save $preview $file cxjpg
 	
 	#We verify if imagemagick is there
 	if { [catch { exec [::config::getKey convertpath] } res] } {
@@ -8062,7 +8035,7 @@ proc webcampicture_saveas {preview} {
 	set filename [tk_getSaveFile -initialfile $file -initialdir [set ::files_dir]]
 
 	if {$filename != ""} { 
-		::picture::Save $preview $filename
+		::picture::Save $preview $filename cxjpg
 	}
 
 }
