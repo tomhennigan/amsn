@@ -572,7 +572,7 @@ proc OpenCamLogWin { {email ""} } {
 
 	::log::CamLogsByDate $wname $email "1"
 
-	button $wname.buttons.play -text "[trans play]" -command "::CAMGUI::Play $img [file join ${webcam_dir} ${email}.cam]" \
+	button $wname.buttons.play -text "[trans play]" -command "::CAMGUI::Play $img \"[file join ${webcam_dir} ${email}.cam]\"" \
 	    -state $exists
 	button $wname.buttons.pause -text "[trans pause]" -command "::CAMGUI::Pause $img" \
 	    -state $exists
@@ -821,11 +821,12 @@ proc ChangeCamLogToDate { w email widget date } {
 		set exists disabled
 	}
 
-	::CAMGUI::Stop $img
 
 	wm title $w "[trans history] (${email} - $size)"
 
 	set img ${w}_img
+
+	::CAMGUI::Stop $img
 
 	$w.buttons.play configure -command "::CAMGUI::Play $img \"[file join ${webcam_dir} $date ${email}.cam]\"" \
 	    -state $exists
@@ -877,7 +878,6 @@ proc ChangeCamLogWin {w contact widget email} {
 		set size "0Ko"
 	}
 
-	::CAMGUI::Stop $img
 
 	wm title $w "[trans history] (${email} - $size)"
 
@@ -885,7 +885,9 @@ proc ChangeCamLogWin {w contact widget email} {
 
 	set img ${w}_img
 
-	$w.buttons.play configure -command "::CAMGUI::Play $img [file join ${webcam_dir} ${email}.cam]" \
+	::CAMGUI::Stop $img
+
+	$w.buttons.play configure -command "::CAMGUI::Play $img \"[file join ${webcam_dir} ${email}.cam]\"" \
 	    -state $exists
 	$w.buttons.pause configure -command "::CAMGUI::Pause $img" \
 	    -state $exists
