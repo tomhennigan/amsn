@@ -1528,7 +1528,7 @@ namespace eval ::CAMGUI {
 		pack $w.abooklistening -expand true
 		
 		if {[::abook::getDemographicField conntype] == "IP-Restrict-NAT" && [::abook::getDemographicField listening] == "false"} {
-			label $w.abookresult -text "You are firewalled or behind a router!" -font sboldf -foreground red
+			label $w.abookresult -text "You are firewalled or behind a router" -font sboldf -foreground red
 		} else {
 			label $w.abookresult -text "Your ports are well configured" -font sboldf
 		}
@@ -1537,7 +1537,7 @@ namespace eval ::CAMGUI {
 		if {[::CAMGUI::ExtensionLoaded]} {
 			label $w.webcamsn -text "Webcamsn extension is loaded" -font sboldf
 		} else {
-			label $w.webcamsn -text "Webcamsn extension is not loaded. You should compile it inside utils/webcamsn" -font sboldf -foreground red
+			label $w.webcamsn -text "Webcamsn extension is not loaded. You have to compile it." -font sboldf -foreground red
 		}
 		pack $w.webcamsn -expand true -padx 5
 		
@@ -1562,6 +1562,9 @@ namespace eval ::CAMGUI {
 		#Add button to change settings
 		button $w.settings -command "::CAMGUI::ChooseDevice" -text "Change video settings"
 		pack $w.settings
+		set link "http://amsn.sourceforge.net/wiki/tiki-index.php?page=Webcam+In+aMSN"
+		button $w.wiki -command "launch_browser $link" -text "FAQ/Help for Webcam"
+		pack $w.wiki
 		
 		#wm geometry $w 300x150
 		
