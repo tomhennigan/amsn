@@ -7382,7 +7382,12 @@ proc pictureChooseFile { } {
 		if { $cursize != "96x96"} {
 			set convertsize [AskDPSize $cursize]
 		}
+	
 		if { ![catch {convert_image_plus $file displaypic $convertsize} res]} {
+			if {![winfo exists .picbrowser]} {
+				pictureBrowser
+			}
+		
 			set image_name [image create photo -file [::skin::GetSkinFile "displaypic" "[filenoext [file tail $file]].gif"]]
 			.picbrowser.mypic configure -image $image_name
 			set selected_image "[filenoext [file tail $file]].png"
@@ -7409,6 +7414,10 @@ proc pictureChooseFile { } {
 
 proc AskDPSize { cursize } {
 	global done dpsize
+	
+	if {[winfo exists .askdpsize]} {
+		return "96x96"
+	}
 	
 	toplevel .askdpsize
 	
