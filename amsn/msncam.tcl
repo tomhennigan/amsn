@@ -1037,6 +1037,8 @@ namespace eval ::MSNCAM {
 			#This is a test..seems to work well for bad-sized ratio camera
 			if { [image width $img] != "0" || [image height $img] != "0" } {
 				$img configure -width 320 -height 240
+			} else {
+				return
 			}
 			
 		}
