@@ -199,7 +199,7 @@ snit::widgetadaptor pixmapscroll {
 	method Grey { } {
 		$self ChangePalette 32 2
 		set greyed 1
-		bindtags $self ""
+		#bindtags $self "$self all"
 		bind $self <Button-1> ""
 		bind $self <ButtonRelease-1> ""
 	}
@@ -207,7 +207,7 @@ snit::widgetadaptor pixmapscroll {
 	method UnGrey { } {
 		$self ChangePalette 256/256/256 1
 		set greyed 0
-		bindtags $self "Pixmapscroll $self all"
+		#bindtags $self "Pixmapscroll $self all"
 		bind $self <Button-1> "$self PressedImage %x %y"
 		bind $self <ButtonRelease-1> "$self ReleasedImage %x %y"
 	}
