@@ -42,9 +42,9 @@ proc StartLog { email } {
 #
 
 proc CheckLogDate {email} {
-    global log_dir
+    global log_dir webcam_dir
 
-    status_log "Opening file\n"
+    #status_log "Opening file\n"
     create_dir $log_dir
 
     if { ![file exists [file join $log_dir date]] } {
@@ -62,41 +62,55 @@ proc CheckLogDate {email} {
 
     file stat [file join  $log_dir date] datestat
 
-    status_log "stating file $log_dir/date = [array get datestat]\n"
+    #status_log "stating file $log_dir/date = [array get datestat]\n"
 
     set date [clock format $datestat(mtime) -format "%B %Y"]
 
-    status_log "Found date : $date\n" red
+    #status_log "Found date : $date\n" red
 
     if {  $date != [clock format [clock seconds] -format "%B %Y"] } {
-	status_log "Log was begun in a different month, moving logs\n\n" red
+	    status_log "Log was begun in a different month, moving logs\n\n" red
+	    
+	    set to $date
+	    set idx 0
+	    while {[file exists [file join ${log_dir} $to]] } {
+		    status_log "Directory already used.. .bug? anyways, we don't want to overwrite\n"
+		    set to "${date}.$idx"
+		    incr idx
+	    }
+	 	   
+	    set cam_to $date
+	    set idx 0
+	    while {[file exists [file join ${webcam_dir} $cam_to]] } {
+		    status_log "Directory already used.. .bug? anyways, we don't want to overwrite\n"
+		    set cam_to "${date}.$idx"
+		    incr idx
+	    }
 
-	set to $date
-	set idx 0
-	while {[file exists [file join ${log_dir} $to]] } {
-	    status_log "Directory already used.. .bug? anyways, we don't want to overwrite\n"
-	    set to "${date}.$idx"
-	    incr idx
-	}
+	    catch {file delete [file join ${log_dir} date]}
+	    
+	    create_dir [file join ${log_dir} $to]
+	    create_dir [file join ${webcam_dir} $cam_to]
 
-	catch {file delete [file join ${log_dir} date]}
-
-	create_dir [file join ${log_dir} $to]
-
-	foreach file [glob -nocomplain -types f "${log_dir}/*.log"] {
-	    status_log "moving $file\n" blue
-	    file rename $file [file join ${log_dir} $to]
-	}
-	
-	set fd [open "[file join ${log_dir} date]" w]
-	close $fd
-	
-
-
+	    foreach file [glob -nocomplain -types f "${log_dir}/*.log"] {
+		    status_log "moving $file\n" blue
+		    file rename $file [file join ${log_dir} $to]
+	    }
+	   	   
+	    foreach file [glob -nocomplain -types f "${webcam_dir}/*.cam"] {
+		    status_log "moving $file\n" blue
+		    file rename $file [file join ${webcam_dir} $cam_to]
+	    }
+ 
+	    set fd [open "[file join ${log_dir} date]" w]
+	    close $fd
+	    
+	    
+	    
     }
-
-    return [open "[file join ${log_dir} ${email}.log]" a+]
-
+	
+	return [open "[file join ${log_dir} ${email}.log]" a+]
+	
 }
 
 
@@ -478,6 +492,126 @@ proc OpenLogWin { {email ""} } {
 }
 
 
+proc OpenCamLogWin { {email ""} } {
+
+	global webcam_dir langenc logvar
+
+	#Get all the contacts
+	foreach contact [::abook::getAllContacts] {
+		#Selects the contacts who are in our list and adds them to the contact_list
+		if {[string last "FL" [::abook::getContactData $contact lists]] != -1} {
+			lappend contact_list $contact
+		}
+	}
+	#Sorts contacts
+	set sortedcontact_list [lsort -dictionary $contact_list]
+
+	#Add the eventlog
+	lappend sortedcontact_list eventlog
+
+	#If there is no email defined, we remplace it by the first email in the dictionary order
+	if {$email == ""} {
+		set email [lindex $sortedcontact_list 0]
+	}
+	
+
+	set wname [::log::cam_wname $email]
+
+	if { [catch {toplevel ${wname} -borderwidth 0 -highlightthickness 0 } res ] } {
+        	raise ${wname}
+        	focus ${wname}
+		wm deiconify ${wname}
+        	return 0
+      	}
+
+	wm group ${wname} .
+
+	if { [file exists [file join ${webcam_dir} ${email}.cam]] } {
+		set size "[::amsn::sizeconvert [file size "[file join ${webcam_dir} ${email}.cam]"]]o"
+		set exists normal
+	} else {
+		set exists disabled
+		set size "0Ko"
+	}
+
+	wm title $wname "[trans webcamhistory] (${email} - $size)"
+  
+	frame $wname.top
+	#No ugly blue frame on Mac OS X, system already put a border around windows
+	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		frame $wname.blueframe
+	} else {
+		frame $wname.blueframe -background [::skin::getKey background1]
+	}
+	frame $wname.blueframe.log -class Amsn -borderwidth 0
+      	frame $wname.buttons -class Amsn
+
+	set img [image create photo ${wname}_img -w 320 -h 240]
+      	label $wname.blueframe.log.l -image $img
+  
+
+
+	frame $wname.top.contact  -class Amsn -borderwidth 0
+	combobox::combobox $wname.top.contact.list -editable true -highlightthickness 0 -width 22 -bg #FFFFFF -font splainf
+	$wname.top.contact.list list delete 0 end
+	foreach contact $sortedcontact_list {
+		$wname.top.contact.list list insert end $contact
+	}
+
+	#Get all the list
+ 	set list [$wname.top.contact.list list get 0 end]
+ 	#Do a search in that list to find where is exactly the email we need
+	set exactMatch [lsearch -exact $list $email]
+  	#Select the email in the list when we open the window with the result of the search
+	$wname.top.contact.list select $exactMatch
+	$wname.top.contact.list configure -command "::log::ChangeCamLogWin $wname $email"
+	$wname.top.contact.list configure -editable false
+
+	pack $wname.top.contact.list -side left
+	pack $wname.top.contact -side left
+
+	::log::CamLogsByDate $wname $email "1"
+
+	button $wname.buttons.play -text "[trans play]" -command "::CAMGUI::Play $img [file join ${webcam_dir} ${email}.cam]" \
+	    -state $exists
+	button $wname.buttons.pause -text "[trans pause]" -command "::CAMGUI::Pause $img" \
+	    -state $exists
+	button $wname.buttons.stop -text "[trans stop]" -command "::CAMGUI::Stop $img" \
+	    -state $exists
+
+	button $wname.buttons.close -text "[trans close]" -command "destroy $wname"
+#	button $wname.buttons.stats -text "[trans stats]" -command "::log::cam_stats"
+
+  	button $wname.buttons.clear -text "[trans clearlog]" \
+				    -command "if { !\[winfo exists $wname.top.date.list\] } { \
+				                    set date \".\" \
+				              } else {
+				                    set date \[$wname.top.date.list list get \[$wname.top.date.list curselection\]\]\
+					      }
+                                              if { \[::log::ClearCamLog $email \"\$date\"\] } { 
+				                    destroy $wname
+			         	      }" \
+	                            
+	
+
+
+      	
+	pack $wname.top -side top -fill x
+	pack $wname.blueframe.log.l -side left -expand true -fill both
+ 	pack $wname.blueframe.log -side top -expand true -fill both -padx 4 -pady 4
+	pack $wname.blueframe -side top -expand true -fill both
+	pack $wname.buttons.play -padx 0 -side left
+	pack $wname.buttons.pause -padx 0 -side left
+	pack $wname.buttons.stop -padx 0 -side left
+#	pack $wname.buttons.stats -padx 0 -side right
+	pack $wname.buttons.clear -padx 0 -side right
+	pack $wname.buttons.close -padx 0 -side right
+	pack $wname.buttons -side bottom -fill x -pady 3
+	bind $wname <<Escape>> "destroy $wname"
+	bind $wname <Destroy> "::CAMGUI::Stop $img; catch {image delete $img}"
+	moveinscreen $wname 30
+}
+
 proc wname {email} {
 
 	set wname [split $email "@ ."]
@@ -486,6 +620,13 @@ proc wname {email} {
 	return $wname
 }
 
+proc cam_wname {email} {
+
+	set wname [split $email "@ ."]
+	set wname [join $wname "_"]
+	set wname ".${wname}_cam"
+	return $wname
+}
 
 proc LogsByDate {wname email init} {
 
@@ -534,6 +675,52 @@ proc LogsByDate {wname email init} {
 	}
 }
 
+proc CamLogsByDate {wname email init} {
+
+	global webcam_dir
+
+	#If we store logs by date
+	if { [::config::getKey logsbydate] == 1 } {
+		#If this is the first log we view
+		if {$init == 1} {
+			frame $wname.top.date  -class Amsn -borderwidth 0
+			combobox::combobox $wname.top.date.list -editable true -highlightthickness 0 -width 22 -bg #FFFFFF -font splainf
+		}			
+		set date_list ""
+		set erdate_list ""
+		$wname.top.date.list list delete 0 end
+		foreach date [glob -nocomplain -types f [file join ${webcam_dir} * ${email}.cam]] {
+			set date [getfilename [file dirname $date]]
+			status_log "Found date $date for log of $email\n"
+			if { [catch { clock scan "1 $date"}] == 0 } {
+				lappend date_list  [clock scan "1 $date"]
+			} else {
+				lappend erdate_list $date
+			}
+		}
+		set sorteddate_list [lsort -integer -decreasing $date_list]
+
+		$wname.top.date.list list insert end "[trans currentdate]"
+		foreach date $sorteddate_list {
+			status_log "Adding date [clock format $date -format "%B"] [clock format $date -format "%Y"]\n" blue
+			$wname.top.date.list list insert end "[clock format $date -format "%B"] [clock format $date -format "%Y"]"
+		}
+		if { $erdate_list != "" } {
+			$wname.top.date.list list insert end "_ _ _ _ _"
+			foreach date $erdate_list {
+				status_log "Adding Erroneous date $date\n" red
+				$wname.top.date.list list insert end "$date"
+			}
+		}
+
+		$wname.top.date.list select 0
+
+		$wname.top.date.list configure -command "::log::ChangeCamLogToDate $wname $email"
+		$wname.top.date.list configure -editable false
+		pack $wname.top.date.list -side right
+		pack $wname.top.date -side right
+	}
+}
 
 proc Fileexist {email date} {
 
@@ -612,6 +799,41 @@ proc ChangeLogToDate { w email widget date } {
 	ParseLog $w $logvar
 
 }
+proc ChangeCamLogToDate { w email widget date } {
+
+	global webcam_dir
+
+	status_log "Changing log for $w to $date\n\n"
+
+	if { $date == "[trans currentdate]" } {
+		set date "."
+	}
+	if { $date == "_ _ _ _ _" } {
+		return
+	}
+
+
+	if { [file exists [file join ${webcam_dir} $date ${email}.cam]] } {
+		set size "[::amsn::sizeconvert [file size "[file join ${webcam_dir} $date ${email}.cam]"]]o"
+		set exists normal
+	} else {
+		set size "0Ko"
+		set exists disabled
+	}
+
+	::CAMGUI::Stop $img
+
+	wm title $w "[trans history] (${email} - $size)"
+
+	set img ${w}_img
+
+	$w.buttons.play configure -command "::CAMGUI::Play $img \"[file join ${webcam_dir} $date ${email}.cam]\"" \
+	    -state $exists
+	$w.buttons.pause configure -command "::CAMGUI::Pause $img" \
+	    -state $exists
+	$w.buttons.stop configure -command "::CAMGUI::Stop $img" \
+	    -state $exists
+}
 
 proc ChangeLogWin {w contact widget email} {
 
@@ -641,7 +863,39 @@ proc ChangeLogWin {w contact widget email} {
 
 }	
 
+proc ChangeCamLogWin {w contact widget email} {
 
+	global webcam_dir date
+
+	status_log "Switch to $email\n\n" blue
+
+	if { [file exists [file join ${webcam_dir} ${email}.cam]] } {
+		set size "[::amsn::sizeconvert [file size "[file join ${webcam_dir} ${email}.cam]"]]o"
+		set exists normal
+	} else {
+		set exists disabled
+		set size "0Ko"
+	}
+
+	::CAMGUI::Stop $img
+
+	wm title $w "[trans history] (${email} - $size)"
+
+	::log::CamLogsByDate $w $email "0"	
+
+	set img ${w}_img
+
+	$w.buttons.play configure -command "::CAMGUI::Play $img [file join ${webcam_dir} ${email}.cam]" \
+	    -state $exists
+	$w.buttons.pause configure -command "::CAMGUI::Pause $img" \
+	    -state $exists
+	$w.buttons.stop configure -command "::CAMGUI::Stop $img" \
+	    -state $exists
+
+
+	catch {$w.top.date.list select 0}
+
+}	
 #///////////////////////////////////////////////////////////////////////////////
 # ParseLog (wname logvar)
 # Decodes the log file and writes to log window
@@ -841,6 +1095,26 @@ proc ClearLog { email date } {
 	return 1
 }
 
+proc ClearCamLog { email date } {
+
+
+	status_log "ClearCamLog $email $date\n\n"
+	if { $date == "[trans currentdate]" } {
+		set date "."
+	}
+	if { $date == "_ _ _ _ _" } {
+		return 0
+	}
+
+
+	set answer [::amsn::messageBox "[trans confirm]" yesno question [trans clearlog]]
+	if {$answer == "yes"} {	
+		global webcam_dir
+	
+		catch { file delete [file join ${webcam_dir} $date ${email}.cam] }
+	}
+	return 1
+}
 
 #///////////////////////////////////////////////////////////////////////////////
 # ClearAllLogs ()
@@ -858,6 +1132,20 @@ proc ClearAllLogs {} {
 
 		catch { file delete -force ${log_dir} }
 		create_dir $log_dir
+	}
+
+}
+proc ClearAllCamLogs {} {
+	
+	set parent "."
+	catch {set parent [focus]}
+	set answer [::amsn::messageBox "[trans confirm]" yesno question [trans clearwebcamlogs] $parent]
+	if {$answer == "yes"} {
+
+		global webcam_dir
+
+		catch { file delete -force ${webcam_dir} }
+		create_dir $webcam_dir
 	}
 
 }

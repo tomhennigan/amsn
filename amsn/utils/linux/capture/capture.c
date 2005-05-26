@@ -999,8 +999,6 @@ int Capture_AccessSettings _ANSI_ARGS_((ClientData clientData,
 	}
 
 	if ( setting & SETTINGS_SET) {
-	  vp.depth = 24;
-	  vp.palette = capItem->palette;
 	  if (ioctl(capItem->fvideo, VIDIOCSPICT, &vp)) {
 	    perror("VIDIOCSPICT");
 	    return TCL_ERROR;

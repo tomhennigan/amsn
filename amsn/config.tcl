@@ -294,6 +294,7 @@ namespace eval ::config {
 		::config::setKey adverts 0				;#Enable banner advertisements
 		::config::setKey displaypic "amsn.png"                   ;# Display picture
 		::config::setKey getdisppic 1
+		::config::setKey webcamlogs 0
 
 	}
 
@@ -950,7 +951,7 @@ proc LoginList { action age {email ""} {lock ""} } {
 # email : email of the new profile/login
 proc ConfigChange { window email } {
 	status_log "ConfigChange: $email\n" blue
-	global HOME HOME2 password log_dir lockSock
+	global HOME HOME2 password log_dir webcam_dir lockSock
 
 	if { $email != "" } {
 		status_log "ConfigChange: Valid email\n" green
@@ -1010,6 +1011,8 @@ proc ConfigChange { window email } {
 
 					LoginList add 0 $email
 					set log_dir "[file join ${HOME} logs]"
+					set webcam_dir "[file join ${HOME} webcam]"
+					create_dir $webcam_dir
 
 					# port isn't taken or port taken by other program, meaning profile ain't locked
 					# let's setup the new lock
@@ -1042,7 +1045,7 @@ proc ConfigChange { window email } {
 # Switches between default and profiled mode, called from radiobuttons
 # value : If 1 use profiles, if 0 use default profile
 proc SwitchProfileMode { value } {
-	global lockSock HOME HOME2 log_dir loginmode
+	global lockSock HOME HOME2 log_dir webcam_dir loginmode
 
 	if { $value == 1 } {
 		if { $HOME == $HOME2 } {
@@ -1097,6 +1100,7 @@ proc SwitchProfileMode { value } {
 		config::setKey login ""
 		load_config
 		set log_dir ""
+		set webcam_dir ""
 
 		# Set variables for default profile
 		::config::setKey save_password 0
@@ -1114,7 +1118,7 @@ proc SwitchProfileMode { value } {
 # Creates a new profile
 # email : email of new profile
 proc CreateProfile { email } {
-	global HOME HOME2 log_dir password lockSock loginmode
+	global HOME HOME2 log_dir webcam_dir password lockSock loginmode
 
 	if { [LoginList exists 0 $email] == 1 } {
 		msg_box [trans profileexists]
@@ -1139,6 +1143,8 @@ proc CreateProfile { email } {
 	create_dir $newHOMEdir
 	set log_dir "[file join ${newHOMEdir} logs]"
 	create_dir $log_dir
+	set webcam_dir "[file join ${newHOMEdir} webcam]"
+	create_dir $webcam_dir
 
 	# Load default config initially
 	file copy -force [file join $HOME2 config.xml] $newHOMEdir

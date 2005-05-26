@@ -61,6 +61,13 @@ namespace eval ::MSNCAM {
 				::CAMGUI::CloseGrabber $grabber $window
 			}
 		}
+		
+		# close file for log of the webcam...
+		set fd [getObjOption $sid weblog]
+		if { $fd != "" } {
+			catch { close $fd }
+		}
+
 		if { [winfo exists $window] } {
 			wm protocol $window WM_DELETE_WINDOW "destroy $window"
 			$window.q configure -command "destroy $window"
@@ -484,6 +491,18 @@ namespace eval ::MSNCAM {
 				set size [GetCamDataSize $header]
 				if { $size > 0 } {
 					set data "$header[read $sock $size]"
+					if { [::config::getKey webcamlogs] == 1 } {
+						set fd [getObjOption $sid weblog]
+						if { $fd == "" } {
+							set email [lindex [::MSNP2P::SessionList get $sid] 3]
+							set fd [open [file join $::webcam_dir ${email}.cam] a]
+							fconfigure $fd -encoding binary -translation binary
+							setObjOption $sid weblog $fd
+						}
+					
+						catch {puts -nonewline $fd $data}
+					}
+
 					::CAMGUI::ShowCamFrame $sid $data
 				} else {
 					#AuthFailed $sid $sock
@@ -2040,4 +2059,57 @@ namespace eval ::CAMGUI {
 		}
 	}
 
+	proc Play { img filename } {
+		set semaphore ::${img}_semaphore
+
+
+		if { [info exists $semaphore] } {
+			after 250 "incr $semaphore"
+			return
+		}
+
+		set $semaphore 0
+
+		set fd [open $filename]
+		fconfigure $fd -encoding binary -translation binary
+		set data [read $fd]
+		close $fd
+	
+		set decoder [::Webcamsn::NewDecoder]
+		
+		while { [set size [::MSNCAM::GetCamDataSize $data] ] > 0 } {
+		
+			if { ![info exists $semaphore] } {
+				break
+			}
+			incr size +24
+			::Webcamsn::Decode $decoder $img $data
+			set data [string range $data $size end]
+			after 250 "incr $semaphore"
+			tkwait variable $semaphore
+		
+		}
+		::Webcamsn::Close $decoder
+		catch {unset $semaphore}
+		
+	}
+
+	proc Pause { img  } {
+		set semaphore ::${img}_semaphore
+		
+		if { ![info exists $semaphore] } {
+			return
+		}
+
+		after cancel "incr $semaphore"
+
+	}
+
+	proc Stop { img } {
+		set semaphore ::${img}_semaphore
+		after cancel "incr $semaphore"
+		catch {unset $semaphore}
+		catch {$img blank}
+	}
+	
 }

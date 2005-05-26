@@ -486,7 +486,7 @@ namespace eval ::MSNP2P {
 			}
 			return
 		}
-		status_log "ReadData : data : $data"
+		#status_log "ReadData : data : $data"
 		# Check if this is an INVITE message
 		if { [string first "INVITE MSNMSGR" $data] != -1 } {
 			#status_log "Got an invitation!\n" red

@@ -44,7 +44,7 @@ appearoff Appear offline
 areacode Area Code
 aretyping $1 are typing a message
 askeachtime Ask each time
-askwebcam Ask this user to see his/her webcam
+askwebcam Ask this user to send his/her webcam
 author Author
 autoaccepted File transfer accepted automatically
 autoacceptft Automatically accept File Transfer requests
@@ -128,6 +128,7 @@ clear Clear
 clearlog2 Clear the history for all your contacts
 clearlog3 Clear All Logs
 clearlog Clear Log
+clearwebcamlogs Clear All Webcam logs
 clicktoadd Click on Add button for a new note
 clicktologin Click here to log in
 clientcaps Send x-clientcaps packet to others clients
@@ -374,6 +375,7 @@ logsbydate Sort logs by date (View history loads alot faster)
 logsin has just logged in
 logsmileys Displays Emoticons and Smileys in aMSN's history windows
 logsout has just logged out
+logwebcam Save all webcam sessions to aMSN's History for future viewing
 longnick Your nickname is longer than 130 characters. This is not officially supported by the MSN protocol. Are you sure you want to set it?
 longp4c Your Friendly Name is longer than 130 characters. The Friendly Name that will appear on the official MSN client will be $1. Are you sure you want to set it?
 lprivtoconf Private chat turned into Conference with $1
@@ -475,12 +477,14 @@ p4contextprefix Prefix P4-Context senders with this string
 pager Pager
 pass Password
 paste Paste
+pause Pause
 personal Personal
 phone Phone
 phones Phone numbers
 picbrowser Display Pictures browser
 picfile Picture File (GIF < 500 x 500)
 picstatus Picture Alarm
+play Play
 playing Playing: $1
 pluginselector Select Plugins
 port Port
@@ -615,6 +619,7 @@ statenewtext Please fill the required information to create \n your new Personal
 statenick Custom nick (leave blank for no change)
 stats Statistics
 status Status
+stop Stop
 stopalarm Stop Alarm
 storenickname Return to original nickname after a custom state with custom nickname
 strictfonts Restrict all fonts' size to the one I selected (Status bar and others)
@@ -681,6 +686,7 @@ viewprofile View Profile
 view View
 webcamshot Webcam Shot
 webcaminvite $1 invited you to start an webcam session, but aMSN does not support this feature.
+webcamhistory View Webcam sessions
 whatsize The image you have requested is not the normal display picture\nsize (96x96) What size would you like the image to be displayed as?
 willjoin Waiting $1 joins conversation
 winkreceived You have received a Wink from $1. This feature is not currently supported by aMSN.

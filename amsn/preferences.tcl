@@ -1928,9 +1928,10 @@ proc Preferences { { settings "personal"} } {
 	pack $lfname.plog1 -anchor nw -side left
 	checkbutton $lfname.log -text "[trans keeplog2]" -onvalue 1 -offvalue 0 -variable [::config::getVar keep_logs]
 	checkbutton $lfname.date -text "[trans logsbydate]" -onvalue 1 -offvalue 0 -variable [::config::getVar logsbydate]
+	checkbutton $lfname.camlog -text "[trans logwebcam]" -onvalue 1 -offvalue 0 -variable [::config::getVar webcamlogs]
 	pack $lfname.log -anchor w
+	pack $lfname.camlog -anchor w
 	pack $lfname.date -anchor w
-
 
 #/////////TODO Add style log feature
 #	frame $lfname.2 -class Degt
@@ -1949,8 +1950,10 @@ proc Preferences { { settings "personal"} } {
 	frame $lfname.1 -class Degt
 	label $lfname.1.lclear -text "[trans clearlog2]" -padx 10
 	button $lfname.1.bclear -text [trans clearlog3] -font sboldf -command "::log::ClearAllLogs"
+	button $lfname.1.camclear -text [trans clearwebcamlogs] -font sboldf -command "::log::ClearAllCamLogs"
 	pack $lfname.1.lclear -side left	
 	pack $lfname.1.bclear -side right -padx 15
+	pack $lfname.1.camclear -side right -padx 15
 	pack $lfname.1 -anchor w -side top -expand 0 -fill x
 #////////TODO: Add logs expiry feature
 	## Logs Expiry Frame ##

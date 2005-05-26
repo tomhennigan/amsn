@@ -1175,8 +1175,8 @@ namespace eval ::ChatWindow {
 		}
 
 		#TODO: We always want these menus and bindings enabled? Think it!!
-		$msnmenu entryconfigure 3 -state normal
-		$actionsmenu entryconfigure 8 -state normal
+#		$msnmenu entryconfigure 3 -state normal
+#		$actionsmenu entryconfigure 8 -state normal
 
 
 		return $mainmenu
@@ -1373,6 +1373,8 @@ namespace eval ::ChatWindow {
 				-command "::amsn::ShowChatList \"[trans history]\" \[::ChatWindow::getCurrentTab $w\] ::log::OpenLogWin" \
 				-accelerator "Ctrl+H"
 		}
+		$actionsmenu add command -label "[trans webcamhistory]" \
+		    -command "::amsn::ShowChatList \"[trans webcamhistory]\" \[::ChatWindow::getCurrentTab $w\] ::log::OpenCamLogWin" 
 		$actionsmenu add separator
 		$actionsmenu add command -label "[trans invite]..." \
 			-command "::amsn::ShowInviteList \"[trans invite]\" \[::ChatWindow::getCurrentTab $w\]"

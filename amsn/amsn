@@ -271,7 +271,9 @@ if { [catch {package require tls}] } {
 
 #create_dir $HOME
 set log_dir "[file join ${HOME} logs]"
-#create_dir $log_dir
+set webcam_dir "[file join ${HOME} webcam]"
+create_dir $log_dir
+create_dir $webcam_dir
 
 NS create ns -stat d -server [split [::config::getKey start_ns_server] ":"]
 
