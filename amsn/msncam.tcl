@@ -1453,8 +1453,12 @@ namespace eval ::CAMGUI {
 			set ::webcamsn_loaded 0
 			return 0
 		} else {
-			set ::webcamsn_loaded 1
-			return 1
+			foreach lib [info loaded] {
+				if { [lindex $lib 1] == "Webcamsn" } {
+					set ::webcamsn_loaded 1
+					return 1
+				} 
+			}
 		}
 	}
 
@@ -1503,35 +1507,61 @@ namespace eval ::CAMGUI {
 			return 1
 		}
 		toplevel $w
+		
 		label $w.webcampic -image [::skin::loadPixmap butwebcam]
+		pack $w.webcampic
+		
 		frame $w.abooktype
 		label $w.abooktype.text -text "Type" -font sboldf
 		label $w.abooktype.abook -text [::abook::getDemographicField conntype]
 		frame $w.abooklistening
 		label $w.abooklistening.text -text "Listening" -font sboldf
 		label $w.abooklistening.abook -text [::abook::getDemographicField listening]
-		pack $w.webcampic
+		
 		pack $w.abooktype.text  -padx 5 -side left
 		pack $w.abooktype.abook -padx 5 -side right
 		pack $w.abooktype -expand true
-		
 		pack $w.abooklistening.text -padx 5 -side left
 		pack $w.abooklistening.abook -padx 5 -side right
 		pack $w.abooklistening -expand true
 		
 		if {[::abook::getDemographicField conntype] == "IP-Restrict-NAT" && [::abook::getDemographicField listening] == "false"} {
-			label $w.abookresult -text "You are firewalled or behind a router!" -font sboldf
+			label $w.abookresult -text "You are firewalled or behind a router!" -font sboldf -foreground red
 		} else {
 			label $w.abookresult -text "Your ports are well configured" -font sboldf
 		}
-		
 		pack $w.abookresult -expand true -padx 5
+		
+		if {[::CAMGUI::ExtensionLoaded]} {
+			label $w.webcamsn -text "Webcamsn extension is loaded" -font sboldf
+		} else {
+			label $w.webcamsn -text "Webcamsn extension is not loaded. You should compile it inside utils/webcamsn" -font sboldf -foreground red
+		}
+		pack $w.webcamsn -expand true -padx 5
+		
+		if { [set ::tcl_platform(platform)] == "windows" } {
+			set extension "tkvideo"
+		} elseif { [set ::tcl_platform(os)] == "Darwin" } {
+			set extension "QuickTimeTcl"
+		} elseif { [set ::tcl_platform(os)] == "Linux" } {
+			set extension "capture"
+		} else {
+			set extension "Unknown"
+		}
+		
+		
+		if {[::CAMGUI::CaptureLoaded]} {
+			label $w.capture -text "Capture extension -$extension- is loaded" -font sboldf
+		} else {
+			label $w.capture -text "Capture extension -$extension- is not loaded, you have to compile it" -font sboldf -foreground red
+		}
+		pack $w.capture -expand true -padx 5
 		
 		#Add button to change settings
 		button $w.settings -command "::CAMGUI::ChooseDevice" -text "Change video settings"
 		pack $w.settings
 		
-		wm geometry $w 300x150
+		#wm geometry $w 300x150
 		
 		moveinscreen $w 30
 		
