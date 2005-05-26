@@ -61,11 +61,11 @@ snit::widgetadaptor pixmapbutton {
 	option -bd
 	option -background -default white
 	option -foreground -default black -cgetmethod getOption -configuremethod changeForeground
-	option -fg -cgetmethod getOption -configuremethod changeForeground
+	option -fg -cgetmethod getOption -configuremethod changeForeground -default black
 	option -text -configuremethod changeText -cgetmethod getText
 	option -compound -default "center"
 	option -font -default "" -configuremethod changeFont
-	option -width
+	option -width -configuremethod NewSize
 	option -height
 	option -bg
 	option -class
@@ -76,7 +76,7 @@ snit::widgetadaptor pixmapbutton {
 	option -activeforeground -default darkgreen
 	option -highlightthickness -default 0
 	option -command -default ""
-	option -default -default "normal"
+	option -default -default "normal" -configuremethod changeDefault
 	option -state -default "normal"
 	option -emblemimage -default ""
 	option -emblempos -default [list right center]
@@ -157,10 +157,8 @@ snit::widgetadaptor pixmapbutton {
 		bind $self <Button-1> "$self ButtonPressed"
 		bind $self <ButtonRelease-1> "$self ButtonReleased"
 		bind $self <KeyPress-Return> "$self ButtonPressed;$self ButtonReleased"
+		bind $self <KeyPress-KP_Enter> "$self ButtonPressed;$self ButtonReleased"
 		
-		if { $options(-default) == "active" } {
-			focus $self
-		}
 		#-------------------------
 
 		
@@ -172,6 +170,19 @@ snit::widgetadaptor pixmapbutton {
 			$emblemimage_disabled copy $options(-emblemimage) -shrink
 			$emblemimage_disabled configure -palette 32
 			$button create image 0 0 -anchor nw -image $options(-emblemimage) -disabledimage $emblemimage_disabled -tag emblem
+		}
+		
+		switch $options(-default) {
+			"normal" {
+				$button create rectangle $border_left $border_top \
+				[expr $buttonwidth - $border_right] [expr $buttonheight - $border_bottom] \
+				-outline $options(-fg) -dash "1 2" -state hidden -tag ring
+			}
+			"active" {
+				$button create rectangle $border_left $border_top \
+				[expr $buttonwidth - $border_right] [expr $buttonheight - $border_bottom] \
+				-outline $options(-fg) -dash "1 2" -state normal -tag ring
+			}
 		}
 		
 		if { $options(-font) == "" } {
@@ -241,6 +252,9 @@ snit::widgetadaptor pixmapbutton {
 		set buttonwidth [winfo width $self]
 		set buttonheight $height
 		
+		$button coords ring $border_left $border_top \
+				[expr $buttonwidth - $border_right] [expr $buttonheight - $border_bottom]
+				
 		set txtposx [expr $buttonwidth / 2]
 		set txtposy [expr $buttonheight / 2]
 		
@@ -497,35 +511,55 @@ snit::widgetadaptor pixmapbutton {
 	}
 
 
-	method getOption {option} {
-		if { [string equal $option "-bd"] } {
-			set option "-borderwidth"
-		} elseif { [string equal $option "-fg"] } {
-			set option "-foreground"
-		} elseif { [string equal $option "-bc"] } {
-			set option "-bordercolor"
-		}
-
-		return $options($option)
-	}
-
-	method changeForeground {option value} {
-		$button itemconfigure txt -fill $value
-		set options(-foreground) $value
-	}
-
 	method invoke { } {
 		eval $options(-command)
 	}
+	
+	#Todo: implement this feature.
+	method flash { }  {
+		
+	}
 
-	method SetSize { } {
-		set buttonwidth [expr [font measure $options(-font) -displayof $self $options(-text)] + [font measure $options(-font) -displayof $self "    "]]
-		set buttonheight [image height $img]
-		if { [font configure $options(-font) -size] > [image height $img] } { set height [expr [font configure $options(-font) -size] + (2 * 2)] }
-		if { $options(-emblemimage) != "" } {
-			incr buttonwidth [image width $options(-emblemimage)]
+	method NewSize { option value } {
+		if { $options(-width) == "" } {
+			set options(-width) 0
 		}
 		
+		if { $options(-height) == "" } {
+			set options(-height) 0
+		}
+		
+		set options($option) $value
+		$self SetSize
+	}
+	
+	method SetSize { } {
+		
+		#If we have a width set by button... set it. else resize to fit text and (optionally) emblem:
+		if { $options(-width) != "" } {
+			set buttonwidth $options(-width)
+		} else {
+			#Measure length of button text and add some padding to give width of button:
+			set buttonwidth [expr [font measure $options(-font) -displayof $self $options(-text)] \
+				+ [font measure $options(-font) -displayof $self "        "]]
+			
+			#Add extra room for emblem:
+			if { $options(-emblemimage) != "" } {
+				incr buttonwidth [image width $options(-emblemimage)]
+			}
+		}
+		
+		#If we have a height set by button... set it, else set it at the height of the button image, unless the font size is bigger... then set it to that plus the top and bottom border widths:
+		if { $options(-height) != "" } {
+			set buttonheight $options(-height)
+		} else {
+			set buttonheight [image height $img]
+			if { [font configure $options(-font) -size] > [image height $img] } {
+				set height [expr [font configure $options(-font) -size] + $border_top + $border_bottom]
+			}
+		}
+		
+		#Configure the button with the new width and height:
 		$button configure -width $buttonwidth -height $buttonheight
 	}
 
@@ -533,18 +567,40 @@ snit::widgetadaptor pixmapbutton {
 		return [$button itemcget -text]
 	}
 
-	method changeText {option value} {
+	method changeText { option value } {
 		set options(-text) $value
 		$button itemconfigure txt -text $value
 	}
 	
-	method changeFont {option value} {
+	method changeFont { option value } {
 		set options(-font) $value
 		$button itemconfigure txt -font $value
 	}
-
-	#Todo: implement this feature.
-	method flash { }  {
-		
+	
+	method changeDefault { option value } {
+		set $options(-default) $value
+		switch $value {
+			"normal" { $button itemconfigure ring -state hidden }
+			"active" {
+				focus $self
+				$button itemconfigure ring -state normal
+			}
+		}
 	}
+
+		method getOption {option} {
+		if { [string equal $option "-bd"] } {
+			set option "-borderwidth"
+		} elseif { [string equal $option "-fg"] } {
+			set option "-foreground"
+		}
+		
+		return $options($option)
+	}
+
+	method changeForeground { option value } {
+		$button itemconfigure txt -fill $value
+		set options(-foreground) $value
+	}
+
 }
