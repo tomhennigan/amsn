@@ -4719,11 +4719,10 @@ proc cmsn_draw_online_wrapped {} {
 					-height [image height [::skin::loadPixmap $my_image_type]]
 		bind $pgBuddyTop.bigstate <Button1-ButtonRelease> {tk_popup .my_menu %X %Y}
 		set disppic $pgBuddyTop.bigstate
-		set pic_name [::skin::loadPixmap $my_image_type]
 	} else {
 		set disppic [clickableDisplayPicture $pgBuddyTop mystatus bigstate {tk_popup .my_menu %X %Y} [::skin::getKey bigstate_xpad] [::skin::getKey bigstate_ypad]]
-		set pic_name my_pic_small
 	}
+	set pic_name my_pic
 	bind $pgBuddyTop.bigstate <<Button3>> {tk_popup .my_menu %X %Y}
 	pack $disppic -side left -padx [::skin::getKey bigstate_xpad] -pady [::skin::getKey bigstate_ypad]
 
