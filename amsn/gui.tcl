@@ -519,6 +519,10 @@ namespace eval ::amsn {
 	#///////////////////////////////////////////////////////////////////////////////
 	#Delete user window, user can choose to delete user, cancel the action or block and delete the user
 	proc deleteUser {user_login { grId ""} } {
+		global variableblock
+		
+		set variableblock 0
+		
 		set w .deleteUserWindow
 
 		#If the window was there before, destroy it and create the newone
@@ -542,16 +546,13 @@ namespace eval ::amsn {
 		pack $w.top.question -pady 5 -padx 10
 
 		#Create the three buttons, Yes and block / Yes / No 
-		global block
-		checkbutton $w.top.yesblock -text "[trans yesblock]" -variable block
+		
+		checkbutton $w.top.yesblock -text "[trans yesblock]" -variable variableblock
 
 		button $w.buttons.yes -text "[trans yes]" -command \
-			"::amsn::deleteUserAction $w $user_login yes $grId" -default active -width 6
+			"::amsn::deleteUserAction $w $user_login $grId" -default active -width 6
 		button $w.buttons.no -text "[trans no]" -command "destroy $w" -width 6
-		if {$block == 1} {
-			$w.buttons.yes configure -command "::amsn::deleteUserAction $w $user_login yes_block $grId"
-		}
-		
+
 		#Pack buttons
 		pack $w.buttons.yes -pady 5 -padx 5 -side right
 		pack $w.buttons.no -pady 5 -padx 5 -side left
@@ -574,15 +575,16 @@ namespace eval ::amsn {
 	#///////////////////////////////////////////////////////////////////////////////
 	# deleteUserAction {w user_login answer grId}
 	# Action to do when someone click delete a user
-	proc deleteUserAction {w user_login answer grId} {
+	proc deleteUserAction {w user_login {grId ""} } {
+		global variableblock
 		#If he wants to delete AND block a user
-		if { $answer == "yes_block"} {
+		if { $variableblock == "1"} {
 			set name [::abook::getNick ${user_login}]
 			::MSN::blockUser ${user_login} [urlencode $name]
 			::MSN::deleteUser ${user_login} $grId
 			::abook::setContactData $user_login alarms ""
 		#Just delete the user
-		} elseif { $answer == "yes"} {
+		} elseif { $variableblock == "0"} {
 			::MSN::deleteUser ${user_login} $grId
 			::abook::setContactData $user_login alarms ""
 		}
@@ -5721,6 +5723,8 @@ proc newcontact {new_login new_name} {
 	pack ${wname}.block -side top -pady 0 -padx 15 -anchor w
 	pack ${wname}.add -side top -pady 3 -padx 5 -anchor w
 	pack ${wname}.b -side top -pady 3 -anchor se -expand true -fill x
+	
+	moveinscreen ${wname} 30
 
 }
 #///////////////////////////////////////////////////////////////////////
