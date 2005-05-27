@@ -3497,7 +3497,7 @@ proc cmsn_draw_main {} {
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 		moveinscreen . 30
 		}
-	
+	load_my_pic
 	
 	#allow for display updates so window size is correct
 	
@@ -4506,7 +4506,7 @@ proc load_my_smaller_pic {path} {
 		global pgBuddy
 		status_log "load_my_smaller_pic: Picture not found!!Show the default amsn status icon instead\n" blue
 		set my_image_type [::MSN::stateToBigImage [::MSN::myStatusIs]]
-
+		
 		label $path -background white -border 0 -cursor hand2 -borderwidth 0 \
 					-image [::skin::loadPixmap $my_image_type] \
 					-width [image width [::skin::loadPixmap $my_image_type]] \
@@ -4955,7 +4955,7 @@ proc cmsn_draw_online_wrapped {} {
 		
 		set state_code [::abook::getVolatileData $user_login state FLN]		
 		set colour [::MSN::stateToColor $state_code]
-		if { [::abook::getContactData $user_login customcolor] != "" } {
+		if { [::abook::getContactData $user_login customcolor] != "" && [::abook::getContactData $user_login customcolor] != "000000" } {
 			set colour [::abook::getContactData $user_login customcolor] 
 		}
 		set state_section [::MSN::stateToSection $state_code]; # Used in online/offline grouping
