@@ -36,6 +36,7 @@ namespace eval ::TeXIM {
 					     [list str "Path to latex binary" path_latex] \
 					     [list str "Path to dvips binary" path_dvips] \
 					     [list str "Path to convert binary" path_convert] \
+					     [list str "Preamble file" path_preamble] \
 					    ]
 	}
 	
@@ -75,6 +76,12 @@ namespace eval ::TeXIM {
 					puts $chan "\\usepackage\[$base\]\{$pack\}"
 				}
 			}
+			
+			if { [file exists $::TeXIM::config(path_preamble) ] } {
+				set chan_pre [open $::TeXIM::config(path_preamble) r]
+				puts $chan [read $chan_pre]
+				close $chan_pre
+			}			
 			puts $chan "\\begin\{document\}"
 			#puts $chan "\\begin\{huge\}"
 			puts $chan $msg
