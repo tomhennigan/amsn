@@ -1501,6 +1501,9 @@ namespace eval ::CAMGUI {
 		::amsn::WinWriteIcon $chatid greyline 3
 	}
 	
+	#In that window, we can see many specific configurations related to webcam
+	#We can also change webcam settings
+	#And we can see if the extensions are loaded
 	proc WebcamWizard {} {
 	
 		set w .webcamwizard
@@ -1509,10 +1512,10 @@ namespace eval ::CAMGUI {
 			return 1
 		}
 		toplevel $w
-		
+		#Small picture at the top of the window
 		label $w.webcampic -image [::skin::loadPixmap butwebcam]
 		pack $w.webcampic
-		
+		#Show the two connection informations to know if we are firewalled or not
 		frame $w.abooktype
 		label $w.abooktype.text -text "Type" -font sboldf
 		label $w.abooktype.abook -text [::abook::getDemographicField conntype]
@@ -1533,14 +1536,14 @@ namespace eval ::CAMGUI {
 			label $w.abookresult -text "Your ports are well configured" -font sboldf
 		}
 		pack $w.abookresult -expand true -padx 5
-		
+		#Verify if the extension webcamsn is loade
 		if {[::CAMGUI::ExtensionLoaded]} {
 			label $w.webcamsn -text "Webcamsn extension is loaded" -font sboldf
 		} else {
 			label $w.webcamsn -text "Webcamsn extension is not loaded. You have to compile it." -font sboldf -foreground red
 		}
 		pack $w.webcamsn -expand true -padx 5
-		
+		#Verify if the capture extension is loaded, change on each platform
 		if { [set ::tcl_platform(platform)] == "windows" } {
 			set extension "tkvideo"
 		} elseif { [set ::tcl_platform(os)] == "Darwin" } {
@@ -1562,6 +1565,7 @@ namespace eval ::CAMGUI {
 		#Add button to change settings
 		button $w.settings -command "::CAMGUI::ChooseDevice" -text "Change video settings"
 		pack $w.settings
+		#Add button to open link to the wiki
 		set link "http://amsn.sourceforge.net/wiki/tiki-index.php?page=Webcam+In+aMSN"
 		button $w.wiki -command "launch_browser $link" -text "FAQ/Help for Webcam"
 		pack $w.wiki
@@ -2095,6 +2099,10 @@ namespace eval ::CAMGUI {
 	}
 
 	proc Play { img filename } {
+		
+		if { ! [info exists ::webcamsn_loaded] } { ::CAMGUI::ExtensionLoaded }
+		if { ! $::webcamsn_loaded } { return }
+		
 		set semaphore ::${img}_semaphore
 
 
