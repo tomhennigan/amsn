@@ -2639,7 +2639,7 @@ namespace eval ::Event {
 					set username [::abook::getDisplayNick $typer]
 					run_alarm $typer  $username "[trans says $username]: [$message getBody]"
 				}
-				global automessage
+				global automessage automsgsent
 				# Send automessage once to each user
 				if { [info exists automessage] } {
 					if { $automessage != "-1" && [lindex $automessage 4] != ""} {
