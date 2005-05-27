@@ -9,7 +9,7 @@
 	<plugin_namespace>music</plugin_namespace>
 	<init_procedure>InitPlugin</init_procedure>
 	<deinit_procedure>DeInit</deinit_procedure>
-	<cvs_version>1.16</cvs_version>
+	<cvs_version>1.17</cvs_version>
 
 	<lang>
 		<langcode>en</langcode>
@@ -38,7 +38,7 @@
 
 	<file>
 		<path>display_and_send.scpt</path>
-		<version>1.7</version>
+		<version>1.8</version>
 	</file>
 
 	<file>
@@ -63,4 +63,3 @@
 		<version>1.1</version>
 	</file>
 </plugin>
-
