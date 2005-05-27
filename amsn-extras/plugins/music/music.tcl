@@ -317,7 +317,21 @@ namespace eval ::music {
 			# whatever processing goes here
 		}
 	}
-
+	
+	#####################################################
+	# ::music::exec_async_mac                           #
+	# ------------------------------------------------- #
+	# Execute the specified path with osascript			#
+	# and store the result  in actualsong.				#
+	# Use with after to make it asynchronous            #
+	#####################################################
+	proc exec_async_mac {path} {
+		if { [catch { exec osascript $path} result ] } {
+			status_log "Error retreiving song : $result"
+		} else {
+			set ::music::actualsong $result
+		}
+	}
 	#####################################################
 	# ::music::TreatSongXMMS                            #
 	# ------------------------------------------------- #
@@ -395,12 +409,10 @@ namespace eval ::music {
 	# Gets the current playing song in Amarok     #
 	###############################################
 	proc GetSongAmarok {} {
-		variable musicpluginpath
-		variable actualsong
 
 		#actualsong is filled asynchronously in TreatSongAmarok
 		#Split the lines into a list and set the variables as appropriate
-		if { [catch {split $actualsong "\n"} tmplst] } {
+		if { [catch {split $::music::actualsong "\n"} tmplst] } {
 			#actualsong isn't yet defined by asynchronous exec
 			return 0
 		}
@@ -436,8 +448,7 @@ namespace eval ::music {
 	# Find where's the plugin directory(by getKey) #
 	################################################
 	proc exec_applescript {} {
-		variable musicpluginpath
-		catch {exec osascript $musicpluginpath/display_and_send.scpt &}
+		after 0 {::music::exec_async_mac [file join $::music::musicpluginpath display_and_send.scpt]}
 		return 0
 	}
 
@@ -447,23 +458,17 @@ namespace eval ::music {
 	# Gets the current playing song in ITunes     #
 	###############################################
 	proc GetSongITunes {} {
-
-		#Find the file to read
-		set file "~/Library/Application\ Support/amsn/plugins/actualsong"
-		#Verify that the file exist
-		if {![file exist $file]} {return 0}
-		#Open in "read" permission the file (SongIngo)
-		set gets [open $file r]
-
-		#Get the 5 first lines
-		set software [gets $gets]
-		set status [gets $gets]
-		set song [gets $gets]
-		set art [gets $gets]
-		set path [gets $gets]
-
-		#Close the file
-		close $gets
+		
+		#Get the variable we get in exec_async_mac and separate in multi lines
+		if { [catch {split $::music::actualsong "\n"} tmplst] } {
+			#actualsong isn't yet defined by asynchronous exec
+			return 0
+		}
+		
+		set status [lindex $tmplst 0]
+		set song [lindex $tmplst 1]
+		set art [lindex $tmplst 2]
+		set path [lindex $tmplst 3]
 
 		if {$status == "0"} {
 			return 0
@@ -499,12 +504,10 @@ namespace eval ::music {
 	# Gets the current playing song in WinAmp     #
 	###############################################
 	proc GetSongWinamp {} {
-		variable musicpluginpath
-		variable actualsong
 
 		#actualsong is filled asynchronously in TreatSongWinamp
 		#Split the lines into a list and set the variables as appropriate
-		if { [catch {split $actualsong "\n"} tmplst] } {
+		if { [catch {split $::music::actualsong "\n"} tmplst] } {
 			#actualsong isn't yet defined by asynchronous exec
 			return 0
 		}
