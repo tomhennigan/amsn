@@ -16,15 +16,14 @@ snit::widgetadaptor pixmapoption {
 		
 		$self setType -buttontype [lindex $args [expr [lsearch $args -buttontype] + 1]]
 
-		install button using $options(-buttontype) $win.checkbutton -relief flat \
-			-width 0 \
-			-height 0 \
+		install button using $options(-buttontype) $win.checkbutton -relief solid \
 			-compound left \
-			-highlightthickness 0 \
-			-bd 0 \
+			-highlightthickness 5 \
+			-borderwidth 0 \
 			-background [[winfo parent $self] cget -background] \
 			-activebackground [[winfo parent $self] cget -background] \
-			-selectcolor [[winfo parent $self] cget -background]
+			-selectcolor [[winfo parent $self] cget -background] \
+			-indicatoron 0
 		
 		$self configurelist $args
 		
