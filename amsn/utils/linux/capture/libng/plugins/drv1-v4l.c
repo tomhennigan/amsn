@@ -1094,7 +1094,12 @@ mm_setparams(struct v4l_handle *h, struct ng_video_fmt *fmt)
 	fmt->width = h->capability.maxwidth;
     if (fmt->height > h->capability.maxheight)
 	fmt->height = h->capability.maxheight;    
-    fmt->bytesperline = fmt->width * ng_vfmt_to_depth[fmt->fmtid] / 8;
+     if (fmt->width < h->capability.minwidth)
+	fmt->width = h->capability.minwidth;
+    if (fmt->height < h->capability.minheight)
+	fmt->height = h->capability.minheight;
+
+   fmt->bytesperline = fmt->width * ng_vfmt_to_depth[fmt->fmtid] / 8;
 
     /* check if we can handle the format */
     if (!mm_probe(h,fmt->fmtid))

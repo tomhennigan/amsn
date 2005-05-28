@@ -347,7 +347,7 @@ proc StartGrab { grabber img } {
 
 	while { [::Capture::IsValid $grabber] && [lsearch [image names] $img] != -1 } {
 		::Capture::Grab $grabber $img $::res
-		after 300 "incr $semaphore"
+		after 1000 "incr $semaphore"
 		tkwait variable $semaphore
 	}
 }
