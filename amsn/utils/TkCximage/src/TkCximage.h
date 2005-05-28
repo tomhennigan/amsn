@@ -10,6 +10,8 @@
 #ifndef _TKCXIMAGE
 #define _TKCXIMAGE
 
+#include <list>
+
 // Include files, must include windows.h before tk.h and tcl.h before tk.h or else compiling errors
 // So we will include ximage.h before everything else
 #include <ximage.h>
@@ -140,15 +142,17 @@ typedef struct gif_info {
 	Tcl_TimerToken timerToken;
 } GifInfo ;
 
-
-
 EXTERN void AnimateGif(ClientData data);
 EXTERN int g_EnableAnimated;
 
 // Defines for compatibility with the list code..
 #define g_list animated_gifs
 #define data_item gif_info
+#define list_element_type Tk_PhotoHandle
 #define list_element_id Handle
+
+typedef std::list< struct data_item * > ChainedList;
+typedef ChainedList::iterator ChainedIterator;
 
 #endif // ANIMATE_GIFS
 

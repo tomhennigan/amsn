@@ -8,80 +8,57 @@
 
 #include "TkCximage.h"
 
-static struct list_ptr* animated_gifs = NULL;
-
-struct list_ptr {
-	struct list_ptr* prev_item;
-	struct list_ptr* next_item;
-	struct data_item* element;
-};
+static ChainedList animated_gifs;
 
 /////////////////////////////////////
 // Functions to manage lists       //
 /////////////////////////////////////
 
-struct list_ptr* TkCxImage_lstGetListItem(Tk_PhotoHandle list_element_id){ //Get the list item with the specified name
-  struct list_ptr* item = g_list;
+ChainedIterator TkCxImage_lstGetListItem(list_element_type list_element_id) { //Get the iterator with the specified id
 
-  while(item && (item->element->list_element_id != list_element_id))
-    item = item->next_item;
+  ChainedIterator item;
+
+  for( item = g_list.begin(); item != g_list.end() && (*item)->list_element_id != list_element_id; item++);
 
   return item;
 
 }
 
 
-struct data_item* TkCxImage_lstAddItem(struct data_item* item) {
-  struct list_ptr* newItem = NULL;
+struct data_item* TkCxImage_lstAddItem(struct data_item* item) { //Add the specified item if its id not already exists
 
-  if (!item) return NULL;
-  if (TkCxImage_lstGetListItem(item->list_element_id)) return NULL;
+  if ( !item ) return NULL;
+  if ( TkCxImage_lstGetListItem(item->list_element_id) != g_list.end() ) return NULL;
 
-  newItem = (struct list_ptr *) malloc(sizeof(struct list_ptr));
+  g_list.push_back( item );
 
-  if(newItem) {
-    memset(newItem,0,sizeof(struct list_ptr));
-    newItem->element = item;
-
-    newItem->next_item = g_list;
-
-    if (g_list) {
-      g_list->prev_item = newItem;
-    }
-    g_list = newItem;
-
-    return newItem->element;
-  } else
-    return NULL;
+  return item;
 
 }
 
-struct data_item* TkCxImage_lstGetItem(Tk_PhotoHandle list_element_id){ //Get the item with the specified name
-	struct list_ptr* listitem = TkCxImage_lstGetListItem(list_element_id);
-	if(listitem)
-		return listitem->element;
+struct data_item* TkCxImage_lstGetItem(list_element_type list_element_id) { //Get the item with the specified id
+
+	ChainedIterator listitem = TkCxImage_lstGetListItem( list_element_id );
+	if( listitem != g_list.end() )
+		return (*listitem);
 	else
 		return NULL;
 }
 
-struct data_item* TkCxImage_lstDeleteItem(Tk_PhotoHandle list_element_id){
-	struct list_ptr* item = TkCxImage_lstGetListItem(list_element_id);
-	struct data_item* element = NULL;
+struct data_item* TkCxImage_lstDeleteItem(list_element_type list_element_id) { //Delete the item with the specified id if exists
 
-	if(item) {
-	  element = item->element;
-	  if(item->prev_item==NULL) //The first item
-	    g_list = item->next_item;
-	  else
-	    (item->prev_item)->next_item = item->next_item;
+	ChainedIterator item = TkCxImage_lstGetListItem( list_element_id );
+	struct data_item* element;
 
-	  if (item->next_item)
-	    (item->next_item)->prev_item = item->prev_item;
-
-	  free(item);
+	if( item != g_list.end() ) {
+		element = (*item);
+		g_list.erase( item );
+		return element;
+	}
+	else {
+		return NULL;
 	}
 
-	return element;
 }
 
 ////////////////////////////
