@@ -103,8 +103,10 @@ int Capture_ListDevices _ANSI_ARGS_((ClientData clientData,
 
 	lstAll=Tcl_NewListObj(0, NULL);
 
+	// Probe for devices from the v4l driver
 	info = ng_vid_probe("v4l");
 	if (info) {
+	  // loop on all found devices
 	  for(i = 0;info[i].device[0] != 0; i++){
 	    if(debug) fprintf(stderr, "Found %s at %s\n", info[i].name, info[i].device);
 	    strcpy(name, "V4L: ");
@@ -118,9 +120,10 @@ int Capture_ListDevices _ANSI_ARGS_((ClientData clientData,
 
 	free(info);
 
-
+	// Probe for devices from the v4l2 driver
 	info = ng_vid_probe("v4l2");
 	if (info) {
+	  // loop on all found devices
 	  for(i = 0;info[i].device[0] != 0; i++){
 	    if(debug) fprintf(stderr, "Found %s at %s\n", info[i].name, info[i].device);
 	    strcpy(name, "V4L-2: ");
@@ -304,13 +307,14 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
     return TCL_ERROR;
   }
   
-  /* open device */
+  // init the device and let libng find the appropriate driver for it
   if (0 != ng_vid_init(&dev,device)) {
     if(debug) fprintf(stderr,"no grabber device available\n");
     Tcl_AppendResult (interp, "no grabber device available\n" , (char *) NULL);
     return TCL_ERROR;
   }
   
+  // Check if we can capture from it
   if (!(dev.flags & CAN_CAPTURE)) {
     if(debug) fprintf(stderr,"device does'nt support capture\n");
     Tcl_AppendResult (interp, "device does'nt support capture\n" , (char *) NULL);
@@ -319,8 +323,10 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
   }
 
 
+  // If all went well, we open the driver (it was only initialized, but not opened and ready to use...
   ng_dev_open(&dev);
   
+  // Search for the ATTR_ID_INPUT (channel) ng_attribute struct
   found = 0;
   list_for_each(item, &(&dev)->attrs) {
     attr = list_entry(item, struct ng_attribute, device_list);
@@ -331,46 +337,57 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
   }
   if (!found) attr = NULL;
 
+  // Set the channel using ng_attribute->write function
   if(attr != NULL) {
     if (-1 != channel)
       attr->write(attr, channel);
   }
 
   
-   /* try native */
+  // try native colorspace RGB24
   fmt.fmtid  = VIDEO_RGB24;
   fmt.width  = HIGH_RES_W;
   fmt.height = HIGH_RES_H;
   if (0 == dev.v->setformat(dev.handle,&fmt))
     goto create_fd_and_return;
   
-   /* try native */
+
+  // If failed, try native BGR24 (mostly all webcams on LE systems)
   fmt.fmtid  = VIDEO_BGR24;
   if (0 == dev.v->setformat(dev.handle,&fmt))
     goto create_fd_and_return;
 
-  
+  // If it failed, try to find a converted to RGB24
   fmt.fmtid  = VIDEO_RGB24;
 
-  /* check all available conversion functions */
+  // check all available conversion functions
   fmt.bytesperline = fmt.width*ng_vfmt_to_depth[fmt.fmtid]/8;
   for (i = 0;;) {
+    // Find a converter to RGB24 
     conv = ng_conv_find_to(fmt.fmtid, &i);
+
+    // converter exists
     if (NULL == conv)
       break;
+
     if(debug) fprintf(stderr, "Trying converter from %s to %s\n",
 		      ng_vfmt_to_desc[conv->fmtid_in], ng_vfmt_to_desc[conv->fmtid_out]);
+
+    // Set the new capture format to the colorspace of the input from the converter
     gfmt = fmt;
     gfmt.fmtid = conv->fmtid_in;
     gfmt.bytesperline = 0;
+    // Check if webcam supports the input colorspace of that converter
     if (0 == dev.v->setformat(dev.handle,&gfmt)) {
       fmt.width  = gfmt.width;
       fmt.height = gfmt.height;
+      // Save the new width and height and initialize the converter
       handle = ng_conv_init(conv,&gfmt,&fmt);
       goto create_fd_and_return;
     }
   }
-  
+
+  // If no converter found, then we don't have any converting proc from the webcam's colorspace to RGB24
   if (debug)
     fprintf(stderr, "Your webcam uses a palette that this extension does not support yet");
   
@@ -398,16 +415,18 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
   strcpy(captureItem->devicePath,device);
   captureItem->channel=channel;
 
+  // Save the libng data structs
   captureItem->dev = dev;
- 
   captureItem->fmt = fmt;
   captureItem->gfmt = gfmt;
   captureItem->conv = conv;
   captureItem->handle = handle;
 
+  // If a converter was used, setup the converter and allocate a new rgb_buffer
   if(handle) {
-      ng_process_setup(handle, get_video_buf, (void *)captureItem);
-      captureItem->rgb_buffer = ng_malloc_video_buf(&dev, &fmt);
+    // To setup the converter, you give it a proc and a handle, the proc is used to return to the converter the output buffer where to store the result...
+    ng_process_setup(handle, get_video_buf, (void *)captureItem);
+    captureItem->rgb_buffer = ng_malloc_video_buf(&dev, &fmt);
   }
   
   Tcl_SetObjResult(interp, Tcl_NewStringObj(captureItem->captureName,-1));
@@ -434,12 +453,14 @@ int Capture_Close _ANSI_ARGS_((ClientData clientData,
 		return TCL_ERROR;
 	}
 
+	// If a converter was used, close the it and release the rgb_buffer
 	if(capItem->handle) {
 	  ng_process_fini(capItem->handle);
 	  ng_release_video_buf(capItem->rgb_buffer);
 	}
 	
-
+	
+	// Close the device, and free the device structure
 	ng_dev_close(&capItem->dev);
 	ng_dev_fini(&capItem->dev);
 
@@ -492,6 +513,7 @@ int Capture_Grab _ANSI_ARGS_((ClientData clientData,
       return TCL_ERROR;
     }
     
+    // Set the resolution
     if (resolution && !strcmp(resolution, "LOW")) {
       width = LOW_RES_W;
       height = LOW_RES_H;
@@ -500,22 +522,26 @@ int Capture_Grab _ANSI_ARGS_((ClientData clientData,
       height = HIGH_RES_H;
     }
 
+    // If we use a converter, set the resolution depending on the converter's format
     if(capItem->conv) {
       capItem->gfmt.width  = width;
       capItem->gfmt.height = height;
       capItem->dev.v->setformat(capItem->dev.handle,&capItem->gfmt);
     } else {
+      // else, use the native format
       capItem->fmt.width  = width;
       capItem->fmt.height = height;
       capItem->dev.v->setformat(capItem->dev.handle,&capItem->fmt);
     }
 
 
+    // Get the image using the vid_driver device
     if (NULL == (capItem->image_data = capItem->dev.v->getimage(capItem->dev.handle))) {
 	if(debug) fprintf(stderr,"capturing image failed\n");
 	
     }
 
+    // if a converter was used, put the frame into the converter and get it, once converted
     if (capItem->conv) {
       ng_process_put_frame(capItem->handle,capItem->image_data);
       capItem->rgb_buffer = ng_process_get_frame(capItem->handle);
@@ -536,6 +562,7 @@ int Capture_Grab _ANSI_ARGS_((ClientData clientData,
     block.offset[1] = 1;
     block.offset[3] = -1;
 
+    // Check for RGB24 vs. BGR24
     if (capItem->fmt.fmtid == VIDEO_RGB24) {
       block.offset[0] = 0;
       block.offset[2] = 2;
@@ -571,6 +598,7 @@ int Capture_Grab _ANSI_ARGS_((ClientData clientData,
 #	endif
 		    Photo, width, height);
 
+    // Make sure to release the rgb_buffer if no converter is used so the next grab will not wait unnecessarly
     if (!capItem->conv)
       ng_release_video_buf(capItem->rgb_buffer);
     
@@ -595,6 +623,7 @@ int Capture_AccessSettings _ANSI_ARGS_((ClientData clientData,
 
   proc = Tcl_GetStringFromObj(objv[0], NULL);
   
+  // Depending on the proc, set the correct attribute to get/set
   if (!strcmp(proc, "::Capture::SetBrightness")) {
     set = 1;
     attribute = ATTR_ID_BRIGHT;
@@ -653,6 +682,7 @@ int Capture_AccessSettings _ANSI_ARGS_((ClientData clientData,
 
   Tcl_ResetResult(interp);
 
+  // Get the ng_attribute struct from the attribute id
   found = 0;
   list_for_each(item, &(&capItem->dev)->attrs) {
     attr = list_entry(item, struct ng_attribute, device_list);
@@ -663,6 +693,7 @@ int Capture_AccessSettings _ANSI_ARGS_((ClientData clientData,
   }
   if (!found) attr = NULL;
 
+  // if we set, use attribute->write proc, else, use the attribute->read proc...
   if(attr != NULL) {
     if (set) {
       if (-1 != new_value)
