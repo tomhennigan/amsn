@@ -379,7 +379,6 @@ namespace eval ::MSNCAM {
 
 
 	proc ReadFromSock { sock } {
-		fileevent $sock readable ""
 
 
 		set sid [getObjOption $sock sid]
@@ -391,10 +390,6 @@ namespace eval ::MSNCAM {
 		set my_rid [getObjOption $sid my_rid]
 		set rid [getObjOption $sid rid]
 		set session [getObjOption $sid session]
-
-
-		fileevent $sock readable "::MSNCAM::ReadFromSock $sock"
-
 
 	 	if { [eof $sock] } {
  			status_log "WebCam Socket $sock closed\n"
@@ -502,8 +497,10 @@ namespace eval ::MSNCAM {
 					
 						catch {puts -nonewline $fd $data}
 					}
+					fileevent $sock readable ""
 
-					::CAMGUI::ShowCamFrame $sid $data
+					after 0 "::CAMGUI::ShowCamFrame $sid [list $data]; fileevent $sock readable \"::MSNCAM::ReadFromSock $sock\""
+					#::CAMGUI::ShowCamFrame $sid $data
 				} else {
 					#AuthFailed $sid $sock
 					setObjOption $sock state "END"
@@ -1145,11 +1142,6 @@ namespace eval ::CAMGUI {
 
 		set grab_proc [getObjOption $sid grab_proc]
 
-		if { $encoder == "" } {
-			set encoder [::Webcamsn::NewEncoder HIGH]
-			setObjOption $socket codec $encoder
-		}
-
 		if { ![::CAMGUI::IsGrabberValid $grabber] } {
 			status_log "Invalid grabber : $grabber"
 
@@ -1274,13 +1266,20 @@ namespace eval ::CAMGUI {
 			status_log "grab_proc is $grab_proc - [getObjOption $sid grab_proc]\n" red
 		}
 
+
 		if {[catch {$grab_proc $grabber $socket $encoder $img} res]} {
 			status_log "Trying to call the grabber but get an error $res\n" red
-		}
+		} 
 
 	}
 
 	proc Grab_Windows {grabber socket encoder img} {
+
+		if { $encoder == "" } {
+			set encoder [::Webcamsn::NewEncoder HIGH]
+			setObjOption $socket codec $encoder
+		}
+
 		if { ![catch { $grabber picture $img} res] } {
 			::MSNCAM::SendFrame $socket $encoder $img
 		} else {
@@ -1291,6 +1290,11 @@ namespace eval ::CAMGUI {
 
 	proc Grab_Linux {grabber socket encoder img} {
 		if { ![catch { ::Capture::Grab $grabber $img} res] } {
+			if { $encoder == "" } {
+				if { $res == "" } { set res HIGH }
+				set encoder [::Webcamsn::NewEncoder $res]
+				setObjOption $socket codec $encoder
+			}
 			::MSNCAM::SendFrame $socket $encoder $img
 		} else {
 		    status_log "error grabbing : $res\n" red
@@ -1299,6 +1303,12 @@ namespace eval ::CAMGUI {
 	}
 
 	proc Grab_Mac { grabber socket encoder img } {
+
+		if { $encoder == "" } {
+			set encoder [::Webcamsn::NewEncoder HIGH]
+			setObjOption $socket codec $encoder
+		}
+
 		if {[winfo ismapped $grabber]} {
 			set socker_ [getObjOption $img socket]
 			set encoder_ [getObjOption $img encoder]
@@ -2013,10 +2023,10 @@ namespace eval ::CAMGUI {
 
 		set img [image create photo]
 		label $preview -image $img
-		button $settings -text "Camera Settings" -command ".webcam_preview property_page filter"
+		button $settings -text "Camera Settings" -command ".webcam_preview propertypage filter"
 
 		frame $buttons -relief sunken -borderwidth 3
-		button $buttons.ok -text "Ok" -command "::CAMGUI::Choose_OkWindows $window $devs.list $img $devices"
+		button $buttons.ok -text "Ok" -command "::CAMGUI::Choose_OkWindows $window $devs.list $img [list $devices]"
 		button $buttons.cancel -text "Cancel" -command  "::CAMGUI::Choose_CancelWindows $window $img $preview"
 		wm protocol $window WM_DELETE_WINDOW   "::CAMGUI::Choose_CancelWindows $window $img $preview"
 		#bind $window <Destroy> "::CAMGUI::Choose_CancelWindows $window $img $preview"
@@ -2126,7 +2136,7 @@ namespace eval ::CAMGUI {
 				break
 			}
 			incr size +24
-			::Webcamsn::Decode $decoder $img $data
+			catch { ::Webcamsn::Decode $decoder $img $data}
 			set data [string range $data $size end]
 			after 250 "incr $semaphore"
 			tkwait variable $semaphore
