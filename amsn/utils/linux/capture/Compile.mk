@@ -47,17 +47,14 @@ endif
 %.o: %.c
 	@$(echo_compile_c)
 	@$(compile_c)
-	@$(fixup_deps)
 
 %.o: %.cc
 	@$(echo_compile_cc)
 	@$(compile_cc)
-	@$(fixup_deps)
 
 %.o: %.cpp
 	@$(echo_compile_cc)
 	@$(compile_cc)
-	@$(fixup_deps)
 
 
 %.so: %.o

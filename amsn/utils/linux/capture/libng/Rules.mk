@@ -11,11 +11,15 @@ OBJS-libng := \
 	libng/convert.o \
 	libng/misc.o
 
+
 libng/libng.a: $(OBJS-libng)
 	@$(echo_ar_lib)
 	@$(ar_lib)
 
+
+ifeq ($(USE_LIBNG),yes)
 all:: libng/libng.a
+endif
 
 clean::
 	rm -f libng.a

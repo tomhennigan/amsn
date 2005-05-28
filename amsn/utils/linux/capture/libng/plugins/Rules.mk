@@ -68,12 +68,9 @@ libng/plugins/snd0-arts.so  : LDLIBS := $(ARTS_LIBS)
 libng/plugins/snd1-alsa.so  : LDLIBS := $(ALSA_LIBS)
 
 # global targets
+ifeq ($(USE_LIBNG),yes)
 all:: $(TARGETS-plugins)
-
-install::
-	$(INSTALL_DIR) $(libdir)
-	$(INSTALL_PROGRAM) -s $(TARGETS-plugins) $(libdir)
-	rm -f $(GONE-plugins)
+endif
 
 clean::
 	rm -f $(TARGETS-plugins)

@@ -475,6 +475,7 @@ int Capture_Grab _ANSI_ARGS_((ClientData clientData,
 			      Tcl_Obj *CONST objv[]))
 {
 
+    struct ng_video_fmt         fmt;
     struct capture_item*    capItem = NULL;
     char *                  captureDescriptor = NULL;
     char *                  image_name = NULL;
@@ -483,7 +484,7 @@ int Capture_Grab _ANSI_ARGS_((ClientData clientData,
     Tk_PhotoImageBlock	block;
     Tk_PhotoHandle          Photo;
     int width, height;
-	
+    int diff_high = 0, diff_low = 0;
 
     if( objc != 3 && objc != 4) {
       Tcl_AppendResult (interp, "Wrong number of args.\nShould be " 
@@ -514,32 +515,51 @@ int Capture_Grab _ANSI_ARGS_((ClientData clientData,
     }
     
     // Set the resolution
-    if (resolution && !strcmp(resolution, "LOW")) {
+    if (resolution && !strcmp(resolution, "HIGH")) {
+      width = HIGH_RES_W;
+      height = HIGH_RES_H;
+    } else if (resolution && !strcmp(resolution, "LOW")) {
       width = LOW_RES_W;
       height = LOW_RES_H;
     } else {
-      width = HIGH_RES_W;
-      height = HIGH_RES_H;
+      width = capItem->fmt.width;
+      height = capItem->fmt.height;
     }
-
     // If we use a converter, set the resolution depending on the converter's format
     if(capItem->conv) {
-      capItem->gfmt.width  = width;
-      capItem->gfmt.height = height;
-      capItem->dev.v->setformat(capItem->dev.handle,&capItem->gfmt);
+      fmt = capItem->gfmt;
     } else {
       // else, use the native format
-      capItem->fmt.width  = width;
-      capItem->fmt.height = height;
-      capItem->dev.v->setformat(capItem->dev.handle,&capItem->fmt);
+      fmt = capItem->fmt;
     }
 
+    fmt.width  = width;
+    fmt.height = height;
+    capItem->dev.v->setformat(capItem->dev.handle,&fmt);
 
     // Get the image using the vid_driver device
     if (NULL == (capItem->image_data = capItem->dev.v->getimage(capItem->dev.handle))) {
-	if(debug) fprintf(stderr,"capturing image failed\n");
-	
+	if(debug) fprintf(stderr,"capturing image failed at %d, %d\n", fmt.width, fmt.height);
+	fmt.height = HIGH_RES_W;
+	fmt.width  = HIGH_RES_H;
+	capItem->dev.v->setformat(capItem->dev.handle,&fmt);
+	if (NULL == (capItem->image_data = capItem->dev.v->getimage(capItem->dev.handle))) {
+	  if(debug) fprintf(stderr,"capturing image failed at %d, %d\n", fmt.width, fmt.height);
+	  fmt.height = LOW_RES_W;
+	  fmt.width  = LOW_RES_H;
+	  capItem->dev.v->setformat(capItem->dev.handle,&fmt);
+	  if (NULL == (capItem->image_data = capItem->dev.v->getimage(capItem->dev.handle))) {
+	    if(debug) fprintf(stderr,"capturing image failed at %d, %d\n", fmt.width, fmt.height);
+	    Tcl_AppendResult(interp, "Unable to capture from the device", (char *) NULL);
+	    return TCL_ERROR;
+	  }
+	}
     }
+
+
+   
+    width = fmt.width;
+    height = fmt.height;
 
     // if a converter was used, put the frame into the converter and get it, once converted
     if (capItem->conv) {
@@ -592,6 +612,26 @@ int Capture_Grab _ANSI_ARGS_((ClientData clientData,
 #endif
 		     );
     
+    capItem->fmt.width = width;
+    capItem->fmt.height = height;
+    
+    Tcl_ResetResult(interp);
+    diff_high = width - HIGH_RES_W;
+    if (diff_high < 0) diff_high = -diff_high;
+    diff_low = width - LOW_RES_W;
+    if (diff_low < 0) diff_low = -diff_low;
+    
+    if (diff_high <= diff_low) {
+      width = HIGH_RES_W;
+      height = HIGH_RES_H;
+      Tcl_AppendResult(interp, "HIGH", (char *) NULL);
+    } else {
+      width = LOW_RES_W;
+      height = LOW_RES_H;
+      Tcl_AppendResult(interp, "LOW", (char *) NULL);
+    }
+
+
     Tk_PhotoSetSize(
 #	if TK_MINOR_VERSION == 5
 		    interp,

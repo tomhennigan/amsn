@@ -1123,7 +1123,7 @@ static int ng_plugins(char *dirname)
     struct dirent **list;
     char filename[1024];
     void *plugin;
-#if 0
+#if 1
     void (*initcall)(void);
 #endif
     int i,n = 0,l = 0;
@@ -1139,16 +1139,17 @@ static int ng_plugins(char *dirname)
 	    fprintf(stderr,"dlopen: %s\n",dlerror());
 	    continue;
 	}
-#if 0
+
 	if (NULL == (initcall = dlsym(plugin,"ng_plugin_init"))) {
 	    if (NULL == (initcall = dlsym(plugin,"_ng_plugin_init"))) {
 		fprintf(stderr,"dlsym[%s]: %s\n",filename,dlerror());
 		continue;
 	    }
 	}
+#if 0
 	initcall();
 #endif
-	l--;
+	l++;
     }
     for (i = 0; i < n; i++)
 	free(list[i]);
@@ -1181,7 +1182,10 @@ ng_init(void)
     count += ng_plugins("./libng/contrib-plugins"); 
     count += ng_plugins("../libng/plugins");
     count += ng_plugins("../libng/contrib-plugins");
-  
+    count += ng_plugins("./utils/linux/capture/libng/plugins");
+    count += ng_plugins("./utils/linux/capture/libng/contrib-plugins");
+
+ 
     if (0 == count)
 	fprintf(stderr,"WARNING: no plugins found [%s]\n",LIBDIR);
 }

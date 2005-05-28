@@ -17,7 +17,8 @@ AC_ARG_ENABLE(gl,
   [  --enable-gl             enable OpenGL support])
 AC_ARG_ENABLE(mmx,
   [  --enable-mmx            enable mmx support])
-
+AC_ARG_ENABLE(libng,
+  [  --disable-libng         disable use of libng library])
 
 dnl ---------------------------------------------------------------------
 dnl Checks for programs.
@@ -293,7 +294,7 @@ AC_SUBST(FOUND_MOTIF)
 AC_SUBST(FOUND_OS)
 AC_SUBST(FOUND_GL)
 AC_SUBST(LDLIBS)
-
+AC_SUBST(USE_LIBNG)
 
 FOUND_ALSA="no"
 FOUND_MAD="no"
@@ -301,6 +302,14 @@ FOUND_MPEG2="no"
 FOUND_MOTIF="no"
 FOUND_OS="unknown"
 FOUND_GL="no"
+
+if test "$enable_libng" != "no" ; then
+    USE_LIBNG="yes"
+else
+    USE_LIBNG="no" 
+fi
+
+
 
 case "`uname -s`" in
 	Linux)
@@ -321,11 +330,14 @@ case "`uname -s`" in
 esac
 
 
+
 dnl ---------------------------------------------------------------------
 dnl Checks for functions
+if test "$USE_LIBNG" == "yes" ; then
 
+   
 AC_CHECK_HEADERS(soundcard.h unistd.h sys/soundcard.h alsa/asoundlib.h)
-
+	
 
 AC_CHECK_FUNCS(ftello fseeko getpt strcasestr memmem dlopen )
 
@@ -403,6 +415,11 @@ else
 fi
 AC_MSG_RESULT($USE_MMX)
 
+
+dnl -- And of check if using libng
+fi 
+
+
 dnl ---------------------------------------------------------------------
 dnl write out stuff
 AC_OUTPUT(Makefile)
@@ -419,6 +436,7 @@ compile time options summary
     mad          : $FOUND_MAD
     mpeg2        : $FOUND_MPEG2
     OpenGL       : $FOUND_GL
+    Using Libng  : $USE_LIBNG
     Tcl		 : $TCL_VERSION
     TK 		 : $TK_VERSION
 

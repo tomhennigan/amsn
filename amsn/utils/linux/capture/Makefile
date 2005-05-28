@@ -42,6 +42,8 @@ FOUND_MAD	:= yes
 FOUND_MPEG2	:= no
 FOUND_OS	:= linux
 USE_MMX		:= yes
+USE_LIBNG	:= yes
+
 
 # build final cflags
 CFLAGS   := -g -O2
@@ -74,8 +76,13 @@ LDFLAGS	 += ${TK_STUB_LIB_SPEC}
 
 build: all
 
+ifeq ($(USE_LIBNG), yes)
 Makefile: $(srcdir)/Makefile.in $(srcdir)/configure
-	$(srcdir)/configure
+	$(srcdir)/configure --enable-libng
+else
+Makefile: $(srcdir)/Makefile.in $(srcdir)/configure
+	$(srcdir)/configure --disable-libng
+endif
 
 $(srcdir)/configure: $(srcdir)/configure.ac
 	(cd $(srcdir); ./autogen.sh)

@@ -4,11 +4,9 @@ TARGETS-contrib-plugins := \
 	libng/contrib-plugins/flt-smooth.so
 
 # global targets
+ifeq ($(USE_LIBNG),yes)
 all:: $(TARGETS-contrib-plugins)
-
-install::
-	$(INSTALL_DIR) $(libdir)
-	$(INSTALL_PROGRAM) -s $(TARGETS-contrib-plugins) $(libdir)
+endif
 
 clean::
 	rm -f $(TARGETS-contrib-plugins)

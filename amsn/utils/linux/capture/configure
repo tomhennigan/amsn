@@ -309,7 +309,7 @@ ac_includes_default="\
 # include <unistd.h>
 #endif"
 
-ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT CXX CXXFLAGS ac_ct_CXX CPP ac_prefix_program TCLSH TOP_DIR LIBDIR BUILD_DIR TCL_LIB_DIR TCL_INC_SPEC TK_VERSION TK_LIB TK_LIBS TK_LIB_DIR TK_INC_SPEC TCL_STUB_LIB_SPEC TK_STUB_LIB_SPEC FOUND_ALSA FOUND_MAD FOUND_MPEG2 FOUND_MOTIF FOUND_OS FOUND_GL LDLIBS EGREP LIBPTHREAD LIBOSS LIBALSA LIBMAD LIBMPEG2 LIBGL USE_MMX LIBOBJS LTLIBOBJS'
+ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT CXX CXXFLAGS ac_ct_CXX CPP ac_prefix_program TCLSH TOP_DIR LIBDIR BUILD_DIR TCL_LIB_DIR TCL_INC_SPEC TK_VERSION TK_LIB TK_LIBS TK_LIB_DIR TK_INC_SPEC TCL_STUB_LIB_SPEC TK_STUB_LIB_SPEC FOUND_ALSA FOUND_MAD FOUND_MPEG2 FOUND_MOTIF FOUND_OS FOUND_GL LDLIBS USE_LIBNG EGREP LIBPTHREAD LIBOSS LIBALSA LIBMAD LIBMPEG2 LIBGL USE_MMX LIBOBJS LTLIBOBJS'
 ac_subst_files=''
 
 # Initialize some variables set by options.
@@ -853,6 +853,7 @@ Optional Features:
   --enable-mpeg2          enable libmpeg2 support (mpeg video)
   --enable-gl             enable OpenGL support
   --enable-mmx            enable mmx support
+  --disable-libng         disable use of libng library
   --disable-version-check Disable checking that linked tcl/tk version is the same version that bin program tclsh
 
 Optional Packages:
@@ -1339,7 +1340,11 @@ if test "${enable_mmx+set}" = set; then
   enableval="$enable_mmx"
 
 fi;
+# Check whether --enable-libng or --disable-libng was given.
+if test "${enable_libng+set}" = set; then
+  enableval="$enable_libng"
 
+fi;
 
 
 ac_ext=c
@@ -3220,6 +3225,14 @@ FOUND_MOTIF="no"
 FOUND_OS="unknown"
 FOUND_GL="no"
 
+if test "$enable_libng" != "no" ; then
+    USE_LIBNG="yes"
+else
+    USE_LIBNG="no"
+fi
+
+
+
 case "`uname -s`" in
 	Linux)
 		FOUND_OS="linux"
@@ -3240,6 +3253,9 @@ echo "${ECHO_T}maybe" >&6
 		;;
 esac
 
+
+
+if test "$USE_LIBNG" == "yes" ; then
 
 
 
@@ -4363,6 +4379,10 @@ fi
 echo "$as_me:$LINENO: result: $USE_MMX" >&5
 echo "${ECHO_T}$USE_MMX" >&6
 
+
+fi
+
+
           ac_config_files="$ac_config_files Makefile"
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -5006,6 +5026,7 @@ s,@FOUND_MOTIF@,$FOUND_MOTIF,;t t
 s,@FOUND_OS@,$FOUND_OS,;t t
 s,@FOUND_GL@,$FOUND_GL,;t t
 s,@LDLIBS@,$LDLIBS,;t t
+s,@USE_LIBNG@,$USE_LIBNG,;t t
 s,@EGREP@,$EGREP,;t t
 s,@LIBPTHREAD@,$LIBPTHREAD,;t t
 s,@LIBOSS@,$LIBOSS,;t t
@@ -5514,6 +5535,7 @@ compile time options summary
     mad          : $FOUND_MAD
     mpeg2        : $FOUND_MPEG2
     OpenGL       : $FOUND_GL
+    Using Libng  : $USE_LIBNG
     Tcl		 : $TCL_VERSION
     TK 		 : $TK_VERSION
 
