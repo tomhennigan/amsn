@@ -1,10 +1,10 @@
-srcdir		:= .
+srcdir		:= @srcdir@
 VPATH		:= $(srcdir)
 
 
 # programs
-CC		:= gcc -pipe
-CXX		:= 
+CC		:= @CC@
+CXX		:= @CXX@
 
 # misc
 VERSION		:= 2.0
@@ -14,37 +14,37 @@ PACKAGE		:= capture
 WARN_FLAGS	:= -Wall -Wmissing-prototypes -Wstrict-prototypes -Wpointer-arith
 LFS_FLAGS	:= -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64
 LIB_FLAGS	:= -I. -I$(srcdir)/libng -I$(srcdir)/structs -Llibng
-LIBDIR		:= /home/kakaroto/msn/utils/linux/capture
+LIBDIR		:= @LIBDIR@
 
 
 # various libraries
-THREAD_LIBS	:= -lpthread
-ALSA_LIBS	:= -lasound
-MAD_LIBS	:= -lmad
-MPEG2_LIBS	:= 
-GL_LIBS		:= 
+THREAD_LIBS	:= @LIBPTHREAD@
+ALSA_LIBS	:= @LIBALSA@
+MAD_LIBS	:= @LIBMAD@
+MPEG2_LIBS	:= @LIBMPEG2@
+GL_LIBS		:= @LIBGL@
 
 
 # Directories in which the Tcl core can be found
-TCL_INC_SPEC 	= -I/usr/include/tcl8.4
-TCL_STUB_LIB_SPEC = -L/usr/lib/tcl8.4 -ltclstub8.4${TCL_DBGX}
+TCL_INC_SPEC 	= @TCL_INC_SPEC@
+TCL_STUB_LIB_SPEC = @TCL_STUB_LIB_SPEC@
 
 # Directories in which the Tk core can be found
-TK_INC_SPEC 	= -I/usr/include/tcl8.4/tk-private/generic
-TK_STUB_LIB_SPEC = -L/usr/lib -ltkstub8.4
+TK_INC_SPEC 	= @TK_INC_SPEC@
+TK_STUB_LIB_SPEC = @TK_STUB_LIB_SPEC@
 
 
 
 # stuff configure has found
-FOUND_ALSA	:= yes
-FOUND_GL	:= no
-FOUND_MAD	:= yes
-FOUND_MPEG2	:= no
-FOUND_OS	:= linux
-USE_MMX		:= yes
+FOUND_ALSA	:= @FOUND_ALSA@
+FOUND_GL	:= @FOUND_GL@
+FOUND_MAD	:= @FOUND_MAD@
+FOUND_MPEG2	:= @FOUND_MPEG2@
+FOUND_OS	:= @FOUND_OS@
+USE_MMX		:= @USE_MMX@
 
 # build final cflags
-CFLAGS   := -g -O2
+CFLAGS   := @CFLAGS@
 CFLAGS   += $(WARN_FLAGS)
 CFLAGS   += $(LFS_FLAGS)
 CFLAGS	 += ${TCL_INC_SPEC}
@@ -63,8 +63,8 @@ CXXFLAGS := $(CFLAGS)
 %.so : CXXFLAGS += -fPIC
 
 # libraries
-LDLIBS  := 
-LDFLAGS := 
+LDLIBS  := @LDLIBS@
+LDFLAGS := @LDFLAGS@
 
 LDFLAGS	 += ${TCL_STUB_LIB_SPEC}
 LDFLAGS	 += ${TK_STUB_LIB_SPEC}

@@ -1,0 +1,20 @@
+
+WARNING: This is work-in-progress.
+
+In the long run I plan to turn this into a v4l capture library.  But
+that isn't finished yet and probably will not for some time.  Some
+documentation can be found in OVERVIEW.  Complete reference is not
+available.
+
+I don't care (yet) about backward compatibility.  I neither can nor
+will stop you from using the code.  But if you do don't complain if I
+break your applications with incompatible changes.  You have been
+warned.
+
+Please don't distribute this code as shared library.  This is just
+asking for trouble.
+
+  Gerd
+
+-- 
+Gerd Knorr <kraxel@bytesex.org>

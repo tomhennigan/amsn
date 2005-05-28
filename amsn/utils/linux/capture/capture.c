@@ -1,12 +1,6 @@
 #include "capture.h"
 
 
-static long int crv_tab[256];
-static long int cbu_tab[256];
-static long int cgu_tab[256];
-static long int cgv_tab[256];
-
-
 static struct list_ptr* opened_devices = NULL;
 static int curentCaptureNumber = 0;
 static int debug = 1;
@@ -16,6 +10,10 @@ struct list_ptr {
 	struct list_ptr* next_item;
 	struct data_item* element;
 };
+
+struct ng_video_buf* get_video_buf(void *handle, struct ng_video_fmt *fmt) {
+  return ((struct capture_item*) handle)->rgb_buffer;
+}
 
 /////////////////////////////////////
 // Functions to manage lists       //
@@ -85,108 +83,6 @@ struct data_item* Capture_lstDeleteItem(char *list_element_id){
 	return element;
 }
 
-
-/////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////
-///////////////////////     COLORSPACE PROCS     ////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////
-void InitConvtTbl()
-{
-   int crv,cbu,cgu,cgv;
-   int i;   
-   
-   crv = 89830; // 1.370705 << 16; 
-   cgu = 22127; // 0.337633 << 16;
-   cgv = 45744; // 0.698001 << 16;
-   cbu = 113538; // 1.732446 << 16; 
-
-   for (i = 0; i < 256; i++) {
-      crv_tab[i] = (i-128) * crv;
-      cbu_tab[i] = (i-128) * cbu;
-      cgu_tab[i] = (i-128) * cgu;
-      cgv_tab[i] = (i-128) * cgv;
-   }
-	 
-}
-
-
-
-void YUV2RGB(BYTE y, BYTE u, BYTE v, BYTE *r, BYTE *g, BYTE *b) {
-
-  //   Or you can use one of these equations if you don't want to use the table
-  //   r = y + 1.370705 * v;
-  //   g = y - 0.698001 * v - 0.337633 * u;
-  //   b = y + 1.732446 * u;
-
-  int temp;
-  temp = (y + crv_tab[v])>>16;
-  *r = CLAMP(temp);  
-  temp = (y - cgu_tab[u] - cgv_tab[v]) >>16;
-  *g = CLAMP(temp);
-  temp = (y + cbu_tab[u]) >>16;
-  *b = CLAMP(temp);
-}
-
-
-void YUV_to_RGB24 (const BYTE *input,
-                 BYTE* output_rgb,
-                 int width,
-                 int height,
-		   int uv_odd, int uv_even, int planar)
-{
-  const BYTE *src_y, *src_cb, *src_cr;
-  unsigned int i, j;
-  
-  const BYTE *p_cb, *p_cr;
- 
-  int each_column = 4 / uv_odd;
-  int each_row = uv_odd == uv_even ? 1 : each_column;
-
-  src_y  = input;
-  src_cb = input + width * height;
-  src_cr = input + width * height + ((width / each_column) * (height / each_row));
-
-
-  for (i = 0; i < height; i++) {
-        p_cb = src_cb; p_cr = src_cr;
-
-        for (j = 0; j < width; j++, src_y++, output_rgb+=3) {
-	  // Convert to BGR
-	  YUV2RGB(*src_y, *p_cb, *p_cr, &output_rgb[2], &output_rgb[1], &output_rgb[0]);
-
-	  if ((j + 1) % each_column == 0) {
-                p_cb++;
-                p_cr++;
-            }
-	}
-
-        if ((i + 1) % each_row == 0) {
-            src_cb += width / each_column;
-            src_cr += width / each_column; 
-        }
-
-  }
-
-}
-
-
-
-/////////////////////////////////////
-// Functions to grab images        //
-/////////////////////////////////////
-
-int GetGoodSize(int min, int max, int prefered){
-	if((min<=prefered)&&(prefered<=max)){
-		return prefered;
-	}
-	else if (prefered<min) {
-		return min;
-	}
-	else {
-		return max;
-	}
-}
 
 int Capture_ListDevices _ANSI_ARGS_((ClientData clientData,
 			      Tcl_Interp *interp,
@@ -372,316 +268,141 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
 			      Tcl_Obj *CONST objv[]))
 {
 
-	char * dev = NULL;
-	int fvideo;
-	int channel;
-	char mmapway=0;
-	struct capture_item* captureItem=NULL;
+  char                        *device = NULL;
+  struct ng_devstate          dev;
+  struct ng_video_fmt         fmt,gfmt;
+  struct ng_video_conv        *conv = NULL;
+  struct ng_process_handle    *handle = NULL;
+  
+  struct ng_attribute *attr = NULL;
+  int i;
 
-	struct video_capability vcap;
-	struct video_channel    vc;
-	struct video_picture    vp;
-	struct video_window     vw;
+  struct capture_item* captureItem = NULL;
+  int found = 0;
+  struct list_head *item;
+ 
+  int channel;
 
-	BYTE* image_data=NULL;
-	char *mmbuf=NULL; //To uncomment if we use mmap : not for now
-	struct video_mbuf       mb;
-
-	int size, width, height;
-	int UV_odd = 0, UV_even = 0;
-	int rw = 0;
-	float bpp = 3;
-
-	if( objc != 3) {
-		Tcl_AppendResult (interp, "Wrong number of args.\nShould be \"::Capture::Init device channel\"" , (char *) NULL);
-		return TCL_ERROR;
-	}
-
-	dev = Tcl_GetStringFromObj(objv[1], NULL);
-
-	if(Tcl_GetIntFromObj(interp, objv[2], &channel)==TCL_ERROR){
-		return TCL_ERROR;
-	}
-
-	rw = 1;
-	if ((fvideo = open(dev, O_RDWR)) < 0) {
-	  rw = 0;
-	  if ((fvideo = open(dev, O_RDONLY)) < 0) {
-	    perror("open");
-	    return TCL_ERROR;
-	  }
-	}
-
-	if (ioctl(fvideo, VIDIOCGCAP, &vcap) < 0) {
-		perror("VIDIOCGCAP");
-		close(fvideo);
-		return TCL_ERROR;
-	}
-
-	if (debug) {
-	  fprintf(stderr,"Video Capture Device Name : %s\n",vcap.name);
-	  fprintf(stderr,"%d < width < %d : %d < height < %d\n",
-		  vcap.minwidth, vcap.maxwidth, vcap.minheight, vcap.maxheight);
-	  if (vcap.type & VID_TYPE_CAPTURE) fprintf(stderr, "Can capture\n");
-	  if (vcap.type & VID_TYPE_TUNER) fprintf(stderr, "Has tuner\n");
-	  if (vcap.type & VID_TYPE_TELETEXT) fprintf(stderr, "Has teletext\n");
-	  if (vcap.type & VID_TYPE_OVERLAY) fprintf(stderr, "Can overlay\n");
-	  if (vcap.type & VID_TYPE_CHROMAKEY) fprintf(stderr, "Chromakeyed overlay\n");
-	  if (vcap.type & VID_TYPE_CLIPPING) fprintf(stderr, "Overlay clipping\n");
-	  if (vcap.type & VID_TYPE_FRAMERAM) fprintf(stderr, "Overwrites frame buffer\n");
-	  if (vcap.type & VID_TYPE_SCALES) fprintf(stderr, "Image scaling\n");
-	  if (vcap.type & VID_TYPE_MONOCHROME) fprintf(stderr, "Grey scale only\n");
-	  if (vcap.type & VID_TYPE_SUBCAPTURE) fprintf(stderr, "Can subcapture\n");
-
-	  if(channel>=vcap.channels){
-	    Tcl_AppendResult (interp, "Invalid channel" , (char *) NULL);
-	    close(fvideo);
-	    return TCL_ERROR;
-	  }
-
-	  if(ioctl(fvideo, VIDIOCGPICT, &vp)<0){
-	    perror("VIDIOCGPICT");
-	    close(fvideo);
-	    return TCL_ERROR;
-	  }
-
-	  fprintf(stderr, "picture: brightness %d hue %d colour %d\n",
-		  vp.brightness, vp.hue, vp.colour);
-	  fprintf(stderr, "contrast %d whiteness %d depth %d\n",
-		  vp.contrast, vp.whiteness, vp.depth);
-	  fprintf(stderr, "palettes: ");
-	  if (vp.palette == VIDEO_PALETTE_GREY) fprintf(stderr, "GREY ");
-	  if (vp.palette == VIDEO_PALETTE_HI240) fprintf(stderr, "HI240 ");
-	  if (vp.palette == VIDEO_PALETTE_RGB565) fprintf(stderr, "RGB565 ");
-	  if (vp.palette == VIDEO_PALETTE_RGB555) fprintf(stderr, "RGB555 ");
-	  if (vp.palette == VIDEO_PALETTE_RGB24) fprintf(stderr, "RGB24 ");
-	  if (vp.palette == VIDEO_PALETTE_RGB32) fprintf(stderr, "RGB32 ");
-	  if (vp.palette == VIDEO_PALETTE_YUYV) fprintf(stderr, "YUYV ");
-	  if (vp.palette == VIDEO_PALETTE_UYVY) fprintf(stderr, "UYVY ");
-	  if (vp.palette == VIDEO_PALETTE_YUV411) fprintf(stderr, "YUV411 ");
-	  if (vp.palette == VIDEO_PALETTE_YUV420) fprintf(stderr, "YUV420 ");
-	  if (vp.palette == VIDEO_PALETTE_YUV422) fprintf(stderr, "YUV422 ");
-	  if (vp.palette == VIDEO_PALETTE_RAW) fprintf(stderr, "RAW ");
-	  if (vp.palette == VIDEO_PALETTE_YUV411P) fprintf(stderr, "YUV411P ");
-	  if (vp.palette == VIDEO_PALETTE_YUV420P) fprintf(stderr, "YUV420P ");
-	  if (vp.palette == VIDEO_PALETTE_YUV422P) fprintf(stderr, "YUV422P ");
-	  fprintf(stderr, "\n");
-	}
-
-	vp.palette = VIDEO_PALETTE_RGB24;
-	if(ioctl(fvideo, VIDIOCSPICT, &vp)<0){
-	  vp.palette = VIDEO_PALETTE_RGB32;
-	  if(ioctl(fvideo, VIDIOCSPICT, &vp)<0){
-	    vp.palette = VIDEO_PALETTE_YUV420P;
-	    if(ioctl(fvideo, VIDIOCSPICT, &vp)<0){
-	      vp.palette = VIDEO_PALETTE_YUV420;
-	      if(ioctl(fvideo, VIDIOCSPICT, &vp)<0){
-		vp.palette = VIDEO_PALETTE_YUV422P;
-		if(ioctl(fvideo, VIDIOCSPICT, &vp)<0){
-		  vp.palette = VIDEO_PALETTE_YUV422;
-		  if(ioctl(fvideo, VIDIOCSPICT, &vp)<0){
-		    vp.palette = VIDEO_PALETTE_YUV411P;
-		    if(ioctl(fvideo, VIDIOCSPICT, &vp)<0){
-		      vp.palette = VIDEO_PALETTE_YUV411;
-		      if(ioctl(fvideo, VIDIOCSPICT, &vp)<0){
-			if(ioctl(fvideo, VIDIOCGPICT, &vp)<0){
-			  perror("VIDIOCGPICT");
-			  close(fvideo);
-			  return TCL_ERROR;
-			}
-		      }
-		    }
-		  }
-		}
-	      }
-	    }
-	  }
-	}
-
-	if(debug) {
-	  fprintf(stderr, "setting palette to : ");
-	  if (vp.palette == VIDEO_PALETTE_GREY) fprintf(stderr, "GREY ");
-	  if (vp.palette == VIDEO_PALETTE_HI240) fprintf(stderr, "HI240 ");
-	  if (vp.palette == VIDEO_PALETTE_RGB565) fprintf(stderr, "RGB565 ");
-	  if (vp.palette == VIDEO_PALETTE_RGB555) fprintf(stderr, "RGB555 ");
-	  if (vp.palette == VIDEO_PALETTE_RGB24) fprintf(stderr, "RGB24 ");
-	  if (vp.palette == VIDEO_PALETTE_RGB32) fprintf(stderr, "RGB32 ");
-	  if (vp.palette == VIDEO_PALETTE_YUYV) fprintf(stderr, "YUYV ");
-	  if (vp.palette == VIDEO_PALETTE_UYVY) fprintf(stderr, "UYVY ");
-	  if (vp.palette == VIDEO_PALETTE_YUV411) fprintf(stderr, "YUV411 ");
-	  if (vp.palette == VIDEO_PALETTE_YUV420) fprintf(stderr, "YUV420 ");
-	  if (vp.palette == VIDEO_PALETTE_YUV422) fprintf(stderr, "YUV422 ");
-	  if (vp.palette == VIDEO_PALETTE_RAW) fprintf(stderr, "RAW ");
-	  if (vp.palette == VIDEO_PALETTE_YUV411P) fprintf(stderr, "YUV411P ");
-	  if (vp.palette == VIDEO_PALETTE_YUV420P) fprintf(stderr, "YUV420P ");
-	  if (vp.palette == VIDEO_PALETTE_YUV422P) fprintf(stderr, "YUV422P ");
-	  fprintf(stderr, "\n");
-	}
-
-	vc.channel = channel;
-	vc.type = VIDEO_TYPE_CAMERA;
-	vc.norm = 0;
-	if(ioctl(fvideo, VIDIOCSCHAN, &vc) < 0){
-	  perror("VIDIOCSCHAN");
-	  close(fvideo);
-	  return TCL_ERROR;
-	}
-
-	if(ioctl(fvideo, VIDIOCGWIN, &vw)<0){
-	  perror("VIDIOCGWIN");
-	  close(fvideo);
-	  return TCL_ERROR;
-	}
-
-	if (debug) {
-	  fprintf(stderr, "window: x %d y %d w %d h %d\n",vw.x,vw.y,vw.width,vw.height);
-	  fprintf(stderr, "window: flags %d chromakey %d\n",vw.flags,vw.chromakey);
-	}
-
-	vw.x = 0;
-	vw.y = 0;
-	vw.width = GetGoodSize(vcap.minwidth, vcap.maxwidth, HIGH_RES_W);
-	vw.height = GetGoodSize(vcap.minheight, vcap.maxheight, HIGH_RES_H);
-
-	if (debug) {
-	  fprintf(stderr, "window: x %d y %d w %d h %d\n",vw.x,vw.y,vw.width,vw.height);
-	  fprintf(stderr, "window: flags %d chromakey %d\n",vw.flags,vw.chromakey);
-	}
-
-	if(ioctl(fvideo, VIDIOCSWIN, &vw)<0){
-		perror("VIDIOCSWIN");
-		/*close(fvideo);
-		  return TCL_ERROR;*/
-	}
+  if( objc != 3) {
+    Tcl_AppendResult (interp, "Wrong number of args.\nShould be \"::Capture::Init device channel\"" , (char *) NULL);
+    return TCL_ERROR;
+  }
+  
+  device = Tcl_GetStringFromObj(objv[1], NULL);
+  
+  if(Tcl_GetIntFromObj(interp, objv[2], &channel)==TCL_ERROR){
+    return TCL_ERROR;
+  }
+  
+  /* open device */
+  if (0 != ng_vid_init(&dev,device)) {
+    if(debug) fprintf(stderr,"no grabber device available\n");
+    Tcl_AppendResult (interp, "no grabber device available\n" , (char *) NULL);
+    return TCL_ERROR;
+  }
+  
+  if (!(dev.flags & CAN_CAPTURE)) {
+    if(debug) fprintf(stderr,"device does'nt support capture\n");
+    Tcl_AppendResult (interp, "device does'nt support capture\n" , (char *) NULL);
+    ng_dev_fini(&dev);
+    return TCL_ERROR;
+  }
 
 
-	width = vw.width;
-	height = vw.height;
+  ng_dev_open(&dev);
+  
+  found = 0;
+  list_for_each(item, &(&dev)->attrs) {
+    attr = list_entry(item, struct ng_attribute, device_list);
+    if (attr->id == ATTR_ID_INPUT) {
+      found = 1;
+      break;
+    }
+  }
+  if (!found) attr = NULL;
 
-	if(ioctl(fvideo, VIDIOCGWIN, &vw)<0){
-		perror("VIDIOCGWIN");
-		close(fvideo);
-		return TCL_ERROR;
-	}
+  if(attr != NULL) {
+    if (-1 != channel)
+      attr->write(attr, channel);
+  }
 
-	if (debug) {
-	  fprintf(stderr, "window: x %d y %d w %d h %d\n",vw.x,vw.y,vw.width,vw.height);
-	  fprintf(stderr, "window: flags %d chromakey %d\n",vw.flags,vw.chromakey);
-	}
+  
+   /* try native */
+  fmt.fmtid  = VIDEO_RGB24;
+  fmt.width  = HIGH_RES_W;
+  fmt.height = HIGH_RES_H;
+  if (0 == dev.v->setformat(dev.handle,&fmt))
+    goto create_fd_and_return;
+  
+   /* try native */
+  fmt.fmtid  = VIDEO_BGR24;
+  if (0 == dev.v->setformat(dev.handle,&fmt))
+    goto create_fd_and_return;
 
+  
+  fmt.fmtid  = VIDEO_RGB24;
 
-	if (vw.width) width = vw.width;
-	if (vw.height) height = vw.height;
-	if(width >= HIGH_RES_W && height >= HIGH_RES_H){
-	  width = HIGH_RES_W;
-	  height = HIGH_RES_H;
-	} else {
-	  width = LOW_RES_W;
-	  height = LOW_RES_H;
-	}
+  /* check all available conversion functions */
+  fmt.bytesperline = fmt.width*ng_vfmt_to_depth[fmt.fmtid]/8;
+  for (i = 0;;) {
+    conv = ng_conv_find_to(fmt.fmtid, &i);
+    if (NULL == conv)
+      break;
+    if(debug) fprintf(stderr, "Trying converter from %s to %s\n",
+		      ng_vfmt_to_desc[conv->fmtid_in], ng_vfmt_to_desc[conv->fmtid_out]);
+    gfmt = fmt;
+    gfmt.fmtid = conv->fmtid_in;
+    gfmt.bytesperline = 0;
+    if (0 == dev.v->setformat(dev.handle,&gfmt)) {
+      fmt.width  = gfmt.width;
+      fmt.height = gfmt.height;
+      handle = ng_conv_init(conv,&gfmt,&fmt);
+      goto create_fd_and_return;
+    }
+  }
+  
+  if (debug)
+    fprintf(stderr, "Your webcam uses a palette that this extension does not support yet");
+  
+  Tcl_AppendResult (interp, "Your webcam uses a palette that this extension does not support yet" , (char *) NULL);
+  ng_dev_close(&dev);
+  ng_dev_fini(&dev);
+  return TCL_ERROR;
+  
+  
+ create_fd_and_return:
+  captureItem = (struct capture_item *) malloc(sizeof(struct capture_item));
+  memset(captureItem, 0, sizeof(struct capture_item));
+  
+  if (Capture_lstAddItem(captureItem)==NULL){
+    perror("lstAddItem");
+    ng_dev_close(&dev);
+    ng_dev_fini(&dev);
+    return TCL_ERROR;
+  }
+  
+  
+  sprintf(captureItem->captureName,"capture%d",curentCaptureNumber);
+  curentCaptureNumber++;
+  
+  strcpy(captureItem->devicePath,device);
+  captureItem->channel=channel;
 
-	if (vp.palette == VIDEO_PALETTE_RGB24) {
-	  bpp = 3;
-	} else if (vp.palette == VIDEO_PALETTE_RGB32) {
-	  bpp = 4;
-	} else if (vp.palette == VIDEO_PALETTE_YUV420P || vp.palette == VIDEO_PALETTE_YUV420) {
-	  bpp = 3 / 2;
-	  UV_odd = 2;
-	  UV_even = 0;
-	} else if (vp.palette == VIDEO_PALETTE_YUV422P || vp.palette == VIDEO_PALETTE_YUV422) {
-	  bpp = 2;
-	  UV_odd = 2;
-	  UV_even = 2;
-	} else if (vp.palette == VIDEO_PALETTE_YUV411P || vp.palette == VIDEO_PALETTE_YUV411) {
-	  bpp = 3 / 2;
-	  UV_odd = 1;
-	  UV_even = 1;
-	} else {
-	  if (debug)
-	    fprintf(stderr, "Your webcam uses a palette that this extension does not support yet");
+  captureItem->dev = dev;
+ 
+  captureItem->fmt = fmt;
+  captureItem->gfmt = gfmt;
+  captureItem->conv = conv;
+  captureItem->handle = handle;
 
-	  Tcl_AppendResult (interp, "Your webcam uses a palette that this extension does not support yet" , (char *) NULL);
-	  close(fvideo);
-	  return TCL_ERROR;
-	}
+  if(handle) {
+      ng_process_setup(handle, get_video_buf, (void *)captureItem);
+      captureItem->rgb_buffer = ng_malloc_video_buf(&dev, &fmt);
+  }
+  
+  Tcl_SetObjResult(interp, Tcl_NewStringObj(captureItem->captureName,-1));
 
-	size = width * height * bpp;
-	image_data = (BYTE *) malloc(size);
-
-	mmapway = 1;
-	if (ioctl(fvideo, VIDIOCGMBUF, &mb)) {
-	  mmapway = 0;
-	  perror("VIDIOCGMBUF");
-	}
-
-	if (mmapway && debug) {
-	  fprintf(stderr, "mmap buffer successfully allocated\n");
-	  fprintf(stderr, "size: %d with %d frames\n",mb.size, mb.frames);
-	}
-
-
-	if (rw)
-	  mmbuf = (unsigned char*)mmap(0, mb.size, PROT_READ|PROT_WRITE, MAP_SHARED, fvideo, 0);
-	else
-	  mmbuf = (unsigned char*)mmap(0, mb.size, PROT_READ, MAP_SHARED, fvideo, 0);
-
-	if(mmbuf == MAP_FAILED){
-	  mmapway = 0;
-	  perror("mmap");
-	} 
-
-	if (mmapway == 0) {
-	  if (read(fvideo,image_data,size)==-1) {
-	    perror("read failed");
-	    close(fvideo);
-	    return TCL_ERROR;
-	  }
-	}
-
-	captureItem = (struct capture_item *) malloc(sizeof(struct capture_item));
-	memset(captureItem, 0, sizeof(struct capture_item));
-
-	if (Capture_lstAddItem(captureItem)==NULL){
-		perror("lstAddItem");
-		close(fvideo);
-		return TCL_ERROR;
-	}
-
-	captureItem->image_data = image_data;
-	captureItem->palette = vp.palette;
-	captureItem->UV_odd = UV_odd;
-	captureItem->UV_even = UV_even;
-
-	if (captureItem->palette != VIDEO_PALETTE_RGB24 && captureItem->palette != VIDEO_PALETTE_RGB32) {
-	  captureItem->rgb_buffer = (BYTE *) malloc(width * height * 3);
-	}
-
-
-	sprintf(captureItem->captureName,"capture%d",curentCaptureNumber);
-	curentCaptureNumber++;
-
-	strcpy(captureItem->devicePath,dev);
-	captureItem->channel=channel;
-
-	captureItem->fvideo=fvideo;
-
-	captureItem->width = width;
-	captureItem->height = height;
-	captureItem->bpp = bpp;
-	captureItem->frame = -1;
-
-
-	if(mmapway){
-	  memcpy(&captureItem->mb,&mb,sizeof(captureItem->mb));
-	  captureItem->mmbuf=mmbuf;
-	} else {
-	  captureItem->mmbuf = NULL;
-	}
-
-
-	Tcl_SetObjResult(interp, Tcl_NewStringObj(captureItem->captureName,-1));
-
-	return TCL_OK;
+  return TCL_OK;
 }
 
 int Capture_Close _ANSI_ARGS_((ClientData clientData,
@@ -703,17 +424,15 @@ int Capture_Close _ANSI_ARGS_((ClientData clientData,
 		return TCL_ERROR;
 	}
 
-	if (capItem->image_data)
-	  free(capItem->image_data);
-
-	if (capItem->rgb_buffer)
-	  free(capItem->rgb_buffer);
-
-	if(capItem->mmbuf){
-		munmap(capItem->mmbuf,capItem->mb.size);
+	if(capItem->handle) {
+	  ng_process_fini(capItem->handle);
+	  ng_release_video_buf(capItem->rgb_buffer);
 	}
+	
 
-	close(capItem->fvideo);
+	ng_dev_close(&capItem->dev);
+	ng_dev_fini(&capItem->dev);
+
 	Capture_lstDeleteItem(captureDescriptor);
 	free(capItem);
 	return TCL_OK;
@@ -724,173 +443,128 @@ int Capture_Grab _ANSI_ARGS_((ClientData clientData,
 			      int objc,
 			      Tcl_Obj *CONST objv[]))
 {
-	struct capture_item*    capItem = NULL;
-	char *                  captureDescriptor = NULL;
-	char *                  image_name = NULL;
-	char * 			resolution = NULL;
 
-	Tk_PhotoImageBlock	block;
-	Tk_PhotoHandle          Photo;
+    struct capture_item*    capItem = NULL;
+    char *                  captureDescriptor = NULL;
+    char *                  image_name = NULL;
+    char * 			resolution = NULL;
 
-	struct video_mmap       mm;
-	struct video_window     vw;
-	int planar;
-	int width, height, size;
+    Tk_PhotoImageBlock	block;
+    Tk_PhotoHandle          Photo;
+    int width, height;
+	
 
-	if( objc != 3 && objc != 4) {
-		Tcl_AppendResult (interp, "Wrong number of args.\nShould be \"::Capture::Grab capturedescriptor image_name ?resolution?\"" , (char *) NULL);
-		return TCL_ERROR;
-	}
+    if( objc != 3 && objc != 4) {
+      Tcl_AppendResult (interp, "Wrong number of args.\nShould be " 
+			"\"::Capture::Grab capturedescriptor image_name ?resolution?\"" , (char *) NULL);
+      return TCL_ERROR;
+    }
+    
+    captureDescriptor = Tcl_GetStringFromObj(objv[1], NULL);
+    image_name = Tcl_GetStringFromObj(objv[2], NULL);
+    
+    if (objc == 4) {
+      resolution = Tcl_GetStringFromObj(objv[3], NULL);
+      if ( strcmp(resolution, "LOW") && strcmp(resolution, "HIGH")) {
+	Tcl_AppendResult(interp, "The resolution should be either \"LOW\" or \"HIGH\"", NULL);
+	return TCL_ERROR;
+      }
+    }
+    
+    
+    if ( (Photo = Tk_FindPhoto(interp, image_name)) == NULL) {
+      Tcl_AppendResult(interp, "The image you specified is not a valid photo image", NULL);
+      return TCL_ERROR;
+    }
+    
+    if( (capItem=Capture_lstGetItem(captureDescriptor)) == NULL){
+      Tcl_AppendResult (interp, "Invalid capture descriptor. Please call Open before." , (char *) NULL);
+      return TCL_ERROR;
+    }
+    
+    if (resolution && !strcmp(resolution, "LOW")) {
+      width = LOW_RES_W;
+      height = LOW_RES_H;
+    } else {
+      width = HIGH_RES_W;
+      height = HIGH_RES_H;
+    }
 
-	captureDescriptor = Tcl_GetStringFromObj(objv[1], NULL);
-	image_name = Tcl_GetStringFromObj(objv[2], NULL);
-
-	if (objc == 4) {
-	  resolution = Tcl_GetStringFromObj(objv[3], NULL);
-	  if ( strcmp(resolution, "LOW") && strcmp(resolution, "HIGH")) {
-	    Tcl_AppendResult(interp, "The resolution should be either \"LOW\" or \"HIGH\"", NULL);
-	    return TCL_ERROR;
-	  }
-	}
-
-
-	if ( (Photo = Tk_FindPhoto(interp, image_name)) == NULL) {
-		Tcl_AppendResult(interp, "The image you specified is not a valid photo image", NULL);
-		return TCL_ERROR;
-	}
-
-	if( (capItem=Capture_lstGetItem(captureDescriptor)) == NULL){
-		Tcl_AppendResult (interp, "Invalid capture descriptor. Please call Open before." , (char *) NULL);
-		return TCL_ERROR;
-	}
-
-	if (resolution && !strcmp(resolution, "HIGH")) {
-	  if (capItem->width == HIGH_RES_W && capItem->height == HIGH_RES_H) {
-	    width = HIGH_RES_W;
-	    height = HIGH_RES_H;
-	  } else {
-	    Tcl_AppendResult(interp, "The webcam will only support a LOW resolution", NULL);
-	    return TCL_ERROR;
-	  }
-	} else if (resolution && !strcmp(resolution, "LOW")) {
-	  width = LOW_RES_W;
-	  height = LOW_RES_H;
-	} else {
-	  width = capItem->width;
-	  height = capItem->height;
-	}
-	vw.x=0;
-	vw.y=0;
-	vw.width=width;
-	vw.height=height;
-	ioctl(capItem->fvideo, VIDIOCSWIN, &vw);
-
-	if (capItem->mmbuf){
-
-	  mm.frame = capItem->frame;
-	  mm.frame++;
-	  if (mm.frame >= capItem->mb.frames)
-	    mm.frame = 0;
-
-	  mm.height = height;
-	  mm.width  = width;
-	  mm.format = capItem->palette;
-	  
-	  if(ioctl(capItem->fvideo, VIDIOCMCAPTURE, &mm)<0){
-	    perror("VIDIOCMCAPTURE");
-	    return TCL_ERROR;
-	  }
-
-	  if (capItem->frame == -1 ) {
-	    if (capItem->mb.frames >= 2) {
-	      mm.frame  = 1;
-	      if(ioctl(capItem->fvideo, VIDIOCMCAPTURE, &mm)<0){
-		perror("VIDIOCMCAPTURE");
-		return TCL_ERROR;
-	      }
-	    }
-	    capItem->frame = 0;
-	  }
-	  
-	  if(ioctl(capItem->fvideo, VIDIOCSYNC, &(capItem->frame))<0){
-	    perror("VIDIOCSYNC");
-	    return TCL_ERROR;
-	  }
-
-	  capItem->frame = mm.frame;
-
-	}
-
-	size = width * height * capItem->bpp;
-	if (capItem->mmbuf){
-		memcpy(capItem->image_data, capItem->mmbuf+capItem->mb.offsets[capItem->frame], size);
-	} else {
-		read(capItem->fvideo,capItem->image_data, size);
-	}
-
-	Tk_PhotoBlank(Photo);
-
-	Tk_PhotoSetSize(
-	#if TK_MINOR_VERSION == 5
-			interp,
-	#endif
-			Photo, width, height);
+    if(capItem->conv) {
+      capItem->gfmt.width  = width;
+      capItem->gfmt.height = height;
+      capItem->dev.v->setformat(capItem->dev.handle,&capItem->gfmt);
+    } else {
+      capItem->fmt.width  = width;
+      capItem->fmt.height = height;
+      capItem->dev.v->setformat(capItem->dev.handle,&capItem->fmt);
+    }
 
 
-	block.width = width;
-	block.height = height;
+    if (NULL == (capItem->image_data = capItem->dev.v->getimage(capItem->dev.handle))) {
+	if(debug) fprintf(stderr,"capturing image failed\n");
+	
+    }
 
-	block.pitch = width*3;
-	block.pixelSize = 3;
-
-
-	block.offset[0] = 2;
-	block.offset[1] = 1;
-	block.offset[2] = 0;
-	block.offset[3] = -1;
-
-	planar = 0;
-
-	switch (capItem->palette) {
-	case VIDEO_PALETTE_RGB24:
-	  block.pixelPtr  = capItem->image_data;
-	  break;
-	case VIDEO_PALETTE_RGB32:
-	  block.pixelPtr  = capItem->image_data;
-	  block.pitch = width*4;
-	  block.pixelSize = 4;
-	break;
-
-	case VIDEO_PALETTE_YUV411P:
-	case VIDEO_PALETTE_YUV420P:
-	case VIDEO_PALETTE_YUV422P:
-	  planar = 1;
-	case VIDEO_PALETTE_YUV420:
-	case VIDEO_PALETTE_YUV422:
-	case VIDEO_PALETTE_YUV411:
-	  YUV_to_RGB24 (capItem->image_data, capItem->rgb_buffer, width,height,
-			capItem->UV_odd, capItem->UV_even, planar);
-	  block.pixelPtr  = capItem->rgb_buffer;
-	  break;
-	default:
-	  // Should never be here...
-	  break;
-	}
+    if (capItem->conv) {
+      ng_process_put_frame(capItem->handle,capItem->image_data);
+      capItem->rgb_buffer = ng_process_get_frame(capItem->handle);
+    } else {
+      capItem->rgb_buffer = capItem->image_data;
+    }
+    	
+    
 
 
+    block.pixelPtr  = capItem->rgb_buffer->data;
+    block.width = capItem->rgb_buffer->fmt.width;
+    block.height = capItem->rgb_buffer->fmt.height;
+    
+    block.pitch = block.width*3;
+    block.pixelSize = 3;
+    
+    block.offset[1] = 1;
+    block.offset[3] = -1;
 
-	Tk_PhotoPutBlock(
-	#if TK_MINOR_VERSION == 5
-		interp,
-	#endif
-		Photo, &block, 0, 0, width, height 
-	#if TK_MINOR_VERSION > 3 
-		,TK_PHOTO_COMPOSITE_OVERLAY
-	#endif
-		);
+    if (capItem->fmt.fmtid == VIDEO_RGB24) {
+      block.offset[0] = 0;
+      block.offset[2] = 2;
+    } else {
+      block.offset[0] = 2;
+      block.offset[2] = 0;    
+    }
+
+    
+
+    Tk_PhotoBlank(Photo);
+    
+    Tk_PhotoSetSize(
+#	if TK_MINOR_VERSION == 5
+		    interp,
+#	endif
+		    Photo, block.width, block.height);
 
 
-	return TCL_OK;
+    Tk_PhotoPutBlock(
+#if TK_MINOR_VERSION == 5
+		     interp,
+#endif
+		     Photo, &block, 0, 0, block.width, block.height
+#if TK_MINOR_VERSION > 3 
+		     ,TK_PHOTO_COMPOSITE_OVERLAY
+#endif
+		     );
+    
+    Tk_PhotoSetSize(
+#	if TK_MINOR_VERSION == 5
+		    interp,
+#	endif
+		    Photo, width, height);
+
+    if (!capItem->conv)
+      ng_release_video_buf(capItem->rgb_buffer);
+    
+    return TCL_OK;
 }
 
 int Capture_AccessSettings _ANSI_ARGS_((ClientData clientData,
@@ -898,114 +572,98 @@ int Capture_AccessSettings _ANSI_ARGS_((ClientData clientData,
 			      int objc,
 			      Tcl_Obj *CONST objv[]))
 {
-	char *captureDescriptor = NULL;
-	char *proc = NULL;
-	struct capture_item *capItem = NULL;
-	int new_value = 0;
-	int setting = 0;
-	struct video_picture vp;
+  struct ng_attribute *attr;
+  char *captureDescriptor = NULL;
+  char *proc = NULL;
+  struct capture_item *capItem = NULL;
+  int new_value = 0;
+  int set = 0;
+  int attribute;
+  int value;
+  struct list_head *item;
+  int found = 0;
 
+  proc = Tcl_GetStringFromObj(objv[0], NULL);
+  
+  if (!strcmp(proc, "::Capture::SetBrightness")) {
+    set = 1;
+    attribute = ATTR_ID_BRIGHT;
+  } else if (!strcmp(proc, "::Capture::SetContrast")) {
+    set = 1;
+    attribute = ATTR_ID_CONTRAST;
+  } else if (!strcmp(proc, "::Capture::SetHue")) {
+    set = 1;
+    attribute = ATTR_ID_HUE;
+  } else if (!strcmp(proc, "::Capture::SetColour")) {
+    set = 1;
+    attribute = ATTR_ID_COLOR;
+  } else if (!strcmp(proc, "::Capture::GetBrightness")) {
+    attribute = ATTR_ID_BRIGHT;
+  } else if (!strcmp(proc, "::Capture::GetContrast")) {
+    attribute = ATTR_ID_CONTRAST;
+  } else if (!strcmp(proc, "::Capture::GetHue")) {
+    attribute = ATTR_ID_HUE;
+  } else if (!strcmp(proc, "::Capture::GetColour")) {
+    attribute = ATTR_ID_COLOR;
+  } else {
+    Tcl_ResetResult(interp);
+    Tcl_AppendResult (interp, "Wrong procedure name, should be either one of those : \n" , (char *) NULL);
+    Tcl_AppendResult (interp, "::Capture::SetBrightness, ::Capture::SetContrast, ::Capture::SetHue, ::Capture::SetColour\n" , (char *) NULL);
+    Tcl_AppendResult (interp, "::Capture::GetBrightness, ::Capture::GetContrast, ::Capture::GetHue, ::Capture::GetColour" , (char *) NULL);
+    return TCL_ERROR;
+  }
+  
+  if ( set && objc != 3) {
+    Tcl_WrongNumArgs (interp, 1, objv, "capture_descriptor new_value");
+    return TCL_ERROR;
+  }
+  if ( !set && objc != 2) {
+    Tcl_WrongNumArgs (interp, 1, objv, "capture_descriptor");
+    return TCL_ERROR;
+  }
+  
+  captureDescriptor = Tcl_GetStringFromObj(objv[1], NULL);
+  
+  if((capItem=Capture_lstGetItem(captureDescriptor))==NULL){
+    Tcl_AppendResult (interp, "Invalid capture descriptor. Please call Open before." , (char *) NULL);
+    return TCL_ERROR;
+  }
+  
+  if (set) {
+    if(Tcl_GetIntFromObj(interp, objv[2], &new_value)==TCL_ERROR){
+      return TCL_ERROR;
+    }
+    
+    if (new_value>65535 || new_value < 0) {
+      Tcl_AppendResult (interp, "Invalid value. should be between 0 and 65535" , (char *) NULL);
+      return TCL_ERROR;
+    }
+  }
+  
 
-	proc = Tcl_GetStringFromObj(objv[0], NULL);
+  Tcl_ResetResult(interp);
 
-	if (!strcmp(proc, "::Capture::SetBrightness")) {
-	  setting = SETTINGS_SET_BRIGHTNESS;
-	} else if (!strcmp(proc, "::Capture::SetContrast")) {
-	  setting = SETTINGS_SET_CONTRAST;
-	} else if (!strcmp(proc, "::Capture::SetHue")) {
-	  setting = SETTINGS_SET_HUE;
-	} else if (!strcmp(proc, "::Capture::SetColour")) {
-	  setting = SETTINGS_SET_COLOUR;
-	} else if (!strcmp(proc, "::Capture::GetBrightness")) {
-	  setting = SETTINGS_GET_BRIGHTNESS;
-	} else if (!strcmp(proc, "::Capture::GetContrast")) {
-	  setting = SETTINGS_GET_CONTRAST;
-	} else if (!strcmp(proc, "::Capture::GetHue")) {
-	  setting = SETTINGS_GET_HUE;
-	} else if (!strcmp(proc, "::Capture::GetColour")) {
-	  setting = SETTINGS_GET_COLOUR;
-	}
+  found = 0;
+  list_for_each(item, &(&capItem->dev)->attrs) {
+    attr = list_entry(item, struct ng_attribute, device_list);
+    if (attr->id == attribute) {
+      found = 1;
+      break;
+    }
+  }
+  if (!found) attr = NULL;
 
-	if ( setting == 0 ) {
-	  Tcl_ResetResult(interp);
-	  Tcl_AppendResult (interp, "Wrong procedure name, should be either one of those : \n" , (char *) NULL);
-	  Tcl_AppendResult (interp, "::Capture::SetBrightness, ::Capture::SetContrast, ::Capture::SetHue, ::Capture::SetColour\n" , (char *) NULL);
-	  Tcl_AppendResult (interp, "::Capture::GetBrightness, ::Capture::GetContrast, ::Capture::GetHue, ::Capture::GetColour" , (char *) NULL);
-	  return TCL_ERROR;
-	}
+  if(attr != NULL) {
+    if (set) {
+      if (-1 != new_value)
+	attr->write(attr, new_value);
+    } else {
+      value = attr->read(attr);
+      Tcl_SetObjResult(interp, Tcl_NewIntObj(value));
+    }
+  }
 
-	if ( (setting & SETTINGS_SET) && objc != 3) {
-		Tcl_WrongNumArgs (interp, 1, objv, "capture_descriptor new_value");
-		return TCL_ERROR;
-	}
-	if ( (setting & SETTINGS_GET) && objc != 2) {
-		Tcl_WrongNumArgs (interp, 1, objv, "capture_descriptor");
-		return TCL_ERROR;
-	}
-
-	captureDescriptor = Tcl_GetStringFromObj(objv[1], NULL);
-
-	if((capItem=Capture_lstGetItem(captureDescriptor))==NULL){
-		Tcl_AppendResult (interp, "Invalid capture descriptor. Please call Open before." , (char *) NULL);
-		return TCL_ERROR;
-	}
-
-	if (setting & SETTINGS_SET) {
-	  if(Tcl_GetIntFromObj(interp, objv[2], &new_value)==TCL_ERROR){
-	    return TCL_ERROR;
-	  }
-
-	  if (new_value>65535 || new_value < 0) {
-	    Tcl_AppendResult (interp, "Invalid value. should be between 0 and 65535" , (char *) NULL);
-	    return TCL_ERROR;
-	  }
-	}
-
-
-	if(ioctl(capItem->fvideo, VIDIOCGPICT, &vp)<0){
-		perror("VIDIOCGPICT");
-		return TCL_ERROR;
-	}
-
-	Tcl_ResetResult(interp);
-
-	switch (setting) {
-	case SETTINGS_SET_BRIGHTNESS :
-	  vp.brightness = new_value;
-	  break;
-	case SETTINGS_SET_HUE:
-	  vp.hue = new_value;
-	  break;
-	case SETTINGS_SET_COLOUR:
-	  vp.colour = new_value;
-	  break;
-	case SETTINGS_SET_CONTRAST:
-	  vp.contrast = new_value;
-	  break;
-	case SETTINGS_GET_BRIGHTNESS:
-	  Tcl_SetObjResult(interp, Tcl_NewIntObj(vp.brightness));
-	  break;
-	case SETTINGS_GET_HUE:
-	  Tcl_SetObjResult(interp, Tcl_NewIntObj(vp.hue));
-	  break;
-	case SETTINGS_GET_COLOUR:
-	  Tcl_SetObjResult(interp, Tcl_NewIntObj(vp.colour));
-	  break;
-	case SETTINGS_GET_CONTRAST:
-	  Tcl_SetObjResult(interp, Tcl_NewIntObj(vp.contrast));
-	  break;
-	default:
-	  break;
-	}
-
-	if ( setting & SETTINGS_SET) {
-	  if (ioctl(capItem->fvideo, VIDIOCSPICT, &vp)) {
-	    perror("VIDIOCSPICT");
-	    return TCL_ERROR;
-	  }
-	}
-
-	return TCL_OK;
+  return TCL_OK;
 }
 
 
@@ -1077,7 +735,9 @@ int Capture_Init (Tcl_Interp *interp ) {
 	Tcl_CreateObjCommand(interp, "::Capture::ListGrabbers", Capture_ListGrabbers,
 			(ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
 
-	InitConvtTbl();
+	//ng_debug = 1;
+	ng_init();
+	
 
 	// end of Initialisation
 	return TCL_OK;

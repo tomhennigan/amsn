@@ -1,0 +1,16 @@
+#!/usr/bin/perl
+use strict;
+
+my ($name,$type);
+
+while (<>) {
+	($name,$type) = m/\#define\s+(\w+)\s+_IO\w+\s*\([^,]+,\s*\d+,\s*(.*?)\)/
+	  or next;
+
+	$type =~ s/struct /desc_/;
+
+	print "[_IOC_NR($name)] = {\n";
+	print "\t.name = \"$name\",\n";
+	print "\t.desc = $type,\n";
+	print "},\n";
+}

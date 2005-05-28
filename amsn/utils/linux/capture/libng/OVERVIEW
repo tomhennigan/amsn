@@ -1,0 +1,178 @@
+
+libng overview
+==============
+
+
+some general notes
+------------------
+
+The text below is not a complete reference (yet?), it just tries to
+give a overview and explain the design of the library.  Have a look at
+grab-ng.h, this is the header file where everything is defined.
+
+If you are looking for some simple sample code check out
+console/webcam.c.  More complex usages of libng can be found everythere
+in the xawtv source code: In common/capture.c for example, where most of
+the threaded movie recording code for xawtv+streamer is.
+
+There are two types of structs: Those which carrying some data (like
+ng_video_fmt or ng_video_buf) and those which define a interface (like
+ng_driver).
+
+The interfaces all have a initialization function which returns a void
+pointer as handle.  All other interface functions expect getting that
+handle passed in.  The complete state information is kept there.
+Global variables are a no-no, the interfaces need to be reentrant (so
+you can use multiple instances of them at the same time).
+
+
+video buffers (struct ng_video_buf)
+-----------------------------------
+
+One video buffer holds one frame.  There are some rules for video
+frames:
+
+ (1) Multiple instances (threads for example) may hold a pointer to
+     the buffer.  The refcount variable is used to keep track of the
+     number of references.  If you hand out a pointer to the buffer to
+     someone else *and* keep a pointer to the buffer yourself to use
+     it later refcount must be increased by one.  If you don't need
+     the buffer any more, just free it with ng_release_video_buf().
+     That function will take care about count down the reference
+     counter and freeing the buffer if refcount is zero.
+
+ (2) The above implies you should not write to ng_video_buf->data
+     because another thread might use the image data while you are
+     modifying it. Allocate a new buffer and put the new data in there
+     instead if you want process the image data. You can use
+     ng_malloc_video_buf() to get a buffer.  Don't forget to copy the
+     frame meta data to the new buffer (ng_video_buf->info).
+
+Within the current implementation two types of buffers exist: Those
+malloc()ed ones which are returned by ng_malloc_video_buf() and
+buffers provided by the hardware drivers, where ng_video_buf->data is
+a pointer directly to the mmap()ed buffer(s).
+
+
+video capture / overlay drivers (struct ng_vid_driver)
+------------------------------------------------------
+
+This is a interface to a capture driver.  Right now three different
+ones exist:
+
+ (1) video4linux (current linux API, see plugins/drv1-v4l.c).
+ (2) video4linux two (work in progress - new API for linux, see
+     plugins/drv0-v4l2.c).
+ (3) bktr (bt848/878 driver for FreeBSD + OpenBSD, see
+     plugins/drv0-bsd.c).
+
+xawtv uses struct ng_vid_driver for Xvideo support too (see x11/xv.c).
+
+open()/close() should be clear.  The capabilities() function returns a
+bitfield which specifies the capabilities of the driver.  The *attr*
+functions can be used to control several (hardware) settings (see
+below for more on attributes).
+
+To for a overlay use setupfb() and overlay().  For linux setupfb()
+just verifies the driver parameters, it expects the setup is done with
+a extern utility like v4l-conf (because one needs root priviliges for
+that).
+
+To capture frames you have to configure the format with setformat()
+first.  Be aware that the image size might have changed on return,
+depending on the capabilities of the underlying hardware.  For video
+recording use startvideo(), multiple nextframe() calls and
+stopvideo(), for single frames use getimage().
+
+
+output drivers (struct ng_writer)
+---------------------------------
+
+This is a interface for movie writer code.  Four different ones exist:
+
+ (1) Microsoft's AVI
+ (2) Apple Quicktime (using the libquicktime library).
+ (3) raw, uncompressed data (one big file).
+ (4) one image file/frame (jpeg or ppm).
+
+The first two write audio and video data into the same stream, the
+last two can write audio data to a separate wav file.
+
+The audio/video args hold a list of supported formats.  Usage should
+be pretty straight forward: wr_open(), write data with wr_video() +
+wr_audio(), then wr_close().  You can write both audio-only and
+video-only streams if you want.
+
+
+attributes (struct ng_attribute)
+--------------------------------
+
+Attributes can be used to control properties attributes.  Right now
+they are only used for video drivers (struct ng_driver), but that
+might change in the future.  There are a number of standard attributes
+defined (tv norm, volume and the like), but it is also possible to
+specify non-standard attributes.
+
+struct ng_attribute also has functions to list/read/modify the given
+attribute.  A number of helper functions to search a attribute list by
+id / name and for multiple choice attribute handling are available
+too.
+
+
+audio recording + mixer control
+-------------------------------
+
+There are only some structs for audio formats and audio data chunks.
+The movie writers use these.  There are also interfaces for sound
+recording and mixer control (struct ng_dsp_driver + struct
+ng_mix_driver) and a implementation for the OSS API (in
+plugins/snd-oss.c).
+
+I'm not that happy with the current design of the mixer stuff, it
+likely will change in the future.
+
+
+color space conversion and compression
+--------------------------------------
+
+struct ng_video_conv describes a converter.  There are plenty built-in
+into libng, but it is also possible to add more using plugins.  These
+converters handle (a) color space conversion (yuv -> rgb), (b) convert
+rgb with different color depths, (c) handle compression.
+
+
+image filtering
+---------------
+
+I've recently added a interfaces for image filtering (i.e. on-the-fly
+image processing).  struct ng_filter is it, in plugins/flt-*.c is some
+sample code.  There is no complex stuff yet.
+
+For now filters are limited: They work on a frame-by-frame base,
+i.e. for one frame which gets passed in one is expected to come out.
+Read: you can't (yet?) merge multiple frames into one.  The input and
+output format is expected to be the same.
+
+Filters should be able to handle as much formats as possible, neither
+xawtv nor libng attempt to do any conversions (i.e. do yuv->rgb ->
+filter -> rgb->yuv for you because the filter works in RGB space
+only).  ng_filter->fmts lists the supported formats of a given filter,
+and if the required format isn't supported by some filter it is simply
+skipped and no filtering takes place.
+
+Most frequently formats are:
+ * RGB (various depts), to display images on the X11 screen, for ppm
+   capture, ...
+ * packed pixel yuv (If xawtv/motv blits images using the Xvideo
+   extension instead of normal X11 ximages).
+ * planar yuv (for recording compressed video, libjpeg can be feeded
+   directly with planar yuv to save some CPU cycles for rgb->yuv color
+   space conversion).
+
+
+misc
+----
+
+There are some helper functions for various stuff, see grab-ng.[ch].
+There are also some arrays with text descriptions and other
+informations about audio/video formats: ng_[va]fmt_to_*.
