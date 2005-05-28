@@ -153,6 +153,7 @@ struct v4l_handle {
 
     /* capture */
     int                      use_read;
+    int                      rw;
     struct ng_video_fmt      fmt;
     long long                start;
     int                      fps;
@@ -271,13 +272,16 @@ v4l_add_attr(struct v4l_handle *h, int id, int type,
 static void
 v4l_buffer_map(struct v4l_handle *h)
 {
-    int i;
+    int i, flags;
     
     if (0 == xioctl(h->fd,VIDIOCGMBUF,&h->mbuf)) {
 	if (ng_debug)
 	    fprintf(stderr,"  mbuf: size=%d frames=%d\n",
 		    h->mbuf.size,h->mbuf.frames);
-	h->mmap = mmap(0,h->mbuf.size,PROT_READ|PROT_WRITE,
+	flags = PROT_READ;
+	if (h->rw)
+	  flags |= PROT_WRITE;
+	h->mmap = mmap(0,h->mbuf.size, flags,
 		       MAP_SHARED,h->fd,0);
 	if (MAP_FAILED == h->mmap)
 	    perror("mmap");
@@ -329,9 +333,14 @@ v4l_open(void *handle)
     if (ng_debug)
 	fprintf(stderr, "v4l: open\n");
     BUG_ON(h->fd != -1,"device is open");
+    h->rw = 1;
     h->fd = ng_chardev_open(h->device, O_RDWR, 81, 1);
-    if (-1 == h->fd)
-	return -1;
+    if (-1 == h->fd) {
+      h->rw = 0;
+      h->fd = ng_chardev_open(h->device, O_RDONLY, 81, 1);
+       if (-1 == h->fd)
+	 return -1;
+    }
     if (-1 == ioctl(h->fd,VIDIOCGCAP,&h->capability)) {
 	close(h->fd);
 	return -1;

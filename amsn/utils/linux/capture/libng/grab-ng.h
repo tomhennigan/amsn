@@ -594,6 +594,8 @@ struct ng_video_conv* ng_conv_find_to(unsigned int out, int *i);
 struct ng_video_conv* ng_conv_find_from(unsigned int out, int *i);
 struct ng_video_conv* ng_conv_find_match(unsigned int in, unsigned int out);
 
+struct ng_devinfo* ng_vid_probe(char *driver);
+
 int ng_vid_init(struct ng_devstate *dev, char *device);
 int ng_dsp_init(struct ng_devstate *dev, char *device, int record);
 int ng_mix_init(struct ng_devstate *dev, char *device, char *control);

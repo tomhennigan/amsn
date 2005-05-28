@@ -668,6 +668,25 @@ int ng_vid_init(struct ng_devstate *dev, char *device)
     return 0;
 }
 
+struct ng_devinfo* ng_vid_probe(char *driver)
+{
+    struct list_head *item;
+    struct ng_vid_driver *drv;
+
+    /* check all grabber drivers */
+    list_for_each(item,&ng_vid_drivers) {
+        drv = list_entry(item, struct ng_vid_driver, list);
+	if (ng_debug)
+	    fprintf(stderr,"vid-probe: trying: %s... \n", drv->name);
+	if (strcmp(driver, drv->name))
+	    continue;
+
+	return drv->probe(ng_debug);
+    }
+
+    return NULL;
+}
+
 int ng_dsp_init(struct ng_devstate *dev, char *device, int record)
 {
     struct list_head *item;

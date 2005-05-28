@@ -89,10 +89,9 @@ int Capture_ListDevices _ANSI_ARGS_((ClientData clientData,
 			      int objc,
 			      Tcl_Obj *CONST objv[]))
 {
-	char filename[15];
-	int device_idx = 0;
-	int fd=0;
-	struct video_capability vcap;
+	struct ng_devinfo *info = NULL;
+	char name[50];
+	int i = 0;
 	Tcl_Obj* device[2]={NULL,NULL};
 	Tcl_Obj* lstDevice=NULL;
 	Tcl_Obj* lstAll=NULL;
@@ -104,32 +103,38 @@ int Capture_ListDevices _ANSI_ARGS_((ClientData clientData,
 
 	lstAll=Tcl_NewListObj(0, NULL);
 
-//	strcpy(filename, "/dev/video");
-	sprintf(filename, "/dev/video%d", device_idx);
-	while( ((fd = open(filename, O_RDONLY)) != -1) || ((errno != ENOENT) && (errno != ENODEV)) ){
-//		fprintf(stderr,"Device %d : fd=%d errno=%d\n",device_idx,fd,errno);
-//		fprintf(stderr,"%s : %d\n",filename,fd);
-
-		if (fd!=-1) {
-			if (ioctl(fd, VIDIOCGCAP, &vcap) < 0) {
-				perror("VIDIOCGCAP");
-				close(fd);
-				return TCL_ERROR;
-			}
-		}
-		else {
-			vcap.name[0]='\0';
-		}
-
-		device[0]=Tcl_NewStringObj(filename,-1);
-		device[1]=Tcl_NewStringObj(vcap.name,-1);
-		lstDevice=Tcl_NewListObj(2,device);
-		Tcl_ListObjAppendElement(interp,lstAll,lstDevice);
-
-		close(fd);
-		device_idx ++;
-		sprintf(filename, "/dev/video%d", device_idx);
+	info = ng_vid_probe("v4l");
+	if (info) {
+	  for(i = 0;info[i].device[0] != 0; i++){
+	    if(debug) fprintf(stderr, "Found %s at %s\n", info[i].name, info[i].device);
+	    strcpy(name, "V4L: ");
+	    strcat(name, info[i].name);
+	    device[0]=Tcl_NewStringObj(info[i].device,-1);
+	    device[1]=Tcl_NewStringObj(name,-1);
+	    lstDevice=Tcl_NewListObj(2,device);
+	    Tcl_ListObjAppendElement(interp,lstAll,lstDevice);
+	  }
 	}
+
+	free(info);
+
+
+	info = ng_vid_probe("v4l2");
+	if (info) {
+	  for(i = 0;info[i].device[0] != 0; i++){
+	    if(debug) fprintf(stderr, "Found %s at %s\n", info[i].name, info[i].device);
+	    strcpy(name, "V4L-2: ");
+	    strcat(name, info[i].name);
+	    device[0]=Tcl_NewStringObj(info[i].device,-1);
+	    device[1]=Tcl_NewStringObj(name,-1);
+	    lstDevice=Tcl_NewListObj(2,device);
+	    Tcl_ListObjAppendElement(interp,lstAll,lstDevice);
+	  }
+	}
+
+	free(info);
+
+
 	Tcl_SetObjResult(interp,lstAll);
 	return TCL_OK;
 }
@@ -174,15 +179,17 @@ int Capture_ListChannels _ANSI_ARGS_((ClientData clientData,
 			close(fvideo);
 			return TCL_ERROR;
 		}
-		fprintf(stderr,"Video Source (%d) Name : %s\n",i, vc.name);
-		fprintf(stderr, "channel %d: %s ", vc.channel, vc.name);
-		fprintf(stderr, "%d tuners, has ", vc.tuners);
-		if (vc.flags & VIDEO_VC_TUNER) fprintf(stderr, "tuner(s) ");
-		if (vc.flags & VIDEO_VC_AUDIO) fprintf(stderr, "audio ");
-		fprintf(stderr, "\ntype: ");
-		if (vc.type & VIDEO_TYPE_TV) fprintf(stderr, "TV ");
-		if (vc.type & VIDEO_TYPE_CAMERA) fprintf(stderr, "CAMERA ");
-		fprintf(stderr, "norm: %d\n", vc.norm);
+		if(debug) {
+		  fprintf(stderr,"Video Source (%d) Name : %s\n",i, vc.name);
+		  fprintf(stderr, "channel %d: %s ", vc.channel, vc.name);
+		  fprintf(stderr, "%d tuners, has ", vc.tuners);
+		  if (vc.flags & VIDEO_VC_TUNER) fprintf(stderr, "tuner(s) ");
+		  if (vc.flags & VIDEO_VC_AUDIO) fprintf(stderr, "audio ");
+		  fprintf(stderr, "\ntype: ");
+		  if (vc.type & VIDEO_TYPE_TV) fprintf(stderr, "TV ");
+		  if (vc.type & VIDEO_TYPE_CAMERA) fprintf(stderr, "CAMERA ");
+		  fprintf(stderr, "norm: %d\n", vc.norm);
+		}
 
 		channel[0]=Tcl_NewIntObj(vc.channel);
 		channel[1]=Tcl_NewStringObj(vc.name,-1);
@@ -247,7 +254,10 @@ int Capture_ListGrabbers _ANSI_ARGS_((ClientData clientData,
 	lstAll=Tcl_NewListObj(0, NULL);
 
 	while(item){
-		fprintf(stderr, "Grabber : %s for device %s and channel %d\n", item->element->captureName, item->element->devicePath, item->element->channel);
+		if(debug) 
+		  fprintf(stderr, "Grabber : %s for device %s and channel %d\n", 
+			  item->element->captureName, item->element->devicePath, item->element->channel);
+
 		grabber[0]=Tcl_NewStringObj(item->element->captureName,-1);
 		grabber[1]=Tcl_NewStringObj(item->element->devicePath,-1);
 		grabber[2]=Tcl_NewIntObj(item->element->channel);
@@ -735,7 +745,7 @@ int Capture_Init (Tcl_Interp *interp ) {
 	Tcl_CreateObjCommand(interp, "::Capture::ListGrabbers", Capture_ListGrabbers,
 			(ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
 
-	//ng_debug = 1;
+	ng_debug = 1;
 	ng_init();
 	
 
