@@ -7467,6 +7467,7 @@ proc set_displaypic { file } {
 		status_log "set_displaypic: File set to $file\n" blue
 		load_my_pic
 		::MSN::changeStatus [set ::MSN::myStatus]
+		save_config
 	} else {
 		status_log "set_displaypic: Setting displaypic to no_pic\n" blue
 		clear_disp
