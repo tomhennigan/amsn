@@ -1336,6 +1336,8 @@ namespace eval ::plugins {
 		
 		set program_dir [set ::program_dir]
 
+		if { [catch {
+		
 		# If no URL is given, look at the CVS URL
 		if { $URL == "" } {
 
@@ -1387,6 +1389,12 @@ namespace eval ::plugins {
 		sxml::end $id
 		
 		return $place
+		
+		} ] } {
+		
+		return 0
+		
+		}
 
 	}
 

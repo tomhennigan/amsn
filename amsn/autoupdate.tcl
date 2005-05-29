@@ -738,22 +738,24 @@ namespace eval ::autoupdate {
 
 		set langcodes [list]
 
-		foreach langcode $::lang::UpdatedLang {
-			if { [::autoupdate::ReadLangSelected $langcode] == 1} {
-				set langcodes [lappend langcodes $langcode]
+		if { [info exists ::lang::UpdatedLang] && $::lang::UpdatedLang != "" } {
+			foreach langcode $::lang::UpdatedLang {
+				if { [::autoupdate::ReadLangSelected $langcode] == 1} {
+					set langcodes [lappend langcodes $langcode]
+				}
 			}
+			::lang::UpdateLang $langcodes
 		}
 
-		::lang::UpdateLang $langcodes
-
-
-		foreach plugin $::plugins::UpdatedPlugins {
-			set name [lindex $plugin 6]
-			if { [::autoupdate::ReadPluginSelected $name] == 1 } {
-				::plugins::UpdatePlugin $plugin
+		if { [info exists ::plugins::UpdatedPlugins] && $::plugins::UpdatedPlugins != ""} {
+			foreach plugin $::plugins::UpdatedPlugins {
+				set name [lindex $plugin 6]
+				if { [::autoupdate::ReadPluginSelected $name] == 1 } {
+					::plugins::UpdatePlugin $plugin
+				}
 			}
 		}
-
+		
 		::autoupdate::UpdateLangPlugin_close
 
 	}
