@@ -1991,7 +1991,7 @@ namespace eval ::CAMGUI {
 		set window .webcam_chooser
 		set lists $window.lists
 		set devs $lists.devices
-		set chans $lists.channels
+		#set chans $lists.channels
 		set buttons $window.buttons
 		set status $window.status
 		set preview $window.preview
@@ -2009,30 +2009,31 @@ namespace eval ::CAMGUI {
 		frame $devs -relief sunken -borderwidth 3
 		label $devs.label -text "Devices"
 		listbox $devs.list -yscrollcommand "$devs.ys set" -background \
-		white -relief flat -highlightthickness 0 -height 5
+			white -relief flat -highlightthickness 0 -height 3
 		scrollbar $devs.ys -command "$devs.list yview" -highlightthickness 0 \
-		-borderwidth 1 -elementborderwidth 2
+			-borderwidth 1 -elementborderwidth 2
 		pack $devs.label $devs.list -side top -expand false -fill x
 		pack $devs.ys -side right -fill y
 		pack $devs.list -side left -expand true -fill both
 
 
-		pack $devs -side left
+		pack $devs -side left -expand true -fill both
 
 		label $status -text "Please choose a device"
 
 		set img [image create photo]
 		label $preview -image $img
-		button $settings -text "Camera Settings" -command ".webcam_preview propertypage filter"
+		button $settings -text "Camera Settings" -command "::CAMGUI::Choose_SettingsWindows $devs.list"
 
 		frame $buttons -relief sunken -borderwidth 3
-		button $buttons.ok -text "Ok" -command "::CAMGUI::Choose_OkWindows $window $devs.list $img [list $devices]"
+		button $buttons.ok -text "Ok" -command "::CAMGUI::Choose_OkWindows $devs.list $window $img $preview"
 		button $buttons.cancel -text "Cancel" -command  "::CAMGUI::Choose_CancelWindows $window $img $preview"
 		wm protocol $window WM_DELETE_WINDOW   "::CAMGUI::Choose_CancelWindows $window $img $preview"
 		#bind $window <Destroy> "::CAMGUI::Choose_CancelWindows $window $img $preview"
 		pack $buttons.ok $buttons.cancel -side left
 
-		pack $lists $status $preview $settings $buttons -side top
+		pack $lists -side top -expand true -fill both
+		pack $status $preview $settings $buttons -side top
 
 		bind $devs.list <Button1-ButtonRelease> "::CAMGUI::StartPreviewWindows $devs.list $status $preview $settings"
 
@@ -2044,27 +2045,28 @@ namespace eval ::CAMGUI {
 		tkwait window $window
 	}
 
-	proc Choose_OkWindows { w device_w img devices } {
-
+	proc Choose_SettingsWindows { device_w} {
 		if { [$device_w curselection] == "" } {
-			::CAMGUI::Choose_CancelWindows
 			return
 		}
+		.webcam_preview propertypage filter
+	}
+
+	proc Choose_OkWindows { device_w w img preview} {
 
 		set dev [$device_w curselection]
 
+		if { $dev == "" } {
+			::CAMGUI::Choose_CancelWindows $w $img $preview
+			return
+		}
 
+		::config::setKey "webcamDevice" "$dev"
 
-		#set device [lindex $devices $dev]
-		#set device [lindex $device 0]
-
-
-		::config::setKey "webcamDevice" "$device:$channel"
-
-		::CAMGUI::Choose_CancelWindows
+		::CAMGUI::Choose_CancelWindows $w $img $preview
 	}
 
-	proc Choose_CancelWindows { w  img preview } {
+	proc Choose_CancelWindows { w img preview } {
 
 		destroy .webcam_preview
 
@@ -2102,7 +2104,7 @@ namespace eval ::CAMGUI {
 		set $semaphore 0
 
 		while { [winfo exists $grabber] && [lsearch [image names] $img] != -1 } {
-			$grabber picture $img
+			catch {$grabber picture $img}
 			after 100 "incr $semaphore"
 			tkwait variable $semaphore
 		}
