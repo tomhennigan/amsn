@@ -7357,8 +7357,11 @@ proc getPicSize { filename type } {
 		status_log "Tring to convert file $filename that does not exist\n" error
 		return ""
 	}
-
-	::picture::Convert ${filename} ${tempfile}.gif
+	#If convert fails, return 96x96, don't show the message (useless here)
+	if {[catch {::picture::Convert ${filename} ${tempfile}.gif} res]} {
+		#::amsn::messageBox $res ok error
+		return 96x96
+	}
 	
 	set img [image create photo -file "${tempfile}.gif"]
 	set return "[image width $img]x[image height $img]"

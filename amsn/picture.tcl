@@ -40,16 +40,16 @@ set ::tkcximageloaded 0
 		#Verify if the picture exists
 		if { ![file exists $original] } {
 			status_log "Picture.tcl: Tring to convert file $original that does not exist\n" red
-			return 0
+			return "Picture.tcl: Tring to convert file $original that does not exist\n"
 		}
 		#Convert the picture
 		if {[::picture::Loaded]} {
 			#Use TkCxImage
 			if { [catch { ::CxImage::Convert "$original" "$destination" } res ] } {
 				status_log "Picture.tcl: Unable to convert picture with TkCximage \n$res" red
-				return 0
+				return "Picture.tcl: Unable to convert picture with TkCximage \n$res"
 			} else {
-				return $destination
+				return
 			}
 		} 
 	}
