@@ -1,4 +1,9 @@
+if {[catch {package require TkCximage} res]} {
+	tk_messageBox -default ok -message "You can't load TkCximage, this is now needed to run \
+	aMSN. You can compile it inside /utils/TkCximage. Error message: $res" -icon warning
+}
 package require AMSN_BWidget
+
 package require pixmapbutton
 if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 	#Use tclCarbonHICommand for window utilities
@@ -6,7 +11,7 @@ if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 	catch {package require QuickTimeTcl}
 	catch {load utils/macosx/Quicktimetcl3.1/quicktimetcl3.1.dylib}
 }
-catch {package require TkCximage}
+
 
 
 if { $initialize_amsn == 1 } {

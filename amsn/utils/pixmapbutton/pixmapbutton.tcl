@@ -1,5 +1,4 @@
 package require snit
-package require TkCximage
 package provide pixmapbutton 0.1
 
 snit::widgetadaptor pixmapbutton {
