@@ -42,6 +42,7 @@ appearance Izgled
 appearoff Na videz neprijavljen
 areacode Omre¾na ¹tevilka
 aretyping $1 pi¹ejo sporoèilo
+askeachtime Vpra¹j vsakiè
 askwebcam Ogled preko spletne kamere stika
 author Avtor
 autoaccepted Prenos datoteke avtomatièno sprejet
@@ -126,13 +127,17 @@ clear Poèisti
 clearlog Poèisti dnevnik
 clearlog2 Poèisti zgodovino za vse stike
 clearlog3 Poèisti vse dnevnike
+clearwebcamlogs Poèisti vse dnevnike spletne kamere
 clicktoadd Klikni na gumb Dodaj za novo opombo
 clicktologin Klikni sem za prijavo
 clientcaps Po¹lji x-clientcaps paketek drugim odjemalcem
 clientname Odjemalec
 close Zapri
 closeall Zaprem vse zavihke v oknu?
+closealltabs Zapri vse zavihke
 closed Povezava z $1 zaprta zaradi neaktivnosti
+closelabel Ko klikne¹ na gumb za zaprtje v oknu z zavihki
+closeonly Zapri samo trenutni zavihek
 closingdocks Gumb za zaprtje minimira okno
 command Ukaz
 commandstatus Izvedi ukaz
@@ -370,6 +375,7 @@ logsbydate Razvrsti loge po datumu (Hitrej¹e nalaganje zgodovine)
 logsin se je ravnokar prijavil/a
 logsout se je ravnokar odjavil/a
 logsmileys Prika¾i emotikone in sme¹ke v zgodovini
+logwebcam Shrani vse aktivnosti spletne kamere v zgodovino
 longnick Tvoj nick je dalj¹i od 130 zankov. To ni uradno podprto v MSNjevem protokolu. Si preprièan, da hoèe¹ imeti tak nick?
 longp4c Tvoje prijazno ime je dalj¹e od 130 znakov. Prijazno ime, ki bo prikazano na uradnem MSNjevem odjemalcu, bo $1. Si preprièan, da hoèe¹ imeti tako prijazno ime?
 lprivtoconf Zasebni pogovor spremenjen v konferenco ($1)
@@ -471,12 +477,14 @@ p4contextprefix Predpona konteksta P4
 pager Pager
 pass Geslo
 paste Prilepi
+pause Pavza
 personal Osebno
 phone Telefon
 phones Telefonske ¹tevilke
 picbrowser Prika¾i brskalnik slik
 picfile Slikovna datoteka
 picstatus Slika omogoèena
+play Predvajaj
 playing Igram: $1
 pluginselector Izberi plugine
 port Vrata
@@ -537,6 +545,7 @@ reconnect2 Ponovna prijava ob prekinitvi povezave
 reconnecting Povezujem se s stre¾nikom
 reject zavrni
 rememberpass Shrani geslo
+remembersetting Zapomni si to nastavitev
 removeempty Odstrani prazne skupine iz seznama stikov
 removefromlist Zbri¹i s tega seznama
 rename Preimenuj
@@ -610,6 +619,7 @@ statenewtext Prosim vpi¹i potrebne podatke za\ntvoje novo osebno stanje in priti
 statenick Nick v tem stanju (pusti prazno, èe naj se ne spremeni)
 stats Statistika
 status Stanje
+stop Ustavi
 stopalarm Ustavi alarm
 storenickname Zamenjaj nick na prej¹njega po vrnitvi iz osebnega stanja
 strictfonts Vse pisave naj bodo po moji izbiri (Statusna vrstica in ostalo)
@@ -674,6 +684,7 @@ version Razlièica
 view Pogled
 viewcontactsby Prikaz stikov
 viewprofile Poglej profil
+webcamhistory Poglej aktivnosti spletne kamere
 webcaminvite $1 te je povabil/a na videokonferenco, a aMSN tega ne podpira.
 webcamshot Slika s spletne kamere
 whatsize Zahtevana slika ni navadne velikosti prikazne\nslike (96x96). Kak¹ne velikosti naj bo?

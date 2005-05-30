@@ -127,6 +127,7 @@ clear Wissen
 clearlog2 Verwijder Geschiedenis voor al je contactpersonen
 clearlog3 Verwijder alle logboeken
 clearlog Logboek legen
+clearwebcamlogs Alle webcam logs wissen
 clicktoadd Klik op de knop 'Toevoegen' voor een nieuwe notitie
 clicktologin Klik hier om je aan te melden
 clientcaps Stuur x-clientcaps pakketje naar andere clients
@@ -374,6 +375,7 @@ logsbydate Logs sorteren op datum (Geschiedenis laadt een stuk sneller)
 logsin heeft zich aangemeld
 logsmileys Toon emoticons in aMSN's geschiedenisvensters
 logsout heeft zich afgemeld 
+logwebcam Sla alle webcamsessies op om ze later nog eens te kunnen bekijken
 longnick De naam die je hebt ingesteld is langer dan 130 tekens, dit is eigenlijk te lang. Wil je het toch proberen?
 longp4c Je hebt voor 'Schermnaam tijdens gesprek' meer dan 130 tekens opgegeven. Dit wordt niet ondersteund door de originele MSN-client, die zal de naam daarom weergeven als $1. Wil je de opgegeven naam toch gebruiken?
 lprivtoconf Privé-gesprek veranderde in vergadering met $1
@@ -475,12 +477,14 @@ p4contextprefix Voorvoegsel voor de alternatieve schermnaam
 pager Semafoon
 pass Wachtwoord
 paste Plakken
+pause Pauze
 personal Persoonlijk
 phone Abonneenummer
 phones Telefoonnummers
 picbrowser Afbeeldingenbrowser weergeven
 picfile Alarmafbeelding (GIF < 500 x 500 pixels)
 picstatus Alarmafbeelding gebruiken
+play Afspelen
 playing $1 wordt afgespeeld
 pluginselector Selecteer plugins
 port Poort
@@ -615,6 +619,7 @@ statenick Aangepaste schermnaam (laat het leeg voor geen verandering)
 state Weer te geven status
 stats Statistieken
 status Status
+stop Stop
 stopalarm Stop het alarm
 storenickname Herstel de oorspronkelijke schermnaam na een aangepaste status met aangepaste schermnaam.
 strictfonts Beperk de lettergrootte overal tot wat ik heb ingesteld, ook in de statusbalk e.d.
@@ -679,6 +684,7 @@ version Versie
 view Beeld
 viewcontactsby Contactpersonen weergeven met
 viewprofile Profiel weergeven
+webcamhistory Webcamsessies weergeven
 webcaminvite $1 wil een webcam-sessie beginnen, maar deze functie wordt niet door aMSN ondersteund.
 webcamshot WebCam opname
 whatsize De door jou gekozen afbeelding heeft niet het gebruikelijke formaat\nvoor schermafbeeldingen (96x96). Hoe groot wil je dat de afbeelding wordt weergegeven?

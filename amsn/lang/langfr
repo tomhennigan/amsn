@@ -127,6 +127,7 @@ clear Effacer
 clearlog2 Effacer l'historique de tous mes contacts
 clearlog3 Effacer tous les historiques
 clearlog Effacer les historiques
+clearwebcamlogs Effacer les journaux des webcams
 clicktoadd Cliquer sur le bouton Ajouter pour une nouvelle note
 clicktologin Cliquez ici pour vous connecter
 clientcaps Envoyer les paquets x-clientcaps aux autres clients ?
@@ -374,6 +375,7 @@ logsbydate Trier les historiques par date (affichage de l'historique plus rapide
 logsin vient de se connecter
 logsmileys Afficher les émoticons et les smileys dans la fenêtre d'historique de aMSN
 logsout vient juste de se déconnecter
+logwebcam Enregister toutes les sessions webcam sessions dans l'historique d'aMSN pour une lecture ultèrieure
 longnick Votre pseudonyme est supèrieur à 130 caractères. Ce n'est pas supporté officiellement par le protocol MSN. Etes-vous sûrs de vouloir le mettre ?
 longp4c Votre pseudonyme de conversation dépasse les 130 caractères. Le client MSN officiel affichera $1. Voulez-vous continuer ?
 lprivtoconf Conversation privée changée en conférence avec $1
@@ -475,12 +477,14 @@ p4contextprefix Préfixe du champ P4-Context
 pager Pager
 pass Mot de passe
 paste Coller
+pause Pause
 personal Personnel
 phones Numéros de téléphone
 phone Téléphone
 picbrowser Voir mes icônes
 picfile Image associée à l'alarme (GIF < 500x500)
 picstatus Activer/Désactiver l'image associée à l'alarme
+play Jouer
 playing Joue: $1
 pluginselector Sélection d'un plug-in
 port Port
@@ -615,7 +619,8 @@ statenewtext Veuillez entrer les informations nécessaires\nà la création de votr
 statenick pseudonyme personnalisé (laisser vierge pour aucun changement)
 stats Statistiques
 status Statut
-stopalarm Stopper l'alarme
+Stop Arrêter
+stopalarm Arrêter l'alarme
 storenickname Remettre le pseudonyme original après un statut personnel avec un pseudonyme différent
 strictfonts Force l'usage de toutes les polices de caractères à celle sélectionnée (barre d'état et autres)
 style Style
@@ -679,6 +684,7 @@ version Version
 viewcontactsby Afficher les contacts par
 viewprofile Afficher le profil
 view Vue
+webcamhistory Voir les sessions webcam
 webcaminvite $1 vous invite à démarrer un conversation par Webcam, mais aMSN ne supporte pas cette option.
 webcamshot Image de la webcam
 willjoin Dans l'attente que $1 rejoigne la conversation
