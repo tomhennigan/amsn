@@ -15,9 +15,12 @@
 namespace eval ::pop3 {
 	variable config
 	variable configlist
-	variable emails -1
-	variable newMails -1
-	variable balloontext ""
+
+	for {set acntn 0} {$acntn<10} {incr acntn} {
+		variable emails_$acntn -1
+		variable newMails_$acntn -1
+		variable balloontext_$acntn ""
+	}
 
 	#######################################################################################
 	#######################################################################################
@@ -33,31 +36,37 @@ namespace eval ::pop3 {
 		::plugins::RegisterEvent pop3 ContactListEmailsDraw addhotmail
 
 		array set ::pop3::config {
-			host {"your.mailserver.here"}
-			user {"user_login@here"}
-			pass {""}
-			port {110}
 			minute {5}
-			notify {1}
-			loadMailProg {0}
-			rightdeletemenu {1}
-			mailProg {msimn}
-			caption {POP3}
-			leavemails {0}
+			accounts {1}
+		}
+
+		for {set acntn 0} {$acntn<10} {incr acntn} {
+			array set ::pop3::config {
+				host_[set acntn] {"your.mailserver.here"}
+				user_[set acntn] {"user_login@here"}
+				pass_[set acntn] {""}
+				port_[set acntn] {110}
+				notify_[set acntn] {1}
+				loadMailProg_[set acntn] {0}
+				rightdeletemenu_[set acntn] {1}
+				mailProg_[set acntn] {msimn}
+				caption_[set acntn] {POP3}
+				leavemails_[set acntn] {0}
+			}
 		}
 
 		set ::pop3::configlist [list \
 			[list str "Check for new messages every ? minutes" minute] \
-			[list str "POP3 Server"  host] \
-			[list str "Your user login" user] \
-			[list pass "Your password" pass] \
-			[list str "Port (optional)" port] \
-			[list bool "Show notify window" notify] \
-			[list bool "Load mail program on left click" loadMailProg] \
-			[list str "          Mail Program" mailProg] \
-			[list bool "Load delete menu on right click" rightdeletemenu] \
-			[list bool "Your mail program leaves mails on server" leavemails] \
-			[list str "Display name" caption] \
+			[list str "POP3 Server"  host_0] \
+			[list str "Your user login" user_0] \
+			[list pass "Your password" pass_0] \
+			[list str "Port (optional)" port_0] \
+			[list bool "Show notify window" notify_0] \
+			[list bool "Load mail program on left click" loadMailProg_0] \
+			[list str "          Mail Program" mailProg_0] \
+			[list bool "Load delete menu on right click" rightdeletemenu_0] \
+			[list bool "Your mail program leaves mails on server" leavemails_0] \
+			[list str "Display name" caption_0] \
 		]
 
 		if {[string equal $::version "0.94"]} {
@@ -66,6 +75,8 @@ namespace eval ::pop3 {
 			::skin::setPixmap pop3_mailpic pop3_mailpic.gif pixmaps [file join $dir pixmaps]
 		}
 
+		set ::pop3::checkingnow 0
+		
 		#only start checking now if already online
 		if { (!$::initialize_amsn) && ([::MSN::myStatusIs] != "FLN") } {
 			::pop3::start 0 0
@@ -467,21 +478,21 @@ namespace eval ::pop3 {
 	#	first  ->  The id of the first email to check
 	#	last   ->  The id of the last email to check
 	# Results:
-	#	A message for the balloon containing the names of who the mails are from is set
-	#	in ::pop3::balloontext
+	#	A message for the balloon containing the names of who the mails are from is returned
 	proc ::pop3::getfroms {chan first last} {
-		set ::pop3::balloontext ""
+		set balloontext ""
 		if {$first <= $last} {
-			set ::pop3::balloontext "\n\nNew mail from:"
+			set balloontext "\n\nNew mail from:"
 			for {set x $first} {$x <= $last} {incr x} {
 				set info [::pop3::getinfo $chan $x]
 				if { $info != "-1 -1" } {
 					set from [lindex $info 0]
 					set subject [lindex $info 1] 
-					set ::pop3::balloontext "$::pop3::balloontext\n$from : \"$subject\""
+					set balloontext "$balloontext\n$from : \"$subject\""
 				}
 			}
 		}
+		return $balloontext
 	}
 
 
@@ -504,71 +515,91 @@ namespace eval ::pop3 {
 	# ::pop3::notify
 	# Description:
 	#	Posts a notification of new emails.
-	# Arguments: None
+	# Arguments:
+	#	acntn ->  The number of the account to notify for
 	# Results:
 	#	A notify window pops up when required.
-	proc ::pop3::notify { } {
-		if { $::pop3::config(notify) == 1 && $::pop3::newMails != 0 } {
-			::amsn::notifyAdd "POP3\n[trans newmail $::pop3::newMails]" "" "" plugins
+	proc ::pop3::notify { acntn } {
+		if { $::pop3::config(notify_$acntn) == 1 && [set ::pop3::newMails_$acntn] != 0 } {
+			::amsn::notifyAdd "[set ::pop3::config(caption_$acntn)]\n[trans newmail [set ::pop3::newMails_$acntn]]" "" "" plugins
 			
 			#If Growl plugin is loaded, show the notification, Mac OS X only
 			if { [info proc ::growl::InitPlugin] != "" } {
-				catch {growl post Pop POP3 [trans newmail $::pop3::newMails]}
+				catch {growl post Pop POP3 [trans newmail [set ::pop3::newMails_$acntn]]}
 			}
 		}
 	}
 
 
-	# ::pop3::check
+	# ::pop3::check_no
 	# Description:
-	#	Use the 3 above methods to get the number of mails continuously
-	# Arguments: None
+	#	Use the above methods to get the number of mails
+	# Arguments:
+	#	acntn ->  The number of the account to check for
 	# Results:
 	#	An integer variable wich contains the number of mails in the mbox
-	proc ::pop3::check { } {
-		catch {
-			plugins_log pop3 "Checking for messages now\n"
-			set chan [::pop3::open $::pop3::config(host) $::pop3::config(user) $::pop3::config(pass) $::pop3::config(port)]
+	proc ::pop3::check_no { acntn } {
+#		catch {
+			plugins_log pop3 "Checking messages now for account $acntn\n"
+			set chan [::pop3::open [set ::pop3::config(host_$acntn)] [set ::pop3::config(user_$acntn)] [set ::pop3::config(pass_$acntn)] [set ::pop3::config(port_$acntn)]]
 			#check that it opened properly
 			if { [set ::pop3::chanopen_$chan] == 1 } {
 				set mails [::pop3::status $chan]
 
-				plugins_log pop3 "POP3 messages: $mails\n"
+				plugins_log pop3 "POP3 ($acntn) messages: $mails\n"
 				set dontnotifythis 1
-				if { $::pop3::emails != $mails } {
+				if { [set ::pop3::emails_$acntn] != $mails } {
 					set dontnotifythis 0
-					if { $::pop3::config(leavemails) == 1 } {
-						if { $::pop3::emails < $mails } {
-							set ::pop3::newMails [expr { $pop3::newMails + $mails - $::pop3::emails } ]
+					if { [set ::pop3::config(leavemails_$acntn)] == 1 } {
+						if { [set ::pop3::emails_$acntn] < $mails } {
+							set ::pop3::newMails_$acntn [expr { [set pop3::newMails_$acntn] + $mails - [set ::pop3::emails_$acntn] } ]
 						} else {
 							set dontnotifythis 1
 						}
 					} else {
-						set ::pop3::newMails $mails
+						set ::pop3::newMails_$acntn $mails
 					}
-					set ::pop3::emails $mails
+					set ::pop3::emails_$acntn $mails
 
-					::pop3::getfroms $chan [expr $mails-$::pop3::newMails+1] $mails
+					set ::pop3::balloontext_$acntn [::pop3::getfroms $chan [expr {$mails-[set ::pop3::newMails_$acntn]+1}] $mails]
 				}
 				::pop3::close $chan
 
 				if { $dontnotifythis == 0 } {
 					cmsn_draw_online
-					::pop3::notify
+					::pop3::notify $acntn
 				}
 			} else {
 				plugins_log pop3 "POP3 failed to open\n"
 				unset ::pop3::chanopen_$chan
 			}
-		}
+#		}
+	}
 
-		catch {
+
+	# ::pop3::check
+	# Description:
+	#	Continuously check the number of emails for each of the accounts
+	# Arguments: None
+	# Results:
+	#	An integer variable wich contains the number of mails in the mbox
+	proc ::pop3::check { } {
+#		catch {
 			# Make sure there isn't duplicat calls
 			after cancel ::pop3::check
+			
+			set ::pop3::checkingnow 1
+			
+			for {set acntn 0} {$acntn<$::pop3::config(accounts)} {incr acntn} {
+				::pop3::check_no $acntn
+			}
+
 			# Call itself again after x minutes
 			set time [expr {int($::pop3::config(minute) *60000)}]
 			after $time ::pop3::check
-		}
+
+			set ::pop3::checkingnow 0
+#		}
 	}
 
 
@@ -605,25 +636,25 @@ namespace eval ::pop3 {
 	# Description:
 	#	Loads the default email program for the system
 	# Arguments: none
-	proc loadDefaultEmail { } {
+	proc loadDefaultEmail { acntn } {
 		if { $::tcl_platform(platform) == "windows" } {
-			if { [catch { WinLoadFile $::pop3::config(mailProg) } ] } {
+			if { [catch { WinLoadFile [set ::pop3::config(mailProg_$acntn)] } ] } {
 				if {[string equal $::version "0.94"]} {
 					load [file join plugins winutils winutils.dll]
 				} else {
 					load [file join utils windows winutils winutils.dll]
 				}
-				WinLoadFile $::pop3::config(mailProg)
+				WinLoadFile [set ::pop3::config(mailProg_$acntn)]
 			}
 		} else {
-			if { [catch {eval "exec $::pop3::config(mailProg)"} res] } {
-				plugins_log pop3 "Failed to load $::pop3::config(mailProg) with the error: $res\n"
+			if { [catch {eval "exec [set ::pop3::config(mailProg_$acntn)]"} res] } {
+				plugins_log pop3 "Failed to load [set ::pop3::config(mailProg_$acntn)] with the error: $res\n"
 			}
 		}
 
-		if { $::pop3::config(leavemails) == 1 } {
+		if { [set ::pop3::config(leavemails_$acntn)] == 1 } {
 			#reset number of new mails
-			set ::pop3::newMails 0
+			set ::pop3::newMails_$acntn 0
 			cmsn_draw_online
 		}
 	}
@@ -631,23 +662,23 @@ namespace eval ::pop3 {
 
 	# ::pop3::draw
 	# Description:
-	#	Adds a line in the contact list of the number of emails drawn
+	#	Adds a line in the contact list of the number of emails drawn for each account
 	# Arguments:
-	#	event   -> The event wich runs the proc (Supplied by Plugins System)
-	#     evPar   -> The array of parameters (Supplied by Plugins System)
-	proc draw {event evPar} {
-		upvar 2 $evPar vars
+	#	acntn   -> The number of the account to notify for
+	#	evPar   -> The array of parameters (Supplied by Plugins System)
+	proc draw_no {acntn evPar} {
+		upvar 3 $evPar vars
 
 		if {[string equal $::version "0.94"]} {
 			set textb $vars(text)
 
-			clickableImage $textb popmailpic pop3_mailpic {after cancel ::pop3::check; after 1 ::pop3::check} 5 0
+			clickableImage $textb popmailpic_$acntn pop3_mailpic {after cancel ::pop3::check; after 1 ::pop3::check} 5 0
 		} else {
 			#TODO: add parameter to event and get rid of hardcoded variable
 			set pgtop $::pgBuddyTop
 			set clbar $::pgBuddyTop.colorbar
 			
-			set textb $pgtop.pop3mail
+			set textb $pgtop.pop3mail_$acntn
 			text $textb -font bboldf -height 1 -background white -borderwidth 0 -wrap none -cursor left_ptr \
 				-relief flat -highlightthickness 0 -selectbackground white -selectborderwidth 0 \
 				-exportselection 0 -relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0
@@ -659,9 +690,9 @@ namespace eval ::pop3 {
 
 			$textb configure -state normal
 
-			clickableImage $textb popmailpic pop3_mailpic {after cancel ::pop3::check; after 1 ::pop3::check} [::skin::getKey mailbox_xpad] [::skin::getKey mailbox_ypad]
+			clickableImage $textb popmailpic_$acntn pop3_mailpic {after cancel ::pop3::check; after 1 ::pop3::check} [::skin::getKey mailbox_xpad] [::skin::getKey mailbox_ypad]
 			
-			set mailheight [expr [$textb.popmailpic cget -height]+(2*[::skin::getKey mailbox_ypad])]
+			set mailheight [expr [$textb.popmailpic_$acntn cget -height]+(2*[::skin::getKey mailbox_ypad])]
 			#in windows need an extra -2 is to include the extra 1 pixel above and below in a font
 			if {$::tcl_platform(platform) == "windows"} {
 				set mailheight [expr $mailheight - 2]
@@ -674,48 +705,49 @@ namespace eval ::pop3 {
 		}
 
 		set balloon_message "Click here to check the number of messages now."
-		bind $textb.popmailpic <Enter> +[list balloon_enter %W %X %Y $balloon_message]
-		bind $textb.popmailpic <Leave> "+set ::Bulle(first) 0; kill_balloon;"
-		bind $textb.popmailpic <Motion> +[list balloon_motion %W %X %Y $balloon_message]
+		bind $textb.popmailpic_$acntn <Enter> +[list balloon_enter %W %X %Y $balloon_message]
+		bind $textb.popmailpic_$acntn <Leave> "+set ::Bulle(first) 0; kill_balloon;"
+		bind $textb.popmailpic_$acntn <Motion> +[list balloon_motion %W %X %Y $balloon_message]
 
-		if { $::pop3::newMails < 0 } {
-			set mailmsg "Not Checked Yet ($::pop3::config(caption))"
-		} elseif { $::pop3::newMails == 0 } {
-			set mailmsg "[trans nonewmail] ($::pop3::config(caption))"
-		} elseif {$::pop3::newMails == 1} {
-			set mailmsg "[trans onenewmail] ($::pop3::config(caption))"
-		} elseif {$::pop3::newMails == 2} {
-			set mailmsg "[trans twonewmail 2] ($::pop3::config(caption))"
+		set newm [set ::pop3::newMails_$acntn]
+		if { $newm < 0 } {
+			set mailmsg "Not Checked Yet ([set ::pop3::config(caption_$acntn)])"
+		} elseif { $newm == 0 } {
+			set mailmsg "[trans nonewmail] ([set ::pop3::config(caption_$acntn)])"
+		} elseif { $newm == 1} {
+			set mailmsg "[trans onenewmail] ([set ::pop3::config(caption_$acntn)])"
+		} elseif { $newm == 2} {
+			set mailmsg "[trans twonewmail 2] ([set ::pop3::config(caption_$acntn)])"
 		} else {
-			set mailmsg "[trans newmail $::pop3::newMails] ($::pop3::config(caption))"
+			set mailmsg "[trans newmail [set ::pop3::newMails_$acntn]] ([set ::pop3::config(caption_$acntn)])"
 		}
 		
 		if {[string equal $::version "0.94"]} {
 			set maxw [expr [winfo width $vars(text)] -30]
 			set short_mailmsg "[trunc $mailmsg $textb $maxw splainf]\n"
 		} else {
-			set maxw [expr [winfo width [winfo parent $pgtop]]-[$textb.popmailpic cget -width]-(2*[::skin::getKey mailbox_xpad])]
+			set maxw [expr [winfo width [winfo parent $pgtop]]-[$textb.popmailpic_$acntn cget -width]-(2*[::skin::getKey mailbox_xpad])]
 			set short_mailmsg [trunc $mailmsg $textb $maxw splainf]
 		}
 
-		$textb tag conf pop3mail -fore black -underline false -font splainf
-		if { $::pop3::config(loadMailProg) || $::pop3::config(rightdeletemenu) } {
-			$textb tag conf pop3mail -underline true
-			$textb tag bind pop3mail <Enter> "$textb tag conf pop3mail -under false;$textb conf -cursor hand2"
-			$textb tag bind pop3mail <Leave> "$textb tag conf pop3mail -under true;$textb conf -cursor left_ptr"
+		$textb tag conf pop3mail_$acntn -fore black -underline false -font splainf
+		if { [set ::pop3::config(loadMailProg_$acntn)] || [set ::pop3::config(rightdeletemenu_$acntn)] } {
+			$textb tag conf pop3mail_$acntn -underline true
+			$textb tag bind pop3mail_$acntn <Enter> "$textb tag conf pop3mail_$acntn -under false;$textb conf -cursor hand2"
+			$textb tag bind pop3mail_$acntn <Leave> "$textb tag conf pop3mail_$acntn -under true;$textb conf -cursor left_ptr"
 		}
-		if { $::pop3::config(loadMailProg) } {
-			$textb tag bind pop3mail <Button1-ButtonRelease> "$textb conf -cursor watch; after 1 ::pop3::loadDefaultEmail"
+		if { [set ::pop3::config(loadMailProg_$acntn)] } {
+			$textb tag bind pop3mail_$acntn <Button1-ButtonRelease> "$textb conf -cursor watch; after 1 [list ::pop3::loadDefaultEmail $acntn]"
 		}
-		if { $::pop3::config(rightdeletemenu) } {
-			$textb tag bind pop3mail <Button3-ButtonRelease> "after 1 ::pop3::rightclick %X %Y"
+		if { [set ::pop3::config(rightdeletemenu_$acntn)] } {
+			$textb tag bind pop3mail_$acntn <Button3-ButtonRelease> "after 1 [list ::pop3::rightclick %X %Y $acntn]"
 		}
-		set balloon_message "$mailmsg$::pop3::balloontext"
-		$textb tag bind pop3mail <Enter> +[list balloon_enter %W %X %Y $balloon_message]
-		$textb tag bind pop3mail <Leave> "+set ::Bulle(first) 0; kill_balloon;"
-		$textb tag bind pop3mail <Motion> +[list balloon_motion %W %X %Y $balloon_message]
+		set balloon_message "$mailmsg[set ::pop3::balloontext_$acntn]"
+		$textb tag bind pop3mail_$acntn <Enter> +[list balloon_enter %W %X %Y $balloon_message]
+		$textb tag bind pop3mail_$acntn <Leave> "+set ::Bulle(first) 0; kill_balloon;"
+		$textb tag bind pop3mail_$acntn <Motion> +[list balloon_motion %W %X %Y $balloon_message]
 
-		$textb insert end "$short_mailmsg" {pop3mail dont_replace_smileys}
+		$textb insert end "$short_mailmsg" [list pop3mail_$acntn dont_replace_smileys]
 		
 		if {[string equal $::version "0.94"]} {
 			#empty
@@ -725,12 +757,25 @@ namespace eval ::pop3 {
 	}
 
 
+	# ::pop3::draw
+	# Description:
+	#	Adds a line in the contact list of the number of emails drawn for each account
+	# Arguments:
+	#	event   -> The event wich runs the proc (Supplied by Plugins System)
+	#	evPar   -> The array of parameters (Supplied by Plugins System)
+	proc draw {event evPar} {
+		for {set acntn 0} {$acntn<$::pop3::config(accounts)} {incr acntn} {
+			::pop3::draw_no $acntn evPar
+		}
+	}
+	
+	
 	# ::pop3::addhotmail
 	# Description:
 	#	Adds ' (Hotmail)' to the line in the contact list of the number of emails
 	# Arguments:
 	#	event   -> The event wich runs the proc (Supplied by Plugins System)
-	#     evPar   -> The array of parameters (Supplied by Plugins System)
+	#	evPar   -> The array of parameters (Supplied by Plugins System)
 	proc addhotmail {event evPar} {
 		upvar 2 $evPar vars
 		upvar 2 $vars(msg) msg
@@ -749,7 +794,8 @@ namespace eval ::pop3 {
 	# Arguments:
 	#	x  -> x position where to display
 	#	y  -> y position where to display
-	proc rightclick { X Y } {
+	#	acntn   -> The number of the account to create for
+	proc rightclick { X Y acntn} {
 		set rmenu .pop3rightmenu
 		destroy $rmenu
 
@@ -759,9 +805,9 @@ namespace eval ::pop3 {
 		$rmenu add separator
 
 		set i 0
-		foreach line [split [string range $::pop3::balloontext 17 end] \n] { 
+		foreach line [split [string range [set ::pop3::balloontext_$acntn] 17 end] \n] { 
 			incr i
-			$rmenu add command -label "$line" -command [list ::pop3::deletemail $i $line]
+			$rmenu add command -label "$line" -command [list ::pop3::deletemail $acntn $i $line]
 		}
 
 		if { $i != 0 } {
@@ -774,16 +820,20 @@ namespace eval ::pop3 {
 	# Description:
 	#	Deletes email at index i, but checking that the name/subject match first
 	# Arguments:
+	#	acntn        -> The number of the account to delete for
 	#	index        -> index of the email to delete
 	#	namesubject  -> the name/subject as displayed in the balloon
-	proc deletemail { index namesubject } {
+	proc deletemail { acntn index namesubject } {
 		set answer [::amsn::messageBox "Are you sure you want to delete the email:\n$namesubject" yesno question "Delete"]
 		if { $answer == "yes" } {
 			#dont run check during delete
+			if { $::pop3::checkingnow == 1} {
+				vwait ::pop3::checkingnow
+			}
 			after cancel ::pop3::check
 			set failed 0
 
-			set chan [::pop3::open $::pop3::config(host) $::pop3::config(user) $::pop3::config(pass) $::pop3::config(port)]
+			set chan [::pop3::open [set ::pop3::config(host_$acntn)] [set ::pop3::config(user_$acntn)] [set ::pop3::config(pass_$acntn)] [set ::pop3::config(port_$acntn)]]
 
 			#check that it opened properly
 			if { [set ::pop3::chanopen_$chan] == 1 } {
