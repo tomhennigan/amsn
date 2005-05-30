@@ -52,13 +52,13 @@
 	<lang>
 		<langcode>da</langcode>
 		<name>Danish (dansk)</name>
-		<version>1.39</version>
+		<version>1.40</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
 		<langcode>nl</langcode>
 		<name>Dutch (Nederlands)</name>
-		<version>1.121</version>
+		<version>1.122</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -94,7 +94,7 @@
 	<lang>
 		<langcode>fr</langcode>
 		<name>French - France (français)</name>
-		<version>1.131</version>
+		<version>1.132</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -232,7 +232,7 @@
 	<lang>
 		<langcode>sl</langcode>
 		<name>Slovenian (slovenščina)</name>
-		<version>1.35</version>
+		<version>1.36</version>
 		<encoding>iso8859-2</encoding>
 	</lang>
 	<lang>
