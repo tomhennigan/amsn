@@ -670,16 +670,6 @@ namespace eval ::ChatWindow {
 					raise ${top_win}
 				}
 				
-			if { [string first ${win_name} [focus]] != 0} {
-				if { ([::config::getKey notifymsg] == 1 && [::abook::getContactData $chatid notifymsg -1] != 0) ||
-				[::abook::getContactData $chatid notifymsg -1] == 1 } {
-					::amsn::notifyAdd "$msg" "::amsn::chatUser $chatid"
-					#Regive focus on Mac OS X
-					if { ![catch {tk windowingsystem} wsystem] && $wsystem == "aqua" } {
-						after 1000 "catch {focus -force $lastfocus}"
-					}
-				}
-			}
 			} else {
 				# Iconify the window unless it was raised by the user already.
 				if { [wm state $top_win] != "normal" && [wm state $top_win] != "zoomed" } {
@@ -688,6 +678,16 @@ namespace eval ::ChatWindow {
 						wm state ${top_win} withdraw
 					} else {
 						wm state ${top_win} iconic
+					}
+				}
+			}
+			if { [string first ${win_name} [focus]] != 0} {
+				if { ([::config::getKey notifymsg] == 1 && [::abook::getContactData $chatid notifymsg -1] != 0) ||
+				[::abook::getContactData $chatid notifymsg -1] == 1 } {
+					::amsn::notifyAdd "$msg" "::amsn::chatUser $chatid"
+					#Regive focus on Mac OS X
+					if { ![catch {tk windowingsystem} wsystem] && $wsystem == "aqua" } {
+						after 1000 "catch {focus -force $lastfocus}"
 					}
 				}
 			}
