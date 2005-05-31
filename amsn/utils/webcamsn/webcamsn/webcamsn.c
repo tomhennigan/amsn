@@ -9,7 +9,7 @@
 
 // Include the header file
 #include "webcamsn.h"
-
+#include "kidhash.h"
 
 
 
@@ -673,6 +673,47 @@ int Webcamsn_Frames _ANSI_ARGS_((ClientData clientData,
 	
 }
 
+int Webcamsn_KidHash _ANSI_ARGS_((ClientData clientData,
+								Tcl_Interp *interp,
+								int objc,
+				  Tcl_Obj *CONST objv[])) {
+
+
+	char * sid = NULL;
+	char * key = NULL;
+	int kid;
+	char a[30];
+	int a_size = 30;
+
+
+	// We verify the arguments
+	if( objc != 3) {
+		Tcl_AppendResult (interp, "Wrong number of args.\nShould be " 
+				  "\"::Webcamsn::CreateHashFromKid kid sid\"" , (char *) NULL);
+		return TCL_ERROR;
+	} 
+
+	Tcl_GetIntFromObj(interp, objv[1], &kid);
+	sid = Tcl_GetStringFromObj(objv[2], NULL);
+	
+	key = (char *) malloc (strlen(sid) + 10);
+	sprintf(key, "sid=%s", sid);
+
+	if (MakeKidHash(a, &a_size, kid, key)) {
+	  Tcl_ResetResult(interp);
+	  Tcl_AppendResult (interp, a, (char *) NULL);
+	  free(key);
+	  
+	  return TCL_OK;	  
+	} else {
+	  Tcl_ResetResult(interp);
+	  free(key);
+	  
+	  return TCL_OK;
+	}
+}
+
+
 /*
   Function : Webcamsn_Init
 
@@ -726,6 +767,8 @@ int Webcamsn_Init (Tcl_Interp *interp ) {
   Tcl_CreateObjCommand(interp, "::Webcamsn::NbFrames", Webcamsn_Frames,
 		       (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL); 
 
+  Tcl_CreateObjCommand(interp, "::Webcamsn::CreateHashFromKid", Webcamsn_KidHash,
+		       (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL); 
 
   // end of Initialisation
   return TCL_OK;

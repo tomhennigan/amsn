@@ -12,8 +12,8 @@ SHLIB_LD     	= gcc -pipe -shared -fPIC
 NAME		= webcamsn
 OUTPUT		= webcamsn.so
 
-SOURCES		= webcamsn.c
-OBJECTS 	= webcamsn.o
+SOURCES		= webcamsn.c kidhash.c
+OBJECTS 	= webcamsn.o kidhash.o
 
 
 CC		= gcc -pipe -fPIC
