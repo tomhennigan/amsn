@@ -8,8 +8,7 @@
 
 #TODO:
 #  * add translation
-#  * add autoupdate
-#  * allow for multiple emails
+#  * add config settings for multiple emails
 
 
 namespace eval ::pop3 {
@@ -539,7 +538,7 @@ namespace eval ::pop3 {
 	# Results:
 	#	An integer variable wich contains the number of mails in the mbox
 	proc ::pop3::check_no { acntn } {
-#		catch {
+		catch {
 			plugins_log pop3 "Checking messages now for account $acntn\n"
 			set chan [::pop3::open [set ::pop3::config(host_$acntn)] [set ::pop3::config(user_$acntn)] [set ::pop3::config(pass_$acntn)] [set ::pop3::config(port_$acntn)]]
 			#check that it opened properly
@@ -573,7 +572,7 @@ namespace eval ::pop3 {
 				plugins_log pop3 "POP3 failed to open\n"
 				unset ::pop3::chanopen_$chan
 			}
-#		}
+		}
 	}
 
 
@@ -584,7 +583,7 @@ namespace eval ::pop3 {
 	# Results:
 	#	An integer variable wich contains the number of mails in the mbox
 	proc ::pop3::check { } {
-#		catch {
+		catch {
 			# Make sure there isn't duplicat calls
 			after cancel ::pop3::check
 			
@@ -599,7 +598,7 @@ namespace eval ::pop3 {
 			after $time ::pop3::check
 
 			set ::pop3::checkingnow 0
-#		}
+		}
 	}
 
 
@@ -608,7 +607,7 @@ namespace eval ::pop3 {
 	#	Starts checking for new messages
 	# Arguments:
 	#	event   -> The event wich runs the proc (Supplied by Plugins System)
-	#     evPar   -> The array of parameters (Supplied by Plugins System)
+	#	evPar   -> The array of parameters (Supplied by Plugins System)
 	proc start {event evPar} {
 		#cancel any previous starts first
 		catch { after cancel ::pop3::check }
@@ -621,7 +620,7 @@ namespace eval ::pop3 {
 	#	Stops checking for new messages
 	# Arguments:
 	#	event   -> The event wich runs the proc (Supplied by Plugins System)
-	#     evPar   -> The array of parameters (Supplied by Plugins System)
+	#	evPar   -> The array of parameters (Supplied by Plugins System)
 	proc stop {event evPar} {
 		catch { after cancel ::pop3::check }
 		#If online redraw main window to remove new line
@@ -635,7 +634,8 @@ namespace eval ::pop3 {
 	# ::pop3::loadDefaultEmail
 	# Description:
 	#	Loads the default email program for the system
-	# Arguments: none
+	# Arguments:
+	#	acntn ->  The number of the account to load teh default mail program for
 	proc loadDefaultEmail { acntn } {
 		if { $::tcl_platform(platform) == "windows" } {
 			if { [catch { WinLoadFile [set ::pop3::config(mailProg_$acntn)] } ] } {
@@ -1046,7 +1046,7 @@ namespace eval ::pop3mime {
 		set enc [reversemapencoding $charset]
 		if {[string equal "" $enc]} {
 			set enc $charset
-#			error "unknown charset '$charset'"
+			#error "unknown charset '$charset'"
 		}
 
 		switch -exact -- $method {
@@ -1128,7 +1128,7 @@ namespace eval ::pop3mime {
 		# of the trimleft above)
 
 		if {[string length $field]} {
-#			append result " "
+			#append result " "
 			append result $field
 		}
 
