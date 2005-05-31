@@ -40,18 +40,18 @@ namespace eval ::pop3 {
 		}
 
 		for {set acntn 0} {$acntn<10} {incr acntn} {
-			array set ::pop3::config {
-				host_[set acntn] {"your.mailserver.here"}
-				user_[set acntn] {"user_login@here"}
-				pass_[set acntn] {""}
-				port_[set acntn] {110}
-				notify_[set acntn] {1}
-				loadMailProg_[set acntn] {0}
-				rightdeletemenu_[set acntn] {1}
-				mailProg_[set acntn] {msimn}
-				caption_[set acntn] {POP3}
-				leavemails_[set acntn] {0}
-			}
+			array set ::pop3::config [ list \
+				host_[set acntn] {"your.mailserver.here"} \
+				user_[set acntn] {"user_login@here"} \
+				pass_[set acntn] {""} \
+				port_[set acntn] {110} \
+				notify_[set acntn] {1} \
+				loadMailProg_[set acntn] {0} \
+				rightdeletemenu_[set acntn] {1} \
+				mailProg_[set acntn] {msimn} \
+				caption_[set acntn] {POP3} \
+				leavemails_[set acntn] {0} \
+			]
 		}
 
 		set ::pop3::configlist [list \
