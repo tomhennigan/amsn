@@ -27,43 +27,25 @@ void crazy_algorithm(int *table,int *temp_data) {
 
 	unsigned int i, idx, temp;
 
+	// Initialize the 4 temp variables
 	int P = table[1],
 		PP = table[2],
 		PPP = table[3],
 		PPPP = table[0];
 
 
-	for (i = 0, idx = 0; i < 16; i++, idx++) {
-		temp = temp_data[i] + (PPP ^ (P & (PP ^ PPP))) + PPPP 
-			+ const_mult[idx] * const_values[idx];
+	// four loops made into one
+	for (i = 0; i < 16*4; i++) {
+		temp = PPPP + const_mult[i] * const_values[i];	// Common to all loops
+		if(i/16 == 0) temp += temp_data[i] + (PPP ^ (P & (PP ^ PPP)));		// add this for first loop i =[0..15]
+		if(i/16 == 1) temp += temp_data[((i-16)*5 + 1)%16] + (PP ^ (PPP & (P ^ PP))); // add for second i = [16..31]
+		if(i/16 == 2) temp += temp_data[((i-32)*3 + 5)%16] + (P ^ (PP ^ PPP)); // add for second i = [31..47]
+		if(i/16 == 3) temp += temp_data[choose_data_idx[i-48]] + (PP ^ ((PPP ^ 0xFFFFFFFF) | P)); // add for the last loop
 		PPPP = PPP; PPP = PP; PP = P;
-		P += (temp >> (25 - shifts_1[i%4])) | (temp << (7 + shifts_1[i%4]));
+		P += (temp >> shifts_right[(i%4) + 4*(i/16)]) | (temp << shifts_left[(i%4) + 4*(i/16)]); // look for the shifts in the table
 	}
 
-	for (i = 1; i < 81; i+=5, idx++) {
-		temp = temp_data[i%16] + (PP ^ (PPP & (P ^ PP))) + PPPP 
-			+ const_mult[idx] * const_values[idx];
-		PPPP = PPP; PPP = PP; PP = P;
-		P += (temp >> (27 - shifts_2[(idx-16)%4])) | (temp << (5 + shifts_2[(idx-16)%4]));
-	}
-
-	for (i = 5; i < 53; i+=3, idx++) {
-		temp = temp_data[i%16] + (P ^ (PP ^ PPP)) + PPPP 
-			+ const_mult[idx] * const_values[idx];
-
-		PPPP = PPP; PPP = PP; PP = P;
-		P += (temp >> (28 - shifts_3[(idx-32)%4])) | (temp << (4 + shifts_3[(idx-32)%4]));
-	}
-
-
-	for (i = 0; i < 16; i++, idx++) {
-		temp = temp_data[choose_data_idx[i]] + (PP ^ ((PPP ^ 0xFFFFFFFF) | P)) + PPPP 
-			+ const_mult[idx] * const_values[idx];
-
-		PPPP = PPP; PPP = PP; PP = P;
-		P += (temp >> (26 - shifts_4[i%4])) | (temp << (6 + shifts_4[i%4]));
-	}
-
+	// store in the output variables
 	table[0] += PPPP;
 	table[1] += P;
 	table[2] += PP;
@@ -72,7 +54,6 @@ void crazy_algorithm(int *table,int *temp_data) {
 
 	return;
 }
-
 
 
 int alter_table() {
