@@ -6,46 +6,7 @@ snit::widgetadaptor pixmapbutton {
 	#-------------------
 	# Image components
 	#-------------------
-	variable img
-	variable img_hover
-	variable img_pressed
-	variable img_disabled
 
-	variable leftimg
-	variable leftimg_hover
-	variable leftimg_pressed
-	variable leftimg_disabled
-
-	variable centreimg
-	variable centreimg_hover
-	variable centreimg_pressed
-	variable centreimg_disabled
-
-	variable rightimg
-	variable rightimg_hover
-	variable rightimg_pressed
-	variable rightimg_disabled
-
-	variable topimg
-	variable topimg_hover
-	variable topimg_pressed
-	variable topimg_disabled
-	
-	variable bottomimg
-	variable bottomimg_hover
-	variable bottomimg_pressed
-	variable bottomimg_disabled
-	
-	variable srcimg
-	variable srcimg_hover
-	variable srcimg_pressed
-	variable srcimg_disabled
-	
-	variable border_top
-	variable border_left
-	variable border_right
-	variable border_bottom
-	
 	variable potent
 	variable buttonwidth
 	variable buttonheight

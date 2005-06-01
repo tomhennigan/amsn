@@ -1,12 +1,12 @@
 #!/usr/bin/env wish
 
 lappend auto_path "../"
-package require pixmapbutton
-
+#package require pixmapbutton
+source pixmapbutton2.tcl
 
 #wm attributes
 wm title . "button test"
-wm geometry . 150x45
+#wm geometry . 350x100
 . config -bg white
 update
 
@@ -15,14 +15,11 @@ font create massive -family helvetica -size 32
 image create photo icon -file icon.gif
 image create photo icon2 -file icon2.gif
 
-pixmapbutton .b1 -command "puts ok" -font plain -emblemimage icon2 -emblempos "right center"
-
-pixmapbutton .b2 -command "puts cancel" -font plain -emblemimage icon -emblempos "right center" -fg red
-
-pack .b1 -side left -padx 5 -pady 5 -fill x -expand true
-pack .b2 -side right -padx 5 -pady 5 -fill x -expand true
-.b1 configure -text "Ok"
-.b2 configure -text "Cancel"
-#.ok configure -font massive
-.b2 configure -state disabled
-.b2 configure -fg black
+pixmapbutton .b1 -text "Buttons\ncan\nhave\nmultiline\ntext!" -foreground red -font massive -emblem icon2
+pixmapbutton .b2 -text "Or they can have very long \nstupid text like this..." -font plain -underline 1
+pixmapbutton .b3 -text "..or short :)" -emblem icon -anchor w
+pixmapbutton .b4 -text "This button invokes every second when you hold it down" -repeatdelay 1000 -repeatinterval 1000 -command [list puts repeat_button]
+#canvas .b1
+pack .b1 .b2 .b3 .b4 -padx 10 -pady 5 -expand false -fill none -side top
+#button .b -text repeater -command "puts hey" -repeatdelay 10 -repeatinterval 100
+#pack .b

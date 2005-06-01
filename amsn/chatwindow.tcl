@@ -2446,7 +2446,7 @@ namespace eval ::ChatWindow {
 		        set nick [string range $nick 0 [expr {$idx -1}]]
 		}
 
-		$tab create text [::skin::getKey tab_text_x] [::skin::getKey tab_text_y] -anchor nw -text "$nick" -tag tab_text -font sboldf -width [::skin::getKey tab_text_width]
+		$tab create text [::skin::getKey tab_text_x] [::skin::getKey tab_text_y] -anchor nw -text "$nick" -fill [::skin::getKey tabfg] -tag tab_text -font sboldf -width [::skin::getKey tab_text_width]
 		$tab create image [::skin::getKey tab_close_x] [::skin::getKey tab_close_y] -anchor nw -image [::skin::loadPixmap tab_close] -activeimage [::skin::loadPixmap tab_close_hover] -tag tab_close
 
 		#Old button based tab

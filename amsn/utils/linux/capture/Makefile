@@ -14,23 +14,23 @@ PACKAGE		:= capture
 WARN_FLAGS	:= -Wall -Wmissing-prototypes -Wstrict-prototypes -Wpointer-arith
 LFS_FLAGS	:= -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64
 LIB_FLAGS	:= -I. -I$(srcdir)/libng -I$(srcdir)/structs -Llibng
-LIBDIR		:= /home/kakaroto/msn/utils/linux/capture
+LIBDIR		:= /home/bunny/msn/utils/linux/capture
 
 
 # various libraries
 THREAD_LIBS	:= -lpthread
 ALSA_LIBS	:= -lasound
 MAD_LIBS	:= -lmad
-MPEG2_LIBS	:= 
+MPEG2_LIBS	:= -lmpeg2
 GL_LIBS		:= 
 
 
 # Directories in which the Tcl core can be found
-TCL_INC_SPEC 	= -I/usr/include/tcl8.4
-TCL_STUB_LIB_SPEC = -L/usr/lib/tcl8.4 -ltclstub8.4${TCL_DBGX}
+TCL_INC_SPEC 	= -I/usr/include
+TCL_STUB_LIB_SPEC = -L/usr/lib -ltclstub8.4${TCL_DBGX}
 
 # Directories in which the Tk core can be found
-TK_INC_SPEC 	= -I/usr/include/tcl8.4/tk-private/generic
+TK_INC_SPEC 	= -I/usr/include
 TK_STUB_LIB_SPEC = -L/usr/lib -ltkstub8.4
 
 
@@ -39,7 +39,7 @@ TK_STUB_LIB_SPEC = -L/usr/lib -ltkstub8.4
 FOUND_ALSA	:= yes
 FOUND_GL	:= no
 FOUND_MAD	:= yes
-FOUND_MPEG2	:= no
+FOUND_MPEG2	:= yes
 FOUND_OS	:= linux
 USE_MMX		:= yes
 USE_LIBNG	:= yes
