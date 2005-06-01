@@ -42,6 +42,7 @@ appearance Apariència
 appearoff Sense connexió
 areacode Codi d'àrea
 aretyping $1 està escrivint un missatge
+askeachtime Pregunta cada vegada
 askwebcam Preguta a este usuari per vore la seua webcam
 author Autor
 autoaccepted Transferència de fitxers acceptada automàticament
@@ -126,13 +127,17 @@ clear Netejar
 clearlog2 Netejar l'historial per a tots els contactes
 clearlog3 Netejar tots els registres
 clearlog Netejar historial
+clearwebcamlogs Netejar tots els logs de webcam
 clicktoadd Fes clic en Afegir per a crear una nova nota
 clicktologin Fes click ací per a iniciar la sessió
 clientcaps Enviar paquets x-clientcaps a altres clients
 clientname Nom del client
 close Tancar
 closeall Vols tancar totes les pestanyes de la finestra?
+closealltabs Tancar totes les pestanyes
 closed Conversa amb $1 tancada per inactivitat
+closelabel Quan fas clic al botó de tancar en una finestra de conversa amb pestanyes
+closeonly Tancar només la pestanya actual
 closingdocks Botó de tancar/minimitzar
 command Ordre
 commandstatus Executar ordre
@@ -370,6 +375,7 @@ logsbydate Ordenar històrics per data (Vore historial molt més ràpidament)
 logsin acaba d'iniciar sessió
 logsmileys Mostrar emoticons en la finestra d'historial d'aMSN
 logsout acaba de tancar la sessió
+logwebcam Guardar totes les sessions de webcam a l'historial d'aMSN per a vore-ho en un futur
 longnick El teu mot és major de 130 caràcters. Això no està soportat oficialment pel protocol MSN. Estàs segur que desitges canviar-ho?
 longp4c El teu mot es mes llarg de 130 caracters. El mot mostrat en el MS-MSN (programa oficial de MSN) serà $1. Desitges continuar?
 lprivtoconf La conversa privada canvia a conversa múltiple amb $1
@@ -471,12 +477,14 @@ p4contextprefix Prefixar remitents en P4-Context en esta cadena de caràcters
 pager Paginador
 pass Contrasenya
 paste Pegar
+pause Pausar
 personal Personal
 phone Telèfon
 phones Números de telèfon
 picbrowser Explorador de Imatges de Mostra
 picfile Triar fitxer d'imatge per a l'avis (GIF < 500x500)
 picstatus Activar/desactivar imatge per a l'avis
+play Reproduïr
 playing Reproduint: $1
 pluginselector Seleccionar Plug-in
 port Port
@@ -537,6 +545,7 @@ reconnect2 Reconnectar en perdre la connexió
 reconnecting Reconnectant al servidor
 reject Denegar
 rememberpass Recordar contrasenya
+remembersetting Recordar este ajustament
 removeempty Eliminar els grups buits de la Llista de Contactes
 removefromlist Esborrar d'esta llista
 rename Canviar nom
@@ -610,6 +619,7 @@ statenick Mot personalitzat (deixar en blanc per a no canviar-lo)
 state Vull aparentar com
 stats Estadístiques
 status Estat
+stop Parar
 stopalarm Parar el so de l'avís
 storenickname Tornar al mot original després d'un estat personalitzat
 strictfonts Establir totes les fonts de AMSN al tamany que jo vaig triar.
@@ -628,6 +638,7 @@ takesnapshot Capturar la imatge
 temp_state No emmagatzemar (Estat temporal, es perdrà en reiniciar AMSN)
 textsize Tamany del text
 thismonth Este mes
+throughserver Servidor a través
 timeremaining Temps restant
 timestamp Marca temporal
 timestamps Activar hora en els missatges
@@ -673,6 +684,7 @@ version Versió
 viewprofile Vore perfil
 viewcontactsby Mostra els contactes per
 view Vore
+webcamhistory Vore les sessions de webcam
 webcaminvite $1 t'ha convidat a iniciar una conversa amb webcam però l'aMSN encara no ho suporta.
 webcamshot Captura de webcam
 whatsize La imatge seleccionada no és de la mida predefinida (96x96).\n Amb quina mida vols que es mostre?
