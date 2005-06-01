@@ -82,6 +82,7 @@
                         <chatwindowbg>#d3d2e2</chatwindowbg>
 			<buttonbarbg>#f4f4f4</buttonbarbg>
 			<tabbarbg>#d3d2e2</tabbarbg>
+			<tabfg>#000000</tabfg>
                         <chat_buttons_border_color>#646464</chat_buttons_border_color>
 			<chat_input_border_color>#646464</chat_input_border_color>
 			<chat_output_border_color>#646464</chat_output_border_color>
@@ -527,6 +528,11 @@
 			<name> Black Sheep </name>
 			<text> "(bah)" </text>
 			<file> sheep.gif </file>
+		</emoticon>
+		<emoticon>
+			<name> Goat </name>
+			<text> "(nah)" </text>
+			<file> goat.gif </file>
 		</emoticon>
 		<emoticon>
 			<name> Vampire bat </name>
