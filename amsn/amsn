@@ -167,6 +167,7 @@ proc reload_files { } {
 	source skins.tcl	;# Used for skinning purposes
 	source remote.tcl	;# The remote control procedures
 	source chatwindow.tcl	;# Abstracted Chat Window code (::ChatWindow namespace)
+	source picture.tcl ; #Tkcximage procs
 	source gui.tcl		;#gui.tcl must be at the beginning to make msg_box procedure available for errors
 	source plugins.tcl	;# Plugins system must be loaded before config
 	source config.tcl	;# config needs to be loaded before pluginslog for translations
@@ -198,7 +199,7 @@ proc reload_files { } {
 	source notes.tcl
 
 	source guicontactlist.tcl ;# New contact list (uses canvas)
-	source picture.tcl ; #Tkcximage procs
+
 
 }
 

@@ -1,6 +1,6 @@
-if {[catch {package require TkCximage} res]} {
+if {![::picture::Loaded]} {
 	tk_messageBox -default ok -message "You can't load TkCximage, this is now needed to run \
-	aMSN. You can compile it inside /utils/TkCximage. Error message: $res" -icon warning
+	aMSN. You can compile it inside /utils/TkCximage. " -icon warning
 }
 package require AMSN_BWidget
 
