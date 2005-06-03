@@ -49,7 +49,7 @@ set ::tkcximageloaded 0
 				status_log "Picture.tcl: Unable to convert picture with TkCximage \n$res" red
 				error "Picture.tcl: Unable to convert picture with TkCximage \n$res"
 			} else {
-				return 1
+				return $destination
 			}
 		} 
 	}
@@ -241,7 +241,7 @@ set ::tkcximageloaded 0
 		set filename [::abook::getContactData $user displaypicfile ""]
 		#If he don't have any picture, end that
 		if { $filename == "" } {
-			status_log "No picture found to change size"
+			status_log "Picture.tcl: No picture found to change size"
 			return
 		}
 		

@@ -4872,17 +4872,29 @@ namespace eval ::MSN6FT {
 		set context "${context}${file}\xFF\xFF\xFF\xFF"
 
 		if { $nopreview == 0 } {
-
+			#Here we resize the picture and save it in /FT/cache for the preview (we send it and we see it)
 			create_dir [file join [set ::HOME] FT cache]
-
-			#set file [convert_file "$filename" "[file join [set ::HOME] FT cache ${callid}.png]" "96x96"]
-			set file [convert_image_plus $filename FT/cache "96x96"]
-
+			set image [image create photo -file $filename]
+			if {[catch {::picture::ResizeWithRatio $image 96 96} res]} {
+				msg_box $res
+			}
+			set file  "[file join [set ::HOME] FT cache ${callid}.png]"
+			if {[catch {::picture::Save $image $file cxpng} res] } {
+				msg_box $res
+			}
+			image delete $image
+			::skin::setPixmap ${callid}.png $file
+							
 			if { [catch { open $file} fd] == 0 } {
-				
 				fconfigure $fd -translation {binary binary }
 				set context "$context[read $fd]"
 				close $fd
+			}
+			#Show the preview picture in the window
+			if { [::skin::loadPixmap "${callid}.png"] != "" } {
+				::amsn::WinWrite $chatid "\n" green
+				::amsn::WinWriteIcon $chatid ${callid}.png 5 5
+				::amsn::WinWrite $chatid "\n" green
 			}
 		}
 
@@ -5523,10 +5535,10 @@ namespace eval ::MSNAV {
 		}
 
 		set win_name [::ChatWindow::MakeFor $chatid $txt $fromlogin]
-if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-		::amsn::WinWrite $chatid "\nAudio/Video requests are not supported on Mac OS X, only Webcam" green
-		return
-}
+		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+			::amsn::WinWrite $chatid "\nAudio/Video requests are not supported on Mac OS X, only Webcam" green
+			return
+		}
 		::amsn::WinWrite $chatid "\n----------\n" green
 		::amsn::WinWrite $chatid $txt green
 		::amsn::WinWrite $chatid " - (" green

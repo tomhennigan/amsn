@@ -712,6 +712,7 @@ namespace eval ::amsn {
 			#Calculate a random cookie
 			set cookie [expr {([clock clicks]) % (65536 * 8)}]
 			set txt "[trans ftsendinvitation [::abook::getDisplayNick $chatid] $filename [::amsn::sizeconvert $filesize]]"
+			
 
 			status_log "Random generated cookie: $cookie\n"
 			WinWrite $chatid "\n" green
