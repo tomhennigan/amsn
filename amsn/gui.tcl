@@ -1,9 +1,9 @@
 if {![::picture::Loaded]} {
 	tk_messageBox -default ok -message "You can't load TkCximage, this is now needed to run \
-	aMSN. You can compile it inside /utils/TkCximage. " -icon warning
+	aMSN. You can compile it with the makefile inside amsn folder" -icon warning
+	exit
 }
 package require AMSN_BWidget
-
 package require pixmapbutton
 if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 	#Use tclCarbonHICommand for window utilities
