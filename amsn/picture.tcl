@@ -28,7 +28,7 @@ set ::tkcximageloaded 0
 				} 
 			}
 		}
-	puts "Picture.tcl: TkCximage not loaded" red
+	puts "Picture.tcl: TkCximage not loaded"
 	return 0
 	
 	}
