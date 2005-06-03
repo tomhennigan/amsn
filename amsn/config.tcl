@@ -148,7 +148,7 @@ namespace eval ::config {
 		::config::setKey initialftport 6891	;#Initial for to be used when sending file transfers
 		::config::setKey ftautoaccept 0		;#Auto-Accept file transfer request (Off by default)
 		::config::setKey ftautoclose 0		;#Auto-close file transfer windows when finished
-		::config::setKey new_ft_protocol 0	;#Use new FileTransfer protocol (Off by default)
+		::config::setKey disable_new_ft_protocol 0	;#Use new FileTransfer protocol (Off by default)
 
 		::config::setKey shownotify 1 			;#Show notify window (in general, see advanced options)
 		::config::setKey clientcaps 1			;#Send x-clientcaps information to others 3rd Messenger
@@ -228,7 +228,7 @@ namespace eval ::config {
 			[list local autoconnect bool autoconnect autoconnect2] \
 			[list local keepalive bool keepalive natkeepalive]\
 			[list local start_ns_server str notificationserver]\
-			[list local new_ft_protocol bool new_ft_protocol]\
+			[list local disable_new_ft_protocol bool_inv new_ft_protocol]\
 			[list local lazypicretrieval bool lazypicretrieval]\
 			[list title MSN] \
 			[list local displayp4context bool displayp4context] \

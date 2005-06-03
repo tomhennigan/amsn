@@ -467,7 +467,7 @@ namespace eval ::MSNFT {
       variable filedata
 
 		#Use new FT protocol only if the user choosed this option in advanced preferences.
-      if {[::config::getKey new_ft_protocol]} {
+      if {![::config::getKey disable_new_ft_protocol]} {
       	::MSN6FT::SendFT $chatid $filename $filesize
        	return 0
       }
@@ -503,9 +503,9 @@ namespace eval ::MSNFT {
    }
 
     proc cancelFTInvitation { chatid cookie } {
-	if {[::config::getKey new_ft_protocol]} {
+	if {![::config::getKey disable_new_ft_protocol]} {
 	    #TODO: here we should send CANCEL message so the other side will know it is cancelled
-	} {
+	} else {
 	    rejectFT $chatid $cookie
 	}
     }
@@ -5004,9 +5004,7 @@ namespace eval ::MSN6FT {
 	proc connectMsnFTP { sid nonce ip port sending } {
 
 		#Use new FT protocol only if the user choosed this option in advanced preferences.
-		if {[::config::getKey new_ft_protocol]} {
-			#Nothing
-		} else {
+		if {[::config::getKey disable_new_ft_protocol]} {
 			return
 		}
 		
@@ -5327,12 +5325,10 @@ namespace eval ::MSN6FT {
 
 	proc answerFTInvite { sid chatid branchid conntype } {
 
-	#Use new FT protocol only if the user choosed this option in advanced preferences.
-    if {[::config::getKey new_ft_protocol]} {
-   		#Nothing
-    } else {
-   		return
-    }
+		#Use new FT protocol only if the user choosed this option in advanced preferences.
+		if {[::config::getKey disable_new_ft_protocol]} {
+			return
+		}
 
 		::MSNP2P::SessionList set $sid [list -1 -1 -1 -1 -1 -1 -1 -1 -1 "$branchid" ]
 		set session [::MSNP2P::SessionList get $sid]

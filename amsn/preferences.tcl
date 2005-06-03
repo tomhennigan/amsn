@@ -2538,6 +2538,10 @@ proc reload_advanced_options {path} {
 					checkbutton $path.cb$i -text [trans [lindex $opt 3]] -font splainf -variable $config_var
 					pack $path.cb$i -side top -anchor w
 				}
+				bool_inv {
+					checkbutton $path.cb$i -text [trans [lindex $opt 3]] -font splainf -variable $config_var -onvalue 0 -offvalue 1
+					pack $path.cb$i -side top -anchor w	
+				}
 				folder {
 					frame $path.fr$i
 					button $path.fr$i.browse -text [trans browse] -command "Browse_Dialog_dir [::config::getVar [lindex $opt 1]]"
