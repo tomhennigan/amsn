@@ -975,7 +975,7 @@ namespace eval ::MSNCAM {
 		if { [getObjOption $sid producer] && [getObjOption $sid reflector] != 1} {
 			status_log "Trying Reflector\n" red 
 			setObjOption $sid reflector 1
-			if { [catch {::http::geturl [list http://m1reflector.spotlife.net/createSession]  -timeout 5000 -command "::MSNCAM::ReflectorCreateSession $sid" }] } {
+			if { [catch {::http::geturl [list http://m1reflector.spotlife.net/createSession]  -timeout 1000 -command "::MSNCAM::ReflectorCreateSession $sid" }] } {
 				status_log "Unable to connect to the reflector.. canceling\n" red
 				::MSNCAM::CancelCam [getObjOption $sid chatid] $sid
 			}
@@ -1020,7 +1020,7 @@ namespace eval ::MSNCAM {
 
 			status_log "Creating the tunnel with the url : $refl_url\n" red
 
-			if { [catch {::http::geturl [list $refl_url]  -timeout 5000 -command "::MSNCAM::ReflectorCreateTunnel $sid" } res] } {
+			if { [catch {::http::geturl [list $refl_url]  -timeout 1000 -command "::MSNCAM::ReflectorCreateTunnel $sid" } res] } {
 				status_log "Unable to connect to the reflector.. $res canceling\n" red
 				::MSNCAM::CancelCam [getObjOption $sid chatid] $sid
 			}

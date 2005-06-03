@@ -251,124 +251,79 @@ namespace eval ::MSNP2P {
 	#	findid : This method searches all Sessions for one that has the given Identifier, returns session ID or -1 if not found
 	#	findcallid : This method searches all Sessions for one that has the given Call-ID, returns session ID or -1 if not found
 	proc SessionList { action sid { varlist "" } } {
-		variable MsgId
-		variable TotalSize
-		variable Offset
-		variable Destination
-		variable AfterAck
-		variable CallId
-		variable Fd
-		variable Type
-   	        variable Filename
-		variable branchid
 
 		switch $action {
 			get {
-				if { [info exists MsgId($sid)] } {
+				set ret [getObjOption $sid MsgId] 
+				#status_log "getting $sid : [getObjOption $sid MsgId] - $ret" green
+
+				if { $ret != "" } {
 					# Session found, return values
-					return [list $MsgId($sid) $TotalSize($sid) $Offset($sid) $Destination($sid) $AfterAck($sid) $CallId($sid) $Fd($sid) $Type($sid) $Filename($sid) $branchid($sid)]
+					lappend ret [getObjOption $sid TotalSize] 
+					lappend ret [getObjOption $sid Offset] 
+					lappend ret [getObjOption $sid Destination] 
+					lappend ret [getObjOption $sid AfterAck]
+					lappend ret [getObjOption $sid CallId] 
+					lappend ret [getObjOption $sid Fd]
+					lappend ret [getObjOption $sid Type] 
+					lappend ret [getObjOption $sid Filename]
+					lappend ret [getObjOption $sid branchid]
+
+					#status_log "returning $ret" green
+					return $ret
 				} else {
+					#status_log "Not found" green
 					# Session not found, return 0
 					return 0
 				}
 			}
 
 			set {
+				#status_log "setting $sid with $varlist" green
 				# This overwrites previous vars if they are set to something else than -1
 				if { [lindex $varlist 0] != -1 } {
-					set MsgId($sid) [lindex $varlist 0]
+					setObjOption $sid MsgId [lindex $varlist 0]
+					setObjOption [lindex $varlist 0] sid $sid
 				}
 				if { [lindex $varlist 1] != -1 } {
-					set TotalSize($sid) [lindex $varlist 1]
+					setObjOption $sid TotalSize [lindex $varlist 1]
 				}
 				if { [lindex $varlist 2] != -1 } {
-					set Offset($sid) [lindex $varlist 2]
+					setObjOption $sid Offset [lindex $varlist 2]
 				}
 				if { [lindex $varlist 3] != -1 } {
-					set Destination($sid) [lindex $varlist 3]
+					setObjOption $sid Destination [lindex $varlist 3]
 				}
 				if { [lindex $varlist 4] != -1 } {
-					set AfterAck($sid) [lindex $varlist 4]
+					setObjOption $sid AfterAck [lindex $varlist 4]
 				}
 				if { [lindex $varlist 5] != -1 } {
-					set CallId($sid) [lindex $varlist 5]
+					setObjOption $sid CallId [lindex $varlist 5]
+					setObjOption [lindex $varlist 5] sid $sid
 				}
 				if { [lindex $varlist 6] != -1 } {
-					set Fd($sid) [lindex $varlist 6]
+					setObjOption $sid Fd [lindex $varlist 6]
 				}
 				if { [lindex $varlist 7] != -1 } {
-					set Type($sid) [lindex $varlist 7]
+					setObjOption $sid Type [lindex $varlist 7]
 				}
 				if { [lindex $varlist 8] != -1 } {
-				        set Filename($sid) [lindex $varlist 8]
+				        setObjOption $sid Filename [lindex $varlist 8]
 				}
 				if { [lindex $varlist 9] != -1 } {
-				        set branchid($sid) [lindex $varlist 9]
+				        setObjOption $sid branchid [lindex $varlist 9]
 				}
 			}
 
 			unset {
-				if { [info exists MsgId($sid)] } {
-					unset MsgId($sid)
-				} else {
-					status_log "Trying to unset MsgID($sid) but do not exist\n" red
-				}
-				if { [info exists TotalSize($sid)] } {
-					unset TotalSize($sid)
-				} else {
-					status_log "Trying to unset TotalSize($sid) but do not exist\n" red
-				}
-				if { [info exists Offset($sid)] } {
-					unset Offset($sid)
-				} else {
-					status_log "Trying to unset Offset($sid) but does not exist\n" red
-				}
-				if { [info exists Destination($sid)] } {
-					unset Destination($sid)
-				} else {
-					status_log "Trying to unset Destination($sid) but dosent exist\n" red
-				}
-				if { [info exists Afterack($sid)] } {
-					unset AfterAck($sid)
-				} else {
-					status_log "Trying to unset Afterack($sid) but dosent exist\n" red
-				}
-				if { [info exists Fd($sid)] } {
-					unset Fd($sid)
-				} else {
-					status_log "Trying to unset Fd($sid) but dosent exist\n" red
-				}
-				if { [info exists Type($sid)] } {
-					unset Type($sid)
-				} else {
-					status_log "Trying to unset Type($sid) but dosent exist\n" red
-				}
-			        if { [info exists Filename($sid)] } {
-					unset Filename($sid)
-				} else {
-					status_log "Trying to unset Filename($sid) but dosent exist\n" red
-				}
-			        if { [info exists branchid($sid)] } {
-					unset branchid($sid)
-				} else {
-					status_log "Trying to unset Filename($sid) but dosent exist\n" red
-				}
+				#status_log "unsetting..." green
+				return
 			}
-
+			findcallid -
 			findid {
-				set idx [lsearch [array get MsgId] $sid]
-				if { $idx != -1 } {
-					return [lindex [array get MsgId] [expr $idx - 1]]
-				} else {
-					return -1
-				}
-			}
-			findcallid {
-				set idx [lsearch [array get CallId] $sid]
-				if { $idx != -1 } {
-					return [lindex [array get CallId] [expr $idx - 1]]
-				} else {
-					return -1
+				#status_log "Finding $action of $sid, found : [getObjOption $sid sid]" green
+				if { [getObjOption $sid sid] != "" } {
+					return [getObjOption $sid sid]
 				}
 			}
 		}
