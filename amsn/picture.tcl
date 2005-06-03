@@ -60,9 +60,9 @@ set ::tkcximageloaded 0
 		if {[::picture::Loaded]} {
 			if { [catch {::CxImage::Resize $photo $width $height } res] != 0 } {
 				status_log "Picture.tcl: Unable to resize photo with TkCximage \n$res" red
-				return 0
+				error "Picture.tcl: Unable to resize photo with TkCximage \n$res"
 			}	else {
-				return $photo
+				return 1
 			}
 		}
 	}
@@ -74,7 +74,7 @@ set ::tkcximageloaded 0
 		}
 		if { ![file exists $original] } {
 			status_log "Picture.tcl: Tring to resize file $original that does not exist\n" red
-			return 0
+			error "Picture.tcl: Tring to resize file $original that does not exist\n"
 		}
 		if {[::picture::Loaded]} {
 			#TkCximage
@@ -85,9 +85,9 @@ set ::tkcximageloaded 0
 				image delete $photo
 				} res ] } 	{
 				status_log "Picture.tcl: Unable to resize picture with TkCximage \n$res" red
-				return 0
+				error "Picture.tcl: Unable to resize picture with TkCximage \n$res"
 			} else {
-				return $destination
+				return 1
 			}
 		}
 	}
@@ -101,17 +101,17 @@ set ::tkcximageloaded 0
 			
 				if { [catch {::CxImage::Thumbnail $photo $width $height $bordercolor} res] != 0 } {
 					status_log "Picture.tcl: Unable to create thumbnail with TkCximage \n$res" red
-					return 0
+					error "Picture.tcl: Unable to create thumbnail with TkCximage \n$res"
 				}	else {
-					return $photo
+					return 1
 				}
 			} else {
 				
 				if { [catch {::CxImage::Thumbnail $photo $width $height $bordercolor -alpha $alpha} res ] != 0 } {
 					status_log "Picture.tcl: Unable to create thumbnail with TkCximage \n$res" red
-					return 0
+					error "Picture.tcl: Unable to create thumbnail with TkCximage \n$res"
 				} else {
-					return $photo
+					return 1
 				}
 				
 			}
@@ -124,13 +124,13 @@ set ::tkcximageloaded 0
 		set temp [image create photo]
 		
 		if {[::picture::Loaded]} {
-			if { [catch {$temp copy $photo -from $x1 $y1 $x2 $y2} res ] != 0 } {
+			if { [catch {$temp copy $photo -from $x1 $y1 $x2 $y2} res] != 0 } {
 				status_log "Picture.tcl: Unable to crop image with TkCxImage\n$res" red
-				return 0
+				error "Picture.tcl: Unable to crop image with TkCxImage\n$res"
 			} else {
 				image create photo $photo
 				$photo copy $temp
-				return $photo
+				return 1
 			}
 		}
 	}
@@ -161,7 +161,10 @@ set ::tkcximageloaded 0
 			#Resize the picture
 			if { $origw != $width || $origh != $height } {
 				#status_log "picture.tcl : Will resize to $resizew x $resizeh \n" red	
-				::picture::Resize $photo $resizew $resizeh
+				if {[catch {::picture::Resize $photo $resizew $resizeh} res] } {
+					error $res
+				}
+				
 			}
 			
 			#Now let's crop image from the center
@@ -187,9 +190,11 @@ set ::tkcximageloaded 0
 			#status_log "picture.tcl: Resized image size is $neww $newh\n" red
 			#status_log "picture.tcl: Center of image is $centerx,$centery, will crop from $x1,$y1 to $x2,$y2 \n" red
 			
-			::picture::Crop $photo $x1 $y1 $x2 $y2
+			if {[catch {::picture::Crop $photo $x1 $y1 $x2 $y2} res]} {
+				error $res
+			}
 			
-			return $photo
+			return 1
 			
 		}
 	}
@@ -200,32 +205,51 @@ set ::tkcximageloaded 0
 			if {$format != ""} {
 				if { [catch {$photo write $destination -format $format} res] != 0} {
 					status_log "Picture.tcl: Error Saving to the file with TkCximage : \n$res" red
-					return 0
+					error "Picture.tcl: Error Saving to the file with TkCximage : \n$res"
 				} else {
-				return $destination
+					return 1
 				}
 			} else {
 				if { [catch {$photo write $destination} res] != 0} {
 					status_log "Picture.tcl: Error Saving to the file with TkCximage : \n$res" red
-					return 0
+					error "Picture.tcl: Error Saving to the file with TkCximage : \n$res"
 				} else {
-					return $destination
+					return 1
 				}
 			}
 		}
 	}	
-	
-	#I don't remember why I coded that :S
-	proc GetSkinFile {directory file {format "gif"}} {
-		#Verify if the picture exists
-		if { ![file exists $file] } {
-			status_log "Picture.tcl: Tring to GetSkinFile for $file that does not exist\n" red
-			return 0
+
+	#Get picture size and return it with width x height format
+	proc GetPictureSize { filename } {
+
+		if { ![file exists $filename] } {
+			status_log "Picture.tcl: The file doesn't exists\n" red
+			error "Picture.tcl: The file doesn't exists"
 		}
-		if {[::picture::Loaded]} {
-			#With TkCximage
-			set photo [image create photo -file [::skin::GetSkinFile "$directory" "[filenoext [file tail $file]].$format"]]
-			return $photo
-		} 
+	
+		set img [image create photo -file $filename]
+		set return "[image width $img]x[image height $img]"
+		image delete $img
+		return $return
+	}
+	
+	#Convert a display picture from a user to another size
+	proc ConvertDPSize {user win width height} {
+		global HOME
+		#Get the filename of the display picture of the user
+		set filename [::abook::getContactData $user displaypicfile ""]
+		#If he don't have any picture, end that
+		if { $filename == "" } {
+			status_log "No picture found to change size"
+			return
+		}
+		
+		if {[catch {
+			image create photo user_pic_$user -file "[file join $HOME displaypic cache ${filename}].png"
+			::picture::Resize user_pic_$user $width $height
+		} res]} {
+			msg_box $res
+		}
 	}
 }

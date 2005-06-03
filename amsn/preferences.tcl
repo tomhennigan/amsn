@@ -2228,26 +2228,6 @@ proc Preferences { { settings "personal"} } {
 	grid $lfname.1.receiveddir -row 1 -column 2 -sticky w
 	grid $lfname.1.browse -row 1 -column 3 -sticky w
 
-
-	## Library directories frame ##
-	set lfname [LabelFrame:create $frm.lfname2 -text [trans preflibs]]
-	pack $frm.lfname2 -anchor n -side top -expand 1 -fill x
-	label $lfname.pshared -image [::skin::loadPixmap prefapps]
-	pack $lfname.pshared -side left -anchor nw
-
-	frame $lfname.1 -class Degt
-	pack $lfname.1 -anchor w -side left -padx 0 -pady 5 -fill none
-	label $lfname.1.lconvertpath -text "CONVERT" -padx 5 -font sboldf
-	entry $lfname.1.convertpath -bg #FFFFFF  -width 45 -textvariable [::config::getVar convertpath]
-	label $lfname.1.lconvertpathexp -text [trans convertexplain] -justify left -font examplef
-	button $lfname.1.browseconv -text [trans browse] -command "Browse_Dialog_file [::config::getVar convertpath]"
-
-	grid $lfname.1.lconvertpath -row 3 -column 1 -sticky w
-	grid $lfname.1.convertpath  -row 3 -column 2 -sticky w
-	grid $lfname.1.browseconv  -row 3 -column 3 -padx 5 -sticky w
-	grid $lfname.1.lconvertpathexp  -row 4 -column 2 -columnspan 3 -sticky w
-
-
 	$nb.nn compute_size
 	[$nb.nn getframe others].sw.sf compute_size
 
@@ -2870,11 +2850,6 @@ proc SavePreferences {} {
 		::config::setKey initialftport 6891
 	}
 
-	if { [::config::getKey getdisppic] != 0 } {
-		check_imagemagick
-	}
-
-
 	# Make sure entries x and y offsets and idle time are digits, if not revert to old values
 	if { [string is digit [::config::getKey notifyXoffset]] == 0 } {
 		::config::setKey notifyXoffset $myconfig(notifyXoffset)
@@ -2946,11 +2921,6 @@ proc SavePreferences {} {
 		::MSN::changeName [::config::getKey login] $new_name
 	}
 	::config::setKey p4c_name [$lfname.p4c.entry get]
-
-	#Check if convertpath was left blank, set it to "convert"
-	if { [::config::getKey convertpath] == "" } {
-		::config::setKey convertpath "convert"
-	}
 
 	# Get remote controlling preferences
 	#set lfname [Rnotebook:frame $nb $Preftabs(connection)]

@@ -228,9 +228,9 @@ namespace eval ::alarms {
 				return -1
 			} else {
 				if { [catch {image create photo joanna -file $my_alarms(${user}_pic)}] } {
-					set file [run_convert "$my_alarms(${user}_pic)" "[file join $HOME alarm_${user}.gif]"]
+					catch {set file [::picture::Convert "$my_alarms(${user}_pic)" "[file join $HOME alarm_${user}.png]"]} res
 					if { $file == "" } {
-						msg_box [trans installconvert]
+						msg_box $res
 						return -1
 					} else {
 						image create photo joanna -file $file
@@ -251,8 +251,8 @@ namespace eval ::alarms {
 					return -1
 				} else {
 					image delete joanna					
-					catch {file copy -force $my_alarms(${user}_pic) [file join $HOME alarm_${user}.gif]}
-					set my_alarms(${user}_pic) [file join $HOME alarm_${user}.gif]
+					catch {file copy -force $my_alarms(${user}_pic) [file join $HOME alarm_${user}.png]}
+					set my_alarms(${user}_pic) [file join $HOME alarm_${user}.png]
 					set my_alarms(${user}_copied_pic) 1
 				}
 			}

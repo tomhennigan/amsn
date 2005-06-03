@@ -4875,10 +4875,11 @@ namespace eval ::MSN6FT {
 
 			create_dir [file join [set ::HOME] FT cache]
 
-			set file [convert_file "$filename" "[file join [set ::HOME] FT cache ${callid}.png]" "96x96"]
+			#set file [convert_file "$filename" "[file join [set ::HOME] FT cache ${callid}.png]" "96x96"]
+			set file [convert_image_plus $filename FT/cache "96x96"]
 
 			if { [catch { open $file} fd] == 0 } {
-
+				
 				fconfigure $fd -translation {binary binary }
 				set context "$context[read $fd]"
 				close $fd
@@ -5311,10 +5312,9 @@ namespace eval ::MSN6FT {
 			fconfigure $fd -translation binary
 			puts -nonewline $fd "$previewdata"
 			close $fd
-			set file [png_to_gif [file join $dir ${sid}.png]]
+			set file [file join $dir ${sid}.png]
 			if { $file != "" } {
-				set file [filenoext $file].gif
-				::skin::setPixmap FT_preview_${sid} "[file join $dir ${sid}.gif]"
+				::skin::setPixmap FT_preview_${sid} "[file join $dir ${sid}.png]"
 			}
 		}
 		setObjOption $sid chatid $chatid

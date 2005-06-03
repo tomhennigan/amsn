@@ -177,12 +177,6 @@ namespace eval ::config {
 		::config::setKey ContainerCloseAction 0
 		::config::setKey showMobileGroup 1
 
-		if {$tcl_platform(os) != "Darwin"} {
-		::config::setKey convertpath "convert"								;#Path for convert (from imagemagick)
-		} else {
-		::config::setKey convertpath "/usr/local/bin/convert"		;#Path for convert (from imagemagick) on Mac OS X
-		}
-
 		#Advanced options, not in preferences window
 		# Create the entry in the list and then, set
 		# the variable at bottom

@@ -152,7 +152,7 @@ namespace eval ::MSNP2P {
 		#Reload 1 means that we force aMSN to reload a new display pic
 		#Destroy it before to avoid TkCxImage to redraw animated gif above the good display pic
 		destroy user_pic_$user
-		if { ![file readable "[file join $HOME displaypic cache ${filename}].gif"] || $reload == "1" } {
+		if { ![file readable "[file join $HOME displaypic cache ${filename}].png"] || $reload == "1" } {
 			status_log "::MSNP2P::GetUser: FILE [file join $HOME displaypic cache ${filename}] doesn't exist!!\n" white
 			image create photo user_pic_$user -file [::skin::GetSkinFile "displaypic" "loading.gif"]
 
@@ -160,7 +160,7 @@ namespace eval ::MSNP2P {
 			create_dir [file join $HOME displaypic cache]
 			::MSNP2P::RequestObject $chatid $user $msnobj
 		} else {
-			catch {image create photo user_pic_$user -file "[file join $HOME displaypic cache ${filename}].gif"}
+			catch {image create photo user_pic_$user -file "[file join $HOME displaypic cache ${filename}].png"}
 
 		}
 	}
@@ -185,7 +185,7 @@ namespace eval ::MSNP2P {
 
 
 		global HOME
-		if { ![file readable "[file join $HOME smileys cache ${filename}].gif"] } {
+		if { ![file readable "[file join $HOME smileys cache ${filename}].png"] } {
 			status_log "::MSNP2P::GetUser: FILE [file join $HOME smileys cache ${filename}] doesn't exist!!\n" white
 			image create photo custom_smiley_$filename -width 19 -height 19
 
@@ -193,7 +193,7 @@ namespace eval ::MSNP2P {
 			create_dir [file join $HOME smileys cache]
 			::MSNP2P::RequestObject $chatid $user $msnobj
 		} else {
-			catch {image create photo custom_smiley_$filename -file "[file join $HOME smileys cache ${filename}].gif"}
+			catch {image create photo custom_smiley_$filename -file "[file join $HOME smileys cache ${filename}].png"}
 
 		}
 	}
@@ -868,10 +868,11 @@ namespace eval ::MSNP2P {
 					if {$filename == $filename2 } {
 
 						status_log "MSNP2P | $sid -> Closed file $filename.. finished writing\n" red
-						set file [png_to_gif [file join $HOME displaypic cache ${filename}.png]]
+						#set file [png_to_gif [file join $HOME displaypic cache ${filename}.png]]
+						set file [file join $HOME displaypic cache ${filename}.png]
 						if { $file != "" } {
-							set file [filenoext $file].gif
-							if {[catch {image create photo user_pic_${user_login} -file [file join $HOME displaypic cache "${filename}.gif"]}] } {
+							
+							if {[catch {image create photo user_pic_${user_login} -file [file join $HOME displaypic cache "${filename}.png"]}] } {
 								image create photo user_pic_${user_login} -file [::skin::GetSkinFile displaypic nopic.gif]
 							}
 
@@ -884,10 +885,11 @@ namespace eval ::MSNP2P {
 
 						}
 					} else {
-						set file [png_to_gif [file join $HOME smileys cache ${filename}.png]]
+						#set file [png_to_gif [file join $HOME smileys cache ${filename}.png]]
+						set file [file join $HOME smileys cache ${filename}.png]
 						if { $file != "" } {
-							set file [filenoext $file].gif
-							image create photo custom_smiley_${filename} -file "[file join $HOME smileys cache ${filename}.gif]"
+							#set file [filenoext $file].gif
+							image create photo custom_smiley_${filename} -file "[file join $HOME smileys cache ${filename}.png]"
 						}
 					}
 

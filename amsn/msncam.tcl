@@ -1241,6 +1241,16 @@ namespace eval ::CAMGUI {
 				pack $window.q -expand true -fill x
 				wm protocol $window WM_DELETE_WINDOW "::MSNCAM::CancelCam $chatid $sid"
 			}
+			if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+				if {![winfo exists ::grabbers($grabber)]} {
+					setObjOption $sid grab_proc "Grab_Mac"
+					set ::grabbers($grabber) [list]
+					setObjOption $sid grabber $grabber
+					set grab_proc [getObjOption $sid grab_proc]
+					status_log "grab_proc is $grab_proc - [getObjOption $sid grab_proc]\n" red
+					status_log "SID of this connection is $sid\n" red
+				}
+			}
 			set windows $::grabbers($grabber)
 			lappend windows $window
 			set ::grabbers($grabber) $windows
@@ -2162,6 +2172,10 @@ namespace eval ::CAMGUI {
 
 	proc Stop { img } {
 		set semaphore ::${img}_semaphore
+		
+		if { ![info exists $semaphore] } {
+			return
+		}
 		after cancel "incr $semaphore"
 		catch {unset $semaphore}
 		catch {$img blank}

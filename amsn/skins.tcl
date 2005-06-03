@@ -110,8 +110,16 @@ namespace eval ::skin {
 		if { ! [info exists ${location}_names($pixmap_name) ] } {
 			return ""
 		}
-
-		set loaded_${location}($pixmap_name) [image create photo -file [::skin::GetSkinFile ${location} [set ${location}_names($pixmap_name)] "" [set ${location}_fblocation($pixmap_name)]] -format gif]
+		
+		set ext [string tolower [string range [fileext [set ${location}_names($pixmap_name)]] 1 end]]
+		#To avoid a bug, if .gif, use -format gif
+		status_log $ext
+		if {$ext == "gif"} {
+			set loaded_${location}($pixmap_name) [image create photo -file [::skin::GetSkinFile ${location} [set ${location}_names($pixmap_name)] "" [set ${location}_fblocation($pixmap_name)]] -format gif]
+		} else {
+			set loaded_${location}($pixmap_name) [image create photo -file [::skin::GetSkinFile ${location} [set ${location}_names($pixmap_name)] "" [set ${location}_fblocation($pixmap_name)]]]
+	
+		}
 		return [set loaded_${location}($pixmap_name)]
 	}
 
@@ -140,8 +148,8 @@ namespace eval ::skin {
 		}
 
 		set filename [::abook::getContactData $email displaypicfile ""]
-		if { [file readable "[file join $HOME displaypic cache ${filename}].gif"] } {
-			catch {image create photo user_pic_$email -file "[file join $HOME displaypic cache ${filename}].gif"}
+		if { [file readable "[file join $HOME displaypic cache ${filename}].png"] } {
+			catch {image create photo user_pic_$email -file "[file join $HOME displaypic cache ${filename}].png"}
 		} else {
 			image create photo user_pic_$email -file [::skin::GetSkinFile displaypic nopic.gif] -format gif
 		}
@@ -216,7 +224,7 @@ namespace eval ::skin {
 		variable pixmaps_names
 		variable pixmaps_fblocation
 		foreach name [array names loaded_pixmaps] {
-			image create photo $loaded_pixmaps($name) -file [::skin::GetSkinFile pixmaps $pixmaps_names($name) $skin_name $pixmaps_fblocation($name)] -format gif
+			image create photo $loaded_pixmaps($name) -file [::skin::GetSkinFile pixmaps $pixmaps_names($name) $skin_name $pixmaps_fblocation($name)]
 		}
 
 		# Reload smileys
@@ -224,7 +232,7 @@ namespace eval ::skin {
 		variable smileys_names
 		variable smileys_fblocation
 		foreach name [array names loaded_smileys] {
-			image create photo $loaded_smileys($name) -file [::skin::GetSkinFile smileys $smileys_names($name) $skin_name $smileys_fblocation($name)] -format gif
+			image create photo $loaded_smileys($name) -file [::skin::GetSkinFile smileys $smileys_names($name) $skin_name $smileys_fblocation($name)]
 		}
 
 		# Now reload special images that need special treatment
@@ -423,29 +431,29 @@ namespace eval ::skin {
 		}
 
 		# This bits are used to override certain keys loaded before with specific values for MacOS X (TkAqua)
-		if { ![catch {tk windowingsystem} wsystem] && $wsystem == "aqua" } {
-			if { [info exists sdata(${cstack}:chatwindowbg)] } { ::skin::setKey buttonbarbg [string trim $sdata(${cstack}:chatwindowbg)] }
-				::skin::setKey chat_top_border 0
-				::skin::setKey chat_output_border 0
-				::skin::setKey chat_buttons_border 0
-				::skin::setKey chat_input_border 0
-				::skin::setKey chat_status_border 0
-				
-				::skin::setKey chat_paned_padx 0
-				::skin::setKey chat_paned_pady 0
-				
-				::skin::setKey chat_status_padx 0
-				::skin::setKey chat_status_pady 0
-				
-				::skin::setKey chat_top_padx 0
-				::skin::setKey chat_top_pady 0
-				
-				::skin::setKey chat_output_padx 0
-				::skin::setKey chat_output_pady 0
-				
-				::skin::setKey chat_sendbutton_padx 0
-				::skin::setKey chat_sendbutton_pady 0
-		}
+	#	if { ![catch {tk windowingsystem} wsystem] && $wsystem == "aqua" } {
+	#		if { [info exists sdata(${cstack}:chatwindowbg)] } { ::skin::setKey buttonbarbg [string trim $sdata(${cstack}:chatwindowbg)] }
+	#			::skin::setKey chat_top_border 0
+	#			::skin::setKey chat_output_border 0
+	#			::skin::setKey chat_buttons_border 0
+	#			::skin::setKey chat_input_border 0
+	#			::skin::setKey chat_status_border 0
+	#			
+	#			::skin::setKey chat_paned_padx 0
+	#			::skin::setKey chat_paned_pady 0
+	#			
+	#			::skin::setKey chat_status_padx 0
+	#			::skin::setKey chat_status_pady 0
+	#			
+	#			::skin::setKey chat_top_padx 0
+	#			::skin::setKey chat_top_pady 0
+	#			
+	#			::skin::setKey chat_output_padx 0
+	#			::skin::setKey chat_output_pady 0
+	#			
+	#			::skin::setKey chat_sendbutton_padx 0
+	#			::skin::setKey chat_sendbutton_pady 0
+	#	}
 
 		# Procedures binded to the XML parser must ALWAYS return 0
 		return 0

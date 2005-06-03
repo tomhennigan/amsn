@@ -830,12 +830,6 @@ namespace eval ::ChatWindow {
 		set copypastemenu [CreateCopyPasteMenu $w]
 		set copymenu [CreateCopyMenu $w]
 
-		# Test on Mac OS X(TkAqua) if ImageMagick is installed
-		if {$tcl_platform(os) == "Darwin"} {
-			if { [::config::getKey getdisppic] != 0 } {
-				check_imagemagick
-			}
-		}
 
 		# Create the window's elements
 		set top [CreateTopFrame $w]

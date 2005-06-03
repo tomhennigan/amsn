@@ -1082,7 +1082,11 @@ namespace eval ::amsnplus {
 					set file ""
 				} elseif {$tcl_platform(platform) == "unix"} {
 					exec xwd -out -root $shot
-					set file [run_convert "$shot" "screenshot.png"]
+					if {[::amsnplus::version_094]} {
+						set file [run_convert "$shot" "screenshot.png"]
+					} else {
+						set file [::picture::Convert "$shot" "screenshot.png"]
+					}
 				}
 				
 				#send the scheenshot if it had been done!

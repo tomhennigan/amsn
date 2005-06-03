@@ -1611,30 +1611,14 @@ namespace eval ::amsn {
 			catch {menu $win.picmenu.size -tearoff 0 -type normal}
 			$win.picmenu.size delete 0 end
 			#4 possible size (someone can add something to let the user choose his size)
-			$win.picmenu.size add command -label "64x64" -command "::amsn::convertsize $user $win 64x64"
-			$win.picmenu.size add command -label "96x96" -command "::amsn::convertsize $user $win 96x96"
-			$win.picmenu.size add command -label "128x128" -command "::amsn::convertsize $user $win 128x128"
-			$win.picmenu.size add command -label "192x192" -command "::amsn::convertsize $user $win 192x192"
+			$win.picmenu.size add command -label "64x64" -command "::picture::ConvertDPSize $user $win 64 64"
+			$win.picmenu.size add command -label "96x96" -command "::picture::ConvertDPSize $user $win 96 96"
+			$win.picmenu.size add command -label "128x128" -command "::picture::ConvertDPSize $user $win 128 128"
+			$win.picmenu.size add command -label "192x192" -command "::picture::ConvertDPSize $user $win 192 192"
 			#Get back to original picture
 			$win.picmenu.size add command -label "[trans original]" -command "::MSNP2P::loadUserPic $chatid $user 1"
 		}
 		tk_popup $win.picmenu $x $y
-	}
-
-	#Convert a big/small picture to another size
-	proc convertsize {user win size} {
-		global HOME
-		#Get the filename of the display picture of the user
-		set filename [::abook::getContactData $user displaypicfile ""]
-		#If he don't have any picture, end that
-		if { $filename == "" } {
-			status_log "No picture found to change size"
-			return
-		}
-		#Convert the picture to the size requested
-		convert_image_plus "[file join $HOME displaypic cache ${filename}].gif" displaypic/cache $size
-		#Create the new photo with the new picture
-		catch {image create photo user_pic_$user -file "[file join $HOME displaypic cache ${filename}].gif"}
 	}
 
 	proc ChangePicture {win picture balloontext {nopack ""}} {
@@ -4476,6 +4460,7 @@ proc clickableDisplayPicture {tw type name command {padx 0} {pady 0}} {
 	if { ![file readable [file join $HOME displaypic small $filename]] } {
 		convert_image_plus "[::skin::GetSkinFile displaypic $filename]" displaypic/small$cache "50x50"
 	}
+	
 	#Load the smaller display picture
 	if {[load_my_smaller_pic $tw.$name]} {
 		#Create the clickable display picture
@@ -4485,14 +4470,10 @@ proc clickableDisplayPicture {tw type name command {padx 0} {pady 0}} {
 			canvas $tw.$name -width [image width [::skin::loadPixmap mystatus_bg]] -height [image height [::skin::loadPixmap mystatus_bg]] \
 					-bg white -highlightthickness 0
 			$tw.$name create image [::skin::getKey x_dp_top] [::skin::getKey y_dp_top] -anchor nw -image my_pic_small
-			$tw.$name create image 0 0 -anchor nw -image [::skin::loadPixmap mystatus_bg]
+			$tw.$name create image 0 0 -anchor nw -image [::skin::loadPixmap mystatus_bg]		
 		}
-		#else {
-			#label $tw.$name -image my_pic_small -background white -bd 1 -relief solid
-		#}
 		$tw.$name configure -cursor hand2 -borderwidth 0
 		bind $tw.$name <Button1-ButtonRelease> $command
-		#$tw window create end -window $tw.$name -padx $padx -pady $pady -align center -stretch true
 	} else {
 		#Change key to the skin for to disable clickable display picture
 		status_log "Change key to the skin for to disable clickable display picture" blue
@@ -4504,9 +4485,9 @@ proc clickableDisplayPicture {tw type name command {padx 0} {pady 0}} {
 proc load_my_smaller_pic {path} {
 
 	#Trying to set smaller display picture
-	if {[file readable [filenoext [::skin::GetSkinFile displaypic/small [::config::getKey displaypic]]].gif]} {
+	if {[file readable [filenoext [::skin::GetSkinFile displaypic/small [::config::getKey displaypic]]].png]} {
 		#The smaller display picture exists, now create it
-		image create photo my_pic_small -file "[filenoext [::skin::GetSkinFile displaypic/small [::config::getKey displaypic]]].gif"
+		image create photo my_pic_small -file "[filenoext [::skin::GetSkinFile displaypic/small [::config::getKey displaypic]]].png"
 		return 1
 	} else {
 		global pgBuddy
@@ -4530,24 +4511,23 @@ proc getpicturefornotification {email} {
 			#Get the filename of the cached display picture
 			set filename [::config::getKey displaypic]
 			#Convert that cached display picture to 50x50 in small directory if it's not already there and the file exists
-			if { ![file readable [filenoext [::skin::GetSkinFile displaypic/small $filename]].gif] && [file readable [::skin::GetSkinFile displaypic $filename]]} {
+			if { ![file readable [::skin::GetSkinFile displaypic/small $filename]] && [file readable [::skin::GetSkinFile displaypic $filename]]} {
 				convert_image_plus "[::skin::GetSkinFile displaypic $filename]" displaypic/small "50x50"
 			}
 			#Set the command to acess the path of the small DP
-			set command "[filenoext [::skin::GetSkinFile displaypic/small $filename]].gif"
+			set command "[::skin::GetSkinFile displaypic/small $filename]"
 		} else {
 			#Get the filename of the cached display picture
 			set filename [::abook::getContactData $email displaypicfile ""]
 			#Convert that cached display picture to 50x50 in cache/small directory if it's not already there and the file exists
-			if { ![file readable [file join $HOME displaypic cache small $filename].gif] && [file readable [file join $HOME displaypic cache $filename].gif]} {
-				convert_image_plus "[file join $HOME displaypic cache ${filename}].gif" displaypic/cache/small "50x50"
+			if { ![file readable [file join $HOME displaypic cache small $filename].png] && [file readable [file join $HOME displaypic cache $filename].png]} {
+				convert_image_plus "[file join $HOME displaypic cache ${filename}].png" displaypic/cache/small "50x50"
 			}
 			#Set the command to acess the path of the small DP
-			set command "[file join $HOME displaypic cache small ${filename}].gif"
+			set command "[file join $HOME displaypic cache small ${filename}].png"
 		}
 
 		#If the picture now exist, create the image
-		#If not, 2 possibilities -No Imagemagick -The user use no picture, just don't create the image
 		if { [file readable "$command"] } {
 			image create photo smallpicture$email -file "$command"
 			return 1
@@ -6814,211 +6794,42 @@ proc convert_image { filename destdir size } {
 	}
 
 	status_log "converting $filename to $tempfile with size $size\n"
-
-	#IMPORTANT: If convertpath is blank, set it to "convert"
-	if { [::config::getKey convertpath] == "" } {
-		::config::setKey convertpath "convert"
-	}
-
-	#First conversion, no size, only .gif
-	if { [catch { exec [::config::getKey convertpath] "${filename}" "${tempfile}.gif" } res] } {
-		status_log "CONVERT ERROR IN CONVERSION 1: $res" white
-		return ""
-	}
-
-	#Now analyze the resulting .gif file to check aspect ratio
-	set img [image create photo -file "${tempfile}.gif"]
-	set origw [image width $img]
-	set origh [image height $img]
-	status_log "Image size is $origw $origh\n" blue
-	image delete $img
-
+	#Separe the size X and Y in 2 variables
 	set sizexy [split $size "x" ]
 	if { [lindex $sizexy 1] == "" } {
-		set sizexy [list [lindex $sizexy 0] [lindex $sizexy 0]]
-		set ratio 1.0
+		set sizex [lindex $sizexy 0]
+		set sizey [lindex $sizexy 0]
 	} else {
-		set ratio [expr { 1.0*[lindex $sizexy 1] / [lindex $sizexy 0] } ]
-	}
-	set origratio [expr { 1.0*$origw / $origh } ]
-	status_log "Original ratio is $origratio, desired ratio is $ratio\n" blue
-
-	#Depending on ratio, resize to keep smaller dimension to XX pixels
-	if { $origratio > $ratio} {
-		set resizeh [lindex $sizexy 1]
-		set resizew [expr {round($resizeh*$origratio)}]
-	} else {
-		set resizew [lindex $sizexy 0]
-		set resizeh [expr {round($resizew/$origratio)}]
+		set sizex [lindex $sizexy 0]
+		set sizey [lindex $sizexy 1]
 	}
 
-
-
-	if { $origw != [lindex $sizexy 0] || $origh != [lindex $sizexy 1] } {
-		status_log "Will resize to $resizew x $resizeh \n" blue
-		catch { file delete ${tempfile}.gif}
-		if { [catch { exec [::config::getKey convertpath] "${filename}" -resize "${resizew}x${resizeh}" "${tempfile}.gif"} res] } {
-			status_log "CONVERT ERROR IN CONVERSION 2: $res" white
-			return ""
-		}
+	#Create img from the file
+	set img [image create photo -file $filename]
+	#Resize with ratio
+	if {[catch {::picture::ResizeWithRatio $img $sizex $sizey} res]} {
+		msg_box $res
+		return
 	}
-
-
-	if { [file exists ${tempfile}.png.0] } {
-		status_log "convert_image: HEY!! CHECK THIS!!" white
-		set idx 1
-		while { 1 } {
-			if { [file exists ${tempfile}.png.$idx] } {
-				catch {file delete ${tempfile}.png.$idx}
-				incr idx
-			} else { break }
-		}
-		file rename ${tempfile}.png.0 ${tempfile}.png
+	#Save in PNG
+	if {[catch {::picture::Save $img ${destfile}.png cxpng} res]} {
+		msg_box $res
+		return
 	}
+	#Save in GIF 
+	#Should not be necessary any more, I'll remove it soon 
+#	if {[catch {::picture::Save $img ${destfile}.gif cxgif} res]} {
+#		msg_box $res
+#		return
+#	}
 
-
-	#Now let's crop image, from the center
-	set img [image create photo -file "${tempfile}.gif"]
-	set centerx [expr { [image width $img] /2 } ]
-	set centery [expr { [image height $img] /2 } ]
-	set halfw [expr {[lindex $sizexy 0] / 2}]
-	set halfh [expr {[lindex $sizexy 1] / 2}]
-	set x1 [expr {$centerx-$halfw}]
-	set y1 [expr {$centery-$halfh}]
-	if { $x1 < 0 } {
-		set x1 0
-	}
-	if { $y1 < 0 } {
-		set y1 0
-	}
-
-	set x2 [expr {$x1+[lindex $sizexy 0]}]
-	set y2 [expr {$y1+[lindex $sizexy 1]}]
-
-	set neww [image width $img]
-	set newh [image height $img]
-	status_log "Resized image size is $neww $newh\n" blue
-
-	status_log "Center of image is $centerx,$centery, will crop from $x1,$y1 to $x2,$y2 \n" blue
-	if {[catch {$img write "${destfile}.gif" -from $x1 $y1 $x2 $y2 -format gif}]} {
-		#To fix an strange bug when the image is badly resized
-		$img write "${destfile}.gif" -format gif
-	}
 	image delete $img
 
-	catch {file delete ${tempfile}.gif}
-
-
-	if { [catch { exec [::config::getKey convertpath] "${destfile}.gif" "${destfile}.png"}] } {
-		status_log "CONVERT ERROR IN CONVERSION 3: $res" white
-		catch {[file delete ${destfile}.gif]}
-		return ""
-	}
-
-	if { [file exists ${destfile}.png.0] } {
-		set idx 1
-		while { 1 } {
-			if { [file exists "${destfile}.png.$idx"] } {
-				catch {file delete "${destfile}.png.$idx"}
-				incr idx
-			} else { break }
-		}
-		catch {file delete ${destfile}.png}
-		file rename "${destfile}.png.0" "${destfile}.png"
-	}
-
-
-	return ${destfile}.gif
-
-}
-
-
-proc run_convert { sourcefile destfile } {
-
-	global tcl_platform
-
-	if { ![file exists $sourcefile] } {
-		status_log "Tring to convert file $sourcefile that does not exist\n" error
-		return ""
-	}
-
-	status_log "run_convert: converting $sourcefile to $destfile\n"
-
-	#IMPORTANT: If convertpath is blank, set it to "convert"
-	if { [::config::getKey convertpath] == "" } {
-		::config::setKey convertpath "convert"
-	}
-
-	if { [catch { exec [::config::getKey convertpath] "$sourcefile" "$destfile" } res] } {
-		status_log "run_convert CONVERT ERROR IN CONVERSION: $res" white
-		return ""
-	}
-
-	return $destfile
-
-}
-
-
-proc png_to_gif { pngfile } {
-
-	global tcl_platform
-
-	set file_noext [filenoext $pngfile]
-
-	if { ![file exists $pngfile] } {
-		status_log "Tring to convert file $pngfile that does not exist\n" error
-		return ""
-	}
-
-	status_log "png_to_gif: converting $pngfile to ${file_noext}.gif\n"
-
-	#IMPORTANT: If convertpath is blank, set it to "convert"
-	if { [::config::getKey convertpath] == "" } {
-		::config::setKey convertpath "convert"
-	}
-
-	if { [catch { exec [::config::getKey convertpath] "${pngfile}" "${file_noext}.gif" } res] } {
-		status_log "png_to_gif CONVERT ERROR IN CONVERSION: $res" white
-		return ""
-	}
-
-	return ${file_noext}.gif
-
-}
-proc convert_file { in out {size ""} } {
-
-	global tcl_platform
-
-	if { ![file exists $in] } {
-		status_log "Tring to convert file $in that does not exist\n" error
-		return ""
-	}
-
-	status_log "convert_file: converting $in to $out with size $size\n"
-
-	#IMPORTANT: If convertpath is blank, set it to "convert"
-	if { [::config::getKey convertpath] == "" } {
-		::config::setKey convertpath "convert"
-	}
-
-	if {$size == "" } {
-		if { [catch { exec [::config::getKey convertpath] "${in}" "${out}" } res] } {
-			status_log "convert_file : CONVERT ERROR IN CONVERSION: $res" white
-			return ""
-		}
-	} else {
-		if { [catch {exec [::config::getKey convertpath] -size $size -resize $size "${in}" "${out}" } res] } {
-			status_log "convert_file CONVERT ERROR IN CONVERSION : $res" white
-			return ""
-		}
-	}
-
-	return $out
+	return ${destfile}.png
 
 }
 
 proc convert_image_plus { filename type size } {
-
 	global HOME
 	catch { create_dir [file join $HOME $type]}
 	return [convert_image $filename [file join $HOME $type] $size]
@@ -7030,8 +6841,11 @@ proc convert_image_plus { filename type size } {
 
 proc load_my_pic {} {
 	status_log "load_my_pic: Trying to set display picture [::config::getKey displaypic]\n" blue
-	if {[file readable [filenoext [::skin::GetSkinFile displaypic [::config::getKey displaypic]]].gif]} {
-		image create photo my_pic -file "[filenoext [::skin::GetSkinFile displaypic [::config::getKey displaypic]]].gif"
+	if {[::config::getKey displaypic] == "" } {
+		::config::setKey displaypic nopic.gif
+	}
+	if {[file readable [::skin::GetSkinFile displaypic [::config::getKey displaypic]]]} {
+		image create photo my_pic -file "[::skin::GetSkinFile displaypic [::config::getKey displaypic]]"
 	} else {
 		status_log "load_my_pic: Picture not found!!\n" red
 		clear_disp
@@ -7068,7 +6882,7 @@ proc pictureBrowser {} {
 	button .picbrowser.purge -command "purgePictures; reloadAvailablePics" -text "[trans purge]..."
 	button .picbrowser.ok -command "set_displaypic \${selected_image};destroy .picbrowser" -text "[trans ok]"
 	button .picbrowser.cancel -command "destroy .picbrowser" -text "[trans cancel]"
-	if { [info exists quicktimetcl::version] } {
+	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 		button .picbrowser.webcam -command "webcampicture" -text "[trans webcamshot]"
 		grid .picbrowser.webcam -row 4 -column 3 -padx 3 -pady 3 -stick new
 	}
@@ -7220,7 +7034,7 @@ proc reloadAvailablePics { } {
 
 	#status_log "files: \n$cachefiles\n"
 	foreach filename [lsort -dictionary $files] {
-		set skin_file "[::skin::GetSkinFile displaypic [file tail [filenoext $filename].gif]]"
+		set skin_file "[::skin::GetSkinFile displaypic [file tail $filename]]"
 		if { [file exists $skin_file] } {
 			#set the_image [image create photo -file $skin_file ]
 			#addPicture $the_image "[getPictureDesc $filename]" [file tail $filename]
@@ -7232,7 +7046,7 @@ proc reloadAvailablePics { } {
 	lappend image_order "--break--"
 
 	foreach filename [lsort -dictionary $myfiles] {
-		if { [file exists "[filenoext $filename].gif"] } {
+		if { [file exists $filename] } {
 			#set the_image [image create photo -file "[filenoext $filename].gif" ]
 			#addPicture $the_image "[getPictureDesc $filename]" [file tail $filename]
 			#lappend image_names $the_image
@@ -7246,7 +7060,7 @@ proc reloadAvailablePics { } {
 	if { $show_cached_pics } {
 		set cached_order [list]
 		foreach filename $cachefiles {
-			if { [file exists "[filenoext $filename].gif"] } {
+			if { [file exists $filename] } {
 				#set the_image [image create photo -file "[filenoext $filename].gif" ]
 				#addPicture $the_image "[getPictureDesc $filename]" "cache/[file tail $filename]"
 				#lappend image_names $the_image
@@ -7263,7 +7077,7 @@ proc reloadAvailablePics { } {
 			.picbrowser.pics.text insert end "___________________________\n\n"
 		} else {
 			set filename [lindex $file 1]
-			set the_image [image create photo -file "[filenoext $filename].gif" ]
+			set the_image [image create photo -file $filename ]
 			addPicture $the_image "[getPictureDesc $filename]" "[lindex $file 0][file tail $filename]"
 			lappend image_names $the_image
 		}
@@ -7353,44 +7167,16 @@ proc pictureDeleteFile {} {
 	}
 }
 
-# Half of this proc is pinched from the convert procs, so don"t ask me what"s going on!
-proc getPicSize { filename type } {
-	global HOME
-	catch { create_dir [file join $HOME $type] }
-	set filetail [file tail $filename]
-	set tempfile [file join [file join $HOME $type] $filetail]
-	if { ![file exists $filename] } {
-		status_log "Tring to convert file $filename that does not exist\n" error
-		return ""
-	}
-	#If convert fails, return 96x96, don't show the message (useless here)
-	if {[catch {::picture::Convert ${filename} ${tempfile}.gif} res]} {
-		#::amsn::messageBox $res ok error
-		return 96x96
-	}
 
-	set img [image create photo -file "${tempfile}.gif"]
-	set return "[image width $img]x[image height $img]"
-	image delete $img
-	return $return
-}
 
 proc pictureChooseFile { } {
 	global selected_image image_names
-
-	if { [catch { exec [::config::getKey convertpath] } res] } {
-		msg_box "[trans installconvert]"
-		status_log "ImageMagick not installed got error $res\n Disabling display pictures\n"
-		return [::config::getKey displaypic]
-
-	}
-
 
 	set file [chooseFileDialog "" "" "" "" open [list [list [trans imagefiles] [list *.gif *.GIF *.jpg *.JPG *.bmp *.BMP *.png *.PNG]] [list [trans allfiles] *]]]
 
 	if { $file != "" } {
 		set convertsize "96x96"
-		set cursize [getPicSize $file displaypic]
+		set cursize [::picture::GetPictureSize $file]
 		if { $cursize != "96x96"} {
 			set convertsize [AskDPSize $cursize]
 		}
@@ -7400,7 +7186,8 @@ proc pictureChooseFile { } {
 				pictureBrowser
 			}
 
-			set image_name [image create photo -file [::skin::GetSkinFile "displaypic" "[filenoext [file tail $file]].gif"]]
+			set image_name [image create photo -file [::skin::GetSkinFile "displaypic" "[filenoext [file tail $file]].png"]]
+			status_log $image_name red
 			.picbrowser.mypic configure -image $image_name
 			set selected_image "[filenoext [file tail $file]].png"
 
@@ -7423,7 +7210,7 @@ proc pictureChooseFile { } {
 	return ""
 
 }
-
+#Window created to choose if we should use another size (other than 96x96) for display picture
 proc AskDPSize { cursize } {
 	global done dpsize
 
@@ -7458,7 +7245,7 @@ proc AskDPSize { cursize } {
 	pack .askdpsize.okb -side bottom
 
 	wm title .askdpsize [trans whatsize]
-
+	moveinscreen .askdpsize 30
 	vwait done
 
 	destroy .askdpsize
@@ -7483,7 +7270,7 @@ proc set_displaypic { file } {
 
 proc clear_disp { } {
 
-	::config::setKey displaypic ""
+	::config::setKey displaypic nopic.gif
 
 	catch {image create photo my_pic -file "[::skin::GetSkinFile displaypic nopic.gif]"}
 
@@ -7965,8 +7752,10 @@ proc webcampicture {} {
 		}
 
 		#Action button to take the picture
-		button $w.shot -text "[trans takesnapshot]" -command "webcampicture_shot"
-		pack $w.shot
+		if {![winfo exists $w.shot]} {
+			button $w.shot -text "[trans takesnapshot]" -command "webcampicture_shot"
+			pack $w.shot
+		}
 	}
 }
 
@@ -8008,28 +7797,25 @@ proc webcampicture_save {preview} {
 	global HOME selected_image
 
 	set idx 1
-	while { [file exists [file join $HOME displaypic webcam{$idx}.jpg]] } { incr idx }
-	set file "[file join $HOME displaypic webcam{$idx}.jpg]"
+	while { [file exists [file join $HOME displaypic webcam$idx.png]] } { incr idx }
+	set file "[file join $HOME displaypic webcam$idx.png]"
 
-	#We first save it in jpeg
-	::picture::Save $preview $file cxjpg
-
-	#We verify if imagemagick is there
-	if { [catch { exec [::config::getKey convertpath] } res] } {
-		msg_box "[trans installconvert]"
-		status_log "ImageMagick not installed got error $res\n Disabling display pictures\n"
-		return [::config::getKey displaypic]
-
+	#We first save it in PNG
+	if {[catch {::picture::Save $preview $file cxpng} res]} {
+		msg_box $res
 	}
+
 	#Open pictureBrowser is user closed it
 	if {![winfo exists .picbrowser]} {
 		pictureBrowser
 	}
-	#Convert the picture in png and gif to be a display picture
+	
+	#Convert the picture in png to be a display picture
 	if { ![catch {convert_image_plus $file displaypic "96x96"} res]} {
 
+
 		#Set image_name
-		set image_name [::picture::GetSkinFile displaypic $file png]
+		set image_name [image create photo -file [::skin::GetSkinFile displaypic $file]]
 		#Change picture in .mypic frame of .picbrowser
 		.picbrowser.mypic configure -image $image_name
 
@@ -8063,7 +7849,9 @@ proc webcampicture_saveas {preview} {
 	set filename [tk_getSaveFile -initialfile $file -initialdir [set ::files_dir]]
 
 	if {$filename != ""} {
-		::picture::Save $preview $filename cxjpg
+		if {[catch {::picture::Save $preview $filename cxjpg} res]} {
+			msg_box $res
+		}
 	}
 
 }

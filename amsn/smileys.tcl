@@ -159,7 +159,7 @@ namespace eval ::smiley {
 			set emotion($field_sort) [string trim $sdata($field)]
 		}
 		#Create the image now and store it
-		set emotion(image_name) [image create photo -file $emotion(file) -format gif]
+		set emotion(image_name) [image create photo -file $emotion(file)]
 		
 		#Add to the list of custom emoticons
 		lappend [::config::getVar customsmileys] $emotion(name)
@@ -351,7 +351,6 @@ namespace eval ::smiley {
 				bind $emoticon <Enter> [$tw tag bind $tagname <Enter>]
 				bind $emoticon <Leave> [$tw tag bind $tagname <Leave>]
 			}
-
 		} else {
 			$tw image create $endpos -image $image -pady 0 -padx 0
 			$tw tag remove smiley $endpos
@@ -916,11 +915,10 @@ namespace eval ::smiley {
 		create_dir [file join $HOME smileys]
 		set file [convert_image_plus [::skin::GetSkinFile smileys "$new_custom_cfg(file)"] smileys 19x19]
 		if { $file == "" } {
-			msg_box "[trans installconvert]"
 			return -1
 		}
 		
-		set emotion(file) "[filenoext $file].gif"
+		set emotion(file) $file
 		set emotion(name) $name
 		
 		#Create a list of symbols
@@ -939,7 +937,7 @@ namespace eval ::smiley {
 			}
 		}
 		
-		set emotion(image_name) [image create photo -file $emotion(file) -format gif]
+		set emotion(image_name) [image create photo -file $emotion(file)]
 		set custom_emotions($name) [array get emotion]
 		if { $edit == 0} {
 			lappend [::config::getVar customsmileys] $name
