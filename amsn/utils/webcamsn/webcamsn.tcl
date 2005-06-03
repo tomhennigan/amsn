@@ -65,7 +65,7 @@ proc DecodeFile { filename } {
 	}
 	::Webcamsn::Decode $decoder $img $data
 	set data [string range $data $size end]
-	after 10 "incr ::sem"
+	after 100 "incr ::sem"
 	tkwait variable ::sem
 	incr ::frame
     }
@@ -140,7 +140,7 @@ proc Switch { cmd1 time1 cmd2 time2 } {
 
 proc EncodeFromWebcam { filename } {
 
-    if { $::qttcl == 0 } { error "unable to find QuickTimeTcl"  }
+    if { $::qttcl == 0 } { error "unable to find QuickTimeTcl AND tkvideo AND capture"  }
 
     set debug [open debug.log w]
     fconfigure $debug -buffering none
@@ -213,13 +213,22 @@ proc shot {w img} {
 }
 
 lappend ::auto_path [pwd]
+lappend ::auto_path "utils/"
+lappend ::auto_path "utils/webcamsn"
+lappend ::auto_path "utils/webcamsn/src"
+lappend ::auto_path "utils/linux/capture"
+lappend ::auto_path "utils/TkCximage"
+lappend ::auto_path "utils/windows"
 
-if { [catch { package require webcamsn}] } {
-    error "Can't load Webcamsn package"
+if { [catch { package require webcamsn} res] } {
+    error "Can't load Webcamsn package : $res"
 }
 
 set ::qttcl 1
 set ::tkcx 1
+set ::capture 1
+set ::tkvideo 1
+
 
 catch {console show}
 
@@ -227,12 +236,18 @@ catch {console show}
 if { [catch { package require QuickTimeTcl} ] } {
     set ::qttcl 0
 }
+if { [catch { package require capture} ] } {
+    set ::capture 0
+}
+if { [catch { package require tkvideo} ] } {
+    set ::tkvideo 0
+}
 if { [catch { package require TkCximage }] } {
     set ::tkcx 0
 }
 
-if { $::qttcl == 0 && $::tkcx == 0 } {
-    error "You must have at least TkCximage OR QuickTimeTcl to test the application"
+if { $::qttcl == 0 && $::tkcx == 0 && $::capture == 0 && $::tkvideo == 0 } {
+    error "You must have at least TkCximage OR QuickTimeTcl OR Capture OR Tkvideo extensions to test the application"
 }
 
 

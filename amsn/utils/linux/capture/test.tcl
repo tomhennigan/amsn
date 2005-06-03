@@ -1,5 +1,7 @@
 #!/usr/bin/wish
 lappend auto_path [pwd]
+lappend auto_path "utils/linux/capture/"
+
 package require capture
 
 #puts "Device list : [::Capture::ListDevices]"

@@ -3,6 +3,7 @@
 set dir [file dirname [info script]]
 lappend auto_path "./"
 lappend auto_path "../"
+lappend auto_path "utils/TkCximage/"
 catch {package require TkCximage}
 
 set ::tcl_interactive 1

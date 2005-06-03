@@ -1,0 +1,137 @@
+srcdir		:= @srcdir@
+VPATH		:= $(srcdir)
+
+capture_dir := $(srcdir)/utils/linux/capture
+webcamsn_dir := $(srcdir)/utils/webcamsn
+tkcximage_dir := $(srcdir)/utils/TkCximage
+tray_dir := $(srcdir)/utils/linux/traydock
+
+# programs
+CC		:= @CC@
+CXX		:= @CXX@
+
+# misc
+PACKAGE		:= @APPNAME@
+VERSION		:= @APPVERSION@
+
+# for CFLAGS
+#WARN_FLAGS	:= -Wall -Wmissing-prototypes -Wstrict-prototypes -Wpointer-arith
+WARN_FLAGS	:= -Werror
+LFS_FLAGS	:= -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64
+LIB_FLAGS	:= -I. -I$(capture_dir) -I$(capture_dir)/libng -I$(capture_dir)/structs -Llibng 
+LIB_FLAGS	+= -I$(webcamsn_dir)/src -I$(tkcximage_dir)/src -I$(tkcximage_dir)/src/CxImage
+LIB_FLAGS	+= -I$(tkcximage_dir)/src/zlib -I$(tkcximage_dir)/src/png -I$(tkcximage_dir)/src/jpeg
+LIBDIR		:= @LIBDIR@
+
+
+# various libraries
+THREAD_LIBS	:= @LIBPTHREAD@
+
+
+# Directories in which the Tcl core can be found
+TCL_INC_SPEC 	= @TCL_INC_SPEC@
+TCL_STUB_LIB_SPEC = @TCL_STUB_LIB_SPEC@
+
+# Directories in which the Tk core can be found
+TK_INC_SPEC 	= @TK_INC_SPEC@
+TK_STUB_LIB_SPEC = @TK_STUB_LIB_SPEC@
+
+
+
+# stuff configure has found
+FOUND_X11	:= @FOUND_X11@
+FOUND_IMLIB	:= @FOUND_IMLIB@
+FOUND_OS	:= @FOUND_OS@
+USE_MMX		:= @USE_MMX@
+USE_LIBNG	:= @USE_LIBNG@
+
+
+# build final cflags
+CFLAGS   := @CFLAGS@
+CFLAGS   += $(WARN_FLAGS)
+CFLAGS   += $(LFS_FLAGS)
+CFLAGS	 += ${TCL_INC_SPEC}
+CFLAGS	 += ${TK_INC_SPEC}
+CFLAGS	 += ${X_CFLAGS}
+CFLAGS	 += ${IMLIB_CFLAGS}
+CFLAGS   += $(LIB_FLAGS)
+CFLAGS   += -DPACKAGE='"$(PACKAGE)"'
+CFLAGS   += -DVERSION='"$(VERSION)"'
+CFLAGS   += -DLIBDIR='"$(LIBDIR)"'
+CXXFLAGS := $(CFLAGS)
+
+# for gcc3
+#CFLAGS   += -std-gnu99
+
+# shared objects need -fPIC
+CFLAGS   += -fPIC
+CXXFLAGS += -fPIC
+
+# libraries
+LDLIBS  := @LDLIBS@
+LDFLAGS := @LDFLAGS@
+
+LDFLAGS	 += ${TCL_STUB_LIB_SPEC}
+LDFLAGS	 += ${TK_STUB_LIB_SPEC}
+LDFLAGS	 += ${X_LIBS}
+LDFLAGS	 += ${LIB_IMLIB}
+
+#########################################################
+# targets
+
+build: all
+
+ifeq ($(USE_LIBNG), yes)
+Makefile: $(srcdir)/Makefile.in $(srcdir)/configure
+	$(srcdir)/configure --enable-libng
+else
+Makefile: $(srcdir)/Makefile.in $(srcdir)/configure
+	$(srcdir)/configure --disable-libng
+endif
+
+$(srcdir)/configure: $(srcdir)/configure.ac
+	(cd $(srcdir); autoconf)
+
+clean::
+	find . -name \*~ -print | xargs rm -f
+	find . -name \*.o -print | xargs rm -f
+	find . -name \*.a -print | xargs rm -f
+	find . -name \*.dep -print | xargs rm -f
+
+
+distclean:: clean
+	-rm -f Makefile Make.config
+	-rm -f config.cache config.h config.log config.status
+
+
+
+#########################################################
+# include stuff
+
+# subdirs
+include $(capture_dir)/Rules.mk
+include $(capture_dir)/libng/Rules.mk
+include $(capture_dir)/libng/plugins/Rules.mk
+
+include $(tkcximage_dir)/Rules.mk
+include $(tkcximage_dir)/src/Rules.mk
+include $(tkcximage_dir)/src/CxImage/Rules.mk
+include $(tkcximage_dir)/src/zlib/Rules.mk
+include $(tkcximage_dir)/src/png/Rules.mk
+include $(tkcximage_dir)/src/jpeg/Rules.mk
+include $(tkcximage_dir)/src/Rules.mk
+
+include $(webcamsn_dir)/Rules.mk
+include $(webcamsn_dir)/src/Rules.mk
+
+ifeq ($(FOUND_X11),yes)
+  ifeq ($(FOUND_IMLIB),yes)
+    include $(tray_dir)/Rules.mk
+  endif
+endif
+
+
+#########################################################
+# some rules ...
+
+include $(srcdir)/Compile.mk
