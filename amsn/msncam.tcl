@@ -134,6 +134,8 @@ namespace eval ::MSNCAM {
 		setObjOption $sid producer $producer
 		setObjOption $sid inviter 0
 		setObjOption $sid chatid $chatid
+		setObjOption $sid reflector 0
+
 
 		if { $producer } {
 		    setObjOption $sid source [::config::getKey "webcamDevice" "0"]
@@ -181,6 +183,36 @@ namespace eval ::MSNCAM {
 
 	}
 
+	proc SendReflData { sid chatid refldata } {
+
+		set MsgId [lindex [::MSNP2P::SessionList get $sid] 0]
+		set dest [lindex [::MSNP2P::SessionList get $sid] 3]
+		incr MsgId
+		::MSNP2P::SessionList set $sid [list $MsgId -1 -1 -1 -1 -1 -1 -1 -1 -1 ]
+
+		binary scan $refldata H* refldata
+
+		set refldata "ReflData:[string toupper $refldata]\x00"
+		
+		status_log "ReflData is : $refldata"
+
+		set h1 "\x80\x00\x00\x00\x08\x00"
+		set refldata [ToUnicode $refldata]
+		set h2 [binary format i [string length $refldata]]
+
+		set footer "\x00\x00\x00\x04"
+		set msg "${h1}${h2}${refldata}"
+
+		set size [string length $msg]
+
+		set data "[binary format ii $sid $MsgId][binword 0][binword $size][binary format iiii $size 0 [expr int([expr rand() * 1000000000])%125000000 + 4] 0][binword 0]${msg}${footer}"
+
+		set theader "MIME-Version: 1.0\r\nContent-Type: application/x-msnmsgrp2p\r\nP2P-Dest: $dest\r\n\r\n"
+
+		status_log "Sending Refldata : $data" green
+
+		::MSNP2P::SendPacket [::MSN::SBFor $chatid] "${theader}${data}"
+	}
 	proc SendSyn { sid chatid } {
 		if { [getObjOption $sid send_syn] == 1 } {
 			status_log "Try to send double syn"
@@ -263,16 +295,25 @@ namespace eval ::MSNCAM {
 	proc AskWebcamQueue { chatid } {
 		::MSN::ChatQueue $chatid [list ::MSNCAM::AskWebcam $chatid]
 	}
-
-	proc AskWebcam { chatid } {
-		SendInvite $chatid "1C9AA97E-9C05-4583-A3BD-908A196F1E92"
-	}
 	#SendInvite queue, open connection before sending invitation
 	proc SendInviteQueue {chatid} {
 		::MSN::ChatQueue $chatid [list ::MSNCAM::SendInvite $chatid]
 	}
-	proc SendInvite { chatid {guid "4BD96FC0-AB17-4425-A14A-439185962DC8"}} {
+	proc StartVideoConferenceQueue { chatid } {
+		::MSN::ChatQueue $chatid [list ::MSNCAM::StartVideoconference $chatid]
+	}
 
+	proc SendInvite { chatid } {
+		SendCamInvitation $chatid  "4BD96FC0-AB17-4425-A14A-439185962DC8" "\{B8BE70DE-E2CA-4400-AE03-88FF85B9F4E8\}"
+	}
+	proc AskWebcam { chatid } {
+		SendCamInvitation $chatid "1C9AA97E-9C05-4583-A3BD-908A196F1E92" "\{B8BE70DE-E2CA-4400-AE03-88FF85B9F4E8\}"
+	}
+	proc StartVideoConference { chatid } {
+		SendCamInvitation $chatid "4BD96FC0-AB17-4425-A14A-439185962DC8" "\{0425E797-49F1-4D37-909A-031116119D9B\}"
+	}
+
+	proc SendCamInvitation { chatid guid context } {
 		status_log "Sending Webcam Request\n"
 
 		set sid [expr int([expr rand() * 1000000000])%125000000 + 4]
@@ -282,14 +323,23 @@ namespace eval ::MSNCAM {
 
 		set dest [lindex [::MSN::usersInChat $chatid] 0]
 
+		if { $context == "\{B8BE70DE-E2CA-4400-AE03-88FF85B9F4E8\}" } {
+			setObjOption $sid webcam 1
+			setObjOption $sid conference 0
+		} else {
+			setObjOption $sid webcam 0
+			setObjOption $sid conference 1
+		}
 
 		# This is a fixed value... it must be that way or the invite won't work
-		set context [ToUnicode "\{B8BE70DE-E2CA-4400-AE03-88FF85B9F4E8\}"]
+		set context [ToUnicode $context]
 
 		::MSNP2P::SessionList set $sid [list 0 0 0 $dest 0 $callid 0 "webcam" "$context" "$branchid"]
 
 		setObjOption $sid inviter 1
 		setObjOption $sid chatid $chatid
+		setObjOption $sid reflector 0
+
 		if { $guid == "4BD96FC0-AB17-4425-A14A-439185962DC8" } {
 			setObjOption $sid producer 1
 
@@ -339,9 +389,18 @@ namespace eval ::MSNCAM {
 
 	proc handleMsnCam { sid sock ip port } {
 
+
+		if { [info exists ::test_webcam_reflector] && $::test_webcam_reflector} {
+			status_log "Received connection from $ip on port $port - socket $sock\n" red
+			status_log "Closing the socket to allow testing of the reflector...\n" red
+			catch { close $sock}
+			return
+		}
+
 		setObjOption $sock sid $sid
 		setObjOption $sock server 1
 		setObjOption $sock state "AUTH"
+		setObjOption $sock reflector 1
 
 		status_log "Received connection from $ip on port $port - socket $sock\n" red
 		fconfigure $sock -blocking 1 -buffering none -translation {binary binary}
@@ -361,6 +420,9 @@ namespace eval ::MSNCAM {
 
 	proc connectMsnCam { sid ip port } {
 
+		if { [info exists ::test_webcam_reflector] && $::test_webcam_reflector} {
+			return 0
+		}
 
 		if { [catch {set sock [socket -async $ip $port] } ] } {
 			status_log "ERROR CONNECTING TO THE SERVER\n\n" red
@@ -370,12 +432,60 @@ namespace eval ::MSNCAM {
 			setObjOption $sock sid $sid
 			setObjOption $sock server 0
 			setObjOption $sock state "AUTH"
+			setObjOption $sock reflector 0
 
 			status_log "connectedto $ip on port $port  - $sock\n" red
 
 			return $sock
 		}
 	}
+
+	proc ConnectToReflector { sid refldata } {
+
+		set ru [string range $refldata [expr [string first "ru=" $refldata] + 3] end]
+		if { [string first "&" $ru] != -1 } {
+			set ru [string range $ru 0 [expr [string first "&" $ru] -1]]
+		}
+
+		set ti [string range $refldata [expr [string first "ti=" $refldata] + 3] end]
+		if { [string first "&" $ti] != -1 } {
+			set ti [string range $ti 0 [expr [string first "&" $ti] -1]]
+		}
+
+
+		if { [string first "http://" $ru] != -1 } {
+			set ru [string range $ru [expr [string first "http://" $ru] + 7] end]
+		}
+
+		set host [string range $ru 0 [expr [string first ":" $ru]-1]]
+		set port [string range $ru [expr [string first ":" $ru]+1] end]
+		
+		status_log "Connecting to reflector : $host at $port\n$ru - [string first ":" $ru]\n$ti\n$refldata\n" red
+
+		if { [catch {set sock [socket $host $port] } ] } {
+			status_log "ERROR CONNECTING TO THE SERVER\n\n" red
+			::MSNCAM::CancelCam [getObjOption $sid chatid] $sid
+		} else {
+
+			setObjOption $sid socket $sock
+			setObjOption $sid reflector 1
+
+			setObjOption $sock sid $sid
+			setObjOption $sock server 0
+			setObjOption $sock state "TID"
+			setObjOption $sock tid "$ti"
+			setObjOption $sock reflector 1
+
+			status_log "connected to $host on port $port  - $sock\n" red
+			
+			fconfigure $sock -blocking 1 -buffering none -translation {binary binary} -encoding binary 
+			fileevent $sock readable "::MSNCAM::ReadFromSock $sock"
+			fileevent $sock writable "::MSNCAM::WriteToSock $sock"
+
+			return $sock
+		}
+	}
+
 
 
 	proc ReadFromSock { sock } {
@@ -386,6 +496,7 @@ namespace eval ::MSNCAM {
 		set producer [getObjOption $sid producer]
 		set server [getObjOption $sock server]
 		set state [getObjOption $sock state]
+		set reflector [getObjOption $sid reflector]
 
 		set my_rid [getObjOption $sid my_rid]
 		set rid [getObjOption $sid rid]
@@ -416,6 +527,34 @@ namespace eval ::MSNCAM {
 					} else {
 						AuthFailed $sid $sock
 					}
+				}
+			}
+			"TSP_OK" 
+			{
+				gets $sock data
+				status_log "Received Data on Reflector socket $sock $my_rid - $rid server=$server - state=$state : \n$data\n" red
+				if { $data == "TSP/1.0 200 OK\r" } {
+					gets $sock 
+					setObjOption $sock state "TSP_CONNECTED"
+				} else {
+					status_log "ERROR AUTHENTICATING TO THE REFLECTOR - $data\n" red
+				}
+			}
+			"TSP_CONNECTED"
+			{
+				gets $sock data
+				status_log "Received Data on Reflector socket $sock $my_rid - $rid server=$server - state=$state : \n$data\n" red
+				if { $data == "CONNECTED\r" } {
+					gets $sock 
+					if { $producer } {
+						setObjOption $sock state "TSP_SEND"
+						fileevent $sock writable "::MSNCAM::WriteToSock $sock"
+					} else {
+						setObjOption $sock state "TSP_RECEIVE"
+					}
+					
+				} else {
+					status_log "ERROR CONNECTING TO THE REFLECTOR - $data\n" red
 				}
 			}
 			"CONNECTED"
@@ -476,10 +615,22 @@ namespace eval ::MSNCAM {
 
 				} else {
 					setObjOption $sock state "END"
-					status_log "ERROR1 : $data - should never received data on state $state when we're the client\n" red
+					status_log "ERROR1 : [gets $sock] - should never received data on state $state when we're the client\n" red
 				}
 			}
-
+			"TSP_SEND" 
+			{
+			
+				set data [read $sock 4]
+				#status_log "Received $data on state TSP_SEND" blue
+				if { $data == "\xd2\x04\x00\x00" } {
+					fileevent $sock writable "::MSNCAM::WriteToSock $sock"
+				} else {
+					setObjOption $sock state "END"
+					status_log "ERROR1 : Received $data from socket on state TSP_SEND - [eof $sock] \n" red
+				}
+			}
+			"TSP_RECEIVE" -
 			"RECEIVE"
 			{
 				set header [read $sock 24]
@@ -491,7 +642,7 @@ namespace eval ::MSNCAM {
 						if { $fd == "" } {
 							set email [lindex [::MSNP2P::SessionList get $sid] 3]
 							set fd [open [file join $::webcam_dir ${email}.cam] a]
-							fconfigure $fd -encoding binary -translation binary
+							fconfigure $fd -translation binary
 							setObjOption $sid weblog $fd
 						}
 					
@@ -499,7 +650,12 @@ namespace eval ::MSNCAM {
 					}
 					fileevent $sock readable ""
 
-					after 0 "::CAMGUI::ShowCamFrame $sid [list $data]; fileevent $sock readable \"::MSNCAM::ReadFromSock $sock\""
+					after 0 "::CAMGUI::ShowCamFrame $sid [list $data];
+						 catch {fileevent $sock readable \"::MSNCAM::ReadFromSock $sock\"}"
+
+					if { $reflector } {
+						fileevent $sock writable "::MSNCAM::WriteToSock $sock"	
+					}
 					#::CAMGUI::ShowCamFrame $sid $data
 				} else {
 					#AuthFailed $sid $sock
@@ -513,7 +669,7 @@ namespace eval ::MSNCAM {
 			{
 				set chatid [getObjOption $sid chatid]
 				status_log "Closing socket $sock because it's in END state\n" red
-				#close $sock
+				close $sock
 				CancelCam $chatid $sid
 
 			}
@@ -543,6 +699,7 @@ namespace eval ::MSNCAM {
 		set server [getObjOption $sock server]
 		set state [getObjOption $sock state]
 		set producer [getObjOption $sid producer]
+		set reflector [getObjOption $sid reflector]
 
 		set rid [getObjOption $sid rid]
 		set session [getObjOption $sid session]
@@ -569,6 +726,16 @@ namespace eval ::MSNCAM {
 					setObjOption $sock state "CONNECTED"
 				}
 			}
+			"TID" 
+			{
+				if {$producer} {
+					set data "PROD [getObjOption $sock tid] TSP/1.0\r\n\r\n"
+					setObjOption $sock state "TSP_OK"
+				} else {
+					set data "VIEW [getObjOption $sock tid] TSP/1.0\r\n\r\n"
+					setObjOption $sock state "TSP_OK"
+				}
+			}
 			"CONNECTED"
 			{
 				set data "connected\r\n\r\n"
@@ -581,16 +748,24 @@ namespace eval ::MSNCAM {
 					AuthSuccessfull $sid $sock
 				}
 			}
+			"TSP_SEND" 
+			{
+				after 250 "::CAMGUI::GetCamFrame $sid $sock"	
+			}
 			"SEND"
 			{
-				after 100 "::CAMGUI::GetCamFrame $sid $sock"
-				#fileevent $sock writable "::MSNCAM::WriteToSock $sock"
+				after 250 "::CAMGUI::GetCamFrame $sid $sock;
+					   catch {fileevent $sock writable \"::MSNCAM::WriteToSock $sock\" }"
+			}
+			"TSP_RECEIVE" 
+			{
+				puts -nonewline $sock "\xd2\x04\x00\x00"
 			}
 			"END"
 			{
 				set chatid [getObjOption $sid chatid]
 				status_log "Closing socket $sock because it's in END state\n" red
-				#close $sock
+				close $sock
 				CancelCam $chatid $sid
 			}
 
@@ -598,6 +773,7 @@ namespace eval ::MSNCAM {
 
 		if { $data != "" } {
 			status_log "Writing Data on socket $sock sending=$sending - server=$server - state=$state : \n$data\n" red
+		
 			puts -nonewline $sock "$data"
 		}
 
@@ -691,8 +867,14 @@ namespace eval ::MSNCAM {
 
 		set list [xml2list $xml]
 
-		set session [GetXmlEntry $list "session"]
-		set rid [GetXmlEntry $list "rid"]
+		if { $producer } {
+			set type "viewer"
+		
+		} else {
+			set type "producer"
+		}
+		set session [GetXmlEntry $list "$type:session"]
+		set rid [GetXmlEntry $list "$type:rid"]
 
 
 		status_log "Found session $session and rid $rid\n" red
@@ -713,7 +895,6 @@ namespace eval ::MSNCAM {
 	}
 
 	proc ConnectSockets { sid } {
-
 		set auth [getObjOption $sid authenticated]
 		if { $auth == 1} { return }
 
@@ -722,18 +903,27 @@ namespace eval ::MSNCAM {
 
 		set ip_idx 7
 		set ips [getObjOption $sid ips]
+		set producer [getObjOption $sid producer]
+
 		if { $ips == "" } {
 			set ips [list]
 		}
 
 
 		while { 1 } {
+			if { $producer } {
+				set type "viewer"
+				
+			} else {
+				set type "producer"
+			}
+
 			if { $ip_idx == 7 } {
-				set ip [GetXmlEntry $list "tcpexternalip"]
+				set ip [GetXmlEntry $list "$type:tcp:tcpexternalip"]
 			} elseif { $ip_idx == 6 } {
-				set ip [GetXmlEntry $list "udpexternalip"]
+				set ip [GetXmlEntry $list "$type:udp:udpexternalip"]
 			} elseif {$ip_idx > 0 } {
-				set ip [GetXmlEntry $list "tcpipaddress${ip_idx}"]
+				set ip [GetXmlEntry $list "$type:tcp:tcpipaddress${ip_idx}"]
 			} else {
 				break
 			}
@@ -741,7 +931,7 @@ namespace eval ::MSNCAM {
 
 			if {$ip != "" } {
 				foreach port_idx { tcpport tcplocalport tcpexternalport } {
-					set port [GetXmlEntry $list "${port_idx}"]
+					set port [GetXmlEntry $list "$type:tcp:${port_idx}"]
 					if {$port != "" } {
 						status_log "Trying to connect to $ip at port $port\n" red
 						set socket [connectMsnCam $sid "$ip" $port]
@@ -775,10 +965,120 @@ namespace eval ::MSNCAM {
 		set connected_ips [getObjOption $sid connected_ips]
 		status_log "we have $ips connecting sockets and $connected_ips connected sockets\n" red
 		if { [llength $ips] == 0 && [llength $connected_ips] == 0
-		     && [getObjOption $sid canceled] != 1} {
+		     && [getObjOption $sid canceled] != 1 && [getObjOption $sid reflector] != 1} {
 			status_log "No socket was connected\n" red
+			after 5000 "::MSNCAM::CreateReflectorSession $sid"
+		}
+	}
+	
+	proc CreateReflectorSession { sid } {
+		if { [getObjOption $sid producer] && [getObjOption $sid reflector] != 1} {
+			status_log "Trying Reflector\n" red 
+			setObjOption $sid reflector 1
+			if { [catch {::http::geturl [list http://m1reflector.spotlife.net/createSession]  -timeout 5000 -command "::MSNCAM::ReflectorCreateSession $sid" }] } {
+				status_log "Unable to connect to the reflector.. canceling\n" red
+				::MSNCAM::CancelCam [getObjOption $sid chatid] $sid
+			}
+		}
+		
+	}
+
+	proc ReflectorCreateSession { sid token } {
+
+		if { ! [info exists ::webcamsn_loaded] } { ExtensionLoaded }
+		if { ! $::webcamsn_loaded } { status_log "Error when trying to load Webcamsn extension" red }
+
+		set tmp_data [::http::data $token]
+		
+		#status_log "createSession url get finished : $tmp_data\n" red
+		
+		if { $::webcamsn_loaded && [::http::status $token] == "ok" && [::http::ncode $token] == 200 } {
+			set tmp_data [string range $tmp_data [expr [string first "?>" $tmp_data] +2] end]
+
+			status_log "Got XML : $tmp_data"
+
+			if {[catch {set xml [xml2list  $tmp_data]} res ] } {
+				status_log "Error in parsing xml file... $tmp_data  -- $res\n" red
+				::MSNCAM::CancelCam [getObjOption $sid chatid] $sid
+				::http::cleanup $token
+				return
+			}
+			#status_log "got xml $xml\n" red
+			set refl_sid [GetXmlEntry $xml "createsessionresponse:sid"]
+			set refl_kid [GetXmlEntry $xml "createsessionresponse:kid"]
+			set refl_url [GetXmlEntry $xml "createsessionresponse:createtunnelurl"]
+
+			if {$refl_url == "" } { set refl_url "http://m1reflector14.spotlife.net:9010/createTunnel"}
+			if { $refl_sid == "" || $refl_kid == "" } {
+				status_log "Was not able to find the sid/kid from the xml..."
+				::http::cleanup $token
+				return
+			}
+
+			set a [::Webcamsn::CreateHashFromKid $refl_kid $refl_sid]
+			set refl_url "$refl_url\?sid=$refl_sid\&a=$a"
+
+			status_log "Creating the tunnel with the url : $refl_url\n" red
+
+			if { [catch {::http::geturl [list $refl_url]  -timeout 5000 -command "::MSNCAM::ReflectorCreateTunnel $sid" } res] } {
+				status_log "Unable to connect to the reflector.. $res canceling\n" red
+				::MSNCAM::CancelCam [getObjOption $sid chatid] $sid
+			}
+			
+			
+		} else {
+			status_log "Session : Unable to connect to the Reflector: status=[::http::status $token] ncode=[::http::ncode $token]\n" blue
+			status_log "tmp_data : $tmp_data\n" blue
+			
 			::MSNCAM::CancelCam [getObjOption $sid chatid] $sid
 		}
+		
+		::http::cleanup $token
+		
+	}
+
+	proc ReflectorCreateTunnel {sid token} {
+		set tmp_data [ ::http::data $token ]
+
+		status_log "createTunnel  finished : $tmp_data\n" red
+
+		if { [::http::status $token] == "ok" && [::http::ncode $token] == 200 } {
+		
+			set tmp_data [string range $tmp_data [expr [string first "?>" $tmp_data] +2] end]
+
+			if {[catch {set xml [xml2list $tmp_data] } res ] } {
+				status_log "Error in parsing xml file... $tmp_data  -- res\n" red
+				::MSNCAM::CancelCam [getObjOption $sid chatid] $sid
+				::http::cleanup $token
+				return
+			}
+			status_log "Retreiving information from XML" red
+			set tid [GetXmlEntry $xml "createtunnelresponse:tid"]
+			set url [GetXmlEntry $xml "createtunnelresponse:tunnelserverurl"]
+
+			set refldata "ru=$url&ti=$tid"
+
+			status_log "ReflData is : $refldata\n" red
+
+			if { [catch { SendReflData $sid [getObjOption $sid chatid] $refldata} res] } {
+				status_log "ERROR Sending REFLDATA : $res\n" red
+			}
+			
+			status_log "Connecting to the reflector\n" red
+			if { [catch { ConnectToReflector $sid $refldata} res] } {
+				status_log "ERROR Connecting to reflector : $res\n" red
+			}
+
+		
+		} else {
+			status_log "Tunnel : Unable to connect to the Reflector: status=[::http::status $token] ncode=[::http::ncode $token]\n" blue
+			status_log "tmp_data : $tmp_data\n" blue
+			
+			::MSNCAM::CancelCam [getObjOption $sid chatid] $sid
+		}
+
+		::http::cleanup $token
+		
 	}
 
 	proc CheckConnected { sid socket}  {
@@ -1026,7 +1326,9 @@ namespace eval ::MSNCAM {
 
 	proc SendFrame { sock encoder img } {
 		#If the img is not at the right size, don't encode (crash issue..)
-		if { [image width $img] != "320" || [image height $img] != "240" } {
+		
+		if { !([info exists ::test_webcam_send_log] && $::test_webcam_send_log != "")
+		     && ([image width $img] != "320" || [image height $img] != "240") } {
 			#status_log "webcam: Wrong size: Width is [image width $img] and height is [image height $img]\n" red
 			#return
 			
@@ -1039,19 +1341,43 @@ namespace eval ::MSNCAM {
 			}
 			
 		}
-		if { [catch {set data [::Webcamsn::Encode $encoder $img]} res] } {
+		if { !([info exists ::test_webcam_send_log] && $::test_webcam_send_log != "")
+		     && [catch {set data [::Webcamsn::Encode $encoder $img]} res] } {
 			status_log "Error encoding frame : $res\n"
 		    return
 		} else {
-			set header "[binary format ssssi 24 [::Webcamsn::GetWidth $encoder] [::Webcamsn::GetHeight $encoder] 0 [string length $data]]"
-			set header "${header}\x4D\x4C\x32\x30\x00\x00\x00\x00\x00\x00\x00\x00"
+			if { ([info exists ::test_webcam_send_log] && $::test_webcam_send_log != "") } {
+				set fd [getObjOption $sock send_log_fd]
+				if { $fd == "" } {
+					set fd [open $::test_webcam_send_log]
+					fconfigure $fd -encoding binary -translation {binary binary}
+					setObjOption $sock send_log_fd $fd
+				}
+				if {[eof $fd] } { 
+					close $fd 
+					set fd [open $::test_webcam_send_log]
+					fconfigure $fd -encoding binary -translation {binary binary}
+					setObjOption $sock send_log_fd $fd
+					
+				}
+				    
+				set header [read $fd 24]
+				set size [GetCamDataSize $header]
+				if { $size > 0 } {
+					set data "$header[read $fd $size]"
+				}
+			} else {
+				set header "[binary format ssssi 24 [::Webcamsn::GetWidth $encoder] [::Webcamsn::GetHeight $encoder] 0 [string length $data]]"
+				set header "${header}\x4D\x4C\x32\x30\x00\x00\x00\x00\x00\x00\x00\x00"
+				set data "${header}${data}"
 
-			set data "${header}${data}"
+			}
 		}
 		catch {
 		    if { ![eof $sock] && [fconfigure $sock -error] == "" } {
 			puts -nonewline $sock "$data"
 		    }
+		
 		}
 
 	}
@@ -1142,7 +1468,8 @@ namespace eval ::CAMGUI {
 
 		set grab_proc [getObjOption $sid grab_proc]
 
-		if { ![::CAMGUI::IsGrabberValid $grabber] } {
+		if { !([info exists ::test_webcam_send_log] && $::test_webcam_send_log != "") && 
+		     ![::CAMGUI::IsGrabberValid $grabber] } {
 			status_log "Invalid grabber : $grabber"
 
 			if { [set ::tcl_platform(platform)] == "windows" } {
@@ -1167,25 +1494,27 @@ namespace eval ::CAMGUI {
 				set dev [string range $source 0 [expr $pos-1]]
 				set channel [string range $source [expr $pos+1] end]
 
+				
 				set grabber [::Capture::Open $dev $channel]
-
+				
 				set init_b [::Capture::GetBrightness $grabber]
 				set init_c [::Capture::GetContrast $grabber]
 				set init_h [::Capture::GetHue $grabber]
 				set init_co [::Capture::GetColour $grabber]
-
+				
 				set settings [::config::getKey "webcam$dev:$channel" "$init_b:$init_c:$init_h:$init_co"]
 				set settings [split $settings ":"]
 				set init_b [lindex $settings 0]
 				set init_c [lindex $settings 1]
 				set init_h [lindex $settings 2]
 				set init_co [lindex $settings 3]
-
+				
 				::Capture::SetBrightness $grabber $init_b
 				::Capture::SetContrast $grabber $init_c
 				::Capture::SetHue $grabber $init_h
 				::Capture::SetColour $grabber $init_co
-
+			
+				
 				setObjOption $sid grab_proc "Grab_Linux"
 
 				#scale $window.b -from 0 -to 65535 -resolution 1 -showvalue 1 -label "B" -command "::Capture::SetBrightness $grabber" -orient horizontal
@@ -1241,6 +1570,7 @@ namespace eval ::CAMGUI {
 				pack $window.q -expand true -fill x
 				wm protocol $window WM_DELETE_WINDOW "::MSNCAM::CancelCam $chatid $sid"
 			}
+
 			if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 				if {![winfo exists ::grabbers($grabber)]} {
 					setObjOption $sid grab_proc "Grab_Mac"
@@ -1251,7 +1581,13 @@ namespace eval ::CAMGUI {
 					status_log "SID of this connection is $sid\n" red
 				}
 			}
-			set windows $::grabbers($grabber)
+
+			if { [info exists ::grabbers($grabber)] } {
+				set windows $::grabbers($grabber)
+			} else {
+				set windows [list]
+			}
+
 			lappend windows $window
 			set ::grabbers($grabber) $windows
 
@@ -1295,12 +1631,14 @@ namespace eval ::CAMGUI {
 		} else {
 		    status_log "error grabbing : $res\n" red
 		}
-	    catch {fileevent $socket writable "::MSNCAM::WriteToSock $socket"}
+		#catch {fileevent $socket writable "::MSNCAM::WriteToSock $socket"}
 	}
 
 	proc Grab_Linux {grabber socket encoder img} {
-		if { ![catch { ::Capture::Grab $grabber $img} res] } {
-			if { $encoder == "" } {
+		if { ([info exists ::test_webcam_send_log] && $::test_webcam_send_log != "") ||
+		     ![catch { ::Capture::Grab $grabber $img} res] } {
+			if { !([info exists ::test_webcam_send_log] && 
+			      $::test_webcam_send_log != "") &&$encoder == "" } {
 				if { $res == "" } { set res HIGH }
 				set encoder [::Webcamsn::NewEncoder $res]
 				setObjOption $socket codec $encoder
@@ -1309,7 +1647,7 @@ namespace eval ::CAMGUI {
 		} else {
 		    status_log "error grabbing : $res\n" red
 		}
-	    catch {fileevent $socket writable "::MSNCAM::WriteToSock $socket"}
+		#catch {fileevent $socket writable "::MSNCAM::WriteToSock $socket"}
 	}
 
 	proc Grab_Mac { grabber socket encoder img } {
@@ -1331,7 +1669,7 @@ namespace eval ::CAMGUI {
 			::CAMGUI::ImageReady_Mac $grabber $img
 		}
 
-		catch {fileevent $socket writable "::MSNCAM::WriteToSock $socket"}
+		#catch {fileevent $socket writable "::MSNCAM::WriteToSock $socket"}
 
 	}
 	
@@ -2148,7 +2486,9 @@ namespace eval ::CAMGUI {
 				break
 			}
 			incr size +24
-			catch { ::Webcamsn::Decode $decoder $img $data}
+			if { [catch { ::Webcamsn::Decode $decoder $img $data} res] } {
+				status_log "PLay : Decode error $res" red
+			}
 			set data [string range $data $size end]
 			after 250 "incr $semaphore"
 			tkwait variable $semaphore

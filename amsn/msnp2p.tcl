@@ -746,6 +746,7 @@ namespace eval ::MSNP2P {
 					if { $type == "filetransfer" } {
 						::MSN6FT::connectMsnFTP $sid $nonce $addr $port 1
 					} elseif { $type == "webcam" } {
+						setObjOption $sid accepted 1
 						::MSNCAM::SendSyn $sid $chatid
 					}
 				} elseif { $listening == "false" } {
@@ -753,6 +754,7 @@ namespace eval ::MSNP2P {
 					if { $type == "filetransfer" } {
 						::MSN6FT::SendFTInvite2 $sid $chatid
 					} elseif { $type == "webcam" } {
+						setObjOption $sid accepted 1
 						::MSNCAM::SendSyn $sid $chatid
 						#::MSNCAM::SendAcceptInvite $sid $chatid
 					}
@@ -802,7 +804,7 @@ namespace eval ::MSNP2P {
 		}
 		return
 	}
-	# Check if we got BYE message
+	# Check if we got DECLINE message
 	if { [string first "603 Decline" $data] != -1 } {
 		# Lets get the call ID and find our SessionID
 		set idx [expr [string first "Call-ID: \{" $data] + 10]
@@ -818,8 +820,11 @@ namespace eval ::MSNP2P {
 
 			# If it's a file transfer, advise the user it has been canceled
 			if { [lindex [SessionList get $sid] 7] == "webcam" } {
-				::MSNCAM::SendSyn $sid $chatid
-				::CAMGUI::InvitationDeclined $chatid
+				if { [getObjOption $sid accepted] != 1 } {
+					::CAMGUI::InvitationDeclined $chatid
+				} else {
+					::MSNCAM::SendSyn $sid $chatid	
+				}
 			}
 
 
@@ -966,6 +971,12 @@ namespace eval ::MSNP2P {
 
 					::MSNCAM::ReceivedXML $chatid $sid
 				}
+
+			} elseif { [string first "ReflData:" $msg] == 0 } {
+				set refldata [string range $msg 9 end-1]
+				set refldata [binary format H* $refldata]
+
+				::MSNCAM::ConnectToReflector $sid $refldata
 
 			} else {
 				status_log "UNKNOWN" red

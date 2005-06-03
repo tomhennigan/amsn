@@ -4793,33 +4793,33 @@ proc ToBigEndian { bin length } {
 }
 
 proc ToUnicode { text } {
-	status_log "Converting $text to unicode\n" red
+	#status_log "Converting $text to unicode\n" red
 
 #	set text [encoding convertfrom $text]
-	status_log "text msg is : $text\n" red
+	#status_log "text msg is : $text\n" red
 	set text [encoding convertto unicode $text]
-	status_log "text msg is : $text\n" red
+	#status_log "text msg is : $text\n" red
 	#set text [binary format a* $text]
-	status_log "text msg is : $text\n" red
+	#status_log "text msg is : $text\n" red
 	set text [ToLittleEndian $text 2]
-	status_log "text msg is : $text\n" red
+	#status_log "text msg is : $text\n" red
 
 	return $text
 }
 
 proc FromUnicode { text } {
-	status_log "Converting $text from unicode\n" red
+	#status_log "Converting $text from unicode\n" red
 
 	#binary scan $text A* text
-	status_log "text msg is : $text\n" red
+	#status_log "text msg is : $text\n" red
 
 	set text [ToBigEndian "$text" 2]
-	status_log "text msg is : $text\n" red
+	#status_log "text msg is : $text\n" red
 	set text [encoding convertfrom unicode "$text"]
-	status_log "text msg is : $text\n" red
+	#status_log "text msg is : $text\n" red
 
 #	set text [encoding convertto "$text"]
-	status_log "text msg is : $text\n" red
+	#status_log "text msg is : $text\n" red
 
 	return $text
 }
