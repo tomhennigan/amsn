@@ -6815,7 +6815,12 @@ proc convert_image { filename destdir size } {
 	}
 
 	#Create img from the file
-	set img [image create photo -file $filename]
+	if {[catch {set img [image create photo -file $filename]} res]} {
+		#If there's an error, it means the filename is corrupted, remove it
+		catch { file delete $filename }
+		catch { file delete [filenoext $filename].dat }
+		return
+	}
 	#Resize with ratio
 	if {[catch {::picture::ResizeWithRatio $img $sizex $sizey} res]} {
 		msg_box $res
@@ -7087,7 +7092,13 @@ proc reloadAvailablePics { } {
 			.picbrowser.pics.text insert end "___________________________\n\n"
 		} else {
 			set filename [lindex $file 1]
-			set the_image [image create photo -file $filename ]
+			
+			if {[catch {set the_image [image create photo -file $filename ]} res]} {
+				#If there's an error, it means the filename is corrupted, remove it
+				catch { file delete $filename }
+				catch { file delete [filenoext $filename].dat }
+				continue
+			}
 			addPicture $the_image "[getPictureDesc $filename]" "[lindex $file 0][file tail $filename]"
 			lappend image_names $the_image
 		}
