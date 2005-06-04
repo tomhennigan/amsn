@@ -1302,19 +1302,22 @@ pixmapoption .about.checkbox -buttontype checkbutton -text "checkboxieee" -image
 		if {[string first "S" $fontstyle] >= 0} {
 			lappend style "overstrike"
 		}
-
-		if { [::config::getKey disableuserfonts] } {
-
-			#if customfnick exists replace the nick with customfnick
-			set customfnick [::abook::getContactData $user customfnick]
-
-			if { $customfnick != "" } {
-				set nick [::abook::getNick $user]
-				set customnick [::abook::getContactData $user customnick]
-
-				set nick [::abook::parseCustomNick $customfnick $nick $user $customnick]
-			}
+		#If user want to see his own fonts when he receives messages
+        if { [::config::getKey disableuserfonts] } {	 
+             set fontfamily [lindex [::config::getKey mychatfont] 0]	 
+             set style [lindex [::config::getKey mychatfont] 1]	 
+             #set fontcolor [lindex [::config::getKey mychatfont] 2]	 
 		}
+
+		#if customfnick exists replace the nick with customfnick
+		set customfnick [::abook::getContactData $user customfnick]
+
+		if { $customfnick != "" } {
+			set nick [::abook::getNick $user]
+			set customnick [::abook::getContactData $user customnick]
+			set nick [::abook::parseCustomNick $customfnick $nick $user $customnick]
+		}
+		
 		set msg [$message getBody]
 
 		set maxw [expr {[::skin::getKey notifwidth]-20}]
