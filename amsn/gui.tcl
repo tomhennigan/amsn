@@ -95,6 +95,8 @@ if { $initialize_amsn == 1 } {
 	::skin::setKey chat_input_border 0
 	::skin::setKey chat_status_border 0
 	::skin::setKey chat_dp_border 1
+	
+	::skin::setKey chat_show_sendbuttonframe 1
 
 	::skin::setKey menuforeground #000000
 	::skin::setKey menuactivebackground #565672
@@ -359,6 +361,13 @@ namespace eval ::amsn {
 		button .about.bottom.close -text "[trans close]" -command "destroy .about"
 		bind .about <<Escape>> "destroy .about"
 		button .about.bottom.credits -text "[trans credits]..." -command [list ::amsn::showHelpFile CREDITS [trans credits]]
+
+set img [image create photo -file utils/pixmapoption/check.gif]
+set img_sel [image create photo -file utils/pixmapoption/checkpress.gif]
+
+pixmapoption .about.checkbox -buttontype checkbutton -text "checkboxieee" -image $img -hoverimage $img -selectimage $img_sel
+
+		pack .about.checkbox -side bottom
 
 		pack .about.bottom.close -side right
 		pack .about.bottom.credits -side left
