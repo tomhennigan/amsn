@@ -2027,7 +2027,7 @@ namespace eval ::CAMGUI {
 		button $settings -text "Camera Settings"
 
 		frame $buttons -relief sunken -borderwidth 3
-		button $buttons.ok -text "Ok" -command "::CAMGUI::Choose_OkLinux $window $devs.list $chans.list $img $devices"
+		button $buttons.ok -text "Ok" -command "::CAMGUI::Choose_OkLinux $window $devs.list $chans.list $img {$devices}"
 		button $buttons.cancel -text "Cancel" -command "::CAMGUI::Choose_CancelLinux $window $img"
 		wm protocol $window WM_DELETE_WINDOW "::CAMGUI::Choose_CancelLinux $window $img"
 		#bind $window <Destroy> "::CAMGUI::Choose_CancelLinux $window $img $preview"
@@ -2035,8 +2035,8 @@ namespace eval ::CAMGUI {
 
 		pack $lists $status $preview $settings $buttons -side top
 
-		bind $devs.list <Button1-ButtonRelease> "::CAMGUI::FillChannelsLinux $devs.list $chans.list $status $devices"
-		bind $chans.list <Button1-ButtonRelease> "::CAMGUI::StartPreviewLinux $devs.list $chans.list $status $preview $settings $devices"
+		bind $devs.list <Button1-ButtonRelease> "::CAMGUI::FillChannelsLinux $devs.list $chans.list $status {$devices}"
+		bind $chans.list <Button1-ButtonRelease> "::CAMGUI::StartPreviewLinux $devs.list $chans.list $status $preview $settings {$devices}"
 
 		foreach device $devices {
 			set dev [lindex $device 0]
@@ -2097,6 +2097,7 @@ namespace eval ::CAMGUI {
 		set dev [$device_w curselection]
 		set chan [$chan_w curselection]
 
+		set devices [lindex $devices 0]
 		set device [lindex $devices $dev]
 		set device [lindex $device 0]
 
@@ -2255,7 +2256,7 @@ namespace eval ::CAMGUI {
 
 		frame $buttons -relief sunken -borderwidth 3
 		status_log "::CAMGUI::Properties_OkLinux $window $capture_fd $device $channel"
-		button $buttons.ok -text "Ok" -command "::CAMGUI::Properties_OkLinux $window $capture_fd $device $channel"
+		button $buttons.ok -text "Ok" -command "::CAMGUI::Properties_OkLinux $window $capture_fd {$device} $channel"
 		button $buttons.cancel -text "Cancel" -command "::CAMGUI::Properties_CancelLinux $window $capture_fd $init_b $init_c $init_h $init_co"
 		wm protocol $window WM_DELETE_WINDOW "::CAMGUI::Properties_CancelLinux $window $capture_fd $init_b $init_c $init_h $init_co"
 
