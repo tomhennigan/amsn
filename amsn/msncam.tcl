@@ -2244,7 +2244,7 @@ namespace eval ::CAMGUI {
 
 		destroy $window
 		toplevel $window
-		grab set $window
+		#grab set $window
 
 		frame $slides
 		scale $slides.b -from 0 -to 65535 -resolution 1 -showvalue 1 -label "Brightness" -command "::CAMGUI::Properties_SetLinux $slides.b b $capture_fd" -orient horizontal
