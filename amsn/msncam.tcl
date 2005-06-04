@@ -2146,7 +2146,9 @@ namespace eval ::CAMGUI {
 		set $semaphore 0
 
 		while { [::Capture::IsValid $grabber] && [lsearch [image names] $img] != -1 } {
-			::Capture::Grab $grabber $img
+			if {[catch {::Capture::Grab $grabber $img}]} {
+				status_log "Problem grabbing from the device.  Device busy or unavailable ?"
+			}
 			after 100 "incr $semaphore"
 			tkwait variable $semaphore
 		}
