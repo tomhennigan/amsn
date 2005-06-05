@@ -6194,11 +6194,9 @@ proc launch_browser { url {local 0}} {
 		#regsub -all -nocase {&} $url {^&} url
 
 		#catch { exec rundll32 url.dll,FileProtocolHandler $url & } res
-		#run WinLoadFile, if its not loaded yet then load it
-		if { [catch { WinLoadFile $url } ] } {
-			load [file join utils windows winutils winutils.dll]
-			WinLoadFile $url
-		}
+
+		package require WinUtils
+		WinLoadFile $url
 	} else {
 
 		if { [string first "\$url" [::config::getKey browser]] == -1 } {
@@ -6226,11 +6224,8 @@ proc open_file {file} {
 			#replace all / with \
 			regsub -all {/} $file {\\} file
 
-			#run WinLoadFile, if its not loaded yet then load it
-			if { [catch { WinLoadFile $file } ] } {
-				load [file join utils windows winutils winutils.dll]
-				WinLoadFile $file
-			}
+			package require WinUtils
+			WinLoadFile $file
 		} elseif { [string length [::config::getKey openfilecommand]] < 1 } {
 			msg_box "[trans checkopenfilecommand $file]"
 		} else {

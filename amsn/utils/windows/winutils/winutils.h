@@ -18,7 +18,7 @@
 //#include <stdio.h>
 //#include <stdlib.h>
 //#include <string.h>
-//#include <tkPlatDecls.h>
+#include <tkPlatDecls.h>
 #include <shellapi.h>
 
 // Defined as described in tcl.tk compiling extension help
@@ -60,6 +60,20 @@ EXTERN int Tk_WinLoadFile (ClientData clientData,
 								int objc,
 								Tcl_Obj *CONST objv[]);
 
+EXTERN int Tk_WinPlaySound (ClientData clientData,
+								Tcl_Interp *interp,
+								int objc,
+								Tcl_Obj *CONST objv[]);
+
+EXTERN int Tk_WinRemoveTitle (ClientData clientData,
+								Tcl_Interp *interp,
+								int objc,
+								Tcl_Obj *CONST objv[]);
+
+EXTERN int Tk_WinReplaceTitle (ClientData clientData,
+								Tcl_Interp *interp,
+								int objc,
+								Tcl_Obj *CONST objv[]);
 
 # undef TCL_STORAGE_CLASS
 # define TCL_STORAGE_CLASS DLLIMPORT
