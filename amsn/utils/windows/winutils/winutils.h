@@ -15,11 +15,9 @@
 
 #include <tcl.h>
 #include <tk.h>
-//#include <stdio.h>
-//#include <stdlib.h>
-//#include <string.h>
 #include <tkPlatDecls.h>
 #include <shellapi.h>
+#include <sapi.h>
 
 // Defined as described in tcl.tk compiling extension help
 #ifndef STATIC_BUILD
@@ -61,6 +59,11 @@ EXTERN int Tk_WinLoadFile (ClientData clientData,
 								Tcl_Obj *CONST objv[]);
 
 EXTERN int Tk_WinPlaySound (ClientData clientData,
+								Tcl_Interp *interp,
+								int objc,
+								Tcl_Obj *CONST objv[]);
+
+EXTERN int Tk_WinSayit (ClientData clientData,
 								Tcl_Interp *interp,
 								int objc,
 								Tcl_Obj *CONST objv[]);

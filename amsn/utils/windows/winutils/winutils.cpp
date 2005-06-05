@@ -22,6 +22,14 @@
 
 
 			NAME :
+				WinSayit
+			SYNOPSYS :
+				WinSayit text
+			DESCRIPTION :
+				Speaks the text "text"
+
+  
+			NAME :
 				WinRemoveTitle
 			SYNOPSYS :
 				WinRemoveTitle window titlebarheight
@@ -100,6 +108,49 @@ static int Tk_WinPlaySound (ClientData clientData,
 	PlaySound(file, NULL, SND_ASYNC | SND_NODEFAULT);
 
 
+	return TCL_OK;
+}
+
+static int Tk_WinSayit (ClientData clientData,
+								 Tcl_Interp *interp,
+								 int objc,
+								 Tcl_Obj *CONST objv[]) {
+
+	char * text = NULL;
+	WCHAR text2[2000];
+
+
+	// We verify the arguments, we must have one arg, not more
+	if( objc < 2) {
+		Tcl_AppendResult (interp, "Wrong number of args.\nShould be \"WinLoadFile file\"" , (char *) NULL);
+		return TCL_ERROR;
+	}
+
+	// Get the first argument string (file)
+	text=Tcl_GetStringFromObj(objv[1], NULL);
+	for(int i=0;;i++)
+	{
+		mbtowc(&text2[i],&text[i],MB_CUR_MAX);
+		if(text[i]=='\0') break;
+	}
+
+
+    ISpVoice * pVoice = NULL;
+
+    if (FAILED(::CoInitialize(NULL))){
+		Tcl_AppendResult (interp, "Failed to run ::CoInitialize" , (char *) NULL);
+		return TCL_ERROR;
+	}
+
+    HRESULT hr = CoCreateInstance(CLSID_SpVoice, NULL, CLSCTX_ALL, IID_ISpVoice, (void **)&pVoice);
+    if( SUCCEEDED( hr ) )
+    {
+        hr = pVoice->Speak(text2, SPF_DEFAULT | SPF_IS_NOT_XML, NULL); //| SPF_ASYNC 
+        pVoice->Release();
+        pVoice = NULL;
+    }
+
+    ::CoUninitialize();
 	return TCL_OK;
 }
 
@@ -326,6 +377,10 @@ int Winutils_Init (Tcl_Interp *interp ) {
 
 	// Create the new command "WinPlaySound" linked to the PlaySound function
 	Tcl_CreateObjCommand(interp, "WinPlaySound", Tk_WinPlaySound,
+		(ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
+
+	// Create the new command "WinSayit"
+	Tcl_CreateObjCommand(interp, "WinSayit", Tk_WinSayit,
 		(ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
 
 	// Create the new command "WinRemoveTitle"
