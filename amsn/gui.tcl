@@ -25,7 +25,7 @@ if { $initialize_amsn == 1 } {
 	::skin::setKey tab_text_y 5
 	::skin::setKey tab_text_width 80
 	::skin::setKey tab_close_x 85
-	::skin::setKey tab_close_y 5
+	::skin::setKey tab_close_y 5pi
 	::skin::setKey chat_tabbar_padx 0
 	::skin::setKey chat_tabbar_pady 0
 	::skin::setKey buttonbarbg #eeeeff
@@ -361,11 +361,6 @@ namespace eval ::amsn {
 		button .about.bottom.close -text "[trans close]" -command "destroy .about"
 		bind .about <<Escape>> "destroy .about"
 		button .about.bottom.credits -text "[trans credits]..." -command [list ::amsn::showHelpFile CREDITS [trans credits]]
-
-set img [image create photo -file utils/pixmapoption/check.gif]
-set img_sel [image create photo -file utils/pixmapoption/checkpress.gif]
-
-pixmapoption .about.checkbox -buttontype checkbutton -text "checkboxieee" -image $img -hoverimage $img -selectimage $img_sel
 
 		pack .about.checkbox -side bottom
 
