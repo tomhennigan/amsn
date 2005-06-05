@@ -22,6 +22,7 @@ compile_cc	= $(CXX) $(CXXFLAGS)  -c -o $@ $<
 
 link_app	= $(CC) $(LDFLAGS) -o $@  $^ $(LDLIBS)
 link_so		= $(CC) $(LDFLAGS) -shared -o $@ $^ $(LDLIBS)
+link_so_addlibs = $(link_so) $(ADDLIBS)
 link_so_cpp	= $(CXX) $(LDFLAGS) -shared -o $@ $^ $(LDLIBS)
 ar_lib		= rm -f $@ && ar -sr $@ $^ && ranlib $@
 
@@ -32,12 +33,16 @@ ifeq ($(verbose),no)
   echo_compile_cc	= echo "  CXX	 " $@
   echo_link_app		= echo "  LD	 " $@
   echo_link_so		= echo "  LD	 " $@
+  echo_link_so_cpp	= echo "  LD	 " $@
+  echo_link_so_addlibs	= echo "  LD	 " $@
   echo_ar_lib		= echo "  AR	 " $@
 else
   echo_compile_c	= echo $(compile_c)
   echo_compile_cc	= echo $(compile_cc)
   echo_link_app		= echo $(link_app)
   echo_link_so		= echo $(link_so)
+  echo_link_so_addlibs	= echo $(link_so_addlibs)
+  echo_link_so_cpp	= echo $(link_so_cpp)
   echo_ar_lib		= echo $(ar_lib)
 endif
 

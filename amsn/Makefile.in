@@ -81,8 +81,8 @@ IMLIB_LIBS := @IMLIB_LIBS@
 
 LDFLAGS	 += ${TCL_STUB_LIB_SPEC}
 LDFLAGS	 += ${TK_STUB_LIB_SPEC}
-LDFLAGS	 += ${X_LIBS}
-LDFLAGS	 += ${IMLIB_LIBS}
+ADDLIBS	 += ${X_LIBS}
+ADDLIBS	 += ${IMLIB_LIBS}
 
 #########################################################
 # targets

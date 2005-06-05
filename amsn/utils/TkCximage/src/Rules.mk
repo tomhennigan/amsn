@@ -7,7 +7,7 @@ TARGETS-TkCximage := $(tkcximage_dir)/src/TkCximage.so
 
 
 $(TARGETS-TkCximage): $(OBJS-TkCximage)
-	@$(echo_link_so)
+	@$(echo_link_so_cpp)
 	@$(link_so_cpp)
 
 all:: $(TARGETS-TkCximage)
