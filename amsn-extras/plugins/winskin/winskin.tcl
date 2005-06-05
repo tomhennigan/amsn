@@ -113,10 +113,18 @@ namespace eval ::winskin {
 					wm geometry . "${newwidth}x${newheight}+${wx}+${wy}"
 					update idletasks
 
-					if { [catch { plugins_log winskin [WinRemoveTitle . $menuheight] } ] } {
+					if {[string equal $::version "0.94"]} {
+						if { [catch { plugins_log winskin [WinRemoveTitle . $menuheight] } ] } {
+							#add catch incase someone tries to run on non windows platform
+							catch {
+								load [file join $::winskin::dir winutils.dll]
+								plugins_log winskin [WinRemoveTitle . $menuheight]
+							}
+						}
+					} else {
 						#add catch incase someone tries to run on non windows platform
 						catch {
-							load [file join $::winskin::dir winutils.dll]
+							package require WinUtils
 							plugins_log winskin [WinRemoveTitle . $menuheight]
 						}
 					}
@@ -430,10 +438,18 @@ namespace eval ::winskin {
 					set menuheight 0
 				}
 
-				if { [catch { plugins_log winskin [WinRemoveTitle . $menuheight] } ] } {
+				if {[string equal $::version "0.94"]} {
+					if { [catch { plugins_log winskin [WinRemoveTitle . $menuheight] } ] } {
+						#add catch incase someone tries to run on non windows platform
+						catch {
+							load [file join $::winskin::dir winutils.dll]
+							plugins_log winskin [WinRemoveTitle . $menuheight]
+						}
+					}
+				} else {
 					#add catch incase someone tries to run on non windows platform
 					catch {
-						load [file join $::winskin::dir winutils.dll]
+						package require WinUtils
 						plugins_log winskin [WinRemoveTitle . $menuheight]
 					}
 				}

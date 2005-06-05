@@ -638,13 +638,14 @@ namespace eval ::pop3 {
 	#	acntn ->  The number of the account to load teh default mail program for
 	proc loadDefaultEmail { acntn } {
 		if { $::tcl_platform(platform) == "windows" } {
-			if { [catch { WinLoadFile [set ::pop3::config(mailProg_$acntn)] } ] } {
-				if {[string equal $::version "0.94"]} {
+			if {[string equal $::version "0.94"]} {
+				if { [catch { eval WinLoadFile [set ::pop3::config(mailProg_$acntn)] } ] } {
 					load [file join plugins winutils winutils.dll]
-				} else {
-					load [file join utils windows winutils winutils.dll]
+					eval WinLoadFile [set ::pop3::config(mailProg_$acntn)]
 				}
-				WinLoadFile [set ::pop3::config(mailProg_$acntn)]
+			} else {
+				package require WinUtils
+				eval WinLoadFile [set ::pop3::config(mailProg_$acntn)]
 			}
 		} else {
 			if { [catch {eval "exec [set ::pop3::config(mailProg_$acntn)]"} res] } {

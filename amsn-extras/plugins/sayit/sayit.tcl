@@ -9,7 +9,11 @@ namespace eval ::sayit {
 
 	proc InitPlugin { dir } {
 		if { $::tcl_platform(platform) == "windows" } {
-			load [file join $dir winsayit.dll]
+			if {[string equal $::version "0.94"]} {
+				load [file join $dir winutils.dll]
+			} else {
+				package require WinUtils
+			}
 		}
 
 		::plugins::RegisterPlugin sayit
