@@ -1860,10 +1860,10 @@ namespace eval ::ChatWindow {
 
 		# Pack My input frame widgets
 		pack $text -side left -expand true -fill both -padx 1 -pady 1
-		pack $sendbutton -side top
+		pack $sendbutton -side top -fill y -expand 1
 		if {[::skin::getKey chat_show_sendbuttonframe]} {
 			pack $sendbuttonframe -side left -padx [::skin::getKey chat_sendbutton_padx]\
-				-pady [::skin::getKey chat_sendbutton_pady]
+				-pady [::skin::getKey chat_sendbutton_pady] -fill y
 		}
 
 		#send chatsendbutton postevent
