@@ -1264,15 +1264,19 @@ namespace eval ::plugins {
 		set ::plugins::URL_plugininfo ""
 
 		set id [::sxml::init $path]
+		
+		if { $id!=-1 } {
 
-		sxml::register_routine $id "plugin" "::plugins::XML_Plugin_CVS"
-		sxml::register_routine $id "plugin:lang" "::plugins::XML_Plugin_Lang"
-		sxml::register_routine $id "plugin:file" "::plugins::XML_Plugin_File"
-		sxml::register_routine $id "plugin:URL" "::plugins::XML_Plugin_URL"
+			sxml::register_routine $id "plugin" "::plugins::XML_Plugin_CVS"
+			sxml::register_routine $id "plugin:lang" "::plugins::XML_Plugin_Lang"
+			sxml::register_routine $id "plugin:file" "::plugins::XML_Plugin_File"
+			sxml::register_routine $id "plugin:URL" "::plugins::XML_Plugin_URL"
 
-		sxml::parse $id
+			sxml::parse $id
 
-		sxml::end $id
+			sxml::end $id
+
+		}
 
 	}
 
@@ -1782,16 +1786,17 @@ namespace eval ::plugins {
 
 
 #/////////////////////////////////////////////////////
-# Detect if the onlineversion if upper the version
+# Detect if the online version if upper than the current version
 
 	proc DetectNew { version onlineversion } {
 
 		set current [split $version "."]
 		set new [split $onlineversion "."]
-		if { [lindex $new 0] > [lindex $current 0] } {
+		if { version == "" | onlineversion == ""} {
+			return 0
+		} elseif { [lindex $new 0] > [lindex $current 0] } {
 			return 1
 		} elseif { [lindex $new 1] > [lindex $current 1] } {
-
 			return 1
 
 		} else {
