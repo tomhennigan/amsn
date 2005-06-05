@@ -210,7 +210,7 @@ int ObjRead (Tcl_Interp *interp, Tcl_Obj *data, Tcl_Obj *format, Tk_PhotoHandle 
   block.offset[1] = 1;
   block.offset[2] = 2;
 
-  if ( image->AlphaIsValid() || image->IsTransparent() ) {
+  if ( image.AlphaIsValid() || image.IsTransparent() ) {
     LOG("Alpha is valid, setting offset[3]"); //
     block.offset[3] = 3;
   }
