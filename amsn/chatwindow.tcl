@@ -1,3 +1,4 @@
+
 #########################################
 #    Chat Window code abstraction       #
 #           By Alberto D�z            #
@@ -1777,7 +1778,7 @@ namespace eval ::ChatWindow {
 			bind $sendbutton <<Button1>> "::amsn::MessageSend $w $text"
 		} else 	{
 			# Standard grey flat button (For Tcl/Tk < 8.4 and Mac OS X)
-			button $sendbutton  -text [trans send] -width 6 -borderwidth 1 \
+			button $sendbutton  -text "\n[trans send]\n" -width 6 -borderwidth 1 \
 				-relief solid -command "::amsn::MessageSend $w $text" \
 				-font bplainf -highlightthickness 0 -highlightbackground [::skin::getKey sendbuttonbg]
 		}
@@ -1860,10 +1861,10 @@ namespace eval ::ChatWindow {
 
 		# Pack My input frame widgets
 		pack $text -side left -expand true -fill both -padx 1 -pady 1
-		pack $sendbutton -side top -fill y -expand 1
+		pack $sendbutton -side top
 		if {[::skin::getKey chat_show_sendbuttonframe]} {
 			pack $sendbuttonframe -side left -padx [::skin::getKey chat_sendbutton_padx]\
-				-pady [::skin::getKey chat_sendbutton_pady] -fill y
+				-pady [::skin::getKey chat_sendbutton_pady]
 		}
 
 		#send chatsendbutton postevent
