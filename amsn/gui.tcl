@@ -7888,7 +7888,7 @@ proc OnWin {} {
 		return 0
 	}
 }
-proc OnLin {} {
+proc OnUnix {} {
 	if { ![catch {tk windowingsystem} wsystem] && $wsystem  == "x11" } {
 		return 1
 	} else {
