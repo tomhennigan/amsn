@@ -5323,9 +5323,10 @@ namespace eval ::MSN6FT {
 			puts -nonewline $fd "$previewdata"
 			close $fd
 			set file [file join $dir ${sid}.png]
-			if { $file != "" } {
-				::skin::setPixmap FT_preview_${sid} "[file join $dir ${sid}.png]"
+			if { $file != "" && ![catch {set img [image create photo -file $file]} res]} {
+				::skin::setPixmap FT_preview_${sid} "[file join $dir ${sid}.png]"			
 			}
+			catch {image delete $img}
 		}
 		setObjOption $sid chatid $chatid
 
