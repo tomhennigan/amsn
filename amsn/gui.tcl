@@ -7881,6 +7881,7 @@ proc OnMac {} {
 	}
 }
 proc OnWin {} {
+	global tcl_platform
 	if {$tcl_platform(platform) == "windows"} {
 		return 1
 	} else {
@@ -7895,6 +7896,7 @@ proc OnLin {} {
 	}
 }
 proc PlatformIs {} {
+	global tcl_platform
 	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 		return "mac"
 	} elseif {$tcl_platform(platform) == "windows"} {
