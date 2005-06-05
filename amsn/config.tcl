@@ -169,7 +169,6 @@ namespace eval ::config {
 		::config::setKey animatedsmileys 1		;#Show animated smileys
 
 		#Custom smileys configuration
-		::config::setKey customsmileys [list]
 		::config::setKey custom_smileys 1
 		::config::setKey logsbydate 1
 		::config::setKey p4c_name ""
@@ -474,7 +473,7 @@ proc save_config {} {
 	#Save all keys except special ones
 	foreach var_attribute [::config::getKeys] {
 		set var_value [::config::getKey $var_attribute]
-		if { "$var_attribute" != "remotepassword" && "$var_attribute" != "customsmileys"} {
+		if { "$var_attribute" != "remotepassword" } {
 			set var_value [::sxml::xmlreplace $var_value]
 			puts $file_id "   <entry>\n      <attribute>$var_attribute</attribute>\n      <value>$var_value</value>\n   </entry>"
 		}
@@ -493,7 +492,7 @@ proc save_config {} {
 	puts $file_id "   <entry>\n      <attribute>remotepassword</attribute>\n      <value>$encpass</value>\n   </entry>\n"
 
 	#Save custom emoticons
-	foreach name [::config::getKey customsmileys] {
+	foreach name [array names custom_emotions] {
 		puts $file_id "   <emoticon>"
 		array set emotion $custom_emotions($name)
 		foreach attribute [array names emotion] {

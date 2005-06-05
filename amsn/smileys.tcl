@@ -161,8 +161,6 @@ namespace eval ::smiley {
 		#Create the image now and store it
 		set emotion(image_name) [image create photo -file $emotion(file)]
 		
-		#Add to the list of custom emoticons
-		lappend [::config::getVar customsmileys] $emotion(name)
 		#Store the emoticon data in the custom_emoticons array
 		set custom_emotions($emotion(name)) [array get emotion]
 
@@ -394,7 +392,7 @@ namespace eval ::smiley {
 		
 		#Now add custom emotions bindings
 		global custom_emotions
-		foreach name [::config::getKey customsmileys] {
+		foreach name [array names custom_emotions] {
 			array set emotion $custom_emotions($name)
 			set symbol [lindex $emotion(text) 0]
 			
@@ -587,7 +585,7 @@ namespace eval ::smiley {
 		
 		#Calculate the total number of smileys (including custom ones)
 		set emoticon_number [llength $emotions_names]
-		incr emoticon_number [llength [::config::getKey customsmileys]]
+		incr emoticon_number [llength [array names custom_emotions]]
 		
 		#Fixed smiley size
 		set smiw 26
@@ -639,7 +637,7 @@ namespace eval ::smiley {
 		
 		#Now add custom emotions
 		global custom_emotions
-		foreach name [::config::getKey customsmileys] {
+		foreach name [array names custom_emotions] {
 		
 			array set emotion $custom_emotions($name)
 			if {![info exists emotion(animated)]} { set emotion(animated) 0 }
@@ -773,10 +771,6 @@ namespace eval ::smiley {
 	proc NewCustomEmoticonGUI_Delete { name } {
 		global custom_emotions
 		
-		set idx [lsearch [::config::getKey customsmileys] $name]
-		if { $idx != -1 } {
-			::config::setKey customsmileys [lreplace [::config::getKey customsmileys] $idx $idx]
-		}
 		unset custom_emotions($name)
 		if { [winfo exists .smile_selector]} {destroy .smile_selector}
 		
@@ -910,11 +904,6 @@ namespace eval ::smiley {
 		
 		set emotion(image_name) [image create photo -file $emotion(file)]
 		set custom_emotions($name) [array get emotion]
-		if { $edit == 0} {
-			if { [lsearch -exact [::config::getKey customsmileys] $name] == -1 } {
-				lappend [::config::getVar customsmileys] $name
-			}
-		}
 
 		#load_smileys
 		#::skin::reloadSkinSettings [::config::getGlobalKey skin]
@@ -1079,7 +1068,7 @@ proc process_custom_smileys_SB { txt } {
 	set txt2 [string toupper $txt]
 
 	#Try to find used smileys in the message	
-	foreach name [::config::getKey customsmileys] {
+	foreach name [array names custom_emotions] {
 	
 		if { ![info exists custom_emotions($name)] } {
 			status_log "process_custom_smileys_SB: Custom smiley $name doesn't exist in custom_emotions array!!\n" red
