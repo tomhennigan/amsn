@@ -1,5 +1,5 @@
-OBJS-tray := $(tray_dir)/tray.o 
-TARGETS-tray := $(tray_dir)/libtray.so 
+OBJS-tray := $(tray_dir)/libtray.o
+TARGETS-tray := $(tray_dir)/libtray.so
 
 $(TARGETS-tray): $(OBJS-tray)
 

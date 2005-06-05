@@ -1,4 +1,8 @@
+prefix  	:= @prefix@
+exec_prefix	:= @exec_prefix@
 srcdir		:= @srcdir@
+dstdir  	:= @datadir@
+slnkdir 	:= @bindir@
 VPATH		:= $(srcdir)
 
 capture_dir := $(srcdir)/utils/linux/capture
@@ -18,7 +22,7 @@ VERSION		:= @APPVERSION@
 #WARN_FLAGS	:= -Wall -Wmissing-prototypes -Wstrict-prototypes -Wpointer-arith
 WARN_FLAGS	:= -Werror
 LFS_FLAGS	:= -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64
-LIB_FLAGS	:= -I. -I$(capture_dir) -I$(capture_dir)/libng -I$(capture_dir)/structs -Llibng 
+LIB_FLAGS	:= -I. -I$(capture_dir) -I$(capture_dir)/libng -I$(capture_dir)/structs -Llibng
 LIB_FLAGS	+= -I$(webcamsn_dir)/src -I$(tkcximage_dir)/src -I$(tkcximage_dir)/src/CxImage
 LIB_FLAGS	+= -I$(tkcximage_dir)/src/zlib -I$(tkcximage_dir)/src/png -I$(tkcximage_dir)/src/jpeg
 LIBDIR		:= @LIBDIR@
@@ -29,14 +33,16 @@ THREAD_LIBS	:= @LIBPTHREAD@
 
 
 # Directories in which the Tcl core can be found
-TCL_INC_SPEC 	= @TCL_INC_SPEC@
-TCL_STUB_LIB_SPEC = @TCL_STUB_LIB_SPEC@
+TCL_INC_SPEC 	:= @TCL_INC_SPEC@
+TCL_STUB_LIB_SPEC := @TCL_STUB_LIB_SPEC@
 
 # Directories in which the Tk core can be found
-TK_INC_SPEC 	= @TK_INC_SPEC@
-TK_STUB_LIB_SPEC = @TK_STUB_LIB_SPEC@
+TK_INC_SPEC 	:= @TK_INC_SPEC@
+TK_STUB_LIB_SPEC := @TK_STUB_LIB_SPEC@
 
-
+# C Flags for X and Imlib
+X_CFLAGS := @X_CFLAGS@
+IMLIB_CFLAGS := @IMLIB_CFLAGS@
 
 # stuff configure has found
 FOUND_X11	:= @FOUND_X11@
@@ -70,11 +76,13 @@ CXXFLAGS += -fPIC
 # libraries
 LDLIBS  := @LDLIBS@
 LDFLAGS := @LDFLAGS@
+X_LIBS  := @X_LIBS@
+IMLIB_LIBS := @IMLIB_LIBS@
 
 LDFLAGS	 += ${TCL_STUB_LIB_SPEC}
 LDFLAGS	 += ${TK_STUB_LIB_SPEC}
 LDFLAGS	 += ${X_LIBS}
-LDFLAGS	 += ${LIB_IMLIB}
+LDFLAGS	 += ${IMLIB_LIBS}
 
 #########################################################
 # targets
@@ -104,6 +112,9 @@ distclean:: clean
 	-rm -f config.cache config.h config.log config.status
 
 
+install::
+	cp -Rf $(srcdir) $(dstdir)/$(PACKAGE)
+	ln -s $(dstdir)/$(PACKAGE)/amsn $(slnkdir)
 
 #########################################################
 # include stuff
