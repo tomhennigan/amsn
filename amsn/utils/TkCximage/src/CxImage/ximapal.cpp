@@ -83,6 +83,8 @@ RGBQUAD CxImage::GetPaletteColor(BYTE idx)
 			rgb.rgbGreen=iDst[ldx++];
 			rgb.rgbRed =iDst[ldx++];
 			rgb.rgbReserved = iDst[ldx];
+			if ( IsTransparent() )
+				rgb.rgbReserved = (idx==GetTransIndex()) ? 0 : 255;
 		}
 	}
 	return rgb;

@@ -111,15 +111,8 @@ namespace eval ::skin {
 			return ""
 		}
 		
-		set ext [string tolower [string range [fileext [set ${location}_names($pixmap_name)]] 1 end]]
-		#To avoid a bug, if .gif, use -format gif
-		status_log $ext
-		if {$ext == "gif"} {
-			set loaded_${location}($pixmap_name) [image create photo -file [::skin::GetSkinFile ${location} [set ${location}_names($pixmap_name)] "" [set ${location}_fblocation($pixmap_name)]] -format gif]
-		} else {
-			set loaded_${location}($pixmap_name) [image create photo -file [::skin::GetSkinFile ${location} [set ${location}_names($pixmap_name)] "" [set ${location}_fblocation($pixmap_name)]]]
+		set loaded_${location}($pixmap_name) [image create photo -file [::skin::GetSkinFile ${location} [set ${location}_names($pixmap_name)] "" [set ${location}_fblocation($pixmap_name)]]]
 	
-		}
 		return [set loaded_${location}($pixmap_name)]
 	}
 

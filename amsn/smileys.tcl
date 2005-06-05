@@ -329,32 +329,8 @@ namespace eval ::smiley {
 		$tw tag configure smiley -elide true
 		$tw tag add smiley $pos $endpos
 	
-		if { $animated && [::config::getKey animatedsmileys] } {
-			global smileys_drawn
-			set emoticon "$tw.${smileys_drawn}"
-			incr smileys_drawn 
-	
-			label $emoticon -bd 0 -background white
-			::anigif::anigif [::skin::GetSkinFile smileys $file] $emoticon
-	
-			#TODO: I just added this to avoid a bug I can't find... someday we can fix it
-			catch {
-				$tw window create $endpos -window $emoticon
-				bind $emoticon <Destroy> [list ::anigif::destroy $emoticon]
-				$tw tag remove smiley $endpos
-			}
-	
-			#Preserver replaced text tags
-			set tagname  [$tw tag names $endpos]
-			if { [llength $tagname] == 1 } {
-				bind $emoticon <Button3-ButtonRelease> [$tw tag bind $tagname <Button3-ButtonRelease>]
-				bind $emoticon <Enter> [$tw tag bind $tagname <Enter>]
-				bind $emoticon <Leave> [$tw tag bind $tagname <Leave>]
-			}
-		} else {
-			$tw image create $endpos -image $image -pady 0 -padx 0
-			$tw tag remove smiley $endpos
-		}
+		$tw image create $endpos -image $image -pady 0 -padx 0
+		$tw tag remove smiley $endpos
 
 		if { [::config::getKey emotisounds] == 1 && $sound != "" } {
 			play_sound $sound
@@ -577,13 +553,8 @@ namespace eval ::smiley {
 	#Create ONE smiley in the smileys menu
 	proc CreateSmileyInMenu {w cols rows smiw smih emot_num name symbol image file animated} {
 		catch {
-			if { $animated } {
-				label $w.$emot_num -background [$w cget -background]
-				::anigif::anigif  $file $w.$emot_num
-				bind $w.$emot_num <Destroy> [list ::anigif::destroy $w.$emot_num]
-			} else {
-				label $w.$emot_num -image $image -background [$w cget -background]
-			}
+
+			label $w.$emot_num -image $image -background [$w cget -background]
 	
 			$w.$emot_num configure -cursor hand2 -borderwidth 1 -relief flat
 			
@@ -940,7 +911,9 @@ namespace eval ::smiley {
 		set emotion(image_name) [image create photo -file $emotion(file)]
 		set custom_emotions($name) [array get emotion]
 		if { $edit == 0} {
-			lappend [::config::getVar customsmileys] $name
+			if { [lsearch -exact [::config::getKey customsmileys] $name] == -1 } {
+				lappend [::config::getVar customsmileys] $name
+			}
 		}
 
 		#load_smileys

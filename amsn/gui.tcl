@@ -4083,15 +4083,14 @@ proc cmsn_draw_reconnect { error_msg } {
 
 	catch {
 
-		label .loginanim -background [$pgBuddy.text cget -background]
-		::anigif::anigif [::skin::GetSkinFile pixmaps loganim.gif] .loginanim
+		image create photo picsignin -file "[::skin::GetSkinFile pixmaps loganim.gif]"
+		label .loginanim -background [$pgBuddy.text cget -background] -image picsignin
 
 		$pgBuddy.text insert end " " signin
 		$pgBuddy.text window create end -window .loginanim
 		$pgBuddy.text insert end " " signin
 
-		bind .loginanim <Destroy> "::anigif::destroy .loginanim"
-		tkwait visibility .loginanim
+		bind .loginanim <Destroy> "destroy picsignin"
 
 	}
 
@@ -4131,15 +4130,14 @@ proc cmsn_draw_signin {} {
 
 	catch {
 
-		label .loginanim -background [$pgBuddy.text cget -background]
-		::anigif::anigif [::skin::GetSkinFile pixmaps loganim.gif] .loginanim
+		image create photo picsignin -file "[::skin::GetSkinFile pixmaps loganim.gif]"
+		label .loginanim -background [$pgBuddy.text cget -background] -image picsignin
 
 		$pgBuddy.text insert end " " signin
 		$pgBuddy.text window create end -window .loginanim
 		$pgBuddy.text insert end " " signin
 
-		bind .loginanim <Destroy> "::anigif::destroy .loginanim"
-		tkwait visibility .loginanim
+		bind .loginanim <Destroy> "destroy picsignin"
 
 	}
 

@@ -210,7 +210,7 @@ int ObjRead (Tcl_Interp *interp, Tcl_Obj *data, Tcl_Obj *format, Tk_PhotoHandle 
   block.offset[1] = 1;
   block.offset[2] = 2;
 
-  if (image.AlphaIsValid()) {
+  if ( image->AlphaIsValid() || image->IsTransparent() ) {
     LOG("Alpha is valid, setting offset[3]"); //
     block.offset[3] = 3;
   }
@@ -410,7 +410,7 @@ void AnimateGif(ClientData data) {
 		CxImage *image = Info->image->GetFrameNo(Info->CurrentFrame);
 		void * tkMaster = *((void **) (Info->Handle));
 
-		if(tkMaster == Info->HandleMaster && CopyImageToTk(NULL, image, Info->Handle, image->GetWidth(), image->GetHeight(), false) == TCL_OK) {
+		if(tkMaster == Info->HandleMaster && CopyImageToTk(NULL, image, Info->Handle, image->GetWidth(), image->GetHeight(), true) == TCL_OK) {
 			Info->CurrentFrame++;
 			if(Info->CurrentFrame == Info->NumFrames)
 				Info->CurrentFrame = 0;

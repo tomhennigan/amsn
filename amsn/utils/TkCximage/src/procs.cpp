@@ -303,7 +303,7 @@ int CopyImageToTk(Tcl_Interp * interp, CxImage *image, Tk_PhotoHandle Photo, int
 	block.offset[1] = 1;
 	block.offset[2] = 2;
 
-	if (image->AlphaIsValid()) 
+	if ( image->AlphaIsValid() || image->IsTransparent() )
 		block.offset[3] = 3;
 
 	#if TK_MINOR_VERSION == 3

@@ -181,7 +181,7 @@ proc reload_files { } {
 	source preferences.tcl
 	source hotmail.tcl
 	source groups.tcl	;# Handle buddy groups
-	source anigif.tcl	;# Animated GIFS
+
 
 	if {$tcl_platform(os) == "Darwin"} {
 		source [file join utils macosx applescript ae.tcl];#AppleEvent support
