@@ -7872,3 +7872,34 @@ proc webcampicture_saveas {preview} {
 	}
 
 }
+
+proc OnMac {} {
+	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		return 1
+	} else {
+		return 0
+	}
+}
+proc OnWin {} {
+	if {$tcl_platform(platform) == "windows"} {
+		return 1
+	} else {
+		return 0
+	}
+}
+proc OnLin {} {
+	if { ![catch {tk windowingsystem} wsystem] && $wsystem  == "x11" } {
+		return 1
+	} else {
+		return 0
+	}
+}
+proc PlatformIs {} {
+	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		return "mac"
+	} elseif {$tcl_platform(platform) == "windows"} {
+		return "win"
+	} else {
+		return "unix"
+	}
+}
