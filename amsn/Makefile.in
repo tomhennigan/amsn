@@ -78,6 +78,7 @@ LDLIBS  := @LDLIBS@
 LDFLAGS := @LDFLAGS@
 X_LIBS  := @X_LIBS@
 IMLIB_LIBS := @IMLIB_LIBS@
+CXX_LIB := @CXX_LIB@
 
 LDFLAGS	 += ${TCL_STUB_LIB_SPEC}
 LDFLAGS	 += ${TK_STUB_LIB_SPEC}
@@ -120,9 +121,6 @@ install::
 # include stuff
 
 # subdirs
-include $(capture_dir)/Rules.mk
-include $(capture_dir)/libng/Rules.mk
-include $(capture_dir)/libng/plugins/Rules.mk
 
 include $(tkcximage_dir)/Rules.mk
 include $(tkcximage_dir)/src/Rules.mk
@@ -135,9 +133,15 @@ include $(tkcximage_dir)/src/Rules.mk
 include $(webcamsn_dir)/Rules.mk
 include $(webcamsn_dir)/src/Rules.mk
 
-ifeq ($(FOUND_X11),yes)
-  ifeq ($(FOUND_IMLIB),yes)
-    include $(tray_dir)/Rules.mk
+ifeq ($(FOUND_OS),linux)
+  include $(capture_dir)/Rules.mk
+  include $(capture_dir)/libng/Rules.mk
+  include $(capture_dir)/libng/plugins/Rules.mk
+
+  ifeq ($(FOUND_X11),yes)
+    ifeq ($(FOUND_IMLIB),yes)
+      include $(tray_dir)/Rules.mk
+    endif
   endif
 endif
 

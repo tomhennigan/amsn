@@ -23,7 +23,7 @@ compile_cc	= $(CXX) $(CXXFLAGS)  -c -o $@ $<
 link_app	= $(CC) $(LDFLAGS) -o $@  $^ $(LDLIBS)
 link_so		= $(CC) $(LDFLAGS) -shared -o $@ $^ $(LDLIBS)
 link_so_addlibs = $(link_so) $(ADDLIBS)
-link_so_cpp	= $(CXX) $(LDFLAGS) -shared -o $@ $^ $(LDLIBS)
+link_so_cpp	= $(CXX) $(LDFLAGS) -shared -o $@ $^ $(LDLIBS) $(CXX_LIB)
 ar_lib		= rm -f $@ && ar -sr $@ $^ && ranlib $@
 
 

@@ -313,6 +313,10 @@ AC_SUBST(TK_STUB_LIB_SPEC)
 dnl ---------------------------------------------------------------------
 dnl do some OS specific stuff here
 
+dnl Check for libstdc++
+AC_CHECK_LIB(stdc++,main,CXX_LIB="-lstdc++", AC_MSG_ERROR(stdc++ library not found) )
+AC_SUBST(CXX_LIB)
+
 AC_SUBST(LDLIBS)
 AC_SUBST(USE_LIBNG)
 AC_SUBST(FOUND_X11)
@@ -518,6 +522,9 @@ case "`uname -s`" in
 		CFLAGS="$CFLAGS -I/usr/local/include -L/usr/local/lib"
 		LDFLAGS="$LDFLAGS -L/usr/local/lib"
 		FOUND_OS="bsd"
+		;;
+	Darwin)
+		FOUND_OS="mac"
 		;;
 	*)
 		AC_MSG_CHECKING(if amsn will build on `uname -s`)
