@@ -985,7 +985,7 @@ namespace eval ::MSNCAM {
 
 	proc ReflectorCreateSession { sid token } {
 
-		if { ! [info exists ::webcamsn_loaded] } { ExtensionLoaded }
+		if { ! [info exists ::webcamsn_loaded] } { ::CAMGUI::ExtensionLoaded }
 		if { ! $::webcamsn_loaded } { status_log "Error when trying to load Webcamsn extension" red }
 
 		set tmp_data [::http::data $token]
