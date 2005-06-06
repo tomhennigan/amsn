@@ -4468,23 +4468,19 @@ proc clickableDisplayPicture {tw type name command {padx 0} {pady 0}} {
 	}
 	
 	#Load the smaller display picture
-	if {[load_my_smaller_pic $tw.$name]} {
-		#Create the clickable display picture
-		#If we are drawing this display picture at the top of the contact list, ie for the logged in user, use a canvas to give it a bg image.
-		#If not (ie for contacts _on_ list), then just draw as label.
-		if {$type == "mystatus"} {
-			canvas $tw.$name -width [image width [::skin::loadPixmap mystatus_bg]] -height [image height [::skin::loadPixmap mystatus_bg]] \
-					-bg white -highlightthickness 0
-			$tw.$name create image [::skin::getKey x_dp_top] [::skin::getKey y_dp_top] -anchor nw -image my_pic_small
-			$tw.$name create image 0 0 -anchor nw -image [::skin::loadPixmap mystatus_bg]		
-		}
-		$tw.$name configure -cursor hand2 -borderwidth 0
-		bind $tw.$name <Button1-ButtonRelease> $command
-	} else {
-		#Change key to the skin for to disable clickable display picture
-		status_log "Change key to the skin for to disable clickable display picture" blue
-		::skin::setKey showdisplaycontactlist 0
+	load_my_smaller_pic $tw.$name
+	#Create the clickable display picture
+	#If we are drawing this display picture at the top of the contact list, ie for the logged in user, use a canvas to give it a bg image.
+	#If not (ie for contacts _on_ list), then just draw as label.
+	if {$type == "mystatus"} {
+		canvas $tw.$name -width [image width [::skin::loadPixmap mystatus_bg]] -height [image height [::skin::loadPixmap mystatus_bg]] \
+			-bg white -highlightthickness 0
+		$tw.$name create image [::skin::getKey x_dp_top] [::skin::getKey y_dp_top] -anchor nw -image my_pic_small
+		$tw.$name create image 0 0 -anchor nw -image [::skin::loadPixmap mystatus_bg]		
 	}
+	$tw.$name configure -cursor hand2 -borderwidth 0
+	bind $tw.$name <Button1-ButtonRelease> $command
+
 	return $tw.$name
 }
 
@@ -4494,18 +4490,21 @@ proc load_my_smaller_pic {path} {
 	if {[file readable [filenoext [::skin::GetSkinFile displaypic/small [::config::getKey displaypic]]].png]} {
 		#The smaller display picture exists, now create it
 		image create photo my_pic_small -file "[filenoext [::skin::GetSkinFile displaypic/small [::config::getKey displaypic]]].png"
-		return 1
 	} else {
+		#We show the status icon centered or resized if it is too large
 		global pgBuddy
 		status_log "load_my_smaller_pic: Picture not found!!Show the default amsn status icon instead\n" blue
 		set my_image_type [::MSN::stateToBigImage [::MSN::myStatusIs]]
-
-		label $path -background white -border 0 -cursor hand2 -borderwidth 0 \
-					-image [::skin::loadPixmap $my_image_type] \
-					-width [image width [::skin::loadPixmap $my_image_type]] \
-					-height [image height [::skin::loadPixmap $my_image_type]]
-		bind $path <Button1-ButtonRelease> {tk_popup .my_menu %X %Y}
-		return 0
+		status_log "BigImage is $my_image_type"
+		image create photo my_pic_small
+		set x [expr (50-[image width [::skin::loadPixmap $my_image_type]])/2]
+		set y [expr (50-[image height [::skin::loadPixmap $my_image_type]])/2]
+		if { $x >= 0 && $y >= 0 } {
+			my_pic_small copy -to [expr (50-[image width [::skin::loadPixmap $my_image_type]])/2] [expr (50-[image height [::skin::loadPixmap $my_image_type]])/2] [::skin::loadPixmap $my_image_type]
+		} else {
+			my_pic_small copy [::skin::loadPixmap $my_image_type]
+			::picture::ResizeWithRatio my_pic_small 50 50
+		}
 	}
 }
 
@@ -6846,12 +6845,20 @@ proc convert_image_plus { filename type size } {
 
 
 proc load_my_pic {} {
+	global pgBuddyTop
 	status_log "load_my_pic: Trying to set display picture [::config::getKey displaypic]\n" blue
 	if {[::config::getKey displaypic] == "" } {
 		::config::setKey displaypic nopic.gif
 	}
 	if {[file readable [::skin::GetSkinFile displaypic [::config::getKey displaypic]]]} {
 		image create photo my_pic -file "[::skin::GetSkinFile displaypic [::config::getKey displaypic]]"
+		if { [::skin::getKey showdisplaycontactlist] && [winfo exists $pgBuddyTop.bigstate] } {
+			#Recreate the status image
+			destroy $pgBuddyTop.bigstate
+			set disppic [clickableDisplayPicture $pgBuddyTop mystatus bigstate {tk_popup .my_menu %X %Y} [::skin::getKey bigstate_xpad] [::skin::getKey bigstate_ypad]]
+			pack $disppic -before $pgBuddyTop.mystatus -side left -padx [::skin::getKey bigstate_xpad] -pady [::skin::getKey bigstate_ypad]
+			bind $pgBuddyTop.bigstate <<Button3>> {tk_popup .my_menu %X %Y}
+		}
 	} else {
 		status_log "load_my_pic: Picture not found!!\n" red
 		clear_disp
@@ -7281,10 +7288,19 @@ proc set_displaypic { file } {
 }
 
 proc clear_disp { } {
+	global pgBuddyTop
 
 	::config::setKey displaypic nopic.gif
 
 	catch {image create photo my_pic -file "[::skin::GetSkinFile displaypic nopic.gif]"}
+	
+	if { [::skin::getKey showdisplaycontactlist] && [winfo exists $pgBuddyTop.bigstate] } {
+		#Recreate the status image
+		destroy $pgBuddyTop.bigstate
+		set disppic [clickableDisplayPicture $pgBuddyTop mystatus bigstate {tk_popup .my_menu %X %Y} [::skin::getKey bigstate_xpad] [::skin::getKey bigstate_ypad]]
+		pack $disppic -before $pgBuddyTop.mystatus -side left -padx [::skin::getKey bigstate_xpad] -pady [::skin::getKey bigstate_ypad]
+		bind $pgBuddyTop.bigstate <<Button3>> {tk_popup .my_menu %X %Y}
+	}
 
 }
 ###################### Protocol Debugging ###########################
