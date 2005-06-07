@@ -6482,6 +6482,29 @@ proc show_umenu {user_login grId x y} {
 	.user_menu delete 0 end
 	.user_menu add command -label "${user_login}" \
 		-command "clipboard clear;clipboard append \"${user_login}\""
+	
+	set nick [::abook::getNick ${user_login}]
+	set pos 0
+	set url_indices {}
+	#this regexp is a bit complex, but it reaches all URLs as specified in the RFC 1738 on http://www.ietf.org/rfc/rfc1738.txt
+	while { [regexp -start $pos -indices {(\w+)://([\/\$\*\~\,\!\'\#\.\@\+\-\=\?\;\:\^\&\_[:alnum:]]+)} $nick url_indices ] } {
+		set pos_start [lindex $url_indices 0 ]
+		#pos is the position of the end of the url
+		set pos [lindex $url_indices 1 ]
+		set urltext [string range $nick $pos_start $pos]
+		.user_menu add command -label "$urltext" \
+		-command "launch_browser [string map {% %%} [list $urltext]]"
+	}
+	set pos 0
+	while { [regexp -start $pos -indices {www.([\/\$\*\~\,\!\'\#\.\@\+\-\=\?\;\:\^\&\_[:alnum:]]+)} $nick url_indices ] } {
+		set pos_start [lindex $url_indices 0 ]
+		set pos [lindex $url_indices 1 ]
+		if { ![regexp :// [string range $nick [expr $pos_start - 3] $pos ] ]} {
+			set urltext [string range $nick $pos_start $pos]
+			.user_menu add command -label "$urltext" \
+			-command "launch_browser [string map {% %%} [list $urltext]]"
+		}
+	}
 
 	.user_menu add separator
 	.user_menu add command -label "[trans sendmsg]" \
