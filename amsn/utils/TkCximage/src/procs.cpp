@@ -271,9 +271,6 @@ int CopyImageToTk(Tcl_Interp * interp, CxImage *image, Tk_PhotoHandle Photo, int
 	long size = 0;
 
 
-	if(blank)
-		Tk_PhotoBlank(Photo);
-
 	#if TK_MINOR_VERSION == 3
 	Tk_PhotoSetSize(Photo, width, height);
 	#else 
@@ -307,13 +304,15 @@ int CopyImageToTk(Tcl_Interp * interp, CxImage *image, Tk_PhotoHandle Photo, int
 		block.offset[3] = 3;
 
 	#if TK_MINOR_VERSION == 3
+	if(blank)
+		Tk_PhotoBlank(Photo);
 	Tk_PhotoPutBlock(Photo, &block, 0, 0, width, height);
 	#else 
 	#if TK_MINOR_VERSION == 4
-	Tk_PhotoPutBlock(Photo, &block, 0, 0, width, height, TK_PHOTO_COMPOSITE_OVERLAY);
+	Tk_PhotoPutBlock(Photo, &block, 0, 0, width, height, (blank ? TK_PHOTO_COMPOSITE_SET : TK_PHOTO_COMPOSITE_OVERLAY) );
 	#else 
 	#if TK_MINOR_VERSION == 5
-	Tk_PhotoPutBlock((Tcl_Interp *) interp, Photo, &block, 0, 0, width, height, TK_PHOTO_COMPOSITE_OVERLAY);
+	Tk_PhotoPutBlock((Tcl_Interp *) interp, Photo, &block, 0, 0, width, height, (blank ? TK_PHOTO_COMPOSITE_SET : TK_PHOTO_COMPOSITE_OVERLAY) );
 	#endif
 	#endif
 	#endif

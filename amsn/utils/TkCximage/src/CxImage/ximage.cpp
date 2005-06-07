@@ -433,7 +433,7 @@ bool CxImage::CreateFromArray(BYTE* pArray,DWORD dwWidth,DWORD dwHeight,DWORD dw
 				*dst++=src[1];
 				*dst++=src[2];
 #if CXIMAGE_SUPPORT_ALPHA
-				AlphaSet(x,y,src[3]);
+				AlphaSet(x,(bFlipImage?(dwHeight-1-y):y),src[3]);
 #endif //CXIMAGE_SUPPORT_ALPHA
 				src+=4;
 			}
@@ -473,7 +473,7 @@ bool CxImage::CreateFromMatrix(BYTE** ppMatrix,DWORD dwWidth,DWORD dwHeight,DWOR
 					*dst++=src[1];
 					*dst++=src[2];
 #if CXIMAGE_SUPPORT_ALPHA
-					AlphaSet(x,y,src[3]);
+					AlphaSet(x,(bFlipImage?(dwHeight-1-y):y),src[3]);
 #endif //CXIMAGE_SUPPORT_ALPHA
 					src+=4;
 				}
