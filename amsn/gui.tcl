@@ -362,8 +362,6 @@ namespace eval ::amsn {
 		bind .about <<Escape>> "destroy .about"
 		button .about.bottom.credits -text "[trans credits]..." -command [list ::amsn::showHelpFile CREDITS [trans credits]]
 
-		pack .about.checkbox -side bottom
-
 		pack .about.bottom.close -side right
 		pack .about.bottom.credits -side left
 
