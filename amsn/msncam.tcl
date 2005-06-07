@@ -1821,7 +1821,93 @@ namespace eval ::CAMGUI {
 			}
 		}
 	}
+	#Executed when we receive a request to accept or refuse a webcam session
+	proc AcceptOrRefuse {chatid dest branchuid cseq uid sid producer} {
+		
+		#Grey line
+		::amsn::WinWrite $chatid "\n" green
+		::amsn::WinWriteIcon $chatid greyline 3
+		::amsn::WinWrite $chatid "\n" green
+		
+		::amsn::WinWriteIcon $chatid butwebcam 3 2
+		#Show invitation
+		::amsn::WinWrite $chatid "[timestamp] [::abook::getDisplayNick $chatid] invited you to start a webcam session. Do you want to accept this session?" green
+		
+		#Accept and refuse actions
+		::amsn::WinWrite $chatid " - (" green
+		::amsn::WinWriteClickable $chatid "[trans accept]" [list ::CAMGUI::InvitationAccepted $chatid $dest $branchuid $cseq $uid $sid $producer] acceptwebcam$sid
+		::amsn::WinWrite $chatid " / " green
+		::amsn::WinWriteClickable $chatid "[trans reject]" [list ::CAMGUI::InvitationRejected $chatid $sid $branchuid $uid] nowebcam$sid
+		::amsn::WinWrite $chatid ")\n" green
+		
+		#Grey line
+		::amsn::WinWriteIcon $chatid greyline 3
 
+	}
+	
+	proc InvitationAccepted { chatid dest branchuid cseq uid sid producer} {
+		#Get the chatwindow name
+		set win_name [::ChatWindow::For $chatid]
+		if { [::ChatWindow::For $chatid] == 0} {
+			return 0
+		}
+
+		#Disable items in the chatwindow
+		[::ChatWindow::GetOutText ${win_name}] tag configure acceptwebcam$sid \
+			-foreground #808080 -font bplainf -underline false
+		[::ChatWindow::GetOutText ${win_name}] tag bind acceptwebcam$sid <Enter> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind acceptwebcam$sid <Leave> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind acceptwebcam$sid <Button1-ButtonRelease> ""
+
+
+		[::ChatWindow::GetOutText ${win_name}] tag configure nowebcam$sid \
+			-foreground #808080 -font bplainf -underline false
+		[::ChatWindow::GetOutText ${win_name}] tag bind nowebcam$sid <Enter> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind nowebcam$sid <Leave> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind nowebcam$sid <Button1-ButtonRelease> ""
+
+		[::ChatWindow::GetOutText ${win_name}] conf -cursor left_ptr
+		
+		#Execute the accept webcam protocol
+		if {[catch {::MSNCAM::AcceptWebcam $chatid $dest $branchuid $cseq $uid $sid $producer} res]} {
+			status_log "Error in InvitationAccepted: $res\n" red
+			return 0
+		}
+		
+		
+	}
+	
+	proc InvitationRejected {chatid sid branchuid uid} {
+		
+		#Get the chatwindow name
+		set win_name [::ChatWindow::For $chatid]
+		if { [::ChatWindow::For $chatid] == 0} {
+			return 0
+		}
+
+		#Disable items in the chatwindow
+		[::ChatWindow::GetOutText ${win_name}] tag configure acceptwebcam$sid \
+			-foreground #808080 -font bplainf -underline false
+		[::ChatWindow::GetOutText ${win_name}] tag bind acceptwebcam$sid <Enter> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind acceptwebcam$sid <Leave> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind acceptwebcam$sid <Button1-ButtonRelease> ""
+
+
+		[::ChatWindow::GetOutText ${win_name}] tag configure nowebcam$sid \
+			-foreground #808080 -font bplainf -underline false
+		[::ChatWindow::GetOutText ${win_name}] tag bind nowebcam$sid <Enter> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind nowebcam$sid <Leave> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind nowebcam$sid <Button1-ButtonRelease> ""
+
+		[::ChatWindow::GetOutText ${win_name}] conf -cursor left_ptr
+		
+		#Execute the reject webcam protocol
+		if {[catch {::MSNCAM::RejectFT $chatid $sid $branchuid $uid} res]} {
+			status_log "Error in InvitationRejected: $res\n" red
+			return 0
+		}
+	}
+	
 	#Executed when you invite someone to a webcam session and he refuses the request
 	proc InvitationDeclined {chatid} {
 		::amsn::WinWrite $chatid "\n" green
