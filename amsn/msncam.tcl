@@ -2401,23 +2401,25 @@ namespace eval ::CAMGUI {
 	}
 
 	proc Properties_OkLinux { window capture_fd device channel } {
-
-		set brightness [::Capture::GetBrightness $capture_fd]
-		set contrast [::Capture::GetContrast $capture_fd]
-		set hue [::Capture::GetHue $capture_fd]
-		set colour [::Capture::GetColour $capture_fd]
-		::config::setKey "webcam$device:$channel" "$brightness:$contrast:$hue:$colour"
+		if { [::Capture::IsValid $capture_fd] } {
+			set brightness [::Capture::GetBrightness $capture_fd]
+			set contrast [::Capture::GetContrast $capture_fd]
+			set hue [::Capture::GetHue $capture_fd]
+			set colour [::Capture::GetColour $capture_fd]
+			::config::setKey "webcam$device:$channel" "$brightness:$contrast:$hue:$colour"
+		}
 		grab release $window
 		destroy $window
 	}
 
 
 	proc Properties_CancelLinux { window capture_fd init_b init_c init_h init_co } {
-
-		::Capture::SetBrightness $capture_fd $init_b
-		::Capture::SetContrast $capture_fd $init_c
-		::Capture::SetHue $capture_fd $init_h
-		::Capture::SetColour $capture_fd $init_co
+		if { [::Capture::IsValid $capture_fd] } {
+			::Capture::SetBrightness $capture_fd $init_b
+			::Capture::SetContrast $capture_fd $init_c
+			::Capture::SetHue $capture_fd $init_h
+			::Capture::SetColour $capture_fd $init_co
+		}
 		grab release $window
 		destroy $window
 	}
