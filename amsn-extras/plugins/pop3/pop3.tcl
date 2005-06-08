@@ -766,7 +766,7 @@ namespace eval ::pop3 {
 	#	evPar   -> The array of parameters (Supplied by Plugins System)
 	proc draw {event evPar} {
 		for {set acntn 0} {$acntn<$::pop3::config(accounts)} {incr acntn} {
-			::pop3::draw_no $acntn evPar
+			::pop3::draw_no $acntn $evPar
 		}
 	}
 	
