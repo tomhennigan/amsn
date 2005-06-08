@@ -849,7 +849,7 @@ namespace eval ::MSNP2P {
 						set file [file join $HOME smileys cache ${filename}.png]
 						if { $file != "" } {
 							#set file [filenoext $file].gif
-							image create photo custom_smiley_${filename} -file "[file join $HOME smileys cache ${filename}.png]"
+							catch {image create photo custom_smiley_${filename} -file "[file join $HOME smileys cache ${filename}.png]"}
 						}
 					}
 

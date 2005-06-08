@@ -129,7 +129,7 @@ namespace eval ::skin {
 		if { [info exists loaded_images(no_pic)] } {
 			return no_pic
 		}
-		image create photo no_pic -file [::skin::GetSkinFile displaypic nopic.gif $skin_name] -format gif
+		image create photo no_pic -file [::skin::GetSkinFile displaypic nopic.gif $skin_name]
 		set loaded_images(no_pic) 1
 		return no_pic
 	}
@@ -144,7 +144,7 @@ namespace eval ::skin {
 		if { [file readable "[file join $HOME displaypic cache ${filename}].png"] } {
 			catch {image create photo user_pic_$email -file "[file join $HOME displaypic cache ${filename}].png"}
 		} else {
-			image create photo user_pic_$email -file [::skin::GetSkinFile displaypic nopic.gif] -format gif
+			image create photo user_pic_$email -file [::skin::GetSkinFile displaypic nopic.gif]
 		}
 		return user_pic_$email
 	}
@@ -326,12 +326,46 @@ namespace eval ::skin {
 		if { [catch { set skin "[::config::getGlobalKey skin]" } ] != 0 } {
 			set skin "default"
 		}
-
 		if { $skin_override != "" } {
 			set skin $skin_override
 		}
 		set defaultskin "default"
-
+		#Get filename before .ext extension
+		set filename_noext [::skin::filenoext $filename]
+		#Get extension of the file
+		set ext [string tolower [string range [::skin::fileext $filename] 1 end]]
+		#If the extension is a picture, look in 4 formats
+		if { $ext == "png" || $ext == "gif" || $ext == "jpg" || $ext == "bmp"} {
+			#List the 4 formats we support (in order of priority to check)
+			set formatpic [list png gif jpg bmp]
+			#For each format, look if the picture exist, stop when we find the file
+			foreach format $formatpic {
+				set path [::skin::LookForFile $type $filename_noext $fblocation $defaultskin $skin $format]
+				if {$path == 0} { 
+					continue 
+				} else {
+					return $path
+				}	
+			}
+		} else {
+			#If it's a skin file but not a picture, just find it with it own extension
+			set path [::skin::LookForFile $type $filename_noext $fblocation $defaultskin $skin $ext]
+			if {$path != 0} { 
+				return $path
+			}
+		}
+		#If we didn't find anything...use null file
+		set path [file join [set ::program_dir] skins $defaultskin $type null]
+		return $path
+		
+	}
+	#Proc used for GetSkinFile, to look for files in the many places a skin file can be
+	proc LookForFile {type filename fblocation defaultskin skin formatpic} {
+	
+		global HOME2 HOME
+		#Merge the filename(no_ext) and the extension to have a real file name
+		set filename "$filename.$formatpic"
+		
 		#Get file using global path
 		if { "[string range $filename 0 0]" == "/" && [file readable  $filename] } {
 			return "$filename"
@@ -357,11 +391,30 @@ namespace eval ::skin {
 		} elseif { ($fblocation != "") && [file readable [file join $fblocation $filename]] } {
 			return "[file join $fblocation $filename]"
 		} else {
-			return "[file join [set ::program_dir] skins $defaultskin $type null]"
+			return 0
 		}
 	}
+	
 
 
+	#We already have theses 2 procs in protocol.tcl but skins.tcl is loaded before protocol.tcl 
+	#And I didn't want to change the order and fucked up something
+	#Theses 2 procs are used in ::skin::GetSkinFile
+	proc filenoext { filename } {
+		if {[string last . $filename] != -1 } {
+			return "[string range $filename 0 [expr [string last . $filename] - 1]]"
+		} else {
+			return $filename
+		}
+	}
+	
+	proc fileext { filename } {
+		if {[string last . $filename] != -1 } {
+			return "[string range $filename [string last . $filename] end]"
+		} else {
+			return ""
+		}
+	}
 	################################################################
 	# ::skin::SetSkinInfo (cstack cdata saved_data cattr saved_attr args)
 	# Gets the information of the skin from the XML file and puts it
@@ -566,14 +619,14 @@ namespace eval ::skinsGUI {
 		::skinsGUI::ClearPreview
 
 		# If our skin hasn't the example images, take them from the default one
-		image create photo preview1 -file [::skin::GetSkinFile pixmaps prefpers.gif $currentskin] -format gif
-		image create photo preview2 -file [::skin::GetSkinFile pixmaps bonline.gif $currentskin] -format gif
-		image create photo preview3 -file [::skin::GetSkinFile pixmaps offline.gif $currentskin] -format gif
-		image create photo preview4 -file [::skin::GetSkinFile pixmaps baway.gif $currentskin] -format gif
-		image create photo preview5 -file [::skin::GetSkinFile pixmaps amsnicon.gif $currentskin] -format gif
-		image create photo preview6 -file [::skin::GetSkinFile pixmaps butblock.gif $currentskin] -format gif
-		image create photo preview7 -file [::skin::GetSkinFile pixmaps butsmile.gif $currentskin] -format gif
-		image create photo preview8 -file [::skin::GetSkinFile pixmaps butsend.gif $currentskin] -format gif
+		image create photo preview1 -file [::skin::GetSkinFile pixmaps prefpers.gif $currentskin]
+		image create photo preview2 -file [::skin::GetSkinFile pixmaps bonline.gif $currentskin]
+		image create photo preview3 -file [::skin::GetSkinFile pixmaps offline.gif $currentskin]
+		image create photo preview4 -file [::skin::GetSkinFile pixmaps baway.gif $currentskin]
+		image create photo preview5 -file [::skin::GetSkinFile pixmaps amsnicon.gif $currentskin]
+		image create photo preview6 -file [::skin::GetSkinFile pixmaps butblock.gif $currentskin]
+		image create photo preview7 -file [::skin::GetSkinFile pixmaps butsmile.gif $currentskin]
+		image create photo preview8 -file [::skin::GetSkinFile pixmaps butsend.gif $currentskin]
 	
 		label $w.main.left.images.1 -image preview1
 		label $w.main.left.images.2 -image preview2

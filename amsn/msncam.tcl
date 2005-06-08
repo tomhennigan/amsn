@@ -1468,8 +1468,7 @@ namespace eval ::CAMGUI {
 
 		set grab_proc [getObjOption $sid grab_proc]
 
-		if { !([info exists ::test_webcam_send_log] && $::test_webcam_send_log != "") && 
-		     ![::CAMGUI::IsGrabberValid $grabber] } {
+		if { !([info exists ::test_webcam_send_log] && $::test_webcam_send_log != "") && ![::CAMGUI::IsGrabberValid $grabber] } {
 			status_log "Invalid grabber : $grabber"
 
 			if { [set ::tcl_platform(platform)] == "windows" } {
@@ -1485,6 +1484,7 @@ namespace eval ::CAMGUI {
 			} elseif { [set ::tcl_platform(os)] == "Darwin" } {
 				#Add grabber to the window
 				if {![::CAMGUI::CreateGrabberWindowMac]} {
+					::MSNCAM::CancelCam $chatid $sid
 					return
 				}
 				setObjOption $sid grab_proc "Grab_Mac"

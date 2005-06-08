@@ -111,8 +111,8 @@ namespace eval ::notes {
 		pack configure $w.right.contact.right -expand true -side right
 		# Display the show/hide button
 		frame $w.right.contact.left
-		image create photo hide -format gif -file [::skin::GetSkinFile pixmaps contract.gif]
-		image create photo show -format gif -file [::skin::GetSkinFile pixmaps expand.gif]
+		image create photo hide -file [::skin::GetSkinFile pixmaps contract.gif]
+		image create photo show -file [::skin::GetSkinFile pixmaps expand.gif]
 		button $w.right.contact.left.showhide
 		pack configure $w.right.contact.left.showhide -side left
 		pack configure $w.right.contact.left -side left
