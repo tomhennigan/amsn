@@ -700,7 +700,6 @@ namespace eval ::smiley {
 		button $w.browsesound -text "[trans browse]" -command [list chooseFileDialog "" "" .new_custom $w.sound open \
 			[list [list [trans soundfiles] [list *.wav *.mp3 *.au *.ogg]] [list [trans allfiles] *]]] -width 10 
 		checkbutton $w.enablesound -text "[trans enablesound]" -onvalue 1 -offvalue 0 -variable new_custom_cfg(enablesound) -command ::smiley::UpdateEnabledSoundSmileys -font sboldf
-		checkbutton $w.animated -text "[trans animatedemoticon]" -onvalue 1 -offvalue 0 -variable new_custom_cfg(animated) -font sboldf
 		checkbutton $w.casesensitive -text "[trans casesensitive]" -onvalue 1 -offvalue 0 -variable new_custom_cfg(casesensitive) -font sboldf
 		
 		frame .new_custom.buttons -class Degt
@@ -745,7 +744,6 @@ namespace eval ::smiley {
 		grid $w.browsesound -row 4 -column 2 -padx 2 -pady 2 -sticky w
 		
 		grid $w.enablesound -row 5 -column 1 -columnspan 2 -padx 2 -pady 2 -sticky w
-		grid $w.animated -row 6 -column 1 -columnspan 2 -padx 2 -pady 2 -sticky w
 		
 		grid $w.casesensitive -row 7 -column 1 -columnspan 2 -padx 2 -pady 2 -sticky w
 		
@@ -878,7 +876,30 @@ namespace eval ::smiley {
 		} 
 		
 		create_dir [file join $HOME smileys]
-		set file [convert_image_plus [::skin::GetSkinFile smileys "$new_custom_cfg(file)"] smileys 19x19]
+		
+		#Check for animation
+		set emotion(animated) [ CxImage::IsAnimated [::skin::GetSkinFile smileys "$new_custom_cfg(file)"] ]
+		if { $emotion(animated) == 0 } { unset emotion(animated) }
+		
+		if { ![info exists emotion(animated)] || $emotion(animated) == 0 } {
+			if { $edit == 1 } {
+				set titleid custom_edit
+			} else {
+				set titleid custom_new
+			}
+			if { [::amsn::messageBox "[trans smiletoobig]" yesno question "[trans $titleid ]"] == "yes" } {
+				set file [convert_image_plus [::skin::GetSkinFile smileys "$new_custom_cfg(file)"] smileys 19x19]
+			} else {
+				set filetail_noext [filenoext [file tail "$new_custom_cfg(file)"]]
+				set destfile [file join $HOME smileys $filetail_noext]
+				::picture::convert [::skin::GetSkinFile smileys "$new_custom_cfg(file)"] "${destfile}.png"
+			}
+		} else {
+			#We only copy if animated because we loose animation if we convert
+			file copy -force [::skin::GetSkinFile smileys "$new_custom_cfg(file)"] [file join $HOME smileys]
+			set file [::skin::GetSkinFile smileys "$new_custom_cfg(file)"]
+		}
+		
 		if { $file == "" } {
 			return -1
 		}
@@ -894,13 +915,21 @@ namespace eval ::smiley {
 			}
 		}
 		
-		foreach element [list casesensitive animated] {
-			if { $new_custom_cfg($element) == 1} {
-				set emotion($element) 1
-			} else {
-				if { [info exist emotion($element)] } {unset emotion($element)}
-			}
-		}
+		#foreach element [list casesensitive animated] {
+		#	if { $new_custom_cfg($element) == 1} {
+		#		set emotion($element) 1
+		#	} else {
+		#		if { [info exist emotion($element)] } {unset emotion($element)}
+		#	}
+		#}
+		
+		if { $new_custom_cfg(casesensitive) == 1} {
+			set emotion(casesensitive) 1
+		} else {
+			if { [info exist emotion(casesensitive)] } {unset emotion(casesensitive)}
+		} 
+		
+		
 		
 		set emotion(image_name) [image create photo -file $emotion(file)]
 		set custom_emotions($name) [array get emotion]
@@ -1080,14 +1109,52 @@ proc process_custom_smileys_SB { txt } {
 			set symbol2 [string toupper $symbol]
 		
 			set file $emotion(file)
-		
-			if { [info exists emotion(casesensitive] && [is_true $emotion(casesensitive)]} {
-				if {  [string first $symbol $txt] != -1 } {
-					set msg "$msg$symbol	[create_msnobj [::config::getKey login] 2 [::skin::GetSkinFile smileys [filenoext $file].png]]	"
+			if { ! [ info exists emotion(animated) ] || ! [ is_true $emotion(animated) ] } {
+				if { [info exists emotion(casesensitive)] && [is_true $emotion(casesensitive)] } {
+					if {  [string first $symbol $txt] != -1 } {
+						set msg "$msg$symbol	[create_msnobj [::config::getKey login] 2 [::skin::GetSkinFile smileys [filenoext $file].png]]	"
+					}
+				} else {
+					if {  [string first $symbol2 $txt2] != -1 } {
+						set msg "$msg$symbol	[create_msnobj [::config::getKey login] 2 [::skin::GetSkinFile smileys [filenoext $file].png]]	"
+					}
 				}
-			} else {
-				if {  [string first $symbol2 $txt2] != -1 } {
-					set msg "$msg$symbol	[create_msnobj [::config::getKey login] 2 [::skin::GetSkinFile smileys [filenoext $file].png]]	"
+			}
+		}
+	}
+	
+	return $msg
+}
+
+proc process_custom_animated_smileys_SB { txt } {
+	global custom_emotions
+	
+	set msg ""
+	
+	set txt2 [string toupper $txt]
+
+	#Try to find used smileys in the message	
+	foreach name [array names custom_emotions] {
+	
+		if { ![info exists custom_emotions($name)] } {
+			status_log "process_custom_smileys_SB: Custom smiley $name doesn't exist in custom_emotions array!!\n" red
+			continue
+		}
+		
+		array set emotion $custom_emotions($name)
+		foreach symbol $emotion(text) {
+			set symbol2 [string toupper $symbol]
+		
+			set file $emotion(file)
+			if { [ info exists emotion(animated) ] && [ is_true $emotion(animated) ] } {
+				if { [info exists emotion(casesensitive)] && [is_true $emotion(casesensitive)] } {
+					if {  [string first $symbol $txt] != -1 } {
+						set msg "$msg$symbol	[create_msnobj [::config::getKey login] 2 [::skin::GetSkinFile smileys [filenoext $file].png]]	"
+					}
+				} else {
+					if {  [string first $symbol2 $txt2] != -1 } {
+						set msg "$msg$symbol	[create_msnobj [::config::getKey login] 2 [::skin::GetSkinFile smileys [filenoext $file].png]]	"
+					}
 				}
 			}
 		}

@@ -65,7 +65,7 @@ bool CxImage::Destroy()
 
 bool CxImage::DestroyGifFrames()
 {
-	if (info.GifFrames && info.bGetAllFrames) {
+	if (info.pGhost==NULL && info.GifFrames && info.bGetAllFrames) {
 		for (int i = 0; i < info.nNumFrames; i++) {
 			delete info.GifFrames[i];
 		}

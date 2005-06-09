@@ -182,6 +182,8 @@ int Tkcximage_Init (Tcl_Interp *interp ) {
 		       (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
   Tcl_CreateObjCommand(interp, "::CxImage::Thumbnail", Tk_Thumbnail,
 		       (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
+  Tcl_CreateObjCommand(interp, "::CxImage::IsAnimated", Tk_IsAnimated,
+		       (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
 
 #if ANIMATE_GIFS
   Tcl_CreateObjCommand(interp, "::CxImage::DisableAnimated", Tk_DisableAnimated,

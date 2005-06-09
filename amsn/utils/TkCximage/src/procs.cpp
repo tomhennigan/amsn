@@ -34,6 +34,39 @@
   Comments     : Uses CxImage class
 
 */
+int Tk_IsAnimated (ClientData clientData,
+		       Tcl_Interp *interp,
+		       int objc,
+		       Tcl_Obj *CONST objv[]) 
+{
+  CxImage image;
+  char *In = NULL;
+
+  int InType = 0;
+    
+
+  // We verify the arguments, we must have one arg, not more
+  if( objc != 2) {
+    Tcl_AppendResult (interp, "Wrong number of args.\nShould be \"::CxImage::IsAnimated Filename\"" , (char *) NULL);
+    return TCL_ERROR;
+  }
+	
+	
+  // Get the first argument string (object name) and check it 
+  In = Tcl_GetStringFromObj(objv[1], NULL);
+
+  InType = GetFileTypeFromFileName(In);
+
+  if(!image.Load(In, InType) ) {
+	
+    if(!image.Load(In, CXIMAGE_FORMAT_UNKNOWN)) {
+      Tcl_AppendResult(interp, image.GetLastError(), NULL);
+      return TCL_ERROR;
+    }
+  }
+  Tcl_SetObjResult( interp, Tcl_NewBooleanObj(image.GetNumFrames() > 1) );
+  return TCL_OK;
+}
 int Tk_Convert (ClientData clientData,
 		       Tcl_Interp *interp,
 		       int objc,
@@ -71,20 +104,34 @@ int Tk_Convert (ClientData clientData,
     }
   }
 
-  if (OutType == CXIMAGE_FORMAT_UNKNOWN)
+  if ( (OutType == CXIMAGE_FORMAT_UNKNOWN) || (image.GetNumFrames() > 1) )
     OutType = CXIMAGE_FORMAT_GIF;
-	
+  
+  if (image.GetNumFrames() > 1){
+    image.RetreiveAllFrame();
+    image.SetFrame(image.GetNumFrames() - 1);
+    if(!image.Load(In, InType) ) {
+      if(!image.Load(In, CXIMAGE_FORMAT_UNKNOWN)) {
+        Tcl_AppendResult(interp, image.GetLastError(), NULL);
+        return TCL_ERROR;
+      }
+    }
+  }
+
   if (OutType == CXIMAGE_FORMAT_GIF) 
     image.DecreaseBpp(8, true);
 	
-  if (image.Save(Out, OutType))
+  if (image.Save(Out, OutType)){
+    LOG("End of tk_convert");
     return TCL_OK;
+  }
   else {
     Tcl_AppendResult(interp, image.GetLastError(), NULL);
     return TCL_ERROR;
   }
 
 	
+
   return TCL_OK;
 
 }

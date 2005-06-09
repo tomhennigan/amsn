@@ -33,8 +33,8 @@ bool CxImageGIF::Decode(CxFile *fp)
 	if (strncmp(dscgif.header,"GIF8",4)!=0) return FALSE;
 
 	// Avoid Byte order problem with Mac
-	dscgif.scrheight = GETWORD(dscgif.scrheight);
-	dscgif.scrwidth = GETWORD(dscgif.scrwidth);
+	dscgif.scrheight = ltohs(dscgif.scrheight);
+	dscgif.scrwidth = ltohs(dscgif.scrwidth);
 
 	if (info.nEscape == -1) {
 		// Return output dimensions only
@@ -93,11 +93,15 @@ bool CxImageGIF::Decode(CxFile *fp)
 				assert(sizeof(image) == 9);
 				fp->Read(&image,sizeof(image),1);
 				//avoid byte order problems with Solaris <candan>
-				BYTE *byteData = (BYTE *) & image;
+				/*BYTE *byteData = (BYTE *) & image;
 				image.l = byteData[0]+byteData[1]*256;
 				image.t = byteData[2]+byteData[3]*256;
 				image.w = byteData[4]+byteData[5]*256;
-				image.h = byteData[6]+byteData[7]*256;
+				image.h = byteData[6]+byteData[7]*256;*/
+				image.l = ltohs(image.l);
+				image.t = ltohs(image.t);
+				image.w = ltohs(image.w);
+				image.h = ltohs(image.h);
 
 				if (((image.l + image.w) > dscgif.scrwidth)||((image.t + image.h) > dscgif.scrheight))
 					break;
@@ -215,7 +219,7 @@ bool CxImageGIF::Decode(CxFile *fp)
 					}
 				}
 
-				prevdispmeth = gifgce.dispmeth;
+				prevdispmeth = (gifgce.flags >> 2) & 0x7;
 
 				//restore the correct position in the file for the next image
 				if (badcode){
@@ -254,7 +258,7 @@ bool CxImageGIF::Decode(CxFile *fp)
 	}
 
 	if (bTrueColor>=2 && imaRGB){
-		if (gifgce.transpcolflag){
+		if (gifgce.flags & 0x1){
 			imaRGB->SetTransColor(GetPaletteColor((BYTE)info.nBkgndIndex));
 			imaRGB->SetTransIndex(0);
 		}
@@ -282,12 +286,16 @@ bool CxImageGIF::DecodeExtension(CxFile *fp)
 				assert(sizeof(gifgce) == 4);
 				bContinue = (count == fp->Read(&gifgce, 1, sizeof(gifgce)));
 				// Avoid Byte order problem with Mac
-				gifgce.delaytime = GETWORD(gifgce.delaytime);
+				gifgce.delaytime = ltohs(gifgce.delaytime);
+				//fprintf(stderr, "Transparency block get, valid ? %u, Has transparency ? %u\n",bContinue, gifgce.flags & 0x1);
+				//fprintf(stderr, "transpcolflag %u : userinputflag %u : dispmeth %u : res %u\n", gifgce.flags & 0x1, (gifgce.flags >> 1) & 0x1, (gifgce.flags >> 2) & 0x7, (gifgce.flags >> 5) & 0x7 );
 				if (bContinue) {
-					if (gifgce.transpcolflag) info.nBkgndIndex  = gifgce.transpcolindex;
+					if (gifgce.flags & 0x1) info.nBkgndIndex  = gifgce.transpcolindex;
 					info.dwFrameDelay = gifgce.delaytime;
-					m_dispmeth = gifgce.dispmeth;
-		}	}	}
+					m_dispmeth = ((gifgce.flags >> 2) & 0x7);
+				}
+			}
+		}
 
 		if (fc == 0xFE) { //<DP> Comment block
 			bContinue = (1 == fp->Read(&count, sizeof(count), 1));
@@ -402,25 +410,30 @@ int CxImageGIF::out_line(CImageIterator* iter, unsigned char *pixels, int linele
 // R.Spann@ConnRiver.net
 bool CxImageGIF::Encode(CxFile * fp)
 {
-	if (EncodeSafeCheck(fp)) return false;
-
-	if(head.biBitCount > 8)	{
-		//strcpy(info.szLastError,"GIF Images must be 8 bit or less");
-		//return FALSE;
-		return EncodeRGB(fp);
+	if ( GetNumFrames()>1 && info.GifFrames ) {
+		return Encode(fp, info.GifFrames, GetNumFrames() );
 	}
-
-	EncodeHeader(fp);
-
-	EncodeExtension(fp);
-
-	EncodeComment(fp);
-
-	EncodeBody(fp);
-
-	fp->PutC(';'); // Write the GIF file terminator
-
-	return true; // done!
+	else {
+		if (EncodeSafeCheck(fp)) return false;
+	
+		if(head.biBitCount > 8)	{
+			//strcpy(info.szLastError,"GIF Images must be 8 bit or less");
+			//return FALSE;
+			return EncodeRGB(fp);
+		}
+	
+		EncodeHeader(fp);
+	
+		EncodeExtension(fp);
+	
+		EncodeComment(fp);
+	
+		EncodeBody(fp);
+	
+		fp->PutC(';'); // Write the GIF file terminator
+	
+		return true; // done!
+	}
 }
 ////////////////////////////////////////////////////////////////////////////////
 bool CxImageGIF::Encode(CxFile * fp, CxImage ** pImages, int pagecount, bool bLocalColorMap)
@@ -502,18 +515,19 @@ void CxImageGIF::EncodeExtension(CxFile *fp)
 	// TRK BEGIN : transparency
 	fp->PutC('!');
 	fp->PutC(TRANSPARENCY_CODE);
-
-	gifgce.transpcolflag = (info.nBkgndIndex != -1) ? 1 : 0;
-	gifgce.userinputflag = 0;
-	gifgce.dispmeth = m_dispmeth;
-	gifgce.res = 0;
+	
+	gifgce.flags = 0;
+	gifgce.flags |= ((info.nBkgndIndex != -1) ? 1 : 0);
+	//gifgce.flags = ( (0 & 0x1) << 1 );
+	gifgce.flags |= ( (m_dispmeth & 0x7) << 2);
+	//gifgce.flags |= ( (0 & 0x7) << 5 );
 	gifgce.delaytime = (WORD)info.dwFrameDelay;
 	gifgce.transpcolindex = (BYTE)info.nBkgndIndex;	   
 	fp->PutC(sizeof(gifgce));
 	//Invert byte order in case we use a byte order arch, then set it back
-	gifgce.delaytime = PUTWORD(gifgce.delaytime);
+	gifgce.delaytime = htols(gifgce.delaytime);
 	fp->Write(&gifgce, sizeof(gifgce), 1);
-	gifgce.delaytime = GETWORD(gifgce.delaytime);
+	gifgce.delaytime = ltohs(gifgce.delaytime);
 	fp->PutC(0);
 	// TRK END
 }

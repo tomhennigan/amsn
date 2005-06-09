@@ -58,9 +58,26 @@ typedef short int       code_int;
 #define HashTabOf(i)    htab[i]
 #define CodeTabOf(i)    codetab[i]
 
-#define BYTEPTR(p)		((BYTE *)(&p))
-#define GETWORD(w)		(*BYTEPTR(w) + (*(BYTEPTR(w)+1) << 8))
-#define PUTWORD(w)		((((w & 0xff) << 8) | ((w >> 8) & 0xff)))
+//#define BYTEPTR(p)		((BYTE *)(&p))
+//#define GETWORD(w)		(*BYTEPTR(w) + (*(BYTEPTR(w)+1) << 8))
+//#define PUTWORD(w)		((((w & 0xff) << 8) | ((w >> 8) & 0xff)))
+
+short int inline htols( short int word ) {
+	short int test = 1;
+
+	if ( *((char *) &test) == 1 )
+		return word; //Host is little endian
+	else
+		return ( (word & 0xff) << 8 ) | ( (word >> 8) & 0xff ) ; //Host is big endian : we swap the two bytes
+}
+
+short int inline ltohs( short int word ) {
+	short int test = 1;
+	if ( *((char *) &test) == 1 )
+		return word; // Host is little endian
+	else
+		return ( (word & 0xff) << 8 ) | ( (word >> 8) & 0xff ) ; //Host is big endian : we swap the two bytes
+}
 
 class CImageIterator;
 class DLL_EXP CxImageGIF: public CxImage
@@ -68,10 +85,7 @@ class DLL_EXP CxImageGIF: public CxImage
 #pragma pack(1)
 
 typedef struct tag_gifgce{
-  BYTE transpcolflag:1;
-  BYTE userinputflag:1;
-  BYTE dispmeth:3;
-  BYTE res:3;
+  BYTE flags;
   WORD delaytime;
   BYTE transpcolindex;
 } struct_gifgce;

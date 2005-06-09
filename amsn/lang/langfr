@@ -591,6 +591,7 @@ smileconfig Configuration des émoticons personnalisés
 smilefile Nom du fichier de l'émoticon
 smileintro2 Veuillez editer les champs obligatoires pour personnaliser cet émoticon (voir la FAQ pour l'aide)
 smileintro Veuillez remplir les champs obligatoires pour créer un nouvel émoticon (voir la FAQ pour l'aide)
+smiletoobig L'émoticon que vous avez choisi est plus grand que la taille normale. Voulez-vous le redimensionner ?
 snackfailed Snack n'a pas pu se lancer, retour à la valeur par défaut
 sngdblclick Un click simple ouvre une nouvelle fenêtre de conversation
 sound2 Jouer un son quand un contact se connecte ou quand un message est reçu
