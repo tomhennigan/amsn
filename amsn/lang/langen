@@ -234,6 +234,7 @@ editvalue Edit value
 email Email
 emailsinlist Show emails instead of nicknames in the contact list
 emotisounds Play sounds for certain emoticons
+emoticon_steal Add to emoticons
 emptygroup Empty group
 enabled Enabled
 enableproxy Enable proxy

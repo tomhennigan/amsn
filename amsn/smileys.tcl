@@ -159,7 +159,7 @@ namespace eval ::smiley {
 			set emotion($field_sort) [string trim $sdata($field)]
 		}
 		#Create the image now and store it
-		set emotion(image_name) [image create photo -file $emotion(file)]
+		set emotion(image_name) [image create photo -file $emotion(file) -format cximage]
 		
 		#Store the emoticon data in the custom_emoticons array
 		set custom_emotions($emotion(name)) [array get emotion]
@@ -957,7 +957,7 @@ namespace eval ::smiley {
 		
 		
 		
-		set emotion(image_name) [image create photo -file $emotion(file)]
+		set emotion(image_name) [image create photo -file $emotion(file) -format cximage]
 		set custom_emotions($name) [array get emotion]
 
 		#load_smileys
@@ -1097,7 +1097,7 @@ proc custom_smile_subst2 { chatid tw textbegin end } {
 	    if { ![winfo exists ${tw}.custom_smiley_$file] } {
 	    	set w_emot [label ${tw}.custom_smiley_$file -background [$tw cget -background] -image custom_smiley_$file]
 		menu $w_emot.copy -tearoff 0 -type normal
-		$w_emot.copy add command -label [trans copy] -command "::smiley::addSmileyFromTW {$file}"
+		$w_emot.copy add command -label [trans emoticon_steal] -command "::smiley::addSmileyFromTW {$file}"
 		bind $w_emot <<Button3>> "tk_popup $w_emot.copy %X %Y"
 	    }
 
