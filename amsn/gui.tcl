@@ -2940,7 +2940,7 @@ namespace eval ::amsn {
 
 		#Raise $w to correct a bug win "wm geometry" in AquaTK (Mac OS X)
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-			raise $w
+			lower $w
 		}
 
 		#Disable Grownotify for Mac OS X Aqua/tk users
@@ -4078,7 +4078,7 @@ proc cmsn_draw_reconnect { error_msg } {
 
 	catch {
 
-		image create photo picsignin -file "[::skin::GetSkinFile pixmaps loganim.gif]"
+		image create photo picsignin -file "[::skin::GetSkinFile pixmaps loganim.gif]" -format cximage
 		label .loginanim -background [$pgBuddy.text cget -background] -image picsignin
 
 		$pgBuddy.text insert end " " signin
@@ -4125,7 +4125,7 @@ proc cmsn_draw_signin {} {
 
 	catch {
 
-		image create photo picsignin -file "[::skin::GetSkinFile pixmaps loganim.gif]"
+		image create photo picsignin -file "[::skin::GetSkinFile pixmaps loganim.gif]" -format cximage
 		label .loginanim -background [$pgBuddy.text cget -background] -image picsignin
 
 		$pgBuddy.text insert end " " signin
@@ -4489,7 +4489,7 @@ proc load_my_smaller_pic {path} {
 	#Trying to set smaller display picture
 	if {[file readable [filenoext [::skin::GetSkinFile displaypic/small [::config::getKey displaypic]]].png]} {
 		#The smaller display picture exists, now create it
-		image create photo my_pic_small -file "[filenoext [::skin::GetSkinFile displaypic/small [::config::getKey displaypic]]].png"
+		image create photo my_pic_small -file "[filenoext [::skin::GetSkinFile displaypic/small [::config::getKey displaypic]]].png" -format cximage
 	} else {
 		#We show the status icon centered or resized if it is too large
 		global pgBuddy
@@ -4534,7 +4534,7 @@ proc getpicturefornotification {email} {
 
 		#If the picture now exist, create the image
 		if { [file readable "$command"] } {
-			image create photo smallpicture$email -file "$command"
+			image create photo smallpicture$email -file "$command" -format cximage
 			return 1
 		} else {
 			return 0
@@ -6828,7 +6828,7 @@ proc convert_image { filename destdir size } {
 	}
 
 	#Create img from the file
-	if {[catch {set img [image create photo -file $filename]} res]} {
+	if {[catch {set img [image create photo -file $filename -format cximage]} res]} {
 		#If there's an error, it means the filename is corrupted, remove it
 		catch { file delete $filename }
 		catch { file delete [filenoext $filename].dat }
@@ -6874,7 +6874,7 @@ proc load_my_pic {} {
 		::config::setKey displaypic nopic.gif
 	}
 	if {[file readable [::skin::GetSkinFile displaypic [::config::getKey displaypic]]]} {
-		image create photo my_pic -file "[::skin::GetSkinFile displaypic [::config::getKey displaypic]]"
+		image create photo my_pic -file "[::skin::GetSkinFile displaypic [::config::getKey displaypic]]" -format cximage
 		if { [::skin::getKey showdisplaycontactlist] && [winfo exists $pgBuddyTop.bigstate] } {
 			#Recreate the status image
 			destroy $pgBuddyTop.bigstate
@@ -7114,7 +7114,7 @@ proc reloadAvailablePics { } {
 		} else {
 			set filename [lindex $file 1]
 			
-			if {[catch {set the_image [image create photo -file $filename ]} res]} {
+			if {[catch {set the_image [image create photo -file $filename -format cximage]} res]} {
 				#If there's an error, it means the filename is corrupted, remove it
 				catch { file delete $filename }
 				catch { file delete [filenoext $filename].dat }
@@ -7228,7 +7228,7 @@ proc pictureChooseFile { } {
 				pictureBrowser
 			}
 
-			set image_name [image create photo -file [::skin::GetSkinFile "displaypic" "[filenoext [file tail $file]].png"]]
+			set image_name [image create photo -file [::skin::GetSkinFile "displaypic" "[filenoext [file tail $file]].png"] -format cximage]
 			status_log $image_name red
 			.picbrowser.mypic configure -image $image_name
 			set selected_image "[filenoext [file tail $file]].png"
@@ -7315,7 +7315,7 @@ proc clear_disp { } {
 
 	::config::setKey displaypic nopic.gif
 
-	catch {image create photo my_pic -file "[::skin::GetSkinFile displaypic nopic.gif]"}
+	catch {image create photo my_pic -file "[::skin::GetSkinFile displaypic nopic.gif]" -format cximage}
 	
 	if { [::skin::getKey showdisplaycontactlist] && [winfo exists $pgBuddyTop.bigstate] } {
 		#Recreate the status image
@@ -7866,7 +7866,7 @@ proc webcampicture_save {preview} {
 
 
 		#Set image_name
-		set image_name [image create photo -file [::skin::GetSkinFile displaypic $file]]
+		set image_name [image create photo -file [::skin::GetSkinFile displaypic $file] -format cximage]
 		#Change picture in .mypic frame of .picbrowser
 		.picbrowser.mypic configure -image $image_name
 
