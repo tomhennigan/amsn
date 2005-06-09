@@ -887,15 +887,36 @@ namespace eval ::smiley {
 			} else {
 				set titleid custom_new
 			}
-			if { [::amsn::messageBox "[trans smiletoobig]" yesno question "[trans $titleid ]"] == "yes" } {
-				set file [convert_image_plus [::skin::GetSkinFile smileys "$new_custom_cfg(file)"] smileys 19x19]
+			image create photo temp_smiley -file [::skin::GetSkinFile smileys "$new_custom_cfg(file)"]
+			
+			set filetail_noext [filenoext [file tail "$new_custom_cfg(file)"]]
+			set destfile [file join $HOME smileys $filetail_noext]
+			
+			if { [image width temp_smiley] > 19 || [image height temp_smiley] > 19 } {
+				#Smiley is static and bigger than 19x19 we ask for resizing
+				if { [::amsn::messageBox "[trans smiletoobig]" yesno question "[trans $titleid ]"] == "yes" } {
+					#The user wants resize it
+					set file [convert_image_plus [::skin::GetSkinFile smileys "$new_custom_cfg(file)"] smileys 19x19]
+				} else {
+					if { [image width temp_smiley] > 50 || [image height temp_smiley] > 50 } {
+						#MSN can't show static smileys which are bigger than 50x50 so we resize it
+						set file [convert_image_plus [::skin::GetSkinFile smileys "$new_custom_cfg(file)"] smileys 50x50]
+					} else {
+						#The smiley has size between 19x19 and 50x50 and user doesn't want to resize it so we just convert it to PNG
+						set filetail_noext [filenoext [file tail "$new_custom_cfg(file)"]]
+						set destfile [file join $HOME smileys $filetail_noext]
+						::picture::Convert [::skin::GetSkinFile smileys "$new_custom_cfg(file)"] "${destfile}.png"
+						set file "${destfile}.png"
+					}
+				}
 			} else {
+				#The file is good so we just convert it to PNG
 				set filetail_noext [filenoext [file tail "$new_custom_cfg(file)"]]
 				set destfile [file join $HOME smileys $filetail_noext]
 				::picture::Convert [::skin::GetSkinFile smileys "$new_custom_cfg(file)"] "${destfile}.png"
 				set file "${destfile}.png"
-				if { ![file exists $file] } { set file "" }
 			}
+			if { ![file exists $file] } { set file "" }
 		} else {
 			#We only copy if animated because we loose animation if we convert
 			set filetail_noext [filenoext [file tail "$new_custom_cfg(file)"]]
