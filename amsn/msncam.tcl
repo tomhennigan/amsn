@@ -2685,6 +2685,7 @@ namespace eval ::CAMGUI {
 		pack $frame -side top -fill both -expand 1 
 	}
 	proc WCAssistant_showButtons {frame buttonslist} {
+		global infoarray
 		if {[winfo exists $frame]} {destroy $frame}
 		frame $frame  -bd 0 ;#-background #ffffff  ;#bgcolor for debug only
 		pack $frame  -side top  -fill x -padx 4 -pady 4 ;#pads keep the stuff a bit away from windowborder
@@ -2704,8 +2705,10 @@ namespace eval ::CAMGUI {
 	
 
 
+
 	#Fill the window with content for the intro
 	proc WCAssistant_s0 {win titlec optionsf buttonf} {
+		global infoarray
 		#change the title
 		WCAssistant_titleText $titlec "Webcam Setup Assistant"
 
@@ -2723,16 +2726,17 @@ namespace eval ::CAMGUI {
 	
 	#Fill the window with content for the first step
 	proc WCAssistant_s1 {win titlec optionsf buttonf} {
+		global infoarray
 		#change the title
-		WCAssistant_titleText $titlec "Check for required extensions (Step 1 of 4)"
+		WCAssistant_titleText $titlec "Check for required extensions (Step 1 of 5)"
 		#empty the optionsframe
 		WCAssistant_optionsFrame $optionsf
 
 		#set vars
-		set wcextloaded 0
+		set infoarray(wcextloaded) 0
 		set wcextpic "\[ERROR\]" ;#-> should become a picture
 		if {[::CAMGUI::ExtensionLoaded]} {
-			set wcextloaded 1
+			set infoarray(wcextloaded) 1
 			set wcextpic "\[OK\]" ;#-> should become a picture
 		}
 		set capextname "grab"
@@ -2743,10 +2747,10 @@ namespace eval ::CAMGUI {
 		} elseif { [set ::tcl_platform(os)] == "Linux" } {
 			set capextname "capture"
 		}
-		set capextloaded 0
+		set infoarray(capextloaded) 0
 		set capextpic "\[ERROR\]" ;#-> should become a picture
 		if {[::CAMGUI::CaptureLoaded]} {
-			set capextloaded 1
+			set infoarray(capextloaded) 1
 			set capextpic "\[OK\]" ;#-> should become a picture
 		}
 
@@ -2759,7 +2763,7 @@ namespace eval ::CAMGUI {
 		
 		
 		set nextbuttonstate 0
-		if {$wcextloaded && $capextloaded} {
+		if {$infoarray(wcextloaded)} {  ;# nothing to configure if you can't even receive (decode)
 			set nextbuttonstate 1
 		}
 			
@@ -2769,32 +2773,51 @@ namespace eval ::CAMGUI {
 	}
 	
 	proc WCAssistant_s2 {win titlec optionsf buttonf} {
-		#change the title
-		WCAssistant_titleText $titlec "Set up webcamdevice and channel (Step 2 of 4)"
-		#empty the optionsframe
-		WCAssistant_optionsFrame $optionsf
-		#add the options
+		global infoarray
 
-#choose device/channel => 2 comboboxes and a preview
+		if { [set ::tcl_platform(os)] != "Darwin" } {
 
-#                   +------------+
-#                   |    ___     |
-#  [device  [v]]    |   |_ _|    |
-#                   |   | ' |    |
-#  [channel [v]]    |    \ /     |
-#                   |   +++++    |
-#                   +------------+
+			#change the title
+			WCAssistant_titleText $titlec "Set up webcamdevice and channel (Step 2 of 5)"
+			#empty the optionsframe
+			WCAssistant_optionsFrame $optionsf
+			#add the options
+
+	#choose device/channel => 2 comboboxes and a preview
+
+	#                   +------------+
+	#                   |    ___     |
+	#  [device  [v]]    |   |_ _|    |
+	#                   |   | ' |    |
+	#  [channel [v]]    |    \ /     |
+	#                   |   +++++    |
+	#                   +------------+
 
 
 
 		
-		#add the buttons
-		WCAssistant_showButtons $buttonf [list [list "Next" [list ::CAMGUI::WCAssistant_s3 $win $titlec $optionsf $buttonf] 1 ] [list "Back" [list ::CAMGUI::WCAssistant_s1 $win $titlec $optionsf $buttonf] 1 ] [list "Cancel" [list destroy $win] 1 ]]
+			#add the buttons
+			WCAssistant_showButtons $buttonf [list [list "Next" [list ::CAMGUI::WCAssistant_s3 $win $titlec $optionsf $buttonf] 1 ] [list "Back" [list ::CAMGUI::WCAssistant_s1 $win $titlec $optionsf $buttonf] 1 ] [list "Cancel" [list destroy $win] 1 ]]
+		} else {
+			#change the title
+			WCAssistant_titleText $titlec "Set up webcamdevice and channel (Step 2 and 3 of 5)"
+			#empty the optionsframe
+			WCAssistant_optionsFrame $optionsf
+			#add a button to open the configpane
+			
+						#add the buttons
+			WCAssistant_showButtons $buttonf [list [list "Next" [list ::CAMGUI::WCAssistant_s4 $win $titlec $optionsf $buttonf] 1 ] [list "Back" [list ::CAMGUI::WCAssistant_s1 $win $titlec $optionsf $buttonf] 1 ] [list "Cancel" [list destroy $win] 1 ]]	
+		}
+	
+
 	}
 	
+	#folowing page is skipped on mac :)
 	proc WCAssistant_s3 {win titlec optionsf buttonf} {
+		global infoarray
+
 		#change the title
-		WCAssistant_titleText $titlec "Finetune picture settings (Step 3 of 4)"
+		WCAssistant_titleText $titlec "Finetune picture settings (Step 3 of 5)"
 
 		#empty the optionsframe
 		WCAssistant_optionsFrame $optionsf
@@ -2807,8 +2830,30 @@ namespace eval ::CAMGUI {
 	}
 	
 	proc WCAssistant_s4 {win titlec optionsf buttonf} {
+		global infoarray
 		#change the title
-		WCAssistant_titleText $titlec "Finished! (Step 4 of 4)"
+		WCAssistant_titleText $titlec "Network settings (Step 4 of 5)"
+
+		#empty the optionsframe
+		WCAssistant_optionsFrame $optionsf
+		#add the options
+
+#port settings etc
+
+		
+		#add the buttons
+		if { [set ::tcl_platform(os)] != "Darwin" } {
+			WCAssistant_showButtons $buttonf [list [list "Next" [list ::CAMGUI::WCAssistant_s5 $win $titlec $optionsf $buttonf] 1 ] [list "Back" [list ::CAMGUI::WCAssistant_s3 $win $titlec $optionsf $buttonf] 1 ] [list "Cancel" [list destroy $win] 1 ]]
+		} else {
+			WCAssistant_showButtons $buttonf [list [list "Next" [list ::CAMGUI::WCAssistant_s5 $win $titlec $optionsf $buttonf] 1 ] [list "Back" [list ::CAMGUI::WCAssistant_s2 $win $titlec $optionsf $buttonf] 1 ] [list "Cancel" [list destroy $win] 1 ]]
+		}
+	}
+
+
+	proc WCAssistant_s5 {win titlec optionsf buttonf} {
+		global infoarray
+		#change the title
+		WCAssistant_titleText $titlec "Finished! (Step 5 of 5)"
 		#empty the optionsframe
 		WCAssistant_optionsFrame $optionsf
 		#add the options
@@ -2817,7 +2862,7 @@ namespace eval ::CAMGUI {
 
 		
 		#add the buttons
-		WCAssistant_showButtons $buttonf [list [list "Finish" [list destroy $win] 1 ] [list "Back" [list ::CAMGUI::WCAssistant_s3 $win $titlec $optionsf $buttonf] 1 ] [list "Cancel" [list destroy $win] 1 ]]
+		WCAssistant_showButtons $buttonf [list [list "Finish" [list destroy $win] 1 ] [list "Back" [list ::CAMGUI::WCAssistant_s4 $win $titlec $optionsf $buttonf] 1 ] [list "Cancel" [list destroy $win] 1 ]]
 	}
 	
 	
