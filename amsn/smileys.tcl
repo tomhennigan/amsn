@@ -892,12 +892,17 @@ namespace eval ::smiley {
 			} else {
 				set filetail_noext [filenoext [file tail "$new_custom_cfg(file)"]]
 				set destfile [file join $HOME smileys $filetail_noext]
-				::picture::convert [::skin::GetSkinFile smileys "$new_custom_cfg(file)"] "${destfile}.png"
+				::picture::Convert [::skin::GetSkinFile smileys "$new_custom_cfg(file)"] "${destfile}.png"
+				set file "${destfile}.png"
+				if { ![file exists $file] } { set file "" }
 			}
 		} else {
 			#We only copy if animated because we loose animation if we convert
+			set filetail_noext [filenoext [file tail "$new_custom_cfg(file)"]]
+			set destfile [file join $HOME smileys $filetail_noext]
 			file copy -force [::skin::GetSkinFile smileys "$new_custom_cfg(file)"] [file join $HOME smileys]
-			set file [::skin::GetSkinFile smileys "$new_custom_cfg(file)"]
+			set file "${destfile}.png"
+			if { ![file exists $file] } { set file "" }
 		}
 		
 		if { $file == "" } {
