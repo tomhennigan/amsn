@@ -919,10 +919,8 @@ namespace eval ::smiley {
 			if { ![file exists $file] } { set file "" }
 		} else {
 			#We only copy if animated because we loose animation if we convert
-			puts "origdestfile : $new_custom_cfg(file)"
 			set filetail_noext [filenoext [file tail "$new_custom_cfg(file)"]]
 			set destfile [file join $HOME smileys $filetail_noext]
-			puts "destfile : $destfile"
 			file copy -force [::skin::GetSkinFile smileys "$new_custom_cfg(file)"] [file join $HOME smileys "${destfile}.png"]
 			set file "${destfile}.png"
 			if { ![file exists $file] } { set file "" }
@@ -973,6 +971,16 @@ namespace eval ::smiley {
 				
 		#Immediately save settings.xml
 		save_config
+	}
+	
+	proc addSmileyFromTW { file } {
+		global new_custom_cfg
+		if { [winfo exists .new_custom] } {
+			raise .new_custom
+			return
+		}
+		set new_custom_cfg(file) [::skin::GetSkinFile smileys "cache/${file}.png"]
+		newCustomEmoticonGUI
 	}
 	
 			
@@ -1085,8 +1093,15 @@ proc custom_smile_subst2 { chatid tw textbegin end } {
 
 	    $tw tag configure smiley -elide true
 	    $tw tag add smiley $pos $endpos
+	    
+	    if { ![winfo exists ${tw}.custom_smiley_$file] } {
+	    	set w_emot [label ${tw}.custom_smiley_$file -background [$tw cget -background] -image custom_smiley_$file]
+		menu $w_emot.copy -tearoff 0 -type normal
+		$w_emot.copy add command -label [trans copy] -command "::smiley::addSmileyFromTW {$file}"
+		bind $w_emot <<Button3>> "tk_popup $w_emot.copy %X %Y"
+	    }
 
-	    $tw image create $endpos -image custom_smiley_$file -pady 0 -padx 0
+	    $tw window create $endpos -window "${tw}.custom_smiley_$file" -padx 0 -pady 0
 	    $tw tag remove smiley $endpos
 	    
 	}
