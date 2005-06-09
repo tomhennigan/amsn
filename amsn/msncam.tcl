@@ -2612,4 +2612,213 @@ namespace eval ::CAMGUI {
 		catch {$img blank}
 	}
 	
+
+
+
+
+
+
+
+
+
+
+
+	proc WebcamAssistent { } {
+	
+		set win .wcassistentwindow
+		
+		if {[winfo exists $win]} { destroy $win}
+
+		set contentf $win.contentframe
+		set buttonf $win.buttonframe
+		
+		set titlef $contentf.titleframe
+			set titlec $titlef.canvas
+		set optionsf $contentf.optionsf
+		
+
+		toplevel $win
+		wm title $win "Webcam Setup Assistent"
+		wm geometry $win 500x400
+		wm resizable $win 0 0 
+
+#+-------------------------------+__window
+#|+-----------------------------+|
+#||+---------------------------+||
+#|||        titlef             ||___contentf
+#||+---------------------------+||
+#||+---------------------------+||
+#|||                           |||
+#|||        optionsf           |||
+#|||                           |||
+#||+---------------------------+||
+#|+-----------------------------+|
+#|+-----------------------------+|
+#||         buttonf             ||
+#|+-----------------------------+|
+#+-------------------------------+
+		
+		frame $contentf -bd 1  -background [::skin::getKey mainwindowbg]
+			#create title frame and first contents
+			frame $titlef -height 50 -bd 0 -bg [::skin::getKey mainwindowbg]
+			  canvas $titlec -bg [::skin::getKey mainwindowbg] -height 50
+			  $titlec create text 10 25 -text " " -anchor w -fill #ffffff -font bboldf -tag title
+			  $titlec create image 480 25 -image [::skin::loadPixmap webcam] -anchor e
+			  pack $titlec -fill x
+			pack $titlef -side top -fill x
+
+			#create optionsframe 
+			WCAssistent_optionsFrame $optionsf
+		pack $contentf -side top -fill both -padx 4 -pady 4 -expand 1
+		#open up the first page
+		WCAssistent_s0 $win $titlec $optionsf $buttonf
+	}
+
+	#auxilary proc that changes the title in the titlecanvas	
+	proc WCAssistent_titleText { canvas newtext } {
+		$canvas itemconfigure title -text $newtext
+	}
+	#auxilary prox that draws the empty optionsframe
+	proc WCAssistent_optionsFrame {frame} {
+		if {[winfo exists $frame]} {destroy $frame}
+		frame $frame -padx 1 -pady 1 ;#-background #ffffff ;#-height 300   ;#these pads make a 1 pixel border
+		pack $frame -side top -fill both -expand 1 
+	}
+	proc WCAssistent_showButtons {frame buttonslist} {
+		if {[winfo exists $frame]} {destroy $frame}
+		frame $frame  -bd 0 ;#-background #ffffff  ;#bgcolor for debug only
+		pack $frame  -side top  -fill x -padx 4 -pady 4 ;#pads keep the stuff a bit away from windowborder
+
+		#buttons list is a list containing lists like [list "Text" "::button::command" 1]
+		set count 0
+		foreach button $buttonslist {
+			incr count
+			set text [lindex $button 0]
+			set command [lindex $button 1]
+			set state [lindex $button 2]
+			if {$state == 0} {set state "disabled"} else {set state "normal"}
+			button $frame.$count -text $text -command $command -state $state
+			pack $frame.$count -side right -padx 10
+		}
+	}
+	
+
+
+	#Fill the window with content for the intro
+	proc WCAssistent_s0 {win titlec optionsf buttonf} {
+		#change the title
+		WCAssistent_titleText $titlec "Webcam Setup Assistent"
+
+		#empty the optionsframe
+		WCAssistent_optionsFrame $optionsf
+		#add the options
+		label $optionsf.text -justify left -anchor nw -font bplainf -text "This assistant will guide you through the setup of your webcam \nfor aMSN.\n\nIt will check if the required extensions are present and loaded \nand you'll be able to choose the device and channel, set the \npicture settings and resolution."
+		pack $optionsf.text -padx 20 -pady 20 -side left -fill both -expand 1
+		
+		#add the buttons
+		WCAssistent_showButtons $buttonf [list [list "Next" [list ::CAMGUI::WCAssistent_s1 $win $titlec $optionsf $buttonf] 1 ] [list "Cancel" [list destroy $win] 1] ]
+	}
+
+
+	
+	#Fill the window with content for the first step
+	proc WCAssistent_s1 {win titlec optionsf buttonf} {
+		#change the title
+		WCAssistent_titleText $titlec "Check for required extensions (Step 1 of 4)"
+		#empty the optionsframe
+		WCAssistent_optionsFrame $optionsf
+
+		#set vars
+		set wcextloaded 0
+		set wcextpic "\[ERROR\]" ;#-> should become a picture
+		if {[::CAMGUI::ExtensionLoaded]} {
+			set wcextloaded 1
+			set wcextpic "\[OK\]" ;#-> should become a picture
+		}
+		set capextname "grab"
+		if { [set ::tcl_platform(platform)] == "windows" } {
+			set capextname "tkvideo"
+		} elseif { [set ::tcl_platform(os)] == "Darwin" } {
+			set capextname "QuickTimeTcl"
+		} elseif { [set ::tcl_platform(os)] == "Linux" } {
+			set capextname "capture"
+		}
+		set capextloaded 0
+		set capextpic "\[ERROR\]" ;#-> should become a picture
+		if {[::CAMGUI::CaptureLoaded]} {
+			set capextloaded 1
+			set capextpic "\[OK\]" ;#-> should become a picture
+		}
+
+		label $optionsf.wcexttext -justify left -anchor nw -font bplainf -text "Check if webcam extension is loaded ..." ;#-fg $wcexttextcolor
+		label $optionsf.capexttext -justify left -anchor nw -font bplainf -text "Check if '$capextname' extension is loaded ..." ;#-fg $capexttextcolor
+		
+		pack $optionsf.wcexttext $optionsf.capexttext
+		
+		#if an error, have a solution
+		
+		
+		set nextbuttonstate 0
+		if {$wcextloaded && $capextloaded} {
+			set nextbuttonstate 1
+		}
+			
+		
+		#add the buttons
+		WCAssistent_showButtons $buttonf [list [list "Next" [list ::CAMGUI::WCAssistent_s2 $win $titlec $optionsf $buttonf] $nextbuttonstate ] [list "Back" [list ::CAMGUI::WCAssistent_s0 $win $titlec $optionsf $buttonf] 1 ] [list "Cancel" [list destroy $win] 1 ]]
+	}
+	
+	proc WCAssistent_s2 {win titlec optionsf buttonf} {
+		#change the title
+		WCAssistent_titleText $titlec "Set up webcamdevice and channel (Step 2 of 4)"
+		#empty the optionsframe
+		WCAssistent_optionsFrame $optionsf
+		#add the options
+
+#choose device/channel => 2 comboboxes and a preview
+
+#                   +------------+
+#                   |    ___     |
+#  [device  [v]]    |   |_ _|    |
+#                   |   | ' |    |
+#  [channel [v]]    |    \ /     |
+#                   |   +++++    |
+#                   +------------+
+
+
+
+		
+		#add the buttons
+		WCAssistent_showButtons $buttonf [list [list "Next" [list ::CAMGUI::WCAssistent_s3 $win $titlec $optionsf $buttonf] 1 ] [list "Back" [list ::CAMGUI::WCAssistent_s1 $win $titlec $optionsf $buttonf] 1 ] [list "Cancel" [list destroy $win] 1 ]]
+	}
+	
+	proc WCAssistent_s3 {win titlec optionsf buttonf} {
+		#change the title
+		WCAssistent_titleText $titlec "Finetune picture settings (Step 3 of 4)"
+
+		#empty the optionsframe
+		WCAssistent_optionsFrame $optionsf
+		#add the options
+
+#preview, combobox for resolution and 4 sliders, vertically arranged
+		
+		#add the buttons
+		WCAssistent_showButtons $buttonf [list [list "Next" [list ::CAMGUI::WCAssistent_s4 $win $titlec $optionsf $buttonf] 1 ] [list "Back" [list ::CAMGUI::WCAssistent_s2 $win $titlec $optionsf $buttonf] 1 ] [list "Cancel" [list destroy $win] 1 ]]
+	}
+	
+	proc WCAssistent_s4 {win titlec optionsf buttonf} {
+		#change the title
+		WCAssistent_titleText $titlec "Finished! (Step 4 of 4)"
+		#empty the optionsframe
+		WCAssistent_optionsFrame $optionsf
+		#add the options
+
+#'everything is ok' and blah ... check for NAT .. "press finish to ..."
+
+		
+		#add the buttons
+		WCAssistent_showButtons $buttonf [list [list "Finish" [list destroy $win] 1 ] [list "Back" [list ::CAMGUI::WCAssistent_s3 $win $titlec $optionsf $buttonf] 1 ] [list "Cancel" [list destroy $win] 1 ]]
+	}
+	
+	
 }
