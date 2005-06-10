@@ -94,7 +94,7 @@
 	<lang>
 		<langcode>fr</langcode>
 		<name>French - France (français)</name>
-		<version>1.133</version>
+		<version>1.134</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -160,7 +160,7 @@
 	<lang>
 		<langcode>it</langcode>
 		<name>Italian (italiano)</name>
-		<version>1.49</version>
+		<version>1.50</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
