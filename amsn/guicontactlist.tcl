@@ -613,15 +613,15 @@ namespace eval ::guiContactList {
 
 		# Then the group's count
 		$canvas create text $text2xpos $ypos -text $groupcounttext -anchor nw \
-			-fill $groupcolor -font sboldf -tags [list group title count_$gid $gid]
+			-fill $groupcolor -font splainf -tags [list group title count_$gid $gid]
 
 
 
 		#Setup co-ords for underline on hover
-		set yuline [expr $ypos + [font configure sboldf -size] + 3 ]
+		set yuline [expr {$ypos + [font configure splainf -size] + 1 }]
 
 		set underlinst [list [list $textxpos $yuline [font measure sboldf $groupnametext] \
-			$groupcolor] [list $text2xpos $yuline [font measure sboldf $groupcounttext] \
+			$groupcolor] [list $text2xpos $yuline [font measure splainf $groupcounttext] \
 			$groupcolor]]
 
 		# Create mouse event bindings
@@ -1372,3 +1372,4 @@ namespace eval ::guiContactList {
 		return $grId
 	}
 }
+
