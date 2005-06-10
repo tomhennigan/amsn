@@ -2775,6 +2775,8 @@ namespace eval ::CAMGUI {
 	proc WCAssistant_s2 {win titlec optionsf buttonf} {
 		global infoarray
 
+		
+
 		if { [set ::tcl_platform(os)] != "Darwin" } {
 
 			#change the title
@@ -2782,6 +2784,11 @@ namespace eval ::CAMGUI {
 			#empty the optionsframe
 			WCAssistant_optionsFrame $optionsf
 			#add the options
+
+			if {!$infoarray(capextloaded)} {
+				status_log "nothing to configure as we can't capture"
+				set infoarray(deviceset) 0
+			} else {
 
 	#choose device/channel => 2 comboboxes and a preview
 
@@ -2792,6 +2799,8 @@ namespace eval ::CAMGUI {
 	#  [channel [v]]    |    \ /     |
 	#                   |   +++++    |
 	#                   +------------+
+				set infoarray(deviceset) 1
+			}
 
 
 
@@ -2815,6 +2824,7 @@ namespace eval ::CAMGUI {
 	#folowing page is skipped on mac :)
 	proc WCAssistant_s3 {win titlec optionsf buttonf} {
 		global infoarray
+
 
 		#change the title
 		WCAssistant_titleText $titlec "Finetune picture settings (Step 3 of 5)"
