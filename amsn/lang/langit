@@ -42,6 +42,7 @@ appearance Interfaccia
 appearoff Invisibile
 areacode Codice dell'area
 aretyping $1 stanno scrivendo un messaggio
+askeachtime Chiedi ogni volta
 askwebcam Chiedi all'utente di vedere dalla sua webcam
 author Autore
 autoaccepted Traferimento file accettato automaticamente
@@ -126,11 +127,15 @@ clear Cancella
 clearlog2 Cancella il diario per tutti i tuoi contatti
 clearlog3 Cancella tutti i Log
 clearlog Cancella i Log
+clearwebcamlogs Cancella tutti i Log della Webcam
 clicktoadd Clicca su Aggiungi per una nuova nota
 clicktologin Clicca qui per accedere
 clientcaps Invia pacchetto "x-clientcaps" a clients altrui
 clientname Nome client
 closeall Chiudi tutte le schede nella finestra?
+closealltabs Chiudi tutti i tab
+closelabel Quando clicchi sul pulsante di chiusura di una finestra con i tab
+closeonly Chiudi solo il tab corrente
 close Chiudi
 closed La conversazione con $1 è chiusa per inattività.
 closingdocks Pulsante chiudi riduce a icona
@@ -370,6 +375,7 @@ logsbydate Ordina log per data (L'apertura della cronologia è velocizzata)
 logsin si e' appena connesso
 logsmileys Mostra le emoticon e le facine nella finestra dell'History di aMSN
 logsout è appena uscito
+logwebcam Salva tutte le sessioni della webcam nel diario di aMSN per una visione futura  
 longnick Il tuo nick è lungo più di 130 caratteri. Il protocollo ufficiale di MSN non lo consente. Vuoi impostarlo ugualmente?
 longp4c Il tuo soprannome è più lungo di 130 caratteri. Il Soprannome che apprarirà nella versione ufficiale di MSN sarà $1. Sei sicuro di salvare le impostazioni?
 lprivtoconf Chat privata divenuta conversazione con $1
@@ -471,12 +477,14 @@ p4contextprefix Prefissa i mittenti nel P4-Context con questa serie di caratteri
 pager Impaginatore
 pass Password
 paste Incolla
+pause Pausa
 personal Personale
 phones Numeri di Telefono
 phone Telefono
 picbrowser Mostra il selettore delle immagini personali
 picfile File dell'immagine dell'allarme (GIF < 500x500)
 picstatus (Dis)Abilita l'immagine per l'allarme
+play Play
 playing Sto ascoltando: $1
 pluginselector Seleziona i Plugins
 port Porta
@@ -537,6 +545,7 @@ reconnecting Riconnessione al server
 reconnect Sto aspettando che $1 si riconnetta
 reject Respingi
 rememberpass Ricorda password
+remembersetting Ricorda questa impostazione
 removeempty Eliminare gruppi vuoti dalla lista contatti
 removefromlist Rimuovi da questa lista
 rename rinomina
@@ -610,6 +619,7 @@ statenick Personalizza nick (lasciare vuoto per non modificarlo)
 state Voglio apparire come
 stats Statistiche
 status Stato
+stop Stop
 stopalarm Ferma l'allarme
 storenickname Ripristina il nick originale dopo una sessione personalizzata con nick diverso
 strictfonts Imposta tutti i fonts (barra di stato e altri) alla dimensione che ho scelto
@@ -628,6 +638,7 @@ takesnapshot Salva immagine
 temp_state Non salvare (Stato temporaneo, si perderà alla chiusura di AMSN)
 textsize Dimensione del testo
 thismonth Questo mese
+throughserver Tramite il server
 timeremaining Tempo rimanente
 timestamps Mostra il campo Ora nelle finestre di chat
 timestamp Timestamp
@@ -673,6 +684,7 @@ version Versione
 viewcontactsby Visualizza contatti per
 viewprofile Mostra Profilo
 view Vista
+webcamhistory Guarda le sessioni webcam salvate
 webcaminvite $1 ti ha invitato ad una conferenza via webcam, ma aMSN non supporta questa funzionalità.
 webcamshot Immagine della webcam
 whatsize L'immagine che hai richiesto non è nel normale formato di visualizzazione immagini (96x96) In che formato vuoi che l'immagine venga visualizzata?
