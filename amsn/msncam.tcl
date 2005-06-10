@@ -2778,8 +2778,7 @@ namespace eval ::CAMGUI {
 
 		
 		#if not on mac we have to fill this with options
-		if { [set ::tcl_platform(os)] != "Darwin" } {
-
+		if { ![OnMac] } {
 			#set beginning situation:
 			set infoarray(deviceset) 0
 			
@@ -2795,6 +2794,8 @@ namespace eval ::CAMGUI {
 			} else {
 
 			set frame $optionsf.innerframe
+			frame $frame -bd 0
+			pack $frame -padx 10 -pady 10 -side left
 			set leftframe $frame.left
 			set rightframe $frame.right
 			
@@ -2810,12 +2811,12 @@ namespace eval ::CAMGUI {
 				} else {
 				
 			
-					set img [::skin::setPixmap camempty]
+					set img [::skin::loadPixmap camempty]
 					canvas $rightframe -background #000000
-					canvas create image 0 0 -image $img 
+					$rightframe create image 0 0 -image $img 
 
 					#create list of available devices:
-					foreach device $devices{
+					foreach device $devices {
 						set dev [lindex $device 0]
 						set name [lindex $device 1]
 						if {$name == "" } {
@@ -2823,12 +2824,12 @@ namespace eval ::CAMGUI {
 						}
 					}
 
-					$devs.list insert end $name
+					status_log "ON LINUX WITH DEVICES: $devices"
 		
 
 
 				}
-			}
+			} else {
 
 
 
@@ -2845,6 +2846,7 @@ namespace eval ::CAMGUI {
 			}
 
 
+			}
 
 		
 			#add the buttons
@@ -2897,7 +2899,7 @@ namespace eval ::CAMGUI {
 
 		
 		#add the buttons
-		if { [set ::tcl_platform(os)] != "Darwin" } {
+		if { ![OnMac] } {
 			WCAssistant_showButtons $buttonf [list [list "Next" [list ::CAMGUI::WCAssistant_s5 $win $titlec $optionsf $buttonf] 1 ] [list "Back" [list ::CAMGUI::WCAssistant_s3 $win $titlec $optionsf $buttonf] 1 ] [list "Cancel" [list destroy $win] 1 ]]
 		} else {
 			WCAssistant_showButtons $buttonf [list [list "Next" [list ::CAMGUI::WCAssistant_s5 $win $titlec $optionsf $buttonf] 1 ] [list "Back" [list ::CAMGUI::WCAssistant_s2 $win $titlec $optionsf $buttonf] 1 ] [list "Cancel" [list destroy $win] 1 ]]
