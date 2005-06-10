@@ -2162,6 +2162,7 @@ namespace eval ::CAMGUI {
 
 		$status configure -text "Please choose a Channel"
 	}
+		
 
 	proc StartPreviewLinux { device_w chan_w status preview_w settings devices } {
 
@@ -2776,9 +2777,12 @@ namespace eval ::CAMGUI {
 		global infoarray
 
 		
-
+		#if not on mac we have to fill this with options
 		if { [set ::tcl_platform(os)] != "Darwin" } {
 
+			#set beginning situation:
+			set infoarray(deviceset) 0
+			
 			#change the title
 			WCAssistant_titleText $titlec "Set up webcamdevice and channel (Step 2 of 5)"
 			#empty the optionsframe
@@ -2787,8 +2791,46 @@ namespace eval ::CAMGUI {
 
 			if {!$infoarray(capextloaded)} {
 				status_log "nothing to configure as we can't capture"
-				set infoarray(deviceset) 0
+#				set infoarray(deviceset) 0 ;#-> is default
 			} else {
+
+			set frame $optionsf.innerframe
+			set leftframe $frame.left
+			set rightframe $frame.right
+			
+			if {[OnUnix]} {
+				set devices [::Capture::ListDevices]
+
+				if { [llength $devices] == 0 } {
+					status_log "no devices available"
+					#have some message showing no device and go further with
+
+
+#					set infoarray(deviceset) 0 ;#-> is default			
+				} else {
+				
+			
+					set img [::skin::setPixmap camempty]
+					canvas $rightframe -background #000000
+					canvas create image 0 0 -image $img 
+
+					#create list of available devices:
+					foreach device $devices{
+						set dev [lindex $device 0]
+						set name [lindex $device 1]
+						if {$name == "" } {
+							set name "$dev (Busy)"
+						}
+					}
+
+					$devs.list insert end $name
+		
+
+
+				}
+			}
+
+
 
 	#choose device/channel => 2 comboboxes and a preview
 
@@ -2807,14 +2849,17 @@ namespace eval ::CAMGUI {
 		
 			#add the buttons
 			WCAssistant_showButtons $buttonf [list [list "Next" [list ::CAMGUI::WCAssistant_s3 $win $titlec $optionsf $buttonf] 1 ] [list "Back" [list ::CAMGUI::WCAssistant_s1 $win $titlec $optionsf $buttonf] 1 ] [list "Cancel" [list destroy $win] 1 ]]
+
+		#if on mac we only need a button to open the settingswindow and step 2 and 3 are 1 page
 		} else {
 			#change the title
 			WCAssistant_titleText $titlec "Set up webcamdevice and channel (Step 2 and 3 of 5)"
 			#empty the optionsframe
 			WCAssistant_optionsFrame $optionsf
 			#add a button to open the configpane
+#...
 			
-						#add the buttons
+			#add the buttons
 			WCAssistant_showButtons $buttonf [list [list "Next" [list ::CAMGUI::WCAssistant_s4 $win $titlec $optionsf $buttonf] 1 ] [list "Back" [list ::CAMGUI::WCAssistant_s1 $win $titlec $optionsf $buttonf] 1 ] [list "Cancel" [list destroy $win] 1 ]]	
 		}
 	

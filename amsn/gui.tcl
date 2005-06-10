@@ -3351,6 +3351,9 @@ proc cmsn_draw_main {} {
 	::skin::setPixmap ring_disabled ring_disabled.gif
 	
 	::skin::setPixmap webcam webcam.png
+	::skin::setPixmap camempty camempty.png
+
+	
 
 	::skin::setPixmap fticon fticon.gif
 	::skin::setPixmap ftreject ftreject.gif
