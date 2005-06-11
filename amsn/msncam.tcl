@@ -2707,6 +2707,9 @@ namespace eval ::CAMGUI {
 		global chanswidget
 		global devices
 		global devicenames
+		global choosendevice
+		global channels
+		global channelnames
 		
 		status_log "Choose value: $value"
 		#first empty the chanslist
@@ -2718,23 +2721,90 @@ namespace eval ::CAMGUI {
 	
 			#get the name of the selected device
 			set devnr [lsearch $devicenames $value]
-			set device [lindex $devices $devnr]
-			set device [lindex $device 0]
+			set choosendevice [lindex $devices $devnr]
+			set choosendevice [lindex $choosendevice 0]
 		
-			if { [catch {set channels [::Capture::ListChannels $device]} errormsg] } {
+			if { [catch {set channels [::Capture::ListChannels $choosendevice]} errormsg] } {
 				status_log "$errormsg"
 				return
 			}
 
 			status_log "chans: $channels"
 
-			foreach chan $channels {
-				$chanswidget list insert end $chan
+			set channelnames [list ]
+			$chanswidget list delete 0 end
+			foreach channel $channels {
+				set chan [lindex $channel 0]
+				set channame [lindex $channel 1]
+				$chanswidget list insert end $channame
+				lappend channelnames $channame
 			}
+#			status_log
 
 		}
 
 	}
+	proc WcAssistant_startLinPreview {chanswidget value} {
+		global channels
+		global channelnames
+		global choosenchannel
+		global choosendevice
+		global previmg
+		global previmc
+		
+		if { $value == "" } {
+			status_log "No device selected"
+		} else {
+			#get the name (nr!!!) of the selected channel
+			set channame [lsearch $channelnames $value]
+			set choosenchannel [lindex $channels $channame]
+			set choosenchannel [lindex $choosenchannel 0]
+			status_log "Will preview: $choosendevice on channel $choosenchannel"
+			
+			#close the device if open
+			if { [::Capture::IsValid $::CAMGUI::webcam_preview] } {
+				::Capture::Close $::CAMGUI::webcam_preview
+			}
+
+			if { [catch {set ::CAMGUI::webcam_preview [::Capture::Open $choosendevice $choosenchannel]} errormsg] } {
+				status_log "problem opening device: $errormsg"
+				return
+			}
+
+			#set initial picture settings:
+			set init_b [::Capture::GetBrightness $::CAMGUI::webcam_preview]
+			set init_c [::Capture::GetContrast $::CAMGUI::webcam_preview]
+			set init_h [::Capture::GetHue $::CAMGUI::webcam_preview]
+			set init_co [::Capture::GetColour $::CAMGUI::webcam_preview]
+
+			set sets [::config::getKey "webcam$choosendevice:$choosenchannel" "$init_b:$init_c:$init_h:	$init_co"]
+			set sets [split $sets ":"]
+			set init_b [lindex $sets 0]
+			set init_c [lindex $sets 1]
+			set init_h [lindex $sets 2]
+			set init_co [lindex $sets 3]
+
+			after 0 "::CAMGUI::WcAssistant_LinPreview $::CAMGUI::webcam_preview $previmg"
+			
+		
+		}
+	
+	
+	}
+
+	proc WcAssistant_LinPreview { grabber img } {
+		set semaphore ::CAMGUI::sem_$grabber
+		set $semaphore 0
+
+		while { [::Capture::IsValid $grabber] && [lsearch [image names] $img] != -1 } {
+			if {[catch {::Capture::Grab $grabber $img} res]} {
+				status_log "Problem grabbing from the device.  Device busy or unavailable ?\n\t \"$res\""
+			}
+			after 100 "incr $semaphore"
+			tkwait variable $semaphore
+		}
+	}
+	
 
 
 
@@ -2809,6 +2879,10 @@ namespace eval ::CAMGUI {
 		global chanswidget
 		global devices
 		global devicenames
+		global channels
+		global channelnames
+		global previmg
+		global previmc
 		
 		#if not on mac we have to fill this with options
 		if { ![OnMac] } {
@@ -2835,9 +2909,13 @@ namespace eval ::CAMGUI {
 			set rightframe $frame.right
 			canvas $rightframe -background #000000
 			pack $rightframe -side right -padx 10
+			set previmc $rightframe
 			
 			
 			if {[OnUnix]} {
+
+				set ::CAMGUI::webcam_preview ""
+
 				set devices [::Capture::ListDevices]
 
 				if { [llength $devices] == 0 } {
@@ -2849,12 +2927,12 @@ namespace eval ::CAMGUI {
 				} else {
 				
 			
-					set img [::skin::loadPixmap camempty]
+					set previmg [::skin::loadPixmap camempty]
 
-					$rightframe create image 0 0 -image $img 
+					$rightframe create image 0 0 -image $previmg -anchor nw 
 
 					#somehow if I make it "editable" I see the devices, otherwise I don't, but I want to -see 'm but not have 'm editable !!!
-					combobox::combobox $leftframe.devs -highlightthickness 0 -width 22 -bg #FFFFFF -font splainf -exportselection false -command ::CAMGUI::WcAssistant_fillLinChans -editable false
+					combobox::combobox $leftframe.devs -highlightthickness 0 -width 22 -bg #FFFFFF -font splainf -exportselection true -command ::CAMGUI::WcAssistant_fillLinChans -editable false
 					$leftframe.devs list delete 0 end
 					set devicenames [list ]
 
@@ -2872,9 +2950,8 @@ namespace eval ::CAMGUI {
 					pack $leftframe.devs -side top
 					status_log "ON LINUX WITH DEVICES: $devices"
 					set chanswidget $leftframe.chans
-					combobox::combobox $leftframe.chans -highlightthickness 0 -width 22 -bg #FFFFFF -font splainf -exportselection false -command ::CAMGUI::WcAssistant_startLinPreview -editable false		
+					combobox::combobox $leftframe.chans -highlightthickness 0 -width 22 -bg #FFFFFF -font splainf -exportselection true -command ::CAMGUI::WcAssistant_startLinPreview -editable false		
 					pack $leftframe.chans -side top -pady 20
-
 
 				}
 			} else {
