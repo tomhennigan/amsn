@@ -42,6 +42,7 @@ appearance Välimus
 appearoff Ilmu lahtiühendatuna
 areacode Piirkonnakood
 aretyping $1 trükivad mingit sõnumit
+askeachtime Küsi iga kord
 askwebcam Küsi kasutajalt veebikaamera näitamist
 author Autor
 autoaccepted Faili laadimine automaatselt lubatud
@@ -126,13 +127,17 @@ clear Puhasta
 clearlog Tühjenda logi
 clearlog2 Tühjenda kõikide kontaktide Ajalugu
 clearlog3 Tühjenda kõik logid
+clearwebcamlogs Kustuta kõik veebikaamera logid
 clicktoadd Uue märkme lisamiseks vajuta Lisa nuppu
 clicktologin Vajuta siia, et sisse logida
 clientcaps Saada vestluskaaslase kliendile x-clientcap pakett
 clientname Kliendi nimi
 close Sulge
 closeall Sulged kõik aknas olevad tabid ?
+closealltabs Sulge kõik tabid
 closed Vestlus $1'ga suleti passiivsuse pärast
+closelabel Kui sa vajutad tabidega aknas sulgemisnupule
+closeonly Sulge ainult aktiivne tab
 closingdocks Sulgemisnupp minimeerib akna
 command Käsk
 commandstatus Käivita käsk
@@ -227,6 +232,7 @@ editstate Muuda eksisteerivad automaatvastuse staatust
 editvalue Muuda väärtust
 email Email
 emailsinlist Näita kontaktide nimekirjas nimede asemel e-maili aadresse
+emoticon_steal Lisa oma ikoonide hulka
 emotisounds Mängi heli kindla emotikoniga
 emptygroup Tühjenda grupp
 enabled Lubatud
@@ -370,6 +376,7 @@ logsbydate Sorteeri logid kuupäeva järgi (Ajaloo näitamine laeb palju kiiremini)
 logsin logis sisse
 logsmileys Näitab emotsioone aMSN'i Ajaloo akendes
 logsout logis välja
+logwebcam Salvesta kõik veebikaamera vestlused pärastiseks vaatamiseks aMSN ajalukku
 longnick Sinu nimi on pikem kui 130 märki. Ametlik MSN protokoll ei toeta nii pikki nimesid. Kindel, et tahad nime selliseks muuta ?
 longp4c Sinu Sõbralik nimi on pikem kui 130 märki. Ametlikus MSN versioonis näidatav nimi on $1. SOled kindel, et soovid selle seada ?
 lprivtoconf Privaatvestlus muudetud konverentsiks isikuga $1
@@ -471,12 +478,14 @@ p4contextprefix Liida P4-Context sõnumi saatjale see eesliide
 pager Piipar
 pass Salasõna
 paste Kleebi
+pause Paus
 personal Isiklik
 phone Telefon
 phones Telefoni numbrid
 picbrowser Kuvapiltide brauser
 picfile Pildifail (GIF < 500 x 500)
 picstatus Pildialarm
+play Mängi
 playing Hetkel mängib: $1
 pluginselector Vali plugin
 port Port
@@ -537,6 +546,7 @@ reconnect2 Taasühenda kui ühendus katkeb
 reconnecting Uuesti ühendan serveriga
 reject Keeldu
 rememberpass Mäleta parooli
+remembersetting Mäleta seda seadet
 removeempty Eemalda kontaktide nimekirjast tühjad grupid
 removefromlist Eemalda sellest listist
 rename Nimeta ümber
@@ -582,6 +592,7 @@ smileconfig Emotikonide konfigureerimine
 smilefile Emotikoni faili nimi
 smileintro Enda emotikooni loomiseks täida palun vajalikud väljad (abi jaoks vaata KKK)
 smileintro2 Selle emotikooni muutmiseks muuda palun vastavaid välju (abi jaoks vaata KKK)
+smiletoobig Ikoon mille valisid on tavasuurusest suurem. Kas soovid seda vähendada ?
 snackfailed Ebaõnnestus Snacki laadimine, lülitun tagasi vaikeväärtusele
 sngdblclick Kasuta uue sõnumi akna avamiseks ühte klikki
 sound Sündmusheli
@@ -610,6 +621,7 @@ statenewtext Palun sisesta vajalik informatsioon,\net teha uus Personaalne Staat
 statenick Kohandatud nimi (kui ei soovi muuta siis jäta tühjaks)
 stats Statistika
 status Olek
+stop Peata
 stopalarm Peata alarm
 storenickname Taasta esialgne nimi peale kohandatud nimega ise tehtud olekust naasmist
 strictfonts Piira kõikide fontide suurus selliseks, nagu on valitud fondil (Olekuriba ja mujal)
@@ -628,6 +640,7 @@ takesnapshot Tee pilt
 temp_state Ära salvesta (Ajutine seisund mida ei salvestata AMSNi sulgemisel)
 textsize Teksti suurus
 thismonth Käesoleval kuul
+throughserver Läbi serveri
 timeremaining Aega on jäänud
 timestamp kellaaeg
 timestamps Luba ajatemplid vestluse aknas
@@ -673,6 +686,7 @@ version Versioon
 view Vaade
 viewcontactsby Vaata kontakte sorteerides
 viewprofile Vaata profiili
+webcamhistory Vaata veebikaamera vestlusi
 webcaminvite $1 kutsus sind alustama veebikaamera seanssi kuid aMSN ei toeta seda võimalust
 webcamshot Veebikaamera pilt
 whatsize Pilt mida sa küsid ei ole tavasuuruses (96x96).\n Mis suuruses sa seda näidata soovid ?
