@@ -2640,8 +2640,8 @@ namespace eval ::CAMGUI {
 
 		toplevel $win
 		wm title $win "Webcam Setup Assistant"
-		wm geometry $win 500x400
-		wm resizable $win 0 0 
+		wm geometry $win 600x500
+#		wm resizable $win 0 0 
 
 #+-------------------------------+__window
 #|+-----------------------------+|
@@ -2664,7 +2664,7 @@ namespace eval ::CAMGUI {
 			frame $titlef -height 50 -bd 0 -bg [::skin::getKey mainwindowbg]
 			  canvas $titlec -bg [::skin::getKey mainwindowbg] -height 50
 			  $titlec create text 10 25 -text " " -anchor w -fill #ffffff -font bboldf -tag title
-			  $titlec create image 480 25 -image [::skin::loadPixmap webcam] -anchor e
+			  $titlec create image 580 25 -image [::skin::loadPixmap webcam] -anchor e
 			  pack $titlec -fill x
 			pack $titlef -side top -fill x
 
@@ -2703,7 +2703,38 @@ namespace eval ::CAMGUI {
 			pack $frame.$count -side right -padx 10
 		}
 	}
+	proc WcAssistant_fillLinChans {devswidget value} {
+		global chanswidget
+		global devices
+		global devicenames
+		
+		status_log "Choose value: $value"
+		#first empty the chanslist
+		$chanswidget delete 0 end
+		
+		if { $value == "" } {
+			status_log "No device selected"
+		} else {
 	
+			#get the name of the selected device
+			set devnr [lsearch $devicenames $value]
+			set device [lindex $devices $devnr]
+			set device [lindex $device 0]
+		
+			if { [catch {set channels [::Capture::ListChannels $device]} errormsg] } {
+				status_log "$errormsg"
+				return
+			}
+
+			status_log "chans: $channels"
+
+			foreach chan $channels {
+				$chanswidget list insert end $chan
+			}
+
+		}
+
+	}
 
 
 
@@ -2775,7 +2806,9 @@ namespace eval ::CAMGUI {
 	
 	proc WCAssistant_s2 {win titlec optionsf buttonf} {
 		global infoarray
-
+		global chanswidget
+		global devices
+		global devicenames
 		
 		#if not on mac we have to fill this with options
 		if { ![OnMac] } {
@@ -2797,7 +2830,12 @@ namespace eval ::CAMGUI {
 			frame $frame -bd 0
 			pack $frame -padx 10 -pady 10 -side left
 			set leftframe $frame.left
+			frame $leftframe -bd 0
+			pack $leftframe -side left -padx 10
 			set rightframe $frame.right
+			canvas $rightframe -background #000000
+			pack $rightframe -side right -padx 10
+			
 			
 			if {[OnUnix]} {
 				set devices [::Capture::ListDevices]
@@ -2812,8 +2850,13 @@ namespace eval ::CAMGUI {
 				
 			
 					set img [::skin::loadPixmap camempty]
-					canvas $rightframe -background #000000
+
 					$rightframe create image 0 0 -image $img 
+
+					#somehow if I make it "editable" I see the devices, otherwise I don't, but I want to -see 'm but not have 'm editable !!!
+					combobox::combobox $leftframe.devs -highlightthickness 0 -width 22 -bg #FFFFFF -font splainf -exportselection false -command ::CAMGUI::WcAssistant_fillLinChans -editable false
+					$leftframe.devs list delete 0 end
+					set devicenames [list ]
 
 					#create list of available devices:
 					foreach device $devices {
@@ -2822,10 +2865,15 @@ namespace eval ::CAMGUI {
 						if {$name == "" } {
 							set name "$dev (Busy)"
 						}
+						status_log "inserting $name in combobox"
+						$leftframe.devs list insert end $name
+						lappend devicenames $name
 					}
-
+					pack $leftframe.devs -side top
 					status_log "ON LINUX WITH DEVICES: $devices"
-		
+					set chanswidget $leftframe.chans
+					combobox::combobox $leftframe.chans -highlightthickness 0 -width 22 -bg #FFFFFF -font splainf -exportselection false -command ::CAMGUI::WcAssistant_startLinPreview -editable false		
+					pack $leftframe.chans -side top -pady 20
 
 
 				}
