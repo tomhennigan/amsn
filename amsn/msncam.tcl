@@ -2797,7 +2797,7 @@ status_log "button $text with command \"$command\""
 			$rightframe create image 0 0 -image $previmg -anchor nw 
 
 			$rightframe create text 10 10 -anchor nw -font bboldf -text "Preview $choosendevice:$choosenchannel" -fill #FFFFFF -anchor nw -tag device
-			after 2000 "if {[winfo exists $rightframe]} { $rightframe delete device}"
+			after 2000 "if {[info exists $rightframe]} { $rightframe delete device}"
 
 
 			
@@ -2816,15 +2816,17 @@ status_log "button $text with command \"$command\""
 	
 	
 	}
+	proc WcAssistant_closeOnPreview {w} {
+		WcAssitant_stopPreviewGrab		
+		destroy $w
+	}
 
-	proc WcAssitant_stopPreviewGrab {} {
+	proc WcAssistant_stopPreviewGrab {} {
 		global previmg
 		
 		if { [::Capture::IsValid $::CAMGUI::webcam_preview] } {
 			::Capture::Close $::CAMGUI::webcam_preview
 		}
-
-
 		catch {image delete $previmg}
 		status_log ">>>>> Stopped grabbing"
 
@@ -2854,6 +2856,10 @@ status_log "button $text with command \"$command\""
 	#Fill the window with content for the first step
 	proc WCAssistant_s1 {win titlec optionsf buttonf} {
 		global infoarray
+
+
+WcAssistant_stopPreviewGrab
+
 		#change the title
 		WCAssistant_titleText $titlec "Check for required extensions (Step 1 of 5)"
 		#empty the optionsframe
@@ -2940,6 +2946,8 @@ status_log "button $text with command \"$command\""
 		global previmc
 		global rightframe
 		
+
+
 		#if not on mac we have to fill this with options
 		if { ![OnMac] } {
 			#set beginning situation:
@@ -2983,9 +2991,6 @@ status_log "button $text with command \"$command\""
 #					set infoarray(deviceset) 0 ;#-> is default			
 				} else {
 				
-#					if {[info exists previmg]} {image delete $previmg}
-
-					#somehow if I make it "editable" I see the devices, otherwise I don't, but I want to -see 'm but not have 'm editable !!!
 					combobox::combobox $leftframe.devs -highlightthickness 0 -width 22 -bg #FFFFFF -font splainf -exportselection true -command ::CAMGUI::WcAssistant_fillLinChans -editable false
 					$leftframe.devs list delete 0 end
 					set devicenames [list ]
@@ -2997,12 +3002,10 @@ status_log "button $text with command \"$command\""
 						if {$name == "" } {
 							set name "$dev (Busy)"
 						}
-						status_log "inserting $name in combobox"
 						$leftframe.devs list insert end $name
 						lappend devicenames $name
 					}
 					pack $leftframe.devs -side top
-					status_log "ON LINUX WITH DEVICES: $devices"
 					set chanswidget $leftframe.chans
 					combobox::combobox $leftframe.chans -highlightthickness 0 -width 22 -bg #FFFFFF -font splainf -exportselection true -command "after 0 ::CAMGUI::WcAssistant_startLinPreview" -editable false		
 					pack $leftframe.chans -side top -pady 20
@@ -3029,7 +3032,7 @@ status_log "button $text with command \"$command\""
 
 		
 			#add the buttons
-			WCAssistant_showButtons $buttonf [list [list "Next" [list ::CAMGUI::WCAssistant_s3 $win $titlec $optionsf $buttonf] 1 ] [list "Back" [list ::CAMGUI::WCAssistant_s1 $win $titlec $optionsf $buttonf] 1 ] [list "Cancel" [list destroy $win] 1 ]]
+			WCAssistant_showButtons $buttonf [list [list "Next" [list ::CAMGUI::WCAssistant_s3 $win $titlec $optionsf $buttonf] 1 ] [list "Back" [list ::CAMGUI::WCAssistant_s1 $win $titlec $optionsf $buttonf] 1 ] [list "Cancel" [list ::CAMGUI::WcAssistant_closeOnPreview $win] 1 ]]
 
 		#if on mac we only need a button to open the settingswindow and step 2 and 3 are 1 page
 		} else {
@@ -3050,6 +3053,9 @@ status_log "button $text with command \"$command\""
 	#folowing page is skipped on mac :)
 	proc WCAssistant_s3 {win titlec optionsf buttonf} {
 		global infoarray
+
+WcAssistant_stopPreviewGrab
+
 
 		#change the title
 		WCAssistant_titleText $titlec "Finetune picture settings (Step 3 of 5)"
