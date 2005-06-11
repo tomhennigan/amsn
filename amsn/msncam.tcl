@@ -2797,7 +2797,7 @@ status_log "button $text with command \"$command\""
 
 			after 0 "::CAMGUI::WcAssistant_LinPreview $::CAMGUI::webcam_preview $previmg"
 			$rightframe create text 10 10 -anchor nw -font bboldf -text "Preview $choosendevice:$choosenchannel" -fill #FFFFFF -anchor nw -tag device
-			after 2000 "$rightframe delete device"
+			after 2000 "if {[winfo exists $rightframe]} { $rightframe delete device}"
 			
 		
 		}
