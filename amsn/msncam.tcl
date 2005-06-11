@@ -2699,6 +2699,7 @@ namespace eval ::CAMGUI {
 			set command [lindex $button 1]
 			set state [lindex $button 2]
 			if {$state == 0} {set state "disabled"} else {set state "normal"}
+status_log "button $text with command \"$command\""
 			button $frame.$count -text $text -command $command -state $state
 			pack $frame.$count -side right -padx 10
 		}
@@ -2710,6 +2711,7 @@ namespace eval ::CAMGUI {
 		global choosendevice
 		global channels
 		global channelnames
+		global previmg
 		
 		status_log "Choose value: $value"
 		#first empty the chanslist
@@ -2751,7 +2753,11 @@ namespace eval ::CAMGUI {
 		global choosendevice
 		global previmg
 		global previmc
+		global rightframe
 		
+#		WcAssitant_stopPreviewGrab
+		
+	
 		if { $value == "" } {
 			status_log "No device selected"
 		} else {
@@ -2771,7 +2777,7 @@ namespace eval ::CAMGUI {
 				return
 			}
 
-			#set initial picture settings:
+			#set initial pictur::CAMGUIWcAssitant_stopPreviewGrab; e settings:
 			set init_b [::Capture::GetBrightness $::CAMGUI::webcam_preview]
 			set init_c [::Capture::GetContrast $::CAMGUI::webcam_preview]
 			set init_h [::Capture::GetHue $::CAMGUI::webcam_preview]
@@ -2784,7 +2790,14 @@ namespace eval ::CAMGUI {
 			set init_h [lindex $sets 2]
 			set init_co [lindex $sets 3]
 
+			set previmg [image create photo]
+					
+			$rightframe create image 0 0 -image $previmg -anchor nw 
+
+
 			after 0 "::CAMGUI::WcAssistant_LinPreview $::CAMGUI::webcam_preview $previmg"
+			$rightframe create text 10 10 -anchor nw -font bboldf -text "Preview $choosendevice:$choosenchannel" -fill #FFFFFF -anchor nw -tag device
+			after 2000 "$rightframe delete device"
 			
 		
 		}
@@ -2793,6 +2806,8 @@ namespace eval ::CAMGUI {
 	}
 
 	proc WcAssistant_LinPreview { grabber img } {
+		global previmg
+		
 		set semaphore ::CAMGUI::sem_$grabber
 		set $semaphore 0
 
@@ -2803,6 +2818,17 @@ namespace eval ::CAMGUI {
 			after 100 "incr $semaphore"
 			tkwait variable $semaphore
 		}
+	}
+	proc WcAssitant_stopPreviewGrab {} {
+		global previmg
+		
+		if { [::Capture::IsValid $::CAMGUI::webcam_preview] } {
+			::Capture::Close $::CAMGUI::webcam_preview
+		}
+
+		catch {image delete $previmg}
+		status_log ">>>>> Stopped grabbing"
+
 	}
 	
 
@@ -2883,6 +2909,7 @@ namespace eval ::CAMGUI {
 		global channelnames
 		global previmg
 		global previmc
+		global rightframe
 		
 		#if not on mac we have to fill this with options
 		if { ![OnMac] } {
@@ -2907,6 +2934,7 @@ namespace eval ::CAMGUI {
 			frame $leftframe -bd 0
 			pack $leftframe -side left -padx 10
 			set rightframe $frame.right
+			#this is a canvas so we gcan have a border and put some OSD-like text on it too
 			canvas $rightframe -background #000000
 			pack $rightframe -side right -padx 10
 			set previmc $rightframe
@@ -2926,10 +2954,7 @@ namespace eval ::CAMGUI {
 #					set infoarray(deviceset) 0 ;#-> is default			
 				} else {
 				
-			
-					set previmg [::skin::loadPixmap camempty]
-
-					$rightframe create image 0 0 -image $previmg -anchor nw 
+#					if {[info exists previmg]} {image delete $previmg}
 
 					#somehow if I make it "editable" I see the devices, otherwise I don't, but I want to -see 'm but not have 'm editable !!!
 					combobox::combobox $leftframe.devs -highlightthickness 0 -width 22 -bg #FFFFFF -font splainf -exportselection true -command ::CAMGUI::WcAssistant_fillLinChans -editable false
@@ -2996,7 +3021,6 @@ namespace eval ::CAMGUI {
 	#folowing page is skipped on mac :)
 	proc WCAssistant_s3 {win titlec optionsf buttonf} {
 		global infoarray
-
 
 		#change the title
 		WCAssistant_titleText $titlec "Finetune picture settings (Step 3 of 5)"
