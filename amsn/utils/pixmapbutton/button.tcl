@@ -28,7 +28,7 @@ package require snit
 package require scalable-bg
 package provide pixmapbutton 0.1
 
-snit::widgetadaptor pixmapbutton {
+snit::widgetadaptor button {
 
 	variable potent
 	variable focused
@@ -42,10 +42,16 @@ snit::widgetadaptor pixmapbutton {
 	variable buttonwidth
 	variable buttonheight
 	
-	variable normal
-	variable hovered
-	variable pressed
-	variable disabled
+	typevariable normal
+	typevariable hover
+	typevariable pressed
+	typevariable disabled
+	typevariable focus
+
+	option -bd
+	option -bg
+	option -relief
+	option -highlightthickness
 
 	option -anchor -default "c" -configuremethod setAnchor -cgetmethod getAnchor
 	option -background -configuremethod setOption -cgetmethod getOption
@@ -72,17 +78,18 @@ snit::widgetadaptor pixmapbutton {
 	option -state -default "normal"
 	option -width -configuremethod NewSize -cgetmethod getOption
 
+	
+	typeconstructor {
+		puts hi
+		$type reloadimages
+		puts $normal
+	}
+
 	constructor { args } {
 		installhull using canvas -relief solid -highlightthickness 0 -width 80 -height 30
 		set potent "no"
 		set buttonwidth 0
 		set buttonheight 0
-
-		set normal [image create photo -file "button.gif"]
-		set hover [image create photo -file "button_hover.gif"]
-		set pressed [image create photo -file "button_pressed.gif"]
-		set disabled [image create photo -file "button_disabled.gif"]
-		set focus [image create photo -file "focus.gif"]
 
 		set bdn 6
 		set bde 6
@@ -497,10 +504,17 @@ snit::widgetadaptor pixmapbutton {
 	method invoke { } {
 		eval $options(-command)
 	}
-	
-	
 
 	method flash { } {
 		
+	}
+
+	typemethod reloadimages { } {
+		set normal [image create photo -file "button.gif"]
+		set hover [image create photo -file "button_hover.gif"]
+		set pressed [image create photo -file "button_pressed.gif"]
+		set disabled [image create photo -file "button_disabled.gif"]
+		set focus [image create photo -file "focus.gif"]
+		puts hi2
 	}
 }
