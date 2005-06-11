@@ -3318,6 +3318,12 @@ proc cmsn_draw_main {} {
 	::skin::setPixmap download download.gif
 	::skin::setPixmap warning warning.gif
 
+	::skin::setPixmap button button.gif
+	::skin::setPixmap button_hover button_hover.gif
+	::skin::setPixmap button_pressed button_pressed.gif
+	::skin::setPixmap button_disabled button_disabled.gif
+	::skin::setPixmap button_focus button_focus.gif
+
 	::skin::setPixmap typingimg typing.gif
 	::skin::setPixmap miniinfo miniinfo.gif
 	::skin::setPixmap miniwarning miniwarn.gif
