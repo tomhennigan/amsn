@@ -47,11 +47,25 @@ snit::widgetadaptor button {
 	typevariable pressed
 	typevariable disabled
 	typevariable focus
-
+######### UNUSED OPTIONS ###################
 	option -bd
 	option -bg
+	option -compound
 	option -relief
 	option -highlightthickness
+	option -highlightbackground
+	option -highlightcolor
+	option -activebackground
+	option -activebg
+	option -activeforeground
+	option -activefg
+	option -disabledforeground
+	option -activeborderwidth
+	option -bitmap
+	option -borderwidth
+	option -image
+	option -overrelief
+############################################	
 
 	option -anchor -default "c" -configuremethod setAnchor -cgetmethod getAnchor
 	option -background -configuremethod setOption -cgetmethod getOption
@@ -80,9 +94,7 @@ snit::widgetadaptor button {
 
 	
 	typeconstructor {
-		puts hi
 		$type reloadimages
-		puts $normal
 	}
 
 	constructor { args } {
@@ -510,11 +522,10 @@ snit::widgetadaptor button {
 	}
 
 	typemethod reloadimages { } {
-		set normal [image create photo -file "button.gif"]
-		set hover [image create photo -file "button_hover.gif"]
-		set pressed [image create photo -file "button_pressed.gif"]
-		set disabled [image create photo -file "button_disabled.gif"]
-		set focus [image create photo -file "focus.gif"]
-		puts hi2
+		set normal [::skin::getPixmap button]
+		set hover [::skin::getPixmap button_hover]
+		set pressed [::skin::getPixmap button_pressed]
+		set disabled [::skin::getPixmap button_disabled]
+		set focus [::skin::getPixmap button_focus]
 	}
 }
