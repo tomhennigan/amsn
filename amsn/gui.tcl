@@ -4,7 +4,7 @@ if {![::picture::Loaded]} {
 	exit
 }
 package require AMSN_BWidget
-package require pixmapbutton
+#package require pixmapbutton
 if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 	#Use tclCarbonHICommand for window utilities
 	catch {package require tclCarbonHICommand}
@@ -3358,8 +3358,9 @@ proc cmsn_draw_main {} {
 	
 	::skin::setPixmap webcam webcam.png
 	::skin::setPixmap camempty camempty.png
+	::skin::setPixmap yes-emblem yes-emblem.gif
+	::skin::setPixmap no-emblem no-emblem.gif
 
-	
 
 	::skin::setPixmap fticon fticon.gif
 	::skin::setPixmap ftreject ftreject.gif

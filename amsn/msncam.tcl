@@ -2861,12 +2861,16 @@ status_log "button $text with command \"$command\""
 		WCAssistant_optionsFrame $optionsf
 
 		#set vars
-		set infoarray(wcextloaded) 0
-		set wcextpic "\[ERROR\]" ;#-> should become a picture
+
 		if {[::CAMGUI::ExtensionLoaded]} {
 			set infoarray(wcextloaded) 1
-			set wcextpic "\[OK\]" ;#-> should become a picture
+			set wcextpic [::skin::loadPixmap yes-emblem]
+		} else {
+			set infoarray(wcextloaded) 0
+			set wcextpic [::skin::loadPixmap no-emblem]
 		}
+		
+		
 		set capextname "grab"
 		if { [set ::tcl_platform(platform)] == "windows" } {
 			set capextname "tkvideo"
@@ -2875,19 +2879,45 @@ status_log "button $text with command \"$command\""
 		} elseif { [set ::tcl_platform(os)] == "Linux" } {
 			set capextname "capture"
 		}
-		set infoarray(capextloaded) 0
-		set capextpic "\[ERROR\]" ;#-> should become a picture
+
+
 		if {[::CAMGUI::CaptureLoaded]} {
 			set infoarray(capextloaded) 1
-			set capextpic "\[OK\]" ;#-> should become a picture
+			set capextpic [::skin::loadPixmap yes-emblem]
+		} else {
+			set infoarray(capextloaded) 0
+			set capextpic [::skin::loadPixmap no-emblem]
 		}
+		
+		set frame $optionsf.innerframe
+		frame $frame -bd 0 
+		pack $frame -padx 20 -pady 50
 
-		label $optionsf.wcexttext -justify left -anchor nw -font bplainf -text "Check if webcam extension is loaded ..." ;#-fg $wcexttextcolor
-		label $optionsf.capexttext -justify left -anchor nw -font bplainf -text "Check if '$capextname' extension is loaded ..." ;#-fg $capexttextcolor
+		set wcextbox $frame.wcextbox
+		set capextbox $frame.capextbox
+		frame $wcextbox -bd 0 
+		frame $capextbox -bd 0 
+		pack $wcextbox $capextbox -side top -padx 10 -pady 10 -fill y
 		
-		pack $optionsf.wcexttext $optionsf.capexttext
+		set wcexttext $wcextbox.wcexttext
+		set wcextpicl $wcextbox.wcextpicl
+
+		set capexttext $capextbox.capexttext
+		set capextpicl $capextbox.capextpicl
+
+		label $wcexttext -justify left -anchor nw -font bboldf -text "Check if webcam extension is loaded ..." ;#-fg $wcexttextcolor
+		label $capexttext -justify left -anchor nw -font bboldf -text "Check if '$capextname' extension is loaded ..." ;#-fg $wcexttextcolor
 		
-		#if an error, have a solution
+
+		label $wcextpicl -image $wcextpic
+		label $capextpicl -image $capextpic
+
+		pack $wcexttext -side left -expand 1	
+		pack $wcextpicl -side right				
+		pack $capexttext -side left
+		pack $capextpicl -side right
+				
+		#if an error, have a solution ... and tell what's (not) possible
 		
 		
 		set nextbuttonstate 0
@@ -2897,7 +2927,7 @@ status_log "button $text with command \"$command\""
 			
 		
 		#add the buttons
-		WCAssistant_showButtons $buttonf [list [list "Next" [list ::CAMGUI::WCAssistant_s2 $win $titlec $optionsf $buttonf] $nextbuttonstate ] [list "Back" [list ::CAMGUI::WCAssistant_s0 $win $titlec $optionsf $buttonf] 1 ] [list "Cancel" [list destroy $win] 1 ]]
+		WCAssistant_showButtons $buttonf [list [list "Next" [list ::CAMGUI::WCAssistant_s2 $win $titlec $optionsf $buttonf] $nextbuttonstate ] [list "Back" [list ::CAMGUI::WCAssistant_s0 $win $titlec $optionsf $buttonf] 1 ] [list "Cancel" [list destroy $win] 1 ] ]
 	}
 	
 	proc WCAssistant_s2 {win titlec optionsf buttonf} {
@@ -3012,7 +3042,7 @@ status_log "button $text with command \"$command\""
 #...
 			
 			#add the buttons
-			WCAssistant_showButtons $buttonf [list [list "Next" [list ::CAMGUI::WCAssistant_s4 $win $titlec $optionsf $buttonf] 1 ] [list "Back" [list ::CAMGUI::WCAssistant_s1 $win $titlec $optionsf $buttonf] 1 ] [list "Cancel" [list destroy $win] 1 ]]	
+			WCAssistant_showButtons $buttonf [list [list "Next" [list ::CAMGUI::WCAssistant_s4 $win $titlec $optionsf $buttonf] 1 ] [list "Back" [list ::CAMGUI::WCAssistant_s1 $win $titlec $optionsf $buttonf] 1 ] [list "Cancel" [list destroy $win] 1 ] ]	
 		}
 	
 
