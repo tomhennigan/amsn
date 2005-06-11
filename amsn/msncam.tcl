@@ -2640,7 +2640,9 @@ namespace eval ::CAMGUI {
 
 		toplevel $win
 		wm title $win "Webcam Setup Assistant"
-		wm geometry $win 600x500
+
+		set winwidth 600
+		wm geometry $win ${winwidth}x500
 #		wm resizable $win 0 0 
 
 #+-------------------------------+__window
@@ -2664,7 +2666,7 @@ namespace eval ::CAMGUI {
 			frame $titlef -height 50 -bd 0 -bg [::skin::getKey mainwindowbg]
 			  canvas $titlec -bg [::skin::getKey mainwindowbg] -height 50
 			  $titlec create text 10 25 -text " " -anchor w -fill #ffffff -font bboldf -tag title
-			  $titlec create image 580 25 -image [::skin::loadPixmap webcam] -anchor e
+			  $titlec create image [expr {$winwidth -20}] 25 -image [::skin::loadPixmap webcam] -anchor e
 			  pack $titlec -fill x
 			pack $titlef -side top -fill x
 
@@ -2794,10 +2796,20 @@ status_log "button $text with command \"$command\""
 					
 			$rightframe create image 0 0 -image $previmg -anchor nw 
 
-
-			after 0 "::CAMGUI::WcAssistant_LinPreview $::CAMGUI::webcam_preview $previmg"
 			$rightframe create text 10 10 -anchor nw -font bboldf -text "Preview $choosendevice:$choosenchannel" -fill #FFFFFF -anchor nw -tag device
 			after 2000 "if {[winfo exists $rightframe]} { $rightframe delete device}"
+
+
+			
+			set semaphore ::CAMGUI::sem_$::CAMGUI::webcam_preview
+			set $semaphore 0
+			while { [::Capture::IsValid $::CAMGUI::webcam_preview] && [lsearch [image names] $previmg] != -1 } {
+				if {[catch {::Capture::Grab $::CAMGUI::webcam_preview $previmg} res]} {
+					status_log "Problem grabbing from the device:\n\t \"$res\""
+				}
+				after 100 "incr $semaphore"
+				tkwait variable $semaphore
+			}
 			
 		
 		}
@@ -2805,26 +2817,13 @@ status_log "button $text with command \"$command\""
 	
 	}
 
-	proc WcAssistant_LinPreview { grabber img } {
-		global previmg
-		
-		set semaphore ::CAMGUI::sem_$grabber
-		set $semaphore 0
-
-		while { [::Capture::IsValid $grabber] && [lsearch [image names] $img] != -1 } {
-			if {[catch {::Capture::Grab $grabber $img} res]} {
-				status_log "Problem grabbing from the device.  Device busy or unavailable ?\n\t \"$res\""
-			}
-			after 100 "incr $semaphore"
-			tkwait variable $semaphore
-		}
-	}
 	proc WcAssitant_stopPreviewGrab {} {
 		global previmg
 		
 		if { [::Capture::IsValid $::CAMGUI::webcam_preview] } {
 			::Capture::Close $::CAMGUI::webcam_preview
 		}
+
 
 		catch {image delete $previmg}
 		status_log ">>>>> Stopped grabbing"
@@ -3005,7 +3004,7 @@ status_log "button $text with command \"$command\""
 					pack $leftframe.devs -side top
 					status_log "ON LINUX WITH DEVICES: $devices"
 					set chanswidget $leftframe.chans
-					combobox::combobox $leftframe.chans -highlightthickness 0 -width 22 -bg #FFFFFF -font splainf -exportselection true -command ::CAMGUI::WcAssistant_startLinPreview -editable false		
+					combobox::combobox $leftframe.chans -highlightthickness 0 -width 22 -bg #FFFFFF -font splainf -exportselection true -command "after 0 ::CAMGUI::WcAssistant_startLinPreview" -editable false		
 					pack $leftframe.chans -side top -pady 20
 
 				}
