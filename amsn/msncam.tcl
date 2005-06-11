@@ -2797,7 +2797,7 @@ status_log "button $text with command \"$command\""
 			$rightframe create image 0 0 -image $previmg -anchor nw 
 
 			$rightframe create text 10 10 -anchor nw -font bboldf -text "Preview $choosendevice:$choosenchannel" -fill #FFFFFF -anchor nw -tag device
-			after 2000 "if {[info exists $rightframe]} { $rightframe delete device}"
+			after 2000 "if {[winfo exists $rightframe]} { $rightframe delete device}"
 
 
 			
@@ -2875,6 +2875,8 @@ WcAssistant_stopPreviewGrab
 			set wcextpic [::skin::loadPixmap no-emblem]
 		}
 		
+
+
 		
 		set capextname "grab"
 		if { [set ::tcl_platform(platform)] == "windows" } {
