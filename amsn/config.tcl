@@ -555,6 +555,7 @@ proc load_config {} {
 
 		} res] } {
 			::amsn::errorMsg "[trans corruptconfig [file join ${HOME} "config.xml.old"]]"
+			status_log "Error when parsing confog.xml : $res"
 			file copy -force [file join ${HOME} "config.xml"] [file join ${HOME} "config.xml.old"]
 			::sxml::end $file_id
 			::config::configDefaults
