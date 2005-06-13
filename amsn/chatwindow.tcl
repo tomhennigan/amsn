@@ -1280,7 +1280,7 @@ namespace eval ::ChatWindow {
 		set ${w}_show_picture 0
 		
 		$viewmenu add checkbutton -label "[trans showdisplaypic]" \
-			-command "::amsn::ToggleShowPicture \[::ChatWindow::getCurrentTab $w\]; ::amsn::ShowOrHidePicture \[::ChatWindow::getCurrentTab $w\]" -onvalue 1 \
+			-command "::amsn::ShowOrHidePicture \[::ChatWindow::getCurrentTab $w\]" -onvalue 1 \
 			-offvalue 0 -variable "${w}_show_picture"
 		
 
@@ -2624,6 +2624,7 @@ namespace eval ::ChatWindow {
 			$tab itemconfigure tab_bg -image [::skin::loadPixmap tab_current]
 		}
 
+		$container.menu.view entryconfigure 4 -variable "${win}_show_picture"
 
 		::ChatWindow::UpdateContainerTitle $container
 
@@ -2934,6 +2935,7 @@ namespace eval ::ChatWindow {
 		set ::ChatWindow::titles(${new}) [set ::ChatWindow::titles(${win})]
 		set ::ChatWindow::first_message(${new}) [set ::ChatWindow::first_message(${win})]
 		set ::ChatWindow::recent_message(${new}) [set ::ChatWindow::recent_message(${win})]
+		set ::ChatWindow::containercurrent(${new}) ${new}
 
 		
 		unset ::ChatWindow::titles(${win})
@@ -3037,6 +3039,16 @@ namespace eval ::ChatWindow {
 		}
 		::ChatWindow::TopUpdate $chatid
 
+		set usr_name [lindex [::MSN::usersInChat $chatid] 0]
+		if { [::config::getKey showdisplaypic] && $usr_name != ""} {
+	
+			::amsn::ChangePicture $win_name user_pic_$usr_name [trans showuserpic $usr_name]
+			
+		} else {
+			::amsn::ChangePicture $win_name user_pic_$usr_name [trans showuserpic $usr_name] nopack
+			
+		}
+		
 		#We have a window for that chatid, raise it
 		raise ${top_win}
 
