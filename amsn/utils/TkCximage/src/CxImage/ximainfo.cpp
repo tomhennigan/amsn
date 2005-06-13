@@ -55,6 +55,28 @@ bool CxImage::IsIndexed() const
 }
 ////////////////////////////////////////////////////////////////////////////////
 /**
+ * Sets the method for drawing the frame related to others
+ */
+void CxImage::SetDisposalMethod(int dm)
+{	info.m_dispmeth=dm; }
+////////////////////////////////////////////////////////////////////////////////
+/**
+ * Gets the method for drawing the frame related to others
+ * Values :    0 -   No disposal specified. The decoder is
+ *                   not required to take any action.
+ *             1 -   Do not dispose. The graphic is to be left
+ *                   in place.
+ *             2 -   Restore to background color. The area used by the
+ *                   graphic must be restored to the background color.
+ *             3 -   Restore to previous. The decoder is required to
+ *                   restore the area overwritten by the graphic with
+ *                   what was there prior to rendering the graphic.
+ *             4-7 -    To be defined.
+ */
+long CxImage::GetDisposalMethod()
+{	return info.m_dispmeth; }
+////////////////////////////////////////////////////////////////////////////////
+/**
  * \return 1 = indexed, 2 = RGB, 4 = RGBA
  */
 BYTE CxImage::GetColorType()

@@ -138,6 +138,7 @@ typedef struct tagCxImageInfo {
 	long	nEscape;			///< escape
 	long	nBkgndIndex;		///< used for GIF, PNG, MNG
 	RGBQUAD nBkgndColor;		///< used for RGB transparency
+	int 	m_dispmeth;		///< used for GIF
 	BYTE	nQuality;			///< used for JPEG
 	BYTE	nJpegScale;			///< used for JPEG [ignacio]
 	long	nFrame;				///< used for TIF, GIF, MNG : actual frame
@@ -255,6 +256,8 @@ public:
 	void	SetTransIndex(long idx);
 	void	SetTransColor(RGBQUAD rgb);
 	bool	IsTransparent() const;
+	void	SetDisposalMethod(int dm);
+	long	GetDisposalMethod();
 
 	DWORD	GetCodecOption(DWORD imagetype = 0);
 	bool	SetCodecOption(DWORD opt, DWORD imagetype = 0);

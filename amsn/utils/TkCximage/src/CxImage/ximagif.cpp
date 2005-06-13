@@ -292,7 +292,7 @@ bool CxImageGIF::DecodeExtension(CxFile *fp)
 				if (bContinue) {
 					if (gifgce.flags & 0x1) info.nBkgndIndex  = gifgce.transpcolindex;
 					info.dwFrameDelay = gifgce.delaytime;
-					m_dispmeth = ((gifgce.flags >> 2) & 0x7);
+					SetDisposalMethod((gifgce.flags >> 2) & 0x7);
 				}
 			}
 		}
@@ -453,7 +453,7 @@ bool CxImageGIF::Encode(CxFile * fp, CxImage ** pImages, int pagecount, bool bLo
 		ghost.EncodeLoopExtension(fp);
 	}
 
-	ghost.SetDisposalMethod(GetDisposalMethod());
+	//ghost.SetDisposalMethod(pImages[0]->GetDisposalMethod());
 	ghost.EncodeExtension(fp);
 
 	EncodeComment(fp);
@@ -464,7 +464,7 @@ bool CxImageGIF::Encode(CxFile * fp, CxImage ** pImages, int pagecount, bool bLo
 		if (pImages[i-1]==NULL) throw "Bad image pointer";
 		ghost.Ghost(pImages[i-1]);
 
-		ghost.SetDisposalMethod(GetDisposalMethod());
+		//ghost.SetDisposalMethod(pImages[i-1]->GetDisposalMethod());
 		ghost.EncodeExtension(fp);
 
 		ghost.EncodeBody(fp,bLocalColorMap);
@@ -519,7 +519,7 @@ void CxImageGIF::EncodeExtension(CxFile *fp)
 	gifgce.flags = 0;
 	gifgce.flags |= ((info.nBkgndIndex != -1) ? 1 : 0);
 	//gifgce.flags = ( (0 & 0x1) << 1 );
-	gifgce.flags |= ( (m_dispmeth & 0x7) << 2);
+	gifgce.flags |= ( (GetDisposalMethod() & 0x7) << 2);
 	//gifgce.flags |= ( (0 & 0x7) << 5 );
 	gifgce.delaytime = (WORD)info.dwFrameDelay;
 	gifgce.transpcolindex = (BYTE)info.nBkgndIndex;	   
@@ -1285,12 +1285,6 @@ long CxImageGIF::seek_next_image(CxFile* fp, long position)
 	}
 	return -1;
 }
-////////////////////////////////////////////////////////////////////////////////
-void CxImageGIF::SetDisposalMethod(int dm)
-{	m_dispmeth=dm; }
-////////////////////////////////////////////////////////////////////////////////
-long CxImageGIF::GetDisposalMethod()
-{	return m_dispmeth; }
 ////////////////////////////////////////////////////////////////////////////////
 void CxImageGIF::SetLoops(int loops)
 {	m_loops=loops; }

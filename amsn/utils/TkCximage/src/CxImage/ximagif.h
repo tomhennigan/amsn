@@ -138,7 +138,7 @@ typedef struct tag_RLE{
 #pragma pack()
 
 public:
-	CxImageGIF(): CxImage(CXIMAGE_FORMAT_GIF) {m_loops=0; m_dispmeth=0; m_comment[0]='\0';}
+	CxImageGIF(): CxImage(CXIMAGE_FORMAT_GIF) {m_loops=0; m_comment[0]='\0';}
 
 //	bool Load(const char * imageFileName){ return CxImage::Load(imageFileName,CXIMAGE_FORMAT_GIF);}
 //	bool Save(const char * imageFileName){ return CxImage::Save(imageFileName,CXIMAGE_FORMAT_GIF);}
@@ -158,8 +158,6 @@ public:
 	long GetLoops();
 	void SetComment(const char* sz_comment_in);
 	void GetComment(char* sz_comment_out);
-	void SetDisposalMethod(int dm);
-	long GetDisposalMethod();
 
 protected:
 	bool DecodeExtension(CxFile *fp);
@@ -240,7 +238,6 @@ protected:
 
 	char m_comment[256];
 	int m_loops;
-	int m_dispmeth;
 
 //RLE compression routines
 	void compressRLE( int init_bits, CxFile* outfile);
