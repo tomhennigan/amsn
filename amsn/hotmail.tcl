@@ -338,7 +338,7 @@ proc hotmail_procmsg {message} {
 			set msgurl [$message getField Folders-URL]
 			status_log "Hotmail: $folderunread unread emails in others folders \n"
 			#If the pref notifyemail is active and more than 0 email unread, show a notify on connect
-			if { [::config::getKey notifyemailother] == 1 && [string length $folderunread] > 0} {
+			if { [::config::getKey notifyemailother] == 1 && [string length $folderunread] > 0 && $folderunread != 0 } {
 				::amsn::notifyAdd "[trans newmailfolder $folderunread]" \
 					"hotmail_viewmsg $msgurl [::config::getKey login] $password" newemail
 			}
