@@ -522,10 +522,10 @@ snit::widgetadaptor button {
 	}
 
 	typemethod reloadimages { } {
-		set normal [::skin::getPixmap button]
-		set hover [::skin::getPixmap button_hover]
-		set pressed [::skin::getPixmap button_pressed]
-		set disabled [::skin::getPixmap button_disabled]
-		set focus [::skin::getPixmap button_focus]
+		set normal [::skin::loadPixmap button]
+		set hover [::skin::loadPixmap button_hover]
+		set pressed [::skin::loadPixmap button_pressed]
+		set disabled [::skin::loadPixmap button_disabled]
+		set focus [::skin::loadPixmap button_focus]
 	}
 }
