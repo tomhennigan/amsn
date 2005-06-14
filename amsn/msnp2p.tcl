@@ -742,6 +742,7 @@ namespace eval ::MSNP2P {
 			# If it's a file transfer, advise the user it has been canceled
 			if { [lindex [SessionList get $sid] 7] == "filetransfer" } {
 				status_log "File transfer canceled\n"
+				::MSNP2P::SessionList set $sid [list -1 -1 -1 -1 -1 -1 -1 "ftcanceled" -1 -1]
 				if { [::amsn::FTProgress ca $sid [lindex [SessionList get $sid] 6]] == -1 } {
 					::amsn::RejectFT $chatid "-2" $sid
 				}
@@ -1303,6 +1304,11 @@ proc SendDataEvent { sbn sid fd } {
 	set filesize [lindex [SessionList get $sid] 1]
 
 	if { $offset == "" } {
+		close $fd
+		return
+	}
+
+	if { [lindex [::MSNP2P::SessionList get $sid] 7] == "ftcanceled" } {
 		close $fd
 		return
 	}

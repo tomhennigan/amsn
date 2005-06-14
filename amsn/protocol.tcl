@@ -4951,7 +4951,7 @@ namespace eval ::MSN6FT {
 				 $netid $conntype $upnp "false"]
 		::MSNP2P::SendPacket [::MSN::SBFor $chatid] [::MSNP2P::MakePacket $sid $slpdata 1]
 
-		after 5000 "::MSNP2P::SendDataFile $sid $chatid [list [lindex [::MSNP2P::SessionList get $sid] 8]] \"INVITE1\""
+		#after 5000 "::MSNP2P::SendDataFile $sid $chatid [list [lindex [::MSNP2P::SessionList get $sid] 8]] \"INVITE1\""
 	}
 
 
@@ -4965,6 +4965,7 @@ namespace eval ::MSN6FT {
 		set conntype [abook::getDemographicField conntype]
 
 		set listening [abook::getDemographicField listening]
+		#set listening "false"
 
 		set fd [open [lindex $session 8] "r"]
 		fconfigure $fd -translation {binary binary}
@@ -5097,7 +5098,7 @@ namespace eval ::MSN6FT {
 			{
 				set nonce [getObjOption $sock nonce]
 				
-				if { $server && $nonce == [GetNonceFromData $data]} {
+				if { $nonce == [GetNonceFromData $data] } {
 					::MSNP2P::SessionList set $sid [list -1 -1 -1 -1 "DATASEND" -1 -1 -1 -1 -1]
 
 					if { $server } {
@@ -5161,7 +5162,7 @@ namespace eval ::MSN6FT {
 			"FOO"			
 			{
 				if { $server == 0 } {
-					set data "[binary format i 4]foo\x00"
+					set data "foo\x00"
 					setObjOption $sock state "NONCE_SEND"
 					fileevent $sock writable "::MSN6FT::WriteToSock $sock"
 				}
@@ -5271,6 +5272,11 @@ namespace eval ::MSN6FT {
 		set sid [getObjOption $sock sid]
 
 		set fd [lindex [::MSNP2P::SessionList get $sid] 6]
+		if { [lindex [::MSNP2P::SessionList get $sid] 7] == "ftcanceled" } {
+			
+			catch {close $fd }
+			return 0
+		}
 		if { $fd == 0 || $fd == "" } {
 			set filename [lindex [::MSNP2P::SessionList get $sid] 8]
 			set fd [open "${filename}"]
@@ -5430,7 +5436,8 @@ namespace eval ::MSN6FT {
 		set user_login [lindex $session_data 3]
 
 		status_log "MSNP2P | $sid -> User canceled FT, sending BYE to chatid : $chatid and SB : [::MSN::SBFor $chatid]\n" red
-		::MSNP2P::SendPacket [::MSN::SBFor $chatid] [::MSNP2P::MakePacket $sid [::MSNP2P::MakeMSNSLP "BYE" $user_login [::config::getKey login] "19A50529-4196-4DE9-A561-D68B0BF1E83F" 0 [lindex $session_data 5] 0 0] 1]
+		#Make packet shouldn't get from the sessionlist the fileds so I pass to it a null sid
+		::MSNP2P::SendPacket [::MSN::SBFor $chatid] [::MSNP2P::MakePacket 0 [::MSNP2P::MakeMSNSLP "BYE" $user_login [::config::getKey login] "19A50529-4196-4DE9-A561-D68B0BF1E83F" 0 [lindex $session_data 5] 0 0] 1]
 		::amsn::FTProgress ca $sid [lindex [::MSNP2P::SessionList get $sid] 6]
 
 		# Change sid type to canceledft
