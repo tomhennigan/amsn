@@ -844,7 +844,7 @@ namespace eval ::MSNCAM {
 			set tcp "${tcp}</tcp>"
 		}
 
-		set udp "<udp><udplocalport>0</udplocalport><udpexternalport>0</udpexternalport><udpexternalip>$clientip</udpexternalip><a1_port>$port</a1_port><b1_port>$port</b1_port><b2_port>$port</b2_port><b3_port>$port</b3_port><symmetricallocation>0</symmetricallocation><symmetricallocationincrement>0</symmetricallocationincrement><udpinternalipaddress1>$localip</udpinternalipaddress1></udp>"
+		set udp "<udp><udplocalport>$port</udplocalport><udpexternalport>$port</udpexternalport><udpexternalip>$clientip</udpexternalip><a1_port>$port</a1_port><b1_port>$port</b1_port><b2_port>$port</b2_port><b3_port>$port</b3_port><symmetricallocation>0</symmetricallocation><symmetricallocationincrement>0</symmetricallocationincrement><udpinternalipaddress1>$localip</udpinternalipaddress1></udp>"
 		set footer "<codec></codec><channelmode>1</channelmode>"
 
 		set xml "${begin_type}${header}${tcp}${footer}${end_type}\r\n\r\n\x00"
@@ -986,7 +986,7 @@ namespace eval ::MSNCAM {
 	proc ReflectorCreateSession { sid token } {
 
 		if { ! [info exists ::webcamsn_loaded] } { ::CAMGUI::ExtensionLoaded }
-		if { ! $::webcamsn_loaded } { status_log "Error when trying to load Webcamsn extension" red }
+		if { ! $::webcamsn_loaded } { status_log "Error when trying to load Webcamsn extension" red; return }
 
 		set tmp_data [::http::data $token]
 		
@@ -2121,8 +2121,9 @@ namespace eval ::CAMGUI {
 
 		pack $lists $status $preview $settings $buttons -side top
 
-		bind $devs.list <Button1-ButtonRelease> "::CAMGUI::FillChannelsLinux $devs.list $chans.list $status {$devices}"
-		bind $chans.list <Button1-ButtonRelease> "::CAMGUI::StartPreviewLinux $devs.list $chans.list $status $preview $settings {$devices}"
+		bind $devs.list <Button1-ButtonRelease> [list ::CAMGUI::FillChannelsLinux $devs.list $chans.list $status $devices]
+		bind $chans.list <Button1-ButtonRelease> [list ::CAMGUI::StartPreviewLinux $devs.list $chans.list $status $preview $settings $devices]
+
 
 		foreach device $devices {
 			set dev [lindex $device 0]

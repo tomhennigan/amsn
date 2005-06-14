@@ -4,11 +4,11 @@
 #include "kidhash.h"
 #include "constants.h"
 
-double append_multiplicator = 4.614703357219696e-7;
+const double append_multiplicator = 4.614703357219696e-7;
 
 const char alphabet[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789./";
 
-int init_variable = 0x0FE0637B1;
+const int init_variable = 0x0FE0637B1;
 
 int init_table[31];
 int init_table_size = 31;
@@ -18,7 +18,7 @@ int *init_table_idx2 = NULL;
 int *init_table_idx1 = NULL;
 int init_table_idx_diff = 3;
 
-int fixed_value_3 = 3;
+const int fixed_value_3 = 3;
 
 int key[26];
 
