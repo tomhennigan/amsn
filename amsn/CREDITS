@@ -21,7 +21,6 @@ Alaoui Youness - kakaroto@users.sourceforge.net
 Alberto Diaz Hernandez - yozko@users.sourceforge.net
 Luis Quesada T. - elezeta@users.sourceforge.net
 Luis Miguel Garcia - ktech@users.sourceforge.net
-Alexandre Hamelin - ahamelin@users.sourceforge.net
 Jerome Gagnon-Voyer (Mac mantainer) - germinator2000@users.sourceforge.net
 Arieh Schneier - lio_lion@users.sourceforge.net
 Mark - markitus@catmail.homelinux.org
@@ -349,5 +348,7 @@ Marco Rodriguez M. (TLS for Linux-Sparc)
 R. Braun (TLS for NetBSD-Sparc64)
 Badlop (NSIS Windows Installer)
 ZoRoNaX (Documentation on MSNP2P)
+
+Ole Andre Vadla Ravnas - Special thanx for the libmimic implementation of webcam codec
 
 CxImage 5.99c - (c) 2001-2004 by Davide Pizzolato
