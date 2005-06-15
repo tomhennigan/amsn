@@ -67,19 +67,20 @@ snit::widgetadaptor button {
 	option -overrelief
 ############################################	
 
-	option -anchor -default "c" -configuremethod setAnchor -cgetmethod getAnchor
-	option -background -configuremethod setOption -cgetmethod getOption
-	option -cursor -configuremethod setOption -cgetmethod getOption
-	option -font -configuremethod setFont -cgetmethod getFont
-	option -foreground -configuremethod setForeground -cgetmethod getForeground
+	option -anchor -default "c" -configuremethod setAnchor
+	option -background -configuremethod setOption
+	option -cursor -configuremethod setOption
+	option -font -configuremethod setFont
+	option -fg -configuremethod setForeground
+	option -foreground -configuremethod setForeground
 	option -justify -default "left"
 	option -padx -default "20"
 	option -pady -default "10"
 	option -repeatdelay
 	option -repeatinterval
 	option -state -default normal -configuremethod setState
-	option -takefocus -default 1 -configuremethod setOption -cgetmethod getOption
-	option -text -configuremethod setText -cgetmethod getText
+	option -takefocus -default 1 -configuremethod setOption
+	option -text -configuremethod setText
 	option -textvariable
 	option -underline -default 0 -configuremethod setUnderline
 	option -wraplength
@@ -88,9 +89,9 @@ snit::widgetadaptor button {
 	option -default -default "normal"
 	option -emblem
 	option -emblemanchor -default "e" -configuremethod setEmblemAnchor
-	option -height -configuremethod NewSize -cgetmethod getOption
+	option -height -configuremethod NewSize
 	option -state -default "normal"
-	option -width -configuremethod NewSize -cgetmethod getOption
+	option -width -configuremethod NewSize
 
 	
 	typeconstructor {
@@ -112,17 +113,17 @@ snit::widgetadaptor button {
 		set fbde 6
 		set fbds 6
 		set fbdw 6
-
+puts $normal
 		scalable-bg $self.normal -source $normal -n $bdn -e $bde -s $bds -w $bdw \
-			-width 1 -height 1 -resizemethod tile
+			-width 100 -height 100 -resizemethod tile
 		scalable-bg $self.hover -source $hover -n $bdn -e $bde -s $bds -w $bdw \
-			-width 1 -height 1 -resizemethod tile
+			-width 100 -height 100 -resizemethod tile
 		scalable-bg $self.pressed -source $pressed -n $bdn -e $bde -s $bds -w $bdw \
-			-width 1 -height 1 -resizemethod tile
+			-width 100 -height 100 -resizemethod tile
 		scalable-bg $self.disabled -source $disabled -n $bdn -e $bde -s $bds -w $bdw \
-			-width 1 -height 1 -resizemethod tile
+			-width 100 -height 100 -resizemethod tile
 		scalable-bg $self.focus -source $focus -n $fbdn -e $fbde -s $fbds -w $fbdw \
-			-width 1 -height 1 -resizemethod tile
+			-width 100 -height 100 -resizemethod tile
 
 		$hull create image 0 0 -anchor nw -image [$self.normal name] -tag button
 		$hull create text 0 0 -anchor c -text $options(-text) -tag txt
@@ -466,10 +467,6 @@ snit::widgetadaptor button {
 		$hull configure $option $value
 	}
 
-	method getFont { option } {
-		return [$hull itemcget txt -font]
-	}
-
 	method setFont { option value } {
 		set options(-font) $value
 		$hull itemconfigure txt -font $value
@@ -477,6 +474,7 @@ snit::widgetadaptor button {
 
 	method setForeground { option value } {
 		set options(-foreground) $value
+		set options(-fg) $value
 		$hull itemconfigure txt -fill $value
 	}
 
@@ -522,10 +520,15 @@ snit::widgetadaptor button {
 	}
 
 	typemethod reloadimages { } {
-		set normal [::skin::loadPixmap button]
-		set hover [::skin::loadPixmap button_hover]
-		set pressed [::skin::loadPixmap button_pressed]
-		set disabled [::skin::loadPixmap button_disabled]
-		set focus [::skin::loadPixmap button_focus]
+		#set normal [::skin::loadPixmap button]
+		#set hover [::skin::loadPixmap button_hover]
+		#set pressed [::skin::loadPixmap button_pressed]
+		#set disabled [::skin::loadPixmap button_disabled]
+		#set focus [::skin::loadPixmap button_focus]
+		set normal [image create photo -file button.gif]
+		set hover [image create photo -file button_hover.gif]
+		set pressed [image create photo -file button_pressed.gif]
+		set disabled [image create photo -file button_disabled.gif]
+		set focus [image create photo -file button_focus.gif]
 	}
 }
