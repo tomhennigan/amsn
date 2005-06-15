@@ -14,14 +14,14 @@ font create massive -family helvetica -size 32
 image create photo icon -file icon.gif
 image create photo icon2 -file icon2.gif
 
-pixmapbutton .b1 -text "Buttons\ncan\nhave\nmultiline\ntext!" -foreground red -font massive -emblem icon2 -command [list puts "b1 clicked"]
-pixmapbutton .b2 -text "Or they can have very long \nstupid text like this..." -font plain -command [list puts "b2 clicked"]
-pixmapbutton .b3 -text "..or short :)" -emblem icon -anchor w -command [list puts "b3 clicked"]
-pixmapbutton .b4 -text "This button invokes every second when you hold it down" -repeatdelay 1000 -repeatinterval 1000 -command [list puts repeat_button]
-pixmapbutton .b5 -text "Disable above buttons" -command "disable_all"
-pixmapbutton .b6 -text "Enable above buttons" -command "enable_all"
+button .b1 -text "Buttons\ncan\nhave\nmultiline\ntext!" -foreground red -font massive -emblem icon2 -command [list puts "b1 clicked"]
+button .b2 -text "Or they can have very long \nstupid text like this..." -font plain -command [list puts "b2 clicked"]
+button .b3 -text "..or short :)" -emblem icon -anchor w -command [list puts "b3 clicked"]
+button .b4 -text "This button invokes every second when you hold it down" -repeatdelay 1000 -repeatinterval 1000 -command [list puts repeat_button]
+button .b5 -text "Disable above buttons" -command "disable_all"
+button .b6 -text "Enable above buttons" -command "enable_all"
 #canvas .b1
-pack .b1 .b2 .b3 .b4 .b5 .b6 -padx 10 -pady 5 -expand true -fill x -side top
+pack .b1 .b2 .b3 .b4 .b5 .b6 -padx 10 -pady 5 -side top
 #button .b -text repeater -command "puts hey" -repeatdelay 10 -repeatinterval 100
 #pack .b
 

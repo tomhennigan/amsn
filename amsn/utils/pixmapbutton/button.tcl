@@ -28,7 +28,7 @@ package require snit
 package require scalable-bg
 package provide pixmapbutton 0.1
 
-snit::widgetadaptor button {
+snit::widgetadaptor pixmapbutton {
 
 	variable potent
 	variable focused
@@ -99,7 +99,7 @@ snit::widgetadaptor button {
 	}
 
 	constructor { args } {
-		installhull using canvas -relief solid -highlightthickness 0 -width 80 -height 30
+		installhull using canvas -relief flat -highlightthickness 0 -bd 0 -width 80 -height 30
 		set potent "no"
 		set buttonwidth 0
 		set buttonheight 0
@@ -525,10 +525,10 @@ puts $normal
 		#set pressed [::skin::loadPixmap button_pressed]
 		#set disabled [::skin::loadPixmap button_disabled]
 		#set focus [::skin::loadPixmap button_focus]
-		set normal [image create photo -file button.gif]
-		set hover [image create photo -file button_hover.gif]
-		set pressed [image create photo -file button_pressed.gif]
-		set disabled [image create photo -file button_disabled.gif]
-		set focus [image create photo -file button_focus.gif]
+		set normal [image create photo -file utils/pixmapbutton/button.gif]
+		set hover [image create photo -file utils/pixmapbutton/button_hover.gif]
+		set pressed [image create photo -file utils/pixmapbutton/button_pressed.gif]
+		set disabled [image create photo -file utils/pixmapbutton/button_disabled.gif]
+		set focus [image create photo -file utils/pixmapbutton/button_focus.gif]
 	}
 }
