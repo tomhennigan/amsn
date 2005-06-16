@@ -28,7 +28,7 @@ package require snit
 package require scalable-bg
 package provide pixmapbutton 0.1
 
-snit::widgetadaptor pixmapbutton {
+snit::widgetadaptor button {
 
 	variable potent
 	variable focused
@@ -86,14 +86,13 @@ snit::widgetadaptor pixmapbutton {
 	option -wraplength
 
 	option -command
-	option -default -default "normal"
-	option -emblem
-	option -emblemanchor -default "e" -configuremethod setEmblemAnchor
+	option -default -default "normal" -configuremethod setDefault
+	option -image -configuremethod setImage
+	option -compound -default "e" -configuremethod setCompound
 	option -height -configuremethod NewSize
 	option -state -default "normal"
 	option -width -configuremethod NewSize
 
-	
 	typeconstructor {
 		$type reloadimages
 	}
@@ -113,24 +112,44 @@ snit::widgetadaptor pixmapbutton {
 		set fbde 6
 		set fbds 6
 		set fbdw 6
-puts $normal
+
 		scalable-bg $self.normal -source $normal -n $bdn -e $bde -s $bds -w $bdw \
-			-width 100 -height 100 -resizemethod tile
+			-width 1 -height 1 -resizemethod tile
 		scalable-bg $self.hover -source $hover -n $bdn -e $bde -s $bds -w $bdw \
-			-width 100 -height 100 -resizemethod tile
+			-width 1 -height 1 -resizemethod tile
 		scalable-bg $self.pressed -source $pressed -n $bdn -e $bde -s $bds -w $bdw \
-			-width 100 -height 100 -resizemethod tile
+			-width 1 -height 1 -resizemethod tile
 		scalable-bg $self.disabled -source $disabled -n $bdn -e $bde -s $bds -w $bdw \
-			-width 100 -height 100 -resizemethod tile
+			-width 1 -height 1 -resizemethod tile
 		scalable-bg $self.focus -source $focus -n $fbdn -e $fbde -s $fbds -w $fbdw \
-			-width 100 -height 100 -resizemethod tile
+			-width 1 -height 1 -resizemethod tile
 
 		$hull create image 0 0 -anchor nw -image [$self.normal name] -tag button
 		$hull create text 0 0 -anchor c -text $options(-text) -tag txt
 		
 		$self configurelist $args
-		if { $options(-emblem) != "" } {
-			$hull create image 0 0 -anchor $options(-emblemanchor) -image $options(-emblem) -tag emblem
+
+		if { $options(-image) != "" } {
+			switch $options(-compound) {
+				"left" {
+					$hull create image 0 0 -anchor w -image $options(-image) -tag emblem
+				}
+				"right" {
+					$hull create image 0 0 -anchor e -image $options(-image) -tag emblem
+				}
+				"top" {
+					$hull create image 0 0 -anchor n -image $options(-image) -tag emblem
+				}
+				"bottom" {
+					$hull create image 0 0 -anchor s -image $options(-image) -tag emblem
+				}
+				"center" {
+					$hull create image 0 0 -anchor c -image $options(-image) -tag emblem
+				}
+				default {
+					$hull create image 0 0 -anchor $options(-compound) -image $options(-image) -tag emblem
+				}
+			}
 		}
 		
 		bind $self <Configure> "$self DrawButton %w %h"
@@ -138,6 +157,8 @@ puts $normal
 		bind $self <Leave> "$self ButtonUnhovered"
 		bind $self <Button-1> "$self ButtonPressed"
 		bind $self <ButtonRelease-1> "$self ButtonReleased"
+		bind $self <Button-2> "focus $self"
+		bind $self <Button-3> "focus $self"
 		bind $self <FocusIn> "$self DrawFocus"
 		bind $self <FocusOut> "$self RemoveFocus"
 		bind $self <Return> "$self invoke"
@@ -184,11 +205,11 @@ puts $normal
 			set buttonwidth $options(-width)
 		} else {
 			#Measure length of button text and add some padding to give width of button:
-			set buttonwidth [expr [$self MeasureText w] + $options(-padx)]
+			set buttonwidth [expr {[$self MeasureText w] + $options(-padx)}]
 			
 			#Add extra room for emblem:
-			if { $options(-emblem) != "" } {
-				incr buttonwidth [expr [image width $options(-emblem)]]
+			if { $options(-image) != "" } {
+				incr buttonwidth [expr {[image width $options(-image)]}]
 			}
 		}
 		
@@ -198,7 +219,7 @@ puts $normal
 		} else {
 			set buttonheight [image height $normal]
 			if { [$self MeasureText h] > [image height $normal] } {
-				set buttonheight [expr [$self MeasureText h] + $options(-pady)]
+				set buttonheight [expr {[$self MeasureText h] + $options(-pady)}]
 			}
 		}
 		# else {
@@ -212,13 +233,13 @@ puts $normal
 	method MeasureText { dimension } {
 		if { $dimension == "w" } {
 			if { $options(-font) != "" } {
-				set idx [expr [string first "\n" $options(-text)] - 1] 
+				set idx [expr {[string first "\n" $options(-text)] - 1}] 
 				if { $idx < 0 } { set idx end }
 				set m [font measure $options(-font) -displayof $self [string range $options(-text) \
 					0 $idx]]
 				return $m
 			} else {
-				set idx [expr [string first "\n" $options(-text)] - 1] 
+				set idx [expr {[string first "\n" $options(-text)] - 1}] 
 				if { $idx < 0 } { set idx end }
 				set f [font create -family helvetica -size 12 -weight normal]
 				set m [font measure $f -displayof $self [string range $options(-text) \
@@ -231,19 +252,19 @@ puts $normal
 				#Get number of lines
 				set n [$self NumberLines $options(-text)]
 				#Multiply font size by no. lines and add gap between lines * (no. lines - 1).
-				return [expr $n * [font configure $options(-font) -size] + (($n - 1) * 7)]
+				return [expr {$n * [font configure $options(-font) -size] + (($n - 1) * 7)}]
 			} else {
 				#Get number of lines
 				set n [$self NumberLines $options(-text)]
 				#Multiply font size by no. lines and add gap between lines * (no. lines - 1).
-				return [expr ($n * 12) + (($n - 1) * 7)]
+				return [expr {($n * 12) + (($n - 1) * 7)}]
 			}
 		}
 	}
 	
 	method NumberLines { string } {
 		for { set n 0; set idx 0 } { [string first "\n" $string $idx] != -1} { incr n 1 } {
-					set idx [expr [string first "\n" $string $idx] +1]
+					set idx [expr {[string first "\n" $string $idx] + 1}]
 				}
 		if { $n < 1 } { set n 1 }
 		return $n
@@ -281,46 +302,66 @@ puts $normal
 		$self.focus configure -width $w -height $h
 
 
-		switch $options(-emblemanchor) {
+		switch $options(-compound) {
+			"left" {
+				$hull itemconfigure emblem -anchor w
+				$hull coords emblem $bdw [expr {$h / 2}]
+			}
+			"bottom" {
+				$hull itemconfigure emblem -anchor s
+				$hull coords emblem [expr {$w / 2}] [expr {$h - $bds}]
+			}
+			"right" {
+				$hull itemconfigure emblem -anchor e
+				$hull coords emblem [expr {$w - $bde}] [expr {$h / 2}]
+			}
+			"top" {
+				$hull itemconfigure emblem -anchor n
+				$hull coords emblem [expr {$w / 2}] $bdn
+			}
+			"center" {
+				$hull itemconfigure emblem -anchor c
+				$hull coords emblem [expr {$w / 2}] [expr {$h / 2}]
+			}
 			"nw" {
 				$hull itemconfigure emblem -anchor nw
 				$hull coords emblem $bdw $bdn
 			}
 			"w" {
 				$hull itemconfigure emblem -anchor w
-				$hull coords emblem $bdw [expr $h / 2]
+				$hull coords emblem $bdw [expr {$h / 2}]
 			}
 			"sw" {
 				$hull itemconfigure emblem -anchor sw
-				$hull coords emblem $bdw [expr $h - $bds]
+				$hull coords emblem $bdw [expr {$h - $bds}]
 			}
 			"s" {
 				$hull itemconfigure emblem -anchor s
-				$hull coords emblem [expr $w / 2] [expr $h - $bds]
+				$hull coords emblem [expr {$w / 2}] [expr {$h - $bds}]
 			}
 			"se" {
 				$hull itemconfigure emblem -anchor se
-				$hull coords emblem [expr $w - $bde] [expr $h - $bds]
+				$hull coords emblem [expr {$w - $bde}] [expr {$h - $bds}]
 			}
 			"e" {
 				$hull itemconfigure emblem -anchor e
-				$hull coords emblem [expr $w - $bde] [expr $h / 2]
+				$hull coords emblem [expr {$w - $bde}] [expr {$h / 2}]
 			}
 			"ne" {
 				$hull itemconfigure emblem -anchor ne
-				$hull coords emblem [expr $w - $bde] $bdn
+				$hull coords emblem [expr {$w - $bde}] $bdn
 			}
 			"n" {
 				$hull itemconfigure emblem -anchor n
-				$hull coords emblem [expr $w / 2] $bdn
+				$hull coords emblem [expr {$w / 2}] $bdn
 			}
 			"c" {
 				$hull itemconfigure emblem -anchor c
-				$hull coords emblem [expr $w / 2] [expr $h / 2]
+				$hull coords emblem [expr {$w / 2}] [expr {$h / 2}]
 			}
 			default {
 				$hull itemconfigure emblem -anchor c
-				$hull coords emblem [expr $w / 2] [expr $h / 2]
+				$hull coords emblem [expr {$w / 2}] [expr {$h / 2}]
 			}
 		}
 		
@@ -331,63 +372,56 @@ puts $normal
 			}
 			"w" {
 				$hull itemconfigure txt -anchor w
-				$hull coords txt $bdw [expr $h / 2]
+				$hull coords txt $bdw [expr {$h / 2}]
 			}
 			"sw" {
 				$hull itemconfigure txt -anchor sw
-				$hull coords txt $bdw [expr $h - $bds]
+				$hull coords txt $bdw [expr {$h - $bds}]
 			}
 			"s" {
 				$hull itemconfigure txt -anchor s
-				$hull coords txt [expr $w / 2] [expr $h - $bds]
+				$hull coords txt [expr {$w / 2}] [expr {$h - $bds}]
 			}
 			"se" {
 				$hull itemconfigure txt -anchor se
-				$hull coords txt [expr $w - $bde] [expr $h - $bds]
+				$hull coords txt [expr {$w - $bde}] [expr {$h - $bds}]
 			}
 			"e" {
 				$hull itemconfigure txt -anchor e
-				$hull coords txt [expr $w - $bde] [expr $h / 2]
+				$hull coords txt [expr {$w - $bde}] [expr {$h / 2}]
 			}
 			"ne" {
 				$hull itemconfigure txt -anchor ne
-				$hull coords txt [expr $w - $bde] $bdn
+				$hull coords txt [expr {$w - $bde}] $bdn
 			}
 			"n" {
 				$hull itemconfigure txt -anchor n
-				$hull coords txt [expr $w / 2] $bdn
+				$hull coords txt [expr {$w / 2}] $bdn
 			}
 			"c" {
 				$hull itemconfigure txt -anchor c
-				$hull coords txt [expr $w / 2] [expr $h / 2]
+				$hull coords txt [expr {$w / 2}] [expr {$h / 2}]
 			}
 			default {
 				$hull itemconfigure txt -anchor c
-				$hull coords txt [expr $w / 2] [expr $h / 2]
+				$hull coords txt [expr {$w / 2}] [expr {$h / 2}]
 			}
 		}
 		
-			if { $options(-emblem) != "" } {
-				if { [string first "w" $options(-emblemanchor)] != -1 } {
-					if {
-						[string first "n" $options(-anchor) ] != "" ||
-						[string first "c" $options(-anchor) ] != "" ||
-						[string first "s" $options(-anchor) ] != ""
-					} {
-						$hull move txt [expr round(0.5 * [image width $options(-emblem)])] 0
-				} elseif { [string first "e" $options(-emblemanchor)] != -1 } {
-					#if {
-					#	[string first "n" $options(-anchor) ] != "" ||
-					#	[string first "c" $options(-anchor) ] != "" ||
-					#	[string first "s" $options(-anchor) ] != ""
-					#} {
-						$hull move txt [expr round(-0.5 * [image width $options(-emblem)])] 0
-					#}
+			if { $options(-image) != "" } {
+				if {
+					[string first "w" $options(-compound)] != -1 || 
+					$options(-compound) == "left"
+				} {
+					$hull move txt [expr {round(0.5 * [image width $options(-image)])}] 0
+				} elseif {
+					[string first "e" $options(-compound)] != -1 || 
+					$options(-compound) == "right"
+				} {
+					$hull move txt [expr {round(-0.5 * [image width $options(-image)])}] 0
 				}
 			}
 		}
-	
-	}
 
 	method ButtonHovered { } {
 		if { $options(-state) == "disabled" } {
@@ -467,6 +501,15 @@ puts $normal
 		$hull configure $option $value
 	}
 
+	method setDefault { option value } {
+		set options(-default) $value
+		switch $value {
+			"normal" { setState -state normal }
+			"active" { focus $self }
+			"disabled" { setState -state disabled }
+		}
+	}
+	
 	method setFont { option value } {
 		set options(-font) $value
 		$hull itemconfigure txt -font $value
@@ -478,8 +521,8 @@ puts $normal
 		$hull itemconfigure txt -fill $value
 	}
 
-	method setEmblem { option value } {
-		set options(-emblem) $value
+	method setImage { option value } {
+		set options(-image) $value
 		$hull itemconfigure emblem -image $value
 	}
 
@@ -491,8 +534,8 @@ puts $normal
 		set options(-anchor) $value
 	}
 	
-	method setEmblemAnchor { option value } {
-		set options(-emblemanchor) $value
+	method setCompound { option value } {
+		set options(-compound) $value
 	}
 
 	method setText { option value } {
@@ -525,10 +568,10 @@ puts $normal
 		#set pressed [::skin::loadPixmap button_pressed]
 		#set disabled [::skin::loadPixmap button_disabled]
 		#set focus [::skin::loadPixmap button_focus]
-		set normal [image create photo -file utils/pixmapbutton/button.gif]
-		set hover [image create photo -file utils/pixmapbutton/button_hover.gif]
-		set pressed [image create photo -file utils/pixmapbutton/button_pressed.gif]
-		set disabled [image create photo -file utils/pixmapbutton/button_disabled.gif]
-		set focus [image create photo -file utils/pixmapbutton/button_focus.gif]
+		set normal [image create photo -file button.gif]
+		set hover [image create photo -file button_hover.gif]
+		set pressed [image create photo -file button_pressed.gif]
+		set disabled [image create photo -file button_disabled.gif]
+		set focus [image create photo -file button_focus.gif]
 	}
 }
