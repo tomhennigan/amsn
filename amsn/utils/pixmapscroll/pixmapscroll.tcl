@@ -663,3 +663,6 @@ if {![string equal [tk windowingsystem] "x11"]} {
         tk::ScrollByUnits %W h -10
     }
 }
+
+rename scrollbar ::tk::scrollbar
+rename pixmapscroll scrollbar
