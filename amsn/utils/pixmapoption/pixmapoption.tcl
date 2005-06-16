@@ -1,12 +1,9 @@
 package require snit
 package provide pixmapoption 0.1
 
-snit::widgetadaptor pixmapoption {
+snit::widgetadaptor pixmapradio {
 
 	component button
-
-	option -buttontype -configuremethod setType -cgetmethod getType
-	option -hoverimage -configuremethod setHover -cgetmethod getHover
 
 	delegate option * to button except { -buttontype -hoverimage }
 	delegate method * to button except { setType }
@@ -14,39 +11,59 @@ snit::widgetadaptor pixmapoption {
 	constructor { args } {
 		installhull using frame
 		
-		$self setType -buttontype [lindex $args [expr [lsearch $args -buttontype] + 1]]
+		set normal [image create photo -file radio.gif]
+		set hover [image create photo -file radiohover.gif]
+		set pressed [image create photo -file radiopress.gif]
 
-		install button using $options(-buttontype) $win.checkbutton -relief solid \
+		install button using radiobutton $win.radiobutton -relief solid \
 			-compound left \
 			-highlightthickness 5 \
 			-borderwidth 0 \
 			-background [[winfo parent $self] cget -background] \
 			-activebackground [[winfo parent $self] cget -background] \
 			-selectcolor [[winfo parent $self] cget -background] \
-			-indicatoron 0
-		
+			-indicatoron 0 \
+			-image $normal \
+			-selectimage $pressed
+
 		$self configurelist $args
-		
+		bind $self <Leave> "$button configure -image $normal"
+		bind $self <Enter> "$button configure -image $hover"
 		pack $button -side left -padx 5
 	}
 
-	method setHover { option value } {
-		set options(-hoverimage) $value
-		bind $self <Leave> "$button configure -image [$self cget -image]"
-		bind $self <Enter> "$button configure -image $value"
-	}
+}
 
-	method getHover { option } {
-		return $options(-hoverimage)
-	}
+snit::widgetadaptor pixmapcheck {
 
-	method setType { option value } {
-		set options(-buttontype) $value
-		puts "$options(-buttontype) by setType"
-	}
+	component button
 
-	method getType { option } {
-		return $options(-buttontype)
+	delegate option * to button
+	delegate method * to button
+
+	constructor { args } {
+		installhull using frame
+		
+		set normal [image create photo -file check.gif]
+		set hover [image create photo -file checkhover.gif]
+		set pressed [image create photo -file checkpress.gif]
+
+		install button using checkbutton $win.radiobutton -relief solid \
+			-compound left \
+			-highlightthickness 5 \
+			-borderwidth 0 \
+			-background [[winfo parent $self] cget -background] \
+			-activebackground [[winfo parent $self] cget -background] \
+			-selectcolor [[winfo parent $self] cget -background] \
+			-indicatoron 0 \
+			-image $normal \
+			-selectimage $pressed
+
+		$self configurelist $args
+		bind $self <Leave> "$button configure -image $normal"
+		bind $self <Enter> "$button configure -image $hover"
+		bind $self <Button-1> "$button toggle"
+		pack $button -side left -padx 5
 	}
 
 }
