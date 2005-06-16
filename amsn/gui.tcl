@@ -5,6 +5,7 @@ if {![::picture::Loaded]} {
 }
 package require AMSN_BWidget
 #package require pixmapbutton
+package require pixmapscroll
 if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 	#Use tclCarbonHICommand for window utilities
 	catch {package require tclCarbonHICommand}
