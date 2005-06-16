@@ -134,6 +134,7 @@ if { $initialize_amsn == 1 } {
 	::skin::setKey x_notifytext 55
 	::skin::setKey y_notifytext 22
 	::skin::setKey width_notifytext 93
+	::skin::setKey notify_font sboldf
 
 	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 		::skin::setKey balloonbackground #ffffca
@@ -2911,11 +2912,13 @@ namespace eval ::amsn {
 			#Create image
 			$w.c create image [::skin::getKey x_notifydp] [::skin::getKey y_notifydp] -anchor nw -image smallpicture$user
 			#Add text
-			set notify_id [$w.c create text [::skin::getKey x_notifytext] [::skin::getKey y_notifytext] -font splainf \
+			set notify_id [$w.c create text [::skin::getKey x_notifytext] [::skin::getKey y_notifytext] \
+				-font [::skin::getKey notify_font] \
 				-justify left -width [::skin::getKey width_notifytext] -anchor nw -text "$msg"]
 		} else {
 			#Just add the text and use full width
-			set notify_id [$w.c create text [expr {[::skin::getKey notifwidth]/2}] 35 -font splainf \
+			set notify_id [$w.c create text [expr {[::skin::getKey notifwidth]/2}] 35 \
+				-font [::skin::getKey notify_font] \
 				-justify center -width [expr {[::skin::getKey notifwidth]-20}] -anchor n -text "$msg"]
 		}
 
