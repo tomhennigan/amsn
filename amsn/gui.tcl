@@ -5772,14 +5772,14 @@ proc cmsn_change_name {} {
 	frame $w.fn
 	label $w.fn.label -font sboldf -text "[trans enternick]:"
 	entry $w.fn.name -width 40 -bg #FFFFFF -font splainf
-	button $w.fn.smiley -image [::skin::loadPixmap butsmile] -relief flat -padx 3 -highlightthickness 0
-	button $w.fn.newline -image [::skin::loadPixmap butnewline] -relief flat -padx 3 -command "$w.fn.name insert end \"\n\""
+	label $w.fn.smiley -image [::skin::loadPixmap butsmile] -relief flat -padx 3 -highlightthickness 0
+	label $w.fn.newline -image [::skin::loadPixmap butnewline] -relief flat -padx 3
 
 	frame $w.p4c
 	label $w.p4c.label -font sboldf -text "[trans friendlyname]:"
 	entry $w.p4c.name -width 40 -bg #FFFFFF -font splainf
-	button $w.p4c.smiley -image [::skin::loadPixmap butsmile] -relief flat -padx 3 -highlightthickness 0
-	button $w.p4c.newline -image [::skin::loadPixmap butnewline] -relief flat -padx 3 -command "$w.p4c.name insert end \"\n\""
+	label $w.p4c.smiley -image [::skin::loadPixmap butsmile] -relief flat -padx 3 -highlightthickness 0
+	label $w.p4c.newline -image [::skin::loadPixmap butnewline] -relief flat -padx 3
 
 	frame $w.fb
 	button $w.fb.ok -text [trans ok] -command change_name_ok
@@ -5797,6 +5797,8 @@ proc cmsn_change_name {} {
 	bind $w.p4c.name <Return> "change_name_ok"
 	bind $w.fn.smiley  <Button1-ButtonRelease> "::smiley::smileyMenu %X %Y $w.fn.name"
 	bind $w.p4c.smiley  <Button1-ButtonRelease> "::smiley::smileyMenu %X %Y $w.p4c.name"
+	bind $w.fn.newline  <Button1-ButtonRelease> "$w.fn.name insert end \"\n\""
+	bind $w.p4c.newline <Button1-ButtonRelease> "$w.p4c.name insert end \"\n\""
 	bind $w.fn.name <Tab> "focus $w.p4c.name; break"
 	bind $w.p4c.name <Tab> "focus $w.fn.name; break"
 

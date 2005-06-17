@@ -111,9 +111,9 @@ namespace eval ::notes {
 		pack configure $w.right.contact.right -expand true -side right
 		# Display the show/hide button
 		frame $w.right.contact.left
-		image create photo hide -file [::skin::GetSkinFile pixmaps contract.gif]
-		image create photo show -file [::skin::GetSkinFile pixmaps expand.gif]
-		button $w.right.contact.left.showhide
+		image create photo hide -file [::skin::GetSkinFile pixmaps contract.gif] -format cximage
+		image create photo show -file [::skin::GetSkinFile pixmaps expand.gif] -format cximage
+		label $w.right.contact.left.showhide
 		pack configure $w.right.contact.left.showhide -side left
 		pack configure $w.right.contact.left -side left
 
@@ -201,19 +201,17 @@ namespace eval ::notes {
 		# If the E-Mail is not given, display the first contact and show the contact list
 		if { $email == "" } {
 			set email [lindex $::notes::contacts 0]
-			
-$w.right.contact.left.showhide configure -image hide -command "::notes::HideContact"
+			$w.right.contact.left.showhide configure -image hide
+			bind $w.right.contact.left.showhide <Button1-ButtonRelease> "::notes::HideContact"
 		} else {
-			$w.right.contact.left.showhide configure -image show -command "::notes::ShowContact"
-
+			$w.right.contact.left.showhide configure -image show
+			bind $w.right.contact.left.showhide <Button1-ButtonRelease> "::notes::ShowContact"
 			pack forget $w.contact
 			pack configure $w.right -side right -fill y -expand true
 			wm geometry $w 550x535
 		}
-
 		set ::notes::email $email
 		::notes::get_Note $email
-
   		foreach note $::notes::notes {
   			set subject [lindex $note 2]
   			$w.right.notes.box insert end "$subject"
@@ -688,7 +686,8 @@ proc HideContact { } {
 	pack forget $w.contact
 	pack configure $w.right -side right -fill y -expand true
 	wm geometry $w 550x535
-	$w.right.contact.left.showhide configure -image show -command "::notes::ShowContact"
+	$w.right.contact.left.showhide configure -image show
+	bind $w.right.contact.left.showhide <Button1-ButtonRelease> "::notes::ShowContact"
 	
 }
 
@@ -698,7 +697,8 @@ proc ShowContact { } {
 	set w ".notemanager"
 	pack configure $w.contact -side left -fill y
 	wm geometry $w 660x535
-	$w.right.contact.left.showhide configure -image hide -command "::notes::HideContact"
+	$w.right.contact.left.showhide configure -image hide
+	bind $w.right.contact.left.showhide <Button1-ButtonRelease> "::notes::HideContact"
 	
 }
 
