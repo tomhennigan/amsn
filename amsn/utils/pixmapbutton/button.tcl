@@ -28,7 +28,7 @@ package require snit
 package require scalable-bg
 package provide pixmapbutton 0.1
 
-snit::widgetadaptor button {
+snit::widgetadaptor pixmapbutton {
 
 	variable potent
 	variable focused
@@ -42,6 +42,9 @@ snit::widgetadaptor button {
 	variable buttonwidth
 	variable buttonheight
 	
+	typevariable buttonlist ""
+	typevariable loadimagecommand
+
 	typevariable normal
 	typevariable hover
 	typevariable pressed
@@ -79,7 +82,6 @@ snit::widgetadaptor button {
 	option -repeatdelay
 	option -repeatinterval
 	option -state -default normal -configuremethod setState
-	option -takefocus -default 1 -configuremethod setOption
 	option -text -configuremethod setText
 	option -textvariable
 	option -underline -default 0 -configuremethod setUnderline
@@ -94,6 +96,7 @@ snit::widgetadaptor button {
 	option -width -configuremethod NewSize
 
 	typeconstructor {
+		$type SetImageCommand "$type loadimage"
 		$type reloadimages
 	}
 
@@ -162,9 +165,10 @@ snit::widgetadaptor button {
 		bind $self <FocusIn> "$self DrawFocus"
 		bind $self <FocusOut> "$self RemoveFocus"
 		bind $self <Return> "$self invoke"
-		bind $self <KeyPress-space> "$self invoke"
+		#bind $self <KeyPress-space> "$self invoke"
 
 		$self SetSize
+		lappend buttonlist $self             
 	}
 
 	#---------------------------------------------------------------------------------------
@@ -555,23 +559,35 @@ snit::widgetadaptor button {
 	#	 with a delay of ms
 	#-------------------------------------------------------------------------------
 	method invoke { } {
-		eval $options(-command)
+		if { $options(-state) != "disabled" } {
+			eval $options(-command)
+		}
 	}
 
 	method flash { } {
 		
 	}
-
+	
+	typemethod loadimage { imagename } {
+		return [image create photo -file $imagename.gif]
+	}
+	
+	typemethod SetImageCommand { command } {
+		set loadimagecommand $command
+	}
+	
 	typemethod reloadimages { } {
-		#set normal [::skin::loadPixmap button]
-		#set hover [::skin::loadPixmap button_hover]
-		#set pressed [::skin::loadPixmap button_pressed]
-		#set disabled [::skin::loadPixmap button_disabled]
-		#set focus [::skin::loadPixmap button_focus]
-		set normal [image create photo -file button.gif]
-		set hover [image create photo -file button_hover.gif]
-		set pressed [image create photo -file button_pressed.gif]
-		set disabled [image create photo -file button_disabled.gif]
-		set focus [image create photo -file button_focus.gif]
+		set normal [eval "$loadimagecommand button"]
+		set hover [eval "$loadimagecommand button_hover"]
+		set pressed [eval "$loadimagecommand button_pressed"]
+		set disabled [eval "$loadimagecommand button_disabled"]
+		set focus [eval "$loadimagecommand button_focus"]
+
+		foreach buttonwidget $buttonlist {
+			$buttonwidget SetSize
+		}
 	}
 }
+
+rename button ::tk::button
+rename pixmapbutton button
