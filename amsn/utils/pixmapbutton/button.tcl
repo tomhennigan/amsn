@@ -96,8 +96,8 @@ snit::widgetadaptor pixmapbutton {
 	option -width -configuremethod NewSize
 
 	typeconstructor {
-		$type SetImageCommand "::skin::loadPixmap"
-		#$type SetImageCommand "$type loadimage"
+		#$type SetImageCommand "::skin::loadPixmap"
+		$type SetImageCommand "$type loadimage"
 		$type reloadimages
 	}
 
@@ -450,6 +450,7 @@ snit::widgetadaptor pixmapbutton {
 			$hull itemconfigure button -image [$self.hover name]
 		}
 		if { $options(-activeforeground) != "" } {
+			puts $options(-activeforeground)
 			$hull itemconfigure txt -fill $options(-activeforeground)
 		}
 	}
@@ -464,6 +465,7 @@ snit::widgetadaptor pixmapbutton {
 			set potent "no"
 		}
 		$hull itemconfigure button -image [$self.normal name]
+		puts $options(-foreground)
 		$hull itemconfigure txt -fill $options(-foreground)
 	}
 
@@ -563,8 +565,8 @@ snit::widgetadaptor pixmapbutton {
 	}
 
 	method setActiveForeground { option value } {
-		set options(-foreground) $value
-		set options(-fg) $value
+		set options(-activeforeground) $value
+		set options(-activefg) $value
 	}
 	
 	method setAnchor { option value } {
