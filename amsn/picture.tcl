@@ -79,7 +79,7 @@ set ::tkcximageloaded 0
 		if {[::picture::Loaded]} {
 			#TkCximage
 			if { [catch { 
-				set photo [image create photo -file $original] 
+				set photo [image create photo -file $original -format cximage] 
 				::CxImage::Resize $photo $width $height 
 				$photo write $destination 
 				image delete $photo
@@ -228,7 +228,7 @@ set ::tkcximageloaded 0
 			error "Picture.tcl: The file doesn't exists"
 		}
 	
-		set img [image create photo -file $filename]
+		set img [image create photo -file $filename -format cximage]
 		set return "[image width $img]x[image height $img]"
 		image delete $img
 		return $return
@@ -246,10 +246,24 @@ set ::tkcximageloaded 0
 		}
 		
 		if {[catch {
-			image create photo user_pic_$user -file "[file join $HOME displaypic cache ${filename}].png"
+			image create photo user_pic_$user -file "[file join $HOME displaypic cache ${filename}].png" -format cximage
 			::picture::Resize user_pic_$user $width $height
 		} res]} {
 			msg_box $res
+		}
+	}
+	
+	#To verify if a picture is animated (1) or not (0)
+	proc IsAnimated {file} {
+	
+		if { ![file exists $file] } {
+			status_log "Picture.tcl: The file doesn't exists $file\n" red
+			error "Picture.tcl: The file doesn't exists $file"
+		}
+		if {[CxImage::IsAnimated $file]} {
+			return 1
+		} elseif {![CxImage::IsAnimated $file]} {
+			return 0
 		}
 	}
 }
