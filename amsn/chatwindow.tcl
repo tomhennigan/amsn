@@ -2909,6 +2909,7 @@ namespace eval ::ChatWindow {
 	}
 
 	proc DetachTab { tab } {
+		global win_history
 		set win [set ::ChatWindow::tab2win($tab)]
 		set out [GetOutText $win]
 		set in [GetInputText $win]
@@ -2937,6 +2938,17 @@ namespace eval ::ChatWindow {
 		set ::ChatWindow::recent_message(${new}) [set ::ChatWindow::recent_message(${win})]
 		set ::ChatWindow::containercurrent(${new}) ${new}
 
+		#We now copy the history of what we said
+		set winhisto [GetInputText $win]
+		set newhisto [GetInputText $new]
+		if { [info exists win_history(${winhisto}_count)] } {
+			set win_history(${newhisto}_count) $win_history(${winhisto}_count)
+			set win_history(${newhisto}_index) $win_history(${winhisto}_index)
+			set win_history(${newhisto}) $win_history(${winhisto})
+			if { [info exists win_history(${winhisto}_temp)] } {
+				set win_history(${newhisto}_temp) $win_history(${winhisto}_temp)
+			}
+		}
 		
 		unset ::ChatWindow::titles(${win})
 		unset ::ChatWindow::first_message(${win})
@@ -2947,13 +2959,26 @@ namespace eval ::ChatWindow {
 
 		CloseTab $tab
 
+		#We now clean the old history
+		if { [info exists win_history(${winhisto}_count)] } {
+			unset win_history(${winhisto}_count)
+			unset win_history(${winhisto}_index)
+			unset win_history(${winhisto})
+			if { [info exists win_history(${winhisto}_temp)] } {
+				unset win_history(${winhisto}_temp)
+			}
+		}
+		
 		set out [GetOutText $new]
 		set in [GetInputText $new]
 
 		$out configure -state normal -font bplainf -foreground black
 
 		undump $out $dump_out [array get tags_out]
+		#We dumped an invisible new line due to end index so remove it now
+		$out delete "end - 1 lines"
 		undump $in $dump_in
+		$in delete "end - 1 lines"
 		
 		$out configure -state disabled
 	}
