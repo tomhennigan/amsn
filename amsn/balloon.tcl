@@ -123,7 +123,7 @@ proc balloon {target message pic {cx 0} {cy 0} } {
 
 	frame .balloon.f -bg [::skin::getKey balloonbackground]
 	pack .balloon.f
-	if { $pic != "" } {
+	if { $pic != "" && ![catch {$pic cget -file}]} {
 		label .balloon.f.pic -image $pic -bg [::skin::getKey balloonbackground]
 		pack .balloon.f.pic -side left -padx 2 -pady 2
 		set iwidth [image width $pic]
