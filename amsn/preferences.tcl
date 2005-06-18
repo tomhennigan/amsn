@@ -2738,7 +2738,7 @@ proc UpdatePreferences {} {
 	if { [::config::getKey connectiontype] == "proxy" } {
 		$lfname.4.post configure -state normal
 		$lfname.4.ssl configure -state disable
-		$lfname.4.socks5 configure -state disabled
+		$lfname.4.socks5 configure -state normal
 		$lfname.5.server configure -state normal
 		$lfname.5.port configure -state normal
 		if { [::config::getKey proxytype] == "socks5" || [::config::getKey proxytype] == "http"} {

@@ -87,6 +87,7 @@ global socks_freeid socks_idlist
   if {[eof $sck]} {catch {close $sck}; return "ERROR:Connection closed with Socks Server!"}
 
   set serv_ver ""; set method $nomatchingmethod
+
   binary scan $a "cc" serv_ver smethod
 
   if {$serv_ver!=5} {catch {close $sck}; return "ERROR:Socks Server isn't version 5!"}
@@ -155,8 +156,10 @@ global socks_freeid socks_idlist
 # Change the variable value, so 'vwait' loop will end in socks:init procedure.
 #
 proc Readable {sck} {
-global socks_idlist
-  incr socks_idlist(stat,$sck)
-  set socks_idlist(data,$sck) [read $sck]
+	global socks_idlist
+	incr socks_idlist(stat,$sck)
+	if { [catch {set socks_idlist(data,$sck) [read $sck]} res] } {
+		status_log "Error when reading from sock server : $res"
+	}
 }
 }

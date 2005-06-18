@@ -2327,7 +2327,10 @@ namespace eval ::Event {
 	option -time ""
 	option -error_msg ""
 	option -proxy_host
+	option -proxy_port
 	option -proxy_authenticate
+	option -proxy_user
+	option -proxy_password
 
 	variable dataBuffer ""
 
@@ -4162,17 +4165,17 @@ proc setup_connection {name} {
 
 	#This is the default read handler, if not changed by proxy
 	#This is the default procedure that should be called when an error is detected
-#	$name configure -error_handler [list ::MSN::CloseSB $name]
-
+	#$name configure -error_handler [list ::MSN::CloseSB $name]
+	status_log "connection type is proxy : [::config::getKey connectiontype] , is http [::config::getKey proxytype]"
 	$name configure -proxy [Proxy create %AUTO%]
-#	if {[::config::getKey connectiontype] == "direct" } {
-#		$name configure -connection_wrapper DirectConnection
+	if {[::config::getKey connectiontype] == "direct" } {
+		#$name configure -connection_wrapper DirectConnection
 
-#	} elseif {[::config::getKey connectiontype] == "http"} {
+	} elseif {[::config::getKey connectiontype] == "http"} {
 
-# 		$name configure -connection_wrapper HTTPConnection
-#		$name configure -proxy_host ""
-#		$name configure -proxy_port ""
+ 		#$name configure -connection_wrapper HTTPConnection
+		$name configure -proxy_host ""
+		$name configure -proxy_port ""
 
 		#status_log "cmsn_socket: Setting up http connection\n" green
 		#set tmp_serv "gateway.messenger.hotmail.com"
@@ -4186,33 +4189,44 @@ proc setup_connection {name} {
 		#::Proxy::Setup next readable_handler $name
 
 
-#	} elseif {[::config::getKey connectiontype] == "proxy" && [::config::getKey proxytype] == "http"} {
+	} elseif { [::config::getKey connectiontype] == "proxy" && [::config::getKey proxytype] == "http" } {
 
 		#TODO: Right now it's always HTTP proxy!!
-#		$name configure -connection_wrapper HTTPConnection
-#		set proxy [::config::getKey proxy]
-#		$name configure -proxy_host [lindex $proxy 0]
-#		$name configure -proxy_port [lindex $proxy 1]
-#		$name configure -proxy_authenticate [::config::getKey proxyauthenticate]
-#		$name configure -proxy_user [::config::getKey proxyuser]
-#		$name configure -proxy_password [::config::getKey proxypass]
+		#$name configure -connection_wrapper HTTPConnection
+		set proxy [::config::getKey proxy]
+		$name configure -proxy_host [lindex $proxy 0]
+		$name configure -proxy_port [lindex $proxy 1]
+		$name configure -proxy_authenticate [::config::getKey proxyauthenticate]
+		$name configure -proxy_user [::config::getKey proxyuser]
+		$name configure -proxy_password [::config::getKey proxypass]
 
+		#set proxy [$name cget -proxy]
 		#status_log "cmsn_socket: Setting up Proxy connection (type=[::config::getKey proxytype])\n" green
-		#::Proxy::Init [::config::getKey proxy] [::config::getKey proxytype]
-		#::Proxy::LoginData [::config::getKey proxyauthenticate] [::config::getKey proxyuser] [::config::getKey proxypass]
+		#$proxy Init [::config::getKey proxy] [::config::getKey proxytype]
+		#$proxy LoginData [::config::getKey proxyauthenticate] [::config::getKey proxyuser] [::config::getKey proxypass]
 
 		#set proxy_serv [split [::config::getKey proxy] ":"]
 		#set tmp_serv [lindex $proxy_serv 0]
 		#set tmp_port [lindex $proxy_serv 1]
-		#::Proxy::OnCallback "dropped" "proxy_callback"
+		#$proxy OnCallback "dropped" "proxy_callback"
 
 		#status_log "cmsn_connect: Calling proxy::Setup now\n" green
-		#::Proxy::Setup next readable_handler $name
+		#$proxy Setup next readable_handler $name
+	} elseif { [::config::getKey connectiontype] == "proxy" && [::config::getKey proxytype] == "socks5" } {
 
-#	} else {
-#		::config::setKey connectiontype "direct"
- #		$name configure -connection_wrapper DirectConnection
-#	}
+		#We set the parameters for the SOCKS5 proxy
+		
+		set proxy [::config::getKey proxy]
+		$name configure -proxy_host [lindex $proxy 0]
+		$name configure -proxy_port [lindex $proxy 1]
+		$name configure -proxy_authenticate [::config::getKey proxyauthenticate]
+		$name configure -proxy_user [::config::getKey proxyuser]
+		$name configure -proxy_password [::config::getKey proxypass]
+
+	} else {
+		#$name configure -connection_wrapper DirectConnection
+		::config::setKey connectiontype "direct"
+	}
 }
 
 proc cmsn_socket {name} {
@@ -4851,8 +4865,8 @@ namespace eval ::MSN6FT {
 
 		set sid [expr int([expr rand() * 1000000000])%125000000 + 4]
 		# Generate BranchID and CallID
-		set branchid "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [expr [expr int([expr rand() * 1000000])%65450]] + 4369]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
-		set callid "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [expr [expr int([expr rand() * 1000000])%65450]] + 4369]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
+		set branchid "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
+		set callid "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
 
 		set dest [lindex [::MSN::usersInChat $chatid] 0]
 
@@ -4973,7 +4987,7 @@ namespace eval ::MSN6FT {
 		::MSNP2P::SessionList set $sid [list -1 -1 -1 -1 "INVITE2" -1 $fd -1 -1 -1]
 
 		if {$listening == "true" } {
-			set nonce "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [expr [expr int([expr rand() * 1000000])%65450]] + 4369]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
+			set nonce "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
 			set port [OpenMsnFTPort [config::getKey initialftport] $nonce $sid 1]
 			set clientip [::abook::getDemographicField clientip]
 			set localip [::abook::getDemographicField localip]
@@ -5368,7 +5382,7 @@ namespace eval ::MSN6FT {
 		set listening [abook::getDemographicField listening]
 
 		if {$listening == "true" } {
-			set nonce "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [expr [expr int([expr rand() * 1000000])%65450]] + 4369]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
+			set nonce "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
 			set port [OpenMsnFTPort [config::getKey initialftport] $nonce $sid 0]
 			set clientip [::abook::getDemographicField clientip]
 			set localip [::abook::getDemographicField localip]
@@ -5627,7 +5641,7 @@ namespace eval ::MSNAV {
 	# returns -1 if something is missing
 	proc acceptInvitationPacket {cookie requested chatid} {
 
-		set sessionid "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [expr [expr int([expr rand() * 1000000])%65450]] + 4369]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
+		set sessionid "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
 		CookieList set $cookie [list $sessionid -1 -1]
 
 		# we need the connection type
@@ -5779,7 +5793,7 @@ namespace eval ::MSNAV {
 		}
 
 		# make new sessionid
-		set sessionid "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [expr [expr int([expr rand() * 1000000])%65450]] + 4369]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
+		set sessionid "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
 		# make new cookie
 		set cookie [expr {([clock clicks]) % (65536 * 8)}]
 
