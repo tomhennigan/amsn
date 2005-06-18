@@ -2876,9 +2876,10 @@ namespace eval ::amsn {
 
 
 
+		set height [::skin::getKey notifheight]
 		#Search for a free notify window position
 		while { [lsearch -exact $NotifPos $ypos] >=0 } {
-			incr ypos 105
+			incr ypos $height
 		}
 		lappend NotifPos $ypos
 
