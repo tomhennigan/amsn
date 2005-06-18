@@ -1250,23 +1250,27 @@ proc CheckLock { email } {
 		if { [catch {socket -server phony -myaddr localhost $Port} newlockSock] != 0  } {
 			status_log "CheckLock Port is already in use: $newlockSock\n" red
 			# port is taken, let's make sure it's a profile lock
-			if { [catch {socket localhost $Port} clientSock] == 0 } {
-				status_log "CheckLock: Can connect to port. Sending PING\n" blue
-				fileevent $clientSock readable "lockcltHdl $clientSock"
-				fconfigure $clientSock -buffering line
-				puts $clientSock "AMSN_LOCK_PING"
-				vwait response
-
-				#set response [gets $clientSock]
-				if { $response == "AMSN_LOCK_PONG" } {
-					status_log "CheckLock: Got PONG response\n" green
-					# profile is locked
-					close $clientSock
-					return -1
-				} else {
-					status_log "CheckLock: another program using port $Port. Reseting to 0\n" blue
-					# other non amsn program is using the lock port, we better reset the lock to 0
-					LoginList changelock 0 $email 0
+			foreach {local_host} { localhost "[info hostname]" 127.0.0.1 } {
+				if {[catch {socket $local_host $Port} clientSock] == 0 } {
+					set done 1
+					status_log "CheckLock: Can connect to port. Sending PING\n" blue
+					fileevent $clientSock readable "lockcltHdl $clientSock"
+					fconfigure $clientSock -buffering line
+					puts $clientSock "AMSN_LOCK_PING"
+					vwait response
+	
+					#set response [gets $clientSock]
+					if { $response == "AMSN_LOCK_PONG" } {
+						status_log "CheckLock: Got PONG response\n" green
+						# profile is locked
+						close $clientSock
+						return -1
+					} else {
+						status_log "CheckLock: another program using port $Port. Reseting to 0\n" blue
+						# other non amsn program is using the lock port, we better reset the lock to 0
+						LoginList changelock 0 $email 0
+					}
+				break
 				}
 			}
 		} else {
@@ -1325,13 +1329,26 @@ proc LockProfile { email } {
 			set lockSock $newlockSock
 			set trigger 1
 		} else {
-			status_log "Failed to use port $Port: $newlockSock\n" red
+			if { [catch {socket -server lockSvrNew -myaddr [info hostname] $Port} newlockSock] == 0  } {
+				LoginList changelock 0 $email $Port
+				set lockSock $newlockSock
+				set trigger 1
+			} else {
+				if { [catch {socket -server lockSvrNew -myaddr 127.0.0.1 $Port} newlockSock] == 0  } {
+				LoginList changelock 0 $email $Port
+				set lockSock $newlockSock
+				set trigger 1
+				} else {
+					errorMsg "Unable to get a socket from locahost.\n Check your /etc/hosts file, please."
+					exit 1
+				}
+			}
 		}
 
 	}
-	if { $trigger == 1 } {
+#	if { $trigger == 1 } {
 		#vwait events
-	}
+#	}
 }
 
 
