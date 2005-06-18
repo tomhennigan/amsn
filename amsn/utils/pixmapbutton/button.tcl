@@ -51,31 +51,31 @@ snit::widgetadaptor pixmapbutton {
 	typevariable disabled
 	typevariable focus
 ######### UNUSED OPTIONS ###################
-	option -bd
-	option -bg
-	option -compound
-	option -relief
-	option -highlightthickness
-	option -highlightbackground
-	option -highlightcolor
-	option -activebackground
-	option -activebg
-	option -activeforeground
-	option -activefg
-	option -disabledforeground
-	option -activeborderwidth
+	option -bd -default 0
+	option -bg -default white
+	option -relief -default flat
+	option -highlightthickness -default 0
+	option -highlightbackground -default white
+	option -highlightcolor -default white
+	option -activebackground -default white
+	option -activebg -default white
+	
+	option -activeborderwidth -default 0
 	option -bitmap
-	option -borderwidth
-	option -image
-	option -overrelief
+	option -borderwidth -default 0
+	option -overrelief -default flat
 ############################################	
 
 	option -anchor -default "c" -configuremethod setAnchor
+	option -activeforeground -configuremethod setActiveForeground
+	option -activefg -configuremethod setActiveForeground
 	option -background -configuremethod setOption
 	option -cursor -configuremethod setOption
+	option -disabledforeground -configuremethod setDisabledForeground -default grey
+	option -disabledfg -configuremethod setDisabledForeground
 	option -font -configuremethod setFont
+	option -foreground -configuremethod setForeground -default black
 	option -fg -configuremethod setForeground
-	option -foreground -configuremethod setForeground
 	option -justify -default "left"
 	option -padx -default "20"
 	option -pady -default "10"
@@ -96,7 +96,8 @@ snit::widgetadaptor pixmapbutton {
 	option -width -configuremethod NewSize
 
 	typeconstructor {
-		$type SetImageCommand "$type loadimage"
+		$type SetImageCommand "::skin::loadPixmap"
+		#$type SetImageCommand "$type loadimage"
 		$type reloadimages
 	}
 
@@ -169,6 +170,14 @@ snit::widgetadaptor pixmapbutton {
 
 		$self SetSize
 		lappend buttonlist $self             
+	}
+	
+	destructor {
+		$self.normal destroy
+		$self.hover destroy
+		$self.pressed destroy
+		$self.disabled destroy
+		$self.focus destroy
 	}
 
 	#---------------------------------------------------------------------------------------
@@ -280,7 +289,10 @@ snit::widgetadaptor pixmapbutton {
 			normal { $hull itemconfigure button -image [$self.normal name] }
 			active { $hull itemconfigure button -image [$self.active name] }
 			pressed { $hull itemconfigure button -image [$self.pressed name] }
-			disabled { $hull itemconfigure button -image [$self.disabled name] }
+			disabled {
+				$hull itemconfigure button -image [$self.disabled name]
+				$hull itemconfigure txt -fill $options(-disabledforeground)
+			}
 		}
 	}
 
@@ -437,6 +449,9 @@ snit::widgetadaptor pixmapbutton {
 		} else { 
 			$hull itemconfigure button -image [$self.hover name]
 		}
+		if { $options(-activeforeground) != "" } {
+			$hull itemconfigure txt -fill $options(-activeforeground)
+		}
 	}
 
 	method ButtonUnhovered { } {
@@ -449,6 +464,7 @@ snit::widgetadaptor pixmapbutton {
 			set potent "no"
 		}
 		$hull itemconfigure button -image [$self.normal name]
+		$hull itemconfigure txt -fill $options(-foreground)
 	}
 
 	method ButtonPressed { } {
@@ -472,10 +488,10 @@ snit::widgetadaptor pixmapbutton {
 		
 		if { $potent == "yes" } {
 			$hull itemconfigure button -image [$self.hover name]
+			set potent "no"
 			if { $options(-repeatdelay) == "" && $options(-repeatinterval) == "" } {
 				$self invoke
 			}
-			set potent "no"
 		} else {
 			set potent "no"
 			$hull itemconfigure button -image [$self.normal name]
@@ -522,7 +538,19 @@ snit::widgetadaptor pixmapbutton {
 	method setForeground { option value } {
 		set options(-foreground) $value
 		set options(-fg) $value
+		if { $options(-activeforeground) == "" } {
+			set options(-activeforeground) $value
+			set options(-activefg) $value
+		}
 		$hull itemconfigure txt -fill $value
+	}
+	
+	method setDisabledForeground { option value } {
+		set options(-disabledforeground) $value
+		set options(-disabledfg) $value
+		if { $options(-state) = "disabled" } {
+			$hull itemconfigure txt -fill $value
+		}
 	}
 
 	method setImage { option value } {
@@ -534,6 +562,11 @@ snit::widgetadaptor pixmapbutton {
 		return $options(-anchor)
 	}
 
+	method setActiveForeground { option value } {
+		set options(-foreground) $value
+		set options(-fg) $value
+	}
+	
 	method setAnchor { option value } {
 		set options(-anchor) $value
 	}
