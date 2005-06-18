@@ -555,8 +555,11 @@ namespace eval ::smiley {
 	#Create ONE smiley in the smileys menu
 	proc CreateSmileyInMenu {w cols rows smiw smih emot_num name symbol image file animated} {
 		catch {
-
-			label $w.$emot_num -image $image -background [$w cget -background]
+			set resized [image create photo]
+			$resized copy $image
+			::picture::ResizeWithRatio $resized 22 22
+			label $w.$emot_num -image $resized -background [$w cget -background]
+			bind $w.$emot_num <Destroy> "image delete $resized"
 	
 			$w.$emot_num configure -cursor hand2 -borderwidth 1 -relief flat
 			
@@ -565,7 +568,7 @@ namespace eval ::smiley {
 			bind $w.$emot_num <Leave> [list $w.$emot_num configure -relief flat]
 
 			#Toolstip
-			if { [::config::getKey tooltips] } {set_balloon $w.$emot_num "$name $symbol"}
+			if { [::config::getKey tooltips] } {set_balloon $w.$emot_num "$name $symbol" "$image"}
 			set xpos [expr {($emot_num % $cols)* $smiw}]
 			set ypos [expr {($emot_num / $cols) * $smih}]
 			$w create window $xpos $ypos -window $w.$emot_num -anchor nw -width $smiw -height $smih
