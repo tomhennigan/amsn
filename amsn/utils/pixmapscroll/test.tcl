@@ -14,8 +14,8 @@ font create plain -family helvetica -size 11 -weight bold
 
 
 text .t -highlightthickness 0 -bd 0 -relief solid -bg #eeddee -wrap none
-pixmapscroll .sy -command {.t yview} -orient vertical -autohide 1
-pixmapscroll .sx -command {.t xview} -orient horizontal -autohide 0
+scrollbar .sy -command {.t yview} -orient vertical -autohide 1
+scrollbar .sx -command {.t xview} -orient horizontal -autohide 0
 .t configure -yscrollcommand {.sy set} -xscrollcommand {.sx set}
 pack .sx -padx 0 -pady 0 -side bottom -fill x
 pack .sy -padx 0 -pady 0 -side right -fill y
