@@ -154,13 +154,13 @@ namespace eval ::MSNP2P {
 		destroy user_pic_$user
 		if { ![file readable "[file join $HOME displaypic cache ${filename}].png"] || $reload == "1" } {
 			status_log "::MSNP2P::GetUser: FILE [file join $HOME displaypic cache ${filename}] doesn't exist!!\n" white
-			image create photo user_pic_$user -file [::skin::GetSkinFile "displaypic" "loading.gif"]
+			image create photo user_pic_$user -file [::skin::GetSkinFile "displaypic" "loading.gif"] -format cximage
 
 			create_dir [file join $HOME displaypic]
 			create_dir [file join $HOME displaypic cache]
 			::MSNP2P::RequestObject $chatid $user $msnobj
 		} else {
-			catch {image create photo user_pic_$user -file "[file join $HOME displaypic cache ${filename}].png"}
+			catch {image create photo user_pic_$user -file "[file join $HOME displaypic cache ${filename}].png" -format cximage}
 
 		}
 	}
@@ -193,7 +193,7 @@ namespace eval ::MSNP2P {
 			create_dir [file join $HOME smileys cache]
 			::MSNP2P::RequestObject $chatid $user $msnobj
 		} else {
-			catch {image create photo custom_smiley_$filename -file "[file join $HOME smileys cache ${filename}].png"}
+			catch {image create photo custom_smiley_$filename -file "[file join $HOME smileys cache ${filename}].png" -format cximage}
 
 		}
 	}
@@ -534,6 +534,9 @@ namespace eval ::MSNP2P {
 						}
 					} elseif { $eufguid == "5D3E02AB-6190-11D3-BBBB-00C04F795683" } {
 						# File transfer
+						#check if a conversation is open with that contact
+						#no need to test either a chatwindow has been created or not, because MakeFor is going to do it ! 
+						::ChatWindow::MakeFor $chatid
 						SessionList set $sid [list 0 0 0 $dest 0 $uid 0 "filetransfer" "" "$branchuid"]
 					} elseif { $eufguid =="E073B06B-636E-45B7-ACA4-6D4B5978C93C"} {
 						#We received Winks
@@ -546,7 +549,9 @@ namespace eval ::MSNP2P {
 						::amsn::WinWrite $chatid "\n [trans winkreceived [::abook::getDisplayNick $chatid]]\n" black "" 0
 					} elseif { $eufguid == "4BD96FC0-AB17-4425-A14A-439185962DC8" ||
 						   $eufguid == "1C9AA97E-9C05-4583-A3BD-908A196F1E92" }	{
-
+						#check if a conversation is open with that contact
+						#no need to test either a chatwindow has been created or not, because MakeFor is going to do it ! 
+						::ChatWindow::MakeFor $chatid
 						if { $eufguid == "4BD96FC0-AB17-4425-A14A-439185962DC8" } {
 							set producer 0
 						} else {
@@ -833,8 +838,8 @@ namespace eval ::MSNP2P {
 						set file [file join $HOME displaypic cache ${filename}.png]
 						if { $file != "" } {
 							
-							if {[catch {image create photo user_pic_${user_login} -file [file join $HOME displaypic cache "${filename}.png"]}] } {
-								image create photo user_pic_${user_login} -file [::skin::GetSkinFile displaypic nopic.gif]
+							if {[catch {image create photo user_pic_${user_login} -file [file join $HOME displaypic cache "${filename}.png"] -format cximage}] } {
+								image create photo user_pic_${user_login} -file [::skin::GetSkinFile displaypic nopic.gif] -format cximage
 							}
 
 							set desc_file "[file join $HOME displaypic cache ${filename}.dat]"
@@ -850,7 +855,7 @@ namespace eval ::MSNP2P {
 						set file [file join $HOME smileys cache ${filename}.png]
 						if { $file != "" } {
 							#set file [filenoext $file].gif
-							catch {image create photo custom_smiley_${filename} -file "[file join $HOME smileys cache ${filename}.png]"}
+							catch {image create photo custom_smiley_${filename} -file "[file join $HOME smileys cache ${filename}.png]" -format cximage}
 						}
 					}
 
