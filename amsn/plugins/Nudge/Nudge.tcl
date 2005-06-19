@@ -174,6 +174,7 @@ namespace eval ::Nudge {
 			::Nudge::log "Start receiving nudge from <[::abook::getDisplayNick $chatid]>"
 			#If the user choosed to have the nudge notified in the window
 			if { $::Nudge::config(notsentinwin) == 1 } {
+				::ChatWindow::MakeFor $chatid
 				::Nudge::winwrite $chatid "[trans nudge $nick]!" nudge
 			}
 			
