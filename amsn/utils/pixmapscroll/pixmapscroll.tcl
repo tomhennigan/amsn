@@ -10,7 +10,7 @@ snit::widgetadaptor pixmapscroll {
 
 	foreach orientation {horizontal vertical} {
 		foreach pic {arrow1 arrow2 slidertop sliderbody sliderbottom slidergrip} {
-			foreach hov {{} _hover _pressed} {
+			foreach hov {{} _hover _pressed _disabled} {
 				typecomponent ${orientation}_${pic}image${hov}
 			}
 		}
@@ -23,7 +23,7 @@ snit::widgetadaptor pixmapscroll {
 	}
 
 	foreach pic {arrow1 arrow2 slidertop sliderbody sliderbottom slidergrip slider} {
-		foreach hov {{} _hover _pressed} {
+		foreach hov {{} _hover _pressed _disabled} {
 			component ${pic}image${hov}
 		}
 	}
@@ -92,7 +92,7 @@ snit::widgetadaptor pixmapscroll {
 		}
 
 		foreach pic {arrow1 arrow2 slidertop sliderbody sliderbottom slidergrip} {
-			foreach hov {{} _hover _pressed} {
+			foreach hov {{} _hover _pressed _disabled} {
 				set ${pic}image${hov} [set ${orientation}_${pic}image${hov}]
 			}
 		}
@@ -103,19 +103,20 @@ snit::widgetadaptor pixmapscroll {
 		set arrow2width [set ${orientation}_arrow2width]
 		set arrow2height [set ${orientation}_arrow2height]
 
-		set sliderimage [image create photo]
 		set troughimage [image create photo]
+		set sliderimage [image create photo]
 		set sliderimage_hover [image create photo]
 		set sliderimage_pressed [image create photo]
+		set sliderimage_disabled [image create photo]
 
 		$canvas create image 0 0 -anchor nw -image $troughimage -tag $troughimage
-		$canvas create image 0 0 -anchor nw -image $sliderimage -activeimage $sliderimage_hover -tag $sliderimage
-		$canvas create image 0 0 -anchor nw -image $arrow1image -activeimage $arrow1image_hover -tag $arrow1image
+		$canvas create image 0 0 -anchor nw -image $sliderimage -activeimage $sliderimage_hover -disabledimage $sliderimage_disabled -tag $sliderimage
+		$canvas create image 0 0 -anchor nw -image $arrow1image -activeimage $arrow1image_hover -disabledimage $arrow1image_disabled -tag $arrow1image
 
 		if { $options(-orient) == "vertical" } {
-			$canvas create image 0 $newsize -anchor sw -image $arrow2image -activeimage $arrow2image_hover -tag $arrow2image
+			$canvas create image 0 $newsize -anchor sw -image $arrow2image -activeimage $arrow2image_hover -disabledimage $arrow2image_disabled -tag $arrow2image
 		} else {
-			$canvas create image $newsize 0 -anchor ne -image $arrow2image -activeimage $arrow2image_hover -tag $arrow2image
+			$canvas create image $newsize 0 -anchor ne -image $arrow2image -activeimage $arrow2image_hover -disabledimage $arrow2image_disabled -tag $arrow2image
 		}
 
 		# Set width / height
@@ -197,31 +198,35 @@ snit::widgetadaptor pixmapscroll {
 	}
 
 	method Grey { } {
-		$self ChangePalette 32 2
+		#$self ChangePalette 32 2
+		$self SetState disabled
 		set greyed 1
-		#bindtags $self "$self all"
-		bind $self <Button-1> ""
-		bind $self <ButtonRelease-1> ""
+		#bind $self <Button-1> ""
+		#bind $self <ButtonRelease-1> ""
 	}
 
 	method UnGrey { } {
-		$self ChangePalette 256/256/256 1
+		#$self ChangePalette 256/256/256 1
+		$self SetState normal
 		set greyed 0
-		#bindtags $self "Pixmapscroll $self all"
-		bind $self <Button-1> "$self PressedImage %x %y"
-		bind $self <ButtonRelease-1> "$self ReleasedImage %x %y"
+		#bind $self <Button-1> "$self PressedImage %x %y"
+		#bind $self <ButtonRelease-1> "$self ReleasedImage %x %y"
 	}
 
-	method ChangePalette { palette gamma } {
-		
-		foreach pic {arrow1 arrow2 slidertop sliderbody sliderbottom slidergrip slider} {
-			foreach hov {{} _hover _pressed} {
-				catch {[set ${pic}image${hov}] configure -palette $palette -gamma $gamma} res
-			}
-		}
-		catch { $troughsrcimage configure -palette $palette -gamma $gamma}
-		catch { $troughimage configure -palette $palette -gamma $gamma}
+	method SetState { value } {
+		$canvas configure -state $value
 	}
+	
+#	method ChangePalette { palette gamma } {
+#		
+#		foreach pic {arrow1 arrow2 slidertop sliderbody sliderbottom slidergrip slider} {
+#			foreach hov {{} _hover _pressed _disabled} {
+#				catch {[set ${pic}image${hov}] configure -palette $palette -gamma $gamma} res
+#			}
+#		}
+#		catch { $troughsrcimage configure -palette $palette -gamma $gamma}
+#		catch { $troughimage configure -palette $palette -gamma $gamma}
+#	}
 
 	method HideUnhide { } {
 			# hide it or grey it out
@@ -326,6 +331,14 @@ snit::widgetadaptor pixmapscroll {
 			if  {[expr {$slidersize - [image height $sliderbottomimage_pressed] }] >= [image height $slidergripimage_pressed]} {
 				$sliderimage_pressed copy $slidergripimage_pressed -to 0 $gripPos
 			}
+			
+			$sliderimage_disabled blank
+			$sliderimage_disabled copy $slidertopimage_disabled
+			$sliderimage_disabled copy $sliderbodyimage_disabled -to 0 [image height $slidertopimage_disabled] [image width $sliderbodyimage_disabled] [expr {$slidersize - [image height $sliderbottomimage_disabled] }]
+			$sliderimage_disabled copy $sliderbottomimage_disabled -to 0 [expr {$slidersize - [image height $sliderbottomimage_disabled]}] -shrink
+			if  {[expr {$slidersize - [image height $sliderbottomimage_disabled] }] >= [image height $slidergripimage_disabled]} {
+				$sliderimage_disabled copy $slidergripimage_disabled -to 0 $gripPos
+			}
 
 			# Set the slider's position:
 			set sliderpos [expr {($first * ($newsize - ($arrow1height + $arrow2height))) + $arrow1height}]
@@ -364,6 +377,11 @@ snit::widgetadaptor pixmapscroll {
 			$sliderimage_pressed copy $slidertopimage_pressed
 			$sliderimage_pressed copy $sliderbodyimage_pressed -to [image width $slidertopimage_pressed] 0 [expr {$slidersize - [image width $sliderbottomimage_pressed]}] [image height $sliderbodyimage_pressed]
 			$sliderimage_pressed copy $sliderbottomimage_pressed -to [expr {$slidersize - [image width $sliderbottomimage_pressed]}] 0 -shrink
+
+			$sliderimage_disabled blank
+			$sliderimage_disabled copy $slidertopimage_disabled
+			$sliderimage_disabled copy $sliderbodyimage_disabled -to [image width $slidertopimage_disabled] 0 [expr {$slidersize - [image width $sliderbottomimage_disabled]}] [image height $sliderbodyimage_disabled]
+			$sliderimage_disabled copy $sliderbottomimage_disabled -to [expr {$slidersize - [image width $sliderbottomimage_disabled]}] 0 -shrink
 
 			set sliderpos [expr {($first * ($newsize - ($arrow1width + $arrow2width))) + $arrow1width}]
 
@@ -480,7 +498,7 @@ snit::widgetadaptor pixmapscroll {
 	typemethod reloadimages { dir {force 0} } {
 		foreach orientation {horizontal vertical} {
 			foreach pic {arrow1 arrow2 slidertop sliderbody sliderbottom slidergrip} {
-				foreach hov {{} _hover _pressed} {
+				foreach hov {{} _hover _pressed _disabled} {
 					if { [file exists [file join $dir $orientation/${pic}${hov}.gif]] || $force } {
 						set ${orientation}_${pic}image${hov} [image create photo ${orientation}_${pic}image${hov} -file [file join $dir $orientation/${pic}${hov}.gif]]
 					}
