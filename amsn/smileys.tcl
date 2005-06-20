@@ -570,7 +570,7 @@ namespace eval ::smiley {
 			bind $w.$emot_num <Leave> [list $w.$emot_num configure -relief flat]
 
 			#Tooltip
-			if { [::config::getKey tooltips] } {set_balloon $w.$emot_num "$name $symbol" "$image"}
+			if { [::config::getKey tooltips] } {set_balloon $w.$emot_num "$name\n[trans triggers]: $symbol" "$image"}
 			set xpos [expr {($emot_num % $cols)* $smiw}]
 			set ypos [expr {($emot_num / $cols) * $smih}]
 			$w create window $xpos $ypos -window $w.$emot_num -anchor nw -width $smiw -height $smih
