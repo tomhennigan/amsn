@@ -557,7 +557,9 @@ namespace eval ::smiley {
 		catch {
 			set resized [image create photo]
 			$resized copy $image
-			::picture::ResizeWithRatio $resized 22 22
+			if {[image width $image] > 22 && [image height $image] > 22} {
+				::picture::ResizeWithRatio $resized 22 22
+			}
 			label $w.$emot_num -image $resized -background [$w cget -background]
 			bind $w.$emot_num <Destroy> "image delete $resized"
 	
@@ -567,7 +569,7 @@ namespace eval ::smiley {
 			bind $w.$emot_num <Enter>  [list $w.$emot_num configure -relief raised]
 			bind $w.$emot_num <Leave> [list $w.$emot_num configure -relief flat]
 
-			#Toolstip
+			#Tooltip
 			if { [::config::getKey tooltips] } {set_balloon $w.$emot_num "$name $symbol" "$image"}
 			set xpos [expr {($emot_num % $cols)* $smiw}]
 			set ypos [expr {($emot_num / $cols) * $smih}]
