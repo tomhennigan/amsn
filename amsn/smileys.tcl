@@ -599,6 +599,7 @@ namespace eval ::smiley {
 		#Fixed smiley size
 		set smiw 26
 		set smih 26
+	
 		
 		#We want to keep a certain ratio:
 		# cols/(rows+1) = 4/3
@@ -887,7 +888,7 @@ namespace eval ::smiley {
 		create_dir [file join $HOME smileys]
 		
 		#Check for animation
-		set emotion(animated) [ picture::IsAnimated [::skin::GetSkinFile smileys "$new_custom_cfg(file)"] ]
+		set emotion(animated) [::picture::IsAnimated [::skin::GetSkinFile smileys "$new_custom_cfg(file)"] ]
 		if { $emotion(animated) == 0 } { unset emotion(animated) }
 		
 		if { ![info exists emotion(animated)] || $emotion(animated) == 0 } {
