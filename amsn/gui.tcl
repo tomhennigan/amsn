@@ -1061,7 +1061,7 @@ namespace eval ::amsn {
 		#Open directory and Open picture button
 		button $w.close -text "[trans cancel]" -command $cancelcmd
 		button $w.open -text "[trans opendir]" -state disable -command "launch_filemanager \"$files_dir\""
-		button $w.openfile -text "[trans openfile]" -state disable -command "open_file \"$filepath\""
+		button $w.openfile -text "[trans openfile]" -state disable -command "open_file {$filepath}"
 		pack $w.close $w.open $w.openfile -side right -pady 5 -padx 10
 
 		if { [::MSNFT::getTransferType $cookie] == "received" } {
