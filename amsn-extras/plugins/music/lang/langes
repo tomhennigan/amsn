@@ -1,0 +1,18 @@
+amsn_lang_version 2
+musicaddsongtonick Añadir nombre de canción al apodo
+musictimeverify Comprobar nueva canción cada ? segundos
+musicnickname Apodo
+musicseparator Simbolo entre el apodo y la canción
+musicstopmsg Mensaje cuando el reproductor está parado
+musiccurrent Mostrar la canción actual
+musicsend Enviar la canción actual
+musicerr No se esta reproduciendo nada, o el plugin no puede obtener la música reproducida.
+playing Reproduciendo : $1
+musicoserr Su sistema operativo ($1) aún no es soportado por el plugin Music
+musicplayer Elige tu reproductor preferido
+musicstopdefault Reproductor parado
+separator Separador
+songartist Canción-Artista
+artistsong Artista-Canción
+choose_order Elige orden para el nombre de la canción y artista (no compatible con XMMS)
+musicballontext Click aquí para mostrar/ocultar la canción en tu apodo
