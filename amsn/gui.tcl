@@ -2515,7 +2515,7 @@ namespace eval ::amsn {
 		set chatid [::MSN::chatTo $lowuser]
 
 		if { [::ChatWindow::UseContainer] != 0 && $creating_window == 1} {
-			::ChatWindow::NameTabButton $win_name [::abook::getDisplayNick $chatid]
+			::ChatWindow::NameTabButton $win_name $chatid
 			set_balloon $::ChatWindow::win2tab($win_name) "--command--::ChatWindow::SetNickText $chatid"
 		}
 

@@ -1258,11 +1258,11 @@ namespace eval ::MSN {
 
 		set sock [$sb cget -sock]
 
-		if {$sock != ""} {
-			set proxy [$sb cget -proxy]
-			$proxy finish $sb
+#		if {$sock != ""} {
+#			set proxy [$sb cget -proxy]
+#			$proxy finish $sb
 #			$proxy destroy
-		}
+#		}
 
 #		#Append an empty string to the SB buffer. This will cause the
 #		#actual SB cleaning, but will allow to process all buffer
@@ -1607,16 +1607,16 @@ namespace eval ::MSN {
 			return 0
 		}
 
-		catch {
+#		catch {
 			#fileevent [$name cget -sock] readable ""
 			#fileevent [$name cget -sock] writable ""
-			set proxy [$sb cget -proxy]
-			$proxy finish $sb
+#			set proxy [$sb cget -proxy]
+#			$proxy finish $sb
 #			$proxy destroy
-		} res
+#		} res
 
 		set sb_list [lreplace $sb_list $idx $idx ]
-
+		status_log "Destroy the SB $sb in KillSB" red
 		$sb destroy
 	}
 
@@ -2337,7 +2337,13 @@ namespace eval ::Event {
 	##########################################################################################
 	# Public methods
 	# these are the methods you want to call from outside this object
-
+	destructor {
+		status_log "End of proxy for $options(-name). Destruction of proxy $options(-proxy)" red
+		catch { 
+			$options(-proxy) finish $options(-name)
+			$options(-proxy) destroy 
+		}
+	}
 
 	##########################################################################################
 	# Private methods
@@ -2346,13 +2352,12 @@ namespace eval ::Event {
 	#this method is called when the socket becomes readable
 	#it will get data from the socket and call handleCommand
 	method receivedData { } {
-
-		set dataRemains 1
+	
+		#put available data in buffer. When buffer is empty dataRemains is set to 0
+		set dataRemains [$self appendDataToBuffer]
+		
 		while { $dataRemains } {
-
-			#put available data in buffer. When buffer is empty dataRemains is set to 0
-			set dataRemains [$self appendDataToBuffer]
-
+			
 			#check for the a newline, if there is we have a command if not return
 			set idx [string first "\r\n" $dataBuffer]
 			if { $idx == -1 } { return }
@@ -2377,8 +2382,12 @@ namespace eval ::Event {
 				set command [encoding convertfrom utf-8 $command]
 				$options(-name) handleCommand $command
 			}
-
+			
+			#put available data in buffer. When buffer is empty dataRemains is set to 0
+			set dataRemains [$self appendDataToBuffer]
+			
 			update idletasks
+
 		}
 	}
 
@@ -2413,7 +2422,7 @@ namespace eval ::Event {
 	}
 
 	method sockError { } {
-		::MSN::CloseSB $self
+		::MSN::CloseSB $options(-name)
 	}
 }
 
@@ -2432,7 +2441,7 @@ namespace eval ::Event {
 	}
 
 	destructor {
-		catch { $self connection destroy }
+		catch { $connection destroy }
 	}
 
 	method handleCommand { command {payload ""}} {
@@ -2471,7 +2480,7 @@ namespace eval ::Event {
 	}
 
 	destructor {
-		catch { $self connection destroy }
+		catch { $connection destroy }
 	}
 
 	method addUser { user } {
@@ -2536,6 +2545,7 @@ namespace eval ::Event {
 
 					foreach usr_login [$self cget -users] {
 						::MSNP2P::loadUserPic $chatid $usr_login
+						::amsn::userJoins $chatid $usr_login 0
 					}
 					return 0
 				}
@@ -3115,7 +3125,24 @@ proc cmsn_update_users {sb recv} {
 				if { "$newchatid" != "$desiredchatid" } {
 					#The GUI doesn't accept the change, as there's another window for that chatid
 					status_log "cmsn_update_users: change NOT accepted from $chatid to $desiredchatid\n"
-
+					#We will close the conference window and return to the previous
+					set oldwindow [::ChatWindow::For $desiredchatid]
+					set container [::ChatWindow::GetContainerFromWindow $oldwindow]
+					if { $container != "" } {
+						::ChatWindow::SwitchToTab $container $oldwindow
+						raise $container
+					} else {
+						raise $oldwindow
+					}
+					
+					set newwindow [::ChatWindow::For $chatid]
+					set container [::ChatWindow::GetContainerFromWindow $newwindow]
+					if { $container != "" } {
+						set tab [set ::ChatWindow::win2tab($newwindow)]
+						::ChatWindow::CloseTab $tab
+					} else {
+						::ChatWindow::Close $newwindow
+					}
 				} else {
 					#The GUI accepts the change, so let's change
 					status_log "cmsn_update_users: change accepted from $chatid to $desiredchatid\n"
@@ -3143,6 +3170,9 @@ proc cmsn_update_users {sb recv} {
 					::amsn::userLeaves $chatid [list [lindex $recv 1]] 1
 				}
 			}
+
+			::MSN::DelSBFor $chatid $sb
+
 		}
 
 		IRO {
@@ -4095,9 +4125,9 @@ proc msnp9_authenticate { ticket } {
 	if {[ns cget -stat] == "u" } {
 		::MSN::WriteSB ns "USR" "TWN S $ticket"
 		ns configure -stat "us"
-	} else {
+	} elseif {[ns cget -stat] != "d" } {
 
-		status_log "Connection timeouted\n" white
+		status_log "Connection timeouted : state is [ns cget -stat]\n" white
 		::MSN::logout
 
 		#Reconnect if necessary
@@ -4166,7 +4196,10 @@ proc setup_connection {name} {
 	#This is the default read handler, if not changed by proxy
 	#This is the default procedure that should be called when an error is detected
 	#$name configure -error_handler [list ::MSN::CloseSB $name]
-	status_log "connection type is proxy : [::config::getKey connectiontype] , is http [::config::getKey proxytype]"
+	if {[info procs [$name cget -proxy]] != ""} {
+		#The connection already has a Proxy defined so we clean it
+		[$name cget -proxy] destroy
+	}
 	$name configure -proxy [Proxy create %AUTO%]
 	if {[::config::getKey connectiontype] == "direct" } {
 		#$name configure -connection_wrapper DirectConnection
@@ -4237,6 +4270,10 @@ proc cmsn_socket {name} {
 	$name configure -error_msg ""
 
 	set proxy [$name cget -proxy]
+	if {[info procs $proxy] == ""} {
+		#The proxy was deleted
+		$name configure -proxy [Proxy create %AUTO%]
+	}
 	if {[$proxy connect $name]<0} {
 		::MSN::CloseSB $name
 	}

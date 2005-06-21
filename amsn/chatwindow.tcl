@@ -618,7 +618,7 @@ namespace eval ::ChatWindow {
 	
 				::ChatWindow::SetFor $chatid $win_name
 	
-				::ChatWindow::NameTabButton $win_name [::abook::getDisplayNick $chatid]
+				::ChatWindow::NameTabButton $win_name $chatid
 
 				set_balloon $::ChatWindow::win2tab($win_name) "--command--::ChatWindow::SetNickText $chatid"
 				::ChatWindow::SwitchToTab $container [::ChatWindow::GetCurrentWindow $container]

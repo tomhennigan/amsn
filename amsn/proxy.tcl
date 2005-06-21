@@ -37,7 +37,7 @@ source socks.tcl	;# SOCKS5 proxy support
 	}
 
 	destructor {
-		catch { $self proxy destroy }
+		catch { $proxy destroy }
 	}
 }
 
@@ -404,6 +404,9 @@ source socks.tcl	;# SOCKS5 proxy support
 #		variable proxy_gateway_ip
 		variable proxy_queued_data
 
+		#status_log "Canceling \"$self HTTPPoll $name\""
+		after cancel "$self HTTPPoll $name"
+		
 		if {[info exists options(-proxy_session_id)]} {
 			unset options(-proxy_session_id)
 		}
@@ -667,7 +670,7 @@ source socks.tcl	;# SOCKS5 proxy support
 		set options(-proxy_session_id) ""
 
 		if { $old_proxy_session_id == ""} {
-			status_log "ERROR, RACE CONDITION, THIS SHOULD'T HAPPEN IN ::proxy::PollPOST!!!!\n" white
+			status_log "ERROR, RACE CONDITION, THIS SHOULD'T HAPPEN IN HTTPPoll with \"$self HTTPPoll $name\" !!!!!!" white
 		} else {
 			if { $old_proxy_session_id != ""} {
 
