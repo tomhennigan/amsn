@@ -994,7 +994,7 @@ namespace eval ::MSN {
 		global autostatuschange clientid
 
 #		set clientid 805306412
-		if { [::config::getKey displaypic] != "" } {
+		if { [::config::getKey displaypic] != "nopic.gif" } {
 			::MSN::WriteSB ns "CHG" "$new_status $clientid [urlencode [create_msnobj [::config::getKey login] 3 [::skin::GetSkinFile displaypic [::config::getKey displaypic]]]]"
 		} else {
 			::MSN::WriteSB ns "CHG" "$new_status $clientid"
