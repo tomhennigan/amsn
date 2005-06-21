@@ -25,13 +25,13 @@
 		</Colors>
 		<Geometry>
 	            <notifwidth>195</notifwidth>
-			<notifheight>160</notifheight>
+			<notifheight>134</notifheight>
 			<x_notifyclose>180</x_notifyclose>
 			<y_notifyclose>2</y_notifyclose>
-			<x_notifydp>70</x_notifydp>
-			<y_notifydp>15</y_notifydp>
-			<x_notifytext>35</x_notifytext>
-			<y_notifytext>72</y_notifytext>
+			<x_notifydp>5</x_notifydp>
+			<y_notifydp>45</y_notifydp>
+			<x_notifytext>60</x_notifytext>
+			<y_notifytext>45</y_notifytext>
 			<width_notifytext>125</width_notifytext>
 			<notify_font>sboldf</notify_font>
 		</Geometry>
