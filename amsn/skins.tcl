@@ -334,13 +334,16 @@ namespace eval ::skin {
 		set filename_noext [::skin::filenoext $filename]
 		#Get extension of the file
 		set ext [string tolower [string range [::skin::fileext $filename] 1 end]]
+		
+		#List the 4 formats we support (in order of priority to check)
+		set formatpic [list png gif jpg bmp]
+		
 		#If the extension is a picture, look in 4 formats
 		if { $ext == "png" || $ext == "gif" || $ext == "jpg" || $ext == "bmp"} {
-			#List the 4 formats we support (in order of priority to check)
-			set formatpic [list png gif jpg bmp]
+			
 			#For each format, look if the picture exist, stop when we find the file
 			foreach format $formatpic {
-				set path [::skin::LookForFile $type $filename_noext $fblocation $defaultskin $skin $format]
+				set path [::skin::LookForFile $type $filename_noext $fblocation $skin_override $skin $format]
 				if {$path == 0} { 
 					continue 
 				} else {
@@ -349,11 +352,22 @@ namespace eval ::skin {
 			}
 		} else {
 			#If it's a skin file but not a picture, just find it with it own extension
-			set path [::skin::LookForFile $type $filename_noext $fblocation $defaultskin $skin $ext]
+			set path [::skin::LookForFile $type $filename_noext $fblocation $skin_override $skin $ext]
 			if {$path != 0} { 
 				return $path
 			}
 		}
+		
+		# If image doen't exist in skin package that use the image from the default skin
+		foreach format $formatpic {
+			set path [::skin::LookForFile $type $filename_noext $fblocation $defaultskin $skin $format]
+				if {$path == 0} { 
+					continue 
+				} else {
+					return $path
+				}	
+		}
+		
 		#If we didn't find anything...use null file
 		set path [file join [set ::program_dir] skins $defaultskin $type null]
 		return $path
