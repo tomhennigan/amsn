@@ -494,7 +494,21 @@ snit::widgetadaptor pixmapscroll {
 		}
 
 	}
-	
+		
+	method ResetImageDims { } {
+		if { $options(-orient) == "vertical" } {
+			set arrow1width [set vertical_arrow1width]
+			set arrow1height [set vertical_arrow1height]
+			set arrow2width [set vertical_arrow2width]
+			set arrow2height [set vertical_arrow2height]
+		} else {
+			set arrow1width [set horizontal_arrow1width]
+			set arrow1height [set horizontal_arrow1height]
+			set arrow2width [set horizontal_arrow2width]
+			set arrow2height [set horizontal_arrow2height]
+		}
+	}
+
 	typemethod reloadimages { dir {force 0} } {
 		foreach orientation {horizontal vertical} {
 			foreach pic {arrow1 arrow2 slidertop sliderbody sliderbottom slidergrip} {
@@ -519,6 +533,7 @@ snit::widgetadaptor pixmapscroll {
 			} else {
 				$scrollwidget configure -width [set ${orientation}_arrow1height]
 			}
+			$scrollwidget ResetImageDims
 			$scrollwidget DrawScrollbar
 		}
 	}
