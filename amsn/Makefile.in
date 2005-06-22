@@ -20,7 +20,7 @@ VERSION		:= @APPVERSION@
 
 # for CFLAGS
 #WARN_FLAGS	:= -Wall -Wmissing-prototypes -Wstrict-prototypes -Wpointer-arith
-WARN_FLAGS	:= -Werror
+WARN_FLAGS	:= -w
 LFS_FLAGS	:= -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64
 LIB_FLAGS	:= -I. -I$(capture_dir) -I$(capture_dir)/libng -I$(capture_dir)/structs -Llibng
 LIB_FLAGS	+= -I$(webcamsn_dir)/src -I$(tkcximage_dir)/src -I$(tkcximage_dir)/src/CxImage
