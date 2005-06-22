@@ -3170,8 +3170,9 @@ proc cmsn_update_users {sb recv} {
 					::amsn::userLeaves $chatid [list [lindex $recv 1]] 1
 				}
 			}
-
-			::MSN::DelSBFor $chatid $sb
+			if { [::ChatWindow::For $chatid] == 0 } {
+				::MSN::DelSBFor $chatid $sb
+			}
 
 		}
 
