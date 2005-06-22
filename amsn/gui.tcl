@@ -1057,10 +1057,11 @@ namespace eval ::amsn {
 		pack $w.ftautoclose -side top
 		#Specify the path to the file
 		set filepath [file join $files_dir $filename]
+		set filedir [file dirname $filepath]
 
 		#Open directory and Open picture button
 		button $w.close -text "[trans cancel]" -command $cancelcmd
-		button $w.open -text "[trans opendir]" -state disable -command "launch_filemanager \"$files_dir\""
+		button $w.open -text "[trans opendir]" -state disable -command "launch_filemanager \"$filedir\""
 		button $w.openfile -text "[trans openfile]" -state disable -command "open_file {$filepath}"
 		pack $w.close $w.open $w.openfile -side right -pady 5 -padx 10
 
@@ -1112,8 +1113,8 @@ namespace eval ::amsn {
 		set w .ft$cookie
 
 		if { ([winfo exists $w] == 0) && ($mode != "ca")} {
-			set filename2 [::MSNFT::getFilename $cookie]
-			if { $filename2 != "" } {
+			#set filename2 [::MSNFT::getFilename $cookie]
+			if { $filename == "" } {
 				FTWin $cookie [::MSNFT::getFilename $cookie] [::MSNFT::getUsername $cookie] $chatid
 			} else {
 				FTWin $cookie $filename $bytes $chatid
