@@ -363,7 +363,7 @@ logbigger Log file sizes for each contact never exceeds
 logeventconnect Log the connections
 logeventdisconnect Log the disconnections
 logeventemail Log when an email is received
-logeventstate Log the changements of status
+logeventstate Log the status changes
 logfandexp Log File Sizes and History Expiry
 loggedotherlocation Disconnected. Logged in other location
 loggingin Logging In
