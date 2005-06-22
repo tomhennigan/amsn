@@ -11,7 +11,7 @@ namespace eval ::amsnplus {
 	#//////////////////////////////////////////////////////////////////////////
 	#                          CORE PROCEDURES
 	#//////////////////////////////////////////////////////////////////////////
-	
+
 	################################################
 	# this starts amsnplus
 	proc amsnplusStart { dir } {
@@ -42,7 +42,7 @@ namespace eval ::amsnplus {
 				[list bool "Do you want to colour nicks? (not fully feature)" colour_nicks] \
 				[list bool "Do you want to allow commands in the chat window?" allow_commands] \
 				[list bool "Do you want to use the quick text feature?" allow_quicktext] \
-				
+
 			]
 		} else {
 			array set ::amsnplus::config {
@@ -71,7 +71,7 @@ namespace eval ::amsnplus {
 		::plugins::RegisterEvent "aMSN Plus" chat_msg_receive parse_colours_and_sounds
 		::plugins::RegisterEvent "aMSN Plus" chatwindowbutton chat_color_button
 		::plugins::RegisterEvent "aMSN Plus" chatmenu edit_menu
-		
+
 		if {![::amsnplus::version_094]} {
 			::amsnplus::setPixmap
 		}
@@ -104,7 +104,7 @@ namespace eval ::amsnplus {
 	#//////////////////////////////////////////////////////////////
 	#            PLUS MENUS AND PREFERENCES
 	#//////////////////////////////////////////////////////////////
-	
+
 	####################################################
 	# creates the plus sub menu in the main gui menu
 	proc add_plus_menu { } {
@@ -127,7 +127,7 @@ namespace eval ::amsnplus {
 				set win [split $win .]
 				set win ".[lindex $win 1]"
 			}
-			
+
 			set bold [binary format c 2]
 			set italic [binary format c 5]
 			set underline [binary format c 31]
@@ -138,7 +138,7 @@ namespace eval ::amsnplus {
 			catch {
 				menu ${win}.menu.plusmenu -tearoff 0
 				set plusmenu ${win}.menu.plusmenu
-		
+
 				if { $::amsnplus::config(allow_colours) } {
 					$plusmenu add command -label "[trans choosecolor]" -command "::amsnplus::choose_color $win"
 					$plusmenu add command -label "[trans bold]" -command "::amsnplus::insert_text $win $bold"
@@ -182,12 +182,12 @@ namespace eval ::amsnplus {
 		} else {
 			set key "Ctrl"
 		}
-	
+
 		set menu_name $newvar(menu_name)
 		menu ${menu_name}.plusmenu -tearoff 0
 		$newvar(menu_name) add cascade -label "Plus!" -menu ${menu_name}.plusmenu
 		set plusmenu ${menu_name}.plusmenu
-		
+
 		if { $::amsnplus::config(allow_colours) } {
 			$plusmenu add command -label "[trans choosecolor]" -command "::amsnplus::choose_color $newvar(window_name)"
 			$plusmenu add command -label "[trans bold]" -command "::amsnplus::insert_text $newvar(window_name) $bold" -accelerator "${key}+B"
@@ -233,7 +233,7 @@ namespace eval ::amsnplus {
 		}
 		return 1
 	}
-	
+
 	#####################################################
 	# this returns the first word read in a string
 	proc readWord { i msg strlen } {
@@ -249,7 +249,7 @@ namespace eval ::amsnplus {
 		}
 		return $str
 	}
-	
+
 	####################################################################
 	# this is a proc to parse description to state in order to make
 	# more easier to the user to change the state
@@ -274,7 +274,7 @@ namespace eval ::amsnplus {
 		if {[string equal $state "onphone"]} { return 1 }
 		if {[string equal $state "gonelunch"]} { return 1 }
 		if {[string equal $state "appearoff"]} { return 1 }
-		return 0	
+		return 0
 	}
 
 	###################################################################
@@ -289,11 +289,11 @@ namespace eval ::amsnplus {
 	#//////////////////////////////////////////////////////////////////////////
 	#                               QUICK TEXT
 	#//////////////////////////////////////////////////////////////////////////
-	
+
 	################################################
 	# this proc lets configure the quick texts
 	proc qtconfig { } {
-	
+
 		set w .qtconfig
 		#Verify if the window is already opened
 		if {[winfo exists $w]} {
@@ -303,9 +303,9 @@ namespace eval ::amsnplus {
 		#Create the window
 		toplevel $w -width 600 -height 400
 		wm title $w "[trans quicktext]"
-		
+
 		#Text explanation, in frame top.help
-		frame $w.top 
+		frame $w.top
 		if {[::amsnplus::version_094]} {
 			label $w.top.help -text "Here you should configure your quick text, the keyword and the text. \n Then in the chat window, if you do /keyword, \
 				you'll see the text" -height 2
@@ -314,41 +314,41 @@ namespace eval ::amsnplus {
 		}
 		pack $w.top.help -side top -expand true
 		pack $w.top -side top -fill y
-		
+
 		frame $w.middle
 		listbox $w.middle.box -yscrollcommand "$w.middle.ys set" -font splainf -background white -relief flat -highlightthickness 0 -height 10 -width 20 -selectbackground gray
 		scrollbar $w.middle.ys -command "$w.middle.box yview" -highlightthickness 0 -borderwidth 1 -elementborderwidth 2
 		pack $w.middle.ys -side right -fill y
 		pack $w.middle.box -side left -expand true -fill both
-		
+
 		pack $w.middle -side top -fill both -expand true
-		
+
 		if { [info exists ::amsnplus::config(quick_text)] } {
-		
+
 			foreach {key txt} $::amsnplus::config(quick_text) {
 				$w.middle.box insert end "/$key -> $txt"
 			}
-			
+
 		}
-		
+
 		frame $w.bottom
 		button $w.bottom.close -text "[trans close]" -command "destroy .qtconfig"
 		button $w.bottom.add -text "[trans add]" -command "::amsnplus::qtconfig_add"
 		button $w.bottom.delete -text "[trans delete]" -command "::amsnplus::qtconfig_delete"
-		
+
 		pack $w.bottom.close -side right -padx 10 -pady 10
 		pack $w.bottom.add -side left -padx 10 -pady 10
 		pack $w.bottom.delete -side left -padx 10 -pady 10
 
 		pack $w.bottom -side top -fill y -expand true
-		
+
 		moveinscreen $w 30
-		
+
 	}
 
 
 	proc qtconfig_add { } {
-	
+
 		set w .qtconfig_add
 		#Verify if the window is already opened
 		if {[winfo exists $w]} {
@@ -358,9 +358,9 @@ namespace eval ::amsnplus {
 		#Create the window
 		toplevel $w -width 340 -height 270
 		wm title $w "[trans quicktext]"
-		
+
 		frame $w.top
-		
+
 		frame $w.top.left
 		frame $w.top.right
 
@@ -384,66 +384,66 @@ namespace eval ::amsnplus {
 		pack $w.top.top.underlinebutton -side left -padx 5
 		pack $w.top.top.resetbutton -side left -padx 5
 		pack $w.top.top -side top
-		
+
 		label $w.top.left.txt -text "[trans keyword]"
 		label $w.top.right.txt -text "[trans text]"
 		pack $w.top.left.txt -side top
 		pack $w.top.right.txt -side top
-				
+
 		entry $w.top.left.entry -background #FFFFFF
 		entry $w.top.right.entry -background #FFFFFF
 		pack $w.top.left.entry -side top
 		pack $w.top.right.entry -side top
-		
+
 		pack $w.top.left -side left -fill x -expand true
 		pack $w.top.right -side right -fill x -expand true
-		
+
 		pack $w.top -side top -fill x -expand true
-		
+
 		frame $w.bottom
-		
+
 		button $w.bottom.save -text "[trans save]" -command "::amsnplus::qtconfig_add_save"
 		button $w.bottom.cancel -text "[trans cancel]" -command "destroy $w"
 		pack $w.bottom.save -side right -padx 10 -padx 10
 		pack $w.bottom.cancel -side right -padx 10 -padx 10
-		
+
 		pack $w.bottom -side top -fill x -expand true
-		
+
 	}
-		
-	
+
+
 	proc qtconfig_add_save { } {
-	
+
 		set w .qtconfig_add
-	
+
 		set key [$w.top.left.entry get]
 		set txt [$w.top.right.entry get]
-		
+
 		if { [string equal $key ""] || [string equal $txt ""] } {
-			
+
 		} else {
-			set ::amsnplus::config(quick_text) [lappend ::amsnplus::config(quick_text) "$key" "$txt"]			
-			.qtconfig.middle.box insert end "/$key -> $txt"			
+			set ::amsnplus::config(quick_text) [lappend ::amsnplus::config(quick_text) "$key" "$txt"]
+			.qtconfig.middle.box insert end "/$key -> $txt"
 			destroy $w
 			::plugins::save_config
 		}
-		
+
 	}
 
 
 	proc qtconfig_delete { } {
-	
+
 		set w .qtconfig
-	
+
 		set selection [$w.middle.box curselection]
-		
+
 		if { $selection != "" } {
-			.qtconfig.middle.box delete $selection $selection			
+			.qtconfig.middle.box delete $selection $selection
 			set selection [expr $selection * 2 ]
 			set ::amsnplus::config(quick_text) [lreplace $::amsnplus::config(quick_text) $selection [expr $selection + 1]]
 			::plugins::save_config
 		}
-		
+
 	}
 
 
@@ -460,38 +460,65 @@ namespace eval ::amsnplus {
 		upvar 2 data data user_login user_login user_data user_data
 		set strlen [string length $data]
 		set i 0
+
 		while {$i < $strlen} {
 			set str [string range $data $i [expr $i + 1]]
 			if {[string equal $str "·\$"]} {
-				if {$::amsnplus::config(colour_nicks)} {
-					if {[string equal [string index $data [expr $i + 2]] "#"]} {
-						#The color is in RGB
-						set last [expr $i + 8]
+#				if {$::amsnplus::config(colour_nicks)} {
+				#RRGGBB
+				if {[string equal [string index $data [expr $i + 2]] "#"]} {
+					#The color is in RGB
+					set last [expr $i + 8]
 
-						set color [string tolower [string range $data [expr $i + 2] $last]]
+					set color [string tolower [string range $data [expr $i + 2] $last]]
+					if {$::amsnplus::config(colour_nicks)} {
 						set user_data(customcolor) $color
-					} else {
-					#know if the number has 1 or 2 digits
-					set last [expr $i + 3]
-					set char [string index $data [expr $i + 3]]
-					if {![::amsnplus::is_a_number $char]} {
-						set last [expr $i + 2]
 					}
-					#obtain rbg color
-					
-						set num [string range $data [expr $i + 2] $last]
-						set user_data(customcolor) [::amsnplus::getColor $num [::abook::getContactData $user_login customcolor]]
-					}
-					set data [string replace $data $i $last ""]
+				#$(rrr,ggg,bbb) format
 				} else {
-					set last [expr $i + 3]
-					set char [string index $data [expr $i + 3]]
-					if {![::amsnplus::is_a_number $char]} {
-						set last [expr $i + 2]
-					}
+					if { [::amsnplus::is_a_number [string range $data [expr $i + 3] [expr $i + 5]] ] } {
+						set last $i
+						if {[::amsnplus::is_a_number [string range $data [expr $i + 7] [expr $i + 9]]]} {
+							if {[::amsnplus::is_a_number [string range $data [expr $i + 11] [expr $i + 13]]]} {
+								set rgb [string range $data [expr $i + 2] [expr $i + 14]]
+								set last [expr $i + 14]
+								set color "#[::amsnplus::RGBToHex $rgb]"
+								if {$::amsnplus::config(colour_nicks)} {
+									set user_data(customcolor) $color
+								}
+							}
+						}
+					#$XX
+					} else {
+						#know if the number has 1 or 2 digits
+						set last [expr $i + 3]
+						set char [string index $data [expr $i + 3]]
+						if {![::amsnplus::is_a_number $char]} {
+							set last [expr $i + 2]
+						}
+						#obtain rbg color
 
-					set data [string replace $data $i $last ""]
+						set num [string range $data [expr $i + 2] $last]
+						set color "[::amsnplus::getColor $num [::abook::getContactData $user_login customcolor]]"
+						if { [string range $color 0 0] != "#" } {
+							set color "#$color"
+						}
+						if {$::amsnplus::config(colour_nicks)} {
+							set user_data(customcolor) $color
+						}
+					}
 				}
+				set data [string replace $data $i $last ""]
+#				} else {
+#
+#					set last [expr $i + 3]
+#					set char [string index $data [expr $i + 3]]
+#					if {![::amsnplus::is_a_number $char]} {
+#						set last [expr $i + 2]
+#					}
+#
+#					set data [string replace $data $i $last ""]
+#				}
 			} elseif {[string equal $str "·\#"]} {
 				#Bold text : as we can't render, we only remove
 				set data [string replace $data $i [expr $i + 1] ""]
@@ -503,26 +530,99 @@ namespace eval ::amsnplus {
 			}
 		}
 	}
-	
+
 	####################################################
 	# returns an rbg color with <num> code
 	proc getColor { num default } {
 		if {[string equal $num "0"]} {return "FFFFFF"}
 		if {[string equal $num "1"]} {return "000000"}
-		if {[string equal $num "2"]} {return "00FF00"}
-		if {[string equal $num "3"]} {return "0000FF"}
+		if {[string equal $num "2"]} {return "00007F"}
+		if {[string equal $num "3"]} {return "009300"}
 		if {[string equal $num "4"]} {return "FF0000"}
+		if {[string equal $num "5"]} {return "7F0000"}
+		if {[string equal $num "6"]} {return "9C009C"}
+		if {[string equal $num "7"]} {return "FC7F00"}
+		if {[string equal $num "8"]} {return "FFFF00"}
+		if {[string equal $num "9"]} {return "00FC00"}
+		if {[string equal $num "00"]} {return "FFFFFF"}
+		if {[string equal $num "01"]} {return "000000"}
+		if {[string equal $num "02"]} {return "00007F"}
+		if {[string equal $num "03"]} {return "009300"}
+		if {[string equal $num "04"]} {return "FF0000"}
+		if {[string equal $num "05"]} {return "7F0000"}
+		if {[string equal $num "06"]} {return "9C009C"}
+		if {[string equal $num "07"]} {return "FC7F00"}
+		if {[string equal $num "08"]} {return "FFFF00"}
+		if {[string equal $num "09"]} {return "00FC00"}
+		if {[string equal $num "10"]} {return "009393"}
+		if {[string equal $num "11"]} {return "00FFFF"}
+		if {[string equal $num "12"]} {return "2020FC"}
+		if {[string equal $num "13"]} {return "FF00FF"}
+		if {[string equal $num "14"]} {return "7F7F7F"}
+		if {[string equal $num "15"]} {return "D2D2D2"}
+		if {[string equal $num "16"]} {return "E7E6E4"}
+		if {[string equal $num "17"]} {return "CFCDD0"}
+		if {[string equal $num "18"]} {return "FFDEA4"}
+		if {[string equal $num "19"]} {return "FFAEB9"}
+		if {[string equal $num "20"]} {return "FFA8FF"}
+		if {[string equal $num "21"]} {return "B4B4FC"}
+		if {[string equal $num "22"]} {return "BAFBE5"}
+		if {[string equal $num "23"]} {return "C1FFA3"}
+		if {[string equal $num "24"]} {return "FAFDA2"}
+		if {[string equal $num "25"]} {return "B6B4D7"}
+		if {[string equal $num "26"]} {return "A2A0A1"}
+		if {[string equal $num "27"]} {return "F9C152"}
+		if {[string equal $num "28"]} {return "FF6D66"}
+		if {[string equal $num "29"]} {return "FF62FF"}
+		if {[string equal $num "30"]} {return "6C6CFF"}
+		if {[string equal $num "31"]} {return "68FFC3"}
+		if {[string equal $num "32"]} {return "8EFF67"}
+		if {[string equal $num "33"]} {return "F9FF57"}
+		if {[string equal $num "34"]} {return "858482"}
+		if {[string equal $num "35"]} {return "6E6B7D"}
+		if {[string equal $num "36"]} {return "FFA01E"}
+		if {[string equal $num "37"]} {return "F92611"}
+		if {[string equal $num "38"]} {return "FF20FF"}
+		if {[string equal $num "39"]} {return "202BFF"}
+		if {[string equal $num "40"]} {return "1EFFA5"}
+		if {[string equal $num "41"]} {return "60F913"}
+		if {[string equal $num "42"]} {return "FFF813"}
+		if {[string equal $num "43"]} {return "5E6464"}
+		if {[string equal $num "44"]} {return "4B494C"}
+		if {[string equal $num "45"]} {return "D98812"}
+		if {[string equal $num "46"]} {return "EB0505"}
+		if {[string equal $num "47"]} {return "DE00DE"}
+		if {[string equal $num "48"]} {return "0000D3"}
+		if {[string equal $num "49"]} {return "03CC88"}
+		if {[string equal $num "50"]} {return "59D80D"}
+		if {[string equal $num "51"]} {return "D4C804"}
+		if {[string equal $num "52"]} {return "000268"}
+		if {[string equal $num "53"]} {return "18171C"}
+		if {[string equal $num "54"]} {return "944E00"}
+		if {[string equal $num "55"]} {return "9B0008"}
+		if {[string equal $num "56"]} {return "980299"}
+		if {[string equal $num "57"]} {return "01038C"}
+		if {[string equal $num "58"]} {return "01885F"}
+		if {[string equal $num "59"]} {return "389600"}
+		if {[string equal $num "60"]} {return "9A9E15"}
+		if {[string equal $num "61"]} {return "473400"}
+		if {[string equal $num "62"]} {return "4D0000"}
+		if {[string equal $num "63"]} {return "5F0162"}
+		if {[string equal $num "64"]} {return "000047"}
+		if {[string equal $num "65"]} {return "06502F"}
+		if {[string equal $num "66"]} {return "1C5300"}
+		if {[string equal $num "67"]} {return "544D05"}
 		return $default
 	}
-	
-	
-	
+
+
+
 	#//////////////////////////////////////////////////////////////////////////
 	#                   MULTIPLE FORMATTING TEXT AND COLOR
 	#//////////////////////////////////////////////////////////////////////////
 
 	###############################################
-	#This is the proc to be compatible with the new way 
+	#This is the proc to be compatible with the new way
 	#in 0.95 to get path of input text (::ChatWindow::GetInputText)
 	proc insert_text {win character {input ""} } {
 		if {[::amsnplus::version_094]} {
@@ -558,24 +658,24 @@ namespace eval ::amsnplus {
 		set_balloon $amsnplusbutton "[trans multiplecolorsbutton]"
 
 		#Configure hover button
-		bind $amsnplusbutton <<Button1>> "after 1 ::amsnplus::choose_color $w" 
+		bind $amsnplusbutton <<Button1>> "after 1 ::amsnplus::choose_color $w"
 		bind $amsnplusbutton <Enter> "$amsnplusbutton configure -image [::skin::loadPixmap amsnplusbutton_hover]"
 		bind $amsnplusbutton <Leave> "$amsnplusbutton configure -image [::skin::loadPixmap amsnplusbutton]"
-		
+
 		#pack the widgeds
 		pack $amsnplusbutton -side left
 	}
-	
+
 	############################################
 	# ::amsnplus::setPixmap                    #
 	# -----------------------------------------#
 	# Define the amsnplus pixmaps from the skin#
-	############################################	
+	############################################
 	proc setPixmap {} {
 			::skin::setPixmap amsnplusbutton amsnplusbutton.gif
 			::skin::setPixmap amsnplusbutton_hover amsnplusbutton_hover.gif
 	}
-	
+
 	###############################################
 	# this opens a tk_color_palette to choose an
 	# rgb color in (rrr,ggg,bbb) format
@@ -591,7 +691,7 @@ namespace eval ::amsnplus {
 			::amsnplus::insert_text $win $code $input
 		}
 	}
-	
+
 	###############################################
 	# this colours received messages
 	# there are two ways to colorize text:
@@ -755,8 +855,8 @@ namespace eval ::amsnplus {
 					set strlen [string length $msg]
 					set customfont [list $font $style $color]
 					::amsn::WinWrite $chatid $str "user" $customfont
-					if {$new_color < 15} {
-						set color [::amsnplus::RGBToHex [::amsnplus::colourToRGB $new_color]]
+					if {$new_color < 68} {
+						set color [::amsnplus::getColor $new_color $color]
 					}
 				#(rrr,ggg,bbb) format
 				}  elseif {[::amsnplus::is_a_number [string range $msg [expr $i + 2] [expr $i + 4]]]} {
@@ -921,8 +1021,8 @@ namespace eval ::amsnplus {
 		}
 	}
 
-		
-	
+
+
 	#//////////////////////////////////////////////////////////////////////////
 	#                            SENDING COMMANDS
 	#//////////////////////////////////////////////////////////////////////////
@@ -933,7 +1033,7 @@ namespace eval ::amsnplus {
 	proc add_command { keyword proc parameters {win_name 0} {chatid 0} } {
 		set ::amsnplus::external_commands($keyword) [list $proc $parameters $win_name $chatid]
 	}
-	
+
 	#####################################################
 	# this looks chat text for a command
 	# if found, executes what command is supposed to do
@@ -1018,7 +1118,7 @@ namespace eval ::amsnplus {
 				set incr 0
 			} elseif {[string equal $char "/sbrb"]} {
 				set msg [append "" $sound "!" [binary format c 3] "10Be right back"]
-				set incr 0			
+				set incr 0
 			} elseif {[string equal $char "/sdoh"]} {
 				set msg [append "" $sound "\$" [binary format c 3] "4I'm so " [binary format c 2] "stupid" [binary format c 2]]
 				set incr 0
@@ -1065,35 +1165,34 @@ namespace eval ::amsnplus {
 				set msg [string replace $msg $i [expr $i + 11] ""]
 				set strlen [string length $msg]
 				global HOME
-				set shot [append "" $HOME "/screenshot.wxd"]
+				set shotpng $HOME
+				append shotpng "/screenshot.png"
 				set time_wait [::amsnplus::readWord $i $msg $strlen]
-				
+
 				#wait if asked
 				if {![string equal $time_wait ""]} {
-					after [expr $time_wait*1000] 
+					after [expr $time_wait*1000]
 				}
-				
+
 				#check platform and use utility form this one
 				global tcl_platform
-				status_log $tcl_platform(platform)
 				if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 					set file ""
 				} elseif {$tcl_platform(platform) == "windows"} {
 					set file ""
 				} elseif {$tcl_platform(platform) == "unix"} {
-					exec xwd -out -root $shot
-					if {[::amsnplus::version_094]} {
-						set file [run_convert "$shot" "screenshot.png"]
-					} else {
-						set file [::picture::Convert "$shot" "screenshot.png"]
+					set file "$shotpng"
+					if { [catch {exec [file join [::config::getKey amsnpluspluginpath] "snapshot"] "$shotpng"} res] } {
+						plugins_log "aMSN Plus"  "execution failed : $res"
+						set file ""
 					}
 				}
-				
+
 				#send the scheenshot if it had been done!
 				if {![string equal $file ""]} {
 					::amsn::FileTransferSend $win_name $file
 					set msg ""
-				} else { 
+				} else {
 					set msg "You aren't not able to make screenshot! Sorry"
 				}
 				set strlen 0
@@ -1427,7 +1526,7 @@ namespace eval ::amsnplus {
 		set channel [open "$dir/readme" "RDONLY"]
 		return "[read $channel]"
 	}
-	
+
 	############################################
 	# ::amsnplus::version_094                  #
 	# -----------------------------------------#
