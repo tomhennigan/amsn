@@ -255,6 +255,39 @@ proc Crop2 { } {
 
 }
 
+proc Colorize { } {
+	if { $::loaded == 0 } {
+		msg_box "You must first load an image before using this function"
+		return
+	}
+	toplevel .color
+	
+	frame .color.f1
+	label .color.f1.lc -text "Color : "
+	entry .color.f1.c 
+
+	frame .color.f2
+	button .color.f2.ok -text "Colorize" -command "Colorize2"
+	button .color.f2.cancel -text "Cancel" -command "grab release .color; destroy .color"
+
+	pack .color.f1.lc .color.f1.c -side left
+	pack .color.f2.ok .color.f2.cancel -side left
+
+	pack .color.f1 .color.f2 -side top
+	grab set .color
+
+}
+
+proc Colorize2 { } {
+	set color [.color.f1.c get]
+	grab release .color
+	destroy .color
+
+	if { [catch {::CxImage::Colorize $::loaded $color} res ] != 0 } {
+			msg_box "Unable to create thumbnail\n$res"
+	}
+}
+
 proc ShowImage { img } {
 	catch {
 		if { $::loaded != 0 } {
@@ -341,10 +374,11 @@ button .pause -text "Pause" -command "::CxImage::DisableAnimated"
 button .convert -text "Convert" -command "Convert"
 button .res -text "Resize" -command "Resize"
 button .thumbnail -text "Thumbnail" -command "Thumbnail"
+button .colorize -text "Colorize" -command "Colorize"
 button .crop -text "Crop" -command "Crop"
 button .blending -text "Test Alpha blending" -command "Blending"
 button .exit -text "Exit" -command "exit"
 
-pack .load .save .play .pause .convert .res .thumbnail .crop .blending .exit -side top
+pack .load .save .play .pause .convert .res .thumbnail .colorize .crop .blending .exit -side top
 
 

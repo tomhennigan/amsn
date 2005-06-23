@@ -266,4 +266,16 @@ set ::tkcximageloaded 0
 			return 0
 		}
 	}
+	
+	#Change the colour of the image to the color desired
+	proc Colorize {photo color} {
+		if {[::picture::Loaded]} {
+			if { [catch {::CxImage::Colorize $photo $color } res] != 0 } {
+				status_log "Picture.tcl: Unable to colorize photo with TkCximage \n$res" red
+				error "Picture.tcl: Unable to colorize photo with TkCximage \n$res"
+			} else {
+				return 1
+			}
+		}
+	}
 }

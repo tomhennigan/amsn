@@ -190,6 +190,10 @@ EXTERN int Tk_Thumbnail _ANSI_ARGS_((ClientData clientData,
 								Tcl_Interp *interp,
 								int objc,
 								Tcl_Obj *CONST objv[]));
+EXTERN int Tk_Colorize _ANSI_ARGS_((ClientData clientData,
+								Tcl_Interp *interp,
+								int objc,
+								Tcl_Obj *CONST objv[]));
 EXTERN int Tk_IsAnimated _ANSI_ARGS_((ClientData clientData,
 								Tcl_Interp *interp,
 								int objc,

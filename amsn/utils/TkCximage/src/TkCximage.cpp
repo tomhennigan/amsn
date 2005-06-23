@@ -180,6 +180,8 @@ int Tkcximage_Init (Tcl_Interp *interp ) {
 		       (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
   Tcl_CreateObjCommand(interp, "::CxImage::Resize", Tk_Resize,
 		       (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
+  Tcl_CreateObjCommand(interp, "::CxImage::Colorize", Tk_Colorize,
+		       (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
   Tcl_CreateObjCommand(interp, "::CxImage::Thumbnail", Tk_Thumbnail,
 		       (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
   Tcl_CreateObjCommand(interp, "::CxImage::IsAnimated", Tk_IsAnimated,

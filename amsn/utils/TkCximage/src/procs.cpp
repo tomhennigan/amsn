@@ -283,7 +283,7 @@ int Tk_Thumbnail (ClientData clientData,
     }
   free(pixelPtrCopy);
 
-  if(alpha == 0 && alphaopt != 255) 
+  if(alpha == 0 && alphaopt == 255) 
     image.AlphaDelete();
   else if (alpha == 0 && alphaopt != 255) {
     image.AlphaDelete();
@@ -308,6 +308,76 @@ int Tk_Thumbnail (ClientData clientData,
 	}
 
   return CopyImageToTk(interp, &image, Photo, image.GetWidth(), image.GetHeight());
+}
+
+int Tk_Colorize (ClientData clientData,
+		      Tcl_Interp *interp,
+		      int objc,
+		      Tcl_Obj *CONST objv[]) 
+{
+	
+
+  CxImage image;
+  char *ImageName = NULL;
+  Tk_PhotoHandle Photo;
+  Tk_PhotoImageBlock photoData;
+  XColor *color;
+  int i=0;
+  unsigned char* ptr=NULL;
+  unsigned char red, green, blue;    
+
+  // We verify the arguments, we must have two args, not more
+  if( objc != 3) {
+    Tcl_AppendResult (interp, "Wrong number of args.\nShould be \"::CxImage::Colorize photoImage_name color\"" , (char *) NULL);
+    return TCL_ERROR;
+  }
+	
+	
+  // Get the first argument string (object name) and check it 
+  ImageName = Tcl_GetStringFromObj(objv[1], NULL);
+	
+  if( (color = Tk_AllocColorFromObj(interp, Tk_MainWindow(interp), objv[2])) == NULL) {
+    Tcl_AppendResult(interp, "Invalid Color for background", NULL);
+    return TCL_ERROR;
+  }
+
+  if ( (Photo = Tk_FindPhoto(interp, ImageName)) == NULL) {
+    Tcl_AppendResult(interp, "The image you specified is not a valid photo image", NULL);
+    return TCL_ERROR;
+  }
+
+  Tk_PhotoGetImage(Photo, &photoData);
+  
+  red=(BYTE) color->red;
+  green=(BYTE) color->green;
+  blue=(BYTE) color->blue;
+  
+  for (i = 0; i < (photoData.pixelSize*photoData.width*photoData.height); i+= photoData.pixelSize) {
+    ptr = photoData.pixelPtr+i;//pixelPtrCopy+i;
+
+    
+    *(ptr+photoData.offset[0])=( red * *(ptr + photoData.offset[0]) )/255;
+    *(ptr+photoData.offset[1])=( green * *(ptr + photoData.offset[1]) )/255;
+    *(ptr+photoData.offset[2])=( blue * *(ptr + photoData.offset[2]) )/255;
+
+  }
+  
+  #if TK_MINOR_VERSION == 3
+  Tk_PhotoBlank(Photo);
+  Tk_PhotoPutBlock(Photo, &photoData, 0, 0, photoData.width, photoData.height);
+  #else 
+  #if TK_MINOR_VERSION == 4
+  Tk_PhotoPutBlock(Photo, &photoData, 0, 0, photoData.width, photoData.height, TK_PHOTO_COMPOSITE_SET );
+  #else 
+  #if TK_MINOR_VERSION == 5
+  Tk_PhotoPutBlock((Tcl_Interp *) interp, Photo, &photoData, 0, 0, photoData.width, photoData.height, TK_PHOTO_COMPOSITE_SET );
+  #endif
+  #endif
+  #endif
+  
+  //free(pixelPtrCopy);
+  
+  return TCL_OK;
 }
 
 int CopyImageToTk(Tcl_Interp * interp, CxImage *image, Tk_PhotoHandle Photo, int width, int height, int blank) {
