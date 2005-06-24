@@ -513,15 +513,11 @@ proc OpenCamLogWin { {email ""} } {
 	#Sorts contacts
 	set sortedcontact_list [lsort -dictionary $contact_list]
 
-	#Add the eventlog
-	lappend sortedcontact_list eventlog
-
 	#If there is no email defined, we remplace it by the first email in the dictionary order
 	if {$email == ""} {
 		set email [lindex $sortedcontact_list 0]
 	}
 	
-
 	set wname [::log::cam_wname $email]
 
 	if { [catch {toplevel ${wname} -borderwidth 0 -highlightthickness 0 } res ] } {
@@ -715,10 +711,18 @@ proc CamLogsByDate {wname email init} {
 		}
 		set sorteddate_list [lsort -integer -decreasing $date_list]
 
+		set months "0 January February March April May June July August September October November December"
+
 		$wname.top.date.list list insert end "[trans currentdate]"
 		foreach date $sorteddate_list {
 			status_log "Adding date [clock format $date -format "%B"] [clock format $date -format "%Y"]\n" blue
-			$wname.top.date.list list insert end "[clock format $date -format "%B"] [clock format $date -format "%Y"]"
+			set month [clock format $date -format "%m"]
+			if { [string range $month 0 0] == "0" } {
+				set month [string range $month 1 1]
+			}
+			set month "[lindex $months $month]"
+			set year "[clock format $date -format "%Y"]"
+			$wname.top.date.list list insert end "$month $year"
 		}
 		if { $erdate_list != "" } {
 			$wname.top.date.list list insert end "_ _ _ _ _"
@@ -814,6 +818,8 @@ proc ChangeLogToDate { w email widget date } {
 	ParseLog $w $logvar
 
 }
+
+
 proc ChangeCamLogToDate { w email widget date } {
 
 	global webcam_dir
