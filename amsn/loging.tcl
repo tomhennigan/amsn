@@ -64,7 +64,14 @@ proc CheckLogDate {email} {
 
     #status_log "stating file $log_dir/date = [array get datestat]\n"
 
-    set date [clock format $datestat(mtime) -format "%B %Y"]
+	set months "0 January February March April May June July August September October November December"
+	set month [clock format $datestat(mtime) -format "%m"]
+	if { [string range $month 0 0] == "0" } {
+		set month [string range $month 1 1]
+	}
+	set year [clock format $datestat(mtime) -format "%Y"]
+
+    	set date "$month $year"
 
     #status_log "Found date : $date\n" red
 
@@ -653,10 +660,18 @@ proc LogsByDate {wname email init} {
 		}
 		set sorteddate_list [lsort -integer -decreasing $date_list]
 
+		set months "0 January February March April May June July August September October November December"
+
 		$wname.top.date.list list insert end "[trans currentdate]"
 		foreach date $sorteddate_list {
 			status_log "Adding date [clock format $date -format "%B"] [clock format $date -format "%Y"]\n" blue
-			$wname.top.date.list list insert end "[clock format $date -format "%B"] [clock format $date -format "%Y"]"
+			set month [clock format $date -format "%m"]
+			if { [string range $month 0 0] == "0" } {
+				set month [string range $month 1 1]
+			}
+			set month "[lindex $months $month]"
+			set year "[clock format $date -format "%Y"]"
+			$wname.top.date.list list insert end "$month $year"
 		}
 		if { $erdate_list != "" } {
 			$wname.top.date.list list insert end "_ _ _ _ _"
@@ -1300,6 +1315,8 @@ proc sortalllog { } {
 	set contactlist [::abook::getAllContacts]
 	
 	set contactsize [list]
+
+	set months "0 January February March April May June July August September October November December"
 	
 	foreach email $contactlist {
 	
@@ -1315,12 +1332,18 @@ proc sortalllog { } {
 			foreach date [glob -nocomplain -types f [file join ${log_dir} * ${email}.log]] {
 				set date [getfilename [file dirname $date]]
 				if { [catch { clock scan "1 $date"}] == 0 } {
-						set date [clock scan "1 $date"]
-						set date "[clock format $date -format "%B"] [clock format $date -format "%Y"]"
-						set file [file join ${log_dir} ${date} ${email}.log]
-						if { [file exists $file] } {
-							incr size [file size $file]
-						}
+					set date [clock scan "1 $date"]
+					set month [clock format $date -format "%m"]
+					if { [string range $month 0 0] == "0" } {
+						set month [string range $month 1 1]
+					}
+					set month "[lindex $months $month]"
+					set year "[clock format $date -format "%Y"]"
+					set date "$month $year"
+					set file [file join ${log_dir} ${date} ${email}.log]
+					if { [file exists $file] } {
+						incr size [file size $file]
+					}
 				}
 			}
 		}
@@ -1417,8 +1440,17 @@ proc getAllDates { } {
 
 		set datelist2 [list]
 
+		set months "0 January February March April May June July August September October November December"
+
+
 		foreach date $datelist {
-			set date "[clock format $date -format "%B"] [clock format $date -format "%Y"]"
+			set month [clock format $date -format "%m"]
+			if { [string range $month 0 0] == "0" } {
+				set month [string range $month 1 1]
+			}
+			set month "[lindex $months $month]"
+			set year "[clock format $date -format "%Y"]"
+			set date "$month $year"
 			set datelist2 [lappend datelist2 $date]
 		}
 	
