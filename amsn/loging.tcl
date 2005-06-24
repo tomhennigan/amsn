@@ -69,13 +69,25 @@ proc CheckLogDate {email} {
 	if { [string range $month 0 0] == "0" } {
 		set month [string range $month 1 1]
 	}
+	set month [lindex $months $month]
 	set year [clock format $datestat(mtime) -format "%Y"]
 
     	set date "$month $year"
+	
+	set clockmonth [clock format [clock seconds] -format "%m"]
+	if { [string range $clockmonth 0 0] == "0" } {
+		set month [string range $clockmonth 1 1]
+	}
+	set clockmonth [lindex $months $clockmonth]
+	set clockyear [clock format [clock seconds] -format "%Y"]
+	
+	set clock "$clockmonth $clockyear"
+	
 
-    #status_log "Found date : $date\n" red
+    status_log "Found date : $date\n" red
+    status_log "Clock is : [clock format [clock seconds] -format "%B %Y"]" red
 
-    if {  $date != [clock format [clock seconds] -format "%B %Y"] } {
+    if {  $date != $clock } {
 	    status_log "Log was begun in a different month, moving logs\n\n" red
 	    
 	    set to $date
