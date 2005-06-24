@@ -5049,7 +5049,7 @@ namespace eval ::MSN6FT {
 	}
 
 	proc OpenMsnFTPort { port nonce sid sending} {
-		while { [catch {set sock [socket -server "::MSN6FT::handleMsnFT  $nonce $sid $sending" $port] } ] } {
+		while { [catch {set sock [socket -server "::MSN6FT::handleMsnFT $nonce $sid $sending" $port] } ] } {
 			incr port
 		}
 		::amsn::FTProgress w $sid "" $port
@@ -5066,10 +5066,11 @@ namespace eval ::MSN6FT {
 		setObjOption $sock sid $sid
 
 		status_log "Received connection from $ip on port $port - socket $sock\n"
-		fconfigure $sock -blocking 1 -buffering none -translation {binary binary}
-
+		
 		fileevent $sock readable "::MSN6FT::ReadFromSock $sock"
 		#fileevent $sock writable "::MSN6FT::WriteToSock $sock"
+		
+		fconfigure $sock -blocking 0 -buffering none -translation {binary binary}
 	}
 
 
@@ -5095,7 +5096,7 @@ namespace eval ::MSN6FT {
 			setObjOption $sock sid $sid
 			
 			status_log "connectedto $ip on port $port  - $sock\n"
-			fconfigure $sock -blocking 1 -buffering none -translation {binary binary}
+			fconfigure $sock -blocking 0 -buffering none -translation {binary binary}
 			fileevent $sock readable "::MSN6FT::ReadFromSock $sock"
 			fileevent $sock writable "::MSN6FT::WriteToSock $sock"
 		}
@@ -5108,14 +5109,23 @@ namespace eval ::MSN6FT {
 		set server [getObjOption $sock server]
 		set sending [getObjOption $sid sending]
 
+		set tmpsize 0
+		set size ""
+		set data ""
+		set tmpdata ""
+
 		if { $sid == "" } {
 			status_log "Can't find sid for socket $sock!!! ERROR" red
 			close $sock
 			return
 		}
 
-		set size [read $sock 4]
-
+		while { $tmpsize < 4 && ![eof $sock] } {
+			update idletasks
+			set tmpdata [read $sock [expr 4 - $tmpsize]]
+			append size $tmpdata
+			set tmpsize [string length $size]
+		}
 
 		if {$size == "" && [eof $sock] } {
 			status_log "FT Socket $sock closed\n"
@@ -5129,14 +5139,21 @@ namespace eval ::MSN6FT {
 		}
 
 		binary scan $size i size
-		set data [read $sock $size]
-
-		#status_log "Received Data on socket $sock status $state: $data\n" red
+		
+		set tmpsize 0
+		
+		while { $tmpsize < $size && ![eof $sock] } {
+			update idletasks
+			set tmpdata [read $sock [expr $size - $tmpsize]]
+			append data $tmpdata
+			set tmpsize [string length $data]
+		}
 
 		if { $data == "" } {
 			update idletasks
 			return
 		}
+		
 
 		switch $state {
 			"FOO"
@@ -5173,7 +5190,9 @@ namespace eval ::MSN6FT {
  				set p2pmessage [P2PMessage create %AUTO%]
  				$p2pmessage createFromMessage $message
  				::MSNP2P::ReadData $p2pmessage [getObjOption $sid chatid]
-
+				#if { [lindex [::MSNP2P::SessionList get $sid] 7] == "filetransfersuccessfull" } {
+				#	catch { close $sock }
+				#}
 # 				if { [WriteDataToFile $data] == "0" } {
 # 					SendDataAck $sock $data
 # 					set sockState($sock) [expr $sockState($sock) + 1 ]
@@ -5243,6 +5262,7 @@ namespace eval ::MSN6FT {
 				if { $sending && [SendFileToSock $sock] == "0" } {
 					setObjOption $sock sending 0
 					fileevent $sock writable ""
+					catch { close $sock }
 				} else {
 					fileevent $sock writable "::MSN6FT::WriteToSock $sock"
 				}
