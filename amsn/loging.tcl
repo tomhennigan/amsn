@@ -84,8 +84,7 @@ proc CheckLogDate {email} {
 	set clock "$clockmonth $clockyear"
 	
 
-    status_log "Found date : $date\n" red
-    status_log "Clock is : [clock format [clock seconds] -format "%B %Y"]" red
+    #status_log "Found date : $date\n" red
 
     if {  $date != $clock } {
 	    status_log "Log was begun in a different month, moving logs\n\n" red
