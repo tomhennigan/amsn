@@ -59,6 +59,7 @@ namespace eval ::winskin {
 			::skin::setPixmap winskin_resize [file join $dir pixmaps winskin_resize.gif]
 			::skin::setPixmap winskin_resize2 [file join $dir pixmaps winskin_resize2.gif]
 			::skin::setPixmap winskin_close [file join $dir pixmaps winskin_close.gif]
+			::skin::setPixmap winskin_menu [file join $dir pixmaps winskin_menu.gif]
 		} else {
 			::skin::setPixmap winskin_move winskin_move.gif pixmaps [file join $dir pixmaps]
 			::skin::setPixmap winskin_remove winskin_remove.gif pixmaps [file join $dir pixmaps]
@@ -66,6 +67,7 @@ namespace eval ::winskin {
 			::skin::setPixmap winskin_resize winskin_resize.gif pixmaps [file join $dir pixmaps]
 			::skin::setPixmap winskin_resize2 winskin_resize2.gif pixmaps [file join $dir pixmaps]
 			::skin::setPixmap winskin_close winskin_close.gif pixmaps [file join $dir pixmaps]
+			::skin::setPixmap winskin_menu winskin_menu.gif pixmaps [file join $dir pixmaps]
 		}
 	}
 
@@ -113,18 +115,14 @@ namespace eval ::winskin {
 					wm geometry . "${newwidth}x${newheight}+${wx}+${wy}"
 					update idletasks
 
-					if {[string equal $::version "0.94"]} {
-						if { [catch { plugins_log winskin [WinRemoveTitle . $menuheight] } ] } {
-							#add catch incase someone tries to run on non windows platform
-							catch {
-								load [file join $::winskin::dir winutils.dll]
-								plugins_log winskin [WinRemoveTitle . $menuheight]
-							}
-						}
-					} else {
+					if { [catch { plugins_log winskin [WinRemoveTitle . $menuheight] } ] } {
 						#add catch incase someone tries to run on non windows platform
 						catch {
-							package require WinUtils
+							if {[string equal $::version "0.94"]} {
+								load [file join $::winskin::dir winutils.dll]
+							} else {
+								package require WinUtils
+							}
 							plugins_log winskin [WinRemoveTitle . $menuheight]
 						}
 					}
@@ -283,6 +281,7 @@ namespace eval ::winskin {
 
 			set imag $buttons.skin
 			set imagm $buttons.move
+			set imagn $buttons.menu
 			set imagr $buttons.rezise
 			set imagc $buttons.close
 			set filler $buttons.filler
@@ -293,6 +292,7 @@ namespace eval ::winskin {
 				label $imag -image [::skin::loadPixmap winskin_remove]
 			}
 			label $imagm -image [::skin::loadPixmap winskin_move]
+			label $imagn -image [::skin::loadPixmap winskin_menu]
 			if { $::winskin::config(resizetopright) == 1 } {
 				label $imagr -image [::skin::loadPixmap winskin_resize]
 			} else {
@@ -302,6 +302,7 @@ namespace eval ::winskin {
 
 			$imag configure -cursor hand2 -borderwidth 0 -padx 0 -pady 0
 			$imagm configure -cursor fleur -borderwidth 0 -padx 0 -pady 0
+			$imagn configure -cursor hand2 -borderwidth 0 -padx 0 -pady 0
 			if { $::winskin::config(resizetopright) == 1 } {
 				$imagr configure -cursor top_right_corner -borderwidth 0 -padx 0 -pady 0
 			} else {
@@ -311,12 +312,19 @@ namespace eval ::winskin {
 
 			pack $imagc -padx 5 -pady 0 -side right
 			pack $imagr -padx 5 -pady 0 -side right
+			if { $skinned == 1} {
+				pack $imagn -padx 5 -pady 0 -side right
+			}
 			pack $imagm -padx 5 -pady 0 -side right
 			pack $imag -padx 5 -pady 0 -side right
 			incr usedwidth [image width [$imagc cget -image]]
 			incr usedwidth 10
 			incr usedwidth [image width [$imagr cget -image]]
 			incr usedwidth 10
+			if { $skinned == 1} {
+				incr usedwidth [image width [$imagn cget -image]]
+				incr usedwidth 10
+			}
 			incr usedwidth [image width [$imagm cget -image]]
 			incr usedwidth 10
 			incr usedwidth [image width [$imag cget -image]]
@@ -330,6 +338,7 @@ namespace eval ::winskin {
 			bind $imagm <ButtonPress-1> "::winskin::buttondown"
 			bind $imagm <B1-Motion> "::winskin::drag"
 			bind $imagm <ButtonRelease-1> "::winskin::release"
+			bind $imagn <ButtonPress-1> "tk_popup .main_menu %X %Y"
 			bind $imagr <ButtonPress-1> "::winskin::buttondown"
 			bind $imagr <B1-Motion> "::winskin::resize"
 			bind $imagr <ButtonRelease-1> "::winskin::release"
@@ -438,18 +447,14 @@ namespace eval ::winskin {
 					set menuheight 0
 				}
 
-				if {[string equal $::version "0.94"]} {
-					if { [catch { plugins_log winskin [WinRemoveTitle . $menuheight] } ] } {
-						#add catch incase someone tries to run on non windows platform
-						catch {
-							load [file join $::winskin::dir winutils.dll]
-							plugins_log winskin [WinRemoveTitle . $menuheight]
-						}
-					}
-				} else {
+				if { [catch { plugins_log winskin [WinRemoveTitle . $menuheight] } ] } {
 					#add catch incase someone tries to run on non windows platform
 					catch {
-						package require WinUtils
+						if {[string equal $::version "0.94"]} {
+							load [file join $::winskin::dir winutils.dll]
+						} else {
+							package require WinUtils
+						}
 						plugins_log winskin [WinRemoveTitle . $menuheight]
 					}
 				}
