@@ -5110,103 +5110,113 @@ namespace eval ::MSN6FT {
 		set sending [getObjOption $sid sending]
 
 		set tmpsize 0
-		set size ""
-		set data ""
-		set tmpdata ""
+		set data [getObjOption $sock buffer]
+		set size [getObjOption $sock size]
 
 		if { $sid == "" } {
 			status_log "Can't find sid for socket $sock!!! ERROR" red
 			close $sock
 			return
 		}
-
-		while { $tmpsize < 4 && ![eof $sock] } {
-			update idletasks
-			set tmpdata [read $sock [expr 4 - $tmpsize]]
-			append size $tmpdata
-			set tmpsize [string length $size]
-		}
-
-		if {$size == "" && [eof $sock] } {
-			status_log "FT Socket $sock closed\n"
-			close $sock
-			return
-		}
-
-		if { $size == "" } {
-			update idletasks
-			return
-		}
-
-		binary scan $size i size
 		
-		set tmpsize 0
-		
-		while { $tmpsize < $size && ![eof $sock] } {
-			update idletasks
+		#Check if we have any data in the buffer
+		#If not we get size in next packet
+		if { $size == 0 || $size == "" } {
+			set size ""
+			while { $tmpsize < 4 && ![eof $sock] } {
+				update idletasks
+				set tmpdata [read $sock [expr 4 - $tmpsize]]
+				append size $tmpdata
+				set tmpsize [string length $size]
+			}
+	
+			if {$size == "" && [eof $sock] } {
+				status_log "FT Socket $sock closed\n"
+				close $sock
+				return
+			}
+	
+			if { $size == "" } {
+				update idletasks
+				return
+			}
+	
+			binary scan $size i size
+			
+			setObjOption $sock size $size
+			set data ""
+		}
+
+		#We get the data
+		set tmpsize [string length $data]
+	
+		if { $tmpsize < $size } {
 			set tmpdata [read $sock [expr $size - $tmpsize]]
 			append data $tmpdata
 			set tmpsize [string length $data]
 		}
 
-		if { $data == "" } {
-			update idletasks
-			return
-		}
-		
-
-		switch $state {
-			"FOO"
-			{
-				if { $server && $data == "foo\x00" } {
-					setObjOption $sock state "NONCE_GET"
-				} 
+		if {$tmpsize == $size } {
+			#Data is complete we remove it from the buffer
+			setObjOption $sock size 0
+			setObjOption $sock buffer ""
+			
+			if { $data == "" } {
+				update idletasks
+				return
 			}
-
-			"NONCE_GET"
-			{
-				set nonce [getObjOption $sock nonce]
-				
-				if { $nonce == [GetNonceFromData $data] } {
-					::MSNP2P::SessionList set $sid [list -1 -1 -1 -1 "DATASEND" -1 -1 -1 -1 -1]
-
-					if { $server } {
-						setObjOption $sock state "NONCE_SEND"
-						fileevent $sock writable "::MSN6FT::WriteToSock $sock"
-					} else {
-						setObjOption $sock state "CONNECTED"
-						if { $sending } {
-							fileevent $sock writable "::MSN6FT::WriteToSock $sock"	
+	
+	
+			switch $state {
+				"FOO"
+				{
+					if { $server && $data == "foo\x00" } {
+						setObjOption $sock state "NONCE_GET"
+					} 
+				}
+	
+				"NONCE_GET"
+				{
+					set nonce [getObjOption $sock nonce]
+					
+					if { $nonce == [GetNonceFromData $data] } {
+						::MSNP2P::SessionList set $sid [list -1 -1 -1 -1 "DATASEND" -1 -1 -1 -1 -1]
+	
+						if { $server } {
+							setObjOption $sock state "NONCE_SEND"
+							fileevent $sock writable "::MSN6FT::WriteToSock $sock"
+						} else {
+							setObjOption $sock state "CONNECTED"
+							if { $sending } {
+								fileevent $sock writable "::MSN6FT::WriteToSock $sock"	
+							}
 						}
 					}
 				}
+	
+				"CONNECTED"
+				{
+					set message [Message create %AUTO%]
+					$message setRaw $data
+	
+					set p2pmessage [P2PMessage create %AUTO%]
+					$p2pmessage createFromMessage $message
+					::MSNP2P::ReadData $p2pmessage [getObjOption $sid chatid]
+					#if { [lindex [::MSNP2P::SessionList get $sid] 7] == "filetransfersuccessfull" } {
+					#	catch { close $sock }
+					#}
+				}
+	
+				default
+				{
+					catch {close $sock}
+				}
+	
 			}
-
-			"CONNECTED"
-			{
-				set message [Message create %AUTO%]
-				$message setRaw $data
-
- 				set p2pmessage [P2PMessage create %AUTO%]
- 				$p2pmessage createFromMessage $message
- 				::MSNP2P::ReadData $p2pmessage [getObjOption $sid chatid]
-				#if { [lindex [::MSNP2P::SessionList get $sid] 7] == "filetransfersuccessfull" } {
-				#	catch { close $sock }
-				#}
-# 				if { [WriteDataToFile $data] == "0" } {
-# 					SendDataAck $sock $data
-# 					set sockState($sock) [expr $sockState($sock) + 1 ]
-
-# 				}
-			}
-
-			default
-			{
-				catch {close $sock}
-			}
-
+		} else {
+			#The data we grabbed isn't integral we save actual data and we wait the next
+			setObjOption $sock buffer $data
 		}
-
 
 
 	}
