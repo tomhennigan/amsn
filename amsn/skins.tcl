@@ -111,7 +111,7 @@ namespace eval ::skin {
 			return ""
 		}
 		
-		set loaded_${location}($pixmap_name) [image create photo -file [::skin::GetSkinFile ${location} [set ${location}_names($pixmap_name)] "" [set ${location}_fblocation($pixmap_name)]]]
+		set loaded_${location}($pixmap_name) [image create photo -file [::skin::GetSkinFile ${location} [set ${location}_names($pixmap_name)] "" [set ${location}_fblocation($pixmap_name)]] -format cximage]
 	
 		return [set loaded_${location}($pixmap_name)]
 	}
@@ -129,7 +129,7 @@ namespace eval ::skin {
 		if { [info exists loaded_images(no_pic)] } {
 			return no_pic
 		}
-		image create photo no_pic -file [::skin::GetSkinFile displaypic nopic.gif $skin_name]
+		image create photo no_pic -file [::skin::GetSkinFile displaypic nopic.gif $skin_name] -format cximage
 		set loaded_images(no_pic) 1
 		return no_pic
 	}
@@ -142,9 +142,9 @@ namespace eval ::skin {
 
 		set filename [::abook::getContactData $email displaypicfile ""]
 		if { [file readable "[file join $HOME displaypic cache ${filename}].png"] } {
-			catch {image create photo user_pic_$email -file "[file join $HOME displaypic cache ${filename}].png"}
+			catch {image create photo user_pic_$email -file "[file join $HOME displaypic cache ${filename}].png" -format cximage}
 		} else {
-			image create photo user_pic_$email -file [::skin::GetSkinFile displaypic nopic.gif]
+			image create photo user_pic_$email -file [::skin::GetSkinFile displaypic nopic.gif] -format cximage
 		}
 		return user_pic_$email
 	}
@@ -217,7 +217,7 @@ namespace eval ::skin {
 		variable pixmaps_names
 		variable pixmaps_fblocation
 		foreach name [array names loaded_pixmaps] {
-			image create photo $loaded_pixmaps($name) -file [::skin::GetSkinFile pixmaps $pixmaps_names($name) $skin_name $pixmaps_fblocation($name)]
+			image create photo $loaded_pixmaps($name) -file [::skin::GetSkinFile pixmaps $pixmaps_names($name) $skin_name $pixmaps_fblocation($name)] -format cximage
 		}
 
 		# Reload smileys
@@ -225,7 +225,7 @@ namespace eval ::skin {
 		variable smileys_names
 		variable smileys_fblocation
 		foreach name [array names loaded_smileys] {
-			image create photo $loaded_smileys($name) -file [::skin::GetSkinFile smileys $smileys_names($name) $skin_name $smileys_fblocation($name)]
+			image create photo $loaded_smileys($name) -file [::skin::GetSkinFile smileys $smileys_names($name) $skin_name $smileys_fblocation($name)] -format cximage
 		}
 
 		# Now reload special images that need special treatment
@@ -633,14 +633,14 @@ namespace eval ::skinsGUI {
 		::skinsGUI::ClearPreview
 
 		# If our skin hasn't the example images, take them from the default one
-		image create photo preview1 -file [::skin::GetSkinFile pixmaps prefpers.gif $currentskin]
-		image create photo preview2 -file [::skin::GetSkinFile pixmaps bonline.gif $currentskin]
-		image create photo preview3 -file [::skin::GetSkinFile pixmaps offline.gif $currentskin]
-		image create photo preview4 -file [::skin::GetSkinFile pixmaps baway.gif $currentskin]
-		image create photo preview5 -file [::skin::GetSkinFile pixmaps amsnicon.gif $currentskin]
-		image create photo preview6 -file [::skin::GetSkinFile pixmaps butblock.gif $currentskin]
-		image create photo preview7 -file [::skin::GetSkinFile pixmaps butsmile.gif $currentskin]
-		image create photo preview8 -file [::skin::GetSkinFile pixmaps butsend.gif $currentskin]
+		image create photo preview1 -file [::skin::GetSkinFile pixmaps prefpers.gif $currentskin] -format cximage
+		image create photo preview2 -file [::skin::GetSkinFile pixmaps bonline.gif $currentskin] -format cximage
+		image create photo preview3 -file [::skin::GetSkinFile pixmaps offline.gif $currentskin] -format cximage
+		image create photo preview4 -file [::skin::GetSkinFile pixmaps baway.gif $currentskin] -format cximage
+		image create photo preview5 -file [::skin::GetSkinFile pixmaps amsnicon.gif $currentskin] -format cximage
+		image create photo preview6 -file [::skin::GetSkinFile pixmaps butblock.gif $currentskin] -format cximage
+		image create photo preview7 -file [::skin::GetSkinFile pixmaps butsmile.gif $currentskin] -format cximage
+		image create photo preview8 -file [::skin::GetSkinFile pixmaps butsend.gif $currentskin] -format cximage
 	
 		label $w.main.left.images.1 -image preview1
 		label $w.main.left.images.2 -image preview2
