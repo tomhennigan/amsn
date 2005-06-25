@@ -4,8 +4,8 @@ accept Aceptar
 acceptfile ¿Aceptar archivo $1, tamaño $2 bytes? Se guardará en $3
 actions Acciones
 activeautoupdate Activar actualización automática
-addacontact Añadir un contacto
 add Añadir
+addacontact Añadir un contacto
 addedyou $1 ($2) te ha añadido a su lista de contactos
 addprofile Añadir un perfil
 addprofiledesc Introduce el nombre de usuario para el que quieres crear un perfil. \nLos perfiles permiten tener configuraciones distintas para cada usuario.\nSin un perfil no se puede usar el historial, alarmas o recordar contraseña.
@@ -39,9 +39,10 @@ animatedemoticon Emoticono con animación
 animatedsmileys Activar emoticonos animados
 animatenotify Ventana de Notificaciones con animación
 appearance Apariencia
-appearoff Sin conexión
+appearoff Invisible
 areacode Código de area
 aretyping $1 están escribiendo un mensaje
+askeachtime Preguntar siempre
 askwebcam Solicitar al usuario ver su Webcam
 author Autor
 autoaccepted Transferencia de archivo aceptada automáticamente
@@ -126,13 +127,17 @@ clear Limpiar
 clearlog2 Limpiar historial para todos los contactos
 clearlog3 Limpiar todos los registros
 clearlog Limpiar historial
+clearwebcamlogs Limpiar los históricos de webcam
 clicktoadd Haz click en Añadir para crear una nueva nota
 clicktologin Haga click aquí para iniciar la sesión
 clientcaps Enviar paquetes x-clientcaps a otros clientes
 clientname Nombre del cliente
 closeall ¿Cerrar todas las pestañas de la ventana?
+closealltabs Cerrar todas las pestañas
 close Cerrar
 closed Conversación con $1 cerrada por inactividad
+closelabel Al cerrar una ventana de chat que contiene varias pestañas
+closeonly Cerrar sólo la pestaña actual
 closingdocks Botón de cerrar iconifica la ventana
 command Comando
 commandstatus Ejecutar comando
@@ -227,6 +232,7 @@ editstate Editar mensaje automático para estado personalizado
 editvalue Editar valor
 email  E-Mail
 emailsinlist Mostrar e-mails en lugar de apodos en la lista de contactos
+emoticon_steal Añadir a los emoticonos
 emotisounds Reproducir sonidos asociados a ciertos emoticonos
 emptygroup Vaciar grupo
 enabled Activado
@@ -370,6 +376,7 @@ logsbydate Ordenar históricos por fechas (Ver historial carga mucho mas rápido)
 logsin acaba de iniciar sesión
 logsmileys Mostrar emoticonos y smileys en la ventana de historial de aMSN
 logsout acaba de terminar la sesión
+logwebcam Salvar todas las sesiones de webcam al histórico de AMSN para poder verlas de nuevo
 longnick La longitud de tu apodo es mayor de 130 caracteres. Esto no es soportado oficialmente por el protocolo MSN. ¿Estás seguro de que deseas cambiarlo?
 longp4c Tu apodo en conversación tiene más de 130 caracteres. Y el apodo mostrado en el cliente MSN oficial será "$1". ¿ Deseas continuar ?
 lprivtoconf El privado se convierte en conversación múltiple con $1
@@ -471,6 +478,7 @@ p4contextprefix Prefijar remitentes en P4-Context con esta cadena de caracteres
 pager Paginador
 pass Contraseña
 paste Pegar
+pause Pausa
 personal Personal
 phones Números de teléfono
 phone Teléfono
@@ -478,6 +486,7 @@ picbrowser Navegador de imágenes para mostrar
 picfile Archivo de imagen (GIF < 500 x 500)
 picstatus Imagen para la alarma
 playing Reproduciendo: $1
+play Reproducir
 pluginselector Selector de plug-ins
 port Puerto
 prefalerts Mis alertas y sonidos de eventos
@@ -537,6 +546,7 @@ reconnect Esperando que $1 se reconecte
 reconnecting Reconectando al servidor
 reject Rechazar
 rememberpass Recordar contraseña
+remembersetting Recordar esta selección
 removeempty Eliminar grupos vacíos de la lista de contactos
 removefromlist Borrar de esta lista
 rename Cambiar nombre
@@ -582,6 +592,7 @@ smileconfig Configuración de emoticono personalizado
 smilefile Nombre del archivo
 smileintro2 Edita los siguientes campos para personalizar el emoticono (ver FAQ para más información)
 smileintro Rellena los siguientes campos para crear un emoticono personalizado (ver FAQ para más información)
+smiletoobig El emoticono seleccionado es más grande de lo normal. ¿ Deseas cambiar el tamaño ?
 snackfailed Fallo al cargar SNACK, volviendo a configuración por defecto
 sngdblclick Un sólo click para abrir una ventana de conversación
 sound2 Reproducir sonidos cuando los contactos se conectan o envían mensajes
@@ -611,6 +622,7 @@ state Quiero aparecer como
 stats Estadísticas
 status Estado
 stopalarm Detener alarma
+stop Parar
 storenickname Volver al nick original tras un estado personalizado con nick personalizado
 strictfonts Establecer todas las fuentes de AMSN al tamaño que yo seleccioné (Barras de estado, y demás)
 stylechat El mismo que los chats
@@ -628,6 +640,7 @@ takesnapshot Capturar la imagen
 temp_state No almacenar (Estado temporal, se perderá al reiniciar AMSN)
 textsize Tamaño del texto
 thismonth Este mes
+throughserver A través del servidor
 timeremaining Tiempo restante
 timestamp Estampa temporal
 timestamps Activar hora en los mensajes
@@ -673,6 +686,7 @@ version Versión
 viewcontactsby Ver contactos como
 viewprofile Ver perfil
 view Ver
+webcamhistory Ver sesiones de webcam
 webcaminvite $1 te ha invitado a una sesión de videoconferencia, pero AMSN todavía no soporta esta característica.
 webcamshot Captura de webcam
 whatsize La imagen seleccionada no es del tamaño predefinido (96x96). ¿A qué tamaño te gustaría que fuera mostrada?
