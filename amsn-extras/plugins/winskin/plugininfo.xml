@@ -4,12 +4,12 @@
 	<author>Arieh Schneier</author>
 	<description>Some options to make the contact list smaller</description>
 	<amsn_version>0.94</amsn_version>
-	<plugin_version>0.9</plugin_version>
+	<plugin_version>0.10</plugin_version>
 	<plugin_file>winskin.tcl</plugin_file>
 	<plugin_namespace>winskin</plugin_namespace>
 	<init_procedure>Init</init_procedure>
 	
-	<cvs_version>1.12</cvs_version>
+	<cvs_version>1.14</cvs_version>
 	<file>
 		<path>winutils.dll</path>
 		<version>1.2</version>
@@ -36,6 +36,10 @@
 	</file>
 	<file>
 		<path>pixmaps/winskin_resize2.gif</path>
+		<version>1.1</version>
+	</file>
+	<file>
+		<path>pixmaps/winskin_menu.gif</path>
 		<version>1.1</version>
 	</file>
 </plugin>
