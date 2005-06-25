@@ -1078,7 +1078,7 @@ namespace eval ::amsn {
 		}
 
 		wm title $w "$filename - [trans filetransfer]"
-
+		bind $w <<Escape>> $cancelcmd
 		wm protocol $w WM_DELETE_WINDOW $cancelcmd
 		moveinscreen $w 30
 
@@ -1159,6 +1159,7 @@ namespace eval ::amsn {
 				$w.progress configure -text "[trans ftconnectionlost]"
 				$w.close configure -text "[trans close]" -command "destroy $w"
 				wm protocol $w WM_DELETE_WINDOW "destroy $w"
+				bind $w <<Escape>> "destroy $w"
 			}
 			r -
 			s {
@@ -1201,6 +1202,7 @@ namespace eval ::amsn {
 				$w.progress configure -text "[trans filetransfercancelled]"
 				$w.close configure -text "[trans close]" -command "destroy $w"
 				wm protocol $w WM_DELETE_WINDOW "destroy $w"
+				bind $w <<Escape>> "destroy $w"
 			}
 			fs -
 			fr {
@@ -1210,6 +1212,7 @@ namespace eval ::amsn {
 				$w.open configure -state normal
 				$w.openfile configure -state normal
 				wm protocol $w WM_DELETE_WINDOW "destroy $w"
+				bind $w <<Escape>> "destroy $w"
 				set bytes 1024
 				set filesize 1024
 			}
