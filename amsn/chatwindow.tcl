@@ -5,6 +5,7 @@
 #########################################
 
 package require framec
+package require scalable-bg
 
 namespace eval ::ChatWindow {
 
@@ -83,30 +84,6 @@ namespace eval ::ChatWindow {
 	#  - window => Is the chat window widget (.msg_n - Where n is an integer)
 	proc GetTopFrame { window } {
 		return $window.top
-	}
-	#///////////////////////////////////////////////////////////////////////////////
-
-
-	#///////////////////////////////////////////////////////////////////////////////
-	# ::ChatWindow::GetTopToText (window)
-	# Returns the path to the text widget containing the "To:" in the top frame
-	# for a given window 
-	# Arguments:
-	#  - window => Is the chat window widget (.msg_n - Where n is an integer)
-	proc GetTopToText { window } {
-		return [[::ChatWindow::GetTopFrame $window] getinnerframe].to
-	}
-	#///////////////////////////////////////////////////////////////////////////////
-
-
-	#///////////////////////////////////////////////////////////////////////////////
-	# ::ChatWindow::GetTopText (window)
-	# Returns the path to the text widget containing the names of the users in the top frame
-	# for a given window 
-	# Arguments:
-	#  - window => Is the chat window widget (.msg_n - Where n is an integer)
-	proc GetTopText { window } {
-		return [[::ChatWindow::GetTopFrame $window] getinnerframe].text
 	}
 	#///////////////////////////////////////////////////////////////////////////////
 
@@ -1432,41 +1409,31 @@ namespace eval ::ChatWindow {
 	proc CreateTopFrame { w } {
 
 		# Create our frame
-		set top $w.top
-		framec $top -class amsnChatFrame -relief solid\
-				-borderwidth [::skin::getKey chat_top_border] \
-				-bordercolor [::skin::getKey topbarborder] \
-				-background [::skin::getKey topbarbg]
+		set top [GetTopFrame $w]
 		
-		# set our inner widget's names
-		set to [$top getinnerframe].to
-		set text [$top getinnerframe].text
-
-		# Create the to widget
-		text $to  -borderwidth 0 -width [string length "[trans to]:"] \
-		    -relief solid -height 1 -wrap none -background [::skin::getKey topbarbg] \
-		    -foreground [::skin::getKey topbartext] -highlightthickness 0 \
-		    -selectbackground [::skin::getKey topbarbg_sel] -selectforeground [::skin::getKey topbartext] \
-		    -selectborderwidth 0 -exportselection 0 -padx 5 -pady 3
+		canvas $top -background [::skin::getKey topbarbg] -state disabled
 		
-		# Configure it
-		$to configure -state normal -font bplainf
-		$to insert end "[trans to]:"
-		$to configure -state disabled
-
-		# Create the text widget
-		text $text  -borderwidth 0 -width 45 -relief flat -height 1 -wrap none \
-			-background [::skin::getKey topbarbg] -foreground [::skin::getKey topbartext] \
-			-highlightthickness 0 -selectbackground [::skin::getKey topbarbg_sel] -selectborderwidth 0 \
-			-selectforeground [::skin::getKey topbartext] -exportselection 1
+		if { [::skin::getKey chat_top_pixmap] } {
+			set bg "::$top.bg"
+			set topimg [image create photo]
+			$topimg copy [::skin::loadPixmap cwtopback]
+			::picture::Colorize $topimg [::skin::getKey topbarbg]
+			scalable-bg $bg -source $topimg -n [::skin::getKey topbarpady] -e [::skin::getKey topbarpadx] -s [::skin::getKey topbarpady] -w [::skin::getKey topbarpadx] -width 0 -height 0
+			$top create image 0 0 -image [$bg name] -anchor nw -tag backgnd
+			bind $top <Configure> "$bg configure -width %w -height %h"
+			bind $top <Destroy> "$bg destroy"
+		}
 		
-		# Configure it
-		$text configure -state disabled
+		set toX [::skin::getKey topbarpadx]
+		set usrsX [expr $toX + [font measure bplainf "[trans to]:"] + 5]
+		set txtY [::skin::getKey topbarpady]
+		
+		$top create text $toX $txtY -fill [::skin::getKey topbartext] -state disabled -font bplainf -text "[trans to]:" -anchor nw -tag to
 
-
-		# Pack our widgets
-		pack $to -side left -expand false -anchor w -padx 0 -pady 3
-		pack $text -side right -expand true -fill x -anchor e -padx 4 -pady 3
+		$top create text $usrsX $txtY -fill [::skin::getKey topbartext] -state disabled -font sboldf -anchor nw -tag text
+		
+		#As the contact list isn't filled we set the height to fit with the To field
+		$top configure -height [expr [::ChatWindow::MeasureTextCanvas $top "to" [$top itemcget to -text] "h"] + 2*[::skin::getKey topbarpady]]
 
 		return $top
 	}
@@ -1649,7 +1616,7 @@ namespace eval ::ChatWindow {
 		frame $fr -class Amsn -borderwidth 0 -relief solid \
 			-background [::skin::getKey chatwindowbg] -height [::config::getKey winchatoutheight]
 		ScrolledWindow $out -auto vertical -scrollbar vertical
-		framec $text -type text -relief solid -foreground white -background white -width 45 -height 3 \
+		framec $text -type text -relief solid -foreground white -background [::skin::getKey chat_output_back_color] -width 45 -height 3 \
 			-setgrid 0 -wrap word -exportselection 1 -highlightthickness 0 -selectborderwidth 1 \
 			-borderwidth [::skin::getKey chat_output_border] \
 			-bordercolor [::skin::getKey chat_output_border_color]
@@ -1669,7 +1636,7 @@ namespace eval ::ChatWindow {
 		$text tag configure red -foreground red -font sboldf
 		$text tag configure blue -foreground blue -font sboldf
 		$text tag configure gray -foreground #404040 -font splainf
-		$text tag configure gray_italic -foreground #000000 -background white -font sbolditalf
+		$text tag configure gray_italic -foreground #000000 -font sbolditalf
 		$text tag configure white -foreground white -background black -font sboldf
 		$text tag configure url -foreground #000080 -font splainf -underline true
 
@@ -1757,7 +1724,7 @@ namespace eval ::ChatWindow {
 		set text [$input getinnerframe].text
 
 		# Create the text widget and the send button widget
-		text $text -background white -width 15 -height 3 -wrap word -font bboldf \
+		text $text -background [::skin::getKey chat_input_back_color] -width 15 -height 3 -wrap word -font bboldf \
 			-borderwidth 0 -relief solid -highlightthickness 0 -exportselection 1
 		
 		frame $sendbuttonframe -borderwidth 0 -bg [::skin::getKey sendbuttonbg]
@@ -2109,6 +2076,39 @@ namespace eval ::ChatWindow {
 	}
 	#///////////////////////////////////////////////////////////////////////////////
 
+	
+	proc MeasureTextCanvas { widget id text dimension } {
+		set font [$widget itemcget $id -font]
+		if { $dimension == "w" } {
+			if { $font != "" } {
+				set idx [expr [string first "\n" $text] - 1] 
+				if { $idx < 0 } { set idx end }
+				set m [font measure $font -displayof $widget [string range $text \
+					0 $idx]]
+				return $m
+			} else {
+				set idx [expr [string first "\n" $text] - 1] 
+				if { $idx < 0 } { set idx end }
+				set f [font create -family helvetica -size 12 -weight normal]
+				set m [font measure $f -displayof $widget [string range $text \
+					0 $idx]]
+				font delete $f
+				return $m
+			}
+		} elseif { $dimension == "h" } {
+			if { $font != "" } {
+				#Get number of lines
+				set n [llength [split $text "\n"]]
+				#Multiply font size by no. lines and add gap between lines * (no. lines - 1).
+				return [expr $n * [font configure $font -size] + (($n - 1) * 7)]
+			} else {
+				#Get number of lines
+				set n [llength [split $text "\n"]]
+				#Multiply font size by no. lines and add gap between lines * (no. lines - 1).
+				return [expr ($n * 12) + (($n - 1) * 7)]
+			}
+		}
+	}
 
 	#///////////////////////////////////////////////////////////////////////////////
 	# ::ChatWindow::TopUpdate (chatid)
@@ -2130,7 +2130,8 @@ namespace eval ::ChatWindow {
 		}
 
 		set win_name [::ChatWindow::For $chatid]
-		set toptext [::ChatWindow::GetTopText ${win_name}]
+		
+		set top [::ChatWindow::GetTopFrame ${win_name}]
 
 		if { [lindex [[::ChatWindow::GetOutText ${win_name}] yview] 1] == 1.0 } {
 			set scrolling 1
@@ -2138,9 +2139,8 @@ namespace eval ::ChatWindow {
 			set scrolling 0
 		}
 
-		$toptext configure -state normal -font sboldf -height 1 -wrap none
-		$toptext delete 0.0 end
-
+		$top dchars text 0 end
+		
 		foreach user_login $user_list {
 			set user_name [string map {"\n" " "} [::abook::getDisplayNick $user_login]]
 			set state_code [::abook::getVolatileData $user_login state]
@@ -2156,27 +2156,29 @@ namespace eval ::ChatWindow {
 
 			if {[::config::getKey truncatenames]} {
 				#Calculate maximum string width
-				set maxw [winfo width $toptext]
+				set maxw [expr [winfo width $top] - [::skin::getKey topbarpadx] - [expr int([lindex [$top coords text] 0])]]
 
 				if { "$user_state" != "" && "$user_state" != "online" } {
-					incr maxw [expr 0-[font measure sboldf -displayof $toptext " \([trans $user_state]\)"]]
+					incr maxw [expr 0-[font measure sboldf -displayof $top " \([trans $user_state]\)"]]
 				}
 
-				incr maxw [expr 0-[font measure sboldf -displayof $toptext " <${user_login}>"]]
-				$toptext insert end "[trunc ${user_name} ${win_name} $maxw sboldf] <${user_login}>"
+				incr maxw [expr 0-[font measure sboldf -displayof $top " <${user_login}>"]]
+
+				$top insert text end "[trunc ${user_name} ${win_name} $maxw sboldf] <${user_login}>"
 			} else {
-				$toptext insert end "${user_name} <${user_login}>"
+
+				$top insert text end "${user_name} <${user_login}>"
 			}
 
 			set title "${title}${user_name}, "
 
 			#TODO: When we have better, smaller and transparent images, uncomment this
-			#$toptext image create end -image [::skin::loadPixmap $user_image] -pady 0 -padx 2
-
+			
 			if { "$user_state" != "" && "$user_state" != "online" } {
-				$toptext insert end "\([trans $user_state]\)"
+				$top insert text end "\([trans $user_state]\)"
 			}
-			$toptext insert end "\n"
+
+			$top insert text end "\n"
 		}
 		
 		#Change color of top background by the status of the contact
@@ -2185,14 +2187,14 @@ namespace eval ::ChatWindow {
 		set title [string replace $title end-1 end " - [trans chat]"]
 
 		#Calculate number of lines, and set top text size
-		set size [$toptext index end]
-		set posyx [split $size "."]
-		set lines [expr {[lindex $posyx 0] - 2}]
+
+		set size [$top index text end]
+
 		set ::ChatWindow::titles(${win_name}) ${title}
 		
-		$toptext delete [expr {$size - 1.0}] end
-		$toptext configure -state normal -font sboldf -height $lines -wrap none
-		$toptext configure -state disabled
+		$top dchars text [expr {$size - 1}] end
+		
+		$top configure -height [expr [MeasureTextCanvas $top "text" [$top itemcget text -text] "h"] + 2*[::skin::getKey topbarpady]]
 
 		if { [GetContainerFromWindow $win_name] == "" } {
 			if { [info exists ::ChatWindow::new_message_on(${win_name})] && $::ChatWindow::new_message_on(${win_name}) == "asterisk" } {
@@ -2247,11 +2249,17 @@ namespace eval ::ChatWindow {
 			}
 		}
 		#set the areas to the colour
-		[::ChatWindow::GetTopFrame ${win_name}] configure -background $colour -bordercolor $bcolour
-		[::ChatWindow::GetTopToText ${win_name}] configure -background $colour -foreground $tcolour \
-						-selectbackground $scolour -selectforeground $tcolour
-		[::ChatWindow::GetTopText ${win_name}] configure -background $colour -foreground $tcolour \
-						-selectbackground $scolour -selectforeground $tcolour
+		
+		set top [GetTopFrame ${win_name}]
+		$top configure -bg $colour
+		
+		if { [::skin::getKey chat_top_pixmap] } {
+			set bg "::$top.bg"
+			set topimg [$bg cget -source]
+			$topimg copy [::skin::loadPixmap cwtopback]
+			::picture::Colorize $topimg $colour
+			$bg configure -source $topimg
+		}
 	}
 
 	#///////////////////////////////////////////////////////////////////////////////

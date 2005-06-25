@@ -6057,8 +6057,8 @@ namespace eval ::MSNMobile {
 	    set chatid "mobile@$user"
 	    ::ChatWindow::SetFor $chatid $win
 	    SetChatId $user $chatid
-	    UpdateWindow $win $user
-
+	    after 200 "::MSNMobile::UpdateWindow $win $user"
+	    
 	    if { [winfo exists .bossmode] } {
 		set ::BossMode(${win_name}) "normal"
 		wm state $win withdraw
@@ -6082,16 +6082,18 @@ namespace eval ::MSNMobile {
     }
 
     proc UpdateWindow { win_name user_login } {
-	set to [::ChatWindow::GetTopToText $win_name]
-	$to configure -state normal
-	$to delete 0.0 end
-	$to insert end "[trans tomobile]:"
-	$to configure -width [string length "[trans tomobile]:"]
+	set top [::ChatWindow::GetTopFrame $win_name]
+	if { ![winfo exists $top] } { return }
+
+	$top itemconfigure to -text "[trans tomobile]:"
+	
+	set toX [::skin::getKey topbarpadx]
+	set usrsX [expr $toX + [font measure bplainf "[trans tomobile]:"] + 5]
+	set txtY [::skin::getKey topbarpady]
+	
+	$top coords text $usrsX [lindex [$top coords text] 1]
 
 	set title "[trans tomobile] : $user_login"
-	set toptext [::ChatWindow::GetTopText ${win_name}]
-
-	$toptext configure -state normal -font sboldf -height 1 -wrap none
 
 	set user_name [string map {"\n" " "} [::abook::getDisplayNick $user_login]]
 	set state_code [::abook::getVolatileData $user_login state]
@@ -6105,27 +6107,28 @@ namespace eval ::MSNMobile {
 
 	set user_image [::MSN::stateToImage $state_code]
 
+	$top dchars text 0 end
 	if {[::config::getKey truncatenames]} {
 	    #Calculate maximum string width
-	    set maxw [winfo width $toptext]
+	    set maxw [expr [winfo width $top] - [::skin::getKey topbarpadx] - [expr int([lindex [$top coords text] 0])]]
 
 	    if { "$user_state" != "" && "$user_state" != "online" } {
-		incr maxw [expr 0-[font measure sboldf -displayof $toptext " \([trans $user_state]\)"]]
+		incr maxw [expr 0-[font measure sboldf -displayof $top " \([trans $user_state]\)"]]
 	    }
 
-	    incr maxw [expr 0-[font measure sboldf -displayof $toptext " <${user_login}>"]]
-	    $toptext insert end "[trunc ${user_name} ${win_name} $maxw sboldf] <${user_login}>"
+	    incr maxw [expr 0-[font measure sboldf -displayof $top " <${user_login}>"]]
+
+	    $top insert text end "[trunc ${user_name} ${win_name} $maxw sboldf] <${user_login}>"
 	} else {
-	    $toptext insert end "${user_name} <${user_login}>"
+	    $top insert text end "${user_name} <${user_login}>"
 	}
 
 	#TODO: When we have better, smaller and transparent images, uncomment this
-	#$toptext image create end -image [::skin::loadPixmap $user_image] -pady 0 -padx 2
 
 	if { "$user_state" != "" && "$user_state" != "online" } {
-	    $toptext insert end "\([trans $user_state]\)"
+	    $top insert text end "\([trans $user_state]\)"
 	}
-	$toptext insert end "\n"
+	$top insert text end "\n"
 
 
 	#Change color of top background by the status of the contact
@@ -6133,14 +6136,13 @@ namespace eval ::MSNMobile {
 
 
 	#Calculate number of lines, and set top text size
-	set size [$toptext index end]
-	set posyx [split $size "."]
-	set lines [expr {[lindex $posyx 0] - 2}]
+	set size [$top index text end]
+	
 	set ::ChatWindow::titles(${win_name}) ${title}
 
-	$toptext delete [expr {$size - 1.0}] end
-	$toptext configure -state normal -font sboldf -height $lines -wrap none
-	$toptext configure -state disabled
+	$top dchars text [expr {$size - 1}] end
+
+	$top configure -height [expr [::ChatWindow::MeasureTextCanvas $top "text" [$top itemcget text -text] "h"] + 2*[::skin::getKey topbarpady]]
 
 	if { [info exists ::ChatWindow::new_message_on(${win_name})] && $::ChatWindow::new_message_on(${win_name}) == 1 } {
 	    wm title ${win_name} "*${title}"
@@ -6148,6 +6150,9 @@ namespace eval ::MSNMobile {
 	    wm title ${win_name} ${title}
 	}
 	update idletasks
+	after cancel "::MSNMobile::UpdateWindow $win_name $user_login"
+
+	after 5000 "::MSNMobile::UpdateWindow $win_name $user_login"
     }
 
     proc GetChatId { user } {

@@ -48,6 +48,10 @@ if { $initialize_amsn == 1 } {
 	::skin::setKey topbarofflinebg_sel #d3d0ce
 	::skin::setKey topbarofflinetext #ffffff
 	::skin::setKey topbarofflineborder #000000
+	::skin::setKey topbarpadx 6
+	::skin::setKey topbarpady 6
+	::skin::setKey chat_top_pixmap 0
+	
 	::skin::setKey statusbarbg #eeeeee
 	::skin::setKey statusbarbg_sel #d3d0ce
 	::skin::setKey statusbartext #000000
@@ -87,7 +91,9 @@ if { $initialize_amsn == 1 } {
 
 	::skin::setKey chat_status_border_color #000000
 	::skin::setKey chat_output_border_color #000000
+	::skin::setKey chat_output_back_color #ffffff
 	::skin::setKey chat_input_border_color #000000
+	::skin::setKey chat_input_back_color #ffffff
 	::skin::setKey chat_buttons_border_color #000000
 	::skin::setKey chat_dp_border_color #000000
 
@@ -3337,6 +3343,7 @@ proc cmsn_draw_main {} {
 	::skin::setPixmap miniwarning miniwarn.gif
 	::skin::setPixmap minijoins minijoins.gif
 	::skin::setPixmap minileaves minileaves.gif
+	::skin::setPixmap cwtopback cwtopback.gif
 
 	::skin::setPixmap butsmile butsmile.gif
 	::skin::setPixmap butsmile_hover butsmile_hover.gif
