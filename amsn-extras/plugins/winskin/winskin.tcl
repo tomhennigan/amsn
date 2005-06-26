@@ -231,6 +231,7 @@ namespace eval ::winskin {
 			$vars(text) configure -state normal
 			set x {}
 			foreach a [set ::MSN::list_states] {lappend x (\\([trans [lindex $a 1]]\\)$)}
+			lappend x (\\([trans mobile]\\)$)
 			set x [join $x "|"]
 			set start 1.0
 			while { [set start [$::pgBuddy.text search -regexp $x $start end]] != "" } {
