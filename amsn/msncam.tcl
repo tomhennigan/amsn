@@ -2583,7 +2583,7 @@ namespace eval ::CAMGUI {
 				status_log "PLay : Decode error $res" red
 			}
 			set data [string range $data $size end]
-			after 250 "incr $semaphore"
+			after 100 "incr $semaphore"
 			tkwait variable $semaphore
 		
 		}
