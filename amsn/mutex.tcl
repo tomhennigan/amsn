@@ -36,3 +36,32 @@ proc run_exclusive { command ticket {ticket_val ""}} {
 	}
 
 }
+
+proc SendMessageFIFO { command stack lock } {
+	if { ![info exists $stack] } {
+		set $stack [list ]
+	}
+	# Add message to queue
+	lappend $stack $command
+	FlushMessageFIFO $stack $lock
+}
+
+proc FlushMessageFIFO { stack lock } {
+
+	# Make sure only one "person" is writing to the window
+	if { [info exists $lock] } { return }
+	set $lock 1
+	#do the job until there's no message to send in the stack
+	while { [set $stack] != [list]} {
+		#sending the message
+		#the first message to send is the first element of the stack
+		set command [lindex [set $stack] 0]
+		
+		eval $command
+
+		# remove the message from the stack
+		set $stack [lreplace [set $stack] 0 0]
+	}
+	unset $stack
+	unset $lock
+}

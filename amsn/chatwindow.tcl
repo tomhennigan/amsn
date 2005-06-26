@@ -1411,7 +1411,7 @@ namespace eval ::ChatWindow {
 		# Create our frame
 		set top [GetTopFrame $w]
 		
-		canvas $top -background [::skin::getKey topbarbg] -state disabled
+		framec $top -type canvas -relief solid -borderwidth [::skin::getKey chat_top_border] -bordercolor [::skin::getKey topbarborder] -background [::skin::getKey topbarbg] -state disabled
 		
 		if { [::skin::getKey chat_top_pixmap] } {
 			set bg "::$top.bg"
@@ -2233,17 +2233,14 @@ namespace eval ::ChatWindow {
 		if { ([llength $user_list] == 1) && ("$user_state" != "" ) } {
 			if { ($state_code == "IDL") || ($state_code == "BRB") || ($state_code == "AWY") || ($state_code == "LUN") } {
 				set colour [::skin::getKey topbarawaybg]
-				set scolour [::skin::getKey topbarawaybg_sel]
 				set tcolour [::skin::getKey topbarawaytext]
 				set bcolour [::skin::getKey topbarawayborder]
 			} elseif { ($state_code == "PHN") || ($state_code == "BSY") } {
 				set colour [::skin::getKey topbarbusybg]
-				set scolour [::skin::getKey topbarbusybg_sel]
 				set tcolour [::skin::getKey topbarbusytext]
 				set bcolour [::skin::getKey topbarbusyborder]
 			} elseif { ($state_code == "FLN") } {
 				set colour [::skin::getKey topbarofflinebg]
-				set scolour [::skin::getKey topbarofflinebg_sel]
 				set tcolour [::skin::getKey topbarofflinetext]
 				set bcolour [::skin::getKey topbarofflineborder]
 			}
@@ -2251,7 +2248,8 @@ namespace eval ::ChatWindow {
 		#set the areas to the colour
 		
 		set top [GetTopFrame ${win_name}]
-		$top configure -bg $colour
+		$top configure -bg $colour -bordercolor $bcolour
+		$top itemconfigure text -fill $tcolour
 		
 		if { [::skin::getKey chat_top_pixmap] } {
 			set bg "::$top.bg"

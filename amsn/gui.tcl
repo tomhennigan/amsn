@@ -17,7 +17,6 @@ if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 
 
 if { $initialize_amsn == 1 } {
-	init_ticket putmessage
 
 	::skin::setKey mainwindowbg #7979f2
 	::skin::setKey chatwindowbg #EAEAEA
@@ -2330,7 +2329,7 @@ namespace eval ::amsn {
 	proc PutMessage { chatid user nick msg type fontformat {p4c ""}} {
 
 		#Run it in mutual exclusion
-		run_exclusive [list ::amsn::PutMessageWrapped $chatid $user $nick $msg $type $fontformat $p4c] putmessage
+		SendMessageFIFO [list ::amsn::PutMessageWrapped $chatid $user $nick $msg $type $fontformat $p4c] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
 
 	}
 
