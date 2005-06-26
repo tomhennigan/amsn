@@ -71,6 +71,10 @@ namespace eval ::MSNCAM {
 		if { [winfo exists $window] } {
 			wm protocol $window WM_DELETE_WINDOW "destroy $window"
 			$window.q configure -command "destroy $window"
+			if { [getObjOption $sid producer] } {
+				#We disable the button which show the properties
+				$window.settings configure -state disable -command ""
+			}
 		}
 
 		set listening [getObjOption $sid listening_socket]
@@ -2038,13 +2042,14 @@ namespace eval ::CAMGUI {
 	proc ShowPropertiesPage { grabber img } {
 		if { ! [info exists ::capture_loaded] } { CaptureLoaded }
 		if { ! $::capture_loaded } { return }
-
+		if { ![IsGrabberValid $grabber] } { return }
+		
 		if { [set ::tcl_platform(os)] == "Linux" } {
 			ShowPropertiesPageLinux $grabber $img
 		} elseif { [set ::tcl_platform(os)] == "Darwin" } {
 			return
 		} elseif { [set ::tcl_platform(platform)] == "windows" } {
-			catch { $grabber propertypage filter }
+			$grabber propertypage filter
 		}
 	}
 	#There's a limit of one grabber maximum wih QuickTime TCL
