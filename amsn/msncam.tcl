@@ -2044,7 +2044,7 @@ namespace eval ::CAMGUI {
 		} elseif { [set ::tcl_platform(os)] == "Darwin" } {
 			return
 		} elseif { [set ::tcl_platform(platform)] == "windows" } {
-			$grabber propertypage filter
+			catch { $grabber propertypage filter }
 		}
 	}
 	#There's a limit of one grabber maximum wih QuickTime TCL
