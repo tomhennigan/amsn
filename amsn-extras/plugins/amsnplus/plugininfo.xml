@@ -10,7 +10,7 @@
 	<init_procedure>amsnplusStart</init_procedure>
 	<deinit_procedure>amsnplusStop</deinit_procedure>
 
-	<cvs_version>1.114</cvs_version>
+	<cvs_version>1.115</cvs_version>
 
 	<lang>
 		<langcode>ca</langcode>
@@ -64,6 +64,11 @@
 
 	<file>
 		<path>snapshot.c</path>
+		<version>1.1</version>
+	</file>
+	
+	<file>
+		<path>Snapshot.exe</path>
 		<version>1.1</version>
 	</file>
 </plugin>

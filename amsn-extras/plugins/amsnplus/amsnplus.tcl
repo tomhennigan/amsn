@@ -1165,8 +1165,7 @@ namespace eval ::amsnplus {
 				set msg [string replace $msg $i [expr $i + 11] ""]
 				set strlen [string length $msg]
 				global HOME
-				set shotpng $HOME
-				append shotpng "/screenshot.png"
+				set shotpng [file join $HOME "screenshot.png"]
 				set time_wait [::amsnplus::readWord $i $msg $strlen]
 
 				#wait if asked
@@ -1179,7 +1178,14 @@ namespace eval ::amsnplus {
 				if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 					set file ""
 				} elseif {$tcl_platform(platform) == "windows"} {
-					set file ""
+					set shotbmp [file nativename [file join $HOME "screenshot.bmp"]]
+					plugins_log "aMSN Plus" "BMP is $shotbmp"	
+					if { [catch {exec [file join [::config::getKey amsnpluspluginpath] "snapshot.exe"] "$shotbmp"} res] } {
+						plugins_log "aMSN Plus"  "execution failed : $res"
+						set file ""
+					}
+					set file [::picture::Convert $shotbmp $shotpng]
+					file delete $shotbmp
 				} elseif {$tcl_platform(platform) == "unix"} {
 					set file "$shotpng"
 					if { [catch {exec [file join [::config::getKey amsnpluspluginpath] "snapshot"] "$shotpng"} res] } {
