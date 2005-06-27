@@ -2217,7 +2217,8 @@ namespace eval ::Event {
 			#first check there were some events registered to caller or it will fail
 			if { [array names eventsArray "$eventName,$call"] == "$eventName,$call" } {
 				foreach listener [set eventsArray($eventName,$call)] {
-					$listener $eventName $args
+					set call [linsert $args 0 $listener $eventName]
+					eval $call
 				}
 			}
 		}
