@@ -627,7 +627,7 @@ namespace eval ::plugins {
 		# window path
 		variable w
 		# don't do anything is there is no selection
-		if { $selection(file) != "" } {
+		if { $selection(file) != "" && $selection(id) != ""} {
 			# Do the actual loading and check if it loads properly
 			set loaded [LoadPlugin $selection(name) $selection(required_version) \
 											$selection(file) \
@@ -675,6 +675,9 @@ namespace eval ::plugins {
 		variable selection
 		# window path
 		variable w
+		if {$selection(id)==""} {
+		    return;
+		}
 		# change the color
 		$w.plugin_list itemconfigure $selection(id) -background #FFFFFF
 		# Call PostEvent Unload
