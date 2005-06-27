@@ -4332,6 +4332,7 @@ proc cmsn_draw_login {} {
 	RefreshLogin $mainframe
 
 	bind .login <Return> "login_ok"
+	bind .login <KP_Enter> "login_ok"
 	bind .login <<Escape>> "ButtonCancelLogin .login"
 
 	#tkwait visibility .login
