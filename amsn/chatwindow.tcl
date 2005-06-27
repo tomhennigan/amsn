@@ -2250,6 +2250,7 @@ namespace eval ::ChatWindow {
 		set top [GetTopFrame ${win_name}]
 		$top configure -bg $colour -bordercolor $bcolour
 		$top itemconfigure text -fill $tcolour
+		$top itemconfigure to -fill $tcolour
 		
 		if { [::skin::getKey chat_top_pixmap] } {
 			set bg "::$top.bg"
