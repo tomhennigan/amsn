@@ -2852,6 +2852,12 @@ namespace eval ::amsn {
 		if { [::config::getKey shownotify] == 0 } {
 			return;
 		}
+
+		
+		# Check if we only want to play the sound notification
+		if { [::config::getKey notifyonlysound] == 0 } {
+
+		
 		variable NotifID
 		variable NotifPos
 
@@ -2965,7 +2971,9 @@ namespace eval ::amsn {
 			wm geometry $w -$xpos-[expr {$ypos-100}]
 			after 50 "::amsn::growNotify $w $xpos [expr {$ypos-100}] $ypos"
 		}
-
+		
+		}
+		
 		if { $sound != ""} {
 			play_sound ${sound}.wav
 		}

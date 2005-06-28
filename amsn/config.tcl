@@ -122,7 +122,8 @@ namespace eval ::config {
 		::config::setKey winchatsize "350x320"		;#Default chat window size
 		::config::setKey winchatoutheight "200"		;#Default chat window output height
 		::config::setKey savechatwinsize 1			;#Save chat window sizes when changed?
-
+		
+		::config::setKey notifyonlysound 0			;#Only play sound for notification : no notify window
 		::config::setKey notifymsg 1				;#Show notify window when a message arrives
 		::config::setKey notifyonline 1			;#Show notify window when a user goes online
 		::config::setKey notifyoffline 0			;#Show notify window when a user goes offline
