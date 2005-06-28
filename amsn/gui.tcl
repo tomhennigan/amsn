@@ -515,7 +515,7 @@ namespace eval ::amsn {
 
 	#///////////////////////////////////////////////////////////////////////////////
 	proc blockUser {user_login} {
-		set answer [::amsn::messageBox [trans confirmbl] yesno question [trans block]]
+		set answer [::amsn::messageBox "[trans confirmbl] ($user_login)" yesno question [trans block]]
 		if { $answer == "yes"} {
 			set name [::abook::getNick ${user_login}]
 			::MSN::blockUser ${user_login} [urlencode $name]
