@@ -35,7 +35,19 @@ namespace eval ::growl {
 		
     	#Add items to configure window
 		::growl::ConfigList
+		
+		#Remove the window notification of aMSN
+		::config::setKey notifyonlysound 1
+		
 	}
+	
+	proc DeInitPlugin { } {
+	
+		#Re-add the notification window of aMSN
+		::config::setKey notifyonlysound 0
+		
+	}
+	
 	#####################################
 	# ::growl::RegisterEvent            #
 	# --------------------------------- #
