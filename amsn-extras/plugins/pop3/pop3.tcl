@@ -54,19 +54,27 @@ namespace eval ::pop3 {
 			]
 		}
 
-		set ::pop3::configlist [list \
-			[list str "Check for new messages every ? minutes" minute] \
-			[list str "POP3 Server"  host_0] \
-			[list str "Your user login" user_0] \
-			[list pass "Your password" pass_0] \
-			[list str "Port (optional)" port_0] \
-			[list bool "Show notify window" notify_0] \
-			[list bool "Load mail program on left click" loadMailProg_0] \
-			[list str "          Mail Program" mailProg_0] \
-			[list bool "Load delete menu on right click" rightdeletemenu_0] \
-			[list bool "Your mail program leaves mails on server" leavemails_0] \
-			[list str "Display name" caption_0] \
-		]
+		if {[string equal $::version "0.94"]} {
+			set ::pop3::configlist [list \
+				[list label "This plugin now allows for multiple email adresses, but you will need to manually edit the config"] \
+				[list str "Check for new messages every ? minutes" minute] \
+				[list str "POP3 Server"  host_0] \
+				[list str "Your user login" user_0] \
+				[list pass "Your password" pass_0] \
+				[list str "Port (optional)" port_0] \
+				[list bool "Show notify window" notify_0] \
+				[list bool "Load mail program on left click" loadMailProg_0] \
+				[list str "          Mail Program" mailProg_0] \
+				[list bool "Load delete menu on right click" rightdeletemenu_0] \
+				[list bool "Your mail program leaves mails on server" leavemails_0] \
+				[list str "Display name" caption_0] \
+			]
+		} else {
+			set ::pop3::configlist [list \
+				[list str "Check for new messages every ? minutes" minute] \
+				[list frame ::pop3::populateframe ""] \
+			]
+		}
 
 		if {[string equal $::version "0.94"]} {
 			::skin::setPixmap pop3_mailpic [file join $dir pixmaps pop3_mailpic.gif]
@@ -84,6 +92,120 @@ namespace eval ::pop3 {
 
 	proc DeInit { } {
 		::pop3::stop 0 0
+	}
+
+	proc populateframe { win } {
+		#total number of accounts
+		frame $win.num
+		label $win.num.label -text "How many accounts do you have: "
+		combobox::combobox $win.num.accounts -editable false -highlightthickness 0 -width 3 -bg #FFFFFF -font splainf -textvariable ::pop3::config(accounts)
+		for { set i 1 } { $i < 11 } { incr i } {
+			$win.num.accounts list insert end $i
+		}
+		#$win.num.accounts select 0
+		pack $win.num.label -side left -anchor w
+		pack $win.num.accounts -side left -anchor w
+		pack $win.num -anchor w -padx 20
+
+		#frame around selections
+		#set f [frame $win.c -bd 2 -bg black]
+		framec $win.c -bc #0000FF
+		set f [$win.c getinnerframe]
+		pack $win.c -anchor w -padx 20
+
+		#current selection box
+		frame $f.num
+		label $f.num.label -text "Settings for accunt number: "
+		combobox::combobox $f.num.account -editable false -highlightthickness 0 -width 3 -bg #FFFFFF -font splainf
+		for { set i 1 } { $i < 11 } { incr i } {
+			$f.num.account list insert end $i
+		}
+		$f.num.account select 0
+		pack $f.num.label -side left -anchor w
+		pack $f.num.account -side left -anchor w
+		pack $f.num -anchor w
+
+		#server
+		frame $f.host
+		label $f.host.label -text "POP3 Server"
+		entry $f.host.entry -textvariable ::pop3::config(host_0) -bg white
+		pack $f.host.label -side left -anchor w
+		pack $f.host.entry -side left -anchor w
+		pack $f.host -anchor w
+
+		#user name
+		frame $f.user
+		label $f.user.label -text "Your user login"
+		entry $f.user.entry -textvariable ::pop3::config(user_0) -bg white
+		pack $f.user.label -side left -anchor w
+		pack $f.user.entry -side left -anchor w
+		pack $f.user -anchor w
+
+		#password
+		frame $f.pass
+		label $f.pass.label -text "Your password"
+		entry $f.pass.entry -show "*" -textvariable ::pop3::config(pass_0) -bg white
+		pack $f.pass.label -side left -anchor w
+		pack $f.pass.entry -side left -anchor w
+		pack $f.pass -anchor w
+
+		#port
+		frame $f.port
+		label $f.port.label -text "Port (optional)"
+		entry $f.port.entry -textvariable ::pop3::config(port_0) -bg white
+		pack $f.port.label -side left -anchor w
+		pack $f.port.entry -side left -anchor w
+		pack $f.port -anchor w
+
+		#Show notify
+		checkbutton $f.notify -text "Show notify window" -variable ::pop3::config(notify_0)
+		pack $f.notify -anchor w
+
+		#load mail program
+		checkbutton $f.loadMailProg -text "Load mail program on left click" -variable ::pop3::config(loadMailProg_0)
+		pack $f.loadMailProg -anchor w
+
+		#mail program
+		frame $f.mailProg
+		label $f.mailProg.label -text "          Mail Program"
+		entry $f.mailProg.entry -textvariable ::pop3::config(mailProg_0) -bg white
+		pack $f.mailProg.label -side left -anchor w
+		pack $f.mailProg.entry -side left -anchor w
+		pack $f.mailProg -anchor w
+
+		#rightdeletemenu
+		checkbutton $f.rightdeletemenu -text "Load delete menu on right click" -variable ::pop3::config(rightdeletemenu_0)
+		pack $f.rightdeletemenu -anchor w
+
+		#leavemails
+		checkbutton $f.leavemails -text "Your mail program leaves mails on server" -variable ::pop3::config(leavemails_0)
+		pack $f.leavemails -anchor w
+
+		#caption
+		frame $f.caption
+		label $f.caption.label -text "Display name"
+		entry $f.caption.entry -textvariable ::pop3::config(caption_0) -bg white
+		pack $f.caption.label -side left -anchor w
+		pack $f.caption.entry -side left -anchor w
+		pack $f.caption -anchor w
+
+		$f.num.account configure -command ::pop3::switchconfig
+	}
+
+	proc switchconfig { widget val } {
+		incr val -1
+		set f [string replace $widget end-11 end ""]
+
+		$f.host.entry configure -textvariable ::pop3::config(host_$val)
+		$f.user.entry configure -textvariable ::pop3::config(user_$val)
+		$f.pass.entry configure -textvariable ::pop3::config(pass_$val)
+		$f.port.entry configure -textvariable ::pop3::config(port_$val)
+		$f.notify configure -variable ::pop3::config(notify_$val)
+		$f.loadMailProg configure -variable ::pop3::config(loadMailProg_$val)
+		$f.mailProg.entry configure -textvariable ::pop3::config(mailProg_$val)
+		$f.rightdeletemenu configure -variable ::pop3::config(rightdeletemenu_$val)
+		$f.leavemails configure -variable ::pop3::config(leavemails_$val)
+		$f.caption.entry configure -textvariable ::pop3::config(caption_$val)
 	}
 
 
