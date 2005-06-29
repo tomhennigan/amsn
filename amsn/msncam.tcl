@@ -2743,14 +2743,30 @@ status_log "button $text with command \"$command\""
 
 			set channelnames [list ]
 			$chanswidget list delete 0 end
+
+
+			#search the already set channel
+			set setchan [lindex [split [::config::getKey "webcamDevice"] ":"] 1]
+			set selectchan -1
+
+
 			foreach channel $channels {
 				set chan [lindex $channel 0]
 				set channame [lindex $channel 1]
+
+				if { $chan == $setchan} {
+					incr selectchan
+				}
+
+
 				$chanswidget list insert end $channame
 				lappend channelnames $channame
 			}
-#			status_log
-
+	
+			#if the channel is in the list of the combobox
+			if { $selectchan != -1 } {
+				$chanswidget select $selectchan
+			}
 		}
 
 	}
@@ -2762,8 +2778,11 @@ status_log "button $text with command \"$command\""
 		global previmg
 		global previmc
 		global rightframe
+		global selecteddevice
+		global selectedchannel
 		
-#		WcAssitant_stopPreviewGrab
+
+#		WcAssistant_stopPreviewGrab
 		
 	
 		if { $value == "" } {
@@ -2785,26 +2804,34 @@ status_log "button $text with command \"$command\""
 				return
 			}
 
-			#set initial pictur::CAMGUIWcAssitant_stopPreviewGrab; e settings:
-			set init_b [::Capture::GetBrightness $::CAMGUI::webcam_preview]
-			set init_c [::Capture::GetContrast $::CAMGUI::webcam_preview]
-			set init_h [::Capture::GetHue $::CAMGUI::webcam_preview]
-			set init_co [::Capture::GetColour $::CAMGUI::webcam_preview]
+			#set initial picture settings:
+#			set init_b [::Capture::GetBrightness $::CAMGUI::webcam_preview]
+#			set init_c [::Capture::GetContrast $::CAMGUI::webcam_preview]
+#			set init_h [::Capture::GetHue $::CAMGUI::webcam_preview]
+#			set init_co [::Capture::GetColour $::CAMGUI::webcam_preview]
 
-			set sets [::config::getKey "webcam$choosendevice:$choosenchannel" "$init_b:$init_c:$init_h:	$init_co"]
-			set sets [split $sets ":"]
-			set init_b [lindex $sets 0]
-			set init_c [lindex $sets 1]
-			set init_h [lindex $sets 2]
-			set init_co [lindex $sets 3]
-
+#			set sets [::config::getKey "webcam$choosendevice:$choosenchannel" "$init_b:$init_c:$init_h:	$init_co"]
+#			set sets [split $sets ":"]
+#			set init_b [lindex $sets 0]
+#			set init_c [lindex $sets 1]
+#			set init_h [lindex $sets 2]
+#			set init_co [lindex $sets 3]
+#
 			set previmg [image create photo]
+
+
+			set selecteddevice $choosendevice
+			set selectedchannel $choosenchannel
 					
 			$rightframe create image 0 0 -image $previmg -anchor nw 
 
 			$rightframe create text 10 10 -anchor nw -font bboldf -text "Preview $choosendevice:$choosenchannel" -fill #FFFFFF -anchor nw -tag device
+
+#FIXME: this if statement doesn't seem to do the trick!
 			after 2000 "if {[winfo exists $rightframe]} { $rightframe delete device}"
 
+			#put the border-pic on top
+			$rightframe raise border
 
 			
 			set semaphore ::CAMGUI::sem_$::CAMGUI::webcam_preview
@@ -2812,6 +2839,8 @@ status_log "button $text with command \"$command\""
 			while { [::Capture::IsValid $::CAMGUI::webcam_preview] && [lsearch [image names] $previmg] != -1 } {
 				if {[catch {::Capture::Grab $::CAMGUI::webcam_preview $previmg} res]} {
 					status_log "Problem grabbing from the device:\n\t \"$res\""
+					$rightframe create text 10 215 -anchor nw -font bboldf -text "ERROR: $res" -fill #FFFFFF -anchor nw -tag errmsg
+					
 				}
 				after 100 "incr $semaphore"
 				tkwait variable $semaphore
@@ -2823,15 +2852,17 @@ status_log "button $text with command \"$command\""
 	
 	}
 	proc WcAssistant_closeOnPreview {w} {
-		WcAssitant_stopPreviewGrab		
+		WcAssistant_stopPreviewGrab		
 		destroy $w
 	}
 
 	proc WcAssistant_stopPreviewGrab {} {
 		global previmg
 		
-		if { [::Capture::IsValid $::CAMGUI::webcam_preview] } {
-			::Capture::Close $::CAMGUI::webcam_preview
+		if { [info exists ::CAMGUI::webcam_preview]} {
+			if { [::Capture::IsValid $::CAMGUI::webcam_preview] } {
+				::Capture::Close $::CAMGUI::webcam_preview
+			}
 		}
 		catch {image delete $previmg}
 		status_log ">>>>> Stopped grabbing"
@@ -2864,7 +2895,7 @@ status_log "button $text with command \"$command\""
 		global infoarray
 
 
-WcAssistant_stopPreviewGrab
+		WcAssistant_stopPreviewGrab
 
 		#change the title
 		WCAssistant_titleText $titlec "Check for required extensions (Step 1 of 5)"
@@ -2953,11 +2984,20 @@ WcAssistant_stopPreviewGrab
 		global previmg
 		global previmc
 		global rightframe
-		
+		global selecteddevice
+		global selectedchannel
+
+		set selecteddevice ""
+		set selectedchannel ""
 
 
 		#if not on mac we have to fill this with options
 		if { ![OnMac] } {
+
+
+
+status_log "ENTER STEP 2"
+
 			#set beginning situation:
 			set infoarray(deviceset) 0
 			
@@ -2982,6 +3022,7 @@ WcAssistant_stopPreviewGrab
 			#this is a canvas so we gcan have a border and put some OSD-like text on it too
 			canvas $rightframe -background #000000
 			pack $rightframe -side right -padx 10
+			$rightframe create image 0 0 -image [::skin::loadPixmap camempty] -anchor nw -tag border
 			set previmc $rightframe
 			
 			
@@ -3003,10 +3044,22 @@ WcAssistant_stopPreviewGrab
 					$leftframe.devs list delete 0 end
 					set devicenames [list ]
 
+					
+					#search the already set device
+					set setdev [lindex [split [::config::getKey "webcamDevice"] ":"] 0]
+					set selectdevice -1
+
+
 					#create list of available devices:
 					foreach device $devices {
 						set dev [lindex $device 0]
 						set name [lindex $device 1]
+
+						#it will allways set the last one, which is a bit weird tothe user though if he has like /dev/video0 that come both as V4L and V4L2 device
+						if { $dev == $setdev} {
+							incr selectdevice
+						}
+
 						if {$name == "" } {
 							set name "$dev (Busy)"
 						}
@@ -3017,6 +3070,11 @@ WcAssistant_stopPreviewGrab
 					set chanswidget $leftframe.chans
 					combobox::combobox $leftframe.chans -highlightthickness 0 -width 22 -bg #FFFFFF -font splainf -exportselection true -command "after 0 ::CAMGUI::WcAssistant_startLinPreview" -editable false		
 					pack $leftframe.chans -side top -pady 20
+
+					#if the device is in the list of the combobox
+					if { $selectdevice != -1 } {
+						$leftframe.devs select $selectdevice
+					}
 
 				}
 			} else {
@@ -3040,7 +3098,7 @@ WcAssistant_stopPreviewGrab
 
 		
 			#add the buttons
-			WCAssistant_showButtons $buttonf [list [list "Next" [list ::CAMGUI::WCAssistant_s3 $win $titlec $optionsf $buttonf] 1 ] [list "Back" [list ::CAMGUI::WCAssistant_s1 $win $titlec $optionsf $buttonf] 1 ] [list "Cancel" [list ::CAMGUI::WcAssistant_closeOnPreview $win] 1 ]]
+			WCAssistant_showButtons $buttonf [list [list "Next" [list ::CAMGUI::WCAssistant_s2to3 $win $titlec $optionsf $buttonf] 1 ] [list "Back" [list ::CAMGUI::WCAssistant_s1 $win $titlec $optionsf $buttonf] 1 ] [list "Cancel" [list ::CAMGUI::WcAssistant_closeOnPreview $win] 1 ]]
 
 		#if on mac we only need a button to open the settingswindow and step 2 and 3 are 1 page
 		} else {
@@ -3057,12 +3115,31 @@ WcAssistant_stopPreviewGrab
 	
 
 	}
+
+	proc WCAssistant_s2to3 {win titlec optionsf buttonf} {
+		global selecteddevice
+		global selectedchannel
+
+		WcAssistant_stopPreviewGrab
+		::CAMGUI::WCAssistant_s3 $win $titlec $optionsf $buttonf
+		#save settings
+		::config::setKey "webcamDevice" "$selecteddevice:$selectedchannel"
+	}
+
+
 	
 	#folowing page is skipped on mac :)
 	proc WCAssistant_s3 {win titlec optionsf buttonf} {
 		global infoarray
+#		global selecteddevice
+#		global selectedchannel
 
-WcAssistant_stopPreviewGrab
+		set devnchan [::config::getKey "webcamDevice"]
+		set devnchan [split $devnchan ":"]
+		set dev [lindex $devnchan 0]
+		set chan [lindex $devnchan 1]
+		status_log "entered step 3 with dev $dev and chan $chan"
+
 
 
 		#change the title
