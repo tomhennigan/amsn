@@ -2748,14 +2748,16 @@ status_log "button $text with command \"$command\""
 			#search the already set channel
 			set setchan [lindex [split [::config::getKey "webcamDevice"] ":"] 1]
 			set selectchan -1
+			set channr -1
 
 
 			foreach channel $channels {
 				set chan [lindex $channel 0]
 				set channame [lindex $channel 1]
+				incr channr
 
 				if { $chan == $setchan} {
-					incr selectchan
+					set selectchan $channr
 				}
 
 
@@ -2828,7 +2830,7 @@ status_log "button $text with command \"$command\""
 			$rightframe create text 10 10 -anchor nw -font bboldf -text "Preview $choosendevice:$choosenchannel" -fill #FFFFFF -anchor nw -tag device
 
 #FIXME: this if statement doesn't seem to do the trick!
-			after 2000 "if {[winfo exists $rightframe]} { $rightframe delete device}"
+			after 2000 "catch { $rightframe delete device }"
 
 			#put the border-pic on top
 			$rightframe raise border
@@ -2994,10 +2996,6 @@ status_log "button $text with command \"$command\""
 		#if not on mac we have to fill this with options
 		if { ![OnMac] } {
 
-
-
-status_log "ENTER STEP 2"
-
 			#set beginning situation:
 			set infoarray(deviceset) 0
 			
@@ -3039,7 +3037,12 @@ status_log "ENTER STEP 2"
 
 #					set infoarray(deviceset) 0 ;#-> is default			
 				} else {
+
+					label $leftframe.devstxt -text "Choose device:"
+					pack $leftframe.devstxt -side top
+
 				
+				#create and pack the devices-combobox
 					combobox::combobox $leftframe.devs -highlightthickness 0 -width 22 -bg #FFFFFF -font splainf -exportselection true -command ::CAMGUI::WcAssistant_fillLinChans -editable false
 					$leftframe.devs list delete 0 end
 					set devicenames [list ]
@@ -3048,6 +3051,7 @@ status_log "ENTER STEP 2"
 					#search the already set device
 					set setdev [lindex [split [::config::getKey "webcamDevice"] ":"] 0]
 					set selectdevice -1
+					set devnr -1
 
 
 					#create list of available devices:
@@ -3055,9 +3059,11 @@ status_log "ENTER STEP 2"
 						set dev [lindex $device 0]
 						set name [lindex $device 1]
 
-						#it will allways set the last one, which is a bit weird tothe user though if he has like /dev/video0 that come both as V4L and V4L2 device
+						#it will allways set the last one, which is a bit weird to the user though if he has like /dev/video0 that come both as V4L and V4L2 device
+						incr devnr
+
 						if { $dev == $setdev} {
-							incr selectdevice
+							set selectdevice $devnr
 						}
 
 						if {$name == "" } {
@@ -3067,9 +3073,17 @@ status_log "ENTER STEP 2"
 						lappend devicenames $name
 					}
 					pack $leftframe.devs -side top
+
+
+				#create and pack the chans-txt
+					label $leftframe.chanstxt -text "\n\nChoose channel:"
+					pack $leftframe.chanstxt -side top
+
+
+				#create and pack the chans-combobox
 					set chanswidget $leftframe.chans
 					combobox::combobox $leftframe.chans -highlightthickness 0 -width 22 -bg #FFFFFF -font splainf -exportselection true -command "after 0 ::CAMGUI::WcAssistant_startLinPreview" -editable false		
-					pack $leftframe.chans -side top -pady 20
+					pack $leftframe.chans -side top 
 
 					#if the device is in the list of the combobox
 					if { $selectdevice != -1 } {
@@ -3131,16 +3145,6 @@ status_log "ENTER STEP 2"
 	#folowing page is skipped on mac :)
 	proc WCAssistant_s3 {win titlec optionsf buttonf} {
 		global infoarray
-#		global selecteddevice
-#		global selectedchannel
-
-		set devnchan [::config::getKey "webcamDevice"]
-		set devnchan [split $devnchan ":"]
-		set dev [lindex $devnchan 0]
-		set chan [lindex $devnchan 1]
-		status_log "entered step 3 with dev $dev and chan $chan"
-
-
 
 		#change the title
 		WCAssistant_titleText $titlec "Finetune picture settings (Step 3 of 5)"
@@ -3148,8 +3152,27 @@ status_log "ENTER STEP 2"
 		#empty the optionsframe
 		WCAssistant_optionsFrame $optionsf
 		#add the options
+		set devnchan [::config::getKey "webcamDevice"]
+		set devnchan [split $devnchan ":"]
+		set dev [lindex $devnchan 0]
+		set chan [lindex $devnchan 1]
+		status_log "entered step 3 with dev $dev and chan $chan"
 
-#preview, combobox for resolution and 4 sliders, vertically arranged
+
+		if {[OnUnix]} {
+			#preview, combobox for resolution and 4 sliders, vertically arranged
+			
+			
+		
+		
+		} else {
+		
+			#we're on windows !
+			
+		}
+		
+		
+
 		
 		#add the buttons
 		WCAssistant_showButtons $buttonf [list [list "Next" [list ::CAMGUI::WCAssistant_s4 $win $titlec $optionsf $buttonf] 1 ] [list "Back" [list ::CAMGUI::WCAssistant_s2 $win $titlec $optionsf $buttonf] 1 ] [list "Cancel" [list destroy $win] 1 ]]
