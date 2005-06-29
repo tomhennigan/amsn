@@ -724,6 +724,9 @@ namespace eval ::plugins {
 	    }
 	    # current config, see it's declaration for more info
 	    variable cur_config
+	    # list of callbacks for pressing save of frame types
+	    variable saveframelist 
+	    set saveframelist {}
 	    
 	    # get the name
 	    set name $selection(name)
@@ -805,7 +808,7 @@ namespace eval ::plugins {
 				pack $confwin.$i -anchor w -padx 40
 			    }
 			    rbt {
-				# This configuration item contains checkbutton
+				# This configuration item contains radiobutton
 				set buttonlist [lrange $confitem 1 end-1]
 				set value 0
 				foreach item $buttonlist {
@@ -815,6 +818,15 @@ namespace eval ::plugins {
 				    incr i
 				}
 				incr i -1
+			    }
+			    frame {
+			    	# This configureation item creates a frame so the plugin can place whatever it like inside
+				frame $confwin.$i
+				[lindex $confitem 1] $confwin.$i
+				if { "[lindex $confitem 2]" != "" } {
+					lappend saveframelist "[lindex $confitem 2] $confwin.$i"
+				}
+				pack $confwin.$i -fill x -anchor w
 			    }
 			}
 		    }
@@ -867,11 +879,19 @@ namespace eval ::plugins {
 	# none
 	#
 	proc GUI_SaveConfig { w {name ""}} {
+		variable saveframelist
+		
 		if { $name != "" } {
 			#add a postevent to warn the plugin when it is configured
 			set evPar(name) $name
 			::plugins::PostEvent PluginConfigured evPar
 		}
+		
+		foreach call $saveframelist {
+			eval $call
+		}
+
+		set saveframelist {}
 
 		::plugins::save_config
 		destroy $w;
