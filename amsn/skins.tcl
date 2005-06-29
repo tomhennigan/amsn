@@ -273,8 +273,13 @@ namespace eval ::skin {
 		set skin_id [sxml::init [::skin::GetSkinFile "" settings.xml $skin_name]]
 
 		if { $skin_id == -1 } {
-			::amsn::errorMsg "[trans noskins]"
-			exit
+			#If someone upgraded from 0.94 and he used another skin, we will use the default skin instead
+			set skin_id [sxml::init [::skin::GetSkinFile "" settings.xml default]]
+			
+			if { $skin_id == -1 } {
+				::amsn::errorMsg "[trans noskins]"
+				exit
+			}
 		}
 
 		set ::loading_skin $skin_name
