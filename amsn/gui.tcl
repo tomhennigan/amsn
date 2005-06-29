@@ -4258,8 +4258,8 @@ proc cmsn_draw_login {} {
 	}
 
 	label $mainframe.passlabel -text "[trans pass]: " -font sboldf
-	entry $mainframe.passentry -bg #FFFFFF  -font splainf  -width 25 -show "*"
-	entry $mainframe.passentry2 -bg #FFFFFF  -font splainf  -width 25 -show "*"
+	entry $mainframe.passentry -bg #FFFFFF  -font splainf  -width 25 -show "*" -vcmd {expr {[string length %P]<=16} } -validate key
+	entry $mainframe.passentry2 -bg #FFFFFF  -font splainf  -width 25 -show "*" -vcmd {expr {[string length %P]<=16} } -validate key
 	checkbutton $mainframe.remember -variable [::config::getVar save_password] \
 		-text "[trans rememberpass]" -font splainf -highlightthickness 0 -pady 5 -padx 10
 

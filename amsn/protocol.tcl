@@ -3073,7 +3073,7 @@ proc cmsn_reconnect { sb } {
 				status_log "cmsn_reconnect: called again while authentication timeouted for sb $sb\n" red
 				#catch { fileevent [$name cget -sock] readable "" } res
 				#catch { fileevent [$name cget -sock] writable "" } res
-				set command [$sb cget -proxy]
+				set proxy [$sb cget -proxy]
 				$proxy finish $sb
 				$sb configure -stat "d"
 				cmsn_reconnect $sb
