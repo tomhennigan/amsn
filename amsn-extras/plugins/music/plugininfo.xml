@@ -9,7 +9,7 @@
 	<plugin_namespace>music</plugin_namespace>
 	<init_procedure>InitPlugin</init_procedure>
 	<deinit_procedure>DeInit</deinit_procedure>
-	<cvs_version>1.17</cvs_version>
+	<cvs_version>1.18</cvs_version>
 
 	<lang>
 		<langcode>en</langcode>

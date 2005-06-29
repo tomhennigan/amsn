@@ -745,7 +745,7 @@ namespace eval ::music {
 			set notewidth [expr [image width [::skin::loadPixmap $icon]]/[font measure bboldf "0"]+1]
 			set noteheight [expr [image height [::skin::loadPixmap $icon]]/[font metrics bboldf -linespace]+1]
 
-			text $textb -font bboldf -height 1 -background white -borderwidth 0 -wrap none -cursor left_ptr \
+			text $textb -font bboldf -height 1 -background [::skin::getKey contactlistbg] -borderwidth 0 -wrap none -cursor left_ptr \
 				-relief flat -highlightthickness 0 -selectbackground white -selectborderwidth 0 \
 				-exportselection 0 -relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0 -width $notewidth -height $noteheight
 
