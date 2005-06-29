@@ -642,7 +642,11 @@ namespace eval ::pop3 {
 	#	A notify window pops up when required.
 	proc ::pop3::notify { acntn } {
 		if { $::pop3::config(notify_$acntn) == 1 && [set ::pop3::newMails_$acntn] != 0 } {
-			::amsn::notifyAdd "[set ::pop3::config(caption_$acntn)]\n[trans newmail [set ::pop3::newMails_$acntn]]" "" "" plugins
+			if { [set ::pop3::config(loadMailProg_$acntn)] } {
+				::amsn::notifyAdd "[set ::pop3::config(caption_$acntn)]\n[trans newmail [set ::pop3::newMails_$acntn]]" "::pop3::loadDefaultEmail $acntn" newemail plugins
+			} else {
+				::amsn::notifyAdd "[set ::pop3::config(caption_$acntn)]\n[trans newmail [set ::pop3::newMails_$acntn]]" "" newemail plugins
+			}
 			
 			#If Growl plugin is loaded, show the notification, Mac OS X only
 			if { [info proc ::growl::InitPlugin] != "" } {
