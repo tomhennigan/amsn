@@ -4698,7 +4698,7 @@ proc cmsn_draw_online_wrapped {} {
 	}
 	pack $pgBuddyTop -expand false -fill x -before $pgBuddy
 
-	$pgBuddy.text configure -state normal -font splainf
+	$pgBuddy.text configure -state normal -font splainf -background [::skin::getKey contactlistbg]
 	$pgBuddy.text delete 0.0 end
 
 	# Configure bindings/tags for each named group in our scheme
@@ -4740,6 +4740,7 @@ proc cmsn_draw_online_wrapped {} {
 	# Display MSN logo with user's handle. Make it clickable so
 	# that the user can change his/her status that way
 	# Verify if the skinner wants to replace the status picture for the display picture
+	$pgBuddyTop configure -background [::skin::getKey contactlistbg]
 	if { ![::skin::getKey showdisplaycontactlist] } {
 		label $pgBuddyTop.bigstate -background [::skin::getKey contactlistbg] -border 0 -cursor hand2 -borderwidth 0 \
 					-image [::skin::loadPixmap $my_image_type] \
