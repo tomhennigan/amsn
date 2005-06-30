@@ -8,7 +8,6 @@
 
 #TODO:
 #  * add translation
-#  * add config settings for multiple emails
 
 
 namespace eval ::pop3 {
@@ -189,6 +188,8 @@ namespace eval ::pop3 {
 		pack $f.caption.entry -side left -anchor w
 		pack $f.caption -anchor w
 
+		$win.num.accounts configure -command ::pop3::switchnumaccounts
+		::pop3::switchnumaccounts $win.num.accounts [$win.num.accounts get]
 		$f.num.account configure -command ::pop3::switchconfig
 	}
 
@@ -206,6 +207,22 @@ namespace eval ::pop3 {
 		$f.rightdeletemenu configure -variable ::pop3::config(rightdeletemenu_$val)
 		$f.leavemails configure -variable ::pop3::config(leavemails_$val)
 		$f.caption.entry configure -textvariable ::pop3::config(caption_$val)
+	}
+
+	proc switchnumaccounts { widget val } {
+		set acc [[string replace $widget end-12 end ""].c getinnerframe].num.account
+		set oldval [$acc get]
+
+		$acc list delete 0 end
+		for { set i 1 } { $i <= $val } { incr i } {
+			$acc list insert end $i
+		}
+		if { $oldval < $val } {
+			incr oldval -1
+			$acc select $oldval
+		} else {
+			$acc select 0
+		}
 	}
 
 
