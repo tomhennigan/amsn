@@ -4983,9 +4983,18 @@ proc cmsn_draw_online_wrapped {} {
 
 		set state_code [::abook::getVolatileData $user_login state FLN]
 		set colour [::MSN::stateToColor $state_code]
-		if { [::abook::getContactData $user_login customcolor] != "" && [::abook::getContactData $user_login customcolor] != "000000" } {
-			set colour [::abook::getContactData $user_login customcolor]
+		
+		set custom_colour [string tolower [::abook::getContactData $user_login customcolor]]
+		if { $custom_colour != "" } {
+			if { [string index $custom_colour 0] != "#" } {
+				set custom_colour "#$custom_colour"
+			}
+			#If the color is white we can't see the contact on the list : we ignore the custom color
+			if { $custom_colour != "#ffffff" } {
+				set colour $custom_colour
+			}
 		}
+
 		set state_section [::MSN::stateToSection $state_code]; # Used in online/offline grouping
 
 		if { $state_section == "online"} {

@@ -946,12 +946,16 @@ namespace eval ::abookGui {
 		label $nbIdent.customcolor -text "[trans customcolor]:"
 		frame $nbIdent.customcolorf -relief groove -borderwidth 2
 		set colorval_$email [::abook::getContactData $email customcolor] 
+
 		#frame $nbIdent.customcolorf.col -width 40 -bd 0 -relief flat\
 		#	-highlightthickness 1 -takefocus 0 \
 		#	-highlightbackground black \
 		#	-highlightcolor black
 		frame $nbIdent.customcolorf.col -width 40 -bd 0 -relief flat -highlightbackground black -highlightcolor black
 		if { [set colorval_$email] != "" } {
+			if { [string index [set colorval_$email] 0] != "#" } {
+				set colorval_$email "#[set colorval_$email]"
+			}
 			$nbIdent.customcolorf.col configure -background [set colorval_${email}] -highlightthickness 1 
 		} else {
 			$nbIdent.customcolorf.col configure -background [$nbIdent.customcolorf cget -background] -highlightthickness 0
