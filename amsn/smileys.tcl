@@ -1131,7 +1131,7 @@ proc parse_x_mms_emoticon { data chatid } {
     set start 0
     while { $start < [string length $data]} {
 	set end [string first "	" $data $start]
-	set symbol [string range $data $start [expr {$end - 1}]]
+	set symbol [encoding convertfrom identity [string range $data $start [expr {$end - 1}]]]
 	set start [expr {$end + 1}]
 	set end [string first "	" $data $start]
 	set msnobj [string range $data $start [expr {$end - 1}]]
