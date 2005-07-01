@@ -39,7 +39,7 @@ BUILD_DIR=`pwd`
 cd ${srcdir}
 TOP_DIR=`pwd`
 LIBDIR=`pwd`
-cd ${BUILD_DIR}
+cd "${BUILD_DIR}"
 
 AC_SUBST(TCLSH)
 AC_SUBST(TOP_DIR)
@@ -126,7 +126,7 @@ fi
 
 cd ${TCL_LIB_DIR}/..
 TCL_TOP_DIR=`pwd`
-cd ${BUILD_DIR}
+cd "${BUILD_DIR}"
 
 #--------------------------------------------------------------------
 
@@ -267,7 +267,7 @@ fi
 
 cd ${TK_LIB_DIR}/..
 TK_TOP_DIR=`pwd`
-cd ${BUILD_DIR}
+cd "${BUILD_DIR}"
 
 file=$TK_LIB_DIR/tkConfig.sh
 . $file

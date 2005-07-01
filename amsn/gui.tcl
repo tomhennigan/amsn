@@ -3700,7 +3700,12 @@ proc play_sound_other {sound} {
 		::config::setKey soundcommand "[::config::getKey soundcommand] \$sound"
 	}
 
+	
+
 	set soundcommand [::config::getKey soundcommand]
+
+	#Escape spaces in sounds
+	set sound [string map {"\ " "\\\ "} $sound]
 	#Quote everything, or "eval" will fail
 	set soundcommand [string map { "\\" "\\\\" "\[" "\\\[" "\$" "\\\$" "\[" "\\\[" } $soundcommand]
 	set soundcommand [string map { "\\" "\\\\" "\[" "\\\[" "\$" "\\\$" "\[" "\\\[" } $soundcommand]
