@@ -4761,28 +4761,43 @@ proc xclientcaps_received {msg chatid} {
 # 0x00008000 Winks				#
 #################################################
 proc add_Clientid {chatid clientid} {
-	#We look on the clientid number to determine witch client it is
-	#Remember, aMSN 0.94B is known as MSN 7, 0.93 as MSN 6.0
-	switch [string range $clientid 0 3]  {
-		2684 {
-			::abook::setContactData $chatid clientid "MSN 6.0"
-		}
-		5368 {
-			::abook::setContactData $chatid clientid "MSN 6.1"
-		}
-		8053 {
-			::abook::setContactData $chatid clientid "MSN 6.2"
-		}
-		1073 {
-			::abook::setContactData $chatid clientid "MSN 7.0"
-		}
-		512 {
-			::abook::setContactData $chatid clientid "Web Messenger"
-		}
-		default {
-			::abook::setContactData $chatid clientid "[trans unknown]"
+
+	##Set the name of the client this user uses##
+
+	#first set out clientname to unkown so it can be reset to another value if known
+	set clientname "[trans unknown]"
+
+	set knownclients [list [list 268435456 "MSN 6.0"] [list 536870912 "MSN 6.1"] [list 805306368 "MSN 6.2"] [list 1073741824  "MSN 7.0"] [list 512  "Webmessenger"] ]
+	
+	foreach client $knownclients {
+		set bit [lindex $client 0]
+		set name [lindex $client 1]
+		#check if this bit is on in the clientid, ifso set it's name
+		if {[expr [expr $clientid & $bit] != 0]} {
+			set clientname $name
 		}
 	}
+
+	#store the name of the client this user uses in the adressbook
+	::abook::setContactData $chatid clientid $clientname
+
+
+
+	##Set the capability flags for this user##
+
+	set flags [list [list 1 mobile_device] [list 4 receive_ink] [list 8 sendnreceive_ink] [list 16 webcam_shared] [list 32 multi_packet] [list 64 msn_mobile] [list 128 msn_direct] [list 16384 directIM ] [list 32768 winks] ]
+	
+	foreach flag $flags {
+		set bit [lindex $flag 0]
+		set flagname [lindex $flag 1]
+		#check if this bit is on in the clientid, ifso set it's flag
+		if {[expr [expr $clientid & $bit] != 0]} {
+			::abook::setContactData $chatid $flagname 1
+		} else {
+			::abook::setContactData $chatid $flagname 0
+		}
+	}		
+
 }
 
 ###############################################
