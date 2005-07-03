@@ -26,9 +26,8 @@ label .l -image $img
 button .r -text "Switch resolution" -command "SwitchResolution"
 button .s -text "Camera Settings" -command "ShowPropertiesPage $::grabber $img"
 button .c -text "Choose device" -command "ChooseDevice; .s configure -command \"ShowPropertiesPage \$::grabber $img\"; StartGrab \$::grabber $img"
-button .t -text "" -command ".t configure -text [::Capture::test]"
 
-pack .l .r .s .c .t -side top
+pack .l .r .s .c -side top
 
 
 proc SwitchResolution { } {

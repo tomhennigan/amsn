@@ -768,22 +768,6 @@ int Capture_IsValid _ANSI_ARGS_((ClientData clientData,
 
 }
 
-int Capture_test _ANSI_ARGS_((ClientData clientData,
-			      Tcl_Interp *interp,
-			      int objc,
-			      Tcl_Obj *CONST objv[]))
-{
-
-  struct v4l2_control c;
-
-
-
-	Tcl_SetObjResult(interp, Tcl_NewIntObj(c.value));
-
-	return TCL_OK;
-
-}
-
 int Capture_Init (Tcl_Interp *interp ) {
 
 	//Check Tcl version is 8.3 or higher
@@ -830,8 +814,6 @@ int Capture_Init (Tcl_Interp *interp ) {
 	Tcl_CreateObjCommand(interp, "::Capture::IsValid", Capture_IsValid,
 			(ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
 	Tcl_CreateObjCommand(interp, "::Capture::ListGrabbers", Capture_ListGrabbers,
-			(ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
-	Tcl_CreateObjCommand(interp, "::Capture::test", Capture_test,
 			(ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
 	ng_debug = 1;
 	ng_init();
