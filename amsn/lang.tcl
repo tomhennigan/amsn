@@ -533,34 +533,32 @@ namespace eval ::lang {
 			return
 		}
 
-		set file "[file join ${dir} $lang]"
-
-		# If the file already exists, stop the proc
-		if { [file exists $file] } {
-			return
-		}
-
 		# Get the information from the online version
 		set name [::lang::ReadOnlineLang $langcode name]
 		set version [::lang::ReadOnlineLang $langcode version]
 		set encoding [::lang::ReadOnlineLang $langcode encoding]
 
-
-		# Create a new file
-		set fid [open $file w]
-		fconfigure $fid -encoding binary
-
 		# Download the content of the file from the web
 		if { [catch {
 			set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/msn/lang/$lang?rev=$version&content-type=text/plain" -timeout 120000 -binary 1]
 			set content [::http::data $token]
+			set status [::http::status $token]
 		} ] } {
+			status_log "Error while uploading lang : $langcode ($status)\n" red
+			return
+		}
+
+		#If an error occured, stop the process
+		if { $status != "ok" } {
+			status_log "Error while uploading lang : $langcode ($status)\n" red
 			return
 		}
 
 		# Puts the content into the file
+		set file "[file join ${dir} $lang]"
+		set fid [open $file w]
+		fconfigure $fid -encoding binary
 		puts -nonewline $fid "$content"
-
 		close $fid
 
 		# Add the language into the language list
@@ -883,8 +881,7 @@ namespace eval ::lang {
 			set onlineversion [::lang::ReadOnlineLang $langcode version]
 			set name $::lang::OnlineLang"$langcode"(name)
 			set encoding $::lang::OnlineLang"$langcode"(encoding)
-				
-			::lang::deletelanguage $langcode
+
 			::lang::downloadlanguage $langcode
 				
 			set ::lang::Lang"$langcode"(version) $onlineversion
