@@ -710,10 +710,10 @@ namespace eval ::lang {
 
 	proc AddLang { langcode name version encoding } {
 
+		array set ::lang::Lang$langcode [list name "$name" version $version encoding $encoding]
 
 		if { ![::lang::LangExists $langcode] } {
-			array set ::lang::Lang$langcode [list name "$name" version $version encoding $encoding]
-			lappend ::lang::Lang $langcode
+			set ::lang::Lang [lappend ::lang::Lang $langcode]
 			set ::lang::Lang [lsort $::lang::Lang]
 		}
 
