@@ -227,13 +227,14 @@ namespace eval ::alarms {
 				msg_box [trans invalidpic]
 				return -1
 			} else {
-				if { [catch {image create photo joanna -file $my_alarms(${user}_pic)}] } {
+				if { [catch {image create photo joanna -file $my_alarms(${user}_pic) -format cximage}] } {
+					set file ""
 					catch {set file [::picture::Convert "$my_alarms(${user}_pic)" "[file join $HOME alarm_${user}.png]"]} res
 					if { $file == "" } {
 						msg_box $res
 						return -1
 					} else {
-						image create photo joanna -file $file
+						image create photo joanna -file $file -format cximage
 						if { ([image width joanna] >= 1024) || ([image height joanna] >= 768) } {
 							set my_alarms(${user}_copied_pic) 0
 							catch {file delete $file}
@@ -315,7 +316,7 @@ proc run_alarm {user nick msg} {
 	#Create picture
 	if { [::alarms::getAlarmItem ${user} pic_st] == 1 } {
 		if {[file readable [::alarms::getAlarmItem ${user} pic]]} {
-			image create photo joanna_$alarm_win_number -file [::alarms::getAlarmItem ${user} pic]
+			image create photo joanna_$alarm_win_number -file [::alarms::getAlarmItem ${user} pic] -format cximage
 			if { ([image width joanna_$alarm_win_number] < 1024) && ([image height joanna_$alarm_win_number] < 768) } {
 				label .${wind_name}.jojo -image joanna_$alarm_win_number
 				pack .${wind_name}.jojo
