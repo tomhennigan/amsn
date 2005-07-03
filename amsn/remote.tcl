@@ -71,7 +71,7 @@ namespace eval ::remote {
 			set state_code [::abook::getVolatileData $username state]
 
 			if { $state_code !="FLN" } {
-				write_remote "[::abook::getNick $username] --- [trans status] : [trans [::MSN::stateToDescription $state_code]]"
+				write_remote "$username - [::abook::getNick $username] --- [trans status] : [trans [::MSN::stateToDescription $state_code]]"
 			}
 		}
 	}
