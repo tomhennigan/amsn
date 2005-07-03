@@ -2777,14 +2777,14 @@ namespace eval ::Event {
 
 			text/x-mms-emoticon -
 			text/x-mms-animemoticon {
-				global ${chatid}_smileys
+				upvar #0 [string map {: _} ${chatid}]_smileys chatsmileys
 				status_log "Got a custom smiley from peer\n" red
-				set ${chatid}_smileys(dummy) ""
+				set chatsmileys(dummy) ""
 				parse_x_mms_emoticon [$message getBody] $chatid
-				status_log "got smileys : [array names ${chatid}_smileys]\n" blue
-				foreach smile [array names ${chatid}_smileys] {
+				status_log "got smileys : [array names chatsmileys]\n" blue
+				foreach smile [array names chatsmileys] {
 					if { $smile == "dummy" } { continue }
-					MSNP2P::loadUserSmiley $chatid $typer "[set ${chatid}_smileys($smile)]"
+					MSNP2P::loadUserSmiley $chatid $typer "[set chatsmileys($smile)]"
 				}
 			}
 

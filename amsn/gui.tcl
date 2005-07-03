@@ -20,6 +20,7 @@ if { $initialize_amsn == 1 } {
 
 	::skin::setKey mainwindowbg #7979f2
 	::skin::setKey contactlistbg #ffffff
+	::skin::setKey contact_mobile #404040
 	::skin::setKey chatwindowbg #EAEAEA
 	::skin::setKey tabbarbg "[::skin::getKey chatwindowbg]"
 	::skin::setKey tabfg #000000
@@ -762,7 +763,7 @@ namespace eval ::amsn {
 		[::ChatWindow::GetOutText ${win_name}] tag bind ftno$cookie <Leave> ""
 		[::ChatWindow::GetOutText ${win_name}] tag bind ftno$cookie <Button1-ButtonRelease> ""
 
-		[::ChatWindow::GetOutText ${win_name}] conf -cursor left_ptr
+		[::ChatWindow::GetOutText ${win_name}] conf -cursor xterm
 
 		set txt [trans invitationcancelled]
 
@@ -944,7 +945,7 @@ namespace eval ::amsn {
 		[::ChatWindow::GetOutText ${win_name}] tag bind ftno$cookie <Leave> ""
 		[::ChatWindow::GetOutText ${win_name}] tag bind ftno$cookie <Button1-ButtonRelease> ""
 
-		[::ChatWindow::GetOutText ${win_name}] conf -cursor left_ptr
+		[::ChatWindow::GetOutText ${win_name}] conf -cursor xterm
 
 		set txt [trans ftaccepted]
 
@@ -1009,7 +1010,7 @@ namespace eval ::amsn {
 		[::ChatWindow::GetOutText ${win_name}] tag bind ftno$cookie <Leave> ""
 		[::ChatWindow::GetOutText ${win_name}] tag bind ftno$cookie <Button1-ButtonRelease> ""
 
-		[::ChatWindow::GetOutText ${win_name}] conf -cursor left_ptr
+		[::ChatWindow::GetOutText ${win_name}] conf -cursor xterm
 
 		if { [info exists txt] == 0 } {
 			set txt [trans ftrejected]
@@ -2683,7 +2684,7 @@ namespace eval ::amsn {
 				[::ChatWindow::GetOutText ${win_name}] conf -cursor hand2"
 				[::ChatWindow::GetOutText ${win_name}] tag bind $urlname <Leave> \
 				"[::ChatWindow::GetOutText ${win_name}] tag conf $urlname -underline true;\
-				[::ChatWindow::GetOutText ${win_name}] conf -cursor left_ptr"
+				[::ChatWindow::GetOutText ${win_name}] conf -cursor xterm"
 				[::ChatWindow::GetOutText ${win_name}] tag bind $urlname <Button1-ButtonRelease> \
 				"[::ChatWindow::GetOutText ${win_name}] conf -cursor watch; launch_browser [string map {% %%} [list $urltext]]"
 
@@ -2788,7 +2789,7 @@ namespace eval ::amsn {
 		[::ChatWindow::GetOutText ${win_name}] conf -cursor hand2"
 		[::ChatWindow::GetOutText ${win_name}] tag bind $tagid <Leave> \
 		"[::ChatWindow::GetOutText ${win_name}] tag conf $tagid -underline false;\
-		[::ChatWindow::GetOutText ${win_name}] conf -cursor left_ptr"
+		[::ChatWindow::GetOutText ${win_name}] conf -cursor xterm"
 		[::ChatWindow::GetOutText ${win_name}] tag bind $tagid <Button1-ButtonRelease> "$command"
 
 		[::ChatWindow::GetOutText ${win_name}] configure -state normal
@@ -4990,7 +4991,11 @@ proc cmsn_draw_online_wrapped {} {
 
 
 		set state_code [::abook::getVolatileData $user_login state FLN]
-		set colour [::MSN::stateToColor $state_code]
+		if { $state_code == "FLN" && [::abook::getVolatileData $user_login MOB] == "Y" } {
+			set colour [::skin::getKey "contact_mobile"]
+		} else {
+			set colour [::MSN::stateToColor $state_code]
+		}
 		
 		set custom_colour [string tolower [::abook::getContactData $user_login customcolor]]
 		if { $custom_colour != "" } {
@@ -5249,7 +5254,7 @@ proc ShowUser {user_name user_login state_code colour section grId} {
 	}
 
 	if { [::abook::getVolatileData $user_login MOB] == "Y" && $state_code == "FLN"} {
-	    set image_type mobile
+	    set image_type "mobile"
 	    set state_desc " ([trans mobile])"
 	}
 

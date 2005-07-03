@@ -1070,7 +1070,7 @@ proc is_true { data } {
 
 
 proc custom_smile_subst { chatid tw {textbegin "0.0"} {end "end"} } {
-    upvar #0 ${chatid}_smileys emotions
+    upvar #0 [string map {: _} ${chatid} ]_smileys emotions
 
     if { ![info exists emotions] } { return }
 
@@ -1079,7 +1079,7 @@ proc custom_smile_subst { chatid tw {textbegin "0.0"} {end "end"} } {
 } 
 
 proc custom_smile_subst2 { chatid tw textbegin end } { 
-    upvar #0 ${chatid}_smileys emotions
+    upvar #0 [string map {: _} ${chatid} ]_smileys emotions
 
     if { ![info exists emotions] } { return }
 
@@ -1105,14 +1105,18 @@ proc custom_smile_subst2 { chatid tw textbegin end } {
 	    $tw tag configure smiley -elide true
 	    $tw tag add smiley $pos $endpos
 	    
-	    if { ![winfo exists ${tw}.custom_smiley_$file] } {
-	    	set w_emot [label ${tw}.custom_smiley_$file -background [$tw cget -background] -image custom_smiley_$file]
-		menu $w_emot.copy -tearoff 0 -type normal
-		$w_emot.copy add command -label [trans emoticon_steal] -command "::smiley::addSmileyFromTW {$file}"
-		bind $w_emot <<Button3>> "tk_popup $w_emot.copy %X %Y"
+	    set twTag "custom_smiley_$file"
+	    set copyMenu "${tw}.custom_smiley_$file"
+	    if { ![winfo exists $copyMenu] } {
+		menu $copyMenu -tearoff 0 -type normal
+		$copyMenu add command -label [trans emoticon_steal] -command "::smiley::addSmileyFromTW {$file}"
+		$tw tag bind $twTag <Enter> "$tw configure -cursor hand2"
+		$tw tag bind $twTag <Leave> "$tw configure -cursor xterm"
+		$tw tag bind $twTag <<Button1>> "tk_popup $copyMenu %X %Y"
 	    }
 
-	    $tw window create $endpos -window "${tw}.custom_smiley_$file" -padx 0 -pady 0
+	    set smileyIdx [$tw image create $endpos -image "custom_smiley_$file" -padx 0 -pady 0]
+	    $tw tag add $twTag $smileyIdx
 	    $tw tag remove smiley $endpos
 	    
 	}
@@ -1123,7 +1127,7 @@ proc custom_smile_subst2 { chatid tw textbegin end } {
 
 #Called from the protocol layer to parse a x-mms-emoticon message
 proc parse_x_mms_emoticon { data chatid } {
-    upvar #0 ${chatid}_smileys smile
+    upvar #0 [string map {: _} ${chatid} ]_smileys smile
 
 
     if { [::config::getKey getdisppic] != 1 } { return }
