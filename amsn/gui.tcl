@@ -4477,6 +4477,8 @@ proc AddProfileOk {mainframe} {
 #///////////////////////////////////////////////////////////////////////
 proc toggleGroup {tw name image id {padx 0} {pady 0}} {
 	label $tw.$name -image [::skin::loadPixmap $image] -bg [::skin::getKey contactlistbg]
+	bind $tw.$name <Enter> [list $tw.$name configure -image [::skin::loadPixmap ${image}_hover]]
+	bind $tw.$name <Leave> [list $tw.$name configure -image [::skin::loadPixmap $image]] 
 	$tw.$name configure -cursor hand2 -borderwidth 0
 	bind $tw.$name <Button1-ButtonRelease> "::groups::ToggleStatus $id; cmsn_draw_online"
 	$tw window create end -window $tw.$name -padx $padx -pady $pady
