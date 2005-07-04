@@ -1981,6 +1981,8 @@ namespace eval ::ChatWindow {
 		label $showpic -bd 0 -padx 0 -pady 0 -image [::skin::loadPixmap imgshow] \
 			-bg [::skin::getKey chatwindowbg] -highlightthickness 0 -font splainf \
 			-highlightbackground [::skin::getKey chatwindowbg] -activebackground [::skin::getKey chatwindowbg]
+		bind $showpic <Enter> "$showpic configure -image [::skin::loadPixmap imgshow_hover]"
+		bind $showpic <Leave> "$showpic configure -image [::skin::loadPixmap imgshow]"
 		set_balloon $showpic [trans showdisplaypic]
 
 		# Pack them 

@@ -1663,6 +1663,8 @@ namespace eval ::amsn {
 		} elseif { $nopack == "" } {
 			pack $win.f.bottom.pic.image -side left -padx 0 -pady 0 -anchor w
 			$win.f.bottom.pic.showpic configure -image [::skin::loadPixmap imghide]
+			bind $win.f.bottom.pic.showpic <Enter> "$win.f.bottom.pic.showpic configure -image [::skin::loadPixmap imghide_hover]"
+			bind $win.f.bottom.pic.showpic <Leave> "$win.f.bottom.pic.showpic configure -image [::skin::loadPixmap imghide]"
 			change_balloon $win.f.bottom.pic.showpic [trans hidedisplaypic]
 			set show_pic 1
 		}
@@ -1684,6 +1686,9 @@ namespace eval ::amsn {
 		#grid $win.f.bottom.pic.showpic -row 0 -column 1 -padx 0 -pady 0 -rowspan 2
 		#Change here to change the icon, instead of text
 		$win.f.bottom.pic.showpic configure -image [::skin::loadPixmap imgshow]
+		bind $win.f.bottom.pic.showpic <Enter> "$win.f.bottom.pic.showpic configure -image [::skin::loadPixmap imgshow_hover]"
+		bind $win.f.bottom.pic.showpic <Leave> "$win.f.bottom.pic.showpic configure -image [::skin::loadPixmap imgshow]"
+
 		change_balloon $win.f.bottom.pic.showpic [trans showdisplaypic]
 
 		set ${win}_show_picture 0
