@@ -242,6 +242,30 @@ namespace eval ::amsnplus {
 	#                      GENERAL PURPOSE PROCEDURES
 	#//////////////////////////////////////////////////////////////////////////
 
+	###################################################################
+	# this returns the readme content in a variable
+	proc help {} {
+		set dir [::config::getKey amsnpluspluginpath]
+		set channel [open "$dir/readme" "RDONLY"]
+		return "[read $channel]"
+	}
+
+	############################################
+	# ::amsnplus::version_094                  #
+	# -----------------------------------------#
+	# Verify if the version of aMSN is 0.94    #
+	# Useful if we want to keep compatibility  #
+	############################################
+	proc version_094 {} {
+		global version
+		scan $version "%d.%d" y1 y2;
+		if { $y2 == "94" } {
+			return 1
+		} else {
+			return 0
+		}
+	}
+
 	####################################################
 	# returns 1 if the char is a numbar, otherwise 0
 	proc is_a_number { char } {
@@ -1072,6 +1096,19 @@ namespace eval ::amsnplus {
 
 		if { [string equal [string index $msg 0] "/"] } {
 			set char [::amsnplus::readWord $i $msg $strlen]
+			#check for the quick texts
+			if {$::amsnplus::config(allow_quicktext)} {
+				foreach {key txt} $::amsnplus::config(quick_text) {
+					if {[string equal $char "/$key"] && ![string equal $char "/"]} {
+						set clen [string length $char]
+						set msg [string replace $msg $i [expr $i + $clen] $txt]
+						set strlen [string length $msg]
+						set qtlen [string length $txt]
+						set i [expr $i + $qtlen]
+						return
+					}
+				}
+			}
 			#check for the external_commands
 			set keyword [string replace $char 0 0 ""]
 			if {[info exists ::amsnplus::external_commands($keyword)]} {
@@ -1116,9 +1153,8 @@ namespace eval ::amsnplus {
 					}
 				}
 				set msg ""
-			}
 			#amsnplus commands
-			if {[string equal $char "/all"]} {
+			} else if {[string equal $char "/all"]} {
 				set msg [string replace $msg $i [expr $i + 4] ""]
 				set strlen [string length $msg]
 				foreach window $::ChatWindow::windows {
@@ -1472,43 +1508,10 @@ namespace eval ::amsnplus {
 				} else {
 					::amsnplus::write_window $chatid "[trans cinfo $user_login $nick $group $client $os]" 0
 				}
+			} else {
+				::amsnplus::write_window $chatid "[trans nosuchcommand $char]"
+				set msg ""
 			}
-			#check for the quick texts
-			if {$::amsnplus::config(allow_quicktext)} {
-				foreach {key txt} $::amsnplus::config(quick_text) {
-					if {[string equal $char "/$key"] && ![string equal $char "/"]} {
-						set clen [string length $char]
-						set msg [string replace $msg $i [expr $i + $clen] $txt]
-						set strlen [string length $msg]
-						set qtlen [string length $txt]
-						set i [expr $i + $qtlen]
-					}
-				}
-			}
-		}
-	}
-
-	###################################################################
-	# this returns the readme content in a variable
-	proc help {} {
-		set dir [::config::getKey amsnpluspluginpath]
-		set channel [open "$dir/readme" "RDONLY"]
-		return "[read $channel]"
-	}
-
-	############################################
-	# ::amsnplus::version_094                  #
-	# -----------------------------------------#
-	# Verify if the version of aMSN is 0.94    #
-	# Useful if we want to keep compatibility  #
-	############################################
-	proc version_094 {} {
-		global version
-		scan $version "%d.%d" y1 y2;
-		if { $y2 == "94" } {
-			return 1
-		} else {
-			return 0
 		}
 	}
 
