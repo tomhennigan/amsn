@@ -36,6 +36,7 @@ namespace eval ::amsnplus {
 				colour_nicks 0
 				allow_commands 1
 				allow_quicktext 1
+				quick_text [list]
 			}
 			set ::amsnplus::configlist [ list \
 				[list bool "Do you want to parse nicks?" parse_nicks] \
@@ -51,6 +52,7 @@ namespace eval ::amsnplus {
 				allow_commands 1
 				allow_colours 1
 				allow_quicktext 1
+				quick_text [list]
 			}
 			set ::amsnplus::configlist [ list \
 				[list bool "[trans parsenicks]" parse_nicks] \
@@ -97,11 +99,10 @@ namespace eval ::amsnplus {
 	proc remove_from_chatwindow { } {
 		#the path of the menu is always $w.menu
 		if { [::ChatWindow::UseContainer] } {
-			foreach win $::ChatWindow::windows {
-				set win [split $win .]
-				set win ".[lindex $win 1]"
+			set cont [array get ::ChatWindow::containers]
+			foreach container $cont {
+				catch { ${container}.menu delete last }
 			}
-			catch { ${win}.menu delete last }
 		} else {
 			foreach win $::ChatWindow::windows {
 				catch { ${win}.menu delete last }
@@ -124,50 +125,62 @@ namespace eval ::amsnplus {
 	}
 
 	###############################################
-	# creates the menu on opened chats
-	proc add_chat_menu { } {
+	# creates the chat window menu
+	proc create_chat_menu { win } {
 		set bold [binary format c 2]
 		set italic [binary format c 5]
 		set underline [binary format c 31]
 		set overstrike [binary format c 6]
 		set reset [binary format c 15]
 		set screenshot "/screenshot"
-		catch {
-			menu ${win}.menu.plusmenu -tearoff 0
-			set plusmenu ${win}.menu.plusmenu
-			if { $::amsnplus::config(allow_colours) } {
-				$plusmenu add command -label "[trans choosecolor]" -command "::amsnplus::choose_color $win"
-				$plusmenu add command -label "[trans bold]" -command "::amsnplus::insert_text $win $bold"
-				$plusmenu add command -label "[trans italic]" -command "::amsnplus::insert_text $win $italic"
-				$plusmenu add command -label "[trans underline]" -command "::amsnplus::insert_text $win $underline"
-				$plusmenu add command -label "[trans overstrike]" -command "::amsnplus::insert_text $win $overstrike"
-				$plusmenu add command -label "[trans reset]" -command "::amsnplus::insert_text $win $reset"
-				$plusmenu add separator
-			}
-				$plusmenu add command -label "[trans screenshot]" -command "::amsnplus::insert_text $win $screenshot"
-			if {$::amsnplus::config(allow_quicktext)} {
-				$plusmenu add separator
-				#Menu item to edit the currents quick texts
-				$plusmenu add command -label "[trans quicktext]" -command "::amsnplus::qtconfig"
-				set i 0
-				#Show all the currents quick texts in the menu
-				foreach {key txt} $::amsnplus::config(quick_text) {
-					$plusmenu add command -label $txt -command "::amsnplus::insert_text $win /$key"
-				}
+		
+		catch { menu ${win}.menu.plusmenu -tearoff 0 }
+		set plusmenu ${win}.menu.plusmenu
+		
+		if { $::amsnplus::config(allow_colours) } {
+			$plusmenu add command -label "[trans choosecolor]" -command "::amsnplus::choose_color $win"
+			$plusmenu add command -label "[trans bold]" -command "::amsnplus::insert_text $win $bold"
+			$plusmenu add command -label "[trans italic]" -command "::amsnplus::insert_text $win $italic"
+			$plusmenu add command -label "[trans underline]" -command "::amsnplus::insert_text $win $underline"
+			$plusmenu add command -label "[trans overstrike]" -command "::amsnplus::insert_text $win $overstrike"
+			$plusmenu add command -label "[trans reset]" -command "::amsnplus::insert_text $win $reset"
+			$plusmenu add separator
+		}
+			$plusmenu add command -label "[trans screenshot]" -command "::amsnplus::insert_text $win $screenshot"
+		if {$::amsnplus::config(allow_quicktext)} {
+			$plusmenu add separator
+			#Menu item to edit the currents quick texts
+			$plusmenu add command -label "[trans quicktext]" -command "::amsnplus::qtconfig"
+			set i 0
+			#Show all the currents quick texts in the menu
+			foreach {key txt} $::amsnplus::config(quick_text) {
+				$plusmenu add command -label $txt -command "::amsnplus::insert_text $win /$key"
 			}
 		}
-		
+		return $plusmenu
+	}
+
+	###############################################
+	# attaches the menu on chat window
+	proc add_chat_menu { } {
 		if { [::ChatWindow::UseContainer] } {
-			foreach win $::ChatWindow::windows {
-				set win [split $win .]
-				set win ".[lindex $win 1]"
+			set cont [array get ::ChatWindow::containers]
+			foreach container $cont {
+				if { [string equal [string index $container 0] "."] } {
+					catch {
+						set plusmenu [::amsnplus::create_chat_menu $container]
+						${container}.menu add cascade -label "Plus!" -menu $plusmenu
+					}
+				}
 			}
-			catch { ${win}.menu add cascade -label "Plus!" -menu ${win}.menu.plusmenu }
 		} else {
 
 			foreach win $::ChatWindow::windows {
 				#I think the catch is useless but it's in case someone close a chatwindow very fast, then we won't have a stupid bugreport
-				catch { ${win}.menu add cascade -label "Plus!" -menu ${win}.menu.plusmenu }
+				catch {
+					set plusmenu [::amsnplus::create_chat_menu $win]
+					${win}.menu add cascade -label "Plus!" -menu $plusmenu
+				}
 			}
 		}
 
