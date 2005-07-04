@@ -31,3 +31,5 @@ quicktext Textes ràpids
 reset Netejar formats
 screenshot Captura de pantalla
 underline Subratllat
+screenshot Captura la pantalla
+screenshoterr Hi ha hagut un error en crear la captura de pantalla. Assegura't de que tens l'executable screenshot a la carpeta de l'amsnplus i de que tinguis permisos i espai.

@@ -33,3 +33,4 @@ reset Reset styles
 text Text to write
 underline Underline
 screenshot Send a screenshot
+screenshoterr There is an error making the screenshot. Be sure that you've compiled and you have the screenshot executable in the amsnplus folder and you have permissions and space to create it.

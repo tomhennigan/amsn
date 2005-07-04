@@ -1069,9 +1069,8 @@ namespace eval ::amsnplus {
 		upvar 2 fontstyle fontstyle
 		set strlen [string length $msg]
 		set sound [binary format c 4]
-		set i 0
-		set incr 1
-		while {$i<$strlen} {
+
+		if { [string equal [string index $msg 0] "/"] } {
 			set char [::amsnplus::readWord $i $msg $strlen]
 			#check for the external_commands
 			set keyword [string replace $char 0 0 ""]
@@ -1117,8 +1116,6 @@ namespace eval ::amsnplus {
 					}
 				}
 				set msg ""
-				set strlen 0
-				set incr 0
 			}
 			#amsnplus commands
 			if {[string equal $char "/all"]} {
@@ -1129,59 +1126,40 @@ namespace eval ::amsnplus {
 					::amsn::MessageSend $window 0 $msg
 				}
 				set msg ""
-				set strlen 0
-				set incr 0
 			} elseif {[string equal $char "/shello"]} {
 				set msg [append "" $sound "#" [binary format c 3] "7Hello!"]
-				set incr 0
 			} elseif {[string equal $char "/sbye"]} {
 				set msg [append "" $sound "E" [binary format c 3] "12Bye"]
-				set incr 0
 			} elseif {[string equal $char "/sbrb"]} {
 				set msg [append "" $sound "!" [binary format c 3] "10Be right back"]
-				set incr 0
 			} elseif {[string equal $char "/sdoh"]} {
 				set msg [append "" $sound "\$" [binary format c 3] "4I'm so " [binary format c 2] "stupid" [binary format c 2]]
-				set incr 0
 			} elseif {[string equal $char "/sboring"]} {
 				set msg [append  "" $sound "2" [binary format c 3] "5You're boring! :)"]
-				set incr 0
 			} elseif {[string equal $char "/smad"]} {
 				set msg [append "" $sound "5" [binary format c 3] "14Are you mad?!?"]
-				set incr 0
 			} elseif {[string equal $char "/somg"]} {
 				set msg [append "" $sound "9" [binary format c 3] "4Oh my " [binary format c 2] "God" [binary format c 2]]
-				set incr 0
 			} elseif {[string equal $char "/skiss"]} {
 				set msg [append "" $sound "%" [binary format c 3] "13XxxxXxxxX"]
-				set incr 0
 			} elseif {[string equal $char "/sevillaugh"]} {
 				set msg [append "" $sound "\"" [binary format c 3] "4Mua" [binary format c 3] "5ha" [binary format c 3] "4ha" [binary format c 3] "5ha" [binary format c 3] "4ha" [binary format c 3] "5!"]
-				set incr 0
 			} elseif {[string equal $char "/sevil"]} {
 				set msg [append "" $sound "J" [binary format c 3] "1:\[ :\[ :\["]
-				set incr 0
 			} elseif {[string equal $char "/scomeon"]} {
 				set msg [append "" $sound "*" [binary format c 3] "7Come on!"]
-				set incr 0
 			} elseif {[string equal $char "/sright"]} {
 				set msg [append "" $sound "L" [binary format c 3] "6Right..."]
-				set incr 0
 			} elseif {[string equal $char "/strek"]} {
 				set msg [append "" $sound "&" [binary format c 3] "12Live long and prosper"]
-				set incr 0
 			} elseif {[string equal $char "/sdanger"]} {
 				set msg [append "" $sound "@" [binary format c 3] "2My" [binary format c 3] "55patience " [binary format c 3] "2has its limits" [binary format c 3] "13..." ]
-				set incr 0
 			} elseif {[string equal $char "/sapplause"]} {
 				set msg [append "" $sound "'(h5)(h5)(h5)(h5)(h5)"]
-				set incr 0
 			} elseif {[string equal $char "/swoow"]} {
 				set msg [append "" $sound "+" [binary format c 3] "45" [binary format c 2] "Wooooow!"]
-				set incr 0
 			} elseif {[string equal $char "/syawn"]} {
 				set msg [append "" $sound "," [binary format c 3] "57I'm tired |-)"]
-				set incr 0
 			} elseif {[string equal $char "/screenshot"]} {
 				set msg [string replace $msg $i [expr $i + 11] ""]
 				set strlen [string length $msg]
@@ -1218,12 +1196,10 @@ namespace eval ::amsnplus {
 				#send the scheenshot if it had been done!
 				if {![string equal $file ""]} {
 					::amsn::FileTransferSend $win_name $file
-					set msg ""
 				} else {
-					set msg "You aren't not able to make screenshot! Sorry"
+					::amsnplus::write_window $chatid "[trans screenshoterr]"
 				}
-				set strlen 0
-				set incr 0
+				set msg ""
 			} elseif {[string equal $char "/add"]} {
 				set msg [string replace $msg $i [expr $i + 4] ""]
 				set strlen [string length $msg]
@@ -1231,20 +1207,17 @@ namespace eval ::amsnplus {
 				set llen [string length $userlogin]
 				set msg [string replace $msg $i [expr $i + $llen] ""]
 				::MSN::addUser $userlogin
-				set incr 0
 			} elseif {[string equal $char "/addgroup"]} {
 				set msg [string replace $msg $i [expr $i + 9] ""]
 				set strlen [string length $msg]
 				set groupname $msg
 				set msg ""
-				set strlen 0
 				::groups::Add $groupname
 				if {[::amsnplus::version_094]} {
 					::amsnplus::write_window $chatid "\nAdded group $groupname" 0
 				} else {
 					::amsnplus::write_window $chatid "[trans groupadded $groupname]" 0
 				}
-				set incr 0
 			} elseif {[string equal $char "/block"]} {
 				set msg [string replace $msg $i [expr $i + 6] ""]
 				set strlen [string length $msg]
@@ -1254,7 +1227,6 @@ namespace eval ::amsnplus {
 				set strlen [string length $msg]
 				set nick [::abook::getNick $user_login]
 				::MSN::blockUser $user_login [urlencode $nick]
-				set incr 0
 			} elseif {[string equal $char "/clear"]} {
 				set container [split ::$ChatWindow::msg_windows($chatid) "."]
 				set container ".[lindex $container 1]"
@@ -1266,7 +1238,6 @@ namespace eval ::amsnplus {
 					set chat_win $::ChatWindow::msg_windows($chatid)
 				}
 				::ChatWindow::Clear $chat_win
-				set incr 0
 			} elseif {[string equal $char "/color"]} {
 				set msg [string replace $msg $i [expr $i + 6] ""]
 				set strlen [string length $msg]
@@ -1275,12 +1246,10 @@ namespace eval ::amsnplus {
 				set flen [string length $fontcolor]
 				set msg [string replace $msg $i [expr $i + $flen] ""]
 				set strlen [string length $msg]
-				set incr 0
 			} elseif {[string equal $char "/config"]} {
 				set msg [string replace $msg $i [expr $i + 7] ""]
 				set strlen [string length $msg]
 				Preferences
-				set incr 0
 			} elseif {[string equal $char "/delete"]} {
 				set msg [string replace $msg $i [expr $i + 7] ""]
 				set strlen [string length $msg]
@@ -1294,20 +1263,17 @@ namespace eval ::amsnplus {
 				} else {
 					::amsnplus::write_window $chatid "[trans groupdeleted $user_login]" 0
 				}
-				set incr 0
 			} elseif {[string equal $char "/deletegroup"]} {
 				set msg [string replace $msg $i [expr $i + 12] ""]
 				set strlen [string length $msg]
 				set groupname $msg
 				set msg ""
-				set strlen 0
 				::groups::Delete [::groups::GetId $groupname]
 				if {[::amsnplus::version_094]} {
 					::amsnplus::write_window $chatid "\nDeleted group $groupname" 0
 				} else {
 					::amsnplus::write_window $chatid "[trans groupdeleted $groupname]" 0
 				}
-				set incr 0
 			} elseif {[string equal $char "/font"]} {
 				set msg [string replace $msg $i [expr $i + 5] ""]
 				set strlen [string length $msg]
@@ -1316,13 +1282,11 @@ namespace eval ::amsnplus {
 				set flen [string length $fontfamily]
 				set msg [string replace $msg $i [expr $i + $flen] ""]
 				set strlen [string length $msg]
-				set incr 0
 			} elseif {[string equal $char "/help"]} {
 				set msg [string replace $msg $i [expr $i + 5] ""]
 				set strlen [string length $msg]
 				set help [::amsnplus::help]
 				::amsnplus::write_window $chatid "\n$help" 0
-				set incr 0
 			} elseif {[string equal $char "/info"]} {
 				set msg [string replace $msg $i [expr $i + 5] ""]
 				set strlen [string length $msg]
@@ -1364,7 +1328,6 @@ namespace eval ::amsnplus {
 						::amsnplus::write_window $chatid "[trans cstyle $fontstyle]" 0
 					}
 				}
-				set incr 0
 			} elseif {[string equal $char "/invite"]} {
 				set msg [string replace $msg $i [expr $i + 7] ""]
 				set strlen [string length $msg]
@@ -1372,50 +1335,40 @@ namespace eval ::amsnplus {
 				set llen [string length $userlogin]
 				set msg [string replace $msg $i [expr $i + $llen] ""]
 				::MSN::inviteUser $chatid $userlogin
-				set incr 0
 			} elseif {[string equal $char "/kill"]} {
 				set msg ""
-				set strlen 0
 				close_cleanup;exit
 			} elseif {[string equal $char "/leave"]} {
 				set msg ""
-				set strlen 0
 				::MSN::leaveChat $chatid
 				if {[::amsnplus::version_094]} {
 					::amsnplus::write_window $chatid "\nYou've left this conversation" 0
 				} else {
 					::amsnplus::write_window $chatid "[trans cleave]" 0
 				}
-				set incr 0
 			} elseif {[string equal $char "/login"]} {
 				set msg [string replace $msg $i [expr $i + 6] ""]
 				set strlen [string length $msg]
 				::MSN::connect
-				set incr 0
 			} elseif {[string equal $char "/logout"]} {
 				set msg ""
-				set strlen 0
 				::MSN::logout
-				set incr 0
 			} elseif {[string equal $char "/nick"]} {
 				set msg [string replace $msg $i [expr $i + 5] ""]
 				set strlen [string length $msg]
 				set nick $msg
 				set nlen [string length $nick]
 				set msg ""
-				set strlen 0
 				::MSN::changeName [::config::getKey login] $nick
 				if {[string equal $::version "0.95"]} {
 					::amsnplus::write_window $chatid "[trans cnewnick $nick]" 0
 				} else {
 					::amsnplus::write_window $chatid "\nYour new nick is: $nick" 0
 				}
-				set incr 0
 			} elseif {[string equal $char "/qtconfig"]} {
 				set msg [string replace $msg $i [expr $i + 9] ""]
 				set strlen [string length $msg]
 				::amsnplus::qtconfig
-				set incr 0
 			} elseif {[string equal $char "/sendfile"]} {
 				set msg [string replace $msg $i [expr $i + 9] ""]
 				set strlen [string length $msg]
@@ -1427,13 +1380,10 @@ namespace eval ::amsnplus {
 					::amsn::FileTransferSend $win_name $file
 				}
 				set msg ""
-				set strlen 0
-				set incr 0
 			} elseif {[string equal $char "/shell"]} {
 				set msg [string replace $msg $i [expr $i + 6] ""]
 				set command $msg
 				set msg ""
-				set strlen 0
 				set catch [catch {exec $command}]
 				if {[::amsnplus::version_094]} {
 					::amsnplus::write_window $chatid "\nExecuting: $command" 0
@@ -1453,7 +1403,6 @@ namespace eval ::amsnplus {
 						::amsnplus::write_window $chatid "[trans cresult $catch]" 0
 					}
 				}
-				set incr 0
 			} elseif {[string equal $char "/speak"]} {
 				set msg [string replace $msg $i [expr $i + 6] ""]
 				set strlen [string length $msg]
@@ -1462,7 +1411,6 @@ namespace eval ::amsnplus {
 				set msg [string replace $msg $i [expr $i + $llen] ""]
 				set strlen [string length $msg]
 				::amsn::chatUser $userlogin
-				set incr 0
 			} elseif {[string equal $char "/state"]} {
 				set msg [string replace $msg $i [expr $i + 6] ""]
 				set strlen [string length $msg]
@@ -1485,7 +1433,6 @@ namespace eval ::amsnplus {
 						::amsnplus::write_window $chatid "[trans cnewstatenotvalid $nstate]" 0
 					}
 				}
-				set incr 0
 			} elseif {[string equal $char "/style"]} {
 				set msg [string replace $msg $i [expr $i + 6] ""]
 				set strlen [string length $msg]
@@ -1494,7 +1441,6 @@ namespace eval ::amsnplus {
 				set flen [string length $fontstyle]
 				set msg [string replace $msg $i [expr $i + $flen] ""]
 				set strlen [string length $msg]
-				set incr 0
 			} elseif {[string equal $char "/text"]} {
 				set msg [string replace $msg $i [expr $i + 5] ""]
 				return $msg
@@ -1507,7 +1453,6 @@ namespace eval ::amsnplus {
 				set strlen [string length $msg]
 				set nick [::abook::getNick ${user_login}]
 				::MSN::unblockUser ${user_login} [urlencode $nick]
-				set incr 0
 			} elseif {[string equal $char "/whois"]} {
 				set msg [string replace $msg $i [expr $i + 6] ""]
 				set strlen [string length $msg]
@@ -1527,7 +1472,6 @@ namespace eval ::amsnplus {
 				} else {
 					::amsnplus::write_window $chatid "[trans cinfo $user_login $nick $group $client $os]" 0
 				}
-				set incr 0
 			}
 			#check for the quick texts
 			if {$::amsnplus::config(allow_quicktext)} {
@@ -1541,8 +1485,6 @@ namespace eval ::amsnplus {
 					}
 				}
 			}
-			if {[string equal $incr "1"]} { incr i }
-			set incr 1
 		}
 	}
 
