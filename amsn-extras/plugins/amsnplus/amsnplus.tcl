@@ -85,6 +85,12 @@ namespace eval ::amsnplus {
 		::amsnplus::remove_from_chatwindow
 	}
 
+
+
+	#//////////////////////////////////////////////////////////////
+	#            PLUS MENUS AND PREFERENCES
+	#//////////////////////////////////////////////////////////////
+
 	####################################################
 	# this proc removes every menu in every chat window
 	# and also the pixmap of amsnplus to choose a color
@@ -98,12 +104,6 @@ namespace eval ::amsnplus {
 			catch { ${win}.menu delete last }
 		}
 	}
-
-
-
-	#//////////////////////////////////////////////////////////////
-	#            PLUS MENUS AND PREFERENCES
-	#//////////////////////////////////////////////////////////////
 
 	####################################################
 	# creates the plus sub menu in the main gui menu
