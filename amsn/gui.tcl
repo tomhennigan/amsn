@@ -3373,7 +3373,9 @@ proc cmsn_draw_main {} {
 	::skin::setPixmap sendbutton sendbut.gif
 	::skin::setPixmap sendbutton_hover sendbut_hover.gif
  	::skin::setPixmap imgshow imgshow.gif
+ 	::skin::setPixmap imgshow_hover imgshow_hover.gif
 	::skin::setPixmap imghide imghide.gif
+	::skin::setPixmap imghide_hover imghide_hover.gif
 
 	::skin::setPixmap button button.gif
 	::skin::setPixmap button_hover button_hover.gif
