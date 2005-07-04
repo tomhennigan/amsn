@@ -1093,6 +1093,7 @@ namespace eval ::amsnplus {
 		upvar 2 fontstyle fontstyle
 		set strlen [string length $msg]
 		set sound [binary format c 4]
+		set i 0
 
 		if { [string equal [string index $msg 0] "/"] } {
 			set char [::amsnplus::readWord $i $msg $strlen]
@@ -1153,8 +1154,9 @@ namespace eval ::amsnplus {
 					}
 				}
 				set msg ""
+			}
 			#amsnplus commands
-			} else if {[string equal $char "/all"]} {
+			if {[string equal $char "/all"]} {
 				set msg [string replace $msg $i [expr $i + 4] ""]
 				set strlen [string length $msg]
 				foreach window $::ChatWindow::windows {
@@ -1477,9 +1479,6 @@ namespace eval ::amsnplus {
 				set flen [string length $fontstyle]
 				set msg [string replace $msg $i [expr $i + $flen] ""]
 				set strlen [string length $msg]
-			} elseif {[string equal $char "/text"]} {
-				set msg [string replace $msg $i [expr $i + 5] ""]
-				return $msg
 			} elseif {[string equal $char "/unblock"]} {
 				set msg [string replace $msg $i [expr $i + 8] ""]
 				set strlen [string length $msg]
