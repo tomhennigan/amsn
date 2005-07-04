@@ -132,7 +132,7 @@ namespace eval ::MSNCAM {
 
 	#//////////////////////////////////////////////////////////////////////////////
 	# AcceptFT ( chatid dest branchuid cseq uid sid filename1 )
-	# This function is called when a file transfer is accepted by the user
+	# This function is called when a file transfer is accepted by the user (local)
 	proc AcceptWebcam { chatid dest branchuid cseq uid sid producer} {
 
 		setObjOption $sid producer $producer
@@ -2617,328 +2617,230 @@ namespace eval ::CAMGUI {
 		after cancel "incr $semaphore"
 		catch {unset $semaphore}
 		catch {$img blank}
-	}
+	}	
+}
+
+
+
+
+
+######################################################################################
+######################################################################################
+#####                                                                            #####
+#####      Here begins the code for the (HIG-compliant) webcam-assistant         #####
+#####                                                                            #####
+######################################################################################
+######################################################################################
+
+#Skin-things added:
+#* "Yes" emblem
+#* "No" emblem
+#* Webcam-icon
+
+namespace eval ::CAMSETUP {
+
+
+	######################################################################################
+	#Procedure that starts the assistant.  It creates the window's framework etc         #
+	######################################################################################
+	proc WebcamAssistant {} {
 	
-
-
-
-
-
-
-
-
-
-
-
-	proc WebcamAssistant { } {
-	
+		#set the name of the window
 		set win .wcassistantwindow
 		
-		if {[winfo exists $win]} { destroy $win}
+		#if we already have this window openend, raise it and quit this code (as there should only be 1 running)
+		if {[winfo exists $win]} {raise $win; return}
 
-		set contentf $win.contentframe
-		set buttonf $win.buttonframe
-		
-		set titlef $contentf.titleframe
-			set titlec $titlef.canvas
-		set optionsf $contentf.optionsf
-		
 
-		toplevel $win
-		wm title $win "Webcam Setup Assistant"
-
-		set winwidth 600
-		wm geometry $win ${winwidth}x500
-#		wm resizable $win 0 0 
-
+		#name the parts of the window
 #+-------------------------------+__window
 #|+-----------------------------+|
 #||+---------------------------+||
-#|||        titlef             ||___contentf
+#|||        titlef             ||___bodyf
 #||+---------------------------+||
 #||+---------------------------+||
 #|||                           |||
-#|||        optionsf           |||
+#|||        contentf           |||
 #|||                           |||
 #||+---------------------------+||
 #|+-----------------------------+|
 #|+-----------------------------+|
 #||         buttonf             ||
 #|+-----------------------------+|
-#+-------------------------------+
+#+-------------------------------+		
+
+		set bodyf $win.bodyf
+ 		  set titlef $bodyf.titleframe
+		    set titlec $titlef.canvas
+		  set contentf $bodyf.optionsf
+		set buttonf $win.buttonframe
 		
-		frame $contentf -bd 1  -background [::skin::getKey mainwindowbg]
+#make some vars global so they can be used in all the procs:
+		set ::CAMSETUP::window $win		
+		set ::CAMSETUP::titlec $titlec
+		set ::CAMSETUP::contentf $contentf
+		set ::CAMSETUP::buttonf $buttonf
+		
+
+		#create the window
+		toplevel $win
+		#set the window's title
+		wm title $win "Webcam Setup Assistant"
+
+		#set the window's size
+		set winwidth 600
+		set winheight 500
+		wm geometry $win ${winwidth}x${winheight}
+		#make it unpossible to resize the window as this isn't needed, we should make it all fit in the window
+#		wm resizable $win 0 0 
+
+
+		#create and pack the framework		
+		frame $bodyf -bd 1  -background [::skin::getKey menuactivebackground]
 			#create title frame and first contents
-			frame $titlef -height 50 -bd 0 -bg [::skin::getKey mainwindowbg]
-			  canvas $titlec -bg [::skin::getKey mainwindowbg] -height 50
-			  $titlec create text 10 25 -text " " -anchor w -fill #ffffff -font bboldf -tag title
+			frame $titlef -height 50 -bd 0 -bg [::skin::getKey menuactivebackground]
+			  canvas $titlec -bg [::skin::getKey menuactivebackground] -height 50 ;#TODO: setting for color
+			  #set a default text for the title in the canvas that canbe changed
+			  $titlec create text 10 25 -text "" -anchor w -fill [::skin::getKey menuactiveforeground] -font bboldf -tag title ;#TODO: setting for color
+			  #maybe add a <Configure> if we want the win to be resizable
 			  $titlec create image [expr {$winwidth -20}] 25 -image [::skin::loadPixmap webcam] -anchor e
 			  pack $titlec -fill x
 			pack $titlef -side top -fill x
 
 			#create optionsframe 
-			WCAssistant_optionsFrame $optionsf
-		pack $contentf -side top -fill both -padx 4 -pady 4 -expand 1
+			ClearContentFrame
+		pack $bodyf -side top -fill both -padx 4 -pady 4 -expand 1
+
 		#open up the first page
-		WCAssistant_s0 $win $titlec $optionsf $buttonf
+		Step0
 	}
 
-	#auxilary proc that changes the title in the titlecanvas	
-	proc WCAssistant_titleText { canvas newtext } {
-		$canvas itemconfigure title -text $newtext
-	}
-	#auxilary prox that draws the empty optionsframe
-	proc WCAssistant_optionsFrame {frame} {
+
+	######################################################################################
+	#Procedure that (re)created (clears) the Contentframe                                #
+	######################################################################################	
+	proc ClearContentFrame {} {
+		set frame $::CAMSETUP::contentf
 		if {[winfo exists $frame]} {destroy $frame}
 		frame $frame -padx 1 -pady 1 ;#-background #ffffff ;#-height 300   ;#these pads make a 1 pixel border
 		pack $frame -side top -fill both -expand 1 
+		return $frame
 	}
-	proc WCAssistant_showButtons {frame buttonslist} {
-		global infoarray
+
+	######################################################################################
+	#Procedure that (re)created (clears) the Buttonsframe                                #
+	######################################################################################
+	proc ClearButtonsFrame {} {
+		set frame $::CAMSETUP::buttonf
 		if {[winfo exists $frame]} {destroy $frame}
 		frame $frame  -bd 0 ;#-background #ffffff  ;#bgcolor for debug only
 		pack $frame  -side top  -fill x -padx 4 -pady 4 ;#pads keep the stuff a bit away from windowborder
-
-		#buttons list is a list containing lists like [list "Text" "::button::command" 1]
-		set count 0
-		foreach button $buttonslist {
-			incr count
-			set text [lindex $button 0]
-			set command [lindex $button 1]
-			set state [lindex $button 2]
-			if {$state == 0} {set state "disabled"} else {set state "normal"}
-status_log "button $text with command \"$command\""
-			button $frame.$count -text $text -command $command -state $state
-			pack $frame.$count -side right -padx 10
-		}
-	}
-	proc WcAssistant_fillLinChans {devswidget value} {
-		global chanswidget
-		global devices
-		global devicenames
-		global choosendevice
-		global channels
-		global channelnames
-		global previmg
-		
-		status_log "Choose value: $value"
-		#first empty the chanslist
-		$chanswidget delete 0 end
-		
-		if { $value == "" } {
-			status_log "No device selected"
-		} else {
-	
-			#get the name of the selected device
-			set devnr [lsearch $devicenames $value]
-			set choosendevice [lindex $devices $devnr]
-			set choosendevice [lindex $choosendevice 0]
-		
-			if { [catch {set channels [::Capture::ListChannels $choosendevice]} errormsg] } {
-				status_log "$errormsg"
-				return
-			}
-
-			status_log "chans: $channels"
-
-			set channelnames [list ]
-			$chanswidget list delete 0 end
-
-
-			#search the already set channel
-			set setchan [lindex [split [::config::getKey "webcamDevice"] ":"] 1]
-			set selectchan -1
-			set channr -1
-
-
-			foreach channel $channels {
-				set chan [lindex $channel 0]
-				set channame [lindex $channel 1]
-				incr channr
-
-				if { $chan == $setchan} {
-					set selectchan $channr
-				}
-
-
-				$chanswidget list insert end $channame
-				lappend channelnames $channame
-			}
-	
-			#if the channel is in the list of the combobox
-			if { $selectchan != -1 } {
-				$chanswidget select $selectchan
-			}
-		}
-
-	}
-	proc WcAssistant_startLinPreview {chanswidget value} {
-		global channels
-		global channelnames
-		global choosenchannel
-		global choosendevice
-		global previmg
-		global previmc
-		global rightframe
-		global selecteddevice
-		global selectedchannel
-		
-
-#		WcAssistant_stopPreviewGrab
-		
-	
-		if { $value == "" } {
-			status_log "No device selected"
-		} else {
-			#get the name (nr!!!) of the selected channel
-			set channame [lsearch $channelnames $value]
-			set choosenchannel [lindex $channels $channame]
-			set choosenchannel [lindex $choosenchannel 0]
-			status_log "Will preview: $choosendevice on channel $choosenchannel"
-			
-			#close the device if open
-			if { [::Capture::IsValid $::CAMGUI::webcam_preview] } {
-				::Capture::Close $::CAMGUI::webcam_preview
-			}
-
-			if { [catch {set ::CAMGUI::webcam_preview [::Capture::Open $choosendevice $choosenchannel]} errormsg] } {
-				status_log "problem opening device: $errormsg"
-				return
-			}
-
-			#set initial picture settings:
-#			set init_b [::Capture::GetBrightness $::CAMGUI::webcam_preview]
-#			set init_c [::Capture::GetContrast $::CAMGUI::webcam_preview]
-#			set init_h [::Capture::GetHue $::CAMGUI::webcam_preview]
-#			set init_co [::Capture::GetColour $::CAMGUI::webcam_preview]
-
-#			set sets [::config::getKey "webcam$choosendevice:$choosenchannel" "$init_b:$init_c:$init_h:	$init_co"]
-#			set sets [split $sets ":"]
-#			set init_b [lindex $sets 0]
-#			set init_c [lindex $sets 1]
-#			set init_h [lindex $sets 2]
-#			set init_co [lindex $sets 3]
-#
-			set previmg [image create photo]
-
-
-			set selecteddevice $choosendevice
-			set selectedchannel $choosenchannel
-					
-			$rightframe create image 0 0 -image $previmg -anchor nw 
-
-			$rightframe create text 10 10 -anchor nw -font bboldf -text "Preview $choosendevice:$choosenchannel" -fill #FFFFFF -anchor nw -tag device
-
-#FIXME: this if statement doesn't seem to do the trick!
-			after 2000 "catch { $rightframe delete device }"
-
-			#put the border-pic on top
-			$rightframe raise border
-
-			
-			set semaphore ::CAMGUI::sem_$::CAMGUI::webcam_preview
-			set $semaphore 0
-			while { [::Capture::IsValid $::CAMGUI::webcam_preview] && [lsearch [image names] $previmg] != -1 } {
-				if {[catch {::Capture::Grab $::CAMGUI::webcam_preview $previmg} res]} {
-					status_log "Problem grabbing from the device:\n\t \"$res\""
-					$rightframe create text 10 215 -anchor nw -font bboldf -text "ERROR: $res" -fill #FFFFFF -anchor nw -tag errmsg
-					
-				}
-				after 100 "incr $semaphore"
-				tkwait variable $semaphore
-			}
-			
-		
-		}
-	
-	
-	}
-	proc WcAssistant_closeOnPreview {w} {
-		WcAssistant_stopPreviewGrab		
-		destroy $w
+		return $frame
 	}
 
-	proc WcAssistant_stopPreviewGrab {} {
-		global previmg
-		
-		if { [info exists ::CAMGUI::webcam_preview]} {
-			if { [::Capture::IsValid $::CAMGUI::webcam_preview] } {
-				::Capture::Close $::CAMGUI::webcam_preview
-			}
-		}
-		catch {image delete $previmg}
-		status_log ">>>>> Stopped grabbing"
 
+	######################################################################################
+	#Procedure that sets the Title in the canvas on top of the window                    #
+	######################################################################################	
+	proc SetTitlecText { newtext } {
+		$::CAMSETUP::titlec itemconfigure title -text $newtext
 	}
+
+
+
+	################################
+	################################
+	##                            ##
+	##   CODE TO FILL THE PAGES:  ##
+	##                            ##
+	################################
+	################################
 	
+	######################################################################################
+	#Step 0 (intro-page)                                                                 #
+	######################################################################################	
+	proc Step0 {} {
+		status_log "entered step 0 of Webcam-Assistant"
 
+		#Set the title-text
+		SetTitlecText "Webcam Setup Assistant"
 
+		#clear the content and optionsframe
+		set contentf [ClearContentFrame]
+		set buttonf [ClearButtonsFrame]
 
-	#Fill the window with content for the intro
-	proc WCAssistant_s0 {win titlec optionsf buttonf} {
-		global infoarray
-		#change the title
-		WCAssistant_titleText $titlec "Webcam Setup Assistant"
-
-		#empty the optionsframe
-		WCAssistant_optionsFrame $optionsf
-		#add the options
-		label $optionsf.text -justify left -anchor nw -font bplainf -text "This assistant will guide you through the setup of your webcam \nfor aMSN.\n\nIt will check if the required extensions are present and loaded \nand you'll be able to choose the device and channel, set the \npicture settings and resolution."
-		pack $optionsf.text -padx 20 -pady 20 -side left -fill both -expand 1
-		
 		#add the buttons
-		WCAssistant_showButtons $buttonf [list [list "Next" [list ::CAMGUI::WCAssistant_s1 $win $titlec $optionsf $buttonf] 1 ] [list "Cancel" [list destroy $win] 1] ]
+		button $buttonf.next -text "Next" -command "::CAMSETUP::Step1"
+		button $buttonf.cancel -text "Cancel" -command "destroy $::CAMSETUP::window"
+		#pack 'm
+		pack $buttonf.next $buttonf.cancel -padx 10 -side right
+		
+		
+		#add the Content
+		label $contentf.text -justify left -anchor nw -font bplainf -text "This assistant will guide you through the setup of your webcam \nfor aMSN.\n\nIt will check if the required extensions are present and loaded \nand you'll be able to choose the device and channel, set the \npicture settings and resolution."
+		#pack it
+		pack $contentf.text -padx 20 -pady 20 -side left -fill both -expand 1
+				
 	}
 
 
-	
-	#Fill the window with content for the first step
-	proc WCAssistant_s1 {win titlec optionsf buttonf} {
-		global infoarray
 
+	######################################################################################
+	#Step 1: check for extensions                                                        #
+	######################################################################################	
+	proc Step1 {} {
+		status_log "entered step 1 of Webcam-Assistant"
 
-		WcAssistant_stopPreviewGrab
+		#Set the title-text
+		SetTitlecText "Check for required extensions (Step 1 of 5)"
 
-		#change the title
-		WCAssistant_titleText $titlec "Check for required extensions (Step 1 of 5)"
-		#empty the optionsframe
-		WCAssistant_optionsFrame $optionsf
-
-		#set vars
-
+		#clear the content and optionsframe
+		set contentf [ClearContentFrame]
+		set buttonf [ClearButtonsFrame]
+		#add the buttons
+		button $buttonf.back -text "Back" -command "::CAMSETUP::Step0"
+		button $buttonf.next -text "Next" -command "::CAMSETUP::Step2"
+		button $buttonf.cancel -text "Cancel" -command "destroy $::CAMSETUP::window"
+		#pack 'm
+		pack $buttonf.next $buttonf.back $buttonf.cancel -padx 10 -side right		
+		
+		##Webcam extension check##
 		if {[::CAMGUI::ExtensionLoaded]} {
-			set infoarray(wcextloaded) 1
+			set ::CAMSETUP::infoarray(wcextloaded) 1
 			set wcextpic [::skin::loadPixmap yes-emblem]
 		} else {
-			set infoarray(wcextloaded) 0
+			set ::CAMSETUP::infoarray(wcextloaded) 0
 			set wcextpic [::skin::loadPixmap no-emblem]
 		}
-		
 
-
-		
+		##Capture extension check
+		#set the name for the capture extension
 		set capextname "grab"
-		if { [set ::tcl_platform(platform)] == "windows" } {
-			set capextname "tkvideo"
-		} elseif { [set ::tcl_platform(os)] == "Darwin" } {
-			set capextname "QuickTimeTcl"
-		} elseif { [set ::tcl_platform(os)] == "Linux" } {
-			set capextname "capture"
-		}
-
-
-		if {[::CAMGUI::CaptureLoaded]} {
-			set infoarray(capextloaded) 1
-			set capextpic [::skin::loadPixmap yes-emblem]
+		if { [set ::tcl_platform(platform)] == "windows" } { set capextname "tkvideo"}\
+		 elseif { [set ::tcl_platform(os)] == "Darwin" } { set capextname "QuickTimeTcl"}\
+		 elseif { [set ::tcl_platform(os)] == "Linux" } { set capextname "capture" }
+		
+		#check if loaded
+		if {[::CAMGUI::CaptureLoaded]} { 
+			set ::CAMSETUP::infoarray(capextloaded) 1
+			set capextpic [::skin::loadPixmap yes-emblem]	
 		} else {
-			set infoarray(capextloaded) 0
+			set ::CAMSETUP::infoarray(capextloaded) 0
 			set capextpic [::skin::loadPixmap no-emblem]
+		}		
+
+		#maybe we should do better checks like "you can receive but not send if the grabber is unavailable ...
+		if { $capextpic == [::skin::loadPixmap no-emblem] ||$wcextpic == [::skin::loadPixmap no-emblem] } {
+			$buttonf.next configure -state disabled
 		}
 		
-		set frame $optionsf.innerframe
+		
+		#pack a frame inside where we put our stuff in so it's away from theedges of the window
+		set frame $contentf.innerframe		
 		frame $frame -bd 0 
 		pack $frame -padx 20 -pady 50
 
+		#create frames for the both lines (I want the emblem on the right)		
 		set wcextbox $frame.wcextbox
 		set capextbox $frame.capextbox
 		frame $wcextbox -bd 0 
@@ -2955,264 +2857,359 @@ status_log "button $text with command \"$command\""
 		label $capexttext -justify left -anchor nw -font bboldf -text "Check if '$capextname' extension is loaded ..." ;#-fg $wcexttextcolor
 		
 
-		label $wcextpicl -image $wcextpic
-		label $capextpicl -image $capextpic
+		label $wcextpicl -image $wcextpic -bg [::skin::getKey menubackground]
+		label $capextpicl -image $capextpic -bg [::skin::getKey menubackground]
 
 		pack $wcexttext -side left -expand 1	
 		pack $wcextpicl -side right				
 		pack $capexttext -side left
 		pack $capextpicl -side right
-				
-		#if an error, have a solution ... and tell what's (not) possible
+
+
 		
 		
-		set nextbuttonstate 0
-		if {$infoarray(wcextloaded)} {  ;# nothing to configure if you can't even receive (decode)
-			set nextbuttonstate 1
-		}
-			
-		
-		#add the buttons
-		WCAssistant_showButtons $buttonf [list [list "Next" [list ::CAMGUI::WCAssistant_s2 $win $titlec $optionsf $buttonf] $nextbuttonstate ] [list "Back" [list ::CAMGUI::WCAssistant_s0 $win $titlec $optionsf $buttonf] 1 ] [list "Cancel" [list destroy $win] 1 ] ]
 	}
 	
-	proc WCAssistant_s2 {win titlec optionsf buttonf} {
-		global infoarray
+
+	######################################################################################
+	#Step 2:  Set device/channel                                                         #
+	######################################################################################	
+	proc Step2 {} {
+		status_log "entered step 2 of Webcam-Assistant, or 2&3 for mac"
+
+		#we should be able to alter this vars in other procs
 		global chanswidget
-		global devices
-		global devicenames
-		global channels
-		global channelnames
-		global previmg
 		global previmc
-		global rightframe
+		global selecteddevice
+		global selectedchannel	
+		global channels
+		global previmg
+
+		#when running on mac, this will be step 2 and 3 with only 1 button to open the QT prefs
+		if { [OnMac] } {
+
+			#add the buttons
+			button $buttonf.back -text "Back" -command "::CAMSETUP::Step1"
+			button $buttonf.next -text "Next" -command "::CAMSETUP::Step4"
+			button $buttonf.cancel -text "Cancel" -command "destroy $::CAMSETUP::window"
+			#pack 'm
+			pack $buttonf.next $buttonf.back $buttonf.cancel -padx 10 -side right
+
+			status_log "here should be drawn a button to open the QT prefs"
+				
+		} else {
+			#Set the title-text
+			SetTitlecText "Set up webcamdevice and channel (Step 2 of 5)"
+
+			#clear the content and optionsframe
+			set contentf [ClearContentFrame]
+			set buttonf [ClearButtonsFrame]
+
+			#add the buttons
+			button $buttonf.back -text "Back" -command "::CAMSETUP::stopPreviewGrabbing; ::CAMSETUP::Step1" ;#save the thing ?
+			button $buttonf.next -text "Next" -command "::CAMSETUP::step2_to_step3" ;#needs to save the thing !
+			button $buttonf.cancel -text "Cancel" -command "::CAMSETUP::stopPreviewGrabbing; destroy $::CAMSETUP::window"
+			#pack 'm
+			pack $buttonf.next $buttonf.back $buttonf.cancel -padx 10 -side right
+
+
+			##Here comes the content:##
+
+			#check if we can capture.  If not, show a message.
+			if {!$::CAMSETUP::infoarray(capextloaded)} {
+
+				#TODO: show a message
+				#...
+				status_log "can't capture, no extension"
+			
+			} else {
+			
+				#build the GUI framework (same for windows/linux)
+				
+# +-------------------------+
+# |+----------+ +---------+ |--innerframe ($frame)
+# ||          | |         | |
+# ||          | |         | |
+# ||          | |         |----rightframe (a canvas $rightframe))
+# ||          | |         | |
+# ||          | |         | |
+# ||          |-|---------|----leftframe
+# |+----------+ +---------+ |
+# +-------------------------+
+
+				#create the innerframe
+				set frame $contentf.innerframe
+				frame $frame -bd 0
+				pack $frame -padx 10 -pady 10 -side left
+
+				#create the left frame (for the comboboxes)
+				set leftframe $frame.left
+				frame $leftframe -bd 0
+				pack $leftframe -side left -padx 10
+
+				#create the 'rightframe' canvas where the preview-image will be shown
+				set rightframe $frame.right
+				#this is a canvas so we gcan have a border and put some OSD-like text on it too
+				canvas $rightframe -background #000000 -width 320 -height 240 -bd 0
+				pack $rightframe -side right -padx 10
+
+				#draw the border image that will be layed ON the preview-img
+				$rightframe create image 0 0 -image [::skin::loadPixmap camempty] -anchor nw -tag border
+				#give the canvas a clear name
+				set previmc $rightframe
+				
+				##First "if on unix" (linux -> v4l), then for windows##
+				if {[OnUnix]} {
+
+					#first clear the grabber var
+					set ::CAMGUI::webcam_preview ""
+
+					#ask the list of devices on the system
+					set devices [::Capture::ListDevices]
+
+					#check if we have devices available, if not we're gonne show a msg instead of the 
+					# comboboxes
+					if { [llength $devices] == 0 } {
+						status_log "Webcam-Assistant: No devices available"
+						#have some message showing no device and go further with
+
+					#we have minimum 1 device available
+					} else {
+					
+						#First line, device-chooser title
+						label $leftframe.devstxt -text "Choose device:"
+						pack $leftframe.devstxt -side top
+					
+						#create and pack the devices-combobox
+						combobox::combobox $leftframe.devs -highlightthickness 0 -width 22 -bg #FFFFFF -font splainf -exportselection true -editable false -command "::CAMSETUP::step2_FillChannelsLinux" 
+
+						#make sure the devs-combobox is empty first
+						$leftframe.devs list delete 0 end
+					
+						#get the already set device from the config (if there is one set)
+						set setdev [lindex [split [::config::getKey "webcamDevice"] ":"] 0]
+						#set the count to see which nr this device has in the list on -1 to begin,
+						# so it becomes 0 if it's the first element in the list ([lindex $foo 0])
+						set count -1
+						#set a start-value for the device's nr
+						set setdevnr -1
+						
+						#insert the device-names in the widget
+						foreach device $devices {
+status_log "$device"
+							set dev [lindex $device 0]
+							set name [lindex $device 1]
+
+							#it will allways set the last one, which is a bit weird to the
+							# user though if he has like /dev/video0 that come both as V4L 
+							# and V4L2 device
+							incr count
+							#store which nr the setdev has in the combobox
+							if { $dev == $setdev} {
+								set setdevnr $count
+							}
+	
+							#if we can't get the name, show it the user
+							if {$name == "" } {
+								#TODO: is this the right cause ?
+								set name "$dev (Err: busy?)"
+								status_log "Webcam-Assistant: No name found for $dev ... busy ?"
+							}
+							#put the name of the device in the widget
+							$leftframe.devs list insert end $name
+						}
+						#pack the dev's combobox
+						pack $leftframe.devs -side top
+
+						#create and pack the chans-txt
+						label $leftframe.chanstxt -text "\n\nChoose channel:"
+						pack $leftframe.chanstxt -side top
+
+						#create and pack the chans-combobox
+						set chanswidget $leftframe.chans
+						combobox::combobox $leftframe.chans -highlightthickness 0 -width 22  -font splainf -exportselection true -command "::CAMSETUP::step2_StartPreviewLinux" -editable  false	-bg #FFFFFF
+						pack $leftframe.chans -side top 
+
+						#Select the device if in the combobox (won't select anything if -1)
+						catch {$leftframe.devs select $setdevnr}
+				
+					
+					#close the "if no devices avaliable / else" statement
+					}
+					
+				#If on windows
+				} else {
+				
+					#TODO ... (tobe continued ... :))
+#					status_log "we are on windows, in developpement"
+										
+				
+				#End the platform checks
+				# we're sure it's win, lin or mac.  maybe a check for unsupported platform on teh 1st page ?
+				} 
+
+
+			#end the "if cap extension not loaded / else" statement
+			}			
+		#end the "if on mac / else" statement
+		}		
+	#end the Step2 proc
+	}
+
+
+	######################################################################################
+	#Step 2 - Auxilary procs                                                             #
+	######################################################################################	
+
+	proc step2_FillChannelsLinux {devswidget value} {
+		global chanswidget
+		global selecteddevice
+		global channels
+		
+		if { $value == "" } {
+			status_log "No device selected; CAN'T BE POSSIBLE ?!?"
+		} else {
+	
+			#get the nr of the selected device
+			set devnr [lsearch [$devswidget list get 0 end] $value]
+			#get that device out of the list and the first element is the device itself ([list /dev/foo "name"])
+			set selecteddevice [lindex [lindex [::Capture::ListDevices] $devnr] 0]
+
+			if { [catch {set channels [::Capture::ListChannels $selecteddevice]} errormsg] } {
+				status_log "Webcam-Assistant: Couldn't list chans for device $selecteddevice: $errormsg"
+				return
+			}
+
+			#make sure the chanswidget is empty before filling it
+			$chanswidget list delete 0 end
+
+
+			#search the already set channel (cfr devices)
+			set setchan [lindex [split [::config::getKey "webcamDevice"] ":"] 1]
+			set count -1
+			set setchannr -1
+
+			foreach channel $channels {
+				set chan [lindex $channel 0] ;#this is a nr
+				set channame [lindex $channel 1]
+				incr count
+
+				if { $chan == $setchan} {
+					set setchannr $count
+				}
+
+				$chanswidget list insert end $channame
+			}
+	
+			#select the already set chan if possible
+			catch {$chanswidget select $setchannr}
+			
+		}
+
+	}	
+	
+	
+	proc step2_StartPreviewLinux {chanswidget value} {
 		global selecteddevice
 		global selectedchannel
+		global channels
+		global previmc
+		global previmg
+		
 
-		set selecteddevice ""
-		set selectedchannel ""
+#		WcAssistant_stopPreviewGrab
+		
+	
+		if { $value == "" } {
+			status_log "No channel selected; IS THIS POSSIBLE ?"
+		} else {
 
+			#get the nr of the selected channel
+			set channr [lsearch [$chanswidget list get 0 end] $value]
+			#get that channel out of the list and the first element is the chan itself ([list 0 "television"])
+			set selectedchannel [lindex [lindex $channels $channr] 0]
+			status_log "Will preview: $selecteddevice on channel $selectedchannel"
 
-		#if not on mac we have to fill this with options
-		if { ![OnMac] } {
-
-			#set beginning situation:
-			set infoarray(deviceset) 0
 			
-			#change the title
-			WCAssistant_titleText $titlec "Set up webcamdevice and channel (Step 2 of 5)"
-			#empty the optionsframe
-			WCAssistant_optionsFrame $optionsf
-			#add the options
+			#close the device if open
+			if { [::Capture::IsValid $::CAMGUI::webcam_preview] } {
+				::Capture::Close $::CAMGUI::webcam_preview
+			}
 
-			if {!$infoarray(capextloaded)} {
-				status_log "nothing to configure as we can't capture"
-#				set infoarray(deviceset) 0 ;#-> is default
-			} else {
+			if { [catch {set ::CAMGUI::webcam_preview [::Capture::Open $selecteddevice $selectedchannel]} errormsg] } {
+				status_log "problem opening device: $errormsg"
+				return
+			}
 
-			set frame $optionsf.innerframe
-			frame $frame -bd 0
-			pack $frame -padx 10 -pady 10 -side left
-			set leftframe $frame.left
-			frame $leftframe -bd 0
-			pack $leftframe -side left -padx 10
-			set rightframe $frame.right
-			#this is a canvas so we gcan have a border and put some OSD-like text on it too
-			canvas $rightframe -background #000000
-			pack $rightframe -side right -padx 10
-			$rightframe create image 0 0 -image [::skin::loadPixmap camempty] -anchor nw -tag border
-			set previmc $rightframe
-			
-			
-			if {[OnUnix]} {
-
-				set ::CAMGUI::webcam_preview ""
-
-				set devices [::Capture::ListDevices]
-
-				if { [llength $devices] == 0 } {
-					status_log "no devices available"
-					#have some message showing no device and go further with
-
-
-#					set infoarray(deviceset) 0 ;#-> is default			
-				} else {
-
-					label $leftframe.devstxt -text "Choose device:"
-					pack $leftframe.devstxt -side top
-
-				
-				#create and pack the devices-combobox
-					combobox::combobox $leftframe.devs -highlightthickness 0 -width 22 -bg #FFFFFF -font splainf -exportselection true -command ::CAMGUI::WcAssistant_fillLinChans -editable false
-					$leftframe.devs list delete 0 end
-					set devicenames [list ]
+			set previmg [image create photo]
 
 					
-					#search the already set device
-					set setdev [lindex [split [::config::getKey "webcamDevice"] ":"] 0]
-					set selectdevice -1
-					set devnr -1
+			$previmc create image 0 0 -image $previmg -anchor nw 
+
+			$previmc create text 10 10 -anchor nw -font bboldf -text "Preview $selecteddevice:$selectedchannel" -fill #FFFFFF -anchor nw -tag device
 
 
-					#create list of available devices:
-					foreach device $devices {
-						set dev [lindex $device 0]
-						set name [lindex $device 1]
+			after 2000 "catch { $previmc delete device }"
 
-						#it will allways set the last one, which is a bit weird to the user though if he has like /dev/video0 that come both as V4L and V4L2 device
-						incr devnr
+			#put the border-pic on top
+			$previmc raise border
 
-						if { $dev == $setdev} {
-							set selectdevice $devnr
-						}
-
-						if {$name == "" } {
-							set name "$dev (Busy)"
-						}
-						$leftframe.devs list insert end $name
-						lappend devicenames $name
-					}
-					pack $leftframe.devs -side top
-
-
-				#create and pack the chans-txt
-					label $leftframe.chanstxt -text "\n\nChoose channel:"
-					pack $leftframe.chanstxt -side top
-
-
-				#create and pack the chans-combobox
-					set chanswidget $leftframe.chans
-					combobox::combobox $leftframe.chans -highlightthickness 0 -width 22 -bg #FFFFFF -font splainf -exportselection true -command "after 0 ::CAMGUI::WcAssistant_startLinPreview" -editable false		
-					pack $leftframe.chans -side top 
-
-					#if the device is in the list of the combobox
-					if { $selectdevice != -1 } {
-						$leftframe.devs select $selectdevice
-					}
-
-				}
-			} else {
-
-
-
-	#choose device/channel => 2 comboboxes and a preview
-
-	#                   +------------+
-	#                   |    ___     |
-	#  [device  [v]]    |   |_ _|    |
-	#                   |   | ' |    |
-	#  [channel [v]]    |    \ /     |
-	#                   |   +++++    |
-	#                   +------------+
-				set infoarray(deviceset) 1
-			}
-
-
-			}
-
-		
-			#add the buttons
-			WCAssistant_showButtons $buttonf [list [list "Next" [list ::CAMGUI::WCAssistant_s2to3 $win $titlec $optionsf $buttonf] 1 ] [list "Back" [list ::CAMGUI::WCAssistant_s1 $win $titlec $optionsf $buttonf] 1 ] [list "Cancel" [list ::CAMGUI::WcAssistant_closeOnPreview $win] 1 ]]
-
-		#if on mac we only need a button to open the settingswindow and step 2 and 3 are 1 page
-		} else {
-			#change the title
-			WCAssistant_titleText $titlec "Set up webcamdevice and channel (Step 2 and 3 of 5)"
-			#empty the optionsframe
-			WCAssistant_optionsFrame $optionsf
-			#add a button to open the configpane
-#...
 			
-			#add the buttons
-			WCAssistant_showButtons $buttonf [list [list "Next" [list ::CAMGUI::WCAssistant_s4 $win $titlec $optionsf $buttonf] 1 ] [list "Back" [list ::CAMGUI::WCAssistant_s1 $win $titlec $optionsf $buttonf] 1 ] [list "Cancel" [list destroy $win] 1 ] ]	
+			set semaphore ::CAMGUI::sem_$::CAMGUI::webcam_preview
+			set $semaphore 0
+			while { [::Capture::IsValid $::CAMGUI::webcam_preview] && [lsearch [image names] $previmg] != -1 } {
+				if {[catch {::Capture::Grab $::CAMGUI::webcam_preview $previmg} res]} {
+					status_log "Problem grabbing from the device:\n\t \"$res\""
+					$previmc create text 10 215 -anchor nw -font bboldf -text "ERROR: $res" -fill #FFFFFF -anchor nw -tag errmsg
+					
+				}
+				after 100 "incr $semaphore"
+				tkwait variable $semaphore
+			}
+			
+		
 		}
 	
-
+	
 	}
-
-	proc WCAssistant_s2to3 {win titlec optionsf buttonf} {
+	###proc to stop the grabber###
+	proc stopPreviewGrabbing {} {
+		global previmg
+		
+		if { [info exists ::CAMGUI::webcam_preview]} {
+			if { [::Capture::IsValid $::CAMGUI::webcam_preview] } {
+				::Capture::Close $::CAMGUI::webcam_preview
+			}
+		}
+		catch {image delete $previmg}
+		status_log "Webcam-Assistant: Stopped grabbing"
+	}
+	#proc to store the values when we go from step 2 to step 3
+	proc step2_to_step3 {} {
 		global selecteddevice
 		global selectedchannel
 
-		WcAssistant_stopPreviewGrab
-		::CAMGUI::WCAssistant_s3 $win $titlec $optionsf $buttonf
+		stopPreviewGrabbing
+		
+
 		#save settings
 		::config::setKey "webcamDevice" "$selecteddevice:$selectedchannel"
+		
+		Step3
+	}	
+
+
+
+
+	proc Step3 {} {
+		status_log "entered step 3 of Webcam-Assistant"
 	}
 
 
+
 	
-	#folowing page is skipped on mac :)
-	proc WCAssistant_s3 {win titlec optionsf buttonf} {
-		global infoarray
-
-		#change the title
-		WCAssistant_titleText $titlec "Finetune picture settings (Step 3 of 5)"
-
-		#empty the optionsframe
-		WCAssistant_optionsFrame $optionsf
-		#add the options
-		set devnchan [::config::getKey "webcamDevice"]
-		set devnchan [split $devnchan ":"]
-		set dev [lindex $devnchan 0]
-		set chan [lindex $devnchan 1]
-		status_log "entered step 3 with dev $dev and chan $chan"
 
 
-		if {[OnUnix]} {
-			#preview, combobox for resolution and 4 sliders, vertically arranged
-			
-			
-		
-		
-		} else {
-		
-			#we're on windows !
-			
-		}
-		
-		
-
-		
-		#add the buttons
-		WCAssistant_showButtons $buttonf [list [list "Next" [list ::CAMGUI::WCAssistant_s4 $win $titlec $optionsf $buttonf] 1 ] [list "Back" [list ::CAMGUI::WCAssistant_s2 $win $titlec $optionsf $buttonf] 1 ] [list "Cancel" [list destroy $win] 1 ]]
-	}
-	
-	proc WCAssistant_s4 {win titlec optionsf buttonf} {
-		global infoarray
-		#change the title
-		WCAssistant_titleText $titlec "Network settings (Step 4 of 5)"
-
-		#empty the optionsframe
-		WCAssistant_optionsFrame $optionsf
-		#add the options
-
-#port settings etc
-
-		
-		#add the buttons
-		if { ![OnMac] } {
-			WCAssistant_showButtons $buttonf [list [list "Next" [list ::CAMGUI::WCAssistant_s5 $win $titlec $optionsf $buttonf] 1 ] [list "Back" [list ::CAMGUI::WCAssistant_s3 $win $titlec $optionsf $buttonf] 1 ] [list "Cancel" [list destroy $win] 1 ]]
-		} else {
-			WCAssistant_showButtons $buttonf [list [list "Next" [list ::CAMGUI::WCAssistant_s5 $win $titlec $optionsf $buttonf] 1 ] [list "Back" [list ::CAMGUI::WCAssistant_s2 $win $titlec $optionsf $buttonf] 1 ] [list "Cancel" [list destroy $win] 1 ]]
-		}
-	}
-
-
-	proc WCAssistant_s5 {win titlec optionsf buttonf} {
-		global infoarray
-		#change the title
-		WCAssistant_titleText $titlec "Finished! (Step 5 of 5)"
-		#empty the optionsframe
-		WCAssistant_optionsFrame $optionsf
-		#add the options
-
-#'everything is ok' and blah ... check for NAT .. "press finish to ..."
-
-		
-		#add the buttons
-		WCAssistant_showButtons $buttonf [list [list "Finish" [list destroy $win] 1 ] [list "Back" [list ::CAMGUI::WCAssistant_s4 $win $titlec $optionsf $buttonf] 1 ] [list "Cancel" [list destroy $win] 1 ]]
-	}
-	
-	
+#Close the ::CAMSETUP namespace
 }
+
