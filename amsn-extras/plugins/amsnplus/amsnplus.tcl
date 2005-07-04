@@ -119,7 +119,7 @@ namespace eval ::amsnplus {
 
 			#entries for the plus menu
 			$plusmenu add command -label "[trans quicktext]" -command "::amsnplus::qtconfig"
-			#$plusmenu add command -label "[trans preferences]" -command "::amsnplus::preferences"
+			$plusmenu add command -label "[trans preferences]" -command "::amsnplus::preferences"
 		}
 		.main_menu add cascade -label "Plus!" -menu .main_menu.plusmenu
 	}
@@ -134,29 +134,32 @@ namespace eval ::amsnplus {
 		set reset [binary format c 15]
 		set screenshot "/screenshot"
 		
-		catch { menu ${win}.menu.plusmenu -tearoff 0 }
-		set plusmenu ${win}.menu.plusmenu
+		catch {
+			menu ${win}.menu.plusmenu -tearoff 0
+			set plusmenu ${win}.menu.plusmenu
 		
-		if { $::amsnplus::config(allow_colours) } {
-			$plusmenu add command -label "[trans choosecolor]" -command "::amsnplus::choose_color $win"
-			$plusmenu add command -label "[trans bold]" -command "::amsnplus::insert_text $win $bold"
-			$plusmenu add command -label "[trans italic]" -command "::amsnplus::insert_text $win $italic"
-			$plusmenu add command -label "[trans underline]" -command "::amsnplus::insert_text $win $underline"
-			$plusmenu add command -label "[trans overstrike]" -command "::amsnplus::insert_text $win $overstrike"
-			$plusmenu add command -label "[trans reset]" -command "::amsnplus::insert_text $win $reset"
-			$plusmenu add separator
-		}
-			$plusmenu add command -label "[trans screenshot]" -command "::amsnplus::insert_text $win $screenshot"
-		if {$::amsnplus::config(allow_quicktext)} {
-			$plusmenu add separator
-			#Menu item to edit the currents quick texts
-			$plusmenu add command -label "[trans quicktext]" -command "::amsnplus::qtconfig"
-			set i 0
-			#Show all the currents quick texts in the menu
-			foreach {key txt} $::amsnplus::config(quick_text) {
-				$plusmenu add command -label $txt -command "::amsnplus::insert_text $win /$key"
+			if { $::amsnplus::config(allow_colours) } {
+				$plusmenu add command -label "[trans choosecolor]" -command "::amsnplus::choose_color $win"
+				$plusmenu add command -label "[trans bold]" -command "::amsnplus::insert_text $win $bold"
+				$plusmenu add command -label "[trans italic]" -command "::amsnplus::insert_text $win $italic"
+				$plusmenu add command -label "[trans underline]" -command "::amsnplus::insert_text $win $underline"
+				$plusmenu add command -label "[trans overstrike]" -command "::amsnplus::insert_text $win $overstrike"
+				$plusmenu add command -label "[trans reset]" -command "::amsnplus::insert_text $win $reset"
+				$plusmenu add separator
+			}
+				$plusmenu add command -label "[trans screenshot]" -command "::amsnplus::insert_text $win $screenshot"
+			if {$::amsnplus::config(allow_quicktext)} {
+				$plusmenu add separator
+				#Menu item to edit the currents quick texts
+				$plusmenu add command -label "[trans quicktext]" -command "::amsnplus::qtconfig"
+				set i 0
+				#Show all the currents quick texts in the menu
+				foreach {key txt} $::amsnplus::config(quick_text) {
+					$plusmenu add command -label $txt -command "::amsnplus::insert_text $win /$key"
+				}
 			}
 		}
+		set plusmenu ${win}.menu.plusmenu
 		return $plusmenu
 	}
 
@@ -234,6 +237,19 @@ namespace eval ::amsnplus {
 	###############################################
 	# this proc creates the preferences window
 	proc preferences { } {
+		if { [winfo exists .amsnplusprefs] } {
+			raise .amsnplusprefs
+			catch {focus -force .prefs}
+			return
+		}
+
+		PreferencesWindow .amsnplusprefs -title "aMSN Plus! [trans preferences]" -savecommand ::amsnplus::save_prefs
+
+		### Section General ###
+		set section [PreferencesSection .amsnplusprefs.general -text [trans general]]
+		.amsnplusprefs addSection $section
+
+		.amsnplusprefs show .amsnplusprefs_window
 	}
 
 
