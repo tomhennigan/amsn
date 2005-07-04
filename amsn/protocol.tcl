@@ -718,10 +718,9 @@ namespace eval ::MSNFT {
 
       set sentbytes [tell $fileid]
 
-      if {[expr {$filesize-$sentbytes >2045}]} {
+      set packetsize [expr {$filesize-$sentbytes}]
+      if {$packetsize > 2045} {
          set packetsize 2045
-      } else {
-         set packetsize [expr {$filesize-$sentbytes}]
       }
 
 
@@ -2269,21 +2268,21 @@ namespace eval ::Event {
 	#creates a message object from a received payload
 	method createFromPayload { payload } {
 		set idx [string first "\r\n\r\n" $payload]
-		set head [string range $payload 0 [expr $idx -1]]
-		set body [string range $payload [expr $idx +4] end]
+		set head [string range $payload 0 [expr {$idx -1}]]
+		set body [string range $payload [expr {$idx +4}] end]
 		set head [string map {"\r\n" "\n"} $head]
 		set heads [split $head "\n"]
 		foreach header $heads {
 			set idx [string first ": " $header]
-			array set headers [list [string range $header 0 [expr $idx -1]] \
-					  [string range $header [expr $idx +2] end]]
+			array set headers [list [string range $header 0 [expr {$idx -1}]] \
+					  [string range $header [expr {$idx +2}] end]]
 		}
 
 		set bsplit [split [string map {"\r\n" "\n"} $body] "\n"]
 		foreach field $bsplit {
 			set idx [string first ": " $field]
-			array set fields [list [string range $field  0  [expr $idx -1]] \
-			                       [string range $field [expr $idx +2] end]]
+			array set fields [list [string range $field  0  [expr {$idx -1}]] \
+			                       [string range $field [expr {$idx +2}] end]]
 		}
 	}
 
@@ -2362,16 +2361,16 @@ namespace eval ::Event {
 			#check for the a newline, if there is we have a command if not return
 			set idx [string first "\r\n" $dataBuffer]
 			if { $idx == -1 } { return }
-			set command [string range $dataBuffer 0 [expr $idx -1]]
+			set command [string range $dataBuffer 0 [expr {$idx -1}]]
 
 			#check for payload commands:
 			if {[lsearch {MSG NOT PAG IPG} [string range $command 0 2]] != -1} {
 			        set length [lindex [split $command] end]
 
-				set remaining [string range $dataBuffer [expr $idx +2] end]
+				set remaining [string range $dataBuffer [expr {$idx +2}] end]
 				#if the whole payload is in the buffer process the command else return
 				if { [string length $remaining] >= $length } {
-					set payload [string range $remaining 0 [expr $length -1]]
+					set payload [string range $remaining 0 [expr {$length -1}]]
 					set dataBuffer [string range $dataBuffer [string length "$command\r\n$payload"] end]
 					set command [encoding convertfrom utf-8 $command]
 					$options(-name) handleCommand $command $payload
@@ -3037,7 +3036,7 @@ proc cmsn_reconnect { sb } {
 
 			#status_log "cmsn_reconnect: stat = i , SB= $name\n" green
 
-			if { [expr {[clock seconds] - [$sb cget -time]}] > 15 } {
+			if { ([clock seconds] - [$sb cget -time]) > 15 } {
 				status_log "cmsn_reconnect: called again while inviting timeouted for sb $sb\n" red
 				#catch { fileevent [$name cget -sock] readable "" } res
 				#catch { fileevent [$name cget -sock] writable "" } res
@@ -3053,7 +3052,7 @@ proc cmsn_reconnect { sb } {
 
 			#status_log "cmsn_reconnect: stat = c , SB= $name\n" green
 
-			if { [expr {[clock seconds] - [$sb cget -time]}] > 10 } {
+			if { ([clock seconds] - [$sb cget -time]) > 10 } {
 				status_log "cmsn_reconnect: called again while reconnect timeouted for sb $sb\n" red
 				#set command [list "::[$name cget -connection_wrapper]::finish" $name]
 				#eval $command
@@ -3069,7 +3068,7 @@ proc cmsn_reconnect { sb } {
 
 			#status_log "cmsn_reconnect: stat =[$name cget -stat] , SB= $name\n" green
 
-			if { [expr {[clock seconds] - [$sb cget -time]}] > 10 } {
+			if { ([clock seconds] - [$sb cget -time]) > 10 } {
 				status_log "cmsn_reconnect: called again while authentication timeouted for sb $sb\n" red
 				#catch { fileevent [$name cget -sock] readable "" } res
 				#catch { fileevent [$name cget -sock] writable "" } res
@@ -4377,23 +4376,19 @@ proc process_msnp9_lists { bin } {
 		return $lists
 	}
 
-	if { [expr {$bin % 2}] } {
+	if { $bin & 1 } {
 		lappend lists "FL"
 	}
-	set bin [expr {$bin >> 1}]
 
-	if { [expr {$bin % 2}] } {
+	if { $bin & 2 } {
 		lappend lists "AL"
 	}
 
-	set bin [expr {$bin >> 1}]
-
-	if { [expr {$bin % 2}] } {
+	if { $bin & 4 } {
 		lappend lists "BL"
 	}
-	set bin [expr {$bin >> 1}]
 
-	if { [expr {$bin % 2}] } {
+	if { $bin & 8 } {
 		lappend lists "RL"
 	}
 
@@ -4773,7 +4768,7 @@ proc add_Clientid {chatid clientid} {
 		set bit [lindex $client 0]
 		set name [lindex $client 1]
 		#check if this bit is on in the clientid, ifso set it's name
-		if {[expr [expr $clientid & $bit] != 0]} {
+		if {($clientid & $bit) != 0} {
 			set clientname $name
 		}
 	}
@@ -4791,7 +4786,7 @@ proc add_Clientid {chatid clientid} {
 		set bit [lindex $flag 0]
 		set flagname [lindex $flag 1]
 		#check if this bit is on in the clientid, ifso set it's flag
-		if {[expr [expr $clientid & $bit] != 0]} {
+		if {($clientid & $bit) != 0} {
 			::abook::setContactData $chatid $flagname 1
 		} else {
 			::abook::setContactData $chatid $flagname 0
@@ -4819,10 +4814,9 @@ proc system_message {msg} {
 }
 
 proc myRand { min max } {
-	set maxFactor [expr [expr $max + 1] - $min]
-	set value [expr int([expr rand() * 1000000])]
-	set value [expr [expr $value % $maxFactor] + $min]
-	return $value
+	set maxFactor [expr {$max + 1 - $min}]
+	set value [expr {int(rand() * 1000000)}]
+	return [expr {($value % $maxFactor) + $min}]
 }
 
 
@@ -4917,7 +4911,7 @@ namespace eval ::MSN6FT {
 
 		status_log "Sending File $filename with size $filesize to $chatid\n"
 
-		set sid [expr int([expr rand() * 1000000000])%125000000 + 4]
+		set sid [expr {int(rand() * 1000000000)%125000000 + 4}]
 		# Generate BranchID and CallID
 		set branchid "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
 		set callid "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
@@ -5141,7 +5135,7 @@ namespace eval ::MSN6FT {
 			set size ""
 			while { $tmpsize < 4 && ![eof $sock] } {
 				update idletasks
-				set tmpdata [read $sock [expr 4 - $tmpsize]]
+				set tmpdata [read $sock [expr {4 - $tmpsize}]]
 				append size $tmpdata
 				set tmpsize [string length $size]
 			}
@@ -5167,7 +5161,7 @@ namespace eval ::MSN6FT {
 		set tmpsize [string length $data]
 	
 		if { $tmpsize < $size } {
-			set tmpdata [read $sock [expr $size - $tmpsize]]
+			set tmpdata [read $sock [expr {$size - $tmpsize}]]
 			append data $tmpdata
 			set tmpsize [string length $data]
 		}
@@ -5356,7 +5350,7 @@ namespace eval ::MSN6FT {
 
 		set MsgId [lindex [::MSNP2P::SessionList get $sid] 0]
 
-		set bheader [binary format ii 0 $MsgId][binword 0][binword 0][binary format iiii 0 4 [expr int([expr rand() * 1000000000])%125000000 + 4] 0][binword 0]
+		set bheader [binary format ii 0 $MsgId][binword 0][binword 0][binary format iiii 0 4 [expr {int(rand() * 1000000000)%125000000 + 4}] 0][binword 0]
 
 		puts -nonewline $sock "[binary format i 48]$bheader"
 		status_log "Closing socket... \n" red
@@ -5396,25 +5390,25 @@ namespace eval ::MSN6FT {
 		}
 
 		set data [read $fd 1352]
-		set out "[binary format iiiiiiiiiiii $sid $MsgId $Offset 0 $DataSize 0 [string length $data] 16777264 [expr int([expr rand() * 1000000000])%125000000 + 4] 0 0 0]$data"
+		set out "[binary format iiiiiiiiiiii $sid $MsgId $Offset 0 $DataSize 0 [string length $data] 16777264 [expr {int(rand() * 1000000000)%125000000 + 4}] 0 0 0]$data"
 
 		catch { puts -nonewline $sock  "[binary format i [string length $out]]$out" }
 
-		::amsn::FTProgress s $sid "" [expr $Offset + [string length $data]] $DataSize
+		::amsn::FTProgress s $sid "" [expr {$Offset + [string length $data]}] $DataSize
 		#status_log "Writing file to socket $sock, send $Offset of $DataSize\n" red
 
-		set Offset [expr $Offset + [string length $data]]
+		set Offset [expr {$Offset + [string length $data]}]
 
 		::MSNP2P::SessionList set $sid [list -1 -1 $Offset -1 -1 -1 -1 -1 -1 -1]
 
 #		status_log "Sending : $out"
 
-		if { [expr $DataSize - $Offset] == "0"} {
+		if { ($DataSize - $Offset) == 0} {
 			catch { close $fd }
 			::amsn::FTProgress fs $sid ""
 		}
 
-		return [expr $DataSize - $Offset]
+		return [expr {$DataSize - $Offset}]
 	}
 
 
@@ -5520,7 +5514,7 @@ namespace eval ::MSN6FT {
 		::MSNP2P::SessionList set $sid [list -1 -1 -1 -1 -1 -1 $fileid -1 $filename -1]
 
 		# Let's make and send a 200 OK Message
-		set slpdata [::MSNP2P::MakeMSNSLP "OK" $dest [::config::getKey login] $branchuid [expr $cseq + 1] $uid 0 0 $sid]
+		set slpdata [::MSNP2P::MakeMSNSLP "OK" $dest [::config::getKey login] $branchuid [expr {$cseq + 1}] $uid 0 0 $sid]
 		::MSNP2P::SendPacket [::MSN::SBFor $chatid] [::MSNP2P::MakePacket $sid $slpdata 1]
 		::amsn::FTProgress a $sid $filename $dest 1000 $chatid
 		status_log "MSNP2P | $sid -> Sent 200 OK Message for File Transfer\n" red
@@ -6036,7 +6030,7 @@ namespace eval ::MSNMobile {
 	if { $idx1 == -1 || $idx2 == -1 } {
 	    return 0
 	}
-	set msg [string range $data [expr $idx1 + 1] [expr $idx2 -1]]
+	set msg [string range $data [expr {$idx1 + 1}] [expr {$idx2 -1}]]
 
 	set idx1 [string first "<FROM" $data]
 	set idx1 [string first "name=\"" $data $idx1]
@@ -6104,7 +6098,7 @@ namespace eval ::MSNMobile {
 	$top itemconfigure to -text "[trans tomobile]:"
 	
 	set toX [::skin::getKey topbarpadx]
-	set usrsX [expr $toX + [font measure bplainf "[trans tomobile]:"] + 5]
+	set usrsX [expr {$toX + [font measure bplainf "[trans tomobile]:"] + 5}]
 	set txtY [::skin::getKey topbarpady]
 	
 	$top coords text $usrsX [lindex [$top coords text] 1]
@@ -6126,13 +6120,13 @@ namespace eval ::MSNMobile {
 	$top dchars text 0 end
 	if {[::config::getKey truncatenames]} {
 	    #Calculate maximum string width
-	    set maxw [expr [winfo width $top] - [::skin::getKey topbarpadx] - [expr int([lindex [$top coords text] 0])]]
+	    set maxw [expr {[winfo width $top] - [::skin::getKey topbarpadx] - int([lindex [$top coords text] 0])}]
 
 	    if { "$user_state" != "" && "$user_state" != "online" } {
-		incr maxw [expr 0-[font measure sboldf -displayof $top " \([trans $user_state]\)"]]
+		incr maxw [expr {0-[font measure sboldf -displayof $top " \([trans $user_state]\)"]}]
 	    }
 
-	    incr maxw [expr 0-[font measure sboldf -displayof $top " <${user_login}>"]]
+	    incr maxw [expr {0-[font measure sboldf -displayof $top " <${user_login}>"]}]
 
 	    $top insert text end "[trunc ${user_name} ${win_name} $maxw sboldf] <${user_login}>"
 	} else {
@@ -6158,7 +6152,7 @@ namespace eval ::MSNMobile {
 
 	$top dchars text [expr {$size - 1}] end
 
-	$top configure -height [expr [::ChatWindow::MeasureTextCanvas $top "text" [$top itemcget text -text] "h"] + 2*[::skin::getKey topbarpady]]
+	$top configure -height [expr {[::ChatWindow::MeasureTextCanvas $top "text" [$top itemcget text -text] "h"] + 2*[::skin::getKey topbarpady]}]
 
 	if { [info exists ::ChatWindow::new_message_on(${win_name})] && $::ChatWindow::new_message_on(${win_name}) == 1 } {
 	    wm title ${win_name} "*${title}"
