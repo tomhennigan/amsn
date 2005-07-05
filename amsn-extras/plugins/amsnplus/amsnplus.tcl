@@ -37,6 +37,7 @@ namespace eval ::amsnplus {
 				allow_commands 1
 				allow_quicktext 1
 				quick_text [list]
+				resource "aMSN"
 			}
 			set ::amsnplus::configlist [ list \
 				[list bool "Do you want to parse nicks?" parse_nicks] \
@@ -53,6 +54,7 @@ namespace eval ::amsnplus {
 				allow_colours 1
 				allow_quicktext 1
 				quick_text [list]
+				resource "aMSN"
 			}
 			set ::amsnplus::configlist [ list \
 				[list bool "[trans parsenicks]" parse_nicks] \
@@ -77,6 +79,9 @@ namespace eval ::amsnplus {
 		if {![::amsnplus::version_094]} {
 			::amsnplus::setPixmap
 		}
+
+		#init
+		after 100 ::MSN::changeName [::abook::getPersonal login] "[::abook::getPersonal nick] \{$::amsnplus::config(resource)\}"
 	}
 
 	####################################################
@@ -85,6 +90,13 @@ namespace eval ::amsnplus {
 		#removing the plus menu and chat window pixmap
 		.main_menu delete last
 		::amsnplus::remove_from_chatwindow
+		#restoring the normal nick
+		set nick [::abook::getPersonal nick]
+		set lnick [string length $nick]
+		set lres [string length $::amsnplus::config(resource)]
+		set restar [expr $lres + 3]
+		set restar [expr $lnick - $restar]
+		::MSN::changeName [::abook::getPersonal login] [string replace $nick $restar end]
 	}
 
 
@@ -239,17 +251,43 @@ namespace eval ::amsnplus {
 	proc preferences { } {
 		if { [winfo exists .amsnplusprefs] } {
 			raise .amsnplusprefs
-			catch {focus -force .prefs}
+			catch {focus -force .amsnplusprefs}
 			return
 		}
 
-		PreferencesWindow .amsnplusprefs -title "aMSN Plus! [trans preferences]" -savecommand ::amsnplus::save_prefs
+		PreferencesWindow .amsnplusprefs -title "aMSN Plus! - [trans preferences]" -savecommand ::amsnplus::save_prefs
 
 		### Section General ###
-		set section [PreferencesSection .amsnplusprefs.general -text [trans general]]
+		set section [PreferencesSection .amsnplusprefs.general -text [trans general] ]
+		set frame [ItemsFrame .amsnplusprefs.general.nicks -text [trans resource] ]
+		$frame addItem [TextEntry .amsnplusprefs.personal.nicks.nick -width 40 -text "[trans enterresource] :" \
+			-storecommand ::amsnplus::save_resource -retrievecommand ::amsnplus::load_resource]
+		$section addItem $frame
 		.amsnplusprefs addSection $section
 
 		.amsnplusprefs show .amsnplusprefs_window
+	}
+
+	proc save_prefs { } {
+	}
+
+	proc save_resource { resource } {
+		if { $resource != "" } {
+			set oldres $::amsnplus::config(resource)
+			set loldres [string length $oldres]
+			set nick [::abook::getPersonal nick]
+			set lnick [string length $nick]
+			set nick [string replace $nick [expr $lnick - [expr $loldres + 3] ] end]
+			set ::amsnplus::config(resource) $resource
+			set login [::abook::getPersonal login]
+			::abook::setPersonal nick "$nick \{$resource\}"
+			::MSN::changeName $login "$nick \{$resource\}"
+			::plugins::save_config
+		}
+	}
+
+	proc load_resource { } {
+		return $::amsnplus::config(resource)
 	}
 
 
