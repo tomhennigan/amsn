@@ -1353,6 +1353,7 @@ namespace eval ::plugins {
 
 		global HOME HOME2
 		
+		set place 0
 		set ::plugins::plgonlinerequire ""
 		set ::plugins::plgonlineversion ""
 		set ::plugins::plgonlinelang ""
@@ -1368,43 +1369,44 @@ namespace eval ::plugins {
 		# If no URL is given, look at the CVS URL
 		if { $URL == "" } {
 
-			set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/amsn-extras/plugins/$plugin/plugininfo.xml?rev=HEAD&content-type=text/plain" -timeout 10000 -binary 1]
+			set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/amsn-extras/plugins/$plugin/plugininfo.xml?rev=HEAD&content-type=text/plain" -timeout 120000 -binary 1]
 			set content [::http::data $token]
-			if { [string first "<html>" "$content"] != -1 } {
-				set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/msn/plugins/$plugin/plugininfo.xml?rev=HEAD&content-type=text/plain" -timeout 10000 -binary 1]
-				set content [::http::data $token]
-				if { [string first "<html>" "$content"] != -1 } {
-					return 0
-				} else {
-					set place 2
-				}
-			} else {
+			if { [string first "<html>" "$content"] == -1 } {
 				set place 1
+			} else {
+				set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/msn/plugins/$plugin/plugininfo.xml?rev=HEAD&content-type=text/plain" -timeout 120000 -binary 1]
+				set content [::http::data $token]
+				if { [string first "<html>" "$content"] == -1 } {
+					set place 2
+				} else {
+					return 0
+				}
+
 			}
 
 
 		# Else, look at the URL given
 		} else {
 		
-
-			set token [::http::geturl "$URL" -timeout 10000 -binary 1]
+			set token [::http::geturl "$URL" -timeout 120000 -binary 1]
 			set content [::http::data $token]
 			if { [string first "<html>" "$content"] != -1 } {
 				return 0
 			}
-			
 			set place 3
-			
 
 		}
 
+		set status [::http::status $token]
+		if { $status != "ok" } {
+			status_log "Can't get plugininfo.xml for $plugin (place $place - URL $URL): $status\n" red
+			return 0
+		}
+
 		set filename "[file join $HOME2 $plugin.xml]"
-		
 		set fid [open $filename w]
-
 		fconfigure $fid -encoding binary
-
-		puts $fid "$content"
+		puts -nonewline $fid "$content"
 		close $fid
 
 		set id [::sxml::init $filename]
@@ -1415,13 +1417,14 @@ namespace eval ::plugins {
 		sxml::parse $id
 		sxml::end $id
 		
-		return $place
-		
 		} ] } {
 		
+		status_log "Can't get online plugininfo.xml for $plugin (place $place - URL $URL)\n" red
 		return 0
 		
 		}
+
+		return $place
 
 	}
 
@@ -1480,7 +1483,7 @@ namespace eval ::plugins {
 	
 		global HOME HOME2
 		
-		# If we already have the lattest version
+		# If we already have the current version
 		if { $version == 0 } {
 			return 1
 		}
@@ -1494,13 +1497,18 @@ namespace eval ::plugins {
 		}
 		
 		if { $place == 1 } {
-			set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/amsn-extras/plugins/$plugin/$plugin.tcl?rev=$version&content-type=text/plain" -timeout 10000 -binary 1]
+			set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/amsn-extras/plugins/$plugin/$plugin.tcl?rev=$version&content-type=text/plain" -timeout 120000 -binary 1]
 		} elseif { $place == 2 } {
-			set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/msn/plugins/$plugin/$plugin.tcl?rev=$version&content-type=text/plain" -timeout 10000 -binary 1]
+			set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/msn/plugins/$plugin/$plugin.tcl?rev=$version&content-type=text/plain" -timeout 120000 -binary 1]
 		} elseif { $place == 3 && $URL != "" } {
 			set URL "[subst $URL]"
-			set token [::http::geturl "$URL" -timeout 10000 -binary 1]
+			set token [::http::geturl "$URL" -timeout 120000 -binary 1]
 		} else {
+			return 0
+		}
+
+		set status [::http::status $token]
+		if { $status != "ok" } {
 			return 0
 		}
 
@@ -1511,7 +1519,6 @@ namespace eval ::plugins {
 		}
 
 		set filename [file join $path $plugin.tcl]
-
 		set fid [open $filename w]
 		fconfigure $fid -encoding binary
 		puts -nonewline $fid "$content"
@@ -1540,13 +1547,18 @@ namespace eval ::plugins {
 			}
 
 			if { $place == 1 } {
-				set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/amsn-extras/plugins/$plugin/lang/lang$langcode?rev=$version&content-type=text/plain" -timeout 10000 -binary 1]
+				set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/amsn-extras/plugins/$plugin/lang/lang$langcode?rev=$version&content-type=text/plain" -timeout 120000 -binary 1]
 			} elseif { $place == 2 } {
-				set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/msn/plugins/$plugin/lang/lang$langcode?rev=$version&content-type=text/plain" -timeout 10000 -binary 1]
+				set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/msn/plugins/$plugin/lang/lang$langcode?rev=$version&content-type=text/plain" -timeout 120000 -binary 1]
 			} elseif { $place == 3 && $URL != "" } {
 				set URL "[subst $URL]"
-				set token [::http::geturl "$URL" -timeout 10000 -binary 1]
+				set token [::http::geturl "$URL" -timeout 120000 -binary 1]
 			} else {
+				return 0
+			}
+
+			set status [::http::status $token]
+			if { $status != "ok" } {
 				return 0
 			}
 
@@ -1603,13 +1615,18 @@ namespace eval ::plugins {
 			}
 
 			if { $place == 1 } {
-				set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/amsn-extras/plugins/$plugin/$file?rev=$version&content-type=text/plain" -timeout 10000 -binary 1]
+				set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/amsn-extras/plugins/$plugin/$file?rev=$version&content-type=text/plain" -timeout 120000 -binary 1]
 			} elseif { $place == 2} {
-				set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/msn/plugins/$plugin/$file?rev=$version&content-type=text/plain" -timeout 10000 -binary 1]
+				set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/msn/plugins/$plugin/$file?rev=$version&content-type=text/plain" -timeout 120000 -binary 1]
 			} elseif { $place == 3 && $URL != "" } {
 				set URL "[subst $URL]"
-				set token [::http::geturl "$URL" -timeout 10000 -binary 1]
+				set token [::http::geturl "$URL" -timeout 120000 -binary 1]
 			} else {
+				return 0
+			}
+
+			set status [::http::status $token]
+			if { $status != "ok" } {
 				return 0
 			}
 
@@ -1794,11 +1811,13 @@ namespace eval ::plugins {
 				# If the plugin has been updated and no file is protected, add it to the updated plugin list
 				if { $updated == 1 && $protected == 0 } {
 					set ::plugins::UpdatedPlugins [lappend ::plugins::UpdatedPlugins $plugin]
+				} elseif { $updated == 1 && $protected == 1 } {
+					status_log "Can't update $plugin : files protected\n" red
 				}
 				
 			} else {
 			
-					status_log "Can't update $name : required version $::plugins::plgonlinerequire\n" red
+				status_log "Can't update $name : required version $::plugins::plgonlinerequire\n" red
 					
 			}
 
@@ -1815,7 +1834,7 @@ namespace eval ::plugins {
 
 		set current [split $version "."]
 		set new [split $onlineversion "."]
-		if { version == "" | onlineversion == ""} {
+		if { $version == "" || $onlineversion == ""} {
 			return 0
 		} elseif { [lindex $new 0] > [lindex $current 0] } {
 			return 1
