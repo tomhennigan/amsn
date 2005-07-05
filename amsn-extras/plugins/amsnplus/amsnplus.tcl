@@ -81,7 +81,10 @@ namespace eval ::amsnplus {
 		}
 
 		#init
-		after 100 ::MSN::changeName [::abook::getPersonal login] "[::abook::getPersonal nick] \{$::amsnplus::config(resource)\}"
+		after 100 {
+			set nick [::abook::getPersonal nick]
+			::MSN::changeName [::abook::getPersonal login] "$nick \{$::amsnplus::config(resource)\}"
+		}
 	}
 
 	####################################################
