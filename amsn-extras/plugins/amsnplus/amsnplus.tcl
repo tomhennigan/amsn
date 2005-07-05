@@ -82,8 +82,10 @@ namespace eval ::amsnplus {
 
 		#init
 		after 100 {
-			set nick [::abook::getPersonal nick]
-			::MSN::changeName [::abook::getPersonal login] "$nick \{$::amsnplus::config(resource)\}"
+			if { $::amsnplus::config(resource) != "" } {
+				set nick [::abook::getPersonal nick]
+				::MSN::changeName [::abook::getPersonal login] "$nick \{$::amsnplus::config(resource)\}"
+			}
 		}
 	}
 
@@ -99,7 +101,9 @@ namespace eval ::amsnplus {
 		set lres [string length $::amsnplus::config(resource)]
 		set restar [expr $lres + 3]
 		set restar [expr $lnick - $restar]
-		::MSN::changeName [::abook::getPersonal login] [string replace $nick $restar end]
+		if { $lres != 0 } {
+			::MSN::changeName [::abook::getPersonal login] [string replace $nick $restar end]
+		}
 	}
 
 
@@ -262,8 +266,9 @@ namespace eval ::amsnplus {
 
 		### Section General ###
 		set section [PreferencesSection .amsnplusprefs.general -text [trans general] ]
-		set frame [ItemsFrame .amsnplusprefs.general.nicks -text [trans resource] ]
-		$frame addItem [TextEntry .amsnplusprefs.personal.nicks.nick -width 40 -text "[trans enterresource] :" \
+		set frame [ItemsFrame .amsnplusprefs.general.local -text [trans localization] ]
+		$frame addItem [Label .amsnplusprefs.general.local.rusage -text "[trans rusage]" -align left
+		$frame addItem [TextEntry .amsnplusprefs.general.local.resource -width 40 -text "[trans resource] :" \
 			-storecommand ::amsnplus::save_resource -retrievecommand ::amsnplus::load_resource]
 		$section addItem $frame
 		.amsnplusprefs addSection $section
@@ -275,18 +280,20 @@ namespace eval ::amsnplus {
 	}
 
 	proc save_resource { resource } {
+		set oldres $::amsnplus::config(resource)
+		set loldres [string length $oldres]
+		set nick [::abook::getPersonal nick]
+		set lnick [string length $nick]
+		set nick [string replace $nick [expr $lnick - [expr $loldres + 3] ] end]
+		set ::amsnplus::config(resource) $resource
+		set login [::abook::getPersonal login]
+		::abook::setPersonal nick "$nick \{$resource\}"
 		if { $resource != "" } {
-			set oldres $::amsnplus::config(resource)
-			set loldres [string length $oldres]
-			set nick [::abook::getPersonal nick]
-			set lnick [string length $nick]
-			set nick [string replace $nick [expr $lnick - [expr $loldres + 3] ] end]
-			set ::amsnplus::config(resource) $resource
-			set login [::abook::getPersonal login]
-			::abook::setPersonal nick "$nick \{$resource\}"
 			::MSN::changeName $login "$nick \{$resource\}"
-			::plugins::save_config
+		} else {
+			::MSN::changeName $login $nick
 		}
+		::plugins::save_config
 	}
 
 	proc load_resource { } {

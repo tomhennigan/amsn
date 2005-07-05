@@ -20,9 +20,11 @@ cspecify \nAquest contacte no és vàlid.
 cstatus \nEl teu estat és $1.
 cstyle \nEl teu estil de font és $1.
 deleted \nHas eliminat $1 de la llista de contactes\nPer afegir-lo de nou, fes: /add $1.
+general Opcions Generals
 groupadded \nAfegit el grup $1.
 groupdeleted \nHas eliminat el grup $1 \nPer afegir-lo de nou, fes: /addgroup $1.
 italic Cursiva
+localization Localització
 multiplecolorsbutton Afegeix un nou color
 nosuchcommand Aquesta comanda no existeix.
 overstrike Tatxat
@@ -31,6 +33,7 @@ qthelp Aquí pots configurar els textes ràpids, la paraula clau i el text.\nLlavo
 quicktext Textes ràpids
 reset Netejar formats
 resource Font
+rusage Aqui pots posar un identificador del programa que estàs utilitzant o inclus del lloc on estàs o qualsevol tipus d'identificador que s'afegirà al final del nick entre claus { }. Intenta imitar a la característica del jabber. Per no fer-ho servir, deixa-ho en blanc.
 screenshot Captura de pantalla
 underline Subratllat
 screenshot Captura la pantalla

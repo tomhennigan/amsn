@@ -10,16 +10,16 @@
 	<init_procedure>amsnplusStart</init_procedure>
 	<deinit_procedure>amsnplusStop</deinit_procedure>
 
-	<cvs_version>1.124</cvs_version>
+	<cvs_version>1.125</cvs_version>
 
 	<lang>
 		<langcode>ca</langcode>
-		<version>1.20</version>
+		<version>1.21</version>
 	</lang>
 
 	<lang>
 		<langcode>en</langcode>
-		<version>1.17</version>
+		<version>1.18</version>
 	</lang>
 
 	<lang>

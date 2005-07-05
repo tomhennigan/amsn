@@ -20,10 +20,12 @@ cspecify \nYou must specify a contact
 cstatus \nYour status is $1
 cstyle \nYour font style is $1
 deleted \nYou've removed $1 from the list\nTo add this contact again do: /add $1
+general General Options
 groupadded \nAdded group $1.
 groupdeleted \nYou've deleted group $1 \nTo add this group again do: /addgroup $1
 italic Italic
 keyword Keyword
+localization Localization
 multiplecolorsbutton Add a new color
 nosuchcommand No such command.
 overstrike Overstrike
@@ -32,6 +34,7 @@ qthelp Here you should configure your quick text, the keywork and the text.\nThe
 quicktext Quick texts
 reset Reset styles
 resource Resource
+rusage Here you can insert an indentificator of the software your're using or where you are or whatever you want. It will be added at the end of your nick between { and }. It tries to emulate the jabber feature. To avoid this feature, leave it blank.
 text Text to write
 underline Underline
 screenshot Send a screenshot
