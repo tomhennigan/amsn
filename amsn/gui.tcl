@@ -3435,7 +3435,7 @@ proc cmsn_draw_main {} {
 		$pgBuddyTop configure -padx 0 -pady 0
 	}
 
-	ScrolledWindow $pgBuddy.sw -auto vertical -scrollbar vertical
+	ScrolledWindow $pgBuddy.sw -auto vertical -scrollbar vertical -ipad 0
 	pack $pgBuddy.sw -expand true -fill both
 	set pgBuddy $pgBuddy.sw
 
@@ -6970,7 +6970,7 @@ proc pictureBrowser {} {
 
 	set selected_image [::config::getKey displaypic]
 
-	ScrolledWindow .picbrowser.pics -auto vertical -scrollbar vertical
+	ScrolledWindow .picbrowser.pics -auto vertical -scrollbar vertical -ipad 0
 	text .picbrowser.pics.text -width 40 -font sboldf -background white \
 		-cursor left_ptr -font splainf -selectbackground white -selectborderwidth 0 -exportselection 0 \
 		-relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0 -wrap none

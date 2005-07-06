@@ -152,7 +152,7 @@ namespace eval ::guiContactList {
 		wm geometry $window 1000x1000
 
 		# Set up the 'ScrolledWindow' container for the canvas
-		ScrolledWindow $clcontainer -auto vertical -scrollbar vertical -bg white -bd 0
+		ScrolledWindow $clcontainer -auto vertical -scrollbar vertical -bg white -bd 0 -ipad 0
 		# TODO: * ScrolledWindow should be feeded a command run on scroll (reset the image)
 		#	* bgcolor should be skinnable
 

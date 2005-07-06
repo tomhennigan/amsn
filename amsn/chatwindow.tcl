@@ -1615,7 +1615,7 @@ namespace eval ::ChatWindow {
 		# Create the widgets
 		frame $fr -class Amsn -borderwidth 0 -relief solid \
 			-background [::skin::getKey chatwindowbg] -height [::config::getKey winchatoutheight]
-		ScrolledWindow $out -auto vertical -scrollbar vertical
+		ScrolledWindow $out -auto vertical -scrollbar vertical -ipad 0
 		framec $text -type text -relief solid -foreground white -background [::skin::getKey chat_output_back_color] -width 45 -height 3 \
 			-setgrid 0 -wrap word -exportselection 1 -highlightthickness 0 -selectborderwidth 1 \
 			-borderwidth [::skin::getKey chat_output_border] \

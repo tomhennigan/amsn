@@ -25,7 +25,7 @@ namespace eval ScrolledWindow {
 	{-auto	      Enum	 both 0 {none both vertical horizontal}}
 	{-sides	      Enum	 se   0 {ne en nw wn se es sw ws}}
 	{-size	      Int	 0    1 "%d >= 0"}
-	{-ipad	      Int	 1    1 "%d >= 0"}
+	{-ipad	      Int	 0    1 "%d >= 0"}
 	{-managed     Boolean	 1    1}
 	{-relief      TkResource flat 0 frame}
 	{-borderwidth TkResource 0    0 frame}
