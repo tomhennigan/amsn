@@ -4814,9 +4814,7 @@ proc system_message {msg} {
 }
 
 proc myRand { min max } {
-	set maxFactor [expr {$max + 1 - $min}]
-	set value [expr {int(rand() * 1000000)}]
-	return [expr {($value % $maxFactor) + $min}]
+	return [expr {int($min + rand() * (1+$max-$min))}]
 }
 
 
