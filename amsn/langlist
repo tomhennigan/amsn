@@ -28,7 +28,7 @@
 	<lang>
 		<langcode>ca</langcode>
 		<name>Catalan (català)</name>
-		<version>1.112</version>
+		<version>1.113</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -58,7 +58,7 @@
 	<lang>
 		<langcode>nl</langcode>
 		<name>Dutch (Nederlands)</name>
-		<version>1.122</version>
+		<version>1.123</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -148,7 +148,7 @@
 	<lang>
 		<langcode>id</langcode>
 		<name>Indonesian (Bahasa Indonesia)</name>
-		<version>1.45</version>
+		<version>1.46</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -160,7 +160,7 @@
 	<lang>
 		<langcode>it</langcode>
 		<name>Italian (italiano)</name>
-		<version>1.50</version>
+		<version>1.51</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -202,13 +202,13 @@
 	<lang>
 		<langcode>pt</langcode>
 		<name>Portuguese - Portugal (português)</name>
-		<version>1.62</version>
+		<version>1.63</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
 		<langcode>pt_BR</langcode>
 		<name>Portuguese - Brazil</name>
-		<version>1.20</version>
+		<version>1.21</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -232,7 +232,7 @@
 	<lang>
 		<langcode>sl</langcode>
 		<name>Slovenian (slovenščina)</name>
-		<version>1.36</version>
+		<version>1.37</version>
 		<encoding>iso8859-2</encoding>
 	</lang>
 	<lang>
