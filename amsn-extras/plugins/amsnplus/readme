@@ -24,7 +24,6 @@ Features:
       /config			opens the preferences window
       /delete user_login	deletes a contact from list (without confirmation)
       /deletegroup groupname	delete a group of contacts
-      /font font_face		changes config font to font_face
       /help			displays this help
       /info field		displays your current value from field, possibilities:
       		color	your chat font color
@@ -42,7 +41,6 @@ Features:
       /shell string		executes string in the system shell (see particularities en tcl documentation for windows platform)
       /speak user_login		opens a conversation with user_login
       /state new_state		sets your state to new_state
-      /style new_style		changes config style to new_style
       /text string		it shows string without parsing it
       /unblock user_login	unblocks user_login
       /whois user_login		gives information about a contact specified by the user_login

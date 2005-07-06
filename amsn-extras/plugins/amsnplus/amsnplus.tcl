@@ -1368,14 +1368,6 @@ namespace eval ::amsnplus {
 				} else {
 					::amsnplus::write_window $chatid "[trans groupdeleted $groupname]" 0
 				}
-			} elseif {[string equal $char "/font"]} {
-				set msg [string replace $msg $i [expr $i + 5] ""]
-				set strlen [string length $msg]
-				set fontfamily [::amsnplus::readWord $i $msg $strlen]
-				::config::setKey mychatfont "$fontfamily $fontstyle $fontcolor"
-				set flen [string length $fontfamily]
-				set msg [string replace $msg $i [expr $i + $flen] ""]
-				set strlen [string length $msg]
 			} elseif {[string equal $char "/help"]} {
 				set msg [string replace $msg $i [expr $i + 5] ""]
 				set strlen [string length $msg]
@@ -1527,14 +1519,6 @@ namespace eval ::amsnplus {
 						::amsnplus::write_window $chatid "[trans cnewstatenotvalid $nstate]" 0
 					}
 				}
-			} elseif {[string equal $char "/style"]} {
-				set msg [string replace $msg $i [expr $i + 6] ""]
-				set strlen [string length $msg]
-				set fontstyle [::amsnplus::readWord $i $msg $strlen]
-				::config::setKey mychatfont "$fontfamily $fontstyle $fontcolor"
-				set flen [string length $fontstyle]
-				set msg [string replace $msg $i [expr $i + $flen] ""]
-				set strlen [string length $msg]
 			} elseif {[string equal $char "/unblock"]} {
 				set msg [string replace $msg $i [expr $i + 8] ""]
 				set strlen [string length $msg]
