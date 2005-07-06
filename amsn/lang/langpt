@@ -82,7 +82,7 @@ cantremoveothers Não é possível remover o grupo "Outros"
 casesensitive Usar actuadores de "case-sensitive" (sensibilidade ao CAPS)
 cfgalarmall Configurar/Adicionar/Remover Alarme Global
 cfgalarm Configurar/Adicionar/Remover Alarme
-change Alterar	
+change Alterar
 changecustomstate Mudar para
 changedisplaypic Mudar a imagem de utilizador
 changefont Mudar o tipo de letra
@@ -154,7 +154,7 @@ custnotifymsg  Mostrar janela de notificação quando uma nova mensagem chegar
 custnotifyoffline Mostrar janela de notificação quando este contacto terminar sessão
 custnotifyonline Mostrar janela de notificação quando este contacto iniciar sessão
 custnotifystatus Mostrar janela de notificação quando este contacto mudar de estado
-customcolor Cor personalisada	
+customcolor Cor personalisada
 custom_edit Criar "smiley"
 custom_new Adicionar novos "smileys" criados
 customnick Nick personalisado
@@ -203,11 +203,10 @@ editnewstate Novo Estado Pessoal de Automensagem
 editprofile Editar Perfil
 editstate Editar o Estado de Automensagem Existente
 editvalue Editar valor
-email	Email
+email Email
 emailsinlist Mostrar e-mails ao invés dos nicks na lista de contactos
 emotisounds Reproduzir sons para certos ícones de emoção
 emptygroup Esvaziar grupo
-enablebanner Mostrar imagem do aMSN (Requer re-inicialização do aMSN)
 enabled Activado
 enableproxy Activar "proxy"
 enableremote Activar controlo remoto
@@ -301,8 +300,8 @@ keepalive Manter vivo (NAT)
 keeplog2 Registar todas as conversas no Histórico do aMSN para visualização futura
 keeplog Manter o Registo das Conversações
 language Linguagem
-lastlogin Último login	
-lastlogout Último logout	
+lastlogin Último login
+lastlogout Último logout
 lastmsgedme Última mensagem
 lastmsgtime Última mensagem recebida em $1
 lastseen Ultima vez online
@@ -372,7 +371,6 @@ name Nome
 natip Detecção de IP por página Internet
 natkeepalive Se anda a ser desligado(a) com frequência, ligue este "Manter Vivo"
 needonline Você ainda está/aparece como desligado!
-needwinico Necessitas de colocar o ficheiro winico03.dll no directório dos plugins para a funcionalidade de "windows traydocking" funcionar
 never Nunca
 new_ft_protocol Usar o novo Protocolo de Transferência de ficheiros (contém alguns erros)
 newmail $1 novas mensagens na Caixa de Entrada
@@ -383,7 +381,7 @@ newmsg Nova mensagem
 newstate Adicionar um estado configurado
 newveravailable Nova versão disponível para descarga
 next Seguinte
-nick Nick	
+nick Nick
 noactivity Sem actividade
 nodataavailable Sem dados disponíveis para $1
 nogap Sem espaços entre grupos
@@ -404,7 +402,7 @@ notify1_75 Mostrar uma janela de notificação quando um contacto muda o seu estad
 notify1 Mostrar janela de notificação quando são recebidas novas mensagens
 notify2 Mostrar janela de notificação quando recebe novas mensagens
 notify3 Mostrar janela de notificação quando recebe correio electrónico
-notify4	Mostrar janela de notificação quando recebe novas mensagens de outros directórios
+notify4 Mostrar janela de notificação quando recebe novas mensagens de outros directórios
 notify avisar
 notifyoffset Colocar a janela de aviso por forma a ter espaço lateral
 notifytimeout Numero de milisegundos antes da janela de notificação deparecer
@@ -497,7 +495,7 @@ reject Rejeitar
 rememberpass Guardar palavra-chave
 removeempty Remover grupos vazios da lista de contactos
 removefromlist Remover desta lista
-rename	Renomear
+rename Renomear
 required_version Foi impossível carregar este plug-in dado que requer a versão $1 do aMSN (no mínimo)
 reversed Revertido
 reverselist Lista de Reversos (LR):
@@ -548,7 +546,7 @@ soundserver Servidor de Som
 sound Sons de Eventos
 soundstatus Alarme Sonoro
 sourcecode Código Fonte (necessita de compilação e instalação)
-splashstart	Iniciar
+splashstart Iniciar
 sslwarning AVISO!! Desactivar o SSL irá desactivar a encriptação, tal que a sua palavra-chave irá ser enviada simplesmente como texto através da rede. Usar apenas em caso de "proxies" ou configurações de rede seguras!
 startoffline2 Início de sessão silencioso ("Aparentar Desligado")
 startoffline Começar Desligado
@@ -629,3 +627,85 @@ yoffset Margem vertical
 youblocked Você foi bloqueado por
 yousay Você diz
 youwant Você quer
+lazypicretrieval Obtenção de imagens de utilizador por necessidade
+activeautoupdate Auto-actualização activa
+add Adicionar
+agotinvitation Recebido convite Audio de $1
+allmonths Todos os meses
+allow_sms Permitir que os utilizadores contactem-me pelo meu telefone móvel MSN
+askeachtime Perguntar cada vez
+askwebcam Pedir a este utilizador para enviar a sua webcam
+avaccepted Chamada de conferência por Video aceite
+avcanceled Chamada de conferência por Video cancelada
+avgotinvitation Recebido convite de chamada de conferência por Video de $1
+avinitfailed Inicialização do plugin de Audio/Video falhou. Chamada cancelada.
+cantloadonlineversion Não foi possível recuperar da Internet a lista actualizada de idiomas.
+checkopenfilecommand Por favor seleccione o comando de ficheiros abertos na janela de preferências.
+clearwebcamlogs Limpar todos os logs de webcam
+clicktoadd Clique no adicionar para criar uma nova nota
+closeall Fechar todas as tabs da janela?
+closealltabs Fechar todas as tabs
+closelabel Quando carrega no botão de fechar numa janela de chat com tabs
+closeonly Fechar apenas a tab corrente
+contact Contactar
+conversationwith $1 utilizadores em conversação
+created Criado
+currentlanguage Este é o idioma que você usa
+currentnotes Notas correntes
+deleteall Apagar tudo
+detach Desprender
+download Descarregar
+filenotwritable Este ficheiro não pode ser apagado
+filters Filtros
+filtersselect Seleccione os filtros que quer ver\n(Note que se não seleccionar nenhum significa que vão ser mostrados todos)
+filtersx Selecção de filtros
+ftautoclose Fechar a janela quando a transferência de ficheiros acabar
+globalcontainer Contentor global
+inserttextnote Inserir texto dentro do campo assunto e do campo nota, seguidamente clique em Salvar
+invalidparameter Erro ao estabelecer ligação com o servidor: parâmetro inválido
+language_manager Gestor de idiomas
+logwebcam Salvar todas as secções de webcam para a Historia do aMSN para visionamento futuro
+mobilegrp1 Grupo Móvel
+mobilegrp2 Por utilizadores no grupo "Móvel" quando estiverem desligados (e ordenados por estado)
+modified Modificado
+needwinico2 É necessário o ficheiro winico05.dll dentro do directório utils/windows para que a funcionalidade de traydocking de janelas funcione
+newline Nova linha
+newtabbedfeature O aMSN tem um nova funcionalidade para gerir conversações, você agora pode ter todas as janelas do mesmo grupo ou de toda a lista de contactos numa única janela com tabs. Por favor seleccione a maneira com prefere que o aMSN gira as suas conversações
+note Nota
+nottabbed Janela normal sem tabs
+opendir Abrir directório
+openfilecommand Comando de abrir ficheiro
+openfile Abrir
+pause Pausar
+play Play
+preview Previsionar
+remembersetting Guardar esta opção
+selectall Seleccionar tudo
+sendmobmsg Enviar para telemóvel
+sendwebcaminvite Convidar um utilizador para visionar a sua webcam
+showpicnotify Mostrar a imagem dos utilizadores nas janelas de notificação
+signinstatus Estado de Sign-in
+stats Estatísticas
+stop Parar
+subjectrequired Assunto necessário
+subject Assunto
+tabbedglobal Uma janela com tabs para todos os utilizadores da lista de contactos
+tabbedgroups Uma janela com tabs para utilizadores do mesmo grupo
+tabtitlenick Mostrar alcunhas ("nicknames") nos tabs em vez dos endereços de email
+takesnapshot Tirar fotografia
+thismonth Este mês
+throughserver Através do servidor
+timestamp Registo das horas
+tomobile Para telemóvel
+update Actualizar
+updating Em actualização
+unselectall Remover selecção de tudo
+useasdp Usar como Imagem de Exibição
+webcamshot Fotografia de Webcam 
+webcamhistory Visionar as sessões de Webcam
+whatsize A imagem que pediu não tem as dimensões normais (96x96)\n Quer que a imagem seja mostrada com tendo que tamanho?
+wintitlenick Mostrar alcunhas ("nicknames") nas janelas com tabs em vez dos endereços de email
+yesblock Sim e bloquear
+zoom Zoom
+emoticon_steal Adicionar aos emoticons
+smiletoobig O "smiley" que escolheu tem dimensões superiores às normais. Quer alterar-lhe o tamanho? 

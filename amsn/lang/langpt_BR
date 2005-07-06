@@ -12,7 +12,7 @@ addprofiledesc Entre com o login para o qual você gostaria de criar um novo perf
 addstate Adicionar Novo Estado
 addto adicionar a $1
 addtocontacts Adicionar à lista de contatos
-addtoo Adicionar esta pessoa à minha lista de contato
+addtoo Adicionar esta pessoa à minha lista de contatos
 admincontacts Gerenciar contatos
 admingroups Gerenciar grupos
 advanced Avançado
@@ -400,7 +400,6 @@ name Nome
 natip Detectar IP pela web
 natkeepalive Estou sendo desconectado com freqüência (manter conexão ativa)
 needonline Você ainda está/aparece desconectado
-needwinico Preciso do arquivo winico03.dll no diretório de plugins para que o icone possa ficar na barra do windows
 needwinico2 Preciso do arquivo winico05.dll no diretório utils/windows para que o ícone de inicialização rápida possa funcionar na barra de tarefas do windows 
 never Nunca
 new_ft_protocol Novo protocolo de transferência de arquivos (ainda possui alguns bugs)
@@ -691,5 +690,22 @@ timestamp Horário
 updating Atualizando 
 useasdp Usar como figura de display
 webcamshot Foto da WebCam
-whatsize A imagem que você requisitou não é possue um tamanho (96x96) normal de figura para display\n Com que tamanho você gostaria que a figurasse fosse mostrada?
+whatsize A imagem que você requisitou não possui um tamanho (96x96) normal de figura para display\n Com que tamanho você gostaria que a figura fosse mostrada?
 zoom Zoom 
+askeachtime Solicitar cada vez
+askwebcam Solicitar ao usuário para enviar sua webcam
+clearwebcamlogs Limpar todos os logs da Webcam
+closealltabs Fechar todas as abas
+closelabel Quando você clica o botão fechar em uma janela interna (com abas)
+closeonly Fechar somente a aba atual
+emoticon_steal Adicionar aos emoticons
+logwebcam Gravar todas as sessões da webcam no Histórico do aMSN para leitura posterior
+pause Pausar
+play Tocar
+remembersetting Relembrar esta configuração
+sendwebcaminvite Convidar um usuário para ver sua webcam
+smiletoobig O smile que você escolheu é maior que o tamanho normal. Você deseja redimensioná-lo?
+stop Parar
+throughserver Através do Servidor
+unselectall Deselecionar tudo
+webcamhistory Ver sessões da Webcam

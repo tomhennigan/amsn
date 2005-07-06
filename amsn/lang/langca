@@ -42,6 +42,8 @@ appearance Aparença
 appearoff Simula desconnexió
 areacode Codi d'àrea
 aretyping $1 estan escrivint un missatge
+askeachtime Preguntar cada cop
+askwebcam Preguntar a l'usuari per enviar la webcam
 author Autor
 autoaccepted Transferència del fitxer acceptada automàticament
 autoacceptft Accepta automàticament les transferències de fitxers
@@ -125,6 +127,7 @@ clearlog2 Neteja l'històric per tots els contactes
 clearlog3 Netejar tots els registres
 clearlog Neteja de l'històric
 clear Netejar
+clearwebcamlogs Netejar tots els historials de webcams
 clicktoadd Click al botó "afegir" per escriure una nota nova
 clicktologin Apreta aquí per iniciar la sessió
 clientcaps Enviar paquets x-clientcaps a altres clients
@@ -132,7 +135,10 @@ clientname Nom del client
 closed Conversa amb $1 tancada per inactivitat
 close Tancar
 closeall Tancar totes les pestanyes de la finestra?
+closealltabs Tancar totes les pestanyes
 closingdocks El botó tancar minimitza la finestra
+closelabel Quan fas click al botó tancar a una finestra de xat amb pestanyes
+closeonly Tancar només la pestanya actual
 command Reproductor
 commandstatus Executar comanda
 configure Configurar
@@ -337,6 +343,7 @@ lastlogout Últim tancament de sessió
 lastmsgedme Últim missatge
 lastmsgtime Últim missatge rebut a les $1
 lastseen Última vegada connectat
+lazypicretrieval Recuperació vaga de les imatges per mostrar
 lclosedwin $1 ha tancat la finestra a les $2
 lconftopriv La conversa múltiple canvia a conversa privada amb $1
 lconvstarted Conversa iniciada a les $1
@@ -370,6 +377,7 @@ logsbydate Ordena els registres per data (mostra l'històric molt més ràpidament)
 logsin s'acaba de connectar
 logsmileys Mostrar emoticones a la finestra d'històric de l'aMSN
 logsout s'acaba de desconnectar
+logwebcam Desar totes les sessions de webcam al historial de l'aMSN per futures revisions
 longnick El teu sobrenom conté més de 130 caràcters i el protocol MSN no els accepta. Estàs segur de voler tenir aquest sobrenom?
 longp4c El teu sobrenom és més llarg de 130 caràcters. El sobrenom que es veurà des d'un client oficial MSN serà $1. Estàs segur d'utilitzar-lo?
 lprivtoconf La conversa privada canvia a conversa múltiple amb $1
@@ -470,14 +478,16 @@ others Altres
 other Un altre
 p4contextprefix Text complementari al P4-Context
 pager Paginador
+personal Personal
 pass Contrasenya
 paste Enganxa
-personal Personal
+pause Pausa
 phones Números de telèfon
 phone Telèfon
 picbrowser Navegador d'avatars
 picfile Fitxer d'imatge per a l'alarma (GIF < 500 x 500)
 picstatus Imatge per a l'alarma
+play Reproduir
 playing Reproduint: $1
 pluginselector Selecciona el connector
 port Port
@@ -538,6 +548,7 @@ reconnect Esperant a que $1 es reconnecti
 reconnecting Reconnectant amb el servidor
 reject Rebutjar
 rememberpass Recordar contrasenya
+remembersetting Recordar aquesta característica
 removeempty Elimina els grups buits de la llista de contacte
 removefromlist Suprimeix d'aquesta llista
 rename Renombrar
@@ -560,6 +571,7 @@ sendfile Enviar fitxer
 sendmail Enviar correu electrònic
 sendmobmsg Enviar a Dispositiu Mòbil
 sendmsg Enviar missatge
+sendwebcaminvite Invitar a un usuari a veure la teva webcam
 sentbytes Enviats $1 de $2 bytes
 serverbusy El servidor està ocupat
 servergoingdown Desconnectat: El servidor s'apagarà per manteniment
@@ -610,6 +622,7 @@ statenick Sobrenom personalitzat (deixa'l en blanc per no canviar res)
 state Vull aparèixer com
 stats EstadÃ?Â­stique
 status Estat
+stop Parar
 stopalarm Parar l'alarma
 storenickname Retorna al sobrenom original al sortir d'un estat personalitzat
 strictfonts Restringeix la mida de les fonts a la seleccionada
@@ -628,6 +641,7 @@ takesnapshot Fer captura
 temp_state Sense desar (estat temporal que serà eliminat quan tanquis l'aMSN)
 textsize Mida del text
 thismonth Aquest mes
+throughserver A través del servidor
 timeremaining Temps restant
 timestamp Marques d'hora
 timestamps Mostra l'hora a les converses
@@ -653,6 +667,7 @@ twonewmail $1 missatges nous a la bústia
 unblock Desbloquejar
 unknown Desconegut
 unload Descarregar
+unselectall Desceleccionar-ho tot
 uoffline Desconnectats
 uonline Connectats
 update Actualització
@@ -672,6 +687,7 @@ version Versió
 viewcontactsby Mostra els contactes per
 viewprofile Mostrar perfil
 view Veure
+webcamhistory Veure les sessions de webcam
 webcaminvite $1 t'ha convidat a iniciar una conversa amb webcam però l'aMSN encara no ho suporta.
 webcamshot Captura des de la webcam
 whatsize La imatge que has demanat no tÃ?Â© el tamany normal\nd'avatar(96x96) A quin tamany vols que es mostri la imatge? 
@@ -693,3 +709,4 @@ yoffset Desplaçament Y
 youblocked Has estat bloquejat per
 yousay Dius
 youwant Vols
+zoom Zoom

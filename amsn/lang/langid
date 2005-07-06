@@ -28,12 +28,12 @@ alarms Alarm-alarm
 alarmstatus Matikan/Nyalakan alarm untuk dia
 allfiles Semua Berkas
 allmonths Semua Bulan
+allow_sms mengizinkan pemakai untuk kontak saya lewat MSN mobile
 allowallbutbl Ijinkan semua pengguna menghubungi saya kecuali mereka dalam Daftar Blokir
 allowbadwords Matikan sensor terhadap nama panggilan
 allowlist Daftar Boleh (yang dibolehkan)
 allowonlyinal Ijinkan hanya pengguna dalam Daftar Terima untuk menghubungi saya
 allowseen Perbolehkan orang ini untuk melihat status saya dan menghubungi saya
-allow_sms mengizinkan pemakai untuk kontak saya lewat MSN mobile
 allprofilesinuse Semua profil yang ada sedang dipakai
 animatedemoticon Emotikon ini memiliki animasi
 animatedsmileys Mungkinkan smiley dengan animasi
@@ -42,6 +42,8 @@ appearance Tampilan
 appearoff Sembunyi
 areacode Kode Area
 aretyping $1 sedang mengetik pesan
+askeachtime Tanya setiap kali
+askwebcam Minta pengguna ini untuk mengirim webcamnya
 author Pencipta
 autoaccepted Transmisi Berkas diterima secara otomatis
 autoacceptft Terima permintaan Transmisi Berkas secara otomatis
@@ -57,9 +59,9 @@ automessage PesanOtomatis
 autonoact Tunjukkan sebagai 'Tidak Aktif' setelah tidak aktif selama
 avaccepted obrolan telfon video diterima
 avcanceled obrolan telfon video di batalkan
-avoidseen Orang ini dilarang melihat status saya maupun menghubungi saya
 avgotinvitation undangan untuk menerima obrolan lewat video dari $1 = Rp.9.000,00,-
 avinitfailed Pengenalan untuk Audio atau Video gagal
+avoidseen Orang ini dilarang melihat status saya maupun menghubungi saya
 away Tidak ada ditempat
 awaymsg1 Tanyakan untuk pesan ?tidak ada? setiap kali saya merubah status ke tidak ada/segera kembali/sibuk
 awaymsg2 Jangan pernah menanyakan dan selalu gunakan pesan tidak ada berikut
@@ -125,13 +127,17 @@ clear Jelas/Bebas
 clearlog Bersihkan Register
 clearlog2 Bersihkan sejarah untuk semua kontak
 clearlog3 Bersihkan semua register
+clearwebcamlogs Bersihkan semua catatan Webcam
 clicktoadd Klik di ADD Button untuk menulis baru
 clicktologin Klik disini untuk Daftar-Masuk
 clientcaps Kirim paket x-clientcaps kepada klient yang lain
 clientname Nama Klien
 close Tutup
 closeall Tutup semua yang ada di jendela
+closealltabs Tutup semua tab
 closed Percakapan dengan $1 ditutup karena tidak aktif
+closelabel Ketika anda mengklik tombol tutup dalam jendela percakapan ber-tab
+closeonly Tutup hanya tab yang bersangkutan
 closingdocks Tombol Tutup mengecilkan window
 command Perintah
 commandstatus Jalankan Perintah
@@ -226,6 +232,7 @@ editstate Rubah Keadaan Pesan-otomatis yang sudah ada
 editvalue Rubah Nilai/Makna
 email Email (Surat Elektronik)
 emailsinlist Tampilkan email sebagai ganti dari nama panggilan dalam daftar kontak
+emoticon_steal Tambahkan ke emotikon
 emotisounds Mainkan suara pada emoticon tertentu
 emptygroup Kosongkan kelompok (grup)
 enabled Memungkinkan
@@ -335,6 +342,7 @@ lastlogout LogOut Terakhir
 lastmsgedme Pesan Terakhir
 lastmsgtime Pesan terakhir diterima pada $1
 lastseen Terakhir kali online
+lazypicretrieval Pengambilan kembali Tampilan Gambar Malas
 lclosedwin $1 telah menutup window atas $2
 lconftopriv Konferensi berubah menjadi percakapan pribadi dengan $1
 lconvstarted Percakapan dimulai pada $1
@@ -368,6 +376,7 @@ logsbydate Urut register (log) berdasarkan tanggal (Lihat sejarah dimuat jauh le
 logsin baru saja register
 logsmileys Tampilkan Emoticon dan Smiley dalam sejarah a'MSN
 logsout baru saja daftar-keluar
+logwebcam Simpan semua sesi webcam ke dalam Sejarah aMSN untuk dilihat di masa mendatang
 longnick Nama panggilan (alias) anda lebih panjang dari 130 huruf. Hal tersebut tidak didukung secara resmi oleh protokol MSN. Apakah anda yakin anda ingin memasangnya?
 longp4c Nama Akrab Anda lebih panjang dari 130 karakter. Nama Akrab yang akan tampil pada klient MSN resmi adalah $1. Apakah anda yakin ingin melihatnya?
 lprivtoconf Percakapan pribadi berubah menjadi konferensi dengan $1
@@ -407,6 +416,7 @@ needonline Anda masih tidak tersambung atau sedang sembunyi!
 needwinico2 Memerlukan winico05.dll dalam direktori utils/windows supaya labuhanbaki (traydoking) jendela dapat bekerja
 never Tidak Pernah
 new_ft_protocol Gunakan protokol Pemindahan Berkas yang baru (masih ada beberapa bug)
+newline Baris baru
 newmail $1 email baru dalam Kotak-Masuk
 newmailfolder Anda memiliki $1 pesan baru di dalam map (folder) Hotmail yang lain
 newmailfrom Email baru dari $1 ($2)
@@ -455,8 +465,8 @@ onenewmail Ada email baru di Kotak-Masuk
 online Tersambung
 onphone Sedang telepon
 opendir Buka direktori
-openfilecommand Buka file
 openfile Buka
+openfilecommand Buka file
 openreceived Buka berkas yang telah diterima
 options Pilihan
 ordercontactsby Urutkan daftar kenalan (kontak) berdasarkan
@@ -468,12 +478,14 @@ p4contextprefix Awalan (Prefix) P4-Context terkirim dengan string ini
 pager Penyeranta
 pass Kata sandi
 paste Tempelkan
+pause Jeda
 personal Pribadi
 phone Telepon
 phones Nomor-nomor telpon
 picbrowser Tampilkan Browser Gambar
 picfile Berkas gambar (GIF < 500 x 500)
 picstatus Alarm bergambar
+play Mainkan
 playing Memainkan: $1
 pluginselector Pilih Tambahan-tambahan (plugins)
 port Pintu
@@ -534,6 +546,7 @@ reconnect2 Sambung kembali ketika hilang
 reconnecting Memulihkan sambungan ke server
 reject Tolak
 rememberpass Simpan kata sandi
+remembersetting Ingat pengaturan ini
 removeempty Hilangkan kelompok-kelompok kosong dari daftar kontak
 removefromlist Hilangkan dari daftar ini
 rename Ganti Nama
@@ -556,6 +569,7 @@ sendfile Kirim berkas
 sendmail Kirim e-mail
 sendmobmsg Kirim ke telfon genggam
 sendmsg Kirim pesan
+sendwebcaminvite Undang pengguna untuk melihat webcam anda
 sentbytes $1 dari $2 byte telah dikirim
 server Server
 serverbusy Server sedang Sibuk
@@ -578,6 +592,7 @@ smileconfig Pengaturan emoticon sesuai kehendak
 smilefile Nama berkas smiley
 smileintro Tolong isi bidang yang diperlukan untuk menciptakan smiley baru sesuai kehendak (lihat PSD untuk bantuan)
 smileintro2 Tolong isi bidang yang diperlukan untuk merubah smiley sesuai kehendak (lihat PSD untuk bantuan)
+smiletoobig Smiley yang anda pilih adalah lebih besar dari ukuran normal. Apakah and ingin merubah ukurannya kembail ?
 snackfailed Snack gagal termuat (load), merubah ke standard
 sngdblclick Klik tunggal untuk membuka jendela pesan baru
 sound Suara Perisitwa
@@ -606,6 +621,7 @@ statenewtext Mohon masukkan informasi yang diwajibkan untuk menciptakan Kondisi 
 statenick Nama panggilan (alias) pilihan (tinggalkan kosong bila tidak diganti)
 stats Statistik
 status Status
+stop Stop
 stopalarm Stop alarm
 storenickname Kembali ke nama panggilan (alias) asli setelah kondisi tertentu dengan nama panggilan tertentu
 strictfonts Batasi ukuran semua huruf kepada satu yang saya pilih (Status bar dan lainnya)
@@ -613,8 +629,8 @@ style Gaya
 stylechat Tampilan sama seperti pada percakapan
 stylehist Sejarah tampilan a'MSN
 stylelog Pilih bentuk di dalam mana anda ingin melihat sejarah anda
-subjectrequired subjek diharuskan
 subject Subjek
+subjectrequired subjek diharuskan
 syntaxerror Kesalahan Sintaks
 tabbed Window yang ditandai
 tabbedglobal jendela tabbed untuk semua user di daftar
@@ -624,7 +640,9 @@ takesnapshot Ambil shot ycepat
 temp_state Jangan disimpan (Kondisi sementara, akan terlewatkan saat menutup AMSN)
 textsize Besar huruf
 thismonth bulan ini
+throughserver Melalui server
 timeremaining Waktu yang tersisa
+timestamp Penanda waktu
 timestamps Mungkinkan penanda waktu pada jendela percakapan
 title Al's Messenger
 tkerror TK membawa error, terdapat bug dalam amsn, mohon dilaporkan. Kirim berkas $1 ke amsn-bugs@lists.sf.net
@@ -648,6 +666,7 @@ twonewmail $1 email baru dalam Kotak-Masuk
 unblock Cabut blokiran
 unknown Tidak dikenal
 unload Melepas/Membongkar
+unselectall Tidak memilih semua
 uoffline Tidak Tersambung
 uonline Tersambung
 update Memperbaharui
@@ -667,6 +686,7 @@ version Versi
 view Tampilan
 viewcontactsby Lihat kenalan (kontak) berdasarkan
 viewprofile Lihat Profil Pemakai
+webcamhistory Lihat sesi Webcam
 webcaminvite $1 mengundang anda untuk memulai sesi webcam, tetapi aMSN tidak mendukung fasilitas ini.
 webcamshot shut web kamera
 whatsize gambar yang kamu minta tidak gambar yang normal ukuran berapa yang kamu minta untuk tampilan gambar
@@ -688,3 +708,4 @@ yoffset Keseimbangan Posisi Y
 youblocked Anda telah diblokir
 yousay Anda Katakan
 youwant Anda Inginkan
+zoom Zoom (Perbesar/Perkecil)

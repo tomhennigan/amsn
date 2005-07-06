@@ -108,7 +108,7 @@ chat Pogovor
 chatack Sprejemam pogovor od
 chatmaxmin Ko stik zaène pogovor z mano, hoèem, da je:
 chatreq Zahtevam pogovor
-chatsmileys Sme¹koti
+chatsmileys Sme¹ki
 chatsmileys2 Prika¾i emotikone in sme¹ke v pogovornih oknih
 checkblocking Preverjaj, èe te ostali blokirajo
 checkemail Poka¾i obvestilo o novi po¹ti v seznamu stikov
@@ -232,6 +232,7 @@ editstate Uredi obstojeèe stanje za avtomatsko sporoèilo
 editvalue Uredi vrednost
 email E-po¹ta
 emailsinlist Poka¾i po¹tne naslove namesto nickov v seznamu stikov
+emoticon_steal Dodaj med emotikone
 emotisounds Igraj zvok na doloèene emotikone
 emptygroup Izprazni skupino
 enabled Vkljuèeno
@@ -591,6 +592,7 @@ smileconfig Nastavitve tvojih emotikonov
 smilefile Datoteka
 smileintro Izpolni potrebna polja, èe ¾eli¹ ustvariti novega lastnega sme¹ka (poglej v FAQ za pomoè)
 smileintro2 Uredi potrebna polja, èe ¾eli¹ spremeniti tega sme¹ka (poglej v FAQ za pomoè)
+smiletoobig Izbrani sme¹ko je veèji kot obièajni. Ga ¾eli¹ zmanj¹ati?
 snackfailed Snack se ni uspel nalo¾iti, ponastavljam
 sngdblclick Enojni klik odpre okno s pogovorom
 sound Zvok dogodka

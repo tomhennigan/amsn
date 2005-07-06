@@ -232,6 +232,7 @@ editstate Persoonlijke status wijzigen
 editvalue Wijzig waarde
 email E-mail
 emailsinlist E-mail adressen weergeven in de contactpersonenlijst
+emoticon_steal Toevoegen aan mijn emoticons
 emotisounds Geluid bij emoticons gebruiken
 emptygroup Groep leegmaken
 enabled Actief
@@ -591,6 +592,7 @@ smileconfig Configuratie voor zelfgemaakte emoticons
 smilefile Bestandsnaam van de emoticon
 smileintro2 Pas de nodige velden aan om deze emoticon te bewerken
 smileintro Vul de nodige velden in om een nieuwe emoticon te maken
+smiletoobig De gekozen emoticon is groter dan gewoonlijk. Wil je de grootte aanpassen?
 snackfailed Het is niet gelukt om Snack te laden. Teruggevallen op de standaardfuncties.
 sngdblclick Slechts eenmaal klikken om een nieuw gespreksvenster te openen
 sound2 Geluid afspelen wanneer contactpersonen zich aanmelden of een bericht verzenden

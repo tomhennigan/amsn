@@ -134,7 +134,7 @@ clientcaps Invia pacchetto "x-clientcaps" a clients altrui
 clientname Nome client
 closeall Chiudi tutte le schede nella finestra?
 closealltabs Chiudi tutti i tab
-closelabel Quando clicchi sul pulsante di chiusura di una finestra con i tab
+closelabel Quando clicchi sul pulsante di chiusura di una finestra con i tab:
 closeonly Chiudi solo il tab corrente
 close Chiudi
 closed La conversazione con $1 è chiusa per inattività.
@@ -233,6 +233,7 @@ editvalue Modifica valore
 email E-mail
 emailsinlist Mostra indirizzi e-mail al posto dei nicks nella lista contatti
 emotisounds Emetti un suono per alcune Emoticons
+emoticon_steal Aggiungi alle Emoticons
 emptygroup Svuota gruppo
 enabled Attivato
 enableproxy Proxy abilitato
@@ -591,6 +592,7 @@ smileconfig Configurazione delle emoticon personalizzate
 smilefile Nome del file della faccina
 smileintro2 Per favore modifica i campi richiesti per personalizzare questa faccina (guarda le FAQ per un aiuto)
 smileintro Per favore riempi i campi richiesti per creare una nuova faccina personalizzata (guarda le FAQ per un aiuto)
+smiletoobig La faccina che hai scelto è più grande del normale. Vuoi adattarla?
 snackfailed Impossibile caricare libreria Snack, torno al default
 sngdblclick Un click per aprire una nuova finestra per i messaggi
 sound2 Emetti un suono quando i contatti entrano o mandano un messaggio
