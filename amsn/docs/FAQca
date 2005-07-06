@@ -1,0 +1,266 @@
+PMF 1.2
+-------
+
+P: ¿Què és Amsn?
+R: Amsn és un clon del Microsoft MSN Messenger. Permet mantenir-te en contacte amb els teus amics i intercanviar missatges instantanis i fitxers.
+
+INSTAL·LANT I INICIANT AMSN
+===========================
+
+P: ¿Què necessito per fer funcionar l'amsn?
+R: Amsn està escrit en llenguatge tcl/tk, vostè només necessita un intèrpret de tcl/tk, en la versió 8.3 o superior. El pots aconseguir a http://tcl.sourceforge.net.
+L'intèrpret està disponible per Linux, Windows i Macintosh.
+
+Q: ¿Com instal·lo i executo l'amsn?
+A: Senzillament descarrega el fitxer amsn-x_xx.tar.gz. Descomprimeix-lo amb el comandament a la consola:
+  gzip -d amsn-x_xx.tar.gz
+  tar xvf amsn-x_xx.tar
+Es crearà el directori msn/, i amsn ja està instal·lat i llest per executar-se.
+Per executar-lo, escriu:
+  cd msn
+  ./amsn
+i si això no funciona, intenta:
+  wish amsn
+Si el comandament 'wish' no existeix, el teu sistema no té tcl/tk correctament
+instal·lat. Si "wish amsn" funciona, però "./amsn" no ho fa, edita el fitxer
+'amsn' i posa la ruta correcta al executable 'wish' a la primera línia. Por
+defecte, està configurat com: /usr/bin/wish
+
+P: ¿Com puc crear un accés directe a amsn al meu escriptori?
+R: 1.- Afegeix una icona al teu escriptori gnome/kde o un menú que executi el
+comandament /a on/està/instal·lat/amsn
+	per exemple:
+	/home/tu_usuari/msn/amsn
+   2.- Una altra forma:
+   Com a root, crea un enllaç a /usr/bin al fitxer amsn.
+   ln -s /a on/està/instal·lat/amsn amsn
+   D' aquesta forma podràs executar amsn escrivint només 'amsn' des de
+qualsevol lloc.
+   Després afegeix una icona que executi el comandament 'amsn'.
+
+P: ¿Com puc utilitzar la icona de la safata per Gnome/Kde?
+R: Tens que executar 'make' dins del directori de plugins, per compilar
+el plugin de gnome1. Necessitaràs les llibreries de desenvolupament de gnome. Quan
+el plugin estigui compilat, només caldrà executar l'amsn i sel·leccionar Gnome Docking en el
+menú opcions. Per la versió de la icona de safata per freedesktop (compatible
+amb Gnome2 i KDE3), fes una ullada al fitxer README a plugins/traydoc.
+
+UTILITZANT AMSN
+===============
+
+P: ¿Què significa que a la meva llista de contactes aparegui un contacte en
+un color magenta?
+R: Significa que no estàs a la llista de contactes d'aquella persona.
+
+Q: ¿Puc copiar una direcció d'un contacte al portaretalls?
+A: Sí, ves a la secció privacitat del menú preferències i fes clic amb
+el botó dret al nom del contacte a qualsevol de las llistes de contactes.
+La direcció del correu del contacte serà copiada al portaretalls.
+
+Q: ¿Com puc accedir al historial de missatges que he enviat en un xat?
+A: Si vols accedir als missatges prèviament enviats en una finestra de
+xat, simplement necessites pulsar a la vegada la tecla de Control més les
+fletxes d'amunt y avall. Funciona similar a una terminal. Ctrl+Amunt et
+porta al missatge anterior, i Ctrl+Avall al següent.
+
+Q: ¿Què signifiquen les llistes de la secció "Privacitat" a les preferències?
+A: Hi ha quatre llistes, conegudes com a "Llista d'Acceptats (AL)", Llista de
+Bloquejats(BL), Llista Inversa(RL) i Llista de Contactes. La última d'elles és
+òbvia, i la resta signifiquen el següent:
+AL: Aquesta llista conté las direccions de la gent que pot veure el teu estat i
+parlar amb tu quan estàs en línia.
+BL: Aquesta és la llista de bloquejats, que conté una llista de persones que
+estan bloquejades (no admeses). No et poden veure quan estàs conectat, ni
+poden parlar amb tu.
+RL: Aquesta és la llista inversa. Conté la llista de persones que t'han afegit
+a la seva llista de contactes. Les direccions que apareixen en verd són persones
+que no tens a la llista de contactes, però tu estàs en la seva.
+
+Q: Vull afegir les meves emoticonas personalitzades, ¿com ho faig?
+A: Ara hi ha una nova opció en el menú d'emoticones que permet fer això.
+Sel·lecciona-la i apareixerà una nova finestra, a on hauràs d'emplenar els camps
+requerits. El camp "descripció" pot ser el que vulguis, només és la descripció
+que es mostra al globus d'ajuda.
+El camp "Disparador" és el text que vols que sigui substituït per la nova
+emoticona. Per exemple, les emoticones per defecte tenen disparadors
+com :), :-), etc. Pots posar varis disparadors, separats entre ells per un espai.
+Si vols posar un espai en el text disparador, l'has de posar entre cometes,
+per exemple:
+"hello there" hi "what's up"
+faria que la emoticona tingues 3 disparadors.
+El "Nom del fitxer" és el nom del fitxer .gif amb la imatge de la
+emoticona. Aquesta ha de ser de la mida 19x19 píxels. Realment pot ser de
+qualsevol mida, però si no és de 19x19, el menútextoss texts poden veure's
+malament. Pots escriure directament el nom complet, linclosancluida,
+del fitxer, utilitzar el botó "Navegsenzillamentllament posar el nom del
+fitxer sense ruta, si aquest es troba desat en el directori
+~/.amsn/<nom_del_perfil>/smileys o a msn/skins/<skin>/smileys. El
+fitxer serà copiat al seu directori del perfil, per si les mosques, després
+renombra o mou el fitxer original.
+Les mateixes propietats són aplicables per el "Fitxer de so"... aquest
+s'usa per reproduir un so quan la emoticona es mostrada. Per exemple,
+la emoticona "LOL" que es dispara amb el text "LOL" té un so d'una
+riallada. El so ha de ser un fitxer .wav, o cualsevol fitxer de so soportat
+pel comandament de so que tinguis configurat (secció Aplicacions
+dins de las preferèncias... play, esdplay, artsplay, mpg123...). Per que
+aquest camp estigui disponible, has d'activar la casella de verificació que diu
+"Reproduir so".
+La casella de verificació "Emoticona amb Animació" significa que el fitxer
+.gif es animat. Si no actives aquesta casella, i el .gif és animat, s'ensenyarà
+com una imatge estàtica.
+La opció "Amagar del menú de emoticones" fa que la emoticona no apareixi
+en el menú desplegable de les emoticonas, però seguirà estan activat amb els
+disparadors.
+El camp "Distinguir majúscules/minúscules" indica que el disparador ha de
+diferenciar entre majúscules i minúscules. Es a dir, que un disparador "LOL"
+es difarent de "lol". Si no s'activa, això és indiferente.
+Quan hagis acavat la configuració, pulsa el botó OK. Es mostrarà un error
+si te n'has endescuidat de configurar alguna de las 3 opcions necessaries,
+o si els fitxers no existen o no es poden llegir per l'usuari. Si no es
+mostra cap missatje d'error, aleshores ja podràs utilitzar la nova emoticona.
+Diverteix-te !.
+
+
+SOLUCIONANT PROBLEMES
+======================
+
+P: A vegades l'amsn es "penja", ¿per qué?
+R: Normalment, quan l'amsn es penja es deu a un problema amb la configuració
+de so. Pot ser que estiguis escoltant un so, però la tarjeta de so estigui
+bloquejada, i la ordre de reproduir s'atura fins que la tarjeta de so estigui
+disponible. Intenta desactivar el so o cambiar la configuració de so.
+
+P: Quan intento iniciar l'amsn em retorna aquest error:
+bash: ./amsn: bad interpreter: No such file or directory
+R: Necessites instal·lar els paquets tcl/tk, porque és necesari l'intèrpret
+de wish. Si penses que el tiens instal·lat, intenta executar "wish amsn" en
+lloc de "./amsn". Si això funciona, edita el fitxer amsn i canvia la
+primera línia:
+  #!/usr/bin/wish
+  per la direcció a on es troba l'intèrpret wish.
+
+P: Quan jo inicio l'amsn em retorna aquest error:
+Error in startup script: bad option "map": must be
+compare, first, index, last, length, match, range,
+tolower, toupper, trim, trimleft, trimright, wordend,
+or wordstart
+while executing
+"string map $map $md5body"
+(in namespace eval "::md5" script line 65)
+invoked from within
+"namespace eval ::md5 { ... etc
+R: Estàs utilitzant una versió de tcl/tk que és més antiga que la 8.3.
+Actualiza tcl/tk.
+
+P: Després d'actualizar l'amsn, això és el que em retorna quan l'executo:
+Error in startup script: expected integer but got ""
+while executing
+"font create menufont -family $family -size $size
+-weight normal"
+(procedure "::amsn::initLook" line 5)
+invoked from within
+"::amsn::initLook $family $size $config(backgroundcolor)"
+(file "amsn" line 2184)
+R: Hi ha hagut diferents canvis en el fitxer de configuració. Una solució
+ràpida seria el·liminar el fitxer de configuració antic del teu directori
+d'usuari. El·limina /home/el_teu_usuari/.amsn/config i hauria de funcionar.
+
+P: No puc escriure xino, japonés o altres llenguatje a l'amsn, ¿qué puc fer?
+R: Sembla que xcin o programes similars no estàs suportats en la versió
+actual de tcl/tk, per això l'amsn no pot treballar amb ells. Haries d'esperar
+a la següent versió de tcl/tk i esperar que aquesta soporti xcin.
+Mentreestant, pots escriure text en una altre editor, copiar-lo i desprès
+enganxar-lo a la finestra de la conversa.
+Nou: Internacionalizació de copiar i enganxar. Si tens problemes enganxant
+caràcters a l'AMSN, descarregua i instal·la la versió de tcl/tk d'aquest
+site:
+http://jfontain.free.fr/tcl-8.4a3-2.i386.rpm
+http://jfontain.free.fr/tk-8.4a3-2.i386.rpm
+http://jfontain.free.fr/tcl-thread-8.4a3-2.i386.rpm
+Això pot sol·lucionar els problemes en el cas de que no es pugui teclejar
+en el teu llenguatje directament a l'AMSN, com per exemplo xinès Tradicional
+usant xcin.
+
+
+P: ¿Puc utilitzar l'amsn darrere d'un servidor proxy?
+R: Després de la versió 0.61, el soport per servidor proxy HTTP està
+disponible. Això significa que pots conectar-te darrere d'un proxy HTTP
+(como per exemple squid). Si el teu servidor proxy és socks5, desprès no
+tindràs la oportunitat de conectar-te encara, però el soport per socks5 està
+en cami.
+
+P: AMSN sembla conectar-se, però quan intento conversar amb algí o cambiar
+el meu estat, es desconecta. Això pasa sobint, després d'alguns minuts
+d'inactivitat. Probablement està darrere d'un router o un tallafocs.
+R: Intenta habilitar "Compartir conexió (NAT)" en el menú Eines -
+Opcions, en la solapa Conexió. Aquest és una solució per conexions
+compartides a internet que permet enviar paquets tonts al servidor cada 2
+minuts; això manté viva la conexió.
+
+P: El so es repiteix. Per exemple, si tinc funcionant XMMS, i algú
+entra o estic xatejant amb algú, després de que tenco XMMS o s'acava
+el fitxer que s'estava reproduint, tots els sons que no s'havia pogut
+reproduir per culpa de l'XMMS es reprodueixen de forma molesta.
+R: Tens varies solucions. Si estàs utilitzant KDE, pots configurar l'XMMS
+per reproduir so a través d'arts, i utilitzar artsplay com a reproductor de
+so per l'amsn. D'aquesta forma el problema amb els sons serà arreglat. Si
+estàs utilitzant Gnome, pots utilitzar esdplay i configurar l'XMMS per reproduir
+a través de ESD. En lloc d'utilitzar el reproductor, pots fer un petit script
+que comprovi si /dev/dsp està en us, o lliure, avanç de reproduir.
+
+Q: Estic utilitzant l'amsn darrere d'un tallafoc, o utilitzant IP-Masquerade. No puc
+enviar fitxers, ¿Com puc arreglar-ho?
+A: Probablement el tallafocs (firewall) està bloquejant las conexions
+entrants. Les transferències de fitxers funcionen així: Quan vulguis
+enviar a algú un fitxer, envia una invitació a aquesta persona amb la teva
+direcció IP i un número de port. Després, el client remot ha de connectar-se
+a la IP i port donats per iniciar la transferència.
+El port utilitzat és normalment el 6891, 6892 i següents (la primera
+transferència és en el port 6891, però si es comença una altra vegada,
+s'utilitzarà el port 6892, i així sucesivament).
+Per tant, si estàs utilitzant un tallafocs, has d'asegurar-te que permets
+conexions entrants al port 6891 (i sigüentes, si vols fer més d'una
+transferència a la vegada).
+Si estàs dins d'una xarxa privada, amb direccions privades com
+192.168.0.x, desprès és más dificil fer funcionar les transferències de
+fitxers. Necesites enviar com a direcció IP la direcció real d'internet
+(la pots introduïr manualment o dir-li a l'amsn que la trobi a travès
+d'una pàgina web), en lloc de la direcció interna, i configurar la porta
+d'enllaç (l'ordenador o màquina amb connexió directa a internet)
+per que redirigeixi les conexions al port 6891 fins el seu ordinador dins
+de la xarxa privada.
+
+
+Execució en Windows
+====================
+
+P: ¿Puc fer que el so funcion sota Windows?
+R: Sí, nosaltres tenim un petit programa anomenat plwav.exe, que només
+reprodueix un fitxer wav en Windows. Pots utilitzar-lo com a programa de
+so (l'amsn usa alguns programes externs per reproduir so). Dirigeix-te
+al menú Eines - Opcions - Preferències - Aplicacions, i introdueix
+"plwav" com a programa de so.
+
+P: Quan apareix una finestra emergent, la barra d'eines de la finestra
+apareix oculta parcialment, ¿puc sol·lucionar-ho?
+R: Sí, pots moure la finestra de notificació, movient els píxels X a
+la esquerra i els píxels Y amunt. Pots canviar això a:
+Eines->Opcions->Preferències->Apariència
+
+ALTRES
+=======
+P: Tinc una altra pregunta, ¿podeu ajudar-me?
+R: Sí, podem. Però primer, fes una ullada a la pàgina del projecto
+sourceforge, que està allotjada a http://sourceforge.net/projects/amsn, i comprova
+tots els errors, solicituts de soport i els forums generals per comprobar si
+el teu problema ja està resolt. No comprovis només els missatges marcats com
+"Oberts". Hi ha una llista desplegable a on pots seleccionar "Tancada" al 
+capdemunt de la llista de missatges. Les preguntes resoltes estan normalment marcades 
+com a tancades. Vanaç de trametre un bug o preguntar per el soport, apunta les
+següents dades:
+- Versió de l'Amsn.
+- Versió de Tcl i TK.
+- Localitza l'error al trametre (si és posible).
+
+Si encara tens algun dubte, ens pots escriure a:
+amsn-users@lists.sourceforge.net
