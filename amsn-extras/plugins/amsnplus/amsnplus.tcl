@@ -267,7 +267,7 @@ namespace eval ::amsnplus {
 		### Section General ###
 		set section [PreferencesSection .amsnplusprefs.general -text [trans general] ]
 		set frame [ItemsFrame .amsnplusprefs.general.local -text [trans localization] ]
-		$frame addItem [Label .amsnplusprefs.general.local.rusage -text "[trans rusage]" -align left
+		$frame addItem [Label .amsnplusprefs.general.local.rusage -text "[trans rusage]" -align left]
 		$frame addItem [TextEntry .amsnplusprefs.general.local.resource -width 40 -text "[trans resource] :" \
 			-storecommand ::amsnplus::save_resource -retrievecommand ::amsnplus::load_resource]
 		$section addItem $frame
@@ -1340,14 +1340,6 @@ namespace eval ::amsnplus {
 					set chat_win $::ChatWindow::msg_windows($chatid)
 				}
 				::ChatWindow::Clear $chat_win
-			} elseif {[string equal $char "/color"]} {
-				set msg [string replace $msg $i [expr $i + 6] ""]
-				set strlen [string length $msg]
-				set fontcolor [::amsnplus::readWord $i $msg $strlen]
-				::config::setKey mychatfont "$fontfamily $fontstyle $fontcolor"
-				set flen [string length $fontcolor]
-				set msg [string replace $msg $i [expr $i + $flen] ""]
-				set strlen [string length $msg]
 			} elseif {[string equal $char "/config"]} {
 				set msg [string replace $msg $i [expr $i + 7] ""]
 				set strlen [string length $msg]

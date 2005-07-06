@@ -21,7 +21,6 @@ Features:
       /addgroup groupname	add a new group of contacts
       /block user_login		block user_login
       /clear			clears the chat window
-      /color rgb_color		changes text config color to rgb_color
       /config			opens the preferences window
       /delete user_login	deletes a contact from list (without confirmation)
       /deletegroup groupname	delete a group of contacts
