@@ -544,7 +544,7 @@ namespace eval ::lang {
 			set content [::http::data $token]
 			set status [::http::status $token]
 		} ] } {
-			status_log "Error while uploading lang : $langcode ($status)\n" red
+			status_log "Error while uploading lang : $langcode\n" red
 			return
 		}
 
