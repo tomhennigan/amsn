@@ -20,7 +20,7 @@ proc dock_handler { sock } {
 	}
 		
 	if { $l == "GO_INBOX" } {
-		hotmail_login [::config::getKey login] $password
+		::hotmail::hotmail_login [::config::getKey login] $password
 	} elseif { $l == "GO_SIGNINAS" } {
 		cmsn_ns_connect [::config::getKey login] $password
 	} elseif { $l == "GO_SIGNIN" } {
@@ -49,7 +49,7 @@ proc dock_handler { sock } {
 		ChCustomState HDN
 	} elseif { $l == "OPEN_INBOX" } {
 		global password
-		hotmail_login [::config::getKey login] $password
+		::hotmail::hotmail_login [::config::getKey login] $password
 	} elseif { $l == "SIGNIN" } {
 		global password
 		::MSN::connect

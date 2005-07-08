@@ -3095,7 +3095,7 @@ proc cmsn_draw_main {} {
 		-menu .my_menu -state disabled
 	.main_menu.file add separator
 	.main_menu.file add command -label "[trans inbox]" -command \
-	[list hotmail_login [::config::getKey login] $password]
+	[list ::hotmail::hotmail_login [::config::getKey login] $password]
 	.main_menu.file add separator
 	.main_menu.file add command -label "[trans savecontacts]..." \
 		-command "saveContacts" -state disabled
@@ -4597,7 +4597,7 @@ proc getpicturefornotification {email} {
 
 proc do_hotmail_login {} {
 	global password
-	hotmail_login [::config::getKey login] $password
+	::hotmail::hotmail_login [::config::getKey login] $password
 }
 
 if { $initialize_amsn == 1 } {
@@ -4867,7 +4867,7 @@ proc cmsn_draw_online_wrapped {} {
 		$pgBuddyTop.mail tag bind mail <Enter> "$pgBuddyTop.mail tag conf mail -under false;$pgBuddyTop.mail conf -cursor hand2"
 		$pgBuddyTop.mail tag bind mail <Leave> "$pgBuddyTop.mail tag conf mail -under true;$pgBuddyTop.mail conf -cursor left_ptr"
 
-		clickableImage $pgBuddyTop.mail mailbox mailbox [list hotmail_login [::config::getKey login] $password] [::skin::getKey mailbox_xpad] [::skin::getKey mailbox_ypad]
+		clickableImage $pgBuddyTop.mail mailbox mailbox [list ::hotmail::hotmail_login [::config::getKey login] $password] [::skin::getKey mailbox_xpad] [::skin::getKey mailbox_ypad]
 		set mailheight [expr {[$pgBuddyTop.mail.mailbox cget -height]+(2*[::skin::getKey mailbox_ypad])}]
 		#in windows need an extra -2 is to include the extra 1 pixel above and below in a font
 		if {$tcl_platform(platform) == "windows" || ![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {

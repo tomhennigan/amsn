@@ -3821,7 +3821,7 @@ proc cmsn_ns_msg {recv message} {
 		::config::setKey myip $d(clientip)
 		status_log "My IP is [::config::getKey myip]\n"
 	} else {
-		hotmail_procmsg $message
+		::hotmail::hotmail_procmsg $message
 	}
 }
 
