@@ -148,7 +148,7 @@
 	<lang>
 		<langcode>id</langcode>
 		<name>Indonesian (Bahasa Indonesia)</name>
-		<version>1.46</version>
+		<version>1.47</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -208,7 +208,7 @@
 	<lang>
 		<langcode>pt_BR</langcode>
 		<name>Portuguese - Brazil</name>
-		<version>1.21</version>
+		<version>1.22</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -232,7 +232,7 @@
 	<lang>
 		<langcode>sl</langcode>
 		<name>Slovenian (slovenščina)</name>
-		<version>1.37</version>
+		<version>1.38</version>
 		<encoding>iso8859-2</encoding>
 	</lang>
 	<lang>
