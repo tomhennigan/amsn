@@ -657,7 +657,7 @@ namespace eval ::autoupdate {
 
 		toplevel $w
 		wm title $w "[trans update]"
-		wm geometry $w 320x360
+		wm geometry $w 320x400
 		wm protocol $w WM_DELETE_WINDOW "::autoupdate::UpdateLangPlugin_close"
 		
 		bind $w <<Escape>> "::autoupdate::UpdateLangPlugin_close"
@@ -669,33 +669,37 @@ namespace eval ::autoupdate {
 		pack configure $w.text.txt -expand true -side right
 		pack $w.text -side top -fill x
 
-		ScrolledWindow $w.list
+		ScrolledWindow $w.list -auto vertical -scrollbar vertical
 		ScrollableFrame $w.list.sf -constrainedwidth 1
 		$w.list setwidget $w.list.sf
 		pack $w.list -anchor n -side top -fill both -expand true
 		set frame [$w.list.sf getframe]
 		
+
 		#Language label
 		if {$::lang::UpdatedLang != ""} {
 			label $frame.langtext -text "[trans language]" -font sboldf
-			pack $frame.langtext -side top -fill x -expand true
+			pack configure $frame.langtext -side top -fill x -expand true
 		}
+
 		#Checkbox for each language
 		foreach langcode $::lang::UpdatedLang {
 			set langname [::lang::ReadLang $langcode name]
 			checkbutton $frame.lang$langcode -onvalue 1 -offvalue 0 -text " $langname" -variable ::autoupdate::lang($langcode) -anchor w
 			pack configure $frame.lang$langcode -side top -fill x -expand true
 		}
+
 		#Plugin label
 		if {$::plugins::UpdatedPlugins != ""} {
 			label $frame.plugintext -text "[trans pluginselector]" -font sboldf
-			pack $frame.plugintext -side top -fill x -expand true
+			pack configure $frame.plugintext -side top -fill x
 		}
+
 		#Checkbox for each plugin
 		foreach plugin $::plugins::UpdatedPlugins {
 			set name [lindex $plugin 6]
 			checkbutton $frame.plugin$name -onvalue 1 -offvalue 0 -text " $name" -variable ::autoupdate::plugin($name) -anchor w
-			pack configure $frame.plugin$name -side top -fill x -expand true
+			pack configure $frame.plugin$name -side top -fill x
 		}
 		
 		# Create a frame that will contain the progress of the update
@@ -707,15 +711,16 @@ namespace eval ::autoupdate {
 		button $w.button.unselectall -text "[trans unselectall]" -command "::autoupdate::UpdateLangPlugin_unselectall"
 		pack configure $w.button.selectall -side left -padx 3 -pady 3
 		pack configure $w.button.unselectall -side left -padx 3 -pady 3
-		pack configure $w.button -side top -fill x
+
 		
 		frame $w.button2
 		button $w.button2.close -text "[trans close]" -command "::autoupdate::UpdateLangPlugin_close"
 		button $w.button2.update -text "[trans update]" -command "::autoupdate::UpdateLangPlugin_update" -default active
 		pack configure $w.button2.update -side left -padx 3 -pady 3
 		pack configure $w.button2.close -side right -padx 3 -pady 3
-		pack configure $w.button2 -side top -fill x
-		
+
+		pack configure $w.button2 -side bottom -fill x
+		pack configure $w.button -side bottom -fill x
 		
 		return 1
 
