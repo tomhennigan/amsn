@@ -3360,7 +3360,10 @@ proc cmsn_draw_main {} {
 	::skin::setPixmap miniwarning miniwarn.gif
 	::skin::setPixmap minijoins minijoins.gif
 	::skin::setPixmap minileaves minileaves.gif
+
 	::skin::setPixmap cwtopback cwtopback.gif
+	::skin::setPixmap camicon camicon.gif	
+	
 
 	::skin::setPixmap butsmile butsmile.gif
 	::skin::setPixmap butsmile_hover butsmile_hover.gif

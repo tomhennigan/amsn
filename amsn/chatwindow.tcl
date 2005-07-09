@@ -2142,8 +2142,16 @@ namespace eval ::ChatWindow {
 		}
 
 		$top dchars text 0 end
+
+		#remove the camicon(s)
+		$top delete camicon
 		
+		set nroflines 0
+
 		foreach user_login $user_list {
+
+			set shares_cam [::abook::getContactData $user_login webcam_shared]
+			
 			set user_name [string map {"\n" " "} [::abook::getDisplayNick $user_login]]
 			set state_code [::abook::getVolatileData $user_login state]
 			
@@ -2157,30 +2165,73 @@ namespace eval ::ChatWindow {
 			set user_image [::MSN::stateToImage $state_code]
 
 			if {[::config::getKey truncatenames]} {
+
 				#Calculate maximum string width
-				set maxw [expr [winfo width $top] - [::skin::getKey topbarpadx] - [expr int([lindex [$top coords text] 0])]]
+				if { $shares_cam } {
+					set camicon [::skin::loadPixmap camicon]
+					set maxw [expr {[winfo width $top] - [::skin::getKey topbarpadx] - ( int([lindex [$top coords text] 0]) ) - [image width $camicon] - 10 }]
+				} else {
+					set maxw [expr [winfo width $top] - [::skin::getKey topbarpadx] - [expr int([lindex [$top coords text] 0])]]
+				}
+				
 
 				if { "$user_state" != "" && "$user_state" != "online" } {
 					incr maxw [expr 0-[font measure sboldf -displayof $top " \([trans $user_state]\)"]]
 				}
 
+
+
 				incr maxw [expr 0-[font measure sboldf -displayof $top " <${user_login}>"]]
 
-				$top insert text end "[trunc ${user_name} ${win_name} $maxw sboldf] <${user_login}>"
+
+
+				set nicktxt "[trunc ${user_name} ${win_name} $maxw sboldf] <${user_login}>"
+				
 			} else {
 
-				$top insert text end "${user_name} <${user_login}>"
+				set nicktxt "${user_name} <${user_login}>"
+		
 			}
+
+			set stringlength 0
+			
+			$top insert text end $nicktxt
+			
+			incr stringlength [font measure sboldf -displayof $top $nicktxt]			
+			
 
 			set title "${title}${user_name}, "
 
 			#TODO: When we have better, smaller and transparent images, uncomment this
 			
 			if { "$user_state" != "" && "$user_state" != "online" } {
-				$top insert text end "\([trans $user_state]\)"
+				set statetxt "\([trans $user_state]\)"
+				$top insert text end $statetxt
+				incr stringlength [font measure sboldf -displayof $top $statetxt]
+				
 			}
 
 			$top insert text end "\n"
+			
+			if { $shares_cam } {
+
+				incr nroflines
+
+				#set camicon [::skin::loadPixmap camicon]	
+			
+			#here we should draw the webcam icon.  The coordinates can be computed from the coords of the text-item on the canvas and the $stringlenght variable etc ... what about the Y var ? (half of height of text)+(height of text)*(nroflines - 1)
+				#the image 5 pixels after the text
+				#set Xcoord [expr {[lindex [$top coords text] 0] + $stringlength + 5 }]
+				#the image aligned-right to the text
+				set Xcoord [expr {[winfo width $top] - [image width $camicon] - 5 }]
+
+				set Ycoord [expr {[lindex [$top coords text] 1] + ([font configure splainf -size]/2) + ([font configure splainf -size]*($nroflines-1))}]
+
+status_log "Camicon-coords: $Xcoord $Ycoord"
+			
+				$top create image $Xcoord $Ycoord -anchor w -image $camicon -tag camicon
+			
+			}
 		}
 		
 		#Change color of top background by the status of the contact
