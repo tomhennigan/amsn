@@ -2230,11 +2230,23 @@ namespace eval ::ChatWindow {
 
 				set Ycoord [expr {[lindex [$top coords text] 1] + ([font configure splainf -size]/2) + ([font configure splainf -size]*($nroflines-1))}]
 
-status_log "Camicon-coords: $Xcoord $Ycoord"
-			
-				$top create image $Xcoord $Ycoord -anchor w -image $camicon -tags [list camicon camicon_$user_login]
-				#If clicked, invite the user to send webcam  TODO: tooltip "[trans askwebcam]"
-				#$top bind camicon_$user_login <Button-1> [list status_log "blat"; ::MSNCAM::AskWebcamQueue $user_login] 
+	
+				$top create image $Xcoord $Ycoord -anchor w -image $camicon -tag camicon_$user_login
+
+				#If clicked, invite the user to send webcam + tooltips + cursor change
+				$top bind camicon_$user_login <Enter> ""
+				$top bind camicon_$user_login <Motion> ""
+				$top bind camicon_$user_login <Leave> ""
+				
+				$top bind camicon_$user_login <Button-1> "::MSNCAM::AskWebcamQueue $user_login" 
+
+				$top bind camicon_$user_login <Enter> +[list balloon_enter %W %X %Y "[trans askwebcam]"]
+				$top bind camicon_$user_login <Motion> +[list balloon_motion %W %X %Y "[trans askwebcam]"]
+				$top bind camicon_$user_login <Leave> "+set Bulle(first) 0; kill_balloon"				
+
+				$top bind camicon_$user_login <Enter> "+$top configure -cursor hand2"
+				$top bind camicon_$user_login <Leave> "+$top configure -cursor left_ptr"
+
 			}
 		}
 		
