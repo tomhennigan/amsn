@@ -654,7 +654,7 @@ bind Pixmapscroll <End> {
     tk::ScrollToPos %W 1
 }
 
-if {![string equal [tk windowingsystem] "x11"]} {
+if {![catch {tk windowingsystem} wsystem] && $wsystem == "x11"} {
     bind Pixmapscroll <MouseWheel> {
         tk::ScrollByUnits %W v [expr {- (%D)}]
     }
