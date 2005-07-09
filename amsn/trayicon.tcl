@@ -358,7 +358,7 @@ proc taskbar_mail_icon_handler { msg x y } {
 	}
 
 	if { $msg=="WM_LBUTTONUP" } {
-		::hotmail::_login [::config::getKey login] $password
+		::hotmail::hotmail_login [::config::getKey login] $password
 	}
 }
 
@@ -379,7 +379,7 @@ proc mailicon_proc {num} {
 
 		if { [::config::getKey dock] != 4 } {
 			set mailicon [newti $icon -pixmap $pixmap -tooltip $msg]
-			bind $icon <Button-1> [list ::hotmail::_login [::config::getKey login] $password]
+			bind $icon <Button-1> [list ::hotmail::hotmail_login [::config::getKey login] $password]
 		} else {
 			set winmailicon [winico create [::skin::GetSkinFile winicons unread.ico]]
 			winico taskbar add $winmailicon -text $msg -callback "taskbar_mail_icon_handler %m %x %y"
