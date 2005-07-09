@@ -2148,6 +2148,9 @@ namespace eval ::ChatWindow {
 		
 		set nroflines 0
 
+
+		set camicon [::skin::loadPixmap camicon]
+
 		foreach user_login $user_list {
 
 			set shares_cam [::abook::getContactData $user_login webcam_shared]
@@ -2168,7 +2171,6 @@ namespace eval ::ChatWindow {
 
 				#Calculate maximum string width
 				if { $shares_cam } {
-					set camicon [::skin::loadPixmap camicon]
 					set maxw [expr {[winfo width $top] - [::skin::getKey topbarpadx] - ( int([lindex [$top coords text] 0]) ) - [image width $camicon] - 10 }]
 				} else {
 					set maxw [expr [winfo width $top] - [::skin::getKey topbarpadx] - [expr int([lindex [$top coords text] 0])]]
@@ -2213,10 +2215,11 @@ namespace eval ::ChatWindow {
 
 			$top insert text end "\n"
 			
+			incr nroflines			
+			
 			if { $shares_cam } {
 
-				incr nroflines
-
+				
 				#set camicon [::skin::loadPixmap camicon]	
 			
 			#here we should draw the webcam icon.  The coordinates can be computed from the coords of the text-item on the canvas and the $stringlenght variable etc ... what about the Y var ? (half of height of text)+(height of text)*(nroflines - 1)
@@ -2229,8 +2232,9 @@ namespace eval ::ChatWindow {
 
 status_log "Camicon-coords: $Xcoord $Ycoord"
 			
-				$top create image $Xcoord $Ycoord -anchor w -image $camicon -tag camicon
-			
+				$top create image $Xcoord $Ycoord -anchor w -image $camicon -tags [list camicon camicon_$user_login]
+				#If clicked, invite the user to send webcam  TODO: tooltip "[trans askwebcam]"
+				#$top bind camicon_$user_login <Button-1> [list status_log "blat"; ::MSNCAM::AskWebcamQueue $user_login] 
 			}
 		}
 		
@@ -2266,6 +2270,8 @@ status_log "Camicon-coords: $Xcoord $Ycoord"
 		set evPar(win_name) "win_name"
 		set evPar(user_list) "user_list"
 		::plugins::PostEvent TopUpdate evPar
+
+		#TODO: configure to place the webcamicon on the right after the window was resized
 
 		update idletasks
 
