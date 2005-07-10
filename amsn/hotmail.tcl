@@ -314,12 +314,12 @@ namespace eval ::hotmail {
 						cmsn_draw_online
 						if { [::config::getKey notifyemail] == 1 } {
 							::amsn::notifyAdd "[trans newmailfrom $from $fromaddr]" \
-								"hotmail_viewmsg $msgurl [::config::getKey login] $password" newemail
+								"::hotmail::hotmail_viewmsg $msgurl [::config::getKey login] $password" newemail
 						}
 					} else {
 						if { [::config::getKey notifyemailother] == 1 } {
 							::amsn::notifyAdd "[trans newmailfromother $from $fromaddr]" \
-								"hotmail_viewmsg $msgurl [::config::getKey login] $password" newemail
+								"::hotmail::hotmail_viewmsg $msgurl [::config::getKey login] $password" newemail
 						}
 					}
 				}
@@ -341,7 +341,7 @@ namespace eval ::hotmail {
 					cmsn_draw_online
 					if { [::config::getKey notifyemail] == 1} {
 						::amsn::notifyAdd "[trans newmail $noleidos]" \
-							"hotmail_login [::config::getKey login] $password" newemail
+							"::hotmail::hotmail_login [::config::getKey login] $password" newemail
 					}
 				}
 	
@@ -354,7 +354,7 @@ namespace eval ::hotmail {
 				#If the pref notifyemail is active and more than 0 email unread, show a notify on connect
 				if { [::config::getKey notifyemailother] == 1 && [string length $folderunread] > 0 && $folderunread != 0 } {
 					::amsn::notifyAdd "[trans newmailfolder $folderunread]" \
-						"hotmail_viewmsg $msgurl [::config::getKey login] $password" newemail
+						"::hotmail::hotmail_viewmsg $msgurl [::config::getKey login] $password" newemail
 				}
 			}
 		
