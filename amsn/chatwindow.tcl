@@ -2148,7 +2148,6 @@ namespace eval ::ChatWindow {
 		
 		set nroflines 0
 
-
 		set camicon [::skin::loadPixmap camicon]
 
 		foreach user_login $user_list {
@@ -2195,12 +2194,8 @@ namespace eval ::ChatWindow {
 		
 			}
 
-			set stringlength 0
-			
-			$top insert text end $nicktxt
-			
-			incr stringlength [font measure sboldf -displayof $top $nicktxt]			
-			
+	
+			$top insert text end $nicktxt			
 
 			set title "${title}${user_name}, "
 
@@ -2209,8 +2204,6 @@ namespace eval ::ChatWindow {
 			if { "$user_state" != "" && "$user_state" != "online" } {
 				set statetxt "\([trans $user_state]\)"
 				$top insert text end $statetxt
-				incr stringlength [font measure sboldf -displayof $top $statetxt]
-				
 			}
 
 			$top insert text end "\n"
@@ -2219,14 +2212,8 @@ namespace eval ::ChatWindow {
 			
 			if { $shares_cam } {
 
-				
-				#set camicon [::skin::loadPixmap camicon]	
-			
-			#here we should draw the webcam icon.  The coordinates can be computed from the coords of the text-item on the canvas and the $stringlenght variable etc ... what about the Y var ? (half of height of text)+(height of text)*(nroflines - 1)
-				#the image 5 pixels after the text
-				#set Xcoord [expr {[lindex [$top coords text] 0] + $stringlength + 5 }]
 				#the image aligned-right to the text
-				set Xcoord [expr {[winfo width $top] - [image width $camicon] - 5 }]
+				set Xcoord [expr {[winfo width $top] - [image width $camicon]}]
 
 				set Ycoord [expr {[lindex [$top coords text] 1] + ([font configure splainf -size]/2) + ([font configure splainf -size]*($nroflines-1))}]
 
@@ -2234,6 +2221,7 @@ namespace eval ::ChatWindow {
 				$top create image $Xcoord $Ycoord -anchor w -image $camicon -tags [list camicon camicon_$user_login]
 
 				#If clicked, invite the user to send webcam + tooltips + cursor change
+#TODO: Fix these bindings !!!				
 				$top bind camicon_$user_login <Enter> ""
 				$top bind camicon_$user_login <Motion> ""
 				$top bind camicon_$user_login <Leave> ""
@@ -2244,6 +2232,7 @@ namespace eval ::ChatWindow {
 				$top bind camicon_$user_login <Motion> +[list balloon_motion %W %X %Y "[trans askwebcam]"]
 				$top bind camicon_$user_login <Leave> "+set Bulle(first) 0; kill_balloon"				
 
+				
 				$top bind camicon_$user_login <Enter> "+$top configure -cursor hand2"
 				$top bind camicon_$user_login <Leave> "+$top configure -cursor left_ptr"
 
@@ -2290,6 +2279,7 @@ namespace eval ::ChatWindow {
 
 		after cancel "::ChatWindow::TopUpdate $chatid"
 
+		#TODO: Get this 5000 out and refresh only when needed
 		after 5000 "::ChatWindow::TopUpdate $chatid"
 
 	}
