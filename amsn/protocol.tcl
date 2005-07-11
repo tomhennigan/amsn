@@ -4757,24 +4757,27 @@ proc xclientcaps_received {msg chatid} {
 #################################################
 proc add_Clientid {chatid clientid} {
 
-	##Set the name of the client this user uses##
+	##First save the clientid (number)
+	::abook::setContactData $chatid clientid $clientid
+
+	##Find out how the client-program is called
 
 	#first set out clientname to unkown so it can be reset to another value if known
 	set clientname "[trans unknown]"
 
 	set knownclients [list [list 268435456 "MSN 6.0"] [list 536870912 "MSN 6.1"] [list 805306368 "MSN 6.2"] [list 1073741824  "MSN 7.0"] [list 512  "Webmessenger"] ]
-	
 	foreach client $knownclients {
 		set bit [lindex $client 0]
 		set name [lindex $client 1]
 		#check if this bit is on in the clientid, ifso set it's name
 		if {($clientid & $bit) != 0} {
+			#Reset the value if it's a known client
 			set clientname $name
 		}
 	}
 
-	#store the name of the client this user uses in the adressbook
-	::abook::setContactData $chatid clientid $clientname
+	##Store the name of the client this user uses in the adressbook
+	::abook::setContactData $chatid client $clientname
 
 
 

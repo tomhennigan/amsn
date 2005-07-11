@@ -1007,7 +1007,7 @@ namespace eval ::abookGui {
 		#Client-name of the user (from Gaim, dMSN, etc)
 		label $nbIdent.clientname -text "[trans clientname]:"
 		label $nbIdent.clientname1 -text [::abook::getContactData $email clientname] -font splainf -fg blue
-		label $nbIdent.clientid -text "([::abook::getContactData $email clientid])" -font splainf -fg blue
+		label $nbIdent.clientid -text "([::abook::getContactData $email client])" -font splainf -fg blue
 		#Does the user record the conversation or not
 		label $nbIdent.chatlogging -text "[trans loging]:"
 		label $nbIdent.chatlogging1 -text [::abook::getContactData $email chatlogging] -font splainf -fg blue
