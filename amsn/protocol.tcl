@@ -990,13 +990,13 @@ namespace eval ::MSN {
 
 	#Procedure called to change our status
 	proc changeStatus {new_status} {
-		global autostatuschange clientid
+		global autostatuschange
 
 #		set clientid 805306412
 		if { [::config::getKey displaypic] != "nopic.gif" } {
-			::MSN::WriteSB ns "CHG" "$new_status $clientid [urlencode [create_msnobj [::config::getKey login] 3 [::skin::GetSkinFile displaypic [::config::getKey displaypic]]]]"
+			::MSN::WriteSB ns "CHG" "$new_status [::config::getKey clientid] [urlencode [create_msnobj [::config::getKey login] 3 [::skin::GetSkinFile displaypic [::config::getKey displaypic]]]]"
 		} else {
-			::MSN::WriteSB ns "CHG" "$new_status $clientid"
+			::MSN::WriteSB ns "CHG" "$new_status [::config::getKey clientid]"
 		}
 
 		#Reset automatic status change to 0

@@ -529,7 +529,7 @@ proc new_config_entry  {cstack cdata saved_data cattr saved_attr args} {
 }
 
 proc load_config {} {
-	global HOME password protocol clientid tcl_platform
+	global HOME password protocol tcl_platform
 
 	#Create custom smileys folder
 	create_dir "[file join ${HOME} smileys]"
@@ -619,7 +619,8 @@ proc load_config {} {
 	#MSN 6.0 ClientID:
 	#set clientid "268435500"
 	#MSN 7.0 ClientID:
-	set clientid 1073791012
+	#set clientid 1073791012
+	::config::setKey clientid 1073791012
 
 	# Load up the personal states
 	LoadStateList
