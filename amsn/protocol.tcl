@@ -2789,7 +2789,7 @@ namespace eval ::Event {
 
 			text/x-clientcaps {
 				#Packet we receive from 3rd party client (not by MSN)
-				xclientcaps_received $message $typer
+				xclientcaps_received [$message getBody] $typer
 			}
 
 			default {
@@ -4715,11 +4715,7 @@ proc xclientcaps_received {msg chatid} {
 			set chatlogging "[urldecode [string range $msg $begin $end]]"
 			#status_log "ChatLogging:\n$chatlogging\n"
 			#Add this information to abook
-			if {$chatlogging == "Y"} {
-				set chatlogging "[trans yes]"
-			} else {
-				set chatlogging "[trans no]"
-			}
+
 			::abook::setContactData $chatid chatlogging $chatlogging
 		}
 		#Get String for Operating System (dMSN)
