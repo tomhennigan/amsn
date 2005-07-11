@@ -5013,7 +5013,7 @@ proc cmsn_draw_online_wrapped {} {
 				set custom_colour "#$custom_colour"
 			}
 			#If the color is white we can't see the contact on the list : we ignore the custom color
-			if { $custom_colour != "#ffffff" } {
+			if { $custom_colour != "#ffffff" && $custom_colour != "#"} {
 				set colour $custom_colour
 			}
 		}
