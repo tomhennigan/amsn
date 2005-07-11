@@ -2231,7 +2231,7 @@ namespace eval ::ChatWindow {
 				set Ycoord [expr {[lindex [$top coords text] 1] + ([font configure splainf -size]/2) + ([font configure splainf -size]*($nroflines-1))}]
 
 	
-				$top create image $Xcoord $Ycoord -anchor w -image $camicon -tag camicon_$user_login
+				$top create image $Xcoord $Ycoord -anchor w -image $camicon -tags [list camicon camicon_$user_login]
 
 				#If clicked, invite the user to send webcam + tooltips + cursor change
 				$top bind camicon_$user_login <Enter> ""
@@ -2282,8 +2282,9 @@ namespace eval ::ChatWindow {
 		set evPar(win_name) "win_name"
 		set evPar(user_list) "user_list"
 		::plugins::PostEvent TopUpdate evPar
+		
 
-		#TODO: configure to place the webcamicon on the right after the window was resized
+		bind $top <Configure> "::ChatWindow::TopUpdate $chatid"
 
 		update idletasks
 
@@ -2292,6 +2293,8 @@ namespace eval ::ChatWindow {
 		after 5000 "::ChatWindow::TopUpdate $chatid"
 
 	}
+
+	
 	#///////////////////////////////////////////////////////////////////////////////
 	# ::ChatWindow::ChangeColorState {user_list user_state state_code win_name}
 	# Change the color of the top window when the other contact is in another status
