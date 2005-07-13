@@ -1,19 +1,43 @@
-Dit programma is vrije software; je kan het verdelen en/of aanpassen onder de regels van de GNU General Public License, zoals gepubliceerd door de Free Software Foundation; versie 2 van de licentie, of eender welke latere versie (naar je eigen goeddunken).
+Dit programma is vrije software; je mag het verveel-
+voudigen en/of aanpassen, conform de voorwaarden die
+gesteld worden in de GNU General Public License, zoals
+gepubliceerd door de Free Software Foundation, Je bent
+vrij om te kiezen tussen versie 2 van deze licentie of
+enige nieuwere versie.
 
-Dit programma is verspreid in de hoop dat het nuttig zou zijn, maar met GEEN ENKELE GARANTIE; zelfs zonder garantie voor VERKOOPBAARHEID of NUT VOOR EEN BEPAALDE TOEPASSING. Cfr. de GNU General Public License voor meer details.
+Dit programma wordt verspreidt in de hoop dat het van
+nut is, maar ZONDER ENIGE GARANTIE; zelfs zonder een
+gesuggereerde garantie voor VERHANDELBAARHEID of
+BRUIKBAARHEID VOOR ENIG DOEL. Voor meer details, zie
+de GNU General Public License.
 
-Je zou bij dit programma aan copie van de GNU General Public License moeten meegekregen hebben, zoniet kan je de Free Software Foundation schrijven op Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+Je zou een kopie van de GNU General Public License
+moeten hebben ontvangen bij dit programma; indien
+niet, dan kunt u deze aanvragen bij:
+
+Free Software Foundation, Inc.
+59 Temple Place, Suite 330
+Boston, MA  02111-1307
+USA
 
 ========================================================
-=== Alvaro's Messenger==================================
-CCMSN was zeer goed maar spijtig genoeg heeft zijn auteur het project gelaten voor wat het was. Ookal was het zeer functioneel, het had nog veel werk nodig om de look en feel te verbeteren, het volledige protocol te implementeren etc.  Toen is het dat we, origineel aan verschillende projecten aan het werken, beslist hebben de handen in elkaar te slaan en je zo dit leuke (hopen we) stukje software aan te bieden ;)
+=== Alvaro's Messenger =================================
+CCMSN was geweldig, maar helaas heeft de oorspronkelijke
+auteur dat project in de steek gelaten. Hoewel het zeker
+functioneel was, was er nog veel inspanning nodig om de
+Look and Feel te verbeteren, de implementatie van het
+protocol compleet te maken, enzovoorts. Toen hebben wij,
+die hier eerst ieder voor zich mee bezig waren, besloten
+om de handen ineen te staan, om dit fijne (hopen we)
+stukje werk mogelijk te maken ;)
 
 Alvaro J. Iradier
 D. Emilio Grimaldo T.
 
-Zend alstublieft foutrapporten, commentaren, feedback of suggesties naar ons "Source Forge project page" op:
-
+Foutrapportages, commentaar of suggesties kun je aan ons
+doorgeven via onze projectpagina op Source Forge:
 http://sourceforge.net/projects/amsn
 
-Nieuwere versies en homepagina op:
+Onze homepage, met o.a. de nieuwste versie, vind je op:
 http://amsn.sourceforge.net
+
