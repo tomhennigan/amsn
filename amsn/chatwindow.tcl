@@ -2232,7 +2232,9 @@ namespace eval ::ChatWindow {
 				$top bind camicon <Leave> "+$top configure -cursor left_ptr"
 			}
 		}
-		
+
+		bind $top <Configure> "::ChatWindow::TopUpdate $chatid"
+
 		#Change color of top background by the status of the contact
 		ChangeColorState $user_list $user_state $state_code ${win_name}
 
@@ -2266,8 +2268,6 @@ namespace eval ::ChatWindow {
 		set evPar(user_list) "user_list"
 		::plugins::PostEvent TopUpdate evPar
 		
-
-		bind $top <Configure> "::ChatWindow::TopUpdate $chatid"
 
 		update idletasks
 
@@ -2310,12 +2310,14 @@ namespace eval ::ChatWindow {
 		$top itemconfigure text -fill $tcolour
 		$top itemconfigure to -fill $tcolour
 		
-		if { [::skin::getKey chat_top_pixmap] } {
-			set bg "::$top.bg"
+		set bg "::$top.bg"
+
+		if { [::skin::getKey chat_top_pixmap] && [info procs $bg] != ""} {
 			set topimg [$bg cget -source]
 			$topimg copy [::skin::loadPixmap cwtopback]
 			::picture::Colorize $topimg $colour
 			$bg configure -source $topimg
+			bind $top <Configure> "[bind $top <Configure>]; $bg configure -width %w -height %h" 
 		}
 	}
 
