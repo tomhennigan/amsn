@@ -1,7 +1,7 @@
 amsn_lang_version 2
 about Hakkýnda
 accept Kabul et
-acceptfile $1 dosyasý aktarýlýyor; boyut $2 bayt; kaydedilen konum $3  
+acceptfile $1 dosyasý aktarýlýyor; boyut $2 bayt; kaydedilen konum $3 
 actions Eylemler
 activeautoupdate Etkin kendiliðinden güncelleme
 add Ekle
@@ -43,7 +43,7 @@ appearoff Çevrim dýþý görün
 areacode Alan kodu
 aretyping $1 ileti yazýyor
 askeachtime Her zaman sor
-askwebcam Bu kiþiden kamera görüntüsünü iste
+askwebcam Kullanýcýdan kamera görüntüsünü iste
 author Yazan
 autoaccepted Dosya aktarýmý otomatikman kabul edildi
 autoacceptft Dosya aktarým istemlerini otomatikman kabul et
@@ -127,6 +127,8 @@ clear Temizle
 clearlog Sohbet kaydýný sil
 clearlog2 Tüm baðlantýlarýn Geçmiþini sil
 clearlog3 Tüm sohbet kayýtlarýný sil
+
+clearwebcamlogs Tüm kamera kayýtlarýný sil
 clicktoadd Yeni not için Ekle düðmesine týklayýnýz
 clicktologin Baðlanmak için týklayýn
 clientcaps Diðer istemcilere x-clientcaps paketlerini gönder
@@ -202,7 +204,7 @@ description Tarif
 detach Ayýr
 directconnection Ýnternete doðrudan baðlantým var (1863. portu kullanýr)
 disabled Devredýþý
-disableprofiles Profilleri devredýþý býrak (ýnternet cafe ve paylaþýlan ortamlar için uygun)
+disableprofiles Profilleri devredýþý býrak (internet cafe ve paylaþýlan ortamlar için uygun)
 disablessl SSL kullanma
 disableuserfonts Sohbetlerde karþý tarafýn yazýtipini dikkate alma ve kendi yazýtipini kullan
 disconnect $1 ayrýldý
@@ -231,11 +233,14 @@ editstate Var olan otomatik mesaj durumunu düzenle
 editvalue Deðeri deðiþtir
 email E-posta
 emailsinlist Baðlantý listesinde kullanýcý isimleri yerine e-posta adreslerini göster
+
+emoticon_steal Gülen adamlara ekle
 emotisounds Belli gülen adamlarda ses çýkar
 emptygroup Grubu boþalt
 enabled Etkin
 enableproxy proxy ayarlarýný etkinleþtir
-enableremote Uzaktan denetimi etkinleþtir
+enableremote Uzaktan denetimi
+etkinleþtir
 enablesound Sesi aç
 encoding Alfabe seçimi
 encoding2 Alfabe deðiþtirin
@@ -272,7 +277,7 @@ ftautoclose Dosya aktarýmý bitince pecereyi kapa
 ftconnecterror Karþý tarafa baðlanmada hata oluþtu
 ftconnecting $1 port $2 e baðlanýlýyor
 ftconnectionlost Karþý tarafla olan baðlantý koptu
-ftgotinvitation $1 size '$2' dosyasýný göndermek istiyor ($3 bayt). Bu dosya $4 dizinine kaydedilecek. Dosyayý almak istiyor musunuz?
+ftgotinvitation $1 size '$2' dosyasýný göndermek istiyor  ($3 bayt). Bu dosya $4 dizinine kaydedilecek. Dosyayý almak istiyor musunuz?
 ftportpref Dosya aktarýmlarý için baþlangýç portu
 ftrejected Dosya aktarýmý reddedildi
 ftrejectedby $1, '$2' dosyasý için yapýlan aktarým davetini geri çevirdi
@@ -374,6 +379,8 @@ logsbydate Kayýtlarý tarihe göre sýrala (Geçmiþ böyle çok daha hýzlý yükleniyor)
 logsin baðlandý
 logsmileys Geçmiþ penceresinde gülen adamlar görünsün
 logsout $1 az önce sohbetten ayrýldý.
+
+logwebcam Tüm kamera oturumlarýný daha sonra görebilmek için Geçmiþ'e kaydet
 longnick Rumuzunuz 130 harften uzun. Bu, resmi MSN protokolünce desteklenmiyor. Bu ismi kullanmak istediðinizden emin misiniz?
 longp4c Sohbet içi rumuzunuz 130 harften uzun. Resmi MSN Messenger sürümlerinde bu rumuz $1 olarak gözükecek. Bu ismi seçmek istediðinizden emin misiniz?
 lprivtoconf $1 ile özel görüþme konferansa çevrildi
@@ -417,7 +424,7 @@ newline Yeni satýr
 newmail Gelen kutunuzda $1 yeni ileti var
 newmailfolder Diðer Hotmail dizinlerinde $1 yeni ileti var
 newmailfrom Yeni ileti gönderen: $1 ($2)
-newmailfromother Diðer dizinlerde $1'den yeni ileti var ($2)
+newmailfromother Diðer dizinlerde $1'den yeni ileti var  ($2)
 newmsg Yeni ileti
 newstate Yeni özel durum ekle
 newtabbedfeature aMSN'de sohbet pencereleri düzeniyle ilgili bir yenilik var:\n Artýk ayný gruptan ya da tüm listeden baðlantýlarýn sohbetleri ayný pencerenin sekmelerinde gösterilebiliyor. \nLütfen aMSN'nin pencere yönetim þeklini seçiniz.
@@ -452,7 +459,8 @@ notifytimeout Uyarý penceresi kaybolmadan önce geçecek milisaniye sayýsý
 notifytyping Klavyeyi kullandýðým karþý tarafa gözüksün
 notifywin Uyarý Penceresi
 notinlist Siz onun baðlantý listesinde deðilsiniz
-notls MSN 9 protokolü tls paketini gerektirir. Bu bilgisayarda tls kurulu görünmüyor. Eðer kuruluysa, tls kütüphanesi dizini Seçenekler bölümünde belirtilmelidir (örn: /opt/tls/lib). \n\n tls'yi http://tls.sf.net'ten indirebilirsiniz.
+notls MSN 9 protokolü tls paketini gerektirir. Bu bilgisayarda tls kurulu görünmüyor. Eðer kuruluysa, tls kütüphanesi dizini Seçenekler bölümünde belirtilmelidir
+(örn: /opt/tls/lib). \n\n tls'yi http://tls.sf.net'ten indirebilirsiniz.
 nottabbed Sekmesiz normal pencereler
 nousersinsession Ortamda kullanýcý yok
 nudge $1 sizinle görüþmek istiyor
@@ -475,12 +483,16 @@ p4contextprefix P4-Ýçerik göndericilerin önüne bu metni ekle
 pager Çaðrý cihazý
 pass þifre
 paste Yapýþtýr
+
+pause Dondur
 personal Kiþisel
 phone Telefon
 phones Telefon numaralarý
 picbrowser Kullanýcý resmi tarayýcýsý
 picfile Alarm resmi dosyasý (GIF < 500 x 500)
 picstatus Resimli alarmý aç/kapa
+
+play Oynat
 playing $1 çalýnýyor
 pluginselector Eklenti seç
 port Port
@@ -564,7 +576,7 @@ sendfile Dosya gönder
 sendmail E-posta iletisi gönder
 sendmobmsg Taþýnabilir aygýta gönder
 sendmsg Ýleti günder
-sendwebcaminvite Bir kullanýcýyý kameranýzý izlemeye davet edin
+sendwebcaminvite Kullanýcýyý kameranýzý izlemeye davet edin
 sentbytes $2 baytýn $1 (s)i gönderildi
 server Sunucu
 serverbusy Sunucu meþgul
@@ -587,6 +599,8 @@ smileconfig Özel gülen adam ayarlarý
 smilefile Gülen adam dosya ismi
 smileintro Özel bir gülen adam yaratmak için ilgili alanlarý doldurunuz \n(yardým için SSS'a bakýnýz)
 smileintro2 Bu gülen adamý özelleþtirmek için ilgili alanlarý düzenleyiniz \n(yardým için SSS'a bakýnýz)
+
+smiletoobig Seçtiðiniz resim normalden daha büyük. Yeniden boyutlandýrmak ister misiniz?
 snackfailed Snack yüklenemedi; varsayýlan kütüphane kullanýlacak.
 sngdblclick Yeni ileti penceresi tek týklamayla açýlsýn
 sound Ses
@@ -615,6 +629,8 @@ statenewtext Lütfen yeni Kiþisel Durumunuzu yaratmak için \n gerekli bilgileri g
 statenick Bu duruma özel rumuz (deðiþtirmemek için boþ býrakýnýz).
 stats Ýstatistikler
 status Durum
+
+stop Durdur
 stopalarm Alarmý durdur!
 storenickname Deðiþik rumuzu olan özelleþtirilmiþ durumdan sonra asýl rumuza
 strictfonts Tüm metinler için (durum çubuðu ve diðerleri) yalnýzca seçtiðim yaztipi boyutunu kullan
@@ -679,6 +695,8 @@ version Sürüm
 view Görünüm
 viewcontactsby Baðlantý isimleri
 viewprofile Profili gör
+
+webcamhistory Kamera oturumlarýný gör
 webcaminvite $1 sizi kamera kullanmaya davet etti; ancak aMSN'de bu iþlev yok.
 webcamshot Resim çek
 whatsize Seçtiðiniz resim normal kullanýcý resmi boyutunda (96 x 96) deðil.\n Resmin hangi boyda gözükmesini istersiniz?
