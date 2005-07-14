@@ -498,7 +498,7 @@ namespace eval ::Nudge {
 	############################################
 	proc check_clientid {email} {
 		::Nudge::log "Verify if contact is using MSN 7.0 protocol"
-		if {[::abook::getContactData $email clientid] == "MSN 7.0" } {
+		if {[::abook::getContactData $email client] == "MSN 7.0" } {
 			::Nudge::log "He uses MSN 7.0 protocol"
 			return 1
 		} else {
