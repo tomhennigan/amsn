@@ -2169,7 +2169,7 @@ namespace eval ::ChatWindow {
 			if {[::config::getKey truncatenames]} {
 
 				#Calculate maximum string width
-				if { $shares_cam } {
+				if { $shares_cam == 1} {
 					set maxw [expr {[winfo width $top] - [::skin::getKey topbarpadx] - ( int([lindex [$top coords text] 0]) ) - [image width $camicon] - 10 }]
 				} else {
 					set maxw [expr [winfo width $top] - [::skin::getKey topbarpadx] - [expr int([lindex [$top coords text] 0])]]
@@ -2210,7 +2210,7 @@ namespace eval ::ChatWindow {
 			
 			incr nroflines			
 			
-			if { $shares_cam } {
+			if { $shares_cam == 1 } {
 
 				#the image aligned-right to the text
 				set Xcoord [expr {[winfo width $top] - [image width $camicon]}]
