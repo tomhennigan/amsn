@@ -439,6 +439,7 @@ no No
 nopic No picture
 noprofileexists There are currently no profiles, \n you must create one if you wish to use profiled logins. \nUse the Add New Profile button in this window to add a new profile.
 normal Normal
+normal2 Normal
 noskins Couldn't found default skin in skins/ folder. Can't start AMSN
 nosystemtray System tray not available
 note Note
