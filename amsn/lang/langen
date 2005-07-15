@@ -441,7 +441,7 @@ nopic No picture
 noprofileexists There are currently no profiles, \n you must create one if you wish to use profiled logins. \nUse the Add New Profile button in this window to add a new profile.
 normal Normal
 noskins Couldn't found default skin in skins/ folder. Can't start AMSN
-nosystemtray System tray not avadilable
+nosystemtray System tray not available
 note Note
 notificationserver Initial MSN Notification Server (MSN Messenger Server)
 notify1_5 Display notify window when contacts go offline
@@ -531,8 +531,7 @@ profiles Profiles
 properties Properties
 proxyconfhttp HTTP proxy support configuration
 proxyconf Proxy configuration
-proxyconnection I connect to the internet us
-sendfile Send fileing a proxy server:
+proxyconnection I connect to the internet using a proxy server:
 proxy I am behind a proxy server (HTTP or SOCKS5)
 publishphones Publish my phone numbers
 purge Purge
