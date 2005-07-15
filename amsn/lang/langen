@@ -191,6 +191,7 @@ day Day
 days Days
 dcprofile Don't Create Profile
 default Default Config
+default2 Default
 defaultloginradio Login with default configuration
 defchatwinsize Default size for chat windows (XSIZExYSIZE)
 deleteall Delete all
@@ -439,9 +440,8 @@ no No
 nopic No picture
 noprofileexists There are currently no profiles, \n you must create one if you wish to use profiled logins. \nUse the Add New Profile button in this window to add a new profile.
 normal Normal
-normal2 Normal
 noskins Couldn't found default skin in skins/ folder. Can't start AMSN
-nosystemtray System tray not available
+nosystemtray System tray not avadilable
 note Note
 notificationserver Initial MSN Notification Server (MSN Messenger Server)
 notify1_5 Display notify window when contacts go offline
@@ -531,7 +531,8 @@ profiles Profiles
 properties Properties
 proxyconfhttp HTTP proxy support configuration
 proxyconf Proxy configuration
-proxyconnection I connect to the internet using a proxy server:
+proxyconnection I connect to the internet us
+sendfile Send fileing a proxy server:
 proxy I am behind a proxy server (HTTP or SOCKS5)
 publishphones Publish my phone numbers
 purge Purge

@@ -7347,7 +7347,7 @@ proc AskDPSize { cursize } {
 	radiobutton .askdpsize.rb.retain -text [trans original] -value $cursize -variable dpsize
 	radiobutton .askdpsize.rb.huge -text "192x192" -value "192x192" -variable dpsize
 	radiobutton .askdpsize.rb.large -text "128x128" -value "128x128" -variable dpsize
-	radiobutton .askdpsize.rb.default -text "96x96 ([trans normal2])" -value "96x96" -variable dpsize
+	radiobutton .askdpsize.rb.default -text "96x96 ([trans default2])" -value "96x96" -variable dpsize
 	radiobutton .askdpsize.rb.small -text "64x64" -value "64x64" -variable dpsize
 
 	button .askdpsize.okb -text [trans ok] -command "set done 1" -default active
