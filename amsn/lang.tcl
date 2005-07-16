@@ -834,13 +834,15 @@ namespace eval ::lang {
 			return
 		}
 
-		foreach langcode $::lang::Lang {
-		
+
+		# Look if we only want to update the current language or not
+		if { [::config::getKey updateonlycurrentlanguage] == 1 } {
+
+			set langcode [::config::getGlobalKey language]
 			set lang "lang$langcode"
 		
 			# Check if the file is writable before
 			if { [file writable "$dir/$lang"] } {
-		
 				set version [::lang::ReadLang $langcode version]
 				set onlineversion [::lang::ReadOnlineLang $langcode version]
 				set current [split $version "."]
@@ -858,6 +860,35 @@ namespace eval ::lang {
 				}
 				
 			}
+
+		} else {
+
+			foreach langcode $::lang::Lang {
+	
+				set lang "lang$langcode"
+		
+				# Check if the file is writable before
+				if { [file writable "$dir/$lang"] } {
+		
+					set version [::lang::ReadLang $langcode version]
+					set onlineversion [::lang::ReadOnlineLang $langcode version]
+					set current [split $version "."]
+					set new [split $onlineversion "."]
+					set newer 0
+				
+					if { [lindex $new 0] > [lindex $current 0] } {
+						set newer 1
+					} elseif { [lindex $new 1] > [lindex $current 1] } {
+						set newer 1
+					}
+				
+					if { $newer == 1 } {
+						lappend ::lang::UpdatedLang $langcode
+					}
+				
+				}
+			}
+
 		}
 
 		::lang::SaveVersions
