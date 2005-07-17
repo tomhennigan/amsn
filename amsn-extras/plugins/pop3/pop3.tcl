@@ -1,10 +1,12 @@
-#######################################################
-#             aMSN POP3 Checker Plugin                #
-#                By Arieh Schneier                    #
-#          With small contributions from:             #
-#       Alberto Díaz and Jonas De Meulenaere          #
-#          POP3 Code from Tclib project               #
-#######################################################
+###################################################################
+#                   aMSN POP3 Checker Plugin                      #
+#                      By Arieh Schneier                          #
+#                                                                 #
+#                With small contributions from:                   #
+#             Alberto Díaz and Jonas De Meulenaere                #
+#                 Boris Faure (Gmail support)                     #
+#       POP3 Code originally from Tclib project (modified)        #
+###################################################################
 
 #TODO:
 #  * add translation
@@ -683,37 +685,42 @@ namespace eval ::pop3 {
 	proc ::pop3::check_no { acntn } {
 		catch {
 			plugins_log pop3 "Checking messages now for account $acntn\n"
-			set chan [::pop3::open [set ::pop3::config(host_$acntn)] [set ::pop3::config(user_$acntn)] [set ::pop3::config(pass_$acntn)] [set ::pop3::config(port_$acntn)]]
-			#check that it opened properly
-			if { [set ::pop3::chanopen_$chan] == 1 } {
-				set mails [::pop3::status $chan]
-
-				plugins_log pop3 "POP3 ($acntn) messages: $mails\n"
-				set dontnotifythis 1
-				if { [set ::pop3::emails_$acntn] != $mails } {
-					set dontnotifythis 0
-					if { [set ::pop3::config(leavemails_$acntn)] == 1 } {
-						if { [set ::pop3::emails_$acntn] < $mails } {
-							set ::pop3::newMails_$acntn [expr { [set pop3::newMails_$acntn] + $mails - [set ::pop3::emails_$acntn] } ]
-						} else {
-							set dontnotifythis 1
-						}
-					} else {
-						set ::pop3::newMails_$acntn $mails
-					}
-					set ::pop3::emails_$acntn $mails
-
-					set ::pop3::balloontext_$acntn [::pop3::getfroms $chan [expr {$mails-[set ::pop3::newMails_$acntn]+1}] $mails]
-				}
-				::pop3::close $chan
-
-				if { $dontnotifythis == 0 } {
-					cmsn_draw_online
-					::pop3::notify $acntn
-				}
+			#check if the account is a gmail account
+			if { [string match *@gmail.com* $::pop3::config(user_$acntn) ] } {
+				::pop3::Check_gmail $acntn
 			} else {
-				plugins_log pop3 "POP3 failed to open\n"
-				unset ::pop3::chanopen_$chan
+				set chan [::pop3::open [set ::pop3::config(host_$acntn)] [set ::pop3::config(user_$acntn)] [set ::pop3::config(pass_$acntn)] [set ::pop3::config(port_$acntn)]]
+				#check that it opened properly
+				if { [set ::pop3::chanopen_$chan] == 1 } {
+					set mails [::pop3::status $chan]
+
+					plugins_log pop3 "POP3 ($acntn) messages: $mails\n"
+					set dontnotifythis 1
+					if { [set ::pop3::emails_$acntn] != $mails } {
+						set dontnotifythis 0
+						if { [set ::pop3::config(leavemails_$acntn)] == 1 } {
+							if { [set ::pop3::emails_$acntn] < $mails } {
+								set ::pop3::newMails_$acntn [expr { [set pop3::newMails_$acntn] + $mails - [set ::pop3::emails_$acntn] } ]
+							} else {
+								set dontnotifythis 1
+							}
+						} else {
+							set ::pop3::newMails_$acntn $mails
+						}
+						set ::pop3::emails_$acntn $mails
+
+						set ::pop3::balloontext_$acntn [::pop3::getfroms $chan [expr {$mails-[set ::pop3::newMails_$acntn]+1}] $mails]
+					}
+					::pop3::close $chan
+
+					if { $dontnotifythis == 0 } {
+						cmsn_draw_online
+						::pop3::notify $acntn
+					}
+				} else {
+					plugins_log pop3 "POP3 failed to open\n"
+					unset ::pop3::chanopen_$chan
+				}
 			}
 		}
 	}
@@ -1006,6 +1013,156 @@ namespace eval ::pop3 {
 			if { $failed == 1 } {
 				msg_box "Delete failed\nYour email may have changed since last update\nUpdating now."
 			}
+		}
+	}
+
+	# ::pop3::Check_gmail
+	# Description:
+	#	catch the "Unreads" information about the gmail account by acting as a browser, with cookies support, but no javascript. (i wrote a proc which "enables" javascript, which gives us the beginning of new messages, the email of the authors, but there is more http::geturl procedures, and the "regexp" part is very complex.
+	#	create the balloon
+	# Arguments:
+	#	acntn        -> The number of the gmail account to check
+	proc Check_gmail {acntn} {
+		package require http
+		package require tls
+		#bind the https in order to use tls
+		http::register https 443 ::tls::socket
+		
+		#remove the quotes around the login if they exists
+		#if {[string equal [string index $::pop3::config(user_$acntn) 0] "\"" ] && [string equal [string index $::pop3::config(user_$acntn) end] ]} {
+		#	set ::pop3::config(user_$acntn) [string range $::pop3::config(user_$acntn) 1 end-1]
+		#}
+
+		array set gmail {}
+		set gmail(start_time) [clock seconds]
+		#do all the stuff !
+		set gmail(headers) [list "Host" "www.google.com" "User-Agent" "User-Agent: Mozilla/5.0 (compatible;)"]
+		#doing the query, we don't use ::http::formatQuery because it returns a bad string, urlencode is preferred
+		set gmail(query) ""
+		#the continue value, in the query, contains ui%3Dhtml%26zy%3Dl which informs the gmail server that we don't use Javascript
+		append gmail(query) continue=http%3A%2F%2Fmail.google.com%2Fmail%3Fui%3Dhtml%26zy%3Dl&service=mail&rm=false&Email= [urlencode $::pop3::config(user_$acntn)] &Passwd= [urlencode $::pop3::config(pass_$acntn) ] &null=Connexion
+		
+		#sending the email and the pass, as if they were typed in a form on the website
+		set gmail(tok) [http::geturl https://www.google.com/accounts/ServiceLoginAuth -query $gmail(query) -headers $gmail(headers) -validate 1 ]
+		upvar \#0 $gmail(tok) state
+		#gets the invitations to create a cookie
+		set gmail(cookies) [list]
+		foreach {name value} $state(meta)  {
+			if { $name eq "Set-Cookie" } {
+				#the SID value will be used after; we have to search in that way because of "LSID"
+				if { [string equal [string range $value 0 3] "SID="] } {
+				set gmail(SID) ""
+				regexp {SID\=([\-\_[:alnum:]]+)\;} $value -> gmail(SID)
+				}
+				lappend gmail(cookies) [lindex [split $value {;}] 0]
+			}
+		}
+
+		set gmail(data) [array get $gmail(tok)]
+		set gmail(URL1) ""
+		#there should be a better way to do that !
+		regexp {Location\ ([\/\$\*\~\%\,\!\'\#\.\@\+\-\=\?\;\:\^\&\_[:alnum:]]+)\ Content-Type} $gmail(data) -> gmail(URL1)
+		regexp {continue=([\/\$\*\~\%\,\!\'\#\.\@\+\-\=\?\;\:\^\_[:alnum:]]+)&service=mail} $gmail(URL1) -> gmail(URL1)
+		set gmail(URL1) [urldecode $gmail(URL1)]
+		#create a fake value for GMAIL_LOGIN.
+		set gmail(GMAIL_LOGIN) T
+		append gmail(GMAIL_LOGIN) $gmail(start_time) / $gmail(start_time) / [clock seconds]
+		#don't know the meaning of both of those values :
+		set gmail(TZ) "-120"
+		set gmail(GMAIL_RTT) "229"
+		set gmail(cookies_to_tok3) [list TZ=$gmail(TZ) GMAIL_RTT=$gmail(GMAIL_RTT) GMAIL_LOGIN=$gmail(GMAIL_LOGIN) SID=$gmail(SID)]
+		set gmail(headers) [list "Host" "mail.google.com" "User-Agent" "User-Agent: Mozilla/5.0 (compatible;)" Cookie [join $gmail(cookies_to_tok3) {;}]]
+		set gmail(tok3) [http::geturl $gmail(URL1) -headers $gmail(headers) -validate 1 ]
+		upvar \#0 $gmail(tok3) state
+		set gmail(cookies2) [list]
+		foreach {name value} $state(meta) {
+			if { $name eq "Set-Cookie" } {
+				regexp {(\w+)=([\/\$\*\~\%\,\!\'\#\.\@\+\-\=\?\:\^\_[:alnum:]]+)\;} $value -> gmail(name) gmail(value)
+				set gmail($gmail(name)) $gmail(value)
+				lappend gmail(cookies2) [lindex [split $value {;}] 0]
+			}
+		}
+		
+		set gmail(URL2) ""
+		set gmail(data2) [array get $gmail(tok3)]
+		regexp {Location\ ([\/\$\*\~\%\,\!\'\#\.\@\+\-\=\?\;\:\^\&\_[:alnum:]]+)\ Content} $gmail(data2) -> gmail(URL2)
+		set gmail(URL2) http://mail.google.com$gmail(URL2)
+		set gmail(cookies_to_tok4) [list GX=$gmail(GX) GMAIL_RTT=$gmail(GMAIL_RTT) GMAIL_LOGIN=$gmail(GMAIL_LOGIN) SID=$gmail(SID) S=$gmail(S)]
+		set gmail(headers) [list "Host" "mail.google.com" "User-Agent" "User-Agent: Mozilla/5.0 (compatible;)" Cookie [join $gmail(cookies_to_tok4) {;}]]
+		set gmail(tok4) [http::geturl $gmail(URL2) -headers $gmail(headers) ]
+
+		set gmail(Unreads) 0
+		set gmail(dataINBOX) [::http::data $gmail(tok4)]
+		status_log "$gmail(dataINBOX)" green
+		set gmail(senders_titles) [list]
+		set gmail(dataINBOX) [split $gmail(dataINBOX) "\n"]
+		set gmail(i) 0
+		set gmail(text_line) [lindex $gmail(dataINBOX) 0]
+		#now, parsing !
+		for {set i 1} {$i<[llength $gmail(dataINBOX)]} {incr i} {
+			#get the number of unread messages
+			if { [string match *Inbox\&nbsp\;* $gmail(text_line) ] } {
+				regexp {Inbox\&nbsp\;\((\d+)\)\<\/a\>\<\/b\>} $gmail(text_line) -> gmail(Unreads)
+				#make the balloon
+				set ::pop3::balloontext_$acntn "\n"
+				set gmail(msg_number) 0
+				incr i
+				for { set i $i } {$i<[llength $gmail(dataINBOX)]} {incr i} {
+					set gmail(text_line) [lindex $gmail(dataINBOX) $i ]
+					#this sentence is close to the datas we need
+					if { [string match *\<\/b\>\ of\ \<b\>* $gmail(text_line) ] } {
+						incr i
+						set gmail(text_line) [lindex $gmail(dataINBOX) $i ]
+						#gmail(parity) is used to have a good display in the balloon
+						set gmail(parity) 1
+						while {$i<[llength $gmail(dataINBOX)] && $gmail(msg_number)< $gmail(Unreads) } {
+							set gmail(text_line) [lindex $gmail(dataINBOX) $i ]
+							if { [string equal [string range $gmail(text_line) 0 3] "<td "] } {
+								set gmail(text_line_1) [lindex $gmail(dataINBOX) [expr $i + 1] ]
+								set gmail(text_line_2) [lindex $gmail(dataINBOX) [expr $i + 2] ]
+								set gmail(text_line_3) [lindex $gmail(dataINBOX) [expr $i + 3] ]
+								set gmail(text_line_5) [lindex $gmail(dataINBOX) [expr $i + 5] ]
+								if { [string equal [string range $gmail(text_line_1) end-4 end] "</td>"] && \
+								[string equal [string range $gmail(text_line_2) 0 3] "<td "] &&\
+								( [string equal [string range $gmail(text_line_3) 0 12] "<a href=\"?th="] || \
+								[string equal [string range $gmail(text_line_5) 0 12] "<a href=\"?th="] )
+								} {
+									incr gmail(msg_number)
+									regsub -all {\<\/td\>} $gmail(text_line_1) "" gmail(text_line)
+									regsub -all {\<b\>} $gmail(text_line) "" gmail(text_line)
+									regsub -all {\<\/b\>} $gmail(text_line) "" gmail(text_line)
+									append ::pop3::balloontext_$acntn \n\n$gmail(text_line)
+									if { [string match *<b>* [lindex $gmail(dataINBOX) [expr $i + 6] ] ] } {
+										set gmail(text_line) [lindex $gmail(dataINBOX) [expr $i + 6] ]
+									} else {
+										set gmail(text_line) [lindex $gmail(dataINBOX) [expr $i + 8] ]
+									}
+									regsub -all {\<b\>} $gmail(text_line) "" gmail(text_line)
+									regsub -all {\<\/b\>} $gmail(text_line) "" gmail(text_line)
+									append ::pop3::balloontext_$acntn \n      $gmail(text_line)
+								}
+							}
+							incr i
+						}
+						set i [llength $gmail(dataINBOX)]
+					}
+					set gmail(text_line) [lindex $gmail(dataINBOX) $i ]
+				}
+			}
+			set gmail(text_line) [lindex $gmail(dataINBOX) $i ]
+		}
+
+		plugins_log pop3 "POP3 ($acntn) messages: $gmail(Unreads)\n"
+		set dontnotifythis 1
+		if { [set ::pop3::emails_$acntn] != $gmail(Unreads) } {
+			set dontnotifythis 0
+			set ::pop3::newMails_$acntn $gmail(Unreads)
+			set ::pop3::emails_$acntn $gmail(Unreads)
+		}
+
+		if { $dontnotifythis == 0 } {
+			cmsn_draw_online
+			::pop3::notify $acntn
 		}
 	}
 }
