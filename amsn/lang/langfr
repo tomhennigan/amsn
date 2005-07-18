@@ -105,7 +105,7 @@ changestate $1 a changé de statut : $2
 charscounter Compteur de caractères dans la fenêtre de conversation
 chatack Accepter de discuter avec
 chat Discuter
-chatmaxmin Quand une fenêtre de conversation s'ouvre, je veux qu'elles soient :
+chatmaxmin Quand une fenêtre de conversation s'ouvre, je veux qu'elle soit :
 chatreq Inviter à discuter
 chatsmileys2 Afficher les émoticônes/smileys dans la fenêtre de conversation
 chatsmileys Afficher les émoticônes/smileys
@@ -397,7 +397,7 @@ move Déplacer
 movetogroup Déplacer vers groupe
 msg Message
 msgflicker Faire clignoter la barre de titre d'une fenêtre inactive quand un message est reçu
-msgmaxmin Quand un nouveau message arrive, je veux qu'elles soient
+msgmaxmin Quand un nouveau message arrive, je veux qu'il soit
 msgmode Choisissez comment manier plusieurs fenêtres de messages :
 msn aMSN
 msnstyle Chat de type MSN
