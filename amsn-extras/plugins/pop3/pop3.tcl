@@ -44,7 +44,7 @@ namespace eval ::pop3 {
 			array set ::pop3::config [ list \
 				host_[set acntn] {"your.mailserver.here"} \
 				user_[set acntn] {"user_login@here"} \
-				pass_[set acntn] {""} \
+				passe_[set acntn] [::pop3::encrypt ""] \
 				port_[set acntn] {110} \
 				notify_[set acntn] {1} \
 				loadMailProg_[set acntn] {0} \
@@ -55,33 +55,12 @@ namespace eval ::pop3 {
 			]
 		}
 
-		if {[string equal $::version "0.94"]} {
-			set ::pop3::configlist [list \
-				[list label "This plugin now allows for multiple email adresses, but you will need to manually edit the config"] \
-				[list str "Check for new messages every ? minutes" minute] \
-				[list str "POP3 Server"  host_0] \
-				[list str "Your user login" user_0] \
-				[list pass "Your password" pass_0] \
-				[list str "Port (optional)" port_0] \
-				[list bool "Show notify window" notify_0] \
-				[list bool "Load mail program on left click" loadMailProg_0] \
-				[list str "          Mail Program" mailProg_0] \
-				[list bool "Load delete menu on right click" rightdeletemenu_0] \
-				[list bool "Your mail program leaves mails on server" leavemails_0] \
-				[list str "Display name" caption_0] \
-			]
-		} else {
-			set ::pop3::configlist [list \
-				[list str "Check for new messages every ? minutes" minute] \
-				[list frame ::pop3::populateframe ""] \
-			]
-		}
+		set ::pop3::configlist [list \
+			[list str "Check for new messages every ? minutes" minute] \
+			[list frame ::pop3::populateframe ""] \
+		]
 
-		if {[string equal $::version "0.94"]} {
-			::skin::setPixmap pop3_mailpic [file join $dir pixmaps pop3_mailpic.gif]
-		} else {
-			::skin::setPixmap pop3_mailpic pop3_mailpic.gif pixmaps [file join $dir pixmaps]
-		}
+		::skin::setPixmap pop3_mailpic pop3_mailpic.gif pixmaps [file join $dir pixmaps]
 
 		set ::pop3::checkingnow 0
 		
@@ -145,7 +124,12 @@ namespace eval ::pop3 {
 		#password
 		frame $f.pass
 		label $f.pass.label -text "Your password"
-		entry $f.pass.entry -show "*" -textvariable ::pop3::config(pass_0) -bg white
+		entry $f.pass.entry -show "*" -bg white -validate all \
+		-validatecommand {
+			set ::pop3::config(passe_0) [::pop3::encrypt %P]
+			return 1
+		}
+		$f.pass.entry insert end [pop3::decrypt $::pop3::config(passe_0)]
 		pack $f.pass.label -side left -anchor w
 		pack $f.pass.entry -side left -anchor w
 		pack $f.pass -anchor w
@@ -201,7 +185,11 @@ namespace eval ::pop3 {
 
 		$f.host.entry configure -textvariable ::pop3::config(host_$val)
 		$f.user.entry configure -textvariable ::pop3::config(user_$val)
-		$f.pass.entry configure -textvariable ::pop3::config(pass_$val)
+		$f.pass.entry configure -validate none
+		$f.pass.entry configure -validatecommand "set ::pop3::config(passe_$val) \[::pop3::encrypt %P\]; return 1"
+		$f.pass.entry delete 0 end
+		$f.pass.entry insert end [pop3::decrypt $::pop3::config(passe_$val)]
+		$f.pass.entry configure -validate all
 		$f.port.entry configure -textvariable ::pop3::config(port_$val)
 		$f.notify configure -variable ::pop3::config(notify_$val)
 		$f.loadMailProg configure -variable ::pop3::config(loadMailProg_$val)
@@ -297,6 +285,17 @@ namespace eval ::pop3 {
 			}
 		}
 		return $result
+	}
+	
+	proc ::pop3::encrypt { password } {
+		binary scan [::des::encrypt pasencky "${password}\n"] h* encpass
+		return $encpass
+	}
+
+	proc ::pop3::decrypt { key } {
+		set password [::des::decrypt pasencky [binary format h* $key]]
+		set password [string range $password 0 [expr { [string first "\n" $password] -1 }]]
+		return $password
 	}
 
 
@@ -689,7 +688,7 @@ namespace eval ::pop3 {
 			if { [string match *@gmail.com* $::pop3::config(user_$acntn) ] } {
 				::pop3::Check_gmail $acntn
 			} else {
-				set chan [::pop3::open [set ::pop3::config(host_$acntn)] [set ::pop3::config(user_$acntn)] [set ::pop3::config(pass_$acntn)] [set ::pop3::config(port_$acntn)]]
+				set chan [::pop3::open [set ::pop3::config(host_$acntn)] [set ::pop3::config(user_$acntn)] [pop3::decrypt $::pop3::config(passe_$acntn)] [set ::pop3::config(port_$acntn)]]
 				#check that it opened properly
 				if { [set ::pop3::chanopen_$chan] == 1 } {
 					set mails [::pop3::status $chan]
@@ -788,15 +787,8 @@ namespace eval ::pop3 {
 	#	acntn ->  The number of the account to load teh default mail program for
 	proc loadDefaultEmail { acntn } {
 		if { $::tcl_platform(platform) == "windows" } {
-			if {[string equal $::version "0.94"]} {
-				if { [catch { eval WinLoadFile [set ::pop3::config(mailProg_$acntn)] } ] } {
-					load [file join plugins winutils winutils.dll]
-					eval WinLoadFile [set ::pop3::config(mailProg_$acntn)]
-				}
-			} else {
-				package require WinUtils
-				eval WinLoadFile [set ::pop3::config(mailProg_$acntn)]
-			}
+			package require WinUtils
+			eval WinLoadFile [set ::pop3::config(mailProg_$acntn)]
 		} else {
 			if { [catch {eval "exec [set ::pop3::config(mailProg_$acntn)]"} res] } {
 				plugins_log pop3 "Failed to load [set ::pop3::config(mailProg_$acntn)] with the error: $res\n"
@@ -820,40 +812,34 @@ namespace eval ::pop3 {
 	proc draw_no {acntn evPar} {
 		upvar 3 $evPar vars
 
-		if {[string equal $::version "0.94"]} {
-			set textb $vars(text)
-
-			clickableImage $textb popmailpic_$acntn pop3_mailpic {after cancel ::pop3::check; after 1 ::pop3::check} 5 0
+		#TODO: add parameter to event and get rid of hardcoded variable
+		set pgtop $::pgBuddyTop
+		set clbar $::pgBuddyTop.colorbar
+		
+		set textb $pgtop.pop3mail_$acntn
+		text $textb -font bboldf -height 1 -background [::skin::getKey contactlistbg] -borderwidth 0 -wrap none -cursor left_ptr \
+			-relief flat -highlightthickness 0 -selectbackground white -selectborderwidth 0 \
+			-exportselection 0 -relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0
+		if {[::skin::getKey emailabovecolorbar]} {
+			pack $textb -expand true -fill x -after $clbar -side bottom -padx 0 -pady 0
 		} else {
-			#TODO: add parameter to event and get rid of hardcoded variable
-			set pgtop $::pgBuddyTop
-			set clbar $::pgBuddyTop.colorbar
-			
-			set textb $pgtop.pop3mail_$acntn
-			text $textb -font bboldf -height 1 -background [::skin::getKey contactlistbg] -borderwidth 0 -wrap none -cursor left_ptr \
-				-relief flat -highlightthickness 0 -selectbackground white -selectborderwidth 0 \
-				-exportselection 0 -relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0
-			if {[::skin::getKey emailabovecolorbar]} {
-				pack $textb -expand true -fill x -after $clbar -side bottom -padx 0 -pady 0
-			} else {
-				pack $textb -expand true -fill x -before $clbar -side bottom -padx 0 -pady 0
-			}
-
-			$textb configure -state normal
-
-			clickableImage $textb popmailpic_$acntn pop3_mailpic {after cancel ::pop3::check; after 1 ::pop3::check} [::skin::getKey mailbox_xpad] [::skin::getKey mailbox_ypad]
-			
-			set mailheight [expr [$textb.popmailpic_$acntn cget -height]+(2*[::skin::getKey mailbox_ypad])]
-			#in windows need an extra -2 is to include the extra 1 pixel above and below in a font
-			if {$::tcl_platform(platform) == "windows"} {
-				set mailheight [expr $mailheight - 2]
-			}
-			set textheight [font metrics splainf -linespace]
-			if { $mailheight < $textheight } {
-				set mailheight $textheight
-			}
-			$textb configure -font "{} -$mailheight"
+			pack $textb -expand true -fill x -before $clbar -side bottom -padx 0 -pady 0
 		}
+
+		$textb configure -state normal
+
+		clickableImage $textb popmailpic_$acntn pop3_mailpic {after cancel ::pop3::check; after 1 ::pop3::check} [::skin::getKey mailbox_xpad] [::skin::getKey mailbox_ypad]
+		
+		set mailheight [expr [$textb.popmailpic_$acntn cget -height]+(2*[::skin::getKey mailbox_ypad])]
+		#in windows need an extra -2 is to include the extra 1 pixel above and below in a font
+		if {$::tcl_platform(platform) == "windows"} {
+			set mailheight [expr $mailheight - 2]
+		}
+		set textheight [font metrics splainf -linespace]
+		if { $mailheight < $textheight } {
+			set mailheight $textheight
+		}
+		$textb configure -font "{} -$mailheight"
 
 		set balloon_message "Click here to check the number of messages now."
 		bind $textb.popmailpic_$acntn <Enter> +[list balloon_enter %W %X %Y $balloon_message]
@@ -873,13 +859,8 @@ namespace eval ::pop3 {
 			set mailmsg "[trans newmail [set ::pop3::newMails_$acntn]] ([set ::pop3::config(caption_$acntn)])"
 		}
 		
-		if {[string equal $::version "0.94"]} {
-			set maxw [expr [winfo width $vars(text)] -30]
-			set short_mailmsg "[trunc $mailmsg $textb $maxw splainf]\n"
-		} else {
-			set maxw [expr [winfo width [winfo parent $pgtop]]-[$textb.popmailpic_$acntn cget -width]-(2*[::skin::getKey mailbox_xpad])]
-			set short_mailmsg [trunc $mailmsg $textb $maxw splainf]
-		}
+		set maxw [expr [winfo width [winfo parent $pgtop]]-[$textb.popmailpic_$acntn cget -width]-(2*[::skin::getKey mailbox_xpad])]
+		set short_mailmsg [trunc $mailmsg $textb $maxw splainf]
 
 		$textb tag conf pop3mail_$acntn -fore black -underline false -font splainf
 		if { [set ::pop3::config(loadMailProg_$acntn)] || [set ::pop3::config(rightdeletemenu_$acntn)] } {
@@ -900,11 +881,7 @@ namespace eval ::pop3 {
 
 		$textb insert end "$short_mailmsg" [list pop3mail_$acntn dont_replace_smileys]
 		
-		if {[string equal $::version "0.94"]} {
-			#empty
-		} else {
-			$textb configure -state disabled
-		}
+		$textb configure -state disabled
 	}
 
 
@@ -931,11 +908,7 @@ namespace eval ::pop3 {
 		upvar 2 $evPar vars
 		upvar 2 $vars(msg) msg
 
-		if {[string equal $::version "0.94"]} {
-			set msg "[string range $msg 0 end-1] (Hotmail)\n"
-		} else {
-			set msg "[string range $msg 0 end] (Hotmail)"
-		}
+		set msg "[string range $msg 0 end] (Hotmail)"
 	}
 
 
@@ -984,7 +957,7 @@ namespace eval ::pop3 {
 			after cancel ::pop3::check
 			set failed 0
 
-			set chan [::pop3::open [set ::pop3::config(host_$acntn)] [set ::pop3::config(user_$acntn)] [set ::pop3::config(pass_$acntn)] [set ::pop3::config(port_$acntn)]]
+			set chan [::pop3::open [set ::pop3::config(host_$acntn)] [set ::pop3::config(user_$acntn)] [pop3::decrypt $::pop3::config(passe_$acntn)] [set ::pop3::config(port_$acntn)]]
 
 			#check that it opened properly
 			if { [set ::pop3::chanopen_$chan] == 1 } {
@@ -1040,7 +1013,7 @@ namespace eval ::pop3 {
 		#doing the query, we don't use ::http::formatQuery because it returns a bad string, urlencode is preferred
 		set gmail(query) ""
 		#the continue value, in the query, contains ui%3Dhtml%26zy%3Dl which informs the gmail server that we don't use Javascript
-		append gmail(query) continue=http%3A%2F%2Fmail.google.com%2Fmail%3Fui%3Dhtml%26zy%3Dl&service=mail&rm=false&Email= [urlencode $::pop3::config(user_$acntn)] &Passwd= [urlencode $::pop3::config(pass_$acntn) ] &null=Connexion
+		append gmail(query) continue=http%3A%2F%2Fmail.google.com%2Fmail%3Fui%3Dhtml%26zy%3Dl&service=mail&rm=false&Email= [urlencode $::pop3::config(user_$acntn)] &Passwd= [urlencode [pop3::decrypt $::pop3::config(passe_$acntn)] ] &null=Connexion
 		
 		#sending the email and the pass, as if they were typed in a form on the website
 		set gmail(tok) [http::geturl https://www.google.com/accounts/ServiceLoginAuth -query $gmail(query) -headers $gmail(headers) -validate 1 ]
