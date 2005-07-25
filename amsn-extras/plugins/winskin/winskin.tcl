@@ -276,7 +276,7 @@ namespace eval ::winskin {
 			frame $buttons -class Amsn -relief solid \
 					-width [winfo width $vars(text)]\
 					-borderwidth 0 \
-					-background #ffffff
+					-background [::skin::getKey contactlistbg]
 			$vars(text) insert 1.0 "\n"
 			$vars(text) window create 1.0 -window $buttons -padx 0 -pady 0
 
@@ -288,18 +288,20 @@ namespace eval ::winskin {
 			set filler $buttons.filler
 			#destroy $imag $imagm $imagc
 			if { $skinned == 1} {
-				label $imag -image [::skin::loadPixmap winskin_replace]
+				label $imag -image [::skin::loadPixmap winskin_replace] -background [::skin::getKey contactlistbg]
 			} else {
-				label $imag -image [::skin::loadPixmap winskin_remove]
+				label $imag -image [::skin::loadPixmap winskin_remove] -background [::skin::getKey contactlistbg]
 			}
-			label $imagm -image [::skin::loadPixmap winskin_move]
-			label $imagn -image [::skin::loadPixmap winskin_menu]
+
+			label $imagm -image [::skin::loadPixmap winskin_move] -background [::skin::getKey contactlistbg]
+			label $imagn -image [::skin::loadPixmap winskin_menu] -background [::skin::getKey contactlistbg]
+
 			if { $::winskin::config(resizetopright) == 1 } {
-				label $imagr -image [::skin::loadPixmap winskin_resize]
+				label $imagr -image [::skin::loadPixmap winskin_resize] -background [::skin::getKey contactlistbg]
 			} else {
-				label $imagr -image [::skin::loadPixmap winskin_resize2]
+				label $imagr -image [::skin::loadPixmap winskin_resize2] -background [::skin::getKey contactlistbg]
 			}
-			label $imagc -image [::skin::loadPixmap winskin_close]
+			label $imagc -image [::skin::loadPixmap winskin_close] -background [::skin::getKey contactlistbg]
 
 			$imag configure -cursor hand2 -borderwidth 0 -padx 0 -pady 0
 			$imagm configure -cursor fleur -borderwidth 0 -padx 0 -pady 0
@@ -332,7 +334,7 @@ namespace eval ::winskin {
 			incr usedwidth 10
 			frame $filler -width [expr {[winfo width $vars(text)] - $usedwidth}] \
 					-borderwidth 0 \
-					-background #ffffff
+					-background [::skin::getKey contactlistbg]
 			pack $filler -padx 0 -pady 0 -side right -expand true
 
 			bind $imag <ButtonPress-1> "after 1 ::winskin::switchskin"
