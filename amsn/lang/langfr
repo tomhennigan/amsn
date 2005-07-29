@@ -190,6 +190,7 @@ day Jour
 days Jours
 dcprofile Ne pas créer de profil
 default Configuration par défaut
+default2 Défaut
 defaultloginradio Connexion avec la configuration par défaut
 defchatwinsize Taille par défaut des fenêtres de conversation (Largeur x Hauteur)
 deleteall Tout supprimer
