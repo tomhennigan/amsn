@@ -1283,7 +1283,7 @@ namespace eval ::MSN {
 		$sb configure -sock ""
 		$sb configure -stat "d"
 
-		if { [string first NS $sb] != -1 || $sb == "ns" } {
+		if { [string match -nocase "*ns*" $sb] } {
 			status_log "clearing sb $sb. oldstat=$oldstat"
 			set mystatus [::MSN::myStatusIs]
 
@@ -2352,12 +2352,13 @@ namespace eval ::Event {
 	#this method is called when the socket becomes readable
 	#it will get data from the socket and call handleCommand
 	method receivedData { } {
-	
-		#put available data in buffer. When buffer is empty dataRemains is set to 0
-		set dataRemains [$self appendDataToBuffer]
-		
+		set dataRemains 1 	 
 		while { $dataRemains } {
-			
+			#put available data in buffer. When buffer is empty dataRemains is set to 0
+			set dataRemains [$self appendDataToBuffer]
+			#check if appendDataToBuffer didn't close this object because the socket was closed
+			if { [info exists dataBuffer] == 0 } { break }
+		
 			#check for the a newline, if there is we have a command if not return
 			set idx [string first "\r\n" $dataBuffer]
 			if { $idx == -1 } { return }
@@ -2382,12 +2383,7 @@ namespace eval ::Event {
 				set command [encoding convertfrom utf-8 $command]
 				$options(-name) handleCommand $command
 			}
-			
-			#put available data in buffer. When buffer is empty dataRemains is set to 0
-			set dataRemains [$self appendDataToBuffer]
-			
 			update idletasks
-
 		}
 	}
 
