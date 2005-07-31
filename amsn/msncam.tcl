@@ -34,6 +34,51 @@ proc getObjOption { obj option } {
 	}
 
 }
+
+proc nbread { sock numChars } {
+	set tmpsize 0
+	set tmpdata ""
+	
+	if { [catch {
+		#To avoid to be recalled when we do update
+		set oldfileevent [fileevent $sock readable]
+
+		fileevent $sock readable ""
+		
+		while { $tmpsize < $numChars && ![eof $sock] } {
+			append tmpdata [read $sock [expr $numChars - $tmpsize]]
+			set tmpsize [string length $tmpdata]
+			update
+		}
+
+		fileevent $sock readable $oldfileevent
+	} errormsg] } {
+		status_log "Error in nbread : $errormsg" white
+		#We are here if there is an error in the catch
+		return ""
+	} else {
+		return $tmpdata
+	}
+}
+
+proc nbgets { sock {varName ""} } {
+	set char " "
+	set data ""
+	while { $char != "\n" && $char != "" } {
+		set char [nbread $sock 1]
+		append data $char
+	}
+	set data [string range $data 0 [expr [string length $data] - 2] ]
+	
+	if { $varName != "" } {
+		upvar 1 $varName buffer
+		set buffer $data
+		return [string length $data]
+	}
+
+	return $data
+}
+
 namespace eval ::MSNCAM {
 	namespace export CancelCam SendInvite AskWebcam CamCanceled
 
@@ -79,7 +124,7 @@ namespace eval ::MSNCAM {
 
 		set listening [getObjOption $sid listening_socket]
 		if { $listening != "" } {
-			close $listening
+			catch { close $listening }
 		}
 		setObjOption $sid listening_socket ""
 	}
@@ -108,7 +153,7 @@ namespace eval ::MSNCAM {
 
 		if { $socket != "" } {
 			status_log "Connected through socket $socket : closing socket\n" red
-			catch { close $socket}
+			catch { close $socket }
 			CloseUnusedSockets $sid ""
 		}
 
@@ -407,7 +452,7 @@ namespace eval ::MSNCAM {
 		setObjOption $sock reflector 1
 
 		status_log "Received connection from $ip on port $port - socket $sock\n" red
-		fconfigure $sock -blocking 1 -buffering none -translation {binary binary}
+		fconfigure $sock -blocking 0 -buffering none -translation {binary binary}
 
 		set connected_ips [getObjOption $sid connected_ips]
 		lappend connected_ips [list $ip $port $sock]
@@ -482,7 +527,7 @@ namespace eval ::MSNCAM {
 
 			status_log "connected to $host on port $port  - $sock\n" red
 			
-			fconfigure $sock -blocking 1 -buffering none -translation {binary binary} -encoding binary 
+			fconfigure $sock -blocking 0 -buffering none -translation {binary binary} -encoding binary 
 			fileevent $sock readable "::MSNCAM::ReadFromSock $sock"
 			fileevent $sock writable "::MSNCAM::WriteToSock $sock"
 
@@ -520,12 +565,12 @@ namespace eval ::MSNCAM {
 			"AUTH"
 			{
 				if { $server } {
-					gets $sock data
+					nbgets $sock data
 					status_log "Received Data on socket $sock $my_rid - $rid server=$server - state=$state : \n$data\n" red
 					if { $data == "recipientid=${my_rid}&sessionid=${session}\r" } {
-						gets $sock
+						nbgets $sock
 						setObjOption $sock state "CONNECTED"
-						fileevent $sock writable "::MSNCAM::WriteToSock $sock"
+						catch { fileevent $sock writable "::MSNCAM::WriteToSock $sock" }
 						setObjOption $sid socket $sock
 						CloseUnusedSockets $sid $sock
 					} else {
@@ -535,10 +580,10 @@ namespace eval ::MSNCAM {
 			}
 			"TSP_OK" 
 			{
-				gets $sock data
+				nbgets $sock data
 				status_log "Received Data on Reflector socket $sock $my_rid - $rid server=$server - state=$state : \n$data\n" red
 				if { $data == "TSP/1.0 200 OK\r" } {
-					gets $sock 
+					nbgets $sock 
 					setObjOption $sock state "TSP_CONNECTED"
 				} else {
 					status_log "ERROR AUTHENTICATING TO THE REFLECTOR - $data\n" red
@@ -546,13 +591,13 @@ namespace eval ::MSNCAM {
 			}
 			"TSP_CONNECTED"
 			{
-				gets $sock data
+				nbgets $sock data
 				status_log "Received Data on Reflector socket $sock $my_rid - $rid server=$server - state=$state : \n$data\n" red
 				if { $data == "CONNECTED\r" } {
-					gets $sock 
+					nbgets $sock 
 					if { $producer } {
 						setObjOption $sock state "TSP_SEND"
-						fileevent $sock writable "::MSNCAM::WriteToSock $sock"
+						catch { fileevent $sock writable "::MSNCAM::WriteToSock $sock" }
 					} else {
 						setObjOption $sock state "TSP_RECEIVE"
 					}
@@ -564,24 +609,24 @@ namespace eval ::MSNCAM {
 			"CONNECTED"
 			{
 				if { $server == 0 } {
-					gets $sock data
+					nbgets $sock data
 					status_log "Received Data on socket $sock sending=$producer - server=$server - state=$state : \n$data\n" red
 					if { $data == "connected\r" } {
-						gets $sock
+						nbgets $sock
 						setObjOption $sid socket $sock
 						CloseUnusedSockets $sid $sock
 						puts -nonewline $sock "connected\r\n\r\n"
 						status_log "Sending \"connected\" to the server\n" red
 						if { $producer } {
 							setObjOption $sock state "SEND"
-							fileevent $sock writable "::MSNCAM::WriteToSock $sock"
+							catch { fileevent $sock writable "::MSNCAM::WriteToSock $sock" }
 							AuthSuccessfull $sid $sock
 						} else {
 							setObjOption $sock state "RECEIVE"
 							AuthSuccessfull $sid $sock
 						}
 					} else {
-						status_log "ERROR2 : $data - [eof $sock] - [gets $sock] - [gets $sock]\n" red
+						status_log "ERROR2 : $data - [eof $sock] - [nbgets $sock] - [nbgets $sock]\n" red
 						AuthFailed $sid $sock
 					}
 				}
@@ -591,7 +636,7 @@ namespace eval ::MSNCAM {
 			{
 				if {$server} {
 
-					set data [read $sock 13]
+					set data [nbread $sock 13]
 					status_log "Received Data on socket $sock sending=$producer - server=$server - state=$state : \n$data\n" red
 
 					if { $data == "connected\r\n\r\n" } {
@@ -600,12 +645,12 @@ namespace eval ::MSNCAM {
 							setObjOption $sock state "RECEIVE"
 						}
 					} elseif { $producer == 0 } {
-						set header "${data}[read $sock 11]"
+						set header "${data}[nbread $sock 11]"
 						setObjOption $sock state "RECEIVE"
 
 						set size [GetCamDataSize $header]
 						if { $size > 0 } {
-							set data "$header[read $sock $size]"
+							set data "$header[nbread $sock $size]"
 							::CAMGUI::ShowCamFrame $sid $data
 						} else {
 							setObjOption $sock state "END"
@@ -614,21 +659,21 @@ namespace eval ::MSNCAM {
 
 					} else {
 						setObjOption $sock state "END"
-						status_log "ERROR1 : $data - [eof $sock] - [gets $sock] - [gets $sock]\n" red
+						status_log "ERROR1 : $data - [eof $sock] - [nbgets $sock] - [nbgets $sock]\n" red
 					}
 
 				} else {
 					setObjOption $sock state "END"
-					status_log "ERROR1 : [gets $sock] - should never received data on state $state when we're the client\n" red
+					status_log "ERROR1 : [nbgets $sock] - should never received data on state $state when we're the client\n" red
 				}
 			}
 			"TSP_SEND" 
 			{
 			
-				set data [read $sock 4]
+				set data [nbread $sock 4]
 				#status_log "Received $data on state TSP_SEND" blue
 				if { $data == "\xd2\x04\x00\x00" } {
-					fileevent $sock writable "::MSNCAM::WriteToSock $sock"
+					catch { fileevent $sock writable "::MSNCAM::WriteToSock $sock" }
 				} else {
 					setObjOption $sock state "END"
 					status_log "ERROR1 : Received $data from socket on state TSP_SEND - [eof $sock] \n" red
@@ -637,10 +682,10 @@ namespace eval ::MSNCAM {
 			"TSP_RECEIVE" -
 			"RECEIVE"
 			{
-				set header [read $sock 24]
+				set header [nbread $sock 24]
 				set size [GetCamDataSize $header]
 				if { $size > 0 } {
-					set data "$header[read $sock $size]"
+					set data "$header[nbread $sock $size]"
 					if { [::config::getKey webcamlogs] == 1 } {
 						set fd [getObjOption $sid weblog]
 						if { $fd == "" } {
@@ -652,13 +697,13 @@ namespace eval ::MSNCAM {
 					
 						catch {puts -nonewline $fd $data}
 					}
-					fileevent $sock readable ""
+					catch { fileevent $sock readable "" }
 
 					after 0 "::CAMGUI::ShowCamFrame $sid [list $data];
 						 catch {fileevent $sock readable \"::MSNCAM::ReadFromSock $sock\"}"
 
 					if { $reflector } {
-						fileevent $sock writable "::MSNCAM::WriteToSock $sock"	
+						catch { fileevent $sock writable "::MSNCAM::WriteToSock $sock" }
 					}
 					#::CAMGUI::ShowCamFrame $sid $data
 				} else {
@@ -673,15 +718,15 @@ namespace eval ::MSNCAM {
 			{
 				set chatid [getObjOption $sid chatid]
 				status_log "Closing socket $sock because it's in END state\n" red
-				close $sock
+				catch { close $sock }
 				CancelCam $chatid $sid
 
 			}
 			default
 			{
-				status_log "option $state of socket $sock : [getObjOption $sock state] not defined.. receiving data [gets $sock]... closing \n" red
+				status_log "option $state of socket $sock : [getObjOption $sock state] not defined.. receiving data [nbgets $sock]... closing \n" red
 				setObjOption $sock state "END"
-				close $sock
+				catch { close $sock }
 			}
 
 		}
@@ -694,7 +739,7 @@ namespace eval ::MSNCAM {
 	}
 	proc WriteToSock { sock } {
 
-		fileevent $sock writable ""
+		catch { fileevent $sock writable "" }
 
 
 		set sid [getObjOption $sock sid]
@@ -714,7 +759,7 @@ namespace eval ::MSNCAM {
 
 		if { [fconfigure $sock -error] != "" } {
 			status_log "ERROR writing to socket!!! : [fconfigure $sock -error]" red
-			close $sock
+			catch { close $sock }
 			return
 		}
 
@@ -745,7 +790,7 @@ namespace eval ::MSNCAM {
 				set data "connected\r\n\r\n"
 				if { $producer } {
 					setObjOption $sock state "SEND"
-					fileevent $sock writable "::MSNCAM::WriteToSock $sock"
+					catch { fileevent $sock writable "::MSNCAM::WriteToSock $sock" }
 					AuthSuccessfull $sid $sock
 				} else {
 					setObjOption $sock state "CONNECTED2"
@@ -769,7 +814,7 @@ namespace eval ::MSNCAM {
 			{
 				set chatid [getObjOption $sid chatid]
 				status_log "Closing socket $sock because it's in END state\n" red
-				close $sock
+				catch { close $sock }
 				CancelCam $chatid $sid
 			}
 
@@ -778,7 +823,7 @@ namespace eval ::MSNCAM {
 		if { $data != "" } {
 			status_log "Writing Data on socket $sock sending=$sending - server=$server - state=$state : \n$data\n" red
 		
-			puts -nonewline $sock "$data"
+			catch { puts -nonewline $sock "$data" }
 		}
 
 
@@ -795,7 +840,7 @@ namespace eval ::MSNCAM {
 
 		puts -nonewline $sock "[binary format i 48]$bheader"
 		status_log "Closing socket... \n" red
-		close $sock
+		catch { close $sock }
 
 	}
 
@@ -955,9 +1000,9 @@ namespace eval ::MSNCAM {
 		foreach connection $ips {
 			set sock [lindex $connection 2]
 
-			catch {fconfigure $sock -blocking 1 -buffering none -translation {binary binary} }
-			fileevent $sock readable "::MSNCAM::CheckConnected $sid $sock "
-			fileevent $sock writable "::MSNCAM::CheckConnected $sid $sock "
+			catch { fconfigure $sock -blocking 0 -buffering none -translation {binary binary} }
+			catch { fileevent $sock readable "::MSNCAM::CheckConnected $sid $sock " }
+			catch { fileevent $sock writable "::MSNCAM::CheckConnected $sid $sock " }
 		}
 
 		after 5000 "::MSNCAM::CheckConnectSuccess $sid"
@@ -1149,7 +1194,7 @@ namespace eval ::MSNCAM {
 
 		#setObjOption $sid socket ""
 
-		close $socket
+		catch { close $socket }
 		status_log "Authentification on socket $socket failed\n" red
 		#if {[llength $list] > 0 } {
 		#	set element [lindex $list 0]
