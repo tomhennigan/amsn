@@ -76,7 +76,7 @@ proc CheckLogDate {email} {
 	
 	set clockmonth [clock format [clock seconds] -format "%m"]
 	if { [string range $clockmonth 0 0] == "0" } {
-		set month [string range $clockmonth 1 1]
+		set clockmonth [string range $clockmonth 1 1]
 	}
 	set clockmonth [lindex $months $clockmonth]
 	set clockyear [clock format [clock seconds] -format "%Y"]
