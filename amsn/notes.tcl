@@ -324,7 +324,7 @@ namespace eval ::notes {
 		if { $created != "" & $modified != ""} {
 			$w.right.info.date configure -text "[trans created] : [::abook::dateconvert $created]  -  [trans modified] : [::abook::dateconvert $modified]"
 		} else {
-			$w.right.info.date configure -text "Click on Add button for a new note"
+			$w.right.info.date configure -text "[trans clicktoadd]"
 		}
 
 		$w.right.button.edit configure -state normal
@@ -379,7 +379,7 @@ namespace eval ::notes {
 		$w.right.subject.txt configure -state normal
 		$w.right.subject.txt delete 0.0 end
 		$w.right.subject.txt configure -state disabled
-		$w.right.info.date configure -text "Click on Add button for a new note"
+		$w.right.info.date configure -text "[trans clicktoadd]"
 
 		$w.right.button.edit configure -state disabled
 		$w.right.button.delete configure -state disabled
