@@ -11,6 +11,7 @@
 #define _TKCXIMAGE
 
 #include <list>
+#include <vector>
 
 // Include files, must include windows.h before tk.h and tcl.h before tk.h or else compiling errors
 // So we will include ximage.h before everything else
@@ -133,6 +134,9 @@ logfile = fopen(LOGPATH, "a");
 
 #if ANIMATE_GIFS
 
+typedef std::vector< CxMemFile *> GifBuffersArray;
+typedef GifBuffersArray::iterator GifBuffersIterator;
+
 typedef struct gif_info {
 	CxImage * image;
 	Tk_PhotoHandle Handle;
@@ -140,9 +144,11 @@ typedef struct gif_info {
 	int NumFrames;
 	int CurrentFrame;
 	Tcl_TimerToken timerToken;
+	GifBuffersArray buffers;
 } GifInfo ;
 
 EXTERN void AnimateGif(ClientData data);
+EXTERN int AnimatedGifFrameToTk(Tcl_Interp *interp, GifInfo *Info, CxImage *frame, int blank);
 EXTERN int g_EnableAnimated;
 
 // Defines for compatibility with the list code..

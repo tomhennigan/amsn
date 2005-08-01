@@ -238,6 +238,10 @@ int ObjRead (Tcl_Interp *interp, Tcl_Obj *data, Tcl_Obj *format, Tk_PhotoHandle 
 		Tcl_DeleteTimerHandler(item->timerToken);
 		item->image->DestroyGifFrames();
 		delete item->image;
+		for(GifBuffersIterator it=item->buffers.begin(); it!=item->buffers.end(); it++){
+			(*it)->Close();
+			delete (*it);
+		}
 		LOG("Deleting AnimatedGifInfo");
 		APPENDLOG(item->Handle);
 		TkCxImage_lstDeleteItem(item->Handle);
@@ -411,7 +415,8 @@ void AnimateGif(ClientData data) {
 		CxImage *image = Info->image->GetFrameNo(Info->CurrentFrame);
 		void * tkMaster = *((void **) (Info->Handle));
 
-		if(tkMaster == Info->HandleMaster && CopyImageToTk(NULL, image, Info->Handle, image->GetWidth(), image->GetHeight(), true) == TCL_OK) {
+		if(tkMaster == Info->HandleMaster && AnimatedGifFrameToTk(NULL, Info, image, true) == TCL_OK) {
+			
 			Info->CurrentFrame++;
 			if(Info->CurrentFrame == Info->NumFrames)
 				Info->CurrentFrame = 0;
@@ -429,6 +434,10 @@ void AnimateGif(ClientData data) {
 			LOG("Deleting AnimatedGifInfo");
 			APPENDLOG(Info->Handle);
 			TkCxImage_lstDeleteItem(Info->Handle);
+			for(GifBuffersIterator it=Info->buffers.begin(); it!=Info->buffers.end(); it++){
+				(*it)->Close();
+				delete (*it);
+			}
 			delete Info;
 			Info = NULL;
 		}

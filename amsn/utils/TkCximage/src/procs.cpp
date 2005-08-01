@@ -384,7 +384,6 @@ int CopyImageToTk(Tcl_Interp * interp, CxImage *image, Tk_PhotoHandle Photo, int
 
 	try {
 		BYTE * buffer = NULL;
-	BYTE * pixelPtr = NULL;
 	long size = 0;
 
 
@@ -444,7 +443,68 @@ int CopyImageToTk(Tcl_Interp * interp, CxImage *image, Tk_PhotoHandle Photo, int
 }
 
 
-#if ANIMATE_GIFS 
+#if ANIMATE_GIFS
+int AnimatedGifFrameToTk(Tcl_Interp *interp, GifInfo *Info, CxImage *frame, int blank) {
+	try {
+		int width = 0;
+		int height = 0;
+		Tk_PhotoHandle Photo = Info->Handle;
+	
+		CxMemFile *buffer=NULL;
+		
+		while(Info->CurrentFrame >= Info->buffers.size()){
+			LOG("Loading frame : ");
+			APPENDLOG( Info->buffers.size());
+			
+			CxImage *image = Info->image->GetFrameNo(Info->buffers.size());
+			
+			buffer = new CxMemFile();
+			//The image isn't stored yet we will make the buffer and keep it
+			buffer->Open();
+			image->Encode2RGBA(buffer);
+			Info->buffers.push_back(buffer);
+		}
+	
+		buffer = Info->buffers[Info->CurrentFrame];
+	
+		width = frame->GetWidth();
+		height = frame->GetHeight();
+		
+		Tk_PhotoImageBlock block = {
+			buffer->GetBuffer(false),		// pixel ptr false : to avoid detaching of the buffer
+			width,
+			height,
+			width*4,	// pitch : number of bytes separating 2 adjacent pixels vertically
+			4,			// pixel size : size in bytes of one pixel .. 4 = RGBA
+		};
+	
+		block.offset[0] = 0;
+		block.offset[1] = 1;
+		block.offset[2] = 2;
+	
+		if ( frame->AlphaIsValid() || frame->IsTransparent() )
+			block.offset[3] = 3;
+	
+		#if TK_MINOR_VERSION == 3
+		if(blank)
+			Tk_PhotoBlank(Photo);
+		Tk_PhotoPutBlock(Photo, &block, 0, 0, width, height);
+		#else 
+		#if TK_MINOR_VERSION == 4
+		Tk_PhotoPutBlock(Photo, &block, 0, 0, width, height, (blank ? TK_PHOTO_COMPOSITE_SET : TK_PHOTO_COMPOSITE_OVERLAY) );
+		#else 
+		#if TK_MINOR_VERSION == 5
+		Tk_PhotoPutBlock((Tcl_Interp *) interp, Photo, &block, 0, 0, width, height, (blank ? TK_PHOTO_COMPOSITE_SET : TK_PHOTO_COMPOSITE_OVERLAY) );
+		#endif
+		#endif
+		#endif
+	
+		return TCL_OK;
+		
+	} catch(...) {
+		return TCL_ERROR;
+	}
+}
 int Tk_EnableAnimated (ClientData clientData,
 		       Tcl_Interp *interp,
 		       int objc,
