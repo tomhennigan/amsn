@@ -6892,42 +6892,45 @@ proc convert_image { filename destdir size } {
 		return ""
 	}
 
-	status_log "converting $filename to $tempfile with size $size\n"
-	#Separe the size X and Y in 2 variables
-	set sizexy [split $size "x" ]
-	if { [lindex $sizexy 1] == "" } {
-		set sizex [lindex $sizexy 0]
-		set sizey [lindex $sizexy 0]
+	if { [::picture::IsAnimated $filename] } {
+		#We are animated so we just convert it
+		status_log "converting animation $filename to $tempfile\n"
+		if {[catch {::picture::Convert $filename ${destfile}.png} res]} {
+			msg_box $res
+			return
+		}
 	} else {
-		set sizex [lindex $sizexy 0]
-		set sizey [lindex $sizexy 1]
-	}
+		status_log "converting $filename to $tempfile with size $size\n"
+		#Separe the size X and Y in 2 variables
+		set sizexy [split $size "x" ]
+		if { [lindex $sizexy 1] == "" } {
+			set sizex [lindex $sizexy 0]
+			set sizey [lindex $sizexy 0]
+		} else {
+			set sizex [lindex $sizexy 0]
+			set sizey [lindex $sizexy 1]
+		}
+	
+		#Create img from the file
+		if {[catch {set img [image create photo -file $filename -format cximage]} res]} {
+			#If there's an error, it means the filename is corrupted, remove it
+			catch { file delete $filename }
+			catch { file delete [filenoext $filename].dat }
+			return
+		}
+		#Resize with ratio
+		if {[catch {::picture::ResizeWithRatio $img $sizex $sizey} res]} {
+			msg_box $res
+			return
+		}
+		#Save in PNG
+		if {[catch {::picture::Save $img ${destfile}.png cxpng} res]} {
+			msg_box $res
+			return
+		}
 
-	#Create img from the file
-	if {[catch {set img [image create photo -file $filename -format cximage]} res]} {
-		#If there's an error, it means the filename is corrupted, remove it
-		catch { file delete $filename }
-		catch { file delete [filenoext $filename].dat }
-		return
+		image delete $img
 	}
-	#Resize with ratio
-	if {[catch {::picture::ResizeWithRatio $img $sizex $sizey} res]} {
-		msg_box $res
-		return
-	}
-	#Save in PNG
-	if {[catch {::picture::Save $img ${destfile}.png cxpng} res]} {
-		msg_box $res
-		return
-	}
-	#Save in GIF 
-	#Should not be necessary any more, I'll remove it soon 
-#	if {[catch {::picture::Save $img ${destfile}.gif cxgif} res]} {
-#		msg_box $res
-#		return
-#	}
-
-	image delete $img
 
 	return ${destfile}.png
 
@@ -7295,7 +7298,7 @@ proc pictureChooseFile { } {
 	if { $file != "" } {
 		set convertsize "96x96"
 		set cursize [::picture::GetPictureSize $file]
-		if { $cursize != "96x96"} {
+		if { $cursize != "96x96" && ![::picture::IsAnimated $file] } {
 			set convertsize [AskDPSize $cursize]
 		}
 
