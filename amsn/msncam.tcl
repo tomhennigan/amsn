@@ -886,9 +886,9 @@ namespace eval ::MSNCAM {
 		}
 
 		set header "<version>2.0</version><rid>$rid</rid><session>$session</session><ctypes>0</ctypes><cpu>730</cpu>"
-		set tcp "<tcp><tcpport>$port</tcpport>								<tcplocalport>$port</tcplocalport>								<tcpexternalport>$port</tcpexternalport><tcpipaddress1>$localip</tcpipaddress1>"
+		set tcp "<tcp><tcpport>$port</tcpport>								<tcplocalport>$port</tcplocalport>								<tcpexternalport>$port</tcpexternalport><tcpipaddress1>$clientip</tcpipaddress1>"
 		if { $clientip != $localip} {
-			set tcp "${tcp}<tcpipaddress2>$clientip</tcpipaddress2></tcp>"
+			set tcp "${tcp}<tcpipaddress2>$localip</tcpipaddress2></tcp>"
 		} else {
 			set tcp "${tcp}</tcp>"
 		}
