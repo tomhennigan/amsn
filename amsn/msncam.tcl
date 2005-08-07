@@ -866,16 +866,19 @@ namespace eval ::MSNCAM {
 
 		set producer [getObjOption $sid producer]
 
+		# Here we force the creation of a server and send it in the XML in case we don't detect correctly
+		# the firewalled state, in any case, it doesn't bother us if we're firewalled, we'll either connect 
+		# as a client or use the reflector
 
-		if {$listening == "true" } {
+		#if {$listening == "true" } {
 			set port [OpenCamPort [config::getKey initialftport] $sid]
 			set clientip [::abook::getDemographicField clientip]
 			set localip [::abook::getDemographicField localip]
-		} else {
-			set port ""
-			set clientip ""
-			set localip ""
-		}
+		#} else {
+		#	set port ""
+		#	set clientip ""
+		#	set localip ""
+		#}
 
 		if { $producer } {
 			set begin_type "<producer>"
