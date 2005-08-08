@@ -42,6 +42,7 @@ appearance Udseende
 appearoff Vis som offline
 areacode Områdenummer
 aretyping $1 skriver en besked
+askeachtime Spørger hver gang
 askwebcam Spørger om at se hans/huns webcam
 author Forfatter
 autoaccepted Fil-overførsel automatisk acceptéret
@@ -132,6 +133,9 @@ clicktologin Klik her for at logge ind
 clientcaps Send x-klientcaps pakker til andre klienter
 clientname Klientnavn
 closeall Luk alle faneblade i chat vinduet?
+closealltabs Luk alle faneblade
+closelabel Når du klikker på luk knappen i et faneblad chat vindue
+closeonly Luk kun den aktuelle faneblad
 close Luk
 closed Samtalen med $1 er lukket pga. inaktivitet
 closingdocks Luk-knap minimerer vinduet
@@ -186,6 +190,7 @@ day Dag
 days Dage
 dcprofile Opret ikke profil
 default Oprindelig konfiguration
+default2 Oprindelig
 defaultloginradio Log ind med standard konfiguration
 defchatwinsize Standardstørrelse for chatvinduer (XSTØRRELSExYSTØRRELSE)
 delete Slet
@@ -229,6 +234,7 @@ editvalue Redigér værdi
 email E-mail
 emailsinlist Vis emails i stedet for kaldenavn i kontaktlisten
 emotisounds Afspil lyde for bestemte humørikoner
+emoticon_steal Tilføj humørikon
 emptygroup Tøm gruppen
 enablebanner Vis aMSN's banner (Kræver at aMSN genstartes)
 enabled Aktiveret
@@ -542,6 +548,7 @@ reconnect2 Forbind igen ved tabt forbindelse
 reconnecting Genforbinder til server
 reject Afvis
 rememberpass Husk adgangskode
+remembersetting Husk denne indstilling
 removeempty Fjern tomme grupper fra kontaktlisten
 removefromlist Fjern fra listen
 rename Omdøb
@@ -587,6 +594,7 @@ smileconfig Brugerdefineret humørikon-konfiguration
 smilefile Smiley-filnavn
 smileintro Udfyld venligst de krævede felter for at lave en ny brugerdefineret smiley (se OSSen for hjælp)
 smileintro2 Redigér venligst de krævede felter for at definere denne smiley (se OSSen for hjælp)
+smiletoobig Humørikonet du har valgt er større end normal størelse. Vil du gøre det mindre?
 snackfailed Snack kunne ikke hentes, går tilbage til standard
 sngdblclick Enkeltklik for at åbne nyt beskedvindue
 sound Lyd
@@ -634,6 +642,7 @@ takesnapshot Tag Snapshot
 temp_state Gem ikke (Midlertidig status, vil blive glemt, når du lukker AMSN)
 textsize Tekststørrelse
 thismonth Denne måned
+throughserver igennem server
 timeremaining Tilbageværende tid
 timestamp Tids stemple
 timestamps Vis tidsstempler i Chat-vinduer
