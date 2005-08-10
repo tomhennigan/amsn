@@ -1549,23 +1549,24 @@ namespace eval ::CAMGUI {
 				
 				set grabber [::Capture::Open $dev $channel]
 				
-				set init_b [::Capture::GetBrightness $grabber]
-				set init_c [::Capture::GetContrast $grabber]
-				set init_h [::Capture::GetHue $grabber]
-				set init_co [::Capture::GetColour $grabber]
+				if { [info exists ::webcam_settings_bug] && $::webcam_settings_bug == 1} {
+					set init_b [::Capture::GetBrightness $grabber]
+					set init_c [::Capture::GetContrast $grabber]
+					set init_h [::Capture::GetHue $grabber]
+					set init_co [::Capture::GetColour $grabber]
+					
+					set settings [::config::getKey "webcam$dev:$channel" "$init_b:$init_c:$init_h:$init_co"]
+					set settings [split $settings ":"]
+					set init_b [lindex $settings 0]
+					set init_c [lindex $settings 1]
+					set init_h [lindex $settings 2]
+					set init_co [lindex $settings 3]
 				
-				set settings [::config::getKey "webcam$dev:$channel" "$init_b:$init_c:$init_h:$init_co"]
-				set settings [split $settings ":"]
-				set init_b [lindex $settings 0]
-				set init_c [lindex $settings 1]
-				set init_h [lindex $settings 2]
-				set init_co [lindex $settings 3]
-				
-				::Capture::SetBrightness $grabber $init_b
-				::Capture::SetContrast $grabber $init_c
-				::Capture::SetHue $grabber $init_h
-				::Capture::SetColour $grabber $init_co
-			
+					::Capture::SetBrightness $grabber $init_b
+					::Capture::SetContrast $grabber $init_c
+					::Capture::SetHue $grabber $init_h
+					::Capture::SetColour $grabber $init_co
+				}
 				
 				setObjOption $sid grab_proc "Grab_Linux"
 
@@ -2260,22 +2261,24 @@ namespace eval ::CAMGUI {
 			return
 		}
 
-		set init_b [::Capture::GetBrightness $::CAMGUI::webcam_preview]
-		set init_c [::Capture::GetContrast $::CAMGUI::webcam_preview]
-		set init_h [::Capture::GetHue $::CAMGUI::webcam_preview]
-		set init_co [::Capture::GetColour $::CAMGUI::webcam_preview]
-
-		set sets [::config::getKey "webcam$device:$channel" "$init_b:$init_c:$init_h:$init_co"]
-		set sets [split $sets ":"]
-		set init_b [lindex $sets 0]
-		set init_c [lindex $sets 1]
-		set init_h [lindex $sets 2]
-		set init_co [lindex $sets 3]
-
-		::Capture::SetBrightness $::CAMGUI::webcam_preview $init_b
-		::Capture::SetContrast $::CAMGUI::webcam_preview $init_c
-		::Capture::SetHue $::CAMGUI::webcam_preview $init_h
-		::Capture::SetColour $::CAMGUI::webcam_preview $init_co
+		if { [info exists ::webcam_settings_bug] && $::webcam_settings_bug == 1} {
+			set init_b [::Capture::GetBrightness $::CAMGUI::webcam_preview]
+			set init_c [::Capture::GetContrast $::CAMGUI::webcam_preview]
+			set init_h [::Capture::GetHue $::CAMGUI::webcam_preview]
+			set init_co [::Capture::GetColour $::CAMGUI::webcam_preview]
+			
+			set sets [::config::getKey "webcam$device:$channel" "$init_b:$init_c:$init_h:$init_co"]
+			set sets [split $sets ":"]
+			set init_b [lindex $sets 0]
+			set init_c [lindex $sets 1]
+			set init_h [lindex $sets 2]
+			set init_co [lindex $sets 3]
+			
+			::Capture::SetBrightness $::CAMGUI::webcam_preview $init_b
+			::Capture::SetContrast $::CAMGUI::webcam_preview $init_c
+			::Capture::SetHue $::CAMGUI::webcam_preview $init_h
+			::Capture::SetColour $::CAMGUI::webcam_preview $init_co
+		}
 
 		$settings configure -command "$preview_w configure -image \"\"; ::CAMGUI::ShowPropertiesPage $::CAMGUI::webcam_preview $img; status_log \"Img is $img\"; $preview_w configure -image $img"
 		after 0 "::CAMGUI::PreviewLinux $::CAMGUI::webcam_preview $img"
@@ -2351,6 +2354,10 @@ namespace eval ::CAMGUI {
 			return
 		}
 
+		if { [info exists ::webcam_settings_bug] && $::webcam_settings_bug == 1} {
+			return
+		}
+
 		set window .properties_$capture_fd
 		set slides $window.slides
 		set preview $window.preview
@@ -2367,23 +2374,24 @@ namespace eval ::CAMGUI {
 				set channel [lindex $grabber 2]
 			}
 		}
-
+		
 		set init_b [::Capture::GetBrightness $capture_fd]
 		set init_c [::Capture::GetContrast $capture_fd]
 		set init_h [::Capture::GetHue $capture_fd]
 		set init_co [::Capture::GetColour $capture_fd]
-
+		
 		set settings [::config::getKey "webcam$device:$channel" "$init_b:$init_c:$init_h:$init_co"]
 		set settings [split $settings ":"]
 		set init_b [lindex $settings 0]
 		set init_c [lindex $settings 1]
 		set init_h [lindex $settings 2]
 		set init_co [lindex $settings 3]
-
+		
 		::Capture::SetBrightness $capture_fd $init_b
 		::Capture::SetContrast $capture_fd $init_c
 		::Capture::SetHue $capture_fd $init_h
 		::Capture::SetColour $capture_fd $init_co
+		
 
 		destroy $window
 		toplevel $window
