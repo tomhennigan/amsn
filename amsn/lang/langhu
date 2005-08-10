@@ -27,6 +27,7 @@ alarmpref Figyelmeztetõ jelzés ennek a felhasználónak
 alarms Riasztások
 alarmstatus Figyelmeztetõ jelzés KI/BE kapcsolása ehhez a felhasználóhoz
 allfiles Minden fájl
+allmonths Minden hónap
 allowallbutbl A letiltottak listáján szereplõ felhasználók is beszélgethessenek velem
 allowbadwords Nevek cenzúrázásának kikapcsolása
 allowlist Engedélyezettek listája (AL):
@@ -41,6 +42,8 @@ appearance Megjelenés
 appearoff Nem látható a bejelentkezés (rejtett üzemmód)
 areacode Területi kód
 aretyping $1 éppen üzenetet gépel
+askeachtime Kérdezd minden alkalommal
+askwebcam Megkérem ezt a felhasználót, hogy mutassa a webkameráját
 author Szerzõ
 autoaccepted Fájl átvitel automatikusan elindítva
 autoacceptft Automatikusan fogadja el a fájl átviteleket
@@ -86,6 +89,7 @@ cachedpics $1 cachelt képek
 cancel Mégsem
 cannotdeleteprofile A profilt nem lehet törölni, mivel egy aMSN használja
 cantexec Nem lehet futtatni a programot: $1. Ellenõrizd a beállításokat
+cantloadonlineversion Nem tudtam frissíteni az internetrõl a nyelvek listáját
 cantremoveothers Nem tudom törölni a "Mások" csoportot
 casesensitive nagybetû-kisbetû érzékeny Triggerek(ravasz - eseményre aktiválódó dolog)
 cfgalarm Beállítások, figyelmeztetõ jelzés Hozzáadása/Elvétele
@@ -110,6 +114,7 @@ checkemail Mutass levél információt a kapcsolati listában
 checkfilman A bejövõ fájlok ide lesznek mentve : $1. Légyszíves ellenõrizd a fájl kezelõ beállításokat.
 checkingver Új verzió ellenõrzése folyamatban...
 checkonfln Ellenõrizze, hogy ha egy felhasználó kijelentkezik és letilt téged
+checkopenfilecommand Ellenõrizd a file nyitás parancsot a beállítások ablakban
 checkver Új verzó keresése
 choosearq Válaszd ki a rendszered
 choosebasefont Betûtípus választása
@@ -122,12 +127,17 @@ clear Törlés
 clearlog Naplófájl törlése
 clearlog2 Az összes beszélgetésem naplójának törlése
 clearlog3 Minden naplófájl törlése
+clearwebcamlogs Töröld a webkamera naplókat
 clicktoadd Kattints a hozzáad gombra egy új jegyzet hozzáadásához
 clicktologin Kattints ide a bejelentkezéshez
 clientcaps küldj x-clientcaps csomagot más partnereknek
 clientname Kliens név
 close Kilépés
+closeall Minden fület bezársz az ablakban?
+closealltabs Minden fül bezárása
 closed A beszélgetés közted és $1 között bezárult inaktivitás miatt
+closelabel Amikor egy töbfüles beszélgetõ ablakon megnyomod a bezárást
+closeonly csak az aktuális fület csukd be
 closingdocks Bezáró gombra dokkolás (minimalizálás)
 command Parancs
 commandstatus Parancs futtatása
@@ -180,15 +190,18 @@ day Nap
 days Napok
 dcprofile Ne hozz létre profilt
 default Alapértelmezett beállítás
+default2 alapértelmezett
 defaultloginradio Alapbeállítással való bejelentkezés
 defchatwinsize Beszélgetõ ablakok alap mérete (X*Y)
 delete Törlés
+deleteall mindet töröl
 deletecustomstate Saját állapot törlése
 delimiters Idõbélyeg beállítása:
 deliverfail Néhány hiba fordult elõ az üzenet kézbesítése közben
 delprofile Profil törlése
 delprofile2 Jelölje ki azt a profilt, amit ki szeretne törölni
 description Leírás
+detach Leválasztás
 directconnection Közvetlen internet kapcsolatot használok (1863as portot használja)
 disabled Kikapcsolva
 disableprofiles Profilok kikapcsolása (Ezt a netkávézóknál vagy egyéb publikus gépeknél érdemes használni)
@@ -220,6 +233,7 @@ editstate Meglévõ automata üzenet beállításai
 editvalue Módosítás
 email E-mail
 emailsinlist E-mail címek mutatása a becenevek helyett a partnerlistán
+emoticon_steal Érzelmekhez adás
 emotisounds A mosolyjeleket hangok is kísérjék
 emptygroup Üres csoport
 enabled Bekapcsolva
@@ -306,6 +320,7 @@ internalerror Szerver hiba
 invalidfile A $2 fájl amit a "$1" mezõben adtál meg nem létezik vagy nem olvasható
 invalidfile2 A $1 fájl nem hozható létre, ellenõrizd, hogy megvannak-e a megfelelõ jogaid a célon.
 invalidgroup Érvénytelen csoport
+invalidparameter Csatlakozási hiba: érvénytelen paraméter
 invalidpic A megadott képfájl nem létezik
 invalidpicsize A megadott képfájl túl nagy, kérlek adj meg kisebbet
 invalidsound A megadott hangfájl nem létezik
@@ -328,6 +343,7 @@ lastlogout Utolsó kijelentkezés
 lastmsgedme Utolsó üzenet
 lastmsgtime Az utolsó üzenet beérkezett: $1
 lastseen Utolsó kapcsolat ideje
+lazypicretrieval Lustakép fogadás
 lclosedwin $1 becsukta a $2 ablakot
 lconftopriv A beszélgetés privátra változott a következõ felhasználóval: $1
 lconvstarted Beszélgetés kezddött az $1-en
@@ -361,6 +377,7 @@ logsbydate A naplók dátum szerinti rendezése (Az elõzmények betöltése gyorsabb)
 logsin Bejelentkezett
 logsmileys Mosolyjelek megjelenítése a naplófájlokban
 logsout kijelentkezett
+logwebcam Ments minden Webkamera eseményt az aMSN naplóba, a késõbbi visszatekinthetõség érdekében
 longnick A beceneved hoszabb mint 130 karakter. Az MSN protokoll ezt nem támogatja.. biztos hogy használni akarod?
 longp4c A baráti neved hosszabb mint 130 karakter. Az AMSN-ben megjelenö baráti neved $1 lesz. Biztos beállítod?
 lprivtoconf A privát beszélgetés konferenciává vált a következõ felhasználóval: $1
@@ -372,6 +389,8 @@ maximised Teljes méret
 minimised kis méret/Ikonméret
 mins perc után
 mobile Mobil
+mobilegrp1 Mobil csoport
+mobilegrp2 Rakd a felhasználókat a mobil csoportba nem elérhetõ állapotban (és listázd elérhetõség szerint)
 modified Módosítva
 month Hónap
 morepersonal Több állapot ->
@@ -398,6 +417,7 @@ needonline Az állapotod offline!
 needwinico2 A winico05.dll -re van szükség a utils/windows mappában a tálcára zároláshoz
 never Soha
 new_ft_protocol Használd az új file átviteli eljárást (kicsit hibás lehet)
+newline Új sor
 newmail $1 új levele van
 newmailfolder $1 levele van egyéb Hotmail könyvtárakban
 newmailfrom Új levél érkezett... $1 ($2)
@@ -445,6 +465,9 @@ ok Rendben
 onenewmail Egy új üzenete van
 online Elérhetõ
 onphone Telefonálok
+opendir Mappa nyitás
+openfile megnyitás
+openfilecommand File megnyitási parancs
 openreceived A beérkezett fájlok megnyitása
 options Beállítások
 ordercontactsby Partnerek rendezése
@@ -456,12 +479,14 @@ p4contextprefix Elõjelezd a P4-tartalom küldõket ezzel
 pager Személyi hívó
 pass Jelszó
 paste Beillesztés
+pause Szünet
 personal Saját
 phone Telefon
 phones Telefon számok
 picbrowser Kép böngészõ megnyitása
 picfile Figyelmeztetõ kép fájl (GIF < 500 x 500)
 picstatus Figyelmeztetõ kép KI/BE kapcsolása
+play Lejátszás
 playing Lejátszás: $1
 pluginselector Pluginok kiválasztása
 port Port
@@ -522,6 +547,7 @@ reconnect2 Úrjakapcsolódás leesés esetén
 reconnecting Újra kapcsolódás a szerverhez
 reject Elvet
 rememberpass Emlékezz a jelszavamra
+remembersetting emlékezz erre a beállításra
 removeempty Töröld az üres csoportokat a partner listáról
 removefromlist Törlés errõl a listáról
 rename Átnevez
@@ -536,6 +562,7 @@ savecontacts A partnerlista mentése
 savetofile Mentés fájlba
 says $1 mondja
 sbcon Csatlakozás a kapcsoló mezõhöz
+selectall mindet kijelöl
 selectplugins Légyszíves válaszd ki a bekapcsolandó pluginokat
 selectskin Légyszíves válassz egy felületet a listából
 send Küldés
@@ -543,6 +570,7 @@ sendfile Fájl küldése
 sendmail Levél küldése
 sendmobmsg Küldés mobil eszközre
 sendmsg Üzenet küldése
+sendwebcaminvite Egy felhasználó meghívása a webkamerád megtekintésére
 sentbytes Küldve $1 -ból $2 bájt
 server Szerver
 serverbusy A szerver foglalt..
@@ -556,13 +584,16 @@ showdisplaypic Saját képek megjelnítése
 showdisplaypic2 Más felhasználó képének megjelenítése amikor megnyílik egy chat ablak
 showmypic Saját képem
 shownotify Figyelmeztetõ üzenet megjelenítése mikor valami történik
+showpicnotify A figyelmeztetõ ablakokban mutasd a felhasználók képeit
 showuserpic $1 képe
+signinstatus Bejelentkezési állapot
 skin Felület
 skinselector Felület kiválasztása
 smileconfig Saját mosolyjel beállítások
 smilefile mosolyjel fájl neve
 smileintro Légyszíves töltsd ki a mezõket, hogy létrehozhass saját mosolyjelet (nézd meg a FAQ -t segítségért)
 smileintro2 Légyszíves töltsd ki a mezõket, hogy módosíthasd a saját mosolyjelet (nézd meg a FAQ -t segítségért)
+smiletoobig A smiley amit kiválasztottál nagyobb mint az átlag. Át akarod méretezni?
 snackfailed A falat(snack) betöltése sikertelen, az alapbeállítás használata
 sngdblclick Egykattintással új üzenet ablak nyitása
 sound Hang esemény
@@ -590,6 +621,8 @@ statename Saját állapot neve
 statenewtext A mezõket kitöltve tudsz saját állapotot \n létrehozni. Létrehozás után klikkelj a Mentés gombra.
 statenick Saját név (hogy ne változzon a neved hagyd üresen)
 status Állapot
+stats Statisztika
+stop Leállítás
 stopalarm Figyelmeztetõ hang leállítása
 storenickname Az eredeti becenévhez való visszatérés egy egyéniállapot és egyéni becenév után
 strictfonts Minden betûtípus igazítása az általam megadotthoz (Státusz sor és egyebek)
@@ -604,9 +637,13 @@ tabbed Füles ablakok
 tabbedglobal Egy füles ablak minden beszélgetésnek a listából minden parnerrel
 tabbedgroups Egy füles ablak minden beszélgetésnek a listából minden parnerrel csoportonként
 tabtitlenick Becenevek jelenjenek meg E-mail címek helyett a fülön?
+takesnapshot fényképezés
 temp_state Ne mentsd (Ideiglenes állás, elveszik az aMSN bezárásával)
 textsize Szöveg méret
+thismonth ez a hónap
+throughserver Serveren át
 timeremaining Hátralevõ idõ
+timestamp Idõ bélyeg
 timestamps Idõbélyeg megjelenítése a beszélgetésekben
 title Al's Messenger
 tkerror TK egy hibát jelentett, hiba van az AMSN ben kérlek jelentsd. Küld a $1 fájlt az amsn-bugs@lists.sf.net címre
@@ -617,6 +654,7 @@ tlsinstallexp Az aMSN mostantól az MSNP9et használja, ami biztonságos SSL kapcso
 tlsinstcompleted TLS modul sikeresen feltelepítve - mostantól használhatod az MSNP9et. Ha nem mûködik, akkor vagy rossz modult választottál ki, vagy a lefordított modul nem jó a te rendszeredhez.
 to nak
 today Ma
+tomobile mobilra
 tools Eszközök
 tooltips eszközsegítségek bekapcsolása
 transnotexists A megadott fájl még nem fordították le erre a nyelvre.
@@ -629,9 +667,12 @@ twonewmail $1 új üzenete van
 unblock Blokkolás feloldása
 unknown Ismeretlen
 unload eltávolítás
+unselectall Egyik se legyen kiválasztva
 uoffline Kapcsolat nélkül
 uonline Kapcsolatban
 update frissítés
+updating Frissítés
+useasdp Kijelzõ kép használata
 useother más program használata
 user Felhasználó
 useralreadyonlist A felhasználó már szerepel a listádban
@@ -646,7 +687,10 @@ version Verzió
 view Nézet
 viewcontactsby A partnerek megtekintése a következõ szerint
 viewprofile Profil megtekintése
+webcamhistory Webkamerás kapcsolatok megtekintése
 webcaminvite $1 Webkamerás csatlakozásra hív de az AMSN ezt nem támogatja.
+webcamshot Webkamera fénykép
+whatsize A kép amit választottál nem egy normál kijelzõ kép\nméret (96x96) Milyen méretûben szeretnéd megjeleníteni a képet?
 willjoin Várakozok $1 csatlakozására a beszélgetéshez
 winkreceived Egy kacsintást küldött $1. De ezt az aMSN nem támogatja teljesen.
 wintitlenick Becenevek jelenjenek meg E-mail címek helyett egy füles ablakban?
@@ -665,3 +709,4 @@ yoffset Y eltolás
 youblocked Letiltott
 yousay Te mondtad
 youwant Te akartad
+zoom nagyítás

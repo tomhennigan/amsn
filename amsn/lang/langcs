@@ -34,7 +34,7 @@ allow_sms Povolit u¾ivatelùm kontaktovat mì na mém mobilním telefonu
 allprofilesinuse V¹echny existující profily jsou momentálnì pou¾ívány
 animatedemoticon Tento emotikon je animovaný
 animatedsmileys Povolit animované smajlíky
-animatenotify Pohyblivé notifikaèní okno
+animatenotify Pohyblivé informaèní okno
 appearance Status
 appearoff Vypadá nepøipojený
 areacode PSÈ
@@ -56,11 +56,11 @@ autonoact Zmìnit status na "Neaktivní" kdy¾ nepromluvím víc ne¾
 avaccepted Pøipojení do videokonference potvrzeno
 avcanceled Pøipojení do videokonference odmítnuto
 avinitfailed Inicializace audio/video pluginu zhavarovala. Volání bylo zru¹eno.
-avoidseen Nedovolit tomuto èlovìku vidìt kdy¾ budu pøipojený/á a kontaktovat mì
+avoidseen Nedovolit tomuto èlovìku vidìt kdy¾ budu pøipojen(a) a kontaktovat mì
 awaymsg1 V¾dy se zeptat na dùvod kdy¾ zmìním status na Nepøítomný/HSV/zaneprázdnìný
 awaymsg2 Neptat se nikdy a v¾dy pou¾ít tento dùvod
-away Nepritomný/á
-baduserpass Nespravný login nebo heslo
+away Nepøítomen (Nepøítomna)
+baduserpass Nespravné pøihla¹ovací jméno nebo heslo
 bgcolor Zmìnit barvu aMSN
 blankdirect Nechej bez oznaèení pro pøímé pøipojení na internet
 blockedyougroup U¾ivatele kteøí tì blokují zobrazovat ve zvlá¹tní skupinì
@@ -111,7 +111,7 @@ confirmeg Opravdu chce¹ smazat v¹e z této skupiny?
 confirm Opravdu?
 confirmpurge Ulo¾ené obrázky v¹ech ostatních kontaktù (kromì tebe) budou vymazány. Opravdu je chce¹ vymazat?
 confirmrfl Opravdu chce¹ vymazat u¾ivatele z této skupiny?
-connected Nyní jsi pøipojený/á
+connected Nyní jsi pøipojen(a)
 connectedwith Pøipojení: $1
 connecterror Chyba pøi pøipojení na server
 connecting Pøipojuji se
@@ -176,7 +176,7 @@ dockingoff Vypnutý port
 docking Port
 dockkde KDE Port
 dontdownload Nestahuj TLS modul, nainstaluji si jej sám
-dontshow Neukázat
+dontshow neotvírat okno
 downloadingtls Modul TLS je nahráván z\n $1
 editcustomstate Zmìnit vlastní status 
 edit Editovat
@@ -263,12 +263,12 @@ change Zmìnit
 charscounter Poèítat délku textu 
 chatack Pøíjem konverzace od
 chat Konverzace
-chatmaxmin Pøi zahájení dialogu chci aby byl:
+chatmaxmin Pøi zahájení dialogu chci aby bylo okno otevøeno
 chatreq Ptám se na povolení konverzace
 chatsmileys Smajlíky pro konverzaci
 chatsmileys2 Povolit emotikony a smajlíky v oknech
 checkblocking Pravidelnì kontroluj, zda tì u¾ivatelé blokují
-checkemail Ukázat mailovou notifikaci v kontakt listu 
+checkemail Ukázat informaci o mailu v seznamu kontaktù
 checkfilman Pøijaté soubory jsou ulo¾eny v $1. K prohlédnutí pou¾ij svùj oblíbený souborový mana¾er.
 checkingver Hledám novìj¹í verzi
 checkopenfilecommand Zkontroluj prosím pøíkaz k otevøení souboru v Nastavení programu
@@ -302,7 +302,7 @@ ipaddress IP Adresa
 ipdetect Zjistit správnou IP adresu pro odesílání s pomocí HTTP
 ircstyle Chat stylu IRC
 istyping $1 ti právì pí¹e vzkaz
-joins $1 se pøipojil do konverzace
+joins $1 se pøipojil(a) ke konverzaci
 justonce Právì jednou
 keepalive Keepalive (NAT)
 keeplog Ulo¾it logy
@@ -318,7 +318,7 @@ lclosedwin $1 uzavøel okno o $2
 lconftopriv Konference se zmìnila na privátní s $1
 lconvstarted konverzace zaèala o $1
 leaveblankforhotmail Vynechej políèko jestli¾e pou¾ívá¹ Hotmailovu web stránku
-leavejoinsinchat Zobrazovat notifikaci o "vstupech a výstupech" v oknech
+leavejoinsinchat Zobrazovat informaci o "vstupech a výstupech" v oknech
 leaves $1 ode¹el z konverzace
 lenteredconf $1 se pøidal do konference o $2
 lineflushlog Zapisovat do logu ka¾dý øádek. 
@@ -355,8 +355,8 @@ luclosedwin Zavøel(a)s okno o $1
 mailerexample (\$recipient = pøíjemce) Ponech prázdné má¹-li konto na Hotmail
 mailer Mailer
 maintenance Server bude zastaven za $1 minut kvùli údr¾bì
-maximised Zvìt¹ené okno
-minimised Zmen¹ené okno
+maximised maximalizované
+minimised jako ikona
 mins minut
 mobilegrp1 Skupina "Mobilní"
 mobilegrp2 Zaøadit u¾ivatele do skupiny "Mobilní" kdy¾ nejsou pøipojeni (pokud jsou øazeni podle stavu)
@@ -366,7 +366,7 @@ morepersonal Dal¹í stavy ->
 move Pøesunout
 movetogroup Pøemístit do skupiny
 msgflicker Rozblikej titulek oka pokud pøijde nová zpráva do neaktivního okna.
-msgmaxmin Kdy¾ dostanu novou zprávu chci
+msgmaxmin Kdy¾ dostanu novou zprávu chci otevøít okno
 msgmode Vyber jak zobrazovat vícero konverzací:
 msg Odkaz
 msn aMSN
@@ -404,11 +404,11 @@ normal podle abecedy
 noskins Nemohu nalézt pøedvolený vzhled v adresáøi skins/. Nemohu spustit AMSN.
 notificationserver Server MSN Messengeru
 notify notifikace
-notifyoffset Nastavit pozici notifikaèního okénka nastavením valut
+notifyoffset Nastavit pozici informaèního okénka nastavením valut
 notifytimeout Doba v milisekundách po kterou bude zobrazeno informaèní okno
 notifytyping Odeslat jiným u¾ivatelùm informaci ¾e jim pí¹e¹. 
-notifywin Notifikaèní okénko
-notify1 Oznámit kdy¾ se nìkdo pøipojí
+notifywin Informaèní okénko
+notify1 Oznámit pøipojení u¾ivatele
 notify1_5 Oznámit odpojení u¾ivatele
 notify1_75 Oznámit zmìnu stavu u¾ivatele
 notify2 Oznámit pøíjem nového odkazu
@@ -418,12 +418,12 @@ notinlist Nejsi v jeho/jejím seznamu u¾ivatelù
 notls MSN protokol verze 9 vy¾aduje balíèek TLS. Vypadá to, ¾e balíèek není na tomtopoèítaèi nainstalován. Pokud nainstalován je, musí být cesta k TLS knihovnám uvedena v Nastavení (napø. /opt/tls/lib). \n\n Balíèek mù¾e¹ nahrát z http://tls.sf.net
 nottabbed Obyèejné okno bez zálo¾ek
 nousersinsession Nejsou pøipojeni u¾ivatelé
-nudge $1 vy¾aduje tvoji pozornost
+nudge $1 si tì ¾ádá
 offline Nepøipojen
 ok OK
 onenewmail 1 nový mail
 online Pøipojen
-onphone Telefonuji
+onphone Na telefonu
 openfilecommand Pøíkaz k otevøení souboru
 openreceived Otevøít pøijaté soubory
 options Nastavení
@@ -445,13 +445,13 @@ pluginselector Vyber plug-in
 port Port
 prefalerts Vlastní termíny a zvuky
 prefapps Aplikace
-prefawaymsg Vlastní dùvody nepøítomnosti
+prefawaymsg U¾ivatelské dùvody nepøítomnosti
 prefconnection Nastavení spojení
 prefemotic Emotikony a smajlíky
 preferences Nastavení programu
 preffont Mùj text odkazu
 preffont2 Zmìnit styl mého textu pro ostatní lidi
-preffont3 Zmìnit písmo a velikost písma pro aMSN
+preffont3 Zmìnit písmo a velikost písma aMSN
 prefft Odesílání/pøijímání souborù, nastavení P2P a NAT 
 preflibs Cesta ke knihovnám
 preflogevent Zaznamenávané události
@@ -486,6 +486,7 @@ proxy Pou¾ívám proxy server (HTTP alebo SOCKS5)
 publishphones Ukázat moje telefonní èísla
 purge Vyèistit 
 p4contextprefix Zobrazit tento øetìzec pøed odesílatelem P4 
+raised jako normální okno
 readonlymsgbox Pøenos souboru byl zru¹en, proto¾e cílový adresáø je urèen pouze pro ètení. Oprav si prosím práva tohoto adresáøe.
 readonlywarn POZOR: Soubor asi nebude ulo¾en mezi pøijaté soubory, proto¾e cílový adresáø je pravdìpodobnì chránìn proti zápisu. Pøed pøenosem souboru si ovìø, ¾e adresáø $1 má správnì nastavená pøístupová práva.
 receivedbytes Sta¾eno $1 z $2 bytù
@@ -526,10 +527,10 @@ showbanner Uka¾ banner aMSN
 showblockedlist Ukázat seznam lidí kteøí tì zablokovali
 showcachedpics Ukázat fotky ulo¾ené v CACHE
 showdisplaypic Ukázat obrázek 
-showdisplaypic2 Ukázat obrázek pøi otevøení dialogového okna 
+showdisplaypic2 Ukázat obrázek v dialogovém oknì
 showmypic Mùj obrázek
-shownotify Ukázat notifikaèní okno kdy¾ se nìco stane 
-showpicnotify Zobraz obrázek u¾ivatele v notifikaèním okénku
+shownotify Ukázat informaèní okno kdy¾ se nìco stane 
+showpicnotify Zobraz obrázek u¾ivatele v informaèním okénku
 showuserpic Fotka $1
 skinselector Vyber vzhled
 sngdblclick Otevøít nové dialogové okno jedním kliknutím
@@ -594,9 +595,9 @@ uoffline Nepøipojení
 uonline Pøipojení
 useother Pou¾ij jiný program
 useralreadyonlist U¾ivatel u¾ je v seznamu kontaktù
-userblocked U¾ivatel je pøipojený, ale zablokoval tì
+userblocked U¾ivatel je pøipojen, ale zablokoval tì
 userdata Data u¾ivatele
-usernotonline U¾ivatel není pøipojený
+usernotonline U¾ivatel není pøipojen
 userproperties U¾ivatelovy vlastnosti o $1
 user U¾ivatel
 useryourself Nemù¾e¹ konverzovat sám se sebou...

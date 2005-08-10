@@ -190,6 +190,7 @@ day Dia
 days Dies
 dcprofile No Crear Perfil
 default Configuracio per defecte
+default2 Per defecte
 defaultloginradio Entrar en la configuració per defecte
 defchatwinsize Tamany per defecte de les finestres de conversa (TamanyXxTamanyY)
 delete Eliminar
@@ -232,6 +233,7 @@ editstate Editar un missatge automàtic d'estat existent
 editvalue Editar valor
 email Correu electrònic
 emailsinlist Mostrar correus-e enlloc de mots en la llista de contactes
+emoticon_steal Afegir als emoticons
 emotisounds Reproduir sons per a certs emoticons
 emptygroup Buidar el grup
 enabled Activat
@@ -591,6 +593,7 @@ smileconfig Configuració personalitzada d'emoticons
 smilefile Nom del fitxer d'emoticon
 smileintro2 Per favor, edita els camps requerits per a personalitzar este emoticon (mira el FAQ per a ajuda)
 smileintro Per favor, completa els camps requerits per a crear un nou emoticon personalitzat (mira el FAQ per a ajuda)
+smiletoobig L'emoticon seleccionat és més gran que la mida normal. Vols canviar-li la mida ?
 snackfailed No s'ha pogut carregar Snack, tornarà a l'estat per defecte
 sound2 Reproduix sons quan els contactes es connecten o envien missatges
 soundactive Reproduix sons al rebre missatges també en finestres actives
