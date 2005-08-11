@@ -1549,7 +1549,7 @@ namespace eval ::CAMGUI {
 				
 				set grabber [::Capture::Open $dev $channel]
 				
-				if { [info exists ::webcam_settings_bug] && $::webcam_settings_bug == 1} {
+				if { ![info exists ::webcam_settings_bug] || $::webcam_settings_bug == 0} {
 					set init_b [::Capture::GetBrightness $grabber]
 					set init_c [::Capture::GetContrast $grabber]
 					set init_h [::Capture::GetHue $grabber]
@@ -2261,7 +2261,7 @@ namespace eval ::CAMGUI {
 			return
 		}
 
-		if { [info exists ::webcam_settings_bug] && $::webcam_settings_bug == 1} {
+		if { ![info exists ::webcam_settings_bug] || $::webcam_settings_bug == 0} {
 			set init_b [::Capture::GetBrightness $::CAMGUI::webcam_preview]
 			set init_c [::Capture::GetContrast $::CAMGUI::webcam_preview]
 			set init_h [::Capture::GetHue $::CAMGUI::webcam_preview]
