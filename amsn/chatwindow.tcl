@@ -585,7 +585,7 @@ namespace eval ::ChatWindow {
 
 				set win_name [::ChatWindow::Open]
 
-				::ChatWindow::SetFor $chatid $win_name
+				::ChatWindow::SetFor $chatid $win_name		
 
 			} else {
 
@@ -642,7 +642,7 @@ namespace eval ::ChatWindow {
 				wm deiconify ${top_win}
 
 				if { ![catch {tk windowingsystem} wsystem] && $wsystem == "aqua" } {
-					lower ${top_win}
+				#	lower ${top_win}
 					::ChatWindow::MacPosition ${top_win}
 				} else {
 					raise ${top_win}
@@ -683,7 +683,7 @@ namespace eval ::ChatWindow {
 
 				#To have the new window "behind" on Mac OS X
 				if { ![catch {tk windowingsystem} wsystem] && $wsystem == "aqua" } {
-					lower ${top_win}
+					#lower ${top_win}
 					::ChatWindow::MacPosition ${top_win}
 				} else {
 					raise ${top_win}
@@ -801,6 +801,7 @@ namespace eval ::ChatWindow {
 			bind $w <Configure> "::ChatWindow::Configured %W"
 
 			wm state $w withdraw
+
 		} else {
 			set w [CreateTabbedWindow $container]
 		} 
@@ -842,6 +843,11 @@ namespace eval ::ChatWindow {
 
 		if { !([UseContainer] == 0 || $container == "" )} {
 			AddWindowToContainer $container $w
+		} else {
+			if { ![catch {tk windowingsystem} wsystem] && $wsystem == "aqua" } {
+				lower $w
+				::ChatWindow::MacPosition $w
+			}
 		}
 
 		return "$w"
@@ -2453,6 +2459,11 @@ namespace eval ::ChatWindow {
 
 			set containerwindows($container) $win
 			SwitchToTab $container $win
+			
+			if { ![catch {tk windowingsystem} wsystem] && $wsystem == "aqua" } {
+				lower $container
+			}
+			
 		} else {
 			if { [lsearch [set containerwindows($container)] $win] == -1 } {
 				set tab [CreateTabButton $container $win]
@@ -2733,7 +2744,7 @@ namespace eval ::ChatWindow {
 		foreach type [array names containers] {
 			if { $container == [set containers($type)] } {
 				if { $type == "global" } {
-					return "[trans globalcontainer] : "
+					return ""
 				} elseif { [string first "group" $type] == 0} {
 					set gid [string range $type 5 end]
 					set name [::groups::GetName $gid]
