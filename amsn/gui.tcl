@@ -2934,17 +2934,12 @@ namespace eval ::amsn {
 		if {$user != "" && [getpicturefornotification $user] && [::config::getKey showpicnotify]} {
 			#Create image
 			$w.c create image [::skin::getKey x_notifydp] [::skin::getKey y_notifydp] -anchor nw -image smallpicture$user
-			#Add text
-			set notify_id [$w.c create text [::skin::getKey x_notifytext] [::skin::getKey y_notifytext] \
-				-font [::skin::getKey notify_font] \
-				-justify left -width [::skin::getKey width_notifytext] -anchor nw -text "$msg"]
-		} else {
-			#Just add the text and use full width
-			set notify_id [$w.c create text [expr {[::skin::getKey notifwidth]/2}] 35 \
-				-font [::skin::getKey notify_font] \
-				-justify center -width [expr {[::skin::getKey notifwidth]-20}] -anchor n -text "$msg"]
 		}
 
+		set notify_id [$w.c create text [::skin::getKey x_notifytext] [::skin::getKey y_notifytext] \
+			-font [::skin::getKey notify_font] \
+			-justify left -width [::skin::getKey width_notifytext] -anchor nw -text "$msg"]
+		
 		$w.c create image [::skin::getKey x_notifyclose] [::skin::getKey y_notifyclose] -anchor nw -image [::skin::loadPixmap notifclose]
 
 
