@@ -260,10 +260,11 @@ set ::tkcximageloaded 0
 			status_log "Picture.tcl: The file doesn't exists $file\n" red
 			error "Picture.tcl: The file doesn't exists $file"
 		}
-		if {[CxImage::IsAnimated $file]} {
-			return 1
-		} elseif {![CxImage::IsAnimated $file]} {
-			return 0
+		if { [catch {CxImage::IsAnimated $file} res] } {
+			status_log "Picture.tcl: Unable to read file $file \n$res" red
+			error "Picture.tcl: Unable to read file $file \n$res"
+		} else {
+			return $res
 		}
 	}
 	

@@ -6886,8 +6886,13 @@ proc convert_image { filename destdir size } {
 		status_log "Tring to convert file $filename that does not exist\n" error
 		return ""
 	}
-
-	if { [::picture::IsAnimated $filename] } {
+	if { [catch {::picture::IsAnimated $filename} res] } {
+		#The image is surely bad so don't try to load it maybe a bad FT
+		#I don't think we should warn the user : annoying when it's due to bad DP of a contact
+		status_log $res
+		return
+	}
+	if { $res } {
 		#We are animated so we just convert it
 		status_log "converting animation $filename to $tempfile\n"
 		if {[catch {::picture::Convert $filename ${destfile}.png} res]} {
