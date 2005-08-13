@@ -138,8 +138,7 @@ namespace eval ::MSNP2P {
 		set msnobj [::abook::getVolatileData $user msnobj]
 
 		#status_log "::MSNP2P::GetUser: MSNOBJ is $msnobj\n" blue
-		#Send x-clientcaps information
-		::MSN::clientCaps $chatid
+
 		#set filename [::MSNP2P::GetFilenameFromMSNOBJ $msnobj]
 		set filename [::abook::getContactData $user displaypicfile ""]
 		status_log "::MSNP2P::GetUser: filename is $filename\n" white

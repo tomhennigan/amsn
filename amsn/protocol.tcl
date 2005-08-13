@@ -2543,6 +2543,9 @@ namespace eval ::Event {
 						::MSNP2P::loadUserPic $chatid $usr_login
 						::amsn::userJoins $chatid $usr_login 0
 					}
+
+					#Send x-clientcaps information
+					::MSN::clientCaps $chatid
 					return 0
 				}
 				NAK {
@@ -2785,7 +2788,7 @@ namespace eval ::Event {
 
 			text/x-clientcaps {
 				#Packet we receive from 3rd party client (not by MSN)
-				xclientcaps_received [$message getBody] $typer
+				xclientcaps_received $message $typer
 			}
 
 			default {
@@ -3236,6 +3239,8 @@ proc cmsn_update_users {sb recv} {
 			#a while the user will join your old invitation,
 			#and get a fake "user joins" message if we don't check it
 			::MSNP2P::loadUserPic $chatid $usr_login
+			#Send x-clientcaps information
+			::MSN::clientCaps $chatid
 
 			if {[::MSN::SBFor $chatid] == $sb} {
 				::amsn::userJoins $chatid $usr_login 0
@@ -4696,34 +4701,23 @@ proc fileext { filename } {
 #############################################################
 proc xclientcaps_received {msg chatid} {
 		#Get String for Client-Name (Gaim, dMSN and others)
-		if {[string first "Client-Name:" $msg] != "-1"} {
-			set begin [expr {[string first "Client-Name:" $msg]+13}]
-			set end   [expr {[string first "\n" $msg $begin]-2}]
-			set clientname "[urldecode [string range $msg $begin $end]]"
-			#status_log "Client-Name:\n$clientname\n"
-			#Add this information to abook
-			::abook::setContactData $chatid clientname $clientname
+		set clientname [$msg getHeader "Client-Name"]
+		if { $clientname == "" } {
+			set clientname [$msg getField "Client-Name"]
 		}
-		#Get String for Chat Logging (Gaim and some others)
-		if {[string first "Chat-Logging" $msg] != "-1"} {
-			set begin [expr {[string first "Chat-Logging" $msg]+14}]
-			set end   [expr {[string first "\n" $msg $begin]-2}]
-			set chatlogging "[urldecode [string range $msg $begin $end]]"
-			#status_log "ChatLogging:\n$chatlogging\n"
-			#Add this information to abook
+		::abook::setContactData $chatid clientname $clientname
 
-			::abook::setContactData $chatid chatlogging $chatlogging
+		set chatlogging [$msg getHeader "Chat-Logging"]
+		if { $chatlogging == "" } {
+			set chatlogging [$msg getField "Chat-Logging"]
 		}
-		#Get String for Operating System (dMSN)
-		#This information is stored but not used anywhere inside aMSN
-		if {[string first "Operating-System:" $msg] != "-1"} {
-			set begin [expr {[string first "Operating-System:" $msg]+18}]
-			set end   [expr {[string first "\n" $msg $begin]-1}]
-			set operatingsystem "[urldecode [string range $msg $begin $end]]"
-			#status_log "Operating System:\n$operatingsystem\n"
-			#Add this information to abook
-			::abook::setContactData $chatid operatingsystem $operatingsystem
+		::abook::setContactData $chatid chatlogging $chatlogging
+
+		set operatingsystem [$msg getHeader "Operating-System"]
+		if { $clientname == "" } {
+			set operatingsystem [$msg getField "Operating-System"]
 		}
+		::abook::setContactData $chatid operatingsystem $operatingsystem
 }
 #################################################
 # add_Clientid chatid clientid                	#
