@@ -33,6 +33,7 @@
 			<x_notifytext>55</x_notifytext>
 			<y_notifytext>22</y_notifytext>
 			<width_notifytext>93</width_notifytext>
+			<notify_dp_border>0</notify_dp_border>
 		</Geometry>
 		<!--Note: On linux, balloonborderwidth 0 gives a border of 1px due to tk platform differences. To have no balloon border, set balloonborderwidth to 0 and have the balloonborder the same colour as the balloonbackground-->
 		<Options>
