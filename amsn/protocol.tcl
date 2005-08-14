@@ -3468,8 +3468,14 @@ proc cmsn_change_state {recv} {
 			}
 		} else {
 			if { [::MSN::myStatusIs] != "FLN" && [::MSN::myStatusIs] != "HDN"} {
-				set chat_id [::MSN::chatTo $user]
-				::MSN::ChatQueue $chat_id [list ::MSNP2P::loadUserPic $chat_id $user]
+				global HOME
+				if { ![file readable "[file join $HOME displaypic cache ${newPic}].png"] } {
+					set chat_id [::MSN::chatTo $user]
+					::MSN::ChatQueue $chat_id [list ::MSNP2P::loadUserPic $chat_id $user]
+				} else {
+					#We already have the image so don't open a convo to get it just load it
+					::MSNP2P::loadUserPic "" $user
+				}
 			}
 		}
 	}
