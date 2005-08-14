@@ -1066,7 +1066,7 @@ namespace eval ::pop3 {
 
 		set gmail(Unreads) 0
 		set gmail(dataINBOX) [::http::data $gmail(tok4)]
-		status_log "$gmail(dataINBOX)" green
+		#status_log "$gmail(dataINBOX)" green
 		set gmail(senders_titles) [list]
 		set gmail(dataINBOX) [split $gmail(dataINBOX) "\n"]
 		set gmail(i) 0
