@@ -1,5 +1,4 @@
 amsn_lang_version 2
-lazypicretrieval Lazy Display Pictures retrieval
 about About
 accept Accept
 acceptfile Accept file $1, size $2? Saved in $3
@@ -344,6 +343,7 @@ lastlogout Last Log Out
 lastmsgedme Last Message
 lastmsgtime Last message received at $1
 lastseen Last time online
+lazypicretrieval Lazy Display Pictures retrieval
 lclosedwin $1 has closed the window on $2
 lconftopriv Conference turned into Private chat with $1
 lconvstarted Conversation started on $1
@@ -670,6 +670,7 @@ unload Unload
 uoffline Offline
 uonline Online
 update Update
+updateonlycurrentlanguage Update only the current language
 updating Updating
 unselectall Unselect all
 useother Use a different program

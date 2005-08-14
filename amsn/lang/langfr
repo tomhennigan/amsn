@@ -671,6 +671,7 @@ unselectall Ne rien sélectionner
 uoffline Déconnectés
 uonline Connectés
 update Mise à jour
+updateonlycurrentlanguage Ne mettre à jour que la langue courante
 updating Mise à jour
 useasdp Utiliser en tant qu'icône
 useother Utiliser un programme différent
