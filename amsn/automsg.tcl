@@ -197,11 +197,9 @@ proc CreateStatesMenu { path } {
 	}
 	$path add separator
 	$path add command -label "[trans changenick]..." -command cmsn_change_name
-	if { [::config::getKey getdisppic] == 1 } {
-		$path add command -label "[trans changedisplaypic]..." -command pictureBrowser 
-	} else {
-		$path add command -label "[trans changedisplaypic]..." -command pictureBrowser -state disabled
-	}
+	
+	$path add command -label "[trans changedisplaypic]..." -command pictureBrowser 
+
 	$path add command -label "[trans cfgalarmall]..." -command "::alarms::configDialog all"
 #	statusicon_proc [MSN::myStatusIs]
 
