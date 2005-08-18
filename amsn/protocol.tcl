@@ -2650,7 +2650,7 @@ namespace eval ::Event {
 				$message setBody [encoding convertfrom identity [string map {"\r\n" "\n"} [$message getBody]]]
 
 				::amsn::messageFrom $chatid $typer $nick $message user $p4c_enabled
-				set options(-lastmsgtime) [clock format [clock seconds] -format %H:%M:%S]
+				catch {set options(-lastmsgtime) [clock format [clock seconds] -format %H:%M:%S]}
 				::abook::setContactData $typer last_msgedme [clock format [clock seconds] -format "%D - %H:%M:%S"]
 				#if alarm_onmsg is on run it
 				if { ( [::alarms::isEnabled $typer] == 1 )&& ( [::alarms::getAlarmItem $typer onmsg] == 1) } {
