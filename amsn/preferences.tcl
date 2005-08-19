@@ -1811,8 +1811,8 @@ proc Preferences { { settings "personal"} } {
 	
 	grid $lfname.4.containermode  -row 1 -column 1 -sticky w
 	grid $lfname.4.containerask -row 2 -column 1 -sticky w
-	grid $lfname.4.containercloseall -row 2 -column 2 -sticky w
-	grid $lfname.4.containerclosetab -row 2 -column 3 -sticky w	
+	grid $lfname.4.containercloseall -row 3 -column 1 -sticky w
+	grid $lfname.4.containerclosetab -row 4 -column 1 -sticky w	
 	
 	checkbutton $lfname.winflicker -text "[trans msgflicker]" -onvalue 1 -offvalue 0 -variable [::config::getVar flicker]
 	checkbutton $lfname.showdisplaypic -text "[trans showdisplaypic2]" -onvalue 1 -offvalue 0 -variable [::config::getVar showdisplaypic]
