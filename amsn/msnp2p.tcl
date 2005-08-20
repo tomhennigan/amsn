@@ -165,10 +165,6 @@ namespace eval ::MSNP2P {
 	}
 
 	proc loadUserSmiley { chatid user msnobj } {
-		if { [::config::getKey getdisppic] != 1 } {
-			status_log "Display Pics disabled, exiting loadUserSmiley\n" red
-			return
-		}
 
 		set filename [::MSNP2P::GetFilenameFromMSNOBJ $msnobj]
 
