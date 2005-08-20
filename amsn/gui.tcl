@@ -1850,7 +1850,7 @@ namespace eval ::amsn {
 			}
 		}
 
-		if { $menulength > 10 } {
+		if { $menulength > 20 } {
 			::amsn::ShowInviteList "[trans invite]" $win_name
 		} elseif { $menulength == 0 } {
 			cmsn_draw_otherwindow [trans invite] "::amsn::queueinviteUser [::ChatWindow::Name $win_name]"
