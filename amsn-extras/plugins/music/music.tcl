@@ -311,7 +311,7 @@ namespace eval ::music {
 	#####################################################
 	proc exec_async {path} {
 		if { [catch { exec $path} result ] } {
-			status_log "Error retreiving song : $result"
+			::music::log "Error retreiving song : $result"
 		} else {
 			set ::music::actualsong $result
 			# whatever processing goes here
@@ -327,8 +327,9 @@ namespace eval ::music {
 	#####################################################
 	proc exec_async_mac {path} {
 		if { [catch { exec osascript $path} result ] } {
-			status_log "Error retreiving song : $result"
+			::music::log "Error retreiving song : $result"
 		} else {
+			::music::log "Define variable in async_mac:\n$result"
 			set ::music::actualsong $result
 		}
 	}
@@ -461,7 +462,7 @@ namespace eval ::music {
 		
 		#Get the variable we get in exec_async_mac and separate in multi lines
 		if { [catch {split $::music::actualsong "\n"} tmplst] } {
-			#actualsong isn't yet defined by asynchronous exec
+			::music::log "Actualsong isn't yet defined by asynchronous exec"
 			return 0
 		}
 		
@@ -471,6 +472,7 @@ namespace eval ::music {
 		set path [lindex $tmplst 3]
 
 		if {$status == "0"} {
+			::music::log "Status is 0"
 			return 0
 		} else {
 			#Define in witch order we want to show the song (from the config)
