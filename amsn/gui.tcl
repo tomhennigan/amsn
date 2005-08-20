@@ -4522,22 +4522,9 @@ proc clickableImage {tw name image command {padx 0} {pady 0}} {
 
 #Clickable display picture in the contact list
 proc clickableDisplayPicture {tw type name command {padx 0} {pady 0}} {
-	global HOME;
-	#Get actual display pic name
-	set filename [::config::getKey displaypic]
-	set cache ""
-	#If this is a cache picture
-	if {[string range $filename 0 5] == "cache/"} {
-		set cache "/cache"
-	}
-
-	#If the display pic doesn't actually exists in format 50x50, take the original one and convert it to 50x50 inside displaypic/small folder
-	if { ![file readable [file join $HOME displaypic small $filename]] } {
-		convert_image_plus "[::skin::GetSkinFile displaypic $filename]" displaypic/small$cache "50x50"
-	}
 	
 	#Load the smaller display picture
-	load_my_smaller_pic $tw.$name
+	load_my_smaller_pic
 	#Create the clickable display picture
 	#If we are drawing this display picture at the top of the contact list, ie for the logged in user, use a canvas to give it a bg image.
 	#If not (ie for contacts _on_ list), then just draw as label.
@@ -4553,61 +4540,24 @@ proc clickableDisplayPicture {tw type name command {padx 0} {pady 0}} {
 	return $tw.$name
 }
 
-proc load_my_smaller_pic {path} {
+#Create a smaller display picture from the bigger one
+proc load_my_smaller_pic {} {
 
-	#Trying to set smaller display picture
-	if {[file readable [filenoext [::skin::GetSkinFile displaypic/small [::config::getKey displaypic]]].png]} {
-		#The smaller display picture exists, now create it
-		image create photo my_pic_small -file "[filenoext [::skin::GetSkinFile displaypic/small [::config::getKey displaypic]]].png" -format cximage
-	} else {
-		#We show the status icon centered or resized if it is too large
-		global pgBuddy
-		status_log "load_my_smaller_pic: Picture not found!!Show the default amsn status icon instead\n" blue
-		set my_image_type [::MSN::stateToBigImage [::MSN::myStatusIs]]
-		status_log "BigImage is $my_image_type"
-		image create photo my_pic_small
-		set x [expr (50-[image width [::skin::loadPixmap $my_image_type]])/2]
-		set y [expr (50-[image height [::skin::loadPixmap $my_image_type]])/2]
-		if { $x >= 0 && $y >= 0 } {
-			my_pic_small copy -to [expr (50-[image width [::skin::loadPixmap $my_image_type]])/2] [expr (50-[image height [::skin::loadPixmap $my_image_type]])/2] [::skin::loadPixmap $my_image_type]
-		} else {
-			my_pic_small copy [::skin::loadPixmap $my_image_type]
-			::picture::ResizeWithRatio my_pic_small 50 50
-		}
-	}
+	image create photo my_pic_small -format cximage
+	my_pic_small copy my_pic
+	::picture::ResizeWithRatio my_pic_small 50 50
+
 }
 
 proc getpicturefornotification {email} {
-		global HOME
 
-		#First verify if the user is another user or he's dumb and he added himself on his contact list
-		if {$email == "[::config::getKey login]"} {
-			#Get the filename of the cached display picture
-			set filename [::config::getKey displaypic]
-			#Convert that cached display picture to 50x50 in small directory if it's not already there and the file exists
-			if { ![file readable [::skin::GetSkinFile displaypic/small $filename]] && [file readable [::skin::GetSkinFile displaypic $filename]]} {
-				convert_image_plus "[::skin::GetSkinFile displaypic $filename]" displaypic/small "50x50"
-			}
-			#Set the command to acess the path of the small DP
-			set command "[::skin::GetSkinFile displaypic/small $filename]"
-		} else {
-			#Get the filename of the cached display picture
-			set filename [::abook::getContactData $email displaypicfile ""]
-			#Convert that cached display picture to 50x50 in cache/small directory if it's not already there and the file exists
-			if { ![file readable [file join $HOME displaypic cache small $filename].png] && [file readable [file join $HOME displaypic cache $filename].png]} {
-				convert_image_plus "[file join $HOME displaypic cache ${filename}].png" displaypic/cache/small "50x50"
-			}
-			#Set the command to acess the path of the small DP
-			set command "[file join $HOME displaypic cache small ${filename}].png"
-		}
+	image create photo smallpicture$email -format cximage
+	smallpicture$email copy user_pic_$email
+	if {[image width smallpicture$email] != 50 && [image height smallpicture$email] != 50} {
+		::picture::ResizeWithRatio smallpicture$email 50 50
+	}
+	return 1
 
-		#If the picture now exist, create the image
-		if { [file readable "$command"] } {
-			image create photo smallpicture$email -file "$command" -format cximage
-			return 1
-		} else {
-			return 0
-		}
 }
 
 #///////////////////////////////////////////////////////////////////////
