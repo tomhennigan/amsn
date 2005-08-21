@@ -587,7 +587,7 @@ namespace eval ::amsn {
 		pack $w.buttons -pady 5 -padx 5 -side right
 
 		moveinscreen $w 30
-		bind $w <<Escape>> "destroy $w"
+		bind $w <<Escape>> "catch {destroy $w}"
 		#This function will be executed when the button is pushed
 
 	}
@@ -4559,7 +4559,7 @@ proc getpicturefornotification {email} {
 		}
 		return 1
 	} else {
-		destoy smallpicture$email
+		destroy smallpicture$email
 		return 0
 	}
 	
