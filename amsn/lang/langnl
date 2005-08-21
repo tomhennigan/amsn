@@ -1,7 +1,7 @@
 amsn_lang_version 2
 about Over aMSN
 accept Accepteren
-acceptfile Accepteer het bestand $1, grootte $2? Opgeslagen in $3
+acceptfile Accepteer het bestand $1, grootte $2? Het bestand zal worden opgeslagen in $3
 actions Acties
 activeautoupdate Automatisch bijwerken inschakelen
 add Toevoegen
@@ -28,7 +28,7 @@ alarms Alarm
 alarmstatus Alarm inschakelen
 allfiles Alle bestanden
 allmonths Alle maanden
-allow_sms Sta toe dat iemand mij een SMS bericht stuurt
+allow_sms Sta anderen toe mij een SMS bericht te sturen
 allowallbutbl Iedereen die ik niet geblokkeerd heb mag met mij contact opnemen
 allowbadwords Ongecensureerde schermnamen weergeven
 allowlist [AL] Geaccepteerd
@@ -42,7 +42,7 @@ appearance Weergave
 appearoff Offline weergeven
 areacode Netnummer
 aretyping $1 zijn bezig met typen
-askeachtime Elke keer vragen
+askeachtime Altijd vragen wat er moet gebeuren
 askwebcam Vraag deze gebruiker of je zijn/haar webcam mag bekijken
 author Auteur
 autoaccepted Bestandsoverdracht automatisch geaccepteerd
@@ -125,9 +125,9 @@ chooseskin Selecteer de skin die je wilt gebruiken
 ch_to_state Activeer nieuwe status
 clear Wissen
 clearlog2 Verwijder de geschiedenis voor al je contacten
-clearlog3 Verwijder alle logboeken
+clearlog3 Logboeken wissen
 clearlog Logboek legen
-clearwebcamlogs Alle webcam logs wissen
+clearwebcamlogs Webcamsessies wissen
 clicktoadd Klik op de knop 'Toevoegen' voor een nieuwe notitie
 clicktologin Klik hier om je aan te melden
 clientcaps Stuur x-clientcaps pakketje naar andere clients
@@ -135,9 +135,9 @@ clientname Client naam
 close Sluiten
 closed Het gesprek met $1 is wegens inactiviteit afgesloten
 closeall Alle tabbladen in dit venster sluiten?
-closealltabs worden alle tabbladen gesloten
-closelabel Bij het klikken op de sluitknop van een venster met meerdere tabbladen
-closeonly wordt alleen het zichtbare tabblad gesloten
+closealltabs altijd alle tabbladen sluiten
+closelabel Bij het klikken op de sluitknop van een venster met tabbladen
+closeonly alleen het zichtbare tabblad sluiten
 closingdocks Minimaliseren i.p.v. sluiten
 command Commando
 commandstatus Commandoregel uitvoeren
@@ -192,7 +192,7 @@ dcprofile Geen profiel aanmaken
 defaultloginradio Inloggen met de standaardconfiguratie
 default Standaard configuratie
 default2 Standaard
-defchatwinsize Standaard grootte voor chatvensters (Xgrootte x Ygrootte)
+defchatwinsize Standaard grootte voor chatvensters (Horizontaal x Vertikaal)
 deletecustomstate Verwijder aangepaste status
 delete Verwijderen
 deleteall Alles verwijderen
@@ -208,7 +208,7 @@ disableprofiles Schakel profielen uit (handig voor internet cafés en gedeelde om
 disablessl SSL niet gebruiken
 disableuserfonts Negeer de lettertype-instelling van degene met wie je chat, en gebruik jouw eigen lettertype
 disconnect $1 is offline gegaan
-disconnectedfrom Verbinding met $1 verbroken
+disconnectedfrom Verbinding van $1 verbroken
 displaychat Discussies
 displayeventconnect Weergeven wanneer een contact online komt
 displayeventdisconnect Weergeven wanneer een contact offline gaat
@@ -222,7 +222,7 @@ dockingoff Geen systeemvak gebruiken
 docking Systeemvak
 dockkde KDE Systeemvak
 dontdownload Download TLS niet. Ik installeer het zelf.
-dontshow Verberg
+dontshow Niet weergeven
 download Downloaden
 downloadingtls Bezig met downloaden van TLS vanaf:\n $1
 edit Bewerken
@@ -250,7 +250,7 @@ eventhistory Gebeurtenissen geschiedenis weergeven
 examples Voorbeelden
 exitamsn Weet je zeker dat je aMSN wilt afsluiten?
 extras Extra diensten
-faileddeleteperso Dit plaatje kan niet verwijderd worden omdat het geen persoonlijk beeldbestand is. Alleen plaatjes die zijn opgeslagen in je persoonlijke profiel kun je op deze manier verwijderen.
+faileddeleteperso Dit plaatje kan niet verwijderd worden omdat het bestand niet in je persoonlijk profiel staat. Alleen plaatjes die zijn opgeslagen in je persoonlijke profiel kun je op deze manier verwijderen.
 faileddelete Verwijderen mislukt
 failed Mislukt
 faq FAQ (Veel gestelde vragen)
@@ -353,7 +353,7 @@ leaves $1 verlaat het gesprek
 lenteredconf $1 kwam de vergadering binnen op $2
 lineflushlog Werk logfiles bij na elke regel
 linprivate PRIVÉ
-listeningon Bezig met luisteren op poort $1
+listeningon Wacht op inkomende verbinding op poort $1
 listsmileys2 Emoticons weergeven in de contactenlijst
 listsmileys Toon emoticons in lijst
 ljoinedconf $1 nam deel aan de vergadering
@@ -361,7 +361,7 @@ lleftconf $1 heeft de vergadering verlaten
 load Activeren
 loadcontacts Laad de contactenlijst
 logbigger Het logboek mag per contact niet groter zijn dan
-logeventconnect In logboek vastleggen wanneer een contact online kot
+logeventconnect In logboek vastleggen wanneer een contact online komt
 logeventdisconnect In logboek vastleggen wanneer een contact offline gaat
 logeventemail In logboek vastleggen wanneer er een e-mail wordt ontvangen
 logeventstate In logboek vastleggen wanneer een contact van status verandert
@@ -398,7 +398,7 @@ movetogroup Contact verplaatsten naar
 move Verplaats
 msg Bericht
 msgflicker Laat de titel van het gespreksvenster knipperen als een bericht aankomt in een inactief venster
-msgmaxmin Weergave van binnenkomende berichten in een bestaande discussie
+msgmaxmin Weergave van binnenkomende berichten in een bestaand gesprek
 msgmode Kies hoe meerdere gespreksvensters worden weergegeven
 msn AMSN
 msnstyle Gesprek in MSN-stijl
@@ -483,7 +483,7 @@ pause Pauze
 personal Persoonlijk
 phone Abonneenummer
 phones Telefoonnummers
-picbrowser Afbeeldingenbrowser weergeven
+picbrowser Afbeeldingenbrowser
 picfile Alarmafbeelding (GIF < 500 x 500 pixels)
 picstatus Alarmafbeelding gebruiken
 play Afspelen
@@ -570,7 +570,7 @@ sendmail Een e-mail verzenden
 sendmsg Een bericht verzenden
 send Zend
 sendmobmsg Een SMS bericht verzenden
-sendwebcaminvite Nodig deze gebruik uit je webcam te bekijken
+sendwebcaminvite Nodig dit contact uit om je webcam te bekijken
 sentbytes $1 van de $2 bytes verzonden
 serverbusy Server is bezet
 servergoingdown Verbinding verbroken: De server wordt uitgeschakeld
@@ -579,10 +579,10 @@ serverunavailable Server is niet beschikbaar
 session Sessie
 showbanner aMSN banner weergeven
 showblockedlist Toon de lijst van mensen die je geblokkeerd hebben
-showcachedpics Opgeslagen plaatjes laten zien/verbergen
+showcachedpics Opgeslagen schermafbeeldingen van contacten weergeven.
 showdisplaypic2 Schermafbeelding standaard tonen bij het openen van een gespreksvenster
 showdisplaypic Toon schermafbeelding
-showmypic Mijn Afbeelding
+showmypic Mijn afbeelding
 shownotify Geef meldingsvenster weer bij bepaalde gebeurtenissen
 showpicnotify Geef schermafbeelding weer op meldingsvensters
 showuserpic Afbeelding van $1
@@ -632,7 +632,7 @@ stylehist aMSN geschiedenis stijl
 stylelog Kies de opmaak van de geschiedenislogboeken
 subject Onderwerp
 subjectrequired Er moet een onderwerp worden opgegeven
-syntaxerror Syntaxfout
+syntaxerror Syntaxisfout
 tabbed Vensters met tabbladen
 tabbedglobal Alle gesprekken met contacten in één venster
 tabbedgroups Gesprekken per groep van contacten in een venster plaatsen
@@ -646,7 +646,7 @@ timeremaining Resterende tijd
 timestamp Tijdstempel
 timestamps Tijd weergeven in gespreksvensters
 title Al's Messenger
-tkerror TK heeft een fout gegeven, er zit een bug in aMSN, rapporteer het alsjeblieft. stuur het bestand $1 naar amsn-bugs@lists.sf.net
+tkerror TK heeft een fout gegeven, er zit een bug in aMSN, rapporteer het alsjeblieft. Stuur het bestand $1 naar amsn-bugs@lists.sf.net
 tlsdowncompleted Het bestand $1 is opgeslagen in $2. Pak dit bestand uit, maak er een build van (als je broncode hebt gedownload), en installeer het in $3.
 tlsexplain De map waar de tcl TLS module staat. Vul dit in als aMSN het zelf niet kan vinden.\n(Dit is nodig voor beveiligd aanmelden met SSL)
 tlsinstallexp aMSN gebruikt nu versie 9 van het MSN protocol.\nDaarvoor is een met SSL beveiligde verbinding vereist. aMSN heeft hierbij een module\nnodig met de naam TLS, die niet aanwezig is op je systeem. Deze wizard helpt je bij\nhet downloaden en installeren van TLS. Selecteer het type systeem dat je gebruikt\nzodat de benodigde bestanden automatisch gedownload kunnen worden.
@@ -671,6 +671,7 @@ unselectall Alles deselecteren
 uoffline Offline
 uonline Online
 update Bijwerken
+updateonlycurrentlanguage Alleen de huidige taal updaten
 updating Bezig met bijwerken
 useasdp Gebruiken als schermafbeelding
 useother Gebruik een ander programma

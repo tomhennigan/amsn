@@ -190,6 +190,7 @@ day Giorno
 days Giorni
 dcprofile Non creare un profilo
 default Configurazione di default
+default2 Default
 defaultloginradio Entra con la configurazione di default
 defchatwinsize Dimensione predefinita delle finestre di chat (XSIZExYSIZE)
 deleteall Cancella tutto
@@ -670,6 +671,7 @@ unselectall Deseleziona tutto
 uoffline Sconnesso
 uonline In linea
 update Aggiornamento
+updateonlycurrentlanguage Aggiorna soltanto il linguaggio in uso
 updating Aggiornamento in corso
 useasdp Usa come immagine personale
 useother Usa un altro programma
