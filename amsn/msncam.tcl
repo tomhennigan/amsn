@@ -690,9 +690,11 @@ namespace eval ::MSNCAM {
 						set fd [getObjOption $sid weblog]
 						if { $fd == "" } {
 							set email [lindex [::MSNP2P::SessionList get $sid] 3]
-							set fd [open [file join $::webcam_dir ${email}.cam] a]
-							fconfigure $fd -translation binary
-							setObjOption $sid weblog $fd
+							if { ![catch {set fd [open [file join $::webcam_dir ${email}.cam] a]}] } {
+								fconfigure $fd -translation binary
+								setObjOption $sid weblog $fd
+							}
+
 						}
 					
 						catch {puts -nonewline $fd $data}
