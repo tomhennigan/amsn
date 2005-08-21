@@ -556,6 +556,10 @@ namespace eval ::lang {
 
 		# Puts the content into the file
 		set file "[file join ${dir} $lang]"
+		if { ![file writable $file] } {
+			status_log "Error while updating $file : file is protected\n" red
+			return
+		}
 		set fid [open $file w]
 		fconfigure $fid -encoding binary
 		puts -nonewline $fid "$content"
