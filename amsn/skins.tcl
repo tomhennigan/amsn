@@ -110,8 +110,13 @@ namespace eval ::skin {
 		if { ! [info exists ${location}_names($pixmap_name) ] } {
 			return ""
 		}
-		
-		set loaded_${location}($pixmap_name) [image create photo -file [::skin::GetSkinFile ${location} [set ${location}_names($pixmap_name)] "" [set ${location}_fblocation($pixmap_name)]] -format cximage]
+		#If the loading pixmap is corrupted (like someone stupid trying to change the smileys by himself and is doing something bad), just show a null picture
+		if { [catch {set loaded_${location}($pixmap_name) [image create photo -file [::skin::GetSkinFile ${location} [set ${location}_names($pixmap_name)] \
+			"" [set ${location}_fblocation($pixmap_name)]] -format cximage] } res ] } {
+		 	status_log "Error while loading pixmap $res"
+		 	set loaded_${location}($pixmap_name) [image create photo -file [::skin::GetSkinFile pixmaps null \
+			 -format cximage]]
+		 }
 	
 		return [set loaded_${location}($pixmap_name)]
 	}
@@ -146,6 +151,12 @@ namespace eval ::skin {
 		} else {
 			image create photo user_pic_$email -file [::skin::GetSkinFile displaypic nopic.gif] -format cximage
 		}
+		
+		if {[catch {image width user_pic_$email} res] } {
+			status_log "Error while loading user_pic_$email: $res"
+			return [::skin::getNoDisplayPicture]
+		}
+		
 		return user_pic_$email
 	}
 
