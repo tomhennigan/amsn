@@ -4552,11 +4552,17 @@ proc load_my_smaller_pic {} {
 proc getpicturefornotification {email} {
 
 	image create photo smallpicture$email -format cximage
-	smallpicture$email copy user_pic_$email
-	if {[image width smallpicture$email] != 50 && [image height smallpicture$email] != 50} {
-		::picture::ResizeWithRatio smallpicture$email 50 50
+	#Verify that we can copy user_pic, if there's an error it means user_pic doesn't exist
+	if {![catch {smallpicture$email copy user_pic_$email}]} {
+		if {[image width smallpicture$email] != 50 && [image height smallpicture$email] != 50} {
+			::picture::ResizeWithRatio smallpicture$email 50 50
+		}
+		return 1
+	} else {
+		destoy smallpicture$email
+		return 0
 	}
-	return 1
+	
 
 }
 
