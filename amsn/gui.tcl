@@ -7864,7 +7864,7 @@ proc webcampicture {} {
 
 		set img [image create photo]
 		toplevel $window
-
+		wm title $window "[trans webcamshot]"
 		label $window.l -image $img
 		pack $window.l
 		button $window.settings -command "::CAMGUI::ShowPropertiesPage $grabber $img" -text "Show properties page"
@@ -7919,7 +7919,7 @@ proc webcampicture {} {
 
 		set img [image create photo]
 		toplevel $window
-
+		wm title $window "[trans webcamshot]"
 		label $window.l -image $img
 		pack $window.l
 		button $window.settings -command "::CAMGUI::ShowPropertiesPage $grabber $img" -text "Show properties page"
@@ -7992,6 +7992,8 @@ proc webcampicture_save {w image} {
 
 	set preview [image create photo]
 	foreach {x0 y0 x1 y1} [::PrintBox::Done $w.stillpreview] break
+	if {$x1 > [image width $image]} { set x1 [image width $image]}
+	if {$y1 > [image height $image]} { set y1 [image height $image]}
 	$preview copy $image -from [expr int($x0)] [expr int($y0)] [expr int($x1)] [expr int($y1)]
 
 	set idx 1
@@ -8043,6 +8045,8 @@ proc webcampicture_saveas {w image} {
 
 	set preview [image create photo]
 	foreach {x0 y0 x1 y1} [::PrintBox::Done $w.stillpreview] break
+	if {$x1 > [image width $image]} { set x1 [image width $image]}
+	if {$y1 > [image height $image]} { set y1 [image height $image]}
 	$preview copy $image -from [expr int($x0)] [expr int($y0)] [expr int($x1)] [expr int($y1)]
 
 	if {$filename != ""} {
@@ -8095,7 +8099,7 @@ namespace eval ::PrintBox {
 	variable CURSORS                            ;# Cursors to use while resizing
 	variable bxy {}                             ;# Button down location
 	variable bdown 0                            ;# Button is down flag
-	variable minSize 96                        ;# Minimum size of print box
+	variable minSize 64                        ;# Minimum size of print box
 	variable grabSize 1                        ;# Size of "grab" area
 	variable debug 0
 	
