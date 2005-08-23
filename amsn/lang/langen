@@ -222,6 +222,7 @@ dockgtk Gnome Dock
 docking Docking
 dockingoff Docking Off
 dockkde KDE Dock
+done Done
 dontdownload Don't download TLS, I'll install it myself
 dontshow Don't show
 download Download
@@ -553,6 +554,7 @@ removeempty Remove empty groups from the contact list
 removefromlist Remove from this list
 rename Rename
 report Report
+reporting Reporting
 required_version Unable to load this plugin. It requires, at least, aMSN version $1
 reversed Reversed
 reverselist Reverse list (RL):
