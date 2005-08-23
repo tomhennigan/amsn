@@ -202,6 +202,7 @@ delprofile2 Select the profile that you would like to remove
 delprofile Delete Profile
 description Description
 detach Detach
+details Details
 directconnection I have a direct connection to the internet (uses port 1863)
 disabled Disabled
 disableprofiles Disable profiles (Useful for cyber-cafes or shared environments)
@@ -551,6 +552,7 @@ remembersetting Remember this setting
 removeempty Remove empty groups from the contact list
 removefromlist Remove from this list
 rename Rename
+report Report
 required_version Unable to load this plugin. It requires, at least, aMSN version $1
 reversed Reversed
 reverselist Reverse list (RL):

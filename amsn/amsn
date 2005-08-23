@@ -199,6 +199,7 @@ proc reload_files { } {
 	source notes.tcl
 
 	source guicontactlist.tcl ;# New contact list (uses canvas)
+	source bugs.tcl 	;#bug reporting
 
 
 }
