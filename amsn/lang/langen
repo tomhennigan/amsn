@@ -66,6 +66,7 @@ away Away
 awaymsg1 Ask for away message each time I change my status to Away/BRB/Busy
 awaymsg2 Never ask and always use the away message below 
 baduserpass Wrong user name or password
+badwebcam Cannot display the webcam's image. Make sure your webcam is well plugged and installed.
 bgcolor Change aMSN's background color 
 blankdirect Leave blank for direct connection
 block Block

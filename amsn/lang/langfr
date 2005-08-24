@@ -66,6 +66,7 @@ away Absent[e]
 awaymsg1 Demander un message d'absence chaque fois que je change de statut pour Absent[e]/Bientôt de retour/Occupé[e]
 awaymsg2 Ne jamais demander et toujours utiliser le message ci-dessous
 baduserpass Mauvais nom d'utilisateur ou mot de passe
+badwebcam Impossible d'afficher l'image de la webcam. Veuillez-vous assurer que la webcam est bien branchée et installée.
 bgcolor Changer la couleur de fond de aMSN
 blankdirect Laisser vide pour une connexion sans proxy
 block Bloquer
