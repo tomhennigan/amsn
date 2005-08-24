@@ -7863,7 +7863,11 @@ proc webcampicture {} {
 
 		set grabber .dpgrabber
 		set grabber [tkvideo $grabber]
-		$grabber configure -source $source
+		if { [catch {$grabber configure -source $source}] } {
+			msg_box "[trans badwebcam]"
+			destroy $grabber
+			return
+		}
 		$grabber start
 
 		set img [image create photo]
@@ -7905,7 +7909,10 @@ proc webcampicture {} {
 		set channel [string range $source [expr $pos+1] end]
 
 		
-		set grabber [::Capture::Open $dev $channel]
+		if { [catch {set grabber [::Capture::Open $dev $channel]}] } {
+			msg_box "[trans badwebcam]"
+			return
+		}
 		
 		if { ![info exists ::webcam_settings_bug] || $::webcam_settings_bug == 0} {
 			set init_b [::Capture::GetBrightness $grabber]
