@@ -7856,6 +7856,10 @@ proc webcampicture {} {
 	set window .dp_preview
 
 	if { [set ::tcl_platform(platform)] == "windows" } {
+		if { [winfo exists $window] } {
+			raise $window
+			return
+		}
 
 		set grabber .dpgrabber
 		set grabber [tkvideo $grabber]
@@ -7888,6 +7892,11 @@ proc webcampicture {} {
 		}
 
 	} elseif { [set ::tcl_platform(os)] == "Linux" } {
+		if { [winfo exists $window] } {
+			raise $window
+			return
+		}
+
 		if {$source == "0" } { 
 			set source "/dev/video0:0"
 		}
