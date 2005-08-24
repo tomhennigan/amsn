@@ -116,7 +116,7 @@ namespace eval ::bugs {
 	frame $w.top
 	frame $w.buttons
 	
-	set ::bugs::message [trans tkerror [file join $::HOME2 bugreport.amsn]]
+	set ::bugs::message [trans tkerror1]
 	label $w.msg -justify left -textvariable "::bugs::message" -wraplength 300 -font sboldf
 
 	label $w.bitmap -image [::skin::loadPixmap warning]
