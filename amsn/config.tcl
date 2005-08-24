@@ -1343,7 +1343,7 @@ proc LockProfile { email } {
 				set lockSock $newlockSock
 				set trigger 1
 				} else {
-					errorMsg "Unable to get a socket from locahost.\n Check your /etc/hosts file, please."
+					::amsn::errorMsg "Unable to get a socket from locahost.\n Check your /etc/hosts file, please."
 					exit 1
 				}
 			}
