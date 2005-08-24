@@ -628,7 +628,7 @@ namespace eval ::MSNP2P {
 
 					#after 5500 "::MSNP2P::SendData $sid $chatid [lindex [SessionList get $sid] 8]"
 					if {$type == "filetransfer" } {
-						::MSN6FT::connectMsnFTP $sid $nonce $addr $port 0
+						::MSN6FT::ConnectSockets $sid $nonce $addr $port 0
 					} elseif { $type == "webcam" } {
 						::MSNCAM::connectMsnCam2 $sid $nonce $addr $port 0
 					}
@@ -699,7 +699,7 @@ namespace eval ::MSNP2P {
 					status_log "MSNP2P | $sid -> Receiver is listening with $addr : $port\n" red
 					#after 5500 "::MSNP2P::SendData $sid $chatid [lindex [SessionList get $sid] 8]"
 					if { $type == "filetransfer" } {
-						::MSN6FT::connectMsnFTP $sid $nonce $addr $port 1
+						::MSN6FT::ConnectSockets $sid $nonce $addr $port 1
 					} elseif { $type == "webcam" } {
 						setObjOption $sid accepted 1
 						::MSNCAM::SendSyn $sid $chatid

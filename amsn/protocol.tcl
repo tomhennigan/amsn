@@ -2339,7 +2339,10 @@ namespace eval ::Event {
 	# these are the methods you want to call from outside this object
 	destructor {
 		status_log "End of proxy for $options(-name). Destruction of proxy $options(-proxy)" red
-		catch { 
+		catch {
+			close $options(-sock)
+		}
+		catch {
 			$options(-proxy) finish $options(-name)
 			$options(-proxy) destroy 
 		}
@@ -5077,33 +5080,174 @@ namespace eval ::MSN6FT {
 	}
 
 
+	proc ConnectSockets { sid nonce ip port sending } {
+
+		set ips [getObjOption $sid ips]
+
+		if { $ips == "" } {
+			set ips [list]
+		}
+
+		set nips [split $ip " "]
+
+		foreach connection $nips {
+
+			status_log "Trying to connect to $connection at port $port\n" red
+			set socket [connectMsnFTP $sid $nonce "$connection" $port]
+			if { $socket != 0 } {
+				lappend ips [list $connection $port $socket]
+			}
+		}
+
+		setObjOption $sid sending $sending
+		setObjOption $sid ips $ips
+
+		foreach connection $ips {
+			set sock [lindex $connection 2]
+
+			catch { fconfigure $sock -blocking 0 -buffering none -translation {binary binary} }
+			catch { fileevent $sock readable "::MSN6FT::CheckConnected $sid $sock " }
+			catch { fileevent $sock writable "::MSN6FT::CheckConnected $sid $sock " }
+		}
+
+		after 5000 "::MSN6FT::CheckConnectSuccess $sid"
+
+	}
+
+	proc CheckConnectSuccess { sid } {
+		set ips [getObjOption $sid ips]
+		set connected_ips [getObjOption $sid connected_ips]
+		status_log "we have $ips connecting sockets and $connected_ips connected sockets\n" red
+		if { [llength $ips] == 0 && [llength $connected_ips] == 0 } {
+			status_log "No socket was connected\n" red
+			after 5000 "::MSNP2P::SendDataFile $sid [getObjOption $sid chatid] [list [lindex [::MSNP2P::SessionList get $sid] 8]] \"INVITE2\""
+		}
+	}
+
+	proc CheckConnected { sid socket}  {
+		status_log "fileevent CheckConnectd for socket $socket\n"
+
+		fileevent $socket readable ""
+		fileevent $socket writable ""
+
+		if { [eof $socket] || [fconfigure $socket -error] != "" } {
+			status_log "Socket didn't connect $socket : [eof $socket] || [fconfigure $socket -error]\n" red
+			close $socket
+
+			set ips [getObjOption $sid ips]
+			setObjOption $sid ips [::MSNCAM::RemoveSocketFromList $ips $socket]
+
+		} else {
+			status_log "Connected on socket $socket : [eof $socket] || [fconfigure $socket -error]\n" red
 
 
-	proc connectMsnFTP { sid nonce ip port sending } {
+			set ips [getObjOption $sid ips]
+			for {set idx 0} { $idx < [llength $ips] } {incr idx } {
+				set connection [lindex $ips $idx]
+				set ip [lindex $connection 0]
+				set port [lindex $connection 1]
+				set sock [lindex $connection 2]
+
+				if {$sock == $socket } {
+					break
+				}
+			}
+
+			set connected_ips [getObjOption $sid connected_ips]
+			lappend connected_ips [list $ip $port $socket]
+			setObjOption $sid connected_ips $connected_ips
+
+			::amsn::FTProgress c $sid "" $ip $port
+			fileevent $socket readable "::MSN6FT::ReadFromSock $socket"
+			fileevent $socket writable "::MSN6FT::WriteToSock $socket"
+			CloseUnusedSockets $sid $socket
+
+			set ips [getObjOption $sid ips]
+			setObjOption $sid ips [::MSNCAM::RemoveSocketFromList $ips $socket]
+
+
+
+		}
+
+		after 5000 "::MSN6FT::CheckConnectSuccess $sid"
+	}
+
+	proc CloseUnusedSockets { sid used_socket {list ""}} {
+		if { $list == "" } {
+			set ips [getObjOption $sid ips]
+			status_log "Closing ips $ips\n" red
+			if { $ips != "" } {
+				CloseUnusedSockets $sid $used_socket  $ips
+				setObjOption $sid ips ""
+			}
+
+			set ips [getObjOption $sid connected_ips]
+			status_log "Closing connected_ips $ips\n" red
+			if { $ips != "" } {
+				CloseUnusedSockets $sid $used_socket $ips
+			}
+
+			status_log "resetting ips and connected_ipss\n red"
+
+			if { $used_socket != "" } {
+				set ips ""
+				if { ![catch {set ip [lindex [fconfigure $used_socket -peer] 0]
+					set port [lindex [fconfigure $used_socket -peer] 2]}] } {
+					lappend ips [list $ip $port $used_socket]
+				}
+
+				setObjOption $sid connected_ips $ips
+			}
+		} else {
+			status_log "Closing in $list of length [llength $list]\n" red
+			for {set idx 0 } { $idx < [llength $list] } {incr idx } {
+				set connection [lindex $list $idx]
+				set ip [lindex $connection 0]
+				set port [lindex $connection 1]
+				set sock [lindex $connection 2]
+
+				status_log "verifying $ip : $port on $sock \n" red
+				if {$sock == $used_socket } { continue }
+
+				status_log "Closing $sock\n" red
+				catch {
+					fileevent $sock readable ""
+					fileevent $sock writable ""
+				}
+
+				status_log "fileevents reset\n" red
+				catch {close $sock}
+				status_log "closed\n" red
+			}
+
+		}
+		status_log "Finished\n" red
+	}
+
+	proc connectMsnFTP { sid nonce ip port } {
 
 		#Use new FT protocol only if the user choosed this option in advanced preferences.
 		if {[::config::getKey disable_new_ft_protocol]} {
 			return
 		}
-		
-		::amsn::FTProgress c $sid "" $ip $port
 
-		if { [catch {set sock [ socket $ip $port] } ] } {
+		if { [catch {set sock [socket -async $ip $port]}] } {
 			status_log "ERROR CONNECTING TO THE SERVER\n\n" red
+			return 0
 		} else {
 
-			setObjOption $sid sending $sending
 			setObjOption $sock nonce $nonce
 			setObjOption $sock state "FOO"
 			setObjOption $sock server 0
 			setObjOption $sock sid $sid
-			
+				
 			status_log "connectedto $ip on port $port  - $sock\n"
-			fconfigure $sock -blocking 0 -buffering none -translation {binary binary}
-			fileevent $sock readable "::MSN6FT::ReadFromSock $sock"
-			fileevent $sock writable "::MSN6FT::WriteToSock $sock"
+			return $sock
+
 		}
 	}
+
+	
 
 
 	proc ReadFromSock { sock } {
