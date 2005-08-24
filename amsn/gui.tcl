@@ -7271,7 +7271,11 @@ proc pictureChooseFile { } {
 
 	if { $file != "" } {
 		set convertsize "96x96"
-		set cursize [::picture::GetPictureSize $file]
+		if { [catch {::picture::GetPictureSize $file} cursize] } {
+			status_log "Error opening $file: $cursize\n"
+			msg_box $cursize
+			return ""
+		}
 		if { $cursize != "96x96" && ![::picture::IsAnimated $file] } {
 			set convertsize [AskDPSize $cursize]
 		}
