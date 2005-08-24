@@ -651,7 +651,8 @@ timeremaining Temps restant
 timestamps Activer l'horodateur des fenêtres de conversation
 timestamp Horodateur
 title aMSN
-tkerror TK a rapporté une erreur, il y a un bug dans aMSN, veuillez le rapportez en cliquant sur le bouton Envoyer. Vous pouvez cliquer sur Détails pour voir les informations complémentaires ou sur Accepter pour continuer de discuter avec AMsn
+tkerror TK a rapporté une erreur, il y a un bug dans aMSN, veuillez le rapporter en envoyant le fichier $1 à amsn-bugs@lists.sf.net
+tkerror1 TK a rapporté une erreur, il y a un bug dans aMSN, veuillez le rapporter en cliquant sur le bouton Envoyer. Vous pouvez cliquer sur Détails pour voir des informations complémentaires au sujet du bug ou sur Accepter pour continuer de discuter avec aMSN.
 tlsdowncompleted Le fichier $1 a été téléchargé dans le répertoire $2. Vous devez l'extraire, le compiler (si vous avez téléchargé le code source) et l'installer dans $3.
 tlsexplain Dossier où se trouve le module TLS. Si aMSN ne peut le trouver, veuillez préciser son emplacement.\n(Requis pour l'authentification SSL).
 tlsinstall Assistant d'installation du module TLS
