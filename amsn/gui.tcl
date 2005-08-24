@@ -3188,9 +3188,9 @@ proc cmsn_draw_main {} {
 	.main_menu.tools add command -label "[trans eventhistory]" -command "::log::OpenLogWin eventlog"
 
 	#Unnecessary separator when you remove the 2 dockings items menu on Mac OS X
-	if {$tcl_platform(os) != "Darwin"} {
-		.main_menu.tools add separator
-	}
+#	if {$tcl_platform(os) != "Darwin"} {
+#		.main_menu.tools add separator
+#	}
 
 	#.main_menu.tools add cascade -label "[trans options]" -menu .options
 
@@ -3207,26 +3207,26 @@ proc cmsn_draw_main {} {
 	#.options add cascade -label "[trans docking]" -menu .dock_menu
 
 	#Disable item menu for docking in Mac OS X(incompatible)
-	if {$tcl_platform(os) != "Darwin"} {
-		.main_menu.tools add cascade -label "[trans docking]" -menu .dock_menu
-	}
+#	if {$tcl_platform(os) != "Darwin"} {
+#		.main_menu.tools add cascade -label "[trans docking]" -menu .dock_menu
+#	}
 
-	menu .dock_menu -tearoff 0 -type normal
-	.dock_menu add radio -label "[trans dockingoff]" -value 0 -variable [::config::getVar dock] -command "init_dock"
-	if { $tcl_platform(platform) == "windows"} {
-		.dock_menu add radio -label "[trans dockfreedesktop]" -value 3 -variable [::config::getVar dock] -command "init_dock" -state disabled
-		.dock_menu add radio -label "[trans dockgtk]" -value 1 -variable [::config::getVar dock] -command "init_dock" -state disabled
+#	menu .dock_menu -tearoff 0 -type normal
+#	.dock_menu add radio -label "[trans dockingoff]" -value 0 -variable [::config::getVar dock] -command "init_dock"
+#	if { $tcl_platform(platform) == "windows"} {
+#		.dock_menu add radio -label "[trans dockfreedesktop]" -value 3 -variable [::config::getVar dock] -command "init_dock" -state disabled
+#		.dock_menu add radio -label "[trans dockgtk]" -value 1 -variable [::config::getVar dock] -command "init_dock" -state disabled
 		#.dock_menu add radio -label "[trans dockkde]" -value 2 -variable [::config::getVar dock] -command "init_dock" -state disabled
 		### need to add dockwindows to translation files
-		.dock_menu add radio -label "Windows" -value 4 -variable [::config::getVar dock] -command "init_dock"
-	} else {
-		.dock_menu add radio -label "[trans dockfreedesktop]" -value 3 -variable [::config::getVar dock] -command "init_dock"
-		.dock_menu add radio -label "[trans dockgtk]" -value 1 -variable [::config::getVar dock] -command "init_dock"
+#		.dock_menu add radio -label "Windows" -value 4 -variable [::config::getVar dock] -command "init_dock"
+#	} else {
+#		.dock_menu add radio -label "[trans dockfreedesktop]" -value 3 -variable [::config::getVar dock] -command "init_dock"
+#		.dock_menu add radio -label "[trans dockgtk]" -value 1 -variable [::config::getVar dock] -command "init_dock"
 		#.dock_menu add radio -label "[trans dockkde]" -value 2 -variable [::config::getVar dock] -command "init_dock"
 		### need to add dockwindows to translation files
-		.dock_menu add radio -label "Windows" -value 4 -variable [::config::getVar dock] -command "init_dock" -state disabled
+#		.dock_menu add radio -label "Windows" -value 4 -variable [::config::getVar dock] -command "init_dock" -state disabled
 
-	}
+#	}
 
 	.main_menu.tools add separator
 	#.options add checkbutton -label "[trans sound]" -onvalue 1 -offvalue 0 -variable [::config::getVar sound]

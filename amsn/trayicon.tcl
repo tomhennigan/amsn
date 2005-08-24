@@ -74,7 +74,7 @@ proc taskbar_icon_handler { msg x y } {
 proc trayicon_init {} {
 	global systemtray_exist password iconmenu wintrayicon statusicon
 
-	if { [::config::getKey dock] == 4 } {
+	if { [WinDock] } {
 		#added to stop creation of more than 1 icon
 		if { $statusicon != 0 } {
 			return
@@ -104,7 +104,7 @@ proc trayicon_init {} {
 			return
 		}
 
-		if { $systemtray_exist == 0 && [::config::getKey dock] == 3} {
+		if { $systemtray_exist == 0 && [UnixDock]} {
 			if { [catch {load $ext Tray}] }	{
 				::config::setKey dock 0
 				close_dock
@@ -182,10 +182,10 @@ proc statusicon_proc {status} {
 	global systemtray_exist statusicon list_states iconmenu wintrayicon tcl_platform
 	set cmdline ""
 
-	if { [::config::getKey dock] != 4 } {
+	if { ![WinDock] } {
 
 		set icon .si
-		if { $systemtray_exist == 1 && $statusicon == 0 && [::config::getKey dock] == 3} {
+		if { $systemtray_exist == 1 && $statusicon == 0 && [UnixDock]} {
 			set pixmap "[::skin::GetSkinFile pixmaps doffline.xpm]"
 			set statusicon [newti $icon -pixmap $pixmap -tooltip offline]
 			bind $icon <Button1-ButtonRelease> iconify_proc
@@ -202,7 +202,7 @@ proc statusicon_proc {status} {
 			remove_icon $statusicon
 		}
 		set statusicon 0
-	} elseif {$systemtray_exist == 1 && $statusicon != 0 && ( [::config::getKey dock] == 3 || [::config::getKey dock] == 4 ) && $status != "REMOVE"} {
+	} elseif {$systemtray_exist == 1 && $statusicon != 0 && ( [UnixDock] || [WinDock] ) && $status != "REMOVE"} {
 		if { $status != "" } {
 			if { $status == "FLN" } {
 				$iconmenu entryconfigure 2 -state disabled
@@ -250,7 +250,7 @@ proc statusicon_proc {status} {
 			  "FLN" {
 				set pixmap "[::skin::GetSkinFile pixmaps doffline.xpm]"
 				set tooltip "[trans offline]"
-				if { [::config::getKey dock] == 4 } {
+				if { [WinDock] } {
 					set trayicon [winico create [::skin::GetSkinFile winicons offline.ico]]
 				}
 			  }
@@ -258,7 +258,7 @@ proc statusicon_proc {status} {
 			  "NLN" {
 				set pixmap "[::skin::GetSkinFile pixmaps donline.xpm]"
 				set tooltip "$my_name ([::config::getKey login]): [trans online]"
-				if { [::config::getKey dock] == 4 } {
+				if { [WinDock] } {
 					set trayicon [winico create [::skin::GetSkinFile winicons online.ico]]
 				}
 			  }
@@ -266,62 +266,62 @@ proc statusicon_proc {status} {
 			  "IDL" {
 				set pixmap "[::skin::GetSkinFile pixmaps dinactive.xpm]"
 				set tooltip "$my_name ([::config::getKey login]): [trans noactivity]"
-				if { [::config::getKey dock] == 4 } {
+				if { [WinDock] } {
 					set trayicon [winico create [::skin::GetSkinFile winicons inactive.ico]]
 				}
 			  }
 			  "BSY" {
 				set pixmap "[::skin::GetSkinFile pixmaps dbusy.xpm]"
 				set tooltip "$my_name ([::config::getKey login]): [trans busy]"
-				if { [::config::getKey dock] == 4 } {
+				if { [WinDock] } {
 					set trayicon [winico create [::skin::GetSkinFile winicons busy.ico]]
 				}
 			  }
 			  "BRB" {
 				set pixmap "[::skin::GetSkinFile pixmaps dbrb.xpm]"
 				set tooltip "$my_name ([::config::getKey login]): [trans rightback]"
-				if { [::config::getKey dock] == 4 } {
+				if { [WinDock] } {
 					set trayicon [winico create [::skin::GetSkinFile winicons brb.ico]]
 				}
 			  }
 			  "AWY" {
 				set pixmap "[::skin::GetSkinFile pixmaps daway.xpm]"
 				set tooltip "$my_name ([::config::getKey login]): [trans away]"
-				if { [::config::getKey dock] == 4 } {
+				if { [WinDock] } {
 					set trayicon [winico create [::skin::GetSkinFile winicons away.ico]]
 				}
 			  }
 			  "PHN" {
 				set pixmap "[::skin::GetSkinFile pixmaps dphone.xpm]"
 				set tooltip "$my_name ([::config::getKey login]): [trans onphone]"
-				if { [::config::getKey dock] == 4 } {
+				if { [WinDock] } {
 					set trayicon [winico create [::skin::GetSkinFile winicons phone.ico]]
 				}
 			  }
 			  "LUN" {
 				set pixmap "[::skin::GetSkinFile pixmaps dlunch.xpm]"
 				set tooltip "$my_name ([::config::getKey login]): [trans gonelunch]"
-				if { [::config::getKey dock] == 4 } {
+				if { [WinDock] } {
 					set trayicon [winico create [::skin::GetSkinFile winicons lunch.ico]]
 				}
 			  }
 			  "HDN" {
 				set pixmap "[::skin::GetSkinFile pixmaps dhidden.xpm]"
 				set tooltip "$my_name ([::config::getKey login]): [trans appearoff]"
-				if { [::config::getKey dock] == 4 } {
+				if { [WinDock] } {
 					set trayicon [winico create [::skin::GetSkinFile winicons hidden.ico]]
 				}
 			  }
 			  "BOSS" {   #for bossmode, only for win at the moment
 				#set pixmap "[::skin::GetSkinFile pixmaps doffline.xpm]"
 				set tooltip "[trans pass]"
-				if { [::config::getKey dock] == 4 } {
+				if { [WinDock] } {
 					set trayicon [winico create [::skin::GetSkinFile winicons bossmode.ico]]
 				}
 			  }
 			  default {
 				set pixmap "null"
-				if { [::config::getKey dock] == 4 } {
+				if { [WinDock] } {
 					set trayicon [winico create [::skin::GetSkinFile winicons msn.ico]]
 				}
 			  }
@@ -329,7 +329,7 @@ proc statusicon_proc {status} {
 
 			$iconmenu entryconfigure 0 -label "[::config::getKey login]"
 
-			if { [::config::getKey dock] != 4 } {
+			if { ![WinDock] } {
 				if { $pixmap != "null"} {
 					configureti $statusicon -pixmap $pixmap -tooltip $tooltip
 				}
@@ -367,7 +367,7 @@ proc mailicon_proc {num} {
 	global systemtray_exist mailicon statusicon password winmailicon tcl_platform
 	# Workaround for bug in the traydock-plugin - statusicon added - END
 	set icon .mi
-	if {$systemtray_exist == 1 && $mailicon == 0 && ([::config::getKey dock] == 3 || [::config::getKey dock] == 4)  && $num >0} {
+	if {$systemtray_exist == 1 && $mailicon == 0 && ([UnixDock] || [WinDock])  && $num >0} {
 		set pixmap "[::skin::GetSkinFile pixmaps unread_tray.gif]"
 		if { $num == 1 } {
 			set msg [trans onenewmail]
@@ -377,7 +377,7 @@ proc mailicon_proc {num} {
 			set msg [trans newmail $num]
 		}
 
-		if { [::config::getKey dock] != 4 } {
+		if { ![WinDock] } {
 			set mailicon [newti $icon -pixmap $pixmap -tooltip $msg]
 			bind $icon <Button-1> [list ::hotmail::hotmail_login [::config::getKey login] $password]
 		} else {
@@ -394,7 +394,7 @@ proc mailicon_proc {num} {
 			winico taskbar delete $winmailicon
 			set mailicon 0
 		}
-	} elseif {$systemtray_exist == 1 && $mailicon != 0 && ([::config::getKey dock] == 3 || [::config::getKey dock] == 4)  && $num > 0} {
+	} elseif {$systemtray_exist == 1 && $mailicon != 0 && ([UnixDock] || [WinDock])  && $num > 0} {
 		if { $num == 1 } {
 			set msg [trans onenewmail]
 		} elseif { $num == 2 } {
@@ -402,7 +402,7 @@ proc mailicon_proc {num} {
 		} else {
 			set msg [trans newmail $num]
 		}
-		if { [::config::getKey dock] != 4 } {
+		if { ![WinDock] } {
 			configureti $mailicon -tooltip $msg
 		} else {
 			winico taskbar modify $winmailicon -text $msg

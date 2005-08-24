@@ -118,38 +118,46 @@ proc accept_dock { sock addr cport } {
 }
 
 proc init_dock {} {
-	global systemtray_exist srvSock docksock
+	global systemtray_exist
+		status_log "init_dock running"
 
+	#If the traydock is not disabled
 	if { [::config::getKey dock] != 0} {
-		if { [::config::getKey dock] == 1 } {
-			set svcPort 11983
-			if { [catch {socket -server accept_dock $svcPort} srvSock] } {
-				close_dock
-			}
-		}
-		
-		if { [::config::getKey dock] == 1} {
-
-			if { $docksock != 0 } {
-				close_dock
-				::config::setKey dock 1
-			}
-			catch {exec [file join utils gnomedock] [file join utils icons]/ &} res
-		} elseif { [::config::getKey dock] == 2} {
-		} elseif { [::config::getKey dock] == 3} {
+		#let's keep backwards compatibility :)
+		::config::setKey dock 1 ;# :p
+		if {[OnWin]} {
+			trayicon_init
+		} elseif {[OnUnix]} {
+			#We use the freedesktop standard here
+			status_log "freedsktop"
 			if { $systemtray_exist == 0 } {
 				trayicon_init
+				status_log "doesn't exist yet, done."
 				if { $systemtray_exist == -1 } {
 					::config::setKey dock 0
+					#Too bad, couldn't load the trayicon
 					msg_box "[trans nosystemtray]"
 				}
 			}
 			statusicon_proc [::MSN::myStatusIs]
-		} elseif { [::config::getKey dock] == 4} {
-			trayicon_init
-		}
-		
-	} elseif { [::config::getKey dock] == 0 } {
+		}		
+		status_log "dock: [::config::getKey dock]"
+	} else {
 		close_dock
+	}
+}
+
+proc UnixDock { } {
+	if {[::config::getKey dock] && [OnUnix] } {
+		return 1
+	} else {
+		return 0
+	}
+}
+proc WinDock { } {
+	if {[::config::getKey dock] && [OnWin] } {
+		return 1
+	} else {
+		return 0
 	}
 }

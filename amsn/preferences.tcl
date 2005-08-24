@@ -1624,6 +1624,7 @@ proc Preferences { { settings "personal"} } {
 #	frame $lfname.2 -class Degt
 	frame $lfname.3 -class Degt
 	frame $lfname.4 -class Degt
+	frame $lfname.5 -class Degt
 	label $lfname.1.llook -text "[trans encoding2]" -padx 10
 	button $lfname.1.bencoding -text [trans encoding] -font sboldf -command "show_encodingchoose"
 	pack $lfname.plook -anchor nw -side left
@@ -1647,6 +1648,12 @@ proc Preferences { { settings "personal"} } {
 	radiobutton $lfname.4.dmy -text "[trans day]/[trans month]/[trans year]" -value DMY -variable [::config::getVar dateformat]
 	radiobutton $lfname.4.ymd -text "[trans year]/[trans month]/[trans day]" -value YMD -variable [::config::getVar dateformat]
 	pack $lfname.4.mdy $lfname.4.dmy $lfname.4.ymd -side left -padx 10
+
+	checkbutton $lfname.5.dock -text "[trans docking]" -onvalue 1 -offvalue 0 -variable [::config::getVar dock]
+
+	pack $lfname.5.dock -anchor w -side top -padx 10 -pady 0
+	pack $lfname.5 -side top -padx 0 -pady 0 -expand 1 -fill both
+
 
 
 	## Emoticons Frame ##
@@ -2985,6 +2992,10 @@ proc SavePreferences {} {
     
 	#Reset the banner incase the option changed
 	resetBanner
+
+	#Reload the trayicon in case it got changed
+	init_dock
+	
 
 }
 
