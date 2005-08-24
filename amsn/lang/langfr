@@ -202,6 +202,7 @@ delprofile2 Sélectionnez le profil que vous voulez supprimer
 delprofile Supprimer un profil
 description Description
 detach Détacher l'onglet
+details Détails
 directconnection J'ai une connexion directe à Internet (utilisation du port 1863)
 disabled Désactivé
 disableprofiles Désactiver les profils (utile pour la cyber-cafés ou pour les environnements partagés)
@@ -221,6 +222,7 @@ dockgtk Ancrer dans GTK
 docking Ancrage actif
 dockingoff Pas d'ancrage
 dockkde Ancrage dans KDE
+done Fait
 dontdownload Ne pas télécharger TLS, je l'installerai moi-même
 dontshow Ne pas la montrer
 downloadingtls Téléchargement du module TLS à partir de :\n $1
@@ -551,6 +553,8 @@ remembersetting Enregistrer ce paramètre
 removeempty Retirer les groupes vides de la liste des contacts
 removefromlist Supprimer de cette liste
 rename Renommer
+report Envoyer
+reporting Envoi du bug....
 required_version Impossible de charger ce plugin. Il nécessite au moins la version $1 d'aMSN
 reversed Ordre inversé
 reverselist Liste inversée :
@@ -646,7 +650,7 @@ timeremaining Temps restant
 timestamps Activer l'horodateur des fenêtres de conversation
 timestamp Horodateur
 title aMSN
-tkerror TK a rapporté une erreur, il y a un bug dans aMSN, veuillez le rapportez en envoyant le fichier $1 à amsn-bugs@lists.sf.net
+tkerror TK a rapporté une erreur, il y a un bug dans aMSN, veuillez le rapportez en cliquant sur le bouton Envoyer. Vous pouvez cliquer sur Détails pour voir les informations complémentaires ou sur Accepter pour continuer de discuter avec AMsn
 tlsdowncompleted Le fichier $1 a été téléchargé dans le répertoire $2. Vous devez l'extraire, le compiler (si vous avez téléchargé le code source) et l'installer dans $3.
 tlsexplain Dossier où se trouve le module TLS. Si aMSN ne peut le trouver, veuillez préciser son emplacement.\n(Requis pour l'authentification SSL).
 tlsinstall Assistant d'installation du module TLS
