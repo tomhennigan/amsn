@@ -4486,7 +4486,8 @@ proc AddProfileWin {} {
 # AddProfileOk (mainframe)
 #
 proc AddProfileOk {mainframe} {
-	wm group .add_profile .login
+	#In case someone destroy .login
+	catch {wm group .add_profile .login}
 	set login [$mainframe.login get]
 	if { $login == "" } {
 		return
