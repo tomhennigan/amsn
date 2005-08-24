@@ -608,7 +608,7 @@ proc load_config {} {
 		::config::unsetKey encpassword
 	}
 
-	#Get the encripted remote password
+	#Get the encrypted remote password
 	if {[::config::getKey remotepassword]!=""} {
 		set key [string range "[::config::getKey login]dummykey" 0 7]
 		catch {set encpass [binary format h* [::config::getKey remotepassword]]}
