@@ -4979,11 +4979,12 @@ proc cmsn_draw_online_wrapped {} {
 		
 		set custom_colour [string tolower [::abook::getContactData $user_login customcolor]]
 		if { $custom_colour != "" } {
-			if { [string index $custom_colour 0] != "#" } {
-				set custom_colour "#$custom_colour"
+			if { [string index $custom_colour 0] == "#" } {
+				set custom_colour [string range $custom_colour 1 end]
 			}
-			#If the color is white we can't see the contact on the list : we ignore the custom color
-			if { $custom_colour != "#ffffff" && $custom_colour != "#"} {
+			set custom_colour "#[string repeat 0 [expr 6-[string length $custom_colour]]]$custom_colour"
+			#If the color is the same that the colour of the CL we can't see the contact on the list : we ignore the custom color
+			if { $custom_colour != [::skin::getKey contactlistbg] } {
 				set colour $custom_colour
 			}
 		}

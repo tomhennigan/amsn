@@ -1,6 +1,6 @@
 #	User Administration (Address Book data)
 #	by: Alvaro Jose Iradier Muro
-#	Dídimo Emilio Grimaldo Tuñón
+#	Dï¿½imo Emilio Grimaldo Tuï¿½n
 # $Id$
 #=======================================================================
 
@@ -953,9 +953,11 @@ namespace eval ::abookGui {
 		#	-highlightcolor black
 		frame $nbIdent.customcolorf.col -width 40 -bd 0 -relief flat -highlightbackground black -highlightcolor black
 		if { [set colorval_$email] != "" } {
-			if { [string index [set colorval_$email] 0] != "#" } {
-				set colorval_$email "#[set colorval_$email]"
+			if { [string index [set colorval_$email] 0] == "#" } {
+				set colorval_$email [string range [set colorval_$email] 1 end]
 			}
+			set colorval_$email "#[string repeat 0 [expr 6-[string length [set colorval_$email]]]][set colorval_$email]"
+			#If the color is white we can't see the contact on the list : we ignore the custom color
 			$nbIdent.customcolorf.col configure -background [set colorval_${email}] -highlightthickness 1 
 		} else {
 			$nbIdent.customcolorf.col configure -background [$nbIdent.customcolorf cget -background] -highlightthickness 0
