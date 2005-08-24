@@ -15,6 +15,24 @@ source socks.tcl	;# SOCKS5 proxy support
 
 #the framework for connections. You create an instance of this object only,
 #never the other proxy objects directly
+
+proc globalGotNexusReply { proxy token {total 0} {current 0} } {
+	if {[info procs $proxy] != ""} {
+		$proxy GotNexusReply $token $total $current
+	} else {
+		::http::cleanup $token
+	}
+}
+
+proc globalGotAuthReply { proxy str token } {
+	status_log "globalGotAuthReply { $proxy $str $token }"
+	if {[info procs $proxy] != ""} {
+		$proxy GotAuthReply $str $token
+	} else {
+		::http::cleanup $token
+	}
+}
+
 ::snit::type Proxy {
 
 	delegate method * to proxy
@@ -147,7 +165,8 @@ source socks.tcl	;# SOCKS5 proxy support
 			#Contact nexus to get login url
 			set login_passport_url 0
 			degt_protocol $self
-			after 500 "catch {::http::geturl [list https://nexus.passport.com/rdr/pprdr.asp] -timeout 10000 -command {$self GotNexusReply}}"
+
+			after 0 "catch {::http::geturl [list https://nexus.passport.com/rdr/pprdr.asp] -timeout 10000 -command {globalGotNexusReply $self}}"
 		}
 	}
 
@@ -161,7 +180,7 @@ source socks.tcl	;# SOCKS5 proxy support
 			set url [string map { https:// http:// } $url]
 		}
 		status_log "::DirectConnection::authenticate: Getting $url\n" blue
-		if {[catch {::http::geturl $url -command "$self GotAuthReply [list $str]" -headers $head}]} {
+		if { [catch {::http::geturl $url -command "globalGotAuthReply $self [list $str]" -headers $head}] } {
 			eval [ns cget -autherror_handler]
 			#msnp9_auth_error
 		}
