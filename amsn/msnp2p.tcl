@@ -849,8 +849,11 @@ namespace eval ::MSNP2P {
 						#set file [png_to_gif [file join $HOME smileys cache ${filename}.png]]
 						set file [file join $HOME smileys cache ${filename}.png]
 						if { $file != "" } {
+							set tw [::ChatWindow::GetOutText [::ChatWindow::For $chatid]]
 							#set file [filenoext $file].gif
+							set scrolling [::ChatWindow::getScrolling $tw]
 							catch {image create photo custom_smiley_${filename} -file "[file join $HOME smileys cache ${filename}.png]" -format cximage}
+							if { $scrolling } { ::ChatWindow::Scroll $tw }
 						}
 					}
 

@@ -235,6 +235,8 @@ namespace eval ::smiley {
 		variable sortedemotions
 				
 		SortSmileys
+		
+		set scrolling [::ChatWindow::getScrolling $tw]
 			
 		#Search for all possible emotions, after they are sorted by symbol length
 		foreach emotion_data $sortedemotions {
@@ -310,6 +312,8 @@ namespace eval ::smiley {
 			
 			
 		}
+		
+		if { $scrolling } { ::ChatWindow::Scroll $tw }
 	
 	}
 	
@@ -1081,6 +1085,8 @@ proc custom_smile_subst { chatid tw {textbegin "0.0"} {end "end"} } {
 proc custom_smile_subst2 { chatid tw textbegin end } { 
     upvar #0 [string map {: _} ${chatid} ]_smileys emotions
 
+    set scrolling [::ChatWindow::getScrolling $tw]
+
     if { ![info exists emotions] } { return }
 
     status_log "Parsing text for [array names emotions] with tw = $tw, textbegin = $textbegin and end = $end\n"
@@ -1123,6 +1129,8 @@ proc custom_smile_subst2 { chatid tw textbegin end } {
     }
 
     unset emotions
+    
+    if { $scrolling } { ::ChatWindow::Scroll $tw }
 }
 
 #Called from the protocol layer to parse a x-mms-emoticon message

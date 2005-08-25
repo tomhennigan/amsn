@@ -1646,7 +1646,7 @@ namespace eval ::amsn {
 		#pack $win.bottom.pic.image -side left -padx 2 -pady 2
 		upvar #0 ${win}_show_picture show_pic
 
-		set yview [lindex [[::ChatWindow::GetOutText $win] yview] 1]
+		set scrolling [::ChatWindow::getScrolling [::ChatWindow::GetOutText $win]]
 
 
 		#Get the path to the image
@@ -1670,11 +1670,11 @@ namespace eval ::amsn {
 			set show_pic 1
 		}
 
-		if {$yview == 1} {
+		if { $scrolling } {
 
 			update idletasks
 
-			[::ChatWindow::GetOutText $win] see end
+			::ChatWindow::Scroll [::ChatWindow::GetOutText $win]
 		}
 
 
@@ -2599,11 +2599,7 @@ namespace eval ::amsn {
 			return
 		}
 
-		if { [lindex [[::ChatWindow::GetOutText ${win_name}] yview] 1] == 1.0 } {
-			set scrolling 1
-		} else {
-			set scrolling 0
-		}
+		set scrolling [::ChatWindow::getScrolling [::ChatWindow::GetOutText ${win_name}]]
 
 		set fontname [lindex $fontformat 0]
 		set fontstyle [lindex $fontformat 1]
@@ -2724,9 +2720,8 @@ namespace eval ::amsn {
 
 		#      vwait smileys_end_subst
 
-		if { $scrolling } {
-			[::ChatWindow::GetOutText ${win_name}] yview end
-		}
+		if { $scrolling } { ::ChatWindow::Scroll [::ChatWindow::GetOutText ${win_name}] }
+
 		[::ChatWindow::GetOutText ${win_name}] configure -state disabled
 
 		if { $flicker } {
@@ -2750,17 +2745,13 @@ namespace eval ::amsn {
 			return 0
 		}
 
-		if { [lindex [[::ChatWindow::GetOutText ${win_name}] yview] 1] == 1.0 } {
-			set scrolling 1
-		} else {
-			set scrolling 0
-		}
+		set scrolling [::ChatWindow::getScrolling [::ChatWindow::GetOutText ${win_name}]]
 
 
 		[::ChatWindow::GetOutText ${win_name}] configure -state normal
 		[::ChatWindow::GetOutText ${win_name}] image create end -image [::skin::loadPixmap $imagename] -pady $pady -padx $pady
 
-		if { $scrolling } { [::ChatWindow::GetOutText ${win_name}] yview end }
+		if { $scrolling } { ::ChatWindow::Scroll [::ChatWindow::GetOutText ${win_name}] }
 
 
 		[::ChatWindow::GetOutText ${win_name}] configure -state disabled
@@ -2774,11 +2765,7 @@ namespace eval ::amsn {
 			return 0
 		}
 
-		if { [lindex [[::ChatWindow::GetOutText ${win_name}] yview] 1] == 1.0 } {
-			set scrolling 1
-		} else {
-			set scrolling 0
-		}
+		set scrolling [::ChatWindow::getScrolling [::ChatWindow::GetOutText ${win_name}]]
 
 
 		if { $tagid == "" } {
@@ -2801,7 +2788,7 @@ namespace eval ::amsn {
 		[::ChatWindow::GetOutText ${win_name}] configure -state normal
 		[::ChatWindow::GetOutText ${win_name}] insert end "$txt" $tagid
 
-		if { $scrolling } { [::ChatWindow::GetOutText ${win_name}] yview end }
+		if { $scrolling } { ::ChatWindow::Scroll [::ChatWindow::GetOutText ${win_name}] }
 
 		[::ChatWindow::GetOutText ${win_name}] configure -state disabled
 	}

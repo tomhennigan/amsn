@@ -34,6 +34,8 @@ namespace eval ::ChatWindow {
 		variable win2tab
 		variable containercurrent
 		variable containerid 0
+		variable scrolling
+
 	}
 	#///////////////////////////////////////////////////////////////////////////////
 
@@ -1554,11 +1556,8 @@ namespace eval ::ChatWindow {
 		set win [string first "." $paned $win]
 		incr win -1
 		set win [string range $paned 0 $win]
-		if { [lindex [[::ChatWindow::GetOutText $win] yview] 1] == 1.0 } {
-			set scrolling 1
-		} else {
-			set scrolling 0
-		}
+
+		set scrolling [getScrolling [::ChatWindow::GetOutText $win]]
 
 		if { $::tcl_version >= 8.4 } {
 			#check that the drag adhered to minsize input pane
@@ -1572,7 +1571,7 @@ namespace eval ::ChatWindow {
 		}
 
 
-		if { $scrolling } { after 100 "catch {[::ChatWindow::GetOutText $win] yview end}" }
+		if { $scrolling } { after 100 "catch {::ChatWindow::Scroll [::ChatWindow::GetOutText $win]}" }
 
 
 		if { [::config::getKey savechatwinsize] } {
@@ -2141,11 +2140,7 @@ namespace eval ::ChatWindow {
 		
 		set top [::ChatWindow::GetTopFrame ${win_name}]
 
-		if { [lindex [[::ChatWindow::GetOutText ${win_name}] yview] 1] == 1.0 } {
-			set scrolling 1
-		} else {
-			set scrolling 0
-		}
+		set scrolling [getScrolling [::ChatWindow::GetOutText ${win_name}]]
 
 		$top dchars text 0 end
 
@@ -2266,7 +2261,7 @@ namespace eval ::ChatWindow {
 			NameTabButton $win_name $chatid
 		}
 
-		if { $scrolling } { catch {[::ChatWindow::GetOutText ${win_name}] yview end} }
+		if { $scrolling } { catch {::ChatWindow::Scroll [::ChatWindow::GetOutText ${win_name}]} }
 
 		#PostEvent 'TopUpdate'
 		set evPar(chatid) "chatid"
@@ -3159,6 +3154,43 @@ namespace eval ::ChatWindow {
 
 		return $win_name
 
+	}
+
+	###################################################
+	# proc getScrolling : gets the scrolling status of
+	# textwidget $tw. Returns 1 to scroll, 0 not to.
+	
+	proc getScrolling { tw } {
+		variable scrolling
+		
+		#status_log "getScrolling: $tw\n"
+		
+		if { [info exists scrolling($tw)] } {
+		#We are scrolling to the bottom so we are obviously stuck to the end
+			return 1
+		} elseif { [lindex [$tw yview] 1] == 1.0 } {
+		#We are at the bottom of the tw so we are stuck to the end
+			return 1
+		} else {
+			return 0
+		}
+	}
+	
+	#########################################################
+	# proc Scroll : Scrolls down the textwidget $tw
+
+	proc Scroll { tw } {
+		variable scrolling
+		
+		if { ![info exists scrolling($tw)] } {
+			set scrolling($tw) 0
+		}
+		#status_log "Scroll: $tw "
+		incr scrolling($tw)
+		$tw yview end
+
+		after 100 "catch {incr ::ChatWindow::scrolling($tw) -1; if {\$::ChatWindow::scrolling($tw) == 0 } {unset ::ChatWindow::scrolling($tw) }}"
+		
 	}
 }
 
