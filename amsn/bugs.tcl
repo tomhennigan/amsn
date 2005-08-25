@@ -44,7 +44,7 @@ namespace eval ::bugs {
 	puts $fd "\t<error>"
 	puts $fd "\t\t<date>[clock seconds]</date>"
 	puts $fd "\t\t<text>$args</text>"
-	puts $fd "\t\t<stack>$errorInfo</stack>"
+	puts $fd "\t\t<stack>[privacy $errorInfo]</stack>"
 	puts $fd "\t\t<code>$errorCode</code>"
 	puts $fd "\t</error>"
 	puts $fd "\t<system>"
