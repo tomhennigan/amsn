@@ -667,7 +667,7 @@ namespace eval ::pop3 {
 			}
 			
 			#If Growl plugin is loaded, show the notification, Mac OS X only
-			if { [info proc ::growl::InitPlugin] != "" } {
+			if { [info commands ::growl::InitPlugin] != "" } {
 				catch {growl post Pop POP3 [trans newmail [set ::pop3::newMails_$acntn]]}
 			}
 		}

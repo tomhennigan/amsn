@@ -260,7 +260,13 @@ set ::tkcximageloaded 0
 			status_log "Picture.tcl: The file doesn't exists $file\n" red
 			error "Picture.tcl: The file doesn't exists $file"
 		}
-		if { [catch {CxImage::IsAnimated $file} res] } {
+		if { [info commands ::CxImage::IsAnimated] == "" } { 
+			status_log "TkCxImage too old"
+			msg_box "You need to recompile TkCximage, you use a too old version"
+			return 0			
+		 }
+		
+		if { [catch {::CxImage::IsAnimated $file} res] } {
 			status_log "Picture.tcl: Unable to read file $file \n$res" red
 			error "Picture.tcl: Unable to read file $file \n$res"
 		} else {

@@ -244,8 +244,8 @@ namespace eval ::growl {
 		#Get displaypicfile from the abook, so we don't get the actual picture but the picture we received from that user previously
 		set filename [::abook::getContactData $email displaypicfile ""]
 		#If the picture already exist, return the path to that picture, if the picture do not exist, return the default icon of aMSN
-		if { [file readable "[file join $HOME displaypic cache ${filename}].gif"] } {
-			return "[file join $HOME displaypic cache ${filename}].gif"
+		if { [file readable "[file join $HOME displaypic cache ${filename}].png"] } {
+			return "[file join $HOME displaypic cache ${filename}].png"
 		} else {
 			return
 		}

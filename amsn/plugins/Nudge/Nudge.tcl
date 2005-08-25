@@ -38,7 +38,7 @@ namespace eval ::Nudge {
 		#Wait 5 seconds after all the plugins are loaded to register
 		#the command /nudge to amsnplus plugin
 		
-		after 5000 ::Nudge::add_command 0 0
+		after 5000 "catch {::Nudge::add_command 0 0}"
 		
 	}
 	
@@ -198,7 +198,7 @@ namespace eval ::Nudge {
 			}
 			
 			#If Growl plugin is loaded, show the notification, Mac OS X only
-			if { [info proc ::growl::InitPlugin] != "" } {
+			if { [info commands ::growl::InitPlugin] != "" } {
 				catch {growl post Nudge Nudge [trans nudge $nick] [::growl::getpicture $chatid]}
 				::Nudge::log "Show growl notification"
 			}
@@ -338,7 +338,7 @@ namespace eval ::Nudge {
 	proc add_command {event evpar} {
 	
 		#If amsnplus plugin is loaded, register the command
-		if { [info proc ::amsnplus::add_command] != "" } {
+		if { [info commands ::amsnplus::add_command] != "" } {
 			#Avoid a bug if someone use an older version of aMSNPlus
 			catch {::amsnplus::add_command nudge ::Nudge::SendNudge 0 1}
 			::Nudge::log "Register command nudge to amsnplus plugin"
