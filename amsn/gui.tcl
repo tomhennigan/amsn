@@ -5381,7 +5381,7 @@ proc ShowUser {user_name user_login state_code colour section grId} {
 			set balloon_message4 ""
 		}
 		if {[::abook::getContactData $user_login webcam_shared] == 1} {
-			set balloon_message5 "\nShares webcam"
+			set balloon_message5 "\n[trans shareswebcam]"
 		} else {
 			set balloon_message5 ""
 		}		

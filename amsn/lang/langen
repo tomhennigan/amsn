@@ -582,6 +582,7 @@ servergoingdown Disconnected: Server is going down
 server Server
 serverunavailable Server is unavailable
 session Session
+shareswebcam Shares webcam
 showbanner Show aMSN's banner
 showblockedlist Show list of people who blocked you
 showcachedpics Show cached display pictures
