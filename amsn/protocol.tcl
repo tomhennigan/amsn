@@ -4941,13 +4941,15 @@ namespace eval ::MSN6FT {
 		if { $nopreview == 0 } {
 			#Here we resize the picture and save it in /FT/cache for the preview (we send it and we see it)
 			create_dir [file join [set ::HOME] FT cache]
-			set image [image create photo -file $filename]
+			if {[catch {set image [image create photo -file $filename]}]} {
+				set image [::skin::getNoDisplayPicture]
+			}
 			if {[catch {::picture::ResizeWithRatio $image 96 96} res]} {
-				msg_box $res
+				status_log $res
 			}
 			set file  "[file join [set ::HOME] FT cache ${callid}.png]"
 			if {[catch {::picture::Save $image $file cxpng} res] } {
-				msg_box $res
+				status_log $res
 			}
 			image delete $image
 			::skin::setPixmap ${callid}.png $file
