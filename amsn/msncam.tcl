@@ -1461,6 +1461,7 @@ namespace eval ::CAMGUI {
 			set window .webcam_$sid
 			toplevel $window
 			set chatid [getObjOption $sid chatid]
+			wm title $window "$chatid - [::abook::getDisplayNick $chatid]"
 			wm protocol $window WM_DELETE_WINDOW "::MSNCAM::CancelCam $chatid $sid"
 			set img [image create photo]
 			label $window.l -image $img
@@ -1600,7 +1601,7 @@ namespace eval ::CAMGUI {
 
 				if { [winfo exists $w] } {
 					if {![winfo exists $w.label]} {
-						label $w.label -text "List of people you are currently sending webcam\nClick to cancel"
+						label $w.label -text "[trans webcamsending]"
 						pack $w.label
 					}
 					#Add button for each contact you are sending webcam
@@ -1616,10 +1617,10 @@ namespace eval ::CAMGUI {
 			} else {
 				set img [image create photo]
 				toplevel $window
-
+				wm title $window "$chatid - [::abook::getDisplayNick $chatid]"
 				label $window.l -image $img
 				pack $window.l
-				button $window.settings -command "::CAMGUI::ShowPropertiesPage $grabber $img" -text "Show properties page"
+				button $window.settings -command "::CAMGUI::ShowPropertiesPage $grabber $img" -text "[trans changevideosettings]"
 				pack $window.settings -expand true -fill x
 				button $window.q -command "::MSNCAM::CancelCam $chatid $sid" -text "Stop sending Webcam"
 				pack $window.q -expand true -fill x
@@ -1754,7 +1755,7 @@ namespace eval ::CAMGUI {
 			pack $w.seq
 					
 			#Add button to change settings
-			button $w.settings -command "::CAMGUI::ChooseDeviceMac" -text "Change video settings"
+			button $w.settings -command "::CAMGUI::ChooseDeviceMac" -text "[trans changevideosettings]"
 			pack $w.settings
 			
 			#Add zoom option
@@ -1785,7 +1786,7 @@ namespace eval ::CAMGUI {
 			destroy .grabber
 			set ::activegrabbers 0
 		} else {
-			msg_box "You have to cancel all webcam sessions before closing the window"
+			msg_box "[trans webcamclosebefcancel]"
 		}
 	}
 
@@ -1886,7 +1887,7 @@ namespace eval ::CAMGUI {
 		
 		::amsn::WinWriteIcon $chatid butwebcam 3 2
 		#Show invitation
-		::amsn::WinWrite $chatid "[timestamp] [::abook::getDisplayNick $chatid] invited you to start a webcam session. Do you want to accept this session?" green
+		::amsn::WinWrite $chatid "[timestamp] [trans webcaminvitereceived [::abook::getDisplayNick $chatid]]" green
 		
 		#Accept and refuse actions
 		::amsn::WinWrite $chatid " - (" green
@@ -1969,7 +1970,7 @@ namespace eval ::CAMGUI {
 		::amsn::WinWriteIcon $chatid greyline 3
 		::amsn::WinWrite $chatid "\n" green
 		::amsn::WinWriteIcon $chatid butwebcam 3 2
-		::amsn::WinWrite $chatid "[timestamp] [::abook::getDisplayNick $chatid] rejected invitation for webcam session\n" green
+		::amsn::WinWrite $chatid "[timestamp] [trans webcamrejected [::abook::getDisplayNick $chatid]]\n" green
 		::amsn::WinWriteIcon $chatid greyline 3
 	}
 	#Executed when your contact stops the webcam session
@@ -1978,7 +1979,7 @@ namespace eval ::CAMGUI {
 		::amsn::WinWriteIcon $chatid greyline 3
 		::amsn::WinWrite $chatid "\n" green
 		::amsn::WinWriteIcon $chatid butwebcam 3 2
-		::amsn::WinWrite $chatid "[timestamp] The webcam session with [::abook::getDisplayNick $chatid] has been canceled\n" green
+		::amsn::WinWrite $chatid "[timestamp] [trans webcamcanceled [::abook::getDisplayNick $chatid]]\n" green
 		::amsn::WinWriteIcon $chatid greyline 3
 	}
 	#Executed when you invite someone to send your webcam
@@ -1987,7 +1988,7 @@ namespace eval ::CAMGUI {
 		::amsn::WinWriteIcon $chatid greyline 3
 		::amsn::WinWrite $chatid "\n" green
 		::amsn::WinWriteIcon $chatid butwebcam 3 2
-		::amsn::WinWrite $chatid "[timestamp] Send request to send webcam\n" green
+		::amsn::WinWrite $chatid "[timestamp] [trans webcamrequestsend]\n" green
 		::amsn::WinWriteIcon $chatid greyline 3
 	}
 	#Executed when you invite someone to receive his webcam
@@ -1996,7 +1997,7 @@ namespace eval ::CAMGUI {
 		::amsn::WinWriteIcon $chatid greyline 3
 		::amsn::WinWrite $chatid "\n" green
 		::amsn::WinWriteIcon $chatid butwebcam 3 2
-		::amsn::WinWrite $chatid "[timestamp] Send request to receive webcam\n" green
+		::amsn::WinWrite $chatid "[timestamp] [trans webcamrequestreceive]\n" green
 		::amsn::WinWriteIcon $chatid greyline 3
 	}
 	
@@ -2016,10 +2017,10 @@ namespace eval ::CAMGUI {
 		pack $w.webcampic
 		#Show the two connection informations to know if we are firewalled or not
 		frame $w.abooktype
-		label $w.abooktype.text -text "Type" -font sboldf
+		label $w.abooktype.text -text "[trans type]" -font sboldf
 		label $w.abooktype.abook -text [::abook::getDemographicField conntype]
 		frame $w.abooklistening
-		label $w.abooklistening.text -text "Listening" -font sboldf
+		label $w.abooklistening.text -text "[trans listening]" -font sboldf
 		label $w.abooklistening.abook -text [::abook::getDemographicField listening]
 		
 		pack $w.abooktype.text  -padx 5 -side left
@@ -2030,16 +2031,16 @@ namespace eval ::CAMGUI {
 		pack $w.abooklistening -expand true
 		
 		if {[::abook::getDemographicField conntype] == "IP-Restrict-NAT" && [::abook::getDemographicField listening] == "false"} {
-			label $w.abookresult -text "You are firewalled or behind a router" -font sboldf -foreground red
+			label $w.abookresult -text "[trans firewalled]" -font sboldf -foreground red
 		} else {
-			label $w.abookresult -text "Your ports are well configured" -font sboldf
+			label $w.abookresult -text "[trans portswellconfigured]" -font sboldf
 		}
 		pack $w.abookresult -expand true -padx 5
 		#Verify if the extension webcamsn is loade
 		if {[::CAMGUI::ExtensionLoaded]} {
-			label $w.webcamsn -text "Webcamsn extension is loaded" -font sboldf
+			label $w.webcamsn -text "[trans webcamextloaded]" -font sboldf
 		} else {
-			label $w.webcamsn -text "Webcamsn extension is not loaded. You have to compile it." -font sboldf -foreground red
+			label $w.webcamsn -text "[trans webcamextnotloaded]" -font sboldf -foreground red
 		}
 		pack $w.webcamsn -expand true -padx 5
 		#Verify if the capture extension is loaded, change on each platform
@@ -2050,23 +2051,23 @@ namespace eval ::CAMGUI {
 		} elseif { [set ::tcl_platform(os)] == "Linux" } {
 			set extension "capture"
 		} else {
-			set extension "Unknown"
+			set extension "[trans unknown]"
 		}
 		
 		
 		if {[::CAMGUI::CaptureLoaded]} {
-			label $w.capture -text "Capture extension -$extension- is loaded" -font sboldf
+			label $w.capture -text "[trans captureextloaded $extension]" -font sboldf
 		} else {
-			label $w.capture -text "Capture extension -$extension- is not loaded, you have to compile it" -font sboldf -foreground red
+			label $w.capture -text "[trans captureextnotloaded $extension]" -font sboldf -foreground red
 		}
 		pack $w.capture -expand true -padx 5
 		
 		#Add button to change settings
-		button $w.settings -command "::CAMGUI::ChooseDevice" -text "Change video settings"
+		button $w.settings -command "::CAMGUI::ChooseDevice" -text "[trans changevideosettings]"
 		pack $w.settings
 		#Add button to open link to the wiki
 		set link "http://amsn.sourceforge.net/wiki/tiki-index.php?page=Webcam+In+aMSN"
-		button $w.wiki -command "launch_browser $link" -text "FAQ/Help for Webcam"
+		button $w.wiki -command "launch_browser $link" -text "[trans webcamfaq]"
 		pack $w.wiki
 		
 		#wm geometry $w 300x150
@@ -2128,7 +2129,7 @@ namespace eval ::CAMGUI {
 		set devices [::Capture::ListDevices]
 
 		if { [llength $devices] == 0 } {
-			tk_messageBox -message "You haven't devices installed"
+			tk_messageBox -message "[trans nodevices]"
 			return
 		}
 
@@ -2140,7 +2141,7 @@ namespace eval ::CAMGUI {
 
 
 		frame $devs -relief sunken -borderwidth 3
-		label $devs.label -text "Devices"
+		label $devs.label -text "[trans devices]"
 		listbox $devs.list -yscrollcommand "$devs.ys set" -background \
 		white -relief flat -highlightthickness 0 -height 5
 		scrollbar $devs.ys -command "$devs.list yview" -highlightthickness 0 \
@@ -2151,7 +2152,7 @@ namespace eval ::CAMGUI {
 
 
 		frame $chans -relief sunken -borderwidth 3
-		label $chans.label -text "Channels"
+		label $chans.label -text "[trans channels]"
 		listbox $chans.list -yscrollcommand "$chans.ys set"  -background \
 		white -relief flat -highlightthickness 0 -height 5 -selectmode extended
 		scrollbar $chans.ys -command "$chans.list yview" -highlightthickness 0 \
@@ -2162,11 +2163,11 @@ namespace eval ::CAMGUI {
 
 		pack $devs $chans -side left
 
-		label $status -text "Please choose a device"
+		label $status -text "[trans choosedevice]"
 
 		set img [image create photo]
 		label $preview -image $img
-		button $settings -text "Camera Settings"
+		button $settings -text "[trans changevideosettings]"
 
 		frame $buttons -relief sunken -borderwidth 3
 		button $buttons.ok -text "Ok" -command "::CAMGUI::Choose_OkLinux $window $devs.list $chans.list $img {$devices}"
@@ -2186,7 +2187,7 @@ namespace eval ::CAMGUI {
 			set name [lindex $device 1]
 
 			if {$name == "" } {
-				set name "Device $dev is busy"
+				set name "[trans devicebusy $dev]"
 			}
 
 			$devs.list insert end $name
@@ -2200,7 +2201,7 @@ namespace eval ::CAMGUI {
 		$chan_w delete 0 end
 
 		if { [$device_w curselection] == "" } {
-			$status configure -text "Please choose a device"
+			$status configure -text "[trans choosedevice]"
 			return
 		}
 		set dev [$device_w curselection]
@@ -2217,7 +2218,7 @@ namespace eval ::CAMGUI {
 			$chan_w insert end [lindex $chan 1]
 		}
 
-		$status configure -text "Please choose a Channel"
+		$status configure -text "[trans choosechannel]"
 	}
 		
 
@@ -2229,7 +2230,7 @@ namespace eval ::CAMGUI {
 	# 	}
 
 		if { [$chan_w curselection] == "" } {
-			$status configure -text "Please choose a Channel"
+			$status configure -text "[trans choosechannel]"
 			return
 		}
 
@@ -2400,10 +2401,10 @@ namespace eval ::CAMGUI {
 		#grab set $window
 
 		frame $slides
-		scale $slides.b -from 0 -to 65535 -resolution 1 -showvalue 1 -label "Brightness" -command "::CAMGUI::Properties_SetLinux $slides.b b $capture_fd" -orient horizontal
-		scale $slides.c -from 0 -to 65535 -resolution 1 -showvalue 1 -label "Contrast" -command "::CAMGUI::Properties_SetLinux $slides.c c $capture_fd" -orient horizontal
-		scale $slides.h -from 0 -to 65535 -resolution 1 -showvalue 1 -label "Hue" -command "::CAMGUI::Properties_SetLinux $slides.h h $capture_fd" -orient horizontal
-		scale $slides.co -from 0 -to 65535 -resolution 1 -showvalue 1 -label "Colour" -command "::CAMGUI::Properties_SetLinux $slides.co co $capture_fd" -orient horizontal
+		scale $slides.b -from 0 -to 65535 -resolution 1 -showvalue 1 -label "[trans brightness]" -command "::CAMGUI::Properties_SetLinux $slides.b b $capture_fd" -orient horizontal
+		scale $slides.c -from 0 -to 65535 -resolution 1 -showvalue 1 -label "[trans contrast]" -command "::CAMGUI::Properties_SetLinux $slides.c c $capture_fd" -orient horizontal
+		scale $slides.h -from 0 -to 65535 -resolution 1 -showvalue 1 -label "[trans hue]" -command "::CAMGUI::Properties_SetLinux $slides.h h $capture_fd" -orient horizontal
+		scale $slides.co -from 0 -to 65535 -resolution 1 -showvalue 1 -label "[trans color]" -command "::CAMGUI::Properties_SetLinux $slides.co co $capture_fd" -orient horizontal
 
 		pack $slides.b $slides.c $slides.h $slides.co -expand true -fill x
 
@@ -2511,7 +2512,7 @@ namespace eval ::CAMGUI {
 
 
 		frame $devs -relief sunken -borderwidth 3
-		label $devs.label -text "Devices"
+		label $devs.label -text "[trans devices]"
 		listbox $devs.list -yscrollcommand "$devs.ys set" -background \
 			white -relief flat -highlightthickness 0 -height 3
 		scrollbar $devs.ys -command "$devs.list yview" -highlightthickness 0 \
@@ -2523,11 +2524,11 @@ namespace eval ::CAMGUI {
 
 		pack $devs -side left -expand true -fill both
 
-		label $status -text "Please choose a device"
+		label $status -text "[trans choosedevice]"
 
 		set img [image create photo]
 		label $preview -image $img
-		button $settings -text "Camera Settings" -command "::CAMGUI::Choose_SettingsWindows $devs.list"
+		button $settings -text "[trans changevideosettings]" -command "::CAMGUI::Choose_SettingsWindows $devs.list"
 
 		frame $buttons -relief sunken -borderwidth 3
 		button $buttons.ok -text "Ok" -command "::CAMGUI::Choose_OkWindows $devs.list $window $img $preview"
@@ -2582,7 +2583,7 @@ namespace eval ::CAMGUI {
 	proc StartPreviewWindows { device_w status preview_w settings } {
 
 		if { [$device_w curselection] == "" } {
-			$status configure -text "Please choose a device"
+			$status configure -text "[trans choosedevice]"
 			return
 		}
 
@@ -2643,7 +2644,7 @@ namespace eval ::CAMGUI {
 			}
 			incr size +24
 			if { [catch { ::Webcamsn::Decode $decoder $img $data} res] } {
-				status_log "PLay : Decode error $res" red
+				status_log "Play : Decode error $res" red
 			}
 			set data [string range $data $size end]
 			after 100 "incr $semaphore"

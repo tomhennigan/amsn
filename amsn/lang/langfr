@@ -81,6 +81,7 @@ blocklist Liste des personnes bloquées :
 blockmessage Ces personnes sont en ligne mais vous bloquent
 blockusers Nombre de contacts à cocher à la fois
 bouncedock Faire rebondir l'icone de aMSN dans le dock lorsque vous recevez un message
+brightness Luminosité
 broughtby Développé pour vous par
 browse Parcourir
 browserexample (\$url sera remplacée par l'URL) Ex: mozilla \$url
@@ -92,6 +93,8 @@ cannotdeleteprofile leteprofile le profil ne peut être supprimé car il semble êt
 cantexec Impossible d'exécuter l'application : $1. Vérifiez les préférences et/ou les droits sur cette application.
 cantloadonlineversion N'arrive pas à récupérer la nouvelle liste des langues depuis l'Internet.
 cantremoveothers Impossible de supprimer le groupe "Autres".
+captureextloaded L'extension de capture -$1- est chargée
+captureextnotloaded L'extension de capture -$1- n'est pas chargée. Vous devez la compiler.
 casesensitive Utiliser des déclencheurs sensibles à la casse
 cfgalarmall Configurer/Ajouter/Supprimer toutes les alarmes
 cfgalarm Configurer/Ajouter/Supprimer alarme
@@ -103,6 +106,8 @@ changeglobnick Changer le pseudonyme général
 changenick Changer de pseudonyme
 changesize Changer la taille
 changestate $1 a changé de statut : $2
+changevideosettings Changer les paramètres vidéo
+channels Canaux
 charscounter Compteur de caractères dans la fenêtre de conversation
 chatack Accepter de discuter avec
 chat Discuter
@@ -120,7 +125,9 @@ checkver Nouvelle version
 choosearq Veuillez choisir votre architecture système
 choosebasefont Choisir la police de caractère
 choosebgcolor Choisir la couleur de fond
+choosechannel Veuillez choisir un canal
 choosecontact Veuillez choisir un contact dans la liste
+choosedevice Veuillez choisir un périphérique
 choosefontcolor Choisir la couleur de police
 chooseskin Sélectionnez l'apparence que vous souhaitez utiliser dans la liste
 ch_to_state Changer vers ce nouveau statut immédiatement
@@ -140,6 +147,7 @@ closealltabs Fermer tous les onglets
 closelabel Lorsque vous cliquez sur le bouton Fermer dans une fenêtre de conversation à onglets
 closeonly Ne fermer que l'onglet courant
 closingdocks Le bouton Fermer ancre l'application
+color Couleur
 command Commande
 commandstatus Exécuter la commande
 configure Configurer
@@ -162,6 +170,7 @@ contactadded Contact ajouté
 contactdoesnotexist Personne introuvable
 contactlist Liste de contacts :
 continuously Continuellement
+contrast Contraste
 conversationwith En conversation avec $1 contacts
 convertexplain Chemin vers l'exécutable CONVERT, de ImageMagick (requis pour afficher des images).\n Laisser le blanc si CONVERT est dans le PATH
 copy Copier
@@ -204,6 +213,8 @@ delprofile Supprimer un profil
 description Description
 detach Détacher l'onglet
 details Détails
+devicebusy Le périphérique $1 est occupé
+devices Périphériques
 directconnection J'ai une connexion directe à Internet (utilisation du port 1863)
 disabled Désactivé
 disableprofiles Désactiver les profils (utile pour la cyber-cafés ou pour les environnements partagés)
@@ -269,6 +280,7 @@ filetransfer Transfert de fichier
 filters Filtres
 filtersselect Sélectionnez les filtres que vous souhaitez voir appliqué\n(Note : ne rien sélectionner implique de tous les appliquer)
 filtersx Sélection des filtres
+firewalled Vous êtes derrière un pare-feu ou un routeur
 followtext Faire défiler lorsque du texte est entré
 friendlyname Pseudo de conversation
 ftacceptedby $1 accepte l'invitation de transfert de fichier pour le fichier '$2'.
@@ -310,6 +322,7 @@ hidewindow Masquer la fenêtre
 history Voir l'historique
 home Domicile
 httpconnection Connexion par la méthode HTTP (utilisation du protocole HTTP par le port 80)
+hue Tonalité
 hybrid Mode mixte
 ident Identification
 identity Identité
@@ -356,6 +369,7 @@ leaves Départ de $1
 lenteredconf $1 a rejoint la conférence sur $2
 lineflushlog Ecrire l'historique à chaque ligne
 linprivate En privé
+listening A l'écoute
 listeningon A l'écoute sur le port $1
 listsmileys2 Afficher les émoticônes/smileys dans la liste de contacts principale d'aMSN
 listsmileys Liste des émoticônes/smileys
@@ -433,6 +447,7 @@ next Suivant
 nick Pseudonyme
 noactivity Inactif
 nodataavailable Pas de données disponibles pour $1
+nodevices Vous n'avez pas de périphériques installés
 nogap Aucun espace entre les groupes
 nogroup Aucun groupe
 nologfile Pas d'historique pour $1
@@ -493,6 +508,7 @@ play Jouer
 playing Joue: $1
 pluginselector Sélection d'un plug-in
 port Port
+portswellconfigured Vos ports sont bien configurés
 prefalerts Mes alertes et sons
 prefapps Applications
 prefawaymsg Mon message d'absence
@@ -582,7 +598,7 @@ servergoingdown Serveur en cours d'arrêt
 server Serveur
 serverunavailable Serveur non disponible
 session Session
-shareswebcam A une webcam
+shareswebcam Possède une webcam
 showbanner Affiche la bannière d'aMSN
 showblockedlist Voir la liste des personnes que vous avez bloqué
 showcachedpics Afficher/Masquer les icônes cachées
@@ -665,12 +681,14 @@ tomobile Au mobile
 tools Outils
 tooltips Activer les info-bulles
 transnotexists Le fichier demandé n'a pas encore été traduit dans votre langue.
+trayicon Afficher l'icone de l'état dans la barre de notification
 traynotcompiled Le plugiciel de l'icône de la corbeille n'est pas conforme. Sélectionnez plugiciel/ancrage de la corbeille
 triggers Textes déclencheurs
 truncatenames1 Tronquer les pseudonymes plus long que la largeur de la fenêtre dans le titre et la liste de contacts
 truncatenames2 Tronquer les pseudonymes plus long que la largeur de la fenêtre dans les conversations
 truncatenicks Tronquer les pseudonymes plus long que la largeur de la fenêtre
 twonewmail $1 nouveaux messages dans votre boîte de réception
+type Type
 unblock Débloquer
 unknown Inconnu
 unload Désactiver
@@ -695,8 +713,18 @@ version Version
 viewcontactsby Afficher les contacts par
 viewprofile Afficher le profil
 view Vue
+webcamclosebefcancel Vous devez annuler toutes les conversations par webcam avant de fermer la fenêtre
+webcamcanceled La conversation par webcam avec $1 a été annulée
+webcamextloaded L'extension Webcamsn est chargée
+webcamextnotloaded L'extension Webcamsn n'est pas chargée. Vous devez la compiler.
+webcamfaq FAQ/Help à propos de la webcam
 webcamhistory Voir les sessions webcam
 webcaminvite $1 vous invite à démarrer un conversation par Webcam, mais aMSN ne supporte pas cette option.
+webcaminvitereceived $1 vous invite à démarrer un conversation par Webcam. Voulez vous accepter cette conversation ?
+webcamrejected $1 a refusé l'invitation pour la conversation par webcam.
+webcamrequestsend Demander pour envoyer la webcam
+webcamrequestreceive Demander pour recevoir la webcam
+webcamsending Liste des personnes a qui vous envoyez votre webcam\nCliquez sur un nom pour annuler
 webcamshot Image de la webcam
 willjoin Dans l'attente que $1 rejoigne la conversation
 winkreceived Vous avez reçu un 'clin d'oeil' provenant de $1. Cette fonctionnalité n'est pas encore supporté par aMSN.

@@ -81,6 +81,7 @@ blocklist Block list (BL):
 blockmessage These people are online and blocked you
 blockusers Number of users to check at once 
 bouncedock Bounce aMSN's icon in the dock when a message is received
+brightness Brightness
 broughtby  Brought to you by the following developers
 browse Browse
 browser Browser
@@ -92,6 +93,8 @@ cannotdeleteprofile Cannot delete profile because it seems to be in use by an aM
 cantexec Can't execute application: $1. Check preferences
 cantloadonlineversion Can't recover the On-Line updated list of languages from the Internet
 cantremoveothers Can't remove "Others" group
+captureextloaded Capture extension -$1- is loaded
+captureextnotloaded Capture extension -$1- is not loaded, you have to compile it
 casesensitive Use case-sensitive triggers
 cfgalarmall Configure/Add/Remove Global Alarm
 cfgalarm Configure/Add/Remove Alarm
@@ -103,6 +106,8 @@ changeglobnick Change Global Nick
 changenick Change nick
 changesize Change size
 changestate $1 changes state to $2
+changevideosettings Change video settings
+channels Channels
 charscounter Typed characters counter in chat window
 chatack Accepting chat from
 chat Chat
@@ -120,7 +125,9 @@ checkver Check for new version
 choosearq Choose your system architecture
 choosebasefont Choose font type
 choosebgcolor Choose background color
+choosechannel Please choose a channel
 choosecontact Please choose a contact from the list
+choosedevice Please choose a device
 choosefontcolor Choose font color
 chooseskin Please select the skin you would like to use
 ch_to_state Switch to new state
@@ -140,6 +147,7 @@ closeonly Close only the current tab
 close Close
 closed Conversation with $1 closed due to inactivity
 closingdocks Close button minimizes
+color Color
 command Command
 commandstatus Execute command
 configure Configure
@@ -162,6 +170,7 @@ contact Contact
 contactdoesnotexist Contact does not exist!
 contactlist Contact list (FL):
 continuously Continuously
+contrast Contrast
 conversationwith $1 users in conversation
 convertexplain Path to CONVERT executable file, from ImageMagick (required for Display Pictures).\n Leave blanck if CONVERT is in the path
 copy Copy
@@ -204,6 +213,8 @@ delprofile Delete Profile
 description Description
 detach Detach
 details Details
+devicebusy Device $1 is busy
+devices Devices
 directconnection I have a direct connection to the internet (uses port 1863)
 disabled Disabled
 disableprofiles Disable profiles (Useful for cyber-cafes or shared environments)
@@ -269,6 +280,7 @@ filetransfer File Transfer
 filters Filters
 filtersselect Select the filters you want to see\n(Note none selected means show all)
 filtersx Filter Selection
+firewalled You are firewalled or behind a router
 followtext Scroll down when new text is entered
 friendlyname Friendly Name
 ftacceptedby $1 accepted file transfer invitation for file '$2'.
@@ -310,6 +322,7 @@ hidewindow Hide Window
 history View History
 home Home
 httpconnection Connect using HTTP method (uses HTTP protocol over port 80)
+hue Hue
 hybrid Hybrid mode
 ident Identifying
 identity Identity
@@ -356,6 +369,7 @@ leaves $1 leaves conversation
 lenteredconf $1 has entered into a conference on $2
 lineflushlog Flush log files after each line
 linprivate IN PRIVATE
+listening Listening
 listeningon Listening on port $1
 listsmileys2 Display Emoticons and Smileys in aMSN's main contact list
 listsmileys List smileys
@@ -433,6 +447,7 @@ next Next
 nick Nick
 noactivity No activity
 nodataavailable No data available for $1
+nodevices You haven't devices installed
 nogap No space between groups
 nogroup No group
 nologfile No Log file for $1
@@ -493,6 +508,7 @@ play Play
 playing Playing: $1
 pluginselector Select Plugins
 port Port
+portswellconfigured Your ports are well configured
 prefalerts My Event Alerts and Sounds
 prefapps Applications
 prefawaymsg My Away Message
@@ -672,6 +688,7 @@ truncatenames1 Truncate nicknames longer than window width in window titles and 
 truncatenames2 Truncate nicknames longer than window width inside conversations
 truncatenicks Truncate nicknames longer than window width
 twonewmail $1 new messages in Inbox
+type Type
 unblock Unblock
 unknown Unknown
 unload Unload
@@ -696,9 +713,19 @@ version Version
 viewcontactsby View contacts by
 viewprofile View Profile
 view View
-webcamshot Webcam Shot
-webcaminvite $1 invited you to start an webcam session, but aMSN does not support this feature.
+webcamclosebefcancel You have to cancel all webcam sessions before closing the window
+webcamcanceled The webcam session with $1 has been canceled
+webcamextloaded Webcamsn extension is loaded
+webcamextnotloaded Webcamsn extension is not loaded. You have to compile it.
+webcamfaq FAQ/Help for Webcam
 webcamhistory View Webcam sessions
+webcaminvite $1 invited you to start an webcam session, but aMSN does not support this feature.
+webcaminvitereceived $1 invited you to start a webcam session. Do you want to accept this session?
+webcamrejected $1 rejected invitation for webcam session
+webcamrequestsend Send request to send webcam
+webcamrequestreceive Send request to receive webcam
+webcamsending List of people you are currently sending webcam\nClick to cancel
+webcamshot Webcam Shot
 whatsize The image you have requested is not the normal display picture\nsize (96x96) What size would you like the image to be displayed as?
 willjoin Waiting for $1 to join conversation
 winkreceived You have received a Wink from $1. This feature is not currently supported by aMSN.
