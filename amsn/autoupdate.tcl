@@ -639,6 +639,11 @@ namespace eval ::autoupdate {
 	#///////////////////////////////////////////////////////////////////////
 	proc UpdateLangPlugin {} {
 
+		set w ".updatelangplugin"
+		if { [winfo exists $w] } {
+			raise $w
+			return 1
+		}
 
 		::lang::UpdatedLang
 		::plugins::UpdatedPlugins
@@ -648,12 +653,7 @@ namespace eval ::autoupdate {
 			return 0
 		}
 
-		set w ".updatelangplugin"
 
-		if { [winfo exists $w] } {
-			raise $w
-			return 1
-		}
 
 		toplevel $w
 		wm title $w "[trans update]"
@@ -704,6 +704,8 @@ namespace eval ::autoupdate {
 		
 		# Create a frame that will contain the progress of the update
 		frame $w.update
+		label $w.update.txt -text ""
+		pack configure $w.update.txt -fill x
 		pack configure $w.update -side top -fill x
 
 		frame $w.button
@@ -735,9 +737,6 @@ namespace eval ::autoupdate {
 		pack forget $w.list
 		pack forget $w.button
 		pack forget $w.button2.update
-
-		label $w.update.txt -text ""
-		pack configure $w.update.txt -fill x
 
 		wm geometry $w 300x100
 
