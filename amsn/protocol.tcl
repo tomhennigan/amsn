@@ -2623,7 +2623,7 @@ namespace eval ::Event {
 		if { $chatid != 0} {
 			if { "$chatid" != "$desiredchatid" } {
 				#Our chatid is different than the desired one!! try to change
-				status_log "cmsn_sb_msg: Trying to change chatid from $chatid to $desiredchatid for SB $sb\n"
+				status_log "cmsn_sb_msg: Trying to change chatid from $chatid to $desiredchatid for SB $self\n"
 				set newchatid [::ChatWindow::Change $chatid $desiredchatid]
 				if { "$newchatid" != "$desiredchatid" } {
 					#The GUI doesn't accept the change, as there's another window for that chatid
