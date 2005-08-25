@@ -1872,11 +1872,15 @@ namespace eval ::plugins {
 		global HOME2
 		
 		set name [lindex $plugin 6]
-
-		file delete $path
 		set file "[file join $HOME2 $name.xml]"
-		file copy $file $path
-		file delete $file
+
+		if { [file exists $file] } {
+			file delete $path
+			file copy $file $path
+			file delete $file
+		} else {
+			status_log "Error while updating $name : can't find plugininfo.xml\n"
+		}
 
 	}
 
