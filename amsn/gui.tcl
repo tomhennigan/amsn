@@ -7571,7 +7571,7 @@ proc bgerror { args } {
 	status_log "-----------------------------------------\n" error
 	status_log ">>> GOT TCL/TK ERROR : $args\n>>> Stack:\n$errorInfo\n>>> Code: $errorCode\n" error
 	status_log "-----------------------------------------\n" error
-	catch { status_log ">>> AMSN version: $::version - AMSN date: $::date\n" error }
+	catch { status_log ">>> aMSN version: $::version - aMSN date: $::date\n" error }
 	catch { status_log ">>> TCL version : $tcl_version - TK version : $tk_version\n" error }
 	catch { status_log ">>> tcl_platform array content : [array get tcl_platform]\n" error }
 	status_log "-----------------------------------------\n\n" error
@@ -7582,7 +7582,7 @@ proc bgerror { args } {
 	puts $fd "-----------------------------------------"
 	puts $fd ">>> TCL/TK Error: $args\n>>> Stack:\n$errorInfo\n\n>>> Code : $errorCode"
 	puts $fd "-----------------------------------------"
-	puts $fd ">>> AMSN version: $::version - AMSN date: $::date"
+	puts $fd ">>> aMSN version: $::version - aMSN date: $::date"
 	catch { puts $fd ">>> TCL version : $tcl_version - TK version : $tk_version"}
 	catch { puts $fd ">>> tcl_platform array content : [array get tcl_platform]" }
 
@@ -7618,7 +7618,7 @@ proc show_bug_dialog {} {
 
 	catch {destroy $w}
 	toplevel $w -class Dialog
-	wm title $w "AMSN Error"
+	wm title $w "aMSN Error"
 	wm iconname $w Dialog
 	wm protocol $w WM_DELETE_WINDOW "set closed_bug_window 1"
 

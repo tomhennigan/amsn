@@ -119,8 +119,6 @@ proc accept_dock { sock addr cport } {
 
 proc init_dock {} {
 	global systemtray_exist
-		status_log "init_dock running"
-
 	#If the traydock is not disabled
 	if { [::config::getKey dock] != 0} {
 		#let's keep backwards compatibility :)
@@ -129,10 +127,8 @@ proc init_dock {} {
 			trayicon_init
 		} elseif {[OnUnix]} {
 			#We use the freedesktop standard here
-			status_log "freedsktop"
 			if { $systemtray_exist == 0 } {
 				trayicon_init
-				status_log "doesn't exist yet, done."
 				if { $systemtray_exist == -1 } {
 					::config::setKey dock 0
 					#Too bad, couldn't load the trayicon
@@ -141,7 +137,6 @@ proc init_dock {} {
 			}
 			statusicon_proc [::MSN::myStatusIs]
 		}		
-		status_log "dock: [::config::getKey dock]"
 	} else {
 		close_dock
 	}

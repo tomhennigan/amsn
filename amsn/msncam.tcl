@@ -3260,7 +3260,7 @@ status_log "$device"
 
 
 	######################################################################################
-	#Step 3:  Set device/channel                                                         #
+	#Step 3:  Finetune picture settings                                                  #
 	######################################################################################	
 
 	proc Step3 {} {
@@ -3305,50 +3305,58 @@ status_log "$device"
 
 
 
-			#close the device if open
-			if { [::Capture::IsValid $::CAMGUI::webcam_preview] } {
-				::Capture::Close $::CAMGUI::webcam_preview
-			}
+		#close the device if open
+		if { [::Capture::IsValid $::CAMGUI::webcam_preview] } {
+			::Capture::Close $::CAMGUI::webcam_preview
+		}
 
-			if { [catch {set ::CAMGUI::webcam_preview [::Capture::Open $selecteddevice $selectedchannel]} errormsg] } {
-				status_log "problem opening device: $errormsg"
-				return
-			}
+		if { [catch {set ::CAMGUI::webcam_preview [::Capture::Open $selecteddevice $selectedchannel]} errormsg] } {
+			status_log "problem opening device: $errormsg"
+			return
+		}
 
-			set previmg [image create photo]
+		set previmg [image create photo]
 
 					
-			$previmc create image 0 0 -image $previmg -anchor nw 
-
-			$previmc create text 10 10 -anchor nw -font bboldf -text "Preview $selecteddevice:$selectedchannel" -fill #FFFFFF -anchor nw -tag device
-
-
-			after 2000 "catch { $previmc delete device }"
-
-			#put the border-pic on top
-			$previmc raise border
+		$previmc create image 0 0 -image $previmg -anchor nw 
+		$previmc create text 10 10 -anchor nw -font bboldf -text "Preview $selecteddevice:$selectedchannel" -fill #FFFFFF -anchor nw -tag device
 
 
+		after 2000 "catch { $previmc delete device }"
 
+		#put the border-pic on top
+		$previmc raise border
+
+
+		#First set the values to the one the cam is on when we start preview
+		set init_b [::Capture::GetBrightness $::CAMGUI::webcam_preview]
+		set init_c [::Capture::GetContrast $::CAMGUI::webcam_preview]	
+		set init_h [::Capture::GetHue $::CAMGUI::webcam_preview]	
+		set init_co [::Capture::GetColour $::CAMGUI::webcam_preview]	
+status_log "Device: $init_c, $init_b, $init_co, $init_h"
+
+
+		#Then, if there are valid settings in our config, overwrite the values with these
 		set colorsettings [split [::config::getKey "webcam$selecteddevice:$selectedchannel"] ":"]
-		set init_b [lindex $colorsettings 0]
-		set init_c [lindex $colorsettings 1]
-		set init_h [lindex $colorsettings 2]
-		set init_co [lindex $colorsettings 3]
+		set set_b [lindex $colorsettings 0]
+		set set_c [lindex $colorsettings 1]
+		set set_h [lindex $colorsettings 2]
+		set set_co [lindex $colorsettings 3]
 		
-		#if {![string is integer $init_b]} {
-				set init_b [::Capture::GetBrightness $::CAMGUI::webcam_preview]	
-		#}
-		#if {![string is integer $init_c]} {
-				set init_c [::Capture::GetContrast $::CAMGUI::webcam_preview]	
-		#}
-		#if {![string is integer $init_h]} {
-				set init_h [::Capture::GetHue $::CAMGUI::webcam_preview]	
-		#}
-		#if {![string is integer $init_co]} {
-				set init_co [::Capture::GetColour $::CAMGUI::webcam_preview]	
-		#}
-status_log "$init_c, $init_b, $init_co, $init_h"
+		if {[string is integer $set_b]} {
+				status_log "set_b is int"
+				set init_b $set_b
+		}
+		if {[string is integer $set_c]} {
+				set init_c $set_c
+		}
+		if {[string is integer $set_h]} {
+				set init_h $set_h
+		}
+		if {[string is integer $set_co]} {
+				set init_co $set_co
+		}
+status_log "Config'ed: $init_c, $init_b, $init_co, $init_h"
 
 
 		set slides $leftframe
@@ -3391,24 +3399,24 @@ status_log "$init_c, $init_b, $init_co, $init_h"
 			b {
 				::Capture::SetBrightness $capture_fd $new_value
 				set val [::Capture::GetBrightness $capture_fd]
-				$w set $val
+#				$w set $val
 			}
 			c {
 				::Capture::SetContrast $capture_fd $new_value
 				set val [::Capture::GetContrast $capture_fd]
-				$w set $val
+#				$w set $val
 			}
 			h
 			{
 				::Capture::SetHue $capture_fd $new_value
 				set val [::Capture::GetHue $capture_fd]
-				$w set $val
+#				$w set $val
 			}
 			co
 			{
 				::Capture::SetColour $capture_fd $new_value
 				set val [::Capture::GetColour $capture_fd]
-				$w set $val
+#				$w set $val
 			}
 		}
 
