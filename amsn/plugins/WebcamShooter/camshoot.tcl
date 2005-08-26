@@ -326,10 +326,10 @@ namespace eval ::PrintBox {
 		
 		# Create stubs items that ::PrintBox::Resize will size correctly
 		$W delete pBox
-		$W create line 0 0 1 1 -tag {pBox diag1} -width 2 -fill red
-		$W create line 0 1 1 $y0 -tag {pBox diag2} -width 2 -fill red
-		$W create rect 0 0 1 1 -tag {pBox pBoxx} -width 2 -outline red \
-			-fill red -stipple gray25
+#		$W create line 0 0 1 1 -tag {pBox diag1} -width 2 -fill red
+#		$W create line 0 1 1 $y0 -tag {pBox diag2} -width 2 -fill red
+		$W create rect 0 0 1 1 -tag {pBox pBoxx} -width 1 -outline red \
+			-fill gray -stipple gray25
 		$W bind pBoxx <Enter> [list $W config -cursor hand2]
 		$W bind pBoxx <ButtonPress-1> [list ::PrintBox::PBDown $W box %x %y]
 		$W bind pBoxx <B1-Motion> [list ::PrintBox::PBMotion $W box %x %y]
