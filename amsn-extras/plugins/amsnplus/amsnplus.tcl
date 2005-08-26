@@ -267,7 +267,7 @@ namespace eval ::amsnplus {
 		### Section General ###
 		set section [PreferencesSection .amsnplusprefs.general -text [trans general] ]
 		set frame [ItemsFrame .amsnplusprefs.general.local -text [trans localization] ]
-		$frame addItem [Label .amsnplusprefs.general.local.rusage -text "[trans rusage]" -align left]
+		$frame addItem [Label .amsnplusprefs.general.local.rusage -text "[trans rusage]"]
 		$frame addItem [TextEntry .amsnplusprefs.general.local.resource -width 40 -text "[trans resource] :" \
 			-storecommand ::amsnplus::save_resource -retrievecommand ::amsnplus::load_resource]
 		$section addItem $frame
