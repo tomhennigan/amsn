@@ -138,7 +138,7 @@ proc trayicon_init {} {
 	$iconmenu.imstatus add command -label [trans gonelunch] -command "ChCustomState LUN"
 	$iconmenu.imstatus add command -label [trans appearoff] -command "ChCustomState HDN"
 
-	$iconmenu add command -label "[trans offline]"
+	$iconmenu add command -label "[trans offline]" -command iconify_proc
 	$iconmenu add separator
 	if { [string length [::config::getKey login]] > 0 } {
 	     if {$password != ""} {
