@@ -151,10 +151,10 @@ proc trayicon_init {} {
 	}
 	#$iconmenu add command -label "[trans login]..." -command cmsn_draw_login
 
-   	$iconmenu add command -label "[trans sendmsg]..." -command  [list ::amsn::ShowSendMsgList [trans sendmsg] ::amsn::chatUser ] -state disabled
-     	$iconmenu add command -label "[trans sendmail]..." -command [list ::amsn::ShowSendEmailList [trans sendmail] launch_mailer] -state disabled
+#   	$iconmenu add command -label "[trans sendmsg]..." -command  [list ::amsn::ShowSendMsgList [trans sendmsg] ::amsn::chatUser ] -state disabled
+#     	$iconmenu add command -label "[trans sendmail]..." -command [list ::amsn::ShowSendEmailList [trans sendmail] launch_mailer] -state disabled
 
-	$iconmenu add separator		
+#	$iconmenu add separator		
 
 	$iconmenu add cascade -label "[trans mystatus]" -menu $iconmenu.imstatus -state disabled     	
 
@@ -162,7 +162,7 @@ proc trayicon_init {} {
 
 	$iconmenu add command -label "[trans changenick]..." -command cmsn_change_name -state disabled
 	$iconmenu add checkbutton -label "[trans sound]" -onvalue 1 -offvalue 0 -variable [::config::getVar sound]	
-	$iconmenu add command -label "[trans preferences]..." -command Preferences
+#	$iconmenu add command -label "[trans preferences]..." -command Preferences
 
 	$iconmenu add separator		
 
@@ -219,19 +219,19 @@ proc statusicon_proc {status} {
 		if { $status != "" } {
 			if { $status == "FLN" } {
 #Msg
-				$iconmenu entryconfigure 2 -state disabled
+#				$iconmenu entryconfigure 2 -state disabled
 #E-mail
-				$iconmenu entryconfigure 3 -state disabled
+#				$iconmenu entryconfigure 3 -state disabled
 #Status submenu
-				$iconmenu entryconfigure 5 -state disabled
+				$iconmenu entryconfigure 2 -state disabled
 #Change nick
-				$iconmenu entryconfigure 7 -state disabled
+				$iconmenu entryconfigure 4 -state disabled
 #Sound
 #				$iconmenu entryconfigure 8 -state disabled
 #Prefs
 #				$iconmenu entryconfigure 9 -state disabled
 #Logout
-				$iconmenu entryconfigure 11 -state disabled
+				$iconmenu entryconfigure 7 -state disabled
 
 
 #				$iconmenu entryconfigure 10 -state disabled
@@ -248,11 +248,11 @@ proc statusicon_proc {status} {
 #				}
 
 			} else {
+#				$iconmenu entryconfigure 2 -state normal
+#				$iconmenu entryconfigure 3 -state normal
 				$iconmenu entryconfigure 2 -state normal
-				$iconmenu entryconfigure 3 -state normal
-				$iconmenu entryconfigure 5 -state normal
+				$iconmenu entryconfigure 4 -state normal
 				$iconmenu entryconfigure 7 -state normal
-				$iconmenu entryconfigure 11 -state normal
 #				$iconmenu entryconfigure 9 -state normal
 #				$iconmenu entryconfigure 10 -state normal
 #				$iconmenu entryconfigure 11 -state normal
