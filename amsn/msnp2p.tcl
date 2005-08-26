@@ -180,16 +180,14 @@ namespace eval ::MSNP2P {
 
 
 		global HOME
-		if { ![file readable "[file join $HOME smileys cache ${filename}].png"] } {
+		if { [catch {image create photo custom_smiley_$filename -file "[file join $HOME smileys cache ${filename}].png" -format cximage}] } {
+			#We didn't manage to load the smiley (either we haven't it either it's bad) so we ask it
 			status_log "::MSNP2P::GetUser: FILE [file join $HOME smileys cache ${filename}] doesn't exist!!\n" white
 			image create photo custom_smiley_$filename -width 19 -height 19
 
 			create_dir [file join $HOME smileys]
 			create_dir [file join $HOME smileys cache]
 			::MSNP2P::RequestObject $chatid $user $msnobj
-		} else {
-			catch {image create photo custom_smiley_$filename -file "[file join $HOME smileys cache ${filename}].png" -format cximage}
-
 		}
 	}
 
