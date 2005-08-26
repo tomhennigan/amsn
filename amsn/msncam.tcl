@@ -2829,10 +2829,11 @@ namespace eval ::CAMSETUP {
 		set buttonf [ClearButtonsFrame]
 
 		#add the buttons
+		button $buttonf.back -text "Back" -state disabled
 		button $buttonf.next -text "Next" -command "::CAMSETUP::Step1"
 		button $buttonf.cancel -text "Cancel" -command "destroy $::CAMSETUP::window"
 		#pack 'm
-		pack $buttonf.next $buttonf.cancel -padx 10 -side right
+		pack $buttonf.next $buttonf.back $buttonf.cancel -padx 10 -side right
 		
 		
 		#add the Content
@@ -3086,7 +3087,7 @@ status_log "$device"
 
 						#create and pack the chans-combobox
 						set chanswidget $leftframe.chans
-						combobox::combobox $leftframe.chans -highlightthickness 0 -width 22  -font splainf -exportselection true -command "::CAMSETUP::step2_StartPreviewLinux" -editable  false	-bg #FFFFFF
+						combobox::combobox $leftframe.chans -highlightthickness 0 -width 22  -font splainf -exportselection true -command "after 1 ::CAMSETUP::step2_StartPreviewLinux" -editable  false	-bg #FFFFFF
 						pack $leftframe.chans -side top 
 
 						#Select the device if in the combobox (won't select anything if -1)
@@ -3258,12 +3259,160 @@ status_log "$device"
 	}	
 
 
-
+	######################################################################################
+	#Step 3:  Set device/channel                                                         #
+	######################################################################################	
 
 	proc Step3 {} {
+#Only linux for now ...
+		global selecteddevice
+		global selectedchannel
 		status_log "entered step 3 of Webcam-Assistant"
+
+		#Set the title-text
+		SetTitlecText "Finetune picture settings (Step 3 of 5)"
+		#clear the content and optionsframe
+		set contentf [ClearContentFrame]
+		set buttonf [ClearButtonsFrame]
+
+		#add the buttons
+		button $buttonf.back -text "Back" -command "::CAMSETUP::stopPreviewGrabbing; ::CAMSETUP::Step2" ;#save the thing ?
+		button $buttonf.next -text "Next" -command "::CAMSETUP::step3_to_step4" ;#needs to save the thing !
+		button $buttonf.cancel -text "Cancel" -command "::CAMSETUP::stopPreviewGrabbing; destroy $::CAMSETUP::window"
+		#pack 'm
+		pack $buttonf.next $buttonf.back $buttonf.cancel -padx 10 -side right
+
+
+		#create the innerframe
+		set frame $contentf.innerframe
+		frame $frame -bd 0
+		pack $frame -padx 10 -pady 10 -side left
+		#create the left frame (for the comboboxes)
+		set leftframe $frame.left
+		#frame $leftframe -bd 0
+		#pack $leftframe -side left -padx 10
+
+		#create the 'rightframe' canvas where the preview-image will be shown
+		set rightframe $frame.right
+		#this is a canvas so we gcan have a border and put some OSD-like text on it too
+		canvas $rightframe -background #000000 -width 320 -height 240 -bd 0
+		pack $rightframe -side right -padx 10
+
+		#draw the border image that will be layed ON the preview-img
+		$rightframe create image 0 0 -image [::skin::loadPixmap camempty] -anchor nw -tag border
+		#give the canvas a clear name
+		set previmc $rightframe
+
+
+
+			#close the device if open
+			if { [::Capture::IsValid $::CAMGUI::webcam_preview] } {
+				::Capture::Close $::CAMGUI::webcam_preview
+			}
+
+			if { [catch {set ::CAMGUI::webcam_preview [::Capture::Open $selecteddevice $selectedchannel]} errormsg] } {
+				status_log "problem opening device: $errormsg"
+				return
+			}
+
+			set previmg [image create photo]
+
+					
+			$previmc create image 0 0 -image $previmg -anchor nw 
+
+			$previmc create text 10 10 -anchor nw -font bboldf -text "Preview $selecteddevice:$selectedchannel" -fill #FFFFFF -anchor nw -tag device
+
+
+			after 2000 "catch { $previmc delete device }"
+
+			#put the border-pic on top
+			$previmc raise border
+
+
+
+		set colorsettings [split [::config::getKey "webcam$selecteddevice:$selectedchannel"] ":"]
+		set init_b [lindex $colorsettings 0]
+		set init_c [lindex $colorsettings 1]
+		set init_h [lindex $colorsettings 2]
+		set init_co [lindex $colorsettings 3]
+		
+		#if {![string is integer $init_b]} {
+				set init_b [::Capture::GetBrightness $::CAMGUI::webcam_preview]	
+		#}
+		#if {![string is integer $init_c]} {
+				set init_c [::Capture::GetContrast $::CAMGUI::webcam_preview]	
+		#}
+		#if {![string is integer $init_h]} {
+				set init_h [::Capture::GetHue $::CAMGUI::webcam_preview]	
+		#}
+		#if {![string is integer $init_co]} {
+				set init_co [::Capture::GetColour $::CAMGUI::webcam_preview]	
+		#}
+status_log "$init_c, $init_b, $init_co, $init_h"
+
+
+		set slides $leftframe
+		frame $slides
+		scale $slides.b -from 0 -to 65535 -resolution 1 -showvalue 1 -label "Brightness" -command "::CAMSETUP::Properties_SetLinux $slides.b b $::CAMGUI::webcam_preview" -orient horizontal
+		scale $slides.c -from 0 -to 65535 -resolution 1 -showvalue 1 -label "Contrast" -command "::CAMSETUP::Properties_SetLinux $slides.c c $::CAMGUI::webcam_preview" -orient horizontal
+		scale $slides.h -from 0 -to 65535 -resolution 1 -showvalue 1 -label "Hue" -command "::CAMSETUP::Properties_SetLinux $slides.h h $::CAMGUI::webcam_preview" -orient horizontal
+		scale $slides.co -from 0 -to 65535 -resolution 1 -showvalue 1 -label "Colour" -command "::CAMSETUP::Properties_SetLinux $slides.co co $::CAMGUI::webcam_preview" -orient horizontal
+
+		pack $slides.b $slides.c $slides.h $slides.co -expand true -fill x
+		pack $leftframe -side right -padx 10
+
+
+
+
+
+
+
+			
+			set semaphore ::CAMGUI::sem_$::CAMGUI::webcam_preview
+			set $semaphore 0
+			while { [::Capture::IsValid $::CAMGUI::webcam_preview] && [lsearch [image names] $previmg] != -1 } {
+				if {[catch {::Capture::Grab $::CAMGUI::webcam_preview $previmg} res]} {
+					status_log "Problem grabbing from the device:\n\t \"$res\""
+					$previmc create text 10 215 -anchor nw -font bboldf -text "ERROR: $res" -fill #FFFFFF -anchor nw -tag errmsg
+					
+				}
+				after 100 "incr $semaphore"
+				tkwait variable $semaphore
+			}
+
 	}
 
+	######################################################################################
+	#Step 3 - Auxilary procs                                                             #
+	######################################################################################	
+	proc Properties_SetLinux { w property capture_fd new_value } {
+
+		switch $property {
+			b {
+				::Capture::SetBrightness $capture_fd $new_value
+				set val [::Capture::GetBrightness $capture_fd]
+				$w set $val
+			}
+			c {
+				::Capture::SetContrast $capture_fd $new_value
+				set val [::Capture::GetContrast $capture_fd]
+				$w set $val
+			}
+			h
+			{
+				::Capture::SetHue $capture_fd $new_value
+				set val [::Capture::GetHue $capture_fd]
+				$w set $val
+			}
+			co
+			{
+				::Capture::SetColour $capture_fd $new_value
+				set val [::Capture::GetColour $capture_fd]
+				$w set $val
+			}
+		}
+
+	}
 
 
 	
