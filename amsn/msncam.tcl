@@ -2375,8 +2375,18 @@ namespace eval ::CAMGUI {
 			if { [lindex $grabber 0] == $capture_fd } {
 				set device [lindex $grabber 1]
 				set channel [lindex $grabber 2]
+				break
 			}
 		}
+
+		if { [info exists ::grabbers($capture_fd)] } {
+			set windows $::grabbers($capture_fd)
+		} else {
+			set windows [list]
+		}
+
+		lappend windows $window
+		set ::grabbers($capture_fd) $windows
 		
 		set init_b [::Capture::GetBrightness $capture_fd]
 		set init_c [::Capture::GetContrast $capture_fd]
@@ -2476,6 +2486,7 @@ namespace eval ::CAMGUI {
 		}
 		grab release $window
 		destroy $window
+		::CAMGUI::CloseGrabber $capture_fd $window
 	}
 
 
@@ -2488,6 +2499,7 @@ namespace eval ::CAMGUI {
 		}
 		grab release $window
 		destroy $window
+		::CAMGUI::CloseGrabber $capture_fd $window
 	}
 
 
