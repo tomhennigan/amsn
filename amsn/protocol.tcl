@@ -2481,9 +2481,7 @@ namespace eval ::Event {
 				$self sockError
 				return 0
 			}
-			if { $tmp_data == "" } {
-				return 0
-			}
+			
 			append dataBuffer $tmp_data
 			return 1
 		}
