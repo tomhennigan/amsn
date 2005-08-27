@@ -65,7 +65,7 @@ namespace eval ::camshoot {
 			wm title $window "[trans webcamshot]"
 			label $window.l -image $img
 			pack $window.l
-			button $window.settings -command "::CAMGUI::ShowPropertiesPage $grabber $img" -text "Show properties page"
+			button $window.settings -command "::CAMGUI::ShowPropertiesPage $grabber $img" -text "[trans changevideosettings]"
 			pack $window.settings -expand true -fill x
 			button $window.shot -text "[trans takesnapshot]" -command "::camshoot::webcampicture_shot $window"
 			pack $window.shot -expand true -fill x
@@ -128,7 +128,7 @@ namespace eval ::camshoot {
 			wm title $window "[trans webcamshot]"
 			label $window.l -image $img
 			pack $window.l
-			button $window.settings -command "::CAMGUI::ShowPropertiesPage $grabber $img" -text "Show properties page"
+			button $window.settings -command "::CAMGUI::ShowPropertiesPage $grabber $img" -text "[trans changevideosettings]"
 			pack $window.settings -expand true -fill x
 			button $window.shot -text "[trans takesnapshot]" -command "::camshoot::webcampicture_shot $window"
 			pack $window.shot -expand true -fill x
