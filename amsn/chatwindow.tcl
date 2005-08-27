@@ -2344,7 +2344,7 @@ namespace eval ::ChatWindow {
 		variable visibletabs
 
 		if { $win == 0 || ![info exists win2tab($win)] } { return }
-
+		if {![winfo exists $win]} { return }
 		if { $win == [GetCurrentWindow [winfo toplevel $win]] } { return }
 
 		set tab $win2tab($win)
