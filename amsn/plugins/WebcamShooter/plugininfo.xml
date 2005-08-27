@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <plugin>
 	<name>Cam Shooter</name>
-	<author>Karel Demeyer (plugin'ification), Phil (all the great code)</author>
+	<author>Jerome Gagnon-Voyer (mac code), Le Philousophe (lin/win code) and Karel Demeyer (plugin maintainer)</author>
 	<description>With this plugin you can take shotos of your webcam to use as display picture.</description>
 	<amsn_version>0.94</amsn_version>
 	<plugin_version>0.1</plugin_version>
