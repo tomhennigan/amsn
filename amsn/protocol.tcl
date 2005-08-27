@@ -2421,7 +2421,12 @@ namespace eval ::Event {
 		set dataRemains 1 	 
 		while { $dataRemains } {
 			#put available data in buffer. When buffer is empty dataRemains is set to 0
-			set dataRemains [$self appendDataToBuffer]
+			if { [info procs $self] != "" } {
+				set dataRemains [$self appendDataToBuffer]
+			} else {
+				status_log "$self has been destroyed while being used" red
+				break
+			}
 			#check if appendDataToBuffer didn't close this object because the socket was closed
 			if { [info exists dataBuffer] == 0 } { break }
 		
@@ -2477,6 +2482,7 @@ namespace eval ::Event {
 				return 0
 			}
 			if { $tmp_data == "" } {
+				return 0
 			}
 			append dataBuffer $tmp_data
 			return 1
