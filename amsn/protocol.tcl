@@ -1029,7 +1029,7 @@ namespace eval ::MSN {
 		set clientid [::config::getKey clientid]
 		if $switch {
 			switch $cap {
-				mobile { set clientid 1 }
+				mobile { set clientid [expr {$clientid | 1} ] }
 				recink { set clientid [expr {$clientid | 4} ] }
 				sndink { set clientid [expr {$clientid | 8} ] }
 				webcam { set clientid [expr {$clientid | 16} ] }
@@ -1046,9 +1046,26 @@ namespace eval ::MSN {
 				msnc5 { set clientid [expr {$clientid | 1342177280} ] }
 			}
 		} else {
-			#TODO: turn off
+			switch $cap {
+				mobile { set clientid [expr {$clientid & ~1} ] }
+				recink { set clientid [expr {$clientid & ~4} ] }
+				sndink { set clientid [expr {$clientid & ~8} ] }
+				webcam { set clientid [expr {$clientid & ~16} ] }
+				multip { set clientid [expr {$clientid & ~32} ] }
+				paging { set clientid [expr {$clientid & ~64} ] }
+				drctpg { set clientid [expr {$clientid & ~128} ] }
+				webmsn { set clientid [expr {$clientid & ~512} ] }
+				direct { set clientid [expr {$clientid & ~16384} ] }
+				winks { set clientid [expr {$clientid & ~32768} ] }
+				msnc1 { set clientid [expr {$clientid & ~268435456} ] }
+				msnc2 { set clientid [expr {$clientid & ~536870912} ] }
+				msnc3 { set clientid [expr {$clientid & ~805306368} ] }
+				msnc4 { set clientid [expr {$clientid & ~1073741824} ] }
+				msnc5 { set clientid [expr {$clientid & ~1342177280} ] }
+			}
 		}
 		::config::setKey clientid $clientid
+		return $clientid
 	}
 
 	proc myStatusIs {} {
@@ -4806,7 +4823,8 @@ proc add_Clientid {chatid clientid} {
 	#first set out clientname to unkown so it can be reset to another value if known
 	set clientname "[trans unknown]"
 
-	set knownclients [list [list 268435456 "MSN 6.0"] [list 536870912 "MSN 6.1"] [list 805306368 "MSN 6.2"] [list 1073741824  "MSN 7.0"] [list 512  "Webmessenger"] ]
+	set knownclients [list [list 268435456 "MSN 6.0"] [list 536870912 "MSN 6.1"] [list 805306368 "MSN 6.2"] [list 1073741824  "MSN 7.0"] [list 1342177280  "MSN 7.5"] [list 512  "Webmessenger"] ]
+
 	foreach client $knownclients {
 		set bit [lindex $client 0]
 		set name [lindex $client 1]
