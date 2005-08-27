@@ -622,7 +622,8 @@ proc load_config {} {
 	#set clientid "268435500"
 	#MSN 7.0 ClientID:
 	#set clientid 1073791012
-	::config::setKey clientid 1073791012
+	#::config::setKey clientid 1073791012
+	::MSN::setClientCap msnc4
 
 	# Load up the personal states
 	LoadStateList

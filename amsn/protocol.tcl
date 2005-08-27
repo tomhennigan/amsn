@@ -1004,9 +1004,52 @@ namespace eval ::MSN {
 
 		#Reset automatic status change to 0
 		set autostatuschange 0
-
 	}
 
+	# set a capability of the client
+	# possiblities for cap are:
+	# mobile Mobile Device
+	# recink Ink Viewing
+	# sndink Ink Creating
+	# webcam Webcam
+	# multip Multi-Packeting
+	# paging Paging
+	# drctpg Direct-Paging
+	# webmsn WebMessenger
+	# direct DirectIM
+	# winks  Winks
+	# msnc1  This is the value for MSNC1 (MSN Msgr 6.0)
+	# msnc2  This is the value for MSNC2 (MSN Msgr 6.1)
+	# msnc3  This is the value for MSNC3 (MSN Msgr 6.2)
+	# msnc4  This is the value for MSNC4 (MSN Msgr 7.0)
+	# msnc5  This is the value for MSNC5 (MSN Msgr 7.5)
+	#
+	#switch==1 means turn on, 0 means turn off 
+	proc setClientCap { cap { switch 1 } } {
+		set clientid [::config::getKey clientid]
+		if $switch {
+			switch $cap {
+				mobile { set clientid 1 }
+				recink { set clientid [expr {$clientid | 4} ] }
+				sndink { set clientid [expr {$clientid | 8} ] }
+				webcam { set clientid [expr {$clientid | 16} ] }
+				multip { set clientid [expr {$clientid | 32} ] }
+				paging { set clientid [expr {$clientid | 64} ] }
+				drctpg { set clientid [expr {$clientid | 128} ] }
+				webmsn { set clientid [expr {$clientid | 512} ] }
+				direct { set clientid [expr {$clientid | 16384} ] }
+				winks { set clientid [expr {$clientid | 32768} ] }
+				msnc1 { set clientid [expr {$clientid | 268435456} ] }
+				msnc2 { set clientid [expr {$clientid | 536870912} ] }
+				msnc3 { set clientid [expr {$clientid | 805306368} ] }
+				msnc4 { set clientid [expr {$clientid | 1073741824} ] }
+				msnc5 { set clientid [expr {$clientid | 1342177280} ] }
+			}
+		} else {
+			#TODO: turn off
+		}
+		::config::setKey clientid $clientid
+	}
 
 	proc myStatusIs {} {
 		variable myStatus
