@@ -1518,7 +1518,11 @@ namespace eval ::ChatWindow {
 		bind $input <Configure> "::ChatWindow::InputPaneConfigured $paned $input $output %W %h"
 		if { $::tcl_version >= 8.4 } {
 			bind $output <Configure> "::ChatWindow::OutputPaneConfigured $paned $input $output %W %h"
-			bind $paned <Configure> "::ChatWindow::PanedWindowConfigured $paned $input $output %W %h"
+			if { $::tcl_version == "8.4" && [lindex [split $::tcl_patchLevel .] 2] > 9 } { 
+				#tcl version 8.4.10 and up have a problem here, so don't bind
+			} else {
+				bind $paned <Configure> "::ChatWindow::PanedWindowConfigured $paned $input $output %W %h"
+			}
 		}
 
 		return $paned
@@ -1542,9 +1546,7 @@ namespace eval ::ChatWindow {
 		if { $bottomsize < [$paned panecget $input -minsize] } {
 			set bottomsize [$paned panecget $input -minsize]
 		}
-
 		set sashheight [::ChatWindow::GetSashHeight $paned]
-
 		$paned sash place 0 0 [expr {[winfo height $paned] - ($bottomsize + $sashheight)}]
 	}
 
