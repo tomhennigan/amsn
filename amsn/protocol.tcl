@@ -4829,7 +4829,7 @@ proc add_Clientid {chatid clientid} {
 		set bit [lindex $client 0]
 		set name [lindex $client 1]
 		#check if this bit is on in the clientid, ifso set it's name
-		if {($clientid & $bit) != 0} {
+		if {($clientid & $bit) == $bit} {
 			#Reset the value if it's a known client
 			set clientname $name
 		}
@@ -4848,7 +4848,7 @@ proc add_Clientid {chatid clientid} {
 		set bit [lindex $flag 0]
 		set flagname [lindex $flag 1]
 		#check if this bit is on in the clientid, ifso set it's flag
-		if {($clientid & $bit) != 0} {
+		if {($clientid & $bit) == $bit} {
 			::abook::setContactData $chatid $flagname 1
 		} else {
 			::abook::setContactData $chatid $flagname 0
