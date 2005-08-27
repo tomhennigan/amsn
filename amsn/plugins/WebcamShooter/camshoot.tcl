@@ -140,6 +140,7 @@ namespace eval ::camshoot {
 
 	#Create the window to accept or refuse the photo
 	proc webcampicture_shot {window} {
+
 		set w .webcampicturedoyoulikeit
 
 		if { [winfo exists $w] } {
@@ -156,40 +157,59 @@ namespace eval ::camshoot {
 			$preview copy [$window.l cget -image]
 		}
 
-		canvas $w.stillpreview
-		$w.stillpreview create image 0 0 -anchor nw -image $preview
-		::PrintBox::Create $w.stillpreview
 
 
-		frame $w.rb -class Degt
-		button $w.rb.huge -text "192x192" -command "set ::PrintBox::xy {0 0 192 192}; ::PrintBox::Resize $w.stillpreview"
-		button $w.rb.large -text "128x128" -command "set ::PrintBox::xy {0 0 128 128}; ::PrintBox::Resize $w.stillpreview"
-		button $w.rb.default -text "96x96 ([trans default2])" -command "set ::PrintBox::xy {0 0 96 96}; ::PrintBox::Resize $w.stillpreview"
-		button $w.rb.small -text "64x64" -command "set ::PrintBox::xy {0 0 64 64}; ::PrintBox::Resize $w.stillpreview"
+		#Create upper informational frame
+		set up $w.infotext
+		frame $up
+		label $up.label -text "Select the part of the image you want to use, resizing and moving the selection-box"  -font sboldf
+		pack $up.label
+		
+
+		#create middle frame
+		set mid $w.mid
+		frame $mid
+
+
+		#create picture (middle-left)
+		canvas $mid.stillpreview
+		$mid.stillpreview create image 0 0 -anchor nw -image $preview
+		::PrintBox::Create $mid.stillpreview
+
+
+		#create the frame where the buttons are to resize the selection box (middle-right)
+		frame $mid.resel -class Degt
+		button $mid.resel.huge -text "Huge" -command "set ::PrintBox::xy {0 0 192 192}; ::PrintBox::Resize $w.mid.stillpreview"
+		button $mid.resel.large -text "Large" -command "set ::PrintBox::xy {0 0 128 128}; ::PrintBox::Resize $w.mid.stillpreview"
+		button $mid.resel.default -text "[trans default2]" -command "set ::PrintBox::xy {0 0 96 96}; ::PrintBox::Resize $w.mid.stillpreview"
+		button $mid.resel.small -text "Small" -command "set ::PrintBox::xy {0 0 64 64}; ::PrintBox::Resize $w.mid.stillpreview"
+		label $mid.resel.text -text "Reset the selection box\nsize to:"
+		
+		pack $mid.resel.text $mid.resel.small $mid.resel.default $mid.resel.large $mid.resel.huge -side top -pady 3
+
+		pack $mid.stillpreview $mid.resel -side left -fill y
+
+
+		#create lower frame
+		set low $w.lowerframe
+		frame $low 
+		button $low.use -text "[trans useasdp]" -command "::camshoot::webcampicture_save $w $preview"
+		button $low.saveas -text "[trans saveas]" -command "::camshoot::webcampicture_saveas $w $preview"
+		button $low.cancel -text "[trans cancel]" -command "destroy $w"
+		pack $low.use $low.saveas $low.cancel -side right -padx 5
+
+
+		#pack everything in the window
+		pack $up $mid $low -side top -fill both
 
 
 
-
-		button $w.save -text "[trans useasdp]" -command "::camshoot::webcampicture_save $w $preview"
-		button $w.saveas -text "[trans saveas]" -command "::camshoot::webcampicture_saveas $w $preview"
-		button $w.cancel -text "[trans cancel]" -command "destroy $w"
 		bind $w <Destroy> "destroy $preview"
 
-		pack $w.stillpreview
 
-		pack $w.rb.huge -side right
-		pack $w.rb.large -side right
-		pack $w.rb.default -side right
-		pack $w.rb.small -side right
-
-		pack $w.rb -side top -padx 10 -pady 10
-
-		pack $w.save -side right -padx 3 -pady 10
-		pack $w.saveas -side right -padx 3 -pady 10
-		pack $w.cancel -side left -padx 3 -pady 10
 		wm title $w "[trans changedisplaypic]"
 		moveinscreen $w 30
-		after 0 "$w.rb.default invoke"
+		after 0 "$w.mid.resel.default invoke"
 
 	}
 	#Use the picture as a display picture
@@ -197,7 +217,7 @@ namespace eval ::camshoot {
 		global HOME selected_image
 
 		set preview [image create photo]
-		foreach {x0 y0 x1 y1} [::PrintBox::Done $w.stillpreview] break
+		foreach {x0 y0 x1 y1} [::PrintBox::Done $w.mid.stillpreview] break
 		if {$x1 > [image width $image]} { set x1 [image width $image]}
 		if {$y1 > [image height $image]} { set y1 [image height $image]}
 		$preview copy $image -from [expr int($x0)] [expr int($y0)] [expr int($x1)] [expr int($y1)]
@@ -250,7 +270,7 @@ namespace eval ::camshoot {
 		set filename [tk_getSaveFile -initialfile $file -initialdir [set ::files_dir]]
 
 		set preview [image create photo]
-		foreach {x0 y0 x1 y1} [::PrintBox::Done $w.stillpreview] break
+		foreach {x0 y0 x1 y1} [::PrintBox::Done $w.mid.stillpreview] break
 		if {$x1 > [image width $image]} { set x1 [image width $image]}
 		if {$y1 > [image height $image]} { set y1 [image height $image]}
 		$preview copy $image -from [expr int($x0)] [expr int($y0)] [expr int($x1)] [expr int($y1)]
