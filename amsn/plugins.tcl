@@ -1009,8 +1009,15 @@ namespace eval ::plugins {
 	proc LoadPlugins {} {
 	    variable loadedplugins
 	    variable plugins
+	    variable knownplugins
+	    
 	    ::plugins::UnLoadPlugins
 	    load_config
+
+#"HACK" to load 'core' plugins for the 0.95 release
+#HERE WE HAVE A LIST OF PLUGINS THAT ARE SHIPPED WITH AMSN AND SHOULD BE LOADED IF THE USER SEES 'M FOR THE FIRST TIME
+	    set coreplugins [list "Nudge" "Cam Shooter"]
+
 	    set plugs [::plugins::updatePluginsArray]
 	    for {set idx 0} {$idx < $plugs} {incr idx} {
 		set name $::plugins::plugins(${idx}_name)
@@ -1021,7 +1028,15 @@ namespace eval ::plugins {
 		if {[lsearch $loadedplugins $name] != -1} {
 		    LoadPlugin $name $required_version $file $plugin_namespace $init_proc
 		}
+
+#"HACK" TO LOAD 'core' plugins
+		#if this plugin is one of the core plugins, it should be loaded if it's not known yet
+		if { ([lsearch $coreplugins $name] != -1)  && ([lsearch $knownplugins $name] == -1) } {
+			LoadPlugin $name $required_version $file $plugin_namespace $init_proc 
+		}			
+
 	    }
+
 	    ::plugins::PostEvent AllPluginsLoaded evPar
 	}
 
@@ -1179,7 +1194,7 @@ namespace eval ::plugins {
 	# none
 	#
 	proc load_config {} {
-		global HOME password protocol clientid tcl_platform
+		global HOME password protocol tcl_platform
 		variable loadedplugins
 		foreach {plugin} $loadedplugins {
 			::plugins::UnLoadPlugin $plugin
