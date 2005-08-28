@@ -35,7 +35,7 @@ namespace eval ::MSNFT {
       if { $type == 0 } {
       	set filedata($cookie) [list "$filename" $filesize $chatid $fromlogin "receivewait" "ipaddr"]
       	after 300000 "::MSNFT::DeleteFT $cookie"
-       	::amsn::fileTransferRecv $filename $filesize $cookie $chatid $fromlogin
+       	SendMessageFIFO [list ::amsn::fileTransferRecv $filename $filesize $cookie $chatid $fromlogin] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
       	#set filetoreceive [list "$filename" $filesize]
       } elseif { $type == 1 } {
       	set filedata($cookie) [list "$filename" $filesize $chatid $fromlogin]
@@ -65,24 +65,24 @@ namespace eval ::MSNFT {
       set ipaddr [$message getField $requestdata]
 
       #If IP field is blank, and we are sender, Send the File and requested IP (SendFile)
-      if { ($ipaddr == "") && ([getTransferType $cookie]=="send") } {
+	if { ($ipaddr == "") && ([getTransferType $cookie]=="send") } {
 
-      	status_log "Invitation to filetransfer $cookie accepted\n" black
-	 	::amsn::acceptedFT $chatid $fromlogin [getFilename $cookie]
-	 	set newcookie [::md5::md5 "$cookie$fromlogin"]
-	 	set filedata($newcookie) $filedata($cookie)
-      	SendFile $newcookie $cookie
-      	#TODO: Show accept or reject messages from other users? (If transferType=="receive")
-      } elseif {($ipaddr == "") && ([getTransferType $cookie]!="send")} {
-      	::amsn::acceptedFT $chatid $fromlogin [getFilename $cookie]
-      #If message comes from sender, and we are receiver, connect
-      } elseif { ($fromlogin == [lindex $filedata($cookie) 3]) && ([getTransferType $cookie]=="receive")} {
-      	after cancel "::MSNFT::timeoutedFT $cookie"
-      	set port [$message getField Port]
-      	set authcookie [$message getField AuthCookie]
-      	#status_log "Body: $body\n"
-      	ConnectMSNFTP $ipaddr $port $authcookie $cookie
-      }
+		status_log "Invitation to filetransfer $cookie accepted\n" black
+		SendMessageFIFO [list ::amsn::acceptedFT $chatid $fromlogin [getFilename $cookie]] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
+		set newcookie [::md5::md5 "$cookie$fromlogin"]
+		set filedata($newcookie) $filedata($cookie)
+		SendFile $newcookie $cookie
+		#TODO: Show accept or reject messages from other users? (If transferType=="receive")
+	} elseif {($ipaddr == "") && ([getTransferType $cookie]!="send")} {
+		SendMessageFIFO [list ::amsn::acceptedFT $chatid $fromlogin [getFilename $cookie]] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
+	#If message comes from sender, and we are receiver, connect
+	} elseif { ($fromlogin == [lindex $filedata($cookie) 3]) && ([getTransferType $cookie]=="receive")} {
+		after cancel "::MSNFT::timeoutedFT $cookie"
+		set port [$message getField Port]
+		set authcookie [$message getField AuthCookie]
+		#status_log "Body: $body\n"
+		ConnectMSNFTP $ipaddr $port $authcookie $cookie
+	}
    }
 
    proc getUsername { cookie } {
@@ -517,7 +517,7 @@ namespace eval ::MSNFT {
          return
       }
 
-      ::amsn::rejectedFT $chatid $who [getFilename $cookie]
+      SendMessageFIFO [list ::amsn::rejectedFT $chatid $who [getFilename $cookie] ] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
 
    }
 
@@ -2799,7 +2799,7 @@ namespace eval ::Event {
 						set context [$message getField Context-Data]
 						#Remove the # on the next line if you want to test audio/video feature (with Linphone, etc...)
 						#Ask Burger for more details..
-						::MSNAV::invitationReceived $cookie $context $chatid $fromlogin
+						SendMessageFIFO [list ::MSNAV::invitationReceived $cookie $context $chatid $fromlogin] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
 
 					}
 
@@ -5647,7 +5647,7 @@ namespace eval ::MSN6FT {
 
 		status_log "context : $context \n size : $size \n filesize : $filesize \n nopreview : $nopreview \nfilename : $filename\n"
 		::MSNFT::invitationReceived $filename $filesize $sid $chatid $dest 1
-		::amsn::GotFileTransferRequest $chatid $dest $branchuid $cseq $uid $sid $filename $filesize
+		SendMessageFIFO [list ::amsn::GotFileTransferRequest $chatid $dest $branchuid $cseq $uid $sid $filename $filesize] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
 
 	}
 
@@ -5901,10 +5901,7 @@ namespace eval ::MSNAV {
 
 		set txt [trans avaccepted]
 
-
-		::amsn::WinWrite $chatid "\n----------\n" green
-		::amsn::WinWrite $chatid " $txt\n" green
-		::amsn::WinWrite $chatid "----------" green
+		SendMessageFIFO [list ::MSNAV::DisplayTxt $chatid $txt] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
 
 		# We accepted let's init linphone
 		set type [lindex [CookieList get $cookie] 2]
@@ -5989,9 +5986,8 @@ namespace eval ::MSNAV {
 
 		# Show on screen
 		set txt [trans avcanceled]
-		::amsn::WinWrite $chatid "\n----------\n" green
-		::amsn::WinWrite $chatid " $txt\n" green
-		::amsn::WinWrite $chatid "----------" green
+
+		SendMessageFIFO [list ::MSNAV::DisplayTxt $chatid $txt] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
 
 
 		set conntype [::abook::getDemographicField conntype]
@@ -6016,6 +6012,13 @@ namespace eval ::MSNAV {
 		catch { lp_uninit }
 
 		CookieList unset $cookie
+	}
+
+	#Used to diplay text on chatid's conversation : created for avoid interleaving in convo
+	proc DisplayTxt {chatid txt} {
+		::amsn::WinWrite $chatid "\n----------\n" green
+		::amsn::WinWrite $chatid " $txt\n" green
+		::amsn::WinWrite $chatid "----------" green
 	}
 
 	#//////////////////////////////////////////////////////////////////////////////
@@ -6194,9 +6197,8 @@ namespace eval ::MSNAV {
 
 		# Show on screen
 		set txt [trans avinitfailed]
-		::amsn::WinWrite $chatid "\n----------\n" green
-		::amsn::WinWrite $chatid " $txt\n" green
-		::amsn::WinWrite $chatid "----------" green
+
+		SendMessageFIFO [list ::MSNAV::DisplayTxt $chatid $txt] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
 	}
 
 }

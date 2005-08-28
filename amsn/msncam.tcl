@@ -1877,8 +1877,12 @@ namespace eval ::CAMGUI {
 			}
 		}
 	}
-	#Executed when we receive a request to accept or refuse a webcam session
+
 	proc AcceptOrRefuse {chatid dest branchuid cseq uid sid producer} {
+		SendMessageFIFO [list ::CAMGUI::AcceptOrRefuseWrapped $chatid $dest $branchuid $cseq $uid $sid $producer] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
+	}
+	#Executed when we receive a request to accept or refuse a webcam session
+	proc AcceptOrRefuseWrapped {chatid dest branchuid cseq uid sid producer} {
 		
 		#Grey line
 		::amsn::WinWrite $chatid "\n" green
@@ -1966,6 +1970,9 @@ namespace eval ::CAMGUI {
 	
 	#Executed when you invite someone to a webcam session and he refuses the request
 	proc InvitationDeclined {chatid} {
+		SendMessageFIFO [list ::CAMGUI::InvitationDeclinedWrapped $chatid] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
+	}
+	proc InvitationDeclinedWrapped {chatid} {
 		::amsn::WinWrite $chatid "\n" green
 		::amsn::WinWriteIcon $chatid greyline 3
 		::amsn::WinWrite $chatid "\n" green
@@ -1975,6 +1982,9 @@ namespace eval ::CAMGUI {
 	}
 	#Executed when your contact stops the webcam session
 	proc CamCanceled {chatid} {
+		SendMessageFIFO [list ::CAMGUI::CamCanceledWrapped $chatid] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
+	}
+	proc CamCanceledWrapped {chatid} {
 		::amsn::WinWrite $chatid "\n" green
 		::amsn::WinWriteIcon $chatid greyline 3
 		::amsn::WinWrite $chatid "\n" green
@@ -1984,6 +1994,9 @@ namespace eval ::CAMGUI {
 	}
 	#Executed when you invite someone to send your webcam
 	proc InvitationToSendSent {chatid} {
+		SendMessageFIFO [list ::CAMGUI::InvitationToSendSentWrapped $chatid] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
+	}
+	proc InvitationToSendSentWrapped {chatid} {
 		::amsn::WinWrite $chatid "\n" green
 		::amsn::WinWriteIcon $chatid greyline 3
 		::amsn::WinWrite $chatid "\n" green
@@ -1993,6 +2006,9 @@ namespace eval ::CAMGUI {
 	}
 	#Executed when you invite someone to receive his webcam
 	proc InvitationToReceiveSent {chatid} {
+		SendMessageFIFO [list ::CAMGUI::InvitationToReceiveSent $chatid] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
+	}
+	proc InvitationToReceiveSentWrapped {chatid} {
 		::amsn::WinWrite $chatid "\n" green
 		::amsn::WinWriteIcon $chatid greyline 3
 		::amsn::WinWrite $chatid "\n" green

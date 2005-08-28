@@ -539,7 +539,7 @@ namespace eval ::MSNP2P {
 						status_log "######################\n" blue
 
 						# Let's notify the user that he/she has received a Wink
-						::amsn::WinWrite $chatid "\n [trans winkreceived [::abook::getDisplayNick $chatid]]\n" black "" 0
+						SendMessageFIFO [list ::amsn::WinWrite $chatid "\n [trans winkreceived [::abook::getDisplayNick $chatid]]\n" black "" 0] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
 					} elseif { $eufguid == "4BD96FC0-AB17-4425-A14A-439185962DC8" ||
 						   $eufguid == "1C9AA97E-9C05-4583-A3BD-908A196F1E92" }	{
 						#check if a conversation is open with that contact

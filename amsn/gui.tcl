@@ -728,15 +728,7 @@ namespace eval ::amsn {
 			
 
 			status_log "Random generated cookie: $cookie\n"
-			WinWrite $chatid "\n" green
-			WinWriteIcon $chatid greyline 3
-			WinWrite $chatid "\n" green
-			WinWriteIcon $chatid fticon 3 2
-			WinWrite $chatid "$txt " green
-			WinWriteClickable $chatid "[trans cancel]" \
-				"::amsn::CancelFTInvitation $chatid $cookie" ftno$cookie
-			WinWrite $chatid "\n" green
-			WinWriteIcon $chatid greyline 3
+			SendMessageFIFO [list ::amsn::WinWriteFTSend $chatid $txt $cookie] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
 
 			::MSN::ChatQueue $chatid [list ::MSNFT::sendFTInvitation $chatid $filename $filesize $ipaddr $cookie]
 			#::MSNFT::sendFTInvitation $chatid $filename $filesize $ipaddr $cookie
@@ -745,6 +737,18 @@ namespace eval ::amsn {
 
 		}
 		return 0
+	}
+
+	proc WinWriteFTSend { chatid txt cookie } {
+		WinWrite $chatid "\n" green
+		WinWriteIcon $chatid greyline 3
+		WinWrite $chatid "\n" green
+		WinWriteIcon $chatid fticon 3 2
+		WinWrite $chatid "$txt " green
+		WinWriteClickable $chatid "[trans cancel]" \
+			"::amsn::CancelFTInvitation $chatid $cookie" ftno$cookie
+		WinWrite $chatid "\n" green
+		WinWriteIcon $chatid greyline 3
 	}
 
 	proc CancelFTInvitation { chatid cookie } {
@@ -768,16 +772,20 @@ namespace eval ::amsn {
 
 		set txt [trans invitationcancelled]
 
+		SendMessageFIFO [list ::amsn::WinWriteCancelFT $chatid $txt] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
+
+		set email [::MSN::usersInChat $chatid]
+		::log::ftlog $email $txt
+
+	}
+
+	proc WinWriteCancelFT {chatid txt} {
 		WinWrite $chatid "\n" green
 		WinWriteIcon $chatid greyline 3
 		WinWrite $chatid "\n" green
 		WinWriteIcon $chatid ftreject 3 2
 		WinWrite $chatid " $txt\n" green
 		WinWriteIcon $chatid greyline 3
-
-		set email [::MSN::usersInChat $chatid]
-		::log::ftlog $email $txt
-
 	}
 
 	proc acceptedFT { chatid who filename } {
@@ -786,6 +794,7 @@ namespace eval ::amsn {
 			return 0
 		}
 		set txt [trans ftacceptedby [::abook::getDisplayNick $chatid] $filename]
+
 		WinWrite $chatid "\n" green
 		WinWriteIcon $chatid greyline 3
 		WinWrite $chatid "\n" green
@@ -803,6 +812,7 @@ namespace eval ::amsn {
 			return 0
 		}
 		set txt [trans ftrejectedby [::abook::getDisplayNick $chatid] $filename]
+
 		WinWrite $chatid "\n" green
 		WinWriteIcon $chatid greyline 3
 		WinWrite $chatid "\n" green
@@ -950,16 +960,20 @@ namespace eval ::amsn {
 
 		set txt [trans ftaccepted]
 
+		SendMessageFIFO [list ::amsn::WinWriteAcceptFT $chatid $txt] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
+
+		set email [::MSN::usersInChat $chatid]
+		::log::ftlog $email $txt
+
+	}
+
+	proc WinWriteAcceptFT {chatid txt} {
 		WinWrite $chatid "\n" green
 		WinWriteIcon $chatid greyline 3
 		WinWrite $chatid "\n" green
 		WinWriteIcon $chatid fticon 3 2
 		WinWrite $chatid " $txt\n" green
 		WinWriteIcon $chatid greyline 3
-
-		set email [::MSN::usersInChat $chatid]
-		::log::ftlog $email $txt
-
 	}
 
 
@@ -1017,18 +1031,21 @@ namespace eval ::amsn {
 			set txt [trans ftrejected]
 		}
 
-		WinWrite $chatid "\n" green
-		WinWriteIcon $chatid greyline 3
-		WinWrite $chatid "\n" green
-		WinWriteIcon $chatid ftreject 3 2
-		WinWrite $chatid "$txt\n" green
-		WinWriteIcon $chatid greyline 3
+		SendMessageFIFO [list ::amsn::WinWriteRejectFT $chatid $txt] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
 
 		set email [::MSN::usersInChat $chatid]
 		::log::ftlog $email $txt
 
 	}
 
+	proc WinWriteRejectFT {chatid txt} {
+		WinWrite $chatid "\n" green
+		WinWriteIcon $chatid greyline 3
+		WinWrite $chatid "\n" green
+		WinWriteIcon $chatid ftreject 3 2
+		WinWrite $chatid "$txt\n" green
+		WinWriteIcon $chatid greyline 3
+	}
 
 	#PRIVATE: Opens Receiving Window
 	proc FTWin {cookie filename user {chatid 0}} {
@@ -1446,9 +1463,8 @@ namespace eval ::amsn {
 			}
 
 			if { [::config::getKey leavejoinsinchat] == 1 } {
-				::amsn::WinWrite $chatid "\n" green "" 0
-				::amsn::WinWriteIcon $chatid minijoins 5 0
-				::amsn::WinWrite $chatid "[timestamp] [trans joins [::abook::getDisplayNick $usr_name]]" green "" 0
+				
+				SendMessageFIFO [list ::amsn::WinWriteJoin $chatid $usr_name] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
 			}
 		}
 
@@ -1461,6 +1477,12 @@ namespace eval ::amsn {
 		set evPar(win_name) win_name
 		::plugins::PostEvent user_joins_chat evPar
 
+	}
+
+	proc WinWriteJoin {chatid usr_name} {
+		::amsn::WinWrite $chatid "\n" green "" 0
+		::amsn::WinWriteIcon $chatid minijoins 5 0
+		::amsn::WinWrite $chatid "[timestamp] [trans joins [::abook::getDisplayNick $usr_name]]" green "" 0
 	}
 	#///////////////////////////////////////////////////////////////////////////////
 
@@ -1488,9 +1510,7 @@ namespace eval ::amsn {
 			set icon minileaves
 
 			if { [::config::getKey leavejoinsinchat] == 1 } {
-				::amsn::WinWrite $chatid "\n" green "" 0
-				::amsn::WinWriteIcon $chatid minileaves 5 0
-				::amsn::WinWrite $chatid "[timestamp] [trans leaves $username]" green "" 0
+				SendMessageFIFO [list ::amsn::WinWriteLeave $chatid $username] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
 			}
 
 		} else {
@@ -1528,6 +1548,12 @@ namespace eval ::amsn {
 		set evPar(win_name) win_name
 		::plugins::PostEvent user_leaves_chat evPar
 
+	}
+
+	proc WinWriteLeave {chatid username} {
+		::amsn::WinWrite $chatid "\n" green "" 0
+		::amsn::WinWriteIcon $chatid minileaves 5 0
+		::amsn::WinWrite $chatid "[timestamp] [trans leaves $username]" green "" 0
 	}
 	#///////////////////////////////////////////////////////////////////////////////
 
@@ -2317,12 +2343,15 @@ namespace eval ::amsn {
 		}
 
 		update idletasks
-
-		set txt "[trans deliverfail]:\n $msg"
-		WinWrite $chatid "\n[timestamp] [trans deliverfail]:\n" red
-		WinWrite $chatid "$msg" gray "" 1 [::config::getKey login]
+		
+		SendMessageFIFO [list ::amsn::WinWriteFail $chatid $msg] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
 
 	}
+	proc WinWriteFail {chatid msg} {
+		WinWrite $chatid "\n[timestamp] [trans deliverfail]:\n" red
+		WinWrite $chatid "$msg" gray "" 1 [::config::getKey login]
+	}
+
 	#///////////////////////////////////////////////////////////////////////////////
 
 
