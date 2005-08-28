@@ -1026,8 +1026,8 @@ namespace eval ::MSN {
 	#
 	#switch==1 means turn on, 0 means turn off 
 	proc setClientCap { cap { switch 1 } } {
-		set clientid [::config::getKey clientid]
-		if {$clientid == ""} { set clientid 0 }
+		set clientid [::config::getKey clientid 0]
+
 		if $switch {
 			switch $cap {
 				mobile { set clientid [expr {$clientid | 1} ] }
@@ -1048,21 +1048,21 @@ namespace eval ::MSN {
 			}
 		} else {
 			switch $cap {
-				mobile { set clientid [expr {$clientid & ~1} ] }
-				recink { set clientid [expr {$clientid & ~4} ] }
-				sndink { set clientid [expr {$clientid & ~8} ] }
-				webcam { set clientid [expr {$clientid & ~16} ] }
-				multip { set clientid [expr {$clientid & ~32} ] }
-				paging { set clientid [expr {$clientid & ~64} ] }
-				drctpg { set clientid [expr {$clientid & ~128} ] }
-				webmsn { set clientid [expr {$clientid & ~512} ] }
-				direct { set clientid [expr {$clientid & ~16384} ] }
-				winks { set clientid [expr {$clientid & ~32768} ] }
-				msnc1 { set clientid [expr {$clientid & ~268435456} ] }
-				msnc2 { set clientid [expr {$clientid & ~536870912} ] }
-				msnc3 { set clientid [expr {$clientid & ~805306368} ] }
-				msnc4 { set clientid [expr {$clientid & ~1073741824} ] }
-				msnc5 { set clientid [expr {$clientid & ~1342177280} ] }
+				mobile { set clientid [expr {$clientid & -2} ] }
+				recink { set clientid [expr {$clientid & -5} ] }
+				sndink { set clientid [expr {$clientid & -9} ] }
+				webcam { set clientid [expr {$clientid & -17} ] }
+				multip { set clientid [expr {$clientid & -33} ] }
+				paging { set clientid [expr {$clientid & -65} ] }
+				drctpg { set clientid [expr {$clientid & -129} ] }
+				webmsn { set clientid [expr {$clientid & -513} ] }
+				direct { set clientid [expr {$clientid & -16385} ] }
+				winks { set clientid [expr {$clientid & -32769} ] }
+				msnc1 { set clientid [expr {$clientid & -268435457} ] }
+				msnc2 { set clientid [expr {$clientid & -536870913} ] }
+				msnc3 { set clientid [expr {$clientid & -805306369} ] }
+				msnc4 { set clientid [expr {$clientid & -1073741825} ] }
+				msnc5 { set clientid [expr {$clientid & -1342177281} ] }
 			}
 		}
 		::config::setKey clientid $clientid
