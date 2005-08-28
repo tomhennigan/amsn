@@ -1027,6 +1027,7 @@ namespace eval ::MSN {
 	#switch==1 means turn on, 0 means turn off 
 	proc setClientCap { cap { switch 1 } } {
 		set clientid [::config::getKey clientid]
+		if {$clientid == ""} { set clientid 0 }
 		if $switch {
 			switch $cap {
 				mobile { set clientid [expr {$clientid | 1} ] }
