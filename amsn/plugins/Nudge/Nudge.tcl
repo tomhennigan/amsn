@@ -479,14 +479,18 @@ namespace eval ::Nudge {
 			amsn::WinWriteIcon $chatid $iconname 3 2
 			amsn::WinWrite $chatid "[timestamp] $text\n----------" $color
 		} else {
-			amsn::WinWrite $chatid "\n" $color
-			amsn::WinWriteIcon $chatid greyline 3
-			amsn::WinWrite $chatid "\n" $color
-			amsn::WinWriteIcon $chatid $iconname 3 2
-			amsn::WinWrite $chatid "[timestamp] $text\n" $color
-			amsn::WinWriteIcon $chatid greyline 3
-			::Nudge::log "Seperation and message wrote in chatwindow"
+			SendMessageFIFO [list ::Nudge::winwriteWrapped $chatid $text $iconname $color] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
 		}
+	}
+
+	proc winwriteWrapped {chatid text iconname {color "green"} } {
+		amsn::WinWrite $chatid "\n" $color
+		amsn::WinWriteIcon $chatid greyline 3
+		amsn::WinWrite $chatid "\n" $color
+		amsn::WinWriteIcon $chatid $iconname 3 2
+		amsn::WinWrite $chatid "[timestamp] $text\n" $color
+		amsn::WinWriteIcon $chatid greyline 3
+		::Nudge::log "Seperation and message wrote in chatwindow"
 	}
 	
 	############################################
