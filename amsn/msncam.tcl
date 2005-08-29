@@ -1466,7 +1466,7 @@ namespace eval ::CAMGUI {
 			set img [image create photo]
 			label $window.l -image $img
 			pack $window.l
-			button $window.q -command "::MSNCAM::CancelCam $chatid $sid" -text "Stop receiving Webcam"
+			button $window.q -command "::MSNCAM::CancelCam $chatid $sid" -text "[trans stopwebcamreceive]"
 			pack $window.q -expand true -fill x
 			setObjOption $sid window $window
 			setObjOption $sid image $img
@@ -1622,7 +1622,7 @@ namespace eval ::CAMGUI {
 				pack $window.l
 				button $window.settings -command "::CAMGUI::ShowPropertiesPage $grabber $img" -text "[trans changevideosettings]"
 				pack $window.settings -expand true -fill x
-				button $window.q -command "::MSNCAM::CancelCam $chatid $sid" -text "Stop sending Webcam"
+				button $window.q -command "::MSNCAM::CancelCam $chatid $sid" -text "[trans stopwebcamsend]"
 				pack $window.q -expand true -fill x
 				wm protocol $window WM_DELETE_WINDOW "::MSNCAM::CancelCam $chatid $sid"
 			}
@@ -2186,8 +2186,8 @@ namespace eval ::CAMGUI {
 		button $settings -text "[trans changevideosettings]"
 
 		frame $buttons -relief sunken -borderwidth 3
-		button $buttons.ok -text "Ok" -command "::CAMGUI::Choose_OkLinux $window $devs.list $chans.list $img {$devices}"
-		button $buttons.cancel -text "Cancel" -command "::CAMGUI::Choose_CancelLinux $window $img"
+		button $buttons.ok -text "[trans ok]" -command "::CAMGUI::Choose_OkLinux $window $devs.list $chans.list $img {$devices}"
+		button $buttons.cancel -text "[trans cancel]" -command "::CAMGUI::Choose_CancelLinux $window $img"
 		wm protocol $window WM_DELETE_WINDOW "::CAMGUI::Choose_CancelLinux $window $img"
 		#bind $window <Destroy> "::CAMGUI::Choose_CancelLinux $window $img $preview"
 		pack $buttons.ok $buttons.cancel -side left
@@ -2436,8 +2436,8 @@ namespace eval ::CAMGUI {
 
 		frame $buttons -relief sunken -borderwidth 3
 		status_log "::CAMGUI::Properties_OkLinux $window $capture_fd $device $channel"
-		button $buttons.ok -text "Ok" -command "::CAMGUI::Properties_OkLinux $window $capture_fd {$device} $channel"
-		button $buttons.cancel -text "Cancel" -command "::CAMGUI::Properties_CancelLinux $window $capture_fd $init_b $init_c $init_h $init_co"
+		button $buttons.ok -text "[trans ok]" -command "::CAMGUI::Properties_OkLinux $window $capture_fd {$device} $channel"
+		button $buttons.cancel -text "[trans cancel]" -command "::CAMGUI::Properties_CancelLinux $window $capture_fd $init_b $init_c $init_h $init_co"
 		wm protocol $window WM_DELETE_WINDOW "::CAMGUI::Properties_CancelLinux $window $capture_fd $init_b $init_c $init_h $init_co"
 
 
@@ -2559,8 +2559,8 @@ namespace eval ::CAMGUI {
 		button $settings -text "[trans changevideosettings]" -command "::CAMGUI::Choose_SettingsWindows $devs.list"
 
 		frame $buttons -relief sunken -borderwidth 3
-		button $buttons.ok -text "Ok" -command "::CAMGUI::Choose_OkWindows $devs.list $window $img $preview"
-		button $buttons.cancel -text "Cancel" -command  "::CAMGUI::Choose_CancelWindows $window $img $preview"
+		button $buttons.ok -text "[trans ok]" -command "::CAMGUI::Choose_OkWindows $devs.list $window $img $preview"
+		button $buttons.cancel -text "[trans cancel]" -command  "::CAMGUI::Choose_CancelWindows $window $img $preview"
 		wm protocol $window WM_DELETE_WINDOW   "::CAMGUI::Choose_CancelWindows $window $img $preview"
 		#bind $window <Destroy> "::CAMGUI::Choose_CancelWindows $window $img $preview"
 		pack $buttons.ok $buttons.cancel -side left

@@ -646,6 +646,8 @@ stats Statistiques
 status Statut
 stop Arrêter
 stopalarm Arrêter l'alarme
+stopwebcamreceive Arrêter la réception de la webcam
+stopwebcamsend Arrêter l'envoi de la webcam
 storenickname Remettre le pseudonyme original après un statut personnel avec un pseudonyme différent
 strictfonts Force l'usage de toutes les polices de caractères à celle sélectionnée (barre d'état et autres)
 style Style
@@ -720,7 +722,7 @@ webcamextnotloaded L'extension Webcamsn n'est pas chargée. Vous devez la compile
 webcamfaq FAQ/Help à propos de la webcam
 webcamhistory Voir les sessions webcam
 webcaminvite $1 vous invite à démarrer un conversation par Webcam, mais aMSN ne supporte pas cette option.
-webcaminvitereceived $1 vous invite à démarrer un conversation par Webcam. Voulez vous accepter cette conversation ?
+webcaminvitereceived $1 vous invite à démarrer un conversation par Webcam. Voulez-vous accepter cette conversation ?
 webcamrejected $1 a refusé l'invitation pour la conversation par webcam.
 webcamrequestsend Demander pour envoyer la webcam
 webcamrequestreceive Demander pour recevoir la webcam

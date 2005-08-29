@@ -646,6 +646,8 @@ stats Statistics
 status Status
 stop Stop
 stopalarm Stop Alarm
+stopwebcamreceive Stop receiving Webcam
+stopwebcamsend Stop sending Webcam
 storenickname Return to original nickname after a custom state with custom nickname
 strictfonts Restrict all fonts' size to the one I selected (Status bar and others)
 stylechat Same look as chats
