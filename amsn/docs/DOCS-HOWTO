@@ -1,0 +1,463 @@
+
+DOCS-HOWTO
+Version 1.0
+
+File name: msn/docs/DOCS-HOWTO
+This file and its contents are licenced under the 
+GNU-FDL licence version 1.2 or up.
+http://www.gnu.org/copyleft/fdl.html
+
+If you modify this file, please update the version and add 
+your name to the credits at the end.
+
+This little document is a guide to translators and translation
+managers that works or wants to work in aMSN. It is indeed a
+little document, but has a lot of information. We suggest you 
+to print it and leave it within the reach of your hands if you
+are serious in this translation business.
+
+First things first: there are TWO documents you must read.
+This is the DOCS-HOWTO, that explains what you have to do
+when you waht to translate the FAQ, README and HELP files of 
+you 
+
+There is *another* document called LANG-HOWTO, that is in 
+msn/lang/LANG-HOWTO, that deals with the translation of the 
+messages, those that are shown on aMSN's menus, dialog boxes 
+and windows. We call those files "language files" or, in short,
+"langfiles". 
+
+YOU SHOULD READ BOTH DOCUMENTS, the DOCS-HOWTO *and* the LANG-HOWTO,
+but choose one first, read it, understand it and, only then, read the other.
+
+Another word of warning: if you are in doubt, please ask! 
+We will be pleased to help you. The right place to ask 
+questions is our discussion list: amsn-lang@lists.sourceforge.net
+You must subscribe to post there. Instructions on how to subscribe
+can be found here: http://lists.sourceforge.net/lists/listinfo/amsn-lang
+
+One of our goals is to be the most internationalized 
+free software / open source project of the world. 
+And for that we need you!
+
+Thanks for the interest on the aMSN project!
+
+Index:
+
+*. Introduction.
+   What is this aMSN translation stuff all about?
+
+0. The most important thing
+   Explains why and how to subscribe to the amsn-lang forum.
+
+1. For translators
+   For those who want to translate aMSN to their own language, 
+   or help improve/extend the existing translation. Must read.
+	-- Rules that must be followed
+	-- How to add a new language
+
+2. For translation managers
+   For those who are in charge of coordination of local or global 
+   translation efforts and commiting the langfiles to the CVS server.
+   If you want to start a local translation effort please read this.
+
+3. Useful tools
+   Some of the tools you *must* use before sending your files. These
+   tools are included with aMSN. 
+
+============
+Introduction
+============
+
+There are many ways you can help the aMSN project. One of them is 
+by translating the software to other languages. This can be easily
+done. Another way is proofreading the current translations in search
+of typos and errors and missing (untranslated) messages. There is
+plenty of work for everyone who wants to be involved, and this seems
+to be your case as you are reading this file ;-)
+
+If you open you aMSN main window, you will notice that there is a 
+"Help" menu. This menu has seven entries. There is a "Help" section, 
+a FAQ section and an "About" section in english. Also, we have the same
+scheme - a "Help" section, a FAQ section and an "About" section - in 
+your own language. At the bottom we have a "version" item.
+
+In order for you to have the FAQ, About and Help sections translated to 
+your own language, there must be exist the corresponding FAQ, README and
+HELP files for your language.
+
+The Help menu of aMSN Messenger can be translated into any language you want. 
+It is easy to do so because all of the translated texts for every 
+new language are stored in special files:
+
+FAQxx	  - The translated FAQ file
+READMExx  - The translated README file
+HELPxx	  - The translated HELP file
+
+The name of these indicates clearly the language it contains. 
+The format is FAQxx, READMExx and HELPxx, where "xx" is the 
+two-caracter ISO code of your language. For instance, for the 
+italian language, whose ISO code is IT, the files are called
+
+   FAQit
+   READMEit
+   HELPit
+
+A few examples:
+
+Valenciano: FAQva, READMEva, HELPva
+Spanish: FAQes, READMEes, HELPes
+German: FAQde, READMEde, HELPde
+French: FAQfr, READMEfr, HELPfr
+
+The ISO codes for the valenciano, spanish, german and french languages are, 
+respectively, va, es, de and fr. Later in this document we will see how
+to determine the country code for new languages.
+
+All translated FAQxx, READMExx and HELPxx files (which we call "documents") are 
+stored in the msn/docs folder of your aMSN installation. The exception are
+the english files, that have no country code (FAQ, README and HELP) and reside
+on the main msn folder for legacy reasons. For the languages already
+present in aMSN (some completely translated, some not) look in the msn/docs
+folder and look for the apropriate files reflecting your language.
+
+Unfotunately, we don't have these files integrated with our website, the way
+the so-called "langfiles" are (refer to the msn/lang/LANG-HOWTO document and our
+translation website: http://amsn.sourceforge.net/modules.php?name=Translation). 
+We are studying ways to intregrate the FAQ, HELP and README files in the automated
+translation scripts we hav on the Internet - bu there is nothing practical right now.
+You should check periodically the lateststable version of aMSN (or the CVS version
+if you have this access) and compare the latest english FAQ, README and HELP files
+to you langiage's (possibly outdated) FAQxx, READMExx and HELPxx files 
+Yeah, I know. Hard work, difficult to understand.
+Nothing we can do right now, sorry.
+
+Even if your HELPxx, FAQxx and READMExx files are the same version as the master 
+(english) ones, you still have work to do in them. It is important to proofread the
+files, scanning them for possible typos, gramatical errors or bad writting styles 
+introduced by other translators.
+
+This document (msn/docs/DOCS-HOWTO) deals ONLY with the HELP, FAQ and README files. 
+Please read the present document completely, make sure you understand everything 
+and ask what to do (at amsn-lang@lists.sourceforge.net) when in doubt.
+
+There are other files that need translation and proofreading like the
+langXX files (that is, the language files that translates aMSN's messages, 
+menus and dialog boxes). There is another document called LANG-HOWTO,
+located at msn/lang/LANG-HOWTO. *PLEASE READ THAT DOCUMENT TOO*
+
+
+Tip: this DOCS-HOWTO file surely contains many errors. If you are a
+native english speaker, please help us by proofreading it.
+
+
+===========================
+0. The most important thing
+===========================
+
+You MUST subscribe to the amsn-lang@lists.sourceforge.net mailing
+list. There you can discuss various issues with the members of the
+translation team, including:
+- The best way to translate a word or phrase;
+- What character code you should use or not use;
+- Best translation practices;
+- Issues and questions about this HOWTO;
+- Coordination of local efforts;
+- Stablishment of local language translation managers.
+
+One important thing you MUST ask at the amsn-lang list is if there
+is somebody already doing what you intend to. 
+
+For instance, if you want to translate the FAQ file into greek
+(FAQel) you shoud ask first. This way, if there is another person
+already translating the same FAQel you won't waste your time.
+
+You can subscribe to the list by visiting this page:
+
+   http://lists.sourceforge.net/lists/listinfo/amsn-lang
+
+Remember, joining or not is not an option. You MUST subscribe.
+
+==================
+1. For Translators
+==================
+
+When you translate the FAQ, README or HELP files, you should send the 
+entire updated FAQxx, HELPxx or READMExx file to the translator managers, 
+who can be reached at
+
+    amsn-translations@lists.sourceforge.net
+
+Diff files are also accepted, and can be used in certain cases where
+you update more than one file with a single diff or you merge
+different files into one, but the best and easyest way (for both
+translators and managers) is to send the whole translated file. If
+in doubt, send the entire file.
+
+You must send a text file attached to your email message. Translations sent 
+in the body of the email will be ignored, due to character coding and 
+line break issues.
+
+You can help us by translating some sentences to your language,
+or modifying wrongly translated sentences (proofreading).
+
+RULES THAT MUST BE FOLLOWED:
+----------------------------
+
+FIRST OF ALL:
+   STAY TUNED ON THE amsn-lang@lists.sourceforge.net LIST!!!
+   Developers will always announce there the availability of new versions of
+   the english FAQ,README and HELP files!!! This will be your starting gun!
+
+When a new version of the file is announced, follow these steps:
+
+0. Make sure you are looking at the right file.
+Translated FAQs are in the msn/DOCS folder.
+Also make sure you read and understand the translation instructions 
+at msn/docs/DOCS-HOWTO. By the way, it's the present document.
+
+1. You will have always to download two files: the most updated english
+file and the most updated file in your language. For this example, we will use 
+the FAQ file and the language-couple egnlish/german. But it works the same way
+for the other two files (README, HELP) and the other 50 languages.
+
+If you want to translate (or update) the FAQde file (german FAQ file) 
+you must download both
+
+   FAQ   and
+   FAQde
+
+from our SourceForge's CVS. There is no other way to dowload these up-to-date files.
+We are working on it (to make download of latest FAQ, README and HELP files easyer) 
+but now it is just the way it is.
+
+To download from CVS, visit this page and follow intructions:
+
+    http://sourceforge.net/cvs/?group_id=54091
+
+Please read the CVS instructions thoroughly and carefully!
+When in doubt, ask! (amsn-lang@lists.sourceforge.net)
+
+-NEVER use files from a stable AMSN package, as they are probably out
+of date, and you'll find yourself translating things that are
+already translated in the latest file version.
+When in doubt, ask! (amsn-lang@lists.sourceforge.net)
+
+2. Open both FAQ and FAQde, each one in a window, side by side on 
+your screen. Close all other windows but this two. It is important to have 
+both documents open at the same time so you can scroll both of them down and
+compare both versions. In a graphic environment (Mac OS, Windows, KDE, Gnome)
+there would be no hassles. If you insist in doing everything in text mode, 
+use the "screen" command (for further information, "man screen").
+When in doubt, ask! (amsn-lang@lists.sourceforge.net)
+
+3. Compare the version of the latest FAQ file with the latest FAQde file. 
+If versions are the same, go to step 4. If versions differ, hunt down the 
+differences between FAQ and FAQde and translate the missing segments.
+The diff tool is your friend (man diff --- se section 3 of this document).
+When in doubt, ask! (amsn-lang@lists.sourceforge.net)
+
+4. Do NOT close windows! Proofread the FAQde file in search of errors. 
+Compare it again with the english FAQ file. If (*AND ONLY IF*) you are 
+sure that there are no errors, update de version of the file, making it 
+the same as the original english file.
+When in doubt, ask! (amsn-lang@lists.sourceforge.net)
+
+5. When all errors are fixed, send the updated file to
+amsn-translations@lists.sourceforge.net
+-We will ONLY accept FAQxx, READMExx and HELPxx files. We will NOT accept, 
+in ANY way, individual sentences or paragraphs in the body of the email. 
+You MUST send the COMPLETE file (for instance, READMEit if you are italian)
+ATTACHED to de email message. Only in special cases we will accept
+diff files or incomplete files with a few sentences.
+-As stated above, anything sent in the body of the email will be
+IGNORED and DISCARDED.
+-Files sent to other email addresses than
+amsn-translations@lists.sourceforge.net will also be IGNORED and
+DISCARDED. When in doubt, ask!
+
+Including the text directly in the email body
+is a bad idea, as mail clients usually split long lines and
+change the character encodings, which leads to mistakes.
+
+OTHER KINDS OF CONTRIBUTION WILL BE REJECTED, IN ORDER TO MAKE THE
+JOB EASIER TO THE MANAGER.
+
+I hope you understand, there's usually one person in charge of
+updating the translations, and there are more than 50 languages, so
+there are many translations and submission. Don't make it more
+difficult :)
+
+When in doubt, ask! (amsn-lang@lists.sourceforge.net)
+
+HOW TO ADD A NEW LANGUAGE
+-------------------------
+
+0. Make sure you are looking at the right file.
+Translated FAQs are in the msn/DOCS folder.
+Also make sure you read and understand the translation instructions 
+at msn/docs/DOCS-HOWTO. By the way, it's the present document.
+
+1. Choose a short identifier for your language (for example danish
+- da). It is better that you use the correct ISO code for your
+language. ISO codes for languages can be found at
+
+    http://www.w3.org/WAI/ER/IG/ert/iso639.htm
+
+Always use the 2-letter code for your language if it exists (for
+instance, fr for french, pt for portuguese). If your language has
+only a 3-letter code (for instance, ale for aleut, pap for
+papiamento) you must use it, though. 
+When in doubt, ask! (amsn-lang@lists.sourceforge.net)
+
+For languages spoken on colonial lands, you shoud use the language
+ISO code followed by an underline and the country ISO code in CAPS
+(fr_CA for canadian french, pt_BR for brazilian portuguese). 
+
+Language ISO codes:
+    http://www.w3.org/WAI/ER/IG/ert/iso639.htm
+
+Country ISO codes:
+    http://www.bcpl.net/~jspath/isocodes.html
+
+Some codes have been mistakenly taken (for example, langbr once was 
+taken for the brazilian portuguese, but the correct code would be
+pt_BR, br alone refers to the breton language). If you find that
+the ISO code for your language has been taken by mistake for
+another language, scream your lungs out at the amsn-lang list and
+we will fix things up ;-)
+When in doubt, ask! (amsn-lang@lists.sourceforge.net)
+
+2. Download the english version of the file you want to creates.
+You should always download the most updated english file available. 
+For this example, we will use the FAQ file and the language-couple 
+egnlish/german. But it works the same way for the other two files 
+(README, HELP) and the other 50 languages.
+
+If you want to create a new FAQde file (german FAQ file) 
+you must download the most up-to-fate english FAQ file 
+from our SourceForge's CVS. There is no other way to dowload 
+this up-to-date file. We are working on it (to make download of 
+latest FAQ, README and HELP files easyer) but now it is just the way it is.
+
+To download from CVS, visit this page and follow intructions:
+
+    http://sourceforge.net/cvs/?group_id=54091
+
+Please read the CVS instructions thoroughly and carefully!
+When in doubt, ask! (amsn-lang@lists.sourceforge.net)
+
+-NEVER use files from a stable AMSN package, as they are probably out
+of date, and you'll find yourself translating things that are
+already translated in the latest file version.
+When in doubt, ask! (amsn-lang@lists.sourceforge.net)
+
+3. Copy the file msn/FAQ (the one you just downloades) to msn/DOCS/FAQde
+Note that the english FAQ/README/HELP files are in the msn folder, not 
+the msn/DOCS folder. Remember that, for some languages, the ISO code has three
+(3) letters.
+
+4. Translate the whole file as described in the RULES THAT MUST BE FOLLOWED
+subsection (earlier in this document --- two windows side by side etc).
+
+5. PROOFREAD YOR FILE, or better, ask someone else to do it. If you don't
+know anyone who can do it, try the amsn-lang@lists.sourceforge.net mailing list. 
+They will help.
+
+Also TEST your file in your own aMSN messenger. Go to the Help menu and see if
+you text fits, if there's no error opening the file, if aMSN freezes, if character
+coding is correct etc.
+
+6. Only after testing for one or two days, send the new file to
+
+    amsn-translations@lists.sourceforge.net
+
+Send to this email only! Submissions to other emails will be ignored
+and discarded.
+
+7. Of course, the file will have errors. So please ask again to the 
+kind folks at amsn-lang@lists.sourceforge.net to proofread the file.
+
+8. When in doubt, ask! (amsn-lang@lists.sourceforge.net)
+
+===========================
+2. For Translation Managers
+===========================
+
+This is not quite different from what you read in the LANG-HOWTO file.
+
+When a new FAQxx, READMExx or HELPxx translation arrives to you, you should 
+only accept it if is a diff file or a complete FAQxx, READMExx or HELPxx file. 
+Do not accept other kinds of submissions, 'cause our users have the sad habit 
+of sending sparse translated sentences by mail, and it's impossible to do
+anything useful with them :)
+
+*YOU, AS A TRANSLATION MANAGER, ***MUST*** READ THE NEW FILE AND 
+ ENSURE THE FILE IS OK!* You can use the Unix diff tool to help you.
+Do this before commiting the file and only commit it if it's ok!
+
+If the file has any problems, the best thing to do is to return it to 
+the translator and ask him to correct it. If you really need to edit a 
+file (for whatever reason) be sure you use a multilanguage editor and 
+also use de correct codepage for each language --- or you can corrupt it.
+Encodings are in langlist file (msn/langlist). This file is XML-formatted 
+so it must be easy to understand.
+
+If you reject a translation by any reason, do it politely. 
+Explain the reasons of why you're rejecting it and always: 
+'Thanks anyway' ;)
+
+What should I do if...
+-...I receive two files of the same language? Reject one, the
+oldest, or the less complete.
+
+When you get big contributions (not just 1 or 2 sentences), or when you
+notice a person is very active (sending frequent translation
+updates for a language), you should add him to the CREDITS file. 
+You should tell him/her about this, and ask him/her if he or she
+wants to be removed (nobody wanted to be removed until now, but
+it's polite to ask :))
+
+
+==========================
+3. For both - Useful tools
+==========================
+
+Unfotunately, we did not have time to develop dedicated tools for the
+HELP, FAQ and README files. But there is a little Unix tool (present 
+in almost all Unices including Linux, FreeBSD and Mac OS X) that can 
+be of great help: the diff tool.
+
+Use it to compare the file you've just received with the file already there.
+For instance: you are atranslation manager and have reveived a new FAQpt (portuguese)
+file. Save it in your system, in the msn/docs folder, as FAQpt.new. Then do a
+
+diff FAQpt FAQpt.new
+
+and carefully inspect the differences between the files. Once you are satisfied with 
+the new file and wants to commit it, just do a 
+
+cp FAQpt.new FAQpt
+cvs commit
+
+
+These are Unix commands. Windows instructions are on the way.
+
+
+=========
+ CREDITS 
+=========
+File created by Henrique Cesar Ulbrich (Hatredman)
+Based on the msn/lang/LANG-HOWTO by Alberto Diaz
+
+Version		Created		Author					Obs
+  1.0		29.Aug.2004	Henrique Cesar Ulbrich (Hatredman)	Initial file
+
+Please don't mess with the versioning system. It's quite simple to determine
+what version your mods should take. If you just add a few items or correct some,
+ad one to the MINOR version number (example, 1.1 to 1.2). If you totally rewrite the file (or rewrite
+large portions of it) add one to the MAJOR number and make the minor zero (example: 2.6 to 3.0).
+
+These credits are not a reward or reconition for you, but a way
+to hunt for a guilty person if something goes wrong he he he...
+We have the CVS versioning anyway.
