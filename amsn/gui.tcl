@@ -110,6 +110,7 @@ if { $initialize_amsn == 1 } {
 	::skin::setKey menuforeground #000000
 	::skin::setKey menuactivebackground #565672
 	::skin::setKey menuactiveforeground #ffffff
+	::skin::setKey mystatus grey
 	::skin::setKey buddylistpad 4
 	::skin::setKey showdisplaycontactlist 0
 	::skin::setKey emailabovecolorbar 0
@@ -4799,10 +4800,10 @@ proc cmsn_draw_online_wrapped {} {
 
 	$pgBuddyTop.mystatus configure -state normal
 
-	$pgBuddyTop.mystatus tag conf mystatuslabel -fore gray -underline false \
+	$pgBuddyTop.mystatus tag conf mystatuslabel -fore [::skin::getKey mystatus] -underline false \
 		-font splainf
 
-	$pgBuddyTop.mystatus tag conf mystatuslabel2 -fore gray -underline false \
+	$pgBuddyTop.mystatus tag conf mystatuslabel2 -fore [::skin::getKey mystatus] -underline false \
 		-font bboldf
 
 	$pgBuddyTop.mystatus tag conf mystatus -fore $my_colour -underline false \
