@@ -3195,7 +3195,7 @@ proc cmsn_draw_main {} {
 	#.main_menu.actions add command -label "[trans showblockedlist]..." -command "VerifyBlocked ; show_blocked"
 	.main_menu.actions add command -label "[trans changenick]..." -command cmsn_change_name
 	.main_menu.actions add separator
-	.main_menu.actions add command -label "[trans checkver]..." -command "::autoupdate::check_version"
+	.main_menu.actions add command -label "[trans checkver]" -command "::autoupdate::check_version"
 
 
 	#Order Contacts By submenu
@@ -3314,9 +3314,9 @@ proc cmsn_draw_main {} {
 
 	.main_menu.tools add separator
 	.main_menu.tools add command -label "[trans language]..." -command "::lang::show_languagechoose"
- 	.main_menu.tools add command -label "[trans pluginselector]..." -command ::plugins::PluginGui
-	.main_menu.tools add command -label "[trans skinselector]..." -command ::skinsGUI::SelectSkin
-	.main_menu.tools add command -label "[trans preferences]..." -command Preferences
+ 	.main_menu.tools add command -label "[trans pluginselector]" -command ::plugins::PluginGui
+	.main_menu.tools add command -label "[trans skinselector]" -command ::skinsGUI::SelectSkin
+	.main_menu.tools add command -label "[trans preferences]" -command Preferences
 	#The new preference window is delayed for later
 	#.main_menu.tools add command -label "[trans preferences](NEW, TESTING)..." -command Preferences::Show
 
@@ -3329,7 +3329,7 @@ proc cmsn_draw_main {} {
 
 	.main_menu.helping add command -label "[trans faq]" \
 			-command "::amsn::showHelpFileWindow FAQ [list [trans faq]]"
-	.main_menu.helping add command -label "Online help ..." \
+	.main_menu.helping add command -label "Online help" \
 			-command "launch_browser http://amsn.sourceforge.net/wiki/tiki-index.php?"
 
 	.main_menu.helping add separator
