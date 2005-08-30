@@ -2859,7 +2859,7 @@ namespace eval ::CAMSETUP {
 		#add the buttons
 		button $buttonf.back -text "Back" -state disabled
 		button $buttonf.next -text "Next" -command "::CAMSETUP::Step1"
-		button $buttonf.cancel -text "Cancel" -command "destroy $::CAMSETUP::window"
+		button $buttonf.cancel -text "Close" -command "destroy $::CAMSETUP::window"
 		#pack 'm
 		pack $buttonf.next $buttonf.back $buttonf.cancel -padx 10 -side right
 		
@@ -2888,7 +2888,7 @@ namespace eval ::CAMSETUP {
 		#add the buttons
 		button $buttonf.back -text "Back" -command "::CAMSETUP::Step0"
 		button $buttonf.next -text "Next" -command "::CAMSETUP::Step2"
-		button $buttonf.cancel -text "Cancel" -command "destroy $::CAMSETUP::window"
+		button $buttonf.cancel -text "Close" -command "destroy $::CAMSETUP::window"
 		#pack 'm
 		pack $buttonf.next $buttonf.back $buttonf.cancel -padx 10 -side right		
 		
@@ -2975,11 +2975,11 @@ namespace eval ::CAMSETUP {
 
 		#when running on mac, this will be step 2 and 3 with only 1 button to open the QT prefs
 		if { [OnMac] } {
-
+			SetTitlecText "Set up webcamdevice and channel and finetune picture (Step 3 and 4 of 5)"
 			#add the buttons
 			button $buttonf.back -text "Back" -command "::CAMSETUP::Step1"
 			button $buttonf.next -text "Next" -command "::CAMSETUP::Step4"
-			button $buttonf.cancel -text "Cancel" -command "destroy $::CAMSETUP::window"
+			button $buttonf.cancel -text "Close" -command "destroy $::CAMSETUP::window"
 			#pack 'm
 			pack $buttonf.next $buttonf.back $buttonf.cancel -padx 10 -side right
 
@@ -2996,7 +2996,7 @@ namespace eval ::CAMSETUP {
 			#add the buttons
 			button $buttonf.back -text "Back" -command "::CAMSETUP::stopPreviewGrabbing; ::CAMSETUP::Step1" ;#save the thing ?
 			button $buttonf.next -text "Next" -command "::CAMSETUP::step2_to_step3" ;#needs to save the thing !
-			button $buttonf.cancel -text "Cancel" -command "::CAMSETUP::stopPreviewGrabbing; destroy $::CAMSETUP::window"
+			button $buttonf.cancel -text "Close" -command "::CAMSETUP::stopPreviewGrabbing; destroy $::CAMSETUP::window"
 			#pack 'm
 			pack $buttonf.next $buttonf.back $buttonf.cancel -padx 10 -side right
 
@@ -3129,7 +3129,7 @@ status_log "$device"
 				} else {
 				
 					#TODO ... (tobe continued ... :))
-#					status_log "we are on windows, in developpement"
+					status_log "we are on windows, in developpement"
 										
 				
 				#End the platform checks
@@ -3249,6 +3249,7 @@ status_log "$device"
 				if {[catch {::Capture::Grab $::CAMGUI::webcam_preview $previmg} res]} {
 					status_log "Problem grabbing from the device:\n\t \"$res\""
 					$previmc create text 10 215 -anchor nw -font bboldf -text "ERROR: $res" -fill #FFFFFF -anchor nw -tag errmsg
+				after 2000 "catch { $previmc delete errmsg }"
 					
 				}
 				after 100 "incr $semaphore"
@@ -3295,6 +3296,13 @@ status_log "$device"
 #Only linux for now ...
 		global selecteddevice
 		global selectedchannel
+		
+		global brightness
+		global contrast
+		global hue
+		global color
+		
+		
 		status_log "entered step 3 of Webcam-Assistant"
 
 		#Set the title-text
@@ -3305,8 +3313,8 @@ status_log "$device"
 
 		#add the buttons
 		button $buttonf.back -text "Back" -command "::CAMSETUP::stopPreviewGrabbing; ::CAMSETUP::Step2" ;#save the thing ?
-		button $buttonf.next -text "Next" -command "::CAMSETUP::step3_to_step4" ;#needs to save the thing !
-		button $buttonf.cancel -text "Cancel" -command "::CAMSETUP::stopPreviewGrabbing; destroy $::CAMSETUP::window"
+		button $buttonf.next -text "Next" -command "::CAMSETUP::step3_to_step4 $::CAMGUI::webcam_preview" ;#needs to save the thing !
+		button $buttonf.cancel -text "Close" -command "::CAMSETUP::stopPreviewGrabbing; destroy $::CAMSETUP::window"
 		#pack 'm
 		pack $buttonf.next $buttonf.back $buttonf.cancel -padx 10 -side right
 
@@ -3357,11 +3365,11 @@ status_log "$device"
 
 
 		#First set the values to the one the cam is on when we start preview
-		set init_b [::Capture::GetBrightness $::CAMGUI::webcam_preview]
-		set init_c [::Capture::GetContrast $::CAMGUI::webcam_preview]	
-		set init_h [::Capture::GetHue $::CAMGUI::webcam_preview]	
-		set init_co [::Capture::GetColour $::CAMGUI::webcam_preview]	
-status_log "Device: $init_c, $init_b, $init_co, $init_h"
+		set brightness [::Capture::GetBrightness $::CAMGUI::webcam_preview]
+		set contrast [::Capture::GetContrast $::CAMGUI::webcam_preview]	
+		set hue [::Capture::GetHue $::CAMGUI::webcam_preview]	
+		set color [::Capture::GetColour $::CAMGUI::webcam_preview]	
+status_log "Device: $brightness, $contrast, $hue, $color"
 
 
 		#Then, if there are valid settings in our config, overwrite the values with these
@@ -3372,19 +3380,18 @@ status_log "Device: $init_c, $init_b, $init_co, $init_h"
 		set set_co [lindex $colorsettings 3]
 		
 		if {[string is integer $set_b]} {
-				status_log "set_b is int"
-				set init_b $set_b
+				set brightness $set_b
 		}
 		if {[string is integer $set_c]} {
-				set init_c $set_c
+				set contrast $set_c
 		}
 		if {[string is integer $set_h]} {
-				set init_h $set_h
+				set hue $set_h
 		}
 		if {[string is integer $set_co]} {
-				set init_co $set_co
+				set color $set_co
 		}
-status_log "Config'ed: $init_c, $init_b, $init_co, $init_h"
+status_log "Config'ed: $brightness, $contrast, $hue, $color"
 
 
 		set slides $leftframe
@@ -3397,9 +3404,11 @@ status_log "Config'ed: $init_c, $init_b, $init_co, $init_h"
 		pack $slides.b $slides.c $slides.h $slides.co -expand true -fill x
 		pack $leftframe -side right -padx 10
 
-
-
-
+		#set the sliders right
+		Properties_SetLinux $slides.b b $::CAMGUI::webcam_preview $brightness
+		Properties_SetLinux $slides.c c $::CAMGUI::webcam_preview $contrast
+		Properties_SetLinux $slides.h h $::CAMGUI::webcam_preview $hue
+		Properties_SetLinux $slides.co co $::CAMGUI::webcam_preview $color
 
 
 
@@ -3410,6 +3419,7 @@ status_log "Config'ed: $init_c, $init_b, $init_co, $init_h"
 				if {[catch {::Capture::Grab $::CAMGUI::webcam_preview $previmg} res]} {
 					status_log "Problem grabbing from the device:\n\t \"$res\""
 					$previmc create text 10 215 -anchor nw -font bboldf -text "ERROR: $res" -fill #FFFFFF -anchor nw -tag errmsg
+					after 2000 "catch { $previmc delete errmsg }"				
 					
 				}
 				after 100 "incr $semaphore"
@@ -3422,37 +3432,97 @@ status_log "Config'ed: $init_c, $init_b, $init_co, $init_h"
 	#Step 3 - Auxilary procs                                                             #
 	######################################################################################	
 	proc Properties_SetLinux { w property capture_fd new_value } {
+		global selecteddevice
+		global selectedchannel
+		
+		global brightness
+		global contrast
+		global hue
+		global color		
 
+
+#		set b [::Capture::GetBrightness $capture_fd]
+#		set c [::Capture::GetContrast $capture_fd]
+#		set h [::Capture::GetHue $capture_fd]
+#		set co [::Capture::GetColour $capture_fd]
+
+		
 		switch $property {
 			b {
 				::Capture::SetBrightness $capture_fd $new_value
-				set val [::Capture::GetBrightness $capture_fd]
-#				$w set $val
+				set brightness [::Capture::GetBrightness $capture_fd]
+				$w set $brightness
 			}
 			c {
 				::Capture::SetContrast $capture_fd $new_value
-				set val [::Capture::GetContrast $capture_fd]
-#				$w set $val
+				set contrast [::Capture::GetContrast $capture_fd]
+				$w set $contrast
 			}
 			h
 			{
 				::Capture::SetHue $capture_fd $new_value
-				set val [::Capture::GetHue $capture_fd]
-#				$w set $val
+				set hue [::Capture::GetHue $capture_fd]
+				$w set $hue
 			}
 			co
 			{
 				::Capture::SetColour $capture_fd $new_value
-				set val [::Capture::GetColour $capture_fd]
-#				$w set $val
+				set color [::Capture::GetColour $capture_fd]
+				$w set $color
 			}
 		}
+#	::config::setKey "webcam$selecteddevice:$selectedchannel" "$b:$c:$h:$co"
 
 	}
+	#proc to store the values when we go from step 2 to step 3
+	proc step3_to_step4 {grabber} {
+		global selecteddevice
+		global selectedchannel
 
+		global brightness
+		global contrast
+		global hue
+		global color
+
+		#save settings
+		::config::setKey "webcam$selecteddevice:$selectedchannel" "$brightness:$contrast:$hue:$color"
+
+		stopPreviewGrabbing
+		
+		
+		Step4
+	}	
 
 	
+	
+	
+	######################################################################################
+	#Step 4:  Network stuff                                                              #
+	######################################################################################		
+	proc Step4 {} {
+#Step 4
+		status_log "entered step 4 of Webcam-Assistant"
 
+		#Set the title-text
+		SetTitlecText "Network settings (Step 4 of 5)"
+		#clear the content and optionsframe
+		set contentf [ClearContentFrame]
+		set buttonf [ClearButtonsFrame]
+
+		#add the buttons
+		button $buttonf.back -text "Back" -command "::CAMSETUP::Step3"
+		button $buttonf.next -text "Next" -command "::CAMSETUP::step4_to_step5" ;#needs to save the thing !
+		button $buttonf.cancel -text "Close" -command "destroy $::CAMSETUP::window"
+		#pack 'm
+		pack $buttonf.next $buttonf.back $buttonf.cancel -padx 10 -side right
+
+
+		#create the innerframe
+		set frame $contentf.innerframe
+		frame $frame -bd 0
+		pack $frame -padx 10 -pady 10 -side left
+
+}
 
 #Close the ::CAMSETUP namespace
 }
