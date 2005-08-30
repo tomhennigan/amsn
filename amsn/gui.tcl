@@ -3222,7 +3222,7 @@ proc cmsn_draw_main {} {
 	.view_by add radio -label "[trans email]" -value 1 \
 		-variable [::config::getVar emailsincontactlist] -command "cmsn_draw_online"
 	.view_by add separator
-	.view_by add command -label "[trans changeglobnick]" -command "::abookGui::SetGlobalNick"
+	.view_by add command -label "[trans changeglobnick]..." -command "::abookGui::SetGlobalNick"
 
 
 
@@ -3313,7 +3313,7 @@ proc cmsn_draw_main {} {
 
 
 	.main_menu.tools add separator
-	.main_menu.tools add command -label "[trans language]..." -command "::lang::show_languagechoose"
+	.main_menu.tools add command -label "[trans language]" -command "::lang::show_languagechoose"
  	.main_menu.tools add command -label "[trans pluginselector]" -command ::plugins::PluginGui
 	.main_menu.tools add command -label "[trans skinselector]" -command ::skinsGUI::SelectSkin
 	.main_menu.tools add command -label "[trans preferences]" -command Preferences
