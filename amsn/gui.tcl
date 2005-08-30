@@ -110,6 +110,7 @@ if { $initialize_amsn == 1 } {
 	::skin::setKey menuforeground #000000
 	::skin::setKey menuactivebackground #565672
 	::skin::setKey menuactiveforeground #ffffff
+	::skin::setKey buddylistpad 4
 	::skin::setKey showdisplaycontactlist 0
 	::skin::setKey emailabovecolorbar 0
 	::skin::setKey underline_contact 0
@@ -353,7 +354,7 @@ namespace eval ::amsn {
 
 
 		#Top frame (Picture and name of developers)
-		set developers "Didimo Grimaldo\n Alvaro J. Iradier\n Khalaf Philippe\n Alaoui Youness\n Dave Mifsud"
+		set developers "Didimo Grimaldo\n Alvaro J. Iradier\n Khalaf Philippe\n Alaoui Youness\n Dave Mifsud\n..."
 
 
 		label .about.image -image [::skin::loadPixmap msndroid]
@@ -363,7 +364,7 @@ namespace eval ::amsn {
 
 		#names-frame
 		frame .about.names -class Amsn
-		label .about.names.t -font splainf -text "[trans broughtby]:\n$developers ..."
+		label .about.names.t -font splainf -text "[trans broughtby]:\n$developers"
 		pack .about.names.t -side top
 		pack .about.names -side top
 
@@ -380,6 +381,14 @@ namespace eval ::amsn {
 
 		label .about.middle.url -text $weburl -font bplainf -fg blue
 		pack .about.middle.url -side top -pady 3
+
+		bind .about.middle.url <Enter> ".about.middle.url configure -font bboldf "
+		bind .about.middle.url <Leave> ".about.middle.url configure -font bplainf"
+
+		bind .about.middle.url <Enter> "+.about.middle.url configure -cursor hand2"
+#		bind .about.middle.url <Leave> ".about.middle.url configure -cursor left_ptr"
+
+		bind .about.middle.url <Button1-ButtonRelease> "launch_browser $weburl"
 
 
 		#Bottom frame (Close button)
@@ -3354,7 +3363,7 @@ proc cmsn_draw_main {} {
 
 	frame .main.f -class Amsn -relief flat -background white -borderwidth 0
 	pack .main -fill both -expand true
-	pack .main.f -expand true -fill both -padx 4 -pady 4 -side top
+	pack .main.f -expand true -fill both -padx [::skin::getKey buddylistpad] -pady [::skin::getKey buddylistpad] -side top
 	#pack .main -expand true -fill both
 	#pack .main.f -expand true  -fill both  -padx 4 -pady 4 -side top
 
@@ -3485,7 +3494,7 @@ proc cmsn_draw_main {} {
 
 	set pgBuddyTop $pgBuddy.top
 	frame $pgBuddyTop -background [::skin::getKey contactlistbg] -width 30 -height 30 -cursor left_ptr \
-		-borderwidth 0 -relief flat
+		-borderwidth 0 -relief flat -bd 0
 	if { $::tcl_version >= 8.4 } {
 		$pgBuddyTop configure -padx 0 -pady 0
 	}
@@ -3572,7 +3581,7 @@ proc cmsn_draw_main {} {
 	cmsn_draw_status
 	cmsn_draw_offline
 
-	status_log "Proxy is : [::config::getKey proxy]\n"
+#	status_log "Proxy is : [::config::getKey proxy]\n"
 
 	#wm iconname . "[trans title]"
 	if {$tcl_platform(platform) == "windows"} {

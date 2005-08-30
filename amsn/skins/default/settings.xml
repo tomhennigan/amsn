@@ -56,6 +56,7 @@
 			<contact_offline>#666666</contact_offline>
 		</Colors>
 		<Geometry>
+			<buddylistpad>4</buddylistpad>
 			<bigstate_xpad>0</bigstate_xpad>
 			<bigstate_ypad>0</bigstate_ypad>
 			<mystatus_xpad>3</mystatus_xpad>
