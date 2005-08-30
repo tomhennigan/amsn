@@ -1,5 +1,6 @@
 amsn_lang_version 2
 about About
+aboutamsn About Alvaro's Messenger
 accept Accept
 acceptfile Accept file $1, size $2? Saved in $3
 actions Actions

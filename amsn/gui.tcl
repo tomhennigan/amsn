@@ -345,7 +345,7 @@ namespace eval ::amsn {
 		}
 
 		toplevel .about
-		wm title .about "[trans about] [trans title]"
+		wm title .about "[trans aboutamsn]"
 
 		ShowTransient .about
 
