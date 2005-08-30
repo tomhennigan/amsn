@@ -19,8 +19,8 @@ advanced Edasijõudnud
 advancedprefs Konfiguratsioonivalikud edasijõudnutele
 adverts Reklaamid
 agotinvitation $1 saatis sulle helivestluse kutse
-alarmonconnect Käivita alarm kui kasutaja tuleb liinile
-alarmondisconnect Käivita alarm kui kasutaja lahkub/varjab
+alarmonconnect Käivita alarm kui kasutaja tuleb online
+alarmondisconnect Käivita alarm kui kasutaja lahkub/varjub
 alarmonmsg Käivita alarm kui kasutaja saadab sulle sõnumi
 alarmonstatus Käivita alarm kui kasutaja muudab staatust
 alarmpref Alarmi seaded kasutajale
@@ -66,6 +66,7 @@ away Eemal
 awaymsg1 Küsi Eemal-teadet iga kord, kui sean oma staatuseks Eemal/Kohe tagasi/Kiire
 awaymsg2 Ära kunagi küsi ja alati kasuta järgnevat Eemal-teadet
 baduserpass Vale kasutajanimi või parool
+badwebcam Ei suuda veebikaamera pilti kuvada. Kontrolli, et su kaamera oleks korralikult ühendatud ja installitud
 bgcolor Muuda aMSN'i taustavärvi
 blankdirect Jäta tühjaks otseühenduse puhul
 block Blokeeri
@@ -80,6 +81,7 @@ blocklist Blokeeritute nimekiri (BL):
 blockmessage Need kasutajad on liinil ja on sind blokeerinud
 blockusers Mitut kasutajat korraga kontrollida
 bouncedock Põrgata dokis aMSN'i ikooni kui tuleb uus sõnum
+brightness heledus
 broughtby  Toodud teieni järgnevate isikute poolt
 browse Brausi
 browser Brauser
@@ -91,6 +93,8 @@ cannotdeleteprofile Ei saa profiili kustutada, sest see on aMSNi poolt kasutuses
 cantexec Ei saa käivitada programmi: $1. Kontrolli seadeid
 cantloadonlineversion Ei saa internetist laadida keelefailide uuendusi
 cantremoveothers Ei saa eemaldada gruppi Muud
+captureextloaded Salvestamise laiendus -$1- on laetud
+captureextnotloaded Salvestamise laiendus -$1- ei ole laetud, sa pead selle kompileerima
 casesensitive Kasuta tõusutundlikke päästikuid
 cfgalarm Seadista/Lisa/Eemalda alarm
 cfgalarmall Seadista/Lisa/Eemalda üldine alarm
@@ -103,6 +107,8 @@ changeglobnick Muuda globaalset hüüdnime
 changenick Muuda hüüdnime
 changesize Muuda suurust
 changestate $1 muutis oma saatuse $2
+changevideosettings Muuda video seadeid
+channels kanalid
 charscounter Trükitud tähtede loendur jutuaknas
 chat Vestlus
 chatack Nõustun vestlusega
@@ -120,7 +126,9 @@ checkver Kontrolli uuendusi
 choosearq Vali oma süsteemi arhitektuur
 choosebasefont Vali fondi tüüp
 choosebgcolor Vali tausta värv
+choosechannel Palun vali kanal
 choosecontact Palun vali kontakt listist
+choosedevice Palun vali seade
 choosefontcolor Vali fondi värv
 chooseskin Palun vali skin
 clear Puhasta
@@ -139,6 +147,7 @@ closed Vestlus $1'ga suleti passiivsuse pärast
 closelabel Kui sa vajutad tabidega aknas sulgemisnupule
 closeonly Sulge ainult aktiivne tab
 closingdocks Sulgemisnupp minimeerib akna
+color värvid
 command Käsk
 commandstatus Käivita käsk
 configure Seadista
@@ -161,6 +170,7 @@ contactadded Sõber lisatud
 contactdoesnotexist Seda sõpra ei eksisteeri!
 contactlist Kontaktide nimekiri (FL):
 continuously Järjepidevalt
+contrast kontrastsus
 conversationwith Oled vestluses $1 inimesega
 convertexplain Tee käivitatava failini CONVERT (ImageMagicki osa mis on vajalik kasutajate piltide näitamiseks).\n Jätte tühjaks kui CONVERT asub kataloogitees
 copy Kopeeri
@@ -189,8 +199,9 @@ dateformat Muuda kuupäeva formaati
 day Päev
 days päeval
 dcprofile Ära loo profiili
-default Standardseadistus
-defaultloginradio Logi vaike seadistusega
+default Vaikeseadistus
+default2 Vaikeseade
+defaultloginradio Logi vaikeseadistusega
 defchatwinsize Jutu akna standardsuurus (XsuurusxYsuurus)
 delete Kustuta
 deleteall Kustuta kõik
@@ -201,6 +212,9 @@ delprofile Kustuta profiil
 delprofile2 Vali profiil, mida soovid eemaldada
 description Kirjeldus
 detach Ühenda lahti
+details detailid
+devicebusy Seade $1 on kasutuses
+devices Seadmed
 directconnection Mul on otse ühendus internetti (kasutab porti 1863)
 disabled Keelatud
 disableprofiles Keela profiilid (Kasulik avalikes kohtades)
@@ -220,6 +234,7 @@ dockgtk Gnome dokkimine
 docking Dokkimine
 dockingoff Dokkimine väljas
 dockkde KDE dokkimine
+done valmis
 dontdownload Ära salvesta TLSi, ma paigaldan selle ise
 dontshow Ära näita
 download Lae alla
@@ -265,6 +280,7 @@ filetransfercomplete Faili edastamine õnnestunud!
 filters Filtrid
 filtersselect Vali filtrid mida soovid näha\n (Kui pole midagi valitud näidatakse tervet teksti)
 filtersx Filtrite valik
+firewalled Sinu arvuti on tulemüüri või ruuteri taga
 followtext Keri alla kui sisestatakse uus tekst
 friendlyname Sõbralik nimi
 ftaccepted Faili edastamisega nõustutud
@@ -306,6 +322,7 @@ hidewindow Peida aken
 history Vaata Ajalugu
 home Kodu
 httpconnection Ühenda kasutades HTTP-d (kasutatakse HTTP protokolli pordil 80)
+hue värvitoon
 hybrid Hübriid reziim
 ident Tuvastan
 identity Isiksus
@@ -352,6 +369,7 @@ leaves $1 lahkub vestluselt
 lenteredconf $1 liitus konverentsiga $2
 lineflushlog Joonda logi failid peale iga rida
 linprivate PRIVAATNE
+listening kuulan
 listeningon Kuulan porti $1
 listsmileys Emotsioonide nimekiri
 listsmileys2 Näita emotsioone aMSN'i peamises sõbranimekirjas
@@ -411,7 +429,7 @@ mystatus Minu olek
 myworkphone Minu töötelefon
 name Nimi
 natip IP määramine veebilehe kaudu
-natkeepalive Kui su ühendus pidevalt katkeb, võimalda see Ülalhoidmine
+natkeepalive Kui su ühendus pidevalt katkeb võimalda see ühenduse ülalhoidmist
 needonline Sa oled/ilmud ikka lahtiühendatuna
 needwinico2 Selleks, et Windowsi süsteemisalvestamine(tray) töötaks, peab utils/windows kataloog sisaldama faili winico05.dll
 never Mitte kunagi
@@ -430,6 +448,7 @@ nick Hüüdnimi
 no Ei 
 noactivity Pole tegevust
 nodataavailable $1 jaoks andmed puuduvad
+nodevices Sul pole ühtegi seadet installeeritud
 nogap Gruppide vahele ei jäeta ruumi
 nogroup Grupp puudub
 nologfile $1 jaoks logifail puudub
@@ -444,11 +463,11 @@ nosystemtray Süsteemisalv puudub
 note Märge
 notificationserver Algne MSN teadvustus server (MSN Messengeri Server)
 notify Teata
-notify1 Näita teateakent, kui sõbrad tulevad online
-notify1_5 Näita märguande akent, kui kontakt logib välja
-notify1_75 Näita märguande akent, kui kontakt muudab oma staatust
-notify2 Näita teateakent, kui saabuvad uued sõnumid
-notify3 Näita teateakent, kui postkasti saabuvad uued kirjad
+notify1 Näita teateakent kui sõbrad tulevad online
+notify1_5 Näita märguande akent kui kontakt logib välja
+notify1_75 Näita märguande akent kui kontakt muudab oma staatust
+notify2 Näita teateakent kui saabuvad uued sõnumid
+notify3 Näita teateakent kui postkasti saabuvad uued kirjad
 notify4 Näita teadvustavat akent kui kiri saabub teise kausta
 notifyoffset Määra teateakna asukoht, andes ette asukoha nihked
 notifytimeout Mitu millisekundit teate akent kuvatakse
@@ -489,6 +508,7 @@ play Mängi
 playing Hetkel mängib: $1
 pluginselector Vali plugin
 port Port
+portswellconfigured Sinu pordid on hästi konfigureeritud
 prefalerts Minu sündmuste hoiatused ja helid
 prefapps Programmid
 prefawaymsg Minu Eemal-teade
@@ -550,6 +570,8 @@ remembersetting Mäleta seda seadet
 removeempty Eemalda kontaktide nimekirjast tühjad grupid
 removefromlist Eemalda sellest listist
 rename Nimeta ümber
+report teata
+reporting teatan
 required_version Plugini mahalaadimine ebaõnnestus. Vajab vähemalt aMSN versiooni $1
 reversed Vastupidine
 reverselist Vastupidine nimekiri (RL):
@@ -576,6 +598,7 @@ serverbusy Server on hõivatud
 servergoingdown Lahtiühendatud: server sulgub
 serverunavailable Server pole saadavalis
 session Sessioon
+shareswebcam Omab veebikaamerat
 showbanner Näita aMSN'i bannerit
 showblockedlist Näita listi kasutajatest, kes on sind blokeerinud
 showcachedpics Näita varutud kuvapilte
@@ -646,6 +669,7 @@ timestamp kellaaeg
 timestamps Luba ajatemplid vestluse aknas
 title Al's Messenger
 tkerror TK töös ilmnes viga mis tähendab, et AMSN koodis on bug. Palun teata sellest saates aadressile amsn-bugs@lists.sf.net fail $1
+tkerror1 TK töös ilmnes viga mis tähendab, et AMSN koodis on bug. Palun teata sellest vajutades Teata nupule. Sa võid vajutada Detailid nupule, et vaadata täpsemat infot või Olgu nupule, et AMSN edasi kasutada.
 tlsdowncompleted Fail nimega $1 salvestati kataloogi $2. Sa pead selle lahti pakkima, kompileerima (juhul kui tõmbasid lähtekoodi) ja paigaldama $3 kataloogi.
 tlsexplain Otsitakse tcl TLS mooduli kataloogi. Kui AMSN ei suuda seda leida siis palun määra see käsitsi.\n(Vajalik SSLi kaudu autentimiseks).
 tlsinstall TLS mooduli installeerimise abiline
@@ -657,12 +681,14 @@ tomobile Mobiilile
 tools Tööriistad
 tooltips Luba abistavad vihjed
 transnotexists Vajalikku faili pole veel eesti keelde tõlgitud.
+trayicon Näita teadvustusalas oleku ikooni
 traynotcompiled Süsteemisalvikooni plugin ei ole kompileeritud. Kontrolli pluginaid/süsteemisalvedokki
 triggers Teksti päästikud
 truncatenames1 Lühenda nimed mis on laiemad kui pealkirja ja kontaktide nimekirja aknad
 truncatenames2 Lühenda nimed mis on laiemad kui vestlusaken
 truncatenicks Lühenda nimed mis on laiemad kui aken
 twonewmail $1 uut sõnumit postkastis
+type tüüp
 unblock Ära blokeeri enam
 unknown Tundmatu
 unload Lae maha
@@ -670,6 +696,7 @@ unselectall Eemalda valikud
 uoffline Offline
 uonline Online
 update Uuenda
+updateonlycurrentlanguage Uuenda ainult kasutuses olevat keelt
 updating Uuendan
 useasdp Kasuta pildina
 useother Kasuta muud programmi
@@ -686,8 +713,18 @@ version Versioon
 view Vaade
 viewcontactsby Vaata kontakte sorteerides
 viewprofile Vaata profiili
+webcamcanceled Veebikaamera sessioon kasutajaga $1 on katkestatud
+webcamclosebefcancel Enne akna sulgemist pead sa katkestama kõik veebikaamera sessioonid
+webcamextloaded Veebikaamera laiendus on laetud
+webcamextnotloaded Veebikaamera laiendus pole laetud. Sa pead selle kompileerima.
+webcamfaq KKK/Abi veebikaamera kohta
 webcamhistory Vaata veebikaamera vestlusi
 webcaminvite $1 kutsus sind alustama veebikaamera seanssi kuid aMSN ei toeta seda võimalust
+webcaminvitereceived $1 kutsub sind veebikaamera seansile. Oled nõus ?
+webcamrejected $1 ei võtnud veebikaamera kutset vastu
+webcamrequestreceive Küsi luba veebikaamera vaatamiseks
+webcamrequestsend Küsi luba veebikaamera näitamiseks
+webcamsending Nimekiri inimestest kes su veebikaamerat vaatavad\nKatkestamiseks vajuta
 webcamshot Veebikaamera pilt
 whatsize Pilt mida sa küsid ei ole tavasuuruses (96x96).\n Mis suuruses sa seda näidata soovid ?
 willjoin Ootan, et $1 liituks vestlusega

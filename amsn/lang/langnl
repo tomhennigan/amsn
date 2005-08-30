@@ -66,6 +66,7 @@ away Afwezig
 awaymsg1 Altijd om een afwezigheidsbericht vragen als ik mijn status verander in Afwezig/Ben zo terug/Bezet
 awaymsg2 Vraag niets, maar gebruik altijd het onderstaande afwezigheidsbericht
 baduserpass Gebruikersnaam of wachtwoord onjuist
+badwebcam Kan het webcambeeld niet weergeven. Controleer of je webcam juist is aangesloten en geïnstalleerd.
 bgcolor Verander de achtergrondkleur van aMSN
 blankdirect Leeg laten voor directe verbinding
 block Blokkeer
@@ -80,6 +81,7 @@ blocklist [BL] Geblokkeerd
 blockmessage Deze mensen zijn online en hebben je geblokkeerd
 blockusers Controleer gelijktijdig
 bouncedock Laat aMSN's icoontje in het systeemvak op en neer gaan wanneer er een bericht is ontvangen
+brightness Helderheid
 broughtby Aangeboden door de volgende ontwikkelaars
 browserexample ( \$url wordt vervangen door de URL ). Vb: mozilla \$url
 browser Webbrowser
@@ -91,9 +93,12 @@ cannotdeleteprofile Het profiel kan niet verwijderd worden. Het wordt mogelijk g
 cantexec Kan het programma $1 niet starten, controleer je instellingen
 cantloadonlineversion Kan de bijgewerkte talen-lijst niet ophalen van het Internet
 cantremoveothers De groep "Overige contacten" kan niet verwijderd worden
+captureextloaded Programmauitbreiding voor webcam ($1) is geladen.
+captureextnotloaded Programmauitbreiding voor webcam ($1) is niet geladen omdat deze nog niet is gecompileerd.
 casesensitive Gebruik hoofdlettergevoelige triggers
 cfgalarm Alarminstellingen
 cfgalarmall Algemene alarminstellingen
+change Wijzigen
 changecustomstate Verander status in
 changedisplaypic Schermafbeelding wijzigen
 changefont Lettertype instellen
@@ -101,7 +106,8 @@ changeglobnick Algemene schermnaam wijzigen
 changenick Schermnaam wijzigen
 changesize Grootte wijzigen
 changestate $1 heeft de status veranderd in $2
-change Wijzigen
+changevideosettings Webcaminstellingen aanpassen
+channels Kanalen
 charscounter Getypte tekens-teller in gespreksvenster
 chatack Gesprek aanvaarden van
 chat Gesprek
@@ -119,7 +125,9 @@ checkver aMSN Versiecontrole
 choosearq Selecteer je systeem
 choosebasefont Lettertype
 choosebgcolor Achtergrondkleur instellen
+choosechannel Kies een kanaal
 choosecontact Kies een contact uit de lijst
+choosedevice Kies een apparaat
 choosefontcolor Tekstkleur
 chooseskin Selecteer de skin die je wilt gebruiken
 ch_to_state Activeer nieuwe status
@@ -139,6 +147,7 @@ closealltabs altijd alle tabbladen sluiten
 closelabel Bij het klikken op de sluitknop van een venster met tabbladen
 closeonly alleen het zichtbare tabblad sluiten
 closingdocks Minimaliseren i.p.v. sluiten
+color Kleur
 command Commando
 commandstatus Commandoregel uitvoeren
 configure Configureren
@@ -161,6 +170,7 @@ contactadded Aan je contactenlijst is toegevoegd
 contactdoesnotexist Contact bestaat niet!
 contactlist [FL] Contactenlijst
 continuously Onafgebroken
+contrast Contrast
 conversationwith $1 deelnemers aan het gesprek
 convertexplain Pad naar het programma 'convert' van ImageMagick (dit is nodig voor scherm afbeeldingen). \nLeeglaten indien 'convert' binnen het zoekpad staat.
 copy Kopiëren
@@ -202,6 +212,9 @@ delprofile2 Selecteer het profiel waarvan je de locale configuratiebestanden wil
 delprofile Verwijder profiel
 description Omschrijving
 detach Loskoppelen
+details Details
+devicebusy Apparaat $1 is in gebruik
+devices Apparaten
 directconnection Directe verbinding met het internet (gebruik poort 1863)
 disabled Uitgeschakeld
 disableprofiles Schakel profielen uit (handig voor internet cafés en gedeelde omgevingen)
@@ -221,6 +234,7 @@ dockgtk Gnome systeemvak
 dockingoff Geen systeemvak gebruiken
 docking Systeemvak
 dockkde KDE Systeemvak
+done Klaar
 dontdownload Download TLS niet. Ik installeer het zelf.
 dontshow Niet weergeven
 download Downloaden
@@ -266,6 +280,7 @@ filetransfercomplete Bestandsoverdracht voltooid
 filters Filters
 filtersx Filter keuze
 filtersselect Kies de filters die je wilt toepassen\n(NB: Indien geen filter is gekozen, wordt alles weegegeven)
+firewalled Je bevindt je achter een firewall of router
 followtext Scroll naar beneden als er nieuwe tekst is ingevoerd
 friendlyname Schermnaam tijdens gesprek
 ftaccepted Bestandsoverdracht geaccepteerd
@@ -353,6 +368,7 @@ leaves $1 verlaat het gesprek
 lenteredconf $1 kwam de vergadering binnen op $2
 lineflushlog Werk logfiles bij na elke regel
 linprivate PRIVÉ
+listening Wacht op verbinding
 listeningon Wacht op inkomende verbinding op poort $1
 listsmileys2 Emoticons weergeven in de contactenlijst
 listsmileys Toon emoticons in lijst
@@ -431,6 +447,7 @@ nick Schermnaam
 no Nee
 noactivity Geen activiteit
 nodataavailable Geen gegevens beschikbaar voor $1
+nodevices Er zijn apparaten geïnstalleerd
 nogap Geen ruimte openlaten tussen groepen
 nogroup Geen groep
 nologfile Geen logboek voor $1
@@ -488,8 +505,9 @@ picfile Alarmafbeelding (GIF < 500 x 500 pixels)
 picstatus Alarmafbeelding gebruiken
 play Afspelen
 playing $1 wordt afgespeeld
-pluginselector Selecteer plugins
+pluginselector Plugins selecteren
 port Poort
+portswellconfigured Je netwerkinstellingen zijn in orde.
 prefalerts Meldingen
 prefapps Programma's
 prefawaymsg Persoonlijke status (Automatisch bericht)
@@ -551,6 +569,8 @@ remembersetting Deze instelling onthouden
 removeempty Lege groepen verwijderen uit de contactenlijst
 removefromlist Verwijder uit deze lijst
 rename Hernoemen
+report Foutrapport versturen
+reporting Foutrapport wordt verstuurd
 required_version Kan de plugin niet laden, omdat die minimaal aMSN $1 nodig heeft om te werken.
 reversed Aflopend
 reverselist [RL] Omgekeerde lijst
@@ -577,6 +597,7 @@ servergoingdown Verbinding verbroken: De server wordt uitgeschakeld
 server Server
 serverunavailable Server is niet beschikbaar
 session Sessie
+shareswebcam Heeft een webcam
 showbanner aMSN banner weergeven
 showblockedlist Toon de lijst van mensen die je geblokkeerd hebben
 showcachedpics Opgeslagen schermafbeeldingen van contacten weergeven.
@@ -637,7 +658,7 @@ tabbed Vensters met tabbladen
 tabbedglobal Alle gesprekken met contacten in één venster
 tabbedgroups Gesprekken per groep van contacten in een venster plaatsen
 tabtitlenick Schermnamen weegeven op tabbladen
-takesnapshot Maak een momentopname
+takesnapshot Foto maken
 temp_state Niet opslaan (Tijdelijke status, gaat verloren als aMSN wordt afgesloten)
 textsize Tekstgrootte
 thismonth Deze maand
@@ -647,6 +668,7 @@ timestamp Tijdstempel
 timestamps Tijd weergeven in gespreksvensters
 title Al's Messenger
 tkerror TK heeft een fout gegeven, er zit een bug in aMSN, rapporteer het alsjeblieft. Stuur het bestand $1 naar amsn-bugs@lists.sf.net
+tkerror1 Er is een fout gemeld door TK, de oorzaak hiervan is een bug in aMSN. Klik alsjeblieft op 'Foutrapport versturen' om deze fout te melden aan de makers van aMSN. Klik op 'Details' voor meer informatie over de opgetreden fout, of klik op OK om de fout te negeren en door te gaan.
 tlsdowncompleted Het bestand $1 is opgeslagen in $2. Pak dit bestand uit, maak er een build van (als je broncode hebt gedownload), en installeer het in $3.
 tlsexplain De map waar de tcl TLS module staat. Vul dit in als aMSN het zelf niet kan vinden.\n(Dit is nodig voor beveiligd aanmelden met SSL)
 tlsinstallexp aMSN gebruikt nu versie 9 van het MSN protocol.\nDaarvoor is een met SSL beveiligde verbinding vereist. aMSN heeft hierbij een module\nnodig met de naam TLS, die niet aanwezig is op je systeem. Deze wizard helpt je bij\nhet downloaden en installeren van TLS. Selecteer het type systeem dat je gebruikt\nzodat de benodigde bestanden automatisch gedownload kunnen worden.
@@ -658,12 +680,14 @@ tomobile Naar Mobiel
 tools Extra
 tooltips Tooltips weergeven
 transnotexists Het opgevraagde bestand is nog niet vertaald in de gebruikte taal.
+trayicon Geef de huidige status weer met een pictogram in het systeemvak.
 traynotcompiled Systeemvak-plugin is niet gecompileerd. Bekijk plugins/traydock
 triggers Tekst triggers
 truncatenames1 Schermnamen in de contactenlijst en in venstertitels afbreken als ze langer zijn dan het venster breed is
 truncatenames2 Schermnamen tijdens gesprekken afbreken als ze langer zijn dan het venster breed is
 truncatenicks Schermnamen afbreken als ze langer zijn dan het venster breed is
 twonewmail Je hebt $1 nieuwe berichten in Postvak IN
+type Type
 unblock Deblokkeer
 unknown Onbekend
 unload Deactiveren
@@ -688,9 +712,19 @@ version Versie
 view Beeld
 viewcontactsby Contacten weergeven met
 viewprofile Profiel weergeven
+webcamclosebefcancel Je moet alle webcamsessies beëindigen alvorens het venster te sluiten
+webcamcanceled De webcamsessie met $1 is beëindigd
+webcamextloaded Programmauitbreiding 'Webcamsn' is geladen
+webcamextnotloaded Programmauitbreiding 'Webcamsn' is niet geladen omdat deze nog niet gecompileerd is.
+webcamfaq FAQ/Help voor Webcam
 webcamhistory Webcamsessies weergeven
-webcaminvite $1 wil een webcam-sessie beginnen, maar deze functie wordt niet door aMSN ondersteund.
-webcamshot WebCam opname
+webcaminvite $1 wil een webcamsessie beginnen, maar deze functie wordt niet door aMSN ondersteund.
+webcaminvitereceived $1 wil een webcamsessie starten. Wil je deze sessie accepteren?
+webcamrejected $1 heeft je verzoek voor een webcamsessie afgewezen
+webcamrequestsend Bied deze contact jou webcambeeld aan.
+webcamrequestreceive Vraag deze contact of je zijn/haar webcambeeld mag zien
+webcamsending Contacten die op dit moment jou webcambeeld kunnen zien:\n(Klik om te beëindigen)
+webcamshot Webcam-foto
 whatsize De door jou gekozen afbeelding heeft niet het gebruikelijke formaat\nvoor schermafbeeldingen (96x96). Hoe groot wil je dat de afbeelding wordt weergegeven?
 willjoin Wachten tot $1 de conversatie zal bijwonen
 winkreceived Je hebt een knipoog ontvangen van $1. Deze functie wordt niet ondersteund door aMSN.
