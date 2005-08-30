@@ -3559,7 +3559,7 @@ status_log "Config'ed: $brightness, $contrast, $hue, $color"
 
 		#add the buttons
 		button $buttonf.back -text "Back" -command "::CAMSETUP::Step3"
-		button $buttonf.next -text "Next" -command "::CAMSETUP::step4_to_step5" ;#needs to save the thing !
+		button $buttonf.next -text "Next" -command "::CAMSETUP::Step5" ;#needs to save the thing !
 		button $buttonf.cancel -text "Close" -command "destroy $::CAMSETUP::window"
 		#pack 'm
 		pack $buttonf.next $buttonf.back $buttonf.cancel -padx 10 -side right
@@ -3570,7 +3570,53 @@ status_log "Config'ed: $brightness, $contrast, $hue, $color"
 		frame $frame -bd 0
 		pack $frame -padx 10 -pady 10 -side left
 
+		if {[::abook::getDemographicField conntype] == "IP-Restrict-NAT" && [::abook::getDemographicField listening] == "false"} {
+			label $frame.abookresult -text "[trans firewalled]" -font bboldf
+		} else {
+			label $frame.abookresult -text "[trans portswellconfigured]" -font bboldf
+		}
+		
+		pack $frame.abookresult
+
 }
+
+
+
+	######################################################################################
+	#Step 5:  Congrats                                                                   #
+	######################################################################################		
+	proc Step5 {} {
+#Step 4
+		status_log "entered step 5 of Webcam-Assistant"
+
+		#Set the title-text
+		SetTitlecText "Done (Step 5 of 5)"
+		#clear the content and optionsframe
+		set contentf [ClearContentFrame]
+		set buttonf [ClearButtonsFrame]
+
+		#add the buttons
+		button $buttonf.back -text "Back" -command "::CAMSETUP::Step4"
+		button $buttonf.next -text "Done" -command "destroy $::CAMSETUP::window"
+		button $buttonf.cancel -text "Close" -command "destroy $::CAMSETUP::window"
+		#pack 'm
+		pack $buttonf.next $buttonf.back $buttonf.cancel -padx 10 -side right
+
+
+		#create the innerframe
+		set frame $contentf.innerframe
+		frame $frame -bd 0
+		pack $frame -padx 10 -pady 10 -side left
+
+
+		label $frame.txt -text "Done" -font bboldf
+
+		
+		pack $frame.txt
+
+}
+
+
 
 #Close the ::CAMSETUP namespace
 }
