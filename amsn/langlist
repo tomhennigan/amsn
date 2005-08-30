@@ -28,7 +28,7 @@
 	<lang>
 		<langcode>ca</langcode>
 		<name>Catalan (català)</name>
-		<version>1.113</version>
+		<version>1.114</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -58,7 +58,7 @@
 	<lang>
 		<langcode>nl</langcode>
 		<name>Dutch (Nederlands)</name>
-		<version>1.126</version>
+		<version>1.127</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -82,7 +82,7 @@
 	<lang>
 		<langcode>ee</langcode>
 		<name>Estonian (eesti keel)</name>
-		<version>1.38</version>
+		<version>1.39</version>
 		<encoding>iso8859-4</encoding>
 	</lang>
 	<lang>
