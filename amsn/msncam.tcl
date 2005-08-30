@@ -11,7 +11,7 @@ proc setObjOption { obj option value } {
 
 	set my_obj($option) $value
 
-	set my_list [array get my_obj]
+	set my_list [array get my_obj]wiz
 	set objects($obj) $my_list
 
 }
@@ -2976,12 +2976,24 @@ namespace eval ::CAMSETUP {
 		#when running on mac, this will be step 2 and 3 with only 1 button to open the QT prefs
 		if { [OnMac] } {
 			SetTitlecText "Set up webcamdevice and channel and finetune picture (Step 3 and 4 of 5)"
+
+			#clear the content and optionsframe
+			set contentf [ClearContentFrame]
+			set buttonf [ClearButtonsFrame]
+
 			#add the buttons
 			button $buttonf.back -text "Back" -command "::CAMSETUP::Step1"
 			button $buttonf.next -text "Next" -command "::CAMSETUP::Step4"
 			button $buttonf.cancel -text "Close" -command "destroy $::CAMSETUP::window"
 			#pack 'm
 			pack $buttonf.next $buttonf.back $buttonf.cancel -padx 10 -side right
+
+			#create the innerframe
+			set frame $contentf.innerframe
+			frame $frame -bd 0
+			pack $frame -padx 10 -pady 10 -side left			
+
+			button $frame.button -text "Open camsettings window" -command "::CAMGUI::ChooseDeviceMac"
 
 			status_log "here should be drawn a button to open the QT prefs"
 				
