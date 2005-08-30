@@ -3241,7 +3241,7 @@ status_log "$device"
 
 			#put the border-pic on top
 			$previmc raise border
-
+			setPic $::CAMGUI::webcam_preview
 			
 			set semaphore ::CAMGUI::sem_$::CAMGUI::webcam_preview
 			set $semaphore 0
@@ -3285,7 +3285,53 @@ status_log "$device"
 		::config::setKey "webcamDevice" "$selecteddevice:$selectedchannel"
 		
 		Step3
-	}	
+	}
+	
+	
+	#proc to set the picture settings
+	proc setPic { grabber } {
+		global selecteddevice
+		global selectedchannel
+
+		global brightness
+		global contrast
+		global hue
+		global color
+
+		
+		#First set the values to the one the cam is on when we start preview
+		set brightness [::Capture::GetBrightness $grabber]
+		set contrast [::Capture::GetContrast $grabber]	
+		set hue [::Capture::GetHue $grabber]	
+		set color [::Capture::GetColour $grabber]	
+
+
+		#Then, if there are valid settings in our config, overwrite the values with these
+		set colorsettings [split [::config::getKey "webcam$selecteddevice:$selectedchannel"] ":"]
+		set set_b [lindex $colorsettings 0]
+		set set_c [lindex $colorsettings 1]
+		set set_h [lindex $colorsettings 2]
+		set set_co [lindex $colorsettings 3]
+		
+		if {[string is integer $set_b]} {
+				set brightness $set_b
+		}
+		if {[string is integer $set_c]} {
+				set contrast $set_c
+		}
+		if {[string is integer $set_h]} {
+				set hue $set_h
+		}
+		if {[string is integer $set_co]} {
+				set color $set_co
+		}	
+		
+		#Set 'm	
+		::Capture::SetBrightness $grabber $brightness
+		::Capture::SetContrast $grabber $contrast
+		::Capture::SetHue $grabber $hue
+		::Capture::SetColour $grabber $color		
+	}
 
 
 	######################################################################################
@@ -3425,6 +3471,8 @@ status_log "Config'ed: $brightness, $contrast, $hue, $color"
 				after 100 "incr $semaphore"
 				tkwait variable $semaphore
 			}
+
+#TODO: Add a key-combo to reread the device settings and set these and go to next step (to adjust to settings of other programs)
 
 	}
 
