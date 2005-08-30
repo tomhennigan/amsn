@@ -1,5 +1,6 @@
 amsn_lang_version 2
 about Over aMSN
+aboutamsn About Alvaro's Messenger
 accept Accepteren
 acceptfile Accepteer het bestand $1, grootte $2? Het bestand zal worden opgeslagen in $3
 actions Acties
@@ -322,6 +323,7 @@ hidewindow Venster verbergen
 history Geschiedenis tonen
 home Thuis
 httpconnection Verbinding maken via het HTTP-protocol
+hue Kleurtoon
 hybrid Hybride modus
 ident Bezig met identificeren
 identity Identiteit
@@ -447,7 +449,7 @@ nick Schermnaam
 no Nee
 noactivity Geen activiteit
 nodataavailable Geen gegevens beschikbaar voor $1
-nodevices Er zijn apparaten geïnstalleerd
+nodevices Er zijn geen apparaten geïnstalleerd
 nogap Geen ruimte openlaten tussen groepen
 nogroup Geen groep
 nologfile Geen logboek voor $1
@@ -505,7 +507,7 @@ picfile Alarmafbeelding (GIF < 500 x 500 pixels)
 picstatus Alarmafbeelding gebruiken
 play Afspelen
 playing $1 wordt afgespeeld
-pluginselector Plugins selecteren
+pluginselector Plugins
 port Poort
 portswellconfigured Je netwerkinstellingen zijn in orde.
 prefalerts Meldingen
@@ -608,7 +610,7 @@ shownotify Geef meldingsvenster weer bij bepaalde gebeurtenissen
 showpicnotify Geef schermafbeelding weer op meldingsvensters
 showuserpic Afbeelding van $1
 signinstatus Status na aanmelden
-skinselector Skin selecteren
+skinselector Skin
 skin Skin
 smileconfig Configuratie voor zelfgemaakte emoticons
 smilefile Bestandsnaam van de emoticon
@@ -645,6 +647,8 @@ stats Statistieken
 status Status
 stop Stop
 stopalarm Stop het alarm
+stopwebcamreceive Stop webcamontvangst
+stopwebcamsend Stop verzending van webcambeeld
 storenickname Herstel de oorspronkelijke schermnaam na een aangepaste status met aangepaste schermnaam.
 strictfonts Beperk de lettergrootte overal tot wat ik heb ingesteld, ook in de statusbalk e.d.
 style Stijl
@@ -721,8 +725,8 @@ webcamhistory Webcamsessies weergeven
 webcaminvite $1 wil een webcamsessie beginnen, maar deze functie wordt niet door aMSN ondersteund.
 webcaminvitereceived $1 wil een webcamsessie starten. Wil je deze sessie accepteren?
 webcamrejected $1 heeft je verzoek voor een webcamsessie afgewezen
-webcamrequestsend Bied deze contact jou webcambeeld aan.
-webcamrequestreceive Vraag deze contact of je zijn/haar webcambeeld mag zien
+webcamrequestreceive Je verzoek om webcambeeld te mogen zien is verstuurd
+webcamrequestsend Je aanbod van webcambeeld is verstuurd
 webcamsending Contacten die op dit moment jou webcambeeld kunnen zien:\n(Klik om te beëindigen)
 webcamshot Webcam-foto
 whatsize De door jou gekozen afbeelding heeft niet het gebruikelijke formaat\nvoor schermafbeeldingen (96x96). Hoe groot wil je dat de afbeelding wordt weergegeven?
