@@ -322,23 +322,25 @@ namespace eval ::amsn {
 
 	#///////////////////////////////////////////////////////////////////////////////
 	# Draws the about window
-	proc aboutWindow {{localized 0}} {
+	proc aboutWindow {} {
+		global tcl_platform langenc date weburl
+		
+		set filename "[file join docs README[::config::getGlobalKey language]]"
+		
+		if {![file exists $filename]} {
+			status_log "File $filename NOT exists!!\n\tUsing english one instead." red
+			set filename README
+			set langenc "iso8859-1"
 
-		global tcl_platform langenc
-
+			if {![file exists $filename]} {
+				status_log "no english README either .. Houston, we have a problem, you ***'ed up your aMSN install!"
+				msg_box "[trans transnotexists]"
+				return
+			}
+		}
+				
 		if { [winfo exists .about] } {
 			raise .about
-			return
-		}
-
-		if { $localized } {
-			set filename "[file join docs README[::config::getGlobalKey language]]"
-		} else {
-			set filename README
-		}
-		if {![file exists $filename] } {
-			status_log "File $filename NOT exists!!\n" red
-			msg_box "[trans transnotexists]"
 			return
 		}
 
@@ -351,11 +353,20 @@ namespace eval ::amsn {
 
 
 		#Top frame (Picture and name of developers)
-		set developers "\nDidimo Grimaldo\nAlvaro J. Iradier\nKhalaf Philippe\nAlaoui Youness\nDave Mifsud"
-		frame .about.top -class Amsn
-		label .about.top.i -image [::skin::loadPixmap msndroid]
-		label .about.top.l -font splainf -text "[trans broughtby]:$developers"
-		pack .about.top.i .about.top.l -side left
+		set developers "Didimo Grimaldo\n Alvaro J. Iradier\n Khalaf Philippe\n Alaoui Youness\n Dave Mifsud"
+
+
+		label .about.image -image [::skin::loadPixmap msndroid]
+		label .about.title -text "aMSN $::version ([::abook::dateconvert $date])" -font bboldf
+		label .about.what -text "aMSN is a platform-independent MSN Messenger clone\n"
+		pack .about.image .about.title .about.what -side top
+
+		#names-frame
+		frame .about.names -class Amsn
+		label .about.names.t -font splainf -text "[trans broughtby]:\n$developers ..."
+		pack .about.names.t -side top
+		pack .about.names -side top
+
 
 		#Middle frame (About text)
 		frame .about.middle
@@ -367,24 +378,26 @@ namespace eval ::amsn {
 		pack .about.middle.list.text -side left -expand true -fill both
 		pack .about.middle.list -side top -expand true -fill both -padx 1 -pady 1
 
+		label .about.middle.url -text $weburl -font bplainf -fg blue
+		pack .about.middle.url -side top -pady 3
+
+
 		#Bottom frame (Close button)
 		frame .about.bottom -class Amsn
 		button .about.bottom.close -text "[trans close]" -command "destroy .about"
 		bind .about <<Escape>> "destroy .about"
-		button .about.bottom.credits -text "[trans credits]..." -command [list ::amsn::showHelpFile CREDITS [trans credits]]
+		button .about.bottom.credits -text "[trans credits]..." -command [list ::amsn::showHelpFileWindow CREDITS [trans credits]]
 
 		pack .about.bottom.close -side right
 		pack .about.bottom.credits -side left
 
-		pack .about.top -side top
 		pack .about.bottom -side bottom -fill x -pady 3 -padx 5
 		pack .about.middle -expand true -fill both -side top
 
 		#Insert the text in .about.middle.list.text
 		set id [open $filename r]
-		if { $localized } {
-			fconfigure $id -encoding $langenc
-		}
+		fconfigure $id -encoding $langenc
+
 		.about.middle.list.text insert 1.0 [read $id]
 		close $id
 
@@ -405,71 +418,97 @@ namespace eval ::amsn {
 
 
 	#///////////////////////////////////////////////////////////////////////////////
-	# showHelpFile(filename,windowsTitle)
-	proc showTranslatedHelpFile {file title} {
+	# showHelpFileWindow(file, windowtitle, ?english?)
+	proc showHelpFileWindow {file title {english 0}} {
 		global langenc
 
-		set filename [file join "docs" "${file}[::config::getGlobalKey language]"]
+		set langcode [::config::getGlobalKey language]
+		set encoding $langenc
+			
 
-		if {[file exists $filename]} {
-			status_log "File $filename exists!!\n" blue
-			showHelpFile $filename "$title" $langenc
-		} else {
-			status_log "File $filename NOT exists!!\n" red
-			msg_box "[trans transnotexists]"
+		if {$english == 1} {
+			set langcode "en"
+			set encoding "iso8859-1"
 		}
-	}
 
-	#///////////////////////////////////////////////////////////////////////////////
-	# showHelpFile(filename,windowsTitle)
-	proc showHelpFile {file title {encoding "iso8859-1"}} {
+		set filename [file join "docs" "${file}$langcode"]
+		if {$langcode == "en"} {
+			set filename $file
+		}
 
-		if { [winfo exists .show] } {
-			raise .show
+
+		if {![file exists $filename]} {
+			status_log "File $filename NOT exists!!\n\tOpening English one instead." red
+			set filename "${file}"
+			set langcode "en"
+			set encoding "iso8859-1"
+			if {![file exists $filename]} {			
+				status_log "Couldn't open $filename!" red
+				msg_box "[trans transnotexists]"
+				return
+			}
+		}
+			
+		if {$langcode == "en"} {
+			set w .helpen
+		} else {
+			set w .help
+		}
+
+		status_log "filename: $filename"
+
+
+
+		if { [winfo exists $w] } {
+			raise $w
 			return
 		}
 
-		toplevel .show
-		wm title .show "$title"
+		toplevel $w
+		wm title $w "$title"
 
-		ShowTransient .show
+		ShowTransient $w
 
 
 		#Top frame (Help text area)
-		frame .show.info
-		frame .show.info.list -class Amsn -borderwidth 0
-		text .show.info.list.text -background white -width 80 -height 30 -wrap word \
-			-yscrollcommand ".show.info.list.ys set" -font   splainf
-		scrollbar .show.info.list.ys -command ".show.info.list.text yview"
-		pack .show.info.list.ys 	-side right -fill y
-		pack .show.info.list.text -expand true -fill both -padx 1 -pady 1
-		pack .show.info.list 		-side top -expand true -fill both -padx 1 -pady 1
-		pack .show.info 			-expand true -fill both -side top
+		frame $w.info
+		frame $w.info.list -class Amsn -borderwidth 0
+		text $w.info.list.text -background white -width 80 -height 30 -wrap word \
+			-yscrollcommand "$w.info.list.ys set" -font   splainf
+		scrollbar $w.info.list.ys -command "$w.info.list.text yview"
+		pack $w.info.list.ys 	-side right -fill y
+		pack $w.info.list.text -expand true -fill both -padx 1 -pady 1
+		pack $w.info.list 		-side top -expand true -fill both -padx 1 -pady 1
+		pack $w.info 			-expand true -fill both -side top
 
 		#Bottom frame (Close button)
-		button .show.close -text "[trans close]" -command "destroy .show"
-		bind .show <<Escape>> "destroy .show"
-		pack .show.close
-		pack .show.close -side top -anchor e -padx 5 -pady 3
+		button $w.close -text "[trans close]" -command "destroy $w"
+		button $w.eng -text "English version" -command [list ::amsn::showHelpFileWindow $file "$title - English version" 1]
+		bind $w <<Escape>> "destroy $w"
+		pack $w.close
+
+		if {$langcode != "en" && $english != 1} {
+			pack $w.eng  -side right -anchor e -padx 5 -pady 3
+		}
+		pack $w.close  -side right -anchor e -padx 5 -pady 3
 
 		#Insert FAQ text
-		set id [open $file r]
-		fconfigure $id -encoding $encoding
-		.show.info.list.text insert 1.0 [read $id]
+		set id [open $filename r]
+		fconfigure $id -encoding $langenc
+		$w.info.list.text insert 1.0 [read $id]
 		close $id
 
-		.show.info.list.text configure -state disabled
+		$w.info.list.text configure -state disabled
 
 		update idletasks
 
-		set x [expr {([winfo vrootwidth .show] - [winfo width .show]) / 2}]
-		set y [expr {([winfo vrootheight .show] - [winfo height .show]) / 2}]
-		wm geometry .show +${x}+${y}
+		set x [expr {([winfo vrootwidth $w] - [winfo width $w]) / 2}]
+		set y [expr {([winfo vrootheight $w] - [winfo height $w]) / 2}]
+		wm geometry $w +${x}+${y}
 
 		#Should we disable resizable? Since when we make the windows smaller (in y), we lost the "Close button"
 		#wm resizable .about 0 0
 	}
-	#///////////////////////////////////////////////////////////////////////////////
 
 	#///////////////////////////////////////////////////////////////////////////////
 
@@ -3275,39 +3314,22 @@ proc cmsn_draw_main {} {
 	#Help menu
 	menu .main_menu.helping -tearoff 0 -type normal
 
-	if { [::config::getGlobalKey language] != "en" } {
-		.main_menu.helping add command -label "[trans helpcontents] - $langlong..." \
-			-command "::amsn::showTranslatedHelpFile HELP [list [trans helpcontents]]"
-		.main_menu.helping add command -label "[trans helpcontents] - English..." \
-			-command "::amsn::showHelpFile HELP [list [trans helpcontents]]"
-	} else {
-		.main_menu.helping add command -label "[trans helpcontents]..." \
-			-command "::amsn::showHelpFile HELP [list [trans helpcontents]]"
-	}
+	.main_menu.helping add command -label "[trans helpcontents]" \
+			-command "::amsn::showHelpFileWindow HELP [list [trans helpcontents]]"
 	.main_menu.helping add separator
 
-	if { [::config::getGlobalKey language] != "en" } {
-		.main_menu.helping add command -label "[trans faq] - $langlong..." \
-			-command "::amsn::showTranslatedHelpFile FAQ [list [trans faq]]"
-		.main_menu.helping add command -label "[trans faq] - English..." \
-			-command "::amsn::showHelpFile FAQ [list [trans faq]]"
-	} else {
-		.main_menu.helping add command -label "[trans faq]..." \
-			-command "::amsn::showHelpFile FAQ [list [trans faq]]"
-	}
+	.main_menu.helping add command -label "[trans faq]" \
+			-command "::amsn::showHelpFileWindow FAQ [list [trans faq]]"
+	.main_menu.helping add command -label "Online help ..." \
+			-command "launch_browser http://amsn.sourceforge.net/wiki/tiki-index.php?"
+
 	.main_menu.helping add separator
 
-	if { [::config::getGlobalKey language] != "en" } {
-		.main_menu.helping add command -label "[trans about] - $langlong..." \
-			-command "::amsn::aboutWindow 1"
-		.main_menu.helping add command -label "[trans about] - English..." \
-			-command ::amsn::aboutWindow
-	} else {
-		.main_menu.helping add command -label "[trans about]..." -command ::amsn::aboutWindow
-	}
-	.main_menu.helping add command -label "[trans version]..." -command \
+	.main_menu.helping add command -label "[trans about]" -command ::amsn::aboutWindow
+
+#	.main_menu.helping add command -label "[trans version]..." -command \
 	"msg_box \"[trans version]: $::version\n[trans date]: [::abook::dateconvert $date]\n$weburl\""
-
+#-> now in about box
 
 	. conf -menu .main_menu
 
