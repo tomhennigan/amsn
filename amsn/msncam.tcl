@@ -11,7 +11,7 @@ proc setObjOption { obj option value } {
 
 	set my_obj($option) $value
 
-	set my_list [array get my_obj]wiz
+	set my_list [array get my_obj]
 	set objects($obj) $my_list
 
 }
