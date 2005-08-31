@@ -154,6 +154,7 @@
 			<chat_sash_showhandle>0</chat_sash_showhandle>
 			<chat_show_sendbuttonframe>1</chat_show_sendbuttonframe>
 			<chat_show_statusbarframe>1</chat_show_statusbarframe>
+			<chat_show_topframe>1</chat_show_topframe>
 		</Options>
 	</ChatWindow>
 

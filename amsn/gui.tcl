@@ -107,6 +107,7 @@ if { $initialize_amsn == 1 } {
 	
 	::skin::setKey chat_show_sendbuttonframe 1
 	::skin::setKey chat_show_statusbarframe 1
+	::skin::setKey chat_show_topframe 1
 
 	::skin::setKey menuforeground #000000
 	::skin::setKey menuactivebackground #565672
