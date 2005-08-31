@@ -376,7 +376,7 @@ namespace eval ::amsn {
 		#Middle frame (About text)
 		frame .about.middle
 		frame .about.middle.list -class Amsn -borderwidth 0
-		text .about.middle.list.text -background white -width 80 -height 30 -wrap word \
+		text .about.middle.list.text -background white -width 80 -height 10 -wrap word \
 			-yscrollcommand ".about.middle.list.ys set" -font splainf
 		scrollbar .about.middle.list.ys -command ".about.middle.list.text yview"
 		pack .about.middle.list.ys -side right -fill y
