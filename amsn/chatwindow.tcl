@@ -821,7 +821,10 @@ namespace eval ::ChatWindow {
 
 		pack $top -side top -expand false -fill x -padx [::skin::getKey chat_top_padx]\
 		 -pady [::skin::getKey chat_top_pady]
-		pack $statusbar -side bottom -expand false -fill x -padx [::skin::getKey chat_status_padx] -pady [::skin::getKey chat_status_pady]
+
+		if {[::skin::getKey chat_show_statusbarframe]} {
+			pack $statusbar -side bottom -expand false -fill x -padx [::skin::getKey chat_status_padx] -pady [::skin::getKey chat_status_pady]
+		}
 		pack $paned -side top -expand true -fill both -padx [::skin::getKey chat_paned_padx]\
 		 -pady [::skin::getKey chat_paned_pady]
 
