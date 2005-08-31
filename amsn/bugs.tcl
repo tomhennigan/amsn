@@ -7,6 +7,7 @@ namespace eval ::bugs {
     variable details 0
     variable w ".bug_dialog"
     variable message
+    variable website "http://localhost/~kkrizka/bugs/"
 
     proc bgerror { args } {
 	global errorInfo errorCode HOME2 tcl_platform tk_version tcl_version
@@ -289,9 +290,13 @@ namespace eval ::bugs {
 	$w.report configure -text [trans reporting] -state disabled
 	
 	#bugs::post {url field type file {params {}} {headers {}}}
-	set token [bugs::post "http://beast.recordingground.com/bugs/report.php" [file join $HOME2 bugreport.amsn]]
-	upvar #0 $token state
-	set ::bugs::message $state(body)
+	set lang [::config::getGlobalKey language]
+	if { [catch {set token [bugs::post "$::bugs::website/report.php?lang=$lang" [file join $HOME2 bugreport.amsn]]}] == 0} {
+	    upvar #0 $token state
+	    set ::bugs::message $state(body)
+	} else {
+	    set ::bugs::message [trans bugerror]
+	}
 	
 	$w.report configure -text [trans done]
     }

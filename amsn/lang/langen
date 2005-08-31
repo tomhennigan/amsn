@@ -87,6 +87,7 @@ broughtby  Brought to you by the following developers
 browse Browse
 browser Browser
 browserexample ( \$url will be replaced with the URL). Ex: mozilla \$url
+bugerror Sorry, but there was a problem connecting to the bug database. Please check your internet connection.
 busy Busy
 cachedpics $1 cached pics
 cancel Cancel
