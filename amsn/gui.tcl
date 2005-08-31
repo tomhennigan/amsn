@@ -11,7 +11,7 @@ if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 	catch {package require QuickTimeTcl}
 	catch {load utils/macosx/Quicktimetcl3.1/quicktimetcl3.1.dylib}
 } else {
-	package require pixmapscrollunde
+	package require pixmapscroll
 }
 
 
