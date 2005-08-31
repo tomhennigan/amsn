@@ -2,14 +2,14 @@ amsn_lang_version 2
 about About
 aboutamsn About Alvaro's Messenger
 accept Accept
-acceptfile Accept file $1, size $2? Saved in $3
+acceptfile Do you want to accept the file $1 (size $2 bytes)? It will be saved in $3
 actions Actions
-activeautoupdate Active auto-update
-addacontact Add a contact
+activeautoupdate Activate auto-update
 add Add
+addacontact Add a contact
 addedyou $1 ($2) has added you to his/her contact list
 addprofile Add New Profile
-addprofiledesc Enter the login which you would like to create a new profile for. \nProfiled logins allow you to have different configurations for each login.\nWithout profiles you cannot use the History, Alarms or "Remember Password" function.
+addprofiledesc Enter the login which you would like to create a new profile for. \nProfiles allow you to have different configurations for each login.\nWithout profiles you cannot use the History, Alarms or "Remember Password" functions.
 addstate Add New State
 addto Add to $1
 addtocontacts Add to contact list
@@ -20,24 +20,24 @@ advanced Advanced
 advancedprefs Advanced options configuration
 adverts Advertisements
 agotinvitation Received Audio invitation from $1
-alarmonconnect Activate alarm when user comes online
-alarmondisconnect Activate alarm when user goes offline/invisible 
-alarmonmsg Activate alarm when user sends you a message
-alarmonstatus  Activate alarm when user changes state
-alarmpref Alarm Settings for user
+alarmonconnect Activate alarm when this user comes online
+alarmondisconnect Activate alarm when this user goes offline/invisible 
+alarmonmsg Activate alarm when this user sends you a message
+alarmonstatus  Activate alarm when this user changes state
+alarmpref User specific alarm settings
 alarms Alarms
-alarmstatus Turn ON/OFF Alarm for this user
+alarmstatus Activate the alarm for this user
 allfiles All Files
 allmonths All Months
-allowallbutbl Allow all users apart from those in my Block List to contact me
+allowallbutbl Allow all users to contact me, except for those I blocked
 allowbadwords Disable censorship on nicknames
-allowlist Allow list (AL):
-allowonlyinal Only allow users in my Accept List to contact me
+allowlist Accepted users list (AL):
+allowonlyinal Only users I accepted are allowed to contact me
 allowseen Allow this person to see when I'm online and contact me
 allow_sms Allow users to contact me on my MSN mobile device
 allprofilesinuse All existing profiles are currently in use
 animatedemoticon This emoticon is animated
-animatedsmileys Enable animated smileys
+animatedsmileys Enable animated emoticons
 animatenotify Animated Notify Window
 appearance Appearance
 appearoff Appear offline
@@ -48,24 +48,24 @@ askwebcam Ask this user to send his/her webcam
 author Author
 autoaccepted File transfer accepted automatically
 autoacceptft Automatically accept File Transfer requests
-autoaway Show me as "Away" when inactive for
+autoaway Change state to "Away" when inactive for
 autocheckver Automatically check for newer versions on startup
 autoconnect2 Sign In automatically when aMSN is launched
-autoconnect Connect on amsn start
+autoconnect Connect on aMSN start
 autodetectip Detect IP address automatically
-autohotmaillog Auto Hotmail login
+autohotmaillog Automatically login to Hotmail
 autoidle Auto NoActivity
 autoip Automatic IP
 automessage AutoMessage
-autonoact Show me as "Not Active" when inactive for
-avaccepted Video Conference call Accepted
-avcanceled Video Conference call Canceled
+autonoact Change state to "No activity" when inactive for
+avaccepted Video Conference call accepted
+avcanceled Video Conference call canceled
 avgotinvitation Received Video Conference invitation from $1
 avinitfailed Initialization of the Audio/Video Plugin failed. Call Canceled
 avoidseen Prevent this person from seeing when I'm online and contacting me
 away Away
 awaymsg1 Ask for away message each time I change my status to Away/BRB/Busy
-awaymsg2 Never ask and always use the away message below 
+awaymsg2 Never ask and always use the message below
 baduserpass Wrong user name or password
 badwebcam Cannot display the webcam's image. Make sure your webcam is well plugged and installed.
 bgcolor Change aMSN's background color 
@@ -94,9 +94,9 @@ cancel Cancel
 cannotdeleteprofile Cannot delete profile because it seems to be in use by an aMSN session
 cantexec Can't execute application: $1. Check preferences
 cantloadonlineversion Can't recover the On-Line updated list of languages from the Internet
-cantremoveothers Can't remove "Others" group
+cantremoveothers The "Others" group cannot be removed
 captureextloaded Capture extension -$1- is loaded
-captureextnotloaded Capture extension -$1- is not loaded, you have to compile it
+captureextnotloaded Capture extension -$1- is not loaded, you have to compile it first
 casesensitive Use case-sensitive triggers
 cfgalarmall Configure/Add/Remove Global Alarm
 cfgalarm Configure/Add/Remove Alarm
@@ -138,16 +138,16 @@ clearlog2 Clear the history for all your contacts
 clearlog3 Clear All Logs
 clearlog Clear Log
 clearwebcamlogs Clear All Webcam logs
-clicktoadd Click on Add button for a new note
+clicktoadd Click the 'Add' button to add a new note
 clicktologin Click here to log in
 clientcaps Send x-clientcaps packet to others clients
-clientname Client Name
-closeall Close all the tabs in the window?
+clientname Client name
+closeall Close all tabs in this window?
 closealltabs Close all tabs
 closelabel When you click the close button in a tabbed chat window
 closeonly Close only the current tab
 close Close
-closed Conversation with $1 closed due to inactivity
+closed Conversation with $1 has been closed due to inactivity
 closingdocks Close button minimizes
 color Color
 command Command
@@ -159,14 +159,14 @@ confirmdelete Are you sure you want to delete $1?
 confirmdg Are you sure you want to delete this group?
 confirmdu Are you sure you want to delete this user?
 confirmeg Are you sure you want to empty this group?
-confirmpurge All stored display pictures from other contacts (not your display pictures) will be erased. Are you sure?
-confirmrfl Are you sure you want to delte this user from this group?
+confirmpurge All stored display pictures from other contacts will be erased (those of your own will be kept). Are you sure?
+confirmrfl Are you sure you want to delete this user from this group?
 connectedwith Connected with $1
 connected You are now connected
 connecterror Error connecting to server
 connecting Connecting
 connection Connection
-connectionlost Disconnected: Connection with server closed
+connectionlost Disconnected: Lost connection with the server
 contactadded Contact added
 contact Contact
 contactdoesnotexist Contact does not exist!
@@ -174,7 +174,7 @@ contactlist Contact list (FL):
 continuously Continuously
 contrast Contrast
 conversationwith $1 users in conversation
-convertexplain Path to CONVERT executable file, from ImageMagick (required for Display Pictures).\n Leave blanck if CONVERT is in the path
+convertexplain Path to CONVERT executable file, from ImageMagick (required for Display Pictures).\n Leave blank if CONVERT is in the path
 copy Copy
 copytogroup Copy to group
 corruptconfig Configuration file is corrupt. Creating new one. Old file will be saved to $1. Please send it to us to check what happened.
@@ -184,9 +184,9 @@ cprofile Create Profile
 created Created
 credits Credits
 currentdate Current Date
-currentlanguage This is the language that you use
+currentlanguage This is the language currently in use
 currentnotes Current notes
-custnotifymsg Display notify window when a new user message is received
+custnotifymsg Display notify window when a message from this user arrives
 custnotifyoffline Display notify window when this contact goes offline
 custnotifyonline Display notify window when this contact comes online
 custnotifystatus Display notify window when this contact changes status
@@ -208,8 +208,8 @@ defchatwinsize Default size for chat windows (XSIZExYSIZE)
 deleteall Delete all
 deletecustomstate Delete custom state
 delete Delete
-delimiters Timestamps' delimiters:
-deliverfail There was a problem delivering the following message
+delimiters Timestamp delimiters:
+deliverfail The following message could not be delivered
 delprofile2 Select the profile that you would like to remove 
 delprofile Delete Profile
 description Description
@@ -267,7 +267,7 @@ examples Examples
 exitamsn Are you sure you want to quit?
 extras Extra Services
 faileddelete Failed to delete
-faileddeleteperso This picture cannot be deleted because it is not a personal picture file. Only pictures that belong to your personal profile can be removed this way.
+faileddeleteperso This picture cannot be deleted because it does not belong to your profile. Only pictures that belong to your personal profile can be removed this way.
 failed Failed
 faq FAQ (Frequently Answered Questions)
 filedoesnotexist File does not exist
@@ -275,34 +275,34 @@ file File
 filemanexample ( \$location will be replaced with the directory ) Ex: nautilus \$location
 fileman File Manager
 filename Filename
-filenotwritable This file can't be deleted
+filenotwritable Cannot delete this file
 filetransfercancelled File transfer cancelled
 filetransfercomplete File transfer complete
 filetransfer File Transfer
 filters Filters
-filtersselect Select the filters you want to see\n(Note none selected means show all)
+filtersselect Select the filters you want to use\n(Note: none selected means 'show all')
 filtersx Filter Selection
 firewalled You are firewalled or behind a router
 followtext Scroll down when new text is entered
 friendlyname Friendly Name
 ftacceptedby $1 accepted file transfer invitation for file '$2'.
 ftaccepted File transfer accepted
-ftaccepting Accepting file transfer invitation
-ftautoclose Close the window when the file transfer is finished
+ftaccepting Accepting file transfer request
+ftautoclose Close this window after completing the file transfer
 ftconnecterror Error connecting to remote peer
 ftconnecting Connecting to $1 port $2
 ftconnectionlost Connection with remote peer lost
 ftgotinvitation $1 wants to send you the file '$2' ($3 bytes). It will be saved in directory $4. Do you want to receive this file?
 ftportpref Starting port for file transfers
-ftrejectedby $1 rejected file transfer invitation for file '$2'.
+ftrejectedby $1 rejected the transfer request for file '$2'.
 ftrejected File transfer rejected
 ftsendinvitation File transfer invitation for file '$2' ($3 bytes) has been sent to $1.
-fullcontactlist Sorry, your contact list if full. You'll need to remove some contacts in order to add new ones.
+fullcontactlist Sorry, your contact list is full. You'll need to remove some contacts in order to add new ones.
 getdisppic Enable receiving Display Pictures from other users
 globalcontainer Global container
 globalnick Insert a pattern to form all your contacts' nicknames. You can use these variables: \$user_login for you contacts' address, \$nick for your contacts' nickname and \$customnick for your contacts' custom nickname. For example: '\$user_login is \$nick' will be 'contact@msn.com is Contact'
 globalnicktitle Global Nickname
-globaloverride Global nicknames pattern should override custom nicknames
+globaloverride Global nickname pattern should override custom nicknames
 gonelunch Gone to lunch
 groupadd Add a group
 groupdelete Delete a group
@@ -332,8 +332,8 @@ ignoreerrors Silently ignore other AMSN errors until the end of session
 imagefiles Image Files
 inbox Inbox
 insertsmiley Insert emoticon
-inserttextnote Insert text inside the subject field and the note field, then click on Save
-installconvert You must install ImageMagick (convert program) in order to use Buddy Icons and Custom Emoticons. You can download the binaries for your Operating System ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . If you already have it, then it is a bug, please report it. These features will now be disabled, if you install ImageMagik later on reenable these options from the Preferences. 
+inserttextnote Insert text into the subject field and the note field, then click 'Save'
+installconvert You must install ImageMagick (convert program) in order to use Buddy Icons and Custom Emoticons. You can download the binaries for your Operating System ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . If you already have it, then it is a bug, please report it. These features will now be disabled, if you install ImageMagick later on reenable these options from the Preferences. 
 internalerror Internal Server Error
 invalidfile2 Filename $1 could not be created, make sure you have the correct permissions for that target.
 invalidfile File $2 entered in field "$1" does not exist or is not readable
@@ -726,8 +726,8 @@ webcamhistory View Webcam sessions
 webcaminvite $1 invited you to start an webcam session, but aMSN does not support this feature.
 webcaminvitereceived $1 invited you to start a webcam session. Do you want to accept this session?
 webcamrejected $1 rejected invitation for webcam session
-webcamrequestsend Send request to send webcam
-webcamrequestreceive Send request to receive webcam
+webcamrequestsend Sent request to send webcam
+webcamrequestreceive Sent request to receive webcam
 webcamsending List of people you are currently sending webcam\nClick to cancel
 webcamshot Webcam Shot
 whatsize The image you have requested is not the normal display picture\nsize (96x96) What size would you like the image to be displayed as?
