@@ -11,7 +11,7 @@ if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 	catch {package require QuickTimeTcl}
 	catch {load utils/macosx/Quicktimetcl3.1/quicktimetcl3.1.dylib}
 } else {
-	package require pixmapscroll
+	package require pixmapscrollunde
 }
 
 
@@ -115,6 +115,7 @@ if { $initialize_amsn == 1 } {
 	::skin::setKey showdisplaycontactlist 0
 	::skin::setKey emailabovecolorbar 0
 	::skin::setKey underline_contact 0
+	::skin::setKey underline_group 0	
 	::skin::setKey bigstate_xpad 0
 	::skin::setKey bigstate_ypad 0
 	::skin::setKey mystatus_xpad 3
@@ -4769,7 +4770,7 @@ proc cmsn_draw_online_wrapped {} {
 
 
 		$pgBuddy.text tag bind $gtag <Enter> \
-			"$pgBuddy.text tag conf $gtag -under true;$pgBuddy.text conf -cursor hand2"
+			"$pgBuddy.text tag conf $gtag -under [::skin::getKey underline_group];$pgBuddy.text conf -cursor hand2"
 		$pgBuddy.text tag bind $gtag <Leave> \
 			"$pgBuddy.text tag conf $gtag -under false;$pgBuddy.text conf -cursor left_ptr"
 	}

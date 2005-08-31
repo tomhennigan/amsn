@@ -75,6 +75,7 @@
 		</Geometry>
 		<Options>
 			<underline_contact>1</underline_contact>
+			<underline_group>1</underline_group>			
 			<showdisplaycontactlist>1</showdisplaycontactlist>
 			<emailabovecolorbar>1</emailabovecolorbar>
 		</Options>
