@@ -1835,6 +1835,7 @@ proc Preferences { { settings "personal"} } {
 	
 	::skin::setPixmap prefpersc prefpers.gif
 	::skin::setPixmap prefprofilec prefprofile.gif
+	::skin::setPixmap prefmobile prefmobile.gif	
 		
 	set frm [$nb.nn getframe groups]
 	ScrolledWindow $frm.sw
@@ -1908,7 +1909,7 @@ proc Preferences { { settings "personal"} } {
 	## Mobile group ##
 	set lfmobile [LabelFrame:create $frm.lfmobile -text [trans mobilegrp1]]
 	pack $frm.lfmobile -anchor n -side top -expand 1 -fill x
-	label $lfmobile.lbmobile -image [::skin::loadPixmap mobile]
+	label $lfmobile.lbmobile -image [::skin::loadPixmap prefmobile]
 	pack $lfmobile.lbmobile -side left -padx 5 -pady 5 
 	checkbutton $lfmobile.btmobile -text "[trans mobilegrp2]" -onvalue 1 -offvalue 0 \
 		-variable [::config::getVar showMobileGroup]

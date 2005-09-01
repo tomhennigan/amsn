@@ -3458,6 +3458,8 @@ proc cmsn_draw_main {} {
 	::skin::setPixmap ring ring.gif
 	::skin::setPixmap ring_disabled ring_disabled.gif
 	
+	::skin::setPixmap winwritecam cam_in_chatwin.png
+
 	::skin::setPixmap webcam webcam.png
 	::skin::setPixmap camempty camempty.png
 	::skin::setPixmap yes-emblem yes-emblem.gif
