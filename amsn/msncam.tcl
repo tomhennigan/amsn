@@ -1889,7 +1889,7 @@ namespace eval ::CAMGUI {
 		::amsn::WinWriteIcon $chatid greyline 3
 		::amsn::WinWrite $chatid "\n" green
 		
-		::amsn::WinWriteIcon $chatid butwebcam 3 2
+		::amsn::WinWriteIcon $chatid winwritecam 3 2
 		#Show invitation
 		::amsn::WinWrite $chatid "[timestamp] [trans webcaminvitereceived [::abook::getDisplayNick $chatid]]" green
 		
@@ -1976,7 +1976,7 @@ namespace eval ::CAMGUI {
 		::amsn::WinWrite $chatid "\n" green
 		::amsn::WinWriteIcon $chatid greyline 3
 		::amsn::WinWrite $chatid "\n" green
-		::amsn::WinWriteIcon $chatid butwebcam 3 2
+		::amsn::WinWriteIcon $chatid winwritecam 3 2
 		::amsn::WinWrite $chatid "[timestamp] [trans webcamrejected [::abook::getDisplayNick $chatid]]\n" green
 		::amsn::WinWriteIcon $chatid greyline 3
 	}
@@ -1988,7 +1988,7 @@ namespace eval ::CAMGUI {
 		::amsn::WinWrite $chatid "\n" green
 		::amsn::WinWriteIcon $chatid greyline 3
 		::amsn::WinWrite $chatid "\n" green
-		::amsn::WinWriteIcon $chatid butwebcam 3 2
+		::amsn::WinWriteIcon $chatid winwritecam 3 2
 		::amsn::WinWrite $chatid "[timestamp] [trans webcamcanceled [::abook::getDisplayNick $chatid]]\n" green
 		::amsn::WinWriteIcon $chatid greyline 3
 	}
@@ -2000,7 +2000,7 @@ namespace eval ::CAMGUI {
 		::amsn::WinWrite $chatid "\n" green
 		::amsn::WinWriteIcon $chatid greyline 3
 		::amsn::WinWrite $chatid "\n" green
-		::amsn::WinWriteIcon $chatid butwebcam 3 2
+		::amsn::WinWriteIcon $chatid winwritecam 3 2
 		::amsn::WinWrite $chatid "[timestamp] [trans webcamrequestsend]\n" green
 		::amsn::WinWriteIcon $chatid greyline 3
 	}
@@ -2012,7 +2012,7 @@ namespace eval ::CAMGUI {
 		::amsn::WinWrite $chatid "\n" green
 		::amsn::WinWriteIcon $chatid greyline 3
 		::amsn::WinWrite $chatid "\n" green
-		::amsn::WinWriteIcon $chatid butwebcam 3 2
+		::amsn::WinWriteIcon $chatid winwritecam 3 2
 		::amsn::WinWrite $chatid "[timestamp] [trans webcamrequestreceive]\n" green
 		::amsn::WinWriteIcon $chatid greyline 3
 	}
