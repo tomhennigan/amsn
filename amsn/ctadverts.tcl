@@ -62,7 +62,7 @@ proc resetBanner {} {
 		# This one is not a banner but a branding. When adverts are enabled
 		# they share this space with the branding image. The branding image
 		# is cycled in between adverts.
-		.main.banner configure -background #FFFFFF -image [::skin::loadPixmap logolinmsn]
+		.main.banner configure -background [::skin::getKey bannerbg] -image [::skin::loadPixmap logolinmsn]
 	} else {
 		.main.banner configure -background [::skin::getKey mainwindowbg] -image [::skin::loadPixmap nullimage]
 	}
