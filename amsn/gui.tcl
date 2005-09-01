@@ -117,7 +117,9 @@ if { $initialize_amsn == 1 } {
 	::skin::setKey showdisplaycontactlist 0
 	::skin::setKey emailabovecolorbar 0
 	::skin::setKey underline_contact 0
-	::skin::setKey underline_group 0	
+	::skin::setKey underline_group 0
+	::skin::setKey changecursor_contact 1
+	::skin::setKey changecursor_group 1		
 	::skin::setKey bigstate_xpad 0
 	::skin::setKey bigstate_ypad 0
 	::skin::setKey mystatus_xpad 3
@@ -2019,7 +2021,7 @@ namespace eval ::amsn {
 #		wm geometry $wname 320x350
 		#No ugly blue frame on Mac OS X, system already use a border around window
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-			frame $wname.blueframe
+			frame $wname.blueframe -background [::skin::getKey contactlistbg]
 		} else {
 			frame $wname.blueframe -background [::skin::getKey mainwindowbg]
 		}
@@ -4774,7 +4776,7 @@ proc cmsn_draw_online_wrapped {} {
 
 
 		$pgBuddy.text tag bind $gtag <Enter> \
-			"$pgBuddy.text tag conf $gtag -under [::skin::getKey underline_group];$pgBuddy.text conf -cursor hand2"
+			"$pgBuddy.text tag conf $gtag -under [::skin::getKey underline_group];if {[::skin::getKey changecursor_group]} {$pgBuddy.text conf -cursor hand2}"
 		$pgBuddy.text tag bind $gtag <Leave> \
 			"$pgBuddy.text tag conf $gtag -under false;$pgBuddy.text conf -cursor left_ptr"
 	}
@@ -5357,7 +5359,7 @@ proc ShowUser {user_name user_login state_code colour section grId} {
 		$pgBuddy.text.$imgname2 configure -cursor hand2 -borderwidth 0
 		$pgBuddy.text window create $section.last -window $pgBuddy.text.$imgname2 -padx 1 -pady 1
 		bind $pgBuddy.text.$imgname2 <Enter> \
-		"$pgBuddy.text tag conf $user_unique_name -under [::skin::getKey underline_contact]; $pgBuddy.text conf -cursor hand2"
+		"$pgBuddy.text tag conf $user_unique_name -under [::skin::getKey underline_contact]; if {[::skin::getKey changecursor_contact]} {$pgBuddy.text conf -cursor hand2}"
 		bind $pgBuddy.text.$imgname2 <Leave> \
 			"$pgBuddy.text tag conf $user_unique_name -under false; $pgBuddy.text conf -cursor left_ptr"
 
@@ -5399,13 +5401,13 @@ proc ShowUser {user_name user_login state_code colour section grId} {
 
 
 	$pgBuddy.text tag bind $user_unique_name <Enter> \
-		"$pgBuddy.text tag conf $user_unique_name -under [::skin::getKey underline_contact]; $pgBuddy.text conf -cursor hand2"
+		"$pgBuddy.text tag conf $user_unique_name -under [::skin::getKey underline_contact];if {[::skin::getKey changecursor_contact]} {$pgBuddy.text conf -cursor hand2}"
 
 	$pgBuddy.text tag bind $user_unique_name <Leave> \
 		"$pgBuddy.text tag conf $user_unique_name -under false;	$pgBuddy.text conf -cursor left_ptr"
 
 	bind $pgBuddy.text.$imgname <Enter> \
-		"$pgBuddy.text tag conf $user_unique_name -under [::skin::getKey underline_contact]; $pgBuddy.text conf -cursor hand2"
+		"$pgBuddy.text tag conf $user_unique_name -under [::skin::getKey underline_contact]; if {[::skin::getKey changecursor_contact]} {$pgBuddy.text conf -cursor hand2}"
 	bind $pgBuddy.text.$imgname <Leave> \
 		"$pgBuddy.text tag conf $user_unique_name -under false;	$pgBuddy.text conf -cursor left_ptr"
 
