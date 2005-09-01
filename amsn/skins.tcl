@@ -260,6 +260,9 @@ namespace eval ::skin {
 		if {[catch {tk windowingsystem} wsystem] || $wsystem != "aqua"} {
 			catch {.main configure -background [::skin::getKey mainwindowbg]}
 		}
+
+		#Redraw the CL to make sure the displaypic etc are redrawn perfectly
+		cmsn_draw_online
 	}
 
 
