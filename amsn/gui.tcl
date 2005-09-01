@@ -3524,9 +3524,15 @@ proc cmsn_draw_main {} {
 	combobox::combobox .main.eventmenu.list -editable false -highlightthickness 0 -width 22 -bg #FFFFFF -font splainf -exportselection false
 
 	# Initialize the banner for when the user wants to see aMSN Banner
-	adv_initialize .main
+	#adv_initialize .main
 	# Add the banner to main window when the user wants (By default "Yes")
+	#resetBanner
+
+	#As the ctadverts isn't used really, I'm putting the code for the normal banner here:
+	label .main.banner -bd 0 -relief flat -background [::skin::getKey bannerbg]
+	pack .main.banner -side bottom -fill x
 	resetBanner
+
 
 	#if {[::config::getKey enablebanner]} {
 
@@ -3621,6 +3627,21 @@ proc cmsn_draw_main {} {
 
 }
 #///////////////////////////////////////////////////////////////////////
+
+
+
+proc resetBanner {} {
+	if {[::config::getKey enablebanner]} {
+		# This one is not a banner but a branding. When adverts are enabled
+		# they share this space with the branding image. The branding image
+		# is cycled in between adverts.
+		.main.banner configure -background [::skin::getKey bannerbg] -image [::skin::loadPixmap logolinmsn]
+	} else {
+		.main.banner configure -background [::skin::getKey mainwindowbg] -image [::skin::loadPixmap nullimage]
+	}
+}
+#///////////////////////////////////////////////////////////////////////
+
 
 proc choose_font { parent title {initialfont ""} {initialcolor ""}} {
 	if { [winfo exists .fontsel] } {
