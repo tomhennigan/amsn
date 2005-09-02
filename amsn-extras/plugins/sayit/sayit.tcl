@@ -80,9 +80,9 @@ namespace eval ::sayit {
 		if { $config(showswitch) } {
 			set imag $::pgBuddyTop.mystatus.xxxsayit
 			if { $config(sayiton) == 1} {
-				label $imag -image [::skin::loadPixmap bell]
+				label $imag -image [::skin::loadPixmap bell] -bg [::skin::getKey contactlistbg]
 			} else {
-				label $imag -image [::skin::loadPixmap belloff]
+				label $imag -image [::skin::loadPixmap belloff] -bg [::skin::getKey contactlistbg]
 			}
 			$imag configure -cursor hand2 -borderwidth 0 -padx 0 -pady 0
 			$::pgBuddyTop.mystatus window create [$::pgBuddyTop.mystatus index "1.0 lineend"] -window $imag -padx 5 -pady 0
