@@ -3032,10 +3032,13 @@ namespace eval ::amsn {
 		$w.c bind bg <Enter> "$w.c configure -cursor hand2"
 		$w.c bind bg <Leave> "$w.c configure -cursor left_ptr"
 		$w.c bind bg <ButtonRelease-1> "after cancel $after_id; ::amsn::KillNotify $w $ypos; $command"
+		$w.c bind bg <ButtonRelease-3> "after cancel $after_id; ::amsn::KillNotify $w $ypos"
+
 
 		$w.c bind close <Enter> "$w.c configure -cursor hand2"
 		$w.c bind close <Leave> "$w.c configure -cursor left_ptr"
 		$w.c bind close <ButtonRelease-1> "after cancel $after_id; ::amsn::KillNotify $w $ypos"		
+
 
 
 
