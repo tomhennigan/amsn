@@ -458,6 +458,8 @@ namespace eval ::skin {
 		#Get file from default skin
 		} elseif { [file readable [file join [set ::program_dir] skins $skin $folder]] } {
 			return "[file join [set ::program_dir] skins $skin $folder]"
+		} elseif { [file readable [file join [set ::program_dir] utils $folder]] } {
+			return "[file join [set ::program_dir] utils $folder]"
 		} else {
 			return 0
 		}
