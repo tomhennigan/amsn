@@ -7,7 +7,7 @@ namespace eval ::bugs {
     variable details 0
     variable w ".bug_dialog"
     variable message
-    variable website "http://localhost/~kkrizka/bugs/"
+    variable website "http://beast.recordingground.com/bugs"
 
     proc bgerror { args } {
 	global errorInfo errorCode HOME2 tcl_platform tk_version tcl_version
