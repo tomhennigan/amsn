@@ -260,6 +260,16 @@ namespace eval ::skin {
 		if {[catch {tk windowingsystem} wsystem] || $wsystem != "aqua"} {
 			catch {.main configure -background [::skin::getKey mainwindowbg]}
 		}
+
+
+		# Reload pixmapscroll's images
+		set psdir [LookForExtFolder $skin_name "pixmapscroll"]
+		if {$psdir != 0} {
+			scrollbar reloadimages $psdir
+			status_log "skin $skin_name 's scrollbar loaded"
+		}
+
+
 	}
 
 
@@ -429,6 +439,41 @@ namespace eval ::skin {
 		}
 	}
 	
+	#Proc used to find out where to get pixmaps for extra skinnable widgets
+	proc LookForExtFolder { skin folder } {
+		global HOME2 HOME
+		
+		#Get file from program dir skins folder
+		if { [file readable [file join [set ::program_dir] skins $skin $folder]] } {
+			return "[file join [set ::program_dir] skins $skin $folder]"
+		#Get file from ~/.amsn/skins folder
+		} elseif { [file readable [file join $HOME2 skins $skin $folder]] } {
+			return "[file join $HOME2 skins $skin $folder]"
+		#Get file from ~/.amsn/profile/skins folder
+		} elseif { [file readable [file join $HOME skins $skin $folder]] } {
+			return "[file join $HOME skins $skin $folder]"
+		#Get file from ~/.amsn/amsn-extras/skins folder
+		} elseif { [file readable [file join $HOME2 amsn-extras skins $skin $folder]] } {
+			return "[file join $HOME2 amsn-extras skins $skin $folder]"
+		#Get file from default skin
+		} elseif { [file readable [file join [set ::program_dir] skins $skin $folder]] } {
+			return "[file join [set ::program_dir] skins $skin $folder]"
+		} else {
+			return 0
+		}
+	}
+		
+	
+	
+
+
+
+
+
+
+
+
+
 
 
 	#We already have theses 2 procs in protocol.tcl but skins.tcl is loaded before protocol.tcl 
