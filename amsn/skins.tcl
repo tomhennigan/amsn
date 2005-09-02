@@ -262,7 +262,7 @@ namespace eval ::skin {
 		}
 
 		#Redraw the CL to make sure the displaypic etc are redrawn perfectly
-		cmsn_draw_online
+		catch {cmsn_draw_online}
 	}
 
 
