@@ -2908,17 +2908,6 @@ namespace eval ::amsn {
 	}
 
 
-	#Test if X was pressed in Notify Window
-	proc testX {x y after_id w ypos command} {
-		if {($x > 135) && ($y < 20)} {
-			after cancel $after_id
-			::amsn::KillNotify $w $ypos
-		} else {
-			after cancel $after_id; ::amsn::KillNotify $w $ypos; eval $command
-		}
-	}
-
-
 	#Adds a message to the notify, that executes "command" when clicked, and
 	#plays "sound"
 	proc notifyAdd { msg command {sound ""} {type online} {user ""}} {
@@ -2987,19 +2976,19 @@ namespace eval ::amsn {
 
 		switch $type {
 			online {
-				$w.c create image 0 0 -anchor nw -image [::skin::loadPixmap notifyonline]
+				$w.c create image 0 0 -anchor nw -image [::skin::loadPixmap notifyonline] -tag bg
 			}
 			offline {
-				$w.c create image 0 0 -anchor nw -image [::skin::loadPixmap notifyoffline]
+				$w.c create image 0 0 -anchor nw -image [::skin::loadPixmap notifyoffline] -tag bg
 			}
 			state {
-				$w.c create image 0 0 -anchor nw -image [::skin::loadPixmap notifystate]
+				$w.c create image 0 0 -anchor nw -image [::skin::loadPixmap notifystate] -tag bg
 			}
 			plugins {
-				$w.c create image 0 0 -anchor nw -image [::skin::loadPixmap notifyplugins]
+				$w.c create image 0 0 -anchor nw -image [::skin::loadPixmap notifyplugins] -tag bg
 			}
 			default {
-				$w.c create image 0 0 -anchor nw -image [::skin::loadPixmap notifyonline]
+				$w.c create image 0 0 -anchor nw -image [::skin::loadPixmap notifyonline] -tag bg
 			}
 		}
 		#If it's a notification with user variable and we get a sucessful image create, show the display picture in the notification
@@ -3008,29 +2997,29 @@ namespace eval ::amsn {
 			if {[::config::getKey showpicnotify]} {
 				if { [getpicturefornotification $user] } {
 					#Create image
-					$w.c create image [::skin::getKey x_notifydp] [::skin::getKey y_notifydp] -anchor nw -image smallpicture$user
+					$w.c create image [::skin::getKey x_notifydp] [::skin::getKey y_notifydp] -anchor nw -image smallpicture$user -tag bg
 					set notify_id [$w.c create text [::skin::getKey x_notifytext] [::skin::getKey y_notifytext] \
 						-font [::skin::getKey notify_font] \
-						-justify left -width [::skin::getKey width_notifytext] -anchor nw -text "$msg"]
+						-justify left -width [::skin::getKey width_notifytext] -anchor nw -text "$msg" -tag bg]
 				} else {
 					set notify_id [$w.c create text [::skin::getKey x_notifytext] [::skin::getKey y_notifytext] \
 						-font [::skin::getKey notify_font] \
-						-justify left -width [::skin::getKey width_notifytext] -anchor nw -text "$msg"]
+						-justify left -width [::skin::getKey width_notifytext] -anchor nw -text "$msg" -tag bg]
 				}
 			} else {
 				#Just add the text and use full width
 				set notify_id [$w.c create text [expr {[::skin::getKey notifwidth]/2}] 35 \
 					-font [::skin::getKey notify_font] \
-					-justify center -width [expr {[::skin::getKey notifwidth]-20}] -anchor n -text "$msg"]
+					-justify center -width [expr {[::skin::getKey notifwidth]-20}] -anchor n -text "$msg" -tag bg]
 			}
 		} else {
 			#Just add the text and use full width
 			set notify_id [$w.c create text [expr {[::skin::getKey notifwidth]/2}] 35 \
 				-font [::skin::getKey notify_font] \
-				-justify center -width [expr {[::skin::getKey notifwidth]-20}] -anchor n -text "$msg"]
+				-justify center -width [expr {[::skin::getKey notifwidth]-20}] -anchor n -text "$msg" -tag bg]
 		}
 		
-		$w.c create image [::skin::getKey x_notifyclose] [::skin::getKey y_notifyclose] -anchor nw -image [::skin::loadPixmap notifclose]
+		$w.c create image [::skin::getKey x_notifyclose] [::skin::getKey y_notifyclose] -anchor nw -image [::skin::loadPixmap notifclose] -tag close 
 
 
 		if {[string length $msg] >100} {
@@ -3039,11 +3028,15 @@ namespace eval ::amsn {
 
 		set after_id [after [::config::getKey notifytimeout] "::amsn::KillNotify $w $ypos"]
 
-		bind $w.c <Enter> "$w.c configure -cursor hand2"
-		bind $w.c <Leave> "$w.c configure -cursor left_ptr"
-		#bind $w <ButtonRelease-1> "after cancel $after_id; ::amsn::KillNotify $w $ypos; $command"
-		bind $w <ButtonRelease-1> [list ::amsn::testX %x %y $after_id $w $ypos $command]
-		bind $w <ButtonRelease-3> "after cancel $after_id; ::amsn::KillNotify $w $ypos"
+
+		$w.c bind bg <Enter> "$w.c configure -cursor hand2"
+		$w.c bind bg <Leave> "$w.c configure -cursor left_ptr"
+		$w.c bind bg <ButtonRelease-1> "after cancel $after_id; ::amsn::KillNotify $w $ypos; $command"
+
+		$w.c bind close <Enter> "$w.c configure -cursor hand2"
+		$w.c bind close <Leave> "$w.c configure -cursor left_ptr"
+		$w.c bind close <ButtonRelease-1> "after cancel $after_id; ::amsn::KillNotify $w $ypos"		
+
 
 
 		wm title $w "[trans msn] [trans notify]"
