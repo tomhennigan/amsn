@@ -791,13 +791,13 @@ namespace eval ::lang {
 			sxml::parse $id
 			sxml::end $id
 
+			file delete $filename
+
 		}]} {
 			set ::lang::LoadOk 0
 		} else {
 			set ::lang::LoadOk 1
 		}
-
-		file delete $filename
 
 	}
 
