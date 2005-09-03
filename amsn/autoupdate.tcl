@@ -780,8 +780,8 @@ namespace eval ::autoupdate {
 			file delete $file
 		}
 		
-		unset ::lang::UpdatedLang
-		unset ::plugins::UpdatedPlugins
+		unset -nocomplain ::lang::UpdatedLang
+		unset -nocomplain ::plugins::UpdatedPlugins
 		
 	}
 

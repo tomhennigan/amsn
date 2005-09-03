@@ -734,7 +734,7 @@ namespace eval ::lang {
 			set ::lang::Lang [lreplace $::lang::Lang $index $index]
 		}
 
-		catch {unset ::lang::Lang$langcode}
+		unset -nocomplain ::lang::Lang$langcode
 
 	}
 
