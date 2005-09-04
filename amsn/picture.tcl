@@ -225,10 +225,13 @@ set ::tkcximageloaded 0
 
 		if { ![file exists $filename] } {
 			status_log "Picture.tcl: The file doesn't exists\n" red
-			error "Picture.tcl: The file doesn't exists"
+			error "The file doesn't exists"
 		}
 	
-		set img [image create photo -file $filename -format cximage]
+		if {[catch {set img [image create photo -file $filename -format cximage]} res]} {
+			status_log "Picture.tcl::GetPictureSize: $res\n" red
+			error "$res"
+		}
 		set return "[image width $img]x[image height $img]"
 		image delete $img
 		return $return
