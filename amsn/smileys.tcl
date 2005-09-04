@@ -892,7 +892,11 @@ namespace eval ::smiley {
 		create_dir [file join $HOME smileys]
 		
 		#Check for animation
-		set emotion(animated) [::picture::IsAnimated [::skin::GetSkinFile smileys "$new_custom_cfg(file)"] ]
+		if { [ catch {set emotion(animated) [::picture::IsAnimated [::skin::GetSkinFile smileys "$new_custom_cfg(file)"] ] } res ] } {
+			#There is an error with the file, wront format or doesn't exist
+			msg_box "$res"
+			return -1
+		}
 		if { $emotion(animated) == 0 } { unset emotion(animated) }
 		
 		if { ![info exists emotion(animated)] || $emotion(animated) == 0 } {
