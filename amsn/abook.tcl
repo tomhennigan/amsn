@@ -653,8 +653,13 @@ namespace eval ::abook {
 			set filename [file join $HOME abook.xml]
 		}
 		
-		set file_id [open $filename w]
-
+		if {[catch { set file_id [open $filename w]} res ]} {
+			status_log "::saveToDisk $res"
+			msg_box "Can't save contact list, $res"
+			return
+		}
+		
+		
 		fconfigure $file_id -encoding utf-8
 
 		if { [string equal $type "amsn"] } {
