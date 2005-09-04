@@ -235,53 +235,53 @@ namespace eval ::bugs {
     
     #cretids for the following proc: http://wiki.tcl.tk/13675
     proc post {url file} {
-	global HOME2
-	# get contents of the file
-	set fd [open $file r]
-	fconfigure $fd -translation binary
-	set content [read $fd]
-	close $fd
-	
-	# format the file and form
-	set message [eval [list bugs::format $content]]
-	
-	# parse the headers out of the message body
-	set message [split [string map {"\r\n\r\n" "\1"} $message] "\1"]
-	set headers_raw [lindex $message 0]
-	set body [join [lrange $message 1 end] "\r\n\r\n"]
-	
-	set headers_raw [string map {"\r\n " " " "\r\n" "\n"} $headers_raw]
-	regsub {  +} $headers_raw " " headers_raw
-	#set headers {} -- initial value comes from parameter
-	foreach line [split $headers_raw "\n"] {
-	    regexp {^([^:]+): (.*)$} $line all label value
+		global HOME2
+		# get contents of the file
+		set fd [open $file r]
+		fconfigure $fd -translation binary
+		set content [read $fd]
+		close $fd
+		
+		# format the file and form
+		set message [eval [list bugs::format $content]]
+		
+		# parse the headers out of the message body
+		set message [split [string map {"\r\n\r\n" "\1"} $message] "\1"]
+		set headers_raw [lindex $message 0]
+		set body [join [lrange $message 1 end] "\r\n\r\n"]
+		
+		set headers_raw [string map {"\r\n " " " "\r\n" "\n"} $headers_raw]
+		regsub {  +} $headers_raw " " headers_raw
+		#set headers {} -- initial value comes from parameter
+		foreach line [split $headers_raw "\n"] {
+		    regexp {^([^:]+): (.*)$} $line all label value
 	    lappend headers $label $value
-	}
-	
-	# get the content-type
-	array set ha $headers
-	set content_type $ha(Content-Type)
-	unset ha(Content-Type)
-	set headers [array get ha]
-	
-	# create a temporary file for the body data (getting the temp directory
-	# is more involved if you want to support Windows right)
-	set datafile [file join $HOME2 bugreport.amsn.tmp]
-	set data [open $datafile w+]
-	fconfigure $data -translation binary
-	puts -nonewline $data $body
-	seek $data 0
-	
-	# POST it
-	set token [http::geturl $url -type $content_type -binary true \
-		       -headers $headers -querychannel $data]
-	http::wait $token
-	
-	# cleanup the temporary
-	close $data
-	file delete $datafile
-	
-	return $token
+		}
+		
+		# get the content-type
+		array set ha $headers
+		set content_type $ha(Content-Type)
+		unset ha(Content-Type)
+		set headers [array get ha]
+		
+		# create a temporary file for the body data (getting the temp directory
+		# is more involved if you want to support Windows right)
+		set datafile [file join $HOME2 bugreport.amsn.tmp]
+		set data [open $datafile w+]
+		fconfigure $data -translation binary
+		puts -nonewline $data $body
+		seek $data 0
+		
+		# POST it
+		set token [http::geturl $url -type $content_type -binary true \
+			       -headers $headers -querychannel $data]
+		http::wait $token
+		
+		# cleanup the temporary
+		close $data
+		catch {file delete $datafile}
+		
+		return $token
     }
     
     proc report { } {
