@@ -1725,7 +1725,7 @@ namespace eval ::MSN {
 
 		set sb [SBFor $chatid]
 
-		if { "$sb" == "0" } {
+		if { "$sb" == "0" || [info procs "$sb"] == "" } {
 			return 0
 		}
 
