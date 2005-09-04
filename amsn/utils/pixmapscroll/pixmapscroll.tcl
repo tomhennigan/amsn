@@ -304,12 +304,12 @@ snit::widgetadaptor pixmapscroll {
 			} else {
 				set minsize [expr {[image height $slidertopimage] + [image height $sliderbottomimage] + [image height $sliderbodyimage]}
 			}
-			
-			
-			
+		
 			if { $slidersize < $minsize } {
 				set slidersize $minsize
 			}
+
+
 			set gripPos [expr {($slidersize/2) - ([image height $slidergripimage]/2)}]
 			if {$gripPos < 0} {set gripPos 1}
 
@@ -363,11 +363,15 @@ snit::widgetadaptor pixmapscroll {
 			set slidersize [lindex [split [expr {$visible * ($newsize - ($arrow1width + $arrow2width))}] .] 0]
 
 			#Make sure slider doesn't get negative size
-			set minsize [expr {[image width $slidertopimage] + [image width $sliderbottomimage] + [image width $sliderbodyimage]}]
-
+			if { [image width $sliderbodyimage] < [image width $slidergripimage] } {
+				set minsize [expr {[image width $slidertopimage] + [image width $sliderbottomimage] + [image width $slidergripimage]}]				
+			} else {
+				set minsize [expr {[image width $slidertopimage] + [image width $sliderbottomimage] + [image width $sliderbodyimage]}
+			}			
+			
 			if { $slidersize < $minsize } {
 				set slidersize $minsize
-			}
+			}			
 
 
 			$sliderimage blank
