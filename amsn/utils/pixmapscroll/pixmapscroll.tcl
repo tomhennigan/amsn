@@ -300,9 +300,9 @@ snit::widgetadaptor pixmapscroll {
 
 			#Make sure slider doesn't get negative size
 			if { [image height $sliderbodyimage] < [image height $slidergripimage] } {
-				set minsize [expr {[image height $slidertopimage] + [image height $sliderbottomimage] + [image height $slidergripimage]}]				
+				set minsize [expr {[image height $slidertopimage] + [image height $sliderbottomimage] + [image height $slidergripimage]}]
 			} else {
-				set minsize [expr {[image height $slidertopimage] + [image height $sliderbottomimage] + [image height $sliderbodyimage]}
+				set minsize [expr {[image height $slidertopimage] + [image height $sliderbottomimage] + [image height $sliderbodyimage]}]
 			}
 		
 			if { $slidersize < $minsize } {
@@ -364,9 +364,9 @@ snit::widgetadaptor pixmapscroll {
 
 			#Make sure slider doesn't get negative size
 			if { [image width $sliderbodyimage] < [image width $slidergripimage] } {
-				set minsize [expr {[image width $slidertopimage] + [image width $sliderbottomimage] + [image width $slidergripimage]}]				
+				set minsize [expr {[image width $slidertopimage] + [image width $sliderbottomimage] + [image width $slidergripimage]}]
 			} else {
-				set minsize [expr {[image width $slidertopimage] + [image width $sliderbottomimage] + [image width $sliderbodyimage]}
+				set minsize [expr {[image width $slidertopimage] + [image width $sliderbottomimage] + [image width $sliderbodyimage]}]
 			}			
 			
 			if { $slidersize < $minsize } {
