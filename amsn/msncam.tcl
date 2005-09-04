@@ -1549,8 +1549,11 @@ namespace eval ::CAMGUI {
 				set dev [string range $source 0 [expr $pos-1]]
 				set channel [string range $source [expr $pos+1] end]
 
-				
-				set grabber [::Capture::Open $dev $channel]
+				if { [catch { ::Capture::Open $dev $channel } grabber] } {
+					::MSNCAM::CancelCam $chatid $sid
+					msg_box "[trans badwebcam]\n$grabber"
+					return
+				}
 				
 				if { ![info exists ::webcam_settings_bug] || $::webcam_settings_bug == 0} {
 					set init_b [::Capture::GetBrightness $grabber]
