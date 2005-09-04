@@ -154,8 +154,6 @@ namespace eval ::autoupdate {
 			} else {
 				$w.close configure -command "::http::reset $tok"
 				wm protocol $w WM_DELETE_WINDOW "::http::reset $tok"
-				tkwait visibility $w
-				catch {grab $w}
 			}
 		}
 	}
