@@ -3176,9 +3176,14 @@ namespace eval ::ChatWindow {
 		if { [info exists scrolling($tw)] } {
 		#We are scrolling to the bottom so we are obviously stuck to the end
 			return 1
-		} elseif { [lindex [$tw yview] 1] == 1.0 } {
-		#We are at the bottom of the tw so we are stuck to the end
-			return 1
+		} elseif { [winfo exists $tw] } {
+			if { [lindex [$tw yview] 1] == 1.0 } {
+				#We are at the bottom of the tw so we are stuck to the end
+				return 1
+			} else {
+				#The tw doesn't exist
+				return 0
+			}
 		} else {
 			return 0
 		}
@@ -3189,6 +3194,8 @@ namespace eval ::ChatWindow {
 
 	proc Scroll { tw } {
 		variable scrolling
+
+		if { ![winfo exists $tw] } { return }
 		
 		if { ![info exists scrolling($tw)] } {
 			set scrolling($tw) 0
