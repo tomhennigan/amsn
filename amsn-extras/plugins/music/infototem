@@ -1,4 +1,4 @@
-#Thanks to Marc 'uwog' Maurer
+#Thanks to Dennis "dweazle" Krul for the bash-magic
 if [[ $(pidof totem) -gt 0 ]]
 then
 	totem --print-playing
