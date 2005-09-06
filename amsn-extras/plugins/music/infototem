@@ -1,0 +1,7 @@
+if pstree|grep totem>/dev/null ; then
+	totem --print-playing
+else
+	echo 0
+fi
+
+exit 0

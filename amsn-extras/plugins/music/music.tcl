@@ -163,6 +163,7 @@ namespace eval ::music {
 			"linux" [list \
 				"XMMS" [list GetSongXMMS TreatSongXMMS] \
 				"Amarok" [list GetSongAmarok TreatSongAmarok] \
+				"Totem" [list GetSongTotem TreatSongTotem] \
 			] \
 			"windows nt" [list \
 				"WinAmp" [list GetSongWinamp TreatSongWinamp] \
@@ -440,6 +441,53 @@ namespace eval ::music {
 		}
 		return $return
 	}
+
+
+	###############################################
+	# ::music::TreatSongTotem                     #
+	# ------------------------------------------- #
+	# Gets the current playing song in Totem      #
+	###############################################
+	proc TreatSongTotem {} {
+		#Grab the information asynchronously : thanks to Tjikkun
+		after 0 {::music::exec_async [file join $::music::musicpluginpath "infototem"]}
+		return 0
+	}
+
+	###############################################
+	# ::music::GetSongTotem                       #
+	# ------------------------------------------- #
+	# Gets the current playing song in Totem      #
+	###############################################
+	proc GetSongTotem {} {
+
+		#actualsong is filled asynchronously in TreatSongAmarok
+		#Split the lines into a list and set the variables as appropriate
+		if { [catch {split $::music::actualsong "\n"} song] } {
+			#actualsong isn't yet defined by asynchronous exec
+			return 0
+		}
+
+
+
+		if {$song == "0"} {
+			return 0
+		} else {
+			#Define in witch order we want to show the song (from the config)
+			#Use the separator(from the cong) betwen song and artist
+#			if {$::music::config(songart) == 1} {
+#				append songart $song " " $::music::config(separator) " " $art
+#			} elseif {$::music::config(songart) == 2} {
+#				append songart $art " " $::music::config(separator) " " $song
+#			}
+#			lappend return $songart
+#			lappend return [urldecode [string range $path 5 end]]
+			return $song
+		}
+#		return $return
+	}
+
+
 
 	################################################
 	# ::music::exec_applescript                    #
