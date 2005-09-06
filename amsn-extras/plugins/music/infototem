@@ -1,4 +1,6 @@
-if pstree|grep totem>/dev/null ; then
+#Thanks to Marc 'uwog' Maurer
+if [[ $(pidof totem) -gt 0 ]]
+then
 	totem --print-playing
 else
 	echo 0
