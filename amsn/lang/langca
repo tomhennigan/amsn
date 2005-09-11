@@ -1,4 +1,5 @@
 amsn_lang_version 2
+aboutamsn Sobre Alvaro's Messenger
 about Sobre
 accept Acceptar
 acceptfile Acceptes el fitxer $1, de mida $2? Desat a $3
@@ -48,11 +49,11 @@ author Autor
 autoaccepted Transferència del fitxer acceptada automàticament
 autoacceptft Accepta automàticament les transferències de fitxers
 autoaway Mostra'm en l'estat "Absent" quan no hi hagi activitat en
-autocheckver Busca una nova versió a l'inici
-autoconnect2 Connectar-se automàticament al iniciar aMSN
 autoconnect Connectar-se al iniciar l'aMSN
+autoconnect2 Connectar-se automàticament al iniciar aMSN
 autodetectip Detecta l'adreça IP automàticament
 autohotmaillog Connectar-se a Hotmail automàticament
+autocheckver Busca una nova versió a l'inici
 autoidle Canviar a "Sense activitat" de manera automàtica
 autoip IP automàtica
 automessage Missatge automàtic
@@ -86,6 +87,7 @@ broughtby Desenvolupat per
 browse Navegar
 browserexample (\$url serà substituïda per l'adreça) Ex: mozilla \$url
 browser Navegador
+bugerror Ho sentim, però hi ha hagut un problema en connectar a la base de dades d'errors. Sisplau, comprova la teva connexió a la xarxa
 busy Ocupat
 cachedpics $1 imatges agafades
 cancel Cancel·la
@@ -98,42 +100,9 @@ captureextnotloaded La extensió de captura -$1- no s'ha carregat, l'has de compi
 casesensitive Diferenciar les majúscules i les minúscules
 cfgalarmall Configura, afegeix o elimina l'alarma global
 cfgalarm Configurar l'alarma per a aquest usuari
-change Canviar
-changecustomstate Canvia a
-changedisplaypic Canviar l'avatar 
-changefont Canviar font
-changeglobnick Canviar el sobrenom global
-changenick Canviar el meu sobrenom
-changesize Canvia la mida
-changestate $1 canvia l'estat a $2
-changevideosettings Canviar preferències de vídeo
-channels Canals
-charscounter Comptador de caràcters teclejats a la finestra de conversa
-chatack Acceptant la conversa de
-chat Conversa
-chatmaxmin Quan un contacte obri una conversa, vull que sigui:
-chatreq Demanant conversa
-chatsmileys2 Mostrar emoticones a la finestra de la conversa
-chatsmileys Emoticones a la conversa
-checkblocking Comprovar contínuament si algun usuari m'ha bloquejat
-checkemail Mostra una entrada per la notificació de correu a la llista de contactes
-checkfilman Els fitxers rebuts es desaran a $1. Comprova l'opció de l'administrador de fitxers a la finestra de preferències.
-checkingver Buscant versions noves
-checkonfln Comprovar si un usuari m'ha bloquejat quan aparentment es desconnecta
-checkopenfilecommand Si us plau, comprova l'ordre d'obrir arxiu a la finestra de preferències
-checkver Busca una versió nova
-choosearq Escull l'arquitectura del teu sistema
-choosebasefont Canviar la font
-choosebgcolor Canviar el color de fons
-choosechannel Si us plau, selecciona un canal
-choosecontact Si us plau, selecciona un contacte de la llista
-choosedevice Si us plau, selecciona un dispositiu
-choosefontcolor Escull el color del tipus de lletra
-chooseskin Selecciona l'aparença que vols utilitzar
-ch_to_state Canvia al nou estat
+clearlog Neteja de l'històric
 clearlog2 Neteja l'històric per tots els contactes
 clearlog3 Netejar tots els registres
-clearlog Neteja de l'històric
 clear Netejar
 clearwebcamlogs Netejar tots els historials de webcams
 clicktoadd Clic al botó "afegir" per escriure una nota nova
@@ -199,17 +168,17 @@ dateformat Canvia el format de la data
 day Dia
 days dies
 dcprofile No crear perfil
-default2 Predeterminat
 defaultloginradio Configuració per defecte
 default Utilitza la configuració predeterminada
+default2 Predeterminat
 defchatwinsize Mida predeterminada per les finestres (MIDAXxMIDAY)
 deleteall esborrar tot
 deletecustomstate Esborrar estat personalitzat
 delete Esborrar
 delimiters Delimitadors de temps:
 deliverfail Hi ha hagut un problema al enviar el missatge
-delprofile2 Selecciona el perfil a eliminar
 delprofile Esborrar perfil
+delprofile2 Selecciona el perfil a eliminar
 description Descripció
 detach Separar
 details Detalls
@@ -220,15 +189,15 @@ disabled Desactivat
 disableprofiles Desactiva els perfils (útil en entorn públics i sistemes compartits)
 disablessl Desactiva l'SSL
 disableuserfonts Ignora el tipus de lletra de l'altre usuari en les converses i utilitza sempre el meu tipus de lletra
-disconnect $1 s'ha desconnectat.
 disconnectedfrom Desconnectat de $1
-displaychat Opcions del text mostrat
+disconnect $1 s'ha desconnectat.
 displayeventconnect Avisa'm quan els meus contactes es connectin
 displayeventdisconnect Avisa'm quan els meus contactes es desconnectin
 displayeventemail Avisa'm quan rebi un correu electrònic
 displayeventstate Avisa'm quan un contacte canviï d'estat
-displayp4context Mostra el contingut del camp P4-Context com l'emissor del missatge
+displaychat Opcions del text mostrat
 displaypic Mostra la imatge
+displayp4context Mostra el contingut del camp P4-Context com l'emissor del missatge
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Acoblament amb el Gnome
 docking Acoblament
@@ -254,8 +223,8 @@ enabled Activat
 enableproxy Habilitar el servidor intermediari (proxy)
 enableremote Activar control remot
 enablesound Reproduir sons
-encoding2 Canvia la codificació utilitzada pels teus caràcters
 encoding Canviar la codificació
+encoding2 Canvia la codificació utilitzada pels teus caràcters
 entercontactemail Escriu l'adreça de correu del contacte
 enterfilename Introdueix el nom del fitxer
 enternick Escriu el teu sobrenom
@@ -324,6 +293,39 @@ home Casa
 httpconnection Connectar-se amb el mètode HTTP (utilitza el protocol HTTP pel port 80)
 hue Matís
 hybrid Mode híbrid
+change Canviar
+changecustomstate Canvia a
+changedisplaypic Canviar l'avatar 
+changefont Canviar font
+changeglobnick Canviar el sobrenom global
+changenick Canviar el meu sobrenom
+changesize Canvia la mida
+changestate $1 canvia l'estat a $2
+changevideosettings Canviar preferències de vídeo
+channels Canals
+charscounter Comptador de caràcters teclejats a la finestra de conversa
+chatack Acceptant la conversa de
+chat Conversa
+chatmaxmin Quan un contacte obri una conversa, vull que sigui:
+chatreq Demanant conversa
+chatsmileys Emoticones a la conversa
+chatsmileys2 Mostrar emoticones a la finestra de la conversa
+checkblocking Comprovar contínuament si algun usuari m'ha bloquejat
+checkemail Mostra una entrada per la notificació de correu a la llista de contactes
+checkfilman Els fitxers rebuts es desaran a $1. Comprova l'opció de l'administrador de fitxers a la finestra de preferències.
+checkingver Buscant versions noves
+checkonfln Comprovar si un usuari m'ha bloquejat quan aparentment es desconnecta
+checkopenfilecommand Si us plau, comprova l'ordre d'obrir arxiu a la finestra de preferències
+checkver Busca una versió nova
+choosearq Escull l'arquitectura del teu sistema
+choosebasefont Canviar la font
+choosebgcolor Canviar el color de fons
+choosecontact Si us plau, selecciona un contacte de la llista
+choosedevice Si us plau, selecciona un dispositiu
+choosefontcolor Escull el color del tipus de lletra
+choosechannel Si us plau, selecciona un canal
+chooseskin Selecciona l'aparença que vols utilitzar
+ch_to_state Canvia al nou estat
 ident Identifica
 identity Identitat
 ignoreerrors Ignora els errors fins que tanqui la sessió
@@ -333,8 +335,8 @@ insertsmiley Insereix emoticona
 inserttextnote Introdueix text als camps "assumpte" i "nota", després fes clic a Guardar/Salvar
 installconvert Instal·lar conversor: Has d'instal·lar ImageMagick (un programa de conversió) per tal de convertir les imatges al format usat pels servidors de MSN. Pots descarregar els binaris per al teu sistema operatiu a ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ Si ja els tens, llavors és un error. Si us plau comunica'l.
 internalerror Error intern del servidor
-invalidfile2 No es pot crear el fitxer $1. Comprova que tinguis els permisos necessaris.
 invalidfile El fitxer $2 introduït al camp "$1" no existeix o no es pot llegir
+invalidfile2 No es pot crear el fitxer $1. Comprova que tinguis els permisos necessaris.
 invalidgroup Grup no vàlid
 invalidparameter Error connectant amb el servidor: parÃ?Â metre invÃ?Â lid
 invalidpic El fitxer d'imatge no existeix.
@@ -350,8 +352,8 @@ istyping $1 està escrivint un missatge
 joins $1 s'uneix a la conversa
 justonce Només una vegada
 keepalive Mantenir connexió activa (NAT)
-keeplog2 Registrar totes les converses a l'històric de l'aMSN per futures visualitzacions
 keeplog Conservar l'històric de les converses
+keeplog2 Registrar totes les converses a l'històric de l'aMSN per futures visualitzacions
 language Idioma
 language_manager Administrador d'idiomes
 lastlogin Últim inici de sessió
@@ -371,8 +373,8 @@ lineflushlog Escriure els històrics a disc sense buffer (línia a línia)
 linprivate EN PRIVAT
 listening Escoltant
 listeningon Escoltant el port $1
-listsmileys2 Mostrar emoticones a la llista de contactes de l'aMSN
 listsmileys Llista d'emoticones
+listsmileys2 Mostrar emoticones a la llista de contactes de l'aMSN
 ljoinedconf $1 s'uneix a la conversa
 lleftconf $1 deixa la conversa
 load Carregar
@@ -435,10 +437,10 @@ needwinico2 Es necessita winico05.dll a la carpeta útils/windows pel windows try
 never Mai
 new_ft_protocol Utilitza el nou protocol de transferència de fitxers (en fase de proves)
 newline Nova línia
-newmail $1 missatges nous a la bústia
 newmailfolder Tens $1 missatges nous a les carpetes de Hotmail
 newmailfrom Nou missatge de correu de $1 ($2)
 newmailfromother Tens un missatge nou en una altra carpeta de $1 ($2)
+newmail $1 missatges nous a la bústia
 newmsg Nou missatge
 newstate Afegeix un estat personalitzat
 newtabbedfeature aMSN té una nova funció per administrar conversacions. Ara pots tenir totes les finestres, ja d'un mateix grup o de la teva llista sencera, en una sola finestra solapada. Si us plau, escull la modalitat
@@ -462,17 +464,17 @@ noskins No puc trobar l'aparença per defecte en la carpeta d'aparences. L'aMSN n
 nosystemtray Safata del sistema no disponible
 note Nota
 notificationserver Servidor inicial de notificacions MSN (Servidor MSN Messenger)
-notify1_5 Mostrar una finestra d'avís quan un contacte es desconnecti
-notify1_75 Mostrar una finestra d'avís quan un contacte canviï d'estat
-notify1 Mostrar una finestra d'avís quan un contacte es connecti
-notify2 Mostrar una finestra d'avís quan arribin nous missatges
-notify3 Mostrar una finestra d'avís quan arribi un nou correu electrònic
-notify4 Avisa'm quan arribin missatges nous en una altra carpeta
 notify notificar
 notifyoffset Ajusta la posició de la finestra d'avís mitjançant un desplaçament
 notifytimeout Nombre de milisegons que la finestra de notificacions restarà oberta
 notifytyping Envia notificacions als altres usuaris al teclejar
 notifywin Finestra d'avís
+notify1 Mostrar una finestra d'avís quan un contacte es connecti
+notify1_5 Mostrar una finestra d'avís quan un contacte es desconnecti
+notify1_75 Mostrar una finestra d'avís quan un contacte canviï d'estat
+notify2 Mostrar una finestra d'avís quan arribin nous missatges
+notify3 Mostrar una finestra d'avís quan arribi un nou correu electrònic
+notify4 Avisa'm quan arribin missatges nous en una altra carpeta
 notinlist No ets a la seva llista de contactes
 notls La versió 9 del protocol MSN necessita el paquet TLS i sembla que no està instal·lat en aquest ordinador. Si ho està, la seva ruta s'ha d'especificar a la finestra de Preferències (ex: /opt/tls/lib).\n\n Pots descarregar-te el TLS des de http://tls.sf.net.
 nottabbed Finestres normals sense pestanyes
@@ -493,7 +495,6 @@ ordergroupsby Ordenar grups per
 original Original
 others Altres
 other Un altre
-p4contextprefix Text complementari al P4-Context
 pager Paginador
 pass Contrasenya
 paste Enganxa
@@ -518,23 +519,23 @@ prefblock3 Grup "Has estat bloquejat per"
 prefconnection Configuració de la connexió
 prefemotic Emoticones
 preferences Preferències
+preffont Text dels meus missatges
 preffont2 Canvia com els altres veuen el meu text en una conversa
 preffont3 Canvia el tipus de lletra i la mida de la interfície de l'aMSN
-preffont Text dels meus missatges
 prefft Ajustaments de la transmissió de fitxers, P2P i NAT
 preflibs Directori de les biblioteques
-preflog1 Opcions de l'històric i dels registres
 preflogevent Històric dels meus events
+preflog1 Opcions de l'històric i dels registres
 preflook Aparença de l'aMSN
 prefmsging Interfície dels missatges
 prefname Sobrenom a l'aMSN
-prefphone2 Escriu els números de telèfon que vols permetre veure als contactes \n de la teva llista de contactes amb permís \n
 prefphone Números de telèfon
-prefprivacy2 Llista de tots els contactes i dels usuaris que em tenen a la seva llista de contactes
+prefphone2 Escriu els números de telèfon que vols permetre veure als contactes \n de la teva llista de contactes amb permís \n
 prefprivacy Llista dels contactes que poden veure el meu estat i dels bloquejats
+prefprivacy2 Llista de tots els contactes i dels usuaris que em tenen a la seva llista de contactes
+prefprofile Perfil públic
 prefprofile2 Crea o modifica el teu perfil públic\n (la teva descripció que poden veure els altres)
 prefprofile3 Configuració dels perfils d'usuari de l'aMSN
-prefprofile Perfil públic
 prefproxy Paràmetres del servidor intermediari (proxy)
 prefremote Preferències de connexió remota
 prefsession Inici de sessió
@@ -554,6 +555,7 @@ proxyconnection Em connecto a Internet a través d'un servidor intermediari (prox
 proxy Estic darrera un servidor intermediari (HTTP o SOCKS5)
 publishphones Publicar els meus números de telèfon
 purge Purgar
+p4contextprefix Text complementari al P4-Context
 raised Elevada/desiconificada
 readonlymsgbox La transferència ha estat cancel·lada perquè no tens permís d'escriptura al directori destí.
 readonlywarn ATENCIÓ: Probablement, el fitxer no serà desat correctament. Comprova els permisos que tens al directori destí ($1)
@@ -561,9 +563,9 @@ receivedbytes Rebuts $1 de $2 bytes
 receiveddir Directori de fitxers rebuts
 receivefile Rebent fitxer
 recentmsg Prevenir el tancament de la finestra de conversa quan acabi d'arribar un missatge
-reconnect2 Re-connectar en perdre la connexió
 reconnect Esperant a que $1 es re-connecti
 reconnecting Re-connectant amb el servidor
+reconnect2 Re-connectar en perdre la connexió
 reject Rebutjar
 rememberpass Recordar contrasenya
 remembersetting Recordar aquesta característica
@@ -577,9 +579,9 @@ reversed Invertit
 reverselist Llista inversa:
 rightback Ara torno
 saveas Desar com
-savechatwinsize Desar la mida de la finestra de conversa quan es re-dimensioni
 savecontacts Desar la llista de contactes
 save Desar
+savechatwinsize Desar la mida de la finestra de conversa quan es re-dimensioni
 savetofile Desar en fitxer
 says $1 diu
 sbcon Connectant amb la Switch Board
@@ -602,8 +604,8 @@ shareswebcam Comparteix webcam
 showbanner Mostra la pancarta de l'aMSN
 showblockedlist Mostra'm la llista de la gent que em té bloquejat a la seva llista de contactes
 showcachedpics Mostra els avatars agafats
-showdisplaypic2 Mostra l'avatar quan s'obri una nova conversa
 showdisplaypic Mostra l'avatar
+showdisplaypic2 Mostra l'avatar quan s'obri una nova conversa
 showmypic El meu avatar
 shownotify Mostra una finestra de notificació quan succeeixin diversos events
 showpicnotify Mostrar imatges dels usuaris a les finestres de notificaciÃ?Â³
@@ -613,12 +615,11 @@ skin Aparença
 skinselector Selector d'aparences
 smileconfig Configura l'emoticona personalitzada
 smilefile Nom del fitxer de l'emoticona
-smileintro2 Edita els camps per personalitzar aquesta emoticona (a les FAQ tens més ajuda)
 smileintro Emplena els camps per crear una nova emoticona personalitzada (a les FAQ tens més ajuda)
+smileintro2 Edita els camps per personalitzar aquesta emoticona (a les FAQ tens més ajuda)
 smiletoobig La enoticona que has seleccionat és més grossa de la mida normal. El vols canviar de mida ?
 snackfailed No puc carregar SNACK. Utilitzaré la configuració per defecte.
 sngdblclick Obre una nova finestra de conversa amb un sol clic
-sound2 Reprodueix sons quan els contactes es connectin o enviïn missatges
 soundactive Reprodueix so quan es rebi un missatge si la finestra està activa
 soundcommand L'ordre per reproduir el so (ex: esdplay)
 soundexample (\$sound és el fitxer sonor per ser reproduït) Ex: esdplay \$sound
@@ -628,15 +629,16 @@ soundloop Reproducció contínua del so
 soundserver Servidor de so
 sound So en un event
 soundstatus So a l'alarma
+sound2 Reprodueix sons quan els contactes es connectin o enviïn missatges
 sourcecode Codi font (necessita ser compilat i instal·lat)
 splashstart Inici
 sslwarning ATENCIÓ!! Desactivant l'SSL, es desactiva el xifrat de la teva contrasenya i serà enviada sense cap protecció per la xarxa.
-startoffline2 Connectar-se silenciosament apareixent en l'estat "Desconnectat"
 startoffline Inicia en l'estat "Simula desconnexió"
+startoffline2 Connectar-se silenciosament apareixent en l'estat "Desconnectat"
 startontray Inicia l'aMSN només amb la safata del sistema
 stateautomsg Missatge automàtic a enviar
-statechange estat canviat a:
 stateedittext Edita els camps que vulguis modificar\ni prem "Desar"
+statechange estat canviat a:
 stateinfo Configuració dels estats personalitzats
 statename Nom de l'estat personalitzat
 statenewtext Emplena la informació necessària per crear\nel nou estat personalitzat i prem "Desar"
@@ -651,8 +653,8 @@ stopwebcamsend Parar d'enviar imatges de la webcam
 storenickname Retorna al sobrenom original al sortir d'un estat personalitzat
 strictfonts Restringeix la mida de les fonts a la seleccionada
 style Aparença
-stylechat La mateixa aparença que a les converses
 stylehist Aparença de l'històric de l'aMSN
+stylechat La mateixa aparença que a les converses
 stylelog Escull l'estil en que desitges veure l'històric
 subject Assumpte
 subjectrequired És necessari l'assumpte
@@ -670,8 +672,8 @@ timeremaining Temps restant
 timestamp Marques d'hora
 timestamps Mostra l'hora a les converses
 title aMSN
-tkerror1 S'ha produït un error de TK, probablement perquè existeix un error a l'aMSN. Si us plau, informa'ns fent clic al botó Informar. Pots fer clic al botó Detalls per visualitzar més informació sobre l'error, o be fer clic al botó Ok per continuar xatejant amb l'aMSN.
 tkerror Hi ha hagut un error de TK, segurament perquè hi ha un error a l'aMSN. Si ens vols ajudar, envia'ns el fitxer $1 a l'adreça amsn-bugs@lists.sf.net 
+tkerror1 S'ha produït un error de TK, probablement perquè existeix un error a l'aMSN. Si us plau, informa'ns fent clic al botó Informar. Pots fer clic al botó Detalls per visualitzar més informació sobre l'error, o be fer clic al botó Ok per continuar xatejant amb l'aMSN.
 tlsdowncompleted El fitxer $1 ha estat desat al directori $2. L'has de descomprimir, compilar (si és el codi font) i instal·lar-lo a dins de $3.
 tlsexplain Directori del mòdul tcl. Si l'aMSN no pot trobar-lo, especifica'l.\n(es necessita per l'autenticació SSL).
 tlsinstall Assistent d'instal·lació del mòdul TLS
@@ -721,11 +723,11 @@ webcamextloaded S'ha carregat la extensió Webcamsn
 webcamextnotloaded No s'ha carregat la extensió Webcamsn. L'has de compilar
 webcamfaq PMQ/Ajuda per la webcam
 webcamhistory Veure les sessions de webcam
-webcaminvite $1 t'ha convidat a iniciar una conversa amb webcam però l'aMSN encara no ho suporta.
 webcaminvitereceived $1 t'ha convidat a iniciar una sessió de webcam. Vols acceptar aquesta sessio ?
+webcaminvite $1 t'ha convidat a iniciar una conversa amb webcam però l'aMSN encara no ho suporta.
 webcamrejected $1 ha rebutjat la invitació per iniciar una sessió de webcam
-webcamrequestsend Enviar invitació per veure la teva webcam
 webcamrequestreceive Enviar petició per veure la seva webcam
+webcamrequestsend Enviar invitació per veure la teva webcam
 webcamsending Llista de la gent que actualment està visionant la teva webcam\nClick per cancel·lar
 webcamshot Captura des de la webcam
 whatsize La imatge que has demanat no tÃ?Â© la mida normal\nd'avatar(96x96) A quina mida vols que es mostri la imatge? 

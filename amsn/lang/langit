@@ -711,3 +711,42 @@ youblocked Sei stato bloccato da
 yousay Tu dici
 youwant Tu vuoi
 zoom Zoom
+aboutamsn Informazioni su Alvaro's Messenger
+badwebcam Impossibile visualizzare l'immagine della webcam. Assicurati che la tua webcam sia collegata e installata.
+brightness Luminosità
+bugerror Si è verificato un problema durante la connessione al database dei bug. Controlla la tua connessione a Internet.
+captureextloaded L'estensione Capture -$1- è stata caricata
+captureextnotloaded L'estensione Capture -$1- non è stata caricata, devi prima compilarla
+changevideosettings Cambia le impostazioni video
+channels Canali
+choosechannel Scegli un canale
+choosedevice Scegli un dispositivo
+color Colore
+contrast Contrasto
+details Dettagli
+devicebusy Il dispositivo $1 è occupato
+devices Dispositivi
+done Fatto
+firewalled Sei dietro un firewall o un router
+hue Colore
+listening In ascolto
+nodevices Non hai dispositivi installati
+portswellconfigured Le tue porte sono ben configurate
+report Rapporto
+reporting Invio del rapporto in corso
+shareswebcam Condividi la webcam
+stopwebcamreceive Interrompi la ricezione dalla webcam
+stopwebcamsend Interrompi l'invio con la webcam
+tkerror1 TK ha riportato un errore, c'è un bug in amsn, per piacere invia un rapporto cliccando sul tasto Rapporto. Puoi cliccare su Dettagli per avere maggiori informazioni sull'errore o su Ok per continuare a utilizzare AMSn
+trayicon Mostra un'icona di stato nell'area di notifica
+type Tipo
+webcamclosebefcancel Devi interrompere tutte le sessioni webcam prima di chiudere la finestra
+webcamcanceled La sessione webcam con $1 è stata annullata
+webcamextloaded L'estensione Webcamsn è stata caricata
+webcamextnotloaded L'estensione Webcamsn non è stata caricata. Devi compilarla.
+webcamfaq FAQ/Aiuto per la Webcam
+webcaminvitereceived $1 ti ha invitato ad iniziare una sessione webcam. Accetti l'invito?
+webcamrejected $1 rifiuta l'invito per la sessione webcam
+webcamrequestsend Invia la richiesta per inviare con la webcam
+webcamrequestreceive Invia la richiesta per ricevere dalla webcam
+webcamsending Lista delle persone a cui stai inviando con la webcam\nClicca per annullare

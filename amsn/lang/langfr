@@ -1,5 +1,6 @@
 amsn_lang_version 2
 about À propos de...
+aboutamsn A propos de Alvaro's Messenger
 accept Accepter
 acceptfile Accepter le fichier $1 (taille = $2)? enregistré dans $3
 actions Actions
@@ -86,6 +87,7 @@ broughtby Développé pour vous par
 browse Parcourir
 browserexample (\$url sera remplacée par l'URL) Ex: mozilla \$url
 browser Navigateur web
+bugerror Nous sommes désolés, mais il y a eu un problème lors de la connexion à la base de données des bugs. Merci de véifier votre connexion internet.
 busy Occupé
 cachedpics $1 icônes masquées
 cancel Annuler
