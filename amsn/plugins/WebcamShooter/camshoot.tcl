@@ -152,7 +152,7 @@ namespace eval ::camshoot {
 		if { [set ::tcl_platform(platform)] == "windows" } {
 			$preview copy [$window.l cget -image]
 		} elseif { [set ::tcl_platform(os)] == "Darwin" } {
-			$w.seq picture $preview
+			.grabber.seq picture $preview
 		} elseif { [set ::tcl_platform(os)] == "Linux" } {
 			$preview copy [$window.l cget -image]
 		}
