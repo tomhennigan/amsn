@@ -10,6 +10,12 @@ if { $initialize_amsn == 1 } {
 
 proc iconify_proc {} {
 	global statusicon systemtray_exist
+	
+	if { [OnWin] } {
+		taskbar_icon_handler WM_LBUTTONDBLCLK 0 0
+		return
+	}
+
 	if { [focus] == "."} {
 		wm iconify .
 		wm state . withdrawn
