@@ -2805,6 +2805,8 @@ namespace eval ::CAMSETUP {
 
 		#open up the first page
 		Step0
+		
+		moveinscreen $win 30
 	}
 
 
@@ -2980,7 +2982,7 @@ namespace eval ::CAMSETUP {
 
 		#when running on mac, this will be step 2 and 3 with only 1 button to open the QT prefs
 		if { [OnMac] } {
-			SetTitlecText "Set up webcamdevice and channel and finetune picture (Step 3 and 4 of 5)"
+			SetTitlecText "Set up webcamdevice and channel and finetune picture (Step 2 and 3 of 5)"
 
 			#clear the content and optionsframe
 			set contentf [ClearContentFrame]
@@ -2996,11 +2998,11 @@ namespace eval ::CAMSETUP {
 			#create the innerframe
 			set frame $contentf.innerframe
 			frame $frame -bd 0
-			pack $frame -padx 10 -pady 10 -side left			
+			pack $frame -padx 10 -pady 10			
 
 			button $frame.button -text "Open camsettings window" -command "::CAMGUI::ChooseDeviceMac"
-
-			status_log "here should be drawn a button to open the QT prefs"
+			pack $frame.button
+			
 				
 		} else {
 			#Set the title-text
@@ -3356,6 +3358,11 @@ status_log "$device"
 	######################################################################################	
 
 	proc Step3 {} {
+	
+		if {[OnMac]} {
+			::CAMSETUP::Step2
+			return
+		}
 #Only linux for now ...
 		global selecteddevice
 		global selectedchannel
@@ -3585,7 +3592,7 @@ status_log "Config'ed: $brightness, $contrast, $hue, $color"
 		#create the innerframe
 		set frame $contentf.innerframe
 		frame $frame -bd 0
-		pack $frame -padx 10 -pady 10 -side left
+		pack $frame -padx 10 -pady 10
 
 		if {[::abook::getDemographicField conntype] == "IP-Restrict-NAT" && [::abook::getDemographicField listening] == "false"} {
 			label $frame.abookresult -text "[trans firewalled]" -font bboldf
@@ -3623,7 +3630,7 @@ status_log "Config'ed: $brightness, $contrast, $hue, $color"
 		#create the innerframe
 		set frame $contentf.innerframe
 		frame $frame -bd 0
-		pack $frame -padx 10 -pady 10 -side left
+		pack $frame -padx 10 -pady 10
 
 
 		label $frame.txt -text "Done" -font bboldf
