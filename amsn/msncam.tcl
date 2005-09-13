@@ -2131,7 +2131,9 @@ namespace eval ::CAMGUI {
 		if {![::CAMGUI::CreateGrabberWindowMac]} {
 				return
 		}
-		$grabber videosettings
+		if {[catch {$grabber videosettings} res]} {
+			msg_box $res
+		}
 	}
 	proc ChooseDeviceLinux { } {
 
