@@ -1436,7 +1436,6 @@ namespace eval ::MSN {
 				set chatid [::MSN::ChatFor $sb_name]
 				::MSN::ClearQueue $chatid
 				::amsn::chatStatus $chatid "$user: [trans userblocked]\n" miniwarning
-				warn_blocked $user
 				return 0
 			}
 			217 {
@@ -1449,12 +1448,10 @@ namespace eval ::MSN {
 				# ::MSN::CleanChat $chatid
 				::amsn::chatStatus $chatid "$user: [trans usernotonline]\n" miniwarning
 				#msg_box "[trans usernotonline]"
-				user_not_blocked $user
 				return 0
 			}
 			713 {
-				status_log "CALReceived: 713 USER TOO ACTIVE \nStoping the VerifyBlocked procedure\n" white
-				StopVerifyBlocked
+				status_log "CALReceived: 713 USER TOO ACTIVE\n" white
 				return 0
 			}
 		}
@@ -3334,12 +3331,7 @@ proc cmsn_change_state {recv} {
 		set substate "FLN"
 		set evpar(substate) substate
 		set msnobj [::abook::getVolatileData $user msnobj ""]
-	status_log "contactStateChange in protocol cmsn_change_state FLN"
-	#an event used by guicontactlist to know when a contact changed state
-	after 500 ::Event::fireEvent contactStateChange protocol $user
-
-		::plugins::PostEvent ChangeState evpar
-
+		status_log "contactStateChange in protocol cmsn_change_state FLN"
 	} elseif {[lindex $recv 0] == "ILN"} {
 		#Initial status when we log in
 		set user [lindex $recv 3]
@@ -3349,7 +3341,6 @@ proc cmsn_change_state {recv} {
 		set msnobj [urldecode [lindex $recv 6]]
 		#Add clientID to abook
 		add_Clientid $user [lindex $recv 5]
-		#I don't think we should add ChangeState PostEvent here...
 	} else {
 		#Coming online or changing state
 		set user [lindex $recv 2]
@@ -3362,14 +3353,24 @@ proc cmsn_change_state {recv} {
 		#Add clientID to abook
 		add_Clientid $user [lindex $recv 4]
 
-	status_log "contactStateChange in protocol cmsn_change_state $user"
-	#an event used by guicontactlist to know when a contact changed state
-	after 500 ::Event::fireEvent contactStateChange protocol $user
-
-		#Send plugin's postevent
-		::plugins::PostEvent ChangeState evpar
-
+		status_log "contactStateChange in protocol cmsn_change_state $user"
 	}
+
+	set oldstate [::abook::getVolatileData $user state]
+	if { $oldstate != $substate } {
+		set state_changed 1
+	} else {
+		set state_changed 0
+	}
+
+	# we shouldn't add ChangeState PostEvent if ILN
+	if { [lindex $recv 0] != "ILN" && $state_changed } {
+		#an event used by guicontactlist to know when a contact changed state
+		after 500 ::Event::fireEvent contactStateChange protocol $user
+		
+		::plugins::PostEvent ChangeState evpar
+	}
+
 
 	if { $msnobj == "" } {
 		set msnobj -1
@@ -3386,9 +3387,12 @@ proc cmsn_change_state {recv} {
 		::abook::setContactData $user nick $user_name
 		::MSN::changeName $user [encoding convertto utf-8 $encoded_user_name] 1
 
-	#an event used by guicontactlist to know when we changed our nick
-	::Event::fireEvent contactNickChange protocol $user
+		#an event used by guicontactlist to know when we changed our nick
+		::Event::fireEvent contactNickChange protocol $user
 
+		set nick_changed 1
+	} else {
+		set nick_changed 0
 	}
 
 	set custom_user_name [::abook::getDisplayNick $user]
@@ -3396,8 +3400,8 @@ proc cmsn_change_state {recv} {
 	set state_no [::MSN::stateToNumber $substate ]
 
 
-    #alarm system (that must replace the one that was before) - KNO
-	if {[lindex $recv 0] !="ILN"} {
+	#alarm system (that must replace the one that was before) - KNO
+	if {[lindex $recv 0] !="ILN" && $state_changed} {
 
 		if {[lindex $recv 0] == "FLN"} {
 			#User disconnected
@@ -3469,14 +3473,17 @@ proc cmsn_change_state {recv} {
 	#User logsout
 	if {$substate == "FLN"} {
 
-		#Register last logout, last seen and notify it in the events
-		::abook::setAtomicContactData $user [list last_logout last_seen] \
-			[list [clock format [clock seconds] -format "%D - %H:%M:%S"] [clock format [clock seconds] -format "%D - %H:%M:%S"]]
-		::log::eventdisconnect $custom_user_name
+		if { $state_changed } {
+			#Register last logout, last seen and notify it in the events
+			::abook::setAtomicContactData $user [list last_logout last_seen] \
+			    [list [clock format [clock seconds] -format "%D - %H:%M:%S"] [clock format [clock seconds] -format "%D - %H:%M:%S"]]
+			::log::eventdisconnect $custom_user_name
+		}
 
-
-		if { ([::config::getKey notifyoffline] == 1 && [::abook::getContactData $user notifyoffline -1] != 0) ||
-		     [::abook::getContactData $user notifyoffline -1] == 1 } {
+		if { ($state_changed || $nick_changed) && 
+		     (([::config::getKey notifyoffline] == 1 && 
+		       [::abook::getContactData $user notifyoffline -1] != 0) ||
+		      [::abook::getContactData $user notifyoffline -1] == 1) } {
 			#Show notify window if globally enabled, and not locally disabled, or if just locally enabled
 			::amsn::notifyAdd "$short_name\n[trans logsout]." "" offline offline $user
 		}
@@ -3485,38 +3492,48 @@ proc cmsn_change_state {recv} {
 	# an initial state notification
 	} elseif {[::abook::getVolatileData $user state FLN] != "FLN" && [lindex $recv 0] != "ILN"  } {
 
-		if { ([::config::getKey notifystate] == 1 && [::abook::getContactData $user notifystatus -1] != 0) ||
-		     [::abook::getContactData $user notifystatus -1] == 1 } {
-			::amsn::notifyAdd "$short_name\n[trans statechange]\n[trans [::MSN::stateToDescription $substate]]." \
-				"::amsn::chatUser $user" state state $user
+		if { $state_changed } {
+			#Notify in the events
+			::log::eventstatus $custom_user_name [::MSN::stateToDescription $substate]
 		}
 
-		#Notify in the events
-		::log::eventstatus $custom_user_name [::MSN::stateToDescription $substate]
+		if { ($state_changed || $nick_changed) && 
+		     (([::config::getKey notifystate] == 1 && 
+		       [::abook::getContactData $user notifystatus -1] != 0) ||
+		      [::abook::getContactData $user notifystatus -1] == 1) } {
+			::amsn::notifyAdd "$short_name\n[trans statechange]\n[trans [::MSN::stateToDescription $substate]]." \
+			    "::amsn::chatUser $user" state state $user
+		}
 
 	} elseif {[lindex $recv 0] == "NLN"} {	;# User was offline, now online
 
-		user_not_blocked "$user"
+		if { $state_changed } {
+			#Register last login and notify it in the events
+			::abook::setContactData $user last_login [clock format [clock seconds] -format "%D - %H:%M:%S"]
+			::log::eventconnect $custom_user_name
+			#Register PostEvent "UserConnect" for Plugins, email = email user_name=custom nick
+			set evPar(user) user
+			set evPar(user_name) custom_user_name
+			::plugins::PostEvent UserConnect evPar
+		}
 
-		#Register last login and notify it in the events
-		::abook::setContactData $user last_login [clock format [clock seconds] -format "%D - %H:%M:%S"]
-		::log::eventconnect $custom_user_name
-		#Register PostEvent "UserConnect" for Plugins, email = email user_name=custom nick
-		set evPar(user) user
-		set evPar(user_name) custom_user_name
-		::plugins::PostEvent UserConnect evPar
-
-		if { ([::config::getKey notifyonline] == 1 && [::abook::getContactData $user notifyonline -1] != 0) ||
-		     [::abook::getContactData $user notifyonline -1] == 1 } {
+		if { ($state_changed || $nick_changed) && 
+		     (([::config::getKey notifyonline] == 1 && 
+		       [::abook::getContactData $user notifyonline -1] != 0) ||
+		      [::abook::getContactData $user notifyonline -1] == 1) } {
 			::amsn::notifyAdd "$short_name\n[trans logsin]." "::amsn::chatUser $user" online online $user
 		}
 
-		if {  ( [::alarms::isEnabled $user] == 1 )&& ( [::alarms::getAlarmItem $user onconnect] == 1)} {
-			run_alarm $user $custom_user_name "$custom_user_name [trans logsin]"
-		} elseif {  ( [::alarms::isEnabled all] == 1 )&& ( [::alarms::getAlarmItem all onstatus] == 1)} {
-			run_alarm $user $custom_user_name "$custom_user_name [trans logsin]"
+		if { $state_changed } {
+			if {  ( [::alarms::isEnabled $user] == 1 )&& ( [::alarms::getAlarmItem $user onconnect] == 1)} {
+				run_alarm $user $custom_user_name "$custom_user_name [trans logsin]"
+			} elseif {  ( [::alarms::isEnabled all] == 1 )&& ( [::alarms::getAlarmItem all onstatus] == 1)} {
+				run_alarm $user $custom_user_name "$custom_user_name [trans logsin]"
+			}
 		}
 	}
+
+	# Retreive the new display picture if it changed
 	set oldmsnobj [::abook::getVolatileData $user msobj]
 	#set list_users [lreplace $list_users $idx $idx [list $user $user_name $state_no $msnobj]]
 
@@ -3553,8 +3570,9 @@ proc cmsn_change_state {recv} {
 
 
 	::MSN::contactListChanged
-	cmsn_draw_online 1
-
+	if { $state_changed || $nick_changed } {
+		cmsn_draw_online 1
+	}
 }
 
 
@@ -6232,27 +6250,31 @@ namespace eval ::MSNMobile {
 
     proc MessageReceived { data } {
 
-	status_log "Got data : $data" red
-	set idx1 [string first "<TEXT" $data]
-	set idx1 [string first ">" $data $idx1]
-	set idx2 [string first "</TEXT>" $data $idx1]
-	status_log "idx1 $idx1 [string first \"<TEXT\" $data] - idx2 $idx2\n" red
-	if { $idx1 == -1 || $idx2 == -1 } {
-	    return 0
-	}
-	set msg [string range $data [expr {$idx1 + 1}] [expr {$idx2 -1}]]
+ 	status_log "Got data : $data" red
+# 	set idx1 [string first "<TEXT" $data]
+# 	set idx1 [string first ">" $data $idx1]
+# 	set idx2 [string first "</TEXT>" $data $idx1]
+# 	status_log "idx1 $idx1 [string first \"<TEXT\" $data] - idx2 $idx2\n" red
+# 	if { $idx1 == -1 || $idx2 == -1 } {
+# 	    return 0
+# 	}
+# 	set msg [string range $data [expr {$idx1 + 1}] [expr {$idx2 -1}]]
 
-	set idx1 [string first "<FROM" $data]
-	set idx1 [string first "name=\"" $data $idx1]
-	incr idx1 6
-	set idx2 [string first "\"" $data $idx1]
-	incr idx2 -1
-	if { $idx1 == -1 || $idx2 == -1 } {
-	    return 0
-	}
-	set user [string range $data $idx1 $idx2]
+# 	set idx1 [string first "<FROM" $data]
+# 	set idx1 [string first "name=\"" $data $idx1]
+# 	incr idx1 6
+# 	set idx2 [string first "\"" $data $idx1]
+# 	incr idx2 -1
+# 	if { $idx1 == -1 || $idx2 == -1 } {
+# 	    return 0
+# 	}
+# 	set user [string range $data $idx1 $idx2]
 
-	status_log "idx1 $idx1 - idx2 $idx2\n" red
+# 	status_log "idx1 $idx1 - idx2 $idx2\n" red
+	set xml [xml2list $data]
+	
+	set msg [GetXmlEntry $xml "NOTIFICATION:MSG:BODY:TEXT"]
+	set user [GetXmlAttribute $::xml "NOTIFICATION:FROM" name]
 
 	set chatid [GetChatId $user]
 

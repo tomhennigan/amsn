@@ -925,19 +925,6 @@ proc list2xml list {
 	}
 }
 
-proc GetKeyValueFromXmlContent { content } {
-	foreach subkey $content {
-		set key [lindex $subkey 0]
-		set value [lindex $subkey 1]
-		if {$key == "#text" } { 
-			#status_log "Found value : $value" blue
-			return $value 
-		}
-	}
-	return ""
-	
-}
-
 proc GetXmlEntry { list find {stack ""}} {
 
 	set current_stack $stack
@@ -945,7 +932,15 @@ proc GetXmlEntry { list find {stack ""}} {
 		set current_stack "$stack:$entry"
 		if {$current_stack == $find || $current_stack == ":$find" } {
 			#status_log "Found it in $current_stack\n" red
-			return [GetKeyValueFromXmlContent $content]
+			foreach subkey $content {
+				set key [lindex $subkey 0]
+				set value [lindex $subkey 1]
+				if {$key == "#text" } { 
+					status_log "Found value : $value" blue
+					return $value 
+				}
+			}
+			return ""
 		} else {
 			if {[string first $current_stack $find] == -1 &&
 			    [string first $current_stack ":$find"] == -1 } {
@@ -954,8 +949,9 @@ proc GetXmlEntry { list find {stack ""}} {
 			} else { 
 				#status_log "$find is in a subkey of $current_stack\n" red
 				foreach subkey $content {
-					if { [GetXmlEntry $subkey $find $current_stack] != "" } {
-						return [GetXmlEntry $subkey $find $current_stack]
+					set result [GetXmlEntry $subkey $find $current_stack]
+					if { $result != "" } {
+						return $result
 					}
 				}
 			}
@@ -964,48 +960,39 @@ proc GetXmlEntry { list find {stack ""}} {
 	
 	return ""
 	
-	set idx [lsearch $list "*$find*"]
-	status_log "Found idx : $idx - [llength $list]\n" red
-	while { ([llength $list] > 3 || $idx != 0) && $idx != -1 } {
-		set list [lindex $list $idx]
-		set idx [lsearch $list "*$find*"]
-		status_log "Found idx : $idx in list $list\n" red
-	}
-	if { $idx == 0 } {
-		status_log "Found it in $list\n" red
-		set value [lindex $list 2]
-		set value [lindex $value 0]
-		status_log "Value is : $value - [lrange $value 1 end]\n" red
-		return [lrange $value 1 end]
-	} else {
-		return ""
-	}
 }
 
 
-proc dummy { } {
+proc GetXmlAttribute { list find attribute_name {stack ""}} {
 
-	set original_stack $stack
-	foreach subentry $list {
-		if {[llength $subentry] < 3 } {
-			set subentry $list
-		}
-		foreach { entry attributes value } $list {
-			set stack "${original_stack}:${entry}"
-			status_log "Entering stack point : $stack\n" red
-			if { [llength $value] < 3 } {
-				status_log "Value is : $value - [lrange $value 1 end]\n" red
-				if { $stack == $find } {
-					return [lrange $value 1 end]
-				} else {
-					return ""
-				}
+	set current_stack $stack
+	foreach { entry attributes content} $list {
+		set current_stack "$stack:$entry"
+		if {$current_stack == $find || $current_stack == ":$find" } {
+			#status_log "Found it in $current_stack\n" blue
+			array set attributes_arr $attributes
+			if { [info exists attributes_arr($attribute_name)] } {
+				return [set attributes_arr($attribute_name)]
 			} else {
-				if { [set ret [GetXmlEntry $value $find $stack]] != "" } {
-					return $ret
+				return ""
+			}
+		} else {
+			if {[string first $current_stack $find] == -1 &&
+			    [string first $current_stack ":$find"] == -1 } {
+				#status_log "$find not in $current_stack" red
+				continue
+			} else { 
+				#status_log "$find is in a subkey of $current_stack\n" red
+				foreach subkey $content {
+					set result [GetXmlAttribute $subkey $find $attribute_name $current_stack]
+					if { $result != "" } {
+						return $result
+					}
 				}
 			}
-		}
+		}	
 	}
-
+	
+	return ""
+	
 }

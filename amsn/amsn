@@ -191,7 +191,6 @@ proc reload_files { } {
 	source trayicon.tcl	;# Docking routines for freedesktop system tray compliant docks
 	source loging.tcl	;# Euh yeh it's for loging :P
 	source combobox.tcl	;# The all mighty combobox is here! (B. Oakley)
-	source blocking.tcl	;# The blocking users feature
 
 	source balloon.tcl	;# For the balloons tooltip
 	source png.tcl		;# PNG Parser and zlib deflate in pure TCL (KaKaRoTo)
