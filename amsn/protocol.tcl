@@ -2536,7 +2536,7 @@ namespace eval ::Event {
 	option -invite ""
 	option -auth_cmd ""
 	option -auth_param ""
-	option -last_activity [clock seconds]
+	option -last_activity 0
 
 	constructor {args} {
 		install connection using Connection %AUTO% -name $self
@@ -2646,7 +2646,7 @@ namespace eval ::Event {
 			}
 		}
 
-		set options(-last_activity) [clock seconds]
+		catch { set options(-last_activity) [clock seconds] }
 	}
 
 	method handleMSG { command message } {

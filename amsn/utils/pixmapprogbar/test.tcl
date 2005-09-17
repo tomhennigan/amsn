@@ -1,3 +1,5 @@
+#!/usr/bin/wish
+
 lappend auto_path ../
 source pixmapprogbar.tcl
 package require pixmapbutton

@@ -6640,7 +6640,9 @@ proc show_umenu {user_login grId x y} {
 	}
 	.user_menu add command -label "[trans sendmobmsg]" \
 	    -command "::MSNMobile::OpenMobileWindow ${user_login}" -state $mob_menu_state
-
+	# Add requested and done by Paller 
+	.user_menu add command -label "[trans webcamhistory]" \
+	    -command "::log::OpenCamLogWin ${user_login}" 
 
 	.user_menu add command -label "[trans sendmail]" \
 		-command "launch_mailer $user_login"
