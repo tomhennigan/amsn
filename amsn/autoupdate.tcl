@@ -316,10 +316,10 @@ namespace eval ::autoupdate {
 		
 		#Bottom frame
 		label $w.bottom.bitmap -image [::skin::loadPixmap greyline]
-		label $w.bottom.q -text "Would you like to update aMSN immediatly?" -font bigfont
-		button $w.bottom.buttons.update -text "Update" -command "::autoupdate::amsn_update $tmp_data;destroy $w" -default active
-		button $w.bottom.buttons.cancel -text "Cancel" -command "::autoupdate::dont_ask_before;destroy $w"
-		label $w.bottom.lastbar -image [::skin::loadPixmap greyline]
+		#label $w.bottom.q -text "Would you like to update aMSN immediatly?" -font bigfont
+		#button $w.bottom.buttons.update -text "Update" -command "::autoupdate::amsn_update $tmp_data;destroy $w" -default active
+		#button $w.bottom.buttons.cancel -text "Cancel" -command "::autoupdate::dont_ask_before;destroy $w"
+		#label $w.bottom.lastbar -image [::skin::loadPixmap greyline]
 		#Checkbox to verify if the user want to have an alert again or just in one week
 		checkbutton $w.bottom.ignoreoneweek -text "Don't ask update again for one week" -variable "dont_ask_for_one_week" -font sboldf
 		
@@ -333,11 +333,11 @@ namespace eval ::autoupdate {
 		
 		#Pack all the stuff for the bottom
 		pack $w.bottom.bitmap
-		pack $w.bottom.q
-		pack $w.bottom.buttons.update -side left -padx 5
-		pack $w.bottom.buttons.cancel -side right -padx 5
+		#pack $w.bottom.q
+		#pack $w.bottom.buttons.update -side left -padx 5
+		#pack $w.bottom.buttons.cancel -side right -padx 5
 		pack $w.bottom.buttons
-		pack $w.bottom.lastbar -pady 5
+		#pack $w.bottom.lastbar -pady 5
 		pack $w.bottom.ignoreoneweek
 		pack $w.bottom -side bottom -pady 15
 		
@@ -543,8 +543,8 @@ namespace eval ::autoupdate {
 			set weekdate [::config::getKey weekdate]
 			#Actual time in seconds
 			set actualtime "[clock seconds]"
-			#Number of seconds for 3 days
-			set three_days "[expr {60*60*24*3}]"
+			#Number of seconds for 7 days
+			set three_days "[expr {60*60*24*7}]"
 			#If you tant to test just with 60 seconds, add # on the previous line and remove the # on the next one
 			#set three_days "60"
 			#Compare the difference betwen actualtime and the time when he clicked
@@ -555,7 +555,7 @@ namespace eval ::autoupdate {
 			}
 			status_log "Three days (in seconds) :$three_days\n" blue
 			status_log "Difference time (in seconds): $diff_time\n" blue
-			#If new version and more than 3 days since the last alert (if user choosed that feature)
+			#If new version and more than 7 days since the last alert (if user choosed that feature)
 			#Open the update window
 			if { $newer == 1 && $diff_time > $three_days} {
 				::autoupdate::update_window $tmp_data
