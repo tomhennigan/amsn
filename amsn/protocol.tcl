@@ -2536,7 +2536,7 @@ namespace eval ::Event {
 	option -invite ""
 	option -auth_cmd ""
 	option -auth_param ""
-
+	option -last_activity [clock seconds]
 
 	constructor {args} {
 		install connection using Connection %AUTO% -name $self
@@ -2581,22 +2581,18 @@ namespace eval ::Event {
 			set cmd "[lindex [lindex $list_cmdhnd $idx] 1] {$command}"
 			set list_cmdhnd [lreplace $list_cmdhnd $idx $idx]
 			eval "$cmd"
-			return 0
 		} else {
 			switch [lindex $command 0] {
 				MSG {
 					$self handleMSG $command $message
-					return 0
 				}
 				BYE -
 				JOI -
 				IRO {
 					cmsn_update_users $self $command
-					return 0
 				}
 				CAL {
 					#status_log "$self_name: [join $command]\n" green
-					return 0
 				}
 				ANS {
 					status_log "sb::handleCommand: ANS Chat started. [llength [$self cget -users]] users: [$self cget -users]\n" green
@@ -2614,26 +2610,21 @@ namespace eval ::Event {
 
 					#Send x-clientcaps information
 					::MSN::clientCaps $chatid
-					return 0
 				}
 				NAK {
-					if { ! [info exists msgacks($ret_trid)]} {
-					return 0
+					if { [info exists msgacks($ret_trid)]} {
+						set ackid $msgacks($ret_trid)
+						::amsn::nackMessage $ackid
+						#::MSN::retryMessage $ackid
+						unset msgacks($ret_trid)
 					}
-					set ackid $msgacks($ret_trid)
-					::amsn::nackMessage $ackid
-					#::MSN::retryMessage $ackid
-					unset msgacks($ret_trid)
-					return 0
 				}
 				ACK {
-					if { ! [info exists msgacks($ret_trid)]} {
-					return 0
+					if { [info exists msgacks($ret_trid)]} {
+						set ackid $msgacks($ret_trid)
+						::amsn::ackMessage $ackid
+						unset msgacks($ret_trid)
 					}
-					set ackid $msgacks($ret_trid)
-					::amsn::ackMessage $ackid
-					unset msgacks($ret_trid)
-					return 0
 				}
 				208 {
 					status_log "sb::handleCommand: invalid user name for chat\n" red
@@ -2644,19 +2635,18 @@ namespace eval ::Event {
 					set chatid [::MSN::ChatFor $self]
 					::MSN::ClearQueue $chatid
 					::amsn::chatStatus $chatid "[trans useryourself]\n" miniwarning
-					return 0
 				}
 				"" {
-					return 0
 				}
 				default {
 					if { "[$self cget -stat ]" == "d" } {
 						status_log "$self: UNKNOWN SB ENTRY! --> [join $command]\n" red
 					}
-					return 0
 				}
 			}
 		}
+
+		set options(-last_activity) [clock seconds]
 	}
 
 	method handleMSG { command message } {
@@ -3231,9 +3221,14 @@ proc cmsn_update_users {sb recv} {
 			#Another option for the condition:
 			# "$chatid" != "[lindex $recv 1]" || ![MSN::chatReady $chatid]
 			if { [::MSN::SBFor $chatid] == $sb } {
-				if { [lindex $recv 2] == "1" } {
+				# the last argument to userLeaves means :
+				# 0 : closed for inactivity
+				# 1 : user leaves conversation
+				if { [lindex $recv 2] == "1" || 
+				     ([expr [clock seconds] - [$sb cget -last_activity]] > 50 &&
+				      [expr [clock seconds] - [$sb cget -last_activity]] < 90)} {
 					::amsn::userLeaves $chatid [list [lindex $recv 1]] 0
-				} else {
+				} else {					
 					::amsn::userLeaves $chatid [list [lindex $recv 1]] 1
 				}
 			}
@@ -6274,7 +6269,7 @@ namespace eval ::MSNMobile {
 	set xml [xml2list $data]
 	
 	set msg [GetXmlEntry $xml "NOTIFICATION:MSG:BODY:TEXT"]
-	set user [GetXmlAttribute $::xml "NOTIFICATION:FROM" name]
+	set user [GetXmlAttribute $xml "NOTIFICATION:FROM" name]
 
 	set chatid [GetChatId $user]
 
