@@ -362,82 +362,46 @@ namespace eval ::skin {
 		
 		#If the extension is a picture, look in 4 formats
 		if { $ext == "png" || $ext == "gif" || $ext == "jpg" || $ext == "bmp"} {
-			
 			#List the 4 formats we support (in order of priority to check)
-			set formatpic [list png gif jpg bmp]
-		
-			#For each format, look if the picture exist, stop when we find the file
-			foreach format $formatpic {
-				set path [::skin::LookForFile $type $filename_noext $fblocation $skin_override $skin $format]
-				if {$path == 0} { 
-					continue 
-				} else {
-					return $path
-				}	
-			}
-			# If image doen't exist in skin package that use the image from the default skin
-			foreach format $formatpic {
-				set path [::skin::LookForFile $type $filename_noext $fblocation $defaultskin $skin $format]
-					if {$path == 0} { 
-						continue 
-					} else {
-						return $path
-					}	
-			}
-		} else {
-			#If it's a skin file but not a picture, just find it with it own extension
-			set path [::skin::LookForFile $type $filename_noext $fblocation $skin_override $skin $ext]
-			if {$path != 0} { 
-				return $path
-			}
-			# If image doen't exist in skin package that use the image from the default skin
-			set path [::skin::LookForFile $type $filename_noext $fblocation $defaultskin $skin $ext]
-			if {$path != 0} { 
-				return $path
+			set ext [list png gif jpg bmp]
+		}
+
+		set locations [list]
+		lappend locations 
+		#Get file using global path
+		if { "[string range $filename 0 0]" == "/" } {
+			lappend locations ""
+		}
+		#Get from personal profile folder (needed for displaypics)
+		lappend locations [file join $HOME $type]
+		#Get file from program dir skins folder
+		lappend locations [file join [set ::program_dir] skins $skin $type]
+		#Get file from ~/.amsn/skins folder
+		lappend locations [file join $HOME2 skins $skin $type]
+		#Get file from ~/.amsn/profile/skins folder
+		lappend locations [file join $HOME skins $skin $type]
+		#Get file from ~/.amsn/amsn-extras/skins folder
+		lappend locations [file join $HOME2 amsn-extras skins $skin $type]
+		#Get file from default skin
+		lappend locations [file join [set ::program_dir] skins $defaultskin $type]
+		#Get file from fallback location
+		if { ($fblocation != "") } {
+			lappend locations [file join $fblocation]
+		}
+
+		foreach location $locations {
+			foreach extension $ext {
+				if { [file readable [file join $location $filename_noext.$extension]] } {
+					return "[file join $location $filename_noext.$extension]"
+				}
 			}
 		}
 				
 		#If we didn't find anything...use null file
 		set path [file join [set ::program_dir] skins $defaultskin $type null]
 		return $path
-		
 	}
-	#Proc used for GetSkinFile, to look for files in the many places a skin file can be
-	proc LookForFile {type filename fblocation defaultskin skin formatpic} {
-	
-		global HOME2 HOME
-		#Merge the filename(no_ext) and the extension to have a real file name
-		set filename "$filename.$formatpic"
-		
-		#Get file using global path
-		if { "[string range $filename 0 0]" == "/" && [file readable  $filename] } {
-			return "$filename"
-		#Get from personal profile folder (needed for displaypics)
-		} elseif { [file readable [file join $HOME $type $filename]] } {
-			return "[file join $HOME $type $filename]"
-		#Get file from program dir skins folder
-		} elseif { [file readable [file join [set ::program_dir] skins $skin $type $filename]] } {
-			return "[file join [set ::program_dir] skins $skin $type $filename]"
-		#Get file from ~/.amsn/skins folder
-		} elseif { [file readable [file join $HOME2 skins $skin $type $filename]] } {
-			return "[file join $HOME2 skins $skin $type $filename]"
-		#Get file from ~/.amsn/profile/skins folder
-		} elseif { [file readable [file join $HOME skins $skin $type $filename]] } {
-			return "[file join $HOME skins $skin $type $filename]"
-		#Get file from ~/.amsn/amsn-extras/skins folder
-		} elseif { [file readable [file join $HOME2 amsn-extras skins $skin $type $filename]] } {
-			return "[file join $HOME2 amsn-extras skins $skin $type $filename]"
-		#Get file from default skin
-		} elseif { [file readable [file join [set ::program_dir] skins $defaultskin $type $filename]] } {
-			return "[file join [set ::program_dir] skins $defaultskin $type $filename]"
-		#Get file from fallback location
-		} elseif { ($fblocation != "") && [file readable [file join $fblocation $filename]] } {
-			return "[file join $fblocation $filename]"
-		} else {
-			return 0
-		}
-	}
-	
+
 	#Proc used to find out where to get pixmaps for extra skinnable widgets
 	proc LookForExtFolder { skin folder } {
 		global HOME2 HOME
