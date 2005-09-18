@@ -411,18 +411,28 @@ int StringWrite (Tcl_Interp *interp, Tcl_Obj *format, Tk_PhotoImageBlock *blockP
 #if ANIMATE_GIFS
 void AnimateGif(ClientData data) {
 	GifInfo *Info = (GifInfo *)data;
-	if(g_EnableAnimated && Info) {
-		CxImage *image = Info->image->GetFrameNo(Info->CurrentFrame);
+	if (Info) { //Info is valid
 		void * tkMaster = *((void **) (Info->Handle));
-
-		if(tkMaster == Info->HandleMaster && AnimatedGifFrameToTk(NULL, Info, image, true) == TCL_OK) {
-			
-			Info->CurrentFrame++;
-			if(Info->CurrentFrame == Info->NumFrames)
-				Info->CurrentFrame = 0;
-
-			Info->timerToken=Tcl_CreateTimerHandler(image->GetFrameDelay()?10*image->GetFrameDelay():40, AnimateGif, data);
-
+		if(tkMaster == Info->HandleMaster) {
+		//Image is always here
+			if(g_EnableAnimated) {
+				CxImage *image = Info->image->GetFrameNo(Info->CurrentFrame);
+				if (AnimatedGifFrameToTk(NULL, Info, image, true) == TCL_OK) {
+					Info->CurrentFrame++;
+					if(Info->CurrentFrame == Info->NumFrames)
+						Info->CurrentFrame = 0;
+		
+					Info->timerToken=Tcl_CreateTimerHandler(image->GetFrameDelay()?10*image->GetFrameDelay():40, AnimateGif, data);
+				}
+			} else {
+				int currentFrame = Info->CurrentFrame;
+				if(currentFrame)
+					currentFrame--;
+				else
+					currentFrame = Info->NumFrames;
+				CxImage *image = Info->image->GetFrameNo(currentFrame);
+				Info->timerToken=Tcl_CreateTimerHandler(image->GetFrameDelay()?10*image->GetFrameDelay():40, AnimateGif, data);
+			}
 		} else {
 		  LOG("Image destroyed, deleting... tkMaster was : ");
 		  APPENDLOG( tkMaster );
@@ -441,14 +451,6 @@ void AnimateGif(ClientData data) {
 			delete Info;
 			Info = NULL;
 		}
-	} else if (Info) {
-		int currentFrame = Info->CurrentFrame;
-		if(currentFrame)
-			currentFrame--;
-		else
-			currentFrame = Info->NumFrames;
-		CxImage *image = Info->image->GetFrameNo(currentFrame);
-		Info->timerToken=Tcl_CreateTimerHandler(image->GetFrameDelay()?10*image->GetFrameDelay():40, AnimateGif, data);
 	}
 
 }
