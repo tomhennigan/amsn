@@ -256,7 +256,8 @@ int ObjRead (Tcl_Interp *interp, Tcl_Obj *data, Tcl_Obj *format, Tk_PhotoHandle 
 		AnimatedGifInfo->CurrentFrame = 1;
 		AnimatedGifInfo->NumFrames = numframes;
 		AnimatedGifInfo->Handle = imageHandle;
-		AnimatedGifInfo->HandleMaster  = *((void **) (imageHandle));
+		AnimatedGifInfo->ImageMaster = (Tk_ImageMaster) *((void **)imageHandle);
+		AnimatedGifInfo->interp = interp;
 		AnimatedGifInfo->image = new CxImage;
 		AnimatedGifInfo->image->RetreiveAllFrame();
 		AnimatedGifInfo->image->SetFrame(numframes - 1);
@@ -412,10 +413,22 @@ int StringWrite (Tcl_Interp *interp, Tcl_Obj *format, Tk_PhotoImageBlock *blockP
 void AnimateGif(ClientData data) {
 	GifInfo *Info = (GifInfo *)data;
 	if (Info) { //Info is valid
-		void * tkMaster = *((void **) (Info->Handle));
-		if(tkMaster == Info->HandleMaster) {
-		//Image is always here
-			if(g_EnableAnimated) {
+		Tk_ImageMaster master = (Tk_ImageMaster) *((void **) Info->Handle);
+		if(master == Info->ImageMaster) {
+		//Image is always the same
+			//We check if it is used
+			const char * name = Tk_NameOfImage(master);
+			char buf[255];
+			sprintf(buf, "image inuse %s",name);
+			if (Tcl_EvalEx(Info->interp,buf,-1,TCL_EVAL_GLOBAL) != TCL_OK) {
+				LOG("Error executing image inuse over image ");
+				APPENDLOG( name );
+				APPENDLOG( Tcl_GetStringResult(Info->interp) );
+				return;
+			}
+			int result=0;
+			Tcl_GetBooleanFromObj(NULL,Tcl_GetObjResult(Info->interp),&result);
+			if((g_EnableAnimated) && (result)) {
 				CxImage *image = Info->image->GetFrameNo(Info->CurrentFrame);
 				if (AnimatedGifFrameToTk(NULL, Info, image, true) == TCL_OK) {
 					Info->CurrentFrame++;
@@ -434,10 +447,10 @@ void AnimateGif(ClientData data) {
 				Info->timerToken=Tcl_CreateTimerHandler(image->GetFrameDelay()?10*image->GetFrameDelay():40, AnimateGif, data);
 			}
 		} else {
-		  LOG("Image destroyed, deleting... tkMaster was : ");
-		  APPENDLOG( tkMaster );
-		  APPENDLOG(" - ");
-		  APPENDLOG( Info->HandleMaster);
+			LOG("Image destroyed, deleting... Image Master was : ");
+			APPENDLOG( master );
+			APPENDLOG(" - ");
+			APPENDLOG( Info->ImageMaster);
 
 			Info->image->DestroyGifFrames();
 			delete Info->image;

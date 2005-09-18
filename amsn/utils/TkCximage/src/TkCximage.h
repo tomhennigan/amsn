@@ -139,8 +139,9 @@ typedef GifBuffersArray::iterator GifBuffersIterator;
 
 typedef struct gif_info {
 	CxImage * image;
+	Tcl_Interp * interp;
 	Tk_PhotoHandle Handle;
-	void * HandleMaster;
+	Tk_ImageMaster ImageMaster;
 	int NumFrames;
 	int CurrentFrame;
 	Tcl_TimerToken timerToken;
