@@ -8,6 +8,19 @@ namespace eval ::bugs {
     variable w ".bug_dialog"
     variable message
     variable website "http://beast.recordingground.com/bugs"
+    variable bug 
+    array set ::bugs::bug [list text "" date "" code "" info "" status "" protocol "" comment ""]
+    
+    #converts yyyyMMddhhmm to UNIX timestamp
+    proc cvstostamp { date } {
+	set year [string range $date 0 3]
+	set month [string range $date 4 5]
+	set day [string range $date 6 7]
+	set hour [string range $date 8 9]
+	set minute [string range $date 10 11]
+	set cvsdate 0
+	return $cvsdate
+    }
 
     proc bgerror { args } {
 	global errorInfo errorCode HOME2 tcl_platform tk_version tcl_version
@@ -36,52 +49,8 @@ namespace eval ::bugs {
 	} else {
 	    set date $::date
 	}
-		
-	#save to a file
-	set fd [open [file join $HOME2 bugreport.amsn] w]
-	
-	puts $fd "<?xml version=\"1.0\"?>"
-	puts $fd "<bug>"
-	puts $fd "\t<error>"
-	puts $fd "\t\t<date>[clock seconds]</date>"
-	puts $fd "\t\t<text>$args</text>"
-	puts $fd "\t\t<stack>[privacy $errorInfo]</stack>"
-	puts $fd "\t\t<code>$errorCode</code>"
-	puts $fd "\t</error>"
-	puts $fd "\t<system>"
-	puts $fd "\t\t<amsn>$::version</amsn>"
-	puts $fd "\t\t<date>$date</date>"
-	puts $fd "\t\t<tcl>$tcl_version</tcl>\n\t\t<tk>$tk_version</tk>"
-	foreach {key value} [array get tcl_platform] {
-	    puts $fd "\t\t<[string tolower $key]>$value</[string tolower $key]>"
-	}
-	puts $fd "\t</system>"
-	#catch { puts $fd ">>> tcl_platform array content : [array get tcl_platform]" }
-	
-	#set tclfiles [glob -nocomplain *.tcl]
-	#set latestmtime 0
-	#set latestfile ""
-	#foreach tclfile $tclfiles {
-	#file stat $tclfile filestat
-	#set mtime $filestat(mtime)
-	#if { $mtime > $latestmtime } {
-	#set latestmtime $mtime
-	#set latestfile $tclfile
-	#}
-	#}
-	#puts $fd ">>> Latest modification time file: $latestfile: [clock format $latestmtime -format %y/%m/%d-%H:%M]"
-	puts $fd "\t<extra>"
-	puts $fd "\t\t<status_log>"
-	puts $fd "[privacy [htmlentities [.status.info get $pos $posend]]]"
-	puts $fd "\t\t</status_log>"
-	puts $fd "\t\t<protocol_log>"
-	puts $fd "[privacy [htmlentities [.degt.mid.txt get $prot_pos $prot_posend]]]"
-	puts $fd "\t\t</protocol_log>"
-	puts $fd "\t</extra>"
-	puts $fd "</bug>\n\n"
-	close $fd
-	
-	#msg_box "[trans tkerror [file join $HOME2 bugreport.amsn]]"
+
+	set date [::bugs::cvstostamp $date]
 	
 	#error message into status_log
 	status_log "-----------------------------------------\n" error
@@ -92,7 +61,66 @@ namespace eval ::bugs {
 	catch { status_log ">>> tcl_platform array content : [array get tcl_platform]\n" error }
 	status_log "-----------------------------------------\n\n" error
 
+	set ::bugs::bug(date) $date
+	set ::bugs::bug(text) $args
+	set ::bugs::bug(code) $errorCode
+	set ::bugs::bug(info) [privacy $errorInfo]
+	set ::bugs::bug(status) [privacy [htmlentities [.status.info get $pos $posend]]]
+	set ::bugs::bug(protocol) [privacy [htmlentities [.degt.mid.txt get $prot_pos $prot_posend]]]
+
 	::bugs::show_bug_dialog $errorInfo
+    }
+
+    proc save {path} {
+	global tcl_platform tk_version tcl_version
+	variable bug
+
+	if {"$path" == ""} {
+	    return;
+	}
+
+	#save to a file
+	set fd [open "$path" w]
+	
+	puts $fd "<?xml version=\"1.0\"?>"
+	puts $fd "<bug>"
+	puts $fd "\t<error>"
+	puts $fd "\t\t<date>[clock seconds]</date>"
+	puts $fd "\t\t<text>$bug(text)</text>"
+	puts $fd "\t\t<stack>$bug(info)</stack>"
+	puts $fd "\t\t<code>$bug(code)</code>"
+	puts $fd "\t</error>"
+	puts $fd "\t<system>"
+	puts $fd "\t\t<amsn>$::version</amsn>"
+	puts $fd "\t\t<date>$bug(date)</date>"
+	puts $fd "\t\t<tcl>$tcl_version</tcl>\n\t\t<tk>$tk_version</tk>"
+	foreach {key value} [array get tcl_platform] {
+	    puts $fd "\t\t<[string tolower $key]>$value</[string tolower $key]>"
+	}
+	puts $fd "\t</system>"
+	puts $fd "\t<extra>"
+	puts $fd "\t\t<status_log>"
+	puts $fd "$bug(status)"
+	puts $fd "\t\t</status_log>"
+	puts $fd "\t\t<protocol_log>"
+	puts $fd "$bug(protocol)"
+	puts $fd "\t\t</protocol_log>"
+	puts $fd "\t</extra>"
+	puts $fd "\t<user>"
+	if {$bug(email) == 1} {
+	    puts $fd "\t\t<email>[::config::getKey login]</email>"
+	}
+	puts $fd "\t\t<comment>"
+	puts $fd "$bug(comment)"
+	puts $fd "\t\t</comment>"
+	puts $fd "\t</user>"
+	puts $fd "</bug>\n\n"
+	close $fd
+    }
+
+    proc update_comment {} {
+	variable w
+	set ::bugs::bug(comment) [$w.f.t get 0.0 end]
     }
 
     proc show_bug_dialog {{info ''}} {
@@ -113,35 +141,32 @@ namespace eval ::bugs {
 	    }
 	}
 
-
-	frame $w.top
-	frame $w.buttons
-	
 	set ::bugs::message [trans tkerror1]
-	label $w.msg -justify left -textvariable "::bugs::message" -wraplength 300 -font sboldf
-
-	label $w.bitmap -image [::skin::loadPixmap warning]
-
-	checkbutton $w.ignoreerrors -text [trans ignoreerrors] -variable "::bugs::dont_give_bug_reports" -font sboldf
-
-	button $w.button -text [trans ok] -command "set ::bugs::closed_bug_window 1"
-	button $w.report -text [trans report] -command "::bugs::report"
-	button $w.details_button -text [trans details] -command "::bugs::showdetails"
-	text $w.details -height 15 -width 50
+	
+	label $w.msg -justify left -textvariable "::bugs::message" -wraplength 550 -font sboldf
+	label $w.desc_l -text "[trans enterbugdesc]"
+	frame $w.f
+	text $w.f.t -height 5 -width 50
+	checkbutton $w.c1 -text "[trans sendemail]"  -variable "::bugs::bug(email)"
+	checkbutton $w.c2 -text [trans ignoreerrors] -variable "::bugs::dont_give_bug_reports"
+	button $w.f.b1 -text [trans report] -command "::bugs::report"
+	button $w.f.b2 -text [trans ignore] -command "set ::bugs::closed_bug_window 1"
+	button $w.f.b3 -text [trans save] -command "::bugs::save \[tk_getSaveFile -title \"Save Bug Report\" -parent $w\]"
+	button $w.f.b4 -text [trans details] -command "::bugs::toggle_details"
+	button $w.f.b5 -text "[trans cagreement]"
+	text $w.details -height 10 -width 10
 	$w.details insert 0.0 $info
 	
-	pack $w.top -side top -fill both
-	pack $w.buttons -side right -fill both  -padx 3m -pady 3m -in $w.top
-	
-	#pack $w.top -side top -fill both -expand 1
-	pack $w.bitmap -side left -padx 3m -pady 3m -in $w.top
-	pack $w.msg -side top -expand 1 -anchor nw -padx 3m -pady 3m -in $w.top
-	pack $w.button -in $w.buttons -fill x
-	pack $w.report -in $w.buttons -fill x
-	pack $w.details_button -in $w.buttons -fill x	
-	pack $w.ignoreerrors -side top -padx 10 -pady 5 -anchor nw
+	pack $w.msg -side top -expand 1 -anchor nw -padx 3m -pady 3m
+	pack $w.desc_l -anchor nw
+	pack $w.f.t -side left -fill y -expand yes
+	pack $w.f.b1 $w.f.b2 $w.f.b3 $w.f.b4 $w.f.b5 -fill x
+	pack $w.f
+	pack $w.c1 -expand yes -anchor w
+	pack $w.c2 -expand yes -anchor w
 	
 	bind $w <Return> "set ::bugs::closed_bug_window 1"
+	bind $w.f.t <KeyRelease> "::bugs::update_comment"
 	
 	wm withdraw $w
 	
@@ -173,7 +198,7 @@ namespace eval ::bugs {
 	}
 	grab $w
 	raise $w
-	focus $w.button
+	focus $w.f.b2
 	
 	# 8. Wait for the user to respond, then restore the focus and
 	# return the index of the selected button.  Restore the focus
@@ -188,8 +213,8 @@ namespace eval ::bugs {
 	    destroy $w
 	}
     }
-
-    proc showdetails { } {
+    
+    proc toggle_details { } {
         variable details
         variable w
         if {$details == 0} {
@@ -287,7 +312,8 @@ namespace eval ::bugs {
     proc report { } {
 	global HOME2
 	variable w
-	$w.report configure -text [trans reporting] -state disabled
+	::bugs::save [file join $HOME2 bugreport.amsn]
+	$w.f.b1 configure -text [trans reporting] -state disabled
 	
 	#bugs::post {url field type file {params {}} {headers {}}}
 	set lang [::config::getGlobalKey language]
@@ -298,7 +324,7 @@ namespace eval ::bugs {
 	    set ::bugs::message [trans bugerror]
 	}
 	
-	$w.report configure -text [trans done]
+	$w.f.b1 configure -text [trans done]
     }
 }
 

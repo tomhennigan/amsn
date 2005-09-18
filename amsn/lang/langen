@@ -90,6 +90,7 @@ browserexample ( \$url will be replaced with the URL). Ex: mozilla \$url
 bugerror Sorry, but there was a problem connecting to the bug database. Please check your internet connection.
 busy Busy
 cachedpics $1 cached pics
+cagreement Confidentialy Agreement
 cancel Cancel
 cannotdeleteprofile Cannot delete profile because it seems to be in use by an aMSN session
 cantexec Can't execute application: $1. Check preferences
@@ -261,6 +262,7 @@ encoding Choose encoding
 entercontactemail Enter contact e-mail
 enterfilename Please enter a filename
 enternick Enter your nick
+enterbugdesc Enter a description of what you were doing to help us reproduce the bug:
 errortls Error installing TLS module:
 eventhistory View events history
 examples Examples
@@ -328,6 +330,7 @@ hue Hue
 hybrid Hybrid mode
 ident Identifying
 identity Identity
+ignore Ignore
 ignoreerrors Silently ignore other AMSN errors until the end of session
 imagefiles Image Files
 inbox Inbox
@@ -588,6 +591,7 @@ sbcon Connecting to Switch Board
 selectall Select all
 selectplugins Please select the plugins you want enabled
 selectskin Please choose a skin from the list
+sendemail Send my email address to notify me of changes (see Confidentiality Agreement)
 sendfile Send file
 sendmail Send mail
 sendmobmsg Send to Mobile device
