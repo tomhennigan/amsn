@@ -17,7 +17,7 @@ namespace eval ::TeXIM {
 		::plugins::RegisterPlugin "TeXIM"
 		::plugins::RegisterEvent "TeXIM" WinWrite parseLaTeX	
 
-		#TODO, fix amsn string support, it doesn't put it by default to what it sais in config
+		#TODO, fix amsn string support, it doesn't put it by default to what it says in config
 		#TODO, add a multiline input box for header and footer
 
                 array set ::TeXIM::config {
@@ -26,6 +26,7 @@ namespace eval ::TeXIM {
 			path_latex {latex}
 			path_dvips {dvips}
 			path_convert {convert}
+			resolution {120}
 			dummy {0}
 	        }
 		
@@ -36,6 +37,7 @@ namespace eval ::TeXIM {
 					     [list str "Path to latex binary" path_latex] \
 					     [list str "Path to dvips binary" path_dvips] \
 					     [list str "Path to convert binary" path_convert] \
+					     [list str "Resolution (dots per inch)" resolution] \
 					     [list str "Preamble file" path_preamble] \
 					    ]
 	}
@@ -101,7 +103,7 @@ namespace eval ::TeXIM {
 				if { [ catch { exec $::TeXIM::config(path_dvips) \
 						   -f -E -o ${::TeXIM::dir}/temp.ps -q ${::TeXIM::dir}/temp.dvi } msg ] == 0 } { 
 					catch {file delete ${::TeXIM::dir}/temp.dvi}
-					if { [ catch { exec $::TeXIM::config(path_convert) \
+					if { [ catch { exec $::TeXIM::config(path_convert) -density $::TeXIM::config(resolution) \
 							   ${::TeXIM::dir}/temp.ps ${::TeXIM::dir}/temp.gif } msg ] == 0 } {
 
 						set chatid [::ChatWindow::Name $win_name]
