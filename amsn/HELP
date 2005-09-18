@@ -1,4 +1,4 @@
- Help file for amsn
+Help file for amsn
 
 Requirements:
 Amsn is written in tcl/tk, so you just need a working tcl/tk interpreter,
