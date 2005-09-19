@@ -927,7 +927,7 @@ namespace eval ::MSN {
 		send_dock "STATUS" "FLN"
 	}
 
-
+	#TODO: delete when MSNP11 is used, REA is not used anymore
 	#Callback procedure called when a REA (screen name change) message is received
 	proc GotREAResponse { recv } {
 
@@ -955,7 +955,11 @@ namespace eval ::MSN {
 
 			#Try again urlencoding any character
 			set name [urlencode_all $newname]
-			::MSN::WriteSB ns "REA" "$userlogin $name"
+			if { [::config::getKey protocol] == 11 } {
+				::MSN::WriteSB ns "PRP" "MFN $name"
+			} else {
+				::MSN::WriteSB ns "REA" "$userlogin $name"
+			}
 			return 0
 
 		} elseif { "[lindex $recv 0]" == "REA"} {
@@ -980,10 +984,18 @@ namespace eval ::MSN {
 		if { [::config::getKey allowbadwords] == 1 } {
 			#If we're allowing banned words in nicks, try to set usual nick. It it fails,
 			#we will try again urlencoding every character, to avoid censure
-			::MSN::WriteSB ns "REA" "$userlogin $name" \
-				"::MSN::badNickCheck $userlogin [list $name]"
+			if { [::config::getKey protocol] == 11 } {
+				::MSN::WriteSB ns "PRP" "MFN $name" "::MSN::badNickCheck $userlogin [list $name]"
+			} else {
+				::MSN::WriteSB ns "REA" "$userlogin $name" \
+					"::MSN::badNickCheck $userlogin [list $name]"
+			}
 		} else {
-			::MSN::WriteSB ns "REA" "$userlogin $name"
+			if { [::config::getKey protocol] == 11 } {
+				::MSN::WriteSB ns "PRP" "MFN $name"
+			} else {
+				::MSN::WriteSB ns "REA" "$userlogin $name"
+			}
 		}
 	}
 
@@ -1009,8 +1021,8 @@ namespace eval ::MSN {
 	# set a capability of the client
 	# possiblities for cap are:
 	# mobile Mobile Device
-	# recink Ink Viewing
-	# sndink Ink Creating
+	# inkgif receive Ink as gif
+	# inkisf receive Ink as ISF
 	# webcam Webcam
 	# multip Multi-Packeting
 	# paging Paging
@@ -1417,13 +1429,15 @@ namespace eval ::MSN {
 		if { [lindex $item 1] != 0 } {
 			status_log "Invalid challenge\n" red
 		} else {
-			#MSN6 challenge strings
-			#Get the challenge string, append this string, and
-			#send back the md5sum of the composed string
-			set str [lindex $item 2]JXQ6J@TUOGYV@N0M
-			set str [::md5::md5 $str]
-
-			::MSN::WriteSBNoNL ns "QRY" "PROD0061VRRZH@4F 32\r\n$str"
+			if {[::config::getKey protocol] == 11} {
+				set prodkey "PROD0090YUAUV\{2B"
+				set str [exec [file join ~ programs msn test] [lindex $item 2]]
+			} else {
+				set prodkey "PROD0061VRRZH@4F"
+				set str [lindex $item 2]JXQ6J@TUOGYV@N0M
+				set str [::md5::md5 [lindex $item 2]JXQ6J@TUOGYV@N0M]
+			}
+			::MSN::WriteSBNoNL ns "QRY" "$prodkey 32\r\n$str"
 
 		}
 	}
@@ -2434,7 +2448,7 @@ namespace eval ::Event {
 			set command [string range $dataBuffer 0 [expr {$idx -1}]]
 
 			#check for payload commands:
-			if {[lsearch {MSG NOT PAG IPG} [string range $command 0 2]] != -1} {
+			if {[lsearch {MSG NOT PAG IPG UBX} [string range $command 0 2]] != -1} {
 			        set length [lindex [split $command] end]
 
 				set remaining [string range $dataBuffer [expr {$idx +2}] end]
@@ -2516,11 +2530,40 @@ namespace eval ::Event {
 			set message [Message create %AUTO%]
 			$message createFromPayload $payload
 		}
-		if {[lindex [split $command] 0] == "IPG" } {
-			cmsn_ns_handler [split $command] $payload
+
+#		set command [list $command]
+		set item $command
+		global list_cmdhnd password
+		set ret_trid [lindex $item 1]
+		set idx [lsearch $list_cmdhnd "$ret_trid *"]
+		if {$idx != -1} {		;# Command has a handler associated!
+			status_log "cmsn_ns_handler: evaluating handler for $ret_trid\n"
+
+			set command "[lindex [lindex $list_cmdhnd $idx] 1] [list $item]"
+			set list_cmdhnd [lreplace $list_cmdhnd $idx $idx]
+			eval "$command"
+
+			return 0
 		} else {
-			cmsn_ns_handler [split $command] $message
+
+			switch [lindex $command 0] {
+				IPG {
+					cmsn_ns_handler [split $command] $payload
+				}
+				UBX {
+					$self handleUBX $command $payload
+				}
+				default {
+					cmsn_ns_handler [split $command] $message
+				}
+			}
 		}
+	}
+	method handleUBX { command payload } {
+		set contact [lindex $command 1]
+		puts usr:$contact
+		puts pld:$payload
+		::abook::setContactData $contact PSM $payload
 	}
 }
 
@@ -3380,7 +3423,7 @@ proc cmsn_change_state {recv} {
 		#Nick differs from the one on our list, so change it
 		#in the server list too
 		::abook::setContactData $user nick $user_name
-		::MSN::changeName $user [encoding convertto utf-8 $encoded_user_name] 1
+#		::MSN::changeName $user [encoding convertto utf-8 $encoded_user_name] 1
 
 		#an event used by guicontactlist to know when we changed our nick
 		::Event::fireEvent contactNickChange protocol $user
@@ -3619,6 +3662,7 @@ proc cmsn_ns_handler {item {message ""}} {
 				return [cmsn_rng $item]
 			}
 			REA {
+				#TODO: delete when MSNP11 is used, REA is not used anymore
 				::MSN::GotREAResponse $item
 				return 0
 			}
@@ -3639,7 +3683,11 @@ proc cmsn_ns_handler {item {message ""}} {
 				return 0
 			}
 			LST {
-				cmsn_listupdate $item
+				if { [::config::getKey protocol] == 11} {
+					handleLST $item
+				} else {
+					cmsn_listupdate $item
+				}
 				return 0
 			}
 			REM {
@@ -3674,19 +3722,36 @@ proc cmsn_ns_handler {item {message ""}} {
 				new_contact_list "[lindex $item 2]"
 				global loading_list_info
 
-				if { [llength $item] == 5 } {
-					status_log "Going to receive contact list\n" blue
-					#First contact in list
-					::MSN::clearList FL
-					::MSN::clearList BL
-					::MSN::clearList RL
-					::MSN::clearList AL
-					::groups::Reset
+				if { [::config::getKey protocol] == 11 } {
+					if { [llength $item] == 6 } {
+						status_log "Going to receive contact list\n" blue
+						#First contact in list
+						::MSN::clearList FL
+						::MSN::clearList BL
+						::MSN::clearList RL
+						::MSN::clearList AL
+						::groups::Reset
 
-					set loading_list_info(version) [lindex $item 2]
-					set loading_list_info(total) [lindex $item 3]
-					set loading_list_info(current) 1
-					set loading_list_info(gtotal) [lindex $item 4]
+						set loading_list_info(version) [lindex $item 3]
+						set loading_list_info(total) [lindex $item 4]
+						set loading_list_info(current) 1
+						set loading_list_info(gtotal) [lindex $item 5]
+					}
+				} else {
+					if { [llength $item] == 5 } {
+						status_log "Going to receive contact list\n" blue
+						#First contact in list
+						::MSN::clearList FL
+						::MSN::clearList BL
+						::MSN::clearList RL
+						::MSN::clearList AL
+						::groups::Reset
+
+						set loading_list_info(version) [lindex $item 2]
+						set loading_list_info(total) [lindex $item 3]
+						set loading_list_info(current) 1
+						set loading_list_info(gtotal) [lindex $item 4]
+					}
 				}
 				return 0
 			}
@@ -3721,6 +3786,7 @@ proc cmsn_ns_handler {item {message ""}} {
 				return 0
 			}
 			PRP {
+				return 0
 				if { [llength $item] == 3 } {
 			    	::abook::setPersonal [lindex $item 1] [urldecode [lindex $item 2]]
 				} else {
@@ -3732,7 +3798,11 @@ proc cmsn_ns_handler {item {message ""}} {
 			}
 			LSG {
 
-				::groups::Set [lindex $item 1] [lindex $item 2]
+				if { [::config::getKey protocol] == 11} {
+					::groups::Set [lindex $item 2] [lindex $item 1]
+				} else {
+					::groups::Set [lindex $item 1] [lindex $item 2]
+				}
 				if { [::config::getKey expanded_group_[lindex $item 1]]!="" } {
 					set ::groups::bShowing([lindex $item 1]) [::config::getKey expanded_group_[lindex $item 1]]
 				}
@@ -3965,7 +4035,11 @@ proc cmsn_auth {{recv ""}} {
 
 		a {
 			#Send three first commands at same time, to it faster
-			::MSN::WriteSB ns "VER" "MSNP9 CVR0"
+			if { [::config::getKey protocol] == 11 } {
+				::MSN::WriteSB ns "VER" "MSNP11 CVR0"
+			} else {
+				::MSN::WriteSB ns "VER" "MSNP9 CVR0"
+			}
 			::MSN::WriteSB ns "CVR" "0x0409 winnt 6.0 i386 MSNMSGR 7.0.0732 MSMSGSBETAM2 [::config::getKey login]"
 			::MSN::WriteSB ns "USR" "TWN I [::config::getKey login]"
 
@@ -4059,7 +4133,12 @@ proc cmsn_auth {{recv ""}} {
 			#We need to wait until the SYN reply comes, or we can send the CHG request before
 			#the server sends the list, and then it won't work (all contacts offline)
 			#::MSN::WriteSB ns "SYN" "$list_version" initial_syn_handler
-			::MSN::WriteSB ns "SYN" "[::abook::getContactData contactlist list_version 0]" initial_syn_handler
+			if { [::config::getKey protocol] == 11 } {
+				#TODO: MSNP11 store contactlist and use those values here
+				::MSN::WriteSB ns "SYN" "0 0" initial_syn_handler
+			} else {
+				::MSN::WriteSB ns "SYN" "[::abook::getContactData contactlist list_version 0]" initial_syn_handler
+			}
 
 			#Alert dock of status change
 			#      send_dock "NLN"
@@ -4488,6 +4567,94 @@ proc process_msnp9_lists { bin } {
 
 
 #TODO: ::abook system
+
+proc handleLST {recv} {
+	global contactlist_loaded
+
+	set contactlist_loaded 0
+
+	if { [lindex $recv 0] == "ADD" } {
+		set list_names "[string toupper [lindex $recv 2]]"
+		set version [lindex $recv 3]
+
+		set command ADD
+
+		set current 1
+		set total 1
+
+		set username [lindex $recv 4]
+		set nickname [urldecode [lindex $recv 5]]
+		set groups [::abook::getGroups $username]
+
+
+	} else {
+
+		global loading_list_info
+
+		set command LST
+
+		#Get the current contact number
+		set current $loading_list_info(current)
+		set total $loading_list_info(total)
+
+		#Increment the contact number
+		incr loading_list_info(current)
+
+		set username [string range [lindex $recv 1] 2 end]
+		set nickname [urldecode [string range [lindex $recv 2] 2 end]]
+
+
+		set list_names [process_msnp9_lists [lindex $recv 4]]
+		set groups [split [lindex $recv 5] ,]
+
+		#Make list unconsistent while receiving contact lists
+		::abook::unsetConsistent
+
+		#Remove user from all lists while receiving List data
+		::abook::setContactData $username lists ""
+
+
+	}
+
+	::abook::setContactData $username nick $nickname
+
+	foreach list_sort $list_names {
+
+		#If list is not empty, get user information
+		if {$current != 0} {
+
+			::abook::addContactToList $username $list_sort
+			::MSN::addToList $list_sort $username
+
+			#No need to set groups and set offline state if command is not LST
+			if { ($list_sort == "FL") && ($command == "LST") } {
+				::abook::setContactData $username group $groups
+				set loading_list_info(last) $username
+				::abook::setVolatileData $username state "FLN"
+
+			}
+		}
+	}
+
+	set lists [::abook::getLists $username]
+	if { ([lsearch $lists RL] != -1) && ([lsearch $lists AL] < 0) && ([lsearch $lists BL] < 0)} {
+		newcontact $username $nickname
+	}
+
+	::MSN::contactListChanged
+
+	#Last user in list
+	if {$current == $total} {
+		cmsn_draw_online 1
+
+		set contactlist_loaded 1
+		::abook::setConsistent
+		::abook::saveToDisk
+	}
+
+}
+
+
 proc cmsn_listupdate {recv} {
 	global contactlist_loaded
 
@@ -4703,10 +4870,11 @@ proc change_BLP_settings { state } {
 proc new_contact_list { version } {
 	global contactlist_loaded
 
-	if {[string is digit $version] == 0} {
-		status_log "new_contact_list: Wrong version=$version\n" red
-		return
-	}
+	#TODO: update for MSNP11
+	#if {[string is digit $version] == 0} {
+	#	status_log "new_contact_list: Wrong version=$version\n" red
+	#	return
+	#}
 
 	status_log "new_contact_list: new contact list version : $version --- previous was : [::abook::getContactData contactlist list_version] \n"
 

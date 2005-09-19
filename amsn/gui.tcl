@@ -5035,11 +5035,11 @@ proc cmsn_draw_online_wrapped {} {
 		set user_login [lindex $list_users $i]
 		set globalnick [::config::getKey globalnick]
 		if { $globalnick != "" } {
-			set nick [::abook::getNick $user_login]
+			set nick "[::abook::getNick $user_login]//[::abook::getContactData $user_login PSM]"
 			set customnick [::abook::getContactData $user_login customnick]
 			set user_name [::abook::parseCustomNick $globalnick $nick $user_login $customnick]
 		} else {
-			set user_name [::abook::getDisplayNick $user_login]
+			set user_name "[::abook::getDisplayNick $user_login]//[::abook::getContactData $user_login PSM]"
 		}
 
 
