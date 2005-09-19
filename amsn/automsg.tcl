@@ -223,7 +223,7 @@ proc ChCustomState { idx } {
 	if { [string is digit $idx] == 1 } {
 		if { [lindex [StateList get $idx] 2] != "" } {
 			if {![info exists original_nick] && [::config::getKey storename]} {
-				set original_nick [::abook::getPersonal nick]
+				set original_nick [::abook::getPersonal MFN]
 			}
 			#set new_state [lindex [lindex $list_states [lindex [StateList get $idx] 2]] 0]
 			set new_state [::MSN::numberToState [lindex [StateList get $idx] 2]]
@@ -402,7 +402,7 @@ proc EditNewState { mode { idx "" } } {
 		$lfname.emsg insert end [lindex [StateList get $idx] 4]
 	}
 	#else {
-	#	$lfname.enick insert end [::abook::getPersonal nick]
+	#	$lfname.enick insert end [::abook::getPersonal MFN]
 	#}
 	button .editstate.buttons.save -text [trans ok] -command "ButtonSaveState $lfname $idx; destroy .editstate" -default active
 	pack .editstate.buttons.save .editstate.buttons.cancel -side right -padx 10 -pady 5

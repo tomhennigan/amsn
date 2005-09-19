@@ -2273,14 +2273,14 @@ namespace eval ::amsn {
 			set nick $friendlyname
 			set p4c 1
 		} elseif { [::abook::getContactData [::ChatWindow::Name $win_name] cust_p4c_name] != ""} {
-			set friendlyname [::abook::parseCustomNick [::abook::getContactData [::ChatWindow::Name $win_name] cust_p4c_name] [::abook::getPersonal nick] [::abook::getPersonal login] ""]
+			set friendlyname [::abook::parseCustomNick [::abook::getContactData [::ChatWindow::Name $win_name] cust_p4c_name] [::abook::getPersonal MFN] [::abook::getPersonal login] ""]
 			set nick $friendlyname
 			set p4c 1
 		} elseif { [::config::getKey p4c_name] != ""} {
 			set nick [::config::getKey p4c_name]
 			set p4c 1
 		} else {
-			set nick [::abook::getPersonal nick]
+			set nick [::abook::getPersonal MFN]
 			set p4c 0
 		}
 		#Postevent when we send a message
@@ -4675,7 +4675,7 @@ proc cmsn_draw_online_wrapped {} {
 
 	set scrollidx [$pgBuddy.text yview]
 
-	set my_name [::abook::getPersonal nick]
+	set my_name [::abook::getPersonal MFN]
 	set my_state_no [::MSN::stateToNumber [::MSN::myStatusIs]]
 	set my_state_desc [trans [::MSN::stateToDescription [::MSN::myStatusIs]]]
 	set my_colour [::MSN::stateToColor [::MSN::myStatusIs]]
@@ -5906,7 +5906,7 @@ proc cmsn_change_name {} {
 	bind $w.fn.name <Tab> "focus $w.p4c.name; break"
 	bind $w.p4c.name <Tab> "focus $w.fn.name; break"
 
-	$w.fn.name insert 0 [::abook::getPersonal nick]
+	$w.fn.name insert 0 [::abook::getPersonal MFN]
 	$w.p4c.name insert 0 [::config::getKey p4c_name]
 
 	catch {

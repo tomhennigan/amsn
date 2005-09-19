@@ -934,7 +934,7 @@ namespace eval ::MSN {
 
 		if { [string tolower [lindex $recv 3]] == [string tolower [::config::getKey login]] } {
 			#This is our own nick change
-			::abook::setPersonal nick [urldecode [lindex $recv 4]]
+			::abook::setPersonal MFN [urldecode [lindex $recv 4]]
 			send_dock STATUS [::MSN::myStatusIs]
 			cmsn_draw_online 1
 			#an event used by guicontactlist to know when we changed our nick
@@ -1043,8 +1043,8 @@ namespace eval ::MSN {
 		if $switch {
 			switch $cap {
 				mobile { set clientid [expr {$clientid | 1} ] }
-				recink { set clientid [expr {$clientid | 4} ] }
-				sndink { set clientid [expr {$clientid | 8} ] }
+				inkgif { set clientid [expr {$clientid | 4} ] }
+				inkisf { set clientid [expr {$clientid | 8} ] }
 				webcam { set clientid [expr {$clientid | 16} ] }
 				multip { set clientid [expr {$clientid | 32} ] }
 				paging { set clientid [expr {$clientid | 64} ] }
@@ -1061,8 +1061,8 @@ namespace eval ::MSN {
 		} else {
 			switch $cap {
 				mobile { set clientid [expr {$clientid & -2} ] }
-				recink { set clientid [expr {$clientid & -5} ] }
-				sndink { set clientid [expr {$clientid & -9} ] }
+				inkgif { set clientid [expr {$clientid & -5} ] }
+				inkisf { set clientid [expr {$clientid & -9} ] }
 				webcam { set clientid [expr {$clientid & -17} ] }
 				multip { set clientid [expr {$clientid & -33} ] }
 				paging { set clientid [expr {$clientid & -65} ] }
@@ -2523,6 +2523,7 @@ namespace eval ::Event {
 	}
 
 	method handleCommand { command {payload ""}} {
+		set command [split $command]
 		degt_protocol "<-ns-[$self cget -sock] $command" "nsrecv"
 		set message ""
 		if { $payload != "" } {
@@ -2531,38 +2532,51 @@ namespace eval ::Event {
 			$message createFromPayload $payload
 		}
 
-#		set command [list $command]
-		set item [split $command]
 		global list_cmdhnd password
-		set ret_trid [lindex $item 1]
+		set ret_trid [lindex $command 1]
 		set idx [lsearch $list_cmdhnd "$ret_trid *"]
 		if {$idx != -1} {		;# Command has a handler associated!
 			status_log "cmsn_ns_handler: evaluating handler for $ret_trid\n"
 
-			set command "[lindex [lindex $list_cmdhnd $idx] 1] [list $item]"
+			set cmd "[lindex [lindex $list_cmdhnd $idx] 1] [list $command]"
 			set list_cmdhnd [lreplace $list_cmdhnd $idx $idx]
-			eval "$command"
+			eval "$cmd"
 
 			return 0
 		} else {
 
-			switch [lindex $item 0] {
+			switch [lindex $command 0] {
 				IPG {
-					cmsn_ns_handler [split $command] $payload
+					cmsn_ns_handler $command $payload
+				}
+				PRP {
+					$self handlePRP $command
 				}
 				UBX {
 					$self handleUBX $command $payload
 				}
 				default {
-					cmsn_ns_handler [split $command] $message
+					cmsn_ns_handler $command $message
 				}
 			}
 		}
 	}
+
+	method handlePRP { command } {
+		if { [llength $command] == 3 } {
+			::abook::setPersonal [lindex $command 1] [urldecode [lindex $command 2]]
+		} else {
+			#TODO: does this happen? if not remove.
+			new_contact_list "[lindex $command 2]"
+		    	::abook::setPersonal [lindex $command 3] [urldecode [lindex $command 4]]
+		}
+		#TODO: Why do we ignore this??? It's our own phone number...
+		return 0
+	}
+		
+
 	method handleUBX { command payload } {
 		set contact [lindex $command 1]
-		puts usr:$contact
-		puts pld:$payload
 		::abook::setContactData $contact PSM $payload
 	}
 }
@@ -3785,17 +3799,6 @@ proc cmsn_ns_handler {item {message ""}} {
 				}
 				return 0
 			}
-			PRP {
-				return 0
-				if { [llength $item] == 3 } {
-			    	::abook::setPersonal [lindex $item 1] [urldecode [lindex $item 2]]
-				} else {
-					new_contact_list "[lindex $item 2]"
-			    	::abook::setPersonal [lindex $item 3] [urldecode [lindex $item 4]]
-				}
-				#TODO: Why do we ignore this??? It's our own phone number...
-				return 0
-			}
 			LSG {
 
 				if { [::config::getKey protocol] == 11} {
@@ -4126,7 +4129,7 @@ proc cmsn_auth {{recv ""}} {
 			}
 
 
-			::abook::setPersonal nick [urldecode [lindex $recv 4]]
+			::abook::setPersonal MFN [urldecode [lindex $recv 4]]
 			::abook::setPersonal login [lindex $recv 3]
 			recreate_contact_lists
 
@@ -4237,7 +4240,7 @@ proc initial_syn_handler {recv} {
 
 		close $nickcache
 
-		if { ($custom_nick == [::abook::getPersonal nick]) && ($stored_login == [::abook::getPersonal login]) && ($storednick != "") } {
+		if { ($custom_nick == [::abook::getPersonal MFN]) && ($stored_login == [::abook::getPersonal login]) && ($storednick != "") } {
 			::MSN::changeName [::abook::getPersonal login] $storednick
 		}
 
@@ -4602,7 +4605,6 @@ proc handleLST {recv} {
 
 		set username [string range [lindex $recv 1] 2 end]
 		set nickname [urldecode [string range [lindex $recv 2] 2 end]]
-
 
 		set list_names [process_msnp9_lists [lindex $recv 4]]
 		set groups [split [lindex $recv 5] ,]

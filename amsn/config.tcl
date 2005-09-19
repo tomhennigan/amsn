@@ -618,11 +618,7 @@ proc load_config {} {
 		#puts "Password is: [::config::getKey remotepassword]\nHi\n"
 	}
 
-	#MSN 6.0 ClientID:
-	#set clientid "268435500"
-	#MSN 7.0 ClientID:
-	#set clientid 1073791012
-	#::config::setKey clientid 1073791012
+	::config::setKey clientid 0
 	::MSN::setClientCap msnc4
 
 	# Load up the personal states

@@ -38,7 +38,7 @@ namespace eval Preferences {
 		
 		set frame [ItemsFrame .prefs.personal.nicks -text [trans prefname] -icon prefpers]
 		$frame addItem [TextEntry .prefs.personal.nicks.nick -width 40 -text "[trans enternick] :" \
-			-storecommand ::Preferences::StoreNick -retrievecommand [list ::abook::getPersonal nick]]
+			-storecommand ::Preferences::StoreNick -retrievecommand [list ::abook::getPersonal MFN]]
 		$frame addItem [TextEntry .prefs.personal.nicks.chat -width 40 -text "[trans friendlyname] :" \
 			-variable [::config::getVar p4c_name]]
 		$section addItem $frame
@@ -229,7 +229,7 @@ namespace eval Preferences {
 	}
 
 	proc StoreNick { nick } {
-		if {$nick != "" && $nick != [::abook::getPersonal nick] && [::MSN::myStatusIs] != "FLN"} {
+		if {$nick != "" && $nick != [::abook::getPersonal MFN] && [::MSN::myStatusIs] != "FLN"} {
 			::MSN::changeName [::config::getKey login] $nick
 		}
 	}
@@ -2611,7 +2611,7 @@ proc InitPref { {fullinit 0} } {
 		} else {
 			$lfname.lfname.f.f.1.name.entry configure -state normal
 			$lfname.lfname.f.f.1.name.entry delete 0 end
-			$lfname.lfname.f.f.1.name.entry insert 0 [::abook::getPersonal nick]
+			$lfname.lfname.f.f.1.name.entry insert 0 [::abook::getPersonal MFN]
 		}
 	
 		$lfname.lfname.f.f.1.p4c.entry delete 0 end
@@ -2929,7 +2929,7 @@ proc SavePreferences {} {
 	set lfname [$lfname.sw.sf getframe]
 	set lfname "$lfname.lfname.f.f.1"
 	set new_name [$lfname.name.entry get]
-	if {$new_name != "" && $new_name != [::abook::getPersonal nick] && [::MSN::myStatusIs] != "FLN"} {
+	if {$new_name != "" && $new_name != [::abook::getPersonal MFN] && [::MSN::myStatusIs] != "FLN"} {
 		::MSN::changeName [::config::getKey login] $new_name
 	}
 	::config::setKey p4c_name [$lfname.p4c.entry get]
