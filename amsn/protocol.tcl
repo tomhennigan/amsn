@@ -2532,7 +2532,7 @@ namespace eval ::Event {
 		}
 
 #		set command [list $command]
-		set item $command
+		set item [split $command]
 		global list_cmdhnd password
 		set ret_trid [lindex $item 1]
 		set idx [lsearch $list_cmdhnd "$ret_trid *"]
@@ -2546,7 +2546,7 @@ namespace eval ::Event {
 			return 0
 		} else {
 
-			switch [lindex $command 0] {
+			switch [lindex $item 0] {
 				IPG {
 					cmsn_ns_handler [split $command] $payload
 				}
