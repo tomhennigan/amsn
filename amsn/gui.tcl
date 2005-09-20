@@ -5034,12 +5034,19 @@ proc cmsn_draw_online_wrapped {} {
 	for {set i [expr {[llength $list_users] - 1}]} {$i >= 0} {incr i -1} {
 		set user_login [lindex $list_users $i]
 		set globalnick [::config::getKey globalnick]
+		set psm [::abook::getContactData $user_login PSM]
 		if { $globalnick != "" } {
-			set nick "[::abook::getNick $user_login]//[::abook::getContactData $user_login PSM]"
+			set nick [::abook::getNick $user_login]
+			if {$psm != ""} {
+				append nick " - [::abook::getContactData $user_login PSM]"
+			}
 			set customnick [::abook::getContactData $user_login customnick]
 			set user_name [::abook::parseCustomNick $globalnick $nick $user_login $customnick]
 		} else {
-			set user_name "[::abook::getDisplayNick $user_login]//[::abook::getContactData $user_login PSM]"
+			set user_name "[::abook::getDisplayNick $user_login]"
+			if {$psm != ""} {
+				append user_name " - [::abook::getContactData $user_login PSM]"
+			}
 		}
 
 
