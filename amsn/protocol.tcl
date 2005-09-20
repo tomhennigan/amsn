@@ -1442,7 +1442,7 @@ namespace eval ::MSN {
 		} else {
 			if {[::config::getKey protocol] == 11} {
 				set prodkey "PROD0090YUAUV\{2B"
-				set str [exec [file join ~ programs msn test] [lindex $item 2]]
+				set str [CreateQRYHash [lindex $item 2]]
 			} else {
 				set prodkey "PROD0061VRRZH@4F"
 				set str [lindex $item 2]JXQ6J@TUOGYV@N0M
@@ -1452,6 +1452,112 @@ namespace eval ::MSN {
 
 		}
 	}
+
+        proc CreateQRYHash {chldata} {
+                set prodid "PROD0090YUAUV\{2B"
+                set prodkey "YMM8C_H7KCQ2S_KL"
+        
+                # Create an MD5 hash out of the given data, then form 32 bit integers from it
+                set md5hash [::md5::md5 $chldata$prodkey]
+                set md5parts [MD5HashToInt $md5hash]
+        
+
+                # Then create a valid productid string, divisable by 8, then form 32 bit integers from it
+                set nrPadZeros [expr 8 - [string length $chldata$prodid] % 8]
+                set padZeros [string repeat 0 $nrPadZeros]
+                set chlprodid [CHLProdToInt $chldata$prodid$padZeros]
+
+                # Create the key we need to XOR
+                set key [KeyFromInt $md5parts $chlprodid]
+
+                set low 0x[string range $md5hash 0 15]
+                set high 0x[string range $md5hash 16 32]
+                set low [expr {$low ^ $key}]
+                set high [expr {$high ^ $key}]
+
+                set p1 [format %8.8x [expr {$low / 0x100000000}]]
+                set p2 [format %8.8x [expr {$low % 0x100000000}]]
+                set p3 [format %8.8x [expr {$high / 0x100000000}]]
+                set p4 [format %8.8x [expr {$high % 0x100000000}]]
+
+                return $p1$p2$p3$p4
+        }
+
+        proc KeyFromInt { md5parts chlprod } {
+                # Create a new series of numbers
+                set key_temp 0
+                set key_high 0
+                set key_low 0
+        
+                # Then loop on the entries in the second array we got in the parameters
+                for {set i 0} {$i < [llength $chlprod]} {incr i 2} {
+
+                        # Make $key_temp zero again and perform calculation as described in the documents
+                        set key_temp [lindex $chlprod $i]
+                        set key_temp [expr {(wide(0x0E79A9C1) * wide($key_temp)) % wide(0x7FFFFFFF)}]
+                        set key_temp [expr {wide($key_temp) + wide($key_high)}]
+                        set key_temp [expr {(wide([lindex $md5parts 0]) * wide($key_temp)) + wide([lindex $md5parts 1])}]
+                        set key_temp [expr {wide($key_temp) % wide(0x7FFFFFFF)}]
+
+                        set key_high [lindex $chlprod [expr {$i+1}]]
+                        set key_high [expr {(wide($key_high) + wide($key_temp)) % wide(0x7FFFFFFF)}]
+                        set key_high [expr {(wide([lindex $md5parts 2]) * wide($key_high)) + wide([lindex $md5parts 3])}]
+                        set key_high [expr {wide($key_high) % wide(0x7FFFFFFF)}]
+
+                        set key_low [expr {wide($key_low) + wide($key_temp) + wide($key_high)}]
+                }
+
+                set key_high [expr {(wide($key_high) + wide([lindex $md5parts 1])) % wide(0x7FFFFFFF)}]
+                set key_low [expr {(wide($key_low) + wide([lindex $md5parts 3])) % wide(0x7FFFFFFF)}]
+
+                set key_high 0x[byteInvert [format %8.8X $key_high]]
+                set key_low 0x[byteInvert [format %8.8X $key_low]]
+
+                set long_key [expr {(wide($key_high) << 32) + wide($key_low)}]
+
+                return $long_key
+        }
+
+        # Takes an CHLData + ProdID + Padded string and chops it in 4 bytes. Then converts to 32 bit integers 
+        proc CHLProdToInt { CHLProd } {
+                set hexs {}
+                set result {}
+                while {[string length $CHLProd] > 0} {
+                        lappend hexs [string range $CHLProd 0 3]
+                        set CHLProd [string range $CHLProd 4 end]
+                }
+                for {set i 0} {$i < [llength $hexs]} {incr i} {
+                        binary scan [lindex $hexs $i] H8 int
+                        lappend result 0x[byteInvert $int]
+                }
+                return $result
+        }
+                
+
+        # Takes an MD5 string and chops it in 4. Then "decodes" the HEX and converts to 32 bit integers. After that it ANDs
+        proc MD5HashToInt { md5hash } {
+                binary scan $md5hash a8a8a8a8 hash1 hash2 hash3 hash4
+                set hash1 [expr "0x[byteInvert $hash1]" & 0x7FFFFFFF]
+                set hash2 [expr "0x[byteInvert $hash2]" & 0x7FFFFFFF]
+                set hash3 [expr "0x[byteInvert $hash3]" & 0x7FFFFFFF]
+                set hash4 [expr "0x[byteInvert $hash4]" & 0x7FFFFFFF]
+                
+                return [list $hash1 $hash2 $hash3 $hash4]
+        }
+
+        proc byteInvert { hex } {
+                set hexs {}
+                while {[string length $hex] > 0} {
+                        lappend hexs [string range $hex 0 1]
+                        set hex [string range $hex 2 end]
+                }
+                set hex ""
+                for {set i [expr [llength $hexs] -1]} {$i >= 0} {incr i -1} {
+                        append hex [lindex $hexs $i]
+                }
+                return $hex
+        }
+
 
 	proc CALReceived {sb_name user item} {
 
@@ -2560,6 +2666,16 @@ namespace eval ::Event {
 				IPG {
 					cmsn_ns_handler $command $payload
 				}
+				LSG {
+					$self handleLSG $command
+				}
+				LST {
+					if { [::config::getKey protocol] == 11} {
+						$self handleLST $command
+					} else {
+						cmsn_listupdate $command
+					}
+				}
 				PRP {
 					$self handlePRP $command
 				}
@@ -2571,6 +2687,83 @@ namespace eval ::Event {
 				}
 			}
 		}
+	}
+
+	method handleLSG { command } {
+		if { [::config::getKey protocol] == 11} {
+			set group [Group create %AUTO% -name [lindex $command 1] -id [lindex $command 2]]
+			$group showInfo
+			::groups::Set [lindex $command 2] [lindex $command 1]
+		} else {
+			::groups::Set [lindex $command 1] [lindex $command 2]
+		}
+		if { [::config::getKey expanded_group_[lindex $command 1]]!="" } {
+			set ::groups::bShowing([lindex $command 1]) [::config::getKey expanded_group_[lindex $command 1]]
+		}
+	}
+
+	method handleLST { command } {
+		global contactlist_loaded
+		global loading_list_info
+
+		set contactlist_loaded 0
+
+		#Get the current contact number
+		set current $loading_list_info(current)
+		set total $loading_list_info(total)
+
+		#Increment the contact number
+		incr loading_list_info(current)
+
+		set username [string range [lindex $command 1] 2 end]
+		set nickname [urldecode [string range [lindex $command 2] 2 end]]
+
+		set list_names [process_msnp9_lists [lindex $command 4]]
+		set groups [split [lindex $command 5] ,]
+
+		#Make list unconsistent while receiving contact lists
+		::abook::unsetConsistent
+
+		#Remove user from all lists while receiving List data
+		::abook::setContactData $username lists ""
+
+
+		::abook::setContactData $username nick $nickname
+
+		foreach list_sort $list_names {
+
+			#If list is not empty, get user information
+			if {$current != 0} {
+
+				::abook::addContactToList $username $list_sort
+				::MSN::addToList $list_sort $username
+
+				#No need to set groups and set offline state if command is not LST
+				if { $list_sort == "FL" } {
+					::abook::setContactData $username group $groups
+					set loading_list_info(last) $username
+					::abook::setVolatileData $username state "FLN"
+
+				}
+			}
+		}
+
+		set lists [::abook::getLists $username]
+		if { ([lsearch $lists RL] != -1) && ([lsearch $lists AL] < 0) && ([lsearch $lists BL] < 0)} {
+			newcontact $username $nickname
+		}
+
+		::MSN::contactListChanged
+
+		#Last user in list
+		if {$current == $total} {
+			cmsn_draw_online 1
+
+			set contactlist_loaded 1
+			::abook::setConsistent
+			::abook::saveToDisk
+		}
+
 	}
 
 	method handlePRP { command } {
@@ -3708,14 +3901,6 @@ proc cmsn_ns_handler {item {message ""}} {
 				status_log "After 3: [lindex $item 4] is now in groups: [::abook::getGroups [lindex $item 4]]\n"
 				return 0
 			}
-			LST {
-				if { [::config::getKey protocol] == 11} {
-					handleLST $item
-				} else {
-					cmsn_listupdate $item
-				}
-				return 0
-			}
 			REM {
 				new_contact_list "[lindex $item 3]"
 				cmsn_listdel $item
@@ -3809,19 +3994,6 @@ proc cmsn_ns_handler {item {message ""}} {
 					# Update entry in address book setContact(email,PH*/M*,phone/setting)
 					::abook::setContactData [lindex $item 2] [lindex $item 3] [urldecode [lindex $item 4]]
 				}
-				return 0
-			}
-			LSG {
-
-				if { [::config::getKey protocol] == 11} {
-					::groups::Set [lindex $item 2] [lindex $item 1]
-				} else {
-					::groups::Set [lindex $item 1] [lindex $item 2]
-				}
-				if { [::config::getKey expanded_group_[lindex $item 1]]!="" } {
-					set ::groups::bShowing([lindex $item 1]) [::config::getKey expanded_group_[lindex $item 1]]
-				}
-
 				return 0
 			}
 			REG {	# Rename Group
@@ -4583,92 +4755,6 @@ proc process_msnp9_lists { bin } {
 
 
 #TODO: ::abook system
-
-proc handleLST {recv} {
-	global contactlist_loaded
-
-	set contactlist_loaded 0
-
-	if { [lindex $recv 0] == "ADD" } {
-		set list_names "[string toupper [lindex $recv 2]]"
-		set version [lindex $recv 3]
-
-		set command ADD
-
-		set current 1
-		set total 1
-
-		set username [lindex $recv 4]
-		set nickname [urldecode [lindex $recv 5]]
-		set groups [::abook::getGroups $username]
-
-
-	} else {
-
-		global loading_list_info
-
-		set command LST
-
-		#Get the current contact number
-		set current $loading_list_info(current)
-		set total $loading_list_info(total)
-
-		#Increment the contact number
-		incr loading_list_info(current)
-
-		set username [string range [lindex $recv 1] 2 end]
-		set nickname [urldecode [string range [lindex $recv 2] 2 end]]
-
-		set list_names [process_msnp9_lists [lindex $recv 4]]
-		set groups [split [lindex $recv 5] ,]
-
-		#Make list unconsistent while receiving contact lists
-		::abook::unsetConsistent
-
-		#Remove user from all lists while receiving List data
-		::abook::setContactData $username lists ""
-
-
-	}
-
-	::abook::setContactData $username nick $nickname
-
-	foreach list_sort $list_names {
-
-		#If list is not empty, get user information
-		if {$current != 0} {
-
-			::abook::addContactToList $username $list_sort
-			::MSN::addToList $list_sort $username
-
-			#No need to set groups and set offline state if command is not LST
-			if { ($list_sort == "FL") && ($command == "LST") } {
-				::abook::setContactData $username group $groups
-				set loading_list_info(last) $username
-				::abook::setVolatileData $username state "FLN"
-
-			}
-		}
-	}
-
-	set lists [::abook::getLists $username]
-	if { ([lsearch $lists RL] != -1) && ([lsearch $lists AL] < 0) && ([lsearch $lists BL] < 0)} {
-		newcontact $username $nickname
-	}
-
-	::MSN::contactListChanged
-
-	#Last user in list
-	if {$current == $total} {
-		cmsn_draw_online 1
-
-		set contactlist_loaded 1
-		::abook::setConsistent
-		::abook::saveToDisk
-	}
-
-}
-
 
 proc cmsn_listupdate {recv} {
 	global contactlist_loaded

@@ -4,6 +4,25 @@
 # $Id$
 #=======================================================================
 
+::snit::type Group {
+
+	variable users {}
+	option -name
+	option -id
+
+	method showInfo { } {
+		puts ----
+		puts id:$options(-id)
+		puts name:$options(-name)
+		puts users:$users
+	}
+
+	method addUser { user } {
+		llappend users $user
+	} 
+}
+
+
 
 namespace eval ::abook {
 #::abook namespace is used to store all information related to users
