@@ -999,6 +999,17 @@ namespace eval ::MSN {
 		}
 	}
 
+	#Change a users personal message
+	proc changePSM { newpsm } {
+		#TODO: encode XML etc
+		if { [::config::getKey protocol] == 11 } {
+			if { [::abook::getPersonal PSM] != $newpsm } {
+				::MSN::WriteSBNoNL ns "UUX" "[string length $newpsm]\r\n$newpsm"
+			}
+		} else {
+			#Do nothing
+		}
+	}
 
 	#Procedure called to change our status
 	proc changeStatus {new_status} {
@@ -3661,6 +3672,7 @@ proc cmsn_ns_handler {item {message ""}} {
 			}
 			XFR {
 				if {[lindex $item 2] == "NS"} {
+					::config::setKey start_ns_server [lindex $item 3]
 					set tmp_ns [split [lindex $item 3] ":"]
 					ns configure -server $tmp_ns
 					status_log "cmsn_ns_handler: got a NS transfer, reconnecting to [lindex $tmp_ns 0]!\n" green
@@ -4473,6 +4485,7 @@ proc cmsn_ns_connected {sock} {
 	set therewaserror [catch {set error_msg [fconfigure [ns cget -sock] -error]} res]
 	if { ($error_msg != "") || $therewaserror == 1 } {
 		ns configure -error_msg $error_msg
+		::config::setKey start_ns_server [::config::getKey default_ns_server]
 		status_log "cmsn_ns_connected ERROR: $error_msg\n" red
 		::MSN::CloseSB ns
 		return

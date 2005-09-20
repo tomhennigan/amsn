@@ -259,6 +259,7 @@ namespace eval ::config {
 		::config::setKey showtimestamps 1		;#Show timestamps on messages ("Yes" by default)
 		::config::setKey leftdelimiter \[		;#Left Timestamps' delimiter  '[' by default
 		::config::setKey rightdelimiter \]		;#Right Timestamps' delimiter ']' by default
+		::config::setKey default_ns_server "messenger.hotmail.com:1863"
 		::config::setKey start_ns_server "messenger.hotmail.com:1863"
 		::config::setKey activeautoupdate 1		;#Active the auto update
 		::config::setKey updateonlycurrentlanguage 1	;#Only check updates for current language

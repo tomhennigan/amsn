@@ -5879,6 +5879,12 @@ proc cmsn_change_name {} {
 	label $w.fn.smiley -image [::skin::loadPixmap butsmile] -relief flat -padx 3 -highlightthickness 0
 	label $w.fn.newline -image [::skin::loadPixmap butnewline] -relief flat -padx 3
 
+	frame $w.psm
+	label $w.psm.label -font sboldf -text "[trans enterpsm]:"
+	entry $w.psm.name -width 40 -bg #FFFFFF -font splainf
+	label $w.psm.smiley -image [::skin::loadPixmap butsmile] -relief flat -padx 3 -highlightthickness 0
+	label $w.psm.newline -image [::skin::loadPixmap butnewline] -relief flat -padx 3
+
 	frame $w.p4c
 	label $w.p4c.label -font sboldf -text "[trans friendlyname]:"
 	entry $w.p4c.name -width 40 -bg #FFFFFF -font splainf
@@ -5892,21 +5898,27 @@ proc cmsn_change_name {} {
 
 
 	pack $w.fn.label $w.fn.name $w.fn.newline $w.fn.smiley -side left -fill x -expand true
+	pack $w.psm.label $w.psm.name $w.psm.newline $w.psm.smiley -side left -fill x -expand true
 	pack $w.p4c.label $w.p4c.name $w.p4c.newline $w.p4c.smiley -side left -fill x -expand true
 	pack $w.fb.ok $w.fb.cancel -side right -padx 5
 
-	pack $w.fn $w.p4c $w.fb -side top -fill x -expand true -padx 5
+	pack $w.fn $w.psm $w.p4c $w.fb -side top -fill x -expand true -padx 5
 
 	bind $w.fn.name <Return> "change_name_ok"
+	bind $w.psm.name <Return> "change_name_ok"
 	bind $w.p4c.name <Return> "change_name_ok"
 	bind $w.fn.smiley  <Button1-ButtonRelease> "::smiley::smileyMenu %X %Y $w.fn.name"
+	bind $w.psm.smiley  <Button1-ButtonRelease> "::smiley::smileyMenu %X %Y $w.psm.name"
 	bind $w.p4c.smiley  <Button1-ButtonRelease> "::smiley::smileyMenu %X %Y $w.p4c.name"
 	bind $w.fn.newline  <Button1-ButtonRelease> "$w.fn.name insert end \"\n\""
+	bind $w.psm.newline  <Button1-ButtonRelease> "$w.psm.name insert end \"\n\""
 	bind $w.p4c.newline <Button1-ButtonRelease> "$w.p4c.name insert end \"\n\""
-	bind $w.fn.name <Tab> "focus $w.p4c.name; break"
+	bind $w.fn.name <Tab> "focus $w.psm.name; break"
+	bind $w.psm.name <Tab> "focus $w.p4c.name; break"
 	bind $w.p4c.name <Tab> "focus $w.fn.name; break"
 
 	$w.fn.name insert 0 [::abook::getPersonal MFN]
+	$w.psm.name insert 0 [::abook::getPersonal PSM]
 	$w.p4c.name insert 0 [::config::getKey p4c_name]
 
 	catch {
@@ -5933,8 +5945,19 @@ proc change_name_ok {} {
 		::MSN::changeName [::config::getKey login] $new_name
 	}
 
-	set friendly [.change_name.p4c.name get]
+	set new_psm [.change_name.psm.name get]
+	if {$new_psm != ""} {
+		#TODO: how many chars in a Personal Message?
+		if { [string length $new_psm] > 130} {
+			set answer [::amsn::messageBox [trans longpsm] yesno question [trans confirm]]
+			if { $answer == "no" } {
+				return
+			}
+		}
+		::MSN::changePSM $new_psm
+	}
 
+	set friendly [.change_name.p4c.name get]
 	if { [string length $friendly] > 130} {
 		set answer [::amsn::messageBox [trans longp4c [string range $friendly 0 129]] yesno question [trans confirm]]
 		if { $answer == "no" } {
