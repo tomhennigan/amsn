@@ -1005,6 +1005,7 @@ namespace eval ::MSN {
 		if { [::config::getKey protocol] == 11 } {
 			if { [::abook::getPersonal PSM] != $newpsm } {
 				set currentMedia [::abook::getPersonal CurrentMedia]
+				::abook::setPersonal PSM $newpsm
 				set psm "<Data><PSM>$newpsm</PSM><CurrentMedia>$currentMedia</CurrentMedia></Data>"
 				::MSN::WriteSBNoNL ns "UUX" "[string length $psm]\r\n$psm"
 			}
@@ -1021,6 +1022,7 @@ namespace eval ::MSN {
 	proc changeCurrentMedia { type enabled format args } {
 		set psm [::abook::getPersonal PSM]
 		set currentMedia "aMSN\\0$type\\0$enabled\\0$format\\0[join $args \\0]\\0"
+		::abook::setPersonal CurrentMedia $currentMedia
 		set str "<Data><PSM>$psm</PSM><CurrentMedia>$currentMedia</CurrentMedia></Data>"
 		::MSN::WriteSBNoNL ns "UUX" "[string length $str]\r\n$str"
 	}
