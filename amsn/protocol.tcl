@@ -2736,6 +2736,9 @@ namespace eval ::Event {
 
 		set list_names [process_msnp9_lists [lindex $command 4]]
 		set groups [split [lindex $command 5] ,]
+		if { $groups == "" } {
+			set groups 0
+		}
 
 		#Make list unconsistent while receiving contact lists
 		::abook::unsetConsistent
@@ -3958,6 +3961,7 @@ proc cmsn_ns_handler {item {message ""}} {
 						::MSN::clearList RL
 						::MSN::clearList AL
 						::groups::Reset
+						::groups::Set 0 [trans nogroup]
 
 						set loading_list_info(version) [lindex $item 3]
 						set loading_list_info(total) [lindex $item 4]
