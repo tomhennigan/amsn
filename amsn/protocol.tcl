@@ -1282,6 +1282,10 @@ namespace eval ::MSN {
 		catch {$proxy write $sbn $cmd} res
 
 		if { $res == 0 } {
+			if { $sbn != "ns" } {
+				catch {$sbn configure -last_activity [clock seconds] }
+			}
+
 			if {$sbn != "ns" } {
 				degt_protocol "->$sbn-[$sbn cget -sock] $cmd" sbsend
 			} else {
@@ -1293,6 +1297,47 @@ namespace eval ::MSN {
 		}
 	}
 
+
+
+	proc SendInk { sb  file } {
+
+		set maxchars 1202
+		set fd [open $file r]
+		fconfigure $fd -translation {binary binary}
+		set data [read $fd]
+
+		set data [::base64::encode $data]
+		set data [string map { "\n" ""} $data]
+
+		set chunks [expr int( [string length $data] / $maxchars) + 1]
+
+
+		plugins_log "TeXIM" "data : $data\nchunks : $chunks\n"
+
+		for {set i 0 } { $i < $chunks } { incr i } {
+			set chunk [string range $data [expr $i * $maxchars] [expr ($i * $maxchars) + $maxchars - 1]]
+			set msg ""
+			if { $i == 0 } {
+				set msg "MIME-Version: 1.0\r\nContent-Type: image/gif\r\n"
+				set chunk "base64:$chunk"
+				if { $chunks == 1 } {
+					set msg "${msg}\r\n$chunk"
+				} else { 
+					set msgid "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [expr [expr int([expr rand() * 1000000])%65450]] + 4369]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
+					set msg "${msg}Message-ID: \{$msgid\}\r\nChunks: $chunks\r\n\r\n$chunk"
+				}
+			} else {
+				set msg "${msg}Message-ID: \{$msgid\}\r\nChunk: $i\r\n\r\n$chunk"
+			}
+			set msglen [string length $msg]
+
+			::MSN::WriteSBNoNL $sb "MSG" "U $msglen\r\n$msg"
+			
+		}
+		
+
+	}
+	
 
 	########################################################################
 	# Check if the old closed preferred SB is still the preferred SB, or
@@ -2467,10 +2512,10 @@ namespace eval ::Event {
 		after 30000 $self destroy
 	}
 
-	method setRaw { data } {
+	method setRaw { data {headers_list {}} {fields_list {}}} {
 		set body $data
-		array set header {}
-		array set fields {}
+		array set headers $headers_list
+		array set fields $fields_list
 	}
 
 	#creates a message object from a received payload
@@ -2981,7 +3026,50 @@ namespace eval ::Event {
 		}
 
 
+		set message_id [$message getHeader Message-ID]
+		set chunks [$message getHeader Chunks]
+		set current_chunk [$message getHeader Chunk]
+		if { $message_id != "" && ($chunks != "" || $current_chunk != "" ) } {
+			
+			if { $chunks != "" } {
+				status_log "chunked message : $chunks chunks - [$message getHeaders]" blue
+				set ::MSN::split_messages(${message_id}_total_chunks) $chunks
+				set ::MSN::split_messages(${message_id}_got_chunks) 1
+				set ::MSN::split_messages(${message_id}_chunk_0) [$message getBody]
+				set ::MSN::split_messages(${message_id}_headers) [$message getHeaders]
+				set ::MSN::split_messages(${message_id}_fields) [$message getFields]
+			} else {
+				status_log "chunked message : $chunks chunk - [$message getHeaders] - [set ::MSN::split_messages(${message_id}_headers)]" blue
+				incr ::MSN::split_messages(${message_id}_got_chunks)
+				set ::MSN::split_messages(${message_id}_chunk_${current_chunk}) [$message getBody]
+				
+				array set headers [set ::MSN::split_messages(${message_id}_headers)]
+				array set headers [$message getHeaders]
+				set ::MSN::split_messages(${message_id}_headers) [array get headers]
+				
+				array set fields [set ::MSN::split_messages(${message_id}_fields)]
+				array set fields [$message getFields]
+				set ::MSN::split_messages(${message_id}_fields) [array get fields]
+				
+			}
+
+			if {[set ::MSN::split_messages(${message_id}_total_chunks)] == [set ::MSN::split_messages(${message_id}_got_chunks)] } {
+				set body ""
+
+				for { set i 0 } { $i < [set ::MSN::split_messages(${message_id}_total_chunks)] } { incr i } {
+					append body [set ::MSN::split_messages(${message_id}_chunk_${i})]
+				}
+
+				$message setRaw $body [set ::MSN::split_messages(${message_id}_headers)] [set ::MSN::split_messages(${message_id}_fields)]
+			} else {
+				# Ignore this message until you get the whole message
+				return
+			}
+
+					
+		}
 		set contentType [lindex [split [$message getHeader Content-Type] ";"] 0]
+
 		switch $contentType {
 			text/plain {
 				::Event::fireEvent messageReceived $self $message
@@ -3127,6 +3215,20 @@ namespace eval ::Event {
 			text/x-clientcaps {
 				#Packet we receive from 3rd party client (not by MSN)
 				xclientcaps_received $message $typer
+			}
+			image/gif {
+				set body [$message getBody]
+				if { [string first "base64:" $body] != -1 } {
+					set data [::base64::decode [string range $body 7 end]]
+				} else {
+					set data $body
+				}
+				set img [image create photo -data $data]
+				destroy .test
+				toplevel .test
+				label .test.l -text "You received an ink message : "
+				label .test.i -image $img
+				pack .test.l .test.i -side top
 			}
 
 			default {
