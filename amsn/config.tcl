@@ -621,6 +621,8 @@ proc load_config {} {
 
 	::config::setKey clientid 0
 	::MSN::setClientCap msnc4
+	::MSN::setClientCap inkgif
+	::MSN::setClientCap multip
 
 	# Load up the personal states
 	LoadStateList
