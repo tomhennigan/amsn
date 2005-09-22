@@ -442,7 +442,7 @@ void AnimateGif(ClientData data) {
 				if(currentFrame)
 					currentFrame--;
 				else
-					currentFrame = Info->NumFrames;
+					currentFrame = Info->NumFrames-1;
 				CxImage *image = Info->image->GetFrameNo(currentFrame);
 				Info->timerToken=Tcl_CreateTimerHandler(image->GetFrameDelay()?10*image->GetFrameDelay():40, AnimateGif, data);
 			}
