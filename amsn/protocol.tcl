@@ -948,6 +948,15 @@ namespace eval ::MSN {
 
 	}
 
+	#Callback procedure called when a UUX (PSM change) message is received
+	proc GotUUXResponse { recv } {
+
+		cmsn_draw_online 1
+		#an event used by guicontactlist to know when we changed our nick
+		::Event::fireEvent myNickChange protocol
+
+	}
+
 	#Handler when we're setting our nick, so we check if the nick is allowed or not
 	proc badNickCheck { userlogin newname recv } {
 
@@ -1021,7 +1030,11 @@ namespace eval ::MSN {
 	#args: list with the other things, first will match {0} in format	
 	proc changeCurrentMedia { type enabled format args } {
 		set psm [::abook::getPersonal PSM]
-		set currentMedia "aMSN\\0$type\\0$enabled\\0$format\\0[join $args \\0]\\0"
+		if {$enabled == 1} {
+			set currentMedia "aMSN\\0$type\\01\\0$format\\0[join $args \\0]\\0"
+		} else {
+			set currentMedia ""
+		}
 		::abook::setPersonal CurrentMedia $currentMedia
 		set str "<Data><PSM>$psm</PSM><CurrentMedia>$currentMedia</CurrentMedia></Data>"
 		::MSN::WriteSBNoNL ns "UUX" "[string length $str]\r\n$str"
@@ -1312,7 +1325,7 @@ namespace eval ::MSN {
 		set chunks [expr int( [string length $data] / $maxchars) + 1]
 
 
-		plugins_log "TeXIM" "data : $data\nchunks : $chunks\n"
+		status_log "Ink data : $data\nchunks : $chunks\n"
 
 		for {set i 0 } { $i < $chunks } { incr i } {
 			set chunk [string range $data [expr $i * $maxchars] [expr ($i * $maxchars) + $maxchars - 1]]
@@ -2845,7 +2858,17 @@ namespace eval ::Event {
 
 	method handleUBX { command payload } {
 		set contact [lindex $command 1]
-		::abook::setContactData $contact PSM $payload
+		if {$payload != ""} {
+			set xml [xml2list $payload]
+			set psm [GetXmlEntry $xml "Data:PSM"]
+			set currentmedia [GetXmlEntry $xml "Data:CurrentMedia"]
+		} else {
+			set psm ""
+			set currentmedia ""
+		}
+		::abook::setContactData $contact PSM [encoding convertfrom utf-8 $psm]
+		::abook::setVolatileData $contact currentmedia [encoding convertfrom utf-8 $currentmedia]
+		cmsn_draw_online 1
 	}
 }
 
@@ -3224,11 +3247,9 @@ namespace eval ::Event {
 					set data $body
 				}
 				set img [image create photo -data $data]
-				destroy .test
-				toplevel .test
-				label .test.l -text "You received an ink message : "
-				label .test.i -image $img
-				pack .test.l .test.i -side top
+
+				SendMessageFIFO [list ::amsn::ShowInk $chatid $typer $nick $img ink $p4c_enabled] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
+
 			}
 
 			default {
@@ -4006,7 +4027,12 @@ proc cmsn_ns_handler {item {message ""}} {
 				::MSN::GotREAResponse $item
 				return 0
 			}
+			UUX {
+				::MSN::GotUUXResponse $item
+				return 0
+			}
 			ADD {
+				#TODO: delete when MSNP11 is used, ADD is not used anymore
 				status_log "Before: [lindex $item 4] is now in groups: [::abook::getGroups [lindex $item 4]]\n"
 				new_contact_list "[lindex $item 3]"
 				status_log "After 1: [lindex $item 4] is now in groups: [::abook::getGroups [lindex $item 4]]\n"

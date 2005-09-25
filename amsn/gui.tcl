@@ -1431,6 +1431,51 @@ namespace eval ::amsn {
 	}
 	#///////////////////////////////////////////////////////////////////////////////
 
+	#///////////////////////////////////////////////////////////////////////////////
+	# PUBLIC ShowInk(chatid,user,image,type,p4c)
+	# Called by the protocol layer when an ink 'image' arrives from the chat
+	# 'chatid'.'user' is the login of the message sender, and 'user' can be "msg" to
+	# send special messages not prefixed by "XXX says:". 'type' can be a style tag as
+	# defined in the ::ChatWindow::Open proc, or just "user". If the type is "user",
+	# the 'fontformat' parameter will be used as font format.
+	# The procedure will open a window if it does not exists, add a notifyWindow and
+	# play a sound if it's necessary
+	proc ShowInk { chatid user nick image type {p4c 0} } {
+		global remote_auth
+
+		#if customfnick exists replace the nick with customfnick
+		set customfnick [::abook::getContactData $user customfnick]
+
+		if { $customfnick != "" } {
+			set nick [::abook::getNick $user]
+			set customnick [::abook::getContactData $user customnick]
+			set nick [::abook::parseCustomNick $customfnick $nick $user $customnick]
+		}
+		
+		set maxw [expr {[::skin::getKey notifwidth]-20}]
+		incr maxw [expr {0-[font measure splainf "[trans says [list]]:"]}]
+		set nickt [trunc $nick $maxw splainf]
+
+		set tmsg "[trans gotink $user]"
+
+		set win_name [::ChatWindow::MakeFor $chatid $tmsg $user]
+
+		PutMessageWrapped $chatid $user $nickt "" $type "" $p4c
+		
+		set scrolling [::ChatWindow::getScrolling [::ChatWindow::GetOutText ${win_name}]]
+
+
+		[::ChatWindow::GetOutText ${win_name}] configure -state normal
+		[::ChatWindow::GetOutText ${win_name}] image create end -image $image
+
+		if { $scrolling } { ::ChatWindow::Scroll [::ChatWindow::GetOutText ${win_name}] }
+
+
+		[::ChatWindow::GetOutText ${win_name}] configure -state disabled
+
+	}
+	#///////////////////////////////////////////////////////////////////////////////
+
 
 	#///////////////////////////////////////////////////////////////////////////////
 	# enterCustomStyle ()
@@ -4861,6 +4906,21 @@ proc cmsn_draw_online_wrapped {} {
 	set my_short_name [trunc $my_name $pgBuddyTop.mystatus $maxw bboldf]
 	$pgBuddyTop.mystatus insert end "$my_short_name " mystatus
 	$pgBuddyTop.mystatus insert end "($my_state_desc)" mystatus
+	if {[::config::getKey protocol] == 11} {
+		set nick ""
+		set psm [::abook::getPersonal PSM]
+		set currentmedia [parseCurrentMedia [::abook::getPersonal currentmedia]]
+		if {$psm != ""} {
+			append nick "$psm"
+		}
+		if {$currentmedia != ""} {
+			if { $psm != ""} {
+				append nick " "
+			}
+			append nick "$currentmedia"
+		}
+		$pgBuddyTop.mystatus insert end "\n$nick" mystatus
+	}
 
 	set balloon_message "[string map {"%" "%%"} "$my_name\n [::config::getKey login]\n [trans status] : $my_state_desc"]"
 
@@ -5035,17 +5095,34 @@ proc cmsn_draw_online_wrapped {} {
 		set user_login [lindex $list_users $i]
 		set globalnick [::config::getKey globalnick]
 		set psm [::abook::getContactData $user_login PSM]
+		set currentmedia [parseCurrentMedia [::abook::getVolatileData $user_login currentmedia]]
 		if { $globalnick != "" } {
 			set nick [::abook::getNick $user_login]
 			if {$psm != ""} {
-				append nick " - [::abook::getContactData $user_login PSM]"
+				append nick "\n$psm"
+			}
+			if {$currentmedia != ""} {
+				if { $psm == ""} {
+					append nick "\n"
+				} else {
+					append nick " "
+				}
+				append nick "$currentmedia"
 			}
 			set customnick [::abook::getContactData $user_login customnick]
 			set user_name [::abook::parseCustomNick $globalnick $nick $user_login $customnick]
 		} else {
 			set user_name "[::abook::getDisplayNick $user_login]"
 			if {$psm != ""} {
-				append user_name " - [::abook::getContactData $user_login PSM]"
+				append user_name "\n$psm"
+			}
+			if {$currentmedia != ""} {
+				if { $psm == ""} {
+					append user_name "\n"
+				} else {
+					append user_name " "
+				}
+				append user_name "$currentmedia"
 			}
 		}
 
@@ -5258,6 +5335,34 @@ proc cmsn_draw_online_wrapped {} {
 
 	set evpar(text) $pgBuddy.text
 	::plugins::PostEvent ContactListDrawn evpar
+}
+
+proc parseCurrentMedia {currentmedia} {
+	if {$currentmedia == ""} { return "" }
+
+	set currentmedia [string map {"\\0" "\0"} $currentmedia]
+	set infos [split $currentmedia "\0"]
+
+	if {[lindex $infos 2] == "0"} { return "" }
+
+	if {[lindex $infos 1] == "Music"} {
+		set out "(8) "
+	} else {
+		set out "- "
+	}
+
+	set pattern [lindex $infos 3]
+
+	set nrParams [expr [llength $infos] - 4]
+	set lstMap [list]
+	for {set idx 0} {$idx < $nrParams} {incr idx} {
+		lappend lstMap "\{$idx\}"
+		lappend lstMap [lindex $infos [expr $idx + 4]]
+	}
+
+	append out [string map $lstMap $pattern]
+
+	return $out
 }
 #///////////////////////////////////////////////////////////////////////
 
@@ -5953,16 +6058,14 @@ proc change_name_ok {} {
 	}
 
 	set new_psm [.change_name.psm.name get]
-	if {$new_psm != ""} {
-		#TODO: how many chars in a Personal Message?
-		if { [string length $new_psm] > 130} {
-			set answer [::amsn::messageBox [trans longpsm] yesno question [trans confirm]]
-			if { $answer == "no" } {
-				return
-			}
+	#TODO: how many chars in a Personal Message?
+	if { [string length $new_psm] > 130} {
+		set answer [::amsn::messageBox [trans longpsm] yesno question [trans confirm]]
+		if { $answer == "no" } {
+			return
 		}
-		::MSN::changePSM $new_psm
 	}
+	::MSN::changePSM $new_psm
 
 	set friendly [.change_name.p4c.name get]
 	if { [string length $friendly] > 130} {
