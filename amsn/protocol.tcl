@@ -1014,7 +1014,10 @@ namespace eval ::MSN {
 		if { [::config::getKey protocol] == 11 } {
 			if { [::abook::getPersonal PSM] != $newpsm } {
 				set currentMedia [::abook::getPersonal CurrentMedia]
+				set currentMedia [::sxml::xmlreplace $currentMedia]
 				::abook::setPersonal PSM $newpsm
+				set newpsm [::sxml::xmlreplace $newpsm]
+				
 				set psm "<Data><PSM>$newpsm</PSM><CurrentMedia>$currentMedia</CurrentMedia></Data>"
 				::MSN::WriteSBNoNL ns "UUX" "[string length $psm]\r\n$psm"
 			}
@@ -1030,12 +1033,14 @@ namespace eval ::MSN {
 	#args: list with the other things, first will match {0} in format	
 	proc changeCurrentMedia { type enabled format args } {
 		set psm [::abook::getPersonal PSM]
+		set psm [::sxml::xmlreplace $psm]
 		if {$enabled == 1} {
 			set currentMedia "aMSN\\0$type\\01\\0$format\\0[join $args \\0]\\0"
 		} else {
 			set currentMedia ""
 		}
 		::abook::setPersonal CurrentMedia $currentMedia
+		set currentMedia [::sxml::xmlreplace $currentMedia]
 		set str "<Data><PSM>$psm</PSM><CurrentMedia>$currentMedia</CurrentMedia></Data>"
 		::MSN::WriteSBNoNL ns "UUX" "[string length $str]\r\n$str"
 	}
@@ -2859,15 +2864,17 @@ namespace eval ::Event {
 	method handleUBX { command payload } {
 		set contact [lindex $command 1]
 		if {$payload != ""} {
-			set xml [xml2list $payload]
+			if { [catch { set xml [xml2list $payload] } ] } {
+				return
+			}
 			set psm [GetXmlEntry $xml "Data:PSM"]
 			set currentmedia [GetXmlEntry $xml "Data:CurrentMedia"]
 		} else {
 			set psm ""
 			set currentmedia ""
 		}
-		::abook::setContactData $contact PSM [encoding convertfrom utf-8 $psm]
-		::abook::setVolatileData $contact currentmedia [encoding convertfrom utf-8 $currentmedia]
+		::abook::setContactData $contact PSM [::sxml::replacexml [encoding convertfrom utf-8 $psm]]
+		::abook::setVolatileData $contact currentmedia [::sxml::replacexml [encoding convertfrom utf-8 $currentmedia]]
 		cmsn_draw_online 1
 	}
 }
