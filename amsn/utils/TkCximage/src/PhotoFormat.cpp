@@ -9,6 +9,7 @@
 #include "TkCximage.h"
 
 static ChainedList animated_gifs;
+Tk_ImageDisplayProc *PhotoDisplayOriginal=NULL;
 
 /////////////////////////////////////
 // Functions to manage lists       //
@@ -253,7 +254,8 @@ int ObjRead (Tcl_Interp *interp, Tcl_Obj *data, Tcl_Obj *format, Tk_PhotoHandle 
 		GifInfo * AnimatedGifInfo = new GifInfo;
 		CxImage *image = NULL;
 
-		AnimatedGifInfo->CurrentFrame = 1;
+		AnimatedGifInfo->CurrentFrame = 0;
+		AnimatedGifInfo->CopiedFrame = -1;
 		AnimatedGifInfo->NumFrames = numframes;
 		AnimatedGifInfo->Handle = imageHandle;
 		AnimatedGifInfo->ImageMaster = (Tk_ImageMaster) *((void **)imageHandle);
@@ -416,33 +418,16 @@ void AnimateGif(ClientData data) {
 		Tk_ImageMaster master = (Tk_ImageMaster) *((void **) Info->Handle);
 		if(master == Info->ImageMaster) {
 		//Image is always the same
-			//We check if it is used
-			const char * name = Tk_NameOfImage(master);
-			char buf[255];
-			sprintf(buf, "image inuse %s",name);
-			if (Tcl_EvalEx(Info->interp,buf,-1,TCL_EVAL_GLOBAL) != TCL_OK) {
-				LOG("Error executing image inuse over image ");
-				APPENDLOG( name );
-				APPENDLOG( Tcl_GetStringResult(Info->interp) );
-				return;
-			}
-			int result=0;
-			Tcl_GetBooleanFromObj(NULL,Tcl_GetObjResult(Info->interp),&result);
-			if((g_EnableAnimated) && (result)) {
+			if(g_EnableAnimated) {
+				Info->CurrentFrame++;
+				if(Info->CurrentFrame == Info->NumFrames)
+					Info->CurrentFrame = 0;
 				CxImage *image = Info->image->GetFrameNo(Info->CurrentFrame);
-				if (AnimatedGifFrameToTk(NULL, Info, image, true) == TCL_OK) {
-					Info->CurrentFrame++;
-					if(Info->CurrentFrame == Info->NumFrames)
-						Info->CurrentFrame = 0;
+				Tk_ImageChanged(Info->ImageMaster, 0, 0, image->GetWidth(), image->GetHeight(), image->GetWidth(), image->GetHeight());
 		
-					Info->timerToken=Tcl_CreateTimerHandler(image->GetFrameDelay()?10*image->GetFrameDelay():40, AnimateGif, data);
-				}
+				Info->timerToken=Tcl_CreateTimerHandler(image->GetFrameDelay()?10*image->GetFrameDelay():40, AnimateGif, data);
 			} else {
 				int currentFrame = Info->CurrentFrame;
-				if(currentFrame)
-					currentFrame--;
-				else
-					currentFrame = Info->NumFrames-1;
 				CxImage *image = Info->image->GetFrameNo(currentFrame);
 				Info->timerToken=Tcl_CreateTimerHandler(image->GetFrameDelay()?10*image->GetFrameDelay():40, AnimateGif, data);
 			}
@@ -466,6 +451,30 @@ void AnimateGif(ClientData data) {
 		}
 	}
 
+}
+
+void PhotoDisplayProcHook(
+	ClientData instanceData,
+	Display *display,
+	Drawable drawable,
+	int imageX,
+	int imageY,
+	int width,
+	int height,
+	int drawableX,
+	int drawableY){
+	Tk_PhotoHandle handle = (Tk_PhotoHandle) *((void **) instanceData);
+	GifInfo* item=TkCxImage_lstGetItem(handle);
+	if (item != NULL){
+		if (item->CurrentFrame != item->CopiedFrame) { //Frame isn't the good one in the photo buffer
+			CxImage *image = item->image->GetFrameNo(item->CurrentFrame);
+			AnimatedGifFrameToTk(NULL, item, image, true);
+			item->CopiedFrame = item->CurrentFrame;
+			fprintf(stderr, "Copied frame n°%u\n",item->CopiedFrame);
+		}
+	}
+	
+	PhotoDisplayOriginal(instanceData,display,drawable,imageX,imageY,width,height,drawableX,drawableY);
 }
 
 #endif // ANIMATE_GIFS

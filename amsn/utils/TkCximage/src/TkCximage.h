@@ -144,13 +144,16 @@ typedef struct gif_info {
 	Tk_ImageMaster ImageMaster;
 	int NumFrames;
 	int CurrentFrame;
+	int CopiedFrame;
 	Tcl_TimerToken timerToken;
 	GifBuffersArray buffers;
 } GifInfo ;
 
 EXTERN void AnimateGif(ClientData data);
 EXTERN int AnimatedGifFrameToTk(Tcl_Interp *interp, GifInfo *Info, CxImage *frame, int blank);
+EXTERN void PhotoDisplayProcHook(ClientData instanceData,Display *display,Drawable drawable,int imageX,int imageY,int width,int height,int drawableX,int drawableY);
 EXTERN int g_EnableAnimated;
+EXTERN Tk_ImageDisplayProc *PhotoDisplayOriginal;
 
 // Defines for compatibility with the list code..
 #define g_list animated_gifs

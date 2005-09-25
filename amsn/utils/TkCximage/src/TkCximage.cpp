@@ -120,8 +120,29 @@ int GetFileTypeFromFormat(char * Format) {
 
 }
 
+#if ANIMATE_GIFS
+/*
+    Function to hook the TkImageDisplayProc of the photo image type.
+    As we can copy frame only when we need to display it
+*/
+int PlaceHook(Tcl_Interp *interp){
+	char buf[255];
+	strcpy(buf, "image create photo");
+	if (Tcl_EvalEx(interp,buf,-1,TCL_EVAL_GLOBAL) != TCL_OK) {
+		LOG("Error creating photo for hook creation ");
+		APPENDLOG( Tcl_GetStringResult(interp) );
+		return TCL_ERROR;
+	}
+	const char *name = Tcl_GetStringResult(interp);
+	Tk_ImageType *typePhotoPtr = NULL;
+	Tk_GetImageMasterData(interp, name, &typePhotoPtr);
+	PhotoDisplayOriginal = typePhotoPtr->displayProc;
+	typePhotoPtr->displayProc = (Tk_ImageDisplayProc *) PhotoDisplayProcHook;
+	Tk_DeleteImage(interp, name);
+	return TCL_OK;
+}
 
-
+#endif
 
 /*
   Function : Cximage_Init
@@ -192,6 +213,7 @@ int Tkcximage_Init (Tcl_Interp *interp ) {
 		       (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
   Tcl_CreateObjCommand(interp, "::CxImage::EnableAnimated", Tk_EnableAnimated,
 		       (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
+  if (PlaceHook(interp) != TCL_OK) return TCL_ERROR;
 #endif
 
   LOG("Adding format : "); //

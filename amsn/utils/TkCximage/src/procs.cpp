@@ -451,7 +451,7 @@ int AnimatedGifFrameToTk(Tcl_Interp *interp, GifInfo *Info, CxImage *frame, int 
 		Tk_PhotoHandle Photo = Info->Handle;
 	
 		CxMemFile *buffer=NULL;
-		
+
 		while(Info->CurrentFrame >= Info->buffers.size()){
 			LOG("Loading frame : ");
 			APPENDLOG( Info->buffers.size());
