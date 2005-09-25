@@ -268,7 +268,7 @@ proc globalGotAuthReply { proxy str token } {
 	option -proxy_queued_data
 	option -proxy_session_id
 	option -proxy_gateway_ip
-	option -options(-proxy_writing)
+	option -proxy_writing
 
 
 	method write { name {msg ""} } {
