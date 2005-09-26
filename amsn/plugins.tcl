@@ -490,7 +490,10 @@ namespace eval ::plugins {
 			wm title $w [trans pluginselector]
 			# create widgets
 			# listbox with all the plugins
-			listbox $w.plugin_list -background "white" -height 15
+			listbox $w.plugin_list -background "white" -height 15 -yscrollcommand "$w.ys set" -relief flat -highlightthickness 0
+			scrollbar $w.ys -command "$w.plugin_list yview"
+
+
 			# holds the plugins info like name and description
 			label $w.name_title -text [trans name] -font sboldf
 			label $w.name
@@ -527,6 +530,7 @@ namespace eval ::plugins {
 			bind $w <<Escape>> "::plugins::GUI_Close"
 
 			pack $w.plugin_list -fill both -side left
+			pack $w.ys -fill both -side left
 			pack $w.name_title -padx 5 -anchor w
 			pack $w.name -padx 5 -anchor w
 			pack $w.version_title -padx 5 -anchor w
