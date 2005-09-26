@@ -960,20 +960,20 @@ namespace eval ::MSN {
 	#Handler when we're setting our nick, so we check if the nick is allowed or not
 	proc badNickCheck { userlogin newname recv } {
 
-		if { "[lindex $recv 0]" == "209"} {
-
-			#Try again urlencoding any character
-			set name [urlencode_all $newname]
-			if { [::config::getKey protocol] == 11 } {
-				::MSN::WriteSB ns "PRP" "MFN $name"
-			} else {
+		switch [lindex $recv 0] {
+			PRP {
+				ns handlePRPResponse $recv
+			}
+			REA {
+				GotREAResponse $recv
+			}
+			209 {
+				#Try again urlencoding any character
+				set name [urlencode_all $newname]
 				::MSN::WriteSB ns "REA" "$userlogin $name"
 			}
-			return 0
-
-		} elseif { "[lindex $recv 0]" == "REA"} {
-			GotREAResponse $recv
-			return 0
+			default {
+			}
 		}
 	}
 
@@ -990,18 +990,15 @@ namespace eval ::MSN {
 			set name [urlencode $newname]
 		}
 
-		if { [::config::getKey allowbadwords] == 1 } {
-			#If we're allowing banned words in nicks, try to set usual nick. It it fails,
-			#we will try again urlencoding every character, to avoid censure
-			if { [::config::getKey protocol] == 11 } {
-				::MSN::WriteSB ns "PRP" "MFN $name" "::MSN::badNickCheck $userlogin [list $name]"
-			} else {
+		if { [::config::getKey protocol] == 11 } {
+			::MSN::WriteSB ns "PRP" "MFN $name" "ns handlePRPResponse"
+		} else {
+
+			if { [::config::getKey allowbadwords] == 1 } {
+				#If we're allowing banned words in nicks, try to set usual nick. It it fails,
+				#we will try again urlencoding every character, to avoid censure
 				::MSN::WriteSB ns "REA" "$userlogin $name" \
 					"::MSN::badNickCheck $userlogin [list $name]"
-			}
-		} else {
-			if { [::config::getKey protocol] == 11 } {
-				::MSN::WriteSB ns "PRP" "MFN $name"
 			} else {
 				::MSN::WriteSB ns "REA" "$userlogin $name"
 			}
@@ -2850,16 +2847,30 @@ namespace eval ::Event {
 
 	method handlePRP { command } {
 		if { [llength $command] == 3 } {
+			#initial PRP without trID
 			::abook::setPersonal [lindex $command 1] [urldecode [lindex $command 2]]
 		} else {
 			#TODO: does this happen? if not remove.
 			new_contact_list "[lindex $command 2]"
 		    	::abook::setPersonal [lindex $command 3] [urldecode [lindex $command 4]]
 		}
-		#TODO: Why do we ignore this??? It's our own phone number...
-		return 0
 	}
-		
+
+	#Callback procedure called when a PRP (Personal info like nick and phone change) message is received
+	method handlePRPResponse { command } {
+		switch [lindex $command 0] {
+			PRP {
+				::abook::setPersonal [lindex $command 2] [urldecode [lindex $command 3]]
+			}
+			209 {
+				#Nickname change illegal. Try again urlencoding any character
+				set name [urlencode_all $newname]
+				::MSN::WriteSB ns "PRP" "MFN $name" "ns handlePRPResponse"
+			}
+			default {
+			}
+		}
+	}
 
 	method handleUBX { command payload } {
 		set contact [lindex $command 1]
