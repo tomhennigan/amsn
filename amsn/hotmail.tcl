@@ -297,6 +297,39 @@ namespace eval ::hotmail {
 	#	set message [Message create %AUTO%]
 	#	$message createFromPayload "[$msg getBody]\r\n"
 		switch $content {
+			"text/x-msmsgsinitialmdatanotification" {
+				#Number of unread messages in inbox
+				set mailData [$message getField Mail-Data]
+				set inbox [string range $mailData [expr {[string first <I> $mailData]+3}] [expr {[string first </I> $mailData] -1}]]
+				set inboxUnread [string range $mailData [expr {[string first <IU> $mailData]+4}] [expr {[string first </IU> $mailData] -1}]]
+
+				#Get the URL of inbox directory in hotmail
+				set msgurl [$message getField Inbox-URL]
+				status_log "Hotmail: $inboxUnread unread emails\n"
+				#Remember the number of unread mails in inbox and create a notify window if necessary
+				if { [string length $inboxUnread] > 0 && $inboxUnread != 0} {
+					::hotmail::setUnreadMessages $inboxUnread
+					::hotmail::emptyFroms
+					cmsn_draw_online
+					if { [::config::getKey notifyemail] == 1} {
+						::amsn::notifyAdd "[trans newmail $inboxUnread\($inbox\)]" \
+							"::hotmail::hotmail_login [::config::getKey login] $password" newemail
+					}
+				}
+	
+	
+				#Number of unread messages in other folders
+				set folderunread [$message getField Folders-Unread]
+				#URL of folder directory in Hotmail
+				set msgurl [$message getField Folders-URL]
+				status_log "Hotmail: $folderunread unread emails in others folders \n"
+				#If the pref notifyemail is active and more than 0 email unread, show a notify on connect
+				if { [::config::getKey notifyemailother] == 1 && [string length $folderunread] > 0 && $folderunread != 0 } {
+					::amsn::notifyAdd "[trans newmailfolder $folderunread]" \
+						"::hotmail::hotmail_viewmsg $msgurl [::config::getKey login] $password" newemail
+				}
+			}
+
 			"text/x-msmsgsemailnotification" {     
 				if {[set from [$message getField From]] != ""} {
 					set fromaddr [$message getField From-Addr]
@@ -327,8 +360,8 @@ namespace eval ::hotmail {
 				::log::eventmail $from
 	
 			}
-			#Get the number of unread messages
 			"text/x-msmsgsinitialemailnotification" {
+			#Get the number of unread messages obsolete by MSNP11
 				#Number of unread messages in inbox
 				set noleidos [$message getField Inbox-Unread]
 				#Get the URL of inbox directory in hotmail
