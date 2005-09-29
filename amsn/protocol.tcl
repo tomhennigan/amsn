@@ -1143,19 +1143,25 @@ namespace eval ::MSN {
 	}
 
 	proc blockUser { userlogin username} {
-	::MSN::WriteSB ns REM "AL $userlogin"
-	::MSN::WriteSB ns ADD "BL $userlogin $username"
-
-	#an event to let the GUI know a user is blocked
-	after 500 ::Event::fireEvent blockedContact protocol $userlogin
-
+		::MSN::WriteSB ns REM "AL $userlogin"
+		if {[::config::getKey protocol] == 11} {
+			::MSN::WriteSB ns ADC "BL N=$userlogin"
+		} else {
+			::MSN::WriteSB ns ADD "BL $userlogin $username"
+		}
+		#an event to let the GUI know a user is blocked
+		after 500 ::Event::fireEvent blockedContact protocol $userlogin
 	}
 
 	proc unblockUser { userlogin username} {
 		::MSN::WriteSB ns REM "BL $userlogin"
-		::MSN::WriteSB ns ADD "AL $userlogin $username"
-	#an event to let the GUI know a user is unblocked
-	after 500 ::Event::fireEvent unblockedContact protocol $userlogin
+		if {[::config::getKey protocol] == 11} {
+			::MSN::WriteSB ns ADC "AL N=$userlogin"
+		} else {
+			::MSN::WriteSB ns ADD "AL $userlogin $username"
+		}
+		#an event to let the GUI know a user is unblocked
+		after 500 ::Event::fireEvent unblockedContact protocol $userlogin
 	}
 
 	# Move user from one group to another group
