@@ -721,15 +721,15 @@ version Versión
 viewcontactsby Ver contactos como
 viewprofile Ver perfil
 view Ver
-webcamcanceled La sesión de WebCam con $1 a sido cancelada
+webcamcanceled La sesión de WebCam con $1 ha sido cancelada
 webcamclosebefcancel Tendrás que cancelar todas las sesiones de WebCam antes de cerrar la ventana
 webcamextloaded Extensión de WebCam cargada
-webcamextnotloaded Extensión de WebCam no a sido cargada. Tendrás que compilarla.
+webcamextnotloaded Extensión de WebCam no ha sido cargada. Tendrás que compilarla.
 webcamfaq FAQ(Preguntas Frecuentes)/Ayuda para WebCam
 webcamhistory Ver sesiones de webcam
 webcaminvite $1 te ha invitado a una sesión de videoconferencia, pero AMSN todavía no soporta esta característica.
-webcaminvitereceived $1 Te a invitado para iniciar una sesión de WebCam. ¿Quieres aceptar esta invitación?
-webcamrejected $1 a rechazado la invitación para la sesión de WebCam 
+webcaminvitereceived $1 Te ha invitado para iniciar una sesión de WebCam. ¿Quieres aceptar esta invitación?
+webcamrejected $1 ha rechazado la invitación para la sesión de WebCam 
 webcamrequestreceive Invitar para iniciar una sesión de WebCam  
 webcamrequestsend Invitar para que vean mi WebCam
 webcamsending Lista de personas que actualmente te están viendo por tu WebCam\nClick para Cancelar
