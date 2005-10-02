@@ -1,5 +1,6 @@
 amsn_lang_version 2
 about Hakkýnda
+aboutamsn Alvaro'nun Messenger'i hakkýnda
 accept Kabul et
 acceptfile $1 dosyasý aktarýlýyor; boyut $2 bayt; kaydedilen konum $3 
 actions Eylemler
@@ -66,6 +67,7 @@ away Dýþarýda
 awaymsg1 Durumumu Dýþarýda/Hemen Dönecek/Meþgul'e her çevirdiðimde býrakacaðým notu sor
 awaymsg2 Hiçbir zaman sorma ve asaðýdaki notu kullan
 baduserpass Yanlýþ kullanýcý ismi ya da þifresi
+badwebcam Kamera görüntüsü alýnamýyor. Kameranýzýn takýlý ve kurulu olduðundan emin olun.
 bgcolor aMSN'in arkaplan rengini deðiþtir
 blankdirect Doðrudan baðlantý için boþ býrakýn
 block Engelle
@@ -80,17 +82,22 @@ blocklist Engellenenler listesi
 blockmessage þu kiþiler baðlý ve sizi engellemiþ durumdalar
 blockusers Bir seferde denetlenecek kullanýcý sayýsý
 bouncedock Ýleti gelince aMSN görev çubuðu simgesi zýplasýn
+brightness Parlaklýk
 broughtby Yazýlýmý geliþtirenler
 browse Gözat
 browser Ýnternet tarayýcý
 browserexample (\$url URL ile deðiþtirilecek) Örn: mozilla \$url
+bugerror Hata veritabanýna baðlanýrken sorun oluþtu. Ýnternet baðlantýnýzýn durumunu denetleyin.
 busy Meþgul
 cachedpics $1 saklanmýþ resim
+cagreement Gizlilik Sözleþmesi
 cancel Ýptal Et
 cannotdeleteprofile Profil kullanýmda olduðu için silinemiyor
 cantexec $1 uygulamasi çalýþtýrýlamýyor. Seçenekleri kontrol edin.
 cantloadonlineversion Güncellenmiþ diller listesi internetten alýnamadý
 cantremoveothers "Diðer" grubu silinemiyor
+captureextloaded Kamera eklentisi -$1- yüklendi
+captureextnotloaded Kamera eklentisi -$1- yüklenemedi; önce eklentiyi derlemeniz gerekiyor
 casesensitive Yazýlý karþýlýklarda büyük/küçük harfe duyarlý ol
 cfgalarm Alarmý Düzenle/Ekle/Kaldýr
 cfgalarmall Genel Alarmý Düzenle/Ekle/Kaldýr
@@ -102,6 +109,8 @@ changeglobnick Rumuz þablonunu deðiþtir
 changenick Rumuz deðiþtir
 changesize Boyutu deðiþtir
 changestate $1, $2 durumuna geçti
+changevideosettings Görüntü ayarlarýný deðiþtir
+channels Kanallar
 charscounter Sohbet penceresinde girilen harf sayacý
 chat Sohbet et
 chatack Sohbet istemi kabul edilen kiþi
@@ -119,7 +128,9 @@ checkver Yeni sürüm ara
 choosearq Sistem türünüzü seçin
 choosebasefont Yazýtipini seç
 choosebgcolor Arkaplan rengini seç
+choosechannel Lütfen bir kanal seçiniz
 choosecontact Lütfen listeden bir baðlantý seçiniz
+choosedevice Lütfen bir aygýt seçýnýz
 choosefontcolor Yazi rengini seç
 chooseskin Lütfen kullanacaðýnýz kabuðu seçiniz
 ch_to_state Yeni duruma geç
@@ -127,7 +138,6 @@ clear Temizle
 clearlog Sohbet kaydýný sil
 clearlog2 Tüm baðlantýlarýn Geçmiþini sil
 clearlog3 Tüm sohbet kayýtlarýný sil
-
 clearwebcamlogs Tüm kamera kayýtlarýný sil
 clicktoadd Yeni not için Ekle düðmesine týklayýnýz
 clicktologin Baðlanmak için týklayýn
@@ -140,6 +150,7 @@ closed $1 ile olan sohbet etkinlik olmadýðý için kapatýldý.
 closelabel Sekmeli bir sohbet penceresinde kapatma düðmesine basýlýnca
 closeonly Sadece seçili sekmeyi kapat
 closingdocks Kapatma düðmesi küçültsün
+color Renk
 command Komut
 commandstatus Komutu çalýþtýr
 configure Ayarla
@@ -162,6 +173,7 @@ contactadded Baðlantý eklendi
 contactdoesnotexist Böyle bir baðlantý yok!
 contactlist Baðlantý listesi:
 continuously Sürekli
+contrast Kontrast
 conversationwith Sohbette $1 kiþi var
 convertexplain ImageMagick'in CONVERT uygulamasýnýn konumu (Kullanýcý resimleri için gerekli). \nEðer CONVERT zaten varsayýlan konumlardan birindeyse (PATH deðiþkeni) boþ býrakýlabilir.
 copy Kopyala
@@ -190,7 +202,8 @@ dateformat Tarih biçemini degiþtir
 day Gün
 days Gün
 dcprofile Profil oluþturma
-default Varsayýlan ayar
+default Öntanýmlý ayarlar
+default2 Öntanýml
 defaultloginradio Varsayýlan ayarlarla baðlan
 defchatwinsize Sohbet pencereleri için varsayýlan boyutlar (XBOYUTU x YBOYUTU)
 delete Sil
@@ -202,6 +215,9 @@ delprofile Profili sil
 delprofile2 Sileceðiniz profili seçiniz
 description Tarif
 detach Ayýr
+details Ayrýntýlar
+devicebusy $1 aygýtý meþgul
+devices Aygýtlar
 directconnection Ýnternete doðrudan baðlantým var (1863. portu kullanýr)
 disabled Devredýþý
 disableprofiles Profilleri devredýþý býrak (internet cafe ve paylaþýlan ortamlar için uygun)
@@ -221,6 +237,7 @@ dockgtk Gnome'da küçültme
 docking Küçültme
 dockingoff Küçültme olsun
 dockkde KDE'de küçültme
+done Tamam
 dontdownload TLS'i indirme, kendim kuracaðým
 dontshow Gösterme
 download Ýndir
@@ -233,17 +250,16 @@ editstate Var olan otomatik mesaj durumunu düzenle
 editvalue Deðeri deðiþtir
 email E-posta
 emailsinlist Baðlantý listesinde kullanýcý isimleri yerine e-posta adreslerini göster
-
 emoticon_steal Gülen adamlara ekle
 emotisounds Belli gülen adamlarda ses çýkar
 emptygroup Grubu boþalt
 enabled Etkin
 enableproxy proxy ayarlarýný etkinleþtir
 enableremote Uzaktan denetimi
-etkinleþtir
 enablesound Sesi aç
 encoding Alfabe seçimi
 encoding2 Alfabe deðiþtirin
+enterbugdesc Hatayý tekrar canlandýrabilmemiz için hata oluþmadan önce yaptýklarýnýzý lütfen anlatýnýz:
 entercontactemail Baðlantýnýn e-posta adresini girin
 enterfilename Lütfen bir dosya adý girin
 enternick Rumuzunuzu girin
@@ -268,6 +284,7 @@ filetransfercomplete Dosya aktarýmý tamamlandý
 filters Süzgeçler
 filtersselect Görmek istediðiniz süzgeçleri seçin\n(Hiçbiri seçilmediyse hepsi gösterilecektir)
 filtersx Süzgeç seçimi
+firewalled Güvenlik duvarý ya da yönlendirici (router) ardýndasýnýz
 followtext Yeni metin girilince aþaði kaydýr
 friendlyname Sohbet içi rumuz
 ftaccepted Dosya aktarýmý kabul edildi
@@ -309,9 +326,11 @@ hidewindow Pencereyi gizle
 history Geçmiþi göster
 home Ev
 httpconnection HTTP yöntemiyle baðlan (80. porttan HTTP protokolü kullanýr)
+hue Renk tonu
 hybrid Melez kip
 ident Kimlik denetleniyor
 identity Kimlik
+ignore Gözardý et
 ignoreerrors Oturum sonuna kadar diðer aMSN hatalarýný sessizce gözardý et.
 imagefiles Resim Dosyalarý
 inbox Gelen kutusu
@@ -345,7 +364,7 @@ lastlogout En Son Çýkýþ
 lastmsgedme Son Ýleti
 lastmsgtime Son iletinin alýndýðý zaman: $1
 lastseen En son baðlý göründüðü saat
-lazypicretrieval Yavaþlatýlmýþ kullanýci resmi yüklmesi 
+lazypicretrieval Yavaþlatýlmýþ kullanýcý resmi yüklemesi 
 lclosedwin $1 $2'de penceresini kapattý
 lconftopriv $1 ile sohbet özel görüþmeye çevrildi
 lconvstarted Sohbetin baþlama saati $1
@@ -355,6 +374,7 @@ leaves $1 sohbetten ayrýlýyor
 lenteredconf $1 $2'de bir konferansa katýldý
 lineflushlog Her satýrdan sonra kayýt dosyasýný güncelle
 linprivate ÖZEL
+listening Dinliyor
 listeningon $1. port dinleniyor
 listsmileys Gülen adamlarý listele
 listsmileys2 Baðlantý listesinde gülen adamlar görünsün
@@ -379,7 +399,6 @@ logsbydate Kayýtlarý tarihe göre sýrala (Geçmiþ böyle çok daha hýzlý yükleniyor)
 logsin baðlandý
 logsmileys Geçmiþ penceresinde gülen adamlar görünsün
 logsout $1 az önce sohbetten ayrýldý.
-
 logwebcam Tüm kamera oturumlarýný daha sonra görebilmek için Geçmiþ'e kaydet
 longnick Rumuzunuz 130 harften uzun. Bu, resmi MSN protokolünce desteklenmiyor. Bu ismi kullanmak istediðinizden emin misiniz?
 longp4c Sohbet içi rumuzunuz 130 harften uzun. Resmi MSN Messenger sürümlerinde bu rumuz $1 olarak gözükecek. Bu ismi seçmek istediðinizden emin misiniz?
@@ -434,6 +453,7 @@ nick Rumuz
 no Hayýr
 noactivity Etkinlik yok
 nodataavailable $1 hakkýnda bilgi yok
+nodevices Kurulu aygýt yok
 nogap Gruplar arasýnda boþluk olmasýn
 nogroup Grup yok
 nologfile $1 ile sohbet kaydý yok
@@ -459,8 +479,7 @@ notifytimeout Uyarý penceresi kaybolmadan önce geçecek milisaniye sayýsý
 notifytyping Klavyeyi kullandýðým karþý tarafa gözüksün
 notifywin Uyarý Penceresi
 notinlist Siz onun baðlantý listesinde deðilsiniz
-notls MSN 9 protokolü tls paketini gerektirir. Bu bilgisayarda tls kurulu görünmüyor. Eðer kuruluysa, tls kütüphanesi dizini Seçenekler bölümünde belirtilmelidir
-(örn: /opt/tls/lib). \n\n tls'yi http://tls.sf.net'ten indirebilirsiniz.
+notls MSN 9 protokolü tls paketini gerektirir. Bu bilgisayarda tls kurulu görünmüyor. Eðer kuruluysa, tls kütüphanesi dizini Seçenekler bölümünde belirtilmelidir.net'ten indirebilirsiniz.
 nottabbed Sekmesiz normal pencereler
 nousersinsession Ortamda kullanýcý yok
 nudge $1 sizinle görüþmek istiyor
@@ -481,9 +500,8 @@ other Diðer
 others Diðerleri
 p4contextprefix P4-Ýçerik göndericilerin önüne bu metni ekle
 pager Çaðrý cihazý
-pass þifre
+pass Þifre
 paste Yapýþtýr
-
 pause Dondur
 personal Kiþisel
 phone Telefon
@@ -491,11 +509,11 @@ phones Telefon numaralarý
 picbrowser Kullanýcý resmi tarayýcýsý
 picfile Alarm resmi dosyasý (GIF < 500 x 500)
 picstatus Resimli alarmý aç/kapa
-
 play Oynat
 playing $1 çalýnýyor
 pluginselector Eklenti seç
 port Port
+portswellconfigured Portlar iyi ayarlanmýþ
 prefalerts Alarmlarým ve Seslerim
 prefapps Uygulamalar
 prefawaymsg Dýþarýdayken býrakacaðým not
@@ -557,6 +575,8 @@ remembersetting Bu ayarlarý hatýrla
 removeempty Boþ gruplarý baðlantý listesinden çýkar
 removefromlist Bu listeden çýkar
 rename Yeniden adlandýr
+report Bildir
+reporting Bildiriyor
 required_version Eklenti yüklenemiyor. Bu eklenti, en az aMSN sürüm $1 gerektirir.
 reversed ters
 reverselist Karþý liste
@@ -572,6 +592,7 @@ selectall Hepsini seç
 selectplugins Lütfen etkinleþtireceðiniz eklentileri seçiniz
 selectskin Lütfen listeden bir kabuk seçiniz
 send Gönder
+sendemail Bana deðiþikliklerin bildirilmesi için e-posta adresimi gönder (Gizlilik Sözleþmesi'ne bakýnýz)
 sendfile Dosya gönder
 sendmail E-posta iletisi gönder
 sendmobmsg Taþýnabilir aygýta gönder
@@ -583,6 +604,7 @@ serverbusy Sunucu meþgul
 servergoingdown Sunucu kapanýyor: Baðlantý kesildi
 serverunavailable Sunucuya eriþilemiyor
 session Oturum
+shareswebcam Kamera görüntüsünu paylaþýyor
 showbanner  aMSN resmini göster
 showblockedlist Sizi engelleyenlerin listesi gösterilsin
 showcachedpics Saklanmýþ kullanýcý resimlerini göster/gizle
@@ -599,7 +621,6 @@ smileconfig Özel gülen adam ayarlarý
 smilefile Gülen adam dosya ismi
 smileintro Özel bir gülen adam yaratmak için ilgili alanlarý doldurunuz \n(yardým için SSS'a bakýnýz)
 smileintro2 Bu gülen adamý özelleþtirmek için ilgili alanlarý düzenleyiniz \n(yardým için SSS'a bakýnýz)
-
 smiletoobig Seçtiðiniz resim normalden daha büyük. Yeniden boyutlandýrmak ister misiniz?
 snackfailed Snack yüklenemedi; varsayýlan kütüphane kullanýlacak.
 sngdblclick Yeni ileti penceresi tek týklamayla açýlsýn
@@ -629,9 +650,10 @@ statenewtext Lütfen yeni Kiþisel Durumunuzu yaratmak için \n gerekli bilgileri g
 statenick Bu duruma özel rumuz (deðiþtirmemek için boþ býrakýnýz).
 stats Ýstatistikler
 status Durum
-
 stop Durdur
 stopalarm Alarmý durdur!
+stopwebcamreceive Görüntü almayý durdur
+stopwebcamsend Görüntü yollamayý durdur
 storenickname Deðiþik rumuzu olan özelleþtirilmiþ durumdan sonra asýl rumuza
 strictfonts Tüm metinler için (durum çubuðu ve diðerleri) yalnýzca seçtiðim yaztipi boyutunu kullan
 style Tarz
@@ -655,6 +677,7 @@ timestamp Zaman kaydý
 timestamps Sohbet pencerelerinde zaman kaydý düþülsün
 title Al'ýn Messenger'ý
 tkerror TK hata verdi; AMSN'de bir hata var. Lütfen $1 dosyasýný amsn-bugs@lists.sf.net adresine yollayarak hatayý bildirin. 
+tkerror1 TK hata verdi. aMSN'de hata var. Lütfen Bildir düðmesine týklayarak hatayý bildirin. Ayrýntýlar'a týklayarak daha geniþ bilgi alabilir ya da Tamam'ý týklayýp aMSN ile sohbete devam edebilirsiniz.
 tlsdowncompleted $1 dosyasý $2 dizinine kaydedildi. Sýkýþtýrýlmýþ dosyayý açýp, (kaynak kodsa) derleyip $dizinine kurunuz.
 tlsexplain Tcl TLS modülünün bulunduðu dizin. Eðer AMSN bulamazsa lütfen siz girin. \n(SSL onaylama için gerekli).
 tlsinstall TLS kütüphanesi kurulum sihirbazý
@@ -666,12 +689,14 @@ tomobile Cep telefonuna
 tools Araçlar
 tooltips Ýpuçlarýný etkinleþtir
 transnotexists Bu dosyanýn seçili dile çevirisi henüz yok
-traynotcompiled Görev çubuðu simgesi derlenmemiþ, plugins/traydock'a bakýn
+trayicon Görev çubuðunda bir durum imgesi gösterir
+traynotcompiled Görev çubuðu desteði derlenmemiþ, plugins/traydock'a bakýn
 triggers Yazýlý karþýlýðý
 truncatenames1 Pencere baþlýðý ve baðlantý listelerinde pencere geniþliðinden uzun isimleri kýsalt
 truncatenames2 Sohbetlerde pencere geniþliðinden uzun isimleri kýsalt
 truncatenicks Pencere geniþliðinden uzun rumuzlarý kýsalt
 twonewmail Gelen kutunuzda $1 yeni ileti var
+type Türü
 unblock Engeli kaldir
 unknown Bilinmiyor
 unload Kaldýr
@@ -679,6 +704,7 @@ unselectall Tüm seçimi iptal et
 uoffline Çevrim dýþý
 uonline Çevrim içi
 update Güncelle
+updateonlycurrentlanguage Yalnýzca þu an kullanýlan dili güncelle
 updating Güncelliyor
 useasdp Kullanýcý resmi olarak kullan
 useother Baþka bir yazýlým kullan
@@ -695,9 +721,18 @@ version Sürüm
 view Görünüm
 viewcontactsby Baðlantý isimleri
 viewprofile Profili gör
-
+webcamcanceled $1 ile olan kamera oturumu kapatýldý
+webcamclosebefcancel Pencereyi kapatmadan önce tüm kamera oturumlarýný kapatmalýsýnýz.
+webcamextloaded Webcamsn eklentisi yüklendi.
+webcamextnotloaded Webcamsn eklentisi yüklenemedi. Eklentiyi derlemeniz gerekiyor.
+webcamfaq Kamera hakkýnda SSS/Yardým
 webcamhistory Kamera oturumlarýný gör
 webcaminvite $1 sizi kamera kullanmaya davet etti; ancak aMSN'de bu iþlev yok.
+webcaminvitereceived $1 sizi kamera oturumu açmaya davet etti. Kabul ediyor musunuz?
+webcamrejected $1 kamera oturumu davetinizi geri çevirdi.
+webcamrequestreceive Kamera görüntüsü almak için davet gönder
+webcamrequestsend Kamera görüntüsü yollamak için davet gönder
+webcamsending Þu an kamera görüntüsü yolladýðýnýz baðlantýlarýnýz.\nÝptal etmek için týklayýn.
 webcamshot Resim çek
 whatsize Seçtiðiniz resim normal kullanýcý resmi boyutunda (96 x 96) deðil.\n Resmin hangi boyda gözükmesini istersiniz?
 willjoin $1 in sohbete katýlmasý bekleniyor

@@ -1,6 +1,6 @@
 amsn_lang_version 2
 about Over aMSN
-aboutamsn About Alvaro's Messenger
+aboutamsn Over Alvaro's Messenger
 accept Accepteren
 acceptfile Accepteer het bestand $1, grootte $2? Het bestand zal worden opgeslagen in $3
 actions Acties
@@ -87,8 +87,10 @@ broughtby Aangeboden door de volgende ontwikkelaars
 browserexample ( \$url wordt vervangen door de URL ). Vb: mozilla \$url
 browser Webbrowser
 browse Verkennen
+bugerror Er is een fout opgetreden bij het verbinden met de gegevensbank voor bugrapportages. Controleer alsjeblieft je internet verbinding.
 busy Bezig
 cachedpics $1 opgeslagen plaatjes
+cagreement Vertrouwelijkheids verklaring
 cancel Annuleren
 cannotdeleteprofile Het profiel kan niet verwijderd worden. Het wordt mogelijk gebruikt door een andere aMSN sessie
 cantexec Kan het programma $1 niet starten, controleer je instellingen
@@ -257,6 +259,7 @@ enableremote Beheer op afstand toestaan
 enablesound Geluid afspelen
 encoding2 Tekencodering
 encoding Codering instellen
+enterbugdesc Geef een omschrijving van wat je deed toen de fout optrad, zodat wij de fout gemakkelijker kunnen reproduceren.
 entercontactemail Voer het e-mailadres van de contact in
 enterfilename Voer een bestandsnaam in
 enternick Voer je nieuwe schermnaam in
@@ -327,6 +330,7 @@ hue Kleurtoon
 hybrid Hybride modus
 ident Bezig met identificeren
 identity Identiteit
+ignore Negeren
 ignoreerrors Negeer de overige AMSN-foutberichten tot het einde van de sessie
 imagefiles Beeldbestanden
 inbox Postvak IN
@@ -591,6 +595,7 @@ sendfile Een bestand of foto verzenden
 sendmail Een e-mail verzenden
 sendmsg Een bericht verzenden
 send Zend
+sendemail Stuur mijn e-mailadres mee, en houdt mij op de hoogte van wijzigingen (zie Vertrouwelijkheids verklaring)
 sendmobmsg Een SMS bericht verzenden
 sendwebcaminvite Nodig dit contact uit om je webcam te bekijken
 sentbytes $1 van de $2 bytes verzonden
