@@ -1449,11 +1449,13 @@ namespace eval ::MSN {
 
 		set oldstat [$sb cget -stat]
 #		$sb configure -data ""
-		$sb configure -sock ""
 		$sb configure -stat "d"
 
 		if { [string match -nocase "*ns*" $sb] } {
 			status_log "clearing sb $sb. oldstat=$oldstat"
+			catch {close [$sb cget -sock]}
+
+			$sb configure -sock ""
 			set mystatus [::MSN::myStatusIs]
 
 			#If we were not disconnected or authenticating, logout
@@ -1464,7 +1466,7 @@ namespace eval ::MSN {
 			#If we're not disconnected, connected, or authenticating, then
 			#we have a connection error.
 			if { ("$oldstat"!="d") && ("$oldstat" !="o") && ("$oldstat" !="u") && ("$oldstat" !="closed")} {
-
+				::config::setKey start_ns_server [::config::getKey default_ns_server]
 				set error_msg [ns cget -error_msg]
 				#Reconnect if necessary
 				if { [::config::getKey reconnect] == 1 } {
@@ -1486,7 +1488,7 @@ namespace eval ::MSN {
 
 			#If we were connected, we have lost the connection
 			if { ("$oldstat"=="o") } {
-
+				::config::setKey start_ns_server [::config::getKey default_ns_server]
 				set error_msg [ns cget -error_msg]
 				#Reconnect if necessary
 				if { [::config::getKey reconnect] == 1 } {
@@ -2612,13 +2614,13 @@ namespace eval ::Event {
 	# Public methods
 	# these are the methods you want to call from outside this object
 	destructor {
-		status_log "End of proxy for $options(-name). Destruction of proxy $options(-proxy)" red
-		catch {
-			close $options(-sock)
-		}
+		status_log "End of proxy for $options(-name). Destruction of proxy $options(-proxy). Closing socket $options(-sock)" red
 		catch {
 			$options(-proxy) finish $options(-name)
 			$options(-proxy) destroy 
+		}
+		catch {
+			close $options(-sock)
 		}
 	}
 
@@ -4196,6 +4198,7 @@ proc cmsn_ns_handler {item {message ""}} {
 					status_log "Logged other location\n" red
 					return 0
 				} else {
+					::config::setKey start_ns_server [::config::getKey default_ns_server]
 					if { [::config::getKey reconnect] == 1 } {
 						set ::oldstatus [::MSN::myStatusIs]
 						::MSN::logout
@@ -4255,6 +4258,7 @@ proc cmsn_ns_handler {item {message ""}} {
 				msg_box "[trans invalidgroup]"
 			}
 			600 {
+				::config::setKey start_ns_server [::config::getKey default_ns_server]
 				if { [::config::getKey reconnect] == 1 } {
 					set ::oldstatus [::MSN::myStatusIs]
 					::MSN::logout
@@ -4267,6 +4271,7 @@ proc cmsn_ns_handler {item {message ""}} {
 				return 0
 			}
 			601 {
+				::config::setKey start_ns_server [::config::getKey default_ns_server]
 				if { [::config::getKey reconnect] == 1 } {
 					set ::oldstatus [::MSN::myStatusIs]
 					::MSN::logout
@@ -4279,6 +4284,7 @@ proc cmsn_ns_handler {item {message ""}} {
 				return 0
 			}
 			500 {
+				::config::setKey start_ns_server [::config::getKey default_ns_server]
 				if { [::config::getKey reconnect] == 1 } {
 					set ::oldstatus [::MSN::myStatusIs]
 					::MSN::logout
@@ -4659,7 +4665,7 @@ proc msnp9_authenticate { ticket } {
 
 		status_log "Connection timeouted : state is [ns cget -stat]\n" white
 		::MSN::logout
-
+		::config::setKey start_ns_server [::config::getKey default_ns_server]
 		#Reconnect if necessary
 		if { [::config::getKey reconnect] == 1 } {
 			::MSN::reconnect "[trans connecterror]: Connection timed out"

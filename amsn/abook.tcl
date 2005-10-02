@@ -268,6 +268,7 @@ namespace eval ::abook {
 		if {[catch {
 			puts $sock "AMSNPING"
 			flush $sock
+			close $sock
 		}]} {
 			status_log "::abook::dummysocketserver: Error writing to socket\n"
 		}
