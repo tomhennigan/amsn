@@ -2009,7 +2009,7 @@ namespace eval ::CAMGUI {
 	}
 	#Executed when you invite someone to receive his webcam
 	proc InvitationToReceiveSent {chatid} {
-		SendMessageFIFO [list ::CAMGUI::InvitationToReceiveSent $chatid] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
+		SendMessageFIFO [list ::CAMGUI::InvitationToReceiveSentWrapped $chatid] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
 	}
 	proc InvitationToReceiveSentWrapped {chatid} {
 		::amsn::WinWrite $chatid "\n" green
