@@ -58,7 +58,7 @@
 	<lang>
 		<langcode>nl</langcode>
 		<name>Dutch (Nederlands)</name>
-		<version>1.128</version>
+		<version>1.129</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -274,7 +274,7 @@
 	<lang>
 		<langcode>tr</langcode>
 		<name>Turkish (Türkçe)</name>
-		<version>1.52</version>
+		<version>1.53</version>
 		<encoding>iso8859-9</encoding>
 	</lang>
 	<lang>
