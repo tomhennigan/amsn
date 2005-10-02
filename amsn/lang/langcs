@@ -1,4 +1,5 @@
 amsn_lang_version 2
+aboutamsn O programu Alvaro's Messenger
 about O programu
 acceptfile Pøijmout soubor $1, s délkou $2? Ulo¾ený v $3
 accept Pøijmout
@@ -8,6 +9,7 @@ addacontact Pøidat kontakt
 addedyou $1 ($2) si vás pøidal(a) do svého seznamu kontaktù
 addprofiledesc Zadej login pro který chce¹ zalo¾it nový profil.\nLogin s profilem ti umo¾òuje mít rùzné konfigurace pro ka¾dý login.\nBez profilù nelze pou¾ít historii, alarmy a funkci zapamatování hesla.
 addprofile Pøidat nový profil
+add Pøidat
 addstate Pøidat nový status
 addtocontacts Pøidat do seznamu kontaktù
 addtoo Pøidat tuto adresu do seznamu kontaktù
@@ -17,6 +19,7 @@ admingroups Zmìnit skupiny
 advanced Pokroèilé
 advancedprefs Konfigurace roz¹íøených mo¾ností
 adverts Reklamy
+agotinvitation Pøijata audio relace od $1
 alarmonconnect Aktivuj alarm kdy¾ u¾ivatel pøejde do stavu online
 alarmondisconnect Aktivuj alarm kdy¾ u¾ivatel pøejde do stavu offline/neviditelný
 alarmonmsg Aktivuj alarm kdy¾ ti u¾ivatel po¹le zprávu
@@ -55,12 +58,14 @@ automessage Odkazovaè
 autonoact Zmìnit status na "Neaktivní" kdy¾ nepromluvím víc ne¾
 avaccepted Pøipojení do videokonference potvrzeno
 avcanceled Pøipojení do videokonference odmítnuto
+avgotinvitation Pøijata video relace od $1
 avinitfailed Inicializace audio/video pluginu zhavarovala. Volání bylo zru¹eno.
 avoidseen Nedovolit tomuto èlovìku vidìt kdy¾ budu pøipojen(a) a kontaktovat mì
 awaymsg1 V¾dy se zeptat na dùvod kdy¾ zmìním status na Nepøítomný/HSV/zaneprázdnìný
 awaymsg2 Neptat se nikdy a v¾dy pou¾ít tento dùvod
 away Nepøítomen (Nepøítomna)
 baduserpass Nespravné pøihla¹ovací jméno nebo heslo
+badwebcam Nemohu zobrazit snímek z kamery. Je web kamera pøipojena a nainstalována?
 bgcolor Zmìnit barvu aMSN
 blankdirect Nechej bez oznaèení pro pøímé pøipojení na internet
 blockedyougroup U¾ivatele kteøí tì blokují zobrazovat ve zvlá¹tní skupinì
@@ -74,15 +79,19 @@ blocklist Seznam blokovaných (BL)
 blockmessage Tito lidé jsou pøipojení a zablokovali si vás
 blockusers Poèet u¾ivatelù kontrolovaných najednou
 block Zablokovat
+brightness Jas
 broughtby Programovali
 browse Prohledat
 browserexample (\$url budu nahrazeno URL). Pøíklad: mozilla \$url
 browser Prohlí¾eè
+bugerror Spojení s databází chyb selhalo. Zkontrolujte pøipojení k internetu.
 busy Zaneprázdnìný/á
+cagreement Smlouva o utajení
 cachedpics Poèet fotek v CACHE: $1
 cancel Zru¹it
 cannotdeleteprofile Nemohu smazat profil, zdá se, ¾e ho právì pou¾ívá aMSN
 cantexec Nemohu spustit aplikaci $1. Zkontroluj si nastavení aMSN.
+cantloadonlineversion Nemohu obnovit seznam aktuálních pøekladù z internetu.
 cantremoveothers Nemù¾e¹ odstranit skupinu "Ostatní"
 cfgalarmall Nastavit/Pøidat/Zru¹it alarm
 cfgalarm Nastav/Pøidej/Odstraò alarm
@@ -90,6 +99,7 @@ clearlog Vymazat log
 clearlog2 Vymazat historii v¹ech mých kontaktù
 clearlog3 Vymazat v¹echny logy
 clearwebcamlogs Vymazat logy webové kamery
+clicktoadd Chce¹-li pøidat novou poznámku, stiskni tlaèítko 'Pøidat'
 clicktologin Pøipojit se
 clientcaps Ode¹li paket x-clientcaps ostatním klientùm
 clientname Jméno klienta
@@ -100,6 +110,7 @@ closelabel Kdy¾ kliknu na tlaèítko zavøít v oknì s více zálo¾kami
 closeonly zavøu pouze aktivní zálo¾ku
 close Zavøít
 closingdocks Tlaèítko "Zavøít" minimalizuje okno
+color Barva
 command Pøíkaz
 commandstatus Spus» pøíkaz
 configure Nastav
@@ -120,6 +131,7 @@ connection Pøipojení
 contactadded Kontakt je ulo¾en
 contactdoesnotexist Kontakt neexistuje!
 contactlist Seznam u¾ivatelù:
+contrast Kontrast
 conversationwith $1 u¾ivatelù konverzuje
 convertexplain Cesta k CONVERT exe souboru, od ImageMagick (potøebné na fotky).\n Vynechat kdy¾ CONVERT je v ceste.
 copy Kopírovat
@@ -156,6 +168,9 @@ deliverfail Vyskytl se problém kdy¾ jsem se pokou¹el odeslat následující odkaz
 delprofile Vymazat profil
 delprofile2 Vyberte profil který chcete vymazat
 description Popis
+detach Odpojení
+devicebusy Zaøízení $1 je pou¾íváno
+devices Zaøízení
 directconnection Pøímé pøipojení k internetu (pou¾ije port 1863)
 disabled Vypnuté
 disableprofiles Vypnout profily (Kdy¾ jsi v internetové kavárnì apod.)
@@ -175,35 +190,39 @@ dockgtk Gnome port
 dockingoff Vypnutý port
 docking Port
 dockkde KDE Port
+done Hotovo
 dontdownload Nestahuj TLS modul, nainstaluji si jej sám
 dontshow neotvírat okno
 downloadingtls Modul TLS je nahráván z\n $1
+download Stahování
 editcustomstate Zmìnit vlastní status 
 edit Editovat
 editprofile Zmìnit profil
 editvalue Zmìnit valutu
 email Email
 emailsinlist Ukázat pøezdívky i maily v kontakt listu
+emoticon_steal Pøidej k emotikonùm
 emotisounds Pøehrát zvuk pro smajlíky
 emptygroup Prázdná skupina
 enabled Zapnuté
 enableproxy Aktivovat proxy
-enableremote Aktivovat kontrolu na dálku
+enableremote Povolit vzdálené øízení pøipojení
 enablesound Pøehraj zvuk
 encoding Vybrat kodování
 encoding2 Zmìnit kódování tvého písma
+enterbugdesc Zadej popis jak se dobrat chyby (anglicky).
 entercontactemail Napi¹ kontaktní e-mail
 enterfilename Napi¹ jméno souboru
 enternick Napi¹ svoji pøezdívku
 errortls Chyba pøi instalaci modulu TLS:
 eventhistory Uka¾ historii událostí
 examples Pøíklady
-exitamsn Jsi si jistý/á ¾e chce¹ uzavøít program?
+exitamsn Jsi si jist(a) ¾e chce¹ uzavøít program?
 extras Extra Slu¾by
 faileddelete Nedalo se vymazat 
 faileddeleteperso Tento obrázek se nemù¾e vymazat proto¾e to není osobní obrazkový soubor. Mù¾es vymazat tímto zpùsobem jedinì ty obrázky které patøí tvému profilu. 
 failed Chyba
-faq FAQ - ÈKO (Èasto Kladené Otázky)
+faq FAQ - Èasto kladené otázky
 filedoesnotexist Soubor neexistuje
 filemanexample (\$location bude nahra¾eno jménem adresáøe) Pø.: nautilus \$location
 fileman Nastavení
@@ -213,7 +232,10 @@ file Soubor
 filetransfercancelled U¾ivatel zru¹il odesílání
 filetransfercomplete Odesílání skonèilo správnì
 filetransfer Pøenos souboru
+filters Filtry
 filtersselect Vyber filtry, které chce¹ vidìt\n(podotýkám ¾e ¾ádný vybraný filtr znamená uka¾ v¹echno)
+filtersx Výbìr filtrù
+firewalled Jsi chránìn pøed útoky z internetu, nebo jsi za routerem.
 friendlyname Zkrácené jméno
 ftacceptedby $1 povolil pøenos souboru '$2'.
 ftaccepted Odeslání souboru pøijaté
@@ -248,6 +270,7 @@ helpcontents Témata nápovìdy
 help Nápovìda
 hidedisplaypic Schovat obrázek 
 hiden Schovej emotikony z menu smajlíkù
+hidewindow Skryj okno
 history Ukázat logy
 home Domov
 httpconnection Pøipojení protokolem http (pro pøipojení pou¾ije port 80)
@@ -277,6 +300,7 @@ choosearq Vyber architekturu svého systému
 choosebasefont Vyber písmo
 choosebgcolor Vyber barvu pro aMSN
 choosecontact Vyber u¾ivatele ze seznamu
+choosedevice Vyber si zaøízení
 choosefontcolor Vyber barvu písma
 chooseskin Vyber si vzhled, který chce¹ pou¾ít
 ch_to_state Nastavit nový status
@@ -306,7 +330,7 @@ joins $1 se pøipojil(a) ke konverzaci
 justonce Právì jednou
 keepalive Keepalive (NAT)
 keeplog Ulo¾it logy
-keeplog2 Logovat v¹echny konverzace do Historie aMSN
+keeplog2 Zaznamenat v¹echny konverzace do historie aMSN
 language Jazyk
 language_manager Mana¾er jazykù
 lastlogin Poslední pøipojení
@@ -371,10 +395,11 @@ msgmode Vyber jak zobrazovat vícero konverzací:
 msg Odkaz
 msn aMSN
 msnstyle Chat ve stylu MSN
-mustrestart Pro aktivaci zmìn musí¹ program vypnout a znovu zapnout
+mustrestart Aby byly zmìny aktivovány musí¹ program vypnout a znovu zapnout
 myfriendlyname Vlastní pøátelskké jméno
 myhomephone Telefon domù
 mymobilephone Mobilní telefon
+mynick Moje pøezdívka
 mypic Mùj obrázek: 
 mystatus Mùj status
 myworkphone Telefon do práce
@@ -382,8 +407,13 @@ name Jméno
 natip Zjistit IP adresu pøes web stránku
 natkeepalive Jestli¾e má¹ slabé pøipojení na internet, aktivuj KeepAlive
 needonline Je¹tì stále nejsi pøipojen/a!
+needwinico2 Aby fungovalo dockování oken, je nutné nahrát winico05.dll do slo¾ky utils/windows
+never Nikdy
 new_ft_protocol Pou¾ij nový protokol pro pøenos souborù (pozor na zapomenuté chyby)
+newline Nový øádek
+newmailfolder Má¹ $1 nových zpráv v jiných slo¾kách Hotmailu
 newmailfrom Nový mail od $1 ($2)
+newmailfromother Nový e-mail v jiné slo¾ce od $1 ($2)
 newmail $1 nových mailù
 newmsg Nový odkaz
 newstate Pøidat vlastní status 
@@ -392,6 +422,8 @@ newveravailable Nová verze $1 je dostupná ke sta¾ení
 next Dal¹í
 nick Pøezdívka
 noactivity Bez aktivity
+nodataavailable $1 nemá ¾ádná data
+nodevices Zaøízení nejsou nainstalována
 nogap Nevkládat mezeru mezi skupiny
 nogroup Bez skupiny
 nologfile Neexistuje log soubor pro $1
@@ -402,6 +434,7 @@ nopic ®ádný obrázek
 noprofileexists Nemá¹ zalo¾en ¾ádný profil. \n To se nechá napravit tlaèítkem "Pøidat nový profil".
 normal podle abecedy
 noskins Nemohu nalézt pøedvolený vzhled v adresáøi skins/. Nemohu spustit AMSN.
+note Poznámka
 notificationserver Server MSN Messengeru
 notify notifikace
 notifyoffset Nastavit pozici informaèního okénka nastavením valut
@@ -424,7 +457,9 @@ ok OK
 onenewmail 1 nový mail
 online Pøipojen
 onphone Na telefonu
+opendir Otevøi slo¾ku
 openfilecommand Pøíkaz k otevøení souboru
+openfile Otevøi soubor
 openreceived Otevøít pøijaté soubory
 options Nastavení
 ordercontactsby Seøadit kontakty
@@ -443,9 +478,10 @@ picstatus Grafický alarm
 playing Hraji: $1 
 pluginselector Vyber plug-in
 port Port
+portswellconfigured Porty jsou nakonfigurovány správnì
 prefalerts Vlastní termíny a zvuky
 prefapps Aplikace
-prefawaymsg U¾ivatelské dùvody nepøítomnosti
+prefawaymsg Moje dùvody nepøítomnosti
 prefconnection Nastavení spojení
 prefemotic Emotikony a smajlíky
 preferences Nastavení programu
@@ -455,7 +491,7 @@ preffont3 Zmìnit písmo a velikost písma aMSN
 prefft Odesílání/pøijímání souborù, nastavení P2P a NAT 
 preflibs Cesta ke knihovnám
 preflogevent Zaznamenávané události
-preflog1 Nastavení historie a logování
+preflog1 Nastavení historie
 preflook Vzhled aMSN Messengeru
 prefmsging Interfáze mých odkazù
 prefname Moje jméno/pøezdívka pro MSN messenger
@@ -498,6 +534,7 @@ reconnecting Znovu se pøipojuji k serveru
 reconnect2 Znovu se pøipojit se pøi ztrátì spojení
 reject Odmítnout
 rememberpass Zapamatat si heslo
+remembersetting Zapamatuj si nastavení
 removeempty Vyma¾ prázdné skupiny ze seznamu
 removefromlist Vyma¾ ze seznamu
 rename Pøejmenovat
@@ -549,6 +586,8 @@ sslwarning POZOR! Zákaz SSL nepovolí ¹ifrování, tak¾e tvé heslo bude odesláno v 
 startoffline Pøipojit se tichým zpùsobem
 startoffline2 Pøipojit se tichým zpùsobem, po pøipojení tì ostatní neuvidí.
 startontray Nastartovat AMSN jen v Trayi 
+stateautomsg Automaticky odeslaná zpráva:
+stateedittext Uprav dle vlastního uvá¾ení \n poté úpravy ulo¾ stisknutím 'OK'.
 statechange Stav zmìnìn na:
 state Chci abych byl vidìn jako
 stateinfo Vlastní status
@@ -569,6 +608,7 @@ tabbedglobal Jedno okno se zálo¾kami pro v¹echny u¾ivatele
 tabbedgroups Pro ka¾dou skupinu u¾ivatelù jedno okno se zálo¾kou pro ka¾dého u¾ivatele
 tabbed Okna s informací
 tabtitlenick V zálo¾kách uka¾ pøezdívku místo e-mailu
+takesnapshot Sejmi zábìr
 temp_state Neukládej (Pøechodný status, zmizí po ukonèení AMSN)
 textsize Velikost textu
 thismonth Tento mìsíc
@@ -576,11 +616,13 @@ timeremaining Zbývající èas
 timestamps Povol èasové znaèky v konverzaèním oknì
 title Messenger
 tkerror TK na¹el jednu chybu, aMSN má chybu, prosím, ode¹li nám ji. Ode¹li soubor $1 na adresu amsn-bugs@lists.sf.net 
+tlsdowncompleted Soubor $1 byl sta¾en do slo¾ky $2. Musí¹ jej rozbalit, pøelo¾it (pokud jsi stáhl zdrojový kód) a nainstalovat do $3.
 tlsexplain Hledám adresáø s tcl TLS modulem. Pokud jej AMSN nenajde, prosím zadej jej.\n(Vy¾adován pro SSL autentizaci)
 tlsinstallexp aMSN nyní pou¾ívá MSPN9, který vy¾aduje bezpeèné\nspojení pomocí SSL. AMSN musí mít nainstalován modul TLS ... a ten zde není.\nTento dialog ti pomù¾e nainstalovat TLS.\nVyber operaèní systém a» mohu stáhnout\n po¾adované soubory.
 tlsinstall Prùvodce instalací TLS
 tlsinstcompleted Instalace TLS probìhla úspì¹nì - nyní mù¾e¹ pou¾ívat MSNP9. Pokud to nefunguje, pravdìpodobnì sis nevybral(a) správný modul. Je ov¹em také mo¾né, ¾e modul není zkompilován pro tvùj systém.
 today Dnes
+tomobile Na mobilní telefon
 tools Slu¾by
 tooltips Povol tipy (tooltips)
 to Pro
@@ -607,9 +649,18 @@ version Verze
 viewcontactsby Formát zobrazení kontaktù
 viewprofile Zobrazit profil
 view Zobrazit
+webcamcanceled Video spojení s $1 bylo zru¹eno
+webcamclosebefcancel Musí¹ zru¹it v¹echna video spojení pøed zavøením okna
+webcamextloaded Roz¹íøení Webcamsn je nahráno
+webcamextnotloaded Roz¹íøení Webcamsn není nahráno. Musíte si jej zkompilovat.
+webcamfaq FAQ/pomoc pro Webcam
+webcamhistory Uka¾ spojení Webcam
+webcaminvitereceived $1 Tì po¾ádal o spojení web kamerou. Pøijímá¹?
 webcaminvite $1 tì pozval do své videorelace, ov¹em aMSN toto nepodporuje
+webcamrejected $1 odmítl ¾ádost o spojení webovou kamerou.
 whatsize Po¾adovaný obrázek nemá obvyklé rozmìry (96x96).\n Jak velký chce¹ tento obrázek zobrazit?
 willjoin Èekám na konverzaci s $1
+wintitlenick Zobraz pøezdívky místo e-mailù v záhlaví zálo¾ek
 work Práce
 wrongfields Pole "$1", "$2" nebo "$3" nemají platné hodnoty
 wrongprofileversion ©patný soubor nastavení profilu. Oprav výmazem adresáøe $1 nebo pøeinstalováním aMSN
@@ -619,8 +670,10 @@ xmmssend Po¹li aktuální píseò
 xoffset Hodnota X
 year rok
 yes Ano
+yesblock Ano a zablokuj
 yesterday vèera
 yoffset Hodnota Y
 youblocked Byl(a) jsi zablokován(a)!
 yousay Øekl(a)s
 youwant Chce¹
+zoom Zvìt¹ení
