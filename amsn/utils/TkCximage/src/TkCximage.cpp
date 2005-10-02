@@ -136,8 +136,10 @@ int PlaceHook(Tcl_Interp *interp){
 	const char *name = Tcl_GetStringResult(interp);
 	Tk_ImageType *typePhotoPtr = NULL;
 	Tk_GetImageMasterData(interp, name, &typePhotoPtr);
-	PhotoDisplayOriginal = typePhotoPtr->displayProc;
-	typePhotoPtr->displayProc = (Tk_ImageDisplayProc *) PhotoDisplayProcHook;
+	if (PhotoDisplayOriginal == NULL) {
+		PhotoDisplayOriginal = typePhotoPtr->displayProc;
+		typePhotoPtr->displayProc = (Tk_ImageDisplayProc *) PhotoDisplayProcHook;
+	} // else we already put the hook
 	Tk_DeleteImage(interp, name);
 	return TCL_OK;
 }

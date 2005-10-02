@@ -468,7 +468,7 @@ void PhotoDisplayProcHook(
 	if (item != NULL){
 		if (item->CurrentFrame != item->CopiedFrame) { //Frame isn't the good one in the photo buffer
 			CxImage *image = item->image->GetFrameNo(item->CurrentFrame);
-			item->CopiedFrame = item->CurrentFrame;
+			item->CopiedFrame = item->CurrentFrame; //We set the copied frame before to avoid infinite loops
 			AnimatedGifFrameToTk(NULL, item, image, true);
 			//fprintf(stderr, "Copied frame n°%u\n",item->CopiedFrame);
 		}
