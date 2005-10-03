@@ -306,6 +306,7 @@ globalnick Baðlantýlarýnýzý isimlendirmek için bir þablon yaratýn. Þu deðiþkenle
 globalnicktitle Ýsimlendirme Þablonu
 globaloverride Ýsimlendirme þablonu özel kullanýcý isimleri yerine de kullanýlsýn
 gonelunch Yemekte
+gotink $1 size bir þekil gönderdi
 group Grup
 groupadd Grup Ekle
 groupdelete Grup Sil
