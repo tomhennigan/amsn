@@ -28,12 +28,11 @@
 
 
 #TODO: 
+# -gridimg option
 # provide 1 default pencil and 1 default gridimg
 # Improved Saving
 # Loading
 # fixed dimensions (-width / -height doesn't work yet properly)
-# -gridimg option
-# 
 
 
 package require snit
@@ -255,10 +254,10 @@ status_log "creating drawboard widget $self"
 		set height [winfo height $self]
 
 		if { $height < $endy } {
-			set endy $width
+			set endy $height
 		}
 		if { $width < $endx } {
-			set endx $height
+			set endx $width
 		}
 			
 
@@ -328,7 +327,8 @@ status_log "[file join $path $filename]"
 		}
 		if {$boardw < $endx} {
 			set endx $boardw
-		}		
+		}
+
 
 		#only save to the most far used coordinates
 		image create photo temp
@@ -336,13 +336,22 @@ status_log "[file join $path $filename]"
 		temp copy $drawboard -from 0 0 $endx $endy
 		image create photo $drawboard
 		$drawboard copy temp
-		set endx 0
-		set endy 0
 		
 		#put the drawboard on a white background
 		image create photo copytosend ;# -width [image width $drawboard] -height [image height $drawboard]
-		copytosend put {#ffffff} -to 0 0 [image width $drawboard] [image height $drawboard]
+
+		#fix the "cannot save empty file" bug
+		if { $endx == 0 || $endy == 0 } {
+			copytosend put {#ffffff} -to 1 1 [image width $drawboard] [image height $drawboard]
+		} else {
+			copytosend put {#ffffff} -to 0 0 [image width $drawboard] [image height $drawboard]
+		}
+
 		copytosend copy $drawboard
+
+		set endx 0
+		set endy 0
+
 
 #TODO: where to save temporary ? + delete ?		
 		::picture::Save copytosend [file join $path $filename] cxgif
