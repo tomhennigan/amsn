@@ -1,8 +1,8 @@
-#To not forget:
+#ToDo:
 # loading images saved on HD
 # save drawing on HD
 # smileys as stamps / importing pencils
-
+# improve: show sent image in chatwin
 
 
 #Create our namespace
@@ -105,46 +105,46 @@ namespace eval ::draw {
 
 		set drawwidget $inputframe.draw
 
-		drawboard $drawwidget -pencil pencil1 -color black -drawmode free -grid 0;#-gridimg [::skin::loadPixmap grid]
-		pack $drawwidget -side left -padx 0 -pady 0 -expand true -fill both
-		
+		if {[winfo exists $drawwidget]} {
+status_log "drawwidget already exists"
+			pack $drawwidget -side left -padx 0 -pady 0 -expand true -fill both			
+		} else {
+status_log "creating drawwidget"
+			drawboard $drawwidget -pencil pencil1 -color black -drawmode free -grid 0;#-gridimg [::skin::loadPixmap grid]
+			pack $drawwidget -side left -padx 0 -pady 0 -expand true -fill both
+		}		
+
 
 		#GRIDSWITCH
 		set gridbut $buttonbar.gridswitchbutton
-		set gridstate [$drawwidget cget -grid]
-#		if {$gridstate} {
+		if {![winfo exists $gridbut]} {
+			set gridstate [$drawwidget cget -grid]
 status_log "adding gridbutton"
-			label $gridbut -image [::skin::loadPixmap butgridon] -relief flat -padx 0 \
-			-background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0 \
-			-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg]
 
-			pack $gridbut -side left -padx 0 -pady 0
+			CreateToolButton $gridbut butgridon [list ::draw::ToggleGrid $gridbut $drawwidget]
 
-			bind $gridbut  <<Button1>> "::draw::ToggleGrid $gridbut $drawwidget"
-			bind $gridbut  <Enter> "$gridbut configure -image [::skin::loadPixmap butgridon_hover]"
-			bind $gridbut  <Leave> "$gridbut configure -image [::skin::loadPixmap butgridon]"
-#		}
+		}
+		pack $gridbut -side left -padx 0 -pady 0
 
 
 		#SENDBUTTON (if sendbutton in inputfield is not present
+			set sendbuttonframe $w.f.bottom.left.in.inner.sbframe
+			set sendbutton $sendbuttonframe.send
+
+
 		if {![::skin::getKey chat_show_sendbuttonframe]} {
 			#if no sendbutton, put a button in the buttonbar to send the drawing
 			set senddraw $buttonbar.senddrawingbutton
-			label $senddraw -image [::skin::loadPixmap butsend] -relief flat -padx 0 \
-			-background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0 \
-			-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg]
+
+			if {![winfo exists $senddraw]} {
+				CreateToolButton $senddraw butsend [list ::draw::PressedSendDraw $window]
+			}
 
 			pack $senddraw -side left -padx 0 -pady 0
 
-			bind $senddraw  <<Button1>> "after 1 ::draw::PressedSendDraw $window"
-			bind $senddraw  <Enter> "$senddraw configure -image [::skin::loadPixmap butsend_hover]"
-			bind $senddraw  <Leave> "$senddraw configure -image [::skin::loadPixmap butsend]"		
 		} else {
-			#rebind the sendbutton
-
-			set sendbuttonframe $w.f.bottom.left.in.inner.sbframe
-			set sendbutton $sendbuttonframe.send
-				
+			#bind the sendbutton
+		
 			if { ($::tcl_version >= 8.4) && [OnMac] } {
 				$sendbutton configure -command "::draw::PressedSendDraw $window"
 			} elseif { [OnMac] } {
@@ -153,6 +153,10 @@ status_log "adding gridbutton"
 				$sendbutton configure -command "::draw::PressedSendDraw $window"
 			}
 		}					
+
+		bind $sendbutton <Return> "::draw::PressedSendDraw $window"
+		bind $textinput <Return> "::draw::PressedSendDraw $window"
+		bind $textinput <Key-KP_Enter> "::draw::PressedSendDraw $window; break"		
 
 
 		#SWITCHBUTTON
@@ -165,8 +169,6 @@ status_log "adding gridbutton"
 		pack forget $inkswitch
 
 		pack $inkswitch -side left -padx 0 -pady 0
-		
-
 
 		
 	
@@ -207,8 +209,8 @@ status_log "reset to text mode"
 		set fontbut $buttonbar.fontsel
 
 		#remove the ink controls
-		if {[winfo exists $senddraw]} {destroy $senddraw}
-		if {[winfo exists $gridbut]} {destroy $gridbut}		
+		if {[winfo exists $senddraw]} {pack forget $senddraw}
+		if {[winfo exists $gridbut]} {pack forget $gridbut}		
 #...
 		#reconfigure inkswitch
 		$inkswitch configure -image [::skin::loadPixmap butdraw]
@@ -228,7 +230,7 @@ status_log "reset to text mode"
 		set drawboardwidget $inputframe.draw
 		set textinput $inputframe.text
 
-		destroy $drawboardwidget
+		pack forget $drawboardwidget
 		
 		pack $textinput -side left -expand true -fill both -padx 1 -pady 1
 		
@@ -247,7 +249,12 @@ status_log "reset sendbutton binding"
 			} else {
 				$sendbutton configure -command "::amsn::MessageSend $window $textinput"
 			}
+			bind $sendbutton <Return> "::amsn::MessageSend $window $textinput; break"
 		}
+		
+		bind $textinput <Return> "window_history add %W; ::amsn::MessageSend $window %W; break"
+		bind $textinput <Key-KP_Enter> "window_history add %W; ::amsn::MessageSend $window %W; break"		
+
 	}
 	
 
@@ -261,6 +268,38 @@ status_log "$widget SaveDrawing [pwd] inktosend.gif"
 		#send the saved file
 		::MSN::SendInk [lindex [::MSN::SBFor [::ChatWindow::Name $window]] 0] inktosend.gif
 		$widget ClearDrawboard	
+
+
+		#show the sent one in the chatwin
+		#first the "xx says:" 
+		
+		::amsn::WinWrite [::ChatWindow::Name $window] "\n" ""
+		
+
+		set scrolling [::ChatWindow::getScrolling [::ChatWindow::GetOutText ${window}]]
+
+
+		[::ChatWindow::GetOutText ${window}] configure -state normal
+		[::ChatWindow::GetOutText ${window}] image create end -image [image create photo -file inktosend.gif]
+
+		if { $scrolling } { ::ChatWindow::Scroll [::ChatWindow::GetOutText ${window}] }
+
+
+		[::ChatWindow::GetOutText ${window}] configure -state disabled
+
 	}
+
+
+	proc CreateToolButton { widget imgname command } {
+		
+			label $widget -image [::skin::loadPixmap ${imgname}] -relief flat -padx 0 \
+			-background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0 \
+			-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg]
+
+			bind $widget  <<Button1>> $command
+			bind $widget  <Enter> "$widget configure -image [::skin::loadPixmap ${imgname}_hover]"
+			bind $widget  <Leave> "$widget configure -image [::skin::loadPixmap ${imgname}]"
+	}
+
 }
 
