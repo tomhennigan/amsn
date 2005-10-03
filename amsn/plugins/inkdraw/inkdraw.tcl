@@ -25,7 +25,9 @@ namespace eval ::draw {
 		::skin::setPixmap butgridon butgridon.gif pixmaps [file join $dir pixmaps]		
 		::skin::setPixmap butgridon_hover butgridon_hover.gif pixmaps [file join $dir pixmaps]
 		::skin::setPixmap butgridoff butgridoff.gif pixmaps [file join $dir pixmaps]		
-		::skin::setPixmap butgridoff_hover butgridoff_hover.gif pixmaps [file join $dir pixmaps]		
+		::skin::setPixmap butgridoff_hover butgridoff_hover.gif pixmaps [file join $dir pixmaps]
+		::skin::setPixmap butwipe butwipe.gif pixmaps [file join $dir pixmaps]		
+		::skin::setPixmap butwipe_hover butwipe_hover.gif pixmaps [file join $dir pixmaps]			
 		#load pencils
 		::draw::LoadPencils [file join $dir pencils]
 		
@@ -117,30 +119,25 @@ status_log "creating drawwidget"
 
 		#GRIDSWITCH
 		set gridbut $buttonbar.gridswitchbutton
-		if {![winfo exists $gridbut]} {
-			set gridstate [$drawwidget cget -grid]
-status_log "adding gridbutton"
+		CreateToolButton $gridbut butgridon [list ::draw::ToggleGrid $gridbut $drawwidget]
 
-			CreateToolButton $gridbut butgridon [list ::draw::ToggleGrid $gridbut $drawwidget]
 
-		}
-		pack $gridbut -side left -padx 0 -pady 0
 
+		#WIPE
+		set wipebut $buttonbar.wipebutton
+		CreateToolButton $wipebut butwipe [list $drawwidget ClearDrawboard]
 
 		#SENDBUTTON (if sendbutton in inputfield is not present
-			set sendbuttonframe $w.f.bottom.left.in.inner.sbframe
-			set sendbutton $sendbuttonframe.send
+		set sendbuttonframe $w.f.bottom.left.in.inner.sbframe
+		set sendbutton $sendbuttonframe.send
 
 
 		if {![::skin::getKey chat_show_sendbuttonframe]} {
 			#if no sendbutton, put a button in the buttonbar to send the drawing
 			set senddraw $buttonbar.senddrawingbutton
 
-			if {![winfo exists $senddraw]} {
-				CreateToolButton $senddraw butsend [list ::draw::PressedSendDraw $window]
-			}
+			CreateToolButton $senddraw butsend [list ::draw::PressedSendDraw $window]
 
-			pack $senddraw -side left -padx 0 -pady 0
 
 		} else {
 			#bind the sendbutton
@@ -201,16 +198,20 @@ status_log "reconfigure gridbut with $butimg"
 
 	proc ResetTextInput { window buttonbar } {
 status_log "reset to text mode"
-		set inkswitch $buttonbar.inkswitchbut
-		set senddraw $buttonbar.senddrawingbutton
-		set gridbut $buttonbar.gridswitchbutton
 
 		set smileybut $buttonbar.smileys
 		set fontbut $buttonbar.fontsel
+		
+		set inkswitch $buttonbar.inkswitchbut
+		set senddraw $buttonbar.senddrawingbutton
+		set gridbut $buttonbar.gridswitchbutton
+		set wipebut $buttonbar.wipebutton
 
 		#remove the ink controls
-		if {[winfo exists $senddraw]} {pack forget $senddraw}
-		if {[winfo exists $gridbut]} {pack forget $gridbut}		
+		foreach control [list senddrawingbutton gridswitchbutton wipebutton] {
+			if {[winfo exists $buttonbar.$control]} {pack forget $buttonbar.$control}
+		}
+	
 #...
 		#reconfigure inkswitch
 		$inkswitch configure -image [::skin::loadPixmap butdraw]
@@ -291,7 +292,7 @@ status_log "$widget SaveDrawing [pwd] inktosend.gif"
 
 
 	proc CreateToolButton { widget imgname command } {
-		
+		if {![winfo exists $widget]} {
 			label $widget -image [::skin::loadPixmap ${imgname}] -relief flat -padx 0 \
 			-background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0 \
 			-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg]
@@ -299,6 +300,8 @@ status_log "$widget SaveDrawing [pwd] inktosend.gif"
 			bind $widget  <<Button1>> $command
 			bind $widget  <Enter> "$widget configure -image [::skin::loadPixmap ${imgname}_hover]"
 			bind $widget  <Leave> "$widget configure -image [::skin::loadPixmap ${imgname}]"
+		}
+		pack $widget -side left -padx 0 -pady 0
 	}
 
 }
