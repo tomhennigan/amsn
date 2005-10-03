@@ -142,7 +142,7 @@ status_log "creating drawwidget"
 		} else {
 			#bind the sendbutton
 		
-			if { ($::tcl_version >= 8.4) && [OnMac] } {
+			if { ($::tcl_version >= 8.4) && ![OnMac] } {
 				$sendbutton configure -command "::draw::PressedSendDraw $window"
 			} elseif { [OnMac] } {
 				bind $sendbutton <<Button1>> "::draw::PressedSendDraw $window"
@@ -243,7 +243,7 @@ status_log "reset to text mode"
 		set sendbutton $sendbuttonframe.send	
 		if {[winfo exists $sendbutton]} {
 status_log "reset sendbutton binding"
-			if { ($::tcl_version >= 8.4) && [OnMac] } {
+			if { ($::tcl_version >= 8.4) && ![OnMac] } {
 				$sendbutton configure -command "::amsn::MessageSend $window $textinput"
 			} elseif { [OnMac] } {
 				bind $sendbutton <<Button1>> "::amsn::MessageSend $window $textinput"
