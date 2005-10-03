@@ -33,6 +33,8 @@
 # Improved Saving
 # Loading
 # fixed dimensions (-width / -height doesn't work yet properly)
+# remove amsn plus button
+# review cutting .. it has bugs
 
 
 package require snit
@@ -311,10 +313,12 @@ status_log "creating drawboard widget $self"
 		#draw loaded image
 		set drawboard [$hull itemcget drawboard -image]	
 status_log "[file join $path $filename]"
-		$drawboard copy [image create photo -file [file join $path $filename]]
+		set loadedimg [image create photo -file [file join $path $filename]]
+		$drawboard copy $loadedimg
 		
+		$self SetEnds [image width $loadedimg] [image height $loadedimg]
 	
-	
+		$self Configure
 	}
 	
 
@@ -355,9 +359,7 @@ status_log "[file join $path $filename]"
 
 		set endx 0
 		set endy 0
-
-
-#TODO: where to save temporary ? + delete ?		
+	
 		::picture::Save copytosend [file join $path $filename] cxgif
 	
 		image delete copytosend

@@ -263,7 +263,7 @@ status_log "reset sendbutton binding"
 	#this hack is needed
 	proc PressedSendDraw { window } {
 		set widget $window.f.bottom.left.in.inner.draw
-status_log "$widget SaveDrawing [pwd] inktosend.gif"
+
 		$widget SaveDrawing "[pwd]" "inktosend.gif"
 
 		#send the saved file
