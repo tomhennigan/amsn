@@ -36,7 +36,6 @@
 
 
 package require snit
-package require TkCximage
 package provide drawboard 0.1
 
 snit::widgetadaptor drawboard {
@@ -95,7 +94,9 @@ status_log "creating drawboard widget $self"
 		
 		#bindings
 		bind $self <ButtonPress-1> "$self ButtonDown"
+
 		bind $self <B1-Motion> "$self MouseMove"
+
 		bind $self <ButtonRelease-1> "$self ButtonRelease"
 		
 		bind $self <Configure> "$self Configure"
@@ -122,6 +123,7 @@ status_log "creating drawboard widget $self"
 		
 		#set initial coordinates of the mouse on the drawboard
 		set oldx [expr {[winfo pointerx $self] - [winfo rootx $self]}]
+
 		set oldy [expr {[winfo pointery $self] - [winfo rooty $self]}]
 
 		$self DrawDot $oldx $oldy
@@ -141,6 +143,7 @@ status_log "creating drawboard widget $self"
 			set drawboard [$hull itemcget drawboard -image]
 
 			set newx [expr {[winfo pointerx $self] - [winfo rootx $self]}]
+
 			set newy [expr {[winfo pointery $self] - [winfo rooty $self]}]
 
 			$self DrawLine  $oldx $oldy $newx $newy
@@ -169,6 +172,7 @@ status_log "creating drawboard widget $self"
 		
 				#find the coordinates of the mouse on the selfas (drawboard)
 				set posx [expr {[winfo pointerx $self] - [winfo rootx $self]}]
+
 				set posy [expr {[winfo pointery $self] - [winfo rooty $self]}]
 
 				#if the coords made a jump, draw a line between 'm, otherwise just draw a dot
