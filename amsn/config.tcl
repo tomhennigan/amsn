@@ -292,6 +292,7 @@ namespace eval ::config {
 		::config::setKey displaypic "amsn.png"                   ;# Display picture
 		::config::setKey getdisppic 1
 		::config::setKey webcamlogs 0
+		::config::setKey dock 1
 
 	}
 
