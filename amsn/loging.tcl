@@ -87,7 +87,7 @@ proc CheckLogDate {email} {
     #status_log "Found date : $date\n" red
 
     if {  $date != $clock } {
-	    status_log "Log was begun in a different month, moving logs\n\n" red
+	    status_log "Log was begun in a different month, moving logs\n" red
 	    
 	    set to $date
 	    set idx 0
@@ -389,6 +389,7 @@ proc OpenLogWin { {email ""} } {
 			lappend contact_list $contact
 		}
 	}
+
 	#Sorts contacts
 	set sortedcontact_list [lsort -dictionary $contact_list]
 
@@ -419,11 +420,11 @@ proc OpenLogWin { {email ""} } {
 
 	if { [file exists [file join ${log_dir} ${email}.log]] } {
 		set size "[::amsn::sizeconvert [file size "[file join ${log_dir} ${email}.log]"]]o"
+		wm title $wname "[trans history] (${email} - $size)"
 	} else {
-		set size "0Ko"
+		wm title $wname "[trans history] (${email})"
 	}
 
-	wm title $wname "[trans history] (${email} - $size)"
       	wm geometry $wname 600x400
 
 	frame $wname.top
@@ -802,7 +803,7 @@ proc ChangeLogToDate { w email widget date } {
 
 	global log_dir logvar
 
-	status_log "Changing log for $w to $date\n\n"
+	status_log "Changing log for $email to $date\n" blue
 
 	if { $date == "[trans currentdate]" } {
 		set date "."
@@ -821,10 +822,11 @@ proc ChangeLogToDate { w email widget date } {
 
 	if { [file exists [file join ${log_dir} $date ${email}.log]] } {
 		set size "[::amsn::sizeconvert [file size "[file join ${log_dir} $date ${email}.log]"]]o"
+		wm title $w "[trans history] (${email} - $size)"
 	} else {
-		set size "0Ko"
+		wm title $w "[trans history] (${email})"
 	}
-	wm title $w "[trans history] (${email} - $size)"
+
 
 	ParseLog $w $logvar
 
@@ -835,7 +837,7 @@ proc ChangeCamLogToDate { w email widget date } {
 
 	global webcam_dir
 
-	status_log "Changing log for $w to $date\n\n"
+	status_log "Changing log for $email to $date\n\n"
 
 	if { $date == "[trans currentdate]" } {
 		set date "."
@@ -852,7 +854,6 @@ proc ChangeCamLogToDate { w email widget date } {
 		set size "0Ko"
 		set exists disabled
 	}
-
 
 	wm title $w "[trans history] (${email} - $size)"
 
@@ -872,7 +873,7 @@ proc ChangeLogWin {w contact widget email} {
 
 	global log_dir logvar date
 
-	status_log "Switch to $email\n\n" blue
+	status_log "Switch to $email\n" blue
 
 	::log::Fileexist $email "."
 
@@ -880,10 +881,10 @@ proc ChangeLogWin {w contact widget email} {
 	$w.blueframe.log.txt delete 0.0 end
 	if { [file exists [file join ${log_dir} ${email}.log]] } {
 		set size "[::amsn::sizeconvert [file size "[file join ${log_dir} ${email}.log]"]]o"
+		wm title $w "[trans history] (${email} - $size)"
 	} else {
-		set size "0Ko"
+		wm title $w "[trans history] (${email})"
 	}
-	wm title $w "[trans history] (${email} - $size)"
 
 	::log::LogsByDate $w $email "0"	
 
@@ -1152,8 +1153,7 @@ proc ClearCamLog { email date } {
 
 #///////////////////////////////////////////////////////////////////////////////
 # ClearAllLogs ()
-# Deletes the all the log files
-#
+# Deletes all the log files
 
 proc ClearAllLogs {} {
 	
