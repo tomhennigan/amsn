@@ -178,7 +178,6 @@ proc trayicon_init {} {
 
 
    	#$iconmenu add command -label "[trans checkver]..." -command "::autoupdate::check_version"
-
 #	$iconmenu add command -label "[trans mystatus]" -state disabled
 #	$iconmenu add command -label "   [trans online]" -command "ChCustomState NLN" -state disabled
 #	$iconmenu add command -label "   [trans noactivity]" -command "ChCustomState IDL" -state disabled
@@ -212,7 +211,7 @@ proc statusicon_proc {status} {
 		}
 	}
 
-	set my_name [::abook::getPersonal nick]
+	set my_name [::abook::getPersonal MFN]
    	
 	if { $systemtray_exist == 1 && $statusicon != 0 && $status == "REMOVE" } {
 		if {$tcl_platform(platform) == "windows"} {
