@@ -106,7 +106,7 @@
 	<lang>
 		<langcode>fri</langcode>
 		<name>Frisian (Frysk)</name>
-		<version>1.15</version>
+		<version>1.16</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -148,7 +148,7 @@
 	<lang>
 		<langcode>id</langcode>
 		<name>Indonesian (Bahasa Indonesia)</name>
-		<version>1.47</version>
+		<version>1.48</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
