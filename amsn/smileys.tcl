@@ -77,7 +77,8 @@ namespace eval ::smiley {
 			#Trim text (remove " ") and ignore empty strings
 			if { $text == "" } { continue }
 			set text [string trim $text \"]
-			set text [string tolower $text]
+			#some smileys are case sensitive, like the moon!
+			#set text [string tolower $text]
 			
 			#Delete any previous ocurrence of this smiley if this existed and skin
 			#propertie was set to "" (loaded when loading default skin first)
