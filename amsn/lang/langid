@@ -1,5 +1,6 @@
 amsn_lang_version 2
 about Perihal
+aboutamsn Tentang Messenger Alvaro
 accept Terima
 acceptfile Terima berkas $1, sebesar $2? Simpan di $3
 actions Perintah
@@ -66,6 +67,7 @@ away Tidak ada ditempat
 awaymsg1 Tanyakan untuk pesan ?tidak ada? setiap kali saya merubah status ke tidak ada/segera kembali/sibuk
 awaymsg2 Jangan pernah menanyakan dan selalu gunakan pesan tidak ada berikut
 baduserpass Nama pengguna atau kata sandi salah
+badwebcam Tidak dapat menampilkan gambar webcam. Pastikan webcam anda tersambung dan terinstalasi dengan baik.
 bgcolor Rubah warna latar belakang a'MSN
 blankdirect Kosongkan untuk sambungan langsung
 block Blokir
@@ -80,17 +82,22 @@ blocklist Daftar Blokir :
 blockmessage Orang-orang ini sedang tersambung dan memblokir anda
 blockusers Nomer pengguna agar diperiksa saat ini juga
 bouncedock Pantulkan ikon aMSN dalam labuhan (dock) ketika pesan diterima
+brightness Terang/Gelap
 broughtby Dipersembahkan oleh
 browse Mengamati
 browser Browser
 browserexample (\$url akan digantikan dengan URL). Contoh: mozilla \$url
+bugerror Maaf, tetapi terdapat masalah dalam sambungan ke database bug. Silahkan periksa sambungan internet anda.
 busy Sibuk
 cachedpics $1 gambar yang di-cache
+cagreement Perjanjian Kerahasiaan
 cancel Batalkan
 cannotdeleteprofile Tidak bisa menghapus profil karena tampaknya masih digunakan
 cantexec Aplikasi tidak bisa dijalankan: $1. Periksa pilihan
 cantloadonlineversion Tidak bisa menutupi perbaharuan online untuk bahasa di internet
 cantremoveothers Tidak dapat mengilangkan group "Lain-lain"
+captureextloaded Ekstensi tangkapan -$1- sudah termuat
+captureextnotloaded Ekstensi tangkapan -$1- tidak termuat, anda harus mengkompilasinya terlebih dahulu
 casesensitive Gunakan pemicu yang sensitif terhadap bentuk huruf (besar/kecil)
 cfgalarm Rubah Pengaturan/Tambah/Hapus alarm
 cfgalarmall Atur/Tambahkan/Hilangkan Alarm Global
@@ -103,6 +110,8 @@ changeglobnick Ganti Nama Panggilan (alias) Global
 changenick Ganti nama panggilan (alias)
 changesize Rubah ukuran
 changestate $1 merubah keadaan menjadi $2
+changevideosettings Rubah pengaturan video
+channels Saluran-saluran
 charscounter Karakter yang diketik beradu dalam jendela percakapan
 chat Percakapan
 chatack Terima ajakan percakapan dari
@@ -120,7 +129,9 @@ checkver Periksa apakah ada versi baru
 choosearq Pilih arsitektur sistem anda
 choosebasefont Pilih jenis huruf
 choosebgcolor Pilih warna latar belakang
+choosechannel Silahkan pilih sebuah saluran
 choosecontact Mohon pilih sebuah kontak dari daftar
+choosedevice Silahkan pilih sebuah alat (device)
 choosefontcolor Pilih warna tekst
 chooseskin Silahkan pilih Kulit yang ingin anda gunakan
 clear Jelas/Bebas
@@ -139,6 +150,7 @@ closed Percakapan dengan $1 ditutup karena tidak aktif
 closelabel Ketika anda mengklik tombol tutup dalam jendela percakapan ber-tab
 closeonly Tutup hanya tab yang bersangkutan
 closingdocks Tombol Tutup mengecilkan window
+color Warna
 command Perintah
 commandstatus Jalankan Perintah
 configure Memasang
@@ -161,6 +173,7 @@ contactadded Nama kenalan (kontak) baru telah dimasukkan
 contactdoesnotexist Detail kontak tidak dapat ditemukan!
 contactlist Daftar Nama Kenalan (kontak) :
 continuously Berkesinambungan (Bersambung)
+contrast Kontras
 conversationwith $1 pemakai untuk obrolan
 convertexplain Jalur untuk MERUBAH file yang dapat dijalankan, dari ImageMagick (diperlukan untuk Menampilkan Gambar).\n Kosongkan bila MERUBAH terdapat dalam jalur
 copy Salin
@@ -190,6 +203,7 @@ day Hari
 days Hari
 dcprofile Jangan Ciptakan Profil
 default Pengaturan Dasar
+default2 Standar
 defaultloginradio Daftar-Masuk aturan pengaturan dasar
 defchatwinsize Ukuran standard untuk jendela percakapan (XUKURANxYUKURAN)
 delete Hapus
@@ -201,6 +215,9 @@ delprofile Hapus Profil
 delprofile2 Pilih profil yang ingin dihilangkan
 description Gambaran
 detach Detasemen
+details Rincian-rincian
+devicebusy Alata (device) $1 sedang sibuk
+devices Alat-alat
 directconnection Saya memiliki sambugan langsung ke internet (menggunakan port 1863)
 disabled Dimatikan
 disableprofiles Profil Dimatikan (Berguna untuk Kafe Internet dan lingkungan berbagi-pakai)
@@ -220,6 +237,7 @@ dockgtk Labuhan model Gnome
 docking Labuhan
 dockingoff Jangan dilabuhkan
 dockkde Labuhan model KDE
+done Selesai
 dontdownload Jangan download TLS, saya akan memasangnya sendiri
 dontshow Jangan Ditampilkan
 download Transfer data dari komputer
@@ -241,6 +259,7 @@ enableremote Mungkinkan pengedalian jarak jauh
 enablesound Mainkan suara
 encoding Pilih jenis pengkodean
 encoding2 Pilih Pengkodean
+enterbugdesc Masukan uraian tentang yang anda lakukan untuk membantu kami dalam mereproduksi bug:
 entercontactemail Masukkan alamat e-mail kenalan (kontak)
 enterfilename Masukkan nama berkas
 enternick Masukkan nama panggilan/alias yang anda inginkan
@@ -265,6 +284,7 @@ filetransfercomplete Transmisi berkas telah usai
 filters Saringan-saringan
 filtersselect Pilih saringan yang ingin anda lihat\n(Catatan bila tidak ada yang diplih artinya tunjukkan semua)
 filtersx Pilihan Saringan
+firewalled Anda berada di belakang router atau firewall
 followtext Gulung ke bawah saat tekst baru dimasukkan
 friendlyname Nama Akrab
 ftaccepted Transmisi berkas diterima
@@ -286,6 +306,7 @@ globalnick Masukkan pola untuk membentuk nama panggilan (alias) dari seluruh ken
 globalnicktitle Nama Panggilan (alias) Global
 globaloverride Pola Nama Panggilan (alias) harus melangkahi nama panggilan (alias) pilihan
 gonelunch Sedang makan siang
+gotink $1 mengirimkan anda tinta.
 group Kelompok
 groupadd Tambah kelompok
 groupdelete Hapus kelompok
@@ -306,9 +327,11 @@ hidewindow Sembunyikan Window
 history Lihat Sejarah
 home Rumah
 httpconnection Sambung menggunakan metode HTTP (menggunakan protokol HTTP melalui port 80)
+hue Gradasi warna
 hybrid Modus hybrid
 ident Sedang mengidentifikasi
 identity Identitas
+ignore Acuhkan
 ignoreerrors Acuhkan secara diam-diam error AMSN yang lain sampai akhir sesi
 imagefiles Berkas-berkas Gambar
 inbox Kotak-Masuk
@@ -352,6 +375,7 @@ leaves $1 telah meninggalkan percakapan ini
 lenteredconf $1 telah memasuki konferensi pada $2
 lineflushlog Ratakan Berkas Catatan setelah tiap baris
 linprivate SECARA PRIBADI
+listening Mendengarkan
 listeningon Mengawasi port $1
 listsmileys Daftar Smiley
 listsmileys2 Tampilkan Emoticon dan Smiley dalam daftar kontak a'MSN utama
@@ -430,6 +454,7 @@ nick Panggilan (alias)
 no Tidak
 noactivity Tidak ada aktivitas
 nodataavailable Tidak ada data yang tersedia untuk $1
+nodevices Anda belum menginstall alat (device)
 nogap Tanpa jarak antara kelompok (group)
 nogroup Tidak ada Kelompok (group)
 nologfile Tidak ada register untuk $1
@@ -489,6 +514,7 @@ play Mainkan
 playing Memainkan: $1
 pluginselector Pilih Tambahan-tambahan (plugins)
 port Pintu
+portswellconfigured Port-port anda terkonfigurasi dengan baik
 prefalerts Signal dan Bunyi kegiatan saya
 prefapps Aplikasi
 prefawaymsg Pesan Tidak Ada saya
@@ -550,6 +576,8 @@ remembersetting Ingat pengaturan ini
 removeempty Hilangkan kelompok-kelompok kosong dari daftar kontak
 removefromlist Hilangkan dari daftar ini
 rename Ganti Nama
+report Laporan
+reporting Melaporkan
 required_version Tidak dapat memuat plugin ini. Dibutuhkan aMSN minimal versi $1
 reversed Dibalik
 reverselist Daftar Terbalik:
@@ -565,6 +593,7 @@ selectall Pilih semua
 selectplugins Silahkan pilih tambahan-tambahan yang ingin anda mungkinkan.
 selectskin Silahkan pilih kulit dari daftar
 send Kirim
+sendemail Kirim alamat email saya untuk memberitahu saya akan perubahan-perubahan (lihat Perjanjian Kerahasiaan)
 sendfile Kirim berkas
 sendmail Kirim e-mail
 sendmobmsg Kirim ke telfon genggam
@@ -576,6 +605,7 @@ serverbusy Server sedang Sibuk
 servergoingdown Terputus: Server sedang bermasalah
 serverunavailable Server sedang tidak tersedia
 session Bagian
+shareswebcam Membagi webcam
 showbanner Tampilkan spanduk (banner) aMSN's
 showblockedlist Tunjukkan daftar orang-orang yang memblokir anda
 showcachedpics Tampilkan gambar tampilan yang di-cache
@@ -623,6 +653,8 @@ stats Statistik
 status Status
 stop Stop
 stopalarm Stop alarm
+stopwebcamreceive Stop menerima Webcam
+stopwebcamsend Stop mengirim Webcam
 storenickname Kembali ke nama panggilan (alias) asli setelah kondisi tertentu dengan nama panggilan tertentu
 strictfonts Batasi ukuran semua huruf kepada satu yang saya pilih (Status bar dan lainnya)
 style Gaya
@@ -646,6 +678,7 @@ timestamp Penanda waktu
 timestamps Mungkinkan penanda waktu pada jendela percakapan
 title Al's Messenger
 tkerror TK membawa error, terdapat bug dalam amsn, mohon dilaporkan. Kirim berkas $1 ke amsn-bugs@lists.sf.net
+tkerror1 TK membawa kesalahan (error), terdapat bug di dalam amsn, silahkan melapokrannya dengan mengklik tombol Laporan. Anda dapat klik pada Rincian-rincian untuk melihat informasi lebih banyak tentang bug atau klik Ok untuk melanjutkan percakapan dengan aMSN
 tlsdowncompleted Berkas $1 didownload ke direktori $2. Anda harus mengurainya, membangunnya (apabila anda mendownload kode sumber) dan menginstalasinya dalam $3.
 tlsexplain Direktori dimana modul tcl TLS berlokasi. Apabila AMSN tidak dapat menemukannya, tolong dijelaskan.\n(Diperlukan untuk autentikasi SSL).
 tlsinstall Penyulap instalasi Modul TLS
@@ -657,12 +690,14 @@ tomobile untuk telfon genggam
 tools Peralatan
 tooltips Aktifkan Tips untuk Peralatan
 transnotexists Berkas yang diminta belum diterjemahkan ke dalam bahasa tersebut.
+trayicon Tampilkan ikon status pada area pemberitahuan
 traynotcompiled Baki icon tambahan belum dipatuhi. Periksa tambahan/bakilabuhan
 triggers Pemicu-pemicu tekst
 truncatenames1 Potong nama panggilan yang lebih panjang dari lebar jendela dalam jendela judul dan daftar nama
 truncatenames2 Potong nama panggilan yang lebih panjang dari lebar jendela dalam pecakapan
 truncatenicks Potong nama panggilan (alias) yang lebih panjang dari lebar jendela
 twonewmail $1 email baru dalam Kotak-Masuk
+type Tipe
 unblock Cabut blokiran
 unknown Tidak dikenal
 unload Melepas/Membongkar
@@ -670,6 +705,7 @@ unselectall Tidak memilih semua
 uoffline Tidak Tersambung
 uonline Tersambung
 update Memperbaharui
+updateonlycurrentlanguage Perbaharui hanya bahasa yang terkini
 updating Memperbaharui
 useasdp gunakan untuk gambar display
 useother Gunakan program yang berbeda (lain)
@@ -686,8 +722,18 @@ version Versi
 view Tampilan
 viewcontactsby Lihat kenalan (kontak) berdasarkan
 viewprofile Lihat Profil Pemakai
+webcamcanceled Sesi webcam dengan $1 telah dibatalkan
+webcamclosebefcancel Anda harus membatalkan semua sesi webcam sebelum menutup jendela (window)
+webcamextloaded Ekstensi Webcamsn telah termuat
+webcamextnotloaded Ekstensi Webcamsn tidak termuat. Anda harus mengkompilasinya.
+webcamfaq PSD/Pertolongan untuk Webcam
 webcamhistory Lihat sesi Webcam
 webcaminvite $1 mengundang anda untuk memulai sesi webcam, tetapi aMSN tidak mendukung fasilitas ini.
+webcaminvitereceived $1 mengundang anda untuk memulai sesi webcam. Apakah anda mau menerima sesi ini ?
+webcamrejected $1 menolak undangan untuk sesi webcam
+webcamrequestreceive Telah mengirim permohonan untuk menerima webcam
+webcamrequestsend Telah mengirim permohonan untuk mengirim webcam
+webcamsending Daftar orang kepada siapa anda sedang mengrim webcam\nKlik untuk membatalkan
 webcamshot shut web kamera
 whatsize gambar yang kamu minta tidak gambar yang normal ukuran berapa yang kamu minta untuk tampilan gambar
 willjoin Menunggu $1 untuk bergabung
