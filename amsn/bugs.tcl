@@ -13,13 +13,14 @@ namespace eval ::bugs {
     
     #converts yyyyMMddhhmm to UNIX timestamp
     proc cvstostamp { date } {
-	set year [string range $date 0 3]
+	#get number of years
+	set year [string range $date 0 3] 
 	set month [string range $date 4 5]
 	set day [string range $date 6 7]
 	set hour [string range $date 8 9]
 	set minute [string range $date 10 11]
-	set cvsdate 0
-	return $cvsdate
+
+	return [clock scan "$month/$day/$year $hour:$minute:00"]
     }
 
     proc bgerror { args } {
@@ -83,7 +84,7 @@ namespace eval ::bugs {
 	set fd [open "$path" w]
 	
 	puts $fd "<?xml version=\"1.0\"?>"
-	puts $fd "<bug>"
+	puts $fd "<bug version=\"0.3\">"
 	puts $fd "\t<error>"
 	puts $fd "\t\t<date>[clock seconds]</date>"
 	puts $fd "\t\t<text>$bug(text)</text>"
@@ -319,10 +320,12 @@ namespace eval ::bugs {
 	set lang [::config::getGlobalKey language]
 	if { [catch {set token [bugs::post "$::bugs::website/report.php?lang=$lang" [file join $HOME2 bugreport.amsn]]}] == 0} {
 	    upvar #0 $token state
-	    set ::bugs::message $state(body)
+	    set message $state(body)
 	} else {
-	    set ::bugs::message [trans bugerror]
+	    set message [trans bugerror]
 	}
+
+	tk_messageBox -message "$message" -title [trans done] -type ok
 	
 	$w.f.b1 configure -text [trans done]
     }
