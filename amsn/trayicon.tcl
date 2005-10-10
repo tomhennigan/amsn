@@ -154,7 +154,7 @@ proc trayicon_init {} {
 	     #$iconmenu add command -label "[trans login]" -command "::MSN::connect" -state disabled
 	}
 	#$iconmenu add command -label "[trans login]..." -command cmsn_draw_login
-=======
+
 	if { [focus] == "."} {
 		wm iconify .
 		wm state . withdrawn
@@ -311,7 +311,8 @@ proc trayicon_init {} {
 
 	$iconmenu add separator		
 
-  	$iconmenu add command -label "[trans logout]" -command "::MSN::logout" -state disabled
+#the login/logout one, defined later on (see below)
+  	$iconmenu add command
 	$iconmenu add command -label "[trans close]" -command "close_cleanup;exit"
 	CreateStatesMenu .my_menu
 
@@ -374,8 +375,8 @@ proc statusicon_proc {status} {
 #				$iconmenu entryconfigure 8 -state disabled
 #Prefs
 #				$iconmenu entryconfigure 9 -state disabled
-#Logout
-				$iconmenu entryconfigure 7 -state disabled
+#Login
+				$iconmenu entryconfigure 7 -label "[trans login]" -command "::MSN::connect" -state normal
 
 
 #				$iconmenu entryconfigure 10 -state disabled
@@ -396,7 +397,8 @@ proc statusicon_proc {status} {
 #				$iconmenu entryconfigure 3 -state normal
 				$iconmenu entryconfigure 2 -state normal
 				$iconmenu entryconfigure 4 -state normal
-				$iconmenu entryconfigure 7 -state normal
+
+				$iconmenu entryconfigure 7 -label "[trans logout]" -command "::MSN::logout"
 #				$iconmenu entryconfigure 9 -state normal
 #				$iconmenu entryconfigure 10 -state normal
 #				$iconmenu entryconfigure 11 -state normal
