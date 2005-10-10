@@ -7,7 +7,7 @@ if { $initialize_amsn == 1 } {
 }
 
 proc dock_handler { sock } {
-        global password
+        global password systemtray_exist
 	set l [gets $sock]
 	
 	if { [eof $sock] || ($l == "SESSION_END") || ($l == "") } {
@@ -15,7 +15,7 @@ proc dock_handler { sock } {
 		fileevent $docksock readable {}
 		close $docksock
 		set docksock 0
-		::config::setKey dock 0
+		set systemtray_exist 0
 		return
 	}
 		
@@ -79,6 +79,8 @@ proc send_dock {type status} {
 
 
 proc close_dock {} {
+	global systemtray_exist
+	
 	mailicon_proc 0
 	statusicon_proc "REMOVE"
 
@@ -89,7 +91,7 @@ proc close_dock {} {
 		close $docksock
 		set docksock 0
 	}
-	::config::setKey dock 0		;# Config is saved before so this don't affect it
+	set systemtray_exist 0
 }
 
 
@@ -120,9 +122,8 @@ proc accept_dock { sock addr cport } {
 proc init_dock {} {
 	global systemtray_exist
 	#If the traydock is not disabled
-	if { [::config::getKey dock] != 0} {
-		#let's keep backwards compatibility :)
-		::config::setKey dock 1 ;# :p
+	if { [::config::getKey use_dock] != 0} {
+
 		if {[OnWin]} {
 			trayicon_init
 		} elseif {[OnUnix]} {
@@ -130,9 +131,9 @@ proc init_dock {} {
 			if { $systemtray_exist == 0 } {
 				trayicon_init
 				if { $systemtray_exist == -1 } {
-					::config::setKey dock 0
+status_log "dock prob dock.tcl"
 					#Too bad, couldn't load the trayicon
-					msg_box "[trans nosystemtray]"
+#					msg_box "[trans nosystemtray]"
 				}
 			}
 			statusicon_proc [::MSN::myStatusIs]
@@ -143,14 +144,14 @@ proc init_dock {} {
 }
 
 proc UnixDock { } {
-	if {[::config::getKey dock] && [OnUnix] } {
+	if {[::config::getKey use_dock] && [OnUnix] } {
 		return 1
 	} else {
 		return 0
 	}
 }
 proc WinDock { } {
-	if {[::config::getKey dock] && [OnWin] } {
+	if {[::config::getKey use_dock] && [OnWin] } {
 		return 1
 	} else {
 		return 0

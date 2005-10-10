@@ -39,7 +39,7 @@ namespace eval ::config {
 
 		::config::setKey reconnect 1			;#Variable for amsn to reconnect on loss
 
-		::config::setKey dock 0				;#Docking type
+		::config::setKey dock 1				;#Docking type
 								;#Changed later for windows to 4
 
 		#Some Autodetected options
@@ -72,7 +72,7 @@ namespace eval ::config {
 			::config::setKey filemanager "explorer \$location"
 			::config::setKey openfilecommand "start \$file"
 			::config::setKey usesnack 1
-			::config::setKey dock 4				;#Set docking to type 4 (windows)
+			#::config::setKey dock 4				;#Set docking to type 4 (windows)
 		} else {
 			::config::setKey soundcommand ""			;#Sound player command
 			::config::setKey browser ""			;#Browser command
@@ -292,7 +292,7 @@ namespace eval ::config {
 		::config::setKey displaypic "amsn.png"                   ;# Display picture
 		::config::setKey getdisppic 1
 		::config::setKey webcamlogs 0
-		::config::setKey dock 1
+		::config::setKey use_dock 1				;#enable/disable docking
 
 	}
 

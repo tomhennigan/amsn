@@ -80,6 +80,145 @@ proc taskbar_icon_handler { msg x y } {
 proc trayicon_init {} {
 	global systemtray_exist password iconmenu wintrayicon statusicon
 
+
+	if { [WinDock] } {
+		#added to stop creation of more than 1 icon
+		if { $statusicon != 0 } {
+			return
+		}
+		set ext "[file join utils windows winico05.dll]"
+		if { [file exists $ext] != 1 } {
+			msg_box "[trans needwinico2]"
+			close_dock
+			return
+		}
+		if { [catch {load $ext winico}] }	{
+			close_dock
+			return
+		}
+		set systemtray_exist 1
+		set wintrayicon [winico create [::skin::GetSkinFile winicons msn.ico]]
+		winico taskbar add $wintrayicon -text "[trans offline]" -callback "taskbar_icon_handler %m %x %y"
+		set statusicon 1
+	} else {
+		set ext "[file join utils linux traydock libtray.so]"
+		if { ![file exists $ext] } {
+			set systemtray_exist 0
+			puts "[trans traynotcompiled]"
+			close_dock
+			return
+		}
+
+		if { $systemtray_exist == 0 && [UnixDock]} {
+			if { [catch {load $ext Tray}] }	{
+				close_dock
+				return
+			}
+	
+			set systemtray_exist [systemtray_exist]; #a system tray exist?
+		}
+	}
+
+	#workaround for bug with the popup not unposting
+	destroy .trayiconwin
+	toplevel .trayiconwin -class Amsn
+	wm overrideredirect .trayiconwin 1
+	wm geometry .trayiconwin "+0+[expr 2 * [winfo screenheight .]]"
+	wm state .trayiconwin withdrawn
+	destroy .trayiconwin.immain
+	set iconmenu .trayiconwin.immain
+
+	#destroy .immain
+	#set iconmenu .immain
+	menu $iconmenu -tearoff 0 -type normal
+
+	menu $iconmenu.imstatus -tearoff 0 -type normal
+	$iconmenu.imstatus add command -label [trans online] -command "ChCustomState NLN"
+	$iconmenu.imstatus add command -label [trans noactivity] -command "ChCustomState IDL"
+	$iconmenu.imstatus add command -label [trans busy] -command "ChCustomState BSY"
+	$iconmenu.imstatus add command -label [trans rightback] -command "ChCustomState BRB"
+	$iconmenu.imstatus add command -label [trans away] -command "ChCustomState AWY"
+	$iconmenu.imstatus add command -label [trans onphone] -command "ChCustomState PHN"
+	$iconmenu.imstatus add command -label [trans gonelunch] -command "ChCustomState LUN"
+	$iconmenu.imstatus add command -label [trans appearoff] -command "ChCustomState HDN"
+
+	$iconmenu add command -label "[trans offline]" -command iconify_proc
+	$iconmenu add separator
+	if { [string length [::config::getKey login]] > 0 } {
+	     if {$password != ""} {
+	        #$iconmenu add command -label "[trans login] [::config::getKey login]" -command "::MSN::connect" -state normal
+	     } else {
+	     	#$iconmenu add command -label "[trans login] [::config::getKey login]" -command cmsn_draw_login -state normal
+	     }
+	} else {
+	     #$iconmenu add command -label "[trans login]" -command "::MSN::connect" -state disabled
+	}
+	#$iconmenu add command -label "[trans login]..." -command cmsn_draw_login
+=======
+	if { [focus] == "."} {
+		wm iconify .
+		wm state . withdrawn
+	} else {
+		wm deiconify .
+		wm state . normal
+		raise .
+		focus -force .
+	}
+	#bind $statusicon <Button-1> deiconify_proc
+}
+
+proc taskbar_icon_handler { msg x y } {
+	global iconmenu ishidden
+
+	if { [winfo exists .bossmode] } {
+		if { $msg=="WM_LBUTTONDBLCLK" } {
+			wm state .bossmode normal
+			focus -force .bossmode
+		}
+		return
+	}
+
+	if { $msg=="WM_RBUTTONUP" } {
+		#tk_popup $iconmenu $x $y
+
+		#workaround for bug with the popup not unposting
+		wm state .trayiconwin normal
+		wm geometry .trayiconwin "+0+[expr 2 * [winfo screenheight .]]"
+		focus -force .trayiconwin
+
+		tk_popup $iconmenu [expr "$x + 85"] [expr "$y - 11"] [$iconmenu index end]
+
+		#workaround for bug with the popup not unposting
+		wm state .trayiconwin withdrawn
+	}
+	if { $msg=="WM_LBUTTONDBLCLK" } {
+		if { $ishidden == 0 } {
+			#wm iconify .
+			if { [wm state .] == "zoomed" } {
+				set ishidden 2
+			} else {
+				set ishidden 1
+			}
+			wm state . withdrawn
+			#set ishidden 1
+		} else {
+			#wm deiconify .
+			#wm state . normal
+			#raise .
+			if { $ishidden == 2 } {
+				wm state . zoomed
+			} else {
+				wm state . normal
+			}
+			focus -force .
+			set ishidden 0
+		}
+	}
+}
+
+proc trayicon_init {} {
+	global systemtray_exist password iconmenu wintrayicon statusicon
+
 	if { [WinDock] } {
 		#added to stop creation of more than 1 icon
 		if { $statusicon != 0 } {

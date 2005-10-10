@@ -6864,7 +6864,7 @@ proc BossMode { } {
 			#updatebossmodetime
 			bind .bossmode.pass <Return> "BossMode"
 
-			if { [::config::getKey dock] == 4 } {
+			if { [WinDock] } {
 				wm state .bossmode withdraw
 				wm protocol .bossmode WM_DELETE_WINDOW "wm state .bossmode withdraw"
 				catch {wm iconbitmap .bossmode [::skin::GetSkinFile winicons bossmode.ico]}
@@ -6931,7 +6931,7 @@ proc BossMode { } {
 		set bossMode 0
 		destroy .bossmode
 
-		if { [::config::getKey dock] == 4 } {
+		if { [WinDock] } {
 			statusicon_proc [::MSN::myStatusIs]
 		}
 	}
