@@ -131,17 +131,6 @@ proc trayicon_init {} {
                mailicon_proc [::hotmail::unreadMessages]
        }
 
-
-	if { [focus] == "."} {
-		wm iconify .
-		wm state . withdrawn
-	} else {
-		wm deiconify .
-		wm state . normal
-		raise .
-		focus -force .
-	}
-	#bind $statusicon <Button-1> deiconify_proc
 }
 
 proc taskbar_icon_handler { msg x y } {
@@ -220,55 +209,21 @@ proc statusicon_proc {status} {
 	} elseif {$systemtray_exist == 1 && $statusicon != 0 && ( [UnixDock] || [WinDock] ) && $status != "REMOVE"} {
 		if { $status != "" } {
 			if { $status == "FLN" } {
-#Msg
-#				$iconmenu entryconfigure 2 -state disabled
-#E-mail
-#				$iconmenu entryconfigure 3 -state disabled
 #Status submenu
 				$iconmenu entryconfigure 2 -state disabled
 #Change nick
 				$iconmenu entryconfigure 4 -state disabled
-#Sound
-#				$iconmenu entryconfigure 8 -state disabled
-#Prefs
-#				$iconmenu entryconfigure 9 -state disabled
-#Login
+
+#Login/Logout
 				$iconmenu entryconfigure 7 -label "[trans login]" -command "::MSN::connect" -state normal
 
-
-#				$iconmenu entryconfigure 10 -state disabled
-#				$iconmenu entryconfigure 11 -state disabled
-#				$iconmenu entryconfigure 12 -state disabled
-#				$iconmenu entryconfigure 13 -state disabled
-#				$iconmenu entryconfigure 14 -state disabled
-#				$iconmenu entryconfigure 15 -state disabled
-#				$iconmenu entryconfigure 16 -state disabled 
-#				
-#				for {set id 17} {$id <= ([StateList size] + 16) } { incr id 1 } {
-#					$iconmenu entryconfigure $id -state disabled
-#					if { $id == 20 } { break }
-#				}
-
 			} else {
-#				$iconmenu entryconfigure 2 -state normal
-#				$iconmenu entryconfigure 3 -state normal
+
 				$iconmenu entryconfigure 2 -state normal
 				$iconmenu entryconfigure 4 -state normal
 
 				$iconmenu entryconfigure 7 -label "[trans logout]" -command "::MSN::logout"
-#				$iconmenu entryconfigure 9 -state normal
-#				$iconmenu entryconfigure 10 -state normal
-#				$iconmenu entryconfigure 11 -state normal
-#				$iconmenu entryconfigure 12 -state normal
-#				$iconmenu entryconfigure 13 -state normal
-#				$iconmenu entryconfigure 14 -state normal
-#				$iconmenu entryconfigure 15 -state normal
-#				$iconmenu entryconfigure 16 -state normal
-#				
-#				for {set id 17} {$id <= ([StateList size] + 16) } { incr id 1 } {
-#					$iconmenu entryconfigure $id -state normal
-#					if { $id == 20 } { break }
-#				}
+
 				
 			}
 				
