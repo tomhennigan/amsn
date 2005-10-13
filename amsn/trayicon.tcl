@@ -69,6 +69,7 @@ proc trayicon_init {} {
 		}
 	}
 
+
 	#workaround for bug with the popup not unposting
 	destroy .trayiconwin
 	toplevel .trayiconwin -class Amsn
@@ -104,6 +105,32 @@ proc trayicon_init {} {
 	     #$iconmenu add command -label "[trans login]" -command "::MSN::connect" -state disabled
 	}
 	#$iconmenu add command -label "[trans login]..." -command cmsn_draw_login
+
+
+
+ #     $iconmenu add separator         
+ 
+       $iconmenu add cascade -label "[trans mystatus]" -menu $iconmenu.imstatus -state disabled        
+ 
+       $iconmenu add separator
+ 
+       $iconmenu add command -label "[trans changenick]..." -command cmsn_change_name -state disabled
+       $iconmenu add checkbutton -label "[trans sound]" -onvalue 1 -offvalue 0 -variable [::config::getVar sound]      
+ #     $iconmenu add command -label "[trans preferences]..." -command Preferences
+ 
+       $iconmenu add separator         
+ 
+ #the login/logout one, defined later on (see below)
+       $iconmenu add command
+       $iconmenu add command -label "[trans close]" -command "close_cleanup;exit"
+       CreateStatesMenu .my_menu
+
+       ## set icon to current status if added icon while already logged in
+       if { [::MSN::myStatusIs] != "FLN" } {
+               statusicon_proc [::MSN::myStatusIs]
+               mailicon_proc [::hotmail::unreadMessages]
+       }
+
 
 	if { [focus] == "."} {
 		wm iconify .
