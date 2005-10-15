@@ -1320,12 +1320,19 @@ namespace eval ::MSN {
 
 
 
-	proc SendInk { sb  file } {
+	proc SendInk { chatid  file } {
 
 		set maxchars 1202
+
+		set sb [::MSN::SBFor $chatid]
+		if { $sb == 0 } {
+			return
+		}
+
 		set fd [open $file r]
 		fconfigure $fd -translation {binary binary}
 		set data [read $fd]
+		close $fd
 
 		set data [::base64::encode $data]
 		set data [string map { "\n" ""} $data]

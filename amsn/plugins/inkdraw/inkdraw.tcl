@@ -10,10 +10,10 @@ namespace eval ::draw {
 	proc Init { dir } {
 		
 		#Register the plugin to the plugins-system
-		::plugins::RegisterPlugin draw
+		::plugins::RegisterPlugin "Inkdraw"
 		
 		#Register events
-		::plugins::RegisterEvent draw chatwindowbutton AddInkSwitchButton
+		::plugins::RegisterEvent "Inkdraw" chatwindowbutton AddInkSwitchButton
 
 		#Load our pixmaps
 		::skin::setPixmap grid grid.gif pixmaps [file join $dir pixmaps]
@@ -262,32 +262,15 @@ status_log "reset sendbutton binding"
 
 	#this hack is needed
 	proc PressedSendDraw { window } {
+		global HOME
+
 		set widget $window.f.bottom.left.in.inner.draw
 
-		$widget SaveDrawing "[pwd]" "inktosend.gif"
+		$widget SaveDrawing $HOME "inktosend.gif"
 
 		#send the saved file
-		::MSN::SendInk [lindex [::MSN::SBFor [::ChatWindow::Name $window]] 0] inktosend.gif
-		$widget ClearDrawboard	
-
-
-		#show the sent one in the chatwin
-		#first the "xx says:" 
-		
-		::amsn::WinWrite [::ChatWindow::Name $window] "\n" ""
-		
-
-		set scrolling [::ChatWindow::getScrolling [::ChatWindow::GetOutText ${window}]]
-
-
-		[::ChatWindow::GetOutText ${window}] configure -state normal
-		[::ChatWindow::GetOutText ${window}] image create end -image [image create photo -file inktosend.gif]
-
-		if { $scrolling } { ::ChatWindow::Scroll [::ChatWindow::GetOutText ${window}] }
-
-
-		[::ChatWindow::GetOutText ${window}] configure -state disabled
-
+		::amsn::InkSend $window [file join $HOME "inktosend.gif"]
+		$widget ClearDrawboard
 	}
 
 

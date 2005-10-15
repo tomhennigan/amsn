@@ -667,6 +667,52 @@ namespace eval ::amsn {
 		return
 	}
 
+	proc InkSend { win_name filename {friendlyname ""}} {
+
+
+		set chatid [::ChatWindow::Name $win_name]
+
+		if { $chatid == 0 } {
+			status_log "VERY BAD ERROR in ::amsn::InkSend!!!\n" red
+			return 0
+		}
+
+		#Blank ink
+		if {$filename == ""} { return 0 }
+
+		if { $friendlyname != "" } {
+			set nick $friendlyname
+			set p4c 1
+		} elseif { [::abook::getContactData [::ChatWindow::Name $win_name] cust_p4c_name] != ""} {
+			set friendlyname [::abook::parseCustomNick [::abook::getContactData [::ChatWindow::Name $win_name] cust_p4c_name] [::abook::getPersonal MFN] [::abook::getPersonal login] ""]
+			set nick $friendlyname
+			set p4c 1
+		} elseif { [::config::getKey p4c_name] != ""} {
+			set nick [::config::getKey p4c_name]
+			set p4c 1
+		} else {
+			set nick [::abook::getPersonal MFN]
+			set p4c 0
+		}
+		#Postevent when we send a message
+		set evPar(nick) nick
+		set evPar(ink) filename
+		set evPar(chatid) chatid
+		set evPar(win_name) win_name
+		::plugins::PostEvent chat_ink_send evPar
+
+			
+
+		#Draw our own message
+		set img [image create photo -file $filename]
+		SendMessageFIFO [list ::amsn::ShowInk $chatid [::abook::getPersonal login] $nick $img ink $p4c] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
+		::MSN::ChatQueue $chatid [list ::MSN::SendInk $chatid $filename]
+
+
+		::plugins::PostEvent chat_ink_sent evPar
+
+	}
+
 	#///////////////////////////////////////////////////////////////////////////////
 	# FileTransferSend (chatid (filename))
 	# Shows the file transfer window, for window win_name
