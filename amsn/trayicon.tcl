@@ -1,11 +1,13 @@
 if { $initialize_amsn == 1 } {
-    global statusicon mailicon systemtray_exist iconmenu ishidden
+    global statusicon mailicon systemtray_exist iconmenu ishidden defaultbackground
 
     set statusicon 0
     set mailicon 0
     set systemtray_exist 0
     set iconmenu 0
     set ishidden 0
+    #We save the default background color before it is erased by skin one
+    set defaultbackground [option get . background ""]
 }
 
 proc iconify_proc {} {
@@ -183,15 +185,22 @@ proc taskbar_icon_handler { msg x y } {
 }
 
 proc statusicon_proc {status} {
-	global systemtray_exist statusicon list_states iconmenu wintrayicon tcl_platform
+	global systemtray_exist statusicon list_states iconmenu wintrayicon tcl_platform statustrayicon defaultbackground
 	set cmdline ""
 
 	if { ![WinDock] } {
 
 		set icon .si
 		if { $systemtray_exist == 1 && $statusicon == 0 && [UnixDock]} {
-			set pixmap "[::skin::GetSkinFile pixmaps doffline.xpm]"
-			set statusicon [newti $icon -pixmap $pixmap -tooltip offline]
+			set pixmap "[::skin::GetSkinFile pixmaps doffline.png]"
+			set statusicon [newti $icon -tooltip offline]
+			image create photo statustrayicon -file $pixmap
+			status_log "Status_icon : [statustrayicon cget -width]x[statustrayicon cget -height]"
+			if { [image width statustrayicon] > [winfo width $icon] || [image height statustrayicon] > [winfo height $icon]} {
+				::picture::ResizeWithRatio statustrayicon [winfo width $icon] [winfo height $icon]
+			}
+			label $icon.icon -image statustrayicon -width [winfo width $icon] -height [winfo height $icon] -bg $defaultbackground
+			pack $icon.icon -expand true
 			bind $icon <Button1-ButtonRelease> iconify_proc
 			bind $icon <Button3-ButtonRelease> "tk_popup $iconmenu %X %Y"
 		}
@@ -204,6 +213,7 @@ proc statusicon_proc {status} {
 			winico taskbar delete $wintrayicon
 		} else {
 			remove_icon $statusicon
+			destroy trayicon
 		}
 		set statusicon 0
 	} elseif {$systemtray_exist == 1 && $statusicon != 0 && ( [UnixDock] || [WinDock] ) && $status != "REMOVE"} {
@@ -229,7 +239,7 @@ proc statusicon_proc {status} {
 				
 			switch $status {
 			  "FLN" {
-				set pixmap "[::skin::GetSkinFile pixmaps doffline.xpm]"
+				set pixmap "[::skin::GetSkinFile pixmaps doffline.png]"
 				set tooltip "[trans offline]"
 				if { [WinDock] } {
 					set trayicon [winico create [::skin::GetSkinFile winicons offline.ico]]
@@ -237,7 +247,7 @@ proc statusicon_proc {status} {
 			  }
 			
 			  "NLN" {
-				set pixmap "[::skin::GetSkinFile pixmaps donline.xpm]"
+				set pixmap "[::skin::GetSkinFile pixmaps donline.png]"
 				set tooltip "$my_name ([::config::getKey login]): [trans online]"
 				if { [WinDock] } {
 					set trayicon [winico create [::skin::GetSkinFile winicons online.ico]]
@@ -245,49 +255,49 @@ proc statusicon_proc {status} {
 			  }
 			  
 			  "IDL" {
-				set pixmap "[::skin::GetSkinFile pixmaps dinactive.xpm]"
+				set pixmap "[::skin::GetSkinFile pixmaps dinactive.png]"
 				set tooltip "$my_name ([::config::getKey login]): [trans noactivity]"
 				if { [WinDock] } {
 					set trayicon [winico create [::skin::GetSkinFile winicons inactive.ico]]
 				}
 			  }
 			  "BSY" {
-				set pixmap "[::skin::GetSkinFile pixmaps dbusy.xpm]"
+				set pixmap "[::skin::GetSkinFile pixmaps dbusy.png]"
 				set tooltip "$my_name ([::config::getKey login]): [trans busy]"
 				if { [WinDock] } {
 					set trayicon [winico create [::skin::GetSkinFile winicons busy.ico]]
 				}
 			  }
 			  "BRB" {
-				set pixmap "[::skin::GetSkinFile pixmaps dbrb.xpm]"
+				set pixmap "[::skin::GetSkinFile pixmaps dbrb.png]"
 				set tooltip "$my_name ([::config::getKey login]): [trans rightback]"
 				if { [WinDock] } {
 					set trayicon [winico create [::skin::GetSkinFile winicons brb.ico]]
 				}
 			  }
 			  "AWY" {
-				set pixmap "[::skin::GetSkinFile pixmaps daway.xpm]"
+				set pixmap "[::skin::GetSkinFile pixmaps daway.png]"
 				set tooltip "$my_name ([::config::getKey login]): [trans away]"
 				if { [WinDock] } {
 					set trayicon [winico create [::skin::GetSkinFile winicons away.ico]]
 				}
 			  }
 			  "PHN" {
-				set pixmap "[::skin::GetSkinFile pixmaps dphone.xpm]"
+				set pixmap "[::skin::GetSkinFile pixmaps dphone.png]"
 				set tooltip "$my_name ([::config::getKey login]): [trans onphone]"
 				if { [WinDock] } {
 					set trayicon [winico create [::skin::GetSkinFile winicons phone.ico]]
 				}
 			  }
 			  "LUN" {
-				set pixmap "[::skin::GetSkinFile pixmaps dlunch.xpm]"
+				set pixmap "[::skin::GetSkinFile pixmaps dlunch.png]"
 				set tooltip "$my_name ([::config::getKey login]): [trans gonelunch]"
 				if { [WinDock] } {
 					set trayicon [winico create [::skin::GetSkinFile winicons lunch.ico]]
 				}
 			  }
 			  "HDN" {
-				set pixmap "[::skin::GetSkinFile pixmaps dhidden.xpm]"
+				set pixmap "[::skin::GetSkinFile pixmaps dhidden.png]"
 				set tooltip "$my_name ([::config::getKey login]): [trans appearoff]"
 				if { [WinDock] } {
 					set trayicon [winico create [::skin::GetSkinFile winicons hidden.ico]]
@@ -311,7 +321,11 @@ proc statusicon_proc {status} {
 			$iconmenu entryconfigure 0 -label "[::config::getKey login]"
 			if { ![WinDock] } {
 				if { $pixmap != "null"} {
-					configureti $statusicon -pixmap $pixmap -tooltip $tooltip
+					configureti $statusicon -tooltip $tooltip
+					image create photo statustrayicon -file $pixmap
+					if { [image width statustrayicon] > [winfo width $icon] || [image height statustrayicon] > [winfo height $icon]} {
+						::picture::ResizeWithRatio statustrayicon [winfo width $icon] [winfo height $icon]
+					}
 				}
 			} else {
 				if { ![winfo exists .bossmode] || $status == "BOSS" } {
@@ -344,7 +358,7 @@ proc taskbar_mail_icon_handler { msg x y } {
 
 proc mailicon_proc {num} {
 	# Workaround for bug in the traydock-plugin - statusicon added - BEGIN
-	global systemtray_exist mailicon statusicon password winmailicon tcl_platform
+	global systemtray_exist mailicon statusicon password winmailicon tcl_platform mailtrayicon
 	# Workaround for bug in the traydock-plugin - statusicon added - END
 	set icon .mi
 	if {$systemtray_exist == 1 && $mailicon == 0 && ([UnixDock] || [WinDock])  && $num >0} {
@@ -358,7 +372,13 @@ proc mailicon_proc {num} {
 		}
 
 		if { ![WinDock] } {
-			set mailicon [newti $icon -pixmap $pixmap -tooltip $msg]
+			set mailicon [newti $icon -tooltip $msg]
+			image create photo mailtrayicon -file $pixmap
+			if { [image width mailtrayicon] > [winfo width $icon] || [image height mailtrayicon] > [winfo height $icon]} {
+				::picture::ResizeWithRatio mailtrayicon [winfo width $icon] [winfo height $icon]
+			}
+			label $icon.icon -image mailtrayicon -width [winfo width $icon] -height [winfo height $icon]
+			pack $icon.icon -expand true
 			bind $icon <Button-1> [list ::hotmail::hotmail_login [::config::getKey login] $password]
 		} else {
 			set winmailicon [winico create [::skin::GetSkinFile winicons unread.ico]]
@@ -369,6 +389,7 @@ proc mailicon_proc {num} {
 	} elseif {$systemtray_exist == 1 && $mailicon != 0 && $num == 0} {
 		if { $tcl_platform(platform) != "windows" } {
 			remove_icon $mailicon
+			destroy mailtrayicon
 			set mailicon 0
 		} else {
 			winico taskbar delete $winmailicon

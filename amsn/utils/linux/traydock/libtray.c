@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <X11/X.h>
-#include <Imlib.h>
+#include <X11/Xutil.h>
+#include <X11/Xatom.h>
 #include <string.h>
 #include <tk.h>
 #include <tcl.h>
@@ -58,8 +59,6 @@
 typedef struct TrayIcon *TrayIcon_;
 typedef struct {
 	Tk_Window win;
-	Pixmap pixmap;
-	Pixmap mask;
 	int w,h;
 	char tooltip[256];
 	TrayIcon_ *prev;
@@ -67,7 +66,6 @@ typedef struct {
 	Window parent;
 }TrayIcon;
 
-static ImlibData *id;
 static TrayIcon *iconlist=NULL;
 static Tk_3DBorder border=NULL;
 /* System tray window ID */
@@ -89,7 +87,6 @@ xembed_set_info (Tk_Window window, unsigned long  flags)
  
    	buffer[0] = 0;                /* Protocol version */
    	buffer[1] = flags;
- 
 	/* Change the property */
    	XChangeProperty (display,
                     Tk_WindowId(window),
@@ -161,9 +158,8 @@ DockIcon(ClientData clientData)
 	TrayIcon *icon= clientData;
 	unsigned char* wm_name = get_wm_name();
 
+	Tk_MapWindow(icon->win); //To really create the window
 	xembed_set_info(icon->win,XEMBED_MAPPED);
-
-	Tk_MapWindow(icon->win);
 	XQueryTree(display, Tk_WindowId(icon->win), &root, &parent, &children, &n);
 	XFree(children);
 	Tk_UnmapWindow(icon->win);
@@ -182,48 +178,6 @@ DockIcon(ClientData clientData)
 	
 	icon->parent = parent;
 }
-
-/* Draw the icon */
-static void
-DrawIcon (ClientData clientData)
-{
-	TrayIcon *icon=clientData;
-	int x,y,w,h,b,d;
-	Window r;
-	Pixmap mask;
-	GC gc=NULL;
-	XGCValues gcv;
-
-	XGetGeometry(display, Tk_WindowId(icon->win), &r, &x, &y, &w, &h, &b, &d);
-	Tk_Fill3DRectangle(icon->win, Tk_WindowId(icon->win),
-		border, 0, 0,
-		w,h,
-		0,TK_RELIEF_FLAT);
-	
-	XCopyArea(display,icon->pixmap,Tk_WindowId(icon->win),
-			DefaultGC(display,DefaultScreen(display)) 
-			,0,0,icon->w,icon->h,(w-icon->w)/2, (h-icon->h)/2);
-	
-	
-		
-	mask =  XCreatePixmap(display, Tk_WindowId(icon->win), w, h, 1);
-		
-	gcv.foreground=0;
-	gc =  XCreateGC(display, mask, GCForeground, &gcv);
-	XFillRectangle(display, mask, gc , 0, 0, w, h);
-
-	gcv.foreground=1;
-	gcv.background=0;
-	XChangeGC(display, gc, GCForeground, &gcv); 
-	XFillRectangle(display, mask, gc , (w-icon->w)/2, (h-icon->h)/2, icon->w, icon->h);
-	XCopyArea(display,icon->mask,mask,gc,0,0,icon->w,icon->h,(w-icon->w)/2, (h-icon->h)/2);
-	
-	XShapeCombineMask (display ,Tk_WindowId(icon->win), ShapeBounding, 0,0,mask,ShapeSet);
-	XShapeCombineMask (display ,icon->parent, ShapeBounding, 0,0,mask,ShapeSet);
-
-	XFreeGC(display,gc);	
-}
-
 
 static void show_tooltip (ClientData clientdata)
 {
@@ -259,15 +213,7 @@ static void IconEvent(ClientData clientData, register XEvent *eventPtr) {
 	int mask;
 	TrayIcon *icon = (TrayIcon *)clientData;
 
-	if ((eventPtr->type == Expose) && (eventPtr->xexpose.count == 0)) {
-		if (icon->win != NULL)
-			/*horrible hack to redraw the icon when dragging the dock aroun the panels*/
-			Tcl_CreateTimerHandler(500, DrawIcon, icon);
-		goto redraw;
-
-	} else if (eventPtr->type == ConfigureNotify) {
-		goto redraw;
-	} else if (eventPtr->type == EnterNotify) {
+	if (eventPtr->type == EnterNotify) {
 		if (timer == NULL) {
 			timer = Tcl_CreateTimerHandler(500, show_tooltip, icon);
 		}
@@ -282,11 +228,6 @@ static void IconEvent(ClientData clientData, register XEvent *eventPtr) {
 	}
 
 	return;
-
-redraw:
-    	if ((icon->win != NULL)) {
-		Tcl_DoWhenIdle(DrawIcon, (ClientData) icon);
-    	}
 }
 
 /* New tray icon procedure (newti command) */
@@ -296,12 +237,11 @@ static int Tk_TrayIconNew  (ClientData clientData,
 		Tcl_Obj *CONST objv[]) {
 
 	int n,test,found;
-	char *arg,*pixmap=NULL;
+	char *arg;
 	size_t length;
 	Tk_Window mainw;
 	unsigned int mask;
 	TrayIcon *icon;
-	ImlibImage *im;
 	XSizeHints *hint;
 
 	/* Get memory for trayicon data and zero it*/
@@ -362,11 +302,7 @@ static int Tk_TrayIconNew  (ClientData clientData,
 	for (n=2;n<objc;n++) {
 		arg=Tcl_GetStringFromObj(objv[n],(int *) &length);
 		if (arg[0] == '-') {
-			if (!strncmp(arg,"-pixmap",length)) {
-				n++;
-				/*Get pixmap name*/
-				pixmap=Tcl_GetStringFromObj(objv[n],(int *) &length);
-			} else if (!strncmp(arg,"-tooltip",length)) {
+			if (!strncmp(arg,"-tooltip",length)) {
 				/* Copy tooltip string */
 				n++;
 				strcpy (icon->tooltip,Tcl_GetStringFromObj(objv[n],(int *) &length));
@@ -380,57 +316,27 @@ static int Tk_TrayIconNew  (ClientData clientData,
 		}
 	}
 
-	/* If there's a pixmap file, load it */
-	if (pixmap != NULL) {
-		if ((test=open(pixmap,O_RDONLY))==-1) {
-			Tcl_AppendResult (interp, "cannot open pixmap file ",pixmap , (char *) NULL);
-			return TCL_ERROR;
-		}
-		close (test);
+	/* Create the window */
+	icon->win=Tk_CreateWindowFromPath(interp,mainw,
+		Tcl_GetStringFromObj(objv[1],(int *) &length),"");
 
-		/* Create the window */
-		icon->win=Tk_CreateWindowFromPath(interp,mainw,
-				Tcl_GetStringFromObj(objv[1],(int *) &length),"");
+	DockIcon((ClientData)icon);
 
-		DockIcon((ClientData)icon);
-		
-		/* Load image */
-		im=Imlib_load_image(id,pixmap);
-		Imlib_render(id,im,im->rgb_width,im->rgb_height);
-		if ( im->rgb_width >24 || im->rgb_height > 24 ) 
-		{
-			im=Imlib_clone_scaled_image(id, im, 24,24);
-			Imlib_render(id,im,24,24);
-			icon->w=im->rgb_width;
-			icon->h=im->rgb_height;
-		} else {
-			icon->w=im->rgb_width;
-			icon->h=im->rgb_height;
-		}
-		
-		/* Save it on the struct */
-		icon->pixmap=Imlib_move_image(id,im);
-   		icon->mask=Imlib_move_mask(id,im);
-		
-		/* Create callback function for event handling */
-		mask = StructureNotifyMask | SubstructureNotifyMask | ExposureMask | PropertyChangeMask | EnterWindowMask | LeaveWindowMask
-		  | PropertyNotify | ReparentNotify;
-		Tk_CreateEventHandler(icon->win, mask, IconEvent, (ClientData) icon);
-		Tk_CreateClientMessageHandler(MessageEvent);
-		
-		/* Set default icon size hint */
-		hint = XAllocSizeHints();
-		hint->flags |=PMinSize;
-		hint->min_width=24;
-		hint->min_height=24;
-	
-		XSetWMNormalHints(display,Tk_WindowId(icon->win),hint);
-		XFree(hint);
-	}else{
-		Tcl_AppendResult (interp, "you must provide a pixmap file", (char *) NULL);
-		return TCL_ERROR;
-	}
-	
+	/* Create callback function for event handling */
+	mask = StructureNotifyMask | SubstructureNotifyMask | ExposureMask | PropertyChangeMask | EnterWindowMask | LeaveWindowMask
+		| PropertyNotify | ReparentNotify;
+	Tk_CreateEventHandler(icon->win, mask, IconEvent, (ClientData) icon);
+	Tk_CreateClientMessageHandler(MessageEvent);
+
+	/* Set default icon size hint */
+	hint = XAllocSizeHints();
+	hint->flags |=PMinSize;
+	hint->min_width=24;
+	hint->min_height=24;
+
+	XSetWMNormalHints(display,Tk_WindowId(icon->win),hint);
+	XFree(hint);
+
 	/* Append icon to the icon list */
 	IL_APPEND(iconlist,icon)
 	
@@ -449,7 +355,6 @@ Tk_ConfigureIcon  (ClientData clientData,
 	int n,test,found;
 	char *arg,*pixmap=NULL;
 	size_t length;
-	ImlibImage *im;
 
 	/* Check path name */
 	arg=Tcl_GetStringFromObj(objv[1],(int *) &length);
@@ -500,11 +405,7 @@ Tk_ConfigureIcon  (ClientData clientData,
 		arg=Tcl_GetStringFromObj(objv[n],(int *) &length);
 		if (arg[0] == '-')
 		{
-			if (!strncmp(arg,"-pixmap",length))
-			{
-				n++;
-				pixmap=Tcl_GetStringFromObj(objv[n],(int *) &length);
-			} else if (!strncmp(arg,"-tooltip",length))
+			if (!strncmp(arg,"-tooltip",length))
 			{
 				n++;
 				strcpy(iconlist->tooltip,Tcl_GetStringFromObj(objv[n],(int *) &length));
@@ -518,34 +419,7 @@ Tk_ConfigureIcon  (ClientData clientData,
 		}
 	}
 
-	if (pixmap != NULL)
-	{
-		if ((test=open(pixmap,O_RDONLY))==-1)
-		{
-			Tcl_AppendResult (interp, "cannot open pixmap file ",pixmap , (char *) NULL);
-			return TCL_ERROR;
-		}
-		close (test);
-						
-		im=Imlib_load_image(id,pixmap);
-		Imlib_render(id,im,im->rgb_width,im->rgb_height);
-		if ( im->rgb_width >24 || im->rgb_height > 24 ) 
-		{
-			im=Imlib_clone_scaled_image(id, im, 24,24);
-			Imlib_render(id,im,24,24);
-			iconlist->w=im->rgb_width;
-			iconlist->h=im->rgb_height;
-		} else {
-			iconlist->w=im->rgb_width;
-			iconlist->h=im->rgb_height;
-		}
-		iconlist->pixmap=Imlib_move_image(id,im);
-   		iconlist->mask=Imlib_move_mask(id,im);
-		
-		
-    		Tcl_DoWhenIdle(DrawIcon, (ClientData) iconlist);
-			
-	}
+
 	return TCL_OK;
 }
 /*static int 
@@ -753,9 +627,6 @@ int Tray_Init(Tcl_Interp *interp)
 	//Get main window, and display
 	mainwin=Tk_MainWindow(interp);
 	display = Tk_Display(mainwin);
-
-	/* Initialize imlib */
-	id=Imlib_init(display);
 
 	snprintf (buffer, sizeof (buffer), "_NET_SYSTEM_TRAY_S%d",
 					XScreenNumberOfScreen(Tk_Screen(mainwin)));
