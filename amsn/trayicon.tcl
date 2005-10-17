@@ -7,7 +7,7 @@ if { $initialize_amsn == 1 } {
     set iconmenu 0
     set ishidden 0
     #We save the default background color before it is erased by skin one
-    set defaultbackground [option get . background ""]
+    set defaultbackground [. cget -background]
 }
 
 proc iconify_proc {} {
