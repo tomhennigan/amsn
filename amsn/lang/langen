@@ -593,7 +593,7 @@ sbcon Connecting to Switch Board
 selectall Select all
 selectplugins Please select the plugins you want enabled
 selectskin Please choose a skin from the list
-sendemail Send my email address to notify me of changes (see Confidentiality Agreement)
+sendemail Send my email address to notify me of changes
 sendfile Send file
 sendmail Send mail
 sendmobmsg Send to Mobile device

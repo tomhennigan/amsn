@@ -134,40 +134,44 @@ namespace eval ::bugs {
 	wm iconname $w Dialog
 	wm protocol $w WM_DELETE_WINDOW "set ::bugs::closed_bug_window 1"
 	
-	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-	    #Empty, NO TRANSIENT ON MAC OS X!!! Plz use ShowTransient when it's possible
-	} else {
-	    if {[winfo viewable [winfo toplevel [winfo parent $w]]] } {
-		wm transient $w [winfo toplevel [winfo parent $w]]
-	    }
-	}
+	ShowTransient $w [winfo toplevel [winfo parent $w]]
 
 	set ::bugs::message [trans tkerror1]
 	
-	label $w.msg -justify left -textvariable "::bugs::message" -wraplength 550 -font sboldf
+	label $w.msg -justify left -textvariable "::bugs::message" -wraplength 500 -font sboldf
 	label $w.desc_l -text "[trans enterbugdesc]"
 	frame $w.f
 	text $w.f.t -height 5 -width 50
-	checkbutton $w.c1 -text "[trans sendemail]"  -variable "::bugs::bug(email)"
+	
+	frame $w.c1
+	checkbutton $w.c1.check -variable "::bugs::bug(email)" -text "[trans sendemail] ("
+	label $w.c1.text -text "[trans cagreement]" -fg #0000FF -cursor hand1
+	label $w.c1.end -text ")"
+
 	checkbutton $w.c2 -text [trans ignoreerrors] -variable "::bugs::dont_give_bug_reports"
 	button $w.f.b1 -text [trans report] -command "::bugs::report"
 	button $w.f.b2 -text [trans ignore] -command "set ::bugs::closed_bug_window 1"
 	button $w.f.b3 -text [trans save] -command "::bugs::save \[tk_getSaveFile -title \"Save Bug Report\" -parent $w\]"
 	button $w.f.b4 -text [trans details] -command "::bugs::toggle_details"
-	button $w.f.b5 -text "[trans cagreement]"
 	text $w.details -height 10 -width 10
 	$w.details insert 0.0 $info
 	
 	pack $w.msg -side top -expand 1 -anchor nw -padx 3m -pady 3m
 	pack $w.desc_l -anchor nw
-	pack $w.f.t -side left -fill y -expand yes
-	pack $w.f.b1 $w.f.b2 $w.f.b3 $w.f.b4 $w.f.b5 -fill x
-	pack $w.f
+	pack $w.f.t -side left -fill both -expand yes
+	pack $w.f.b1 $w.f.b2 $w.f.b3 $w.f.b4 -fill x
+	pack $w.f -fill both -expand yes
+	pack $w.c1.check $w.c1.text $w.c1.end -side left
+	
 	pack $w.c1 -expand yes -anchor w
 	pack $w.c2 -expand yes -anchor w
 	
 	bind $w <Return> "set ::bugs::closed_bug_window 1"
 	bind $w.f.t <KeyRelease> "::bugs::update_comment"
+	
+	bind $w.c1.text <Enter> "$w.c1.text configure -font sunderf"
+	bind $w.c1.text <Leave> "$w.c1.text configure -font splainf"
+	bind $w.c1.text <ButtonRelease> "my_focus \[::amsn::showHelpFileWindow AGREEMENT \"[trans cagreement]\"\]"
 	
 	wm withdraw $w
 	

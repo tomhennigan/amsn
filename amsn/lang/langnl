@@ -595,7 +595,7 @@ sendfile Een bestand of foto verzenden
 sendmail Een e-mail verzenden
 sendmsg Een bericht verzenden
 send Zend
-sendemail Stuur mijn e-mailadres mee, en houdt mij op de hoogte van wijzigingen (zie Vertrouwelijkheids verklaring)
+sendemail Stuur mijn e-mailadres mee, en houdt mij op de hoogte van wijzigingen
 sendmobmsg Een SMS bericht verzenden
 sendwebcaminvite Nodig dit contact uit om je webcam te bekijken
 sentbytes $1 van de $2 bytes verzonden

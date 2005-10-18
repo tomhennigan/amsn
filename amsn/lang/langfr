@@ -594,7 +594,7 @@ selectall Tout sélectionner
 selectplugins Sélectionnez un plug-in
 selectskin Sélectionnez dans la liste l'apparence que vous souhaitez utiliser
 send Envoyer
-sendemail Envoyer mon adresse email pour m'avertir des changements (voir la déclaration de confidentialité)
+sendemail Envoyer mon adresse email pour m'avertir des changements
 sendfile Envoyer un fichier
 sendmail Envoyer un courrier
 sendmobmsg Envoyer un message au mobile
