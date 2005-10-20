@@ -184,8 +184,17 @@ proc taskbar_icon_handler { msg x y } {
 	}
 }
 
+proc trayicon_callback {imgSrc imgDst width height} {
+	puts "Resize"
+	$imgDst copy $imgSrc
+	if { [image width $imgSrc] > $width || [image height $imgSrc] > $height} {
+		::picture::ResizeWithRatio $imgDst $width $height
+	}
+	puts "End of Resize"
+}
+
 proc statusicon_proc {status} {
-	global systemtray_exist statusicon list_states iconmenu wintrayicon tcl_platform statustrayicon defaultbackground
+	global systemtray_exist statusicon list_states iconmenu wintrayicon tcl_platform defaultbackground
 	set cmdline ""
 
 	if { ![WinDock] } {
@@ -193,14 +202,10 @@ proc statusicon_proc {status} {
 		set icon .si
 		if { $systemtray_exist == 1 && $statusicon == 0 && [UnixDock]} {
 			set pixmap "[::skin::GetSkinFile pixmaps doffline.png]"
-			set statusicon [newti $icon -tooltip offline]
 			image create photo statustrayicon -file $pixmap
-			status_log "Status_icon : [statustrayicon cget -width]x[statustrayicon cget -height]"
-			if { [image width statustrayicon] > [winfo width $icon] || [image height statustrayicon] > [winfo height $icon]} {
-				::picture::ResizeWithRatio statustrayicon [winfo width $icon] [winfo height $icon]
-			}
-			label $icon.icon -image statustrayicon -width [winfo width $icon] -height [winfo height $icon] -bg $defaultbackground
-			pack $icon.icon -expand true
+			image create photo statustrayiconres
+			set statusicon [newti $icon -tooltip offline -pixmap statustrayiconres -background $defaultbackground -command "::trayicon_callback statustrayicon statustrayiconres"]
+
 			bind $icon <Button1-ButtonRelease> iconify_proc
 			bind $icon <Button3-ButtonRelease> "tk_popup $iconmenu %X %Y"
 		}
@@ -323,9 +328,10 @@ proc statusicon_proc {status} {
 				if { $pixmap != "null"} {
 					configureti $statusicon -tooltip $tooltip
 					image create photo statustrayicon -file $pixmap
-					if { [image width statustrayicon] > [winfo width $icon] || [image height statustrayicon] > [winfo height $icon]} {
-						::picture::ResizeWithRatio statustrayicon [winfo width $icon] [winfo height $icon]
-					}
+					image create photo statustrayiconres
+					#if { [image width statustrayicon] > [winfo width $icon] || [image height statustrayicon] > [winfo height $icon]} {
+					#	::picture::ResizeWithRatio statustrayicon [winfo width $icon] [winfo height $icon]
+					#}
 				}
 			} else {
 				if { ![winfo exists .bossmode] || $status == "BOSS" } {
@@ -358,7 +364,7 @@ proc taskbar_mail_icon_handler { msg x y } {
 
 proc mailicon_proc {num} {
 	# Workaround for bug in the traydock-plugin - statusicon added - BEGIN
-	global systemtray_exist mailicon statusicon password winmailicon tcl_platform mailtrayicon
+	global systemtray_exist mailicon statusicon password winmailicon tcl_platform mailtrayicon defaultbackground
 	# Workaround for bug in the traydock-plugin - statusicon added - END
 	set icon .mi
 	if {$systemtray_exist == 1 && $mailicon == 0 && ([UnixDock] || [WinDock])  && $num >0} {
@@ -372,13 +378,10 @@ proc mailicon_proc {num} {
 		}
 
 		if { ![WinDock] } {
-			set mailicon [newti $icon -tooltip $msg]
 			image create photo mailtrayicon -file $pixmap
-			if { [image width mailtrayicon] > [winfo width $icon] || [image height mailtrayicon] > [winfo height $icon]} {
-				::picture::ResizeWithRatio mailtrayicon [winfo width $icon] [winfo height $icon]
-			}
-			label $icon.icon -image mailtrayicon -width [winfo width $icon] -height [winfo height $icon]
-			pack $icon.icon -expand true
+			image create photo mailtrayiconres
+			set mailicon [newti $icon -tooltip offline -pixmap mailtrayiconres -background $defaultbackground -command "::trayicon_callback mailtrayicon mailtrayiconres"]
+
 			bind $icon <Button-1> [list ::hotmail::hotmail_login [::config::getKey login] $password]
 		} else {
 			set winmailicon [winico create [::skin::GetSkinFile winicons unread.ico]]

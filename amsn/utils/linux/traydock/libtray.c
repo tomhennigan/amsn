@@ -59,15 +59,21 @@
 typedef struct TrayIcon *TrayIcon_;
 typedef struct {
 	Tk_Window win;
+	Tk_PhotoHandle pixmap;
 	int w,h;
 	char tooltip[256];
+	char cmdCallback[768];
+	Tk_3DBorder border;
+	Window parent;
+	int mustUpdate;
+	int width;
+	int height;
 	TrayIcon_ *prev;
 	TrayIcon_ *next;
-	Window parent;
 }TrayIcon;
 
 static TrayIcon *iconlist=NULL;
-static Tk_3DBorder border=NULL;
+
 /* System tray window ID */
 static Window systemtray;
 static Display *display;
@@ -87,6 +93,7 @@ xembed_set_info (Tk_Window window, unsigned long  flags)
  
    	buffer[0] = 0;                /* Protocol version */
    	buffer[1] = flags;
+ 
 	/* Change the property */
    	XChangeProperty (display,
                     Tk_WindowId(window),
@@ -157,9 +164,11 @@ DockIcon(ClientData clientData)
 	int n, ret, atom;
 	TrayIcon *icon= clientData;
 	unsigned char* wm_name = get_wm_name();
+	fprintf(stderr, "Before dock\n");
+	Tk_MapWindow(icon->win);
 
-	Tk_MapWindow(icon->win); //To really create the window
 	xembed_set_info(icon->win,XEMBED_MAPPED);
+
 	XQueryTree(display, Tk_WindowId(icon->win), &root, &parent, &children, &n);
 	XFree(children);
 	Tk_UnmapWindow(icon->win);
@@ -178,6 +187,37 @@ DockIcon(ClientData clientData)
 	
 	icon->parent = parent;
 }
+
+/* Draw the icon */
+static void
+DrawIcon (ClientData clientData)
+{
+	TrayIcon *icon=clientData;
+	int x,y,w,h,b,d;
+	int widthImg, heightImg;
+	Window r;
+	Pixmap mask;
+	GC gc=NULL;
+	XGCValues gcv;
+	char cmdBuffer[1024];
+
+	XGetGeometry(display, Tk_WindowId(icon->win), &r, &x, &y, &w, &h, &b, &d);
+	if (((icon->width != w) || (icon->height != h) || (icon->mustUpdate)) && (icon->cmdCallback[0] != '\0')) {
+		snprintf(cmdBuffer,sizeof(cmdBuffer),"%s %u %u",icon->cmdCallback,w,h);
+		Tcl_EvalEx(globalinterp,cmdBuffer,-1,TCL_EVAL_GLOBAL);
+		icon->mustUpdate = 0;
+		icon->width = w;
+		icon->height = h;
+	}
+
+	Tk_Fill3DRectangle(icon->win, Tk_WindowId(icon->win),
+		icon->border, 0, 0,
+		w,h,
+		0,TK_RELIEF_FLAT);
+	fprintf(stderr,"%ux%u\n",w,h);
+	Tk_RedrawImage(icon->pixmap, 0, 0, w, h, Tk_WindowId(icon->win), 0, 0);
+}
+
 
 static void show_tooltip (ClientData clientdata)
 {
@@ -211,9 +251,21 @@ static int MessageEvent(
 static void IconEvent(ClientData clientData, register XEvent *eventPtr) {
 	int atom;
 	int mask;
+	int x,y,w,h,b,d;
+	Window r;
+	char cmdBuffer[1024];
 	TrayIcon *icon = (TrayIcon *)clientData;
 
-	if (eventPtr->type == EnterNotify) {
+	if ((eventPtr->type == Expose) && (eventPtr->xexpose.count == 0)) {
+		if (icon->win != NULL)
+			/*horrible hack to redraw the icon when dragging the dock aroun the panels*/
+			Tcl_CreateTimerHandler(500, DrawIcon, icon);
+		goto redraw;
+
+	} else if (eventPtr->type == ConfigureNotify) {
+		icon->mustUpdate=1;
+		goto redraw;
+	} else if (eventPtr->type == EnterNotify) {
 		if (timer == NULL) {
 			timer = Tcl_CreateTimerHandler(500, show_tooltip, icon);
 		}
@@ -228,6 +280,26 @@ static void IconEvent(ClientData clientData, register XEvent *eventPtr) {
 	}
 
 	return;
+
+redraw:
+    	if ((icon->win != NULL)) {
+		Tcl_DoWhenIdle(DrawIcon, (ClientData) icon);
+    	}
+}
+
+static void ImageChangedProc(
+	ClientData clientData,
+	int x,
+	int y,
+	int width,
+	int height,
+	int imageWidth,
+	int imageHeight){
+
+	TrayIcon *icon = (TrayIcon *)clientData;
+
+	icon->mustUpdate=1;
+	Tcl_DoWhenIdle(DrawIcon, clientData);
 }
 
 /* New tray icon procedure (newti command) */
@@ -237,12 +309,13 @@ static int Tk_TrayIconNew  (ClientData clientData,
 		Tcl_Obj *CONST objv[]) {
 
 	int n,test,found;
-	char *arg;
+	char *arg,*pixmap=NULL, *bg="white";
 	size_t length;
 	Tk_Window mainw;
 	unsigned int mask;
 	TrayIcon *icon;
 	XSizeHints *hint;
+	char cmdBuffer[1024];
 
 	/* Get memory for trayicon data and zero it*/
 	icon = (TrayIcon *) malloc(sizeof(TrayIcon));
@@ -250,10 +323,6 @@ static int Tk_TrayIconNew  (ClientData clientData,
 	icon->next = icon->prev=NULL;
 	
 	mainw=Tk_MainWindow(interp);
-
-	/* Get a Tk3DBorder object for later drawing */
-	if (!border)
-		border = Tk_Get3DBorder(interp, mainw, "white");
 
 	/* systemtray was not available in Init */
 	if (systemtray==0) {
@@ -302,10 +371,22 @@ static int Tk_TrayIconNew  (ClientData clientData,
 	for (n=2;n<objc;n++) {
 		arg=Tcl_GetStringFromObj(objv[n],(int *) &length);
 		if (arg[0] == '-') {
-			if (!strncmp(arg,"-tooltip",length)) {
+			if (!strncmp(arg,"-pixmap",length)) {
+				n++;
+				/*Get pixmap name*/
+				pixmap=Tcl_GetStringFromObj(objv[n],(int *) &length);
+			} else if (!strncmp(arg,"-background",length)) {
+				/* Copy background color string */
+				n++;
+				bg=Tcl_GetStringFromObj(objv[n],(int *) &length);
+			} else if (!strncmp(arg,"-tooltip",length)) {
 				/* Copy tooltip string */
 				n++;
 				strcpy (icon->tooltip,Tcl_GetStringFromObj(objv[n],(int *) &length));
+			} else if (!strncmp(arg,"-command",length)) {
+				/* Copy tooltip string */
+				n++;
+				strcpy (icon->cmdCallback,Tcl_GetStringFromObj(objv[n],(int *) &length));
 			} else {
 				Tcl_AppendResult (interp, "unknown", arg,"option", (char *) NULL);
 				return TCL_ERROR;
@@ -316,27 +397,41 @@ static int Tk_TrayIconNew  (ClientData clientData,
 		}
 	}
 
-	/* Create the window */
-	icon->win=Tk_CreateWindowFromPath(interp,mainw,
-		Tcl_GetStringFromObj(objv[1],(int *) &length),"");
+	/* If there's a pixmap file, load it */
+	if (pixmap != NULL) {
+		/* Create the window */
+		icon->win=Tk_CreateWindowFromPath(interp,mainw,
+				Tcl_GetStringFromObj(objv[1],(int *) &length),"");
 
-	DockIcon((ClientData)icon);
+		DockIcon((ClientData)icon);
+		/* Get a Tk3DBorder object for later drawing */
+		icon->border = Tk_Get3DBorder(interp, icon->win, bg);
+		
+		icon->pixmap=Tk_GetImage(interp,icon->win,pixmap,ImageChangedProc, (ClientData)icon);
+		
+		/* Create callback function for event handling */
+		mask = StructureNotifyMask | SubstructureNotifyMask | ExposureMask | PropertyChangeMask | EnterWindowMask | LeaveWindowMask
+		  | PropertyNotify | ReparentNotify;
+		Tk_CreateEventHandler(icon->win, mask, IconEvent, (ClientData) icon);
+		Tk_CreateClientMessageHandler(MessageEvent);
+		
+		/* Set default icon size hint */
+		hint = XAllocSizeHints();
+		hint->flags |=PMinSize;
+		hint->min_width=24;
+		hint->min_height=24;
+	
+		XSetWMNormalHints(display,Tk_WindowId(icon->win),hint);
+		XFree(hint);
 
-	/* Create callback function for event handling */
-	mask = StructureNotifyMask | SubstructureNotifyMask | ExposureMask | PropertyChangeMask | EnterWindowMask | LeaveWindowMask
-		| PropertyNotify | ReparentNotify;
-	Tk_CreateEventHandler(icon->win, mask, IconEvent, (ClientData) icon);
-	Tk_CreateClientMessageHandler(MessageEvent);
-
-	/* Set default icon size hint */
-	hint = XAllocSizeHints();
-	hint->flags |=PMinSize;
-	hint->min_width=24;
-	hint->min_height=24;
-
-	XSetWMNormalHints(display,Tk_WindowId(icon->win),hint);
-	XFree(hint);
-
+		snprintf(cmdBuffer,sizeof(cmdBuffer),"%s %u %u",icon->cmdCallback,24,24);
+		if (Tcl_EvalEx(globalinterp,cmdBuffer,-1,TCL_EVAL_GLOBAL) == TCL_ERROR)
+			return TCL_ERROR;
+	}else{
+		Tcl_AppendResult (interp, "you must provide a pixmap file", (char *) NULL);
+		return TCL_ERROR;
+	}
+	
 	/* Append icon to the icon list */
 	IL_APPEND(iconlist,icon)
 	
@@ -353,7 +448,7 @@ Tk_ConfigureIcon  (ClientData clientData,
     		Tcl_Obj *CONST objv[])
 {
 	int n,test,found;
-	char *arg,*pixmap=NULL;
+	char *arg,*pixmap=NULL,*bg=NULL;
 	size_t length;
 
 	/* Check path name */
@@ -405,10 +500,22 @@ Tk_ConfigureIcon  (ClientData clientData,
 		arg=Tcl_GetStringFromObj(objv[n],(int *) &length);
 		if (arg[0] == '-')
 		{
-			if (!strncmp(arg,"-tooltip",length))
+			if (!strncmp(arg,"-pixmap",length))
+			{
+				n++;
+				pixmap=Tcl_GetStringFromObj(objv[n],(int *) &length);
+			} else if (!strncmp(arg,"-tooltip",length))
 			{
 				n++;
 				strcpy(iconlist->tooltip,Tcl_GetStringFromObj(objv[n],(int *) &length));
+			} else if (!strncmp(arg,"-command",length))
+			{
+				n++;
+				strcpy(iconlist->cmdCallback,Tcl_GetStringFromObj(objv[n],(int *) &length));
+			} else if (!strncmp(arg,"-background",length))
+			{
+				n++;
+				bg=Tcl_GetStringFromObj(objv[n],(int *) &length);
 			} else {
 				Tcl_AppendResult (interp, "unknown", arg,"option", (char *) NULL);
 				return TCL_ERROR;
@@ -419,7 +526,19 @@ Tk_ConfigureIcon  (ClientData clientData,
 		}
 	}
 
-
+	if (pixmap != NULL)
+	{
+		Tk_FreeImage(iconlist->pixmap);
+		iconlist->pixmap=Tk_GetImage(interp,iconlist->win,pixmap,ImageChangedProc, (ClientData)iconlist);
+		Tcl_DoWhenIdle(DrawIcon, (ClientData) iconlist);
+		
+	}
+	if (bg != NULL)
+	{
+		Tk_Free3DBorder(iconlist->border);
+		iconlist->border = Tk_Get3DBorder(interp, iconlist->win, bg);
+		Tcl_DoWhenIdle(DrawIcon, (ClientData) iconlist);
+	}
 	return TCL_OK;
 }
 /*static int 
@@ -559,6 +678,9 @@ Tk_RemoveIcon  (ClientData clientData,
 	
 	//XReparentWindow (display,Tk_WindowId(iconlist->win),DefaultRootWindow(display),0,0);
 	printf("Destroying %s\n",Tk_PathName(iconlist->win));
+
+	Tk_FreeImage(iconlist->pixmap);
+	Tk_Free3DBorder(iconlist->border);
 	Tk_DestroyWindow(iconlist->win);
 	
 	/* Remove it from the list */
