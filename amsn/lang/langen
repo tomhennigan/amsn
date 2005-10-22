@@ -197,6 +197,8 @@ custom_new Add new custom smiley
 customnick Custom Nick
 customstyle Customized style
 cut Cut
+cutimagebox Select the part of the image you want to use, resizing and moving the selection-box
+cutimageboxreset Reset the selection box\nsize to:
 date Date
 dateformat Change date format 
 day Day

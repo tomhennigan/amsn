@@ -162,7 +162,7 @@ namespace eval ::camshoot {
 		#Create upper informational frame
 		set up $w.infotext
 		frame $up
-		label $up.label -text "Select the part of the image you want to use, resizing and moving the selection-box"  -font sboldf
+		label $up.label -text "[trans cutimagebox]"  -font sboldf
 		pack $up.label
 		
 
@@ -183,7 +183,7 @@ namespace eval ::camshoot {
 		button $mid.resel.large -text "[trans large]" -command "set ::PrintBox::xy {0 0 128 128}; ::PrintBox::Resize $w.mid.stillpreview"
 		button $mid.resel.default -text "[trans default2]" -command "set ::PrintBox::xy {0 0 96 96}; ::PrintBox::Resize $w.mid.stillpreview"
 		button $mid.resel.small -text "[trans small]" -command "set ::PrintBox::xy {0 0 64 64}; ::PrintBox::Resize $w.mid.stillpreview"
-		label $mid.resel.text -text "Reset the selection box\nsize to:"
+		label $mid.resel.text -text "[trans cutimageboxreset]"
 		
 		pack $mid.resel.text $mid.resel.small $mid.resel.default $mid.resel.large $mid.resel.huge -side top -pady 3
 

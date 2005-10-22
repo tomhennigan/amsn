@@ -1806,10 +1806,10 @@ namespace eval ::amsn {
 			catch {menu $win.picmenu.size -tearoff 0 -type normal}
 			$win.picmenu.size delete 0 end
 			#4 possible size (someone can add something to let the user choose his size)
-			$win.picmenu.size add command -label "64x64" -command "::picture::ConvertDPSize $user $win 64 64"
-			$win.picmenu.size add command -label "96x96" -command "::picture::ConvertDPSize $user $win 96 96"
-			$win.picmenu.size add command -label "128x128" -command "::picture::ConvertDPSize $user $win 128 128"
-			$win.picmenu.size add command -label "192x192" -command "::picture::ConvertDPSize $user $win 192 192"
+			$win.picmenu.size add command -label "[trans small]" -command "::picture::ConvertDPSize $user $win 64 64"
+			$win.picmenu.size add command -label "[trans default2]" -command "::picture::ConvertDPSize $user $win 96 96"
+			$win.picmenu.size add command -label "[trans large]" -command "::picture::ConvertDPSize $user $win 128 128"
+			$win.picmenu.size add command -label "[trans huge]" -command "::picture::ConvertDPSize $user $win 192 192"
 			#Get back to original picture
 			$win.picmenu.size add command -label "[trans original]" -command "::MSNP2P::loadUserPic $chatid $user 1"
 		}
@@ -7586,10 +7586,10 @@ proc AskDPSize { cursize } {
 	frame .askdpsize.rb -class Degt
 
 	radiobutton .askdpsize.rb.retain -text [trans original] -value $cursize -variable dpsize
-	radiobutton .askdpsize.rb.huge -text "192x192" -value "192x192" -variable dpsize
-	radiobutton .askdpsize.rb.large -text "128x128" -value "128x128" -variable dpsize
-	radiobutton .askdpsize.rb.default -text "96x96 ([trans default2])" -value "96x96" -variable dpsize
-	radiobutton .askdpsize.rb.small -text "64x64" -value "64x64" -variable dpsize
+	radiobutton .askdpsize.rb.huge -text [trans huge] -value "192x192" -variable dpsize
+	radiobutton .askdpsize.rb.large -text [trans large] -value "128x128" -variable dpsize
+	radiobutton .askdpsize.rb.default -text [trans default2] -value "96x96" -variable dpsize
+	radiobutton .askdpsize.rb.small -text [trans small] -value "64x64" -variable dpsize
 
 	button .askdpsize.okb -text [trans ok] -command "set done 1" -default active
 	button .askdpsize.cancelb -text [trans cancel] -command "destroy .askdpsize" -default active

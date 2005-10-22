@@ -2387,6 +2387,8 @@ namespace eval ::CAMGUI {
 		set preview $window.preview
 		set buttons $window.buttons
 
+		wm title $window "[trans captureproperties]"
+
 		set device ""
 		set channel ""
 
