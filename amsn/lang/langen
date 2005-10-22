@@ -98,6 +98,7 @@ cantloadonlineversion Can't recover the On-Line updated list of languages from t
 cantremoveothers The "Others" group cannot be removed
 captureextloaded Capture extension -$1- is loaded
 captureextnotloaded Capture extension -$1- is not loaded, you have to compile it first
+captureproperties Webcam image properties
 casesensitive Use case-sensitive triggers
 cfgalarmall Configure/Add/Remove Global Alarm
 cfgalarm Configure/Add/Remove Alarm
