@@ -179,10 +179,10 @@ namespace eval ::camshoot {
 
 		#create the frame where the buttons are to resize the selection box (middle-right)
 		frame $mid.resel -class Degt
-		button $mid.resel.huge -text "Huge" -command "set ::PrintBox::xy {0 0 192 192}; ::PrintBox::Resize $w.mid.stillpreview"
-		button $mid.resel.large -text "Large" -command "set ::PrintBox::xy {0 0 128 128}; ::PrintBox::Resize $w.mid.stillpreview"
+		button $mid.resel.huge -text "[trans huge]" -command "set ::PrintBox::xy {0 0 192 192}; ::PrintBox::Resize $w.mid.stillpreview"
+		button $mid.resel.large -text "[trans large]" -command "set ::PrintBox::xy {0 0 128 128}; ::PrintBox::Resize $w.mid.stillpreview"
 		button $mid.resel.default -text "[trans default2]" -command "set ::PrintBox::xy {0 0 96 96}; ::PrintBox::Resize $w.mid.stillpreview"
-		button $mid.resel.small -text "Small" -command "set ::PrintBox::xy {0 0 64 64}; ::PrintBox::Resize $w.mid.stillpreview"
+		button $mid.resel.small -text "[trans small]" -command "set ::PrintBox::xy {0 0 64 64}; ::PrintBox::Resize $w.mid.stillpreview"
 		label $mid.resel.text -text "Reset the selection box\nsize to:"
 		
 		pack $mid.resel.text $mid.resel.small $mid.resel.default $mid.resel.large $mid.resel.huge -side top -pady 3
@@ -259,7 +259,7 @@ namespace eval ::camshoot {
 		destroy .webcampicturedoyoulikeit
 		raise .picbrowser
 
-		reloadAvailablePics
+#		reloadAvailablePics
 	}
 
 	#Save the display picture somewhere on the hard disk

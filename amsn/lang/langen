@@ -328,6 +328,7 @@ history View History
 home Home
 httpconnection Connect using HTTP method (uses HTTP protocol over port 80)
 hue Hue
+huge Huge
 hybrid Hybrid mode
 ident Identifying
 identity Identity
@@ -360,6 +361,7 @@ keeplog2 Log all conversations to aMSN's History for future viewing
 keeplog Keep Logs of Chats
 language Language
 language_manager Language manager
+large Large
 lastlogin Last Log In
 lastlogout Last Log Out
 lastmsgedme Last Message
@@ -619,6 +621,7 @@ showuserpic $1's Display Picture
 signinstatus Sign-in status
 skinselector Select Skin
 skin Skin
+small Small
 smileconfig Custom emoticon configuration
 smilefile Smiley filename
 smileintro2 Please edit the required fields to customize this smiley (see the FAQ for help)
@@ -736,6 +739,7 @@ webcamrequestsend Sent request to send webcam
 webcamrequestreceive Sent request to receive webcam
 webcamsending List of people you are currently sending webcam\nClick to cancel
 webcamshot Webcam Shot
+whatisamsn aMSN is a platform-independent MSN Messenger clone
 whatsize The image you have requested is not the normal display picture\nsize (96x96) What size would you like the image to be displayed as?
 willjoin Waiting for $1 to join conversation
 winkreceived You have received a Wink from $1. This feature is not currently supported by aMSN.

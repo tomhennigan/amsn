@@ -367,7 +367,7 @@ namespace eval ::amsn {
 
 		label .about.image -image [::skin::loadPixmap msndroid]
 		label .about.title -text "aMSN $::version ([::abook::dateconvert $date])" -font bboldf
-		label .about.what -text "aMSN is a platform-independent MSN Messenger clone\n"
+		label .about.what -text "[trans whatisamsn]\n"
 		pack .about.image .about.title .about.what -side top
 
 		#names-frame
