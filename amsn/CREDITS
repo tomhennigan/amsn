@@ -34,10 +34,10 @@ Aitor R. de Samaniego (Code contributions)
 Added by Alvaro J. Iradier.
 
 The Language Management Team: 
-	ï¿½varo J. Iradier
+	Álvaro J. Iradier
 	Cheng-Lin Yang
 	Henrique Cesar Ulbrich (Hatredman)
-	Pavel Vï¿½ra
+	Pavel Vávra
 	Thomas Geirhovd		   
 
 Translations to:
@@ -56,11 +56,12 @@ Bosanski (Bosnian): by Alem Dizdarevic
 Bulgarian: by Ioan Stoimenov Iliavanov
 	https://sourceforge.net/projects/gtlt
 
-Catalï¿½(Catalan): Agusti Dosaiguas
+Català (Catalan): Agusti Dosaiguas
 	Albert Astals Cid
 	Lacetani
 	Miquel Serralta
-	Jaume Masvidal Ollï¿½	Noï¿½Juan Roig
+	Jaume Masvidal Ollé
+	Noé Juan Roig
 
 Chinese - Traditional (Taiwan): by Stanley Chu
         Cheng-Lin Yang
@@ -76,7 +77,7 @@ Dansk (Danish):
 	Benjamin Schultzer
 	Anders Bach Nielsen
 	Thomas Petersen
-	Sren Louring
+	Søren Louring
 	Kim H. Hansen
 	Kenneth Johansen
 	Alexander Dan Bartholdy
@@ -89,14 +90,14 @@ Deutsch (German): Jose H. Freidhof
 	Leo Spalteholz
 	Lars Ermert
 	Philipp Winter
-	Andreas Krger
+	Andreas Krüger
 	Bart W. Kemps
 	Peter Roediger
-	Tobias Weï¿½l
+	Tobias Weßel
 	
 Dutch (Nederlands): by Jan Keirse
 	D. Emilio Grimaldo
-	Stï¿½han Eizinga
+	Stèphan Eizinga
 	Wouter de Bie
 	Jurgen De Backer
 	R. Neleman
@@ -114,7 +115,7 @@ Dutch (Nederlands): by Jan Keirse
 	Tiemen Rozeboom
 
 Eivissec (Ibiza local language):
-	by Noï¿½Juan Roig
+	by Noé Juan Roig
 	
 Ellinika (Greek): by Michail Dimitris	
 	
@@ -123,7 +124,7 @@ English: by Alvaro J. Iradier
 	Jody Branter
 	D. Emilio Grimaldo
 
-Espaï¿½l (Spanish): by Alvaro J. Iradier
+Español (Spanish): by Alvaro J. Iradier
 	D. Emilio Grimaldo
 	Luis Llorente Campo
 
@@ -132,25 +133,25 @@ Esperanto: by Mike Mintz
 Estonian: by Martin Leo-Kisand
 	Uwe Tallmeister
 	Jaanis Kaar
-	ï¿½lar Pajus
+	Üllar Pajus
 
 Euskera: by Galder Segurola
 	Internet&Euskadi www.interneteuskadi.org
 	NOTE: just for testing, some words don't match, still need some
 	improvements. Mail suggestions and additions.
 
-Franï¿½is (French): by Guillaume Vaillant
+Français (French): by Guillaume Vaillant
 	Charles Castelain
 	JM Billaud
-	Frï¿½ï¿½ic Delrieu
+	Frédéric Delrieu
 	Bernard Nauwelaerts
 	Raphael Michel
 	Alain Cabiran
-	Valï¿½e
-	Valï¿½y Norrant
+	Valère
+	Valéry Norrant
 	Kami Rousseau
-	Raphaï¿½ Slinckx
-	Aurï¿½ien Christman
+	Raphaël Slinckx
+	Aurélien Christman
 	Yves Dutrieux
 	Cyril Garcia
 	Patrick Legault
@@ -158,8 +159,8 @@ Franï¿½is (French): by Guillaume Vaillant
 	Thibault North
 	Joseph Duron
 
-Franï¿½is du Canada (French - Canadian): by Dominic Genest
-	Frï¿½ï¿½ic Delrieu
+Français du Canada (French - Canadian): by Dominic Genest
+	Frédéric Delrieu
 	Olivier Lussier
 	Gavin Sharp
 	Martin Bchale
@@ -176,8 +177,8 @@ Greeklish: by noki[a]
 
 Indonesian: by Rai S. Regawa
 
-ï¿½lenska (Icelandic): by Einar Th. Einarsson
-	ï¿½ak Ben
+Íslenska (Icelandic): by Einar Th. Einarsson
+	Ísak Ben
 
 
 Italiano (Italian): by Andrea Di Mento
@@ -199,13 +200,13 @@ Korean: by Baek, Seungsoon
 
 Macedonian: by Todor Tanevski
 
-Magyar (Hungarian): by Albert Szoldï¿½
+Magyar (Hungarian): by Albert Szoldán
 
 Mongolian: by Zayabaatar Dagvatur
 
 
 Norsk (Norwegian): Gunnar Tjomlid
-	Erik Trrissen / MrIron
+	Erik Tørrissen / MrIron
 	tg90nor (Thomas Geirhovd)
 	Christian Jacobsen
 
@@ -214,7 +215,7 @@ Polski (Polish): Michael Swoboda
 	Manveru1986 (manveru1986 at op.pl)
 	Michal Newiak
 
-Portuguï¿½ (Portuguese): by Gustavo J.A.M. Carneiro
+Português (Portuguese): by Gustavo J.A.M. Carneiro
 	Mario Joao
 	Paulo Almeida
 	Manuel Silva
@@ -223,17 +224,17 @@ Portuguï¿½ (Portuguese): by Gustavo J.A.M. Carneiro
 	Luis Abobora Filipe G. Figuereido
 	Paulo Oliveira
 	Nuno Alves
-	Joï¿½ Pedro Oliveira
+	João Pedro Oliveira
 	Carlos Silva
 	Victor Rades
 
-Portuguï¿½ do Brasil (Brazilian Portuguese): by Cristiano Leivas
-	Aurï¿½io Couto Arruda
+Português do Brasil (Brazilian Portuguese): by Cristiano Leivas
+	Aurélio Couto Arruda
 	Henrique Cesar Ulbrich
 	Fernando Meyer Camargo
 	Mauricio Maciel
 	Fabricio Souza
-	Diï¿½enes Guedes Rettori
+	Diógenes Guedes Rettori
 	Cleber P. de Souza
 	Marcelo Abondanza
 	Rafael Giorgetti
@@ -267,7 +268,7 @@ Suomi (Finnish): by Kalle Kilpinen
 
 Swahili: by Nsubis
 
-Svenka (Swedish): by Tom Widerstrï¿½
+Svenka (Swedish): by Tom Widerström
 	Jimmy Svensson
 	Richard Strand
 	Oscar Jansson
@@ -276,12 +277,12 @@ Svenka (Swedish): by Tom Widerstrï¿½
 
 Tamil: by S. Muguntharaj
 
-Trkï¿½ (Turkish): by Baris Cicek
+Türkçe (Turkish): by Baris Cicek
 	Gurkan Bebek
 	Kemal Ilgar Eroglu
 
-Valenciï¿½(Valenciano): Juan Arnal Arlandis
-	Juan Josï¿½Garcï¿½ Amaya
+Valencià (Valenciano): Juan Arnal Arlandis
+	Juan José García Amaya
 
 
 ========================================================
@@ -291,9 +292,9 @@ Catalan: Fernando Verdu Castillo
 Deutsch: 
 Dutch: Harry Vennik
 Spanish: Daniel Lopez
-Estonian: ï¿½lar Pajus
+Estonian: Üllar Pajus
 Indonesian: Rai S. Regawa
-Portuguese: Filipe Defiant Gonï¿½lves Figueiredo
+Portuguese: Filipe Defiant Gonçalves Figueiredo
 Portuguese (Brasil): Daniel Lopez 
 Romanian: Arny - http://www.arny.ro/html/amsnro.html
 Slovenian: Janos Vidali
@@ -308,7 +309,7 @@ Welsh: Rhoslyn Prys
 
 Bart W. Kemps
 Guillermo Lapresta
-Josuï¿½Rivera Rï¿½s
+Josué Rivera Ríos
 LadyMariu
 Henry Damewood
 James Houston
