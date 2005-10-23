@@ -486,6 +486,14 @@ namespace eval ::abook {
 		return $nick
 	}
 
+	proc getPassportfromContactguid { contactguid } {
+		foreach contact [::abook::getAllContacts] {
+			if { [::abook::getContactData $contact contactguid] == $contactguid } {
+				return $contact
+			}
+		}
+	}
+
 	proc lastSeen { } {
 		foreach contact [::abook::getAllContacts] {
 			set user_state_code [::abook::getVolatileData $contact state FLN]

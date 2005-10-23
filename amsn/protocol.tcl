@@ -1169,12 +1169,16 @@ namespace eval ::MSN {
 		if { $userName == "" } {
 			set userName $passport
 		}
-		set atrid [::MSN::WriteSB ns "ADD" "FL $passport [urlencode $userName] $newGid"]
+		if { [::config::getKey protocol ] == 11 } {
+			set contactguid [::abook::getContactData $passport contactguid]
+			set atrid [::MSN::WriteSB ns "ADC" "FL C=$contactguid $newGid"]
+		} else {
+			set atrid [::MSN::WriteSB ns "ADD" "FL $passport [urlencode $userName] $newGid"]
+		}
 		set rtrid [::MSN::WriteSB ns "REM" "FL $passport $oldGid"]
 
 		#an event to let the GUI know a user is moved between 2 groups
 		::Event::fireEvent movedContact protocol $passport $oldGid $newGid
-
 
 	}
 
@@ -1183,8 +1187,14 @@ namespace eval ::MSN {
 		if { $userName == "" } {
 			set userName $passport
 		}
-		set atrid [::MSN::WriteSB ns "ADD" "FL $passport [urlencode $userName] $newGid"]
-		#an event to let the GUI know a user is copied/added to a group
+		if { [::config::getKey protocol ] == 11 } {
+			set contactguid [::abook::getContactData $passport contactguid]
+			set atrid [::MSN::WriteSB ns "ADC" "FL C=$contactguid $newGid"]
+		} else {
+			set atrid [::MSN::WriteSB ns "ADD" "FL $passport [urlencode $userName] $newGid"]
+		}
+
+		# An event to let the GUI know a user is copied/added to a group
 		::Event::fireEvent addedUser protocol $passport $newGid
 	}
 
@@ -4081,6 +4091,28 @@ proc cmsn_ns_handler {item {message ""}} {
 				status_log "After 3: [lindex $item 4] is now in groups: [::abook::getGroups [lindex $item 4]]\n"
 				return 0
 			}
+			ADC {
+				# Adding a new contact initially
+				if { ([string range [lindex $item 3] 0 1] == "N=") } {
+					set curr_list [lindex $item 2]
+					set passport [string range [lindex $item 3] 2 end]
+					set displayname [string range [lindex $item 4] 2 end]
+					set contactguid [string range [lindex $item 5] 2 end]
+					if { ($curr_list == "FL") } {
+						::abook::setContactData $passport nick [urldecode $displayname]
+						::abook::setContactData $passport contactguid $contactguid
+					}
+				} elseif { ([string range [lindex $item 3] 0 1] == "C=") } {
+					set curr_list [lindex $item 2]
+					set contactguid [string range [lindex $item 3] 2 end]
+					set group [string range [lindex $item 4] 2 end]
+					if { ($curr_list == "FL") } {
+						::abook::addContactToGroup [::abook::getPassportfromContactguid $contactguid] $group
+					}
+				}
+				#cmsn_listupdate $item
+				return 0
+			}
 			REM {
 				new_contact_list "[lindex $item 3]"
 				cmsn_listdel $item
@@ -4959,6 +4991,18 @@ proc cmsn_listupdate {recv} {
 		set nickname [urldecode [lindex $recv 5]]
 		set groups [::abook::getGroups $username]
 
+	} elseif { [lindex $recv 0] == "ADC" } {
+		set list_names "[string toupper [lindex $recv 2]]"
+
+		set command ADC
+
+		set current 1
+		set total 1
+
+		set username ""
+		set nickname ""
+		set groups ""
+		
 
 	} else {
 
