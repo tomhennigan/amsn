@@ -2808,7 +2808,7 @@ namespace eval ::Event {
 
 		set username [string range [lindex $command 1] 2 end]
 		set nickname [urldecode [string range [lindex $command 2] 2 end]]
-
+		set contactguid [string range [lindex $command 3] 2 end]
 		set list_names [process_msnp9_lists [lindex $command 4]]
 		set groups [split [lindex $command 5] ,]
 		if { $groups == "" } {
@@ -2821,8 +2821,8 @@ namespace eval ::Event {
 		#Remove user from all lists while receiving List data
 		::abook::setContactData $username lists ""
 
-
 		::abook::setContactData $username nick $nickname
+		::abook::setContactData $username contactguid $contactguid
 
 		foreach list_sort $list_names {
 
