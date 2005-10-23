@@ -64,22 +64,21 @@ typedef struct {
 	char tooltip[256];
 	char cmdCallback[768];
 	Tk_3DBorder border;
-	Window parent;
 	int mustUpdate;
 	int width;
 	int height;
 	TrayIcon_ *prev;
 	TrayIcon_ *next;
-}TrayIcon;
+} TrayIcon;
 
 static TrayIcon *iconlist=NULL;
 
 /* System tray window ID */
 static Window systemtray;
 static Display *display;
-static int msgid=0;
+//static int msgid=0;
 Tcl_TimerToken timer=NULL;
-static int tooltip=0;
+//static int tooltip=0;
 Tcl_Interp * globalinterp;
 
 /* Set embed information */
@@ -102,7 +101,8 @@ xembed_set_info (Tk_Window window, unsigned long  flags)
                     (unsigned char *)buffer, 2);
 }
 
-void send_message( Display* dpy,Window w,
+static void
+send_message (Display* dpy,Window w,
 		Atom type,long message, 
 		long data1, long data2, long data3)
 {
@@ -128,31 +128,32 @@ void send_message( Display* dpy,Window w,
     //}
 }
 
-static unsigned char *get_wm_name() {
-        int screen = DefaultScreen(display);
-        Atom type;
-        int format;
-        long n_returned;
-        long bytes_returned;
-        unsigned char *buffer;
-
-        Window root = RootWindow(display, screen);
-        Window *child;
-        Atom supwmcheck = XInternAtom(display, "_NET_SUPPORTING_WM_CHECK", False);
-        Atom wmname = XInternAtom(display, "_NET_WM_NAME", False);
-
-        XGetWindowProperty(display, root, supwmcheck, 0, 8, False, AnyPropertyType, &type, &format, &n_returned,
-                        &bytes_returned, (unsigned char **)&child);
-
-        if (n_returned != 1) return NULL;
-
-        XGetWindowProperty(display, *child, wmname, 0, 128, False, AnyPropertyType, &type, &format, &n_returned,
-                        &bytes_returned, &buffer);
-
-        if (n_returned == 0) return NULL;
-
-        XFree(child);
-        return buffer;
+static char
+*get_wm_name (void)
+{
+	int screen = DefaultScreen(display);
+	Atom type;
+	int format;
+	unsigned long bytes_returned, n_returned;
+	unsigned char *buffer;
+	
+	Window root = RootWindow(display, screen);
+	Window *child;
+	Atom supwmcheck = XInternAtom(display, "_NET_SUPPORTING_WM_CHECK", False);
+	Atom wmname = XInternAtom(display, "_NET_WM_NAME", False);
+	
+	XGetWindowProperty(display, root, supwmcheck, 0, 8, False, AnyPropertyType, &type, &format, &n_returned,
+			&bytes_returned, (unsigned char **)&child);
+	
+	if (n_returned != 1) return NULL;
+	
+	XGetWindowProperty(display, *child, wmname, 0, 128, False, AnyPropertyType, &type, &format, &n_returned,
+			&bytes_returned, &buffer);
+	
+	if (n_returned == 0) return NULL;
+	
+	XFree(child);
+	return (char *) buffer;
 }
 
 /* Procedure that Docks the icon */
@@ -161,20 +162,22 @@ DockIcon(ClientData clientData)
 {
 
 	Window root, parent, *children;
-	int n, ret, atom;
+	unsigned int n, ret, atom;
 	TrayIcon *icon= clientData;
-	unsigned char* wm_name = get_wm_name();
-	fprintf(stderr, "Before dock\n");
+	char* wm_name = get_wm_name();
+
 	Tk_MapWindow(icon->win);
 
 	xembed_set_info(icon->win,XEMBED_MAPPED);
 
-	XQueryTree(display, Tk_WindowId(icon->win), &root, &parent, &children, &n);
-	XFree(children);
 	Tk_UnmapWindow(icon->win);
 
 	if (wm_name != NULL && !strcmp(wm_name, "KWin")) {
+		XQueryTree(display, Tk_WindowId(icon->win), &root, &parent, &children, &n);
+		XFree(children);
+
 		atom = XInternAtom(display, "_KDE_NET_WM_SYSTEM_TRAY_WINDOW_FOR", False);
+
 		ret = XChangeProperty(display, parent, atom,
 				XA_WINDOW, 32, PropModeReplace, (unsigned char *)&parent, 1);
 		Tk_MapWindow(icon->win);
@@ -184,8 +187,7 @@ DockIcon(ClientData clientData)
 	}
 
 	XFree(wm_name);
-	
-	icon->parent = parent;
+
 }
 
 /* Draw the icon */
@@ -193,33 +195,33 @@ static void
 DrawIcon (ClientData clientData)
 {
 	TrayIcon *icon=clientData;
-	int x,y,w,h,b,d;
+	int x,y;
+	unsigned int w,h,b,d;
 	int widthImg, heightImg;
 	Window r;
-	Pixmap mask;
-	GC gc=NULL;
-	XGCValues gcv;
 	char cmdBuffer[1024];
 
 	XGetGeometry(display, Tk_WindowId(icon->win), &r, &x, &y, &w, &h, &b, &d);
+
 	if (((icon->width != w) || (icon->height != h) || (icon->mustUpdate)) && (icon->cmdCallback[0] != '\0')) {
 		snprintf(cmdBuffer,sizeof(cmdBuffer),"%s %u %u",icon->cmdCallback,w,h);
 		Tcl_EvalEx(globalinterp,cmdBuffer,-1,TCL_EVAL_GLOBAL);
-		icon->mustUpdate = 0;
+		icon->mustUpdate = False;
 		icon->width = w;
 		icon->height = h;
 	}
-
+	
 	Tk_Fill3DRectangle(icon->win, Tk_WindowId(icon->win),
 		icon->border, 0, 0,
 		w,h,
 		0,TK_RELIEF_FLAT);
-	fprintf(stderr,"%ux%u\n",w,h);
-	Tk_RedrawImage(icon->pixmap, 0, 0, w, h, Tk_WindowId(icon->win), 0, 0);
+	Tk_SizeOfImage(icon->pixmap, &widthImg, &heightImg);
+	Tk_RedrawImage(icon->pixmap, 0, 0, widthImg, heightImg, Tk_WindowId(icon->win), (w-widthImg)/2 , (h-heightImg)/2 );
 }
 
 
-static void show_tooltip (ClientData clientdata)
+/*static void
+show_tooltip (ClientData clientdata)
 {
 	TrayIcon *icon = (TrayIcon *)clientdata;
 	if (icon->tooltip != NULL)
@@ -230,30 +232,29 @@ static void show_tooltip (ClientData clientdata)
 	timer=NULL;
 }
 
-static void remove_tooltip ()
+static void
+remove_tooltip (void)
 {
 	if (tooltip == 1)
 	{
 		tooltip=0;
 	}
-}
+}*/
 
 
 /* Callback function when a message arrives */
-static int MessageEvent(
-        Tk_Window tkwin,
-        XEvent *eventPtr) {
-//		  printf("Message\n");
+static int
+MessageEvent (Tk_Window tkwin, XEvent *eventPtr)
+{
+//	printf("Message\n");
+	return 0;
 }
 
 
 /* Callback function when an event happens */
-static void IconEvent(ClientData clientData, register XEvent *eventPtr) {
-	int atom;
-	int mask;
-	int x,y,w,h,b,d;
-	Window r;
-	char cmdBuffer[1024];
+static void
+IconEvent (ClientData clientData, register XEvent *eventPtr)
+{
 	TrayIcon *icon = (TrayIcon *)clientData;
 
 	if ((eventPtr->type == Expose) && (eventPtr->xexpose.count == 0)) {
@@ -263,9 +264,9 @@ static void IconEvent(ClientData clientData, register XEvent *eventPtr) {
 		goto redraw;
 
 	} else if (eventPtr->type == ConfigureNotify) {
-		icon->mustUpdate=1;
+		icon->mustUpdate=True;
 		goto redraw;
-	} else if (eventPtr->type == EnterNotify) {
+	} /*else if (eventPtr->type == EnterNotify) {
 		if (timer == NULL) {
 			timer = Tcl_CreateTimerHandler(500, show_tooltip, icon);
 		}
@@ -277,7 +278,7 @@ static void IconEvent(ClientData clientData, register XEvent *eventPtr) {
 			timer=NULL;
 		}
 
-	}
+	}*/
 
 	return;
 
@@ -287,28 +288,31 @@ redraw:
     	}
 }
 
-static void ImageChangedProc(
-	ClientData clientData,
+static void
+ImageChangedProc (ClientData clientData,
 	int x,
 	int y,
 	int width,
 	int height,
 	int imageWidth,
-	int imageHeight){
+	int imageHeight)
+{
 
 	TrayIcon *icon = (TrayIcon *)clientData;
 
-	icon->mustUpdate=1;
+	icon->mustUpdate=True;
 	Tcl_DoWhenIdle(DrawIcon, clientData);
 }
 
 /* New tray icon procedure (newti command) */
-static int Tk_TrayIconNew  (ClientData clientData,
+static int
+Tk_TrayIconNew (ClientData clientData,
 		Tcl_Interp *interp,
 		int objc,
-		Tcl_Obj *CONST objv[]) {
+		Tcl_Obj *CONST objv[])
+{
 
-	int n,test,found;
+	int n,found;
 	char *arg,*pixmap=NULL, *bg="white";
 	size_t length;
 	Tk_Window mainw;
@@ -406,12 +410,10 @@ static int Tk_TrayIconNew  (ClientData clientData,
 		DockIcon((ClientData)icon);
 		/* Get a Tk3DBorder object for later drawing */
 		icon->border = Tk_Get3DBorder(interp, icon->win, bg);
-		
 		icon->pixmap=Tk_GetImage(interp,icon->win,pixmap,ImageChangedProc, (ClientData)icon);
 		
 		/* Create callback function for event handling */
-		mask = StructureNotifyMask | SubstructureNotifyMask | ExposureMask | PropertyChangeMask | EnterWindowMask | LeaveWindowMask
-		  | PropertyNotify | ReparentNotify;
+		mask = StructureNotifyMask | SubstructureNotifyMask | ExposureMask | PropertyChangeMask | EnterWindowMask | LeaveWindowMask  | PropertyNotify | ReparentNotify;
 		Tk_CreateEventHandler(icon->win, mask, IconEvent, (ClientData) icon);
 		Tk_CreateClientMessageHandler(MessageEvent);
 		
@@ -442,12 +444,12 @@ static int Tk_TrayIconNew  (ClientData clientData,
 
 /* configureti command */
 static int 
-Tk_ConfigureIcon  (ClientData clientData,
+Tk_ConfigureIcon (ClientData clientData,
 		Tcl_Interp *interp,
     		int objc,
     		Tcl_Obj *CONST objv[])
 {
-	int n,test,found;
+	int n,found;
 	char *arg,*pixmap=NULL,*bg=NULL;
 	size_t length;
 
@@ -537,6 +539,7 @@ Tk_ConfigureIcon  (ClientData clientData,
 	{
 		Tk_Free3DBorder(iconlist->border);
 		iconlist->border = Tk_Get3DBorder(interp, iconlist->win, bg);
+		
 		Tcl_DoWhenIdle(DrawIcon, (ClientData) iconlist);
 	}
 	return TCL_OK;
@@ -629,7 +632,7 @@ Tk_TrayIconBalloon  (ClientData clientData,
 
 /* Removes the icon from the dock area */
 static int 
-Tk_RemoveIcon  (ClientData clientData,
+Tk_RemoveIcon (ClientData clientData,
 		Tcl_Interp *interp,
     		int objc,
     		Tcl_Obj *CONST objv[])
@@ -675,9 +678,6 @@ Tk_RemoveIcon  (ClientData clientData,
 		Tcl_AppendResult (interp, "tray icon not found: ",arg , (char *) NULL);
 		return TCL_OK;
 	}
-	
-	//XReparentWindow (display,Tk_WindowId(iconlist->win),DefaultRootWindow(display),0,0);
-	printf("Destroying %s\n",Tk_PathName(iconlist->win));
 
 	Tk_FreeImage(iconlist->pixmap);
 	Tk_Free3DBorder(iconlist->border);
@@ -716,7 +716,7 @@ Tk_RemoveIcon  (ClientData clientData,
 
 
 static int 
-Tk_SystemTrayAvailable  (ClientData clientData,
+Tk_SystemTrayAvailable (ClientData clientData,
 		Tcl_Interp *interp,
     		int objc,
     		Tcl_Obj *CONST objv[])
@@ -732,7 +732,8 @@ Tk_SystemTrayAvailable  (ClientData clientData,
 }
 
 /* Initialization procedure, called when loading the shared library */
-int Tray_Init(Tcl_Interp *interp)
+int
+Tray_Init (Tcl_Interp *interp)
 {
 	char buffer[256];
 	Atom a;
@@ -766,7 +767,7 @@ int Tray_Init(Tcl_Interp *interp)
 		(ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
 	Tcl_CreateObjCommand(interp, "systemtray_exist", Tk_SystemTrayAvailable,
 		(ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
-    	/*Tcl_CreateObjCommand(interp, "tiballoon", Tk_TrayIconBalloon,
+/*	Tcl_CreateObjCommand(interp, "tiballoon", Tk_TrayIconBalloon,
 	    	(ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);*/
 
     return TCL_OK;
