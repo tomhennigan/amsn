@@ -675,7 +675,6 @@ tabbedglobal A tabbed window for all users in the contact list
 tabbedgroups A tabbed window for users from the same group
 tabbed Tabbed Windows
 tabtitlenick Display nicks in the tabs instead of email
-takesnapshot Take Snapshot
 temp_state Don't save (Temporary state, will be missed when close AMSN)
 textsize Text size
 thismonth This month
@@ -741,7 +740,6 @@ webcamrejected $1 rejected invitation for webcam session
 webcamrequestsend Sent request to send webcam
 webcamrequestreceive Sent request to receive webcam
 webcamsending List of people you are currently sending webcam\nClick to cancel
-webcamshot Webcam Shot
 whatisamsn aMSN is a platform-independent MSN Messenger clone
 whatsize The image you have requested is not the normal display picture\nsize (96x96) What size would you like the image to be displayed as?
 willjoin Waiting for $1 to join conversation
