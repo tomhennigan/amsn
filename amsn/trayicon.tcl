@@ -30,6 +30,7 @@ proc iconify_proc {} {
 	#bind $statusicon <Button-1> deiconify_proc
 }
 
+# Load the needed library (platform dependent) and create the context-menu
 proc trayicon_init {} {
 	global systemtray_exist password iconmenu wintrayicon statusicon
 
@@ -50,6 +51,7 @@ proc trayicon_init {} {
 		}
 		set systemtray_exist 1
 		set wintrayicon [winico create [::skin::GetSkinFile winicons msn.ico]]
+		#add the icon
 		winico taskbar add $wintrayicon -text "[trans offline]" -callback "taskbar_icon_handler %m %x %y"
 		set statusicon 1
 	} else {
@@ -135,6 +137,7 @@ proc trayicon_init {} {
 
 }
 
+
 proc taskbar_icon_handler { msg x y } {
 	global iconmenu ishidden
 
@@ -202,6 +205,7 @@ proc statusicon_proc {status} {
 			set pixmap "[::skin::GetSkinFile pixmaps doffline.png]"
 			image create photo statustrayicon -file $pixmap
 			image create photo statustrayiconres
+			#add the icon
 			set statusicon [newti $icon -tooltip offline -pixmap statustrayiconres -background $defaultbackground -command "::trayicon_callback statustrayicon statustrayiconres"]
 
 			bind $icon <Button1-ButtonRelease> iconify_proc
@@ -322,7 +326,15 @@ proc statusicon_proc {status} {
 			}
 
 			$iconmenu entryconfigure 0 -label "[::config::getKey login]"
-			if { ![WinDock] } {
+			if { [WinDock] } {
+				if { ![winfo exists .bossmode] || $status == "BOSS" } {
+					#skip if in bossmode and not setting to BOSS
+					winico taskbar delete $wintrayicon
+					set wintrayicon $trayicon
+					winico taskbar add $wintrayicon -text $tooltip -callback "taskbar_icon_handler %m %x %y"
+				}
+
+			} else {
 				if { $pixmap != "null"} {
 					configureti $statusicon -tooltip $tooltip
 					image create photo statustrayicon -file $pixmap
@@ -330,13 +342,6 @@ proc statusicon_proc {status} {
 					#if { [image width statustrayicon] > [winfo width $icon] || [image height statustrayicon] > [winfo height $icon]} {
 					#	::picture::ResizeWithRatio statustrayicon [winfo width $icon] [winfo height $icon]
 					#}
-				}
-			} else {
-				if { ![winfo exists .bossmode] || $status == "BOSS" } {
-					#skip if in bossmode and not setting to BOSS
-					winico taskbar delete $wintrayicon
-					set wintrayicon $trayicon
-					winico taskbar add $wintrayicon -text $tooltip -callback "taskbar_icon_handler %m %x %y"
 				}
 			}
 
@@ -375,16 +380,16 @@ proc mailicon_proc {num} {
 			set msg [trans newmail $num]
 		}
 
-		if { ![WinDock] } {
+		if { [WinDock] } {
+			set winmailicon [winico create [::skin::GetSkinFile winicons unread.ico]]
+			winico taskbar add $winmailicon -text $msg -callback "taskbar_mail_icon_handler %m %x %y"
+			set mailicon 1
+		} else {
 			image create photo mailtrayicon -file $pixmap
 			image create photo mailtrayiconres
 			set mailicon [newti $icon -tooltip offline -pixmap mailtrayiconres -background $defaultbackground -command "::trayicon_callback mailtrayicon mailtrayiconres"]
 
 			bind $icon <Button-1> [list ::hotmail::hotmail_login [::config::getKey login] $password]
-		} else {
-			set winmailicon [winico create [::skin::GetSkinFile winicons unread.ico]]
-			winico taskbar add $winmailicon -text $msg -callback "taskbar_mail_icon_handler %m %x %y"
-			set mailicon 1
 		}
 
 	} elseif {$systemtray_exist == 1 && $mailicon != 0 && $num == 0} {
@@ -404,10 +409,10 @@ proc mailicon_proc {num} {
 		} else {
 			set msg [trans newmail $num]
 		}
-		if { ![WinDock] } {
-			configureti $mailicon -tooltip $msg
-		} else {
+		if { [WinDock] } {
 			winico taskbar modify $winmailicon -text $msg
+		} else {
+			configureti $mailicon -tooltip $msg
 		}
 	} 
 }
@@ -429,6 +434,184 @@ proc restart_tray { } {
     
 }
 		
+
+
+
+
+
+#Begin of a clean, platform independent trayicon API that could be made a plugin, maybe a snit object
+	
+#TODO: tooltips, windows testing, possibility to query the names of all tray-icons available
+
+
+
+#######################################################################
+# loadTrayLib {}                                                      #
+#     This procedure tries to load the trayicon library, depending    #
+#     on the platform it is used on.  It returns 1 if it succeeded,   #
+#     0 on failure.  Errors are printed to stdout.                    #
+#     Depends on:                                                     #
+#       - OnWin / OnUnix / trans                                      #
+#######################################################################
+proc loadTrayLib {} {
+	
+	if { [OnWin] } {
+		#set file name of the lib
+		set ext "[file join utils windows winico05.dll]"
+
+		#if the lib is not available, print an error on the console and return
+		if { ![file exists $ext] } {
+			puts "[trans needwinico2]"
+			return 0
+		}
+
+		#if there is a problem loading the lib, print the error on the console and return
+		if { [catch {load $ext winico} errormsg] } {
+			puts "$errormsg"
+			return 0
+		}
+
+	} elseif { [OnUnix] } {
+		#set file name of the lib
+		set ext "[file join utils linux traydock libtray.so]"
 		
+		#if the lib is not available, print an error on the console and return
+		if { ![file exists $ext] } {
+			puts "[trans traynotcompiled]"
+			return 0
+		}
+
+		#if there is a problem loading the lib, print the error on the console and return
+		if { [catch {load $ext Tray} errormsg] } {
+			puts "$errormsg"
+			return 0
+		}
 	
-	
+		#check if a systemtray is available, ifnot, set the "lib loaded" state off so no icons will be made
+		if { ![systemtray_exist] } {
+			puts "[trans nosystemtray]"
+			return 0
+		}
+		
+	}
+
+	#no errors where encountered at this point, the library should be loaded and a tray available; return 1:
+	return 1	
+}
+
+#######################################################################
+# addTrayIcon {name xiconpath winiconpath {tooltip ""}                #
+#                                    {winactionhandler "nohandler"}}  #
+#     This procedure tries to add an icon to the tray.                #
+#     Vars:                                                           #
+#       - name: the internal specific name of the icon (as widget)    #
+#       - xiconpath: the path to the pixmap for X11 systems           #
+#       - winiconpath: the path to the .ico-file for windows systems  #
+#       - tooltip:  text to show when hovered by the mousepointer     #
+#       - tooltip:  handler proc for communication on windows         #
+#     Depends on:                                                     #
+#       - loadTrayLib / OnWin / OnUnix / tray lib  /                  #
+#         balloon_enter / balloon_motion / kill_balloon               #
+#######################################################################
+proc addTrayIcon {name xiconpath winiconpath {tooltip ""} {winactionhandler "nohandler"}} {
+	if {[loadTrayLib]} {
+		global defaultbackground
+
+		if { $name == "" } { set name "trayicon" }
+			
+		#Windows specific code
+		if { [OnWin] && $winiconpath != ""} {
+			set ${name} [winico create $winiconpath]
+			#add the icon
+			winico taskbar add $name -text "$tooltip" -callback "$winactionhandler %m %x %y"
+
+
+		#X11/Freedesktop (linux) specific code
+		} elseif { [OnUnix] && $xiconpath != ""} {
+			if { [winfo exists .$name] } {
+				puts "trayicon.tcl: won't add icon $name as it already exists"
+			} else {
+				if { [loadTrayLib] } {
+					#add the icon     !! name => .name
+					set name [newti .$name -pixmap [image create photo dest_$name] -background $defaultbackground -command "::trayIcon_Configure [image create photo source_$name -file $xiconpath] dest_$name"]
+
+	#TODO: balloon bindings
+	#bind .$name <Motion> [list status_log "motion"]
+	status_log $name
+	bind $name <Enter> +[list balloon_enter %W %X %Y "Test!" [::skin::loadPixmap dbusy]]
+	bind $name <Motion> +[list balloon_motion %W %X %Y "Test!" [::skin::loadPixmap dbusy]]
+	bind $name <Leave> "+set Bulle(first) 0; kill_balloon"
+				}
+			}
+		} else {
+			puts "Error creating trayicon."
+		}
+
+	}
+}
+
+#######################################################################
+# addTrayIcon {name }                                                 #
+#     This procedure removes an existing icon from the tray.          #
+#     Vars:                                                           #
+#       - name: the internal specific name of the icon (as widget)    #
+#     Depends on:                                                     #
+#       - loadTrayLib / OnWin / OnUnix / tray lib                     #
+#######################################################################
+proc rmTrayIcon {name} {
+	if {[loadTrayLib]} {
+		#Windows specific code
+		if { [OnWin] } {
+			winico taskbar delete $name
+		#X11/Freedesktop (linux) specific code
+		} elseif { [OnUnix] } {
+			if { [catch {removeti .$name} errormsg] } {
+				puts "$errormsg\n"
+			}
+			if { [catch {destroy .$name} errormsg] } {
+				puts "$errormsg\n"
+			}
+		}
+	}
+}
+
+
+proc confTrayIcon {name xiconpath winiconpath {tooltip ""} {winactionhandler "nohandler"}} {
+	if {[loadTrayLib]} {
+		#Windows specific code
+		if { [OnWin] } {
+			#remove the icon
+			winico taskbar delete $name
+			set ${name} [winico create $winiconpath]
+			#readd the icon
+			winico taskbar add $name -text "$tooltip" -callback "$winactionhandler %m %x %y"			
+
+		#X11/Freedesktop (linux) specific code
+		} elseif { [OnUnix] } {
+			configureti .$name
+			image create photo source_$name -file $xiconpath
+			image create photo dest_$name
+			
+			#TODO: Change tooltip
+		}
+
+
+	}
+}
+
+
+#######################################################################
+# Aid procedures                                                      #
+#     These are no part of the API itself                             #
+#######################################################################
+#Linux only aid proc:
+proc trayIcon_Configure {imgSrc imgDst width height} {
+	$imgDst copy $imgSrc
+	if { [image width $imgSrc] > $width || [image height $imgSrc] > $height} {
+		::picture::ResizeWithRatio $imgDst $width $height
+	}
+}
+#Windows only aid proc:
+proc nohandler {win x y} {
+	puts "Err: No icon handler given"
+}
