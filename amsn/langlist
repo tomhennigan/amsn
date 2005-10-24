@@ -58,7 +58,7 @@
 	<lang>
 		<langcode>nl</langcode>
 		<name>Dutch (Nederlands)</name>
-		<version>1.130</version>
+		<version>1.131</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -94,7 +94,7 @@
 	<lang>
 		<langcode>fr</langcode>
 		<name>French - France (français)</name>
-		<version>1.149</version>
+		<version>1.150</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -244,7 +244,7 @@
 	<lang>
 		<langcode>es</langcode>
 		<name>Spanish (Español)</name>
-		<version>1.234</version>
+		<version>1.235</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -280,7 +280,7 @@
 	<lang>
 		<langcode>va</langcode>
 		<name>Valencian (valencià)</name>
-		<version>1.38</version>
+		<version>1.39</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
