@@ -7,9 +7,9 @@ actions Acciones
 activeautoupdate Activar actualización automática
 add Añadir
 addacontact Añadir un contacto
-addedyou $1 ($2) te ha añadido a su lista de contactos
+addedyou $1 ($2) le ha añadido a su lista de contactos
 addprofile Añadir un perfil
-addprofiledesc Introduce el nombre de usuario para el que quieres crear un perfil. \nLos perfiles permiten tener configuraciones distintas para cada usuario.\nSin un perfil no se puede usar el historial, alarmas o recordar contraseña.
+addprofiledesc Introduce el nombre de usuario para el que quiere crear un perfil. \nLos perfiles permiten tener configuraciones distintas para cada usuario.\nSin un perfil no se puede usar el historial, alarmas o recordar contraseña.
 addstate Añadir nuevo estado
 addto Añadir a $1
 addtocontacts Añadir a contactos
@@ -22,7 +22,7 @@ adverts Anuncios
 agotinvitation Recibida invitación de audio de $1
 alarmonconnect Activar alarma para este usuario cuando se conecte
 alarmondisconnect Activar alarma para este usuario cuando se desconecte
-alarmonmsg Activar alarma para este usuario cuando te envie un mensaje
+alarmonmsg Activar alarma para este usuario cuando le envíe un mensaje
 alarmonstatus Activar alarma para este usuario cuando cambie su estado
 alarmpref Configuración de alarma para el usuario
 alarms Alarmas
@@ -739,7 +739,7 @@ willjoin Esperando que $1 se una a la conversación
 winkreceived Has recibido un Wink de $1, estas animaciones no estan disponibles en esta versión de aMSN.
 wintitlenick Mostrar apodos en lugar de email en las ventanas con pestañas
 work Trabajo
-wrongfields Los campos "$1", "$2" y/o "$3" no son valido(s)
+wrongfields Los campos "$1", "$2" y/o "$3" no son válido(s)
 wrongprofileversion Versión del archivo de perfiles incorrecta. Por favor borre el directorio $1 para solucionarlo, o actualice amsn.
 xmmscurrent Mostrar canción actual
 xmmserr No hay canción en reproducción, o no tienes xmms-infopipe instalado.
@@ -754,3 +754,12 @@ youblocked Has sido bloqueado
 yousay Tú dices
 youwant Quieres
 zoom Ampliación
+captureproperties Propiedades de la cámara web
+cutimagebox  Seleccione la parte de la imágen que quiere usar, redimensionándola y moviendo la caja de selección
+cutimageboxreset Reinicia el \ntamaño de la caja de selección a:
+gotink $1le envió una tinta
+huge enorme
+large grande
+onlinehelp Ayuda en línea
+small pequeño
+whatisamsn aMSN es un clon multiplataforma de MSN Messenger

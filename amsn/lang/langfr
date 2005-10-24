@@ -98,6 +98,7 @@ cantloadonlineversion N'arrive pas à récupérer la nouvelle liste des langues dep
 cantremoveothers Impossible de supprimer le groupe "Autres".
 captureextloaded L'extension de capture -$1- est chargée
 captureextnotloaded L'extension de capture -$1- n'est pas chargée. Vous devez la compiler.
+captureproperties Propriétés concernant l'image de la webcam
 casesensitive Utiliser des déclencheurs sensibles à la casse
 cfgalarmall Configurer/Ajouter/Supprimer toutes les alarmes
 cfgalarm Configurer/Ajouter/Supprimer alarme
@@ -197,6 +198,8 @@ custom_new Créer un émoticon personnalisé
 customnick Pseudo personnalisé
 customstyle Style personnalisé
 cut Couper
+cutimagebox Sélectionnez la partie de l'image qui vous intéresse en redimensionnant et/ou en déplaçant la boîte de sélection
+cutimageboxreset Mettre à zéro la boîte de sélection\ntaille:
 date Date
 dateformat Changer le format de la date
 day Jour
@@ -328,6 +331,7 @@ history Voir l'historique
 home Domicile
 httpconnection Connexion par la méthode HTTP (utilisation du protocole HTTP par le port 80)
 hue Tonalité
+huge Enorme
 hybrid Mode mixte
 ident Identification
 identity Identité
@@ -360,6 +364,7 @@ keeplog2 Enregistrer toutes les conversations dans l'historique de aMSN pour une
 keeplog Garder l'historique des conversations
 language Langue
 language_manager Gestionnaire des traductions
+large Grand
 lastlogin Dernière connexion
 lastlogout Dernière déconnexion
 lastmsgedme Dernier message
@@ -619,6 +624,7 @@ showuserpic Icône de $1
 signinstatus Status lors de la connexion
 skin apparence
 skinselector Changer l'apparence
+small Petit
 smileconfig Configuration des émoticônes/smileys personnalisées
 smilefile Nom du fichier de l'émoticon
 smileintro2 Veuillez editer les champs obligatoires pour personnaliser cet émoticon (voir la FAQ pour l'aide)
@@ -736,6 +742,7 @@ webcamrequestsend Demander pour envoyer la webcam
 webcamrequestreceive Demander pour recevoir la webcam
 webcamsending Liste des personnes a qui vous envoyez votre webcam\nCliquez sur un nom pour annuler
 webcamshot Image de la webcam
+whatisamsn aMSN un clône de MSN Messenger fonctionnant sur diverses platformes telles que Linux, Windows, Mac OS X, *BSD ...
 willjoin Dans l'attente que $1 rejoigne la conversation
 winkreceived Vous avez reçu un 'clin d'oeil' provenant de $1. Cette fonctionnalité n'est pas encore supporté par aMSN.
 wintitlenick Afficher le pseudonyme dans les fenêtres à onglets au lieu de l'email

@@ -306,6 +306,7 @@ globalnicktitle Algemene schermnaam
 globalnick Voer een patroon in dat gebruikt wordt om een schermnaam te vormen voor al je contacten. Je kunt de volgende variabelen opnemen: \$user_login voor het e-mail adres van de contact, \$nick voor zijn schermnaam en \$customnick voor zijn aangepaste schermnaam.
 globaloverride Het algemene schermnaam-patroon heeft voorrang op aangepaste schermnamen
 gonelunch Lunchpauze
+gotink $1 heeft je een handgeschreven bericht gestuurd
 groupadd Nieuwe groep maken
 groupdelete Een groep verwijderen
 groupexists Groep bestaat al
@@ -490,6 +491,7 @@ openfile Openen
 openfilecommand Commando voor bestand openen
 onenewmail Je hebt 1 nieuw bericht in Postvak IN
 online Online
+onlinehelp Online help
 onphone Aan de telefoon
 openreceived Ontvangen bestanden openen
 options Opties
@@ -595,7 +597,7 @@ sendfile Een bestand of foto verzenden
 sendmail Een e-mail verzenden
 sendmsg Een bericht verzenden
 send Zend
-sendemail Stuur mijn e-mailadres mee, en houdt mij op de hoogte van wijzigingen
+sendemail Stuur mijn e-mailadres mee, en houdt mij op de hoogte van wijzigingen (zie Vertrouwelijkheids verklaring)
 sendmobmsg Een SMS bericht verzenden
 sendwebcaminvite Nodig dit contact uit om je webcam te bekijken
 sentbytes $1 van de $2 bytes verzonden
