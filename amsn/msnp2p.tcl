@@ -940,6 +940,36 @@ namespace eval ::MSNP2P {
 				}
 
 
+			} elseif {$sid == 64} {
+				set msg [FromUnicode $data]
+				set ink_message [getObjOption $sid ink_message_$cId]
+				set ink_message "${ink_message}[string range $data 0 [expr { $cMsgSize - 1}]]"
+				setObjOption $sid ink_message_$cId $ink_message
+
+				if {[expr $cOffset + $cMsgSize] >= $cTotalDataSize} {
+					setObjOption $sid ink_message_$cId ""
+					SendPacket [::MSN::SBFor $chatid] [MakeACK $sid $cSid $cTotalDataSize $cId $cAckId]
+					set ink_message [FromUnicode $ink_message]
+					set idx [string first "\r\n\r\n" $ink_message]
+					incr idx 4
+					if {[string first "\x00" $ink_message $idx] == $idx } {
+						incr idx
+					}
+					set body [string range $ink_message $idx end]
+				
+					if { [string first "base64:" $body] != -1 } {
+						set data [::base64::decode [string range $body 7 end]]
+					} else {
+						set data $body
+					}
+					set img [image create photo -data $data]
+					set user [lindex [::MSN::usersInChat $chatid] 0]
+					set nick [::abook::getDisplayNick $user]
+					set p4c_enabled 0
+					status_log "got ink from $user - $nick with image $img"
+					SendMessageFIFO [list ::amsn::ShowInk $chatid $user $nick $img ink $p4c_enabled] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
+				}
+
 			} else {
 				status_log "Received data for unknown type : $sid\n" red
 			}

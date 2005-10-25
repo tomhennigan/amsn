@@ -116,7 +116,7 @@ distclean:: clean
 
 install::
 	cp -Rf $(srcdir) $(dstdir)/$(PACKAGE)
-	ln -s $(dstdir)/$(PACKAGE)/amsn $(slnkdir)
+	ln -sf $(dstdir)/$(PACKAGE)/amsn $(slnkdir)
 
 #########################################################
 # include stuff

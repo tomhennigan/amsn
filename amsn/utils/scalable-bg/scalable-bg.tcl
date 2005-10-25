@@ -9,8 +9,8 @@ snit::type scalable-bg {
 	option -w -configuremethod setOption
 	option -resizemethod
 	option -source -configuremethod setOption
-	option -width -configuremethod setOption
-	option -height -configuremethod setOption
+	option -width -configuremethod setOption -default 1
+	option -height -configuremethod setOption -default 1
 
 	variable top
 	variable right

@@ -1346,7 +1346,7 @@ namespace eval ::MSN {
 
 		set data [::base64::encode $data]
 		set data [string map { "\n" ""} $data]
-
+		set data "base64:$data"
 		set chunks [expr int( [string length $data] / $maxchars) + 1]
 
 
@@ -1357,7 +1357,6 @@ namespace eval ::MSN {
 			set msg ""
 			if { $i == 0 } {
 				set msg "MIME-Version: 1.0\r\nContent-Type: image/gif\r\n"
-				set chunk "base64:$chunk"
 				if { $chunks == 1 } {
 					set msg "${msg}\r\n$chunk"
 				} else { 
@@ -1369,7 +1368,7 @@ namespace eval ::MSN {
 			}
 			set msglen [string length $msg]
 
-			::MSN::WriteSBNoNL $sb "MSG" "U $msglen\r\n$msg"
+			::MSN::WriteSBNoNL $sb "MSG" "N $msglen\r\n$msg"
 			
 		}
 		
