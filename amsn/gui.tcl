@@ -6062,7 +6062,12 @@ proc cmsn_change_name {} {
 	pack $w.p4c.label $w.p4c.name $w.p4c.newline $w.p4c.smiley -side left -fill x -expand true
 	pack $w.fb.ok $w.fb.cancel -side right -padx 5
 
-	pack $w.fn $w.psm $w.p4c $w.fb -side top -fill x -expand true -padx 5
+	if { [::config::getKey protocol] == 11} {
+		pack $w.fn $w.psm $w.p4c $w.fb -side top -fill x -expand true -padx 5
+	} else {
+		pack $w.fn $w.p4c $w.fb -side top -fill x -expand true -padx 5
+	}
+		
 
 	bind $w.fn.name <Return> "change_name_ok"
 	bind $w.psm.name <Return> "change_name_ok"
@@ -6105,6 +6110,7 @@ proc change_name_ok {} {
 		::MSN::changeName [::config::getKey login] $new_name
 	}
 
+if { [::config::getKey protocol] == 11} {
 	set new_psm [.change_name.psm.name get]
 	#TODO: how many chars in a Personal Message?
 	if { [string length $new_psm] > 130} {
@@ -6114,6 +6120,7 @@ proc change_name_ok {} {
 		}
 	}
 	::MSN::changePSM $new_psm
+}
 
 	set friendly [.change_name.p4c.name get]
 	if { [string length $friendly] > 130} {
