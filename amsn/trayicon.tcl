@@ -524,6 +524,7 @@ proc addTrayIcon {name xiconpath winiconpath {tooltip ""} {winactionhandler "noh
 			set ${name} [winico create $winiconpath]
 			#add the icon
 			winico taskbar add $name -text "$tooltip" -callback "$winactionhandler %m %x %y"
+			return 1
 
 
 		#X11/Freedesktop (linux) specific code
@@ -543,10 +544,14 @@ proc addTrayIcon {name xiconpath winiconpath {tooltip ""} {winactionhandler "noh
 	bind $name <Leave> "+set Bulle(first) 0; kill_balloon"
 				}
 			}
+			return 1
 		} else {
 			puts "Error creating trayicon."
+			return 0
 		}
 
+	} else {
+		return 0
 	}
 }
 
