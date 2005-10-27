@@ -2908,7 +2908,7 @@ namespace eval ::Event {
 			set psm ""
 			set currentmedia ""
 		}
-		::abook::setContactData $contact PSM [::sxml::replacexml [encoding convertfrom utf-8 $psm]]
+		::abook::setVolatileData $contact PSM [::sxml::replacexml [encoding convertfrom utf-8 $psm]]
 		::abook::setVolatileData $contact currentmedia [::sxml::replacexml [encoding convertfrom utf-8 $currentmedia]]
 		cmsn_draw_online 1
 	}
@@ -5029,6 +5029,8 @@ proc cmsn_listupdate {recv} {
 		#Remove user from all lists while receiving List data
 		::abook::setContactData $username lists ""
 
+		#TODO remove that in near future : only to clean the abook file
+		::abook::setContactData $username psm ""
 
 	}
 
