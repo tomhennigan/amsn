@@ -5142,8 +5142,13 @@ proc cmsn_draw_online_wrapped {} {
 	for {set i [expr {[llength $list_users] - 1}]} {$i >= 0} {incr i -1} {
 		set user_login [lindex $list_users $i]
 		set globalnick [::config::getKey globalnick]
-		set psm [::abook::getContactData $user_login PSM]
-		set currentmedia [parseCurrentMedia [::abook::getVolatileData $user_login currentmedia]]
+		if {[::config::getKey protocol] == 11} {
+			set psm [::abook::getContactData $user_login PSM]
+			set currentmedia [parseCurrentMedia [::abook::getVolatileData $user_login currentmedia]]
+		} else {
+			set psm ""
+			set currentmedia ""
+		}
 		if { $globalnick != "" } {
 			set nick [::abook::getNick $user_login]
 			if {$psm != ""} {
