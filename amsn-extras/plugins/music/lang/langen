@@ -1,5 +1,6 @@
 amsn_lang_version 2
 musicaddsongtonick Add song to the nickname
+musicaddsongtopsm Add song to the personal message
 musictimeverify Verify new song each ? seconds
 musicnickname Nickname
 musicseparator Symbol betwen nick and song

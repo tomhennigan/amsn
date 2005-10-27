@@ -1,5 +1,6 @@
 amsn_lang_version 2
 musicaddsongtonick Ajouter la musique jouée au pseudo
+musicaddsongtopsm Ajouter la musique jouée au message personnel
 musictimeverify Vérifier la musique jouée toutes les ? secondes
 musicnickname Pseudo
 musicseparator Symbole entre le pseudo et la musique

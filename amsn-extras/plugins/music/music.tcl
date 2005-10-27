@@ -131,18 +131,30 @@ namespace eval ::music {
 				[list str "Separator" separator] \
 			]
 		} else {
-			set ::music::configlist [list \
-				[list label "[trans musicplayer]"] \
-				[list lst [array names playersarray] player] \
-				[list str "[trans musictimeverify]" second] \
-				[list bool "[trans musicaddsongtonick]"  active] \
-				[list str "[trans musicnickname]"  nickname] \
-				[list str "[trans musicseparator]"  symbol] \
-				[list str "[trans musicstopmsg]"  stop] \
-				[list label "[trans choose_order]"] \
-				[list rbt "[trans songartist]" "[trans artistsong]" songart] \
-				[list str "[trans separator]" separator] \
-			]
+			if { [::config::getKey protocol] == 11 } {
+				set ::music::configlist [list \
+					[list label "[trans musicplayer]"] \
+					[list lst [array names playersarray] player] \
+					[list str "[trans musictimeverify]" second] \
+					[list bool "[trans musicaddsongtopsm]"  active] \
+					[list label "[trans choose_order]"] \
+					[list rbt "[trans songartist]" "[trans artistsong]" songart] \
+					[list str "[trans separator]" separator] \
+				]
+			} else {
+				set ::music::configlist [list \
+					[list label "[trans musicplayer]"] \
+					[list lst [array names playersarray] player] \
+					[list str "[trans musictimeverify]" second] \
+					[list bool "[trans musicaddsongtonick]"  active] \
+					[list str "[trans musicnickname]"  nickname] \
+					[list str "[trans musicseparator]"  symbol] \
+					[list str "[trans musicstopmsg]"  stop] \
+					[list label "[trans choose_order]"] \
+					[list rbt "[trans songartist]" "[trans artistsong]" songart] \
+					[list str "[trans separator]" separator] \
+				]
+			}
 		}
 	}
 	###########################################
@@ -231,18 +243,36 @@ namespace eval ::music {
 		#If the user uncheck the box in config, we must put the standard nickname
 		#And if he checks, we must actualize the nickname
 		if { $config(active) && !$activated } {
-			::music::changenick "$name"
+			if {[::config::getKey protocol] == 11} {
+				if { $song != "0"} {
+					::MSN::changeCurrentMedia Music 1 "{0}" $song
+				}
+			} else {
+				::music::changenick "$name"
+			}
 			set activated 1
 		}
 
 		if { !$config(active) && $activated } {
 			set activated 0
-			::music::changenick "$config(nickname)"
+			if {[::config::getKey protocol] == 11} {
+				::MSN::changeCurrentMedia Music 0 "{0}" ""
+			} else {
+				::music::changenick "$config(nickname)"
+			}
 		}
 
 		#Change the nickname if the user did'nt uncheck that config.
 		if {$config(active) && $name != $oldname } {
-			::music::changenick "$name"
+			if {[::config::getKey protocol] == 11} {
+				if { $song != "0"} {
+					::MSN::changeCurrentMedia Music 1 "{0}" $song
+				} else {
+					::MSN::changeCurrentMedia Music 0 "{0}" ""
+				}
+			} else {
+				::music::changenick "$name"
+			}
 		}
 
 		#Execute the script which get the song from the player to have it immediatly
@@ -699,7 +729,11 @@ namespace eval ::music {
 		after cancel ::music::newname 0 0
 		#Remove the song from the nick if we are online
 		if {[::MSN::myStatusIs] != "FLN" && $activated } {
-			::music::changenick "$config(nickname)"
+			if {[::config::getKey protocol] == 11} {
+				::MSN::changeCurrentMedia Music 0 "{0}" ""
+			} else {
+				::music::changenick "$config(nickname)"
+			}
 	   	}
 	}
 
@@ -810,7 +844,7 @@ namespace eval ::music {
 		if {[::music::version_094]} {
 			set balloon_message "Click here to show/hide the song in your nick"
 		} else {
-			set baloondefault [trans musicballontext]
+			set balloon_message [trans musicballontext]
 		}
 
 		bind $textb.musicpic <Enter> +[list balloon_enter %W %X %Y $balloon_message]
