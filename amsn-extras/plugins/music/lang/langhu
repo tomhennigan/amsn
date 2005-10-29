@@ -1,0 +1,19 @@
+amsn_lang_version 2
+musicaddsongtonick Zene infó hozzáadása a becenévhez
+musicaddsongtopsm Zene infó hozzáadása a személyes üzenethez
+musictimeverify Játszott zene ellenõrzése ? másodpercenként
+musicnickname Becenév
+musicseparator Elválasztójel a becenév és infó között
+musicstopmsg Lejátszás megállt üzenet
+musiccurrent Játszott szám megjelenítése
+musicsend Játszott szám küldése
+musicerr A lejátszó nem játszik semmit, vagy a plugin nem tudja elérni a tulajdonságait.
+playing Ezt hallgatom : $1
+musicoserr Az operációsrendszered ($1) még nem támogatott a Music plugin által.
+musicplayer Válaszd ki az általad használt lejátszót
+musicstopdefault A lejátszás megállt.
+separator Elválasztó
+songartist Számcím - Elõadó
+artistsong Elõadó - Számcím
+choose_order Válaszd ki az elõadó és a számcím sorrendjét (nem kompatibilis az XMMS-sel)
+musicballontext Kattints ide hogy megjelenítsd/elrejtsd a zene infót a becenevedben.

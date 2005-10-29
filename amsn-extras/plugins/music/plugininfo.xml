@@ -35,6 +35,11 @@
 		<langcode>da</langcode>
 		<version>1.1</version>
 	</lang>
+	
+	<lang>
+		<langcode>hu</langcode>
+		<version>1.1</version>
+	</lang>
 
 	<file>
 		<path>display_and_send.scpt</path>
