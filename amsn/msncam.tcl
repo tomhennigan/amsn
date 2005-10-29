@@ -2199,8 +2199,8 @@ namespace eval ::CAMGUI {
 
 		pack $lists $status $preview $settings $buttons -side top
 
-		bind $devs.list <Button1-ButtonRelease> [list ::CAMGUI::FillChannelsLinux $devs.list $chans.list $status $devices]
-		bind $chans.list <Button1-ButtonRelease> [list ::CAMGUI::StartPreviewLinux $devs.list $chans.list $status $preview $settings $devices]
+		bind $devs.list <Button1-ButtonRelease> "::CAMGUI::FillChannelsLinux $devs.list $chans.list $status $devices"
+		bind $chans.list <Button1-ButtonRelease> "::CAMGUI::StartPreviewLinux $devs.list $chans.list $status $preview $settings $devices"
 
 
 		foreach device $devices {
@@ -2263,7 +2263,6 @@ namespace eval ::CAMGUI {
 		set dev [$device_w curselection]
 		set chan [$chan_w curselection]
 
-		set devices [lindex $devices 0]
 		set device [lindex $devices $dev]
 		set device [lindex $device 0]
 
