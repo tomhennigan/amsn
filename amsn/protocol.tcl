@@ -3762,6 +3762,7 @@ proc cmsn_update_users {sb recv} {
 
 #TODO: ::abook system
 proc cmsn_change_state {recv} {
+	global remote_auth
 
 	if {[lindex $recv 0] == "FLN"} {
 		#User is going offline
@@ -3920,6 +3921,12 @@ proc cmsn_change_state {recv} {
 			::log::eventdisconnect $custom_user_name
 		}
 
+		# Added by Yoda-BZH
+		if { ($remote_auth == 1) && $state_changed } {
+			set nameToWriteRemote "$user_name ($user)"
+			write_remote "** $nameToWriteRemote [trans logsout]"
+		}
+
 		if { ($state_changed || $nick_changed) && 
 		     (([::config::getKey notifyoffline] == 1 && 
 		       [::abook::getContactData $user notifyoffline -1] != 0) ||
@@ -3935,6 +3942,12 @@ proc cmsn_change_state {recv} {
 		if { $state_changed } {
 			#Notify in the events
 			::log::eventstatus $custom_user_name [::MSN::stateToDescription $substate]
+		}
+
+		# Added by Yoda-BZH
+		if { ($remote_auth == 1) &&  ($state_changed || $nick_changed) } {
+			set nameToWriteRemote "$user_name ($user)"
+			write_remote "** [trans changestate $nameToWriteRemote [trans [::MSN::stateToDescription $substate]]]"
 		}
 
 		if { ($state_changed || $nick_changed) && 
@@ -3955,6 +3968,12 @@ proc cmsn_change_state {recv} {
 			set evPar(user) user
 			set evPar(user_name) custom_user_name
 			::plugins::PostEvent UserConnect evPar
+		}
+
+		# Added by Yoda-BZH
+		if { ($remote_auth == 1) && $state_changed } {
+			set nameToWriteRemote "$user_name ($user)"
+			write_remote "** $nameToWriteRemote [trans logsin]"
 		}
 
 		if { ($state_changed || $nick_changed) && 
