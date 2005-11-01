@@ -1387,6 +1387,46 @@ proc lockSvrHdl { sock } {
 }
 
 #///////////////////////////////////////////////////////////////////////
+# WinRegKey ( [addrem] )
+# Adds or removes the registry key to start amsn on startup (windows only)
+# Arguments:
+#  - addrem => choice of adding or removing the registry key: (add/remove)
+# Result: Returns 0/1 for failure/success (note failure could include failure to remove the temporary
+#         file after completion, but the registry key may have still been created/removed
+proc WinRegKey { addrem } {
+	if {$::tcl_platform(platform) == "windows"} {
+		if { [catch { set file_id [open "[file join ${::HOME2} addrem.reg]" w]} res]} {
+			msg_box "Failed to create temporary file with error:\n$res"
+			return 0
+		}
+		puts $file_id "REGEDIT4\n"
+		puts $file_id "\[HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\]"
+		if { $addrem == "add" } {
+			set file [string map {"/" "\\\\" " " "\\ "} [info nameofexecutable]]
+			puts $file_id "\"msnmsgr\"=\"\\\"[string map {"/" "\\\\"} [info nameofexecutable]]\\\" \\\"[string map {"/" "\\\\"} [pwd]]\\\\[string map {"/" "\\\\"} [file tail [info script]]]\\\"\"\n"
+		} else {
+			puts $file_id "\"msnmsgr\"=-"		
+		}
+		
+		close $file_id
+
+		if { [catch { exec regedit /s [file join ${::HOME2} addrem.reg]} res]} {
+			msg_box "Failed to create/remove the registry key with error:\n$res"
+			return 0
+		}
+		
+		if { [catch { file delete "[file join ${::HOME2} addrem.reg]"} res]} {
+			msg_box "Failed to delete temporary file with error:\n$res"
+			return 0
+		}
+		return 1
+	}
+	return 0
+}
+#///////////////////////////////////////////////////////////////////////
+
+
+#///////////////////////////////////////////////////////////////////////
 # create_dir(path)
 # Creates a directory
 proc create_dir {path} {
