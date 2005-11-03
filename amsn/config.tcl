@@ -1403,9 +1403,9 @@ proc WinRegKey { addrem } {
 		puts $file_id "\[HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\]"
 		if { $addrem == "add" } {
 			set file [string map {"/" "\\\\" " " "\\ "} [info nameofexecutable]]
-			puts $file_id "\"msnmsgr\"=\"\\\"[string map {"/" "\\\\"} [info nameofexecutable]]\\\" \\\"[string map {"/" "\\\\"} [pwd]]\\\\[string map {"/" "\\\\"} [file tail [info script]]]\\\"\"\n"
+			puts $file_id "\"amsn\"=\"\\\"[string map {"/" "\\\\"} [info nameofexecutable]]\\\" \\\"[string map {"/" "\\\\"} [pwd]]\\\\[string map {"/" "\\\\"} [file tail [info script]]]\\\"\"\n"
 		} else {
-			puts $file_id "\"msnmsgr\"=-"		
+			puts $file_id "\"amsn\"=-"
 		}
 		
 		close $file_id
