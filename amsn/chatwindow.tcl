@@ -3236,6 +3236,8 @@ namespace eval ::ChatWindow {
 
 proc EscapeTitle { title } {
 	
+        return $title
+
 	# This RE is just a character class for everything "bad"
 	set RE {[\u0080-\uffff]}
 	
