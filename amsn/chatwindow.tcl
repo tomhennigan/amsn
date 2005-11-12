@@ -444,6 +444,9 @@ namespace eval ::ChatWindow {
 			}
 		}
 
+		set ::ChatWindow::titles($window) [EscapeTitle [set ::ChatWindow::titles($window)]] 
+
+
 		set container [GetContainerFromWindow $window]
 		if { $container != "" } {
 			FlickerTab $window 
@@ -532,7 +535,7 @@ namespace eval ::ChatWindow {
 		if { [info exists ::ChatWindow::new_message_on(${window})] && \
 			$::ChatWindow::new_message_on(${window}) == "asterisk" } {
 			unset ::ChatWindow::new_message_on(${window})
-			catch {wm title ${window} "$::ChatWindow::titles(${window})"} res
+			catch {wm title ${window} "[EscapeTitle $::ChatWindow::titles(${window})]"} res
 			bind ${window} <FocusIn> ""
 		}
 	}
@@ -2247,7 +2250,7 @@ namespace eval ::ChatWindow {
 		#Change color of top background by the status of the contact
 		ChangeColorState $user_list $user_state $state_code ${win_name}
 
-		set title [string replace $title end-1 end " - [trans chat]"]
+		set title [EscapeTitle [string replace $title end-1 end " - [trans chat]"]]
 
 		#Calculate number of lines, and set top text size
 
@@ -2731,6 +2734,7 @@ namespace eval ::ChatWindow {
 			set title [string replace $title end-1 end " - [trans chat]"]
 		}
 
+		set title [EscapeTitle $title]
 		set ::ChatWindow::titles($container) $title
 
 		if { [info exists ::ChatWindow::new_message_on($container)] && [set ::ChatWindow::new_message_on($container)] == "asterisk" } {
@@ -3230,3 +3234,16 @@ namespace eval ::ChatWindow {
 }
 
 
+proc EscapeTitle { title } {
+	
+	# This RE is just a character class for everything "bad"
+	set RE {[\u0100-\uffff]}
+	
+	# We will substitute with a fragment of Tcl script in brackets
+	set substitution "?" ;#{[format \\\\u%04x [scan "\\&" %c]]}
+	
+	# Now we apply the substitution to get a subst-string that
+	# will perform the computational parts of the conversion.
+	return [subst [regsub -all $RE $title $substitution]]
+
+}
