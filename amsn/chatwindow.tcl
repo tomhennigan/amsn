@@ -3237,7 +3237,7 @@ namespace eval ::ChatWindow {
 proc EscapeTitle { title } {
 	
 	# This RE is just a character class for everything "bad"
-	set RE {[\u0100-\uffff]}
+	set RE {[\u0080-\uffff]}
 	
 	# We will substitute with a fragment of Tcl script in brackets
 	set substitution "?" ;#{[format \\\\u%04x [scan "\\&" %c]]}
