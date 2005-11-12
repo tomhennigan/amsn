@@ -33,7 +33,7 @@ ifeq ($(verbose),no)
   echo_compile_cc	= echo "  CXX	 " $@
   echo_link_app		= echo "  LD	 " $@
   echo_link_so		= echo "  LD	 " $@
-  echo_link_so_cpp	= echo "  LD	 " $@
+  echo_link_so_cpp	= echo "  LDX	 " $@
   echo_link_so_addlibs	= echo "  LD	 " $@
   echo_ar_lib		= echo "  AR	 " $@
 else
@@ -50,14 +50,17 @@ endif
 	@$(echo_compile_c)
 	@$(compile_c)
 
-%.o: %.cc
+%.cc.o: %.cc
 	@$(echo_compile_cc)
 	@$(compile_cc)
 
-%.o: %.cpp
+%.cpp.o: %.cpp
 	@$(echo_compile_cc)
 	@$(compile_cc)
 
+%.cpp.so: %.cpp.o
+	@$(echo_link_so_cpp)
+	@$(link_so_cpp)
 
 %.so: %.o
 	@$(echo_link_so)

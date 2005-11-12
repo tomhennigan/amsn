@@ -1,19 +1,28 @@
-# Installation prefix:
-%define _prefix		/usr
+# Installation prefix
+
+%define __mkdir_p	mkdir -p
+%define __mv		mv
+%define __sed		sed
+%define __make		make
+%define __ln_s		ln -s
+%define __cp		cp
+%define __rm		rm
+
+
 
 # Version information:
-%define _version	0.71
-%define __release	1
+%define _version	0.95b
+%define __release	%(cat cvs_date|head -c8)
 
 # Category for .desktop file:
 %define _applnk_cat	Internet
 
 # Default paths for KDE and GNOME .desktop files,
 # may be overridden by distribution-specific settings
-%define _kde_applnk	/usr/share/applnk
-%define _gnome_applnk	/etc/X11/applnk
+%define _desk_applnk	/usr/share/applications
+%define _desk_icons	/usr/share/pixmaps
 
-%define _src_version	%(echo %_version|%{__sed} 's/\\./_/g')
+%define _src_version	%(echo %{_version}|%{__sed} 's/\\./_/g')
 
 # Default is not to set the distribution tag
 %define _has_distribution 0
@@ -23,7 +32,8 @@
 #
 ### Autodetect distribution
 %define _suse		%(if [ -e /etc/SuSE-release ]; then echo 1; else echo 0; fi)
-
+%define _suse_kde3	0
+%define _suse_kde2	0
 ### Begin - SuSE Linux
 # (has different paths for KDE and GNOME)
 %if %_suse
@@ -36,8 +46,6 @@
 %define _distribution	SuSE Linux %{_suse_version}
 
 %define _release	%{__release}suse
-
-%define _gnome_applnk	/opt/gnome/etc/X11/applnk
 
 # determine KDE version/directory based on SuSE version:
 %define _suse_kde3	%(if [ %_suse_ver_num -ge 80 ]; then echo 1; else echo 0; fi)
@@ -54,21 +62,22 @@
 ####################################################################################
 
 Summary:	MSN Messenger clone for Linux
-Summary(fr):	Clône MSN Messenger pour Linux
-Summary(de):	MSN Messenger-Klon für Linux
+Summary(fr):	Client MSN Messenger pour Linux
+Summary(de):	MSN Messenger-Klon fr Linux
 Name:		amsn
 Version:	%{_version}
 Release:	%{_release}
-Copyright:	GPL
+License:	GPL
 Group:		Productivity/Networking/InstantMessaging
 URL:		http://amsn.sourceforge.net/
-Source:		ftp://ftp.sourceforge.net/projects/amsn/%{name}-%{_src_version}.tar.gz
+Source:		http://dl.sourceforge.net/sourceforge/amsn/%{name}-%{_src_version}.tar.gz
 Requires:	tcl >= 8.4
 Requires:	tk >= 8.4
+Provides:	amsn
 BuildRoot:	%{_tmppath}/build-%{name}-%{_version}
-Packager:	Pascal Bleser <guru@unixtech.be>
-BuildArch:	noarch
-%if %_has_distribution
+Packager:	aMsn Team
+BuildArch:	%{_platform}
+%if %{_has_distribution}
 Distribution:	%{_distribution}
 %endif
 
@@ -81,48 +90,36 @@ well.
 
 %description -l fr
 amsn est un client Microsoft Messenger (MSN) pour UNIX, Windows et
-Macintosh écrit en Tcl/Tk.  Il supporte les tranferts de fichiers, les
-groupes et beaucoup d'autres possibilités. 
-Visitez http://amsn.sourceforge.net/ pour de plus amples détails.
+Macintosh Ã©crit en Tcl/Tk.  Il supporte les tranferts de fichiers, les
+groupes et beaucoup d'autres possibilitÃ©s...
+Visitez http://amsn.sourceforge.net/ pour de plus amples dÃ©tails.
 
 %description -l de
-amsn ist ein Microsoft Messenger (MSN) Client für UNIX, Windows und
-Macintosh, der in Tcl/Tk geschrieben ist. Es unterstützt
-Dateiübertragungen, Gruppen uvm.
-Begeben Sie sich auf http://amsn.sourceforge.net/ um mehr über dieses
+amsn ist ein Microsoft Messenger (MSN) Client fr UNIX, Windows und
+Macintosh, der in Tcl/Tk geschrieben ist. Es untersttzt
+Dateibertragungen, Gruppen uvm.
+Begeben Sie sich auf http://amsn.sourceforge.net/ um mehr ber dieses
 Projekt zu erfahren.
 
 %prep
-%setup -q -n "msn"
-%patch0
-%patch1
-%patch2
 
 %build
-%{__mv} amsn.desktop amsn.desktop.in
-%{__sed} -e "s+@@ICON_PATH@@+%{_datadir}/amsn/i+g" \
-	< amsn.desktop.in \
-	> amsn.desktop
+%{__make}
 
 %install
-%{__mkdir_p} "${RPM_BUILD_ROOT}%{_prefix}"
-
-%{__make} \
-   	proot="%{_prefix}" \
-	prefix="${RPM_BUILD_ROOT}%{_prefix}" \
-	version="%{_version}" \
-	gnomelinks="${RPM_BUILD_ROOT}%{_gnome_applnk}/%{_applnk_cat}" \
-	kdelinks="${RPM_BUILD_ROOT}%{_kde_applnk}/%{_applnk_cat}" \
-	install
-
+%{__mkdir_p} "${RPM_BUILD_ROOT}%{_datadir}"
 %{__mkdir_p} "${RPM_BUILD_ROOT}%{_bindir}"
-%{__ln_s} -f "%{_datadir}/amsn/amsn" "${RPM_BUILD_ROOT}%{_bindir}/amsn"
-%{__ln_s} -f "${RPM_DOC_DIR}/amsn-{_version}/README" "${RPM_BUILD_ROOT}%{_datadir}/amsn/README"
+%{__make} rpm-install INSTALL_PREFIX=${RPM_BUILD_ROOT}
 
 # manually copy the .desktop file for KDE, it's broken in the Makefile
-%{__mkdir_p} "${RPM_BUILD_ROOT}%{_kde_applnk}/%{_applnk_cat}/"
-%{__cp} "${RPM_BUILD_ROOT}%{_gnome_applnk}/%{_applnk_cat}"/*.desktop \
-	"${RPM_BUILD_ROOT}%{_kde_applnk}/%{_applnk_cat}/"
+%{__mkdir_p} "${RPM_BUILD_ROOT}%{_desk_applnk}"
+%{__cp} "${RPM_BUILD_ROOT}%{_datadir}"/*.desktop \
+	"${RPM_BUILD_ROOT}%{_desk_applnk}"
+#manually copy the icon file
+%{__mkdir_p} "${RPM_BUILD_ROOT}%{_desk_icons}"
+%{__ln_s} -f %{_datadir}/icons/48x48/msn.png \
+	${RPM_BUILD_ROOT}%{_desk_icons}/msn.png
+
 #
 # SuSE-specific handling of KDE2 and/or KDE3
 #
@@ -143,18 +140,20 @@ Projekt zu erfahren.
 # Post Install
 %post
 test -x /usr/bin/update-menus && /usr/bin/update-menus
+true
 
 # Tasks after Uninstall
 %postun
 test -x /usr/bin/update-menus && /usr/bin/update-menus
+true
 
 %files
-%doc FAQ GNUGPL HELP LEEME rEADME TODO changelog
+%doc %{_doc_files}
 %{_bindir}/amsn
-%{_datadir}/amsn
-%{_gnome_applnk}/%{_applnk_cat}/*.desktop
+%{_desk_icons}/msn.png
+%{_datadir}
 %if %_not_suse
-%{_kde_applnk}/%{_applnk_cat}/*.desktop
+%{_desk_applnk}/*.desktop
 %endif
 %if %_suse_kde3
 %{_kde3_applnk}/%{_applnk_cat}/*.desktop
@@ -164,6 +163,12 @@ test -x /usr/bin/update-menus && /usr/bin/update-menus
 %endif
 
 %changelog
+* Sun Nov 6 2005 Le Philousophe <lephilousophe AT users.sourceforge.net>
+- redone all the spec using system taken from Tcl/Tk and integrated to makefile system
+- changed the packager to amsn team
+- changed the Coyright to license
+- added a release number taken form cvs_date
+- changed BuildArch to the proper arch since it contains compiled elements
 * Wed Nov 27 2002 Pascal Bleser <guru@unixtech.be> 0.71-1
 - added BuildArch, set to noarch
 - added french and german translations for summary and description

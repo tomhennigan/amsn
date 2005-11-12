@@ -1,14 +1,12 @@
-OBJS-TkCximage := $(tkcximage_dir)/src/TkCximage.o $(tkcximage_dir)/src/PhotoFormat.o \
-		  $(tkcximage_dir)/src/procs.o $(tkcximage_dir)/src/CxImage/libCxImage.a \
+OBJS-TkCximage := $(tkcximage_dir)/src/TkCximage.cpp.o $(tkcximage_dir)/src/PhotoFormat.cpp.o \
+		  $(tkcximage_dir)/src/procs.cpp.o $(tkcximage_dir)/src/CxImage/libCxImage.a \
 		 $(tkcximage_dir)/src/jpeg/libjpeg.a $(tkcximage_dir)/src/png/libpng.a \
 		 $(tkcximage_dir)/src/zlib/libzlib.a
 
-TARGETS-TkCximage := $(tkcximage_dir)/src/TkCximage.so 
+TARGETS-TkCximage := $(tkcximage_dir)/src/TkCximage.cpp.so 
 
 
-$(TARGETS-TkCximage): $(OBJS-TkCximage)
-	@$(echo_link_so_cpp)
-	@$(link_so_cpp)
+$(TARGETS-TkCximage):: $(OBJS-TkCximage)
 
 all:: $(TARGETS-TkCximage)
 

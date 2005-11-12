@@ -5,6 +5,15 @@ dstdir  	:= @datadir@
 slnkdir 	:= @bindir@
 VPATH		:= $(srcdir)
 
+doc_files	:= docs CREDITS FAQ GNUGPL HELP README TODO AGREEMENT remote.help
+
+FILES_TO_INSTALL := *.tcl hotmlog.htm sndplay amsn amsn-remote amsn-remote-CLI amsn.desktop langlist
+FILES_TO_INSTALL += $(doc_files)
+FILES_TO_INSTALL += icons lang skins utils/base64 utils/drawboard utils/framec utils/http2.4
+FILES_TO_INSTALL += utils/pixmapbutton utils/pixmapoption utils/pixmapprogbar utils/pixmapscroll
+FILES_TO_INSTALL += utils/scalable-bg utils/sha1 utils/snit0.97 utils/tclzlib utils/BWidget-1.7.0
+FILES_TO_INSTALL += plugins/inkdraw plugins/Nudge plugins/WebcamShooter
+
 capture_dir := $(srcdir)/utils/linux/capture
 webcamsn_dir := $(srcdir)/utils/webcamsn
 tkcximage_dir := $(srcdir)/utils/TkCximage
@@ -84,7 +93,10 @@ CXX_LIB := @CXX_LIB@
 
 LDFLAGS	 += ${TCL_STUB_LIB_SPEC}
 LDFLAGS	 += ${TK_STUB_LIB_SPEC}
-ADDLIBS	 += ${X_LIBS}
+
+ifeq ($(FOUND_OS),linux)
+FILES_TO_INSTALL += utils/webcamsn/webcamsn.so utils/TkCximage/TkCximage.so utils/linux/capture/capture.so utils/linux/traydock/libtray.so
+endif
 
 #########################################################
 # targets
@@ -114,9 +126,42 @@ distclean:: clean
 	-rm -f config.cache config.h config.log config.status
 
 
-install::
-	cp -Rf $(srcdir) $(dstdir)/$(PACKAGE)
-	ln -sf $(dstdir)/$(PACKAGE)/amsn $(slnkdir)
+install:: $(FILES_TO_INSTALL)
+	rm -Rf $(dstdir)/$(PACKAGE)
+	mkdir --parents $(dstdir)/$(PACKAGE)
+	@for p in $?; do \
+			cp -Rf --parents $(srcdir)/$$p $(dstdir)/$(PACKAGE); \
+		done
+	find $(dstdir)/$(PACKAGE) -name CVS -print | xargs rm -Rf
+	ln -sf $(dstdir)/$(PACKAGE)/amsn $(slnkdir)/amsn
+
+rpm-install:: $(FILES_TO_INSTALL)
+	rm -Rf $(INSTALL_PREFIX)$(dstdir)/$(PACKAGE)
+	mkdir --parents $(INSTALL_PREFIX)$(dstdir)/$(PACKAGE)
+	@for p in $?; do \
+			cp -Rf --parents $(srcdir)/$$p $(INSTALL_PREFIX)$(dstdir)/$(PACKAGE); \
+		done
+	find $(INSTALL_PREFIX)$(dstdir)/$(PACKAGE) -name CVS -print | xargs rm -Rf
+	mkdir --parents $(INSTALL_PREFIX)$(slnkdir)
+	ln -sf $(dstdir)/$(PACKAGE)/amsn $(INSTALL_PREFIX)$(slnkdir)/amsn
+
+rpm: all /bin/rpm
+	rm -f THIS.TK.SPEC
+	echo "%define _builddir `pwd`" > THIS.AMSN.SPEC
+	echo "%define _rpmdir /tmp/RPMS" >> THIS.AMSN.SPEC
+	echo "%define _prefix $(prefix)" >> THIS.AMSN.SPEC
+	echo "%define _tmppath /tmp" >> THIS.AMSN.SPEC
+	echo "%define _datadir $(dstdir)/$(PACKAGE)" >> THIS.AMSN.SPEC
+	echo "%define _bindir $(slnkdir)" >> THIS.AMSN.SPEC
+	echo "%define _doc_files $(doc_files)" >> THIS.AMSN.SPEC
+	echo "%define _platform `uname -i`" >> THIS.AMSN.SPEC
+
+	cat amsn.spec >> THIS.AMSN.SPEC
+	mkdir -p /tmp/RPMS
+	rpmbuild -bb THIS.AMSN.SPEC
+	rm -rf ./RPMS
+	mv /tmp/RPMS .
+	rm -rf /tmp/RPMS THIS.AMSN.SPEC
 
 #########################################################
 # include stuff
@@ -140,6 +185,7 @@ ifeq ($(FOUND_OS),linux)
   include $(capture_dir)/libng/plugins/Rules.mk
 
   ifeq ($(FOUND_X11),yes)
+      ADDLIBS	 += ${X_LIBS}
       include $(tray_dir)/Rules.mk
   endif
 endif

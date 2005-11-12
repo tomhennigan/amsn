@@ -1,4 +1,5 @@
 [Desktop Entry]
+Encoding=UTF-8
 Name=aMSN
 Exec=amsn
 Icon=msn.png
@@ -6,8 +7,9 @@ Info=AMSN
 Categories=Application;Network;
 Comment="MSN Messenger for Linux"
 Comment[fr]="MSN Messenger pour Linux"
-Comment[de]="MSN Messenger für Linux"
+Comment[de]="MSN Messenger fr Linux"
 Comment[nl]="MSN Messenger voor Linux"
 Comment[no]="MSN Messenger for Linux"
-Terminal=0
+Terminal=false
 Type=Application
+StartupNotify=true

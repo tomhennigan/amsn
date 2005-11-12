@@ -1,4 +1,4 @@
-OBJS-TkCximage := $(tkcximage_dir)/src/TkCximage.so
+OBJS-TkCximage := $(tkcximage_dir)/src/TkCximage.cpp.so
 TARGETS-TkCximage := $(tkcximage_dir)/TkCximage.so 
 
 
