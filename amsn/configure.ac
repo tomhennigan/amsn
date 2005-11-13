@@ -27,6 +27,10 @@ else
     DEBUG="no"
 fi
 
+dnl subst configure command
+AC_SUBST(CONFIGURE_ARGS)
+CONFIGURE_ARGS=`echo $@`
+
 dnl ---------------------------------------------------------------------
 dnl Checks for programs.
 
@@ -417,11 +421,9 @@ AC_MSG_RESULT($USE_MMX)
 dnl -- And of check if using libng
 fi 
 
-
 dnl ---------------------------------------------------------------------
 dnl write out stuff
 AC_OUTPUT(Makefile)
-
 dnl ---------------------------------------------------------------------
 dnl compile time options summary
 

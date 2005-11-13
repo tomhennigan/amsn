@@ -98,18 +98,16 @@ ifeq ($(FOUND_OS),linux)
 FILES_TO_INSTALL += utils/webcamsn/webcamsn.so utils/TkCximage/TkCximage.so utils/linux/capture/capture.so utils/linux/traydock/libtray.so
 endif
 
+CONFIGURE_ARGS := @CONFIGURE_ARGS@
+
 #########################################################
 # targets
 
 build: all
 
-ifeq ($(USE_LIBNG), yes)
 Makefile: $(srcdir)/Makefile.in $(srcdir)/configure
-	$(srcdir)/configure --enable-libng
-else
-Makefile: $(srcdir)/Makefile.in $(srcdir)/configure
-	$(srcdir)/configure --disable-libng
-endif
+	$(srcdir)/configure $(CONFIGURE_ARGS)
+	
 
 $(srcdir)/configure: $(srcdir)/configure.ac
 	(cd $(srcdir); autoconf)
