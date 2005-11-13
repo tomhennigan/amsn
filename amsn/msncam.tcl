@@ -2275,14 +2275,21 @@ namespace eval ::CAMGUI {
 		set channel [lindex $channels $chan]
 		set channel [lindex $channel 0]
 
-		if { [::Capture::IsValid $::CAMGUI::webcam_preview] } {
-			::Capture::Close $::CAMGUI::webcam_preview
-		}
+		::CAMGUI::CloseGrabber $::CAMGUI::webcam_preview $preview_w
 
 		if { [catch {set ::CAMGUI::webcam_preview [::Capture::Open $device $channel]} res] } {
 			$status configure -text $res
 			return
 		}
+
+		if { [info exists ::grabbers($::CAMGUI::webcam_preview)] } {
+			set windows $::grabbers($::CAMGUI::webcam_preview)
+		} else {
+			set windows [list]
+		}
+
+		lappend windows $preview_w
+		set ::grabbers($::CAMGUI::webcam_preview) $windows
 
 		if { ![info exists ::webcam_settings_bug] || $::webcam_settings_bug == 0} {
 			set init_b [::Capture::GetBrightness $::CAMGUI::webcam_preview]
@@ -2358,15 +2365,13 @@ namespace eval ::CAMGUI {
 
 	proc Choose_CancelLinux { w  img } {
 
-		if { [::Capture::IsValid $::CAMGUI::webcam_preview] } {
-			::Capture::Close $::CAMGUI::webcam_preview
+		::CAMGUI::CloseGrabber $::CAMGUI::webcam_preview "$w.preview"
+
+		if { [winfo exists .properties_$::CAMGUI::webcam_preview] } {
+			eval "[wm protocol .properties_$::CAMGUI::webcam_preview WM_DELETE_WINDOW]"
 		}
 
 		image delete $img
-
-		if { [winfo exists .properties_$::CAMGUI::webcam_preview] } {
-			destroy .properties_$::CAMGUI::webcam_preview
-		}
 
 		destroy $w
 	}
@@ -2385,8 +2390,6 @@ namespace eval ::CAMGUI {
 		set slides $window.slides
 		set preview $window.preview
 		set buttons $window.buttons
-
-		wm title $window "[trans captureproperties]"
 
 		set device ""
 		set channel ""
@@ -2431,6 +2434,7 @@ namespace eval ::CAMGUI {
 		destroy $window
 		toplevel $window
 		#grab set $window
+		wm title $window "[trans captureproperties]"
 
 		frame $slides
 		scale $slides.b -from 0 -to 65535 -resolution 1 -showvalue 1 -label "[trans brightness]" -command "::CAMGUI::Properties_SetLinux $slides.b b $capture_fd" -orient horizontal
