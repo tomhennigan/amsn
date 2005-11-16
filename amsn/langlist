@@ -58,7 +58,7 @@
 	<lang>
 		<langcode>nl</langcode>
 		<name>Dutch (Nederlands)</name>
-		<version>1.131</version>
+		<version>1.132</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -160,7 +160,7 @@
 	<lang>
 		<langcode>it</langcode>
 		<name>Italian (italiano)</name>
-		<version>1.53</version>
+		<version>1.54</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
