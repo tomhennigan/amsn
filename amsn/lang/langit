@@ -91,6 +91,7 @@ cannotdeleteprofile Non posso concellare il profilo perché sembra essere usato d
 cantexec Non posso eseguire l'applicazione: $1. Controlla nelle preferenze
 cantloadonlineversion Non è stato possibile recuperare la lista delle lingue da Internet
 cantremoveothers Non posso rimuovere il gruppo "Altri"
+captureproperties Proprietà immagine webcam
 casesensitive Usa comandi discriminanti tra maiuscole e minuscole
 cfgalarmall Configura/Aggiungi/Rimuovi l'allarme globale
 cfgalarm Configura/Aggiungi/Rimuovi l'allarme
@@ -184,6 +185,8 @@ custom_new Aggiungi una nuova faccina personalizzata
 customnick Soprannome Personalizzato
 customstyle Stile personalizzato
 cut Taglia
+cutimagebox Seleziona la parte di immagine che vuoi utilizzare, ridimensionando e muovendo il box di selezione
+cutimageboxreset Reimposta la grandezza del\nbox di selezione a:
 date Data
 dateformat Cambia il formato della data
 day Giorno
@@ -242,6 +245,7 @@ enableremote Abilita il controllo a distanza
 enablesound Emetti un suono
 encoding2 Cambia il modo in cui sono codificati i caratteri
 encoding Seleziona la codifica
+enterbugdesc Inserisci una descrizione di cosa stavi facendo per aiutarci a riprodurre il bug:
 entercontactemail Inserisci un contatto per e-mail
 enterfilename Inserisci un nome di file
 enternick Inserisci il tuo nick
@@ -298,6 +302,7 @@ groupoldname Vecchio nome
 grouprename Rinomina un gruppo
 groups Gruppi
 groupunknown Gruppo sconosciuto
+gotink $1 ti ha inviato un file-collegamento (*.ink)
 handle Gestisci
 help Aiuto
 helpcontents Aiuto
@@ -310,6 +315,7 @@ httpconnection Connessione usando il metodo HTTP (uso il protocollo HTTP sulla p
 hybrid Modo ibrido
 ident Identificazione
 identity Identità
+ignore Ignora
 ignoreerrors Ignora gli altri errori di AMSN fino al termine della sessione
 imagefiles Files immagine
 inbox Posta in Arrivo
@@ -464,6 +470,7 @@ offline Sconnesso
 ok Ok
 onenewmail 1 nuovo messaggio di posta nella casella In Arrivo
 online In linea
+onlinehelp Aiuto in linea
 onphone Al telefono
 opendir Apri cartella
 openfile Apri
@@ -568,6 +575,7 @@ selectskin Seleziona una Skin dalla lista
 sendfile Manda file
 send Invia
 sendmail Manda e-mail
+sendemail Invia in mio indirizzo e-mail per avvisarmi riguardo cambiamenti
 sendmobmsg Invia a dispositivo mobile
 sendmsg Manda un messaggio
 sendwebcaminvite Invita l'utente a vedere dalla tua webcam
@@ -750,3 +758,4 @@ webcamrejected $1 rifiuta l'invito per la sessione webcam
 webcamrequestsend Invia la richiesta per inviare con la webcam
 webcamrequestreceive Invia la richiesta per ricevere dalla webcam
 webcamsending Lista delle persone a cui stai inviando con la webcam\nClicca per annullare
+whatisamsn aMSN è un clone di MSN Messenger, indipendente dalla piattaforma

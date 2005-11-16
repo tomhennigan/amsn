@@ -98,6 +98,7 @@ cantloadonlineversion Kan de bijgewerkte talen-lijst niet ophalen van het Intern
 cantremoveothers De groep "Overige contacten" kan niet verwijderd worden
 captureextloaded Programmauitbreiding voor webcam ($1) is geladen.
 captureextnotloaded Programmauitbreiding voor webcam ($1) is niet geladen omdat deze nog niet is gecompileerd.
+captureproperties Webcaminstellingen
 casesensitive Gebruik hoofdlettergevoelige triggers
 cfgalarm Alarminstellingen
 cfgalarmall Algemene alarminstellingen
@@ -197,6 +198,8 @@ custom_new Maak een nieuwe emoticon
 customnick Aangepaste Schermnaam
 customstyle Aangepaste stijl
 cut Knippen
+cutimagebox Selecteer het deel van de foto dat je gebruiken wilt, door de selectie-rechthoek van grootte te veranderen en deze te verplaatsen.
+cutimageboxreset Maak de selectie-rechthoek:
 date Datum
 dateformat Datumnotatie wijzigen
 day Dag
@@ -328,6 +331,7 @@ history Geschiedenis tonen
 home Thuis
 httpconnection Verbinding maken via het HTTP-protocol
 hue Kleurtoon
+huge Extra groot
 hybrid Hybride modus
 ident Bezig met identificeren
 identity Identiteit
@@ -360,6 +364,7 @@ keeplog2 In een logboek automatisch een geschiedenis bijhouden van de gesprekken
 keeplog Gesprekken opslaan in een logboek
 language Taal
 language_manager Taalbeheer
+large Groot
 lastlogin Vorige login
 lastlogout Vorige logout
 lastmsgedme Laatste bericht
@@ -619,6 +624,7 @@ showuserpic Afbeelding van $1
 signinstatus Status na aanmelden
 skinselector Skin
 skin Skin
+small Klein
 smileconfig Configuratie voor zelfgemaakte emoticons
 smilefile Bestandsnaam van de emoticon
 smileintro2 Pas de nodige velden aan om deze emoticon te bewerken
@@ -736,6 +742,7 @@ webcamrequestreceive Je verzoek om webcambeeld te mogen zien is verstuurd
 webcamrequestsend Je aanbod van webcambeeld is verstuurd
 webcamsending Contacten die op dit moment jou webcambeeld kunnen zien:\n(Klik om te beëindigen)
 webcamshot Webcam-foto
+whatisamsn aMSN is een platformonafhankelijke MSN Messenger kloon
 whatsize De door jou gekozen afbeelding heeft niet het gebruikelijke formaat\nvoor schermafbeeldingen (96x96). Hoe groot wil je dat de afbeelding wordt weergegeven?
 willjoin Wachten tot $1 de conversatie zal bijwonen
 winkreceived Je hebt een knipoog ontvangen van $1. Deze functie wordt niet ondersteund door aMSN.
