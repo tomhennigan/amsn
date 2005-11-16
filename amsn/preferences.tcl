@@ -2835,6 +2835,11 @@ proc SavePreferences {} {
 	global myconfig proxy_server proxy_port list_BLP temp_BLP Preftabs libtls proxy_user proxy_pass pager
 
 	set nb .cfg.notebook
+
+	# If the default ns server changed, change the start_ns_server too.
+	if { [::config::getKey default_ns_server] != [set myconfig(default_ns_server)] } {
+		::config::setKey start_ns_server [::config::getKey default_ns_server]
+	}
 	
 	# I. Data Validation & Metavariable substitution
 	# Proxy settings

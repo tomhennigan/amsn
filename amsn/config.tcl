@@ -227,7 +227,7 @@ namespace eval ::config {
 			[list local checkemail bool checkemail] \
 			[list local autoconnect bool autoconnect autoconnect2] \
 			[list local keepalive bool keepalive natkeepalive]\
-			[list local start_ns_server str notificationserver]\
+			[list local default_ns_server str notificationserver]\
 			[list local disable_new_ft_protocol bool_inv new_ft_protocol]\
 			[list local lazypicretrieval bool lazypicretrieval]\
 			[list title MSN] \

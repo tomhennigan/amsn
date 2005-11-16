@@ -3246,6 +3246,6 @@ proc EscapeTitle { title } {
 	
 	# Now we apply the substitution to get a subst-string that
 	# will perform the computational parts of the conversion.
-	return [subst [regsub -all $RE $title $substitution]]
+	return [regsub -all $RE $title $substitution]
 
 }
