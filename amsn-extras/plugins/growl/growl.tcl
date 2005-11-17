@@ -130,7 +130,7 @@ namespace eval ::growl {
 		set email $user
 		#Send notification to Growl
 		#Use contact's avatar as picture if possible (via getpicture)
-		if {$config(userconnect)} {
+		if {$config(userconnect) && [::abook::getContactData $user notifyonline -1] != 0} {
 			catch {growl post Online $nickname "[trans logsin]." [::growl::getpicture $email]}
 		}
     }
