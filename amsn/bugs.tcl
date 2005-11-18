@@ -331,7 +331,7 @@ namespace eval ::bugs {
 
 	tk_messageBox -message "$message" -title [trans done] -type ok
 	
-	$w.f.b1 configure -text [trans done]
+	$w.f.b1 configure -text [trans done] -state active -command "set ::bugs::closed_bug_window 1"
     }
 }
 
