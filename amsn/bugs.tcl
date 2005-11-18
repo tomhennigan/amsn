@@ -141,7 +141,7 @@ namespace eval ::bugs {
 	label $w.msg -justify left -textvariable "::bugs::message" -wraplength 500 -font sboldf
 	label $w.desc_l -text "[trans enterbugdesc]"
 	frame $w.f
-	text $w.f.t -height 5 -width 50
+	text $w.f.t -height 5 -width 50 -bg #FFFFFF -borderwidth 0 -relief solid -highlightthickness 0 -exportselection 1
 	
 	frame $w.c1
 	checkbutton $w.c1.check -variable "::bugs::bug(email)" -text "[trans sendemail] ("
@@ -153,7 +153,7 @@ namespace eval ::bugs {
 	button $w.f.b2 -text [trans ignore] -command "set ::bugs::closed_bug_window 1"
 	button $w.f.b3 -text [trans save] -command "::bugs::save \[tk_getSaveFile -title \"Save Bug Report\" -parent $w\]"
 	button $w.f.b4 -text [trans details] -command "::bugs::toggle_details"
-	text $w.details -height 10 -width 10
+	text $w.details -height 10 -width 10 -bg #FFFFFF
 	$w.details insert 0.0 $info
 	
 	pack $w.msg -side top -expand 1 -anchor nw -padx 3m -pady 3m
@@ -172,6 +172,7 @@ namespace eval ::bugs {
 	bind $w.c1.text <Enter> "$w.c1.text configure -font sunderf"
 	bind $w.c1.text <Leave> "$w.c1.text configure -font splainf"
 	bind $w.c1.text <ButtonRelease> "my_focus \[::amsn::showHelpFileWindow AGREEMENT \"[trans cagreement]\"\]"
+	
 	
 	wm withdraw $w
 	
@@ -203,7 +204,8 @@ namespace eval ::bugs {
 	}
 	grab $w
 	raise $w
-	focus $w.f.b2
+	#focus $w.f.b2
+	focus $w.f.t
 	
 	# 8. Wait for the user to respond, then restore the focus and
 	# return the index of the selected button.  Restore the focus
