@@ -529,12 +529,10 @@ namespace eval ::autoupdate {
 			set lastver [split $tmp_data "."]
 			set yourver [split $version "."]
 
-			if { [lindex $lastver 0] > [lindex $yourver 0] } {
-				set newer 1
-			} else {
-				# Major version is at least the same
-				if { [lindex $lastver 1] > [lindex $yourver 1] } {
+			for {set x 0} {$x<[llength "$lastver"]} {incr x} {
+				if {[lindex $lastver $x] > [lindex $yourver $x]} {
 					set newer 1
+					break
 				}
 			}
 
