@@ -6,8 +6,6 @@ if { $initialize_amsn == 1 } {
     set systemtray_exist 0
     set iconmenu 0
     set ishidden 0
-    #We save the default background color before it is erased by skin one
-    set defaultbackground [. cget -background]
 }
 
 proc iconify_proc {} {
@@ -206,7 +204,7 @@ proc statusicon_proc {status} {
 			image create photo statustrayicon -file $pixmap
 			image create photo statustrayiconres
 			#add the icon
-			set statusicon [newti $icon -tooltip offline -pixmap statustrayiconres -background $defaultbackground -command "::trayicon_callback statustrayicon statustrayiconres"]
+			set statusicon [newti $icon -tooltip offline -pixmap statustrayiconres -command "::trayicon_callback statustrayicon statustrayiconres"]
 
 			bind $icon <Button1-ButtonRelease> iconify_proc
 			bind $icon <Button3-ButtonRelease> "tk_popup $iconmenu %X %Y"
@@ -387,7 +385,7 @@ proc mailicon_proc {num} {
 		} else {
 			image create photo mailtrayicon -file $pixmap
 			image create photo mailtrayiconres
-			set mailicon [newti $icon -tooltip offline -pixmap mailtrayiconres -background $defaultbackground -command "::trayicon_callback mailtrayicon mailtrayiconres"]
+			set mailicon [newti $icon -tooltip offline -pixmap mailtrayiconres -command "::trayicon_callback mailtrayicon mailtrayiconres"]
 
 			bind $icon <Button-1> [list ::hotmail::hotmail_login [::config::getKey login] $password]
 		}
@@ -534,7 +532,7 @@ proc addTrayIcon {name xiconpath winiconpath {tooltip ""} {winactionhandler "noh
 			} else {
 				if { [loadTrayLib] } {
 					#add the icon     !! name => .name
-					set name [newti .$name -pixmap [image create photo dest_$name] -background $defaultbackground -command "::trayIcon_Configure [image create photo source_$name -file $xiconpath] dest_$name"]
+					set name [newti .$name -pixmap [image create photo dest_$name] -command "::trayIcon_Configure [image create photo source_$name -file $xiconpath] dest_$name"]
 
 	#TODO: balloon bindings
 	#bind .$name <Motion> [list status_log "motion"]
