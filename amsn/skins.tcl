@@ -228,7 +228,11 @@ namespace eval ::skin {
 		variable pixmaps_names
 		variable pixmaps_fblocation
 		foreach name [array names loaded_pixmaps] {
-			image create photo $loaded_pixmaps($name) -file [::skin::GetSkinFile pixmaps $pixmaps_names($name) $skin_name $pixmaps_fblocation($name)] -format cximage
+			if { [catch {image create photo $loaded_pixmaps($name) -file [::skin::GetSkinFile pixmaps $pixmaps_names($name) $skin_name $pixmaps_fblocation($name)] -format cximage} res] } {
+				status_log "skins::reloadSkin:: Error while loading pixmap $res"
+				image create photo $loaded_pixmaps($name) -file [::skin::GetSkinFile pixmaps null \
+			 -format cximage]	
+			}
 		}
 
 		# Reload smileys
@@ -236,7 +240,11 @@ namespace eval ::skin {
 		variable smileys_names
 		variable smileys_fblocation
 		foreach name [array names loaded_smileys] {
-			image create photo $loaded_smileys($name) -file [::skin::GetSkinFile smileys $smileys_names($name) $skin_name $smileys_fblocation($name)] -format cximage
+			if { [catch {image create photo $loaded_smileys($name) -file [::skin::GetSkinFile smileys $smileys_names($name) $skin_name $smileys_fblocation($name)] -format cximage} res] } {
+				status_log "skins::reloadSkin:: Error while loading smiley $res"
+				image create photo $loaded_smileys($name) -file [::skin::GetSkinFile smileys null \
+			 -format cximage]
+			}
 		}
 
 		# Now reload special images that need special treatment
