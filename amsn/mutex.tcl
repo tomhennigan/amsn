@@ -13,6 +13,7 @@ proc init_ticket { ticket { resources 1 }} {
 
 #Procedure used to avoid race conditions, using a ticket systems
 proc run_exclusive { command ticket {ticket_val ""}} {
+	global errorInfo errorCode
 	upvar #0 ${ticket}_inputs ticket_inputs
 	upvar #0 ${ticket}_outputs ticket_outputs
 
@@ -30,9 +31,12 @@ proc run_exclusive { command ticket {ticket_val ""}} {
 		after 100 [list run_exclusive $command $ticket $my_ticket]
 		status_log "UPS! Another instance of command $command. Avoid interleaving by waiting 100ms and try again\n" white
 	} else {
-		eval $command
+		set hasError [catch "eval $command" errorMsg]
 		#Give next turn
 		incr ticket_outputs
+		if { $hasError } {
+			error $errorMsg $errorInfo $errorCode
+		}
 	}
 
 }
