@@ -325,6 +325,7 @@ You should tell him/her about this, and ask him/her if he or she
 wants to be removed (nobody wanted to be removed until now, but
 it's polite to ask :))
 
+When adding a new language, make sure to create an entry in the langlist file found in the top amsn directory. See the existing entries for the format.
 
 ==========================
 3. For both - Useful tools
