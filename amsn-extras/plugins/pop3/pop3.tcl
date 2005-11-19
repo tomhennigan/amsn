@@ -995,6 +995,7 @@ namespace eval ::pop3 {
 	#	create the balloon
 	# Arguments:
 	#	acntn        -> The number of the gmail account to check
+	# TODO : make the code more understandable !
 	proc Check_gmail {acntn} {
 		package require http
 		package require tls
@@ -1104,7 +1105,8 @@ namespace eval ::pop3 {
 									regsub -all {\<\/td\>} $gmail(text_line_1) "" gmail(text_line)
 									regsub -all {\<b\>} $gmail(text_line) "" gmail(text_line)
 									regsub -all {\<\/b\>} $gmail(text_line) "" gmail(text_line)
-									append ::pop3::balloontext_$acntn \n\n$gmail(text_line)
+									#adds the author of the mail to the balloon text
+									append ::pop3::balloontext_$acntn \n$gmail(text_line)
 									if { [string match *<b>* [lindex $gmail(dataINBOX) [expr $i + 6] ] ] } {
 										set gmail(text_line) [lindex $gmail(dataINBOX) [expr $i + 6] ]
 									} else {
@@ -1112,7 +1114,8 @@ namespace eval ::pop3 {
 									}
 									regsub -all {\<b\>} $gmail(text_line) "" gmail(text_line)
 									regsub -all {\<\/b\>} $gmail(text_line) "" gmail(text_line)
-									append ::pop3::balloontext_$acntn \n      $gmail(text_line)
+									#adds the subject of the mail to the balloon text
+									append ::pop3::balloontext_$acntn \ :\  $gmail(text_line)
 								}
 							}
 							incr i
