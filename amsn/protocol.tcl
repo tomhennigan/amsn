@@ -4587,10 +4587,11 @@ proc cmsn_auth {{recv ""}} {
 			#Enables View contacts by
 			.main_menu.tools entryconfigure 6 -state normal
 
-			#Enable View History
+			#Enable View History and webcam session
 			.main_menu.tools entryconfigure 8 -state normal
-			#Enable View Event logging
 			.main_menu.tools entryconfigure 9 -state normal
+			#Enable View Event logging
+			.main_menu.tools entryconfigure 10 -state normal
 
 			#Change nick
 			configureMenuEntry .main_menu.actions "[trans changenick]..." normal

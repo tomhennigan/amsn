@@ -3345,6 +3345,7 @@ proc cmsn_draw_main {} {
 	#View the history and the event log
 	.main_menu.tools add separator
 	.main_menu.tools add command -label "[trans history]" -command ::log::OpenLogWin
+	.main_menu.tools add command -label "[trans webcamhistory]" -command ::log::OpenCamLogWin
 	.main_menu.tools add command -label "[trans eventhistory]" -command "::log::OpenLogWin eventlog"
 
 	#Unnecessary separator when you remove the 2 dockings items menu on Mac OS X
@@ -4248,10 +4249,11 @@ proc cmsn_draw_offline {} {
 	.main_menu.tools entryconfigure 5 -state disabled
 	#Disables View Contacts by
 	.main_menu.tools entryconfigure 6 -state disabled
-	#Disable "View History"
+	#Disable "View History" and "View Webcam Session"
 	.main_menu.tools entryconfigure 8 -state disabled
-	#Disable "View Event Logging"
 	.main_menu.tools entryconfigure 9 -state disabled
+	#Disable "View Event Logging"
+	.main_menu.tools entryconfigure 10 -state disabled
 
 	#Change nick
 	configureMenuEntry .main_menu.actions "[trans changenick]..." disabled
