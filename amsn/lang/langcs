@@ -28,6 +28,7 @@ alarmpref Nastavení alarmu pro u¾ivatele
 alarms Alarmy
 alarmstatus Zapni/Vypni alarm pro tohoto u¾ivatele
 allfiles V¹echny soubory
+allmonths V¹echny mìsíce
 allowallbutbl Povolit kontaktování v¹em u¾ivatelùm kteøí nejsou v seznamu blokovaných
 allowbadwords Zakázat cenzuru pøezdívek
 allowlist Seznam povolených (AL)
@@ -43,6 +44,7 @@ appearoff Vypadá nepøipojený
 areacode PSÈ
 aretyping $1 ti právì pí¹e zprávu
 askeachtime v¾dy se zeptám
+askwebcam Po¾ádej u¾ivatele o vizuální spojení
 author Autor
 autoaccepted Pøenos souborù potvrzen automaticky
 autoacceptft Automaticky potvrzuj po¾adavky na pøenos souborù
@@ -93,6 +95,7 @@ cannotdeleteprofile Nemohu smazat profil, zdá se, ¾e ho právì pou¾ívá aMSN
 cantexec Nemohu spustit aplikaci $1. Zkontroluj si nastavení aMSN.
 cantloadonlineversion Nemohu obnovit seznam aktuálních pøekladù z internetu.
 cantremoveothers Nemù¾e¹ odstranit skupinu "Ostatní"
+captureproperties Vlastnosti obrazu webové kamery
 cfgalarmall Nastavit/Pøidat/Zru¹it alarm
 cfgalarm Nastav/Pøidej/Odstraò alarm
 clearlog Vymazat log
@@ -130,6 +133,7 @@ connectionlost Odpojen: Spojení se serverem bylo ukonèeno
 connection Pøipojení
 contactadded Kontakt je ulo¾en
 contactdoesnotexist Kontakt neexistuje!
+contact Kontakt
 contactlist Seznam u¾ivatelù:
 contrast Kontrast
 conversationwith $1 u¾ivatelù konverzuje
@@ -160,7 +164,9 @@ days dny
 dcprofile Nevytvoøit profil
 defaultloginradio Pøihlá¹ení s pøedvolenou konfigurací
 default Pùvodní profil
+default2 Implicitní
 defchatwinsize Velikost pro chat-okna (XSIZExYSIZE) 
+deleteall Vyma¾ v¹e
 deletecustomstate Vymazat vlastní status
 delete Smazat
 delimiters Oddìlovaèe èasu:
@@ -169,6 +175,7 @@ delprofile Vymazat profil
 delprofile2 Vyberte profil který chcete vymazat
 description Popis
 detach Odpojení
+details Detaily
 devicebusy Zaøízení $1 je pou¾íváno
 devices Zaøízení
 directconnection Pøímé pøipojení k internetu (pou¾ije port 1863)
@@ -200,7 +207,7 @@ edit Editovat
 editprofile Zmìnit profil
 editvalue Zmìnit valutu
 email Email
-emailsinlist Ukázat pøezdívky i maily v kontakt listu
+emailsinlist Ukázat pøezdívky i maily v seznamu kontaktù
 emoticon_steal Pøidej k emotikonùm
 emotisounds Pøehrát zvuk pro smajlíky
 emptygroup Prázdná skupina
@@ -249,7 +256,7 @@ ftportpref Poèáteèní port pro pøenos souborù
 ftrejectedby $1 odmítl pøijmout soubor $2
 ftrejected Odesílání souboru nepøijaté
 ftsendinvitation Oznamuji pøenos souboru '$2' ($3 bytù) u¾ivateli $1
-fullcontactlist Lituji, ale tvùj kontakt list je plný. Bude¹ muset vymazat nìjaký kontakt aby jsi mohl pøidat dal¹í. 
+fullcontactlist Lituji, ale tvùj seznam kontaktù je plný. Bude¹ muset vymazat nìjaký kontakt abys mohl pøidat dal¹í. 
 getdisppic Ukládat do pamìti obrázky jiných u¾ivatelù. 
 globalnicktitle Maska na zobrazení kontaktù
 globalnick Vlo¾ masku podle které bude formátováno zobrazení jmen kontaktù. Mù¾e¹ pou¾ít následující promìnné: \$user_login bude nahrazeno pøihla¹ovací adresou, \$nick pøezdívkou a \$customnick pøezdívkou z tvého adresáøe kontaktù. Pøíklad: '\$user_login si øíká $nick' se zobrazí jako 'bgate@msnouma.com si øíká Strejda Bill'
@@ -274,6 +281,7 @@ hidewindow Skryj okno
 history Ukázat logy
 home Domov
 httpconnection Pøipojení protokolem http (pro pøipojení pou¾ije port 80)
+hue Zabarvení
 hybrid ve smí¹eném re¾imu
 changecustomstate Zmìò stav na
 changedisplaypic Zmìnit obrázek (fotku)
@@ -282,7 +290,9 @@ changeglobnick Vlastní formát
 changenick Zmìnit jméno
 changesize Zmìò velikost
 changestate $1 zmìnil svùj stav na $2
+changevideosettings Zmìna nastavení videa
 change Zmìnit
+channels Kanály
 charscounter Poèítat délku textu 
 chatack Pøíjem konverzace od
 chat Konverzace
@@ -294,6 +304,7 @@ checkblocking Pravidelnì kontroluj, zda tì u¾ivatelé blokují
 checkemail Ukázat informaci o mailu v seznamu kontaktù
 checkfilman Pøijaté soubory jsou ulo¾eny v $1. K prohlédnutí pou¾ij svùj oblíbený souborový mana¾er.
 checkingver Hledám novìj¹í verzi
+checkonfln Kontroluj, zda se odpojil u¾ivatel, který tì zablokoval
 checkopenfilecommand Zkontroluj prosím pøíkaz k otevøení souboru v Nastavení programu
 checkver Hledat novìj¹í verzi
 choosearq Vyber architekturu svého systému
@@ -302,6 +313,7 @@ choosebgcolor Vyber barvu pro aMSN
 choosecontact Vyber u¾ivatele ze seznamu
 choosedevice Vyber si zaøízení
 choosefontcolor Vyber barvu písma
+choosechannel Prosím vyber si kanál
 chooseskin Vyber si vzhled, který chce¹ pou¾ít
 ch_to_state Nastavit nový status
 ident Identifikuji
@@ -310,6 +322,7 @@ ignoreerrors Nezobrazuj dal¹í chyby aMSN a¾ do ukonèení relace
 imagefiles Obrázkové soubory.
 inbox E-mailová schránka na Hotmail
 insertsmiley Vlo¾ smajlík
+inserttextnote Vlo¾ text do polí Pøedmìt a Poznámka a stiskni "Ulo¾it"
 installconvert Pokud chce¹ pou¾ívat vlastní ikony a emotikony, musí¹ instalovat ImageMagick (program convert). Binární formu pro tvùj operaèní systém najde¹ na ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Pokud ji¾ má¹ program convert nainstalovaný, je toto hlá¹ení chybné a nahla¹ jej jako bug (anglicky!). Jmenované vymo¾enosti budou nyní zakázány, a¾ si ImageMagick nainstaluje¹, mù¾e¹ si je povolit v Nastavení programu.
 internalerror Chyba serveru
 invalidfile Soubor '$2' vlo¾ený do pole "$1" neexisuje, nebo není èitelný
@@ -348,6 +361,7 @@ lenteredconf $1 se pøidal do konference o $2
 lineflushlog Zapisovat do logu ka¾dý øádek. 
 linprivate Privátní
 listeningon Zkou¹ím port $1
+listening Poslouchám ...
 listsmileys Smajlíky pro kontakty
 listsmileys2 Povolit emotikony a smajlíky u¾ v seznamu kontaktù
 ljoinedconf $1 se pøidal do konference
@@ -455,6 +469,7 @@ nudge $1 si tì ¾ádá
 offline Nepøipojen
 ok OK
 onenewmail 1 nový mail
+onlinehelp On-line pomoc (Wiki stránky)
 online Pøipojen
 onphone Na telefonu
 opendir Otevøi slo¾ku
@@ -464,11 +479,13 @@ openreceived Otevøít pøijaté soubory
 options Nastavení
 ordercontactsby Seøadit kontakty
 ordergroupsby Seøadit skupiny
+original V pùvodní velikosti
 other Jiné
 others Ostatní
 pager Pager
 pass Heslo
 paste Vlo¾it
+pause Pauza
 personal Osobní
 phones Telefonní èísla 
 phone Telefon
@@ -476,12 +493,16 @@ picbrowser Prohlí¾eè obrázkù
 picfile Obrázek "Alarm" (GIF < 500 x 500)
 picstatus Grafický alarm
 playing Hraji: $1 
+play Pøehraj
 pluginselector Vyber plug-in
 port Port
 portswellconfigured Porty jsou nakonfigurovány správnì
 prefalerts Vlastní termíny a zvuky
 prefapps Aplikace
 prefawaymsg Moje dùvody nepøítomnosti
+prefblock1 Kontroluj pøi odpojení
+prefblock2 Kontroluj prùbì¾nì
+prefblock3 Skupina lidí, kteøí tì blokují
 prefconnection Nastavení spojení
 prefemotic Emotikony a smajlíky
 preferences Nastavení programu
@@ -496,7 +517,7 @@ preflook Vzhled aMSN Messengeru
 prefmsging Interfáze mých odkazù
 prefname Moje jméno/pøezdívka pro MSN messenger
 prefphone Moje telefonní èísla
-prefphone2 Napi¹ telefonní èísla které chce¹ aby byly vidìt \n pro lidi ve tvém kontakt listu \n
+prefphone2 Napi¹ telefonní èísla která chce¹ zveøejnit \n lidem ve svém seznamu kontaktù  \n
 prefprivacy Seznam povolených/blokovaných
 prefprivacy2 Seznam kontaktù / Zpìtný seznam
 prefprofile Mùj veøejný profil
@@ -538,20 +559,25 @@ remembersetting Zapamatuj si nastavení
 removeempty Vyma¾ prázdné skupiny ze seznamu
 removefromlist Vyma¾ ze seznamu
 rename Pøejmenovat
+report Ohlásit chybu
 required_version Tento plugin vy¾aduje verzi aMSN alespoò $1
 reversed opaènì
 reverselist Zpìtný (reverzní) seznam (RL):
 rightback Hned se vrátím
 saveas Ulo¾it jako
-savecontacts Ulo¾it kontakt list
-savechatwinsize Ulo¾it velikost okna pøi zmìnìní velikosti 
+savecontacts Ulo¾it seznam kontaktù
+savechatwinsize Ulo¾it velikost okna pøi zmìnì jeho velikosti 
 savetofile Ulo¾it do souboru
 save Ulo¾it
 says $1 øekl/a:
 sbcon Pøipojuji se na Switch Board
+selectall Vyber v¹e
 selectplugins Vyber plug-iny, které chce¹ povolit
+selectskin Vyber si vzhled z následujícího seznamu
+sendemail Ode¹li mùj e-mail abych mohl být informován o zmìnách
 sendfile Poslat soubor
 sendmail Poslat mail
+sendmobmsg Ode¹li na mobilní zaøízení
 sendmsg Zaèít konverzaci
 send Poslat
 sentbytes Odeslané $1 z $2 bytù
@@ -570,6 +596,9 @@ shownotify Ukázat informaèní okno kdy¾ se nìco stane
 showpicnotify Zobraz obrázek u¾ivatele v informaèním okénku
 showuserpic Fotka $1
 skinselector Vyber vzhled
+skin Vzhled
+smiletoobig Emotikon, který sis vybral je vìt¹í, ne¾ je obvyklé. Chce¹ upravit jeho velikost?
+snackfailed Knihovnu Snack se nepodaøilo nahrát, návrat k implicitní
 sngdblclick Otevøít nové dialogové okno jedním kliknutím
 soundactive Pøehraj zvuk pøi pøíchodu zprávy i v pøípadì, ¾e zpráva pøichází do aktivního okna
 soundcommand Toto je pøíkaz na "play" (napø.: esdplay)
@@ -582,6 +611,7 @@ soundstatus Zvukový alarm
 sound Zvuk
 sound2 Spustit zvuk jakmile se nìkdo pøipojí nebo po¹le vzkaz
 sourcecode Zdrojový kód (potøebuje pøelo¾it a nainstalovat)
+splashstart Start
 sslwarning POZOR! Zákaz SSL nepovolí ¹ifrování, tak¾e tvé heslo bude odesláno v èitelné formì po síti. Pou¾ij jen v pøípadì zákeønì nastavené proxy brány nebo podivné konfigurace sítì.
 startoffline Pøipojit se tichým zpùsobem
 startoffline2 Pøipojit se tichým zpùsobem, po pøipojení tì ostatní neuvidí.
@@ -597,25 +627,30 @@ statenick Vlastní pøezdívka (vynechej kdy¾ ji nechce¹ mìnit)
 stats Statistiky
 status podle stavu
 stopalarm Zastavit alarm
+stop Stop
+stopwebcamreceive Zastav pøíjem webové kamery
+stopwebcamsend Zastav odesílání webovou kamerou
 storenickname Vrátit pùvodní pøezdívku kdy¾ se nastaví vlastní status s vlastním nickname
 strictfonts Pøizpùsobit v¹echny písma a velikosti tomu co sis zvolil
 stylehist Vzhled  historie aMSN
 stylechat Tentý¾ vzhled jako pro chat
 stylelog Zvol formát ve kterém chce¹ vidìt svoji historii
 style Styl
+subject Pøedmìt
+subjectrequired Pøedmìt musí být vyplnìn
 syntaxerror Chyba v pøíkaze
 tabbedglobal Jedno okno se zálo¾kami pro v¹echny u¾ivatele
 tabbedgroups Pro ka¾dou skupinu u¾ivatelù jedno okno se zálo¾kou pro ka¾dého u¾ivatele
 tabbed Okna s informací
 tabtitlenick V zálo¾kách uka¾ pøezdívku místo e-mailu
-takesnapshot Sejmi zábìr
 temp_state Neukládej (Pøechodný status, zmizí po ukonèení AMSN)
 textsize Velikost textu
 thismonth Tento mìsíc
 timeremaining Zbývající èas
 timestamps Povol èasové znaèky v konverzaèním oknì
 title Messenger
-tkerror TK na¹el jednu chybu, aMSN má chybu, prosím, ode¹li nám ji. Ode¹li soubor $1 na adresu amsn-bugs@lists.sf.net 
+tkerror TK na¹el jednu chybu, aMSN má chybu, prosím, informuj nás odesláním souboru $1 na adresu amsn-bugs@lists.sf.net
+tkerror1 TK ohlásil chybu, v aMSN je nìjaká chyba, prosím nahla¹ ji prosím stisknutím tlaèítka "Ohlásit chybu" (anglicky, prosím). Mù¾e¹ pokraèovat stiskem "Detail" abys vidìl více informací o chybì nebo stikni "Ok" a pokraèuj v diskusích
 tlsdowncompleted Soubor $1 byl sta¾en do slo¾ky $2. Musí¹ jej rozbalit, pøelo¾it (pokud jsi stáhl zdrojový kód) a nainstalovat do $3.
 tlsexplain Hledám adresáø s tcl TLS modulem. Pokud jej AMSN nenajde, prosím zadej jej.\n(Vy¾adován pro SSL autentizaci)
 tlsinstallexp aMSN nyní pou¾ívá MSPN9, který vy¾aduje bezpeèné\nspojení pomocí SSL. AMSN musí mít nainstalován modul TLS ... a ten zde není.\nTento dialog ti pomù¾e nainstalovat TLS.\nVyber operaèní systém a» mohu stáhnout\n po¾adované soubory.
@@ -627,14 +662,20 @@ tools Slu¾by
 tooltips Povol tipy (tooltips)
 to Pro
 transnotexists Tento soubor je¹tì nebyl pøelo¾ený do tohoto jazyku.
+trayicon Zobraz stavovou ikonu v oblasti zpráv
 traynotcompiled Ikona je¹tì nebyla vytvoøená. Nastav Plug-In.
-truncatenames1 Pøizpùsobit délku nickù del¹ích ne¾ okna v horní èásti kontakt listu 
+truncatenames1 Pøizpùsobit délku nickù del¹ích ne¾ okna v horní èásti seznamu kontaktù
 truncatenames2 Pøizpùsobit délku nickù del¹ích ne¾ okna v konverzacích
 truncatenicks Oøízni pøezdívky del¹í ne¾ ¹íøka okna
 twonewmail $1 nové/ých maily/ù
 unblock Odblokovat
+unknown Neznámý
+unselectall Zru¹ ve¹kerý výbìr
 uoffline Nepøipojení
 uonline Pøipojení
+update Aktualizace
+updateonlycurrentlanguage Aktualizuj pouze aktuální jazyk
+updating Aktializace probíhá ...
 useother Pou¾ij jiný program
 useralreadyonlist U¾ivatel u¾ je v seznamu kontaktù
 userblocked U¾ivatel je pøipojen, ale zablokoval tì
@@ -658,7 +699,11 @@ webcamhistory Uka¾ spojení Webcam
 webcaminvitereceived $1 Tì po¾ádal o spojení web kamerou. Pøijímá¹?
 webcaminvite $1 tì pozval do své videorelace, ov¹em aMSN toto nepodporuje
 webcamrejected $1 odmítl ¾ádost o spojení webovou kamerou.
-whatsize Po¾adovaný obrázek nemá obvyklé rozmìry (96x96).\n Jak velký chce¹ tento obrázek zobrazit?
+webcamrequestreceive Po¹li po¾adavek na pøíjem spojení webovou kamerou
+webcamrequestsend Po¹li po¾adavek na odeslání spojení webovou kamerou
+webcamsending Seznam lidí, kterým momentálnì odesílá¹ obrázky webové kamery\nKlikni na Zru¹it
+whatisamsn aMSN je platformovì nezávislý klon MSN messengeru
+whatsize Po¾adovaný obrázek nemá obvyklé rozmìry (96x96).\n Jak velký jej chce¹ zobrazit?
 willjoin Èekám na konverzaci s $1
 wintitlenick Zobraz pøezdívky místo e-mailù v záhlaví zálo¾ek
 work Práce
