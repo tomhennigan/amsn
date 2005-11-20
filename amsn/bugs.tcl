@@ -7,7 +7,6 @@ namespace eval ::bugs {
     variable details 0
     variable w ".bug_dialog"
     variable message
-    variable website "http://beast.recordingground.com/bugs"
     variable bug 
     array set ::bugs::bug [list text "" date "" code "" info "" status "" protocol "" comment ""]
     
@@ -324,7 +323,7 @@ namespace eval ::bugs {
 	
 	#bugs::post {url field type file {params {}} {headers {}}}
 	set lang [::config::getGlobalKey language]
-	if { [catch {set token [bugs::post "$::bugs::website/report.php?lang=$lang" [file join $HOME2 bugreport.amsn]]}] == 0} {
+	if { [catch {set token [bugs::post "$::weburl/bugs/report.php?lang=$lang" [file join $HOME2 bugreport.amsn]]}] == 0} {
 	    upvar #0 $token state
 	    set message $state(body)
 	} else {
