@@ -295,6 +295,10 @@ if {$version != [::config::getGlobalKey last_client_version]} {
    if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 	   ::config::setGlobalKey basefont [list {Lucida Grande} 12 normal]
 	}
+	#Force to change the path to the new path of plwav.exe
+	if {$tcl_platform(platform) == "windows"} {
+		::config::setKey soundcommand "utils/windows/plwav.exe \$sound"
+	}
 }
 
 update idletasks
