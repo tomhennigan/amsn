@@ -98,6 +98,7 @@ cantloadonlineversion Güncellenmiþ diller listesi internetten alýnamadý
 cantremoveothers "Diðer" grubu silinemiyor
 captureextloaded Kamera eklentisi -$1- yüklendi
 captureextnotloaded Kamera eklentisi -$1- yüklenemedi; önce eklentiyi derlemeniz gerekiyor
+captureproperties Kamera görüntüsü özellikleri
 casesensitive Yazýlý karþýlýklarda büyük/küçük harfe duyarlý ol
 cfgalarm Alarmý Düzenle/Ekle/Kaldýr
 cfgalarmall Genel Alarmý Düzenle/Ekle/Kaldýr
@@ -197,6 +198,8 @@ custom_new Yeni özel gülen adam ekle
 customnick Özel rumuz
 customstyle Özel tarz
 cut Kes
+cutimagebox Seçme kutusunu taþýyýp yeniden boyutlandýrarak görüntünün kullanacaðýnýz kýsmýný seçiniz
+cutimageboxreset Seçme kutusunu ilk boyutuna\ngeri döndür:
 date Tarih
 dateformat Tarih biçemini degiþtir
 day Gün
@@ -328,6 +331,7 @@ history Geçmiþi göster
 home Ev
 httpconnection HTTP yöntemiyle baðlan (80. porttan HTTP protokolü kullanýr)
 hue Renk tonu
+huge Çok büyük
 hybrid Melez kip
 ident Kimlik denetleniyor
 identity Kimlik
@@ -360,6 +364,7 @@ keeplog Sohbetlerin kaydýný tut
 keeplog2 Daha sonra bakmak için tüm sohbetleri Geçmiþ'e kaydet
 language Dil
 language_manager Dil yöneticisi
+large Büyük
 lastlogin En Son Baðlanma
 lastlogout En Son Çýkýþ
 lastmsgedme Son Ýleti
@@ -488,6 +493,7 @@ offline Çevrim dýþý
 ok Tamam
 onenewmail Gelen kutusunda 1 yeni ileti var
 online Çevrim içi
+onlinehelp Ýnternetten (online) yardým
 onphone Telefonda
 opendir Dizini aç
 openfile Dosyayý aç
@@ -532,7 +538,7 @@ preflibs Kütüphane dizinleri
 preflog1 Geçmiþ ve sohbet kayýt seçeneklerim
 preflogevent Geçmiþ Olaylarým
 preflook aMSN'imin görünüþü
-prefmsging ýleti arayüzüm
+prefmsging Ýleti arayüzüm
 prefname MSN Messenger kullanýcý ismim (rumuzum)
 prefphone Telefon numaralarým
 prefphone2 Ýzin verdiðiniz kiþilerin görmesini \n istediðiniz telefon numaralarýný girin
@@ -618,6 +624,7 @@ showuserpic $1'in kullanýcý resmi
 signinstatus Baðlanma þekli:
 skin Kabuk
 skinselector Kabuk Seç
+small Küçük
 smileconfig Özel gülen adam ayarlarý
 smilefile Gülen adam dosya ismi
 smileintro Özel bir gülen adam yaratmak için ilgili alanlarý doldurunuz \n(yardým için SSS'a bakýnýz)
@@ -668,7 +675,6 @@ tabbed Sekmeli pencereler
 tabbedglobal Tüm baðlantýlar için tek bir sekmeli pencere
 tabbedgroups Ayný gruptan baðlantýlar için tek bir seçmeli pencere
 tabtitlenick Sekmelerde e-posta adresleri yerine rumuzlarý göster
-takesnapshot Görüntü al
 temp_state Kaydetme (Geçici durum, AMSN kapatýlýnca silinecek)
 textsize Metin boyutu
 thismonth Bu ay
@@ -734,7 +740,7 @@ webcamrejected $1 kamera oturumu davetinizi geri çevirdi.
 webcamrequestreceive Kamera görüntüsü almak için davet gönder
 webcamrequestsend Kamera görüntüsü yollamak için davet gönder
 webcamsending Þu an kamera görüntüsü yolladýðýnýz baðlantýlarýnýz.\nÝptal etmek için týklayýn.
-webcamshot Resim çek
+whatisamsn aMSN, platformdan baðýmsýz bir MSN Messenger istemcisidir.
 whatsize Seçtiðiniz resim normal kullanýcý resmi boyutunda (96 x 96) deðil.\n Resmin hangi boyda gözükmesini istersiniz?
 willjoin $1 in sohbete katýlmasý bekleniyor
 winkreceived $1 size bir "göz kýrpma" gönderdi. aMSN þu an bu özelliði desteklemiyor.
