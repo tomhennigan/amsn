@@ -65,7 +65,7 @@ namespace eval ::config {
 			::config::setKey openfilecommand ""
 			::config::setKey usesnack 0
 		} elseif {$tcl_platform(platform) == "windows"} {
-			::config::setKey soundcommand "utils/plwav.exe \$sound"
+			::config::setKey soundcommand "utils/windows/plwav.exe \$sound"
 			::config::setKey browser "explorer \$url"
 			::config::setKey notifyXoffset 0
 			::config::setKey notifyYoffset 28
