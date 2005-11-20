@@ -44,12 +44,7 @@ namespace eval ::config {
 
 		#Some Autodetected options
 		if {$tcl_platform(os) == "Darwin"} {
-			set osversion [string range "$tcl_platform(osVersion)" 0 0]
-			if { $osversion == "6"} {
-				::config::setKey soundcommand "utils/qtplay \$sound";#Soundplayer for Mac OS 10.2 Jaguar
-			} else {
-				::config::setKey soundcommand "./sndplay \$sound";#Soundplayer for Mac OS 10.3 Panther
-			}
+			::config::setKey soundcommand "./sndplay \$sound";#Soundplayer for Mac OS 10.3-10.4	
 			::config::setKey browser "open \$url"
 			::config::setKey notifyXoffset 100
 			::config::setKey notifyYoffset 75
@@ -581,12 +576,7 @@ proc load_config {} {
 			# For Mac OS X users who used aMSN 0.90 at the beggining
 			set soundmac [string range "[::config::getKey soundcommand]" 1 11]
 				if { $soundmac=="program_dir" } {
-					set osversion [string range "$tcl_platform(osVersion)" 0 0]
-					if { $osversion == "6"} {
-						::config::setKey soundcommand "utils/qtplay \$sound"
-					} else {
 						::config::setKey soundcommand "./sndplay \$sound"
-					}
 				}
 			}
 	}
