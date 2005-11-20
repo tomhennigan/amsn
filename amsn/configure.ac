@@ -6,11 +6,14 @@ AC_CONFIG_HEADER(utils/linux/capture/config.h)
 
 
 APPNAME=amsn
-APPVERSION=0.95cvs
-
+APPVERSION=0.95
+APPRELEASE=1
+APPSTABLE=no
 
 AC_SUBST(APPVERSION)
 AC_SUBST(APPNAME)
+AC_SUBST(APPRELEASE)
+AC_SUBST(APPSTABLE)
 
 dnl ---------------------------------------------------------------------
 dnl compile time options

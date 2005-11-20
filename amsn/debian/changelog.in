@@ -1,0 +1,7 @@
+amsn (#VERSION#) stable; urgency=low
+
+  [ Phil ]
+  * Initial Debian packet release
+
+ -- Phil <lephilousophe@users.sourceforge.net>  Sun, 20 Nov 2005 11:13:48 +0100
+

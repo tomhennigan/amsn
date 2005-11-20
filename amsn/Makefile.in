@@ -25,7 +25,14 @@ CXX		:= @CXX@
 
 # misc
 PACKAGE		:= @APPNAME@
-VERSION		:= @APPVERSION@
+ifeq (@APPSTABLE@,yes)
+BASEVERSION	:= @APPVERSION@
+RELEASEVERSION	:= @APPRELEASE@
+else
+BASEVERSION     := @APPVERSION@cvs
+RELEASEVERSION  := `cat cvs_date|head -c8`
+endif
+VERSION		:= $(BASEVERSION)-$(RELEASEVERSION)
 
 # for CFLAGS
 #WARN_FLAGS	:= -Wall -Wmissing-prototypes -Wstrict-prototypes -Wpointer-arith
@@ -63,6 +70,8 @@ USE_LIBNG	:= @USE_LIBNG@
 CFLAGS   := @CFLAGS@
 ifeq (@DEBUG@,no)
 CFLAGS   += -O2
+else
+CFLAGS   += -g3
 endif
 CFLAGS   += $(WARN_FLAGS)
 CFLAGS   += $(LFS_FLAGS)
@@ -134,16 +143,18 @@ install:: $(FILES_TO_INSTALL)
 	ln -sf $(dstdir)/$(PACKAGE)/amsn $(slnkdir)/amsn
 
 rpm-install:: $(FILES_TO_INSTALL)
-	rm -Rf $(INSTALL_PREFIX)$(dstdir)/$(PACKAGE)
-	mkdir --parents $(INSTALL_PREFIX)$(dstdir)/$(PACKAGE)
+	rm -Rf $(INSTALL_PREFIX)/$(dstdir)/$(PACKAGE)
+	mkdir --parents $(INSTALL_PREFIX)/$(dstdir)/$(PACKAGE)
 	@for p in $?; do \
-			cp -Rf --parents $(srcdir)/$$p $(INSTALL_PREFIX)$(dstdir)/$(PACKAGE); \
+			cp -Rf --parents $(srcdir)/$$p $(INSTALL_PREFIX)/$(dstdir)/$(PACKAGE); \
 		done
-	find $(INSTALL_PREFIX)$(dstdir)/$(PACKAGE) -name CVS -print | xargs rm -Rf
-	mkdir --parents $(INSTALL_PREFIX)$(slnkdir)
-	ln -sf $(dstdir)/$(PACKAGE)/amsn $(INSTALL_PREFIX)$(slnkdir)/amsn
+	find $(INSTALL_PREFIX)/$(dstdir)/$(PACKAGE) -name CVS -print | xargs rm -Rf
+	mkdir --parents $(INSTALL_PREFIX)/$(slnkdir)
+	ln -sf $(dstdir)/$(PACKAGE)/amsn $(INSTALL_PREFIX)/$(slnkdir)/amsn
 
 rpm: all /bin/rpm
+	mkdir -p ./distrib
+
 	rm -f THIS.TK.SPEC
 	echo "%define _builddir `pwd`" > THIS.AMSN.SPEC
 	echo "%define _rpmdir /tmp/RPMS" >> THIS.AMSN.SPEC
@@ -153,13 +164,24 @@ rpm: all /bin/rpm
 	echo "%define _bindir $(slnkdir)" >> THIS.AMSN.SPEC
 	echo "%define _doc_files $(doc_files)" >> THIS.AMSN.SPEC
 	echo "%define _platform `uname -i`" >> THIS.AMSN.SPEC
+	echo "%define _version $(BASEVERSION)" >> THIS.AMSN.SPEC
+	echo "%define __release $(RELEASEVERSION)" >> THIS.AMSN.SPEC
 
 	cat amsn.spec >> THIS.AMSN.SPEC
 	mkdir -p /tmp/RPMS
 	rpmbuild -bb THIS.AMSN.SPEC
-	rm -rf ./RPMS
-	mv /tmp/RPMS .
+	rm -rf ./distrib/RPMS
+	mv /tmp/RPMS ./distrib
 	rm -rf /tmp/RPMS THIS.AMSN.SPEC
+
+deb: all
+	mkdir -p ./distrib/DEB
+
+	sed "1s/#VERSION#/${VERSION}/" debian/changelog.in > debian/changelog
+	dpkg-buildpackage -b -D
+	rm -f debian/changelog
+	rm -rf debian/amsn
+	mv "../amsn_${VERSION}"* ./distrib/DEB
 
 #########################################################
 # include stuff

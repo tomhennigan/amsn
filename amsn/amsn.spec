@@ -11,8 +11,7 @@
 
 
 # Version information:
-%define _version	0.95b
-%define __release	%(cat cvs_date|head -c8)
+# Added by makefile
 
 # Category for .desktop file:
 %define _applnk_cat	Internet

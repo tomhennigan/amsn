@@ -1,0 +1,16 @@
+Source: amsn
+Section: x11
+Priority: optional
+Maintainer: aMsn Team <http://amsn.sourceforge.net/>
+Build-Depends: debhelper (>= 4.0.0), autotools-dev
+Standards-Version: 3.6.1
+
+Package: amsn
+Architecture: i386
+Depends: 
+Description: MSN Messenger clone for Linux
+ This is Tcl/Tk clone that implements the Microsoft Messenger (MSN) for
+ Unix,Windows, or Macintosh platforms. It supports file transfers,
+ groups, and many more features. Visit http://amsn.sourceforge.net/ for
+ details. This is an ongoing project, and it is already going pretty
+ well.
