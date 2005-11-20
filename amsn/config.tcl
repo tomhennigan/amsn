@@ -580,6 +580,12 @@ proc load_config {} {
 				}
 			}
 	}
+	#Force to change the path to the new path of plwav.exe
+	if {$tcl_platform(platform) == "windows"} {
+		if {[::config::getKey soundcommand] == "utils/plwav.exe \$sound"} {
+			::config::setKey soundcommand "utils/windows/plwav.exe \$sound"
+		}
+	}
 	#Sometimes, if there is a bugreport when opening a new window, the size of the window savez will be 1x1
 	if {[::config::getKey winchatsize]=="1x1"} {
 		::config::setKey winchatsize "350x320"
