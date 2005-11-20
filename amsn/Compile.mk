@@ -20,10 +20,16 @@ verbose		?= no
 compile_c	= $(CC) $(CFLAGS)  -c -o $@ $<
 compile_cc	= $(CXX) $(CXXFLAGS)  -c -o $@ $<
 
+ifeq ($(FOUND_OS),mac)
+SHARED	:= -dynamiclib -fno-common
+else
+SHARED	:= -shared
+endif
+
 link_app	= $(CC) $(LDFLAGS) -o $@  $^ $(LDLIBS)
-link_so		= $(CC) $(LDFLAGS) -shared -o $@ $^ $(LDLIBS)
+link_so		= $(CC) $(LDFLAGS) $(SHARED) -o $@ $^ $(LDLIBS)
 link_so_addlibs = $(link_so) $(ADDLIBS)
-link_so_cpp	= $(CXX) $(LDFLAGS) -shared -o $@ $^ $(LDLIBS) $(CXX_LIB)
+link_so_cpp	= $(CXX) $(LDFLAGS) $(SHARED) -o $@ $^ $(LDLIBS) $(CXX_LIB)
 ar_lib		= rm -f $@ && ar -sr $@ $^ && ranlib $@
 
 
