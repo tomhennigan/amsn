@@ -193,7 +193,6 @@ proc reload_files { } {
 	source combobox.tcl	;# The all mighty combobox is here! (B. Oakley)
 
 	source balloon.tcl	;# For the balloons tooltip
-	source png.tcl		;# PNG Parser and zlib deflate in pure TCL (KaKaRoTo)
 	source autoupdate.tcl   ;# AUTOUPDATE!!!!!!!!!! :@
 	source notes.tcl
 
