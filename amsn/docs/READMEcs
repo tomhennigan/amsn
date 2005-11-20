@@ -1,0 +1,37 @@
+Tento program je svobodný software, mù¾ete jej ¹íøit a modifikovat v souladu
+s podmínkami licence GNU General Public Licence vydanou Free Software
+Foundation, a to buï dle podmínek verze 2 této licence nebo kterékoli pozdìj¹í
+verze dle Va¹eho uvá¾ení.
+
+Tento program je ¹íøen v nadìji, ¾e bude u¾iteèný, av¹ak BEZ JAKÉKOLI ZÁRUKY,
+neposkytují se ani odvozené záruky PRODEJNOSTI nebo VHODNOSTI PRO URÈITÝ ÚÈEL.
+Dal¹í podrobnosti hledejte v GNU General Public Licence.
+
+Kopii GNU General Public Licence jste mìl obdr¾et spolu s tímto programem,
+pokud se tak nestalo, napi¹te o ni na adresu Free Software Fondation, Inc.,
+51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
+
+Pokud chcete lépe pochopit tuto licenci a neovládáte dostateènì aglický jazyk,
+mù¾ete se podívat na neoficiální pøeklad licence GPL do jazyka èeského
+na stránkách http://gnu.cz , v dobì vzniku tohoto dokumentu (listopad 2005)
+se v této stránce vybral odkaz "Licence" ve sloupci vpravo v sekci "Dùle¾ité
+èlánky" a poté se text licence nechal stáhnout jako PDF dokument pod pøíslu¹ným
+odkazem. Odkaz pøímo na PDF soubor je http://gnu.cz/pdf/gpl-cz.pdf
+
+=============================================================================
+=== Alvaro's Messenger ======================================================
+CCMSN byl skvìlý, ov¹em pùvodní autor projekt ukonèil. Aèkoli byl funkèní,
+stále bylo tøeba pracovat na zlep¹ení jeho vzhledu a ovládání, na roz¹íøení
+podpory komunikaèního protokolu a na spoustì dal¹ích vìcí. Proto jsme se my dva,
+zpoèátku pracující ka¾dý samostatnì, rozhodli spojit síly a pøinést vám
+skvìlé (doufáme) výsledky na¹í práce.
+
+Alvaro J. Iradier
+D. Emilio Grimaldo T.
+
+Jakékoli pøipomínky, námìty, odhalené chyby a komentáøe nám prosím zasílejte
+na stránky projektu na Source Forge
+http://sourceforge.net/projects/amsn
+
+Nové verze a domovskou stránku projektu naleznete na
+http://amsn.sourceforge.net

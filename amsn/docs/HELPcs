@@ -1,0 +1,30 @@
+POMOC pro aMSN
+
+Po¾adavky:
+Amsn je napsán v jazyce Tcl/Tk, tak¾e potøebujete fungující interpreter Tcl/Tk,
+verzi 8.3 nebo vy¹¹í. Mù¾ete jej získat na http://tcl.sourceforge.net.
+Interpreter je dostupný pro platformy Linux, Windows a Macintosh. Nìkteré
+pøidané vlastnosti mohou vy¾adovat dal¹í programy nebo knihovny, napø.
+zobrazování obrázkù, nebo bezpeèné SSL spojení pro MSN protokol verze 9.
+
+Návod k instalaci:
+Stáhnìte si soubor amsn-x_xx.tar.gz, který rozbalíte pøíkazy
+  gzip -d amsn-x_xx.tar.gz
+  tar xvf amsn-x_xx.tar
+nebo
+  tar xzvf amsn-x_xx.tar.gz
+
+Tím bude vytvoøen adresáø msn/ a v nìm najdete nainstalovaný aMSN pøipravený
+k provozu.
+
+Start programu:
+  cd msn
+  ./amsn
+Pokud by se program nespustil, zkuste
+  wish amsn
+Pokud pøíkaz wish neexistuje, nemáte správnì nainstalované Tcl/Tk. Pokud
+"wish amsn" funguje, a "./amsn" ne, zeditujte soubor "amsn" a opravte cestu
+k programu "wish" v první øádce. Standardnì je nastavena na
+/usr/bin/wish
+
+Pokud ani toto nezabralo, zkuste si pøeèíst FAQ.
