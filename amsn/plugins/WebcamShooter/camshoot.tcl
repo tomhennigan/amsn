@@ -267,7 +267,10 @@ namespace eval ::camshoot {
 		set idx 1
 		while { [file exists [file join $::files_dir webcam{$idx}.jpg]] } { incr idx }
 		set file "webcam${idx}.jpg"
-		set filename [tk_getSaveFile -initialfile $file -initialdir [set ::files_dir]]
+		if {[catch {set filename [tk_getSaveFile -initialfile $file -initialdir [set ::files_dir]]} res]} {
+			status_log "Error in webcampicture_saveas: $res \n"
+			set filename [tk_getSaveFile -initialfile $file -initialdir [set ::HOME]]
+		}
 
 		set preview [image create photo]
 		foreach {x0 y0 x1 y1} [::PrintBox::Done $w.mid.stillpreview] break

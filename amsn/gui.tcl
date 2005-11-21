@@ -1086,7 +1086,11 @@ namespace eval ::amsn {
 		} {
 			set initialfile [lindex $varlist 5]
 		}
-		set filename [tk_getSaveFile -initialfile $initialfile -initialdir [set ::files_dir]]
+		if {[catch {set filename [tk_getSaveFile -initialfile $initialfile -initialdir [set ::files_dir]]} res]} {
+			status_log "Error in SaveAsFT: $res \n"
+			set filename [tk_getSaveFile -initialfile $initialfile -initialdir [set ::HOME]]
+		
+		}
 		if {$filename != ""} {
 			AcceptFT $chatid $cookie [list [lindex $varlist 0] [lindex $varlist 1] [lindex $varlist 2] [lindex $varlist 3] [lindex $varlist 4] "$filename"]
 		} {return}
@@ -2391,9 +2395,9 @@ namespace eval ::amsn {
 			while { [expr {$first + 400}] <= [string length $msg] } {
 				set msgchunk [string range $msg $first [expr {$first + 399}]]
 			    if {[::MSNMobile::IsMobile $chatid] == 0 } {
-				set ackid [after 60000 ::amsn::DeliveryFailed $chatid [list $msgchunk]]
+					set ackid [after 60000 ::amsn::DeliveryFailed $chatid [list $msgchunk]]
 			    } else {
-				set ackid 0
+					set ackid 0
 			    }
 			    ::MSN::messageTo $chatid "$msgchunk" $ackid $friendlyname
 				incr first 400
@@ -2402,9 +2406,9 @@ namespace eval ::amsn {
 		    set msgchunk [string range $msg $first end]
 
 		    if {[::MSNMobile::IsMobile $chatid] == 0 } {
-			set ackid [after 60000 ::amsn::DeliveryFailed $chatid [list $msgchunk]]
+				set ackid [after 60000 ::amsn::DeliveryFailed $chatid [list $msgchunk]]
 		    } else {
-			set ackid 0
+				set ackid 0
 		    }
 
 		    set message [Message create %AUTO%]
