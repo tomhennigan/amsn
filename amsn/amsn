@@ -187,6 +187,7 @@ proc reload_files { } {
 		source [file join utils macosx applescript ae.tcl];#AppleEvent support
 	}
 	source alarm.tcl	;# Alarms code (Burger)
+	source dock.tcl		;# Docking routines
 	source trayicon.tcl	;# Docking routines for freedesktop system tray compliant docks
 	source loging.tcl	;# Euh yeh it's for loging :P
 	source combobox.tcl	;# The all mighty combobox is here! (B. Oakley)
