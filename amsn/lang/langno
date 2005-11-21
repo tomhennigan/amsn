@@ -4,7 +4,7 @@ accept Aksepter
 acceptfile Aksepter fil $1, størrelse $2? filen vil lagres i $3
 actions Hendelser
 activeautoupdate Aktiv auto-oppdatering
-add legg til
+add Legg til
 addacontact Legg til en kontakt
 addedyou $1 ($2) har lagt deg til sin kontaktliste
 addprofile Legg til en profil
@@ -645,3 +645,71 @@ yoffset Y-koordinat
 youblocked Du har blitt blokkert av
 yousay Du sier
 youwant Du vil
+aboutamsn Om Alvaro's Messenger
+agotinvitation Mottok lydinvitasjon fra $1
+allmonths Alle måneder
+allow_sms Tillat brukere å kontakte meg på min mobile MSN enhet.
+askeachtime Spør hver gang
+askwebcam Spør denne brukeren om å sende hans/hennes webkamera
+avaccepted Videokonferanse akseptert
+avcanceled Videokonferanse avbrutt
+avgotinvitation Mottok invitasjon til videokonferanse fra $1
+badwebcam Cannot display the webcam's image. Make sure your webcam is well plugged and installed.
+bouncedock La aMSN's ikon hoppe i docken når en beskjed er mottat
+brightness Lyshet
+cagreement Konfidensiell Avtale
+captureproperties Bildeinstillinger for webkamera
+changevideosettings Videoinstillinger
+channels Kanaler
+clicktoadd Klikk på 'Legg til' for å legge til en ny notat
+color Farge
+contrast Kontrast
+currentnotes Nåværende notater
+default2 Standard
+detach Brekk av
+details Detaljer
+devicebusy Enhet $1 er opptatt
+devices Enheter
+done Ferdig
+emoticon_steal Legg til som uttrykksikon
+firewalled Du er bak en brannmur eller router
+hue Farge
+huge Gigantisk
+ignore Ignorer
+large Stor
+needwinico2 Trenger winico05.dll i "utils/windows"-mappen for at windows tray-dokking skal fungere
+newline Ny linje
+note Notat
+nottabbed Normale vindu uten arkfaner
+pause Pause
+play Spill av
+portswellconfigured Portene dine er velkonfigurert
+remembersetting Husk denne instillingen
+selectall Velg alt
+sendwebcaminvite Inviter bruker til å se ditt webkamera
+small Liten
+stop Stop
+stopwebcamreceive Slutt å motta webkamera
+stopwebcamsend Slutt å sende webkamera
+tabbedglobal Vindu med arkfaner for alle brukere i kontaktlisten
+tabbedgroups Vindu med arkfaner for alle brukere i samme gruppe
+thismonth Denne måneden
+type Type
+updateonlycurrentlanguage Oppdater kun gjeldende språk
+updating Oppdaterer
+unselectall Ikke velg noe
+useasdp Bruk som personlig bilde
+webcamclosebefcancel Dy mp avslutte alle webkamerasamtalene før du lukker vinduet
+webcamcanceled Webkamerasamtalen med $1 har blitt avbrutt
+webcamextloaded Webcamsn-tillegg er lastet
+webcamextnotloaded Webcamsn-tillegg er ikke lastet. Du må kompilere det først.
+webcamfaq FAQ/hjelp for Webcam
+webcamhistory Se webkamera-samtalen
+webcaminvitereceived $1 har invitert deg til å startte en webkamera-samtale. Godtar du denne samtalen?
+webcamrejected $1 avslo invitasjonen til en webkamera-samtale
+webcamrequestsend Sendte ønske om å sende webkamera
+webcamrequestreceive Sendte ønske om å motta webkamera
+webcamsending Personer du sender webkamera til for øyeblikket\nKlikk for å avbryte
+whatisamsn aMSN er en platform-uavhengig MSN Messenger klone
+wintitlenick Vis kallenavn på arkfanene istedenfor e-post.
+zoom Zoomz
