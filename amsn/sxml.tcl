@@ -383,7 +383,11 @@ namespace eval sxml {
             if { [string first "&lt;" $tcline] == 0 } {
                 incr c 4
                 return {<}
-            } 
+            }
+            if { [string first "&gt;" $tcline] == 0 } {
+                incr c 4
+                return {>}
+            }
             if { [string first "&quot;" $tcline] == 0 } {
                 incr c 6
                 return \"
