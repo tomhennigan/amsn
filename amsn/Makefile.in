@@ -178,7 +178,7 @@ deb: all
 	mkdir -p ./distrib/DEB
 
 	sed "1s/#VERSION#/${VERSION}/" debian/changelog.in > debian/changelog
-	dpkg-buildpackage -b -D
+	dpkg-buildpackage -b -D -rfakeroot
 	rm -f debian/changelog
 	rm -rf debian/amsn
 	mv "../amsn_${VERSION}"* ./distrib/DEB
