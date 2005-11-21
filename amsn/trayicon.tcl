@@ -431,8 +431,54 @@ proc restart_tray { } {
     statusicon_proc [::MSN::myStatusIs]
     
 }
-		
 
+proc close_dock {} {
+	global systemtray_exist
+	
+	mailicon_proc 0
+	statusicon_proc "REMOVE"
+
+	set systemtray_exist 0
+}	
+
+proc init_dock {} {
+	global systemtray_exist
+	#If the traydock is not disabled
+	if { [::config::getKey use_dock] != 0} {
+
+		if {[OnWin]} {
+			trayicon_init
+		} elseif {[OnUnix]} {
+			#We use the freedesktop standard here
+			if { $systemtray_exist == 0 } {
+				trayicon_init
+				if { $systemtray_exist == -1 } {
+					status_log "dock prob init_dock in trayicon.tcl"
+					#Too bad, couldn't load the trayicon
+#					msg_box "[trans nosystemtray]"
+				}
+			}
+			statusicon_proc [::MSN::myStatusIs]
+		}		
+	} else {
+		close_dock
+	}
+}
+
+proc UnixDock { } {
+	if {[::config::getKey use_dock] && [OnUnix] } {
+		return 1
+	} else {
+		return 0
+	}
+}
+proc WinDock { } {
+	if {[::config::getKey use_dock] && [OnWin] } {
+		return 1
+	} else {
+		return 0
+	}
+}
 
 
 
