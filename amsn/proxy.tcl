@@ -25,11 +25,16 @@ proc globalGotNexusReply { proxy token {total 0} {current 0} } {
 }
 
 proc globalGotAuthReply { proxy str token } {
-	status_log "globalGotAuthReply { $proxy $str $token }"
 	if {[info procs $proxy] != ""} {
 		$proxy GotAuthReply $str $token
 	} else {
 		::http::cleanup $token
+	}
+}
+
+proc globalWrite { proxy name {msg ""} } {
+	if {[info procs $proxy] != ""} {
+		$proxy write $name $msg
 	}
 }
 
@@ -279,7 +284,7 @@ proc globalGotAuthReply { proxy str token } {
 
 		#Cancel any previous attemp to write or POLL
 		after cancel "$self PollPOST $name"
-		after cancel "$self write $name"
+		after cancel "globalWrite $self $name"
 
 		if {![info exists options(-proxy_queued_data)]} {
 			set options(-proxy_queued_data) ""
@@ -333,7 +338,7 @@ proc globalGotAuthReply { proxy str token } {
 		} else {
 
 			set options(-proxy_session_id) $old_proxy_session_id
-			after 500 "$self write $name"
+			after 500 "globalWrite $self $name"
 
 		}
 
