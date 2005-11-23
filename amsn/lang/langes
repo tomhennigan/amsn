@@ -755,9 +755,9 @@ yousay Tú dices
 youwant Quieres
 zoom Ampliación
 captureproperties Propiedades de la cámara web
-cutimagebox  Seleccione la parte de la imágen que quiere usar, redimensionándola y moviendo la caja de selección
+cutimagebox  Seleccione la parte de la imagen que quiere usar, redimensionándola y moviendo la caja de selección
 cutimageboxreset Reinicia el \ntamaño de la caja de selección a:
-gotink $1le envió una tinta
+gotink $1 le envió una tinta
 huge enorme
 large grande
 onlinehelp Ayuda en línea
