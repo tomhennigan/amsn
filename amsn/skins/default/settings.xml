@@ -44,6 +44,8 @@
 	<ContactList>
 		<Colors>
 			<mainwindowbg>#aaaaaa</mainwindowbg>
+			<nicelist>#ffffff</nicelist>
+			<contactlistbg>#ffffff</contactlistbg>
 			<bannerbg>#ffffff</bannerbg>			
 			<mystatus>grey</mystatus>
 			<groupcolorextend>#000000</groupcolorextend>
