@@ -19,6 +19,7 @@ if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 if { $initialize_amsn == 1 } {
 
 	::skin::setKey mainwindowbg #7979f2
+	::skin::setKey nicelist #ffffff
 	::skin::setKey contactlistbg #ffffff
 	::skin::setKey bannerbg #ffffff
 	::skin::setKey contact_mobile #404040
@@ -4674,7 +4675,7 @@ proc AddProfileOk {mainframe} {
 
 #///////////////////////////////////////////////////////////////////////
 proc toggleGroup {tw name image id {padx 0} {pady 0}} {
-	label $tw.$name -image [::skin::loadPixmap $image] -bg [::skin::getKey contactlistbg]
+	label $tw.$name -image [::skin::loadPixmap $image] -bg [::skin::getKey nicelist]
 	bind $tw.$name <Enter> [list $tw.$name configure -image [::skin::loadPixmap ${image}_hover]]
 	bind $tw.$name <Leave> [list $tw.$name configure -image [::skin::loadPixmap $image]] 
 	$tw.$name configure -cursor hand2 -borderwidth 0
@@ -4859,7 +4860,7 @@ proc cmsn_draw_online_wrapped {} {
 	}
 	pack $pgBuddyTop -expand false -fill x -before $pgBuddy
 
-	$pgBuddy.text configure -state normal -font splainf -background [::skin::getKey contactlistbg]
+	$pgBuddy.text configure -state normal -font splainf -background [::skin::getKey nicelist]
 	$pgBuddy.text delete 0.0 end
 
 	# Configure bindings/tags for each named group in our scheme
@@ -5541,7 +5542,7 @@ proc ShowUser {user_name user_login state_code colour section grId} {
 	set not_in_reverse [expr {[lsearch [::abook::getLists $user_login] RL] == -1}]
 	if {$not_in_reverse} {
 		set imgname2 "img2_[getUniqueValue]"
-		label $pgBuddy.text.$imgname2 -image [::skin::loadPixmap notinlist] -bg [::skin::getKey contactlistbg]
+		label $pgBuddy.text.$imgname2 -image [::skin::loadPixmap notinlist] -bg [::skin::getKey nicelist]
 		$pgBuddy.text.$imgname2 configure -cursor hand2 -borderwidth 0
 		$pgBuddy.text window create $section.last -window $pgBuddy.text.$imgname2 -padx 1 -pady 1
 		bind $pgBuddy.text.$imgname2 <Enter> \
@@ -5575,7 +5576,7 @@ proc ShowUser {user_name user_login state_code colour section grId} {
 
 	#set imgname "img[expr {$::groups::uMemberCnt(online)+$::groups::uMemberCnt(offline)}]"
 	set imgname "img[getUniqueValue]"
-	label $pgBuddy.text.$imgname -image [::skin::loadPixmap $image_type] -bg [::skin::getKey contactlistbg]
+	label $pgBuddy.text.$imgname -image [::skin::loadPixmap $image_type] -bg [::skin::getKey nicelist]
 	$pgBuddy.text.$imgname configure -cursor hand2 -borderwidth 0
 	if { $last_element > 0 } {
 		$pgBuddy.text window create $section.last -window $pgBuddy.text.$imgname -padx 3 -pady 1 -align baseline
