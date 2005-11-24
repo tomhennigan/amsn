@@ -1091,13 +1091,13 @@ namespace eval ::pop3 {
 						set gmail(parity) 1
 						while {$i<[llength $gmail(dataINBOX)] && $gmail(msg_number)< $gmail(Unreads) } {
 							set gmail(text_line) [lindex $gmail(dataINBOX) $i ]
-							if { [string equal [string range $gmail(text_line) 0 3] "<td "] } {
+							if { [string equal [string range $gmail(text_line) 0 2] "<td"] } {
 								set gmail(text_line_1) [lindex $gmail(dataINBOX) [expr $i + 1] ]
 								set gmail(text_line_2) [lindex $gmail(dataINBOX) [expr $i + 2] ]
 								set gmail(text_line_3) [lindex $gmail(dataINBOX) [expr $i + 3] ]
 								set gmail(text_line_5) [lindex $gmail(dataINBOX) [expr $i + 5] ]
 								if { [string equal [string range $gmail(text_line_1) end-4 end] "</td>"] && \
-								[string equal [string range $gmail(text_line_2) 0 3] "<td "] &&\
+								[string equal [string range $gmail(text_line_2) 0 2] "<td"] &&\
 								( [string equal [string range $gmail(text_line_3) 0 12] "<a href=\"?th="] || \
 								[string equal [string range $gmail(text_line_5) 0 12] "<a href=\"?th="] )
 								} {
