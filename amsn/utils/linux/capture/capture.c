@@ -726,9 +726,11 @@ int Capture_AccessSettings _ANSI_ARGS_((ClientData clientData,
   found = 0;
   list_for_each(item, &(&capItem->dev)->attrs) {
     attr = list_entry(item, struct ng_attribute, device_list);
-    if (attr->id == attribute) {
-      found = 1;
-      break;
+    if (attr != NULL) {
+      if (attr->id == attribute) {
+        found = 1;
+        break;
+      }
     }
   }
   if (!found) attr = NULL;
