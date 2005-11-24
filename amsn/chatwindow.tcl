@@ -1380,6 +1380,8 @@ namespace eval ::ChatWindow {
 			-command "::amsn::ShowChatList \"[trans sendwebcaminvite]\" \[::ChatWindow::getCurrentTab $w\] ::MSNCAM::SendInviteQueue"
 		$actionsmenu add command -label "[trans askwebcam]..." \
 			-command "::amsn::ShowChatList \"[trans askwebcam]\" \[::ChatWindow::getCurrentTab $w\] ::MSNCAM::AskWebcamQueue"
+		$actionsmenu add separator
+		$actionsmenu add command -label "[trans webcamconfigure]" -command "::CAMGUI::WebcamWizard"
 
 		
 		return $actionsmenu

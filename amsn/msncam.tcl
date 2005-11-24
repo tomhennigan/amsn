@@ -1858,6 +1858,16 @@ namespace eval ::CAMGUI {
 			set ::capture_loaded 0
 			return 0
 		} else {
+			#Verify for that damn pwc_buggy driver
+			if { [set ::tcl_platform(os)] == "Linux" }  {
+     			catch { eval exec /sbin/lsmod | grep pwc} pwc_driver
+      			if {$pwc_driver != "" } {
+        	        set ::webcam_settings_bug 1
+        		} else {
+        	        set ::webcam_settings_bug 0
+      			}
+			}
+		
 			set ::capture_loaded 1
 			array set ::grabbers {}
 			return 1
@@ -2030,7 +2040,9 @@ namespace eval ::CAMGUI {
 			raise $w
 			return 1
 		}
+		abook::getIPConfig
 		toplevel $w
+		wm title $w "[trans webcamconfigure]"
 		#Small picture at the top of the window
 		label $w.webcampic -image [::skin::loadPixmap butwebcam]
 		pack $w.webcampic
@@ -2082,7 +2094,11 @@ namespace eval ::CAMGUI {
 		pack $w.capture -expand true -padx 5
 		
 		#Add button to change settings
-		button $w.settings -command "::CAMGUI::ChooseDevice" -text "[trans changevideosettings]"
+		if { ![info exists ::webcam_settings_bug] || $::webcam_settings_bug == 0} {
+			button $w.settings -command "::CAMGUI::ChooseDevice" -text "[trans changevideosettings]"
+		} else {
+			label $w.settings -text "[trans pwcdriver]" -font sboldf -foreground red
+		}
 		pack $w.settings
 		#Add button to open link to the wiki
 		set link "http://amsn.sourceforge.net/wiki/tiki-index.php?page=Webcam+In+aMSN"

@@ -2235,6 +2235,16 @@ proc Preferences { { settings "personal"} } {
 	grid $lfname.1.receivedpath -row 1 -column 1 -sticky w
 	grid $lfname.1.receiveddir -row 1 -column 2 -sticky w
 	grid $lfname.1.browse -row 1 -column 3 -sticky w
+	
+	set lfname [LabelFrame:create $frm.lfname5 -text "[trans webcam]"]
+	pack $frm.lfname5 -anchor n -side top -expand 1 -fill x
+	label $lfname.pshared -image [::skin::loadPixmap webcam]
+	pack $lfname.pshared -side left -anchor nw
+	
+	frame $lfname.1 -class Degt
+	pack $lfname.1 -anchor w -side left -padx 0 -pady 5 -fill none
+	button $lfname.1.webcam -text [trans webcamconfigure] -command "::CAMGUI::WebcamWizard" -padx 20
+	grid $lfname.1.webcam -row 1 -column 3 -sticky w -padx 20
 
 	$nb.nn compute_size
 	[$nb.nn getframe others].sw.sf compute_size
