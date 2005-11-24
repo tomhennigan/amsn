@@ -1860,8 +1860,8 @@ namespace eval ::CAMGUI {
 		} else {
 			#Verify for that damn pwc_buggy driver
 			if { [set ::tcl_platform(os)] == "Linux" }  {
-     			catch { eval exec /sbin/lsmod | grep pwc} pwc_driver
-      			if {$pwc_driver != "" } {
+     			catch { exec /sbin/lsmod } pwc_driver
+      			if {[string first $pwc_driver "pwc"] != -1 } {
         	        set ::webcam_settings_bug 1
         		} else {
         	        set ::webcam_settings_bug 0
