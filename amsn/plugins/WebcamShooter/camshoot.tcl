@@ -179,7 +179,7 @@ namespace eval ::camshoot {
 
 
 		#create picture (middle-left)
-		canvas $mid.stillpreview
+		canvas $mid.stillpreview -width 320 -height 240
 		$mid.stillpreview create image 0 0 -anchor nw -image $preview
 		::PrintBox::Create $mid.stillpreview
 
