@@ -1858,16 +1858,6 @@ namespace eval ::CAMGUI {
 			set ::capture_loaded 0
 			return 0
 		} else {
-			#Verify for that damn pwc_buggy driver
-			if { [set ::tcl_platform(os)] == "Linux" }  {
-     			catch { exec /sbin/lsmod } pwc_driver
-      			if {[string first $pwc_driver "pwc"] != -1 } {
-        	        set ::webcam_settings_bug 1
-        		} else {
-        	        set ::webcam_settings_bug 0
-      			}
-			}
-		
 			set ::capture_loaded 1
 			array set ::grabbers {}
 			return 1
