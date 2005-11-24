@@ -19,8 +19,8 @@ if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 if { $initialize_amsn == 1 } {
 
 	::skin::setKey mainwindowbg #7979f2
-	::skin::setKey nicelist #ffffff
 	::skin::setKey contactlistbg #ffffff
+	::skin::setKey topcontactlistbg #ffffff
 	::skin::setKey bannerbg #ffffff
 	::skin::setKey contact_mobile #404040
 	::skin::setKey chatwindowbg #EAEAEA
@@ -2120,7 +2120,7 @@ namespace eval ::amsn {
 #		wm geometry $wname 320x350
 		#No ugly blue frame on Mac OS X, system already use a border around window
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-			frame $wname.blueframe -background [::skin::getKey contactlistbg]
+			frame $wname.blueframe -background [::skin::getKey topcontactlistbg]
 		} else {
 			frame $wname.blueframe -background [::skin::getKey mainwindowbg]
 		}
@@ -3597,7 +3597,7 @@ proc cmsn_draw_main {} {
 	}
 
 	set pgBuddyTop $pgBuddy.top
-	frame $pgBuddyTop -background [::skin::getKey contactlistbg] -width 30 -height 30 -cursor left_ptr \
+	frame $pgBuddyTop -background [::skin::getKey topcontactlistbg] -width 30 -height 30 -cursor left_ptr \
 		-borderwidth 0 -relief flat -bd 0
 	if { $::tcl_version >= 8.4 } {
 		$pgBuddyTop configure -padx 0 -pady 0
@@ -3607,9 +3607,9 @@ proc cmsn_draw_main {} {
 	pack $pgBuddy.sw -expand true -fill both
 	set pgBuddy $pgBuddy.sw
 
-	text $pgBuddy.text -background [::skin::getKey contactlistbg] -width 30 -height 0 -wrap none \
+	text $pgBuddy.text -background [::skin::getKey topcontactlistbg] -width 30 -height 0 -wrap none \
 		-cursor left_ptr -font splainf \
-		-selectbackground [::skin::getKey contactlistbg] -selectborderwidth 0 -exportselection 0 \
+		-selectbackground [::skin::getKey topcontactlistbg] -selectborderwidth 0 -exportselection 0 \
 		-relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0
 
 	$pgBuddy setwidget $pgBuddy.text
@@ -4675,7 +4675,7 @@ proc AddProfileOk {mainframe} {
 
 #///////////////////////////////////////////////////////////////////////
 proc toggleGroup {tw name image id {padx 0} {pady 0}} {
-	label $tw.$name -image [::skin::loadPixmap $image] -bg [::skin::getKey nicelist]
+	label $tw.$name -image [::skin::loadPixmap $image] -bg [::skin::getKey contactlistbg]
 	bind $tw.$name <Enter> [list $tw.$name configure -image [::skin::loadPixmap ${image}_hover]]
 	bind $tw.$name <Leave> [list $tw.$name configure -image [::skin::loadPixmap $image]] 
 	$tw.$name configure -cursor hand2 -borderwidth 0
@@ -4686,7 +4686,7 @@ proc toggleGroup {tw name image id {padx 0} {pady 0}} {
 
 #///////////////////////////////////////////////////////////////////////
 proc clickableImage {tw name image command {padx 0} {pady 0}} {
-	label $tw.$name -background [::skin::getKey contactlistbg] -border 0 -cursor hand2 -borderwidth 0 \
+	label $tw.$name -background [::skin::getKey topcontactlistbg] -border 0 -cursor hand2 -borderwidth 0 \
 			-image [::skin::loadPixmap $image] \
 			-width [image width [::skin::loadPixmap $image]] \
 			-height [image height [::skin::loadPixmap $image]]
@@ -4704,7 +4704,7 @@ proc clickableDisplayPicture {tw type name command {padx 0} {pady 0}} {
 	#If not (ie for contacts _on_ list), then just draw as label.
 	if {$type == "mystatus"} {
 		canvas $tw.$name -width [image width [::skin::loadPixmap mystatus_bg]] -height [image height [::skin::loadPixmap mystatus_bg]] \
-			-bg [::skin::getKey contactlistbg] -highlightthickness 0
+			-bg [::skin::getKey topcontactlistbg] -highlightthickness 0
 		$tw.$name create image [::skin::getKey x_dp_top] [::skin::getKey y_dp_top] -anchor nw -image my_pic_small
 		$tw.$name create image 0 0 -anchor nw -image [::skin::loadPixmap mystatus_bg]		
 	}
@@ -4860,7 +4860,7 @@ proc cmsn_draw_online_wrapped {} {
 	}
 	pack $pgBuddyTop -expand false -fill x -before $pgBuddy
 
-	$pgBuddy.text configure -state normal -font splainf -background [::skin::getKey nicelist]
+	$pgBuddy.text configure -state normal -font splainf -background [::skin::getKey contactlistbg]
 	$pgBuddy.text delete 0.0 end
 
 	# Configure bindings/tags for each named group in our scheme
@@ -4902,9 +4902,9 @@ proc cmsn_draw_online_wrapped {} {
 	# Display MSN logo with user's handle. Make it clickable so
 	# that the user can change his/her status that way
 	# Verify if the skinner wants to replace the status picture for the display picture
-	$pgBuddyTop configure -background [::skin::getKey contactlistbg]
+	$pgBuddyTop configure -background [::skin::getKey topcontactlistbg]
 	if { ![::skin::getKey showdisplaycontactlist] } {
-		label $pgBuddyTop.bigstate -background [::skin::getKey contactlistbg] -border 0 -cursor hand2 -borderwidth 0 \
+		label $pgBuddyTop.bigstate -background [::skin::getKey topcontactlistbg] -border 0 -cursor hand2 -borderwidth 0 \
 					-image [::skin::loadPixmap $my_image_type] \
 					-width [image width [::skin::loadPixmap $my_image_type]] \
 					-height [image height [::skin::loadPixmap $my_image_type]]
@@ -4917,9 +4917,9 @@ proc cmsn_draw_online_wrapped {} {
 	bind $pgBuddyTop.bigstate <<Button3>> {tk_popup .my_menu %X %Y}
 	pack $disppic -side left -padx [::skin::getKey bigstate_xpad] -pady [::skin::getKey bigstate_ypad]
 
-	text $pgBuddyTop.mystatus -font bboldf -height 2 -background [::skin::getKey contactlistbg] -borderwidth 0 -cursor left_ptr \
+	text $pgBuddyTop.mystatus -font bboldf -height 2 -background [::skin::getKey topcontactlistbg] -borderwidth 0 -cursor left_ptr \
 		-width [expr {[winfo width $pgBuddy]/[font measure bboldf -displayof $pgBuddyTop "0"]}] \
-		-relief flat -highlightthickness 0 -selectbackground [::skin::getKey contactlistbg] -selectborderwidth 0 \
+		-relief flat -highlightthickness 0 -selectbackground [::skin::getKey topcontactlistbg] -selectborderwidth 0 \
 		-exportselection 0 -relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0
 	pack $pgBuddyTop.mystatus -expand true -fill x -side left -padx 0 -pady 0
 
@@ -5004,7 +5004,7 @@ proc cmsn_draw_online_wrapped {} {
 	$pgBuddyTop.mystatus configure -state disabled
 
 	set colorbar $pgBuddyTop.colorbar
-	label $colorbar -image [::skin::getColorBar] -background [::skin::getKey contactlistbg] -borderwidth 0
+	label $colorbar -image [::skin::getColorBar] -background [::skin::getKey topcontactlistbg] -borderwidth 0
 	pack $colorbar -before $disppic -side bottom
 
   	set evpar(text) $pgBuddy.text
@@ -5012,8 +5012,8 @@ proc cmsn_draw_online_wrapped {} {
 
 	if { [::config::getKey checkemail] } {
 		# Show Mail Notification status
-		text $pgBuddyTop.mail -height 1 -background [::skin::getKey contactlistbg] -borderwidth 0 -wrap none -cursor left_ptr \
-			-relief flat -highlightthickness 0 -selectbackground [::skin::getKey contactlistbg] -selectborderwidth 0 \
+		text $pgBuddyTop.mail -height 1 -background [::skin::getKey topcontactlistbg] -borderwidth 0 -wrap none -cursor left_ptr \
+			-relief flat -highlightthickness 0 -selectbackground [::skin::getKey topcontactlistbg] -selectborderwidth 0 \
 			-exportselection 0 -relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0
 		if {[::skin::getKey emailabovecolorbar]} {
 			pack $pgBuddyTop.mail -expand true -fill x -after $colorbar -side bottom -padx 0 -pady 0
@@ -5199,7 +5199,7 @@ proc cmsn_draw_online_wrapped {} {
 			}
 			set custom_colour "#[string repeat 0 [expr 6-[string length $custom_colour]]]$custom_colour"
 			#If the color is the same that the colour of the CL we can't see the contact on the list : we ignore the custom color
-			if { $custom_colour != [::skin::getKey contactlistbg] } {
+			if { $custom_colour != [::skin::getKey topcontactlistbg] } {
 				set colour $custom_colour
 			}
 		}
@@ -5542,7 +5542,7 @@ proc ShowUser {user_name user_login state_code colour section grId} {
 	set not_in_reverse [expr {[lsearch [::abook::getLists $user_login] RL] == -1}]
 	if {$not_in_reverse} {
 		set imgname2 "img2_[getUniqueValue]"
-		label $pgBuddy.text.$imgname2 -image [::skin::loadPixmap notinlist] -bg [::skin::getKey nicelist]
+		label $pgBuddy.text.$imgname2 -image [::skin::loadPixmap notinlist] -bg [::skin::getKey contactlistbg]
 		$pgBuddy.text.$imgname2 configure -cursor hand2 -borderwidth 0
 		$pgBuddy.text window create $section.last -window $pgBuddy.text.$imgname2 -padx 1 -pady 1
 		bind $pgBuddy.text.$imgname2 <Enter> \
@@ -5561,9 +5561,9 @@ proc ShowUser {user_name user_login state_code colour section grId} {
 		#regsub -all "\[^\[:alnum:\]\]" [string tolower $user_login] "_" imagee
 
 		if { [::alarms::isEnabled $user_login] } {
-			label $pgBuddy.text.$imagee -image [::skin::loadPixmap bell] -bg [::skin::getKey contactlistbg]
+			label $pgBuddy.text.$imagee -image [::skin::loadPixmap bell] -bg [::skin::getKey topcontactlistbg]
 		} else {
-			label $pgBuddy.text.$imagee -image [::skin::loadPixmap belloff] -bg [::skin::getKey contactlistbg]
+			label $pgBuddy.text.$imagee -image [::skin::loadPixmap belloff] -bg [::skin::getKey topcontactlistbg]
 		}
 
 		$pgBuddy.text.$imagee configure -cursor hand2 -borderwidth 0
@@ -5576,7 +5576,7 @@ proc ShowUser {user_name user_login state_code colour section grId} {
 
 	#set imgname "img[expr {$::groups::uMemberCnt(online)+$::groups::uMemberCnt(offline)}]"
 	set imgname "img[getUniqueValue]"
-	label $pgBuddy.text.$imgname -image [::skin::loadPixmap $image_type] -bg [::skin::getKey nicelist]
+	label $pgBuddy.text.$imgname -image [::skin::loadPixmap $image_type] -bg [::skin::getKey contactlistbg]
 	$pgBuddy.text.$imgname configure -cursor hand2 -borderwidth 0
 	if { $last_element > 0 } {
 		$pgBuddy.text window create $section.last -window $pgBuddy.text.$imgname -padx 3 -pady 1 -align baseline

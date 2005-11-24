@@ -2147,6 +2147,12 @@ namespace eval ::CAMGUI {
 		set status $window.status
 		set preview $window.preview
 		set settings $window.settings
+
+		if { [winfo exists $window] } {
+			raise $window
+			return
+		}
+
 		set devices [::Capture::ListDevices]
 
 		if { [llength $devices] == 0 } {
@@ -2154,7 +2160,6 @@ namespace eval ::CAMGUI {
 			return
 		}
 
-		destroy $window
 		toplevel $window
 
 
@@ -2539,11 +2544,16 @@ namespace eval ::CAMGUI {
 		set status $window.status
 		set preview $window.preview
 		set settings $window.settings
+
+		if { [winfo exists $window] } {
+			raise $window
+			return
+		}
+
+		toplevel $window
+
 		tkvideo .webcam_preview
 		set devices [.webcam_preview devices]
-
-		destroy $window
-		toplevel $window
 
 
 		frame $lists
