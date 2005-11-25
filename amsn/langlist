@@ -40,7 +40,7 @@
 	<lang>
 		<langcode>ca</langcode>
 		<name>Catalan (català)</name>
-		<version>1.115</version>
+		<version>1.116</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -202,7 +202,7 @@
 	<lang>
 		<langcode>no</langcode>
 		<name>Norwegian (Norsk)</name>
-		<version>1.39</version>
+		<version>1.40</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -256,7 +256,7 @@
 	<lang>
 		<langcode>es</langcode>
 		<name>Spanish (Español)</name>
-		<version>1.236</version>
+		<version>1.237</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
