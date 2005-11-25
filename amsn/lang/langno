@@ -712,4 +712,44 @@ webcamrequestreceive Sendte ønske om å motta webkamera
 webcamsending Personer du sender webkamera til for øyeblikket\nKlikk for å avbryte
 whatisamsn aMSN er en platform-uavhengig MSN Messenger klone
 wintitlenick Vis kallenavn på arkfanene istedenfor e-post.
-zoom Zoomz
+zoom Zoom
+cantloadonlineversion Klarer ikke å hente den oppdaterte språklisten fra internet
+captureextloaded Oppstaksutvidelsen -$1- er lastet
+captureextnotloaded Opptaksutvidelsen -$1- er ikke lasten, du må kompilere den først
+choosechannel Velg en kanal
+choosedevice Velg en enhet
+clearwebcamlogs Slett alle webkameralogger
+closeall Lukke alle arkfanene i dette vinduet?
+closealltabs Lukk alle arkfaner
+closelabel Når du klikker på lukke-knappen i en samtale med arkfane
+closeonly Lukk kun gjeldende arkfane
+cutimagebox Velg delen du vil bruke av bilde ved å skalere og flytte på markørboksen
+cutimageboxreset Still markørboksen sin\nstørrelse til:
+enterbugdesc Beskriv hva du gjorde da feilen inntraff, dette vil hjelpe oss til å rette opp feilen:
+filtersselect Velg filter du vil bruke\n(OBS: ingen valgt betyr 'vis alle')
+ignoreerrors Ignorer aMSN-feil stille til slutten av økten
+inserttextnote Insert text into the subject field and the note field, then click 'Lagre'
+invalidparameter Kunne ikke kople til serveren: ugyldig parameter
+lazypicretrieval Latmannsmottak av personlige bilder
+listening Lytter
+logwebcam Logg alle webkamerasamtaler til fremtidig seing
+newtabbedfeature aMSN har en ny måte å organisere samtaler på. Du kan nå ha alle samtalene dine fra en grupper eller fra hele kontaktlisten i et vindu med arkfaner. Velg den måten du vil aMSN skal organisere samtalene dine
+nodevices Du har ingen enheter installert
+onlinehelp Hjelp på nett
+report Rapport
+reporting Rapporterer
+sendemail Send min e-post for å underrette meg for forandringer
+sendmobmsg Send til mobil enhet
+shareswebcam Deler webkamera
+showpicnotify Vis brukerbilder i varselvinduet
+signinstatus Innloggingsstatus
+smiletoobig Uttrykksikonet du valgte er større enn normal størrelse. Vil du nedskalere det?
+snackfailed Kunne ikke laste Snack, går tilbake til standard
+stats Statistikker
+tabtitlenick Vis kallenavn i arkfanen istedenfor e-post
+throughserver Gjennom server
+timestamp Tidsstempel
+tomobile Til mobil
+trayicon Vis et status-ikon i varselområdet
+unload Skru av
+whatsize Bilde du har ønsket er ikke den normale størrelsen\n (96x96) Hvilken størrelse vil du at bilde skal visest som?
