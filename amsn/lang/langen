@@ -566,6 +566,7 @@ proxyconnection I connect to the internet using a proxy server:
 proxy I am behind a proxy server (HTTP or SOCKS5)
 publishphones Publish my phone numbers
 purge Purge
+pwcdriver You are using the pwc driver
 raised Raised/Deiconified
 readonlymsgbox The file transfer has been canceled due to the received directory being read-only. Please fix the permissions on this directory.
 readonlywarn WARNING: The file will probably NOT be saved correctly as the "Received files" directory seems to be write-protected. Please ensure that the permissions on the target directory ($1) are set correctly before transfering the file.
@@ -728,8 +729,10 @@ version Version
 viewcontactsby View contacts by
 viewprofile View Profile
 view View
+webcam Webcam
 webcamclosebefcancel You have to cancel all webcam sessions before closing the window
 webcamcanceled The webcam session with $1 has been canceled
+webcamconfigure Configure Webcam
 webcamextloaded Webcamsn extension is loaded
 webcamextnotloaded Webcamsn extension is not loaded. You have to compile it.
 webcamfaq FAQ/Help for Webcam
