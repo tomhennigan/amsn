@@ -160,7 +160,7 @@
 	<lang>
 		<langcode>id</langcode>
 		<name>Indonesian (Bahasa Indonesia)</name>
-		<version>1.49</version>
+		<version>1.50</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -286,7 +286,7 @@
 	<lang>
 		<langcode>tr</langcode>
 		<name>Turkish (Türkçe)</name>
-		<version>1.56</version>
+		<version>1.57</version>
 		<encoding>iso8859-9</encoding>
 	</lang>
 	<lang>
