@@ -2034,7 +2034,7 @@ namespace eval ::CAMGUI {
 		toplevel $w
 		wm title $w "[trans webcamconfigure]"
 		#Small picture at the top of the window
-		label $w.webcampic -image [::skin::loadPixmap butwebcam]
+		label $w.webcampic -image [::skin::loadPixmap webcam]
 		pack $w.webcampic
 		#Show the two connection informations to know if we are firewalled or not
 		frame $w.abooktype
@@ -2202,7 +2202,7 @@ namespace eval ::CAMGUI {
 		button $settings -text "[trans changevideosettings]"
 
 		frame $buttons -relief sunken -borderwidth 3
-		button $buttons.ok -text "[trans ok]" -command "::CAMGUI::Choose_OkLinux $window $devs.list $chans.list $img {$devices}"
+		button $buttons.ok -text "[trans ok]" -command "::CAMGUI::Choose_OkLinux $window $devs.list $chans.list $img [list $devices]"
 		button $buttons.cancel -text "[trans cancel]" -command "::CAMGUI::Choose_CancelLinux $window $img"
 		wm protocol $window WM_DELETE_WINDOW "::CAMGUI::Choose_CancelLinux $window $img"
 		#bind $window <Destroy> "::CAMGUI::Choose_CancelLinux $window $img $preview"
@@ -2210,9 +2210,8 @@ namespace eval ::CAMGUI {
 
 		pack $lists $status $preview $settings $buttons -side top
 
-		bind $devs.list <Button1-ButtonRelease> "::CAMGUI::FillChannelsLinux $devs.list $chans.list $status $devices"
-		bind $chans.list <Button1-ButtonRelease> "::CAMGUI::StartPreviewLinux $devs.list $chans.list $status $preview $settings $devices"
-
+		bind $devs.list <Button1-ButtonRelease> "::CAMGUI::FillChannelsLinux $devs.list $chans.list $status [list $devices]"
+		bind $chans.list <Button1-ButtonRelease> "::CAMGUI::StartPreviewLinux $devs.list $chans.list $status $preview $settings [list $devices]"
 
 		foreach device $devices {
 			set dev [lindex $device 0]
@@ -2229,15 +2228,15 @@ namespace eval ::CAMGUI {
 	}
 
 	proc FillChannelsLinux { device_w chan_w status devices } {
-
+	
 		$chan_w delete 0 end
 
 		if { [$device_w curselection] == "" } {
 			$status configure -text "[trans choosedevice]"
 			return
 		}
+		variable dev
 		set dev [$device_w curselection]
-
 		set device [lindex $devices $dev]
 		set device [lindex $device 0]
 
@@ -2254,8 +2253,8 @@ namespace eval ::CAMGUI {
 	}
 		
 
-	proc StartPreviewLinux { device_w chan_w status preview_w settings devices } {
-
+	proc StartPreviewLinux { device_w chan_w status preview_w settings devices} {
+	##WARNING : [$device_w curselection] is always "" !!! That's why we use variable dev
 	# 	if { [$device_w curselection] == "" } {
 	# 		$status configure -text "Please choose a device"
 	# 		return
@@ -2270,13 +2269,12 @@ namespace eval ::CAMGUI {
 		if {$img == "" } {
 			return
 		}
-
-		set dev [$device_w curselection]
+		
+		variable dev
 		set chan [$chan_w curselection]
 
 		set device [lindex $devices $dev]
 		set device [lindex $device 0]
-
 
 		if { [catch {set channels [::Capture::ListChannels $device]} res] } {
 			$status configure -text $res
@@ -2340,7 +2338,7 @@ namespace eval ::CAMGUI {
 	}
 
 	proc Choose_OkLinux { w device_w chan_w img devices } {
-
+		##WARNING : [$device_w curselection] is always "" !!! That's why we use variable dev
 		#if { [$device_w curselection] == "" } {
 		#	::CAMGUI::Choose_CancelLinux $w $img
 		#	return
@@ -2350,15 +2348,11 @@ namespace eval ::CAMGUI {
 			::CAMGUI::Choose_CancelLinux $w $img
 			return
 		}
-
-		set dev [$device_w curselection]
+		variable dev
 		set chan [$chan_w curselection]
-
-
 
 		set device [lindex $devices $dev]
 		set device [lindex $device 0]
-
 
 		if { [catch {set channels [::Capture::ListChannels $device]} res] } {
 			::CAMGUI::Choose_CancelLinux $w $img
