@@ -98,6 +98,7 @@ cantloadonlineversion Tidak bisa menutupi perbaharuan online untuk bahasa di int
 cantremoveothers Tidak dapat mengilangkan group "Lain-lain"
 captureextloaded Ekstensi tangkapan -$1- sudah termuat
 captureextnotloaded Ekstensi tangkapan -$1- tidak termuat, anda harus mengkompilasinya terlebih dahulu
+captureproperties Anjuran-anjuran gambar WebCam
 casesensitive Gunakan pemicu yang sensitif terhadap bentuk huruf (besar/kecil)
 cfgalarm Rubah Pengaturan/Tambah/Hapus alarm
 cfgalarmall Atur/Tambahkan/Hilangkan Alarm Global
@@ -189,7 +190,7 @@ currentlanguage Ini adalah bahasa yang kamu gunakan
 currentnotes notes saat ini
 custnotifymsg Tampilkan jendela pemberitahuan ketika pesan pengguna baru diterima
 custnotifyoffline Tampilkan jendela pemberitahuan ketika kenalan (kontak) ini pergi offline
-custnotifyonline Tampilkan jendela pemberitahuan ketika kenalan (kontak) ini datang online 
+custnotifyonline Tampilkan jendela pemberitahuan ketika kenalan (kontak) ini datang online
 custnotifystatus Tampilkan jendela pemberitahuan ketika kenalan (kontak) ini merubah status
 custom_edit Rubah smiley sesuai kehendak
 custom_new Tambahkan smiley baru sesuai kehendak
@@ -197,6 +198,8 @@ customcolor Warna Pilihan
 customnick Nama Panggilan (alias) Pilihan
 customstyle Gaya terkostumisasi
 cut Potong
+cutimagebox  Pilih bagian dari gambar yang ingin anda gunakan, mengubah ukuran dan memindahkan kotak-pilihan
+cutimageboxreset Set ulang kotak pilihan \nukuran ke:
 date Tanggal
 dateformat Rubah format tanggal
 day Hari
@@ -328,6 +331,7 @@ history Lihat Sejarah
 home Rumah
 httpconnection Sambung menggunakan metode HTTP (menggunakan protokol HTTP melalui port 80)
 hue Gradasi warna
+huge Sangat Besar
 hybrid Modus hybrid
 ident Sedang mengidentifikasi
 identity Identitas
@@ -360,6 +364,7 @@ keeplog Simpan register percakapan
 keeplog2 Simpan semua percakapan ke dalam sejarah a'MSN untuk dilihat di masa yang akan datang
 language Bahasa
 language_manager Pengaturan bahasa
+large Besar
 lastlogin LogIn Terakhir
 lastlogout LogOut Terakhir
 lastmsgedme Pesan Terakhir
@@ -488,6 +493,7 @@ offline Tidak Tersambung
 ok Ok
 onenewmail Ada email baru di Kotak-Masuk
 online Tersambung
+onlinehelp Bantuan Online
 onphone Sedang telepon
 opendir Buka direktori
 openfile Buka
@@ -520,7 +526,7 @@ prefapps Aplikasi
 prefawaymsg Pesan Tidak Ada saya
 prefblock1 Periksa saat pemutusan sambungan
 prefblock2 Periksa secara berkelanjutan
-prefblock3 "Anda telah diblokir oleh" kelompok 
+prefblock3 "Anda telah diblokir oleh" kelompok
 prefconnection Aturan sambungan
 prefemotic Emoticon dan Smiley
 preferences Pilihan
@@ -560,6 +566,7 @@ proxyconfhttp Pengaturan proxy HTTP
 proxyconnection Saya menyambung ke internet menggunakan server proxy:
 publishphones Publikasikan telepon saya
 purge Bersihkan
+pwcdriver Anda menggunakan driver pcw
 raised Diangkat/Ikon dihilangkan
 readonlymsgbox Transmisi berkas dibatalkan karena daftar tujuan berstatus baca-saja. Mohon rubah status di daftar tujuan tersebut.
 readonlywarn PERINGATAN: Berkas kemungkinan TIDAK akan tersimpan dengan benar karena daftar "Berkas yang Diterima" tampaknya dilindungi terhadap penulisan. Mohon pastikan ijin pada daftar sasaran ($1) telah diatur dengan benar sebelum memindahkan berkas.
@@ -618,6 +625,7 @@ showuserpic Gambar Tampilan $1
 signinstatus Status tanda masuk
 skin Kulit
 skinselector Pilih Kulit
+small Kecil
 smileconfig Pengaturan emoticon sesuai kehendak
 smilefile Nama berkas smiley
 smileintro Tolong isi bidang yang diperlukan untuk menciptakan smiley baru sesuai kehendak (lihat PSD untuk bantuan)
@@ -722,8 +730,10 @@ version Versi
 view Tampilan
 viewcontactsby Lihat kenalan (kontak) berdasarkan
 viewprofile Lihat Profil Pemakai
+webcam WebCam
 webcamcanceled Sesi webcam dengan $1 telah dibatalkan
 webcamclosebefcancel Anda harus membatalkan semua sesi webcam sebelum menutup jendela (window)
+webcamconfigure Pemasangan WebCam
 webcamextloaded Ekstensi Webcamsn telah termuat
 webcamextnotloaded Ekstensi Webcamsn tidak termuat. Anda harus mengkompilasinya.
 webcamfaq PSD/Pertolongan untuk Webcam
@@ -735,6 +745,7 @@ webcamrequestreceive Telah mengirim permohonan untuk menerima webcam
 webcamrequestsend Telah mengirim permohonan untuk mengirim webcam
 webcamsending Daftar orang kepada siapa anda sedang mengrim webcam\nKlik untuk membatalkan
 webcamshot shut web kamera
+whatisamsn aMSN adalah clone MSN Messenger yang bebas-platoform
 whatsize gambar yang kamu minta tidak gambar yang normal ukuran berapa yang kamu minta untuk tampilan gambar
 willjoin Menunggu $1 untuk bergabung
 winkreceived Anda menerima Kedipan dari $1. Fungsi tersebut saat ini belum didukung oleh aMSN.
