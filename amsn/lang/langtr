@@ -380,7 +380,7 @@ leaves $1 sohbetten ayrýlýyor
 lenteredconf $1 $2'de bir konferansa katýldý
 lineflushlog Her satýrdan sonra kayýt dosyasýný güncelle
 linprivate ÖZEL
-listening Dinliyor
+listening Dinleme durumu
 listeningon $1. port dinleniyor
 listsmileys Gülen adamlarý listele
 listsmileys2 Baðlantý listesinde gülen adamlar görünsün
@@ -566,6 +566,7 @@ proxyconfhttp HTTP proxy desteði ayarlarý
 proxyconnection Ýnternete proxy sunucu ile baðlanýyorum
 publishphones Telefon numaramý göster
 purge Temizle
+pwcdriver pwc sürücüsünü kullanýyorsunuz.
 raised Büyütülmüþ
 readonlymsgbox Alýnan dosyalar dizini salt okunur olduðu için dosya alýnamýyor. \n Lütfen bu dizinin ayarlarýný deðiþtiriniz.
 readonlywarn UYARI: Alýnan dosyalar dizini salt okunur olduðu için \n dosya büyük olasýlýkla alýnamayacak. Lütfen hedefteki ($1) dizinin\n izinlerinin doðru olduðundan emin olun.
@@ -597,12 +598,19 @@ says $1 diyor ki
 sbcon Switch Board'a baðlanýyor
 selectall Hepsini seç
 selectplugins Lütfen etkinleþtireceðiniz eklentileri seçiniz
+
 selectskin Lütfen listeden bir kabuk seçiniz
+
 send Gönder
+
 sendemail Bana deðiþikliklerin bildirilmesi için e-posta adresimi gönder
+
 sendfile Dosya gönder
+
 sendmail E-posta iletisi gönder
+
 sendmobmsg Taþýnabilir aygýta gönder
+
 sendmsg Ýleti günder
 sendwebcaminvite Kullanýcýyý kameranýzý izlemeye davet edin
 sentbytes $2 baytýn $1 (s)i gönderildi
@@ -728,8 +736,10 @@ version Sürüm
 view Görünüm
 viewcontactsby Baðlantý isimleri
 viewprofile Profili gör
+webcam Kamera
 webcamcanceled $1 ile olan kamera oturumu kapatýldý
 webcamclosebefcancel Pencereyi kapatmadan önce tüm kamera oturumlarýný kapatmalýsýnýz.
+webcamconfigure Kamera ayarlarý
 webcamextloaded Webcamsn eklentisi yüklendi.
 webcamextnotloaded Webcamsn eklentisi yüklenemedi. Eklentiyi derlemeniz gerekiyor.
 webcamfaq Kamera hakkýnda SSS/Yardým
