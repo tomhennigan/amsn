@@ -8,4 +8,12 @@
 	<plugin_file>camshoot.tcl</plugin_file>
 	<plugin_namespace>camshoot</plugin_namespace>
 	<init_procedure>Init</init_procedure>
+
+	<cvs_version>1.10</cvs_version>
+
+	<lang>
+		<langcode>en</langcode>
+		<version>1.1</version>
+	</lang>
+
 </plugin>
