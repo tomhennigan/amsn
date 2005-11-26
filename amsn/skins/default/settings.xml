@@ -81,7 +81,7 @@
 			<underline_group>1</underline_group>			
 			<changecursor_contact>1</changecursor_contact>
 			<changecursor_group>1</changecursor_group>			
-			<showdisplaycontactlist>0</showdisplaycontactlist>
+			<showdisplaycontactlist>1</showdisplaycontactlist>
 			<emailabovecolorbar>1</emailabovecolorbar>
 		</Options>
 	</ContactList>
