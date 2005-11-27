@@ -347,12 +347,12 @@ namespace eval ::hotmail {
 						cmsn_draw_online
 						if { [::config::getKey notifyemail] == 1 } {
 							::amsn::notifyAdd "[trans newmailfrom $from $fromaddr]" \
-								"::hotmail::hotmail_viewmsg $msgurl [::config::getKey login] $password" newemail
+								"::hotmail::hotmail_viewmsg \"$msgurl\" [::config::getKey login] $password" newemail
 						}
 					} else {
 						if { [::config::getKey notifyemailother] == 1 } {
 							::amsn::notifyAdd "[trans newmailfromother $from $fromaddr]" \
-								"::hotmail::hotmail_viewmsg $msgurl [::config::getKey login] $password" newemail
+								"::hotmail::hotmail_viewmsg \"$msgurl\" [::config::getKey login] $password" newemail
 						}
 					}
 				}
