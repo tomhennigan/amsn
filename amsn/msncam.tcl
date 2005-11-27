@@ -2280,7 +2280,7 @@ namespace eval ::CAMGUI {
 			$status configure -text $res
 			return
 		}
-
+		variable channel
 		set channel [lindex $channels $chan]
 		set channel [lindex $channel 0]
 
@@ -2354,14 +2354,11 @@ namespace eval ::CAMGUI {
 		set device [lindex $devices $dev]
 		set device [lindex $device 0]
 
-		if { [catch {set channels [::Capture::ListChannels $device]} res] } {
-			::CAMGUI::Choose_CancelLinux $w $img
-			return
-		}
+		## WARNING : [::Capture::ListChannels $device] returns "Error opening device" because the device is used by the preview !
+		# that's why we use variable channel
+		variable channel
 
-		set channel [lindex $channels $chan]
-		set channel [lindex $channel 0]
-
+status_log "webcamDevice=$device:$channel" green
 
 		::config::setKey "webcamDevice" "$device:$channel"
 
