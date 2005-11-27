@@ -40,7 +40,7 @@
 	<lang>
 		<langcode>ca</langcode>
 		<name>Catalan (català)</name>
-		<version>1.116</version>
+		<version>1.117</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -106,7 +106,7 @@
 	<lang>
 		<langcode>fr</langcode>
 		<name>French - France (français)</name>
-		<version>1.151</version>
+		<version>1.152</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
