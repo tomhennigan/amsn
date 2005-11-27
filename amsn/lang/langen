@@ -696,7 +696,6 @@ tomobile To Mobile
 tools Tools
 tooltips Enable tooltips
 to To
-totalsize Total size
 transnotexists The requested file has not been translated into the current language yet.
 trayicon Show a status icon in the notification area
 traynotcompiled Tray icon plugin is not compiled. Check plugins/traydock

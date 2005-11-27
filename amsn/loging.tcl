@@ -1516,15 +1516,9 @@ proc stats { } {
 	foreach month $months {
 		$w.select.list list insert end "$month"
 	}
-
 	pack configure $w.select.text -side top	
 	pack configure $w.select.list -side right
 	pack configure $w.select -side top -fill x -expand false
-
-	frame $w.totalsize
-	label $w.totalsize.txt -text "[trans totalsize] :"
-	pack configure $w.totalsize.txt -side bottom -fill x
-	pack $w.totalsize -side top -fill x -expand false
 	
 	ScrolledWindow $w.list
 	ScrollableFrame $w.list.sf -constrainedwidth 1
@@ -1535,7 +1529,6 @@ proc stats { } {
 	set contactsize [::log::sortalllog]
 	
 	set id 0
-	set totalsize 0
 
 	foreach contact $contactsize {
 		set email [lindex $contact 0]
@@ -1544,13 +1537,11 @@ proc stats { } {
 			break
 		}
 		incr id
-		incr totalsize $size
 		set wlabel "label_$id"
 		label $frame.$wlabel -text "$id) $email ([::amsn::sizeconvert $size]b)"
 		pack configure $frame.$wlabel -side top
 	}
 	
-	$w.totalsize.txt configure -text "[trans totalsize] : [::amsn::sizeconvert $totalsize]b"
 	$w.select.list configure -editable false -command "::log::stats_select $id"
 
 	#frame $w.button
@@ -1585,7 +1576,6 @@ proc stats_select { id wname month} {
 	}
 	
 	set id 0
-	set totalsize 0
 	
 	foreach contact $contactsize {
 		set email [lindex $contact 0]
@@ -1593,14 +1583,12 @@ proc stats_select { id wname month} {
 		if { $size == 0 } {
 			break
 		}
-		incr totalsize $size
 		incr id
 		set wlabel "label_$id"
 		label $frame.$wlabel -text "$id) $email ([::amsn::sizeconvert $size]b)"
 		pack configure $frame.$wlabel -side top
 	}
 	
-	$w.totalsize.txt configure -text "[trans totalsize] : [::amsn::sizeconvert $totalsize]b"
 	$w.select.list configure -editable false -command "::log::stats_select $id"
 	$w.list.sf yview moveto 0
 	
