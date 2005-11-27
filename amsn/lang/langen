@@ -458,7 +458,7 @@ next Next
 nick Nick
 noactivity No activity
 nodataavailable No data available for $1
-nodevices You haven't devices installed
+nodevices Currently, no devices are installed
 nogap No space between groups
 nogroup No group
 nologfile No Log file for $1
