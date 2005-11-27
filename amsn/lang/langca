@@ -555,6 +555,7 @@ proxyconnection Em connecto a Internet a través d'un servidor intermediari (prox
 proxy Estic darrera un servidor intermediari (HTTP o SOCKS5)
 publishphones Publicar els meus números de telèfon
 purge Purgar
+pwcdriver Estàs usant el controlador pwc
 p4contextprefix Text complementari al P4-Context
 raised Elevada/desiconificada
 readonlymsgbox La transferència ha estat cancel·lada perquè no tens permís d'escriptura al directori destí.
@@ -717,19 +718,21 @@ version Versió
 viewcontactsby Mostra els contactes per
 viewprofile Mostrar perfil
 view Veure
-webcamcanceled La sessió de webcam amb $1 ha estat cancel·lada
-webcamclosebefcancel Has de cancel·lar totes les sessions de webcam avanç de tancar la finestra
+webcam Càmara web
+webcamcanceled La sessió de càmara web amb $1 ha estat cancel·lada
+webcamclosebefcancel Has de cancel·lar totes les sessions de càmara web avanç de tancar la finestra
+webcamconfigure Configurar Càmara web
 webcamextloaded S'ha carregat la extensió Webcamsn
 webcamextnotloaded No s'ha carregat la extensió Webcamsn. L'has de compilar
-webcamfaq PMQ/Ajuda per la webcam
-webcamhistory Veure les sessions de webcam
-webcaminvitereceived $1 t'ha convidat a iniciar una sessió de webcam. Vols acceptar aquesta sessio ?
-webcaminvite $1 t'ha convidat a iniciar una conversa amb webcam però l'aMSN encara no ho suporta.
-webcamrejected $1 ha rebutjat la invitació per iniciar una sessió de webcam
-webcamrequestreceive Enviar petició per veure la seva webcam
-webcamrequestsend Enviar invitació per veure la teva webcam
-webcamsending Llista de la gent que actualment està visionant la teva webcam\nClick per cancel·lar
-webcamshot Captura des de la webcam
+webcamfaq PMQ/Ajuda per la càmara web
+webcamhistory Veure les sessions de càmara web
+webcaminvitereceived $1 t'ha convidat a iniciar una sessió de càmara web. Vols acceptar aquesta sessio ?
+webcaminvite $1 t'ha convidat a iniciar una conversa amb càmara web però l'aMSN encara no ho suporta.
+webcamrejected $1 ha rebutjat la invitació per iniciar una sessió de càmara web
+webcamrequestreceive Enviar petició per veure la seva càmara web
+webcamrequestsend Enviar invitació per veure la teva càmara web
+webcamsending Llista de la gent que actualment està visionant la teva càmara web\nClick per cancel·lar
+webcamshot Captura des de la càmara web
 whatsize La imatge que has demanat no tÃ?Â© la mida normal\nd'avatar(96x96) A quina mida vols que es mostri la imatge? 
 willjoin Esperant que $1 s'uneixi a la conversa
 winkreceived Has rebut un Wink de $1. Aquesta característica no està suportada actualment per l'aMSN.
