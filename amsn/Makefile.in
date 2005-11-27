@@ -71,7 +71,7 @@ CFLAGS   := @CFLAGS@
 ifeq (@DEBUG@,no)
 CFLAGS   += -O2
 else
-CFLAGS   += -g3
+CFLAGS   += -g3 -DDEBUG
 endif
 CFLAGS   += $(WARN_FLAGS)
 CFLAGS   += $(LFS_FLAGS)
