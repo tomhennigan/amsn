@@ -654,7 +654,7 @@ namespace eval ::MSNCAM {
 							::CAMGUI::ShowCamFrame $sid $data
 						} else {
 							setObjOption $sock state "END"
-							status_log "ERROR1 : $data - invalid data received" red
+							status_log "ERROR1 : $header - invalid data received" red
 						}
 
 					} else {
@@ -1365,11 +1365,11 @@ namespace eval ::MSNCAM {
 		}
 
 		if { $h_size != 24 } {
-			status_log "invalid - $h_size" red
+			status_log "invalid - $h_size - $data" red
 			return -1
 		}
 		if { $fcc != $r_fcc} {
-			status_log "fcc invalide - $fcc - $r_fcc" red
+			status_log "fcc invalide - $fcc - $r_fcc - $data" red
 			return -1
 		}
 		#status_log "resolution : $w x $h - $h_size $p_size \n" red
