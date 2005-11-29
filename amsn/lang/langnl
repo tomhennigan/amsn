@@ -2,15 +2,15 @@ amsn_lang_version 2
 about Over aMSN
 aboutamsn Over Alvaro's Messenger
 accept Accepteren
-acceptfile Accepteer het bestand $1, grootte $2? Het bestand zal worden opgeslagen in $3
+acceptfile Wil je het bestand $1 (omvang: $2) accepteren? Het bestand zal worden opgeslagen in $3
 actions Acties
 activeautoupdate Automatisch bijwerken inschakelen
 add Toevoegen
 addacontact Contact toevoegen
 addedyou Je bent toegevoegd aan de contactenlijst van $1 ($2)
-addprofiledesc Geef de aanmeldingsnaam waarvoor je een nieuw profiel wilt aanmaken\nProfielen maken het mogelijk om verschillende configuraties te hebben voor iedere aanmeldingsnaam.\nZonder profielen kun je geen wachtwoorden onthouden of gebruik maken van geschiedenis en alarmen
-addprofile Nieuw profiel toevoegen
-addstate Nieuwe status toevoegen
+addprofiledesc Geef de aanmeldingsnaam waarvoor je een nieuw profiel wilt aanmaken\nProfielen maken het mogelijk om verschillende configuraties te hebben voor iedere aanmeldingsnaam.\nZonder profielen kun je geen wachtwoorden onthouden, geen gesprekken opslaan in logboeken en geen alarmen instellen
+addprofile Een profiel toevoegen
+addstate Een status toevoegen
 addtocontacts Toevoegen aan contactenlijst
 addtoo Voeg deze persoon toe als nieuw contact
 addto Toevoegen aan $1
@@ -70,7 +70,7 @@ baduserpass Gebruikersnaam of wachtwoord onjuist
 badwebcam Kan het webcambeeld niet weergeven. Controleer of je webcam juist is aangesloten en geïnstalleerd.
 bgcolor Verander de achtergrondkleur van aMSN
 blankdirect Leeg laten voor directe verbinding
-block Blokkeer
+block Blokkeren
 blocked Geblokkeerd
 blockedyougroup Mensen die je geblokkeerd hebben als een aparte groep tonen
 blocking Blokkeren
@@ -178,7 +178,7 @@ contrast Contrast
 conversationwith $1 deelnemers aan het gesprek
 convertexplain Pad naar het programma 'convert' van ImageMagick (dit is nodig voor scherm afbeeldingen). \nLeeglaten indien 'convert' binnen het zoekpad staat.
 copy Kopiëren
-copytogroup Contact kopiëren naar
+copytogroup Kopiëren naar groep
 corruptconfig Het configuratiebestand is beschadigd. Er wordt een nieuw bestand aangemaakt. Het oude wordt opgeslagen in $1. Wil je het oude bestand alsjeblieft naar ons opsturen zodat wij kunnen nagaan wat er fout is gegaan?
 corruptstates Het aangepaste statussen bestand is beschadigd. Er wordt een nieuw bestand aangemaakt. Het oude wordt opgeslagen in $1. Wil je het oude bestand alsjeblieft naar ons opsturen zodat wij kunnen nagaan wat er fout is gegaan?
 countrycode Landnummer
@@ -352,7 +352,7 @@ invalidpicsize Het opgegeven plaatje is te groot. Zoek alsjeblieft een kleinere 
 invalidsound Het opgegeven geluidsbestand bestaat niet.
 invalidusername Ongeldige gebruikersnaam
 invitationcancelled De uitnodiging is geannuleerd
-invite Nodig uit
+invite Nodig iemand uit om deel te nemen aan dit gesprek
 ipaddress IP-adres
 ipdetect Detecteer het IP-adres voor bestandsoverdracht via HTTP
 ircstyle Gesprek in IRC-stijl
@@ -393,9 +393,9 @@ logeventconnect In logboek vastleggen wanneer een contact online komt
 logeventdisconnect In logboek vastleggen wanneer een contact offline gaat
 logeventemail In logboek vastleggen wanneer er een e-mail wordt ontvangen
 logeventstate In logboek vastleggen wanneer een contact van status verandert
-logfandexp Houdbaarheid
-loggedotherlocation De verbinding is verbroken. Je bent elders aangemeld.
-loggingin Bezig met aanmelden
+logfandexp Omvang van logboeken en verlopen van logs
+loggedotherlocation De verbinding is verbroken omdat je elders bent aangemeld.
+loggingin Even geduld,\nBezig met aanmelden
 login Aanmelden
 loginas Aanmelden als
 loging Logboeken
@@ -422,7 +422,7 @@ mobilegrp2 Plaats contacten in de groep 'Mobiel' wanneer ze offline zijn (bij so
 modified Gewijzigd
 month Maand
 morepersonal Meer persoonlijke statussen ->
-movetogroup Contact verplaatsten naar
+movetogroup Verplaatsen naar groep
 move Verplaats
 msg Bericht
 msgflicker Laat de titel van het gespreksvenster knipperen als een bericht aankomt in een inactief venster
@@ -469,9 +469,9 @@ nonewver Er zijn geen nieuwere versies beschikbaar
 nopic Geen afbeelding
 noprofileexists Er zijn momenteel geen profielen,\nJe moet er een aanmaken als je aanmeldingsnamen met een profiel wilt gebruiken.\nGebruik de knop 'Nieuw profiel aanmaken' in dit venster om een nieuw profiel toe te voegen.
 normal Standaard
-noskins Kan aMSN niet starten omdat er geen skins zijn geïnstalleerd in de map skins/.
-nosystemtray Systeemvak niet beschikbaar
-note Notitie
+noskins aMSN kan niet worden gestart omdat er geen skins zijn geïnstalleerd in de map skins/.
+nosystemtray Het systeemvak is niet beschikbaar
+note Notities bewerken
 notificationserver Initiële MSN Notificatie Server (MSN Messenger server)
 notify1_5 Melding weergeven wanneer een contact offline gaat
 notify1_75 Melding weergeven wanneer een contact van status verandert
@@ -566,6 +566,7 @@ proxyconnection Gebruik de onderstaande proxyserver
 proxy Gebruik een Proxy Server (HTTP of SOCKS5)
 publishphones Mijn telefoonnummers publiceren
 purge Legen
+pwcdriver Je gebruikt de pwc driver
 raised Gespreksvenster activeren
 readonlymsgbox De bestandsoverdracht is geannuleerd vanwege alleen-lezen toegang tot de map voor ontvangen bestanden. Pas de toegangsrechten voor deze map aan.
 readonlywarn WAARSCHUWING: Het bestand zal waarschijnlijk NIET correct worden opgeslagen, omdat de map voor ontvangen bestanden beschermd blijkt te zijn tegen schrijven. Zorg ervoor dat de rechten voor de doelmap ($1) correct zijn ingesteld voordat de bestandsoverdracht wordt gestart.
@@ -675,8 +676,7 @@ tabbed Vensters met tabbladen
 tabbedglobal Alle gesprekken met contacten in één venster
 tabbedgroups Gesprekken per groep van contacten in een venster plaatsen
 tabtitlenick Schermnamen weegeven op tabbladen
-takesnapshot Foto maken
-temp_state Niet opslaan (Tijdelijke status, gaat verloren als aMSN wordt afgesloten)
+temp_state Niet opslaan (gaat verloren als aMSN wordt afgesloten)
 textsize Tekstgrootte
 thismonth Deze maand
 throughserver Via server
@@ -705,7 +705,7 @@ truncatenames2 Schermnamen tijdens gesprekken afbreken als ze langer zijn dan he
 truncatenicks Schermnamen afbreken als ze langer zijn dan het venster breed is
 twonewmail Je hebt $1 nieuwe berichten in Postvak IN
 type Type
-unblock Deblokkeer
+unblock Blokkering opheffen
 unknown Onbekend
 unload Deactiveren
 unselectall Alles deselecteren
@@ -718,19 +718,21 @@ useasdp Gebruiken als schermafbeelding
 useother Gebruik een ander programma
 usesnack Gebruik de Snack functie-bibliotheek (ingebouwd in Tcl)
 useralreadyonlist Deze gebruiker staat al in je lijst
-userblocked De gebruiker is online maar heeft je geblokkeerd
+userblocked Dit contact is online maar heeft je geblokkeerd
 userdata Gebruikersinformatie
 user Gebruiker
-usernotonline De gebruiker is offline
+usernotonline Dit contact is offline
 userproperties Eigenschappen van $1
-useryourself Je kunt niet met jezelf chatten
-verifyblocked Controleer welke mensen je blokkeren
+useryourself Je kunt geen gesprek met jezelf starten
+verifyblocked Controleer wie jou blokkeren
 version Versie
 view Beeld
 viewcontactsby Contacten weergeven met
 viewprofile Profiel weergeven
-webcamclosebefcancel Je moet alle webcamsessies beëindigen alvorens het venster te sluiten
+webcam Webcam
 webcamcanceled De webcamsessie met $1 is beëindigd
+webcamclosebefcancel Je moet alle webcamsessies beëindigen alvorens het venster te sluiten
+webcamconfigure Webcam instellen
 webcamextloaded Programmauitbreiding 'Webcamsn' is geladen
 webcamextnotloaded Programmauitbreiding 'Webcamsn' is niet geladen omdat deze nog niet gecompileerd is.
 webcamfaq FAQ/Help voor Webcam
@@ -741,22 +743,21 @@ webcamrejected $1 heeft je verzoek voor een webcamsessie afgewezen
 webcamrequestreceive Je verzoek om webcambeeld te mogen zien is verstuurd
 webcamrequestsend Je aanbod van webcambeeld is verstuurd
 webcamsending Contacten die op dit moment jou webcambeeld kunnen zien:\n(Klik om te beëindigen)
-webcamshot Webcam-foto
 whatisamsn aMSN is een platformonafhankelijke MSN Messenger kloon
 whatsize De door jou gekozen afbeelding heeft niet het gebruikelijke formaat\nvoor schermafbeeldingen (96x96). Hoe groot wil je dat de afbeelding wordt weergegeven?
-willjoin Wachten tot $1 de conversatie zal bijwonen
+willjoin Wacht tot $1 de conversatie zal bijwonen
 winkreceived Je hebt een knipoog ontvangen van $1. Deze functie wordt niet ondersteund door aMSN.
 wintitlenick Schermnamen weergeven op vensters met tabbladen
 work Werk
 wrongfields De velden "$1", "$2" en/of "$3" waren ongeldig
 wrongprofileversion Verkeerde profiel configuratiebestand versie. Om te repareren, gelieve de map $1 te verwijderen, of aMSN te updaten.
-xmmscurrent Geef weer welk nummer er draait
+xmmscurrent Geef weer welke muziek je afspeelt
 xmmserr Er wordt niks afgespeeld of "xmms-infopipe" is niet geïnstalleerd
 xmmssend Verzend het huidige nummer
 xoffset horizontaal
 year Jaar
 yes Ja
-yesblock Ja en blokkeer
+yesblock Ja, en blokkeren
 yesterday Gisteren
 yoffset verticaal
 youblocked Je bent geblokkeerd

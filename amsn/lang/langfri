@@ -98,6 +98,7 @@ cantloadonlineversion Kin de On-Line by de tiid brochte list fan talen fan it Yn
 cantremoveothers Kin de groep "Oare kontaktpersoanen" net fuortsmite
 captureextloaded Fêstlis taheaksel -$1- is laden
 captureextnotloaded Fêstlis taheaksel -$1- is net laden, jo moatte it earst gearstalle
+captureproperties Webcam byld eigenskippen
 casesensitive Haadlettergefoelich
 cfgalarm Alaarm konfigurearje/tafoegje/fuortsmite
 cfgalarmall Algemien alaarm konfigurearje/tafoegje/fuortsmite
@@ -197,6 +198,8 @@ customcolor Oanpaste kleur
 customnick Oanpaste skermnamme
 customstyle Oanpaste styl
 cut Knippe
+cutimagebox Selektearje it part fan it byld dat jo brûke wolle troch it seleksje-hokje te ferplakken en fan grutte te feroarjen
+cutimageboxreset Set de seleksje-hokje box\grutte werom nei: 
 date Datum
 dateformat Datumnotaasje wizigje
 day Dei
@@ -328,6 +331,7 @@ history Besjoch Skiednis
 home Thús
 httpconnection Ferbine mei in HTTP-protokol, oer poarte 80
 hue Tint
+huge Oergryslik grut
 hybrid Twaslachtige modus
 ident Oan it ydentifisearjen
 identity Ydentiteit
@@ -360,6 +364,7 @@ keeplog Bewarje logboek fan tsjotterpetearen
 keeplog2 Bewarje alle petearen yn it logboek fan aMSN-Skiednis om se letter besjen te kinnen
 language Taal
 language_manager Taal behearder
+large Grut
 lastlogin Foarige oanmelding
 lastlogout Foarige ôfmelding
 lastmsgedme Lêste berjocht
@@ -489,6 +494,7 @@ offline Net oanmeld
 ok Ok
 onenewmail 1 nei berjocht yn Postfak-yn
 online Oanmeld
+onlinehelp Help op it web
 onphone Oan de tillefoan
 opendir Iepenje map
 openfile Iepenje
@@ -561,6 +567,7 @@ proxyconnection Ik bin mei it ynternet ferbûn troch in proksy tsjinner
 proxy Ik meitsje gebrûk fan in Proksy Tsjinner (HTTP of SOCKS5)
 publishphones Publisearje myn tillefoannûmers
 purge Skjin reagje
+pwcdriver Jo brûke it pwc stjoerprogramma
 raised Fergrutte fanút in byldkaike
 readonlymsgbox De triemferstjoering is annuleard omdat de ûntfangende map op allinne-lêzen ynstelt stiet
 readonlywarn Warskôging: de triem sil net goed opslein wurde, omdat de map foar te ûntfangen triemen tsjin skriuwen befeilige is. Soargje der earst foar dat de tastimmings op de map: ($1) goed steane, foardat de triemferstjoering begjint.
@@ -619,6 +626,7 @@ showuserpic $1 syn/har persoanlike ôfbylding
 signinstatus Steat nei oanmelden
 skin Hûd
 skinselector Selektearje de hûd
+small Lyts
 smileconfig Eigen gnysker-ynstellings
 smilefile Gnysker triemnamme:
 smileintro Folje de nedige fjilden yn om in nije gnysker te meitsjen. Foar help, sjoch yn de FAQ.
@@ -723,19 +731,22 @@ version Ferzje
 view Byld
 viewcontactsby Lit kontaktpersoanen sjen mei
 viewprofile Profyl werjaan
-webcamclosebefcancel Jo moatte alle webcam sittings ôfbrekke foardat jo it finster slúte kinne
-webcamcanceled De webcam sitting mei $1 is ôfbrutsen
-webcamextloaded Programmaútwreidings foar Webcamsn is laden 
-webcamextnotloaded Programmaútwreidings foar Webcamsn is net laden. Jo moatte dit earst gearstalle.
-webcamfaq FAQ/Help foar Webcam 
-webcamhistory Lit Webcam sittings sjen 
+webcam Webkamera
+webcamcanceled De webkamera sitting mei $1 is ôfbrutsen
+webcamclosebefcancel Jo moatte alle webkamera sittings ôfbrekke foardat jo it finster slúte kinne
+webcamconfigure Webkamera ynstelle
+webcamextloaded Programmaútwreidings foar Webkamsn is laden 
+webcamextnotloaded Programmaútwreidings foar Webkamsn is net laden. Jo moatte dit earst gearstalle.
+webcamfaq FAQ/Help foar Webkamera 
+webcamhistory Lit Webkamera sittings sjen 
 webcaminvite $1 wol in webkamera-sesje begjinne, mar dizze funksje wurdt net stipe troch aMSN
-webcaminvitereceived $1 hat jo útnûge om in webcam sitting te begjinnen. Wolle jo dat ek?
-webcamrejected $1 hat jo fersyk om in webcam sitting te begjinnen ôfkitst 
-webcamrequestsend Jo oanbod om webcambyld sjen te litten is ferstjoert
-webcamrequestreceive Jo fersyk om webcambyld sjen te meien is ferstjoert
-webcamsending List fan minsken dy't op dit stuit jo webcambylden sjen kinne\nKlik om ôf te brekken
-webcamshot Webcam foto
+webcaminvitereceived $1 hat jo útnûge om in webkamera sitting te begjinnen. Wolle jo dat ek?
+webcamrejected $1 hat jo fersyk om in webkamera sitting te begjinnen ôfkitst 
+webcamrequestsend Jo oanbod om webkamerabyld sjen te litten is ferstjoert
+webcamrequestreceive Jo fersyk om webkamerabyld sjen te meien is ferstjoert
+webcamsending List fan minsken dy't op dit stuit jo webkamerabylden sjen kinne\nKlik om ôf te brekken
+webcamshot Webkamera foto
+whatisamsn aMSN is in platfoarm-ûnôfhinklike MSN Messenger-allyk
 whatsize It plaatsje wat jo keazen hawwe, hat net it gongbere formaat\nfoar skermôfbyldingen (96x96). Hoe grut wolle joe dat it plaatsje werjûn wurdt?
 willjoin Wachtsje oant $1 de konfersaasje bywenje sil
 winkreceived Jo hawwe in knipeach krige fan $1. Dizze funksje wurdt net stipe troch aMSN

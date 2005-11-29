@@ -1,5 +1,6 @@
 amsn_lang_version 2
 about Om
+aboutamsn Om Alvaro's Messenger
 accept Accepter
 acceptfile Accepter fil $1, størrelse $2? Gemt i $3
 actions Handlinger
@@ -43,7 +44,7 @@ appearoff Vis som offline
 areacode Områdenummer
 aretyping $1 skriver en besked
 askeachtime Spørger hver gang
-askwebcam Spørger om at se hans/huns webcam
+askwebcam Inveter til webcam samtale
 author Forfatter
 autoaccepted Fil-overførsel automatisk acceptéret
 autoacceptft Acceptér fil-overførsels-forespørgelser automatisk
@@ -66,6 +67,7 @@ away Ikke til stede
 awaymsg1 Spørg efter "Ikke til stede" besked hver gang jeg ændrer min status til Ikke til stede/Er straks tilbage/Optaget
 awaymsg2 Spørg ikke og anvend altid beskeden nedenfor
 baduserpass Forkert brugernavn eller password
+badwebcam Kan ikke vise webcamet's billed. Hver sikker på dit webcam er sat til og installeret.
 bgcolor Ændre aMSN's baggrundsfarve
 blankdirect Efterlad blank for direkte forbindelse
 block Bloker
@@ -80,17 +82,23 @@ blocklist Blokerings-Liste (BL):
 blockmessage Disse personer er online og har blokeret dig
 blockusers Antal brugere der skal tjekkes af gangen
 bouncedock Afvis aMSN's ikon i bjælen når en besked modtages
+brightness Lysstyrke
 broughtby Bragt til dig af følgende udviklere
 browse Gennemse
 browser Browser
 browserexample ($url bliver udskiftet med en URL). F.eks.: mozilla $url
+bugerror Undskyld, men der var et problem ved forbindelsen til fejl databasen. Undersøg din internet forbindelse.
 busy Travlt
 cachedpics $1 gemte billeder
+cagreement Fortrolig med Aftalen
 cancel Annuller
 cannotdeleteprofile Kan ikke slette profilen da det ser ud til, at profilen er i brug af en aMSN session
 cantexec Kan ikke køre applikationen: $1. Tjek præferencer
 cantloadonlineversion Kan ikke genoprette den On-Line opdateret liste af sprog fra Internettet
 cantremoveothers Kan ikke fjerne "Andre"-gruppen
+captureproperties Webcam billed ejendom
+captureextloaded Capture udvidelse -$1- is indlæst
+captureextnotloaded Capture udvidelse -$1- er ikke indlæst, du skal kompilere den først
 casesensitive Brug case-følsomme tjek
 cfgalarm Konfigurer/Tilføj/Fjern Alarm
 cfgalarmall Konfigurer/Tilføj/Fjern Global Alarm
@@ -102,6 +110,8 @@ changeglobnick Skift globalt kaldenavn
 changenick Skift kaldenavn
 changesize Skift størrelse
 changestate $1 skifter status til $2
+changevideosettings Redigér video indstillinger
+channels Kanneler
 charscounter Optælling af antal skrevne tegn i chatvinduet
 chat Chat
 chatack Accepterer chat fra
@@ -119,7 +129,9 @@ checkver Tjek for ny version
 choosearq Vælg din system-arkitektur
 choosebasefont Vælg skrifttype
 choosebgcolor Vælg baggrundsfarve
+choosechannel Vælg en kannel
 choosecontact Vælg venligst en kontakt fra listen
+choosedevice Vælg en driver
 choosefontcolor Vælg skrifttypefarve
 chooseskin Vælg det skin du vil bruge
 ch_to_state Skift til ny status
@@ -139,6 +151,7 @@ closeonly Luk kun den aktuelle faneblad
 close Luk
 closed Samtalen med $1 er lukket pga. inaktivitet
 closingdocks Luk-knap minimerer vinduet
+color Farve
 command Kommando
 commandstatus Eksekver kommando
 configure Konfigurér
@@ -161,6 +174,7 @@ contactadded Kontakt tilføjet
 contactdoesnotexist Kontakt eksisterer ikke!
 contactlist Kontakt-Liste (KL):
 continuously Fortsat
+contrast Kontrast
 conversationwith $1 personer i samtalen
 convertexplain Stien til CONVERT-filen, fra ImageMagick (påkrævet til Display-billeder).\n Lad feltet være blankt hvis CONVERT findes i din alm. sti
 copy Kopier
@@ -173,7 +187,7 @@ created Opret
 credits Credits
 currentdate Nuværende Dato
 currentlanguage Det aktuelle sprog
-currentnotes Ênuvérende noter
+currentnotes nuvérende noter
 custnotifymsg Vis beskedvindue når en ny brugerbesked modtages
 custnotifyoffline Vis beskedvindue når denne kontakt går offline
 custnotifyonline Vis beskedvindue når denne kontakt går online
@@ -184,6 +198,8 @@ custom_new Tilføj ny brugerdefineret smiley
 customnick Brugerdefineret kaldenavn
 customstyle Brugervalgt stil
 cut Klip
+cutimagebox V¾lg den part af billedet du vil bruge, trakke og flytte boksen
+cutimageboxreset Gendan valgte boks\nstørrelse til:
 date Dato
 dateformat Skift datoformat
 day Dag
@@ -202,6 +218,9 @@ delprofile Slet profil
 delprofile2 Vælg den profil du vil have fjernet
 description Beskrivelse
 detach løsgør
+details Detaljer
+devicebusy Driver $1 er optaget
+devices Driver
 directconnection Jeg har en direkte forbindelse til Internettet (anvender port 1863)
 disabled Deaktiveret
 disableprofiles Deaktivér profiler (Nyttig i netcaféer eller offentlige områder)
@@ -221,6 +240,7 @@ dockgtk Gnome Minimer
 docking Minimer
 dockingoff Minimer Ikke
 dockkde KDE Minimer
+done Férdig
 dontdownload Download ikke TLS, jeg installerer det selv
 dontshow Vis ikke
 download Hent
@@ -246,6 +266,7 @@ encoding2 Vælg måden hvorpå dine tegn er kodet
 entercontactemail Skriv kontakt E-mail
 enterfilename Skriv filnavnet
 enternick Skriv dit kaldenavn
+enterbugdesc Skriv en beskrivelse om hvad du gør for at hjélpe os reproducere fejlne:
 errortls Fejl ved installation af TLS-modul:
 eventhistory Vis historikken over begivenheder
 examples Eksempler
@@ -267,6 +288,7 @@ filetransfercomplete Filoverførsel fuldført
 filters Filtre
 filtersselect Vælg de filtre du ønsker at se\n(Bemærk hvis ingen valgt, vises alle)
 filtersx Filterudvælgelse
+firewalled Du er bag en firewalled router
 followtext Rul ned når der er indtastet ny tekst
 friendlyname Vennenavn
 ftaccepted Filoverførsel accepteret
@@ -287,6 +309,7 @@ globalcontainer Global container
 globalnick Indsæt en skabelon til at danne alle dine kontakters kaldenavne. Du kan bruge disse variabler:\$user_login for dine kontakters addresse, \$nick for dine kontakters kaldenavn og \$customnick for dine kontakters brugervalgte kaldenavn. For eksempel: '\$user_login er \$nick' vil være 'contact@msn.com er kontakt'
 globalnicktitle Globalt kaldenavn
 globaloverride Globale kaldenavnes format bør overskrive brugervalgte kaldenavne
+gotink $1 send dig et ink.
 gonelunch Til frokost
 group Gruppe
 groupadd Tilføj en gruppe
@@ -308,9 +331,12 @@ hidewindow Skjul Vindue
 history Vis Historien
 home Hjem
 httpconnection Tilslut ved hjælp af HTTP-metode (bruger HTTP-protokol over port 80)
+hue Farve
+huge Kæmpe
 hybrid Hybrid-modus
 ident Identificerer
 identity Identitet
+ignore Ignorer
 ignoreerrors Ignorer andre AMSN fejl indtil slutningen af sessionen
 imagefiles Billedfiler
 inbox Indbakke
@@ -344,6 +370,7 @@ lastlogout Sidste Log-ud
 lastmsgedme Sidste Besked
 lastmsgtime Sidste besked blev modtaget klokken $1
 lastseen Sidste gang online
+large Stor
 lclosedwin $1 har lukket vinduet på $2
 lconftopriv Mødet er lavet til privat chat med $1
 lconvstarted Samtale startet på $1
@@ -353,6 +380,7 @@ leaves $1 forlader samtalen
 lenteredconf $1 har tilsluttet sig et møde på $2
 lineflushlog Opdatér logfiler efter hver linie
 linprivate PRIVAT
+listening Liste
 listeningon Lytter på port $1
 listsmileys Liste af smileys
 listsmileys2 Vis grafik (humørikoner) i aMSN's hovedkontaktliste
@@ -432,6 +460,7 @@ nick Kaldenavn
 no Nej
 noactivity Ingen aktivitet
 nodataavailable Ingen ledig data til $1
+nodevices Du har ikke driverne installeret
 nogap Ingen mellemrum mellem grupper
 nogroup Ingen gruppe
 nologfile Der er ingen logfil for $1
@@ -465,6 +494,7 @@ offline Offline
 ok Ok
 onenewmail 1 ny besked i Indbakken
 online Online
+onlinehelp Online hjælp
 onphone I telefon
 opendir åben mappe
 openfile åben
@@ -491,6 +521,7 @@ play Afspil
 playing Spiller: $1
 pluginselector Vælg Plugins
 port Port
+portswellconfigured Dine porte er passene konfiguret
 prefalerts Mine handlingslyde og alarmer
 prefapps Programmer
 prefawaymsg Min "Ikke til stede"-besked
@@ -536,6 +567,7 @@ proxyconfhttp HTTP proxy support konfiguration
 proxyconnection Jeg tilslutter mig til Internettet gennem en proxy-server:
 publishphones Vis mine telefonnumre
 purge Tøm
+pwcdriver Du bruger pwc driveren
 raised Hævet/de-ikoniseret
 readonlymsgbox Filoverførslen er annulléret, da modtager-biblioteket er skrivebeskyttet. Ret venligst rettighederne på dette bibliotek.
 readonlywarn ADVARSEL: Filen vil sandsynligvis IKKE blive gemt korrekt, da "Modtagne filer"-mappen ser ud til at være skrivebeskyttet. Sikr dig venligst at rettighederne på destinations-biblioteket ($1) er sat rigtigt, før du overfører filen.
@@ -552,6 +584,8 @@ remembersetting Husk denne indstilling
 removeempty Fjern tomme grupper fra kontaktlisten
 removefromlist Fjern fra listen
 rename Omdøb
+report Rapportere
+reporting Repporter
 required_version Kan ikke hente denne plugin. Den kræver, mindst, aMSN version $1
 reversed Omvendt
 reverselist Omvendt-liste (OL):
@@ -566,8 +600,9 @@ sbcon Forbinder til Switch Board
 selectall Vælg alt
 selectplugins Vælg venligst de plugins du vil anvende
 selectskin Vælg venligst et skin fra listen
+sendemail Send min email addresse for at underrette mig om éndringer (se Fortrolig med Aftalen)
 send Send
-sendwebcaminvite Inviter en kontatk til at se dit webcam
+sendwebcaminvite Inviter til webcam samtale
 sendfile Send fil
 sendmail Send mail
 sendmobmsg $1 Send til Mobil
@@ -578,6 +613,7 @@ serverbusy Serveren er optaget
 servergoingdown Afbrudt. Server lukker ned.
 serverunavailable Serveren kan ikke kontaktes
 session Session
+shareswebcam Del webcam
 showbanner Vis aMSN's banner
 showblockedlist Vis liste over personer som har blokeret dig
 showcachedpics Vis gemte display-billeder
@@ -590,6 +626,7 @@ showuserpic $1's Display-billede
 signinstatus Login status
 skin Skin
 skinselector Vælg Skin
+small Lille
 smileconfig Brugerdefineret humørikon-konfiguration
 smilefile Smiley-filnavn
 smileintro Udfyld venligst de krævede felter for at lave en ny brugerdefineret smiley (se OSSen for hjælp)
@@ -625,6 +662,8 @@ stats Statistik
 status Status
 stop Stop
 stopalarm Stop Alarm
+stopwebcamreceive Stop med at modtage Webcam
+stopwebcamsend Stop med at sende Webcam
 storenickname Vend tilbage til originalt kaldenavn efter en brugerdefineret status med brugerdefineret kaldenavn
 strictfonts Begræns alle skriftfontes størrelse til den valgte (ses på Statusbaren bl.a.)
 style Stil
@@ -638,7 +677,7 @@ tabbed Faneblad vinduer
 tabbedglobal Faneblad vindue for alle personer i kontakt listen
 tabbedgroups Faneblad vindue for alle personer i samme gruppe
 tabtitlenick Vis nicks i faneblad i stedet for email
-takesnapshot Tag Snapshot
+takesnapshot Tag et billed
 temp_state Gem ikke (Midlertidig status, vil blive glemt, når du lukker AMSN)
 textsize Tekststørrelse
 thismonth Denne måned
@@ -648,6 +687,7 @@ timestamp Tids stemple
 timestamps Vis tidsstempler i Chat-vinduer
 title Al's Messenger
 tkerror TK har skabt en fejl, der er en fejl i amsn, rapportér den venligst. Send filen $1 til amsn-bugs@lists.sf.net
+tkerror1 TK har skabt en fejl, der er en fejl i amsn, rapportér den venligst klik på Rapportér knappen. du kan klik på Detaljer for at se mere oplysninger om denne fejl eller klik på Ok for at fortsétte med dine samtaler
 tlsdowncompleted Filen $1 er downloadet til biblioteket $2. Du skal udpakke den, bygge den (hvis du downloadede kildekode) og installere den inden i biblioteket $3.
 tlsexplain Mappen hvor tcl TLS-modulet kan findes. Hvis AMSN ikke kan finde det selv, så specificér det venligst.\n(Påkrævet til SSL-godkendelse).
 tlsinstall TLS-Modul installations-gennemgang
@@ -659,18 +699,21 @@ tomobile Til Mobil
 tools Værktøjer
 tooltips Anvend værktøjs-tips
 transnotexists Den kaldte fil er ikke blevet oversat til det valgte sprog endnu
+trayicon Vis status ikon i bekendtgørelses området
 traynotcompiled Tray icon plugin'et er ikke blevet kompileret endnu. Check plugin/traydock
 triggers Tekst-udløsere
 truncatenames1 Afkort kaldenavne der er længere end vinduebredden i vindue-titellinier og kontaktlisten
 truncatenames2 Afkort kaldenavne der er længere end vinduebredden inde i samtalevinduerne
 truncatenicks Afkort kaldenavne der er længere end vinduebredden
 twonewmail $1 nye beskeder i Indbakken
+type Type
 unblock Fjern blokering
 unknown Ukendt
 unload Smid ud af hukommelsen
 uoffline Offline
 uonline Online
 update Opdater
+updateonlycurrentlanguage Opdater kun nuvérende sprog
 updating Opdatere
 unselectall Vélge alt fra
 useother Benyt et andet program
@@ -688,8 +731,21 @@ version Version
 viewcontactsby Se kontakter efter
 viewprofile Vis profil
 view Vis
+whatisamsn aMSN er en uafh¾ngig MSN Messenger klone
+webcam Webcam
+webcamclosebefcancel Du skal afbrude alle webcam samtalerne før lukning af vinduet
+webcamcanceled Webcam samtalen med $1 er blivet afbrudt
+webcamconfigure Instil Webcam
+webcamextloaded Webcamsn udvidelsen er inlést
+webcamextnotloaded Webcamsn udvidelsen er ikke indlést. Du skal kompilere den først.
+webcamfaq OOS/Hjélp for Webcam
+webcaminvitereceived $1 invitere dig til at starte en webcam samtale. Vil du acceptere?
+webcamrejected $1 afviser invitation til webcam samtale
+webcamrequestsend Send anmodning til at sende webcam
+webcamrequestreceive Send anmodning til at modtage webcam
+webcamsending Liste over personer du i øjeblikket sender webcam til\nKlik for at afbrude
 webcamshot Tag et billed med dit webcam
-webcaminvite $1 har inviteret dig til at starte webcam samtale
+webcaminvite $1 har inviteret dig til webcam samtale
 webcamhistory Se webcam samtaler
 whatsize Billedt du har anmodet er ikke det normale fremviste billed\nstørrelse (96x96) VIlken størrelse vil du have billedt vist som?
 willjoin Venter på at $1 slutter sig til samtalen
