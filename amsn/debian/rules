@@ -68,7 +68,7 @@ install: build
 	cp -f "$(CURDIR)/debian/amsn/usr/share/amsn/"*.desktop \
 		"$(CURDIR)/debian/amsn/usr/share/applications"
 	#manually copy the icon file
-	ln -sf $(CURDIR)/debian/amsn/usr/share/amsn/icons/48x48/msn.png \
+	ln -sf /usr/share/amsn/icons/48x48/msn.png \
 		$(CURDIR)/debian/amsn/usr/share/pixmaps/msn.png
 
 

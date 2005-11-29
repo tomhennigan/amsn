@@ -10,9 +10,11 @@ doc_files	:= docs CREDITS FAQ GNUGPL HELP README TODO AGREEMENT remote.help
 FILES_TO_INSTALL := *.tcl hotmlog.htm sndplay amsn amsn-remote amsn-remote-CLI amsn.desktop langlist
 FILES_TO_INSTALL += $(doc_files)
 FILES_TO_INSTALL += icons lang skins utils/base64 utils/drawboard utils/framec utils/http2.4
-FILES_TO_INSTALL += utils/pixmapbutton utils/pixmapoption utils/pixmapprogbar utils/pixmapscroll
+FILES_TO_INSTALL += utils/pixmapscroll
 FILES_TO_INSTALL += utils/scalable-bg utils/sha1 utils/snit0.97 utils/BWidget-1.7.0
 FILES_TO_INSTALL += plugins/inkdraw plugins/Nudge plugins/WebcamShooter
+
+FILES_TO_EXCLUDE := lang/genpage.c lang/addkey.tcl lang/lang1.tmpl lang/lang2.tmpl lang/lang3.tmpl lang/langchk.sh lang/complete.pl lang/genlangfiles.c utils/webcamsn/webcamsn.tcl
 
 capture_dir := $(srcdir)/utils/linux/capture
 webcamsn_dir := $(srcdir)/utils/webcamsn
@@ -105,6 +107,7 @@ LDFLAGS	 += ${TK_STUB_LIB_SPEC}
 
 ifeq ($(FOUND_OS),linux)
 FILES_TO_INSTALL += utils/webcamsn/webcamsn.so utils/webcamsn/pkgIndex.tcl utils/webcamsn/webcamsn.tcl utils/TkCximage/TkCximage.so utils/TkCximage/pkgIndex.tcl utils/linux/capture/capture.so utils/linux/capture/pkgIndex.tcl utils/linux/capture/test.tcl utils/linux/traydock/libtray.so utils/linux/capture/libng/plugins/drv0-v4l2.so utils/linux/capture/libng/plugins/drv1-v4l.so
+FILES_TO_EXCLUDE += AppMain.tcl utils/linux/capture/test.tcl
 endif
 
 CONFIGURE_ARGS := @CONFIGURE_ARGS@
@@ -140,6 +143,9 @@ install:: $(FILES_TO_INSTALL)
 			cp -Rf --parents $(srcdir)/$$p $(dstdir)/$(PACKAGE); \
 		done
 	find $(dstdir)/$(PACKAGE) -name CVS -print | xargs rm -Rf
+	@for p in $(FILES_TO_EXCLUDE); do \
+			rm -Rf $(dstdir)/$(PACKAGE)/$$p; \
+		done
 	ln -sf $(dstdir)/$(PACKAGE)/amsn $(slnkdir)/amsn
 
 rpm-install:: $(FILES_TO_INSTALL)
@@ -149,6 +155,9 @@ rpm-install:: $(FILES_TO_INSTALL)
 			cp -Rf --parents $(srcdir)/$$p $(INSTALL_PREFIX)/$(dstdir)/$(PACKAGE); \
 		done
 	find $(INSTALL_PREFIX)/$(dstdir)/$(PACKAGE) -name CVS -print | xargs rm -Rf
+	@for p in $(FILES_TO_EXCLUDE); do \
+			rm -Rf $(INSTALL_PREFIX)/$(dstdir)/$(PACKAGE)/$$p; \
+		done
 	mkdir --parents $(INSTALL_PREFIX)/$(slnkdir)
 	ln -sf $(dstdir)/$(PACKAGE)/amsn $(INSTALL_PREFIX)/$(slnkdir)/amsn
 
