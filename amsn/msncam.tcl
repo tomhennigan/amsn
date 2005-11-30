@@ -1858,6 +1858,16 @@ namespace eval ::CAMGUI {
 			set ::capture_loaded 0
 			return 0
 		} else {
+			
+			#Verify for that pwc_driver
+			if { [set ::tcl_platform(os)] == "Linux" }  {
+				catch { exec /sbin/lsmod } pwc_driver
+				if {[string first $pwc_driver "pwc"] != -1 } {
+					set ::pwc_driver 1
+				} else {
+					set ::pwc_driver 0
+				}
+			}
 			set ::capture_loaded 1
 			array set ::grabbers {}
 			return 1
@@ -2084,7 +2094,7 @@ namespace eval ::CAMGUI {
 		pack $w.capture -expand true -padx 5
 		
 		#Add button to change settings
-		if { ![info exists ::webcam_settings_bug] || $::webcam_settings_bug == 0} {
+		if { ![info exists ::pwc_driver] || $::pwc_driver == 0} {
 			button $w.settings -command "::CAMGUI::ChooseDevice" -text "[trans changevideosettings]"
 		} else {
 			label $w.settings -text "[trans pwcdriver]" -font sboldf -foreground red
@@ -2643,7 +2653,10 @@ status_log "webcamDevice=$device:$channel" green
 			$status configure -text $res
 			return
 		}
-		.webcam_preview start
+		if { [catch { .webcam_preview start } res] } {
+			$status configure -text $res
+			return
+		}
 
 		after 0 "::CAMGUI::PreviewWindows .webcam_preview $img"
 
