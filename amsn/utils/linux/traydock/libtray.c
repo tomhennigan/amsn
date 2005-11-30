@@ -216,6 +216,11 @@ DrawIcon (ClientData clientData)
 	}
 	
 	Tk_SizeOfImage(icon->pixmap, &widthImg, &heightImg);
+	if (widthImg > w)
+		widthImg = w;
+	if (heightImg > h)
+		heightImg = h;
+
 	Tk_RedrawImage(icon->pixmap, 0, 0, widthImg, heightImg, Tk_WindowId(icon->win), (w-widthImg)/2 , (h-heightImg)/2 );
 
 }
