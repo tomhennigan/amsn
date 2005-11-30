@@ -4,7 +4,7 @@ if {![::picture::Loaded]} {
 			You need to update your system to Mac OS 10.3.9" -icon warning	
 	} else {
 		tk_messageBox -default ok -message "You can't load TkCximage, this is now needed to run \
-			aMSN. You can compile it with the makefile inside amsn folder" -icon warning
+			aMSN. Please compile amsn first, instructions on how to compile are located in the file INSTALL" -icon warning
 	}
 	exit
 }
