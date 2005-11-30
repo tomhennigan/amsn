@@ -1,6 +1,15 @@
 if {![::picture::Loaded]} {
-	tk_messageBox -default ok -message "You can't load TkCximage, this is now needed to run \
-	aMSN. You can compile it with the makefile inside amsn folder" -icon warning
+	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {	
+		tk_messageBox -default ok -message "There's a problem loading a module of aMSN (TkCxImage) on this computer. \
+			You need to update your system to Mac OS 10.3.9" -icon warning	
+	} else {
+		tk_messageBox -default ok -message "You can't load TkCximage, this is now needed to run \
+			aMSN. You can compile it with the makefile inside amsn folder" -icon warning
+	}
+	exit
+}
+if {$::tcl_version <= 8.3} {
+	tk_messageBox -default ok -message "You need TCL/TK 8.4 or better to run aMSN. Please upgrade."  -icon warning
 	exit
 }
 package require AMSN_BWidget
