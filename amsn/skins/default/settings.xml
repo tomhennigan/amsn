@@ -44,8 +44,8 @@
 	<ContactList>
 		<Colors>
 			<mainwindowbg>#aaaaaa</mainwindowbg>
-			<topcontactlistbg>#fbfbfb</topcontactlistbg>
-			<contactlistbg>#ffffff</contactlistbg>
+			<topcontactlistbg>#fbfbfb</topcontactlistbg><!-- color for the top of the contact list, the status part -->
+			<contactlistbg>#ffffff</contactlistbg> <!-- color of the contact list, where the contacts appear -->
 			<bannerbg>#ffffff</bannerbg>			
 			<mystatus>grey</mystatus>
 			<groupcolorextend>#000000</groupcolorextend>
