@@ -1,0 +1,21 @@
+In order to install amsn, or even to be able to launch it, you will need to compile it first.
+To do so, you must first configure the package by executing the command
+> ./configure
+You must have the tcl-dev and tk-dev packages installed on your system, please refer to your system package management software or website in order to find these packages and to install them prior to running the ./configure script.
+Once the configure script finished without any error, you can proceed with the compilation, it is as simple as typing :
+> make
+You can now launch amsn by typing 
+> ./amsn
+Or you can install it with the command
+> make install
+Then you can use the 
+> amsn
+command to launch future sessions of amsn.
+You can also create a .deb and .rpm package by launching respectively the command
+> make deb
+and
+> make rpm
+
+For any other help, please refer to the FAQ or the website at http://amsn.sourceforge.net or visit the forums of amsn, but make sure you search for an answer to your question before asking it, it might have already been answered.
+
+have fun.
