@@ -16,7 +16,7 @@
 	<lang>
 		<langcode>eu</langcode>
 		<name>Basque (euskera)</name>
-		<version>1.31</version>
+		<version>1.32</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -142,7 +142,7 @@
 	<lang>
 		<langcode>el</langcode>
 		<name>Greek (ελληνικά)</name>
-		<version>1.2</version>
+		<version>1.3</version>
 		<encoding>iso8859-7</encoding>
 	</lang>
 	<lang>
@@ -292,7 +292,7 @@
 	<lang>
 		<langcode>va</langcode>
 		<name>Valencian (valencià)</name>
-		<version>1.39</version>
+		<version>1.40</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
