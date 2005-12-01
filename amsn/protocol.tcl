@@ -3146,10 +3146,10 @@ namespace eval ::Event {
 				#if alarm_onmsg is on run it
 				if { ( [::alarms::isEnabled $typer] == 1 )&& ( [::alarms::getAlarmItem $typer onmsg] == 1) } {
 					set username [::abook::getDisplayNick $typer]
-					run_alarm $typer  $username "[trans says $username]: [$message getBody]"
+					run_alarm $typer $typer  $username "[trans says $username]: [$message getBody]"
 				} elseif { ( [::alarms::isEnabled all] == 1 )&& ( [::alarms::getAlarmItem all onmsg] == 1) } {
 					set username [::abook::getDisplayNick $typer]
-					run_alarm $typer  $username "[trans says $username]: [$message getBody]"
+					run_alarm all $typer  $username "[trans says $username]: [$message getBody]"
 				}
 				global automessage automsgsent
 				# Send automessage once to each user
@@ -3848,58 +3848,58 @@ proc cmsn_change_state {recv} {
 			#User disconnected
 
 			if {  ( [::alarms::isEnabled $user] == 1 )&& ( [::alarms::getAlarmItem $user ondisconnect] == 1) } {
-				run_alarm $user $custom_user_name [trans disconnect $custom_user_name]
+				run_alarm $user $user $custom_user_name [trans disconnect $custom_user_name]
 			} elseif {  ( [::alarms::isEnabled all] == 1 )&& ( [::alarms::getAlarmItem all ondisconnect] == 1) } {
-				run_alarm $user $custom_user_name [trans disconnect $custom_user_name]
+				run_alarm all $user $custom_user_name [trans disconnect $custom_user_name]
 			}
 
 		} else {
 			if { ( [::alarms::isEnabled $user] == 1 )&& ( [::alarms::getAlarmItem $user onstatus] == 1) } {
 				switch -exact [lindex $recv 1] {
 					"NLN" {
-						run_alarm $user $custom_user_name "[trans changestate $custom_user_name [trans online]]"
+						run_alarm $user $user $custom_user_name "[trans changestate $custom_user_name [trans online]]"
 					}
 					"IDL" {
-						run_alarm $user $custom_user_name "[trans changestate $custom_user_name [trans away]]"
+						run_alarm $user $user $custom_user_name "[trans changestate $custom_user_name [trans away]]"
 					}
 					"BSY" {
-						run_alarm $user $custom_user_name "[trans changestate $custom_user_name [trans busy]]"
+						run_alarm $user $user $custom_user_name "[trans changestate $custom_user_name [trans busy]]"
 					}
 					"BRB" {
-						run_alarm $user $custom_user_name "[trans changestate $custom_user_name [trans rightback]]"
+						run_alarm $user $user $custom_user_name "[trans changestate $custom_user_name [trans rightback]]"
 					}
 					"AWY" {
-						run_alarm $user $custom_user_name "[trans changestate $custom_user_name [trans away]]"
+						run_alarm $user $user $custom_user_name "[trans changestate $custom_user_name [trans away]]"
 					}
 					"PHN" {
-						run_alarm $user $custom_user_name "[trans changestate $custom_user_name [trans onphone]]"
+						run_alarm $user $user $custom_user_name "[trans changestate $custom_user_name [trans onphone]]"
 					}
 					"LUN" {
-						run_alarm $user $custom_user_name "[trans changestate $custom_user_name [trans gonelunch]]"
+						run_alarm $user $user $custom_user_name "[trans changestate $custom_user_name [trans gonelunch]]"
 					}
 				}
 			} elseif { ( [::alarms::isEnabled all] == 1 )&& ( [::alarms::getAlarmItem all onstatus] == 1)} {
 				switch -exact [lindex $recv 1] {
 					"NLN" {
-						run_alarm $user $custom_user_name "[trans changestate $custom_user_name [trans online]]"
+						run_alarm all $user $custom_user_name "[trans changestate $custom_user_name [trans online]]"
 					}
 					"IDL" {
-						run_alarm $user $custom_user_name "[trans changestate $custom_user_name [trans away]]"
+						run_alarm all $user $custom_user_name "[trans changestate $custom_user_name [trans away]]"
 					}
 					"BSY" {
-						run_alarm $user $custom_user_name "[trans changestate $custom_user_name [trans busy]]"
+						run_alarm all $user $custom_user_name "[trans changestate $custom_user_name [trans busy]]"
 					}
 					"BRB" {
-						run_alarm $user $custom_user_name "[trans changestate $custom_user_name [trans rightback]]"
+						run_alarm all $user $custom_user_name "[trans changestate $custom_user_name [trans rightback]]"
 					}
 					"AWY" {
-						run_alarm $user $custom_user_name "[trans changestate $custom_user_name [trans away]]"
+						run_alarm all $user $custom_user_name "[trans changestate $custom_user_name [trans away]]"
 					}
 					"PHN" {
-						run_alarm $user $custom_user_name "[trans changestate $custom_user_name [trans onphone]]"
+						run_alarm all $user $custom_user_name "[trans changestate $custom_user_name [trans onphone]]"
 					}
 					"LUN" {
-						run_alarm $user $custom_user_name "[trans changestate $custom_user_name [trans gonelunch]]"
+						run_alarm all $user $custom_user_name "[trans changestate $custom_user_name [trans gonelunch]]"
 					}
 				}
 			}
@@ -3985,9 +3985,9 @@ proc cmsn_change_state {recv} {
 
 		if { $state_changed } {
 			if {  ( [::alarms::isEnabled $user] == 1 )&& ( [::alarms::getAlarmItem $user onconnect] == 1)} {
-				run_alarm $user $custom_user_name "$custom_user_name [trans logsin]"
+				run_alarm $user $user $custom_user_name "$custom_user_name [trans logsin]"
 			} elseif {  ( [::alarms::isEnabled all] == 1 )&& ( [::alarms::getAlarmItem all onstatus] == 1)} {
-				run_alarm $user $custom_user_name "$custom_user_name [trans logsin]"
+				run_alarm all $user $custom_user_name "$custom_user_name [trans logsin]"
 			}
 		}
 	}

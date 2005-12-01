@@ -295,7 +295,7 @@ namespace eval ::alarms {
 
 
 #Runs the alarm (sound and pic)
-proc run_alarm {user nick msg} {
+proc run_alarm {config_user user nick msg} {
 	global program_dir tcl_platform alarm_win_number
 	
 	if { ![info exists alarm_win_number] } {
@@ -305,7 +305,7 @@ proc run_alarm {user nick msg} {
 	incr alarm_win_number
 	set wind_name alarm_${alarm_win_number}
 
-	if { [::alarms::getAlarmItem ${user} pic_st] == 1 || [::alarms::getAlarmItem ${user} sound_st] == 1 } {
+	if { [::alarms::getAlarmItem ${config_user} pic_st] == 1 || [::alarms::getAlarmItem ${config_user} sound_st] == 1 } {
 		toplevel .${wind_name}
 		set myDate [ clock format [clock seconds] -format " - %d/%m/%y at %H:%M" ]
 		wm title .${wind_name} "[trans alarm] $user $myDate"	
@@ -314,9 +314,9 @@ proc run_alarm {user nick msg} {
 	}
 	
 	#Create picture
-	if { [::alarms::getAlarmItem ${user} pic_st] == 1 } {
-		if {[file readable [::alarms::getAlarmItem ${user} pic]]} {
-			image create photo joanna_$alarm_win_number -file [::alarms::getAlarmItem ${user} pic] -format cximage
+	if { [::alarms::getAlarmItem ${config_user} pic_st] == 1 } {
+		if {[file readable [::alarms::getAlarmItem ${config_user} pic]]} {
+			image create photo joanna_$alarm_win_number -file [::alarms::getAlarmItem ${config_user} pic] -format cximage
 			if { ([image width joanna_$alarm_win_number] < 1024) && ([image height joanna_$alarm_win_number] < 768) } {
 				label .${wind_name}.jojo -image joanna_$alarm_win_number
 				pack .${wind_name}.jojo
@@ -325,27 +325,27 @@ proc run_alarm {user nick msg} {
 	}
 
 	#Play sound
-	if { [::alarms::getAlarmItem ${user} sound_st] == 1 } {
+	if { [::alarms::getAlarmItem ${config_user} sound_st] == 1 } {
 	
 		if { [::config::getKey usesnack] } {
 		
 			#Ok, we're using Snack, do it the Snack way
-			snack::sound alarmsnd_${alarm_win_number} -load [::alarms::getAlarmItem ${user} sound]
-			snack_play_sound alarmsnd_${alarm_win_number} [::alarms::getAlarmItem ${user} loop]
+			snack::sound alarmsnd_${alarm_win_number} -load [::alarms::getAlarmItem ${config_user} sound]
+			snack_play_sound alarmsnd_${alarm_win_number} [::alarms::getAlarmItem ${config_user} loop]
 			button .${wind_name}.stopmusic -text [trans stopalarm] -command [list ::alarms::StopSnackAlarm .${wind_name} alarmsnd_${alarm_win_number}]
 			wm protocol .${wind_name} WM_DELETE_WINDOW [list ::alarms::StopSnackAlarm .${wind_name} alarmsnd_${alarm_win_number}]
 			pack .${wind_name}.stopmusic -padx 2
 			
 		} else {
 		
-			set sound [::alarms::getAlarmItem ${user} sound]
+			set sound [::alarms::getAlarmItem ${config_user} sound]
 			#Prepare the sound command for variable substitution
 			#set command [::config::getKey soundcommand]
 			#set command [string map {"\[" "\\\[" "\\" "\\\\" "\$" "\\\$" "\(" "\\\(" } $command]
 			#Now, let's unquote the variables we want to replace
 			#set command "[string map {"\\\$sound" "\${sound}" } $command]"
 			
-			if { [::alarms::getAlarmItem ${user} loop] == 1 } {
+			if { [::alarms::getAlarmItem ${config_user} loop] == 1 } {
 			
 				button .${wind_name}.stopmusic -text [trans stopalarm] -command "destroy .${wind_name}; cancel_loop $wind_name"
 				wm protocol .${wind_name} WM_DELETE_WINDOW "destroy .${wind_name}; cancel_loop $wind_name"
@@ -362,25 +362,25 @@ proc run_alarm {user nick msg} {
 			
 		}
 		
-	} elseif { [::alarms::getAlarmItem ${user} pic_st] == 1 } {
+	} elseif { [::alarms::getAlarmItem ${config_user} pic_st] == 1 } {
 		button .${wind_name}.stopmusic -text [trans stopalarm] -command "destroy .${wind_name}"
 		pack .${wind_name}.stopmusic -padx 2
 	}
 	
 	#Send message and disable it after sending
-	if { [::alarms::getAlarmItem $user msg_st] == 1 } {
-		set msg [::alarms::getAlarmItem $user msg]
+	if { [::alarms::getAlarmItem $config_user msg_st] == 1 } {
+		set msg [::alarms::getAlarmItem $config_user msg]
 		#This will reenable the message sending if delivery failed
-		set ackid [after 60000 [list ::alarms::messageFailed $user $msg]]
-		::alarms::setAlarmItem $user msg_st 0
+		set ackid [after 60000 [list ::alarms::messageFailed $config_user $msg]]
+		::alarms::setAlarmItem $config_user msg_st 0
 		::MSN::messageTo $user $msg $ackid
 		
 		#Disable sending the message again
 	}
 	
 	#Replace variables in command
-	if { [::alarms::getAlarmItem ${user} oncommand] == 1 } {
-		set the_command [::alarms::getAlarmItem ${user} command]
+	if { [::alarms::getAlarmItem ${config_user} oncommand] == 1 } {
+		set the_command [::alarms::getAlarmItem ${config_user} command]
 		#By default, quote backslashes and variables
 		set the_command [string map {"\[" "\\\[" "\\" "\\\\" "\$" "\\\$" "\(" "\\\(" } $the_command]
 		#Now, let's unquote the variables we want to replace
