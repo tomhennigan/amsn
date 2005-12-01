@@ -1,11 +1,11 @@
-FAQ 1.6
+FAQ 1.8
 --------
 
 P: Què és aMSN?
 R: Amsn és un clon del MS messenger. Et permet mantenir-te en contacte amb els teus amics, intercanviar missatges instantanis i fitxers.
 
 
-INSTALLING AND RUNNING
+INSTAL·LAR I EXECUTAR
 =====================
 
 
@@ -142,8 +142,8 @@ R: El bug del protocol que ens permetia detectar els bloquejos ha estat reparat.
 Ja no és possible detectar això, de manera que no té sentit incloure eixa opció.
 
 
-SOLUCIONANT PROBLEMES
-=====================
+SOLUCIONAR PROBLEMES
+====================
 
 P: A vegades aMSN es penja, com és això?
 R: Normalment, Quan aMSN es penja sol ser degut a un problema amb la configuració
@@ -240,8 +240,8 @@ de l'adreça interna, i dir-li a la porta d'enllaç (el PC amb connexió directa a
 internet) que redirigisca les connexions d'entrada al port 6891 al teu PC dins la
 xarxa privada.
 
-Running on Windows
-==============
+EXECUTAR EL PROGRAMA EN WINDOWS
+================================
 
 P: Puc fer anar el so en Windws?
 R: Si, tenim un xicotet programa que es diu plwav.exe que només reproduix un
@@ -256,7 +256,7 @@ Pots canviar-ho en Ferraments->opcions->Preferències, dins la secció
 "Avançades".
 
 ALTRES
-=====
+======
 P: M'he adonat 	que aMSN obri alguns ports per damunt del 60000. És normal?
 És una porta trasera? Per què passa això?
 R: És normal. aMSN utilitza sockets com un sistema de bloqueig per a evitar que
@@ -278,4 +278,6 @@ Abans d'enviar un bug o preguntar per suport, obtin la següent informació:
 - Volcat de pila (Stack trace) de l'error enviat (si és el cas).
 - Els últims missatges d'error en la finestra debug (Ctrl+D i Ctrl+S en la llista
 de contactes).
-Si encara tens preguntes, pots escriure'm a airadier@users.sourceforge.net.
+
+Si encara tens preguntes, mira a:
+http://amsn.sourceforge.net/wiki/tiki-index.php?page=HOW+TO+help+and+getting+help

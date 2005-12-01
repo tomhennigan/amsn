@@ -566,6 +566,7 @@ proxyconnection Em connecte a internet a través d'un servidor proxy:
 proxy Estic darrere d'un servidor proxy (HTTP o SOCKS5)
 publishphones Publicar els meus numeros de telèfon
 purge Purgar
+pwcdriver Estàs usant el controlador pwc
 raised Ampliat/Desiconificat
 readonlymsgbox La transferència de fitxer ha sigut cancel·lada perquè el directori de recepcié es de només lectura. Per favor, corregix els pemisos en este directori.
 readonlywarn ATENCIÓ: El fitxer probablement NO es guardarà correctament perquà el directori de "Arxius Rebuts" pareix protegit contra escritura. Per favor, assegurat que el directori de desti ($1) té els permissos adecuats abans de transferir el fitxer.
@@ -729,8 +730,10 @@ version Versió
 viewprofile Vore perfil
 viewcontactsby Mostra els contactes per
 view Vore
+webcam Càmera web
 webcamcanceled La sessió de webcam amb $1 ha estat cancel·lada
 webcamclosebefcancel Has de cancel·lar totes les sessions de webcam abans de tancar la finestra
+webcamconfigure Configurar Càmera web
 webcamextloaded S'ha carregat l'extensió Webcamsn
 webcamextnotloaded No s'ha carregat l'extensió Webcamsn. L'has de compilar
 webcamfaq PMF-FAQ/Ajuda per la webcam
