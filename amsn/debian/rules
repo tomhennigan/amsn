@@ -45,7 +45,7 @@ clean:
 	rm -f build-stamp 
 
 	# Add here commands to clean up after the build process.
-	-$(MAKE) dclean
+	-$(MAKE) clean
 ifneq "$(wildcard /usr/share/misc/config.sub)" ""
 	cp -f /usr/share/misc/config.sub config.sub
 endif
@@ -80,7 +80,7 @@ binary-indep: build install
 binary-arch: build install
 	dh_testdir
 	dh_testroot
-	dh_installchangelogs 
+#	dh_installchangelogs 
 	dh_installdocs
 	dh_installexamples
 #	dh_install
@@ -105,7 +105,7 @@ binary-arch: build install
 	dh_shlibdeps
 	dh_gencontrol
 	dh_md5sums
-	dh_builddeb
+	dh_builddeb --destdir="./distrib/DEB" --filename="amsn_${VERSION}.deb"
 
 binary: binary-indep binary-arch
 .PHONY: build clean binary-indep binary-arch binary install 
