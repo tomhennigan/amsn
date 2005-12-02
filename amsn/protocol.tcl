@@ -5552,7 +5552,11 @@ namespace eval ::MSN6FT {
 			if {[catch {::picture::Save $image $file cxpng} res] } {
 				status_log $res
 			}
-			image delete $image
+			
+			if {$image != "no_pic"} {
+				image delete $image
+			}
+			
 			::skin::setPixmap ${callid}.png $file
 							
 			if { [catch { open $file} fd] == 0 } {
