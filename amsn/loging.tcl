@@ -112,12 +112,16 @@ proc CheckLogDate {email} {
 
 	    foreach file [glob -nocomplain -types f "${log_dir}/*.log"] {
 		    status_log "moving $file\n" blue
-		    file rename $file [file join ${log_dir} $to]
+		    if {[catch {file rename $file [file join ${log_dir} $to]} res]} {
+		    	status_log "moving file error $res \n"
+		    }
 	    }
 	   	   
 	    foreach file [glob -nocomplain -types f "${webcam_dir}/*.cam"] {
 		    status_log "moving $file\n" blue
-		    file rename $file [file join ${webcam_dir} $cam_to]
+		    if {[catch {file rename $file [file join ${webcam_dir} $cam_to]} res]} {
+		    	status_log "moving file error $res \n"
+		    }
 	    }
  
 	    set fd [open "[file join ${log_dir} date]" w]
