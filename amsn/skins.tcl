@@ -581,6 +581,9 @@ namespace eval ::skinsGUI {
 		label $w.choose -text "[trans chooseskin]" -font bboldf
 		pack $w.choose -side top
 
+		label $w.restart -text "[trans restartforskin]" -fg #FF0000
+                pack $w.restart -side top
+
 		frame $w.main -relief solid -borderwidth 2
 		frame $w.main.left -relief flat
 		frame $w.main.right -relief flat
