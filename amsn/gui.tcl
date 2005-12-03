@@ -7288,11 +7288,13 @@ proc pictureBrowser {} {
 	bind .picbrowser <Destroy> {
 		if {"%W" == ".picbrowser"} {
 			global image_names
-			foreach img $image_names {
-				image delete $img
+			if { [info exists image_names] } {
+				foreach img $image_names {
+					image delete $img
+				}
+				unset image_names
+				unset selected_image
 			}
-			unset image_names
-			unset selected_image
 		}
 	}
 
