@@ -481,6 +481,7 @@ void PhotoDisplayProcHook(
     return;
   }
   
+  #ifdef X_PROTOCOL
   // Get the drawable's width and height and x and y
   switch (XGetGeometry(display, drawable, &root_geo, &x_geo, &y_geo, 
 		       &drawableWidth_geo, &drawableHeight_geo, &bd_geo, &depth_geo)) {
@@ -511,6 +512,7 @@ void PhotoDisplayProcHook(
   /*
    * End of the fix
    */
+  #endif
 
 	Tk_PhotoHandle handle = (Tk_PhotoHandle) *((void **) instanceData);
 	GifInfo* item=TkCxImage_lstGetItem(handle);
