@@ -614,10 +614,17 @@ namespace eval ::skinsGUI {
 		set select -1
 		set idx 0
 
+		label $w.getmore -text "[trans getmoreskins]" -fg #0000FF -cursor hand1
+
 		button $w.ok -text "[trans ok]" -command "::skinsGUI::SelectSkinOk $w" 
 		button $w.cancel -text "[trans cancel]" -command "::skinsGUI::SelectSkinCancel $w" 
 		checkbutton $w.preview -text "[trans preview]" -variable ::skin::preview_skin_change -onvalue 1 -offvalue 0
-
+		
+		pack $w.getmore -side left -padx 5
+	        bind $w.getmore <Enter> "$w.getmore configure -font sunderf"
+	        bind $w.getmore <Leave> "$w.getmore configure -font splainf"
+		bind $w.getmore <ButtonRelease> "launch_browser $::weburl/skins.php"			
+		
 		pack $w.ok  $w.cancel $w.preview -side right -pady 5 -padx 5
 
 		set the_skins [::skin::FindSkins]
