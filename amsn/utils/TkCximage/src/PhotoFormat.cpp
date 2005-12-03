@@ -463,6 +463,55 @@ void PhotoDisplayProcHook(
 	int height,
 	int drawableX,
 	int drawableY){
+
+
+  /* 
+   * The whole next block is used to prevent a bug with XGetImage
+   * that happens with Tcl/Tk before 8.4.9 that caused a BadMatch.
+   */
+  Window root_geo;
+  int x_geo, y_geo;
+  unsigned int drawableWidth_geo;
+  unsigned int drawableHeight_geo;
+  unsigned int bd_geo;
+  unsigned int depth_geo;
+  
+  // Make sure there's something to draw
+  if (width < 1 || height < 1) {
+    return;
+  }
+  
+  // Get the drawable's width and height and x and y
+  switch (XGetGeometry(display, drawable, &root_geo, &x_geo, &y_geo, 
+		       &drawableWidth_geo, &drawableHeight_geo, &bd_geo, &depth_geo)) {
+    
+  case BadDrawable:
+  case BadWindow:
+    Tcl_Panic("ClipSizeForDrawable: invalid drawable passed"); 
+    break;
+  }
+  
+  // Make sure we're not requesting a width or heigth more than allowed
+  if (width > drawableWidth_geo) {
+    width = drawableWidth_geo;
+  }
+  
+  if (height > drawableHeight_geo) {
+    height = drawableHeight_geo;
+  }
+  
+  // Make sure the coordinates are valid
+  if (drawableX < 0) {
+    drawableX = 0;
+  }
+  if (drawableY < 0) {
+    drawableY = 0;
+  }
+  
+  /*
+   * End of the fix
+   */
+
 	Tk_PhotoHandle handle = (Tk_PhotoHandle) *((void **) instanceData);
 	GifInfo* item=TkCxImage_lstGetItem(handle);
 	if (item != NULL){
@@ -473,6 +522,9 @@ void PhotoDisplayProcHook(
 			//fprintf(stderr, "Copied frame n°%u\n",item->CopiedFrame);
 		}
 	}
+
+	
+
 	
 	PhotoDisplayOriginal(instanceData,display,drawable,imageX,imageY,width,height,drawableX,drawableY);
 }
