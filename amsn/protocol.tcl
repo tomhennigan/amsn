@@ -1863,7 +1863,10 @@ namespace eval ::MSN {
 		#Get SB for that chatid, if it exists
 		set sb [SBFor $lowuser]
 
-		if { $sb == 0 } {
+		# Here we either have no SB, then we create one, or we have one but 
+		# when we call cmsn_reconnect, the SB got closed, so we have to recreate it
+
+		if { $sb == 0 || [catch {cmsn_reconnect $sb}] } {
 			#If no SB exists, get a new one and
 			#configure it
 			set sb [GetNewSB]
@@ -1876,10 +1879,11 @@ namespace eval ::MSN {
 			$sb configure -last_user $lowuser
 
 			AddSBFor $lowuser $sb
-			lappend sb_list "$sb"
+			lappend sb_list "$sb"	
+
+			# We call the cmsn_reconnect
+			cmsn_reconnect $sb
 		}
-		#Now we have a SB ready for reconnection
-		cmsn_reconnect $sb
 
 		return $lowuser
 	}
@@ -1995,19 +1999,17 @@ namespace eval ::MSN {
 	proc SBFor { chatid } {
 
 		variable sb_chatid
-
+		
 		if { [info exists sb_chatid($chatid)] } {
 			if { [llength $sb_chatid($chatid)] > 0 } {
-
+				
 				#Try to find a connected SB, return it and move to front
 				set idx -1
 				foreach sb $sb_chatid($chatid) {
 					incr idx
 					if {![catch {$sb cget -stat} res ]} {
 						if { "[$sb cget -stat]" == "o" } {
-
 							set sb_sock [$sb cget -sock]
-
 							if { "$sb_sock" != "" } {
 								if {$idx!=0} {
 									set sb_chatid($chatid) [lreplace $sb_chatid($chatid) $idx $idx]
