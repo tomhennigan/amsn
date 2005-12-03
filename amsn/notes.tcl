@@ -62,7 +62,7 @@ namespace eval ::notes {
   	 
   		toplevel $w
   		wm title $w "[trans note]"
-  		wm geometry $w 660x535+30+30
+  		wm geometry $w 660x676+30+30
   		wm protocol $w DELETE_WINDOW "::notes::Display_Notes_Close"		
 
 
@@ -208,7 +208,7 @@ namespace eval ::notes {
 			bind $w.right.contact.left.showhide <Button1-ButtonRelease> "::notes::ShowContact"
 			pack forget $w.contact
 			pack configure $w.right -side right -fill y -expand true
-			wm geometry $w 550x535
+			wm geometry $w 550x676
 		}
 		set ::notes::email $email
 		::notes::get_Note $email
@@ -440,7 +440,7 @@ namespace eval ::notes {
 
 		$w.right.note.txt configure -state normal
 		$w.right.subject.txt configure -state normal
-		$w.right.info.date configure -text "Edit the content of the subject field and the note field"
+		$w.right.info.date configure -text "[trans editcontent]"
 
 		pack forget $w.right.button.delete
 		pack forget $w.right.button.new
@@ -685,7 +685,7 @@ proc HideContact { } {
 	set w ".notemanager"
 	pack forget $w.contact
 	pack configure $w.right -side right -fill y -expand true
-	wm geometry $w 550x535
+	wm geometry $w 550x676
 	$w.right.contact.left.showhide configure -image show
 	bind $w.right.contact.left.showhide <Button1-ButtonRelease> "::notes::ShowContact"
 	
@@ -696,7 +696,7 @@ proc ShowContact { } {
 
 	set w ".notemanager"
 	pack configure $w.contact -side left -fill y
-	wm geometry $w 660x535
+	wm geometry $w 660x676
 	$w.right.contact.left.showhide configure -image hide
 	bind $w.right.contact.left.showhide <Button1-ButtonRelease> "::notes::HideContact"
 	
