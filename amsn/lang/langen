@@ -247,6 +247,7 @@ download Download
 downloadingtls Downloading TLS module from:\n $1
 editcustomstate Edit custom state
 edit Edit
+editcontent Edit the content of the subject field and the note field
 editnewstate New Personal Automessage State
 editprofile Edit Profile
 editstate Edit Existing Automessage State
