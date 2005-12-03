@@ -575,8 +575,8 @@ remembersetting Recordar esta selección
 removeempty Eliminar grupos vacíos de la lista de contactos
 removefromlist Borrar de esta lista
 rename Cambiar nombre
-reporting Generando Reporte
-report Reporte
+reporting Generando Informe
+report Informe
 required_version Imposible cargar este plugin. Este plugin requiere como mínimo aMSN $1 para funcionar
 reversed Invertido
 reverselist Lista Inversa(RL):
@@ -676,7 +676,7 @@ timeremaining Tiempo restante
 timestamp Estampa temporal
 timestamps Activar hora en los mensajes
 title aMSN
-tkerror1 Error abrupto de TK, Amsn tiene un fallo, porfavor reportelo dando click en el botón Reporte. Puedes dar click en Detalles para ver mas información sobre este error o click en el botón Ok para continuar usando Amsn
+tkerror1 Ha ocurrido un error de TK, Amsn tiene un fallo. Por favor, informenos haciendo click en el botón Informe. Puede hacer click en Detalles para ver mas información sobre este error o click en el botón Ok para continuar usando Amsn
 tkerror Se ha producido un error de TK, hay un fallo en amsn, por favor informanos. Para ello envía el archivo $1 a amsn-bugs@lists.sf.net
 tlsdowncompleted El archovo $1 se ha descargado en el directorio $2. Ahora debes descomprimirlo, compilarlo (si has bajado el código fuente) y instalarlo en $3.
 tlsexplain Carpeta donde se encuentra el módulo TLS para tcl. Si AMSN no lo encuentra,\npor favor especifícalo. (Necesario para la autentificación mediante SSL).
