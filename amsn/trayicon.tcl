@@ -53,22 +53,14 @@ proc trayicon_init {} {
 		winico taskbar add $wintrayicon -text "[trans offline]" -callback "taskbar_icon_handler %m %x %y"
 		set statusicon 1
 	} else {
-		set ext "[file join utils linux traydock libtray.so]"
-		if { ![file exists $ext] } {
+		if { [catch {package require libtray} res] } {
 			set systemtray_exist 0
-			puts "[trans traynotcompiled]"
+			puts "[trans traynotcompiled] : $res"
 			close_dock
 			return
 		}
 
-		if { $systemtray_exist == 0 && [UnixDock]} {
-			if { [catch {load $ext Tray}] }	{
-				close_dock
-				return
-			}
-	
-			set systemtray_exist [systemtray_exist]; #a system tray exist?
-		}
+		set systemtray_exist [systemtray_exist]; #a system tray exist?
 	}
 
 
@@ -470,18 +462,9 @@ proc loadTrayLib {} {
 		}
 
 	} elseif { [OnUnix] } {
-		#set file name of the lib
-		set ext "[file join utils linux traydock libtray.so]"
-		
-		#if the lib is not available, print an error on the console and return
-		if { ![file exists $ext] } {
-			puts "[trans traynotcompiled]"
-			return 0
-		}
-
 		#if there is a problem loading the lib, print the error on the console and return
-		if { [catch {load $ext Tray} errormsg] } {
-			puts "$errormsg"
+		if { [catch {package require libtray} errormsg] } {
+			puts "[trans traynotcompiled] : $errormsg"
 			return 0
 		}
 	
