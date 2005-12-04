@@ -43,7 +43,9 @@ appearance Appearance
 appearoff Appear offline
 areacode Area Code
 aretyping $1 are typing a message
+askcontactwebcam to ask for your contact's webcam, or 
 askeachtime Ask each time
+asksendingyourwebcam to ask for sending your own webcam
 askwebcam Ask this user to send his/her webcam
 author Author
 autoaccepted File transfer accepted automatically
@@ -140,6 +142,7 @@ clearlog2 Clear the history for all your contacts
 clearlog3 Clear All Logs
 clearlog Clear Log
 clearwebcamlogs Clear All Webcam logs
+clickhere Click Here
 clicktoadd Click the 'Add' button to add a new note
 clicktologin Click here to log in
 clientcaps Send x-clientcaps packet to others clients
@@ -729,6 +732,7 @@ useryourself You can't chat with yourself
 usesnack Use the Snack library (Tcl internal)
 verifyblocked Check for people blocking you
 version Version
+videoconversationrequest You just received a video conversation (bidirectional audio and video) request. This feature is not yet supported by aMSN and has been canceled. However, you can still use the standard webcam conversation.
 viewcontactsby View contacts by
 viewprofile View Profile
 view View

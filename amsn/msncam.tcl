@@ -1934,13 +1934,12 @@ namespace eval ::CAMGUI {
 		#WebcamIcon
 		::amsn::WinWriteIcon $chatid winwritecam 3 2
 		#Description of the problem
-		::amsn::WinWrite $chatid "[timestamp] You just received a video conversation (bidirectional audio and video) request. \
-			This feature is not yet supported by aMSN and has been canceled. However, you can still use the standard webcam conversation.\n" green
+		::amsn::WinWrite $chatid "[timestamp] [trans videoconversationrequest]\n" green
 		#Choices of action
-		::amsn::WinWriteClickable $chatid "Click Here" [list ::CAMGUI::AskWebcamAfterVideoInvitation $chatid] askwebcam$chatid
-		::amsn::WinWrite $chatid " to ask for your contact's webcam, or " green
-		::amsn::WinWriteClickable $chatid "Click Here" [list ::CAMGUI::SendInviteCamAfterVideoInvitation $chatid] sendwebcam$chatid	
-		::amsn::WinWrite $chatid " to ask for sending your own webcam" green
+		::amsn::WinWriteClickable $chatid "[trans clickhere]" [list ::CAMGUI::AskWebcamAfterVideoInvitation $chatid] askwebcam$chatid
+		::amsn::WinWrite $chatid " [trans askcontactwebcam]" green
+		::amsn::WinWriteClickable $chatid "[trans clickhere]" [list ::CAMGUI::SendInviteCamAfterVideoInvitation $chatid] sendwebcam$chatid	
+		::amsn::WinWrite $chatid " [trans asksendingyourwebcam]" green
 			
 	}
 	#After we clicked one time on Ask webcam invitaiton, disable the click here button in the chatwindow
