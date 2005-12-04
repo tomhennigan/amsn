@@ -496,7 +496,7 @@
 		<version>1.1</version>
 	</file>
 	<file>
-		<path>datas/mathematics/gdc.gif</path>
+		<path>datas/mathematics/gcd.gif</path>
 		<version>1.1</version>
 	</file>
 	<file>
@@ -516,11 +516,11 @@
 		<version>1.1</version>
 	</file>
 	<file>
-		<path>datas/mathematics/int_ext1.gif</path>
+		<path>datas/mathematics/int_ex1.gif</path>
 		<version>1.1</version>
 	</file>
 	<file>
-		<path>datas/mathematics/int_ext2.gif</path>
+		<path>datas/mathematics/int_ex2.gif</path>
 		<version>1.1</version>
 	</file>
 	<file>
@@ -744,7 +744,7 @@
 		<version>1.1</version>
 	</file>
 	<file>
-		<path>datas/symbols/lm.gif</path>
+		<path>datas/symbols/Im.gif</path>
 		<version>1.1</version>
 	</file>
 	<file>
@@ -752,7 +752,7 @@
 		<version>1.1</version>
 	</file>
 	<file>
-		<path>datas/symbols/backslash.gif</path>
+		<path>datas/symbols/aleph.gif</path>
 		<version>1.1</version>
 	</file>
 	<file>
@@ -773,6 +773,10 @@
 	</file>
 	<file>
 		<path>datas/symbols/asymp.gif</path>
+		<version>1.1</version>
+	</file>
+	<file>
+		<path>datas/symbols/backslash.gif</path>
 		<version>1.1</version>
 	</file>
 	<file>
@@ -856,7 +860,7 @@
 		<version>1.1</version>
 	</file>
 	<file>
-		<path>datas/symbols/doteg.gif</path>
+		<path>datas/symbols/doteq.gif</path>
 		<version>1.1</version>
 	</file>
 	<file>
@@ -888,7 +892,7 @@
 		<version>1.1</version>
 	</file>
 	<file>
-		<path>datas/symbols/geg.gif</path>
+		<path>datas/symbols/geq.gif</path>
 		<version>1.1</version>
 	</file>
 	<file>
@@ -920,7 +924,7 @@
 		<version>1.1</version>
 	</file>
 	<file>
-		<path>datas/symbols/leg.gif</path>
+		<path>datas/symbols/leq.gif</path>
 		<version>1.1</version>
 	</file>
 	<file>
@@ -1032,7 +1036,7 @@
 		<version>1.1</version>
 	</file>
 	<file>
-		<path>datas/symbols/simeg.gif</path>
+		<path>datas/symbols/simeq.gif</path>
 		<version>1.1</version>
 	</file>
 	<file>
@@ -1056,7 +1060,7 @@
 		<version>1.1</version>
 	</file>
 	<file>
-		<path>datas/symbols/sqsuqseteq.gif</path>
+		<path>datas/symbols/sqsupseteq.gif</path>
 		<version>1.1</version>
 	</file>
 	<file>
@@ -1068,7 +1072,7 @@
 		<version>1.1</version>
 	</file>
 	<file>
-		<path>datas/symbols/subseteg.gif</path>
+		<path>datas/symbols/subseteq.gif</path>
 		<version>1.1</version>
 	</file>
 	<file>
