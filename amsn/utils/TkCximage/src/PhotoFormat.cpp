@@ -464,6 +464,10 @@ void PhotoDisplayProcHook(
 	int drawableX,
 	int drawableY){
 
+#ifdef _XLIB_H
+#ifndef MAC_TCL
+#ifndef WIN32
+#if TK_MAJOR_VERSION == 8 && TK_MINOR_VERSION == 4 && TK_RELEASE_SERIAL < 9
 
   /* 
    * The whole next block is used to prevent a bug with XGetImage
@@ -481,7 +485,6 @@ void PhotoDisplayProcHook(
     return;
   }
   
-  #ifdef X_PROTOCOL
   // Get the drawable's width and height and x and y
   switch (XGetGeometry(display, drawable, &root_geo, &x_geo, &y_geo, 
 		       &drawableWidth_geo, &drawableHeight_geo, &bd_geo, &depth_geo)) {
@@ -512,7 +515,12 @@ void PhotoDisplayProcHook(
   /*
    * End of the fix
    */
-  #endif
+
+#endif
+#endif
+#endif
+#endif
+
 
 	Tk_PhotoHandle handle = (Tk_PhotoHandle) *((void **) instanceData);
 	GifInfo* item=TkCxImage_lstGetItem(handle);

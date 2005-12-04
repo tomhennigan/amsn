@@ -626,7 +626,7 @@ namespace eval ::MSNCAM {
 							AuthSuccessfull $sid $sock
 						}
 					} else {
-						status_log "ERROR2 : $data - [eof $sock] - [nbgets $sock] - [nbgets $sock]\n" red
+						status_log "ERROR2 : $data - [catch {eof $sock}] - [nbgets $sock] - [nbgets $sock]\n" red
 						AuthFailed $sid $sock
 					}
 				}

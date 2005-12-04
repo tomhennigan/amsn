@@ -6221,6 +6221,7 @@ namespace eval ::MSN6FT {
 		set slpdata [::MSNP2P::MakeMSNSLP "OK" $dest [::config::getKey login] $branchid 1 $callid 0 2 "TCPv1" "$listening" "$nonce" "$clientip"\
 				 "$port" "$localip" "$port"]
 
+		status_log "sending 200 OK packet for FT"
 		::MSNP2P::SendPacket [::MSN::SBFor $chatid] [::MSNP2P::MakePacket $sid $slpdata 1]
 
 	}
