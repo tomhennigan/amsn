@@ -1,0 +1,34 @@
+<MENU>
+	<ITEM>
+		<DIR>styles</DIR>
+		<TITLE>Styles</TITLE>
+	</ITEM>
+	<ITEM>
+		<DIR>greek_letters</DIR>
+		<TITLE>Greek Letters</TITLE>
+	</ITEM>
+	<ITEM>
+		<DIR>symbols</DIR>
+		<TITLE>Symbols</TITLE>
+	</ITEM>
+	<ITEM>
+		<DIR>spaces</DIR>
+		<TITLE>Spaces</TITLE>
+	</ITEM>
+	<ITEM>
+		<DIR>arrows</DIR>
+		<TITLE>Arrows</TITLE>
+	</ITEM>
+	<ITEM>
+		<DIR>accents</DIR>
+		<TITLE>Accents</TITLE>
+	</ITEM>
+	<ITEM>
+		<DIR>mathematics</DIR>
+		<TITLE>Mathematics</TITLE>
+	</ITEM>
+	<ITEM>
+		<DIR>other</DIR>
+		<TITLE>Other Examples</TITLE>
+	</ITEM>
+</MENU>

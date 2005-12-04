@@ -1,0 +1,31 @@
+<PART>
+	<label>Spaces are shown between "=" in order to see how large they are.(First one has no espace)</label>
+	<item>
+		<tex>$==$</tex>
+		<img>espace0</img>
+	</item>
+	<item>
+		<tex>$=\,=$</tex>
+		<img>espace1</img>
+	</item>
+	<item>
+		<tex>$=\:=$</tex>
+		<img>espace2</img>
+	</item>
+	<item>
+		<tex>$=\;=$</tex>
+		<img>espace3</img>
+	</item>
+	<item>
+		<tex>$=\!=$</tex>
+		<img>espace4</img>
+	</item>
+	<item>
+		<tex>$=\quad=$</tex>
+		<img>espace5</img>
+	</item>
+	<item>
+		<tex>$=\qquad=$</tex>
+		<img>espace6</img>
+	</item>
+</PART>

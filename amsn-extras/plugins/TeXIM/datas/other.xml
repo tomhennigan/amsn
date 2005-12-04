@@ -1,0 +1,21 @@
+<PART>
+	<item>
+		<tex>$$$\left[ \begin{array}{cc} a & b \\ c & d \end{array} \right]$$$</tex>
+		<img>ex_det</img>
+	</item><item>
+		<tex>$$$\left( \begin{array}{ccc} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1\\ \end{array} \right)$$$</tex>
+		<img>ex_mat</img>
+	</item>
+	<item>
+		<tex>$$$ {\mathcal A} = \left( \begin{array}{cccc} a_{11} & a_{12} & \cdots & a_{1n} \\ a_{21} & a_{22} & \cdots & a_{2n} \\ \vdots & \vdots & \ddots & \vdots \\ a_{m1} & a_{m2} & \cdots & a_{mn} \\ \end{array} \right)$$$</tex>
+		<img>ex_mat2</img>
+	</item>
+	<item>
+		<tex>$$\sum_{ \begin{array}{c} \scriptstyle i>0 \\ \scriptstyle j>0 \\ \end{array}} a_{ij}$$</tex>
+		<img>ex_sum</img>
+	</item>
+	<item>
+		<tex>$$$\begin{eqnarray*}\int_2^3 x \, dx & = & \left[ \frac{x^2}{2} \right]_2^3  \\ & = & \frac{3^2}{2} - \frac{2^2}{2} \\ & = & \frac{9}{2} - \frac{4}{2} \\ & = & \frac{5}{2} \end{eqnarray*}$$$</tex>
+		<img>ex_equations</img>
+	</item>
+</PART>
