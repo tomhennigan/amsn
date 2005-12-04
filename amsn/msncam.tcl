@@ -1918,6 +1918,73 @@ namespace eval ::CAMGUI {
 
 	}
 	
+	proc GotVideoConferenceInvitation {chatid} {			
+		SendMessageFIFO [list ::CAMGUI::GotVideoConferenceInvitationWrapped $chatid] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
+	}
+	
+	
+	#Show a message when we receive a video-conference invitation to ask the user if he wants
+	#To ask to receive/send webcam because video-conference is not supported
+	proc GotVideoConferenceInvitationWrapped {chatid} {
+		
+		#Grey line
+		::amsn::WinWrite $chatid "\n" green
+		::amsn::WinWriteIcon $chatid greyline 3
+		::amsn::WinWrite $chatid "\n" green
+		#WebcamIcon
+		::amsn::WinWriteIcon $chatid winwritecam 3 2
+		#Description of the problem
+		::amsn::WinWrite $chatid "[timestamp] You just received a video conversation (bidirectional audio and video) request. \
+			This feature is not yet supported by aMSN and has been canceled. However, you can still use the standard webcam conversation.\n" green
+		#Choices of action
+		::amsn::WinWriteClickable $chatid "Click Here" [list ::CAMGUI::AskWebcamAfterVideoInvitation $chatid] askwebcam$chatid
+		::amsn::WinWrite $chatid " to ask for your contact's webcam, or " green
+		::amsn::WinWriteClickable $chatid "Click Here" [list ::CAMGUI::SendInviteCamAfterVideoInvitation $chatid] sendwebcam$chatid	
+		::amsn::WinWrite $chatid " to ask for sending your own webcam" green
+			
+	}
+	#After we clicked one time on Ask webcam invitaiton, disable the click here button in the chatwindow
+	proc AskWebcamAfterVideoInvitation {chatid } {
+	
+		#Get the chatwindow name
+		set win_name [::ChatWindow::For $chatid]
+		if { [::ChatWindow::For $chatid] == 0} {
+			return 0
+		}
+	
+		#Disable items in the chatwindow
+		[::ChatWindow::GetOutText ${win_name}] tag configure askwebcam$chatid \
+			-foreground #808080 -font bplainf -underline false
+		[::ChatWindow::GetOutText ${win_name}] tag bind askwebcam$chatid <Enter> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind askwebcam$chatid <Leave> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind askwebcam$chatid <Button1-ButtonRelease> ""
+		
+		[::ChatWindow::GetOutText ${win_name}] conf -cursor left_ptr
+		
+		#Send the invitation to ask webcam
+		::MSNCAM::AskWebcamQueue $chatid
+	}
+	
+	proc SendInviteCamAfterVideoInvitation {chatid} {
+		
+		#Get the chatwindow name
+		set win_name [::ChatWindow::For $chatid]
+		if { [::ChatWindow::For $chatid] == 0} {
+			return 0
+		}
+	
+		#Disable items in the chatwindow
+		[::ChatWindow::GetOutText ${win_name}] tag configure sendwebcam$chatid \
+			-foreground #808080 -font bplainf -underline false
+		[::ChatWindow::GetOutText ${win_name}] tag bind sendwebcam$chatid <Enter> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind sendwebcam$chatid <Leave> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind sendwebcam$chatid <Button1-ButtonRelease> ""
+		
+		[::ChatWindow::GetOutText ${win_name}] conf -cursor left_ptr
+		#Send the invitation to send webcam
+		::MSNCAM::SendInviteQueue $chatid
+	}
+	
 	proc InvitationAccepted { chatid dest branchuid cseq uid sid producer} {
 		#Get the chatwindow name
 		set win_name [::ChatWindow::For $chatid]
@@ -2038,7 +2105,7 @@ namespace eval ::CAMGUI {
 		set w .webcamwizard
 		if {[winfo exists $w]} {
 			raise $w
-			return 1
+			return
 		}
 		abook::getIPConfig
 		toplevel $w

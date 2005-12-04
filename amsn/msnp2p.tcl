@@ -553,17 +553,32 @@ namespace eval ::MSNP2P {
 						if { $eufguid == "4BD96FC0-AB17-4425-A14A-439185962DC8" } {
 							set producer 0
 						} else {
-							set producer 1
+								set producer 1
 						}
 
 						status_log "we got an webcam invitation" red
-						
-						SessionList set $sid [list 0 0 0 $dest 0 $uid 0 "webcam" "" "$branchuid"]
 
-						::CAMGUI::AcceptOrRefuse $chatid $dest $branchuid $cseq $uid $sid $producer
+						set context [base64::decode $context]
+						set context [FromUnicode $context]
+
 						#answerFtInvite $sid $chatid $branchuid $conntype
 						# Let's send an ACK
 						SendPacket [::MSN::SBFor $chatid] [MakeACK $sid 0 $cTotalDataSize $cId $cAckId]
+
+						SessionList set $sid [list 0 0 0 $dest 0 $uid 0 "webcam" "" "$branchuid"]
+						
+						if { $context != "\{B8BE70DE-E2CA-4400-AE03-88FF85B9F4E8\}" } {
+							status_log "Received a video conferenced invitation.. we do not support this"
+							::CAMGUI::InvitationRejected $chatid $sid $branchuid $uid
+							#::MSNCAM::RejectFT $chatid $sid $branchuid $uid
+							::CAMGUI::GotVideoConferenceInvitation $chatid
+							return
+						}
+
+						
+
+						::CAMGUI::AcceptOrRefuse $chatid $dest $branchuid $cseq $uid $sid $producer
+
 						status_log "MSNP2P | $sid $dest -> Sent ACK for INVITE\n" red
 						return
 					}
