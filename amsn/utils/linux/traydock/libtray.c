@@ -205,7 +205,7 @@ DrawIcon (ClientData clientData)
 	char cmdBuffer[1024];
 
 	XGetGeometry(display, Tk_WindowId(icon->win), &r, &x, &y, &w, &h, &b, &d);
-	
+	XClearWindow(display, Tk_WindowId(icon->win));
 
 	if (((icon->width != w) || (icon->height != h) || (icon->mustUpdate)) && (icon->cmdCallback[0] != '\0')) {
 		snprintf(cmdBuffer,sizeof(cmdBuffer),"%s %u %u",icon->cmdCallback,w,h);
