@@ -9,5 +9,5 @@
 	<plugin_namespace>TeXIM</plugin_namespace>
 	<init_procedure>Init</init_procedure>
 	<deinit_procedure>DeInit</deinit_procedure>
-	<cvs_version>1.11</cvs_version>
+	<cvs_version>1.9</cvs_version>
 </plugin>
