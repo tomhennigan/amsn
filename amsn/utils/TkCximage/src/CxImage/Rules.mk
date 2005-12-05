@@ -1,13 +1,13 @@
-OBJS-Cximage := $(tkcximage_dir)/src/CxImage/ximadsp.o  $(tkcximage_dir)/src/CxImage/ximaexif.o  \
-		$(tkcximage_dir)/src/CxImage/ximagif.o  $(tkcximage_dir)/src/CxImage/ximainfo.o  \
-		$(tkcximage_dir)/src/CxImage/ximajpg.o  $(tkcximage_dir)/src/CxImage/ximalyr.o   \
-		$(tkcximage_dir)/src/CxImage/ximapng.o  $(tkcximage_dir)/src/CxImage/ximatga.o   \
-		$(tkcximage_dir)/src/CxImage/ximatran.o $(tkcximage_dir)/src/CxImage/ximabmp.o  \
-		$(tkcximage_dir)/src/CxImage/ximaenc.o   $(tkcximage_dir)/src/CxImage/ximage.o   \
-		$(tkcximage_dir)/src/CxImage/ximahist.o  $(tkcximage_dir)/src/CxImage/ximaint.o \
-		$(tkcximage_dir)/src/CxImage/ximalpha.o $(tkcximage_dir)/src/CxImage/ximapal.o   \
-		$(tkcximage_dir)/src/CxImage/ximasel.o  $(tkcximage_dir)/src/CxImage/ximath.o    \
-		$(tkcximage_dir)/src/CxImage/xmemfile.o
+OBJS-Cximage := $(tkcximage_dir)/src/CxImage/ximadsp.cpp.o  $(tkcximage_dir)/src/CxImage/ximaexif.cpp.o  \
+		$(tkcximage_dir)/src/CxImage/ximagif.cpp.o  $(tkcximage_dir)/src/CxImage/ximainfo.cpp.o  \
+		$(tkcximage_dir)/src/CxImage/ximajpg.cpp.o  $(tkcximage_dir)/src/CxImage/ximalyr.cpp.o   \
+		$(tkcximage_dir)/src/CxImage/ximapng.cpp.o  $(tkcximage_dir)/src/CxImage/ximatga.cpp.o   \
+		$(tkcximage_dir)/src/CxImage/ximatran.cpp.o $(tkcximage_dir)/src/CxImage/ximabmp.cpp.o  \
+		$(tkcximage_dir)/src/CxImage/ximaenc.cpp.o   $(tkcximage_dir)/src/CxImage/ximage.cpp.o   \
+		$(tkcximage_dir)/src/CxImage/ximahist.cpp.o  $(tkcximage_dir)/src/CxImage/ximaint.cpp.o \
+		$(tkcximage_dir)/src/CxImage/ximalpha.cpp.o $(tkcximage_dir)/src/CxImage/ximapal.cpp.o   \
+		$(tkcximage_dir)/src/CxImage/ximasel.cpp.o  $(tkcximage_dir)/src/CxImage/ximath.cpp.o    \
+		$(tkcximage_dir)/src/CxImage/xmemfile.cpp.o
 
 TARGETS-Cximage := $(tkcximage_dir)/src/CxImage/libCxImage.a
 

@@ -43,6 +43,7 @@ exec wish $0
 ############################################################
 ### Hide the window until it has been fully displayed
 ############################################################
+package require Tk
 wm state . withdraw
 
 
