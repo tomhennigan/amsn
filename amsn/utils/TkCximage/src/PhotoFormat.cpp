@@ -464,10 +464,8 @@ void PhotoDisplayProcHook(
 	int drawableX,
 	int drawableY){
 
-#ifdef _XLIB_H
 #ifndef MAC_TCL
 #ifndef WIN32
-#if TK_MAJOR_VERSION == 8 && TK_MINOR_VERSION == 4 && TK_RELEASE_SERIAL < 9
 
   /* 
    * The whole next block is used to prevent a bug with XGetImage
@@ -516,8 +514,6 @@ void PhotoDisplayProcHook(
    * End of the fix
    */
 
-#endif
-#endif
 #endif
 #endif
 
