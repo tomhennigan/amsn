@@ -9,7 +9,7 @@ namespace eval ::glogs {
 	################################################
 	# Initialization proc for the plugin.
 	proc InitPlugin { dir } {
-		if {[catch {package require mime}]}Ê{
+		if {[catch {package require mime}]} {
 			msg_box "You don't have mime package. To get it, install TclLib package. http://www.tcl.tk/software/tcllib/"
    			return 0
 		}
