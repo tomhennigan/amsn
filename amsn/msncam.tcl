@@ -1556,22 +1556,25 @@ namespace eval ::CAMGUI {
 				}
 				
 				if { ![info exists ::webcam_settings_bug] || $::webcam_settings_bug == 0} {
-					set init_b [::Capture::GetBrightness $grabber]
-					set init_c [::Capture::GetContrast $grabber]
-					set init_h [::Capture::GetHue $grabber]
-					set init_co [::Capture::GetColour $grabber]
-					
-					set settings [::config::getKey "webcam$dev:$channel" "$init_b:$init_c:$init_h:$init_co"]
+					set settings [::config::getKey "webcam$dev:$channel" ":::"]
 					set settings [split $settings ":"]
-					set init_b [lindex $settings 0]
-					set init_c [lindex $settings 1]
-					set init_h [lindex $settings 2]
-					set init_co [lindex $settings 3]
-				
-					::Capture::SetBrightness $grabber $init_b
-					::Capture::SetContrast $grabber $init_c
-					::Capture::SetHue $grabber $init_h
-					::Capture::SetColour $grabber $init_co
+					set set_b [lindex $settings 0]
+					set set_c [lindex $settings 1]
+					set set_h [lindex $settings 2]
+					set set_co [lindex $settings 3]
+
+					if {[string is integer $set_b]} {
+						::Capture::SetBrightness $grabber $set_b
+					}
+					if {[string is integer $set_c]} {
+						::Capture::SetContrast $grabber $set_c
+					}
+					if {[string is integer $set_h]} {
+						::Capture::SetHue $grabber $set_h
+					}
+					if {[string is integer $set_co]} {
+						::Capture::SetColour $grabber $set_co
+					}
 				}
 				
 				setObjOption $sid grab_proc "Grab_Linux"
@@ -2377,22 +2380,25 @@ namespace eval ::CAMGUI {
 		set ::grabbers($::CAMGUI::webcam_preview) $windows
 
 		if { ![info exists ::webcam_settings_bug] || $::webcam_settings_bug == 0} {
-			set init_b [::Capture::GetBrightness $::CAMGUI::webcam_preview]
-			set init_c [::Capture::GetContrast $::CAMGUI::webcam_preview]
-			set init_h [::Capture::GetHue $::CAMGUI::webcam_preview]
-			set init_co [::Capture::GetColour $::CAMGUI::webcam_preview]
-			
-			set sets [::config::getKey "webcam$device:$channel" "$init_b:$init_c:$init_h:$init_co"]
+			set sets [::config::getKey "webcam$device:$channel" ":::"]
 			set sets [split $sets ":"]
-			set init_b [lindex $sets 0]
-			set init_c [lindex $sets 1]
-			set init_h [lindex $sets 2]
-			set init_co [lindex $sets 3]
-			
-			::Capture::SetBrightness $::CAMGUI::webcam_preview $init_b
-			::Capture::SetContrast $::CAMGUI::webcam_preview $init_c
-			::Capture::SetHue $::CAMGUI::webcam_preview $init_h
-			::Capture::SetColour $::CAMGUI::webcam_preview $init_co
+			set set_b [lindex $sets 0]
+			set set_c [lindex $sets 1]
+			set set_h [lindex $sets 2]
+			set set_co [lindex $sets 3]
+
+			if {[string is integer $set_b]} {
+				::Capture::SetBrightness $::CAMGUI::webcam_preview $set_b
+			}
+			if {[string is integer $set_c]} {
+				::Capture::SetContrast $::CAMGUI::webcam_preview $set_c
+			}
+			if {[string is integer $set_h]} {
+				::Capture::SetHue $::CAMGUI::webcam_preview $set_h
+			}
+			if {[string is integer $set_co]} {
+				::Capture::SetColour $::CAMGUI::webcam_preview $set_co
+			}
 		}
 
 		$settings configure -command "$preview_w configure -image \"\"; ::CAMGUI::ShowPropertiesPage $::CAMGUI::webcam_preview $img; status_log \"Img is $img\"; $preview_w configure -image $img"
@@ -2490,23 +2496,34 @@ status_log "webcamDevice=$device:$channel" green
 
 		lappend windows $window
 		set ::grabbers($capture_fd) $windows
-		
-		set init_b [::Capture::GetBrightness $capture_fd]
-		set init_c [::Capture::GetContrast $capture_fd]
-		set init_h [::Capture::GetHue $capture_fd]
-		set init_co [::Capture::GetColour $capture_fd]
-		
-		set settings [::config::getKey "webcam$device:$channel" "$init_b:$init_c:$init_h:$init_co"]
+
+
+		set settings [::config::getKey "webcam$device:$channel" ":::"]
 		set settings [split $settings ":"]
-		set init_b [lindex $settings 0]
-		set init_c [lindex $settings 1]
-		set init_h [lindex $settings 2]
-		set init_co [lindex $settings 3]
+		set set_b [lindex $settings 0]
+		set set_c [lindex $settings 1]
+		set set_h [lindex $settings 2]
+		set set_co [lindex $settings 3]
+
+		if {[string is integer $set_b]} {
+			::Capture::SetBrightness $capture_fd $set_b
+		}
+		if {[string is integer $set_c]} {
+			::Capture::SetContrast $capture_fd $set_c
+		}
+		if {[string is integer $set_h]} {
+			::Capture::SetHue $capture_fd $set_h
+		}
+		if {[string is integer $set_co]} {
+			::Capture::SetColour $capture_fd $set_co
+		}
+
+
 		
-		::Capture::SetBrightness $capture_fd $init_b
-		::Capture::SetContrast $capture_fd $init_c
-		::Capture::SetHue $capture_fd $init_h
-		::Capture::SetColour $capture_fd $init_co
+		set set_b [::Capture::GetBrightness $capture_fd]
+		set set_c [::Capture::GetContrast $capture_fd]
+		set set_h [::Capture::GetHue $capture_fd]
+		set set_co [::Capture::GetColour $capture_fd]
 		
 
 		destroy $window
@@ -2525,8 +2542,8 @@ status_log "webcamDevice=$device:$channel" green
 		frame $buttons -relief sunken -borderwidth 3
 		status_log "::CAMGUI::Properties_OkLinux $window $capture_fd $device $channel"
 		button $buttons.ok -text "[trans ok]" -command "::CAMGUI::Properties_OkLinux $window $capture_fd {$device} $channel"
-		button $buttons.cancel -text "[trans cancel]" -command "::CAMGUI::Properties_CancelLinux $window $capture_fd $init_b $init_c $init_h $init_co"
-		wm protocol $window WM_DELETE_WINDOW "::CAMGUI::Properties_CancelLinux $window $capture_fd $init_b $init_c $init_h $init_co"
+		button $buttons.cancel -text "[trans cancel]" -command "::CAMGUI::Properties_CancelLinux $window $capture_fd $set_b $set_c $set_h $set_co"
+		wm protocol $window WM_DELETE_WINDOW "::CAMGUI::Properties_CancelLinux $window $capture_fd $set_b $set_c $set_h $set_co"
 
 
 		pack $buttons.ok $buttons.cancel -side left
@@ -2542,10 +2559,10 @@ status_log "webcamDevice=$device:$channel" green
 		pack $preview $buttons -side top
 
 
-		$slides.b set $init_b
-		$slides.c set $init_c
-		$slides.h set $init_h
-		$slides.co set $init_co
+		$slides.b set $set_b
+		$slides.c set $set_c
+		$slides.h set $set_h
+		$slides.co set $set_co
 
 		return $window
 
@@ -3434,7 +3451,7 @@ status_log "$device"
 		}
 		if {[string is integer $set_co]} {
 				set color $set_co
-		}	
+		}
 		
 		#Set 'm	
 		::Capture::SetBrightness $grabber $brightness
