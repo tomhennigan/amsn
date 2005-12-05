@@ -964,7 +964,7 @@ namespace eval ::amsnplus {
 					set strlen [string length $msg]
 					set customfont [list $font $style $color]
 					::amsn::WinWrite $chatid $str "user" $customfont
-					if {$new_color < 68} {
+					if {$new_color < 68 && $new_color >= 0} {
 						set color [::amsnplus::getColor $new_color $color]
 					}
 				#(rrr,ggg,bbb) format
