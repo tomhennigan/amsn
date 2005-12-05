@@ -3439,7 +3439,8 @@ proc cmsn_draw_main {} {
 	.main_menu.helping add separator
 
 	.main_menu.helping add command -label "[trans faq]" \
-			-command "::amsn::showHelpFileWindow FAQ [list [trans faq]]"
+	    -command {launch_browser "http://amsn.sourceforge.net/wiki/tiki-index.php?page=Frequently+Asked+Questions"}
+    
 	.main_menu.helping add command -label "[trans onlinehelp]" \
 			-command "launch_browser http://amsn.sourceforge.net/wiki/tiki-index.php?"
 
