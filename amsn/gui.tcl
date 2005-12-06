@@ -3438,8 +3438,9 @@ proc cmsn_draw_main {} {
 			-command "::amsn::showHelpFileWindow HELP [list [trans helpcontents]]"
 	.main_menu.helping add separator
 
+	set lang [::config::getGlobalKey language]
 	.main_menu.helping add command -label "[trans faq]" \
-	    -command {launch_browser "http://amsn.sourceforge.net/wiki/tiki-index.php?page=Frequently+Asked+Questions"}
+	    -command "launch_browser \"http://amsn.sourceforge.net/faq.php?lang=$lang\""
     
 	.main_menu.helping add command -label "[trans onlinehelp]" \
 			-command "launch_browser http://amsn.sourceforge.net/wiki/tiki-index.php?"
