@@ -696,7 +696,7 @@ truncatenames1 Cortar apodos más largos que el ancho de la ventana en títulos y 
 truncatenames2 Cortar apodos más largos que el ancho de la ventana en las conversaciones
 truncatenicks Truncar apodos más largos que el ancho de la ventana
 twonewmail $1 mensajes nuevos en bandeja de entrada
-type Escribe
+type Tipo
 unblock Admitir
 unknown Desconocido
 unload Deshabilitar
