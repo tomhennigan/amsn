@@ -18,7 +18,7 @@ namespace eval ::sayit {
 
 		::plugins::RegisterPlugin sayit
 		::plugins::RegisterEvent sayit chat_msg_received newmessage
-		if { [string equal $::version "0.95b"] } {
+		if { [::plugins::CheckRequirements "0.95"] } {
 			::plugins::RegisterEvent sayit ContactListColourBarDrawn draw
 		}
 
@@ -37,7 +37,7 @@ namespace eval ::sayit {
 			[list str "Path to festival (Linux)"  linpath] \
 			[list bool "Sound server running (Linux)" snd_server_lin] \
 			[list bool "Don't say message for focussed windows" notonfocus] \
-			[list bool "Show switch in contactlist (need 0.95b)" showswitch] \
+			[list bool "Show switch in contactlist (need 0.95)" showswitch] \
 		]
 	}
 

@@ -11,7 +11,7 @@ Karel Demeyer (Linux)</author>
 	<plugin_namespace>sayit</plugin_namespace>
 	<init_procedure>InitPlugin</init_procedure>
 	
-	<cvs_version>1.7</cvs_version>
+	<cvs_version>1.10</cvs_version>
 	
 	<file>
 		<path>winsayit.dll</path>
