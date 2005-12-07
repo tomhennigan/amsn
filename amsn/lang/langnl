@@ -44,6 +44,8 @@ appearoff Offline weergeven
 areacode Netnummer
 aretyping $1 zijn bezig met typen
 askeachtime Altijd vragen wat er moet gebeuren
+askcontactwebcam om je contact te vragen of jij zijn/haar webcambeeld mag zien.
+asksendingyourwebcam om hem/haar uit te nodigen om jou webcambeeld te bekijken
 askwebcam Vraag deze gebruiker of je zijn/haar webcam mag bekijken
 author Auteur
 autoaccepted Bestandsoverdracht automatisch geaccepteerd
@@ -133,13 +135,14 @@ choosechannel Kies een kanaal
 choosecontact Kies een contact uit de lijst
 choosedevice Kies een apparaat
 choosefontcolor Tekstkleur
-chooseskin Selecteer de skin die je wilt gebruiken
+chooseskin Kies de skin die je wilt gebruiken
 ch_to_state Activeer nieuwe status
 clear Wissen
 clearlog2 Verwijder de geschiedenis voor al je contacten
 clearlog3 Logboeken wissen
 clearlog Logboek legen
 clearwebcamlogs Webcamsessies wissen
+clickhere Klik hier
 clicktoadd Klik op de knop 'Toevoegen' voor een nieuwe notitie
 clicktologin Klik hier om je aan te melden
 clientcaps Stuur x-clientcaps pakketje naar andere clients
@@ -246,6 +249,7 @@ dontshow Niet weergeven
 download Downloaden
 downloadingtls Bezig met downloaden van TLS vanaf:\n $1
 edit Bewerken
+editcontent Bewerk de inhoud van de velden 'Titel' en 'Notitie'
 editcustomstate Wijzig aangepaste status
 editnewstate Persoonlijke status toevoegen
 editprofile Bewerk profiel
@@ -304,6 +308,7 @@ ftrejectedby $1 weigerde de overdracht van '$2'.
 ftsendinvitation De uitnodiging voor de overdracht van het bestand '$2' ($3 bytes) is verstuurd naar $1
 fullcontactlist Sorry, je contactenlijst is vol. Je moet eerst iemand verwijderen voordat je weer iemand kunt toevoegen.
 getdisppic De schermafbeelding van anderen weergeven tijdens gesprekken
+getmoreskins Klik hier voor meer skins!
 globalcontainer Meerdere gesprekken
 globalnicktitle Algemene schermnaam
 globalnick Voer een patroon in dat gebruikt wordt om een schermnaam te vormen voor al je contacten. Je kunt de volgende variabelen opnemen: \$user_login voor het e-mail adres van de contact, \$nick voor zijn schermnaam en \$customnick voor zijn aangepaste schermnaam.
@@ -586,6 +591,7 @@ rename Hernoemen
 report Foutrapport versturen
 reporting Foutrapport wordt verstuurd
 required_version Kan de plugin niet laden, omdat die minimaal aMSN $1 nodig heeft om te werken.
+restartforskin Let op: Het kan zo zijn dat je aMSN eerst moet herstarten voordat de skin correct wordt weergegeven.
 reversed Aflopend
 reverselist [RL] Omgekeerde lijst
 rightback Ben zo terug
@@ -726,6 +732,7 @@ userproperties Eigenschappen van $1
 useryourself Je kunt geen gesprek met jezelf starten
 verifyblocked Controleer wie jou blokkeren
 version Versie
+videoconversationrequest Je hebt een uitnodiging ontvangen voor een video-conversatie (wederzijds geluid en beeld). Helaas ondersteund aMSN deze functie nog niet, de uitnodiging is daarom automatisch geweigerd. Je kunt de standaard webcam functie echter gewoon gebruiken.
 view Beeld
 viewcontactsby Contacten weergeven met
 viewprofile Profiel weergeven

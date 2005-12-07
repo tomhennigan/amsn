@@ -637,7 +637,6 @@ tabbedglobal Leiho bakar bat kontaktu guztientzat
 tabbedgroups Leiho bakar bat talde bateko kontaktu guztientzat
 tabbed Tabbed Windows
 tabtitlenick Erakutsi nick-a e-postaren ordez interguneetan
-takesnapshot Pantailari argazkia atera
 temp_state Ez gorde (Behin behineko egoera, AMSN ixterakoan galduko dena)
 textsize Testuaren tamaina
 thismonth Hilabete hau
@@ -689,7 +688,6 @@ view Ikuspegia
 viewprofile Profila ikusi
 webcamhistory Ikusi Webcam saioak
 webcaminvite $1-k webcam sesio bat hastera gonbidatu zaitu, baina aMSN-k ez du posibilitate hau soportatzen.
-webcamshot Webcam argazkia
 whatsize Eskatu duzun irudia ez dago erakusteko tamaina normalean\nsize (96x96)? Irudi hau ze tamainan erakustea gustatuko litzaizuke?
 willjoin $1 berriketan sartzera itxaroten
 winkreceived $1-tik Wink bat jaso duzu. Ezaugarri hau aMSN-n ez dago momentuz.
@@ -710,5 +708,59 @@ youblocked Honako honek blokeatu zaitu:
 yousay Zuk diozu
 youwant Zuk itxaroten duzu
 zoom Zooma
-aboutamsn Alvaro's Messengerrari buruz
-badwebcam ezin da web kameraren irudia ikusi. zihurtatu zure web kamera pistuta eta instalatuta dagoelaz.
+aboutamsn AMSN-ren inguruan
+badwebcam Webcam-aren irudia ezin dut bistaratu. Egiaztatu ondo konektatuta eta instalatuta dagoela.
+brightness Argitasuna
+bugerror Parkatu baina akatsen datubasera konektatzerakoan arazo bat egon da. Mesedez, egiaztatu zure Internet konexioa.
+cagreement Ixilpeko Akordioa
+captureextloaded -$1- kaptura luzapenakargaturik
+captureextnotloaded -$1- kaptura luzapena ez dago kargaturik, konpilatu behar duzu lehenago
+captureproperties Webkameraren irudiaren xehetasunak
+changevideosettings Bideo xehetasunak aldatu
+channels Kanalak
+choosechannel Kanal bat aukeratu mesedez
+choosedevice Gailu bat aukeratu mesedez
+color Kolorea
+contrast Contrast
+cutimagebox Erabili nahi duzun irudiaren partea hautatu, tamainua aldatzen eta hautaketa-kutxa mugitzen
+cutimageboxreset  Hautaketa-kutxaren tamaina berrezarri honetara:
+details Xehetasunak
+devicebusy $1 gailua okupatuta
+devices Gailuak
+done Eginda
+enterbugdesc Egiten zebiltzanaren deskribaketa sartu, guri akatsa erreproduzitzen laguntzeko:
+firewalled Suebaki edo enrutatzaile baten atzean zaude
+gotink $1(e)-k tinta bidaltzen dizu.
+hue Ñabardura
+huge Oso haundia
+ignore Ezikusi
+large Haundia
+listening Entzuten
+nodevices Ez daukazu gailurik instalaturik
+onlinehelp Online laguntza
+portswellconfigured Zure atakak ondo konfiguraturik daude
+pwcdriver pwc kontrolatzailea erabiltzen zabiltza
+report Informatu
+reporting Informatzen
+sendemail Nire eposta helbidea bidali, aldaketen inguruan informatu diezadaten
+shareswebcam Webcam-a konpartitu
+small Txikia
+stopwebcamreceive Webkamera jasotzen gelditu
+stopwebcamsend Webkamera bidaltzen gelditu
+tkerror1 TK akats bat dauka, amsn-n akats bat dago, Informatu botoian klik eginez informatu. Xehetasunetan klik egin dezakezu akatsaren inguruko informazio gehiago jasotzeko, edo Ados-en klik egin aMSN-rekin txateatzen jarraitzeko
+trayicon Jakinarazpen zonaldean egoera ikono bat erakutsi
+type datzi
+updateonlycurrentlanguage Momentuko hizkuntza eguneratu bakarrik
+webcam Webkamera
+webcamclosebefcancel Webkamera saio guztiak utzi behar dituzu leihoa itxi baino lehen
+webcamcanceled $1-rekin webkamera saioa amaitu egin da
+webcamconfigure Webkamera konfiguratu
+webcamextloaded Webcamsn luzapena kargatuta
+webcamextnotloaded Webcamsn luzapena ez dago kargatuta. Konpilatu behar duzu.
+webcamfaq MEG/Laguntza Webkamerarako
+webcaminvitereceived $1(e)-k webkamera saio bat irekitzera gonbidatzen dizu. Saio hau onartu nahi duzu?
+webcamrejected $1 webkamera sesiorako gonbidapena ezetsi du
+webcamrequestsend Webkamera bidaltzeko eskaera bidali
+webcamrequestreceive Webkamera jasotzeko eskaera bidali
+webcamsending Orain webkamera bidaltzen ari diozun jendea zerrendatu\nUzteko klik egin
+whatisamsn aMSN plataformatik independiente den MSN Messengerraren klon bat da
