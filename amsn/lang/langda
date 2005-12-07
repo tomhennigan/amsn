@@ -43,7 +43,9 @@ appearance Udseende
 appearoff Vis som offline
 areacode Områdenummer
 aretyping $1 skriver en besked
+askcontactwebcam Spørger om at se din kontakt's webcam, eller 
 askeachtime Spørger hver gang
+asksendingyourwebcam Spørger om at se dit webcam
 askwebcam Inveter til webcam samtale
 author Forfatter
 autoaccepted Fil-overførsel automatisk acceptéret
@@ -140,6 +142,7 @@ clearlog Ryd log
 clearlog2 Tøm historien for alle dine kontaktpersoner
 clearlog3 Tøm alle log-filer
 clearwebcamlogs Tøm alle webcam log-filer
+clickhere Klik Her
 clicktoadd Klik på tilfør for at tilføre en ny note
 clicktologin Klik her for at logge ind
 clientcaps Send x-klientcaps pakker til andre klienter
@@ -198,7 +201,7 @@ custom_new Tilføj ny brugerdefineret smiley
 customnick Brugerdefineret kaldenavn
 customstyle Brugervalgt stil
 cut Klip
-cutimagebox V¾lg den part af billedet du vil bruge, trakke og flytte boksen
+cutimagebox Vælg den part af billedet du vil bruge, trakke og flytte boksen
 cutimageboxreset Gendan valgte boks\nstørrelse til:
 date Dato
 dateformat Skift datoformat
@@ -246,6 +249,7 @@ dontshow Vis ikke
 download Hent
 downloadingtls Downloader TLS-modulet fra:\n $1
 edit Rediger
+editcontent Rediger indholdet i emne feltet og note feltet
 editcustomstate Redigér brugerdefineret status
 editnewstate Ny Personlig Auto-besked-Status
 editprofile Rediger profil
@@ -267,6 +271,7 @@ entercontactemail Skriv kontakt E-mail
 enterfilename Skriv filnavnet
 enternick Skriv dit kaldenavn
 enterbugdesc Skriv en beskrivelse om hvad du gør for at hjélpe os reproducere fejlne:
+enterpsm Skriv en personlig meddelse
 errortls Fejl ved installation af TLS-modul:
 eventhistory Vis historikken over begivenheder
 examples Eksempler
@@ -305,6 +310,7 @@ ftrejectedby $1 har afvist filoverførsels-tilbuddet på filen '$2'.
 ftsendinvitation Filoverførsels-tilbud på filen '$2' ($3 bytes) er blevet sendt til $1.
 fullcontactlist Desværre, din kontaktliste er fuld. Du er nødt til at fjerne nogle kontakter for at kunne tilføje nogle nye.
 getdisppic Modtag gerne Display-billeder fra andre brugere
+getmoreskins Få flere skins!
 globalcontainer Global container
 globalnick Indsæt en skabelon til at danne alle dine kontakters kaldenavne. Du kan bruge disse variabler:\$user_login for dine kontakters addresse, \$nick for dine kontakters kaldenavn og \$customnick for dine kontakters brugervalgte kaldenavn. For eksempel: '\$user_login er \$nick' vil være 'contact@msn.com er kontakt'
 globalnicktitle Globalt kaldenavn
@@ -420,7 +426,7 @@ mins minutter
 mobile Mobil
 mobilegrp1 Mobil grouppe
 mobilegrp2 Put personer i "Mobil" groppen når de er offline (og sorter efter status)
-modified ændret
+modified Ændret
 month Måned
 morepersonal Flere Status ->
 move Flyt
@@ -569,7 +575,7 @@ publishphones Vis mine telefonnumre
 purge Tøm
 pwcdriver Du bruger pwc driveren
 raised Hævet/de-ikoniseret
-readonlymsgbox Filoverførslen er annulléret, da modtager-biblioteket er skrivebeskyttet. Ret venligst rettighederne på dette bibliotek.
+readonlymsgbox Filoverførslen er annullæret, da modtager-biblioteket er skrivebeskyttet. Ret venligst rettighederne på dette bibliotek.
 readonlywarn ADVARSEL: Filen vil sandsynligvis IKKE blive gemt korrekt, da "Modtagne filer"-mappen ser ud til at være skrivebeskyttet. Sikr dig venligst at rettighederne på destinations-biblioteket ($1) er sat rigtigt, før du overfører filen.
 receivedbytes Modtaget $1 ud af $2 bytes
 receiveddir "Modtagne Filer"-mappe
@@ -587,6 +593,7 @@ rename Omdøb
 report Rapportere
 reporting Repporter
 required_version Kan ikke hente denne plugin. Den kræver, mindst, aMSN version $1
+restartforskin Note: Du skal genstarte aMSN for at se det nye skin ordenligt!
 reversed Omvendt
 reverselist Omvendt-liste (OL):
 rightback Er straks tilbage
@@ -600,7 +607,7 @@ sbcon Forbinder til Switch Board
 selectall Vælg alt
 selectplugins Vælg venligst de plugins du vil anvende
 selectskin Vælg venligst et skin fra listen
-sendemail Send min email addresse for at underrette mig om éndringer (se Fortrolig med Aftalen)
+sendemail Send min email addresse for at underrette mig om ændringer (se Fortrolig med Aftalen)
 send Send
 sendwebcaminvite Inviter til webcam samtale
 sendfile Send fil
@@ -630,7 +637,7 @@ small Lille
 smileconfig Brugerdefineret humørikon-konfiguration
 smilefile Smiley-filnavn
 smileintro Udfyld venligst de krævede felter for at lave en ny brugerdefineret smiley (se OSSen for hjælp)
-smileintro2 Redigér venligst de krævede felter for at definere denne smiley (se OSSen for hjælp)
+smileintro2 Redigær venligst de krævede felter for at definere denne smiley (se OSSen for hjælp)
 smiletoobig Humørikonet du har valgt er større end normal størelse. Vil du gøre det mindre?
 snackfailed Snack kunne ikke hentes, går tilbage til standard
 sngdblclick Enkeltklik for at åbne nyt beskedvindue
@@ -653,7 +660,7 @@ startontray Start AMSN som et tray-ikon
 state Jeg vil fremstå som
 stateautomsg AutoBesked der skal Sendes
 statechange status skiftet til:
-stateedittext Redigér venligst felterne som du vil \n ændre og tryk Gem
+stateedittext Redigær venligst felterne som du vil \n ændre og tryk Gem
 stateinfo Personlig Status-konfiguration
 statename Navnet på din Personlige Status
 statenewtext Udfyld venligst de krævede informationer for at oprette \n din nye Personlige Status og tryk Gem
@@ -686,10 +693,10 @@ timeremaining Tilbageværende tid
 timestamp Tids stemple
 timestamps Vis tidsstempler i Chat-vinduer
 title Al's Messenger
-tkerror TK har skabt en fejl, der er en fejl i amsn, rapportér den venligst. Send filen $1 til amsn-bugs@lists.sf.net
-tkerror1 TK har skabt en fejl, der er en fejl i amsn, rapportér den venligst klik på Rapportér knappen. du kan klik på Detaljer for at se mere oplysninger om denne fejl eller klik på Ok for at fortsétte med dine samtaler
+tkerror TK har skabt en fejl, der er en fejl i amsn, rapportær den venligst. Send filen $1 til amsn-bugs@lists.sf.net
+tkerror1 TK har skabt en fejl, der er en fejl i amsn, rapportær den venligst klik på Rapportær knappen. du kan klik på Detaljer for at se mere oplysninger om denne fejl eller klik på Ok for at fortsætte med dine samtaler
 tlsdowncompleted Filen $1 er downloadet til biblioteket $2. Du skal udpakke den, bygge den (hvis du downloadede kildekode) og installere den inden i biblioteket $3.
-tlsexplain Mappen hvor tcl TLS-modulet kan findes. Hvis AMSN ikke kan finde det selv, så specificér det venligst.\n(Påkrævet til SSL-godkendelse).
+tlsexplain Mappen hvor tcl TLS-modulet kan findes. Hvis AMSN ikke kan finde det selv, så specificær det venligst.\n(Påkrævet til SSL-godkendelse).
 tlsinstall TLS-Modul installations-gennemgang
 tlsinstallexp aMSN anvender nu MSNP9, som kræver brugen af en sikker\nforbindelse gennem SSL. For at kunne bruge SSL er aMSN nødt til at installere et modul ved navn TLS,\nsom du mangler på dit system. Denne gennemgang vil hjælpe dig med at downloade og\ninstallere TLS. Vælg venligst din system-type så vi automatisk kan downloade\nde krævede TLS-filer.
 tlsinstcompleted TLS modul-installationen er fuldført - du skulle nu være i stand til at bruge MSNP9. Hvis dette ikke virker, så har du muligvis ikke valgt det rigtige modul, eller også eksisterede der ikke et færdigkompileret modul til din system-type.
@@ -713,9 +720,9 @@ unload Smid ud af hukommelsen
 uoffline Offline
 uonline Online
 update Opdater
-updateonlycurrentlanguage Opdater kun nuvérende sprog
+updateonlycurrentlanguage Opdater kun nuværende sprog
 updating Opdatere
-unselectall Vélge alt fra
+unselectall Vælge alt fra
 useother Benyt et andet program
 useasdp Brug som Display Billed
 user Bruger
@@ -728,17 +735,18 @@ useryourself Du kan ikke chatte med dig selv
 usesnack Brug Snack biblioteket (Tcl intern)
 verifyblocked Søg efter personer der har blokeret dig
 version Version
+videoconversationrequest Du har modtaget en video konversation (lyd og video) anmodning. Denne funktion er ikke understøttet af aMSN og er blevet annulleret. Men, du kan stagdigvæk bruge webcam samtale.
 viewcontactsby Se kontakter efter
 viewprofile Vis profil
 view Vis
-whatisamsn aMSN er en uafh¾ngig MSN Messenger klone
+whatisamsn aMSN er en uafhængig MSN Messenger klone
 webcam Webcam
 webcamclosebefcancel Du skal afbrude alle webcam samtalerne før lukning af vinduet
 webcamcanceled Webcam samtalen med $1 er blivet afbrudt
 webcamconfigure Instil Webcam
-webcamextloaded Webcamsn udvidelsen er inlést
-webcamextnotloaded Webcamsn udvidelsen er ikke indlést. Du skal kompilere den først.
-webcamfaq OOS/Hjélp for Webcam
+webcamextloaded Webcamsn udvidelsen er inlæst
+webcamextnotloaded Webcamsn udvidelsen er ikke indlæst. Du skal kompilere den først.
+webcamfaq OOS/Hjælp for Webcam
 webcaminvitereceived $1 invitere dig til at starte en webcam samtale. Vil du acceptere?
 webcamrejected $1 afviser invitation til webcam samtale
 webcamrequestsend Send anmodning til at sende webcam
@@ -760,7 +768,7 @@ xmmssend Send nuværende sang
 xoffset X-koordinat
 year år
 yes Ja
-yesblock Ja og blokér
+yesblock Ja og blokær
 yesterday I går
 yoffset Y-koordinat
 youblocked Du er blevet blokeret

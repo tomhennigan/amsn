@@ -588,7 +588,7 @@ session Sessione
 showbanner Visualizza il banner di aMSN
 showblockedlist Mostra la lista delle persone che ti bloccano
 showcachedpics Visualizza le immagini memorizzate in cache
-showdisplaypic2 Mostra l'mmagine personale in ogni nuova finestra di chat
+showdisplaypic2 Mostra l'immagine personale in ogni nuova finestra di chat
 showdisplaypic Mostra l'immagine personale
 showmypic Immagine personale
 shownotify Mostra una finestra di notifica quando accade qualcosa
@@ -759,3 +759,17 @@ webcamrequestsend Invia la richiesta per inviare con la webcam
 webcamrequestreceive Invia la richiesta per ricevere dalla webcam
 webcamsending Lista delle persone a cui stai inviando con la webcam\nClicca per annullare
 whatisamsn aMSN è un clone di MSN Messenger, indipendente dalla piattaforma
+askcontactwebcam per chiedere di vedere dalla webcam del tuo contatto, o
+asksendingyourwebcam per chiedere di inviare dalla tua webcam
+cagreement Accordo Confidenziale
+clickhere Clicca qui
+editcontent Edit the content of the subject field and the note field
+getmoreskins Preleva altri skin!
+huge Pesante
+large Grande
+pwcdriver Stai usando il driver pwc
+restartforskin Nota: potresti aver bisogno di riavviare aMSN per vedere lo skin in maniera opportuna!
+small Piccolo
+videoconversationrequest Hai ricevuto una richiesta di conversazione video (audio e video bidirezionali). Questa funzionalità non è supportata da aMSN e la richiesta è stata annullata. Puoi comunque utilizzare la normale conversazione con webcam.
+webcam Webcam
+webcamconfigure Configura la Webcam
