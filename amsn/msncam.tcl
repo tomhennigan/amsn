@@ -2161,10 +2161,10 @@ namespace eval ::CAMGUI {
 			label $w.capture -text "[trans captureextnotloaded $extension]" -font sboldf -foreground red
 		}
 		pack $w.capture -expand true -padx 5
-		
+		button $w.settings -command "::CAMGUI::ChooseDevice" -text "[trans changevideosettings]"
 		#Add button to change settings
 		if { ![info exists ::pwc_driver] || $::pwc_driver == 0} {
-			button $w.settings -command "::CAMGUI::ChooseDevice" -text "[trans changevideosettings]"
+			#Nothing
 		} else {
 			label $w.settings -text "[trans pwcdriver]" -font sboldf -foreground red
 		}
