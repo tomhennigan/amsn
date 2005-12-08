@@ -16,7 +16,7 @@
 	<lang>
 		<langcode>eu</langcode>
 		<name>Basque (euskera)</name>
-		<version>1.33</version>
+		<version>1.34</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -256,7 +256,7 @@
 	<lang>
 		<langcode>es</langcode>
 		<name>Spanish (Español)</name>
-		<version>1.240</version>
+		<version>1.241</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
