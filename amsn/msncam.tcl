@@ -2166,7 +2166,8 @@ namespace eval ::CAMGUI {
 		if { ![info exists ::pwc_driver] || $::pwc_driver == 0} {
 			#Nothing
 		} else {
-			label $w.settings -text "[trans pwcdriver]" -font sboldf -foreground red
+			label $w.pwc -text "[trans pwcdriver]" -font sboldf -foreground red
+			pack $w.pwc
 		}
 		pack $w.settings
 		#Add button to open link to the wiki
