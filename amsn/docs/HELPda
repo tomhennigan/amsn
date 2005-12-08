@@ -5,10 +5,10 @@ Amsn er skrevet i tcl/tk, så du skal bruge en fungerende tcl/tk fortolker,
 version 8.3 eller senere. Du kan hente den på http://tcl.sourceforge.net. 
 Fortolkeren er tilgængelig til Linux, Windows og Macintosh. Nogle ekstra-
 egenskaber kræver måske ekstra programmer eller biblioteker, som f.eks. 
-docking iconet, Display billeder, eller SSL forbindelse for MSN Protocol 9.
+docking ikonet, Display billeder, eller SSL forbindelse for MSN Protocol 9.
 
 Installationsguide:
-Download amsn-x_xx.tar.gz filen. Udpak den med kommandoen:
+Hent amsn-x_xx.tar.gz filen. Udpak den med kommandoen:
   gzip -d amsn-x_xx.tar.gz
   tar xvf amsn-x_xx.tar
 Dette vil skabe mappen msn/ og amsn er installeret og klar til brug.
