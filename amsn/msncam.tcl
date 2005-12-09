@@ -1556,23 +1556,23 @@ namespace eval ::CAMGUI {
 				}
 				
 				if { ![info exists ::webcam_settings_bug] || $::webcam_settings_bug == 0} {
-					set settings [::config::getKey "webcam$dev:$channel" ":::"]
+					set settings [::config::getKey "webcam$dev:$channel" "0:0:0:0"]
 					set settings [split $settings ":"]
 					set set_b [lindex $settings 0]
 					set set_c [lindex $settings 1]
 					set set_h [lindex $settings 2]
 					set set_co [lindex $settings 3]
 
-					if {[string is integer $set_b]} {
+					if {[string is integer -strict $set_b]} {
 						::Capture::SetBrightness $grabber $set_b
 					}
-					if {[string is integer $set_c]} {
+					if {[string is integer -strict $set_c]} {
 						::Capture::SetContrast $grabber $set_c
 					}
-					if {[string is integer $set_h]} {
+					if {[string is integer -strict $set_h]} {
 						::Capture::SetHue $grabber $set_h
 					}
-					if {[string is integer $set_co]} {
+					if {[string is integer -strict $set_co]} {
 						::Capture::SetColour $grabber $set_co
 					}
 				}
@@ -2381,23 +2381,23 @@ namespace eval ::CAMGUI {
 		set ::grabbers($::CAMGUI::webcam_preview) $windows
 
 		if { ![info exists ::webcam_settings_bug] || $::webcam_settings_bug == 0} {
-			set sets [::config::getKey "webcam$device:$channel" ":::"]
+			set sets [::config::getKey "webcam$device:$channel" "0:0:0:0"]
 			set sets [split $sets ":"]
 			set set_b [lindex $sets 0]
 			set set_c [lindex $sets 1]
 			set set_h [lindex $sets 2]
 			set set_co [lindex $sets 3]
 
-			if {[string is integer $set_b]} {
+			if {[string is integer -strict $set_b]} {
 				::Capture::SetBrightness $::CAMGUI::webcam_preview $set_b
 			}
-			if {[string is integer $set_c]} {
+			if {[string is integer -strict $set_c]} {
 				::Capture::SetContrast $::CAMGUI::webcam_preview $set_c
 			}
-			if {[string is integer $set_h]} {
+			if {[string is integer -strict $set_h]} {
 				::Capture::SetHue $::CAMGUI::webcam_preview $set_h
 			}
-			if {[string is integer $set_co]} {
+			if {[string is integer -strict $set_co]} {
 				::Capture::SetColour $::CAMGUI::webcam_preview $set_co
 			}
 		}
@@ -2410,7 +2410,7 @@ namespace eval ::CAMGUI {
 	proc PreviewLinux { grabber img } {
 		set semaphore ::CAMGUI::sem_$grabber
 		set $semaphore 0
-
+puts "preview"
 		while { [::Capture::IsValid $grabber] && [lsearch [image names] $img] != -1 } {
 			if {[catch {::Capture::Grab $grabber $img} res]} {
 				status_log "Problem grabbing from the device.  Device busy or unavailable ?\n\t \"$res\""
@@ -2499,23 +2499,23 @@ status_log "webcamDevice=$device:$channel" green
 		set ::grabbers($capture_fd) $windows
 
 
-		set settings [::config::getKey "webcam$device:$channel" ":::"]
+		set settings [::config::getKey "webcam$device:$channel" "0:0:0:0"]
 		set settings [split $settings ":"]
 		set set_b [lindex $settings 0]
 		set set_c [lindex $settings 1]
 		set set_h [lindex $settings 2]
 		set set_co [lindex $settings 3]
 
-		if {[string is integer $set_b]} {
+		if {[string is integer -strict $set_b]} {
 			::Capture::SetBrightness $capture_fd $set_b
 		}
-		if {[string is integer $set_c]} {
+		if {[string is integer -strict $set_c]} {
 			::Capture::SetContrast $capture_fd $set_c
 		}
-		if {[string is integer $set_h]} {
+		if {[string is integer -strict $set_h]} {
 			::Capture::SetHue $capture_fd $set_h
 		}
-		if {[string is integer $set_co]} {
+		if {[string is integer -strict $set_co]} {
 			::Capture::SetColour $capture_fd $set_co
 		}
 
@@ -3441,16 +3441,16 @@ status_log "$device"
 		set set_h [lindex $colorsettings 2]
 		set set_co [lindex $colorsettings 3]
 		
-		if {[string is integer $set_b]} {
+		if {[string is integer -strict $set_b]} {
 				set brightness $set_b
 		}
-		if {[string is integer $set_c]} {
+		if {[string is integer -strict $set_c]} {
 				set contrast $set_c
 		}
-		if {[string is integer $set_h]} {
+		if {[string is integer -strict $set_h]} {
 				set hue $set_h
 		}
-		if {[string is integer $set_co]} {
+		if {[string is integer -strict $set_co]} {
 				set color $set_co
 		}
 		
@@ -3558,16 +3558,16 @@ status_log "Device: $brightness, $contrast, $hue, $color"
 		set set_h [lindex $colorsettings 2]
 		set set_co [lindex $colorsettings 3]
 		
-		if {[string is integer $set_b]} {
+		if {[string is integer -strict $set_b]} {
 				set brightness $set_b
 		}
-		if {[string is integer $set_c]} {
+		if {[string is integer -strict $set_c]} {
 				set contrast $set_c
 		}
-		if {[string is integer $set_h]} {
+		if {[string is integer -strict $set_h]} {
 				set hue $set_h
 		}
-		if {[string is integer $set_co]} {
+		if {[string is integer -strict $set_co]} {
 				set color $set_co
 		}
 status_log "Config'ed: $brightness, $contrast, $hue, $color"
