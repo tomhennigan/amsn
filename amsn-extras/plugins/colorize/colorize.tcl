@@ -9,7 +9,7 @@ namespace eval ::colorize {
 	::plugins::RegisterPlugin Colorize
 	::plugins::RegisterEvent Colorize chat_msg_sent rotateColor
 	array set ::colorize::config [list \
-					  colors [list "FF0000" "006236" ] \
+					  colors [list "FF0000" "006633" ] \
 					  random 0 \
 					 ]
 	set configlist [list \
