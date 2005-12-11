@@ -2,11 +2,11 @@
 <plugin>
 	<name>Colorize</name>
 	<author>Karol Krizka</author>
-	<description>Change the color of your text from eighter a predefined list or randomly.</description>
+	<description>Change the color of your text from either a predefined list or randomly.</description>
 	<amsn_version>0.94</amsn_version>
 	<plugin_version>1.0</plugin_version>
 	<plugin_file>colorize.tcl</plugin_file>
 	<plugin_namespace>colorize</plugin_namespace>
 	<init_procedure>InitPlugin</init_procedure>
-	<cvs_version>1.2</cvs_version>
+	<cvs_version>1.3</cvs_version>
 </plugin>
