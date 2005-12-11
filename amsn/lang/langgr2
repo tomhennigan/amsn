@@ -1,768 +1,1551 @@
 amsn_lang_version 2
+
 about Plhrofories gia to amsn
+
 aboutamsn Plhrofories sxetika me to Alvaro's Messenger 
+
 accept Apodoxh
+
 acceptfile Apodoxh arxeiou $1, mege8os $2? Apo8hkeush sto $3
+
 actions Energeies
+
 activeautoupdate Energh Automath Anaba8mish
+
 add Pros8hkh
+
 addacontact Pros8hkh epafhs
+
 addedyou se pros8ese sthn lista epafwn tou/ths
+
 addprofile Pros8ese kainouria tautothta
+
 addprofiledesc Dwste to onoma ths sundeshs gia thn opoia 8elete na dhmiourghsete ena kainourio profil. \nPollapla profil sas dinoun th dunatothta na exete pollaples ru8miseis gia to ka8ena. \nXwris thn xrhsh twn profil den 8a exete thn dunatothta xrhshs tou Istorikou, Sunagermwn h ths leitourgias "Diathrhsh kwdikou".
+
 addstate Kainouria katastash
+
 addto Pros8ese auto to atomo sthn lista epafwn mou
+
 addtocontacts Pros8ese sthn lista epafwn
+
 addtoo Pros8ese auto to atomo sthn lista epafwn mou
+
 admincontacts Diaxeirish epafwn
+
 admingroups Diaxeirish omadwn
+
 advanced Proxwrhmenes
+
 advancedprefs Ru8mish proxwrhmenwn epilogwn
+
 adverts Diafhmiseis
+
 agotinvitation Elhf8h hxhtikh prosklhsh apo ton/thn $1
+
 alarmonconnect Energopoihsh sunagermou otan mia epafh sunde8ei
+
 alarmondisconnect Energopoihsh sunagermou molis o xrhsths aposunde8ei
+
 alarmonmsg Energopoihsh sunagermou molis mia epafh steilei mhnuma
+
 alarmonstatus Energopoihsh sunagermou molis o xrhsths alla3ei katastash
+
 alarmpref Idiothtes sunagermou xrhsth
+
 alarms Sunagermoi
+
 alarmstatus Ap/energopoihsh sunagermou gia auton to xrhsth
+
 allfiles Ola ta arxeia
+
 allmonths Oloi oi mhnes
-allowallbutbl Epitrepse se olous ektos autwn sthn lista fragwn mou na mou steiloun mhnumata
-allowbadwords Apenergopoihsh logokrisias sta pseudwnuma
+
+allowallbutbl Epitreye se olous ektos autwn sthn lista fragwn mou na mou steiloun mhnumata
+
+allowbadwords Apenergopoihsh logokrisias sta yeudwnuma
+
 allowlist Lista epitrepomenwn :
-allowonlyinal Epitrepse mono se xrhstes ths listas epafwn mou na epikoinwnhsoun mazi mou
-allowseen Epitrepse se auto to atomo na blepei pote eimai sundedemenos kai na epikoinwnei mazi mou
+
+allowonlyinal Epitreye mono se xrhstes ths listas epafwn mou na epikoinwnhsoun mazi mou
+
+allowseen Epitreye se auto to atomo na blepei pote eimai sundedemenos kai na epikoinwnei mazi mou
+
 allow_sms Na epitrepetai stous xrhstes na epikoinwnoun mazi mou sth forhth suskeuh MSN
+
 allprofilesinuse Authn th stigmh, ola ta profil sas einai apasxolhmena
+
 animatedemoticon Auth h fatsoula einai kinoumenh
+
 animatedsmileys Energopoihse kinoumenes fatsoules
+
 animatenotify Kinoumeno Para8uro Eidopoihshs
+
 appearance Emfanish
+
 appearoff Emfanish ektos sundeshs
+
 areacode Kwdikos perioxhs
+
 aretyping o/h $1 tupwnei ena mhnuma
+
+askcontactwebcam gia na zhthsete th webcam tou allou atomou, h
+
 askeachtime Na ginetai erwthsh ka8e fora
+
+asksendingyourwebcam gia na zhthsete na apostalei h dikh sas webcam.
+
 askwebcam Zhthse apo to xrhsth na steilei th webcam tou/ths
+
 author Suggrafeas
+
 autoaccepted H metafora arxeiou egine automata apodekth
+
 autoacceptft Automath apodoxh metaforas arxeiwn
+
 autoaway Dei3e me ws "Den briskomai ston upologisth" otan eimai anenergos gia
+
 autocheckver Automatos elegxos gia kainouria ekdosh sto 3ekinhma
+
 autoconnect2 Automath sundesh me thn ektelesh tou aMSN
+
 autoconnect Sundesh me thn enar3h tou aMSN
+
 autodetectip Automatos prosdiorismos IP dieu8unshs
+
 autohotmaillog Automath sundesh sto Hotmail.
+
 autoidle Automath energopoihsh anenergous katastashs
+
 autoip Automato IP
+
 automessage Automato mhnuma
+
 autonoact Dei3e me ws "Kamia drasthriothta" otan eimai anenergos gia
-avaccepted Klhsh thleoptikhs diaskepshs apodekth
-avcanceled Klhsh thleoptikhs diaskepshs akurw8hke
-avgotinvitation Elhf8h klhsh thleoptikhs diaskepshs apo ton/thn $1
+
+avaccepted Klhsh thleoptikhs diaskeyhs apodekth
+
+avcanceled Klhsh thleoptikhs diaskeyhs akurw8hke
+
+avgotinvitation Elhf8h klhsh thleoptikhs diaskeyhs apo ton/thn $1
+
 avinitfailed H enar3h tou hxhtikou/thleoptikou pros8etou apetuxe. H klhsh akurw8hke
-avoidseen Apotrepse auto to atomo na blepei thn katastash mou kai enhmerwse me
+
+avoidseen Apotreye auto to atomo na blepei thn katastash mou kai enhmerwse me
+
 away De briskomai ston upologisth
+
 awaymsg1 Rwta gia mhnuma thlefwnhth ka8e fora pou eimai anenergos
+
 awaymsg2 Kamia erwthsh kai xrhsimopoihse to epomeno mhnuma thlefwnhth
+
 baduserpass La8os onoma xrhsth h kwdikos
+
 badwebcam Den mporw na probalw thn eikona ths webcam. Eleg3te an h webcam sas einai sundedemenh kai egkatesthmenh.
+
 bgcolor Allagh tou xrwmatos fontou tou aMSN
+
 blankdirect Afhste keno gia apeu8eias sundesh
+
 block Fragh
+
 blocked Fragmenos
+
 blockedyougroup Dei3e mia 3exwristh omada gia xrhstes pou se exoun fra3ei
+
 blocking Fragh
+
 blockinter1 Otan eimai sundedemenos, elegxos ka8e
+
 blockinter2 deuterolepta, alliws elegxos ka8e :
+
 blockinter3 ka8e
+
 blockinter4 deuterolepta.
+
 blocklist Lista fragwn
+
 blockmessage Autoi oi xrhstes einai sundedemenoi kai se frazoun
+
 blockusers Ari8mos xrhstwn gia tautoxrono elegxo
+
 bouncedock Kinhsh tou eikonidiou aMSN sthn mpara otan lhf8ei ena kainourio mhnuma
+
 brightness Fwteinothta
+
 broughtby Auto to programma ftiaxthke apo tous
+
 browse Anazhthsh
+
 browser Programma plohghshs (browser)
+
 browserexample ( to \$url 8a antikatasta8ei apo to URL). P.x mozilla \$url
+
 bugerror Suggnwmh, alla uphr3e sfalma kata th sundesh me th bash dedomenwn sfalmatwn. Parakalw eleg3te th sundesh sas me to Internet.
+
 busy Apasxolhmenos
+
 cachedpics $1 apo8hkeumenes eikones
+
 cagreement Sumfwnia empisteutikothtas
+
 cancel Akurwsh
+
 cannotdeleteprofile Den mporw na sbhsw thn tautothta giati xrhsimopoieitai apo allh sunodo aMSN
+
 cantexec Den mporw na ektelesw thn efarmogh: $1. Xreiazetai elegxos twn ru8misewn
+
 cantloadonlineversion Den mporesa na fortwsh thn On-Line ananewmenh lista glwsswn apo to Internet.
+
 cantremoveothers Adunath h diagrafh ths omadas "Alloi"
+
 captureextloaded H epektash capture -$1- einai fortwmenh
+
 captureextnotloaded H epektash capture -$1- den einai fortwmenh, prepei prwta na thn kanete compile
+
 captureproperties Idiothtes eikonas webcam
+
 casesensitive Xrhsh purodothsewn me euais8hsia kefalaiwn/pezwn
+
 cfgalarm Parametropoihsh/Pros8hkh/Afairesh sunagermou
+
 cfgalarmall Parametropoihsh/Pros8hkh/Afairesh genikou sunagermou
+
 change Allagh
+
 changecustomstate Allagh se
+
 changedateformat Allagh parousiashs hmeromhnias
+
 changedisplaypic Allagh emfanizomenhs eikonas
+
 changefont Allagh grammatoseiras
-changeglobnick Allagh genikou pseudwnumou
-changenick Allagh pseudwnumou
+
+changeglobnick Allagh genikou yeudwnumou
+
+changenick Allagh yeudwnumou
+
 changesize Allagh mege8ous
+
 changestate o/h $1 alla3e katastash se $2
+
 changevideosettings Allagh idiothtwn binteo
+
 channels Kanalia
+
 charscounter Metrhths tupwmenwn xarakthrwn sto para8uro sunomilias
+
 chat Sunomilia
+
 chatack Apodoxh sunomilias apo
+
 chatmaxmin Otan mia epafh anoigei sunomilia mazi mou, 8elw na einai:
+
 chatreq Prospa8w na dhmiourghsw sunomilia
+
 chatsmileys Xamogela sunomilias
+
 chatsmileys2 Deixne eikonidia kai fatsoules se para8ura suzhthsewn
+
 checkblocking Sunexhs elegxos gia frages
+
 checkemail Emfanish grammhs eidopoihshs gia email (inbox) sthn lista epafwn
+
 checkfilman Ta eiserxomena arxeia 8a sw8oun sto $1. Eleg3e thn or8othta twn epilogwn stis ru8miseis tou diaxeiristh arxeiwn.
+
 checkingver Elegxw gia kainouries ekdoseis
+
 checkonfln Elegxos gia fragh apo ena xrhsth otan aposundeetai
+
 checkopenfilecommand Parakalw eleg3te thn entolh anoigmatos arxeiou sto para8uro protimhsewn
+
 checkver Anazhthsh kainourias ekdoshs
+
 choosearq Diale3e thn arxitektonikh tou susthmatos sou
+
 choosebasefont Epilogh tupou grammatoseiras
+
 choosebgcolor Epilogh background xrwmatos
+
 choosechannel Parakalw epile3te ena kanali
+
 choosecontact Diale3e mia epafh apo thn lista
+
 choosedevice Parakalw epile3te mia suskeuh
+
 choosefontcolor Epilogh xrwmatos grammatoseiras
+
 chooseskin Diale3e to derma pou 8es na xrhsimopoihseis
+
 ch_to_state Allagh se kainouria katastash
+
 clear Ka8arismos
+
 clearlog Ka8arismos istorias
+
 clearlog2 Ka8arismos ths istorias olwn twn epafwn
+
 clearlog3 Ka8arismos olhs ths istorias
+
 clearwebcamlogs Ka8arismos olwn twn arxeiwn katagrafhs webcam
+
+clickhere Kante Klik Edw
+
 clicktoadd Pathste sto koumpi 'Pros8hkh' gia na pros8esete mia kainouria shmeiwsh
+
 clicktologin Pathste edw gia sundesh
+
 clientcaps Steile x-clientcaps paketo stous allous clients
+
 clientname Onoma client
+
 close Kleisimo
+
 closeall Na kleisoun oles oi karteles s'auto to para8uro;
+
 closealltabs Na kleinoun oles oi karteles
+
 closed H suzhthsh me ton/thn $1 ekleise epeidh htan anenergh
+
 closelabel Otan kanete klik sto koumpi kleisimatos se ena para8uro sunomiliwn me karteles
+
 closeonly Na kleinei mono h trexousa kartela
+
 closingdocks To koumpi kleisimatos mazeuei to para8uro
+
 color Xrwma
+
 command Entolh
+
 commandstatus Ektelesh entolhs
+
 configure Diamorfwsh
+
 confirm Eisai sigouros;
+
 confirmbl Eiste sigouros/h pws 8elete na fra3ete auth thn epafh;
+
 confirmdelete 8elete pragmati na sbhstei to $1;
+
 confirmdg Eiste sigouros/h gia thn diagrafh auths ths omadas;
+
 confirmdu Eiste sigouros/h gia thn diagrafh autou tou xrhsth;
+
 confirmeg Eiste sigouros/h gia to adeiasma auths ths omadas;
+
 confirmpurge Oles oi apo8hkeumenes eikones twn gnwstwn sas 8a katastrafoun. Eisai sigouros;
+
 confirmrfl Eiste sigouros/h gia thn diagrafh autou tou xrhsth apo auth thn omada;
+
 connected Twra eiste sundedemenos
+
 connectedwith Sundesh me $1
+
 connecterror Apotuxia sundeshs me to diakomisth
+
 connecting Sundeomai
+
 connection Sundesh
+
 connectionlost Aposundesh: H sundesh me to diakomisth xa8hke
+
 contact Epafh
+
 contactadded H epafh proste8hke
+
 contactdoesnotexist H epafh den uparxei
+
 contactlist Lista epafwn :
+
 continuously Sunexws
+
 contrast Anti8esh
+
 conversationwith $1 xrhstes sth suzhthsh
+
 convertexplain Topo8esia programmatos metatrophs eikonwn tou ImageMagick (xreiazetai gia thn Emfanish Eikonwn).\n An to programma einai ektelesimo automata afhste to pedio keno.
+
 copy Antigrafh
+
 copytogroup Antigrafh sthn omada
+
 corruptconfig O fakelos me tis ru8miseis exei problhma. Dhmiourgia kainouriou... O arxikos fakelos 8a apo8hkeu8ei me thn onomasia $1. An 8elete steilte ton se emas gia analush.
+
 corruptstates O fakelos me tis prosarmosmenes katastaseis exei problhma.  Dhmiourgia kainouriou... O arxikos fakelos 8a apo8hkeu8ei me thn onomasia $1. An 8elete steilte ton se emas gia analush.
+
 countrycode O kwdikos ths xwras/perioxhs mou
+
 cprofile Dhmiourgia tautothtas
+
 created Dhmiourgh8hke
+
 credits Summetexontes
+
 currentdate Trexousa hmeromhnia
+
 currentlanguage Auth einai h glwssa pou xrhsimopoieite
+
 currentnotes Trexouses shmeiwseis
-custnotifymsg Emfanish para8urou enhmerwshs me th lhpsh kainouriou mhnumatos
+
+custnotifymsg Emfanish para8urou enhmerwshs me th lhyh kainouriou mhnumatos
+
 custnotifyoffline Emfanish para8urou enhmerwshs otan auth h epafh aposundeetai
+
 custnotifyonline Emfanish para8urou enhmerwshs otan auth h epafh sundeetai
+
 custnotifystatus Emfanish para8urou enhmerwshs otan auth h epafh allazei katastash
+
 customcolor Prosarmosmeno xrwma
+
 custom_edit Allagh prosarmosmenhs fatsoulas
+
 custom_new Pros8ese kainouria prosarmosmenh fatsoula
-customnick Prosarmosmeno pseudwnumo
+
+customnick Prosarmosmeno yeudwnumo
+
 customstyle Prosarmosmeno stul
+
 cut Diagrafh
+
 cutimagebox Epile3te to tmhma ths eikonas pou 8elete na xrhsimopoihsete, allazontas mege8os sto plaisio epiloghs kai metakinwntas to
+
 cutimageboxreset Na epanaru8mizetai to\nmege8os tou plaisiou epiloghs se:
+
 date Hmeromhnia
+
 dateformat Allagh parousiashs hmeromhnias
+
 day Mera
+
 days hmeres
+
 dcprofile Mhn dhmiourghseis tautothta
+
 default Proepilegmenes Ru8miseis
+
 default2 Proepilogh
+
 defaultloginradio Sundesh me proepilegmenes ru8miseis
+
 defchatwinsize Proepilegmeno mege8os para8urwn suzhthshs.
+
 delete Diagrafh
+
 deleteall Diagrafh olwn
+
 deletecustomstate Sbhsimo prosarmosmenhs katastashs
+
 delimiters Diaxwristikos xarakthras xronosfragidas:
+
 deliverfail Yphr3e problhma me thn apostolh tou akolou8ou mhnumatos
+
 delprofile Diagrafh tautothtas
+
 delprofile2 Diale3e thn tautothta pou epi8umeis na diagrafei
+
 description Perigrafh
+
 detach Apospash
+
 details Leptomereies
+
 devicebusy H suskeuh $1 einai apasxolhmenh
+
 devices Suskeues
+
 directconnection Exw apeu8eias sundesh me to internet (mesw tou port 1863)
+
 disabled Anenergo
+
 disableprofiles Apenergopoihsh profil (Xrhsimo gia koinoxrhstous upologistes)
+
 disablessl Apenergopoihsh tou SSL
+
 disableuserfonts Agnohse tis grammatoseires twn apomakrusmenwn xrhstwn
+
 disconnect o/h $1 aposunde8hke
+
 disconnectedfrom Aposundesh apo $1
+
 displaychat Emfanish epilogwn keimenou
+
 displayeventconnect Emfanish otan mia epafh sunde8ei
+
 displayeventdisconnect Emfanish otan mia epafh aposunde8ei
+
 displayeventemail Emfanish otan lhf8ei ena email
+
 displayeventstate Emfanish otan mia epafh alla3ei katastash
+
 displayp4context Parousiash periexomenou pediou P4-Context ws apostolea
+
 displaypic Parousiash eikonwn emfanishs
+
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
+
 dockgtk Mpara Gnome
+
 docking Elaxistopoihsh sth mpara
+
 dockingoff Apenergopoihsh mparas
+
 dockkde Smikrunsh sthn mpara tou KDE
+
 done Oloklhrw8hke
+
 dontdownload Mh katebasete to TLS, 8a to egkatasthsw monos mou
+
 dontshow Kamia emfanish
+
 download Katebasma
+
 downloadingtls To TLS katebainei apo:\n $1
+
 edit Allagh
+
+editcontent Epe3ergasia tou periexomenou tou pediou 8ematos kai tou pediou shmeiwshs
+
 editcustomstate Allagh prosarmosenhs katastashs
+
 editnewstate Kainourio automato mhnuma katastashs
+
 editprofile Allagh tautothtas
+
 editstate Allagh tou automatou mhnumatos katastashs
+
 editvalue Allagh timhs
+
 email email
-emailsinlist Emfanish email anti gia pseudwnumo sth lista epafwn
+
+emailsinlist Emfanish email anti gia yeudwnumo sth lista epafwn
+
 emoticon_steal Pros8hkh stis fatsoules
+
 emotisounds Pai3e hxo se sugkekrimena eikonidia kai fatsoules
+
 emptygroup Kenh omada
+
 enabled Energo
+
 enableproxy Energopoihsh diakomisth
+
 enableremote Energopoihsh apomakrusmenou elegxou
+
 enablesound Anaparagwgh hxou
+
 encoding Diale3e kwdikopoihsh
+
 encoding2 Allagh tropou kwdikopoihshs twn xarakthrwn
-enterbugdesc Perigrapste ti kanate, gia na mas boh8hsete na anaparagoume to sfalma:
+
+enterbugdesc Perigrayte ti kanate, gia na mas boh8hsete na anaparagoume to sfalma:
+
 entercontactemail Dwste to e-mail ths epafhs
+
 enterfilename Parakalw dwste onoma arxeiou
-enternick Dwste to pseudwnumo sas
+
+enternick Dwste to yeudwnumo sas
+
 errortls La8os kata thn egkatastash tou TLS:
+
 eventhistory Episkophsh istorias gegonotwn
+
 examples Paradeigmata
+
 exitamsn 8es pragmatika na fugeis;
+
 extras Pros8etes leitourgies
+
 failed Apotuxia
+
 faileddelete Apotuxia diagrafhs
+
 faileddeleteperso H eikona den mporei na sbhstei afou den sxetizetai me to profil sas. Mono oi eikones pou anhkoun sto proswpiko sas profil mporoun na sbhstoun me auton ton tropo.
+
 faq FAQ (Suxnes Erwthseis)
+
 file Arxeio
+
 filedoesnotexist To arxeio den uparxei
+
 fileman Diaxeirisths Arxeiwn
+
 filemanexample ( to \$location 8a antikatasta8ei me ton fakelo ) P.x nautilus \$location
+
 filename Onoma arxeiou
+
 filenotwritable To arxeio de mporei na diagrafei
+
 filetransfer Metafora arxeiou
+
 filetransfercancelled H metafora tou arxeiou akurw8hke
+
 filetransfercomplete H metafora tou arxeiou oloklhrw8hke
+
 filters Filtra
+
 filtersselect Epile3te ta filtra pou 8elete na deite\n(Shmeiwsh: Kanena epilegmeno shmainei emfanish olwn)
+
 filtersx Epilogh filtrwn
+
 firewalled Eiste pisw apo teixos prostasias h router
+
 followtext Automath metakinhsh pros ta katw otan lhf8ei kainourio keimeno
+
 friendlyname Gnwstos kai ws
+
 ftaccepted Metafora arxeiou apodekth
+
 ftacceptedby o/h $1 apodexthke thn prosklhsh gia metafora tou arxeiou '$2'.
+
 ftaccepting Apodoxh prosklhshs metaforas arxeiou
+
 ftautoclose Kleise to para8uro me thn oloklhrwsh ths metaforas tou arxeiou
+
 ftconnecterror Apotuxia sundeshs me apomakrusmeno upologisth
+
 ftconnecting Sundeomai me $1 8ura $2
+
 ftconnectionlost H sundesh me ton apomakrusmeno upologisth xa8hke
+
 ftgotinvitation o/h $1 8elei na sou steilei to arxeio '$2' ($3 bytes). 8a apo8hkeutei ston fakelo $4. 8elete na apodex8eite auto to arxeio;
+
 ftportpref Arxikh 8ura gia metafores arxeiwn
+
 ftrejected Metafora arxeiou mh apodekth
+
 ftrejectedby H metafora arxeiou den egine apodekth
+
 ftsendinvitation Stal8hke prosklhsh gia metafora tou arxeiou '$2' ($3 bytes) ston/sthn $1.
+
 fullcontactlist Dustuxws h lista twn epafwn sas einai plhrhs. Den mporeite na kainouries xwris na afairesete merikes pou hdh uparxoun.
+
 getdisppic Epetrepe se sunomilhtes na stelnoun thn dikia tou fwtografia
+
+getmoreskins Katebaste perissotera dermata!
+
 globalcontainer Olikos periekths
-globalnicktitle Geniko pseudwnumo
-globalnick Dwste ena protupo gia na sxhmatizontai ta pseudwnuma twn epafwn sas. Mporeite na xrhsimopoihsete tis metablhtes: \$user_login gia th dieu8unsh ths epafhs, \$nick gia to pseudwnumo ths epafhs kai \$customnick gia to prosarmosmeno pseudwnumo ths epafhs sas. Gia paradeigma: '\$user_login is \$nick' 8a einai 'contact@msn.com is Contact'
-globaloverride Oi kanones genikou pseudwnumou uperexoun twn upoloipwn
+
+globalnicktitle Geniko yeudwnumo
+
+globalnick Dwste ena protupo gia na sxhmatizontai ta yeudwnuma twn epafwn sas. Mporeite na xrhsimopoihsete tis metablhtes: \$user_login gia th dieu8unsh ths epafhs, \$nick gia to yeudwnumo ths epafhs kai \$customnick gia to prosarmosmeno yeudwnumo ths epafhs sas. Gia paradeigma: '\$user_login is \$nick' 8a einai 'contact@msn.com is Contact'
+
+globaloverride Oi kanones genikou yeudwnumou uperexoun twn upoloipwn
+
 gonelunch Leipw gia faghto
+
 gotink $1 sas esteile xeirografo mhnuma.
+
 group Omada
+
 groupadd Pros8hkh mias omadas
+
 groupdelete Diagrafh mias omadas
+
 groupexists H omada uparxei
+
 groupmissing H omada den uparxei
+
 groupnewname Kainourio onoma
+
 groupnotempty H omada den einai adeia
+
 groupoldname Palio onoma
+
 grouprename Metonomasia mias omadas
+
 groups Omades
+
 groupunknown Agnwsth omada
+
 handle Xeirismos
+
 help Boh8eia
+
 helpcontents 8emata sthn boh8eia
-hidedisplaypic Apokrupsh ths eikonas mou
-hiden Apokrupsh ths fatsoulas apo to menou
-hidewindow Krupse to para8uro
+
+hidedisplaypic Apokruyh ths eikonas mou
+
+hiden Apokruyh ths fatsoulas apo to menou
+
+hidewindow Kruye to para8uro
+
 history Probolh istorias
+
 home Spiti
+
 httpconnection Sundesh mesw HTTP (prwtokollo HTTP mesw port 80)
+
 hue Apoxrwsh
+
 huge Terastia
+
 hybrid Ybridikh katastash
+
 ident Anagnwrizw
+
 identity Tautothta
+
 ignore Agnohse to
+
 ignoreerrors Agnohse alla sfalmata tou AMSN mexri to telos ths sunedrias
+
 imagefiles Arxeia eikonas
+
 inbox Kala8i e-mail
+
 insertsmiley Eisagwgh fatsoulas
+
 inserttextnote Balte keimeno sto pedio 8ematos kai sto pedio shmeiwsewn kai pathste 'Apo8hkeush'
+
 installconvert Prepei na egkatasthseis to ImageMagick (programma convert) gia na metatrapoun oi eikones sth morfh pou katalabainoun oi diakomistes MSN. Mporeis na to katebaseis gia to leitourgiko sou apo to ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Se periptwsh pou to exeis hdh, uparxei problhma pou xreiazetai anafora. 
+
 internalerror Problhma diakomisth
+
 invalidfile To arxeio $2 apo to "$1" den uparxei h de diabazetai
+
 invalidfile2 O fakelos $1 den dhmiourgh8hke, bebaiw8eite oti exete to dikaiwma eggrafhs sthn topo8esia auth.
+
 invalidgroup Akatallhlh omada
+
 invalidparameter Sfalma sundeshs me to diakomisth: akurh parametros
+
 invalidpic O fakelos ths eikonas pou dwsate den bre8hke
+
 invalidpicsize H eikona pou epile3ate einai uperbolika megalh. Epile3te mia mikroterh.
+
 invalidsound To arxeio me ton hxo pou dwsate den bre8hke
+
 invalidusername Mh apodekto onoma xrhsth
+
 invitationcancelled H prosklhsh akurw8hke
+
 invite Proskalese
+
 ipaddress IP Dieu8unsh
+
 ipdetect Ka8orismos swstou IP gia metafores arxeiwn mesw HTTP
+
 ircstyle Sunomilia tupou IRC
+
 istyping o/h $1 tupwnei ena mhnuma
+
 joins o/h $1 eiserxetai sthn suzhthsh
+
 justonce Mono mia fora
+
 keepalive Keepalive (NAT)
+
 keeplog Krata istoria sunomiliwn
+
 keeplog2 Krata oles tis sunomilies sthn istoria tou aMSN gia mellontikh xrhsh
+
 language Glwssa
+
 language_manager Epilogeas glwssas
+
 large Megala
+
 lastlogin Teleutaia eisodos
+
 lastlogout Teleutaia e3odos
+
 lastmsgedme Teleutaio mhnuma
+
 lastmsgtime To teleutaio mhnuma lhf8hke stis $1
+
 lastseen Teleutaia sundesh
+
 lazypicretrieval Tempelikh anakthsh eikonwn emfanishs
+
 lclosedwin o/h $1 ekleise to para8uro sto $2
+
 lconftopriv H sunanthsh metatraphke se proswpikh sunomilia me ton/thn $1
+
 lconvstarted H suzhthsh arxise sto $1
+
 leaveblankforhotmail Afhse keno gia xrhsh tou hotmail
+
 leavejoinsinchat Emfanish twn sunomilhtwn pou feugoun h erxontai sth suzhthsh mesa sto para8uro suzhthshs.
+
 leaves o/h $1 apoxwrei apo thn suzhthsh
+
 lenteredconf o/h $1 mphke se sunanthsh sto $2 
+
 lineflushlog Eggrafh ston katalogo susthmatos meta apo ka8e apostolh grammhs
+
 linprivate IDIAITERWS
+
 listening Perimenw sundeseis
+
 listeningon Perimenw sto port $1
+
 listsmileys Lista xamogelwn
+
 listsmileys2 Deixne eikonidia kai fatsoules sto kentriko para8uro tou aMSN
+
 ljoinedconf o/h $1 mphke sthn sunanthsh
+
 lleftconf o/h $1 efuge apo thn sunanthsh
+
 load Fortwsh
+
 loadcontacts Eisagwgh epafwn
+
 logbigger Arxeio istorikou gia ka8e epafh den 3eperna 
+
 logeventconnect Katagrafh sundesewn
+
 logeventdisconnect Katagrafh aposundesewn
+
 logeventemail Katagrafh paralabhs email
+
 logeventstate Katagrafh allaghs katastashs
+
 logfandexp Mege8h arxeiwn istorikou kai periodos energhs istorias
+
 loggedotherlocation Aposunde8hke. Exei ginei sundesh apo allh topo8esia
+
 loggingin Sundeomai
+
 login Sundesh
+
 loginas Sundesh ws
+
 loging Istoriko
+
 logolder Krata istoriko gia sunomilies pou eginan tis teleutaies
+
 logout Aposundesh
+
 logsbydate Arxeio8ethsh katalogwn tou susthmatos xronologika. (H endei3h istorikou fortwnei grhgorotera)
+
 logsin molis sunde8hke
+
 logsmileys Probolh
+
 logsout molis aposunde8hke
+
 logwebcam Apo8hkeush olwn twn sunedriwn webcam sto istoriko tou AMSN
+
 longnick To onoma sas einai megalutero apo 130 xarakthres kai to MSN den to uposthrizei. Eiste sigouroi oti 8elete na proxwrhsete;
+
 longp4c To onoma sas einai megalutero apo 130 xarakthres. Auto pou 8a parousiazetai mesw tou MSN einai $1.  Eiste sigouroi oti 8elete na proxwrhsete;
+
 lprivtoconf H proswpikh suzhthsh egine sunanthsh me $1
+
 luclosedwin Ekleises to para8uro sto $1
+
 mailer Hlektronikos taxudromos
+
 mailerexample ( \$recipient = Apodekths ) Ase keno gia xrhsh tou hotmail 
+
 maintenance O diakomisths 8a pesei gia sunthrhsh se $1 lepto/a
+
 maximised Megistopoihmeno
+
 minimised Elaxistopoihmeno
+
 mins lepta
+
 mobile Kinhto
+
 mobilegrp1 'Kinhth' omada
+
 mobilegrp2 Na mpainoun oi xrhstes sthn 'Kinhth' omada otan einai ektos sundeshs (kai ta3inomountai kata katastash)
+
 modified Tropopoih8hke
+
 month Mhnas
+
 morepersonal Perissoteres katastaseis ->
+
 move Metakinhsh
+
 movetogroup Metakinhsh sthn omada
+
 msg Ameso mhnuma
+
 msgflicker Tremopai3e ton titlo tou para8urou suzhthshs otan lhf8ei mhnuma se para8uro pou den einai energo.
+
 msgmaxmin Otan ena mhnuma eisel8ei 8elw na einai :
+
 msgmode Diale3e pws na xeirizontai pollapla para8ura mhnumatwn :
+
 msn AMSN
+
 msnstyle Sunomilia tupou MSN
+
 mustrestart Xreiazetai epanekkinhsh wste oi allages na isxusoun
+
 myfriendlyname To filiko mou onoma
+
 myhomephone Thlefwno spitiou
+
 mymobilephone Kinhto thlefwno
-mynick To pseudwnumo mou
+
+mynick To yeudwnumo mou
+
 mypic H fwtografia mou:
+
 mystatus Katastash
+
 myworkphone Thlefwno douleias
+
 name Onoma
+
 natip Ka8orismos IP apo istoselida
+
 natkeepalive Ean aposundeesai suxna, energopoihse auto to KeepAlive
+
 needonline Akoma eisai/fainesai ektos sundeshs!
-needwinico2 Xreiazetai to winico05.dll sto fakelo utils/windows gia na doulepsei to windows traydocking
+
+needwinico2 Xreiazetai to winico05.dll sto fakelo utils/windows gia na douleyei to windows traydocking
+
 needwinico Xreiazetai to winico03.dll ston katalogo plugins wste na leitourgei h mpara sta windows
+
 never Pote
+
 new_ft_protocol Xrhsimopoihse to kainourio prwtokolo gia metafora arxeiwn (paramenoun merika sfalmata)
+
 newline Nea grammh
+
 newmail $1 kainouria mhnumata hlektronikou taxudromeiou
+
 newmailfolder Exete $1 kainouria mhnumata se allous katalogous tou Hotmail
+
 newmailfrom Kainourio mail apo ton/thn
+
 newmailfromother Kainourio mail se allo katalogo apo ton/thn $1($2)
+
 newmsg Kainourio mhnuma
+
 newstate Pros8hkh prosarmosmenhs katastashs
+
 newtabbedfeature To aMSN exei mia nea dunatothta gia na diaxeirizetai tis sunomilies, mporeite twra na exete ola ta para8ura apo thn idia omada h apo olh th lista epafwn sas se ena para8uro me karteles. Parakalw epile3te ton tropo pou to aMSN 8a xeirizetai tis sunomilies:
+
 newveravailable Kainouria ekdosh $1 dia8esimh gia katebasma
+
 next Epomeno
-nick Pseudwnumo
+
+nick Ceudwnumo
+
 no Oxi
+
 noactivity Kamia drasthriothta
+
 nodataavailable Kamia plhroforia dia8esimh gia $1
+
 nodevices Pros to paron, den uparxoun egkatesthmenes suskeues
+
 nogap Kanena keno meta3u omadwn
+
 nogroup Se kamia omada
+
 nologfile Kanena arxeio istorikou gia $1
+
 noneavailable Kanena Dia8esimo
+
 nonewmail Den uparxoun nea mhnumata hlektronikou taxudromeiou
+
 nonewver Den uparxei kainouria ekdosh
+
 nopic Kamia eikona
+
 noprofileexists Den uparxei kamia tautothta, \n prepei na dhmiourgh8ei toulaxiston mia wste na xrhsimopoih8ei h dunatothta pollaplwn tautothtwn. \nXrhsimopoihse to Pros8hkh Neas Tautothtas sto paron para8uro.
+
 normal Kanonikh
-noskins Den bre8hke kanenas arxeio epikalupshs gia to aMSN (skin). Telos efarmoghs.
+
+noskins Den bre8hke kanenas arxeio epikaluyhs gia to aMSN (skin). Telos efarmoghs.
+
 nosystemtray Den uparxei dunatothta mparas
+
 note Shmeiwsh
+
 notificationserver Arxikos Diakomisths Eidopoihsewn tou MSN (MSN Messenger Server)
+
 notify anakoinwse
+
 notify1 Dei3e para8uro enhmerwshs otan sundeontai oi epafes
+
 notify1_5 Dei3e para8uro enhmerwshs otan aposundeontai oi epafes
+
 notify1_75 Dei3e para8uro enhmerwshs otan mia epafh alla3ei katastash
+
 notify2 Dei3e para8uro enhmerwshs otan lhf8oun kainouria mhnumata
+
 notify3 Dei3e para8uro enhmerwshs otan lhf8oun kainouria emails
+
 notify4 Dei3e para8uro enhmerwshs otan lhf8oun kainouria emails se allous katalogous
+
 notifyoffset Dwse thn 8esh tou para8urou enhmerwshs
+
 notifytimeout Ari8mos milliseconds prin e3afanistei to para8uro enhmerwshs
+
 notifytyping Enhmerwsh sunomilhth kata th daktulografhsh
+
 notifywin Para8uro enhmerwshs
+
 notinlist Den eiste sth lista epafwn tou/ths.
+
 notls To prwtokollo MSN ekdosh 9 xreiazetai to paketo tls. To paketo auto den fainetai na einai egkatesthmeno se auto to mhxanhma. Ean einai egkatesthmeno, prepei h dieu8unsh ths biblio8hkhs na do8ei mesw tou para8urou parametrwn (p.x /opt/tls/lib). \n \n Mporeite na katebasete to tls apo thn dieu8unsh http://tls.sf.net.
+
 nottabbed Kanonika para8ura xwris karteles
+
 nousersinsession Kanenas xrhsths sth sunedria
+
 nudge O/H $1 apaitei thn prosoxh sas
+
 offline Ektos sundeshs
+
 ok Enta3ei
+
 onenewmail 1 kainourio mhnuma hlektronikou taxudromeiou
+
 online Sundedemenos
+
 onlinehelp Boh8eia on-line
+
 onphone Milaw sto thlefwno
+
 opendir Anoigma katalogou
+
 openfile Anoigma
+
 openfilecommand Entolh anoigmatos arxeiou
+
 openreceived Anoigma lhf8entwn arxeiwn
+
 options Epiloges
+
 ordercontactsby Ta3inomhsh epafwn kata
+
 ordergroupsby Ta3inomhsh omadwn kata
+
 original Au8entiko
+
 other Allo
+
 others Alloi
+
 p4contextprefix Topo8ethse to akolou8o keimeno mprosta apo tous apostoleis tupou P4-Context
+
 pager Bombhths
+
 pass Kwdikos
+
 paste Epikollhsh
+
 pause Paush
+
 personal Proswpika
+
 phone Thlefwno
+
 phones Thlefwna
+
 picbrowser Programma parousiashs eikonwn
+
 picfile Arxeio Eikonas (GIF < 500 x 500)
+
 picstatus Sunagermos eikonas
+
 play Anaparagwgh
+
 playing Anaparagwgh: $1
+
 pluginselector Epilogh pros8hkwn
+
 port 8ura 
+
 portswellconfigured Oi 8ures sas einai swsta ru8mismenes
+
 prefalerts Hxoi kai sunagermoi gegonotwn
+
 prefapps Efarmoges
+
 prefawaymsg To mhnuma thlefwnhth mou
+
 prefblock1 Elegxos kata thn aposundesh
+
 prefblock2 Diarkhs elegxos
+
 prefblock3 Omada "Eisai fragmenos apo"
+
 prefconnection Ru8miseis sundeshs
+
 prefemotic Eikonidia kai Fatsoules
+
 preferences Protimhseis
+
 preffont To proswpiko mou stul keimenou
+
 preffont2 Alla3e ton tropo pou oi alloi blepoun ta mhnumata mou se sunomilies
+
 preffont3 Allagh grammatoseiras twn para8urwn tou aMSN
+
 prefft Metafora arxeiwn, peer-to-peer kai parametroi NAT
+
 preflibs Fakeloi biblio8hkwn
+
 preflog1 Epiloges istorias kai istorikou
+
 preflogevent Istoria twn gegonotwn mou
+
 preflook H proswpikh mou aMSN emfanish 
+
 prefmsging Idiothtes para8urwn sunomilias
-prefname To MSN Messenger Onoma/Pseudwnumo mou
+
+prefname To MSN Messenger Onoma/Ceudwnumo mou
+
 prefphone Ta thlefwna mou
+
 prefphone2 Dwste ta thlefwna 
+
 prefprivacy Listes Epafwn/Fragwn xrhsth
+
 prefprivacy2 Listes epafwn/Antestrammenh xrhsth
+
 prefprofile H tautothta mou
+
 prefprofile2 Dhmiourgia h allagh ths tautothtas (ths proswpikhs \n sou perigrafhs pou oi alloi mporoun na doune)
+
 prefprofile3 Idiothtes tautothtwn xrhstwn aMSN
+
 prefproxy Epiloges apomakrusmenou diakomisth.
+
 prefremote Ru8miseis apomakrusmenou elegxou
+
 prefsession Sundesh kai Katastash
+
 prefshared Diamoirazomenes sundeseis (mono gia NAT)
+
 prefsound Hxoi
+
 preview Proepiskophsh
+
 privacy Asfaleia dedomenwn
+
 profiledconfig Idiothtes tautothtwn
-profileexists De ginetai h dhmiourgia tautothtas me auto to pseudwnumo \n epeidh uparxei hdh. Diale3e diaforetiko pseudwnumo.
+
+profileexists De ginetai h dhmiourgia tautothtas me auto to yeudwnumo \n epeidh uparxei hdh. Diale3e diaforetiko yeudwnumo.
+
 profileinuse Auth h tautothta xrhsimopoieitai apo allh aMSN sunodo, parakalw diale3e mia allh
+
 profileloginradio Sundesh me uparxousa tautothta
+
 profiles Tautothtes
+
 properties Idiothtes
+
 proxyconf Idiothtes apomakrusmenou diakomisth
+
 proxyconfhttp Idiothtes HTTP apomakrusmenou diakomisth
+
 proxyconnection 8elw na sunde8w sto internet mesw apomakrusmenou diakomisth (proxy):
+
 proxy Eimai pisw apo apomakrusmeno diakomisth (HTTP h SOCKS5)
+
 publishphones Gnwstopoihse ta thlefwna mou
+
 purge Monimo sbhsimo
+
 pwcdriver Xrhsimopoieite ton odhgo pwc
+
 raised Anashkwmeno
+
 readonlymsgbox H metafora arxeiou akurw8hke giati den uparxei dunatothta eggrafhs ston fakelo paralabhs. Ftia3e ta dikaiwmata autou tou fakelou.
+
 readonlywarn PROEIDOPOIHSH: To arxeio mallon den 8a sw8ei swsta afou o fakelos "eiserxomena" deixnei prostateumenos. Diasfalise pws o fakelos ($1) exei swsta dikaiwmata.
+
 receivedbytes Exw labei $1 apo $2 bytes
+
 receiveddir Fakelos eiserxomenwn arxeiwn
-receivefile Lhpsh arxeiou
+
+receivefile Lhyh arxeiou
+
 recentmsg Prostasia apo kleisimo tou para8uro suzhthsewn amesws meta ths afi3h enos eiserxomenou mhnumatos.
+
 reconnect Perimenw ton/thn $1 na epanasunde8ei
+
 reconnect2 Automath epanasundesh
+
 reconnecting Epanasundesh me diakomisth
-reject Aporripsh
+
+reject Aporriyh
+
 rememberpass Apo8hkeuse ton kwdiko
+
 remembersetting Apo8hkeush ru8mishs
+
 removeempty Afairesh kenwn omadwn apo th lista epafwn
+
 removefromlist Afairesh apo thn lista
+
 rename Metonomasia
+
 report Anafora
+
 reporting Anaferw
+
 required_version Adunath ekkinhsh pros8hkhs. Apaiteite toulaxiston h ekdosh aMSN $1
+
+restartforskin Shmeiwsh: Mporei na xreiastei na epanekkinhsete to aMSN gia na fanei swsta to derma!
+
 reversed Antestrammenh
+
 reverselist Antestrammenh lista :
+
 rightback Epistrefw amesws
+
 save Apo8hkeush
+
 saveas Apo8hkeush ws
+
 savechatwinsize Apo8hkeush tou mege8ous tou para8urou suzhthsewn ws proka8orismeno.
+
 savecontacts Apo8hkeush listas epafwn
+
 savetofile Apo8hkeush se arxeio
+
 says $1 leei
+
 sbcon Sundeomai sto Switch Board
+
 selectall Epilogh olwn
+
 selectplugins Diale3e tis pros8hkes pou 8es energopoihmenes
+
 selectskin Diale3e derma apo thn lista
+
 send Apostolh
+
 sendemail Apostolh ths dieu8unshs email mou gia na eidopoioumai gia allages
+
 sendfile Apostolh arxeiou
+
 sendmail Apostolh mhnumatos hlektronikou taxudromeiou
+
 sendmobmsg Apostolh se kinhth suskeuh
+
 sendmsg Apostolh amesou mhnumatos
+
 sendwebcaminvite Prosklhsh xrhsth na dei th webcam sas
+
 sentbytes Exw steilei $1 apo $2 bytes
+
 server Diakomisths
+
 serverbusy O diakomisths einai apasxolhmenos
+
 servergoingdown Aposunde8hka: O diakomisths termatizei thn leitourgia tou
+
 serverunavailable O diakomisths den einai dia8esimos 
+
 session Sunodos
+
 shareswebcam Moirazetai webcam
+
 showbanner Parousiash mpaner aMSN
+
 showblockedlist Dei3e thn lista twn xrhstwn pou me frazoun
+
 showcachedpics Emfanish apo8hkeumenwn eikonwn
+
 showdisplaypic Dei3e eikona emfanishs
+
 showdisplaypic2 Dei3e eikona emfanishs otan anoigei ena para8uro sunomilias
+
 showmypic Proswpikh eikona emfanishs
+
 shownotify Parousiash para8urou eidopoihshs otan sumbei kati
+
 showpicnotify Na emfanizontai oi eikones twn xrhstwn sta para8ura eidopoihshs
+
 showuserpic H eikona tou/ths $1
+
 signinstatus Katastash sundeshs
+
 skin Derma
+
 skinselector Epilogh dermatos
+
 small Mikra
+
 smileconfig Ru8miseis gia tis proswpikes fatsoules
+
 smilefile Arxeio fatsoulas
-smileintro2 Parakalw alla3e tis parakatw plhrofories gia thn allagh ths fatsoulas (gia boh8eia sumboulepsou to FAQ)
-smileintro Parakalw gemise tis parakatw plhrofories gia thn dhmiourgia mias kainourias fatsoulas (gia boh8eia sumboulepsou to FAQ)
+
+smileintro2 Parakalw alla3e tis parakatw plhrofories gia thn allagh ths fatsoulas (gia boh8eia sumbouleyou to FAQ)
+
+smileintro Parakalw gemise tis parakatw plhrofories gia thn dhmiourgia mias kainourias fatsoulas (gia boh8eia sumbouleyou to FAQ)
+
 smiletoobig H fatsoula pou epile3ate einai megaluterh apo to kanoniko mege8os. 8elete na alla3ete to me3e8os ths;
+
 snackfailed Apotuxia fortwshs tou Snack, epistrofh se proepilegmenes ru8miseis
+
 sngdblclick Anoigma kainouriou para8urou mhnumatwn me ena klik
+
 sound Hxos gegonotwn
+
 sound2 Anaparagwgh hxwn otan mia epafh sunde8ei h steilei mhnuma
-soundactive Anaparagwgh hxwn me thn lhpsh kainourou mhnumatos akomh kai se energo para8uro
+
+soundactive Anaparagwgh hxwn me thn lhyh kainourou mhnumatos akomh kai se energo para8uro
+
 soundcommand Entolh anaparagwghs hxou (p.x esdplay)
+
 soundexample ( \$sound = Arxeio hxou gia anaparagwgh) P.x esdplay \$sound
+
 soundfile Arxeio hxou
+
 soundfiles Arxeia hxou
-soundloop Kuklikh Epanalhpsh Hxou
+
+soundloop Kuklikh Epanalhyh Hxou
+
 soundserver Diakomisths hxou
+
 soundstatus Hxos sunagermou
+
 sourcecode Phgaios kwdikas (xreiazetai metaglwttish kai egkatastash)
+
 splashstart Ekkinhsh
+
 sslwarning PROEIDOPOIHSH!! Xwris SSL den uparxei kwdikopoihsh. O kwdikos sou 8a metafer8ei pros to diktuo ws aplo keimeno. Xrhsimopoihse auth thn epilogh mono gia polu periergous diakomistes kai diktua. 
+
 startoffline Ekkinhsh aposundedemenos
+
 startoffline2 A8orubh sundesh ws "Ektos sundeshs"
+
 startontray Ekkinhsh tou AMSN mono san eikonidio sthn mpara
+
 state 8elw na emfanizomai ws
+
 stateautomsg Automato mhnuma pou 8a stalei
+
 statechange to mhnuma alla3e se :
+
 stateedittext Parakalw kante tis allages sas kai \n pathste 'Apo8hkeush'
+
 stateinfo Ru8miseis proswpikhs katastashs
+
 statename Onoma proswpikhs katastashs
+
 statenewtext Parakalw dwste tis aparaithtes plhrofories gia na\ndhmiourghsete th nea Proswpikh Katastash kai pieste Apo8hkeush
-statenick Prosarmosmeno pseudwnumo (afhste adeio gia na mhn alla3ei)
+
+statenick Prosarmosmeno yeudwnumo (afhste adeio gia na mhn alla3ei)
+
 stats Statistika
+
 status Katastash
+
 stop Diakoph
+
 stopalarm Akurwsh sunagermou
-stopwebcamreceive Diakoph lhpshs webcam
+
+stopwebcamreceive Diakoph lhyhs webcam
+
 stopwebcamsend Diakoph apostolhs webcam
-storenickname Epistrofh sto arxiko pseudwnumo meta apo thn epistrofh apo prosarmosmenh katastash me prosarmosmeno pseudwnumo.
+
+storenickname Epistrofh sto arxiko yeudwnumo meta apo thn epistrofh apo prosarmosmenh katastash me prosarmosmeno yeudwnumo.
+
 strictfonts Periorismo twn grammatoseirwn mono se autes pou epele3a. (Mpara katastashs kai alles)
+
 style Stul
+
 stylechat Idio stul opws stis sunomilies
+
 stylehist Stul tou istorikou tou aMSN
+
 stylelog Diale3e to stul protimhshs gia thn emfanish ths istorias
+
 subject 8ema
+
 subjectrequired Apaiteitai 8ema
+
 syntaxerror La8os sunta3hs
+
 tabbedglobal Ena para8uro me karteles gia olous tous xrhstes
+
 tabbedgroups Ena para8uro me karteles gia tous xrhstes apo thn idia omada
+
 tabbed Diata3h tabbed
-tabtitlenick Emfanish pseudwnumwn stis karteles anti gia email
+
+tabtitlenick Emfanish yeudwnumwn stis karteles anti gia email
+
 temp_state Mhn apo8hkeuseis (H proswrinh katastash 8a xa8ei otan kleisei o AMSN)
+
 textsize Mege8os keimenou
+
 thismonth Autos o mhnas
+
 throughserver Mesw diakomisth
+
 timeremaining Ypoleipomenos xronos
+
 timestamp Xronosfragida
+
 timestamps Energopoihsh xronosfragidwn sta para8ura suzhthshs
+
 title Al's Messenger
+
 tkerror1 H TK edwse sfalma, uparxei bug sto amsn, parakalw na to anaferete patwntas to plhktro Anafora. Mporeite na pathsete to plhktro Leptomereies gia na deite perissoteres plhrofories gia to sfalma h na pathsete OK gia na sunexisete na sunomileite me to amsn.
+
 tkerror To TK anefere kapoio problhma sto amsn pou sas parakaloume na mas anaferete. Steile to fakelo $1 sthn lista amsn-bugs@lists.sf.net
+
 tlsdowncompleted To arxeio $1 katebhke ston fakelo $2. Prepei na to aposumpiesete (ean katebasate phgaio kwdika) kai na to egkatasthsete mesa sto $3.
+
 tlsexplain Fakelos opou brisketai to tcl TLS. An o AMSN den kataferei na to brei dhlwste to eseis.\n(Aparaithth gia epikoinwnia mesw SSL).
+
 tlsinstallexp To AMSN twra xrhsimopoiei MSNP9, to opoio xreiazetai SSL. Gia auto xreiazetai h egkatastash mias biblio8hkhs pou legetai TLS,\n h opoia leipei apo to susthma sas. O dialogos autos 8a sas boh8hsei na katebasete kai na egkatasthsete to TLS. Diale3te thn\n arxitektonikh tou susthmatos sas.
+
 tlsinstall Dialogos egkatastashs TLS
+
 tlsinstcompleted H egkatastash tou TLS egine epituxws. Twra to MSNP9 prepei na leitourgei kanonika. Ean oxi, mallon diale3es la8os paketo h den uparxei metaglwttismeno arxeio gia to susthma sou.
+
 to Sto
+
 today Shmera
+
 tomobile Pros kinhth suskeuh
+
 tools Ergaleia
+
 tooltips Energopoihsh tooltips
+
 transnotexists To arxeio den exei metafrastei akomh sthn parousa glwssa.
+
 trayicon Emfanish eikonidiou katastashs sthn perioxh eidopoihshs
+
 traynotcompiled To plugin mparas den einai sumbato.
+
 triggers Purodothsh keimenou
+
 truncatenames1 Deixne suntomografies twn onomatwn otan einai megalutera apo to mege8os ths lista h tou titlou tou para8urou.
+
 truncatenames2 Deixne suntomografies twn onomatwn otan einai megalutera apo to para8uro suzhthsewn.
+
 truncatenicks Deixne suntomografies twn onomatwn otan einai megalutera apo to para8uro.
+
 twonewmail $1 kainouria emails
+
 type Tupos
+
 unblock Apodoxh
+
 unknown Agnwsto
+
 unload Ekfortwsh
+
 unselectall Epilogh kanenos
+
 uoffline Aposundedemenoi
+
 uonline Sundedemenoi
+
 update Anaba8mish
+
 updateonlycurrentlanguage Na enhmerwnetai mono h trexousa glwssa
+
 updating Enhmerwnetai
+
 useasdp Na xrhsimopoih8ei ws eikona emfanishs
+
 useother Xrhsh allou programmatos
+
 user Xrhsths
+
 useralreadyonlist O xrhsths einai hdh sthn lista epafwn
+
 userblocked O xrhsths einai sundedemenos alla exei fragh
+
 userdata Plhrofories xrhsth
+
 usernotonline O xrhsths den einai sundedemenos
+
 userproperties Idiothtes xrhsth $1
+
 useryourself Den mporeis na sunomilhseis me ton eauto sou
+
 usesnack Xrhsh ths biblio8hkhs Snack (Eswterikh Tcl)
+
 verifyblocked Elegxos gia xrhstes pou frazoun thn dunatothta
+
 version Ekdosh
+
+videoconversationrequest Molis labate mia aithsh gia suskeyh binteo (amfidromo binteo kai eikona). Auth h leitourgia den uposthrizetai akoma apo to aMSN kai akurw8hke. Parol'auta, mporeite akoma na xrhsimopoihsete th suskeyh me webcam.
+
 view Probolh
+
 viewcontactsby Emfanish epafwn kata
+
 viewprofile Probolh tautothtas
+
 webcamcanceled H sunedria webcam me ton/thn $1 akurw8hke
+
 webcamclosebefcancel Prepei na akurwsete oles tis sunedries webcam prin kleisete to para8uro
+
 webcamconfigure Ru8mish Webcam
+
 webcamextloaded H epektash Webcamsn einai fortwmenh
+
 webcamextnotloaded H epektash Webcamsn den einai fortwmenh. Prepei na thn kanete compile. 
+
 webcamfaq Suxnes erwthseis (FAQ) / boh8eia gia th webcam
+
 webcamhistory Probolh sunedriwn webcam
+
 webcaminvite O/H $1 se proskalese se mia sunodo me webcam (kamera), alla to aMSN den to uposthrizei.
+
 webcaminvitereceived O/H $1 sas proskalese na 3ekinhsete mia sunedria webcam. 8elete na apodexteite th sunedria; 
-webcamrejected O/H $1 aperripse thn prosklhsh gia sunedria webcam
-webcamrequestreceive Apostolh aithshs gia lhpsh webcam
+
+webcamrejected O/H $1 aperriye thn prosklhsh gia sunedria webcam
+
+webcamrequestreceive Apostolh aithshs gia lhyh webcam
+
 webcamrequestsend Apostolh aithshs gia apostolh webcam
+
 webcamsending Lista atomwn sta opoia twra stelnete webcam\nKante click gia akurwsh
+
 webcam Webcam
+
 whatisamsn To aMSN einai enas klwnos tou MSN Messenger, ane3arthtos apo platforma
+
 whatsize H eikona pou epile3ate den einai sto kanoniko mege8os eikonas\n emfanishs (96x96). Se ti mege8os 8elete na emfanizetai;
+
 willjoin Perimenw ton/thn $1 na eisel8ei sthn suzhthsh
+
 winkreceived Labate ena neuma apo ton/thn $1. Dustuxws den uposthrizetai akomh apo to aMSN.
-wintitlenick Emfanish pseudwnumwn se ena para8uro me karteles anti gia email
+
+wintitlenick Emfanish yeudwnumwn se ena para8uro me karteles anti gia email
+
 work Douleia
+
 wrongfields Oi "$1", "$2" kai/h "$3" epiloges den einai apodektes
-wrongprofileversion Lan8asmenh ekdosh arxeiou ru8misewn tautothtwn. Gia na dior8w8ei to problhma, diagrapse ton fakelo $1, h ananewse to aMSN
+
+wrongprofileversion Lan8asmenh ekdosh arxeiou ru8misewn tautothtwn. Gia na dior8w8ei to problhma, diagraye ton fakelo $1, h ananewse to aMSN
+
 xmmscurrent Emfanish trexontos tragoudiou
+
 xmmserr Den paizetai tipota, h den exete egkatasthsei to xmms-infopipe.
+
 xmmssend Apostolh trexontos tragoudiou
+
 xoffset Suntetagmenh X
+
 year Xronos
+
 yes Nai
+
 yesblock Nai kai apokleismos
+
 yesterday X8es
+
 yoffset Suntetagmenh Y
+
 youblocked Eisai sth lista fraghs
+
 yousay Esu les
+
 youwant Esu 8eleis
+
 zoom Zoum
+
+
