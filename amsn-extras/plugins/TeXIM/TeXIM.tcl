@@ -83,8 +83,8 @@ namespace eval ::TeXIM {
 		#Header
 		frame $win.header -class Degt
 		pack $win.header -anchor w
-		label $win.header.label -text "Put here what is the header of the tex file"
-		text $win.header.text -background white -borderwidth 1 -relief ridge -width 45 -height 5 -font splainf
+		label $win.header.label -text "Please enter here the header for the tex documents :"
+		text $win.header.text -background white -borderwidth 1 -relief ridge -width 45 -height 5 -font sboldf
 		button $win.header.default -text [trans default] -command "::TeXIM::MakeDefault $win.header.text header"
 		$win.header.text insert end $::TeXIM::config(header)
 		grid $win.header.label -row 1 -column 1 -sticky w
@@ -94,8 +94,8 @@ namespace eval ::TeXIM {
 		#Footer
 		frame $win.footer -class Degt
 		pack $win.footer -anchor w
-		label $win.footer.label -text "Put here what is the footer of the tex file"
-		text $win.footer.text -background white -borderwidth 1 -relief ridge -width 45 -height 5 -font splainf
+		label $win.footer.label -text "Please enter here the footer for the tex documents"
+		text $win.footer.text -background white -borderwidth 1 -relief ridge -width 45 -height 5 -font sboldf
 		button $win.footer.default -text [trans default] -command "::TeXIM::MakeDefault $win.footer.text footer"
 		$win.footer.text insert end $::TeXIM::config(footer)
 		grid $win.footer.label -row 1 -column 1 -sticky w
@@ -264,7 +264,6 @@ namespace eval ::TeXIM {
 	proc parseLaTeX {event evPar} {
 
 		upvar 2 msg msg
-		status_log "$msg" green
 		upvar 2 win_name win_name
 		if { [string range $msg 0 4] == "\\tex " } { 
 			# Strip \tex out
@@ -407,16 +406,20 @@ namespace eval ::TeXIM {
 	
 			.texPreviewWin.preview.list.text configure -state normal -font bplainf -foreground black -yscrollcommand {.texPreviewWin.preview.list.ys set} -xscrollcommand {.texPreviewWin.preview.list.xs set}
 			.texPreviewWin.preview.list.text image create end -name TeXIM_Preview -image $imagename -padx 0 -pady 0 
-	
+			variable show_errors
+			set show_errors 0
+			.texPreviewWin.preview.list.text insert end \n$::TeXIM::tex_errors tag_errors
+			.texPreviewWin.preview.list.text tag configure tag_errors -elide true
+			.texPreviewWin.preview.list.text configure -state disabled
+
 			pack .texPreviewWin.preview.list.ys 	-side right -fill y
 			pack .texPreviewWin.preview.list.xs 	-side bottom -fill x
 			pack .texPreviewWin.preview.list.text -expand true -fill both -padx 1 -pady 1
 			pack .texPreviewWin.preview.list 		-side top -expand true -fill both -padx 1 -pady 1
 			pack .texPreviewWin.preview -fill both
-			.texPreviewWin.preview.list.text configure -state disabled
 		
 			pack .texPreviewWin.preview
-			button .texPreviewWin.show_errors -text "Show TeX errors" -command "::TeXIM::show_error "
+			button .texPreviewWin.show_errors -text "Show/Hide TeX errors" -command "::TeXIM::show_hide_error "
 			button .texPreviewWin.close -text "Close" -command "destroy .texPreviewWin"
 			bind .texPreviewWin <<Escape>> "destroy .texPreviewWin"
 			pack .texPreviewWin.close -side right -anchor se -padx 5 -pady 3
@@ -430,10 +433,15 @@ namespace eval ::TeXIM {
 		}
 	}
 
-	proc show_error { } {
-		.texPreviewWin.preview.list.text configure -state normal
-		.texPreviewWin.preview.list.text insert end \n$::TeXIM::tex_errors
-		.texPreviewWin.preview.list.text configure -state disabled 
+	proc show_hide_error { } {
+		variable show_errors
+		if {$show_errors == 1 } {
+			.texPreviewWin.preview.list.text tag configure tag_errors -elide true
+			set show_errors 0
+		} else {
+			.texPreviewWin.preview.list.text tag configure tag_errors -elide false
+			set show_errors 1
+		}
 	}
 	
 	###################################################################
