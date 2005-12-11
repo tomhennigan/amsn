@@ -1,0 +1,19 @@
+amsn_lang_version 2
+musicaddsongtonick Aggiungi la canzone al nick
+musicaddsongtopsm Aggiungi la canzone al messaggio personale
+musictimeverify Controlla le canzoni nuove ogni (secondi)
+musicnickname Nick
+musicseparator Simbolo tra il nick e la canzone
+musicstopmsg Messaggio riproduttore in stop
+musiccurrent Mostra la canzone attuale
+musicsend Spedisci la canzone attuale
+musicerr Nulla è in riproduzione, o il plugin non riesce a trovare le informazioni.
+playing Playing : $1
+musicoserr Il tuo sistema operativo ($1) non è ancora supportato dal plugin Music
+musicplayer Scegli il tuo riproduttore preferito
+musicstopdefault Riproduttore fermo
+separator Separatore
+songartist Canzone-Artista
+artistsong Artista-Canzone
+choose_order Scegli l'ordine per il nome della canzone e dell'artista (non compatibile con XMMS)
+musicballontext Clicca qui per mostrare/nascondere la canzone nel tuo nick
