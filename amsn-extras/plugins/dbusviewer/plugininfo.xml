@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<plugin>
+	<name>DbusViewer</name>
+	<author>Jonne Zutt</author>
+	<description>This plugin enables you to monitor dbus messages using the event log of aMSN.</description>
+	<amsn_version>0.95</amsn_version>
+	<plugin_version>0.1</plugin_version>
+	<plugin_file>DbusViewer.tcl</plugin_file>
+	<plugin_namespace>DbusViewer</plugin_namespace>
+	<init_procedure>Init</init_procedure>
+	<deinit_procedure>DeInit</deinit_procedure>
+</plugin>

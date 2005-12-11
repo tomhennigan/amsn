@@ -1,0 +1,62 @@
+
+This plugin enables aMSN users to conveniently monitor dbus signals,
+or, in fact, the output of any continuous input stream (as the exact
+command line is configurable).
+For more information about dbus, visit 
+http://www.freedesktop.org/Software/dbus.
+
+Although applications can easily set up their own dbus channels,
+there are two main dbus channels: (i) the system bus and (ii) the
+session bus.
+User specific messages are sent to the session bus: for example
+when new email arrives (you might have to configure your email
+program for this to work).
+System spcific messages are sent to the system bus: for example
+information about print jobs.
+
+The easiest way to figure out what signals are interesting to you,
+might be by enabling both buses and checking the "Show all signals" 
+box in the configuration window.
+If you do this, both the system and session bus are monitored and
+the regular expressions do not inhibit any signals from being
+showed.
+The effect of the regular expressions is, however, still showed.
+Each notification is prefixed by two numbers. The first number
+(if not zero) indicates the RE that matched the incoming signal,
+the second number (if not zero) indicates the RE that fails the
+incoming signal.
+
+The idea of the regular expressions is that:
+(i)  there _must_ be at least one of the "REs that should match"
+     that matches the incoming signal.
+(ii) there must _not_ be any of the "REs that should fail" that
+     matches the incoming signal.
+If both of the above are okay, the signal results in a notification
+to the aMSN user.
+
+Because the dbus signals are in a special format, not meant for
+humans to read, and because they are often too long for aMSN's
+default notification area, there is a way to extract more precisely
+what part of the incoming signal you want to see in the notification
+area. This is done by using parenthesized subexpressions in the
+regular expressions (just put parentheses around a part of your
+regular expression).
+
+In case you have any problems using this plugin, do not forget to
+check the plugins log (opened by pressing Alt-P).
+It might be the case you do not have the program 'unbuffer',
+'dbus-monitor' or a connection cannot be made to the session or
+system bus (could be the case when running remotely).
+
+Have fun using this plugin,
+Jonne Zutt <amsn-dbus@zutt.org>
+
+
+Todo list:
+
+- configuration cannot be saved, plugins log gives a hint about file write problem
+- Test what happens if amsn is started remotely (dbus-monitor --session then
+  is possibly not available).
+- Add language support
+- Save plugindir for help proc, check for any absolute paths here.
+- Check pluginsinfo.xml, cvs version and auto-updating stuff.
