@@ -40,7 +40,7 @@
 	<lang>
 		<langcode>ca</langcode>
 		<name>Catalan (català)</name>
-		<version>1.117</version>
+		<version>1.118</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -82,7 +82,7 @@
 	<lang>
 		<langcode>en</langcode>
 		<name>English</name>
-		<version>1.335</version>
+		<version>1.336</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -142,13 +142,13 @@
 	<lang>
 		<langcode>el</langcode>
 		<name>Greek (ελληνικά)</name>
-		<version>1.3</version>
+		<version>1.4</version>
 		<encoding>iso8859-7</encoding>
 	</lang>
 	<lang>
 		<langcode>gr2</langcode>
 		<name>Greeklish</name>
-		<version>1.7</version>
+		<version>1.8</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -202,7 +202,7 @@
 	<lang>
 		<langcode>no</langcode>
 		<name>Norwegian (Norsk)</name>
-		<version>1.41</version>
+		<version>1.42</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -220,7 +220,7 @@
 	<lang>
 		<langcode>pt_BR</langcode>
 		<name>Portuguese - Brazil</name>
-		<version>1.25</version>
+		<version>1.26</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
