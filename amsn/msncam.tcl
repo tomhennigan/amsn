@@ -2109,9 +2109,9 @@ namespace eval ::CAMGUI {
 			raise $w
 			return
 		}
-		abook::getIPConfig
 		toplevel $w
 		wm title $w "[trans webcamconfigure]"
+		abook::getIPConfig
 		#Small picture at the top of the window
 		label $w.webcampic -image [::skin::loadPixmap webcam]
 		pack $w.webcampic
