@@ -70,7 +70,7 @@
 	<lang>
 		<langcode>nl</langcode>
 		<name>Dutch (Nederlands)</name>
-		<version>1.134</version>
+		<version>1.135</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -220,7 +220,7 @@
 	<lang>
 		<langcode>pt_BR</langcode>
 		<name>Portuguese - Brazil</name>
-		<version>1.26</version>
+		<version>1.27</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
