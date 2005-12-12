@@ -1391,34 +1391,36 @@ proc lockSvrHdl { sock } {
 #         file after completion, but the registry key may have still been created/removed
 proc WinRegKey { addrem } {
 	if {$::tcl_platform(platform) == "windows"} {
-		if { [catch { set file_id [open "[file join ${::HOME2} addrem.reg]" w]} res]} {
+	    set filename [file join $::env(TEMP) amsn_addrem.reg]
+		if { [catch { set file_id [open "$filename" w]} res]} {
 			msg_box "Failed to create temporary file with error:\n$res"
 			return 0
 		}
 		puts $file_id "REGEDIT4\n"
 		puts $file_id "\[HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\]"
 		if { $addrem == "add" } {
-			set file [string map {"/" "\\\\" " " "\\ "} [info nameofexecutable]]
-			puts $file_id "\"amsn\"=\"\\\"[string map {"/" "\\\\"} [info nameofexecutable]]\\\" \\\"[string map {"/" "\\\\"} [pwd]]\\\\[string map {"/" "\\\\"} [file tail [info script]]]\\\"\"\n"
+		    set amsn_path [file nativename [file normalize [file join [file dirname [info nameofexecutable]] .. amsn.exe]]]
+		    puts $file_id "\"amsn\"=\"\\\"[string map {"\\" "\\\\"} $amsn_path]\\\"\"\n"
 		} else {
-			puts $file_id "\"amsn\"=-"
+		    puts $file_id "\"amsn\"=-"
 		}
 		
 		close $file_id
 
-		if { [catch { exec regedit /s [file join ${::HOME2} addrem.reg]} res]} {
+		if { [catch { exec regedit /s "$filename"} res]} {
 			msg_box "Failed to create/remove the registry key with error:\n$res"
 			return 0
 		}
 		
-		if { [catch { file delete "[file join ${::HOME2} addrem.reg]"} res]} {
+		if { [catch { file delete "$filename"} res]} {
 			msg_box "Failed to delete temporary file with error:\n$res"
 			return 0
 		}
 		return 1
 	}
 	return 0
-}
+} 
+
 #///////////////////////////////////////////////////////////////////////
 
 

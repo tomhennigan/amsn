@@ -309,6 +309,7 @@ ftsendinvitation File transfer invitation for file '$2' ($3 bytes) has been sent
 fullcontactlist Sorry, your contact list is full. You'll need to remove some contacts in order to add new ones.
 getdisppic Enable receiving Display Pictures from other users
 getmoreskins Get more skins!
+getmoreplugins Get more Plugins!
 gotink $1 sent you an ink.
 globalcontainer Global container
 globalnick Insert a pattern to form all your contacts' nicknames. You can use these variables: \$user_login for you contacts' address, \$nick for your contacts' nickname and \$customnick for your contacts' custom nickname. For example: '\$user_login is \$nick' will be 'contact@msn.com is Contact'
@@ -654,7 +655,8 @@ splashstart Start
 sslwarning WARNING!! Disabling SSL will disable encryption, so your password will be sent as plain text over the network. Use only for really tricky proxies or network configurations.
 startoffline2 Sign in silently as "Appear Offline"
 startoffline Start Offline
-startontray Start AMSN on tray icon only
+startonboot Start aMSN on Windows boot
+startontray Start aMSN on tray icon only
 stateautomsg AutoMessage to Send
 statechange status changed to: 
 stateedittext Please edit the fields you would like \n to modify and press Save

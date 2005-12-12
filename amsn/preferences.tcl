@@ -1730,8 +1730,17 @@ proc Preferences { { settings "personal"} } {
 	checkbutton $lfname.3.lreconnect -text "[trans reconnect2]" -onvalue 1 -offvalue 0 -variable [::config::getVar reconnect]
 	checkbutton $lfname.3.lonstart -text "[trans autoconnect2]" -onvalue 1 -offvalue 0 -variable [::config::getVar autoconnect]
 	
+	if {$::tcl_platform(platform) == "windows"} { 
+		checkbutton $lfname.3.startonboot -text "[trans startonboot]" -onvalue "add" -offvalue "remove" -variable ::start_on_windows_boot
+	}
+	
 	pack $lfname.3 -side top -padx 0 -expand 1 -fill both
-	pack $lfname.3.lreconnect $lfname.3.lonstart -anchor w -side top
+
+	if {$::tcl_platform(platform) == "windows"} { 
+		pack $lfname.3.lreconnect $lfname.3.lonstart $lfname.3.startonboot  -anchor w -side top
+	} else {
+		pack $lfname.3.lreconnect $lfname.3.lonstart -anchor w -side top       
+	}
 
 	## Away Messages Frame ##
 	set lfname [LabelFrame:create $frm.lfname2 -text [trans prefawaymsg]]
@@ -3005,6 +3014,10 @@ proc SavePreferences {} {
 	if { [::MSN::myStatusIs] != "FLN" } {
 		cmsn_draw_online
 	}
+
+	if { [info exists ::start_on_windows_boot] } {
+		WinRegKey $::start_on_windows_boot
+        }
     
 	#Reset the banner incase the option changed
 	resetBanner

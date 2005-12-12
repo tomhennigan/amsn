@@ -482,12 +482,13 @@ namespace eval ::plugins {
 		# set the window path
 		set w .plugin_selector
 		# if the window already exists, focus it, otherwise create it
-		if {[winfo exists $w]==1} {
+		if {[winfo exists $w]} {
 			raise $w
 		} else {
 			# create window and give it it's title
 			toplevel $w
 			wm title $w [trans pluginselector]
+			wm geometry $w 500x400
 			# create widgets
 			# listbox with all the plugins
 			listbox $w.plugin_list -background "white" -height 15 -yscrollcommand "$w.ys set" -relief flat -highlightthickness 0
@@ -496,15 +497,17 @@ namespace eval ::plugins {
 
 			# holds the plugins info like name and description
 			label $w.name_title -text [trans name] -font sboldf
-			label $w.name
+			label $w.name  -wraplength 300 
 			label $w.version_title -text [trans version] -font sboldf
 			label $w.version
 			label $w.author_title -text [trans author] -font sboldf
-			label $w.author
+			label $w.author  -wraplength 300 
 			label $w.desc_title -text [trans description] -font sboldf
 			label $w.desc -textvariable ::plugins::selection(desc) -width 40 \
-				-wraplength 300 -justify left -anchor w
+			    -wraplength 300 -justify left -anchor w
 			# holds the 'command center' buttons
+			label $w.getmore -text "[trans getmoreplugins]" -fg #0000FF -cursor hand1
+
 			button $w.load -text "[trans load]" -command "::plugins::GUI_Load" -state disabled
 			button $w.config -text "[trans configure]" -command "::plugins::GUI_Config" ;#-state disabled
 			button $w.close -text [trans close] -command "::plugins::GUI_Close"
@@ -539,9 +542,13 @@ namespace eval ::plugins {
 			pack $w.author -padx 5 -anchor w
 			pack $w.desc_title -padx 5 -anchor w
 			pack $w.desc -anchor nw -expand true -fill x -padx 5
-			pack $w.close -padx 5 -pady 5 -side right -anchor se
-			pack $w.config -padx 5 -pady 5 -side right -anchor se
-			pack $w.load -padx 5 -pady 5 -side right -anchor se
+
+			pack $w.getmore -side left -padx 5
+			bind $w.getmore <Enter> "$w.getmore configure -font sunderf"
+			bind $w.getmore <Leave> "$w.getmore configure -font splainf"
+			bind $w.getmore <ButtonRelease> "launch_browser $::weburl/plugins.php"
+
+			pack $w.close $w.config $w.load -padx 5 -pady 5 -side right -anchor se
 
 		    }
 
