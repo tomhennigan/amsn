@@ -74,7 +74,7 @@ bgcolor Changer la couleur de fond de aMSN
 blankdirect Laisser vide pour une connexion sans proxy
 block Bloquer
 blocked Bloqué[e]
-blockedyougroup Créer un groupe séparé pour les gens qui vous ont bloqué.
+blockedyougroup Créer un groupe séparé pour les personnes qui vous ont bloqué.
 blocking Bloquer
 blockinter1 Lorsque vous êtes en ligne, vérifier à chaque
 blockinter2 seconde(s), sinon vérifier à chaque:
@@ -90,11 +90,11 @@ browse Parcourir
 browserexample (\$url sera remplacée par l'URL) Ex: mozilla \$url
 browser Navigateur web
 bugerror Nous sommes désolés, mais il y a eu un problème lors de la connexion à la base de données des bugs. Merci de véifier votre connexion internet.
-busy Occupé
+busy Occupé[e]
 cachedpics $1 icônes masquées
 cagreement Déclaration de confidentialité
 cancel Annuler
-cannotdeleteprofile leteprofile le profil ne peut être supprimé car il semble être utilisé par une session aMSN
+cannotdeleteprofile le profil ne peut être supprimé car il semble être utilisé par une session aMSN
 cantexec Impossible d'exécuter l'application : $1. Vérifiez les préférences et/ou les droits sur cette application.
 cantloadonlineversion N'arrive pas à récupérer la nouvelle liste des langues depuis l'Internet.
 cantremoveothers Impossible de supprimer le groupe "Autres".
@@ -308,7 +308,8 @@ ftrejected Transfert de fichier refusé
 ftsendinvitation L'invitation de transfert du fichier '$2' ($3 bytes) a été envoyé à $1.
 fullcontactlist Désolé, votre liste de contact est pleine. Vous devez supprimer des contacts pour en ajouter de nouveaux.
 getdisppic Permettre la réception d'icônes des autres contacts
-getmoreskins Obtenir d'autres apparences
+getmoreskins Obtenez d'autres apparences !
+getmoreplugins Obtenez d'autres plugins !
 globalcontainer Fenêtre globale
 globalnick Insérez un modèle afin de former les pseudonymes de vos contacts.Vous pouvez utiliser ces variables : \$user_login pour les adresses de vos contacts, \$nick pour les pseudonymes de vos contacts et enfin \$customnick pour les pseudonymes personnalisés de vos contacts. Par exemple : "\$user_login est \$nick" donnera "contact@msn.com est Contact"
 globalnicktitle Pseudonyme général
@@ -591,7 +592,7 @@ rename Renommer
 report Envoyer
 reporting Envoi du bug....
 required_version Impossible de charger ce plugin. Il nécessite au moins la version $1 d'aMSN
-restartforskin Note: Vous devez redémarrer l'application pour que tous les changements prennent effet
+restartforskin Note : Il se peut que vous ayez à redémarrer aMSN pour que l'apparence fonctionne au mieux.
 reversed Ordre inversé
 reverselist Liste inversée :
 rightback Bientôt de retour
@@ -652,8 +653,9 @@ soundstatus Activer/Désactiver l'alarme sonore
 sourcecode Code source (requiert une compilation et une installation)
 splashstart Démarrage
 sslwarning ATTENTION !! Désactiver SSL désactivera l'encryptage, votre mot de passe sera alors envoyé en clair sur le réseau. A n'utiliser qu'avec des proxies ou des configurations de réseau très sûres.
-startoffline2 Se connecter directement en : "Apparaître déconnecté"
-startoffline Démarrer déconnecté
+startoffline2 Se connecter directement en : "Apparaître déconnecté[e]"
+startoffline Démarrer déconnecté[e]
+startonboot Lancer aMSN au démarrage de windows
 startontray Démarrer aMSN en arrière plan seulement
 stateautomsg Message à envoyer automatiquement
 statechange statut changé en :
