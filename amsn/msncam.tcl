@@ -2171,7 +2171,8 @@ namespace eval ::CAMGUI {
 		}
 		pack $w.settings
 		#Add button to open link to the wiki
-		set link "http://amsn.sourceforge.net/wiki/tiki-index.php?page=Webcam+In+aMSN"
+		set lang [::config::getGlobalKey language]
+		set link "http://amsn.sourceforge.net/webcamfaq.php?lang=$lang"
 		button $w.wiki -command "launch_browser $link" -text "[trans webcamfaq]"
 		pack $w.wiki
 		
