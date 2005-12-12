@@ -43,6 +43,7 @@ appearance Aparência
 appearoff Aparecer off-line
 areacode DDD
 aretyping $1 está digitando uma mensagem
+askcontactwebcam Ligar WebCam
 askeachtime Perguntar toda vez
 asksendingyourwebcam pedir para que seja enviado sua própria webcam
 askwebcam Pedir ao usuário para enviar sua webcam
@@ -91,6 +92,7 @@ browserexample (\$url será modificada com a URL). Ex: mozilla \$url
 bugerror Desculpe, mas não é possível conectar ao Banco de Dados de bug. Por favor verifique sua conexão com a internet.
 busy Ocupado
 cachedpics $1 figuras em cache
+cagreement Aceitação de Privacidade
 cancel Cancelar
 cannotdeleteprofile Impossível apagar este perfil, ele está sendo usado por uma sessão do aMSN.
 cantexec Impossível executar a aplicação: $1. Verifique suas preferências
@@ -247,6 +249,7 @@ dontshow Não exibir
 download Download 
 downloadingtls Efetuando download módulo TLS de:\n $1
 edit Editar
+editcontent Altere o contéudo do campo assunto e nota.
 editcustomstate Editar estado personalizado
 editnewstate Novo estado pessoal de Automensagem
 editprofile Editar perfil
@@ -305,6 +308,7 @@ ftrejectedby $1 cancelado o pedido de transferência do arquivo '$2'
 ftsendinvitation Convite para transferência do arquivo '$2' ($3 bytes) foi enviado para $1
 fullcontactlist Desculpe, sua lista de contatos está cheia. Você precisará remover alguns contatos para poder adicionar novos.
 getdisppic Permitir recebimento de imagens de exibição de outros usuários
+getmoreplugins Pegue mais plugins
 getmoreskins Pegue mais skins!
 globalcontainer Container global 
 globalnick Insira uma expressão para formar o apelido de todos os seus contatos. Você pode usar estas variáveis: \$user_login para o e-mail do seu contato, \$nick para o apelido dos seus contatos e \$customnick para o apelido customizado dos seus contatos. Por exemplo: '\$user_login é o \$nick' será 'contato@msn.com é o contato'
@@ -381,6 +385,7 @@ leaves $1 saiu da conversa
 lenteredconf $1 adicionado à conversa em $2
 lineflushlog Atualizar os logs a cada linha
 linprivate EM MODO PRIVATIVO
+listening Ouvindo
 listeningon Escutando na porta $1
 listsmileys Listar emoticons
 listsmileys2 Permitir Emoticons e Smileys na janela principal do aMSN
@@ -649,6 +654,7 @@ splashstart Iniciar
 sslwarning ATENÇÃO!! Desabilitando o SSL desativará a criptografia, assim sua senha será enviada como texto puro pela rede. Use apenas quando sua rede possuir proxies ou configurações fora do padrão.
 startoffline Iniciar desconectado
 startoffline2 Iniciar conectado mas invisível ("Aparecer Offline")
+startonboot Inicie aMSN quando o Windows iniciar
 startontray Iniciar o aMSN apenas no ícone da bandeja (systray)
 state Quero aparecer como
 stateautomsg Automensagem para Enviar
@@ -766,8 +772,3 @@ youblocked Você foi bloqueado
 yousay Você diz
 youwant Você quer
 zoom Zoom 
-
-askcontactwebcam Ligar WebCam
-cagreement Aceitação de Privacidade
-editcontent Altere o contéudo do campo assunto e nota.
-listening Ouvindo

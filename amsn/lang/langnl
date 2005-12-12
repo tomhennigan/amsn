@@ -309,6 +309,7 @@ ftsendinvitation De uitnodiging voor de overdracht van het bestand '$2' ($3 byte
 fullcontactlist Sorry, je contactenlijst is vol. Je moet eerst iemand verwijderen voordat je weer iemand kunt toevoegen.
 getdisppic De schermafbeelding van anderen weergeven tijdens gesprekken
 getmoreskins Klik hier voor meer skins!
+getmoreplugins Klik hier voor meer plugins!
 globalcontainer Meerdere gesprekken
 globalnicktitle Algemene schermnaam
 globalnick Voer een patroon in dat gebruikt wordt om een schermnaam te vormen voor al je contacten. Je kunt de volgende variabelen opnemen: \$user_login voor het e-mail adres van de contact, \$nick voor zijn schermnaam en \$customnick voor zijn aangepaste schermnaam.
@@ -655,6 +656,7 @@ sslwarning WAARSCHUWING!! Als SSL wordt uitgeschakeld, wordt je wachtwoord bij h
 startoffline2 Stil aanmelden met "Offline weergeven"
 startoffline Stil aanmelden
 startontray Start aMSN alleen als icoon in het systeemvak
+startonboot Start aMSN automatisch als Windows wordt opgestart
 stateautomsg Automatisch bericht
 statechange status is veranderd in:
 stateedittext Pas de velden aan die je wilt \n veranderen en druk op Opslaan
