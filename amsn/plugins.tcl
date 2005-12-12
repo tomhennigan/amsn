@@ -506,7 +506,7 @@ namespace eval ::plugins {
 			label $w.desc -textvariable ::plugins::selection(desc) -width 40 \
 			    -wraplength 300 -justify left -anchor w
 			# holds the 'command center' buttons
-			label $w.getmore -text "[trans getmoreplugins]" -fg #0000FF -cursor hand1
+			label $w.getmore -text "[trans getmoreplugins]" -fg #0000FF
 
 			button $w.load -text "[trans load]" -command "::plugins::GUI_Load" -state disabled
 			button $w.config -text "[trans configure]" -command "::plugins::GUI_Config" ;#-state disabled
@@ -1091,6 +1091,7 @@ namespace eval ::plugins {
 		} else {
 			msg_box "Plugins System: Can't initialize plugin:init procedure not found"
 		}
+		
 		if {[array exists ::${plugin}_cfg] == 1} {
 			array set ::${namespace}::config [array get ::${plugin}_cfg]
 		} else {
