@@ -546,7 +546,8 @@ namespace eval ::plugins {
 			pack $w.getmore -side left -padx 5
 			bind $w.getmore <Enter> "$w.getmore configure -font sunderf"
 			bind $w.getmore <Leave> "$w.getmore configure -font splainf"
-			bind $w.getmore <ButtonRelease> "launch_browser $::weburl/plugins.php"
+			set lang [::config::getGlobalKey language]
+			bind $w.getmore <ButtonRelease> "launch_browser $::weburl/plugins.php?lang=$lang"
 
 			pack $w.close $w.config $w.load -padx 5 -pady 5 -side right -anchor se
 
