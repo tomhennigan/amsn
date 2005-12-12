@@ -278,7 +278,7 @@ extras Extra Services
 faileddelete Failed to delete
 faileddeleteperso This picture cannot be deleted because it does not belong to your profile. Only pictures that belong to your personal profile can be removed this way.
 failed Failed
-faq FAQ (Frequently Answered Questions)
+faq FAQ (Frequently Asked Questions)
 filedoesnotexist File does not exist
 file File
 filemanexample ( \$location will be replaced with the directory ) Ex: nautilus \$location
@@ -451,8 +451,8 @@ needwinico2 Need winico05.dll in the utils/windows directory for windows traydoc
 never Never
 new_ft_protocol Use new File Transfer protocol (some bugs remain)
 newline Newline
-newmail $1 new messages in Inbox
-newmailfolder You have $1 new messages in other Hotmail folders
+newmail $1 new message(s) in Inbox
+newmailfolder You have $1 new message(s) in other Hotmail folders
 newmailfrom New mail from $1 ($2)
 newmailfromother New mail in other folder from $1 ($2)
 newmsg New message
