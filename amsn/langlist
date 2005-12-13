@@ -64,7 +64,7 @@
 	<lang>
 		<langcode>da</langcode>
 		<name>Danish (dansk)</name>
-		<version>1.43</version>
+		<version>1.44</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -142,7 +142,7 @@
 	<lang>
 		<langcode>el</langcode>
 		<name>Greek (ελληνικά)</name>
-		<version>1.4</version>
+		<version>1.5</version>
 		<encoding>iso8859-7</encoding>
 	</lang>
 	<lang>
@@ -256,7 +256,7 @@
 	<lang>
 		<langcode>es</langcode>
 		<name>Spanish (Español)</name>
-		<version>1.242</version>
+		<version>1.243</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -286,7 +286,7 @@
 	<lang>
 		<langcode>tr</langcode>
 		<name>Turkish (Türkçe)</name>
-		<version>1.58</version>
+		<version>1.59</version>
 		<encoding>iso8859-9</encoding>
 	</lang>
 	<lang>
