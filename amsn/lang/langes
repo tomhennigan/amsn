@@ -67,7 +67,7 @@ away Ausente
 awaymsg1 Preguntar cuando cambie el estado a Ausente/Vuelvo Enseguida/Ocupado
 awaymsg2 No preguntar nunca y usar el mensaje a continuación
 baduserpass Nombre de usuario o contraseña incorrectos
-badwebcam No se puede visualizar la imagen de la WebCam. Asegúrese de que la WebCam este instalada y conectada
+badwebcam No se puede visualizar la imagen de la cámara web. Asegúrese de que la cámara web este instalada y conectada
 bgcolor Cambia el color de fondo de aMSN
 blankdirect Dejar en blanco para conexión directa
 blocked Bloqueado
@@ -773,3 +773,5 @@ editcontent Editar el contenido del campo Asunto y el campo Nota
 getmoreskins ¡Consigue más skins!
 restartforskin Nota: ¡Necesitarás reiniciar aMSN para ver el skin bien!
 videoconversationrequest Acabas de recibir una petición de conversación de vídeo (audio y vídeo bidireccional). Esta característica no está soportada todavía por aMSN y ha sido cancelada. Sin embargo, todavía puedes usar la conversación estándar por cámara web.
+getmoreplugins ¡Consigue más plugins!
+startonboot Comenzar aMSN al iniciar Windows
