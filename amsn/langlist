@@ -256,7 +256,7 @@
 	<lang>
 		<langcode>es</langcode>
 		<name>Spanish (Español)</name>
-		<version>1.243</version>
+		<version>1.244</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -268,7 +268,7 @@
 	<lang>
 		<langcode>sv</langcode>
 		<name>Swedish (svenska)</name>
-		<version>1.8</version>
+		<version>1.9</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
