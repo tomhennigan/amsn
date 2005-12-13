@@ -43,7 +43,9 @@ appearance Apariencia
 appearoff Invisible
 areacode Código de area
 aretyping $1 está escribiendo un mensaje
+askcontactwebcam Preguntar por tus contactos de cámara web, o
 askeachtime Preguntar siempre
+asksendingyourwebcam Preguntar para enviar tu cámara web
 askwebcam Solicitar al usuario ver su cámara web
 author Autor
 autoaccepted Transferencia de archivo aceptada automáticamente
@@ -98,6 +100,7 @@ cantloadonlineversion No se pudo descargar de Internet la lista actualizada de i
 cantremoveothers No se puede borrar el grupo "Otros"
 captureextloaded La extensión de captura -$1- ha sido cargada
 captureextnotloaded La extensión de captura -$1- no ha sido cargada. Tendrás que compilarla
+captureproperties Propiedades de la cámara web
 casesensitive Diferenciar mayúsculas/minusculas en disparador
 cfgalarmall Cambiar/Añadir/Quitar alarma global
 cfgalarm Cambiar/Quitar alarma
@@ -139,6 +142,7 @@ clearlog2 Limpiar historial para todos los contactos
 clearlog3 Limpiar todos los registros
 clearlog Limpiar historial
 clearwebcamlogs Limpiar los históricos de cámara web
+clickhere Click aquí
 clicktoadd Haz click en Añadir para crear una nueva nota
 clicktologin Haga click aquí para iniciar sesión
 clientcaps Enviar paquetes x-clientcaps a otros clientes
@@ -197,6 +201,8 @@ custom_new Añadir emoticono personalizado
 customnick Apodo personal
 customstyle Estilo personalizado
 cut Cortar
+cutimageboxreset Reinicia el \ntamaño de la caja de selección a:
+cutimagebox  Seleccione la parte de la imagen que quiere usar, redimensionándola y moviendo la caja de selección
 date Fecha
 dateformat Cambiar formato de la fecha
 day Día
@@ -242,6 +248,7 @@ dontdownload No descargar TLS, lo instalaré yo mismo
 dontshow No mostrar
 download Descargar
 downloadingtls Descargando el módulo TLS desde:\n $1
+editcontent Editar el contenido del campo Asunto y el campo Nota
 editcustomstate Editar estado personalizado
 edit Edición
 editnewstate Nuevo mensaje automático para estado personalizado
@@ -301,11 +308,14 @@ ftrejected Transferencia de archivo cancelada
 ftsendinvitation Una invitación para la transferencia del archivo '$2' ($3 bytes) ha sido enviada a $1.
 fullcontactlist Tu lista de contactos está llena. Necesitarás eliminar algún contacto para poder añadir nuevos.
 getdisppic Habilitar la recepción de imágenes para mostrar de otros usuarios
+getmoreplugins ¡Consigue más plugins!
+getmoreskins ¡Consigue más skins!
 globalcontainer Contenedor global
 globalnick Introduce una expresión con la que formar todos los apodos, puedes usar las variables \$user_login para la dirección del contacto y \$nick para tu apodo o \$customnick para tu apodo personalizado.\nPor ejemplo: '\$user_login es \$nick' mostraría 'contacto@hotmail.com es Contacto'
 globalnicktitle Apodo global
 globaloverride El apodo global debe sobreescribir el apodo personalizado
 gonelunch Salí a comer
+gotink $1 le envió una ink
 groupadd Añadir un grupo
 groupdelete Borrar un grupo
 groupexists El grupo ya existe
@@ -327,6 +337,7 @@ history Ver historial
 home Casa
 httpconnection Conectar usando el método HTTP (usa protocolo HTTP por el puerto 80)
 hue Tonalidad
+huge enorme
 hybrid Modo híbrido
 ident Identificándose
 identity Identificación
@@ -359,6 +370,7 @@ keeplog2 Registrar las conversaciones en el historial para verlas más tarde
 keeplog Guardar historial de las conversaciones
 language Idioma
 language_manager Administrador de idiomas
+large grande
 lastlogin Última conexión
 lastlogout Última desconexión
 lastmsgedme Último mensaje
@@ -410,9 +422,9 @@ maintenance El servidor quedará fuera de servicio en $1 minuto/s para su manteni
 maximised Maximizada
 minimised Minimizada/Iconificada
 mins minutos
-mobile Teléfono móvil
 mobilegrp1 Grupo "Móviles"
 mobilegrp2 Poner usuarios en el grupo "Móviles" cuando están desconectados (y lista ordenada por estado)
+mobile Teléfono móvil
 modified Modificado
 month Mes
 morepersonal Más estados ->
@@ -487,6 +499,7 @@ offline Desconectado
 ok Aceptar
 onenewmail 1 mensaje nuevo en bandeja de entrada
 online En línea
+onlinehelp Ayuda en línea
 onphone Al teléfono
 opendir Abrir carpeta
 openfile Abrir
@@ -559,6 +572,7 @@ proxyconnection Me conecto a Internet usando un servidor proxy:
 proxy Estoy detrás de un servidor proxy (HTTP o SOCKS5)
 publishphones Publicar mis números de teléfono
 purge Eliminar
+pwcdriver Estás usando el controlador 'pwc'
 raised Elevada/Desiconificada
 readonlymsgbox La transferencia de archivos se ha cancelado porque el directorio de recepción es de sólo lectura. Comprueba los permisos de este directorio.
 readonlywarn AVISO: El archivo puede NO ser guardado correctamente porque el directorio de archivos recibidos parece estar protegido contra escritura. Comprueba que los permisos en el directorio ($1) son correctos antes de la transferencia
@@ -575,9 +589,10 @@ remembersetting Recordar esta selección
 removeempty Eliminar grupos vacíos de la lista de contactos
 removefromlist Borrar de esta lista
 rename Cambiar nombre
-reporting Generando informe
 report Informe
+reporting Generando informe
 required_version Imposible cargar este plugin. Este plugin requiere como mínimo aMSN $1 para funcionar
+restartforskin Nota: ¡Necesitarás reiniciar aMSN para ver el skin bien!
 reversed Invertido
 reverselist Lista Inversa(RL):
 rightback Vuelvo enseguida
@@ -617,6 +632,7 @@ showuserpic Imagen de $1
 signinstatus Estado inicial
 skinselector Elegir tema (skin)
 skin Tema (skin)
+small pequeño
 smileconfig Configuración de emoticono personalizado
 smilefile Nombre del archivo
 smileintro2 Edita los siguientes campos para personalizar el emoticono (ver FAQ para más información)
@@ -639,6 +655,7 @@ splashstart Comenzar
 sslwarning ¡¡CUIDADO!! Al desactivar SSL, se desactiva la encriptación, y tu contraseña será enviada a través de la red como texto sin encriptar. Utilizar sólo si es imprescindible, como en algunos servidores proxy, o configuraciones de red muy estrictas.
 startoffline2 Conectarse sigilosamente apareciendo "Desconectado"
 startoffline Comenzar desconectado
+startonboot Comenzar aMSN al iniciar Windows
 startontray Iniciar aMSN sólo con el icono de la bandeja del sistema
 stateautomsg Mensaje automático a enviar
 statechange cambia su estado a :
@@ -718,11 +735,14 @@ useryourself No puedes hablar contigo mismo
 usesnack Usar la biblioteca SNACK (Extensión de TCL)
 verifyblocked Comprobar qué contactos te bloquean
 version Versión
+videoconversationrequest Acabas de recibir una petición de conversación de vídeo (audio y vídeo bidireccional). Esta característica no está soportada todavía por aMSN y ha sido cancelada. Sin embargo, todavía puedes usar la conversación estándar por cámara web.
 viewcontactsby Ver contactos como
 viewprofile Ver perfil
 view Ver
 webcamcanceled La sesión de cámara web con $1 ha sido cancelada
 webcamclosebefcancel Tendrás que cancelar todas las sesiones de cámara web antes de cerrar la ventana
+webcam Cámara web
+webcamconfigure Configurar cámara web
 webcamextloaded Extensión de cámara web cargada
 webcamextnotloaded Extensión de cámara web no ha sido cargada. Tendrás que compilarla.
 webcamfaq FAQ(Preguntas Frecuentes)/Ayuda para cámara web
@@ -734,6 +754,7 @@ webcamrequestreceive Invitar para iniciar una sesión de cámara web
 webcamrequestsend Invitar para que vean mi cámara web
 webcamsending Lista de personas que actualmente te están viendo por tu cámara web\nClick para Cancelar
 webcamshot Captura de cámara web
+whatisamsn aMSN es un clon multiplataforma de MSN Messenger
 whatsize La imagen seleccionada no es del tamaño predefinido (96x96). ¿A qué tamaño te gustaría que fuera mostrada?
 willjoin Esperando que $1 se una a la conversación
 winkreceived Has recibido un guiño de $1, estas animaciones no estan disponibles en esta versión de aMSN.
@@ -754,24 +775,3 @@ youblocked Has sido bloqueado
 yousay Dices
 youwant Quieres
 zoom Ampliación
-captureproperties Propiedades de la cámara web
-cutimagebox  Seleccione la parte de la imagen que quiere usar, redimensionándola y moviendo la caja de selección
-cutimageboxreset Reinicia el \ntamaño de la caja de selección a:
-gotink $1 le envió una ink
-huge enorme
-large grande
-onlinehelp Ayuda en línea
-small pequeño
-whatisamsn aMSN es un clon multiplataforma de MSN Messenger
-pwcdriver Estás usando el controlador 'pwc'
-webcam Cámara web
-webcamconfigure Configurar cámara web
-askcontactwebcam Preguntar por tus contactos de cámara web, o
-asksendingyourwebcam Preguntar para enviar tu cámara web
-clickhere Click aquí
-editcontent Editar el contenido del campo Asunto y el campo Nota
-getmoreskins ¡Consigue más skins!
-restartforskin Nota: ¡Necesitarás reiniciar aMSN para ver el skin bien!
-videoconversationrequest Acabas de recibir una petición de conversación de vídeo (audio y vídeo bidireccional). Esta característica no está soportada todavía por aMSN y ha sido cancelada. Sin embargo, todavía puedes usar la conversación estándar por cámara web.
-getmoreplugins ¡Consigue más plugins!
-startonboot Comenzar aMSN al iniciar Windows
