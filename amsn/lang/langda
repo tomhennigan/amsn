@@ -310,6 +310,7 @@ ftrejectedby $1 har afvist filoverførsels-tilbuddet på filen '$2'.
 ftsendinvitation Filoverførsels-tilbud på filen '$2' ($3 bytes) er blevet sendt til $1.
 fullcontactlist Desværre, din kontaktliste er fuld. Du er nødt til at fjerne nogle kontakter for at kunne tilføje nogle nye.
 getdisppic Modtag gerne Display-billeder fra andre brugere
+getmoreplugins Få flere Plungins!
 getmoreskins Få flere skins!
 globalcontainer Global container
 globalnick Indsæt en skabelon til at danne alle dine kontakters kaldenavne. Du kan bruge disse variabler:\$user_login for dine kontakters addresse, \$nick for dine kontakters kaldenavn og \$customnick for dine kontakters brugervalgte kaldenavn. For eksempel: '\$user_login er \$nick' vil være 'contact@msn.com er kontakt'
@@ -343,7 +344,7 @@ hybrid Hybrid-modus
 ident Identificerer
 identity Identitet
 ignore Ignorer
-ignoreerrors Ignorer andre AMSN fejl indtil slutningen af sessionen
+ignoreerrors Ignorer andre aMSN fejl indtil slutningen af sessionen
 imagefiles Billedfiler
 inbox Indbakke
 insertsmiley Indsæt humørikon
@@ -476,7 +477,7 @@ nonewver Der er ingen nye versioner at downloade
 nopic Intet billede
 noprofileexists Der er ingen profiler, \n du skal lave én, hvis du ønsker at anvende profilerede logins. \nBrug Tilføj Ny Profil-knappen i dette vindue for at tilføje en ny profil.
 normal Normal
-noskins Kunne ikke finde et standard-skin i mappen skins/. AMSN kan ikke startes
+noskins Kunne ikke finde et standard-skin i mappen skins/. aMSN kan ikke startes
 nosystemtray Der er ingen system-bakke
 note Note
 notificationserver MSN Notifikationsserver (MSN Messenger Server)
@@ -656,7 +657,8 @@ splashstart Start
 sslwarning ADVARSEL: Fravælgelse af SSL vil deaktivere kryptering, så din adgangskode vil blive sendt som ren tekst over netværket. Anvend kun dette til virkelig besværlige proxyer eller netværkskonfigurationer.
 startoffline Start Offline
 startoffline2 Log på som "Vis som offline"
-startontray Start AMSN som et tray-ikon
+startonboot Start aMSN sammen med Windows startop
+startontray Start aMSN som et tray-ikon
 state Jeg vil fremstå som
 stateautomsg AutoBesked der skal Sendes
 statechange status skiftet til:
@@ -685,7 +687,7 @@ tabbedglobal Faneblad vindue for alle personer i kontakt listen
 tabbedgroups Faneblad vindue for alle personer i samme gruppe
 tabtitlenick Vis nicks i faneblad i stedet for email
 takesnapshot Tag et billed
-temp_state Gem ikke (Midlertidig status, vil blive glemt, når du lukker AMSN)
+temp_state Gem ikke (Midlertidig status, vil blive glemt, når du lukker aMSN)
 textsize Tekststørrelse
 thismonth Denne måned
 throughserver igennem server
@@ -693,10 +695,10 @@ timeremaining Tilbageværende tid
 timestamp Tids stemple
 timestamps Vis tidsstempler i Chat-vinduer
 title Al's Messenger
-tkerror TK har skabt en fejl, der er en fejl i amsn, rapportær den venligst. Send filen $1 til amsn-bugs@lists.sf.net
-tkerror1 TK har skabt en fejl, der er en fejl i amsn, rapportær den venligst klik på Rapportær knappen. du kan klik på Detaljer for at se mere oplysninger om denne fejl eller klik på Ok for at fortsætte med dine samtaler
+tkerror TK har skabt en fejl, der er en fejl i aMSN, rapportær den venligst. Send filen $1 til amsn-bugs@lists.sf.net
+tkerror1 TK har skabt en fejl, der er en fejl i aMSN, rapportær den venligst klik på Rapportær knappen. du kan klik på Detaljer for at se mere oplysninger om denne fejl eller klik på Ok for at fortsætte med dine samtaler
 tlsdowncompleted Filen $1 er downloadet til biblioteket $2. Du skal udpakke den, bygge den (hvis du downloadede kildekode) og installere den inden i biblioteket $3.
-tlsexplain Mappen hvor tcl TLS-modulet kan findes. Hvis AMSN ikke kan finde det selv, så specificær det venligst.\n(Påkrævet til SSL-godkendelse).
+tlsexplain Mappen hvor tcl TLS-modulet kan findes. Hvis aMSN ikke kan finde det selv, så specificær det venligst.\n(Påkrævet til SSL-godkendelse).
 tlsinstall TLS-Modul installations-gennemgang
 tlsinstallexp aMSN anvender nu MSNP9, som kræver brugen af en sikker\nforbindelse gennem SSL. For at kunne bruge SSL er aMSN nødt til at installere et modul ved navn TLS,\nsom du mangler på dit system. Denne gennemgang vil hjælpe dig med at downloade og\ninstallere TLS. Vælg venligst din system-type så vi automatisk kan downloade\nde krævede TLS-filer.
 tlsinstcompleted TLS modul-installationen er fuldført - du skulle nu være i stand til at bruge MSNP9. Hvis dette ikke virker, så har du muligvis ikke valgt det rigtige modul, eller også eksisterede der ikke et færdigkompileret modul til din system-type.
