@@ -773,3 +773,5 @@ small Piccolo
 videoconversationrequest Hai ricevuto una richiesta di conversazione video (audio e video bidirezionali). Questa funzionalità non è supportata da aMSN e la richiesta è stata annullata. Puoi comunque utilizzare la normale conversazione con webcam.
 webcam Webcam
 webcamconfigure Configura la Webcam
+getmoreplugins Preleva altri Plugin!
+startonboot Avvia aMSN all'avvio di Windows
