@@ -23,7 +23,7 @@ agotinvitation Received Audio invitation from $1
 alarmonconnect Activate alarm when this user comes online
 alarmondisconnect Activate alarm when this user goes offline/invisible 
 alarmonmsg Activate alarm when this user sends you a message
-alarmonstatus  Activate alarm when this user changes state
+alarmonstatus Activate alarm when this user changes state
 alarmpref User specific alarm settings
 alarms Alarms
 alarmstatus Activate the alarm for this user
