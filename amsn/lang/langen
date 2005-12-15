@@ -92,7 +92,7 @@ browserexample ( \$url will be replaced with the URL). Ex: mozilla \$url
 bugerror Sorry, but there was a problem connecting to the bug database. Please check your internet connection.
 busy Busy
 cachedpics $1 cached pics
-cagreement Confidentialy Agreement
+cagreement Confidentiality Agreement
 cancel Cancel
 cannotdeleteprofile Cannot delete profile because it seems to be in use by an aMSN session
 cantexec Can't execute application: $1. Check preferences
@@ -487,7 +487,7 @@ notify3 Display notify window when new emails arrive
 notify4 Display notify window when new emails arrive in other folders
 notify notify
 notifyoffset Offset the position of the notification pop-up
-notifytimeout Number of miliseconds before notify window dissapears
+notifytimeout Number of milliseconds before notify window disappears
 notifytyping Send other users notifications when typing
 notifywin Notify Window
 notinlist You aren't on his/her contact list
@@ -698,7 +698,7 @@ tlsdowncompleted File $1 was downloaded to directory $2. You must extract it, bu
 tlsexplain Folder where the tcl TLS module is located. If AMSN can't locate it, please specify.\n(Required for SSL authentication).
 tlsinstallexp aMSN now uses MSNP9, which requires the use of a secure\nconnection using SSL. In order to use SSL, aMSN needs to install a module called TLS,\nwhich is missing from your system. This wizard will help you to download and\ninstall TLS. Please choose your system type so we can automatically download\nthe required TLS files.
 tlsinstall TLS Module installation wizard
-tlsinstcompleted TLS module installation was sucessful - you should now be able to use MSNP9. If this doesn't work, then you probably didn't select the right module, or a compiled module is not available for your system.
+tlsinstcompleted TLS module installation was successful - you should now be able to use MSNP9. If this doesn't work, then you probably didn't select the right module, or a compiled module is not available for your system.
 today Today
 tomobile To Mobile
 tools Tools
@@ -761,7 +761,7 @@ work Work
 wrongfields The "$1", "$2" and/or "$3" fields were not valid
 wrongprofileversion Wrong profile configuration file version. In order to fix it, please remove directory $1, or update aMSN
 xmmscurrent Display current song
-xmmserr Nothing is playing, or you dont have xmms-infopipe installed.
+xmmserr Nothing is playing, or you don't have xmms-infopipe installed.
 xmmssend Send current song
 xoffset X Offset
 year Year
