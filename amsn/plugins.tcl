@@ -543,7 +543,7 @@ namespace eval ::plugins {
 			pack $w.desc_title -padx 5 -anchor w
 			pack $w.desc -anchor nw -expand true -fill x -padx 5
 
-			pack $w.getmore -side left -padx 5
+			pack $w.getmore -side top -anchor e -padx 5
 			bind $w.getmore <Enter> "$w.getmore configure -font sunderf"
 			bind $w.getmore <Leave> "$w.getmore configure -font splainf"
 			set lang [::config::getGlobalKey language]
