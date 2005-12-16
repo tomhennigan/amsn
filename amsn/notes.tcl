@@ -1,7 +1,6 @@
   #===========================================#
   #         AMSN's User Notes System          #
   #                By Fred                    #
-  #   Contact at yozko@users.sourceforge.net  #
   #         Started on May 1st 2004           #
   #===========================================#
 
