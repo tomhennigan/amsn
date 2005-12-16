@@ -1087,7 +1087,10 @@ namespace eval ::plugins {
 		}
 		if {[info procs ::${namespace}::${init_proc}] == "::${namespace}::${init_proc}"} {
 			plugins_log core "Initializing plugin $plugin with ${namespace}::${init_proc}\n"
-			::${namespace}::${init_proc} [file dirname $file]
+			if {[catch {::${namespace}::${init_proc} [file dirname $file]} res] } {
+				plugins_log core "Initialization of plugin $plugin with ${namespace}::${init_proc} failed\n$res"
+				msg_box "Plugins System: Can't initialize plugin:init procedure caused an internal error"
+			}
 			eval {proc ::${namespace}::${init_proc} {file} { return } }
 		} else {
 			msg_box "Plugins System: Can't initialize plugin:init procedure not found"
