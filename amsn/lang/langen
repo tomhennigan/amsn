@@ -85,7 +85,7 @@ blockmessage These people are online and blocked you
 blockusers Number of users to check at once 
 bouncedock Bounce aMSN's icon in the dock when a message is received
 brightness Brightness
-broughtby  Brought to you by the following developers
+broughtby Brought to you by the following developers
 browse Browse
 browser Browser
 browserexample ( \$url will be replaced with the URL). Ex: mozilla \$url
