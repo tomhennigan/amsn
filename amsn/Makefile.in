@@ -139,6 +139,7 @@ distclean:: clean
 install:: $(FILES_TO_INSTALL)
 	rm -Rf $(dstdir)/$(PACKAGE)
 	mkdir --parents $(dstdir)/$(PACKAGE)
+	mkdir -p $(slnkdir)
 	@for p in $?; do \
 			cp -Rf --parents $(srcdir)/$$p $(dstdir)/$(PACKAGE); \
 		done
@@ -147,6 +148,13 @@ install:: $(FILES_TO_INSTALL)
 			rm -Rf $(dstdir)/$(PACKAGE)/$$p; \
 		done
 	ln -sf $(dstdir)/$(PACKAGE)/amsn $(slnkdir)/amsn
+	chmod -R +rx $(dstdir)/$(PACKAGE)
+	
+	mkdir -p $(dstdir)/icons/hicolor
+	cp -R $(srcdir)/icons/* $(dstdir)/icons/hicolor
+
+	mkdir -p $(dstdir)/applications
+	cp $(srcdir)/amsn.desktop $(dstdir)/applications
 
 rpm-install:: $(FILES_TO_INSTALL)
 	rm -Rf $(INSTALL_PREFIX)/$(dstdir)/$(PACKAGE)

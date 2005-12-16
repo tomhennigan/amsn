@@ -1,0 +1,46 @@
+# -*-shell-script-*-
+
+[Meta]
+RootName: @amsn.sourceforge.net/amsn:$SOFTWAREVERSION
+DisplayName: AMSN MSN client
+ShortName: amsn
+Maintainer: The AMSN Developers <amsn-devel@lists.sourceforge.net>
+Packager: Taj Morton <tajmorton@gmail.com>
+Summary: AMSN is a multiplatform MSN client
+URL: http://amsn.sourceforge.net
+License: GNU General Public License, Version 2
+SoftwareVersion: 0.95
+# SoftwareVersion: @VERSION@
+PackageVersion: 1
+
+[Description]
+AMSN is a multiplatform clone of MSN Messenger.
+
+[BuildPrepare]
+./configure --prefix=$build_root
+make
+make install
+
+[BuildUnprepare]
+unprepareBuild
+
+[Imports]
+echo 'share/' | import
+
+[Prepare]
+# Dependency checking
+require @xfree86.org/xlib 6.0
+require @tcl.sourceforge.net/tcl 8.4
+require @tcl.sourceforge.net/tk 8.4
+
+[Install]
+# Put your installation script here
+installData share/amsn
+outputStatus "$intl_INSTALLING_EXE"
+linkFile --silent $PREFIX/share/amsn/amsn $PREFIX/bin/amsn
+installDesktop Internet share/applications/amsn.desktop
+installIcon share/icons/*
+
+[Uninstall]
+# Usually just the following line is enough to uninstall everything
+uninstallFromLog

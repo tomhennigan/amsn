@@ -1,0 +1,24 @@
+[Meta]
+RootName: @tcl.sourceforge.net/tcl
+DisplayName: TCL Scripting Language
+ShortName: tcl
+Skeleton-Author: Taj Morton <taj@wildgardenseed.com>
+Skeleton-Version: 1
+
+[Notes]
+INTERFACE_VERSIONS are set to match the currently installed major version of tcl.
+For instance, tcl 8.4.6 causes INTERFACE_VERSIONS to contain "8.4 8.3 8.2 8.1 8.0".
+SOFTWARE_VERSIONS is set to the result of echo 'puts $tcl_patchLevel' | tclsh
+
+[Test]
+if locateCommand tclsh; then
+	SOFTWARE_VERSIONS=$( echo 'puts $tcl_patchLevel' | tclsh )
+	if [[ "$?" != "0" ]]; then
+		INTERFACE_VERSIONS=""
+	else
+		INTERFACE_VERSIONS=$(countDownVersions `echo 'puts $tcl_patchLevel' | tclsh`)
+	fi
+else
+	SOFTWARE_VERSIONS=""
+	INTERFACE_VERSIONS=""
+fi
