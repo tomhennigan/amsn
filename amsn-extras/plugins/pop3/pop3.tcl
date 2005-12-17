@@ -667,7 +667,7 @@ namespace eval ::pop3 {
 			}
 			
 			#If Growl plugin is loaded, show the notification, Mac OS X only
-			if { [info commands ::growl::InitPlugin] != "" } {
+			if { [info proc ::growl::InitPlugin] != "" } {
 				catch {growl post Pop POP3 [trans newmail [set ::pop3::newMails_$acntn]]}
 			}
 		}
@@ -817,7 +817,7 @@ namespace eval ::pop3 {
 		set clbar $::pgBuddyTop.colorbar
 		
 		set textb $pgtop.pop3mail_$acntn
-		text $textb -font bboldf -height 1 -background [::skin::getKey topcontactlistbg] -borderwidth 0 -wrap none -cursor left_ptr \
+		text $textb -font bboldf -height 1 -background [::skin::getKey contactlistbg] -borderwidth 0 -wrap none -cursor left_ptr \
 			-relief flat -highlightthickness 0 -selectbackground white -selectborderwidth 0 \
 			-exportselection 0 -relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0
 		if {[::skin::getKey emailabovecolorbar]} {
@@ -995,8 +995,6 @@ namespace eval ::pop3 {
 	#	create the balloon
 	# Arguments:
 	#	acntn        -> The number of the gmail account to check
-	#TODO : add the balloon support.
-	#TODO : make the code more understandable !
 	proc Check_gmail {acntn} {
 		package require http
 		package require tls
@@ -1068,32 +1066,60 @@ namespace eval ::pop3 {
 
 		set gmail(Unreads) 0
 		set gmail(dataINBOX) [::http::data $gmail(tok4)]
-		#status_log "$gmail(dataINBOX)" green
+		status_log "$gmail(dataINBOX)" green
 		set gmail(senders_titles) [list]
 		set gmail(dataINBOX) [split $gmail(dataINBOX) "\n"]
 		set gmail(i) 0
 		set gmail(text_line) [lindex $gmail(dataINBOX) 0]
 		#now, parsing !
-		for {set i 1} {$i<=[llength $gmail(dataINBOX)]} {incr i} {
-		#status_log "$gmail(text_line)" blue
-			if { [string match *<title>Gmail* $gmail(text_line)] } {
-				set pos1 [expr [string first <title>Gmail $gmail(text_line)] + 15]
-				set pos2 [expr [string first </title> $gmail(text_line)] - 1]
-				set gmail(trans_inbox) [string range $gmail(text_line) $pos1 $pos2]
-				#status_log "=$gmail(trans_inbox)=" red
-				incr i
-				set gmail(text_line) [lindex $gmail(dataINBOX) $i ]
-			}
+		for {set i 1} {$i<[llength $gmail(dataINBOX)]} {incr i} {
 			#get the number of unread messages
-			if { [string match *${gmail(trans_inbox)}* $gmail(text_line) ] } {
-				#status_log "$gmail(text_line)" red
-				set pos1 [expr [string first $gmail(trans_inbox) $gmail(text_line)] + [string length $gmail(trans_inbox)]]
-				set pos2 [expr [string first ( $gmail(text_line) $pos1] + 1 ]
-				set pos3 [expr [string first ) $gmail(text_line) $pos2] -1 ]
-				set gmail(Unreads) [string range $gmail(text_line) $pos2 $pos3]
-				#status_log "$gmail(Unreads)" red
-				if {![string is digit -strict $gmail(Unreads)] || [expr $pos2 - $pos1] > 10 } {
-					set gmail(Unreads) 0
+			if { [string match *Inbox\&nbsp\;* $gmail(text_line) ] } {
+				regexp {Inbox\&nbsp\;\((\d+)\)\<\/a\>\<\/b\>} $gmail(text_line) -> gmail(Unreads)
+				#make the balloon
+				set ::pop3::balloontext_$acntn "\n"
+				set gmail(msg_number) 0
+				incr i
+				for { set i $i } {$i<[llength $gmail(dataINBOX)]} {incr i} {
+					set gmail(text_line) [lindex $gmail(dataINBOX) $i ]
+					#this sentence is close to the datas we need
+					if { [string match *\<\/b\>\ of\ \<b\>* $gmail(text_line) ] } {
+						incr i
+						set gmail(text_line) [lindex $gmail(dataINBOX) $i ]
+						#gmail(parity) is used to have a good display in the balloon
+						set gmail(parity) 1
+						while {$i<[llength $gmail(dataINBOX)] && $gmail(msg_number)< $gmail(Unreads) } {
+							set gmail(text_line) [lindex $gmail(dataINBOX) $i ]
+							if { [string equal [string range $gmail(text_line) 0 3] "<td "] } {
+								set gmail(text_line_1) [lindex $gmail(dataINBOX) [expr $i + 1] ]
+								set gmail(text_line_2) [lindex $gmail(dataINBOX) [expr $i + 2] ]
+								set gmail(text_line_3) [lindex $gmail(dataINBOX) [expr $i + 3] ]
+								set gmail(text_line_5) [lindex $gmail(dataINBOX) [expr $i + 5] ]
+								if { [string equal [string range $gmail(text_line_1) end-4 end] "</td>"] && \
+								[string equal [string range $gmail(text_line_2) 0 3] "<td "] &&\
+								( [string equal [string range $gmail(text_line_3) 0 12] "<a href=\"?th="] || \
+								[string equal [string range $gmail(text_line_5) 0 12] "<a href=\"?th="] )
+								} {
+									incr gmail(msg_number)
+									regsub -all {\<\/td\>} $gmail(text_line_1) "" gmail(text_line)
+									regsub -all {\<b\>} $gmail(text_line) "" gmail(text_line)
+									regsub -all {\<\/b\>} $gmail(text_line) "" gmail(text_line)
+									append ::pop3::balloontext_$acntn \n\n$gmail(text_line)
+									if { [string match *<b>* [lindex $gmail(dataINBOX) [expr $i + 6] ] ] } {
+										set gmail(text_line) [lindex $gmail(dataINBOX) [expr $i + 6] ]
+									} else {
+										set gmail(text_line) [lindex $gmail(dataINBOX) [expr $i + 8] ]
+									}
+									regsub -all {\<b\>} $gmail(text_line) "" gmail(text_line)
+									regsub -all {\<\/b\>} $gmail(text_line) "" gmail(text_line)
+									append ::pop3::balloontext_$acntn \n      $gmail(text_line)
+								}
+							}
+							incr i
+						}
+						set i [llength $gmail(dataINBOX)]
+					}
+					set gmail(text_line) [lindex $gmail(dataINBOX) $i ]
 				}
 			}
 			set gmail(text_line) [lindex $gmail(dataINBOX) $i ]
