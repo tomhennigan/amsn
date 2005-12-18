@@ -2411,7 +2411,6 @@ namespace eval ::CAMGUI {
 	proc PreviewLinux { grabber img } {
 		set semaphore ::CAMGUI::sem_$grabber
 		set $semaphore 0
-puts "preview"
 		while { [::Capture::IsValid $grabber] && [lsearch [image names] $img] != -1 } {
 			if {[catch {::Capture::Grab $grabber $img} res]} {
 				status_log "Problem grabbing from the device.  Device busy or unavailable ?\n\t \"$res\""
