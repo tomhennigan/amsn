@@ -66,7 +66,7 @@ namespace eval ::notes {
 
 
 		# Create the frame containing the list of the contacts
-		frame $w.contact -relief sunken -borderwidth 3
+		frame $w.contact -relief sunken -borderwidth 3 
   		listbox $w.contact.box -yscrollcommand "$w.contact.ys set" -font splainf -background white -relief flat -highlightthickness 0 -height 10 -width 20 -selectbackground gray
   		scrollbar $w.contact.ys -command "$w.contact.box yview" -highlightthickness 0 -borderwidth 1 -elementborderwidth 2
   		pack $w.contact.ys -side right -fill y
@@ -125,7 +125,7 @@ namespace eval ::notes {
   		pack $w.right.notes.current -expand false -fill x
   		pack $w.right.notes.box -side left -expand true -fill both
 		$w.right.notes.ys configure -height [winfo height $w.right.notes.box]
-  		pack $w.right.notes.ys -side right -fill y -expand true
+  		pack $w.right.notes.ys -side right -fill y -expand false
 
 
 		# Create the frame containing informations about the note
@@ -184,7 +184,7 @@ namespace eval ::notes {
 		bind $w.right.subject.txt <Button1-ButtonRelease> "::notes::Note_New"
 		bind $w.right.note.txt <Button1-ButtonRelease> "::notes::Note_New"
 		
-  	   	 
+		
   		pack $w.contact -side left -fill y -expand false
 		pack $w.right -side right -fill both -expand true
 
@@ -192,25 +192,22 @@ namespace eval ::notes {
 		pack $w.right.contact -side top -fill x
 		pack $w.right.notes -side top -fill both -expand true
 
-		pack $w.right.warning -side top -fill x
 		pack $w.right.info -side top -fill x
 		pack $w.right.subject -side top -fill x
+		pack $w.right.note -side top -fill both  -expand true
+		pack $w.right.warning -side top -fill x
 
-		pack $w.right.note -side bottom -fill both -expand true
-		
+
 		bind $w.right.subject.txt <Tab> "focus $w.right.note.txt; break"
 
 		# If the E-Mail is not given, display the first contact and show the contact list
 		if { $email == "" } {
+			::notes::ShowContact
 			set email [lindex $::notes::contacts 0]
-			$w.right.contact.left.showhide configure -image hide
-			bind $w.right.contact.left.showhide <Button1-ButtonRelease> "::notes::HideContact"
+		
 		} else {
-			$w.right.contact.left.showhide configure -image show
-			bind $w.right.contact.left.showhide <Button1-ButtonRelease> "::notes::ShowContact"
-			pack forget $w.contact
-			pack configure $w.right -side right -fill y -expand true
-			wm geometry $w 550x526
+			::notes::HideContact
+		
 		}
 		set ::notes::email $email
 		::notes::get_Note $email
@@ -686,8 +683,8 @@ proc HideContact { } {
 
 	set w ".notemanager"
 	pack forget $w.contact
-	pack configure $w.right -side right -fill both -expand true
-	wm geometry $w 550x526
+	#pack configure $w.right -side right -fill both -expand true
+#	wm geometry $w 550x526
 	$w.right.contact.left.showhide configure -image show
 	bind $w.right.contact.left.showhide <Button1-ButtonRelease> "::notes::ShowContact"
 	
@@ -698,7 +695,7 @@ proc ShowContact { } {
 
 	set w ".notemanager"
 	pack configure $w.contact -side left -fill y
-	wm geometry $w 660x526
+#	wm geometry $w 660x526
 	$w.right.contact.left.showhide configure -image hide
 	bind $w.right.contact.left.showhide <Button1-ButtonRelease> "::notes::HideContact"
 	
