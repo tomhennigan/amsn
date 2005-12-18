@@ -148,7 +148,7 @@ true
 
 %files
 %doc %{_doc_files}
-%{_bindir}/amsn
+%{_bindir}
 %{_desk_icons}/msn.png
 %{_datadir}
 %if %_not_suse
