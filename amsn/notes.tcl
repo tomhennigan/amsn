@@ -123,8 +123,9 @@ namespace eval ::notes {
   		listbox $w.right.notes.box -yscrollcommand "$w.right.notes.ys set" -font splainf -background white -relief flat -highlightthickness 0 -height 5 -width 60
   		scrollbar $w.right.notes.ys -command "$w.right.notes.box yview" -highlightthickness 0 -borderwidth 1 -elementborderwidth 2
   		pack $w.right.notes.current -expand false -fill x
-  		#pack $w.right.notes.ys -side right -fill y -expand true
   		pack $w.right.notes.box -side left -expand true -fill both
+		$w.right.notes.ys configure -height [winfo height $w.right.notes.box]
+  		pack $w.right.notes.ys -side right -fill y -expand true
 
 
 		# Create the frame containing informations about the note
