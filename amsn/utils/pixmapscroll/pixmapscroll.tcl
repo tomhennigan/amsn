@@ -67,6 +67,7 @@ snit::widgetadaptor pixmapscroll {
 	option -command -default {}
 	option -elementborderwidth -default -1
 	option -width -default 14 -configuremethod SetWidth
+	option -height -default 200 -configuremethod SetHeight
 	
 	option -autohide -default 0 -configuremethod ChangeHide
 
@@ -165,6 +166,15 @@ snit::widgetadaptor pixmapscroll {
 			$canvas configure -width $value
 		} else {
 			$canvas configure -height $value
+		}
+	}
+
+	method SetHeight {option value} {
+		set options($option) $value
+		if { $options(-orient) == "vertical" } {
+			$canvas configure -height $value
+		} else {
+			$canvas configure -width $value
 		}
 	}
 
