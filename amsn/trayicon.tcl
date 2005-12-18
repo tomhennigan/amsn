@@ -28,6 +28,16 @@ proc iconify_proc {} {
 	#bind $statusicon <Button-1> deiconify_proc
 }
 
+
+proc isWinicoLoaded {} {
+	foreach lib [info loaded] {
+		if {[lindex $lib 1] == "Winico" } {
+			return 1
+		}
+	}
+	return 0
+}
+
 # Load the needed library (platform dependent) and create the context-menu
 proc trayicon_init {} {
 	global systemtray_exist password iconmenu wintrayicon statusicon
@@ -37,16 +47,20 @@ proc trayicon_init {} {
 		if { $statusicon != 0 } {
 			return
 		}
-		set ext "[file join utils windows winico05.dll]"
-		if { [file exists $ext] != 1 } {
-			msg_box "[trans needwinico2]"
-			close_dock
-			return
+		catch {package require Winico}
+		if {![isWinicoLoaded] } {
+			set ext "[file join utils windows winico05.dll]"
+			if { [file exists $ext] != 1 } {
+				msg_box "[trans needwinico2]"
+				close_dock
+				return
+			}
+			if { [catch {load $ext winico}] }	{
+				close_dock
+				return
+			}
 		}
-		if { [catch {load $ext winico}] }	{
-			close_dock
-			return
-		}
+
 		set systemtray_exist 1
 		set wintrayicon [winico create [::skin::GetSkinFile winicons msn.ico]]
 		#add the icon
@@ -446,6 +460,13 @@ proc restart_tray { } {
 proc loadTrayLib {} {
 	
 	if { [OnWin] } {
+
+		# First try with the package winico (for the 0.6 version)
+		catch {package require Winico}
+		if {[isWinicoLoaded] } {
+			return 1
+		}
+
 		#set file name of the lib
 		set ext "[file join utils windows winico05.dll]"
 
