@@ -105,7 +105,7 @@ namespace eval ::notes {
 		label $w.right.contact.right.note -text "[trans contact]" -font bigfont
 		set nickname "[trunc [::abook::getDisplayNick $email] $w 410 bold]"
 		label $w.right.contact.right.txt -text "$email\n$nickname" -font bold
-		pack configure $w.right.contact.right.note
+		pack configure $w.right.contact.right.note -expand false
 		pack configure $w.right.contact.right.txt -expand true
 		pack configure $w.right.contact.right -expand true -side right
 		# Display the show/hide button
@@ -120,10 +120,10 @@ namespace eval ::notes {
 		# Create the listbox containing the notes
   		frame $w.right.notes -relief sunken -borderwidth 3
   		label $w.right.notes.current -text "[trans currentnotes]" -font bold
-  		listbox $w.right.notes.box -yscrollcommand "$w.right.notes.ys set" -font splainf -background white -relief flat -highlightthickness 0 -height 7 -width 60
+  		listbox $w.right.notes.box -yscrollcommand "$w.right.notes.ys set" -font splainf -background white -relief flat -highlightthickness 0 -height 5 -width 60
   		scrollbar $w.right.notes.ys -command "$w.right.notes.box yview" -highlightthickness 0 -borderwidth 1 -elementborderwidth 2
-  		pack $w.right.notes.current -expand true -fill both
-  		pack $w.right.notes.ys -side right -fill y
+  		pack $w.right.notes.current -expand false -fill both
+  		#pack $w.right.notes.ys -side right -fill y
   		pack $w.right.notes.box -side left -expand true -fill both
 
 
@@ -146,7 +146,7 @@ namespace eval ::notes {
 		label $w.right.note.desc -text "[trans note]" -font bold
 		text $w.right.note.txt -yscrollcommand "$w.right.note.ys set" -font splainf -background white -relief flat -highlightthickness 0 -height 7 -width 60 -state disabled -wrap word -exportselection 1
   		scrollbar $w.right.note.ys -command "$w.right.note.txt yview" -highlightthickness 0 -borderwidth 1 -elementborderwidth 2
-  		pack $w.right.note.desc -expand true -fill both
+  		pack $w.right.note.desc -expand false -fill both
   		pack $w.right.note.ys -side right -fill y
   		pack $w.right.note.txt -side left -expand true -fill both
 
@@ -186,13 +186,15 @@ namespace eval ::notes {
   	   	 
   		pack configure $w.contact -side left -fill y
 		pack configure $w.right.close $w.right.button -side bottom -fill x
-		pack configure $w.right.note -side bottom -fill both
-		pack configure $w.right.subject -side bottom -fill x
-		pack configure $w.right.info -side bottom -fill x
 
 		pack configure $w.right.contact -side top -fill x
 		pack configure $w.right.notes -side top -fill both
 		pack configure $w.right.warning -side top -fill x
+		pack configure $w.right.info -side top -fill x
+		pack configure $w.right.subject -side top -fill x
+
+		pack configure $w.right.note -side bottom -fill both
+
 		pack configure $w.right -side right -fill y
 		
 		bind $w.right.subject.txt <Tab> "focus $w.right.note.txt; break"
