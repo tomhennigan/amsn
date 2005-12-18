@@ -96,15 +96,15 @@ namespace eval ::notes {
 		}
 
 
-		frame $w.right -borderwidth 3
+		frame $w.right -borderwidth 30
 
 
 		# Display the E-Mail of the contact
 		frame $w.right.contact
 		frame $w.right.contact.right
 		label $w.right.contact.right.note -text "[trans contact]" -font bigfont
-		set nickname "[trunc [::abook::getDisplayNick $email] $w 410 bold]"
-		label $w.right.contact.right.txt -text "$email\n$nickname" -font bold
+		set nickname "[trunc [::abook::getDisplayNick $email] $w 410 sboldf]"
+		label $w.right.contact.right.txt -text "$email\n$nickname" -font sboldf
 		pack configure $w.right.contact.right.note -expand false
 		pack configure $w.right.contact.right.txt -expand true
 		pack configure $w.right.contact.right -expand true -side right
@@ -119,11 +119,11 @@ namespace eval ::notes {
 
 		# Create the listbox containing the notes
   		frame $w.right.notes -relief sunken -borderwidth 3
-  		label $w.right.notes.current -text "[trans currentnotes]" -font bold
+  		label $w.right.notes.current -text "[trans currentnotes]" -font sboldf
   		listbox $w.right.notes.box -yscrollcommand "$w.right.notes.ys set" -font splainf -background white -relief flat -highlightthickness 0 -height 5 -width 60
   		scrollbar $w.right.notes.ys -command "$w.right.notes.box yview" -highlightthickness 0 -borderwidth 1 -elementborderwidth 2
-  		pack $w.right.notes.current -expand false -fill both
-  		#pack $w.right.notes.ys -side right -fill y
+  		pack $w.right.notes.current -expand false -fill x
+  		#pack $w.right.notes.ys -side right -fill y -expand true
   		pack $w.right.notes.box -side left -expand true -fill both
 
 
@@ -135,18 +135,18 @@ namespace eval ::notes {
 
 		# Display the subject of the note
 		frame $w.right.subject -relief sunken -borderwidth 3
-		label $w.right.subject.desc -text "[trans subject]" -font bold
+		label $w.right.subject.desc -text "[trans subject]" -font sboldf
 		text $w.right.subject.txt -font splainf -background white -relief flat -highlightthickness 0 -height 1 -width 60 -state disabled
-		pack $w.right.subject.desc -expand true -fill both
-		pack $w.right.subject.txt -expand true -fill both
+		pack $w.right.subject.desc -expand false -fill both
+		pack $w.right.subject.txt -expand false -fill both
 		
 
 		# Display the note
 		frame $w.right.note -relief sunken -borderwidth 3
-		label $w.right.note.desc -text "[trans note]" -font bold
-		text $w.right.note.txt -yscrollcommand "$w.right.note.ys set" -font splainf -background white -relief flat -highlightthickness 0 -height 7 -width 60 -state disabled -wrap word -exportselection 1
+		label $w.right.note.desc -text "[trans note]" -font sboldf
+		text $w.right.note.txt -yscrollcommand "$w.right.note.ys set" -font splainf -background white -relief flat -highlightthickness 0 -height 5 -width 60 -state disabled -wrap word -exportselection 1
   		scrollbar $w.right.note.ys -command "$w.right.note.txt yview" -highlightthickness 0 -borderwidth 1 -elementborderwidth 2
-  		pack $w.right.note.desc -expand false -fill both
+  		pack $w.right.note.desc -expand false -fill x
   		pack $w.right.note.ys -side right -fill y
   		pack $w.right.note.txt -side left -expand true -fill both
 
@@ -184,18 +184,18 @@ namespace eval ::notes {
 		bind $w.right.note.txt <Button1-ButtonRelease> "::notes::Note_New"
 		
   	   	 
-  		pack configure $w.contact -side left -fill y
-		pack configure $w.right.close $w.right.button -side bottom -fill x
+  		pack $w.contact -side left -fill y -expand false
+		pack $w.right -side right -fill both -expand true
 
-		pack configure $w.right.contact -side top -fill x
-		pack configure $w.right.notes -side top -fill both
-		pack configure $w.right.warning -side top -fill x
-		pack configure $w.right.info -side top -fill x
-		pack configure $w.right.subject -side top -fill x
+		pack $w.right.close $w.right.button -side bottom -fill x
+		pack $w.right.contact -side top -fill x
+		pack $w.right.notes -side top -fill both -expand true
 
-		pack configure $w.right.note -side bottom -fill both
+		pack $w.right.warning -side top -fill x
+		pack $w.right.info -side top -fill x
+		pack $w.right.subject -side top -fill x
 
-		pack configure $w.right -side right -fill y
+		pack $w.right.note -side bottom -fill both -expand true
 		
 		bind $w.right.subject.txt <Tab> "focus $w.right.note.txt; break"
 
@@ -370,8 +370,8 @@ namespace eval ::notes {
 		}
 
 		set ::notes::email $contact
-		set nickname "[trunc [::abook::getDisplayNick $contact] $w 410 bold]"
-		$w.right.contact.right.txt configure -text "$contact\n$nickname" -font bold
+		set nickname "[trunc [::abook::getDisplayNick $contact] $w 410 sboldf]"
+		$w.right.contact.right.txt configure -text "$contact\n$nickname" -font sboldf
 
 		$w.right.button.new configure -state normal
 		$w.right.note.txt configure -state normal
@@ -527,7 +527,7 @@ namespace eval ::notes {
 		set note "[.notemanager.right.note.txt get 0.0 {end - 1 chars}]"
 
 		if { $subject == "" } {
-			$w.right.warning.txt configure -text "[trans subjectrequired]" -foreground red -font bold
+			$w.right.warning.txt configure -text "[trans subjectrequired]" -foreground red -font sboldf
 
 		} else {
 
@@ -685,7 +685,7 @@ proc HideContact { } {
 
 	set w ".notemanager"
 	pack forget $w.contact
-	pack configure $w.right -side right -fill y -expand true
+	pack configure $w.right -side right -fill both -expand true
 	wm geometry $w 550x526
 	$w.right.contact.left.showhide configure -image show
 	bind $w.right.contact.left.showhide <Button1-ButtonRelease> "::notes::ShowContact"
