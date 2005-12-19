@@ -1394,7 +1394,7 @@ namespace eval ::MSNP2P {
 	proc SendPacket { sbn msg } {
 		#	if { [string length $msg] > 1202 }
 		set msg_len [string length $msg]
-		::MSN::WriteSBNoNL $sbn "MSG" "D $msg_len\r\n$msg"
+		catch {::MSN::WriteSBNoNL $sbn "MSG" "D $msg_len\r\n$msg"}
 	}
 
 	proc SendPacketExt { sbn sid slpdata {nullsid "0"} {MsgId "0"} {TotalSize "0"} {Offset "0"} {Destination "0"} {AfterAck "0"} {flags "0"}} {
