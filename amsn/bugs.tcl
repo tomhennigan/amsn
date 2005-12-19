@@ -46,11 +46,12 @@ namespace eval ::bugs {
 	    set fd [open cvs_date]
 	    set date [gets $fd]
 	    close $fd
+	    set date [::bugs::cvstostamp $date]
 	} else {
-	    set date $::date
+	    set date "$::date 12:00:00"
 	}
 
-	set date [::bugs::cvstostamp $date]
+
 	
 	#error message into status_log
 	status_log "-----------------------------------------\n" error
