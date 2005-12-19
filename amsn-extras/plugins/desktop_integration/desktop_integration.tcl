@@ -385,7 +385,7 @@ namespace eval ::desktop_integration {
 				} else {
 					if { $ktype == "msgbox" } { set ktype "info" }
 					plugins_log $plugin_name "Calling \'zenity --$ktype\'"	
-					catch {exec zenity --$ktype --$ktype-text=\"$message\" --title \"$title\" &} answer
+					catch {exec zenity --$ktype --text \"$message\" --title \"$title\" &} answer
 				}
 			}
 			
@@ -397,7 +397,7 @@ namespace eval ::desktop_integration {
 				} else {
 					# GNOME yes-no dialog
 					plugins_log $plugin_name "Calling \'zenity --question\'"
-					set answer [::desktop_integration::launch_question "zenity --question --question-text \"$message\" --title \"$title\""]
+					set answer [::desktop_integration::launch_question "zenity --question --text \"$message\" --title \"$title\""]
 				}
 				plugins_log $plugin_name "Answer=\'$answer\'"
 			}
