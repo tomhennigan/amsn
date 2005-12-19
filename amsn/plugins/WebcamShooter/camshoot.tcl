@@ -112,22 +112,25 @@ namespace eval ::camshoot {
 			}
 			
 			if { ![info exists ::webcam_settings_bug] || $::webcam_settings_bug == 0} {
-				set init_b [::Capture::GetBrightness $grabber]
-				set init_c [::Capture::GetContrast $grabber]
-				set init_h [::Capture::GetHue $grabber]
-				set init_co [::Capture::GetColour $grabber]
-				
-				set settings [::config::getKey "webcam$dev:$channel" "$init_b:$init_c:$init_h:$init_co"]
+				set settings [::config::getKey "webcam$dev:$channel" "0:0:0:0"]
 				set settings [split $settings ":"]
-				set init_b [lindex $settings 0]
-				set init_c [lindex $settings 1]
-				set init_h [lindex $settings 2]
-				set init_co [lindex $settings 3]
-			
-				::Capture::SetBrightness $grabber $init_b
-				::Capture::SetContrast $grabber $init_c
-				::Capture::SetHue $grabber $init_h
-				::Capture::SetColour $grabber $init_co
+				set set_b [lindex $settings 0]
+				set set_c [lindex $settings 1]
+				set set_h [lindex $settings 2]
+				set set_co [lindex $settings 3]
+
+				if {[string is integer -strict $set_b]} {
+					::Capture::SetBrightness $grabber $set_b
+				}
+				if {[string is integer -strict $set_c]} {
+					::Capture::SetContrast $grabber $set_c
+				}
+				if {[string is integer -strict $set_h]} {
+					::Capture::SetHue $grabber $set_h
+				}
+				if {[string is integer -strict $set_co]} {
+					::Capture::SetColour $grabber $set_co
+				}
 			}
 
 			set img [image create photo]
@@ -139,7 +142,17 @@ namespace eval ::camshoot {
 			pack $window.settings -expand true -fill x
 			button $window.shot -text "[trans takesnapshot]" -command "::camshoot::webcampicture_shot $window"
 			pack $window.shot -expand true -fill x
-			bind $window <Destroy> "catch {::Capture::Close $grabber}"
+			bind $window <Destroy> "::CAMGUI::CloseGrabber $grabber $window"
+
+			if { [info exists ::grabbers($grabber)] } {
+				set windows $::grabbers($grabber)
+			} else {
+				set windows [list]
+			}
+	
+			lappend windows $window
+			set ::grabbers($grabber) $windows
+
 			after 0 "::CAMGUI::PreviewLinux $grabber $img"
 
 		}

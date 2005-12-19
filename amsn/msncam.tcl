@@ -2283,16 +2283,16 @@ namespace eval ::CAMGUI {
 		button $settings -text "[trans changevideosettings]"
 
 		frame $buttons -relief sunken -borderwidth 3
-		button $buttons.ok -text "[trans ok]" -command "::CAMGUI::Choose_OkLinux $window $devs.list $chans.list $img [list $devices]"
-		button $buttons.cancel -text "[trans cancel]" -command "::CAMGUI::Choose_CancelLinux $window $img"
-		wm protocol $window WM_DELETE_WINDOW "::CAMGUI::Choose_CancelLinux $window $img"
+		button $buttons.ok -text "[trans ok]" -command [list ::CAMGUI::Choose_OkLinux $window $devs.list $chans.list $img $devices]
+		button $buttons.cancel -text "[trans cancel]" -command [list ::CAMGUI::Choose_CancelLinux $window $img]
+		wm protocol $window WM_DELETE_WINDOW [list ::CAMGUI::Choose_CancelLinux $window $img]
 		#bind $window <Destroy> "::CAMGUI::Choose_CancelLinux $window $img $preview"
 		pack $buttons.ok $buttons.cancel -side left
 
 		pack $lists $status $preview $settings $buttons -side top
 
-		bind $devs.list <Button1-ButtonRelease> "::CAMGUI::FillChannelsLinux $devs.list $chans.list $status [list $devices]"
-		bind $chans.list <Button1-ButtonRelease> "::CAMGUI::StartPreviewLinux $devs.list $chans.list $status $preview $settings [list $devices]"
+		bind $devs.list <Button1-ButtonRelease> [list ::CAMGUI::FillChannelsLinux $devs.list $chans.list $status $devices]
+		bind $chans.list <Button1-ButtonRelease> [list ::CAMGUI::StartPreviewLinux $devs.list $chans.list $status $devices $preview $settings]
 
 		foreach device $devices {
 			set dev [lindex $device 0]
@@ -2334,7 +2334,7 @@ namespace eval ::CAMGUI {
 	}
 		
 
-	proc StartPreviewLinux { device_w chan_w status preview_w settings devices} {
+	proc StartPreviewLinux { device_w chan_w status devices preview_w settings} {
 	##WARNING : [$device_w curselection] is always "" !!! That's why we use variable dev
 	# 	if { [$device_w curselection] == "" } {
 	# 		$status configure -text "Please choose a device"
@@ -2353,7 +2353,6 @@ namespace eval ::CAMGUI {
 		
 		variable dev
 		set chan [$chan_w curselection]
-
 		set device [lindex $devices $dev]
 		set device [lindex $device 0]
 
@@ -2403,8 +2402,8 @@ namespace eval ::CAMGUI {
 			}
 		}
 
-		$settings configure -command "$preview_w configure -image \"\"; ::CAMGUI::ShowPropertiesPage $::CAMGUI::webcam_preview $img; status_log \"Img is $img\"; $preview_w configure -image $img"
-		after 0 "::CAMGUI::PreviewLinux $::CAMGUI::webcam_preview $img"
+		$settings configure -command [list ::CAMGUI::ShowPropertiesPage $::CAMGUI::webcam_preview $img]
+		after 0 [list ::CAMGUI::PreviewLinux $::CAMGUI::webcam_preview $img]
 
 	}
 
@@ -2541,10 +2540,10 @@ status_log "webcamDevice=$device:$channel" green
 		pack $slides.b $slides.c $slides.h $slides.co -expand true -fill x
 
 		frame $buttons -relief sunken -borderwidth 3
-		status_log "::CAMGUI::Properties_OkLinux $window $capture_fd $device $channel"
-		button $buttons.ok -text "[trans ok]" -command "::CAMGUI::Properties_OkLinux $window $capture_fd {$device} $channel"
-		button $buttons.cancel -text "[trans cancel]" -command "::CAMGUI::Properties_CancelLinux $window $capture_fd $set_b $set_c $set_h $set_co"
-		wm protocol $window WM_DELETE_WINDOW "::CAMGUI::Properties_CancelLinux $window $capture_fd $set_b $set_c $set_h $set_co"
+
+		button $buttons.ok -text "[trans ok]" -command [list ::CAMGUI::Properties_OkLinux $window $capture_fd $device $channel]
+		button $buttons.cancel -text "[trans cancel]" -command [list ::CAMGUI::Properties_CancelLinux $window $capture_fd $set_b $set_c $set_h $set_co]
+		wm protocol $window WM_DELETE_WINDOW [list ::CAMGUI::Properties_CancelLinux $window $capture_fd $set_b $set_c $set_h $set_co]
 
 
 		pack $buttons.ok $buttons.cancel -side left
@@ -2559,11 +2558,18 @@ status_log "webcamDevice=$device:$channel" green
 		pack $slides -fill x -expand true
 		pack $preview $buttons -side top
 
-
-		$slides.b set $set_b
-		$slides.c set $set_c
-		$slides.h set $set_h
-		$slides.co set $set_co
+		if {[string is integer -strict $set_b]} {
+			$slides.b set $set_b
+		}
+		if {[string is integer -strict $set_c]} {
+			$slides.c set $set_c
+		}
+		if {[string is integer -strict $set_h]} {
+			$slides.h set $set_h
+		}
+		if {[string is integer -strict $set_co]} {
+			$slides.co set $set_co
+		}
 
 		return $window
 

@@ -739,6 +739,8 @@ int Capture_AccessSettings _ANSI_ARGS_((ClientData clientData,
       value = attr->read(attr);
       Tcl_SetObjResult(interp, Tcl_NewIntObj(value));
     }
+  } else {
+      Tcl_SetObjResult(interp, Tcl_NewIntObj(0));
   }
   return TCL_OK;
 }
