@@ -217,7 +217,7 @@ namespace eval ::Nudge {
 	###############################################
 	proc notify { nick email } {
 		#Get a shorter nick-name for the notify window
-		set maxw [expr {[::config::getKey notifwidth]-20}]
+		set maxw [expr {[::skin::getKey notifwidth]-20}]
 		set nickname [trunc $nick . $maxw splainf]
 		#Show the notification
 		::amsn::notifyAdd "Nudge\n[trans nudge $nickname]." "::amsn::chatUser $email" "" plugins
