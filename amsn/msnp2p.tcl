@@ -1368,7 +1368,7 @@ namespace eval ::MSNP2P {
 			set offset [expr $offset + 1202]
 			SessionList set $sid [list -1 -1 $offset -1 -1 -1 -1 -1 -1 -1]
 			::amsn::FTProgress s $sid "" $offset $filesize
-			catch {after 200 [list fileevent $sock writable "::MSNP2P::SendDataEvent $sbn $sid $fd"]}
+			catch {after 200 [list catch {fileevent $sock writable "::MSNP2P::SendDataEvent $sbn $sid $fd"}]}
 		} else {
 
 			set msg [MakePacket $sid $data 0 0 0 0 0 0 16777264]

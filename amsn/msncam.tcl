@@ -626,7 +626,7 @@ namespace eval ::MSNCAM {
 							AuthSuccessfull $sid $sock
 						}
 					} else {
-						status_log "ERROR2 : $data - [catch {eof $sock}] - [nbgets $sock] - [nbgets $sock]\n" red
+						status_log "ERROR2 : $data -  [nbgets $sock] - [nbgets $sock]\n" red
 						AuthFailed $sid $sock
 					}
 				}
@@ -659,7 +659,7 @@ namespace eval ::MSNCAM {
 
 					} else {
 						setObjOption $sock state "END"
-						status_log "ERROR1 : $data - [eof $sock] - [nbgets $sock] - [nbgets $sock]\n" red
+						status_log "ERROR1 : $data - [nbgets $sock] - [nbgets $sock]\n" red
 					}
 
 				} else {
@@ -676,7 +676,7 @@ namespace eval ::MSNCAM {
 					catch { fileevent $sock writable "::MSNCAM::WriteToSock $sock" }
 				} else {
 					setObjOption $sock state "END"
-					status_log "ERROR1 : Received $data from socket on state TSP_SEND - [eof $sock] \n" red
+					status_log "ERROR1 : Received $data from socket on state TSP_SEND \n" red
 				}
 			}
 			"TSP_RECEIVE" -
