@@ -385,7 +385,7 @@ namespace eval ::desktop_integration {
 				} else {
 					if { $ktype == "msgbox" } { set ktype "info" }
 					plugins_log $plugin_name "Calling \'zenity --$ktype\'"	
-					catch {exec zenity --$ktype --text \"$message\" --title \"$title\" &} answer
+					catch {exec zenity --$ktype --text $message --title $title &} answer
 				}
 			}
 			
@@ -424,7 +424,6 @@ namespace eval ::desktop_integration {
 	##### This proc launch a dialog in a non-blocking way, and returns the file the user selects ####
 	proc launch_dialog { execline } {
 		variable dlg_blocked
-		variable answer	
 		variable plugin_name
 
 		# At the moment, we must prevent users from opening two or more dialogs at a time
@@ -440,15 +439,14 @@ namespace eval ::desktop_integration {
 		
 		fileevent $fileId readable "::desktop_integration::dialog_event $fileId"
 		
-		tkwait variable answer
+		tkwait variable ::desktop_integration::answer
 		set dlg_blocked 0
-		return $answer
+		return $::desktop_integration::answer
 	}
 
 	##### This proc launch a yes-no dialog in a non-blocking way, and returns "yes" or "no" ####
 	proc launch_question { execline } {
 		variable dlg_blocked
-		variable answer
 		variable plugin_name
 
 
@@ -465,21 +463,20 @@ namespace eval ::desktop_integration {
 		set fileId [open "|${execline}" r]					
 		fileevent $fileId readable "::desktop_integration::question_event $fileId"
 
-		tkwait variable answer
+		tkwait variable ::desktop_integration::answer
+
 		set dlg_blocked 0
-		return $answer
+		return $::desktop_integration::answer
 	}
 
 	proc dialog_event { fileId } {
-		variable answer
-
 		set temp ""
 		if { [gets $fileId line] < 0 } {
 			if [catch {close $fileId}] {
 				#If the user pressed Cancel we get here
-				set answer ""
+				set ::desktop_integration::answer ""
 			} else {
-				set answer $temp
+				set ::desktop_integration::answer $temp
 			}
 		} else {
 			append temp $line
@@ -487,12 +484,10 @@ namespace eval ::desktop_integration {
 	} 
 
 	proc question_event { fileId } {
-		variable answer
-
 		if [catch {close $fileId}] {
-			set answer "no"
+			set ::desktop_integration::answer "no"
 		} else {
-			set answer "yes"
+			set ::desktop_integration::answer "yes"
 		}
 	}
 }
