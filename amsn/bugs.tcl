@@ -23,7 +23,7 @@ namespace eval ::bugs {
     }
 
     proc bgerror { args } {
-	global errorInfo errorCode HOME2 tcl_platform tk_version tcl_version
+	global errorInfo errorCode HOME2 tcl_platform tk_patchLevel tcl_patchLevel
 	variable dont_give_bug_reports
 	
 	if { [lindex $args 0] == [list] } {
@@ -58,7 +58,7 @@ namespace eval ::bugs {
 	status_log ">>> GOT TCL/TK ERROR : $args\n>>> Stack:\n$errorInfo\n>>> Code: $errorCode\n" error
 	status_log "-----------------------------------------\n" error
 	catch { status_log ">>> AMSN version: $::version - AMSN date: $::date\n" error }
-	catch { status_log ">>> TCL version : $tcl_version - TK version : $tk_version\n" error }
+	catch { status_log ">>> TCL version : $tcl_patchLevel - TK version : $tk_patchLevel\n" error }
 	catch { status_log ">>> tcl_platform array content : [array get tcl_platform]\n" error }
 	status_log "-----------------------------------------\n\n" error
 
@@ -73,7 +73,7 @@ namespace eval ::bugs {
     }
 
     proc save {path} {
-	global tcl_platform tk_version tcl_version
+	global tcl_platform tk_patchLevel tcl_patchLevel
 	variable bug
 
 	if {"$path" == ""} {
@@ -94,7 +94,7 @@ namespace eval ::bugs {
 	puts $fd "\t<system>"
 	puts $fd "\t\t<amsn>$::version</amsn>"
 	puts $fd "\t\t<date>$bug(date)</date>"
-	puts $fd "\t\t<tcl>$tcl_version</tcl>\n\t\t<tk>$tk_version</tk>"
+	puts $fd "\t\t<tcl>$tcl_patchLevel</tcl>\n\t\t<tk>$tk_patchLevel</tk>"
 	foreach {key value} [array get tcl_platform] {
 	    puts $fd "\t\t<[string tolower $key]>$value</[string tolower $key]>"
 	}
