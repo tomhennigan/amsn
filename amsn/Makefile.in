@@ -7,7 +7,7 @@ VPATH		:= $(srcdir)
 
 doc_files	:= docs INSTALL CREDITS FAQ GNUGPL HELP README TODO AGREEMENT remote.help
 
-FILES_TO_INSTALL := *.tcl hotmlog.htm sndplay amsn amsn-remote amsn-remote-CLI amsn.desktop langlist
+FILES_TO_INSTALL := *.tcl hotmlog.htm sndplay amsn amsn-remote amsn-remote-CLI amsn.desktop langlist cvs_date
 FILES_TO_INSTALL += $(doc_files)
 FILES_TO_INSTALL += icons lang skins utils/base64 utils/drawboard utils/framec utils/http2.4
 FILES_TO_INSTALL += utils/pixmapscroll
