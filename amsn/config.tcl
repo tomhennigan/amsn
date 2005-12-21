@@ -1320,28 +1320,31 @@ proc GetRandomProfilePort { } {
 proc LockProfile { email } {
 	status_log "LockProfile: Locking $email\n" blue
 	global lockSock
-	set trigger 0
-	while { $trigger == 0 } {
+	set tries 0
+	while { $tries < 5 } {
 		set Port [GetRandomProfilePort]
 		status_log "LockProfile: Got random port $Port\n" blue
 		if { [catch {socket -server lockSvrNew -myaddr localhost $Port} newlockSock] == 0  } {
 			# Got one
 			LoginList changelock 0 $email $Port
 			set lockSock $newlockSock
-			set trigger 1
+			break
 		} else {
 			if { [catch {socket -server lockSvrNew -myaddr [info hostname] $Port} newlockSock] == 0  } {
 				LoginList changelock 0 $email $Port
 				set lockSock $newlockSock
-				set trigger 1
+				break
 			} else {
 				if { [catch {socket -server lockSvrNew -myaddr 127.0.0.1 $Port} newlockSock] == 0  } {
-				LoginList changelock 0 $email $Port
-				set lockSock $newlockSock
-				set trigger 1
-				} else {
+					LoginList changelock 0 $email $Port
+					set lockSock $newlockSock
+					break
+				} elseif {$tries >= 5} {
 					::amsn::errorMsg "Unable to get a socket from locahost.\n Check your /etc/hosts file, please."
 					exit 1
+				} else {
+					catch {status_log "unable to create socket on port $Port - $newlockSock"}
+					incr tries
 				}
 			}
 		}
