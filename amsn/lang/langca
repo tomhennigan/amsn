@@ -266,6 +266,7 @@ ftrejected Transferència de fitxers rebutjada
 ftsendinvitation La invitació per la transferència del fitxer '$2' ($3 bytes) ha estat enviada a $1.
 fullcontactlist La teva llista de contactes està plena. Per poder afegir un nou contacte n'has d'esborrar un altre.
 getdisppic Activa l'opció de rebre l'avatar d'altres usuaris
+getmoreplugins Aconseguir més plugins!
 globalcontainer Contenidor global
 globalnick Introdueix un patró per crear els sobrenoms dels teus contactes. Pots utilitzar aquestes variables: \$user_login per l'adreça del teu contacte, \$nick pel sobrenom i \$customnick pel sobrenom personalitzat. Per exemple: '\$user_login és \$nick' serà 'contacte@msn.com és Contacte'
 globalnicktitle Sobrenom global
@@ -636,6 +637,7 @@ splashstart Inici
 sslwarning ATENCIÓ!! Desactivant l'SSL, es desactiva el xifrat de la teva contrasenya i serà enviada sense cap protecció per la xarxa.
 startoffline Inicia en l'estat "Simula desconnexió"
 startoffline2 Connectar-se silenciosament apareixent en l'estat "Desconnectat"
+startonboot Iniciar l'aMSN quan s'inicii el windows
 startontray Inicia l'aMSN només amb la safata del sistema
 stateautomsg Missatge automàtic a enviar
 stateedittext Edita els camps que vulguis modificar\ni prem "Desar"

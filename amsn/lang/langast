@@ -43,7 +43,9 @@ appearance Aspectu
 appearoff Invisible
 areacode Códigu d'area
 aretyping $1 tán escribiendo un mensaxe
+askcontactwebcam Entrugar por los tos contautos de webcam, o 
 askeachtime Entrugar siempre
+asksendingyourwebcam Entrugar pa unviar la to webcam
 askwebcam Sollicitar al usuariu ver la so Webcam
 author Autor
 autoaccepted Tresferencia de ficheru aceutada automáticamente
@@ -140,6 +142,7 @@ clearlog2 Llimpiar historial pa toos los contautos
 clearlog3 Llimpiar toos los rexistros
 clearlog Llimpiar historial
 clearwebcamlogs Llimpiar los históricos de webcam
+clickhere Click equí
 clicktoadd Fai click n'Amestar pa crear una nueva nota
 clicktologin Fai click equí p'aniciar la sesión
 clientcaps Unviar paquetes x-clientcaps a otros clientes
@@ -247,6 +250,7 @@ download Descargar
 downloadingtls Descargando'l módulu TLS dende:\n $1
 editcustomstate Remanar estáu personalizado
 edit Edición
+editcontent Editar calteníu del campu asuntu y campu nota
 editnewstate Nuevu mensaxe automáticu pa estáu personalizado
 editprofile Remanar Perfil
 editstate Remanar mensaxe automáticu pa estáu personalizado
@@ -309,6 +313,8 @@ globalnick Introduz una espresión cola que formar toos los apodos, pue emplegar 
 globalnicktitle Apodu global
 globaloverride L'apodu global debe sobreescribir l'apodu personalizado
 gonelunch Foi a comer
+getmoreskins Conseguir más skins!
+getmoreplugins Conseguir más Plugins!
 gotink $1 unvíate un mensaxe de tinta.
 groupadd Amestar un grupu
 groupdelete Esborrar un grupu
@@ -566,6 +572,7 @@ proxyconnection Coneutome a internet emplegando un servidor proxy:
 proxy Toi tres un servidor proxy (HTTP o SOCKS5)
 publishphones Publicar los mios númberos telefónicos
 purge Purgar
+pwcdriver Tas usando el driver pwc 
 raised Elevada/Desiconificada
 readonlymsgbox La tresferencia de ficheros cancelóse porque'l directoriu de recepción ye de sólo llectura. Compruba los permisos d'esti directoriu.
 readonlywarn AVISO: El ficheru pue non ser guardao correutamente porque'l directoriu de ficheros recibíos parez tar protexíu escontra escritura. Compruba que los permisos nel directoriu ($1) son correutos enantes de la tresferencia
@@ -585,6 +592,7 @@ rename Camudar nome
 reporting Xenerando Reporte
 report Reporte
 required_version Imposible cargar esti plugin. Esti plugin requier comu mínimu aMSN $1 pa funcionar
+restartforskin Nota: Podríes necesitar reaniciar aMSN pa ver el skin perguapu!
 reversed Invertíu
 reverselist Llista Inversa(RL):
 rightback Vuelvu llueu
@@ -646,7 +654,8 @@ sourcecode Códigu fonte
 splashstart Entamar
 sslwarning ¡¡CUIDAO!! Al desactivar SSL, desactívase l'encriptación, y la to contraseña sedrá unviada a través de la red comu testu ensin encriptar. Utilizar sólo si ye imprescindible, comu en dellos servidores proxy, o configuraciones de red mui estrictas.
 startoffline2 Coneutase sixilosamente pareciendo "Desconeutáu"
-startoffline Comenzar Desconeutáu
+startoffline Entamar Desconeutáu
+startonboot Entamar aMSN nel boteo de Windows
 startontray aniciar aMSN sólo col iconu de la bandexa del sistema
 stateautomsg Mensaxe automáticu a unviar
 statechange camuda'l so estáu a :
@@ -725,10 +734,13 @@ useryourself Nun pues falar contigo mismu
 usesnack Emplegar la biblioteca SNACK (Extensión de TCL)
 verifyblocked Comprobar qué contautos bloqueante
 version Versión
+videoconversationrequest Recibiste una petición de conversación de vídeo (audio y vídeo bidireccional). Esta característica nun ta soportada entovía por aMSN y foi cancelada. Sin embargu, entovía pues usar la conversación estándar pola cámara web.
 viewcontactsby Ver contautos comu
 viewprofile Ver perfil
 view Ver
+webcam Webcam
 webcamcanceled La sesión de WebCam con $1 foi cancelada
+webcamconfigure Configurar Webcam
 webcamclosebefcancel Tendrás que cancelar toes les sesiones de WebCam antes de zarrar el ventanu
 webcamextloaded Estensión de WebCam cargada
 webcamextnotloaded Estensión de WebCam nun foi cargada. Tendríes que compilála
