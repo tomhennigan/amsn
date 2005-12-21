@@ -10,7 +10,7 @@
 	<lang>
 		<langcode>ast</langcode>
 		<name>Asturian</name>
-		<version>1.1</version>
+		<version>1.2</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -40,7 +40,7 @@
 	<lang>
 		<langcode>ca</langcode>
 		<name>Catalan (català)</name>
-		<version>1.118</version>
+		<version>1.119</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -64,7 +64,7 @@
 	<lang>
 		<langcode>da</langcode>
 		<name>Danish (dansk)</name>
-		<version>1.44</version>
+		<version>1.45</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -268,7 +268,7 @@
 	<lang>
 		<langcode>sv</langcode>
 		<name>Swedish (svenska)</name>
-		<version>1.9</version>
+		<version>1.10</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
