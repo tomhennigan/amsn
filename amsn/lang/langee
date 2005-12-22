@@ -1,5 +1,6 @@
 amsn_lang_version 2
 about Info
+aboutamsn Alvaro messengerist
 accept Nõustu
 acceptfile Nõustu failiga $1, suurus $2? Salvestatud $3
 actions Tegevused
@@ -42,7 +43,9 @@ appearance Välimus
 appearoff Ilmu lahtiühendatuna
 areacode Piirkonnakood
 aretyping $1 trükivad mingit sõnumit
+askcontactwebcam et küsida kaaslaselt kaamera pildi näitamist või
 askeachtime Küsi iga kord
+asksendingyourwebcam et näidata enda kaamera pilti
 askwebcam Küsi kasutajalt veebikaamera näitamist
 author Autor
 autoaccepted Faili laadimine automaatselt lubatud
@@ -86,8 +89,10 @@ broughtby  Toodud teieni järgnevate isikute poolt
 browse Brausi
 browser Brauser
 browserexample (\$url asendatakse URLiga). Näiteks: mozilla \$url
+bugerror Ilmnes viga bugide andmebaasiga suhtlemisel. Palun kontrolli oma interneti ühendust.
 busy Kiire
 cachedpics $1 varutud pilti
+cagreement Konfidentsiaalsuslepe
 cancel Tühista
 cannotdeleteprofile Ei saa profiili kustutada, sest see on aMSNi poolt kasutuses
 cantexec Ei saa käivitada programmi: $1. Kontrolli seadeid
@@ -95,6 +100,7 @@ cantloadonlineversion Ei saa internetist laadida keelefailide uuendusi
 cantremoveothers Ei saa eemaldada gruppi Muud
 captureextloaded Salvestamise laiendus -$1- on laetud
 captureextnotloaded Salvestamise laiendus -$1- ei ole laetud, sa pead selle kompileerima
+captureproperties Kaamera pildi omadused
 casesensitive Kasuta tõusutundlikke päästikuid
 cfgalarm Seadista/Lisa/Eemalda alarm
 cfgalarmall Seadista/Lisa/Eemalda üldine alarm
@@ -136,6 +142,7 @@ clearlog Tühjenda logi
 clearlog2 Tühjenda kõikide kontaktide Ajalugu
 clearlog3 Tühjenda kõik logid
 clearwebcamlogs Kustuta kõik veebikaamera logid
+clickhere Vajuta siia
 clicktoadd Uue märkme lisamiseks vajuta Lisa nuppu
 clicktologin Vajuta siia, et sisse logida
 clientcaps Saada vestluskaaslase kliendile x-clientcap pakett
@@ -194,6 +201,8 @@ customcolor Kohandatud värv
 customnick Kohandatud nimi
 customstyle Muudetud stiil
 cut Lõika
+cutimagebox Kasti liigutades vali osa pildist mida soovid kasutada
+cutimageboxreset Määra valikukasti\nsuuruseks:
 date Kuupäev
 dateformat Muuda kuupäeva formaati
 day Päev
@@ -240,6 +249,7 @@ dontshow Ära näita
 download Lae alla
 downloadingtls Salvesta TLS moodul saidist:\n $1
 edit Toimeta
+editcontent Muuda teema ja märkuse välju
 editcustomstate Muuda kohandatud olekut
 editnewstate Uus personaalse automaatvastuse staatus
 editprofile Muuda profiili
@@ -256,6 +266,7 @@ enableremote Luba kaughaldus
 enablesound Mängi heli
 encoding Vali kodeering
 encoding2 Muuda oma märkide kodeeringut
+enterbugdesc Aitamaks meil selgusele jõuda mis juhtus, kirjelda mida sa parasjagu tegid kui viga ilmnes (inglise keeles):
 entercontactemail Sisesta sõbra e-maili aadress
 enterfilename Sisesta failinimi
 enternick Sisesta oma hüüdnimi
@@ -297,11 +308,14 @@ ftrejectedby $1 keeldus faili '$2' laadimisest.
 ftsendinvitation Faili '$2' ($3 baiti) saatmise teade saadetud kasutajale $1.
 fullcontactlist Kahjuks on sinu kontaktide nimekiri täis. Uute kontaktide lisamiseks pead eemaldama mõned vanemad.
 getdisppic Luba teiste kasutajate piltide vastuvõtt
+getmoreplugins Tõmba plugineid!
+getmoreskins Tõmba välimusi!
 globalcontainer Üldine konteiner
 globalnick Sisesta mall kirjeldamaks kontaktide hüüdnimesid. Sa võid kasutada muutujaid \$user_login kontakti aadressina, \$nick kontakti hüüdnimena ja \$customnick kontakti kohandatud hüüdnimena. Näiteks: '\$user_login on \$nick' annaks 'kasutaja@msn.com on Kasutaja'
 globalnicktitle Globaalne hüüdnimi
 globaloverride Globaalsed hüüdnimed peaks tühistama kohandatud nime
 gonelunch Lõunale läinud
+gotink $1 joonistas sulle midagi
 group Grupp
 groupadd Lisa grupp
 groupdelete Kustuta grupp
@@ -323,9 +337,11 @@ history Vaata Ajalugu
 home Kodu
 httpconnection Ühenda kasutades HTTP-d (kasutatakse HTTP protokolli pordil 80)
 hue värvitoon
+huge Väga suur
 hybrid Hübriid reziim
 ident Tuvastan
 identity Isiksus
+ignore Ignoreeri
 ignoreerrors Ignoreeri AMSNi veateateid kuni sessiooni lõpuni
 imagefiles Pildifailid
 inbox Postkast
@@ -354,6 +370,7 @@ keeplog Säilita vestluste logisid
 keeplog2 Logi kõik vestlused aMSN'i Ajalukku, et neid tulevikus vaadata
 language Keel
 language_manager Keelte haldur
+large Suur
 lastlogin Viimati logis sisse
 lastlogout Viimati logis välja
 lastmsgedme Viimane sõnum
@@ -482,6 +499,7 @@ offline Offline
 ok Olgu
 onenewmail 1 uus sõnum postkastis
 online Online
+onlinehelp Veebis olev abi
 onphone Telefonil
 opendir Ava kataloog
 openfile Ava
@@ -554,6 +572,7 @@ proxyconfhttp HTTP proxy toetuse seadistamine
 proxyconnection Ma kasutan interneti läbi proksi serveri:
 publishphones Avalda mu telefoni numbrid
 purge Puhasta
+pwcdriver Sa kasutad pwc driverit
 raised tõstetud
 readonlymsgbox Faili laadimine katkestatud, sest kataloog on ainult loetav. Palun kontrolli kataloogi õigusi.
 readonlywarn TÄHELEPANU: Tõenäoliselt ei suudeta salvestada faili, sest kataloog "Vastuvõetud Failid" tundub olevat ainult loetav. Palun kontrolli enne faili laadimist, kas kataloogi $1 õigused on korras.
@@ -573,6 +592,7 @@ rename Nimeta ümber
 report teata
 reporting teatan
 required_version Plugini mahalaadimine ebaõnnestus. Vajab vähemalt aMSN versiooni $1
+restartforskin Märkus: Selle välimuse korralikuks nägemiseks pead sa aMSN taaskäivitama.
 reversed Vastupidine
 reverselist Vastupidine nimekiri (RL):
 rightback Kohe tagasi
@@ -587,6 +607,7 @@ selectall Vali kõik
 selectplugins Palun vali plugin, mida soovin sisse lülitada
 selectskin Palun vali skin listist
 send Saada
+sendemail Saada minu e-maili aadress ja teavita mind muudatustest
 sendfile Saada fail
 sendmail Saada kiri
 sendmobmsg saada mobiilile
@@ -611,6 +632,7 @@ showuserpic $1'e pilt
 signinstatus Olek sisselogimisel
 skin Skin
 skinselector Vali skin
+small Väike
 smileconfig Emotikonide konfigureerimine
 smilefile Emotikoni faili nimi
 smileintro Enda emotikooni loomiseks täida palun vajalikud väljad (abi jaoks vaata KKK)
@@ -633,6 +655,7 @@ splashstart Start
 sslwarning HOIATUS!! SSLi blokeerides ei krüpteerita enam teie paroole ja need saadetakse üle võrgu tavalise tekstina. Kasutada ainult väga keeruka proksi või võrgu konfiguratsiooni korral.
 startoffline Stardi lahtiühendatuna
 startoffline2 Logi sisse vaikselt olekuga Offline
+startonboot Käivita aMSN windowsi käivitumisel
 startontray Käivita AMSN ainult süsteemisalves
 state Ma soovin ilmuda kui
 stateautomsg Automaatvastus mida saata
@@ -646,6 +669,8 @@ stats Statistika
 status Olek
 stop Peata
 stopalarm Peata alarm
+stopwebcamreceive Lõpeta pildi saamine
+stopwebcamsend Lõpeta pildi saatmine
 storenickname Taasta esialgne nimi peale kohandatud nimega ise tehtud olekust naasmist
 strictfonts Piira kõikide fontide suurus selliseks, nagu on valitud fondil (Olekuriba ja mujal)
 style stiil
@@ -659,7 +684,6 @@ tabbed Kaartidena
 tabbedglobal Kõik inimesed on ühes tabidega aknas
 tabbedgroups Samas grupis olevad inimesed ühes tabidega aknas
 tabtitlenick Soovid e-maili asemel tabides hüüdnime näidata ?
-takesnapshot Tee pilt
 temp_state Ära salvesta (Ajutine seisund mida ei salvestata AMSNi sulgemisel)
 textsize Teksti suurus
 thismonth Käesoleval kuul
@@ -710,11 +734,14 @@ useryourself Sa ei saa iseendaga vestelda
 usesnack Kasuta Snacki teeki (Tcl'i sisene)
 verifyblocked Kontrolli ega sind ei ole blokitud
 version Versioon
+videoconversationrequest Sulle saadeti just video konverentsi kutse (kahesuunaline heli ja pilt). Kahjuks ei toeta aMSN hetkel seda võimalust ja see kutse tühistati. Kui soovite üksteist näha siis kasutage tavalist kaameraga vestlust.
 view Vaade
 viewcontactsby Vaata kontakte sorteerides
 viewprofile Vaata profiili
+webcam Kaamera
 webcamcanceled Veebikaamera sessioon kasutajaga $1 on katkestatud
 webcamclosebefcancel Enne akna sulgemist pead sa katkestama kõik veebikaamera sessioonid
+webcamconfigure Seadista kaamerat
 webcamextloaded Veebikaamera laiendus on laetud
 webcamextnotloaded Veebikaamera laiendus pole laetud. Sa pead selle kompileerima.
 webcamfaq KKK/Abi veebikaamera kohta
@@ -725,7 +752,7 @@ webcamrejected $1 ei võtnud veebikaamera kutset vastu
 webcamrequestreceive Küsi luba veebikaamera vaatamiseks
 webcamrequestsend Küsi luba veebikaamera näitamiseks
 webcamsending Nimekiri inimestest kes su veebikaamerat vaatavad\nKatkestamiseks vajuta
-webcamshot Veebikaamera pilt
+whatisamsn aMSN on platvormist sõltumatu MSN Messengeri kloon
 whatsize Pilt mida sa küsid ei ole tavasuuruses (96x96).\n Mis suuruses sa seda näidata soovid ?
 willjoin Ootan, et $1 liituks vestlusega
 winkreceived $1 saatis sulle Winki kuid aMSN ei toeta seda hetkel.
