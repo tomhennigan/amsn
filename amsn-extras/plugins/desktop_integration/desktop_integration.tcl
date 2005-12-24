@@ -470,6 +470,7 @@ namespace eval ::desktop_integration {
 	}
 
 	proc dialog_event { fileId } {
+		fileevent $fileId readable ""
 		set temp ""
 		if { [gets $fileId line] < 0 } {
 			if [catch {close $fileId}] {
