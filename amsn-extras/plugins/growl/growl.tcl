@@ -36,16 +36,37 @@ namespace eval ::growl {
     	#Add items to configure window
 		::growl::ConfigList
 		
-		#Remove the window notification of aMSN
-		::config::setKey notifyonlysound 1
-		
+		#Verify the current state of user preference
+		after 100 ::growl::VerifyPref
+
 	}
-	
+	#####################################
+	# ::growl::DeNitPlugin              #
+	# --------------------------------- #
+	# Action to execute while unloading #
+	# the plugin  						#
+	#####################################		
 	proc DeInitPlugin { } {
-	
+
 		#Re-add the notification window of aMSN
-		::config::setKey notifyonlysound 0
-		
+		if {$::growl::config(removeamsnnotification)} {			
+			::config::setKey notifyonlysound 0
+		}
+	}
+	#####################################
+	# ::growl::VerifyPref               #
+	# --------------------------------- #
+	# Depending on plugin config, we    #
+	# disable aMSN notifications		#
+	#####################################		
+	proc VerifyPref {} {
+	
+		#Remove the window notification of aMSN if user didn't disabled that feature
+		if {$::growl::config(removeamsnnotification)} {
+			::config::setKey notifyonlysound 1
+		} else {
+			::config::setKey notifyonlysound 0
+		}	
 	}
 	
 	#####################################
@@ -86,6 +107,7 @@ namespace eval ::growl {
 			lastmessage_outside {1}
 			changestate {0}
 			offline {0}
+			removeamsnnotification {1}
     	}
 	}
 	########################################
@@ -100,6 +122,7 @@ namespace eval ::growl {
 			  [list bool "[trans notify1]"  userconnect] \
 			  [list bool "[trans notify2]" lastmessage] \
 			  [list bool "Show notification for last message received only if focus is outside aMSN" lastmessage_outside] \
+			  [list bool "Remove aMSN notifications while using Growl" removeamsnnotification] \
 			  [list bool "[trans notify1_75]" changestate] \
 			  [list bool "[trans notify1_5]" offline] \
 			 ]
@@ -108,6 +131,7 @@ namespace eval ::growl {
 			  [list bool "[trans notify1]"  userconnect] \
 			  [list bool "[trans notify2]" lastmessage] \
 			  [list bool "[trans growl_lastmessage_outside]" lastmessage_outside] \
+			  [list bool "[trans removeamsnnotification]" removeamsnnotification] \
 			  [list bool "[trans notify1_75]" changestate] \
 			  [list bool "[trans notify1_5]" offline] \
 			 ]
