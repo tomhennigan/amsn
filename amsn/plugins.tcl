@@ -970,6 +970,7 @@ namespace eval ::plugins {
 				array unset ::${plugin}_cfg
 			}
 		}
+		set knownplugins [list]
 	}
 
 
