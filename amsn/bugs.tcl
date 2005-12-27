@@ -48,7 +48,7 @@ namespace eval ::bugs {
 	    close $fd
 	    set date [::bugs::cvstostamp $date]
 	} else {
-	    set date "$::date 12:00:00"
+	    set date  [clock scan "$::date 00:00:00"]
 	}
 
 

@@ -38,6 +38,8 @@ require @tcl.sourceforge.net/tk 8.4
 installData share/amsn
 outputStatus "$intl_INSTALLING_EXE"
 linkFile --silent $PREFIX/share/amsn/amsn $PREFIX/bin/amsn
+linkFile --silent $PREFIX/share/amsn/amsn-remote $PREFIX/bin/amsn-remote
+linkFile --silent $PREFIX/share/amsn/amsn-remote-CLI $PREFIX/bin/amsn-remote-CLI
 installDesktop Internet share/applications/amsn.desktop
 installIcon share/icons/*
 
