@@ -4496,9 +4496,6 @@ proc cmsn_draw_login {} {
 		status_log "Variable connectas is not digital [::config::getKey connectas]\n" red
 	}
 
-	#Set it, in case someone changes preferences...
-	::config::setKey protocol 9
-
 	checkbutton $mainframe.nossl -text "[trans disablessl]" -variable [::config::getVar nossl] -padx 10 -command SSLToggled
 
 	label $mainframe.example -text "[trans examples] :\ncopypastel@hotmail.com\nelbarney@msn.com\nexample@passport.com" -font examplef -padx 10
@@ -6024,10 +6021,18 @@ proc newcontact_ok { w x0 x1 } {
 	set newc_allow_block [set newc_allow_block_$w]
 	set newc_add_to_list [set newc_add_to_list_$w]
 
-	if {$newc_allow_block == "1"} {
-		::MSN::WriteSB ns "ADD" "AL $x0 [urlencode $x1]"
+	if { [::config::getKey protocol] == 11 } {
+		if {$newc_allow_block == "1"} {
+			::MSN::WriteSB ns "ADC" "AL N=$x0"
+		} else {
+			::MSN::WriteSB ns "ADC" "BL N=$x0"
+		}
 	} else {
-		::MSN::WriteSB ns "ADD" "BL $x0 [urlencode $x1]"
+		if {$newc_allow_block == "1"} {
+			::MSN::WriteSB ns "ADD" "AL $x0 [urlencode $x1]"
+		} else {
+			::MSN::WriteSB ns "ADD" "BL $x0 [urlencode $x1]"
+		}
 	}
 	if {$newc_add_to_list} {
 		::MSN::addUser $x0 [urlencode $x1]
@@ -6293,7 +6298,11 @@ proc create_users_list_popup { path list x y} {
 proc AddToContactList { user path } {
 
 	if { [NotInContactList "$user"] } {
-		::MSN::WriteSB ns "ADD" "FL $user $user 0"
+		if { [::config::getKey protocol] == 11 } {
+			::MSN::WriteSB ns "ADC" "FL N=$user F=$user"
+		} else {
+			::MSN::WriteSB ns "ADD" "FL $user $user 0"
+		}
 	} else {
 		$path.status configure -text "[trans useralreadyonlist]"
 	}
@@ -6301,7 +6310,9 @@ proc AddToContactList { user path } {
 }
 
 proc Remove_from_list { list user } {
-
+	if { [::config::getKey protocol] == 11 && $list == "contact" } {
+		set user [::abook::getContactData $user contactguid]
+	}
 	if { "$list" == "contact" } {
 		::MSN::WriteSB ns "REM" "FL $user"
 	} elseif { "$list" == "allow" } {
@@ -6323,7 +6334,11 @@ proc Add_To_List { path list } {
 	if { $list == "FL" } {
 		AddToContactList "$username" "$path"
 	} else {
-		::MSN::WriteSB ns "ADD" "$list $username $username"
+		if { [::config::getKey protocol] == 11 } {
+			::MSN::WriteSB ns "ADC" "$list N=$user"
+		} else {
+			::MSN::WriteSB ns "ADD" "$list $username $username"
+		}
 	}
 }
 

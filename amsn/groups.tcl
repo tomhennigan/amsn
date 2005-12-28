@@ -748,7 +748,11 @@ namespace eval ::groups {
 		#First add the contact to the new groups
 		foreach gid $gidlistyes {
 			if {[lsearch [::abook::getGroups $email] $gid] == -1} {
-				after $timer [list ::MSN::WriteSB ns "ADD" "FL $email [urlencode $name] $gid"]
+				if { [::config::getKey protocol] == 11 } {
+					after $timer [list ::MSN::WriteSB ns "ADC" "FL C=[::abook::getContactData contactguid] $gid"]
+				} else {
+					after $timer [list ::MSN::WriteSB ns "ADD" "FL $email [urlencode $name] $gid"]
+				}
 				set timer [expr $timer + 250]
 			}
 		}
@@ -756,7 +760,11 @@ namespace eval ::groups {
 		#Then remove their from the former groups
 		foreach gid $gidlistno {
 			if {[lsearch [::abook::getGroups $email] $gid] != -1} {
-				after $timer [list ::MSN::WriteSB ns "REM" "FL $email $gid"]
+				if { [::config::getKey protocol] == 11 } {
+					after $timer [list ::MSN::WriteSB ns "REM" "FL [::abook::getContactData contactguid] $gid"]
+				} else {
+					after $timer [list ::MSN::WriteSB ns "REM" "FL $email $gid"]
+				}
 				set timer [expr $timer + 250]
 			}
 		}

@@ -7,7 +7,6 @@ namespace eval ::config {
 	proc configDefaults {} {
 		global tcl_platform password auto_path advanced_options
 
-		::config::setKey protocol "9"		;# Which MSN Protocol do you prefer to use: 9
 		::config::setKey nossl 0			;#Disable the use of SSL, so it doesn't requite TLS package: 0|1
 
 		::config::setKey login ""			;# These are defaults for users without
@@ -1001,8 +1000,6 @@ proc ConfigChange { window email } {
 
 					config::setKey login $email
 					load_config
-
-					::config::setKey protocol 9
 
 					LoginList add 0 $email
 					set log_dir "[file join ${HOME} logs]"

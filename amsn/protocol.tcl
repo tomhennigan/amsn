@@ -804,6 +804,8 @@ namespace eval ::MSN {
 		variable list_AL [list]
 		#Block list
 		variable list_BL [list]
+		#Pending list (MSNP11)
+		variable list_PL [list]
 
 		variable myStatus FLN
 		#Double array containing:
@@ -955,6 +957,97 @@ namespace eval ::MSN {
 		#an event used by guicontactlist to know when we changed our nick
 		::Event::fireEvent myNickChange protocol
 
+	}
+
+	#Callback procedure called when a ADC message is received
+	proc GotADCResponse { recv } {
+		set username ""
+		set nickname ""
+		set contactguid ""
+		set curr_list ""
+		set groups "0"
+		#We skip ADC TrID
+		foreach information [lrange $recv 2 end] {
+			set key [string toupper [string range $information 0 1]]
+			if { $key == "N=" } {
+				set username [string range $information 2 end]
+			} elseif { $key == "F=" } {
+				set nickname [urldecode [string range $information 2 end]]
+			} elseif { $key == "C=" } {
+				set contactguid [string range $information 2 end]
+			} elseif { $curr_list == "" } {
+				#We didn't get the list names yet
+				set curr_list $information
+			} elseif { $groups == "0" } {
+				#We didn't get the group list yet
+				set groups $information
+			}
+		}
+		if { $curr_list == "RL" && [lsearch [::abook::getLists $username] "PL"] == -1 } {
+			newcontact $username $nickname
+		}
+		if { $curr_list == "FL" } {
+			status_log "Addition to FL"
+			if { $username == "" } {
+				#The server doesn't give the username so it gives the GUID
+				set username [::abook::getContactForGuid $contactguid]
+			} else {
+				#It's a new contact so we save its guid and its nick
+				::abook::setContactData $username contactguid $contactguid
+				::abook::setContactForGuid $contactguid $username
+				::abook::setContactData $username nick $nickname
+			}
+			status_log "$username was in groups [::abook::getGroups $username]"
+			::abook::addContactToGroup $username $groups
+			status_log "$username is in groups [::abook::getGroups $username]"
+		}
+		::abook::addContactToList $username $curr_list
+		::MSN::addToList $curr_list $username
+
+		::MSN::contactListChanged
+
+		cmsn_draw_online 1
+
+		set contactlist_loaded 1
+		::abook::setConsistent
+		::abook::saveToDisk
+		
+	}
+
+	proc GotREMResponse { recv } {
+		set list_sort [string toupper [lindex $recv 2]]
+
+		if { [lindex $recv 2] == "FL" } {
+			set userguid [lindex $recv 3]
+			set user [::abook::getContactForGuid $userguid]
+			if { [lindex $recv 4] == "" } {
+				#Remove from all groups!!
+				foreach group [::abook::getGroups $user] {
+					::abook::removeContactFromGroup $user $group
+				}
+			} else {
+				#Remove fromonly one group
+				::abook::removeContactFromGroup $user [lindex $recv 4]
+			}
+	
+			if { [llength [::abook::getGroups $user]] == 0 } {
+				status_log "cmsn_listdel: Contact [lindex $recv 4] is in no groups, removing!!\n" blue
+				::MSN::deleteFromList FL $user
+				::abook::removeContactFromList $user FL
+				#The GUID is invalid if the contact is removed from the FL list
+				::abook::setContactForGuid $userguid ""
+				::abook::setContactData $user contactguid ""
+			}
+		} else {
+			set user [lindex $recv 3]
+			::MSN::deleteFromList $list_sort $user
+			::abook::removeContactFromList $user $list_sort
+		}
+	
+	
+		cmsn_draw_online 1
+		global contactlist_loaded
+		set contactlist_loaded 1
 	}
 
 	#Handler when we're setting our nick, so we check if the nick is allowed or not
@@ -1172,10 +1265,13 @@ namespace eval ::MSN {
 		if { [::config::getKey protocol ] == 11 } {
 			set contactguid [::abook::getContactData $passport contactguid]
 			set atrid [::MSN::WriteSB ns "ADC" "FL C=$contactguid $newGid"]
+			if { $oldGid != "0" } {
+				set rtrid [::MSN::WriteSB ns "REM" "FL $contactguid $oldGid"]
+			}
 		} else {
 			set atrid [::MSN::WriteSB ns "ADD" "FL $passport [urlencode $userName] $newGid"]
+			set rtrid [::MSN::WriteSB ns "REM" "FL $passport $oldGid"]
 		}
-		set rtrid [::MSN::WriteSB ns "REM" "FL $passport $oldGid"]
 
 		#an event to let the GUI know a user is moved between 2 groups
 		::Event::fireEvent movedContact protocol $passport $oldGid $newGid
@@ -1209,7 +1305,15 @@ namespace eval ::MSN {
 		if { $username == "" } {
 			set username $userlogin
 		}
-		::MSN::WriteSB ns "ADD" "FL $userlogin $username $gid" "::MSN::ADDHandler"
+		if { [::config::getKey protocol] == 11 } {
+			if { $gid == 0 } {
+				::MSN::WriteSB ns "ADC" "FL N=$userlogin F=$username" "::MSN::ADCHandler"
+			} else {
+				::MSN::WriteSB ns "ADC" "FL N=$userlogin F=$username $gid" "::MSN::ADCHandler"
+			}
+		} else {
+			::MSN::WriteSB ns "ADD" "FL $userlogin $username $gid" "::MSN::ADDHandler"
+		}
 	}
 
 
@@ -1233,13 +1337,42 @@ namespace eval ::MSN {
 
 	}
 
+	#Handler for the ADD message, to show the ADD messagebox
+	proc ADCHandler { item } {
+		if { [lindex $item 2] == "FL"} {
+			set contact [urldecode [string range [lindex $item 3] 2 end]]    ;# Email address
+			#an event to let the GUI know a user is copied/added to a group
+			set newGid [lindex $item 6]
+			::Event::fireEvent addedUser protocol $contact $newGid
+			msg_box "[trans contactadded]\n$contact"
+		}
+
+		if { [lindex $item 0] == 500 } {
+			#Instead of disconnection, transform into error 201
+			cmsn_ns_handler [lreplace $item 0 0 201]
+			return
+		}
+
+		cmsn_ns_handler $item
+
+	}
+
 	#Delete user (from a given group $grID, or from all groups)
 	proc deleteUser { userlogin {grId ""}} {
-		if { $grId == "" } {
-			::MSN::WriteSB ns REM "FL $userlogin"
+		if { [::config::getKey protocol] == 11 } {
+			if { $grId == "0" } {
+				::MSN::WriteSB ns REM "FL [::abook::getContactData $userlogin contactguid]"
+			} else {
+				::MSN::WriteSB ns REM "FL [::abook::getContactData $userlogin contactguid] $grId"
+			}
 		} else {
-			::MSN::WriteSB ns REM "FL $userlogin $grId"
+			if { $grId == "" } {
+				::MSN::WriteSB ns REM "FL $userlogin"
+			} else {
+				::MSN::WriteSB ns REM "FL $userlogin $grId"
+			}
 		}
+
 		#an event to let the GUI know a user is removed from a group / the list
 		::Event::fireEvent deletedUser protocol $userlogin $grId
 	}
@@ -2817,11 +2950,33 @@ namespace eval ::Event {
 		#Increment the contact number
 		incr loading_list_info(current)
 
-		set username [string range [lindex $command 1] 2 end]
-		set nickname [urldecode [string range [lindex $command 2] 2 end]]
-		set contactguid [string range [lindex $command 3] 2 end]
-		set list_names [process_msnp9_lists [lindex $command 4]]
-		set groups [split [lindex $command 5] ,]
+		set nickname ""
+		set contactguid ""
+		set list_names ""
+		set groups "0"
+
+		#We skip LST
+		foreach information [lrange $command 1 end] {
+			set key [string toupper [string range $information 0 1]]
+			if { $key == "N=" } {
+				set username [string range $information 2 end]
+			} elseif { $key == "F=" } {
+				set nickname [urldecode [string range $information 2 end]]
+			} elseif { $key == "C=" } {
+				set contactguid [string range $information 2 end]
+			} elseif { $list_names == "" } {
+				#We didn't get the list names
+				set list_names $information
+				status_log $list_names
+			} elseif { $groups == "0" } {
+				#We didn't get the group list
+				set groups $information
+			}
+		}
+
+		set list_names [process_msnp11_lists $list_names]
+		set groups [split $groups ,]
+
 		if { $groups == "" } {
 			set groups 0
 		}
@@ -2833,7 +2988,9 @@ namespace eval ::Event {
 		::abook::setContactData $username lists ""
 
 		::abook::setContactData $username nick $nickname
+
 		::abook::setContactData $username contactguid $contactguid
+		::abook::setContactForGuid $contactguid $username
 
 		foreach list_sort $list_names {
 
@@ -2854,8 +3011,14 @@ namespace eval ::Event {
 		}
 
 		set lists [::abook::getLists $username]
-		if { ([lsearch $lists RL] != -1) && ([lsearch $lists AL] < 0) && ([lsearch $lists BL] < 0)} {
-			newcontact $username $nickname
+		if { [lsearch $lists PL] != -1 } {
+			if { [lsearch [::abook::getLists $username] "AL"] != -1 || [lsearch [::abook::getLists $username] "BL"] != -1 } {
+				#We already added it we only move it from PL to RL
+				after 0 "vwait ::contactlist_loaded; ::MSN::WriteSB ns \"ADC\" \"RL N=$username\""
+				after 0 "vwait ::contactlist_loaded; ::MSN::WriteSB ns \"REM\" \"PL $username\""
+			} else {
+				newcontact $username $nickname
+			}
 		}
 
 		::MSN::contactListChanged
@@ -4094,6 +4257,10 @@ proc cmsn_ns_handler {item {message ""}} {
 				::MSN::GotUUXResponse $item
 				return 0
 			}
+			ADC {
+				::MSN::GotADCResponse $item
+				return 0
+			}
 			ADD {
 				#TODO: delete when MSNP11 is used, ADD is not used anymore
 				status_log "Before: [lindex $item 4] is now in groups: [::abook::getGroups [lindex $item 4]]\n"
@@ -4134,8 +4301,12 @@ proc cmsn_ns_handler {item {message ""}} {
 				return 0
 			}
 			REM {
-				new_contact_list "[lindex $item 3]"
-				cmsn_listdel $item
+				if { [::config::getKey protocol] == 11 } {
+					::MSN::GotREMResponse $item
+				} else {
+					new_contact_list "[lindex $item 3]"
+					cmsn_listdel $item
+				}
 				return 0
 			}
 			FLN -
@@ -4460,7 +4631,7 @@ proc cmsn_auth {{recv ""}} {
 		a {
 			#Send three first commands at same time, to it faster
 			if { [::config::getKey protocol] == 11 } {
-				::MSN::WriteSB ns "VER" "MSNP11 CVR0"
+				::MSN::WriteSB ns "VER" "MSNP13 MSNP11 CVR0"
 			} else {
 				::MSN::WriteSB ns "VER" "MSNP9 CVR0"
 			}
@@ -4962,7 +5133,7 @@ proc cmsn_ns_connect { username {password ""} {nosignin ""} } {
 }
 
 
-
+#TODO Delete it when MSNP11 is finished
 proc process_msnp9_lists { bin } {
 
 	set lists [list]
@@ -4991,6 +5162,37 @@ proc process_msnp9_lists { bin } {
 	return $lists
 }
 
+proc process_msnp11_lists { bin } {
+
+	set lists [list]
+
+	if { $bin == "" } {
+		status_log "process_msnp11_lists: No lists!!!\n" red
+		return $lists
+	}
+
+	if { $bin & 1 } {
+		lappend lists "FL"
+	}
+
+	if { $bin & 2 } {
+		lappend lists "AL"
+	}
+
+	if { $bin & 4 } {
+		lappend lists "BL"
+	}
+
+	if { $bin & 8 } {
+		lappend lists "RL"
+	}
+
+	if { $bin & 16 } {
+		lappend lists "PL"
+	}
+
+	return $lists
+}
 
 #TODO: ::abook system
 
