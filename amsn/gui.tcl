@@ -5635,7 +5635,12 @@ proc ShowUser {user_name user_login state_code colour section grId} {
 		} else {
 			set balloon_message5 ""
 		}		
-		set balloon_message "[string map {"%" "%%"} [::abook::getNick $user_login]]\n$user_login\n[trans status] : [trans [::MSN::stateToDescription $state_code]] $balloon_message2 $balloon_message3 $balloon_message4 $balloon_message5\n[trans lastmsgedme] : [::abook::dateconvert "[::abook::getContactData $user_login last_msgedme]"]"
+		set psm [::abook::getVolatileData $user_login PSM]
+		if { $psm == "" } {
+			set balloon_message "[string map {"%" "%%"} [::abook::getNick $user_login]]\n$user_login\n[trans status] : [trans [::MSN::stateToDescription $state_code]] $balloon_message2 $balloon_message3 $balloon_message4 $balloon_message5\n[trans lastmsgedme] : [::abook::dateconvert "[::abook::getContactData $user_login last_msgedme]"]"
+		} else {
+			set balloon_message "[string map {"%" "%%"} [::abook::getNick $user_login]]\n$psm\n$user_login\n[trans status] : [trans [::MSN::stateToDescription $state_code]] $balloon_message2 $balloon_message3 $balloon_message4 $balloon_message5\n[trans lastmsgedme] : [::abook::dateconvert "[::abook::getContactData $user_login last_msgedme]"]"
+		}
 		$pgBuddy.text tag bind $user_unique_name <Enter> +[list balloon_enter %W %X %Y $balloon_message [::skin::getDisplayPicture $user_login]]
 
 		$pgBuddy.text tag bind $user_unique_name <Leave> \
