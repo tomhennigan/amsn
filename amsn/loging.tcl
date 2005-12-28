@@ -1511,7 +1511,6 @@ proc stats { } {
 	label $w.select.text -text [trans stats] -font bigfont
 	combobox::combobox $w.select.list -editable true -highlightthickness 0 -width 15 -bg #FFFFFF -font splainf
 	$w.select.list list delete 0 end
-		
 	$w.select.list list insert end "[trans allmonths]"
 	$w.select.list select "0"
 
@@ -1523,7 +1522,12 @@ proc stats { } {
 	pack configure $w.select.text -side top	
 	pack configure $w.select.list -side right
 	pack configure $w.select -side top -fill x -expand false
-	
+
+	frame $w.totalsize
+	label $w.totalsize.txt -text "[trans totalsize] :"
+	pack configure $w.totalsize.txt -side bottom -fill x
+	pack $w.totalsize -side top -fill x -expand false
+
 	ScrolledWindow $w.list
 	ScrollableFrame $w.list.sf -constrainedwidth 1
 	$w.list setwidget $w.list.sf
@@ -1533,6 +1537,7 @@ proc stats { } {
 	set contactsize [::log::sortalllog]
 	
 	set id 0
+	set totalsize 0
 
 	foreach contact $contactsize {
 		set email [lindex $contact 0]
@@ -1541,12 +1546,15 @@ proc stats { } {
 			break
 		}
 		incr id
+		incr totalsize $size
 		set wlabel "label_$id"
 		label $frame.$wlabel -text "$id) $email ([::amsn::sizeconvert $size]b)"
 		pack configure $frame.$wlabel -side top
 	}
 	
 	$w.select.list configure -editable false -command "::log::stats_select $id"
+
+	$w.totalsize.txt configure -text "[trans totalsize] : [::amsn::sizeconvert $totalsize]b"
 
 	#frame $w.button
 	button $w.close -text "[trans close]" -command "destroy $w"
@@ -1580,6 +1588,7 @@ proc stats_select { id wname month} {
 	}
 	
 	set id 0
+	set totalsize 0
 	
 	foreach contact $contactsize {
 		set email [lindex $contact 0]
@@ -1588,12 +1597,14 @@ proc stats_select { id wname month} {
 			break
 		}
 		incr id
+		incr totalsize $size
 		set wlabel "label_$id"
 		label $frame.$wlabel -text "$id) $email ([::amsn::sizeconvert $size]b)"
 		pack configure $frame.$wlabel -side top
 	}
 	
 	$w.select.list configure -editable false -command "::log::stats_select $id"
+	$w.totalsize.txt configure -text "[trans totalsize] : [::amsn::sizeconvert $totalsize]b"
 	$w.list.sf yview moveto 0
 	
 	
