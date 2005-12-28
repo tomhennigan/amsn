@@ -493,21 +493,22 @@ void PhotoDisplayProcHook(
     break;
   }
   
-  // Make sure we're not requesting a width or heigth more than allowed
-  if (width > drawableWidth_geo) {
-    width = drawableWidth_geo;
-  }
-  
-  if (height > drawableHeight_geo) {
-    height = drawableHeight_geo;
-  }
-  
   // Make sure the coordinates are valid
   if (drawableX < 0) {
     drawableX = 0;
   }
+
   if (drawableY < 0) {
     drawableY = 0;
+  }
+
+  // Make sure we're not requesting a width or heigth more than allowed
+  if (width + drawableX > drawableWidth_geo) {
+    width = drawableWidth_geo - drawableX;
+  }
+  
+  if (height + drawableY > drawableHeight_geo) {
+    height = drawableHeight_geo - drawableY;
   }
   
   /*
