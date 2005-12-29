@@ -13,9 +13,9 @@
 
 <!--box with bow-->
 <br />
-<center> 
+<div style="text-align: center">
 <img src="images/box2.png" alt=" aMSN box " />
-</center>
+</div>
 
         <p>
           <strong>aMSN</strong> is a free open source MSN Messenger clone, with features such as:

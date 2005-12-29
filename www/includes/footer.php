@@ -16,8 +16,6 @@
       owner. Comments and news posts are the property of their posters, all
       the rest 2002-2005 by the amsn team.
     </div>
-  </center>
-
 </body>
 </html>
 

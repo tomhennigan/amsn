@@ -20,7 +20,7 @@
 	a screenshot, description, and which version(s) of aMSN it is for.
 	<br /><br />
 
-	<center><strong>0.95 Skins</strong></center>
+	<h4 class="title">0.95 Skins</h4>
 	<br />
 <?php
 foreach($skins as $skin) {
@@ -45,7 +45,5 @@ foreach($skins as $skin) {
 	echo "<br/>\n";
 }
 ?>
-
-<center><strong><a href="skins094.php">0.94 skins</a></strong></center>
 
 <?php include inc . 'footer.php';?>

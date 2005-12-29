@@ -33,9 +33,7 @@ $answers = mysql_query("SELECT id, answer FROM `amsn_poll_answers` WHERE id_fath
 
         <div class="block_right_content">
 
-	<center>          
     <form action="<?php echo inc . 'poll_vote.php' ?>" method="post">
-    <input type="hidden" name="idf" value="<?php echo $poll['id'] ?>" />
 	<ul class="poll">
 	<li>
          	<h4><?php echo $poll['question'] ?></h4>
@@ -54,12 +52,12 @@ $answers = mysql_query("SELECT id, answer FROM `amsn_poll_answers` WHERE id_fath
 ?>
 
 </ul>
-<br />
+<div>
         <input type="submit" value="Vote" />
-</form>
-<br /><br />
+    <input type="hidden" name="idf" value="<?php echo $poll['id'] ?>" />
          <a href="poll_results.php">View results</a>
-</center>
+</div>
+</form>
           </div>
         <div class="block_right_bottom"></div>
 
@@ -107,7 +105,7 @@ $answers = mysql_query("SELECT id, answer FROM `amsn_poll_answers` WHERE id_fath
 
           <li><b><a href="http://amsn.recordingground.com">aMSN recordingground forum </a></b></li><li><br />
 </li>
-<li><center>&#8226; Recent Posts &#8226;</center><br /></li>
+<li style="text-align: center">&#8226; Recent Posts &#8226;<br /></li>
 <li>
 	      <script type="text/javascript" src="http://amsn.recordingground.com/syndicate-lastpost.php">
 	</script></li>

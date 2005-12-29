@@ -3,9 +3,7 @@
 
   <body>
 
-  <center>
-
-    <div id="title">
+    <div id="title" class="center">
 
 <?php
     $dir="images/logo/";
@@ -22,7 +20,7 @@
 ?>
     </div>
 
-    <div id="nav">
+    <div id="nav" class="center">
 <?php
 
 	if (source == 'index') define(nav_index, 'nav_on');
@@ -54,7 +52,7 @@
     </div>
 
 <div id="<?php $navigator_user_agent = ( isset( $_SERVER['HTTP_USER_AGENT'] ) ) ? strtolower( $_SERVER['HTTP_USER_AGENT'] ) : '';
-print ((stristr($navigator_user_agent, "konqueror")) || (stristr($navigator_user_agent, "safari"))?"container_mac":"container"); ?>">
+print ((stristr($navigator_user_agent, "konqueror")) || (stristr($navigator_user_agent, "safari"))?"container_mac":"container"); ?>" class="center">
 
       &nbsp;
 
