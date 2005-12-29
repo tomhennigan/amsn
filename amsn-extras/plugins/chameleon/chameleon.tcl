@@ -53,6 +53,7 @@ namespace eval ::chameleon {
 	variable plugin_dir
 
 	::plugins::RegisterPlugin "Chameleon"
+	::plugins::RegisterEvent "Chameleon" AllPluginsLoaded loaded
 
 	lappend ::auto_path $dir
 
@@ -60,6 +61,10 @@ namespace eval ::chameleon {
 	    msg_box "You need the tile extension to be installed to run this plugin"
 	    ::plugin::GUI_Unload
 	    return 0
+	}
+
+	array set ::chameleon::config {
+		theme {default}
 	}
 
 	set THEMELIST {
@@ -83,15 +88,17 @@ namespace eval ::chameleon {
 	set ::chameleon::configlist [list [list frame ::chameleon::populateframe ""]]
 	set plugin_dir $dir
 
-	wrap
-
-
 	catch  {console show }
 	
     }
 
     proc DeInit { } {
 	wrap 1
+    }
+
+    proc loaded { event epVar } {
+	tile::setTheme ${::chameleon::config(theme)}
+	wrap 0
     }
 
     proc populateframe { win } {
@@ -104,7 +111,7 @@ namespace eval ::chameleon {
 	status_log "$themes"
 	foreach {theme name} $THEMELIST {
 	    set b [::ttk::radiobutton $themes.s$theme -text $name \
-		       -variable ::tile::currentTheme -value $theme \
+		       -variable ::chameleon::config(theme) -value $theme \
 		       -command [list tile::setTheme $theme]]
 	    pack $b -side top -expand false -fill x
 	    if {[lsearch -exact [package names] tile::theme::$theme] == -1} {
