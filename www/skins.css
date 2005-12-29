@@ -1,0 +1,64 @@
+table.skins
+{
+  width: 500px;
+  margin: 10px 5px 10px 5px;
+  padding: 5px 5px 5px 5px;
+  /*border: 1px dotted #bbb;*/
+  color: #000;
+  background: transparent;
+  font: 80%;
+  float: center;
+  display: inline;
+}
+
+td
+{
+  text-align: left;
+  vertical-align: top;
+  margin: 0px;
+  padding: 0px
+}
+
+table.skins img
+{
+  width: 200px;
+  height: 200px;
+  margin-right: 10px;
+  padding: 0px;
+  color: #000;
+  background: #ececec
+}
+
+table.skins ul
+{
+  width: 300px;
+  float: left;
+  margin: 0px;
+  padding: 0px;
+  background: #6e8cbf;
+  list-style: none
+}
+
+table.skins li
+{
+
+  margin: 0px;
+  padding: 5px 2px 5px 3px
+}
+
+li.skintitle
+{
+  color: #fff;
+  background: #6e8cbf;
+  font-weight: bold
+}
+
+li.lg
+{
+  background: #ececec
+}
+
+li.dg
+{
+  background: #dfdfdf
+}

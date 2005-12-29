@@ -1,0 +1,2 @@
+<h4>Some SF download mirrors don't have the files yet. If your download doesn't work you can choose another mirror or try downloading from: <br /><a href="http://agoodm.plus.com/phpBB2/viewtopic.php?t=7">http://agoodm.plus.com/phpBB2/viewtopic.php?t=7 </a><br />Torrent links are available at: <br /><a href="http://amsn.recordingground.com/viewtopic.php?t=103">http://amsn.recordingground.com/viewtopic.php?t=103</a></h4><br />
+

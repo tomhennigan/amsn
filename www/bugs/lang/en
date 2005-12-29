@@ -1,0 +1,8 @@
+<?php
+$trans['nomessage']='ERROR! No report was sent. This means that eighter there is no error or that the bugreporting system has a error. If latter is the case, please manualy send the bugreport.amsn file to amsn-devel@lists.sf.net';
+$trans['invalid']="ERROR! Invalid bug report. Please try to send it to us manually to amsn-devel@lists.sf.net";
+$trans['thankyou']="Thank you for helping us by sending a bug report! If you want to send more comments or are interested in helping us fix this bug, you can join the amsn-devel@lists.sf.net mailing list. Your bug ID is $1.";
+$trans['ipreported']="Thank you but we have already recieved the same bug from your IP.";
+$trans['blocked']="We're sorry but you have been banned. You can contact the amsn-devel mailing list for more information.";
+$trans['notsupported']="We're sorry, but your Tcl/Tk version is not supported. Please upgrade to 8.4 or greater.";
+?>

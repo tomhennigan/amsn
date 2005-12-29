@@ -1,0 +1,64 @@
+table.plugins
+{
+  width: 500px;
+  margin: 1em 5px 1em 5px;
+  padding: 5px 5px 5px 5px;
+  /*border: 1px dotted #bbb;*/
+  color: #000;
+  background: transparent;
+  font: 80%;
+  display: inline;
+  float: center;
+}
+
+td
+{
+  text-align: left;
+  vertical-align: top;
+  margin: 0px;
+  padding: 0px
+}
+
+table.plugins img
+{
+  width: 200px;
+  height: 200px;
+  margin-right: 10px;
+  padding: 0px;
+  color: #000;
+  background: #ececec
+}
+
+table.plugins ul
+{
+  width: 300px;
+  float: left;
+  margin: 0px;
+  padding: 0px;
+  background: #6e8cbf;
+  list-style: none
+}
+
+table.plugins li
+{
+
+  margin: 0px;
+  padding: 5px 2px 5px 3px
+}
+
+li.plugintitle
+{
+  color: #fff;
+  background: #6e8cbf;
+  font-weight: bold
+}
+
+li.lg
+{
+  background: #ececec
+}
+
+li.dg
+{
+  background: #dfdfdf
+}

@@ -1,0 +1,109 @@
+.inline { 
+display: inline;
+ }
+
+table.db { 
+width: 100%;
+ }
+
+tr.r_0 { 
+background: lightgray;
+ }
+
+tr.r_1 tr.filter { 
+background: lightyellow;
+ }
+
+tr.row:hover { 
+background: lightblue;
+ }
+
+.footer { 
+text-align: center;
+background: orange;
+ }
+
+td.title { 
+font.size: +2px;
+font-weight: bold;
+ }
+td.search { 
+text-align: right;
+ }
+
+td.bug_row { 
+vertical-align: middle;
+ }
+
+.header { 
+#font-weight: bold;
+text-decoration: underline;
+text-align: center;
+background: orange;
+color: black;
+ }
+
+td.r_amsn,td.r_tcl,td.r_os,td.r_flag,td.r_id { 
+text-align: center;
+ }
+
+.normal { 
+color: black;
+text-decoration: none;
+ }
+
+form.flat { 
+display: inline;
+ }
+
+select.filter { 
+width: 100%;
+ }
+
+input.go_button { 
+width: 100%;
+ }
+
+.short { 
+width: 50px;
+ }
+
+.full { 
+width: 100%;
+padding: 1px;
+ }
+div.found { 
+display: inline;
+color: red;
+ }
+div.center { 
+text-align: center;
+ }
+
+/*bug stuff*/
+table.bug { 
+background: lightblue;
+border: 2px solid blue;
+width: 800px;
+padding: 2px;
+ }
+
+caption.bug_title { 
+text-align: left;
+font-weight: bold;
+padding-left: 5px;
+padding-top: 10px;
+ }
+
+tr.bug_row { 
+    font-size: 12px;
+ }
+
+td.bug_info { 
+vertical-align: top;
+ }
+
+pre.bug { 
+      font-size: 12px;
+      margin: none;
+ }

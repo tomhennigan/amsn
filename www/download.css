@@ -1,0 +1,62 @@
+div#screenshots
+{
+  width: 550px;
+  margin; 0px;
+  padding: 0px
+}
+
+div#screenshots ul
+{
+  margin: 0px;
+  padding: 0px;
+  list-style: none
+}
+
+div#screenshots li
+{
+  float: left;
+  margin: 0px 20px 10px 0px;
+  text-align: center;
+  font-weight: bold;
+  color: #888
+}
+
+div#screenshots h3
+{
+  display: block;
+  position: relative;
+  float: left;
+  top: 0px;
+  margin: 0px 30px 10px 0px;
+  clear: both;
+  color: #3975b4;
+  text-align: center
+}
+
+img.thumb
+{
+  width: 64px;
+  height: 64px;
+  padding: 10px;
+  margin: 0px 0px 0px 0px;
+}
+
+a.screeny
+{
+  display: block;
+  width: 100px;
+  height: 100px;
+  background: url(images/downloadbg.png);
+}
+
+a.screeny:hover
+{
+  background: url(images/downloadbg_hover.png);
+}
+
+img#focused
+{
+  width: 100px;
+  height: 100px;
+  margin: 0px 0px 5px 0px
+}
