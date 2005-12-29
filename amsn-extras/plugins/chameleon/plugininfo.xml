@@ -2,7 +2,9 @@
 <plugin>
 	<name>Chameleon</name>
 	<author>KaKaRoTo (Alaoui Youness)</author>
-	<description>This plugin allows you to change aMSN look and feel using the Tile extension for Tk. This changes the way the toolkit looks so you might have a GTK+ look for your Tk toolkit.</description>
+	<description>This plugin allows you to change aMSN look and feel using the Tile extension for Tk. This changes the way the toolkit looks so you might have a GTK+ or XP native look instead of Tk.
+	Tile extension must be avalaible before using this plugin, you can get it at http://tktable.sf.net/tile 
+	For it to be detected, either install it in your lib directorie, or copy the tile-0.7.2/ directory to this plugin's directory.</description>
 	<amsn_version>0.95</amsn_version>
 	<plugin_version>0.1</plugin_version>
 	<plugin_file>chameleon.tcl</plugin_file>
