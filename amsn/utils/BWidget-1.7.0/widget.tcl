@@ -747,6 +747,7 @@ proc Widget::destroy { path } {
     }
 
     if {![string equal [info commands $path] ""]} { rename $path "" }
+    if {![string equal [info commands ::$path:cmd] ""]} { rename ::$path:cmd $path }
 
     ## Unset any variables used in this widget.
     foreach var [info vars ::${class}::$path:*] { unset $var }
