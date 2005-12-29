@@ -124,7 +124,11 @@ namespace eval ::notes {
   		scrollbar $w.right.notes.ys -command "$w.right.notes.box yview" -highlightthickness 0 -borderwidth 1 -elementborderwidth 2
   		pack $w.right.notes.current -expand false -fill x
   		pack $w.right.notes.box -side left -expand true -fill both
-		$w.right.notes.ys configure -height [winfo height $w.right.notes.box]
+		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+			#We are not using pixmapscroll on Mac OS X
+		} else {
+			$w.right.notes.ys configure -height [winfo height $w.right.notes.box]
+		}
   		pack $w.right.notes.ys -side right -fill y -expand false
 
 
