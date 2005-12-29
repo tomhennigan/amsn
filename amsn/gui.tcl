@@ -4985,7 +4985,11 @@ proc cmsn_draw_online_wrapped {} {
 		$pgBuddyTop.mystatus insert end "\n$nick" mystatus
 	}
 
-	set balloon_message "[string map {"%" "%%"} "$my_name\n [::config::getKey login]\n [trans status] : $my_state_desc"]"
+	if {[::abook::getPersonal PSM] == ""} {
+		set balloon_message "[string map {"%" "%%"} "$my_name\n [::config::getKey login]\n [trans status] : $my_state_desc"]"
+	} else {
+                set balloon_message "[string map {"%" "%%"} "$my_name\n [::abook::getPersonal PSM]\n [::config::getKey login]\n [trans status] : $my_state_desc"]"
+	}
 
 	$pgBuddyTop.mystatus tag bind mystatus <Enter> +[list balloon_enter %W %X %Y $balloon_message $pic_name]
 

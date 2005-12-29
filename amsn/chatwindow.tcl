@@ -2174,7 +2174,12 @@ namespace eval ::ChatWindow {
 			
 			set user_name [string map {"\n" " "} [::abook::getDisplayNick $user_login]]
 			set state_code [::abook::getVolatileData $user_login state]
-			
+			set psm [::abook::getVolatileData $user_login PSM]
+
+			if { $psm != "" } {
+				set psm "$psm "
+			}
+
 			if { $state_code == "" } {
 				set user_state ""
 				set state_code FLN
@@ -2202,13 +2207,16 @@ namespace eval ::ChatWindow {
 
 				incr maxw [expr 0-[font measure sboldf -displayof $top " <${user_login}>"]]
 
-
-
-				set nicktxt "[trunc ${user_name} ${win_name} $maxw sboldf] <${user_login}>"
+				if { [font measure sboldf -displayof $top "${user_name}"] > $maxw } {
+					set nicktxt "[trunc ${user_name} ${win_name} $maxw sboldf] <${user_login}>"
+				} else {
+					incr maxw [expr 0-[font measure sboldf -displayof $top " ${user_name}"]]
+				 	set nicktxt "${user_name} <${user_login}> [trunc ${psm} ${win_name} $maxw sboldf]"
+				}
 				
 			} else {
 
-				set nicktxt "${user_name} <${user_login}>"
+				set nicktxt "${user_name} <${user_login}> $psm"
 		
 			}
 
