@@ -4402,11 +4402,11 @@ proc login_ok {} {
 
 
 	if { $loginmode == 0 } {
-		::config::setKey login [string tolower [.login.main.f.f.loginentry get]]
-		set password [.login.main.f.f.passentry get]
+		::config::setKey login [string tolower [.login.main.loginentry get]]
+		set password [.login.main.passentry get]
 	} else {
-		if { $password != [.login.main.f.f.passentry2 get] } {
-			set password [.login.main.f.f.passentry2 get]
+		if { $password != [.login.main.passentry2 get] } {
+			set password [.login.main.passentry2 get]
 		}
 	}
 
@@ -4450,7 +4450,7 @@ proc cmsn_draw_login {} {
 #wm geometry .login 600x220
 	wm title .login "[trans login] - [trans title]"
 	ShowTransient .login
-	set mainframe [LabelFrame:create .login.main -text [trans login] -font splainf]
+	set mainframe [labelframe .login.main -text [trans login] -font splainf]
 
 	radiobutton $mainframe.button -text [trans defaultloginradio] -value 0 -variable loginmode -command "RefreshLogin $mainframe"
 	label $mainframe.loginlabel -text "[trans user]: " -font sboldf
@@ -4636,7 +4636,7 @@ proc AddProfileWin {} {
 
 	ShowTransient .add_profile .login
 
-	set mainframe [LabelFrame:create .add_profile.main -text [trans  addprofile] -font splainf]
+	set mainframe [labelframe .add_profile.main -text [trans  addprofile] -font splainf]
 	label $mainframe.desc -text "[trans addprofiledesc]" -font splainf  -justify left
 	entry $mainframe.login -bg #FFFFFF -bd 1 -font splainf  -highlightthickness 0 -width 35
 	label $mainframe.example -text "[trans examples]  :\ncopypastel@hotmail.com\nelbarney@msn.com\nexample@passport.com"  -font examplef -padx 10

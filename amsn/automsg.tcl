@@ -322,8 +322,8 @@ proc EditNewState { mode { idx "" } } {
 	}
 	#ShowTransient .editstate
 
-	set lfname [LabelFrame:create .editstate.lfname -text [trans stateinfo] -font splainf]
-	pack $lfname -anchor n -side top -expand 1 -fill x
+	set lfname [labelframe .editstate.lfname -text [trans stateinfo] -font splainf]
+	#pack $lfname -anchor n -side top -expand 1 -fill x
     
 	frame .editstate.1 -class Degt
 	label .editstate.1.away -image [::skin::loadPixmap prefaway]
@@ -350,7 +350,7 @@ proc EditNewState { mode { idx "" } } {
 	combobox::combobox $lfname.statebox -editable false -highlightthickness 0 -width 37 -bg #FFFFFF -font splainf -command ""
 	label $lfname.lmsg -text "[trans stateautomsg] :" -font splainf
 	text $lfname.emsg -background white -borderwidth 2 -relief ridge -width 40 -height 5 -font splainf
-	pack .editstate.1 -expand 1 -fill both -side top -pady 15
+	pack .editstate.1 -expand false -fill x -side top -pady 15
 	pack .editstate.lfname -expand 1 -fill both -side top
 	grid $lfname.ldesc -row 1 -column 1 -sticky w -pady 5 -padx 5
 	grid $lfname.edesc -row 1 -column 2 -sticky w -pady 5 -padx 5
@@ -456,9 +456,9 @@ proc ButtonSaveState { lfname { idx "" } } {
 	CreateStatesMenu .my_menu
 	if { ($mode == 0 || $mode == 2) && [winfo exists .cfg] } {
 		set cfgname [[.cfg.notebook.nn getframe session].sw.sf getframe]
-		$cfgname.lfname2.f.f.statelist.box delete 0 end
+		$cfgname.lfname2.statelist.box delete 0 end
 		for { set idx 0 } { $idx < [StateList size] } {incr idx } {
-			$cfgname.lfname2.f.f.statelist.box insert end [lindex [StateList get $idx] 0]
+			$cfgname.lfname2.statelist.box insert end [lindex [StateList get $idx] 0]
 		}
 	}
 	SaveStateList

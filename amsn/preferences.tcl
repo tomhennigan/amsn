@@ -406,7 +406,7 @@ namespace eval Preferences {
 		set itemPath $path
 		
 		#Create and pack the labelframe
-		set f [LabelFrame:create $path.f -text $options(-text) -font splainf] 
+		set f [labelframe $path.f -text $options(-text) -font splainf] 
 		pack $path.f -side top -fill x
 		
 		#If there is an icon, draw it
@@ -1523,7 +1523,7 @@ proc Preferences { { settings "personal"} } {
 	set frm [$frm.sw.sf getframe]	
 
 	## Nickname Selection Entry Frame ##
-	set lfname [LabelFrame:create $frm.lfname -text [trans prefname] -font splainf]
+	set lfname [labelframe $frm.lfname -text [trans prefname] -font splainf]
 	pack $frm.lfname -anchor n -side top -expand 1 -fill x
 	frame $lfname.1 -class Degt
 	label $lfname.pname -image [::skin::loadPixmap prefpers]
@@ -1540,7 +1540,7 @@ proc Preferences { { settings "personal"} } {
 	pack $lfname.1.name $lfname.1.p4c -side top -anchor nw
 
 	## Public Profile Frame ##
-	#set lfname [LabelFrame:create $frm.lfname2 -text [trans prefprofile]]
+	#set lfname [labelframe $frm.lfname2 -text [trans prefprofile]]
 	#pack $frm.lfname2 -anchor n -side top -expand 1 -fill x
 	#label $lfname.pprofile -image [::skin::loadPixmap prefprofile]
 	#label $lfname.lprofile -text [trans prefprofile2] -padx 10
@@ -1549,7 +1549,7 @@ proc Preferences { { settings "personal"} } {
 	#pack $lfname.bprofile -side right -padx 15
 
 	## Chat Font Frame ##
-	set lfname [LabelFrame:create $frm.lfname3 -text [trans preffont]]
+	set lfname [labelframe $frm.lfname3 -text [trans preffont]]
 	pack $frm.lfname3 -anchor n -side top -expand 1 -fill x
 	label $lfname.pfont -image [::skin::loadPixmap preffont]
 	label $lfname.lfont -text [trans preffont2] -padx 10
@@ -1558,7 +1558,7 @@ proc Preferences { { settings "personal"} } {
 	pack $lfname.bfont -side right -padx 15
 
 	## Phone Numbers Frame ##
-	set lfname [LabelFrame:create $frm.lfname4 -text [trans prefphone]]
+	set lfname [labelframe $frm.lfname4 -text [trans prefphone]]
 	pack $frm.lfname4 -anchor n -side top -expand 1 -fill x 
 	frame $lfname.1 -class Degt
 	frame $lfname.2 -class Degt
@@ -1617,7 +1617,7 @@ proc Preferences { { settings "personal"} } {
 	set frm [$frm.sw.sf getframe]	
 	
 	## General aMSN Look Options (Encoding, BGcolor, General Font, Clock Format)
-	set lfname [LabelFrame:create $frm.lfname -text [trans preflook]]
+	set lfname [labelframe $frm.lfname -text [trans preflook]]
 	pack $frm.lfname -anchor n -side top -expand 0 -fill x
 	label $lfname.plook -image [::skin::loadPixmap preflook]
 	frame $lfname.1 -class Degt
@@ -1657,7 +1657,7 @@ proc Preferences { { settings "personal"} } {
 
 
 	## Emoticons Frame ##
-	set lfname [LabelFrame:create $frm.lfname2 -text [trans prefemotic]]
+	set lfname [labelframe $frm.lfname2 -text [trans prefemotic]]
 	pack $frm.lfname2 -anchor n -side top -expand 0 -fill x
 	label $lfname.pemotic -image [::skin::loadPixmap prefemotic]
 	pack $lfname.pemotic -side left -anchor nw
@@ -1672,7 +1672,7 @@ proc Preferences { { settings "personal"} } {
 	pack $lfname.1.chat $lfname.1.list $lfname.1.sound  $lfname.1.animated -anchor w -side top -padx 10 -pady 0
 
 	## Alerts and Sounds Frame ##
-	set lfname [LabelFrame:create $frm.lfname3 -text [trans prefalerts]]
+	set lfname [labelframe $frm.lfname3 -text [trans prefalerts]]
 	pack $frm.lfname3 -anchor n -side top -expand 0 -fill x
 	label $lfname.palerts -image [::skin::loadPixmap prefalerts]
 	pack $lfname.palerts -side left -anchor nw
@@ -1710,7 +1710,7 @@ proc Preferences { { settings "personal"} } {
 	set frm [$frm.sw.sf getframe]	
 	
 	## Sign In and AutoStatus Options Frame ##
-	set lfname [LabelFrame:create $frm.lfname -text [trans prefsession]]
+	set lfname [labelframe $frm.lfname -text [trans prefsession]]
 	pack $frm.lfname -anchor n -side top -expand 1 -fill x
 	label $lfname.psession -image [::skin::loadPixmap prefstatus]
 	pack $lfname.psession -anchor nw -side left
@@ -1743,7 +1743,7 @@ proc Preferences { { settings "personal"} } {
 	}
 
 	## Away Messages Frame ##
-	set lfname [LabelFrame:create $frm.lfname2 -text [trans prefawaymsg]]
+	set lfname [labelframe $frm.lfname2 -text [trans prefawaymsg]]
 	pack $frm.lfname2 -anchor n -side top -expand 1 -fill x
 	label $lfname.psession -image [::skin::loadPixmap prefaway]
 	pack $lfname.psession -anchor nw -side left
@@ -1765,7 +1765,7 @@ proc Preferences { { settings "personal"} } {
 	pack $lfname.buttons -anchor w -side right -padx 10 -pady 10 -expand 1 -fill both
 
 	## Messaging Interface Frame ##
-	set lfname [LabelFrame:create $frm.lfname3 -text [trans prefmsging]]
+	set lfname [labelframe $frm.lfname3 -text [trans prefmsging]]
 	pack $frm.lfname3 -anchor n -side top -expand 1 -fill x
 	label $lfname.pmsging -image [::skin::loadPixmap prefmsg]
 	pack $lfname.pmsging -anchor nw -side left
@@ -1854,9 +1854,9 @@ proc Preferences { { settings "personal"} } {
 	set frm [$frm.sw.sf getframe]
 
 	## frames ##
-#	set lfgroup [LabelFrame:create $frm.lfgroup -text [trans groups] -font splainf]
+#	set lfgroup [labelframe $frm.lfgroup -text [trans groups] -font splainf]
 #	pack $frm.lfgroup -anchor n -side top -expand 1 -fill x
-#	set lfcontact [LabelFrame:create $frm.lfcontact -text [trans contactlist] -font splainf]
+#	set lfcontact [labelframe $frm.lfcontact -text [trans contactlist] -font splainf]
 #	pack $frm.lfcontact -anchor n -side top -expand 1 -fill x
 
 #	## Group Selection Frame ##
@@ -1916,7 +1916,7 @@ proc Preferences { { settings "personal"} } {
 #	pack $lfcontact.lbcontact.b.bdel -side top -pady 2 -anchor w
 
 	## Mobile group ##
-	set lfmobile [LabelFrame:create $frm.lfmobile -text [trans mobilegrp1]]
+	set lfmobile [labelframe $frm.lfmobile -text [trans mobilegrp1]]
 	pack $frm.lfmobile -anchor n -side top -expand 1 -fill x
 	label $lfmobile.lbmobile -image [::skin::loadPixmap prefmobile]
 	pack $lfmobile.lbmobile -side left -padx 5 -pady 5 
@@ -1939,7 +1939,7 @@ proc Preferences { { settings "personal"} } {
 	set frm [$nb.nn getframe loging]
 
 	## Loging Options Frame ##
-	set lfname [LabelFrame:create $frm.lfname -text [trans preflog1]]
+	set lfname [labelframe $frm.lfname -text [trans preflog1]]
 	pack $frm.lfname -anchor n -side top -expand 0 -fill x
 	label $lfname.plog1 -image [::skin::loadPixmap prefhist]
 	pack $lfname.plog1 -anchor nw -side left
@@ -1960,7 +1960,7 @@ proc Preferences { { settings "personal"} } {
 #	pack $lfname.2 -anchor w -side top -expand 1 -fill x
 	
 	## Clear All Logs Frame ##
-	set lfname [LabelFrame:create $frm.lfname2 -text [trans clearlog]]
+	set lfname [labelframe $frm.lfname2 -text [trans clearlog]]
 	pack $frm.lfname2 -anchor n -side top -expand 0 -fill x
 	label $lfname.plog1 -image [::skin::loadPixmap prefhist2]
 	pack $lfname.plog1 -anchor nw -side left
@@ -1974,7 +1974,7 @@ proc Preferences { { settings "personal"} } {
 	pack $lfname.1 -anchor w -side top -expand 0 -fill x
 #////////TODO: Add logs expiry feature
 	## Logs Expiry Frame ##
-#	set lfname [LabelFrame:create $frm.lfname3 -text [trans logfandexp]]
+#	set lfname [labelframe $frm.lfname3 -text [trans logfandexp]]
 #	pack $frm.lfname3 -anchor n -side top -expand 1 -fill x
 #	label $lfname.plog1 -image [::skin::loadPixmap prefhist3]
 #	pack $lfname.plog1 -anchor nw -side left
@@ -1993,7 +1993,7 @@ proc Preferences { { settings "personal"} } {
 
 
 	## Eventlogging frame ## ***
-	set lfname [LabelFrame:create $frm.lfname3 -text [trans preflogevent]]
+	set lfname [labelframe $frm.lfname3 -text [trans preflogevent]]
 	pack $frm.lfname3 -anchor n -side top -expand 0 -fill x
 	label $lfname.plog1
 	grid $lfname.plog1 -columnspan 2
@@ -2032,7 +2032,7 @@ proc Preferences { { settings "personal"} } {
 	set frm [$frm.sw.sf getframe]	
 	
 	## Connection Frame ##
-	set lfname [LabelFrame:create $frm.lfnameconnection -text [trans prefconnection]]
+	set lfname [labelframe $frm.lfnameconnection -text [trans prefconnection]]
 	pack $frm.lfnameconnection -anchor n -side top -expand 1 -fill x
 	label $lfname.pshared -image [::skin::loadPixmap prefproxy]
 	pack $lfname.pshared -side left -anchor nw	
@@ -2085,7 +2085,7 @@ proc Preferences { { settings "personal"} } {
 	grid $lfname.5.pass -row 3 -column 4 -sticky w
 
 	## NAT (or similar) Frame ##
-	set lfname [LabelFrame:create $frm.lfname -text [trans prefft]]
+	set lfname [labelframe $frm.lfname -text [trans prefft]]
 	pack $frm.lfname -anchor n -side top -expand 1 -fill x
 	label $lfname.pshared -image [::skin::loadPixmap prefnat]
 	pack $lfname.pshared -side left -anchor nw
@@ -2110,7 +2110,7 @@ proc Preferences { { settings "personal"} } {
 	
 	    
         ## Remote Control Frame ##
-        set lfname [LabelFrame:create $frm.lfname3 -text [trans prefremote]]
+        set lfname [labelframe $frm.lfname3 -text [trans prefremote]]
         pack $frm.lfname3 -anchor n -side top -expand 1 -fill x
 	label $lfname.pshared -image [::skin::loadPixmap prefremote]
 	pack $lfname.pshared -side left -anchor nw
@@ -2143,7 +2143,7 @@ proc Preferences { { settings "personal"} } {
 	set frm [$frm.sw.sf getframe]	
 	
 	## Delete Profiles Frame ##
-	set lfname [LabelFrame:create $frm.lfname3 -text [trans prefprofile3]]
+	set lfname [labelframe $frm.lfname3 -text [trans prefprofile3]]
 	pack $frm.lfname3 -anchor n -side top -expand 1 -fill x
 	label $lfname.pprofile -image [::skin::loadPixmap prefapps]
 	pack $lfname.pprofile -side left -anchor nw
@@ -2157,7 +2157,7 @@ proc Preferences { { settings "personal"} } {
 	pack $lfname.1 -anchor w -side top -expand 0 -fill none
 		
 	## Applications Frame ##
-	set lfname [LabelFrame:create $frm.lfname -text [trans prefapps]]
+	set lfname [labelframe $frm.lfname -text [trans prefapps]]
 	pack $frm.lfname -anchor n -side top -expand 1 -fill x
 	label $lfname.pshared -image [::skin::loadPixmap prefapps]
 	pack $lfname.pshared -side left -anchor nw
@@ -2230,7 +2230,7 @@ proc Preferences { { settings "personal"} } {
 	
 
 	## File transfert directory frame ##
-	set lfname [LabelFrame:create $frm.lfname4 -text [trans receiveddir]]
+	set lfname [labelframe $frm.lfname4 -text [trans receiveddir]]
 	pack $frm.lfname4 -anchor n -side top -expand 1 -fill x
 	label $lfname.pshared -image [::skin::loadPixmap prefapps]
 	pack $lfname.pshared -side left -anchor nw
@@ -2245,7 +2245,7 @@ proc Preferences { { settings "personal"} } {
 	grid $lfname.1.receiveddir -row 1 -column 2 -sticky w
 	grid $lfname.1.browse -row 1 -column 3 -sticky w
 	
-	set lfname [LabelFrame:create $frm.lfname5 -text "[trans webcam]"]
+	set lfname [labelframe $frm.lfname5 -text "[trans webcam]"]
 	pack $frm.lfname5 -anchor n -side top -expand 1 -fill x
 	label $lfname.pshared -image [::skin::loadPixmap webcam]
 	pack $lfname.pshared -side left -anchor nw
@@ -2264,7 +2264,7 @@ proc Preferences { { settings "personal"} } {
 	#set frm [Rnotebook:frame $nb $Preftabs(advanced)]
 	set frm [$nb.nn getframe advanced]
 	
-	set lfname [LabelFrame:create $frm.lfname -text [trans advancedprefs]]
+	set lfname [labelframe $frm.lfname -text [trans advancedprefs]]
 	pack $frm.lfname -anchor n -side top -expand true -fill both
 	
 	#Scrollable frame that will contain advanced optoins
@@ -2295,7 +2295,7 @@ proc Preferences { { settings "personal"} } {
 	set frm [$nb.nn getframe privacy]
 
          # Allow/Block lists
-	set lfname [LabelFrame:create $frm.lfname -text [trans prefprivacy]]
+	set lfname [labelframe $frm.lfname -text [trans prefprivacy]]
 	pack $frm.lfname -anchor n -side top -expand 1 -fill both
 	label $lfname.pprivacy -image [::skin::loadPixmap prefapps]
 	pack $lfname.pprivacy -anchor nw -side left
@@ -2341,7 +2341,7 @@ proc Preferences { { settings "personal"} } {
 
 
         # Contact/Reverse lists
-	set lfname [LabelFrame:create $frm.lfname2 -text [trans prefprivacy2]]
+	set lfname [labelframe $frm.lfname2 -text [trans prefprivacy2]]
 	pack $frm.lfname2 -anchor n -side top -expand 1 -fill both
 	label $lfname.pprivacy -image [::skin::loadPixmap prefapps]
 	pack $lfname.pprivacy -anchor nw -side left
@@ -2403,7 +2403,7 @@ proc Preferences { { settings "personal"} } {
 	#set frm [Rnotebook:frame $nb $Preftabs(blocking)]
 	
 	## Check on disconnect ##
-	#set lfname [LabelFrame:create $frm.lfname -text [trans prefblock1]]
+	#set lfname [labelframe $frm.lfname -text [trans prefblock1]]
 	#pack $frm.lfname -anchor n -side top -expand 1 -fill x
 	#label $lfname.ppref1 -image [::skin::loadPixmap prefapps]
 	#pack $lfname.ppref1 -side left -padx 5 -pady 5 
@@ -2411,7 +2411,7 @@ proc Preferences { { settings "personal"} } {
 	#pack $lfname.enable  -anchor w -side left -padx 0 -pady 5 
 
 	## "You have been blocked" group ##
-	#set lfname [LabelFrame:create $frm.lfname3 -text [trans prefblock3]]
+	#set lfname [labelframe $frm.lfname3 -text [trans prefblock3]]
 	#pack $frm.lfname3 -anchor n -side top -expand 1 -fill x
 	#label $lfname.ppref3 -image [::skin::loadPixmap prefapps]
 	#pack $lfname.ppref3 -side left -padx 5 -pady 5 
@@ -2419,7 +2419,7 @@ proc Preferences { { settings "personal"} } {
 	#pack $lfname.group  -anchor w -side left -padx 0 -pady 5 
 
 	## Continuously check ##
-	#set lfname [LabelFrame:create $frm.lfname2 -text [trans prefblock2]]
+	#set lfname [labelframe $frm.lfname2 -text [trans prefblock2]]
 	#pack $frm.lfname2 -anchor n -side top -expand 1 -fill x
 	#label $lfname.ppref2 -image [::skin::loadPixmap prefapps]
 	#pack $lfname.ppref2 -side left -padx 5 -pady 5 
@@ -2626,19 +2626,19 @@ proc InitPref { {fullinit 0} } {
 		set lfname [$nb.nn getframe personal]
 		set lfname [$lfname.sw.sf getframe]
 		if { [::MSN::myStatusIs] == "FLN" } {
-			$lfname.lfname.f.f.1.name.entry configure -state disabled
+			$lfname.lfname.1.name.entry configure -state disabled
 		} else {
-			$lfname.lfname.f.f.1.name.entry configure -state normal
-			$lfname.lfname.f.f.1.name.entry delete 0 end
-			$lfname.lfname.f.f.1.name.entry insert 0 [::abook::getPersonal MFN]
+			$lfname.lfname.1.name.entry configure -state normal
+			$lfname.lfname.1.name.entry delete 0 end
+			$lfname.lfname.1.name.entry insert 0 [::abook::getPersonal MFN]
 		}
 	
-		$lfname.lfname.f.f.1.p4c.entry delete 0 end
-		$lfname.lfname.f.f.1.p4c.entry insert 0 [::config::getKey p4c_name]
+		$lfname.lfname.1.p4c.entry delete 0 end
+		$lfname.lfname.1.p4c.entry insert 0 [::config::getKey p4c_name]
 	
 		
 		# Get My Phone numbers and insert them
-		set lfname "$lfname.lfname4.f.f"
+		set lfname "$lfname.lfname4"
 	    if { [::abook::getPersonal MBE] == "N" } {
 		 $lfname.2.mobphone configure -state disabled
 	    }
@@ -2682,15 +2682,15 @@ proc InitPref { {fullinit 0} } {
 		#set lfname [Rnotebook:frame $nb $Preftabs(connection)]
 		set lfname [$nb.nn getframe connection]	
 		set lfname [$lfname.sw.sf getframe]
-		$lfname.lfname3.f.f.2.pass delete 0 end
-		$lfname.lfname3.f.f.2.pass insert 0 "[::config::getKey remotepassword]"
+		$lfname.lfname3.2.pass delete 0 end
+		$lfname.lfname3.2.pass insert 0 "[::config::getKey remotepassword]"
 		
 	}
 		
 	# Lets fill our profile combobox
 	#set lfname [Rnotebook:frame $nb $Preftabs(others)]
 	set lfname [$nb.nn getframe others]
-	set lfname "[$lfname.sw.sf getframe].lfname3.f.f"
+	set lfname "[$lfname.sw.sf getframe].lfname3"
    	set idx 0
    	set tmp_list ""
 	$lfname.1.profile list delete 0 end
@@ -2708,10 +2708,10 @@ proc InitPref { {fullinit 0} } {
 	if { [LoginList exists 0 [::config::getKey login]] == 0 } {
 		#set lfname [Rnotebook:frame $nb $Preftabs(loging)]
 		set lfname [$nb.nn getframe loging]
-		set lfname "$lfname.lfname.f.f"
+		set lfname "$lfname.lfname"
 		$lfname.log configure -state disabled
 		set lfname [$nb.nn getframe loging]
-		set lfname "$lfname.lfname3.f.f"
+		set lfname "$lfname.lfname3"
 		$lfname.logconnect configure -state disabled
 		$lfname.logdisconnect configure -state disabled
 		$lfname.logemail configure -state disabled
@@ -2722,15 +2722,15 @@ proc InitPref { {fullinit 0} } {
 	#set lfname [Rnotebook:frame $nb $Preftabs(session)]
 	set lfname [$nb.nn getframe session]
 	set lfname [$lfname.sw.sf getframe]
-	$lfname.lfname2.f.f.statelist.box delete 0 end
+	$lfname.lfname2.statelist.box delete 0 end
 	for { set idx 0 } { $idx < [StateList size] } {incr idx } {
-		$lfname.lfname2.f.f.statelist.box insert end [lindex [StateList get $idx] 0]
+		$lfname.lfname2.statelist.box insert end [lindex [StateList get $idx] 0]
 	}
 
         # Fill the user's lists
         #set lfname [Rnotebook:frame $nb $Preftabs(privacy)]
 	set lfname [$nb.nn getframe privacy]
-        Fill_users_list "$lfname.lfname.f.f" "$lfname.lfname2.f.f"
+        Fill_users_list "$lfname.lfname" "$lfname.lfname2"
 
 }
 
@@ -2745,7 +2745,7 @@ proc UpdatePreferences {} {
 	#set lfname [Rnotebook:frame $nb $Preftabs(session)]
 	set lfname [$nb.nn getframe session]
 	set lfname [$lfname.sw.sf getframe]
-	set lfname "${lfname}.lfname.f.f"
+	set lfname "${lfname}.lfname"
 	if { [::config::getKey autoidle] == 0 } {
 		$lfname.1.eautonoact configure -state disabled
 	} else {
@@ -2761,7 +2761,7 @@ proc UpdatePreferences {} {
 	#set lfname [Rnotebook:frame $nb $Preftabs(connection)]
 	set lfname [$nb.nn getframe connection]
 	set lfname [$lfname.sw.sf getframe]
-	set lfname "${lfname}.lfnameconnection.f.f"
+	set lfname "${lfname}.lfnameconnection"
 	if { [::config::getKey connectiontype] == "proxy" } {
 		$lfname.4.post configure -state normal
 		$lfname.4.ssl configure -state disable
@@ -2787,7 +2787,7 @@ proc UpdatePreferences {} {
 	#set lfname [Rnotebook:frame $nb $Preftabs(connection)]
 	set lfname [$nb.nn getframe connection]
 	set lfname [$lfname.sw.sf getframe]
-	set lfname "${lfname}.lfname.f.f"
+	set lfname "${lfname}.lfname"
 	if { [::config::getKey autoftip] } {
 		$lfname.1.ipaddr.entry configure -textvariable "" -text "Hola"
 		$lfname.1.ipaddr.entry delete 0 end
@@ -2801,7 +2801,7 @@ proc UpdatePreferences {} {
 	#set lfname [Rnotebook:frame $nb $Preftabs(connection)]
 	set lfname [$nb.nn getframe connection]
 	set lfname [$lfname.sw.sf getframe]
-	set lfname "${lfname}.lfname3.f.f"
+	set lfname "${lfname}.lfname3"
 	if { [::config::getKey enableremote] == 1 } {
 		$lfname.2.pass configure -state normal
 	} else {
@@ -2811,7 +2811,7 @@ proc UpdatePreferences {} {
 	# sound
 	set lfname [$nb.nn getframe others]
 	set lfname [$lfname.sw.sf getframe]
-	set lfname "${lfname}.lfname.f.f"
+	set lfname "${lfname}.lfname"
 	#Disabled that if we are on Mac OS X because we can't choose Snack
 	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 		#Empty
@@ -2910,7 +2910,7 @@ proc SavePreferences {} {
 		#set lfname [Rnotebook:frame $nb $Preftabs(personal)]
 		set lfname [$nb.nn getframe personal]
 		set lfname [$lfname.sw.sf getframe]
-		set lfname "$lfname.lfname4.f.f"
+		set lfname "$lfname.lfname4"
 	
 		set cntrycode [$lfname.2.ephone1 get]
 		if { [string is digit $cntrycode] == 0 } {
@@ -2951,7 +2951,7 @@ proc SavePreferences {} {
 	#set lfname [Rnotebook:frame $nb $Preftabs(personal)]
 	set lfname [$nb.nn getframe personal]
 	set lfname [$lfname.sw.sf getframe]
-	set lfname "$lfname.lfname.f.f.1"
+	set lfname "$lfname.lfname.1"
 	set new_name [$lfname.name.entry get]
 	if {$new_name != "" && $new_name != [::abook::getPersonal MFN] && [::MSN::myStatusIs] != "FLN"} {
 		::MSN::changeName [::config::getKey login] $new_name
@@ -2962,7 +2962,7 @@ proc SavePreferences {} {
 	#set lfname [Rnotebook:frame $nb $Preftabs(connection)]
 	set lfname [$nb.nn getframe connection]
 	set lfname [$lfname.sw.sf getframe]
-	set myconfig(remotepassword) "[$lfname.lfname3.f.f.2.pass get]"
+	set myconfig(remotepassword) "[$lfname.lfname3.2.pass get]"
 	::config::setKey remotepassword $myconfig(remotepassword)
 
 	#Copy to myconfig array, because when the window is closed, these will be restored (RestorePreferences)
@@ -3128,50 +3128,6 @@ proc LabelEntry { path lbl variable width } {
 proc LabelEntryGet { path } {
     return [$path.ent get]
 }
-
-#/////////////////////////////////////////////////////////////
-# A Labeled Frame widget for Tcl/Tk
-#
-# Copyright (C) 1998 D. Richard Hipp
-#
-# Author contact information:
-#   drh@acm.org
-#   http://www.hwaci.com/drh/
-proc LabelFrame:create {w args} {
-  frame $w -bd 0
-  label $w.l
-  frame $w.f -bd 2 -relief groove
-  frame $w.f.f
-  pack $w.f.f
-  set text {}
-  set font {}
-  set padx 3
-  set pady 7
-  set ipadx 2
-  set ipady 9
-  foreach {tag value} $args {
-    switch -- $tag {
-      -font  {set font $value}
-      -text  {set text $value}
-      -padx  {set padx $value}
-      -pady  {set pady $value}
-      -ipadx {set ipadx $value}
-      -ipady {set ipady $value}
-      -bd     {$w.f config -bd $value}
-      -relief {$w.f config -relief $value}
-    }
-  }
-  if {"$font"!=""} {
-    $w.l config -font $font
-  }
-  $w.l config -text $text
-  pack $w.f -padx $padx -pady $pady -fill both -expand 1
-  place $w.l -x [expr {$padx+10}] -y $pady -anchor w
-  pack $w.f.f -padx $ipadx -pady $ipady -fill both -expand 1
-  raise $w.l
-  return $w.f.f
-}
-
 
 
 proc BlockValidateEntry { widget data type {correct 0} } {

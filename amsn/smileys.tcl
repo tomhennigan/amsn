@@ -696,8 +696,8 @@ namespace eval ::smiley {
 
 		toplevel .new_custom
 		
-		set w [LabelFrame:create .new_custom.lfname -text [trans smileconfig] -font splainf]
-		pack $w -anchor n -side top -expand 1 -fill x
+		set w [labelframe .new_custom.lfname -text [trans smileconfig] -font splainf]
+		#pack $w -anchor n -side top -expand 1 -fill x
 		
 		frame .new_custom.1 -class Degt
 		label .new_custom.1.smile -image [::skin::loadPixmap smile]
@@ -742,7 +742,7 @@ namespace eval ::smiley {
 		pack .new_custom.buttons.ok -side right -padx 5
 		pack .new_custom.buttons.cancel -side right -padx 5
 		pack .new_custom.buttons.delete -side left -padx 5
-		pack .new_custom.buttons -side bottom -fill x -expand true -padx 5 -pady 5
+		pack .new_custom.buttons -side bottom -fill x -expand false -padx 5 -pady 5
 
 		pack .new_custom.1.intro -fill both -side left
 
@@ -767,8 +767,8 @@ namespace eval ::smiley {
 		grid $w.casesensitive -row 7 -column 1 -columnspan 2 -padx 2 -pady 2 -sticky w
 		
 		
-		pack .new_custom.1 -expand 1 -fill both -side top -pady 5 -padx 5
-		pack .new_custom.lfname -expand 1 -fill both -side top
+		pack .new_custom.1 -expand false -fill x -side top -pady 5 -padx 5
+		pack .new_custom.lfname -expand 1 -fill both -side top -pady 5 -padx 5
 		
 		UpdateEnabledSoundSmileys
 		
@@ -802,7 +802,7 @@ namespace eval ::smiley {
 	proc UpdateEnabledSoundSmileys { } {
 		global new_custom_cfg
 		
-		set w .new_custom.lfname.f.f
+		set w .new_custom.lfname
 		
 		if { $new_custom_cfg(enablesound) == 1 } {
 			$w.sound configure -state normal

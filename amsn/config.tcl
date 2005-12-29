@@ -1017,14 +1017,14 @@ proc ConfigChange { window email } {
 		}
 
 		if { [winfo exists .login] } {
-			.login.main.f.f.passentry2 delete 0 end
+			.login.main.passentry2 delete 0 end
 			if { [info exists password] } {
-				.login.main.f.f.passentry2 insert 0 $password
+				.login.main.passentry2 insert 0 $password
 			}
 			if {[string is digit -strict "[::config::getKey connectas]"]} {
-				.login.main.f.f.statelist select "[::config::getKey connectas]"
+				.login.main.statelist select "[::config::getKey connectas]"
 			} else {
-				.login.main.f.f.statelist select "0"
+				.login.main.statelist select "0"
 				status_log "Variable connectas is not digital [::config::getKey connectas]\n" red
 			}
 		}
@@ -1043,7 +1043,7 @@ proc SwitchProfileMode { value } {
 		if { $HOME == $HOME2 } {
 			for { set idx 0 } { $idx <= [LoginList size 0] } { incr idx } {
 				if { [CheckLock [LoginList get $idx]] != -1 } {
-					set window .login.main.f.f.box
+					set window .login.main.box
 					set cb [$window list get 0 [LoginList size 0]]
 					set index [lsearch $cb [LoginList get $idx]]
 					$window select $index
@@ -1056,16 +1056,16 @@ proc SwitchProfileMode { value } {
 				set loginmode 0
 				# Going back to default profile
 				set loginmode 0
-				RefreshLogin .login.main.f.f 1
+				RefreshLogin .login.main 1
 			} elseif { $idx > [LoginList size 0] } {
 				msg_box [trans allprofilesinuse]
 				# Going back to default profile
 				set loginmode 0
-				RefreshLogin .login.main.f.f 1
+				RefreshLogin .login.main 1
 			}
 		# Else we are already in a profile, select that profile in combobox
 		} else {
-			set window .login.main.f.f.box
+			set window .login.main.box
 			set cb [$window list get 0 [LoginList size 0]]
 			set index [lsearch $cb [::config::getKey login]]
 			$window select $index
@@ -1161,20 +1161,20 @@ proc CreateProfile { email } {
 	# Redraw combobox with new profile
 	if { [winfo exists .login] } {
 		set loginmode 1
-		RefreshLogin .login.main.f.f 1
-		.login.main.f.f.box list delete 0 end
+		RefreshLogin .login.main 1
+		.login.main.box list delete 0 end
 		set idx 0
 		set tmp_list ""
 		while { [LoginList get $idx] != 0 } {
 			lappend tmp_list [LoginList get $idx]
 			incr idx
 		}
-		eval .login.main.f.f.box list insert end $tmp_list
+		eval .login.main.box list insert end $tmp_list
 		unset idx
 		unset tmp_list
 
 		# Select the new profile in combobox
-		set window .login.main.f.f.box
+		set window .login.main.box
 		set cb [$window list get 0 [LoginList size 0]]
 		set index [lsearch $cb $email]
 		$window select $index
