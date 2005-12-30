@@ -38,6 +38,8 @@ namespace eval ::growl {
 		
 		#Verify the current state of user preference
 		after 100 ::growl::VerifyPref
+		
+		set ::dir $dir
 
 	}
 	#####################################
@@ -134,6 +136,8 @@ namespace eval ::growl {
 			  [list bool "[trans removeamsnnotification]" removeamsnnotification] \
 			  [list bool "[trans notify1_75]" changestate] \
 			  [list bool "[trans notify1_5]" offline] \
+			  [list ext "[trans installstyle aMSN]" {installstyle aMSN.growlStyle}]\
+			  [list ext "[trans installstyle {aMSN for Mac}]" {installstyle aMSNMac.growlStyle}]\
 			 ]
 		}
 	}
@@ -290,7 +294,14 @@ namespace eval ::growl {
 			return 0
 		}
 	}
-	
+	############################################
+	# ::growl::installstyle                    #
+	# -----------------------------------------#
+	# Install a custom growl style             #
+	############################################	
+	proc installstyle {name} {
+		exec open [file join $::dir styles $name]
+	}
 
 
 }
