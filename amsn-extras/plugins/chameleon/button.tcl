@@ -1,6 +1,7 @@
 namespace eval ::chameleon::button {
 
    proc button_customParseConfArgs { parsed_options args } {
+	variable button_styleOptions
      	array set options $args
 	array set ttk_options $parsed_options
 
@@ -43,15 +44,17 @@ namespace eval ::chameleon::button {
 
     proc init_buttonCustomOptions { } {
  	variable button_widgetOptions
- 	variable button_widgetCommands 
+ 	variable button_widgetCommands
+ 	variable button_styleOptions
+ 	variable button_widgetLayout
+
+ 	set button_widgetLayout "TButton"
 
  	array set button_widgetOptions {-activebackground -ignore
  	    -activeforeground -ignore
  	    -anchor -ignore
  	    -background -ignore
- 	    -bg -ignore
  	    -bitmap -ignore
- 	    -borderwidth -ignore
 	    -border  -ignore
  	    -bd -ignore
  	    -compound -compound
@@ -61,23 +64,18 @@ namespace eval ::chameleon::button {
  	    -foreground -ignore
  	    -fg -ignore
  	    -highlightbackground -ignore
- 	    -highlightcolor -ignore
- 	    -highlightthickness -ignore
  	    -image -image
- 	    -justify -ignore
+ 	    -overrelief -ignore
  	    -padx -ignore
  	    -pady -ignore
- 	    -relief -ignore
  	    -repeatdelay -ignore
  	    -repeatinterval -ignore
  	    -takefocus -takefocus
  	    -text -text
  	    -textvariable -textvariable
  	    -underline -underline
- 	    -wraplength -ignore
  	    -command -command
  	    -default -default
- 	    -overrelief -ignore
  	    -height -ignore
  	    -state -state
  	    -width -ignore}
@@ -85,7 +83,19 @@ namespace eval ::chameleon::button {
 	
  	array set button_widgetCommands [list flash {1 {button_flash $w}} \
 					     invoke {1 {$w invoke}}]
-    
+
+ 	array set button_styleOptions {-background -background
+ 	    -bg -background
+ 	    -borderwidth -borderwidth
+ 	    -relief -relief
+ 	    -highlightcolor -focuscolor
+ 	    -highlightthickness -focusthickness
+ 	    -justify -justify
+ 	    -wraplength -wraplength}
+    }
+
+    proc init_buttonStyleOptions { } {
+
     }
 
     proc button_customCget { w option } {

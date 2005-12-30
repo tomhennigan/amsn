@@ -59,6 +59,7 @@ namespace eval ::chameleon {
 	variable plugin_dir
 
 	::plugins::RegisterPlugin "Chameleon"
+	::plugins::RegisterEvent "Chameleon" AllPluginsLoaded loaded
 
 	# Avoid having 100s of $dir in auto_path, in case user loads/unloads plugin many times..
 	if { [lsearch $::auto_path $dir] == -1  } {
@@ -119,14 +120,15 @@ namespace eval ::chameleon {
 	set plugin_dir $dir
 
 	catch  {console show }
-	
-	wrap 0
-
-	tile::setTheme ${::chameleon::config(theme)}
     }
 
     proc DeInit { } {
 	wrap 1
+    }
+
+    proc loaded { event epVar } {
+	tile::setTheme ${::chameleon::config(theme)}
+	wrap 0
     }
 
     proc populateframe { win } {

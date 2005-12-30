@@ -11,8 +11,17 @@ namespace eval ::chameleon {
 	variable widget_type
 	variable ttk_widget_type
 	variable ${widget_type}_widgetOptions
-	
+	variable ${widget_type}_widgetLayout
+
 	set w_name [eval ::ttk::${ttk_widget_type} $w [eval ${widget_type}_parseConfArgs $args]]
+
+
+	if { [set styles [eval ${widget_type}_parseStyleArgs $args]] != [list ] } {
+	    ::chameleon::CopyStyle [set ${widget_type}_widgetLayout] ${w_name}
+	    eval "style configure $w_name $styles"
+	    $w_name configure -style $w_name
+	}
+
 	
 	if { [info command ::chameleon::${widget_type}::${widget_type}_proc_${w_name}] == "::chameleon::${widget_type}::${widget_type}_proc_${w_name}" } {
 	    rename ::chameleon::${widget_type}::${widget_type}_proc_${w_name} ""
@@ -71,6 +80,7 @@ namespace eval ::chameleon {
     proc ::chameleon::${widget_type}::${widget_type}_parseConfArgs { args } {
 	variable widget_type
 	variable ${widget_type}_widgetOptions
+	variable ${widget_type}_styleOptions
 
 	if {![info exists ${widget_type}_widgetOptions] } {
 	    init_${widget_type}Options
@@ -78,8 +88,12 @@ namespace eval ::chameleon {
 	
 	array set args_array $args
 	foreach name [array names args_array] {
-	    if { ![info exists ${widget_type}_widgetOptions($name)]} {
-		error "Unknown option \"$name\""
+	    if { ![info exists ${widget_type}_widgetOptions($name)] } {
+		if { ![info exists ${widget_type}_styleOptions($name)]} {
+			error "Unknown option \"$name\""
+		} else {
+			continue
+		}
 	    }
 	    
 	    set options([lindex [set ${widget_type}_widgetOptions($name)] 0]) $args_array($name)
@@ -90,9 +104,34 @@ namespace eval ::chameleon {
 	return [eval ${widget_type}_customParseConfArgs [list [array get options]] $args]
     }
 
+    proc ::chameleon::${widget_type}::${widget_type}_parseStyleArgs { args } {
+	variable widget_type
+	variable ${widget_type}_styleOptions
+
+	if {![info exists ${widget_type}_styleOptions] } {
+	    init_${widget_type}Options
+	}
+	
+	array set args_array $args
+	foreach name [array names args_array] {
+	    if { [info exists ${widget_type}_styleOptions($name)]} {
+		set options([lindex [set ${widget_type}_styleOptions($name)] 0]) $args_array($name)
+	    }
+	}
+
+	return [array get options]
+    }
+
+    proc ::chameleon::${widget_type}::${widget_type}_customParseConfArgs {parsed_options args } {
+	array set options $args
+	array set ttk_options $parsed_options
+
+    }
+
     proc ::chameleon::${widget_type}::init_${widget_type}Options { } {
 	variable widget_type
 	variable ${widget_type}_widgetOptions
+	variable ${widget_type}_styleOptions
 	variable ${widget_type}_widgetCommands 
 
 	array set ${widget_type}_widgetOptions {
@@ -114,6 +153,8 @@ namespace eval ::chameleon {
 	    instate {3 {$w instate $args}}
 	}
 
+	array set ${widget_type}_styleOptions [list ]
+
 	init_${widget_type}CustomOptions
 	
     }
@@ -131,24 +172,30 @@ namespace eval ::chameleon {
     proc ::chameleon::${widget_type}::${widget_type}_cget { w option } {
 	variable widget_type
 	variable ${widget_type}_widgetOptions
+	variable ${widget_type}_styleOptions
 
 	if {![info exists ${widget_type}_widgetOptions] } {
 	    init_${widget_type}Options
 	}
 
 	if { ![info exists ${widget_type}_widgetOptions($option)]} {
-	    error "Unknown option \"$name\""
+	    if { ![info exists ${widget_type}_styleOptions($option)]} {
+		error "Unknown option \"$option\""
+	    }
 	}
 
-	if {[set ${widget_type}_widgetOptions($option)] == "-ignore" } {
-	    set value [eval ${widget_type}_customCget $w $option]
-	    if { $value == "" } {
-		set value [eval [${widget_type}_getOriginal] cget $option]
-	    }
+	if { [info exists ${widget_type}_widgetOptions($option)]} {
+		if {[set ${widget_type}_widgetOptions($option)] == "-ignore" } {
+		set value [eval ${widget_type}_customCget $w $option]
+		if { $value == "" } {
+			set value [eval [${widget_type}_getOriginal] cget $option]
+		}
+		} else {
+		set value [eval $w cget $option]
+		}
 	} else {
-	    set value [eval $w cget $option]
-	} 
-
+		set value [eval style configure $w $option]
+	}
 	return $value
     }
 
@@ -166,11 +213,15 @@ namespace eval ::chameleon {
 	    return [eval ${widget_type}_cget $w $args]
 	} else {
 	    set options [eval ${widget_type}_parseConfArgs $args]
-	    return [eval $w configure $options]
+	    if { $options == [list ] } {
+		if { [set styles [eval ${widget_type}_parseStyleArgs $args]] != [list ] } {
+		    return [eval style configure $w $styles]
+		}
+	    } else {
+		return [eval $w configure $options]
+	    }
 	}
     }
-
-
 
     proc ::chameleon::${widget_type}::${widget_type}_launchCommand { w_name command args } {
 	variable widget_type
@@ -183,5 +234,11 @@ namespace eval ::chameleon {
 	}
 	return [eval ${widget_type}_parseCommand ${w_name} $command $args]
     }
-    
+
+    proc ::chameleon::CopyStyle { src dest } {
+	#Copy parameters from one style to another
+	eval "style configure $dest [style configure $src]"
+	eval "style layout $dest \{[style layout $src]\}"
+	eval "style map $dest [style map $src]"
+    }
 }
