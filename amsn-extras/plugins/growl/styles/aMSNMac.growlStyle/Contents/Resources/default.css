@@ -1,0 +1,51 @@
+body {
+	font-family: Lucida Grande;
+	height: 232px;
+        width: 201px;
+        align: left;
+}
+
+#background {
+	background: url("notifyonline.png");
+        background-repeat: no-repeat;
+}
+
+#title {
+	font-size: 14px;
+        margin-left: 5px;
+        padding-left: 5px
+        margin-top: 10px;
+        padding-top: 20px;
+        overflow: hidden;
+        height: 18px;
+	max-width: 190px
+}
+
+#text {
+        margin-left: 66px;
+        margin-top: 62px;
+	    font-size: 10px;
+        max-width: 145px;
+        background-color: transparent;
+        overflow: hidden;
+        height: 55px;
+}
+
+#emergency #text {
+	color: red;
+}
+
+#icon {
+	width: 0px;
+	height: 0px;
+	margin-left: 0px;
+        margin-top: 0px;
+}
+
+#icon img {
+	width: 53px;
+	height: 53px;
+	margin-left: 11px;
+        margin-top: 42px;
+}
+
