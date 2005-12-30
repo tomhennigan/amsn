@@ -1306,11 +1306,7 @@ namespace eval ::MSN {
 			set username $userlogin
 		}
 		if { [::config::getKey protocol] == 11 } {
-			if { $gid == 0 } {
-				::MSN::WriteSB ns "ADC" "FL N=$userlogin F=$username" "::MSN::ADCHandler"
-			} else {
-				::MSN::WriteSB ns "ADC" "FL N=$userlogin F=$username $gid" "::MSN::ADCHandler"
-			}
+			::MSN::WriteSB ns "ADC" "FL N=$userlogin F=$username" "::MSN::ADCHandler $gid"
 		} else {
 			::MSN::WriteSB ns "ADD" "FL $userlogin $username $gid" "::MSN::ADDHandler"
 		}
@@ -1337,13 +1333,16 @@ namespace eval ::MSN {
 
 	}
 
-	#Handler for the ADD message, to show the ADD messagebox
-	proc ADCHandler { item } {
+	#Handler for the ADC message, to show the ADD messagebox, and to move a user to a group if gid != 0
+	proc ADCHandler { gid item } {
 		if { [lindex $item 2] == "FL"} {
 			set contact [urldecode [string range [lindex $item 3] 2 end]]    ;# Email address
 			#an event to let the GUI know a user is copied/added to a group
-			set newGid [lindex $item 6]
-			::Event::fireEvent addedUser protocol $contact $newGid
+			::abook::setContactData $contact contactguid [string range [lindex $item 5] 2 end]
+			::Event::fireEvent addedUser protocol $contact $gid
+			if { $gid != 0 } {
+				moveUser $contact 0 $gid
+			}
 			msg_box "[trans contactadded]\n$contact"
 		}
 
@@ -1354,7 +1353,6 @@ namespace eval ::MSN {
 		}
 
 		cmsn_ns_handler $item
-
 	}
 
 	#Delete user (from a given group $grID, or from all groups)
