@@ -206,6 +206,7 @@ namespace eval ::bugs {
 	raise $w
 	#focus $w.f.b2
 	focus $w.f.t
+	bind $w <<Escape>> "set ::bugs::closed_bug_window 1;destroy $w"
 	
 	# 8. Wait for the user to respond, then restore the focus and
 	# return the index of the selected button.  Restore the focus

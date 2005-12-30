@@ -854,7 +854,9 @@ namespace eval ::plugins {
 		button $winconf.cancel -text [trans cancel] -command "[list ::plugins::GUI_CancelConfig $winconf $namespace]"
 		pack $winconf.save -anchor se -pady 5 -padx 5 -side right
 		pack $winconf.cancel -anchor se -pady 5 -padx 5 -side right
+		bind $winconf <<Escape>> "destroy $winconf"
 		moveinscreen $winconf 30
+		
 	    }
 	}
 
