@@ -46,7 +46,7 @@
 		   				<!-- Test is positive if the platform is Windows -->
 		   				if(navigator.userAgent.indexOf("Win") > -1)
 		   					{
-		   						location = "http://prdownloads.sourceforge.net/amsn/amsn-0.95-windows-installer.exe";
+		   						location = "http://prdownloads.sourceforge.net/amsn/amsn-0.95-windows-installer-2.exe";
 		   					}
 		  				<!-- Test is positive if the platform is Linux -->
 		   				else if(navigator.userAgent.indexOf("Linux") > -1)
