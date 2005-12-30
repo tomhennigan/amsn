@@ -201,6 +201,7 @@ namespace eval ::chameleon {
 
     proc ::chameleon::${widget_type}::${widget_type}_configure { w args } {
 	variable widget_type
+	variable ${widget_type}_widgetLayout
 
 	if {[llength $args] == 0 } {
 	    set tk_conf [[${widget_type}_getOriginal] configure]
@@ -215,6 +216,10 @@ namespace eval ::chameleon {
 	    set options [eval ${widget_type}_parseConfArgs $args]
 	    if { $options == [list ] } {
 		if { [set styles [eval ${widget_type}_parseStyleArgs $args]] != [list ] } {
+		    if { [$w cget -style] == "" } {
+			::chameleon::CopyStyle [set ${widget_type}_widgetLayout] $w
+			$w configure -style $w
+		    }
 		    return [eval style configure $w $styles]
 		}
 	    } else {
