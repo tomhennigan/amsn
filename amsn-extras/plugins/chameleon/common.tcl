@@ -95,7 +95,12 @@ namespace eval ::chameleon {
 	variable ${widget_type}_widgetOptions
 	variable ${widget_type}_widgetCommands 
 
-	array set ${widget_type}_widgetOptions {-style -style}
+	array set ${widget_type}_widgetOptions {
+	    -style -style 
+	    -class -class 
+	    -padding -padding
+	    -cursor -cursor
+	    -takefocus -takefocus}
 
 	array set ${widget_type}_widgetCommands {cget {2 {${widget_type}_cget $w $args}}
 	    configure {2 {${widget_type}_configure $w $args}}
@@ -174,7 +179,6 @@ namespace eval ::chameleon {
 	    if { [info procs ::${w_name}] == "::${w_name}" } {
 		rename ::${w_name} ""
 	    }
-	    ::chameleon::printStackTrace
 	    error "invalid command name \"${w_name}\""
 	}
 	return [eval ${widget_type}_parseCommand ${w_name} $command $args]

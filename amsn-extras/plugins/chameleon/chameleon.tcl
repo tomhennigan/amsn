@@ -7,9 +7,11 @@ namespace eval ::chameleon {
     variable flash_count 10
 
     variable wrapped 0
-    variable wrapped_procs [list button frame labelframe label radiobutton checkbutton]
+    variable wrapped_procs [list button frame labelframe label radiobutton checkbutton NoteBook]
     variable wrapped_into
     variable wrapped_shortname
+    
+    proc ::NoteBook { args } { return [eval ::NoteBook::create $args] }
 
     array set wrapped_into [list frame frame \
 				button button  \
@@ -27,22 +29,26 @@ namespace eval ::chameleon {
 				     radiobutton radiobutton \
 				     checkbutton checkbutton]
     
-    variable commands_list [list scale menubutton entry srollbar \
-				\
-				radiobutton checkbutton label \
-				frame labelframe button]
+
+
+#     variable commands_list [list scale menubutton entry srollbar \
+# 				\
+# 				radiobutton checkbutton label \
+# 				frame labelframe button]
+#    
+#     variable unsupported_commands_list [list separator treeview]
+#    
+#     variable renamed_commands_list [list {paned panedwindow} \
+# 					{combobox ::combobox::combobox} \
+# 					{progressbar ::dkfprogress} \
+# 					{dialog tk_dialog/tk_messageBox} \
+# 					{notebook NoteBook}]
+#    
+#     variable unexisting_commands_list [list canvas listbox menu message \
+# 					   spinbox text tk_popup toplevel]
     
-    variable unsupported_commands_list [list separator treeview]
-    
-    variable renamed_commands_list [list {paned panedwindow} \
-					{combobox ::combobox::combobox} \
-					{progressbar ::dkfprogress} \
-					{dialog tk_dialog/tk_messageBox} \
-					{notebook NoteBook}]
-    
-    variable unexisting_commands_list [list canvas listbox menu message \
-					   spinbox text tk_popup toplevel]
-    
+
+
     ################################################
     # Init( dir )                                  #
     #  Registration & initialization of the plugin #
@@ -53,15 +59,39 @@ namespace eval ::chameleon {
 	variable plugin_dir
 
 	::plugins::RegisterPlugin "Chameleon"
-	::plugins::RegisterEvent "Chameleon" AllPluginsLoaded loaded
 
-	lappend ::auto_path $dir
+	# Avoid having 100s of $dir in auto_path, in case user loads/unloads plugin many times..
+	if { [lsearch $::auto_path $dir] == -1  } {
+	    lappend ::auto_path $dir
+	}
+	
 
 	if {[catch {package require tile}]} { 
 	    msg_box "You need the tile extension to be installed to run this plugin"
-	    ::plugin::GUI_Unload
+	    ::plugins::GUI_Unload
+	    set ::auto_path $autopath
 	    return 0
 	}
+
+	foreach package [info loaded] { 
+	    foreach {lib name} $package break
+	    if {$name == "Tile" } {
+		set tile_dir [file dirname $lib]
+	    }
+	} 
+	if { [info exists tile_dir] } {
+	    # Avoid having 100s of $dir in auto_path, in case user loads/unloads plugin many times..
+	    if { [lsearch $::auto_path $tile_dir] == -1  } {
+		lappend ::auto_path $tile_dir
+	    }
+	    if { [lsearch $::auto_path [file join $tile_dir demos]] == -1  } {
+		lappend ::auto_path [file join $tile_dir demos]
+	    }
+	}
+
+	# This forces an update of the available packages list.
+	# It's required for package names to find the themes in demos/themes/*.tcl
+	eval [package unknown] Tcl [package provide Tcl]
 
 	array set ::chameleon::config {
 		theme {default}
@@ -90,15 +120,13 @@ namespace eval ::chameleon {
 
 	catch  {console show }
 	
+	wrap 0
+
+	tile::setTheme ${::chameleon::config(theme)}
     }
 
     proc DeInit { } {
 	wrap 1
-    }
-
-    proc loaded { event epVar } {
-	tile::setTheme ${::chameleon::config(theme)}
-	wrap 0
     }
 
     proc populateframe { win } {
@@ -150,6 +178,7 @@ namespace eval ::chameleon {
 		}
 	    }
 
+	    catch { destroy .chameleon_events_messages }
 	    set wrapped 0
 	    
 	} else {
@@ -167,12 +196,16 @@ namespace eval ::chameleon {
 		source [file join $plugin_dir ${widget_type}.tcl]
 
 		if { [info command ::tk::${tk_widget_type}] == "" && 
-		     [info command ::${tk_widget_type}] == "::${tk_widget_type}" } {
+		     [info procs ::tk::${tk_widget_type}] == "" && 
+		     ([info command ::${tk_widget_type}] == "::${tk_widget_type}"  ||
+		      [info procs ::${tk_widget_type}] == "::${tk_widget_type}" ) } {
 		    rename ::${tk_widget_type} ::tk::${tk_widget_type}
 		    proc ::${tk_widget_type} {w args} "eval ::chameleon::${widget_type}::${widget_type} \$w \$args"
 		}
 	    }
-	    
+
+	    message .chameleon_events_messages
+
 	    set wrapped 1
 	}
 
