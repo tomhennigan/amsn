@@ -138,7 +138,7 @@ namespace eval ::amsnplus {
 
 			#entries for the plus menu
 			$plusmenu add command -label "[trans quicktext]" -command "::amsnplus::qtconfig"
-			$plusmenu add command -label "[trans preferences]" -command "::amsnplus::preferences"
+			#$plusmenu add command -label "[trans preferences]" -command "::amsnplus::preferences"
 		}
 		.main_menu add cascade -label "Plus!" -menu .main_menu.plusmenu
 	}
@@ -1343,7 +1343,7 @@ namespace eval ::amsnplus {
 			} elseif {[string equal $char "/config"]} {
 				set msg [string replace $msg $i [expr $i + 7] ""]
 				set strlen [string length $msg]
-				Preferences
+				#Preferences
 			} elseif {[string equal $char "/delete"]} {
 				set msg [string replace $msg $i [expr $i + 7] ""]
 				set strlen [string length $msg]
