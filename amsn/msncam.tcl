@@ -1854,7 +1854,7 @@ namespace eval ::CAMGUI {
 			set extension "capture"
 		} else {
 			set ::capture_loaded 0
-			return
+			return 0
 		}
 
 		if { [catch {package require $extension}] } {
