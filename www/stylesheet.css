@@ -58,7 +58,6 @@ a img
 /* Content holder */
 #container_mac
 {
-/*  position: relative;*/
   width: 770px;
  /* height: 1100px;*/
   padding: 0px 10px 85px 10px;
@@ -82,7 +81,6 @@ a img
 /* Content holder */
 #container
 {
-/*  position: relative;*/
   width: 770px;
  /* height: 1100px;*/
   padding: 0px 10px 85px 10px;
@@ -198,7 +196,6 @@ a.nav_on
 /* Main content area */
 #blurb
 {
-/*  position: relative;*/
   min-height: 1000px;
 /*  top: 0px;
   left: 0px;*/
@@ -272,7 +269,6 @@ a#skins:hover
 
 div.news
 {
-  position: relative;
   top: 3em;
   float: left;
   margin-bottom: 3em;
@@ -284,7 +280,6 @@ div.news
 
 div.news h3
 {
-  position: relative;
   margin: 0px 10px 0px 0px;
   padding: 0px;
 /*  color: #6b8dbb;*/
@@ -294,9 +289,6 @@ div.news h3
 
 div.news_top
 {
-  position: relative;
-  top: 0px;
-  left: 0px;
   width: 520px;
   height: 12px;
   background: #fff url(images/news_top.png) no-repeat
@@ -304,8 +296,6 @@ div.news_top
 
 div.news_content
 {
-  position: relative;
-  top: 0px;
   left: auto;
   width: 510px;
   margin: 0px;
@@ -317,9 +307,6 @@ div.news_content
 
 div.news_bottom
 {
-  position: relative;
-  top: 0px;
-  left: 0px;
   width: 520px;
   height: 12px;
   background: #fff url(images/news_bottom.png) no-repeat
@@ -327,16 +314,13 @@ div.news_bottom
 
 div.side_bar
 {
-  position: relative;
   width: 180px;
   float: right;
 }
 
 div.block_right_top
 {
-  position: relative;
-  top: 8px;
-  left: 0px;
+  margin-top: 8px;
   width: 180px;
   height: 11px;
   background: #fff url(images/rounded-top.png) no-repeat
@@ -344,9 +328,6 @@ div.block_right_top
 
 div.block_right
 {
-  position: relative;
-  top: 0px;
-  left: 0px;
 /*  height: auto;*/
 /*  left: auto;*/
   float: right;
@@ -361,8 +342,6 @@ div.block_right
 
 div.block_right_content
 {
-  position: relative;
-  top: 0px;
   width: 178px;
   margin: 0px;
   padding: 0px;
@@ -379,9 +358,6 @@ div.block_right form {
 
 div.block_right_bottom
 {
-  position: relative;
-  bottom: 0px;
-  left: 0px;
   width: 180px;
   height: 11px;
   background: #fff url(images/rounded-bottom.png) no-repeat 
@@ -389,9 +365,7 @@ div.block_right_bottom
 
 div.block_right h3
 {
-  position: relative;
-  top: 8px;
-  left: 0px;
+margin-top: 8px;
 /*  color: #6b8dbb;*/
   color: #2d63a1;
   background: #fff;
@@ -411,8 +385,6 @@ div.block_right a:hover
 
 ul.poll
 {
-  position: relative;
-  top: 0px;
   list-style: none;
   margin: 8px 5px 0px 5px;
   padding: 0px;
@@ -421,8 +393,6 @@ ul.poll
 
 ul.help
 {
-  position: relative;
-  top: 0px;
   list-style: none;
   margin: 8px 5px 0px 5px;
   padding: 0px;
@@ -431,8 +401,6 @@ ul.help
 
 ul.links, ul.forums
 {
-  position: relative;
-  top: 0px;
   list-style: none;
   margin: 8px 5px 0px 5px;
   padding: 0px;
@@ -467,8 +435,6 @@ ul.links li
 
 ul.language
 {
-  position: relative;
-  top: 0px;
   list-style: none;
   margin: 8px 5px 4px 5px;
   padding: 1px 0px 1px 0px;
@@ -486,8 +452,6 @@ ul.language li
 
 #container_mac div#spacingfix
 {
-  position: relative;
-  top: 0px;
   width: 1px;
   height: 100%;
   z-index: 0;
@@ -496,8 +460,6 @@ ul.language li
 
 #container div#spacingfix
 {
-  position: relative;
-  top: 0px;
   width: 1px;
   height: 100%;
   z-index: 0;
@@ -506,8 +468,6 @@ ul.language li
 
 div#footer
 {
-  position: relative;
-  top: 0px;
   width: 60%;
   color: #fff;
   text-align: center;
