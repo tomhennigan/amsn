@@ -30,7 +30,7 @@ namespace eval ::chameleon {
 	proc ::${w_name} { command args } \
 	    "eval ::chameleon::${widget_type}::${widget_type}_launchCommand ${w_name} \$command \$args"
 	
-	bind ${w_name} <Destroy> "::chameleon::widgetDestroyed ${widget_type}_proc_${w_name}"
+	    bind ${w_name} <Destroy> "::chameleon::widgetDestroyed [string map {"%" "%\\%"} ${widget_type}_proc_${w_name}]"
 
 	::chameleon::widgetCreated ${widget_type}_proc_${w_name} ${w_name} 
 
