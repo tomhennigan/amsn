@@ -45,29 +45,30 @@ namespace eval ::chameleon::radiobutton {
  	variable radiobutton_widgetOptions
  	variable radiobutton_widgetCommands 
 
- 	array set radiobutton_widgetOptions {-activebackground -ignore
- 	    -activeforeground -ignore
+ 	array set radiobutton_widgetOptions {
+	    -activebackground -styleOption
+ 	    -activeforeground -styleOption
  	    -anchor -ignore
- 	    -background -ignore
- 	    -bg -ignore
+ 	    -background -styleOption
+ 	    -bg -styleOption
  	    -bitmap -ignore
- 	    -borderwidth -ignore
-	    -border  -ignore
- 	    -bd -ignore
+ 	    -borderwidth -styleOption
+	    -border  -styleOption
+ 	    -bd -styleOption
  	    -compound -compound
  	    -cursor -cursor
- 	    -disabledforeground -ignore
- 	    -font -ignore
- 	    -foreground -ignore
- 	    -fg -ignore
- 	    -highlightbackground -ignore
- 	    -highlightcolor -ignore
- 	    -highlightthickness -ignore
+ 	    -disabledforeground -styleOption
+ 	    -font -styleOption
+ 	    -foreground -styleOption
+ 	    -fg -styleOption
+ 	    -highlightbackground -styleOption
+ 	    -highlightcolor -styleOption
+ 	    -highlightthickness -styleOption
  	    -image -image
  	    -justify -ignore
- 	    -padx -ignore
- 	    -pady -ignore
- 	    -relief -ignore
+ 	    -padx -toImplement
+ 	    -pady -toImplement
+ 	    -relief -styleOption
  	    -repeatdelay -ignore
  	    -repeatinterval -ignore
  	    -takefocus -takefocus
@@ -76,16 +77,16 @@ namespace eval ::chameleon::radiobutton {
  	    -underline -underline
  	    -wraplength -ignore
  	    -command -command
- 	    -height -ignore
+ 	    -height -toImplement
  	    -indicatoron -ignore
  	    -selectcolor -ignore
- 	    -offrelief -ignore
- 	    -overrelief -ignore
+ 	    -offrelief -styleOption
+ 	    -overrelief -styleOption
  	    -selectimage -ignore
  	    -state -state
  	    -value -value
  	    -variable -variable
- 	    -width -ignore
+ 	    -width -toImplement
 	}
 	# ignoring -width because we need to map 0 to "" and "" to 0 in cget/configure
 	

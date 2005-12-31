@@ -45,29 +45,30 @@ namespace eval ::chameleon::checkbutton {
  	variable checkbutton_widgetOptions
  	variable checkbutton_widgetCommands 
 
- 	array set checkbutton_widgetOptions {-activebackground -ignore
- 	    -activeforeground -ignore
+ 	array set checkbutton_widgetOptions {
+	    -activebackground -styleOption
+ 	    -activeforeground -styleOption
  	    -anchor -ignore
- 	    -background -ignore
- 	    -bg -ignore
+ 	    -background -styleOption
+ 	    -bg -styleOption
  	    -bitmap -ignore
- 	    -borderwidth -ignore
-	    -border  -ignore
- 	    -bd -ignore
+ 	    -borderwidth -styleOption
+	    -border  -styleOption
+ 	    -bd -styleOption
  	    -compound -compound
  	    -cursor -cursor
- 	    -disabledforeground -ignore
- 	    -font -ignore
- 	    -foreground -ignore
- 	    -fg -ignore
- 	    -highlightbackground -ignore
- 	    -highlightcolor -ignore
- 	    -highlightthickness -ignore
+ 	    -disabledforeground -styleOption
+ 	    -font -styleOption
+ 	    -foreground -styleOption
+ 	    -fg -styleOption
+ 	    -highlightbackground -styleOption
+ 	    -highlightcolor -styleOption
+ 	    -highlightthickness -styleOption
  	    -image -image
  	    -justify -ignore
- 	    -padx -ignore
- 	    -pady -ignore
- 	    -relief -ignore
+ 	    -padx -toImplement
+ 	    -pady -toImplement
+ 	    -relief -styleOption
  	    -repeatdelay -ignore
  	    -repeatinterval -ignore
  	    -takefocus -takefocus
@@ -78,15 +79,15 @@ namespace eval ::chameleon::checkbutton {
  	    -command -command
  	    -height -ignore
  	    -indicatoron -ignore
- 	    -offrelief -ignore
+ 	    -offrelief -styleOption
  	    -offvalue -offvalue
  	    -onvalue -onvalue
- 	    -overrelief -ignore
- 	    -selectcolor -ignore
+ 	    -overrelief -styleOption
+ 	    -selectcolor -styleOption
  	    -selectimage -ignore
  	    -state -state
  	    -variable -variable
- 	    -width -ignore
+ 	    -width -toImplement
 	}
 	# ignoring -width because we need to map 0 to "" and "" to 0 in cget/configure
 	

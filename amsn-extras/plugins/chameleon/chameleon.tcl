@@ -42,6 +42,7 @@ namespace eval ::chameleon {
 # 					{combobox ::combobox::combobox} \
 # 					{progressbar ::dkfprogress} \
 # 					{dialog tk_dialog/tk_messageBox} \
+#                                       \
 # 					{notebook NoteBook}]
 #    
 #     variable unexisting_commands_list [list canvas listbox menu message \
@@ -59,7 +60,6 @@ namespace eval ::chameleon {
 	variable plugin_dir
 
 	::plugins::RegisterPlugin "Chameleon"
-	::plugins::RegisterEvent "Chameleon" AllPluginsLoaded loaded
 
 	# Avoid having 100s of $dir in auto_path, in case user loads/unloads plugin many times..
 	if { [lsearch $::auto_path $dir] == -1  } {
@@ -120,15 +120,17 @@ namespace eval ::chameleon {
 	set plugin_dir $dir
 
 	catch  {console show }
+
+	if { [info exists ::Chameleon_cfg(theme)] } {
+	    tile::setTheme $::Chameleon_cfg(theme)
+	} else {
+	    tile::setTheme $::chameleon::config(theme)
+	}
+	wrap 0
     }
 
     proc DeInit { } {
 	wrap 1
-    }
-
-    proc loaded { event epVar } {
-	tile::setTheme ${::chameleon::config(theme)}
-	wrap 0
     }
 
     proc populateframe { win } {
@@ -206,12 +208,83 @@ namespace eval ::chameleon {
 		}
 	    }
 
-	    message .chameleon_events_messages
-
 	    set wrapped 1
 	}
 
     }
+
+    proc widgetCreated { w w_name } {
+	variable lastCreatedWidget
+	variable widget2window
+
+	set lastCreatedWidget $w
+	set widget2window($w) $w_name
+	
+	generateEvent <<WidgetCreated>>
+
+    }
+
+
+    proc generateEvent { event } {
+	variable listeners
+
+	if { [info exists listeners($event)] } {
+	    set list [set listeners($event)]
+
+	    foreach script $list { 
+		eval $script
+	    }
+	}
+    }
+    
+    proc getLastCreatedWidget { } {
+	variable lastCreatedWidget
+	if {[info exists lastCreatedWidget]} {
+	    return $lastCreatedWidget
+	}
+	return ""
+    }
+    
+    proc getWidgetPath { w } {
+	variable widget2window
+	if { [info exists widget2window($w)]} {
+	    return $widget2window($w)
+	}
+	return ""
+    }
+
+    proc widgetDestroyed { w } {
+	variable lastDestroyedWidget
+	set lastDestroyedWidget $w
+
+	array unset widget2window $w
+
+	catch {rename ::$w ""}
+
+	generateEvent <<WidgetDestroyed>>
+    }
+
+    proc getLastDestroyedWidget { } {
+	variable lastDestroyedWidget
+	if {[info exists lastDestroyedWidget] } {
+	    return $lastDestroyedWidget
+	}
+	return ""
+    }
+    
+    proc addBinding { event script } {
+	variable listeners
+
+	if { [info exists listeners($event)] } {
+	    set list [set listeners($event)]
+	    if { [lsearch $list $script] == -1} {
+		lappend listeners($event) $script
+	    }
+	} else {
+	    set listeners($event) [list $script]
+	}
+   }
+    
 
     proc printStackTrace { } {
 	for { set i [info level] } { $i > 0 } { incr i -1} { 
@@ -220,6 +293,6 @@ namespace eval ::chameleon {
 	}
 	puts ""
     }
-
+    
 }
 

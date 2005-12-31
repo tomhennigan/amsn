@@ -48,31 +48,31 @@ namespace eval ::chameleon::labelframe {
 	variable labelframe_widgetOptions
 	
  	array set labelframe_widgetOptions {
-	    -background -ignore
-	    -bg -ignore
-	    -bd -borderwidth
-	    -borderwidth -borderwidth
-	    -border  -borderwidth
+	    -background -styleOption
+	    -bg -styleOption
+	    -bd -styleOption
+	    -borderwidth -styleOption
+	    -border  -styleOption
 	    -class -class
 	    -colormap -ignore
 	    -container -ignore
 	    -cursor -cursor
-	    -fg -ignore
-	    -font -ignore
-	    -foreground -ignore
-	    -height -ignore
-	    -highlightbackground -ignore
-	    -highlightcolor  -ignore
-	    -highlightthickness  -ignore
+	    -fg -styleOption
+	    -font -styleOption
+	    -foreground -styleOption
+	    -height -toImplement
+	    -highlightbackground -styleOption
+	    -highlightcolor  -styleOption
+	    -highlightthickness  -styleOption
 	    -labelanchor -labelanchor 
 	    -labelwidget -labelwidget 
-	    -padx -ignore
-	    -pady -ignore
-	    -relief -relief
+	    -padx -toImplement
+	    -pady -toImplement
+	    -relief -styleOption
 	    -takefocus -takefocus
 	    -text -text
 	    -visual -ignore
-	    -width -ignore
+	    -width -toImplement
 	}
     }
 

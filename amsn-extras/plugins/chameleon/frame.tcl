@@ -47,25 +47,27 @@ namespace eval ::chameleon::frame {
     proc init_frameCustomOptions { } {
 	variable frame_widgetOptions
 	
- 	array set frame_widgetOptions {-bd -borderwidth
- 	    -borderwidth -borderwidth
-	    -border  -borderwidth
+ 	array set frame_widgetOptions {
+	    -bd -borderwidth
+ 	    -borderwidth -styleOption
+	    -border  -styleOption
  	    -class -class
- 	    -relief -relief
- 	    -background -ignore
- 	    -bg -ignore
+ 	    -relief -styleOption
+ 	    -background -styleOption
+ 	    -bg -styleOption
  	    -colormap  -ignore
  	    -container -ignore
  	    -cursor -cursor
- 	    -height -ignore
- 	    -highlightbackground -ignore
- 	    -highlightcolor -ignore
- 	    -highlightthickness -ignore
- 	    -padx -ignore
- 	    -pady -ignore
+ 	    -height -toImplement
+ 	    -highlightbackground -styleOption
+ 	    -highlightcolor -styleOption
+ 	    -highlightthickness -styleOption
+ 	    -padx -toImplement
+ 	    -pady -toImplement
  	    -takefocus -takefocus
  	    -visual -ignore
- 	    -width -ignore}
+ 	    -width -toImplement
+	}
     }
 
     proc frame_customCget { w option } {

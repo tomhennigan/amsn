@@ -4,32 +4,6 @@ namespace eval ::chameleon::notebook {
      	array set options $args
 	array set ttk_options $parsed_options
 
- 	if { [info exists options(-bd)] } {
- 	    set ttk_options(-padding) $options(-bd)
- 	}
- 	set padx 0
- 	if { [info exists options(-padx)] &&
- 	     [string is digit -strict $options(-padx)]  } {
- 	    set padx $options(-padx)
- 	}
- 	set pady 0
- 	if { [info exists options(-pady)] &&
- 	     [string is digit -strict $options(-pady)] } {
- 	    set pady $options(-pady)
- 	}
- 	if {$padx == 0 && $pady == 0 && 
- 	    [info exists options(-bd)] } {
- 	    set ttk_options(-padding) $options(-bd)
- 	} else {
- 	    if {$padx == 0 && $pady != 0 } {
- 		set ttk_options(-padding) [list 2 $pady]
- 	    } elseif {$padx != 0 && $pady == 0 } {
- 		set ttk_options(-padding) [list $padx 2]
- 	    } elseif {$padx != 0 && $pady != 0 } {
- 		set ttk_options(-padding) [list $padx $pady]
- 	    }
- 	}
-
        if { [info exists options(-width)] } {
 	   if {$options(-width) == 0} {
 	       set ttk_options(-width) [list]
@@ -46,16 +20,16 @@ namespace eval ::chameleon::notebook {
  	variable notebook_widgetCommands 
 
  	array set notebook_widgetOptions {
-	    -font -ignore
-	    -activebackground -ignore
-	    -activeforeground -ignore	
-	    -background -ignore
-	    -bg -ignore
-	    -borderwidth  -ignore
-	    -bd	 -ignore
-	    -disabledforeground	 -ignore
-	    -foreground -ignore
-	    -fg	 -ignore
+	    -font -styleOption
+	    -activebackground -styleOption
+	    -activeforeground -styleOption
+	    -background -styleOption
+	    -bg -styleOption
+	    -borderwidth  -styleOption
+	    -bd	 -styleOption
+	    -disabledforeground	 -styleOption
+	    -foreground -styleOption
+	    -fg	 -styleOption
 	    -repeatdelay -ignore
 	    -repeatinterval -ignore
 	    -arcradius  -ignore
@@ -63,7 +37,7 @@ namespace eval ::chameleon::notebook {
 	    -homogeneous -ignore
 	    -side -ignore
 	    -tabbevelsize -ignore
-	    -width -ignore
+	    -width -toImplement
 	    -ibd -ignore
 	    -internalborderwidth -ignore
 	    -tabpady -ignore
@@ -74,7 +48,7 @@ namespace eval ::chameleon::notebook {
 	
  	array set notebook_widgetCommands {
 	    bindtabs {1 {notebook_bindtabs $w $args}} 
-	    compute_size {3 {}}
+	    compute_size {3 {notebook_compute_size $w $args}}
 	    delete {1 {notebook_delete $w $args}}
 	    getframe {1 {notebook_getframe $w $args}}
 	    index {3 {notebook_index $w $args}}
@@ -94,22 +68,37 @@ namespace eval ::chameleon::notebook {
 	    tabs {4 {notebook_tabs $w $args}}
 	}
 
-#	::chameleon::createBinding <<Chameleon_WidgetCreated>> {::chameleon::notebook::notebook_widgetCreated $w}
+	::chameleon::addBinding <<WidgetCreated>> {::chameleon::notebook::notebook_widgetCreated}
+	::chameleon::addBinding <<WidgetDestroyed>> {::chameleon::notebook::notebook_widgetDestroyed}
 
     }
 
+   proc notebook_widgetCreated { } {
+       set nb [::chameleon::getLastCreatedWidget]
+       if {[string first "notebook" $nb] == 0 } {
+	   puts "Notebook $nb is created"
+	   ::ttk::notebook::enableTraversal [::chameleon::getWidgetPath $nb]
+	   bind $nb <<NotebookTabChanged>> "::chameleon::notebook::notebook_tabChanged $nb"
+       }
+   }
+
+   proc notebook_widgetDestroyed { } {
+       variable pages
+
+       set nb [::chameleon::getLastDestroyedWidget]
+       if {[string first "notebook" $nb] == 0 } {
+	   puts "Notebook $nb is destroyed"
+	   array unset pages [::chameleon::getWidgetPath $nb]
+       }
+   }
+
+   proc notebook_tabChanged { w } {
+       #FIXME
+      puts "Tab changed on $w to : [$w index current]"
+   }
+
     proc notebook_customCget { w option } {
-	set padding [$w cget -padding]
-	if { [llength $padding] > 0 } {
- 	    set padx [lindex $padding 0]
- 	    set pady [lindex $padding 1]
-	}
-	if { $option == "-padx" && [info exists padx] } {
-	    return $padx
-	}
-	if { $option == "-pady" && [info exists pady] } {
-	    return $pady
-	}
+
 	if {$option == "-width"} {
 	    set width [$w cget -width]
 	    if {![string is digit -strict $width]} {
@@ -126,6 +115,22 @@ namespace eval ::chameleon::notebook {
        #TODO
    }
 
+   proc notebook_compute_size { w } {
+       set max_w 0
+       set max_h 0
+
+       update idletasks 
+
+       foreach child [winfo children [::chameleon::getWidgetPath $w]] {
+	   set reqw    [winfo reqwidth  $child]
+	   set reqh    [winfo reqheight $child]
+	   set max_w [expr {$reqw > $max_w ? $reqw : $max_w}]
+	   set max_h [expr {$reqh > $max_h ? $reqh : $max_h}] 
+       }
+
+       notebook_configure $w -width $max_w -height $max_h
+   }
+
    proc notebook_delete { w page {destroyframe 1}} {
        set tab [notebook_getframe $w $page]
        $w forget $tab
@@ -134,7 +139,7 @@ namespace eval ::chameleon::notebook {
 	   destroy $tab
        }
 
-       array unset tabs($page)      
+       array unset tabs $page      
    }
    
    proc notebook_getframe { w page } {
@@ -151,6 +156,7 @@ namespace eval ::chameleon::notebook {
    
    proc notebook_insert {w index page args} {
        variable pages
+       variable pageOptions
 
        set w_name [notebook_commandToWidget $w]
        if {![info exists pages($w_name)] } {
@@ -162,77 +168,72 @@ namespace eval ::chameleon::notebook {
 	   error "Page $page already exists in notebook $w_name"
        }
       
-       #FIXME
        array set arguments $args
 
-       array unset arguments(-createcmd)
-       array unset arguments(-leavecmd)
-       array unset arguments(-raisecmd)
+       
+       set pageOptions($w:$page) $args
+
+       array unset arguments -createcmd
+       array unset arguments -leavecmd
+       array unset arguments -raisecmd
    
        set child [frame $w_name.$page]
        set tabs($page) [list [$w index end] $child]
 
        set pages($w_name) [array get tabs]
-       return [eval $w add $child [array get arguments]]
+       set ret [eval $w add $child [array get arguments]]
+       notebook_move $w $page $index
+
+       if {[info exists arguments(-createcmd)] } {
+	   after 100 "$arguments(-createcmd)"
+       }
+
+       return $ret
    }
   
 
    proc notebook_itemCget {w page option } {
- 	variable notebook_frameOptions
+       variable pageOptions
 
        if {$option == "-createcmd" ||
 	   $option == "-leavecmd" ||
 	   $option == "-raisecmd" } {
-	   return ""
+	   array set opts [set pageOptions($w:$page)]
+	   if {[info exists opts($option)] } {
+	       return [set opts($option)]
+	   } else {
+	       return ""
+	   }
        } else {
 	   return [$w tab $option]
        }
-
-       #FIXME
-
-	if {![info exists notebook_frameOptions] } {
-	    init_notebookFrameOptions
-	}
-
-	if { ![info exists notebook_frameOptions($option)]} {
-	    error "Unknown option \"$name\""
-	}
-
-      if {[set notebook_frameOptions($option)] == "-ignore" } {
-	   set value [eval [notebook_getOriginal] cget $option]
-       } else {
-	    set value [eval $w cget $option]
-       } 
-   }
-   proc init_notebookFrameOptions { } {
-       variable notebook_frameOptions
-
-       array set notebook_frameOptions {
-       }
-
    }
 
    proc notebook_itemConfigure { w page args } {
+       variable pageOptions
+
        if {[llength $args] == 0 } {
 	   array set arguments {
 	       -createcmd ""
 	       -leavecmd ""
-	       -raisecmd ""}
-	   array set arguments [$w tab [notebook_getFramIndex $w $page]]
+	       -raisecmd ""
+	   }
+	   array set arguments [set pageOptions($w:$page)]
+	   array set arguments [$w tab [notebook_getFrameIndex $w $page]]
 	   return [array get arguments]
        } elseif {[llength $args] == 1} {
 	   return [notebook_itemCget $w $page $args]
        } else {
 	   array set arguments $args
 
-	   array unset arguments(-createcmd)
-	   array unset arguments(-leavecmd)
-	   array unset arguments(-raisecmd)
+	   set pageOptions($w:$page) $args
+	   array unset arguments -createcmd
+	   array unset arguments -leavecmd
+	   array unset arguments -raisecmd
    
 	   return [eval $w tab [array get arguments]]
        }
 
-       #FIXME
    }
 
    proc notebook_move { w page index } {
@@ -263,7 +264,7 @@ namespace eval ::chameleon::notebook {
    }
 
    proc notebook_see { w page } {
-       #TODO
+    
    }
 
 
@@ -302,7 +303,7 @@ namespace eval ::chameleon::notebook {
        foreach name [array names tabs] {
 	   foreach {idx frame} $tabs($name) break
 	   if {$idx == $index} {
-	       array unset tabs($name)
+	       array unset tabs $name
 	       set pages($w_name) [array get tabs]
 	       return [$w forget $index]
 	   }
@@ -364,7 +365,7 @@ namespace eval ::chameleon::notebook {
    }
 
    proc notebook_commandToWidget {w} {
-       return [string range $w 14 end]
+       return [::chameleon::getWidgetPath $w]
    }
 
 }

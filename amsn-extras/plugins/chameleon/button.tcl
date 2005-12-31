@@ -1,14 +1,10 @@
 namespace eval ::chameleon::button {
 
    proc button_customParseConfArgs { parsed_options args } {
-	variable button_styleOptions
      	array set options $args
 	array set ttk_options $parsed_options
 
- 	if { [info exists options(-bd)] } {
- 	    set ttk_options(-padding) $options(-bd)
- 	}
- 	set padx 0
+  	set padx 0
  	if { [info exists options(-padx)] &&
  	     [string is digit -strict $options(-padx)]  } {
  	    set padx $options(-padx)
@@ -18,19 +14,15 @@ namespace eval ::chameleon::button {
  	     [string is digit -strict $options(-pady)] } {
  	    set pady $options(-pady)
  	}
- 	if {$padx == 0 && $pady == 0 && 
- 	    [info exists options(-bd)] } {
- 	    set ttk_options(-padding) $options(-bd)
- 	} else {
- 	    if {$padx == 0 && $pady != 0 } {
- 		set ttk_options(-padding) [list 2 $pady]
- 	    } elseif {$padx != 0 && $pady == 0 } {
- 		set ttk_options(-padding) [list $padx 2]
- 	    } elseif {$padx != 0 && $pady != 0 } {
- 		set ttk_options(-padding) [list $padx $pady]
- 	    }
- 	}
-
+       
+       if {$padx == 0 && $pady != 0 } {
+	   set ttk_options(-padding) [list 2 $pady]
+       } elseif {$padx != 0 && $pady == 0 } {
+	   set ttk_options(-padding) [list $padx 2]
+       } elseif {$padx != 0 && $pady != 0 } {
+	   set ttk_options(-padding) [list $padx $pady]
+       }
+       
        if { [info exists options(-width)] } {
 	   if {$options(-width) == 0} {
 	       set ttk_options(-width) [list]
@@ -39,24 +31,33 @@ namespace eval ::chameleon::button {
 	   }
        }
 
-	return [array get ttk_options]
+       if { [info exists options(-height)] } {
+	   if {$options(-height) == 0} {
+	       set ttk_options(-height) [list]
+	   } else {
+	       set ttk_options(-height) $options(-height)
+	   }
+       }
+
+       return [array get ttk_options]
     }
 
     proc init_buttonCustomOptions { } {
  	variable button_widgetOptions
  	variable button_widgetCommands
  	variable button_styleOptions
- 	variable button_widgetLayout
 
- 	set button_widgetLayout "TButton"
 
- 	array set button_widgetOptions {-activebackground -ignore
+ 	array set button_widgetOptions {
+	    -activebackground -ignore
  	    -activeforeground -ignore
  	    -anchor -ignore
- 	    -background -ignore
+ 	    -background -styleOption
+	    -bg  -styleOption
  	    -bitmap -ignore
-	    -border  -ignore
- 	    -bd -ignore
+	    -border  -styleOption
+ 	    -bd -styleOption
+	    -borderwidth -styleOption
  	    -compound -compound
  	    -cursor -cursor
  	    -disabledforeground -ignore
@@ -66,8 +67,8 @@ namespace eval ::chameleon::button {
  	    -highlightbackground -ignore
  	    -image -image
  	    -overrelief -ignore
- 	    -padx -ignore
- 	    -pady -ignore
+ 	    -padx -toImplement
+ 	    -pady -toImplement
  	    -repeatdelay -ignore
  	    -repeatinterval -ignore
  	    -takefocus -takefocus
@@ -76,22 +77,22 @@ namespace eval ::chameleon::button {
  	    -underline -underline
  	    -command -command
  	    -default -default
- 	    -height -ignore
+ 	    -height -toImplement
  	    -state -state
- 	    -width -ignore}
+ 	    -width -toImplement
+	    -relief  -styleOption
+ 	    -highlightcolor -styleOption
+ 	    -highlightthickness  -styleOption
+ 	    -justify -styleOption
+ 	    -wraplength -styleOption
+	}
 	# ignoring -width because we need to map 0 to "" and "" to 0 in cget/configure
 	
- 	array set button_widgetCommands [list flash {1 {button_flash $w}} \
-					     invoke {1 {$w invoke}}]
+ 	array set button_widgetCommands { 
+	    flash {1 {button_flash $w}}
+	    invoke {1 {$w invoke}}}
 
- 	array set button_styleOptions {-background -background
- 	    -bg -background
- 	    -borderwidth -borderwidth
- 	    -relief -relief
- 	    -highlightcolor -focuscolor
- 	    -highlightthickness -focusthickness
- 	    -justify -justify
- 	    -wraplength -wraplength}
+ 	array set button_styleOptions {}
     }
 
     proc init_buttonStyleOptions { } {
@@ -116,6 +117,15 @@ namespace eval ::chameleon::button {
 		return 0
 	    } else {
 		return $width
+	    }
+	}
+
+	if {$option == "-height"} {
+	    set height [$w cget -height]
+	    if {![string is digit -strict $height]} {
+		return 0
+	    } else {
+		return $height
 	    }
 	}
 
