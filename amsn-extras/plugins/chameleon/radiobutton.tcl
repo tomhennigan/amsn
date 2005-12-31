@@ -77,9 +77,9 @@ namespace eval ::chameleon::radiobutton {
  	    -underline -underline
  	    -wraplength -ignore
  	    -command -command
- 	    -height -toImplement
+ 	    -height -ignore
  	    -indicatoron -ignore
- 	    -selectcolor -ignore
+ 	    -selectcolor -styleOption
  	    -offrelief -styleOption
  	    -overrelief -styleOption
  	    -selectimage -ignore

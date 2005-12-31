@@ -41,31 +41,31 @@ namespace eval ::chameleon::label {
 	variable label_widgetOptions
 	
  	array set label_widgetOptions {
-	    -activebackground -styleOption
-	    -activeforeground -styleOption
+	    -activebackground -ignore
+	    -activeforeground -ignore
 	    -anchor -anchor
-	    -background -styleOption
+	    -background -background
 	    -bd  -styleOption
-	    -bg -styleOption
+	    -bg -background
 	    -bitmap -ignore
 	    -border  -styleOption
 	    -borderwidth  -styleOption
 	    -class -class
 	    -compound  -compound
 	    -cursor  -cursor
-	    -disabledforeground -styleOption
-	    -fg  -styleOption
-	    -font -styleOption
-	    -foreground -styleOption
+	    -disabledforeground -ignore
+	    -fg  -foreground
+	    -font -font
+	    -foreground -foreground
 	    -height -ignore
-	    -highlightbackground -styleOption
-	    -highlightcolor  -styleOption
-	    -highlightthickness -styleOption
+	    -highlightbackground -ignore
+	    -highlightcolor  -ignore
+	    -highlightthickness -ignore
 	    -image  -image
 	    -justify -justify
 	    -padx  -toImplement
 	    -pady  -toImplement
-	    -relief -styleOption
+	    -relief -relief
 	    -state  -state
 	    -takefocus -takefocus
 	    -text  -text

@@ -51,7 +51,7 @@ namespace eval ::chameleon::button {
  	array set button_widgetOptions {
 	    -activebackground -ignore
  	    -activeforeground -ignore
- 	    -anchor -ignore
+ 	    -anchor -styleOption
  	    -background -styleOption
 	    -bg  -styleOption
  	    -bitmap -ignore
@@ -61,9 +61,9 @@ namespace eval ::chameleon::button {
  	    -compound -compound
  	    -cursor -cursor
  	    -disabledforeground -ignore
- 	    -font -ignore
- 	    -foreground -ignore
- 	    -fg -ignore
+ 	    -font -styleOption
+ 	    -foreground -styleOption
+ 	    -fg -styleOption
  	    -highlightbackground -ignore
  	    -image -image
  	    -overrelief -ignore

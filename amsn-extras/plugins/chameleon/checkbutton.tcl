@@ -65,7 +65,7 @@ namespace eval ::chameleon::checkbutton {
  	    -highlightcolor -styleOption
  	    -highlightthickness -styleOption
  	    -image -image
- 	    -justify -ignore
+ 	    -justify -styleOption
  	    -padx -toImplement
  	    -pady -toImplement
  	    -relief -styleOption
@@ -75,7 +75,7 @@ namespace eval ::chameleon::checkbutton {
  	    -text -text
  	    -textvariable -textvariable
  	    -underline -underline
- 	    -wraplength -ignore
+ 	    -wraplength -styleOption
  	    -command -command
  	    -height -ignore
  	    -indicatoron -ignore

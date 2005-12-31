@@ -49,8 +49,8 @@ namespace eval ::chameleon::frame {
 	
  	array set frame_widgetOptions {
 	    -bd -borderwidth
- 	    -borderwidth -styleOption
-	    -border  -styleOption
+ 	    -borderwidth -borderwidth
+	    -border  -borderwidth
  	    -class -class
  	    -relief -styleOption
  	    -background -styleOption
@@ -59,9 +59,9 @@ namespace eval ::chameleon::frame {
  	    -container -ignore
  	    -cursor -cursor
  	    -height -toImplement
- 	    -highlightbackground -styleOption
- 	    -highlightcolor -styleOption
- 	    -highlightthickness -styleOption
+	    -highlightbackground -styleOption
+	    -highlightcolor -styleOption
+	    -highlightthickness -styleOption
  	    -padx -toImplement
  	    -pady -toImplement
  	    -takefocus -takefocus

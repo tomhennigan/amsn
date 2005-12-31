@@ -61,9 +61,9 @@ namespace eval ::chameleon::labelframe {
 	    -font -styleOption
 	    -foreground -styleOption
 	    -height -toImplement
-	    -highlightbackground -styleOption
-	    -highlightcolor  -styleOption
-	    -highlightthickness  -styleOption
+	    -highlightbackground -ignore
+	    -highlightcolor  -ignore
+	    -highlightthickness  -ignore
 	    -labelanchor -labelanchor 
 	    -labelwidget -labelwidget 
 	    -padx -toImplement

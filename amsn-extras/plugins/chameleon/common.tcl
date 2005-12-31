@@ -111,8 +111,9 @@ namespace eval ::chameleon {
 		error "Unknown option \"$name\""
 	    }
 
-	    if { [set ${widget_type}_widgetOptions($name)] == "-styleOption" && $value != ""} {
-		if { [info exists ${widget_type}_styleOptions($name)]} {
+# && $value != ""
+	    if { [set ${widget_type}_widgetOptions($name)] == "-styleOption" } {
+		if { [info exists ${widget_type}_styleOptions($name)] } {
 		    set options([set ${widget_type}_styleOptions($name)]) $value
 		} else {
 		    set options($name) $value
@@ -152,14 +153,13 @@ namespace eval ::chameleon {
 	}
 
 	array set ${widget_type}_styleOptions {
-	    -background -background
 	    -bg -background
+	    -fg -foreground
 	    -bd -borderwidth
 	    -borderwidth -borderwidth
 	    -border -borderwidth
  	    -highlightcolor -focuscolor
  	    -highlightthickness -focusthickness
-	    -relief -relief
 	}
 
 	init_${widget_type}CustomOptions
