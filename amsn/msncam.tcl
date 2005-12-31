@@ -1766,7 +1766,7 @@ namespace eval ::CAMGUI {
 			
 			#Add zoom option
 			label $w.zoomtext -text "[trans zoom]:" -font sboldf
-			spinbox $w.zoom -from 1 -to 5 -increment 0.5 -width 2 -command "$w.seq configure -zoom %s"
+			spinbox $w.zoom -from 1 -to 5 -increment 0.5 -width 2 -command "catch {$w.seq configure -zoom %s}"
 			pack $w.zoomtext
 			pack $w.zoom
 		} else {
