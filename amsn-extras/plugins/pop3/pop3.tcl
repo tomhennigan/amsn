@@ -1105,7 +1105,7 @@ namespace eval ::pop3 {
 			#the line we're seaching contains something like
 			#Boîte de réception&nbsp;(7)
 			#That's why we need the translation of "inbox"
-			if { [string match *${gmail(trans_inbox)}* $gmail(text_line) ] } {
+			if { [info exists gmail(trans_inbox)] && [string match *${gmail(trans_inbox)}* $gmail(text_line) ] } {
 			#just for me to debug !! Uncomment it only if i have asked you to do so !!
 			#status_log "$gmail(text_line)" red
 				set pos1 [expr [string first $gmail(trans_inbox) $gmail(text_line)] + [string length $gmail(trans_inbox)]]
