@@ -265,11 +265,17 @@ status_log "reset sendbutton binding"
 		global HOME
 
 		set widget $window.f.bottom.left.in.inner.draw
-
-		$widget SaveDrawing $HOME "inktosend.gif"
-
-		#send the saved file
-		::amsn::InkSend $window [file join $HOME "inktosend.gif"]
+		#Put inktosend picture into a temp directory  to send it
+		 if { [info exists ::env(TEMP) ] } {
+       		$widget SaveDrawing $::env(TEMP) "inktosend.gif"
+			#send the saved file
+			::amsn::InkSend $window [file join $::env(TEMP) "inktosend.gif"]
+ 		} else {
+			$widget SaveDrawing "/tmp" "inktosend.gif"
+			#send the saved file
+			::amsn::InkSend $window [file join /tmp "inktosend.gif"]
+		}
+		
 		$widget ClearDrawboard
 	}
 
