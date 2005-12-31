@@ -1,8 +1,9 @@
 <?php 
-   define('source', 'index');
-   include 'common.php';
-   include inc . 'init.php';
-   include inc . 'header.php'; 
+define('source', 'index');
+include 'common.php';
+include 'libs/func.lib.php';
+include inc . 'init.php';
+include inc . 'header.php'; 
 ?>
 
   <img class="preload" src="images/download_hover.png" alt="" />
@@ -37,49 +38,29 @@
             <li>Tabbed chat windows</li>
           </ul>
           For a full list, see the <a href="features.php">features page</a>.
-          More features can be added to aMSN with <a href="plugins.php">plugins</a>, or completely change it's look with different <a href="skins.php">skins</a>!<br /><br />
+          More features can be added to aMSN with <a href="plugins.php">plugins</a>, or completely change its look with different <a href="skins.php">skins</a>!<br /><br />
 
-           	<script type="text/javascript">
-		   		function platformDirect()
-		   			{
-
-		   				<!-- Test is positive if the platform is Windows -->
-		   				if(navigator.userAgent.indexOf("Win") > -1)
-		   					{
-		   						location = "http://prdownloads.sourceforge.net/amsn/amsn-0.95-windows-installer-2.exe";
-		   					}
-		  				<!-- Test is positive if the platform is Linux -->
-		   				else if(navigator.userAgent.indexOf("Linux") > -1)
-		   					{
-		   					    location = "linux-downloads.php";
-		   					}
-		   				<!-- Test is positive if the platform is FreeBSD -->
-		   				else if(navigator.userAgent.indexOf("FreeBSD") > -1)
-		   					{
-		   						location = "http://www.freshports.org/net/amsn/";
-		   					}
-		   				<!-- Test is positive if the platform is Mac OS X (Safari) -->
-		   				else if(navigator.userAgent.indexOf("Mac OS X") > -1)
-		   					{
-		   						location = "http://prdownloads.sourceforge.net/amsn/amsn-0-95-final.dmg";
-		   					}
-		   				<!-- Test is positive if the platform is Mac OS X (Explorer)-->
-		   				else if(navigator.userAgent.indexOf("Mac") > -1)
-		   					{
-		   						location = "http://www.cmq.qc.ca/4w/amsn/";
-		   					}
-		   				<!-- Fallback -->
-		   				else
-		   					{
-		   						location = "download.php";
-		   					}
-
-		   			  }
-			</script>
-
-           <a href="download.php" onclick="platformDirect(); return false;" id="download"></a>
-           <a href="plugins.php" id="plugins"></a>
-           <a href="skins.php" id="skins"></a>
+  <?php
+  switch(remoteOS()) {
+    case 'Windows':
+    $url='dlfile.php?file=amsn-0.95-windows-installer-2.exe';
+    break;
+    case 'Linux':
+    $url='linux-downloads.php';
+    break;
+    case 'FreeBSD':
+    $url='http://www.freshports.org/net/amsn/';
+    case 'Mac':
+    $url="dlfile.php?file=amsn-0-95-final.dmg";
+    break;
+    default:
+    $url="download.php";
+    break;
+  }
+echo '<a href="'.$url.'" id="download"></a>';
+?>
+<a href="plugins.php" id="plugins"></a>
+<a href="skins.php" id="skins"></a>
 
 <?php include inc . 'news.php' ?>
 <?php include inc . 'footer.php'; ?>
