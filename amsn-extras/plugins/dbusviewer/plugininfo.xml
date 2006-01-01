@@ -9,4 +9,5 @@
 	<plugin_namespace>DbusViewer</plugin_namespace>
 	<init_procedure>Init</init_procedure>
 	<deinit_procedure>DeInit</deinit_procedure>
+	<cvs_version>1.2</cvs_version>
 </plugin>
