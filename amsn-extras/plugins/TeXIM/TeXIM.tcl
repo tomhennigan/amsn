@@ -13,7 +13,7 @@ namespace eval ::TeXIM {
 	# (Called by the Plugins System)            #
 	#############################################
 	proc Init { directory } {
-		global HOME
+		
 		plugins_log "TeXIM" "LaTeX plugin has started"
 
 		::plugins::RegisterPlugin "TeXIM"
@@ -41,8 +41,10 @@ namespace eval ::TeXIM {
 
 		set ::TeXIM::configlist [list [list frame ::TeXIM::populateFrame ""] ]
 
-		if { [file exists [file join $HOME "TeXIM/"] ] == 0 }  {
-			file mkdir [file join $HOME "TeXIM/"]
+		if { [info exists ::env(TEMP) ] } {
+			file mkdir [file join $::env(TEMP) TeXIM]
+		} else {
+			file mkdir [file join /tmp TeXIM]
 		}
 	}
 	
@@ -146,9 +148,15 @@ namespace eval ::TeXIM {
 	# (Called by the Plugins System)            #
 	#############################################
 	proc DeInit { } {
-		global HOME
-		if { [file exists [file join $HOME "TeXIM/"] ] }  {
-			file delete -force [file join $HOME "TeXIM/"]
+		
+		if { [info exists ::env(TEMP) ] } {
+			if { [file exists [file join $::env(TEMP) TeXIM] ] }  {
+				file delete -force [file join $::env(TEMP) TeXIM]
+			}
+		} else {
+			if { [file exists [file join /tmp TeXIM] ] }  {
+				file delete -force [file join /tmp TeXIM]
+			}
 		}
 		plugins_log "TeXIM" "LaTeX plugin has closed"
 	}
@@ -160,9 +168,13 @@ namespace eval ::TeXIM {
 	# Returns the path to the image             #
 	#############################################
 	proc Create_GIF_from_Tex { texText } {
-		global HOME
+		
 		set oldpwd [pwd]
-		cd [file join $HOME "TeXIM/" ]
+		if { [info exists ::env(TEMP) ] } {
+			cd [file join $::env(TEMP) TeXIM]
+		} else {
+			cd [file join /tmp TeXIM]
+		}
 		
 		plugins_log "TeXIM" "creating a GIF with the tex code:\n$texText"
 		set fileXMLtex [open "TeXIM.tex" w]
@@ -181,7 +193,11 @@ namespace eval ::TeXIM {
 		set tex_errors $msg
 		if { [file exists TeXIM.dvi ] }  {
 			if { [ catch { exec $::TeXIM::config(path_dvips) -f -E -o TeXIM.ps -q TeXIM.dvi } msg ] == 0 } { 
-				catch {file delete [file join $HOME "TeXIM.dvi"]}
+				if { [info exists ::env(TEMP) ] } {
+					catch {file delete [file join $::env(TEMP) TeXIM "TeXIM.dvi"]}
+				} else {
+					catch {file delete [file join /tmp TeXIM "TeXIM.dvi"]}
+				}	
 				if { [ catch { exec $::TeXIM::config(path_convert) -density $::TeXIM::config(resolution) \
 							TeXIM.ps TeXIM.gif } msg ] == 0 } {
 					set tmp [image create photo -file TeXIM.gif]
@@ -193,9 +209,16 @@ namespace eval ::TeXIM {
 						}
 					}
 					image delete $tmp
-					catch {file delete TeXIM.dvi}
-					cd $oldpwd
-					return [file join $HOME "TeXIM/" "TeXIM.gif"]
+					if { [info exists ::env(TEMP) ] } {
+						catch {file delete [file join $::env(TEMP) TeXIM "TeXIM.dvi"]}
+						cd $oldpwd
+						return [file join $::env(TEMP) TeXIM "TeXIM.gif"]
+					} else {
+						catch {file delete [file join /tmp TeXIM "TeXIM.dvi"]}
+						cd $oldpwd
+						return [file join /tmp TeXIM "TeXIM.gif"]
+					}	
+
 				}
 			}
 		}
