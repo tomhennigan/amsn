@@ -251,7 +251,7 @@ namespace eval ::DbusViewer {
     # Regular expressions
     frame ${w}.res
     # matching REs
-    set lf_re_match [LabelFrame:create $w.res.lf_re_match -text "REs that should match"]
+    set lf_re_match [LabelFrame::create $w.res.lf_re_match -text "REs that should match"]
     pack $w.res.lf_re_match -side left -expand 1 -fill x -anchor n -pady 10
     frame $lf_re_match.1
     checkbutton $lf_re_match.1.bt_re_match -onvalue 1 -offvalue 0 \
@@ -289,7 +289,7 @@ namespace eval ::DbusViewer {
     pack $lf_re_match.5.e_re_match -side left -expand 1 -fill x
     pack $lf_re_match.5 -expand 1 -fill x
     # failing REs
-    set lf_re_fail [LabelFrame:create $w.res.lf_re_fail -text "REs that should fail"]
+    set lf_re_fail [LabelFrame::create $w.res.lf_re_fail -text "REs that should fail"]
     pack $w.res.lf_re_fail -side left -expand 1 -fill x -anchor n -pady 10
     frame $lf_re_fail.1
     checkbutton $lf_re_fail.1.bt_re_fail -onvalue 1 -offvalue 0 \
