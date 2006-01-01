@@ -89,6 +89,7 @@ a img
   text-align: left;
   font-size: 85%;
   display: table-caption;
+  padding-left: 10px;
 }
 
 #container a
@@ -269,7 +270,7 @@ a#skins:hover
 
 div.news
 {
-  top: 3em;
+  margin-top: 10px;
   float: left;
   margin-bottom: 3em;
   width: 520px;
@@ -312,24 +313,17 @@ div.news_bottom
   background: #fff url(images/news_bottom.png) no-repeat
 }
 
-div.side_bar
-{
-  width: 180px;
-  float: right;
-}
-
 div.block_right_top
 {
   margin-top: 8px;
-  width: 180px;
   height: 11px;
-  background: #fff url(images/rounded-top.png) no-repeat
+  background: #fff url(images/rounded-top.png) no-repeat;
 }
 
 div.block_right
 {
-/*  height: auto;*/
-/*  left: auto;*/
+/*height: auto;*/
+/*left: auto;*/
   float: right;
   width: 180px;
   color: #000;
@@ -342,13 +336,12 @@ div.block_right
 
 div.block_right_content
 {
-  width: 178px;
   margin: 0px;
-  padding: 0px;
+  padding: 0px 5px 5px 5px;
   border-left: 1px solid #ccc;
   border-right: 1px solid #ccc;
   color: #000;
-  background: #fff
+  background: #fff;
 }
 
 div.block_right form {
@@ -358,14 +351,13 @@ div.block_right form {
 
 div.block_right_bottom
 {
-  width: 180px;
   height: 11px;
   background: #fff url(images/rounded-bottom.png) no-repeat 
 }
 
 div.block_right h3
 {
-margin-top: 8px;
+  margin: 8px 0px 0px 8px;
 /*  color: #6b8dbb;*/
   color: #2d63a1;
   background: #fff;
@@ -386,15 +378,19 @@ div.block_right a:hover
 ul.poll
 {
   list-style: none;
-  margin: 8px 5px 0px 5px;
+  margin: 0px 5px 0px 5px;
   padding: 0px;
   color: #3a3c4f
+}
+
+.poll_Q { 
+margin-top: 0px;
 }
 
 ul.help
 {
   list-style: none;
-  margin: 8px 5px 0px 5px;
+  margin: 0px 5px 0px 5px;
   padding: 0px;
   color: #3a3c4f
 }
@@ -402,7 +398,7 @@ ul.help
 ul.links, ul.forums
 {
   list-style: none;
-  margin: 8px 5px 0px 5px;
+  margin: 0px 5px 0px 5px;
   padding: 0px;
   color: #000
 }
@@ -423,7 +419,7 @@ ul.links a:hover, ul.forums a:hover
 
 ul.links li
 {
-  margin: 8px 0px 8px 0px
+  margin: 0px 0px 0px 0px
 }
 
 /*ul.language li
@@ -436,7 +432,7 @@ ul.links li
 ul.language
 {
   list-style: none;
-  margin: 8px 5px 4px 5px;
+  margin: 0px 5px 4px 5px;
   padding: 1px 0px 1px 0px;
   color: #000
 }

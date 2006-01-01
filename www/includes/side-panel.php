@@ -1,8 +1,5 @@
-
-
 <!-- Poll -->
 
-<div class="side_bar">
 <?php
 
 /* uncomment next line to enable language block in the sidebar */
@@ -27,18 +24,14 @@ $answers = mysql_query("SELECT id, answer FROM `amsn_poll_answers` WHERE id_fath
 
 
 
-<div class="block_right">
- <h3 class="polls">Poll</h3>
-  <div class="block_right_top"></div>
-
-        <div class="block_right_content">
+ <div class="block_right">
+    <h3 class="polls">Poll</h3>
+    <div class="block_right_top"></div>
+    <div class="block_right_content">
 
     <form action="<?php echo inc . 'poll_vote.php' ?>" method="post">
-	<ul class="poll">
-	<li>
-         	<h4><?php echo $poll['question'] ?></h4>
-
-	</li>
+    <ul class="poll">
+    <li><h4 class="poll_Q"><?php echo $poll['question'] ?></h4></li>
 
 <?php
           for ($i = 0; $row = mysql_fetch_row($answers); $i++) {
@@ -50,7 +43,6 @@ $answers = mysql_query("SELECT id, answer FROM `amsn_poll_answers` WHERE id_fath
 <?php
 }
 ?>
-
 </ul>
 <div>
         <input type="submit" value="Vote" />
@@ -61,18 +53,11 @@ $answers = mysql_query("SELECT id, answer FROM `amsn_poll_answers` WHERE id_fath
           </div>
         <div class="block_right_bottom"></div>
 
-      </div>
-
-<!--	<div class="block_right_bottom"></div>
-        </div>	
-
-      </div>-->
-
 <?php
     }
  }
 ?>
-
+</div>
 
 
 <!-- Please Help -->
@@ -140,6 +125,3 @@ $answers = mysql_query("SELECT id, answer FROM `amsn_poll_answers` WHERE id_fath
         </div>
         <div class="block_right_bottom"></div>
       </div>
-
-
-</div> 
