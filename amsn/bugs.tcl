@@ -68,6 +68,7 @@ namespace eval ::bugs {
 	set ::bugs::bug(info) [privacy $errorInfo]
 	set ::bugs::bug(status) [privacy [htmlentities [.status.info get $pos $posend]]]
 	set ::bugs::bug(protocol) [privacy [htmlentities [.degt.mid.txt get $prot_pos $prot_posend]]]
+	set ::bugs::bug(comment) ""
 
 	::bugs::show_bug_dialog $errorInfo
     }
@@ -141,7 +142,7 @@ namespace eval ::bugs {
 	label $w.msg -justify left -textvariable "::bugs::message" -wraplength 500 -font sboldf
 	label $w.desc_l -text "[trans enterbugdesc]"
 	frame $w.f
-	text $w.f.t -height 5 -width 50 -bg #FFFFFF -borderwidth 0 -relief solid -highlightthickness 0 -exportselection 1
+	text $w.f.t -height 5 -width 50 -bg #FFFFFF -relief sunken -highlightthickness 0 -exportselection 1
 	
 	frame $w.c1
 	checkbutton $w.c1.check -variable "::bugs::bug(email)" -text "[trans sendemail] ("
@@ -166,7 +167,6 @@ namespace eval ::bugs {
 	pack $w.c1 -expand yes -anchor w
 	pack $w.c2 -expand yes -anchor w
 	
-	bind $w <Return> "set ::bugs::closed_bug_window 1"
 	bind $w.f.t <KeyRelease> "::bugs::update_comment"
 	
 	bind $w.c1.text <Enter> "$w.c1.text configure -font sunderf"
@@ -288,7 +288,7 @@ namespace eval ::bugs {
 		#set headers {} -- initial value comes from parameter
 		foreach line [split $headers_raw "\n"] {
 		    regexp {^([^:]+): (.*)$} $line all label value
-	    lappend headers $label $value
+		    lappend headers $label $value
 		}
 		
 		# get the content-type
@@ -320,6 +320,11 @@ namespace eval ::bugs {
     proc report { } {
 	global HOME2
 	variable w
+	if {$::bugs::bug(comment)==""} {
+	    if {[tk_messageBox -type okcancel -message [trans bugnocomment]]=="cancel"} {
+		return
+	    }
+	}
 	::bugs::save [file join $HOME2 bugreport.amsn]
 	$w.f.b1 configure -text [trans reporting] -state disabled
 	

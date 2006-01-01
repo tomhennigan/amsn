@@ -90,6 +90,7 @@ browse Browse
 browser Browser
 browserexample ( \$url will be replaced with the URL). Ex: mozilla \$url
 bugerror Sorry, but there was a problem connecting to the bug database. Please check your internet connection.
+bugnocomment Send without a comment? Commenting on a bug helps us figure out what went wrong and fix it easier.
 busy Busy
 cachedpics $1 cached pics
 cagreement Confidentiality Agreement
