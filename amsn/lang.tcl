@@ -1,4 +1,3 @@
-
 if { $initialize_amsn == 1 } {
 	global lang_list langenc langlong
 	set lang_list [list]
@@ -24,12 +23,17 @@ proc scan_languages { } {
 
 proc detect_language { {default "en"} } {
 	global env
-	if { ![info exists env(LANG)] } {
+	
+	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		set system_language [string tolower [corefoundation::getLocaleIdentifier]]
+	} elseif { ![info exists env(LANG)] } {
 		status_log "No LANG environment variable. Using $default\n"
 		return $default
+	} else {
+		set system_language [string tolower $env(LANG)]
 	}
 	
-	set system_language [string tolower $env(LANG)]
+	
 	set idx [string first "@" $system_language]
 	status_log "System language is $system_language\n"
 	#Remove @euro thing or similar
@@ -935,4 +939,32 @@ namespace eval ::lang {
 	
 	}
 
+}
+
+#All the stuff necessary to find the preferred language to use on Mac OS X
+if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+	package require Ffidl 0.6
+	namespace eval corefoundation {
+		proc api {name argl ret} {::ffidl::callout $name $argl $ret \
+		[::ffidl::symbol CoreFoundation.framework/CoreFoundation $name]}
+		api CFLocaleCopyCurrent {} pointer
+		api CFLocaleGetIdentifier pointer pointer
+		api CFStringGetLength pointer sint32
+		if { $initialize_amsn == 1  } {
+			::ffidl::typedef CFRange sint32 sint32
+		}
+		api CFStringGetCharacters {pointer CFRange pointer-var} void
+		api CFRelease pointer void
+	
+		proc getLocaleIdentifier {} {
+			set cfloc [CFLocaleCopyCurrent]
+			set cfstr [CFLocaleGetIdentifier $cfloc]
+			set len [CFStringGetLength $cfstr]
+			set buf [binary format x[expr {2*$len}]]
+			set range [binary format [::ffidl::info format CFRange] 0 $len]
+			CFStringGetCharacters $cfstr $range buf
+			CFRelease $cfloc
+			encoding convertfrom unicode $buf
+		}
+	}
 }
