@@ -6,6 +6,9 @@ namespace eval ::desktop_integration {
 	variable users_filemanager ""
 	variable users_openfilecommand ""
 	variable loaded 0
+	
+	variable config
+	variable configlist	
 
 
 	variable renamed_choosefiledialog_proc desktop_integration_chooseFileDialog
@@ -21,9 +24,9 @@ namespace eval ::desktop_integration {
 		variable current_desktop
 		variable dlg_blocked
 		variable plugin_name 
-		variable users_filemanager
-		variable users_openfilecommand
 		variable loaded 
+		variable config
+		variable configlist
 
 		variable renamed_choosefiledialog_proc
 		variable renamed_getsavefile_proc
@@ -35,7 +38,20 @@ namespace eval ::desktop_integration {
 		}
 
 		::plugins::RegisterPlugin $plugin_name
+		#here we need a good thing, I'm waiting for the solution youness was gonna tell me when I went to sleep ;)
+		::plugins::RegisterEvent $plugin_name PluginFullyLoaded checks_when_loaded
 		
+		array set config {
+	            showsetupdialog {1}
+	        }
+
+
+	        set configlist [list \
+                            [list bool "Show the setup dialog when the plugin gets loaded" showsetupdialog] \	        
+			]
+
+
+
 		# Decide if we are using KDE or GNOME
 		set current_desktop [WhichDesktop]
 		
@@ -50,32 +66,6 @@ namespace eval ::desktop_integration {
 			return 0
 		} else { 		
 			plugins_log $plugin_name "Switching to [string toupper $current_desktop] dialogs"
-		}
-
-
-		set users_filemanager [::config::getKey filemanager]
-		set users_openfilecommand [::config::getKey openfilecommand]
-
-		# Set default desktop-dependant filemanager and open file command
-		if {$current_desktop == "kde"}	{
-			plugins_log "Desktop Integration" "Setting filemanager and openfilecommand for KDE"
-			::config::setKey filemanager "kfmclient openURL \$location"
-			::config::setKey openfilecommand "kfmclient exec \$file"
-
-
-			# Set the POS_Y property depending on the Panel Position and size
-			# Inside a catch to avoid bad behaviour calling external procs
-			catch {
-				# Check panel's position -> must be in the bottom
-				if {[exec dcop kicker Panel panelPosition] == 3 } {
-					# Set the notify Y-offset above the panel
-					::config::setKey notifyYoffset [expr {"[exec dcop kicker Panel panelSize]" +1 }]
-				}
-			}
-		} elseif {$current_desktop == "gnome"}	{
-			plugins_log "Desktop Integration" "Setting filemanager and openfilecommand for GNOME\n"
-			::config::setKey filemanager "nautilus \$location"
-			::config::setKey openfilecommand "gnome-open \$file"
 		}
 		
 		
@@ -118,13 +108,19 @@ namespace eval ::desktop_integration {
 	proc DeInit { } {
 		variable current_desktop
 		variable plugin_name 
-		variable users_filemanager
-		variable users_openfilecommand
 		variable loaded 
 
 		variable renamed_choosefiledialog_proc
 		variable renamed_getsavefile_proc
 		variable renamed_messagebox_proc
+		
+		variable users_filemanager
+		variable users_openfilecommand
+		variable users_browser
+		variable users_mailcommand
+		variable users_usesnack
+		variable users_soundcommand
+		variable users_notifyYoffset		
 
 		if {$loaded == 0} { 
 			return 0 
@@ -135,6 +131,11 @@ namespace eval ::desktop_integration {
 
 		::config::setKey filemanager $users_filemanager
 		::config::setKey openfilecommand $users_openfilecommand
+		::config::setKey browser $users_browser
+		::config::setKey mailcommand $users_mailcommand
+		::config::setKey usesnack $users_usesnack
+		::config::setKey soundcommand $users_soundcommand
+		::config::setKey notifyYoffset $users_notifyYoffset
 
 
 		# restoring chooseFileDialog (open file)
@@ -154,7 +155,7 @@ namespace eval ::desktop_integration {
 			rename ::amsn::messageBox ""		
 			rename $renamed_messagebox_proc ::amsn::messageBox 
 		}
-				
+
 	}
 
 	#######################################################################
@@ -469,20 +470,30 @@ namespace eval ::desktop_integration {
 		return $::desktop_integration::answer
 	}
 
-	proc dialog_event { fileId } {
-		fileevent $fileId readable ""
-		set temp ""
+proc dialog_event { fileId } {
+variable dialog_event_data
+
+        fileevent $fileId readable ""
+
+		if { ![info exists dialog_event_data($fileId)] } {
+		        set dialog_event_data($fileId) ""
+		}
+
 		if { [gets $fileId line] < 0 } {
-			if [catch {close $fileId}] {
+	               	if [catch {close $fileId}] {
 				#If the user pressed Cancel we get here
 				set ::desktop_integration::answer ""
-			} else {
-				set ::desktop_integration::answer $temp
-			}
+				array unset dialog_event_data $fileId
+	                } else {
+				set ::desktop_integration::answer [set dialog_event_data($fileId)]
+				array unset dialog_event_data $fileId
+        		}
 		} else {
-			append temp $line
-		}
-	} 
+			append dialog_event_data($fileId) $line
+		fileevent $fileId readable "[info level 0]"
+        }
+}
+
 
 	proc question_event { fileId } {
 		if [catch {close $fileId}] {
@@ -490,6 +501,119 @@ namespace eval ::desktop_integration {
 		} else {
 			set ::desktop_integration::answer "yes"
 		}
+	}
+
+
+	proc checks_when_loaded { } {
+		variable config
+		variable current_desktop	
+
+		variable users_filemanager
+		variable users_openfilecommand
+		variable users_browser
+		variable users_mailcommand
+		variable users_usesnack
+		variable users_soundcommand
+		variable users_notifyYoffset
+
+		#if we have to show the setup dialog
+		if {$config(showsetupdialog) && $current_desktop != "noone"} {
+			
+			#ask to change desktop-integrated settings with an "ask this again?" option
+
+			#if we have permission from the user, set the best options, depending on the desktop he/she uses.
+			
+			
+			#before altering, save the settings the user had before the plugin was loaded
+			set users_filemanager [::config::getKey filemanager]
+			set users_openfilecommand [::config::getKey openfilecommand]
+			set users_browser [::config::getKey browser]
+			set users_mailcommand [::config::getKey mailcommand]
+			set users_usesnack [::config::getKey usesnack]
+			set users_soundcommand [::config::getKey soundcommand]
+			set users_notifyYoffset [::config::getKey notifyYoffset]
+			
+			if { $current_desktop == "gnome" } {
+
+				plugins_log "Desktop Integration" "setting integrated options for GNOME\n"
+				::config::setKey filemanager "gnome-open \$location"
+				::config::setKey openfilecommand "gnome-open \$file"
+				::config::setKey browser "gnome-open \$url"
+				::config::setKey mailcommand "gnome-open mailto:\$recipient"				
+
+				#maybe set the download dir to the same download dir used by epiphany if epiphany is the choosen webbrowser ? or a dubdir of it ? -> not for now (could be done with the gconf thing down here)
+
+
+				#check if the esd deamon is running and the esdplay command is available, ifso set the soundserver command
+				catch {exec which esdplay} esdplaypath
+				set has_esdplay [file executable $esdplaypath ]
+				if { [catch {exec ps -A | grep esd | wc -l} nrofesdprocesses] } {
+					set nrofesdprocesses 0
+				}
+				if {$nrofesdprocesses > 0 && $has_esdplay} {
+					::config::setKey usesnack 0
+					::config::setKey soundcommand "esdplay \$sound"
+				}
+
+				#with gconf, try to find where the panel is, to have the notifications come right above it (if there is a lower panel)
+				catch {exec which gconftool} gconftoolpath
+				set has_gconftool [file executable $gconftoolpath ]
+				if { [catch {exec ps -A | grep gconfd | wc -l} nrofgconfdprocesses] } {
+					set nrofgconfdprocesses 0
+				}
+				
+				#if gconfdeamon runs and we have gconftool
+					#maybe create a usable gconf API here so other plugins can use it if desktop_integration is loaded ? the same api for KDE stuff ?
+
+				if {$has_gconftool && $nrofgconfdprocesses > 0} {
+					#check if the key is the right type (list of panel-IDs)	
+					catch {exec gconftool -T /apps/panel/general/toplevel_id_list} type
+					if {$type == "list"} {
+						catch {exec gconftool --get-list-size /apps/panel/general/toplevel_id_list} nr_of_panels
+						set offset 0
+						for {set i 0} {$i < $nr_of_panels} {incr i} {
+							catch {exec gconftool --get-list-element /apps/panel/general/toplevel_id_list $i} panelname
+							lappend panelnames $panelname
+
+							catch {exec gconftool -g /apps/panel/toplevels/$panelname/orientation} orientation
+							if {$orientation == "bottom"} {
+								catch {exec gconftool -g /apps/panel/toplevels/$panelname/size} height
+								set offset [expr {$offset + $height}]
+							}
+
+						}
+						#Hooray, we can finaly set the value :)
+						::config::setKey notifyYoffset [expr {$offset +1 }]						
+			
+						
+					}
+				}
+						
+
+			} elseif { $current_desktop == "kde" } {
+			
+				#KDE specific stuff here
+				plugins_log "Desktop Integration" "Setting filemanager and openfilecommand for KDE"
+				::config::setKey filemanager "kfmclient openURL \$location"
+				::config::setKey openfilecommand "kfmclient exec \$file"
+
+
+				# Set the POS_Y property depending on the Panel Position and size
+				# Inside a catch to avoid bad behaviour calling external procs
+				catch {
+					# Check panel's position -> must be in the bottom
+					if {[exec dcop kicker Panel panelPosition] == 3 } {
+						# Set the notify Y-offset above the panel
+						::config::setKey notifyYoffset [expr {"[exec dcop kicker Panel panelSize]" +1 }]
+					}
+				}
+				
+			}
+
+		#don't show the setup dialog anymore if the user didn't uncheck the "show this dialog again"
+#		set config(showsetupdialog) 0
+		}
+
 	}
 }
 
