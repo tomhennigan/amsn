@@ -38,7 +38,7 @@
 
 
 package require snit
-package provide drawboard 0.1
+package provide drawboard 0.2
 
 snit::widgetadaptor drawboard {
 
@@ -200,9 +200,12 @@ status_log "creating drawboard widget $self"
 
 		set drawboard [$hull itemcget drawboard -image]
 
+		set x [expr {$x - [image width pencil_$self]/2}]
+		set y [expr {$y - [image height pencil_$self]/2}]
+
 		#only draw if on the drawboard
 		if {$x > 0 && $y > 0 && $x < [$drawboard cget width] && $y < [$drawboard cget height]} {
-			$drawboard copy pencil_$self -to $x $y
+			$drawboard copy pencil_$self -to $x $y 
 		}
 	}
 
