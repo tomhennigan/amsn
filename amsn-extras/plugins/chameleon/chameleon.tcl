@@ -7,7 +7,7 @@ namespace eval ::chameleon {
     variable flash_count 10
 
     variable wrapped 0
-    variable wrapped_procs [list button frame labelframe label radiobutton checkbutton NoteBook]
+    variable wrapped_procs [list button frame labelframe label radiobutton checkbutton NoteBook];# scrollbar]
     variable wrapped_into
     variable wrapped_shortname
     
@@ -19,7 +19,8 @@ namespace eval ::chameleon {
 				labelframe labelframe \
 				label label \
 				radiobutton radiobutton \
-				checkbutton checkbutton]
+				checkbutton checkbutton \
+				scrollbar scrollbar]
 
     array set wrapped_shortname [list button button \
 				     frame frame \
@@ -27,7 +28,8 @@ namespace eval ::chameleon {
 				     labelframe labelframe \
 				     label label \
 				     radiobutton radiobutton \
-				     checkbutton checkbutton]
+				     checkbutton checkbutton \
+				     scrollbar scrollbar]
     
 
 
@@ -67,7 +69,7 @@ namespace eval ::chameleon {
 	}
 	
 
-	if {[catch {package require tile}]} { 
+	if {[catch {package require tile 0.7}]} { 
 	    msg_box "You need the tile extension to be installed to run this plugin"
 	    ::plugins::GUI_Unload
 	    set ::auto_path $autopath
@@ -126,6 +128,7 @@ namespace eval ::chameleon {
 	} else {
 	    tile::setTheme $::chameleon::config(theme)
 	}
+
 	wrap 0
     }
 
@@ -174,6 +177,7 @@ namespace eval ::chameleon {
 		set ttk_widget_type [set wrapped_into($command)]
 		set widget_type [set wrapped_shortname($command)]
 
+
 		if { [info command ::tk::${tk_widget_type}] == "::tk::${tk_widget_type}"&& 
 		     [info command ::${tk_widget_type}] == "" && 
 		     [info procs ::${tk_widget_type}] == "::${tk_widget_type}" } {
@@ -190,7 +194,6 @@ namespace eval ::chameleon {
 		error "can't wrap : already wrapped"
 	    }
 
-
 	    foreach command $wrapped_procs {
 		set tk_widget_type $command
 		set ttk_widget_type [set wrapped_into($command)]
@@ -198,6 +201,7 @@ namespace eval ::chameleon {
 
 		source [file join $plugin_dir common.tcl]
 		source [file join $plugin_dir ${widget_type}.tcl]
+
 
 		if { [info command ::tk::${tk_widget_type}] == "" && 
 		     [info procs ::tk::${tk_widget_type}] == "" && 
@@ -285,6 +289,29 @@ namespace eval ::chameleon {
 	}
    }
     
+
+
+    proc ::chameleon::copyStyle { widget_type dest } {
+	
+	set src ""
+	if {$widget_type == "scrollbar" } {
+	    if { [catch {$dest cget -orient} orientation]} {
+		set orientation "vertical"
+	    }
+	    append src [string toupper [string range $orientation 0 0]]
+	    append src [string range $orientation 1 end]
+	    append src "."
+	}
+
+	append src "T"
+	append src [string toupper [string range ${widget_type} 0 0]]
+	append src [string range ${widget_type} 1 end]
+
+	#Copy parameters from one style to another
+	eval "style configure $dest [style configure $src]"
+	eval "style layout $dest \{[style layout $src]\}"
+	eval "style map $dest [style map $src]"
+    }
 
     proc printStackTrace { } {
 	for { set i [info level] } { $i > 0 } { incr i -1} { 

@@ -1,5 +1,5 @@
 namespace eval ::chameleon::labelframe {
-    proc labelframe_customParseConfArgs { parsed_options args } {
+    proc labelframe_customParseConfArgs {w parsed_options args } {
 	array set options $args
 	array set ttk_options $parsed_options
 	

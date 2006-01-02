@@ -1,6 +1,6 @@
 namespace eval ::chameleon::notebook {
 
-   proc notebook_customParseConfArgs { parsed_options args } {
+   proc notebook_customParseConfArgs {w parsed_options args } {
      	array set options $args
 	array set ttk_options $parsed_options
 

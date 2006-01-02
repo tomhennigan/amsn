@@ -1,6 +1,6 @@
 namespace eval ::chameleon::button {
 
-   proc button_customParseConfArgs { parsed_options args } {
+   proc button_customParseConfArgs {w parsed_options args } {
      	array set options $args
 	array set ttk_options $parsed_options
 

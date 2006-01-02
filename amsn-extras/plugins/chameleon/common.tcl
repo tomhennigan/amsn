@@ -12,6 +12,10 @@ namespace eval ::chameleon {
 	variable ttk_widget_type
 	variable ${widget_type}_widgetOptions
 
+	if { ${widget_type} == "scrollbar" && $w == "reloadimages" } {
+	    return
+	}
+
 	set w_name [eval ::ttk::${ttk_widget_type} $w [eval ${widget_type}_parseConfArgs $w $args]]
 
 	if { [info command ::chameleon::${widget_type}::${widget_type}_proc_${w_name}] == "::chameleon::${widget_type}::${widget_type}_proc_${w_name}" } {
@@ -30,7 +34,7 @@ namespace eval ::chameleon {
 	proc ::${w_name} { command args } \
 	    "eval ::chameleon::${widget_type}::${widget_type}_launchCommand ${w_name} \$command \$args"
 	
-	    bind ${w_name} <Destroy> "::chameleon::widgetDestroyed [string map {"%" "%\\%"} ${widget_type}_proc_${w_name}]"
+	bind ${w_name} <Destroy> "::chameleon::widgetDestroyed [string map {"%" "\\%"} ${widget_type}_proc_${w_name}]"
 
 	::chameleon::widgetCreated ${widget_type}_proc_${w_name} ${w_name} 
 
@@ -98,7 +102,7 @@ namespace eval ::chameleon {
 	array unset options -styleOption
 	array unset options -ignore
 
-	return [eval ${widget_type}_customParseConfArgs [list [array get options]] $args]
+	return [eval ${widget_type}_customParseConfArgs $w [list [array get options]] $args]
     }
 
     proc ::chameleon::${widget_type}::${widget_type}_parseStyleArgs { args } {
@@ -112,7 +116,7 @@ namespace eval ::chameleon {
 	    }
 
 # && $value != ""
-	    if { [set ${widget_type}_widgetOptions($name)] == "-styleOption" } {
+	    if { [set ${widget_type}_widgetOptions($name)] == "-styleOption" && $value != ""} {
 		if { [info exists ${widget_type}_styleOptions($name)] } {
 		    set options([set ${widget_type}_styleOptions($name)]) $value
 		} else {
@@ -231,16 +235,5 @@ namespace eval ::chameleon {
 	    error "invalid command name \"${w_name}\""
 	}
 	return [eval ${widget_type}_parseCommand ${w_name} $command $args]
-    }
-
-    proc ::chameleon::copyStyle { widget_type dest } {
-	set src "T"
-	append src [string toupper [string range ${widget_type} 0 0]]
-	append src [string range ${widget_type} 1 end]
-
-	#Copy parameters from one style to another
-	eval "style configure $dest [style configure $src]"
-	eval "style layout $dest \{[style layout $src]\}"
-	eval "style map $dest [style map $src]"
     }
 }

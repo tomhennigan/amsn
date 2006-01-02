@@ -1,6 +1,6 @@
 namespace eval ::chameleon::radiobutton {
 
-   proc radiobutton_customParseConfArgs { parsed_options args } {
+   proc radiobutton_customParseConfArgs {w parsed_options args } {
      	array set options $args
 	array set ttk_options $parsed_options
 
@@ -37,8 +37,16 @@ namespace eval ::chameleon::radiobutton {
 	       set ttk_options(-width) $options(-width)
 	   }
        }
+  
+       if { ![info exists options(-variable)] } {
+	   set idx [string last . $w]
+	   incr idx
+	   set varname [string range $w $idx end]
+	   set options(-variable) ::$varname
+	   set ::$varname ""
+       }
 
-	return [array get ttk_options]
+       return [array get ttk_options]
     }
 
     proc init_radiobuttonCustomOptions { } {
