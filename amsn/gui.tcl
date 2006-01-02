@@ -4969,26 +4969,28 @@ proc cmsn_draw_online_wrapped {} {
 	set my_short_name [trunc $my_name $pgBuddyTop.mystatus $maxw bboldf]
 	$pgBuddyTop.mystatus insert end "$my_short_name " mystatus
 	$pgBuddyTop.mystatus insert end "($my_state_desc)" mystatus
+	set psmmedia ""
 	if {[::config::getKey protocol] == 11} {
 		set nick ""
 		set psm [::abook::getPersonal PSM]
 		set currentmedia [parseCurrentMedia [::abook::getPersonal currentmedia]]
 		if {$psm != ""} {
-			append nick "$psm"
+			append psmmedia "$psm"
 		}
 		if {$currentmedia != ""} {
 			if { $psm != ""} {
-				append nick " "
+				append psmmedia " "
 			}
-			append nick "$currentmedia"
+			append psmmedia "$currentmedia"
 		}
+		append nick "$psmmedia"
 		$pgBuddyTop.mystatus insert end "\n$nick" mystatus
 	}
 
-	if {[::abook::getPersonal PSM] == ""} {
+	if {$psmmedia == ""} {
 		set balloon_message "[string map {"%" "%%"} "$my_name\n [::config::getKey login]\n [trans status] : $my_state_desc"]"
 	} else {
-                set balloon_message "[string map {"%" "%%"} "$my_name\n [::abook::getPersonal PSM]\n [::config::getKey login]\n [trans status] : $my_state_desc"]"
+                set balloon_message "[string map {"%" "%%"} "$my_name\n $psmmedia\n [::config::getKey login]\n [trans status] : $my_state_desc"]"
 	}
 
 	$pgBuddyTop.mystatus tag bind mystatus <Enter> +[list balloon_enter %W %X %Y $balloon_message $pic_name]
@@ -5639,11 +5641,23 @@ proc ShowUser {user_name user_login state_code colour section grId} {
 		} else {
 			set balloon_message5 ""
 		}		
+		set psmmedia ""
 		set psm [::abook::getVolatileData $user_login PSM]
-		if { $psm == "" } {
+		set currentmedia [parseCurrentMedia [::abook::getVolatileData $user_login currentmedia]]
+                if {$psm != ""} {
+                        append psmmedia "$psm"
+                }
+                if {$currentmedia != ""} {
+                        if { $psm != ""} {
+                                append psmmedia " "
+                        }
+                        append psmmedia "$currentmedia"
+                }
+
+		if { $psmmedia == "" } {
 			set balloon_message "[string map {"%" "%%"} [::abook::getNick $user_login]]\n$user_login\n[trans status] : [trans [::MSN::stateToDescription $state_code]] $balloon_message2 $balloon_message3 $balloon_message4 $balloon_message5\n[trans lastmsgedme] : [::abook::dateconvert "[::abook::getContactData $user_login last_msgedme]"]"
 		} else {
-			set balloon_message "[string map {"%" "%%"} [::abook::getNick $user_login]]\n$psm\n$user_login\n[trans status] : [trans [::MSN::stateToDescription $state_code]] $balloon_message2 $balloon_message3 $balloon_message4 $balloon_message5\n[trans lastmsgedme] : [::abook::dateconvert "[::abook::getContactData $user_login last_msgedme]"]"
+			set balloon_message "[string map {"%" "%%"} [::abook::getNick $user_login]]\n$psmmedia\n$user_login\n[trans status] : [trans [::MSN::stateToDescription $state_code]] $balloon_message2 $balloon_message3 $balloon_message4 $balloon_message5\n[trans lastmsgedme] : [::abook::dateconvert "[::abook::getContactData $user_login last_msgedme]"]"
 		}
 		$pgBuddy.text tag bind $user_unique_name <Enter> +[list balloon_enter %W %X %Y $balloon_message [::skin::getDisplayPicture $user_login]]
 

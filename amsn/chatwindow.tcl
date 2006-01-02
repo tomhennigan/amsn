@@ -2174,11 +2174,17 @@ namespace eval ::ChatWindow {
 			
 			set user_name [string map {"\n" " "} [::abook::getDisplayNick $user_login]]
 			set state_code [::abook::getVolatileData $user_login state]
-			set psm [::abook::getVolatileData $user_login PSM]
 
-			if { $psm != "" } {
-				set psm "$psm "
-			}
+			set psmmedia ""
+			set psm [::abook::getVolatileData $user_login PSM]
+			set currentmedia [parseCurrentMedia [::abook::getVolatileData $user_login currentmedia]]
+
+	                if {$psm != ""} {
+	                        append psmmedia " $psm"
+	                }
+	                if {$currentmedia != ""} {
+	                        append psmmedia " $currentmedia"
+	                }
 
 			if { $state_code == "" } {
 				set user_state ""
@@ -2211,12 +2217,12 @@ namespace eval ::ChatWindow {
 					set nicktxt "[trunc ${user_name} ${win_name} $maxw sboldf] <${user_login}>"
 				} else {
 					incr maxw [expr 0-[font measure sboldf -displayof $top " ${user_name}"]]
-				 	set nicktxt "${user_name} <${user_login}> [trunc ${psm} ${win_name} $maxw sboldf]"
+				 	set nicktxt "${user_name} <${user_login}> [trunc ${psmmedia} ${win_name} $maxw sboldf]"
 				}
 				
 			} else {
 
-				set nicktxt "${user_name} <${user_login}> $psm"
+				set nicktxt "${user_name} <${user_login}> $psmmedia"
 		
 			}
 
