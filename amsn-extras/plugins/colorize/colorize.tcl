@@ -9,8 +9,8 @@ namespace eval ::colorize {
 	::plugins::RegisterPlugin Colorize
 	::plugins::RegisterEvent Colorize chat_msg_sent rotateColor
 	array set ::colorize::config [list \
-					  colors [list "FF0000" "006633" ] \
-					  random 0 \
+					  colors [list "FF0000" "00FF00" "0000FF" ] \
+					  random 1 \
 					 ]
 	set configlist [list \
 			    [list frame ::colorize::build_config] \
@@ -25,6 +25,13 @@ namespace eval ::colorize {
 	    set r [expr int(rand()*255)]
 	    set g [expr int(rand()*255)]
 	    set b [expr int(rand()*255)]
+	    set total [expr $r + $g + $b]
+	    if {$total>400} {
+		set darken [expr (400-$total)/3]
+		set r [expr $r+$darken]
+		set g [expr $g+$darken]
+		set b [expr $b+$darken]
+	    }
 	    set color [format "%02x%02x%02x" $r $g $b]
 	    plugins_log "Colorize" "new color: $color"
 	} else {
