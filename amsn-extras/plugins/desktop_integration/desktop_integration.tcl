@@ -136,7 +136,9 @@ namespace eval ::desktop_integration {
 	proc DeInit { } {
 		variable current_desktop
 		variable plugin_name 
-		variable loaded 
+		variable loaded
+		variable askagain		
+		variable config
 
 		variable renamed_choosefiledialog_proc
 		variable renamed_getsavefile_proc
@@ -161,6 +163,8 @@ namespace eval ::desktop_integration {
 		::config::setKey usesnack "$users_usesnack"
 		::config::setKey soundcommand "$users_soundcommand"
 		::config::setKey notifyYoffset "$users_notifyYoffset"
+		
+		set config(showsetupdialog) $askagain
 
 		plugins_log $plugin_name  "Restoring original TCL/TK dialogs\n"
 		
@@ -531,13 +535,20 @@ variable dialog_event_data
 
 
 	proc setup_dialog { } {
+		variable current_desktop
+		variable askagain
 			#ask to change desktop-integrated settings with an "ask this again?" option
 
 			#if we have permission from the user, set the best options, depending on the desktop he/she uses.
-			set_best_desktop_settings
-
-		#don't show the setup dialog anymore if the user didn't uncheck the "show this dialog again"
-#		set config(showsetupdialog) 0
+			set answer [::amsn::messageBox "Do you want the Desktop Integration plugin to change your aMSN configuration to fit best into your desktop ($current_desktop)?" yesno question]
+			if { $answer == "yes" } {
+				status_log "gonna make changes"
+				set_best_desktop_settings
+				set answer [::amsn::messageBox "The changes were made.  Do you want me to ask this question again next time you load the plugin? You can eventually reanable it in the plugin's configuration pane." yesno question]
+				if { $answer == "no" } {
+				set askagain 0
+				}
+			}
 	}
 
 			
