@@ -250,6 +250,7 @@ namespace eval ::amsn {
 		option add *Menu.font menufont
 
 		option add *selectColor #DD0000
+		option add *Photo.format cximage widgetDefault
 
 		if { ![catch {tk windowingsystem} wsystem] && $wsystem  == "x11" } {
 			option add *background [::skin::getKey menubackground]
@@ -2889,7 +2890,7 @@ namespace eval ::amsn {
 			}
 		}
 
-		update
+		#update
 
 		#Avoid problems if the windows was closed in the middle...
 		if {![winfo exists $win_name]} {
