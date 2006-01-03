@@ -11,7 +11,7 @@ function form($title = '', $text = '', $idn = 0) {
 <br />
 Convert your text to valid xhtml at: <a href="http://textism.com/tools/textile/index.html">http://textism.com/tools/textile/index.html</a> before posting.<br /><br /> <br />
 
-Create a link to the forums at: <a href="http://amsn.recordingground.com">http://amsn.recordingground.com</a> so that we may receive comments on each news item.<br /><br /> <br />
+Create a link to the forums at: <a href="http://amsnforums.net">http://amsnforums.net</a> so that we may receive comments on each news item.<br /><br /> <br />
 <form action="<?php echo htmlentities($_SERVER['REQUEST_URI']) ?>" method="post" id="form">
     <label for="title">Title:</label><input type="text" maxlength="150" name="title" id="title"<?php echo !empty($title) ? " value=\"$title\"" : '' ?> /><br />
     <label for="text">Text:</label><textarea rows="20" cols="50" name="text" id="text"><?php echo !empty($text) ? $text : '' ?></textarea><br />

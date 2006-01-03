@@ -20,7 +20,7 @@ Here is a list of people who are currently working or have worked in past on aMS
 <ul><li>
 <b>Please Help</b><br /><br />
 If you would like to contribute to this project, please leave a message on our forum at:
-<a href="http://amsn.recordingground.com/viewforum.php?f=8">http://amsn.recordingground.com/viewforum.php?f=8</a>
+<a href="http://amsnforums.net/viewforum.php?f=8">http://amsnforums.com/viewforum.php?f=8</a>
 <br /><br />
 If you would like to donate to the aMSN project, you can find more information about doing so, here: <a href="donations.php">donations</a>
 <br /></li></ul>

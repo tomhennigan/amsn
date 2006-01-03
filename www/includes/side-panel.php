@@ -85,14 +85,14 @@ $answers = mysql_query("SELECT id, answer FROM `amsn_poll_answers` WHERE id_fath
         <div class="block_right_content">
         <ul class="forums">
 
-          <li><b><a href="http://forums.cocoaforge.com/viewforum.php?f=14">Mac aMSN forum</a></b></li>
+          <li><b><a href="http://forums.cocoaforge.com/viewforum.php?f=14">Mac aMSN Forums</a></b></li>
           <li><br /></li>
 
-          <li><b><a href="http://amsn.recordingground.com">aMSN recordingground forum </a></b></li><li><br />
+          <li><b><a href="http://amsnforums.net">aMSN Forums</a></b></li><li><br />
 </li>
 <li style="text-align: center">&#8226; Recent Posts &#8226;<br /></li>
 <li>
-	      <script type="text/javascript" src="http://amsn.recordingground.com/syndicate-lastpost.php">
+	      <script type="text/javascript" src="http://amsnforums.net/syndicate-lastpost.php">
 	</script></li>
         </ul>
         </div>
