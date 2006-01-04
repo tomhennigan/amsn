@@ -16,7 +16,7 @@
 	<lang>
 		<langcode>eu</langcode>
 		<name>Basque (euskera)</name>
-		<version>1.34</version>
+		<version>1.35</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -64,7 +64,7 @@
 	<lang>
 		<langcode>da</langcode>
 		<name>Danish (dansk)</name>
-		<version>1.45</version>
+		<version>1.46</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -106,7 +106,7 @@
 	<lang>
 		<langcode>fr</langcode>
 		<name>French - France (français)</name>
-		<version>1.154</version>
+		<version>1.155</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -202,7 +202,7 @@
 	<lang>
 		<langcode>no</langcode>
 		<name>Norwegian (Norsk)</name>
-		<version>1.43</version>
+		<version>1.44</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -220,7 +220,7 @@
 	<lang>
 		<langcode>pt_BR</langcode>
 		<name>Portuguese - Brazil</name>
-		<version>1.27</version>
+		<version>1.28</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -256,7 +256,7 @@
 	<lang>
 		<langcode>es</langcode>
 		<name>Spanish (Español)</name>
-		<version>1.244</version>
+		<version>1.245</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -268,7 +268,7 @@
 	<lang>
 		<langcode>sv</langcode>
 		<name>Swedish (svenska)</name>
-		<version>1.10</version>
+		<version>1.11</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -292,7 +292,7 @@
 	<lang>
 		<langcode>va</langcode>
 		<name>Valencian (valencià)</name>
-		<version>1.40</version>
+		<version>1.41</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
