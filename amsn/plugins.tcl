@@ -1001,7 +1001,9 @@ namespace eval ::plugins {
 		set namespace [lindex [lindex $::plugins::found $pluginidx] 6]
 		set deinit [lindex [lindex $::plugins::found $pluginidx] 8]
 		if {[info procs "::${namespace}::${deinit}"] == "::${namespace}::${deinit}"} {
-			catch {::${namespace}::${deinit}}
+			if { [catch {::${namespace}::${deinit}} res] } {
+				plugins_log core "Error in deinit proc : $res"
+			}
 		}
 		if {[array exists ::${namespace}::config] == 1} {
 			array set ::${plugin}_cfg [array get ::${namespace}::config]

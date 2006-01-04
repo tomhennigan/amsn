@@ -57,12 +57,9 @@ int Tk_IsAnimated (ClientData clientData,
 
   InType = GetFileTypeFromFileName(In);
 
-  if(!image.Load(In, InType) ) {
-	
-    if(!image.Load(In, CXIMAGE_FORMAT_UNKNOWN)) {
-      Tcl_AppendResult(interp, image.GetLastError(), NULL);
-      return TCL_ERROR;
-    }
+  if(!LoadFromFile(interp, image, In, InType) ) {
+    Tcl_AppendResult(interp, image.GetLastError(), NULL);
+    return TCL_ERROR;
   }
   Tcl_SetObjResult( interp, Tcl_NewBooleanObj(image.GetNumFrames() > 1) );
   return TCL_OK;
@@ -96,12 +93,9 @@ int Tk_Convert (ClientData clientData,
   InType = GetFileTypeFromFileName(In);
   OutType = GetFileTypeFromFileName(Out);
 
-  if(!image.Load(In, InType) ) {
-	
-    if(!image.Load(In, CXIMAGE_FORMAT_UNKNOWN)) {
-      Tcl_AppendResult(interp, image.GetLastError(), NULL);
-      return TCL_ERROR;
-    }
+  if(!LoadFromFile(interp, image, In, InType) ) {
+    Tcl_AppendResult(interp, image.GetLastError(), NULL);
+    return TCL_ERROR;
   }
 
   if ( (OutType == CXIMAGE_FORMAT_UNKNOWN) || (image.GetNumFrames() > 1) )
@@ -110,18 +104,16 @@ int Tk_Convert (ClientData clientData,
   if (image.GetNumFrames() > 1){
     image.RetreiveAllFrame();
     image.SetFrame(image.GetNumFrames() - 1);
-    if(!image.Load(In, InType) ) {
-      if(!image.Load(In, CXIMAGE_FORMAT_UNKNOWN)) {
-        Tcl_AppendResult(interp, image.GetLastError(), NULL);
-        return TCL_ERROR;
-      }
+    if(!LoadFromFile(interp, image, In, InType) ) {
+      Tcl_AppendResult(interp, image.GetLastError(), NULL);
+      return TCL_ERROR;
     }
   }
 
   if (OutType == CXIMAGE_FORMAT_GIF) 
     image.DecreaseBpp(8, true);
 	
-  if (image.Save(Out, OutType)){
+  if (SaveToFile(interp, image, Out, OutType)){
     LOG("End of tk_convert");
     return TCL_OK;
   }
@@ -196,7 +188,7 @@ int Tk_Resize (ClientData clientData,
   if(alpha == 0 ) 
     image.AlphaDelete();
 
-  if(!image.Resample(width, height)) {
+  if(!image.Resample(width, height, 2)) {
     Tcl_AppendResult(interp, image.GetLastError(), NULL);
     return TCL_ERROR;
   }

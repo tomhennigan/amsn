@@ -11,14 +11,14 @@ set ::tkcximageloaded 0
 		if {$::tkcximageloaded} {
 			return 1
 		} else {
-			catch {package require TkCximage}
+			catch {package require TkCximage} err
 			#Fix a strange bug where sometimes package require TkCximage doesn't work
 			if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-				catch {load [file join utils macosx TkCximage TkCximage.dylib]}
+				catch {load [file join utils macosx TkCximage TkCximage.dylib]} err
 			} elseif { $tcl_platform(platform) == "windows"} {
-				catch {load [file join utils TkCximage TkCximage.dll]}
+				catch {load [file join utils TkCximage TkCximage.dll]} err
 			} else {
-				catch {load [file join utils TkCximage TkCximage.so]}
+				catch {load [file join utils TkCximage TkCximage.so]} err
 			}
 			
 			foreach lib [info loaded] {
@@ -28,7 +28,7 @@ set ::tkcximageloaded 0
 				} 
 			}
 		}
-	puts "Picture.tcl: TkCximage not loaded"
+	puts "Picture.tcl: TkCximage not loaded\n$err"
 	return 0
 	
 	}

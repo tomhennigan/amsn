@@ -120,6 +120,89 @@ int GetFileTypeFromFormat(char * Format) {
 
 }
 
+int LoadFromFile(Tcl_Interp * interp, CxImage image, char * fileName, int Type) {
+
+  Tcl_Obj *data = Tcl_NewObj();
+  Tcl_Channel chan = Tcl_OpenFileChannel(interp, fileName, "r", 0);
+  BYTE * FileData = NULL;
+  int length = 0;
+
+  if (chan == NULL)
+    return FALSE;
+
+
+  if (Type == CXIMAGE_FORMAT_UNKNOWN) {
+    Type = GetFileTypeFromFileName((char *)fileName);
+  }
+
+  if (Type == CXIMAGE_FORMAT_UNKNOWN) {
+    Type = CXIMAGE_FORMAT_GIF;
+  }
+
+  Tcl_SetChannelOption(interp, chan, "-encoding", "binary");
+  Tcl_SetChannelOption(interp, chan, "-translation", "binary");
+
+  Tcl_ReadChars(chan, data, -1, 0);
+
+  Tcl_Close(interp, chan);
+
+  FileData = Tcl_GetByteArrayFromObj(data, &length);
+
+
+  if (! image.Decode(FileData, length, Type) &&
+      ! image.Decode(FileData, length, CXIMAGE_FORMAT_GIF) &&
+      ! image.Decode(FileData, length, CXIMAGE_FORMAT_PNG) &&
+      ! image.Decode(FileData, length, CXIMAGE_FORMAT_JPG) &&
+      ! image.Decode(FileData, length, CXIMAGE_FORMAT_TGA) &&
+      ! image.Decode(FileData, length, CXIMAGE_FORMAT_BMP))
+    return FALSE;
+  else
+    return TRUE;
+  
+}
+
+
+int SaveToFile(Tcl_Interp * interp, CxImage image, char * fileName, int Type) {
+
+  Tcl_Channel chan = Tcl_OpenFileChannel(interp, fileName, "w", 0644);
+  BYTE * FileData = NULL;
+  long length = 0;
+
+  if (chan == NULL)
+    return FALSE;
+
+
+  if (Type == CXIMAGE_FORMAT_UNKNOWN) {
+    Type = GetFileTypeFromFileName((char *)fileName);
+  }
+
+  if (Type == CXIMAGE_FORMAT_UNKNOWN) {
+    Type = CXIMAGE_FORMAT_GIF;
+  }
+
+  Tcl_SetChannelOption(interp, chan, "-encoding", "binary");
+  Tcl_SetChannelOption(interp, chan, "-translation", "binary");
+
+
+  if (!image.Encode(FileData, length, Type) ) {
+    Tcl_AppendResult(interp, image.GetLastError(), NULL);
+    return TCL_ERROR;
+  }
+
+  Tcl_WriteObj(chan, Tcl_NewByteArrayObj(FileData, length));
+
+  image.FreeMemory(FileData);
+
+  Tcl_ResetResult(interp);
+
+  if (Tcl_Close(interp, chan) == TCL_ERROR)
+    return FALSE;
+  else
+    return TRUE;
+  
+}
+
+
 #if ANIMATE_GIFS
 /*
     Function to hook the TkImageDisplayProc of the photo image type.

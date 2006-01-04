@@ -69,29 +69,19 @@ struct data_item* TkCxImage_lstDeleteItem(list_element_type list_element_id) { /
 int ChanMatch (Tcl_Channel chan, CONST char *fileName, Tcl_Obj *format,int *widthPtr,
 		      int *heightPtr, Tcl_Interp *interp)
 {
-  CxImage image;
 
-  LOG("Chanel matching"); //
-  LOG("Filename is"); //
+  Tcl_Obj *data = Tcl_NewObj();
+  
+  Tcl_SetChannelOption(interp, chan, "-encoding", "binary");
+  Tcl_SetChannelOption(interp, chan, "-translation", "binary");
+  
+  Tcl_ReadChars(chan, data, -1, 0);
+  
+  LOG("Reading from file :"); //
   APPENDLOG(fileName); //
+  
+  return ObjMatch(data, format, widthPtr, heightPtr, interp);
 
-  // Set escape to -1 to prevent decoding the image, but just return it's width and height
-  //image.SetEscape(-1);
-
-  if (image.Load(fileName, CXIMAGE_FORMAT_UNKNOWN)) {
-    *widthPtr = image.GetWidth();
-    *heightPtr = image.GetHeight();
-
-    LOG("Supported Format"); //
-    LOG("Width :"); //
-    APPENDLOG(*widthPtr); //
-    LOG("Heigth :"); //
-    APPENDLOG(*heightPtr); //
-
-    return true;
-  }
-
-  return false;
 }
 
 
@@ -308,11 +298,13 @@ int ObjRead (Tcl_Interp *interp, Tcl_Obj *data, Tcl_Obj *format, Tk_PhotoHandle 
 
 int ChanWrite (Tcl_Interp *interp, CONST char *fileName, Tcl_Obj *format, Tk_PhotoImageBlock *blockPtr) {
 
-  CxImage image;
   int Type = CXIMAGE_FORMAT_UNKNOWN;
   char * cxFormat = NULL;
-  int alpha = 0;
-  BYTE * pixelPtr = NULL;
+  Tcl_Obj *data = NULL;
+  Tcl_Channel chan = Tcl_OpenFileChannel(interp, fileName, "w", 0644);
+
+  if (chan == NULL)
+    return TCL_ERROR;
 
   if (format) {
     cxFormat = Tcl_GetStringFromObj(format, NULL);
@@ -327,44 +319,27 @@ int ChanWrite (Tcl_Interp *interp, CONST char *fileName, Tcl_Obj *format, Tk_Pho
     Type = CXIMAGE_FORMAT_GIF;
   }
 
-  pixelPtr = (BYTE *) malloc(blockPtr->width * blockPtr->height * blockPtr->pixelSize);
 
-  if (RGB2BGR(blockPtr, pixelPtr)) {
-    alpha = 1;
-  }
-
-  if(!image.CreateFromArray(pixelPtr, blockPtr->width, blockPtr->height,
-			    8 * blockPtr->pixelSize, blockPtr->pitch, true))
-    {
-      free(pixelPtr);
-      Tcl_AppendResult(interp, image.GetLastError(), NULL);
-      return TCL_ERROR;
-    }
-
-  free(pixelPtr);
-  if (alpha == 0)
-    image.AlphaDelete();
-
-  if (Type == CXIMAGE_FORMAT_GIF)
-    image.DecreaseBpp(8, true);
-
-  if (!image.Save(fileName, Type)) {
-    Tcl_AppendResult(interp, image.GetLastError(), NULL);
+  if (DataWrite(interp, Type, blockPtr) == TCL_ERROR) {
     return TCL_ERROR;
   }
+  
+  data = Tcl_GetObjResult(interp);
 
-  return TCL_OK;
+  Tcl_SetChannelOption(interp, chan, "-encoding", "binary");
+  Tcl_SetChannelOption(interp, chan, "-translation", "binary");
+
+  Tcl_WriteObj(chan, data);
+    
+  Tcl_ResetResult(interp);
+
+  return Tcl_Close(interp, chan);
 }
 
 int StringWrite (Tcl_Interp *interp, Tcl_Obj *format, Tk_PhotoImageBlock *blockPtr) {
 
-  BYTE * buffer = NULL;
-  long size = 0;
   int Type = CXIMAGE_FORMAT_UNKNOWN;
   char * cxFormat = NULL;
-  BYTE * pixelPtr = NULL;
-  int alpha = 0;
-  CxImage image;
 
   if (format) {
     cxFormat = Tcl_GetStringFromObj(format, NULL);
@@ -374,6 +349,18 @@ int StringWrite (Tcl_Interp *interp, Tcl_Obj *format, Tk_PhotoImageBlock *blockP
   if (Type == CXIMAGE_FORMAT_UNKNOWN) {
     Type = CXIMAGE_FORMAT_GIF;
   }
+
+  return DataWrite(interp, Type, blockPtr);
+
+}
+
+int DataWrite (Tcl_Interp *interp, int Type, Tk_PhotoImageBlock *blockPtr) {
+
+  BYTE * buffer = NULL;
+  long size = 0;
+  BYTE * pixelPtr = NULL;
+  int alpha = 0;
+  CxImage image;
 
   pixelPtr = (BYTE *) malloc(blockPtr->width * blockPtr->height * blockPtr->pixelSize);
 
@@ -402,8 +389,7 @@ int StringWrite (Tcl_Interp *interp, Tcl_Obj *format, Tk_PhotoImageBlock *blockP
     return TCL_ERROR;
   }
 
-  Tcl_ResetResult(interp);
-  Tcl_AppendResult(interp, buffer);
+  Tcl_SetObjResult(interp, Tcl_NewByteArrayObj(buffer, size));
 
   image.FreeMemory(buffer);
 

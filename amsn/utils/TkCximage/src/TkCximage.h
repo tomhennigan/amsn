@@ -178,10 +178,13 @@ EXTERN int ObjRead (Tcl_Interp *interp, Tcl_Obj *data, Tcl_Obj *format, Tk_Photo
 					int destX, int destY, int width, int height, int srcX, int srcY);
 EXTERN int ChanWrite (Tcl_Interp *interp, CONST char *fileName, Tcl_Obj *format, Tk_PhotoImageBlock *blockPtr);
 EXTERN int StringWrite (Tcl_Interp *interp, Tcl_Obj *format, Tk_PhotoImageBlock *blockPtr);
-
+EXTERN int DataWrite (Tcl_Interp *interp, int Type, Tk_PhotoImageBlock *blockPtr);
 EXTERN int GetFileTypeFromFileName(char * Filename);
 EXTERN int GetFileTypeFromFormat(char * Format);
 EXTERN int RGB2BGR(Tk_PhotoImageBlock *data, BYTE * pixelPtr);
+
+EXTERN int LoadFromFile(Tcl_Interp *interp, CxImage image, char * fileName, int Type);
+EXTERN int SaveToFile(Tcl_Interp *interp, CxImage image, char * fileName, int Type);
 
 // External functions
 EXTERN int Tkcximage_Init _ANSI_ARGS_((Tcl_Interp *interp));
