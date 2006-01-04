@@ -2885,7 +2885,7 @@ namespace eval ::Event {
 		global list_cmdhnd password
 		set ret_trid [lindex $command 1]
 		set idx [lsearch $list_cmdhnd "$ret_trid *"]
-		if {$idx != -1} {		;# Command has a handler associated!
+		if {$idx != -1 && [lindex $command 0] != "LSG"} {		;# Command has a handler associated!
 			status_log "cmsn_ns_handler: evaluating handler for $ret_trid\n"
 
 			set cmd "[lindex [lindex $list_cmdhnd $idx] 1] [list $command]"
