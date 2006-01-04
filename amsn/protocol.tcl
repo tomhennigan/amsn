@@ -985,6 +985,9 @@ namespace eval ::MSN {
 		}
 		if { $curr_list == "RL" && [lsearch [::abook::getLists $username] "PL"] == -1 } {
 			newcontact $username $nickname
+		} elseif { $curr_list == "RL" && ( [lsearch [::abook::getLists $username] "AL"] != -1 || [lsearch [::abook::getLists $username] "BL"] != -1 ) } {
+			#Contact already in Allow List or Block List, so the notification window is useless, just silently remove from the PL:
+			::MSN::WriteSB ns "REM" "PL $username"
 		}
 		if { $curr_list == "FL" } {
 			status_log "Addition to FL"
@@ -3012,8 +3015,8 @@ namespace eval ::Event {
 		if { [lsearch $lists PL] != -1 } {
 			if { [lsearch [::abook::getLists $username] "AL"] != -1 || [lsearch [::abook::getLists $username] "BL"] != -1 } {
 				#We already added it we only move it from PL to RL
-				after 0 "vwait ::contactlist_loaded; ::MSN::WriteSB ns \"ADC\" \"RL N=$username\""
-				after 0 "vwait ::contactlist_loaded; ::MSN::WriteSB ns \"REM\" \"PL $username\""
+				#Just add to RL for now and let the handler remove it from PL... to be sure it's the correct order...
+				::MSN::WriteSB ns "ADC" "RL N=$username"
 			} else {
 				newcontact $username $nickname
 			}

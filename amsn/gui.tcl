@@ -6051,6 +6051,11 @@ proc newcontact_ok { w x0 x1 } {
 		} else {
 			::MSN::WriteSB ns "ADC" "BL N=$x0"
 		}
+		if { [lsearch [::abook::getLists $x0] PL] != -1 } {
+			#It is in the PL : move it to RL
+			::MSN::WriteSB ns "ADC" "RL N=$x0"
+			::MSN::WriteSB ns "REM" "PL $x0"
+		}
 	} else {
 		if {$newc_allow_block == "1"} {
 			::MSN::WriteSB ns "ADD" "AL $x0 [urlencode $x1]"
