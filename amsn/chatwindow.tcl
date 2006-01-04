@@ -2180,10 +2180,10 @@ namespace eval ::ChatWindow {
 			set currentmedia [parseCurrentMedia [::abook::getVolatileData $user_login currentmedia]]
 
 	                if {$psm != ""} {
-	                        append psmmedia " $psm"
+	                        append psmmedia "$psm "
 	                }
 	                if {$currentmedia != ""} {
-	                        append psmmedia " $currentmedia"
+	                        append psmmedia "$currentmedia "
 	                }
 
 			if { $state_code == "" } {
