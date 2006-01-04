@@ -89,7 +89,7 @@ broughtby Traído para tí por los siguientes programadores
 browse Examinar
 browserexample ( \$url se sustituirá por la dirección). Ej: mozilla \$url
 browser Navegador
-bugerror Lo sentimos, pero hubo un error conectando a la Base de Datos de Fallos. Por favor verifique su coneccion a Internet.
+bugerror Lo sentimos, pero hubo un error conectando a la Base de Datos de Fallos. Por favor verifique su conexión a Internet.
 busy No disponible
 cachedpics $1 imágenes para mostrar almacenadas
 cagreement Acuerdo de confidencialidad
@@ -775,3 +775,4 @@ youblocked Has sido bloqueado
 yousay Dices
 youwant Quieres
 zoom Ampliación
+bugnocomment ¿Enviar sin un comentario?. Comentar un fallo nos ayuda a hacernos una idea de qué fue mal y así poder arreglarlo fácilmente.

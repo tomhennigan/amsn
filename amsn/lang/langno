@@ -69,7 +69,7 @@ away Borte
 awaymsg1 Spør etter borte-melding hver gang jeg går som "borte", "straks tilbake" eller "opptatt"
 awaymsg2 Aldri spør, bruk alltid borte-meldingen under
 baduserpass Feil brukernavn eller passord
-badwebcam Cannot display the webcam's image. Make sure your webcam is well plugged and installed.
+badwebcam Kan ikke vise webkameraets bilde. Forsikre deg om at webkameraet er satt i og installert.
 bgcolor Skift aMSNs bakgrunnsfarge
 blankdirect La stå tom for direkte tilkobling
 block Blokker
@@ -89,7 +89,7 @@ broughtby Gitt til deg av følgende utviklere
 browse Bla gjennom
 browserexample ( \$url vil bli erstattet med adressen). F.eks: mozilla \$url
 browser Nettleser
-bugerror Problem med å koble til feil-databasen. Sjekk internettilkoblinga di
+bugerror Problemer med å koble til feil-databasen. Sjekk internettilkoblingen din
 busy Opptatt
 cachedpics $1 lagrede bilder
 cagreement Konfidensiell Avtale
@@ -732,19 +732,19 @@ useryourself Du kan ikke snakke med deg selv
 usesnack Bruk Snack-biblioteket (Tcl's innebygde)
 verifyblocked Se etter folk som blokkerer deg
 version Versjon
-videoconversationrequest Du mottok ein videomøte-/konferanseinvitasjon (lyd og video for begge parter). aMSN støtter ikke dette, men du kan bruke vanleg webkamera.
+videoconversationrequest Du mottok en videomøte-/konferanseinvitasjon (lyd og video for begge parter). aMSN støtter ikke dette, men du kan bruke vanleg webkamera.
 viewcontactsby Vis kontakter med
 viewprofile Vis profil
 view Vis
 webcamcanceled Webkamerasamtalen med $1 har blitt avbrutt
-webcamclosebefcancel Dy mp avslutte alle webkamerasamtalene før du lukker vinduet
+webcamclosebefcancel Du må avslutte alle webkamerasamtalene før du lukker vinduet
 webcamconfigure Konfigurer Webkamera
 webcamextloaded Webcamsn-tillegg er lastet
 webcamextnotloaded Webcamsn-tillegg er ikke lastet. Du må kompilere det først.
 webcamfaq FAQ/hjelp for Webcam
 webcamhistory Se webkamera-samtalen
 webcaminvite $1 inviterte deg til å starte en webkameraøkt, men aMSN støtter ikke denne funksjonen
-webcaminvitereceived $1 har invitert deg til å startte en webkamera-samtale. Godtar du denne samtalen?
+webcaminvitereceived $1 har invitert deg til å starte en webkamera-samtale. Godtar du denne samtalen?
 webcamrejected $1 avslo invitasjonen til en webkamera-samtale
 webcamrequestreceive Sendte ønske om å motta webkamera
 webcamrequestsend Sendte ønske om å sende webkamera

@@ -450,7 +450,7 @@ natkeepalive Si vous êtes souvent déconnecté involontairement, activez cet optio
 needonline Vous êtes toujours déconnecté[e]!
 needwinico2 Winico05.dll doit figurer dans le dossier utilitaires/windows pour que l'intégration dans le dock fonctionne
 never Jamais
-new_ft_protocol Utiliser le nouveau protocol de téléchargement de fichiers (certains peuvent bugs subsistent)
+new_ft_protocol Utiliser le nouveau protocole de téléchargement de fichiers (certains bugs peuvent subsister)
 newmail $1 nouveaux messages
 newmailfolder $1 nouveaux messages dans les autres dossiers Hotmail
 newmailfrom Nouveau message de $1 ($2)
@@ -775,4 +775,3 @@ yoffset Position en Y
 youblocked Vous avez été bloqué
 yousay Vous avez dit
 youwant Vous voulez
-zoom Zoom

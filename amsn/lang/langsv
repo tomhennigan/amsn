@@ -38,7 +38,7 @@ allow_sms Låt användare kontakta mig på min mobila enhet
 allprofilesinuse Alla existerande profiler används för närvarande
 animatedemoticon Denna smiley är animerad
 animatedsmileys Aktivera animerade smileys
-animatenotify Animerat meddelandefönster
+animatenotify Animerad meddelanderuta
 appearance Utseende
 appearoff Osynlig
 areacode Riktnummer
@@ -46,24 +46,24 @@ aretyping $1 skriver ett meddelande
 askcontactwebcam att fråga efter din kontakts webbkamera, eller
 askeachtime Fråga varje gång
 asksendingyourwebcam för att be om att sända din egen webbkamera
-askwebcam Be denna användare att sända sin webbkamera
+askwebcam Be denna användare sända sin webbkamera
 avaccepted Videokonferens accepterad
 avcanceled Videokonferens avbruten
 avgotinvitation Fått inbjudan till videokonferens från $1
-avinitfailed Kunde inte starta ljud/video-plugin. Avbryter.
+avinitfailed Kunde inte starta ljud/video-plugin, avbryter.
 author Upphovsman
 autoaccepted Filöverföringen accepterades automatiskt
-autoacceptft Acceptera filer automatiskt.
-autoaway Visa som "inte vid datorn" efter
+autoacceptft Acceptera filöverföringar automatiskt.
+autoaway Visa som "Inte vid datorn" efter
 autocheckver Sök efter nya versioner av aMSN vid programstart
 autoconnect Automatisk inloggning
 autoconnect2 Logga in automatiskt när aMSN startas
 autodetectip Hämta information om IP-adress automatiskt
 autohotmaillog Automatisk inloggning på MSN Hotmail (krävs för e-postnotifiering)
-autoidle Sätt min status till "inte vid datorn" automatiskt.
+autoidle Sätt min status till "inaktiv" automatiskt.
 autoip Automatisk IP
 automessage Autosvar
-autonoact Visa som "inaktiv" efter
+autonoact Visa som "Inaktiv" efter
 avoidseen Tillåt inte att denna kontakt att se om jag är ansluten eller kontakta mig.
 away Inte vid datorn
 awaymsg1 Fråga om autosvarinställning varje gång jag sätter min status till "inte vid datorn"
@@ -76,12 +76,12 @@ block Blockera
 blocked Blockerad
 blockedyougroup Placera kontakter som blockerat dig i en separat grupp.
 blocking Blockering
-blockinter1 När din status är "tillgänglig", kontrollera var
+blockinter1 När din status är "Tillgänglig", kontrollera var
 blockinter2 sekund, annars kontrollera var:
 blockinter3 varje 
 blockinter4 sekunder.
 blocklist Blockeringslista (BL):
-blockmessage Dessa personer är anslutna och har blockerat dig:
+blockmessage Dessa personer är inloggade och har blockerat dig:
 blockusers Antal kontakter som ska kontrolleras samtidigt
 bouncedock Studsa aMSNs ikon i systemfältet när ett nytt meddelande har tagits emot
 brightness Ljusstyrka
@@ -90,6 +90,7 @@ browse Bläddra
 browser Webbläsare
 browserexample ( \$url byts ut mot URLen). Ex: firefox \$url
 bugerror Tyvärr, men det dök upp ett problem vid anslutandet till buggdatabasen. Var vänlig och kontrollera din internetuppkoppling.
+bugnocomment Skicka utan en kommentar? Om du kommenterar buggen hjälper du oss hitta vad som gick fel och fixa det enklare.
 busy Upptagen
 cachedpics $1 lagrade bilder
 cagreement Konfidentialitetsöverenskommelse
@@ -98,6 +99,8 @@ cannotdeleteprofile Kan inte ta bort profilen eftersom den verkar användas av en
 cantexec Kan inte köra $1. Vänligen kontrollera att inställningarna är korrekta
 cantloadonlineversion Kan inte ladda ner den uppdaterade språklistan
 cantremoveothers Kan inte ta bort "Övriga"-gruppen
+captureextloaded Tagningsutbyggnad -$1- laddad
+captureextnotloaded Tagningsutbygnad -$1- är inte laddad, du måste kompilera den först
 captureproperties Webbkamerans bildinställningar
 casesensitive Skilj på versaler och gemener
 cfgalarm Konfigurera kungörelser
@@ -106,8 +109,8 @@ change Ändra
 changecustomstate Byt till
 changedisplaypic Byt visningsbild
 changefont Teckensnitt
-changeglobnick Redigera globalt smeknamn
-changenick Redigera smeknamn
+changeglobnick Byt globalt smeknamn
+changenick Byt smeknamn
 changesize Ändra storlek
 changestate $1 byter status till $2
 changevideosettings Ändra videoinställningar
@@ -122,6 +125,7 @@ chatsmileys2 Visa 'Emoticons' och Smileys i konversationer
 checkblocking Se efter om kontakter blockerar dig kontinuerligt.
 checkemail Visa antal inkomna e-postmeddelanden i din inkorg i kontaktlistan.
 checkfilman Mottagna filer sparas i $1. Välj en filhanterare i programinställningarna för aMSN. Du hittar det under fliken "sökvägar".
+checkopenfilecommand Kontrollera inställningarna för "Öppna fil"
 checkingver Söker efter nya versioner...
 checkonfln Kontrollera om en användare blockerar dig då han/hon loggar ut
 checkver Sök efter ny version av aMSN
@@ -141,7 +145,7 @@ clearlog3 Ta bort
 clearwebcamlogs Töm webbkamerahistoriken
 clickhere Klicka här
 clicktoadd Klicka på Lägg till för att lägga till en ny anteckning
-clicktologin Klicka här för att ansluta
+clicktologin Klicka här för att logga in
 clientcaps Skicka x-clientcaps-paket till andra
 clientname Klientens namn
 close Stäng
@@ -165,10 +169,10 @@ confirmpurge Alla lagrade visningsbilder kommer att raderas, är du säker? (Dina 
 confirmrfl Är du säker på att du vill ta bort kontakten från denna grupp?
 connected Du är nu ansluten
 connectedwith Ansluten med $1
-connecterror Kunde inte ansluta
+connecterror Kunde inte ansluta till servern
 connecting Ansluter
 connection Anslutning
-connectionlost Ej ansluten. Kunde inte kommunicera med servern, vänligen logga in igen.
+connectionlost Ej ansluten: kunde inte kommunicera med servern
 contact Kontakt
 contactadded Har nu lagt till kontakten i kontaktlistan
 contactdoesnotexist Kunde inte finna kontakten, försök igen.
@@ -193,11 +197,13 @@ custnotifyoffline Informera mig när den här kontakten loggar ut
 custnotifyonline Informera mig när den här kontakten ansluter
 custnotifystatus Informera mig när den här kontakten ändrar sin status
 customcolor Egen färg
-custom_edit Ändra personlig smiley
+custom_edit Redigera personlig smiley
 custom_new Lägg till personlig smiley
 customnick Anpassat smeknamn
 customstyle Anpassat tema
 cut Klipp ut
+cutimagebox Välj vilken del av bilden du vill ha genom att flytta och byta storlek på markeringen
+cutimageboxreset Återställ markeringensstorlek\ntill:
 date Datum
 dateformat Ändra datumformat
 day Dag
@@ -245,13 +251,13 @@ download Ladda ner
 downloadingtls Laddar ner TLS från:\n $1
 edit Redigera
 editcontent Ändra innehållet i ämnes- och anteckningsfältet
-editcustomstate Redigera personlig status
+editcustomstate Byt personlig status
 editnewstate Nytt autosvarsmeddelande
 editprofile Redigera profil
 editstate Ändra det aktiva autosvarsmeddelandet
 editvalue Ändra värde
 email E-post
-emailsinlist Visa användarnamn (e-postadresser) istället för smeknamn i kontaktlistan
+emailsinlist Visa e-postadresser istället för smeknamn i kontaktlistan
 emoticon_steal Lägg till i emoticons
 emotisounds Spela upp ljud för vissa emoticons
 emptygroup Gruppen är tom
@@ -305,9 +311,10 @@ fullcontactlist Tyvärr är din kontaktlista full. Du måste ta bort några kontakte
 getdisppic Spara andras visningsbilder på disk
 getmoreplugins Skaffa fler plugins!
 getmoreskins Skaffa fler teman!
-globalnick Ange ett mönster för att namnge alla dina kontakter. Följande variabler är tillgängliga: \$userlogin för e-postadress, \$nick för smeknamn och \$customnick för anpassat namn. Till exempel: '\$user_login heter \$nick' blir 'pelle@msn.com heter Pelle Svanslös'
+globalnick Ange ett mönster för att namnge alla dina kontakter. Följande variabler är tillgängliga: \$userlogin för e-postadress, \$nick för smeknamn och \$customnick för anpassat smeknamn. Till exempel: '\$user_login heter \$nick' blir 'pelle@msn.com heter Pelle Svanslös'
+globalcontainer Global container
 globalnicktitle Globalt smeknamn
-globaloverride Globala smeknamnsmönster åsidosätter anpassade smeknamn
+globaloverride Globala smeknamn åsidosätter anpassade smeknamn
 gonelunch Är och äter
 gotink $1 skickade en ink.
 group Grupp
@@ -361,16 +368,16 @@ joins $1 har anslutit till konversationen
 justonce Endast en gång
 keepalive Stäng aldrig av förbindelse till NAT/Proxy server
 keeplog Spara konversationshistorik
-keeplog2 Spara alla konversaioner i aMSNs historik
+keeplog2 Spara alla konversationer i aMSNs historik
 language Språk
 language_manager Språkhanterare
 large Stor
 lastlogin Senast ansluten
 lastlogout Senaste utloggning
-lastmsgedme Senaste meddelande
+lastmsgedme Senaste meddelandet
 lastmsgtime Senaste meddelandet mottaget $1
 lastseen Senast ansluten
-lazypicretrieval Lugn visningsbildsinladdning
+lazypicretrieval Ladda visningsbilder först när en konversation öppnas
 lclosedwin $1 stängde $2 's fönster
 lconftopriv Konferensen blev privatkonversation med $1
 lconvstarted Konversation startad $1
@@ -386,7 +393,7 @@ listsmileys Visa smileys
 listsmileys2 Lista smileys
 ljoinedconf $1 anslöts till konversationen
 lleftconf $1 kom in i konversationen
-load Load maintenance Servern tas ned för underhåll om $1 minuter
+load Aktivera
 loadcontacts Ladda kontakter
 logbigger Enskilda loggfiler får inte bli större än
 logeventconnect Bokför anslutningar
@@ -416,9 +423,9 @@ maintenance Servern går ner för underhåll om $1 minuter
 maximised Maximerad
 minimised Minimerad
 mins minuter
-mobile Mobiltelefonnummer
+mobile Mobil
 mobilegrp1 Mobil grupp
-mobilegrp2 Sätt användarna i "mobil" grupp när de är utloggade
+mobilegrp2 Sätt användarna i "Mobil"-gruppen när de är utloggade
 modified Ändrad
 month Månad
 morepersonal Mer ->
@@ -441,8 +448,7 @@ myworkphone Mitt arbetstelefonnummer
 name Namn
 natip NAT IP
 natkeepalive Om du ofta blir utkastad bör du välja detta alternativ
-needonline Du är utloggad/är osynlig
-needwinico Behöver winico03.dll i plugins-mappen för att windowssystemfältsminimering ska fungera
+needonline Du är utloggad eller osynlig
 needwinico2 Behöver winico05.dll i utils/windows mappen för att windows traydocking skall fungera 
 never Aldrig
 new_ft_protocol Använd det nya filöverföringsprotokollet (en del buggar finns kvar)
@@ -490,14 +496,14 @@ notls MSN Protocol 9 kräver TLS-paketet. TLS verkar inte vara installerat på den
 nottabbed Vanliga fönster utan flikar
 nousersinsession Inga användare i konversationen
 nudge $1 söker din uppmärksamhet
-offline Ej ansluten
+offline Utloggad
 ok Ok
 onenewmail 1 nytt meddelande i inkorgen
 online Tillgänglig
 onlinehelp Onlinehjälp
 onphone Pratar i telefon
 opendir Öppna mappen
-openfile Öppna
+openfile Öppna fil
 openfilecommand Öppna fil-kommando
 openreceived Öppna mottagna filer-mappen
 options Alternativ
@@ -540,7 +546,7 @@ preflog1 Logg-inställningar
 preflogevent Händelsehistorik
 preflook aMSN Messenger utseende
 prefmsging Meddelandeutseende
-prefname Mitt aMSN Smeknamn
+prefname Mitt aMSN-smeknamn
 prefphone Telefonnummer
 prefphone2 Skriv de nummer de som du satt\nsom anförtrodda ska kunna se
 prefprivacy Förtroendelista
@@ -599,7 +605,7 @@ savetofile Spara som fil
 says $1 säger
 sbcon Ansluter till uppslagsserver
 selectall Markera alla
-selectplugins Välj de insticksprogram som du vill använda
+selectplugins Välj de plugins du vill använda
 selectskin Välj ett tema från listan
 send Skicka
 sendemail Skicka min e-postadress för att underrätta mig när något ändras
@@ -710,10 +716,10 @@ twonewmail $1 nya meddelanden i inkorgen
 type Typ
 unblock Ta bort blockering
 unknown Okänd
-unload Ladda ur
+unload Deaktivera
 unselectall Avmarkera alla
-uoffline Ej anslutna
-uonline Anslutna
+uoffline Utloggade
+uonline Inloggade
 update Uppdatera
 updateonlycurrentlanguage Uppdatera bara det nuvarande språket
 updating Uppdaterar

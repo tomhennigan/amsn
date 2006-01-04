@@ -581,7 +581,7 @@ readonlywarn ADVARSEL: Filen vil sandsynligvis IKKE blive gemt korrekt, da "Modt
 receivedbytes Modtaget $1 ud af $2 bytes
 receiveddir "Modtagne Filer"-mappe
 receivefile Modtag fil
-recentmsg Forhindr lukning af chatvindue når en besked lige er ankommet
+recentmsg Forhindre lukning af chatvindue når en besked lige er ankommet
 reconnect Venter på at $1 genforbinder
 reconnect2 Forbind igen ved tabt forbindelse
 reconnecting Genforbinder til server

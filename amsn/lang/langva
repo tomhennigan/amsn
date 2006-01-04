@@ -43,7 +43,9 @@ appearance Apariència
 appearoff Sense connexió
 areacode Codi d'àrea
 aretyping $1 està escrivint un missatge
+askcontactwebcam per demanar webcam al teu contacte o
 askeachtime Pregunta cada vegada
+asksendingyourwebcam per demanar enviar la teua webcam
 askwebcam Preguta a este usuari per vore la seua webcam
 author Autor
 autoaccepted Transferència de fitxers acceptada automàticament
@@ -140,6 +142,7 @@ clearlog2 Netejar l'historial per a tots els contactes
 clearlog3 Netejar tots els registres
 clearlog Netejar historial
 clearwebcamlogs Netejar tots els logs de webcam
+clickhere Clic Ací
 clicktoadd Fes clic en Afegir per a crear una nova nota
 clicktologin Fes click ací per a iniciar la sessió
 clientcaps Enviar paquets x-clientcaps a altres clients
@@ -247,6 +250,7 @@ download Descarrega
 downloadingtls Descarregant modul TLS des de: \n $1
 editcustomstate Editar estat personalitzat
 edit Editar
+editcontent Edita el contingut del camp assumpte i del camp nota
 editnewstate Nou missatge automàtic personal d'estat
 editprofile Editar Perfil
 editstate Editar un missatge automàtic d'estat existent
@@ -304,6 +308,8 @@ ftrejected Transferència d'arxiu denegada
 ftsendinvitation La invitació per a transferir el fitxer '$2' ($3 bytes) s'ha enviat a $1.
 fullcontactlist La seua llista de contactes està plena. Necessitarà eliminar algun contacte per a poder afegir-ne nous.
 getdisppic Activar l'opció de rebre Imatges de Mostra d'altres usuaris
+getmoreskins Descarrega més skins!
+getmoreplugins Descarrega més plugins!
 globalcontainer Contenidor global
 globalnick Introduix un patró per crear els mots dels teus contactes. Pots utilitzar estes variables: \$user_login per l'adreça del teu contacte, \$nick pel mot i \$customnick pel nom personalitzat. Per exemple: '\$user_login és \$nick' serà 'contacte@msn.com és Contacte'
 globalnicktitle Mot global
@@ -586,6 +592,7 @@ rename Canviar nom
 report Informe
 reporting Informant
 required_version No és possible carregar este plugin. Necessita, almenys l'aMSN versió $1
+restartforskin Nota: podries necessitar reiniciar aMSN per vore el skin correctament!
 reversed Invertit
 reverselist Llista Inversa (LI):
 rightback Ara torne
@@ -648,6 +655,7 @@ sngdblclick Només un click per obrir una nova finestra de conversa
 sslwarning ATENCIÓ!! Desactivar SSL desactivarà l'encriptació, en eixe cas la teua contrasenya s'enviarà en text pla per la xarxa (sense protecció). Millor només en proxies i xarxes molt estrictes.
 startoffline2 Connectarse sigilosament aparentant "Desconnectat"
 startoffline Inicia en l'estat "Simula desconnexió"
+startonboot Iniciar l'aMSN quan s'inicie el Windows
 startontray Iniciar AMSN només amb el icó de la safata del sistema
 stateautomsg Missatge automàtic a enviar
 statechange estat canviat a:
@@ -727,6 +735,7 @@ useryourself No pots conversar amb tu mateixa
 usesnack Utilitzar la llibreria Snack (Tcl intern)
 verifyblocked Comprovar la gent que et bloqueja
 version Versió
+videoconversationrequest Acabes de rebre una invitació de video-conversa (audio i video bidireccionals). Esta funció no està suportada per aMSN i ha estat cancel·lada. De totes formes, encara pots emprar la conversa per webcam estàndard.
 viewprofile Vore perfil
 viewcontactsby Mostra els contactes per
 view Vore
