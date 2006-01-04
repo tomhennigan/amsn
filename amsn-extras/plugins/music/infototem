@@ -1,3 +1,4 @@
+#! /bin/sh
 #Thanks to Dennis "dweazle" Krul for the bash-magic
 if [[ $(pidof -s totem) -gt 0 ]]
 then

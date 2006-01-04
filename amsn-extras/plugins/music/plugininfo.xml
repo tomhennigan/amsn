@@ -9,11 +9,11 @@
 	<plugin_namespace>music</plugin_namespace>
 	<init_procedure>InitPlugin</init_procedure>
 	<deinit_procedure>DeInit</deinit_procedure>
-	<cvs_version>1.22</cvs_version>
+	<cvs_version>1.24</cvs_version>
 
 	<lang>
 		<langcode>en</langcode>
-		<version>1.6</version>
+		<version>1.7</version>
 	</lang>
 
 	<lang>

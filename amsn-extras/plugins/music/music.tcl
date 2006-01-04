@@ -341,7 +341,7 @@ namespace eval ::music {
 	# Use with after to make it asynchronous            #
 	#####################################################
 	proc exec_async {path} {
-		if { [catch { exec $path} result ] } {
+		if { [catch { eval [concat [list "exec"] $path]} result ] } {
 			::music::log "Error retreiving song : $result"
 		} else {
 			set ::music::actualsong $result
@@ -431,7 +431,7 @@ namespace eval ::music {
 	###############################################
 	proc TreatSongAmarok {} {
 		#Grab the information asynchronously : thanks to Tjikkun
-		after 0 {::music::exec_async [file join $::music::musicpluginpath "infoamarok"]}
+		after 0 {::music::exec_async [list "sh" [file join $::music::musicpluginpath "infoamarok"]] }
 		return 0
 	}
 
@@ -480,7 +480,7 @@ namespace eval ::music {
 	###############################################
 	proc TreatSongTotem {} {
 		#Grab the information asynchronously : thanks to Tjikkun
-		after 0 {::music::exec_async [file join $::music::musicpluginpath "infototem"]}
+		after 0 {::music::exec_async [list "sh" [file join $::music::musicpluginpath "infototem"]]}
 		return 0
 	}
 
@@ -574,7 +574,7 @@ namespace eval ::music {
 	###############################################
 	proc TreatSongWinamp {} {
 		#Grab the information asynchronously : thanks to Tjikkun
-		after 0 {::music::exec_async [file join $::music::musicpluginpath "MusicWA.exe"]}
+		after 0 {::music::exec_async [list [file join $::music::musicpluginpath "MusicWA.exe"]]}
 		return 0
 	}
 

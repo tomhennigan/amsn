@@ -3,7 +3,7 @@ musicaddsongtonick Add song to the nickname
 musicaddsongtopsm Add song to the personal message
 musictimeverify Verify new song each ? seconds
 musicnickname Nickname
-musicseparator Symbol betwen nick and song
+musicseparator Symbol between nick and song
 musicstopmsg Stopped message
 musiccurrent Display current song
 musicsend Send current song
