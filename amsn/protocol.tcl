@@ -1270,12 +1270,7 @@ namespace eval ::MSN {
 		}
 		if { [::config::getKey protocol ] == 11 } {
 			set contactguid [::abook::getContactData $passport contactguid]
-			set atrid [::MSN::WriteSB ns "ADC" "FL C=$contactguid $newGid"]
-			if { $oldGid != "0" } {
-				set rtrid [::MSN::WriteSB ns "REM" "FL $contactguid $oldGid"]
-			} else {
-				::abook::removeContactFromGroup $passport "0"
-			}
+			set atrid [::MSN::WriteSB ns "ADC" "FL C=$contactguid $newGid" "::MSN::MOVHandler $oldGid $contactguid $passport" ]
 		} else {
 			set atrid [::MSN::WriteSB ns "ADD" "FL $passport [urlencode $userName] $newGid"]
 			set rtrid [::MSN::WriteSB ns "REM" "FL $passport $oldGid"]
@@ -1362,6 +1357,16 @@ namespace eval ::MSN {
 
 		cmsn_ns_handler $item
 	}
+
+	proc MOVHandler { oldGid contactguid passport item } {
+			::MSN::GotADCResponse $item
+                        if { $oldGid != "0" } {
+                                set rtrid [::MSN::WriteSB ns "REM" "FL $contactguid $oldGid"]
+                        } else {
+                                ::abook::removeContactFromGroup $passport "0"
+                        }
+	}
+
 
 	#Delete user (from a given group $grID, or from all groups)
 	proc deleteUser { userlogin {grId ""}} {
