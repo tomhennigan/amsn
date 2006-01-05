@@ -1265,6 +1265,9 @@ namespace eval ::MSN {
 		if { $userName == "" } {
 			set userName $passport
 		}
+		if { $oldGid == $newGid } {
+			return
+		}
 		if { [::config::getKey protocol ] == 11 } {
 			set contactguid [::abook::getContactData $passport contactguid]
 			set atrid [::MSN::WriteSB ns "ADC" "FL C=$contactguid $newGid"]
