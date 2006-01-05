@@ -149,6 +149,9 @@ in doubt, send the entire file.
 Keys sent in the body of the email will be ignored, due to character
 coding and line break issues.
 
+If you are sending a new file, or you have changed the encoding of the
+translated file, don't forget to tell us!
+
 You can help us by translating some sentences to your language,
 or modifying wrongly translated sentences (proofreading).
 
@@ -176,6 +179,14 @@ values.
 -Every key must be in a single line. There should be no line breaks.
 The key name (first word on the line), and the translation must be
 separated by a single blank. Don't use Tabs.
+-Keep the current encoding unless you have a good reason to change it.
+You can probably find the the file encoding using the unix 'file' command,
+or just by checking the 'langlist' file in the amsn folder. Use
+a text editor that supports that encoding. If for some reason, you
+change the encoding (for example, you decide to go for utf-8 instead of
+iso8859-1 for spanish), please DON'T FORGET to tell us the new encoding
+when sending your updated translation.
+
 When in doubt, ask! (amsn-lang@lists.sourceforge.net)
 
 4. Check the translated file with one of the scripts provided 
@@ -200,6 +211,8 @@ ATTACHED to de email message. Only in special cases we will accept
 diff files or incumplete translation files with a few keys.
 -As stated above, keys sent in the body of the email will be
 IGNORED and DISCARDED.
+-If you changed the file encoding, please TELL US THE NEW encoding you used,
+in order to change it in the langlist file.
 -Langfiles sent to other email addresses than
 amsn-translations@lists.sourceforge.net will also be IGNORED and
 DISCARDED. When in doubt, ask!
@@ -271,9 +284,17 @@ chosen. Remember that, for some languages, the ISO code has three
 
 4. Translate the whole file, except for the first word of each line
 (that is the key). Do not use <TAB> characters in the translated
-files, only spaces are allowed. Tabs break aMSN.
+files, only spaces are allowed. Tabs break aMSN. Make sure you choose
+a good encoding for your language, and you use a good editor that
+supports that encoding. A good choice is to use UTF-8, an unicode
+encoding that supports all languages.
 
-5. TEST THE FILE. Use the new file in your local aMSN before
+5. Add the language to the 'langlist' file in the amsn folder
+(it's an XML file). Make sure you set the correct encoding in
+'langlist', the same that you used when writing the file. Put
+your langXX translation file in lang/ folder in AMSN.
+
+6. TEST THE FILE. Use the new file in your local aMSN before
 sending. Go through every menu and every dialog box. Assure that
 all messages have the proper size. If you don't know how to do it,
 ask for help on the amsn-lang list. Also use the scripts provided in 
@@ -281,14 +302,17 @@ the lang/ folder to check for errors in the translation. There is a
 description of these scripts in section 3 of this document.
 When in doubt, ask! (amsn-lang@lists.sourceforge.net)
 
-6. Only after testing for one or two days, send the new file to
+7. Only after testing for one or two days, send the new file to
 
     amsn-translations@lists.sourceforge.net
 
 Send to this email only! Submissions to other emails will be ignored
-and discarded.
+and discarded. Don't forget to tell us the language name (official "english"
+name, and "local" name), and the encoding you have used. It can be
+hard for the translation managerthe translation managerss to guess
+the encoding!
 
-7. When in doubt, ask! (amsn-lang@lists.sourceforge.net)
+8. When in doubt, ask! (amsn-lang@lists.sourceforge.net)
 
 ===========================
 2. For Translation Managers
@@ -306,7 +330,7 @@ Do this before commiting the file and only commit it if it's ok!
 If the file has any problems, the best thing to do is to return it to 
 the translator and ask him to correct it. If you really need to edit a 
 file (for whatever reason) be sure you use a multilanguage editor and 
-also use de correct codepage for each language --- or you can corrupt it.
+also use the correct encoding for each language --- or you can corrupt it.
 Encodings are in langlist file (msn/langlist). This file is XML-formatted 
 so it must be easy to understand.
 
