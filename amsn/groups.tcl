@@ -1,5 +1,5 @@
 #	Group Administration
-#	by: Dídimo Emilio Grimaldo Tuñón
+#	by: Dï¿½imo Emilio Grimaldo Tuï¿½n
 # $Id$
 #=======================================================================
 # TODO LIST
@@ -263,10 +263,16 @@ namespace eval ::groups {
 		#variable groups
 		array set groups [::abook::getContactData contactlist groups]
 	
-		set trid [lindex $pdu 1]
-		set lmod [lindex $pdu 2]
-		set gid  [lindex $pdu 3]
-		set gname [urldecode [lindex $pdu 4]]
+		if { [::config::getKey protocol] == 11 } {
+			set trid [lindex $pdu 1]
+			set gid  [lindex $pdu 2]
+			set gname [urldecode [lindex $pdu 3]]
+		} else {
+			set trid [lindex $pdu 1]
+			set lmod [lindex $pdu 2]
+			set gid  [lindex $pdu 3]
+			set gname [urldecode [lindex $pdu 4]]
+		}
 	
 		set groups($gid) $gname
 	
@@ -282,9 +288,14 @@ namespace eval ::groups {
 		variable uMemberCnt_online
 		array set groups [abook::getContactData contactlist groups]
 		
-		set trid [lindex $pdu 1]
-		set lmod [lindex $pdu 2]
-		set gid  [lindex $pdu 3]
+		if { [::config::getKey protocol] == 11 } {
+			set trid [lindex $pdu 1]
+			set gid  [lindex $pdu 2]
+		} else {
+			set trid [lindex $pdu 1]
+			set lmod [lindex $pdu 2]
+			set gid  [lindex $pdu 3]
+		}
 	
 		# Update our local information
 		unset groups($gid)
@@ -300,17 +311,23 @@ namespace eval ::groups {
 		::groups::updateMenu menu .group_list_rename ::groups::menuCmdRename
 	}
 
-	proc AddCB {pdu} {	# ADG 23 12064 New%20Group 15 =?Ñ?-CC
+	proc AddCB {pdu} {	# ADG 23 12064 New%20Group 15 =?ï¿½-CC
 		#variable groups
 		variable uMemberCnt
 		variable uMemberCnt_online
 		variable bShowing
 		array set groups [abook::getContactData contactlist groups]
-	
-		set trid [lindex $pdu 1]
-		set lmod [lindex $pdu 2]
-		set gname [urldecode [lindex $pdu 3]]
-		set gid  [lindex $pdu 4]
+
+		if { [::config::getKey protocol] == 11 } {
+			set trid [lindex $pdu 1]
+			set gname [urldecode [lindex $pdu 2]]
+			set gid  [lindex $pdu 3]
+		} else {
+			set trid [lindex $pdu 1]
+			set lmod [lindex $pdu 2]
+			set gname [urldecode [lindex $pdu 3]]
+			set gid  [lindex $pdu 4]
+		}
 	
 		set groups($gid) $gname
 		set uMemberCnt($gid) 0
