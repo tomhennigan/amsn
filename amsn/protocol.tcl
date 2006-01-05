@@ -1270,6 +1270,8 @@ namespace eval ::MSN {
 			set atrid [::MSN::WriteSB ns "ADC" "FL C=$contactguid $newGid"]
 			if { $oldGid != "0" } {
 				set rtrid [::MSN::WriteSB ns "REM" "FL $contactguid $oldGid"]
+			} else {
+				::abook::removeContactFromGroup $passport "0"
 			}
 		} else {
 			set atrid [::MSN::WriteSB ns "ADD" "FL $passport [urlencode $userName] $newGid"]
