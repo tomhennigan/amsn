@@ -183,8 +183,8 @@ EXTERN int GetFileTypeFromFileName(char * Filename);
 EXTERN int GetFileTypeFromFormat(char * Format);
 EXTERN int RGB2BGR(Tk_PhotoImageBlock *data, BYTE * pixelPtr);
 
-EXTERN int LoadFromFile(Tcl_Interp *interp, CxImage image, char * fileName, int Type);
-EXTERN int SaveToFile(Tcl_Interp *interp, CxImage image, char * fileName, int Type);
+EXTERN int LoadFromFile(Tcl_Interp *interp, CxImage * image, char * fileName, int Type);
+EXTERN int SaveToFile(Tcl_Interp *interp, CxImage * image, char * fileName, int Type);
 
 // External functions
 EXTERN int Tkcximage_Init _ANSI_ARGS_((Tcl_Interp *interp));

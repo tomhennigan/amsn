@@ -120,7 +120,7 @@ int GetFileTypeFromFormat(char * Format) {
 
 }
 
-int LoadFromFile(Tcl_Interp * interp, CxImage image, char * fileName, int Type) {
+int LoadFromFile(Tcl_Interp * interp, CxImage * image, char * fileName, int Type) {
 
   Tcl_Obj *data = Tcl_NewObj();
   Tcl_Channel chan = Tcl_OpenFileChannel(interp, fileName, "r", 0);
@@ -149,12 +149,12 @@ int LoadFromFile(Tcl_Interp * interp, CxImage image, char * fileName, int Type) 
   FileData = Tcl_GetByteArrayFromObj(data, &length);
 
 
-  if (! image.Decode(FileData, length, Type) &&
-      ! image.Decode(FileData, length, CXIMAGE_FORMAT_GIF) &&
-      ! image.Decode(FileData, length, CXIMAGE_FORMAT_PNG) &&
-      ! image.Decode(FileData, length, CXIMAGE_FORMAT_JPG) &&
-      ! image.Decode(FileData, length, CXIMAGE_FORMAT_TGA) &&
-      ! image.Decode(FileData, length, CXIMAGE_FORMAT_BMP))
+  if (! image->Decode(FileData, length, Type) &&
+      ! image->Decode(FileData, length, CXIMAGE_FORMAT_GIF) &&
+      ! image->Decode(FileData, length, CXIMAGE_FORMAT_PNG) &&
+      ! image->Decode(FileData, length, CXIMAGE_FORMAT_JPG) &&
+      ! image->Decode(FileData, length, CXIMAGE_FORMAT_TGA) &&
+      ! image->Decode(FileData, length, CXIMAGE_FORMAT_BMP))
     return FALSE;
   else
     return TRUE;
@@ -162,7 +162,7 @@ int LoadFromFile(Tcl_Interp * interp, CxImage image, char * fileName, int Type) 
 }
 
 
-int SaveToFile(Tcl_Interp * interp, CxImage image, char * fileName, int Type) {
+int SaveToFile(Tcl_Interp * interp, CxImage * image, char * fileName, int Type) {
 
   Tcl_Channel chan = Tcl_OpenFileChannel(interp, fileName, "w", 0644);
   BYTE * FileData = NULL;
@@ -184,14 +184,14 @@ int SaveToFile(Tcl_Interp * interp, CxImage image, char * fileName, int Type) {
   Tcl_SetChannelOption(interp, chan, "-translation", "binary");
 
 
-  if (!image.Encode(FileData, length, Type) ) {
-    Tcl_AppendResult(interp, image.GetLastError(), NULL);
+  if (!image->Encode(FileData, length, Type) ) {
+    Tcl_AppendResult(interp, image->GetLastError(), NULL);
     return TCL_ERROR;
   }
 
   Tcl_WriteObj(chan, Tcl_NewByteArrayObj(FileData, length));
 
-  image.FreeMemory(FileData);
+  image->FreeMemory(FileData);
 
   Tcl_ResetResult(interp);
 

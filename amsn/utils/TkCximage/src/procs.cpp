@@ -57,7 +57,7 @@ int Tk_IsAnimated (ClientData clientData,
 
   InType = GetFileTypeFromFileName(In);
 
-  if(!LoadFromFile(interp, image, In, InType) ) {
+  if(!LoadFromFile(interp, &image, In, InType) ) {
     Tcl_AppendResult(interp, image.GetLastError(), NULL);
     return TCL_ERROR;
   }
@@ -93,7 +93,7 @@ int Tk_Convert (ClientData clientData,
   InType = GetFileTypeFromFileName(In);
   OutType = GetFileTypeFromFileName(Out);
 
-  if(!LoadFromFile(interp, image, In, InType) ) {
+  if(!LoadFromFile(interp, &image, In, InType) ) {
     Tcl_AppendResult(interp, image.GetLastError(), NULL);
     return TCL_ERROR;
   }
@@ -104,7 +104,7 @@ int Tk_Convert (ClientData clientData,
   if (image.GetNumFrames() > 1){
     image.RetreiveAllFrame();
     image.SetFrame(image.GetNumFrames() - 1);
-    if(!LoadFromFile(interp, image, In, InType) ) {
+    if(!LoadFromFile(interp, &image, In, InType) ) {
       Tcl_AppendResult(interp, image.GetLastError(), NULL);
       return TCL_ERROR;
     }
@@ -113,7 +113,7 @@ int Tk_Convert (ClientData clientData,
   if (OutType == CXIMAGE_FORMAT_GIF) 
     image.DecreaseBpp(8, true);
 	
-  if (SaveToFile(interp, image, Out, OutType)){
+  if (SaveToFile(interp, &image, Out, OutType)){
     LOG("End of tk_convert");
     return TCL_OK;
   }
