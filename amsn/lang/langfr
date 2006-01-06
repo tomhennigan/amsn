@@ -90,6 +90,7 @@ browse Parcourir
 browserexample (\$url sera remplacée par l'URL) Ex: mozilla \$url
 browser Navigateur web
 bugerror Nous sommes désolés, mais il y a eu un problème lors de la connexion à la base de données des bugs. Merci de véifier votre connexion internet.
+bugnocomment Envoyer sans commentaire ? Mettre des commentaires nous aide à mieux comprendre ce qui c'est passé et donc résoudre le problème plus facilement.
 busy Occupé[e]
 cachedpics $1 icônes masquées
 cagreement Déclaration de confidentialité
@@ -684,7 +685,6 @@ tabbedglobal Une fenêtre à onglets pour tous les contacts se trouvant dans votre
 tabbedgroups Une fenêtre à onglets pour tous les contacts se trouvant dans un même groupe
 tabbed Onglets
 tabtitlenick Afficher, dans les onglets, le pseudonyme au lieu de l'email
-takesnapshot Prendre une photo
 temp_state Ne pas enregistrer (état temporaire, sera perdu à la fermeture d'aMSN)
 textsize Taille du texte
 thismonth Ce mois-ci
@@ -705,7 +705,6 @@ today Aujourd'hui
 tomobile Au mobile
 tools Outils
 tooltips Activer les info-bulles
-totalsize Taille totale
 transnotexists Le fichier demandé n'a pas encore été traduit dans votre langue.
 trayicon Afficher l'icone de l'état dans la barre de notification
 traynotcompiled Le plugiciel de l'icône de la corbeille n'est pas conforme. Sélectionnez plugiciel/ancrage de la corbeille
@@ -754,7 +753,6 @@ webcamrejected $1 a refusé l'invitation pour la conversation par webcam.
 webcamrequestsend Demander pour envoyer la webcam
 webcamrequestreceive Demander pour recevoir la webcam
 webcamsending Liste des personnes a qui vous envoyez votre webcam\nCliquez sur un nom pour annuler
-webcamshot Image de la webcam
 whatisamsn aMSN un clône de MSN Messenger fonctionnant sur diverses platformes telles que Linux, Windows, Mac OS X, *BSD ...
 willjoin Dans l'attente que $1 rejoigne la conversation
 winkreceived Vous avez reçu un 'clin d'oeil' provenant de $1. Cette fonctionnalité n'est pas encore supporté par aMSN.
@@ -775,3 +773,4 @@ yoffset Position en Y
 youblocked Vous avez été bloqué
 yousay Vous avez dit
 youwant Vous voulez
+zoom Zoomer
