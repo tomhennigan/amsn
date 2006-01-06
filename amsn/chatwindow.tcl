@@ -991,9 +991,16 @@ namespace eval ::ChatWindow {
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 			bind $w <Command-Option-h> \
 				"::amsn::ShowChatList \"[trans history]\" \[::ChatWindow::GetCurrentWindow $w\] ::log::OpenLogWin"
+			#Control-w for closing current tab not implemented on Mac (germinator)
+                        bind $w <Command-Next> "::ChatWindow::GoToNextTab $w"
+                        bind $w <Command-Prior> "::ChatWindow::GoToPrevTab $w"
+
 		} else {
 			bind $w <Control-h> \
 				"::amsn::ShowChatList \"[trans history]\" \[::ChatWindow::GetCurrentWindow $w\] ::log::OpenLogWin"
+			bind $w <Control-w> "::ChatWindow::CloseTab \[set ::ChatWindow::win2tab(\[::ChatWindow::GetCurrentWindow $w\])\]"
+			bind $w <Control-Next> "::ChatWindow::GoToNextTab $w"
+			bind $w <Control-Prior> "::ChatWindow::GoToPrevTab $w"
 		}
 
 		bind $w <<Escape>> "::ChatWindow::ContainerClose $w; break"
@@ -2031,6 +2038,54 @@ namespace eval ::ChatWindow {
 		return $frame
 
 	}
+
+        #///////////////////////////////////////////////////////////////////////////////
+        # ::ChatWindow::GoToPrevTab ( container )
+        # Used to switch to the next tab in a container. Called by the binding for the
+        # <ctrl>+<PageUp> key combination. The list of windows in the container is used to
+        # determine the next tab. ::ChatWindow::SwitchToTab is used for switching.
+        # Arguments:
+        # - container => The container window in which the current tab is located.
+        proc GoToPrevTab { container } {
+            set currentWin [::ChatWindow::getCurrentTab $container]
+            set windows [set ::ChatWindow::containerwindows($container)]
+            set tabPos [lsearch $windows $currentWin]
+
+            # If the current tab is the last go the the first, else go to the next.
+            if { $tabPos == 0 } {
+                set nextTab [expr [llength $windows] - 1]
+            } else {
+                set nextTab [expr $tabPos - 1]
+            }
+
+            SwitchToTab $container [lindex $windows $nextTab]
+        }
+        #///////////////////////////////////////////////////////////////////////////////
+
+
+        #///////////////////////////////////////////////////////////////////////////////
+        # ::ChatWindow::GoToNextTab ( container )
+        # Used to switch to the next tab in a container. Called by the binding for the
+        # <ctrl>+<pagedown> key combination. The list of windows in the container is used to
+        # determine the next tab. ::ChatWindow::SwitchToTab is used for switching.
+        # Arguments:
+        # - container => The container window in which the current tab is located.
+        proc GoToNextTab { container } {
+            set currentWin [::ChatWindow::getCurrentTab $container]
+            set windows [set ::ChatWindow::containerwindows($container)]
+            set tabPos [lsearch $windows $currentWin]
+
+            # If the current tab is the last go the the first, else go to the next.
+            if { $tabPos == [expr [llength $windows] - 1] } {
+                set nextTab 0
+            } else {
+                set nextTab [expr $tabPos + 1]
+            }
+
+            SwitchToTab $container [lindex $windows $nextTab]
+        }
+        #///////////////////////////////////////////////////////////////////////////////
+
 
 	#///////////////////////////////////////////////////////////////////////////////
 	# ::ChatWindow::ImageResized (win, height, padding)
