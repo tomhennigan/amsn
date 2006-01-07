@@ -90,6 +90,7 @@ browse Explorar
 browserexample ( \$url serà canviada per la URL). Ex: mozilla \$url
 browser Navegador
 bugerror Ho sentim, però hi ha hagut un problema en connectar a la base de dades d'errors. Per favor, comprova la teua connexió a la xarxa.
+bugnocomment Enviar sense cap comentari? Comentar un error ens ajuda a fer-nos una idea de què ha anat malament i d'esta manera poder arreglar-ho més fàcilment.
 busy No disponible
 cachedpics Imatges per a Mostrar emmagatzemades
 cagreement Acord de Confidencialitat
