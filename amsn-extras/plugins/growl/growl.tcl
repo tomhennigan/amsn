@@ -90,7 +90,7 @@ namespace eval ::growl {
 	#####################################################
 	proc LoadLangFiles {dir} {
 		if {![::growl::version_094]} {
-			set langdir [append dir "/lang"]
+			set langdir [file join $dir "lang"]
 			set lang [::config::getGlobalKey language]
 			#It's important to load the english file and then the current language lang file
 			load_lang en $langdir

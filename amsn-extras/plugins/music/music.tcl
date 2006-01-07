@@ -81,7 +81,7 @@ namespace eval ::music {
 	#####################################################
 	proc LoadLangFiles {dir} {
 		if {![::music::version_094]} {
-			set langdir [append dir "/lang"]
+			set langdir [file join $dir "lang"]
 			set lang [::config::getGlobalKey language]
 			load_lang en $langdir
 			load_lang $lang $langdir

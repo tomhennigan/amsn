@@ -23,7 +23,7 @@ namespace eval ::camshoot {
 		#Register the events to the plugin system
 		::plugins::RegisterEvent "Cam Shooter" xtra_choosepic_buttons CreateShootButton
 		
-		set langdir [append dir "/lang"]
+		set langdir [file join $dir "lang"]
 		set lang [::config::getGlobalKey language]
 		#It's important to load the english file and then the current language lang file
 		load_lang en $langdir

@@ -24,7 +24,7 @@ namespace eval ::amsnplus {
 		::config::setKey amsnpluspluginpath $dir
 		#loading lang - if version is 0.95b (keep compatibility with 0.94)
 		if {![::amsnplus::version_094]} {
-			set langdir [append dir "/lang"]
+			set langdir [file join $dir "lang"]
 			set lang [::config::getGlobalKey language]
 			load_lang en $langdir
 			load_lang $lang $langdir
