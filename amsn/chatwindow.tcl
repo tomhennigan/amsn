@@ -1516,7 +1516,11 @@ namespace eval ::ChatWindow {
 		
 		set paned $w.f
 		if { $::tcl_version >= 8.4 } {
-			panedwindow $paned -background [::skin::getKey chatwindowbg] -borderwidth 0 -relief flat -orient vertical ;#-opaqueresize true -showhandle false
+			panedwindow $paned \
+				-background [::skin::getKey chatwindowbg] \
+				-borderwidth 0 \
+				-relief flat \
+				-orient vertical
 		} else {
 			frame $paned -background [::skin::getKey chatwindowbg] -borderwidth 0 -relief flat 
 		}
@@ -1527,11 +1531,19 @@ namespace eval ::ChatWindow {
 			$paned add $output $input
 			$paned paneconfigure $output -minsize 50 -height 200
 			$paned paneconfigure $input -minsize 100 -height 120
-			$paned configure -showhandle [::skin::getKey chat_sash_showhandle] -sashpad [::skin::getKey chat_sash_pady]
+			$paned configure \
+				-showhandle [::skin::getKey chat_sash_showhandle] \
+				-sashpad [::skin::getKey chat_sash_pady] \
+				-sashwidth [::skin::getKey chat_sash_width] \
+				-sashrelief [::skin::getKey chat_sash_relief]
 		} else {
 			pack $output -expand true -fill both -padx 0 -pady 0
-			pack $input -side top -expand false -fill both -padx [::skin::getKey chat_input_padx]\
-			 -pady [::skin::getKey chat_input_pady]
+			pack $input \
+				-side top \
+				-expand false \
+				-fill both \
+				-padx [::skin::getKey chat_input_padx] \
+				-pady [::skin::getKey chat_input_pady]
 		}
 
 		# Bind on focus, so we always put the focus on the input window

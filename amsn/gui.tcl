@@ -98,6 +98,8 @@ if { $initialize_amsn == 1 } {
 	::skin::setKey chat_sendbutton_pady 0
 	::skin::setKey chat_status_padx 0
 	::skin::setKey chat_status_pady 0
+	::skin::setKey chat_sash_width 2
+	::skin::setKey chat_sash_relief raised
 	::skin::setKey chat_sash_showhandle 0
 	::skin::setKey chat_sash_pady 0
 

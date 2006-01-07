@@ -147,6 +147,8 @@
                         <tab_text_width>80</tab_text_width>
                         <tab_close_x>85</tab_close_x>
                         <tab_close_y>9</tab_close_y>
+			<chat_sash_relief>sunken</chat_sash_relief>
+			<chat_sash_width>2</chat_sash_width>
 		</Geometry>
 		
 		<Options>
