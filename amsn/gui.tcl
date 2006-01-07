@@ -98,8 +98,6 @@ if { $initialize_amsn == 1 } {
 	::skin::setKey chat_sendbutton_pady 0
 	::skin::setKey chat_status_padx 0
 	::skin::setKey chat_status_pady 0
-	::skin::setKey chat_sash_width 2
-	::skin::setKey chat_sash_relief raised
 	::skin::setKey chat_sash_showhandle 0
 	::skin::setKey chat_sash_pady 0
 
@@ -6850,6 +6848,27 @@ proc setColor {w button name options} {
 
 
 
+#given a string, this proc returns, as a list, the positions (first and end) of any URL in this string.
+proc urlParserString { str } {
+	set list2return [list]
+	set pos 0
+	set url_indices {}
+	#this regexp is a bit complex, but it reaches all URLs as specified in the RFC 1738 on http://www.ietf.org/rfc/rfc1738.txt
+	while { [regexp -start $pos -indices {(\w+)://([\/\$\*\~\,\!\'\#\.\@\+\-\=\?\;\:\^\&\_[:alnum:]]+)} $str url_indices ] } {
+		set pos [lindex $url_indices 1]
+		lappend list2return [lindex $url_indices 0] $pos
+	}
+	set pos 0
+	while { [regexp -start $pos -indices {www.([\/\$\*\~\,\!\'\#\.\@\+\-\=\?\;\:\^\&\_[:alnum:]]+)} $str url_indices ] } {
+		set pos [lindex $url_indices 1]
+		set pos_start [lindex $url_indices 0]
+		#check if the url was not found before
+		if { ![regexp :// [string range $str [expr $pos_start - 3] $pos ] ]} {
+			lappend list2return $pos_start $pos
+                }
+	}
+	return $list2return
+}
 
 
 #///////////////////////////////////////////////////////////////////////
@@ -6857,30 +6876,23 @@ proc show_umenu {user_login grId x y} {
 
 	set blocked [::MSN::userIsBlocked $user_login]
 	.user_menu delete 0 end
-	.user_menu add command -label "${user_login}" \
+	.user_menu add command -label "[trans copytoclipboard \"${user_login}\"]" \
 		-command "clipboard clear;clipboard append \"${user_login}\""
-	
-	set nick [::abook::getNick ${user_login}]
-	set pos 0
-	set url_indices {}
-	#this regexp is a bit complex, but it reaches all URLs as specified in the RFC 1738 on http://www.ietf.org/rfc/rfc1738.txt
-	while { [regexp -start $pos -indices {(\w+)://([\/\$\*\~\,\!\'\#\.\@\+\-\=\?\;\:\^\&\_[:alnum:]]+)} $nick url_indices ] } {
-		set pos_start [lindex $url_indices 0 ]
-		#pos is the position of the end of the url
-		set pos [lindex $url_indices 1 ]
-		set urltext [string range $nick $pos_start $pos]
-		.user_menu add command -label "$urltext" \
+		
+	#parse nick and PSM in the same time.
+	set nickpsm [::abook::getNick ${user_login}]
+	append nickpsm " " [::abook::getVolatileData $user_login PSM]
+	set url_indices [urlParserString "$nickpsm"]
+	for {set i 0} {$i<[llength $url_indices]} {incr i} {
+		set pos_start [lindex $url_indices $i ]
+		incr i
+		set pos [lindex $url_indices $i ]
+		set urltext [string range $nickpsm $pos_start $pos]
+		.user_menu add separator
+		.user_menu add command -label "[trans goto ${urltext} ] " \
 		-command "launch_browser [string map {% %%} [list $urltext]]"
-	}
-	set pos 0
-	while { [regexp -start $pos -indices {www.([\/\$\*\~\,\!\'\#\.\@\+\-\=\?\;\:\^\&\_[:alnum:]]+)} $nick url_indices ] } {
-		set pos_start [lindex $url_indices 0 ]
-		set pos [lindex $url_indices 1 ]
-		if { ![regexp :// [string range $nick [expr $pos_start - 3] $pos ] ]} {
-			set urltext [string range $nick $pos_start $pos]
-			.user_menu add command -label "$urltext" \
-			-command "launch_browser [string map {% %%} [list $urltext]]"
-		}
+		.user_menu add command -label "[trans copytoclipboard \"${urltext}\"]" \
+		-command "clipboard clear;clipboard append \"${urltext}\""
 	}
 
 	.user_menu add separator
