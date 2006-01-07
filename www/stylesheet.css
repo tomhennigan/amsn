@@ -386,57 +386,38 @@ ul.poll
 margin-top: 0px;
 }
 
-ul.help
+div.block_help, div.block_links, div.block_forums, div.block_language
 {
-  list-style: none;
-  margin: 0px 5px 0px 5px;
-  padding: 0px;
-  color: #3a3c4f
+  padding: 0px 10px 0px 10px;
+  color: #000;
+  text-align: center;
 }
 
-ul.links, ul.forums
-{
-  list-style: none;
-  margin: 0px 5px 0px 5px;
-  padding: 0px;
-  color: #000
-}
-
-
-
-ul.links a, ul.forums a
+div.links a, div.forums a
 {
   text-decoration: none;
   color: #666
 }
 
-ul.links a:hover, ul.forums a:hover
+div.links a:hover, div.forums a:hover
 {
   text-decoration: underline;
   color: #3a3c88
 }
 
-ul.links li
+div.links li
 {
   margin: 0px 0px 0px 0px
 }
 
-/*ul.language li
+div.language
 {
-  display: inline;
-  float: left;
-  margin: 0px 2px 0px 2px
-}*/
-
-ul.language
-{
-  list-style: none;
   margin: 0px 5px 4px 5px;
   padding: 1px 0px 1px 0px;
   color: #000
 }
 
-ul.language li
+div.language li
 {
   display: inline;
   float: left;

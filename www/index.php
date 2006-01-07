@@ -19,29 +19,28 @@ include inc . 'header.php';
 </div>
 
         <p>
-          <strong>aMSN</strong> is a free open source MSN Messenger clone, with features such as:
-        </p>
-          <ul>
-            <li>Display pictures</li>
-            <li>Custom emoticons</li>
-
-            <li>Multi-language support (around 40 languages currently supported)</li>
-            <li>Webcam support</li>
-            <li>Sign in to more than one account at once</li>
-            <li>Full-speed File transfers</li>
-            <li>Group support</li>
-            <li>Normal, and animated emoticons with sounds</li>
-            <li>Chat logs</li>
-            <li>Timestamping</li>
-            <li>Event alarms</li>
-            <li>Conferencing support</li>
-            <li>Tabbed chat windows</li>
-          </ul>
-          For a full list, see the <a href="features.php">features page</a>.
-          More features can be added to aMSN with <a href="plugins.php">plugins</a>, or completely change its look with different <a href="skins.php">skins</a>!<br /><br />
-
   <?php
-  switch(remoteOS()) {
+  echo trans('amsndescription');
+echo '</p>';
+echo '<ul>';
+echo '<li>'.trans('displaypics').'</li>';
+echo '<li>'.trans('customemoticons').'</li>';
+echo '<li>'.trans('multilangsupport').'</li>';
+echo '<li>'.trans('webcamsupport').'</li>';
+echo '<li>'.trans('signinwithmore').'</li>';
+echo '<li>'.trans('fastfiletransfers').'</li>';
+echo '<li>'.trans('groupsupport').'</li>';
+echo '<li>'.trans('animemoticons').'</li>';
+echo '<li>'.trans('chatlogs').'</li>';
+echo '<li>'.trans('timestamping').'</li>';
+echo '<li>'.trans('eventalarms').'</li>';
+echo '<li>'.trans('conferencingsupport').'</li>';
+echo '<li>'.trans('tabbedwindows').'</li>';
+echo '</ul>';
+echo trans('forfullfeatures','<a href="features.php">','</a>','<a href="plugins.php">','</a>','<a href="skins.php">','</a>');
+echo '<br /><br />';
+
+switch(remoteOS()) {
     case 'Windows':
     $url='dlfile.php?file=amsn-0.95-windows-installer-2.exe';
     break;

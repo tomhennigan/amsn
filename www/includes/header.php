@@ -22,7 +22,7 @@
 
     <div id="nav" class="center">
 <?php
-
+    
 	if (source == 'index') define(nav_index, 'nav_on');
 	else define(nav_index, 'nav');
         if (source == 'download') define(nav_download, 'nav_on');
@@ -40,14 +40,14 @@
         if (source == 'developer') define(nav_developer, 'nav_on');
         else define(nav_developer, 'nav');
 
-        echo '<a class="'.nav_index.'" href="index.php">Home</a>';
-        echo '<a class="'.nav_download.'" href="download.php">Download</a>';
-        echo '<a class="'.nav_features.'" href="features.php">Features</a>';
-        echo '<a class="'.nav_skins.'" href="skins.php">Skins</a>';
-        echo '<a class="'.nav_plugins.'" href="plugins.php">Plugins</a>';
-        echo '<a class="'.nav_screenshots.'" href="screenshots.php">Screenshots</a>';
-        echo '<a class="'.nav_docs.'" href="docs.php">Docs/Help</a>';
-        echo '<a class="'.nav_developer.'" href="developer.php">Developer</a>';
+        echo '<a class="'.nav_index.'" href="index.php">'.trans('home').'</a>';
+        echo '<a class="'.nav_download.'" href="download.php">'.trans('download').'</a>';
+        echo '<a class="'.nav_features.'" href="features.php">'.trans('features').'</a>';
+        echo '<a class="'.nav_skins.'" href="skins.php">'.trans('skins').'</a>';
+        echo '<a class="'.nav_plugins.'" href="plugins.php">'.trans('plugins').'</a>';
+        echo '<a class="'.nav_screenshots.'" href="screenshots.php">'.trans('screenshots').'</a>';
+        echo '<a class="'.nav_docs.'" href="docs.php">'.trans('docs').'</a>';
+        echo '<a class="'.nav_developer.'" href="developer.php">'.trans('development').'</a>';
 ?>
     </div>
 
