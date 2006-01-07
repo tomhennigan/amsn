@@ -182,6 +182,7 @@ contrast Contraste
 conversationwith En conversation avec $1 contacts
 convertexplain Chemin vers l'exécutable CONVERT, de ImageMagick (requis pour afficher des images).\n Laisser le blanc si CONVERT est dans le PATH
 copy Copier
+copytoclipboard Copier $1
 copytogroup Copier vers groupe
 corruptconfig Fichier de configuration corrompu. Créez-en un nouveau. L'ancien fichier sera sauvegardé vers $1. Envoyez-le nous afin que nous regardions ce qui s'est passé.
 corruptstates Fichier de configuration des status corrompu. Créez-en un nouveau. L'ancien fichier sera sauvegardé vers $1. Envoyez-le nous afin que nous regardions ce qui s'est passé.
@@ -317,6 +318,7 @@ globalnicktitle Pseudonyme général
 globaloverride Modèles de pseudonymes devant remplacer les pseudonymes personnalisés
 gonelunch Parti[e] manger
 gotink $1 vous a envoyé un message manuscrit
+goto Aller sur $1
 groupadd Ajouter un groupe
 groupdelete Supprimer un groupe
 groupexists Le groupe existe déjà
