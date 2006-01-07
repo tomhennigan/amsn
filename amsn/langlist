@@ -172,7 +172,7 @@
 	<lang>
 		<langcode>it</langcode>
 		<name>Italian (italiano)</name>
-		<version>1.56</version>
+		<version>1.57</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -202,7 +202,7 @@
 	<lang>
 		<langcode>no</langcode>
 		<name>Norwegian (Norsk)</name>
-		<version>1.44</version>
+		<version>1.45</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -292,7 +292,7 @@
 	<lang>
 		<langcode>va</langcode>
 		<name>Valencian (valencià)</name>
-		<version>1.41</version>
+		<version>1.42</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
