@@ -182,6 +182,7 @@ contrast Contrast
 conversationwith $1 users in conversation
 convertexplain Path to CONVERT executable file, from ImageMagick (required for Display Pictures).\n Leave blank if CONVERT is in the path
 copy Copy
+copytoclipboard Copy $1 to the clipboard
 copytogroup Copy to group
 corruptconfig Configuration file is corrupt. Creating new one. Old file will be saved to $1. Please send it to us to check what happened.
 corruptstates Custom states config is corrupt. Creating new one. Old file will be saved to $1. Please send it to us to check what happened.
@@ -312,6 +313,7 @@ getdisppic Enable receiving Display Pictures from other users
 getmoreskins Get more skins!
 getmoreplugins Get more Plugins!
 gotink $1 sent you an ink.
+goto Go to $1
 globalcontainer Global container
 globalnick Insert a pattern to form all your contacts' nicknames. You can use these variables: \$user_login for you contacts' address, \$nick for your contacts' nickname and \$customnick for your contacts' custom nickname. For example: '\$user_login is \$nick' will be 'contact@msn.com is Contact'
 globalnicktitle Global Nickname
