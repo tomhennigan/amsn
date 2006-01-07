@@ -225,26 +225,8 @@ namespace eval ::plugins {
         #
 
 	proc calledFrom {} {
-		#check for execution from the top level
-		set l [info level]
-		if {$l < 3} {
-			return -1
-		}
-	    set proc [info level -2]
-	    #will create the following list if called from namespace:
-	    # {} {} namespace {} proc
-	    #anyone know how to fix this?
-	    set parts [split $proc ":"]
-
-
-	    if {[llength $parts] > 1} {
-		#see above comment why '2'
-		set namespace [lindex $parts 2]
-	    } else {
-		#it is just a top level proc :(
-		return -1
-	    }
-
+	    set namespace [string trimleft "[uplevel 2 namespace current]" "::"]
+	    
 	    if {[::plugins::namespaceExists $namespace] == 1} {
 		return $namespace
 	    } else {
