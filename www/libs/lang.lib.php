@@ -18,6 +18,7 @@ if(!defined("_LANG_LIB_")) {
 
   function trans($key) {
     $code=getLangKey();
+    $key=mysql_escape_string(stripslashes(trim($key)));
     
     $query="SELECT lang_text FROM amsn_langs WHERE lang_code='$code' AND lang_key='$key'";
     $result=mysql_query($query) or die(mysql_error());
@@ -54,9 +55,9 @@ if(!defined("_LANG_LIB_")) {
     }
   }
 
-  function setLangKey($key) {
-    $_COOKIE['lang']=$key;
-    $_SESSION['lang']=$key;
+  function setLangKey($code) {
+    $_COOKIE['lang']=$code;
+    $_SESSION['lang']=$code;
   }
 }
 ?>
