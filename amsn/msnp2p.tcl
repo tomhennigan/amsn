@@ -727,7 +727,7 @@ namespace eval ::MSNP2P {
 							#::MSNCAM::SendAcceptInvite $sid $chatid
 						}
 					} else {
-						status_log "Error sending file $filename, got answer to invite :\n$data\n\n" red
+						status_log "Error sending file, got answer to invite :\n$data\n\n" red
 					}
 				}
 			}
