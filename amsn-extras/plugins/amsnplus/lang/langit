@@ -1,20 +1,41 @@
 amsn_lang_version 2
-allowcommands Abilitare i comandi nella finestra della chat?
+allowcommands Abilitare i comandi nella finestra di chat?
+allowcolours Abilitare i colori nella finestra di chat?
+allowquicktext Abilitare la funzionalità Testo Rapido?
+bold Grassetto
 ccolor \nColore successivo: $1
 cfont \nFont successivo: $1
+choosecolor Scegli un colore
 cinfo \nInformazioni Contatto:\n$1 \nNick: $2 \nGruppo: $3
 cleave \nHai abbandonato questa conversazione
 cnewnick \nNick successivo: $1
 cnewstate \nNuovo stato: $1
 cnewstatenotvalid \n$1 non è valido
-cnick \nIl tuo nick è: $1
+cnick \nIl tuo nick è $1
 cnotvalid \nComando non valido
+colournicks Abilitare i nick colorati? (non completa)
 cresult \nRisultato del comando:\n$1
 cshell \nSto eseguendo nella shell: $1
 cspecify \nDevi specificare un contatto
-cstatus \nIl tuo stato è: $1
+cstatus \nIl tuo stato è $1
 cstyle \nFont Style selezionato: $1
-deleted \nHai rimosso $1 dalla lista dei contatti\nPer aggiungere nuovamente questo contatto digita: /add $1
-groupadded \nAggiunto gruppo $1.
+deleted \nHai rimosso $1 dalla lista dei contatti.\nPer aggiungere nuovamente questo contatto digita: /add $1
+general Opzioni Generali
+groupadded \nGruppo $1 aggiunto.
 groupdeleted \nHai rimosso il gruppo $1.\nPer aggiungere nuovamente questo gruppo digita: /addgroup $1
+italic Corsivo
+keyword Parola-chiave
+localization Localizzazione
+multiplecolorosbutton Aggiungi un nuovo colore
+nosuchcommand Comando non trovato.
+overstrike Barrato
 parsenicks Vuoi attivare la codifica colori di Msn Plus sui nick?
+qthelp Qui puoi configurare i tuoi testi rapidi, le parole-chiave e il testo.\nPoi nella finestra di chat, se scrivi /parola-chiave, vedrai il testo che hai impostato
+quicktext Testi Rapidi
+reset Reimposta stili
+resource Risorsa
+rusage Qui puoi inserire un indicazione al software che stai usando o dove ti trovi o qualsiasi cosa tu volgia. \nSarà aggiunto alla fine del tuo nick fra { e }. Questa funzione cerca di emulare jabber.\nPer non utilizzarla, lascia il campo vuoto.
+text Testo da scrivere
+underline Sottolineato
+screenshot Invia una foto dello schermo attuale
+screenshotter C'è stato un errore nello scattare una foto allo schermo. Assicurati di avere il programma per fare le foto compilato, che sia nella cartella "amsnplus", di avere i permessi corretti e di avere spazio sul disco a sufficienza.
