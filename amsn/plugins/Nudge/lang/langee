@@ -1,0 +1,13 @@
+amsn_lang_version 2
+shake_receive Värista vestlusaknat, kui Sulle saadetakse müks
+shake_send Värista vestlusaknat, kui Sa saadad kellelegi müksu
+shake_nudge Värinat müksu kohta:
+popup_nudge Anna müksust märku hüpikaknaga
+notify_send Anna saadetud müksust märku vestlusaknas
+notify_receive Anna saadud müksust märku vestlusaknas
+sound_send Tee häält kui Sa saadad kellelegi müksu
+sound_receive Tee häält, kui Sulle saadetakse müks
+add_button Lisa müksu saatmiseks vestlusaknasse nupp
+send_nudge Saada müks
+no_nudge_support Sa ei saa vestluskaaslasele müksu saata, kuna tema MSNi programm seda ei toeta.
+nudge_sent Sa saatsid talle müksu
