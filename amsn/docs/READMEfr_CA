@@ -1,41 +1,40 @@
-Cet arcive a été écrit en français continental. 
+Cette archive a été écrite en français continental. 
 Si vous êtes canadien et que vous voulez 
 adapter le texte à votre région, veuillez 
-editer l'archive READMEfr_CA dans le répertoire 
-*docs* de aMSN et envoyez-le pour 
+éditer l'archive READMEfr_CA dans le répertoire 
+*docs* (sous-fichier de *scripts*) de aMSN et envoyez-le à 
 amsn-translations@lists.sourceforge.net.
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
+Ce programme est un logiciel gratuit; vous pouvez le redistribuer et/ou
+le modifier sous les termes de la License Publique Générale (LPG) telle
+que publiée par la Fondation pour le Logiciel Libre; soit la version 2
+de la License, ou (si vous le voulez) n'importe quelle version subséquente.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+Ce programme est distribué dans l'espoir qu'il sera utile, mais SANS
+AUCUNE GARANTIE; sans même la garantie impliquée de VALEUR MARCHANDE ou
+D'APTITUDE POUR UN BUT PARTICULIER. Voir la License Publique Générale pour
+plus de détails.
 
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
+Vous devriez avoir reçu une copie de la License Publique Générale (LPG)
+avec ce programme; sinon, écrivez à la Fondation pour le Logiciel Libre Inc.,
+59 Place du Temple, Suite 330, Boston, MA 02111-1307 ÉUA.
 
 ========================================================
-=== Alvaro's Messenger==================================
+===Le messager d'Alvaro=================================
 
-CCMSN était très bien mais malheureusement son auteur 
+CCMSN était très bien mais malheureusement, son auteur 
 a abandonné le projet. Il était très fonctionnel mais 
 il avait besoin d'importants travaux pour améliorer son 
-look et faire en sorte qu'il supporte complètement le 
+apparence et faire en sorte qu'il supporte complètement le 
 protocole (MSNP9) ainsi que beaucoup d'autres options. 
-Celà a commencé lorsque, travaillant séparément au début, 
+Cela a commencé lorsque, travaillant séparément au début, nous 
 avons décidé de joindre nos efforts et de vous proposer 
-(nous l'espérons) notre chef d'oeuvre ;)
+(nous l'espérons) notre chef d'oeuvre  ;) 
 
 Alvaro J. Iradier
 D. Emilio Grimaldo T.
 
-Envoyez vos bugs, commentaires, réactions ou suggestions sur la page du projet Source Forge :
+Envoyez vos bogues, commentaires, réactions ou suggestions sur la page du projet Source Forge :
 
 http://sourceforge.net/projects/amsn
 
