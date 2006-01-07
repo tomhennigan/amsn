@@ -1,0 +1,41 @@
+amsn_lang_version 2
+allowcommands Kas Sa tahad lubada käskluste kasutamist vestlusaknas?
+allowcolours Kas Sa tahad lubada mitme värvi kasutamist vestlusaknas?
+allowquicktext Kas Sa tahad lubada kiirteksti kasutamist?
+bold Rasvaselt
+ccolor \nSu tekstivärv on $1
+cfont \nSu teksti font/shrift on $1
+choosecolor Vali värv
+cinfo \nKontaktinformatsioon:\n$1 \nHüüdnimi: $2 \nGrupp: $3
+cleave \nSa oled selle vestluse lõpetanud.
+cnewnick \nSinu uus hüüdnimi on: $1
+cnewstate \nSinu uueks olekuks on seatud: $1
+cnewstatenotvalid \n$1 ei kehti
+cnick \nSinu hüüdnimi on $1
+cnotvalid \nSinu käsklus ei kehti
+colournicks Kas tahad kasutada värvilisi hüüdnimesid? (ei ole täielik)
+cresult \nKäskluse tulemusena:\n$1
+cshell \nTekst sisaldab käsklust: $1
+cspecify \nSa pead kirjutama kontakti
+cstatus \nSu olek on $1
+cstyle \nSu kasutusel olev font on $1
+deleted \nSa oled eemaldanud $1 listist\nEt see kontakt uuesti lisada:: /add $1
+general Üldsätted
+groupadded \nLisatud grupp $1.
+groupdeleted \nGrupp kustutatud $1 \nEt lisada see grupp uuesti: /addgroup $1
+italic Kursiivis
+keyword Märksõna
+localization Lokaliseerimine
+multiplecolorsbutton Lisa uus värv.
+nosuchcommand Sellist käsklust ei ole.
+overstrike Mahakriipsutatult
+parsenicks Kas Sa tahad hüüdnimedes eraldada MSN Plussi värvikoodi?
+qthelp Siin peaksid Sa seadistama oma kiirteksti, märksõna ja teksti.\nSiis vestlusaknas märksõna kirjutades, /märksõna, näed varem kirjutatud teksti.
+quicktext Kiirtekstid
+reset Taasta stiilid
+resource Allikas
+rusage Siin saad Sa sisestada tarkvara tuvastust, kus Sa oled või misiganes Sa tahad. See lisatakse Sinu hüüdnime lõppu { loogelistesse sulgudesse }. Kui Sa ei soovi seda kasutada, jäta tühjaks.
+text Et kirjutada teksti
+underline Joon alla
+screenshot Saada ekraanipilt
+screenshoterr Ekraanipildi tegemisel tekkis viga. Tee kindlaks, et oled ekraanipildi .exe-faili AMSN Plussi kausta (amsnplus) paigutanud ja et Sul on olemas õigused ja piisavalt vaba ruumi selle loomiseks.
