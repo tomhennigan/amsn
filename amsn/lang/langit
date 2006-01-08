@@ -1,4 +1,5 @@
 amsn_lang_version 2
+aboutamsn Informazioni su Alvaro's Messenger
 about Informazioni
 accept Accetta
 acceptfile Accetto il file $1, dimensioni $2? Salvato in $3
@@ -42,10 +43,10 @@ appearance Interfaccia
 appearoff Invisibile
 areacode Codice dell'area
 aretyping $1 stanno scrivendo un messaggio
-askeachtime Chiedi ogni volta
-askwebcam Visualizza la webcam del contatto
 askcontactwebcam per chiedere di visualizzare la webcam del tuo contatto, o
+askeachtime Chiedi ogni volta
 asksendingyourwebcam per chiedere di inviare immagini dalla tua webcam
+askwebcam Visualizza la webcam del contatto
 author Autore
 autoaccepted Traferimento file accettato automaticamente
 autoacceptft Accetta automaticamente le richieste di trasferimento file
@@ -68,6 +69,7 @@ awaymsg1 Chiedi di impostare un messaggio di "assente" ogni volta che cambio il 
 awaymsg2 Non chiedere mai e usa sempre il messaggio di assente qui sotto
 away Non al computer
 baduserpass Username o password sbagliate
+badwebcam Impossibile visualizzare l'immagine della webcam. Assicurati che sia collegata e installata.
 bgcolor Cambia il colore di sfondo di aMSN
 blankdirect Lascia vuoto per connessioni dirette
 block Blocca
@@ -82,10 +84,12 @@ blocklist Lista di utenti bloccati:
 blockmessage Queste persone sono in linea e bloccate da te
 blockusers Numero di utenti da controllare subito
 bouncedock Fa lampeggiare l'icona di aMSN quando un messaggio viene ricevuto
+brightness Luminosità
 broughtby Sviluppato da
 browse Cerca
 browser Browser
 browserexample (\$url verrà rimpiazzato dall'URL). Es: mozilla \$url
+bugerror Si è verificato un problema durante la connessione al database dei bug. Controlla la tua connessione a Internet.
 bugnocomment Inviare senza commento? I commenti ci aiutano a capire meglio che cos'è andato storto e correggere i bug più facilmente.
 busy Occupato
 cachedpics $1 immagini memorizzate
@@ -95,6 +99,8 @@ cannotdeleteprofile Non posso cancellare il profilo perché sembra essere usato d
 cantexec Non posso eseguire l'applicazione: $1. Controlla nelle preferenze
 cantloadonlineversion Non è stato possibile recuperare la lista delle lingue da Internet
 cantremoveothers Non posso rimuovere il gruppo "Altri"
+captureextloaded L'estensione Capture -$1- è stata caricata
+captureextnotloaded L'estensione Capture -$1- non è stata caricata, devi prima compilarla
 captureproperties Proprietà immagine webcam
 casesensitive Usa comandi discriminanti tra maiuscole e minuscole
 cfgalarmall Configura/Aggiungi/Rimuovi l'allarme globale
@@ -107,6 +113,8 @@ changeglobnick Cambia nick globale
 changenick Cambia nick
 changesize Cambia dimensione
 changestate $1 cambia stato in $2
+changevideosettings Cambia le impostazioni video
+channels Canali
 charscounter  Contatore dei caratteri digitati nella finestra di chat
 chatack Sto accentando una chiamata da
 chat Chat
@@ -124,7 +132,9 @@ checkver Controlla l'esistenza di nuove versioni
 choosearq Scegli l'architettura del tuo sistema
 choosebasefont Seleziona il font
 choosebgcolor Cambia il colore di sfondo
+choosechannel Scegli un canale
 choosecontact Per favore scegli un contatto dalla lista
+choosedevice Scegli un dispositivo
 choosefontcolor Scegliere il colore del font
 chooseskin Scegli la Skin che preferisci usare
 ch_to_state Passa a nuovo stato
@@ -140,11 +150,12 @@ clientcaps Invia pacchetto "x-clientcaps" a clients altrui
 clientname Nome client
 closeall Chiudi tutte le schede nella finestra?
 closealltabs Chiudi tutti i tab
-closelabel Quando clicchi sul pulsante di chiusura di una finestra con i tab:
-closeonly Chiudi solo il tab corrente
 close Chiudi
 closed La conversazione con $1 è chiusa per inattività.
+closelabel Quando clicchi sul pulsante di chiusura di una finestra con i tab:
+closeonly Chiudi solo il tab corrente
 closingdocks Pulsante chiudi riduce a icona
+color Colore
 command Comando
 commandstatus Esegui comando
 configure Configura
@@ -167,9 +178,11 @@ contact Contatto
 contactdoesnotexist Il contatto non esiste
 contactlist Lista dei contatti:
 continuously Continuamente
+contrast Contrasto
 conversationwith $1 utenti in conversazione
 convertexplain Percorso al file eseguibile CONVERT, da ImageMagick (richiesto per visualizzare foto).\nLasciare vuoto se CONVERT è già nel percorso
 copy Copia
+copytoclipboard Copia $1 neglia Appunti
 copytogroup Copia nel gruppo
 corruptconfig Il file di configurazione è corrotto. Ne creo uno nuovo. Il vecchio file verrà salvato in $1. Per favore invialo ai programmatori che cercheranno di capire cosa è successo.
 corruptstates La configurazione degli Stati personali è corrotta. Ne creo una nuova. Il vecchio file verrà salvato in $1. Per favore invialo ai programmatori che cercheranno di capire cosa è successo.
@@ -189,16 +202,16 @@ custom_edit Crea una faccina personalizzata
 custom_new Aggiungi una nuova faccina personalizzata
 customnick Soprannome Personalizzato
 customstyle Stile personalizzato
-cut Taglia
-cutimagebox Seleziona la parte di immagine che vuoi utilizzare ridimensionando e muovendo il box di selezione
 cutimageboxreset Reimposta la grandezza del\nbox di selezione a:
+cutimagebox Seleziona la parte di immagine che vuoi utilizzare ridimensionando e muovendo il box di selezione
+cut Taglia
 date Data
 dateformat Cambia il formato della data
 day Giorno
 days Giorni
 dcprofile Non creare un profilo
-default Configurazione di default
 default2 Default
+default Configurazione di default
 defaultloginradio Entra con la configurazione di default
 defchatwinsize Dimensione predefinita delle finestre di chat (XSIZExYSIZE)
 deleteall Cancella tutto
@@ -210,6 +223,9 @@ delprofile2 Seleziona il profilo che desideri rimuovere
 delprofile Cancella il profilo
 description Descrizione
 detach Stacca
+details Dettagli
+devicebusy Il dispositivo $1 è occupato
+devices Dispositivi
 directconnection Ho una connessione diretta ad internet (uso la porta 1863)
 disabled Disattivato
 disableprofiles Disattiva i profili (utile per Net-cafè o ambienti condivisi)
@@ -229,21 +245,22 @@ dockgtk Dock GNOME
 docking Abilita dock
 dockingoff Disabilita dock
 dockkde Dock KDE
+done Fatto
 dontdownload Non scaricare TLS, verrà installato automaticamente
 dontshow Non mostrare
 downloadingtls Scaricamento del modulo TLS in corso da:\n$1
 download Scarica
-edit Modifica
 editcontent Edit the content of the subject field and the note field
 editcustomstate Modifica Stato personale
+edit Modifica
 editnewstate Nuove impostazioni personali di auto-risposta
 editprofile Modifica il Profilo
 editstate Modifica delle impostazioni di auto-risposta esistenti
 editvalue Modifica valore
 email E-mail
 emailsinlist Mostra indirizzi e-mail al posto dei nicks nella lista contatti
-emotisounds Emetti un suono per alcune Emoticons
 emoticon_steal Aggiungi alle Emoticons
+emotisounds Emetti un suono per alcune Emoticons
 emptygroup Svuota gruppo
 enabled Attivato
 enableproxy Proxy abilitato
@@ -276,6 +293,7 @@ filetransfer Trasferimento file
 filters Filtri
 filtersselect Seleziona i filtri che vuoi visualizzare\n(Nessuna selezione significa mostra tutti)
 filtersx Selezione filtri
+firewalled Sei dietro un firewall o un router
 followtext Segui il nuovo testo quando viene inserito
 friendlyname Nome comune
 ftacceptedby $1 ha accettato l'invito a trasferire il file '$2'.
@@ -292,6 +310,7 @@ ftrejected Trasferimento del file respinto
 ftsendinvitation L'invito al trasferimento del file '$2' ($3 bytes) è stato mandato a $1.
 fullcontactlist Spiacente, la tua lista dei contatti è piena. E' necessario rimuoverne qualcuno per aggiungerne altri.
 getdisppic Attiva la ricezione delle immagini personali degli utenti
+getmoreplugins Preleva altri Plugin!
 getmoreskins Preleva altri skin!
 globalcontainer Finestra globale
 globalnick Crea un modello per mostrare i nick dei contatti. Puoi usare queste variabili: \$user_login per la mail del contatto, \$nick per il nick del contatto e \$customnick per un nick personalizzato. Esempio: '\$user_login è \$nick' diventa 'contact@msn.com è Contact'
@@ -299,6 +318,7 @@ globalnicktitle Nick globale
 globaloverride Il modello dei nick globali dovrebbe avere precedenza sui nick personalizzati
 gonelunch A pranzo
 gotink $1 ti ha inviato un ink.
+goto Vai a $1
 groupadd Aggiungi un gruppo
 groupdelete Cancella un gruppo
 groupexists Il gruppo esiste già
@@ -319,12 +339,13 @@ hidewindow Nascondi Finestra
 history Mostra l'History
 home Casa
 httpconnection Connessione usando il metodo HTTP (uso il protocollo HTTP sulla porta 80)
+hue Colore
 huge Pesante
 hybrid Modo ibrido
 ident Identificazione
 identity Identità
-ignore Ignora
 ignoreerrors Ignora gli altri errori di AMSN fino al termine della sessione
+ignore Ignora
 imagefiles Files immagine
 inbox Posta in Arrivo
 insertsmiley Inserisci emoticon
@@ -352,6 +373,7 @@ keeplog2 Registra tutte le conversazioni nel diario di aMSN per una visione futu
 keeplog Mantiene un registro delle chat
 language Linguaggio
 language_manager Gestore linguaggi
+large Grande
 lastlogin Ultimo accesso
 lastlogout Ultima Uscita
 lastmsgedme Ultimo Messaggio
@@ -367,6 +389,7 @@ leaves $1 abbandona la conversazione
 lenteredconf $1 è entrato in conversazione su $2
 lineflushlog Svuota il buffer del file di log ad ogni nuova riga
 linprivate IN PRIVATO
+listening In ascolto
 listeningon In attesa sulla porta $1
 listsmileys2 Mostra Emoticons e faccine nella lista contatti principale di aMSN
 listsmileys Elenco faccine
@@ -444,6 +467,7 @@ next Prossimo
 nick Soprannome
 noactivity Nessuna attività
 nodataavailable Non ci sono dati disponibili per $1
+nodevices Non hai dispositivi installati
 nogap Nessuno spazio tra i gruppi
 nogroup Nessun gruppo
 nologfile Non c'é un file di registro per $1
@@ -477,8 +501,8 @@ nudge $1 chiede la tua attenzione
 offline Sconnesso
 ok Ok
 onenewmail 1 nuovo messaggio di posta
-online In linea
 onlinehelp Aiuto in linea
+online In linea
 onphone Al telefono
 opendir Apri cartella
 openfile Apri
@@ -501,10 +525,11 @@ phone Telefono
 picbrowser Mostra il selettore delle immagini personali
 picfile File dell'immagine dell'allarme (GIF < 500x500)
 picstatus (Dis)Abilita l'immagine per l'allarme
-play Play
 playing Sto ascoltando: $1
+play Play
 pluginselector Seleziona i Plugins
 port Porta
+portswellconfigured Le tue porte sono ben configurate
 prefalerts Suoni e Allarmi dei miei eventi
 prefapps Applicazioni
 prefawaymsg Il mio messaggio di Assente
@@ -550,6 +575,7 @@ proxyconnection Mi connetto ad internet usando un server proxy:
 proxy Sono dietro un server proxy (HTTP o SOCKS5)
 publishphones Pubblica il mio numero di telefono
 purge Elimina
+pwcdriver Stai usando il driver pwc
 raised Ingrandito
 readonlymsgbox Il trasferimento del file è stato annullato perché la directory di destinazione ha permessi di sola lettura. \nPer favore cambia i permessi.
 readonlywarn ATTENZIONE: Il file potrebbe NON venire salvato correttamente poiché la directory "File Ricevuti" sembra essere protetta da scrittura.\nPer favore assicurati che i permessi della directory ($1) siano impostati correttamente prima di trasferire il file.
@@ -566,7 +592,10 @@ remembersetting Ricorda questa impostazione
 removeempty Eliminare gruppi vuoti dalla lista contatti
 removefromlist Rimuovi da questa lista
 rename rinomina
+reporting Invio del rapporto in corso
+report Rapporto
 required_version Impossibile caricare il plugin. Richiede almeno la versione $1 di aMSN
+restartforskin Nota: potresti aver bisogno di riavviare aMSN per vedere lo skin in maniera opportuna!
 reversed Invertito
 reverselist Invertire la lista (RL)
 rightback Torno subito
@@ -580,10 +609,10 @@ sbcon Connessione a Switch Board
 selectall Seleziona tutto
 selectplugins Seleziona i Plugins che desideri attivare
 selectskin Seleziona una Skin dalla lista
+sendemail Invia in mio indirizzo e-mail per avvisarmi riguardo cambiamenti
 sendfile Inivia un file
 send Invia
 sendmail Manda e-mail
-sendemail Invia in mio indirizzo e-mail per avvisarmi riguardo cambiamenti
 sendmobmsg Invia a dispositivo mobile
 sendmsg Manda un messaggio
 sendwebcaminvite Invita l'utente a vedere dalla tua webcam
@@ -593,6 +622,7 @@ servergoingdown Sei stato disconnesso poiché il server si sta fermando
 server Server
 serverunavailable Il server non è disponibile
 session Sessione
+shareswebcam Condividi la webcam
 showbanner Visualizza il banner di aMSN
 showblockedlist Mostra la lista delle persone che ti bloccano
 showcachedpics Visualizza le immagini memorizzate in cache
@@ -605,6 +635,7 @@ showuserpic Immagine di $1
 signinstatus Accedi sempre come:
 skinselector Seleziona Skin
 skin Skin
+small Piccolo
 smileconfig Configurazione delle emoticon personalizzate
 smilefile Nome del file della faccina
 smileintro2 Per favore modifica i campi richiesti per personalizzare questa faccina (guarda le FAQ per un aiuto)
@@ -627,6 +658,7 @@ splashstart Splash screen
 sslwarning ATTENZIONE!! Disabilitando la crittografia SSL, la password verrà inviata in chiaro sulla rete. Questa operazione deve essere compiuta solo se si ha a che fare con proxies particolarmente problematici.
 startoffline2 Entra silenziosamente come "Fuori linea"
 startoffline Inizio Offline
+startonboot Avvia aMSN all'avvio di Windows
 startontray Avvia aMSN direttamente nella traybar
 stateautomsg Automessaggio da inviare
 statechange stato cambiato in:
@@ -638,8 +670,10 @@ statenick Personalizza nick (lasciare vuoto per non modificarlo)
 state Voglio apparire come
 stats Statistiche
 status Stato
-stop Stop
 stopalarm Ferma l'allarme
+stop Stop
+stopwebcamreceive Interrompi la ricezione della webcam
+stopwebcamsend Interrompi l'invio delle immagini della webcam
 storenickname Ripristina il nick originale dopo una sessione personalizzata con nick diverso
 strictfonts Imposta tutti i fonts (barra di stato e altri) alla dimensione che ho scelto
 stylechat Stesso aspetto delle chat
@@ -662,6 +696,7 @@ timeremaining Tempo rimanente
 timestamps Mostra il campo Ora nelle finestre di chat
 timestamp Timestamp
 title aMSN
+tkerror1 TK ha riportato un errore, c'è un bug in amsn, per piacere invia un rapporto cliccando sul tasto Rapporto. Puoi cliccare su Dettagli per avere maggiori informazioni sull'errore o su Ok per continuare a utilizzare AMSn
 tkerror TK ha incontrato un possibile bug. Segnalatelo, per favore, inviando il file $1 a amsn-bugs@lists.sf.net
 tlsdowncompleted Il file $1 è stato scaricato nella cartella $2. Estrailo, compilalo (se hai scaricato i sorgenti) e installalo in $3.
 tlsexplain Cartella in cui è localizzato il modulo TLS. Se aMSN non riesce a localizzarla, specificarla.\n(E' richiesto per l'autenticazione SSL).
@@ -674,12 +709,14 @@ tomobile To Mobile
 tools Strumenti
 tooltips Abilita i tooltips
 transnotexists Il file richiesto non è ancora stato tradotto nel linguaggio corrente.
+trayicon Mostra un'icona di stato nell'area di notifica
 traynotcompiled Il plugin per l'icona nella traybar non è compilato. Controllare in utils/linux
 triggers Scorciatoie di testo
 truncatenames1 Tronca i nick troppo lunghi nei titoli delle finestre e nella lista contatti
 truncatenames2 Tronca i nick troppo lunghi nelle conversazioni
 truncatenicks Tronca i nick che eccedono la larghezza della finestra
 twonewmail $1 nuovi messaggi di posta
+type Tipo
 unblock Sblocca
 unknown Sconosciuto
 unload Interrompi
@@ -701,12 +738,26 @@ useryourself Non puoi chattare con te stesso
 usesnack Utilizza la libreria Snack (Tcl)
 verifyblocked Controlla le persone che ti stanno bloccando
 version Versione
+videoconversationrequest Hai ricevuto una richiesta di conversazione video (audio e video bidirezionali). Questa funzionalità non è supportata da aMSN e la richiesta è stata annullata. Puoi comunque utilizzare la normale conversazione con webcam.
 viewcontactsby Visualizza contatti per
 viewprofile Mostra Profilo
 view Vista
+webcamcanceled La sessione webcam con $1 è stata annullata
+webcamclosebefcancel Devi interrompere tutte le sessioni webcam prima di chiudere la finestra
+webcamconfigure Configura la Webcam
+webcamextloaded L'estensione Webcamsn è stata caricata
+webcamextnotloaded L'estensione Webcamsn non è stata caricata. Devi compilarla.
+webcamfaq FAQ/Aiuto per la Webcam
 webcamhistory Guarda le sessioni webcam salvate
 webcaminvite $1 ti ha invitato ad una conferenza via webcam, ma aMSN non supporta questa funzionalità.
+webcaminvitereceived $1 ti ha invitato ad iniziare una sessione webcam. Accetti l'invito?
+webcamrejected $1 rifiuta l'invito per la sessione webcam
+webcamrequestreceive Invia la richiesta per ricevere dalla webcam
+webcamrequestsend Invia la richiesta per inviare con la webcam
+webcamsending Lista delle persone a cui stai inviando con la webcam\nClicca per annullare
 webcamshot Immagine della webcam
+webcam Webcam
+whatisamsn aMSN è un clone di MSN Messenger, indipendente dalla piattaforma
 whatsize L'immagine che hai richiesto non è nel normale formato di visualizzazione immagini (96x96) In che formato vuoi che l'immagine venga visualizzata?
 willjoin Sto aspettando che $1 si unisca alla conversazione
 winkreceived Hai ricevuto un Wink da $1. Questa opzione non è però al momento supportata da aMSN
@@ -727,52 +778,3 @@ youblocked Sei stato bloccato da
 yousay Tu dici
 youwant Tu vuoi
 zoom Zoom
-aboutamsn Informazioni su Alvaro's Messenger
-badwebcam Impossibile visualizzare l'immagine della webcam. Assicurati che sia collegata e installata.
-brightness Luminosità
-bugerror Si è verificato un problema durante la connessione al database dei bug. Controlla la tua connessione a Internet.
-captureextloaded L'estensione Capture -$1- è stata caricata
-captureextnotloaded L'estensione Capture -$1- non è stata caricata, devi prima compilarla
-changevideosettings Cambia le impostazioni video
-channels Canali
-choosechannel Scegli un canale
-choosedevice Scegli un dispositivo
-color Colore
-contrast Contrasto
-details Dettagli
-devicebusy Il dispositivo $1 è occupato
-devices Dispositivi
-done Fatto
-firewalled Sei dietro un firewall o un router
-hue Colore
-listening In ascolto
-nodevices Non hai dispositivi installati
-portswellconfigured Le tue porte sono ben configurate
-report Rapporto
-reporting Invio del rapporto in corso
-shareswebcam Condividi la webcam
-stopwebcamreceive Interrompi la ricezione della webcam
-stopwebcamsend Interrompi l'invio delle immagini della webcam
-tkerror1 TK ha riportato un errore, c'è un bug in amsn, per piacere invia un rapporto cliccando sul tasto Rapporto. Puoi cliccare su Dettagli per avere maggiori informazioni sull'errore o su Ok per continuare a utilizzare AMSn
-trayicon Mostra un'icona di stato nell'area di notifica
-type Tipo
-webcamclosebefcancel Devi interrompere tutte le sessioni webcam prima di chiudere la finestra
-webcamcanceled La sessione webcam con $1 è stata annullata
-webcamextloaded L'estensione Webcamsn è stata caricata
-webcamextnotloaded L'estensione Webcamsn non è stata caricata. Devi compilarla.
-webcamfaq FAQ/Aiuto per la Webcam
-webcaminvitereceived $1 ti ha invitato ad iniziare una sessione webcam. Accetti l'invito?
-webcamrejected $1 rifiuta l'invito per la sessione webcam
-webcamrequestsend Invia la richiesta per inviare con la webcam
-webcamrequestreceive Invia la richiesta per ricevere dalla webcam
-webcamsending Lista delle persone a cui stai inviando con la webcam\nClicca per annullare
-whatisamsn aMSN è un clone di MSN Messenger, indipendente dalla piattaforma
-large Grande
-pwcdriver Stai usando il driver pwc
-restartforskin Nota: potresti aver bisogno di riavviare aMSN per vedere lo skin in maniera opportuna!
-small Piccolo
-videoconversationrequest Hai ricevuto una richiesta di conversazione video (audio e video bidirezionali). Questa funzionalità non è supportata da aMSN e la richiesta è stata annullata. Puoi comunque utilizzare la normale conversazione con webcam.
-webcam Webcam
-webcamconfigure Configura la Webcam
-getmoreplugins Preleva altri Plugin!
-startonboot Avvia aMSN all'avvio di Windows
