@@ -1,0 +1,26 @@
+Fitxer d'ajuda per l'AMSN
+
+Requirements del sistema:
+L'Amsn està escrit en tcl/tk, per això, necessitaràs un intèrpret de tcl/tk,
+la versió 8.3 o o superor. El podràs aconseguir a http://tcl.sourceforge.net.
+L'intèrpret està disponible per linux, windows i macintosh.
+Aguns complements adicionals poden necessitar programes o llibreries extres,
+com per exemple l'icona de la safata del sistema, les imatges per mostrar 
+o la connexió SSL per al MSN Protocol 9.
+
+Guia d'instal·lacció:
+Descarrega el fitxer amsn-x_xx.tar.gz. Descomprimeix-lo amb el comandament a la consola:
+  gzip -d amsn-x_xx.tar.gz
+  tar xvf amsn-x_xx.tar
+Es crearà el directori msn/, i amsn ja està instal·lat i llest per executar-se.
+Per executar-lo, escriu:
+  cd msn
+  ./amsn
+i si això no funciona, intenta:
+  wish amsn
+Si el comandament 'wish' no existeix, el teu sistema no té tcl/tk correctament
+instal·lat. Si "wish amsn" funciona, però "./amsn" no ho fa, edita el fitxer
+'amsn' i posa la ruta correcta al executable 'wish' a la primera línia. Por
+defecte, està configurat com: /usr/bin/wish
+
+Si tens algun problema, intenta mirar les PMF. 

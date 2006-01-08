@@ -88,6 +88,7 @@ browse Navegar
 browserexample (\$url serà substituïda per l'adreça) Ex: mozilla \$url
 browser Navegador
 bugerror Ho sentim, però hi ha hagut un problema en connectar a la base de dades d'errors. Sisplau, comprova la teva connexió a la xarxa
+bugnocomment Enviar-ho sense cap comentari? Comentar els errors ens ajuda a localitzar i resoldre els problemes de forma més ràpida
 busy Ocupat
 cachedpics $1 imatges agafades
 cancel Cancel·la
@@ -143,6 +144,7 @@ contrast Contrast
 conversationwith $1 usuaris a la conversa
 convertexplain Camí al fitxer executable CONVERT, d'ImageMagick (es necessita per veure les imatges).\nDeixa-ho en blanc si CONVERT és al PATH.
 copy Copia
+copytoclipboard Copiar $1 al porta-retalls
 copytogroup Copia al grup
 corruptconfig El fitxer de configuració conté errors. Ara en crearé un de nou i desaré l'antic a $1. Si vols ajudar-nos, envia'ns el fitxer erroni.
 corruptstates El fitxer d'estats personalitzats conté errors. Ara en crearé un de nou i desaré l'antic a $1. Si vols ajudar-nos, envia'ns el fitxer erroni.
@@ -272,6 +274,7 @@ globalnick Introdueix un patró per crear els sobrenoms dels teus contactes. Pots
 globalnicktitle Sobrenom global
 globaloverride Els sobrenoms globals han de substituir els sobrenoms personalitzats
 gonelunch Estic menjant
+goto Vés
 groupadd Afegir un grup
 groupdelete Esborrar un grup
 groupexists El grup ja existeix
@@ -666,7 +669,6 @@ tabbed Finestres sobreposades
 tabbedglobal Una finestra amb solapes per tots els usuaris de la llista
 tabbedgroups Una finestra amb solapes per usuaris del mateix grup
 tabtitlenick Vols veure els sobrenoms a les pestanyes en lloc del correu?
-takesnapshot Fer captura
 temp_state Sense desar (estat temporal que serà eliminat quan tanquis l'aMSN)
 textsize Mida del text
 thismonth Aquest mes
@@ -734,7 +736,6 @@ webcamrejected $1 ha rebutjat la invitació per iniciar una sessió de càmara web
 webcamrequestreceive Enviar petició per veure la seva càmara web
 webcamrequestsend Enviar invitació per veure la teva càmara web
 webcamsending Llista de la gent que actualment està visionant la teva càmara web\nClick per cancel·lar
-webcamshot Captura des de la càmara web
 whatsize La imatge que has demanat no tÃ?Â© la mida normal\nd'avatar(96x96) A quina mida vols que es mostri la imatge? 
 willjoin Esperant que $1 s'uneixi a la conversa
 winkreceived Has rebut un Wink de $1. Aquesta característica no està suportada actualment per l'aMSN.

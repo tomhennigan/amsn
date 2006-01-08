@@ -1,18 +1,19 @@
-PMF 1.2
--------
+PMF 1.8
+--------
 
 P: ¿Què és Amsn?
 R: Amsn és un clon del Microsoft MSN Messenger. Permet mantenir-te en contacte amb els teus amics i intercanviar missatges instantanis i fitxers.
 
-INSTAL·LANT I INICIANT AMSN
-===========================
+INSTAL·LANT I EXECUTANT L'AMSN
+==============================
 
 P: ¿Què necessito per fer funcionar l'amsn?
 R: Amsn està escrit en llenguatge tcl/tk, vostè només necessita un intèrpret de tcl/tk, en la versió 8.3 o superior. El pots aconseguir a http://tcl.sourceforge.net.
 L'intèrpret està disponible per Linux, Windows i Macintosh.
+Algues opcions especials poden necessitar programes o llibreries extres, com per exemple l'icona de la safata del sistema, les imatges per mostrar o la connexió SSL per al MSN Protocol 9.
 
-Q: ¿Com instal·lo i executo l'amsn?
-A: Senzillament descarrega el fitxer amsn-x_xx.tar.gz. Descomprimeix-lo amb el comandament a la consola:
+P: ¿Com instal·lo i executo l'amsn?
+R: Senzillament descarrega el fitxer amsn-x_xx.tar.gz. Descomprimeix-lo amb el comandament a la consola:
   gzip -d amsn-x_xx.tar.gz
   tar xvf amsn-x_xx.tar
 Es crearà el directori msn/, i amsn ja està instal·lat i llest per executar-se.
@@ -25,6 +26,22 @@ Si el comandament 'wish' no existeix, el teu sistema no té tcl/tk correctament
 instal·lat. Si "wish amsn" funciona, però "./amsn" no ho fa, edita el fitxer
 'amsn' i posa la ruta correcta al executable 'wish' a la primera línia. Por
 defecte, està configurat com: /usr/bin/wish
+
+P: Desprès de descarreguar l'imagemagick, Com puc habilitar les Imatges per Mostrar (avatars)?
+R: Desprès d'instalar l'imagemagick, ves al diàleg de preferències de l'AMSN. Allà, ves a altres.
+Ves al camp anomenat "CONVERT", i fes click al botor navegar. Llavors, busca el directori
+a on has instal·lat l'imagemagick, i selecciona el fitxer "CONVERT.EXE".
+Seguidament, guarda les preferències i reinicia l'AMSN. Després, torna a anar a les preferències
+i activa la opció "Activar rebre les Imatges per Mostrar dels altres usuaris".
+
+P: Quan faig doble click a la icona "amsn" de l'explorador gràfic, com ara el konqueror
+o el nautilus, obre l'editor de text en comptes de l'AMSN!
+R: L'AMSN està escrit en tcl/tk, un llenguatge interpretat, per això, el fitxer "amsn"
+nomès es un fitxer de text amb el codi del programa. El gestor de fitxers pot creure
+que es un fitxer de text, per això executarà l'editor de text. Per executar l'AMSN
+has de seleccionar l'opció "Obre amb...", "Executar amb..." o similar, i utilitzar
+el programa "wish" per obrir el fitxer "amsn". Un altre cop, com s'ha respost anteriorment,
+si el comandament "wish" no existeix, significa que no tens instal·lat el tcl/tk.
 
 P: ¿Com puc crear un accés directe a amsn al meu escriptori?
 R: 1.- Afegeix una icona al teu escriptori gnome/kde o un menú que executi el
@@ -45,26 +62,26 @@ el plugin estigui compilat, només caldrà executar l'amsn i sel·leccionar Gnome D
 menú opcions. Per la versió de la icona de safata per freedesktop (compatible
 amb Gnome2 i KDE3), fes una ullada al fitxer README a plugins/traydoc.
 
-UTILITZANT AMSN
-===============
+UTILITZANT L'AMSN
+=================
 
 P: ¿Què significa que a la meva llista de contactes aparegui un contacte en
 un color magenta?
 R: Significa que no estàs a la llista de contactes d'aquella persona.
 
-Q: ¿Puc copiar una direcció d'un contacte al portaretalls?
-A: Sí, ves a la secció privacitat del menú preferències i fes clic amb
+P: ¿Puc copiar una direcció d'un contacte al portaretalls?
+R: Sí, ves a la secció privacitat del menú preferències i fes clic amb
 el botó dret al nom del contacte a qualsevol de las llistes de contactes.
 La direcció del correu del contacte serà copiada al portaretalls.
 
-Q: ¿Com puc accedir al historial de missatges que he enviat en un xat?
-A: Si vols accedir als missatges prèviament enviats en una finestra de
+P: ¿Com puc accedir al historial de missatges que he enviat en un xat?
+R: Si vols accedir als missatges prèviament enviats en una finestra de
 xat, simplement necessites pulsar a la vegada la tecla de Control més les
 fletxes d'amunt y avall. Funciona similar a una terminal. Ctrl+Amunt et
 porta al missatge anterior, i Ctrl+Avall al següent.
 
-Q: ¿Què signifiquen les llistes de la secció "Privacitat" a les preferències?
-A: Hi ha quatre llistes, conegudes com a "Llista d'Acceptats (AL)", Llista de
+P: ¿Què signifiquen les llistes de la secció "Privacitat" a les preferències?
+R: Hi ha quatre llistes, conegudes com a "Llista d'Acceptats (AL)", Llista de
 Bloquejats(BL), Llista Inversa(RL) i Llista de Contactes. La última d'elles és
 òbvia, i la resta signifiquen el següent:
 AL: Aquesta llista conté las direccions de la gent que pot veure el teu estat i
@@ -76,8 +93,8 @@ RL: Aquesta és la llista inversa. Conté la llista de persones que t'han afegit
 a la seva llista de contactes. Les direccions que apareixen en verd són persones
 que no tens a la llista de contactes, però tu estàs en la seva.
 
-Q: Vull afegir les meves emoticonas personalitzades, ¿com ho faig?
-A: Ara hi ha una nova opció en el menú d'emoticones que permet fer això.
+P: Vull afegir les meves emoticonas personalitzades, ¿com ho faig?
+R: Ara hi ha una nova opció en el menú d'emoticones que permet fer això.
 Sel·lecciona-la i apareixerà una nova finestra, a on hauràs d'emplenar els camps
 requerits. El camp "descripció" pot ser el que vulguis, només és la descripció
 que es mostra al globus d'ajuda.
@@ -86,7 +103,7 @@ emoticona. Per exemple, les emoticones per defecte tenen disparadors
 com :), :-), etc. Pots posar varis disparadors, separats entre ells per un espai.
 Si vols posar un espai en el text disparador, l'has de posar entre cometes,
 per exemple:
-"hello there" hi "what's up"
+"hola !" hi "Que pasa ??!!"
 faria que la emoticona tingues 3 disparadors.
 El "Nom del fitxer" és el nom del fitxer .gif amb la imatge de la
 emoticona. Aquesta ha de ser de la mida 19x19 píxels. Realment pot ser de
@@ -120,9 +137,19 @@ o si els fitxers no existen o no es poden llegir per l'usuari. Si no es
 mostra cap missatje d'error, aleshores ja podràs utilitzar la nova emoticona.
 Diverteix-te !.
 
+P: Els sobrenoms ara apareixen abreviats. Es posible canviar-ho ?
+R: Sí. Per veure completament els sobrenoms dels contactes de la llista, en 
+les alertes i en les finestres de xat, vés a les preferències avançades, dins
+la finestra de preferències, i desactiva aquesta opció.
 
-SOLUCIONANT PROBLEMES
-======================
+P: La detecció de blocatge ja no està disponible, per què?
+A: L'error del protocol que ens permetia detectar quan les persones et blocaven
+s'ha resolt
+Per tant, ja no es possible detectar-ho, i no feia falta incloure aquesta opció.
+
+
+SOLUCIONEM PROBLEMES
+====================
 
 P: A vegades l'amsn es "penja", ¿per qué?
 R: Normalment, quan l'amsn es penja es deu a un problema amb la configuració
@@ -165,22 +192,21 @@ R: Hi ha hagut diferents canvis en el fitxer de configuració. Una solució
 ràpida seria el·liminar el fitxer de configuració antic del teu directori
 d'usuari. El·limina /home/el_teu_usuari/.amsn/config i hauria de funcionar.
 
-P: No puc escriure xino, japonés o altres llenguatje a l'amsn, ¿qué puc fer?
+P: No puc escriure xinès, japonés o altres llenguatje a l'amsn, ¿qué puc fer?
 R: Sembla que xcin o programes similars no estàs suportats en la versió
 actual de tcl/tk, per això l'amsn no pot treballar amb ells. Haries d'esperar
 a la següent versió de tcl/tk i esperar que aquesta soporti xcin.
 Mentreestant, pots escriure text en una altre editor, copiar-lo i desprès
 enganxar-lo a la finestra de la conversa.
 Nou: Internacionalizació de copiar i enganxar. Si tens problemes enganxant
-caràcters a l'AMSN, descarregua i instal·la la versió de tcl/tk d'aquest
-site:
+caràcters a l'AMSN, descarregat i instal·la la versió de tcl/tk d'aquesta
+pàgina web:
 http://jfontain.free.fr/tcl-8.4a3-2.i386.rpm
 http://jfontain.free.fr/tk-8.4a3-2.i386.rpm
 http://jfontain.free.fr/tcl-thread-8.4a3-2.i386.rpm
 Això pot sol·lucionar els problemes en el cas de que no es pugui teclejar
 en el teu llenguatje directament a l'AMSN, com per exemplo xinès Tradicional
 usant xcin.
-
 
 P: ¿Puc utilitzar l'amsn darrere d'un servidor proxy?
 R: Després de la versió 0.61, el soport per servidor proxy HTTP està
@@ -208,9 +234,9 @@ estàs utilitzant Gnome, pots utilitzar esdplay i configurar l'XMMS per reproduir
 a través de ESD. En lloc d'utilitzar el reproductor, pots fer un petit script
 que comprovi si /dev/dsp està en us, o lliure, avanç de reproduir.
 
-Q: Estic utilitzant l'amsn darrere d'un tallafoc, o utilitzant IP-Masquerade. No puc
+P: Estic utilitzant l'amsn darrere d'un tallafoc, o utilitzant IP-Masquerade. No puc
 enviar fitxers, ¿Com puc arreglar-ho?
-A: Probablement el tallafocs (firewall) està bloquejant las conexions
+R: Probablement el tallafocs (firewall) està bloquejant las conexions
 entrants. Les transferències de fitxers funcionen així: Quan vulguis
 enviar a algú un fitxer, envia una invitació a aquesta persona amb la teva
 direcció IP i un número de port. Després, el client remot ha de connectar-se
@@ -230,9 +256,21 @@ d'enllaç (l'ordenador o màquina amb connexió directa a internet)
 per que redirigeixi les conexions al port 6891 fins el seu ordinador dins
 de la xarxa privada.
 
+P: Com puc obrir els ports de transferència de fitxers en el Suse Linux?
+R: Guia gràcies a en John Hillier
+1. Obrir el Konqueror en mode de super usuari (KMenu/System/Més programes/Gestor 
+de Fitxers - Mode de super usuari).
+2. Entrar la següent direcció al konqueror: /etc/sysconfig/SuSEfirewall2.
+3. Fesclick amb el botó dret del ratolí, i seleccionar "Obrir amb el KWrite" 
+i així podrem editar l'script del tallafocs.
+4. Editar la secció #9 line FW_SERVICES_EXT_TCP="6891" per incloure el port 6891.
+5. Desa el fitxer, tanca totes les finestres i despres reinicia el tallafocs amb el YaST.
+Una forma més senzilla es obrir el "YaST/Seguretat i Usuaris/Tallafocs/Configuració
+del tallafocs". Entrar en el mode "Expert" a "Serveis Adicionals" i afegir el
+port 6891.
 
-Execució en Windows
-====================
+EXECUCCIÓ EN EL WINDOWS
+=======================
 
 P: ¿Puc fer que el so funcion sota Windows?
 R: Sí, nosaltres tenim un petit programa anomenat plwav.exe, que només
@@ -245,10 +283,20 @@ P: Quan apareix una finestra emergent, la barra d'eines de la finestra
 apareix oculta parcialment, ¿puc sol·lucionar-ho?
 R: Sí, pots moure la finestra de notificació, movient els píxels X a
 la esquerra i els píxels Y amunt. Pots canviar això a:
-Eines->Opcions->Preferències->Apariència
+Eines->Opcions->Preferències, dins la secció "avançat".
 
 ALTRES
-=======
+======
+
+P: Se m'ha notificat que l'AMSN està obrint diferents ports sobre el 60000.
+És normal? Per què passa?
+R: Això és normal. AMSN utilitza sockets per blocar el sistema de tenir dos
+instàncies de l'AMSN que utilitzin el mateix perfil a la vegada. Aquesta és la millor
+plataforma per bloquejar el sistema que he trobat. Si trobes una forma millor per
+fer-ho, diga'm-ho :)
+Si comproves el fitxer ~/.amsn/profiles, podràs comprovar quin port utilitza cada perfil.
+
+
 P: Tinc una altra pregunta, ¿podeu ajudar-me?
 R: Sí, podem. Però primer, fes una ullada a la pàgina del projecto
 sourceforge, que està allotjada a http://sourceforge.net/projects/amsn, i comprova
@@ -261,6 +309,9 @@ següents dades:
 - Versió de l'Amsn.
 - Versió de Tcl i TK.
 - Localitza l'error al trametre (si és posible).
+- Els ultims missatges d'errors de la finestra de depuració (Ctrl+D i Ctrl+S a la
+  llista de contactes).
 
-Si encara tens algun dubte, ens pots escriure a:
-amsn-users@lists.sourceforge.net
+Si encara tens algun dubte, comprova la pàgina web:
+http://amsn.sourceforge.net/wiki/tiki-index.php?page=HOW+TO+help+and+getting+help
+
