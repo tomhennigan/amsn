@@ -349,10 +349,13 @@ namespace eval ::amsn {
 		
 		set filename "[file join docs README[::config::getGlobalKey language]]"
 		
+		set current_enc $langenc
+
+
 		if {![file exists $filename]} {
 			status_log "File $filename NOT exists!!\n\tUsing english one instead." red
 			set filename README
-			set langenc "iso8859-1"
+			set current_enc "iso8859-1"
 
 			if {![file exists $filename]} {
 				status_log "no english README either .. Houston, we have a problem, you ***'ed up your aMSN install!"
@@ -426,7 +429,7 @@ namespace eval ::amsn {
 
 		#Insert the text in .about.middle.list.text
 		set id [open $filename r]
-		fconfigure $id -encoding $langenc
+		fconfigure $id -encoding $current_enc
 
 		.about.middle.list.text insert 1.0 [read $id]
 		close $id
@@ -524,7 +527,7 @@ namespace eval ::amsn {
 
 		#Insert FAQ text
 		set id [open $filename r]
-		fconfigure $id -encoding $langenc
+		fconfigure $id -encoding $encoding
 		$w.info.list.text insert 1.0 [read $id]
 		close $id
 

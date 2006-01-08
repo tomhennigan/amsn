@@ -134,16 +134,22 @@ proc load_lang { {langcode "en"} {plugindir ""} } {
 		status_log "load_lang called from a plugin"
 		variable ::${plugin}::lang
 	}
-	set langenc ""
+	set current_enc ""
 
 	foreach langdata $lang_list {
 		if { [lindex $langdata 0] == $langcode } {
-			set langenc [lindex $langdata 2]
-			set langlong [lindex $langdata 1]
+
+			set current_enc  [lindex $langdata 2]
+			if { $plugin == -1 } {
+				set langenc [lindex $langdata 2]
+				set langlong [lindex $langdata 1]
+			} 
+
+			
 		}
 	}
 
-	fconfigure $file_id -encoding $langenc
+	fconfigure $file_id -encoding $current_enc
 
 	gets $file_id tmp_data
 	if {$tmp_data != "amsn_lang_version 2"} {	;# config version not supported!
