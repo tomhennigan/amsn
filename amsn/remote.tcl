@@ -76,6 +76,16 @@ namespace eval ::remote {
 		}
 	}
 
+	proc status { } {
+		set nick [::abook::getPersonal MFN]
+		write_remote "[trans nick]: $nick"
+		if {[ ::config::getKey protocol] == 11 } {
+			set psm [::abook::getPersonal PSM]
+			write_remote "[trans PSM]: $psm"
+		}
+		getstate
+	}
+
 	proc getstate { } {
 
 		set my_state [::MSN::stateToDescription [::MSN::myStatusIs]]
@@ -84,7 +94,12 @@ namespace eval ::remote {
 
 	}
 
-	proc setstate { state } {
+	proc setstate { {state ""} } {
+		if { "$state" == "" } {
+			write_remote "Possible status are :"
+			write_remote " online, away, busy, noactivity, brb, onphone, lunch, appearoffline"
+			return
+		}
 
 		set state [string tolower $state]
 		if { "$state" == "online" } {
