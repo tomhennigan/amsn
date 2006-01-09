@@ -2811,7 +2811,7 @@ namespace eval ::Event {
 			set command [string range $dataBuffer 0 [expr {$idx -1}]]
 
 			#check for payload commands:
-			if {[lsearch {MSG NOT PAG IPG UBX} [string range $command 0 2]] != -1} {
+			if {[lsearch {MSG NOT PAG IPG UBX GCF} [string range $command 0 2]] != -1} {
 			        set length [lindex [split $command] end]
 
 				set remaining [string range $dataBuffer [expr {$idx +2}] end]
@@ -2964,6 +2964,7 @@ namespace eval ::Event {
 		set nickname ""
 		set contactguid ""
 		set list_names ""
+		set unknown ""
 		set groups "0"
 
 		#We skip LST
@@ -2979,6 +2980,8 @@ namespace eval ::Event {
 				#We didn't get the list names
 				set list_names $information
 				status_log $list_names
+			} elseif { $unknown == "" } {
+				set unknown $information
 			} elseif { $groups == "0" } {
 				#We didn't get the group list
 				set groups $information
@@ -4642,11 +4645,11 @@ proc cmsn_auth {{recv ""}} {
 		a {
 			#Send three first commands at same time, to it faster
 			if { [::config::getKey protocol] == 11 } {
-				::MSN::WriteSB ns "VER" "MSNP13 MSNP11 CVR0"
+				::MSN::WriteSB ns "VER" "MSNP12 CVR0"
 			} else {
 				::MSN::WriteSB ns "VER" "MSNP9 CVR0"
 			}
-			::MSN::WriteSB ns "CVR" "0x0409 winnt 6.0 i386 MSNMSGR 7.0.0732 MSMSGSBETAM2 [::config::getKey login]"
+			::MSN::WriteSB ns "CVR" "0x0409 winnt 5.1 i386 MSG80BETA 8.0.0365 msmsgs [::config::getKey login]"
 			::MSN::WriteSB ns "USR" "TWN I [::config::getKey login]"
 
 			ns configure -stat "v"
