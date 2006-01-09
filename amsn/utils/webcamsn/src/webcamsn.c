@@ -409,7 +409,7 @@ int Webcamsn_Encode _ANSI_ARGS_((ClientData clientData,
 	mimic_get_property(encoder->codec, "width", &width);
 	mimic_get_property(encoder->codec, "height", &height);
 
-	output = (BYTE *) malloc(length*2);
+	output = (BYTE *) malloc(length*5);
 	FrameData = RGBA2RGB(photoData);
 	
 
