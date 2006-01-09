@@ -13,7 +13,7 @@ if { $initialize_amsn == 1 } {
 
 proc remote_check_online { } {
 	if { [::MSN::myStatusIs] != "FLN" } {
-		write_remote "[trans conencted]..."
+		write_remote "[trans connected]..."
 		return
 	} else {
 		after 1000 "remote_check_online"
