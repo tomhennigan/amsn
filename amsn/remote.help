@@ -7,6 +7,8 @@ connect
 	Connects you to your account
 online
 	Shows you all online users and their states
+status
+	Shows your current nick, personal message, state
 getstate
 	Shows you our online state
 setstate { state }
