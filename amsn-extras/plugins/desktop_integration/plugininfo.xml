@@ -6,6 +6,7 @@
 	<amsn_version>0.95</amsn_version>
 	<plugin_version>0.9</plugin_version>
 	<plugin_file>desktop_integration.tcl</plugin_file>
+	<cvs_version>1.7</cvs_version>
 	<plugin_namespace>desktop_integration</plugin_namespace>
 	<init_procedure>Init</init_procedure>
 	<deinit_procedure>DeInit</deinit_procedure>
