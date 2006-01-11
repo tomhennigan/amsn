@@ -182,6 +182,7 @@ contrast Contraste
 conversationwith $1 usuários na conversa 
 convertexplain Pasta do programa CONVERT, do ImageMagick (necessário para exibir imagens).\n Deixe em branco caso CONVERT esteja no seu caminho de execução.
 copy Copiar
+copytoclipboard Copia $1 para a área de transferencia
 copytogroup Copiar para o grupo
 corruptconfig O arquivo de configuração está corrompido. Criando configuração nova. A configuração antiga será salva em $1. \nPor favor mande o arquivo para que possamos analisar o problema.
 corruptstates O arquivo de configuração dos estados está corrompido. Criando configuração nova. A configuração antiga será salva em $1. \nPor favor, mande-nos o arquivo para que possamos analisar o problema.
@@ -317,6 +318,7 @@ globalnicktitle Apelido global
 globaloverride Padrão global de apelidos deve sobrepor-se aos apelidos personalizados
 gonelunch Fui comer, dá licença?
 gotink $1 te enviou um ink
+goto Ir para $1
 groupadd Adicionar um grupo
 groupdelete Apagar um grupo
 groupexists Grupo já existente

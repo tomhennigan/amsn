@@ -744,7 +744,7 @@ webcamclosebefcancel Tendrás que cancelar todas las sesiones de cámara web antes
 webcam Cámara web
 webcamconfigure Configurar cámara web
 webcamextloaded Extensión de cámara web cargada
-webcamextnotloaded Extensión de cámara web no ha sido cargada. Tendrás que compilarla.
+webcamextnotloaded La extensión de cámara web no ha sido cargada. Tendrás que compilarla.
 webcamfaq FAQ(Preguntas Frecuentes)/Ayuda para cámara web
 webcamhistory Ver sesiones de cámara web
 webcaminvite $1 te ha invitado a una sesión de videoconferencia, pero aMSN todavía no soporta esta característica.
@@ -776,3 +776,5 @@ yousay Dices
 youwant Quieres
 zoom Ampliación
 bugnocomment ¿Enviar sin un comentario?. Comentar un fallo nos ayuda a hacernos una idea de qué fue mal y así poder arreglarlo fácilmente.
+copytoclipboard Copiar $1 al portapapeles
+goto Ir a $1

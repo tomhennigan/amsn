@@ -47,10 +47,6 @@ askcontactwebcam att fråga efter din kontakts webbkamera, eller
 askeachtime Fråga varje gång
 asksendingyourwebcam för att be om att sända din egen webbkamera
 askwebcam Be denna användare sända sin webbkamera
-avaccepted Videokonferens accepterad
-avcanceled Videokonferens avbruten
-avgotinvitation Fått inbjudan till videokonferens från $1
-avinitfailed Kunde inte starta ljud/video-plugin, avbryter.
 author Upphovsman
 autoaccepted Filöverföringen accepterades automatiskt
 autoacceptft Acceptera filöverföringar automatiskt.
@@ -64,6 +60,10 @@ autoidle Sätt min status till "inaktiv" automatiskt.
 autoip Automatisk IP
 automessage Autosvar
 autonoact Visa som "Inaktiv" efter
+avaccepted Videokonferens accepterad
+avcanceled Videokonferens avbruten
+avgotinvitation Fått inbjudan till videokonferens från $1
+avinitfailed Kunde inte starta ljud/video-plugin, avbryter.
 avoidseen Tillåt inte att denna kontakt att se om jag är ansluten eller kontakta mig.
 away Inte vid datorn
 awaymsg1 Fråga om autosvarinställning varje gång jag sätter min status till "inte vid datorn"
@@ -125,9 +125,9 @@ chatsmileys2 Visa 'Emoticons' och Smileys i konversationer
 checkblocking Se efter om kontakter blockerar dig kontinuerligt.
 checkemail Visa antal inkomna e-postmeddelanden i din inkorg i kontaktlistan.
 checkfilman Mottagna filer sparas i $1. Välj en filhanterare i programinställningarna för aMSN. Du hittar det under fliken "sökvägar".
-checkopenfilecommand Kontrollera inställningarna för "Öppna fil"
 checkingver Söker efter nya versioner...
 checkonfln Kontrollera om en användare blockerar dig då han/hon loggar ut
+checkopenfilecommand Kontrollera inställningarna för "Öppna fil"
 checkver Sök efter ny version av aMSN
 choosearq Välj din systemarkitektur
 choosebasefont Teckensnitt
@@ -139,9 +139,9 @@ choosefontcolor Välj textfärg
 chooseskin Välj det tema du vill använda i aMSN
 ch_to_state Sätt som status
 clear Töm
-clearlog Ta bort loggfiler
+clearlog Ta bort historikfiler
 clearlog2 Radera historiken för alla kontakter
-clearlog3 Ta bort
+clearlog3 Töm historiken
 clearwebcamlogs Töm webbkamerahistoriken
 clickhere Klicka här
 clicktoadd Klicka på Lägg till för att lägga till en ny anteckning
@@ -182,6 +182,7 @@ contrast Kontrast
 conversationwith $1 användare i konversationen
 convertexplain Sökväg till programmet "convert" från ImageMagick (krävs för att kunna visa visningsbilder).\n Lämna orört om "convert" redan står i fältet, det indikerar att convert svarar mot kortkommandot.
 copy Kopiera
+copytoclipboard Kopiera $1 till klippbordet
 copytogroup Kopiera till grupp
 corruptconfig Konfigurationsfilen är korrupt. En ny konfigurationsfil är skapad. Den gamla filen sparas till $1. Skicka den gärna till oss så vi får se vad som är fel.
 corruptstates Konfigurationsfilen för personlig status är korrupt. En ny konfigurationsfil är skapad. Gamla filen sparad som $1. Skicka den gärna till oss och berätta vad som hände.
@@ -223,8 +224,8 @@ delprofile2 Välj den profil du vill ta bort
 description Beskrivning
 detach Avskilj
 details Detaljer
-devices Enheter
 devicebusy Enhet $1 är upptagen
+devices Enheter
 directconnection Standard (använder port 1863)
 disabled Inaktiverad
 disableprofiles Inaktivera profiler (bra för till exempel internetcaféer)
@@ -311,12 +312,13 @@ fullcontactlist Tyvärr är din kontaktlista full. Du måste ta bort några kontakte
 getdisppic Spara andras visningsbilder på disk
 getmoreplugins Skaffa fler plugins!
 getmoreskins Skaffa fler teman!
-globalnick Ange ett mönster för att namnge alla dina kontakter. Följande variabler är tillgängliga: \$userlogin för e-postadress, \$nick för smeknamn och \$customnick för anpassat smeknamn. Till exempel: '\$user_login heter \$nick' blir 'pelle@msn.com heter Pelle Svanslös'
 globalcontainer Global container
+globalnick Ange ett mönster för att namnge alla dina kontakter. Följande variabler är tillgängliga: \$userlogin för e-postadress, \$nick för smeknamn och \$customnick för anpassat smeknamn. Till exempel: '\$user_login heter \$nick' blir 'pelle@msn.com heter Pelle Svanslös'
 globalnicktitle Globalt smeknamn
 globaloverride Globala smeknamn åsidosätter anpassade smeknamn
 gonelunch Är och äter
 gotink $1 skickade en ink.
+goto Gå till $1
 group Grupp
 groupadd Lägg till grupp
 groupdelete Ta bort grupp
@@ -542,7 +544,7 @@ preffont2 Ändra hur andra ser min text i konversationer
 preffont3 Ändra aMSNs teckensnitt och storlek
 prefft Filöverföring, "peer-to-peer" och NAT inställningar.
 preflibs TLS-mappen
-preflog1 Logg-inställningar
+preflog1 Historikinställningar
 preflogevent Händelsehistorik
 preflook aMSN Messenger utseende
 prefmsging Meddelandeutseende
@@ -750,8 +752,8 @@ webcamhistory Historik för webbkamera
 webcaminvite $1 bjöd in dig att starta en webbkamerakonversation, men aMSN stödjer tyvärr inte webbkamerakonversationer än.
 webcaminvitereceived $1 har bjudit in dig till att starta en webbkamerakonversation, acceptera?
 webcamrejected $1 tackade nej till din inbjudan till webbkamerakonversation
-webcamrequestsend Skickade begäran om att sända från webbkameran
 webcamrequestreceive Skickade begäran om att ta emot från webbkamera
+webcamrequestsend Skickade begäran om att sända från webbkameran
 webcamsending Lista över personer du har webbkamerakonversation med\nKlicka för att avbryta
 whatisamsn aMSN är en plattformsoberoende MSN Messenger-klon
 whatsize Bilden du bett om har inte de vanliga måtten (96*96). Vilken storlek vill du att bilden ska visas i?
