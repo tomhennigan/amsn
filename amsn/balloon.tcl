@@ -122,10 +122,19 @@ proc balloon {target message pic {cx 0} {cy 0} } {
 	}
 
 	frame .balloon.f -bg [::skin::getKey balloonbackground]
-	pack .balloon.f
+	
+	if {$tcl_platform(platform) == "windows"} {
+		set bw [expr [::skin::getKey balloonborderwidth]]
+	} else {
+		set bw [expr [::skin::getKey balloonborderwidth] - 1 ]
+		if {$bw < 0} {
+			set bw 0
+		}
+	}
+	pack .balloon.f -padx $bw -pady $bw
 	if { $pic != "" && ![catch {$pic cget -file}]} {
 		label .balloon.f.pic -image $pic -bg [::skin::getKey balloonbackground]
-		pack .balloon.f.pic -side left -padx 2 -pady 2
+		pack .balloon.f.pic -side left
 		set iwidth [image width $pic]
 	} else {
 		set iwidth 0
@@ -154,7 +163,7 @@ proc balloon {target message pic {cx 0} {cy 0} } {
 		}
 	}
 	
-	pack .balloon.f.l -side left -padx $bw -pady $bw
+	pack .balloon.f.l -side left
         wm geometry .balloon +${x}+${y}
         
 	#Focus last windows , in AquaTK ("Mac OS X focus bug")
