@@ -30,6 +30,8 @@ namespace eval ::sayit {
 			showswitch {0}
 			sayiton {1}
 			notonfocus {1}
+			unfocusstring {$nickname writes $msg}
+			junkfilter {0}
 		}
 
 		set ::sayit::configlist [list \
@@ -38,6 +40,8 @@ namespace eval ::sayit {
 			[list bool "Sound server running (Linux)" snd_server_lin] \
 			[list bool "Don't say message for focussed windows" notonfocus] \
 			[list bool "Show switch in contactlist (need 0.95)" showswitch] \
+			[list str "String to say when unfocused" unfocusstring] \
+			[list bool "Filter out smileys" junkfilter] \
 		]
 	}
 
@@ -56,6 +60,25 @@ namespace eval ::sayit {
 			((!$config(showswitch)) || $config(sayiton)) && \
 			($msg != "") \
 		} {
+			# junkfilter
+			#
+			# TODO:
+			#  * Add extra filter level: remove '...' and similar junk.
+
+			if { ($config(junkfilter)) } {
+				foreach smiley [array names ::emotions] {
+					while { ([set hit [lsearch $msg $smiley]] != -1) } {
+						set msg [lreplace $msg $hit $hit]
+					}
+				}
+			}
+			if { (![string compare $msg ""]) } { return }
+		
+			# if window unfocused, use special string
+			if { ([focus] == "") } {
+				set msg [subst $config(unfocusstring)]
+			}
+
 			if { $::tcl_platform(platform) == "windows" } {
 				after 0 [list WinSayit "$msg"]
 			} elseif { $::tcl_platform(os)== "Linux" } {
