@@ -138,7 +138,7 @@ namespace eval ::music {
 					[list str "[trans musictimeverify]" second] \
 					[list bool "[trans musicaddsongtopsm]"  active] \
 					[list label "[trans choose_order]"] \
-					[list rbt "[trans songartist]" "[trans artistsong]" songart] \
+					[list rbt "[trans songartist]" "[trans artistsong]" "[trans song]" songart] \
 					[list str "[trans separator]" separator] \
 				]
 			} else {
@@ -151,7 +151,7 @@ namespace eval ::music {
 					[list str "[trans musicseparator]"  symbol] \
 					[list str "[trans musicstopmsg]"  stop] \
 					[list label "[trans choose_order]"] \
-					[list rbt "[trans songartist]" "[trans artistsong]" songart] \
+					[list rbt "[trans songartist]" "[trans artistsong]" "[trans song]" songart] \
 					[list str "[trans separator]" separator] \
 				]
 			}
@@ -465,6 +465,8 @@ namespace eval ::music {
 				append songart $song " " $::music::config(separator) " " $art
 			} elseif {$::music::config(songart) == 2} {
 				append songart $art " " $::music::config(separator) " " $song
+			} elseif {$::music::config(songart) == 3} {
+				append songart $song
 			}
 			lappend return $songart
 			lappend return [urldecode [string range $path 5 end]]
@@ -509,6 +511,8 @@ namespace eval ::music {
 #				append songart $song " " $::music::config(separator) " " $art
 #			} elseif {$::music::config(songart) == 2} {
 #				append songart $art " " $::music::config(separator) " " $song
+#			} elseif {$::music::config(songart) == 3} {
+#				append songart $song
 #			}
 #			lappend return $songart
 #			lappend return [urldecode [string range $path 5 end]]
@@ -559,6 +563,8 @@ namespace eval ::music {
 				append songart $song " " $::music::config(separator) " " $art
 			} elseif {$::music::config(songart) == 2} {
 				append songart $art " " $::music::config(separator) " " $song
+			} elseif {$::music::config(songart) == 3} {
+				append songart $song
 			}
 			lappend return $songart
 			lappend return $path
@@ -605,6 +611,8 @@ namespace eval ::music {
 				append songart $song " " $::music::config(separator) " " $art
 			} elseif {$::music::config(songart) == 2} {
 				append songart $art " " $::music::config(separator) " " $song
+			} elseif {$::music::config(songart) == 3} {
+				append songart $song
 			}
 			lappend return $songart
 			lappend return $path
@@ -853,5 +861,6 @@ namespace eval ::music {
 
 		$textb configure -state disabled
 	}
+	
 
 }

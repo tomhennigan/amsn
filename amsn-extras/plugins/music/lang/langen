@@ -14,6 +14,7 @@ musicplayer Choose your preferred player
 musicstopdefault Player stopped
 separator Separator
 songartist Song-Artist
+song Song
 artistsong Artist-Song
 choose_order Choose order for song and artist name (not compatible with XMMS)
 musicballontext Click here to show/hide the song in your nick
