@@ -1372,9 +1372,17 @@ namespace eval ::MSN {
 	proc deleteUser { userlogin {grId ""}} {
 		if { [::config::getKey protocol] == 11 } {
 			if { $grId == "0" } {
+				#We remove from every where
+				foreach groupID [::abook::getGroups $userlogin] {
+					::MSN::WriteSB ns REM "FL [::abook::getContactData $userlogin contactguid $groupID]"
+				}
 				::MSN::WriteSB ns REM "FL [::abook::getContactData $userlogin contactguid]"
 			} else {
+				#If it is the last group then delete it from the FL too
 				::MSN::WriteSB ns REM "FL [::abook::getContactData $userlogin contactguid] $grId"
+				if { [llength [::abook::getGroups $userlogin]] == 1 } {
+					::MSN::WriteSB ns REM "FL [::abook::getContactData $userlogin contactguid]"
+				}
 			}
 		} else {
 			if { $grId == "" } {
