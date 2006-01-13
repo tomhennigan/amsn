@@ -1729,6 +1729,7 @@ proc Preferences { { settings "personal"} } {
 	pack $lfname.2.lautoaway $lfname.2.eautoaway $lfname.2.lmins -side left
 	checkbutton $lfname.3.lreconnect -text "[trans reconnect2]" -onvalue 1 -offvalue 0 -variable [::config::getVar reconnect]
 	checkbutton $lfname.3.lonstart -text "[trans autoconnect2]" -onvalue 1 -offvalue 0 -variable [::config::getVar autoconnect]
+	checkbutton $lfname.3.lmsnp11 -text "[trans usemsnp11]" -onvalue 11 -offvalue 9 -variable [::config::getVar protocol]
 	
 	if {$::tcl_platform(platform) == "windows"} { 
 		checkbutton $lfname.3.startonboot -text "[trans startonboot]" -onvalue "add" -offvalue "remove" -variable ::start_on_windows_boot
@@ -1737,9 +1738,9 @@ proc Preferences { { settings "personal"} } {
 	pack $lfname.3 -side top -padx 0 -expand 1 -fill both
 
 	if {$::tcl_platform(platform) == "windows"} { 
-		pack $lfname.3.lreconnect $lfname.3.lonstart $lfname.3.startonboot  -anchor w -side top
+		pack $lfname.3.lreconnect $lfname.3.lonstart $lfname.3.lmsnp11 $lfname.3.startonboot  -anchor w -side top
 	} else {
-		pack $lfname.3.lreconnect $lfname.3.lonstart -anchor w -side top       
+		pack $lfname.3.lreconnect $lfname.3.lonstart $lfname.3.lmsnp11 -anchor w -side top       
 	}
 
 	## Away Messages Frame ##

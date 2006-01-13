@@ -271,6 +271,7 @@ encoding Choose encoding
 entercontactemail Enter contact e-mail
 enterfilename Please enter a filename
 enternick Enter your nick
+enterpsm Personal Message
 enterbugdesc Enter a description of what you were doing to help us reproduce the bug:
 errortls Error installing TLS module:
 eventhistory View events history
@@ -727,6 +728,7 @@ updating Updating
 unselectall Unselect all
 useother Use a different program
 useasdp Use as Display Picture
+usemsnp11 Enable support for Personal Messages (EXPERIMENTAL feature) -- needs profile + restart
 useralreadyonlist User is already on contact list
 userblocked The user is online but blocked you
 userdata User Data
