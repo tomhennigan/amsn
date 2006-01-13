@@ -272,6 +272,7 @@ enterbugdesc Entrez une description de ce que vous faisiez pour nous aider a rep
 entercontactemail Ajouter un contact de messagerie
 enterfilename Entrez le nom du fichier
 enternick Mon pseudonyme
+enterpsm Message personnel
 errortls Erreur lors de l'installation du module TLS:
 eventhistory Voir l'historique des événements
 examples Exemples
@@ -727,6 +728,7 @@ updateonlycurrentlanguage Ne mettre à jour que la langue courante
 updating Mise à jour
 useasdp Utiliser en tant qu'icône
 useother Utiliser un programme différent
+usemsnp11 Ajoute la possibilité de lire et d'écrire des messages personnels (ceci est une fonction EXPERIMENTALE !) -- Pour cela vous avez besoin d'un profil et de relancer aMSN
 useralreadyonlist Utilisateur déjà présent dans la liste
 userblocked Ce contact est en ligne mais vous l'avez bloqué
 userdata Données du contact
