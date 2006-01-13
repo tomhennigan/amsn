@@ -616,6 +616,7 @@ proc load_config {} {
 	}
 
 	::config::setKey clientid 0
+	::config::setKey protocol 11
 	::MSN::setClientCap msnc4
 	::MSN::setClientCap inkgif
 	::MSN::setClientCap multip
