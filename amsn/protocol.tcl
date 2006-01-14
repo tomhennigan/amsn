@@ -3073,8 +3073,16 @@ namespace eval ::Event {
 		switch [lindex $command 0] {
 			PRP {
 				::abook::setPersonal [lindex $command 2] [urldecode [lindex $command 3]]
+				#TODO: put this here to be the same as the old REA response, should it be moved to abook?
+				if { [lindex $command 2] == "MFN" } {
+					cmsn_draw_online 1
+					send_dock STATUS [::MSN::myStatusIs]
+					#an event used by guicontactlist to know when we changed our nick
+					::Event::fireEvent myNickChange protocol
+				}
 			}
 			209 {
+				#TODO: #FIX: ummm, where did $newname get set???????
 				#Nickname change illegal. Try again urlencoding any character
 				set name [urlencode_all $newname]
 				::MSN::WriteSB ns "PRP" "MFN $name" "ns handlePRPResponse"
