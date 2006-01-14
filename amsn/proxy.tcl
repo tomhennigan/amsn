@@ -656,12 +656,13 @@ proc globalWrite { proxy name {msg ""} } {
 						set recv [split $command]
 						set msg_data [string range $log 0 [expr {[lindex $recv 3]-1}]]
 						set log [string range $log [expr {[lindex $recv 3]}] end]
-
+						set command [encoding convertfrom utf-8 $command]
 						$name handleCommand $command $msg_data
 						#degt_protocol " Message contents:\n$msg_data" msgcontents
 
 						#sb append $name data $msg_data
 					} else {
+						set command [encoding convertfrom utf-8 $command]
 						$name handleCommand $command
 					}
 
