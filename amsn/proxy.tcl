@@ -652,10 +652,10 @@ proc globalWrite { proxy name {msg ""} } {
 
 					#degt_protocol "<-Proxy($name) $command" nsrecv
 
-					if {[string range $command 0 2] == "MSG"} {
+					if {[lsearch {MSG NOT PAG IPG UBX GCF} [string range $command 0 2]] != -1} {
 						set recv [split $command]
-						set msg_data [string range $log 0 [expr {[lindex $recv 3]-1}]]
-						set log [string range $log [expr {[lindex $recv 3]}] end]
+						set msg_data [string range $log 0 [expr {[lindex $recv end]-1}]]
+						set log [string range $log [expr {[lindex $recv end]}] end]
 						set command [encoding convertfrom utf-8 $command]
 						$name handleCommand $command $msg_data
 						#degt_protocol " Message contents:\n$msg_data" msgcontents
