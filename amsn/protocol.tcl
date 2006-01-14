@@ -1110,6 +1110,7 @@ namespace eval ::MSN {
 				set currentMedia [::sxml::xmlreplace $currentMedia]
 				::abook::setPersonal PSM $newpsm
 				set newpsm [::sxml::xmlreplace $newpsm]
+				set newpsm [encoding convertto utf-8 $newpsm]
 				
 				set psm "<Data><PSM>$newpsm</PSM><CurrentMedia>$currentMedia</CurrentMedia></Data>"
 				::MSN::WriteSBNoNL ns "UUX" "[string length $psm]\r\n$psm"
