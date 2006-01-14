@@ -1102,10 +1102,10 @@ namespace eval ::MSN {
 	}
 
 	#Change a users personal message
-	proc changePSM { newpsm } {
+	proc changePSM { newpsm { forcechange 0 } } {
 		#TODO: encode XML etc
 		if { [::config::getKey protocol] == 11 } {
-			if { [::abook::getPersonal PSM] != $newpsm } {
+			if { [::abook::getPersonal PSM] != $newpsm || $forcechange } {
 				set currentMedia [::abook::getPersonal CurrentMedia]
 				set currentMedia [::sxml::xmlreplace $currentMedia]
 				::abook::setPersonal PSM $newpsm
@@ -4861,6 +4861,15 @@ proc initial_syn_handler {recv} {
 		}
 
 		catch { file delete [file join ${HOME} "nick.cache"] }
+	}
+
+	# Send our PSM to the server because it doesn't know about it!
+
+	if { [::config::getKey protocol] == 11 } {
+		if { [::abook::getPersonal PSM] != "" || [::abook::getPersonal CurrentMedia] != "" } {
+			::MSN::changePSM [::abook::getPersonal PSM] 1
+			#second argument is force change
+		}
 	}
 
 
