@@ -376,7 +376,7 @@ lastlogout Última desconexión
 lastmsgedme Último mensaje
 lastmsgtime Último mensaje recibido a las $1
 lastseen Última vez visto en línea
-lazypicretrieval Vaga recuperación de las imágenes para mostrar
+lazypicretrieval Recuperación "a posteriori" de las imágenes para mostrar
 lclosedwin $1 ha cerrado la ventana a las $2
 lconftopriv La conversación pasa a ser un privado con $1
 lconvstarted Comienza la conversación a las $1
