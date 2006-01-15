@@ -11,10 +11,10 @@
 	option -id
 
 	method showInfo { } {
-		puts ----
-		puts id:$options(-id)
-		puts name:$options(-name)
-		puts users:$users
+		status_log ----
+		status_log id:$options(-id)
+		status_log name:$options(-name)
+		status_log users:$users
 	}
 
 	method addUser { user } {
