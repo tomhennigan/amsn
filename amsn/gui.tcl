@@ -6553,6 +6553,7 @@ proc launch_browser { url {local 0}} {
 
 	if { $tcl_platform(platform)=="windows" && [string tolower [string range $url 0 6]] == "file://" } {
 		set url [string range $url 7 end]
+		regsub -all "/" $url "\\\\" url
 	}
 
 	status_log "url is $url\n"
