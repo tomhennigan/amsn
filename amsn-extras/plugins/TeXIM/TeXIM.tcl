@@ -30,8 +30,8 @@ namespace eval ::TeXIM {
 			path_convert {convert}
 			resolution {120}
 			header "\\documentclass\[12pt\]\{article\}\n\
-				\\pagestyle\{empty\}\n\
-				\\begin\{document\}"	
+				\\pagestyle\{empty\} "	
+			path_preamble {}
 			footer "\\end\{document\}"
 			dir {}
 		}
@@ -85,14 +85,25 @@ namespace eval ::TeXIM {
 		#Header
 		frame $win.header -class Degt
 		pack $win.header -anchor w
-		label $win.header.label -text "Please enter here the header for the tex documents :"
+		label $win.header.label -text "Please enter here the header for the tex documents \n(without \"\\begin\{document\}\" )\n(add packages there) :"
 		text $win.header.text -background white -borderwidth 1 -relief ridge -width 45 -height 5 -font sboldf
 		button $win.header.default -text [trans default] -command "::TeXIM::MakeDefault $win.header.text header"
 		$win.header.text insert end $::TeXIM::config(header)
 		grid $win.header.label -row 1 -column 1 -sticky w
 		grid $win.header.text -row 2 -column 1 -sticky w
 		grid $win.header.default -row 3 -column 1 -sticky w
-		
+	
+		#Path To PreambleFile
+		frame $win.preamble -class Degt
+		pack $win.preamble -anchor w 
+		label $win.preamble.preamblepath -text "Path to a preamble file :" -padx 5 -font sboldf
+		entry $win.preamble.path -bg #FFFFFF -width 45 -textvariable ::TeXIM::config(path_preamble)
+		button $win.preamble.browse -text [trans browse] -command "Browse_Dialog_File ::TeXIM::config(path_preamble)"
+		grid $win.preamble.preamblepath -row 1 -column 1 -sticky w
+		grid $win.preamble.path -row 2 -column 1 -sticky w
+		grid $win.preamble.browse -row 2 -column 2 -sticky w
+
+
 		#Footer
 		frame $win.footer -class Degt
 		pack $win.footer -anchor w
@@ -119,8 +130,7 @@ namespace eval ::TeXIM {
 			header {
 				$widget delete 0.0 end
 				$widget insert end "\\documentclass\[12pt\]\{article\}\n\
-							\\pagestyle\{empty\}\n\
-							\\begin\{document\}"
+							\\pagestyle\{empty\}"
 			}
 			footer {
 				$widget delete 0.0 end
@@ -178,11 +188,14 @@ namespace eval ::TeXIM {
 		
 		plugins_log "TeXIM" "creating a GIF with the tex code:\n$texText"
 		set fileXMLtex [open "TeXIM.tex" w]
-		#puts $fileXMLtex "\\documentclass\[12pt\]\{article\}"
-		#puts $fileXMLtex "\\pagestyle\{empty\}"
-		#puts $fileXMLtex "\\begin\{document\}"
 		puts $fileXMLtex "${::TeXIM::config(header)}"
-		
+		if { [file exists $::TeXIM::config(path_preamble) ] } {
+			set chan_pre [open $::TeXIM::config(path_preamble) r]
+			puts $fileXMLtex [read $chan_pre]
+			close $chan_pre
+		}	
+		puts $fileXMLtex "\\begin\{document\}"
+
 		puts $fileXMLtex "${texText}"
 		
 		puts $fileXMLtex "${::TeXIM::config(footer)}"
