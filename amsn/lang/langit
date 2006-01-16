@@ -257,12 +257,13 @@ entercontactemail Inserisci un contatto per e-mail
 enterfilename Inserisci un nome di file
 enternick Inserisci il tuo nick
 errortls Errore durante l'installazione del modulo TLS:
+enterpsm Messaggio Personale
 eventhistory Visualizza cronologia Eventi
 examples Esempi
 exitamsn Sei sicuro di voler uscire?
 extras Servizi extra
 faileddelete Eliminazione non riuscita
-faileddeleteperso Questo file non può essere rimosso perchè non è un'immagine personale. Solo le immagini appartenenti al proprio profilo possono essere rimosse in questo modo.
+faileddeleteperso Questo file non può essere rimosso perché non è un'immagine personale. Solo le immagini appartenenti al proprio profilo possono essere rimosse in questo modo.
 failed Non riuscito
 faq FAQ (Risposte alle domande più frequenti)
 file Archivio
@@ -692,6 +693,7 @@ update Aggiornamento
 updateonlycurrentlanguage Aggiorna soltanto il linguaggio in uso
 updating Aggiornamento in corso
 useasdp Usa come immagine personale
+usemsnp11 Abilita il supporto Messaggi Personali (SPERIMENTALE) -- riavvio e profili necessari
 useother Usa un altro programma
 useralreadyonlist L'utente è già nella lista contatti
 userblocked L'utente è in linea ma ti ha bloccato

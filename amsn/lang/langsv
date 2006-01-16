@@ -272,6 +272,7 @@ enterbugdesc Skriv en beskrivning om vad du gjorde för att hjälpa oss återskapa 
 entercontactemail Skriv in kontaktens e-postadress
 enterfilename Ange ett filnamn
 enternick Skriv in ditt smeknamn
+enterpsm Personligt meddelande
 errortls Fel när TLS installerades:
 eventhistory Visa händelsehistorik
 examples Exempel
@@ -726,6 +727,7 @@ update Uppdatera
 updateonlycurrentlanguage Uppdatera bara det nuvarande språket
 updating Uppdaterar
 useasdp Använd som visningsbild
+usemsnp11 Aktivera stöd för personligt meddelande (EXPERIMENTIELL funktion) -- behöver profil + omstart
 useother Använd ett annat program
 user Användare
 useralreadyonlist Användaren finns redan i listan

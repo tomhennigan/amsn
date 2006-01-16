@@ -271,6 +271,7 @@ encoding2 Spremeni naèin kodiranja znakov
 enterbugdesc Vnesi opis tvojega poèetja, da nam pomaga¹ reproducirati hro¹è:
 entercontactemail Vnesi e-mail osebe
 enterfilename Prosim vnesi ime datoteke
+enterpsm Osebno sporoèilo
 enternick Vnesi svoj nick
 errortls Napaka pri namestitvi modula TLS:
 eventhistory Prika¾i zgodovino dogodkov
@@ -725,6 +726,7 @@ update Posodobi
 updateonlycurrentlanguage Posodabljaj samo trenutni jezik
 updating Posodabljam
 useasdp Uporabi kot prikazno sliko
+usemsnp11 Vklopi podporo za osebna sporoèila (poskusno) -- potrebuje profil in ponovni zagon
 useother Uporabi drugi program
 user Uporabnik
 useralreadyonlist Uporabnik je ¾e na seznamu stikov

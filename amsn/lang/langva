@@ -182,6 +182,7 @@ continuously Contínuament
 conversationwith $1 usuaris en la conversa
 convertexplain Cami al executable CONVERT, del programa ImageMagick (necesari per a vore les imatges per a mostrar). Deixar en Blanc si CONVERT es pot trobar en el PATH.
 copy Copiar
+copytoclipboard Copiar $1 al porta-retalls
 copytogroup Copiar al grup
 corruptconfig L'Arxiu de configuració està corrupte. Creant un de nou. L'antic serà guardat com $1. Per favor, envia'ns l'arxiu per vore que ha passat.
 corruptstates L'arxiu de la configuracio d'autoestats està corrupte. Creant un de nou. L'antic serà guardat com $1. Per favor, envia'ns l'arxiu per vore que ha passat.
@@ -271,6 +272,7 @@ enterbugdesc Escriu una descripció del que estàves fent per ajudar-nos a reprodu
 entercontactemail Introduix el correu-e del contacte
 enterfilename Introduix el nom de l'arxiu
 enternick Introduix el teu mot
+enterpsm Missatge Personal
 errortls Error instalant el modul TLS:
 eventhistory Consultar l'historial d'events
 examples Exemples
@@ -317,6 +319,7 @@ globalnicktitle Mot global
 globaloverride Els mots globals han de substituir els mots personalitzats
 gonelunch Estic menjant
 gotink $1 t'ha enviat una marca.
+goto Anar a $1
 groupadd Afegir un grup
 groupdelete Esborrar un grup
 groupexists El grup ya existix
@@ -725,6 +728,7 @@ update Actualitzar
 updateonlycurrentlanguage Actualitzar només l'idioma actual
 updating Actualizant
 useasdp Utilitzar com la imatge per a mostrar
+usemsnp11 Activar el suport per als Missatges Personals (funció EXPERIMENTAL) -- necessita perfil + reiniciar
 useother Utiltzar un altre programa
 useralreadyonlist L'usuari ja es troba en la llista de contactes.
 userblocked L'usuari està en línia pero t'ha bloquejat
