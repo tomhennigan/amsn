@@ -90,6 +90,7 @@ browse Gözat
 browser Ýnternet tarayýcý
 browserexample (\$url URL ile deðiþtirilecek) Örn: mozilla \$url
 bugerror Hata veritabanýna baðlanýrken sorun oluþtu. Ýnternet baðlantýnýzýn durumunu denetleyin.
+bugnocomment Hatayla ilgili bir yorum yapmadýnýz. Bu bölümde yazacaklarýnýz bize neyin ters gittiðini görmemizde ve hatayý daha kolay düzeltmemizde yardýmcý olur.
 busy Meþgul
 cachedpics $1 saklanmýþ resim
 cagreement Gizlilik Sözleþmesi
@@ -181,6 +182,7 @@ contrast Kontrast
 conversationwith Sohbette $1 kiþi var
 convertexplain ImageMagick'in CONVERT uygulamasýnýn konumu (Kullanýcý resimleri için gerekli). \nEðer CONVERT zaten varsayýlan konumlardan birindeyse (PATH deðiþkeni) boþ býrakýlabilir.
 copy Kopyala
+copytoclipboard $1 ifadesini panoya kopyala
 copytogroup Gruba kopyala
 corruptconfig Ayarlar dosyasý bozulmuþ. Yenisi oluþturulacak. Eski dosya $1 konumuna kaydedilecek. Sorunu bulmamýz için lütfen bize gönderin.
 corruptstates Kiþisel durumlar ayar dosyasý bozulmuþ. Yenisi oluþturulacak. Eski dosya $1 konumuna kaydedilecek. Sorunu bulmamýz için lütfen bize gönderin.
@@ -209,7 +211,7 @@ day Gün
 days Gün
 dcprofile Profil oluþturma
 default Öntanýmlý ayarlar
-default2 Öntanýml
+default2 Öntanýmlý
 defaultloginradio Varsayýlan ayarlarla baðlan
 defchatwinsize Sohbet pencereleri için varsayýlan boyutlar (XBOYUTU x YBOYUTU)
 delete Sil
@@ -262,7 +264,7 @@ emotisounds Belli gülen adamlarda ses çýkar
 emptygroup Grubu boþalt
 enabled Etkin
 enableproxy proxy ayarlarýný etkinleþtir
-enableremote Uzaktan denetimi
+enableremote Uzaktan denetimi etkinleþtir
 enablesound Sesi aç
 encoding Alfabe seçimi
 encoding2 Alfabe deðiþtirin
@@ -316,6 +318,7 @@ globalnicktitle Ýsimlendirme Þablonu
 globaloverride Ýsimlendirme þablonu özel kullanýcý isimleri yerine de kullanýlsýn
 gonelunch Yemekte
 gotink $1 size bir þekil gönderdi
+goto $1'e git
 group Grup
 groupadd Grup Ekle
 groupdelete Grup Sil
