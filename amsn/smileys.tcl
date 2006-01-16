@@ -997,12 +997,13 @@ namespace eval ::smiley {
 		save_config
 	}
 	
-	proc addSmileyFromTW { file } {
+	proc addSmileyFromTW { file text } {
 		global new_custom_cfg
 		if { [winfo exists .new_custom] } {
 			raise .new_custom
 			return
 		}
+		set new_custom_cfg(text) $text
 		set new_custom_cfg(file) [::skin::GetSkinFile smileys "cache/${file}.png"]
 		newCustomEmoticonGUI
 	}
@@ -1124,7 +1125,7 @@ proc custom_smile_subst2 { chatid tw textbegin end } {
 	    set copyMenu "${tw}.custom_smiley_$file"
 	    if { ![winfo exists $copyMenu] } {
 		menu $copyMenu -tearoff 0 -type normal
-		$copyMenu add command -label [trans emoticon_steal] -command "::smiley::addSmileyFromTW {$file}"
+		$copyMenu add command -label "[trans emoticon_steal] ($symbol)" -command "::smiley::addSmileyFromTW {$file} $symbol"
 		$tw tag bind $twTag <Enter> "$tw configure -cursor hand2"
 		$tw tag bind $twTag <Leave> "$tw configure -cursor xterm"
 		$tw tag bind $twTag <<Button1>> "tk_popup $copyMenu %X %Y"
