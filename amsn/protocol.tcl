@@ -1721,7 +1721,7 @@ namespace eval ::MSN {
         
 
                 # Then create a valid productid string, divisable by 8, then form 32 bit integers from it
-                set nrPadZeros [expr 8 - [string length $chldata$prodid] % 8]
+                set nrPadZeros [expr {8 - [string length $chldata$prodid] % 8}]
                 set padZeros [string repeat 0 $nrPadZeros]
                 set chlprodid [CHLProdToInt $chldata$prodid$padZeros]
 
@@ -1733,9 +1733,9 @@ namespace eval ::MSN {
                 set low [expr {$low ^ $key}]
                 set high [expr {$high ^ $key}]
 
-                set p1 [format %8.8x [expr {$low / 0x100000000}]]
+                set p1 [format %8.8x [expr {($low / 0x100000000) % 0x100000000}]]
                 set p2 [format %8.8x [expr {$low % 0x100000000}]]
-                set p3 [format %8.8x [expr {$high / 0x100000000}]]
+                set p3 [format %8.8x [expr {($high / 0x100000000) % 0x100000000}]]
                 set p4 [format %8.8x [expr {$high % 0x100000000}]]
 
                 return $p1$p2$p3$p4
@@ -1795,10 +1795,10 @@ namespace eval ::MSN {
         # Takes an MD5 string and chops it in 4. Then "decodes" the HEX and converts to 32 bit integers. After that it ANDs
         proc MD5HashToInt { md5hash } {
                 binary scan $md5hash a8a8a8a8 hash1 hash2 hash3 hash4
-                set hash1 [expr "0x[byteInvert $hash1]" & 0x7FFFFFFF]
-                set hash2 [expr "0x[byteInvert $hash2]" & 0x7FFFFFFF]
-                set hash3 [expr "0x[byteInvert $hash3]" & 0x7FFFFFFF]
-                set hash4 [expr "0x[byteInvert $hash4]" & 0x7FFFFFFF]
+                set hash1 [expr {"0x[byteInvert $hash1]" & 0x7FFFFFFF}]
+                set hash2 [expr {"0x[byteInvert $hash2]" & 0x7FFFFFFF}]
+                set hash3 [expr {"0x[byteInvert $hash3]" & 0x7FFFFFFF}]
+                set hash4 [expr {"0x[byteInvert $hash4]" & 0x7FFFFFFF}]
                 
                 return [list $hash1 $hash2 $hash3 $hash4]
         }
