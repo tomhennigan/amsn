@@ -136,7 +136,7 @@
 	<lang>
 		<langcode>de</langcode>
 		<name>German (Deutsch)</name>
-		<version>1.51</version>
+		<version>1.52</version>
 		<encoding>iso8859-15</encoding>
 	</lang>
 	<lang>
@@ -172,7 +172,7 @@
 	<lang>
 		<langcode>it</langcode>
 		<name>Italian (italiano)</name>
-		<version>1.59</version>
+		<version>1.60</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -220,7 +220,7 @@
 	<lang>
 		<langcode>pt_BR</langcode>
 		<name>Portuguese - Brazil</name>
-		<version>1.29</version>
+		<version>1.30</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -244,7 +244,7 @@
 	<lang>
 		<langcode>sl</langcode>
 		<name>Slovenian (slovenščina)</name>
-		<version>1.39</version>
+		<version>1.40</version>
 		<encoding>iso8859-2</encoding>
 	</lang>
 	<lang>
@@ -256,7 +256,7 @@
 	<lang>
 		<langcode>es</langcode>
 		<name>Spanish (Español)</name>
-		<version>1.247</version>
+		<version>1.248</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -268,7 +268,7 @@
 	<lang>
 		<langcode>sv</langcode>
 		<name>Swedish (svenska)</name>
-		<version>1.12</version>
+		<version>1.13</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -286,13 +286,13 @@
 	<lang>
 		<langcode>tr</langcode>
 		<name>Turkish (Türkçe)</name>
-		<version>1.59</version>
+		<version>1.60</version>
 		<encoding>iso8859-9</encoding>
 	</lang>
 	<lang>
 		<langcode>va</langcode>
 		<name>Valencian (valencià)</name>
-		<version>1.42</version>
+		<version>1.43</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
