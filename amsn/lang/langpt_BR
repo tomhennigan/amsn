@@ -272,6 +272,7 @@ enterbugdesc Entre com a descrição do que você estava fazendo para nos ajudar a 
 entercontactemail Digite o e-mail do contato
 enterfilename Por favor, digite o nome de um arquivo
 enternick Digite seu apelido
+enterpsm Mensagem pessoal
 errortls Erro ao instalar módulo TLS:
 eventhistory Visualizar histórico de eventos
 examples Exemplos
@@ -725,6 +726,7 @@ update Atualizar
 updateonlycurrentlanguage Atualize apenas a linguagem corrente
 updating Atualizando 
 useasdp Usar como sua própria figura
+usemsnp11 Habilitar suporte a Mensagem Pessoal (EXPERIMENTAL) - Precisa de perfil + reinicio
 useother Usar um programa diferente
 useralreadyonlist Usuário já está na lista de contatos
 userblocked Usuário está online mas bloqueou você
