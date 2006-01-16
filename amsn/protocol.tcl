@@ -1001,7 +1001,11 @@ namespace eval ::MSN {
 				::abook::setContactData $username nick $nickname
 			}
 			status_log "$username was in groups [::abook::getGroups $username]"
-			::abook::addContactToGroup $username $groups
+			if {[::abook::getGroups $username] != "" && $groups == 0} {
+				status_log "do nothing since a contact can't be in no group AND in a group"
+			} else {
+				::abook::addContactToGroup $username $groups
+			}
 			status_log "$username is in groups [::abook::getGroups $username]"
 		}
 		::abook::addContactToList $username $curr_list
@@ -1343,6 +1347,7 @@ namespace eval ::MSN {
 			set contact [urldecode [string range [lindex $item 3] 2 end]]    ;# Email address
 			#an event to let the GUI know a user is copied/added to a group
 			::abook::setContactData $contact contactguid [string range [lindex $item 5] 2 end]
+			::abook::setContactForGuid [string range [lindex $item 5] 2 end] $contact
 			::Event::fireEvent addedUser protocol $contact $gid
 			if { $gid != 0 } {
 				moveUser $contact 0 $gid
