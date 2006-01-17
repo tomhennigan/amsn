@@ -6412,7 +6412,12 @@ namespace eval ::MSN6FT {
 
 		set filename [FromUnicode [string range $context 20 569]]
 
-		binary scan $filename A* filename
+		#binary scan $filename A* filename  <-- destroys encoding
+
+		set idx [string first "\x00" $filename]
+		if {$idx != -1 } {
+			set filename [string range $filename 0 [expr {$idx - 1}]]
+		}
 
 		if { $nopreview == 0 } {
 			set previewdata [string range $context $size end]
