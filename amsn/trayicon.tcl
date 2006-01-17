@@ -373,6 +373,11 @@ proc mailicon_proc {num} {
 	# Workaround for bug in the traydock-plugin - statusicon added - BEGIN
 	global systemtray_exist mailicon statusicon password winmailicon tcl_platform mailtrayicon defaultbackground
 	# Workaround for bug in the traydock-plugin - statusicon added - END
+
+	if { [::config::getKey showmailicon] == 0 } {
+		return
+	}
+
 	set icon .mi
 	if {$systemtray_exist == 1 && $mailicon == 0 && ([UnixDock] || [WinDock])  && $num >0} {
 		set pixmap "[::skin::GetSkinFile pixmaps unread_tray.gif]"
