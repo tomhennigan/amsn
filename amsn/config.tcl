@@ -43,6 +43,8 @@ namespace eval ::config {
 
 		::config::setKey showmailicon 1
 
+		::config::setKey autoresizedp 0
+
 		#Some Autodetected options
 		if {$tcl_platform(os) == "Darwin"} {
 			::config::setKey soundcommand "./sndplay \$sound";#Soundplayer for Mac OS 10.3-10.4	
@@ -206,6 +208,7 @@ namespace eval ::config {
 			[list local tabtitlenick bool tabtitlenick] \
 			[list local showpicnotify bool showpicnotify] \
 			[list local showmailicon bool showmailicon] \
+			[list local autoresizedp bool autoresizedp] \
 			[list title notifyoffset] \
 			[list local notifyXoffset int xoffset] \
 			[list local notifyYoffset int yoffset] \

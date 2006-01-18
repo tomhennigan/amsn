@@ -60,6 +60,7 @@ autoidle Auto NoActivity
 autoip Automatic IP
 automessage AutoMessage
 autonoact Change state to "No activity" when inactive for
+autoresizedp Automatically resize display pictures to default size
 avaccepted Video Conference call accepted
 avcanceled Video Conference call canceled
 avgotinvitation Received Video Conference invitation from $1
