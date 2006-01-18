@@ -150,6 +150,7 @@ namespace eval ::MSNP2P {
 		global HOME
 		#Reload 1 means that we force aMSN to reload a new display pic
 		#Destroy it before to avoid TkCxImage to redraw animated gif above the good display pic
+		#TODO: FIX: I think the next line is incorrect, did you want image delete? (be careful if there are images on the screen)
 		destroy user_pic_$user
 		if { ![file readable "[file join $HOME displaypic cache ${filename}].png"] || $reload == "1" } {
 			status_log "::MSNP2P::GetUser: FILE [file join $HOME displaypic cache ${filename}] doesn't exist!!\n" white
@@ -159,8 +160,7 @@ namespace eval ::MSNP2P {
 			create_dir [file join $HOME displaypic cache]
 			::MSNP2P::RequestObject $chatid $user $msnobj
 		} else {
-			catch {image create photo user_pic_$user -file "[file join $HOME displaypic cache ${filename}].png" -format cximage}
-
+			::skin::getDisplayPicture $user
 		}
 	}
 
@@ -842,22 +842,16 @@ namespace eval ::MSNP2P {
 						if {$filename == $filename2 } {
 
 							status_log "MSNP2P | $sid -> Closed file $filename.. finished writing\n" red
-							#set file [png_to_gif [file join $HOME displaypic cache ${filename}.png]]
-							set file [file join $HOME displaypic cache ${filename}.png]
-							if { $file != "" } {
-								
-								if {[catch {image create photo user_pic_${user_login} -file [file join $HOME displaypic cache "${filename}.png"] -format cximage}] } {
-									image create photo user_pic_${user_login} -file [::skin::GetSkinFile displaypic nopic.gif] -format cximage
-								}
+							
+							::skin::getDisplayPicture $user_login 1
 
-								set desc_file "[file join $HOME displaypic cache ${filename}.dat]"
-								create_dir [file join $HOME displaypic]
-								set fd [open [file join $HOME displaypic $desc_file] w]
-								status_log "Writing description to $desc_file\n"
-								puts $fd "[clock format [clock seconds] -format %x]\n$user_login"
-								close $fd
+							set desc_file "[file join $HOME displaypic cache ${filename}.dat]"
+							create_dir [file join $HOME displaypic]
+							set fd [open [file join $HOME displaypic $desc_file] w]
+							status_log "Writing description to $desc_file\n"
+							puts $fd "[clock format [clock seconds] -format %x]\n$user_login"
+							close $fd
 
-							}
 						} else {
 							#set file [png_to_gif [file join $HOME smileys cache ${filename}.png]]
 							set file [file join $HOME smileys cache ${filename}.png]

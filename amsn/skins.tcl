@@ -139,26 +139,43 @@ namespace eval ::skin {
 		return no_pic
 	}
 
-	proc getDisplayPicture { email } {
+	proc getDisplayPicture { email {force 0}} {
 		global HOME
-		if {![catch {image width user_pic_$email}] } {
-			return user_pic_$email
+		
+		set picName user_pic_$email
+		
+		if {!([catch {image width $picName}] || $force)} {
+			return $picName
 		}
 
 		set filename [::abook::getContactData $email displaypicfile ""]
 		if { [file readable "[file join $HOME displaypic cache ${filename}].png"] } {
-			catch {image create photo user_pic_$email -file "[file join $HOME displaypic cache ${filename}].png" -format cximage}
+			catch {image create photo $picName -file "[file join $HOME displaypic cache ${filename}].png" -format cximage}
 		} else {
-			image create photo user_pic_$email -file [::skin::GetSkinFile displaypic nopic.gif] -format cximage
+			image create photo $picName -file [::skin::GetSkinFile displaypic nopic.gif] -format cximage
 		}
 		
-		if {[catch {image width user_pic_$email} res] } {
-			#status_log "Error while loading user_pic_$email: $res"
+		if {[catch {image width $picName} res] } {
+			#status_log "Error while loading $picName: $res"
 			return [::skin::getNoDisplayPicture]
 		}
 		
-		return user_pic_$email
+		if { [::config::getKey autoresizedp] } {
+			::picture::Resize $picName 96 96
+		}
+
+		return $picName
 	}
+	
+	#Convert a display picture from a user to another size
+	proc ConvertDPSize {user width height} {
+		if {[catch {
+			::picture::Resize [getDisplayPicture $user] $width $height
+		} res]} {
+			msg_box $res
+		}
+	}
+
 
 
 	################################################################

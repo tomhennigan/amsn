@@ -350,16 +350,6 @@ namespace eval ::ChatWindow {
 		catch {destroy $window.bottom.pic}
 		set user_list [::MSN::usersInChat $chatid]
 		
-		#Don't delete images! They are used for contact list balloons
-		#foreach user_login $user_list {
-		#	if {![catch {image inuse user_pic_$user_login}]} {
-		#
-		#		if {![image inuse user_pic_$user_login]} {
-		#			status_log "Image user_pic_$user_login not in use, deleting it\n"
-		#			image delete user_pic_$user_login
-		#		}
-		#	}
-		#}
 		::MSN::leaveChat $chatid
 	}
 	#///////////////////////////////////////////////////////////////////////////////
@@ -613,10 +603,10 @@ namespace eval ::ChatWindow {
 
 			if { [::config::getKey showdisplaypic] && $usr_name != ""} {
 		
-				::amsn::ChangePicture $win_name user_pic_$usr_name [trans showuserpic $usr_name]
+				::amsn::ChangePicture $win_name [::skin::getDisplayPicture $usr_name] [trans showuserpic $usr_name]
 				
 			} else {
-				::amsn::ChangePicture $win_name user_pic_$usr_name [trans showuserpic $usr_name] nopack
+				::amsn::ChangePicture $win_name [::skin::getDisplayPicture $usr_name] [trans showuserpic $usr_name] nopack
 				
 			}
 		}
@@ -3239,10 +3229,10 @@ namespace eval ::ChatWindow {
 		set usr_name [lindex [::MSN::usersInChat $chatid] 0]
 		if { [::config::getKey showdisplaypic] && $usr_name != ""} {
 	
-			::amsn::ChangePicture $win_name user_pic_$usr_name [trans showuserpic $usr_name]
+			::amsn::ChangePicture $win_name [::skin::getDisplayPicture $usr_name] [trans showuserpic $usr_name]
 			
 		} else {
-			::amsn::ChangePicture $win_name user_pic_$usr_name [trans showuserpic $usr_name] nopack
+			::amsn::ChangePicture $win_name [::skin::getDisplayPicture $usr_name] [trans showuserpic $usr_name] nopack
 			
 		}
 		

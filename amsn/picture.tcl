@@ -236,26 +236,7 @@ set ::tkcximageloaded 0
 		image delete $img
 		return $return
 	}
-	
-	#Convert a display picture from a user to another size
-	proc ConvertDPSize {user width height} {
-		global HOME
-		#Get the filename of the display picture of the user
-		set filename [::abook::getContactData $user displaypicfile ""]
-		#If he don't have any picture, end that
-		if { $filename == "" } {
-			status_log "Picture.tcl: No picture found to change size"
-			return
-		}
 		
-		if {[catch {
-			image create photo user_pic_$user -file "[file join $HOME displaypic cache ${filename}].png" -format cximage
-			::picture::Resize user_pic_$user $width $height
-		} res]} {
-			msg_box $res
-		}
-	}
-	
 	#To verify if a picture is animated (1) or not (0)
 	proc IsAnimated {file} {
 	

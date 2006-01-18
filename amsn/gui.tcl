@@ -1625,13 +1625,9 @@ namespace eval ::amsn {
 			::ChatWindow::TopUpdate $chatid
 
 			if { [::config::getKey showdisplaypic] && $usr_name != ""} {
-				if { [::config::getKey autoresizedp] } {
-					set user2 [string range [$win_name.f.bottom.pic.image cget -image] 9 end]
-					::picture::ConvertDPSize $user2 96 96
-				}
-				::amsn::ChangePicture $win_name user_pic_$usr_name [trans showuserpic $usr_name]
+				::amsn::ChangePicture $win_name [::skin::getDisplayPicture $usr_name] [trans showuserpic $usr_name]
 			} else {
-				::amsn::ChangePicture $win_name user_pic_$usr_name [trans showuserpic $usr_name] nopack
+				::amsn::ChangePicture $win_name [::skin::getDisplayPicture $usr_name] [trans showuserpic $usr_name] nopack
 			}
 
 			if { [::config::getKey leavejoinsinchat] == 1 } {
@@ -1695,10 +1691,10 @@ namespace eval ::amsn {
 		set current_image ""
 		#Catch it, because the window might be closed
 		catch {set current_image [$win_name.f.bottom.pic.image cget -image]}
-		if { [string compare $current_image "user_pic_$usr_name"]==0} {
+		if { [string compare $current_image [::skin::getDisplayPicture $usr_name]]==0} {
 			set users_in_chat [::MSN::usersInChat $chatid]
 			set new_user [lindex $users_in_chat 0]
-			::amsn::ChangePicture $win_name user_pic_$new_user [trans showuserpic $new_user] nopack
+			::amsn::ChangePicture $win_name [::skin::getDisplayPicture $new_user] [trans showuserpic $new_user] nopack
 		}
 
 		::ChatWindow::Status $win_name $statusmsg $icon
@@ -1815,7 +1811,7 @@ namespace eval ::amsn {
 			-command [list ::amsn::ChangePicture $win my_pic [trans mypic]]
 		foreach user $users {
 			$win.picmenu add command -label "[trans showuserpic $user]" \
-				-command [list ::amsn::ChangePicture $win user_pic_$user [trans showuserpic $user]]
+				-command [list ::amsn::ChangePicture $win [::skin::getDisplayPicture $user] [trans showuserpic $user]]
 		}
 		#Load Change Display Picture window
 		$win.picmenu add separator
@@ -1830,10 +1826,10 @@ namespace eval ::amsn {
 			catch {menu $win.picmenu.size -tearoff 0 -type normal}
 			$win.picmenu.size delete 0 end
 			#4 possible size (someone can add something to let the user choose his size)
-			$win.picmenu.size add command -label "[trans small]" -command "::picture::ConvertDPSize $user 64 64"
-			$win.picmenu.size add command -label "[trans default2]" -command "::picture::ConvertDPSize $user 96 96"
-			$win.picmenu.size add command -label "[trans large]" -command "::picture::ConvertDPSize $user 128 128"
-			$win.picmenu.size add command -label "[trans huge]" -command "::picture::ConvertDPSize $user 192 192"
+			$win.picmenu.size add command -label "[trans small]" -command "::skin::ConvertDPSize $user 64 64"
+			$win.picmenu.size add command -label "[trans default2]" -command "::skin::ConvertDPSize $user 96 96"
+			$win.picmenu.size add command -label "[trans large]" -command "::skin::ConvertDPSize $user 128 128"
+			$win.picmenu.size add command -label "[trans huge]" -command "::skin::ConvertDPSize $user 192 192"
 			#Get back to original picture
 			$win.picmenu.size add command -label "[trans original]" -command "::MSNP2P::loadUserPic $chatid $user 1"
 		}
@@ -2722,9 +2718,9 @@ namespace eval ::amsn {
 			::plugins::PostEvent new_conversation evPar
 
 			if { [::config::getKey showdisplaypic] && $user != ""} {
-				::amsn::ChangePicture $win_name user_pic_$user [trans showuserpic $user]
+				::amsn::ChangePicture $win_name [::skin::getDisplayPicture $user] [trans showuserpic $user]
 			} else {
-				::amsn::ChangePicture $win_name user_pic_$user [trans showuserpic $user] nopack
+				::amsn::ChangePicture $win_name [::skin::getDisplayPicture $user] [trans showuserpic $user] nopack
 			}
 
 
@@ -4745,7 +4741,7 @@ proc getpicturefornotification {email} {
 
 	image create photo smallpicture$email -format cximage
 	#Verify that we can copy user_pic, if there's an error it means user_pic doesn't exist
-	if {![catch {smallpicture$email copy user_pic_$email}]} {
+	if {![catch {smallpicture$email copy [::skin::getDisplayPicture $email]}]} {
 		if {[image width smallpicture$email] != 50 && [image height smallpicture$email] != 50} {
 			::picture::ResizeWithRatio smallpicture$email 50 50
 		}
