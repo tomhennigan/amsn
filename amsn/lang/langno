@@ -774,3 +774,7 @@ zoom Zoom
 getmoreplugins Skaff flere pluginer!
 startonboot Start aMSN ved oppstart
 bugnocomment Sende uten en kommentar? A kommentere bugs hjelper oss med å finne ut hva som er galt og derfor få ordnet det enklere.
+copytoclipboard Kopier $1 til utklippstavlen
+goto Gå til $1
+enterpsm Personlig beskjed
+usemsnp11 Aktiver støtte for Personlig beskjed (EKSPRIMENTAL funksjon) -- trenger profil + restart

@@ -59,6 +59,7 @@ autoidle Nessuna attività automatica
 autoip IP automatico
 automessage Messaggio Automatico
 autonoact Mostrami come "Nessuna attività" quando non attivo per
+autoresizedp Ridimensiona automaticamente le immagini alla dimesione di Default
 avaccepted Chiamata di videoconferenza accettata
 avcanceled Chiamata di videoconferenza annullata
 avgotinvitation Ricevuto invito di videoconferenza da $1
@@ -237,6 +238,7 @@ download Scarica
 edit Modifica
 editcontent Edit the content of the subject field and the note field
 editcustomstate Modifica Stato personale
+editmyprofile Modifica il mio Profilo MSN
 editnewstate Nuove impostazioni personali di auto-risposta
 editprofile Modifica il Profilo
 editstate Modifica delle impostazioni di auto-risposta esistenti
@@ -555,7 +557,7 @@ publishphones Pubblica il mio numero di telefono
 purge Elimina
 raised Ingrandito
 readonlymsgbox Il trasferimento del file è stato annullato perché la directory di destinazione ha permessi di sola lettura. \nPer favore cambia i permessi.
-readonlywarn ATTENZIONE: Il file potrebbe NON venire salvato correttamente poiché la directory "File Ricevuti" sembra essere protetta da scrittura.\nPer favore assicurati che i permessi della directory ($1) siano impostati correttamente prima di trasferire il file.
+readonlywarn ATTENZIONE: Il file potrebbe NON venire salvato correttamente poiché la directory "File Ricevuti" sembra essere protetta in scrittura.\nPer favore assicurati che i permessi della directory ($1) siano impostati correttamente prima di trasferire il file.
 receivedbytes Ricevuti $1 byte su $2
 receiveddir Cartella file ricevuti
 receivefile Ricezione file in corso
@@ -601,6 +603,7 @@ showblockedlist Mostra la lista delle persone che ti bloccano
 showcachedpics Visualizza le immagini memorizzate in cache
 showdisplaypic2 Mostra l'immagine personale in ogni nuova finestra di chat
 showdisplaypic Mostra l'immagine personale
+showmailicon Mostra icona e-mail nella Taskbar quando attivano nuove email
 showmypic Immagine personale
 shownotify Mostra una finestra di notifica quando accade qualcosa
 showpicnotify Mostra la foto degli utenti nella finestra di notifica
