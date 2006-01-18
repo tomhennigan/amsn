@@ -82,7 +82,7 @@
 	<lang>
 		<langcode>en</langcode>
 		<name>English</name>
-		<version>1.346</version>
+		<version>1.347</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -172,7 +172,7 @@
 	<lang>
 		<langcode>it</langcode>
 		<name>Italian (italiano)</name>
-		<version>1.60</version>
+		<version>1.61</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -202,7 +202,7 @@
 	<lang>
 		<langcode>no</langcode>
 		<name>Norwegian (Norsk)</name>
-		<version>1.45</version>
+		<version>1.46</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
