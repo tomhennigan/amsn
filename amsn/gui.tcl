@@ -1627,7 +1627,7 @@ namespace eval ::amsn {
 			if { [::config::getKey showdisplaypic] && $usr_name != ""} {
 				if { [::config::getKey autoresizedp] } {
 					set user2 [string range [$win_name.f.bottom.pic.image cget -image] 9 end]
-					::picture::ConvertDPSize $user2 $win_name 96 96
+					::picture::ConvertDPSize $user2 96 96
 				}
 				::amsn::ChangePicture $win_name user_pic_$usr_name [trans showuserpic $usr_name]
 			} else {
@@ -1830,10 +1830,10 @@ namespace eval ::amsn {
 			catch {menu $win.picmenu.size -tearoff 0 -type normal}
 			$win.picmenu.size delete 0 end
 			#4 possible size (someone can add something to let the user choose his size)
-			$win.picmenu.size add command -label "[trans small]" -command "::picture::ConvertDPSize $user $win 64 64"
-			$win.picmenu.size add command -label "[trans default2]" -command "::picture::ConvertDPSize $user $win 96 96"
-			$win.picmenu.size add command -label "[trans large]" -command "::picture::ConvertDPSize $user $win 128 128"
-			$win.picmenu.size add command -label "[trans huge]" -command "::picture::ConvertDPSize $user $win 192 192"
+			$win.picmenu.size add command -label "[trans small]" -command "::picture::ConvertDPSize $user 64 64"
+			$win.picmenu.size add command -label "[trans default2]" -command "::picture::ConvertDPSize $user 96 96"
+			$win.picmenu.size add command -label "[trans large]" -command "::picture::ConvertDPSize $user 128 128"
+			$win.picmenu.size add command -label "[trans huge]" -command "::picture::ConvertDPSize $user 192 192"
 			#Get back to original picture
 			$win.picmenu.size add command -label "[trans original]" -command "::MSNP2P::loadUserPic $chatid $user 1"
 		}

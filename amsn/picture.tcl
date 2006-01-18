@@ -238,7 +238,7 @@ set ::tkcximageloaded 0
 	}
 	
 	#Convert a display picture from a user to another size
-	proc ConvertDPSize {user win width height} {
+	proc ConvertDPSize {user width height} {
 		global HOME
 		#Get the filename of the display picture of the user
 		set filename [::abook::getContactData $user displaypicfile ""]
