@@ -1625,6 +1625,10 @@ namespace eval ::amsn {
 			::ChatWindow::TopUpdate $chatid
 
 			if { [::config::getKey showdisplaypic] && $usr_name != ""} {
+				if { [::config::getKey autoresizedp] } {
+					set user2 [string range [$win_name.f.bottom.pic.image cget -image] 9 end]
+					::picture::ConvertDPSize $user2 $win_name 96 96
+				}
 				::amsn::ChangePicture $win_name user_pic_$usr_name [trans showuserpic $usr_name]
 			} else {
 				::amsn::ChangePicture $win_name user_pic_$usr_name [trans showuserpic $usr_name] nopack
