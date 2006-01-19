@@ -4609,6 +4609,10 @@ proc cmsn_ns_msg {recv message} {
 
 		::config::setKey myip $d(clientip)
 		status_log "My IP is [::config::getKey myip]\n"
+
+		if {$::msnp13} {
+			getAddressbook
+		}
 	} else {
 		::hotmail::hotmail_procmsg $message
 	}
@@ -4664,7 +4668,7 @@ proc cmsn_auth {{recv ""}} {
 		a {
 			#Send three first commands at same time, to it faster
 			if { [::config::getKey protocol] == 11 } {
-				::MSN::WriteSB ns "VER" "MSNP12 CVR0"
+				::MSN::WriteSB ns "VER" "MSNP13 MSNP12 CVR0"
 			} else {
 				::MSN::WriteSB ns "VER" "MSNP9 CVR0"
 			}
@@ -4680,6 +4684,12 @@ proc cmsn_auth {{recv ""}} {
 				status_log "cmsn_auth: was expecting VER reply but got a [lindex $recv 0]\n" red
 				return 1
 			} elseif {[lsearch -exact $recv "CVR0"] != -1} {
+				if {[lsearch -exact $recv "MSNP13"] != -1} {
+					set ::msnp13 1
+					source msnp13.tcl
+				} else {
+					set ::msnp13 0
+				}
 				#::MSN::WriteSB ns "CVR" "0x0409 winnt 6.0 i386 MSNMSGR 6.0.0602 MSMSGS [::config::getKey login]"
 				ns configure -stat "i"
 				return 0
@@ -4762,8 +4772,12 @@ proc cmsn_auth {{recv ""}} {
 			#the server sends the list, and then it won't work (all contacts offline)
 			#::MSN::WriteSB ns "SYN" "$list_version" initial_syn_handler
 			if { [::config::getKey protocol] == 11 } {
-				#TODO: MSNP11 store contactlist and use those values here
-				::MSN::WriteSB ns "SYN" "0 0" initial_syn_handler
+				if { $::msnp13 } {
+					initial_syn_handler ""
+				} else {
+					#TODO: MSNP11 store contactlist and use those values here
+					::MSN::WriteSB ns "SYN" "0 0" initial_syn_handler
+				}
 			} else {
 				::MSN::WriteSB ns "SYN" "[::abook::getContactData contactlist list_version 0]" initial_syn_handler
 			}
