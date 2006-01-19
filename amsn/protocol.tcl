@@ -251,7 +251,6 @@ namespace eval ::MSNFT {
    }
 
    proc ConnectedMSNFTP {sockid authcookie cookie} {
-      global files_dir
       variable filedata
 
       if {![info exists filedata($cookie)]} {
@@ -283,7 +282,6 @@ namespace eval ::MSNFT {
    }
 
    proc FTNegotiation { sockid cookie state {authcookie ""}} {
-      global files_dir
       variable filedata
 
       if {![info exists filedata($cookie)]} {
@@ -337,7 +335,7 @@ namespace eval ::MSNFT {
               catch {puts $sockid "TFR\r"}
               status_log "Receiving file...\n"
 
-              set filename [file join ${files_dir} [lindex $filedata($cookie) 0]]
+              set filename [file join [::config::getKey receiveddir] [lindex $filedata($cookie) 0]]
 	      set origfile $filename
 
               set num 1
@@ -606,7 +604,6 @@ namespace eval ::MSNFT {
    }
 
    proc FTSendNegotiation { sockid cookie state {authcookie ""}} {
-      global files_dir
       variable filedata
 
       #puts "Here2 state=$state cookie=$cookie sockid=$sockid"
@@ -6484,10 +6481,8 @@ namespace eval ::MSN6FT {
 	# AcceptFT ( chatid dest branchuid cseq uid sid filename1 )
 	# This function is called when a file transfer is accepted by the user
 	proc AcceptFT { chatid dest branchuid cseq uid sid filename1 } {
-		global files_dir
-
 		# Let's open the file
-		set filename [file join ${files_dir} $filename1]
+		set filename [file join [::config::getKey receiveddir] $filename1]
 
 		set origfile $filename
 

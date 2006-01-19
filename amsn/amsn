@@ -56,7 +56,6 @@ set weburl "http://amsn.sourceforge.net"
 set program_dir "."
 set HOME ""
 set HOME2 ""
-set files_dir ""
 
 #=======================================================================
 
@@ -94,21 +93,16 @@ unset program
 
 if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 	set HOME "[file join $env(HOME) Library/Application\ Support/amsn]"
-	set files_dir "[file join $env(HOME) Desktop/amsn\ received\ files]"
 } elseif {$tcl_platform(platform) == "unix"} {
    set HOME "[file join $env(HOME) .amsn]"
-   set files_dir "[file join $env(HOME) amsn_received]"
 } elseif {$tcl_platform(platform) == "windows"} {
   if {[info exists env(USERPROFILE)]} {
      set HOME "[file join $env(USERPROFILE) amsn]"
-     set files_dir "[file join $env(USERPROFILE) amsn_received]"
   } else {
    set HOME "[file join [pwd] amsn_config]"
-   set files_dir "[file join [pwd] amsn_received]"
   }
 } else {
    set HOME "[file join [pwd] amsn_config]"
-   set files_dir "[file join [pwd] amsn_received]"
 }
 set HOME2 $HOME
 
@@ -262,18 +256,6 @@ set ::auto_encoding [encoding system]
 
 if { [::config::getKey encoding] != "auto" } {
   set_encoding [::config::getKey encoding]
-}
-
-if { [::config::getKey receiveddir] != "" } {
-   set res [create_dir [::config::getKey receiveddir]]
-   if { $res >= 0} {
-      set files_dir [::config::getKey receiveddir]
-   } else {
-      create_dir $files_dir
-   }
-} else {
-	::config::setKey receiveddir $files_dir
-	create_dir $files_dir
 }
 
 cmsn_draw_main

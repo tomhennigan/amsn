@@ -159,7 +159,7 @@ namespace eval ::autoupdate {
 	}
 
 	proc downloadTLSCompleted { downloadurl token } {
-		global files_dir HOME2 tlsplatform
+		global HOME2 tlsplatform
 
 		status_log "status: [http::status $token]\n"
 		if { [::http::status $token] == "reset" } {
@@ -189,7 +189,7 @@ namespace eval ::autoupdate {
 			"mac" -
 			"win32" {
 				if { [catch {
-					set file_id [open [file join $files_dir $fname] w]
+					set file_id [open [file join [::config::getKey receiveddir] $fname] w]
 					fconfigure $file_id -translation {binary binary} -encoding binary
 					puts -nonewline $file_id [::http::data $token]
 					close $file_id
@@ -198,9 +198,9 @@ namespace eval ::autoupdate {
 					cd [file join $HOME2 plugins]
 
 					if { $tlsplatform == "win32" } {
-						exec [file join $files_dir $fname] "x" "-o" "-y"
+						exec [file join [::config::getKey receiveddir] $fname] "x" "-o" "-y"
 					} else {
-						exec gzip -cd [file join $files_dir $fname] | tar xvf -
+						exec gzip -cd [file join [::config::getKey receiveddir] $fname] | tar xvf -
 					}
 					cd $olddir
 					::amsn::infoMsg "[trans tlsinstcompleted]"
@@ -211,17 +211,17 @@ namespace eval ::autoupdate {
 			}
 			"src" {
 			if { [catch {
-					set file_id [open [file join $files_dir $fname] w]
+					set file_id [open [file join [::config::getKey receiveddir] $fname] w]
 					fconfigure $file_id -translation {binary binary} -encoding binary
 					puts -nonewline $file_id [::http::data $token]
 					close $file_id
-					::amsn::infoMsg "[trans tlsdowncompleted $fname $files_dir [file join $HOME2 plugins]]"
+					::amsn::infoMsg "[trans tlsdowncompleted $fname [::config::getKey receiveddir] [file join $HOME2 plugins]]"
 				} res ] } {
 					::autoupdate::errorDownloadingTLS $res
 				}
 			}
 			default {
-				::amsn::infoMsg "[trans tlsdowncompleted $fname $files_dir [file join $HOME2 plugins]]"
+				::amsn::infoMsg "[trans tlsdowncompleted $fname [::config::getKey receiveddir] [file join $HOME2 plugins]]"
 			}
 		}
 
@@ -447,7 +447,7 @@ namespace eval ::autoupdate {
 			set defaultlocation "[file join $env(HOME) Desktop]"
 		} elseif { $::tcl_platform(platform)=="windows" } {
 			set namelocation "Received files folder"
-			set defaultlocation "$files_dir"
+			set defaultlocation "[::config::getKey receiveddir]"
 		} else { 
 			set namelocation "Home folder"
 			set defaultlocation "[file join $env(HOME)]"

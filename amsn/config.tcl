@@ -45,6 +45,21 @@ namespace eval ::config {
 
 		::config::setKey autoresizedp 0
 
+		#Dir for received files
+		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		        ::config::setKey receiveddir "[file join $::env(HOME) Desktop/amsn\ received\ files]"
+		} elseif {$tcl_platform(platform) == "unix"} {
+			::config::setKey receiveddir "[file join $::env(HOME) amsn_received]"
+		} elseif {$tcl_platform(platform) == "windows"} {
+			if {[info exists env(USERPROFILE)]} {
+				::config::setKey receiveddir "[file join $::env(USERPROFILE) amsn_received]"
+			} else {
+				::config::setKey receiveddir "[file join [pwd] amsn_received]"
+			}
+		} else {
+			::config::setKey receiveddir "[file join [pwd] amsn_received]"
+		}
+
 		#Some Autodetected options
 		if {$tcl_platform(os) == "Darwin"} {
 			::config::setKey soundcommand "./sndplay \$sound";#Soundplayer for Mac OS 10.3-10.4	

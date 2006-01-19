@@ -1195,8 +1195,6 @@ namespace eval ::ChatWindow {
 	# This proc should create the Amsn submenu of the chat window
 	#
 	proc CreateMsnMenu { w menu } {
-		global files_dir
-
 		set msnmenu $menu.msn
 		menu $msnmenu -tearoff 0 -type normal
 
@@ -1206,7 +1204,7 @@ namespace eval ::ChatWindow {
 		$msnmenu add command -label "[trans sendfile]..." \
 			-command "::amsn::FileTransferSend \[::ChatWindow::getCurrentTab $w\]"
 		$msnmenu add command -label "[trans openreceived]..." \
-			-command "launch_filemanager \"$files_dir\""
+			-command "launch_filemanager \"[::config::getKey receiveddir]\""
 		$msnmenu add separator
 		
 		#Add accelerator label to "close" on Mac Version

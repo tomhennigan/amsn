@@ -947,8 +947,6 @@ namespace eval ::amsn {
 	#  GotFileTransferRequest ( chatid dest branchuid cseq uid sid filename filesize)
 	#  This procedure is called when we receive an MSN6 File Transfer Request
 	proc GotFileTransferRequest { chatid dest branchuid cseq uid sid filename filesize} {
-		global files_dir
-
 		set win_name [::ChatWindow::For $chatid]
 
 		if { [::ChatWindow::For $chatid] == 0} {
@@ -956,7 +954,7 @@ namespace eval ::amsn {
 		}
 
 		set fromname [::abook::getDisplayNick $dest]
-		set txt [trans ftgotinvitation $fromname '$filename' [::amsn::sizeconvert $filesize] $files_dir]
+		set txt [trans ftgotinvitation $fromname '$filename' [::amsn::sizeconvert $filesize] [::config::getKey receiveddir]]
 		set win_name [::ChatWindow::MakeFor $chatid $txt $dest]
 		WinWrite $chatid "\n" green
 		WinWriteIcon $chatid greyline 3
@@ -981,8 +979,8 @@ namespace eval ::amsn {
 
 		::log::ftlog $dest $txt
 
-		if { ![file writable $files_dir]} {
-			WinWrite $chatid "\n[trans readonlywarn $files_dir]\n" red
+		if { ![file writable [::config::getKey receiveddir]]} {
+			WinWrite $chatid "\n[trans readonlywarn [::config::getKey receiveddir]]\n" red
 			WinWriteIcon $chatid greyline 3
 			}
 
@@ -994,15 +992,13 @@ namespace eval ::amsn {
 
 	#Message shown when receiving a file
 	proc fileTransferRecv {filename filesize cookie chatid fromlogin} {
-		global files_dir
-
 		set win_name [::ChatWindow::For $chatid]
 		if { [::ChatWindow::For $chatid] == 0} {
 			return 0
 		}
 
 		set fromname [::abook::getDisplayNick $fromlogin]
-		set txt [trans ftgotinvitation $fromname '$filename' [::amsn::sizeconvert $filesize] $files_dir]
+		set txt [trans ftgotinvitation $fromname '$filename' [::amsn::sizeconvert $filesize] [::config::getKey receiveddir]]
 
 		set win_name [::ChatWindow::MakeFor $chatid $txt $fromlogin]
 
@@ -1026,8 +1022,8 @@ namespace eval ::amsn {
 
 		::log::ftlog $fromlogin $txt
 
-		if { ![file writable $files_dir]} {
-			WinWrite $chatid "\n[trans readonlywarn $files_dir]\n" red
+		if { ![file writable [::config::getKey receiveddir]]} {
+			WinWrite $chatid "\n[trans readonlywarn [::config::getKey receiveddir]]\n" red
 			WinWriteIcon $chatid greyline 3
 		}
 
@@ -1172,7 +1168,6 @@ namespace eval ::amsn {
 
 	#PRIVATE: Opens Receiving Window
 	proc FTWin {cookie filename user {chatid 0}} {
-		global files_dir
 		status_log "Creating receive progress window\n"
 
 		# Set appropriate Cancel command
@@ -1204,7 +1199,7 @@ namespace eval ::amsn {
 		checkbutton $w.ftautoclose -text "[trans ftautoclose]" -onvalue 1 -offvalue 0 -variable [::config::getVar ftautoclose]
 		pack $w.ftautoclose -side top
 		#Specify the path to the file
-		set filepath [file join $files_dir $filename]
+		set filepath [file join [::config::getKey receiveddir] $filename]
 		set filedir [file dirname $filepath]
 
 		#Open directory and Open picture button
@@ -3298,7 +3293,7 @@ proc cmsn_draw_main {} {
 	.main_menu.file add separator
 	.main_menu.file add command -label "[trans sendfile]..." -state disabled
 	.main_menu.file add command -label "[trans openreceived]" \
-		-command "launch_filemanager \"$files_dir\""
+		-command "launch_filemanager \"[::config::getKey receiveddir]\""
 	.main_menu.file add separator
 	.main_menu.file add command -label "[trans close]" -command "close_cleanup;exit"
 
