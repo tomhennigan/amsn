@@ -285,9 +285,9 @@ namespace eval ::camshoot {
 	#Save the display picture somewhere on the hard disk
 	proc webcampicture_saveas {w image} {
 		set idx 1
-		while { [file exists [file join $::files_dir webcam{$idx}.jpg]] } { incr idx }
+		while { [file exists [file join [::config::getKey receiveddir] webcam{$idx}.jpg]] } { incr idx }
 		set file "webcam${idx}.jpg"
-		if {[catch {set filename [tk_getSaveFile -initialfile $file -initialdir [set ::files_dir]]} res]} {
+		if {[catch {set filename [tk_getSaveFile -initialfile $file -initialdir [::config::getKey receiveddir]]} res]} {
 			status_log "Error in webcampicture_saveas: $res \n"
 			set filename [tk_getSaveFile -initialfile $file -initialdir [set ::HOME]]
 		}
