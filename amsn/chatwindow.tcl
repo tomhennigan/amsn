@@ -1204,7 +1204,7 @@ namespace eval ::ChatWindow {
 		$msnmenu add command -label "[trans sendfile]..." \
 			-command "::amsn::FileTransferSend \[::ChatWindow::getCurrentTab $w\]"
 		$msnmenu add command -label "[trans openreceived]..." \
-			-command "launch_filemanager \"[::config::getKey receiveddir]\""
+			-command {launch_filemanager "[::config::getKey receiveddir]"}
 		$msnmenu add separator
 		
 		#Add accelerator label to "close" on Mac Version

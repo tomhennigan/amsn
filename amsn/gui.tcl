@@ -3293,7 +3293,7 @@ proc cmsn_draw_main {} {
 	.main_menu.file add separator
 	.main_menu.file add command -label "[trans sendfile]..." -state disabled
 	.main_menu.file add command -label "[trans openreceived]" \
-		-command "launch_filemanager \"[::config::getKey receiveddir]\""
+		-command {launch_filemanager "[::config::getKey receiveddir]"}
 	.main_menu.file add separator
 	.main_menu.file add command -label "[trans close]" -command "close_cleanup;exit"
 
