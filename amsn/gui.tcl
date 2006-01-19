@@ -1098,7 +1098,7 @@ namespace eval ::amsn {
 		} {
 			set initialfile [lindex $varlist 5]
 		}
-		if {[catch {set filename [tk_getSaveFile -initialfile $initialfile -initialdir [set ::files_dir]]} res]} {
+		if {[catch {set filename [tk_getSaveFile -initialfile $initialfile -initialdir [::config::getKey receiveddir]]} res]} {
 			status_log "Error in SaveAsFT: $res \n"
 			set filename [tk_getSaveFile -initialfile $initialfile -initialdir [set ::HOME]]
 		
@@ -3206,7 +3206,7 @@ namespace eval ::amsn {
 #///////////////////////////////////////////////////////////////////////
 proc cmsn_draw_main {} {
 	global emotion_files date weburl lang_list \
-	password HOME files_dir pgBuddy pgBuddyTop pgNews argv0 argv langlong tcl_platform
+	password HOME pgBuddy pgBuddyTop pgNews argv0 argv langlong tcl_platform
 
 	#User status menu
 	menu .my_menu -tearoff 0 -type normal

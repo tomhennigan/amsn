@@ -441,7 +441,7 @@ namespace eval ::autoupdate {
 	#Define default directory on the three platforms 
 	#(It's ok For Mac OS X, change it on your platform if you feel it's not good)
 	proc get_default_location {} {
-		global files_dir env
+		global env
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 			set namelocation "Desktop"
 			set defaultlocation "[file join $env(HOME) Desktop]"
