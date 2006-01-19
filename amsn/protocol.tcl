@@ -2920,6 +2920,13 @@ namespace eval ::Event {
 		} else {
 
 			switch [lindex $command 0] {
+				ILN {
+					if {$::msnp13} {
+						$self handleILN $command
+					} else {
+						cmsn_ns_handler $command $message
+					}
+				}
 				IPG {
 					cmsn_ns_handler $command $payload
 				}
@@ -2944,6 +2951,12 @@ namespace eval ::Event {
 				}
 			}
 		}
+	}
+
+	method handleILN { command } {
+		set passportName [lindex $command 3]
+		set substate [lindex $command 2]
+		Event::fireEvent contactChangeState $self $passportName $substate
 	}
 
 	method handleLSG { command } {
@@ -4030,6 +4043,8 @@ proc cmsn_change_state {recv} {
 		::Event::fireEvent contactNickChange protocol $user
 
 		set nick_changed 1
+
+		::MSN::WriteSB ns "SBP" "[::abook::getContactData $user contactguid] MFN [urlencode $user_name]"
 	} else {
 		set nick_changed 0
 	}
