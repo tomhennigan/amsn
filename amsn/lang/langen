@@ -631,7 +631,7 @@ showblockedlist Show list of people who blocked you
 showcachedpics Show cached display pictures
 showdisplaypic2 Show Display Picture by default when a chat window is opened
 showdisplaypic Show Display Picture
-showmailicon Show mail icon on taskbar when new emails arrive
+showmailicon Show mail icon on traydock when new emails arrive
 showmypic My Display Picture
 shownotify Show notify window when some events happen
 showpicnotify Show users' pictures on notify windows
