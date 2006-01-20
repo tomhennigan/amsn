@@ -60,6 +60,7 @@ autoidle Absence automatique après une période d'inactivité
 autoip IP Automatique
 automessage Message-automatique
 autonoact Me marquer "Inactif" quand inactif plus de
+autoresizedp Redimensionner automatiquement l'avatar à la taille par défaut
 avaccepted Appel pour une vidéo-conférence accepté
 avcanceled Appel pour une vidéo-conférence annulé
 avgotinvitation $1 vous a invité à une vidéo-conférence
@@ -92,7 +93,7 @@ browser Navigateur web
 bugerror Nous sommes désolés, mais il y a eu un problème lors de la connexion à la base de données des bugs. Merci de véifier votre connexion internet.
 bugnocomment Envoyer sans commentaire ? Mettre des commentaires nous aide à mieux comprendre ce qui c'est passé et donc résoudre le problème plus facilement.
 busy Occupé[e]
-cachedpics $1 icônes masquées
+cachedpics $1 avatars masqués
 cagreement Déclaration de confidentialité
 cancel Annuler
 cannotdeleteprofile le profil ne peut être supprimé car il semble être utilisé par une session aMSN
@@ -107,7 +108,7 @@ cfgalarmall Configurer/Ajouter/Supprimer toutes les alarmes
 cfgalarm Configurer/Ajouter/Supprimer alarme
 change Changer
 changecustomstate Changer à
-changedisplaypic Changer l'icône
+changedisplaypic Changer l'avatar
 changefont Changer la police
 changeglobnick Changer le pseudonyme général
 changenick Changer de pseudonyme
@@ -165,7 +166,7 @@ confirmdg Etes-vous sûr de vouloir supprimer ce groupe ?
 confirmdu Etes-vous sûr de vouloir supprimer ce contact ?
 confirmeg Etes-vous sûr de vouloir vider ce groupe ?
 confirm Etes-vous sûr ?
-confirmpurge Toutes les icônes de vos contacts vont être supprimées. Etes-vous sur de vouloir le faire ?
+confirmpurge Toutes les avatars de vos contacts vont être supprimés. Etes-vous sur de vouloir le faire ?
 confirmrfl Etes-vous sûr de vouloir effacer ce contact de ce groupe ?
 connected Vous êtes maintenant connecté[e]
 connectedwith Connecté[e] avec $1
@@ -253,6 +254,7 @@ download Télécharger
 editcustomstate Editer le statut personnel
 edit Edition
 editcontent Remplir les champ Sujet et Note, puis cliquer sur Enregister
+editmyprofile Modifier mon profil MSN
 editnewstate Nouveau statut avec message automatique personnalisé
 editprofile Modifier profil
 editstate Editer un statut existant avec message automatique
@@ -310,7 +312,7 @@ ftrejectedby $1 a refusé l'invitation de transfert de fichier pour le fichier '$
 ftrejected Transfert de fichier refusé
 ftsendinvitation L'invitation de transfert du fichier '$2' ($3 bytes) a été envoyé à $1.
 fullcontactlist Désolé, votre liste de contact est pleine. Vous devez supprimer des contacts pour en ajouter de nouveaux.
-getdisppic Permettre la réception d'icônes des autres contacts
+getdisppic Permettre la réception d'avatars des autres contacts
 getmoreskins Obtenez d'autres apparences !
 getmoreplugins Obtenez d'autres plugins !
 globalcontainer Fenêtre globale
@@ -334,7 +336,7 @@ groupunknown Groupe inconnu
 handle Pseudonyme
 help Aide
 helpcontents Contenu de l'aide
-hidedisplaypic Cacher l'icône
+hidedisplaypic Cacher l'avatar
 hiden Cacher cet émoticon du menu
 hidewindow Masquer la fenêtre
 history Voir l'historique
@@ -380,7 +382,7 @@ lastlogout Dernière déconnexion
 lastmsgedme Dernier message
 lastmsgtime Dernier message reçu à $1
 lastseen Dernière fois vu
-lazypicretrieval Récupération des icônes des contacts lors d'une conversation
+lazypicretrieval Récupération des avatars des contacts lors d'une conversation
 lclosedwin $1 a fermé la fenêtre sur $2
 lconftopriv Conférence changée en conversation privée avec $1
 lconvstarted Conversation commencée le $1
@@ -445,7 +447,7 @@ myfriendlyname Mon pseudonyme de conversation
 myhomephone Mon numéro personnel
 mymobilephone Mon numéro de portable
 mynick Mon pseudonyme
-mypic Mon icône
+mypic Mon avatar
 mystatus Mon statut
 myworkphone Mon numéro professionnel
 name Nom
@@ -476,11 +478,11 @@ noneavailable Pas disponible
 nonewmail Pas de nouveau message
 nonewver Il n'y a pas de nouvelle version disponible
 no Non
-nopic Pas d'icône
+nopic Pas d'avatar
 noprofileexists Utiliser les profils... \nUtiliser le boutton Ajouter nouveau profil dans cette fenetre pour en créer un nouveau.
 normal Ordre normal
 noskins Ne trouve l'apparence par défaut dans le dossier skins/. Ne peut lancer aMSN.
-nosystemtray La poubelle n'est pas accessible
+nosystemtray La boîte à miniatures n'est pas accessible
 note Note
 notificationserver Annonce  initiale du Serveur MSN (Serveur MSN Messenger)
 notify1_5 Annoncer quand les contacts se déconnectent
@@ -523,7 +525,7 @@ pause Pause
 personal Personnel
 phones Numéros de téléphone
 phone Téléphone
-picbrowser Voir mes icônes
+picbrowser Voir mes avatars
 picfile Image associée à l'alarme (GIF < 500x500)
 picstatus Activer/Désactiver l'image associée à l'alarme
 play Jouer
@@ -626,12 +628,13 @@ session Session
 shareswebcam Possède une webcam
 showbanner Affiche la bannière d'aMSN
 showblockedlist Voir la liste des personnes que vous avez bloqué
-showcachedpics Afficher/Masquer les icônes cachées
-showdisplaypic2 Afficher l'icône par défaut à l'ouverture d'une fenêtre de conversation
-showdisplaypic Afficher l'icône
-showmypic Mon icône
+showcachedpics Afficher/Masquer les avatars cachés
+showdisplaypic2 Afficher l'avatar par défaut à l'ouverture d'une fenêtre de conversation
+showdisplaypic Afficher l'avatar
+showmypic Mon avatar
+showmailicon Montrer l'icône des mails dans la boîte à miniatures lorsque de nouveaux mails arrivent
 shownotify Afficher la fenêtre d'annonce quand certains événements se produisent
-showpicnotify Montrer l'icône des contacts dans la fenêtre d'annonce
+showpicnotify Montrer l'avatar des contacts dans la fenêtre d'annonce
 showuserpic Icône de $1
 signinstatus Status lors de la connexion
 skin apparence
@@ -709,8 +712,8 @@ tomobile Au mobile
 tools Outils
 tooltips Activer les info-bulles
 transnotexists Le fichier demandé n'a pas encore été traduit dans votre langue.
-trayicon Afficher l'icone de l'état dans la barre de notification
-traynotcompiled Le plugiciel de l'icône de la corbeille n'est pas conforme. Sélectionnez plugiciel/ancrage de la corbeille
+trayicon Afficher l'icone de l'état dans la barre à miniatures
+traynotcompiled Le programme de la barre à miniatures n'est pas compilé. 
 triggers Textes déclencheurs
 truncatenames1 Tronquer les pseudonymes plus long que la largeur de la fenêtre dans le titre et la liste de contacts
 truncatenames2 Tronquer les pseudonymes plus long que la largeur de la fenêtre dans les conversations
@@ -726,7 +729,7 @@ uonline Connectés
 update Mise à jour
 updateonlycurrentlanguage Ne mettre à jour que la langue courante
 updating Mise à jour
-useasdp Utiliser en tant qu'icône
+useasdp Utiliser en tant qu'avatar
 useother Utiliser un programme différent
 usemsnp11 Ajoute la possibilité de lire et d'écrire des messages personnels (ceci est une fonction EXPERIMENTALE !) -- Pour cela vous avez besoin d'un profil et de relancer aMSN
 useralreadyonlist Utilisateur déjà présent dans la liste
