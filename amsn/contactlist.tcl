@@ -4,6 +4,7 @@ snit::widget contactlist {
 	typevariable mypicbgimg
 	typevariable mypicoverlayimg
 	typevariable listbgimg
+	typevariable groupbgimg
 	typevariable selectbgimg
 	typevariable expandimg
 	typevariable contractimg
@@ -33,6 +34,7 @@ snit::widget contactlist {
 		set mypicbgimg [image create photo -file mypicbg.png]
 		set mypicoverlayimg [image create photo -file mypicoverlay.png]
 		set listbgimg [image create photo -file background_list.png]
+		set groupbgimg [image create photo -file background_group.png]
 		set selectbgimg [image create photo -file background_selected.png]
 		set expandimg [image create photo -file expand.png]
 		set contractimg [image create photo -file contract.png]
@@ -75,10 +77,13 @@ snit::widget contactlist {
 	option -listpady -default 5
 	option -topborder -default {12 12 2 12}
 	option -listborder -default {20 20 20 20}
+	option -groupbgborder -default { 5 5 5 5 }
 	option -ipadx -default 5
 	option -ipady -default 5
 	option -grouppadx -default 5
 	option -grouppady -default 5
+	option -groupipadx -default 5
+	option -groupipady -default 5
 	option -buddypadx -default 2
 	option -buddypady -default 2
 	option -contractpadx -default 2
@@ -101,6 +106,8 @@ snit::widget contactlist {
 
 	variable nick
 
+	variable groupbg
+	variable groupbgid
 	variable toggleid
 	variable headid
 	variable buddyid
@@ -152,13 +159,15 @@ snit::widget contactlist {
 		pack $list -side top -anchor nw -expand true -fill both -padx $options(-listpadx) -pady $options(-listpady)
 
 		# Bind them
-		bind $top <Configure> "$self Configure top %w %h"
-		bind $list <Configure> "$self Configure list %w %h"
+		bind $top <Configure> "$self Config top %w %h"
+		bind $list <Configure> "$self Config list %w %h"
 
 		# Apply arguments
 		$self configurelist $args
 
 		# Create empty canvas id variables/arrays
+		array set groupbg {{} {}}
+		array set groupbgid {{} {}}
 		array set toggleid {{} {}}
 		array set headid {{} {}}
 		array set buddyid {{} {}}
@@ -172,7 +181,7 @@ snit::widget contactlist {
 		array set dragX {{} {}}
 		array set dragY {{} {}}
 
-		array set afterid {sort {} trunc_me {} trunc_contacts {}}
+		array set afterid {sort {} config.top {} config.list {} trunc_me {} trunc_contacts {}}
 
 		set selected none
 
@@ -216,18 +225,23 @@ snit::widget contactlist {
 		if { [string equal $name {}] } {
 			set name $id
 		}
+		# Background image
+		set groupbg($id) [scalable-bg $id.bg -source $groupbgimg -n [lindex $options(-groupbgborder) 0] -e [lindex $options(-groupbgborder) 1] -s [lindex $options(-groupbgborder) 2] -w [lindex $options(-groupbgborder) 3] -resizemethod scale]
+		set groupbgid($id) [$list create image 0 0 -anchor nw -image [$groupbg($id) name]]
+		# Heading
 		set toggleid($id) [$list create image 0 0 -anchor nw -image $contractimg]
 		set headid($id) [$list create text 0 0 -anchor nw -text $name]
-
-		contentmanager add group $cl $id -widget $list -padx $options(-grouppadx) -pady $options(-grouppady)
+		contentmanager add group $cl $id -widget $list -padx $options(-grouppadx) -pady $options(-grouppady) -ipadx $options(-groupipadx) -ipady $options(-groupipady)
 		contentmanager add group $cl $id head -widget $list -orient horizontal -omnipresent yes
 		contentmanager add element $cl $id head toggle -widget $list -tag $toggleid($id)
 		contentmanager add element $cl $id head text -widget $list -tag $headid($id)
 
+		# Bind heading
 		contentmanager bind $cl $id head <ButtonPress> "$self toggle $id"
 
 		# Store the group id in list
 		lappend groups $id
+
 		# Sort the cl
 		$self sort
 	}
@@ -435,6 +449,7 @@ snit::widget contactlist {
 		set selected $groupid.$id
 		set x 7;#[lindex $options(-listborder) 0]
 		set y [lindex [contentmanager getcoords $cl $groupid $id] 1]
+		$list raise $selectbgid $groupbgid($groupid)
 		$list coords $selectbgid $x $y
 		$list itemconfigure $selectbgid -state normal
 		$selectbg configure -height [contentmanager cget $cl $groupid $id -height]
@@ -477,9 +492,20 @@ snit::widget contactlist {
 			$list coords $selectbgid $x $y
 			$selectbg configure -height [eval contentmanager cget $cl $selected -height]
 		}
+		# Resize group bg
+		foreach groupid $groups {
+			eval $list coords $groupbgid($groupid) [contentmanager getcoords $cl $groupid]
+			$self SetGroupBgHeight $groupid [contentmanager cget $cl $groupid -height]
+		}
+	}
+
+	method Config { component width height } {
+		after cancel $afterid(config.$component)
+		set afterid(config.$component) [after 1 "$self Configure $component $width $height"]
 	}
 
 	method Configure { component width height } {
+		puts configure.$component
 		switch $component {
 			top {
 				$topbg configure -width $width -height $height
@@ -494,6 +520,19 @@ snit::widget contactlist {
 		set afterid(trunc_me) [after 1 "$self TruncateMyNick $width"]
 		after cancel $afterid(trunc_contacts)
 		set afterid(trunc_contacts) [after 1 "$self TruncateContactsNicks $width"]
+
+		# Resize group backgrounds
+		foreach groupid $groups {
+			$self SetGroupBgWidth $groupid $width
+		}
+	}
+
+	method SetGroupBgWidth { groupid width } {
+		$groupbg($groupid) configure -width $width
+	}
+
+	method SetGroupBgHeight { groupid height } {
+		$groupbg($groupid) configure -height $height
 	}
 
 	method TruncateMyNick { width } {
