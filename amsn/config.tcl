@@ -553,8 +553,6 @@ proc load_config {} {
 	#Create custom smileys folder
 	create_dir "[file join ${HOME} smileys]"
 
-	create_dir "[::config::getKey receiveddir]"
-
 	set user_login [::config::getKey login]
 	status_log "load_config: Started. HOME=$HOME, config(login)=$user_login\n"
 
@@ -674,6 +672,8 @@ proc load_config {} {
 	}
 
 	::plugins::LoadPlugins
+
+	create_dir "[::config::getKey receiveddir]"
 }
 
 
