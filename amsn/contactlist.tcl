@@ -1,18 +1,27 @@
-package require contentmanager
-
 snit::widget contactlist {
 
 	typevariable topbgimg
+	typevariable mypicbgimg
+	typevariable mypicoverlayimg
 	typevariable listbgimg
+	typevariable selectbgimg
 	typevariable expandimg
 	typevariable contractimg
 	typevariable buddyimg
 
+	typevariable mynickfont
+	typevariable mypsmfont
+	typevariable mymusicfont
+	typevariable mystatefont
 	typevariable nickfont
 	typevariable psmfont
 	typevariable musicfont
 	typevariable statefont
 
+	typevariable mynickcol
+	typevariable mypsmcol
+	typevariable mymusiccol
+	typevariable mystatecol
 	typevariable nickcol
 	typevariable psmcol
 	typevariable musiccol
@@ -20,27 +29,34 @@ snit::widget contactlist {
 
 	typeconstructor {
 		# Load images
-		::skin::setPixmap background_top background_top.png
-		::skin::setPixmap background_list background_list.png
-		::skin::setPixmap expand expand.png
-		::skin::setPixmap contract contract.png
-		::skin::setPixmap buddy buddy.png
-
-		set topbgimg [::skin::loadPixmap background_top]
-		set listbgimg [::skin::loadPixmap background_list]
-		set expandimg [::skin::loadPixmap expand]
-		set contractimg [::skin::loadPixmap contract]
-		set buddyimg [::skin::loadPixmap buddy]
+		set topbgimg [image create photo -file background_top.png]
+		set mypicbgimg [image create photo -file mypicbg.png]
+		set mypicoverlayimg [image create photo -file mypicoverlay.png]
+		set listbgimg [image create photo -file background_list.png]
+		set selectbgimg [image create photo -file background_selected.png]
+		set expandimg [image create photo -file expand.png]
+		set contractimg [image create photo -file contract.png]
+		set buddyimg [image create photo -file buddy.png]
 
 		# Set fonts
+		set mynickfont [font create -family helvetica -size 12 -weight bold]
+		set mypsmfont [font create -family helvetica -size 12 -weight bold]
+		set mymusicfont [font create -family helvetica -size 12 -weight bold]
+		set mystatefont [font create -family helvetica -size 12 -weight bold]
 		set nickfont [font create -family helvetica -size 11 -weight bold]
 		set psmfont [font create -family helvetica -size 11 -weight bold -slant italic]
 		set musicfont [font create -family helvetica -size 11 -weight bold]
 		set statefont [font create -family helvetica -size 11 -weight bold]
 
 		# Set colours
+		# Top colours
+		set mynickcol darkblue
+		set mypsmcol #0000ee
+		set mymusiccol purple
+		set mystatecol darkgreen
+		# List colours
 		set nickcol darkblue
-		set psmcol orange
+		set psmcol #0000ee
 		set musiccol purple
 		set statecol darkgreen
 	}
@@ -49,13 +65,18 @@ snit::widget contactlist {
 	component topbg
 	component list
 	component listbg
+	component selectbg
 
 	option -width -default 0
 	option -height -default 0
-	option -topborder -default {14 14 14 14}
-	option -listborder -default {11 11 11 11}
-	option -ipadx -default 12
-	option -ipady -default 12
+	option -toppadx -default 5
+	option -toppady -default 5
+	option -listpadx -default 5
+	option -listpady -default 5
+	option -topborder -default {12 12 2 12}
+	option -listborder -default {20 20 20 20}
+	option -ipadx -default 5
+	option -ipady -default 5
 	option -grouppadx -default 5
 	option -grouppady -default 5
 	option -buddypadx -default 2
@@ -65,8 +86,20 @@ snit::widget contactlist {
 	option -expandpadx -default 2
 	option -expandpady -default 2
 
-	variable container
 	variable groups
+
+	variable topbgid
+	variable listbgid
+	variable selectbgid
+	variable mypicid
+	variable mypicbgid
+	variable mypicoverlayid
+	variable mynickid
+	variable mypsmid
+	variable mymusicid
+	variable mystateid
+
+	variable nick
 
 	variable toggleid
 	variable headid
@@ -76,12 +109,19 @@ snit::widget contactlist {
 	variable musicid
 	variable stateid
 
+	variable selectid
+
+	variable selected
+
 	variable dragX
 	variable dragY
 	variable dragXOffset
 	variable dragYOffset
 
 	variable afterid
+
+	variable me
+	variable cl
 
 	option -grouporder
 
@@ -94,17 +134,22 @@ snit::widget contactlist {
 		install topbg using scalable-bg $top.bg -source $topbgimg \
 			-n [lindex $options(-topborder) 0] -e [lindex $options(-topborder) 1] \
 			-s [lindex $options(-listborder) 2] -w [lindex $options(-topborder) 3] \
-			-resizemethod tile
+			-resizemethod scale
 		install listbg using scalable-bg $list.bg -source $listbgimg \
 			-n [lindex $options(-listborder) 0] -e [lindex $options(-listborder) 1] \
 			-s [lindex $options(-listborder) 2] -w [lindex $options(-listborder) 3] \
-			-resizemethod tile
-		$list create image 0 0 -anchor nw -image [$listbg name]
-		$top create image 0 0 -anchor nw -image [$topbg name]
+			-resizemethod scale
+		install selectbg using scalable-bg $list.selectbg -source $selectbgimg \
+			-n [lindex $options(-listborder) 0] -e [lindex $options(-listborder) 1] \
+			-s [lindex $options(-listborder) 2] -w [lindex $options(-listborder) 3] \
+			-resizemethod scale
+		set topbgid [$top create image 0 0 -anchor nw -image [$topbg name]]
+		set listbgid [$list create image 0 0 -anchor nw -image [$listbg name]]
+		set selectbgid [$list create image 0 0 -anchor nw -image [$selectbg name] -state hidden]
 
 		# Pack them
-		pack $top -side top -anchor nw -expand false -fill both
-		pack $list -side top -anchor nw -expand true -fill both -pady 5
+		pack $top -side top -anchor nw -expand false -fill both -padx $options(-toppadx) -pady $options(-toppady)
+		pack $list -side top -anchor nw -expand true -fill both -padx $options(-listpadx) -pady $options(-listpady)
 
 		# Bind them
 		bind $top <Configure> "$self Configure top %w %h"
@@ -113,7 +158,7 @@ snit::widget contactlist {
 		# Apply arguments
 		$self configurelist $args
 
-		# Create empty arrays
+		# Create empty canvas id variables/arrays
 		array set toggleid {{} {}}
 		array set headid {{} {}}
 		array set buddyid {{} {}}
@@ -121,45 +166,70 @@ snit::widget contactlist {
 		array set psmid {{} {}}
 		array set musicid {{} {}}
 		array set stateid {{} {}}
+
+		array set nick {{} {}}
+		
 		array set dragX {{} {}}
 		array set dragY {{} {}}
 
-		array set afterid {sort {}}
+		array set afterid {sort {} trunc_me {} trunc_contacts {}}
 
-		# Create container group
-		set container c
-		contentmanager add group $self $container -ipadx $options(-ipadx) -ipady $options(-ipady)
+		set selected none
 
-		$self registerForEvents
-	}
+		# Create container group for list
+		#set container c
+		#contentmanager add group $self $list -ipadx $options(-ipadx) -ipady $options(-ipady)
+		#contentmanager add group $self $top -ipadx $options(-ipadx) -ipady $options(-ipady) -orient horizontal
+		set me $self.me
+		set cl $self.cl
+		contentmanager add container $me -orient horizontal
+		contentmanager add container $cl -orient vertical
+		contentmanager add group $cl nogroup
 
-	method registerForEvents { } {
-		::Event::registerEvent groupAdded all $self
-		::Event::registerEvent groupDeleted all $self
-		::Event::registerEvent groupRenamed all $self
-		::Event::registerEvent contactAdded all $self
-		::Event::registerEvent contactDeleted all $self
-		::Event::registerEvent contactChangeNick all $self
-		::Event::registerEvent contactChangePSM all $self
-		::Event::registerEvent contactChangeState all $self
-	}
-
-	# Methods to deal with protocol events
-	method contactlistLoaded { } {
 		
 	}
 
+	# Methods to deal with protocol events
+	
+	method contactlistLoaded { } {
+		# Create the canvas items
+		set mypicbgid [$top create image 0 0 -anchor nw -image $mypicbgimg]
+		set mypicoverlayid [$top create image 0 0 -anchor nw -image $mypicoverlayimg]
+		set mypicid [$top create image 0 0 -anchor nw -image [image create photo -file dp.png]]
+		set mynickid [$top create text 0 0 -anchor nw -fill $mynickcol -font $mynickfont -text "Hobbes - all the colours of the rainbow!!!"]
+		set mypsmid [$top create text 0 0 -anchor nw -fill $mypsmcol -font $mypsmfont -text "http://amsn.sf.net/"]
+		set mymusicid [$top create text 0 0 -anchor nw -fill $mymusiccol -font $mymusicfont -text "Kate Bush - Aerial tal"]
+		set mystateid [$top create text 0 0 -anchor nw -fill $mystatecol -font $mystatefont -text "Online"]
+		# Add them to the layout
+		contentmanager add group $me icon -widget $top -padx 5 -pady 5
+		contentmanager add element $me icon icon -widget $top -tag $mypicid
+		contentmanager add group $me info -widget $top -padx 5 -pady 5
+		contentmanager add element $me info nick -widget $top -tag $mynickid
+		contentmanager add element $me info psm -widget $top -tag $mypsmid
+		contentmanager add element $me info music -widget $top -tag $mymusicid
+		contentmanager add element $me info state -widget $top -tag $mystateid
+
+		$self sort
+	}
+
 	method groupAdded { id {name {}} } {
+		if { [string equal $name {}] } {
+			set name $id
+		}
 		set toggleid($id) [$list create image 0 0 -anchor nw -image $contractimg]
 		set headid($id) [$list create text 0 0 -anchor nw -text $name]
 
-		contentmanager add group $self $container $id -widget $list -padx $options(-grouppadx) -pady $options(-grouppady)
-		contentmanager add group $self $container $id head -widget $list -orient horizontal -omnipresent yes
-		contentmanager add element $self $container $id head toggle -widget $list -tag $toggleid($id)
-		contentmanager add element $self $container $id head text -widget $list -tag $headid($id)
-		#contentmanager bind $self $container $id head <ButtonPress> "contentmanager toggle $self $container $id;contentmanager sort $self $container"
-		contentmanager bind $self $container $id head <ButtonPress> "$self toggle $id"
+		contentmanager add group $cl $id -widget $list -padx $options(-grouppadx) -pady $options(-grouppady)
+		contentmanager add group $cl $id head -widget $list -orient horizontal -omnipresent yes
+		contentmanager add element $cl $id head toggle -widget $list -tag $toggleid($id)
+		contentmanager add element $cl $id head text -widget $list -tag $headid($id)
 
+		contentmanager bind $cl $id head <ButtonPress> "$self toggle $id"
+
+		# Store the group id in list
+		lappend groups $id
+		# Sort the cl
+		$self sort
 	}
 
 	method groupAddFailed { } {
@@ -173,7 +243,7 @@ snit::widget contactlist {
 		set list1 [lrange $groups 0 [expr {$index - 1}]]
 		set list2 [lrange $groups [expr {$index + 1}] end]
 		set groups [concat $list1 $list2]
-		contentmanager delete $self $container $id
+		contentmanager delete $cl $id
 		$self sort
 	}
 
@@ -191,23 +261,26 @@ snit::widget contactlist {
 	}
 
 	method contactAdded { groupid id {name {}} {psm {}} {music {}} {state {}} } {
-		puts "$groupid $id $name $psm $music $state"
-		set buddyid($groupid.$id) [$list create image 0 0 -anchor nw -image $buddyimg]
-		set nickid($groupid.$id) [$list create text 0 0 -anchor nw -text $name -font $nickfont -fill $nickcol]
-		set psmid($groupid.$id) [$list create text 0 0 -anchor nw -text $psm -font $psmfont -fill $psmcol]
-		set stateid($groupid.$id) [$list create text 0 0 -anchor nw -text $state -font $statefont -fill $statecol]
+		if { [string equal $groupid {}] } {
+			set groupid "nogroup"
+		}
+		set buddyid($groupid.$id) [$list create image 0 0 -anchor nw -image $buddyimg -tags buddy]
+		set nickid($groupid.$id) [$list create text 0 0 -anchor nw -text $name -font $nickfont -fill $nickcol -tags nick]
+		set psmid($groupid.$id) [$list create text 0 0 -anchor nw -text $psm -font $psmfont -fill $psmcol -tags psm]
+		set stateid($groupid.$id) [$list create text 0 0 -anchor nw -text $state -font $statefont -fill $statecol -tags state]
 
-		contentmanager add group $self $container $groupid $id -widget $list -orient horizontal -padx $options(-buddypadx) -pady $options(-buddypady)
-		contentmanager add group $self $container $groupid $id icon -widget $list
-		contentmanager add group $self $container $groupid $id info -widget $list
-		contentmanager add element $self $container $groupid $id icon icon -widget $list -tag $buddyid($groupid.$id)
-		contentmanager add element $self $container $groupid $id info nick -widget $list -tag $nickid($groupid.$id)
-		contentmanager add element $self $container $groupid $id info psm -widget $list -tag $psmid($groupid.$id)
-		contentmanager add element $self $container $groupid $id info state -widget $list -tag $stateid($groupid.$id)
+		# Store the nick in array
+		set nick($nickid($groupid.$id)) $name
 
-		#contentmanager bind $self $container $groupid $id <ButtonPress-1> "$self dragStart $groupid $id %x %y"
-		#contentmanager bind $self $container $groupid $id <B1-Motion> "$self dragMotion $groupid $id %x %y"
-		#contentmanager bind $self $container $groupid $id <ButtonRelease-1> "$self dragStop $groupid $id %x %y"
+		contentmanager add group $cl $groupid $id -widget $list -orient horizontal -padx $options(-buddypadx) -pady $options(-buddypady) -ipadx 0 -ipady 5
+		contentmanager add group $cl $groupid $id icon -widget $list
+		contentmanager add group $cl $groupid $id info -widget $list
+		contentmanager add element $cl $groupid $id icon icon -widget $list -tag $buddyid($groupid.$id)
+		contentmanager add element $cl $groupid $id info nick -widget $list -tag $nickid($groupid.$id)
+		contentmanager add element $cl $groupid $id info psm -widget $list -tag $psmid($groupid.$id)
+		contentmanager add element $cl $groupid $id info state -widget $list -tag $stateid($groupid.$id)
+
+		contentmanager bind $cl $groupid $id <ButtonPress-1> "$self SelectContact $groupid $id"
 
 		$self sort
 	}
@@ -217,7 +290,7 @@ snit::widget contactlist {
 	}
 
 	method contactDeleted { groupid id } {
-		contentmanager delete $self $container $groupid $id
+		contentmanager delete $cl $groupid $id
 		foreach tag "$buddyid($groupid.$id) $nickid($groupid.$id) $psmid($groupid.$id) $stateid($groupid.$id)" {
 			$list delete $tag
 		}
@@ -264,6 +337,8 @@ snit::widget contactlist {
 		foreach groupid $groups {
 			if { [info exists nickid($groupid.$id)] } {
 				$list itemconfigure $nickid($groupid.$id) -text $newnick
+				# Store the new nick in array
+				set nick($i) $newnick
 			}
 		}
 	}
@@ -296,7 +371,7 @@ snit::widget contactlist {
 	method dragStart { groupid id x y } {
 		set x [$list canvasx $x]
 		set y [$list canvasy $y]
-		set itemcoords [contentmanager getcoords $self $container $groupid $id]
+		set itemcoords [contentmanager getcoords $cl $groupid $id]
 		set itemx [lindex $itemcoords 0]
 		set itemy [lindex $itemcoords 1]
 		set dx [expr {$x - $itemx}]
@@ -313,17 +388,17 @@ snit::widget contactlist {
 		set dx [string trimleft [expr {$x - $dragX($groupid.$id)}] "-"]
 		set dy [string trimleft [expr {$y - $dragY($groupid.$id)}] "-"]
 		if { $dx > 5 || $dy > 5 } {
-			contentmanager coords $self $container $groupid $id $x $y
+			contentmanager coords $cl $groupid $id $x $y
 		}
 	}
 
 	method dragStop { groupid id x y } {
 		foreach group $groups {
-			set groupcoords [contentmanager getcoords $self $container $group]
+			set groupcoords [contentmanager getcoords $cl $group]
 			set groupx [lindex $groupcoords 0]
 			set groupy [lindex $groupcoords 1]
-			set groupwidth [contentmanager cget $self $container $group -width]
-			set groupheight [contentmanager cget $self $container $group -height]
+			set groupwidth [contentmanager cget $cl $group -width]
+			set groupheight [contentmanager cget $cl $group -height]
 			if { $y >= $groupy && $y <= [expr {$groupy + $groupheight}] } {
 				# Events::fire guiMovedContact $id $groupid $group
 				return
@@ -332,54 +407,75 @@ snit::widget contactlist {
 	}
 
 	method toggle { groupid } {
-		contentmanager toggle $self $container $groupid
-		if { [string equal [$list itemcget $toggleid($groupid) -image] $expandimg] } {
+		contentmanager toggle $cl $groupid
+		if { [string equal [contentmanager cget $cl $groupid -state] "normal"] } {
+			if { [string first $groupid. $selected] != -1 } {
+				$list itemconfigure $selectbgid -state normal
+			}
 			$list itemconfigure $toggleid($groupid) -image $contractimg
 		} else {
+			if { [string first $groupid. $selected] != -1 } {
+				$list itemconfigure $selectbgid -state hidden
+			}
 			$list itemconfigure $toggleid($groupid) -image $expandimg
 		}
-		$self sort
+		# Sort the group recursively then sort the contactlist at level 0.
+		# (It's faster to recursively sort the group then sort the cl at level 0 than just recursively sort cl)
+		contentmanager sort $cl $groupid r
+		$self sort 0
 	}
 
-	method register { id {index ""} } {
-		if { [string equal $index ""] } {
-			lappend groups $id
-		} else {
-			set items [linsert $groups $index $id]
+	method SelectContact { args } {
+		set groupid [lindex $args 0]
+		if { [string equal $groupid "none"] } {
+			$list itemconfigure $selectbgid -state hidden
+			return
 		}
-
-		#$self sort
+		set id [lindex $args 1]
+		set selected $groupid.$id
+		set x 7;#[lindex $options(-listborder) 0]
+		set y [lindex [contentmanager getcoords $cl $groupid $id] 1]
+		$list coords $selectbgid $x $y
+		$list itemconfigure $selectbgid -state normal
+		$selectbg configure -height [contentmanager cget $cl $groupid $id -height]
 	}
 
-	method unregister { } {
-		
+	method register { groupid {index ""} } {
+		if { [string equal $index ""] } {
+			lappend groups $groupid
+		} else {
+			set items [linsert $groups $index $groupid]
+		}
 	}
 
-	method sort { } {
+	method unregister { groupid } {
+		set index [lsearch $groups $groupid]
+		set list1 [lrange $groups 0 [expr {$index - 1}]]
+		set list2 [lrange $groups [expr {$index + 1}] end]
+		set groups [concat $list1 $list2]
+	}
+
+	method sort { {level r} } {
 		after cancel $afterid(sort)
-		set afterid(sort) [after 1 "$self Sort"]
+		set afterid(sort) [after 1 "$self Sort $level"]
 	}
 
-	method Sort { } {
-		contentmanager sort $self $container
-	}
+	method Sort { {level r} } {
+		contentmanager sort $me $level
+		contentmanager sort $cl $level
 
-	method Aligngroups { } {
-		set width $options(-width)
-		set height $options(-height)
-		foreach group $groups {
-			set align [contentmanager cget $self $group -align]
-			set w [contentmanager cget $self $group -width]
-			switch $align {
-				"left" {
-				}
-				"center" {
-					contentmanager move $self $group [expr {($width / 2) - ($w / 2)}] 0
-				}
-				"right" {
-					contentmanager move $self $group [expr {$width - $w}] 0
-				}
-			}
+		# Position displaypic bg and overlay (top canvas)
+		set xy [$top coords $mypicid]
+		eval $top coords $mypicbgid $xy
+		eval $top coords $mypicoverlayid $xy
+		$top raise $mypicoverlayid
+
+		# Position selectbg (list canvas)
+		if { ![string equal $selected "none"] } {
+			set x 7;#[lindex $options(-listborder) 0]
+			set y [lindex [eval contentmanager getcoords $cl $selected] 1]
+			$list coords $selectbgid $x $y
+			$selectbg configure -height [eval contentmanager cget $cl $selected -height]
 		}
 	}
 
@@ -390,7 +486,38 @@ snit::widget contactlist {
 			}
 			list {
 				$listbg configure -width $width -height $height
+				$selectbg configure -width [expr {$width - 14}];#[expr {$width - [lindex $options(-listborder) 0] - [lindex $options(-listborder) 2]}]
 			}
 		}
+		incr width -[lindex $options(-listborder) 2]
+		after cancel $afterid(trunc_me)
+		set afterid(trunc_me) [after 1 "$self TruncateMyNick $width"]
+		after cancel $afterid(trunc_contacts)
+		set afterid(trunc_contacts) [after 1 "$self TruncateContactsNicks $width"]
+	}
+
+	method TruncateMyNick { width } {
+		$top itemconfigure $mynickid -text [$self CalcTruncatedString $mynickfont {Hobbes - All the colours of the rainbow!!!} [expr {$width - [lindex [$top coords $mynickid] 0]}]]
+	}
+
+	method TruncateContactsNicks { width } {
+		foreach tag [$list find withtag nick] {
+			$list itemconfigure $tag -text [$self CalcTruncatedString $nickfont $nick($tag) [expr {$width - [lindex [$list coords $tag] 0]}]]
+		}
+	}
+
+	method CalcTruncatedString { font str width } {
+		for { set i 0 } { 1 } { incr i 1 } {
+			set strw [font measure $font -displayof $list [string range $str 0 $i]]
+			if { $strw >= $width } {
+				incr i -3
+				set newstr [string range $str 0 $i]...
+				break
+			} elseif { $i >= [string length $str] } {
+				set newstr $str
+				break
+			}
+		}
+		return $newstr
 	}
 }
