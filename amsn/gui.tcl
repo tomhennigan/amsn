@@ -3284,7 +3284,7 @@ proc cmsn_draw_main {} {
 		-menu .my_menu -state disabled
 	.main_menu.file add separator
 	.main_menu.file add command -label "[trans inbox]" -command \
-	[list ::hotmail::hotmail_login [::config::getKey login] $password]
+	{::hotmail::hotmail_login [::config::getKey login] $password}
 	.main_menu.file add separator
 	.main_menu.file add command -label "[trans savecontacts]..." \
 		-command "saveContacts" -state disabled
