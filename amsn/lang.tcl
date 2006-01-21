@@ -846,6 +846,13 @@ namespace eval ::lang {
 
 		set ::lang::UpdatedLang [list]
 
+		set langcode [::config::getGlobalKey language]
+		set lang "lang$langcode"
+
+		if { $langcode != "en" && ([::lang::keyscounter "en"] > [::lang::keyscounter "$langcode"]) } {
+			return
+		}
+
 		::lang::LoadVersions
 		::lang::LoadOnlineVersions
 
@@ -854,12 +861,11 @@ namespace eval ::lang {
 			return
 		}
 
-
-		set langcode [::config::getGlobalKey language]
-		set lang "lang$langcode"
 		
-		# Check if the current language is not English and if the file is writable before
-		if { $langcode != "en" && [file writable "$dir/$lang"] } {
+		# Check if the current language is not English,
+		# if the number of keys is different in this language and in English
+		# and if the file is writable before
+		if { [file writable "$dir/$lang"] } {
 			set version [::lang::ReadLang $langcode version]
 			set onlineversion [::lang::ReadOnlineLang $langcode version]
 			set current [split $version "."]
@@ -910,6 +916,23 @@ namespace eval ::lang {
 		
 		::lang::SaveVersions
 	
+	}
+
+
+	#///////////////////////////////////////////////////////////////////////
+	# This proc counts the number of keys of a language
+
+	proc keyscounter { langcode } {
+
+		set dir [get_language_dir]
+		set lang "lang$langcode"
+
+		set file [open "[file join ${dir} ${lang}]" r]
+		set keys [split [read $file] "\n"]
+		set keysnumber [llength $keys]
+
+		return $keysnumber
+
 	}
 
 }
