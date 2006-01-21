@@ -243,6 +243,12 @@ snit::type group {
 	}
 
 	destructor {
+		$options(-widget) delete $bboxid
+		foreach item $items {
+			set tree $options(-tree)
+			lappend tree $item
+			eval contentmanager delete $tree
+		}
 		eval contentmanager unregister $options(-tree)
 	}
 
@@ -578,6 +584,7 @@ snit::type element {
 	}
 
 	destructor {
+		$options(-widget) delete $bboxid
 		eval contentmanager unregister $options(-tree)
 	}
 
