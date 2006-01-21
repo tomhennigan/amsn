@@ -10,4 +10,12 @@
 	<init_procedure>Init</init_procedure>
 	<deinit_procedure>DeInit</deinit_procedure>
 	<cvs_version>1.2</cvs_version>
+
+	<URL>
+		<main>http://amsn.sourceforge.net/autoupdater/plugins/dbusviewer/DbusViewer.tcl</main>
+		<plugininfo>http://amsn.sourceforge.net/autoupdater/plugins/dbusviewer/plugininfo.xml</plugininfo>
+		<lang>http://amsn.sourceforge.net/autoupdater/plugins/dbusviewer/lang/lang$langcode</lang>
+		<file>http://amsn.sourceforge.net/autoupdater/plugins/dbusviewer/$file</file>
+	</URL>
+
 </plugin>

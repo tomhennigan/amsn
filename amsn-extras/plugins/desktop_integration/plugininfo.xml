@@ -10,4 +10,14 @@
 	<plugin_namespace>desktop_integration</plugin_namespace>
 	<init_procedure>Init</init_procedure>
 	<deinit_procedure>DeInit</deinit_procedure>
+
+	<cvs_version>1.8</cvs_version>
+
+	<URL>
+		<main>http://amsn.sourceforge.net/autoupdater/plugins/desktop_integration/desktop_integration.tcl</main>
+		<plugininfo>http://amsn.sourceforge.net/autoupdater/plugins/deskop_integration/plugininfo.xml</plugininfo>
+		<lang>http://amsn.sourceforge.net/autoupdater/plugins/desktop_integration/lang/lang$langcode</lang>
+		<file>http://amsn.sourceforge.net/autoupdater/plugins/desktop_integration/$file</file>
+	</URL>
+
 </plugin>

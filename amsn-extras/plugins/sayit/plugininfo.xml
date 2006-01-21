@@ -17,4 +17,12 @@ Karel Demeyer (Linux)</author>
 		<path>winsayit.dll</path>
 		<version>1.1</version>
 	</file>
+
+	<URL>
+		<main>http://amsn.sourceforge.net/autoupdater/plugins/sayit/sayit.tcl</main>
+		<plugininfo>http://amsn.sourceforge.net/autoupdater/plugins/sayit/plugininfo.xml</plugininfo>
+		<lang>http://amsn.sourceforge.net/autoupdater/plugins/sayit/lang/lang$langcode</lang>
+		<file>http://amsn.sourceforge.net/autoupdater/plugins/sayit/$file</file>
+	</URL>
+
 </plugin>

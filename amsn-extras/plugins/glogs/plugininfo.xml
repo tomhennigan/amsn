@@ -34,4 +34,12 @@
 		<langcode>da</langcode>
 		<version>1.1</version>
 	</lang>
+
+	<URL>
+		<main>http://amsn.sourceforge.net/autoupdater/plugins/glogs/glogs.tcl</main>
+		<plugininfo>http://amsn.sourceforge.net/autoupdater/plugins/glogs/plugininfo.xml</plugininfo>
+		<lang>http://amsn.sourceforge.net/autoupdater/plugins/glogs/lang/lang$langcode</lang>
+		<file>http://amsn.sourceforge.net/autoupdater/plugins/glogs/$file</file>
+	</URL>
+
 </plugin>

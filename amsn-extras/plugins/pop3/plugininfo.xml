@@ -14,4 +14,12 @@
 		<path>pixmaps/pop3_mailpic.gif</path>
 		<version>1.1</version>
 	</file>
+
+	<URL>
+		<main>http://amsn.sourceforge.net/autoupdater/plugins/pop3/pop3.tcl</main>
+		<plugininfo>http://amsn.sourceforge.net/autoupdater/plugins/pop3/plugininfo.xml</plugininfo>
+		<lang>http://amsn.sourceforge.net/autoupdater/plugins/pop3/lang/lang$langcode</lang>
+		<file>http://amsn.sourceforge.net/autoupdater/plugins/pop3/$file</file>
+	</URL>
+
 </plugin>

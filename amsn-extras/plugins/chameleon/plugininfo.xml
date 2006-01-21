@@ -11,4 +11,12 @@
 	<plugin_namespace>chameleon</plugin_namespace>
 	<init_procedure>Init</init_procedure>
 	<deinit_procedure>DeInit</deinit_procedure>
+
+	<URL>
+		<main>http://amsn.sourceforge.net/autoupdater/plugins/growl/growl.tcl</main>
+		<plugininfo>http://amsn.sourceforge.net/autoupdater/plugins/growl/plugininfo.xml</plugininfo>
+		<lang>http://amsn.sourceforge.net/autoupdater/plugins/growl/lang/lang$langcode</lang>
+		<file>http://amsn.sourceforge.net/autoupdater/plugins/growl/$file</file>
+	</URL>
+
 </plugin>

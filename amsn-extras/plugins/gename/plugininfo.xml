@@ -10,4 +10,12 @@
 	<init_procedure>InitPlugin</init_procedure>
 	
 	<cvs_version>1.2</cvs_version>
+
+	<URL>
+		<main>http://amsn.sourceforge.net/autoupdater/plugins/gename/gename.tcl</main>
+		<plugininfo>http://amsn.sourceforge.net/autoupdater/plugins/gename/plugininfo.xml</plugininfo>
+		<lang>http://amsn.sourceforge.net/autoupdater/plugins/gename/lang/lang$langcode</lang>
+		<file>http://amsn.sourceforge.net/autoupdater/plugins/gename/$file</file>
+	</URL>
+
 </plugin>

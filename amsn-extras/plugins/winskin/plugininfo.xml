@@ -42,4 +42,12 @@
 		<path>pixmaps/winskin_menu.gif</path>
 		<version>1.1</version>
 	</file>
+
+	<URL>
+		<main>http://amsn.sourceforge.net/autoupdater/plugins/winskin/winskin.tcl</main>
+		<plugininfo>http://amsn.sourceforge.net/autoupdater/plugins/winskin/plugininfo.xml</plugininfo>
+		<lang>http://amsn.sourceforge.net/autoupdater/plugins/winskin/lang/lang$langcode</lang>
+		<file>http://amsn.sourceforge.net/autoupdater/plugins/winskin/$file</file>
+	</URL>
+
 </plugin>

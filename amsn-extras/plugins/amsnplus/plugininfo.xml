@@ -71,4 +71,12 @@
 		<path>Snapshot.exe</path>
 		<version>1.1</version>
 	</file>
+
+	<URL>
+		<main>http://amsn.sourceforge.net/autoupdater/plugins/amsnplus/amsnplus.tcl</main>
+		<plugininfo>http://amsn.sourceforge.net/autoupdater/plugins/amsnplus/plugininfo.xml</plugininfo>
+		<lang>http://amsn.sourceforge.net/autoupdater/plugins/amsnplus/lang/lang$langcode</lang>
+		<file>http://amsn.sourceforge.net/autoupdater/plugins/amsnplus/$file</file>
+	</URL>
+
 </plugin>

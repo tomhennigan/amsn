@@ -9,4 +9,11 @@
 	<plugin_namespace>colorize</plugin_namespace>
 	<init_procedure>InitPlugin</init_procedure>
 	<cvs_version>1.3</cvs_version>
+
+	<URL>
+		<main>http://amsn.sourceforge.net/autoupdater/plugins/colorize/colorize.tcl</main>
+		<plugininfo>http://amsn.sourceforge.net/autoupdater/plugins/colorize/plugininfo.xml</plugininfo>
+		<lang>http://amsn.sourceforge.net/autoupdater/plugins/colorize/lang/lang$langcode</lang>
+		<file>http://amsn.sourceforge.net/autoupdater/plugins/colorize/$file</file>
+	</URL>
 </plugin>

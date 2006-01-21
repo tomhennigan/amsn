@@ -10,4 +10,12 @@
 	<init_procedure>InitPlugin</init_procedure>
 	
 	<cvs_version>1.1</cvs_version>
+
+	<URL>
+		<main>http://amsn.sourceforge.net/autoupdater/plugins/changeit/changeit.tcl</main>
+		<plugininfo>http://amsn.sourceforge.net/autoupdater/plugins/changeit/plugininfo.xml</plugininfo>
+		<lang>http://amsn.sourceforge.net/autoupdater/plugins/changeit/lang/lang$langcode</lang>
+		<file>http://amsn.sourceforge.net/autoupdater/plugins/changeit/$file</file>
+	</URL>
+
 </plugin>

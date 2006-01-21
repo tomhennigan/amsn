@@ -67,4 +67,12 @@
 		<path>pixmaps/notespic.gif</path>
 		<version>1.1</version>
 	</file>
+
+	<URL>
+		<main>http://amsn.sourceforge.net/autoupdater/plugins/music/music.tcl</main>
+		<plugininfo>http://amsn.sourceforge.net/autoupdater/plugins/music/plugininfo.xml</plugininfo>
+		<lang>http://amsn.sourceforge.net/autoupdater/plugins/music/lang/lang$langcode</lang>
+		<file>http://amsn.sourceforge.net/autoupdater/plugins/music/$file</file>
+	</URL>
+
 </plugin>

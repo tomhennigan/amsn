@@ -1148,6 +1148,11 @@
 		<version>1.1</version>
 	</file>
 
-
+	<URL>
+		<main>http://amsn.sourceforge.net/autoupdater/plugins/TeXIM/TeXIM.tcl</main>
+		<plugininfo>http://amsn.sourceforge.net/autoupdater/plugins/TeXIM/plugininfo.xml</plugininfo>
+		<lang>http://amsn.sourceforge.net/autoupdater/plugins/TeXIM/lang/lang$langcode</lang>
+		<file>http://amsn.sourceforge.net/autoupdater/plugins/TeXIM/$file</file>
+	</URL>
 
 </plugin>

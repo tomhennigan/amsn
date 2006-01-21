@@ -9,4 +9,14 @@
 	<plugin_namespace>emotes</plugin_namespace>
 	<init_procedure>Init</init_procedure>
 	<deinit_procedure>DeInit</deinit_procedure>
+
+	<cvs_version>1.1</cvs_version>
+
+	<URL>
+		<main>http://amsn.sourceforge.net/autoupdater/plugins/emotes/emotes.tcl</main>
+		<plugininfo>http://amsn.sourceforge.net/autoupdater/plugins/emotes/plugininfo.xml</plugininfo>
+		<lang>http://amsn.sourceforge.net/autoupdater/plugins/emotes/lang/lang$langcode</lang>
+		<file>http://amsn.sourceforge.net/autoupdater/plugins/emotes/$file</file>
+	</URL>
+
 </plugin>
