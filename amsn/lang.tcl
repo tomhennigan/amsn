@@ -550,7 +550,7 @@ namespace eval ::lang {
 
 		# Download the content of the file from the web
 		if { [catch {
-			set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/msn/lang/$lang?rev=$version&content-type=text/plain" -timeout 120000 -binary 1]
+			set token [::http::geturl "http://amsn.sourceforge.net/autoupdater/lang/$lang" -timeout 120000 -binary 1]
 			set content [::http::data $token]
 			set status [::http::status $token]
 		} ] } {
@@ -795,7 +795,7 @@ namespace eval ::lang {
 			set filename "[file join $HOME2 langlistnew.xml]"
 
 			set fid [open $filename w]
-			set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/msn/langlist?rev=HEAD&content-type=text/plain" -timeout 120000 -binary 1]
+			set token [::http::geturl "http://amsn.sourceforge.net/autoupdater/langlist" -timeout 120000 -binary 1]
 			set content [::http::data $token]
 			fconfigure $fid -encoding binary
 			puts -nonewline $fid "$content"

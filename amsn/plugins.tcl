@@ -1387,12 +1387,12 @@ namespace eval ::plugins {
 		# If no URL is given, look at the CVS URL
 		if { $URL == "" } {
 
-			set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/amsn-extras/plugins/$plugin/plugininfo.xml?rev=HEAD&content-type=text/plain" -timeout 120000 -binary 1]
+			set token [::http::geturl "http://amsn.sourceforge.net/autoupdater/plugins/$plugin/plugininfo.xml" -timeout 120000 -binary 1]
 			set content [::http::data $token]
 			if { [string first "<html>" "$content"] == -1 } {
 				set place 1
 			} else {
-				set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/msn/plugins/$plugin/plugininfo.xml?rev=HEAD&content-type=text/plain" -timeout 120000 -binary 1]
+				set token [::http::geturl "http://amsn.sourceforge.net/autoupdater/plugins2/$plugin/plugininfo.xml" -timeout 120000 -binary 1]
 				set content [::http::data $token]
 				if { [string first "<html>" "$content"] == -1 } {
 					set place 2
@@ -1515,9 +1515,9 @@ namespace eval ::plugins {
 		}
 		
 		if { $place == 1 } {
-			set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/amsn-extras/plugins/$plugin/$plugin.tcl?rev=$version&content-type=text/plain" -timeout 120000 -binary 1]
+			set token [::http::geturl "http://amsn.sourceforge.net/autoupdater/plugins/$plugin/$plugin.tcl" -timeout 120000 -binary 1]
 		} elseif { $place == 2 } {
-			set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/msn/plugins/$plugin/$plugin.tcl?rev=$version&content-type=text/plain" -timeout 120000 -binary 1]
+			set token [::http::geturl "http://amsn.sourceforge.net/autoupdater/plugins2/$plugin/$plugin.tcl" -timeout 120000 -binary 1]
 		} elseif { $place == 3 && $URL != "" } {
 			set URL "[subst $URL]"
 			set token [::http::geturl "$URL" -timeout 120000 -binary 1]
@@ -1565,9 +1565,9 @@ namespace eval ::plugins {
 			}
 
 			if { $place == 1 } {
-				set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/amsn-extras/plugins/$plugin/lang/lang$langcode?rev=$version&content-type=text/plain" -timeout 120000 -binary 1]
+				set token [::http::geturl "http://amsn.sourceforge.net/autoupdater/plugins/$plugin/lang/lang$langcode" -timeout 120000 -binary 1]
 			} elseif { $place == 2 } {
-				set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/msn/plugins/$plugin/lang/lang$langcode?rev=$version&content-type=text/plain" -timeout 120000 -binary 1]
+				set token [::http::geturl "http://amsn.sourceforge.net/autoupdater/plugins2/$plugin/lang/lang$langcode" -timeout 120000 -binary 1]
 			} elseif { $place == 3 && $URL != "" } {
 				set URL "[subst $URL]"
 				set token [::http::geturl "$URL" -timeout 120000 -binary 1]
@@ -1633,9 +1633,9 @@ namespace eval ::plugins {
 			}
 
 			if { $place == 1 } {
-				set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/amsn-extras/plugins/$plugin/$file?rev=$version&content-type=text/plain" -timeout 120000 -binary 1]
+				set token [::http::geturl "http://amsn.sourceforge.net/autoupdater/plugins/$plugin/$file" -timeout 120000 -binary 1]
 			} elseif { $place == 2} {
-				set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/msn/plugins/$plugin/$file?rev=$version&content-type=text/plain" -timeout 120000 -binary 1]
+				set token [::http::geturl "http://amsn.sourceforge.net/autoupdater/plugins2/$plugin/$file" -timeout 120000 -binary 1]
 			} elseif { $place == 3 && $URL != "" } {
 				set URL "[subst $URL]"
 				set token [::http::geturl "$URL" -timeout 120000 -binary 1]
