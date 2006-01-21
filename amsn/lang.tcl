@@ -849,7 +849,7 @@ namespace eval ::lang {
 		set langcode [::config::getGlobalKey language]
 		set lang "lang$langcode"
 
-		if { $langcode != "en" && ([::lang::keyscounter "en"] > [::lang::keyscounter "$langcode"]) } {
+		if { $langcode == "en" || ([::lang::keyscounter "en"] <= [::lang::keyscounter "$langcode"]) } {
 			return
 		}
 
