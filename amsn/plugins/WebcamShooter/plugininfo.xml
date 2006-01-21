@@ -17,9 +17,10 @@
 	</lang>
 
 	<URL>
-		<main>http://cvs.sourceforge.net/viewcvs.py/amsn/msn/plugins/WebcamShooter/camshoot.tcl?rev=$version&content-type=text/plain</main>
-		<plugininfo>http://cvs.sourceforge.net/viewcvs.py/amsn/msn/plugins/WebcamShooter/plugininfo.xml?rev=HEAD&content-type=text/plain</plugininfo>
-		<lang>http://cvs.sourceforge.net/viewcvs.py/amsn/msn/plugins/WebcamShooter/lang/lang$langcode?rev=$version&content-type=text/plain</lang>
+		<main>http://amsn.sourceforge.net/autoupdater/plugins2/WebcamShooter/camshoot.tcl</main>
+		<plugininfo>http://amsn.sourceforge.net/autoupdater/plugins2/WebcamShooter/plugininfo.xml</plugininfo>
+		<lang>http://amsn.sourceforge.net/autoupdater/plugins2/WebcamShooter/lang/lang$langcode</lang>
+		<file>http://amsn.sourceforge.net/autoupdater/plugins2/WebcamShooter/$file</file>
 	</URL>
 
 </plugin>

@@ -55,4 +55,12 @@
 		<path>nudge.wav</path>
 		<version>1.2</version>
 	</file>
+
+	<URL>
+		<main>http://amsn.sourceforge.net/autoupdater/plugins2/Nudge/Nudge.tcl</main>
+		<plugininfo>http://amsn.sourceforge.net/autoupdater/plugins2/Nudge/plugininfo.xml</plugininfo>
+		<lang>http://amsn.sourceforge.net/autoupdater/plugins2/Nudge/lang/lang$langcode</lang>
+		<file>http://amsn.sourceforge.net/autoupdater/plugins2/Nudge/$file</file>
+	</URL>
+
 </plugin>

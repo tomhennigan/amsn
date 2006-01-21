@@ -9,4 +9,12 @@
 	<plugin_namespace>draw</plugin_namespace>
 	<init_procedure>Init</init_procedure>
 	<cvs_version>1.7</cvs_version>
+
+	<URL>
+		<main>http://amsn.sourceforge.net/autoupdater/plugins2/inkdraw/inkdraw.tcl</main>
+		<plugininfo>http://amsn.sourceforge.net/autoupdater/plugins2/inkdraw/plugininfo.xml</plugininfo>
+		<lang>http://amsn.sourceforge.net/autoupdater/plugins2/inkdraw/lang/lang$langcode</lang>
+		<file>http://amsn.sourceforge.net/autoupdater/plugins2/inkdraw/$file</file>
+	</URL>
+
 </plugin>
