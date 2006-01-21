@@ -250,11 +250,9 @@ namespace eval ::config {
 			[list local p4contextprefix str p4contextprefix] \
 			[list title others] \
 			[list local activeautoupdate bool activeautoupdate] \
-			[list local updateonlycurrentlanguage bool updateonlycurrentlanguage] \
 			[list local allowbadwords bool allowbadwords] \
 			[list local libtls_temp folder TLS tlsexplain] \
 			[list local notifytyping bool notifytyping] \
-			[list local clientcaps bool clientcaps] \
 			[list local lineflushlog bool lineflushlog] \
 			[list local autocheckver bool autocheckver] \
 			[list local storename bool storenickname] \
@@ -277,7 +275,6 @@ namespace eval ::config {
 		::config::setKey default_ns_server "messenger.hotmail.com:1863"
 		::config::setKey start_ns_server "messenger.hotmail.com:1863"
 		::config::setKey activeautoupdate 1		;#Active the auto update
-		::config::setKey updateonlycurrentlanguage 1	;#Only check updates for current language
 		::config::setKey allowbadwords 1		;#Disable censure on nicks
 		::config::setKey enablebanner 1		;#Show or Hide AMSN Banner (By default Show)
 		::config::setKey startontray 0		;#Start amsn on tray icon only (hide contact list)
