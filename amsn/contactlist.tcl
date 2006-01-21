@@ -177,6 +177,9 @@ snit::widget contactlist {
 		array set stateid {{} {}}
 
 		array set nick {{} {}}
+		array set psm {{} {}}
+		array set music {{} {}}
+		array set state {{} {}}
 		
 		array set dragX {{} {}}
 		array set dragY {{} {}}
@@ -195,70 +198,29 @@ snit::widget contactlist {
 		contentmanager add container $cl -orient vertical
 		contentmanager add group $cl nogroup
 
-		
+		$self DrawMe
 	}
 
 	# Methods to deal with protocol events
 	
 	method contactlistLoaded { } {
-		# Create the canvas items
-		set mypicbgid [$top create image 0 0 -anchor nw -image $mypicbgimg]
-		set mypicoverlayid [$top create image 0 0 -anchor nw -image $mypicoverlayimg]
-		set mypicid [$top create image 0 0 -anchor nw -image [image create photo -file dp.png]]
-		set mynickid [$top create text 0 0 -anchor nw -fill $mynickcol -font $mynickfont -text "Hobbes - all the colours of the rainbow!!!"]
-		set mypsmid [$top create text 0 0 -anchor nw -fill $mypsmcol -font $mypsmfont -text "http://amsn.sf.net/"]
-		set mymusicid [$top create text 0 0 -anchor nw -fill $mymusiccol -font $mymusicfont -text "Kate Bush - Aerial tal"]
-		set mystateid [$top create text 0 0 -anchor nw -fill $mystatecol -font $mystatefont -text "Online"]
-		# Add them to the layout
-		contentmanager add group $me icon -widget $top -padx 5 -pady 5
-		contentmanager add element $me icon icon -widget $top -tag $mypicid
-		contentmanager add group $me info -widget $top -padx 5 -pady 5
-		contentmanager add element $me info nick -widget $top -tag $mynickid
-		contentmanager add element $me info psm -widget $top -tag $mypsmid
-		contentmanager add element $me info music -widget $top -tag $mymusicid
-		contentmanager add element $me info state -widget $top -tag $mystateid
 
-		$self sort
 	}
 
-	method groupAdded { id {name {}} } {
+	method groupAdded { groupid {name {}} } {
 		if { [string equal $name {}] } {
-			set name $id
+			set name $groupid
 		}
-		# Background image
-		set groupbg($id) [scalable-bg $id.bg -source $groupbgimg -n [lindex $options(-groupbgborder) 0] -e [lindex $options(-groupbgborder) 1] -s [lindex $options(-groupbgborder) 2] -w [lindex $options(-groupbgborder) 3] -resizemethod scale]
-		set groupbgid($id) [$list create image 0 0 -anchor nw -image [$groupbg($id) name]]
-		# Heading
-		set toggleid($id) [$list create image 0 0 -anchor nw -image $contractimg]
-		set headid($id) [$list create text 0 0 -anchor nw -text $name]
-		contentmanager add group $cl $id -widget $list -padx $options(-grouppadx) -pady $options(-grouppady) -ipadx $options(-groupipadx) -ipady $options(-groupipady)
-		contentmanager add group $cl $id head -widget $list -orient horizontal -omnipresent yes
-		contentmanager add element $cl $id head toggle -widget $list -tag $toggleid($id)
-		contentmanager add element $cl $id head text -widget $list -tag $headid($id)
-
-		# Bind heading
-		contentmanager bind $cl $id head <ButtonPress> "$self toggle $id"
-
-		# Store the group id in list
-		lappend groups $id
-
-		# Sort the cl
-		$self sort
+		$self AddGroup $groupid $name
+		tk_messageBox -message "Successfully added group '$name'" -type ok
 	}
 
 	method groupAddFailed { } {
 		
 	}
 
-	method groupDeleted { id } {
-		$list delete $toggleid($id)
-		$list delete $headid($id)
-		set index [lsearch $groups $id]
-		set list1 [lrange $groups 0 [expr {$index - 1}]]
-		set list2 [lrange $groups [expr {$index + 1}] end]
-		set groups [concat $list1 $list2]
-		contentmanager delete $cl $id
-		$self sort
+	method groupDeleted { groupid } {
+		$self DeleteGroup $groupid
 	}
 
 	method groupDeleteFailed { } {
@@ -266,8 +228,7 @@ snit::widget contactlist {
 	}
 
 	method groupRenamed { groupid newname } {
-		$list itemconfigure $headid($id) -text $newname
-		$self sort
+		$self RenameGroup $groupid $newname
 	}
 
 	method groupRenameFailed { } {
@@ -278,25 +239,7 @@ snit::widget contactlist {
 		if { [string equal $groupid {}] } {
 			set groupid "nogroup"
 		}
-		set buddyid($groupid.$id) [$list create image 0 0 -anchor nw -image $buddyimg -tags buddy]
-		set nickid($groupid.$id) [$list create text 0 0 -anchor nw -text $name -font $nickfont -fill $nickcol -tags nick]
-		set psmid($groupid.$id) [$list create text 0 0 -anchor nw -text $psm -font $psmfont -fill $psmcol -tags psm]
-		set stateid($groupid.$id) [$list create text 0 0 -anchor nw -text $state -font $statefont -fill $statecol -tags state]
-
-		# Store the nick in array
-		set nick($nickid($groupid.$id)) $name
-
-		contentmanager add group $cl $groupid $id -widget $list -orient horizontal -padx $options(-buddypadx) -pady $options(-buddypady) -ipadx 0 -ipady 5
-		contentmanager add group $cl $groupid $id icon -widget $list
-		contentmanager add group $cl $groupid $id info -widget $list
-		contentmanager add element $cl $groupid $id icon icon -widget $list -tag $buddyid($groupid.$id)
-		contentmanager add element $cl $groupid $id info nick -widget $list -tag $nickid($groupid.$id)
-		contentmanager add element $cl $groupid $id info psm -widget $list -tag $psmid($groupid.$id)
-		contentmanager add element $cl $groupid $id info state -widget $list -tag $stateid($groupid.$id)
-
-		contentmanager bind $cl $groupid $id <ButtonPress-1> "$self SelectContact $groupid $id"
-
-		$self sort
+		$self AddContact $groupid $id $name $psm $music $state
 	}
 
 	method contactAddFailed { } {
@@ -304,11 +247,7 @@ snit::widget contactlist {
 	}
 
 	method contactDeleted { groupid id } {
-		contentmanager delete $cl $groupid $id
-		foreach tag "$buddyid($groupid.$id) $nickid($groupid.$id) $psmid($groupid.$id) $stateid($groupid.$id)" {
-			$list delete $tag
-		}
-		$self sort
+		$self DeleteContact $groupid $id
 	}
 
 	method contactDeleteFailed { } {
@@ -347,41 +286,148 @@ snit::widget contactlist {
 		
 	}
 
-	method contactChangeNick { id newnick } {
-		foreach groupid $groups {
-			if { [info exists nickid($groupid.$id)] } {
-				$list itemconfigure $nickid($groupid.$id) -text $newnick
-				# Store the new nick in array
-				set nick($i) $newnick
-			}
-		}
+	method contactChangeNick { groupid id newnick } {
+		$self ChangeContactNick $groupid $id $newnick
 	}
 
-	method contactChangePSM { id newpsm } {
-		foreach groupid $groups {
-			if { [info exists psmid($groupid.$id)] } {
-				$list itemconfigure $psmid($groupid.$id) -text $newpsm
-			}
-		}
+	method contactChangePSM { groupid id newpsm } {
+		$self ChangeContactPSM $groupid $id $newpsm
 	}
 
-	method contactChangeMusic { id newmusic } {
-		foreach groupid $groups {
-			if { [info exists musicid($groupid.$id)] } {
-				$list itemconfigure $musicid($groupid.$id) -text $newmusic
-			}
-		}
+	method contactChangeMusic { groupid id newmusic } {
+		$self ChangeContactMusic $groupid $id $newmusic
 	}
 
-	method contactChangeState { id newstate } {
-		foreach groupid $groups {
-			if { [info exists stateid($groupid.$id)] } {
-				$list itemconfigure $stateid($groupid.$id) -text $newstate
-			}
-		}
+	method contactChangeState { groupid id newstate } {
+		$self ChangeContactState $groupid $id $newstate
 	}
 
 	# Methods to carry out GUI actions
+	method DrawMe { } {
+		# Create the canvas items
+		set mypicbgid [$top create image 0 0 -anchor nw -image $mypicbgimg]
+		set mypicoverlayid [$top create image 0 0 -anchor nw -image $mypicoverlayimg]
+		set mypicid [$top create image 0 0 -anchor nw -image [image create photo -file dp.png]]
+		set mynickid [$top create text 0 0 -anchor nw -fill $mynickcol -font $mynickfont -text "Hobbes - all the colours of the rainbow!!!"]
+		set mypsmid [$top create text 0 0 -anchor nw -fill $mypsmcol -font $mypsmfont -text "http://amsn.sf.net/"]
+		set mymusicid [$top create text 0 0 -anchor nw -fill $mymusiccol -font $mymusicfont -text "Kate Bush - Aerial tal"]
+		set mystateid [$top create text 0 0 -anchor nw -fill $mystatecol -font $mystatefont -text "Online"]
+		# Add them to the layout
+		contentmanager add group $me icon -widget $top -padx 5 -pady 5
+		contentmanager add element $me icon icon -widget $top -tag $mypicid
+		contentmanager add group $me info -widget $top -padx 5 -pady 5
+		contentmanager add element $me info nick -widget $top -tag $mynickid
+		contentmanager add element $me info psm -widget $top -tag $mypsmid
+		contentmanager add element $me info music -widget $top -tag $mymusicid
+		contentmanager add element $me info state -widget $top -tag $mystateid
+		
+		$self sort
+	}
+
+	method AddGroup { groupid name } {
+		# Background image
+		set groupbg($groupid) [scalable-bg $groupid.bg -source $groupbgimg -n [lindex $options(-groupbgborder) 0] -e [lindex $options(-groupbgborder) 1] -s [lindex $options(-groupbgborder) 2] -w [lindex $options(-groupbgborder) 3] -resizemethod scale]
+		set groupbgid($groupid) [$list create image 0 0 -anchor nw -image [$groupbg($groupid) name]]
+		# Heading
+		set toggleid($groupid) [$list create image 0 0 -anchor nw -image $contractimg]
+		set headid($groupid) [$list create text 0 0 -anchor nw -text $name]
+		contentmanager add group $cl $groupid -widget $list -padx $options(-grouppadx) -pady $options(-grouppady) -ipadx $options(-groupipadx) -ipady $options(-groupipady)
+		contentmanager add group $cl $groupid head -widget $list -orient horizontal -omnipresent yes
+		contentmanager add element $cl $groupid head toggle -widget $list -tag $toggleid($groupid)
+		contentmanager add element $cl $groupid head text -widget $list -tag $headid($groupid)
+
+		# Bind heading
+		contentmanager bind $cl $groupid head <ButtonPress> "$self toggle $groupid"
+
+		# Store the group id in list
+		lappend groups $groupid
+
+		# Sort the cl
+		$self sort
+	}
+
+	method RenameGroup { groupid newname } {
+		$list itemconfigure $headid($groupid) -text $newname
+		$self sort
+	}
+
+	method DeleteGroup { groupid } {
+		$list delete $toggleid($groupid)
+		$list delete $headid($groupid)
+		set index [lsearch $groups $groupid]
+		set list1 [lrange $groups 0 [expr {$index - 1}]]
+		set list2 [lrange $groups [expr {$index + 1}] end]
+		set groups [concat $list1 $list2]
+		contentmanager delete $cl $groupid
+		$self sort
+	}
+
+	method AddContact { groupid id {name {}} {psm {}} {music {}} {state {}} } {
+		set buddyid($groupid.$id) [$list create image 0 0 -anchor nw -image $buddyimg -tags buddy]
+		set nickid($groupid.$id) [$list create text 0 0 -anchor nw -text $name -font $nickfont -fill $nickcol -tags nick]
+		set psmid($groupid.$id) [$list create text 0 0 -anchor nw -text $psm -font $psmfont -fill $psmcol -tags psm]
+		set stateid($groupid.$id) [$list create text 0 0 -anchor nw -text $state -font $statefont -fill $statecol -tags state]
+
+		# Store the nick in array
+		set nick($nickid($groupid.$id)) $name
+
+		contentmanager add group $cl $groupid $id -widget $list -orient horizontal -padx $options(-buddypadx) -pady $options(-buddypady) -ipadx 0 -ipady 5
+		contentmanager add group $cl $groupid $id icon -widget $list
+		contentmanager add group $cl $groupid $id info -widget $list
+		contentmanager add element $cl $groupid $id icon icon -widget $list -tag $buddyid($groupid.$id)
+		contentmanager add element $cl $groupid $id info nick -widget $list -tag $nickid($groupid.$id)
+		contentmanager add element $cl $groupid $id info psm -widget $list -tag $psmid($groupid.$id)
+		contentmanager add element $cl $groupid $id info state -widget $list -tag $stateid($groupid.$id)
+
+		contentmanager bind $cl $groupid $id <ButtonPress-1> "puts [list selecting $id];$self SelectContact $groupid $id"
+
+		$self sort
+	}
+
+	method ChangeContactNick { groupid id newnick } {
+		$list itemconfigure $nickid($groupid.$id) -text $newnick
+		# Store the new nick in array
+		set nick($nickid($groupid.$id)) $newnick
+	}
+
+	method ChangeContactPSM { groupid id newpsm } {
+		$list itemconfigure $psmid($groupid.$id) -text $newpsm
+		# Store the new psm in array
+		set psm($psmid($groupid.$id)) $newpsm
+	}
+
+	method ChangeContactMusic { groupid id newmusic } {
+		$list itemconfigure $musicid($groupid.$id) -text $newmusic
+		# Store the new music in array
+		set music($musicid($groupid.$id)) $newmusic
+	}
+
+	method ChangeContactState { groupid id newstate } {
+		$list itemconfigure $stateid($groupid.$id) -text $newstate
+		# Store the new state in array
+		set state($stateid($groupid.$id)) $newstate
+	}
+
+	method DeleteContact { groupid id } {
+		contentmanager delete $cl $groupid $id
+		foreach tag "$buddyid($groupid.$id) $nickid($groupid.$id) $psmid($groupid.$id) $stateid($groupid.$id)" {
+			$list delete $tag
+		}
+		$self sort
+	}
+
+	method BlockContact { groupid id } {
+		
+	}
+
+	method UnBlockContact { groupid id } {
+		
+	}
+
+	method CopyContact { groupid id groupid2 } {
+		
+	}
+
 	method dragStart { groupid id x y } {
 		set x [$list canvasx $x]
 		set y [$list canvasy $y]
