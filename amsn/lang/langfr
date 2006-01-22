@@ -107,6 +107,8 @@ casesensitive Utiliser des déclencheurs sensibles à la casse
 cfgalarmall Configurer/Ajouter/Supprimer toutes les alarmes
 cfgalarm Configurer/Ajouter/Supprimer alarme
 change Changer
+change_account_info Changer les informations concernant votre compte 
+change_mobile Changer les paramètres du Mobile
 changecustomstate Changer à
 changedisplaypic Changer l'avatar
 changefont Changer la police
