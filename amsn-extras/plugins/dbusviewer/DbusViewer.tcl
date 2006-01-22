@@ -12,6 +12,7 @@ namespace eval ::DbusViewer {
   variable bus1_state 0
   variable bus2_fileptr
   variable bus2_state 0
+  variable plugindir ""
 
   ###########################################################################
   # ::DbusViewer::Init (dir)                   								#
@@ -19,10 +20,11 @@ namespace eval ::DbusViewer {
   # Registration & initialization of the plugin								#
   ###########################################################################
   proc Init { dir } {
-    global bus1_fileptr
-    global bus1_state
-    global bus2_fileptr
-    global bus2_state
+    variable bus1_fileptr
+    variable bus1_state
+    variable bus2_fileptr
+    variable bus2_state
+	variable plugindir $dir
 
     ::plugins::RegisterPlugin "DbusViewer"
     # Handle plugin configuration
@@ -60,10 +62,10 @@ namespace eval ::DbusViewer {
   # Process incoming bus signal												#
   ###########################################################################
   proc ProcessMessage { bus } {
-    global bus1_fileptr
-    global bus1_state
-    global bus2_fileptr
-    global bus2_state
+    variable bus1_fileptr
+    variable bus1_state
+    variable bus2_fileptr
+    variable bus2_state
 
     if {$bus == 1} {
       set fileptr $bus1_fileptr
@@ -140,28 +142,25 @@ namespace eval ::DbusViewer {
   }
 
   ###########################################################################
-  # ::DbusViewer::DeInit (dir)                   								#
+  # ::DbusViewer::DeInit (dir)                   							#
   # ----------------------------------------------------------------------- #
   # What ??? Someone is unloading me ???									#
   ###########################################################################
   proc DeInit { } {
-    global bus1_fileptr
-    global bus1_state
-    global bus2_fileptr
-    global bus2_state
-	if {[info exists bus1_state]} {
- 	   if {$bus1_state == 1} {
-    	  fileevent $bus1_fileptr readable {}
-    	  close $bus1_fileptr
-    	  set $bus1_state 0
-    	}
+    variable bus1_fileptr
+    variable bus1_state
+    variable bus2_fileptr
+    variable bus2_state
+
+	if {[info exists bus1_state] && $bus1_state == 1} {
+	  fileevent $bus1_fileptr readable {}
+	  close $bus1_fileptr
+	  set $bus1_state 0
     }
-    if {[info exists bus2_state]} {
-    	if {$bus2_state == 1} {
-    	  fileevent $bus2_fileptr readable {}
-    	  close $bus2_fileptr
-    	  set $bus2_state 0
-    	}
+    if {[info exists bus2_state] && $bus2_state == 1} {
+	  fileevent $bus2_fileptr readable {}
+	  close $bus2_fileptr
+	  set $bus2_state 0
     }
   }
 
@@ -181,8 +180,10 @@ namespace eval ::DbusViewer {
   # Opens a window with Readme file		 									#
   ###########################################################################
   proc help { } {
+	variable plugindir
+
     ::amsn::showHelpFileWindow \
-      "plugins/DbusViewer/Readme" \
+      "[file join $plugindir Readme]" \
       "DBusViewer Readme"
   }
 
@@ -251,7 +252,7 @@ namespace eval ::DbusViewer {
     # Regular expressions
     frame ${w}.res
     # matching REs
-    set lf_re_match [LabelFrame::create $w.res.lf_re_match -text "REs that should match"]
+    set lf_re_match [labelframe $w.res.lf_re_match -text "REs that should match"]
     pack $w.res.lf_re_match -side left -expand 1 -fill x -anchor n -pady 10
     frame $lf_re_match.1
     checkbutton $lf_re_match.1.bt_re_match -onvalue 1 -offvalue 0 \
@@ -289,7 +290,7 @@ namespace eval ::DbusViewer {
     pack $lf_re_match.5.e_re_match -side left -expand 1 -fill x
     pack $lf_re_match.5 -expand 1 -fill x
     # failing REs
-    set lf_re_fail [LabelFrame::create $w.res.lf_re_fail -text "REs that should fail"]
+    set lf_re_fail [labelframe $w.res.lf_re_fail -text "REs that should fail"]
     pack $w.res.lf_re_fail -side left -expand 1 -fill x -anchor n -pady 10
     frame $lf_re_fail.1
     checkbutton $lf_re_fail.1.bt_re_fail -onvalue 1 -offvalue 0 \
