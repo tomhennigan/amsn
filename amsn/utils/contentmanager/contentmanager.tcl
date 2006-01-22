@@ -230,8 +230,11 @@ snit::type group {
 	variable items
 	variable bboxid
 
-	# afterid variables
+	# Afterid variables
 	variable afterid
+
+	# Binding variables
+	variable havebinding
 
 	constructor { args } {
 		set xPos 0
@@ -239,17 +242,20 @@ snit::type group {
 		set items {}
 		set bboxid {}
 		array set afterid {sort {}}
+		set havebinding 0
 		$self configurelist $args
 	}
 
 	destructor {
-		$options(-widget) delete $bboxid
-		foreach item $items {
-			set tree $options(-tree)
-			lappend tree $item
-			eval contentmanager delete $tree
+		catch {
+			$options(-widget) delete $bboxid
+			foreach item $items {
+				set tree $options(-tree)
+				lappend tree $item
+				eval contentmanager delete $tree
+			}
+			eval contentmanager unregister $options(-tree)
 		}
-		eval contentmanager unregister $options(-tree)
 	}
 
 	method type { } {
@@ -301,6 +307,11 @@ snit::type group {
 	}
 
 	method bind { pat cmd {mode "bbox"} } {
+		if { [string equal $cmd {}] } {
+			set havebinding 0
+		} else {
+			set havebinding 1
+		}
 		switch $mode {
 			"bbox" {
 				$options(-widget) itemconfigure $bboxid -state normal
@@ -372,7 +383,9 @@ snit::type group {
 			eval contentmanager show $tree
 		}
 		set options(-state) normal
-		$options(-widget) itemconfigure $bboxid -state normal
+		if { $havebinding } {
+			$options(-widget) itemconfigure $bboxid -state normal
+		}
 	}
 
 	method hide { } {
@@ -573,6 +586,9 @@ snit::type element {
 	# Children variables
 	variable bboxid
 
+	# Binding variables
+	variable havebinding
+
 	variable xPos
 	variable yPos
 
@@ -584,8 +600,10 @@ snit::type element {
 	}
 
 	destructor {
-		$options(-widget) delete $bboxid
-		eval contentmanager unregister $options(-tree)
+		catch {
+			$options(-widget) delete $bboxid
+			eval contentmanager unregister $options(-tree)
+		}
 	}
 
 	method type { } {
@@ -636,6 +654,11 @@ snit::type element {
 	}
 
 	method bind { pat cmd {mode {bbox}} } {
+		if { [string equal $cmd {}] } {
+			set havebinding 0
+		} else {
+			set havebinding 1
+		}
 		if { [$self GotWidget] } {
 			$options(-widget) bind $options(-tag) $pat $cmd
 			$options(-widget) bind $bboxid $pat $cmd
@@ -675,7 +698,9 @@ snit::type element {
 		if { [$self GotWidget] } {
 			set options(-state) "normal"
 			$options(-widget) itemconfigure $options(-tag) -state normal
-			$options(-widget) itemconfigure $bboxid -state normal
+			if { $havebinding } {
+				$options(-widget) itemconfigure $bboxid -state normal
+			}
 		}
 	}
 
