@@ -11,6 +11,11 @@
 	<deinit_procedure>DeInit</deinit_procedure>
 	<cvs_version>1.2</cvs_version>
 
+	<file>
+		<path>Readme</path>
+		<version>1.1</version>
+	</file>
+
 	<URL>
 		<main>http://amsn.sourceforge.net/autoupdater/plugins/dbusviewer/DbusViewer.tcl</main>
 		<plugininfo>http://amsn.sourceforge.net/autoupdater/plugins/dbusviewer/plugininfo.xml</plugininfo>
