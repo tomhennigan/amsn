@@ -33,9 +33,6 @@ proc LoadStateList {} {
 # Saves the list of states to the file in the HOME dir
 proc SaveStateList {} {
 	global HOME tcl_platform 
-    if {![file exists [file join ${HOME} states.xml]]} {
-    	return
-    }
 	if {$tcl_platform(platform) == "unix"} {
 		set file_id [open "[file join ${HOME} states.xml]" w 00600]
 	} else {
