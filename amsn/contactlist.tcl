@@ -65,6 +65,8 @@ snit::widget contactlist {
 
 	component top
 	component topbg
+	component toolbar
+	component toolbarbg
 	component list
 	component listbg
 	component selectbg
@@ -135,30 +137,38 @@ snit::widget contactlist {
 	constructor { args } {
 		# Create canvases
 		install top using canvas $self.top -bd 0 -highlightthickness 0 -insertontime 0 -height 100
+		install toolbar using canvas $self.toolbar -bd 0 -highlightthickness 0 -insertontime 0
 		install list using canvas $self.list -bd 0 -highlightthickness 0 -insertontime 0
 
 		# Create background images
+		# Top (my nick & status etc)
 		install topbg using scalable-bg $top.bg -source $topbgimg \
 			-n [lindex $options(-topborder) 0] -e [lindex $options(-topborder) 1] \
 			-s [lindex $options(-listborder) 2] -w [lindex $options(-topborder) 3] \
 			-resizemethod scale
+		# List (where contacts go!)
 		install listbg using scalable-bg $list.bg -source $listbgimg \
 			-n [lindex $options(-listborder) 0] -e [lindex $options(-listborder) 1] \
 			-s [lindex $options(-listborder) 2] -w [lindex $options(-listborder) 3] \
 			-resizemethod scale
+		# Select (for showing a contact is selected)
 		install selectbg using scalable-bg $list.selectbg -source $selectbgimg \
 			-n [lindex $options(-listborder) 0] -e [lindex $options(-listborder) 1] \
 			-s [lindex $options(-listborder) 2] -w [lindex $options(-listborder) 3] \
 			-resizemethod scale
+		# Create them on their canvases
 		set topbgid [$top create image 0 0 -anchor nw -image [$topbg name]]
 		set listbgid [$list create image 0 0 -anchor nw -image [$listbg name]]
 		set selectbgid [$list create image 0 0 -anchor nw -image [$selectbg name] -state hidden]
 
-		# Pack them
+		# Clicking on the list background should deselect the currently selected contact
+		$list bind $listbgid <ButtonPress-1> "$self SelectContact none"
+
+		# Pack the canvases
 		pack $top -side top -anchor nw -expand false -fill both -padx $options(-toppadx) -pady $options(-toppady)
 		pack $list -side top -anchor nw -expand true -fill both -padx $options(-listpadx) -pady $options(-listpady)
 
-		# Bind them
+		# Bind the canvases
 		bind $top <Configure> "$self Config top %w %h"
 		bind $list <Configure> "$self Config list %w %h"
 
@@ -176,33 +186,41 @@ snit::widget contactlist {
 		array set musicid {{} {}}
 		array set stateid {{} {}}
 
+		# Arrays to store nicknames, psms, music and states in (for the truncation procs to refer to)
 		array set nick {{} {}}
 		array set psm {{} {}}
 		array set music {{} {}}
 		array set state {{} {}}
-		
+
+		# Arrays to store initial drag positions for contacts
 		array set dragX {{} {}}
 		array set dragY {{} {}}
 
-		array set afterid {sort {} config.top {} config.list {} trunc_me {} trunc_contacts {}}
+		# Afterid arrays. These are very important for speed! Because we bind to the <Configure> event,
+		# we will get a lot of resize actions (especially on scalable-bgs) when the user resizes the window.
+		# To stop this slowing us down, we do all resize and sort (and a few other eg truncate) actions with a:
+		# after cancel $afterid($Action)
+		# set afterid(Action) [after 1 "$doAction"]
+		# So that we only do the last action called.
+		array set afterid {sort.top {} sort.list {} config.top {} config.list {} trunc_me {} trunc_contacts {}}
 
+		# No contacts selected yet..
 		set selected none
 
-		# Create container group for list
-		#set container c
-		#contentmanager add group $self $list -ipadx $options(-ipadx) -ipady $options(-ipady)
-		#contentmanager add group $self $top -ipadx $options(-ipadx) -ipady $options(-ipady) -orient horizontal
+		# Create container groups for top and list (these will sort/arrange the stuff inside them)
 		set me $self.me
 		set cl $self.cl
 		contentmanager add container $me -orient horizontal
 		contentmanager add container $cl -orient vertical
 		contentmanager add group $cl nogroup
 
+		# Draw the top stuff (My pic, nick, psm, music, state etc)
 		$self DrawMe
 	}
 
-	# Methods to deal with protocol events
-	
+	# o------------------------------------------------------------------------------------------------------------------------
+	#  Methods to deal with protocol events
+	# o------------------------------------------------------------------------------------------------------------------------
 	method contactlistLoaded { } {
 
 	}
@@ -240,6 +258,7 @@ snit::widget contactlist {
 			set groupid "nogroup"
 		}
 		$self AddContact $groupid $id $name $psm $music $state
+		tk_messageBox -message "Successfully added contact '$id'" -type ok
 	}
 
 	method contactAddFailed { } {
@@ -302,7 +321,9 @@ snit::widget contactlist {
 		$self ChangeContactState $groupid $id $newstate
 	}
 
-	# Methods to carry out GUI actions
+	# o------------------------------------------------------------------------------------------------------------------------
+	#  Methods to carry out GUI actions
+	# o------------------------------------------------------------------------------------------------------------------------
 	method DrawMe { } {
 		# Create the canvas items
 		set mypicbgid [$top create image 0 0 -anchor nw -image $mypicbgimg]
@@ -321,7 +342,7 @@ snit::widget contactlist {
 		contentmanager add element $me info music -widget $top -tag $mymusicid
 		contentmanager add element $me info state -widget $top -tag $mystateid
 		
-		$self sort
+		$self sort top
 	}
 
 	method AddGroup { groupid name } {
@@ -337,18 +358,18 @@ snit::widget contactlist {
 		contentmanager add element $cl $groupid head text -widget $list -tag $headid($groupid)
 
 		# Bind heading
-		contentmanager bind $cl $groupid head <ButtonPress> "$self toggle $groupid"
+		contentmanager bind $cl $groupid head <ButtonPress-1> "$self toggle $groupid"
 
 		# Store the group id in list
 		lappend groups $groupid
 
 		# Sort the cl
-		$self sort
+		$self sort list
 	}
 
 	method RenameGroup { groupid newname } {
 		$list itemconfigure $headid($groupid) -text $newname
-		$self sort
+		$self sort list
 	}
 
 	method DeleteGroup { groupid } {
@@ -359,7 +380,7 @@ snit::widget contactlist {
 		set list2 [lrange $groups [expr {$index + 1}] end]
 		set groups [concat $list1 $list2]
 		contentmanager delete $cl $groupid
-		$self sort
+		$self sort list
 	}
 
 	method AddContact { groupid id {name {}} {psm {}} {music {}} {state {}} } {
@@ -379,9 +400,9 @@ snit::widget contactlist {
 		contentmanager add element $cl $groupid $id info psm -widget $list -tag $psmid($groupid.$id)
 		contentmanager add element $cl $groupid $id info state -widget $list -tag $stateid($groupid.$id)
 
-		contentmanager bind $cl $groupid $id <ButtonPress-1> "puts [list selecting $id];$self SelectContact $groupid $id"
+		contentmanager bind $cl $groupid $id <ButtonPress-1> "$self SelectContact $groupid $id"
 
-		$self sort
+		$self sort list
 	}
 
 	method ChangeContactNick { groupid id newnick } {
@@ -413,7 +434,7 @@ snit::widget contactlist {
 		foreach tag "$buddyid($groupid.$id) $nickid($groupid.$id) $psmid($groupid.$id) $stateid($groupid.$id)" {
 			$list delete $tag
 		}
-		$self sort
+		$self sort list
 	}
 
 	method BlockContact { groupid id } {
@@ -482,16 +503,21 @@ snit::widget contactlist {
 		# Sort the group recursively then sort the contactlist at level 0.
 		# (It's faster to recursively sort the group then sort the cl at level 0 than just recursively sort cl)
 		contentmanager sort $cl $groupid r
-		$self sort 0
+		$self sort list 0
 	}
 
 	method SelectContact { args } {
 		set groupid [lindex $args 0]
 		if { [string equal $groupid "none"] } {
+			set selected none
 			$list itemconfigure $selectbgid -state hidden
 			return
 		}
 		set id [lindex $args 1]
+		if { [string equal $selected "none"] } {
+			set selected $groupid.$id
+			$selectbg configure -width [$self CalculateSelectWidth]
+		}
 		set selected $groupid.$id
 		set x 7;#[lindex $options(-listborder) 0]
 		set y [lindex [contentmanager getcoords $cl $groupid $id] 1]
@@ -516,32 +542,40 @@ snit::widget contactlist {
 		set groups [concat $list1 $list2]
 	}
 
-	method sort { {level r} } {
-		after cancel $afterid(sort)
-		set afterid(sort) [after 1 "$self Sort $level"]
+	method sort { component {level r} } {
+		after cancel $afterid(sort.$component)
+		set afterid(sort.$component) [after 1 "$self Sort $component $level"]
 	}
 
-	method Sort { {level r} } {
-		contentmanager sort $me $level
-		contentmanager sort $cl $level
+	method Sort { component {level r} } {
+		switch $component {
+			top {
+				contentmanager sort $me $level
+				# Position displaypic bg and overlay
+				set xy [$top coords $mypicid]
+				eval $top coords $mypicbgid $xy
+				eval $top coords $mypicoverlayid $xy
+				$top raise $mypicoverlayid
+			}
+			list {
+				contentmanager sort $cl $level
+				# Position selectbg
+				if { ![string equal $selected "none"] } {
+					set xy [eval contentmanager getcoords $cl $selected]
+					set x [lindex $xy 0]
+					set y [lindex $xy 1]
+					$list coords $selectbgid $x $y
+					if { ![string equal $selected "none"] } {
+						$selectbg configure -height [eval contentmanager cget $cl $selected -height]
+					}
+				}
 
-		# Position displaypic bg and overlay (top canvas)
-		set xy [$top coords $mypicid]
-		eval $top coords $mypicbgid $xy
-		eval $top coords $mypicoverlayid $xy
-		$top raise $mypicoverlayid
-
-		# Position selectbg (list canvas)
-		if { ![string equal $selected "none"] } {
-			set x 7;#[lindex $options(-listborder) 0]
-			set y [lindex [eval contentmanager getcoords $cl $selected] 1]
-			$list coords $selectbgid $x $y
-			$selectbg configure -height [eval contentmanager cget $cl $selected -height]
-		}
-		# Resize group bg
-		foreach groupid $groups {
-			eval $list coords $groupbgid($groupid) [contentmanager getcoords $cl $groupid]
-			$self SetGroupBgHeight $groupid [contentmanager cget $cl $groupid -height]
+				# Resize group backgrounds
+				foreach groupid $groups {
+					eval $list coords $groupbgid($groupid) [contentmanager getcoords $cl $groupid]
+					$self SetGroupBgHeight $groupid [contentmanager cget $cl $groupid -height]
+				}
+			}
 		}
 	}
 
@@ -551,14 +585,13 @@ snit::widget contactlist {
 	}
 
 	method Configure { component width height } {
-		puts configure.$component
 		switch $component {
 			top {
 				$topbg configure -width $width -height $height
 			}
 			list {
 				$listbg configure -width $width -height $height
-				$selectbg configure -width [expr {$width - 14}];#[expr {$width - [lindex $options(-listborder) 0] - [lindex $options(-listborder) 2]}]
+				$selectbg configure -width [$self CalculateSelectWidth]
 			}
 		}
 		incr width -[lindex $options(-listborder) 2]
@@ -571,6 +604,16 @@ snit::widget contactlist {
 		foreach groupid $groups {
 			$self SetGroupBgWidth $groupid $width
 		}
+	}
+
+	method CalculateSelectWidth { } {
+		set winw [winfo width $list]
+		if { ![string equal $selected "none"] } {
+			set width [expr { $winw - ( 2 * $options(-grouppadx)) - (2 * $options(-groupipadx)) - (2 * $options(-buddypadx))}]
+		} else {
+			set width 0
+		}
+		return $width
 	}
 
 	method SetGroupBgWidth { groupid width } {
