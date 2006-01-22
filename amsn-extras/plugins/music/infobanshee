@@ -1,0 +1,11 @@
+#! /bin/sh
+
+if ps x -o cmd |grep banshee | grep -v grep |wc -l >& /dev/null ; then
+	banshee --query-title
+	banshee --query-artist
+	banshee --query-uri
+else
+	echo 0
+fi
+
+exit 0
