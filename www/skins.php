@@ -20,10 +20,18 @@
 	a screenshot, description, and which version(s) of aMSN it is for.
 	<br /><br />
 
+<a NAME="top">
 	<h4 class="title">0.95 Skins</h4>
 	<br />
+</a>
+
 <?php
+
+$toc_arrays = $skins;
+include inc . 'toc.php';
+
 foreach($skins as $skin) {
+        echo '<a NAME="' . $skin[0] . '">';
 	echo '<table class="skins">';
 	echo " <tbody><tr>\n";
         echo "  <td>\n";
@@ -43,7 +51,12 @@ foreach($skins as $skin) {
 	echo " </tbody>\n";
 	echo "</table>\n";
 	echo "<br/>\n";
+	echo "<a/>\n";
 }
 ?>
+
+<br/><br/>
+<center><strong><a href="#top">Back to top</a></strong></center>
+
 
 <?php include inc . 'footer.php';?>

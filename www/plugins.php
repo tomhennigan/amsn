@@ -15,8 +15,16 @@
         <br /><br />
         If you would like to submit your plugin to this page, email it as a zip archive to amsn-plugins at lists dot sourceforge dot net. Please include a screenshot, description, which version(s) of aMSN it's for, and the platform/OS it's for.
 <br /><br />
+
+<a NAME="top"> </a>
+
 <?php
+
+$toc_arrays = $plugins;
+include inc . 'toc.php';
+
 foreach($plugins as $plugin) {
+        echo '<a NAME="' . $plugin[0] . '">';
 	echo '<table class="plugins">';
 	echo ' <tr><td>';
 	echo '  <ul>';
@@ -34,7 +42,12 @@ foreach($plugins as $plugin) {
 	echo ' </td></tr>';
 	echo '</table>';
 	echo '<br/>';
+	echo '<a/>';
 }
 ?>
+
+<br/><br/>
+<center><strong><a href="#top">Back to top</a></strong></center>
+
 
 <?php include inc . 'footer.php'; ?>

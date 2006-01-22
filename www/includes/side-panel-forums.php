@@ -5,7 +5,7 @@
 <div class="block_right_content block_forums">
 <?php
 echo '<b><a href="http://forums.cocoaforge.com/viewforum.php?f=14">'.trans('macforums').'</a></b><br/>';
-echo '<b><a href="http://amsnforums.net">'.trans('amsnforums').'</a></b><br/><br/>';
+echo '<b><a href="http://amsn.sourceforge.net/forums/">'.trans('amsnforums').'</a></b><br/><br/>';
 echo '&#8226; '.trans('recentposts').' &#8226;';
 ?>
 <ul style="text-align: left;padding-left: 20px;margin-bottom: 0px">
