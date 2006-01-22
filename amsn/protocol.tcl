@@ -4488,6 +4488,12 @@ proc cmsn_ns_handler {item {message ""}} {
 					return 0
 				}
 			}
+
+			URL {
+				::hotmail::gotURL [lindex $item 2] [lindex $item 3] [lindex $item 4]
+				return
+			}
+
 			QNG {
 				#Ping response
 				return 0

@@ -3283,8 +3283,7 @@ proc cmsn_draw_main {} {
 	.main_menu.file add cascade -label "[trans mystatus]" \
 		-menu .my_menu -state disabled
 	.main_menu.file add separator
-	.main_menu.file add command -label "[trans inbox]" -command \
-	{::hotmail::hotmail_login [::config::getKey login] $password}
+	.main_menu.file add command -label "[trans inbox]" -command "::hotmail::hotmail_login"
 	.main_menu.file add separator
 	.main_menu.file add command -label "[trans savecontacts]..." \
 		-command "saveContacts" -state disabled
@@ -4751,11 +4750,6 @@ proc getpicturefornotification {email} {
 
 #///////////////////////////////////////////////////////////////////////
 
-proc do_hotmail_login {} {
-	global password
-	::hotmail::hotmail_login [::config::getKey login] $password
-}
-
 if { $initialize_amsn == 1 } {
 	init_ticket draw_online
 }
@@ -5040,11 +5034,11 @@ proc cmsn_draw_online_wrapped {} {
 
 		#Set up TAGS for mail notification
 		$pgBuddyTop.mail tag conf mail -fore black -underline true -font splainf
-		$pgBuddyTop.mail tag bind mail <Button1-ButtonRelease> "$pgBuddyTop.mail conf -cursor watch; do_hotmail_login"
+		$pgBuddyTop.mail tag bind mail <Button1-ButtonRelease> "$pgBuddyTop.mail conf -cursor watch; ::hotmail::hotmail_login"
 		$pgBuddyTop.mail tag bind mail <Enter> "$pgBuddyTop.mail tag conf mail -under false;$pgBuddyTop.mail conf -cursor hand2"
 		$pgBuddyTop.mail tag bind mail <Leave> "$pgBuddyTop.mail tag conf mail -under true;$pgBuddyTop.mail conf -cursor left_ptr"
 
-		clickableImage $pgBuddyTop.mail mailbox mailbox [list ::hotmail::hotmail_login [::config::getKey login] $password] [::skin::getKey mailbox_xpad] [::skin::getKey mailbox_ypad]
+		clickableImage $pgBuddyTop.mail mailbox mailbox "::hotmail::hotmail_login" [::skin::getKey mailbox_xpad] [::skin::getKey mailbox_ypad]
 		set mailheight [expr {[$pgBuddyTop.mail.mailbox cget -height]+(2*[::skin::getKey mailbox_ypad])}]
 		#in windows need an extra -2 is to include the extra 1 pixel above and below in a font
 		if {$tcl_platform(platform) == "windows" || ![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
@@ -6637,7 +6631,7 @@ proc launch_mailer {recipient} {
 	global password
 
 	if {[string length [::config::getKey mailcommand]]==0} {
-		::hotmail::composeMail $recipient [::config::getKey login] $password
+		::hotmail::composeMail $recipient
 			return 0
 	}
 

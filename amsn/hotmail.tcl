@@ -31,97 +31,76 @@ namespace eval ::hotmail {
 		return $froms
 	}
 
-	proc get_url { {msg ""} } {
-		variable site
-		if {$msg == ""} {
-			::MSN::WriteSB ns URL INBOX ::hotmail::get_url
-			vwait ::hotmail::site
-			return $site
+	proc gotURL {main_url {post_url "https://loginnet.passport.com/ppsecure/md5auth.srf?lc=1033"} {id 2}} {
+		global tcl_platform HOME password
+
+		set fd [open "hotmlog.htm" r]
+		set page_data [read $fd]
+		close $fd
+		
+		#Here we calculate the creds and fields in the web page
+		set site $post_url
+		set url $main_url
+
+		set d(valid) Y
+		::abook::getDemographics d
+		
+		set email [::config::getKey login]
+		set login [lindex [split $email "@"] 0]
+		
+		set kv $d(kv)
+		set sl [expr {[clock seconds] - $d(sessionstart)}]
+		set sid $d(sid)
+		set auth $d(mspauth)
+		set tomd5 $auth$sl$password
+		set creds [::md5::md5 $tomd5]
+		
+
+		#Now let's substitute the $vars in hotmlog.htm
+		
+		set page_data [subst -nocommands -nobackslashes $page_data]
+		
+		if {$tcl_platform(platform) == "unix"} {
+			set file_id [open "[file join ${HOME} hotlog.htm]" w 00600]
+		} else {
+			set file_id [open "[file join ${HOME} hotlog.htm]" w]
 		}
-		set site [lindex $msg 3]
-	}
-
-	proc composeMail { toaddr userlogin {pass ""} } {
-
-		set url "/cgi-bin/compose?mailto=1&to=$toaddr"
-		hotmail_viewmsg $url $userlogin $pass
-
+		
+		puts $file_id $page_data
+		
+		close $file_id
+		
+		if {$tcl_platform(os) != "Darwin"} {
+			launch_browser "file://${HOME}/hotlog.htm" 1
+		} else {
+			launch_browser [file join ${HOME} hotlog.htm] 1
+		}
+		
 	}
 
 	proc viewProfile {user_login} {
 		launch_browser "http://members.msn.com/default.msnw?mem=${user_login}&pgmarket="
 	}
 
-	proc hotmail_login {userlogin {pass ""} } {
-
-		hotmail_viewmsg "/cgi-bin/HoTMaiL" $userlogin $pass
-
+	proc composeMail { toaddr} {
+		::MSN::WriteSB ns URL "COMPOSE $toaddr"
 	}
 
-
-	proc hotmail_viewmsg {msgurl userlogin {pass ""}} {
-		# Note: pass can be empty, so user must enter password in the login
-		# page.
-		#
-		# $Id$
-		#
-		global tcl_platform HOME
-
-		if {$pass != ""} {
-
-			set read_id [open "hotmlog.htm" r]
-
-			set page_data ""
-			while {[gets $read_id tmp_data] != "-1"} {
-				set page_data "$page_data\n$tmp_data"
-			}
-
-			close $read_id
-
-			#Here we calculate the creds and fields in the web page
-			set site [::hotmail::get_url]
-			set d(valid) Y
-			::abook::getDemographics d
-
-			set userdata [split $userlogin "@"]
-			set email $userlogin
-
-			set login [lindex $userdata 0]
-
-			set kv $d(kv)
-			set sl [expr {[clock seconds] - $d(sessionstart)}]
-			set sid $d(sid)
-			set auth $d(mspauth)
-			set tomd5 $auth$sl$pass
-			set creds [::md5::md5 $tomd5]
-
-			set url $msgurl
-
-			#Now let's substitute the $vars in hotmlog.htm
-
-			set page_data [subst -nocommands -nobackslashes $page_data]
-
-			if {$tcl_platform(platform) == "unix"} {
-				set file_id [open "[file join ${HOME} hotlog.htm]" w 00600]
-			} else {
-				set file_id [open "[file join ${HOME} hotlog.htm]" w]
-			}
-
-			puts $file_id $page_data
-
-			close $file_id
-
-			if {$tcl_platform(os) != "Darwin"} {
-				launch_browser "file://${HOME}/hotlog.htm" 1
-			} else {
-				launch_browser [file join ${HOME} hotlog.htm] 1
-			}
-
-		} else {
-			launch_browser "http://www.hotmail.com"
-		}
+	proc hotmail_profile {} {
+		::MSN::WriteSB ns URL "PROFILE 0x0409"
 	}
 
+	proc hotmail_login {} {
+		::MSN::WriteSB ns URL INBOX
+	}
+
+	proc hotmail_changeAccountInfo {} {
+		::MSN::WriteSB ns URL "PERSON 0x0409"
+	}
+
+	proc hotmail_changeMobile {} {
+		::MSN::WriteSB ns URL CHGMOB
+	}
 
 	proc QPDecode {str} {
 
@@ -187,7 +166,8 @@ namespace eval ::hotmail {
 				set mailData [$message getField Mail-Data]
 				set inbox [string range $mailData [expr {[string first <I> $mailData]+3}] [expr {[string first </I> $mailData] -1}]]
 				set inboxUnread [string range $mailData [expr {[string first <IU> $mailData]+4}] [expr {[string first </IU> $mailData] -1}]]
-
+				
+			
 				#Get the URL of inbox directory in hotmail
 				set msgurl [$message getField Inbox-URL]
 				status_log "Hotmail: $inboxUnread unread emails\n"
@@ -198,20 +178,22 @@ namespace eval ::hotmail {
 					cmsn_draw_online
 					if { [::config::getKey notifyemail] == 1} {
 						::amsn::notifyAdd "[trans newmail $inboxUnread\($inbox\)]" \
-							"::hotmail::hotmail_login [::config::getKey login] $password" newemail
+						    [list ::hotmail::gotURL $msgurl] newemail
 					}
 				}
 	
 	
 				#Number of unread messages in other folders
-				set folderunread [$message getField Folders-Unread]
+				set mailData [$message getField Mail-Data]
+				set folder [string range $mailData [expr {[string first <O> $mailData]+3}] [expr {[string first </O> $mailData] -1}]]
+				set folderUnread [string range $mailData [expr {[string first <OU> $mailData]+4}] [expr {[string first </OU> $mailData] -1}]]
 				#URL of folder directory in Hotmail
 				set msgurl [$message getField Folders-URL]
-				status_log "Hotmail: $folderunread unread emails in others folders \n"
+				status_log "Hotmail: $folderUnread unread emails in others folders \n"
 				#If the pref notifyemail is active and more than 0 email unread, show a notify on connect
-				if { [::config::getKey notifyemailother] == 1 && [string length $folderunread] > 0 && $folderunread != 0 } {
-					::amsn::notifyAdd "[trans newmailfolder $folderunread]" \
-						"::hotmail::hotmail_viewmsg $msgurl [::config::getKey login] $password" newemail
+				if { [::config::getKey notifyemailother] == 1 && [string length $folderUnread] > 0 && $folderUnread != 0 } {
+					::amsn::notifyAdd "[trans newmailfolder $folderUnread\($folder\)]" \
+					    [list ::hotmail::gotURL $msgurl] newemail
 				}
 			}
 
@@ -222,6 +204,8 @@ namespace eval ::hotmail {
 						status_log "Fail to decode from field: $res\n" res
 						set from $fromaddr
 					}
+					set posturl [$message getField Post-URL]
+					set id [$message getField id]
 					set msgurl [$message getField Message-URL]
 					status_log "Hotmail: New mail from $from - $fromaddr\n"
 
@@ -232,12 +216,12 @@ namespace eval ::hotmail {
 						cmsn_draw_online
 						if { [::config::getKey notifyemail] == 1 } {
 							::amsn::notifyAdd "[trans newmailfrom $from $fromaddr]" \
-								"::hotmail::hotmail_viewmsg \"$msgurl\" [::config::getKey login] $password" newemail
+							    [list ::hotmail::gotURL $msgurl $posturl $id] newemail
 						}
 					} else {
 						if { [::config::getKey notifyemailother] == 1 } {
 							::amsn::notifyAdd "[trans newmailfromother $from $fromaddr]" \
-								"::hotmail::hotmail_viewmsg \"$msgurl\" [::config::getKey login] $password" newemail
+							    [list ::hotmail::gotURL $msgurl $posturl $id] newemail
 						}
 					}
 				}
@@ -259,7 +243,7 @@ namespace eval ::hotmail {
 					cmsn_draw_online
 					if { [::config::getKey notifyemail] == 1} {
 						::amsn::notifyAdd "[trans newmail $noleidos]" \
-							"::hotmail::hotmail_login [::config::getKey login] $password" newemail
+							"::hotmail::hotmail_login" newemail
 					}
 				}
 	
@@ -272,7 +256,7 @@ namespace eval ::hotmail {
 				#If the pref notifyemail is active and more than 0 email unread, show a notify on connect
 				if { [::config::getKey notifyemailother] == 1 && [string length $folderunread] > 0 && $folderunread != 0 } {
 					::amsn::notifyAdd "[trans newmailfolder $folderunread]" \
-						"::hotmail::hotmail_viewmsg $msgurl [::config::getKey login] $password" newemail
+					    [list ::hotmail::gotURL $msgurl] newemail
 				}
 			}
 		

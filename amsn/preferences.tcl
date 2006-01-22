@@ -1544,10 +1544,10 @@ proc Preferences { { settings "personal"} } {
 	pack $frm.lfname2 -anchor n -side top -expand 1 -fill x
 	label $lfname.pprofile -image [::skin::loadPixmap prefprofile]
 	label $lfname.lprofile -text [trans prefprofile2] -padx 10
-	button $lfname.bprofile -text [trans editprofile] -command\
-		{::hotmail::hotmail_viewmsg http://members.msn.com/Edit.msnw [::config::getKey login] $::password }
+	button $lfname.bprofile -text [trans editprofile] -command "::hotmail::hotmail_profile"
 	pack $lfname.pprofile $lfname.lprofile -side left
 	pack $lfname.bprofile -side right -padx 15
+
 
 	## Chat Font Frame ##
 	set lfname [labelframe $frm.lfname3 -text [trans preffont]]
@@ -1580,8 +1580,10 @@ proc Preferences { { settings "personal"} } {
 	label $lfname.2.lphone5 -text "[trans mymobilephone] :" -padx 10 -font sboldf
 	entry $lfname.2.ephone51 -bg #FFFFFF  -font splainf  -width 5	
 	entry $lfname.2.ephone52 -bg #FFFFFF  -font splainf  -width 20
-    checkbutton $lfname.2.mobphone -text "[trans allow_sms]" -onvalue "Y" -offvalue "N" -variable pager
-        
+	checkbutton $lfname.2.mobphone -text "[trans allow_sms]" -onvalue "Y" -offvalue "N" -variable pager
+	button $lfname.2.person -text "[trans change_account_info]" -command "::hotmail::hotmail_changeAccountInfo"
+        button $lfname.2.chgmob -text "[trans change_mobile]" -command "::hotmail::hotmail_changeMobile"
+
     
 	pack $lfname.1 -expand 1 -fill both -side top
 	pack $lfname.2 -expand 1 -fill both -side top
@@ -1599,7 +1601,9 @@ proc Preferences { { settings "personal"} } {
 	grid $lfname.2.ephone51 -row 5 -column 2 -sticky w
 	grid $lfname.2.ephone52 -row 5 -column 3 -sticky w
         grid $lfname.2.mobphone	-row 6 -column 1 -sticky w
-	
+	grid $lfname.2.chgmob -row 7 -column 1 -sticky w
+	grid $lfname.2.person -row 8 -column 1 -sticky w
+
 	$nb.nn compute_size
 	[$nb.nn getframe personal].sw.sf compute_size
 	

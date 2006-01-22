@@ -365,7 +365,7 @@ proc taskbar_mail_icon_handler { msg x y } {
 	}
 
 	if { $msg=="WM_LBUTTONUP" } {
-		::hotmail::hotmail_login [::config::getKey login] $password
+		::hotmail::hotmail_login 
 	}
 }
 
@@ -398,7 +398,7 @@ proc mailicon_proc {num} {
 			image create photo mailtrayiconres
 			set mailicon [newti $icon -tooltip offline -pixmap mailtrayiconres -command "::trayicon_callback mailtrayicon mailtrayiconres"]
 
-			bind $icon <Button-1> [list ::hotmail::hotmail_login [::config::getKey login] $password]
+			bind $icon <Button-1> "::hotmail::hotmail_login"
 		}
 
 	} elseif {$systemtray_exist == 1 && $mailicon != 0 && $num == 0} {

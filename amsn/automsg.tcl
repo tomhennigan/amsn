@@ -202,7 +202,7 @@ proc CreateStatesMenu { path } {
 	
 	$path add command -label "[trans changedisplaypic]..." -command pictureBrowser 
 
-	$path add command -label "[trans editmyprofile]..." -command {::hotmail::hotmail_viewmsg http://members.msn.com/Edit.msnw [::config::getKey login] $::password }
+	$path add command -label "[trans editmyprofile]..." -command "::hotmail::hotmail_profile"
 
 	$path add command -label "[trans cfgalarmall]..." -command "::alarms::configDialog all"
 #	statusicon_proc [MSN::myStatusIs]

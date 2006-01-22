@@ -107,10 +107,12 @@ casesensitive Use case-sensitive triggers
 cfgalarmall Configure/Add/Remove Global Alarm
 cfgalarm Configure/Add/Remove Alarm
 change Change
+change_account_info Change Account Information
 changecustomstate Switch to
 changedisplaypic Change Display picture
 changefont Change font
 changeglobnick Change Global Nick
+change_mobile Change Mobile settings
 changenick Change nick
 changesize Change size
 changestate $1 changes state to $2
