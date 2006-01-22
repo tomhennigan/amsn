@@ -76,19 +76,23 @@ snit::widget contactlist {
 	option -height -default 0
 	option -toppadx -default 5
 	option -toppady -default 5
+	option -topipadx -default 5
+	option -topipady -default 5
 	option -listpadx -default 5
 	option -listpady -default 5
 	option -topborder -default {12 12 2 12}
 	option -listborder -default {20 20 20 20}
 	option -groupbgborder -default { 5 5 5 5 }
-	option -ipadx -default 5
-	option -ipady -default 5
+	option -ipadx -default 0
+	option -ipady -default 0
 	option -grouppadx -default 5
 	option -grouppady -default 5
 	option -groupipadx -default 5
 	option -groupipady -default 5
-	option -buddypadx -default 2
-	option -buddypady -default 2
+	option -buddypadx -default 3
+	option -buddypady -default 3
+	option -buddyipadx -default 2
+	option -buddyipady -default 2
 	option -contractpadx -default 2
 	option -contractpady -default 2
 	option -expandpadx -default 2
@@ -169,8 +173,8 @@ snit::widget contactlist {
 
 		# Pack the canvases and scrollbar
 		pack $top -side top -anchor nw -expand false -fill both -padx $options(-toppadx) -pady $options(-toppady)
-		pack $list $listscrollbar -side left -anchor nw -expand true -fill both -padx $options(-listpadx) -pady $options(-listpady)
-		
+		pack $list -side left -anchor nw -expand true -fill both -padx $options(-listpadx) -pady $options(-listpady)
+		pack $listscrollbar -after $list -expand true -fill y
 
 		# Bind the canvases
 		bind $top <Configure> "$self Config top %w %h"
@@ -206,7 +210,7 @@ snit::widget contactlist {
 		# after cancel $afterid($Action)
 		# set afterid(Action) [after 1 "$doAction"]
 		# So that we only do the last action called.
-		array set afterid {sort.top {} sort.list {} config.top {} config.list {} trunc_me {} trunc_contacts {}}
+		array set afterid {sort.top {} sort.list {} config.top {} config.list {} trunc_me {} trunc_contacts {} groupbg {}}
 
 		# No contacts selected yet..
 		set selected none
@@ -215,7 +219,7 @@ snit::widget contactlist {
 		set me $self.me
 		set cl $self.cl
 		contentmanager add container $me -orient horizontal
-		contentmanager add container $cl -orient vertical
+		contentmanager add container $cl -orient vertical -ipadx $options(-ipadx) -ipady $options(-ipady)
 		contentmanager add group $cl nogroup
 
 		# Draw the top stuff (My pic, nick, psm, music, state etc)
@@ -352,12 +356,19 @@ snit::widget contactlist {
 	method AddGroup { groupid name } {
 		# Background image
 		set groupbg($groupid) [scalable-bg $groupid.bg -source $groupbgimg -n [lindex $options(-groupbgborder) 0] -e [lindex $options(-groupbgborder) 1] -s [lindex $options(-groupbgborder) 2] -w [lindex $options(-groupbgborder) 3] -resizemethod scale]
+		# Background image canvas item
 		set groupbgid($groupid) [$list create image 0 0 -anchor nw -image [$groupbg($groupid) name]]
-		# Heading
+
+		# Heading canvas items
 		set toggleid($groupid) [$list create image 0 0 -anchor nw -image $contractimg]
 		set headid($groupid) [$list create text 0 0 -anchor nw -text $name]
+
+		# Create groups and elements with contentmanager
+		# Main group
 		contentmanager add group $cl $groupid -widget $list -padx $options(-grouppadx) -pady $options(-grouppady) -ipadx $options(-groupipadx) -ipady $options(-groupipady)
+		# Heading group
 		contentmanager add group $cl $groupid head -widget $list -orient horizontal -omnipresent yes
+		# Heading elements
 		contentmanager add element $cl $groupid head toggle -widget $list -tag $toggleid($groupid)
 		contentmanager add element $cl $groupid head text -widget $list -tag $headid($groupid)
 
@@ -377,17 +388,24 @@ snit::widget contactlist {
 	}
 
 	method DeleteGroup { groupid } {
+		# Delete group's heading canvas items
 		$list delete $toggleid($groupid)
 		$list delete $headid($groupid)
+		# Find group in list of groups
 		set index [lsearch $groups $groupid]
+		# Get the groups before and after this group...
 		set list1 [lrange $groups 0 [expr {$index - 1}]]
 		set list2 [lrange $groups [expr {$index + 1}] end]
+		# ...and join them together to make the new list
 		set groups [concat $list1 $list2]
+		# Remove the group from the contentmanager
 		contentmanager delete $cl $groupid
+		# Sort the list
 		$self sort list
 	}
 
 	method AddContact { groupid id {name {}} {psm {}} {music {}} {state {}} } {
+		# Create canvas items (pic, nick, psm, music, state)
 		set buddyid($groupid.$id) [$list create image 0 0 -anchor nw -image $buddyimg -tags buddy]
 		set nickid($groupid.$id) [$list create text 0 0 -anchor nw -text $name -font $nickfont -fill $nickcol -tags nick]
 		set psmid($groupid.$id) [$list create text 0 0 -anchor nw -text $psm -font $psmfont -fill $psmcol -tags psm]
@@ -396,48 +414,61 @@ snit::widget contactlist {
 		# Store the nick in array
 		set nick($nickid($groupid.$id)) $name
 
-		contentmanager add group $cl $groupid $id -widget $list -orient horizontal -padx $options(-buddypadx) -pady $options(-buddypady) -ipadx 0 -ipady 5
+		# Create contentmanager objects
+		# Main contact group
+		contentmanager add group $cl $groupid $id -widget $list -orient horizontal -padx $options(-buddypadx) -pady $options(-buddypady) -ipadx $options(-buddyipadx) -ipady $options(-buddyipadx)
+		# Buddy icon group & elements
 		contentmanager add group $cl $groupid $id icon -widget $list
-		contentmanager add group $cl $groupid $id info -widget $list
 		contentmanager add element $cl $groupid $id icon icon -widget $list -tag $buddyid($groupid.$id)
+		# Information group & elements (nick, psm, etc)
+		contentmanager add group $cl $groupid $id info -widget $list
 		contentmanager add element $cl $groupid $id info nick -widget $list -tag $nickid($groupid.$id)
 		contentmanager add element $cl $groupid $id info psm -widget $list -tag $psmid($groupid.$id)
 		contentmanager add element $cl $groupid $id info state -widget $list -tag $stateid($groupid.$id)
 
+		# Bind the contact
 		contentmanager bind $cl $groupid $id <ButtonPress-1> "$self SelectContact $groupid $id"
 
+		# Sort the list
 		$self sort list
 	}
 
 	method ChangeContactNick { groupid id newnick } {
+		# Change the text of the canvas item
 		$list itemconfigure $nickid($groupid.$id) -text $newnick
 		# Store the new nick in array
 		set nick($nickid($groupid.$id)) $newnick
 	}
 
 	method ChangeContactPSM { groupid id newpsm } {
+		# Change the text of the canvas item
 		$list itemconfigure $psmid($groupid.$id) -text $newpsm
 		# Store the new psm in array
 		set psm($psmid($groupid.$id)) $newpsm
 	}
 
 	method ChangeContactMusic { groupid id newmusic } {
+		# Change the text of the canvas item
 		$list itemconfigure $musicid($groupid.$id) -text $newmusic
 		# Store the new music in array
 		set music($musicid($groupid.$id)) $newmusic
 	}
 
 	method ChangeContactState { groupid id newstate } {
+		# Change the text of the canvas item
 		$list itemconfigure $stateid($groupid.$id) -text $newstate
 		# Store the new state in array
 		set state($stateid($groupid.$id)) $newstate
 	}
 
 	method DeleteContact { groupid id } {
+		# Remove the contact from the contentmanager
 		contentmanager delete $cl $groupid $id
+		# Delete it's canvas items
 		foreach tag "$buddyid($groupid.$id) $nickid($groupid.$id) $psmid($groupid.$id) $stateid($groupid.$id)" {
 			$list delete $tag
 		}
+		# Sort the list
 		$self sort list
 	}
 
@@ -453,55 +484,25 @@ snit::widget contactlist {
 		
 	}
 
-	method dragStart { groupid id x y } {
-		set x [$list canvasx $x]
-		set y [$list canvasy $y]
-		set itemcoords [contentmanager getcoords $cl $groupid $id]
-		set itemx [lindex $itemcoords 0]
-		set itemy [lindex $itemcoords 1]
-		set dx [expr {$x - $itemx}]
-		set dy [expr {$y - $itemy}]
-		set dragXOffset($groupid.$id) $dx
-		set dragYOffset($groupid.$id) $dy
-		set dragX($groupid.$id) [expr {$x - $dx}]
-		set dragY($groupid.$id) [expr {$y - $dy}]
-	}
-
-	method dragMotion { groupid id x y } {
-		set x [expr {[$list canvasx $x] - $dragXOffset($groupid.$id)}]
-		set y [expr {[$list canvasy $y] - $dragYOffset($groupid.$id)}]
-		set dx [string trimleft [expr {$x - $dragX($groupid.$id)}] "-"]
-		set dy [string trimleft [expr {$y - $dragY($groupid.$id)}] "-"]
-		if { $dx > 5 || $dy > 5 } {
-			contentmanager coords $cl $groupid $id $x $y
-		}
-	}
-
-	method dragStop { groupid id x y } {
-		foreach group $groups {
-			set groupcoords [contentmanager getcoords $cl $group]
-			set groupx [lindex $groupcoords 0]
-			set groupy [lindex $groupcoords 1]
-			set groupwidth [contentmanager cget $cl $group -width]
-			set groupheight [contentmanager cget $cl $group -height]
-			if { $y >= $groupy && $y <= [expr {$groupy + $groupheight}] } {
-				# Events::fire guiMovedContact $id $groupid $group
-				return
-			}
-		}
-	}
-
 	method toggle { groupid } {
+		# Toggle the group in contentmanager
 		contentmanager toggle $cl $groupid
+		# Do something, depending on whether we are showing or hiding the group
 		if { [string equal [contentmanager cget $cl $groupid -state] "normal"] } {
+			# Showing...
 			if { [string first $groupid. $selected] != -1 } {
+				# If the currently selected contact is in this group, re-show the selectbg (it will have been hidden when the group was)
 				$list itemconfigure $selectbgid -state normal
 			}
+			# Change the toggle icon to the contract icon
 			$list itemconfigure $toggleid($groupid) -image $contractimg
 		} else {
+			# Hiding...
 			if { [string first $groupid. $selected] != -1 } {
+				# If the currently selected contact is in this group, hide the selectbg
 				$list itemconfigure $selectbgid -state hidden
 			}
+			# Change the toggle icon to the expand icon
 			$list itemconfigure $toggleid($groupid) -image $expandimg
 		}
 		# Sort the group recursively then sort the contactlist at level 0.
@@ -511,39 +512,39 @@ snit::widget contactlist {
 	}
 
 	method SelectContact { args } {
+		# Get the group id
 		set groupid [lindex $args 0]
+
+		# Have we been called with "none"?
 		if { [string equal $groupid "none"] } {
+			# Yes, set selected to none, hide the selectbg and return
 			set selected none
 			$list itemconfigure $selectbgid -state hidden
-			return
+			return {}
 		}
+
+		# Get the contact's id
 		set id [lindex $args 1]
+		# Was any contact selected before?
 		if { [string equal $selected "none"] } {
+			# No, calculate the width of the selectbg
 			set selected $groupid.$id
 			$selectbg configure -width [$self CalculateSelectWidth]
 		}
+		# Set selected to this contact
 		set selected $groupid.$id
-		set x 7;#[lindex $options(-listborder) 0]
-		set y [lindex [contentmanager getcoords $cl $groupid $id] 1]
+		# Get coords of contact
+		set xy [contentmanager getcoords $cl $groupid $id]
+		set x [lindex $xy 0]
+		set y [lindex $xy 1]
+		# Raise selectbg to just above the group background in stacking order
 		$list raise $selectbgid $groupbgid($groupid)
+		# Place the selectbg
 		$list coords $selectbgid $x $y
+		# Show it if it isn't already shown
 		$list itemconfigure $selectbgid -state normal
+		# Set it to the height of the contact
 		$selectbg configure -height [contentmanager cget $cl $groupid $id -height]
-	}
-
-	method register { groupid {index ""} } {
-		if { [string equal $index ""] } {
-			lappend groups $groupid
-		} else {
-			set items [linsert $groups $index $groupid]
-		}
-	}
-
-	method unregister { groupid } {
-		set index [lsearch $groups $groupid]
-		set list1 [lrange $groups 0 [expr {$index - 1}]]
-		set list2 [lrange $groups [expr {$index + 1}] end]
-		set groups [concat $list1 $list2]
 	}
 
 	method sort { component {level r} } {
@@ -591,6 +592,7 @@ snit::widget contactlist {
 	}
 
 	method Configure { component width height } {
+		# Config'ing top or list?
 		switch $component {
 			top {
 				$topbg configure -width $width -height $height
@@ -600,16 +602,17 @@ snit::widget contactlist {
 				$selectbg configure -width [$self CalculateSelectWidth]
 			}
 		}
-		incr width -[lindex $options(-listborder) 2]
+		
+		# Resize group backgrounds
+		foreach groupid $groups {
+			$self SetGroupBgWidth $groupid [expr {$width - (2 * $options(-ipadx)) - (2 * $options(-grouppadx))}]
+		}
+
+		# Truncate text items (nicks etc)
 		after cancel $afterid(trunc_me)
 		set afterid(trunc_me) [after 1 "$self TruncateMyNick $width"]
 		after cancel $afterid(trunc_contacts)
 		set afterid(trunc_contacts) [after 1 "$self TruncateContactsNicks $width"]
-
-		# Resize group backgrounds
-		foreach groupid $groups {
-			$self SetGroupBgWidth $groupid $width
-		}
 	}
 
 	method Yview { args } {
@@ -636,18 +639,20 @@ snit::widget contactlist {
 	}
 
 	method TruncateMyNick { width } {
-		$top itemconfigure $mynickid -text [$self CalcTruncatedString $mynickfont {Hobbes - All the colours of the rainbow!!!} [expr {$width - [lindex [$top coords $mynickid] 0]}]]
+		set width [expr {$width - (2 * $options(-topipadx))}]
+		$top itemconfigure $mynickid -text [$self CalcTruncatedString $top $mynickfont {Hobbes - All the colours of the rainbow!!!} [expr {$width - [lindex [$top coords $mynickid] 0]}]]
 	}
 
 	method TruncateContactsNicks { width } {
+		set width [expr {$width - (2 * $options(-ipadx)) - (2 * $options(-grouppadx)) - (2 * $options(-groupipadx)) - (2 * $options(-buddypadx)) - (2 * $options(-buddyipadx))}]
 		foreach tag [$list find withtag nick] {
-			$list itemconfigure $tag -text [$self CalcTruncatedString $nickfont $nick($tag) [expr {$width - [lindex [$list coords $tag] 0]}]]
+			$list itemconfigure $tag -text [$self CalcTruncatedString $list $nickfont $nick($tag) [expr {$width - [lindex [$list coords $tag] 0]}]]
 		}
 	}
 
-	method CalcTruncatedString { font str width } {
+	method CalcTruncatedString { w font str width } {
 		for { set i 0 } { 1 } { incr i 1 } {
-			set strw [font measure $font -displayof $list [string range $str 0 $i]]
+			set strw [font measure $font -displayof $w [string range $str 0 $i]]
 			if { $strw >= $width } {
 				incr i -3
 				set newstr [string range $str 0 $i]...
