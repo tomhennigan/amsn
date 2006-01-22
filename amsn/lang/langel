@@ -215,6 +215,7 @@ cfgalarmall Παραμετροποίηση/Προσθήκη/Αφαίρεση γενικού συναγερμού
 
 change Αλλαγή
 
+change_account_info Αλλαγή Πληροφοριών Λογαριασμού
 changecustomstate Αλλαγή σε
 
 changedateformat Αλλαγή παρουσίασης ημερομηνίας
@@ -225,6 +226,7 @@ changefont Αλλαγή γραμματοσειράς
 
 changeglobnick Αλλαγή γενικού ψευδωνύμου
 
+change_mobile Αλλαγή ρυθμίσεων φορητής συσκευής
 changenick Αλλαγή ψευδώνυμου
 
 changesize Αλλαγή μεγέθους
