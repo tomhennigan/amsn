@@ -40,36 +40,36 @@ snit::type scalable-bg {
 	method BuildImage { } {
 
 		# Check if requested size is too small:
-		set minwidth [expr $options(-w) + $options(-e) + 1]
-		set minheight [expr $options(-n) + $options(-s) + 1]
-		#if {
-		#	$options(-width) < $minwidth || \
-		#	$options(-height) < $minheight
-		 #} {
-		#	puts FAILED:$options(-height)
-		#	return
-		#} else {
-			# Set base image's width and height
-			$base configure -width $options(-width) -height $options(-height)
+		set minwidth [expr {$options(-w) + $options(-e) + 1}]
+		set minheight [expr {$options(-n) + $options(-s) + 1}]
+		if {
+			$options(-width) < $minwidth || \
+			$options(-height) < $minheight
+		} {
+			return {}
+		}
 
 			# Get src image width and height:
 			set srcwidth [image width $src]
 			set srcheight [image height $src]
-			set midvert [expr $options(-height) - $options(-n) - $options(-s)]
-			set midhoriz [expr $options(-width) - $options(-w) - $options(-e)]
-			set srcmidvert [expr $srcheight - $options(-n) - $options(-s)]
-			set srcmidhoriz [expr $srcwidth - $options(-w) - $options(-e)]
-			set bottomvert [expr $options(-height) - $options(-s)]
-			set righthoriz [expr $options(-width) - $options(-e)]
-			set srcbottomvert [expr $srcheight - $options(-s)]
-			set srcrighthoriz [expr $srcwidth - $options(-e)]
+			set midvert [expr {$options(-height) - $options(-n) - $options(-s)}]
+			set midhoriz [expr {$options(-width) - $options(-w) - $options(-e)}]
+			set srcmidvert [expr {$srcheight - $options(-n) - $options(-s)}]
+			set srcmidhoriz [expr {$srcwidth - $options(-w) - $options(-e)}]
+			set bottomvert [expr {$options(-height) - $options(-s)}]
+			set righthoriz [expr {$options(-width) - $options(-e)}]
+			set srcbottomvert [expr {$srcheight - $options(-s)}]
+			set srcrighthoriz [expr {$srcwidth - $options(-e)}]
 
-			# Check values aren't negative
+			# Check values aren't below 1
 			foreach var { srcwidth srcheight midvert midhoriz srcmidvert srcmidhoriz bottomvert righthoriz srcbottomvert srcrighthoriz } {
-				if { [expr $$var] < 1 } {
+				if { [set $var] < 1 } {
 					set $var 1
 				}
 			}
+
+			# Are we scaling or tiling?
+			set scaling [string equal $options(-resizemethod) scale]
 
 			# Resize left section:----------------------------------------
 			if { $options(-w) > 0 } {
@@ -77,7 +77,7 @@ snit::type scalable-bg {
 				$left blank
 				$left copy $src -from 0 $options(-n) $options(-w) $srcbottomvert -to 0 0
 	
-				if { $options(-resizemethod) == "scale" } {
+				if { $scaling } {
 					::CxImage::Resize $left $options(-w) $midvert
 				}
 			}
@@ -88,7 +88,7 @@ snit::type scalable-bg {
 			$centre blank
 			$centre copy $src -from $options(-w) $options(-n) $srcrighthoriz $srcbottomvert -to 0 0
 
-			if { $options(-resizemethod) == "scale" } {
+			if { $scaling } {
 				::CxImage::Resize $centre $midhoriz $midvert
 			}
 			#-------------------------------------------------------------
@@ -98,7 +98,7 @@ snit::type scalable-bg {
 				$right blank
 				$right copy $src -from $srcrighthoriz $options(-n) $srcwidth $srcbottomvert -to 0 0
 	
-				if { $options(-resizemethod) == "scale" } {
+				if { $scaling } {
 					::CxImage::Resize $right $options(-e) $midvert
 				}
 			}
@@ -109,7 +109,7 @@ snit::type scalable-bg {
 				$top blank
 				$top copy $src -from $options(-w) 0 $srcrighthoriz $options(-n)
 	
-				if { $options(-resizemethod) == "scale" } {
+				if { $scaling } {
 					::CxImage::Resize $top $midhoriz $options(-n)
 				}
 			}
@@ -120,52 +120,52 @@ snit::type scalable-bg {
 				$bottom blank
 				$bottom copy $src -from $options(-w) $srcbottomvert $srcrighthoriz $srcheight
 	
-				if { $options(-resizemethod) == "scale" } {
+				if { $scaling } {
 					::CxImage::Resize $bottom $midhoriz $options(-s)
 				}
 			}
 
 
 			# Build up button image:
+			# Start with a clean slate...
 			$base blank
+			# ...of correct proportions
 			$base configure -width $options(-width) -height $options(-height)
 
 			# NW corner
 			$base copy $src -from 0 0 $options(-w) $options(-n) -to 0 0
 
-			# Top border
+			# N border
 			$base copy $top -to $options(-w) 0 $righthoriz $options(-n)
 
 			# NE corner
 			$base copy $src -from $srcrighthoriz 0 $srcwidth $options(-n) -to $righthoriz 0
 
-			# Left border
+			# W border
 			$base copy $left -to 0 $options(-n) $options(-w) $bottomvert
 
-			# Centre
+			# Centre/Body
 			$base copy $centre -to $options(-w) $options(-n) $righthoriz $bottomvert
 
-			# Right border
+			# E border
 			$base copy $right -to $righthoriz $options(-n) $options(-width) $bottomvert
 
 			# SW corner
 			$base copy $src -from 0 $srcbottomvert $options(-w) $srcheight -to 0 $bottomvert
 
-			# Bottom border
+			# S border
 			$base copy $bottom -to $options(-w) $bottomvert $righthoriz $options(-height)
 
 			# SE corner
 			$base copy $src -from $srcrighthoriz $srcbottomvert $srcwidth $srcheight -to $righthoriz $bottomvert
-		
-		#}
 	}
 
 	method setOption { option value } {
 		if { [string equal $options($option) $value] } {
 			return {}
 		}
-		set options($option) $value
 
+		set options($option) $value
 		if {
 			[info exists top] && \
 			[info exists right] && \
@@ -180,7 +180,7 @@ snit::type scalable-bg {
 		}
 	}
 
-	# Returns the name of the actual image used by this scalable-bg
+	# Returns the name of the tk image used by this scalable-bg
 	method name { } {
 		return $base
 	}
