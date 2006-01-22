@@ -69,6 +69,7 @@ snit::widget contactlist {
 	component toolbarbg
 	component list
 	component listbg
+	component listscrollbar
 	component selectbg
 
 	option -width -default 0
@@ -138,7 +139,9 @@ snit::widget contactlist {
 		# Create canvases
 		install top using canvas $self.top -bd 0 -highlightthickness 0 -insertontime 0 -height 100
 		install toolbar using canvas $self.toolbar -bd 0 -highlightthickness 0 -insertontime 0
-		install list using canvas $self.list -bd 0 -highlightthickness 0 -insertontime 0
+		install list using canvas $self.list -bd 0 -highlightthickness 0 -insertontime 0 -yscrollcommand "$self.listscroll set"
+		# Create list scrollbar
+		install listscrollbar using scrollbar $self.listscroll -command "$self Yview"
 
 		# Create background images
 		# Top (my nick & status etc)
@@ -164,9 +167,10 @@ snit::widget contactlist {
 		# Clicking on the list background should deselect the currently selected contact
 		$list bind $listbgid <ButtonPress-1> "$self SelectContact none"
 
-		# Pack the canvases
+		# Pack the canvases and scrollbar
 		pack $top -side top -anchor nw -expand false -fill both -padx $options(-toppadx) -pady $options(-toppady)
-		pack $list -side top -anchor nw -expand true -fill both -padx $options(-listpadx) -pady $options(-listpady)
+		pack $list $listscrollbar -side left -anchor nw -expand true -fill both -padx $options(-listpadx) -pady $options(-listpady)
+		
 
 		# Bind the canvases
 		bind $top <Configure> "$self Config top %w %h"
@@ -575,6 +579,8 @@ snit::widget contactlist {
 					eval $list coords $groupbgid($groupid) [contentmanager getcoords $cl $groupid]
 					$self SetGroupBgHeight $groupid [contentmanager cget $cl $groupid -height]
 				}
+				# Set canvas's scrollregion
+				$list configure -scrollregion "0 0 0 [contentmanager cget $cl -height]"
 			}
 		}
 	}
@@ -604,6 +610,11 @@ snit::widget contactlist {
 		foreach groupid $groups {
 			$self SetGroupBgWidth $groupid $width
 		}
+	}
+
+	method Yview { args } {
+		eval $list yview $args
+		$list coords $listbgid 0 [$list canvasy 0]
 	}
 
 	method CalculateSelectWidth { } {
