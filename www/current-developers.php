@@ -87,6 +87,14 @@
         <br />IRC Nick: 
         <br /><a href="">Web site</a> &#8226; <a href="">Blog</a></td></tr>
 
+
+<tr><td><img  title="Tom Jenkins" alt="Tom Jenkins" src="images/developer-tom.png" width="168" height="147" /></td><td>
+<b>Tom Jenkins</b>
+        <br />Role: Developer & UI Designer & Web designer & Graphical artist
+        <br />Location: 
+        <br />IRC Nick: 
+        <br /><a href="">Web site</a> &#8226; <a href="http://newandgooey.blogspot.com/">Blog</a></td></tr>
+
 <tr><td><img  title="Youness Alaoui" alt="Youness Alaoui" src="images/developer-youness.png" width="168" height="147" /></td><td>
 <b>Youness Alaoui</b>
         <br />Role: Admin &#8226; Developer
@@ -111,14 +119,6 @@
         <br />Location: 
         <br />IRC Nick: 
         <br /><a href="">Web site</a> &#8226; <a href="">Blog</a></td></tr>
-
-<tr><td><img  title="Tom Jenkins" alt="Tom Jenkins" src="images/developer-tom.png" width="168" height="147" /></td><td>
-<b>Tom Jenkins</b>
-        <br />Role: Developer & UI Designer & Web designer & Graphical artist
-        <br />Location: 
-        <br />IRC Nick: 
-        <br /><a href="">Web site</a> &#8226; <a href="http://newandgooey.blogspot.com/">Blog</a></td></tr>
-
 
 <tr><td><img  title="Erik Trrissen" alt="Erik Trrissen" src="images/developer-default.png" width="168" height="147" /></td><td>
 <b>Erik Trrissen</b>
