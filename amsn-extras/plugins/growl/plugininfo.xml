@@ -9,7 +9,7 @@
 	<plugin_namespace>growl</plugin_namespace>
 	<init_procedure>InitPlugin</init_procedure>
 	<deinit_procedure>DeInitPlugin</deinit_procedure>
-	<cvs_version>1.14</cvs_version>
+	<cvs_version>1.15</cvs_version>
 	<file>
 		<path>growl.png</path>
 		<version>1.1</version>
@@ -31,7 +31,6 @@
 		<path>styles/aMSNMac.growlStyle/Contents/Resources/default.css</path>
 		<version>1.1</version>
 	</file>	
-	
 	<file>
 		<path>styles/aMSN.growlStyle/Contents/Resources/amsnnotify.png</path>
 		<version>1.1</version>
@@ -45,6 +44,7 @@
 		<langcode>en</langcode>
 		<version>1.3</version>
 	</lang>
+
 	<URL>
 		<main>http://amsn.sourceforge.net/autoupdater/plugins/growl/growl.tcl</main>
 		<plugininfo>http://amsn.sourceforge.net/autoupdater/plugins/growl/plugininfo.xml</plugininfo>
