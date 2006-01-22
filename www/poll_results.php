@@ -42,7 +42,7 @@ if (mysql_num_rows($query_answers) > 1) {
 }
 
 if (isset($total)) 
-	echo "Total number of votes : {$total}<br/><br/>";
+	echo "Total number of votes : <b>{$total}</b><br/><br/>";
 
 ?>
 

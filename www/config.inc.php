@@ -7,6 +7,7 @@ define('EMAIL','nobody@sf.net');
 
 /* Webpage Configuration */
 define('DBNAME_WWW','www');
+define('DBNAME_FORUM','a54091_phpbb');
 
 /* Bugs Configuration */
 define('DBNAME_BUGS','bugs');
