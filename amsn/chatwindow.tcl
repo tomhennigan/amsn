@@ -2793,25 +2793,35 @@ namespace eval ::ChatWindow {
 	}
 
 	proc UpdateContainerTitle { container } {
-
+		#get the name of the "window" which is hte name of the tab in fact
 		set win [GetCurrentWindow $container]
+		#get the ID of the chat (email if only one user)
 		set chatid [::ChatWindow::Name $win]
 
-		set title "[GetContainerName $container]"
+		#we'll set a title for the container-window, beginning from scratch
+		set title ""
+
+		#TODO: have the titled made up with a template with vars like $nicknames, $groupname and [trans chat] etc
 
 		if { $chatid != 0 } {
-	
+			#append all nicknames in the chat first to the title	
 			foreach user [::MSN::usersInChat $chatid] { 
-				set nick [string map {"\n" " "} [::abook::getDisplayNick $user]]
+				#strip out newlines and tabs
+				set nick [string map {"\n" " " "\t" " "} [::abook::getDisplayNick $user]]
 				set title "${title}${nick}, "
 			}
-			
-			set title [string replace $title end-1 end " - [trans chat]"]
+
+			#replace the last ", " with " : <name of the containerwindow> - chat"
+			set title [string replace $title end-1 end " : [GetContainerName $container] - [trans chat]"]
 		}
 
+		#don't think this proc does much .. anyway ;)
 		set title [EscapeTitle $title]
+
+		#store our generated title in the array which is needed to reset the title after out "blink"
 		set ::ChatWindow::titles($container) $title
 
+		#put an asterisk for the title if a new message has arrived
 		if { [info exists ::ChatWindow::new_message_on($container)] && [set ::ChatWindow::new_message_on($container)] == "asterisk" } {
 			wm title $container "*$title"
 		} else {
@@ -2820,6 +2830,7 @@ namespace eval ::ChatWindow {
 		
 	}
 
+	#this proc is to get the name of the containerwindow, like groupname for groupchats
 	proc GetContainerName { container } {
 		variable containers
 
@@ -2831,12 +2842,12 @@ namespace eval ::ChatWindow {
 					set gid [string range $type 5 end]
 					set name [::groups::GetName $gid]
 					if {$name != "" } {
-						return "$name : "
+						return "$name"
 					} else {
-						return "$type : "
+						return "$type"
 					}
 				} else {
-					return "$type : "
+					return "$type"
 				}
 			}
 		} 
@@ -2883,7 +2894,8 @@ namespace eval ::ChatWindow {
 		set more ${container}.bar.more
 		destroy $less
 		destroy $more
-		status_log "Got $number_tabs tabs in $container that has a max of $max_tabs\n" red
+
+#		status_log "Got $number_tabs tabs in $container that has a max of $max_tabs\n" red
 
 		if { $number_tabs < 2 } {
 			pack forget ${container}.bar
