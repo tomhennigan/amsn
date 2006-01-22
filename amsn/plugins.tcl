@@ -1903,6 +1903,31 @@ namespace eval ::plugins {
 	}
 
 
+	################################################
+	# pluginVersion ()
+	#
+	# Returns the version number of the plugin
+	# that called this function
+	# Added as patch by Jonne 'JeeBee' Zutt	
+	proc pluginVersion {} {
+	  variable plugins
+
+	  set plugin_namespace [calledFrom]
+
+	  if {$plugin_namespace != -1} {
+		foreach {key value} [array get plugins] {
+		  if {$value == $plugin_namespace && \
+             	   [string first "_plugin_namespace" $key] != -1} {
+			set underscore_idx [string first "_" $key]
+			set idx [string range $key 0 [expr {$underscore_idx - 1}]]
+			return $plugins(${idx}_plugin_version)
+		  }
+		}
+	  }
+	  # plugin not found, or not called from a plugin
+	  return "0.0"
+	}
+
 
 }
 
