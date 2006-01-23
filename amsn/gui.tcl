@@ -1806,7 +1806,7 @@ namespace eval ::amsn {
 			-command [list ::amsn::ChangePicture $win my_pic [trans mypic]]
 		foreach user $users {
 			$win.picmenu add command -label "[trans showuserpic $user]" \
-				-command [list ::amsn::ChangePicture $win [::skin::getDisplayPicture $user] [trans showuserpic $user]]
+				-command "::amsn::ChangePicture $win \[::skin::getDisplayPicture $user\] \[trans showuserpic $user\]"
 		}
 		#Load Change Display Picture window
 		$win.picmenu add separator
@@ -5648,31 +5648,30 @@ proc ShowUser {user_name user_login state_code colour section grId} {
                         }
                         append psmmedia "$currentmedia"
                 }
-
-		if { $psmmedia == "" } {
-			set balloon_message "[string map {"%" "%%"} [::abook::getNick $user_login]]\n$user_login\n[trans status] : [trans [::MSN::stateToDescription $state_code]] $balloon_message2 $balloon_message3 $balloon_message4 $balloon_message5\n[trans lastmsgedme] : [::abook::dateconvert "[::abook::getContactData $user_login last_msgedme]"]"
-		} else {
-			set balloon_message "[string map {"%" "%%"} [::abook::getNick $user_login]]\n$psmmedia\n$user_login\n[trans status] : [trans [::MSN::stateToDescription $state_code]] $balloon_message2 $balloon_message3 $balloon_message4 $balloon_message5\n[trans lastmsgedme] : [::abook::dateconvert "[::abook::getContactData $user_login last_msgedme]"]"
+		if { $psmmedia != "" } {
+			append psmmedia "\n"
 		}
-		$pgBuddy.text tag bind $user_unique_name <Enter> +[list balloon_enter %W %X %Y $balloon_message [::skin::getDisplayPicture $user_login]]
+		
+		set balloon_message "[string map {"%" "%%"} [::abook::getNick $user_login]]\n${psmmedia}$user_login\n[trans status] : [trans [::MSN::stateToDescription $state_code]] $balloon_message2 $balloon_message3 $balloon_message4 $balloon_message5\n[trans lastmsgedme] : [::abook::dateconvert "[::abook::getContactData $user_login last_msgedme]"]"
+		$pgBuddy.text tag bind $user_unique_name <Enter> +[list balloon_enter_userpic %W %X %Y $balloon_message $user_login]
 
 		$pgBuddy.text tag bind $user_unique_name <Leave> \
 			"+set Bulle(first) 0; kill_balloon"
 
-		$pgBuddy.text tag bind $user_unique_name <Motion> +[list balloon_motion %W %X %Y $balloon_message [::skin::getDisplayPicture $user_login]]
+		$pgBuddy.text tag bind $user_unique_name <Motion> +[list balloon_motion_userpic %W %X %Y $balloon_message $user_login]
 
-		bind $pgBuddy.text.$imgname <Enter> +[list balloon_enter %W %X %Y $balloon_message [::skin::getDisplayPicture $user_login]]
+		bind $pgBuddy.text.$imgname <Enter> +[list balloon_enter_userpic %W %X %Y $balloon_message $user_login]
 		bind $pgBuddy.text.$imgname <Leave> \
 			"+set Bulle(first) 0; kill_balloon"
 
-		bind $pgBuddy.text.$imgname <Motion> +[list balloon_motion %W %X %Y $balloon_message [::skin::getDisplayPicture $user_login]]
+		bind $pgBuddy.text.$imgname <Motion> +[list balloon_motion_userpic %W %X %Y $balloon_message $user_login]
 
 		if {$not_in_reverse} {
-			bind $pgBuddy.text.$imgname2 <Enter> +[list balloon_enter %W %X %Y $balloon_message [::skin::getDisplayPicture $user_login]]
+			bind $pgBuddy.text.$imgname2 <Enter> +[list balloon_enter_userpic %W %X %Y $balloon_message $user_login]
 			bind $pgBuddy.text.$imgname2 <Leave> \
 				"+set Bulle(first) 0; kill_balloon"
 
-			bind $pgBuddy.text.$imgname2 <Motion> +[list balloon_motion %W %X %Y $balloon_message [::skin::getDisplayPicture $user_login]]
+			bind $pgBuddy.text.$imgname2 <Motion> +[list balloon_motion_userpic %W %X %Y $balloon_message $user_login]
 		}
 	}
 	#Change mouse button and add control-click on Mac OS X
@@ -5716,6 +5715,13 @@ proc ShowUser {user_name user_login state_code colour section grId} {
 
 }
 #///////////////////////////////////////////////////////////////////////
+
+proc balloon_enter_userpic {window x y msg user_login} {
+	balloon_enter $window $x $y $msg [::skin::getDisplayPicture $user_login]
+}
+proc balloon_motion_userpic {window x y msg user_login} {
+	balloon_motion $window $x $y $msg [::skin::getDisplayPicture $user_login]
+}
 
 proc balloon_enter {window x y msg {pic ""}} {
 	global Bulle
