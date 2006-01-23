@@ -1,10 +1,12 @@
 package require SOAP
 
-source contactlist.tcl
-pack [contactlist .cl]
+if {[winfo exists .cl] == 0} {
+	source contactlist.tcl
+	pack [contactlist .cl]
 
-Event::fireEvent groupAdded protocol online Online
-Event::fireEvent groupAdded protocol offline Offline
+#	Event::fireEvent groupAdded protocol online Online
+#	Event::fireEvent groupAdded protocol offline Offline
+}
 
 
 proc getAddressbook {} {
@@ -45,7 +47,7 @@ proc getAddressbook {} {
 	puts contacts:$contacts
 	sendADL $contacts
 	foreach contact $contacts {
-		Event::fireEvent contactAdded protocol offline $contact $contact psm music offline
+		Event::fireEvent contactAdded protocol {} $contact $contact psm music Offline
 	}
 
 #	set url "http://contacts.msn.com/abservice/abservice.asmx"

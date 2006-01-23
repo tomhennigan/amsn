@@ -222,10 +222,23 @@ snit::widget contactlist {
 		set cl $self.cl
 		contentmanager add container $me -orient horizontal
 		contentmanager add container $cl -orient vertical -ipadx $options(-ipadx) -ipady $options(-ipady)
-		contentmanager add group $cl nogroup
+		#contentmanager add group $cl nogroup
+		$self AddGroup nogroup nogroup
 
 		# Draw the top stuff (My pic, nick, psm, music, state etc)
 		$self DrawMe
+		$self registerForEvents
+	}
+
+	method registerForEvents { } {
+		::Event::registerEvent groupAdded all $self
+		::Event::registerEvent groupDeleted all $self
+		::Event::registerEvent groupRenamed all $self
+		::Event::registerEvent contactAdded all $self
+		::Event::registerEvent contactDeleted all $self
+		::Event::registerEvent contactChangeNick all $self
+		::Event::registerEvent contactChangePSM all $self
+		::Event::registerEvent contactChangeState all $self
 	}
 
 	# o------------------------------------------------------------------------------------------------------------------------
@@ -240,7 +253,7 @@ snit::widget contactlist {
 			set name $groupid
 		}
 		$self AddGroup $groupid $name
-		tk_messageBox -message "Successfully added group '$name'" -type ok
+		#tk_messageBox -message "Successfully added group '$name'" -type ok
 	}
 
 	method groupAddFailed { } {
@@ -268,7 +281,7 @@ snit::widget contactlist {
 			set groupid "nogroup"
 		}
 		$self AddContact $groupid $id $name $psm $music $state
-		tk_messageBox -message "Successfully added contact '$id'" -type ok
+		#tk_messageBox -message "Successfully added contact '$id'" -type ok
 	}
 
 	method contactAddFailed { } {
@@ -327,8 +340,10 @@ snit::widget contactlist {
 		$self ChangeContactMusic $groupid $id $newmusic
 	}
 
-	method contactChangeState { groupid id newstate } {
-		$self ChangeContactState $groupid $id $newstate
+	method contactChangeState { id newstate } {
+		foreach groupid $groups {
+			$self ChangeContactState $groupid $id $newstate
+		}
 	}
 
 	# o------------------------------------------------------------------------------------------------------------------------
