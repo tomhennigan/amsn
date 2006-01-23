@@ -1,11 +1,11 @@
 namespace eval ::desktop_integration {
-	variable current_desktop "noone"
+	variable current_desktop
 	variable dlg_blocked 0
 	variable plugin_name "Desktop Integration"
 
 	variable users_filemanager ""
 	variable users_openfilecommand ""
-	variable loaded 0
+	variable loaded
 	
 	variable config
 	variable configlist	
@@ -41,7 +41,7 @@ namespace eval ::desktop_integration {
 		variable users_notifyYoffset	
 
 
-		if { $loaded == 1 } {
+		if { [info exists loaded] && $loaded == 1 } {
 			return 0
 		}
 
@@ -96,7 +96,8 @@ namespace eval ::desktop_integration {
 		
 
 		# CHANGE: ::chooseFileDialog -> KchooseFileDialog
-		if { [info proc "::chooseFileDialog"] == "::chooseFileDialog"} {
+		if { [info proc "::chooseFileDialog"] == "::chooseFileDialog" && 
+		     [info proc $renamed_choosefiledialog_proc] == ""} {
 			rename ::chooseFileDialog $renamed_choosefiledialog_proc	
 			proc ::chooseFileDialog {args } {
 				return [eval ::desktop_integration::KchooseFileDialog $args]
@@ -105,7 +106,8 @@ namespace eval ::desktop_integration {
 
 
 		# CHANGE: ::tk_getSaveFile -> KgetSaveFile
-		if { [info proc "::tk_getSaveFile"] == "::tk_getSaveFile"} {
+		if { [info proc "::tk_getSaveFile"] == "::tk_getSaveFile" &&
+		     [info proc $renamed_getsavefile_proc] == ""} {
 			rename ::tk_getSaveFile $renamed_getsavefile_proc
 			proc ::tk_getSaveFile  {args } {
 				return [eval ::desktop_integration::KgetSaveFile $args]
@@ -113,7 +115,8 @@ namespace eval ::desktop_integration {
 		}
 		
 		# CHANGE: ::amsn::messageBox -> KmessageBox
-		if { [info proc "::amsn::messageBox"] == "::amsn::messageBox"} {
+		if { [info proc "::amsn::messageBox"] == "::amsn::messageBox" && 
+		     [info proc $renamed_messagebox_proc] == ""} {
 			rename ::amsn::messageBox $renamed_messagebox_proc
 			proc ::amsn::messageBox  {args } {
 				return [eval ::desktop_integration::KmessageBox $args]
@@ -152,7 +155,7 @@ namespace eval ::desktop_integration {
 		variable users_soundcommand
 		variable users_notifyYoffset		
 
-		if {$loaded == 0} { 
+		if {[info exists loaded] && $loaded == 0} { 
 			return 0 
 		}
 
@@ -500,10 +503,10 @@ namespace eval ::desktop_integration {
 		return $::desktop_integration::answer
 	}
 
-proc dialog_event { fileId } {
-variable dialog_event_data
+	proc dialog_event { fileId } {
+		variable dialog_event_data
 
-        fileevent $fileId readable ""
+		fileevent $fileId readable ""
 
 		if { ![info exists dialog_event_data($fileId)] } {
 		        set dialog_event_data($fileId) ""
