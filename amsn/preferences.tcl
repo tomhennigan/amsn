@@ -2631,18 +2631,19 @@ proc InitPref { {fullinit 0} } {
 		#set lfname [Rnotebook:frame $nb $Preftabs(personal)]
 		set lfname [$nb.nn getframe personal]
 		set lfname [$lfname.sw.sf getframe]
+
 		if { [::MSN::myStatusIs] == "FLN" } {
 			$lfname.lfname.1.name.entry configure -state disabled
-			$lfname.lfname.2.chgmob configure -state disabled
-			$lfname.lfname.2.person configure -state disabled
+			$lfname.lfname4.2.chgmob configure -state disabled
+			$lfname.lfname4.2.person configure -state disabled
 		} else {
 			$lfname.lfname.1.name.entry configure -state normal
 			$lfname.lfname.1.name.entry delete 0 end
 			$lfname.lfname.1.name.entry insert 0 [::abook::getPersonal MFN]
 
 
-			$lfname.lfname.2.chgmob configure -state normal
-			$lfname.lfname.2.person configure -state normal
+			$lfname.lfname4.2.chgmob configure -state normal
+			$lfname.lfname4.2.person configure -state normal
 		}
 	
 		$lfname.lfname.1.p4c.entry delete 0 end
