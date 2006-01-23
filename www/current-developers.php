@@ -44,6 +44,13 @@
         <br />IRC Nick: 
         <br /><a href="">Web site</a> &#8226; <a href="">Blog</a></td></tr>
 
+<tr><td><img  title="Karel Demeyer" alt="Karel Demeyer" src="images/developer-karel.png" width="168" height="147" /></td><td>
+<b>Karel Demeyer</b>
+        <br />Role:
+        <br />Location:
+        <br />IRC Nick:
+        <br /><a href="">Web site</a> &#8226; <a href="">Blog</a></td></tr>
+
 <tr><td><img  title="Karol Krizka" alt="Karol Krizka" src="images/developer-karol.png" width="168" height="147" /></td><td>
 <b>Karol Krizka</b>
         <br />Role: Developer
@@ -94,6 +101,13 @@
         <br />Location: 
         <br />IRC Nick: 
         <br /><a href="">Web site</a> &#8226; <a href="http://newandgooey.blogspot.com/">Blog</a></td></tr>
+
+<tr><td><img  title="Vivia Nikolaidou" alt="Vivia Nikolaidou" src="images/developer-vivia.png" width="168" height="147" /></td><td>
+<b>Vivia Nikolaidou</b>
+        <br />Role: Developer &#8226; Tester &#8226; Internationalization
+        <br />Location:
+        <br />IRC Nick:
+        <br /><a href="">Web site</a> &#8226; <a href="">Blog</a></td></tr>
 
 <tr><td><img  title="Youness Alaoui" alt="Youness Alaoui" src="images/developer-youness.png" width="168" height="147" /></td><td>
 <b>Youness Alaoui</b>
@@ -218,13 +232,6 @@
         <br />IRC Nick: 
         <br /><a href="">Web site</a> &#8226; <a href="">Blog</a></td></tr>
 
-<tr><td><img  title="Karel Demeyer" alt="Karel Demeyer" src="images/developer-karel.png" width="168" height="147" /></td><td>
-<b>Karel Demeyer</b>
-        <br />Role: 
-        <br />Location: 
-        <br />IRC Nick: 
-        <br /><a href="">Web site</a> &#8226; <a href="">Blog</a></td></tr>
-
 <tr><td><img  title="Lars E" alt="Lars E" src="images/developer-default.png" width="168" height="147" /></td><td>
 <b>Lars E</b>
         <br />Role: PHP Coder for retired website
@@ -249,13 +256,6 @@
 <tr><td><img  title="Ole Andre Vadla Ravnas" alt="Ole Andre Vadla Ravnas" src="images/developer-oleavr.png" width="168" height="147" /></td><td>
 <b>Ole Andre Vadla Ravnas</b>
         <br />Role: Developer
-        <br />Location: 
-        <br />IRC Nick: 
-        <br /><a href="">Web site</a> &#8226; <a href="">Blog</a></td></tr>
-
-<tr><td><img  title="Yves M" alt="Yves M" src="images/developer-yves.png" width="168" height="147" /></td><td>
-<b>Yves M</b>
-        <br />Role: Recordingground Forums Admin &#8226; PHP Coder
         <br />Location: 
         <br />IRC Nick: 
         <br /><a href="">Web site</a> &#8226; <a href="">Blog</a></td></tr>
