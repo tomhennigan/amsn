@@ -90,7 +90,7 @@
 
 <tr><td><img  title="Tom Jenkins" alt="Tom Jenkins" src="images/developer-tom.png" width="168" height="147" /></td><td>
 <b>Tom Jenkins</b>
-        <br />Role: Developer & UI Designer & Web designer & Graphical artist
+        <br />Role: Developer &#8226; UI Designer &#8226; Web designer &#8226; Graphical artist
         <br />Location: 
         <br />IRC Nick: 
         <br /><a href="">Web site</a> &#8226; <a href="http://newandgooey.blogspot.com/">Blog</a></td></tr>
