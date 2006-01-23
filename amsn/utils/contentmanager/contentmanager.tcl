@@ -128,6 +128,11 @@ snit::type contentmanager {
 		return [$path cget $opt]
 	}
 
+	typemethod children { args } {
+		set path [eval $type getpath $args]
+		return [$path children]
+	}
+
 	typemethod coords { args } {
 		set tree [lrange $args 0 end-2]
 		set coords [lrange $args end-1 end]
@@ -304,6 +309,10 @@ snit::type group {
 		set list1 [lrange $items 0 [expr {$idx - 1}]]
 		set list2 [lrange $items [expr {$idx + 1}] end]
 		set items [concat $list1 $list2]
+	}
+
+	method children { } {
+		return $items
 	}
 
 	method bind { pat cmd {mode "bbox"} } {
