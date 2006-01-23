@@ -1,5 +1,5 @@
 package require snit
-package require TkCximage
+#package require TkCximage
 package provide scalable-bg 0.1
 
 snit::type scalable-bg {
