@@ -340,7 +340,9 @@ namespace eval ::plugins {
 		set search_path [list] 
 		lappend search_path [file join [set ::program_dir] plugins]
 		lappend search_path [file join $HOME plugins]
-		lappend search_path [file join $HOME2 plugins]
+		if { $HOME != $HOME2} {
+			lappend search_path [file join $HOME2 plugins]
+		}
 		lappend search_path [file join $HOME2 amsn-extras plugins]
 	    
 		# decrare the list to return
