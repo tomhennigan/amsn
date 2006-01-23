@@ -284,7 +284,7 @@ snit::widget contactlist {
 		#tk_messageBox -message "Successfully added contact '$id'" -type ok
 	}
 
-	method contactAddFailed { } {
+	method contactAddFailed { id } {
 		
 	}
 
@@ -328,16 +328,22 @@ snit::widget contactlist {
 		
 	}
 
-	method contactChangeNick { groupid id newnick } {
-		$self ChangeContactNick $groupid $id $newnick
+	method contactChangeNick { id newnick } {
+		foreach groupid $groups {
+			$self ChangeContactNick $groupid $id $newnick
+		}
 	}
 
-	method contactChangePSM { groupid id newpsm } {
-		$self ChangeContactPSM $groupid $id $newpsm
+	method contactChangePSM { id newpsm } {
+		foreach groupid $groups {
+			$self ChangeContactPSM $groupid $id $newpsm
+		}
 	}
 
-	method contactChangeMusic { groupid id newmusic } {
-		$self ChangeContactMusic $groupid $id $newmusic
+	method contactChangeMusic { id newmusic } {
+		foreach groupid $groups {
+			$self ChangeContactMusic $groupid $id $newmusic
+		}
 	}
 
 	method contactChangeState { id newstate } {
@@ -346,9 +352,24 @@ snit::widget contactlist {
 		}
 	}
 
+	method contactChangePic { id newpic } {
+		foreach groupid $groups {
+			$self ChangeContactPic $groupid $id $newpic
+		}
+	}
+
 	# o------------------------------------------------------------------------------------------------------------------------
 	#  Methods to carry out GUI actions
 	# o------------------------------------------------------------------------------------------------------------------------
+	method ContactInGroup { id groupid } {
+		set contacts [contentmanager children $cl $groupid]
+		if { [lsearch $contacts $id] != -1 } {
+			return 1
+		} else {
+			return 0
+		}
+	}
+
 	method DrawMe { } {
 		# Create the canvas items
 		set mypicbgid [$top create image 0 0 -anchor nw -image [::skin::loadPixmap mypicbgimg]]
@@ -452,42 +473,59 @@ snit::widget contactlist {
 	}
 
 	method ChangeContactNick { groupid id newnick } {
-		# Change the text of the canvas item
-		$list itemconfigure $nickid($groupid.$id) -text $newnick
-		# Store the new nick in array
-		set nick($nickid($groupid.$id)) $newnick
+		if { [$self ContactInGroup $id $groupid] } {
+			# Change the text of the canvas item
+			$list itemconfigure $nickid($groupid.$id) -text $newnick
+			# Store the new nick in array
+			set nick($nickid($groupid.$id)) $newnick
+		}
 	}
 
 	method ChangeContactPSM { groupid id newpsm } {
-		# Change the text of the canvas item
-		$list itemconfigure $psmid($groupid.$id) -text $newpsm
-		# Store the new psm in array
-		set psm($psmid($groupid.$id)) $newpsm
+		if { [$self ContactInGroup $id $groupid] } {
+			# Change the text of the canvas item
+			$list itemconfigure $psmid($groupid.$id) -text $newpsm
+			# Store the new psm in array
+			set psm($psmid($groupid.$id)) $newpsm
+		}
 	}
 
 	method ChangeContactMusic { groupid id newmusic } {
-		# Change the text of the canvas item
-		$list itemconfigure $musicid($groupid.$id) -text $newmusic
-		# Store the new music in array
-		set music($musicid($groupid.$id)) $newmusic
+		if { [$self ContactInGroup $id $groupid] } {
+			# Change the text of the canvas item
+			$list itemconfigure $musicid($groupid.$id) -text $newmusic
+			# Store the new music in array
+			set music($musicid($groupid.$id)) $newmusic
+		}
 	}
 
 	method ChangeContactState { groupid id newstate } {
-		# Change the text of the canvas item
-		$list itemconfigure $stateid($groupid.$id) -text $newstate
-		# Store the new state in array
-		set state($stateid($groupid.$id)) $newstate
+		if { [$self ContactInGroup $id $groupid] } {
+			# Change the text of the canvas item
+			$list itemconfigure $stateid($groupid.$id) -text $newstate
+			# Store the new state in array
+			set state($stateid($groupid.$id)) $newstate
+		}
+	}
+
+	method ChangeContactPic { groupid id newpic } {
+		if { [$self ContactInGroup $id $groupid] } {
+			# Change the image of the canvas item
+			$list itemconfigure $buddyid($groupid.$id) -image $newpic
+		}
 	}
 
 	method DeleteContact { groupid id } {
-		# Remove the contact from the contentmanager
-		contentmanager delete $cl $groupid $id
-		# Delete it's canvas items
-		foreach tag "$buddyid($groupid.$id) $nickid($groupid.$id) $psmid($groupid.$id) $stateid($groupid.$id)" {
-			$list delete $tag
+		if { [$self ContactInGroup $id $groupid] } {
+			# Remove the contact from the contentmanager
+			contentmanager delete $cl $groupid $id
+			# Delete it's canvas items
+			foreach tag "$buddyid($groupid.$id) $nickid($groupid.$id) $psmid($groupid.$id) $stateid($groupid.$id)" {
+				$list delete $tag
+			}
+			# Sort the list
+			$self sort list
 		}
-		# Sort the list
-		$self sort list
 	}
 
 	method BlockContact { groupid id } {
