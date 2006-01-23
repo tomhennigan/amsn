@@ -1,3 +1,5 @@
+package require contentmanager
+
 snit::widget contactlist {
 
 	typevariable topbgimg
@@ -30,15 +32,15 @@ snit::widget contactlist {
 
 	typeconstructor {
 		# Load images
-		set topbgimg [image create photo -file background_top.png]
-		set mypicbgimg [image create photo -file mypicbg.png]
-		set mypicoverlayimg [image create photo -file mypicoverlay.png]
-		set listbgimg [image create photo -file background_list.png]
-		set groupbgimg [image create photo -file background_group.png]
-		set selectbgimg [image create photo -file background_selected.png]
-		set expandimg [image create photo -file expand.png]
-		set contractimg [image create photo -file contract.png]
-		set buddyimg [image create photo -file buddy.png]
+		::skin::setPixmap topbgimg background_top.png
+		::skin::setPixmap mypicbgimg mypicbg.png
+		::skin::setPixmap mypicoverlayimg mypicoverlay.png
+		::skin::setPixmap listbgimg background_list.png
+		::skin::setPixmap groupbgimg background_group.png
+		::skin::setPixmap selectbgimg background_selected.png
+		::skin::setPixmap expandimg expand.png
+		::skin::setPixmap contractimg contract.png
+		::skin::setPixmap buddyimg buddy.png
 
 		# Set fonts
 		set mynickfont [font create -family helvetica -size 12 -weight bold]
@@ -98,7 +100,7 @@ snit::widget contactlist {
 	option -expandpadx -default 2
 	option -expandpady -default 2
 
-	variable groups
+	variable groups {}
 
 	variable topbgid
 	variable listbgid
@@ -149,17 +151,17 @@ snit::widget contactlist {
 
 		# Create background images
 		# Top (my nick & status etc)
-		install topbg using scalable-bg $top.bg -source $topbgimg \
+		install topbg using scalable-bg $top.bg -source [::skin::loadPixmap topbgimg] \
 			-n [lindex $options(-topborder) 0] -e [lindex $options(-topborder) 1] \
 			-s [lindex $options(-listborder) 2] -w [lindex $options(-topborder) 3] \
 			-resizemethod scale
 		# List (where contacts go!)
-		install listbg using scalable-bg $list.bg -source $listbgimg \
+		install listbg using scalable-bg $list.bg -source [::skin::loadPixmap listbgimg] \
 			-n [lindex $options(-listborder) 0] -e [lindex $options(-listborder) 1] \
 			-s [lindex $options(-listborder) 2] -w [lindex $options(-listborder) 3] \
 			-resizemethod scale
 		# Select (for showing a contact is selected)
-		install selectbg using scalable-bg $list.selectbg -source $selectbgimg \
+		install selectbg using scalable-bg $list.selectbg -source [::skin::loadPixmap selectbgimg] \
 			-n [lindex $options(-listborder) 0] -e [lindex $options(-listborder) 1] \
 			-s [lindex $options(-listborder) 2] -w [lindex $options(-listborder) 3] \
 			-resizemethod scale
@@ -334,9 +336,9 @@ snit::widget contactlist {
 	# o------------------------------------------------------------------------------------------------------------------------
 	method DrawMe { } {
 		# Create the canvas items
-		set mypicbgid [$top create image 0 0 -anchor nw -image $mypicbgimg]
-		set mypicoverlayid [$top create image 0 0 -anchor nw -image $mypicoverlayimg]
-		set mypicid [$top create image 0 0 -anchor nw -image [image create photo -file dp.png]]
+		set mypicbgid [$top create image 0 0 -anchor nw -image [::skin::loadPixmap mypicbgimg]]
+		set mypicoverlayid [$top create image 0 0 -anchor nw -image [::skin::loadPixmap mypicoverlayimg]]
+		set mypicid [$top create image 0 0 -anchor nw -image my_pic]
 		set mynickid [$top create text 0 0 -anchor nw -fill $mynickcol -font $mynickfont -text "Hobbes - all the colours of the rainbow!!!"]
 		set mypsmid [$top create text 0 0 -anchor nw -fill $mypsmcol -font $mypsmfont -text "http://amsn.sf.net/"]
 		set mymusicid [$top create text 0 0 -anchor nw -fill $mymusiccol -font $mymusicfont -text "Kate Bush - Aerial tal"]
@@ -355,12 +357,12 @@ snit::widget contactlist {
 
 	method AddGroup { groupid name } {
 		# Background image
-		set groupbg($groupid) [scalable-bg $groupid.bg -source $groupbgimg -n [lindex $options(-groupbgborder) 0] -e [lindex $options(-groupbgborder) 1] -s [lindex $options(-groupbgborder) 2] -w [lindex $options(-groupbgborder) 3] -resizemethod scale]
+		set groupbg($groupid) [scalable-bg $groupid.bg -source [::skin::loadPixmap groupbgimg] -n [lindex $options(-groupbgborder) 0] -e [lindex $options(-groupbgborder) 1] -s [lindex $options(-groupbgborder) 2] -w [lindex $options(-groupbgborder) 3] -resizemethod scale]
 		# Background image canvas item
 		set groupbgid($groupid) [$list create image 0 0 -anchor nw -image [$groupbg($groupid) name]]
-
 		# Heading canvas items
-		set toggleid($groupid) [$list create image 0 0 -anchor nw -image $contractimg]
+		set toggleid($groupid) [$list create image 0 0 -anchor nw -image [::skin::loadPixmap contractimg]]
+		
 		set headid($groupid) [$list create text 0 0 -anchor nw -text $name]
 
 		# Create groups and elements with contentmanager
@@ -406,7 +408,7 @@ snit::widget contactlist {
 
 	method AddContact { groupid id {name {}} {psm {}} {music {}} {state {}} } {
 		# Create canvas items (pic, nick, psm, music, state)
-		set buddyid($groupid.$id) [$list create image 0 0 -anchor nw -image $buddyimg -tags buddy]
+		set buddyid($groupid.$id) [$list create image 0 0 -anchor nw -image [::skin::loadPixmap buddyimg] -tags buddy]
 		set nickid($groupid.$id) [$list create text 0 0 -anchor nw -text $name -font $nickfont -fill $nickcol -tags nick]
 		set psmid($groupid.$id) [$list create text 0 0 -anchor nw -text $psm -font $psmfont -fill $psmcol -tags psm]
 		set stateid($groupid.$id) [$list create text 0 0 -anchor nw -text $state -font $statefont -fill $statecol -tags state]
@@ -495,7 +497,7 @@ snit::widget contactlist {
 				$list itemconfigure $selectbgid -state normal
 			}
 			# Change the toggle icon to the contract icon
-			$list itemconfigure $toggleid($groupid) -image $contractimg
+			$list itemconfigure $toggleid($groupid) -image [::skin::loadPixmap contractimg]
 		} else {
 			# Hiding...
 			if { [string first $groupid. $selected] != -1 } {
@@ -503,7 +505,7 @@ snit::widget contactlist {
 				$list itemconfigure $selectbgid -state hidden
 			}
 			# Change the toggle icon to the expand icon
-			$list itemconfigure $toggleid($groupid) -image $expandimg
+			$list itemconfigure $toggleid($groupid) -image [::skin::loadPixmap expandimg]
 		}
 		# Sort the group recursively then sort the contactlist at level 0.
 		# (It's faster to recursively sort the group then sort the cl at level 0 than just recursively sort cl)
