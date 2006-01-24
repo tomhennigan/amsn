@@ -60,6 +60,7 @@ autoidle Sätt min status till "inaktiv" automatiskt.
 autoip Automatisk IP
 automessage Autosvar
 autonoact Visa som "Inaktiv" efter
+autoresizedp Ändra visningsbildens storlek till standard automatiskt
 avaccepted Videokonferens accepterad
 avcanceled Videokonferens avbruten
 avgotinvitation Fått inbjudan till videokonferens från $1
@@ -106,6 +107,8 @@ casesensitive Skilj på versaler och gemener
 cfgalarm Konfigurera kungörelser
 cfgalarmall Konfigurera globala kungörelser
 change Ändra
+change_account_info Byt kontoinformation
+change_mobile Byt mobilinställningar
 changecustomstate Byt till
 changedisplaypic Byt visningsbild
 changefont Teckensnitt
@@ -241,10 +244,10 @@ displayeventstate Visa när en kontakt byter status
 displayp4context Visa P4-kontext-fältets innehåll som avsändare
 displaypic Visningsbild
 dockfreedesktop Minimera till systemfältet (KDE 3.x/Gnome 2.x)
-dockgtk Aktivera specialminimering i Gnome
-docking Specialminimering
+dockgtk Ikon i systemfältet för Gnome
+docking Ikon i systemfältet
 dockingoff Stängningsknappen minimerar/stänger fönstret
-dockkde Aktivera specialminimering i KDE
+dockkde Ikon i systemfältet för KDE
 done Klar
 dontdownload Ladda inte ner TLS, jag installerar det själv.
 dontshow Visa inte
@@ -253,6 +256,7 @@ downloadingtls Laddar ner TLS från:\n $1
 edit Redigera
 editcontent Ändra innehållet i ämnes- och anteckningsfältet
 editcustomstate Byt personlig status
+editmyprofile Redigera min MSN-profil
 editnewstate Nytt autosvarsmeddelande
 editprofile Redigera profil
 editstate Ändra det aktiva autosvarsmeddelandet
@@ -427,7 +431,7 @@ maximised Maximerad
 minimised Minimerad
 mins minuter
 mobile Mobil
-mobilegrp1 Mobil grupp
+mobilegrp1 Mobilgrupp
 mobilegrp2 Sätt användarna i "Mobil"-gruppen när de är utloggade
 modified Ändrad
 month Månad
@@ -629,11 +633,12 @@ showblockedlist Visa en lista över personer som blockerar dig
 showcachedpics Visa lagrade visningsbilder
 showdisplaypic Visa visningsbild
 showdisplaypic2 Visa bild automatiskt då ett konversationsfönster öppnas
+showmailicon Visa brevikonen i aktivitetsfältet när ett nytt meddelande har tagits emot
 showmypic Min visningsbild
 shownotify Visa ett meddelande när något händer
 showpicnotify Visa användarnas bilder i meddelandefönstren
 showuserpic $1:s visningsbild
-signinstatus Statsus vid inloggning
+signinstatus Status vid inloggning
 skin Tema
 skinselector Temaväljare
 small Liten
@@ -660,7 +665,7 @@ sslwarning VARNING! Om du avaktiverar SSL så avaktiveras även kryptering, vilket
 startoffline Logga in som osynlig
 startoffline2 Logga in diskret som "Osynlig"
 startonboot Starta aMSN när Windows startas.
-startontray Starta aMSN specialminimerad
+startontray Starta aMSN som ikon i Systemfältet
 state Jag vill vara	
 stateautomsg Autosvar som skickas
 statechange ändrade status till 
@@ -709,8 +714,8 @@ tomobile Till mobilen
 tools Verktyg
 tooltips Aktivera verktygstips
 transnotexists Filen har tyvärr inte blivit översatt till det nuvarande språket än
-trayicon Visa specialminimering
-traynotcompiled Specialminimeringprogrammet har inte kompilerats än. Kolla i plugins/traydock
+trayicon Visa ikon i systemlisten
+traynotcompiled Systemlists-programmet har inte kompilerats än. Kolla i plugins/traydock
 triggers Textstyrning
 truncatenames1 Förkorta smeknamn längre än fönstrets bred i fönstertitlar samt kontaktlista
 truncatenames2 Förkorta smeknamn längre än fönstrets bred inuti konversationer

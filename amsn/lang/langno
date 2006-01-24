@@ -778,3 +778,6 @@ copytoclipboard Kopier $1 til utklippstavlen
 goto Gå til $1
 enterpsm Personlig beskjed
 usemsnp11 Aktiver støtte for Personlig beskjed (EKSPRIMENTAL funksjon) -- trenger profil + restart
+autoresizedp Endre størelse på ditt personlige bildet til standard størelse automatisk
+editmyprofile Rediger min MSN Profil
+showmailicon Vis e-mail ikon i oppgavelinjen når nye e-mailer kommer

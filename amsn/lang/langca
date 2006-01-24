@@ -43,7 +43,9 @@ appearance Aparença
 appearoff Simula desconnexió
 areacode Codi d'àrea
 aretyping $1 estan escrivint un missatge
+askcontactwebcam demanar càmara web al teu contacte
 askeachtime Preguntar cada cop
+asksendingyourwebcam demanar enviar la teva càmara web
 askwebcam Preguntar a l'usuari per enviar la webcam
 author Autor
 autoaccepted Transferència del fitxer acceptada automàticament
@@ -58,6 +60,7 @@ autoidle Canviar a "Sense activitat" de manera automàtica
 autoip IP automàtica
 automessage Missatge automàtic
 autonoact Mostra'm en l'estat "Sense activitat" quan no hi hagi activitat en
+autoresizedp Canviar de mida automàticament les imatges per mostrar a la mida predeterminada
 avaccepted Videoconferència acceptada
 avcanceled Videoconferència cancel·lada
 avgotinvitation S'ha rebut una invitació de videoconferència de $1
@@ -106,6 +109,7 @@ clearlog2 Neteja l'històric per tots els contactes
 clearlog3 Netejar tots els registres
 clear Netejar
 clearwebcamlogs Netejar tots els historials de webcams
+clickhere Fes click Aquí
 clicktoadd Clic al botó "afegir" per escriure una nota nova
 clicktologin Clic aquí per iniciar la sessió
 clientcaps Enviar paquets x-clientcaps a altres clients
@@ -144,7 +148,7 @@ contrast Contrast
 conversationwith $1 usuaris a la conversa
 convertexplain Camí al fitxer executable CONVERT, d'ImageMagick (es necessita per veure les imatges).\nDeixa-ho en blanc si CONVERT és al PATH.
 copy Copia
-copytoclipboard Copiar $1 al porta-retalls
+copytoclipboard Copiar $1 al portaretalls
 copytogroup Copia al grup
 corruptconfig El fitxer de configuració conté errors. Ara en crearé un de nou i desaré l'antic a $1. Si vols ajudar-nos, envia'ns el fitxer erroni.
 corruptstates El fitxer d'estats personalitzats conté errors. Ara en crearé un de nou i desaré l'antic a $1. Si vols ajudar-nos, envia'ns el fitxer erroni.
@@ -212,6 +216,8 @@ download Descàrrega
 downloadingtls Obté el mòdul TLS de:\n$1
 editcustomstate Edita l'estat personalitzat
 edit Edita
+editcontent Editar el contingut del camp subjecte i el camp nota
+editmyprofile Editar el meu perfil del MSN
 editnewstate Nou missatge automàtic per a un estat personalitzat
 editprofile Editar perfil
 editstate Editar missatge automàtic per a un estat personalitzat
@@ -230,6 +236,7 @@ encoding2 Canvia la codificació utilitzada pels teus caràcters
 entercontactemail Escriu l'adreça de correu del contacte
 enterfilename Introdueix el nom del fitxer
 enternick Escriu el teu sobrenom
+enterpsm Missatge Personal
 errortls Error instal·lant el mòdul TLS:
 eventhistory Mostra l'històric d'events
 examples Exemples
@@ -268,13 +275,14 @@ ftrejected Transferència de fitxers rebutjada
 ftsendinvitation La invitació per la transferència del fitxer '$2' ($3 bytes) ha estat enviada a $1.
 fullcontactlist La teva llista de contactes està plena. Per poder afegir un nou contacte n'has d'esborrar un altre.
 getdisppic Activa l'opció de rebre l'avatar d'altres usuaris
-getmoreplugins Aconseguir més plugins!
+getmoreplugins Aconsegueic més plugins !
+getmoreskins Aconsegueix més temes !
 globalcontainer Contenidor global
 globalnick Introdueix un patró per crear els sobrenoms dels teus contactes. Pots utilitzar aquestes variables: \$user_login per l'adreça del teu contacte, \$nick pel sobrenom i \$customnick pel sobrenom personalitzat. Per exemple: '\$user_login és \$nick' serà 'contacte@msn.com és Contacte'
 globalnicktitle Sobrenom global
 globaloverride Els sobrenoms globals han de substituir els sobrenoms personalitzats
 gonelunch Estic menjant
-goto Vés
+goto Vés a $1
 groupadd Afegir un grup
 groupdelete Esborrar un grup
 groupexists El grup ja existeix
@@ -580,6 +588,7 @@ rename Renombrar
 report Informe
 reporting Informant
 required_version Impossible carregar aquest plugin, necessites com a mínim la versió $1 de l'aMSN perquè funcioni
+restartforskin Nota: Has de reiniciar l'aMSN per seure el tema correctament!
 reversed Invertit
 reverselist Llista inversa:
 rightback Ara torno
@@ -611,6 +620,7 @@ showblockedlist Mostra'm la llista de la gent que em té bloquejat a la seva llis
 showcachedpics Mostra els avatars agafats
 showdisplaypic Mostra l'avatar
 showdisplaypic2 Mostra l'avatar quan s'obri una nova conversa
+showmailicon Mostrar una icona a la barra de tasques al arribar correu nou
 showmypic El meu avatar
 shownotify Mostra una finestra de notificació quan succeeixin diversos events
 showpicnotify Mostrar imatges dels usuaris a les finestres de notificaciÃ?Â³
@@ -640,7 +650,7 @@ splashstart Inici
 sslwarning ATENCIÓ!! Desactivant l'SSL, es desactiva el xifrat de la teva contrasenya i serà enviada sense cap protecció per la xarxa.
 startoffline Inicia en l'estat "Simula desconnexió"
 startoffline2 Connectar-se silenciosament apareixent en l'estat "Desconnectat"
-startonboot Iniciar l'aMSN quan s'inicii el windows
+startonboot Iniciar l'aMSN al iniciar el windows
 startontray Inicia l'aMSN només amb la safata del sistema
 stateautomsg Missatge automàtic a enviar
 stateedittext Edita els camps que vulguis modificar\ni prem "Desar"
@@ -708,6 +718,7 @@ update Actualització
 updateonlycurrentlanguage Actualitzar només la llengua actual
 updating Actualitzant
 useasdp Fer servir com avatar
+usemsnp11 Activar el suport per a Missatges Personals (opció EXPERIMENTAL) - necessita perfil + reiniciar
 useother Utilitza un altre programa
 useralreadyonlist L'usuari ja és a la llista de contactes
 userblocked Aquest usuari està connectat però t'ha bloquejat a la seva llista
@@ -719,6 +730,7 @@ useryourself No pots conversar amb tu mateix
 usesnack Utilitza la llibreria Snack (extensió del TCL)
 verifyblocked Comprova la gent que em té bloquejat a la seva llista
 version Versió
+videoconversationrequest Has rebut una invitació a una conversa de video (audio i video bidireccional). Aquesta funcionalitat no està suportada per l'aMSN i ha estat calcelada. De totes formes, pots continuar la conversació de càmara web habitual.
 viewcontactsby Mostra els contactes per
 viewprofile Mostrar perfil
 view Veure
@@ -769,10 +781,3 @@ onlinehelp Ajuda on-line
 sendemail Envia la meva adreça per notificar-me canvis
 small Petit
 whatisamsn aMSN és un clon multiplataforma de MSN
-askcontactwebcam per demanar webcam al teu contacte o
-asksendingyourwebcam per demanar enviar la teva webcam
-clickhere Click Aquí
-editcontent Edita el contingut del camp assumpte i del camp nota
-getmoreskins Descarrega més skins!
-restartforskin Nota: podries necessitar reiniciar aMSN per veure la skin correctament!
-videoconversationrequest Acabes de rebre una invitació de vide conversació (audio i video bidireccionals). Aquesta funció no està suportada per aMSN i ha estat cancel·lada. De totes formes, encara pots emprar la conversació per webcam estàndard.

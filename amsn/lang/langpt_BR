@@ -60,6 +60,7 @@ autoidle Detectar inatividade
 autoip Endereço IP automático
 automessage Mensagem automática
 autonoact Mostre-me como "Inativo" quando eu ficar inativo por
+autoresizedp Automaticamente redimensione as figuras para o tamanho padrão
 avaccepted Chamada para vídeo-conferência aceita 
 avcanceled Chamada para vídeo-conferência cancelada
 avgotinvitation Recebido um convite para vídeo-conferência de $1 
@@ -105,11 +106,13 @@ captureproperties Propriedades da imagem da Webcam
 casesensitive Diferenciar maísculas/minúsculas
 cfgalarmall Configurar/Adicionar/Remover Alarme Global
 cfgalarm Configurar/Adicionar/Remover Alarme
+change_account_info Mudar informaçoes da conta.
 change Alterar
 changecustomstate Mudar para
 changedisplaypic Mudar avatar
 changefont Mudar a fonte
 changeglobnick Alterar o Apelido Global
+change_mobile Mudar opçoes de Mobile
 changenick Alterar Apelido
 changesize Alterar tamanho
 changestate $1 mudou o estado para $2
@@ -253,6 +256,7 @@ downloadingtls Efetuando download módulo TLS de:\n $1
 editcontent Altere o contéudo do campo assunto e nota.
 editcustomstate Editar estado personalizado
 edit Editar
+editmyprofile Editar meu perfil no MSN
 editnewstate Novo estado pessoal de Automensagem
 editprofile Editar perfil
 editstate Editar o estado de automensagem existente
@@ -628,6 +632,7 @@ showblockedlist Mostra a lista de usuários que bloquearam você
 showcachedpics Mostrar imagens de exibição armazenadas
 showdisplaypic2 Mostrar imagem de exibição automaticamente quando uma janela de conversa é aberta
 showdisplaypic Mostrar imagem de exibição
+showmailicon Mostrar icone de email quando novos emails chegarem
 showmypic Minha imagem de exibição
 shownotify Exibir janela de notificação quando alguns eventos acontecerem.
 showpicnotify Mostrar figuras do usuário na janela de notificação
