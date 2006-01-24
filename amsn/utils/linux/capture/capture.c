@@ -52,10 +52,9 @@ struct data_item* Capture_lstAddItem(struct data_item* item) {
   if (!item) return NULL;
   if (Capture_lstGetListItem(item->list_element_id)) return NULL;
 
-  newItem = (struct list_ptr *) malloc(sizeof(struct list_ptr));
+  newItem = (struct list_ptr *) calloc(1, sizeof(struct list_ptr));
 
   if (newItem) {
-    memset(newItem,0,sizeof(struct list_ptr));
     newItem->element = item;
 
     newItem->next_item = g_list;
@@ -118,6 +117,7 @@ static struct ng_video_buf* get_video_buf(void *handle, struct ng_video_fmt *fmt
 static int set_color_conv(struct capture_item* captureItem)
 {
   int i;
+  struct ng_video_fmt gfmt;
   
   // Test if captureItem isn't NULL
   if(NULL == captureItem)
@@ -127,12 +127,12 @@ static int set_color_conv(struct capture_item* captureItem)
   captureItem->fmt.fmtid  = VIDEO_RGB24;
   captureItem->fmt.width  = HIGH_RES_W;
   captureItem->fmt.height = HIGH_RES_H;
-  if (0 == captureItem->dev.v->setformat(captureItem->dev.handle,&captureItem->fmt))
+  if (captureItem->dev.v->setformat(captureItem->dev.handle,&captureItem->fmt) == 0)
     return 0;
   
   // If failed, try native BGR24 (mostly all webcams on LE systems)
   captureItem->fmt.fmtid  = VIDEO_BGR24;
-  if (0 == captureItem->dev.v->setformat(captureItem->dev.handle,&captureItem->fmt))
+  if (captureItem->dev.v->setformat(captureItem->dev.handle,&captureItem->fmt) == 0)
     return 0;
 
   // If it failed, try to find a converter to RGB24
@@ -151,17 +151,17 @@ static int set_color_conv(struct capture_item* captureItem)
 #   endif
 
     // Set the new capture format to the colorspace of the input from the converter
-    captureItem->gfmt = captureItem->fmt;
-    captureItem->gfmt.fmtid = captureItem->conv->fmtid_in;
-    captureItem->gfmt.bytesperline = 0;
+    gfmt = captureItem->fmt;
+    gfmt.fmtid = captureItem->conv->fmtid_in;
+    gfmt.bytesperline = 0;
     
     // Check if webcam supports the input colorspace of that converter
-    if (0 == captureItem->dev.v->setformat(captureItem->dev.handle,&captureItem->gfmt)) {
-      captureItem->fmt.width  = captureItem->gfmt.width;
-      captureItem->fmt.height = captureItem->gfmt.height;
+    if (captureItem->dev.v->setformat(captureItem->dev.handle,&gfmt) == 0) {
+      captureItem->fmt.width  = gfmt.width;
+      captureItem->fmt.height = gfmt.height;
       
       // Save the new width and height and initialize the converter
-      captureItem->handle = ng_conv_init(captureItem->conv, &captureItem->gfmt, &captureItem->fmt);
+      captureItem->handle = ng_conv_init(captureItem->conv, &gfmt, &captureItem->fmt);
       return 0;
     }
   }
@@ -441,12 +441,12 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
   
   // Set the channel using ng_attribute->write function
   if (attr != NULL) {
-    if (-1 != channel)
+    if (channel != -1)
       attr->write(attr, channel);
   }
   
   // Select the colorspace conversion to use, return an error if none is found (we can't do without!)
-  if (0 != set_color_conv(captureItem)) {
+  if (set_color_conv(captureItem) != 0) {
 #   ifdef DEBUG
       fprintf(stderr, "Your webcam uses a palette that this extension does not support yet");
 #   endif
@@ -459,7 +459,7 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
   }
   
   // Add the capture descriptor to the list of open descriptors, return an error if this fails
-  if (Capture_lstAddItem(captureItem) == NULL){
+  if (Capture_lstAddItem(captureItem) == NULL) {
     perror("lstAddItem");
     ng_dev_close(&captureItem->dev);
     ng_dev_fini(&captureItem->dev);
@@ -565,21 +565,17 @@ int Capture_Grab _ANSI_ARGS_((ClientData clientData,
   }
   
   // If we use a converter, set the resolution depending on the converter's format, otherwise use the native format
+  fmt = capItem->fmt;
   if (capItem->conv) {
-    fmt = capItem->gfmt;
-  } else {
-    fmt = capItem->fmt;
+    fmt.fmtid = capItem->conv->fmtid_in;
+    fmt.bytesperline = 0;
   }
   
   // Get the current resolution from capItem
-  if ((capItem->fmt.width == HIGH_RES_W) && (capItem->fmt.height == HIGH_RES_H)) {
+  if ((fmt.width == HIGH_RES_W) && (fmt.height == HIGH_RES_H)) {
     resolution = HIGH;
-    fmt.width  = HIGH_RES_W;
-    fmt.height = HIGH_RES_H;
-  } else if ((capItem->fmt.width == LOW_RES_W) && (capItem->fmt.height == LOW_RES_H)) {
+  } else if ((fmt.width == LOW_RES_W) && (fmt.height == LOW_RES_H)) {
     resolution = LOW;
-    fmt.width  = LOW_RES_W;
-    fmt.height = LOW_RES_H;
   }
   
   // If resolution was specified, change resolution if it is different from the one currently set
@@ -588,15 +584,15 @@ int Capture_Grab _ANSI_ARGS_((ClientData clientData,
     if (strcmp(tmpRes, "HIGH") == 0) {
       if(resolution != HIGH) {
         resolution = HIGH;
-        fmt.width  = HIGH_RES_W;
-        fmt.height = HIGH_RES_H;
+        fmt.width  = (capItem->fmt.width = HIGH_RES_W);
+        fmt.height = (capItem->fmt.height = HIGH_RES_H);
         capItem->dev.v->setformat(capItem->dev.handle, &fmt);
       }
     } else if(strcmp(tmpRes, "LOW") == 0) {
       if(resolution != LOW) {
         resolution = LOW;
-        fmt.width  = LOW_RES_W;
-        fmt.height = LOW_RES_H;
+        fmt.width  = (capItem->fmt.width = LOW_RES_W);
+        fmt.height = (capItem->fmt.height = LOW_RES_H);
         capItem->dev.v->setformat(capItem->dev.handle, &fmt);
       }
     } else {
@@ -610,26 +606,27 @@ int Capture_Grab _ANSI_ARGS_((ClientData clientData,
   // - The resolution from the capItem (if it isn't HIGH or LOW)
   // - High resolution
   // - Low resolution
-  for (dim_idx = resolution; capItem->image_data == NULL && dim_idx >= 0; dim_idx--) {
-    if (dim_idx < resolution) {
-      fmt.width  = dim[dim_idx].width;
-      fmt.height = dim[dim_idx].height;
-      capItem->dev.v->setformat(capItem->dev.handle, &fmt);
-    }
-    capItem->image_data = capItem->dev.v->getimage(capItem->dev.handle);
-    
+  for (dim_idx = resolution;;) {
+    if ((capItem->image_data = capItem->dev.v->getimage(capItem->dev.handle)) == NULL) {
 #   ifdef DEBUG
-      if(capItem->image_data == NULL) fprintf(stderr,"Capturing image failed at %d, %d\n", fmt.width, fmt.height);
+      fprintf(stderr,"Capturing image failed at %d, %d\n", fmt.width, fmt.height);
 #   endif
+      if(dim_idx > 0) {
+        dim_idx--;
+        fmt.width  = (capItem->fmt.width = dim[dim_idx].width);
+        fmt.height = (capItem->fmt.height = dim[dim_idx].height);
+        capItem->dev.v->setformat(capItem->dev.handle, &fmt);
+      } else {
+        Tcl_AppendResult(interp, "Unable to capture from the device", (char *) NULL);
+        return TCL_ERROR;
+      }
+    } else {
+      break;
+    }
   }
   
-  width = (capItem->fmt.width = fmt.width);
-  height = (capItem->fmt.height = fmt.height);
-  
-  if (capItem->image_data == NULL) {
-    Tcl_AppendResult(interp, "Unable to capture from the device", (char *) NULL);
-    return TCL_ERROR;
-  }
+  width = fmt.width;
+  height = fmt.height;
   
   // if a converter was used, put the frame into the converter and get it, once converted
   if (capItem->conv) {
@@ -670,7 +667,11 @@ int Capture_Grab _ANSI_ARGS_((ClientData clientData,
     Tk_PhotoPutBlock(interp, Photo, &block, 0, 0, block.width, block.height, TK_PHOTO_COMPOSITE_OVERLAY);
 # else
     Tk_PhotoSetSize(Photo, block.width, block.height);
-    Tk_PhotoPutBlock(Photo, &block, 0, 0, block.width, block.height, TK_PHOTO_COMPOSITE_OVERLAY);
+#   if TK_MINOR_VERSION == 4
+      Tk_PhotoPutBlock(Photo, &block, 0, 0, block.width, block.height, TK_PHOTO_COMPOSITE_OVERLAY);
+#   else
+      Tk_PhotoPutBlock(Photo, &block, 0, 0, block.width, block.height);
+#   endif
 # endif
   
   Tcl_ResetResult(interp);
@@ -766,7 +767,7 @@ int Capture_SetAttribute _ANSI_ARGS_((ClientData clientData,
   
   // Set attribute value using attribute->write proc...
   if (attr != NULL) {
-      if (-1 != new_value)
+      if (new_value != -1)
         attr->write(attr, new_value);
   }
   
@@ -858,13 +859,13 @@ int Capture_Init (Tcl_Interp *interp )
 {
   int i;
   
-  // Check Tcl version is 8.4 or higher
-  if (Tcl_InitStubs(interp, "8.4", 0) == NULL) {
+  // Check Tcl version
+  if (Tcl_InitStubs(interp, TCL_VERSION, 0) == NULL) {
     return TCL_ERROR;
   }
   
-  // Check TK version is 8.4 or higher
-  if (Tk_InitStubs(interp, "8.4", 0) == NULL) {
+  // Check TK version
+  if (Tk_InitStubs(interp, TK_VERSION, 0) == NULL) {
     return TCL_ERROR;
   }
   

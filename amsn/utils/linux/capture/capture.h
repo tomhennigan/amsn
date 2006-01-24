@@ -72,7 +72,6 @@ struct capture_item {
   int channel;
   struct ng_devstate          dev;
   struct ng_video_fmt         fmt;
-  struct ng_video_fmt         gfmt;
   struct ng_video_conv        *conv;
   struct ng_process_handle    *handle;
   struct ng_video_buf *image_data;
