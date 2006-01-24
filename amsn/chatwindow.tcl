@@ -2621,7 +2621,7 @@ namespace eval ::ChatWindow {
 		bind $tab <Enter> "::ChatWindow::TabEntered $tab $win"
 		bind $tab <Leave> "::ChatWindow::TabLeft $tab"
 		bind $tab <<Button2>> "::ChatWindow::CloseTab $tab"
-		$tab bind tab_close <ButtonRelease-1> "::ChatWindow::CloseTab $tab"
+		$tab bind tab_close <ButtonRelease-1> [list after 0 "::ChatWindow::CloseTab $tab"]
 		$tab bind tab_bg <ButtonRelease-1> "::ChatWindow::SwitchToTab $container $win"
 		$tab bind tab_text <ButtonRelease-1> "::ChatWindow::SwitchToTab $container $win"
 
