@@ -3509,6 +3509,7 @@ namespace eval ::Event {
 				status_log "$self handleMSG: === UNKNOWN MSG ===\n$command\n[$message getHeaders]\n[$message getBody]" red
 				#Postevent for others kinds of packet (like nudge)
 				set evpar(chatid) chatid
+				set evpar(typer) typer
 				set evpar(nick) nick
 				set evpar(msg) message
 				::plugins::PostEvent PacketReceived evpar
