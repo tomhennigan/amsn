@@ -33,7 +33,6 @@ if { $initialize_amsn == 1 } {
 	::skin::setKey bannerbg #ffffff
 	::skin::setKey contact_mobile #404040
 	::skin::setKey chatwindowbg #EAEAEA
-	::skin::setKey show_contactdps_in_cl 0
 
 	::skin::setKey tabbarbg "[::skin::getKey chatwindowbg]"
 	::skin::setKey tabfg #000000
