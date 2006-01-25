@@ -42,6 +42,7 @@ namespace eval ::config {
 								;#Changed later for windows to 4
 
 		::config::setKey showmailicon 1
+		::config::setKey show_contactdps_in_cl 0		
 
 		::config::setKey autoresizedp 0
 
