@@ -33,6 +33,8 @@ if { $initialize_amsn == 1 } {
 	::skin::setKey bannerbg #ffffff
 	::skin::setKey contact_mobile #404040
 	::skin::setKey chatwindowbg #EAEAEA
+	::skin::setKey show_contactdps_in_cl 0
+
 	::skin::setKey tabbarbg "[::skin::getKey chatwindowbg]"
 	::skin::setKey tabfg #000000
 	::skin::setKey tab_text_x 5
@@ -5585,11 +5587,15 @@ proc ShowUser {user_name user_login state_code colour section grId} {
 
 	#set imgname "img[expr {$::groups::uMemberCnt(online)+$::groups::uMemberCnt(offline)}]"
 	set imgname "img[getUniqueValue]"
-        image create photo dp_in_cl_$user_login -format cximage
-        dp_in_cl_$user_login copy [::skin::getDisplayPicture $user_login]
-        ::picture::ResizeWithRatio dp_in_cl_$user_login 10 10
-        label $pgBuddy.text.$imgname -image dp_in_cl_$user_login -bg [::skin::getKey contactlistbg]
-        destroy dp_in_cl_$user_login
+	if {[::config::getKey show_contactdps_in_cl] == "1"} {
+        	image create photo dp_in_cl_$user_login -format cximage
+		dp_in_cl_$user_login copy [::skin::getDisplayPicture $user_login]
+		::picture::ResizeWithRatio dp_in_cl_$user_login 15 15
+		label $pgBuddy.text.$imgname -image dp_in_cl_$user_login -bg [::skin::getKey contactlistbg]
+		destroy dp_in_cl_$user_login
+	} else {
+		label $pgBuddy.text.$imgname -image [::skin::loadPixmap $image_type] -bg [::skin::getKey contactlistbg]
+	}
 	$pgBuddy.text.$imgname configure -cursor hand2 -borderwidth 0
 	if { $last_element > 0 } {
 		$pgBuddy.text window create $section.last -window $pgBuddy.text.$imgname -padx 3 -pady 1 -align baseline
