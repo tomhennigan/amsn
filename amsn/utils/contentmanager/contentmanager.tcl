@@ -61,53 +61,88 @@ snit::type contentmanager {
 	}
 
 	typemethod add { _type args } {
-		if { [string equal $_type "container"] } {
-			set path [eval $type getpath $args]
-			set opts [eval $type getopts $args]
-			set tree [eval $type gettree $args]
+		set path [eval $type getpath $args]
+		set opts [eval $type getopts $args]
+		set tree [eval $type gettree $args]
 
-			eval group $path -tree [list $tree] $opts
-		} elseif { [string equal $_type "group"] } {
-			set path [eval $type getpath $args]
-			set opts [eval $type getopts $args]
-			set tree [eval $type gettree $args]
-
-			eval group $path -tree [list $tree] $opts
-			set parent [eval $type getpath [lrange $tree 0 end-1]]
-			set id [lindex $tree end]
-			$parent register $id
-		} elseif { [string equal $_type "element"] } {
-			set path [eval $type getpath $args]
-			set opts [eval $type getopts $args]
-			set tree [eval $type gettree $args]
-
-			eval element $path -tree [list $tree] $opts
-			set parent [eval $type getpath [lrange $tree 0 end-1]]
-			set id [lindex $tree end]
-			$parent register $id
+		# Check item doesn't already exist
+		if { [info command $path] != {} } {
+			error "$_type '$path' already exists"
+			return {}
 		}
+
+		if { [string equal $_type "group"] } {
+			set parent [eval $type getpath [lrange $tree 0 end-1]]
+			eval group $path -tree [list $tree] $opts
+			# If this isn't a toplevel group...
+			if { [llength $tree] > 1 } {
+				# ...set it's state to its parent's state and register with its parent
+				set parent [eval $type getpath [lrange $tree 0 end-1]]
+				$path configure -state [$parent cget -state]
+				set id [lindex $tree end]
+				$parent register $id
+			} else {
+				set id $tree
+			}
+		} elseif { [string equal $_type "element"] } {
+			eval element $path -tree [list $tree] $opts
+			# If this isn't a toplevel element...
+			if { [llength $tree] > 1 } {
+				# ...set it's state to its parent's state and register with its parent
+				set parent [eval $type getpath [lrange $tree 0 end-1]]
+				$path configure -state [$parent cget -state]
+				set id [lindex $tree end]
+				$parent register $id
+			} else {
+				set id $tree
+			}
+		}
+		return $id
 	}
 
 	typemethod insert { index _type args } {
-		if { [string equal $_type "group"] } {
-			set path [eval $type getpath $args]
-			set opts [eval $type getopts $args]
-			set tree [eval $type gettree $args]
-
-			eval group $path -tree [list $tree] $opts
-			set parent [eval $type getpath [lrange $tree 0 end-1]]
-			set id [lindex $tree end]
-			$parent register $id $index
-		} elseif { [string equal $_type "element"] } {
-			set path [eval $type getpath $args]
-			set opts [eval $type getopts $args]
-			set tree [eval $type gettree $args]
-
-			eval element $path -tree [list $tree] $opts
-			set parent [eval $type getpath [lrange $tree 0 end-1]]
-			set id [lindex $tree end]
-			$parent register $id $index
+		# Check index is okay
+		if { ![string is integer $index] && $index != "end" } {
+			error "invalid insert index '$index'"
 		}
+		
+		set path [eval $type getpath $args]
+		set opts [eval $type getopts $args]
+		set tree [eval $type gettree $args]
+
+		# Check item doesn't already exist
+		if { [info command $path] != {} } {
+			error "$_type '$path' already exists"
+			return {}
+		}
+
+		if { [string equal $_type "group"] } {
+			set parent [eval $type getpath [lrange $tree 0 end-1]]
+			eval group $path -tree [list $tree] $opts
+			# If this isn't a toplevel group...
+			if { [llength $tree] > 1 } {
+				# ...set it's state to its parent's state and register with its parent
+				set parent [eval $type getpath [lrange $tree 0 end-1]]
+				$path configure -state [$parent cget -state]
+				set id [lindex $tree end]
+				$parent register $id $index
+			} else {
+				set id $tree
+			}
+		} elseif { [string equal $_type "element"] } {
+			eval element $path -tree [list $tree] $opts
+			# If this isn't a toplevel element...
+			if { [llength $tree] > 1 } {
+				# ...set it's state to its parent's state and register with its parent
+				set parent [eval $type getpath [lrange $tree 0 end-1]]
+				$path configure -state [$parent cget -state]
+				set id [lindex $tree end]
+				$parent register $id $index
+			} else {
+				set id $tree
+			}
+		}
+		return $id
 	}
 
 	typemethod delete { args } {
@@ -176,8 +211,13 @@ snit::type contentmanager {
 	}
 
 	typemethod sort { args } {
-		set path [eval $type getpath [lrange $args 0 end-1]]
-		set level [lindex $args end]
+		set lvlopt [lsearch $args -level]
+		if { $lvlopt == -1 } {
+			set level r
+		} else {
+			set level [lindex $args [expr {$lvlopt + 1}]]
+		}
+		set path [eval $type getpath $args]
 		eval $path sort $level
 	}
 
@@ -225,7 +265,7 @@ snit::type group {
 
 	# State options
 	option -omnipresent -default no
-	option -state -default normal
+	option -state -default normal -configuremethod SetState
 
 	# Position variables
 	variable xPos
@@ -233,6 +273,7 @@ snit::type group {
 
 	# Children variables
 	variable items
+	variable hiddenitems
 	variable bboxid
 
 	# Afterid variables
@@ -283,6 +324,21 @@ snit::type group {
 		set options(-height) $val
 		if { [$self GotWidget] } {
 			$options(-widget) coords $bboxid $xPos $yPos [expr {$xPos + $options(-width)}] [expr {$yPos + $val}]
+		}
+	}
+
+	method SetState { opt val } {
+		set options(-state) $val
+		switch $val {
+			"partlyhidden" {
+				$self hide
+			}
+			"hidden" {
+				$self hide
+			}
+			"normal" {
+				$self show
+			}
 		}
 	}
 
@@ -402,6 +458,9 @@ snit::type group {
 		foreach item $items {
 			set tree $options(-tree)
 			lappend tree $item
+			if { [string equal [eval contentmanager cget $tree -state] hidden] } {
+				lappend hiddenitems $item
+			}
 			if { [eval contentmanager cget $tree -omnipresent] } {
 				set omnipresent 1
 				continue
@@ -430,11 +489,6 @@ snit::type group {
 		}
 	}
 
-	method Sort { } {
-		after cancel $afterid(sort)
-		set afterid(sort) [after 1 "$self Sort"]
-	}
-	
 	method sort { {level r} } {
 		# Initial coords
 		set x [expr {$xPos + $options(-ipadx)}]
@@ -454,9 +508,9 @@ snit::type group {
 					}
 					# Sort the item
 					if { [string is integer $level] && $level > 0 } {
-						eval contentmanager sort $tree [expr {$level - 1}]
+						eval contentmanager sort $tree -level [expr {$level - 1}]
 					} elseif { [string equal $level r] } {
-						eval contentmanager sort $tree r
+						eval contentmanager sort $tree -level r
 					}
 
 					set itempadx [eval contentmanager cget $tree -padx]
@@ -493,9 +547,9 @@ snit::type group {
 						continue
 					}
 					if { [string is integer $level] && $level > 0 } {
-						eval contentmanager sort $tree [expr {$level - 1}]
+						eval contentmanager sort $tree -level [expr {$level - 1}]
 					} elseif { [string equal $level r] } {
-						eval contentmanager sort $tree r
+						eval contentmanager sort $tree -level r
 					}
 
 					set itempadx [eval contentmanager cget $tree -padx]
@@ -590,7 +644,7 @@ snit::type element {
 
 	# State options
 	option -omnipresent -default no
-	option -state -default normal
+	option -state -default normal -configuremethod SetState
 
 	# Children variables
 	variable bboxid
@@ -605,6 +659,7 @@ snit::type element {
 		set xPos 0
 		set yPos 0
 		set bboxid {}
+		set havebinding 0
 		$self configurelist $args
 	}
 
@@ -643,6 +698,21 @@ snit::type element {
 		set options(-height) $val
 		if { [$self GotWidget] } {
 			$options(-widget) coords $bboxid $xPos $yPos [expr {$xPos + $options(-width)}] [expr {$yPos + $val}]
+		}
+	}
+
+	method SetState { opt val } {
+		set options(-state) $val
+		switch $val {
+			"partlyhidden" {
+				$self hide
+			}
+			"hidden" {
+				$self hide
+			}
+			"normal" {
+				$self show
+			}
 		}
 	}
 
