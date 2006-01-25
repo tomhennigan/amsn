@@ -5586,7 +5586,9 @@ proc ShowUser {user_name user_login state_code colour section grId} {
 
 	#set imgname "img[expr {$::groups::uMemberCnt(online)+$::groups::uMemberCnt(offline)}]"
 	set imgname "img[getUniqueValue]"
-	if {[::config::getKey show_contactdps_in_cl] == "1"} {
+	set displaypicfilename [::abook::getContactData $user_login displaypicfile "" ]
+	if {[::config::getKey show_contactdps_in_cl] == "1" && ${displaypicfilename} != "" && [file readable "[file join $::HOME displaypic cache ${displaypicfilename}].png"] } {
+		#Credits to JeeBee for code below! :)
 		if {![info exists small_dp_$user_login]} {
 			set buddyheight [image height [::skin::loadPixmap $image_type]]
        		 	image create photo small_dp_$user_login -format cximage
