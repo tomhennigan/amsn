@@ -575,7 +575,7 @@ proxyconfhttp Configurar soporte de proxy HTTP
 proxyconnection Me conecto a Internet usando un servidor proxy:
 proxy Estoy detrás de un servidor proxy (HTTP o SOCKS5)
 publishphones Publicar mis números de teléfono
-purge Eliminar
+purge Purgar
 pwcdriver Estás usando el controlador 'pwc'
 raised Elevada/Desiconificada
 readonlymsgbox La transferencia de archivos se ha cancelado porque el directorio de recepción es de sólo lectura. Comprueba los permisos de este directorio.
