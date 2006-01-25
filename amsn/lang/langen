@@ -5,8 +5,8 @@ accept Accept
 acceptfile Do you want to accept the file $1 (size $2 bytes)? It will be saved in $3
 actions Actions
 activeautoupdate Activate auto-update
-add Add
 addacontact Add a contact
+add Add
 addedyou $1 ($2) has added you to his/her contact list
 addprofile Add New Profile
 addprofiledesc Enter the login which you would like to create a new profile for. \nProfiles allow you to have different configurations for each login.\nWithout profiles you cannot use the History, Alarms or "Remember Password" functions.
@@ -106,8 +106,8 @@ captureproperties Webcam image properties
 casesensitive Use case-sensitive triggers
 cfgalarmall Configure/Add/Remove Global Alarm
 cfgalarm Configure/Add/Remove Alarm
-change Change
 change_account_info Change Account Information
+change Change
 changecustomstate Switch to
 changedisplaypic Change Display picture
 changefont Change font
@@ -153,10 +153,10 @@ clientcaps Send x-clientcaps packet to others clients
 clientname Client name
 closeall Close all tabs in this window?
 closealltabs Close all tabs
-closelabel When you click the close button in a tabbed chat window
-closeonly Close only the current tab
 close Close
 closed Conversation with $1 has been closed due to inactivity
+closelabel When you click the close button in a tabbed chat window
+closeonly Close only the current tab
 closingdocks Close button minimizes
 color Color
 command Command
@@ -206,15 +206,15 @@ custom_new Add new custom smiley
 customnick Custom Nick
 customstyle Customized style
 cut Cut
-cutimagebox Select the part of the image you want to use, resizing and moving the selection-box
 cutimageboxreset Reset the selection box\nsize to:
+cutimagebox Select the part of the image you want to use, resizing and moving the selection-box
 date Date
 dateformat Change date format 
 day Day
 days Days
 dcprofile Don't Create Profile
-default Default Config
 default2 Default
+default Default Config
 defaultloginradio Login with default configuration
 defchatwinsize Default size for chat windows (XSIZExYSIZE)
 deleteall Delete all
@@ -253,18 +253,18 @@ dontdownload Don't download TLS, I'll install it myself
 dontshow Don't show
 download Download
 downloadingtls Downloading TLS module from:\n $1
+editcontent Edit the content of the subject field and the note field
 editcustomstate Edit custom state
 edit Edit
-editcontent Edit the content of the subject field and the note field
+editmyprofile Edit my MSN Profile
 editnewstate New Personal Automessage State
 editprofile Edit Profile
-editmyprofile Edit my MSN Profile
 editstate Edit Existing Automessage State
 editvalue Edit value
 email Email
 emailsinlist Show emails instead of nicknames in the contact list
-emotisounds Play sounds for certain emoticons
 emoticon_steal Add to emoticons
+emotisounds Play sounds for certain emoticons
 emptygroup Empty group
 enabled Enabled
 enableproxy Enable proxy
@@ -272,11 +272,11 @@ enableremote Enable remote controlling
 enablesound Play sound
 encoding2 Change the way your characters are encoded
 encoding Choose encoding
+enterbugdesc Enter a description of what you were doing to help us reproduce the bug:
 entercontactemail Enter contact e-mail
 enterfilename Please enter a filename
 enternick Enter your nick
 enterpsm Personal Message
-enterbugdesc Enter a description of what you were doing to help us reproduce the bug:
 errortls Error installing TLS module:
 eventhistory View events history
 examples Examples
@@ -315,15 +315,15 @@ ftrejected File transfer rejected
 ftsendinvitation File transfer invitation for file '$2' ($3 bytes) has been sent to $1.
 fullcontactlist Sorry, your contact list is full. You'll need to remove some contacts in order to add new ones.
 getdisppic Enable receiving Display Pictures from other users
-getmoreskins Get more skins!
 getmoreplugins Get more Plugins!
-gotink $1 sent you an ink.
-goto Go to $1
+getmoreskins Get more skins!
 globalcontainer Global container
 globalnick Insert a pattern to form all your contacts' nicknames. You can use these variables: \$user_login for you contacts' address, \$nick for your contacts' nickname and \$customnick for your contacts' custom nickname. For example: '\$user_login is \$nick' will be 'contact@msn.com is Contact'
 globalnicktitle Global Nickname
 globaloverride Global nickname pattern should override custom nicknames
 gonelunch Gone to lunch
+gotink $1 sent you an ink.
+goto Go to $1
 groupadd Add a group
 groupdelete Delete a group
 groupexists Group already exists
@@ -349,8 +349,8 @@ huge Huge
 hybrid Hybrid mode
 ident Identifying
 identity Identity
-ignore Ignore
 ignoreerrors Silently ignore other AMSN errors until the end of session
+ignore Ignore
 imagefiles Image Files
 inbox Inbox
 insertsmiley Insert emoticon
@@ -506,8 +506,8 @@ nudge $1 requests your attention
 offline Offline
 ok Ok
 onenewmail 1 new message in Inbox
-online Online
 onlinehelp Online help
+online Online
 onphone On phone
 opendir Open directory
 openfilecommand Open file command
@@ -530,8 +530,8 @@ phones Phone numbers
 picbrowser Display Pictures browser
 picfile Picture File (GIF < 500 x 500)
 picstatus Picture Alarm
-play Play
 playing Playing: $1
+play Play
 pluginselector Select Plugins
 port Port
 portswellconfigured Your ports are well configured
@@ -597,8 +597,8 @@ remembersetting Remember this setting
 removeempty Remove empty groups from the contact list
 removefromlist Remove from this list
 rename Rename
-report Report
 reporting Reporting
+report Report
 required_version Unable to load this plugin. It requires, at least, aMSN version $1
 restartforskin Note: You may need to restart aMSN to view the skin properly!
 reversed Reversed
@@ -631,6 +631,7 @@ shareswebcam Shares webcam
 showbanner Show aMSN's banner
 showblockedlist Show list of people who blocked you
 showcachedpics Show cached display pictures
+show_contactdps_in_cl Show thumbnails of contacts Display Pictures in Contact List
 showdisplaypic2 Show Display Picture by default when a chat window is opened
 showdisplaypic Show Display Picture
 showmailicon Show mail icon on traydock when new emails arrive
@@ -676,8 +677,8 @@ statenewtext Please fill the required information to create \n your new Personal
 statenick Custom nick (leave blank for no change)
 stats Statistics
 status Status
-stop Stop
 stopalarm Stop Alarm
+stop Stop
 stopwebcamreceive Stop receiving Webcam
 stopwebcamsend Stop sending Webcam
 storenickname Return to original nickname after a custom state with custom nickname
@@ -698,11 +699,11 @@ textsize Text size
 thismonth This month
 throughserver Through server
 timeremaining Time remaining
-timestamp Timestamp
 timestamps Enable timestamps on chat windows
+timestamp Timestamp
 title aMSN
-tkerror TK has brought an error, there is a bug in amsn, please report it. Send the file $1 to amsn-bugs@lists.sf.net
 tkerror1 TK has brought an error, there is a bug in amsn, please report it clicking the Report button. You can click on Details to see more informations about the bug or click on Ok to continue chatting with AMsn
+tkerror TK has brought an error, there is a bug in amsn, please report it. Send the file $1 to amsn-bugs@lists.sf.net
 tlsdowncompleted File $1 was downloaded to directory $2. You must extract it, build it (if you downloaded source code) and install it inside $3.
 tlsexplain Folder where the tcl TLS module is located. If AMSN can't locate it, please specify.\n(Required for SSL authentication).
 tlsinstallexp aMSN now uses MSNP9, which requires the use of a secure\nconnection using SSL. In order to use SSL, aMSN needs to install a module called TLS,\nwhich is missing from your system. This wizard will help you to download and\ninstall TLS. Please choose your system type so we can automatically download\nthe required TLS files.
@@ -725,15 +726,15 @@ type Type
 unblock Unblock
 unknown Unknown
 unload Unload
+unselectall Unselect all
 uoffline Offline
 uonline Online
-update Update
 updateonlycurrentlanguage Update only the current language
+update Update
 updating Updating
-unselectall Unselect all
-useother Use a different program
 useasdp Use as Display Picture
 usemsnp11 Enable support for Personal Messages (EXPERIMENTAL feature) -- needs profile + restart
+useother Use a different program
 useralreadyonlist User is already on contact list
 userblocked The user is online but blocked you
 userdata User Data
@@ -748,9 +749,8 @@ videoconversationrequest You just received a video conversation (bidirectional a
 viewcontactsby View contacts by
 viewprofile View Profile
 view View
-webcam Webcam
-webcamclosebefcancel You have to cancel all webcam sessions before closing the window
 webcamcanceled The webcam session with $1 has been canceled
+webcamclosebefcancel You have to cancel all webcam sessions before closing the window
 webcamconfigure Configure Webcam
 webcamextloaded Webcamsn extension is loaded
 webcamextnotloaded Webcamsn extension is not loaded. You have to compile it.
@@ -759,9 +759,10 @@ webcamhistory View Webcam sessions
 webcaminvite $1 invited you to start an webcam session, but aMSN does not support this feature.
 webcaminvitereceived $1 invited you to start a webcam session. Do you want to accept this session?
 webcamrejected $1 rejected invitation for webcam session
-webcamrequestsend Sent request to send webcam
 webcamrequestreceive Sent request to receive webcam
+webcamrequestsend Sent request to send webcam
 webcamsending List of people you are currently sending webcam\nClick to cancel
+webcam Webcam
 whatisamsn aMSN is a platform-independent MSN Messenger clone
 whatsize The image you have requested is not the normal display picture\nsize (96x96) What size would you like the image to be displayed as?
 willjoin Waiting for $1 to join conversation

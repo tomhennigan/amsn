@@ -5587,11 +5587,13 @@ proc ShowUser {user_name user_login state_code colour section grId} {
 	#set imgname "img[expr {$::groups::uMemberCnt(online)+$::groups::uMemberCnt(offline)}]"
 	set imgname "img[getUniqueValue]"
 	if {[::config::getKey show_contactdps_in_cl] == "1"} {
-        	image create photo dp_in_cl_$user_login -format cximage
-		dp_in_cl_$user_login copy [::skin::getDisplayPicture $user_login]
-		::picture::ResizeWithRatio dp_in_cl_$user_login 15 15
-		label $pgBuddy.text.$imgname -image dp_in_cl_$user_login -bg [::skin::getKey contactlistbg]
-		destroy dp_in_cl_$user_login
+		if {![info exists small_dp_$user_login]} {
+			set buddyheight [image height [::skin::loadPixmap $image_type]]
+       		 	image create photo small_dp_$user_login -format cximage
+			small_dp_$user_login copy [::skin::getDisplayPicture $user_login]
+			::picture::ResizeWithRatio small_dp_$user_login $buddyheight $buddyheight
+		}
+		label $pgBuddy.text.$imgname -image small_dp_$user_login -bg [::skin::getKey contactlistbg]
 	} else {
 		label $pgBuddy.text.$imgname -image [::skin::loadPixmap $image_type] -bg [::skin::getKey contactlistbg]
 	}
