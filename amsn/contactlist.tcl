@@ -129,6 +129,7 @@ snit::widget contactlist {
 	variable psm
 	variable music
 	variable state
+	variable tags
 
 	# Array to store name of group backgrounds
 	variable groupbg
@@ -208,6 +209,7 @@ snit::widget contactlist {
 		array set psm {{} {}}
 		array set music {{} {}}
 		array set state {{} {}}
+		array set tags {{} {}}
 
 		# Arrays to store initial drag positions for contacts
 		array set dragX {{} {}}
@@ -229,6 +231,11 @@ snit::widget contactlist {
 		set cl $self.cl
 		contentmanager add group $me -orient horizontal
 		contentmanager add group $cl -orient vertical -ipadx $options(-ipadx) -ipady $options(-ipady)
+
+		$self AddGroup search "Search results"
+		$self HideGroup search
+		pack [label $self.searchlabel -anchor w -text "Search:"] [entry $self.search -bg white] -after $top -anchor w -expand false -fill x -side top
+		bind $self.search <Return> "$self SubmitSearch"
 
 		$self AddGroup nogroup nogroup
 
@@ -421,7 +428,11 @@ snit::widget contactlist {
 			}
 			groups {
 				foreach groupid $groups {
-					if { ![string equal $groupid online] && ![string equal $groupid offline] } {
+					if {
+						![string equal $groupid online] && \
+						![string equal $groupid offline] && \
+						![string equal $groupid search]
+					} {
 						$self ShowGroup $groupid
 					}
 				}
@@ -430,8 +441,11 @@ snit::widget contactlist {
 			}
 			hybrid {
 				foreach groupid $groups {
-					if { ![string equal $groupid online] } {
-						$self HideGroup $groupid
+					if { 
+						![string equal $groupid online] && \
+						![string equal $groupid search]
+					} {
+						$self ShowGroup $groupid
 					}
 				}
 				$self HideGroup online
@@ -491,12 +505,52 @@ snit::widget contactlist {
 	}
 
 	method HideGroup { groupid } {
-		contentmanager hide $cl $groupid
-		contentmanager hide $cl $groupid head
+		contentmanager hide $cl $groupid -force 1
+		contentmanager hide $cl $groupid head -force 1
+		$list itemconfigure $groupbgid($groupid) -state hidden
+		contentmanager sort $cl $groupid -level r
+		$self sort list 0
 	}
 
 	method ShowGroup { groupid } {
 		contentmanager show $cl $groupid
+		contentmanager show $cl $groupid head
+		$list itemconfigure $groupbgid($groupid) -state normal
+		contentmanager sort $cl $groupid -level r
+		$self sort list 0
+	}
+
+	method SubmitSearch { } {
+		$self FilterContacts [$self.search get]
+	}
+
+	method FilterContacts { pattern } {
+		# Empty search pattern
+		if { [string equal $pattern {}] } {
+			$self HideGroup search
+			foreach groupid $groups {
+				if { ![string equal $groupid search] } {
+					$self ShowGroup $groupid
+				}
+			}
+		# Non-empty
+		} else {
+			foreach groupid $groups {
+				if { ![string equal $groupid search] } {
+					$self HideGroup $groupid
+				}
+			}
+			$self ShowGroup search
+			foreach id [contentmanager children $cl search] {
+				if { [string equal $id head] } {
+					continue
+				}
+				$self DeleteContact search $id
+			}
+			foreach { groupid id } [$self SearchContacts $pattern] {
+				$self CopyContact $groupid $id search
+			}
+		}
 	}
 
 	method SearchContacts { pattern } {
@@ -506,8 +560,12 @@ snit::widget contactlist {
 				if { [string equal $id head] } {
 					continue
 				}
-				if { [string first $pattern $nick($groupid.$id)] != -1 || [string first $pattern $psm($groupid.$id)] != -1 } {
-					lappend matches $id
+				if {
+					[string first $pattern $nick($groupid.$id)] != -1 || \
+					[string first $pattern $psm($groupid.$id)] != -1 || \
+					[lsearch $tags($groupid.$id) $pattern] != -1
+				} {
+					lappend matches $groupid $id
 				}
 			}
 		}
@@ -515,6 +573,9 @@ snit::widget contactlist {
 	}
 
 	method AddContact { groupid id {nicktext {}} {psmtext {}} {musictext {}} {statetext {}} } {
+		if { [$self ContactInGroup $id $groupid] } {
+			return {}
+		}
 		# Create canvas items (pic, nick, psm, music, state)
 		set buddyid($groupid.$id) [$list create image 0 0 -anchor nw -image [::skin::loadPixmap buddyimg] -tags buddy]
 		set nickid($groupid.$id) [$list create text 0 0 -anchor nw -text $nicktext -font $nickfont -fill $nickcol -tags nick]
@@ -526,6 +587,7 @@ snit::widget contactlist {
 		set psm($groupid.$id) $psmtext
 		set music($groupid.$id) $musictext
 		set state($groupid.$id) $statetext
+		set tags($groupid.$id) $id
 
 		# Create contentmanager objects
 		# Main contact group
@@ -611,6 +673,10 @@ snit::widget contactlist {
 	}
 
 	method CopyContact { groupid id groupid2 } {
+		if { ![$self ContactInGroup $id $groupid] } {
+			return {}
+		}
+		status_log "CopyContact $nick($groupid.$id)"
 		$self AddContact $groupid2 $id $nick($groupid.$id) $psm($groupid.$id) $music($groupid.$id) $state($groupid.$id)
 	}
 
