@@ -4045,7 +4045,11 @@ proc cmsn_change_state {recv} {
 
 		set nick_changed 1
 
-		::MSN::WriteSB ns "SBP" "[::abook::getContactData $user contactguid] MFN [urlencode $user_name]"
+		if {[::config::getKey protocol] == 11} {
+			if {$::msnp13 != 1} {
+				::MSN::WriteSB ns "SBP" "[::abook::getContactData $user contactguid] MFN [urlencode $user_name]"
+			}
+		}
 	} else {
 		set nick_changed 0
 	}
