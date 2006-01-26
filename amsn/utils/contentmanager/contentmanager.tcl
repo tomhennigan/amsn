@@ -65,6 +65,10 @@ snit::type contentmanager {
 		set opts [eval $type getopts $args]
 		set tree [eval $type gettree $args]
 
+		# Check item type
+		if { ![string equal $_type group] && ![string equal $_type element] } {
+			error "unknown object type $_type"
+		}
 		# Check item doesn't already exist
 		if { [info command $path] != {} } {
 			error "$_type '$path' already exists"
@@ -197,12 +201,14 @@ snit::type contentmanager {
 
 	typemethod show { args } {
 		set path [eval $type getpath $args]
-		eval $path show
+		set opts [eval $type getopts $args]
+		eval $path show $opts
 	}
 
 	typemethod hide { args } {
 		set path [eval $type getpath $args]
-		eval $path hide
+		set opts [eval $type getopts $args]
+		eval $path hide $opts
 	}
 
 	typemethod toggle { args } {
@@ -453,21 +459,23 @@ snit::type group {
 		}
 	}
 
-	method hide { } {
+	method hide { args } {
+		if { [string equal $args {}] } {
+			set force 0
+		} else {
+			set force [lindex $args 1]
+		}
 		set omnipresent 0
 		foreach item $items {
 			set tree $options(-tree)
 			lappend tree $item
-			if { [string equal [eval contentmanager cget $tree -state] hidden] } {
-				lappend hiddenitems $item
-			}
-			if { [eval contentmanager cget $tree -omnipresent] } {
+			if { [eval contentmanager cget $tree -omnipresent] && !$force } {
 				set omnipresent 1
 				continue
 			}
 			eval contentmanager hide $tree
 		}
-		if { $omnipresent } {
+		if { $omnipresent && !$force } {
 			set options(-state) "partlyhidden"
 		} else {
 			set options(-state) "hidden"
