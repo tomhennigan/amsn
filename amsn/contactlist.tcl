@@ -203,7 +203,7 @@ snit::widget contactlist {
 		array set musicid {{} {}}
 		array set stateid {{} {}}
 
-		# Arrays to store nicknames, psms, music and states in (for the truncation procs to refer to)
+		# Arrays to store nicknames, psms, music and states in (for the truncation and other methods to refer to)
 		array set nick {{} {}}
 		array set psm {{} {}}
 		array set music {{} {}}
@@ -497,6 +497,21 @@ snit::widget contactlist {
 
 	method ShowGroup { groupid } {
 		contentmanager show $cl $groupid
+	}
+
+	method SearchContacts { pattern } {
+		set matches {}
+		foreach groupid $groups {
+			foreach id [contentmanager children $cl $groupid] {
+				if { [string equal $id head] } {
+					continue
+				}
+				if { [string first $pattern $nick($groupid.$id)] != -1 || [string first $pattern $psm($groupid.$id)] != -1 } {
+					lappend matches $id
+				}
+			}
+		}
+		return $matches
 	}
 
 	method AddContact { groupid id {nicktext {}} {psmtext {}} {musictext {}} {statetext {}} } {
