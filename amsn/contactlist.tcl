@@ -100,13 +100,12 @@ snit::widget contactlist {
 	option -expandpadx -default 2
 	option -expandpady -default 2
 
-	option -groupmode -default status -configuremethod SetGroupMode
+	option -groupmode -default groups -configuremethod SetGroupMode
 
 	variable groups {}
 
+	# Variables ending in 'id' denote canvas item ids
 	variable topbgid
-	variable listbgid
-	variable selectbgid
 	variable mypicid
 	variable mypicbgid
 	variable mypicoverlayid
@@ -114,10 +113,8 @@ snit::widget contactlist {
 	variable mypsmid
 	variable mymusicid
 	variable mystateid
-
-	variable nick
-
-	variable groupbg
+	variable listbgid
+	variable selectbgid
 	variable groupbgid
 	variable toggleid
 	variable headid
@@ -127,8 +124,16 @@ snit::widget contactlist {
 	variable musicid
 	variable stateid
 
-	variable selectid
+	# Arrays to store contacts' info
+	variable nick
+	variable psm
+	variable music
+	variable state
 
+	# Array to store name of group backgrounds
+	variable groupbg
+
+	# Variable to store selected contact
 	variable selected
 
 	variable dragX
@@ -136,8 +141,10 @@ snit::widget contactlist {
 	variable dragXOffset
 	variable dragYOffset
 
+	# Array used for speeding up batch processing (using after and after cancel, see sort methid)
 	variable afterid
 
+	# Names for top-level contentmanager groups on top canvas and list canvas
 	variable me
 	variable cl
 
@@ -281,12 +288,11 @@ snit::widget contactlist {
 		
 	}
 
-	method contactAdded { groupid id {name {}} {psm {}} {music {}} {state {}} } {
+	method contactAdded { groupid id {_nick {}} {_psm {}} {_music {}} {_state {}} } {
 		if { [string equal $groupid {}] } {
 			set groupid "nogroup"
 		}
-		puts "contactAdded $groupid $id"
-		$self AddContact $groupid $id $name $psm $music $state
+		$self AddContact $groupid $id $_nick $_psm $_music $_state
 		#tk_messageBox -message "Successfully added contact '$id'" -type ok
 	}
 
@@ -318,8 +324,8 @@ snit::widget contactlist {
 		
 	}
 
-	method contactCopiedTo { } {
-		
+	method contactCopiedTo { groupid id groupid2 } {
+		$self CopyContact $groupid $id $groupid2
 	}
 
 	method contactCopyFailed { } {
@@ -405,7 +411,6 @@ snit::widget contactlist {
 		}
 		switch $value {
 			status {
-				puts status
 				foreach groupid $groups {
 					if { ![string equal $groupid online] && ![string equal $groupid offline] } {
 						$self HideGroup $groupid
@@ -415,7 +420,6 @@ snit::widget contactlist {
 				$self ShowGroup offline
 			}
 			groups {
-				puts groups
 				foreach groupid $groups {
 					if { ![string equal $groupid online] && ![string equal $groupid offline] } {
 						$self ShowGroup $groupid
@@ -425,7 +429,6 @@ snit::widget contactlist {
 				$self HideGroup offline
 			}
 			hybrid {
-				puts hybrid
 				foreach groupid $groups {
 					if { ![string equal $groupid online] } {
 						$self HideGroup $groupid
@@ -496,15 +499,18 @@ snit::widget contactlist {
 		contentmanager show $cl $groupid
 	}
 
-	method AddContact { groupid id {name {}} {psm {}} {music {}} {state {}} } {
+	method AddContact { groupid id {nicktext {}} {psmtext {}} {musictext {}} {statetext {}} } {
 		# Create canvas items (pic, nick, psm, music, state)
 		set buddyid($groupid.$id) [$list create image 0 0 -anchor nw -image [::skin::loadPixmap buddyimg] -tags buddy]
-		set nickid($groupid.$id) [$list create text 0 0 -anchor nw -text $name -font $nickfont -fill $nickcol -tags nick]
-		set psmid($groupid.$id) [$list create text 0 0 -anchor nw -text $psm -font $psmfont -fill $psmcol -tags psm]
-		set stateid($groupid.$id) [$list create text 0 0 -anchor nw -text $state -font $statefont -fill $statecol -tags state]
+		set nickid($groupid.$id) [$list create text 0 0 -anchor nw -text $nicktext -font $nickfont -fill $nickcol -tags nick]
+		set psmid($groupid.$id) [$list create text 0 0 -anchor nw -text $psmtext -font $psmfont -fill $psmcol -tags psm]
+		set stateid($groupid.$id) [$list create text 0 0 -anchor nw -text $statetext -font $statefont -fill $statecol -tags state]
 
 		# Store the nick in array
-		set nick($groupid.$id) $name
+		set nick($groupid.$id) $nicktext
+		set psm($groupid.$id) $psmtext
+		set music($groupid.$id) $musictext
+		set state($groupid.$id) $statetext
 
 		# Create contentmanager objects
 		# Main contact group
@@ -554,7 +560,6 @@ snit::widget contactlist {
 
 	method ChangeContactState { groupid id newstate } {
 		if { [$self ContactInGroup $id $groupid] } {
-			puts "ChangeContactState $groupid $id $newstate"
 			# Change the text of the canvas item
 			$list itemconfigure $stateid($groupid.$id) -text $newstate
 			# Store the new state in array
@@ -591,7 +596,7 @@ snit::widget contactlist {
 	}
 
 	method CopyContact { groupid id groupid2 } {
-		
+		$self AddContact $groupid2 $id $nick($groupid.$id) $psm($groupid.$id) $music($groupid.$id) $state($groupid.$id)
 	}
 
 	method toggle { groupid } {
