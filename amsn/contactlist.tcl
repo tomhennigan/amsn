@@ -100,6 +100,8 @@ snit::widget contactlist {
 	option -expandpadx -default 2
 	option -expandpady -default 2
 
+	option -groupmode -default status -configuremethod SetGroupMode
+
 	variable groups {}
 
 	variable topbgid
@@ -138,8 +140,6 @@ snit::widget contactlist {
 
 	variable me
 	variable cl
-
-	option -grouporder
 
 	constructor { args } {
 		# Create canvases
@@ -220,14 +220,19 @@ snit::widget contactlist {
 		# Create container groups for top and list (these will sort/arrange the stuff inside them)
 		set me $self.me
 		set cl $self.cl
-		contentmanager add container $me -orient horizontal
-		contentmanager add container $cl -orient vertical -ipadx $options(-ipadx) -ipady $options(-ipady)
-		#contentmanager add group $cl nogroup
+		contentmanager add group $me -orient horizontal
+		contentmanager add group $cl -orient vertical -ipadx $options(-ipadx) -ipady $options(-ipady)
+
 		$self AddGroup nogroup nogroup
+
+		$self AddGroup online Online
+		$self AddGroup offline Offline
 
 		# Draw the top stuff (My pic, nick, psm, music, state etc)
 		$self DrawMe
 		$self registerForEvents
+
+		$self configurelist $args
 	}
 
 	method registerForEvents { } {
@@ -280,6 +285,7 @@ snit::widget contactlist {
 		if { [string equal $groupid {}] } {
 			set groupid "nogroup"
 		}
+		puts "contactAdded $groupid $id"
 		$self AddContact $groupid $id $name $psm $music $state
 		#tk_messageBox -message "Successfully added contact '$id'" -type ok
 	}
@@ -392,6 +398,44 @@ snit::widget contactlist {
 		$self sort top
 	}
 
+	method SetGroupMode { option value } {
+		set options(-groupmode) $value
+		if { ![info exists cl] } {
+			return $value
+		}
+		switch $value {
+			status {
+				puts status
+				foreach groupid $groups {
+					if { ![string equal $groupid online] && ![string equal $groupid offline] } {
+						$self HideGroup $groupid
+					}
+				}
+				$self ShowGroup online
+				$self ShowGroup offline
+			}
+			groups {
+				puts groups
+				foreach groupid $groups {
+					if { ![string equal $groupid online] && ![string equal $groupid offline] } {
+						$self ShowGroup $groupid
+					}
+				}
+				$self HideGroup online
+				$self HideGroup offline
+			}
+			hybrid {
+				puts hybrid
+				foreach groupid $groups {
+					if { ![string equal $groupid online] } {
+						$self HideGroup $groupid
+					}
+				}
+				$self HideGroup online
+			}
+		}
+	}
+
 	method AddGroup { groupid name } {
 		# Background image
 		set groupbg($groupid) [scalable-bg $groupid.bg -source [::skin::loadPixmap groupbgimg] -n [lindex $options(-groupbgborder) 0] -e [lindex $options(-groupbgborder) 1] -s [lindex $options(-groupbgborder) 2] -w [lindex $options(-groupbgborder) 3] -resizemethod scale]
@@ -443,6 +487,15 @@ snit::widget contactlist {
 		$self sort list
 	}
 
+	method HideGroup { groupid } {
+		contentmanager hide $cl $groupid
+		contentmanager hide $cl $groupid head
+	}
+
+	method ShowGroup { groupid } {
+		contentmanager show $cl $groupid
+	}
+
 	method AddContact { groupid id {name {}} {psm {}} {music {}} {state {}} } {
 		# Create canvas items (pic, nick, psm, music, state)
 		set buddyid($groupid.$id) [$list create image 0 0 -anchor nw -image [::skin::loadPixmap buddyimg] -tags buddy]
@@ -451,7 +504,7 @@ snit::widget contactlist {
 		set stateid($groupid.$id) [$list create text 0 0 -anchor nw -text $state -font $statefont -fill $statecol -tags state]
 
 		# Store the nick in array
-		set nick($nickid($groupid.$id)) $name
+		set nick($groupid.$id) $name
 
 		# Create contentmanager objects
 		# Main contact group
@@ -477,7 +530,7 @@ snit::widget contactlist {
 			# Change the text of the canvas item
 			$list itemconfigure $nickid($groupid.$id) -text $newnick
 			# Store the new nick in array
-			set nick($nickid($groupid.$id)) $newnick
+			set nick($groupid.$id) $newnick
 		}
 	}
 
@@ -486,7 +539,7 @@ snit::widget contactlist {
 			# Change the text of the canvas item
 			$list itemconfigure $psmid($groupid.$id) -text $newpsm
 			# Store the new psm in array
-			set psm($psmid($groupid.$id)) $newpsm
+			set psm($groupid.$id) $newpsm
 		}
 	}
 
@@ -495,16 +548,17 @@ snit::widget contactlist {
 			# Change the text of the canvas item
 			$list itemconfigure $musicid($groupid.$id) -text $newmusic
 			# Store the new music in array
-			set music($musicid($groupid.$id)) $newmusic
+			set music($groupid.$id) $newmusic
 		}
 	}
 
 	method ChangeContactState { groupid id newstate } {
 		if { [$self ContactInGroup $id $groupid] } {
+			puts "ChangeContactState $groupid $id $newstate"
 			# Change the text of the canvas item
 			$list itemconfigure $stateid($groupid.$id) -text $newstate
 			# Store the new state in array
-			set state($stateid($groupid.$id)) $newstate
+			set state($groupid.$id) $newstate
 		}
 	}
 
@@ -563,7 +617,7 @@ snit::widget contactlist {
 		}
 		# Sort the group recursively then sort the contactlist at level 0.
 		# (It's faster to recursively sort the group then sort the cl at level 0 than just recursively sort cl)
-		contentmanager sort $cl $groupid r
+		contentmanager sort $cl $groupid -level r
 		$self sort list 0
 	}
 
@@ -611,7 +665,7 @@ snit::widget contactlist {
 	method Sort { component {level r} } {
 		switch $component {
 			top {
-				contentmanager sort $me $level
+				contentmanager sort $me -level $level
 				# Position displaypic bg and overlay
 				set xy [$top coords $mypicid]
 				eval $top coords $mypicbgid $xy
@@ -619,7 +673,7 @@ snit::widget contactlist {
 				$top raise $mypicoverlayid
 			}
 			list {
-				contentmanager sort $cl $level
+				contentmanager sort $cl -level $level
 				# Position selectbg
 				if { ![string equal $selected "none"] } {
 					set xy [eval contentmanager getcoords $cl $selected]
@@ -701,8 +755,14 @@ snit::widget contactlist {
 
 	method TruncateContactsNicks { width } {
 		set width [expr {$width - (2 * $options(-ipadx)) - (2 * $options(-grouppadx)) - (2 * $options(-groupipadx)) - (2 * $options(-buddypadx)) - (2 * $options(-buddyipadx))}]
-		foreach tag [$list find withtag nick] {
-			$list itemconfigure $tag -text [$self CalcTruncatedString $list $nickfont $nick($tag) [expr {$width - [lindex [$list coords $tag] 0]}]]
+		foreach groupid $groups {
+			foreach id [contentmanager children $cl $groupid] {
+				if { [string equal $id head] } {
+					continue
+				}
+				set tag $nickid($groupid.$id)
+				$list itemconfigure $tag -text [$self CalcTruncatedString $list $nickfont $nick($groupid.$id) [expr {$width - [lindex [$list coords $tag] 0]}]]
+			}
 		}
 	}
 
