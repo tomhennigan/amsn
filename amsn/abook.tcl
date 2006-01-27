@@ -74,6 +74,29 @@ namespace eval ::abook {
 		set data(available) "Y"
 	}
 
+	# Get PSM and currentMedia
+	proc getpsmmedia { { user_login "" } } {
+		if { [::config::getKey protocol] != 11 } { return }
+		set psmmedia ""
+		if { $user_login == "" } {
+	                set psm [::abook::getPersonal PSM]
+        	        set currentmedia [parseCurrentMedia [::abook::getPersonal currentmedia]]
+		} else {
+                	set psm [::abook::getVolatileData $user_login PSM]
+                	set currentmedia [parseCurrentMedia [::abook::getVolatileData $user_login currentmedia]]
+		}
+                if {$psm != ""} {
+                        append psmmedia "$psm"
+                }
+                if {$currentmedia != ""} {
+                        if { $psm != ""} {
+                                append psmmedia " "
+                        }
+                        append psmmedia "$currentmedia"
+                }
+		return $psmmedia
+	}
+
       
 	# Sends a message to the notification server with the
 	# new set of phone numbers. Notice this can only be done
@@ -559,13 +582,19 @@ namespace eval ::abook {
 
 
 	#Parser to replace special characters and variables in the right way
-	proc parseCustomNick { input nick user_login customnick } {
+	proc parseCustomNick { input nick user_login customnick {psm ""} } {
 		#If there's no customnick set, default to user_login
-		if { $customnick == "" } { set customnick $user_login }
+		if { $customnick == "" } {
+			if { [::config::getKey protocol] == 11 && $psm != "" } {
+				set customnick $user_login\n$psm
+			} else {
+				set customnick $user_login
+			}
+		}
 		#By default, quote backslashes, angle brackets and variables
 		set input [string map {"\\" "\\\\" "\$" "\\\$" "\(" "\\\("} $input]
 		#Now, let's unquote the variables we want to replace
-		set input [string map {"\\\$nick" "\${nick}" "\\\$user_login" "\${user_login}" "\\\$customnick" "\${customnick}"} $input]
+		set input [string map {"\\\$nick" "\${nick}" "\\\$user_login" "\${user_login}" "\\\$customnick" "\${customnick}" "\\\$psm" "\${psm}"} $input]
 		#Return the custom nick, replacing backslashses and variables
 		return [subst -nocommands $input]
 	}
@@ -579,20 +608,21 @@ namespace eval ::abook {
 			set nick [::abook::getNick $user_login]
 			set customnick [::abook::getContactData $user_login customnick]
 			set globalnick [::config::getKey globalnick]
+			set psm [::abook::getpsmmedia $user_login]
 			
 			if { [::config::getKey globaloverride] == 0 } {
 				if { $customnick != "" } {
-					return [parseCustomNick $customnick $nick $user_login $customnick]
+					return [parseCustomNick $customnick $nick $user_login $customnick $psm]
 				} elseif { $globalnick != "" && $customnick == "" } {
-					return [parseCustomNick $globalnick $nick $user_login $customnick]
+					return [parseCustomNick $globalnick $nick $user_login $customnick $psm]
 				} else {
 					return $nick
 				}
 			} elseif { [::config::getKey globaloverride] == 1 } {
 				if { $customnick != "" && $globalnick == "" } {
-					return [parseCustomNick $customnick $nick $user_login $customnick]
+					return [parseCustomNick $customnick $nick $user_login $customnick $psm]
 				} elseif { $globalnick != "" } {
-					return [parseCustomNick $globalnick $nick $user_login $customnick]
+					return [parseCustomNick $globalnick $nick $user_login $customnick $psm]
 				} else {
 					return $nick
 				}
@@ -973,6 +1003,9 @@ namespace eval ::abookGui {
 		menu $nbIdent.customnick.help.menu -tearoff 0
 		$nbIdent.customnick.help.menu add command -label [trans nick] -command "$nbIdent.customnick.ent insert insert \\\$nick"
 		$nbIdent.customnick.help.menu add command -label [trans email] -command "$nbIdent.customnick.ent insert insert \\\$user_login"
+		if { [::config::getKey protocol] == 11 } {
+			$nbIdent.customnick.help.menu add command -label [trans psm] -command "$nbIdent.customnick.ent insert insert \\\$psm"
+		}
 		$nbIdent.customnick.help.menu add separator
 		$nbIdent.customnick.help.menu add command -label [trans delete] -command "$nbIdent.customnick.ent delete 0 end"
 		$nbIdent.customnick.ent insert end [::abook::getContactData $email customnick]
@@ -985,6 +1018,9 @@ namespace eval ::abookGui {
 		menu $nbIdent.customfnick.help.menu -tearoff 0
 		$nbIdent.customfnick.help.menu add command -label [trans nick] -command "$nbIdent.customfnick.ent insert insert \\\$nick"
 		$nbIdent.customfnick.help.menu add command -label [trans email] -command "$nbIdent.customfnick.ent insert insert \\\$user_login"
+                if { [::config::getKey protocol] == 11 } {
+                        $nbIdent.customfnick.help.menu add command -label [trans psm] -command "$nbIdent.customfnick.ent insert insert \\\$psm"
+                }
 		$nbIdent.customfnick.help.menu add separator
 		$nbIdent.customfnick.help.menu add command -label [trans delete] -command "$nbIdent.customfnick.ent delete 0 end"
 		$nbIdent.customfnick.ent insert end [::abook::getContactData $email customfnick]
@@ -998,6 +1034,9 @@ namespace eval ::abookGui {
 		menu $nbIdent.ycustomfnick.help.menu -tearoff 0
 		$nbIdent.ycustomfnick.help.menu add command -label [trans nick] -command "$nbIdent.ycustomfnick.ent insert insert \\\$nick"
 		$nbIdent.ycustomfnick.help.menu add command -label [trans email] -command "$nbIdent.ycustomfnick.ent insert insert \\\$user_login"
+                if { [::config::getKey protocol] == 11 } {
+                        $nbIdent.ycustomfnick.help.menu add command -label [trans psm] -command "$nbIdent.ycustomfnick.ent insert insert \\\$psm"
+                }
 		$nbIdent.ycustomfnick.help.menu add separator
 		$nbIdent.ycustomfnick.help.menu add command -label [trans delete] -command "$nbIdent.ycustomfnick.ent delete 0 end"
 		$nbIdent.ycustomfnick.ent insert end [::abook::getContactData $email cust_p4c_name]

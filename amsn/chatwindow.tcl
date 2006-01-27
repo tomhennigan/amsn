@@ -2227,19 +2227,14 @@ namespace eval ::ChatWindow {
 
 			set shares_cam [::abook::getContactData $user_login webcam_shared]
 			
-			set user_name [string map {"\n" " "} [::abook::getDisplayNick $user_login]]
+			if { [::config::getKey emailsincontactlist] == 1 } {
+				set user_name ""
+			} else {
+				set user_name [string map {"\n" " "} [::abook::getDisplayNick $user_login]]
+			}
 			set state_code [::abook::getVolatileData $user_login state]
 
-			set psmmedia ""
-			set psm [::abook::getVolatileData $user_login PSM]
-			set currentmedia [parseCurrentMedia [::abook::getVolatileData $user_login currentmedia]]
-
-	                if {$psm != ""} {
-	                        append psmmedia "$psm "
-	                }
-	                if {$currentmedia != ""} {
-	                        append psmmedia "$currentmedia "
-	                }
+			set psmmedia [::abook::getpsmmedia $user_login]
 
 			if { $state_code == "" } {
 				set user_state ""

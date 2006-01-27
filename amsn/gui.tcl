@@ -703,7 +703,7 @@ namespace eval ::amsn {
 			set nick $friendlyname
 			set p4c 1
 		} elseif { [::abook::getContactData [::ChatWindow::Name $win_name] cust_p4c_name] != ""} {
-			set friendlyname [::abook::parseCustomNick [::abook::getContactData [::ChatWindow::Name $win_name] cust_p4c_name] [::abook::getPersonal MFN] [::abook::getPersonal login] ""]
+			set friendlyname [::abook::parseCustomNick [::abook::getContactData [::ChatWindow::Name $win_name] cust_p4c_name] [::abook::getPersonal MFN] [::abook::getPersonal login] "" [::abook::getpsmmedia] ]
 			set nick $friendlyname
 			set p4c 1
 		} elseif { [::config::getKey p4c_name] != ""} {
@@ -1459,7 +1459,8 @@ namespace eval ::amsn {
 		if { $customfnick != "" } {
 			set nick [::abook::getNick $user]
 			set customnick [::abook::getContactData $user customnick]
-			set nick [::abook::parseCustomNick $customfnick $nick $user $customnick]
+			set psm [::abook::getpsmmedia $user]
+			set nick [::abook::parseCustomNick $customfnick $nick $user $customnick $psm]
 		}
 		
 		set msg [$message getBody]
@@ -1513,7 +1514,8 @@ namespace eval ::amsn {
 		if { $customfnick != "" } {
 			set nick [::abook::getNick $user]
 			set customnick [::abook::getContactData $user customnick]
-			set nick [::abook::parseCustomNick $customfnick $nick $user $customnick]
+			set psm [::abook::getpsmmedia $user]
+			set nick [::abook::parseCustomNick $customfnick $nick $user $customnick $psm]
 		}
 		
 		set maxw [expr {[::skin::getKey notifwidth]-20}]
@@ -2382,7 +2384,7 @@ namespace eval ::amsn {
 			set nick $friendlyname
 			set p4c 1
 		} elseif { [::abook::getContactData [::ChatWindow::Name $win_name] cust_p4c_name] != ""} {
-			set friendlyname [::abook::parseCustomNick [::abook::getContactData [::ChatWindow::Name $win_name] cust_p4c_name] [::abook::getPersonal MFN] [::abook::getPersonal login] ""]
+			set friendlyname [::abook::parseCustomNick [::abook::getContactData [::ChatWindow::Name $win_name] cust_p4c_name] [::abook::getPersonal MFN] [::abook::getPersonal login] "" [::abook::getpsmmedia]]
 			set nick $friendlyname
 			set p4c 1
 		} elseif { [::config::getKey p4c_name] != ""} {
@@ -5000,18 +5002,7 @@ proc cmsn_draw_online_wrapped {} {
 	$pgBuddyTop.mystatus insert end "($my_state_desc)" mystatus
 	set psmmedia ""
 	if {[::config::getKey protocol] == 11} {
-		set nick ""
-		set psm [::abook::getPersonal PSM]
-		set currentmedia [parseCurrentMedia [::abook::getPersonal currentmedia]]
-		if {$psm != ""} {
-			append psmmedia "$psm"
-		}
-		if {$currentmedia != ""} {
-			if { $psm != ""} {
-				append psmmedia " "
-			}
-			append psmmedia "$currentmedia"
-		}
+		set psmmedia [::abook::getpsmmedia]
 		append nick "$psmmedia"
 		$pgBuddyTop.mystatus insert end "\n$nick" mystatus
 	}
@@ -5193,36 +5184,19 @@ proc cmsn_draw_online_wrapped {} {
 		set user_login [lindex $list_users $i]
 		set globalnick [::config::getKey globalnick]
 
-		set psm [::abook::getVolatileData $user_login PSM]
-		set currentmedia [parseCurrentMedia [::abook::getVolatileData $user_login currentmedia]]
+		set psm [::abook::getpsmmedia $user_login]
 
 		if { $globalnick != "" } {
 			set nick [::abook::getNick $user_login]
-			if {$psm != ""} {
+			if {$psm != "" && [::config::getKey emailsincontactlist] == 0 } {
 				append nick "\n$psm"
 			}
-			if {$currentmedia != ""} {
-				if { $psm == ""} {
-					append nick "\n"
-				} else {
-					append nick " "
-				}
-				append nick "$currentmedia"
-			}
 			set customnick [::abook::getContactData $user_login customnick]
-			set user_name [::abook::parseCustomNick $globalnick $nick $user_login $customnick]
+			set user_name [::abook::parseCustomNick $globalnick $nick $user_login $customnick $psm]
 		} else {
 			set user_name "[::abook::getDisplayNick $user_login]"
-			if {$psm != ""} {
+			if {$psm != "" && [::config::getKey emailsincontactlist] == 0 } {
 				append user_name "\n$psm"
-			}
-			if {$currentmedia != ""} {
-				if { $psm == ""} {
-					append user_name "\n"
-				} else {
-					append user_name " "
-				}
-				append user_name "$currentmedia"
 			}
 		}
 
@@ -5682,18 +5656,7 @@ proc ShowUser {user_name user_login state_code colour section grId} {
 		} else {
 			set balloon_message5 ""
 		}		
-		set psmmedia ""
-		set psm [::abook::getVolatileData $user_login PSM]
-		set currentmedia [parseCurrentMedia [::abook::getVolatileData $user_login currentmedia]]
-                if {$psm != ""} {
-                        append psmmedia "$psm"
-                }
-                if {$currentmedia != ""} {
-                        if { $psm != ""} {
-                                append psmmedia " "
-                        }
-                        append psmmedia "$currentmedia"
-                }
+		set psmmedia [::abook::getpsmmedia $user_login]
 		if { $psmmedia != "" } {
 			append psmmedia "\n"
 		}
