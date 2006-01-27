@@ -221,7 +221,16 @@ snit::widget contactlist {
 		# after cancel $afterid($Action)
 		# set afterid(Action) [after 1 "$doAction"]
 		# So that we only do the last action called.
-		array set afterid {sort.top {} sort.list {} config.top {} config.list {} trunc_me {} trunc_contacts {} groupbg {}}
+		array set afterid {
+			sort.top {}
+			sort.list {}
+			config.top {}
+			config.list {}
+			trunc_me {}
+			trunc_contacts {}
+			groupbg {}
+			filter {}
+		}
 
 		# No contacts selected yet..
 		set selected none
@@ -521,10 +530,12 @@ snit::widget contactlist {
 	}
 
 	method SubmitSearch { } {
-		$self FilterContacts [$self.search get]
+		set pattern [$self.search get]
+		after cancel $afterid(filter)
+		set afterid(filter) [after 100 "$self FilterContacts $pattern"]
 	}
 
-	method FilterContacts { pattern } {
+	method FilterContacts { {pattern {}} } {
 		# Empty search pattern
 		if { [string equal $pattern {}] } {
 			$self HideGroup search
@@ -535,20 +546,31 @@ snit::widget contactlist {
 			}
 		# Non-empty
 		} else {
+			#foreach groupid $groups {
+			#	if { ![string equal $groupid search] } {
+			#		$self HideGroup $groupid
+			#	}
+			#}
+			#$self ShowGroup search
+			#foreach id [contentmanager children $cl search] {
+			#	if { [string equal $id head] } {
+			#		continue
+			#	}
+			#	$self DeleteContact search $id
+			#}
+			set matches [$self SearchContacts $pattern]
 			foreach groupid $groups {
-				if { ![string equal $groupid search] } {
-					$self HideGroup $groupid
+				foreach id [contentmanager children $cl $groupid] {
+					if { [string equal $id head] } {
+						continue
+					}
+					if { [lsearch $matches $id] == -1 } {
+						$self HideContact $groupid $id
+					} else {
+						$self ShowContact $groupid $id
+					}
 				}
-			}
-			$self ShowGroup search
-			foreach id [contentmanager children $cl search] {
-				if { [string equal $id head] } {
-					continue
-				}
-				$self DeleteContact search $id
-			}
-			foreach { groupid id } [$self SearchContacts $pattern] {
-				$self CopyContact $groupid $id search
+				#$self CopyContact $groupid $id search
 			}
 		}
 	}
@@ -565,11 +587,23 @@ snit::widget contactlist {
 					[string first $pattern $psm($groupid.$id)] != -1 || \
 					[lsearch $tags($groupid.$id) $pattern] != -1
 				} {
-					lappend matches $groupid $id
+					lappend matches $id
 				}
 			}
 		}
 		return $matches
+	}
+
+	method ShowContact { groupid id } {
+		contentmanager show $cl $groupid $id
+		contentmanager sort $cl $groupid -level 0
+		$self sort list 0
+	}
+
+	method HideContact { groupid id } {
+		contentmanager hide $cl $groupid $id -force yes
+		contentmanager sort $cl $groupid -level 0
+		$self sort list 0
 	}
 
 	method AddContact { groupid id {nicktext {}} {psmtext {}} {musictext {}} {statetext {}} } {
