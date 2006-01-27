@@ -628,6 +628,7 @@ server Serveur
 serverunavailable Serveur non disponible
 session Session
 shareswebcam Possède une webcam
+show_contactdps_in_cl Montrer des avatars dans la liste de contact
 showbanner Affiche la bannière d'aMSN
 showblockedlist Voir la liste des personnes que vous avez bloqué
 showcachedpics Afficher/Masquer les avatars cachés
@@ -666,6 +667,7 @@ startoffline2 Se connecter directement en : "Apparaître déconnecté[e]"
 startoffline Démarrer déconnecté[e]
 startonboot Lancer aMSN au démarrage de windows
 startontray Démarrer aMSN en arrière plan seulement
+statepsm Message personnel (laisser vide pour qu'il n'y ait aucun changement)
 stateautomsg Message à envoyer automatiquement
 statechange statut changé en :
 stateedittext Veuillez éditer les champs que vous \n voulez modifier et cliquez sur Enregistrer
