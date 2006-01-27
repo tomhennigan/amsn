@@ -994,7 +994,7 @@ namespace eval ::MSNP2P {
 	# filename: the file where data should be saved to
 	proc RequestObject { chatid dest msnobject} {
 		# Let's create a new session
-		set sid [expr int([expr rand() * 1000000000])%125000000 + 4]
+		set sid [expr {int([expr rand() * 1000000000])%125000000 + 4 } ]
 		# Generate BranchID and CallID
 		set branchid "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
 		set callid "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
@@ -1043,7 +1043,7 @@ namespace eval ::MSNP2P {
 
 		if { $MsgId == 0 } {
 			# No MsgId let's generate one and add to our list
-			set MsgId [expr int([expr rand() * 1000000]) + 4]
+			set MsgId [expr {int([expr rand() * 1000000]) + 4}]
 		} elseif { $Offset == 0 } {
 			# Offset is different than 0, we need to incr the MsgId to prepare our next message
 			incr MsgId
@@ -1124,7 +1124,7 @@ namespace eval ::MSNP2P {
 
 		if { $MsgId == 0 } {
 			# No MsgId let's generate one and add to our list
-			set MsgId [expr int([expr rand() * 1000000]) + 10]
+			set MsgId [expr {int([expr rand() * 1000000]) + 10 } ]
 			set new 1
 		} else {
 			incr MsgId

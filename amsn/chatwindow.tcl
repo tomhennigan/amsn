@@ -2248,25 +2248,22 @@ namespace eval ::ChatWindow {
 			if {[::config::getKey truncatenames]} {
 
 				#Calculate maximum string width
+				set maxw [expr {[winfo width $top] - [::skin::getKey topbarpadx] - [expr {int([lindex [$top coords text] 0])} ] } ]
 				if { $shares_cam == 1} {
-					set maxw [expr {[winfo width $top] - [::skin::getKey topbarpadx] - ( int([lindex [$top coords text] 0]) ) - [image width $camicon] - 10 }]
-				} else {
-					set maxw [expr [winfo width $top] - [::skin::getKey topbarpadx] - [expr int([lindex [$top coords text] 0])]]
+					incr maxw [expr { 0 - [image width $camicon] - 10 }]
 				}
-				
 
 				if { "$user_state" != "" && "$user_state" != "online" } {
-					incr maxw [expr 0-[font measure sboldf -displayof $top " \([trans $user_state]\)"]]
+					incr maxw [expr { 0 - [font measure sboldf -displayof $top " \([trans $user_state]\)"] } ]
 				}
 
 
-
-				incr maxw [expr 0-[font measure sboldf -displayof $top " <${user_login}>"]]
+				incr maxw [expr { 0 - [font measure sboldf -displayof $top " <${user_login}>"] } ]
 
 				if { [font measure sboldf -displayof $top "${user_name}"] > $maxw } {
 					set nicktxt "[trunc ${user_name} ${win_name} $maxw sboldf] <${user_login}>"
 				} else {
-					incr maxw [expr 0-[font measure sboldf -displayof $top " ${user_name}"]]
+					incr maxw [expr { 0 - [font measure sboldf -displayof $top " ${user_name}"] } ]
 				 	set nicktxt "${user_name} <${user_login}> [trunc ${psmmedia} ${win_name} $maxw sboldf]"
 				}
 				
@@ -2882,7 +2879,7 @@ namespace eval ::ChatWindow {
 		set bar_w [expr $bar_w - $less_w - $more_w]
 		
 
-		set max_tabs [expr int(floor($bar_w / $tab_w))]
+		set max_tabs [expr {int(floor($bar_w / $tab_w))}]
 		set number_tabs [llength [set containerwindows($container)]]
 	
 		set less ${container}.bar.less

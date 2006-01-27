@@ -1502,7 +1502,7 @@ namespace eval ::MSN {
 		set data [::base64::encode $data]
 		set data [string map { "\n" ""} $data]
 		set data "base64:$data"
-		set chunks [expr int( [string length $data] / $maxchars) + 1]
+		set chunks [expr {int( [string length $data] / $maxchars) + 1 } ]
 
 
 		status_log "Ink data : $data\nchunks : $chunks\n"
@@ -1515,7 +1515,7 @@ namespace eval ::MSN {
 				if { $chunks == 1 } {
 					set msg "${msg}\r\n$chunk"
 				} else { 
-					set msgid "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [expr [expr int([expr rand() * 1000000])%65450]] + 4369]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
+					set msgid "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [expr { int([expr {rand() * 1000000}])%65450 } ] + 4369]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
 					set msg "${msg}Message-ID: \{$msgid\}\r\nChunks: $chunks\r\n\r\n$chunk"
 				}
 			} else {
@@ -7165,13 +7165,13 @@ namespace eval ::MSNMobile {
 	$top dchars text 0 end
 	if {[::config::getKey truncatenames]} {
 	    #Calculate maximum string width
-	    set maxw [expr {[winfo width $top] - [::skin::getKey topbarpadx] - int([lindex [$top coords text] 0])}]
+	    set maxw [expr { 0 - int([lindex [$top coords text] 0])}]
 
 	    if { "$user_state" != "" && "$user_state" != "online" } {
 		incr maxw [expr {0-[font measure sboldf -displayof $top " \([trans $user_state]\)"]}]
 	    }
 
-	    incr maxw [expr {0-[font measure sboldf -displayof $top " <${user_login}>"]}]
+	    incr maxw [expr {[winfo width $top] - [::skin::getKey topbarpadx] -[font measure sboldf -displayof $top " <${user_login}>"]}]
 
 	    $top insert text end "[trunc ${user_name} ${win_name} $maxw sboldf] <${user_login}>"
 	} else {
