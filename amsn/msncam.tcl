@@ -262,6 +262,7 @@ namespace eval ::MSNCAM {
 
 		::MSNP2P::SendPacket [::MSN::SBFor $chatid] "${theader}${data}"
 	}
+
 	proc SendSyn { sid chatid } {
 		if { [getObjOption $sid send_syn] == 1 } {
 			status_log "Try to send double syn"
@@ -2440,7 +2441,7 @@ namespace eval ::CAMGUI {
 		# that's why we use variable channel
 		variable channel
 
-status_log "webcamDevice=$device:$channel" green
+		status_log "webcamDevice=$device:$channel" green
 
 		::config::setKey "webcamDevice" "$device:$channel"
 
@@ -2532,10 +2533,10 @@ status_log "webcamDevice=$device:$channel" green
 		wm title $window "[trans captureproperties]"
 
 		frame $slides
-		scale $slides.b -from 0 -to 65535 -resolution 1 -showvalue 1 -label "[trans brightness]" -command "::CAMGUI::Properties_SetLinux $slides.b b $capture_fd" -orient horizontal
-		scale $slides.c -from 0 -to 65535 -resolution 1 -showvalue 1 -label "[trans contrast]" -command "::CAMGUI::Properties_SetLinux $slides.c c $capture_fd" -orient horizontal
-		scale $slides.h -from 0 -to 65535 -resolution 1 -showvalue 1 -label "[trans hue]" -command "::CAMGUI::Properties_SetLinux $slides.h h $capture_fd" -orient horizontal
-		scale $slides.co -from 0 -to 65535 -resolution 1 -showvalue 1 -label "[trans color]" -command "::CAMGUI::Properties_SetLinux $slides.co co $capture_fd" -orient horizontal
+		scale $slides.b -from [::Capture::GetBrightness $capture_fd MIN] -to [::Capture::GetBrightness $capture_fd MAX] -resolution 1 -showvalue 1 -label "[trans brightness]" -command "::CAMGUI::Properties_SetLinux $slides.b b $capture_fd" -orient horizontal
+		scale $slides.c -from [::Capture::GetContrast $capture_fd MIN] -to [::Capture::GetContrast $capture_fd MAX] -resolution 1 -showvalue 1 -label "[trans contrast]" -command "::CAMGUI::Properties_SetLinux $slides.c c $capture_fd" -orient horizontal
+		scale $slides.h -from [::Capture::GetHue $capture_fd MIN] -to [::Capture::GetHue $capture_fd MAX] -resolution 1 -showvalue 1 -label "[trans hue]" -command "::CAMGUI::Properties_SetLinux $slides.h h $capture_fd" -orient horizontal
+		scale $slides.co -from [::Capture::GetColour $capture_fd MIN] -to [::Capture::GetColour $capture_fd MAX] -resolution 1 -showvalue 1 -label "[trans color]" -command "::CAMGUI::Properties_SetLinux $slides.co co $capture_fd" -orient horizontal
 
 		pack $slides.b $slides.c $slides.h $slides.co -expand true -fill x
 

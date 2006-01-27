@@ -787,13 +787,15 @@ int Capture_GetAttribute _ANSI_ARGS_((ClientData clientData,
   struct ng_attribute *attr;
   char *captureDescriptor = NULL;
   char *proc = NULL;
+  char *bound = NULL;
   struct capture_item *capItem = NULL;
+  enum { CURRENT = 0, MIN = 1, MAX = 2 } mode = CURRENT;
   int attribute;
   int value;
   
   // Check number of arguments
-  if (objc != 2) {
-    Tcl_WrongNumArgs(interp, 1, objv, "capture_descriptor");
+  if (objc != 2 && objc != 3) {
+    Tcl_WrongNumArgs(interp, 1, objv, "capture_descriptor ?bound?");
     return TCL_ERROR;
   }
   
@@ -813,6 +815,18 @@ int Capture_GetAttribute _ANSI_ARGS_((ClientData clientData,
     return TCL_ERROR;
   }
   
+  if(objc == 3) {
+    bound = Tcl_GetStringFromObj(objv[2], NULL);
+    if (!strcmp(bound, "MAX")) {
+      mode = MAX;
+    } else if (!strcmp(bound, "MIN")) {
+      mode = MIN;
+    } else {
+      Tcl_AppendResult(interp, "The bound should be either \"MIN\" or \"MAX\"", NULL);
+      return TCL_ERROR;
+    }
+  }
+  
   // Get the capture descriptor and check its validity
   captureDescriptor = Tcl_GetStringFromObj(objv[1], NULL);
   if ((capItem = Capture_lstGetItem(captureDescriptor)) == NULL) {
@@ -822,7 +836,16 @@ int Capture_GetAttribute _ANSI_ARGS_((ClientData clientData,
   
   // Get attribute value
   if ((attr = ng_attr_byid(&(capItem->dev), attribute)) != NULL) {
-    value = attr->read(attr);
+    switch (mode) {
+      case CURRENT:
+        value = attr->read(attr);
+        break;
+      case MIN:
+        value = attr->min;
+        break;
+      case MAX:
+        value = attr->max;
+    }
     Tcl_SetObjResult(interp, Tcl_NewIntObj(value));
   } else {
     Tcl_SetObjResult(interp, Tcl_NewIntObj(0));
