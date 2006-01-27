@@ -79,7 +79,8 @@ namespace eval ::hotmail {
 	}
 
 	proc viewProfile {user_login} {
-		launch_browser "http://members.msn.com/default.msnw?mem=${user_login}&pgmarket="
+		#launch_browser "http://members.msn.com/default.msnw?mem=${user_login}&pgmarket="
+		gotURL "http://members.msn.com/default.msnw?mem=${user_login}&pgmarket="
 	}
 
 	proc composeMail { toaddr} {
