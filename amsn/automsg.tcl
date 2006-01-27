@@ -47,8 +47,9 @@ proc SaveStateList {} {
 		set tmp1 [::sxml::xmlreplace [lindex $tmp 1]]
 		set tmp2 [::sxml::xmlreplace [lindex $tmp 2]]
 		set tmp4 [::sxml::xmlreplace [lindex $tmp 4]]
+		set tmp5 [::sxml::xmlreplace [lindex $tmp 5]]
 		puts $file_id "   <newstate>\n      <name>$tmp0</name>\n      <nick>$tmp1</nick>"
-		puts $file_id "      <state>$tmp2</state>\n      <message>$tmp4</message>\n   </newstate>\n"
+		puts $file_id "      <state>$tmp2</state>\n      <message>$tmp4</message>\n      <psm>$tmp5</psm>\n   </newstate>\n"
 		incr idx 1
 	}
 	puts $file_id "</states>"
@@ -224,13 +225,16 @@ proc CreateStatesMenu { path } {
 # idx indicates the index of the personal state in the StateList, 
 # otherwise it indicates a normal state change (AWY, BSY, etc)
 proc ChCustomState { idx } {
-	global HOME automessage automsgsent original_nick
+	global HOME automessage automsgsent original_nick original_psm
 	set automessage "-1"
 	set redraw 0
 	if { [string is digit $idx] == 1 } {
 		if { [lindex [StateList get $idx] 2] != "" } {
 			if {![info exists original_nick] && [::config::getKey storename]} {
 				set original_nick [::abook::getPersonal MFN]
+			}
+			if {![info exists original_psm] && [::config::getKey storename]} {
+				set original_psm [::abook::getPersonal PSM]
 			}
 			#set new_state [lindex [lindex $list_states [lindex [StateList get $idx] 2]] 0]
 			set new_state [::MSN::numberToState [lindex [StateList get $idx] 2]]
@@ -239,6 +243,8 @@ proc ChCustomState { idx } {
 			}
 			set automessage [StateList get $idx]
 			set newname "[lindex [StateList get $idx] 1]"
+			set newpsm "[lindex [StateList get $idx] 5]"
+			status_log [StateList get $idx]
 			if { $newname != "" } {
 				catch {
 					set nickcache [open [file join ${HOME} "nick.cache"] w]
@@ -255,16 +261,39 @@ proc ChCustomState { idx } {
 				::MSN::changeName [::config::getKey login] $newname
 				StateList promote $idx
 			}
+			if { $newpsm != "" } {
+                                catch {
+                                        set psmcache [open [file join ${HOME} "psm.cache"] w]
+                                        fconfigure $psmcache -encoding utf-8
+                                        puts $psmcache $original_psm
+                                        puts $psmcache $newpsm
+                                        puts $psmcache [::abook::getPersonal PSM]
+                                        close $psmcache
+                                }
+
+                                set newpsm [string map { "\\" "\\\\" "\$" "\\\$" } $newpsm]
+                                set newpsm [string map { "\\\$nick" "\${original_psm}" } $newpsm]
+                                set newpsm [subst -nocommands $newpsm]
+                                ::MSN::changePSM $newpsm
+                        }
 		}
 	} else {
 		set automessage "-1"
 		if { $idx == [::MSN::myStatusIs]} {
 			set redraw 1
 		}
-		if {[info exists original_nick] && [::config::getKey storename]} {
-			::MSN::changeName [::config::getKey login] $original_nick
-			unset original_nick
-			catch { file delete [file join ${HOME} "nick.cache"] }
+		if {[::config::getKey storename]} {
+			if { [info exists original_nick] } {
+				::MSN::changeName [::config::getKey login] $original_nick
+				unset original_nick
+				catch { file delete [file join ${HOME} "nick.cache"] }
+			}
+                        if { [info exists original_psm] } {
+                                ::MSN::changePSM $original_psm
+                                unset original_psm
+                                catch { file delete [file join ${HOME} "psm.cache"] } 
+                        }
+
 		}
 		set new_state $idx
 	}
@@ -351,7 +380,14 @@ proc EditNewState { mode { idx "" } } {
 	$lfname.nickhelp.menu add command -label [trans nick] -command "$lfname.enick insert insert \\\$nick"
 	$lfname.nickhelp.menu add separator
 	$lfname.nickhelp.menu add command -label [trans delete] -command "$lfname.enick delete 0 end"
-	
+	label $lfname.lpsm -text "[trans statepsm] :" -font splainf
+        entry $lfname.epsm -bg #FFFFFF -font splainf  -width 40
+        menubutton $lfname.psmhelp -font sboldf -text "<-" -menu $lfname.psmhelp.menu
+        menu $lfname.psmhelp.menu -tearoff 0
+        $lfname.psmhelp.menu add command -label [trans psm] -command "$lfname.epsm insert insert \\\$psm"
+        $lfname.psmhelp.menu add separator
+        $lfname.psmhelp.menu add command -label [trans delete] -command "$lfname.epsm delete 0 end"
+
 	label $lfname.lstate -text "[trans state] :" -font splainf
 	combobox::combobox $lfname.statebox -editable false -highlightthickness 0 -width 37 -bg #FFFFFF -font splainf -command ""
 	label $lfname.lmsg -text "[trans stateautomsg] :" -font splainf
@@ -363,12 +399,22 @@ proc EditNewState { mode { idx "" } } {
 	grid $lfname.lnick -row 2 -column 1 -sticky w -pady 5 -padx 5
 	grid $lfname.enick -row 2 -column 2 -sticky w -pady 5 -padx 5
 	grid $lfname.nickhelp -row 2 -column 3 -sticky w -pady 5 -padx 5
-	grid $lfname.lstate -row 3 -column 1 -sticky w -pady 5 -padx 5
-	grid $lfname.statebox -row 3 -column 2 -sticky w -pady 5 -padx 5
-	grid $lfname.lmsg -row 4 -column 1 -sticky nw -pady 10 -padx 5
-	grid $lfname.emsg -row 4 -column 2 -sticky w -pady 10 -padx 5
+	if { [::config::getKey protocol] == 11 } {
+                grid $lfname.lpsm -row 3 -column 1 -sticky w -pady 5 -padx 5
+                grid $lfname.epsm -row 3 -column 2 -sticky w -pady 5 -padx 5
+                grid $lfname.psmhelp -row 3 -column 3 -sticky w -pady 5 -padx 5
+	        grid $lfname.lstate -row 4 -column 1 -sticky w -pady 5 -padx 5
+		grid $lfname.statebox -row 4 -column 2 -sticky w -pady 5 -padx 5
+		grid $lfname.lmsg -row 5 -column 1 -sticky nw -pady 10 -padx 5
+		grid $lfname.emsg -row 5 -column 2 -sticky w -pady 10 -padx 5
+	} else {
+		grid $lfname.lstate -row 3 -column 1 -sticky w -pady 5 -padx 5
+                grid $lfname.statebox -row 3 -column 2 -sticky w -pady 5 -padx 5
+                grid $lfname.lmsg -row 4 -column 1 -sticky nw -pady 10 -padx 5
+                grid $lfname.emsg -row 4 -column 2 -sticky w -pady 10 -padx 5
+	}
 
-	# Frame for options
+	#Frame for options
 	frame .editstate.options -class Degt
 	if { $mode != 2 } {
 		if { [info exists stemp] } {
@@ -408,6 +454,7 @@ proc EditNewState { mode { idx "" } } {
 		$lfname.enick insert end [lindex [StateList get $idx] 1]
 		$lfname.statebox select [lindex [StateList get $idx] 2]
 		$lfname.emsg insert end [lindex [StateList get $idx] 4]
+		$lfname.epsm insert end [lindex [StateList get $idx] 5]
 	}
 	#else {
 	#	$lfname.enick insert end [::abook::getPersonal MFN]
@@ -438,6 +485,7 @@ proc ButtonSaveState { lfname { idx "" } } {
 	set numlines [llength [split $message "\n"]]
 	lappend gui_info $numlines
 	lappend gui_info $message
+	lappend gui_info [$lfname.epsm get]
 	switch $mode {
 		0 {
 			StateList add $gui_info
@@ -529,12 +577,16 @@ proc new_state {cstack cdata saved_data cattr saved_attr args} {
 	} else {
 		lappend newstate ""
 	}
-	
+
 	lappend newstate "$sdata(${cstack}:state)"
 	set message "$sdata(${cstack}:message)"
 	set numlines [llength [split $message "\n"]]
 	lappend newstate $numlines
 	lappend newstate $message
+        if { [info exists sdata(${cstack}:psm)] } {
+                lappend newstate "$sdata(${cstack}:psm)"
+        }
+
 	StateList add $newstate
 	return 0
 }

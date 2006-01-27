@@ -675,6 +675,7 @@ state I want to appear as
 statename Name of Personal State
 statenewtext Please fill the required information to create \n your new Personal State and press Save
 statenick Custom nick (leave blank for no change)
+statepsm Custom Personal Message (leave blank for no change)
 stats Statistics
 status Status
 stopalarm Stop Alarm
