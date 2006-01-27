@@ -20,6 +20,7 @@ capture_dir := $(srcdir)/utils/linux/capture
 webcamsn_dir := $(srcdir)/utils/webcamsn
 tkcximage_dir := $(srcdir)/utils/TkCximage
 tray_dir := $(srcdir)/utils/linux/traydock
+linflash_dir := $(srcdir)/utils/linux/linflash
 
 # programs
 CC		:= @CC@
@@ -232,6 +233,7 @@ ifeq ($(FOUND_OS),linux)
   ifeq ($(FOUND_X11),yes)
       ADDLIBS	 += ${X_LIBS}
       include $(tray_dir)/Rules.mk
+      include $(linflash_dir)/Rules.mk
   endif
 endif
 
