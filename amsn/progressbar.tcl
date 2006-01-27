@@ -30,11 +30,11 @@ namespace eval dkfprogress {
 
 	frame $w.l -borderwidth 0 -background $undoneBackground
 	label $w.l.l -textvariable $varname -borderwidth 0 \
-		-foreground $undoneForeground -background $undoneBackground
+		-foreground black -background $undoneBackground
 	$w.l configure -height [expr {int([winfo reqheight $w.l.l]+2)}]
 	frame $w.l.fill -background $doneBackground
 	label $w.l.fill.l -textvariable $varname -borderwidth 0 \
-		-foreground $doneForeground -background $doneBackground
+		-foreground black -background $doneBackground
 
 	bind $w.l <Configure> [namespace code [list ProgressConf $w "%w"]]
 
@@ -58,9 +58,21 @@ namespace eval dkfprogress {
 			variable progressPercent
 			place conf $win.l.fill -relwidth $relwidth
 			set progressPercent($win) "${progress}%"
+			
+			if {[expr $relwidth < 0.5]} {
+				set R ff
+				binary scan [binary format i [expr {int(2*$relwidth*255)}]] H2 G
+			} else {
+				set G ff
+				binary scan [binary format i [expr {int(2*(1.0 - $relwidth)*255)}]] H2 R
+			}
+			set B 00
+			$win.l.fill configure -background \#${R}${G}${B}
+			$win.l.fill.l configure -background \#${R}${G}${B}
 		}
     }
 }
+
 
 if { $initialize_amsn == 1 } {
     namespace import dkfprogress::Progress dkfprogress::SetProgress
