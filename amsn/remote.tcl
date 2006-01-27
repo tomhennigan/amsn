@@ -135,7 +135,6 @@ namespace eval ::remote {
 	}
 
 	proc amsn_close { } {
-		close_cleanup
 		exit
 	}
 

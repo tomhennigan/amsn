@@ -1043,12 +1043,8 @@ proc ConfigChange { window email } {
 			if { [info exists password] } {
 				.login.main.passentry2 insert 0 $password
 			}
-			if {[string is digit -strict "[::config::getKey connectas]"]} {
-				.login.main.statelist select "[::config::getKey connectas]"
-			} else {
-				.login.main.statelist select "0"
-				status_log "Variable connectas is not digital [::config::getKey connectas]\n" red
-			}
+			.login.main.statelist select [get_state_list_idx [::config::getKey connectas]]
+		
 		}
 	}
 }

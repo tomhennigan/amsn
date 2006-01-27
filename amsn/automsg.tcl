@@ -116,6 +116,13 @@ proc StateList { action { argument "" } {argument2 ""} } {
 }
 
 #///////////////////////////////////////////////////////////////////////////////
+# AddStatesToList (path)
+proc AddStatesToList { path } {
+	for {set idx 0} {$idx < [StateList size] } { incr idx } {
+		$path list insert end "** [lindex [StateList get $idx] 0] **"
+	}
+}
+#///////////////////////////////////////////////////////////////////////////////
 # CreateStatesMenu (path)
 # Creates the menu that will be added under the default states
 # path points to the path of the menu where to add
@@ -175,35 +182,33 @@ proc CreateStatesMenu { path } {
 #		if { [::config::getKey docking] && [winfo exists $iconmenu.otherstates] } {
 #			$iconmenu add cascade -label "   [trans morepersonal]" -menu $iconmenu.otherstates -state disabled
 #			$iconmenu add separator
-#			$iconmenu add command -label "[trans close]" -command "close_cleanup;exit"
+#			$iconmenu add command -label "[trans close]" -command "exit"
 #		}
 		$path add cascade -label "[trans morepersonal]" -menu $path.otherstates
-		$path add separator
-		$path add command -label "[trans newstate]..." -command "EditNewState 0"
+	}
+
+
+	$path add separator
+	$path add command -label "[trans newstate]" -command "EditNewState 0"
+	if { [StateList size] != 0 } {
 		$path add cascade -label "[trans editcustomstate]" -menu $path.editstates
 		$path add cascade -label "[trans deletecustomstate]" -menu $path.deletestates
-	} else {
-		$path add separator
-		$path add command -label "[trans newstate]" -command "EditNewState 0"
-		if { [StateList size] != 0 } {
-			$path add cascade -label "[trans editcustomstate]" -menu $path.editstates
-			$path add cascade -label "[trans deletecustomstate]" -menu $path.deletestates
-		}
-#		if { [::config::getKey docking] && [winfo exists $iconmenu] } {
-#			$iconmenu add separator
-#			$iconmenu add command -label "[trans close]" -command "close_cleanup;exit"
-#		}
 	}
+	#		if { [::config::getKey docking] && [winfo exists $iconmenu] } {
+	#			$iconmenu add separator
+	#			$iconmenu add command -label "[trans close]" -command "exit"
+	#		}
+	
 	$path add separator
 	$path add command -label "[trans changenick]..." -command cmsn_change_name
 	
 	$path add command -label "[trans changedisplaypic]..." -command pictureBrowser 
-
+	
 	$path add command -label "[trans editmyprofile]..." -command "::hotmail::hotmail_profile"
-
+	
 	$path add command -label "[trans cfgalarmall]..." -command "::alarms::configDialog all"
-#	statusicon_proc [MSN::myStatusIs]
-
+	#	statusicon_proc [MSN::myStatusIs]
+		
 	if { [::config::getKey use_dock] && [winfo exists $iconmenu.imstatus] && $path != "$iconmenu.imstatus" } {
 		CreateStatesMenu $iconmenu.imstatus
 	}
@@ -211,6 +216,7 @@ proc CreateStatesMenu { path } {
 		$path delete [expr "[$path index end] - 3"] end
 	}
 }
+	
 
 #///////////////////////////////////////////////////////////////////////////////
 # ChCustomState ( idx )
@@ -234,14 +240,15 @@ proc ChCustomState { idx } {
 			set automessage [StateList get $idx]
 			set newname "[lindex [StateList get $idx] 1]"
 			if { $newname != "" } {
-					catch {
-						set nickcache [open [file join ${HOME} "nick.cache"] w]
-						fconfigure $nickcache -encoding utf-8
-						puts $nickcache $original_nick
-						puts $nickcache $newname
-						puts $nickcache [::abook::getPersonal login]
-						close $nickcache
-					}
+				catch {
+					set nickcache [open [file join ${HOME} "nick.cache"] w]
+					fconfigure $nickcache -encoding utf-8
+					puts $nickcache $original_nick
+					puts $nickcache $newname
+					puts $nickcache [::abook::getPersonal login]
+					close $nickcache
+				}
+				
 				set newname [string map { "\\" "\\\\" "\$" "\\\$" } $newname]
 				set newname [string map { "\\\$nick" "\${original_nick}" } $newname]
 				set newname [subst -nocommands $newname]

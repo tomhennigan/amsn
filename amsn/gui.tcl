@@ -2996,7 +2996,6 @@ namespace eval ::amsn {
 
 		set answer [::amsn::messageBox [trans exitamsn] yesno question [trans title]]
 		if { $answer == "yes"} {
-			close_cleanup
 			exit
 		}
 	}
@@ -3295,7 +3294,7 @@ proc cmsn_draw_main {} {
 	.main_menu.file add command -label "[trans openreceived]" \
 		-command {launch_filemanager "[::config::getKey receiveddir]"}
 	.main_menu.file add separator
-	.main_menu.file add command -label "[trans close]" -command "close_cleanup;exit"
+	.main_menu.file add command -label "[trans close]" -command "exit"
 
 	#Actions menu
 	menu .main_menu.actions -tearoff 0 -type normal
@@ -3689,12 +3688,8 @@ proc cmsn_draw_main {} {
 
 	#Shortcut to Quit aMSN on Mac OS X
 	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-		bind all <Command-q> {
-			close_cleanup;exit
-		}
-		bind all <Command-Q> {
-			close_cleanup;exit
-		}
+		bind all <Command-q> "exit"
+		bind all <Command-Q> "exit"
 		bind all <Command-Key-1> "raise ."
 	}
 
@@ -4490,12 +4485,10 @@ proc cmsn_draw_login {} {
 		$mainframe.statelist list insert end $description
 		incr i
 	}
-	if {[string is digit -strict "[::config::getKey connectas]"]} {
-		$mainframe.statelist select "[::config::getKey connectas]"
-	} else {
-		$mainframe.statelist select "0"
-		status_log "Variable connectas is not digital [::config::getKey connectas]\n" red
-	}
+	# Add custom states to list
+	AddStatesToList $mainframe.statelist
+
+	$mainframe.statelist select [get_state_list_idx [::config::getKey connectas]]
 
 	checkbutton $mainframe.nossl -text "[trans disablessl]" -variable [::config::getVar nossl] -padx 10 -command SSLToggled
 
@@ -4563,21 +4556,61 @@ proc cmsn_draw_login {} {
 }
 
 proc remember_state_list {w value} {
-		set i 0
-		while {$i < "8"} {
-			set statecode "[::MSN::numberToState $i]"
-			set description "[trans [::MSN::stateToDescription $statecode]]"
-
-			if {$description == $value} {
-				::config::setKey connectas $i
-				return
-			}
-			incr i
-		}
-		#If there's a problem (no status found), connect as online
-		status_log "Can't find the startup status, variable: [::config::getKey connectas] " red
-		::config::setKey connectas 0
+	::config::setKey connectas $value
 }
+proc get_state_list_idx { value } {
+	set i 0
+	while {$i < "8"} {
+		set statecode "[::MSN::numberToState $i]"
+		set description "[trans [::MSN::stateToDescription $statecode]]"
+		
+		if {$description == $value} {
+			return $i
+		}
+		incr i
+	}
+	
+	for {set idx 0} {$idx < [StateList size] } { incr idx } {
+		if {"** [lindex [StateList get $idx] 0] **" == $value} {
+			return [expr 8 + $idx]
+		}
+	}
+
+	status_log "Variable connectas is not valid $value\n" red
+	return 0
+}
+
+proc is_connectas_custom_state { value } {
+	set i 0
+	while {$i < "8"} {
+		set statecode "[::MSN::numberToState $i]"
+		set description "[trans [::MSN::stateToDescription $statecode]]"
+		
+		if {$description == $value} {
+			return 0
+		}
+		incr i
+	}	
+		
+	for {set idx 0} {$idx < [StateList size] } { incr idx } {
+		if {"** [lindex [StateList get $idx] 0] **" == $value} {
+			return 1
+		}
+	}
+
+	status_log "Variable connectas is not valid $value\n" red
+	return 0
+}
+
+
+proc get_custom_state_idx { value } {
+	for {set idx 0} {$idx < [StateList size] } { incr idx } {
+		if {"** [lindex [StateList get $idx] 0] **" == $value} {
+			return $idx
+		}
+	}
+}
+
 #///////////////////////////////////////////////////////////////////////
 # proc RefreshLogin { mainframe }
 # Called after pressing a radio button in the Login screen to enable/disable
@@ -6737,7 +6770,10 @@ proc configureMenuEntry {m e s} {
 #///////////////////////////////////////////////////////////////////////
 # close_cleanup()
 # Makes some cleanup and config save before closing
-proc close_cleanup {} {
+if { [info command ::tk::exit] == "" && [info command exit] == "exit" } {
+	rename exit ::tk::exit
+}
+proc exit {} {
 	global HOME lockSock
 	catch { ::MSN::logout}
 	::config::setKey wingeometry [wm geometry .]
@@ -6759,6 +6795,7 @@ proc close_cleanup {} {
 
 	close_dock    ;# Close down the dock socket
 	catch {file delete [file join $HOME hotlog.htm]} res
+	::tk::exit
 }
 #///////////////////////////////////////////////////////////////////////
 

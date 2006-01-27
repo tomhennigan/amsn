@@ -57,7 +57,6 @@ proc dock_handler { sock } {
 	} elseif { $l == "SIGNOUT" } {
 		::MSN::logout
 	} elseif { $l == "AMSN_CLOSE" } {
-		close_cleanup
 		exit
 	} else {
 		puts stdout "Unknown dock command"

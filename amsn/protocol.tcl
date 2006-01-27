@@ -4789,8 +4789,10 @@ proc cmsn_auth {{recv ""}} {
 				::abook::setConsistent
 			}
 
-
-			::abook::setPersonal MFN [urldecode [lindex $recv 4]]
+			
+			if { [::config::getKey protocol] == 9 } {
+				::abook::setPersonal MFN [urldecode [lindex $recv 4]]
+			}
 			::abook::setPersonal login [lindex $recv 3]
 			recreate_contact_lists
 
@@ -4928,9 +4930,9 @@ proc initial_syn_handler {recv} {
 		ChCustomState $::oldstatus
 		send_dock "STATUS" $::oldstatus
 		unset ::oldstatus
-	} elseif {[string is digit -strict "[::config::getKey connectas]"]} {
+	} elseif {![is_connectas_custom_state [::config::getKey connectas]]} {
 		#Protocol code to choose our state on connect
-		set number [::config::getKey connectas]
+		set number [get_state_list_idx [::config::getKey connectas]]
 		set goodstatecode "[::MSN::numberToState $number]"
 
 		if {$goodstatecode != ""} {
@@ -4943,10 +4945,13 @@ proc initial_syn_handler {recv} {
 		}
 
 	} else {
-		ChCustomState "NLN"
-		send_dock "STATUS" "NLN"
+		set idx [get_custom_state_idx [::config::getKey connectas]]
+		ChCustomState $idx
+		if { [lindex [StateList get $idx] 2] != "" } {
+			set new_state [::MSN::numberToState [lindex [StateList get $idx] 2]]
+			send_dock "STATUS" "$new_state"
+		}
 	}
-
 	cmsn_ns_handler $recv
 }
 
