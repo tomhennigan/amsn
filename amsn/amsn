@@ -142,12 +142,20 @@ set pgNews  ""
 ############################################################
 set initialize_amsn 1
 
+proc load_console {} {
+	if { [info proc console] == "" && [info command console] == "" } {
+		if { [file exists console.tcl] && [file readable console.tcl] } {
+			uplevel \#0 {source console.tcl}
+			console show
+		}
+	} else {
+		console show
+	}
+}
+
 
 proc reload_files { } {
-	#ensure all globals are accessible
-	foreach glob [info globals] {
- 		global $glob
- 	}
+    uplevel \#0 {
 	
 	source ctthemes.tcl
 	source progressbar.tcl	;# Progressbar Megawidget
@@ -190,12 +198,13 @@ proc reload_files { } {
 	source balloon.tcl	;# For the balloons tooltip
 	source autoupdate.tcl   ;# AUTOUPDATE!!!!!!!!!! :@
 	source notes.tcl
-
+	
 	source guicontactlist.tcl ;# New contact list (uses canvas)
 	source bugs.tcl 	;#bug reporting
-
-
+    }
 }
+
+
 
 
 proc after_info { } {

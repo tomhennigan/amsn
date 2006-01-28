@@ -3667,6 +3667,9 @@ proc cmsn_draw_main {} {
 		#Status log
 		bind . <Command-s> toggle_status
 		bind . <Command-S> toggle_status
+		#Console
+		bind . <Control-c> "load_console; console show"
+		bind . <Control-C> "load_console; console show"
 		#Preferences
 		bind . <Command-,> Preferences
 		#BossMode
@@ -3680,6 +3683,8 @@ proc cmsn_draw_main {} {
 	} else {
 		#Status log
 		bind . <Control-s> toggle_status
+		#Console
+		bind . <Control-c> "load_console; console show"
 		#Plugins log
 	    bind . <Alt-p> ::pluginslog::toggle
 	    #Preferences
