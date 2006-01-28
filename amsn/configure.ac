@@ -6,7 +6,7 @@ AC_CONFIG_HEADER(utils/linux/capture/config.h)
 
 
 APPNAME=amsn
-APPVERSION=0.95
+APPVERSION=0.95.1
 APPRELEASE=1
 APPSTABLE=yes
 
@@ -18,8 +18,6 @@ AC_SUBST(APPSTABLE)
 dnl ---------------------------------------------------------------------
 dnl compile time options
 
-AC_ARG_ENABLE(libng,
-  [  --disable-libng         disable use of libng library])
 AC_ARG_ENABLE(debug,
   [  --enable-debug         enable some debuging informations],[enable_debug=yes])
 
@@ -34,13 +32,6 @@ dnl subst configure command
 AC_SUBST(CONFIGURE_ARGS)
 CONFIGURE_ARGS=`echo $@`
 
-dnl ---------------------------------------------------------------------
-dnl Checks for programs.
-
-AC_PROG_CC
-AC_PROG_CXX
-AC_PROG_CPP
-
 
 dnl ---------------------------------------------------------------------
 dnl Checks for TCL and TK.
@@ -50,6 +41,32 @@ AC_PREFIX_PROGRAM(wish)
 TCLSH=`which tclsh`
 VERSION=`echo "puts $::tcl_version ; exit" | ${TCLSH}`
 AC_ARG_ENABLE(version-check, [  --disable-version-check Disable checking that linked tcl/tk version is the same version that bin program tclsh ],    [version_ok=$enableval], [version_ok=yes])
+
+OLDV=`expr $VERSION \< 8.4`
+
+if test "x${version_ok}" == "xyes" -a $OLDV == 1; then
+    AC_MSG_ERROR(Your current Tcl/Tk installation has a version number of $VERSION. The minimal version required for aMSN to run is Tcl/Tk 8.4)
+fi
+
+
+
+dnl ---------------------------------------------------------------------
+dnl Checks for programs.
+
+AC_PROG_CC
+
+CC_INSTALLED=`which $CC`
+if test "x${CC_INSTALLED}" == "x"; then
+    AC_MSG_ERROR(You need a C compiler (gcc) to compiler aMSN. Please install gcc and try again) 
+fi
+
+AC_PROG_CXX
+
+CXX_INSTALLED=`which $CXX`
+if test "x${CXX_INSTALLED}" == "x"; then
+     AC_MSG_ERROR(You need a C++ compiler (g++) to compiler aMSN. Please install g++ and try again) 
+fi
+
 
 BUILD_DIR=`pwd`
 cd ${srcdir}
@@ -334,16 +351,9 @@ AC_CHECK_LIB(stdc++,main,CXX_LIB="-lstdc++", AC_MSG_ERROR(stdc++ library not fou
 AC_SUBST(CXX_LIB)
 
 AC_SUBST(LDLIBS)
-AC_SUBST(USE_LIBNG)
 AC_SUBST(FOUND_X11)
 AC_SUBST(FOUND_OS)
 FOUND_X11="no"
-
-if test "$enable_libng" != "no" ; then
-    USE_LIBNG="yes"
-else
-    USE_LIBNG="no" 
-fi
 
 
 dnl Check for X11
@@ -385,9 +395,6 @@ esac
 
 dnl ---------------------------------------------------------------------
 dnl Checks for functions
-if test "$USE_LIBNG" == "yes" ; then
-
-   
 
 AC_CHECK_FUNCS(ftello fseeko getpt strcasestr memmem dlopen )
 
@@ -421,9 +428,6 @@ fi
 AC_MSG_RESULT($USE_MMX)
 
 
-dnl -- And of check if using libng
-fi 
-
 dnl ---------------------------------------------------------------------
 dnl write out stuff
 AC_OUTPUT(Makefile)
@@ -436,7 +440,6 @@ compile time options summary
 ============================
 
     X11          : $FOUND_X11
-    Using Libng  : $USE_LIBNG
     Tcl		 : $TCL_VERSION
     TK 		 : $TK_VERSION
     DEBUG        : $DEBUG

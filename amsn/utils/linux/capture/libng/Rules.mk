@@ -18,9 +18,7 @@ $(TARGET-libng): $(OBJS-libng)
 	@$(echo_ar_lib)
 	@$(ar_lib)
 
-ifeq ($(USE_LIBNG),yes)
 all:: $(TARGET-libng)
-endif
 
 clean:: clean-libng
 

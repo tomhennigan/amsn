@@ -12,9 +12,7 @@ TARGETS-plugins += \
 endif
 
 # global targets
-ifeq ($(USE_LIBNG),yes)
 all:: $(TARGETS-plugins)
-endif
 
 clean:: clean-plugins
 
