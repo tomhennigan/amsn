@@ -1817,6 +1817,13 @@ namespace eval ::MSN {
 	proc CALReceived {sb_name user item} {
 
 		switch [lindex $item 0] {
+			215 {
+				#if you try to begin a chat session with yourself
+				status_log "trying to chat with yourself"
+				set chatid [::MSN::ChatFor $sb_name]
+				::MSN::ClearQueue $chatid
+				::amsn::chatStatus $chatid "[trans useryourself]\n" miniwarning
+			}	
 			216 {
 				# if you try to begin a chat session with someone who blocked you and is online
 				set chatid [::MSN::ChatFor $sb_name]
@@ -3180,6 +3187,7 @@ namespace eval ::Event {
 		if {$idx != -1} {		;# Command has a handler associated!
 			status_log "sb::handleCommand: Evaluating handler for $ret_trid in SB $self\n"
 			set cmd "[lindex [lindex $list_cmdhnd $idx] 1] {$command}"
+			status_log "command is $cmd"
 			set list_cmdhnd [lreplace $list_cmdhnd $idx $idx]
 			eval "$cmd"
 		} else {
@@ -3230,12 +3238,6 @@ namespace eval ::Event {
 				208 {
 					status_log "sb::handleCommand: invalid user name for chat\n" red
 					msg_box "[trans invalidusername]"
-				}
-				215 {
-					#if you try to begin a chat session with yourself
-					set chatid [::MSN::ChatFor $self]
-					::MSN::ClearQueue $chatid
-					::amsn::chatStatus $chatid "[trans useryourself]\n" miniwarning
 				}
 				"" {
 				}

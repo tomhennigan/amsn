@@ -1111,7 +1111,7 @@ proc custom_smile_subst2 { chatid tw textbegin end } {
 	set start $textbegin
 	status_log "result $tw search -exact -nocase bb $start $end : [$tw search -exact -nocase bb $start $end]--- $start -- $textbegin\n"
 
-	while {[set pos [$tw search -exact -nocase -- $symbol $start $end]] != ""} {
+	while {[set pos [$tw search -exact -- $symbol $start $end]] != ""} {
 	    status_log "Found match at pos : $pos\n" red
 
 	    set posyx [split $pos "."]
@@ -1165,7 +1165,8 @@ proc parse_x_mms_emoticon { data chatid } {
     status_log "Got smileys : [array names smile]\n" 
 
 }
-proc process_custom_smileys_SB { txt } {
+
+proc process_custom_smileys_SB { txt {animated 0} } {
 	global custom_emotions
 	
 	set msg ""
@@ -1185,14 +1186,24 @@ proc process_custom_smileys_SB { txt } {
 			set symbol2 [string toupper $symbol]
 		
 			set file $emotion(file)
-			if { ! [ info exists emotion(animated) ] || ! [ is_true $emotion(animated) ] } {
+			if { ($animated && ([ info exists emotion(animated) ] && [ is_true $emotion(animated) ])) ||
+			     (!$animated && (! [ info exists emotion(animated) ] || ! [ is_true $emotion(animated) ]))} {
 				if { [info exists emotion(casesensitive)] && [is_true $emotion(casesensitive)] } {
 					if {  [string first $symbol $txt] != -1 } {
-						set msg "$msg$symbol	[create_msnobj [::config::getKey login] 2 [::skin::GetSkinFile smileys [filenoext $file].png]]	"
+						append msg "$symbol	[create_msnobj [::config::getKey login] 2 [::skin::GetSkinFile smileys [filenoext $file].png]]	"
 					}
 				} else {
-					if {  [string first $symbol2 $txt2] != -1 } {
-						set msg "$msg$symbol	[create_msnobj [::config::getKey login] 2 [::skin::GetSkinFile smileys [filenoext $file].png]]	"
+					set msnobj ""
+					set startidx 0
+					while {  [string first $symbol2 $txt2 $startidx] != -1 } {
+						if { $msnobj == "" } {
+							set msnobj [create_msnobj [::config::getKey login] 2 [::skin::GetSkinFile smileys [filenoext $file].png]]
+						}
+						
+						set idx [string first $symbol2 $txt2 $startidx]
+						set startidx [expr {$idx + [string length $symbol2]}]
+						set symbol [string range $txt $idx [expr {$startidx - 1}]]
+						append msg "$symbol	$msnobj	"
 					}
 				}
 			}
@@ -1201,41 +1212,9 @@ proc process_custom_smileys_SB { txt } {
 	
 	return $msg
 }
+
+
 
 proc process_custom_animated_smileys_SB { txt } {
-	global custom_emotions
-	
-	set msg ""
-	
-	set txt2 [string toupper $txt]
-
-	#Try to find used smileys in the message	
-	foreach name [array names custom_emotions] {
-	
-		if { ![info exists custom_emotions($name)] } {
-			status_log "process_custom_smileys_SB: Custom smiley $name doesn't exist in custom_emotions array!!\n" red
-			continue
-		}
-		
-		array set emotion $custom_emotions($name)
-		foreach symbol $emotion(text) {
-			set symbol2 [string toupper $symbol]
-		
-			set file $emotion(file)
-			if { [ info exists emotion(animated) ] && [ is_true $emotion(animated) ] } {
-				if { [info exists emotion(casesensitive)] && [is_true $emotion(casesensitive)] } {
-					if {  [string first $symbol $txt] != -1 } {
-						set msg "$msg$symbol	[create_msnobj [::config::getKey login] 2 [::skin::GetSkinFile smileys [filenoext $file].png]]	"
-					}
-				} else {
-					if {  [string first $symbol2 $txt2] != -1 } {
-						set msg "$msg$symbol	[create_msnobj [::config::getKey login] 2 [::skin::GetSkinFile smileys [filenoext $file].png]]	"
-					}
-				}
-			}
-		}
-	}
-	
-	return $msg
+	return [process_custom_smileys_SB $txt 1]
 }
-
