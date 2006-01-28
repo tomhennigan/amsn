@@ -290,8 +290,8 @@
 		<encoding>iso8859-9</encoding>
 	</lang>
 	<lang>
-		<langcode>va</langcode>
-		<name>Valencian (valencià)</name>
+		<langcode>ca_VC</langcode>
+		<name>Catalan - Valencian Country (valencià)</name>
 		<version>1.43</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
