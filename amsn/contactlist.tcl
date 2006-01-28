@@ -123,6 +123,7 @@ snit::widget contactlist {
 	variable psmid
 	variable musicid
 	variable stateid
+	variable statusiconid
 
 	# Arrays to store contacts' info
 	variable nick
@@ -162,17 +163,17 @@ snit::widget contactlist {
 		install topbg using scalable-bg $top.bg -source [::skin::loadPixmap topbgimg] \
 			-n [lindex $options(-topborder) 0] -e [lindex $options(-topborder) 1] \
 			-s [lindex $options(-listborder) 2] -w [lindex $options(-topborder) 3] \
-			-resizemethod scale
+			-resizemethod tile
 		# List (where contacts go!)
 		install listbg using scalable-bg $list.bg -source [::skin::loadPixmap listbgimg] \
 			-n [lindex $options(-listborder) 0] -e [lindex $options(-listborder) 1] \
 			-s [lindex $options(-listborder) 2] -w [lindex $options(-listborder) 3] \
-			-resizemethod scale
+			-resizemethod tile
 		# Select (for showing a contact is selected)
 		install selectbg using scalable-bg $list.selectbg -source [::skin::loadPixmap selectbgimg] \
 			-n [lindex $options(-listborder) 0] -e [lindex $options(-listborder) 1] \
 			-s [lindex $options(-listborder) 2] -w [lindex $options(-listborder) 3] \
-			-resizemethod scale
+			-resizemethod tile
 		# Create them on their canvases
 		set topbgid [$top create image 0 0 -anchor nw -image [$topbg name]]
 		set listbgid [$list create image 0 0 -anchor nw -image [$listbg name]]
@@ -464,7 +465,7 @@ snit::widget contactlist {
 
 	method AddGroup { groupid name } {
 		# Background image
-		set groupbg($groupid) [scalable-bg $groupid.bg -source [::skin::loadPixmap groupbgimg] -n [lindex $options(-groupbgborder) 0] -e [lindex $options(-groupbgborder) 1] -s [lindex $options(-groupbgborder) 2] -w [lindex $options(-groupbgborder) 3] -resizemethod scale]
+		set groupbg($groupid) [scalable-bg $groupid.bg -source [::skin::loadPixmap groupbgimg] -n [lindex $options(-groupbgborder) 0] -e [lindex $options(-groupbgborder) 1] -s [lindex $options(-groupbgborder) 2] -w [lindex $options(-groupbgborder) 3] -resizemethod tile]
 		# Background image canvas item
 		set groupbgid($groupid) [$list create image 0 0 -anchor nw -image [$groupbg($groupid) name]]
 		# Heading canvas items
@@ -611,10 +612,11 @@ snit::widget contactlist {
 			return {}
 		}
 		# Create canvas items (pic, nick, psm, music, state)
-		set buddyid($groupid.$id) [$list create image 0 0 -anchor nw -image [::skin::loadPixmap buddyimg] -tags buddy]
-		set nickid($groupid.$id) [$list create text 0 0 -anchor nw -text $nicktext -font $nickfont -fill $nickcol -tags nick]
-		set psmid($groupid.$id) [$list create text 0 0 -anchor nw -text $psmtext -font $psmfont -fill $psmcol -tags psm]
-		set stateid($groupid.$id) [$list create text 0 0 -anchor nw -text $statetext -font $statefont -fill $statecol -tags state]
+		set buddyid($groupid.$id) [$list create image 0 0 -anchor nw -image [::skin::loadPixmap buddyimg]]
+		set nickid($groupid.$id) [$list create text 0 0 -anchor nw -text $nicktext -font $nickfont -fill $nickcol]
+		set psmid($groupid.$id) [$list create text 0 0 -anchor nw -text $psmtext -font $psmfont -fill $psmcol]
+		set stateid($groupid.$id) [$list create text 0 0 -anchor nw -text [$self StatusCodeToText $statetext] -font $statefont -fill $statecol]
+		set statusiconid($groupid.$id) [$list create image 0 0 -anchor nw -image [$self StatusCodeToImage $statetext]]
 
 		# Store the nick in array
 		set nick($groupid.$id) $nicktext
@@ -629,6 +631,7 @@ snit::widget contactlist {
 		# Buddy icon group & elements
 		contentmanager add group $cl $groupid $id icon -widget $list
 		contentmanager add element $cl $groupid $id icon icon -widget $list -tag $buddyid($groupid.$id)
+		contentmanager add element $cl $groupid $id icon status -widget $list -tag $statusiconid($groupid.$id)
 		# Information group & elements (nick, psm, etc)
 		contentmanager add group $cl $groupid $id info -widget $list
 		contentmanager add element $cl $groupid $id info nick -widget $list -tag $nickid($groupid.$id)
@@ -673,6 +676,7 @@ snit::widget contactlist {
 		if { [$self ContactInGroup $id $groupid] } {
 			# Change the text of the canvas item
 			$list itemconfigure $stateid($groupid.$id) -text $newstate
+			$list itemconfigure $statusiconid($groupid.$id) -image [$self StatusCodeToImage $newstate]
 			# Store the new state in array
 			set state($groupid.$id) $newstate
 		}
@@ -899,5 +903,40 @@ snit::widget contactlist {
 			}
 		}
 		return $newstr
+	}
+
+	# o------------------------------------------------------------------------------------------------------------------------
+	#  Methods to convert state codes to state descriptions and images
+	# o------------------------------------------------------------------------------------------------------------------------
+	method StatusCodeToText { code } {
+		switch $code {
+			NLN { return online }
+			FLN { return offline }
+			AWY { return away }
+			BRB { return "be right back" }
+			LUN { return "gone to lunch" }
+			BSY { return busy }
+			PHN { return "on phone" }
+			IDL { return "no activity" }
+
+			Offline { return offline }
+			default { return {} }
+		}
+	}
+
+	method StatusCodeToImage { code } {
+		switch $code {
+			NLN { return [::skin::loadPixmap online] }
+			FLN { return [::skin::loadPixmap offline] }
+			AWY { return [::skin::loadPixmap away] }
+			BRB { return [::skin::loadPixmap away] }
+			LUN { return [::skin::loadPixmap away] }
+			IDL { return [::skin::loadPixmap away] }
+			BSY { return [::skin::loadPixmap busy] }
+			PHN { return [::skin::loadPixmap busy] }
+
+			Offline { return [::skin::loadPixmap offline] }
+			default { return [::skin::loadPixmap offline] }
+		}
 	}
 }
