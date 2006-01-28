@@ -86,7 +86,7 @@ namespace eval ::TeXIM {
 		frame $win.header -class Degt
 		pack $win.header -anchor w
 		label $win.header.label -text "Please enter here the header for the tex documents \n(without \"\\begin\{document\}\" )\n(add packages there) :"
-		text $win.header.text -background white -borderwidth 1 -relief ridge -width 45 -height 5 -font sboldf
+		text $win.header.text -background white -borderwidth 1 -relief ridge -width 45 -height 7 -font sboldf
 		button $win.header.default -text [trans default] -command "::TeXIM::MakeDefault $win.header.text header"
 		$win.header.text insert end $::TeXIM::config(header)
 		grid $win.header.label -row 1 -column 1 -sticky w
@@ -108,7 +108,7 @@ namespace eval ::TeXIM {
 		frame $win.footer -class Degt
 		pack $win.footer -anchor w
 		label $win.footer.label -text "Please enter here the footer for the tex documents"
-		text $win.footer.text -background white -borderwidth 1 -relief ridge -width 45 -height 5 -font sboldf
+		text $win.footer.text -background white -borderwidth 1 -relief ridge -width 45 -height 2 -font sboldf
 		button $win.footer.default -text [trans default] -command "::TeXIM::MakeDefault $win.footer.text footer"
 		$win.footer.text insert end $::TeXIM::config(footer)
 		grid $win.footer.label -row 1 -column 1 -sticky w
@@ -130,6 +130,8 @@ namespace eval ::TeXIM {
 			header {
 				$widget delete 0.0 end
 				$widget insert end "\\documentclass\[12pt\]\{article\}\n\
+							% uncomment (remove the \"%\") the next line to use the amsfonts\n\
+							% \\usepackage\{amsfonts\}\n\
 							\\pagestyle\{empty\}"
 			}
 			footer {
@@ -148,6 +150,8 @@ namespace eval ::TeXIM {
 		if { "$name" == "TeXIM"} {
 			set ::TeXIM::config(header) [$win_path.header.text get 0.0 end]
 			set ::TeXIM::config(footer) [$win_path.footer.text get 0.0 end]			
+			#check if the user remove "\\begin\{document\}". users never read warnings !
+			regsub -all {\\begin\{document\}} $::TeXIM::config(header) {} ::TeXIM::config(header)
 		}
 	}
 
