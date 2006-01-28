@@ -272,7 +272,7 @@ proc ChCustomState { idx } {
                                 }
 
                                 set newpsm [string map { "\\" "\\\\" "\$" "\\\$" } $newpsm]
-                                set newpsm [string map { "\\\$nick" "\${original_psm}" } $newpsm]
+                                set newpsm [string map { "\\\$psm" "\${original_psm}" } $newpsm]
                                 set newpsm [subst -nocommands $newpsm]
                                 ::MSN::changePSM $newpsm
                         }
