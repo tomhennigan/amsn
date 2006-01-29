@@ -3010,7 +3010,7 @@ namespace eval ::Event {
 			} elseif { $list_names == "" } {
 				#We didn't get the list names
 				set list_names $information
-				status_log $list_names
+				#status_log $list_names
 			} elseif { $unknown == "" } {
 				set unknown $information
 			} elseif { $groups == "0" } {
