@@ -2,7 +2,7 @@ package require SOAP
 
 if {[winfo exists .cl] == 0} {
 	source contactlist.tcl
-	pack [contactlist .cl]
+	pack [contactlist .cl] -expand true -fill both
 
 #	Event::fireEvent groupAdded protocol online Online
 #	Event::fireEvent groupAdded protocol offline Offline
