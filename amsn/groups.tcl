@@ -364,7 +364,7 @@ namespace eval ::groups {
 		if {![info exists bShowing($gid)]} {
 			return -1
 		}
-		if {($rel_qty == 0) || ($rel_qty == "clear")} {
+		if {($rel_qty == 0) || ($rel_qty == "clear") || (![info exists uMemberCnt($gid)])} {
 			set uMemberCnt($gid) 0
 			set uMemberCnt_online($gid) 0
 		} elseif {("$online" == "online")} {
