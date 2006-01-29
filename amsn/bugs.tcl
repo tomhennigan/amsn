@@ -69,6 +69,7 @@ namespace eval ::bugs {
 	set ::bugs::bug(status) [privacy [htmlentities [.status.info get $pos $posend]]]
 	set ::bugs::bug(protocol) [privacy [htmlentities [.degt.mid.txt get $prot_pos $prot_posend]]]
 	set ::bugs::bug(comment) ""
+	set ::bugs::bug(msnprotocol) [::config::getKey protocol]
 
 	::bugs::show_bug_dialog $errorInfo
     }
@@ -99,6 +100,7 @@ namespace eval ::bugs {
 	foreach {key value} [array get tcl_platform] {
 	    puts $fd "\t\t<[string tolower $key]>$value</[string tolower $key]>"
 	}
+	puts $fd "\t\t<msnprotocol>$bug(msnprotocol)</msnprotocol>"
 	puts $fd "\t</system>"
 	puts $fd "\t<extra>"
 	puts $fd "\t\t<status_log>"
