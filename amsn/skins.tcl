@@ -151,8 +151,10 @@ namespace eval ::skin {
 		set filename [::abook::getContactData $email displaypicfile ""]
 		if { [file readable "[file join $HOME displaypic cache ${filename}].png"] } {
 			catch {image create photo $picName -file "[file join $HOME displaypic cache ${filename}].png" -format cximage}
+			set file "[file join $HOME displaypic cache ${filename}].png"
 		} else {
 			image create photo $picName -file [::skin::GetSkinFile displaypic nopic.gif] -format cximage
+			set file [::skin::GetSkinFile displaypic nopic.gif]
 		}
 		
 		if {[catch {image width $picName} res] } {
@@ -160,7 +162,11 @@ namespace eval ::skin {
 			return [::skin::getNoDisplayPicture]
 		}
 		
-		if { [::config::getKey autoresizedp] } {
+		if { [catch {::picture::GetPictureSize $file} cursize] } {
+			status_log "Error opening $file: $cursize\n"
+		}
+		
+		if { [::config::getKey autoresizedp] && ![::picture::IsAnimated $file] && $cursize != "96x96"} {
 			::picture::Resize $picName 96 96
 		}
 
