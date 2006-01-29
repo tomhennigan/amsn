@@ -190,6 +190,7 @@ snit::widget contactlist {
 		# Bind the canvases
 		bind $top <Configure> "$self Config top %w %h"
 		bind $list <Configure> "$self Config list %w %h"
+		bindtags $list "ScrollableCanvas Canvas . all"
 
 		# Apply arguments
 		$self configurelist $args
@@ -547,31 +548,22 @@ snit::widget contactlist {
 			}
 		# Non-empty
 		} else {
-			#foreach groupid $groups {
-			#	if { ![string equal $groupid search] } {
-			#		$self HideGroup $groupid
-			#	}
-			#}
-			#$self ShowGroup search
-			#foreach id [contentmanager children $cl search] {
-			#	if { [string equal $id head] } {
-			#		continue
-			#	}
-			#	$self DeleteContact search $id
-			#}
-			set matches [$self SearchContacts $pattern]
+			#set matches [$self SearchContacts $pattern]
 			foreach groupid $groups {
 				foreach id [contentmanager children $cl $groupid] {
 					if { [string equal $id head] } {
 						continue
 					}
-					if { [lsearch $matches $id] == -1 } {
+					if {
+						[string first $pattern $nick($groupid.$id)] == -1 || \
+						[string first $pattern $psm($groupid.$id)] == -1 || \
+						[lsearch $tags($groupid.$id) $pattern] == -1
+					} {
 						$self HideContact $groupid $id
 					} else {
 						$self ShowContact $groupid $id
 					}
 				}
-				#$self CopyContact $groupid $id search
 			}
 		}
 	}
@@ -829,17 +821,17 @@ snit::widget contactlist {
 		# Config'ing top or list?
 		switch $component {
 			top {
-				$topbg configure -width $width -height $height
+				#$topbg configure -width $width -height $height
 			}
 			list {
-				$listbg configure -width $width -height $height
-				$selectbg configure -width [$self CalculateSelectWidth]
+				#$listbg configure -width $width -height $height
+				#$selectbg configure -width [$self CalculateSelectWidth]
 			}
 		}
 		
 		# Resize group backgrounds
 		foreach groupid $groups {
-			$self SetGroupBgWidth $groupid [expr {$width - (2 * $options(-ipadx)) - (2 * $options(-grouppadx))}]
+			#$self SetGroupBgWidth $groupid [expr {$width - (2 * $options(-ipadx)) - (2 * $options(-grouppadx))}]
 		}
 
 		# Truncate text items (nicks etc)
@@ -939,4 +931,11 @@ snit::widget contactlist {
 			default { return [::skin::loadPixmap offline] }
 		}
 	}
+}
+
+bind ScrollableCanvas <4> {
+	%W yview scroll -1 units
+}
+bind ScrollableCanvas <5> {
+	%W yview scroll 1 units
 }
