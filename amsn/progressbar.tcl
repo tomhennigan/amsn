@@ -60,11 +60,11 @@ namespace eval dkfprogress {
 			set progressPercent($win) "${progress}%"
 			
 			if {[expr $relwidth < 0.5]} {
-				set R ff
-				binary scan [binary format i [expr {int(2*$relwidth*255)}]] H2 G
+				set R e1
+				binary scan [binary format i [expr {int(2*$relwidth*225)}]] H2 G
 			} else {
-				set G ff
-				binary scan [binary format i [expr {int(2*(1.0 - $relwidth)*255)}]] H2 R
+				set G e1
+				binary scan [binary format i [expr {int(2*(1.0 - $relwidth)*225)}]] H2 R
 			}
 			set B 00
 			$win.l.fill configure -background \#${R}${G}${B}
