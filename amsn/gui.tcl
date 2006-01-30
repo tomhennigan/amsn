@@ -5187,25 +5187,6 @@ proc cmsn_draw_online_wrapped {} {
 	#Go thru list in reverse order, as every item is inserted at the beginning, not the end...
 	for {set i [expr {[llength $list_users] - 1}]} {$i >= 0} {incr i -1} {
 		set user_login [lindex $list_users $i]
-		set globalnick [::config::getKey globalnick]
-
-		set psm [::abook::getpsmmedia $user_login]
-		set customnick [::abook::getContactData $user_login customnick]
-
-		if { $globalnick != "" } {
-			set nick [::abook::getNick $user_login]
-		#	if {$psm != "" && [::config::getKey emailsincontactlist] == 0 } {
-		#		append nick "\n$psm"
-		#	}
-			set user_name [::abook::parseCustomNick $globalnick $nick $user_login $customnick $psm]
-		} else {
-			set user_name "[::abook::getDisplayNick $user_login]"
-			if {$psm != "" && [::config::getKey emailsincontactlist] == 0 && $customnick == "" } {
-				append user_name "\n$psm"
-			}
-		}
-
-
 
 		set state_code [::abook::getVolatileData $user_login state FLN]
 		if { $state_code == "FLN" && [::abook::getVolatileData $user_login MOB] == "Y" } {
@@ -5276,7 +5257,7 @@ proc cmsn_draw_online_wrapped {} {
 				}
 
 				if {$myGroupExpanded} {
-					ShowUser $user_name $user_login $state_code $colour $section $user_group
+					ShowUser $user_login $state_code $colour $section $user_group
 				}
 
 				#Why "breaking"? Why not just a break? Or should we "continue" instead of breaking?
@@ -5284,13 +5265,13 @@ proc cmsn_draw_online_wrapped {} {
 
 			}
 		} elseif {[::groups::IsExpanded $state_section]} {
-				ShowUser $user_name $user_login $state_code $colour $state_section 0
+				ShowUser $user_login $state_code $colour $state_section 0
 		}
 
 		if { [::config::getKey showblockedgroup] == 1 && [info exists emailBList($user_login)]} {
 			::groups::UpdateCount blocked +1
 			if {[::groups::IsExpanded blocked]} {
-				ShowUser $user_name $user_login $state_code $colour "blocked" [lindex [::abook::getGroups $user_login] 0]
+				ShowUser $user_login $state_code $colour "blocked" [lindex [::abook::getGroups $user_login] 0]
 			}
 		}
 	}
@@ -5467,7 +5448,7 @@ proc getUniqueValue {} {
 
 
 #///////////////////////////////////////////////////////////////////////
-proc ShowUser {user_name user_login state_code colour section grId} {
+proc ShowUser {user_login state_code colour section grId} {
 	global pgBuddy emailBList Bulle tcl_platform
 
 	if {($state_code != "NLN") && ($state_code !="FLN")} {
@@ -5475,6 +5456,21 @@ proc ShowUser {user_name user_login state_code colour section grId} {
 	} else {
 		set state_desc ""
 	}
+
+
+	set globalnick [::config::getKey globalnick]
+	
+	set psm [::abook::getpsmmedia $user_login]
+	set customnick [::abook::getContactData $user_login customnick]
+	
+	if { $globalnick != "" } {
+		set nick [::abook::getNick $user_login]
+			set user_name [::abook::parseCustomNick $globalnick $nick $user_login $customnick $psm]
+	} else {
+		set user_name "[::abook::getDisplayNick $user_login]"
+	}
+	
+
 
 	set user_unique_name "$user_login[getUniqueValue]"
 	set user_ident "    "
@@ -5505,7 +5501,7 @@ proc ShowUser {user_name user_login state_code colour section grId} {
 	}
 
 	$pgBuddy.text tag conf $user_unique_name -fore $colour
-
+	$pgBuddy.text tag conf psm_tag -font sbolditalf
 
 	$pgBuddy.text mark set new_text_start end
 
@@ -5515,6 +5511,10 @@ proc ShowUser {user_name user_login state_code colour section grId} {
 		set user_lines [split $user_name "\n"]
 	}
 	set last_element [expr {[llength $user_lines] -1 }]
+
+	if {$psm != "" && [::config::getKey emailsincontactlist] == 0 && $customnick == ""} {
+		$pgBuddy.text insert $section.last " - $psm" [list $user_unique_name psm_tag]
+	}
 
 	$pgBuddy.text insert $section.last " $state_desc" $user_unique_name
 
