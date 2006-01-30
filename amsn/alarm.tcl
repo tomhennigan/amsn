@@ -392,7 +392,7 @@ proc run_alarm {config_user user nick msg} {
 }
 
 # Switches alarm setting from ON/OFF
-proc switch_alarm { user icon} {
+proc switch_alarm { user tw icon} {
 	#We get the alarms configuration. It's stored as a list, but it's converted to an array
 	array set alarms [::abook::getContactData $user alarms]
 
@@ -404,16 +404,16 @@ proc switch_alarm { user icon} {
 	
 	#We set the alarms configuration. We can't store an array, so we convert it to a list
 	::abook::setContactData $user alarms [array get alarms]
-	redraw_alarm_icon $user $icon
+	redraw_alarm_icon $user $tw $icon
 }
 
 # Redraws the alarm icon for current user ONLY without redrawing full list of contacts
-proc redraw_alarm_icon { user icon } {
+proc redraw_alarm_icon { user tw icon } {
 
 	if { [::alarms::getAlarmItem $user enabled] == 1 } {
-		$icon configure -image [::skin::loadPixmap bell]
+		$tw image configure $icon -image [::skin::loadPixmap bell]
 	} else {
-		$icon configure -image [::skin::loadPixmap belloff]
+		$tw image configure $icon -image [::skin::loadPixmap belloff]
 	}
 }
 

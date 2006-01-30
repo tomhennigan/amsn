@@ -4724,12 +4724,11 @@ proc AddProfileOk {mainframe} {
 
 #///////////////////////////////////////////////////////////////////////
 proc toggleGroup {tw name image id {padx 0} {pady 0}} {
-	label $tw.$name -image [::skin::loadPixmap $image] -bg [::skin::getKey contactlistbg]
-	bind $tw.$name <Enter> [list $tw.$name configure -image [::skin::loadPixmap ${image}_hover]]
-	bind $tw.$name <Leave> [list $tw.$name configure -image [::skin::loadPixmap $image]] 
-	$tw.$name configure -cursor hand2 -borderwidth 0
-	bind $tw.$name <Button1-ButtonRelease> "::groups::ToggleStatus $id; cmsn_draw_online"
-	$tw window create end -window $tw.$name -padx $padx -pady $pady
+	set imgIdx [$tw image create end -image [::skin::loadPixmap $image] -padx $padx -pady $pady]
+	$tw tag add $name $imgIdx
+	$tw tag bind $name <Enter> "$tw image configure $imgIdx -image [::skin::loadPixmap ${image}_hover]; $tw conf -cursor hand2"
+	$tw tag bind $name <Leave> "$tw image configure $imgIdx -image [::skin::loadPixmap $image]; $tw conf -cursor left_ptr"
+	$tw tag bind $name <Button1-ButtonRelease> "status_log \"$id\"; ::groups::ToggleStatus $id; cmsn_draw_online"
 }
 #///////////////////////////////////////////////////////////////////////
 
@@ -5294,9 +5293,11 @@ proc cmsn_draw_online_wrapped {} {
 					$pgBuddy.text delete $gtag.first [expr {[lindex $endidx 0]+2}].0
 				}
 				if { [::groups::IsExpanded $gname] } {
-					destroy $pgBuddy.text.contract$gname
+					$pgBuddy.text delete contract$gname.first contract$gname.last
+					$pgBuddy.text tag delete contract$gname
 				} else {
-					destroy $pgBuddy.text.expand$gname
+					$pgBuddy.text delete expand$gname.first expand$gname.last
+					$pgBuddy.text tag delete expand$gname
 				}
 
 				continue
@@ -5304,9 +5305,11 @@ proc cmsn_draw_online_wrapped {} {
 
 			if { ([::config::getKey removeempty] && $gname == "mobile" && $::groups::uMemberCnt(mobile) == 0) } {
 				if { [::groups::IsExpanded $gname] } {
-					destroy $pgBuddy.text.contract$gname
+					$pgBuddy.text delete contract$gname.first contract$gname.last
+					$pgBuddy.text tag delete contract$gname
 				} else {
-					destroy $pgBuddy.text.expand$gname
+					$pgBuddy.text delete expand$gname.first expand$gname.last
+					$pgBuddy.text tag delete expand$gname
 				}
 
 				continue
@@ -5564,12 +5567,12 @@ proc ShowUser {user_login state_code colour section grId} {
 	set not_in_reverse [expr {[lsearch [::abook::getLists $user_login] RL] == -1}]
 	if {$not_in_reverse} {
 		set imgname2 "img2_[getUniqueValue]"
-		label $pgBuddy.text.$imgname2 -image [::skin::loadPixmap notinlist] -bg [::skin::getKey contactlistbg]
-		$pgBuddy.text.$imgname2 configure -cursor hand2 -borderwidth 0
-		$pgBuddy.text window create $section.last -window $pgBuddy.text.$imgname2 -padx 1 -pady 1
-		bind $pgBuddy.text.$imgname2 <Enter> \
-		"$pgBuddy.text tag conf $user_unique_name -under [::skin::getKey underline_contact]; if {[::skin::getKey changecursor_contact]} {$pgBuddy.text conf -cursor hand2}"
-		bind $pgBuddy.text.$imgname2 <Leave> \
+
+		set imgIdx [$pgBuddy.text image create $section.last -image [::skin::loadPixmap notinlist] -padx 1 -pady 1]
+		$pgBuddy.text tag add $imgname2 $imgIdx
+		$pgBuddy.text tag bind $imgname2 <Enter> \
+			"$pgBuddy.text tag conf $user_unique_name -under [::skin::getKey underline_contact]; if {[::skin::getKey changecursor_contact]} {$pgBuddy.text conf -cursor hand2}"
+		$pgBuddy.text tag bind $imgname2 <Leave> \
 			"$pgBuddy.text tag conf $user_unique_name -under false; $pgBuddy.text conf -cursor left_ptr"
 
 	}
@@ -5583,16 +5586,13 @@ proc ShowUser {user_login state_code colour section grId} {
 		#regsub -all "\[^\[:alnum:\]\]" [string tolower $user_login] "_" imagee
 
 		if { [::alarms::isEnabled $user_login] } {
-			label $pgBuddy.text.$imagee -image [::skin::loadPixmap bell] -bg [::skin::getKey topcontactlistbg]
+			set imgIdx [$pgBuddy.text image create $section.last -image [::skin::loadPixmap bell] -padx 1 -pady 1]
 		} else {
-			label $pgBuddy.text.$imagee -image [::skin::loadPixmap belloff] -bg [::skin::getKey topcontactlistbg]
+			set imgIdx [$pgBuddy.text image create $section.last -image [::skin::loadPixmap belloff] -padx 1 -pady 1]
 		}
-
-		$pgBuddy.text.$imagee configure -cursor hand2 -borderwidth 0
-		$pgBuddy.text window create $section.last -window $pgBuddy.text.$imagee  -padx 1 -pady 1
-		bind $pgBuddy.text.$imagee <Button1-ButtonRelease> "switch_alarm $user_login $pgBuddy.text.$imagee"
-
-		bind $pgBuddy.text.$imagee <<Button3>> "::alarms::configDialog $user_login"
+		$pgBuddy.text tag add $imagee $imgIdx
+		$pgBuddy.text tag bind $imagee <Button1-ButtonRelease> "switch_alarm $user_login $pgBuddy.text $imgIdx"
+		$pgBuddy.text tag bind $imagee <<Button3>> "::alarms::configDialog $user_login"
 	}
 
 
@@ -5610,16 +5610,18 @@ proc ShowUser {user_login state_code colour section grId} {
 			small_dp_$user_login copy [::skin::getDisplayPicture $user_login]
 			::picture::ResizeWithRatio small_dp_$user_login $buddyheight $buddyheight
 		}
-		label $pgBuddy.text.$imgname -image small_dp_$user_login -bg [::skin::getKey contactlistbg]
+		set imgIdx [$pgBuddy.text image create $section.last -image small_dp_$user_login -padx 3 -pady 1 -name [string map { "-" "\\" } "small_dp_$user_login"]]
 	} else {
-		label $pgBuddy.text.$imgname -image [::skin::loadPixmap $image_type] -bg [::skin::getKey contactlistbg]
+		set imgIdx [$pgBuddy.text image create $section.last -image [::skin::loadPixmap $image_type] -padx 3 -pady 1]
 	}
-	$pgBuddy.text.$imgname configure -cursor hand2 -borderwidth 0
+
 	if { $last_element > 0 } {
-		$pgBuddy.text window create $section.last -window $pgBuddy.text.$imgname -padx 3 -pady 1 -align baseline
+		$pgBuddy.text image configure $imgIdx -align baseline
 	} else {
-		$pgBuddy.text window create $section.last -window $pgBuddy.text.$imgname -padx 3 -pady 1 -align center
+		$pgBuddy.text image configure $imgIdx -align center
 	}
+
+	$pgBuddy.text tag add $imgname $imgIdx
 
 	$pgBuddy.text insert $section.last "\n$user_ident"
 
@@ -5630,13 +5632,10 @@ proc ShowUser {user_login state_code colour section grId} {
 	$pgBuddy.text tag bind $user_unique_name <Leave> \
 		"$pgBuddy.text tag conf $user_unique_name -under false;	$pgBuddy.text conf -cursor left_ptr"
 
-	bind $pgBuddy.text.$imgname <Enter> \
+	$pgBuddy.text tag bind $imgname <Enter> \
 		"$pgBuddy.text tag conf $user_unique_name -under [::skin::getKey underline_contact]; if {[::skin::getKey changecursor_contact]} {$pgBuddy.text conf -cursor hand2}"
-	bind $pgBuddy.text.$imgname <Leave> \
+	$pgBuddy.text tag bind $imgname <Leave> \
 		"$pgBuddy.text tag conf $user_unique_name -under false;	$pgBuddy.text conf -cursor left_ptr"
-
-
-
 
 	if { [::config::getKey tooltips] == 1 } {
 		if {$not_in_reverse} {
@@ -5677,18 +5676,18 @@ proc ShowUser {user_login state_code colour section grId} {
 
 		$pgBuddy.text tag bind $user_unique_name <Motion> +[list balloon_motion_userpic %W %X %Y $balloon_message $user_login]
 
-		bind $pgBuddy.text.$imgname <Enter> +[list balloon_enter_userpic %W %X %Y $balloon_message $user_login]
-		bind $pgBuddy.text.$imgname <Leave> \
+		$pgBuddy.text tag bind $imgname <Enter> +[list balloon_enter_userpic %W %X %Y $balloon_message $user_login]
+		$pgBuddy.text tag bind $imgname <Leave> \
 			"+set Bulle(first) 0; kill_balloon"
 
-		bind $pgBuddy.text.$imgname <Motion> +[list balloon_motion_userpic %W %X %Y $balloon_message $user_login]
+		$pgBuddy.text tag bind $imgname <Motion> +[list balloon_motion_userpic %W %X %Y $balloon_message $user_login]
 
 		if {$not_in_reverse} {
-			bind $pgBuddy.text.$imgname2 <Enter> +[list balloon_enter_userpic %W %X %Y $balloon_message $user_login]
-			bind $pgBuddy.text.$imgname2 <Leave> \
+			$pgBuddy.text tag bind $imgname2 <Enter> +[list balloon_enter_userpic %W %X %Y $balloon_message $user_login]
+			$pgBuddy.text tag bind $imgname2 <Leave> \
 				"+set Bulle(first) 0; kill_balloon"
 
-			bind $pgBuddy.text.$imgname2 <Motion> +[list balloon_motion_userpic %W %X %Y $balloon_message $user_login]
+			$pgBuddy.text tag bind $imgname2 <Motion> +[list balloon_motion_userpic %W %X %Y $balloon_message $user_login]
 		}
 	}
 	#Change mouse button and add control-click on Mac OS X
@@ -5698,9 +5697,9 @@ proc ShowUser {user_login state_code colour section grId} {
 	} else {
 		$pgBuddy.text tag bind $user_unique_name <Button3-ButtonRelease> "show_umenu $user_login $grId %X %Y"
 	}
-	bind $pgBuddy.text.$imgname <<Button3>> "show_umenu $user_login $grId %X %Y"
+	$pgBuddy.text tag bind $imgname <<Button3>> "show_umenu $user_login $grId %X %Y"
 	if {$not_in_reverse} {
-		bind $pgBuddy.text.$imgname2 <<Button3>> "show_umenu $user_login $grId %X %Y"
+		$pgBuddy.text tag bind $imgname2 <<Button3>> "show_umenu $user_login $grId %X %Y"
 	}
 
 	if { [::config::getKey sngdblclick] } {
@@ -5709,23 +5708,23 @@ proc ShowUser {user_login state_code colour section grId} {
 		set singordblclick <Double-Button-1>
 	}
 	if { $state_code != "FLN" } {
-		bind $pgBuddy.text.$imgname $singordblclick "::amsn::chatUser $user_login"
+		$pgBuddy.text tag bind $imgname $singordblclick "::amsn::chatUser $user_login"
 		if {$not_in_reverse} {
-			bind $pgBuddy.text.$imgname2 $singordblclick "::amsn::chatUser $user_login"
+			$pgBuddy.text tag bind $imgname2 $singordblclick "::amsn::chatUser $user_login"
 		}
 		$pgBuddy.text tag bind $user_unique_name $singordblclick \
 			"::amsn::chatUser $user_login"
 	} elseif {[::abook::getVolatileData $user_login MOB] == "Y" && $state_code == "FLN"} {
 		#If the user is offline and support mobile (SMS)
-		bind $pgBuddy.text.$imgname $singordblclick "::MSNMobile::OpenMobileWindow ${user_login}"
+		$pgBuddy.text tag bind $imgname $singordblclick "::MSNMobile::OpenMobileWindow ${user_login}"
 		if {$not_in_reverse} {
-			bind $pgBuddy.text.$imgname2 $singordblclick "::MSNMobile::OpenMobileWindow ${user_login}"
+			$pgBuddy.text tag bind $imgname2 $singordblclick "::MSNMobile::OpenMobileWindow ${user_login}"
 		}
 		$pgBuddy.text tag bind $user_unique_name $singordblclick "::MSNMobile::OpenMobileWindow ${user_login}"
 	} else {
-		bind $pgBuddy.text.$imgname $singordblclick ""
+		$pgBuddy.text tag bind $imgname $singordblclick ""
 		if {$not_in_reverse} {
-			bind $pgBuddy.text.$imgname2 $singordblclick ""
+			$pgBuddy.text tag bind $imgname2 $singordblclick ""
 		}
 		$pgBuddy.text tag bind $user_unique_name $singordblclick ""
 	}
