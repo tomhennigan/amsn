@@ -2242,6 +2242,11 @@ namespace eval ::ChatWindow {
 				set psmmedia ""
 			}
 
+			#Space added so it doesn't stick next to the status
+			if { $psmmedia != "" } {
+				append psmmedia " "
+			}
+
 			if { $state_code == "" } {
 				set user_state ""
 				set state_code FLN
