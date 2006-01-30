@@ -5190,17 +5190,17 @@ proc cmsn_draw_online_wrapped {} {
 		set globalnick [::config::getKey globalnick]
 
 		set psm [::abook::getpsmmedia $user_login]
+		set customnick [::abook::getContactData $user_login customnick]
 
 		if { $globalnick != "" } {
 			set nick [::abook::getNick $user_login]
-			if {$psm != "" && [::config::getKey emailsincontactlist] == 0 } {
-				append nick "\n$psm"
-			}
-			set customnick [::abook::getContactData $user_login customnick]
+		#	if {$psm != "" && [::config::getKey emailsincontactlist] == 0 } {
+		#		append nick "\n$psm"
+		#	}
 			set user_name [::abook::parseCustomNick $globalnick $nick $user_login $customnick $psm]
 		} else {
 			set user_name "[::abook::getDisplayNick $user_login]"
-			if {$psm != "" && [::config::getKey emailsincontactlist] == 0 } {
+			if {$psm != "" && [::config::getKey emailsincontactlist] == 0 && $customnick == "" } {
 				append user_name "\n$psm"
 			}
 		}

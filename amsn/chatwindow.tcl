@@ -2235,6 +2235,12 @@ namespace eval ::ChatWindow {
 			set state_code [::abook::getVolatileData $user_login state]
 
 			set psmmedia [::abook::getpsmmedia $user_login]
+			set customnick [::abook::getContactData $user_login customnick]
+			set globalnick [::config::getKey globalnick]
+
+			if { $customnick != "" || $globalnick != "" } {
+				set psmmedia ""
+			}
 
 			if { $state_code == "" } {
 				set user_state ""
