@@ -59,7 +59,7 @@ snit::widget searchdialog {
 		install up using radiobutton $middle.u -text "Search up" -variable [myvar searchdirect] -value up
 		install down using radiobutton $middle.d -text "Search down" -variable [myvar searchdirect] -value down
 		install regexp using checkbutton $middle.r -text "Use as regular expression" -variable [myvar useregexpsearch]
-		install nextbutton using button $bottom.n -text "Find next" -command "$self FindNext"
+		install nextbutton using button $bottom.n -text "Find next" -command "$self FindNext" -default active
 		install prevbutton using button $bottom.p -text "Find previous" -command "$self FindPrev"
 		install closebutton using button $bottom.c -text "Close" -command "destroy $self"
 
@@ -72,6 +72,7 @@ snit::widget searchdialog {
 		bindtags $self "Toplevel SearchDialog . all"
 		bind $entry <Return> "$self FindNext"
 		bind $entry <Escape> "destroy $self"
+		bind $self <Map> "focus $entry"
 	}
 
 	destructor {
@@ -84,7 +85,8 @@ snit::widget searchdialog {
 	method SetSearchIn { option value } {
 		# Delete the 'search' tag on the old text widget
 		if { $options(-searchin) != {} } {
-			$options(-searchin) delete tag search
+			$options(-searchin) tag remove search 0.0 end
+			$options(-searchin) tag delete search
 		}
 		set options(-searchin) $value
 		# Create the 'search' tag on the text widget
@@ -137,10 +139,15 @@ snit::widget searchdialog {
 		$options(-searchin) tag remove sel 0.0 end
 		# Get the search pattern
 		set pattern [$entry get]
+		# Stop if we have an empty pattern
+		if { $pattern == {} } {
+			return
+		}
 		# Get the index of the next occurence of the pattern in the text widget
 		set index [eval $options(-searchin) search -count length $argz -- $pattern $index]
-		# Stop if there's no matches
+		# Stop if there's no matches (also reset index to 0.0)
 		if { $index == {} } {
+			set index 0.0
 			return
 		}
 		# Highlight and scroll to the match
@@ -159,41 +166,4 @@ bind SearchDialog <Return> {
 
 bind SearchDialog <Escape> {
 	destroy %W
-}
-
-#  Amsn-specific code
-# o-----------------------------------
-#  CreateSearchDialog
-#  Creates a search dialog for a chatwindow
-#  w - path of the chatwindow's container
-proc CreateChatSearchDialog { w } {
-	if { [winfo exists $w.search] } {
-		raise $w.search
-	} else {
-		searchdialog $w.search -searchin [::ChatWindow::GetOutText [::ChatWindow::GetCurrentWindow $w]]
-	}
-}
-
-# o-----------------------------------
-#  SearchDialogNext
-#  Tells a chatwindow's search dialog to do a FindNext
-#  w - path of the chatwindow's container
-proc ChatSearchNext { w } {
-	if { [winfo exists $w.search] } {
-		$w.search FindNext
-	} else {
-		CreateChatSearchDialog $w
-	}
-}
-
-# o-----------------------------------
-#  SearchDialogPrev
-#  Tells a chatwindow's search dialog to do a FindPrev
-#  w - path of the chatwindow's container
-proc ChatSearchPrev { w } {
-	if { [winfo exists $w.search] } {
-		$w.search FindPrev
-	} else {
-		CreateChatSearchDialog $w
-	}
 }

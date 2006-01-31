@@ -6,7 +6,6 @@
 
 package require framec
 package require scalable-bg
-source searchdialog.tcl
 
 namespace eval ::ChatWindow {
 
@@ -993,11 +992,11 @@ namespace eval ::ChatWindow {
 			bind $w <Control-w> "::ChatWindow::CloseTab \[set ::ChatWindow::win2tab(\[::ChatWindow::GetCurrentWindow $w\])\]"
 			bind $w <Control-Next> "::ChatWindow::GoToNextTab $w"
 			bind $w <Control-Prior> "::ChatWindow::GoToPrevTab $w"
-			bind $w <Control-f> "CreateChatSearchDialog $w"
+			bind $w <Control-f> "::ChatWindow::CreateChatSearchDialog $w"
 		}
 
-		bind $w <F3> "ChatSearchNext $w"
-		bind $w <Mod3-F3> "ChatSearchPrev $w"
+		bind $w <F3> "::ChatWindow::ChatSearchNext $w"
+		bind $w <Mod3-F3> "::ChatWindow::ChatSearchPrev $w"
 		# Shift-F* bindings are weird on some XFree86 versions, and instead of Shift-F(n), we get XF86_Switch_VT_(n)
 		# We allow for this here
 		if { ![catch {tk windowingsystem} wsystem] && $wsystem  == "x11" } {
@@ -3323,6 +3322,45 @@ namespace eval ::ChatWindow {
 
 		after 100 "catch {incr ::ChatWindow::scrolling($tw) -1; if {\$::ChatWindow::scrolling($tw) == 0 } {unset ::ChatWindow::scrolling($tw) }}"
 		
+	}
+
+	# o-----------------------------------
+	#  CreateChatSearchDialog
+	#  Creates a search dialog for a chatwindow
+	#  w - path of the chatwindow's container
+	proc CreateChatSearchDialog { w } {
+		if { [winfo exists $w.search] } {
+			raise $w.search
+		} else {
+			searchdialog $w.search \
+				-searchin [::ChatWindow::GetOutText [::ChatWindow::GetCurrentWindow $w]] \
+				-title [trans find]
+			wm group $w.search $w
+		}
+	}
+	
+	# o-----------------------------------
+	#  SearchDialogNext
+	#  Tells a chatwindow's search dialog to do a FindNext
+	#  w - path of the chatwindow's container
+	proc ChatSearchNext { w } {
+		if { [winfo exists $w.search] } {
+			$w.search FindNext
+		} else {
+			CreateChatSearchDialog $w
+		}
+	}
+	
+	# o-----------------------------------
+	#  SearchDialogPrev
+	#  Tells a chatwindow's search dialog to do a FindPrev
+	#  w - path of the chatwindow's container
+	proc ChatSearchPrev { w } {
+		if { [winfo exists $w.search] } {
+			$w.search FindPrev
+		} else {
+			CreateChatSearchDialog $w
+		}
 	}
 }
 
