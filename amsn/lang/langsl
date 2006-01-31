@@ -628,6 +628,7 @@ servergoingdown Povezava prekinjena
 serverunavailable Stre¾nik ni dosegljiv
 session Seja
 shareswebcam Ima spletno kamero
+show_contactdps_in_cl Prika¾i pomanj¹ane osebne slike v seznamu stikov
 showbanner Prika¾i aMSNjevo pasico
 showblockedlist Poka¾i seznam ljudi, ki so te blokirali
 showcachedpics Poka¾i shranjene osebne slike
@@ -674,6 +675,7 @@ state ®elim biti viden kot
 statename Ime osebnega stanja
 statenewtext Prosim vpi¹i potrebne podatke za\ntvoje novo osebno stanje in pritisni Shrani.
 statenick Nick v tem stanju (pusti prazno, èe naj se ne spremeni)
+statepsm Osebno sporoèilo v tem stanju (pusti prazno, èe naj se ne spremeni)
 stats Statistika
 status Stanje
 stop Ustavi

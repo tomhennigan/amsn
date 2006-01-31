@@ -631,6 +631,7 @@ shareswebcam Condividi la webcam
 showbanner Visualizza il banner di aMSN
 showblockedlist Mostra la lista delle persone che ti bloccano
 showcachedpics Visualizza le immagini memorizzate in cache
+show_contactdps_in_cl Mostra l'immagine dei contatti nella Lista Contatti
 showdisplaypic Mostra l'immagine personale
 showdisplaypic2 Mostra l'immagine personale in ogni nuova finestra di chat
 showmailicon Mostra icona e-mail nella Taskbar quando attivano nuove email
@@ -673,6 +674,7 @@ stateinfo Configurazione dello stato personale
 statename Nome dello stato personale
 statenewtext Per favore inserisci le informazioni richieste per creare \nil tuo nuovo Stato Personale e premi Salva
 statenick Personalizza nick (lasciare vuoto per non modificarlo)
+statepsm Personalizza messaggio personale (lasciare vuoto per non modificarlo)
 state Voglio apparire come
 stats Statistiche
 status Stato

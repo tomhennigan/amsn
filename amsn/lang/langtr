@@ -60,6 +60,7 @@ autoidle Otomatik EtkinlikYok özelliði
 autoip Otomatik IP
 automessage OtoÝleti
 autonoact Bu süre kadar eylemsiz kalýrsam "Etkinlik yok" göster:
+autoresizedp Kullanýcý resimlerini kendilðinden öntanýmlý ölçülere boyutlandýr
 avaccepted Görüntülü konuþma istemi kabul edildi
 avcanceled Görüntülü konuþma iptal edildi
 avgotinvitation $1 size görüntülü konuþma daveti gönderdi
@@ -106,10 +107,12 @@ casesensitive Yazýlý karþýlýklarda büyük/küçük harfe duyarlý ol
 cfgalarm Alarmý Düzenle/Ekle/Kaldýr
 cfgalarmall Genel Alarmý Düzenle/Ekle/Kaldýr
 change Deðiþtir
+change_account_info Kullanýcý hesabý bilgilerini deðiþtir
 changecustomstate Þu duruma geç:
 changedisplaypic Kullanýcý resmini deðiþtir
 changefont Yazitipi deðiþtir
 changeglobnick Rumuz þablonunu deðiþtir
+change_mobile Cep ayarlarýný deðiþtir
 changenick Rumuz deðiþtir
 changesize Boyutu deðiþtir
 changestate $1, $2 durumuna geçti
@@ -253,6 +256,7 @@ downloadingtls TLS $1 \n adresinden alýnýyor
 edit Düzenle
 editcontent Konu ve not alanlarýnýn içeriðini düzenle
 editcustomstate Düzenle
+editmyprofile MSN profilini deðiþtir
 editnewstate Yeni Kiþisel Otomatik Mesaj Durumu
 editprofile Profili düzenle
 editstate Var olan otomatik mesaj durumunu düzenle
@@ -272,6 +276,7 @@ enterbugdesc Hatayý tekrar canlandýrabilmemiz için hata oluþmadan önce yaptýklar
 entercontactemail Baðlantýnýn e-posta adresini girin
 enterfilename Lütfen bir dosya adý girin
 enternick Rumuzunuzu girin
+enterpsm Kiþisel Ýleti
 errortls TLS kurulumunda hata oluþtu:
 eventhistory Geçmiþ olaylara bak
 examples Örnekler
@@ -498,11 +503,11 @@ notls MSN 9 protokolü tls paketini gerektirir. Bu bilgisayarda tls kurulu görünm
 nottabbed Sekmesiz normal pencereler
 nousersinsession Ortamda kullanýcý yok
 nudge $1 sizinle görüþmek istiyor
-offline Çevrim dýþý
+offline Çevrimdýþý
 ok Tamam
 onenewmail Gelen kutusunda 1 yeni ileti var
-online Çevrim içi
-onlinehelp Ýnternetten (online) yardým
+online Çevrimiçi
+onlinehelp Çevrimiçi (online) yardým
 onphone Telefonda
 opendir Dizini aç
 openfile Dosyayý aç
@@ -614,7 +619,7 @@ sendemail Bana deðiþikliklerin bildirilmesi için e-posta adresimi gönder
 sendfile Dosya gönder
 sendmail E-posta iletisi gönder
 sendmobmsg Taþýnabilir aygýta gönder
-sendmsg Ýleti günder
+sendmsg Ýleti gönder
 sendwebcaminvite Kullanýcýyý kameranýzý izlemeye davet edin
 sentbytes $2 baytýn $1 (s)i gönderildi
 server Sunucu
@@ -626,8 +631,10 @@ shareswebcam Kamera görüntüsünu paylaþýyor
 showbanner  aMSN resmini göster
 showblockedlist Sizi engelleyenlerin listesi gösterilsin
 showcachedpics Saklanmýþ kullanýcý resimlerini göster/gizle
+show_contactdps_in_cl Baðlantýlarýn küçültülmüþ kullanýcý resimleri baðlantý listesinde gözüksün
 showdisplaypic Kullanýcý resmini göster
 showdisplaypic2 Bir sohbet penceresi açýldýðýnda kullanýcý resmini kendiliðinden göster
+showmailicon Yeni e-posta varsa panelde e-posta imgesi gözüksün
 showmypic Kullanýcý Resmim
 shownotify Belli olaylarda uyarý penceresi göster
 showpicnotify Uyarý pencerelerinde kullanýcý resimleri gözüksün
@@ -668,6 +675,7 @@ stateinfo Kiþisel Durum ayarlarý
 statename Kiþisel Durumun adý
 statenewtext Lütfen yeni Kiþisel Durumunuzu yaratmak için \n gerekli bilgileri girip Kaydet'e týklayýnýz
 statenick Bu duruma özel rumuz (deðiþtirmemek için boþ býrakýnýz).
+statepsm Özel kiþisel ileti (öntanýmlý ileti için boþ býrakýn)
 stats Ýstatistikler
 status Durum
 stop Durdur
@@ -691,7 +699,7 @@ temp_state Kaydetme (Geçici durum, AMSN kapatýlýnca silinecek)
 textsize Metin boyutu
 thismonth Bu ay
 throughserver Sunucu üzerinden
-timeremaining Kalan zaman
+timeremaining Kalan süre
 timestamp Zaman kaydý
 timestamps Sohbet pencerelerinde zaman kaydý düþülsün
 title Al'ýn Messenger'ý
@@ -726,6 +734,7 @@ update Güncelle
 updateonlycurrentlanguage Yalnýzca þu an kullanýlan dili güncelle
 updating Güncelliyor
 useasdp Kullanýcý resmi olarak kullan
+usemsnp11 Kiþisel ileti desteðini etkinleþtir (DENEYSEL özellik) -- oturumu yeniden baþlatmayý gerektirir
 useother Baþka bir yazýlým kullan
 user Kullanýcý
 useralreadyonlist Kullanýcý zaten baðlantý listesinde
