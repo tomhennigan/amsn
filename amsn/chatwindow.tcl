@@ -6,6 +6,7 @@
 
 package require framec
 package require scalable-bg
+source searchdialog.tcl
 
 namespace eval ::ChatWindow {
 
@@ -977,13 +978,14 @@ namespace eval ::ChatWindow {
 		bind $w <<Copy>> "status_log copy\n;tk_textCopy \[::ChatWindow::GetCurrentWindow $w\]"
 		bind $w <<Paste>> "status_log paste\n;tk_textPaste \[::ChatWindow::GetCurrentWindow $w\]"
 
-		#Change shortcut for history on Mac OS X
+		# Change shortcut for history and find on Mac OS X
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 			bind $w <Command-Option-h> \
 				"::amsn::ShowChatList \"[trans history]\" \[::ChatWindow::GetCurrentWindow $w\] ::log::OpenLogWin"
-			#Control-w for closing current tab not implemented on Mac (germinator)
+			# Control-w for closing current tab not implemented on Mac (germinator)
                         bind $w <Command-Next> "::ChatWindow::GoToNextTab $w"
                         bind $w <Command-Prior> "::ChatWindow::GoToPrevTab $w"
+			bind $w <Command-f> "CreateChatSearchDialog $w"
 
 		} else {
 			bind $w <Control-h> \
@@ -991,8 +993,16 @@ namespace eval ::ChatWindow {
 			bind $w <Control-w> "::ChatWindow::CloseTab \[set ::ChatWindow::win2tab(\[::ChatWindow::GetCurrentWindow $w\])\]"
 			bind $w <Control-Next> "::ChatWindow::GoToNextTab $w"
 			bind $w <Control-Prior> "::ChatWindow::GoToPrevTab $w"
+			bind $w <Control-f> "CreateChatSearchDialog $w"
 		}
 
+		bind $w <F3> "ChatSearchNext $w"
+		bind $w <Mod3-F3> "ChatSearchPrev $w"
+		# Shift-F* bindings are weird on some XFree86 versions, and instead of Shift-F(n), we get XF86_Switch_VT_(n)
+		# We allow for this here
+		if { ![catch {tk windowingsystem} wsystem] && $wsystem  == "x11" } {
+			bind $w <XF86_Switch_VT_3> "ChatSearchPrev $w"
+		}
 		bind $w <<Escape>> "::ChatWindow::ContainerClose $w; break"
 		bind $w <Destroy> "::ChatWindow::DetachAll %W"
 
@@ -1238,6 +1248,8 @@ namespace eval ::ChatWindow {
 				-command "tk_textCopy \[::ChatWindow::getCurrentTab $w\]" -accelerator "Command+C"
 			$editmenu add command -label "[trans paste]" \
 				-command "tk_textPaste \[::ChatWindow::getCurrentTab $w\]" -accelerator "Command+V"
+			$editmenu add separator
+			$editmenu add command -label "[trans find]" -accelerator "Command+F"
 		} else {
 			$editmenu add command -label "[trans cut]" \
 				-command "tk_textCut \[::ChatWindow::getCurrentTab $w\]" -accelerator "Ctrl+X"
@@ -1245,8 +1257,12 @@ namespace eval ::ChatWindow {
 				-command "tk_textCopy \[::ChatWindow::getCurrentTab $w\]" -accelerator "Ctrl+C"
 			$editmenu add command -label "[trans paste]" \
 				-command "tk_textPaste \[::ChatWindow::getCurrentTab $w\]" -accelerator "Ctrl+V"
+			$editmenu add separator
+			$editmenu add command -label "[trans find]" \
+				-command "CreateChatSearchDialog $w" -accelerator "Ctrl+F"
 		}
-		
+		$editmenu add command -label "[trans findnext]" -command "$w.search FindNext" -accelerator "F3"
+		$editmenu add command -label "[trans findprev]" -command "$w.search FindPrev" -accelerator "Shift+F3"
 		$editmenu add separator
 		$editmenu add command -label "[trans clear]" -command [list ::ChatWindow::Clear $w]
 
@@ -2761,10 +2777,9 @@ namespace eval ::ChatWindow {
 			return 
 		}
 		
-		#Don't switch if tab clicked is already current tab. > 2 used because otherwise windows for new mesages dont appear. this means this is
-		#only effective with three or more tabs open. hope someone can find how to fix this.
+		# Don't switch if tab clicked is already current tab. > 2 used because otherwise windows for new mesages dont appear. this means this is only effective with three or more tabs open. hope someone can find how to fix this.
 		if { [info exists containercurrent($container)] == 1 && [set containercurrent($container)] == $win && [llength [set containerwindows($container)]] > 2  } { return }
-		
+
 		if { [info exists containercurrent($container)] && [set containercurrent($container)] != "" } {
 			set w [set containercurrent($container)]
 			pack forget $w
@@ -2779,6 +2794,11 @@ namespace eval ::ChatWindow {
 		
 		set  containercurrent($container) $win
 		pack $win -side bottom -expand true -fill both
+
+		# Tell search dialog we've changed tabs
+		if { [winfo exists $container.search] } {
+			$container.search configure -searchin [::ChatWindow::GetOutText $win]
+		}
 
 		if { ![info exists containerprevious($container)] } {
 			set containerprevious($container) $win
