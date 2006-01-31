@@ -1540,11 +1540,14 @@ namespace eval ::ChatWindow {
 		bind $input <Configure> "::ChatWindow::InputPaneConfigured $paned $input $output %W %h"
 		if { $::tcl_version >= 8.4 } {
 			bind $output <Configure> "::ChatWindow::OutputPaneConfigured $paned $input $output %W %h"
-			if { $::tcl_version == "8.4" && [lindex [split $::tcl_patchLevel .] 2] > 9 } { 
+			#this bind is causing problems so I disable it for everything now. It is possible that
+			#resizing of the chatwindow will not correctly keep the inputwindow the same size, but
+			#that was the case for 8.4.10 and up (including 8.5) anyway.
+#			if { $::tcl_version == "8.4" && [lindex [split $::tcl_patchLevel .] 2] > 9 } { 
 				#tcl version 8.4.10 and up have a problem here, so don't bind
-			} else {
-				bind $paned <Configure> "::ChatWindow::PanedWindowConfigured $paned $input $output %W %h"
-			}
+#			} else {
+#				bind $paned <Configure> "::ChatWindow::PanedWindowConfigured $paned $input $output %W %h"
+#			}
 		}
 
 		return $paned
