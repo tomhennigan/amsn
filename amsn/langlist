@@ -70,7 +70,7 @@
 	<lang>
 		<langcode>nl</langcode>
 		<name>Dutch (Nederlands)</name>
-		<version>1.135</version>
+		<version>1.136</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -172,7 +172,7 @@
 	<lang>
 		<langcode>it</langcode>
 		<name>Italian (italiano)</name>
-		<version>1.62</version>
+		<version>1.63</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -202,7 +202,7 @@
 	<lang>
 		<langcode>no</langcode>
 		<name>Norwegian (Norsk)</name>
-		<version>1.47</version>
+		<version>1.48</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -244,7 +244,7 @@
 	<lang>
 		<langcode>sl</langcode>
 		<name>Slovenian (slovenščina)</name>
-		<version>1.41</version>
+		<version>1.42</version>
 		<encoding>iso8859-2</encoding>
 	</lang>
 	<lang>
@@ -286,7 +286,7 @@
 	<lang>
 		<langcode>tr</langcode>
 		<name>Turkish (Türkçe)</name>
-		<version>1.60</version>
+		<version>1.61</version>
 		<encoding>iso8859-9</encoding>
 	</lang>
 	<lang>
