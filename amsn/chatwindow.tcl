@@ -984,23 +984,28 @@ namespace eval ::ChatWindow {
 			# Control-w for closing current tab not implemented on Mac (germinator)
                         bind $w <Command-Next> "::ChatWindow::GoToNextTab $w"
                         bind $w <Command-Prior> "::ChatWindow::GoToPrevTab $w"
-			bind $w <Command-f> "CreateChatSearchDialog $w"
+			bind $w <Command-f> "::ChatWindow::CreateChatSearchDialog $w"
+			bind $w <Command-F> "::ChatWindow::CreateChatSearchDialog $w"
 
 		} else {
 			bind $w <Control-h> \
 				"::amsn::ShowChatList \"[trans history]\" \[::ChatWindow::GetCurrentWindow $w\] ::log::OpenLogWin"
+			bind $w <Control-H> \
+				"::amsn::ShowChatList \"[trans history]\" \[::ChatWindow::GetCurrentWindow $w\] ::log::OpenLogWin"
 			bind $w <Control-w> "::ChatWindow::CloseTab \[set ::ChatWindow::win2tab(\[::ChatWindow::GetCurrentWindow $w\])\]"
+			bind $w <Control-W> "::ChatWindow::CloseTab \[set ::ChatWindow::win2tab(\[::ChatWindow::GetCurrentWindow $w\])\]"
 			bind $w <Control-Next> "::ChatWindow::GoToNextTab $w"
 			bind $w <Control-Prior> "::ChatWindow::GoToPrevTab $w"
 			bind $w <Control-f> "::ChatWindow::CreateChatSearchDialog $w"
+			bind $w <Control-F> "::ChatWindow::CreateChatSearchDialog $w"
 		}
 
 		bind $w <F3> "::ChatWindow::ChatSearchNext $w"
-		bind $w <Mod3-F3> "::ChatWindow::ChatSearchPrev $w"
+		bind $w <Shift-F3> "::ChatWindow::ChatSearchPrev $w"
 		# Shift-F* bindings are weird on some XFree86 versions, and instead of Shift-F(n), we get XF86_Switch_VT_(n)
-		# We allow for this here
+		# We allow for this here:
 		if { ![catch {tk windowingsystem} wsystem] && $wsystem  == "x11" } {
-			bind $w <XF86_Switch_VT_3> "ChatSearchPrev $w"
+			bind $w <XF86_Switch_VT_3> "::ChatWindow::ChatSearchPrev $w"
 		}
 		bind $w <<Escape>> "::ChatWindow::ContainerClose $w; break"
 		bind $w <Destroy> "::ChatWindow::DetachAll %W"
@@ -1248,7 +1253,8 @@ namespace eval ::ChatWindow {
 			$editmenu add command -label "[trans paste]" \
 				-command "tk_textPaste \[::ChatWindow::getCurrentTab $w\]" -accelerator "Command+V"
 			$editmenu add separator
-			$editmenu add command -label "[trans find]" -accelerator "Command+F"
+			$editmenu add command \-label "[trans find]" \
+				-command "::ChatWindow::CreateChatSearchDialog $w" -accelerator "Command+F"
 		} else {
 			$editmenu add command -label "[trans cut]" \
 				-command "tk_textCut \[::ChatWindow::getCurrentTab $w\]" -accelerator "Ctrl+X"
@@ -1258,10 +1264,10 @@ namespace eval ::ChatWindow {
 				-command "tk_textPaste \[::ChatWindow::getCurrentTab $w\]" -accelerator "Ctrl+V"
 			$editmenu add separator
 			$editmenu add command -label "[trans find]" \
-				-command "CreateChatSearchDialog $w" -accelerator "Ctrl+F"
+				-command "::ChatWindow::CreateChatSearchDialog $w" -accelerator "Ctrl+F"
 		}
-		$editmenu add command -label "[trans findnext]" -command "$w.search FindNext" -accelerator "F3"
-		$editmenu add command -label "[trans findprev]" -command "$w.search FindPrev" -accelerator "Shift+F3"
+		$editmenu add command -label "[trans findnext]" -command "::ChatWindow::ChatSearchNext $w" -accelerator "F3"
+		$editmenu add command -label "[trans findprev]" -command "::ChatWindow::ChatSearchPrev $w" -accelerator "Shift+F3"
 		$editmenu add separator
 		$editmenu add command -label "[trans clear]" -command [list ::ChatWindow::Clear $w]
 
@@ -3340,26 +3346,26 @@ namespace eval ::ChatWindow {
 	}
 	
 	# o-----------------------------------
-	#  SearchDialogNext
+	#  ChatSearchNext
 	#  Tells a chatwindow's search dialog to do a FindNext
 	#  w - path of the chatwindow's container
 	proc ChatSearchNext { w } {
 		if { [winfo exists $w.search] } {
 			$w.search FindNext
 		} else {
-			CreateChatSearchDialog $w
+			::ChatWindow::CreateChatSearchDialog $w
 		}
 	}
 	
 	# o-----------------------------------
-	#  SearchDialogPrev
+	#  ChatSearchPrev
 	#  Tells a chatwindow's search dialog to do a FindPrev
 	#  w - path of the chatwindow's container
 	proc ChatSearchPrev { w } {
 		if { [winfo exists $w.search] } {
 			$w.search FindPrev
 		} else {
-			CreateChatSearchDialog $w
+			::ChatWindow::CreateChatSearchDialog $w
 		}
 	}
 }

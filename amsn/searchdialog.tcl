@@ -33,11 +33,12 @@ snit::widget searchdialog {
 
 	# Index variable
 	variable index
-	#variable length
+	variable curlength
 
 	constructor { args } {
 		# Initial values
 		set index 0.0
+		set curlength 0
 		set matchcase 0
 		set searchdirect down
 		set regexp 0
@@ -83,10 +84,12 @@ snit::widget searchdialog {
 	}
 
 	method SetSearchIn { option value } {
-		# Delete the 'search' tag on the old text widget
-		if { $options(-searchin) != {} } {
-			$options(-searchin) tag remove search 0.0 end
-			$options(-searchin) tag delete search
+		# Delete the 'search' tag on the old text widget (catch it in case the widget got destroyed)
+		catch {
+			if { $options(-searchin) != {} } {
+				$options(-searchin) tag remove search 0.0 end
+				$options(-searchin) tag delete search
+			}
 		}
 		set options(-searchin) $value
 		# Create the 'search' tag on the text widget
@@ -144,7 +147,13 @@ snit::widget searchdialog {
 			return
 		}
 		# Get the index of the next occurence of the pattern in the text widget
+		# If we're searching backwards, we need to skip back BEFORE the last match found..
+		if { [lsearch $argz -backwards] != -1 } {
+			set index [$options(-searchin) index "$index - $curlength char"]
+		}
 		set index [eval $options(-searchin) search -count length $argz -- $pattern $index]
+		# Store length
+		set curlength $length
 		# Stop if there's no matches (also reset index to 0.0)
 		if { $index == {} } {
 			set index 0.0
@@ -153,10 +162,8 @@ snit::widget searchdialog {
 		# Highlight and scroll to the match
 		$options(-searchin) tag add search $index "$index + $length char"
 		$options(-searchin) see search.first
-		# If we're searching forwards, move the search index just past the current match, so we get the next match next time
-		if { [lsearch $argz -forwards] != -1 } {
-			set index [$options(-searchin) index "$index + $length char"]
-		}
+		# Move the search index just past the current match, so we get the next match next time
+		set index [$options(-searchin) index "$index + $length char"]
 	}
 }
 
