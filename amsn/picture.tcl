@@ -125,11 +125,13 @@ set ::tkcximageloaded 0
 		
 		if {[::picture::Loaded]} {
 			if { [catch {$temp copy $photo -from $x1 $y1 $x2 $y2} res] != 0 } {
+				image delete $temp
 				status_log "Picture.tcl: Unable to crop image with TkCxImage\n$res" red
 				error "Picture.tcl: Unable to crop image with TkCxImage\n$res"
 			} else {
 				image create photo $photo
 				$photo copy $temp
+				image delete $temp
 				return 1
 			}
 		}
