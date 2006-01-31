@@ -5012,9 +5012,9 @@ proc cmsn_draw_online_wrapped {} {
 	}
 
 	if {$psmmedia == ""} {
-		set balloon_message "[string map {"%" "%%"} "$my_name\n [::config::getKey login]\n [trans status] : $my_state_desc"]"
+		set balloon_message [string map {"%" "%%"} "$my_name\n [::config::getKey login]\n [trans status] : $my_state_desc"]
 	} else {
-                set balloon_message "[string map {"%" "%%"} "$my_name\n $psmmedia\n [::config::getKey login]\n [trans status] : $my_state_desc"]"
+                set balloon_message [string map {"%" "%%"} "$my_name\n $psmmedia\n [::config::getKey login]\n [trans status] : $my_state_desc"]
 	}
 
 	$pgBuddyTop.mystatus tag bind mystatus <Enter> +[list balloon_enter %W %X %Y $balloon_message $pic_name]
@@ -5604,7 +5604,7 @@ proc ShowUser {user_login state_code colour section grId} {
 	if {$failed} { set animated 1 }
 	if {[::config::getKey show_contactdps_in_cl] == "1" && ${displaypicfilename} != "" && [file readable "[file join $::HOME displaypic cache ${displaypicfilename}].png"] && $animated == 0} {
 		#Credits to JeeBee for code below! :)
-		if {![info exists small_dp_$user_login]} {
+		if {[lsearch [image names] "small_dp_$user_login"] == -1} {
 			set buddyheight [image height [::skin::loadPixmap $image_type]]
        		 	image create photo small_dp_$user_login -format cximage
 			small_dp_$user_login copy [::skin::getDisplayPicture $user_login]
