@@ -447,7 +447,12 @@ proc OpenLogWin { {email ""} } {
 	 -wrap word
       	scrollbar $wname.blueframe.log.ys -command "$wname.blueframe.log.txt yview" -highlightthickness 0 \
          -borderwidth 1 -elementborderwidth 2
-	
+
+	# Add search dialog
+	searchdialog $wname.search -searchin $wname.blueframe.log.txt -title [trans find]
+	$wname.search hide
+	$wname.search bindwindow $wname
+
 	if { [file exists [file join ${log_dir} ${email}.log]] == 1 } {
 		set id [open "[file join ${log_dir} ${email}.log]" r]
 		fconfigure $id -encoding utf-8
@@ -513,7 +518,6 @@ proc OpenLogWin { {email ""} } {
 	bind ${wname} <Control-c> "tk_textCopy ${wname}.blueframe.log.txt"
 	moveinscreen $wname 30
 }
-
 
 proc OpenCamLogWin { {email ""} } {
 

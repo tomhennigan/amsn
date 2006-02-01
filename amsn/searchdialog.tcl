@@ -34,20 +34,19 @@ snit::widget searchdialog {
 	# Index variable
 	variable index
 	variable curlength
+	variable curpattern
 
 	constructor { args } {
 		# Initial values
 		set index 0.0
 		set curlength 0
+		set pattern {}
+		set curpattern {}
 		set matchcase 0
 		set searchdirect down
 		set regexp 0
 
 		$self configurelist $args
-		# Check we have a text widget
-		if { $options(-searchin) == {} } {
-			error "no text widget specified to search in"
-		}
 
 		wm title $win $options(-title)
 
@@ -60,9 +59,9 @@ snit::widget searchdialog {
 		install up using radiobutton $middle.u -text "Search up" -variable [myvar searchdirect] -value up
 		install down using radiobutton $middle.d -text "Search down" -variable [myvar searchdirect] -value down
 		install regexp using checkbutton $middle.r -text "Use as regular expression" -variable [myvar useregexpsearch]
-		install nextbutton using button $bottom.n -text "Find next" -command "$self FindNext" -default active
-		install prevbutton using button $bottom.p -text "Find previous" -command "$self FindPrev"
-		install closebutton using button $bottom.c -text "Close" -command "destroy $self"
+		install nextbutton using button $bottom.n -text "Find next" -command "$self findnext" -default active
+		install prevbutton using button $bottom.p -text "Find previous" -command "$self findprev"
+		install closebutton using button $bottom.c -text "Close" -command "$self hide"
 
 		# Pack them
 		pack $top $middle $bottom -side top -expand true -fill both -padx 3m -pady 2m
@@ -71,8 +70,8 @@ snit::widget searchdialog {
 		pack $nextbutton $prevbutton $closebutton -anchor w -padx 1m -side right
 
 		bindtags $self "Toplevel SearchDialog . all"
-		bind $entry <Return> "$self FindNext"
-		bind $entry <Escape> "destroy $self"
+		bind $entry <Return> "$self findnext"
+		bind $entry <Escape> "$self hide"
 		bind $self <Map> "focus $entry"
 	}
 
@@ -81,6 +80,27 @@ snit::widget searchdialog {
 			# Delete the 'search' tag on the text widget
 			$options(-searchin) tag delete search
 		}
+	}
+
+	method bindwindow { w } {
+		bind $w <Control-f> "$self show"
+		bind $w <Control-F> "$self show"
+		bind $w <F3> "$self findnext"
+		bind $w <Shift-F3> "$self findnext"
+		# Shift-F* bindings are weird on some XFree86 versions, and instead of Shift-F(n), we get XF86_Switch_VT_(n)
+		# We allow for this here
+		if { ![catch {tk windowingsystem} wsystem] && $wsystem  == "x11" } {
+			bind $w <XF86_Switch_VT_3> "$self findprev"
+		}
+	}
+
+	method show { } {
+		wm deiconify $self
+		raise $self
+	}
+	
+	method hide { } {
+		wm withdraw $self
 	}
 
 	method SetSearchIn { option value } {
@@ -98,7 +118,7 @@ snit::widget searchdialog {
 		bind $value <ButtonPress> "+$value tag remove search 0.0 end"
 	}
 
-	method FindNext { } {
+	method findnext { } {
 		# What search options are we using?
 		set args {}
 		if { !$matchcase } {
@@ -117,7 +137,7 @@ snit::widget searchdialog {
 		$self DoSearch $args
 	}
 
-	method FindPrev { } {
+	method findprev { } {
 		# What search options are we using?
 		set args {}
 		if { !$matchcase } {
@@ -142,6 +162,7 @@ snit::widget searchdialog {
 		$options(-searchin) tag remove sel 0.0 end
 		# Get the search pattern
 		set pattern [$entry get]
+		set curpattern $pattern
 		# Stop if we have an empty pattern
 		if { $pattern == {} } {
 			return
@@ -153,7 +174,9 @@ snit::widget searchdialog {
 		}
 		set index [eval $options(-searchin) search -count length $argz -- $pattern $index]
 		# Store length
-		set curlength $length
+		if { [info exists length] } {
+			set curlength $length
+		}
 		# Stop if there's no matches (also reset index to 0.0)
 		if { $index == {} } {
 			set index 0.0
@@ -168,7 +191,7 @@ snit::widget searchdialog {
 }
 
 bind SearchDialog <Return> {
-	%W FindNext
+	%W findnext
 }
 
 bind SearchDialog <Escape> {
