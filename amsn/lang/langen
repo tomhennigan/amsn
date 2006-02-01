@@ -298,6 +298,9 @@ filetransfer File Transfer
 filters Filters
 filtersselect Select the filters you want to use\n(Note: none selected means 'show all')
 filtersx Filter Selection
+find Find
+findnext Find Next
+findprev Find Previous
 firewalled You are firewalled or behind a router
 followtext Scroll down when new text is entered
 friendlyname Friendly Name
