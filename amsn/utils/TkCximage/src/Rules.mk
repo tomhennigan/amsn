@@ -6,7 +6,7 @@ OBJS-TkCximage := $(tkcximage_dir)/src/TkCximage.cpp.o $(tkcximage_dir)/src/Phot
 TARGETS-TkCximage := $(tkcximage_dir)/src/TkCximage.cpp.so 
 
 
-$(TARGETS-TkCximage):: $(OBJS-TkCximage)
+$(TARGETS-TkCximage):: $(OBJS-TkCximage) libstdc++.a
 
 all:: $(TARGETS-TkCximage)
 

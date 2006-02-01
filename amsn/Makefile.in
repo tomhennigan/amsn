@@ -24,7 +24,7 @@ linflash_dir := $(srcdir)/utils/linux/linflash
 
 # programs
 CC		:= @CC@
-CXX		:= @CXX@
+CXX		:= @CXX@ -static-libgcc -L.
 
 # misc
 PACKAGE		:= @APPNAME@
@@ -205,6 +205,10 @@ deb: all
 
 	rm -f debian/changelog
 	rm -rf debian/amsn
+
+libstdc++.a :
+	ln -s `g++ -print-file-name=libstdc++.a`
+
 
 #########################################################
 # include stuff
