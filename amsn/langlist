@@ -82,7 +82,7 @@
 	<lang>
 		<langcode>en</langcode>
 		<name>English</name>
-		<version>1.351</version>
+		<version>1.352</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -142,7 +142,7 @@
 	<lang>
 		<langcode>el</langcode>
 		<name>Greek (ελληνικά)</name>
-		<version>1.11</version>
+		<version>1.12</version>
 		<encoding>iso8859-7</encoding>
 	</lang>
 	<lang>
