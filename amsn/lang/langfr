@@ -298,6 +298,9 @@ filetransfer Transfert de fichier
 filters Filtres
 filtersselect Sélectionnez les filtres que vous souhaitez voir appliqué\n(Note : ne rien sélectionner implique de tous les appliquer)
 filtersx Sélection des filtres
+find Chercher
+findnext Occurence suivante
+findprev Occurence précédente
 firewalled Vous êtes derrière un pare-feu ou un routeur
 followtext Faire défiler lorsque du texte est entré
 friendlyname Pseudo de conversation
