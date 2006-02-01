@@ -144,20 +144,23 @@ namespace eval ::skin {
 		
 		set picName user_pic_$email
 		
-		if {!([catch {image width $picName}] || $force)} {
+		if {[catch {image width $picName}] == 0  && $force == 0} {
 			return $picName
 		}
 
 		set filename [::abook::getContactData $email displaypicfile ""]
-		if { [file readable "[file join $HOME displaypic cache ${filename}].png"] } {
-			catch {image create photo $picName -file "[file join $HOME displaypic cache ${filename}].png" -format cximage}
-			set file "[file join $HOME displaypic cache ${filename}].png"
+		set file "[file join $HOME displaypic cache ${filename}].png"
+		if { $filename != "" && [file readable "[file join $HOME displaypic cache ${filename}].png"] } {
+			catch {image create photo $picName -file "$file" -format cximage}
 		} else {
-			image create photo $picName -file [::skin::GetSkinFile displaypic nopic.gif] -format cximage
-			set file [::skin::GetSkinFile displaypic nopic.gif]
+			return [::skin::getNoDisplayPicture]
+			
+			# Why are we doing this like that ? we'll have too many user's pics set to nopic.gif...
+			#image create photo $picName -file [::skin::GetSkinFile displaypic nopic.gif] -format cximage
+			#set file [::skin::GetSkinFile displaypic nopic.gif]
 		}
 		
-		if {[catch {image width $picName} res] } {
+		if {[catch {image width $picName} res]} {
 			#status_log "Error while loading $picName: $res"
 			return [::skin::getNoDisplayPicture]
 		}
@@ -193,7 +196,16 @@ namespace eval ::skin {
 	proc getColorBar { {skin_name ""} } {
 		# Get the contact list width
 		global pgBuddyTop
+		global pgbuddy_colorbar_width
 
+		set win_width [winfo width [winfo parent $pgBuddyTop]]
+
+		# Avoid deleting/recreating the colorbar every CL refresh!
+		if { [info exists pgbuddy_colorbar_width] && $pgbuddy_colorbar_width == $win_width } {
+			return mainbar
+		}
+
+		set width $win_width
 		# Delete old mainbar, and load colorbar
 		# The colorbar will be loaded as follows:
 		# [first 10 px][11th px repeating to fill][the rest of the colorbar]
@@ -202,17 +214,20 @@ namespace eval ::skin {
 		set barheight [image height [loadPixmap colorbar]]
 		set barwidth [image width [loadPixmap colorbar]]
 		set barendwidth [expr $barwidth - 11]
-		set width [winfo width [winfo parent $pgBuddyTop]]
 		if { $width < $barwidth } {
 			set width $barwidth
 		}
 		set barendstart [expr $width - $barendwidth]
+
+
 		# Create the color bar copying from the pixmap
 		image create photo mainbar -width $width -height $barheight
 		mainbar blank
 		mainbar copy [loadPixmap colorbar] -from 0 0 10 $barheight
 		mainbar copy [loadPixmap colorbar] -from 10 0 11 $barheight -to 10 0 $barendstart $barheight
 		mainbar copy [loadPixmap colorbar] -from [expr $barwidth - $barendwidth] 0 $barwidth $barheight -to $barendstart 0 $width $barheight
+
+		set pgbuddy_colorbar_width $win_width
 		set ::skin::loaded_images(colorbar) 1
 		return mainbar
 	}
@@ -759,6 +774,16 @@ namespace eval ::skinsGUI {
 			destroy .skin_selector.main.left.images.7
 			destroy .skin_selector.main.left.images.8
 		}
+		catch {
+			image delete preview1
+			image delete preview2
+			image delete preview3
+			image delete preview4
+			image delete preview5
+			image delete preview6
+			image delete preview7
+			image delete preview8
+		}
 	}
 
 
@@ -782,6 +807,7 @@ namespace eval ::skinsGUI {
 			unset ::skin::skin_reloaded_needs_reset
 			::skin::reloadSkin $skin
 			destroy $w
+			ClearPreview
 		}
 	}
 
@@ -798,5 +824,6 @@ namespace eval ::skinsGUI {
 		}
 		unset ::skin::skin_reloaded_needs_reset
 		destroy $w
+		ClearPreview
 	}
 }

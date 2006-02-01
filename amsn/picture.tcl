@@ -2,9 +2,9 @@
 #By Jerome Gagnon-Voyer gagnonje5000 at mac.com
 
 namespace eval ::picture {
-catch {package require TkCximage}
-			
-set ::tkcximageloaded 0
+	catch {package require TkCximage}
+	
+	set ::tkcximageloaded 0
 	#Proc to check if tkcximage is loaded
 	proc Loaded {} {
 		global tcl_platform
@@ -28,9 +28,9 @@ set ::tkcximageloaded 0
 				} 
 			}
 		}
-	puts "Picture.tcl: TkCximage not loaded\n$err"
-	return 0
-	
+		puts "Picture.tcl: TkCximage not loaded\n$err"
+		return 0
+		
 	}
 	
 	#Convert a picture from a file to another file
@@ -61,7 +61,7 @@ set ::tkcximageloaded 0
 			if { [catch {::CxImage::Resize $photo $width $height } res] != 0 } {
 				status_log "Picture.tcl: Unable to resize photo with TkCximage \n$res" red
 				error "Picture.tcl: Unable to resize photo with TkCximage \n$res"
-			}	else {
+			} else {
 				return 1
 			}
 		}
@@ -83,7 +83,7 @@ set ::tkcximageloaded 0
 				::CxImage::Resize $photo $width $height 
 				$photo write $destination 
 				image delete $photo
-				} res ] } 	{
+			} res ] } 	{
 				status_log "Picture.tcl: Unable to resize picture with TkCximage \n$res" red
 				error "Picture.tcl: Unable to resize picture with TkCximage \n$res"
 			} else {
@@ -98,7 +98,7 @@ set ::tkcximageloaded 0
 	proc Thumbnail { photo width height {bordercolor "black"} {alpha ""} } {
 		if {[::picture::Loaded]} {
 			if {$alpha == ""} {
-			
+				
 				if { [catch {::CxImage::Thumbnail $photo $width $height $bordercolor} res] != 0 } {
 					status_log "Picture.tcl: Unable to create thumbnail with TkCximage \n$res" red
 					error "Picture.tcl: Unable to create thumbnail with TkCximage \n$res"
@@ -120,7 +120,7 @@ set ::tkcximageloaded 0
 	
 	#Crop a picture, from a photo, to a new picture (should be improved)
 	proc Crop {photo x1 y1 x2 y2} {
-
+		
 		set temp [image create photo]
 		
 		if {[::picture::Loaded]} {
@@ -229,7 +229,7 @@ set ::tkcximageloaded 0
 			status_log "Picture.tcl: The file doesn't exists\n" red
 			error "The file doesn't exists"
 		}
-	
+		
 		if {[catch {set img [image create photo -file $filename -format cximage]} res]} {
 			status_log "Picture.tcl::GetPictureSize: $res\n" red
 			error "$res"
@@ -238,10 +238,11 @@ set ::tkcximageloaded 0
 		image delete $img
 		return $return
 	}
-		
-	#To verify if a picture is animated (1) or not (0)
-	proc IsAnimated {file} {
 	
+	#To verify if a picture is animated (1) or not (0)
+	proc IsAnimated {file {use_cache 1}} {
+		variable animated_files_cache
+
 		if { ![file exists $file] } {
 			status_log "Picture.tcl: The file doesn't exists $file\n" red
 			error "Picture.tcl: The file doesn't exists $file"
@@ -250,12 +251,19 @@ set ::tkcximageloaded 0
 			status_log "TkCxImage too old"
 			msg_box "You need to recompile TkCximage, you use a too old version"
 			return 0			
-		 }
+		}
+
+		if {$use_cache && [info exists animated_files_cache($file)] } {
+			return [set animated_files_cache($file)]
+		}
 		
 		if { [catch {::CxImage::IsAnimated $file} res] } {
+			#Corrupted image.. might as well delete it and redownload it some other time..
+			catch {file delete $file}
 			status_log "Picture.tcl: Unable to read file $file \n$res" red
 			error "Picture.tcl: Unable to read file $file \n$res"
 		} else {
+			set animated_files_cache($file) $res
 			return $res
 		}
 	}

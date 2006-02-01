@@ -3596,6 +3596,8 @@ proc cmsn_draw_main {} {
 	::skin::setPixmap notinlist notinlist.gif
 	::skin::setPixmap smile smile.gif
 
+	::skin::setPixmap loganim loganim.gif
+
 	::skin::setPixmap greyline greyline.gif
 
 	::skin::setPixmap nullimage null
@@ -4331,14 +4333,11 @@ proc cmsn_draw_reconnect { error_msg } {
 
 	catch {
 
-		image create photo picsignin -file "[::skin::GetSkinFile pixmaps loganim.gif]" -format cximage
-		label .loginanim -background [$pgBuddy.text cget -background] -image picsignin
 
 		$pgBuddy.text insert end " " signin
-		$pgBuddy.text window create end -window .loginanim
+		$pgBuddy.text image create end -image [::skin::loadPixmap loganim]
 		$pgBuddy.text insert end " " signin
 
-		bind .loginanim <Destroy> "destroy picsignin"
 
 	}
 
@@ -4377,15 +4376,9 @@ proc cmsn_draw_signin {} {
 	$pgBuddy.text insert end "\n\n\n\n\n"
 
 	catch {
-
-		image create photo picsignin -file "[::skin::GetSkinFile pixmaps loganim.gif]" -format cximage
-		label .loginanim -background [$pgBuddy.text cget -background] -image picsignin
-
 		$pgBuddy.text insert end " " signin
-		$pgBuddy.text window create end -window .loginanim
+		$pgBuddy.text image create end -image [::skin::loadPixmap loganim]
 		$pgBuddy.text insert end " " signin
-
-		bind .loginanim <Destroy> "destroy picsignin"
 
 	}
 
@@ -4734,12 +4727,12 @@ proc toggleGroup {tw name image id {padx 0} {pady 0}} {
 
 #///////////////////////////////////////////////////////////////////////
 proc clickableImage {tw name image command {padx 0} {pady 0}} {
-	label $tw.$name -background [::skin::getKey topcontactlistbg] -border 0 -cursor hand2 -borderwidth 0 \
-			-image [::skin::loadPixmap $image] \
-			-width [image width [::skin::loadPixmap $image]] \
-			-height [image height [::skin::loadPixmap $image]]
-	bind $tw.$name <Button1-ButtonRelease> $command
-	$tw window create end -window $tw.$name -padx $padx -pady $pady -align center -stretch true
+	set imgIdx [$tw image create end -image [::skin::loadPixmap $image] -padx $padx -pady $pady -align center]
+	$tw tag add $tw.$name $imgIdx
+
+	$tw tag bind $tw.$name <Button1-ButtonRelease> $command
+	$tw tag bind $tw.$name <Enter> "$tw configure -cursor hand2"
+	$tw tag bind $tw.$name <Leave> "$tw configure -cursor left_ptr"
 }
 
 #Clickable display picture in the contact list
@@ -4747,16 +4740,17 @@ proc clickableDisplayPicture {tw type name command {padx 0} {pady 0}} {
 	
 	#Load the smaller display picture
 	load_my_smaller_pic
+
 	#Create the clickable display picture
-	#If we are drawing this display picture at the top of the contact list, ie for the logged in user, use a canvas to give it a bg image.
-	#If not (ie for contacts _on_ list), then just draw as label.
-	if {$type == "mystatus"} {
-		canvas $tw.$name -width [image width [::skin::loadPixmap mystatus_bg]] -height [image height [::skin::loadPixmap mystatus_bg]] \
-			-bg [::skin::getKey topcontactlistbg] -highlightthickness 0
-		$tw.$name create image [::skin::getKey x_dp_top] [::skin::getKey y_dp_top] -anchor nw -image my_pic_small
-		$tw.$name create image 0 0 -anchor nw -image [::skin::loadPixmap mystatus_bg]		
-	}
-	$tw.$name configure -cursor hand2 -borderwidth 0
+	canvas $tw.$name -width [image width [::skin::loadPixmap mystatus_bg]] \
+	    -height [image height [::skin::loadPixmap mystatus_bg]] \
+	    -bg [::skin::getKey topcontactlistbg] -highlightthickness 0 \
+	    -cursor hand2 -borderwidth 0
+	
+	$tw.$name create image [::skin::getKey x_dp_top] [::skin::getKey y_dp_top] -anchor nw -image my_pic_small
+	$tw.$name create image 0 0 -anchor nw -image [::skin::loadPixmap mystatus_bg]
+
+
 	bind $tw.$name <Button1-ButtonRelease> $command
 
 	return $tw.$name
@@ -4765,10 +4759,11 @@ proc clickableDisplayPicture {tw type name command {padx 0} {pady 0}} {
 #Create a smaller display picture from the bigger one
 proc load_my_smaller_pic {} {
 
-	image create photo my_pic_small -format cximage
-	my_pic_small copy my_pic
-	::picture::ResizeWithRatio my_pic_small 50 50
-
+	if {[lsearch [image names] my_pic_small] == -1 } {
+		image create photo my_pic_small -format cximage
+		my_pic_small copy my_pic
+		::picture::ResizeWithRatio my_pic_small 50 50
+	}
 }
 
 proc getpicturefornotification {email} {
@@ -4976,6 +4971,8 @@ proc cmsn_draw_online_wrapped {} {
 
 	$pgBuddyTop.mystatus tag conf mystatus -fore $my_colour -underline false \
 		-font bboldf
+	$pgBuddyTop.mystatus tag conf mypsmmedia -fore $my_colour -underline false \
+		-font sbolditalf
 
 	$pgBuddyTop.mystatus tag bind mystatus <Enter> \
 		"$pgBuddyTop.mystatus tag conf mystatus -under true;$pgBuddyTop.mystatus conf -cursor hand2"
@@ -5007,8 +5004,7 @@ proc cmsn_draw_online_wrapped {} {
 	set psmmedia ""
 	if {[::config::getKey protocol] == 11} {
 		set psmmedia [::abook::getpsmmedia]
-		append nick "$psmmedia"
-		$pgBuddyTop.mystatus insert end "\n$nick" mystatus
+		$pgBuddyTop.mystatus insert end "\n$psmmedia" mypsmmedia
 	}
 
 	if {$psmmedia == ""} {
@@ -5068,7 +5064,7 @@ proc cmsn_draw_online_wrapped {} {
 		$pgBuddyTop.mail tag bind mail <Leave> "$pgBuddyTop.mail tag conf mail -under true;$pgBuddyTop.mail conf -cursor left_ptr"
 
 		clickableImage $pgBuddyTop.mail mailbox mailbox "::hotmail::hotmail_login" [::skin::getKey mailbox_xpad] [::skin::getKey mailbox_ypad]
-		set mailheight [expr {[$pgBuddyTop.mail.mailbox cget -height]+(2*[::skin::getKey mailbox_ypad])}]
+		set mailheight [expr {[image height [::skin::loadPixmap mailbox]]+(2*[::skin::getKey mailbox_ypad])}]
 		#in windows need an extra -2 is to include the extra 1 pixel above and below in a font
 		if {$tcl_platform(platform) == "windows" || ![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 			incr mailheight -2
@@ -5107,7 +5103,7 @@ proc cmsn_draw_online_wrapped {} {
 		set evpar(msg) mailmsg
   		::plugins::PostEvent ContactListEmailsDraw evpar
 
-		set maxw [expr {[winfo width [winfo parent $pgBuddyTop]]-[$pgBuddyTop.mail.mailbox cget -width]-(2*[::skin::getKey mailbox_xpad])}]
+		set maxw [expr {[winfo width [winfo parent $pgBuddyTop]]-[image height [::skin::loadPixmap mailbox]]-(2*[::skin::getKey mailbox_xpad])}]
 		set short_mailmsg [trunc $mailmsg $pgBuddyTop.mail $maxw splainf]
 		$pgBuddyTop.mail insert end "$short_mailmsg" {mail dont_replace_smileys}
 
@@ -5468,7 +5464,7 @@ proc ShowUser {user_login state_code colour section grId} {
 	
 	if { $globalnick != "" } {
 		set nick [::abook::getNick $user_login]
-			set user_name [::abook::parseCustomNick $globalnick $nick $user_login $customnick $psm]
+		set user_name [::abook::parseCustomNick $globalnick $nick $user_login $customnick $psm]
 	} else {
 		set user_name "[::abook::getDisplayNick $user_login]"
 	}
@@ -5508,14 +5504,11 @@ proc ShowUser {user_login state_code colour section grId} {
 
 	$pgBuddy.text mark set new_text_start end
 
-	if { [::config::getKey emailsincontactlist] } {
-		set user_lines "$user_login"
-	} else {
-		set user_lines [split $user_name "\n"]
-	}
+	set user_lines [split $user_name "\n"]
+
 	set last_element [expr {[llength $user_lines] -1 }]
 
-	if {$psm != "" && [::config::getKey emailsincontactlist] == 0 && $customnick == ""} {
+	if {$psm != "" && [::config::getKey emailsincontactlist] == 0 && $customnick == "" && $globalnick == ""} {
 		$pgBuddy.text insert $section.last " - $psm" [list $user_unique_name psm_tag]
 	}
 
@@ -5599,17 +5592,26 @@ proc ShowUser {user_login state_code colour section grId} {
 	#set imgname "img[expr {$::groups::uMemberCnt(online)+$::groups::uMemberCnt(offline)}]"
 	set imgname "img[getUniqueValue]"
 	set displaypicfilename [::abook::getContactData $user_login displaypicfile "" ]
-	set animated 0
-	set failed [catch {set animated [::CxImage::IsAnimated "[file join $::HOME displaypic cache ${displaypicfilename}].png"]}]
-	if {$failed} { set animated 1 }
-	if {[::config::getKey show_contactdps_in_cl] == "1" && ${displaypicfilename} != "" && [file readable "[file join $::HOME displaypic cache ${displaypicfilename}].png"] && $animated == 0} {
+
+	set show_dp_thumbnail 0
+	if {[::config::getKey show_contactdps_in_cl] == "1" && ${displaypicfilename} != "" && [file readable "[file join $::HOME displaypic cache ${displaypicfilename}].png"] } {
+
+		#Credits to JeeBee for code below! :)
 		if {[catch {image width small_dp_$user_login}]} {
-			set buddyheight [image height [::skin::loadPixmap $image_type]]
-       		 	image create photo small_dp_$user_login -format cximage
-			small_dp_$user_login copy [::skin::getDisplayPicture $user_login]
-			::picture::ResizeWithRatio small_dp_$user_login $buddyheight $buddyheight
+			set failed [catch {set animated [::CxImage::IsAnimated "[file join $::HOME displaypic cache ${displaypicfilename}].png"]}]
+			if {$failed == 0 && $animated == 0 } {
+				set buddyheight [image height [::skin::loadPixmap $image_type]]
+				image create photo small_dp_${user_login} -format cximage
+				small_dp_$user_login copy [::skin::getDisplayPicture $user_login]
+				::picture::ResizeWithRatio small_dp_${user_login} $buddyheight $buddyheight
+				set show_dp_thumbnail 1
+			}
+		} else {
+			set show_dp_thumbnail 1
 		}
-		set imgIdx [$pgBuddy.text image create $section.last -image small_dp_$user_login -padx 3 -pady 1 -name [string map { "-" "\\" } "small_dp_$user_login"]]
+	}
+	if {$show_dp_thumbnail} {
+		set imgIdx [$pgBuddy.text image create $section.last -image small_dp_${user_login} -padx 3 -pady 1 -name [string map { "-" "\\" } "small_dp_${user_login}"]]
 	} else {
 		set imgIdx [$pgBuddy.text image create $section.last -image [::skin::loadPixmap $image_type] -padx 3 -pady 1]
 	}
@@ -7260,11 +7262,13 @@ proc convert_image { filename destdir size } {
 		}
 		#Resize with ratio
 		if {[catch {::picture::ResizeWithRatio $img $sizex $sizey} res]} {
+			image delete $img
 			msg_box $res
 			return
 		}
 		#Save in PNG
 		if {[catch {::picture::Save $img ${destfile}.png cxpng} res]} {
+			image delete $img
 			msg_box $res
 			return
 		}
@@ -7724,16 +7728,19 @@ proc AskDPSize { cursize } {
 }
 
 proc set_displaypic { file } {
-
+	image delete my_pic 
+	image delete my_pic_small
 	if { $file != "" } {
 		::config::setKey displaypic $file
 		status_log "set_displaypic: File set to $file\n" blue
 		load_my_pic
+		load_my_smaller_pic
 		::MSN::changeStatus [set ::MSN::myStatus]
 		save_config
 	} else {
 		status_log "set_displaypic: Setting displaypic to no_pic\n" blue
 		clear_disp
+		load_my_smaller_pic
 		::MSN::changeStatus [set ::MSN::myStatus]
 	}
 }
