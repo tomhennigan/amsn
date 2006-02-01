@@ -6,8 +6,7 @@
 # o-----------------------------------------------------
 snit::widget searchdialog {
 
-	# The text widget to search
-	option -searchin -configuremethod SetSearchIn
+	option -searchin -configuremethod SetSearchIn ;# The text widget to search
 	option -title -default Find
 
 	# We want to create a toplevel to put stuff in
@@ -19,6 +18,7 @@ snit::widget searchdialog {
 	component bottom
 	component entry
 	component case
+	component asyoutypeit
 	component up
 	component down
 	component regexp
@@ -26,8 +26,9 @@ snit::widget searchdialog {
 	component prevbutton
 	component closebutton
 
-	# Search optinos
+	# Search options
 	variable matchcase
+	variable useasyoutype
 	variable searchdirect
 	variable useregexpsearch
 
@@ -55,24 +56,29 @@ snit::widget searchdialog {
 		install middle using labelframe $self.m -text Options
 		install bottom using frame $self.b
 		install entry using entry $top.e -bg white -fg black
+		install asyoutypeit using checkbutton $middle.a -text "Find as you type" -variable [myvar useasyoutype]
 		install case using checkbutton $middle.c -text "Case sensitive" -variable [myvar matchcase]
 		install up using radiobutton $middle.u -text "Search up" -variable [myvar searchdirect] -value up
 		install down using radiobutton $middle.d -text "Search down" -variable [myvar searchdirect] -value down
 		install regexp using checkbutton $middle.r -text "Use as regular expression" -variable [myvar useregexpsearch]
 		install nextbutton using button $bottom.n -text "Find next" -command "$self findnext" -default active
 		install prevbutton using button $bottom.p -text "Find previous" -command "$self findprev"
-		install closebutton using button $bottom.c -text "Close" -command "$self hide"
+		install closebutton using button $bottom.c -text [trans close] -command "$self hide"
 
 		# Pack them
 		pack $top $middle $bottom -side top -expand true -fill both -padx 3m -pady 2m
-		pack $case $up $down $regexp -anchor w -side top -padx 3m -pady 1m
+		pack $case $asyoutypeit $up $down $regexp -anchor w -side top -padx 3m -pady 1m
 		pack $entry -anchor w -expand true -fill x -side left -padx 3m
 		pack $nextbutton $prevbutton $closebutton -anchor w -padx 1m -side right
 
 		bindtags $self "Toplevel SearchDialog . all"
+		bind $entry <KeyRelease> "$self EntryChanged %K"
 		bind $entry <Return> "$self findnext"
 		bind $entry <Escape> "$self hide"
 		bind $self <Map> "focus $entry"
+
+		# We don't want the user to destroy the window by clicking close button, hide it instead
+		wm protocol $self WM_DELETE_WINDOW "$self hide"
 	}
 
 	destructor {
@@ -83,8 +89,13 @@ snit::widget searchdialog {
 	}
 
 	method bindwindow { w } {
-		bind $w <Control-f> "$self show"
-		bind $w <Control-F> "$self show"
+		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+			bind $w <Command-f> "$self show"
+			bind $w <Command-F> "$self show"
+		} else {
+			bind $w <Control-f> "$self show"
+			bind $w <Control-F> "$self show"
+		}
 		bind $w <F3> "$self findnext"
 		bind $w <Shift-F3> "$self findnext"
 		# Shift-F* bindings are weird on some XFree86 versions, and instead of Shift-F(n), we get XF86_Switch_VT_(n)
@@ -118,7 +129,21 @@ snit::widget searchdialog {
 		bind $value <ButtonPress> "+$value tag remove search 0.0 end"
 	}
 
+	method EntryChanged { {key {}} } {
+		if { $key == "Return" || [$entry get] == $curpattern } {
+			return
+		} else {
+			$self findnext
+		}
+	}
+
 	method findnext { } {
+		# Raise window and stop if we have an empty pattern
+		if { [$entry get] == {} } {
+			$options(-searchin) tag remove search 0.0 end
+			$self show
+			return
+		}
 		# What search options are we using?
 		set args {}
 		if { !$matchcase } {
@@ -138,6 +163,11 @@ snit::widget searchdialog {
 	}
 
 	method findprev { } {
+		# Raise window and stop if we have an empty pattern
+		if { [string trim [$entry get]] == {} } {
+			$self show
+			return
+		}
 		# What search options are we using?
 		set args {}
 		if { !$matchcase } {
@@ -160,20 +190,21 @@ snit::widget searchdialog {
 		# Un-highlight previous selection
 		$options(-searchin) tag remove search 0.0 end
 		$options(-searchin) tag remove sel 0.0 end
-		# Get the search pattern
-		set pattern [$entry get]
-		set curpattern $pattern
-		# Stop if we have an empty pattern
-		if { $pattern == {} } {
-			return
-		}
-		# Get the index of the next occurence of the pattern in the text widget
 		# If we're searching backwards, we need to skip back BEFORE the last match found..
 		if { [lsearch $argz -backwards] != -1 } {
-			set index [$options(-searchin) index "$index - $curlength char"]
+			set index [$options(-searchin) index "$index - [expr {$curlength + 1}] char"]
 		}
-		set index [eval $options(-searchin) search -count length $argz -- $pattern $index]
-		# Store length
+		# Get the search pattern
+		set pattern [$entry get]
+		# If the pattern changed, search from beginning
+		if { $pattern != $curpattern } {
+			set index 0.0
+		}
+		# Store pattern for the next search
+		set curpattern $pattern
+		# Get the index of the next occurence of the pattern in the text widget
+		set index [eval $options(-searchin) search -count length $argz -- {[set pattern]} $index]
+		# Store length for the next search
 		if { [info exists length] } {
 			set curlength $length
 		}
