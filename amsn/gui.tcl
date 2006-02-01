@@ -5603,8 +5603,7 @@ proc ShowUser {user_login state_code colour section grId} {
 	set failed [catch {set animated [::CxImage::IsAnimated "[file join $::HOME displaypic cache ${displaypicfilename}].png"]}]
 	if {$failed} { set animated 1 }
 	if {[::config::getKey show_contactdps_in_cl] == "1" && ${displaypicfilename} != "" && [file readable "[file join $::HOME displaypic cache ${displaypicfilename}].png"] && $animated == 0} {
-		#Credits to JeeBee for code below! :)
-		if {[lsearch [image names] "small_dp_$user_login"] == -1} {
+		if {[catch {image width small_dp_$user_login}]} {
 			set buddyheight [image height [::skin::loadPixmap $image_type]]
        		 	image create photo small_dp_$user_login -format cximage
 			small_dp_$user_login copy [::skin::getDisplayPicture $user_login]
