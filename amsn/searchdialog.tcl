@@ -56,13 +56,13 @@ snit::widget searchdialog {
 		install middle using labelframe $self.m -text Options
 		install bottom using frame $self.b
 		install entry using entry $top.e -bg white -fg black
-		install asyoutypeit using checkbutton $middle.a -text "Find as you type" -variable [myvar useasyoutype]
-		install case using checkbutton $middle.c -text "Case sensitive" -variable [myvar matchcase]
-		install up using radiobutton $middle.u -text "Search up" -variable [myvar searchdirect] -value up
-		install down using radiobutton $middle.d -text "Search down" -variable [myvar searchdirect] -value down
-		install regexp using checkbutton $middle.r -text "Use as regular expression" -variable [myvar useregexpsearch]
-		install nextbutton using button $bottom.n -text "Find next" -command "$self findnext" -default active
-		install prevbutton using button $bottom.p -text "Find previous" -command "$self findprev"
+		install asyoutypeit using checkbutton $middle.a -text [trans findasyoutype] -variable [myvar useasyoutype]
+		install case using checkbutton $middle.c -text [trans casesensitive] -variable [myvar matchcase]
+		install up using radiobutton $middle.u -text [trans searchup] -variable [myvar searchdirect] -value up
+		install down using radiobutton $middle.d -text [trans searchdown] -variable [myvar searchdirect] -value down
+		install regexp using checkbutton $middle.r -text [trans useasregexp] -variable [myvar useregexpsearch]
+		install nextbutton using button $bottom.n -text [trans findnext] -command "$self findnext" -default active
+		install prevbutton using button $bottom.p -text [trans findprev] -command "$self findprev"
 		install closebutton using button $bottom.c -text [trans close] -command "$self hide"
 
 		# Pack them
