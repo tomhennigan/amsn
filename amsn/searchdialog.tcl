@@ -44,6 +44,7 @@ snit::widget searchdialog {
 		set pattern {}
 		set curpattern {}
 		set matchcase 0
+		set useasyoutype 1
 		set searchdirect down
 		set regexp 0
 
@@ -67,7 +68,7 @@ snit::widget searchdialog {
 
 		# Pack them
 		pack $top $middle $bottom -side top -expand true -fill both -padx 3m -pady 2m
-		pack $case $asyoutypeit $up $down $regexp -anchor w -side top -padx 3m -pady 1m
+		pack $case $asyoutypeit $up $down -anchor w -side top -padx 3m -pady 1m
 		pack $entry -anchor w -expand true -fill x -side left -padx 3m
 		pack $nextbutton $prevbutton $closebutton -anchor w -padx 1m -side right
 
@@ -132,7 +133,7 @@ snit::widget searchdialog {
 	method EntryChanged { {key {}} } {
 		if { $key == "Return" || [$entry get] == $curpattern } {
 			return
-		} else {
+		} elseif { $useasyoutype } {
 			$self findnext
 		}
 	}
