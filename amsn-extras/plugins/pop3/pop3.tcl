@@ -830,7 +830,7 @@ namespace eval ::pop3 {
 
 		clickableImage $textb popmailpic_$acntn pop3_mailpic {after cancel ::pop3::check; after 1 ::pop3::check} [::skin::getKey mailbox_xpad] [::skin::getKey mailbox_ypad]
 		
-		set mailheight [expr [$textb.popmailpic_$acntn cget -height]+(2*[::skin::getKey mailbox_ypad])]
+		set mailheight [expr [image height [::skin::loadPixmap pop3_mailpic]]+(2*[::skin::getKey mailbox_ypad])]
 		#in windows need an extra -2 is to include the extra 1 pixel above and below in a font
 		if {$::tcl_platform(platform) == "windows"} {
 			set mailheight [expr $mailheight - 2]
@@ -842,9 +842,9 @@ namespace eval ::pop3 {
 		$textb configure -font "{} -$mailheight"
 
 		set balloon_message "Click here to check the number of messages now."
-		bind $textb.popmailpic_$acntn <Enter> +[list balloon_enter %W %X %Y $balloon_message]
-		bind $textb.popmailpic_$acntn <Leave> "+set ::Bulle(first) 0; kill_balloon;"
-		bind $textb.popmailpic_$acntn <Motion> +[list balloon_motion %W %X %Y $balloon_message]
+		$textb tag bind $textb.popmailpic_$acntn <Enter> +[list balloon_enter %W %X %Y $balloon_message]
+		$textb tag bind $textb.popmailpic_$acntn <Leave> "+set ::Bulle(first) 0; kill_balloon;"
+		$textb tag bind $textb.popmailpic_$acntn <Motion> +[list balloon_motion %W %X %Y $balloon_message]
 
 		set newm [set ::pop3::newMails_$acntn]
 		if { $newm < 0 } {
@@ -859,7 +859,7 @@ namespace eval ::pop3 {
 			set mailmsg "[trans newmail [set ::pop3::newMails_$acntn]] ([set ::pop3::config(caption_$acntn)])"
 		}
 		
-		set maxw [expr [winfo width [winfo parent $pgtop]]-[$textb.popmailpic_$acntn cget -width]-(2*[::skin::getKey mailbox_xpad])]
+		set maxw [expr [winfo width [winfo parent $pgtop]]-[image width [::skin::loadPixmap pop3_mailpic]]-(2*[::skin::getKey mailbox_xpad])]
 		set short_mailmsg [trunc $mailmsg $textb $maxw splainf]
 
 		$textb tag conf pop3mail_$acntn -fore black -underline false -font splainf
