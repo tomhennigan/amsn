@@ -5,6 +5,8 @@ dstdir  	:= @datadir@
 slnkdir 	:= @bindir@
 VPATH		:= $(srcdir)
 
+STATIC		:= @STATIC@
+
 doc_files	:= docs INSTALL CREDITS FAQ GNUGPL HELP README TODO AGREEMENT remote.help
 
 FILES_TO_INSTALL := *.tcl hotmlog.htm sndplay amsn amsn-remote amsn-remote-CLI amsn.desktop langlist
@@ -24,7 +26,11 @@ linflash_dir := $(srcdir)/utils/linux/linflash
 
 # programs
 CC		:= @CC@
-CXX		:= @CXX@ -static-libgcc -L.
+CXX		:= @CXX@
+
+ifeq ($(STATIC),yes)
+CXX += -static-libgcc -L.
+endif
 
 # misc
 PACKAGE		:= @APPNAME@
@@ -66,7 +72,6 @@ X_CFLAGS := @X_CFLAGS@
 FOUND_X11	:= @FOUND_X11@
 FOUND_OS	:= @FOUND_OS@
 USE_MMX		:= @USE_MMX@
-
 
 # build final cflags
 CFLAGS   := @CFLAGS@

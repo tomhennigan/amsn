@@ -2,11 +2,13 @@ OBJS-TkCximage := $(tkcximage_dir)/src/TkCximage.cpp.o $(tkcximage_dir)/src/Phot
 		  $(tkcximage_dir)/src/procs.cpp.o $(tkcximage_dir)/src/CxImage/libCxImage.a \
 		 $(tkcximage_dir)/src/jpeg/libjpeg.a $(tkcximage_dir)/src/png/libpng.a \
 		 $(tkcximage_dir)/src/zlib/libzlib.a
+ifeq ($(STATIC),yes)
+OBJS-TkCximage += libstdc++.a
+endif
 
-TARGETS-TkCximage := $(tkcximage_dir)/src/TkCximage.cpp.so 
+TARGETS-TkCximage := $(tkcximage_dir)/src/TkCximage.cpp.so
 
-
-$(TARGETS-TkCximage):: $(OBJS-TkCximage) libstdc++.a
+$(TARGETS-TkCximage):: $(OBJS-TkCximage)
 
 all:: $(TARGETS-TkCximage)
 

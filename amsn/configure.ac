@@ -28,6 +28,16 @@ else
     DEBUG="no"
 fi
 
+AC_ARG_ENABLE(debug,
+  [  --enable-static         enable static link of libstdc++],[enable_static=yes])
+
+AC_SUBST(STATIC)
+if test "$enable_static" == "yes" ; then
+    STATIC="yes"
+else
+    STATIC="no"
+fi
+
 dnl subst configure command
 AC_SUBST(CONFIGURE_ARGS)
 CONFIGURE_ARGS=`echo $@`
@@ -443,6 +453,7 @@ compile time options summary
     Tcl		 : $TCL_VERSION
     TK 		 : $TK_VERSION
     DEBUG        : $DEBUG
+    STATIC       : $STATIC
 
 EOF
 
