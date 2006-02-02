@@ -2422,7 +2422,7 @@ namespace eval ::ChatWindow {
 			set topimg [$bg cget -source]
 			$topimg copy [::skin::loadPixmap cwtopback]
 			::picture::Colorize $topimg $colour
-			$bg configure -source $topimg
+			$bg BuildImage
 			bind $top <Configure> "[bind $top <Configure>]; $bg configure -width %w -height %h" 
 		}
 	}
