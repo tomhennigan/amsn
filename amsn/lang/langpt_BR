@@ -630,6 +630,7 @@ shareswebcam Compartilhar webcam
 showbanner Mostrar banner do aMSN
 showblockedlist Mostra a lista de usuários que bloquearam você
 showcachedpics Mostrar imagens de exibição armazenadas
+show_contactdps_in_cl Mostrar imagens de contatos Mostrar imagens na na lista de contatos 
 showdisplaypic2 Mostrar imagem de exibição automaticamente quando uma janela de conversa é aberta
 showdisplaypic Mostrar imagem de exibição
 showmailicon Mostrar icone de email quando novos emails chegarem
@@ -672,6 +673,7 @@ stateinfo Configuração do Estado Pessoal
 statename Nome do estado atual
 statenewtext Por favor preencha as informações necessárias para criar \n o seu novo Estado Pessoal e tecle Salvar
 statenick Apelido personalizado (deixar em branco para não alterar)
+statepsm Mensagem pessoal (deixar em branco para nao mudar)
 state Quero aparecer como
 stats Estatisticas
 status Estado

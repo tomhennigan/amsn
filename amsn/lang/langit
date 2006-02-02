@@ -264,6 +264,9 @@ filters Filtri
 filtersselect Seleziona i filtri che vuoi visualizzare\n(Nessuna selezione significa mostra tutti)
 filtersx Selezione filtri
 firewalled Sei dietro un firewall o un router
+find Trova
+findnext Trova successivo
+findprev Trova precedente
 followtext Segui il nuovo testo quando viene inserito
 friendlyname Nome comune
 ftacceptedby $1 ha accettato l'invito a trasferire il file '$2'.
