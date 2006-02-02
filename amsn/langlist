@@ -172,7 +172,7 @@
 	<lang>
 		<langcode>it</langcode>
 		<name>Italian (italiano)</name>
-		<version>1.63</version>
+		<version>1.64</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -220,7 +220,7 @@
 	<lang>
 		<langcode>pt_BR</langcode>
 		<name>Portuguese - Brazil</name>
-		<version>1.31</version>
+		<version>1.32</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
