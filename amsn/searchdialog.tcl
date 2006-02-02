@@ -3,6 +3,7 @@
 #  By Tom Jenkins (bluetit) 31/01/06
 #  Searches a given text widget for text.
 #  -searchin w - specifies text widget to search
+#  -title str - specifies window title for dialog
 # o-----------------------------------------------------
 snit::widget searchdialog {
 
@@ -22,6 +23,7 @@ snit::widget searchdialog {
 	component up
 	component down
 	component regexp
+	component regexplabel
 	component nextbutton
 	component prevbutton
 	component closebutton
@@ -30,7 +32,7 @@ snit::widget searchdialog {
 	variable matchcase
 	variable useasyoutype
 	variable searchdirect
-	variable useregexpsearch
+	variable useregexp
 
 	# Index variable
 	variable index
@@ -46,7 +48,7 @@ snit::widget searchdialog {
 		set matchcase 0
 		set useasyoutype 1
 		set searchdirect down
-		set regexp 0
+		set useregexp 0
 
 		$self configurelist $args
 
@@ -61,14 +63,15 @@ snit::widget searchdialog {
 		install case using checkbutton $middle.c -text [trans casesensitive] -variable [myvar matchcase]
 		install up using radiobutton $middle.u -text [trans searchup] -variable [myvar searchdirect] -value up
 		install down using radiobutton $middle.d -text [trans searchdown] -variable [myvar searchdirect] -value down
-		install regexp using checkbutton $middle.r -text [trans useasregexp] -variable [myvar useregexpsearch]
+		install regexp using checkbutton $middle.r -text [trans useasregexp] -variable [myvar useregexp]
+		install regexplabel using label $middle.l -fg #ee0000
 		install nextbutton using button $bottom.n -text [trans findnext] -command "$self findnext" -default active
 		install prevbutton using button $bottom.p -text [trans findprev] -command "$self findprev"
 		install closebutton using button $bottom.c -text [trans close] -command "$self hide"
 
 		# Pack them
 		pack $top $middle $bottom -side top -expand true -fill both -padx 3m -pady 2m
-		pack $case $asyoutypeit $up $down -anchor w -side top -padx 3m -pady 1m
+		pack $case $asyoutypeit $regexp $up $down -anchor w -side top -padx 3m -pady 1m
 		pack $entry -anchor w -expand true -fill x -side left -padx 3m
 		pack $nextbutton $prevbutton $closebutton -anchor w -padx 1m -side right
 
@@ -131,7 +134,8 @@ snit::widget searchdialog {
 	}
 
 	method EntryChanged { {key {}} } {
-		if { $key == "Return" || [$entry get] == $curpattern } {
+		set str [$entry get]
+		if { $key == "Return" || $str == $curpattern } {
 			return
 		} elseif { $useasyoutype } {
 			$self findnext
@@ -141,6 +145,7 @@ snit::widget searchdialog {
 	method findnext { } {
 		# Raise window and stop if we have an empty pattern
 		if { [$entry get] == {} } {
+			place forget $regexplabel
 			$options(-searchin) tag remove search 0.0 end
 			$self show
 			return
@@ -155,7 +160,7 @@ snit::widget searchdialog {
 		} else {
 			lappend args -forwards
 		}
-		if { $useregexpsearch } {
+		if { $useregexp } {
 			lappend args -regexp
 		}
 
@@ -166,6 +171,8 @@ snit::widget searchdialog {
 	method findprev { } {
 		# Raise window and stop if we have an empty pattern
 		if { [string trim [$entry get]] == {} } {
+			place forget $regexplabel
+			$options(-searchin) tag remove search 0.0 end
 			$self show
 			return
 		}
@@ -179,7 +186,7 @@ snit::widget searchdialog {
 		} else {
 			lappend args -backwards
 		}
-		if { $useregexpsearch } {
+		if { $useregexp } {
 			lappend args -regexp
 		}
 
@@ -204,18 +211,29 @@ snit::widget searchdialog {
 		# Store pattern for the next search
 		set curpattern $pattern
 		# Get the index of the next occurence of the pattern in the text widget
-		set index [eval $options(-searchin) search -count length $argz -- {[set pattern]} $index]
-		# Store length for the next search
-		if { [info exists length] } {
-			set curlength $length
+		if { $useregexp } {
+			if { [catch {set index [eval $options(-searchin) search -count length $argz -- {[set pattern]} $index]}] != 0 } {
+				$regexplabel configure -text [trans invalidregexp]
+				place $regexplabel -anchor w -in $regexp -relx 1.0 -x 5 -rely 0.5
+				return
+			} else {
+				$regexplabel configure -text {}
+				place forget $regexplabel
+			}
+		} else {
+			set index [eval $options(-searchin) search -count length $argz -- {[set pattern]} $index]
 		}
-		# Stop if there's no matches (also reset index to 0.0)
-		if { $index == {} } {
+		# Store length for the next search
+		if { [info exists length] && $length > 0 } {
+			set curlength $length
+		} else {
+			# Stop if there's no matches (also reset index to 0.0)
 			set index 0.0
 			return
 		}
 		# Highlight and scroll to the match
 		$options(-searchin) tag add search $index "$index + $length char"
+		puts "index $index length $length"
 		$options(-searchin) see search.first
 		# Move the search index just past the current match, so we get the next match next time
 		set index [$options(-searchin) index "$index + $length char"]
