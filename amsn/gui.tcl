@@ -5103,7 +5103,7 @@ proc cmsn_draw_online_wrapped {} {
 		set evpar(msg) mailmsg
   		::plugins::PostEvent ContactListEmailsDraw evpar
 
-		set maxw [expr {[winfo width [winfo parent $pgBuddyTop]]-[image height [::skin::loadPixmap mailbox]]-(2*[::skin::getKey mailbox_xpad])}]
+		set maxw [expr {[winfo width [winfo parent $pgBuddyTop]]-[image width [::skin::loadPixmap mailbox]]-(2*[::skin::getKey mailbox_xpad])}]
 		set short_mailmsg [trunc $mailmsg $pgBuddyTop.mail $maxw splainf]
 		$pgBuddyTop.mail insert end "$short_mailmsg" {mail dont_replace_smileys}
 
