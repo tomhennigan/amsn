@@ -5598,7 +5598,7 @@ proc ShowUser {user_login state_code colour section grId} {
 
 		#Credits to JeeBee for code below! :)
 		if {[catch {image width small_dp_$user_login}]} {
-			set failed [catch {set animated [::CxImage::IsAnimated "[file join $::HOME displaypic cache ${displaypicfilename}].png"]}]
+			set failed [catch {set animated [::picture::IsAnimated "[file join $::HOME displaypic cache ${displaypicfilename}].png"]}]
 			if {$failed == 0 && $animated == 0 } {
 				set buddyheight [image height [::skin::loadPixmap $image_type]]
 				image create photo small_dp_${user_login} -format cximage

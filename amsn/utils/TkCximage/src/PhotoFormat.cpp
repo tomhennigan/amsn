@@ -71,7 +71,8 @@ int ChanMatch (Tcl_Channel chan, CONST char *fileName, Tcl_Obj *format,int *widt
 {
 
   Tcl_Obj *data = Tcl_NewObj();
-  
+  int retVal;
+
   Tcl_SetChannelOption(interp, chan, "-encoding", "binary");
   Tcl_SetChannelOption(interp, chan, "-translation", "binary");
   
@@ -80,7 +81,9 @@ int ChanMatch (Tcl_Channel chan, CONST char *fileName, Tcl_Obj *format,int *widt
   LOG("Reading from file :"); //
   APPENDLOG(fileName); //
   
-  return ObjMatch(data, format, widthPtr, heightPtr, interp);
+  retVal = ObjMatch(data, format, widthPtr, heightPtr, interp);
+  Tcl_DecrRefCount(data);
+  return retVal;
 
 }
 
@@ -124,6 +127,7 @@ int ChanRead (Tcl_Interp *interp, Tcl_Channel chan, CONST char *fileName, Tcl_Ob
 		     int destX, int destY, int width, int height, int srcX, int srcY)
 {
 	Tcl_Obj *data = Tcl_NewObj();
+	int retVal;
 
 	Tcl_SetChannelOption(interp, chan, "-encoding", "binary");
 	Tcl_SetChannelOption(interp, chan, "-translation", "binary");
@@ -133,8 +137,9 @@ int ChanRead (Tcl_Interp *interp, Tcl_Channel chan, CONST char *fileName, Tcl_Ob
 	LOG("Reading from file :"); //
 	APPENDLOG(fileName); //
 
-  return ObjRead(interp, data, format, imageHandle, destX, destY, width, height, srcX, srcY);
-
+	retVal = ObjRead(interp, data, format, imageHandle, destX, destY, width, height, srcX, srcY);
+	Tcl_DecrRefCount(data);
+	return retVal;
 }
 
 int ObjRead (Tcl_Interp *interp, Tcl_Obj *data, Tcl_Obj *format, Tk_PhotoHandle imageHandle,

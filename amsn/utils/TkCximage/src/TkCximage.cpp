@@ -126,6 +126,7 @@ int LoadFromFile(Tcl_Interp * interp, CxImage * image, char * fileName, int Type
   Tcl_Channel chan = Tcl_OpenFileChannel(interp, fileName, "r", 0);
   BYTE * FileData = NULL;
   int length = 0;
+  int retVal;
 
   if (chan == NULL)
     return FALSE;
@@ -154,10 +155,13 @@ int LoadFromFile(Tcl_Interp * interp, CxImage * image, char * fileName, int Type
       ! image->Decode(FileData, length, CXIMAGE_FORMAT_PNG) &&
       ! image->Decode(FileData, length, CXIMAGE_FORMAT_JPG) &&
       ! image->Decode(FileData, length, CXIMAGE_FORMAT_TGA) &&
-      ! image->Decode(FileData, length, CXIMAGE_FORMAT_BMP))
-    return FALSE;
+      ! image->Decode(FileData, length, CXIMAGE_FORMAT_BMP)) 
+    retVal = FALSE;
   else
-    return TRUE;
+    retVal = TRUE;
+
+  Tcl_DecrRefCount(data);
+  return retVal;
   
 }
 
