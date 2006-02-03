@@ -37,6 +37,15 @@ snit::type scalable-bg {
 		$self BuildImage
 	}
 
+	destructor {
+		catch {image delete $base}
+		catch {image delete $left}
+		catch {image delete $centre}
+		catch {image delete $right}
+		catch {image delete $top}
+		catch {image delete $bottom}
+	}
+
 	method BuildImage { } {
 
 		# Check if requested size is too small:
