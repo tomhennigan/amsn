@@ -97,6 +97,10 @@ proc balloon {target message pic {cx 0} {cy 0} } {
 		set command [string range $message 11 end]
 		set message [eval $command]
 	}
+	if { [string equal -length 11 $pic "--command--"] } {
+		set command [string range $pic 11 end]
+		set pic [eval $command]
+	}
 	
 	if { $cx == 0 && $cy == 0 } {
 	    set x [expr [winfo rootx ${target}] + ([winfo width ${target}]/2)]

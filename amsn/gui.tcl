@@ -5670,25 +5670,25 @@ proc ShowUser {user_login state_code colour section grId} {
 		}
 		
 		set balloon_message "[string map {"%" "%%"} [::abook::getNick $user_login]]\n${psmmedia}$user_login\n[trans status] : [trans [::MSN::stateToDescription $state_code]] $balloon_message2 $balloon_message3 $balloon_message4 $balloon_message5\n[trans lastmsgedme] : [::abook::dateconvert "[::abook::getContactData $user_login last_msgedme]"]"
-		$pgBuddy.text tag bind $user_unique_name <Enter> +[list balloon_enter_userpic %W %X %Y $balloon_message $user_login]
+		$pgBuddy.text tag bind $user_unique_name <Enter> +[list balloon_enter %W %X %Y $balloon_message "--command--::skin::getDisplayPicture $user_login"]
 
 		$pgBuddy.text tag bind $user_unique_name <Leave> \
 			"+set Bulle(first) 0; kill_balloon"
 
-		$pgBuddy.text tag bind $user_unique_name <Motion> +[list balloon_motion_userpic %W %X %Y $balloon_message $user_login]
+		$pgBuddy.text tag bind $user_unique_name <Motion> +[list balloon_motion %W %X %Y $balloon_message "--command--::skin::getDisplayPicture $user_login"]
 
-		$pgBuddy.text tag bind $imgname <Enter> +[list balloon_enter_userpic %W %X %Y $balloon_message $user_login]
+		$pgBuddy.text tag bind $imgname <Enter> +[list balloon_enter %W %X %Y $balloon_message "--command--::skin::getDisplayPicture $user_login"]
 		$pgBuddy.text tag bind $imgname <Leave> \
 			"+set Bulle(first) 0; kill_balloon"
 
-		$pgBuddy.text tag bind $imgname <Motion> +[list balloon_motion_userpic %W %X %Y $balloon_message $user_login]
+		$pgBuddy.text tag bind $imgname <Motion> +[list balloon_motion %W %X %Y $balloon_message "--command--::skin::getDisplayPicture $user_login"]
 
 		if {$not_in_reverse} {
-			$pgBuddy.text tag bind $imgname2 <Enter> +[list balloon_enter_userpic %W %X %Y $balloon_message $user_login]
+			$pgBuddy.text tag bind $imgname2 <Enter> +[list balloon_enter %W %X %Y $balloon_message "--command--::skin::getDisplayPicture $user_login"]
 			$pgBuddy.text tag bind $imgname2 <Leave> \
 				"+set Bulle(first) 0; kill_balloon"
 
-			$pgBuddy.text tag bind $imgname2 <Motion> +[list balloon_motion_userpic %W %X %Y $balloon_message $user_login]
+			$pgBuddy.text tag bind $imgname2 <Motion> +[list balloon_motion %W %X %Y $balloon_message "--command--::skin::getDisplayPicture $user_login"]
 		}
 	}
 	#Change mouse button and add control-click on Mac OS X
@@ -5732,13 +5732,6 @@ proc ShowUser {user_login state_code colour section grId} {
 
 }
 #///////////////////////////////////////////////////////////////////////
-
-proc balloon_enter_userpic {window x y msg user_login} {
-	balloon_enter $window $x $y $msg [::skin::getDisplayPicture $user_login]
-}
-proc balloon_motion_userpic {window x y msg user_login} {
-	balloon_motion $window $x $y $msg [::skin::getDisplayPicture $user_login]
-}
 
 proc balloon_enter {window x y msg {pic ""}} {
 	global Bulle
