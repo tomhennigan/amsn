@@ -2284,8 +2284,18 @@ proc Preferences { { settings "personal"} } {
 	reload_advanced_options $path
 
 	#add bindings to scroll with mousewheel
-	bind .cfg <4> {.cfg.notebook.nn.fadvanced.lfname.sw.sf yview scroll -1 units}
-	bind .cfg <5> {.cfg.notebook.nn.fadvanced.lfname.sw.sf yview scroll +1 units}
+	#can not use local variables in bind scripts with {}. 
+	#and with "", can not use %D  :(
+	# MacOS Classic/OSX and Windows
+	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		bind .cfg <MouseWheel> { .cfg.notebook.nn.fadvanced.lfname.sw.sf yview scroll [expr {- (%D)}] units }
+	} elseif {$::tcl_platform(platform) == "windows"} {
+		bind .cfg <MouseWheel> { .cfg.notebook.nn.fadvanced.lfname.sw.sf yview scroll %D units }
+	} else {
+		# We're on X11! (I suppose ;))
+		bind .cfg <5> {.cfg.notebook.nn.fadvanced.lfname.sw.sf yview scroll +1 units}
+		bind .cfg <4> {.cfg.notebook.nn.fadvanced.lfname.sw.sf yview scroll -1 units} 
+	}
 
 	frame $path.2 -class Degt
 
