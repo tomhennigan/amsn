@@ -2283,6 +2283,10 @@ proc Preferences { { settings "personal"} } {
 	
 	reload_advanced_options $path
 
+	#add bindings to scroll with mousewheel
+	bind .cfg <4> {.cfg.notebook.nn.fadvanced.lfname.sw.sf yview scroll -1 units}
+	bind .cfg <5> {.cfg.notebook.nn.fadvanced.lfname.sw.sf yview scroll +1 units}
+
 	frame $path.2 -class Degt
 
 	label $path.2.delimiters -text "[trans delimiters]" -padx 5
