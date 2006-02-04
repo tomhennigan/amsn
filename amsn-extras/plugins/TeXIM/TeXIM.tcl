@@ -77,7 +77,7 @@ namespace eval ::TeXIM {
 		pack $win.convert -anchor w 
 		label $win.convert.convertpath -text "Path to convert binary :" -padx 5 -font sboldf
 		entry $win.convert.path -bg #FFFFFF -width 45 -textvariable ::TeXIM::config(path_convert)
-		button $win.convert.browse -text [trans browse] -command "Browse_Dialog_File ::TeXIM::config(path_convert)"
+		button $win.convert.browse -text [trans browse] -command "Browse_Dialog_file ::TeXIM::config(path_convert)"
 		grid $win.convert.convertpath -row 1 -column 1 -sticky w
 		grid $win.convert.path -row 2 -column 1 -sticky w
 		grid $win.convert.browse -row 2 -column 2 -sticky w
@@ -98,7 +98,7 @@ namespace eval ::TeXIM {
 		pack $win.preamble -anchor w 
 		label $win.preamble.preamblepath -text "Path to a preamble file :" -padx 5 -font sboldf
 		entry $win.preamble.path -bg #FFFFFF -width 45 -textvariable ::TeXIM::config(path_preamble)
-		button $win.preamble.browse -text [trans browse] -command "Browse_Dialog_File ::TeXIM::config(path_preamble)"
+		button $win.preamble.browse -text [trans browse] -command "Browse_Dialog_file ::TeXIM::config(path_preamble)"
 		grid $win.preamble.preamblepath -row 1 -column 1 -sticky w
 		grid $win.preamble.path -row 2 -column 1 -sticky w
 		grid $win.preamble.browse -row 2 -column 2 -sticky w
@@ -205,42 +205,40 @@ namespace eval ::TeXIM {
 		puts $fileXMLtex "${::TeXIM::config(footer)}"
 		flush $fileXMLtex
 		close $fileXMLtex
-		catch { exec $::TeXIM::config(path_latex) -interaction=nonstopmode TeXIM.tex } msg
-		variable tex_errors
-		set tex_errors $msg
-		if { [file exists TeXIM.dvi ] }  {
-			if { [ catch { exec $::TeXIM::config(path_dvips) -f -E -o TeXIM.ps -q TeXIM.dvi } msg ] == 0 } { 
-				if { [info exists ::env(TEMP) ] } {
-					catch {file delete [file join $::env(TEMP) TeXIM "TeXIM.dvi"]}
-				} else {
-					catch {file delete [file join /tmp TeXIM "TeXIM.dvi"]}
-				}	
-				if { [ catch { exec $::TeXIM::config(path_convert) -density $::TeXIM::config(resolution) \
-							TeXIM.ps TeXIM.gif } msg ] == 0 } {
-					set tmp [image create photo -file TeXIM.gif]
-					if {[image height $tmp] > 1000} {
-						set bool [::TeXIM::show_bug_dialog $tex_errors]
-						if { $bool == 0 } { 
-							image delete $tmp
-							return 0 
-						}
-					}
-					image delete $tmp
+		
+		if { [ catch { exec ${::TeXIM::config(path_latex)} -interaction=nonstopmode TeXIM.tex } msg ] == 0 } {
+			variable tex_errors
+			set tex_errors $msg
+			if { [file exists TeXIM.dvi ] }  {
+				if { [ catch { exec ${::TeXIM::config(path_dvips)} -f -E -o TeXIM.ps -q TeXIM.dvi } msg ] == 0 } { 
 					if { [info exists ::env(TEMP) ] } {
 						catch {file delete [file join $::env(TEMP) TeXIM "TeXIM.dvi"]}
-						cd $oldpwd
-						return [file join $::env(TEMP) TeXIM "TeXIM.gif"]
 					} else {
 						catch {file delete [file join /tmp TeXIM "TeXIM.dvi"]}
-						cd $oldpwd
-						return [file join /tmp TeXIM "TeXIM.gif"]
 					}	
-
-				}
+					if { [ catch { exec ${::TeXIM::config(path_convert)} -density ${::TeXIM::config(resolution)} \
+							TeXIM.ps TeXIM.gif } msg ] == 0 } {
+						set tmp [image create photo -file TeXIM.gif]
+						if {[image height $tmp] > 1000} {
+							set bool [::TeXIM::show_bug_dialog $tex_errors]
+							if { $bool == 0 } { 
+								image delete $tmp
+								return 0 
+							}
+						}
+						image delete $tmp
+						if { [info exists ::env(TEMP) ] } {
+							catch {file delete [file join $::env(TEMP) TeXIM "TeXIM.dvi"]}
+							return [file join $::env(TEMP) TeXIM "TeXIM.gif"]
+						} else {
+						catch {file delete [file join /tmp TeXIM "TeXIM.dvi"]}
+						return [file join /tmp TeXIM "TeXIM.gif"]
+						}	
+					} else { append msg "\n^^Error in CONVERT" }
+				} else { append msg "\n^^Error in DVIPS" }
 			}
-		}
+		} else { append msg "\n^^Error in LATEX" }
 		plugins_log "TeXIM" $msg
-		cd $oldpwd
 		return 0
 	}
 
@@ -259,7 +257,7 @@ namespace eval ::TeXIM {
 		wm title $w "TeXIM Error"
 		frame $w.f	
 		pack $w.f
-		label $w.f.msg -justify left -text "The image is too big.\nMaybe it's normal; but it can either be a bug in you TeX code" -wraplength 500 -font sboldf
+		label $w.f.msg -justify left -text "The image is too big.\nMaybe it's normal; but it can either be a bug in your TeX code" -wraplength 500 -font sboldf
 	
 		button $w.f.b1 -text "Ignore this error" -command "set ::TeXIM::kontinue 1 "
 		button $w.f.b2 -text "Don't send or preview the image" -command "set ::TeXIM::kontinue 0 "
@@ -337,7 +335,7 @@ namespace eval ::TeXIM {
 		frame .texAdvWin.tex_Example
 		frame .texAdvWin.tex_Example.examples 
 		frame .texAdvWin.tex_Example.examples.list -class Amsn -borderwidth 0 
-		text .texAdvWin.tex_Example.examples.list.text  -background white -wrap word -yscrollcommand ".texAdvWin.tex_Example.examples.list.ys set" -font splainf  -width 30 -height 30
+		text .texAdvWin.tex_Example.examples.list.text  -background white -wrap word -yscrollcommand ".texAdvWin.tex_Example.examples.list.ys set" -font splainf  -width 30 -height 15
 		scrollbar .texAdvWin.tex_Example.examples.list.ys -command ".texAdvWin.tex_Example.examples.list.text yview"
 		pack .texAdvWin.tex_Example.examples.list.ys 	-side right -fill y
 		pack .texAdvWin.tex_Example.examples.list.text -expand true -fill both -padx 1 -pady 1
@@ -347,7 +345,7 @@ namespace eval ::TeXIM {
 	
 		frame .texAdvWin.tex_Example.listExamples
 		frame .texAdvWin.tex_Example.listExamples.list -class Amsn -borderwidth 0
-		text .texAdvWin.tex_Example.listExamples.list.text  -background white -wrap word -yscrollcommand ".texAdvWin.tex_Example.listExamples.list.ys set" -font splainf  -width 50 -height 30
+		text .texAdvWin.tex_Example.listExamples.list.text  -background white -wrap word -yscrollcommand ".texAdvWin.tex_Example.listExamples.list.ys set" -font splainf  -width 50 -height 15
 		scrollbar .texAdvWin.tex_Example.listExamples.list.ys -command ".texAdvWin.tex_Example.listExamples.list.text yview"
 		pack .texAdvWin.tex_Example.listExamples.list.ys 	-side right -fill y
 		pack .texAdvWin.tex_Example.listExamples.list.text -expand true -fill both -padx 1 -pady 1
@@ -459,7 +457,7 @@ namespace eval ::TeXIM {
 			pack .texPreviewWin.preview -fill both
 		
 			pack .texPreviewWin.preview
-			button .texPreviewWin.show_errors -text "Show/Hide TeX errors" -command "::TeXIM::show_hide_error "
+			button .texPreviewWin.show_errors -text "Show/Hide TeX errors" -command "::TeXIM::show_hide_error_Preview "
 			button .texPreviewWin.close -text "Close" -command "destroy .texPreviewWin"
 			bind .texPreviewWin <<Escape>> "destroy .texPreviewWin"
 			pack .texPreviewWin.close -side right -anchor se -padx 5 -pady 3
@@ -473,7 +471,7 @@ namespace eval ::TeXIM {
 		}
 	}
 
-	proc show_hide_error { } {
+	proc show_hide_error_Preview { } {
 		variable show_errors
 		if {$show_errors == 1 } {
 			.texPreviewWin.preview.list.text tag configure tag_errors -elide true
