@@ -73,12 +73,9 @@ namespace eval ::desktop_integration {
 		set users_notifyYoffset [::config::getKey notifyYoffset]
 
 
-		#TODO: find out how to replace "Desktop Integration" with $plugin_name
-		if {[info exists {::Desktop Integration_cfg(showsetupdialog)}] &&
-		   [set {::Desktop Integration_cfg(showsetupdialog)}] == 1 && ($current_desktop != "noone")} {
-		        setup_dialog
+		if {[info exists ::${plugin_name}_cfg(showsetupdialog)] && ([set ::${plugin_name}_cfg(showsetupdialog)] == 1) && ($current_desktop != "noone")} {
+        		setup_dialog
 		}
-
 
 		# If no program is installed, the plugin cannot work
 		if {$current_desktop == "noone"} {
@@ -539,17 +536,23 @@ namespace eval ::desktop_integration {
 
 	proc setup_dialog { } {
 		variable current_desktop
+		variable plugin_name
 		variable askagain
+		variable config
 			#ask to change desktop-integrated settings with an "ask this again?" option
 
 			#if we have permission from the user, set the best options, depending on the desktop he/she uses.
-			set answer [::amsn::messageBox "Do you want the Desktop Integration plugin to change your aMSN configuration to fit best into your desktop ($current_desktop)?" yesno question]
+			set answer [::amsn::messageBox "Do you want the $plugin_name plugin to change your aMSN configuration to fit best into your desktop ($current_desktop)?" yesno question]
 			if { $answer == "yes" } {
 				status_log "gonna make changes"
 				set_best_desktop_settings
 				set answer [::amsn::messageBox "The changes were made.  Do you want me to ask this question again next time you load the plugin? You can eventually reanable it in the plugin's configuration pane." yesno question]
 				if { $answer == "no" } {
 				set askagain 0
+
+				#plugins don't get unloaded on close so without the 2 lines below setting is not saved
+				set config(showsetupdialog) 0
+				plugins::save_config
 				}
 			}
 	}
@@ -558,7 +561,7 @@ namespace eval ::desktop_integration {
 
 	proc set_best_desktop_settings { } {
 		variable current_desktop	
-
+		variable plugin_name
 		variable users_filemanager
 		variable users_openfilecommand
 		variable users_browser
@@ -570,7 +573,7 @@ namespace eval ::desktop_integration {
 		
 		if { $current_desktop == "gnome" } {
 
-			plugins_log "Desktop Integration" "setting integrated options for GNOME\n"
+			plugins_log $plugin_name "setting integrated options for GNOME\n"
 			::config::setKey filemanager "gnome-open \$location"
 			::config::setKey openfilecommand "gnome-open \$file"
 			::config::setKey browser "gnome-open \$url"
@@ -628,7 +631,7 @@ namespace eval ::desktop_integration {
 		} elseif { $current_desktop == "kde" } {
 		
 			#KDE specific stuff here
-			plugins_log "Desktop Integration" "Setting filemanager and openfilecommand for KDE"
+			plugins_log $plugin_name "Setting filemanager and openfilecommand for KDE"
 			::config::setKey filemanager "kfmclient openURL \$location"
 			::config::setKey openfilecommand "kfmclient exec \$file"
 
