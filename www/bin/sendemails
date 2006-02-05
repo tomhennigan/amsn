@@ -3,7 +3,7 @@ user=root
 passwd=
 db=www
 
-ROWS=`mysql --user=$user --password=$passwd $db -e "SELECT email_id FROM _email" -B -N`
+ROWS=`mysql --user=$user --password=$passwd $db -e "SELECT email_id FROM _email LIMIT 100" -B -N`
 
 for id in $ROWS
 do
