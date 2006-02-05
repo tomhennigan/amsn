@@ -507,6 +507,7 @@ snit::type group {
 		# Which way are we sorting (horizontally or vertically)
 		switch $options(-orient) {
 			"horizontal" {
+				set itempady 0
 				foreach item $items {
 					set tree $options(-tree)
 					lappend tree $item
@@ -539,7 +540,7 @@ snit::type group {
 					}
 				}
 				set width [expr {$x - $xPos + $options(-ipadx)}]
-				incr height [expr {2 * $options(-ipady)}]
+				incr height [expr {(2 * $options(-ipady)) + $itempady}]
 				$self configure -height $height
 				$self configure -width $width
 
@@ -547,6 +548,7 @@ snit::type group {
 				$self AlignItems
 			}
 			"vertical" {
+				set itempadx 0
 				foreach item $items {
 					set tree $options(-tree)
 					lappend tree $item
@@ -579,7 +581,7 @@ snit::type group {
 				}
 
 				set height [expr {$y - $yPos + $options(-ipady)}]
-				incr width [expr {2 * $options(-ipadx)}]
+				incr width [expr {(2 * $options(-ipadx)) + $itempadx}]
 				$self configure -width $width
 				$self configure -height $height
 
@@ -601,12 +603,16 @@ snit::type group {
 
 					set valign [eval contentmanager cget $tree -valign]
 					set h [eval contentmanager cget $tree -height]
+					set pady [eval contentmanager cget $tree -pady]
 					switch $valign {
+						"center" {
+							eval contentmanager move $tree 0 [expr {($height / 2) - ($h / 2) - $options(-ipady) - $pady}]
+						}
 						"middle" {
-							eval contentmanager move $tree 0 [expr {($height / 2) - ($h / 2) - $options(-ipady)}]
+							eval contentmanager move $tree 0 [expr {($height / 2) - ($h / 2) - $options(-ipady) - $pady}]
 						}
 						"bottom" {
-							eval contentmanager move $tree 0 [expr {$height - $h - $options(-ipady)}]
+							eval contentmanager move $tree 0 [expr {$height - $h - $options(-ipady) - $pady}]
 						}
 					}
 				}
@@ -617,12 +623,16 @@ snit::type group {
 					lappend tree $item
 					set align [eval contentmanager cget $tree -align]
 					set w [eval contentmanager cget $tree -width]
+					set padx [eval contentmanager cget $tree -padx]
 					switch $align {
 						"center" {
-							eval contentmanager move $tree [expr {($width / 2) - ($w / 2) - $options(-ipadx)}] 0
+							eval contentmanager move $tree [expr {($width / 2) - ($w / 2) - $options(-ipadx) - $padx}] 0
+						}
+						"middle" {
+							eval contentmanager move $tree [expr {($width / 2) - ($w / 2) - $options(-ipadx) - $padx}] 0
 						}
 						"right" {
-							eval contentmanager move $tree [expr {$width - $w - $options(-ipadx)}] 0
+							eval contentmanager move $tree [expr {$width - $w - $options(-ipadx) - $padx}] 0
 						}
 					}
 				}
