@@ -357,8 +357,6 @@ proc htmlentities {str} {
     regsub -all {\<} $str {\&lt;} str
     regsub -all {\>} $str {\&gt;} str
     regsub -all {\"} $str {\&quot;} str
-    #all apostrophes are changed to a ` because php had trouble rendering them
-    regsub -all {\'} $str {\&#96;} str
     return $str
 }
 
