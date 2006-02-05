@@ -4,12 +4,12 @@ $db=mysql_select_db(DBNAME_BUGS,$con) or die('Error selecting MySQL Database! '.
 
 define('BUG_VERSION','0.3');
 
-$FLAGS['NONE']=0;
-$FLAGS_DESC['NONE']="This bug is new and has not been marked as anything yet.";
-$query="SELECT * FROM ".TFLAGS;
-$r=mysql_query($query) or die("Error loading the flags! ".mysql_error());
-while($row=mysql_fetch_array($r)) {
-  $FLAGS[strtoupper($row['flag_flag'])]=$row['flag_id'];
-  $FLAGS_DESC[strtoupper($row['flag_flag'])]=$row['flag_desc'];
-}
+$FLAGS[0]='NONE';
+$FLAGS[1]='FIXED';
+$FLAGS[2]='REOPENED';
+$FLAGS[3]='INVALID';
+$FLAGS_DESC[0]="This bug is new and has not been marked as anything yet.";
+$FLAGS_DESC[1]="This bug has been fixed.";
+$FLAGS_DESC[2]="This bug has been found in new version again.";
+$FLAGS_DESC[3]="This bug has nothing to do with aMSN.";
 ?>

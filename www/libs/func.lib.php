@@ -28,23 +28,9 @@ if(!defined('_FUNC_LIB_')) {
     query($query);
     return false;
   }
-
-  function dupes($bug,&$dupes) {
-    if(!is_array($dupes))
-      $dupes=array();
-    $query="SELECT * FROM ".TDUPES." WHERE dupe_bug1='$bug' OR dupe_bug2='$bug'";
-    $r=query($query);
-    while($row=mysql_fetch_array($r)) {
-      $dupe=($row['dupe_bug1']==$bug)?$row['dupe_bug2']:$row['dupe_bug1'];
-      if(array_search($dupe,$dupes)===false) {
-	$dupes[]=$dupe;
-	dupes($dupe,&$dupes);
-      }
-    }
-  }
-
+  
   function bug_exists($bug) {
-    $query="SELECT * FROM ".TABLE." WHERE bug_id='$bug'";
+    $query="SELECT * FROM ".TBUGREPORTS." WHERE bug_id='$bug'";
     $r=query($query);
     if(mysql_num_rows($r)>0) {
       return true;
@@ -62,6 +48,12 @@ if(!defined('_FUNC_LIB_')) {
     $email=str_replace('@',' [ at ] ',$email);
     $email=str_replace('.',' [ dot ] ',$email);
     return $email;
+  }
+
+  function humantitle($txt) {
+    $txt=str_replace('_',' ',$txt);
+    $txt=ucwords($txt);
+    return $txt;
   }
 
   /* REMOTE OS IDENTIFICATION */

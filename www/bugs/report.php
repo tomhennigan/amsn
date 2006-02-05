@@ -10,38 +10,49 @@ if(!isset($_FILES['file']) && !isset($_POST['report'])) {
 }
 
 include('../libs/xml.class.php');
+include('../libs/bugreport.class.php');
 include('../libs/bug.class.php');
-include('../libsfunc.lib.php');
+include('../libs/func.lib.php');
 include('../config.inc.php');
 include('common.inc.php');
 
 if(blocked($_SERVER['REMOTE_ADDR'])!==false) 
      die(text('blocked'));
 
-$bug=new Bug();
+$bugreport=new BugReport();
 
 if(isset($_FILES['file'])) {
-  $bug->load_report($_FILES['file']['tmp_name'],true);
+  $bugreport->load_report($_FILES['file']['tmp_name'],true);
 } elseif(isset($_POST['report'])) {
-  $bug->load_report(stripslashes($_POST['report']));
+  $bugreport->load_report(stripslashes($_POST['report']));
 }
 
-$r=$bug->check();
+$r=$bugreport->check();
 if(!$r) {
   die(text("invalid"));
 }
 
-$r=$bug->supported();
+$r=$bugreport->supported();
 if(!$r) {
   die(text("notsupported"));
 }
 
-$r=$bug->spam($_SERVER['REMOTE_ADDR']);
+$r=$bugreport->spam($_SERVER['REMOTE_ADDR']);
 if($r) {
   die(text("ipreported"));
 }
 
-$id=$bug->save2db();
+$ret=$bugreport->searchForParents();
+if($ret>0) {
+  $bug=new Bug();
+  $bug->loaddb($ret);
+  if(!$bug->checkReport($bugreport)) {
+    echo text("fixed");
+    die();
+  }
+}
+
+$id=$bugreport->save2db();
      
 echo text("thankyou",$id);
 ?>

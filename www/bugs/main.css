@@ -1,3 +1,13 @@
+body.picker { 
+width: 300px;
+margin: 0px;
+ }
+
+div.navig { 
+padding: 2px;
+text-align: center;
+ }
+
 .inline { 
 display: inline;
  }
@@ -18,8 +28,11 @@ tr.row:hover {
 background: lightblue;
  }
 
-.footer { 
+div.footer { 
 text-align: center;
+ }
+
+tr.footer { 
 background: orange;
  }
 
@@ -43,7 +56,7 @@ background: orange;
 color: black;
  }
 
-td.r_amsn,td.r_tcl,td.r_os,td.r_flag,td.r_id { 
+td.r_amsn,td.r_tcl,td.r_os,td.r_msnp,td.r_id { 
 text-align: center;
  }
 
@@ -72,8 +85,7 @@ width: 50px;
 width: 100%;
 padding: 1px;
  }
-div.found { 
-display: inline;
+.found { 
 color: red;
  }
 div.center { 
@@ -100,10 +112,15 @@ tr.bug_row {
  }
 
 td.bug_info { 
-vertical-align: top;
+vertical-align: center;
  }
 
 pre.bug { 
       font-size: 12px;
       margin: none;
+ }
+
+textarea { 
+width: 100%;
+height: 100px;
  }

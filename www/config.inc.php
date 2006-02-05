@@ -11,11 +11,9 @@ define('DBNAME_FORUM','phpbb');
 
 /* Bugs Configuration */
 define('DBNAME_BUGS','bugs');
-define('TABLE','bugreports');
+define('TBUGS','bugs');
+define('TBUGREPORTS','bugreports');
 define('TBLOCK','blocked');
-define('TFLAGS','flags');
-define('TDUPES','duplicates');
-define('TSUBSCRIPTIONS','subscriptions');
 
 #format: 0->name 1->username 3->ID 4->accept donations
 $devels=array(array('Alvaro J. Iradier Muro','airadier',551303,true),

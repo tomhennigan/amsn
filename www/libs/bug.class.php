@@ -5,149 +5,49 @@ if(!defined('_BUG_CLASS_')) {
   class Bug {
 #information about the bug
     var $_id;
-    var $_version;
-    var $ip;
-    var $flag=NONE;
-
-#user information
-    var $email;
-    var $comment;
-    
-#error variables
-    var $date;
-    var $text;
-    var $stack;
-    var $code;
-    
-#system info
-    var $amsn;
-    var $cvs_date;
-    var $tcl;
-    var $tk;
-    var $osversion;
-    var $byteorder;
-    var $threaded;
-    var $machine;
-    var $platform;
-    var $os;
-    var $user;
-    var $wordsize;
-    
-#extra debug info
-    var $status_log;
-    var $protocol_log;
+    var $name;
+    var $developer;
+    var $priority;
+    var $flag;
+    var $error_regexp;
+    var $stack_regexp;
+    var $desc;
+    var $bugs=array();
+    var $lastupdate;
     
     function Bug() {
-      
+      $this->lastupdate=mktime();
     }
 
-    function load_report($report,$isfile=false) {
-      $xml=new XML();
-      if($isfile) {
-	$xml->load_file($report);
-      } else {
-	$xml->load_text($report);
-      }
-
-      $this->_version=$xml->get_content('/bug[1]/attribute::version');
-      //set error stuff
-      $this->date=$xml->get_content('/bug[1]/error[1]/date[1]');
-      $this->text=$xml->get_content('/bug[1]/error[1]/text[1]');
-      $this->stack=$xml->get_content('/bug[1]/error[1]/stack[1]');
-      $this->code=$xml->get_content('/bug[1]/error[1]/code[1]');
-      //set system stuff
-      $this->amsn=$xml->get_content('/bug[1]/system[1]/amsn[1]');
-      $this->cvs_date=$xml->get_content('/bug[1]/system[1]/date[1]');
-      $this->tcl=$xml->get_content('/bug[1]/system[1]/tcl[1]');
-      $this->tk=$xml->get_content('/bug[1]/system[1]/tk[1]');
-      $this->osversion=$xml->get_content('/bug[1]/system[1]/osversion[1]');
-      $this->byteorder=$xml->get_content('/bug[1]/system[1]/byteorder[1]');
-      $this->threaded=$xml->get_content('/bug[1]/system[1]/threaded[1]');
-      $this->machine=$xml->get_content('/bug[1]/system[1]/machine[1]');
-      $this->platform=$xml->get_content('/bug[1]/system[1]/platform[1]');
-      $this->os=$xml->get_content('/bug[1]/system[1]/os[1]');
-      $this->user=$xml->get_content('/bug[1]/system[1]/user[1]');
-      $this->wordsize=$xml->get_content('/bug[1]/system[1]/wordsize[1]');
-      //set extra stuff
-      $this->status_log=$xml->get_content('/bug[1]/extra[1]/status_log[1]');
-      $this->protocol_log=$xml->get_content('/bug[1]/extra[1]/protocol_log[1]');
-      //set user info
-      $this->email=$xml->get_content('/bug[1]/user[1]/email[1]');
-      $this->comment=trim($xml->get_content('/bug[1]/user[1]/comment[1]'));
-    }
-    
-#checks if this is a valid report
-#a valid report needs to have
-#-stack
-#-cvs date
-#-tcl/tk version
-#-the version has to be bigger than BUG_VERSION
-    function check() {
-      if($this->stack=="" || $this->cvs_date=="" || $this->tcl=="" || $this->tk=="" || $this->_version<BUG_VERSION) {
-	return false;
-      }
-      return true;
-    }
-    
-    #checks if this bug is potential spam
-    # -same bug from the same ip
-    function spam($ip='0.0.0.0') {
-      $query="SELECT COUNT(*) AS c FROM ".TABLE." WHERE bug_ip='".$ip."' AND bug_text='".$this->text."'";
-      $r=query($query);
-      $row=mysql_fetch_array($r);
-      if($row['c']>0) {
-	return true;
-      }
-      return false;
-    }
-    
-#do we support this bug?
-# -tcl/tk 8.4 up
-    function supported() {
-      if($this->tcl<8.4 || $this->tk < 8.4) {
-	return false;
-      }
-      return true;
-    }
-    
     #array getArray (void)
     #returns all the information in a colum2value array to me used when generating queries
     function getArray() {
-      $fields=array('bug_date'=>$this->date,
-		    'bug_text'=>$this->text,
-		    'bug_stack'=>$this->stack,
-		    'bug_code'=>$this->code,
-		    'bug_amsn'=>$this->amsn,
-		    'bug_cvsdate'=>$this->cvs_date,
-		    'bug_tcl'=>$this->tcl,
-		    'bug_tk'=>$this->tk,
-		    'bug_os'=>$this->os, 
-		    'bug_osversion'=>$this->osversion,
-		    'bug_byteorder'=>$this->byteorder,
-		    'bug_threaded'=>$this->threaded,
-		    'bug_machine'=>$this->machine, 
-		    'bug_platform'=>$this->platform, 
-		    'bug_user'=>$this->user, 
-		    'bug_wordsize'=>$this->wordsize,
-		    'bug_status'=>$this->status_log,
-		    'bug_protocol'=>$this->protocol_log,
+      $fields=array('bug_name'=>$this->name,
+		    'bug_developer'=>$this->developer,
+		    'bug_priority'=>$this->priority,
+		    'bug_last_update'=>$this->lastupdate,
 		    'bug_flag'=>$this->flag,
-		    'bug_email'=>$this->email,
-		    'bug_comment'=>$this->comment);
+		    'bug_error_regexp'=>$this->error_regexp,
+		    'bug_stack_regexp'=>$this->stack_regexp,
+		    'bug_desc'=>$this->desc);
       return $fields;
     }
   
     function save2db() {
-      $fieldsq="`bug_ip`";
-      $valuesq="'".$_SERVER['REMOTE_ADDR']."'";
+      $fieldsq="";
+      $valuesq="";
 
       $array=$this->getArray();
       foreach($array as $key => $value) {
 	$fieldsq.=",`".$key."`";
 	$valuesq.=",'".$value."'";
       }
+
+      $fieldsq=substr($fieldsq,1);
+      $valuesq=substr($valuesq,1);
       
-      $query="INSERT INTO ".TABLE." (".$fieldsq.") VALUES (".$valuesq.")";
+      $query="INSERT INTO ".TBUGS." (".$fieldsq.") VALUES (".$valuesq.")";
+      //echo $query;
       mysql_query($query) or die('MySQL Query Error! '.mysql_error());
       $this->_id=mysql_insert_id();
       
@@ -156,9 +56,9 @@ if(!defined('_BUG_CLASS_')) {
 
     function update2db() {
       $array=$this->getArray();
-      $query="UPDATE ".TABLE." SET ";
+      $query="UPDATE ".TBUGS." SET ";
       foreach($array as $key => $value) {
-	$query.=$key."='".$value."',";
+	$query.=$key."='".mysql_real_escape_string($value)."',";
       }
       #get rid of the trailing ,
       $query=substr($query,0,strlen($query)-1);
@@ -166,16 +66,16 @@ if(!defined('_BUG_CLASS_')) {
       $query.=" WHERE bug_id='".$this->_id."'";
       mysql_query($query) or die('MySQL Query Error! '.mysql_error());
     }
-
+    
     function deletedb() {
-      $query="DELETE FROM ".TABLE." WHERE bug_id='".$this->_id."'";
+      $query="DELETE FROM ".TBUGS." WHERE bug_id='".$this->_id."'";
       mysql_query($query) or die('MySQL Query Error! '.mysql_error());
-      $query="DELETE FROM ".TDUPES." WHERE dupe_bug1='".$this->_id."' OR dupe_bug2='".$this->_id."'";
+      $query="DELETE FROM ".TBUGREPORTS." WHERE bug_parent='".$this->_id."'";
       mysql_query($query) or die('MySQL Query Error! '.mysql_error());
     }
 
     function loaddb($id) {
-      $query="SELECT * FROM ".TABLE." WHERE bug_id='$id'";
+      $query="SELECT * FROM ".TBUGS." WHERE bug_id='$id'";
       $result=mysql_query($query) or die('MySQL Query Error! '.mysql_error());
       $rows=mysql_num_rows($result);
       if($rows!=1) {
@@ -183,67 +83,94 @@ if(!defined('_BUG_CLASS_')) {
       }
       $row=mysql_fetch_array($result);
       $this->_id=$id;
-      $this->ip=$row['bug_ip'];
 
-      #set error stuff
-      $this->date=$row['bug_date'];
-      $this->text=$row['bug_text'];
-      $this->stack=$row['bug_stack'];
-      $this->code=$row['bug_code'];
-      #set system stuff
-      $this->amsn=$row['bug_amsn'];
-      $this->cvs_date=$row['bug_cvsdate'];
-      $this->tcl=$row['bug_tcl'];
-      $this->tk=$row['bug_tk'];
-      $this->osversion=$row['bug_osversion'];
-      $this->byteorder=$row['bug_byteorder'];
-      $this->threaded=$row['bug_threaded'];
-      $this->machine=$row['bug_machine'];
-      $this->platform=$row['bug_platform'];
-      $this->os=$row['bug_os'];
-      $this->user=$row['bug_user'];
-      $this->wordsize=$row['bug_wordsize'];
-      #set extra stuff
-      $this->status_log=$row['bug_status'];
-      $this->protocol_log=$row['bug_protocol'];
-      #user crap
-      $this->email=$row['bug_email'];
-      $this->comment=$row['bug_comment'];
+      $this->name=$row['bug_name'];
+      $this->developer=$row['bug_developer'];
+      $this->priority=$row['bug_priority'];
+      $this->lastupdate=$row['bug_last_update'];
+      $this->flag=$row['bug_flag'];
+      $this->error_regexp=$row['bug_error_regexp'];
+      $this->stack_regexp=$row['bug_stack_regexp'];
+      $this->desc=$row['bug_desc'];
+      
+      $this->loadbugs();
+    }
 
+    function loadbugs() {
+      $this->bugs=array();
+      $query="SELECT bug_id FROM ".TBUGREPORTS." WHERE bug_parent='".$this->_id."'";
+      $result=mysql_query($query) or die('MySQL Query Error! '.mysql_error());
+
+      while($row=mysql_fetch_array($result)) {
+	$this->bugs[]=$row['bug_id'];
+      }
+    }
+
+    function checkReport($rep) {
+      global $FLAGS;
+      if($this->lastupdate<$rep->cvs_date && $FLAGS[$this->flag]=='FIXED') {
+	$this->flag=$FLAGS['REOPENED'];
+	$this->lastupdate=mktime();
+	$this->update2db();
+	if($this->developer!="Nobody") 
+	  email($this->developer,"[".$this->_id.'] Bad Fix',"Seems like bug #".$this->_id." has not been fixed properly as we have just recieved an bug report that matches it from an amsn client newer than the fix date.\n\nhttp://amsn.sf.net/bugs/index.php?show=bug&id=".$this->_id);
+	return true;
+      } else if($this->lastupdate>$rep->cvs_date && $FLAGS[$this->flag]=='FIXED') {
+	return false;
+      }
+      return true;
     }
     
-    function email($title,$msg) {
-      $title="[".$this->_id."] ".$title;
-      mail($this->email,$title,$msg,"From: ".EMAIL);
-    }
-
     function msg($msg,$redir=false) {
       echo '<div class="center">'.$msg.'</div>';
       if($redir!==false) {
-	echo '<div class="center">Click <a href="index.php">here</a> to go back to the buglist. You will be redirected there in 5 seconds.</div>';
-	URL::js_redirect('index.php',5);
+	echo '<div class="center">Click <a href="index.php?show=bugs">here</a> to go back to the buglist. You will be redirected there in 5 seconds.</div>';
+	URL::js_redirect('index.php?show=bugs',5);
       }
     }
     
     function actions() {
-      switch($_GET["do"]) {
-      case 'removeip':
-	$query="DELETE FROM ".TABLE." WHERE bug_ip='".$this->ip."'";
-	query($query);
-	$this->msg("All the bugs reported from ".private_ip($this->ip)." have been removed!",true);
-	break;
-      case 'block':
-	$blocked=blocked($this->ip);
-	if($blocked===false) {
-	  //blocking expires in 1 day
-	  $day=60*60*24;
-	  $query="INSERT INTO ".TBLOCK." (block_ip,block_until) VALUES ('".$this->ip."',UNIX_TIMESTAMP()+".$day.")";
-	  query($query);
-	} else {
-	  $query="DELETE FROM ".TBLOCK." WHERE block_ip='".$this->ip."'";
-	  query($query);
+      if(isset($_POST['submit'])) {
+	switch($_POST['submit']) {
+	case 'Save':
+	  foreach($_POST as $key => $value) {
+	    $_POST[$key]=stripslashes($value);
+	  }
+	  $this->name=(isset($_POST['name']))?$_POST['name']:$this->name;
+	  if(isset($_POST['flag']) && $_POST['flag']!=$this->flag) {
+	    $this->flag=$_POST['flag'];
+	    $this->lastupdate=mktime();
+	    foreach($this->bugs as $id) {
+	      $report=new BugReport();
+	      $report->loaddb($id);
+	      $report->updated($this->flag);
+	    }
+	  }
+	  $this->developer=(isset($_POST['developer']))?$_POST['developer']:$this->developer;
+	  $this->desc=(isset($_POST['desc']))?$_POST['desc']:$this->desc;
+	  $this->error_regexp=(isset($_POST['error_regexp']))?$_POST['error_regexp']:$this->error_regexp;
+	  $this->stack_regexp=(isset($_POST['stack_regexp']))?$_POST['stack_regexp']:$this->stack_regexp;
+	  $this->update2db();
+	  break;
+	case 'Delete':
+	  $this->deletedb();
+	  $this->msg('Bug deleted!',true);
+	  break;
+	case 'Search':
+	  $query="SELECT bug_id,bug_text,bug_stack FROM ".TBUGREPORTS." WHERE bug_parent='0'";
+	  $result=mysql_query($query) or die('MySQL Query Error! '.mysql_error());
+	  $found=0;
+	  while($row=mysql_fetch_array($result)) {
+	    if(ereg($this->error_regexp,$row['bug_text']) || ereg($this->stack_regexp,$row['bug_stack'])) {
+	      $query="UPDATE ".TBUGREPORTS. " SET bug_parent='".$this->_id."' WHERE bug_id='".$row['bug_id']."'";
+	      mysql_query($query) or die('MySQL Query Error! '.mysql_error());
+	      $this->bugs[]=$row['bug_id'];
+	      $found++;
+	    }
+	  }
+	  $this->msg("Found ".$found." new bug reports!",false);
+	  break;
 	}
-	break;
       }
     }
     
@@ -253,203 +180,92 @@ if(!defined('_BUG_CLASS_')) {
       } else {
 	$this->actions();
 	$this->show_admin();
-	$this->show_error();
-	$this->show_system();
-	$this->show_extra();
+	$this->show_bugs();
       }
     }
 
     function show_admin() {
-      global $FLAGS,$FLAGS_DESC;
+      global $FLAGS;
 
-      $blocked=blocked($this->ip);
-      dupes($this->_id,$dupes);
-      
-      if(isset($_POST['submit'])) {
-	switch($_POST['submit']) {
-	case 'Save':
-	  $flag=intval(trim($_POST['flag']));
-	  if($flag!=$this->flag) {
-	    $name=array_search($flag,$FLAGS);
-	    $this->email("New flag!",'This bug is now marked as '.$name.' which means: "'.$FLAGS_DESC[$name].'".');
-	  }
-	  $this->flag=$flag;
-	  
-	  if($_POST['dupe']!="") {
-	    $dupe=$_POST['dupe'];
-	    if(!bug_exists($dupe)) {
-	      $this->msg('A non existant bug can\'t be a duplicate!');
-	      break;
-	    }
-	    if($dupe==$this->_id) {
-	      $this->msg('A bug can\'t be a duplicate of itself!');
-	      break;
-	    }
-	    if(array_search($dupe,$dupes)!==false) {
-	      $this->msg('It already is a duplicate!');
-	      break;
-	    }
-	    
-	    $query="INSERT INTO ".TDUPES." (dupe_bug1,dupe_bug2) VALUES ('".$this->_id."','".$dupe."')";
-	    query($query);
-	    $this->msg('Duplicate added.');
-	    $this->email('Duplicate','This bug has been marked as a duplicate of '.$dupe.'.');
-	    $dupes[]=$dupe;
-	  }
-	  $this->update2db();
-	  break;
-	case 'Delete':
-	  $this->deletedb();
-	  $this->email('Deleted','This bug has been deleted.');
-	  $this->msg('Bug deleted!',true);
-	  break;
-	}
-      }
-	
-      echo '<form action="index.php?bug='.$this->_id.'" method="POST">';
+      echo '<form action="index.php?show=bug&amp;id='.$this->_id.'" method="POST">';
 
       echo '<table class="bug" cellspacing="0" align="center">';
       echo '<caption class="bug_title">Administration</caption>';
 
       echo '<tr class="bug_row"><td class="bug_info">';
-      echo '<b>Flag: </b>';
+      echo '<b>Name: </b>';
+      echo '<input type="text" name="name" value="'.$this->name.'"/>';
+      echo '</td><td class="bug_info">';
+      echo '<b>Flag:</b> ';
       echo '<select name="flag">';
-      foreach($FLAGS as $flag => $value) {
-	echo '<option value="'.$value.'"';
-	echo ($this->flag==$value)?' selected="selected"':'';
+      foreach($FLAGS as $id => $flag) {
+	echo '<option value="'.$id.'"';
+	if($id==$this->flag) echo ' selected="selected"';
 	echo '>'.$flag.'</option>';
       }
       echo '</select>';
-      echo '</td><td class="bug_info" rowspan="3">';
-      echo '<b>Reporter:</b> ';
-      echo hideemail($this->email);
       echo '</td></tr>';
 
       echo '<tr class="bug_row"><td class="bug_info">';
-      echo '<b>IP Address: </b>';
-      echo private_ip($this->ip);
-      echo ' <small>';
-      echo '<a href="?bug='.$this->_id.'&amp;do=block">';
-      if($blocked!==false)
-	echo 'Unblock';
-      else 
-	echo 'Block';
-      echo '</a>';
-      echo ' ';
-      echo '<a href="?bug='.$this->_id.'&amp;do=removeip">Remove</a>';
-      echo '</small></td></tr>';
+      echo '<b>Developer: </b>';
+      echo '<input type="text" name="developer" value="'.$this->developer.'"/>';
+      echo '</td><td class="bug_info">';
+      echo '<b>Priority: </b>';
+      echo $this->priority;
+      echo '</td></tr>';
 
       echo '<tr class="bug_row"><td class="bug_info">';
-      echo '<b>Duplicates: </b>';
-      foreach($dupes as $dupe) {
-	if($dupe!=$this->_id)
-	  echo '<a href="?bug='.$dupe.'">'.$dupe.'</a> ';
-      }
-      echo '<input type="text" name="dupe" class="short" />';
+      echo '<b>Description:</b>';
+      echo '</td><td class="bug_info">';
+      echo '<b>Last Update: </b>';
+      echo strftime('%c',$this->lastupdate);
+      echo '</td></tr>';
+      echo '<tr class="bug_row"><td class="bug_info" colspan="2">';
+      echo '<textarea name="desc">';
+      echo $this->desc;
+      echo '</textarea>';
       echo '</td></tr>';
 
       echo '<tr class="bug_row"><td class="bug_info" align="right" colspan="2">';
-      echo '<input type="submit" name="submit" value="Save"/>';
       echo '<input type="submit" name="submit" value="Delete"/>';
+      echo '<input type="submit" name="submit" value="Save"/>';
       echo '</td></tr>';
       echo '</table>';
 
       echo '</form>';
     }
 
-    function show_error() {
+    function show_bugs() {
+      echo '<form action="index.php?show=bug&amp;id='.$this->_id.'" method="POST">';
       echo '<table class="bug" cellspacing="0" align="center">';
-      echo '<caption class="bug_title">Error</caption>';
-
-      echo '<tr class="bug_row"><td class="bug_info">';
-      echo '<b>Error: </b>'.$this->text;
-      echo '</td><td class="bug_info">';
-      echo '<b>Error Code: </b>'.$this->code;
-      echo '</td></tr>';
-
-      echo '<tr class="bug_row"><td colspan="2" class="bug_info">';
-      echo '<b>Submitted:</b>'.strftime("%c",$this->date);
+      echo '<caption class="bug_title">Bug Reports</caption>';
+      
+      echo '<tr class="bug_row"><td class="bug_info" colspan="2">';
+      echo '<b>Reports: </b>';
+      foreach($this->bugs as $report) {
+	echo '<a href="?show=bugreport&amp;id='.$report.'">'.$report.'</a> ';
+      }
       echo '</td></tr>';
       
-      echo '<tr class="bug_row"><td colspan="2" class="bug_info">';
-      echo '<b>Stack: </b>';
-      echo '<pre>';
-      echo $this->stack;
-      echo '</pre>';
+      echo '<tr class="bug_row"><td class="bug_info">';
+      echo '<b>Error Text RegExp:</b><br/>';
+      echo '<textarea name="error_regexp">';
+      echo $this->error_regexp;
+      echo '</textarea>';
+      echo '</td><td class="bug_info">';
+      echo '<b>Stack RegExp:</b><br/>';
+      echo '<textarea name="stack_regexp">';
+      echo $this->stack_regexp;
+      echo '</textarea>';
       echo '</td></tr>';
+
+      echo '<tr class="bug_row"><td class="bug_info" align="right" colspan="2">';
+      echo '<input type="submit" name="submit" value="Search"/>';
+      echo '<input type="submit" name="submit" value="Save"/>';
+      echo '</td></tr>';
+
       echo '</table>';
-    }
-    
-    function show_system() {
-      echo '<table class="bug" cellspacing="0" align="center">';
-      echo '<caption class="bug_title">System</caption>';
-
-      echo '<tr class="bug_row"><td class="bug_info">';
-      echo '<b>aMSN Version: </b>'.$this->amsn;
-      echo '</td><td class="bug_info">';
-      echo '<b>CVS Date: </b>'.strftime('%c',$this->cvs_date);
-      echo '</td></tr>';
-
-      echo '<tr class="bug_row"><td class="bug_info">';
-      echo '<b>Tcl Version: </b>'.$this->tcl;
-      echo '</td><td class="bug_info">';
-      echo '<b>Tk Version: </b>'.$this->tk;
-      echo '</td></tr>';
-
-      echo '<tr class="bug_row"><td class="bug_info">';
-      echo '<b>Operating System: </b>'.$this->os;
-      echo '</td><td class="bug_info">';
-      echo '<b>OS Version: </b>'.$this->osversion;
-      echo '</td></tr>';
-
-      echo '<tr class="bug_row"><td class="bug_info">';
-      echo '<b>Platform: </b>'.$this->platform;
-      echo '</td><td class="bug_info">';
-      echo '<b>Machine: </b>'.$this->machine;
-      echo '</td></tr>';
-
-      echo '<tr class="bug_row"><td class="bug_info">';
-      echo '<b>Byte Order: </b>'.$this->byteorder;
-      echo '</td><td class="bug_info">';
-      echo '<b>Threads: </b>';
-      echo ($this->threaded=='true')?'Yes':'No';
-      echo '</td></tr>';
-
-      echo '<tr class="bug_row"><td class="bug_info">';
-      echo '<b>Word Size: </b>'.$this->wordsize;
-      echo '</td><td class="bug_info">';
-      echo '<b>User: </b>'.$this->user;
-      echo '</td></tr>';
-      
-      echo '</table>';
-    }
-    
-    function show_extra() {
-      echo '<table class="bug" cellspacing="0" align="center">';
-      echo '<caption class="bug_title">Extra</caption>';
-
-      echo '<tr class="bug_row"><td colspan="2" class="bug_info">';
-      echo '<b>User Comment:</b>';
-      echo '<pre class="bug" width="100">';
-      echo $this->comment;
-      echo '</pre>';
-      echo '</td></tr>';
-
-      echo '<tr class="bug_row"><td colspan="2" class="bug_info">';
-      echo '<b>Status Log:</b>';
-      echo '<pre class="bug" width="100">';
-      echo $this->status_log;
-      echo '</pre>';
-      echo '</td></tr>';
-
-      echo '<tr class="bug_row"><td colspan="2" class="bug_info">';
-      echo '<b>Protocol Log:</b>';
-      echo '<pre class="bug" width="100">';
-      echo $this->protocol_log;
-      echo '</pre>';
-      echo '</td></tr>';
-      
-      echo '</table>';
+      echo '</form>';
     }
   }
 }
