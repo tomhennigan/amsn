@@ -69,7 +69,7 @@ proc trayicon_init {} {
 	} else {
 		if { [catch {package require libtray} res] } {
 			set systemtray_exist 0
-			puts "[trans traynotcompiled] : $res"
+			status_log "[trans traynotcompiled] : $res"
 			close_dock
 			return
 		}
@@ -436,7 +436,7 @@ proc remove_icon {icon} {
 
 proc restart_tray { } {
 
-    puts "RESTARTING the traydock"
+    status_log "RESTARTING the traydock"
 
     statusicon_proc "REMOVE"
     statusicon_proc [::MSN::myStatusIs]
@@ -477,26 +477,26 @@ proc loadTrayLib {} {
 
 		#if the lib is not available, print an error on the console and return
 		if { ![file exists $ext] } {
-			puts "[trans needwinico2]"
+			status_log "[trans needwinico2]"
 			return 0
 		}
 
 		#if there is a problem loading the lib, print the error on the console and return
 		if { [catch {load $ext winico} errormsg] } {
-			puts "$errormsg"
+			status_log "$errormsg"
 			return 0
 		}
 
 	} elseif { [OnUnix] } {
 		#if there is a problem loading the lib, print the error on the console and return
 		if { [catch {package require libtray} errormsg] } {
-			puts "[trans traynotcompiled] : $errormsg"
+			status_log "[trans traynotcompiled] : $errormsg"
 			return 0
 		}
 	
 		#check if a systemtray is available, ifnot, set the "lib loaded" state off so no icons will be made
 		if { ![systemtray_exist] } {
-			puts "[trans nosystemtray]"
+			status_log "[trans nosystemtray]"
 			return 0
 		}
 		
@@ -537,7 +537,7 @@ proc addTrayIcon {name xiconpath winiconpath {tooltip ""} {winactionhandler "noh
 		#X11/Freedesktop (linux) specific code
 		} elseif { [OnUnix] && $xiconpath != ""} {
 			if { [winfo exists .$name] } {
-				puts "trayicon.tcl: won't add icon $name as it already exists"
+				status_log "trayicon.tcl: won't add icon $name as it already exists"
 			} else {
 				if { [loadTrayLib] } {
 					#add the icon     !! name => .name
@@ -553,7 +553,7 @@ proc addTrayIcon {name xiconpath winiconpath {tooltip ""} {winactionhandler "noh
 			}
 			return 1
 		} else {
-			puts "Error creating trayicon."
+			status_log "Error creating trayicon."
 			return 0
 		}
 
@@ -578,10 +578,10 @@ proc rmTrayIcon {name} {
 		#X11/Freedesktop (linux) specific code
 		} elseif { [OnUnix] } {
 			if { [catch {removeti .$name} errormsg] } {
-				puts "$errormsg\n"
+				status_log "$errormsg\n"
 			}
 			if { [catch {destroy .$name} errormsg] } {
-				puts "$errormsg\n"
+				status_log "$errormsg\n"
 			}
 		}
 	}
@@ -625,5 +625,5 @@ proc trayIcon_Configure {imgSrc imgDst width height} {
 }
 #Windows only aid proc:
 proc nohandler {win x y} {
-	puts "Err: No icon handler given"
+	status_log "Err: No icon handler given"
 }
