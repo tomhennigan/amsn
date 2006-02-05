@@ -15,6 +15,9 @@ define('TBUGS','bugs');
 define('TBUGREPORTS','bugreports');
 define('TBLOCK','blocked');
 
+#langlist directory
+$lang_dir='/home/groups/a/am/amsn/htdocs/langsdat';
+
 #format: 0->name 1->username 3->ID 4->accept donations
 $devels=array(array('Alvaro J. Iradier Muro','airadier',551303,true),
                 array('Philippe Khalaf','burgerman',0,false),
@@ -35,13 +38,16 @@ $skins=array(array("aDarwin",'A well deserved tribute to Darwin','Daniel Buenfil
         array('Sheeny-Deluxe','Sheeny-Deluxe','Lee Olson',82,''),
         array('Snow Grey','Snow Grey, Build 1','ThEdOOd',89,'snowgrey-0.95.zip'),
         array('Ubuntu (Human)','Ubuntu','Karel Demeyer',83,'Ubuntu-Human-0.95.zip'),
-        array('Unified','Unified','Daniel Buenfil',66,'Unified-0.95.zip'));
+        array('Unified','Unified','Daniel Buenfil',66,'Unified-0.95.zip'),
+        array('Clearlooks','Clearlooks','reggaemanu',95,'Clearlooks-0.95.zip'),
+        array('Tux','The original Tux Skin by Steels - Everaldo with a lot of tiny penguins. Updated for aMSN 0.95','Guillaume Lambert',94,'Tux-0.95.zip'),
+        array('nilo-skin','yo yo','yo yo',0,'nilo-skin-0.95.zip'));
 
 #format: 0->title 1->description 2-> author 3->version 4->Platforms 5->requires 6->ID of screenshot in wiki 7->package on sf.net release system
 $plugins=array(array('aMSN Plus!','aMSN Extension similar to MSN Plus! (commands in chat window, multiple-text format, colored nicks)','Mark, Jerome Gagnon-Voyer &amp; Fred','2.6','All','aMSN 0.94',67,'amsnplus-2.6.zip'),
                 array('Colorize','Change the color of your text from either a predefined list or randomly.','Karol Krizka','1.0','All','aMSN 0.94',70,'colorize-1.0.zip'),
 		array('TeXIM','Renders LaTeX if it\'s prepended by \tex or by using the TeX Advanced Window','Andrei Barbu &amp; Boris FAURE','0.7','All','aMSN 0.95',0,'TeXIM-0.7.zip'),
-		array('DBus Viewer','This plugin enables you to monitor dbus messages using the event log of aMSN','Joanne Zutt','0.1','Linux','aMSN 0.95 &amp; dbus',0,'dbusviewer-0.1.zip'),
+		array('DBus Viewer','This plugin enables you to monitor dbus messages using the event log of aMSN','Jonne Zutt','0.1','Linux','aMSN 0.95 &amp; dbus',0,'dbusviewer-0.1.zip'),
 		array('Desktop Integration','For KDE or GNOME users. It shows desktop-like dialogs instead of tcl/tk ones. It also sets some options to fit better in the desktop.','Isma','0.9','Linux','aMSN 0.95 &amp; KDE or GNOME',61,'desktop_integration-0.9.zip'),
 		array('Emotes','Plugin to replace /me ocurrences in chat window','Youness Alaoui','0.1','All','aMSN 0.94',71,'emotes-0.1.zip'),
 		array('Gename','Plugin for generating random names','Karol Krizka','1.0','All','aMSN 0.94',42,'gename-1.0.zip'),
@@ -55,5 +61,8 @@ $plugins=array(array('aMSN Plus!','aMSN Extension similar to MSN Plus! (commands
 		array('Remind','Shows the last sentences of the previous conversations when opening a new chat window','Fred','1.2','All','aMSN 0.94',74,'remind-1.2.zip'),
 		array('Say It','Speaks the messages you receive in the background. It will use the default voice set in the system preferences. If you enter a different voice (Mac), make sure you use a capital first letter.','William Bowling, Arieh Schneier &amp; Karel Demeyer','1.3','All','aMSN 0.94 &amp; <a href="http://www.cstr.ed.ac.uk/projects/festival/">text2speech</a> for Linux',79,'	sayit-1.3.zip'),
 		array('What Is','Get information from text/word or translate it to an other language!','Jasper Huzen','1.2','All','aMSN 0.94',50,'whatis-1.2.zip'),
-		array('WinSkin','Some options to make the contact list smaller','Arieh Schneier','0.11','All','aMSN 0.94',75,'winskin-0.11.zip'));
+		array('WinSkin','Some options to make the contact list smaller','Arieh Schneier','0.11','All','aMSN 0.94',75,'winskin-0.11.zip'),
+                array('BigSmileys','Show an extra smileys button for selecting from customs smileys with a bigger preview.','Pablo Novara','20060116','All','aMSN 0.94',93,'bigsmileys-20060116.zip'),
+                array('Drae','Search for the description of the selected word in the Royal Spanish Academy dictionary <br/>--<br/>Busca la definicion del texto seleccionado en el diccionario de la Real Academia Espa�la.','Zaskar','1.0','Linux (requires lynx)','aMSN 0.94',92,'drae-1.0.zip'),
+		array('Organize Received','Saves received files by default in a subdirectory of the sender and optionally into another subdirectory of the date','Nilton Volpato','0.4','All','aMSN 0.94',0,'organize_received-0.4.zip'));
 ?>
