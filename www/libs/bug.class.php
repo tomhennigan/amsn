@@ -157,18 +157,41 @@ if(!defined('_BUG_CLASS_')) {
 	  $this->msg('Bug deleted!',true);
 	  break;
 	case 'Search':
+	  $query="UPDATE ".TBUGREPORTS." SET bug_parent='0' WHERE bug_parent='".$this->_id."'";
+	  mysql_query($query) or die('MySQL Query Error! '.mysql_error());
 	  $query="SELECT bug_id,bug_text,bug_stack FROM ".TBUGREPORTS." WHERE bug_parent='0'";
 	  $result=mysql_query($query) or die('MySQL Query Error! '.mysql_error());
 	  $found=0;
 	  while($row=mysql_fetch_array($result)) {
-	    if(ereg($this->error_regexp,$row['bug_text']) || ereg($this->stack_regexp,$row['bug_stack'])) {
+	    if(ereg($this->error_regexp,$row['bug_text']) && ereg_mline($this->stack_regexp,$row['bug_stack'])) {
 	      $query="UPDATE ".TBUGREPORTS. " SET bug_parent='".$this->_id."' WHERE bug_id='".$row['bug_id']."'";
 	      mysql_query($query) or die('MySQL Query Error! '.mysql_error());
 	      $this->bugs[]=$row['bug_id'];
 	      $found++;
 	    }
 	  }
-	  $this->msg("Found ".$found." new bug reports!",false);
+	  $this->msg("Found ".$found." bug reports!",false);
+	  break;
+	case 'Preview':
+	  $this->stack_regexp=stripslashes($_POST['stack_regexp']);
+	  $this->error_regexp=stripslashes($_POST['error_regexp']);
+	  $query="SELECT bug_id,bug_text,bug_stack FROM ".TBUGREPORTS." WHERE bug_parent='0' OR bug_parent='".$this->_id."'";
+	  $result=mysql_query($query) or die('MySQL Query Error! '.mysql_error());
+	  $found=0;
+	  $bugs=array();
+	  while($row=mysql_fetch_array($result)) {
+	    if(ereg($this->error_regexp,$row['bug_text']) && ereg_mline($this->stack_regexp,$row['bug_stack'])) {
+	      if(count($bugs)<10)
+		$bugs[]=$row['bug_id'];
+	      $found++;
+	    }
+	  }
+	  $this->msg("Found ".$found." bug reports!",false);
+	  $str='';
+	  foreach($bugs as $id) {
+	    $str.='<a href="?show=bugreport&amp;id='.$id.'">'.$id.'</a> ';
+	  }
+	  $this->msg("Preview: ".$str,false);
 	  break;
 	}
       }
@@ -231,12 +254,9 @@ if(!defined('_BUG_CLASS_')) {
       echo '<input type="submit" name="submit" value="Save"/>';
       echo '</td></tr>';
       echo '</table>';
-
-      echo '</form>';
     }
 
     function show_bugs() {
-      echo '<form action="index.php?show=bug&amp;id='.$this->_id.'" method="POST">';
       echo '<table class="bug" cellspacing="0" align="center">';
       echo '<caption class="bug_title">Bug Reports</caption>';
       
@@ -247,12 +267,13 @@ if(!defined('_BUG_CLASS_')) {
       }
       echo '</td></tr>';
       
-      echo '<tr class="bug_row"><td class="bug_info">';
+      echo '<tr class="bug_row"><td class="bug_info" colspan="2">';
       echo '<b>Error Text RegExp:</b><br/>';
       echo '<textarea name="error_regexp">';
       echo $this->error_regexp;
       echo '</textarea>';
-      echo '</td><td class="bug_info">';
+      echo '</td></tr>';
+      echo '<tr class="bug_row"><td class="bug_info" colspan="2">';
       echo '<b>Stack RegExp:</b><br/>';
       echo '<textarea name="stack_regexp">';
       echo $this->stack_regexp;
@@ -260,6 +281,7 @@ if(!defined('_BUG_CLASS_')) {
       echo '</td></tr>';
 
       echo '<tr class="bug_row"><td class="bug_info" align="right" colspan="2">';
+      echo '<input type="submit" name="submit" value="Preview"/>';
       echo '<input type="submit" name="submit" value="Search"/>';
       echo '<input type="submit" name="submit" value="Save"/>';
       echo '</td></tr>';

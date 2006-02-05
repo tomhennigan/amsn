@@ -14,7 +14,9 @@ if(isset($_GET['pick'])) {
   if($_GET['pick']=='new') {
     $bug=new BugReport();
     $bug->loaddb($_GET['bug']);
-    $query="INSERT INTO ".TBUGS." (bug_error_regexp,bug_stack_regexp) VALUES ('".mysql_real_escape_string($bug->text)."','".mysql_real_escape_string($bug->stack)."')";
+    $text=ereg_prepare($bug->text);
+    $stack=ereg_prepare($bug->stack);
+    $query="INSERT INTO ".TBUGS." (bug_error_regexp,bug_stack_regexp) VALUES ('".mysql_real_escape_string($text)."','".mysql_real_escape_string($stack)."')";
     $result=mysql_query($query) or die("MySQL Error: ".mysql_error());
     $bug->bug=mysql_insert_id();
     $bug->update2db();
@@ -72,7 +74,7 @@ $query="SELECT * FROM ".TBUGS." $search ORDER BY bug_id DESC $limit";
 $result=mysql_query($query) or die("MySQL Error: ".mysql_error());
 while($row=mysql_fetch_array($result)) {
   $odd=($x++)%2;
-  echo '<tr class="row r_'.$odd.'"><td class="row" colspan="2"><a href="?bug='.$_GET['bug'].'&amp;pick='.$row['bug_id'].'">'.$row['bug_id'].' - '.translucate($row['bug_name'],10).'</a></td></tr>';
+  echo '<tr class="row r_'.$odd.'"><td class="row" colspan="2"><a href="?bug='.$_GET['bug'].'&amp;pick='.$row['bug_id'].'">'.$row['bug_id'].' - '.translucate($row['bug_name'],20).'</a></td></tr>';
 }
 
 echo '<tr class="footer"><td colspan="2">';

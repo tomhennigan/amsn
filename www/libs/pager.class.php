@@ -17,6 +17,7 @@ if(!defined('_PAGER_CLASS_')) {
 	$this->from($_GET['from']);
       if(isset($_GET['to']))
 	$this->to($_GET['to']);
+      $this->incr=$this->to - $this->from;
     }
 
     function from($from="") {

@@ -116,7 +116,7 @@ if(!defined('_BUGREPORT_CLASS_')) {
       $query="SELECT bug_id,bug_error_regexp,bug_stack_regexp FROM ".TBUGS;
       $result=mysql_query($query) or die('MySQL Query Error! '.mysql_error());
       while($row=mysql_fetch_array($result)) {
-	if(ereg($row['bug_error_regexp'],$this->text) || ereg($row['bug_stack_regexp'],$this->stack)) {
+	if(ereg($row['bug_error_regexp'],$this->text) && ereg_multi($row['bug_stack_regexp'],$this->stack)) {
 	  $this->bug=$row['bug_id'];
 	  return $row['bug_id'];
 	}
@@ -174,7 +174,7 @@ if(!defined('_BUGREPORT_CLASS_')) {
       $array=$this->getArray();
       $query="UPDATE ".TBUGREPORTS." SET ";
       foreach($array as $key => $value) {
-	$query.=$key."='".$value."',";
+	$query.=$key."='".addslashes($value)."',";
       }
       #get rid of the trailing ,
       $query=substr($query,0,strlen($query)-1);

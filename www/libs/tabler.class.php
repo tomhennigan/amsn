@@ -121,6 +121,8 @@ if(!defined("_TABLER_CLASS_")) {
     
     function add($row) {
       $rows=$this->rows();
+      foreach($row as $key=>$value) 
+	$row[$key]=htmlentities($value);
       $rows[]=$row;
       $this->rows($rows);
     }
@@ -130,6 +132,7 @@ if(!defined("_TABLER_CLASS_")) {
       if(!isset($cols[$col]['rename'])) {
 	return $value;
       } else if(is_string($cols[$col]['rename'])) {
+	$value=addslashes($value);
 	$func='return '.str_replace('$arg',$value,$cols[$col]['rename']).';';
 	return eval($func);
       } else {

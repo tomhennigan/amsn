@@ -72,5 +72,33 @@ if(!defined('_FUNC_LIB_')) {
     elseif (eregi("FreeBSD", $agent))
       return "FreeBSD";
   }
+
+  function ereg_mline($reg,$string) {
+    $regs=explode("\n",$reg);
+    $lines=explode("\n",$string);
+#    if(count($lines)!=count($regs)) {
+#      return false;
+#    }
+    foreach($regs as $num => $reg) {
+      $reg=trim($reg);
+      $lines[$num]=trim($lines[$num]);
+      if(!ereg($reg,$lines[$num])) {
+	return false;
+      }
+    }
+    return true;
+  }
+
+  function ereg_prepare($text) {
+    $text=str_replace('{','\{',$text);
+    $text=str_replace('}','\}',$text);
+    $text=str_replace('[','\[',$text);
+    $text=str_replace(']','\]',$text);
+    $text=str_replace('(','\(',$text);
+    $text=str_replace(')','\)',$text);
+    $text=str_replace('$','\$',$text);
+    $text=str_replace('.','\.',$text);
+    return $text;
+  }
 }
 ?>
