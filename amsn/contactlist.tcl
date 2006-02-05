@@ -821,17 +821,17 @@ snit::widget contactlist {
 		# Config'ing top or list?
 		switch $component {
 			top {
-				#$topbg configure -width $width -height $height
+				$topbg configure -width $width -height $height
 			}
 			list {
-				#$listbg configure -width $width -height $height
-				#$selectbg configure -width [$self CalculateSelectWidth]
+				$listbg configure -width $width -height $height
+				$selectbg configure -width [$self CalculateSelectWidth]
 			}
 		}
 		
 		# Resize group backgrounds
 		foreach groupid $groups {
-			#$self SetGroupBgWidth $groupid [expr {$width - (2 * $options(-ipadx)) - (2 * $options(-grouppadx))}]
+			$self SetGroupBgWidth $groupid [expr {$width - (2 * $options(-ipadx)) - (2 * $options(-grouppadx))}]
 		}
 
 		# Truncate text items (nicks etc)
