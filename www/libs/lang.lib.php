@@ -18,14 +18,14 @@ if(!defined("_LANG_LIB_")) {
 
   function trans($key) {
     $code=getLangKey();
-    $key=mysql_escape_string(stripslashes(trim($key)));
+    $skey=mysql_escape_string(stripslashes(trim($key)));
     
-    $query="SELECT lang_text FROM amsn_langs WHERE lang_code='$code' AND lang_key='$key'";
+    $query="SELECT lang_text FROM amsn_langs WHERE lang_code='$code' AND lang_key='$skey'";
     $result=mysql_query($query) or die(mysql_error());
 
     /* If no translation found, look up english */
     if(mysql_num_rows($result)==0) {
-      $query="SELECT lang_text FROM amsn_langs WHERE lang_code='en' AND lang_key='$key'";
+      $query="SELECT lang_text FROM amsn_langs WHERE lang_code='en' AND lang_key='$skey'";
       $result=mysql_query($query) or die(mysql_error());
     }
 

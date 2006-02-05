@@ -94,7 +94,7 @@ if(!defined('_BUGREPORT_CLASS_')) {
     #checks if this bug is potential spam
     # -same bug from the same ip
     function spam($ip='0.0.0.0') {
-      $query="SELECT COUNT(*) AS c FROM ".TBUGREPORTS." WHERE bug_ip='".$ip."' AND bug_text='".$this->text."'";
+      $query="SELECT COUNT(*) AS c FROM ".TBUGREPORTS." WHERE bug_ip='".$ip."' AND bug_text='".addslashes($this->text)."'";
       $r=query($query);
       $row=mysql_fetch_array($r);
       if($row['c']>0) {
@@ -116,7 +116,7 @@ if(!defined('_BUGREPORT_CLASS_')) {
       $query="SELECT bug_id,bug_error_regexp,bug_stack_regexp FROM ".TBUGS;
       $result=mysql_query($query) or die('MySQL Query Error! '.mysql_error());
       while($row=mysql_fetch_array($result)) {
-	if(ereg($row['bug_error_regexp'],$this->text) && ereg_multi($row['bug_stack_regexp'],$this->stack)) {
+	if(ereg($row['bug_error_regexp'],$this->text) && ereg_mline($row['bug_stack_regexp'],$this->stack)) {
 	  $this->bug=$row['bug_id'];
 	  return $row['bug_id'];
 	}

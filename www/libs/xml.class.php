@@ -122,8 +122,8 @@ class XML
     * @access private
     * @var    array
     */
-    var $entities = array ( "&" => "&amp;", "<" => "&lt;", ">" => "&gt;",
-        "'" => "&apos", '"' => "&quot;" );
+    var $entities = array ( "&" => "&amp;", "<" => "&lt;", ">" => "&gt;"/*,
+        "'" => "&apos;"*/, '"' => "&quot;" );
     
     /**
     * List of supported XPath axes.

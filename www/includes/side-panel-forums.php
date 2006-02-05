@@ -15,7 +15,7 @@ echo '&#8226; '.trans('recentposts').' &#8226;';
 if(@mysql_select_db(DBNAME_FORUM)) {
   $result=mysql_query("SELECT phpbb_posts.topic_id,phpbb_topics.topic_title FROM phpbb_posts,phpbb_topics WHERE phpbb_topics.topic_id=phpbb_posts.topic_id ORDER BY phpbb_posts.post_time DESC LIMIT 7;") or die(mysql_error());
   while($row=mysql_fetch_array($result)) {
-    echo '<li><a href="forums/viewtopic.php?t='.$row['topic_id'].'">'.$row['topic_title'].'</a></li>';
+    echo '<li><a href="forums/viewtopic.php?t='.$row['topic_id'].'">'.htmlentities($row['topic_title']).'</a></li>';
   }
   mysql_select_db(DBNAME_WWW);
 }
