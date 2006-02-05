@@ -5563,10 +5563,14 @@ proc ShowUser {user_login state_code colour section grId} {
 
 		set imgIdx [$pgBuddy.text image create $section.last -image [::skin::loadPixmap notinlist] -padx 1 -pady 1]
 		$pgBuddy.text tag add $imgname2 $imgIdx
-		$pgBuddy.text tag bind $imgname2 <Enter> \
-			"$pgBuddy.text tag conf $user_unique_name -under [::skin::getKey underline_contact]; if {[::skin::getKey changecursor_contact]} {$pgBuddy.text conf -cursor hand2}"
-		$pgBuddy.text tag bind $imgname2 <Leave> \
-			"$pgBuddy.text tag conf $user_unique_name -under false; $pgBuddy.text conf -cursor left_ptr"
+		if { [::skin::getKey underline_contact] } {
+			$pgBuddy.text tag bind $imgname2 <Enter> "$pgBuddy.text tag conf $user_unique_name -under 1"
+			$pgBuddy.text tag bind $imgname2 <Leave> "$pgBuddy.text tag conf $user_unique_name -under 0"
+		}
+		if { [::skin::getKey changecursor_contact] } {
+			$pgBuddy.text tag bind $imgname2 <Enter> "+$pgBuddy.text conf -cursor hand2"
+			$pgBuddy.text tag bind $imgname2 <Leave> "+$pgBuddy.text conf -cursor left_ptr"
+		}
 
 	}
 
@@ -5627,16 +5631,23 @@ proc ShowUser {user_login state_code colour section grId} {
 	$pgBuddy.text insert $section.last "\n$user_ident"
 
 
-	$pgBuddy.text tag bind $user_unique_name <Enter> \
-		"$pgBuddy.text tag conf $user_unique_name -under [::skin::getKey underline_contact];if {[::skin::getKey changecursor_contact]} {$pgBuddy.text conf -cursor hand2}"
+	if { [::skin::getKey underline_contact] } {
+		$pgBuddy.text tag bind $user_unique_name <Enter> "$pgBuddy.text tag conf $user_unique_name -under 1"
+		$pgBuddy.text tag bind $user_unique_name <Leave> "$pgBuddy.text tag conf $user_unique_name -under 0"
+	}
+	if { [::skin::getKey changecursor_contact] } {
+		$pgBuddy.text tag bind $user_unique_name <Enter> "+$pgBuddy.text conf -cursor hand2"
+		$pgBuddy.text tag bind $user_unique_name <Leave> "+$pgBuddy.text conf -cursor left_ptr"
+	}
 
-	$pgBuddy.text tag bind $user_unique_name <Leave> \
-		"$pgBuddy.text tag conf $user_unique_name -under false;	$pgBuddy.text conf -cursor left_ptr"
-
-	$pgBuddy.text tag bind $imgname <Enter> \
-		"$pgBuddy.text tag conf $user_unique_name -under [::skin::getKey underline_contact]; if {[::skin::getKey changecursor_contact]} {$pgBuddy.text conf -cursor hand2}"
-	$pgBuddy.text tag bind $imgname <Leave> \
-		"$pgBuddy.text tag conf $user_unique_name -under false;	$pgBuddy.text conf -cursor left_ptr"
+	if { [::skin::getKey underline_contact] } {
+		$pgBuddy.text tag bind $imgname <Enter> "$pgBuddy.text tag conf $user_unique_name -under 1"
+		$pgBuddy.text tag bind $imgname <Leave> "$pgBuddy.text tag conf $user_unique_name -under 0"
+	}
+	if { [::skin::getKey changecursor_contact] } {
+		$pgBuddy.text tag bind $imgname <Enter> "+$pgBuddy.text conf -cursor hand2"
+		$pgBuddy.text tag bind $imgname <Leave> "+$pgBuddy.text conf -cursor left_ptr"
+	}
 
 	if { [::config::getKey tooltips] == 1 } {
 		if {$not_in_reverse} {
