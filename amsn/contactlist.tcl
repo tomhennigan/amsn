@@ -65,6 +65,8 @@ snit::widget contactlist {
 		set statecol darkgreen
 	}
 
+	hulltype frame
+
 	component top
 	component topbg
 	component toolbar
@@ -151,6 +153,7 @@ snit::widget contactlist {
 	variable cl
 
 	constructor { args } {
+		bindtags $self "Frame . all"
 		# Create canvases
 		install top using canvas $self.top -bd 0 -highlightthickness 0 -insertontime 0 -height 100
 		install toolbar using canvas $self.toolbar -bd 0 -highlightthickness 0 -insertontime 0
@@ -183,14 +186,13 @@ snit::widget contactlist {
 		$list bind $listbgid <ButtonPress-1> "$self SelectContact none"
 
 		# Pack the canvases and scrollbar
-		pack $top -side top -anchor nw -expand false -fill both -padx $options(-toppadx) -pady $options(-toppady)
+		pack $top -side top -anchor nw -expand false -fill x -padx $options(-toppadx) -pady $options(-toppady)
 		pack $list -side left -anchor nw -expand true -fill both -padx $options(-listpadx) -pady $options(-listpady)
 		pack $listscrollbar -after $list -expand true -fill y
 
 		# Bind the canvases
-		bind $top <Configure> "$self Config top %w %h"
-		bind $list <Configure> "$self Config list %w %h"
-		bindtags $list "ScrollableCanvas Canvas . all"
+		bindtags $top "Canvas ContactlistTop . all"
+		bindtags $list "Canvas Contactlist . all"
 
 		# Apply arguments
 		$self configurelist $args
@@ -826,12 +828,11 @@ snit::widget contactlist {
 			list {
 				$listbg configure -width $width -height $height
 				$selectbg configure -width [$self CalculateSelectWidth]
+				# Resize group backgrounds
+				foreach groupid $groups {
+					$self SetGroupBgWidth $groupid [expr {$width - (2 * $options(-ipadx)) - (2 * $options(-grouppadx))}]
+				}
 			}
-		}
-		
-		# Resize group backgrounds
-		foreach groupid $groups {
-			$self SetGroupBgWidth $groupid [expr {$width - (2 * $options(-ipadx)) - (2 * $options(-grouppadx))}]
 		}
 
 		# Truncate text items (nicks etc)
@@ -933,9 +934,19 @@ snit::widget contactlist {
 	}
 }
 
-bind ScrollableCanvas <4> {
+bind Contactlist <4> {
 	%W yview scroll -1 units
 }
-bind ScrollableCanvas <5> {
+bind Contactlist <5> {
 	%W yview scroll 1 units
 }
+
+bind Contactlist <Configure> {
+	[winfo parent %W] Config list %w %h
+}
+
+bind ContactlistTop <Configure> {
+	[winfo parent %W] Config top %w %h
+}
+
+#pack forget .main;source contactlist.tcl;pack [contactlist .cl] -expand true -fill both
