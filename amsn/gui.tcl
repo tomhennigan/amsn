@@ -4935,8 +4935,8 @@ proc cmsn_draw_online_wrapped {} {
 			$pgBuddy.text tag bind $gtag <Leave> "$pgBuddy.text tag conf $gtag -under 0"
 		}
 		if { [::skin::getKey changecursor_group] } {
-			$pgBuddy.text tag bind $gtag <Enter> "+$pgBuddy.text conf -cursor hand2"
-			$pgBuddy.text tag bind $gtag <Leave> "+$pgBuddy.text conf -cursor left_ptr"
+			$pgBuddy.text tag bind $gtag <Enter> [onMouseEnterHand $pgBuddy.text]
+			$pgBuddy.text tag bind $gtag <Leave> [onMouseLeaveHand $pgBuddy.text]
 		}
 	}
 
@@ -5571,8 +5571,8 @@ proc ShowUser {user_login state_code colour section grId} {
 			$pgBuddy.text tag bind $imgname2 <Leave> "$pgBuddy.text tag conf $user_unique_name -under 0"
 		}
 		if { [::skin::getKey changecursor_contact] } {
-			$pgBuddy.text tag bind $imgname2 <Enter> "+$pgBuddy.text conf -cursor hand2"
-			$pgBuddy.text tag bind $imgname2 <Leave> "+$pgBuddy.text conf -cursor left_ptr"
+			$pgBuddy.text tag bind $imgname2 <Enter> [onMouseEnterHand $pgBuddy.text]
+			$pgBuddy.text tag bind $imgname2 <Leave> [onMouseLeaveHand $pgBuddy.text]
 		}
 
 	}
@@ -5639,8 +5639,8 @@ proc ShowUser {user_login state_code colour section grId} {
 		$pgBuddy.text tag bind $user_unique_name <Leave> "$pgBuddy.text tag conf $user_unique_name -under 0"
 	}
 	if { [::skin::getKey changecursor_contact] } {
-		$pgBuddy.text tag bind $user_unique_name <Enter> "+$pgBuddy.text conf -cursor hand2"
-		$pgBuddy.text tag bind $user_unique_name <Leave> "+$pgBuddy.text conf -cursor left_ptr"
+		$pgBuddy.text tag bind $user_unique_name <Enter> [onMouseEnterHand $pgBuddy.text]
+		$pgBuddy.text tag bind $user_unique_name <Leave> [onMouseLeaveHand $pgBuddy.text]
 	}
 
 	if { [::skin::getKey underline_contact] } {
@@ -5648,8 +5648,8 @@ proc ShowUser {user_login state_code colour section grId} {
 		$pgBuddy.text tag bind $imgname <Leave> "$pgBuddy.text tag conf $user_unique_name -under 0"
 	}
 	if { [::skin::getKey changecursor_contact] } {
-		$pgBuddy.text tag bind $imgname <Enter> "+$pgBuddy.text conf -cursor hand2"
-		$pgBuddy.text tag bind $imgname <Leave> "+$pgBuddy.text conf -cursor left_ptr"
+		$pgBuddy.text tag bind $imgname <Enter> [onMouseEnterHand $pgBuddy.text]
+		$pgBuddy.text tag bind $imgname <Leave> [onMouseLeaveHand $pgBuddy.text]
 	}
 
 	if { [::config::getKey tooltips] == 1 } {
@@ -5804,6 +5804,22 @@ proc trunc {str {window ""} {maxw 0 } {font ""}} {
 	}
 
 	return $s
+}
+
+#returns text string to bind to a on mouse over event to trigger mouse pointer change
+proc onMouseEnterHand { w } {
+	if { ![info exists ::MouseLeave($w)] } {
+		set ::MouseLeave($w) ""
+	}
+	return "+after cancel \$::MouseLeave($w); $w conf -cursor hand2"
+}
+
+#returns text string to bind to a on mouse leave event to trigger mouse pointer change
+proc onMouseLeaveHand { w } {
+	if { ![info exists ::MouseLeave($w)] } {
+		set ::MouseLeave($w) ""
+	}
+	return "+after cancel \$::MouseLeave($w); set ::MouseLeave($w) \[after 100 \"$w conf -cursor left_ptr\"\]"
 }
 
 proc tk_textCopy { w } {
