@@ -4930,11 +4930,14 @@ proc cmsn_draw_online_wrapped {} {
 			}
 		}
 
-
-		$pgBuddy.text tag bind $gtag <Enter> \
-			"$pgBuddy.text tag conf $gtag -under [::skin::getKey underline_group];if {[::skin::getKey changecursor_group]} {$pgBuddy.text conf -cursor hand2}"
-		$pgBuddy.text tag bind $gtag <Leave> \
-			"$pgBuddy.text tag conf $gtag -under false;$pgBuddy.text conf -cursor left_ptr"
+		if { [::skin::getKey underline_group] } {
+			$pgBuddy.text tag bind $gtag <Enter> "$pgBuddy.text tag conf $gtag -under 1"
+			$pgBuddy.text tag bind $gtag <Leave> "$pgBuddy.text tag conf $gtag -under 0"
+		}
+		if { [::skin::getKey changecursor_group] } {
+			$pgBuddy.text tag bind $gtag <Enter> "+$pgBuddy.text conf -cursor hand2"
+			$pgBuddy.text tag bind $gtag <Leave> "+$pgBuddy.text conf -cursor left_ptr"
+		}
 	}
 
 	# Display MSN logo with user's handle. Make it clickable so
