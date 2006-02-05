@@ -1084,22 +1084,23 @@ namespace eval ::pop3 {
 		#get the data of the third page, the "inbox" page.
 		set gmail(dataINBOX) [::http::data $gmail(3rdpage)]
 		#this is just for me to debug !! Uncomment it only if i have asked you to do so since this will flood the status_log !!
-		#status_log "$gmail(dataINBOX)" green
+#		status_log "$gmail(dataINBOX)" green
 		set gmail(dataINBOX) [split $gmail(dataINBOX) "\n"]
 		set gmail(text_line) [lindex $gmail(dataINBOX) 0]
 		#now, parsing !
 		for {set i 1} {$i<=[llength $gmail(dataINBOX)]} {incr i} {
 		#just for me to debug !! Uncomment it only if i have asked you to do so !!
-		#status_log "$gmail(text_line)" blue
+#		status_log "$gmail(text_line)" blue
 			#we are searching for a line where there is something like :
 			#<title>Gmail - Boîte de réception</title>
 			#"Boîte de réception" means Inbox in french
 			#we're getting this "inbox translation" string
-			if { [string match *<title>Gmail* $gmail(text_line)] } {
+			if { [string match *<title>* $gmail(text_line)] } {
 				#self-explaining :p
-				set pos1 [expr [string first <title>Gmail $gmail(text_line)] + 15]
+				set pos1 [expr [string first <title>Google\ Mail $gmail(text_line)] + 21]
 				set pos2 [expr [string first </title> $gmail(text_line)] - 1]
 				set gmail(trans_inbox) [string range $gmail(text_line) $pos1 $pos2]
+#				status_log "$gmail(trans_inbox)" green
 			}
 			#get the number of unread messages
 			#the line we're seaching contains something like
@@ -1107,17 +1108,19 @@ namespace eval ::pop3 {
 			#That's why we need the translation of "inbox"
 			if { [info exists gmail(trans_inbox)] && [string match *${gmail(trans_inbox)}* $gmail(text_line) ] } {
 			#just for me to debug !! Uncomment it only if i have asked you to do so !!
-			#status_log "$gmail(text_line)" red
+#				status_log "$gmail(text_line)" red
 				set pos1 [expr [string first $gmail(trans_inbox) $gmail(text_line)] + [string length $gmail(trans_inbox)]]
 				set pos2 [expr [string first ( $gmail(text_line) $pos1] + 1 ]
 				set pos3 [expr [string first ) $gmail(text_line) $pos2] -1 ]
 				set gmail(Unreads) [string range $gmail(text_line) $pos2 $pos3]
-				#status_log "$gmail(Unreads)" red
+#				status_log "$gmail(Unreads)" green
 				#check if gmail(UnReads) is the good value : a digit, and check if it's the right digit, not an image size for example, by testing if
 				#the value is close enough to the "Boîte de réception" string
 				if {![string is digit -strict $gmail(Unreads)] || [expr $pos2 - $pos1] > 10 } {
 					set gmail(Unreads) 0
 				}
+#				status_log "$gmail(Unreads);[string is digit -strict $gmail(Unreads)];$pos1 $pos2 $pos3];" green
+
 			}
 			#get the next line.
 			set gmail(text_line) [lindex $gmail(dataINBOX) $i ]
