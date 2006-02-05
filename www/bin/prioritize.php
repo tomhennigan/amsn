@@ -20,7 +20,7 @@ while($row=mysql_fetch_array($result)) {
 }
 
 foreach($reports as $id => $count) {
-  $priority=intval($count/$max*10);
+  $priority=intval($count/$max*100);
   echo 'Bug #'.$id.' has priority '.$priority."\n";
   $query="UPDATE ".TBUGS." SET bug_priority='".$priority."' WHERE bug_id='".$id."'";
   mysql_query($query) or die("MySQL Error: ".mysql_error());
