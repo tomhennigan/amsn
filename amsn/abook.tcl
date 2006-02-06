@@ -110,9 +110,9 @@ namespace eval ::abook {
 			pager { 
 				::MSN::WriteSB ns PRP "MOB $value"
 				if { $value == "Y" } {
-					::MSN:setClientCap paging
+					::MSN::setClientCap paging
 				} else {
-					::MSN:setClientCap paging 0
+					::MSN::setClientCap paging 0
 				}
 				::MSN::changeStatus [::MSN::myStatusIs]
 			 }
