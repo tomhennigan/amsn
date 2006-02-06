@@ -3084,9 +3084,9 @@ namespace eval ::Event {
 			#initial PRP without trID
 			::abook::setPersonal [lindex $command 1] [urldecode [lindex $command 2]]
 		} else {
-			#TODO: does this happen? if not remove.
-			new_contact_list "[lindex $command 2]"
-		    	::abook::setPersonal [lindex $command 3] [urldecode [lindex $command 4]]
+			#PRP in response to phone number change
+			#new_contact_list "[lindex $command 2]"
+		    	::abook::setPersonal [lindex $command 2] [urldecode [lindex $command 3]]
 		}
 	}
 
