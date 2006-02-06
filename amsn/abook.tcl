@@ -107,7 +107,15 @@ namespace eval ::abook {
 			home { ::MSN::WriteSB ns PRP "PHH $value" }
 			work { ::MSN::WriteSB ns PRP "PHW $value" }
 			mobile { ::MSN::WriteSB ns PRP "PHM $value" }
-			pager { ::MSN::WriteSB ns PRP "MOB $value" }
+			pager { 
+				::MSN::WriteSB ns PRP "MOB $value"
+				if { $value == "Y" } {
+					::MSN:setClientCap paging
+				} else {
+					::MSN:setClientCap paging 0
+				}
+				::MSN::changeStatus [::MSN::myStatusIs]
+			 }
 			default { status_log "setPhone error, unknown $item $value\n" }
 		}
 	}

@@ -5187,7 +5187,7 @@ proc cmsn_draw_online_wrapped {} {
 		set user_login [lindex $list_users $i]
 
 		set state_code [::abook::getVolatileData $user_login state FLN]
-		if { $state_code == "FLN" && [::abook::getVolatileData $user_login MOB] == "Y" } {
+		if { $state_code == "FLN" && [::abook::getContactData $user_login msn_mobile] } {
 			set colour [::skin::getKey "contact_mobile"]
 		} else {
 			set colour [::MSN::stateToColor $state_code]
@@ -5210,7 +5210,7 @@ proc cmsn_draw_online_wrapped {} {
 		if { $state_section == "online"} {
 			::groups::UpdateCount online +1
 		} elseif {$state_section == "offline"} {
-			if { [::abook::getVolatileData $user_login MOB] == "Y" && $my_mobilegroup == 1 } {
+			if { [::abook::getContactData $user_login msn_mobile] && $my_mobilegroup == 1 } {
 				::groups::UpdateCount mobile +1
 				set state_section "mobile"
 			} else {
@@ -5497,7 +5497,7 @@ proc ShowUser {user_login state_code colour section grId} {
 		if {$state_desc == ""} {set state_desc " ([trans blocked])"}
 	}
 
-	if { [::abook::getVolatileData $user_login MOB] == "Y" && $state_code == "FLN"} {
+	if { [::abook::getContactData $user_login msn_mobile] && $state_code == "FLN"} {
 	    set image_type "mobile"
 	    set state_desc " ([trans mobile])"
 	}
@@ -5729,7 +5729,7 @@ proc ShowUser {user_login state_code colour section grId} {
 		}
 		$pgBuddy.text tag bind $user_unique_name $singordblclick \
 			"::amsn::chatUser $user_login"
-	} elseif {[::abook::getVolatileData $user_login MOB] == "Y" && $state_code == "FLN"} {
+	} elseif {[::abook::getContactData $user_login msn_mobile] && $state_code == "FLN"} {
 		#If the user is offline and support mobile (SMS)
 		$pgBuddy.text tag bind $imgname $singordblclick "::MSNMobile::OpenMobileWindow ${user_login}"
 		if {$not_in_reverse} {
@@ -6944,7 +6944,7 @@ proc show_umenu {user_login grId x y} {
 	.user_menu add command -label "[trans sendmsg]" \
 		-command "::amsn::chatUser ${user_login}"
 
-	if { [::abook::getContactData $email msn_mobile] } {
+	if { [::abook::getContactData $user_login msn_mobile] } {
 	    set mob_menu_state "normal"
 	} else {
 	    set mob_menu_state "disabled"
