@@ -6944,7 +6944,7 @@ proc show_umenu {user_login grId x y} {
 	.user_menu add command -label "[trans sendmsg]" \
 		-command "::amsn::chatUser ${user_login}"
 
-	if { [::abook::getVolatileData $user_login MOB] == "Y" } {
+	if { [::abook::getContactData $email msn_mobile] } {
 	    set mob_menu_state "normal"
 	} else {
 	    set mob_menu_state "disabled"
