@@ -5811,7 +5811,7 @@ proc onMouseEnterHand { w } {
 	if { ![info exists ::MouseLeave($w)] } {
 		set ::MouseLeave($w) ""
 	}
-	return "+after cancel \$::MouseLeave($w); $w conf -cursor hand2"
+	return "+after cancel \$::MouseLeave($w); if \{\[$w cget -cursor\] != \"hand2\" \} \{$w conf -cursor hand2\}"
 }
 
 #returns text string to bind to a on mouse leave event to trigger mouse pointer change
@@ -5819,7 +5819,7 @@ proc onMouseLeaveHand { w } {
 	if { ![info exists ::MouseLeave($w)] } {
 		set ::MouseLeave($w) ""
 	}
-	return "+after cancel \$::MouseLeave($w); set ::MouseLeave($w) \[after 100 \"$w conf -cursor left_ptr\"\]"
+	return "+after cancel \$::MouseLeave($w); set ::MouseLeave($w) \[after 50 \"$w conf -cursor left_ptr\"\]"
 }
 
 proc tk_textCopy { w } {
