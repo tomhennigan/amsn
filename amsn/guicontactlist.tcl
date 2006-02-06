@@ -676,7 +676,7 @@ namespace eval ::guiContactList {
 
 		if { [::MSN::userIsBlocked $email] } {
 			set img [::skin::loadPixmap blocked]
-		} elseif { [::abook::getVolatileData $email MOB] == "Y" && $state_code == "FLN"} {
+		} elseif { [::abook::getContactData $email msn_mobile] == "1" && $state_code == "FLN"} {
 			set img [::skin::loadPixmap mobile]
 		} else {
 			set img [::skin::loadPixmap [::MSN::stateToImage $state_code]]
@@ -880,7 +880,7 @@ namespace eval ::guiContactList {
 		# Binding for left (double)click
 		if { $state_code != "FLN" } {
 			$canvas bind $tag $singordblclick "::amsn::chatUser $email"
-		} elseif {[::abook::getVolatileData $email MOB] == "Y"} {
+		} elseif {[::abook::getContactData $email msn_mobile] == "1"} {
 			# If the user is offline and support mobile (SMS)
 			$canvas bind $tag $singordblclick "::MSNMobile::OpenMobileWindow ${email}"
 		} else {
@@ -1069,7 +1069,7 @@ namespace eval ::guiContactList {
 		# Online/Offline mode
 		if { $mode == 0 } {
 			if { $status == "FLN" } {
-				if { [::abook::getVolatileData $email MOB] == "Y" \
+				if { [::abook::getContactData $email msn_mobile] == "1" \
 					&& [::config::getKey showMobileGroup] == 1} {
 					return "mobile"
 				} else {
@@ -1087,7 +1087,7 @@ namespace eval ::guiContactList {
 		# Hybrid Mode, we add offline group
 		if { $mode == 2 } {
 			if { $status == "FLN" } {
-				if { [::abook::getVolatileData $email MOB] == "Y" && [::config::getKey showMobileGroup] == 1} {
+				if { [::abook::getContactData $email msn_mobile] == "1" && [::config::getKey showMobileGroup] == 1} {
 					return "mobile"
 				} else {
 					return "offline"
