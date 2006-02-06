@@ -3084,7 +3084,7 @@ namespace eval ::Event {
 			#initial PRP without trID
 			::abook::setPersonal [lindex $command 1] [urldecode [lindex $command 2]]
 			if { ([lindex $command 1] == "MOB") && ([lindex $command 2] == "Y") } {
-				::MSN:setClientCap paging
+				::MSN::setClientCap paging
 			}
 		} else {
 			#PRP in response to phone number change
