@@ -108,11 +108,11 @@ cfgalarm Konfigurera kungörelser
 cfgalarmall Konfigurera globala kungörelser
 change Ändra
 change_account_info Byt kontoinformation
-change_mobile Byt mobilinställningar
 changecustomstate Byt till
 changedisplaypic Byt visningsbild
 changefont Teckensnitt
 changeglobnick Byt globalt smeknamn
+change_mobile Byt mobilinställningar
 changenick Byt smeknamn
 changesize Ändra storlek
 changestate $1 byter status till $2
@@ -298,6 +298,11 @@ filetransfercomplete Filöverföringen är klar
 filters Filtren
 filtersselect Väj filtren du vill se\n(Notera att inga valda betyder visa alla)
 filtersx Val av filter
+find Hitta
+findnext Hitta nästa
+findprev Hitta föregående
+show_contactdps_in_cl Visa miniatyrer av visningsbilder i kontaktlistan
+statepsm Anpassat personligt meddelande (lämna tomt för oförändrat)
 firewalled Du är bakom en brandvägg eller en router
 followtext Bläddra nedåt när nytt meddelande kommer
 friendlyname Konversationsnamn
@@ -484,7 +489,7 @@ nopic Ingen visningsbild
 noprofileexists Det finns för tillfället inga profiler. \n Du måste skapa en om du vill kunna använda profiler. \n Lägg till en profil med hjälp av knapparna.
 normal Normal
 noskins Kunde inte hitta standardtema i skins-mappen. Kan inte starta aMSN.
-nosystemtray Aktivitetsfältet är inte tillgängligt
+nosystemtray Systemlisten är inte tillgänglig
 note Anteckning
 notificationserver Anslut till (MSN Messenger Server)
 notify Meddela
@@ -661,11 +666,11 @@ soundserver Ljudserver
 soundstatus Stäng av/sätt på signalljud.
 sourcecode källkod (behöver kompileras och installeras)
 splashstart Starta
-sslwarning VARNING! Om du avaktiverar SSL så avaktiveras även kryptering, vilket gör att ditt lösenord kommer skickas som ren text över nätverket. Använd endast för proxy-servrar som inte fungerar annars.
+sslwarning VARNING! Om du inaktiverar SSL så avaktiveras även kryptering, vilket gör att ditt lösenord kommer skickas som ren text över nätverket. Använd endast för proxy-servrar som inte fungerar annars.
 startoffline Logga in som osynlig
 startoffline2 Logga in diskret som "Osynlig"
 startonboot Starta aMSN när Windows startas.
-startontray Starta aMSN som ikon i Systemfältet
+startontray Starta aMSN som ikon i Systemlisten
 state Jag vill vara	
 stateautomsg Autosvar som skickas
 statechange ändrade status till 
@@ -673,7 +678,7 @@ stateedittext Ändra fälten till det som du \n vill ha och tryck Spara
 stateinfo Personligt meddelandekonfiguration
 statename Namn på det personliga meddelandet:
 statenewtext Fyll i den nödvändiga informationen för att skapa \n meddelande och tryck Spara
-statenick Valfritt smeknamn (lämna blankt för oförändrat smeknamn)
+statenick Anpassat smeknamn (lämna blankt för oförändrat)
 stats Statistik
 status Status
 stop Stoppa
