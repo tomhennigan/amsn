@@ -3070,11 +3070,13 @@ namespace eval ::Event {
 
 		#Last user in list
 		if {$current == $total} {
+			$self setInitialStatus
 			cmsn_draw_online 1
 
 			set contactlist_loaded 1
 			::abook::setConsistent
 			::abook::saveToDisk
+			
 		}
 
 	}
@@ -3132,6 +3134,44 @@ namespace eval ::Event {
 		::abook::setVolatileData $contact PSM [::sxml::replacexml [encoding convertfrom utf-8 $psm]]
 		::abook::setVolatileData $contact currentmedia [::sxml::replacexml [encoding convertfrom utf-8 $currentmedia]]
 		cmsn_draw_online 1
+	}
+
+	method setInitialStatus { } {
+
+		#Don't use oldstatus if it was "FLN" (disconnectd) or we will get a 201 error
+		if {[info exists ::oldstatus] && $::oldstatus != "FLN" } {
+			ChCustomState $::oldstatus
+			send_dock "STATUS" $::oldstatus
+			unset ::oldstatus
+		} elseif {![is_connectas_custom_state [::config::getKey connectas]]} {
+			#Protocol code to choose our state on connect
+			set number [get_state_list_idx [::config::getKey connectas]]
+			set goodstatecode "[::MSN::numberToState $number]"
+
+			if {$goodstatecode != ""} {
+				ChCustomState "$goodstatecode"
+				send_dock "STATUS" "$goodstatecode"
+			} else {
+				status_log "Not able to get choosen key: [::config::getKey connectas]"
+				ChCustomState "NLN"
+				send_dock "STATUS" "NLN"
+			}
+		} else {
+			set idx [get_custom_state_idx [::config::getKey connectas]]
+			ChCustomState $idx
+			if { [lindex [StateList get $idx] 2] != "" } {
+				set new_state [::MSN::numberToState [lindex [StateList get $idx] 2]]
+				send_dock "STATUS" "$new_state"
+			}
+		}
+
+		# Send our PSM to the server because it doesn't know about it!
+		if { [::config::getKey protocol] == 11 } {
+			if { [::abook::getPersonal PSM] != "" || [::abook::getPersonal CurrentMedia] != "" } {
+				::MSN::changePSM [::abook::getPersonal PSM] 1
+				#second argument is force change
+			}
+		}
 	}
 }
 
@@ -4920,43 +4960,6 @@ proc initial_syn_handler {recv} {
 		catch { file delete [file join ${HOME} "nick.cache"] }
 	}
 
-	# Send our PSM to the server because it doesn't know about it!
-
-	if { [::config::getKey protocol] == 11 } {
-		if { [::abook::getPersonal PSM] != "" || [::abook::getPersonal CurrentMedia] != "" } {
-			::MSN::changePSM [::abook::getPersonal PSM] 1
-			#second argument is force change
-		}
-	}
-
-
-	#Don't use oldstatus if it was "FLN" (disconnectd) or we will get a 201 error
-	if {[info exists ::oldstatus] && $::oldstatus != "FLN" } {
-		ChCustomState $::oldstatus
-		send_dock "STATUS" $::oldstatus
-		unset ::oldstatus
-	} elseif {![is_connectas_custom_state [::config::getKey connectas]]} {
-		#Protocol code to choose our state on connect
-		set number [get_state_list_idx [::config::getKey connectas]]
-		set goodstatecode "[::MSN::numberToState $number]"
-
-		if {$goodstatecode != ""} {
-			ChCustomState "$goodstatecode"
-			send_dock "STATUS" "$goodstatecode"
-		} else {
-			status_log "Not able to get choosen key: [::config::getKey connectas]"
-			ChCustomState "NLN"
-			send_dock "STATUS" "NLN"
-		}
-
-	} else {
-		set idx [get_custom_state_idx [::config::getKey connectas]]
-		ChCustomState $idx
-		if { [lindex [StateList get $idx] 2] != "" } {
-			set new_state [::MSN::numberToState [lindex [StateList get $idx] 2]]
-			send_dock "STATUS" "$new_state"
-		}
-	}
 	cmsn_ns_handler $recv
 }
 
