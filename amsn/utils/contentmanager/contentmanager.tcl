@@ -175,6 +175,11 @@ snit::type contentmanager {
 	typemethod coords { args } {
 		set tree [lrange $args 0 end-2]
 		set coords [lrange $args end-1 end]
+		foreach ord $coords {
+			if { ![string is integer $ord] } {
+				error "cant user non-numeric '$ord' value as ordinate"
+			}
+		}
 		set path [eval $type getpath $tree]
 		eval $path coords $coords
 	}
@@ -362,8 +367,6 @@ snit::type group {
 		} else {
 			set items [linsert $items $idx $id]
 		}
-
-		#$self sort
 	}
 
 	method unregister { id } {
@@ -380,21 +383,18 @@ snit::type group {
 	method bind { pat cmd {mode "bbox"} } {
 		if { [string equal $cmd {}] } {
 			set havebinding 0
+			$options(-widget) itemconfigure $bboxid -state hidden
 		} else {
 			set havebinding 1
+			if { $mode == "bbox" } {
+				$options(-widget) itemconfigure $bboxid -state normal
+			}
 		}
 		switch $mode {
 			"bbox" {
-				$options(-widget) itemconfigure $bboxid -state normal
 				$options(-widget) bind $bboxid $pat $cmd
-				foreach item $items {
-					set tree $options(-tree)
-					lappend tree $item
-					eval contentmanager bind $tree $pat [list $cmd]
-				}
 			}
 			"components" {
-				#$options(-widget) bind $bboxid $pat $cmd
 				foreach item $items {
 					set tree $options(-tree)
 					lappend tree $item
@@ -444,14 +444,23 @@ snit::type group {
 		}
 	}
 
-	method show { } {
+	method show { args } {
+		if { [string equal $args {}] } {
+			set level r
+		} else {
+			set level [lindex $args 1]
+		}
 		foreach item $items {
 			set tree $options(-tree)
 			lappend tree $item
 			if { [eval contentmanager cget $tree -omnipresent] } {
 				continue
 			}
-			eval contentmanager show $tree
+			if { [string is integer $level] && $level > 0 } {
+				eval contentmanager show $tree -level [expr {$level - 1}]
+			} elseif { $level == "r" } {
+				eval contentmanager show $tree
+			}
 		}
 		set options(-state) normal
 		if { $havebinding } {
@@ -589,6 +598,7 @@ snit::type group {
 				$self AlignItems
 			}
 		}
+		$options(-widget) raise $bboxid
 	}
 
 	method AlignItems { } {
@@ -791,7 +801,7 @@ snit::type element {
 		}
 	}
 
-	method show { } {
+	method show { args } {
 		if { [$self GotWidget] } {
 			set options(-state) "normal"
 			$options(-widget) itemconfigure $options(-tag) -state normal
@@ -801,7 +811,7 @@ snit::type element {
 		}
 	}
 
-	method hide { } {
+	method hide { args } {
 		if { [$self GotWidget] } {
 			if { !$options(-omnipresent) } {
 				set options(-state) "hidden"
@@ -834,6 +844,7 @@ snit::type element {
 
 	method sort { {level {}} } {
 		set bbox [$options(-widget) bbox $options(-tag)]
+		$options(-widget) raise $bboxid
 
 		# Catch empty items
 		if { [string equal $bbox {}] } {
