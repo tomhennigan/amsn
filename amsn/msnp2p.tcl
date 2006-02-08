@@ -828,6 +828,8 @@ namespace eval ::MSNP2P {
 					set session_data [SessionList get $cSid]
 					set user_login [lindex $session_data 3]
 					set filename [lindex $session_data 8]
+					#We have closed the file so we set its fd to 0
+					SessionList set $cSid [list -1 -1 -1 -1 -1 -1 0 -1 -1 -1]
 
 					# Lets send an ACK followed by a BYE if it's a buddy icon or emoticon
 					#status_log "MSNP2P | $sid -> Sending an ACK for file received and sending a BYE\n" red
@@ -965,7 +967,7 @@ namespace eval ::MSNP2P {
 						incr idx
 					}
 					set body [string range $ink_message $idx end]
-				
+
 					if { [string first "base64:" $body] != -1 } {
 						set data [::base64::decode [string range $body 7 end]]
 					} else {
