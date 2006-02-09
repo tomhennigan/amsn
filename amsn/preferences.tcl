@@ -1629,7 +1629,9 @@ proc Preferences { { settings "personal"} } {
 #	frame $lfname.2 -class Degt
 	frame $lfname.3 -class Degt
 	frame $lfname.4 -class Degt
-	frame $lfname.5 -class Degt
+#	frame $lfname.5 -class Degt
+	frame $lfname.6 -class Degt
+
 	label $lfname.1.llook -text "[trans encoding2]" -padx 10
 	button $lfname.1.bencoding -text [trans encoding] -font sboldf -command "show_encodingchoose"
 	pack $lfname.plook -anchor nw -side left
@@ -1659,6 +1661,13 @@ proc Preferences { { settings "personal"} } {
 #	pack $lfname.5.dock -anchor w -side top -padx 10 -pady 0
 #	pack $lfname.5 -side top -padx 0 -pady 0 -expand 1 -fill both
 
+	label $lfname.6.llook -text "[trans psmplace]" -padx 10
+	pack $lfname.6 -side top -padx 0 -pady 0 -expand 1 -fill both
+	pack $lfname.6.llook -anchor w -side top -padx 10
+	radiobutton $lfname.6.dontshow -text "[trans psmdontshow]" -value 0 -variable [::config::getVar psmplace]
+	radiobutton $lfname.6.atend -text "[trans psmatend]" -value 1 -variable [::config::getVar psmplace]
+	radiobutton $lfname.6.newline -text "[trans psmnewline]" -value 2 -variable [::config::getVar psmplace]
+	pack $lfname.6.dontshow $lfname.6.atend $lfname.6.newline -anchor w -side top -padx 10
 
 
 	## Emoticons Frame ##

@@ -233,6 +233,7 @@ namespace eval ::amsn {
 		font create splainf -family $family -size $size -weight normal
                 font create sunderf -family $family -size $size -weight normal -underline yes
 		font create sbolditalf -family $family -size $size -weight bold -slant italic
+		font create sitalf -family $family -size $size -slant italic
 		font create macfont -family [list {Lucida Grande}] -size 13 -weight normal
 
 		if { [::config::getKey strictfonts] } {
@@ -5503,7 +5504,7 @@ proc ShowUser {user_login state_code colour section grId} {
 	}
 
 	$pgBuddy.text tag conf $user_unique_name -fore $colour
-	$pgBuddy.text tag conf psm_tag -font sbolditalf
+	$pgBuddy.text tag conf psm_tag -font sitalf
 
 	$pgBuddy.text mark set new_text_start end
 
@@ -5511,8 +5512,13 @@ proc ShowUser {user_login state_code colour section grId} {
 
 	set last_element [expr {[llength $user_lines] -1 }]
 
-	if {$psm != "" && [::config::getKey emailsincontactlist] == 0 && $customnick == "" && $globalnick == ""} {
-		$pgBuddy.text insert $section.last " - $psm" [list $user_unique_name psm_tag]
+	if {$psm != "" && [::config::getKey emailsincontactlist] == 0 } {
+		if {[::config::getKey psmplace] == 1 } {
+			$pgBuddy.text insert $section.last " - $psm" [list $user_unique_name psm_tag]
+		} elseif {[::config::getKey psmplace] == 2 } {
+			$pgBuddy.text insert $section.last "$psm" [list $user_unique_name psm_tag]
+			$pgBuddy.text insert $section.last "\n$user_ident"
+		}
 	}
 
 	$pgBuddy.text insert $section.last " $state_desc" $user_unique_name
@@ -5529,11 +5535,11 @@ proc ShowUser {user_login state_code colour section grId} {
 	}
 
 	for {set i $last_element} {$i >= 0} {incr i -1} {
-		if { $i != $last_element} {
-			set current_line " [lindex $user_lines $i]\n"
-		} else {
+		#if { $i != $last_element} {
+		#	set current_line " [lindex $user_lines $i]"
+		#} else {
 			set current_line " [lindex $user_lines $i]"
-		}
+		#}
 
 		if {[::config::getKey truncatenames]} {
 			if { $i == $last_element && $i == 0} {
@@ -5554,7 +5560,7 @@ proc ShowUser {user_login state_code colour section grId} {
 
 		$pgBuddy.text insert $section.last "$current_line" $user_unique_name
 		if { $i != 0} {
-			$pgBuddy.text insert $section.last $user_ident
+			$pgBuddy.text insert $section.last "\n$user_ident"
 		}
 	}
 	#$pgBuddy.text insert $section.last " $user_name$state_desc \n" $user_login

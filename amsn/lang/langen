@@ -581,6 +581,10 @@ proxyconfhttp HTTP proxy support configuration
 proxyconf Proxy configuration
 proxyconnection I connect to the internet using a proxy server:
 proxy I am behind a proxy server (HTTP or SOCKS5)
+psmatend Show PSM beside the nickname
+psmdontshow Don't show PSM, unless otherwise defined in global/custom nicks
+psmnewline Show PSM below the nickname
+psmplace Where place PSM ?
 publishphones Publish my phone numbers
 purge Purge
 pwcdriver You are using the pwc driver

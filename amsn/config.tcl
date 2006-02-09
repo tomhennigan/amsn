@@ -295,7 +295,9 @@ namespace eval ::config {
 		::config::setKey p4contextprefix "" ; #Prefix for P4-Context messages
 		::config::setKey notifytimeout 8000 ; #Number of milisecs before the notify will go away
 		::config::setKey globalnick ""		;#The global custom nickname (pattern), disabled by default
+		::config::setKey psmplace 1		;#The place where must be shown the PSM (0: not shown, 1: At the end, 2: In a new line)
 		::config::setKey globaloverride 0		;# Sets whether Global nicknames pattern should override custom nicks, disabled by default
+
 
 		#System options, not intended to be edited (unless you know what you're doing)
 		set password ""
