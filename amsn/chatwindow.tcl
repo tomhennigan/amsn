@@ -1452,7 +1452,7 @@ namespace eval ::ChatWindow {
 			scalable-bg $bg -source $topimg -n [::skin::getKey topbarpady] -e [::skin::getKey topbarpadx] -s [::skin::getKey topbarpady] -w [::skin::getKey topbarpadx] -width 0 -height 0
 			$top create image 0 0 -image [$bg name] -anchor nw -tag backgnd
 			bind $top <Configure> "$bg configure -width %w -height %h"
-			bind $top <Destroy> "$bg destroy"
+			bind $top <Destroy> "$bg destroy; image delete $topimg"
 		}
 		
 		set toX [::skin::getKey topbarpadx]
