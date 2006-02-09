@@ -3,6 +3,7 @@ package require snit
 package provide scalable-bg 0.1
 
 snit::type scalable-bg {
+	option -border -default {0 0 0 0} -configuremethod setBorder
 	option -n -configuremethod setOption -default 0
 	option -e -configuremethod setOption -default 0
 	option -s -configuremethod setOption -default 0
@@ -167,6 +168,16 @@ snit::type scalable-bg {
 
 			# SE corner
 			$base copy $src -from $srcrighthoriz $srcbottomvert $srcwidth $srcheight -to $righthoriz $bottomvert
+	}
+
+	method setBorder { option value } {
+		set options(-border) $value
+		foreach { n e s w } $value {
+			$self configure -n $n
+			$self configure -e $e
+			$self configure -s $s
+			$self configure -w $w
+		}
 	}
 
 	method setOption { option value } {
