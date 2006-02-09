@@ -148,6 +148,9 @@ namespace eval ::skin {
 			return $picName
 		}
 
+		#Image will change so force update of the mini DP
+		catch { image delete small_dp_$email }
+
 		set filename [::abook::getContactData $email displaypicfile ""]
 		set file "[file join $HOME displaypic cache ${filename}].png"
 		if { $filename != "" && [file readable "[file join $HOME displaypic cache ${filename}].png"] } {
