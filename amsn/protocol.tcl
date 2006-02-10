@@ -1088,7 +1088,7 @@ namespace eval ::MSN {
 		}
 
 		if { [::config::getKey protocol] == 11 } {
-			::MSN::WriteSB ns "PRP" "MFN $name" "ns handlePRPResponse"
+			::MSN::WriteSB ns "PRP" "MFN $name" "ns handlePRPResponse $name"
 		} else {
 
 			if { [::config::getKey allowbadwords] == 1 } {
@@ -3096,7 +3096,7 @@ namespace eval ::Event {
 	}
 
 	#Callback procedure called when a PRP (Personal info like nick and phone change) message is received
-	method handlePRPResponse { command } {
+	method handlePRPResponse { newname command } {
 		switch [lindex $command 0] {
 			PRP {
 				::abook::setPersonal [lindex $command 2] [urldecode [lindex $command 3]]
@@ -3112,7 +3112,7 @@ namespace eval ::Event {
 				#TODO: #FIX: ummm, where did $newname get set???????
 				#Nickname change illegal. Try again urlencoding any character
 				set name [urlencode_all $newname]
-				::MSN::WriteSB ns "PRP" "MFN $name" "ns handlePRPResponse"
+				::MSN::WriteSB ns "PRP" "MFN $name" "ns handlePRPResponse $name"
 			}
 			default {
 			}
@@ -4847,6 +4847,7 @@ proc cmsn_auth {{recv ""}} {
 			if { [::config::getKey protocol] == 11 } {
 				if { $::msnp13 } {
 					initial_syn_handler ""
+					ns setInitialStatus
 				} else {
 					#TODO: MSNP11 store contactlist and use those values here
 					::MSN::WriteSB ns "SYN" "0 0" initial_syn_handler
