@@ -172,6 +172,12 @@ snit::type contentmanager {
 		return [$path children]
 	}
 
+	typemethod attach { args } {
+		set path [eval $type getpath $args]
+		set tag [lindex [eval $type getopts $args] 1]
+		$path attach $tag
+	}
+
 	typemethod coords { args } {
 		set tree [lrange $args 0 end-2]
 		set coords [lrange $args end-1 end]
@@ -187,6 +193,16 @@ snit::type contentmanager {
 	typemethod getcoords { args } {
 		set path [eval $type getpath $args]
 		return [eval $path coords]
+	}
+
+	typemethod width { args } {
+		set path [eval $type getpath $args]
+		return [eval $path cget -width]
+	}
+
+	typemethod height { args } {
+		set path [eval $type getpath $args]
+		return [eval $path cget -height]
 	}
 
 	typemethod move { args } {
@@ -287,6 +303,9 @@ snit::type group {
 	variable hiddenitems
 	variable bboxid
 
+	# Attachment variables
+	variable attachments
+
 	# Afterid variables
 	variable afterid
 
@@ -298,6 +317,7 @@ snit::type group {
 		set yPos 0
 		set items {}
 		set bboxid {}
+		set attachments {}
 		array set afterid {sort {}}
 		set havebinding 0
 		$self configurelist $args
@@ -380,6 +400,10 @@ snit::type group {
 		return $items
 	}
 
+	method attach { tag } {
+		lappend attachments $tag
+	}
+
 	method bind { pat cmd {mode "bbox"} } {
 		if { [string equal $cmd {}] } {
 			set havebinding 0
@@ -424,9 +448,9 @@ snit::type group {
 		incr xPos $dx
 		if { [string equal $dy {}] } {
 			foreach item $items {
-				#set tree $options(-tree)
-				#lappend tree $item
-				eval contentmanager move [concat $options(-tree) $item] $dx
+				set tree $options(-tree)
+				lappend tree $item
+				eval contentmanager move $tree $dx
 			}
 			if { [$self GotWidget] } {
 				$options(-widget) move $bboxid $dx
@@ -434,13 +458,16 @@ snit::type group {
 		} else {
 			incr yPos $dy
 			foreach item $items {
-				#set tree $options(-tree)
-				#lappend tree $item
-				eval contentmanager move [concat $options(-tree) $item] $dx $dy
+				set tree $options(-tree)
+				lappend tree $item
+				eval contentmanager move $tree $dx $dy
 			}
 			if { [$self GotWidget] } {
 				$options(-widget) move $bboxid $dx $dy
 			}
+		}
+		foreach tag $attachments {
+			$options(-widget) coords $tag $xPos $yPos
 		}
 	}
 
@@ -533,8 +560,8 @@ snit::type group {
 
 					set itempadx [eval contentmanager cget $tree -padx]
 					set itempady [eval contentmanager cget $tree -pady]
-					set itemwidth [eval contentmanager cget $tree -width]
-					set itemheight [eval contentmanager cget $tree -height]
+					set itemwidth [eval contentmanager width $tree]
+					set itemheight [eval contentmanager height $tree]
 
 					incr x $itempadx
 					incr y $itempady
@@ -573,8 +600,8 @@ snit::type group {
 
 					set itempadx [eval contentmanager cget $tree -padx]
 					set itempady [eval contentmanager cget $tree -pady]
-					set itemwidth [eval contentmanager cget $tree -width]
-					set itemheight [eval contentmanager cget $tree -height]
+					set itemwidth [eval contentmanager width $tree]
+					set itemheight [eval contentmanager height $tree]
 
 					incr x $itempadx
 					incr y $itempady
@@ -677,6 +704,9 @@ snit::type element {
 	# Children variables
 	variable bboxid
 
+	# Attachment variables
+	variable attachments
+
 	# Binding variables
 	variable havebinding
 
@@ -687,6 +717,7 @@ snit::type element {
 		set xPos 0
 		set yPos 0
 		set bboxid {}
+		set attachments {}
 		set havebinding 0
 		$self configurelist $args
 	}
@@ -700,6 +731,10 @@ snit::type element {
 
 	method type { } {
 		return "element"
+	}
+
+	method attach { tag } {
+		lappend attachments $tag
 	}
 
 	method SetWidget { opt val } {
@@ -783,6 +818,9 @@ snit::type element {
 		set tagy [expr {$y + $options(-ipady)}]
 		$options(-widget) coords $options(-tag) $tagx $tagy
 		$options(-widget) coords $bboxid $xPos $yPos [expr {$xPos + $options(-width)}] [expr {$yPos + $options(-height)}]
+		foreach tag $attachments {
+			$options(-widget) coords $tag $xPos $yPos
+		}
 	}
 
 	method move { dx {dy {}} } {
@@ -795,9 +833,15 @@ snit::type element {
 		if { [string equal $dy ""] } {
 			$options(-widget) move $options(-tag) $dx
 			$options(-widget) move $bboxid $dx
+			incr xPos $dx
 		} else {
 			$options(-widget) move $options(-tag) $dx $dy
 			$options(-widget) move $bboxid $dx $dy
+			incr xPos $dx
+			incr yPos $dy
+		}
+		foreach tag $attachments {
+			$options(-widget) coords $tag $xPos $yPos
 		}
 	}
 
