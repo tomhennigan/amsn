@@ -581,10 +581,10 @@ proxyconfhttp HTTP proxy support configuration
 proxyconf Proxy configuration
 proxyconnection I connect to the internet using a proxy server:
 proxy I am behind a proxy server (HTTP or SOCKS5)
-psmatend Show PSM beside the nickname
-psmdontshow Don't show PSM, unless otherwise defined in global/custom nicks
-psmnewline Show PSM below the nickname
-psmplace Where should the PSM be placed ?
+psmatend Show Personal Message beside the nickname
+psmdontshow Don't show Personal Message, unless otherwise defined in global/custom nicks
+psmnewline Show Personal Message below the nickname
+psmplace Where should the Personal Message be placed ?
 publishphones Publish my phone numbers
 purge Purge
 pwcdriver You are using the pwc driver
