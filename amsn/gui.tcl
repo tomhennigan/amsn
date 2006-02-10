@@ -5614,8 +5614,9 @@ proc ShowUser {user_login state_code colour section grId} {
 			set failed [catch {set animated [::picture::IsAnimated "[file join $::HOME displaypic cache ${displaypicfilename}].png"]}]
 			if {$failed == 0 && $animated == 0 } {
 				set buddyheight [image height [::skin::loadPixmap $image_type]]
+				set buddyicon [::skin::getDisplayPicture $user_login]
 				image create photo small_dp_${user_login} -format cximage
-				small_dp_$user_login copy [::skin::getDisplayPicture $user_login]
+				small_dp_$user_login copy $buddyicon
 				::picture::ResizeWithRatio small_dp_${user_login} $buddyheight $buddyheight
 				set show_dp_thumbnail 1
 			}
