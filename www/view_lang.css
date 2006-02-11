@@ -1,0 +1,13 @@
+table.missingkeys
+{
+  width: 500px;
+  margin: 10px 5px 10px 5px;
+  padding: 5px 5px 5px 5px;
+  /*border: 1px dotted #bbb;*/
+  color: #000;
+  background: transparent;
+  font-size: 100%;
+  float: center;
+  display: inline;
+}
+
