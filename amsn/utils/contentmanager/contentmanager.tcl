@@ -151,6 +151,7 @@ snit::type contentmanager {
 
 	typemethod delete { args } {
 		set path [eval $type getpath $args]
+		set tree [eval $type gettree $args]
 		$path destroy
 	}
 
@@ -325,14 +326,14 @@ snit::type group {
 
 	destructor {
 		catch {
-			$options(-widget) delete $bboxid
 			foreach item $items {
 				set tree $options(-tree)
 				lappend tree $item
 				eval contentmanager delete $tree
 			}
-			eval contentmanager unregister $options(-tree)
 		}
+		catch { $options(-widget) delete $bboxid }
+		catch { eval contentmanager unregister $options(-tree) }
 	}
 
 	method type { } {
