@@ -22,8 +22,7 @@ RULES THAT MUST BE FOLLOWED:<br/></p>
 <ul><li>Please read the <a href='http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/amsn/msn/lang/LANG-HOWTO?rev=HEAD&amp;content-type=text/plain'><b>LANG-HOWTO</b></a> file.</li>
 
 <li>Read LANG-HOWTO again!</li>
-<li>Just click the link of the language you want to update (
-in the right column -&gt; )
+<li>Just click the link of the language you want to update (at the back of the page)
 <br/><br/>Then, at the page that opens :<br/><br/></li>
 <li>Download the old language file ( you will find the link at that page )</li>
 <li>Add the keywords from the list at the bottom of the page
@@ -55,4 +54,7 @@ substituted during execution with some values.<br/><br/><br/>
 <li>Send the new file to <a href="mailto:amsn-translations@lists.sourceforge.net">amsn-translations@lists.sourceforge.net</a></li>
 </ul>
 
-<?php include inc . 'footer.php'; ?>
+<?php
+include inc . 'langlist.php';
+include inc . 'footer.php';
+?>
