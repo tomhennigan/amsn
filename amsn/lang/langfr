@@ -581,6 +581,10 @@ proxyconf Configuration du proxy
 proxyconfhttp Configuration du support proxy HTTP
 proxyconnection Je me connecte à Internet via un serveur proxy :
 proxy Je suis derrière un serveur proxy (HTTP ou SOCKS5)
+psmatend Afficher le Message Personnel à côté du pseudonyme
+psmdontshow Ne pas montrer le Message Personnel, sauf si défini dans un pseudonyme général ou personnalisé
+psmnewline Afficher le Message Personnel en dessous du pseudonyme
+psmplace Où doit être placé le Message Personnel ?
 publishphones Publier mes numéros de téléphone
 purge Tout effacer
 pwcdriver Vous utilisez le pilote pwc
