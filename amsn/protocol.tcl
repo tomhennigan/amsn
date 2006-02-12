@@ -1066,6 +1066,7 @@ namespace eval ::MSN {
 			}
 			209 {
 				#Try again urlencoding any character
+				status_log "Nick $newname not allowed, try to avoid filtering (badNickCheck)\n" red
 				set name [urlencode_all $newname]
 				::MSN::WriteSB ns "REA" "$userlogin $name"
 			}
@@ -3111,8 +3112,10 @@ namespace eval ::Event {
 			209 {
 				#TODO: #FIX: ummm, where did $newname get set???????
 				#Nickname change illegal. Try again urlencoding any character
-				set name [urlencode_all $newname]
-				::MSN::WriteSB ns "PRP" "MFN $name" "ns handlePRPResponse $name"
+				#set name [urlencode_all $newname]
+				msg_box [trans invalidusername]
+				#::MSN::WriteSB ns "PRP" "MFN $name" "ns handlePRPResponse $name"
+				return 0
 			}
 			default {
 			}
