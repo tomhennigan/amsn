@@ -580,6 +580,10 @@ proxyconf Configuração de proxy
 proxyconfhttp Suporte a configuração de proxy HTTP
 proxyconnection Eu conecto à Internet usando um servidor proxy:
 proxy Eu estou atrás de um servidor de proxy (HTTP ou SOCKS5)
+psmatend Mostrar mensagem pessoal ao lado do nickname
+psmdontshow Não mostrar mensagem pessoal, ao inves mostre nick global/customizado 
+psmnewline Mostrar mensagem pessoal embaixo do nickname 
+psmplace Onde a mensagem pessoal deve ser colocada?
 publishphones Exibir meus números de telefone
 purge Remover
 pwcdriver Você está usando um driver pwc

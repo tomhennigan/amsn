@@ -296,8 +296,11 @@ filetransfer Prenos datoteke
 filetransfercancelled Prenos datoteke preklican
 filetransfercomplete Prenos datoteke konèan
 filters Filtri
-filtersx Izbira filtrov
 filtersselect Izberi ¾elene filtre\n(Èe ni noben izbran, bo prikazano vse)
+filtersx Izbira filtrov
+find Najdi
+findnext Najdi naprej
+findprev Najdi nazaj
 firewalled Si za po¾arnim zidom ali routerjem
 followtext Sledi novemu besedilu
 friendlyname Prijazno ime
@@ -527,7 +530,7 @@ pause Pavza
 personal Osebno
 phone Telefon
 phones Telefonske ¹tevilke
-picbrowser Prika¾i brskalnik slik
+picbrowser Brskalnik slik
 picfile Slikovna datoteka
 picstatus Slika omogoèena
 play Predvajaj
@@ -578,6 +581,10 @@ proxy Sem za proxy streznikom (HTTP ali SOCKS5)
 proxyconf Nastavitve proxyja
 proxyconfhttp Podpora HTTP proxyju
 proxyconnection Proxy povezava:
+psmatend Prika¾i osebno sporoèilo ob nicku
+psmdontshow Ne prika¾i osebnega sporoèila, èe ni del globalnega/prikaznega nicka
+psmnewline Prika¾i osebno sporoèilo pod nickom
+psmplace Kje naj bo osebno sporoèilo?
 publishphones Objavi moje tel. ¹tevilke
 purge Oèisti
 pwcdriver Uprablja¹ pwc gonilnik
