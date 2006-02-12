@@ -160,7 +160,7 @@ namespace eval ::MSNP2P {
 			create_dir [file join $HOME displaypic cache]
 			::MSNP2P::RequestObject $chatid $user $msnobj
 		} else {
-			::skin::getDisplayPicture $user
+			::skin::getDisplayPicture $user 1
 		}
 	}
 

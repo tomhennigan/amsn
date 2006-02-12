@@ -4267,8 +4267,10 @@ proc cmsn_change_state {recv} {
 	set oldPic [::abook::getContactData $user displaypicfile]
 	set newPic [::MSNP2P::GetFilenameFromMSNOBJ $msnobj]
 	::abook::setContactData $user displaypicfile $newPic
-
-	if { $oldPic != $newPic} {
+	
+	if { ($oldPic != $newPic) && ($newPic == "") } {
+		::skin::getDisplayPicture $user 1
+	} elseif { $oldPic != $newPic} {
 		status_log "picture changed for user $user\n" white
 		if { [::config::getKey lazypicretrieval] || [::MSN::userIsBlocked $user]} {
 			global sb_list

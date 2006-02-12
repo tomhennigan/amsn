@@ -148,24 +148,23 @@ namespace eval ::skin {
 			return $picName
 		}
 
-		#Image will change so force update of the mini DP
-		catch { image delete small_dp_$email }
-
 		set filename [::abook::getContactData $email displaypicfile ""]
 		set file "[file join $HOME displaypic cache ${filename}].png"
 		if { $filename != "" && [file readable "[file join $HOME displaypic cache ${filename}].png"] } {
 			catch {image create photo $picName -file "$file" -format cximage}
 		} else {
-			return [::skin::getNoDisplayPicture]
-			
-			# Why are we doing this like that ? we'll have too many user's pics set to nopic.gif...
+			# We do like that to have a better update of the image when switching from no pic to another
 			#image create photo $picName -file [::skin::GetSkinFile displaypic nopic.gif] -format cximage
-			#set file [::skin::GetSkinFile displaypic nopic.gif]
+			image create photo $picName
+			$picName copy [::skin::getNoDisplayPicture]
+			set file [::skin::GetSkinFile displaypic nopic.gif]
 		}
 		
 		if {[catch {image width $picName} res]} {
 			#status_log "Error while loading $picName: $res"
-			return [::skin::getNoDisplayPicture]
+			image create photo $picName
+			$picName copy [::skin::getNoDisplayPicture]
+			set file [::skin::GetSkinFile displaypic nopic.gif]
 		}
 		
 		if { [catch {::picture::GetPictureSize $file} cursize] } {
@@ -175,10 +174,54 @@ namespace eval ::skin {
 		if { [::config::getKey autoresizedp] && ![::picture::IsAnimated $file] && $cursize != "96x96"} {
 			::picture::Resize $picName 96 96
 		}
-
+		if { [catch {image height small_dp_$email} height] == 0} {
+			#Little DP exists so we have to update it
+			::skin::getLittleDisplayPicture $email $height 1
+		}
 		return $picName
 	}
-	
+
+	proc getLittleDisplayPicture { email height {force 0}} {
+		global HOME
+
+		set picName small_dp_$email
+		
+		if {[catch {image width $picName}] == 0  && $force == 0} {
+			return $picName
+		}
+
+		set filename [::abook::getContactData $email displaypicfile ""]
+		set file "[file join $HOME displaypic cache ${filename}].png"
+
+		if { $filename != "" && [file readable $file] } {
+			catch {image create photo $picName -file "$file" -format cximage}
+		} else {
+			image create photo $picName
+			$picName copy [::skin::getNoDisplayPicture]
+			set file [::skin::GetSkinFile displaypic nopic.gif]
+		}
+		
+		if {[catch {image width $picName} res]} {
+			#status_log "Error while loading $picName: $res"
+			image create photo $picName
+			$picName copy [::skin::getNoDisplayPicture]
+			set file [::skin::GetSkinFile displaypic nopic.gif]
+		}
+		
+		if { [catch {::picture::GetPictureSize $file} cursize] } {
+			status_log "Error opening $file: $cursize\n"
+			return ""
+		}
+
+		set animated [::picture::IsAnimated $file]
+
+		if { $animated == 0 } {
+			::picture::ResizeWithRatio $picName $height $height
+			return $picName
+		}
+		return ""
+	}
+
 	#Convert a display picture from a user to another size
 	proc ConvertDPSize {user width height} {
 		if {[catch {
