@@ -22,7 +22,7 @@ RULES THAT MUST BE FOLLOWED:<br/></p>
 <ul><li>Please read the <a href='http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/amsn/msn/lang/LANG-HOWTO?rev=HEAD&amp;content-type=text/plain'><b>LANG-HOWTO</b></a> file.</li>
 
 <li>Read LANG-HOWTO again!</li>
-<li>Just click the link of the language you want to update (at the back of the page)
+<li>Just click the link of the language you want to update (at the bottom of this page)
 <br/><br/>Then, at the page that opens :<br/><br/></li>
 <li>Download the old language file ( you will find the link at that page )</li>
 <li>Add the keywords from the list at the bottom of the page
