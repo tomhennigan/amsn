@@ -263,6 +263,9 @@ filetransfer Filoverføring
 filters Filtere
 filtersselect Velg filter du vil bruke\n(OBS: ingen valgt betyr 'vis alle')
 filtersx Valg av Filtere
+find Finn
+findnext Finn neste
+findprev Finn siste
 firewalled Du er bak en brannmur eller router
 followtext Bla nedover når ny tekst blir skrevet inn
 friendlyname Kallenavn
@@ -577,6 +580,10 @@ proxyconfhttp HTTP proxystøtte-konfigurasjon
 proxyconf Proxy-konfigurasjon
 proxyconnection Jeg kobler til internett via en proxytjener
 proxy Jeg er bak en proxytjener (HTTP eller SOCK5)
+psmatend Vis Personlig Beskjed ved siden av kallenavnet
+psmdontshow Ikke vis Personlig Beskjed med mindre annet er definert i globale/egendefinerte kallenavn
+psmnewline Vis Personlig Beskjed under kallenavnet
+psmplace Hvor skal den Personlig Beskjed plasseres?
 publishphones Publiser mine telefonnummre
 purge Tøm
 pwcdriver Du bruker pwc-driveren

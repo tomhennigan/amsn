@@ -5,21 +5,21 @@ accept Aceutar
 acceptfile ¿Aceutar ficheru $1, tamañu $2 bytes? Guardarase en $3
 actions Aiciones
 activeautoupdate Activar actualización automática
-add Amestar
-addacontact Amestar un contautu
-addedyou $1 ($2) t'amestó a la so llista de contautos
-addprofile Amestar un perfil
-addprofiledesc Introduz el nome d'usuariu pal que-y pruyes crear un perfil. \nLos perfiles dexen tener configuraciones distintes pa ca usuariu.\nEnsin un perfil nun pue emplegase l'historial, alarmes o alcordar contraseña.
-addstate Amestar nuevu estáu
-addto Amestar a $1
-addtocontacts Amestar a contautos
-addtoo Amestar esta persona a la mio llista de contautos
+add Añedir
+addacontact Añedir un contautu
+addedyou $1 ($2) t'añedió a la so llista de contautos
+addprofile Añedir un perfil
+addprofiledesc Introduz el nome d'usuariu pal que-y pruyes crear un perfil. \nLos perfiles dexen tener configuraciones distintes pa ca usuariu.\nEnsin un perfil nun pode emplegase l'historial, alarmes o alcordar contraseña.
+addstate Añedir nueu estáu
+addto Añedir a $1
+addtocontacts Añedir a contautos
+addtoo Añedir esta persona a la mio llista de contautos
 admincontacts Alministrar contautos
 admingroups Alministrar grupos
 advanced Avanzaes
 advancedprefs Configuración d'opciones avanzaes
-adverts Anuncios
-agotinvitation Recibida convidación d'audio de $1
+adverts Anuncies
+agotinvitation Recibida convidación d'audiu de $1
 alarmonconnect Activar alarma pa esti usuariu cuandu coneutese
 alarmondisconnect Activar alarma pa esti usuariu cuandu desconeutese
 alarmonmsg Activar alarma pa esti usuariu cuandu t'unvie un mensaxe
@@ -43,7 +43,7 @@ appearance Aspectu
 appearoff Invisible
 areacode Códigu d'area
 aretyping $1 tán escribiendo un mensaxe
-askcontactwebcam Entrugar por los tos contautos de webcam, o 
+askcontactwebcam Entrugar polos tos contautos de webcam, o 
 askeachtime Entrugar siempre
 asksendingyourwebcam Entrugar pa unviar la to webcam
 askwebcam Sollicitar al usuariu ver la so Webcam
@@ -68,7 +68,7 @@ avoidseen Burllar qu'esta persona vea la to conexón y te contaute
 away Ausente
 awaymsg1 Entrugar cuandu camude'l estáu a Ausente/Vuelvu llueu/Ocupao
 awaymsg2 Nun entrugar nunca ya emplegar el mensaxe darréu
-badwebcam Nun pue visualizase la imaxen la WebCam. Asegúrese que la WebCam tea instalada y coneutada
+badwebcam Nun pode visualizase la imaxen la WebCam. Asegúrese que la WebCam tea instalada y coneutada
 baduserpass Nome d'usuariu o contraseña incorreutos
 bgcolor Camuda'l collor de fondu d'aMSN
 blankdirect Dexar en blancu pa conexón direuta
@@ -84,7 +84,7 @@ blockmessage Los siguientes contautos tán coneutaos y bloqueandote
 block Nun admitir
 blockusers Comprobar continuamente 
 bouncedock Animación del iconu aMSN, cuandu un mensaxe ye recibíu
-brightness Brillo
+brightness Brillu
 broughtby Traído a Ud. polos siguientes programadores
 browse Esaminar
 browserexample ( \$url se sustituirá poles señes). Ex: mozilla \$url
@@ -94,21 +94,21 @@ busy Non disponible
 cachedpics $1 semeyes p'amosar almacenaes
 cagreement Acuerdo de confidencialidad
 cancel Cancelar
-cannotdeleteprofile Nun pue esborráse esti perfil porque parez que ta siendo emplegáu por otra sesión d'aMSN
-cantexec Nun pue executáse l'aplicación: $1. Compruba les preferencies
+cannotdeleteprofile Nun pode esborráse esti perfil porque paez que ta siendo emplegáu por otra sesión d'aMSN
+cantexec Nun pode executáse l'aplicación: $1. Compruba les preferencies
 cantloadonlineversion Nun pudo descargáse d'internet la llista actualizada de llinguas
-cantremoveothers Nun pue esborráse el grupu "Otros"
+cantremoveothers Nun pode esborráse el grupu "Otros"
 captureextloaded Estensión de captura -$1- foi cargada
 captureextnotloaded Estensión de captura -$1- nun foi cargada, tendríes que compilála
 captureproperties Propiedaes d'imaxen de Webcam
 casesensitive Estremar may/minuscules en disparador
-cfgalarmall Camudar/Amestar/Quitar alarma global
+cfgalarmall Camudar/Añedir/Quitar alarma global
 cfgalarm Camudar/quitar alarma
 change Camudar
 changecustomstate Camudar a
 changedisplaypic Camudar semeye amosada
 changefont Camudar fonte
-changeglobnick Camudar nick personalizado globalmente
+changeglobnick Camudar nick personalizao globalmente
 changenick Camudar apodu
 changesize Camudar tamañu
 changestate $1 camuda'l so estáu a $2
@@ -136,14 +136,14 @@ choosecontact Por favor esbilla un contautu de la llista
 choosedevice Por favor esbilla un dispositivu
 choosefontcolor Escoyer collor de la lletra
 chooseskin Por favor, escueya'l Tema que-y pruye emplegar
-ch_to_state Camudar al nuevu estau
+ch_to_state Camudar al nueu estau
 clear Llimpiar
 clearlog2 Llimpiar historial pa toos los contautos
 clearlog3 Llimpiar toos los rexistros
 clearlog Llimpiar historial
 clearwebcamlogs Llimpiar los históricos de webcam
 clickhere Click equí
-clicktoadd Fai click n'Amestar pa crear una nueva nota
+clicktoadd Fai click n'Añedir pa crear una nueva nota
 clicktologin Fai click equí p'aniciar la sesión
 clientcaps Unviar paquetes x-clientcaps a otros clientes
 clientname Nome del cliente
@@ -172,34 +172,34 @@ connecterror Error coneutándose al servidor
 connecting Coneutando
 connection Conexón
 connectionlost Desconeutáu: Conexón col servidor zarrada
-contactadded Contautu amestáu
+contactadded Contautu añediu
 contact Contautu
-contactdoesnotexist El contautu qu'intentas amestar nun esiste
+contactdoesnotexist El contautu qu'intentas añedir nun esiste
 contactlist Llista de Contautos(FL):
 continuously De forma contínua
 contrast Contraste
 conversationwith $1 usuarios na conversación
-convertexplain Ruta al ficheru executable CONVERT, del programa ImageMagick (necesariu pa les\nSemeyes p'Amosar). Dexar en blancu si CONVERT pue alcontráse nel PATH.
+convertexplain Ruta al ficheru executable CONVERT, del programa ImageMagick (necesariu pa les\nSemeyes p'Amosar). Dexar en blancu si CONVERT pode alcontráse nel PATH.
 copy Copiar
 copytogroup Copiar al grupu
-corruptconfig El ficheru configuración ta corruptu. Creando ún nuevu. L'antigu sedrá salvao comu $1. Por favor, unviamóslo pa ver qué ocurrió.
-corruptstates El ficheru la configuración los autoestaos ta corruptu. Creando ún nuevu. L'antigu sedrá salvao comu $1. Por favor, unviamóslo pa ver qué ocurrió.
+corruptconfig El ficheru configuración ta corruptu. Creando ún nueu. L'antigu sedrá salvao comu $1. Por favor, unviamóslo pa ver qué ocurrió.
+corruptstates El ficheru la configuración los autoestaos ta corruptu. Creando ún nueu. L'antigu sedrá salvao comu $1. Por favor, unviamóslo pa ver qué ocurrió.
 countrycode Códigu de país/región
 cprofile Crear Perfil
-created Creado
+created Creao
 credits Creitos
 currentdate Fecha actual
 currentlanguage Esta ye la llingua emplegada actualmente
 currentnotes Notes actuales
-custnotifymsg Amosar ventanu d'avisu cuandu esti contautu unvía un nuevu mensaxe
+custnotifymsg Amosar ventanu d'avisu cuandu esti contautu unvía un nueu mensaxe
 custnotifyoffline Amosar ventanu d'avisu cuandu esti contautu desconeutese
 custnotifyonline Amosar ventanu d'avisu cuandu esti contautu coneutese
 custnotifystatus Amosar ventanu d'avisu cuandu esti contautu camude'l so estáu
 customcolor Collor personal
-custom_edit Remanar emoticonu personalizado
-custom_new Amestar emoticonu personalizado
+custom_edit Remanar emoticonu personalizao
+custom_new Añedir emoticonu personalizao
 customnick Apodu personal
-customstyle Estilu personalizado
+customstyle Estilu personalizao
 cut Cortar
 cutimagebox Esbilla la parte de la semeye que gustaríate usar, camudando'l tamañu y moviendo la caxa de seleición
 cutimageboxreset Reanicia la caxa de seleición\ntamañu a:
@@ -213,7 +213,7 @@ default Configuración por defectu
 defaultloginradio Emplegar configuración por defectu
 defchatwinsize Tamañu por defectu pa los ventanos de chat (HORIZONTALxVERTICAL)
 deleteall Esborrar too
-deletecustomstate Esborrar estáu personalizado
+deletecustomstate Esborrar estáu personalizao
 delete Esborrar
 delimiters Delimitadores de l'hora:
 deliverfail Ocurrió un problema al unviar el siguiente mensaxe
@@ -225,7 +225,7 @@ details Detalles
 devicebusy El dispositivu $1 tá ocupao 
 devices Dispositivos
 directconnection Tengo una conexón direuta a internet (emplega'l puertu 1863)
-disabled Desactivado
+disabled Desactivao
 disableprofiles Desactivar perfiles (Útil pa cibercafés o entornos compartíos)
 disablessl Desactivar SSL
 disableuserfonts Ignorar el tipu de lletra del otru usuariu nel chat, y emplegar siempre'l to tipu de lletra
@@ -241,26 +241,26 @@ displaypic Semeye p'Amosar
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Iconu Gtk
 docking Iconu en bandexa de sistema
-dockingoff Desactivado
+dockingoff Desactivao
 dockkde Iconu KDE
 done Fecho
 dontdownload Nun descargar TLS, lu instalaré yo mesmu
 dontshow Nun amosar
 download Descargar
 downloadingtls Descargando'l módulu TLS dende:\n $1
-editcustomstate Remanar estáu personalizado
+editcustomstate Remanar estáu personalizao
 edit Edición
 editcontent Editar calteníu del campu asuntu y campu nota
-editnewstate Nuevu mensaxe automáticu pa estáu personalizado
+editnewstate Nueu mensaxe automáticu pa estáu personalizao
 editprofile Remanar Perfil
-editstate Remanar mensaxe automáticu pa estáu personalizado
+editstate Remanar mensaxe automáticu pa estáu personalizao
 editvalue Remanar valor
 email  E-Mail
 emailsinlist Amosar e-mails en llugar d'apodos na llista de contautos
-emoticon_steal Amestar a los emoticonos
+emoticon_steal Añedir a los emoticonos
 emotisounds Reproducir soníos asociaos a ciertos emoticonos
 emptygroup Esvaciar grupu
-enabled Activado
+enabled Activao
 enableproxy Activar proxy
 enableremote Activar servidor de control remotu
 enablesound Reproducir soníu
@@ -276,15 +276,15 @@ examples Exemplos
 exitamsn ¿Ta seguru de que-y pruye colar?
 extras Servicios Adicionales
 faileddelete Nun pudo esborráse
-faileddeleteperso Esta semeye nun pue esborráse porque non ye una semeye personal p'amosar. Sólo les semeyes que son del to perfil personal puen ser esborraes asina.
+faileddeleteperso Esta semeye nun pode esborráse porque non ye una semeye personal p'amosar. Sólo les semeyes que son del to perfil personal poden ser esborraes asina.
 failed Fallu
 faq FAQ (Entrugas frecuentes)
 file Ficheru
 filedoesnotexist El ficheru nun esiste
 fileman Alministrador de Ficheros
-filemanexample ( \$location sedrá reemplazado pol directoriu ) Ex: nautilus \$location
+filemanexample ( \$location sedrá reemplazao pol directoriu ) Ex: nautilus \$location
 filename Nome de Ficheru
-filenotwritable Esti ficheru nun pue ser esborráu
+filenotwritable Esti ficheru nun pode ser esborráu
 filetransfercancelled Tresferencia de ficheru cancelada
 filetransfercomplete Tresferencia de ficheru completada
 filetransfer Tresferencia de ficheros
@@ -292,7 +292,7 @@ filters Filtros
 filtersselect Escueya los filtros que-y pruye ver\n(Si nun s'esbilla nenguno amosaránse toos)
 filtersx Filtrar seleición
 firewalled Alcontráste tres un Firewall o d'un Router
-followtext Arrastrar hacia embaxu cuandu apaezca nuevu testu
+followtext Arrastrar hacia embaxu cuandu apaezca nueu testu
 friendlyname Apodu en conversación
 ftacceptedby $1 aceutó la convidación a la tresferencia del ficheru '$2'.
 ftaccepted Tresferencia de ficheru aceutada
@@ -306,22 +306,22 @@ ftportpref Emplegar esti puertu y los sucesivos pa tresferencias de ficheros
 ftrejectedby $1 rechazó la convidación a la tresferencia del ficheru '$2'.
 ftrejected Tresferencia de ficheru cancelada
 ftsendinvitation Una convidación pa la tresferencia del ficheru '$2' ($3 bytes) foi unviada a $1.
-fullcontactlist La so llista de contautos ta llena. Necesita esborrar daqué contautu pa poder amestar nuevos.
+fullcontactlist La so llista de contautos ta llena. Necesita esborrar daqué contautu pa poder añedir nuevos.
 getdisppic Habilitar la recepción de Semeyes p'Amosar d'otros usuarios
 globalcontainer Contenedor global
-globalnick Introduz una espresión cola que formar toos los apodos, pue emplegar les variables \$user_login pa les señes del contautu y \$nick pa so apodu o \$customnick pa so apodu personalizado.\nPor exemplu: '\$user_login ye \$nick' amosaría 'contacto@hotmail.com ye Contautu'
+globalnick Introduz una espresión cola que formar toos los apodos, pode emplegar les variables \$user_login pa les señes del contautu y \$nick pa so apodu o \$customnick pa so apodu personalizao.\nPor exemplu: '\$user_login ye \$nick' amosaría 'contacto@hotmail.com ye Contautu'
 globalnicktitle Apodu global
-globaloverride L'apodu global debe sobreescribir l'apodu personalizado
+globaloverride L'apodu global debe sobreescribir l'apodu personalizao
 gonelunch Foi a comer
 getmoreskins Conseguir más skins!
 getmoreplugins Conseguir más Plugins!
 gotink $1 unvíate un mensaxe de tinta.
-groupadd Amestar un grupu
+groupadd Añedir un grupu
 groupdelete Esborrar un grupu
 groupexists El grupu ya esiste
 group Grupu
-groupmissing Nun pue encontráse el grupu
-groupnewname Nuevu nome
+groupmissing Nun pode atopá-y el grupu
+groupnewname Nueu nome
 groupnotempty El grupu nun ta vacíu
 groupoldname Nome antigu
 grouprename Camudar nome a grupu
@@ -347,7 +347,7 @@ imagefiles Ficheros de semeyes
 inbox Bandexa d'entrada
 insertsmiley Insertar emoticonu
 inserttextnote Inserta'l testu nel campu Asuntu y nel campu Nota, y dempués pulsa Guardar
-installconvert Debes instalar ImageMagick (comandu 'convert') pa poder convertir les semeyes al formatu emplegáu polos servidores de MSN. Pues descargar los binarios pal to Sistema Operativu dende ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Si ya los tienes, esto ye un fallu n'AMSN, por favor comunicamóslo.
+installconvert Debes instalar ImageMagick (comandu 'convert') pa poder convertir les semeyes al formatu emplegáu polos servidores de MSN. Podes descargar los binarios pal to Sistema Operativu dende ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Si ya los tienes, esto ye un fallu n'AMSN, por favor comunicamóslo.
 internalerror Error internu del servidor
 invalidfile2 El ficheru $1 nun se pudo crear, asegurate de que tienes los permisos apropiaos pal ficheru destín.
 invalidfile El ficheru $2 introducíu nel campu "$1" nun esiste o nun se pudo leer
@@ -411,7 +411,7 @@ logsbydate Ordenar históricos por fechas (Ver historial carga muncho mas rápido)
 logsin acaba d'aniciar sesión
 logsmileys Amosar emoticonos y smileys nel ventanu d'historial d'aMSN
 logsout acaba de finar la sesión
-logwebcam Salvar toles sesiones de webcam al histórico d'aMSN pa poder verles de nuevu
+logwebcam Salvar toles sesiones de webcam al histórico d'aMSN pa poder verles de nueu
 longnick La lonxitud del to apodu ye mayor de 130 caracteres. Esto nun ye soportao oficialmente pol protocolu MSN. ¿Ta seguru que-y pruye camudálo?
 longp4c El to apodu en conversación tien más de 130 caracteres. Y l'apodu amosáu nel cliente MSN oficial sedrá "$1". ¿Prestaría-y siguir?
 lprivtoconf El privao conviertése en conversación múltiple con $1
@@ -430,8 +430,8 @@ month Mes
 morepersonal Más estaos ->
 move Mover
 movetogroup Mover al grupu
-msgflicker Parpadeo na barra de títulu cuandu llega un nuevu mensaxe al chat
-msgmaxmin Cuandu un nuevu mensaxe llega prestaríame que seya :
+msgflicker Parpadeo na barra de títulu cuandu llega un nueu mensaxe al chat
+msgmaxmin Cuandu un nueu mensaxe llega prestaríame que seya :
 msg Mensaxe
 msgmode Escueya comu alministrar ventanos de múltiples mensaxes :
 msn aMSN
@@ -450,15 +450,15 @@ natkeepalive Si sufres desconexones continuamente, activa esta opción
 needonline Entovía tas/apaeces desconeutáu
 needwinico2 Requierese'l ficheru winico05.dll na carpeta utils/windows pa que funcione l'iconu na bandexa del sistema
 never Nunca
-new_ft_protocol Emplegar el nuevu protocolu de tresferencias de ficheros (INESTABLE)
+new_ft_protocol Emplegar el nueu protocolu de tresferencias de ficheros (INESTABLE)
 newline Saltu de llinia
 newmail $1 mensaxes nuevos en bandexa d'entrada
 newmailfolder Tienes $1 mensaxes nuevos n'otres carpetes d'Hotmail
-newmailfrom Nuevu correu de $1 ($2)
-newmailfromother Nuevu correu llectrónicu de $1 ($2) n'otres carpetes
-newmsg Nuevu mensaxe
-newstate Amestar estáu personalizado
-newtabbedfeature aMSN tien una nueva función pa xestionar les conversaciones. Agora pues tener tolos ventanos d'un mesmu grupu, o de toa la llista de contautos, nun solu ventanu con pestañes. Por favor, escueya'l mou en qu'aMSN debería xestionar les conversaciones
+newmailfrom Nueu corréu de $1 ($2)
+newmailfromother Nueu corréu llectrónicu de $1 ($2) n'otres carpetes
+newmsg Nueu mensaxe
+newstate Añedir estáu personalizao
+newtabbedfeature aMSN tien una nueva función pa xestionar les conversaciones. Agora podes tener tolos ventanos d'un mesmu grupu, o de toa la llista de contautos, nun solu ventanu con pestañes. Por favor, escueya'l mou en qu'aMSN debería xestionar les conversaciones
 newveravailable Nueva versión $1 disponible pa descarga
 next Siguiente
 nick Apodu
@@ -473,9 +473,9 @@ nonewmail Nun hai mensaxes nuevos en bandexa d'entrada
 nonewver Nun hai versiones más autuales disponibles
 no Non
 nopic Ensin semeye
-noprofileexists Actualmente nun esiste nengún perfil. \n Debes crear ún si quies emplegar los perfiles d'usuariu. \nEmplega'l botón "Amestar un perfil" nesti ventanu pa crealo.
+noprofileexists Actualmente nun esiste nengún perfil. \n Debes crear ún si quies emplegar los perfiles d'usuariu. \nEmplega'l botón "Añedir un perfil" nesti ventanu pa crealo.
 normal Normal
-noskins Nun pudo alcontráse'l perfil por defectu (default) na carpeta skins/. Nun pue aniciáse aMSN
+noskins Nun pudo alcontráse'l perfil por defectu (default) na carpeta skins/. Nun pode aniciáse aMSN
 nosystemtray Bandexa del sistema non disponible
 note Nota
 notificationserver Servidor inicial de notificaciones MSN (Servidor MSN Messenger)
@@ -483,21 +483,21 @@ notify1_5 Amosar ventanu d'avisu cuandu un contautu desconeutese
 notify1_75 Amosar ventanu d'avisu cuandu un contautu camuda d'estáu
 notify1 Amosar ventanu d'avisu cuandu un contautu coneutese
 notify2 Amosar ventanu d'avisu cuandu llegan nuevos mensaxes
-notify3 Amosar ventanu d'avisu al recibir un nuevu corréu llectrónicu
-notify4 Amosar ventanu d'avisos cuandu llega nuevu corréu a otres carpetes
+notify3 Amosar ventanu d'avisu al recibir un nueu corréu llectrónicu
+notify4 Amosar ventanu d'avisos cuandu llega nueu corréu a otres carpetes
 notify avisu
 notifyoffset Axusta la posición del ventanu d'avisu mediante un desplazamiento
 notifytimeout Númberu de milisegundos que permanez el ventanu de notificaciones
 notifytyping Unviar a otros usuarios notificaciones cuandu a tecleándose
 notifywin Ventanu d'avisos
 notinlist Nun tas na so llista de contautos
-notls La versión 9 del protocolu MSN requier emplegar el paquete "tls". Esti paquete nun parez tar instaláu nel equipu. Si ta instaláu, la ruta al directoriu debería ser especificado nel ventanu de Preferencies (ex: /opt/tls/lib). \n \n Ye posible descargar "tls" en http://tls.sf.net.
+notls La versión 9 del protocolu MSN requier emplegar el paquete "tls". Esti paquete nun paez tar instaláu nel equipu. Si ta instaláu, la ruta al directoriu debería ser especificao nel ventanu de Preferencies (ex: /opt/tls/lib). \n \n Ye posible descargar "tls" en http://tls.sf.net.
 nottabbed Ventanes normales ensin pestañes
 nousersinsession Nun hai usuarios na sesión
 nudge $1 reclama la to atención
 offline Desconeutáu
 ok Aceutar
-onenewmail 1 mensaxe nuevu en bandexa d'entrada
+onenewmail 1 mensaxe nueu en bandexa d'entrada
 online En llinia
 onlinehelp Ayuda online
 onphone Al teléfonu
@@ -550,7 +550,7 @@ prefphone2 Escribe los númberos que-y pruyas permitir\nver a los contautos na to
 prefphone Los mios númberos de teléfonu
 prefprivacy2 Llista de Contautos/Inversa del usuariu
 prefprivacy Llista d'Aceutaos/Bloqueaos del usuariu
-prefprofile2 Crea o modifica'l to perfil públicu (la \n descripción de ti mesmu qu'otros puen ver)
+prefprofile2 Crea o modifica'l to perfil públicu (la \n descripción de ti mesmu qu'otros poden ver)
 prefprofile3 Perfiles de configuración de los usuarios
 prefprofile El mio perfil públicu
 prefproxy Configuración del mio proxy
@@ -561,7 +561,7 @@ prefsound Soníos
 preview Entever
 privacy Privacidá
 profiledconfig Información de perfil
-profileexists Nun pue creáse un perfil con esti nome d'usuariu,\n ya esiste ún col mesmu nome. Por favor escueya otru.
+profileexists Nun pode creáse un perfil con esti nome d'usuariu,\n ya esiste ún col mesmu nome. Por favor escueya otru.
 profileinuse Esti perfil ta siendo emplegáu por otra sesión d'aMSN, por favor escueya otru.
 profileloginradio Emplegar un Perfil esistente
 profiles Perfiles
@@ -575,7 +575,7 @@ purge Purgar
 pwcdriver Tas usando el driver pwc 
 raised Elevada/Desiconificada
 readonlymsgbox La tresferencia de ficheros cancelóse porque'l directoriu de recepción ye de sólo llectura. Compruba los permisos d'esti directoriu.
-readonlywarn AVISO: El ficheru pue non ser guardao correutamente porque'l directoriu de ficheros recibíos parez tar protexíu escontra escritura. Compruba que los permisos nel directoriu ($1) son correutos enantes de la tresferencia
+readonlywarn AVISO: El ficheru nun pode ser guardao correutamente porque'l directoriu de ficheros recibíos paez tar protexíu escontra escritura. Compruba que los permisos nel directoriu ($1) son correutos enantes de la tresferencia
 receivedbytes Recibíos $1 de $2 bytes totales
 receiveddir Carpeta de Ficheros Recibíos
 receivefile Recibir ficheru
@@ -633,10 +633,10 @@ signinstatus Estáu inicial
 skinselector Escoyer tema (skin)
 skin Tema (skin)
 small Pequeñu
-smileconfig Configuración d'emoticonu personalizado
+smileconfig Configuración d'emoticonu personalizao
 smilefile Nome del ficheru
 smileintro2 Edita los siguientes campos pa personalizar el emoticonu (ver FAQ pa más información)
-smileintro Rellena los siguientes campos pa crear un emoticonu personalizado (ver FAQ pa más información)
+smileintro Rellena los siguientes campos pa crear un emoticonu personalizao (ver FAQ pa más información)
 smiletoobig L'emoticonu seleccionao ye más grande de lu normal. ¿Desees camudar el tamañu?
 snackfailed Fallu al cargar SNACK, volviendo a configuración por defectu
 sngdblclick Un sólo click p'abrir un ventanu de conversación
@@ -652,18 +652,18 @@ sound Soníu eventos
 soundstatus Soníu pa l'alarma
 sourcecode Códigu fonte
 splashstart Entamar
-sslwarning ¡¡CUIDAO!! Al desactivar SSL, desactívase l'encriptación, y la to contraseña sedrá unviada a través de la red comu testu ensin encriptar. Utilizar sólo si ye imprescindible, comu en dellos servidores proxy, o configuraciones de red mui estrictas.
-startoffline2 Coneutase sixilosamente pareciendo "Desconeutáu"
+sslwarning ¡¡CUIDAO!! Al desactivar SSL, desactívase l'encriptación, y la to contraseña sedrá unviada a traviés de la red comu testu ensin encriptar. Utilizar sólo si ye imprescindible, comu en dellos servidores proxy, o configuraciones de red mui estrictas.
+startoffline2 Coneutase sixilosamente paeciendo "Desconeutáu"
 startoffline Entamar Desconeutáu
 startonboot Entamar aMSN nel boteo de Windows
 startontray aniciar aMSN sólo col iconu de la bandexa del sistema
 stateautomsg Mensaxe automáticu a unviar
 statechange camuda'l so estáu a :
 stateedittext Edita los campos que-y pruya modificar\ny dempués pulsa Guardar
-stateinfo Configuración d'estaos personalizados
-statename Nome del estáu personalizado
-statenewtext Rellena l'información requería pa crear \nel nuevu estáu personalizado, y pulsa Guardar
-statenick Nick personalizado (en blancu pa nenguno)
+stateinfo Configuración d'estaos personalizaos
+statename Nome del estáu personalizao
+statenewtext Rellena l'información requería pa crear \nel nueu estáu personalizao, y pulsa Guardar
+statenick Nick personalizao (en blancu pa nenguno)
 state Prestaríame apaecer comu
 stats Estadístiques
 status Estáu
@@ -671,7 +671,7 @@ stopalarm Aparar alarma
 stop Aparar
 stopwebcamreceive Paróse la trasmisión d'imáxenes de WebCam
 stopwebcamsend Aparar el unvío d'imáxenes de WebCam
-storenickname Volver al nick orixinal tras un estáu personalizado con nick personalizado
+storenickname Volver al nick orixinal tras un estáu personalizao con nick personalizao
 strictfonts Establecer toles fontes d'aMSN al tamañu que yo seleicioné (Barras d'estáu, y demás)
 stylechat El mesmu que los chats
 style Estilu
@@ -687,12 +687,12 @@ tabtitlenick Amosar apodos en llugar d'emails nes pestañes
 temp_state Nun almacenar (Estáu temporal, perderáse al reaniciar aMSN)
 textsize Tamañu de testu
 thismonth Esti mes
-throughserver A través del servidor
+throughserver A traviés del servidor
 timeremaining Tiempu restante
 timestamp Estampa temporal
 timestamps Activar hora nos mensaxes
 title aMSN
-tkerror1 Error abrupto de TK, Amsn tien un fallu, por favor reportelo faciendo click nel botón Reporte. Pues facer click en Detalles pa ver más información sobre esti error o click nel botón Ok pa continuar usando Amsn
+tkerror1 Error abrupto de TK, Amsn tien un fallu, por favor reportelo faciendo click nel botón Reporte. Podes facer click en Detalles pa ver más información sobro esti error o click nel botón Ok pa continuar usando Amsn
 tkerror Producióse un error de TK, hai un fallu n'aMSN, por favor informanos. Pa ello unvía'l ficheru $1 a amsn-bugs@lists.sf.net
 tlsdowncompleted El ficheru $1 descargóse nel directoriu $2. Agora debes descomprimílu, compilálu (si baxasti'l códigu fonte) y instalálu en $3.
 tlsexplain Carpeta au s'alcontra el módulu TLS pa tcl. Si aMSN nun lo alcontra,\npor favor especifícalo. (Necesariu pa l'autentificación mediante SSL).
@@ -730,11 +730,11 @@ userdata Datos d'usuariu
 usernotonline L'usuariu nun s'alcontra en llinia
 userproperties Propiedaes del usuariu $1
 user Usuariu
-useryourself Nun pues falar contigo mismu
-usesnack Emplegar la biblioteca SNACK (Extensión de TCL)
+useryourself Nun podes falar contigo mismu
+usesnack Emplegar la biblioteca SNACK (Estensión de TCL)
 verifyblocked Comprobar qué contautos bloqueante
 version Versión
-videoconversationrequest Recibiste una petición de conversación de vídeo (audio y vídeo bidireccional). Esta característica nun ta soportada entovía por aMSN y foi cancelada. Sin embargu, entovía pues usar la conversación estándar pola cámara web.
+videoconversationrequest Recibiste una petición de conversación de vídeo (audio y vídeo bidireccional). Esta característica nun ta soportada entovía por aMSN y foi cancelada. Sin embargu, entovía podes usar la conversación estándar pola cámara web.
 viewcontactsby Ver contautos comu
 viewprofile Ver perfil
 view Ver
@@ -763,7 +763,7 @@ wrongprofileversion Versión del ficheru de perfiles incorreuta. Por favor esborr
 xmmscurrent Amosar canciu actual
 xmmserr Nun hai canciu en reproducción, o nun tienes xmms-infopipe instaláu.
 xmmssend Unviar canciu actual
-xoffset Desplazamiento X
+xoffset Desplazamientu X
 year Añu
 yesblock Sí, y bloquiar
 yes Si
@@ -773,3 +773,22 @@ youblocked Te bloquearon
 yousay Tú dices
 youwant Prestaríate
 zoom Ampliación
+autoresizedp Redimensionar automáticamente la semeye al tamañu predeterminadu
+change_account_info Camudar la información de la cuenta
+change_mobile Camudar la configuración del Móvil
+editmyprofile Editar el mio prefil MSN
+showmailicon Amosar l'iconu de corréu na bandexa del sistema cuandu llegue un nueu corréu llectrónicu
+find Atopar
+findnext Atopar Siguiente
+findprev Atopar Anterior
+psmatend Amosar Mensaxe Personal xunta'l apodu
+psmdontshow Nun amosar el mensaxe personal a non ser que defina-y n'Apodu Global/Personalizau
+psmnewline Amosar Mensaxe Personal embaxu'l apodu
+psmplace ¿Onde debería amosáse'l Mensaxe Personal?
+show_contactdps_in_cl Amosar miniatures de les Semeyes pa Amosar na Llista de Contactos
+statepsm Mensaxe Personal (dexar en blancu pa caltener el actual)
+bugnocomment ¿Unvir ensin comentariu?. Comentar un fallu ayudamos a facer una idea de que foi mal ya esí poder arreglalu fácilmente.
+copytoclipboard Copiar $1 al portapapeles
+enterpsm Mensaxe personal
+goto Dir a $1
+usemsnp11 Activar soporte pa Mensaxes Personales (EXPERIMENTAL) -- requier usar un perfil, y reaniciar aMSN
