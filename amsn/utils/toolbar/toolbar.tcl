@@ -32,7 +32,9 @@ snit::widget toolbar {
 
 	# Options
 	option -bgimage -configuremethod SetBgImage
+	option -bgborder -default {5 5 5 5}
 	option -buttonimage -configuremethod SetButtonImage
+	option -buttonborder -default {5 5 5 5}
 	option -activeforeground -configuremethod SetActiveForeground -default black
 	option -activefg -configuremethod SetActiveForeground -default black
 	option -disabledforeground -configuremethod SetDisabledForeground -default grey
@@ -74,9 +76,9 @@ snit::widget toolbar {
 	variable afterid ;# array used to process only the last in a batch of identical commands
 
 	constructor { args } {
+		$hull configure -relief flat -bd 0
 		# Create canvas (we will draw everything on this) and menu
-		install canvas using canvas $self.c \
-			-bg blue -height 0 -highlightthickness 0 -bd 0 -relief flat
+		install canvas using canvas $self.c -height 0 -highlightthickness 0 -relief flat -borderwidth 0
 		install viewmenu using menu $self.view -tearoff 0
 		# Add commands to view menu
 		$viewmenu add command -label "Icons only" -command "$self configure -viewmode 0"
@@ -90,25 +92,16 @@ snit::widget toolbar {
 		# Create background scalable-bg
 		set background [scalable-bg $self.background \
 			-source $backgroundimg -resizemethod scale\
-			-n [lindex $background_border 0] \
-			-e [lindex $background_border 1] \
-			-s [lindex $background_border 2] \
-			-w [lindex $background_border 3]]
+			-border $options(-bgborder)]
 		# Put it on the canvas
 		set backgroundid [$canvas create image 0 0 -anchor nw -image [$background name]]
 		# Create toolbar button scalable-bg
 		set button [scalable-bg $self.button \
 			-source $buttonimg -resizemethod scale \
-			-n [lindex $button_border 0] \
-			-e [lindex $button_border 1] \
-			-s [lindex $button_border 2] \
-			-w [lindex $button_border 3]]
+			-border $options(-buttonborder)]
 		set buttondown [scalable-bg $self.buttondown \
 			-source $buttondownimg -resizemethod scale \
-			-n [lindex $button_border 0] \
-			-e [lindex $button_border 1] \
-			-s [lindex $button_border 2] \
-			-w [lindex $button_border 3]]
+			-border $options(-buttonborder)]
 		# Put it on the canvas (hidden for now, we aren't hovering any items)
 		set buttonid [$canvas create image 0 0 -anchor nw -image [$button name] -state hidden]
 
@@ -137,6 +130,7 @@ snit::widget toolbar {
 	}
 
 	destructor {
+		catch { contentmanager delete $self.shell }
 		catch { after cancel $afterid(sort) } ;# Don't want it trying to do $w sort when $w doesn't exist anymore!
 		catch { destroy $background } ;# Get rid of background scalable-bg
 		catch { destroy $button } ;# Get rid of toolbar button scalable-bg
@@ -289,7 +283,7 @@ snit::widget toolbar {
 		lappend args -activefg $options(-activefg) -disabledfg $options(-disabledfg) -fg $options(-fg)
 		switch $_type {
 			command {
-				eval $self CreateCommand $args
+				eval $self CreateCommand end $args
 			}
 			cascade {
 				
@@ -307,7 +301,7 @@ snit::widget toolbar {
 		lappend args -activefg $options(-activefg) -disabledfg $options(-disabledfg) -fg $options(-fg)
 		switch $_type {
 			command {
-				eval $self CreateCommand $args
+				eval $self CreateCommand $index $args
 			}
 			cascade {
 				
@@ -321,8 +315,8 @@ snit::widget toolbar {
 		$self sort
 	}
 
-	method CreateCommand { args } {
-		contentmanager add group $shell items $itemid -widget $canvas \
+	method CreateCommand { index args } {
+		contentmanager insert $index group $shell items $itemid -widget $canvas \
 			-ipadx $options(-itemipadx) \
 			-ipady $options(-itemipady) \
 			-valign bottom
@@ -357,9 +351,9 @@ snit::widget toolbar {
 		}
 		
 		# Bind for showing button on hover
-		contentmanager bind $shell items $itemid <Enter> "+$self Select $itemid"
-		contentmanager bind $shell items $itemid <B1-Enter> "+$self Select $itemid 1"
-		contentmanager bind $shell items $itemid <Leave> "+$self Select none"
+		contentmanager bind $shell items $itemid <Enter> "+$self Enter $itemid"
+		contentmanager bind $shell items $itemid <B1-Enter> "+$self Enter $itemid 1"
+		contentmanager bind $shell items $itemid <Leave> "+$self Leave $itemid"
 		contentmanager bind $shell items $itemid <ButtonPress-1> "+$self Press $itemid"
 		contentmanager bind $shell items $itemid <ButtonRelease-1> "+$self Release $itemid %x %y"
 	}
@@ -370,6 +364,10 @@ snit::widget toolbar {
 	#  index2 - the index of the end of the range of items to delete
 	# ------------------------------------------------------------------------------------------------------------------------
 	method delete { index {index2 {}} } {
+		if { $index == "all" } {
+			set index 0
+			set index2 end
+		}
 		if { $index2 == {} } {
 			set index2 $index
 		}
@@ -403,7 +401,24 @@ snit::widget toolbar {
 	#  Select - select (show toolbar button behind) an item
 	#  id - unique id for the item (NOT the index)
 	# --------------------------------------------------------------
-	method Select { id {b 0} } {
+	method Enter { id {b 0} } {
+		if { $b == 1 } {
+			$canvas itemconfigure $buttonid -image [$buttondown name] -state normal
+		} else {
+			$canvas itemconfigure $buttonid -image [$button name] -state normal
+		}
+		$self Select $id
+	}
+
+	method Leave { id } {
+		$self Select none
+		if { [$config($id) cget -state] != "disabled" } {
+			$canvas itemconfigure [$config($id) cget -imageid] -image [$config($id) cget -image]
+			$canvas itemconfigure [$config($id) cget -textid] -fill [$config($id) cget -fg]
+		}
+	}
+
+	method Select { id } {
 		if { $id == "none" || [$config($id) cget -state] == "disabled" } {
 			$canvas itemconfigure $buttonid -state hidden
 			return
@@ -411,15 +426,9 @@ snit::widget toolbar {
 		set xy [contentmanager getcoords $shell items $id]
 		set w [contentmanager cget $shell items $id -width]
 		set h [contentmanager cget $shell items $id -height]
+		$buttondown configure -width $w -height $h
+		$button configure -width $w -height $h
 		eval $canvas coords $buttonid $xy
-
-		if { $b == 1 } {
-			$buttondown configure -width $w -height $h
-			$canvas itemconfigure $buttonid -image [$buttondown name] -state normal
-		} else {
-			$button configure -width $w -height $h
-			$canvas itemconfigure $buttonid -image [$button name] -state normal
-		}
 	}
 
 	# --------------------------------------------------------------
@@ -520,7 +529,6 @@ snit::type toolbarItemConfig {
 			}
 			disabled {
 				$options(-canvas) itemconfigure $options(-imageid) -image $options(-disabledimage)
-				puts "disabledfg $options(-disabledfg)"
 				$options(-canvas) itemconfigure $options(-textid) -fill $options(-disabledfg)
 			}
 			normal {
