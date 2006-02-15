@@ -3339,7 +3339,7 @@ namespace eval ::ChatWindow {
 	}
 
 	method messageReceived { message } {
-		puts [$message getBody]
+		status_log "(chatwindow.tcl)[$message getBody]"
 	}
 }
 

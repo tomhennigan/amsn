@@ -233,7 +233,7 @@ snit::widget searchdialog {
 		}
 		# Highlight and scroll to the match
 		$options(-searchin) tag add search $index "$index + $length char"
-		puts "index $index length $length"
+		status_log "(searchdialog.tcl)index $index length $length"
 		$options(-searchin) see search.first
 		# Move the search index just past the current match, so we get the next match next time
 		set index [$options(-searchin) index "$index + $length char"]
