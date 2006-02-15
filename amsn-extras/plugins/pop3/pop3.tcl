@@ -786,13 +786,14 @@ namespace eval ::pop3 {
 	# Arguments:
 	#	acntn ->  The number of the account to load teh default mail program for
 	proc loadDefaultEmail { acntn } {
-		if { $::tcl_platform(platform) == "windows" } {
+		#check if the account is a gmail account
+		if { [string match *@gmail.com* $::pop3::config(user_$acntn) ] } {
+			launch_browser [string map {% %%} [list http://mail.google.com]]
+		} elseif { $::tcl_platform(platform) == "windows" } {
 			package require WinUtils
 			eval WinLoadFile [set ::pop3::config(mailProg_$acntn)]
-		} else {
-			if { [catch {eval "exec [set ::pop3::config(mailProg_$acntn)]"} res] } {
+		} elseif { [catch {eval "exec [set ::pop3::config(mailProg_$acntn)]"} res] } {
 				plugins_log pop3 "Failed to load [set ::pop3::config(mailProg_$acntn)] with the error: $res\n"
-			}
 		}
 
 		if { [set ::pop3::config(leavemails_$acntn)] == 1 } {
@@ -1097,10 +1098,15 @@ namespace eval ::pop3 {
 			#we're getting this "inbox translation" string
 			if { [string match *<title>* $gmail(text_line)] } {
 				#self-explaining :p
-				set pos1 [expr [string first <title>Google\ Mail $gmail(text_line)] + 21]
+#				set pos1 [expr [string first <title>Google\ Mail $gmail(text_line)] + 21]
+				set pos1 [expr [string first <title> $gmail(text_line)] + 7]
 				set pos2 [expr [string first </title> $gmail(text_line)] - 1]
-				set gmail(trans_inbox) [string range $gmail(text_line) $pos1 $pos2]
-#				status_log "$gmail(trans_inbox)" green
+				set title [string range $gmail(text_line) $pos1 $pos2]
+				
+				set pos1 [expr [string first - $title] + 2]
+				set gmail(trans_inbox) [string range $title $pos1 end]
+				
+				plugins_log "pop3" "gmail(trans_inbo) is $gmail(trans_inbox)"
 			}
 			#get the number of unread messages
 			#the line we're seaching contains something like
@@ -1113,7 +1119,7 @@ namespace eval ::pop3 {
 				set pos2 [expr [string first ( $gmail(text_line) $pos1] + 1 ]
 				set pos3 [expr [string first ) $gmail(text_line) $pos2] -1 ]
 				set gmail(Unreads) [string range $gmail(text_line) $pos2 $pos3]
-#				status_log "$gmail(Unreads)" green
+				plugins_log "pop3" "gmail(Unreads) is $gmail(Unreads)"
 				#check if gmail(UnReads) is the good value : a digit, and check if it's the right digit, not an image size for example, by testing if
 				#the value is close enough to the "Boîte de réception" string
 				if {![string is digit -strict $gmail(Unreads)] || [expr $pos2 - $pos1] > 10 } {
