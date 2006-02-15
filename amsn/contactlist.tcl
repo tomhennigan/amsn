@@ -242,8 +242,8 @@ snit::widget contactlist {
 		# Create container groups for top and list (these will sort/arrange the stuff inside them)
 		set me $self.me
 		set cl $self.cl
-		contentmanager add group $me -orient horizontal
-		contentmanager add group $cl -orient vertical -ipadx $options(-ipadx) -ipady $options(-ipady)
+		contentmanager add group $me -orient horizontal -widget $top
+		contentmanager add group $cl -orient vertical -ipadx $options(-ipadx) -ipady $options(-ipady) -widget $list
 
 		$self AddGroup search "Search results"
 		$self HideGroup search
@@ -479,6 +479,7 @@ snit::widget contactlist {
 		# Create groups and elements with contentmanager
 		# Main group
 		contentmanager add group $cl $groupid -widget $list -padx $options(-grouppadx) -pady $options(-grouppady) -ipadx $options(-groupipadx) -ipady $options(-groupipady)
+		contentmanager attach $cl $groupid -tag $groupbgid($groupid)
 		# Heading group
 		contentmanager add group $cl $groupid head -widget $list -orient horizontal -omnipresent yes
 		# Heading elements
@@ -557,8 +558,8 @@ snit::widget contactlist {
 						continue
 					}
 					if {
-						[string first $pattern $nick($groupid.$id)] == -1 || \
-						[string first $pattern $psm($groupid.$id)] == -1 || \
+						[string first $pattern $nick($groupid.$id)] == -1 && \
+						[string first $pattern $psm($groupid.$id)] == -1 && \
 						[lsearch $tags($groupid.$id) $pattern] == -1
 					} {
 						$self HideContact $groupid $id
@@ -627,7 +628,7 @@ snit::widget contactlist {
 		contentmanager add element $cl $groupid $id icon icon -widget $list -tag $buddyid($groupid.$id)
 		contentmanager add element $cl $groupid $id icon status -widget $list -tag $statusiconid($groupid.$id)
 		# Information group & elements (nick, psm, etc)
-		contentmanager add group $cl $groupid $id info -widget $list
+		contentmanager add group $cl $groupid $id info -widget $list -orient horizontal
 		contentmanager add element $cl $groupid $id info nick -widget $list -tag $nickid($groupid.$id)
 		contentmanager add element $cl $groupid $id info psm -widget $list -tag $psmid($groupid.$id)
 		contentmanager add element $cl $groupid $id info state -widget $list -tag $stateid($groupid.$id)
@@ -755,7 +756,7 @@ snit::widget contactlist {
 		set id [lindex $args 1]
 		# Was any contact selected before?
 		if { [string equal $selected "none"] } {
-			# No, calculate the width of the selectbg
+			# No, so we need to calculate the width of the selectbg
 			set selected $groupid.$id
 			$selectbg configure -width [$self CalculateSelectWidth]
 		}
@@ -805,7 +806,7 @@ snit::widget contactlist {
 
 				# Resize group backgrounds
 				foreach groupid $groups {
-					eval $list coords $groupbgid($groupid) [contentmanager getcoords $cl $groupid]
+					#eval $list coords $groupbgid($groupid) [contentmanager getcoords $cl $groupid]
 					$self SetGroupBgHeight $groupid [contentmanager cget $cl $groupid -height]
 				}
 				# Set canvas's scrollregion
@@ -935,10 +936,10 @@ snit::widget contactlist {
 }
 
 bind Contactlist <4> {
-	%W yview scroll -1 units
+	[winfo parent %W] Yview scroll -5 units
 }
 bind Contactlist <5> {
-	%W yview scroll 1 units
+	[winfo parent %W] Yview scroll 5 units
 }
 
 bind Contactlist <Configure> {
@@ -950,3 +951,14 @@ bind ContactlistTop <Configure> {
 }
 
 #pack forget .main;source contactlist.tcl;pack [contactlist .cl] -expand true -fill both
+
+proc speedycontacts { } {
+	.cl groupAdded grp1
+	.cl groupAdded grp2
+	.cl groupAdded grp3
+	for { set i 0 } { $i < 25 } { incr i 1} {
+		.cl contactAdded grp1 $i "test $i" "psm $i" FLN
+		.cl contactAdded grp2 $i "test $i" "psm $i" FLN
+		.cl contactAdded grp3 $i "test $i" "psm $i" FLN
+	}
+}
