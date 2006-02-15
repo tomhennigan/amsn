@@ -257,7 +257,7 @@
 		<langcode>es</langcode>
 		<name>Spanish (Español)</name>
 		<version>1.251</version>
-		<encoding>utf-81</encoding>
+		<encoding>utf-8</encoding>
 	</lang>
 	<lang>
 		<langcode>sr</langcode>
