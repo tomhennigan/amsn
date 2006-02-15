@@ -1247,6 +1247,8 @@ namespace eval ::ChatWindow {
 			$editmenu add separator
 			$editmenu add command \-label "[trans find]" \
 				-command "$w.search show" -accelerator "Command+F"
+			$editmenu add command -label "[trans findnext]" -command "$w.search findnext" -accelerator "Command+G"
+			$editmenu add command -label "[trans findprev]" -command "$w.search findprev" -accelerator "Command+Shift+G"
 		} else {
 			$editmenu add command -label "[trans cut]" \
 				-command "tk_textCut \[::ChatWindow::getCurrentTab $w\]" -accelerator "Ctrl+X"
@@ -1257,9 +1259,10 @@ namespace eval ::ChatWindow {
 			$editmenu add separator
 			$editmenu add command -label "[trans find]" \
 				-command "$w.search show" -accelerator "Ctrl+F"
+			$editmenu add command -label "[trans findnext]" -command "$w.search findnext" -accelerator "F3"
+			$editmenu add command -label "[trans findprev]" -command "$w.search findprev" -accelerator "Shift+F3"
 		}
-		$editmenu add command -label "[trans findnext]" -command "$w.search findnext" -accelerator "F3"
-		$editmenu add command -label "[trans findprev]" -command "$w.search findprev" -accelerator "Shift+F3"
+
 		$editmenu add separator
 		$editmenu add command -label "[trans clear]" -command [list ::ChatWindow::Clear $w]
 

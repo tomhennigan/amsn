@@ -78,7 +78,7 @@ snit::widget searchdialog {
 		bindtags $self "Toplevel SearchDialog . all"
 		bind $entry <KeyRelease> "$self EntryChanged %K"
 		bind $entry <Return> "$self findnext"
-		bind $entry <Escape> "$self hide"
+		bind $entry <<Escape>> "$self hide"
 		bind $self <Map> "focus $entry"
 
 		# We don't want the user to destroy the window by clicking close button, hide it instead
@@ -96,12 +96,17 @@ snit::widget searchdialog {
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 			bind $w <Command-f> "$self show"
 			bind $w <Command-F> "$self show"
+			bind $w <Command-G> "$self findnext"
+			bind $w <Command-g> "$self findnext"
+			bind $w <Command-Shift-g> "$self findprev"
+			bind $w <Command-Shift-G> "$self findprev"
 		} else {
 			bind $w <Control-f> "$self show"
 			bind $w <Control-F> "$self show"
+			bind $w <F3> "$self findnext"
+			bind $w <Shift-F3> "$self findnext"
 		}
-		bind $w <F3> "$self findnext"
-		bind $w <Shift-F3> "$self findnext"
+
 		# Shift-F* bindings are weird on some XFree86 versions, and instead of Shift-F(n), we get XF86_Switch_VT_(n)
 		# We allow for this here
 		if { ![catch {tk windowingsystem} wsystem] && $wsystem  == "x11" } {
@@ -240,10 +245,12 @@ snit::widget searchdialog {
 	}
 }
 
+	bind SearchDialog <<Escape>> {
+		destroy %W
+	}
+
+
+
 bind SearchDialog <Return> {
 	%W findnext
-}
-
-bind SearchDialog <Escape> {
-	destroy %W
 }
