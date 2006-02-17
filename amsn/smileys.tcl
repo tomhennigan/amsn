@@ -998,6 +998,7 @@ namespace eval ::smiley {
 	}
 	
 	proc addSmileyFromTW { file text } {
+		set text [string map {"\\\\" "\\"} $text]
 		global new_custom_cfg
 		if { [winfo exists .new_custom] } {
 			raise .new_custom
@@ -1125,7 +1126,7 @@ proc custom_smile_subst2 { chatid tw textbegin end } {
 	    set copyMenu "${tw}.custom_smiley_$file"
 	    if { ![winfo exists $copyMenu] } {
 		menu $copyMenu -tearoff 0 -type normal
-		$copyMenu add command -label "[trans emoticon_steal] ($symbol)" -command "::smiley::addSmileyFromTW {$file} {$symbol}"
+		$copyMenu add command -label "[trans emoticon_steal] ($symbol)" -command "::smiley::addSmileyFromTW {$file} {[string map {"\\" "\\\\"} $symbol]}"
 		$tw tag bind $twTag <Enter> "$tw configure -cursor hand2"
 		$tw tag bind $twTag <Leave> "$tw configure -cursor xterm"
 		$tw tag bind $twTag <<Button1>> "tk_popup $copyMenu %X %Y"
