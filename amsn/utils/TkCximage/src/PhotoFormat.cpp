@@ -244,10 +244,9 @@ int ObjRead (Tcl_Interp *interp, Tcl_Obj *data, Tcl_Obj *format, Tk_PhotoHandle 
 		delete item;
 	}
   // If it's an animated gif, take care of it right here
-	if(g_EnableAnimated && numframes > 1) {
+	if(numframes > 1) {
 
 		GifInfo * AnimatedGifInfo = new GifInfo;
-		CxImage *image = NULL;
 
 		AnimatedGifInfo->CurrentFrame = 0;
 		AnimatedGifInfo->CopiedFrame = -1;
@@ -289,6 +288,7 @@ int ObjRead (Tcl_Interp *interp, Tcl_Obj *data, Tcl_Obj *format, Tk_PhotoHandle 
 			}
 		}
 	*/
+		AnimatedGifInfo->Enabled = true;
 		if (AnimatedGifInfo)
 			AnimatedGifInfo->timerToken=Tcl_CreateTimerHandler(AnimatedGifInfo->image->GetFrameNo(0)->GetFrameDelay(), AnimateGif, (ClientData) AnimatedGifInfo);
 	}
@@ -409,19 +409,13 @@ void AnimateGif(ClientData data) {
 		Tk_ImageMaster master = (Tk_ImageMaster) *((void **) Info->Handle);
 		if(master == Info->ImageMaster) {
 		//Image is always the same
-			if(g_EnableAnimated) {
-				Info->CurrentFrame++;
-				if(Info->CurrentFrame == Info->NumFrames)
-					Info->CurrentFrame = 0;
-				CxImage *image = Info->image->GetFrameNo(Info->CurrentFrame);
-				Tk_ImageChanged(Info->ImageMaster, 0, 0, image->GetWidth(), image->GetHeight(), image->GetWidth(), image->GetHeight());
+			Info->CurrentFrame++;
+			if(Info->CurrentFrame == Info->NumFrames)
+				Info->CurrentFrame = 0;
+			CxImage *image = Info->image->GetFrameNo(Info->CurrentFrame);
+			Tk_ImageChanged(Info->ImageMaster, 0, 0, image->GetWidth(), image->GetHeight(), image->GetWidth(), image->GetHeight());
 		
-				Info->timerToken=Tcl_CreateTimerHandler(image->GetFrameDelay()?10*image->GetFrameDelay():40, AnimateGif, data);
-			} else {
-				int currentFrame = Info->CurrentFrame;
-				CxImage *image = Info->image->GetFrameNo(currentFrame);
-				Info->timerToken=Tcl_CreateTimerHandler(image->GetFrameDelay()?10*image->GetFrameDelay():40, AnimateGif, data);
-			}
+			Info->timerToken=Tcl_CreateTimerHandler(image->GetFrameDelay()?10*image->GetFrameDelay():40, AnimateGif, data);
 		} else {
 			LOG("Image destroyed, deleting... Image Master was : ");
 			APPENDLOG( master );
@@ -494,12 +488,12 @@ void PhotoDisplayProcHook(
   }
 
   // Make sure we're not requesting a width or heigth more than allowed
-  if (width + drawableX > drawableWidth_geo) {
-    width = drawableWidth_geo - drawableX;
+  if (width + drawableX > (int) drawableWidth_geo) {
+    width = (int) drawableWidth_geo - drawableX;
   }
   
-  if (height + drawableY > drawableHeight_geo) {
-    height = drawableHeight_geo - drawableY;
+  if (height + drawableY > (int) drawableHeight_geo) {
+    height = (int) drawableHeight_geo - drawableY;
   }
   
   /*
@@ -513,7 +507,7 @@ void PhotoDisplayProcHook(
 	Tk_PhotoHandle handle = (Tk_PhotoHandle) *((void **) instanceData);
 	GifInfo* item=TkCxImage_lstGetItem(handle);
 	if (item != NULL){
-		if (item->CurrentFrame != item->CopiedFrame) { //Frame isn't the good one in the photo buffer
+		if (item->CurrentFrame != (unsigned int)item->CopiedFrame) { //Frame isn't the good one in the photo buffer
 			CxImage *image = item->image->GetFrameNo(item->CurrentFrame);
 			item->CopiedFrame = item->CurrentFrame; //We set the copied frame before to avoid infinite loops
 			AnimatedGifFrameToTk(NULL, item, image, true);

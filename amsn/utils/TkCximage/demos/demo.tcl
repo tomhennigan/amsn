@@ -56,6 +56,8 @@ proc Load { } {
 
 	ShowImage $img
 
+	.jump_no configure -to [expr {[::CxImage::NumberOfFrames $::loaded] - 1}] \
+		-tickinterval [expr {[::CxImage::NumberOfFrames $::loaded] / 3}]
 }
 
 proc Save { } {
@@ -369,8 +371,10 @@ set ::alpha 0
 wm title . "Commands"
 button .load -text "Load" -command "Load"
 button .save -text "Save" -command "Save"
-button .play -text "Play" -command "::CxImage::EnableAnimated"
-button .pause -text "Pause" -command "::CxImage::DisableAnimated"
+button .play -text "Play" -command "Play"
+button .pause -text "Pause" -command "Pause"
+scale .jump_no -digit 1 -from 0 -to 0 -orient h -variable ::frame_idx
+button .jump -text "Jump to frame" -command "JumpToFrame"
 button .convert -text "Convert" -command "Convert"
 button .res -text "Resize" -command "Resize"
 button .thumbnail -text "Thumbnail" -command "Thumbnail"
@@ -379,6 +383,35 @@ button .crop -text "Crop" -command "Crop"
 button .blending -text "Test Alpha blending" -command "Blending"
 button .exit -text "Exit" -command "exit"
 
-pack .load .save .play .pause .convert .res .thumbnail .colorize .crop .blending .exit -side top
+pack .load .save .play .pause .jump_no .jump .convert \
+	 .res .thumbnail .colorize .crop .blending .exit \
+	 -expand 1 -fill both -side top
+
+proc JumpToFrame {} {
+	#puts "Jump to frame number $::frame_idx out of [::CxImage::NumberOfFrames] frames."
+	if { $::loaded == 0 } {
+		msg_box "You must first load an image before using this function"
+		return
+	}
+	::CxImage::JumpToFrame $::loaded $::frame_idx
+}
+
+proc Pause {} {
+	#puts "Jump to frame number $::frame_idx out of [::CxImage::NumberOfFrames] frames."
+	if { $::loaded == 0 } {
+		msg_box "You must first load an image before using this function"
+		return
+	}
+	::CxImage::StopAnimation $::loaded
+}
+
+proc Play {} {
+	#puts "Jump to frame number $::frame_idx out of [::CxImage::NumberOfFrames] frames."
+	if { $::loaded == 0 } {
+		msg_box "You must first load an image before using this function"
+		return
+	}
+	::CxImage::StartAnimation $::loaded
+}
 
 

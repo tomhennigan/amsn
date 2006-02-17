@@ -142,9 +142,10 @@ typedef struct gif_info {
 	Tcl_Interp * interp;
 	Tk_PhotoHandle Handle;
 	Tk_ImageMaster ImageMaster;
-	int NumFrames;
-	int CurrentFrame;
+	unsigned int NumFrames;
+	unsigned int CurrentFrame;
 	int CopiedFrame;
+	bool Enabled;
 	Tcl_TimerToken timerToken;
 	GifBuffersArray buffers;
 } GifInfo ;
@@ -152,7 +153,6 @@ typedef struct gif_info {
 EXTERN void AnimateGif(ClientData data);
 EXTERN int AnimatedGifFrameToTk(Tcl_Interp *interp, GifInfo *Info, CxImage *frame, int blank);
 EXTERN void PhotoDisplayProcHook(ClientData instanceData,Display *display,Drawable drawable,int imageX,int imageY,int width,int height,int drawableX,int drawableY);
-EXTERN int g_EnableAnimated;
 EXTERN Tk_ImageDisplayProc *PhotoDisplayOriginal;
 
 // Defines for compatibility with the list code..
@@ -163,6 +163,15 @@ EXTERN Tk_ImageDisplayProc *PhotoDisplayOriginal;
 
 typedef std::list< struct data_item * > ChainedList;
 typedef ChainedList::iterator ChainedIterator;
+
+//Get the iterator with the specified id
+ChainedIterator TkCxImage_lstGetListItem(list_element_type list_element_id);
+//Add the specified item if its id not already exists
+struct data_item* TkCxImage_lstAddItem(struct data_item* item);
+//Get the item with the specified id
+struct data_item* TkCxImage_lstGetItem(list_element_type list_element_id);
+//Delete the item with the specified id if exists
+struct data_item* TkCxImage_lstDeleteItem(list_element_type list_element_id);
 
 #endif // ANIMATE_GIFS
 
@@ -212,12 +221,21 @@ EXTERN int Tk_IsAnimated _ANSI_ARGS_((ClientData clientData,
 								int objc,
 								Tcl_Obj *CONST objv[]));
 
-EXTERN int Tk_EnableAnimated _ANSI_ARGS_((ClientData clientData,
+EXTERN int Tk_EnableAnimation _ANSI_ARGS_((ClientData clientData,
 								Tcl_Interp *interp,
 								int objc,
 								Tcl_Obj *CONST objv[]));
 
-EXTERN int Tk_DisableAnimated _ANSI_ARGS_((ClientData clientData,
+EXTERN int Tk_DisableAnimation _ANSI_ARGS_((ClientData clientData,
+								Tcl_Interp *interp,
+								int objc,
+								Tcl_Obj *CONST objv[]));
+EXTERN int Tk_JumpToFrame _ANSI_ARGS_((ClientData clientData,
+								Tcl_Interp *interp,
+								int objc,
+								Tcl_Obj *CONST objv[]));
+
+EXTERN int Tk_NumberOfFrames _ANSI_ARGS_((ClientData clientData,
 								Tcl_Interp *interp,
 								int objc,
 								Tcl_Obj *CONST objv[]));

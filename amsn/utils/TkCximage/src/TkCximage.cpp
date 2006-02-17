@@ -12,7 +12,6 @@
 
 char currenttime[30];
 FILE * logfile;
-int g_EnableAnimated = 1;
 
 int RGB2BGR(Tk_PhotoImageBlock *data, BYTE * pixelPtr) {
   int i;
@@ -298,9 +297,13 @@ int Tkcximage_Init (Tcl_Interp *interp ) {
 		       (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
 
 #if ANIMATE_GIFS
-  Tcl_CreateObjCommand(interp, "::CxImage::DisableAnimated", Tk_DisableAnimated,
+  Tcl_CreateObjCommand(interp, "::CxImage::StopAnimation", Tk_DisableAnimation,
 		       (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
-  Tcl_CreateObjCommand(interp, "::CxImage::EnableAnimated", Tk_EnableAnimated,
+  Tcl_CreateObjCommand(interp, "::CxImage::StartAnimation", Tk_EnableAnimation,
+		       (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
+  Tcl_CreateObjCommand(interp, "::CxImage::NumberOfFrames", Tk_NumberOfFrames,
+		       (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
+  Tcl_CreateObjCommand(interp, "::CxImage::JumpToFrame", Tk_JumpToFrame,
 		       (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
   if (PlaceHook(interp) != TCL_OK) return TCL_ERROR;
 #endif

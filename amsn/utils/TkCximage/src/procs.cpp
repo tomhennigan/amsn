@@ -145,7 +145,9 @@ int Tk_Resize (ClientData clientData,
   int alpha = 0;
   int width = 0;
   int height = 0;
-    
+#ifdef ANIMATE_GIFS
+  GifInfo* item = NULL;
+#endif
 
   // We verify the arguments, we must have one arg, not more
   if( objc != 4) {
@@ -167,38 +169,68 @@ int Tk_Resize (ClientData clientData,
     return TCL_ERROR;
   }
 
-  Tk_PhotoGetImage(Photo, &photoData);
+#ifdef ANIMATE_GIFS
+  item = TkCxImage_lstGetItem(Photo);
+  if ( item != NULL ) {
+    for(unsigned int i=0; i< item->NumFrames; i++) {
+      item->image->GetFrameNo(i)->Resample(width, height, 1);
+    }
 
-  pixelPtrCopy = (BYTE *) malloc(photoData.width * photoData.height * photoData.pixelSize);
+    //We clear stored buffers and when we will display them they will be recreated
+    for(GifBuffersIterator it=item->buffers.begin(); it!=item->buffers.end(); it++){
+      (*it)->Close();
+      delete (*it);
+    }
+    item->buffers.clear();
+    #if TK_MINOR_VERSION == 3
+    Tk_PhotoSetSize(Photo, width, height);
+    #else 
+    #if TK_MINOR_VERSION == 4
+    Tk_PhotoSetSize(Photo, width, height);
+    #else 
+    #if TK_MINOR_VERSION == 5
+    Tk_PhotoSetSize(interp, Photo, width, height);
+    #endif
+    #endif
+    #endif
+    return TCL_OK;
 
-  if (RGB2BGR(&photoData, pixelPtrCopy)) {
-    alpha = 1;
-  }
+  } else
+#endif
+  {
+    Tk_PhotoGetImage(Photo, &photoData);
 
-  if(!image.CreateFromArray(pixelPtrCopy, photoData.width, photoData.height, 
-			    8 * photoData.pixelSize, photoData.pitch, true))
-    {
-      free(pixelPtrCopy);
+    pixelPtrCopy = (BYTE *) malloc(photoData.width * photoData.height * photoData.pixelSize);
+
+    if (RGB2BGR(&photoData, pixelPtrCopy)) {
+      alpha = 1;
+    }
+
+    if(!image.CreateFromArray(pixelPtrCopy, photoData.width, photoData.height, 
+            8 * photoData.pixelSize, photoData.pitch, true))
+      {
+        free(pixelPtrCopy);
+        Tcl_AppendResult(interp, image.GetLastError(), NULL);
+        return TCL_ERROR;
+      }
+
+    free(pixelPtrCopy);
+
+    if(alpha == 0 ) 
+      image.AlphaDelete();
+
+    if(!image.Resample(width, height, 2)) {
       Tcl_AppendResult(interp, image.GetLastError(), NULL);
       return TCL_ERROR;
     }
 
-  free(pixelPtrCopy);
-
-  if(alpha == 0 ) 
-    image.AlphaDelete();
-
-  if(!image.Resample(width, height, 2)) {
-    Tcl_AppendResult(interp, image.GetLastError(), NULL);
-    return TCL_ERROR;
+    if(!image.Flip()) {
+      Tcl_AppendResult(interp, image.GetLastError(), NULL);
+      return TCL_ERROR;
+    }
+    return CopyImageToTk(interp, &image, Photo, image.GetWidth(), image.GetHeight());
   }
 
- 	if(!image.Flip()) {
-		Tcl_AppendResult(interp, image.GetLastError(), NULL);
-		return TCL_ERROR;
-	}
-
-  return CopyImageToTk(interp, &image, Photo, image.GetWidth(), image.GetHeight());
 }
 
 
@@ -497,20 +529,149 @@ int AnimatedGifFrameToTk(Tcl_Interp *interp, GifInfo *Info, CxImage *frame, int 
 		return TCL_ERROR;
 	}
 }
-int Tk_EnableAnimated (ClientData clientData,
+int Tk_EnableAnimation (ClientData clientData,
 		       Tcl_Interp *interp,
 		       int objc,
 		       Tcl_Obj *CONST objv[]) 
 {
-	g_EnableAnimated = 1;
+	CxImage image;
+	char *ImageName = NULL;
+	Tk_PhotoHandle Photo;
+	GifInfo* item = NULL;
+	// We verify the arguments, we must have two args, not more
+	if( objc != 2) {
+		Tcl_AppendResult (interp, "Wrong number of args.\nShould be \"::CxImage::StartAnimation photoImage_name\"" , (char *) NULL);
+		return TCL_ERROR;
+	}
+	
+	
+	// Get the first argument string (object name) and check it 
+	ImageName = Tcl_GetStringFromObj(objv[1], NULL);
+	if ( (Photo = Tk_FindPhoto(interp, ImageName)) == NULL) {
+		Tcl_AppendResult(interp, "The image you specified is not a valid photo image", NULL);
+		return TCL_ERROR;
+	}
+	item = TkCxImage_lstGetItem(Photo);
+	if ( item == NULL ) {
+		return TCL_OK;
+	}
+	if (item != NULL && !item->Enabled) {
+		item->Enabled=true;
+		if (item->timerToken == NULL) {
+			int currentFrame = item->CurrentFrame;
+			CxImage *image = item->image->GetFrameNo(currentFrame);
+			item->timerToken = Tcl_CreateTimerHandler(image->GetFrameDelay()?10*image->GetFrameDelay():40, AnimateGif, item);
+		}
+	}
 	return TCL_OK;
 }
-int Tk_DisableAnimated (ClientData clientData,
+int Tk_DisableAnimation (ClientData clientData,
 		       Tcl_Interp *interp,
 		       int objc,
 		       Tcl_Obj *CONST objv[]) 
 {
-	g_EnableAnimated = 0;
+	CxImage image;
+	char *ImageName = NULL;
+	Tk_PhotoHandle Photo;
+	GifInfo* item = NULL;
+	// We verify the arguments, we must have two args, not more
+	if( objc != 2) {
+		Tcl_AppendResult (interp, "Wrong number of args.\nShould be \"::CxImage::StopAnimation photoImage_name\"" , (char *) NULL);
+		return TCL_ERROR;
+	}
+	
+	
+	// Get the first argument string (object name) and check it 
+	ImageName = Tcl_GetStringFromObj(objv[1], NULL);
+	if ( (Photo = Tk_FindPhoto(interp, ImageName)) == NULL) {
+		Tcl_AppendResult(interp, "The image you specified is not a valid photo image", NULL);
+		return TCL_ERROR;
+	}
+	item = TkCxImage_lstGetItem(Photo);
+	if (item != NULL && item->Enabled) {
+		item->Enabled=false;
+		if (item->timerToken != NULL) {
+			Tcl_DeleteTimerHandler(item->timerToken);
+			item->timerToken = NULL;
+		}
+	}
+	return TCL_OK;
+}
+int Tk_NumberOfFrames (ClientData clientData,
+		       Tcl_Interp *interp,
+		       int objc,
+		       Tcl_Obj *CONST objv[]) 
+{
+	CxImage image;
+	char *ImageName = NULL;
+	Tk_PhotoHandle Photo;
+	GifInfo* item = NULL;
+	// We verify the arguments, we must have two args, not more
+	if( objc != 2) {
+		Tcl_AppendResult (interp, "Wrong number of args.\nShould be \"::CxImage::NumberOfFrames photoImage_name\"" , (char *) NULL);
+		return TCL_ERROR;
+	}
+	
+	
+	// Get the first argument string (object name) and check it 
+	ImageName = Tcl_GetStringFromObj(objv[1], NULL);
+	if ( (Photo = Tk_FindPhoto(interp, ImageName)) == NULL) {
+		Tcl_AppendResult(interp, "The image you specified is not a valid photo image", NULL);
+		return TCL_ERROR;
+	}
+	item = TkCxImage_lstGetItem(Photo);
+	if ( item == NULL ) {
+		//Image isn't animated : there is 1 frame
+		Tcl_SetObjResult( interp, Tcl_NewIntObj(1) );
+		return TCL_OK;
+	}
+	Tcl_SetObjResult( interp, Tcl_NewIntObj(item->NumFrames) );
+	return TCL_OK;
+}
+int Tk_JumpToFrame (ClientData clientData,
+		       Tcl_Interp *interp,
+		       int objc,
+		       Tcl_Obj *CONST objv[]) 
+{
+	CxImage image;
+	char *ImageName = NULL;
+	Tk_PhotoHandle Photo;
+	GifInfo* item = NULL;
+	int frame_number = 0;
+	// We verify the arguments, we must have two args, not more
+	if( objc != 3) {
+		Tcl_AppendResult (interp, "Wrong number of args.\nShould be \"::CxImage::JumpToFrame photoImage_name frame_number\"" , (char *) NULL);
+		return TCL_ERROR;
+	}
+	
+	
+	// Get the first argument string (object name) and check it 
+	ImageName = Tcl_GetStringFromObj(objv[1], NULL);
+	if ( (Photo = Tk_FindPhoto(interp, ImageName)) == NULL) {
+		Tcl_AppendResult(interp, "The image you specified is not a valid photo image", NULL);
+		return TCL_ERROR;
+	}
+	item = TkCxImage_lstGetItem(Photo);
+	if ( item == NULL ) {
+		Tcl_AppendResult(interp, "The image you specified is not an animated image", NULL);
+		return TCL_ERROR;
+	}
+	if( Tcl_GetIntFromObj(interp, objv[2], &frame_number) == TCL_ERROR) {
+		return TCL_ERROR;
+	}
+	if (frame_number < 0) {
+		Tcl_AppendResult(interp, "Bad frame number : can't be negative", NULL);
+		return TCL_ERROR;
+	}
+
+	if ((unsigned int)frame_number < item->NumFrames) {
+		item->CurrentFrame = frame_number;
+		CxImage *image = item->image->GetFrameNo(item->CurrentFrame);
+		Tk_ImageChanged(item->ImageMaster, 0, 0, image->GetWidth(), image->GetHeight(), image->GetWidth(), image->GetHeight());
+	} else {
+		Tcl_AppendResult(interp, "The image you specified hasn't enough frames", NULL);
+		return TCL_ERROR;
+	}
 	return TCL_OK;
 }
 #endif
