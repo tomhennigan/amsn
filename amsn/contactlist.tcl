@@ -170,15 +170,15 @@ snit::widget contactlist {
 		# Top (my nick & status etc)
 		install topbg using scalable-bg $top.bg -source [::skin::loadPixmap topbgimg] \
 			-border $options(-topborder) \
-			-resizemethod scale
+			-resizemethod tile
 		# List (where contacts go!)
 		install listbg using scalable-bg $list.bg -source [::skin::loadPixmap listbgimg] \
 			-border $options(-listborder) \
-			-resizemethod scale
+			-resizemethod tile
 		# Select (for showing a contact is selected)
 		install selectbg using scalable-bg $list.selectbg -source [::skin::loadPixmap selectbgimg] \
 			-border $options(-selectborder) \
-			-resizemethod scale
+			-resizemethod tile
 		# Create them on their canvases
 		set topbgid [$top create image 0 0 -anchor nw -image [$topbg name]]
 		set listbgid [$list create image 0 0 -anchor nw -image [$listbg name]]
@@ -477,7 +477,7 @@ snit::widget contactlist {
 		set groupbg($groupid) [scalable-bg $groupid.bg \
 			-source [::skin::loadPixmap groupbgimg] \
 			-border $options(-groupbgborder) \
-			-resizemethod scale \
+			-resizemethod tile \
 			-width [expr {$listwidth - (2 * $options(-ipadx)) - (2 * $options(-grouppadx))}]]
 		# Background image canvas item
 		set groupbgid($groupid) [$list create image 0 0 -anchor nw -image [$groupbg($groupid) name]]
@@ -530,7 +530,6 @@ snit::widget contactlist {
 
 	method HideGroup { groupid } {
 		contentmanager hide $cl $groupid -force 1
-		#contentmanager hide $cl $groupid head -force 1
 		$list itemconfigure $groupbgid($groupid) -state hidden
 		contentmanager sort $cl $groupid -level r
 		$self sort list 0
@@ -553,36 +552,29 @@ snit::widget contactlist {
 	method FilterContacts { {pattern {}} } {
 		# Empty search pattern
 		if { [string equal $pattern {}] } {
-			$self HideGroup search
 			foreach groupid $groups {
-				if { ![string equal $groupid search] } {
+				if { [string first "hidden" [contentmanager cget $cl $groupid -state]] == -1 } {
 					$self ShowGroup $groupid
 				}
 			}
-		# Non-empty
+		# Non-empty search pattern
 		} else {
-			#set matches [$self SearchContacts $pattern]
-			foreach groupid $groups {
-				foreach id [contentmanager children $cl $groupid] {
-					if { [string equal $id head] } {
-						continue
-					}
-					if {
-						[string first $pattern $nick($groupid.$id)] == -1 && \
-						[string first $pattern $psm($groupid.$id)] == -1 && \
-						[lsearch $tags($groupid.$id) $pattern] == -1
-					} {
-						$self HideContact $groupid $id
-					} else {
-						$self ShowContact $groupid $id
-					}
-				}
+			set results [$self SearchContacts $pattern]
+			puts "results $results"
+			set matches [lindex $results 0]
+			set nonmatches [lindex $results 1]
+			foreach { groupid id } $matches {
+				$self ShowContact $groupid $id
+			}
+			foreach { groupid id } $nonmatches {
+				$self HideContact $groupid $id
 			}
 		}
 	}
 
 	method SearchContacts { pattern } {
 		set matches {}
+		set nonmatches {}
 		foreach groupid $groups {
 			foreach id [contentmanager children $cl $groupid] {
 				if { [string equal $id head] } {
@@ -593,22 +585,29 @@ snit::widget contactlist {
 					[string first $pattern $psm($groupid.$id)] != -1 || \
 					[lsearch $tags($groupid.$id) $pattern] != -1
 				} {
-					lappend matches $id
+					lappend matches $groupid $id
+				} else {
+					lappend nonmatches $groupid $id
 				}
 			}
 		}
-		return $matches
+		return [list $matches $nonmatches]
 	}
 
 	method ShowContact { groupid id } {
+		if { [string first "hidden" [contentmanager cget $cl $groupid -state]] != -1 } {
+			return
+		}
 		contentmanager show $cl $groupid $id
-		contentmanager sort $cl $groupid -level 0
+		after cancel "contentmanager sort $cl $groupid -level 0"
+		after 1 "contentmanager sort $cl $groupid -level 0"
 		$self sort list 0
 	}
 
 	method HideContact { groupid id } {
 		contentmanager hide $cl $groupid $id -force yes
-		contentmanager sort $cl $groupid -level 0
+		after cancel "contentmanager sort $cl $groupid -level 0"
+		after 1 "contentmanager sort $cl $groupid -level 0"
 		$self sort list 0
 	}
 
@@ -642,7 +641,7 @@ snit::widget contactlist {
 		#contentmanager add element $cl $groupid $id icon status -widget $list -tag $statusiconid($groupid.$id)
 		contentmanager add attachment $cl $groupid $id icon status -widget $list -tag $statusiconid($groupid.$id)
 		# Information group & elements (nick, psm, etc)
-		contentmanager add group $cl $groupid $id info -widget $list -orient horizontal
+		contentmanager add group $cl $groupid $id info -widget $list
 		contentmanager add element $cl $groupid $id info nick -widget $list -tag $nickid($groupid.$id)
 		contentmanager add element $cl $groupid $id info psm -widget $list -tag $psmid($groupid.$id)
 		contentmanager add element $cl $groupid $id info state -widget $list -tag $stateid($groupid.$id)
