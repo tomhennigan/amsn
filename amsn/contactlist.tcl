@@ -617,7 +617,10 @@ snit::widget contactlist {
 			return {}
 		}
 		# Create canvas items (pic, nick, psm, music, state)
-		set buddyid($groupid.$id) [$list create image 0 0 -anchor nw -image [::skin::getDisplayPicture $id]]
+		set img [image create photo]
+		$img copy [::skin::getDisplayPicture $id]
+		::picture::ResizeWithRatio $img 32 32
+		set buddyid($groupid.$id) [$list create image 0 0 -anchor nw -image $img]
 		set nickid($groupid.$id) [$list create text 0 0 -anchor nw -text $nicktext -font $nickfont -fill $nickcol]
 		set psmid($groupid.$id) [$list create text 0 0 -anchor nw -text $psmtext -font $psmfont -fill $psmcol]
 		set stateid($groupid.$id) [$list create text 0 0 -anchor nw -text [$self StatusCodeToText $statetext] -font $statefont -fill $statecol]
@@ -637,7 +640,7 @@ snit::widget contactlist {
 		contentmanager add group $cl $groupid $id icon -widget $list
 		contentmanager add element $cl $groupid $id icon icon -widget $list -tag $buddyid($groupid.$id)
 		#contentmanager add element $cl $groupid $id icon status -widget $list -tag $statusiconid($groupid.$id)
-		contentmanager add attachment $cl $groupid $id status -widget $list -tag $statusiconid($groupid.$id)
+		contentmanager add attachment $cl $groupid $id icon status -widget $list -tag $statusiconid($groupid.$id)
 		# Information group & elements (nick, psm, etc)
 		contentmanager add group $cl $groupid $id info -widget $list -orient horizontal
 		contentmanager add element $cl $groupid $id info nick -widget $list -tag $nickid($groupid.$id)
@@ -688,10 +691,14 @@ snit::widget contactlist {
 		}
 	}
 
-	method ChangeContactPic { groupid id newpic } {
+	method ChangeContactPic { groupid id } {
 		if { [$self ContactInGroup $id $groupid] } {
 			# Change the image of the canvas item
-			$list itemconfigure $buddyid($groupid.$id) -image $newpic
+			image delete [$list itemcget $buddyid($groupid.$id)]
+			set img [image create photo]
+			$img copy [::skin::getDisplayPicture $id]
+			::picture::ResizeWithRatio $img 32 32
+			$list itemconfigure $buddyid($groupid.$id) -image $img
 		}
 	}
 
