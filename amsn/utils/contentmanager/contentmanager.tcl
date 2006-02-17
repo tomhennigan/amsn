@@ -6,7 +6,7 @@ package require contentmanager
 
 # o-------------------------------------------------------------------------------+
 #  Name: contentmanager                                                           |
-#  Description: Manager object                                       	          |
+#  Description: Manager type                                       	          |
 #  Function: Provide an easy-to-use API to groups and elements                    |
 # o-------------------------------------------------------------------------------+
 snit::type contentmanager {
@@ -65,40 +65,49 @@ snit::type contentmanager {
 		set opts [eval $type getopts $args]
 		set tree [eval $type gettree $args]
 
-		# Check item type
-		if { ![string equal $_type group] && ![string equal $_type element] } {
-			error "unknown object type $_type"
-		}
 		# Check item doesn't already exist
 		if { [info command $path] != {} } {
 			error "$_type '$path' already exists"
 			return {}
 		}
 
-		if { [string equal $_type "group"] } {
-			set parent [eval $type getpath [lrange $tree 0 end-1]]
-			eval group $path -tree [list $tree] $opts
-			# If this isn't a toplevel group...
-			if { [llength $tree] > 1 } {
-				# ...set it's state to its parent's state and register with its parent
-				set parent [eval $type getpath [lrange $tree 0 end-1]]
-				$path configure -state [$parent cget -state]
-				set id [lindex $tree end]
-				$parent register $id
-			} else {
-				set id $tree
+		switch $_type {
+			group {
+				eval group $path -tree [list $tree] $opts
+				# If this isn't a toplevel group...
+				if { [llength $tree] > 1 } {
+					# ...set it's state to its parent's state and register with its parent
+					set parent [eval $type getpath [lrange $tree 0 end-1]]
+					$path configure -state [$parent cget -state]
+					set id [lindex $tree end]
+					$parent register $id
+				} else {
+					set id $tree
+				}
 			}
-		} elseif { [string equal $_type "element"] } {
-			eval element $path -tree [list $tree] $opts
-			# If this isn't a toplevel element...
-			if { [llength $tree] > 1 } {
-				# ...set it's state to its parent's state and register with its parent
+			element {
+				eval element $path -tree [list $tree] $opts
+				# If this isn't a toplevel element...
+				if { [llength $tree] > 1 } {
+					# ...set it's state to its parent's state and register with its parent
+					set parent [eval $type getpath [lrange $tree 0 end-1]]
+					$path configure -state [$parent cget -state]
+					set id [lindex $tree end]
+					$parent register $id
+				} else {
+					set id $tree
+				}
+			}
+			attachment {
+				eval element $path -tree [list $tree] $opts
+				# Set it's state to its parent's state and attach it to its parent
 				set parent [eval $type getpath [lrange $tree 0 end-1]]
 				$path configure -state [$parent cget -state]
 				set id [lindex $tree end]
-				$parent register $id
-			} else {
-				set id $tree
+				$parent attach $id
+			}
+			default {
+				error "unknown item type '${_type}'"
 			}
 		}
 		return $id
@@ -171,12 +180,6 @@ snit::type contentmanager {
 	typemethod children { args } {
 		set path [eval $type getpath $args]
 		return [$path children]
-	}
-
-	typemethod attach { args } {
-		set path [eval $type getpath $args]
-		set tag [lindex [eval $type getopts $args] 1]
-		$path attach $tag
 	}
 
 	typemethod coords { args } {
@@ -401,8 +404,8 @@ snit::type group {
 		return $items
 	}
 
-	method attach { tag } {
-		lappend attachments $tag
+	method attach { id } {
+		lappend attachments $id
 	}
 
 	method bind { pat cmd {mode "bbox"} } {
@@ -467,9 +470,7 @@ snit::type group {
 				$options(-widget) move $bboxid $dx $dy
 			}
 		}
-		foreach tag $attachments {
-			$options(-widget) coords $tag $xPos $yPos
-		}
+		$self PlaceAttachments
 	}
 
 	method show { args } {
@@ -487,6 +488,15 @@ snit::type group {
 			if { [string is integer $level] && $level > 0 } {
 				eval contentmanager show $tree -level [expr {$level - 1}]
 			} elseif { $level == "r" } {
+				eval contentmanager show $tree
+			}
+		}
+		foreach attachment $attachments {
+			if { [eval contentmanager cget $tree -omnipresent] } {
+				continue
+			} else {
+				set tree $options(-tree)
+				lappend tree $attachment
 				eval contentmanager show $tree
 			}
 		}
@@ -511,6 +521,15 @@ snit::type group {
 				continue
 			}
 			eval contentmanager hide $tree
+		}
+		foreach attachment $attachments {
+			if { [eval contentmanager cget $tree -omnipresent] } {
+				continue
+			} else {
+				set tree $options(-tree)
+				lappend tree $attachment
+				eval contentmanager hide $tree
+			}
 		}
 		if { $omnipresent && !$force } {
 			set options(-state) "partlyhidden"
@@ -677,6 +696,16 @@ snit::type group {
 			}
 		}
 	}
+
+	method PlaceAttachments { } {
+		foreach attachment $attachments {
+			set tree $options(-tree)
+			lappend tree $attachment
+			set attx [expr {$xPos + [eval contentmanager cget $tree -padx]}]
+			set atty [expr {$yPos + [eval contentmanager cget $tree -pady]}]
+			eval contentmanager coords $tree $attx $atty
+		}
+	}
 }
 
 snit::type element {
@@ -734,8 +763,8 @@ snit::type element {
 		return "element"
 	}
 
-	method attach { tag } {
-		lappend attachments $tag
+	method attach { id } {
+		lappend attachments $id
 	}
 
 	method SetWidget { opt val } {
@@ -841,9 +870,7 @@ snit::type element {
 			incr xPos $dx
 			incr yPos $dy
 		}
-		foreach tag $attachments {
-			$options(-widget) coords $tag $xPos $yPos
-		}
+		$self PlaceAttachments
 	}
 
 	method show { args } {
@@ -852,6 +879,15 @@ snit::type element {
 			$options(-widget) itemconfigure $options(-tag) -state normal
 			if { $havebinding } {
 				$options(-widget) itemconfigure $bboxid -state normal
+			}
+			foreach attachment $attachments {
+				if { [eval contentmanager cget $tree -omnipresent] } {
+					continue
+				} else {
+					set tree $options(-tree)
+					lappend tree $attachment
+					eval contentmanager show $tree
+				}
 			}
 		}
 	}
@@ -862,6 +898,15 @@ snit::type element {
 				set options(-state) "hidden"
 				$options(-widget) itemconfigure $options(-tag) -state hidden
 				$options(-widget) itemconfigure $bboxid -state hidden
+			}
+			foreach attachment $attachments {
+				if { [eval contentmanager cget $tree -omnipresent] } {
+					continue
+				} else {
+					set tree $options(-tree)
+					lappend tree $attachment
+					eval contentmanager hide $tree
+				}
 			}
 		}
 	}
@@ -900,5 +945,15 @@ snit::type element {
 		set bboxwidth [expr {[lindex $bbox 2] - [lindex $bbox 0] + (2 * $options(-ipadx))}]
 		set bboxheight [expr {[lindex $bbox 3] - [lindex $bbox 1] + (2 * $options(-ipady))}]
 		$self configure -height $bboxheight -width $bboxwidth
+	}
+
+	method PlaceAttachments { } {
+		foreach attachment $attachments {
+			set tree $options(-tree)
+			lappend tree $attachment
+			set attx [expr {$xPos + [eval contentmanager cget $tree -padx]}]
+			set atty [expr {$yPos + [eval contentmanager cget $tree -pady]}]
+			eval contentmanager coords $tree $attx $atty
+		}
 	}
 }
