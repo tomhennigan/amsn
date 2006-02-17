@@ -84,19 +84,20 @@ snit::widget contactlist {
 	option -topipady -default 5
 	option -listpadx -default 5
 	option -listpady -default 5
-	option -topborder -default {12 12 2 12}
+	option -topborder -default {12 12 12 12}
 	option -listborder -default {20 20 20 20}
-	option -groupbgborder -default { 5 5 5 5 }
+	option -groupbgborder -default {5 5 5 5}
+	option -selectborder -default {5 5 5 5}
 	option -ipadx -default 0
 	option -ipady -default 0
 	option -grouppadx -default 5
 	option -grouppady -default 5
 	option -groupipadx -default 5
 	option -groupipady -default 5
-	option -buddypadx -default 3
-	option -buddypady -default 3
-	option -buddyipadx -default 2
-	option -buddyipady -default 2
+	option -buddypadx -default 2
+	option -buddypady -default 2
+	option -buddyipadx -default 5
+	option -buddyipady -default 5
 	option -contractpadx -default 2
 	option -contractpady -default 2
 	option -expandpadx -default 2
@@ -105,6 +106,10 @@ snit::widget contactlist {
 	option -groupmode -default groups -configuremethod SetGroupMode
 
 	variable groups {}
+
+	# Variables to store the dimensions of our list
+	variable listwidth
+	variable listheight
 
 	# Variables ending in 'id' denote canvas item ids
 	variable topbgid
@@ -164,19 +169,16 @@ snit::widget contactlist {
 		# Create background images
 		# Top (my nick & status etc)
 		install topbg using scalable-bg $top.bg -source [::skin::loadPixmap topbgimg] \
-			-n [lindex $options(-topborder) 0] -e [lindex $options(-topborder) 1] \
-			-s [lindex $options(-listborder) 2] -w [lindex $options(-topborder) 3] \
-			-resizemethod tile
+			-border $options(-topborder) \
+			-resizemethod scale
 		# List (where contacts go!)
 		install listbg using scalable-bg $list.bg -source [::skin::loadPixmap listbgimg] \
-			-n [lindex $options(-listborder) 0] -e [lindex $options(-listborder) 1] \
-			-s [lindex $options(-listborder) 2] -w [lindex $options(-listborder) 3] \
-			-resizemethod tile
+			-border $options(-listborder) \
+			-resizemethod scale
 		# Select (for showing a contact is selected)
 		install selectbg using scalable-bg $list.selectbg -source [::skin::loadPixmap selectbgimg] \
-			-n [lindex $options(-listborder) 0] -e [lindex $options(-listborder) 1] \
-			-s [lindex $options(-listborder) 2] -w [lindex $options(-listborder) 3] \
-			-resizemethod tile
+			-border $options(-selectborder) \
+			-resizemethod scale
 		# Create them on their canvases
 		set topbgid [$top create image 0 0 -anchor nw -image [$topbg name]]
 		set listbgid [$list create image 0 0 -anchor nw -image [$listbg name]]
@@ -238,6 +240,10 @@ snit::widget contactlist {
 
 		# No contacts selected yet..
 		set selected none
+
+		# Initial dimensions are assumed to be zero
+		set listwidth 0
+		set listheight 0
 
 		# Create container groups for top and list (these will sort/arrange the stuff inside them)
 		set me $self.me
@@ -468,7 +474,11 @@ snit::widget contactlist {
 
 	method AddGroup { groupid name } {
 		# Background image
-		set groupbg($groupid) [scalable-bg $groupid.bg -source [::skin::loadPixmap groupbgimg] -n [lindex $options(-groupbgborder) 0] -e [lindex $options(-groupbgborder) 1] -s [lindex $options(-groupbgborder) 2] -w [lindex $options(-groupbgborder) 3] -resizemethod tile]
+		set groupbg($groupid) [scalable-bg $groupid.bg \
+			-source [::skin::loadPixmap groupbgimg] \
+			-border $options(-groupbgborder) \
+			-resizemethod scale \
+			-width [expr {$listwidth - (2 * $options(-ipadx)) - (2 * $options(-grouppadx))}]]
 		# Background image canvas item
 		set groupbgid($groupid) [$list create image 0 0 -anchor nw -image [$groupbg($groupid) name]]
 		# Heading canvas items
@@ -479,7 +489,7 @@ snit::widget contactlist {
 		# Create groups and elements with contentmanager
 		# Main group
 		contentmanager add group $cl $groupid -widget $list -padx $options(-grouppadx) -pady $options(-grouppady) -ipadx $options(-groupipadx) -ipady $options(-groupipady)
-		contentmanager attach $cl $groupid -tag $groupbgid($groupid)
+		contentmanager add attachment $cl $groupid bg -widget $list -tag $groupbgid($groupid) -omnipresent yes
 		# Heading group
 		contentmanager add group $cl $groupid head -widget $list -orient horizontal -omnipresent yes
 		# Heading elements
@@ -520,7 +530,7 @@ snit::widget contactlist {
 
 	method HideGroup { groupid } {
 		contentmanager hide $cl $groupid -force 1
-		contentmanager hide $cl $groupid head -force 1
+		#contentmanager hide $cl $groupid head -force 1
 		$list itemconfigure $groupbgid($groupid) -state hidden
 		contentmanager sort $cl $groupid -level r
 		$self sort list 0
@@ -607,7 +617,7 @@ snit::widget contactlist {
 			return {}
 		}
 		# Create canvas items (pic, nick, psm, music, state)
-		set buddyid($groupid.$id) [$list create image 0 0 -anchor nw -image [::skin::loadPixmap buddyimg]]
+		set buddyid($groupid.$id) [$list create image 0 0 -anchor nw -image [::skin::getDisplayPicture $id]]
 		set nickid($groupid.$id) [$list create text 0 0 -anchor nw -text $nicktext -font $nickfont -fill $nickcol]
 		set psmid($groupid.$id) [$list create text 0 0 -anchor nw -text $psmtext -font $psmfont -fill $psmcol]
 		set stateid($groupid.$id) [$list create text 0 0 -anchor nw -text [$self StatusCodeToText $statetext] -font $statefont -fill $statecol]
@@ -626,7 +636,8 @@ snit::widget contactlist {
 		# Buddy icon group & elements
 		contentmanager add group $cl $groupid $id icon -widget $list
 		contentmanager add element $cl $groupid $id icon icon -widget $list -tag $buddyid($groupid.$id)
-		contentmanager add element $cl $groupid $id icon status -widget $list -tag $statusiconid($groupid.$id)
+		#contentmanager add element $cl $groupid $id icon status -widget $list -tag $statusiconid($groupid.$id)
+		contentmanager add attachment $cl $groupid $id status -widget $list -tag $statusiconid($groupid.$id)
 		# Information group & elements (nick, psm, etc)
 		contentmanager add group $cl $groupid $id info -widget $list -orient horizontal
 		contentmanager add element $cl $groupid $id info nick -widget $list -tag $nickid($groupid.$id)
@@ -833,6 +844,8 @@ snit::widget contactlist {
 				foreach groupid $groups {
 					$self SetGroupBgWidth $groupid [expr {$width - (2 * $options(-ipadx)) - (2 * $options(-grouppadx))}]
 				}
+				set listwidth $width
+				set listheight $height
 			}
 		}
 
