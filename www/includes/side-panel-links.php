@@ -6,7 +6,7 @@
 <br/><br/>
 <a href="http://sourceforge.net/projects/amsn/"><?php echo trans('sfprojectpagelink') ?></a>
 <br/><br/>
-<a href="http://sourceforge.net/"><img src="images/sflogo.png" alt="SourceForge.net Logo" /></a>
+<a href="http://sourceforge.net/"><img src="http://sflogo.sourceforge.net/sflogo.php?group_id=54091&type=1" alt="SourceForge.net Logo" /></a>
 <br/><br/>
 <a href="http://validator.w3.org/check?uri=referer"><img src="images/vxhtml.png" alt="Valid XHTML 1.0!" /></a>
 <br/><br/>

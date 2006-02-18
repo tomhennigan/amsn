@@ -42,7 +42,7 @@ if(!defined("_LANG_LIB_")) {
       $arg=func_get_arg($x);
       $text=str_replace("\$$x\$",$arg,$text);
     }
-    return $text;
+    return uft2html($text);
   }
 
   function getLangKey() {
