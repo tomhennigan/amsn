@@ -3,6 +3,13 @@ variable afterid
 set MenuPosted {}
 array set afterid {PostCascade {} UnpostCascade {}}
 
+# -----------------------------------------------------
+#  Menubar and Menu bindings
+#
+bind Pixmapmenu <Configure> {
+	%W Configure %w %h
+}
+
 bind Pixmapmenu <Map> {
 	variable MenuPosted
 	switch [%W cget -type] {
@@ -206,8 +213,14 @@ proc IsTopLevelMenu { w } {
 		menubar {
 			return 1
 		}
+		menubutton {
+			return 1
+		}
 		normal {
 			return 0
+		}
+		default {
+			return 1
 		}
 	}
 }
@@ -216,7 +229,7 @@ proc MenuAtPoint { X Y } {
 	set w [winfo containing $X $Y]
 	set type {}
 	catch { set type [$w cget -type] }
-	if { $type == "" } {
+	if { $type == "" || $type == "menubutton" } {
 		return none
 	} else {
 		return $w
@@ -279,6 +292,11 @@ proc MenuUnpost { w } {
 			}
 			"menubar" {
 				$parent activate none
+				break
+			}
+			"menubutton" {
+				set ::tk::Priv(postedMb) {}
+				$parent configure -state normal
 				break
 			}
 			default {

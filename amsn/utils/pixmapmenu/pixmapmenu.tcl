@@ -1,4 +1,6 @@
+package provide pixmapmenu 0.1
 package require contentmanager
+
 snit::widgetadaptor pixmapmenu {
 
 	typevariable arrowdownimg 		;# Arrow image
@@ -51,6 +53,7 @@ snit::widgetadaptor pixmapmenu {
 	option -ipadx -configuremethod SetPadding -default 0
 	option -ipady -configuremethod SetPadding -default 0
 	option -orient -configuremethod SetOrient -default vertical
+	option -tearoff -default 0 -readonly yes
 	option -type -default normal
 
 
@@ -111,13 +114,17 @@ snit::widgetadaptor pixmapmenu {
 			-width 	1		-height 1]
 		set selectid [$canvas create image 0 0 -anchor nw -image [$select name] -state hidden]
 		# Create separator
-		set separator [scalable-bg $self.separator -source $separatorimg -border $separatorborder -width 1 -height 1]
+		set separator [scalable-bg $self.separator -source $separatorimg -border $separatorborder]
 
 		# Bindings
 		bindtags $self "Pixmapmenu . all"
+
+		# Update size
+		$self UpdateSize
 	}
 
 	destructor {
+		catch {after cancel $afterid(Sort)}
 		catch {contentmanager delete $main}
 		catch {$background destroy}
 		catch {$select destroy}
@@ -135,14 +142,14 @@ snit::widgetadaptor pixmapmenu {
 		switch $options(-orient) {
 			horizontal {
 				$background configure \
-					-width	$width	-height	$height 
+					-width	$width	-height	$height
 				$separator configure \
-					-width 	[image height $separatorimg] \ ;# If we took the width, it'd be big...so we take the height (as with vertical orientation)
+					-width 	[image height $separatorimg] \
 					-height	[expr {$height - (2 * $options(-ipady)) - (2 * $options(-entrypady))}]
 			}
 			vertical {
 				$background configure \
-					-width	$width	-height	$height 
+					-width	$width	-height	$height
 				$separator configure \
 					-width 	[expr {$width - (2 * $options(-ipadx)) - (2 * $options(-entrypadx))}] \
 					-height	[image height $separatorimg]
@@ -248,8 +255,8 @@ snit::widgetadaptor pixmapmenu {
 			set id [$canvas create image $offx $offy -anchor nw -image [$separator name]]
 			# Create the contentmanager item
 			contentmanager insert $index element $main $entryid \
-				-widget	$canvas			-tag	$id;# \
-				#-ipadx	$options(-entrypadx)	-ipady $options(-entrypady)
+				-widget	$canvas			-tag	$id \
+				-ipadx	$options(-entrypadx)	-ipady $options(-entrypady)
 			set config($entryid) [uplevel #0 "$_type $self.$entryid -id $entryid -parent $self"]
 		} elseif { $_type == "checkbutton" } {
 			# Create the canvas items
@@ -329,8 +336,24 @@ snit::widgetadaptor pixmapmenu {
 		$self sort
 	}
 
-	method DeselectRadio { id } {
+	method EntryDeselectCheck { id } {
+		$canvas itemconfigure $checktickid($id) -state hidden
+	}
+
+	method EntryDeselectRadio { id } {
 		$canvas itemconfigure $radiotickid($id) -state hidden
+	}
+
+	method EntrySelectCheck { id } {
+		if { [$config($id) cget -indicatoron] } {
+			$canvas itemconfigure $checkotickid($id) -state normal
+		}
+	}
+
+	method EntrySelectRadio { id } {
+		if { [$config($id) cget -indicatoron] } {
+			$canvas itemconfigure $radiotickid($id) -state normal
+		}
 	}
 
 	method add { _type args } {
@@ -392,24 +415,22 @@ snit::widgetadaptor pixmapmenu {
 
 	method invoke { index } {
 		set nindex [$self index $index]
-		if { $nindex == "none" || [$self entrycget $index -state] == "disabled" } {
+		if { $nindex == "none" || [$self entrycget $nindex -state] == "disabled" || [$self type $nindex] == "separator" } {
 			return
 		}
 		set entry [lindex $entries $nindex]
 		set _type [$config($entry) type]
 		if { $_type == "checkbutton" } {
 			$config($entry) toggle
-			if { [$canvas itemcget $checktickid($entry) -state] == "hidden" } {
+			if { [$canvas itemcget $checktickid($entry) -state] == "hidden" && [$config($entry) cget -indicatoron] } {
 				$canvas itemconfigure $checktickid($entry) -state normal
 			} else {
 				$canvas itemconfigure $checktickid($entry) -state hidden
 			}
 		} elseif { $_type == "radiobutton" } {
 			$config($entry) select
-			if { [$canvas itemcget $radiotickid($entry) -state] == "hidden" } {
+			if { [$canvas itemcget $radiotickid($entry) -state] == "hidden" && [$config($entry) cget -indicatoron] } {
 				$canvas itemconfigure $radiotickid($entry) -state normal
-			} else {
-				$canvas itemconfigure $radiotickid($entry) -state hidden
 			}
 		}
 		eval [$config($entry) cget -command]
@@ -644,6 +665,33 @@ snit::widgetadaptor pixmapmenu {
 		$canvas itemconfigure $textid($id) -fill $value
 	}
 
+	method EntryConfigureIndicator { id value } {
+			switch [$config($id) type] {
+				"checkbutton" {
+					if { $value } {
+						$canvas itemconfigure $checkboxid($id) -state normal
+						if { [set [$config($id) cget -variable]] == [$config($id) cget -onvalue] } {
+							$canvas itemconfigure $checktickid($id) -state normal
+						}
+					} else {
+						$canvas itemconfigure $checkboxid($id) -state hidden
+						$canvas itemconfigure $checktickid($id) -state hidden
+					}
+				}
+				"radiobutton" {
+					if { $value } {
+						$canvas itemconfigure $radioboxid($id) -state normal
+						if { [set [$config($id) cget -variable]] == [$config($id) cget -value] } {
+							$canvas itemconfigure $radiotickid($id) -state normal
+						}
+					} else {
+						$canvas itemconfigure $radioboxid($id) -state hidden
+						$canvas itemconfigure $radiotickid($id) -state hidden
+					}
+				}
+			}
+	}
+
 	method EntryConfigureState { id value } {
 		switch $value {
 			active { $canvas itemconfigure $textid($id) -fill $options(-activeforeground) }
@@ -653,11 +701,13 @@ snit::widgetadaptor pixmapmenu {
 	}
 }
 
-source menushell.tcl
-source entries.tcl
-source bindings.tcl
+#source menushell.tcl
+#source entries.tcl
+#source bindings.tcl
 
 global order
+global mVar
+set mVar one
 proc menutest { } {
 	#menushell .m
 	menubar .m
@@ -687,4 +737,27 @@ proc menutest { } {
 		menushell .m.$m
 		.m.$m add command -label command
 	}
+
+	
+
+	rename menu tk_menu
+	rename menushell menu
+	rename menubutton tk_menubutton
+	rename menubut menubutton
+	###################################
+	destroy [tk_optionMenu .1 a b]
+	destroy .1
+	###################################
+	rename tk_optionMenu tk_tk_optionMenu
+	rename optmenu tk_optionMenu
+
+	#menubutton .opt -textvariable mVar -menu .opt.m
+	#menu .opt.m
+	#.opt.m add radiobutton -label "One" -value "One" -variable mVar
+	#.opt.m add radiobutton -label "Two" -value "Two" -variable mVar
+	#.opt.m add radiobutton -label "Three" -value "Two" -variable mVar
+
+	tk_optionMenu .opt mVar one two three
+
+	pack .opt
 }
