@@ -63,44 +63,99 @@ namespace eval ::groups {
    
 	#<dlgAddGroup> Dialog to add a group
 	proc dlgAddGroup {} {
+
 		global pgc
-		
-		if {[winfo exists .dlgag]} {
+
+		set w .dlgag
+
+		if {[winfo exists $w]} {
 			set pgc 0
 			return
 		}
 	
 		set bgcol2 #ABC8D2
 	
-		toplevel .dlgag -highlightcolor $bgcol2
-		wm title .dlgag "[trans groupadd]"
-		frame .dlgag.d -bd 1 
-		label .dlgag.d.lbl -text "[trans group]" -font sboldf
-		entry .dlgag.d.ent -width 20 -bg #FFFFFF -font splainf
-		pack .dlgag.d.lbl .dlgag.d.ent -side left
-		bind .dlgag.d.ent <Return> { 
-			::groups::Add "[.dlgag.d.ent get]" dlgMsg; 
-			destroy .dlgag
+		toplevel $w -highlightcolor $bgcol2
+		wm title $w "[trans groupadd]"
+
+		frame $w.groupname -bd 1 
+		label $w.groupname.lbl -text "[trans group]" -font sboldf
+		entry $w.groupname.ent -width 20 -bg #FFFFFF -font splainf
+		pack $w.groupname.lbl $w.groupname.ent -side left
+
+		frame $w.groupcontact -bd 1
+		label $w.groupcontact.lbl -text "[trans groupcontacts]" -font sboldf
+		pack $w.groupcontact.lbl
+
+		pack $w.groupname -side top -pady 3 -padx 5
+		pack $w.groupcontact -side top -pady 3 -padx 5
+
+		ScrolledWindow $w.groupcontacts -auto vertical -scrollbar vertical
+		ScrollableFrame $w.groupcontacts.sf -constrainedwidth 1
+		$w.groupcontacts setwidget $w.groupcontacts.sf
+		pack $w.groupcontacts -anchor n -side top -fill both -expand true
+		set gpcontactsframe [$w.groupcontacts.sf getframe]
+
+		set contactlist [list]
+
+		#Create a list with the contacts
+		foreach contact [::abook::getAllContacts] {
+			if { [lsearch [::abook::getLists $contact] "FL"] != -1 } {
+				set contactname [::abook::getDisplayNick $contact]
+				lappend contactlist [list $contactname $contact]
+			}
 		}
-		bind .dlgag <<Escape>> {
-			set pgc 0
-			destroy .dlgag;
+
+		set contactlist [lsort -dictionary -index 0 $contactlist]
+
+		foreach contact $contactlist {
+			set name [lindex $contact 0]
+			set passport [lindex $contact 1]
+			set passport2 [split $passport "@ ."]
+			checkbutton $gpcontactsframe.w$passport2 -onvalue 1 -offvalue 0 -text " $name" -anchor w -variable [::config::getVar tempcontact_$passport2]
+			pack configure $gpcontactsframe.w$passport2 -side top -fill x
 		}
-		frame .dlgag.b 
-		button .dlgag.b.ok -text "[trans ok]"   \
+
+		frame $w.b 
+		button $w.b.ok -text "[trans ok]"   \
 			-command {
-				::groups::Add "[.dlgag.d.ent get]" dlgMsg; 
+				::groups::Add "[.dlgag.groupname.ent get]" dlgMsg; 
 				destroy .dlgag
 			}
-		button .dlgag.b.cancel -text "[trans cancel]"   \
+		button $w.b.cancel -text "[trans cancel]"   \
 			-command {
-				set pgc 0
-				destroy .dlgag;
+				set pgc 0;
+				foreach contact [::abook::getAllContacts] {
+					if { [lsearch [::abook::getLists $contact] "FL"] != -1 } {
+						set passport2 [split $contact "@ ."]
+						::config::unsetKey tempcontact_$passport2
+					}
+				}
+				destroy .dlgag
 			}
-		pack .dlgag.b.ok .dlgag.b.cancel -side right -padx 5
-		pack .dlgag.d -side top -pady 3 -padx 5
-		pack .dlgag.b  -side top -anchor e -pady 3
-		moveinscreen .dlgag 30
+		pack $w.b.ok .dlgag.b.cancel -side right -padx 5
+
+		pack $w.groupcontacts -side top -pady 3 -padx 5
+		pack $w.b -side top -anchor e -pady 3
+
+
+		bind $w.groupname.ent <Return> { 
+			::groups::Add "[$w.groupname.ent get]" dlgMsg; 
+			destroy $w
+		}
+
+		bind $w <<Escape>> {
+			set pgc 0
+			foreach contact [::abook::getAllContacts] {
+				if { [lsearch [::abook::getLists $contact] "FL"] != -1 } {
+					set passport2 [split $contact "@ ."]
+					::config::unsetKey tempcontact_$passport2
+				}
+			}
+			destroy .dlgag;
+		}
+
+		moveinscreen $w 30
 	}
 
 	# Used to perform the group renaming without special dialogues
@@ -595,18 +650,20 @@ namespace eval ::groups {
 		global pgc
 		
 		if {[::groups::Exists $gname]} {
-		if {$ghandler != ""} {
-		set retval [eval "$ghandler \"[trans groupexists]!\""]
-		}
-		set pgc 0
-		return 0
+			if {$ghandler != ""} {
+				set retval [eval "$ghandler \"[trans groupexists]!\""]
+			}
+			set pgc 0
+			return 0
 		}
 	
-		set gname [urlencode $gname]
-		::MSN::WriteSB ns "ADG" "$gname 0"
+		set gname2 [urlencode $gname]
+		::MSN::WriteSB ns "ADG" "$gname2 0"
 		# MSN sends back "ADG %T %M $gname gid junkdata"
 		# AddCB() should be called when we receive the ADG
 		# packet from the server
+
+		after 2000 ::groups::AddContactsToGroup $gname
 
 		# If an "add contact" window is open, actualise the group list
 		if { [winfo exists .addcontact] == 1 } {
@@ -614,6 +671,26 @@ namespace eval ::groups {
 		}
 		return 1
 	}
+
+
+	proc AddContactsToGroup { gname } {
+
+		set timer 250
+		set gid [::groups::GetId $gname]
+		foreach contact [::abook::getAllContacts] {
+			if { [lsearch [::abook::getLists $contact] "FL"] != -1 } {
+				set passport2 [split $contact "@ ."]
+				if { [::config::getKey tempcontact_$passport2] == 1 } {
+					
+					set timer [expr $timer + 250]
+					after $timer ::MSN::copyUser $contact $gid
+				}
+				::config::unsetKey tempcontact_$passport2
+			}
+		}
+
+	}
+
         
 	proc Delete { gid {ghandler ""}} {
 		global pgc
@@ -769,11 +846,7 @@ namespace eval ::groups {
 		#First add the contact to the new groups
 		foreach gid $gidlistyes {
 			if {[lsearch [::abook::getGroups $email] $gid] == -1} {
-				if { [::config::getKey protocol] == 11 } {
-					after $timer [list ::MSN::WriteSB ns "ADC" "FL C=[::abook::getContactData contactguid] $gid"]
-				} else {
-					after $timer [list ::MSN::WriteSB ns "ADD" "FL $email [urlencode $name] $gid"]
-				}
+				after $timer ::MSN::copyUser $email $gid
 				set timer [expr $timer + 250]
 			}
 		}
@@ -781,11 +854,7 @@ namespace eval ::groups {
 		#Then remove their from the former groups
 		foreach gid $gidlistno {
 			if {[lsearch [::abook::getGroups $email] $gid] != -1} {
-				if { [::config::getKey protocol] == 11 } {
-					after $timer [list ::MSN::WriteSB ns "REM" "FL [::abook::getContactData contactguid] $gid"]
-				} else {
-					after $timer [list ::MSN::WriteSB ns "REM" "FL $email $gid"]
-				}
+				after $timer ::MSN::deleteUser $email $gid
 				set timer [expr $timer + 250]
 			}
 		}
