@@ -18,3 +18,4 @@ song Song
 artistsong Artist-Song
 choose_order Choose order for song and artist name (not compatible with XMMS)
 musicballontext Click here to show/hide the song in your nick
+changepic Change the displaypicture to the albumart if possible

@@ -113,6 +113,7 @@ namespace eval ::music {
 			active {0} \
 			songart {1} \
 			separator {-} \
+			changepic {0} \
 		]
 		
 	}
@@ -143,6 +144,7 @@ namespace eval ::music {
 					[list label "[trans choose_order]"] \
 					[list rbt "[trans songartist]" "[trans artistsong]" "[trans song]" songart] \
 					[list str "[trans separator]" separator] \
+					[list bool "[trans changepic]" changepic] \ \					
 				]
 			} else {
 				set ::music::configlist [list \
@@ -156,6 +158,7 @@ namespace eval ::music {
 					[list label "[trans choose_order]"] \
 					[list rbt "[trans songartist]" "[trans artistsong]" "[trans song]" songart] \
 					[list str "[trans separator]" separator] \
+					[list bool "[trans changepic]" changepic] \
 				]
 			}
 		}
@@ -283,24 +286,33 @@ status_log "$info"
 			}
 		}
 
+		if {$config(changepic)} {
+			#set avatar to albumart if available
+			set smallcoverfilename [file join $musicpluginpath albumart.jpg]
+	 		if {$artfile != ""} {
+				#create a photo called "smallcover" with the albumart of the played song
+	 			::picture::ResizeWithRatio [image create photo smallcover -file $artfile] 96 96
 
-		#set avatar to albumart if available
-		set smallcoverfilename [file join $musicpluginpath albumart.jpg]
- 		if {$artfile != ""} {
-			#create a photo called "smallcover" with the albumart of the played song
- 			::picture::ResizeWithRatio [image create photo smallcover -file $artfile] 96 96
-			#if we can save it to a file, set it as dp
-			if {![catch {::picture::Save smallcover $smallcoverfilename cxjpg}]} {
-				set_displaypic $smallcoverfilename
-			} 		
-		#if the album cover isn't available, set the dp the user set before changes by musicplugin
- 		} else {
-			#if we can save it to a file, set it as dp
- 			if {![catch {::picture::Save olddp $smallcoverfilename cxjpg}]} {
-				set_displaypic $smallcoverfilename
+				#if we don't set the same that is already set
+	#			if { [smallcover data] != [my_pic data] } {
+	#				status_log "There's a new pixmap we need to set it"
+					#if we can save it to a file, set it as dp
+					if {![catch {::picture::Save smallcover $smallcoverfilename cxjpg}]} {
+						set_displaypic $smallcoverfilename
+					}
+				
+	#			}
+			#if the album cover isn't available, set the dp the user set before changes by musicplugin
+	 		} else {
+				#if we don't set the same that is already set
+	#			if { [olddp data] != [my_pic data] } {
+					#if we can save it to a file, set it as dp
+		 			if {![catch {::picture::Save olddp $smallcoverfilename cxjpg}]} {
+						set_displaypic $smallcoverfilename
+					}
+	#			}
 			}
-		}
- 			
+ 		}
 
 
 
