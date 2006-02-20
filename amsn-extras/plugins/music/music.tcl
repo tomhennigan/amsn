@@ -211,6 +211,7 @@ namespace eval ::music {
 	# Main proc to change the nickname            #
 	###############################################
 	proc newname {event epvar} {
+		variable musicpluginpath
 		variable config
 		variable name
 		variable activated
@@ -219,6 +220,9 @@ namespace eval ::music {
 		set info [::music::GetSong]
 		set song [lindex $info 0]
 		set file [lindex $info 1]
+		set artfile [lindex $info 2]
+
+status_log "$info"
 
 		set oldname $name
 		#First add the nickname the user choosed in config to the name variable
@@ -275,6 +279,23 @@ namespace eval ::music {
 				::music::changenick "$name"
 			}
 		}
+
+
+		#set avatar to albumart if available
+ 		if {$artfile != ""} {
+			set smallcoverfilename [file join $musicpluginpath albumart.jpg]
+
+			set smallcover [image create photo -file $artfile]
+			
+ 			::picture::ResizeWithRatio $smallcover 96 96
+
+			if {![catch {::picture::Save $smallcover $smallcoverfilename cxjpg}]} {
+				set_displaypic $smallcoverfilename
+			} 		
+			
+ 		}
+
+
 
 		#Execute the script which get the song from the player to have it immediatly
 		::music::TreatSong
@@ -500,13 +521,46 @@ status_log "TreatSongBanshee 1"
 			return 0
 		}
 
-		#Get the 4 first lines
-		set status [lindex $tmplst 0]
-		set song [lindex $tmplst 1]
-		set art [lindex $tmplst 2]
-		set path [lindex $tmplst 3]
+		foreach infoline $tmplst {
+			status_log "$infoline"
+			set dpntplace [string first ":" $infoline]
+			
+			set label [string range $infoline 0 [expr {$dpntplace - 1}]]
+			
+			if {$dpntplace == [expr {[string length $infoline] - 1}]} {
+				set info ""
+			} else {
+				set info [string range $infoline [expr {$dpntplace + 2}] end]
+			}
+			
+			set ${label} $info 
+
+#			switch $label {
+#				"Status" {
+#						set status $info
+#				}
+#				
+#				"Artist"
+#				
+#				
+#				"Title"
+#				
+#				
+#				"CoverUri"
+#				
+#				
+#				"Uri"
+#			}
+			
+		}
 
 
+		#Get the 5 first lines
+		set status $Status
+		set song $Title
+		set art $Artist
+		set path [urldecode [string range $Uri 7 end]]
+		set artpath $CoverUri
 
 		if {$status == "0"} {
 			return 0
@@ -522,6 +576,7 @@ status_log "TreatSongBanshee 1"
 			}
 			lappend return $songart
 			lappend return [urldecode [string range $path 7 end]]
+			lappend return [urldecode $artpath]
 		}
 
 		return $return
