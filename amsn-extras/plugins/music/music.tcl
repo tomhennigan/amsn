@@ -522,61 +522,35 @@ status_log "TreatSongBanshee 1"
 		}
 
 		foreach infoline $tmplst {
-			status_log "$infoline"
-			set dpntplace [string first ":" $infoline]
+			set dpntindex [string first ":" $infoline]
 			
-			set label [string range $infoline 0 [expr {$dpntplace - 1}]]
-			
-			if {$dpntplace == [expr {[string length $infoline] - 1}]} {
-				set info ""
-			} else {
-				set info [string range $infoline [expr {$dpntplace + 2}] end]
-			}
-			
-			set ${label} $info 
+			set label [string range $infoline 0 [expr {$dpntindex - 1}]]
 
-#			switch $label {
-#				"Status" {
-#						set status $info
-#				}
-#				
-#				"Artist"
-#				
-#				
-#				"Title"
-#				
-#				
-#				"CoverUri"
-#				
-#				
-#				"Uri"
-#			}
-			
+			#save everything after the ": " as info under a var named after the label
+			set ${label} [string range $infoline [expr {$dpntindex + 2}] end]
+
 		}
 
 
-		#Get the 5 first lines
-		set status $Status
-		set song $Title
-		set art $Artist
-		set path [urldecode [string range $Uri 7 end]]
-		set artpath $CoverUri
-
-		if {$status == "0"} {
+		if {$Status == "0"} {
 			return 0
 		} else {
 			#Define in witch order we want to show the song (from the config)
 			#Use the separator(from the cong) betwen song and artist
 			if {$::music::config(songart) == 1} {
-				append songart $song " " $::music::config(separator) " " $art
+				append songart $Title " " $::music::config(separator) " " $Artist
 			} elseif {$::music::config(songart) == 2} {
-				append songart $art " " $::music::config(separator) " " $song
+				append songart $Artist " " $::music::config(separator) " " $Title
 			} elseif {$::music::config(songart) == 3} {
-				append songart $song
+				append songart $Title
 			}
+
+			#First element in the returned list is the artist + song in desired format
 			lappend return $songart
-			lappend return [urldecode [string range $path 7 end]]
-			lappend return [urldecode $artpath]
+			#Second element is the path to the music-file
+			lappend return [urldecode [string range $Uri 7 end]]
+			#Third element is the path to the album cover-art (if available, else it is "")
+			lappend return $CoverUri
 		}
 
 		return $return
