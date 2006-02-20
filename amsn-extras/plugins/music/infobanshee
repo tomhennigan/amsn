@@ -1,9 +1,11 @@
-#! /bin/sh
+#! /bin/sh  -- needs banshee 0.10.6 and newer 
 
-if ps x -o cmd |grep banshee | grep -v grep |wc -l >& /dev/null ; then
+if ps x -o cmd | grep banshee | grep -v grep |wc -l >& /dev/null ; then
+	banshee --hide-field --query-status	
 	banshee --hide-field --query-title
 	banshee --hide-field --query-artist
 	banshee --hide-field --query-uri
+	banshee --hide-field --query-cover-uri	
 else
 	echo 0
 fi

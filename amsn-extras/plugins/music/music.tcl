@@ -168,13 +168,14 @@ namespace eval ::music {
 		variable playersarray
 		
 		#Define values for supported player on darwin and linux
-		array set OSes [list \
+		array set OSes [list \ne
 			"darwin" [list \
 				"ITunes" [list GetSongITunes exec_applescript] \
 			] \
 			"linux" [list \
 				"XMMS" [list GetSongXMMS TreatSongXMMS] \
 				"Amarok" [list GetSongAmarok TreatSongAmarok] \
+				"Banshee" [list GetSongBanshee TreatSongBanshee] \
 				"Totem" [list GetSongTotem TreatSongTotem] \
 			] \
 			"windows nt" [list \
@@ -474,7 +475,58 @@ namespace eval ::music {
 		return $return
 	}
 
+	###############################################
+	# ::music::TreatSongBanshee                    #
+	# ------------------------------------------- #
+	# Gets the current playing song in Banshee     #
+	###############################################
+	proc TreatSongBanshee {} {
+status_log "TreatSongBanshee 1"
+		#Grab the information asynchronously : thanks to Tjikkun
+		after 0 {::music::exec_async [list "sh" [file join $::music::musicpluginpath "infobanshee"]] }
+		return 0
+	}
 
+	###############################################
+	# ::music::GetSongBanshee                      #
+	# ------------------------------------------- #
+	# Gets the current playing song in Banshee     #
+	###############################################
+	proc GetSongBanshee {} {
+		#actualsong is filled asynchronously in TreatSongBanshee
+		#Split the lines into a list and set the variables as appropriate
+		if { [catch {split $::music::actualsong "\n"} tmplst] } {
+			#actualsong isn't yet defined by asynchronous exec
+			return 0
+		}
+
+		#Get the 4 first lines
+		set status [lindex $tmplst 0]
+		set song [lindex $tmplst 1]
+		set art [lindex $tmplst 2]
+		set path [lindex $tmplst 3]
+
+
+
+		if {$status == "0"} {
+			return 0
+		} else {
+			#Define in witch order we want to show the song (from the config)
+			#Use the separator(from the cong) betwen song and artist
+			if {$::music::config(songart) == 1} {
+				append songart $song " " $::music::config(separator) " " $art
+			} elseif {$::music::config(songart) == 2} {
+				append songart $art " " $::music::config(separator) " " $song
+			} elseif {$::music::config(songart) == 3} {
+				append songart $song
+			}
+			lappend return $songart
+			lappend return [urldecode [string range $path 7 end]]
+		}
+
+		return $return
+	}
+	
 	###############################################
 	# ::music::TreatSongTotem                     #
 	# ------------------------------------------- #
