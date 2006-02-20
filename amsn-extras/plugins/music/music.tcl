@@ -498,6 +498,8 @@ namespace eval ::music {
 		set art [lindex $tmplst 2]
 		set path [lindex $tmplst 3]
 		set artpath [lindex $tmplst 4]
+		
+		if {[string first "nocover" $artpath] != -1} { set artpath "" }
 
 
 		if {$status == "0"} {
