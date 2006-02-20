@@ -36,6 +36,9 @@ namespace eval ::music {
 		#Add items to configure window
 		::music::ConfigList
 
+		image create photo olddp 
+		olddp copy my_pic
+
 		#Start changing the nickname on loading
 		::music::wait_load_newname
 		#Register /showsong and /sendsong to 
@@ -282,18 +285,22 @@ status_log "$info"
 
 
 		#set avatar to albumart if available
+		set smallcoverfilename [file join $musicpluginpath albumart.jpg]
  		if {$artfile != ""} {
-			set smallcoverfilename [file join $musicpluginpath albumart.jpg]
-
-			set smallcover [image create photo -file $artfile]
-			
- 			::picture::ResizeWithRatio $smallcover 96 96
-
-			if {![catch {::picture::Save $smallcover $smallcoverfilename cxjpg}]} {
+			#create a photo called "smallcover" with the albumart of the played song
+ 			::picture::ResizeWithRatio [image create photo smallcover -file $artfile] 96 96
+			#if we can save it to a file, set it as dp
+			if {![catch {::picture::Save smallcover $smallcoverfilename cxjpg}]} {
 				set_displaypic $smallcoverfilename
 			} 		
-			
- 		}
+		#if the album cover isn't available, set the dp the user set before changes by musicplugin
+ 		} else {
+			#if we can save it to a file, set it as dp
+ 			if {![catch {::picture::Save olddp $smallcoverfilename cxjpg}]} {
+				set_displaypic $smallcoverfilename
+			}
+		}
+ 			
 
 
 
@@ -522,15 +529,13 @@ status_log "TreatSongBanshee 1"
 		}
 
 		foreach infoline $tmplst {
+			#find the index of the first ":"
 			set dpntindex [string first ":" $infoline]
-			
+			#the name of the var is the label banshee gives it itself
 			set label [string range $infoline 0 [expr {$dpntindex - 1}]]
-
 			#save everything after the ": " as info under a var named after the label
 			set ${label} [string range $infoline [expr {$dpntindex + 2}] end]
-
 		}
-
 
 		if {$Status == "0"} {
 			return 0
@@ -812,6 +817,8 @@ status_log "TreatSongBanshee 1"
 	proc stop {event epvar} {
 		variable config
 		variable activated
+		variable musicpluginpath
+		
 		if {[array size ::music::playersarray]==0} {
 			return
 		}
@@ -824,6 +831,11 @@ status_log "TreatSongBanshee 1"
 				::music::changenick "$config(nickname)"
 			}
 	   	}
+
+	   	set smallcoverfilename [file join $musicpluginpath albumart.jpg]
+		if {![catch {::picture::Save olddp $smallcoverfilename cxjpg}]} {
+			set_displaypic $smallcoverfilename
+		}
 	}
 
 	proc DeInit {} {
