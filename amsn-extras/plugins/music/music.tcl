@@ -497,6 +497,7 @@ namespace eval ::music {
 		set song [lindex $tmplst 1]
 		set art [lindex $tmplst 2]
 		set path [lindex $tmplst 3]
+		set artpath [lindex $tmplst 4]
 
 
 		if {$status == "0"} {
@@ -513,6 +514,7 @@ namespace eval ::music {
 			}
 			lappend return $songart
 			lappend return [urldecode [string range $path 5 end]]
+			lappend return $artpath
 		}
 		return $return
 	}
