@@ -7,6 +7,7 @@ musicseparator Symbol between nick and song
 musicstopmsg Stopped message
 musiccurrent Display current song
 musicsend Send current song
+artsend Send current album cover
 musicerr Nothing is playing, or the plugin can't get the music playing.
 playing Playing : $1
 musicoserr Your Operating System ($1) isn't yet supported by the Music plugin

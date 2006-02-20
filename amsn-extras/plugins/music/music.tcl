@@ -14,7 +14,9 @@ namespace eval ::music {
 	proc InitPlugin { dir } {
 		variable musicpluginpath
 		variable playersarray
+		variable oldinfo		
 		set musicpluginpath $dir
+		set oldinfo ""
 
 		#Load translation keys (lang files)
 		::music::LoadLangFiles $dir
@@ -221,100 +223,98 @@ namespace eval ::music {
 		variable config
 		variable name
 		variable activated
+		variable oldinfo
+		
 		
 		#Get all song information from ::music::GetSong
 		set info [::music::GetSong]
-		set song [lindex $info 0]
-		set file [lindex $info 1]
-		set artfile [lindex $info 2]
 
-status_log "$info"
+		#if none of the info changed since the last check, we don't change anything
+		if {$info != $oldinfo} {
 
-		set oldname $name
-		#First add the nickname the user choosed in config to the name variable
-		set name "$config(nickname)"
-		#Symbol that will be betwen the nick and the song
-		set separation " $config(symbol) "
+			set song [lindex $info 0]
+			set file [lindex $info 1]
+			set artfile [lindex $info 2]
 
-		#Merge the nickname with the song name if a song is playing
-		#Else, show the stop messsage
-		if {$info != "0"} {
-			#Merge the nickname with the symbol and the song name
-			append name $separation
-			append name $song
-		} else {
-			if {$config(stop) != ""} {
-				#Modification to avoid the separator to be displayed if there is no text when XMMS is stopped
-				#Merge the nickname with the symbol and the stop text ( modified from ITunes plugin)
+			set oldname $name
+			#First add the nickname the user choosed in config to the name variable
+			set name "$config(nickname)"
+			#Symbol that will be betwen the nick and the song
+			set separation " $config(symbol) "
+
+			#Merge the nickname with the song name if a song is playing
+			#Else, show the stop messsage
+			if {$info != "0"} {
+				#Merge the nickname with the symbol and the song name
 				append name $separation
-				append name $config(stop)
-			}
-		}
-
-		#If the user uncheck the box in config, we must put the standard nickname
-		#And if he checks, we must actualize the nickname
-		if { $config(active) && !$activated } {
-			if {[::config::getKey protocol] == 11} {
-				if { $song != "0"} {
-					::MSN::changeCurrentMedia Music 1 "{0}" $song
+				append name $song
+			} else {
+				if {$config(stop) != ""} {
+					#Modification to avoid the separator to be displayed if there is no text when XMMS is stopped
+					#Merge the nickname with the symbol and the stop text ( modified from ITunes plugin)
+					append name $separation
+					append name $config(stop)
 				}
-			} else {
-				::music::changenick "$name"
 			}
-			set activated 1
-		}
 
-		if { !$config(active) && $activated } {
-			set activated 0
-			if {[::config::getKey protocol] == 11} {
-				::MSN::changeCurrentMedia Music 0 "{0}" ""
-			} else {
-				::music::changenick "$config(nickname)"
-			}
-		}
-
-		#Change the nickname if the user did'nt uncheck that config.
-		if {$config(active) && $name != $oldname } {
-			if {[::config::getKey protocol] == 11} {
-				if { $song != "0"} {
-					::MSN::changeCurrentMedia Music 1 "{0}" $song
+			#If the user uncheck the box in config, we must put the standard nickname
+			#And if he checks, we must actualize the nickname
+			if { $config(active) && !$activated } {
+				if {[::config::getKey protocol] == 11} {
+					if { $song != "0"} {
+						::MSN::changeCurrentMedia Music 1 "{0}" $song
+					}
 				} else {
-					::MSN::changeCurrentMedia Music 0 "{0}" ""
+					::music::changenick "$name"
 				}
-			} else {
-				::music::changenick "$name"
+				set activated 1
 			}
-		}
 
-		if {$config(changepic)} {
-			#set avatar to albumart if available
-			set smallcoverfilename [file join $musicpluginpath albumart.jpg]
-	 		if {$artfile != ""} {
-				#create a photo called "smallcover" with the albumart of the played song
-	 			::picture::ResizeWithRatio [image create photo smallcover -file $artfile] 96 96
+			if { !$config(active) && $activated } {
+				set activated 0
+				if {[::config::getKey protocol] == 11} {
+					::MSN::changeCurrentMedia Music 0 "{0}" ""
+				} else {
+					::music::changenick "$config(nickname)"
+				}
+			}
 
-				#if we don't set the same that is already set
-	#			if { [smallcover data] != [my_pic data] } {
-	#				status_log "There's a new pixmap we need to set it"
-					#if we can save it to a file, set it as dp
+			#Change the nickname if the user did'nt uncheck that config.
+			if {$config(active) && $name != $oldname } {
+				if {[::config::getKey protocol] == 11} {
+					if { $song != "0"} {
+						::MSN::changeCurrentMedia Music 1 "{0}" $song
+					} else {
+						::MSN::changeCurrentMedia Music 0 "{0}" ""
+					}
+				} else {
+					::music::changenick "$name"
+				}
+			}
+
+			if {$config(changepic)} {
+				#set avatar to albumart if available
+				set smallcoverfilename [file join $musicpluginpath albumart.jpg]
+		 		if {$artfile != ""} {
+					#create a photo called "smallcover" with the albumart of the played song
+		 			::picture::ResizeWithRatio [image create photo smallcover -file $artfile] 96 96
+
 					if {![catch {::picture::Save smallcover $smallcoverfilename cxjpg}]} {
 						set_displaypic $smallcoverfilename
 					}
-				
-	#			}
-			#if the album cover isn't available, set the dp the user set before changes by musicplugin
-	 		} else {
-				#if we don't set the same that is already set
-	#			if { [olddp data] != [my_pic data] } {
-					#if we can save it to a file, set it as dp
+
+		 		} else {
+					#if the album cover isn't available, set the dp the user set\
+						before changes by musicplugin
 		 			if {![catch {::picture::Save olddp $smallcoverfilename cxjpg}]} {
 						set_displaypic $smallcoverfilename
 					}
-	#			}
-			}
- 		}
+				}
+	 		}
 
 
+		set oldinfo $info
+		}
 
 		#Execute the script which get the song from the player to have it immediatly
 		::music::TreatSong
@@ -327,6 +327,8 @@ status_log "$info"
 		#Take the second number we have from the plugin config and
 		#multiply by 1000 because "after" count in "ms" (1000ms=1s)
 		set time [expr {int($config(second)*1000)}]
+
+
 		#Reload newname proc after this time (loop)
 		after $time ::music::newname 0 0
 
@@ -521,7 +523,6 @@ status_log "$info"
 	# Gets the current playing song in Banshee     #
 	###############################################
 	proc TreatSongBanshee {} {
-status_log "TreatSongBanshee 1"
 		#Grab the information asynchronously : thanks to Tjikkun
 		after 0 {::music::exec_async [list "sh" [file join $::music::musicpluginpath "infobanshee"]] }
 		return 0
@@ -743,6 +744,7 @@ status_log "TreatSongBanshee 1"
 			#Create label in submenu
 			$copymenu.music add command -label [trans musiccurrent] -command "::music::menucommand $w 1"
 			$copymenu.music add command -label [trans musicsend] -command "::music::menucommand $w 2"
+			$copymenu.music add command -label [trans artsend] -command "::music::menucommand $w 3"
 		}
 		::music::log "Music menu created"
 
@@ -763,6 +765,7 @@ status_log "TreatSongBanshee 1"
 		set info [::music::GetSong]
 		set song [lindex $info 0]
 		set file [lindex $info 1]
+		set artfile [lindex $info 2]
 
 		if {$info == "0"} {
 			if {[::music::version_094]} {
@@ -784,6 +787,12 @@ status_log "TreatSongBanshee 1"
 				#Send the current song as a file
 				::music::log "Send file with file $file"
 				::amsn::FileTransferSend $win_name $file
+				return 0
+			}
+			3 {
+				#Send the full size version of the album cover as a file
+				::music::log "Send file with file $artfile"				
+				::amsn::FileTransferSend $win_name $artfile
 				return 0
 			}
 		}
