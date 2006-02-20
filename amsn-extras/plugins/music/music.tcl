@@ -168,7 +168,7 @@ namespace eval ::music {
 		variable playersarray
 		
 		#Define values for supported player on darwin and linux
-		array set OSes [list \ne
+		array set OSes [list \
 			"darwin" [list \
 				"ITunes" [list GetSongITunes exec_applescript] \
 			] \
