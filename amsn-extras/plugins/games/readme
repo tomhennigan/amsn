@@ -1,0 +1,58 @@
+
+=================================================================
+Credits
+=================================================================
+
+- Thanks to Tjikkun for the many usefull tips about the protocol 
+  used and for his time to discuss the plugin with me.
+- Thanks to Bernd Breitenbach for letting me use his code that
+  implements the Hourglass (used in the Sketch game).
+- Thanks to Scapor for testing with me, begin enthusiastic and having
+  such a long nickname I immediately knew I had to truncate this.
+
+JeeBee <jonne_z REMOVEatTHIS users.sourceforge.net>
+
+=================================================================
+Games plugin
+=================================================================
+
+The aim of this plugin is to provide a general framework for games.
+It is not compatible with MS-MSN, however, one day someone might
+for instance write a plugin for MS-MSN Plus! that would enable us
+to play with MS-MSN people as well!
+
+If you are a developer and want to add a game to this plugin,
+you might want to read the developers.readme.
+
+If you are a user enjoying this plugin, and perhaps have any
+comments/suggestions/etc, please let me know.
+
+Have fun,
+JeeBee <jonne_z REMOVEatTHIS users.sourceforge.net>
+
+=================================================================
+Dots-and-Boxes Readme
+=================================================================
+
+Goal
+=========
+Your ultimate goal is to own more boxes than your opponent.
+You own a box if all four moves surrounding the box have been played.
+Each player plays a move (any edge that has not been played before)
+in turns. However, when a player gains a box by making this move, he
+immediately moves again.
+If all boxes are owned by the players the game is finished.
+The player that owns the most boxes wins, in case the players own an
+equal number of boxes, the game is drawn (a draw is of course only
+possible if there is an even total number of boxes).
+
+Strategy
+=========
+You might be very surprised how much is already known about playing this game.
+Unless you know about the chain fight, preemptive sacrifices, loops
+and quads, it is highly unlikely you will ever beat anyone who does.
+
+Here are some links where you can learn much about it:
+  http://cf.geocities.com/ilanpi/dots.html
+  http://wiki.jijbent.nl/index.php/Spelregels_kamertje_verhuur (in Dutch!)
+  

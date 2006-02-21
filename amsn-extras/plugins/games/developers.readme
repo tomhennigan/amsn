@@ -1,0 +1,104 @@
+
+Ideas / Todo
+======================================================
+- Test plugin on other platforms.
+  I developed using Linux / Fedora Core 4.
+- And how about creating plugins for other msn clients
+  like MS-MSN (perhaps an msn Plus! plugin).
+- Maybe we are allowed to integrate some games from
+  http://wiki.tcl.tk/898 ?
+  http://tkgames.sourceforge.net/index.html ?
+- Look for FIXME tags in the source
+- Replace strings by language keys
+- Implement the game Hangman
+- Implement Minesweeper Flags - See above wiki.tcl.tk link
+- Implement Text Twist or Hangman
+- Implement iSketch - See www.isketch.net
+- Implement Two-player Sudoku
+- Trivial Pursuit
+
+Please always e-mail me to avoid that developers are
+doing redundant work by spending their time on implementing
+the same game for instance (if you select any of the above
+at least).
+
+Minimal steps required to add a new game:
+======================================================
+- Add your new game to variable games, e.g.
+  variable games {"Dots_and_Boxes" "Chess"}
+  -> Corresponding files must be:
+     Dots_and_Boxes.tcl and Chess.tcl
+  -> Corresponding namespaces must be:
+     ::Games::Dots_and_Boxes and ::Games::Chess
+  -> Add a language key to supply the complete game name
+     in plugin_dir/lang/langen
+- Study Dots_and_Boxes
+  Verify everthing written in this document as this plugin is 
+  new and things are likely to get changed.
+- Implement at least the following procs:
+  -> init_game
+  -> set_init_game
+  -> start_game
+  -> opponent_moves
+- Call ::Games::SendMove to send moves to the opponent
+- Call ::Games::SendQuit to notify the opponent to quit the game
+- Please try to not break backward compatibility
+
+The following messages are supported:
+======================================================
+- Invite(Game,GameInit)
+- Unsupported(Game,GameInit)
+- Accept(Game,GameInit)
+- Decline(Game,GameInit)
+- Move(TheMove)
+- Quit()
+
+Each received message that contains our prefix and suffix
+must match one of the above in order to be processed.
+Further, the argument can only contain characters in alfabet Sigma.
+
+- Sigma = a-z A-Z 0-9 , - = and space
+
+Your games plugin can send messages to the opponent using
+::Games::SendMove and ::Games::SendQuit.
+
+Your game-specific initialization would come in the
+GameInit string (there are two of those) and the rest
+in TheMove messages.
+
+Some other important variables:
+======================================================
+- OpenChallenges = Chatid X Game X GameInit
+  Set of all game invitations done by the user
+
+
+Multi-player protocol
+======================================================
+If the window in which the inviter tries to start a game
+is a conference window, only Multi-player games can be started.
+
+The inviter will from that moment on act as the host of the game.
+This means, if this person closes the game window or leaves the
+conference, the game is ended for all players.
+
+The inviter sends an Invite message to all players in the conference.
+If an Accept is received for all players in the conference the game
+is started.
+
+From that moment on, three different things can happen to the conference:
+- The inviter leaves -> the game is ended.
+- Another player leaves -> player is removed from the game. The particular
+  game in progress could decide to end the game, but that's a game-specific
+  decision.
+- A new person is invited to the chat -> The game in progress is informed
+  about this. So again, a game-specific decision. The game could resend the
+  Invite message. All players that already accepted will ignore this message,
+  the new person can choose to accept or decline. If accepting the game will
+  be informed about the new player entering the multi-player game.
+
+For some games, it may be desirable to continue even if there are only two
+players left and, hence, the conference window changes into a private window.
+It could even be those two persons already have a private window.
+This needs some testing... Games that support this can probably also be
+started as a two-player game and later turn into a multi-player game in
+a conference window.

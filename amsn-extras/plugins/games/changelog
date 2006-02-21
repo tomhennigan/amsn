@@ -1,0 +1,76 @@
+
+Version 0.16:
+==================
+-	Sending advertisement message
+	Sending message to install aMSN and Games plugin with urls in
+	case opponent(s) do not seem to have this [loaded] already.
+-	Can load optimized animated gifs (without using TkCximage).
+	Optimized animated gifs save frames as differences with
+	the previous frame, so these must be overlayed.
+-	Backwards compatible to aMSN 0.95 now!
+-	Several small fixes.
+
+Version 0.15:
+==================
+-	New game: Hangman.
+-	Each game now can have its own configuration items
+
+Version 0.14:
+==================
+-	Support for long messages.
+	If message are longer than the maximum allowed size, ::Games::packet_send
+	can split messages up (if implemented for the particular message type).
+	If it cannot split up, it logs a warning and does not send the message.
+-	Drawing stops when mouse leaves canvas.
+-	Violation button implemented.
+	Guessers can click Violate if they find the drawer violates drawing rules
+	e.g. by drawing the letters of a word. If majority of guessers click Violate,
+	round is skipped and drawer is not awarded the normal points for drawing.
+-	Language keys.
+	Added language keys for Sketch game.
+-	Small bugs.
+	- Drawer also lost his 10 points (for drawing) when there were correct guesses.
+	- Version conflicts in Multi-player were only checked for the last Pong message.
+
+Version 0.13:
+==================
+-	The first multi-player game: Sketch
+-	Optimizations
+	All exprs surrounded by {}
+-	Dictionary support
+	Language files used for dictionaries
+-	Saving images to file
+	Possible to save the drawings to Encapsulated Postscript
+-	Sorting players by score
+	Dark green means they scored this round
+-	Set required_version to 0.96
+	Needed for several patches I submitted to the aMSN team,
+	e.g. PostEvent PacketRecieved changed, proc pluginVersion added,
+	and I changed x-clientcaps.
+-	Using moveinscreen (thanks to Jerome)
+	Also improved grid layout
+-	Implement Skip button to skip rounds
+-	Now clearing canvas between rounds
+-	Decreased canvas size somewhat for people running low resolution.
+-	And several things I forgot :)
+
+Version 0.12:
+==================
+-	Nicer window to specify game configuration
+	One window instead of two tk_dialog, a scale and a listbox.
+	Reminds previous challenge as default challenge.
+-	Nicer movelist
+
+Version 0.11:
+==================
+- 	Added check for conference windows
+	Message is displayed that MultiPlayerGames are not yet supported.
+-	Added MultiPlayerGames to menu (disabled). 
+	This is not yet supported but it will come soon.
+- 	Change in protocol
+	VERSION, GAMEID and GAMETYPE put in header instead of in the message body
+
+Version 0.10:
+==================
+-	Initial version
+	Yep, let's call this the initial version, hehe.
