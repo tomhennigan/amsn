@@ -14,8 +14,11 @@ namespace eval ::music {
 	proc InitPlugin { dir } {
 		variable musicpluginpath
 		variable playersarray
-		variable oldinfo		
+		variable oldinfo
+		variable dppath
+				
 		set musicpluginpath $dir
+		set dppath [::config::getKey displaypic]
 		set oldinfo ""
 
 		#Load translation keys (lang files)
@@ -37,20 +40,15 @@ namespace eval ::music {
 		::music::ConfigArray
 		#Add items to configure window
 		::music::ConfigList
-
-		image create photo olddp 
-		#make sure we put the no_pic for if there is no my_pic
-		olddp copy no_pic
-		olddp copy my_pic
-		
-		status_log "MUSIC ||| old pic saved as olddp" black
 		
 		#Start changing the nickname on loading
 		::music::wait_load_newname
 		#Register /showsong and /sendsong to 
 		after 5000 ::music::add_command 0 0
 	}
-	
+
+
+
 	#####################################################
 	# ::music::LoadLangFiles dir                        #
 	# ------------------------------------------------- #
@@ -168,7 +166,6 @@ namespace eval ::music {
 				]
 			}
 		}
-status_log "MUSIC ||| CONFIG SET"
 
 	}
 	###########################################
@@ -181,7 +178,6 @@ status_log "MUSIC ||| CONFIG SET"
 		global tcl_platform
 		variable playersarray
 		
-		status_log "os ver"
 		
 		#Define values for supported player on darwin and linux
 		array set OSes [list \
@@ -192,7 +188,6 @@ status_log "MUSIC ||| CONFIG SET"
 				"XMMS" [list GetSongXMMS TreatSongXMMS] \
 				"Amarok" [list GetSongAmarok TreatSongAmarok] \
 				"Banshee" [list GetSongBanshee TreatSongBanshee] \
-				"Totem" [list GetSongTotem TreatSongTotem] \
 			] \
 			"windows nt" [list \
 				"WinAmp" [list GetSongWinamp TreatSongWinamp] \
@@ -232,12 +227,11 @@ status_log "MUSIC ||| CONFIG SET"
 		variable name
 		variable activated
 		variable oldinfo
+		variable dppath
 		
 		
 		#Get all song information from ::music::GetSong
 		set info [::music::GetSong]
-
-		status_log "IN NEWNAME, info : $info"
 
 		#if none of the info changed since the last check, we don't change anything
 		if {$info != $oldinfo} {
@@ -316,9 +310,9 @@ status_log "MUSIC ||| CONFIG SET"
 		 		} else {
 					#if the album cover isn't available, set the dp the user set\
 						before changes by musicplugin
-		 			if {![catch {::picture::Save olddp $smallcoverfilename cxjpg}]} {
-						set_displaypic $smallcoverfilename
-					}
+					::music::log "No album art found, use $dppath"
+					set_displaypic 	$dppath
+
 				}
 	 		}
 
@@ -858,6 +852,7 @@ status_log "MUSIC ||| CONFIG SET"
 		variable config
 		variable activated
 		variable musicpluginpath
+		variable dppath
 		
 		if {[array size ::music::playersarray]==0} {
 			return
@@ -872,10 +867,8 @@ status_log "MUSIC ||| CONFIG SET"
 			}
 	   	}
 
-	   	set smallcoverfilename [file join $musicpluginpath albumart.jpg]
-		if {![catch {::picture::Save olddp $smallcoverfilename cxjpg}]} {
-			set_displaypic $smallcoverfilename
-		}
+		#reset displaypicture
+		set_displaypic $dppath
 	}
 
 	proc DeInit {} {
