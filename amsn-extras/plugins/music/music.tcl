@@ -39,8 +39,12 @@ namespace eval ::music {
 		::music::ConfigList
 
 		image create photo olddp 
+		#make sure we put the no_pic for if there is no my_pic
+		olddp copy no_pic
 		olddp copy my_pic
-
+		
+		status_log "MUSIC ||| old pic saved as olddp" black
+		
 		#Start changing the nickname on loading
 		::music::wait_load_newname
 		#Register /showsong and /sendsong to 
@@ -146,7 +150,7 @@ namespace eval ::music {
 					[list label "[trans choose_order]"] \
 					[list rbt "[trans songartist]" "[trans artistsong]" "[trans song]" songart] \
 					[list str "[trans separator]" separator] \
-					[list bool "[trans changepic]" changepic] \ \					
+					[list bool "[trans changepic]" changepic] \
 				]
 			} else {
 				set ::music::configlist [list \
@@ -164,6 +168,8 @@ namespace eval ::music {
 				]
 			}
 		}
+status_log "MUSIC ||| CONFIG SET"
+
 	}
 	###########################################
 	# ::music::OsVerification                 #
@@ -174,6 +180,8 @@ namespace eval ::music {
 	proc OsVerification {} {
 		global tcl_platform
 		variable playersarray
+		
+		status_log "os ver"
 		
 		#Define values for supported player on darwin and linux
 		array set OSes [list \
@@ -228,6 +236,8 @@ namespace eval ::music {
 		
 		#Get all song information from ::music::GetSong
 		set info [::music::GetSong]
+
+		status_log "IN NEWNAME, info : $info"
 
 		#if none of the info changed since the last check, we don't change anything
 		if {$info != $oldinfo} {
@@ -544,14 +554,19 @@ namespace eval ::music {
 			#actualsong isn't yet defined by asynchronous exec
 			return 0
 		}
+		
+		if {$tmplst == 0} {
+			set Status 0
+		} else {
 
-		foreach infoline $tmplst {
-			#find the index of the first ":"
-			set dpntindex [string first ":" $infoline]
-			#the name of the var is the label banshee gives it itself
-			set label [string range $infoline 0 [expr {$dpntindex - 1}]]
-			#save everything after the ": " as info under a var named after the label
-			set ${label} [string range $infoline [expr {$dpntindex + 2}] end]
+			foreach infoline $tmplst {
+				#find the index of the first ":"
+				set dpntindex [string first ":" $infoline]
+				#the name of the var is the label banshee gives it itself
+				set label [string range $infoline 0 [expr {$dpntindex - 1}]]
+				#save everything after the ": " as info under a var named after the label
+				set ${label} [string range $infoline [expr {$dpntindex + 2}] end]
+			}
 		}
 
 		if {$Status == "0"} {
