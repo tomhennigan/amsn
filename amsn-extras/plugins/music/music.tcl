@@ -304,6 +304,7 @@ namespace eval ::music {
 		 			::picture::ResizeWithRatio [image create photo smallcover -file $artfile] 96 96
 
 					if {![catch {::picture::Save smallcover $smallcoverfilename cxjpg}]} {
+						::music::log "Album art found, changing..."
 						set_displaypic $smallcoverfilename
 					}
 

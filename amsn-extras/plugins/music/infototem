@@ -1,10 +1,7 @@
 #! /bin/sh
-#Thanks to Dennis "dweazle" Krul for the bash-magic
-if [[ $(pidof -s totem) -gt 0 ]]
-then
-	totem --print-playing
-else
+if [ -z "$(pidof totem)" ]; then
 	echo 0
+else 
+	totem --print-playing
 fi
-
 exit 0
