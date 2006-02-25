@@ -290,7 +290,7 @@ snit::widgetadaptor pixmapmenu {
 					-widget		$canvas			-orient 	horizontal \
 					-ipadx 		$options(-entrypadx) 	-ipady 		$options(-entrypady)
 				contentmanager add element $main $entryid icon \
-					-widget	$canvas			-tag	$image($entryid) \
+					-widget	$canvas			-tag	$imageid($entryid) \
 					-padx $options(-entrypadx)	-pady 	$options(-entrypady) \
 					-valign center
 				contentmanager add attachment $main $entryid icon tick -widget $canvas -tag $checktickid($entryid)
@@ -379,7 +379,8 @@ snit::widgetadaptor pixmapmenu {
 	}
 
 	method EntryDeselectCheck { id } {
-		$canvas itemconfigure $checktickid($id) -state hidden
+		# Only works with an after, don't know why :(
+		after 0 "$canvas itemconfigure $checktickid($id) -state hidden"
 	}
 
 	method EntryDeselectRadio { id } {
@@ -387,8 +388,9 @@ snit::widgetadaptor pixmapmenu {
 	}
 
 	method EntrySelectCheck { id } {
+		# Only works with an after, don't know why :(
 		if { [$config($id) cget -indicatoron] } {
-			$canvas itemconfigure $checkotickid($id) -state normal
+			after 0 "$canvas itemconfigure $checktickid($id) -state normal"
 		}
 	}
 

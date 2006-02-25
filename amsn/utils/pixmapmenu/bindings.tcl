@@ -86,7 +86,7 @@ bind Pixmapmenu <B1-Motion> {
 			if { $index == "none" && [$containing type active] == "cascade" } {
 				break
 			} else {
-				if { [$containing type $index] == "cascade" } {
+				if { [$containing type $index] == "cascade" && [$containing entrycget $index -state] != "disabled" } {
 					$containing activate $index 0
 					after cancel $afterid(UnpostCascade)
 					set afterid(PostCascade) [after [%W cget -cascadedelay] "$containing postcascade $index"]
@@ -128,7 +128,7 @@ bind Pixmapmenu <Motion> {
 			if { $index == "none" && [%W type active] == "cascade" } {
 				break
 			} else {
-				if { [$containing type $index] == "cascade" } {
+				if { [$containing type $index] == "cascade" && [$containing entrycget $index -state] != "disabled" } {
 					$containing activate $index 0
 					after cancel $afterid(UnpostCascade)
 					set afterid(PostCascade) [after [%W cget -cascadedelay] "$containing postcascade $index"]
@@ -301,38 +301,43 @@ bind Pixmapmenu <Right> {
 bind Pixmapmenu <Return> {
 	variable MenuPosted
 	set type [%W cget -type]
-	if { $type != "menubar" } {
-		$::tk::Priv(menuBar) activate none
-	}
-	MenuUnpost $MenuPosted
 	if { [%W type active] == "cascade" } {
 		%W postcascade active
 	} else {
 		%W invoke active
+	}
+	MenuUnpost $MenuPosted
+	if { $type != "menubar" } {
+		$::tk::Priv(menuBar) activate none
 	}
 }
 
 bind Pixmapmenu <space> {
 	variable MenuPosted
-	MenuUnpost $MenuPosted
-	if { $type != "menubar" } {
-		$::tk::Priv(menuBar) activate none
-	}
 	if { [%W type active] == "cascade" } {
 		%W postcascade active
 	} else {
 		%W invoke active
 	}
+	MenuUnpost $MenuPosted
+	if { $type != "menubar" } {
+		$::tk::Priv(menuBar) activate none
+	}
 }
 
 bind Pixmapmenu <Escape> {
-	[winfo parent %W] unpost
+	if { [IsTopLevelMenu [winfo parent %W]] } {
+		MenuUnpost $MenuPosted
+	} else {
+		[winfo parent %W] unpost
+	}
 }
 
 # Procs
 proc IsTopLevelMenu { w } {
 	set parent [winfo parent $w]
-	set ptype [$parent cget -type]
+	set ptype {}
+	catch { set ptype [$parent cget -type] }
 	switch $ptype {
 		menubar {
 			return 1
@@ -375,7 +380,9 @@ proc RootYToY { w Y } {
 }
 
 proc MenuFocus { w } {
-	focus $w.m
+	if { [winfo exists $w.m] } {
+		focus $w.m
+	}
 }
 
 proc MenuNextEntry { w direction } {
