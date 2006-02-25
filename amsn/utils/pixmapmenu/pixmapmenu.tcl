@@ -35,9 +35,9 @@ snit::widgetadaptor pixmapmenu {
 		set backgroundimg [::skin::loadPixmap menubackground]
 		set selectimg [::skin::loadPixmap menuselect]
 		set separatorimg [::skin::loadPixmap menuseparator]
-		set backgroundborder {5 5 5 5}
-		set selectborder {5 5 5 5}
-		set separatorborder {0 1 0 1}
+		set backgroundborder {1 1 1 1}
+		set selectborder {1 1 1 1}
+		set separatorborder {0 0 0 0}
 	}
 
 	option -activeforeground -configuremethod SetForeground -default black
@@ -66,8 +66,8 @@ snit::widgetadaptor pixmapmenu {
 	variable arrowid 	;# Array to store canvas ids of entries' arrows (cascade entries only)
 	variable imageid 	;# Array to store canvas ids of entries' images
 	variable textid 	;# Array to store canvas ids of entries' text
-	variable checktickid
-	variable radiotickid
+	variable checktickid	;# Array to store canvas ids of entries' check marks (checkbutton entries only)
+	variable radiotickid	;# Array to store canvas ids of entries' radio marks (radiobutton entries only)
 	variable backgroundid
 	variable background
 	variable select
@@ -93,7 +93,7 @@ snit::widgetadaptor pixmapmenu {
 		array set config {{} {}}
 
 		# Create canvas
-		installhull using canvas -bd 0 -bg white -highlightthickness 0 -relief flat
+		installhull using canvas -borderwidth 0 -highlightthickness 0 -relief flat
 		set canvas $hull
 		# Parse and apply arguments
 		$self configurelist $args
@@ -212,105 +212,147 @@ snit::widgetadaptor pixmapmenu {
 	}
 
 	method CreateEntry { index _type args } {
-		if { $_type == "command" || $_type == "cascade" } {
-			# Create the canvas items
-			set imageid($entryid) [$canvas create image $offx $offy -anchor nw]
-			set textid($entryid) [$canvas create text $offx $offy -anchor nw -fill $options(-fg) -font $options(-font)]
-			# Create the contentmanager items
-			contentmanager insert $index group $main $entryid \
-				-widget		$canvas			-orient 	horizontal \
-				-ipadx 		$options(-entrypadx) 	-ipady 		$options(-entrypady)
-			contentmanager add element $main $entryid icon \
-				-widget	$canvas			-tag	$imageid($entryid) \
-				-valign center
-			contentmanager add element $main $entryid text \
-				-widget	$canvas			-tag	$textid($entryid) \
-				-padx $options(-entrypadx)	-pady 	$options(-entrypady) \
-				-valign center
-			if { $_type == "cascade" && $options(-type) != "menubar" } {
-				switch $options(-orient) {
-					horizontal {
-						set arrowid($entryid) [$canvas create image $offx $offy -anchor nw -image $arrowdownimg]
-					}
-					vertical {
-						set arrowid($entryid) [$canvas create image $offx $offy -anchor nw -image $arrowrightimg]
-					}
+		switch -regexp $_type {
+			com.* {
+				# Create the canvas items
+				set imageid($entryid) [$canvas create image $offx $offy -anchor nw]
+				set textid($entryid) [$canvas create text $offx $offy -anchor nw -fill $options(-fg) -font $options(-font)]
+				# Create the contentmanager items
+				contentmanager insert $index group $main $entryid \
+					-widget		$canvas			-orient 	horizontal \
+					-ipadx 		$options(-entrypadx) 	-ipady 		$options(-entrypady)
+				contentmanager add element $main $entryid icon \
+					-widget	$canvas			-tag	$imageid($entryid) \
+					-valign center
+				contentmanager add element $main $entryid text \
+					-widget	$canvas			-tag	$textid($entryid) \
+					-padx $options(-entrypadx)	-pady 	$options(-entrypady) \
+					-valign center
+	
+				# Create and configure the entry object
+				set config($entryid) [uplevel #0 "$_type $self.$entryid -id $entryid -parent $self"]
+				if { [lsearch $args -image] == -1 } {
+					lappend args -image {}
 				}
-				contentmanager add element $main $entryid arrow \
-				-widget	$canvas			-tag	$arrowid($entryid) \
-				-valign center
+				if { [lsearch $args -label] == -1 } {
+					lappend args -label {}
+				}
+				$config($entryid) configurelist $args
 			}
+			casc.* {
+				# Create the canvas items
+				set imageid($entryid) [$canvas create image $offx $offy -anchor nw]
+				set textid($entryid) [$canvas create text $offx $offy -anchor nw -fill $options(-fg) -font $options(-font)]
+				# Create the contentmanager items
+				contentmanager insert $index group $main $entryid \
+					-widget		$canvas			-orient 	horizontal \
+					-ipadx 		$options(-entrypadx) 	-ipady 		$options(-entrypady)
+				contentmanager add element $main $entryid icon \
+					-widget	$canvas			-tag	$imageid($entryid) \
+					-valign center
+				contentmanager add element $main $entryid text \
+					-widget	$canvas			-tag	$textid($entryid) \
+					-padx $options(-entrypadx)	-pady 	$options(-entrypady) \
+					-valign center
+	
+				# Create and configure the entry object
+				set config($entryid) [uplevel #0 "$_type $self.$entryid -id $entryid -parent $self"]
+				if { [lsearch $args -image] == -1 } {
+					lappend args -image {}
+				}
+				if { [lsearch $args -label] == -1 } {
+					lappend args -label {}
+				}
+				$config($entryid) configurelist $args
 
-			# Create and configure the entry object
-			set config($entryid) [uplevel #0 "$_type $self.$entryid -id $entryid -parent $self"]
-			if { [lsearch $args -image] == -1 } {
-				lappend args -image {}
+				# Add arrow
+				if { $options(-type) != "menubar" } {
+					switch $options(-orient) {
+						horizontal {
+							set arrowid($entryid) [$canvas create image $offx $offy -anchor nw -image $arrowdownimg]
+						}
+						vertical {
+							set arrowid($entryid) [$canvas create image $offx $offy -anchor nw -image $arrowrightimg]
+						}
+					}
+					contentmanager add element $main $entryid arrow \
+					-widget	$canvas			-tag	$arrowid($entryid) \
+					-valign center
+				}
 			}
-			if { [lsearch $args -label] == -1 } {
-				lappend args -label {}
+			check.* {
+				# Create the canvas items
+				set imageid($entryid) [$canvas create image $offx $offy -anchor nw -image $checkboximg]
+				set checktickid($entryid) [$canvas create image $offx $offy -anchor nw -image $checktickimg]
+				set textid($entryid) [$canvas create text $offx $offy -anchor nw -fill $options(-fg) -font $options(-font)]
+				# Create the contentmanager items
+				contentmanager insert $index group $main $entryid \
+					-widget		$canvas			-orient 	horizontal \
+					-ipadx 		$options(-entrypadx) 	-ipady 		$options(-entrypady)
+				contentmanager add element $main $entryid icon \
+					-widget	$canvas			-tag	$image($entryid) \
+					-padx $options(-entrypadx)	-pady 	$options(-entrypady) \
+					-valign center
+				contentmanager add attachment $main $entryid icon tick -widget $canvas -tag $checktickid($entryid)
+				contentmanager add element $main $entryid text \
+					-widget	$canvas			-tag	$textid($entryid) \
+					-padx $options(-entrypadx)	-pady 	$options(-entrypady) \
+					-valign center
+	
+				set _type menu_checkbutton
+				# Create and configure the entry object
+				set config($entryid) [uplevel #0 "$_type $self.$entryid -id $entryid -parent $self -canvas $canvas"]
+				if { [lsearch $args -label] == -1 } {
+					lappend args -label {}
+				}
+				$config($entryid) configurelist $args
 			}
-			$config($entryid) configurelist $args
-		} elseif { $_type == "separator" } {
-			# Create the canvas item
-			set id [$canvas create image $offx $offy -anchor nw -image [$separator name]]
-			# Create the contentmanager item
-			contentmanager insert $index element $main $entryid \
-				-widget	$canvas			-tag	$id \
-				-ipadx	$options(-entrypadx)	-ipady $options(-entrypady)
-			set config($entryid) [uplevel #0 "$_type $self.$entryid -id $entryid -parent $self"]
-		} elseif { $_type == "checkbutton" } {
-			# Create the canvas items
-			set checkboxid($entryid) [$canvas create image $offx $offy -anchor nw -image $checkboximg]
-			set checktickid($entryid) [$canvas create image $offx $offy -anchor nw -image $checktickimg]
-			set textid($entryid) [$canvas create text $offx $offy -anchor nw -fill $options(-fg) -font $options(-font)]
-			# Create the contentmanager items
-			contentmanager insert $index group $main $entryid \
-				-widget		$canvas			-orient 	horizontal \
-				-ipadx 		$options(-entrypadx) 	-ipady 		$options(-entrypady)
-			contentmanager add element $main $entryid icon \
-				-widget	$canvas			-tag	$checkboxid($entryid) \
-				-padx $options(-entrypadx)	-pady 	$options(-entrypady) \
-				-valign center
-			contentmanager add attachment $main $entryid icon tick -widget $canvas -tag $checktickid($entryid)
-			contentmanager add element $main $entryid text \
-				-widget	$canvas			-tag	$textid($entryid) \
-				-padx $options(-entrypadx)	-pady 	$options(-entrypady) \
-				-valign center
-
-			set _type menu_checkbutton
-			# Create and configure the entry object
-			set config($entryid) [uplevel #0 "$_type $self.$entryid -id $entryid -parent $self -canvas $canvas"]
-			if { [lsearch $args -label] == -1 } {
-				lappend args -label {}
+			radio.* {
+				# Create the canvas item
+				set imageid($entryid) [$canvas create image $offx $offy -anchor nw -image $radioboximg]
+				set radiotickid($entryid) [$canvas create image $offx $offy -anchor nw -image $radiotickimg]
+				set textid($entryid) [$canvas create text $offx $offy -anchor nw -fill $options(-fg) -font $options(-font)]
+	
+				# Create the contentmanager items
+				contentmanager insert $index group $main $entryid \
+					-widget		$canvas			-orient 	horizontal \
+					-ipadx 		$options(-entrypadx) 	-ipady 		$options(-entrypady)
+				contentmanager add element $main $entryid icon \
+					-widget	$canvas			-tag	$imageid($entryid) \
+					-padx $options(-entrypadx)	-pady 	$options(-entrypady) \
+					-valign center
+				contentmanager add attachment $main $entryid icon tick -widget $canvas -tag $radiotickid($entryid)
+				contentmanager add element $main $entryid text \
+					-widget	$canvas			-tag	$textid($entryid) \
+					-padx $options(-entrypadx)	-pady 	$options(-entrypady) \
+					-valign center
+				set _type menu_radiobutton
+				# Create and configure the entry object
+				set config($entryid) [uplevel #0 "$_type $self.$entryid -id $entryid -parent $self -canvas $canvas"]
+				if { [lsearch $args -label] == -1 } {
+					lappend args -label {}
+				}
+				$config($entryid) configurelist $args
 			}
-			$config($entryid) configurelist $args
-		} elseif { $_type == "radiobutton" } {
-			# Create the canvas item
-			set radioboxid($entryid) [$canvas create image $offx $offy -anchor nw -image $radioboximg]
-			set radiotickid($entryid) [$canvas create image $offx $offy -anchor nw -image $radiotickimg]
-			set textid($entryid) [$canvas create text $offx $offy -anchor nw -fill $options(-fg) -font $options(-font)]
-
-			# Create the contentmanager items
-			contentmanager insert $index group $main $entryid \
-				-widget		$canvas			-orient 	horizontal \
-				-ipadx 		$options(-entrypadx) 	-ipady 		$options(-entrypady)
-			contentmanager add element $main $entryid icon \
-				-widget	$canvas			-tag	$radioboxid($entryid) \
-				-padx $options(-entrypadx)	-pady 	$options(-entrypady) \
-				-valign center
-			contentmanager add attachment $main $entryid icon tick -widget $canvas -tag $radiotickid($entryid)
-			contentmanager add element $main $entryid text \
-				-widget	$canvas			-tag	$textid($entryid) \
-				-padx $options(-entrypadx)	-pady 	$options(-entrypady) \
-				-valign center
-			set _type menu_radiobutton
-			# Create and configure the entry object
-			set config($entryid) [uplevel #0 "$_type $self.$entryid -id $entryid -parent $self -canvas $canvas"]
-			if { [lsearch $args -label] == -1 } {
-				lappend args -label {}
+			sep.* {
+				# Create the canvas item
+				set id [$canvas create image $offx $offy -anchor nw -image [$separator name]]
+				# Create the contentmanager item
+				contentmanager insert $index element $main $entryid \
+					-widget	$canvas			-tag	$id \
+					-ipadx	$options(-entrypadx)	-ipady $options(-entrypady)
+				set config($entryid) [uplevel #0 "$_type $self.$entryid -id $entryid -parent $self"]
 			}
-			$config($entryid) configurelist $args
 		}
+		#if { $_type == "command" || $_type == "cascade" } {
+		#	
+		#} elseif { $_type == "separator" } {
+		#	
+		#} elseif { $_type == "checkbutton" } {
+		#	
+		#} elseif { $_type == "radiobutton" } {
+		#	
+		#}
 
 		incr entryid 1
 		return [expr {$entryid - 1}]
@@ -395,7 +437,11 @@ snit::widgetadaptor pixmapmenu {
 	method index { index } {
 		# Given index as an integer
 		if { [string is integer $index] } {
-			return $index
+			if { $index >= 0 && $index <= [$self index last] } {
+				return $index
+			} else {
+				return "none"
+			}
 		}
 		# Given index in the form @x,y
 		if { [string index $index 0] == "@" } {
@@ -408,9 +454,18 @@ snit::widgetadaptor pixmapmenu {
 			start { return 0 }
 			end { return [expr {[llength $entries] - 1}] }
 			last { return [expr {[llength $entries] - 1}] }
-			active { return $active }
+			active {
+				if { $active != "" } {
+					return $active
+				} else {
+					return "none"
+				}
+			}
 			none { return "none" }
 		}
+
+		# If all else fails...
+		return "none"
 	}
 
 	method invoke { index } {
@@ -546,7 +601,7 @@ snit::widgetadaptor pixmapmenu {
 				set y [expr {[winfo rooty $self] + [winfo height $self]}]
 			}
 			vertical {
-				set x [expr {[winfo rootx $self] + [winfo width $self]}]
+				set x [expr {[winfo rootx $self] + [winfo width $self] - $options(-entrypadx)}]
 				set y [expr {[winfo rooty $self] + [$self yposition $nindex]}]
 			}
 		}
@@ -659,6 +714,7 @@ snit::widgetadaptor pixmapmenu {
 
 	method EntryConfigureFont { id value } {
 		$canvas itemconfigure $textid($id) -font $value
+		$self sort
 	}
 
 	method EntryConfigureForeground { id value } {
@@ -669,27 +725,28 @@ snit::widgetadaptor pixmapmenu {
 			switch [$config($id) type] {
 				"checkbutton" {
 					if { $value } {
-						$canvas itemconfigure $checkboxid($id) -state normal
+						$canvas itemconfigure $imageid($id) -state normal
 						if { [set [$config($id) cget -variable]] == [$config($id) cget -onvalue] } {
 							$canvas itemconfigure $checktickid($id) -state normal
 						}
 					} else {
-						$canvas itemconfigure $checkboxid($id) -state hidden
+						$canvas itemconfigure $imageid($id) -state hidden
 						$canvas itemconfigure $checktickid($id) -state hidden
 					}
 				}
 				"radiobutton" {
 					if { $value } {
-						$canvas itemconfigure $radioboxid($id) -state normal
+						$canvas itemconfigure $imageid($id) -state normal
 						if { [set [$config($id) cget -variable]] == [$config($id) cget -value] } {
 							$canvas itemconfigure $radiotickid($id) -state normal
 						}
 					} else {
-						$canvas itemconfigure $radioboxid($id) -state hidden
+						$canvas itemconfigure $imageid($id) -state hidden
 						$canvas itemconfigure $radiotickid($id) -state hidden
 					}
 				}
 			}
+			$self sort
 	}
 
 	method EntryConfigureState { id value } {
@@ -701,14 +758,19 @@ snit::widgetadaptor pixmapmenu {
 	}
 }
 
-#source menushell.tcl
-#source entries.tcl
-#source bindings.tcl
 
+
+
+
+
+
+# ---------------------------------
 global order
 global mVar
 set mVar one
+
 proc menutest { } {
+	. configure -bg darkgreen
 	#menushell .m
 	menubar .m
 	pack forget .main

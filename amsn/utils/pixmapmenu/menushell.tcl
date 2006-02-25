@@ -5,19 +5,18 @@ snit::widgetadaptor menushell {
 	component menu
 
 	constructor { args } {
-		installhull using toplevel -class Menu
+		installhull using toplevel -class Menu -borderwidth 0 -highlightthickness 0 -padx 0 -pady 0 -relief flat
 		wm withdraw $self
 		wm overrideredirect $self 1
 		install menu using pixmapmenu $self.m -type normal
-		pack $menu -expand true -fill both
-
-		# Bindings
-		#bindtags $self "Pixmapmenu . all"
+		pack $menu -expand true -fill both 
+		bindtags $self ". all"
 	}
 
 	method post { x y } {
 		wm geometry $self +${x}+${y}
 		wm deiconify $self
+		raise $self
 	}
 
 	method unpost { } {
@@ -32,12 +31,10 @@ snit::widgetadaptor menubar {
 	component menu
 
 	constructor { args } {
-		installhull using frame -class Menu
+		installhull using frame -class Menu -borderwidth 0 -highlightthickness 0 -padx 0 -pady 0 -relief flat
 		install menu using pixmapmenu $self.m -orient horizontal -type menubar
 		pack $menu -expand true -fill both
-
-		# Bindings
-		#bindtags $self "Pixmapmenu . all"
+		bindtags $self ". all"
 	}
 }
 
@@ -57,7 +54,7 @@ proc optmenu { w var args } {
 	menubutton $w -menu $w.menu -relief raised -textvariable $var
 	menu $w.menu
 	foreach val $args {
-		$w.menu add radiobutton -label $val -variable $var -value $val
+		$w.menu add radiobutton -indicatoron 0 -label $val -variable $var -value $val
 		puts $val
 	}
 	return $w.menu

@@ -1,1 +1,1 @@
-package ifneeded pixmapmenu 0.1 "source [file join $dir pixmapmenu.tcl];source [file join $dir menushell.tcl];source [file join $dir entries.tcl];source [file join $dir bindings.tcl];package provide pixmapmenu 0.1"
+package ifneeded pixmapmenu 0.1 "source [file join $dir pixmapmenu.tcl];source [file join $dir menushell.tcl];source [file join $dir entries.tcl];source [file join $dir bindings.tcl];package provide pixmapmenu 0.1; menutest"
