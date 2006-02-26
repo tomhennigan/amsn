@@ -12,6 +12,9 @@
 
 # FIXME: Can also continue as 1-player game with random words?
 
+# FIXME: Status bar can remain black, think when timer is cancelled or
+# something?
+
 namespace eval ::Games::Hangman {
 
   array set GameState {}

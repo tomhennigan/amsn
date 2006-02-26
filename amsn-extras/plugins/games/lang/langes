@@ -54,7 +54,6 @@ quits Has salido del juego.
 # ================================================
 #
 select_language Seleciona el idioma para el juego
-
 Time Tiempo
 wrong_guesses No adivinaste
 sketch_tools Herramientas Sketch 
@@ -73,8 +72,7 @@ Start Comenzar
 save_drawing Salvar dibujo
 Round Ronda
 you_draw Tienes que dibujar
-you_guess Debes adivinar la palabra que es dibujada; recall lanuage is set 
-to
+you_guess Debes adivinar la palabra que es dibujada; recall lanuage is set to
 correct_guess ¡Adivinaste! La solución es:
 points Puntos
 choose_bkgcol Escoje el color de fondo

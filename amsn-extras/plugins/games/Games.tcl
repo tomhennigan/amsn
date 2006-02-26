@@ -86,7 +86,7 @@ namespace eval ::Games {
 	if {[catch {::plugins::pluginVersion} version]} {
 	  # Setting version number manually for aMSN 0.95
 	  # Make sure this value matches the one used in plugininfo.xml
-	  set version "0.16"
+	  set version "0.17"
 	}
 
     ::plugins::RegisterPlugin "Games"
@@ -373,14 +373,14 @@ namespace eval ::Games {
 
     # Check for the correct Content-type
     set header "[$packet getHeader Content-Type]"
-    if {[string first "$header" "text/x-amsngames"] == -1} {
+    if {[string first "text/x-amsngames" $header] == -1} {
       return
     }
 
 	set oppVersion "[$packet getHeader VERSION]"
     set gameID     "[$packet getHeader GAMEID]"
-    set msgType    "[$packet getHeader MSGTYPE]"
-    set msgBody    "[$packet getBody]"
+    set msgType    "[encoding convertfrom utf-8 [$packet getHeader MSGTYPE]]"
+    set msgBody    "[encoding convertfrom utf-8 [$packet getBody]]"
 
 	#log "Game command $msgType -> $msgBody"
 
@@ -802,11 +802,11 @@ namespace eval ::Games {
 	  }
 
 	  set packet "MIME-Version: 1.0\r\n"
-	  set packet "${packet}Content-Type: text/x-amsngames\r\n"
+	  set packet "${packet}Content-Type: text/x-amsngames; charset=utf-8\r\n"
 	  set packet "${packet}VERSION: $version\r\n"
 	  set packet "${packet}GAMEID: $gameID\r\n"
-	  set packet "${packet}MSGTYPE: $msgType\r\n\r\n"
-	  set packet "${packet}$msg"
+	  set packet "${packet}MSGTYPE: [encoding convertto utf-8 $msgType]\r\n\r\n"
+	  set packet "${packet}[encoding convertto utf-8 $msg]"
 	  set packet_len [string length $packet]
 
 	  ::MSN::WriteSBNoNL $sbn "MSG" "U $packet_len\r\n$packet"

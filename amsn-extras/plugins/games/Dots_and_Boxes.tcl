@@ -14,6 +14,11 @@
 # after MouseMotion occured, and set a timeout to 10 secs or something to
 # reset that state, unless another MouseMotion occurs.
 
+# FIXME: Add resign button
+
+# FIXME: If movelist gets longer than board, board coordinates get
+# scrambled.
+
 namespace eval ::Games::Dots_and_Boxes {
 
   # GameState array per chatid (hack for 2-dimensional arrays used)
