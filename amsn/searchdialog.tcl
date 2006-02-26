@@ -133,7 +133,7 @@ snit::widget searchdialog {
 		}
 		set options(-searchin) $value
 		# Create the 'search' tag on the text widget
-		$value tag configure search -background #447bcd -foreground white
+		$value tag configure search -background [$value tag cget sel -background] -foreground white
 		# Make sure when the text widget is clicked, the search highlight disappears
 		bind $value <ButtonPress> "+$value tag remove search 0.0 end"
 	}
