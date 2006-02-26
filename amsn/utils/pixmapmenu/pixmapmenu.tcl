@@ -56,6 +56,7 @@ snit::widgetadaptor pixmapmenu {
 	option -tearoff -default 0 -readonly yes
 	option -type -default normal
 
+	delegate option * to hull except { -highlightthickness -bd -borderwidth }
 
 	variable canvas 	;# Canvas widget
 	variable offx 		;# X-ord to create new stuff at so it's hidden
@@ -783,68 +784,3 @@ snit::widgetadaptor pixmapmenu {
 	}
 }
 
-
-
-
-
-
-
-# ---------------------------------
-global order
-global mVar
-set mVar one
-
-proc menutest { } {
-	. configure -bg darkgreen
-	#menushell .m
-	menubar .m
-	pack forget .main
-	pack .m -fill x -side top
-	.m add cascade -label File -menu .m.file
-	.m add cascade -label Edit -menu .m.edit
-	.m add cascade -label View -menu .m.view
-	.m add cascade -label Settings -menu .m.settings
-
-	menushell .m.file
-	.m.file add command -label "Add contact"
-	.m.file add command -label "Delete contact"
-	.m.file add cascade -label "Invite contact" -menu .m.file.invite
-	.m.file add separator
-	.m.file add radiobutton -label "Order by name" -state disabled
-	.m.file add radiobutton -label "Order by email"
-	.m.file add radiobutton -label "Order by state"
-	.m.file add separator
-	.m.file add command -label "Exit"
-
-	menushell .m.file.invite
-	.m.file.invite add command -label "capricious.falcon@gmail.com"
-	.m.file.invite add command -label "antndecrmine@hotmail.com"
-
-	foreach m { edit view settings } {
-		menushell .m.$m
-		.m.$m add command -label command
-	}
-
-	
-
-	rename menu tk_menu
-	rename menushell menu
-	rename menubutton tk_menubutton
-	rename menubut menubutton
-	###################################
-	destroy [tk_optionMenu .1 a b]
-	destroy .1
-	###################################
-	rename tk_optionMenu tk_tk_optionMenu
-	rename optmenu tk_optionMenu
-
-	#menubutton .opt -textvariable mVar -menu .opt.m
-	#menu .opt.m
-	#.opt.m add radiobutton -label "One" -value "One" -variable mVar
-	#.opt.m add radiobutton -label "Two" -value "Two" -variable mVar
-	#.opt.m add radiobutton -label "Three" -value "Two" -variable mVar
-
-	tk_optionMenu .opt mVar one two three
-
-	pack .opt
-}

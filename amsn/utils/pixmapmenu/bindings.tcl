@@ -2,6 +2,7 @@ variable MenuPosted
 variable afterid
 set MenuPosted {}
 array set afterid {PostCascade {} UnpostCascade {}}
+set ::tk::Priv(Cursor) left_ptr
 
 # -----------------------------------------------------
 #  Menubar and Menu bindings
@@ -19,8 +20,22 @@ bind Pixmapmenu <Map> {
 		}
 		normal {
 			if { [IsTopLevelMenu [winfo parent %W]] } {
-				set MenuPosted %W
-				grab -global %W
+				# If no menu is posted, set MenuPosted to this menu
+				if { $MenuPosted != "" } {
+					#if { [lsearch [winfo children $MenuPosted] %W] != -1 } {
+					#	set MenuPosted %W
+					#}
+				} else {
+					set MenuPosted %W
+					set ::tk::Priv(focus) [focus -displayof .]
+					set ::tk::Priv(oldGrab) [grab current]
+					if { $::tk::Priv(oldGrab) != "" } {
+						if { [grab status $::tk::Priv(oldGrab)] == "global" } {
+							set ::tk::Priv(grabGlobal) -global
+						}
+					}
+					grab -global %W
+				}
 			}
 			MenuFocus [winfo parent %W]
 		}
@@ -485,6 +500,9 @@ proc MenuUnpost { w } {
 		return
 	}
 
+	# Restore focus
+	focus $::tk::Priv(focus)
+
 	while {1} {
 		set parent [winfo parent $w]
 		set ptype {}
@@ -494,7 +512,7 @@ proc MenuUnpost { w } {
 				if { $MenuPosted == $w } {
 					break
 				} else {
-					MenuUnpost $MenuPosted
+					[winfo parent $MenuPosted] unpost
 					break
 				}
 			}
@@ -515,4 +533,12 @@ proc MenuUnpost { w } {
 		set w $parent
 	}
 	set MenuPosted {}
+	# Restore grab
+	if { $::tk::Priv(oldGrab) != "" } {
+		if { [winfo ismapped $::tk::Priv(oldGrab)] && [winfo class $::tk::Priv(oldGrab)] != "Menubutton"} {
+			grab $::tk::Priv(grabGlobal) $::tk::Priv(oldGrab)
+		}
+		set ::tk::Priv(oldGrab) {}
+		set ::tk::Priv(grabGlobal) {}
+	}
 }
