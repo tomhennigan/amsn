@@ -415,7 +415,21 @@ snit::widgetadaptor pixmapmenu {
 	}
 
 	method delete { index {index2 {}} } {
-		
+		if { $index2 == "" } {
+			set index2 $index
+		}
+		foreach entry [lrange $entries $index $index2] {
+			contentmanager delete $main $entry
+			$config($entry) destroy
+		}
+		if { $index == "end" || $index == "last" } {
+			set index [expr {[llength $entries] - 1}]
+		}
+		if { $index2 == "end" || $index2 == "last" } {
+			set index2 [expr {[llength $entries] - 1}]
+		}
+		set entries [concat [lrange $entries 0 [expr {$index - 1}]] [lrange $entries [expr {$index2 + 1}] end]]
+		$self sort
 	}
 
 	method entryconfigure { index args } {
