@@ -21,6 +21,7 @@ if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 	catch {load utils/macosx/Quicktimetcl3.1/quicktimetcl3.1.dylib}
 } else {
 	package require pixmapscroll
+	package require pixmapmenu
 }
 
 
@@ -3234,7 +3235,11 @@ proc cmsn_draw_main {} {
 	menu .menu_invite -tearoff 0 -type normal
 
 	#Main menu
-	menu .main_menu -tearoff 0 -type menubar -borderwidth 0 -activeborderwidth -0
+	if { [package provide pixmapmenu] != "" } {
+		pack [menubar .main_menu] -fill x -side top
+	} else {
+		menu .main_menu -tearoff 0 -type menubar -borderwidth 0 -activeborderwidth -0
+	}
 
 	#Change the name of the main menu on Mac OS X(TK Aqua) for "File"
 	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {

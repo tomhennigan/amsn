@@ -1145,7 +1145,11 @@ namespace eval ::ChatWindow {
 
 		set mainmenu $w.menu	
 
-		menu $mainmenu -tearoff 0 -type menubar -borderwidth 0 -activeborderwidth -0
+		if { [package provide pixmapmenu] != "" } {
+			pack [menubar $mainmenu] -fill x -side top
+		} else {
+			menu $mainmenu -tearoff 0 -type menubar -borderwidth 0 -activeborderwidth -0
+		}
 
 		set msnmenu [CreateMsnMenu $w $mainmenu]
 		set editmenu [CreateEditMenu $w $mainmenu]
