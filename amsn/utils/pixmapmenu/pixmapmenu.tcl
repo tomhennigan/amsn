@@ -215,8 +215,8 @@ snit::widgetadaptor pixmapmenu {
 		switch -regexp $_type {
 			com.* {
 				# Create the canvas items
-				set imageid($entryid) [$canvas create image $offx $offy -anchor nw]
-				set textid($entryid) [$canvas create text $offx $offy -anchor nw -fill $options(-fg) -font $options(-font)]
+				set imageid($entryid) [$canvas create image $offx $offy -anchor nw -tags entry$entryid]
+				set textid($entryid) [$canvas create text $offx $offy -anchor nw -fill $options(-fg) -font $options(-font) -tags entry$entryid]
 				# Create the contentmanager items
 				contentmanager insert $index group $main $entryid \
 					-widget		$canvas			-orient 	horizontal \
@@ -241,8 +241,8 @@ snit::widgetadaptor pixmapmenu {
 			}
 			casc.* {
 				# Create the canvas items
-				set imageid($entryid) [$canvas create image $offx $offy -anchor nw]
-				set textid($entryid) [$canvas create text $offx $offy -anchor nw -fill $options(-fg) -font $options(-font)]
+				set imageid($entryid) [$canvas create image $offx $offy -anchor nw -tags entry$entryid]
+				set textid($entryid) [$canvas create text $offx $offy -anchor nw -fill $options(-fg) -font $options(-font) -tags entry$entryid]
 				# Create the contentmanager items
 				contentmanager insert $index group $main $entryid \
 					-widget		$canvas			-orient 	horizontal \
@@ -265,14 +265,14 @@ snit::widgetadaptor pixmapmenu {
 				}
 				$config($entryid) configurelist $args
 
-				# Add arrow
+				# Add arrow (not on a menubar though)
 				if { $options(-type) != "menubar" } {
 					switch $options(-orient) {
 						horizontal {
-							set arrowid($entryid) [$canvas create image $offx $offy -anchor nw -image $arrowdownimg]
+							set arrowid($entryid) [$canvas create image $offx $offy -anchor nw -image $arrowdownimg -tags entry$entryid]
 						}
 						vertical {
-							set arrowid($entryid) [$canvas create image $offx $offy -anchor nw -image $arrowrightimg]
+							set arrowid($entryid) [$canvas create image $offx $offy -anchor nw -image $arrowrightimg -tags entry$entryid]
 						}
 					}
 					contentmanager add element $main $entryid arrow \
@@ -282,9 +282,9 @@ snit::widgetadaptor pixmapmenu {
 			}
 			check.* {
 				# Create the canvas items
-				set imageid($entryid) [$canvas create image $offx $offy -anchor nw -image $checkboximg]
-				set checktickid($entryid) [$canvas create image $offx $offy -anchor nw -image $checktickimg]
-				set textid($entryid) [$canvas create text $offx $offy -anchor nw -fill $options(-fg) -font $options(-font)]
+				set imageid($entryid) [$canvas create image $offx $offy -anchor nw -image $checkboximg -tags entry$entryid]
+				set checktickid($entryid) [$canvas create image $offx $offy -anchor nw -image $checktickimg -tags entry$entryid]
+				set textid($entryid) [$canvas create text $offx $offy -anchor nw -fill $options(-fg) -font $options(-font) -tags entry$entryid]
 				# Create the contentmanager items
 				contentmanager insert $index group $main $entryid \
 					-widget		$canvas			-orient 	horizontal \
@@ -309,9 +309,9 @@ snit::widgetadaptor pixmapmenu {
 			}
 			radio.* {
 				# Create the canvas item
-				set imageid($entryid) [$canvas create image $offx $offy -anchor nw -image $radioboximg]
-				set radiotickid($entryid) [$canvas create image $offx $offy -anchor nw -image $radiotickimg]
-				set textid($entryid) [$canvas create text $offx $offy -anchor nw -fill $options(-fg) -font $options(-font)]
+				set imageid($entryid) [$canvas create image $offx $offy -anchor nw -image $radioboximg -tags entry$entryid]
+				set radiotickid($entryid) [$canvas create image $offx $offy -anchor nw -image $radiotickimg -tags entry$entryid]
+				set textid($entryid) [$canvas create text $offx $offy -anchor nw -fill $options(-fg) -font $options(-font) -tags entry$entryid]
 	
 				# Create the contentmanager items
 				contentmanager insert $index group $main $entryid \
@@ -336,7 +336,7 @@ snit::widgetadaptor pixmapmenu {
 			}
 			sep.* {
 				# Create the canvas item
-				set id [$canvas create image $offx $offy -anchor nw -image [$separator name]]
+				set id [$canvas create image $offx $offy -anchor nw -image [$separator name] -tags entry$entryid]
 				# Create the contentmanager item
 				contentmanager insert $index element $main $entryid \
 					-widget	$canvas			-tag	$id \
@@ -344,15 +344,6 @@ snit::widgetadaptor pixmapmenu {
 				set config($entryid) [uplevel #0 "$_type $self.$entryid -id $entryid -parent $self"]
 			}
 		}
-		#if { $_type == "command" || $_type == "cascade" } {
-		#	
-		#} elseif { $_type == "separator" } {
-		#	
-		#} elseif { $_type == "checkbutton" } {
-		#	
-		#} elseif { $_type == "radiobutton" } {
-		#	
-		#}
 
 		incr entryid 1
 		return [expr {$entryid - 1}]
@@ -426,6 +417,9 @@ snit::widgetadaptor pixmapmenu {
 		foreach entry [lrange $entries $nindex $nindex2] {
 			contentmanager delete $main $entry
 			$config($entry) destroy
+			foreach tag [$canvas find withtag entry$entry] {
+				$canvas delete $tag
+			}
 		}
 		set entries [concat [lrange $entries 0 [expr {$nindex - 1}]] [lrange $entries [expr {$nindex2 + 1}] end]]
 		$self sort
@@ -619,8 +613,8 @@ snit::widgetadaptor pixmapmenu {
 				}
 			}
 		}
-		# Can't postcasade "none" or a non-cascade entry
-		if { $nindex == "none" || [$self type $nindex] != "cascade" } {
+		# Can't postcasade "none" or a non-cascade/disabled entry
+		if { $nindex == "none" || [$self type $nindex] != "cascade" || [$self entrycget $nindex -state] == "disabled" } {
 			return
 		}
 		set entry [lindex $entries $nindex]

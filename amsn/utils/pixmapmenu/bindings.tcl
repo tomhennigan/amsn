@@ -487,12 +487,16 @@ proc MenuUnpost { w } {
 
 	while {1} {
 		set parent [winfo parent $w]
-		set w $parent
 		set ptype {}
 		catch {set ptype [$parent cget -type]}
 		switch $ptype {
 			"" {
-				break
+				if { $MenuPosted == $w } {
+					break
+				} else {
+					MenuUnpost $MenuPosted
+					break
+				}
 			}
 			"menubar" {
 				$parent activate none
@@ -507,6 +511,8 @@ proc MenuUnpost { w } {
 				$parent unpost
 			}
 		}
+		# Move up to next menu
+		set w $parent
 	}
 	set MenuPosted {}
 }
