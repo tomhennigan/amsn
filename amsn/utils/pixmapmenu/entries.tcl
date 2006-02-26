@@ -96,6 +96,15 @@ snit::type menu_checkbutton {
 		$self UpdateButton
 	}
 
+	destructor {
+		#  Remove the trace on the old variable
+		catch {
+			if { ![string e $options(-variable) ""] } {
+				uplevel #0 [list trace remove variable $options(-variable) write "$self UpdateButton"]
+			}
+		}
+	}
+
 	method type { } {
 		return "checkbutton"
 	}
@@ -220,6 +229,22 @@ snit::type menu_radiobutton {
 	option -label -configuremethod SetLabel
 	option -value -default 1 -configuremethod SetValue
 	option -variable -configuremethod SetVar
+
+	destructor {
+		# If this radiobutton is the selected one for its variable, blank $selected($options(-variable)),
+		# so that if another radiobutton is later selected it doesn't try to deselect this (now dead) one
+		catch {
+			if { $selected($options(-variable)) == $self } {
+				set selected($options(-variable)) {}
+			}
+		}
+		# Remove the trace from the radiobutton's variable
+		catch {
+			if { $options(-variable) != "" } {
+				uplevel #0 [list trace remove variable $options(-variable) write "$self UpdateButton"]
+			}
+		}
+	}
 
 	method type { } {
 		return "radiobutton"

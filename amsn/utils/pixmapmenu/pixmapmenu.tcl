@@ -418,17 +418,16 @@ snit::widgetadaptor pixmapmenu {
 		if { $index2 == "" } {
 			set index2 $index
 		}
-		foreach entry [lrange $entries $index $index2] {
+		set nindex [$self index $index]
+		set nindex2 [$self index $index2]
+		if { $nindex == "none" || $nindex2 == "none" } {
+			return
+		}
+		foreach entry [lrange $entries $nindex $nindex2] {
 			contentmanager delete $main $entry
 			$config($entry) destroy
 		}
-		if { $index == "end" || $index == "last" } {
-			set index [expr {[llength $entries] - 1}]
-		}
-		if { $index2 == "end" || $index2 == "last" } {
-			set index2 [expr {[llength $entries] - 1}]
-		}
-		set entries [concat [lrange $entries 0 [expr {$index - 1}]] [lrange $entries [expr {$index2 + 1}] end]]
+		set entries [concat [lrange $entries 0 [expr {$nindex - 1}]] [lrange $entries [expr {$nindex2 + 1}] end]]
 		$self sort
 	}
 
@@ -459,6 +458,7 @@ snit::widgetadaptor pixmapmenu {
 				return "none"
 			}
 		}
+
 		# Given index in the form @x,y
 		if { [string index $index 0] == "@" } {
 			set index [string map {@ "" , " "} $index]
@@ -467,9 +467,9 @@ snit::widgetadaptor pixmapmenu {
 
 		# Given index as "start" or "end" or "last" or "none" or "active"
 		switch $index {
-			start { return 0 }
-			end { return [expr {[llength $entries] - 1}] }
-			last { return [expr {[llength $entries] - 1}] }
+			start {	return 0 }
+			end { 	return [expr {[llength $entries] - 1}] }
+			last { 	return [expr {[llength $entries] - 1}] }
 			active {
 				if { $active != "" } {
 					return $active
@@ -477,7 +477,19 @@ snit::widgetadaptor pixmapmenu {
 					return "none"
 				}
 			}
-			none { return "none" }
+			none {	return "none" }
+		}
+
+		# Search by pattern
+		foreach entry $entries {
+			set i [lsearch $entries $entry]
+			if { [$self type $i] == "separator" } {
+				continue
+			}	
+			set label [$self entrycget $i -label]
+			if { [string match $index $label] } {
+				return $i
+			}
 		}
 
 		# If all else fails...
@@ -601,7 +613,10 @@ snit::widgetadaptor pixmapmenu {
 		# Unpost any posted cascades in this menu
 		foreach entry $entries {
 			if { [$self type [lsearch $entries $entry]] == "cascade" } {
-				[$self entrycget [lsearch $entries $entry] -menu] unpost
+				set menu [$self entrycget [lsearch $entries $entry] -menu]
+				if { $menu != "" } {
+					$menu unpost
+				}
 			}
 		}
 		# Can't postcasade "none" or a non-cascade entry
