@@ -14,6 +14,12 @@ snit::widgetadaptor menushell {
 	}
 
 	method post { x y } {
+		if { [expr {$x + [$self cget -width]}] > [winfo screenwidth $self] } {
+			set x [expr {[winfo screenwidth $self] - [$self cget -width]}]
+		}
+		if { [expr {$y + [$self cget -height]}] > [winfo screenheight $self] } {
+			set y [expr {[winfo screenheight $self] - [$self cget -height]}]
+		}
 		wm geometry $self +${x}+${y}
 		wm deiconify $self
 		raise $self
@@ -49,7 +55,7 @@ snit::widgetadaptor menubut {
 	}
 }
 
-proc optmenu { w var args } {
+proc OptionMenu { w var args } {
 	puts $args
 	menubutton $w -menu $w.menu -relief raised -textvariable $var
 	menu $w.menu

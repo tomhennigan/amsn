@@ -42,7 +42,7 @@ snit::widgetadaptor pixmapmenu {
 
 	option -activeforeground -configuremethod SetForeground -default black
 	option -activefg -configuremethod SetForeground -default black
-	option -cascadedelay -default 250
+	option -cascadedelay -default 500
 	option -disabledforeground -configuremethod SetForeground -default grey
 	option -disabledfg -configuremethod SetForeground -default grey
 	option -entrypadx -configuremethod SetPadding -default 4
@@ -190,6 +190,7 @@ snit::widgetadaptor pixmapmenu {
 					incr w [image width $arrowrightimg]
 				}
 				$hull configure -width [expr {$w + (2 * $options(-ipadx))}] -height [expr {$h + (2 * $options(-ipady))}]
+				puts "$self setwidth [expr {$w + (2 * $options(-ipadx))}]"
 			}
 		}
 	}
@@ -424,6 +425,7 @@ snit::widgetadaptor pixmapmenu {
 		}
 		set entries [concat [lrange $entries 0 [expr {$nindex - 1}]] [lrange $entries [expr {$nindex2 + 1}] end]]
 		$self sort
+		$self UpdateSize
 	}
 
 	method entryconfigure { index args } {
@@ -625,10 +627,29 @@ snit::widgetadaptor pixmapmenu {
 			horizontal {
 				set x [expr {[winfo rootx $self] + [$self xposition $nindex]}]
 				set y [expr {[winfo rooty $self] + [winfo height $self]}]
+				# Make sure we post it in-screen
+				if { [expr {$x + [$menu cget -width]}] > [winfo screenwidth $self] } {
+					incr x -[$menu cget -width]
+					incr x [contentmanager width $main $entry]
+				}
+				if { [expr {$y + [$menu cget -height]}] > [winfo screenheight $self] } {
+					incr y -[$menu cget -height]
+					incr y [winfo height $self]
+				}
 			}
 			vertical {
 				set x [expr {[winfo rootx $self] + [winfo width $self] - $options(-entrypadx)}]
 				set y [expr {[winfo rooty $self] + [$self yposition $nindex]}]
+				# Make sure we post it in-screen
+				if { [expr {$x + [$menu cget -width]}] > [winfo screenwidth $self] } {
+					incr x -[$menu cget -width]
+					incr x -[winfo width $self]
+					incr x [expr {2 * $options(-entrypadx)}]
+				}
+				if { [expr {$y + [$menu cget -height]}] > [winfo screenheight $self] } {
+					incr y -[$menu cget -height]
+					incr y [contentmanager height $main $entry]
+				}
 			}
 		}
 		# And, finally, post it :)

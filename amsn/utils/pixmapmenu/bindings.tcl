@@ -2,7 +2,7 @@ variable MenuPosted
 variable afterid
 set MenuPosted {}
 array set afterid {PostCascade {} UnpostCascade {}}
-set ::tk::Priv(Cursor) left_ptr
+set ::tk::Priv(cursor) left_ptr
 
 # -----------------------------------------------------
 #  Menubar and Menu bindings
@@ -22,20 +22,18 @@ bind Pixmapmenu <Map> {
 			if { [IsTopLevelMenu [winfo parent %W]] } {
 				# If no menu is posted, set MenuPosted to this menu
 				if { $MenuPosted != "" } {
-					#if { [lsearch [winfo children $MenuPosted] %W] != -1 } {
-					#	set MenuPosted %W
-					#}
+					set MenuPosted %W
 				} else {
 					set MenuPosted %W
-					set ::tk::Priv(focus) [focus -displayof .]
-					set ::tk::Priv(oldGrab) [grab current]
-					if { $::tk::Priv(oldGrab) != "" } {
-						if { [grab status $::tk::Priv(oldGrab)] == "global" } {
-							set ::tk::Priv(grabGlobal) -global
-						}
-					}
-					grab -global %W
 				}
+				set ::tk::Priv(focus) [focus -displayof .]
+				set ::tk::Priv(oldGrab) [grab current]
+				if { $::tk::Priv(oldGrab) != "" } {
+					if { [grab status $::tk::Priv(oldGrab)] == "global" } {
+						set ::tk::Priv(grabGlobal) -global
+					}
+				}
+				grab -global %W
 			}
 			MenuFocus [winfo parent %W]
 		}
@@ -65,9 +63,12 @@ bind Pixmapmenu <ButtonPress> {
 	set index [$containing index @${x},$y]
 	switch $type {
 		"menubar" {
-			$containing postcascade $index
-			set ::tk::Priv(menuBar) $containing
-			#after 0 "$containing activate $index"
+			puts $::tk::Priv(menuBar)
+			if { $::tk::Priv(popup) == "" && $index != "none" } {
+				$containing postcascade $index
+				set ::tk::Priv(menuBar) $containing
+				after 0 "$containing activate $index"
+			}
 		}
 		"normal" {
 			after cancel $afterid(UnpostCascade)
@@ -93,8 +94,11 @@ bind Pixmapmenu <B1-Motion> {
 	}
 	switch $type {
 		"menubar" {
-			$containing activate $index 1
-			set ::tk::Priv(menuBar) $containing
+			puts "popup is $::tk::Priv(popup)"
+			if { $::tk::Priv(popup) == "" && $index != "none" } {
+				set ::tk::Priv(menuBar) $containing
+				$containing activate $index 1
+			}
 		}
 		"normal" {
 			# Don't "activate none" if a cascade is selected
@@ -132,10 +136,13 @@ bind Pixmapmenu <Motion> {
 	}
 	switch $type {
 		"menubar" {
-			if { $MenuPosted == "" } {
-				$containing activate $index 0
-			} else {
-				$containing activate $index 1
+			if { $::tk::Priv(popup) == "" && $index != "none" } {
+				if { $MenuPosted == "" } {
+					$containing activate $index 0
+				} else {
+					$containing activate $index 1
+					set ::tk::Priv(menuBar) $containing
+				}
 			}
 		}
 		"normal" {
@@ -501,6 +508,7 @@ proc MenuUnpost { w } {
 	}
 
 	# Restore focus
+	puts "restoring focus to $::tk::Priv(focus)"
 	focus $::tk::Priv(focus)
 
 	while {1} {
@@ -518,6 +526,7 @@ proc MenuUnpost { w } {
 			}
 			"menubar" {
 				$parent activate none
+				set ::tk::Priv(menuBar) {}
 				break
 			}
 			"menubutton" {
@@ -527,6 +536,7 @@ proc MenuUnpost { w } {
 			}
 			default {
 				$parent unpost
+				set ::tk::Priv(popup) {}
 			}
 		}
 		# Move up to next menu
