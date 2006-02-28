@@ -53,6 +53,7 @@ bind Pixmapmenu <Unmap> {
 bind Pixmapmenu <ButtonPress> {
 	variable MenuPosted
 	variable afterid
+	puts $::tk::Priv(popup)
 	set containing [MenuAtPoint %X %Y]
 	if { $containing == "none" } {
 		break
@@ -260,7 +261,7 @@ bind Pixmapmenu <ButtonRelease> {
 	set type [$containing cget -type]
 	switch $type {
 		menubar {
-			if { $index == "none" } {
+			if { $index == "none" && $MenuPosted != "" } {
 				MenuUnpost $MenuPosted
 			}
 		}
@@ -483,7 +484,7 @@ proc MenuInvoke { w x y } {
 	variable MenuPosted
 	variable afterid
 
-	if { $w == "none" } {
+	if { $w == "none" || $w == "" } {
 		return
 	}
 	set index [$w index @${x},$y]
@@ -543,7 +544,7 @@ proc MenuUnpost { w } {
 				} else {
 					set ptype {}
 					catch {set ptype [[winfo parent $MenuPosted] cget -type]}
-					if { $ptype == "normal" } {
+					if { $ptype == "normal" && $MenuPosted != "" } {
 						[winfo parent $MenuPosted] unpost
 					}
 					break
@@ -560,20 +561,22 @@ proc MenuUnpost { w } {
 				break
 			}
 			normal {
-				#if { $MenuPosted != "" } {
+				if { $MenuPosted != "" } {
 					[winfo parent $MenuPosted] unpost
-				#}
+				}
 			}
 			default {
 				if { $ptype == "normal" } {
 					$parent unpost
 				}
-				set ::tk::Priv(popup) {}
 			}
 		}
 		# Move up to next menu
 		set w $parent
 	}
+
+	# Blank 'menu posted'-related variables
+	set ::tk::Priv(popup) {}
 	set MenuPosted {}
 	# Restore grab
 	if { $::tk::Priv(oldGrab) != "" } {
