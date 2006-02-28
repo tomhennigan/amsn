@@ -166,61 +166,36 @@ bind Pixmapmenu <Motion> {
 	}
 }
 
-#bind Pixmapmenu <Enter> {
-#	variable MenuPosted
-#	variable afterid
-#
-#	set containing [MenuAtPoint %X %Y]
-#	if { $containing == "none" } {
-#		break
-#	}
-#	set type [$containing cget -type]
-#	set x [RootXToX $containing %X]
-#	set y [RootYToY $containing %Y]
-#	set index [$containing index @${x},$y]
-#
-#	switch $type {
-#		"menubar" {
-#			if { $MenuPosted == "" } {
-#				$containing activate $index 0
-#			} else {
-#				$containing activate $index 1
-#			}
-#		}
-#		"normal" {
-#			if { [$containing type $index] == "cascade" } {
-#				$containing activate $index 0
-#				after cancel $afterid(UnpostCascade)
-#				set afterid(PostCascade) [after 500 "$containing postcascade $index"]
-#			} else {
-#				after cancel $afterid(PostCascade)
-#				$containing activate $index 1
-#				set afterid(UnpostCascade) [after 500 "$containing postcascade none"]
-#			}
-#		}
-#	}
-#}
-
-bind Pixmapmenu <Leave> {
+bind Pixmapmenu <Enter> {
 	variable MenuPosted
 	variable afterid
 
-	after cancel $afterid(PostCascade)
+	set containing [MenuAtPoint %X %Y]
+	if { $containing == "none" } {
+		break
+	}
+	set type [$containing cget -type]
+	set x [RootXToX $containing %X]
+	set y [RootYToY $containing %Y]
+	set index [$containing index @${x},$y]
 
-	set type [%W cget -type]
-	set active [%W index active]
-	set atype [%W type @%x,%y]
+	set parent [winfo parent [winfo parent %W]]
+	set ptype {}
+	catch {set ptype [$parent cget -type]}
+
 	switch $type {
 		"menubar" {
-			if { $MenuPosted == "" } {
-				%W activate none
-			}
+
 		}
 		"normal" {
-			if { $atype != "cascade" } {
-				%W activate none
-			}
+
 		}
+	}
+}
+
+bind Pixmapmenu <Leave> {
+	if { [%W cget -type] == "menubar" && [MenuAtPoint %X %Y] != "%W" } {
+		%W activate none
 	}
 }
 
@@ -277,7 +252,10 @@ bind Pixmapmenu <Up> {
 	switch $type {
 		menubar {
 			%W postcascade active
-			[%W entrycget active -menu] activate last
+			set m [%W entrycget active -menu]
+			if { $m != "" } {
+				$m activate last
+			}
 		}
 		normal {
 			MenuNextEntry %W -1
@@ -290,7 +268,10 @@ bind Pixmapmenu <Down> {
 	switch $type {
 		menubar {
 			%W postcascade active
-			[%W entrycget active -menu] activate 0
+			set m [%W entrycget active -menu]
+			if { $m != "" } {
+				$m activate 0
+			}
 		}
 		normal {
 			MenuNextEntry %W 1
@@ -350,10 +331,27 @@ bind Pixmapmenu <space> {
 }
 
 bind Pixmapmenu <Escape> {
-	if { [IsTopLevelMenu [winfo parent %W]] } {
-		MenuUnpost $MenuPosted
-	} else {
-		[winfo parent %W] unpost
+	set shell [winfo parent %W]
+	set parent [winfo parent $shell]
+	set type {}
+	catch {set type [$shell cget -type]}
+	set ptype {}
+	catch {set ptype [$parent cget -type]}
+	set active {}
+	catch {set active [$parent index active]}
+	switch $type {
+		normal {
+			if { [IsTopLevelMenu $shell] } {
+				MenuUnpost $MenuPosted
+			} else {
+				$parent unpost
+			}
+			
+			$parent activate $active
+		}
+		menubar {
+			%W activate none
+		}
 	}
 }
 
