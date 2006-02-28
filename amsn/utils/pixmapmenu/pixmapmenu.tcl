@@ -553,7 +553,7 @@ snit::widgetadaptor pixmapmenu {
 
 	method activate { index {b 0} } {
 		# Don't bother activating an entry that's already active
-		if { $index == $active } {
+		if { $index == $active && $b == 0 } {
 			return
 		}
 		# Return the previously activated entry's state to normal

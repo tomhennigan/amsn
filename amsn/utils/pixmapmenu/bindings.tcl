@@ -89,9 +89,6 @@ bind Pixmapmenu <B1-Motion> {
 	set x [RootXToX $containing %X]
 	set y [RootYToY $containing %Y]
 	set index [$containing index @${x},$y]
-	if { $index == [$containing index active] } {
-		break
-	}
 	switch $type {
 		"menubar" {
 			puts "popup is $::tk::Priv(popup)"
@@ -106,13 +103,17 @@ bind Pixmapmenu <B1-Motion> {
 				break
 			} else {
 				if { [$containing type $index] == "cascade" && [$containing entrycget $index -state] != "disabled" } {
+					if { $index != [$containing index active] } {
+						after cancel $afterid(UnpostCascade)
+						set afterid(PostCascade) [after [%W cget -cascadedelay] "$containing postcascade $index"]
+					}
 					$containing activate $index 0
-					after cancel $afterid(UnpostCascade)
-					set afterid(PostCascade) [after [%W cget -cascadedelay] "$containing postcascade $index"]
 				} else {
-					after cancel $afterid(PostCascade)
+					if { $index != [$containing index active] } {
+						after cancel $afterid(PostCascade)
+						set afterid(UnpostCascade) [after [%W cget -cascadedelay] "$containing postcascade none"]
+					}
 					$containing activate $index 1
-					set afterid(UnpostCascade) [after [%W cget -cascadedelay] "$containing postcascade none"]
 				}
 			}
 		}
@@ -131,9 +132,6 @@ bind Pixmapmenu <Motion> {
 	set x [RootXToX $containing %X]
 	set y [RootYToY $containing %Y]
 	set index [$containing index @${x},$y]
-	if { $index == [$containing index active] } {
-		break
-	}
 	switch $type {
 		"menubar" {
 			if { $::tk::Priv(popup) == "" && $index != "none" } {
@@ -151,13 +149,17 @@ bind Pixmapmenu <Motion> {
 				break
 			} else {
 				if { [$containing type $index] == "cascade" && [$containing entrycget $index -state] != "disabled" } {
+					if { $index != [$containing index active] } {
+						after cancel $afterid(UnpostCascade)
+						set afterid(PostCascade) [after [%W cget -cascadedelay] "$containing postcascade $index"]
+					}
 					$containing activate $index 0
-					after cancel $afterid(UnpostCascade)
-					set afterid(PostCascade) [after [%W cget -cascadedelay] "$containing postcascade $index"]
 				} else {
-					after cancel $afterid(PostCascade)
+					if { $index != [$containing index active] } {
+						after cancel $afterid(PostCascade)
+						set afterid(UnpostCascade) [after [%W cget -cascadedelay] "$containing postcascade none"]
+					}
 					$containing activate $index 1
-					set afterid(UnpostCascade) [after [%W cget -cascadedelay] "$containing postcascade none"]
 				}
 			}
 		}
@@ -520,7 +522,11 @@ proc MenuUnpost { w } {
 				if { $MenuPosted == $w } {
 					break
 				} else {
-					[winfo parent $MenuPosted] unpost
+					set ptype {}
+					catch {set ptype [[winfo parent $MenuPosted] cget -type]}
+					if { $ptype == "normal" } {
+						[winfo parent $MenuPosted] unpost
+					}
 					break
 				}
 			}
@@ -535,7 +541,9 @@ proc MenuUnpost { w } {
 				break
 			}
 			default {
-				$parent unpost
+				if { $ptype == "normal" } {
+					$parent unpost
+				}
 				set ::tk::Priv(popup) {}
 			}
 		}
