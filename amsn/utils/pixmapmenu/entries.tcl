@@ -3,6 +3,7 @@ snit::type command {
 	option -parent
 
 	option -accelerator
+	option -underline -default -1
 
 	option -command
 	option -fg
@@ -35,7 +36,7 @@ snit::type cascade {
 	option -id
 	option -parent
 
-	option -accelerator
+	option -underline -default -1
 
 	option -command
 	option -fg
@@ -70,6 +71,7 @@ snit::type menu_checkbutton {
 	option -parent
 
 	option -accelerator
+	option -underline -default -1
 
 	option -canvas
 	option -command
@@ -217,6 +219,7 @@ snit::type menu_radiobutton {
 	option -parent
 
 	option -accelerator	
+	option -underline -default -1
 
 	option -canvas
 	option -command
