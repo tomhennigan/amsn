@@ -46,7 +46,7 @@ snit::widgetadaptor pixmapmenu {
 	option -disabledforeground -configuremethod SetForeground -default grey
 	option -disabledfg -configuremethod SetForeground -default grey
 	option -entrypadx -configuremethod SetPadding -default 4
-	option -entrypady -configuremethod SetPadding -default 2
+	option -entrypady -configuremethod SetPadding -default 3
 	option -foreground -configuremethod SetForeground -default black
 	option -fg -configuremethod SetForeground -default black
 	option -font -configuremethod SetFont -default "Helvetica 12"

@@ -63,7 +63,6 @@ bind Pixmapmenu <ButtonPress> {
 	set index [$containing index @${x},$y]
 	switch $type {
 		"menubar" {
-			puts $::tk::Priv(menuBar)
 			if { $::tk::Priv(popup) == "" && $index != "none" } {
 				$containing postcascade $index
 				set ::tk::Priv(menuBar) $containing
@@ -91,7 +90,6 @@ bind Pixmapmenu <B1-Motion> {
 	set index [$containing index @${x},$y]
 	switch $type {
 		"menubar" {
-			puts "popup is $::tk::Priv(popup)"
 			if { $::tk::Priv(popup) == "" && $index != "none" } {
 				set ::tk::Priv(menuBar) $containing
 				$containing activate $index 1
@@ -150,6 +148,7 @@ bind Pixmapmenu <Motion> {
 			} else {
 				if { [$containing type $index] == "cascade" && [$containing entrycget $index -state] != "disabled" } {
 					if { $index != [$containing index active] } {
+						after cancel $afterid(PostCascade)
 						after cancel $afterid(UnpostCascade)
 						set afterid(PostCascade) [after [%W cget -cascadedelay] "$containing postcascade $index"]
 					}
@@ -373,7 +372,11 @@ proc IsTopLevelMenu { w } {
 			return 0
 		}
 		default {
-			return 1
+			if { $::tk::Priv(popup) == $w } {
+				return 1
+			} else {
+				return 0
+			}
 		}
 	}
 }
@@ -477,6 +480,9 @@ proc MenuNextMenu { w direction } {
 }
 
 proc MenuInvoke { w x y } {
+	variable MenuPosted
+	variable afterid
+
 	if { $w == "none" } {
 		return
 	}
@@ -485,21 +491,34 @@ proc MenuInvoke { w x y } {
 	$w activate $index
 	switch $itype {	
 		"command" {
-			MenuUnpost $w
+			if { $MenuPosted != "" } {
+				MenuUnpost $MenuPosted
+			} else {
+				MenuUnpost $w
+			}
 			$w invoke $index
 		}
 		"checkbutton" {
-			MenuUnpost $w
+			if { $MenuPosted != "" } {
+				MenuUnpost $MenuPosted
+			} else {
+				MenuUnpost $w
+			}
 			$w invoke $index
 		}
 		"radiobutton" {
-			MenuUnpost $w
+			if { $MenuPosted != "" } {
+				MenuUnpost $MenuPosted
+			} else {
+				MenuUnpost $w
+			}
 			$w invoke $index	
 		}
 		"cascade" {
 			$w postcascade $index
 		}
 	}
+	after cancel $afterid(PostCascade)
 }
 
 proc MenuUnpost { w } {
@@ -509,8 +528,8 @@ proc MenuUnpost { w } {
 		return
 	}
 
-	# Restore focus
-	puts "restoring focus to $::tk::Priv(focus)"
+	# Restore focus immediately
+	status_log "(MenuUnpost $w) restoring focus to $::tk::Priv(focus)"
 	focus $::tk::Priv(focus)
 
 	while {1} {
@@ -539,6 +558,11 @@ proc MenuUnpost { w } {
 				set ::tk::Priv(postedMb) {}
 				$parent configure -state normal
 				break
+			}
+			normal {
+				#if { $MenuPosted != "" } {
+					[winfo parent $MenuPosted] unpost
+				#}
 			}
 			default {
 				if { $ptype == "normal" } {
