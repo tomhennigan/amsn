@@ -64,7 +64,7 @@ snit::widget framec {
 		}
 
 		$hull configure -background $options(-bordercolor) -relief solid -borderwidth 0
-		install padding using frame $win.padding_%AUTO% -background $options(-background) -relief solid -borderwidth 0
+		install padding using frame $win.padding -background $options(-background) -relief solid -borderwidth 0
 		if { $itsclass == "" } {
 			install inner using $itstype $win.inner -borderwidth 0
 		} else {
