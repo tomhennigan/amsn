@@ -65,9 +65,11 @@ bind Pixmapmenu <ButtonPress> {
 	switch $type {
 		"menubar" {
 			if { $::tk::Priv(popup) == "" && $index != "none" } {
-				$containing postcascade $index
-				set ::tk::Priv(menuBar) $containing
-				after 0 "$containing activate $index"
+				if { $::tk::Priv(menuBar) == "" || $::tk::Priv(menuBar) == $containing } {
+					$containing postcascade $index
+					set ::tk::Priv(menuBar) $containing
+					after 0 "$containing activate $index"
+				}
 			}
 		}
 		"normal" {
@@ -92,8 +94,10 @@ bind Pixmapmenu <B1-Motion> {
 	switch $type {
 		"menubar" {
 			if { $::tk::Priv(popup) == "" && $index != "none" } {
-				set ::tk::Priv(menuBar) $containing
-				$containing activate $index 1
+				if { $::tk::Priv(menuBar) == "" || $::tk::Priv(menuBar) == $containing } {
+					set ::tk::Priv(menuBar) $containing
+					$containing activate $index 1
+				}
 			}
 		}
 		"normal" {
@@ -134,11 +138,13 @@ bind Pixmapmenu <Motion> {
 	switch $type {
 		"menubar" {
 			if { $::tk::Priv(popup) == "" && $index != "none" } {
-				if { $MenuPosted == "" } {
-					$containing activate $index 0
-				} else {
-					$containing activate $index 1
-					set ::tk::Priv(menuBar) $containing
+				if { $::tk::Priv(menuBar) == "" || $::tk::Priv(menuBar) == $containing } {
+					if { $MenuPosted == "" } {
+						$containing activate $index 0
+					} else {
+						$containing activate $index 1
+						set ::tk::Priv(menuBar) $containing
+					}
 				}
 			}
 		}
