@@ -150,7 +150,7 @@ bind Pixmapmenu <Motion> {
 		}
 		"normal" {
 			# Don't "activate none" if a cascade is selected
-			if { $index == "none" && [%W type active] == "cascade" } {
+			if { $index == "none" && [$containing type active] == "cascade" } {
 				break
 			} else {
 				if { [$containing type $index] == "cascade" && [$containing entrycget $index -state] != "disabled" } {
