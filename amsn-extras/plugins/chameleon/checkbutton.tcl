@@ -95,6 +95,7 @@ namespace eval ::chameleon::checkbutton {
  	    -selectimage -ignore
  	    -state -state
  	    -variable -variable
+	    -var -variable
  	    -width -toImplement
 	}
 	# ignoring -width because we need to map 0 to "" and "" to 0 in cget/configure
