@@ -1,3 +1,5 @@
+# TODO: make -underline actually work.
+
 snit::type command {
 	option -id
 	option -parent
