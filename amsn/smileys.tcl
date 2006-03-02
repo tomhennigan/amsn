@@ -1149,7 +1149,9 @@ proc parse_x_mms_emoticon { data chatid } {
     upvar #0 [string map {: _} ${chatid} ]_smileys smile
 
 
-    if { [::config::getKey getdisppic] != 1 } { return }
+    #Line below changed from != -1 to == 0 because -1 means
+    #"enabled but imagemagick unavailable"
+    if { [::config::getKey getdisppic] == 0 } { return }
 
     set start 0
     while { $start < [string length $data]} {

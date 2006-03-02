@@ -128,10 +128,12 @@ namespace eval ::MSNP2P {
 	#Get picture from $user, if cached, or sets image as "loading", and request it
 	#using MSNP2P
 	proc loadUserPic { chatid user {reload "0"} } {
-		if { [::config::getKey getdisppic] != 1 } {
+		#Line below changed from != -1 to == 0 because -1 means 
+		#"enabled but imagemagick unavailable"
+		if { [::config::getKey getdisppic] == 0 } {
 			status_log "Display Pics disabled, exiting loadUserPic\n" red
 			return
-		}
+		} 
 
 		#status_log "::MSNP2P::GetUser: Checking if picture for user $user exists\n" blue
 
