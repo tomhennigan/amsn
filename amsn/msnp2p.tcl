@@ -1297,7 +1297,9 @@ namespace eval ::MSNP2P {
 
 	proc SendDataFile { sid chatid filename match } {
 
-
+		if { [lindex [::MSNP2P::SessionList get $sid] 7] == "ftcanceled" } {
+			return
+		}
 
 		if { [lindex [::MSNP2P::SessionList get $sid] 4] != "$match"} {
 			return
