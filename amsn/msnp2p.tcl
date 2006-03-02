@@ -714,6 +714,7 @@ namespace eval ::MSNP2P {
 						status_log "MSNP2P | $sid -> Receiver is listening with $addr : $port\n" red
 						#after 5500 "::MSNP2P::SendData $sid $chatid [lindex [SessionList get $sid] 8]"
 						if { $type == "filetransfer" } {
+							::MSNP2P::SessionList set $sid [list -1 -1 -1 -1 "INVITE2" -1 -1 -1 -1 -1]
 							::MSN6FT::ConnectSockets $sid $nonce $addr $port 1
 						} elseif { $type == "webcam" } {
 							setObjOption $sid accepted 1
@@ -1367,7 +1368,8 @@ namespace eval ::MSNP2P {
 			SessionList set $sid [list -1 -1 $offset -1 -1 -1 -1 -1 -1 -1]
 			::amsn::FTProgress s $sid "" $offset $filesize
 			#catch {after 200 [list catch {fileevent $sock writable "::MSNP2P::SendDataEvent $sbn $sid $fd"}]}
-			after 200 "fileevent $sock writable \"::MSNP2P::SendDataEvent $sbn $sid $fd\""
+			after 200 [list ::MSNP2P::SetSendDataFileEvent $sock $sbn $sid $fd]
+			
 		} else {
 
 			set msg [MakePacket $sid $data 0 0 0 0 0 0 16777264]
@@ -1382,6 +1384,12 @@ namespace eval ::MSNP2P {
 			unset fd
 
 			::amsn::FTProgress fs $sid ""
+		}
+	}
+	
+	proc SetSendDataFileEvent { sock sbn sid fd } { 
+		catch { 
+			fileevent $sock writable "::MSNP2P::SendDataEvent $sbn $sid $fd"
 		}
 	}
 

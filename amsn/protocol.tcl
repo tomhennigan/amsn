@@ -6032,9 +6032,10 @@ namespace eval ::MSN6FT {
 		set ips [getObjOption $sid ips]
 		set connected_ips [getObjOption $sid connected_ips]
 		status_log "we have $ips connecting sockets and $connected_ips connected sockets\n" red
+		after 5000 "::MSNP2P::SendDataFile $sid [getObjOption $sid chatid] [list [lindex [::MSNP2P::SessionList get $sid] 8]] \"INVITE2\""
 		if { [llength $ips] == 0 && [llength $connected_ips] == 0 } {
 			status_log "No socket was connected\n" red
-			after 5000 "::MSNP2P::SendDataFile $sid [getObjOption $sid chatid] [list [lindex [::MSNP2P::SessionList get $sid] 8]] \"INVITE1\""
+			#after 5000 "::MSNP2P::SendDataFile $sid [getObjOption $sid chatid] [list [lindex [::MSNP2P::SessionList get $sid] 8]] \"INVITE2\""
 		}
 	}
 
