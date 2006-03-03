@@ -5612,7 +5612,7 @@ proc ShowUser {user_login state_code colour section grId} {
 	set displaypicfilename [::abook::getContactData $user_login displaypicfile "" ]
 
 	set small_dp ""
-	if {[::config::getKey show_contactdps_in_cl] == "1" } {
+	if {[::config::getKey show_contactdps_in_cl] == "1" && ![::MSN::userIsBlocked $user_login] } {
 		set small_dp [::skin::getLittleDisplayPicture ${user_login} [image height [::skin::loadPixmap $image_type]] ]
 
 	}
