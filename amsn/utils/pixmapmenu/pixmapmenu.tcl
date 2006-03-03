@@ -190,7 +190,7 @@ snit::widgetadaptor pixmapmenu {
 					incr w [image width $arrowrightimg]
 				}
 				$hull configure -width [expr {$w + (2 * $options(-ipadx))}] -height [expr {$h + (2 * $options(-ipady))}]
-				puts "$self setwidth [expr {$w + (2 * $options(-ipadx))}]"
+				#puts "$self setwidth [expr {$w + (2 * $options(-ipadx))}]"
 			}
 		}
 	}

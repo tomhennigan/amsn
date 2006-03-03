@@ -4,6 +4,13 @@ set MenuPosted {}
 array set afterid {PostCascade {} UnpostCascade {}}
 set ::tk::Priv(cursor) left_ptr
 
+bind all <Alt_L> {
+	if { $::tk::Priv(menuBar) == "" } {
+		set ::tk::Priv(focus) [focus]
+		Alt [winfo toplevel %W]
+	}
+}
+
 # -----------------------------------------------------
 #  Menubar and Menu bindings
 #
@@ -260,7 +267,9 @@ bind Pixmapmenu <Up> {
 			%W postcascade active
 			set m [%W entrycget active -menu]
 			if { $m != "" } {
-				$m activate last
+				set ::tk::Priv(menuBar) [winfo parent %W]
+				puts "menubar is $::tk::Priv(menuBar)"
+				MenuLastEntry $m
 			}
 		}
 		normal {
@@ -276,7 +285,9 @@ bind Pixmapmenu <Down> {
 			%W postcascade active
 			set m [%W entrycget active -menu]
 			if { $m != "" } {
-				$m activate 0
+				set ::tk::Priv(menuBar) [winfo parent %W]
+				puts "menubar is $::tk::Priv(menuBar)"
+				MenuFirstEntry $m
 			}
 		}
 		normal {
@@ -318,9 +329,6 @@ bind Pixmapmenu <Return> {
 		%W invoke active
 	}
 	MenuUnpost $MenuPosted
-	if { $type != "menubar" } {
-		$::tk::Priv(menuBar) activate none
-	}
 }
 
 bind Pixmapmenu <space> {
@@ -331,9 +339,6 @@ bind Pixmapmenu <space> {
 		%W invoke active
 	}
 	MenuUnpost $MenuPosted
-	if { $type != "menubar" } {
-		$::tk::Priv(menuBar) activate none
-	}
 }
 
 bind Pixmapmenu <Escape> {
@@ -352,10 +357,14 @@ bind Pixmapmenu <Escape> {
 			} else {
 				$parent unpost
 			}
-			
+			# Activate the entry the menu was posted from (but don't post the menu again, obviously)
 			$parent activate $active
 		}
 		menubar {
+			# Restore focus
+			focus $::tk::Priv(focus)
+			set ::tk::Priv(focus) {}
+			# Activate none
 			%W activate none
 		}
 	}
@@ -413,8 +422,19 @@ proc RootYToY { w Y } {
 
 proc MenuFocus { w } {
 	if { [winfo exists $w.m] } {
+		set ::tk::Priv(focus) [focus]
 		focus $w.m
 	}
+}
+
+proc MenuFirstEntry { w } {
+	$w activate none
+	MenuNextEntry $w 1
+}
+
+proc MenuLastEntry { w } {
+	$w activate none
+	MenuNextEntry $w -1
 }
 
 proc MenuNextEntry { w direction } {
@@ -589,5 +609,20 @@ proc MenuUnpost { w } {
 		}
 		set ::tk::Priv(oldGrab) {}
 		set ::tk::Priv(grabGlobal) {}
+	}
+}
+
+proc Alt { w } {
+	set windowlist [winfo child $w]
+	foreach child $windowlist {
+		# Don't descend into other toplevels
+		if {[string compare [winfo toplevel $w] [winfo toplevel $child]]} {
+		continue
+		}
+		if {[string equal [winfo class $child] "Menu"] && [string equal [$child cget -type] "menubar"]} {
+			MenuFirstEntry $child
+			MenuFocus $child
+			break
+		}
 	}
 }
