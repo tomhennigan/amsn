@@ -7312,13 +7312,17 @@ proc convert_image_plus { filename type size } {
 
 
 
-proc load_my_pic {} {
+proc load_my_pic {{force 0}} {
 	global pgBuddyTop
 	status_log "load_my_pic: Trying to set display picture [::config::getKey displaypic]\n" blue
 	if {[::config::getKey displaypic] == "" } {
 		::config::setKey displaypic nopic.gif
 	}
 	if {[file readable [::skin::GetSkinFile displaypic [::config::getKey displaypic]]]} {
+		if {[lsearch [image names] my_pic] != -1 && $force} {
+			image delete my_pic
+			catch {image delete my_pic_small}
+		}
 		image create photo my_pic -file "[::skin::GetSkinFile displaypic [::config::getKey displaypic]]" -format cximage
 		if { [::skin::getKey showdisplaycontactlist] && [winfo exists $pgBuddyTop.bigstate] } {
 			#Recreate the status image
