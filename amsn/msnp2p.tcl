@@ -382,6 +382,7 @@ namespace eval ::MSNP2P {
 			} else {
 				#status_log "data completed... $cTotalDataSize - $cOffset - [string length $chunkedData($cId)]"
 				set data $chunkedData($cId)
+				unset chunckedData($cId)
 				#				set headend 0
 				set cMsgSize $cTotalDataSize
 			}
