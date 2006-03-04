@@ -3317,9 +3317,9 @@ proc cmsn_draw_main {} {
 
 
 	#Order Contacts By submenu
+	#@@@@@@@@@@@@@@@@@@@@@ kai ola ta parakatw :)
 	menu .order_by -tearoff 0 -type normal
 	.order_by add radio -label "[trans status]" -value 0 \
-		#@@@@@@@@@@@@@@@@@@@@@ kai ola ta parakatw :)
 		-variable [::config::getVar orderbygroup] -command "cmsn_draw_online"
 	.order_by add radio -label "[trans group]" -value 1 \
 		-variable [::config::getVar orderbygroup] -command "cmsn_draw_online"
