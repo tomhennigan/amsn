@@ -3735,7 +3735,8 @@ proc cmsn_draw_main {} {
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 		moveinscreen . 30
 		}
-	load_my_pic
+	#Will be loaded when we log in
+	#load_my_pic
 
 	#allow for display updates so window size is correct
 
@@ -7312,17 +7313,20 @@ proc convert_image_plus { filename type size } {
 
 
 
-proc load_my_pic {{force 0}} {
+proc load_my_pic { } {
 	global pgBuddyTop
 	status_log "load_my_pic: Trying to set display picture [::config::getKey displaypic]\n" blue
 	if {[::config::getKey displaypic] == "" } {
 		::config::setKey displaypic nopic.gif
 	}
 	if {[file readable [::skin::GetSkinFile displaypic [::config::getKey displaypic]]]} {
-		if {[lsearch [image names] my_pic] != -1 && $force} {
-			image delete my_pic
-			catch {image delete my_pic_small}
-		}
+		#We made sure the proc is only called when we need to CHANGE dp
+		#if {[lsearch [image names] my_pic] != -1 && $force} {
+		#	image delete my_pic
+		#	catch {image delete my_pic_small}
+		#}
+		catch {image delete my_pic}
+		catch {image delete my_pic_small}
 		image create photo my_pic -file "[::skin::GetSkinFile displaypic [::config::getKey displaypic]]" -format cximage
 		if { [::skin::getKey showdisplaycontactlist] && [winfo exists $pgBuddyTop.bigstate] } {
 			#Recreate the status image
@@ -7357,7 +7361,9 @@ proc pictureBrowser {} {
 		-relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0 -wrap none
 	.picbrowser.pics setwidget .picbrowser.pics.text
 
-	load_my_pic
+	#Should be only called when we CHANGE the dp, not in the browser!
+	#and my_pic is created when we log in anyway...
+	#load_my_pic
 
 	label .picbrowser.mypic -image my_pic -background white -borderwidth 2 -relief solid
 	label .picbrowser.mypic_label -text "[trans mypic]" -font splainf

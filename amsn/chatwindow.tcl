@@ -2051,7 +2051,7 @@ namespace eval ::ChatWindow {
 
 
 		# This proc is called to load the Display Picture if exists and is readable
-		load_my_pic
+		#load_my_pic
 
 		return $frame
 

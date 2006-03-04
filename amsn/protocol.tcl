@@ -4905,7 +4905,7 @@ proc cmsn_auth {{recv ""}} {
 			configureMenuEntry .main_menu.actions "[trans sendmail]..." normal
 			configureMenuEntry .main_menu.actions "[trans sendmsg]..." normal
 
-			load_my_pic 1
+			load_my_pic
 
 			#Send postevent "OnConnect" to plugin when we connect
 			::plugins::PostEvent OnConnect evPar
