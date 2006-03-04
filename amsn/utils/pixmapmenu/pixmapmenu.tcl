@@ -9,12 +9,12 @@ snit::widgetadaptor pixmapmenu {
 	typevariable backgroundborder 		;# Borders for scalable-bg for background
 	typevariable selectimg 			;# Select image
 	typevariable selectborder 		;# Borders for scalable-bg for select
-	typevariable separatorborder
-	typevariable checkboximg
-	typevariable checktickimg
-	typevariable radioboximg
-	typevariable radiotickimg
-	typevariable separatorimg
+	typevariable separatorimg		;# Separator image
+	typevariable separatorborder		;# Borders for scalable-bg for separator
+	typevariable checkboximg		;# Checkbutton image
+	typevariable checktickimg		;# Checkbutton tick image
+	typevariable radioboximg		;# Radiobutton image
+	typevariable radiotickimg		;# Radiobutton tick image
 
 	typeconstructor {
 		::skin::setPixmap menuarrowdown menu_arrow_down.png
@@ -69,14 +69,14 @@ snit::widgetadaptor pixmapmenu {
 	variable textid 	;# Array to store canvas ids of entries' text
 	variable checktickid	;# Array to store canvas ids of entries' check marks (checkbutton entries only)
 	variable radiotickid	;# Array to store canvas ids of entries' radio marks (radiobutton entries only)
-	variable backgroundid
-	variable background
-	variable select
-	variable selectid
-	variable separator
-	variable afterid
-	variable active
-	variable config
+	variable backgroundid	;# Canvas id of background image
+	variable background	;# Backgound scalable-bg
+	variable select		;# Select scalable-bg
+	variable selectid	;# Canvas id of select image
+	variable separator	;# Separator scalable-bg
+	variable afterid	;# Array to speed up processing of batches of commands
+	variable active		;# Active entry
+	variable config		;# Array to store names of config objects for entries
 
 	constructor { args } {
 		# Initial values

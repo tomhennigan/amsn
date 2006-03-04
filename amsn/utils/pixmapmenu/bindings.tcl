@@ -4,11 +4,40 @@ set MenuPosted {}
 array set afterid {PostCascade {} UnpostCascade {}}
 set ::tk::Priv(cursor) left_ptr
 
+# Alt binding for all
+# TODO: handle things ok if when we restore focus, the window that we restore to has been destroyed...
 bind all <Alt_L> {
-	if { $::tk::Priv(menuBar) == "" } {
-		set ::tk::Priv(focus) [focus]
-		Alt [winfo toplevel %W]
+	variable MenuPosted
+	set fw [focus]
+	set ftype {}
+	if { $fw != "" && $fw != "." } {
+		if { [winfo class [winfo parent $fw]] == "Menu" } {
+			set ftype [$fw cget -type]
+		}
 	}
+
+	switch $ftype {
+		menubar {
+			$fw activate none
+			RestoreFocus
+			set ::tk::Priv(menuBar) {}
+		}
+		normal {
+			
+		}
+		default {
+			if { $::tk::Priv(menuBar) == "" } {
+				set ::tk::Priv(focus) $fw
+				Alt [winfo toplevel %W]
+			}
+		}
+	}
+	
+	#{} elseif { $MenuPosted == "" } {
+		
+	#} elseif { $ftype == "menubar" } {
+		
+	#}
 }
 
 # -----------------------------------------------------
@@ -60,7 +89,7 @@ bind Pixmapmenu <Unmap> {
 bind Pixmapmenu <ButtonPress> {
 	variable MenuPosted
 	variable afterid
-	puts $::tk::Priv(popup)
+
 	set containing [MenuAtPoint %X %Y]
 	if { $containing == "none" } {
 		break
@@ -268,7 +297,6 @@ bind Pixmapmenu <Up> {
 			set m [%W entrycget active -menu]
 			if { $m != "" } {
 				set ::tk::Priv(menuBar) [winfo parent %W]
-				puts "menubar is $::tk::Priv(menuBar)"
 				MenuLastEntry $m
 			}
 		}
@@ -286,7 +314,6 @@ bind Pixmapmenu <Down> {
 			set m [%W entrycget active -menu]
 			if { $m != "" } {
 				set ::tk::Priv(menuBar) [winfo parent %W]
-				puts "menubar is $::tk::Priv(menuBar)"
 				MenuFirstEntry $m
 			}
 		}
@@ -355,14 +382,21 @@ bind Pixmapmenu <Escape> {
 			if { [IsTopLevelMenu $shell] } {
 				MenuUnpost $MenuPosted
 			} else {
-				$parent unpost
+				$shell unpost
 			}
 			# Activate the entry the menu was posted from (but don't post the menu again, obviously)
-			$parent activate $active
+			if { $ptype != "" } {
+				$parent activate $active
+			}
 		}
 		menubar {
+			set ::tk::Priv(menuBar) {}
 			# Restore focus
-			focus $::tk::Priv(focus)
+			if { $::tk::Priv(focus) == "" } {
+				focus [winfo toplevel %W]
+			} else {
+				RestoreFocus
+			}
 			set ::tk::Priv(focus) {}
 			# Activate none
 			%W activate none
@@ -475,7 +509,11 @@ proc MenuNextEntry { w direction } {
 
 proc MenuNextMenu { w direction } {
 	set parent [winfo parent $w]
-	set ptype [$parent cget -type]
+	set ptype {}
+	catch {set ptype [$parent cget -type]}
+	if { $ptype == "" } {
+		return
+	}
 	if { [IsTopLevelMenu $w] } {
 		if { [$w type active] == "cascade" } {
 			if { $direction == 1 } {
@@ -555,7 +593,7 @@ proc MenuUnpost { w } {
 
 	# Restore focus immediately
 	status_log "(MenuUnpost $w) restoring focus to $::tk::Priv(focus)"
-	focus $::tk::Priv(focus)
+	RestoreFocus
 
 	while {1} {
 		set parent [winfo parent $w]
@@ -620,9 +658,18 @@ proc Alt { w } {
 		continue
 		}
 		if {[string equal [winfo class $child] "Menu"] && [string equal [$child cget -type] "menubar"]} {
+			set ::tk::Priv(menuBar) $child
 			MenuFirstEntry $child
 			MenuFocus $child
 			break
 		}
+	}
+}
+
+proc RestoreFocus { } {
+	if { [winfo exists $::tk::Priv(focus)] } {
+		focus $::tk::Priv(focus)
+	} else {
+		focus .
 	}
 }
