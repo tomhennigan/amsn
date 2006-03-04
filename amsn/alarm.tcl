@@ -208,6 +208,7 @@ namespace eval ::alarms {
 		::abook::saveToDisk
 		InitMyAlarms $user
 		
+		#@@@@@@@@@@@@@@@@@@@@@@@
 		cmsn_draw_online
 	}
 
@@ -279,6 +280,7 @@ namespace eval ::alarms {
 		::abook::setContactData $user alarms [array get alarms]
 		::abook::saveToDisk
 		
+		#@@@@@@@@@@@@@@@@@@@@@@@@@@
 		cmsn_draw_online
 		unset my_alarms
 		

@@ -3319,6 +3319,7 @@ proc cmsn_draw_main {} {
 	#Order Contacts By submenu
 	menu .order_by -tearoff 0 -type normal
 	.order_by add radio -label "[trans status]" -value 0 \
+		#@@@@@@@@@@@@@@@@@@@@@ kai ola ta parakatw :)
 		-variable [::config::getVar orderbygroup] -command "cmsn_draw_online"
 	.order_by add radio -label "[trans group]" -value 1 \
 		-variable [::config::getVar orderbygroup] -command "cmsn_draw_online"
@@ -4160,6 +4161,8 @@ proc cmsn_draw_offline {} {
 
 	bind . <Configure> ""
 
+	#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	#xwris to top, apla to kanoume delete pio katw
 	after cancel "cmsn_draw_online"
 
 	global sboldf password pgBuddy pgBuddyTop
@@ -4728,6 +4731,7 @@ proc toggleGroup {tw name image id {padx 0} {pady 0}} {
 	$tw tag add $name $imgIdx
 	$tw tag bind $name <Enter> "$tw image configure $imgIdx -image [::skin::loadPixmap ${image}_hover]; $tw conf -cursor hand2"
 	$tw tag bind $name <Leave> "$tw image configure $imgIdx -image [::skin::loadPixmap $image]; $tw conf -cursor left_ptr"
+	#@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	$tw tag bind $name <Button1-ButtonRelease> "status_log \"$id\"; ::groups::ToggleStatus $id; cmsn_draw_online"
 }
 #///////////////////////////////////////////////////////////////////////
@@ -4798,7 +4802,7 @@ if { $initialize_amsn == 1 } {
 
 #///////////////////////////////////////////////////////////////////////
 # TODO: move into ::amsn namespace, and maybe improve it
-proc cmsn_draw_online { {delay 0} } {
+proc cmsn_draw_online { {delay 0}} {
 
 #Delay not forced redrawing (to avoid too many redraws)
 	if { $delay } {
@@ -4923,6 +4927,7 @@ proc cmsn_draw_online_wrapped {} {
 			$pgBuddy.text tag conf $gtag -fore [::skin::getKey groupcolorcontract] -font sboldf
 		}
 
+		#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 		$pgBuddy.text tag bind $gtag <Button1-ButtonRelease> \
 			"::groups::ToggleStatus $gname;cmsn_draw_online"
 

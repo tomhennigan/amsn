@@ -956,6 +956,7 @@ namespace eval ::MSN {
 	#Callback procedure called when a UUX (PSM change) message is received
 	proc GotUUXResponse { recv } {
 
+		#@@@@@@@@@@@@@@@@@@@@
 		cmsn_draw_online 1
 		#an event used by guicontactlist to know when we changed our nick
 		::Event::fireEvent myNickChange protocol
@@ -1016,6 +1017,7 @@ namespace eval ::MSN {
 
 		::MSN::contactListChanged
 
+		#@@@@@@@@@@@@@@@@@@@@@@@@@
 		cmsn_draw_online 1
 
 		set contactlist_loaded 1
@@ -1055,6 +1057,7 @@ namespace eval ::MSN {
 		}
 	
 	
+		#@@@@@@@@@@@@@@@@@@@@@@@@@@
 		cmsn_draw_online 1
 		global contactlist_loaded
 		set contactlist_loaded 1
@@ -3078,6 +3081,7 @@ namespace eval ::Event {
 		#Last user in list
 		if {$current == $total} {
 			$self setInitialStatus
+			#@@@@@@@@@@@@@@@@@@@
 			cmsn_draw_online 1
 
 			set contactlist_loaded 1
@@ -3142,6 +3146,7 @@ namespace eval ::Event {
 		}
 		::abook::setVolatileData $contact PSM [::sxml::replacexml [encoding convertfrom utf-8 $psm]]
 		::abook::setVolatileData $contact currentmedia [::sxml::replacexml [encoding convertfrom utf-8 $currentmedia]]
+		#@@@@@@@@@@@@@@@@@@@@
 		cmsn_draw_online 1
 	}
 
@@ -4304,6 +4309,7 @@ proc cmsn_change_state {recv} {
 
 	::MSN::contactListChanged
 	if { $state_changed || $nick_changed } {
+		#@@@@@@@@@@@@@@@@@@@@@@@@
 		cmsn_draw_online 1
 	}
 }
@@ -4513,6 +4519,7 @@ proc cmsn_ns_handler {item {message ""}} {
 				new_contact_list "[lindex $item 2]"
 				#status_log "$item\n" blue
 				::groups::RenameCB [lrange $item 0 5]
+				#@@@@@@@@@@@@@@@
 				cmsn_draw_online 1
 				return 0
 			}
@@ -4520,6 +4527,7 @@ proc cmsn_ns_handler {item {message ""}} {
 				new_contact_list "[lindex $item 2]"
 				#status_log "$item\n" blue
 				::groups::AddCB [lrange $item 0 5]
+				#@@@@@@@@@@@@@@@@@
 				cmsn_draw_online 1
 				return 0
 			}
@@ -4527,6 +4535,7 @@ proc cmsn_ns_handler {item {message ""}} {
 				new_contact_list "[lindex $item 2]"
 				#status_log "$item\n" blue
 				::groups::DeleteCB [lrange $item 0 5]
+				#@@@@@@@@@@@@@@@@@@@@@@
 				cmsn_draw_online 1
 				return 0
 			}
@@ -4733,6 +4742,7 @@ proc cmsn_listdel {recv} {
 	}
 
 
+	#@@@@@@@@@@@@@@@@@@@@@@@@
 	cmsn_draw_online 1
 	global contactlist_loaded
 	set contactlist_loaded 1
@@ -5396,6 +5406,7 @@ proc cmsn_listupdate {recv} {
 
 	#Last user in list
 	if {$current == $total} {
+		#@@@@@@@@@@@@@@@@@@@@@@@@@@@
 		cmsn_draw_online 1
 
 		set contactlist_loaded 1
