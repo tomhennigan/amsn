@@ -449,7 +449,7 @@ void PhotoDisplayProcHook(
 	int drawableX,
 	int drawableY){
 
-#ifndef MAC_TCL
+#ifndef __APPLE__
 #ifndef WIN32
 
   /* 
