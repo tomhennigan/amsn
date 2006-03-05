@@ -939,7 +939,7 @@ namespace eval ::lang {
 
 #All the stuff necessary to find the preferred language to use on Mac OS X
 if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-	package require Ffidl 0.6
+	catch {package require Ffidl 0.6}
 	namespace eval corefoundation {
 		proc api {name argl ret} {::ffidl::callout $name $argl $ret \
 		[::ffidl::symbol CoreFoundation.framework/CoreFoundation $name]}
