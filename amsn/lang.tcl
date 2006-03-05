@@ -943,29 +943,30 @@ namespace eval ::lang {
 
 #All the stuff necessary to find the preferred language to use on Mac OS X
 if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-	if {![catch {package require Ffidl 0.6}]}{
-		namespace eval corefoundation {
-			proc api {name argl ret} {::ffidl::callout $name $argl $ret \
-			[::ffidl::symbol CoreFoundation.framework/CoreFoundation $name]}
-			api CFLocaleCopyCurrent {} pointer
-			api CFLocaleGetIdentifier pointer pointer
-			api CFStringGetLength pointer sint32
-			if { $initialize_amsn == 1  } {
-				::ffidl::typedef CFRange sint32 sint32
-			}
-			api CFStringGetCharacters {pointer CFRange pointer-var} void
-			api CFRelease pointer void
-		
-			proc getLocaleIdentifier {} {
-				set cfloc [CFLocaleCopyCurrent]
-				set cfstr [CFLocaleGetIdentifier $cfloc]
-				set len [CFStringGetLength $cfstr]
-				set buf [binary format x[expr {2*$len}]]
-				set range [binary format [::ffidl::info format CFRange] 0 $len]
-				CFStringGetCharacters $cfstr $range buf
-				CFRelease $cfloc
-				encoding convertfrom unicode $buf
-			}
-		}
-	}
+if {![catch {package require Ffidl 0.6}]} {
+
+namespace eval corefoundation {
+    proc api {name argl ret} {::ffidl::callout $name $argl $ret \
+	[::ffidl::symbol CoreFoundation.framework/CoreFoundation $name]}
+    api CFLocaleCopyCurrent {} pointer
+    api CFLocaleGetIdentifier pointer pointer
+    api CFStringGetLength pointer sint32
+    if { $initialize_amsn == 1  } {
+    	::ffidl::typedef CFRange sint32 sint32
+    }
+    api CFStringGetCharacters {pointer CFRange pointer-var} void
+    api CFRelease pointer void
+
+    proc getLocaleIdentifier {} {
+	set cfloc [CFLocaleCopyCurrent]
+	set cfstr [CFLocaleGetIdentifier $cfloc]
+	set len [CFStringGetLength $cfstr]
+	set buf [binary format x[expr {2*$len}]]
+	set range [binary format [::ffidl::info format CFRange] 0 $len]
+	CFStringGetCharacters $cfstr $range buf
+	CFRelease $cfloc
+	encoding convertfrom unicode $buf
+    }
+}
+}
 }
