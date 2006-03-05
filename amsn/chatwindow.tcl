@@ -1956,7 +1956,7 @@ namespace eval ::ChatWindow {
 		pack $fontsel $smileys -side left -padx 0 -pady 0
 		pack $block $webcam $sendfile $invite -side right -padx 0 -pady 0
 	
-		bind $smileys  <<Button1>> "::smiley::smileyMenu \[winfo pointerx $w\] \[winfo pointery $w\] $input"
+		bind $smileys  <<Button1>> "::smiley::smileyMenu \%X \%Y $input"
 		bind $fontsel  <<Button1>> "after 1 change_myfont [string range $w 1 end]"
 		bind $block    <<Button1>> "::amsn::ShowChatList \"[trans block]/[trans unblock]\" $w ::amsn::blockUnblockUser"
 		bind $sendfile <<Button1>> "::amsn::FileTransferSend $w"
