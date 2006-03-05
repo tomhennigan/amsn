@@ -7,6 +7,7 @@ snit::widgetadaptor menushell {
 	constructor { args } {
 		installhull using toplevel -class Menu -borderwidth 0 -highlightthickness 0 -padx 0 -pady 0 -relief flat
 		wm withdraw $self
+		wm transient $self .
 		wm overrideredirect $self 1
 		install menu using pixmapmenu $self.m -type normal
 		pack $menu -expand true -fill both 
