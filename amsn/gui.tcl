@@ -4904,10 +4904,10 @@ proc cmsn_draw_online_wrapped {} {
 	set list_users [::MSN::sortedContactList]
 
 	#Clear the children of top to avoid memory leaks:
-	foreach child [winfo children $pgBuddyTop] {
-		destroy $child
-	}
-	pack $pgBuddyTop -expand false -fill x -before $pgBuddy
+	#foreach child [winfo children $pgBuddyTop] {
+	#	destroy $child
+	#}
+	#pack $pgBuddyTop -expand false -fill x -before $pgBuddy
 
 	$pgBuddy.text configure -state normal -font splainf -background [::skin::getKey contactlistbg]
 	$pgBuddy.text delete 0.0 end
@@ -4951,6 +4951,13 @@ proc cmsn_draw_online_wrapped {} {
 			$pgBuddy.text tag bind $gtag <Leave> [onMouseLeaveHand $pgBuddy.text]
 		}
 	}
+
+        #Clear the children of top to avoid memory leaks:
+        foreach child [winfo children $pgBuddyTop] {
+               destroy $child
+        }
+        pack $pgBuddyTop -expand false -fill x -before $pgBuddy
+
 
 	# Display MSN logo with user's handle. Make it clickable so
 	# that the user can change his/her status that way
