@@ -1,5 +1,4 @@
 package require snit
-#package require TkCximage
 package provide scalable-bg 0.1
 
 snit::type scalable-bg {
@@ -13,25 +12,15 @@ snit::type scalable-bg {
 	option -width -configuremethod setOption -default 1
 	option -height -configuremethod setOption -default 1
 
-	variable top
-	variable right
-	variable bottom
-	variable left
-	variable centre
 	variable src
-
 	variable base
 
 	constructor { args } {
 		$self configurelist $args
 
-		# Create image spaces
-		set base [image create photo -width $options(-width) -height $options(-height)]
-		set left [image create photo -width $options(-w) -height [expr {$options(-height) - $options(-n) - $options(-s)}]]
-		set centre [image create photo -width [expr {$options(-width) - $options(-w) - $options(-e)}] -height [expr {$options(-height) - $options(-n) - $options(-s)}]]
-		set right [image create photo -width $options(-e) -height [expr {$options(-height) - $options(-n) - $options(-s)}]]
-		set top [image create photo -width [expr {$options(-width) - $options(-e)}] -height $options(-n)]
-		set bottom [image create photo -width [expr {$options(-width) - $options(-e)}] -height $options(-n)]
+		# Create base image
+		set base [image create photo]
+
 		set src $options(-source)
 
 		# Build up the image
@@ -40,16 +29,10 @@ snit::type scalable-bg {
 
 	destructor {
 		catch {image delete $base}
-		catch {image delete $left}
-		catch {image delete $centre}
-		catch {image delete $right}
-		catch {image delete $top}
-		catch {image delete $bottom}
 	}
 
 	method BuildImage { } {
-
-		# Check if requested size is too small:
+		# Check if requested size is too small
 		set minwidth [expr {$options(-w) + $options(-e) + 1}]
 		set minheight [expr {$options(-n) + $options(-s) + 1}]
 		if {
@@ -59,7 +42,7 @@ snit::type scalable-bg {
 			return {}
 		}
 
-			# Get src image width and height:
+			# Get src image width and height
 			set srcwidth [image width $src]
 			set srcheight [image height $src]
 			set midvert [expr {$options(-height) - $options(-n) - $options(-s)}]
@@ -78,10 +61,15 @@ snit::type scalable-bg {
 				}
 			}
 
+			# Create sub-images
+			foreach img { top left centre right bottom } {
+				set $img [image create photo]
+			}
+
 			# Are we scaling or tiling?
 			set scaling [string equal $options(-resizemethod) scale]
 
-			# Resize left section:----------------------------------------
+			# Resize left section
 			if { $options(-w) > 0 } {
 				$left configure -width $options(-w) -height $srcmidvert
 				$left blank
@@ -92,8 +80,7 @@ snit::type scalable-bg {
 				}
 			}
 
-			#-------------------------------------------------------------
-			# Resize middle section:--------------------------------------
+			# Resize middle section
 			$centre configure -width $srcmidhoriz -height $srcmidvert
 			$centre blank
 			$centre copy $src -from $options(-w) $options(-n) $srcrighthoriz $srcbottomvert -to 0 0
@@ -101,8 +88,8 @@ snit::type scalable-bg {
 			if { $scaling } {
 				::CxImage::Resize $centre $midhoriz $midvert
 			}
-			#-------------------------------------------------------------
-			# Resize right section:---------------------------------------
+
+			# Resize right section
 			if { $options(-e) > 0 } {
 				$right configure -width $options(-e) -height $srcmidvert
 				$right blank
@@ -113,7 +100,7 @@ snit::type scalable-bg {
 				}
 			}
 
-			# Resize top section:--------------------------------------
+			# Resize top section
 			if { $options(-n) > 0 } {
 				$top configure -width $srcmidhoriz -height $options(-n)
 				$top blank
@@ -124,7 +111,7 @@ snit::type scalable-bg {
 				}
 			}
 
-			# Resize bottom section:--------------------------------------
+			# Resize bottom section
 			if { $options(-s) > 0 } {
 				$bottom configure -width $srcmidhoriz -height $options(-s)
 				$bottom blank
@@ -136,40 +123,37 @@ snit::type scalable-bg {
 			}
 
 
-			# Build up button image:
+			# Build up button image
 			# Start with a clean slate...
 			$base blank
 			# ...of correct proportions
 			$base configure -width $options(-width) -height $options(-height)
-
 			# NW corner
 			$base copy $src -from 0 0 $options(-w) $options(-n) -to 0 0
-
 			# N border
 			$base copy $top -to $options(-w) 0 $righthoriz $options(-n)
-
 			# NE corner
 			$base copy $src -from $srcrighthoriz 0 $srcwidth $options(-n) -to $righthoriz 0
-
 			# W border
 			$base copy $left -to 0 $options(-n) $options(-w) $bottomvert
-
 			# Centre/Body
 			$base copy $centre -to $options(-w) $options(-n) $righthoriz $bottomvert
-
 			# E border
 			$base copy $right -to $righthoriz $options(-n) $options(-width) $bottomvert
-
 			# SW corner
 			$base copy $src -from 0 $srcbottomvert $options(-w) $srcheight -to 0 $bottomvert
-
 			# S border
 			$base copy $bottom -to $options(-w) $bottomvert $righthoriz $options(-height)
-
 			# SE corner
 			$base copy $src -from $srcrighthoriz $srcbottomvert $srcwidth $srcheight -to $righthoriz $bottomvert
+
+			# Delete sub-images
+			foreach img { top left centre right bottom } {
+				image delete [set $img]
+			}
 	}
 
+	# Set's the borders for the image
 	method setBorder { option value } {
 		set options(-border) $value
 		foreach { n e s w } $value {
@@ -180,21 +164,16 @@ snit::type scalable-bg {
 		}
 	}
 
+	# Generic option setting
 	method setOption { option value } {
 		if { [string equal $options($option) $value] } {
 			return {}
 		}
 
 		set options($option) $value
-		if {
-			[info exists top] && \
-			[info exists right] && \
-			[info exists bottom] && \
-			[info exists left] && \
-			[info exists centre] && \
-			[info exists src] && \
-			[info exists base]
-		} {
+
+		# Check we have everythgin we need to build the image
+		if { [info exists src] && [info exists base] } {
 			set src $options(-source)
 			$self BuildImage
 		}
