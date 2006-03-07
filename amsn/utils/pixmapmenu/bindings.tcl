@@ -6,7 +6,7 @@ set ::tk::Priv(cursor) left_ptr
 
 # Alt binding for all
 # TODO: handle things ok if when we restore focus, the window that we restore to has been destroyed...
-bind all <Alt_L> {
+bind all <KeyRelease-Alt_L> {
 	variable MenuPosted
 	set fw [focus]
 	set ftype {}
