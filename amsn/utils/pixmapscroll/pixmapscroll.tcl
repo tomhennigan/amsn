@@ -104,11 +104,11 @@ snit::widgetadaptor pixmapscroll {
 		set arrow2width [set ${orientation}_arrow2width]
 		set arrow2height [set ${orientation}_arrow2height]
 
-		set troughimage [image create photo]
-		set sliderimage [image create photo]
-		set sliderimage_hover [image create photo]
-		set sliderimage_pressed [image create photo]
-		set sliderimage_disabled [image create photo]
+		set troughimage [image create photo ${self}through]
+		set sliderimage [image create photo ${self}slider]
+		set sliderimage_hover [image create photo ${self}slidhov]
+		set sliderimage_pressed [image create photo ${self}slidpres]
+		set sliderimage_disabled [image create photo ${self}sliddisab]
 
 		$canvas create image 0 0 -anchor nw -image $troughimage -tag $troughimage
 		$canvas create image 0 0 -anchor nw -image $sliderimage -activeimage $sliderimage_hover -disabledimage $sliderimage_disabled -tag $sliderimage
@@ -154,6 +154,11 @@ snit::widgetadaptor pixmapscroll {
 		if {$ndx != -1} {
 			set scrollbarlist [lreplace $scrollbarlist $ndx $ndx]
 		}
+		image delete ${self}through
+		image delete ${self}slider
+		image delete ${self}slidhov
+		image delete ${self}slidpres
+		image delete ${self}sliddisab
 	}
 
 	method Setnewsize { news } {
