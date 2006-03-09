@@ -62,8 +62,8 @@ namespace eval ::debug {
 
 	proc writeOn {} {
 		global HOME2
-		global debugfile
-		global wchannel
+		variable debugfile
+		variable wchannel
 
 		set debugfile [file join $HOME2 debug.log]
 		#open the file for writing at the end of it
@@ -78,10 +78,27 @@ namespace eval ::debug {
 		set wchannel stdout
 	}
 		
-	
+
+
+
+	proc printStackTrace { } {
+		::debug::output "Stacktrace:"
+		for { set i [info level] } { $i > 0 } { incr i -1} {
+			::debug::output "Level $i : [info level $i]"
+			::debug::output "Called from within : "
+		}
+		::debug::output ""
+	}
+
+
+
+
+
+
+#Aid procs	
 	proc output {data} {
 		global wchannel
-		global force
+		variable force
 		set force 1
 
 		#if we're writing to the file, also write to stdout
@@ -96,10 +113,10 @@ namespace eval ::debug {
 	}
 
 
+
+
+
 }
 
 
 
-
-
-\
