@@ -43,4 +43,21 @@ namespace eval ::debug {
 	}
 	
 	
+	proc varsize { {namespace ""}} {
+		if {$namespace != ""} {
+			set namespaces [list $namespace]
+		} else {
+			set namespaces [namespace children ::]
+		}
+
+		foreach namespace $namespaces {
+			puts "Namespace $namespace\n----------"
+			foreach var [info vars  "${namespace}::*"] {
+				puts "$var : "
+				catch { puts "\t[string length [set $var]]\n"}
+				catch { puts "\t[string length [array get $var]]"} 
+			}
+		}
+	}
+	
 }
