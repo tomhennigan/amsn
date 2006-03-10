@@ -41,7 +41,7 @@ $skins=array(array("aDarwin",'A well deserved tribute to Darwin','Daniel Buenfil
         array('Unified','Unified','Daniel Buenfil',66,'Unified-0.95.zip'),
         array('Clearlooks','Clearlooks','reggaemanu',95,'Clearlooks-0.95.zip'),
         array('Tux','The original Tux Skin by Steels - Everaldo with a lot of tiny penguins. Updated for aMSN 0.95','Guillaume Lambert',94,'Tux-0.95.zip'),
-        array('nilo-skin','yo yo','yo yo',0,'nilo-skin-0.95.zip'));
+        array('nilo-skin v0.2','aMSN and MSN Messenger skins fusion!','Jin-Roh',98,'nilo-skin_v0.2-0.95.zip'));
 
 #format: 0->title 1->description 2-> author 3->version 4->Platforms 5->requires 6->ID of screenshot in wiki 7->package on sf.net release system
 $plugins=array(array('aMSN Plus!','aMSN Extension similar to MSN Plus! (commands in chat window, multiple-text format, colored nicks)','Mark, Jerome Gagnon-Voyer &amp; Fred','2.6','All','aMSN 0.94',67,'amsnplus-2.6.zip'),
