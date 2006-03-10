@@ -68,6 +68,11 @@ namespace eval ::chameleon {
 	    lappend ::auto_path $dir
 	}
 	
+        # This forces an update of the available packages list.
+        # let's hope it will fix the problem on Mac where the tile extension is not found
+	# if placed in the plugin's dir.
+        eval [package unknown] Tcl [package provide Tcl]
+
 
 	if {[catch {package require tile 0.7}]} { 
 	    msg_box "You need the tile extension to be installed to run this plugin"
@@ -167,6 +172,7 @@ namespace eval ::chameleon {
 	variable ttk_widget_type
 	variable tk_widget_type	
 
+	plugins_log "Chameleon" "In wrap $revert"
 	if {$revert == 1 } {
 	    if {$wrapped == 0 } {
 		error "can't revert the wrapping : must wrap before"
@@ -178,11 +184,14 @@ namespace eval ::chameleon {
 		set widget_type [set wrapped_shortname($command)]
 
 
-		if { [info command ::tk::${tk_widget_type}] == "::tk::${tk_widget_type}"&& 
-		     [info command ::${tk_widget_type}] == "" && 
+		if { [info commands ::tk::${tk_widget_type}] == "::tk::${tk_widget_type}" && 
 		     [info procs ::${tk_widget_type}] == "::${tk_widget_type}" } {
+		    plugins_log "Chameleon" "Unwrapping ${tk_widget_type}"
 		    rename ::${tk_widget_type} ""
 		    rename ::tk::${tk_widget_type} ::${tk_widget_type}
+		} else {
+		    plugins_log "Chameleon" "Not unwrapping ${tk_widget_type}"
+		    plugins_log "Chameleon" "Because of : [info command ::tk::${tk_widget_type}] - [info procs ::${tk_widget_type}]"
 		}
 	    }
 
@@ -203,12 +212,14 @@ namespace eval ::chameleon {
 		source [file join $plugin_dir ${widget_type}.tcl]
 
 
-		if { [info command ::tk::${tk_widget_type}] == "" && 
-		     [info procs ::tk::${tk_widget_type}] == "" && 
-		     ([info command ::${tk_widget_type}] == "::${tk_widget_type}"  ||
-		      [info procs ::${tk_widget_type}] == "::${tk_widget_type}" ) } {
+		if { [info commands ::tk::${tk_widget_type}] == "" && 
+		     [info commands ::${tk_widget_type}] == "::${tk_widget_type}"  } {
+		    plugins_log "Chameleon" "Wrapping ${tk_widget_type}"
 		    rename ::${tk_widget_type} ::tk::${tk_widget_type}
 		    proc ::${tk_widget_type} {w args} "eval ::chameleon::${widget_type}::${widget_type} \$w \$args"
+		} else {
+		    plugins_log "Chameleon" "Not wrapping ${tk_widget_type}"
+		    plugins_log "Chameleon" "Because of : [info command ::tk::${tk_widget_type}] - [info command ::${tk_widget_type}] - [info procs ::${tk_widget_type}] - [info procs ::tk::${tk_widget_type}]"
 		}
 	    }
 
