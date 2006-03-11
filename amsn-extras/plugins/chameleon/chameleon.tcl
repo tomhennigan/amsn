@@ -7,7 +7,7 @@ namespace eval ::chameleon {
     variable flash_count 10
 
     variable wrapped 0
-    variable wrapped_procs [list button frame labelframe label radiobutton checkbutton NoteBook];# scrollbar]
+    variable wrapped_procs [list button frame labelframe label radiobutton checkbutton NoteBook scrollbar]
     variable wrapped_into
     variable wrapped_shortname
     
@@ -113,6 +113,8 @@ namespace eval ::chameleon {
 	    xpnative	"XP Native"
 	    aqua	"Aqua"
 	}
+	    
+	array unset THEMES
 	array set THEMES $THEMELIST;
 
 	# Add in any available loadable themes:
@@ -129,17 +131,77 @@ namespace eval ::chameleon {
 	catch  {console show }
 
 	if { [info exists ::Chameleon_cfg(theme)] } {
-	    tile::setTheme $::Chameleon_cfg(theme)
+	    SetTheme $::Chameleon_cfg(theme)
 	} else {
-	    tile::setTheme $::chameleon::config(theme)
+	    SetTheme $::chameleon::config(theme)
 	}
 
 	wrap 0
+
+	    # need to reset the theme at idle so the option add will actually be effective!
+	after idle {::chameleon::SetTheme  $::chameleon::config(theme)}
     }
 
     proc DeInit { } {
-	wrap 1
+	    variable defaultBgColor 
+	    variable lastSetBgColor 
+	    wrap 1
+
+	    set lastSetBgColor $defaultBgColor
+	    option add *Toplevel.background $defaultBgColor
+	    RecursivelySetBgColor . $defaultBgColor
     }
+
+    proc SetTheme {theme} {
+	    variable defaultBgColor 
+	    variable lastSetBgColor 
+
+	    if { ![info exists defaultBgColor] } {
+		    #toplevel .chameleon_test
+		    #set defaultBgColor [.chameleon_test cget -background]
+		    #destroy .chameleon_test
+		    # TODO find a way to find the correct default bg color at startup
+		    set defaultBgColor \#eae7e4
+	    }
+	    if { ![info exists lastSetBgColor] } {
+		    set lastSetBgColor $defaultBgColor
+	    }
+
+	    # TODO find a way to get the tile's frame's background more efficiently
+	    tile::setTheme $theme
+	    switch -- $theme {
+		    "winnative" { set bgcolor \#d6d3ce }
+		    "xpnative" { set bgcolor \#ece9d8}
+		    "step" { set bgcolor \#a0a0a0 }
+		    "clam" { set bgcolor \#dcdad5 }
+		    "alt" -
+		    "classic" -
+		    default  { set bgcolor \#d9d9d9 }
+		    
+	    }
+	    if {[info exists tile::theme::${theme}::colors(-frame)] } {
+		    set bgcolor [set tile::theme::${theme}::colors(-frame)]
+	    }
+
+	    option add *Toplevel.background $bgcolor
+	    RecursivelySetBgColor . $bgcolor
+	    
+	    set lastSetBgColor $bgcolor
+    }
+    proc RecursivelySetBgColor { w color } {
+	    variable defaultBgColor 
+	    variable lastSetBgColor
+
+	    if {[winfo toplevel $w] == $w && 
+		([$w cget -background] == $defaultBgColor ||
+		[$w cget -background] == $lastSetBgColor)} {
+		    $w configure -background $color
+	    }
+	    foreach child [winfo children $w] {
+		    RecursivelySetBgColor $child $color
+	    }
+    }
+
 
     proc populateframe { win } {
 	variable THEMELIST
@@ -152,7 +214,7 @@ namespace eval ::chameleon {
 	foreach {theme name} $THEMELIST {
 	    set b [::ttk::radiobutton $themes.s$theme -text $name \
 		       -variable ::chameleon::config(theme) -value $theme \
-		       -command [list tile::setTheme $theme]]
+		       -command [list chameleon::SetTheme $theme]]
 	    pack $b -side top -expand false -fill x
 	    if {[lsearch -exact [package names] tile::theme::$theme] == -1} {
 		$themes.s$theme state disabled
@@ -160,6 +222,7 @@ namespace eval ::chameleon {
 	}
 	
 	pack $themes -expand true -fill both
+	    bind $win <Destroy> {::chameleon::SetTheme $::chameleon::config(theme)}
     }
     
     proc wrap {{revert 0}} {
@@ -319,9 +382,9 @@ namespace eval ::chameleon {
 	append src [string range ${widget_type} 1 end]
 
 	#Copy parameters from one style to another
-	eval "style configure $dest [style configure $src]"
-	eval "style layout $dest \{[style layout $src]\}"
-	eval "style map $dest [style map $src]"
+	eval style configure $dest [style configure $src]
+	eval style layout $dest \{[style layout $src]\}
+	eval style map $dest [style map $src]
     }
 
     proc printStackTrace { } {
