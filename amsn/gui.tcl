@@ -4805,8 +4805,14 @@ proc cmsn_draw_online { {delay 0} {topbottom 3} } {
 
 #Delay not forced redrawing (to avoid too many redraws)
 	if { $delay } {
-		after cancel "cmsn_draw_online 0 $topbottom"
-		after 500 "cmsn_draw_online 0 $topbottom"
+		if { $topbottom & 1 } {
+			after cancel "cmsn_draw_online 0 1"
+			after 500 "cmsn_draw_online 0 1"
+		}
+		if { $topbottom & 2 } {
+			after cancel "cmsn_draw_online 0 2"
+			after 500 "cmsn_draw_online 0 2"
+		}
 		return
 	}
 
