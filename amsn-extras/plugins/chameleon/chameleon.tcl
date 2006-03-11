@@ -192,7 +192,7 @@ namespace eval ::chameleon {
 	    variable defaultBgColor 
 	    variable lastSetBgColor
 
-	    if {[winfo toplevel $w] == $w && 
+	    if {[info commands $w] != "" && [winfo toplevel $w] == $w && 
 		([$w cget -background] == $defaultBgColor ||
 		[$w cget -background] == $lastSetBgColor)} {
 		    $w configure -background $color
