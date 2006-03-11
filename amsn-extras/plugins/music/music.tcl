@@ -188,6 +188,7 @@ namespace eval ::music {
 				"XMMS" [list GetSongXMMS TreatSongXMMS] \
 				"Amarok" [list GetSongAmarok TreatSongAmarok] \
 				"Banshee" [list GetSongBanshee TreatSongBanshee] \
+				"Rhythmbox" [list GetSongRhythmbox TreatSongRhythmbox] \
 			] \
 			"windows nt" [list \
 				"WinAmp" [list GetSongWinamp TreatSongWinamp] \
@@ -584,6 +585,51 @@ namespace eval ::music {
 			#Third element is the path to the album cover-art (if available, else it is "")
 			lappend return $CoverUri
 		}
+
+		return $return
+	}
+
+	###############################################
+	# ::music::TreatSongRhythmbox                 #
+	# ------------------------------------------- #
+	# Gets the current playing song in Rhythmbox  #
+	###############################################
+	proc TreatSongRhythmbox {} {
+		#Grab the information asynchronously : thanks to Tjikkun
+		after 0 {::music::exec_async [list "sh" [file join $::music::musicpluginpath "inforhythmbox"]] }
+		return 0
+	}
+
+	###############################################
+	# ::music::GetSongRhythmbox                   #
+	# ------------------------------------------- #
+	# Gets the current playing song in Rhythmbox  #
+	###############################################
+	proc GetSongRhythmbox {} {
+		#actualsong is filled asynchronously in TreatSongRhythmbox
+		#Split the lines into a list and set the variables as appropriate
+		if { [catch {split $::music::actualsong "\n"} tmplst] } {
+			#actualsong isn't yet defined by asynchronous exec
+			return 0
+		}
+
+		set Title [lindex $tmplst 1]
+		set Artist [lindex $tmplst 2]
+		set Uri	[lindex $tmplst 3]
+
+		#Define in witch order we want to show the song (from the config)
+		#Use the separator(from the cong) betwen song and artist
+		if {$::music::config(songart) == 1} {
+			append songart $Title " " $::music::config(separator) " " $Artist
+		} elseif {$::music::config(songart) == 2} {
+			append songart $Artist " " $::music::config(separator) " " $Title
+		} elseif {$::music::config(songart) == 3} {
+			append songart $Title
+		}
+	
+		#Frist is the "title" of the song
+		#Second is the location of the file
+		set return [list $songart [urldecode [string range $Uri 7 end]]]
 
 		return $return
 	}

@@ -1,0 +1,8 @@
+#! /bin/sh
+if [ -z "$(pidof rhythmbox)" ]; then
+	echo 0
+else 
+	echo ""
+	rhythmbox --print-playing --print-playing-artist --print-playing-path --no-focus
+fi
+exit 0
