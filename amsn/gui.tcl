@@ -4802,18 +4802,24 @@ if { $initialize_amsn == 1 } {
 
 #///////////////////////////////////////////////////////////////////////
 # TODO: move into ::amsn namespace, and maybe improve it
-proc cmsn_draw_online { {delay 0}} {
+# topbottom: 1 = top only, 2 = bottom only, 3 = top and bottom
+proc cmsn_draw_online { {delay 0} {topbottom 3} } {
 
 #Delay not forced redrawing (to avoid too many redraws)
 	if { $delay } {
-		after cancel "cmsn_draw_online"
-		after 500 "cmsn_draw_online"
+		after cancel "cmsn_draw_online 0 $topbottom"
+		after 500 "cmsn_draw_online 0 $topbottom"
 		return
 	}
 
 	#Run this procedure in mutual exclusion, to avoid procedure
 	#calls due to events while still drawing. This fixes some bugs
-	run_exclusive cmsn_draw_online_wrapped draw_online
+	if { $topbottom & 1 } {
+		run_exclusive cmsn_draw_buildtop_wrapped draw_online
+	}
+	if { $topbottom & 2 } {
+		run_exclusive cmsn_draw_online_wrapped draw_online
+	}
 }
 
 proc cmsn_draw_buildtop_wrapped {} {
@@ -5152,11 +5158,6 @@ proc cmsn_draw_online_wrapped {} {
 			$pgBuddy.text tag bind $gtag <Leave> [onMouseLeaveHand $pgBuddy.text]
 		}
 	}
-
-	######################################################################
-	#This part redraws the top part. Code moved from here to another proc!
-	cmsn_draw_buildtop_wrapped
-
 
 
 	# For each named group setup its heading where >><< image
