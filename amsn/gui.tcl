@@ -7423,7 +7423,6 @@ proc pictureBrowser {} {
 	set evPar(win) .picbrowser
 	::plugins::PostEvent xtra_choosepic_buttons evPar
 
-
 	checkbutton .picbrowser.showcache -command "reloadAvailablePics" -variable show_cached_pics\
 		-font sboldf -text [trans showcachedpics]
 
@@ -7595,6 +7594,10 @@ proc reloadAvailablePics { } {
 
 	#.picbrowser.pics.text insert end "___________________________\n\n"
 	lappend image_order "--break--"
+
+        if { ![info exists show_cached_pics] } {
+                set show_cached_pics 0
+        }
 
 	if { $show_cached_pics } {
 		set cached_order [list]
