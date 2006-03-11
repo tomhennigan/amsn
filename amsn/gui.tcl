@@ -4816,6 +4816,207 @@ proc cmsn_draw_online { {delay 0}} {
 	run_exclusive cmsn_draw_online_wrapped draw_online
 }
 
+proc cmsn_draw_buildtop_wrapped {} {
+        global login \
+                password pgBuddy pgBuddyTop automessage emailBList tcl_platform
+
+
+        set my_name [::abook::getPersonal MFN]
+        set my_state_no [::MSN::stateToNumber [::MSN::myStatusIs]]
+        set my_state_desc [trans [::MSN::stateToDescription [::MSN::myStatusIs]]]
+        set my_colour [::MSN::stateToColor [::MSN::myStatusIs]]
+        set my_image_type [::MSN::stateToBigImage [::MSN::myStatusIs]]
+        set my_mobilegroup [::config::getKey showMobileGroup]
+
+
+
+        #Clear the children of top to avoid memory leaks:
+        foreach child [winfo children $pgBuddyTop] {
+               destroy $child
+        }
+        pack $pgBuddyTop -expand false -fill x -before $pgBuddy
+
+
+        # Display MSN logo with user's handle. Make it clickable so
+        # that the user can change his/her status that way
+        # Verify if the skinner wants to replace the status picture for the display picture
+        $pgBuddyTop configure -background [::skin::getKey topcontactlistbg]
+        if { ![::skin::getKey showdisplaycontactlist] } {
+                label $pgBuddyTop.bigstate -background [::skin::getKey topcontactlistbg] -border 0 -cursor hand2 -borderwidth 0 \
+                                        -image [::skin::loadPixmap $my_image_type] \
+                                        -width [image width [::skin::loadPixmap $my_image_type]] \
+                                        -height [image height [::skin::loadPixmap $my_image_type]]
+                bind $pgBuddyTop.bigstate <Button1-ButtonRelease> {tk_popup .my_menu %X %Y}
+                set disppic $pgBuddyTop.bigstate
+        } else { 
+                set disppic [clickableDisplayPicture $pgBuddyTop mystatus bigstate {tk_popup .my_menu %X %Y} [::skin::getKey bigstate_xpad] [::skin::getKey bigstate_ypad]]
+        }
+        set pic_name my_pic
+        bind $pgBuddyTop.bigstate <<Button3>> {tk_popup .my_menu %X %Y} 
+        pack $disppic -side left -padx [::skin::getKey bigstate_xpad] -pady [::skin::getKey bigstate_ypad]
+
+        text $pgBuddyTop.mystatus -font bboldf -height 2 -background [::skin::getKey topcontactlistbg] -borderwidth 0 -cursor left_ptr \
+                -width [expr {[winfo width $pgBuddy]/[font measure bboldf -displayof $pgBuddyTop "0"]}] \
+                -relief flat -highlightthickness 0 -selectbackground [::skin::getKey topcontactlistbg] -selectborderwidth 0 \
+                -exportselection 0 -relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0
+        pack $pgBuddyTop.mystatus -expand true -fill x -side left -padx 0 -pady 0
+
+        $pgBuddyTop.mystatus configure -state normal
+
+        $pgBuddyTop.mystatus tag conf mystatuslabel -fore [::skin::getKey mystatus] -underline false \
+                -font splainf
+
+        $pgBuddyTop.mystatus tag conf mystatuslabel2 -fore [::skin::getKey mystatus] -underline false \
+                -font bboldf
+
+        $pgBuddyTop.mystatus tag conf mystatus -fore $my_colour -underline false \
+                -font bboldf
+        $pgBuddyTop.mystatus tag conf mypsmmedia -fore $my_colour -underline false \
+                -font sbolditalf
+
+        $pgBuddyTop.mystatus tag bind mystatus <Enter> \
+                "$pgBuddyTop.mystatus tag conf mystatus -under true;$pgBuddyTop.mystatus conf -cursor hand2"
+
+        $pgBuddyTop.mystatus tag bind mystatus <Leave> \
+                "$pgBuddyTop.mystatus tag conf mystatus -under false;$pgBuddyTop.mystatus conf -cursor left_ptr"
+
+        $pgBuddyTop.mystatus tag bind mystatus <Button1-ButtonRelease> "tk_popup .my_menu %X %Y"
+        #Change button mouse on Mac OS X
+        if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+                $pgBuddyTop.mystatus tag bind mystatus <Button2-ButtonRelease> "tk_popup .my_menu %X %Y"
+                $pgBuddyTop.mystatus tag bind mystatus <Control-ButtonRelease> "tk_popup .my_menu %X %Y"
+        } else {
+                $pgBuddyTop.mystatus tag bind mystatus <Button3-ButtonRelease> "tk_popup .my_menu %X %Y"
+        }
+        $pgBuddyTop.mystatus insert end "[trans mystatus]: " mystatuslabel
+
+        if { [info exists automessage] && $automessage != -1} {
+                $pgBuddyTop.mystatus insert end "[lindex $automessage 0]\n" mystatuslabel2
+        } else {
+                $pgBuddyTop.mystatus insert end "\n" mystatuslabel
+        }
+
+        set maxw [expr {[winfo width [winfo parent $pgBuddyTop]]-[$pgBuddyTop.bigstate cget -width]-(2*[::skin::getKey bigstate_xpad])}]
+        incr maxw [expr {0-[font measure bboldf -displayof $pgBuddyTop.mystatus " ($my_state_desc)" ]}]
+        set my_short_name [trunc $my_name $pgBuddyTop.mystatus $maxw bboldf]
+        $pgBuddyTop.mystatus insert end "$my_short_name " mystatus
+        $pgBuddyTop.mystatus insert end "($my_state_desc)" mystatus
+        set psmmedia ""
+        if {[::config::getKey protocol] == 11} {
+                set psmmedia [::abook::getpsmmedia]
+                $pgBuddyTop.mystatus insert end "\n$psmmedia" mypsmmedia
+        }
+
+        if {$psmmedia == ""} {
+                set balloon_message [string map {"%" "%%"} "$my_name\n [::config::getKey login]\n [trans status] : $my_state_desc"]
+        } else {
+                set balloon_message [string map {"%" "%%"} "$my_name\n $psmmedia\n [::config::getKey login]\n [trans status] : $my_state_desc"]
+        }
+
+        $pgBuddyTop.mystatus tag bind mystatus <Enter> +[list balloon_enter %W %X %Y $balloon_message $pic_name]
+
+        $pgBuddyTop.mystatus tag bind mystatus <Leave> \
+                "+set Bulle(first) 0; kill_balloon"
+
+        $pgBuddyTop.mystatus tag bind mystatus <Motion> +[list balloon_motion %W %X %Y $balloon_message $pic_name]
+
+        bind $pgBuddyTop.bigstate <Enter> +[list balloon_enter %W %X %Y $balloon_message $pic_name]
+        bind $pgBuddyTop.bigstate <Leave> \
+                "+set Bulle(first) 0; kill_balloon;"
+        bind $pgBuddyTop.bigstate <Motion> +[list balloon_motion %W %X %Y $balloon_message $pic_name]
+
+        if {[::config::getKey listsmileys]} {
+                ::smiley::substSmileys $pgBuddyTop.mystatus
+        }
+        #Calculate number of lines, and set my status size (for multiline nicks)
+        set size [$pgBuddyTop.mystatus index end]
+        set posyx [split $size "."]
+        set lines [expr {[lindex $posyx 0] - 1}]
+        if { [expr {[llength [$pgBuddyTop.mystatus image names]] + [llength [$pgBuddyTop.mystatus window names]]} ] } { incr lines }
+
+        $pgBuddyTop.mystatus configure -state normal -height $lines -wrap none
+        $pgBuddyTop.mystatus configure -state disabled
+
+        set colorbar $pgBuddyTop.colorbar
+        label $colorbar -image [::skin::getColorBar] -background [::skin::getKey topcontactlistbg] -borderwidth 0
+        pack $colorbar -before $disppic -side bottom
+
+        set evpar(text) $pgBuddy.text
+        ::plugins::PostEvent ContactListColourBarDrawn evpar
+
+        if { [::config::getKey checkemail] } {
+                # Show Mail Notification status
+                text $pgBuddyTop.mail -height 1 -background [::skin::getKey topcontactlistbg] -borderwidth 0 -wrap none -cursor left_ptr \
+                        -relief flat -highlightthickness 0 -selectbackground [::skin::getKey topcontactlistbg] -selectborderwidth 0 \
+                        -exportselection 0 -relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0
+                if {[::skin::getKey emailabovecolorbar]} {
+                        pack $pgBuddyTop.mail -expand true -fill x -after $colorbar -side bottom -padx 0 -pady 0
+                } else {
+                        pack $pgBuddyTop.mail -expand true -fill x -before $colorbar -side bottom -padx 0 -pady 0
+                }
+
+                $pgBuddyTop.mail configure -state normal
+
+                #Set up TAGS for mail notification
+                $pgBuddyTop.mail tag conf mail -fore black -underline true -font splainf
+                $pgBuddyTop.mail tag bind mail <Button1-ButtonRelease> "$pgBuddyTop.mail conf -cursor watch; ::hotmail::hotmail_login"
+                $pgBuddyTop.mail tag bind mail <Enter> "$pgBuddyTop.mail tag conf mail -under false;$pgBuddyTop.mail conf -cursor hand2"
+                $pgBuddyTop.mail tag bind mail <Leave> "$pgBuddyTop.mail tag conf mail -under true;$pgBuddyTop.mail conf -cursor left_ptr"
+
+                clickableImage $pgBuddyTop.mail mailbox mailbox "::hotmail::hotmail_login" [::skin::getKey mailbox_xpad] [::skin::getKey mailbox_ypad]
+                set mailheight [expr {[image height [::skin::loadPixmap mailbox]]+(2*[::skin::getKey mailbox_ypad])}]
+                #in windows need an extra -2 is to include the extra 1 pixel above and below in a font
+                if {$tcl_platform(platform) == "windows" || ![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+                        incr mailheight -2
+                }
+                set textheight [font metrics splainf -linespace]
+                if { $mailheight < $textheight } {
+                        set mailheight $textheight
+                }
+                $pgBuddyTop.mail configure -font "{} -$mailheight"
+
+                set unread [::hotmail::unreadMessages]
+                set froms [::hotmail::getFroms]
+                set fromsText ""
+                foreach {from frommail} $froms {
+                        append fromsText "\n[trans newmailfrom $from $frommail]"
+                }
+
+                if {$unread == 0} {
+                        set mailmsg "[trans nonewmail]"
+                        set balloon_message "[trans nonewmail]"
+                } elseif {$unread == 1} {
+                        set mailmsg "[trans onenewmail]"
+                        set balloon_message "[trans onenewmail]\n$fromsText"
+                } elseif {$unread == 2} {
+                        set mailmsg "[trans twonewmail 2]"
+                        set balloon_message "[trans twonewmail 2]\n$fromsText"
+                } else {
+                        set mailmsg "[trans newmail $unread]"
+                        set balloon_message "[trans newmail $unread]\n$fromsText"
+                }
+                $pgBuddyTop.mail tag bind mail <Enter> +[list balloon_enter %W %X %Y $balloon_message]
+                $pgBuddyTop.mail tag bind mail <Leave> "+set ::Bulle(first) 0; kill_balloon;"
+                $pgBuddyTop.mail tag bind mail <Motion> +[list balloon_motion %W %X %Y $balloon_message]
+
+                set evpar(text) pgBuddyTop.mail
+                set evpar(msg) mailmsg
+                ::plugins::PostEvent ContactListEmailsDraw evpar
+
+                set maxw [expr {[winfo width [winfo parent $pgBuddyTop]]-[image width [::skin::loadPixmap mailbox]]-(2*[::skin::getKey mailbox_xpad])}]
+                set short_mailmsg [trunc $mailmsg $pgBuddyTop.mail $maxw splainf]
+                $pgBuddyTop.mail insert end "$short_mailmsg" {mail dont_replace_smileys}
+
+                set evpar(text) pgBuddyTop.mail
+                ::plugins::PostEvent ContactListEmailsDrawn evpar
+
+                $pgBuddyTop.mail configure -state disabled
+
+	}
+
+
+}
+
 proc cmsn_draw_online_wrapped {} {
 
 	#::guiContactList::createCLWindow
@@ -4952,188 +5153,10 @@ proc cmsn_draw_online_wrapped {} {
 		}
 	}
 
-        #Clear the children of top to avoid memory leaks:
-        foreach child [winfo children $pgBuddyTop] {
-               destroy $child
-        }
-        pack $pgBuddyTop -expand false -fill x -before $pgBuddy
+	######################################################################
+	#This part redraws the top part. Code moved from here to another proc!
+	cmsn_draw_buildtop_wrapped
 
-
-	# Display MSN logo with user's handle. Make it clickable so
-	# that the user can change his/her status that way
-	# Verify if the skinner wants to replace the status picture for the display picture
-	$pgBuddyTop configure -background [::skin::getKey topcontactlistbg]
-	if { ![::skin::getKey showdisplaycontactlist] } {
-		label $pgBuddyTop.bigstate -background [::skin::getKey topcontactlistbg] -border 0 -cursor hand2 -borderwidth 0 \
-					-image [::skin::loadPixmap $my_image_type] \
-					-width [image width [::skin::loadPixmap $my_image_type]] \
-					-height [image height [::skin::loadPixmap $my_image_type]]
-		bind $pgBuddyTop.bigstate <Button1-ButtonRelease> {tk_popup .my_menu %X %Y}
-		set disppic $pgBuddyTop.bigstate
-	} else {
-		set disppic [clickableDisplayPicture $pgBuddyTop mystatus bigstate {tk_popup .my_menu %X %Y} [::skin::getKey bigstate_xpad] [::skin::getKey bigstate_ypad]]
-	}
-	set pic_name my_pic
-	bind $pgBuddyTop.bigstate <<Button3>> {tk_popup .my_menu %X %Y}
-	pack $disppic -side left -padx [::skin::getKey bigstate_xpad] -pady [::skin::getKey bigstate_ypad]
-
-	text $pgBuddyTop.mystatus -font bboldf -height 2 -background [::skin::getKey topcontactlistbg] -borderwidth 0 -cursor left_ptr \
-		-width [expr {[winfo width $pgBuddy]/[font measure bboldf -displayof $pgBuddyTop "0"]}] \
-		-relief flat -highlightthickness 0 -selectbackground [::skin::getKey topcontactlistbg] -selectborderwidth 0 \
-		-exportselection 0 -relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0
-	pack $pgBuddyTop.mystatus -expand true -fill x -side left -padx 0 -pady 0
-
-	$pgBuddyTop.mystatus configure -state normal
-
-	$pgBuddyTop.mystatus tag conf mystatuslabel -fore [::skin::getKey mystatus] -underline false \
-		-font splainf
-
-	$pgBuddyTop.mystatus tag conf mystatuslabel2 -fore [::skin::getKey mystatus] -underline false \
-		-font bboldf
-
-	$pgBuddyTop.mystatus tag conf mystatus -fore $my_colour -underline false \
-		-font bboldf
-	$pgBuddyTop.mystatus tag conf mypsmmedia -fore $my_colour -underline false \
-		-font sbolditalf
-
-	$pgBuddyTop.mystatus tag bind mystatus <Enter> \
-		"$pgBuddyTop.mystatus tag conf mystatus -under true;$pgBuddyTop.mystatus conf -cursor hand2"
-
-	$pgBuddyTop.mystatus tag bind mystatus <Leave> \
-		"$pgBuddyTop.mystatus tag conf mystatus -under false;$pgBuddyTop.mystatus conf -cursor left_ptr"
-
-	$pgBuddyTop.mystatus tag bind mystatus <Button1-ButtonRelease> "tk_popup .my_menu %X %Y"
-	#Change button mouse on Mac OS X
-	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-		$pgBuddyTop.mystatus tag bind mystatus <Button2-ButtonRelease> "tk_popup .my_menu %X %Y"
-		$pgBuddyTop.mystatus tag bind mystatus <Control-ButtonRelease> "tk_popup .my_menu %X %Y"
-	} else {
-		$pgBuddyTop.mystatus tag bind mystatus <Button3-ButtonRelease> "tk_popup .my_menu %X %Y"
-	}
-	$pgBuddyTop.mystatus insert end "[trans mystatus]: " mystatuslabel
-
-	if { [info exists automessage] && $automessage != -1} {
-		$pgBuddyTop.mystatus insert end "[lindex $automessage 0]\n" mystatuslabel2
-	} else {
-		$pgBuddyTop.mystatus insert end "\n" mystatuslabel
-	}
-
-	set maxw [expr {[winfo width [winfo parent $pgBuddyTop]]-[$pgBuddyTop.bigstate cget -width]-(2*[::skin::getKey bigstate_xpad])}]
-	incr maxw [expr {0-[font measure bboldf -displayof $pgBuddyTop.mystatus " ($my_state_desc)" ]}]
-	set my_short_name [trunc $my_name $pgBuddyTop.mystatus $maxw bboldf]
-	$pgBuddyTop.mystatus insert end "$my_short_name " mystatus
-	$pgBuddyTop.mystatus insert end "($my_state_desc)" mystatus
-	set psmmedia ""
-	if {[::config::getKey protocol] == 11} {
-		set psmmedia [::abook::getpsmmedia]
-		$pgBuddyTop.mystatus insert end "\n$psmmedia" mypsmmedia
-	}
-
-	if {$psmmedia == ""} {
-		set balloon_message [string map {"%" "%%"} "$my_name\n [::config::getKey login]\n [trans status] : $my_state_desc"]
-	} else {
-                set balloon_message [string map {"%" "%%"} "$my_name\n $psmmedia\n [::config::getKey login]\n [trans status] : $my_state_desc"]
-	}
-
-	$pgBuddyTop.mystatus tag bind mystatus <Enter> +[list balloon_enter %W %X %Y $balloon_message $pic_name]
-
-	$pgBuddyTop.mystatus tag bind mystatus <Leave> \
-		"+set Bulle(first) 0; kill_balloon"
-
-	$pgBuddyTop.mystatus tag bind mystatus <Motion> +[list balloon_motion %W %X %Y $balloon_message $pic_name]
-
-	bind $pgBuddyTop.bigstate <Enter> +[list balloon_enter %W %X %Y $balloon_message $pic_name]
-	bind $pgBuddyTop.bigstate <Leave> \
-		"+set Bulle(first) 0; kill_balloon;"
-	bind $pgBuddyTop.bigstate <Motion> +[list balloon_motion %W %X %Y $balloon_message $pic_name]
-
-	if {[::config::getKey listsmileys]} {
-		::smiley::substSmileys $pgBuddyTop.mystatus
-	}
-	#Calculate number of lines, and set my status size (for multiline nicks)
-	set size [$pgBuddyTop.mystatus index end]
-	set posyx [split $size "."]
-	set lines [expr {[lindex $posyx 0] - 1}]
-	if { [expr {[llength [$pgBuddyTop.mystatus image names]] + [llength [$pgBuddyTop.mystatus window names]]} ] } { incr lines }
-
-	$pgBuddyTop.mystatus configure -state normal -height $lines -wrap none
-	$pgBuddyTop.mystatus configure -state disabled
-
-	set colorbar $pgBuddyTop.colorbar
-	label $colorbar -image [::skin::getColorBar] -background [::skin::getKey topcontactlistbg] -borderwidth 0
-	pack $colorbar -before $disppic -side bottom
-
-  	set evpar(text) $pgBuddy.text
-  	::plugins::PostEvent ContactListColourBarDrawn evpar
-
-	if { [::config::getKey checkemail] } {
-		# Show Mail Notification status
-		text $pgBuddyTop.mail -height 1 -background [::skin::getKey topcontactlistbg] -borderwidth 0 -wrap none -cursor left_ptr \
-			-relief flat -highlightthickness 0 -selectbackground [::skin::getKey topcontactlistbg] -selectborderwidth 0 \
-			-exportselection 0 -relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0
-		if {[::skin::getKey emailabovecolorbar]} {
-			pack $pgBuddyTop.mail -expand true -fill x -after $colorbar -side bottom -padx 0 -pady 0
-		} else {
-			pack $pgBuddyTop.mail -expand true -fill x -before $colorbar -side bottom -padx 0 -pady 0
-		}
-
-		$pgBuddyTop.mail configure -state normal
-
-		#Set up TAGS for mail notification
-		$pgBuddyTop.mail tag conf mail -fore black -underline true -font splainf
-		$pgBuddyTop.mail tag bind mail <Button1-ButtonRelease> "$pgBuddyTop.mail conf -cursor watch; ::hotmail::hotmail_login"
-		$pgBuddyTop.mail tag bind mail <Enter> "$pgBuddyTop.mail tag conf mail -under false;$pgBuddyTop.mail conf -cursor hand2"
-		$pgBuddyTop.mail tag bind mail <Leave> "$pgBuddyTop.mail tag conf mail -under true;$pgBuddyTop.mail conf -cursor left_ptr"
-
-		clickableImage $pgBuddyTop.mail mailbox mailbox "::hotmail::hotmail_login" [::skin::getKey mailbox_xpad] [::skin::getKey mailbox_ypad]
-		set mailheight [expr {[image height [::skin::loadPixmap mailbox]]+(2*[::skin::getKey mailbox_ypad])}]
-		#in windows need an extra -2 is to include the extra 1 pixel above and below in a font
-		if {$tcl_platform(platform) == "windows" || ![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-			incr mailheight -2
-		}
-		set textheight [font metrics splainf -linespace]
-		if { $mailheight < $textheight } {
-			set mailheight $textheight
-		}
-		$pgBuddyTop.mail configure -font "{} -$mailheight"
-
-		set unread [::hotmail::unreadMessages]
-		set froms [::hotmail::getFroms]
-		set fromsText ""
-		foreach {from frommail} $froms {
-			append fromsText "\n[trans newmailfrom $from $frommail]"
-		}
-
-		if {$unread == 0} {
-			set mailmsg "[trans nonewmail]"
-			set balloon_message "[trans nonewmail]"
-		} elseif {$unread == 1} {
-			set mailmsg "[trans onenewmail]"
-			set balloon_message "[trans onenewmail]\n$fromsText"
-		} elseif {$unread == 2} {
-			set mailmsg "[trans twonewmail 2]"
-			set balloon_message "[trans twonewmail 2]\n$fromsText"
-		} else {
-			set mailmsg "[trans newmail $unread]"
-			set balloon_message "[trans newmail $unread]\n$fromsText"
-		}
-		$pgBuddyTop.mail tag bind mail <Enter> +[list balloon_enter %W %X %Y $balloon_message]
-		$pgBuddyTop.mail tag bind mail <Leave> "+set ::Bulle(first) 0; kill_balloon;"
-		$pgBuddyTop.mail tag bind mail <Motion> +[list balloon_motion %W %X %Y $balloon_message]
-
-		set evpar(text) pgBuddyTop.mail
-		set evpar(msg) mailmsg
-  		::plugins::PostEvent ContactListEmailsDraw evpar
-
-		set maxw [expr {[winfo width [winfo parent $pgBuddyTop]]-[image width [::skin::loadPixmap mailbox]]-(2*[::skin::getKey mailbox_xpad])}]
-		set short_mailmsg [trunc $mailmsg $pgBuddyTop.mail $maxw splainf]
-		$pgBuddyTop.mail insert end "$short_mailmsg" {mail dont_replace_smileys}
-
-		set evpar(text) pgBuddyTop.mail
-  		::plugins::PostEvent ContactListEmailsDrawn evpar
-
-		$pgBuddyTop.mail configure -state disabled
-	}
 
 
 	# For each named group setup its heading where >><< image
