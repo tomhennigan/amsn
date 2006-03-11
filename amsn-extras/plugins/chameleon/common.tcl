@@ -41,7 +41,7 @@ namespace eval ::chameleon {
 	return ${w_name}
     }
 
-    proc ::chameleon::${widget_type}::${widget_type}_parseCommand {w command args } {
+    proc ::chameleon::${widget_type}::${widget_type}_parseCommand {w_name command args } {
 	variable widget_type
 	variable ${widget_type}_widgetCommands 
 
@@ -66,7 +66,7 @@ namespace eval ::chameleon {
 
 	    if {[string match $pattern $name] &&
 		[string length $command] >= $min} {
-		set w ${widget_type}_proc_$w
+		set w ${widget_type}_proc_${w_name}
 		return [eval [subst $execute]]
 	    }
 	}

@@ -257,10 +257,12 @@ namespace eval ::chameleon::notebook {
 
    proc notebook_raise { w {page ""} } {
        if {$page == "" } {
-	   return [$w index current]
+           set pageIdx [$w index current]
        } else {
-	   return [$w select [notebook_getFrameIndex $w $page]]
+           set pageIdx [notebook_getFrameIndex $w $page]
+	   $w select $pageIdx
        }
+       return [notebook_getPageAt $w $pageIdx]
    }
 
    proc notebook_see { w page } {
