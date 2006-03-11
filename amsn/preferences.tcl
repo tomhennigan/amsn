@@ -2297,13 +2297,41 @@ proc Preferences { { settings "personal"} } {
 	#and with "", can not use %D  :(
 	# MacOS Classic/OSX and Windows
 	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-		bind .cfg <MouseWheel> { .cfg.notebook.nn.fadvanced.lfname.sw.sf yview scroll [expr {- (%D)}] units }
+	    bind .cfg <MouseWheel> {
+		    set w [.cfg.notebook.nn getframe [.cfg.notebook.nn raise]]
+		    if { [winfo exists $w.sw.sf] } {
+			    $w.sw.sf yview scroll [expr {- (%D)}] units   
+		    } elseif { [winfo exists $w.lfname.sw.sf] } {
+			    $w.lfname.sw.sf yview scroll [expr {- (%D)}] units
+		    }
+	    } 
 	} elseif {$::tcl_platform(platform) == "windows"} {
-		bind .cfg <MouseWheel> { .cfg.notebook.nn.fadvanced.lfname.sw.sf yview scroll %D units }
+	    bind .cfg <MouseWheel> {
+		    set w [.cfg.notebook.nn getframe [.cfg.notebook.nn raise]]
+		    if { [winfo exists $w.sw.sf] } {
+			    $w.sw.sf yview scroll %D units   
+		    } elseif { [winfo exists $w.lfname.sw.sf] } {
+			    $w.lfname.sw.sf yview scroll %D units
+		    }
+	    }
 	} else {
 		# We're on X11! (I suppose ;))
-		bind .cfg <5> {.cfg.notebook.nn.fadvanced.lfname.sw.sf yview scroll +1 units}
-		bind .cfg <4> {.cfg.notebook.nn.fadvanced.lfname.sw.sf yview scroll -1 units} 
+	    bind .cfg <5> {
+		    set w [.cfg.notebook.nn getframe [.cfg.notebook.nn raise]]
+		    if { [winfo exists $w.sw.sf] } {
+			    $w.sw.sf yview scroll +1 units   
+		    } elseif { [winfo exists $w.lfname.sw.sf] } {
+			    $w.lfname.sw.sf yview scroll +1 units
+		    }
+	    }
+	    bind .cfg <4> {
+		    set w [.cfg.notebook.nn getframe [.cfg.notebook.nn raise]]
+		    if { [winfo exists $w.sw.sf] } {
+			    $w.sw.sf yview scroll -1 units   
+		    } elseif { [winfo exists $w.lfname.sw.sf] } {
+			    $w.lfname.sw.sf yview scroll -1 units
+		    }
+	    }
 	}
 
 	frame $path.2 -class Degt
