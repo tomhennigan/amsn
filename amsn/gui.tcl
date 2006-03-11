@@ -5018,6 +5018,12 @@ proc cmsn_draw_buildtop_wrapped {} {
 
 	}
 
+	#This lets the top part finish redrawing before the bottom part starts
+	#otherwise, the top part stays disappeared until the bottom part
+	#finishes redrawing... and we end up with pgBuddyTop disappearing
+	#for 1 second with like 90 contacts
+	update idletasks
+
 
 }
 
