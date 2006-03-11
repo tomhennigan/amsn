@@ -941,7 +941,7 @@ namespace eval ::MSN {
 			#This is our own nick change
 			::abook::setPersonal MFN [urldecode [lindex $recv 4]]
 			send_dock STATUS [::MSN::myStatusIs]
-			cmsn_draw_online 1
+			cmsn_draw_online 1 1
 			#an event used by guicontactlist to know when we changed our nick
 			::Event::fireEvent myNickChange protocol
 		} else {
@@ -956,8 +956,7 @@ namespace eval ::MSN {
 	#Callback procedure called when a UUX (PSM change) message is received
 	proc GotUUXResponse { recv } {
 
-		#@@@@@@@@@@@@@@@@@@@@
-		cmsn_draw_online 1
+		cmsn_draw_online 1 1
 		#an event used by guicontactlist to know when we changed our nick
 		::Event::fireEvent myNickChange protocol
 
@@ -1017,8 +1016,7 @@ namespace eval ::MSN {
 
 		::MSN::contactListChanged
 
-		#@@@@@@@@@@@@@@@@@@@@@@@@@
-		cmsn_draw_online 1
+		cmsn_draw_online 1 2
 
 		set contactlist_loaded 1
 		::abook::setConsistent
@@ -1057,8 +1055,7 @@ namespace eval ::MSN {
 		}
 	
 	
-		#@@@@@@@@@@@@@@@@@@@@@@@@@@
-		cmsn_draw_online 1
+		cmsn_draw_online 1 2
 		global contactlist_loaded
 		set contactlist_loaded 1
 	}
@@ -3113,7 +3110,7 @@ namespace eval ::Event {
 				::abook::setPersonal [lindex $command 2] [urldecode [lindex $command 3]]
 				#TODO: put this here to be the same as the old REA response, should it be moved to abook?
 				if { [lindex $command 2] == "MFN" } {
-					cmsn_draw_online 1
+					cmsn_draw_online 1 1
 					send_dock STATUS [::MSN::myStatusIs]
 					#an event used by guicontactlist to know when we changed our nick
 					::Event::fireEvent myNickChange protocol
@@ -3146,8 +3143,7 @@ namespace eval ::Event {
 		}
 		::abook::setVolatileData $contact PSM [::sxml::replacexml [encoding convertfrom utf-8 $psm]]
 		::abook::setVolatileData $contact currentmedia [::sxml::replacexml [encoding convertfrom utf-8 $currentmedia]]
-		#@@@@@@@@@@@@@@@@@@@@
-		cmsn_draw_online 1
+		cmsn_draw_online 1 2
 	}
 
 	method setInitialStatus { } {
@@ -4309,8 +4305,7 @@ proc cmsn_change_state {recv} {
 
 	::MSN::contactListChanged
 	if { $state_changed || $nick_changed } {
-		#@@@@@@@@@@@@@@@@@@@@@@@@
-		cmsn_draw_online 1
+		cmsn_draw_online 1 2
 	}
 }
 
@@ -4435,7 +4430,7 @@ proc cmsn_ns_handler {item {message ""}} {
 					::abook::setVolatileData myself msnobj [lindex $item 4]
 					::MSN::setMyStatus [lindex $item 2]
 
-					cmsn_draw_online 1
+					cmsn_draw_online 1 1
 
 				#Alert dock of status change
 				#send_dock [lindex $item 2]
@@ -4519,24 +4514,21 @@ proc cmsn_ns_handler {item {message ""}} {
 				new_contact_list "[lindex $item 2]"
 				#status_log "$item\n" blue
 				::groups::RenameCB [lrange $item 0 5]
-				#@@@@@@@@@@@@@@@
-				cmsn_draw_online 1
+				cmsn_draw_online 1 2
 				return 0
 			}
 			ADG {	# Add Group
 				new_contact_list "[lindex $item 2]"
 				#status_log "$item\n" blue
 				::groups::AddCB [lrange $item 0 5]
-				#@@@@@@@@@@@@@@@@@
-				cmsn_draw_online 1
+				cmsn_draw_online 1 2
 				return 0
 			}
 			RMG {	# Remove Group
 				new_contact_list "[lindex $item 2]"
 				#status_log "$item\n" blue
 				::groups::DeleteCB [lrange $item 0 5]
-				#@@@@@@@@@@@@@@@@@@@@@@
-				cmsn_draw_online 1
+				cmsn_draw_online 1 2
 				return 0
 			}
 			OUT {
@@ -4742,8 +4734,7 @@ proc cmsn_listdel {recv} {
 	}
 
 
-	#@@@@@@@@@@@@@@@@@@@@@@@@
-	cmsn_draw_online 1
+	cmsn_draw_online 1 2
 	global contactlist_loaded
 	set contactlist_loaded 1
 }
@@ -5406,8 +5397,7 @@ proc cmsn_listupdate {recv} {
 
 	#Last user in list
 	if {$current == $total} {
-		#@@@@@@@@@@@@@@@@@@@@@@@@@@@
-		cmsn_draw_online 1
+		cmsn_draw_online 1 2
 
 		set contactlist_loaded 1
 		::abook::setConsistent

@@ -1380,8 +1380,7 @@ namespace eval ::abookGui {
 		bind .globalnick.frm.nick <Return> {
 			::config::setKey globalnick "[.globalnick.frm.nick get]";
 			::MSN::contactListChanged;
-			#@@@@@@@@@@@@@@@@@@@@@@@@@@
-			cmsn_draw_online;
+			cmsn_draw_online 0 2;
 			destroy .globalnick
 		}
 		frame .globalnick.btn 
@@ -1389,8 +1388,7 @@ namespace eval ::abookGui {
 			-command {
 			::config::setKey globalnick "[.globalnick.frm.nick get]";
 			::MSN::contactListChanged;
-			#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-			cmsn_draw_online;
+			cmsn_draw_online 0 2;
 			destroy .globalnick
 			}
 		button .globalnick.btn.cancel -text "[trans cancel]"  \

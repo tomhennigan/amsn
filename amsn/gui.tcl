@@ -3317,29 +3317,28 @@ proc cmsn_draw_main {} {
 
 
 	#Order Contacts By submenu
-	#@@@@@@@@@@@@@@@@@@@@@ kai ola ta parakatw :)
 	menu .order_by -tearoff 0 -type normal
 	.order_by add radio -label "[trans status]" -value 0 \
-		-variable [::config::getVar orderbygroup] -command "cmsn_draw_online"
+		-variable [::config::getVar orderbygroup] -command "cmsn_draw_online 0 2"
 	.order_by add radio -label "[trans group]" -value 1 \
-		-variable [::config::getVar orderbygroup] -command "cmsn_draw_online"
+		-variable [::config::getVar orderbygroup] -command "cmsn_draw_online 0 2"
 	.order_by add radio -label "[trans hybrid]" -value 2 \
-		-variable [::config::getVar orderbygroup] -command "cmsn_draw_online"
+		-variable [::config::getVar orderbygroup] -command "cmsn_draw_online 0 2"
 
 	#Order Groups By submenu
 	#Added by Trevor Feeney
 	menu .ordergroups_by -tearoff 0 -type normal
 	.ordergroups_by add radio -label "[trans normal]" -value 1 \
-		-variable [::config::getVar ordergroupsbynormal] -command "cmsn_draw_online"
+		-variable [::config::getVar ordergroupsbynormal] -command "cmsn_draw_online 0 2"
 	.ordergroups_by add radio -label "[trans reversed]" -value 0 \
-		-variable [::config::getVar ordergroupsbynormal] -command "cmsn_draw_online"
+		-variable [::config::getVar ordergroupsbynormal] -command "cmsn_draw_online 0 2"
 
 	#Order Contacts By submenu
 	menu .view_by -tearoff 0 -type normal
 	.view_by add radio -label "[trans nick]" -value 0 \
-		-variable [::config::getVar emailsincontactlist] -command "cmsn_draw_online"
+		-variable [::config::getVar emailsincontactlist] -command "cmsn_draw_online 0 2"
 	.view_by add radio -label "[trans email]" -value 1 \
-		-variable [::config::getVar emailsincontactlist] -command "cmsn_draw_online"
+		-variable [::config::getVar emailsincontactlist] -command "cmsn_draw_online 0 2"
 	.view_by add separator
 	.view_by add command -label "[trans changeglobnick]..." -command "::abookGui::SetGlobalNick"
 
@@ -4162,7 +4161,7 @@ proc cmsn_draw_offline {} {
 	bind . <Configure> ""
 
 	#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-	#xwris to top, apla to kanoume delete pio katw
+	#leaving it just in case... dunno what to do with it :S
 	after cancel "cmsn_draw_online"
 
 	global sboldf password pgBuddy pgBuddyTop
@@ -4731,8 +4730,7 @@ proc toggleGroup {tw name image id {padx 0} {pady 0}} {
 	$tw tag add $name $imgIdx
 	$tw tag bind $name <Enter> "$tw image configure $imgIdx -image [::skin::loadPixmap ${image}_hover]; $tw conf -cursor hand2"
 	$tw tag bind $name <Leave> "$tw image configure $imgIdx -image [::skin::loadPixmap $image]; $tw conf -cursor left_ptr"
-	#@@@@@@@@@@@@@@@@@@@@@@@@@@@
-	$tw tag bind $name <Button1-ButtonRelease> "status_log \"$id\"; ::groups::ToggleStatus $id; cmsn_draw_online"
+	$tw tag bind $name <Button1-ButtonRelease> "status_log \"$id\"; ::groups::ToggleStatus $id; cmsn_draw_online 0 2"
 }
 #///////////////////////////////////////////////////////////////////////
 
@@ -5134,9 +5132,8 @@ proc cmsn_draw_online_wrapped {} {
 			$pgBuddy.text tag conf $gtag -fore [::skin::getKey groupcolorcontract] -font sboldf
 		}
 
-		#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 		$pgBuddy.text tag bind $gtag <Button1-ButtonRelease> \
-			"::groups::ToggleStatus $gname;cmsn_draw_online"
+			"::groups::ToggleStatus $gname;cmsn_draw_online 0 2"
 
 		#Don't add menu for "Individuals" group
 		if { $gname != 0 } {

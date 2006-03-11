@@ -315,7 +315,7 @@ proc ChCustomState { idx } {
 		unset automsgsent
 	}
 	if { $redraw == 1 } {
-		cmsn_draw_online
+		cmsn_draw_online 0 1
 	}
 }
 

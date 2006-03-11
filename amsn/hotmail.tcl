@@ -176,7 +176,7 @@ namespace eval ::hotmail {
 				if { [string length $inboxUnread] > 0 && $inboxUnread != 0} {
 					::hotmail::setUnreadMessages $inboxUnread
 					::hotmail::emptyFroms
-					cmsn_draw_online
+					cmsn_draw_online 0 1
 					if { [::config::getKey notifyemail] == 1} {
 						::amsn::notifyAdd "[trans newmail $inboxUnread\($inbox\)]" \
 						    [list ::hotmail::gotURL $msgurl] newemail
@@ -214,7 +214,7 @@ namespace eval ::hotmail {
 					if {$dest == "ACTIVE"} {
 						::hotmail::setUnreadMessages [expr { [::hotmail::unreadMessages] + 1}]
 						::hotmail::addFrom $from $fromaddr
-						cmsn_draw_online
+						cmsn_draw_online 0 1
 						if { [::config::getKey notifyemail] == 1 } {
 							::amsn::notifyAdd "[trans newmailfrom $from $fromaddr]" \
 							    [list ::hotmail::gotURL $msgurl $posturl $id] newemail
@@ -241,7 +241,7 @@ namespace eval ::hotmail {
 				if { [string length $noleidos] > 0 && $noleidos != 0} {
 					::hotmail::setUnreadMessages $noleidos
 					::hotmail::emptyFroms
-					cmsn_draw_online
+					cmsn_draw_online 0 1
 					if { [::config::getKey notifyemail] == 1} {
 						::amsn::notifyAdd "[trans newmail $noleidos]" \
 							"::hotmail::hotmail_login" newemail
@@ -280,7 +280,7 @@ namespace eval ::hotmail {
 				status_log "Hotmail num of messages changed: $unread unread emails\n"
 				if { [string length $unread] > 0 } {
 					::hotmail::setUnreadMessages $unread
-					cmsn_draw_online
+					cmsn_draw_online 0 1
 				}
 			}	
 		}	
