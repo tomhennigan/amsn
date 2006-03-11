@@ -91,7 +91,7 @@ namespace eval ::chameleon {
 	    set options([set ${widget_type}_widgetOptions($name)]) $value
 	} 
 
-	plugins_log "Chameleon" "Got configure options : [array get options]"
+#	plugins_log "Chameleon" "Got configure options : [array get options]"
 	if { [info exists options(-styleOption)] } {
 	    ::chameleon::copyStyle ${widget_type} $w
 	    eval style configure $w [eval ${widget_type}_parseStyleArgs $args]
@@ -125,7 +125,7 @@ namespace eval ::chameleon {
 	    }
 	}
 
-	plugins_log "Chameleon" "Returning style options [array get options]"
+	#plugins_log "Chameleon" "Returning style options [array get options]"
 
 	return [array get options]
     }
@@ -199,7 +199,7 @@ namespace eval ::chameleon {
 		set value [eval [${widget_type}_getOriginal] cget $option]
 	    } 
 	    "-styleOption" {
-		set value [eval style configure $w $option]
+		set value [eval style configure [$w cget -style] $option]
 	    } 
 	    default {
 		set value [eval $w cget $option]
