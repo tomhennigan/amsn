@@ -139,7 +139,7 @@ namespace eval ::chameleon {
 	wrap 0
 
 	    # need to reset the theme at idle so the option add will actually be effective!
-	after idle {::chameleon::SetTheme  $::chameleon::config(theme)}
+	after idle {::chameleon::SetTheme  $::chameleon::config(theme) 1}
     }
 
     proc DeInit { } {
@@ -152,16 +152,15 @@ namespace eval ::chameleon {
 	    RecursivelySetBgColor . $defaultBgColor
     }
 
-    proc SetTheme {theme} {
+    proc SetTheme {theme {reset_defaultBg 0}} {
 	    variable defaultBgColor 
 	    variable lastSetBgColor 
 
-	    if { ![info exists defaultBgColor] } {
-		    #toplevel .chameleon_test
-		    #set defaultBgColor [.chameleon_test cget -background]
-		    #destroy .chameleon_test
-		    # TODO find a way to find the correct default bg color at startup
-		    set defaultBgColor \#eae7e4
+	    if { ![info exists defaultBgColor] || $reset_defaultBg} {
+		    toplevel .chameleon_test
+		    set defaultBgColor [.chameleon_test cget -background]
+		    destroy .chameleon_test
+		    puts "Found $defaultBgColor and we have [option get . background Toplevel]"
 	    }
 	    if { ![info exists lastSetBgColor] } {
 		    set lastSetBgColor $defaultBgColor
@@ -174,6 +173,7 @@ namespace eval ::chameleon {
 		    "xpnative" { set bgcolor \#ece9d8}
 		    "step" { set bgcolor \#a0a0a0 }
 		    "clam" { set bgcolor \#dcdad5 }
+		    "aqua" { set bgcolor \#ececec }
 		    "alt" -
 		    "classic" -
 		    default  { set bgcolor \#d9d9d9 }
