@@ -384,7 +384,20 @@ namespace eval ::chameleon {
 
     proc ::chameleon::copyStyle { widget_type dest } {
 	
-	set src ""
+	    set src [widgetToStyle $widget_type]
+
+	append dest ".$src"
+
+	#Copy parameters from one style to another
+	eval style configure $dest [style configure $src]
+	#eval style layout $dest \{[style layout $src]\}
+	#eval style map $dest [style map $src]
+
+	return $dest
+    }
+
+    proc ::chameleon::widgetToStyle { widget_type } {
+	    set src ""
 	if {$widget_type == "scrollbar" } {
 	    if { [catch {$dest cget -orient} orientation]} {
 		set orientation "vertical"
@@ -398,14 +411,7 @@ namespace eval ::chameleon {
 	append src [string toupper [string range ${widget_type} 0 0]]
 	append src [string range ${widget_type} 1 end]
 
-	append dest ".$src"
-
-	#Copy parameters from one style to another
-	eval style configure $dest [style configure $src]
-	#eval style layout $dest \{[style layout $src]\}
-	#eval style map $dest [style map $src]
-
-	return $dest
+	    return $src
     }
 
     proc printStackTrace { } {

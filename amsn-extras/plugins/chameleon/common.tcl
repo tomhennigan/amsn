@@ -12,6 +12,9 @@ namespace eval ::chameleon {
 	variable ttk_widget_type
 	variable ${widget_type}_widgetOptions
 
+	    #puts "Creating widget $widget_type : $w $args"
+	    #::chameleon::printStackTrace
+
 	if { ${widget_type} == "scrollbar" && $w == "reloadimages" } {
 	    return
 	}
@@ -148,16 +151,17 @@ namespace eval ::chameleon {
 	    -takefocus -takefocus
 	}
 
-	array set ${widget_type}_widgetCommands {cget {2 {${widget_type}_cget $w $args}}
-	    configure {2 {${widget_type}_configure $w $args}}
-	    state {1 {
-		if { [llength $args] == 0 } {
-		    $w state
-		} else {
-		    $w state $args
-		}
-	    }}
-	    instate {3 {$w instate $args}}
+	array set ${widget_type}_widgetCommands {
+		cget {2 {${widget_type}_cget $w $args}}
+		configure {2 {${widget_type}_configure $w $args}}
+		state {1 {
+			if { [llength $args] == 0 } {
+				$w state
+			} else {
+				$w state $args
+			}
+		}}
+		instate {3 {$w instate $args}}
 	}
 
 	array set ${widget_type}_styleOptions {
@@ -199,6 +203,7 @@ namespace eval ::chameleon {
 	if { ![info exists ${widget_type}_widgetOptions($option)]} {
 	    error "Unknown option \"$option\""
 	}
+
 	switch -- [set ${widget_type}_widgetOptions($option)] {
 	    "-toImplement" {
 		set value [eval ${widget_type}_customCget $w $option]
@@ -207,7 +212,18 @@ namespace eval ::chameleon {
 		set value [eval [${widget_type}_getOriginal] cget $option]
 	    } 
 	    "-styleOption" {
-		set value [eval style configure [$w cget -style] $option]
+		    set style [$w cget -style] 
+		    if {$style == "" } {
+			    set style [::chameleon::widgetToStyle $widget_type]
+		    }
+		    
+		    set conf [eval style configure $style]
+		    set ind [lsearch $conf [list $option *]]
+		    if {$ind != -1 } {
+			    set value [lindex [lindex $conf $ind] end]
+		    } else {
+			    set value [eval [${widget_type}_getOriginal] cget $option]
+		    }
 	    } 
 	    default {
 		set value [eval $w cget $option]
@@ -226,7 +242,10 @@ namespace eval ::chameleon {
 	    lappend conf [$w configure]
 	    return $conf
 	} elseif {[llength $args] == 1 } {
-	    return [eval ${widget_type}_cget $w $args]
+		set conf [[${widget_type}_getOriginal] configure $args]
+		foreach {opt dbname dbclass def cur} $conf break
+		set value [eval ${widget_type}_cget $w $args]
+		return [list $opt $dbname $dbclass $def $value]
 	} else {
 	    set options [eval ${widget_type}_parseConfArgs $w $args]
 	    return [eval $w configure $options]
@@ -235,6 +254,9 @@ namespace eval ::chameleon {
 
     proc ::chameleon::${widget_type}::${widget_type}_launchCommand { w_name command args } {
 	variable widget_type
+
+	    #puts "Accessing widget $widget_type : $w_name $command $args"
+	    #::chameleon::printStackTrace
 
 	if {![winfo exists ${w_name}] } {
 	    if { [info procs ::${w_name}] == "::${w_name}" } {
