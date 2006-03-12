@@ -147,6 +147,7 @@ namespace eval ::chameleon {
 	    variable lastSetBgColor 
 	    wrap 1
 
+	    option add *Canvas.background $defaultBgColor
 	    option add *Toplevel.background $defaultBgColor
 	    RecursivelySetBgColor . $defaultBgColor
 	    set lastSetBgColor $defaultBgColor
@@ -184,6 +185,7 @@ namespace eval ::chameleon {
 		    return
 	    }
 
+	    option add *Canvas.background $bgcolor
 	    option add *Toplevel.background $bgcolor
 	    RecursivelySetBgColor . $bgcolor
 	    
@@ -199,6 +201,20 @@ namespace eval ::chameleon {
 				 [$w cget -background] == $lastSetBgColor} {
 				    $w configure -background $color
 			    }
+		    }
+	    } else { 
+		    # Detect a canvas widget and change bg of canvas from ScrollableFrame 
+		    # as it's path is $w:cmd it doesn't seem to appear in [winfo children]
+		    if { ![catch {$w cget -confine}] } {
+			     if { [$w cget -background] == $defaultBgColor ||
+				  [$w cget -background] == $lastSetBgColor} {
+				     ${w} configure -background $color
+			     }
+		    } elseif { ![catch {${w}:cmd cget -confine}] } {
+			      if { [$w cget -background] == $defaultBgColor ||
+				   [$w cget -background] == $lastSetBgColor} {
+				      ${w}:cmd configure -background $color
+			      }
 		    }
 	    }
 	    foreach child [winfo children $w] {
