@@ -39,13 +39,18 @@ namespace eval ::chameleon::radiobutton {
        }
   
        if { ![info exists options(-variable)] } {
-	   set idx [string last . $w]
-	   incr idx
-	   set varname [string range $w $idx end]
-	   set options(-variable) ::$varname
-	   set ::$varname ""
+	       set options(-variable) "selectedButton"
        }
-
+	   set varname [set options(-variable)]
+	   set value ""
+	   if { [info exists options(-value)] } {
+		   set value $options(-value)
+	   }
+	   global $varname
+	   if { ![info exists $varname] } {
+		   set $varname $value
+	   }
+	   set ttk_options(-variable) [set options(-variable)]
        return [array get ttk_options]
     }
 

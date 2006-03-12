@@ -43,9 +43,17 @@ namespace eval ::chameleon::checkbutton {
 	   incr idx
 	   set varname [string range $w $idx end]
 	   set options(-variable) ::$varname
-	   set ::$varname ""
        }
-
+	   set varname [set options(-variable)]
+	   set offvalue 0
+	   if { [info exists ttk_options(-offvalue)] } {
+		   set offvalue $ttk_options(-offvalue)
+	   }
+	   global $varname
+	   if { ![info exists $varname] } {
+		   set $varname $offvalue
+	   }
+	   set ttk_options(-variable) [set options(-variable)]
 	return [array get ttk_options]
     }
 

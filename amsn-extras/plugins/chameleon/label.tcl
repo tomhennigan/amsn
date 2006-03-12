@@ -33,6 +33,9 @@ namespace eval ::chameleon::label {
 		set ttk_options(-width) $options(-width)
 	    }
 	}
+	    if { [info exists options(-image)] } { 
+		    array unset ttk_options -width
+	    }
 	
 	return [array get ttk_options]
     }

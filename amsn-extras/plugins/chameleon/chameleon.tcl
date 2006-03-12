@@ -7,11 +7,11 @@ namespace eval ::chameleon {
     variable flash_count 10
 
     variable wrapped 0
-    variable wrapped_procs [list button frame labelframe label radiobutton checkbutton NoteBook scrollbar]
+    variable wrapped_procs [list button frame labelframe label radiobutton checkbutton NoteBook];# scrollbar]
     variable wrapped_into
     variable wrapped_shortname
     
-    proc ::NoteBook { args } { return [eval ::NoteBook::create $args] }
+    #proc ::NoteBook { args } { return [eval ::NoteBook::create $args] }
 
     array set wrapped_into [list frame frame \
 				button button  \
@@ -138,7 +138,7 @@ namespace eval ::chameleon {
 
 	wrap 0
 
-	    # need to reset the theme at idle so the option add will actually be effective!
+	# need to reset the theme at idle so the option add will actually be effective!
 	after idle {::chameleon::SetTheme  $::chameleon::config(theme) 1}
     }
 
@@ -147,9 +147,9 @@ namespace eval ::chameleon {
 	    variable lastSetBgColor 
 	    wrap 1
 
-	    set lastSetBgColor $defaultBgColor
 	    option add *Toplevel.background $defaultBgColor
 	    RecursivelySetBgColor . $defaultBgColor
+	    set lastSetBgColor $defaultBgColor
     }
 
     proc SetTheme {theme {reset_defaultBg 0}} {
@@ -157,10 +157,7 @@ namespace eval ::chameleon {
 	    variable lastSetBgColor 
 
 	    if { ![info exists defaultBgColor] || $reset_defaultBg} {
-		    toplevel .chameleon_test
-		    set defaultBgColor [.chameleon_test cget -background]
-		    destroy .chameleon_test
-		    puts "Found $defaultBgColor and we have [option get . background Toplevel]"
+		    set defaultBgColor [option get . background Toplevel]
 	    }
 	    if { ![info exists lastSetBgColor] } {
 		    set lastSetBgColor $defaultBgColor
@@ -183,6 +180,10 @@ namespace eval ::chameleon {
 		    set bgcolor [set tile::theme::${theme}::colors(-frame)]
 	    }
 
+	    if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		    return
+	    }
+
 	    option add *Toplevel.background $bgcolor
 	    RecursivelySetBgColor . $bgcolor
 	    
@@ -192,10 +193,13 @@ namespace eval ::chameleon {
 	    variable defaultBgColor 
 	    variable lastSetBgColor
 
-	    if {[info commands $w] != "" && [winfo toplevel $w] == $w && 
-		([$w cget -background] == $defaultBgColor ||
-		[$w cget -background] == $lastSetBgColor)} {
-		    $w configure -background $color
+	    if {[info commands $w] != "" && [winfo toplevel $w] == $w} {
+		    catch {
+			    if { [$w cget -background] == $defaultBgColor ||
+				 [$w cget -background] == $lastSetBgColor} {
+				    $w configure -background $color
+			    }
+		    }
 	    }
 	    foreach child [winfo children $w] {
 		    RecursivelySetBgColor $child $color
@@ -253,9 +257,15 @@ namespace eval ::chameleon {
 		    rename ::${tk_widget_type} ""
 		    rename ::tk::${tk_widget_type} ::${tk_widget_type}
 		} else {
+			if {${tk_widget_type} == "NoteBook" } {
+				interp alias {} ::NoteBook {} ::NoteBook::create
+				#proc ::NoteBook { args } { return [eval ::NoteBook::create $args] }
+			}
 		    plugins_log "Chameleon" "Not unwrapping ${tk_widget_type}"
 		    plugins_log "Chameleon" "Because of : [info command ::tk::${tk_widget_type}] - [info procs ::${tk_widget_type}]"
 		}
+
+
 	    }
 
 	    catch { destroy .chameleon_events_messages }
@@ -281,6 +291,13 @@ namespace eval ::chameleon {
 		    rename ::${tk_widget_type} ::tk::${tk_widget_type}
 		    proc ::${tk_widget_type} {w args} "eval ::chameleon::${widget_type}::${widget_type} \$w \$args"
 		} else {
+			if {${tk_widget_type} == "NoteBook" } {
+				package require AMSN_BWidget
+				NoteBook::use
+				proc ::Chameleon_NoteBook {w args} "eval ::chameleon::${widget_type}::${widget_type} \$w \$args"
+				interp alias {} ::NoteBook {} ::Chameleon_NoteBook
+				#proc ::NoteBook { args } { return [eval ::NoteBook::create $args] }
+			}
 		    plugins_log "Chameleon" "Not wrapping ${tk_widget_type}"
 		    plugins_log "Chameleon" "Because of : [info command ::tk::${tk_widget_type}] - [info command ::${tk_widget_type}] - [info procs ::${tk_widget_type}] - [info procs ::tk::${tk_widget_type}]"
 		}
@@ -381,10 +398,14 @@ namespace eval ::chameleon {
 	append src [string toupper [string range ${widget_type} 0 0]]
 	append src [string range ${widget_type} 1 end]
 
+	append dest ".$src"
+
 	#Copy parameters from one style to another
 	eval style configure $dest [style configure $src]
-	eval style layout $dest \{[style layout $src]\}
-	eval style map $dest [style map $src]
+	#eval style layout $dest \{[style layout $src]\}
+	#eval style map $dest [style map $src]
+
+	return $dest
     }
 
     proc printStackTrace { } {

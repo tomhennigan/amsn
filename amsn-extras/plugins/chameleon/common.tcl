@@ -93,9 +93,13 @@ namespace eval ::chameleon {
 
 #	plugins_log "Chameleon" "Got configure options : [array get options]"
 	if { [info exists options(-styleOption)] } {
-	    ::chameleon::copyStyle ${widget_type} $w
-	    eval style configure $w [eval ${widget_type}_parseStyleArgs $args]
-	    set options(-style) $w
+		set newStyle ""
+		catch { set newStyle [$w cget -style]}
+		if { $newStyle == "" } {
+			set newStyle [::chameleon::copyStyle ${widget_type} $w]
+		} 
+		eval style configure $newStyle [eval ${widget_type}_parseStyleArgs $args]
+		set options(-style) $newStyle
 	}
 	
 	array unset options -toImplement
@@ -175,7 +179,11 @@ namespace eval ::chameleon {
 	variable dummy_${widget_type}
 
 	if {![info exists dummy_${widget_type}] || ![winfo exists [set dummy_${widget_type}]] } {
-	    set dummy_${widget_type} [::tk::${widget_type} .chameleon_plugin_dummy_${widget_type}]
+		if {${widget_type} != "NoteBook" } {
+			set dummy_${widget_type} [::tk::${widget_type} .chameleon_plugin_dummy_${widget_type}]
+		} else {
+			set dummy_${widget_type} [::NoteBook::create .chameleon_plugin_dummy_${widget_type}]	
+		}
 	}
 	return [set dummy_${widget_type}]
     }

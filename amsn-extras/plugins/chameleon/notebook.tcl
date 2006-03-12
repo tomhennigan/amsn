@@ -76,7 +76,7 @@ namespace eval ::chameleon::notebook {
    proc notebook_widgetCreated { } {
        set nb [::chameleon::getLastCreatedWidget]
        if {[string first "notebook" $nb] == 0 } {
-	   puts "Notebook $nb is created"
+	   #puts "Notebook $nb is created"
 	   ::ttk::notebook::enableTraversal [::chameleon::getWidgetPath $nb]
 	   bind $nb <<NotebookTabChanged>> "::chameleon::notebook::notebook_tabChanged $nb"
        }
@@ -87,7 +87,7 @@ namespace eval ::chameleon::notebook {
 
        set nb [::chameleon::getLastDestroyedWidget]
        if {[string first "notebook" $nb] == 0 } {
-	   puts "Notebook $nb is destroyed"
+	   #puts "Notebook $nb is destroyed"
 	   array unset pages [::chameleon::getWidgetPath $nb]
        }
    }
