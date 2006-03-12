@@ -45,22 +45,22 @@ proc ScrolledWindow::create { path args } {
 
     Widget::getVariable $path data
 
-    set bg     [Widget::cget $path -background]
+	#set bg     [Widget::cget $path -background]
     set sbsize [Widget::cget $path -size]
     set sw     [frame $path \
-	    -relief flat -borderwidth 0 -background $bg \
-	    -highlightthickness 0 -takefocus 0]
+	    -relief flat -borderwidth 0 \
+		    -highlightthickness 0 -takefocus 0];#-background $bg ]
 
     scrollbar $path.hscroll \
 	    -highlightthickness 0 -takefocus 0 \
 	    -orient	 horiz	\
 	    -relief	 sunken	\
-	    -bg	 $bg
+	;#-bg	 $bg
     scrollbar $path.vscroll \
 	    -highlightthickness 0 -takefocus 0 \
 	    -orient	 vert	\
 	    -relief	 sunken	\
-	    -bg	 $bg
+	;#-bg	 $bg
 
     set data(realized) 0
 
