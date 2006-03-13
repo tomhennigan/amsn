@@ -106,6 +106,9 @@ namespace eval ::chameleon {
 	    if { [lsearch $::auto_path [file join $tile_dir demos]] == -1  } {
 		lappend ::auto_path [file join $tile_dir demos]
 	    }
+	    if { [lsearch $::auto_path [file join $tile_dir themes]] == -1  } {
+		    lappend ::auto_path [file join $tile_dir themes]
+	    }
 	}
 
 	# This forces an update of the available packages list.
@@ -188,8 +191,8 @@ namespace eval ::chameleon {
 		    default  { set bgcolor \#d9d9d9 }
 		    
 	    }
-	    if {[info exists tile::theme::${theme}::colors(-frame)] } {
-		    set bgcolor [set tile::theme::${theme}::colors(-frame)]
+	    if {[style default . -background] != "" } {
+		    set bgcolor [style default . -background]
 	    }
 
 	    if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {

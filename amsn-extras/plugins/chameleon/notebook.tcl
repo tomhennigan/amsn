@@ -95,7 +95,7 @@ namespace eval ::chameleon::notebook {
 
    proc notebook_tabChanged { w } {
        #FIXME
-      puts "Tab changed on $w to : [$w index current]"
+      #puts "Tab changed on $w to : [$w index current]"
    }
 
     proc notebook_customCget { w option } {
