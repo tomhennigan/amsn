@@ -7808,8 +7808,8 @@ proc AskDPSize { cursize } {
 }
 
 proc set_displaypic { file } {
-	image delete my_pic 
-	image delete my_pic_small
+	catch {image delete my_pic}
+	catch {image delete my_pic_small}
 	if { $file != "" } {
 		::config::setKey displaypic $file
 		status_log "set_displaypic: File set to $file\n" blue
