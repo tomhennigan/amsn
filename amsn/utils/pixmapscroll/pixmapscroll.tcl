@@ -4,7 +4,7 @@
 package require snit
 package provide pixmapscroll 0.9
 
-snit::widgetadaptor pixmapscroll {
+snit::widgetadaptor scrollbar {
 
 	typevariable scrollbarlist {}
 
@@ -723,5 +723,3 @@ if {![catch {tk windowingsystem} wsystem] && $wsystem == "x11"} {
     }
 }
 
-rename scrollbar ::tk::scrollbar
-rename pixmapscroll scrollbar
