@@ -162,6 +162,7 @@ proc reload_files { } {
 	source migmd5.tcl
 	source des.tcl		;# DES encryption
 	source sxml.tcl   	;# Simple XML parser
+	source combobox.tcl	;# The all mighty combobox is here! (B. Oakley)
 	
 	source mutex.tcl
 	source lang.tcl
@@ -193,7 +194,6 @@ proc reload_files { } {
 	source dock.tcl		;# Docking routines
 	source trayicon.tcl	;# Docking routines for freedesktop system tray compliant docks
 	source loging.tcl	;# Euh yeh it's for loging :P
-	source combobox.tcl	;# The all mighty combobox is here! (B. Oakley)
 	source searchdialog.tcl ;# Search dialog widget
 
 	source balloon.tcl	;# For the balloons tooltip
