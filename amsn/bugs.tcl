@@ -42,6 +42,14 @@ namespace eval ::bugs {
 	set prot_pos "[expr {[lindex $prot_posend 0]-50}].[lindex $prot_posend 1]"
 	set prot_posend "[lindex $prot_posend 0].[lindex $prot_posend 1]"
 
+	set ::bugs::bug(text) $args
+	set ::bugs::bug(code) $errorCode
+	set ::bugs::bug(info) [privacy $errorInfo]
+	set ::bugs::bug(status) [privacy [htmlentities [.status.info get $pos $posend]]]
+	set ::bugs::bug(protocol) [privacy [htmlentities [.degt.mid.txt get $prot_pos $prot_posend]]]
+	set ::bugs::bug(comment) ""
+	set ::bugs::bug(msnprotocol) [::config::getKey protocol]
+
 	if {[file exists cvs_date]==1} {
 	    set fd [open cvs_date]
 	    set date [gets $fd]
@@ -51,25 +59,16 @@ namespace eval ::bugs {
 	    set date  [clock scan "$::date 00:00:00"]
 	}
 
+	set ::bugs::bug(date) $date
 
-	
 	#error message into status_log
 	status_log "-----------------------------------------\n" error
-	status_log ">>> GOT TCL/TK ERROR : $args\n>>> Stack:\n$errorInfo\n>>> Code: $errorCode\n" error
+	status_log ">>> GOT TCL/TK ERROR : $args\n>>> Stack:\n$::bugs::bug(info)\n>>> Code: $::bugs::bug(code)\n" error
 	status_log "-----------------------------------------\n" error
 	catch { status_log ">>> AMSN version: $::version - AMSN date: $::date\n" error }
 	catch { status_log ">>> TCL version : $tcl_patchLevel - TK version : $tk_patchLevel\n" error }
 	catch { status_log ">>> tcl_platform array content : [array get tcl_platform]\n" error }
 	status_log "-----------------------------------------\n\n" error
-
-	set ::bugs::bug(date) $date
-	set ::bugs::bug(text) $args
-	set ::bugs::bug(code) $errorCode
-	set ::bugs::bug(info) [privacy $errorInfo]
-	set ::bugs::bug(status) [privacy [htmlentities [.status.info get $pos $posend]]]
-	set ::bugs::bug(protocol) [privacy [htmlentities [.degt.mid.txt get $prot_pos $prot_posend]]]
-	set ::bugs::bug(comment) ""
-	set ::bugs::bug(msnprotocol) [::config::getKey protocol]
 
 	::bugs::show_bug_dialog $errorInfo
     }
