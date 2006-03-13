@@ -17,7 +17,7 @@ source socks.tcl	;# SOCKS5 proxy support
 #never the other proxy objects directly
 
 proc globalGotNexusReply { proxy token {total 0} {current 0} } {
-	if {[info procs $proxy] != ""} {
+	if {![catch {$proxy cget -name}]} {
 		$proxy GotNexusReply $token $total $current
 	} else {
 		::http::cleanup $token
@@ -25,7 +25,7 @@ proc globalGotNexusReply { proxy token {total 0} {current 0} } {
 }
 
 proc globalGotAuthReply { proxy str token } {
-	if {[info procs $proxy] != ""} {
+	if {![catch {$proxy cget -name}]} {
 		$proxy GotAuthReply $str $token
 	} else {
 		::http::cleanup $token
@@ -33,7 +33,7 @@ proc globalGotAuthReply { proxy str token } {
 }
 
 proc globalWrite { proxy name {msg ""} } {
-	if {[info procs $proxy] != ""} {
+	if {![catch {$proxy cget -name}]} {
 		$proxy write $name $msg
 	}
 }

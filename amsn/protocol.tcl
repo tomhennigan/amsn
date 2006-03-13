@@ -1546,7 +1546,7 @@ namespace eval ::MSN {
 		#Kill any remaining timers
 		after cancel "::MSN::CheckKill $sb"
 
-		if { [info procs $sb] == "" } {
+		if { [catch {$sb cget -name}] } {
 			#The SB was destroyed
 			return
 		}
@@ -1913,10 +1913,9 @@ namespace eval ::MSN {
 
 	# Return a list of users in chat, or last user in chat is chat is closed
 	proc usersInChat { chatid } {
-
 		set sb [SBFor $chatid]
-
-		if { $sb == 0 || [info procs $sb] == "" } {
+		if { $sb == 0 || [catch {$sb cget -name}] } {
+puts here!
 			status_log "usersInChat: no SB for chat $chatid!! (shouldn't happen?)\n" white
 			return [list]
 		}
@@ -2097,7 +2096,7 @@ namespace eval ::MSN {
 			DelSBFor $chatid ${sb}
 
 			#We leave the switchboard if it exists
-			if {[info procs $sb] != ""} {
+			if {[catch {$sb cget -name}] } {
 				if {[$sb cget -stat] != "d"} {
 					WriteSBRaw $sb "OUT\r\n"
 				}
@@ -2126,7 +2125,7 @@ namespace eval ::MSN {
 
 		set sb [SBFor $chatid]
 
-		if { "$sb" == "0" || [info procs "$sb"] == "" } {
+		if { "$sb" == "0" || [catch {$sb cget -name}] } {
 			return 0
 		}
 
@@ -2821,7 +2820,7 @@ namespace eval ::Event {
 		set dataRemains 1 	 
 		while { $dataRemains } {
 			#put available data in buffer. When buffer is empty dataRemains is set to 0
-			if { [info procs $self] != "" } {
+			if { [info procs $self] != "" || [info procs Snit_methodreceivedData] != ""} {
 				set dataRemains [$self appendDataToBuffer]
 			} else {
 				status_log "$self has been destroyed while being used" red
@@ -2834,7 +2833,6 @@ namespace eval ::Event {
 			set idx [string first "\r\n" $dataBuffer]
 			if { $idx == -1 } { return }
 			set command [string range $dataBuffer 0 [expr {$idx -1}]]
-
 			#check for payload commands:
 			if {[lsearch {MSG NOT PAG IPG UBX GCF} [string range $command 0 2]] != -1} {
 			        set length [lindex [split $command] end]
@@ -3117,7 +3115,6 @@ namespace eval ::Event {
 				}
 			}
 			209 {
-				#TODO: #FIX: ummm, where did $newname get set???????
 				#Nickname change illegal. Try again urlencoding any character
 				#set name [urlencode_all $newname]
 				msg_box [trans invalidusername]
@@ -3646,7 +3643,7 @@ proc cmsn_rng {recv} {
 proc cmsn_open_sb {sb recv} {
 
 	#if the sb doesn't exist return
-	if {[info procs $sb] == ""} {
+	if {[catch {$sb cget -name}]} {
 		return 0
 	}
 
@@ -4747,7 +4744,6 @@ proc cmsn_auth {{recv ""}} {
 	global HOME info
 
 	switch [ns cget -stat] {
-
 		a {
 			#Send three first commands at same time, to it faster
 			if { [::config::getKey protocol] == 11 } {
@@ -5073,7 +5069,7 @@ proc setup_connection {name} {
 	#This is the default read handler, if not changed by proxy
 	#This is the default procedure that should be called when an error is detected
 	#$name configure -error_handler [list ::MSN::CloseSB $name]
-	if {[info procs [$name cget -proxy]] != ""} {
+	if {![catch {[$name cget -proxy] cget -name}]} {
 		#The connection already has a Proxy defined so we clean it
 		[$name cget -proxy] destroy
 	}
@@ -5147,7 +5143,7 @@ proc cmsn_socket {name} {
 	$name configure -error_msg ""
 
 	set proxy [$name cget -proxy]
-	if {[info procs $proxy] == ""} {
+	if {[catch {$proxy cget -name}] } {
 		#The proxy was deleted
 		$name configure -proxy [Proxy create %AUTO%]
 	}
@@ -5184,12 +5180,10 @@ proc cmsn_ns_connected {sock} {
 
 	ns configure -stat "a"
 
-
 	cmsn_auth
 	if {[::config::getKey enablebanner] && [::config::getKey adverts]} {
 		adv_resume
 	}
-
 }
 
 
