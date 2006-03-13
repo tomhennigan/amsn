@@ -46,7 +46,10 @@ namespace eval ::chameleon::radiobutton {
 	   if { [info exists options(-value)] } {
 		   set value $options(-value)
 	   }
-	   global $varname
+	   if { [string range $varname 0 1] != "::" } {
+		   set varname "::$varname"
+	   }
+
 	   if { ![info exists $varname] } {
 		   set $varname $value
 	   }

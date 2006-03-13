@@ -49,7 +49,10 @@ namespace eval ::chameleon::checkbutton {
 	   if { [info exists ttk_options(-offvalue)] } {
 		   set offvalue $ttk_options(-offvalue)
 	   }
-	   global $varname
+	   if { [string range $varname 0 1] != "::" } {
+		   set varname "::$varname"
+	   }
+
 	   if { ![info exists $varname] } {
 		   set $varname $offvalue
 	   }
