@@ -133,11 +133,10 @@ int flash_window (Tcl_Interp *interp, Tcl_Obj *CONST objv1, long flash) {
   e.xclient.display = xdisplay;
   e.xclient.window = window;
   e.xclient.format = 32;
-  e.xclient.data.l[0] = flash;
+  e.xclient.data.l[0] = 2;
   e.xclient.data.l[1] = demandsAttention;
-  e.xclient.data.l[2] = 0l;
-  e.xclient.data.l[3] = 0l;
-  e.xclient.data.l[4] = 0l;
+  e.xclient.data.l[2] = 0;
+  e.xclient.data.l[3] = 0;
   
   
   if (XSendEvent(xdisplay, Tk_WindowId(Tk_MainWindow(interp)), False, (SubstructureRedirectMask | SubstructureNotifyMask), &e) == 0) 
