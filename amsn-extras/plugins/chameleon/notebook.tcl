@@ -47,25 +47,25 @@ namespace eval ::chameleon::notebook {
 	# ignoring -width because we need to map 0 to "" and "" to 0 in cget/configure
 	
  	array set notebook_widgetCommands {
-	    bindtabs {1 {notebook_bindtabs $w $args}} 
-	    compute_size {3 {notebook_compute_size $w $args}}
-	    delete {1 {notebook_delete $w $args}}
-	    getframe {1 {notebook_getframe $w $args}}
-	    index {3 {notebook_index $w $args}}
-	    insert {3 {notebook_insert $w $args}}
-	    itemcget {3 {notebook_itemCget $w $args}}
-	    itemconfigure {3 {notebook_itemConfigure $w $args}}
-	    move {1 {notebook_move $w $args}}
-	    page {4 {notebook_page $w $args}}
-	    pages {5 {notebook_pages $w $args}}
-	    raise {1 {notebook_raise $w $args}}
-	    see {3 {notebook_see $w $args}}
+	    bindtabs {1 {notebook_bindtabs $w}} 
+	    compute_size {3 {notebook_compute_size $w}}
+	    delete {1 {notebook_delete $w}}
+	    getframe {1 {notebook_getframe $w}}
+	    index {3 {notebook_index $w}}
+	    insert {3 {notebook_insert $w}}
+	    itemcget {3 {notebook_itemCget $w}}
+	    itemconfigure {3 {notebook_itemConfigure $w}}
+	    move {1 {notebook_move $w}}
+	    page {4 {notebook_page $w}}
+	    pages {5 {notebook_pages $w}}
+	    raise {1 {notebook_raise $w}}
+	    see {3 {notebook_see $w}}
 	    
-	    add {1 {notebook_add $w $args}}
-	    forget {1 {notebook_forget $w $args}}
-	    select {3 {notebook_select $w $args}}
-	    tab {3 {notebook_tab $w $args}}
-	    tabs {4 {notebook_tabs $w $args}}
+	    add {1 {notebook_add $w}}
+	    forget {1 {notebook_forget $w}}
+	    select {3 {notebook_select $w}}
+	    tab {3 {notebook_tab $w}}
+	    tabs {4 {notebook_tabs $w}}
 	}
 
 	::chameleon::addBinding <<WidgetCreated>> {::chameleon::notebook::notebook_widgetCreated}
@@ -75,10 +75,11 @@ namespace eval ::chameleon::notebook {
 
    proc notebook_widgetCreated { } {
        set nb [::chameleon::getLastCreatedWidget]
-       if {[string first "notebook" $nb] == 0 } {
+       if {[string first "::chameleon::notebook::notebook" $nb] == 0 } {
 	   #puts "Notebook $nb is created"
 	   ::ttk::notebook::enableTraversal [::chameleon::getWidgetPath $nb]
 	   bind $nb <<NotebookTabChanged>> "::chameleon::notebook::notebook_tabChanged $nb"
+	   bind [::chameleon::getWidgetPath $nb] <<NotebookTabChanged>> "::chameleon::notebook::notebook_tabChanged $nb"
        }
    }
 
@@ -86,7 +87,7 @@ namespace eval ::chameleon::notebook {
        variable pages
 
        set nb [::chameleon::getLastDestroyedWidget]
-       if {[string first "notebook" $nb] == 0 } {
+       if {[string first "::chameleon::notebook::notebook" $nb] == 0 } {
 	   #puts "Notebook $nb is destroyed"
 	   array unset pages [::chameleon::getWidgetPath $nb]
        }

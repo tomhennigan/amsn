@@ -30,14 +30,14 @@ namespace eval ::chameleon::scrollbar {
 	    -height -ignore
 	}    
 	
-	array set scrollbar_widgetCommands [list activate {1 {scrollbar_activate $w $args}} \
-						delta {1 {$w delta $args}} \
-						fraction {1 {$w fraction $args}} \
-						get {1 {$w get $args}} \
-						identify {2 {$w identify $args}} \
-						set {2 {$w set $args}} \
-						scroll {2 {$w scroll $args}} \
-						moveto {1 {$w moveto $args}}]
+	array set scrollbar_widgetCommands [list activate {1 {scrollbar_activate $w}} \
+						delta {1 {$w delta}} \
+						fraction {1 {$w fraction}} \
+						get {1 {$w get}} \
+						identify {2 {$w identify}} \
+						set {2 {$w set}} \
+						scroll {2 {$w scroll}} \
+						moveto {1 {$w moveto}}]
 
     }
 

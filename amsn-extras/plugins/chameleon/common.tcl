@@ -19,7 +19,7 @@ namespace eval ::chameleon {
 	    return
 	}
 
-	set w_name [eval ::ttk::${ttk_widget_type} $w [eval ${widget_type}_parseConfArgs $w $args]]
+	set w_name [eval ::ttk::${ttk_widget_type} $w [eval ${widget_type}_parseConfArgs ::chameleon::${widget_type}::${widget_type}_proc_$w $args]]
 
 	if { [info command ::chameleon::${widget_type}::${widget_type}_proc_${w_name}] == "::chameleon::${widget_type}::${widget_type}_proc_${w_name}" } {
 	    rename ::chameleon::${widget_type}::${widget_type}_proc_${w_name} ""
@@ -37,9 +37,9 @@ namespace eval ::chameleon {
 	proc ::${w_name} { command args } \
 	    "eval ::chameleon::${widget_type}::${widget_type}_launchCommand ${w_name} \$command \$args"
 	
-	bind ${w_name} <Destroy> "::chameleon::widgetDestroyed [string map {"%" "\\%"} ${widget_type}_proc_${w_name}]"
+	bind ${w_name} <Destroy> "::chameleon::widgetDestroyed [string map {"%" "\\%"} ::chameleon::${widget_type}::${widget_type}_proc_${w_name}]"
 
-	::chameleon::widgetCreated ${widget_type}_proc_${w_name} ${w_name} 
+	::chameleon::widgetCreated ::chameleon::${widget_type}::${widget_type}_proc_${w_name} ${w_name} 
 
 	return ${w_name}
     }
@@ -69,8 +69,17 @@ namespace eval ::chameleon {
 
 	    if {[string match $pattern $name] &&
 		[string length $command] >= $min} {
-		set w ${widget_type}_proc_${w_name}
-		return [eval [subst $execute]]
+		    set w ::chameleon::${widget_type}::${widget_type}_proc_${w_name}
+		    #puts "Executing $execute -- $args"
+		    #::chameleon::printStackTrace
+
+		    if { [string range $execute 0 0] != "\$" &&
+			 [string range $execute 0 1] != "::" } {
+			    set execute ::chameleon::${widget_type}::$execute
+		    }
+		    
+		    #puts "Executing2 [subst $execute] $args"
+		    return [uplevel 3 "eval [subst $execute] [list $args]"]
 	    }
 	}
 
@@ -152,16 +161,10 @@ namespace eval ::chameleon {
 	}
 
 	array set ${widget_type}_widgetCommands {
-		cget {2 {${widget_type}_cget $w $args}}
-		configure {2 {${widget_type}_configure $w $args}}
-		state {1 {
-			if { [llength $args] == 0 } {
-				$w state
-			} else {
-				$w state $args
-			}
-		}}
-		instate {3 {$w instate $args}}
+		cget {2 {::chameleon::${widget_type}::${widget_type}_cget $w}}
+		configure {2 {::chameleon::${widget_type}::${widget_type}_configure $w}}
+		state {1 {$w state}}
+		instate {3 {$w instate}}
 	}
 
 	array set ${widget_type}_styleOptions {

@@ -7,7 +7,11 @@ namespace eval ::chameleon {
     variable flash_count 10
 
     variable wrapped 0
-    variable wrapped_procs [list button frame labelframe label radiobutton checkbutton NoteBook];# scrollbar]
+    variable wrapped_procs [list button frame \
+				labelframe label \
+				radiobutton checkbutton \
+				NoteBook entry combobox::combobox \
+				menubutton];# scrollbar]
     variable wrapped_into
     variable wrapped_shortname
     
@@ -20,7 +24,10 @@ namespace eval ::chameleon {
 				label label \
 				radiobutton radiobutton \
 				checkbutton checkbutton \
-				scrollbar scrollbar]
+				scrollbar scrollbar \
+				entry entry \
+				combobox::combobox combobox \
+				menubutton menubutton]
 
     array set wrapped_shortname [list button button \
 				     frame frame \
@@ -29,22 +36,26 @@ namespace eval ::chameleon {
 				     label label \
 				     radiobutton radiobutton \
 				     checkbutton checkbutton \
-				     scrollbar scrollbar]
+				     scrollbar scrollbar \
+				     entry entry \
+				     combobox::combobox combobox \
+				     menubutton menubutton]
     
 
 
-#     variable commands_list [list scale menubutton entry srollbar \
-# 				\
+#     variable commands_list [list scale \
+#                                \
+# 				 menubutton entry srollbar \
 # 				radiobutton checkbutton label \
 # 				frame labelframe button]
 #    
 #     variable unsupported_commands_list [list separator treeview]
 #    
 #     variable renamed_commands_list [list {paned panedwindow} \
-# 					{combobox ::combobox::combobox} \
 # 					{progressbar ::dkfprogress} \
 # 					{dialog tk_dialog/tk_messageBox} \
 #                                       \
+# 					{combobox ::combobox::combobox} \
 # 					{notebook NoteBook}]
 #    
 #     variable unexisting_commands_list [list canvas listbox menu message \
