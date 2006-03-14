@@ -168,10 +168,10 @@ namespace eval ::skin {
 		}
 		
 		if { [catch {::picture::GetPictureSize $file} cursize] } {
+			#Corrupted image.. might as well delete it and redownload it some other time..
 			status_log "Error opening $file: $cursize\n"
-		}
-		
-		if { [::config::getKey autoresizedp] && ![::picture::IsAnimated $file] && $cursize != "96x96"} {
+			catch {file delete $file}
+		} elseif { [::config::getKey autoresizedp] && ![::picture::IsAnimated $file] && $cursize != "96x96"} {
 			::picture::Resize $picName 96 96
 		}
 		if { [catch {image height small_dp_$email} height] == 0} {
