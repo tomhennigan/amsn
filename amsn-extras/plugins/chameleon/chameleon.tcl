@@ -109,6 +109,9 @@ namespace eval ::chameleon {
 	    if { [lsearch $::auto_path [file join $tile_dir themes]] == -1  } {
 		    lappend ::auto_path [file join $tile_dir themes]
 	    }
+	    if { [lsearch $::auto_path [file join $dir themes]] == -1  } {
+	            lappend ::auto_path [file join $dir themes]
+            }
 	}
 
 	# This forces an update of the available packages list.
@@ -142,7 +145,7 @@ namespace eval ::chameleon {
 	set ::chameleon::configlist [list [list frame ::chameleon::populateframe ""]]
 	set plugin_dir $dir
 
-	catch  {console show }
+	    #catch  {console show }
 
 	if { [info exists ::Chameleon_cfg(theme)] } {
 	    SetTheme $::Chameleon_cfg(theme)
