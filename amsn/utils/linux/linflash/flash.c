@@ -57,7 +57,7 @@ int Tk_FlashWindow (ClientData clientData,
 
   // We verify the arguments, we must have one arg, not more
   if( objc != 2) {
-    Tcl_AppendResult (interp, "Wrong number of args.\nShould be \"winflash window_name\"" , (char *) NULL);
+    Tcl_AppendResult (interp, "Wrong number of args.\nShould be \"linflash window_name\"" , (char *) NULL);
     return TCL_ERROR;
   }
 	
@@ -73,7 +73,7 @@ int Tk_UnFlashWindow (ClientData clientData,
 
   // We verify the arguments, we must have one arg, not more
   if( objc != 2) {
-    Tcl_AppendResult (interp, "Wrong number of args.\nShould be \"winflash window_name\"" , (char *) NULL);
+    Tcl_AppendResult (interp, "Wrong number of args.\nShould be \"linunflash window_name\"" , (char *) NULL);
     return TCL_ERROR;
   }
 	
@@ -89,11 +89,14 @@ int flash_window (Tcl_Interp *interp, Tcl_Obj *CONST objv1, long flash) {
   Tk_Window tkwin;
   Window window;
   Display * xdisplay;
+  Window root, parent, *children;
+  unsigned int n;
 
-  static Atom demandsAttention; 
+  static Atom demandsAttention;
   static Atom wmState;
-  XEvent e;
 
+  XEvent e;
+  memset(&e, 0, sizeof(e));
   // Get the first argument string (object name) and check it 
   win = Tcl_GetStringFromObj(objv1, NULL);
 
@@ -125,23 +128,27 @@ int flash_window (Tcl_Interp *interp, Tcl_Obj *CONST objv1, long flash) {
   xdisplay = Tk_Display(tkwin);
 
   // We need Atom-s created only once, they don't change during runtime
-  demandsAttention = XInternAtom(xdisplay, "_NET_WM_STATE_DEMANDS_ATTENTION", 1); 
-  wmState = XInternAtom(xdisplay, "_NET_WM_STATE", 1);
+  demandsAttention = XInternAtom(xdisplay, "_NET_WM_STATE_DEMANDS_ATTENTION", True);
+  wmState = XInternAtom(xdisplay, "_NET_WM_STATE", True);
+
+  XQueryTree(xdisplay, window, &root, &parent, &children, &n);
+  XFree(children);
 
   e.xclient.type = ClientMessage;
   e.xclient.message_type = wmState;
+  //Since under *nix Tk wraps all windows in another one to put a menu bar, we must use the parent window ID which is the top one
+  e.xclient.window = parent;
   e.xclient.display = xdisplay;
-  e.xclient.window = window;
   e.xclient.format = 32;
-  e.xclient.data.l[0] = 2;
+  e.xclient.data.l[0] = flash;
   e.xclient.data.l[1] = demandsAttention;
-  e.xclient.data.l[2] = 0;
-  e.xclient.data.l[3] = 0;
+  e.xclient.data.l[2] = 0l;
+  e.xclient.data.l[3] = 0l;
+  e.xclient.data.l[4] = 0l;
   
   
-  if (XSendEvent(xdisplay, Tk_WindowId(Tk_MainWindow(interp)), False, (SubstructureRedirectMask | SubstructureNotifyMask), &e) == 0) 
+  if (XSendEvent(xdisplay, root, False, (SubstructureRedirectMask | SubstructureNotifyMask), &e) == 0) 
     return TCL_ERROR;
-  
   
   return TCL_OK;
 }
@@ -168,8 +175,8 @@ int Flash_Init (Tcl_Interp *interp ) {
   if (Tk_InitStubs(interp, "8.3", 0) == NULL) {
     return TCL_ERROR;
   }
-	
-	
+
+
   // Create the new commands 
   Tcl_CreateObjCommand(interp, "linflash", Tk_FlashWindow,
 		       (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
