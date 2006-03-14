@@ -21,7 +21,7 @@ if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 	catch {load utils/macosx/Quicktimetcl3.1/quicktimetcl3.1.dylib}
 } else {
 	package require pixmapscroll
-	package require pixmapmenu
+#	package require pixmapmenu
 }
 
 
