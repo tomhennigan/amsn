@@ -476,7 +476,23 @@ namespace eval ::ChatWindow {
 					bind $window <FocusIn> "catch \" winflash $window -state 0\"; bind $window <FocusIn> \"\""
 					return
 				}
+			#if on the X window system
+			} elseif { [OnUnix] } {
+				if { [catch {linflash $window}] } {
+					if { ![catch { 
+						load [file join utils linux linflash flash.so]
+						linflash $window
+					} ] } {
+						bind $window <FocusIn> "catch \" linunflash $window \"; bind $window <FocusIn> \"\""
+						return
+					}
+				} else {
+					bind $window <FocusIn> "catch \" linunflash $window \"; bind $window <FocusIn> \"\""
+					return
+				}
 			}
+				
+				
 
 			set count  [expr {( $count +1 ) % 2}]
 
