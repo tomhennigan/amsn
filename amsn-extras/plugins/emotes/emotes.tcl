@@ -1,8 +1,14 @@
 namespace eval ::emotes {
 	variable arguments ""
+	variable loaded
 
 	proc Init { dir } {
-	
+		variable loaded
+
+		if {[info exists loaded] && $loaded == 1} {
+			return
+		}
+
 		::plugins::RegisterPlugin emotes
 	
 		;# this will return  the  list of arguments a command can take
@@ -79,11 +85,14 @@ namespace eval ::emotes {
 	                }
 
         	}
+
+		set loaded 1
 	}
 
 
 	proc DeInit { } {
-	
+		variable loaded
+		
 		status_log "Restoring previous proc body\n"
 	
 		;# this will return  the  list of arguments a command can take
@@ -111,6 +120,7 @@ namespace eval ::emotes {
 		;#The info body command returns the exxxact content of the  function    
 		proc ::amsn::PutMessageWrapped "$arglist" "[info body ::amsn::EmotesPutMessageWrapped]"
 		
+		set loaded 0
 		
 	}
 }
