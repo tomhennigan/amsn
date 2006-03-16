@@ -572,7 +572,7 @@ snit::widgetadaptor scrollbar {
 bind Pixmapscroll <Enter> {
     if {$tk_strictMotif} {
 	set tk::Priv(activeBg) [%W cget -activebackground]
-	%W config -activebackground [%W cget -background]
+	%W configure -activebackground [%W cget -background]
     }
     %W activate [%W identify %x %y]
 }
@@ -587,7 +587,7 @@ bind Pixmapscroll <Motion> {
 
 bind Pixmapscroll <Leave> {
     if {$tk_strictMotif && [info exists tk::Priv(activeBg)]} {
-	%W config -activebackground $tk::Priv(activeBg)
+	%W configure -activebackground $tk::Priv(activeBg)
     }
     %W activate {}
 }

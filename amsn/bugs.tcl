@@ -70,7 +70,7 @@ namespace eval ::bugs {
 	catch { status_log ">>> tcl_platform array content : [array get tcl_platform]\n" error }
 	status_log "-----------------------------------------\n\n" error
 
-	::bugs::show_bug_dialog $errorInfo
+	::bugs::show_bug_dialog $::bugs::bug(info)
     }
 
     proc save {path} {

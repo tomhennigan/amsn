@@ -2905,7 +2905,7 @@ proc setCfgFonts {path value} {
 	catch {set res [$path cget -font]}
 	if { [info exists res] } {
 		if { $res != "sboldf" && $res != "examplef" && $res != "bboldf"} {
-		    catch { $path config -font $value }
+		    catch { $path configure -font $value }
 		}
 	}
         foreach child [winfo children $path] {
@@ -3202,7 +3202,7 @@ proc BlockValidateEntry { widget data type {correct 0} } {
 	    if { [string is integer  $data] } {
 		$widget delete 0 end
 		$widget insert 0 "$correct" 
-		after idle "$widget config -validate all"
+		after idle "$widget configure -validate all"
 	    }    
 	}
 	1 {

@@ -671,6 +671,8 @@ proc ::snit::Comp.Compile {which type body} {
                     using {::snit::RT.method.configurelist %t %n %w %s}
                 Comp.statement.delegate method configure \
                     using {::snit::RT.method.configure %t %n %w %s}
+                Comp.statement.delegate method config \
+                    using {::snit::RT.method.configure %t %n %w %s}
             } else {
                 Comp.statement.method cget {args} {
                     eval [linsert $args 0 \
@@ -681,6 +683,10 @@ proc ::snit::Comp.Compile {which type body} {
                               ::snit::RT.method.configurelist $type $selfns $win $self]
                 }
                 Comp.statement.method configure {args} {
+                    eval [linsert $args 0 \
+                              ::snit::RT.method.configure $type $selfns $win $self]
+                }
+                Comp.statement.method config {args} {
                     eval [linsert $args 0 \
                               ::snit::RT.method.configure $type $selfns $win $self]
                 }
@@ -807,6 +813,7 @@ proc ::snit::Comp.SaveOptionInfo {} {
             set %TYPE%::Snit_optionInfo(default-%OPTION%)   %DEFAULT%
             set %TYPE%::Snit_optionInfo(validate-%OPTION%)  %VALIDATE%
             set %TYPE%::Snit_optionInfo(configure-%OPTION%) %CONFIGURE%
+            set %TYPE%::Snit_optionInfo(config-%OPTION%) %CONFIGURE%
             set %TYPE%::Snit_optionInfo(cget-%OPTION%)      %CGET%
             set %TYPE%::Snit_optionInfo(readonly-%OPTION%)  %READONLY%
         }   %OPTION%    $option \
@@ -2900,7 +2907,7 @@ proc ::snit::RT.install {type compName "using" widgetType winPath args} {
     if {$Snit_info(isWidget) && $Snit_optionInfo(starcomp) eq $compName} {
         # FIRST, get the list of option specs from the widget.
         # If configure doesn't work, skip it.
-        if {[catch {$comp configure} specs]} {
+        if {[catch {$comp configure} specs] || [catch {$comp config} specs]} {
             return
         }
 

@@ -10,7 +10,7 @@ wm geometry . 100x100
 update
 
 font create plain -family helvetica -size 11 -weight bold
-. config -bg #ffffff
+. configure -bg #ffffff
 
 
 text .t -highlightthickness 0 -bd 0 -relief solid -bg #eeddee -wrap none

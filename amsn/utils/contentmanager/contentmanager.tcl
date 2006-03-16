@@ -1,5 +1,4 @@
 package provide contentmanager 0.1
-lappend auto_path .. ../..
 package require snit
 package require scalable-bg
 package require contentmanager
