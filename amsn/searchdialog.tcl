@@ -10,6 +10,8 @@ snit::widget searchdialog {
 	option -searchin -configuremethod SetSearchIn ;# The text widget to search
 	option -title -default Find
 
+	delegate option * to hull
+
 	# We want to create a toplevel to put stuff in
 	hulltype toplevel
 
