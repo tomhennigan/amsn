@@ -15,5 +15,5 @@ musicstopdefault A lejátszás megállt.
 separator Elválasztó
 songartist Számcím - Elõadó
 artistsong Elõadó - Számcím
-choose_order Válaszd ki az elõadó és a számcím sorrendjét (nem kompatibilis az XMMS-sel)
+choose_order Válaszd ki az elõadó és a számcím sorrendjét
 musicballontext Kattints ide hogy megjelenítsd/elrejtsd a zene infót a becenevedben.

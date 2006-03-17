@@ -1,24 +1,24 @@
 <?xml version="1.0"?>
 <plugin>
 	<name>Music</name>
-	<author>Jerome Gagnon-Voyer & Le Philousophe</author>
+	<author>Jerome Gagnon-Voyer, Boris Faure (billiob) and Le Philousophe</author>
 	<description>Music plugin compatible with iTunes, XMMS, Amarok and Winamp. Show current playing song in nickname and show/send current playing song from the chatwindow. Mac OS X, Linux or Windows</description>
-	<amsn_version>0.94</amsn_version>
+	<amsn_version>0.95</amsn_version>
 	<plugin_version>1.5</plugin_version>
 	<plugin_file>music.tcl</plugin_file>
 	<plugin_namespace>music</plugin_namespace>
 	<init_procedure>InitPlugin</init_procedure>
 	<deinit_procedure>DeInit</deinit_procedure>
-	<cvs_version>1.39</cvs_version>
+	<cvs_version>1.41</cvs_version>
 
 	<lang>
 		<langcode>en</langcode>
-		<version>1.10</version>
+		<version>1.11</version>
 	</lang>
 
 	<lang>
 		<langcode>fr</langcode>
-		<version>1.6</version>
+		<version>1.7</version>
 	</lang>
 
 	<lang>

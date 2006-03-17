@@ -13,13 +13,13 @@ namespace eval ::music {
 	#############################################
 	proc InitPlugin { dir } {
 		variable musicpluginpath
+		variable smallcoverfilename
 		variable playersarray
 		variable oldinfo
-		variable dppath
-				
+
 		set musicpluginpath $dir
-		set dppath [::config::getKey displaypic]
-		set oldinfo ""
+		set smallcoverfilename [file join $musicpluginpath albumart.jpg]
+		set oldinfo [list]
 
 		#Load translation keys (lang files)
 		::music::LoadLangFiles $dir
@@ -39,7 +39,7 @@ namespace eval ::music {
 		#Set default values for config
 		::music::ConfigArray
 		#Add items to configure window
-		::music::ConfigList
+		set ::music::configlist [list [list frame ::music::populateFrame_1st ""] ]
 		
 		#Start changing the nickname on loading
 		::music::wait_load_newname
@@ -47,7 +47,87 @@ namespace eval ::music {
 		after 5000 ::music::add_command 0 0
 	}
 
+	
+	proc populateFrame_1st { win_name } {
+		variable playersarray
+		frame $win_name.players -class Degt
+		label $win_name.players.question -text "[trans musicplayer]" -padx 5 -font sboldf
+		pack $win_name.players $win_name.players.question
+		if { [llength [array names playersarray] ] > 1} {	
+			ComboBox $win_name.players.selection -editable false -highlightthickness 0 -width 15 -font splainf \
+				-textvariable ::music::config(player) -values [array names playersarray] \
+				-modifycmd "::music::populateFrame_2nd ${win_name} "
+			pack $win_name.players.selection -anchor w -expand true -fill both
+		}
+		
+		populateFrame_2nd $win_name
 
+	}
+
+	proc populateFrame_2nd { win_name } {
+		if {[winfo exists $win_name.sw]} {
+			destroy $win_name.sw
+		}
+		
+		#Scrollableframe that will contain config options
+		ScrolledWindow $win_name.sw 
+		ScrollableFrame $win_name.sw.sf -areaheight 0 -areawidth 0 
+		$win_name.sw setwidget $win_name.sw.sf
+		set mainFrame [$win_name.sw.sf getframe]	
+		pack $win_name.sw -anchor n -side top -expand true -fill both
+
+		#second
+		frame $mainFrame.second -class degt
+		label $mainFrame.second.label -text "[trans musictimeverify]" -padx 5 -font sboldf
+		entry $mainFrame.second.entry -bg #ffffff -width 10 -textvariable ::music::config(second)
+		pack $mainFrame.second.label -anchor w -side left
+		pack $mainFrame.second.entry -anchor w -side left -fill x
+		pack $mainFrame.second -anchor w -expand true -fill x
+
+		if { [::config::getKey protocol] >= 11 } {
+			#add to psm
+			frame $mainFrame.psm -class degt
+			pack $mainFrame.psm -anchor w -expand true -fill both
+			checkbutton $mainFrame.psm.checkbutton -variable ::music::config(active) -text "[trans musicaddsongtopsm]"
+			pack $mainFrame.psm.checkbutton -anchor w 
+		} else {
+			#add to nick
+			frame $mainFrame.add2nick -class degt
+			pack $mainFrame.add2nick -anchor w -expand true -fill both
+			checkbutton $mainFrame.add2nick.checkbutton -variable ::music::config(active) -text "[trans musicaddsongtonick]"
+			pack $mainFrame.add2nick.checkbutton -anchor w
+				
+			#nickname
+			frame $mainFrame.nick -class degt
+			label $mainFrame.nick.label -text "[trans musicnickname]" -padx 5 -font sboldf
+			entry $mainFrame.nick.entry -bg #ffffff -width 45 -textvariable ::music::config(nickname)
+			pack $mainFrame.nick.label -anchor w -side left
+			pack $mainFrame.nick.entry -anchor w -side left -fill x
+			pack $mainFrame.nick -anchor w -expand true -fill x
+
+			#separator
+			frame $mainFrame.separator -class degt
+			label $mainFrame.separator.label -text "[trans musicseparator]" -padx 5 -font sboldf
+			entry $mainFrame.separator.entry -bg #ffffff -width 10 -textvariable ::music::config(symbol)
+			pack $mainFrame.separator.label -anchor w -side left
+			pack $mainFrame.separator.entry -anchor w -side left -fill x
+			pack $mainFrame.separator -anchor w -expand true -fill x
+
+			#stop msg
+			frame $mainFrame.stopmsg -class degt
+			label $mainFrame.stopmsg.label -text "[trans musicstopmsg]" -padx 5 -font sboldf
+			entry $mainFrame.stopmsg.entry -bg #ffffff -width 10 -textvariable ::music::config(stop)
+			pack $mainFrame.stopmsg.label -anchor w -side left
+			pack $mainFrame.stopmsg.entry -anchor w -side left -fill x
+			pack $mainFrame.stopmsg -anchor w -expand true -fill x
+		}
+		
+		FillFrame $mainFrame
+
+		pack $win_name 
+	}
+
+	
 
 	#####################################################
 	# ::music::LoadLangFiles dir                        #
@@ -55,16 +135,8 @@ namespace eval ::music {
 	# Load pixmaps files                                #
 	#####################################################
 	proc LoadPixmaps {dir} {
-		if {[string equal $::version "0.94"]} {
-			::skin::setPixmap musicshown_pic [file join $dir pixmaps notespic.gif]
-		} else {
-			::skin::setPixmap musicshown_pic notespic.gif pixmaps [file join $dir pixmaps]
-		}
-		if {[string equal $::version "0.94"]} {
-			::skin::setPixmap musichidden_pic [file join $dir pixmaps notesdispic.gif]
-		} else {
-			::skin::setPixmap musichidden_pic notesdispic.gif pixmaps [file join $dir pixmaps]
-		}
+		::skin::setPixmap musicshown_pic notespic.gif pixmaps [file join $dir pixmaps]
+		::skin::setPixmap musichidden_pic notesdispic.gif pixmaps [file join $dir pixmaps]
 	}
 
 	#####################################
@@ -81,18 +153,15 @@ namespace eval ::music {
 	}
 	
 	#####################################################
-	# ::music::LoadLangFiles dir       					#
+	# ::music::LoadLangFiles dir                        #
 	# ------------------------------------------------- #
-	# Load lang files, only if version is 0.95			#
-	# Because 0.94 do not support lang keys for plugins #
+	# Load lang files                                   #
 	#####################################################
 	proc LoadLangFiles {dir} {
-		if {![::music::version_094]} {
-			set langdir [file join $dir "lang"]
-			set lang [::config::getGlobalKey language]
-			load_lang en $langdir
-			load_lang $lang $langdir
-		}
+		set langdir [file join $dir "lang"]
+		set lang [::config::getGlobalKey language]
+		load_lang en $langdir
+		load_lang $lang $langdir
 	}
 	########################################
 	# ::music::ConfigArray                 #
@@ -103,11 +172,7 @@ namespace eval ::music {
 		variable playersarray
 		
 		#Use translation key for 0.95 users
-		if {[::music::version_094]} {
-			set stopmessage "Player stopped"
-		} else {
-			set stopmessage [trans musicstopdefault]
-		}
+		set stopmessage [trans musicstopdefault]
 		array set ::music::config [list \
 			player [lindex [array names playersarray] 0] \
 			nickname {} \
@@ -118,56 +183,13 @@ namespace eval ::music {
 			songart {1} \
 			separator {-} \
 			changepic {0} \
+			mpd_ip {127.0.0.1} \
+			mpd_port {6600} \
+			mpd_music_directory {} \
 		]
 		
 	}
-	########################################
-	# ::music::ConfigList                  #
-	# -------------------------------------#
-	# Add items to configure window        #
-	########################################		
-	proc ConfigList {} {
-	variable playersarray
-	
-		if {[::music::version_094]} {
-			set ::music::configlist [list \
-				[list str "Verify new song each ? seconds" second] \
-				[list bool "Add song to the nickname"  active] \
-				[list str "Nickname"  nickname] \
-				[list str "Symbol betwen nick and song"  symbol] \
-				[list str "Stopped message"  stop] \
-				[list str "Separator" separator] \
-			]
-		} else {
-			if { [::config::getKey protocol] == 11 } {
-				set ::music::configlist [list \
-					[list label "[trans musicplayer]"] \
-					[list lst [array names playersarray] player] \
-					[list str "[trans musictimeverify]" second] \
-					[list bool "[trans musicaddsongtopsm]"  active] \
-					[list label "[trans choose_order]"] \
-					[list rbt "[trans songartist]" "[trans artistsong]" "[trans song]" songart] \
-					[list str "[trans separator]" separator] \
-					[list bool "[trans changepic]" changepic] \
-				]
-			} else {
-				set ::music::configlist [list \
-					[list label "[trans musicplayer]"] \
-					[list lst [array names playersarray] player] \
-					[list str "[trans musictimeverify]" second] \
-					[list bool "[trans musicaddsongtonick]"  active] \
-					[list str "[trans musicnickname]"  nickname] \
-					[list str "[trans musicseparator]"  symbol] \
-					[list str "[trans musicstopmsg]"  stop] \
-					[list label "[trans choose_order]"] \
-					[list rbt "[trans songartist]" "[trans artistsong]" "[trans song]" songart] \
-					[list str "[trans separator]" separator] \
-					[list bool "[trans changepic]" changepic] \
-				]
-			}
-		}
 
-	}
 	###########################################
 	# ::music::OsVerification                 #
 	# ----------------------------------------#
@@ -182,19 +204,22 @@ namespace eval ::music {
 		#Define values for supported player on darwin and linux
 		array set OSes [list \
 			"darwin" [list \
-				"ITunes" [list GetSongITunes exec_applescript] \
+				"ITunes" [list GetSongITunes exec_applescript FillFrameLess] \
+				"MPD" [list GetSongMPD TreatSongMPD FillFrameMPD] \
 			] \
 			"linux" [list \
-				"XMMS" [list GetSongXMMS TreatSongXMMS] \
-				"Amarok" [list GetSongAmarok TreatSongAmarok] \
-				"Banshee" [list GetSongBanshee TreatSongBanshee] \
-				"Rhythmbox" [list GetSongRhythmbox TreatSongRhythmbox] \
+				"XMMS" [list GetSongXMMS TreatSongXMMS FillFrameEmpty] \
+				"Amarok" [list GetSongAmarok TreatSongAmarok FillFrameComplete] \
+				"Banshee" [list GetSongBanshee TreatSongBanshee FillFrameComplete] \
+				"MPD" [list GetSongMPD TreatSongMPD FillFrameMPD] \
 			] \
 			"windows nt" [list \
-				"WinAmp" [list GetSongWinamp TreatSongWinamp] \
+				"WinAmp" [list GetSongWinamp TreatSongWinamp FillFrameLess] \
+				"MPD" [list GetSongMPD TreatSongMPD FillFrameMPD] \
 			] \
 			"windows 95" [list \
-				"WinAmp" [list GetSongWinamp TreatSongWinamp] \
+				"WinAmp" [list GetSongWinamp TreatSongWinamp FillFrameLess] \
+				"MPD" [list GetSongMPD TreatSongMPD FillFrameMPD] \
 			] \
 		]
 		#Get current OS platform
@@ -202,11 +227,7 @@ namespace eval ::music {
 		#If the OS is not supported show message box error and unload plugin
 		if { ![info exists OSes($os) ] } {
 			#Show message box error
-			if { [::music::version_094] } {
-				msg_box "Your Operating System ($os) isn't yet supported by the music plugin"
-			} else {
-				msg_box [trans musicoserr $os]
-			}
+			msg_box [trans musicoserr $os]
 			#Unload plugin
 			::plugins::UnLoadPlugin "Music"
 			return 0
@@ -224,8 +245,8 @@ namespace eval ::music {
 	###############################################
 	proc newname {event epvar} {
 		variable musicpluginpath
+		variable smallcoverfilename
 		variable config
-		variable name
 		variable activated
 		variable oldinfo
 		variable dppath
@@ -234,93 +255,98 @@ namespace eval ::music {
 		#Get all song information from ::music::GetSong
 		set info [::music::GetSong]
 
-		#if none of the info changed since the last check, we don't change anything
-		if {$info != $oldinfo} {
+		set song [lindex $info 0]
+		set file [lindex $info 1]
+		set artfile [lindex $info 2]
 
-			set song [lindex $info 0]
-			set file [lindex $info 1]
-			set artfile [lindex $info 2]
+		#First add the nickname the user choosed in config to the name variable
+		set name "$config(nickname)"
+		#Symbol that will be betwen the nick and the song
+		set separation " $config(symbol) "
 
-			set oldname $name
-			#First add the nickname the user choosed in config to the name variable
-			set name "$config(nickname)"
-			#Symbol that will be betwen the nick and the song
-			set separation " $config(symbol) "
-
-			#Merge the nickname with the song name if a song is playing
-			#Else, show the stop messsage
-			if {$info != "0"} {
-				#Merge the nickname with the symbol and the song name
+		#Merge the nickname with the song name if a song is playing
+		#Else, show the stop messsage
+		if {$info != "0"} {
+			#Merge the nickname with the symbol and the song name
+			append name $separation
+			append name $song
+		} else {
+			if {$config(stop) != ""} {
+				#Modification to avoid the separator to be displayed if there is no text when XMMS is stopped
+				#Merge the nickname with the symbol and the stop text ( modified from ITunes plugin)
 				append name $separation
-				append name $song
+				append name $config(stop)
+			}
+		}
+
+		#If the user uncheck the box in config, we must put the standard nickname
+		#And if he checks, we must actualize the nickname
+		if { $config(active) && !$activated } {
+			if {[::config::getKey protocol] == 11} {
+				if { $song != "0"} {
+					::MSN::changeCurrentMedia Music 1 "{0}" $song
+				}
 			} else {
-				if {$config(stop) != ""} {
-					#Modification to avoid the separator to be displayed if there is no text when XMMS is stopped
-					#Merge the nickname with the symbol and the stop text ( modified from ITunes plugin)
-					append name $separation
-					append name $config(stop)
-				}
+				::music::changenick "$name"
 			}
+			set activated 1
+		}
 
-			#If the user uncheck the box in config, we must put the standard nickname
-			#And if he checks, we must actualize the nickname
-			if { $config(active) && !$activated } {
-				if {[::config::getKey protocol] == 11} {
-					if { $song != "0"} {
-						::MSN::changeCurrentMedia Music 1 "{0}" $song
-					}
+		if { !$config(active) && $activated } {
+			set activated 0
+			if {[::config::getKey protocol] == 11} {
+				::MSN::changeCurrentMedia Music 0 "{0}" ""
+			} else {
+				::music::changenick "$config(nickname)"
+			}
+		}
+
+		#Change the nickname if the user did'nt uncheck that config.
+		if {$config(active) && $info != $oldinfo } {
+			if {[::config::getKey protocol] == 11} {
+				if { $song != "0"} {
+					::MSN::changeCurrentMedia Music 1 "{0}" $song
 				} else {
-					::music::changenick "$name"
-				}
-				set activated 1
-			}
-
-			if { !$config(active) && $activated } {
-				set activated 0
-				if {[::config::getKey protocol] == 11} {
 					::MSN::changeCurrentMedia Music 0 "{0}" ""
-				} else {
-					::music::changenick "$config(nickname)"
+				}
+			} else {
+				::music::changenick "$name"
+			}
+		}
+
+		if {$config(changepic) && $info != $oldinfo} {
+			#set avatar to albumart if available
+			if {[::config::getKey displaypic] != $smallcoverfilename} {
+				#Picture changed so save the new name
+				set dppath [::config::getKey displaypic]
+				if { $dppath == "nopic.gif" } {
+					set dppath ""
 				}
 			}
+			if {$artfile != ""} {
+				#create a photo called "smallcover" with the albumart of the played song
+				::picture::ResizeWithRatio [image create photo smallcover -file $artfile] 96 96
 
-			#Change the nickname if the user did'nt uncheck that config.
-			if {$config(active) && $name != $oldname } {
-				if {[::config::getKey protocol] == 11} {
-					if { $song != "0"} {
-						::MSN::changeCurrentMedia Music 1 "{0}" $song
-					} else {
-						::MSN::changeCurrentMedia Music 0 "{0}" ""
-					}
-				} else {
-					::music::changenick "$name"
+				if {![catch {::picture::Save smallcover $smallcoverfilename cxjpg}]} {
+					::music::log "Album art found, changing..."
+					::music::set_dp $smallcoverfilename
 				}
+
+			} else {
+				#if the album cover isn't available, set the dp the user set before changes by musicplugin
+				::music::log "No album art found, use \"$dppath\""
+				
+				::music::set_dp $dppath
+
 			}
-
-			if {$config(changepic)} {
-				#set avatar to albumart if available
-				set smallcoverfilename [file join $musicpluginpath albumart.jpg]
-		 		if {$artfile != ""} {
-					#create a photo called "smallcover" with the albumart of the played song
-		 			::picture::ResizeWithRatio [image create photo smallcover -file $artfile] 96 96
-
-					if {![catch {::picture::Save smallcover $smallcoverfilename cxjpg}]} {
-						::music::log "Album art found, changing..."
-						set_displaypic $smallcoverfilename
-					}
-
-		 		} else {
-					#if the album cover isn't available, set the dp the user set\
-						before changes by musicplugin
-					::music::log "No album art found, use $dppath"
-					set_displaypic 	$dppath
-
-				}
-	 		}
+		}
+		if {!$config(changepic) && [string compare [::config::getKey displaypic] $smallcoverfilename] == 0} {
+			#Config disabled : change the dp to the good one...
+			::music::set_dp $dppath
+		}
 
 
 		set oldinfo $info
-		}
 
 		#Execute the script which get the song from the player to have it immediatly
 		::music::TreatSong
@@ -348,6 +374,17 @@ namespace eval ::music {
 		set email [::config::getKey login]
 		::MSN::changeName $email $name
 		::music::log "Change nickname for $email $name"
+	}
+
+	###############################################
+	# ::music::set_dp dpfile                      #
+	# ------------------------------------------- #
+	# Protocol to change the displaypic           #
+	###############################################
+	proc set_dp {dp} {
+		if {[::MSN::myStatusIs] != "FLN" } {
+			set_displaypic $dp
+		}
 	}
 
 	###############################################
@@ -379,6 +416,18 @@ namespace eval ::music {
 		set songfunc $playersarray([lindex $config(player) 0])
 		set retval 0
 		catch {::music::[lindex $songfunc 1]} retval
+		return $retval
+	}
+
+	proc FillFrame { mainFrame } {
+		variable config
+		variable playersarray
+		if {![info exists playersarray([lindex $config(player) 0])] } {
+			return 0
+		}
+		set songfunc $playersarray([lindex $config(player) 0])
+		set retval 0
+		catch {::music::[lindex $songfunc 2] $mainFrame} retval
 		return $retval
 	}
 
@@ -474,6 +523,14 @@ namespace eval ::music {
 	}
 
 	###############################################
+	# ::music::FillFrameEmpty                     #
+	# ------------------------------------------- #
+	# Fills the config frame with nothing         #
+	###############################################
+	proc FillFrameEmpty {mainFrame} {
+
+	}
+	###############################################
 	# ::music::TreatSongAmarok                    #
 	# ------------------------------------------- #
 	# Gets the current playing song in Amarok     #
@@ -511,7 +568,7 @@ namespace eval ::music {
 		if {$status == "0"} {
 			return 0
 		} else {
-			#Define in witch order we want to show the song (from the config)
+			#Define in which  order we want to show the song (from the config)
 			#Use the separator(from the cong) betwen song and artist
 			if {$::music::config(songart) == 1} {
 				append songart $song " " $::music::config(separator) " " $art
@@ -525,6 +582,37 @@ namespace eval ::music {
 			lappend return $artpath
 		}
 		return $return
+	}
+
+	###############################################
+	# ::music::FillFrameComplete                  #
+	# ------------------------------------------- #
+	# Fills the config frame for complete support #
+	###############################################
+	proc FillFrameComplete {mainFrame} {
+		#order for song and artist name
+		frame $mainFrame.order -class degt
+		pack $mainFrame.order -anchor w -expand true -fill both
+		label $mainFrame.order.label -text "[trans choose_order]" -padx 5 -font sboldf
+		radiobutton $mainFrame.order.1 -text "[trans songartist]" -variable ::music::config(songart) -value 1
+		radiobutton $mainFrame.order.2 -text "[trans artistsong]" -variable ::music::config(songart) -value 2
+		radiobutton $mainFrame.order.3 -text "[trans song]" -variable ::music::config(songart) -value 3
+		label $mainFrame.order.separator_label -text "[trans separator]" -padx 5 -font sboldf
+		entry $mainFrame.order.separator_entry -bg #ffffff -width 10 -textvariable ::music::config(separator)			
+		pack $mainFrame.order.label \
+			$mainFrame.order.1 \
+			$mainFrame.order.2 \
+			$mainFrame.order.3 \
+				-anchor w -side top
+		pack $mainFrame.order.separator_label \
+				$mainFrame.order.separator_entry \
+				-anchor w -side left
+	
+		#changepic
+		frame $mainFrame.changepic -class degt
+		pack $mainFrame.changepic -anchor w -expand true -fill both
+		checkbutton $mainFrame.changepic.checkbutton -variable ::music::config(changepic) -text "[trans changepic]"
+		pack $mainFrame.changepic.checkbutton -anchor w
 	}
 
 	###############################################
@@ -568,7 +656,7 @@ namespace eval ::music {
 		if {$Status == "0"} {
 			return 0
 		} else {
-			#Define in witch order we want to show the song (from the config)
+			#Define in which order we want to show the song (from the config)
 			#Use the separator(from the cong) betwen song and artist
 			if {$::music::config(songart) == 1} {
 				append songart $Title " " $::music::config(separator) " " $Artist
@@ -588,50 +676,144 @@ namespace eval ::music {
 
 		return $return
 	}
-
-	###############################################
-	# ::music::TreatSongRhythmbox                 #
-	# ------------------------------------------- #
-	# Gets the current playing song in Rhythmbox  #
-	###############################################
-	proc TreatSongRhythmbox {} {
-		#Grab the information asynchronously : thanks to Tjikkun
-		after 0 {::music::exec_async [list "sh" [file join $::music::musicpluginpath "inforhythmbox"]] }
+	
+	##################################################
+	# ::music::TreatSongMPD                          #
+	# ---------------------------------------------- #
+	# Not useful to MPD because no script to execute #
+	##################################################
+	proc TreatSongMPD {} {
 		return 0
 	}
-
 	###############################################
-	# ::music::GetSongRhythmbox                   #
+	# ::music::GetSongMPD                         #
 	# ------------------------------------------- #
-	# Gets the current playing song in Rhythmbox  #
+	# Gets the current playing song in MPD        #
 	###############################################
-	proc GetSongRhythmbox {} {
-		#actualsong is filled asynchronously in TreatSongRhythmbox
-		#Split the lines into a list and set the variables as appropriate
-		if { [catch {split $::music::actualsong "\n"} tmplst] } {
-			#actualsong isn't yet defined by asynchronous exec
+	proc GetSongMPD {} {
+		set chan [socket -async $::music::config(mpd_ip) $::music::config(mpd_port)]
+		if { [catch {gets $chan line} err] } {
+			plugins_log Music "error : $err"
 			return 0
 		}
+		if {[string range $line 0 1] != "OK" } {
+			plugins_log Music "error : [MPD] no OK found "
+			return 0
+		}
+		puts $chan "status"
+		flush $chan
+		if { [catch {gets $chan line} err] } {
+			plugins_log Music "error : $err"
+			return 0
+		}
+		while {[string range $line 0 1] != "OK" } {
+			if { [string range $line 0 4] == "state" } {
+				set state [string range $line 7 end]
+				plugins_log Music "state of the player is $state"
+				if { $state == "stop" || $state == "pause" } {
+					return 0
+				}
+			}
+			if { [catch {gets $chan line} err] } {
+				plugins_log Music "error : $err"
+				return 0
+			}		
+		}
+		#Finish getting infos from status command
+		while {[string range $line 0 1] != "OK" } {
+			if { [catch {gets $chan line} err] } {
+				plugins_log Music "error : $err"
+				return 0
+			}		
+		}
+		#now, get the currentsong
+		puts $chan "currentsong"
+		flush $chan
+		if { [catch {gets $chan line} err] } {
+			plugins_log Music "error : $err"
+			return 0
+		}		
+		set Title ""
+		set Artist ""
+		set File ""
+		#set Cover ""
+		while {[string range $line 0 1] != "OK" } {
+			if { [string range $line 0 5] == "Artist" } {
+				set Artist [string range $line 8 end]
+				plugins_log music "Artist is $Artist"
+			}
+			if { [string range $line 0 3] == "file" } {
+				set File [string range $line 6 end]
+				plugins_log music "file is $File"
 
-		set Title [lindex $tmplst 1]
-		set Artist [lindex $tmplst 2]
-		set Uri	[lindex $tmplst 3]
+			}
+			if { [string range $line 0 4] == "Title" } {
+				set Title [string range $line 7 end]
+				plugins_log music "Title is $Title"
 
-		#Define in witch order we want to show the song (from the config)
-		#Use the separator(from the cong) betwen song and artist
+			}
+			if { [catch {gets $chan line} err] } {
+				plugins_log music "error : $err"
+				return 0
+			}		
+		}
+		#Define in which order we want to show the song (from the config)
+		#Use the separator(from the conf) between song and artist
 		if {$::music::config(songart) == 1} {
-			append songart $Title " " $::music::config(separator) " " $Artist
+		append songart $Title " " $::music::config(separator) " " $Artist
 		} elseif {$::music::config(songart) == 2} {
 			append songart $Artist " " $::music::config(separator) " " $Title
 		} elseif {$::music::config(songart) == 3} {
 			append songart $Title
 		}
-	
-		#Frist is the "title" of the song
-		#Second is the location of the file
-		set return [list $songart [urldecode [string range $Uri 7 end]]]
-
+		#First element in the returned list is the artist + song in desired format
+		lappend return $songart
+		#Second element is the path to the music-file
+		#lappend return [file join $::music::config(mpd_music_directory) $File]
+		#Third element is the path to the album cover-art (if available, else it is "")
+		#lappend return $CoverUri
+		
+		close $chan
 		return $return
+	}
+
+	###############################################
+	# ::music::FillFrameMPD                       #
+	# ------------------------------------------- #
+	# Fills the config frame for MPD              #
+	###############################################
+	proc FillFrameMPD {mainFrame} {
+		#order for song and artist name
+		frame $mainFrame.order -class degt
+		pack $mainFrame.order -anchor w -expand true -fill both
+		label $mainFrame.order.label -text "[trans choose_order]" -padx 5 -font sboldf
+		radiobutton $mainFrame.order.1 -text "[trans songartist]" -variable ::music::config(songart) -value 1
+		radiobutton $mainFrame.order.2 -text "[trans artistsong]" -variable ::music::config(songart) -value 2
+		radiobutton $mainFrame.order.3 -text "[trans song]" -variable ::music::config(songart) -value 3
+		label $mainFrame.order.separator_label -text "[trans separator]" -padx 5 -font sboldf
+		entry $mainFrame.order.separator_entry -bg #ffffff -width 10 -textvariable ::music::config(separator)			
+		pack $mainFrame.order.label \
+				$mainFrame.order.1 \
+				$mainFrame.order.2 \
+				$mainFrame.order.3 \
+				-anchor w -side top
+		pack $mainFrame.order.separator_label \
+				$mainFrame.order.separator_entry \
+				-anchor w -side left
+				
+		#ip
+		frame $mainFrame.ip
+		label $mainFrame.ip.label -text "[trans music_mpd_ip]"
+		entry $mainFrame.ip.entry -textvariable ::music::config(mpd_ip) -bg white -width 15
+		pack $mainFrame.ip -anchor w
+		pack $mainFrame.ip.label $mainFrame.ip.entry -anchor w
+
+		#port
+		frame $mainFrame.port
+		label $mainFrame.port.label -text "[trans music_mpd_port]"
+		entry $mainFrame.port.entry -textvariable ::music::config(mpd_port) -bg white -width 10
+		pack $mainFrame.port -anchor w
+		pack $mainFrame.port.label $mainFrame.port.entry -anchor w
 	}
 	
 	###############################################
@@ -664,7 +846,7 @@ namespace eval ::music {
 		if {$song == "0"} {
 			return 0
 		} else {
-			#Define in witch order we want to show the song (from the config)
+			#Define in which  order we want to show the song (from the config)
 			#Use the separator(from the cong) betwen song and artist
 #			if {$::music::config(songart) == 1} {
 #				append songart $song " " $::music::config(separator) " " $art
@@ -680,7 +862,30 @@ namespace eval ::music {
 #		return $return
 	}
 
-
+	###############################################
+	# ::music::FillFrameLess                      #
+	# ------------------------------------------- #
+	# Fills the config frame for minimal support  #
+	###############################################
+	proc FillFrameLess {mainFrame} {
+		#order for song and artist name
+		frame $mainFrame.order -class degt
+		pack $mainFrame.order -anchor w -expand true -fill both
+		label $mainFrame.order.label -text "[trans choose_order]" -padx 5 -font sboldf
+		radiobutton $mainFrame.order.1 -text "[trans songartist]" -variable ::music::config(songart) -value 1
+		radiobutton $mainFrame.order.2 -text "[trans artistsong]" -variable ::music::config(songart) -value 2
+		radiobutton $mainFrame.order.3 -text "[trans song]" -variable ::music::config(songart) -value 3
+		label $mainFrame.order.separator_label -text "[trans separator]" -padx 5 -font sboldf
+		entry $mainFrame.order.separator_entry -bg #ffffff -width 10 -textvariable ::music::config(separator)			
+		pack $mainFrame.order.label \
+				$mainFrame.order.1 \
+				$mainFrame.order.2 \
+				$mainFrame.order.3 \
+				-anchor w -side top
+		pack $mainFrame.order.separator_label \
+				$mainFrame.order.separator_entry \
+				-anchor w -side left
+	}
 
 	################################################
 	# ::music::exec_applescript                    #
@@ -716,7 +921,7 @@ namespace eval ::music {
 			::music::log "Status is 0"
 			return 0
 		} else {
-			#Define in witch order we want to show the song (from the config)
+			#Define in which  order we want to show the song (from the config)
 			#Use the separator(from the cong) betwen song and artist
 			if {$::music::config(songart) == 1} {
 				append songart $song " " $::music::config(separator) " " $art
@@ -764,7 +969,7 @@ namespace eval ::music {
 		if {$status == "0"} {
 			return 0
 		} else {
-			#Define in witch order we want to show the song (from the config)
+			#Define in which  order we want to show the song (from the config)
 			#Use the separator(from the cong) betwen song and artist
 			if {$::music::config(songart) == 1} {
 				append songart $song " " $::music::config(separator) " " $art
@@ -796,16 +1001,11 @@ namespace eval ::music {
 		$copymenu add cascade -label "Music" -menu $copymenu.music
 		menu $copymenu.music -tearoff 0 -type normal
 
-		if {[::music::version_094]} {
-			#Create label in submenu
-			$copymenu.music add command -label [trans xmmscurrent] -command "::music::menucommand $w 1"
-			$copymenu.music add command -label [trans xmmssend] -command "::music::menucommand $w 2"
-		} else {
-			#Create label in submenu
-			$copymenu.music add command -label [trans musiccurrent] -command "::music::menucommand $w 1"
-			$copymenu.music add command -label [trans musicsend] -command "::music::menucommand $w 2"
-			$copymenu.music add command -label [trans artsend] -command "::music::menucommand $w 3"
-		}
+		#Create label in submenu
+		$copymenu.music add command -label [trans musiccurrent] -command "::music::menucommand $w 1"
+		$copymenu.music add command -label [trans musicsend] -command "::music::menucommand $w 2"
+		$copymenu.music add command -label [trans artsend] -command "::music::menucommand $w 3"
+
 		::music::log "Music menu created"
 
 
@@ -828,11 +1028,7 @@ namespace eval ::music {
 		set artfile [lindex $info 2]
 
 		if {$info == "0"} {
-			if {[::music::version_094]} {
-				msg_box "Nothing is playing, or the plugin can't get the music playing."
-			} else {
-				msg_box [trans musicerr]
-			}
+			msg_box [trans musicerr]
 			return 0
 		}
 
@@ -899,6 +1095,7 @@ namespace eval ::music {
 		variable config
 		variable activated
 		variable musicpluginpath
+		variable smallcoverfilename
 		variable dppath
 		
 		if {[array size ::music::playersarray]==0} {
@@ -915,28 +1112,13 @@ namespace eval ::music {
 	   	}
 
 		#reset displaypicture
-		set_displaypic $dppath
+		if {$config(changepic) && [string compare [::config::getKey displaypic] $smallcoverfilename] == 0} {
+			::music::set_dp $dppath
+		}
 	}
 
 	proc DeInit {} {
 		::music::stop 0 0
-	}
-
-	############################################
-	# ::music::version_094                     #
-	# -----------------------------------------#
-	# Verify if the version of aMSN is 0.94    #
-	# Useful if we want to keep compatibility  #
-	# Taken from AMsnPlus plugin               #
-	############################################
-	proc version_094 {} {
-		global version
-		scan $version "%d.%d" y1 y2;
-		if { $y2 == "94" } {
-			return 1
-		} else {
-			return 0
-		}
 	}
 	
 	############################################
@@ -944,14 +1126,9 @@ namespace eval ::music {
 	# -----------------------------------------#
 	# Add a log message to plugins-log window  #
 	# Type Alt-P to get that window            #
-	# Not compatible with 0.94                 #
 	############################################
 	proc log {message} {
-		if {[::music::version_094]} {
-			return
-		} else {
-			plugins_log Music $message
-		}
+		plugins_log Music $message
 	}
 	
 	################################################
@@ -968,6 +1145,7 @@ namespace eval ::music {
 			#Avoid a bug if someone use an older version of aMSNPlus
 			catch {::amsnplus::add_command showsong ::music::exec_show_command 0 1}
 			catch {::amsnplus::add_command sendsong ::music::exec_send_command 0 1}
+			catch {::amsnplus::add_command sendcover ::music::exec_sendcover_command 0 1}
 		}
 	}
 	
@@ -978,6 +1156,10 @@ namespace eval ::music {
 	#Execute send current song via amsnplus plugin
 	proc exec_send_command {win_name} {
 		::music::menucommand $win_name 2
+	}
+	#Execute send current song via amsnplus plugin
+	proc exec_sendcover_command {win_name} {
+		::music::menucommand $win_name 3
 	}
 
 	#######################################################################
@@ -997,40 +1179,30 @@ namespace eval ::music {
 			set icon musichidden_pic
 		}
 
-		if {[string equal $::version "0.94"]} {
-			set textb $vars(text)
+		#TODO: add parameter to event and get rid of hardcoded variable
+		set pgtop $::pgBuddyTop
+		set clbar $::pgBuddyTop.colorbar
 
-			clickableImage $textb musicpic $icon {set ::music::config(active) [expr !$::music::config(active)];::plugins::save_config;cmsn_draw_online} 5 0
-		} else {
-			#TODO: add parameter to event and get rid of hardcoded variable
-			set pgtop $::pgBuddyTop
-			set clbar $::pgBuddyTop.colorbar
+		set textb $pgtop.musicpic
+		set notewidth [expr [image width [::skin::loadPixmap $icon]]/[font measure bboldf "0"]+1]
+		set noteheight [expr [image height [::skin::loadPixmap $icon]]/[font metrics bboldf -linespace]+1]
 
-			set textb $pgtop.musicpic
-			set notewidth [expr [image width [::skin::loadPixmap $icon]]/[font measure bboldf "0"]+1]
-			set noteheight [expr [image height [::skin::loadPixmap $icon]]/[font metrics bboldf -linespace]+1]
+		text $textb -font bboldf -height 1 -background [::skin::getKey topcontactlistbg] -borderwidth 0 -wrap none -cursor left_ptr \
+			-relief flat -highlightthickness 0 -selectbackground white -selectborderwidth 0 \
+			-exportselection 0 -relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0 -width $notewidth -height $noteheight
 
-			text $textb -font bboldf -height 1 -background [::skin::getKey topcontactlistbg] -borderwidth 0 -wrap none -cursor left_ptr \
-				-relief flat -highlightthickness 0 -selectbackground white -selectborderwidth 0 \
-				-exportselection 0 -relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0 -width $notewidth -height $noteheight
+		pack $textb -expand false -after $clbar -side right -padx 0 -pady 0
 
-			pack $textb -expand false -after $clbar -side right -padx 0 -pady 0
+		$textb configure -state normal
 
-			$textb configure -state normal
+		clickableImage $textb musicpic $icon {set ::music::config(active) [expr !$::music::config(active)];::plugins::save_config;cmsn_draw_online} [::skin::getKey mailbox_xpad] [::skin::getKey mailbox_ypad]
 
-			clickableImage $textb musicpic $icon {set ::music::config(active) [expr !$::music::config(active)];::plugins::save_config;cmsn_draw_online} [::skin::getKey mailbox_xpad] [::skin::getKey mailbox_ypad]
 
-		}
+		set balloon_message [trans musicballontext]
 
-		if {[::music::version_094]} {
-			set balloon_message "Click here to show/hide the song in your nick"
-		} else {
-			set balloon_message [trans musicballontext]
-		}
-
-		bind $textb.musicpic <Enter> +[list balloon_enter %W %X %Y $balloon_message]
-		bind $textb.musicpic <Leave> "+set ::Bulle(first) 0; kill_balloon;"
-		bind $textb.musicpic <Motion> +[list balloon_motion %W %X %Y $balloon_message]
+		$textb tag bind $textb.musicpic <Enter> +[list balloon_enter %W %X %Y $balloon_message]
+		$textb tag bind $textb.musicpic <Leave> "+set ::Bulle(first) 0; kill_balloon;"
+		$textb tag bind $textb.musicpic <Motion> +[list balloon_motion %W %X %Y $balloon_message]
 
 		$textb configure -state disabled
 	}

@@ -7,6 +7,7 @@ musicseparator Symbole entre le pseudo et la musique
 musicstopmsg Message quand le lecteur est arrêté
 musiccurrent Afficher la musique courante
 musicsend Envoyer la musique courante
+artsend Envoyer la pochette de l'album courant
 musicerr Rien n'est joué, ou le plugin ne peut pas récupérer la musique jouée.
 playing Joue : $1
 musicoserr Votre système d'exploitation ($1) n'est pas encore géré par le plugin Music
@@ -14,6 +15,10 @@ musicplayer Choisissez votre lecteur préféré
 musicstopdefault Lecteur arrêté
 separator Séparateur
 songartist Titre - Artiste
+song Titre
 artistsong Artiste - Titre
-choose_order Choisissez l'ordre entre le titre et le nom de l'artiste (pas compatible avec XMMS)
+choose_order Choisissez l'ordre entre le titre et le nom de l'artiste
 musicballontext Cliquez ici pour montrer ou cacher ce que vous écoutez
+changepic Changer l'avatar en prenant la pochette de l'album si disponible
+music_mpd_ip adresse IP de votre serveur MPD
+music_mpd_port Port de votre serveur MPD

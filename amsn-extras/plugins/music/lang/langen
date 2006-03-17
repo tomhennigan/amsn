@@ -17,6 +17,8 @@ separator Separator
 songartist Song-Artist
 song Song
 artistsong Artist-Song
-choose_order Choose order for song and artist name (not compatible with XMMS)
+choose_order Choose order for song and artist name
 musicballontext Click here to show/hide the song in your nick
 changepic Change the displaypicture to the albumart if possible
+music_mpd_ip IP address of your MPD server
+music_mpd_port Port of your MPD server
