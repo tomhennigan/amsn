@@ -855,7 +855,11 @@ namespace eval ::smiley {
 		set w .new_custom
 
 		if { $name == "" } {
-			set name $new_custom_cfg(name)
+			if { [catch {set name $new_custom_cfg(name)} ] } {
+				#User entered no description
+				msg_box "[trans wrongfields [trans description] [trans triggers] [trans smilefile] ]"
+				return -1
+			}
 			#set name "[string map { "\[" "\\\[" "\]" "\\\]" } $new_custom_cfg(name)]"
 			set edit 0
 		} else {
