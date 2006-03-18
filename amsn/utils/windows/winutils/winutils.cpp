@@ -365,6 +365,10 @@ static int Tk_WinReplaceTitle (ClientData clientData,
 */
 int Winutils_Init (Tcl_Interp *interp ) {
 	
+	if (Tcl_InitStubs(interp, "8.3", 0) == NULL) {
+		return TCL_ERROR;
+	}
+
 	//Check TK version is 8.0 or higher
 	if (Tk_InitStubs(interp, "8.3", 0) == NULL) {
 		return TCL_ERROR;
