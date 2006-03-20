@@ -39,7 +39,7 @@
 	</lang>
 	<lang>
 		<langcode>ca</langcode>
-		<name>Catalan (català)</name>
+		<name>Catalan-Valencian (Català-Valencià)</name>
 		<version>1.121</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
@@ -291,7 +291,7 @@
 	</lang>
 	<lang>
 		<langcode>ca_VC</langcode>
-		<name>Catalan - Valencian Country (ValenciÃ - Català)</name>
+		<name>Valencian-Catalan (Valencià - Català)</name>
 		<version>1.1</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
