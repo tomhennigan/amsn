@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<plugin>
+       <name>whatis</name>
+       <author>Jasper Huzen</author>
+       <description>Get information from text/word or translate it to an other language!</description>
+       <amsn_version>0.94</amsn_version>
+       <plugin_version>1.2</plugin_version>
+       <plugin_file>whatis.tcl</plugin_file>
+       <plugin_namespace>whatis</plugin_namespace>
+       <init_procedure>init</init_procedure>
+		 <deinit_procedure>deInit</deinit_procedure>
+		 <cvs_version>1.2</cvs_version>
+		 <url>
+     		   <plugininfo>http://www.plazaa.nl/codefreakz/files/code/whatis/plugininfo.xml</plugininfo>
+		    	<main>http://www.plazaa.nl/codefreakz/files/code/whatis/$version/whatis.tcl</main>
+     	 </url>
+</plugin> 
+
+
+
