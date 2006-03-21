@@ -1,4 +1,4 @@
-#####################################################
+######################################################
 ##                                                 ##
 ##   aMSN Plugins System - 0.96-Release Version    ##
 ##                                                 ##
@@ -567,6 +567,7 @@ namespace eval ::plugins {
 
 		#update the buttons and colors in the plugins dialog
 		GUI_NewSel
+		$w.plugin_list itemconfigure [$w.plugin_list curselection] -background #DDF3FE
 	}
 
 
@@ -595,6 +596,7 @@ namespace eval ::plugins {
 		UnLoadPlugin $selection
 		# update the buttons and colors in the dialog
 		GUI_NewSel
+		$w.plugin_list itemconfigure [$w.plugin_list curselection] -background #FFFFFF
 	}
 
 
@@ -877,8 +879,6 @@ namespace eval ::plugins {
 	proc UnLoadPlugin { plugin } {
 		variable loadedplugins
 		plugins_log core "Unloading plugin $plugin\n"
-		#remove it from the loadedplugins list
-		set loadedplugins [lreplace $loadedplugins [lsearch $loadedplugins "$plugin"] [lsearch $loadedplugins "$plugin"]]
 
 		#unregister events
 		UnRegisterEvents $plugin
@@ -896,6 +896,10 @@ namespace eval ::plugins {
 		if {[array exists ::${namespace}::config] == 1} {
 			set ::plugins::config($plugin) [array get ::${namespace}::config]
 		}
+
+		#remove it from the loadedplugins list
+		set loadedplugins [lreplace $loadedplugins [lsearch $loadedplugins "$plugin"] [lsearch $loadedplugins "$plugin"]]
+		::plugins::save_config
 	}
 
 
@@ -990,13 +994,22 @@ namespace eval ::plugins {
 		if {[info procs ::${namespace}::${init_proc}] == "::${namespace}::${init_proc}"} {
 			plugins_log core "Initializing plugin $plugin with ${namespace}::${init_proc}\n"
 	
+	                #add it to loadedplugins, if it's not there already
+			#we need to add it before the init_proc is called!
+        	        if {[lsearch "$loadedplugins" $plugin] == -1} {
+                	        plugins_log core "appending to loadedplugins\n"
+                        	lappend loadedplugins $plugin
+                	}
+
 			#check for Tcl/Tk errors
 			if {[catch {::${namespace}::${init_proc} [file dirname $file]} res] } {
 				plugins_log core "Initialization of plugin $plugin with ${namespace}::${init_proc} failed\n$res\n$::errorInfo"
 				msg_box "Plugins System: Can't initialize plugin:init procedure caused an internal error"
+				lreplace loadedplugins [lsearch $loadedplugins "$plugin"] [lsearch $loadedplugins "$plugin"]
 				return -1
 			#If proc returns -1, end because it failed because it's own reasons
 			} elseif {$res == -1} {
+				lreplace loadedplugins [lsearch $loadedplugins "$plugin"] [lsearch $loadedplugins "$plugin"]
 				return -1
 			}
 			#can someone explain what this is for?
@@ -1024,14 +1037,17 @@ namespace eval ::plugins {
 		#Call PostEvent Load
 		#Keep in variable if we are online or not
 		#TODO: dosn't exist on start?
-		#if {[ns cget -stat] == "o" } {
-	      	#	set status online
-		#} else {
-		#	set status offline
-		#}
+		if { [catch { set stat [ns cget -stat] } ] } {
+			set status offline
+		} elseif { $stat == "o" } {
+	      		set status online
+		} else {
+			set status offline
+		}
 		set evpar(name) $plugin
-		#set evpar(status) $status
+		set evpar(status) $status
 		::plugins::PostEvent Load evpar
+		::plugins::save_config
 		return 1
 	}
 
