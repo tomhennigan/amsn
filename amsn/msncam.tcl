@@ -1011,7 +1011,7 @@ namespace eval ::MSNCAM {
 			catch { fileevent $sock writable "::MSNCAM::CheckConnected $sid $sock " }
 		}
 
-		after 5000 "::MSNCAM::CheckConnectSuccess $sid"
+		after 15000 "::MSNCAM::CheckConnectSuccess $sid"
 
 	}
 
@@ -1019,7 +1019,7 @@ namespace eval ::MSNCAM {
 		set ips [getObjOption $sid ips]
 		set connected_ips [getObjOption $sid connected_ips]
 		status_log "we have $ips connecting sockets and $connected_ips connected sockets\n" red
-		if { [llength $ips] == 0 && [llength $connected_ips] == 0
+		if { [llength $connected_ips] == 0
 		     && [getObjOption $sid canceled] != 1 && [getObjOption $sid reflector] != 1} {
 			status_log "No socket was connected\n" red
 			after 5000 "::MSNCAM::CreateReflectorSession $sid"
