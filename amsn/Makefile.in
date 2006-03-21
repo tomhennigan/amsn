@@ -13,7 +13,7 @@ FILES_TO_INSTALL := *.tcl hotmlog.htm sndplay amsn amsn-remote amsn-remote-CLI a
 FILES_TO_INSTALL += $(doc_files)
 FILES_TO_INSTALL += icons lang skins utils/base64 utils/drawboard utils/framec utils/http2.4
 FILES_TO_INSTALL += utils/pixmapscroll utils/pixmapmenu utils/contentmanager
-FILES_TO_INSTALL += utils/scalable-bg utils/sha1 utils/snit0.97 utils/BWidget-1.7.0
+FILES_TO_INSTALL += utils/scalable-bg utils/sha1 utils/snit utils/BWidget-1.7.0
 FILES_TO_INSTALL += plugins/inkdraw plugins/Nudge plugins/WebcamShooter
 
 FILES_TO_EXCLUDE := lang/genpage.c lang/addkey.tcl lang/lang1.tmpl lang/lang2.tmpl lang/lang3.tmpl lang/langchk.sh lang/complete.pl lang/genlangfiles.c utils/webcamsn/webcamsn.tcl
