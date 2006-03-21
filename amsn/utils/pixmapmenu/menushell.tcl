@@ -57,7 +57,7 @@ snit::widgetadaptor menubut {
 }
 
 proc OptionMenu { w var args } {
-	puts $args
+	#puts $args
 	menubutton $w -menu $w.menu -relief raised -textvariable $var
 	menu $w.menu
 	foreach val $args {
