@@ -2096,7 +2096,7 @@ puts here!
 			DelSBFor $chatid ${sb}
 
 			#We leave the switchboard if it exists
-			if {[catch {$sb cget -name}] } {
+			if {![catch {$sb cget -name}] } {
 				if {[$sb cget -stat] != "d"} {
 					WriteSBRaw $sb "OUT\r\n"
 				}
