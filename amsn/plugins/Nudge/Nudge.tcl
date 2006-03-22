@@ -418,7 +418,21 @@ namespace eval ::Nudge {
 		set chatid [::ChatWindow::Name $window_name]
 		::Nudge::log "\nStart sending Nudge to <[::abook::getDisplayNick $chatid]>\n"
 		#Check if the user can accept the nudge (MSN 7 protocol needed), if not, stop here.
-			if {![::Nudge::check_clientid $chatid]} {
+		set theysupport 0
+
+		set users [::MSN::usersInChat $chatid]
+	
+		foreach chatid2 $users {
+			if {[::Nudge::check_clientid $chatid2]} {
+				#This is what the official client does...
+				#sends nudge to a multi-convo even when
+				#not everyone supports it
+				set theysupport 1
+				break
+			}
+		}
+
+		if { $theysupport == 0 } {
 				::Nudge::winwrite $chatid \
 				"$::Nudge::language(no_nudge_support)" nudgeoff red
 				::Nudge::log "Can't send a Nudge to <[::abook::getDisplayNick $chatid]> because he doesn't use MSN 7 protocol"
@@ -508,6 +522,10 @@ namespace eval ::Nudge {
 		set clientid [::abook::getContactData $email clientid]
 
 		status_log "Clientid is $clientid"
+	
+		if { $clientid == "" } {
+			return 0
+		}
 	
 		foreach bit $supportedclients {
 			status_log "Bitmask is $bit"
