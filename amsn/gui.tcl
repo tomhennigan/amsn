@@ -2684,7 +2684,8 @@ namespace eval ::amsn {
 	# one. 'user' is the mail address of the user to chat with.
 	proc chatUser { user } {
 
-		set lowuser [string tolower $user]
+#		set lowuser [string tolower $user]
+		set lowuser $user		
 
 		set win_name [::ChatWindow::For $lowuser]
 
