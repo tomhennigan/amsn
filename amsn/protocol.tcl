@@ -1116,6 +1116,7 @@ namespace eval ::MSN {
 			if { [::abook::getPersonal PSM] != $newpsm || $forcechange } {
 				set currentMedia [::abook::getPersonal CurrentMedia]
 				set currentMedia [::sxml::xmlreplace $currentMedia]
+				set currentMedia [encoding convertto utf-8 $currentMedia]
 				::abook::setPersonal PSM $newpsm
 				set newpsm [::sxml::xmlreplace $newpsm]
 				set newpsm [encoding convertto utf-8 $newpsm]
@@ -1143,6 +1144,7 @@ namespace eval ::MSN {
 		}
 		::abook::setPersonal CurrentMedia $currentMedia
 		set currentMedia [::sxml::xmlreplace $currentMedia]
+		set currentMedia [encoding convertto utf-8 $currentmedia]
 		set str "<Data><PSM>$psm</PSM><CurrentMedia>$currentMedia</CurrentMedia></Data>"
 		::MSN::WriteSBNoNL ns "UUX" "[string length $str]\r\n$str"
 	}
