@@ -1036,6 +1036,17 @@ namespace eval ::amsn {
 		}
 	}
 
+	proc AcceptFTOpenSB { chatid cookie {varlist ""} } {
+
+                #::amsn::RecvWin $cookie
+                if { $cookie != -1 } {
+                        ::MSNFT::acceptFT $chatid $cookie
+                } else {
+                        ::MSN6FT::AcceptFT $chatid [lindex $varlist 0] [lindex $varlist 1] [lindex $varlist 2] [lindex $varlist 3] [lindex $varlist 4] [lindex $varlist 5]
+                        set cookie [lindex $varlist 4]
+                }
+
+	}
 
 	proc AcceptFT { chatid cookie {varlist ""} } {
 
@@ -1043,36 +1054,38 @@ namespace eval ::amsn {
 			status_log "Var: $var\n" red
 		}
 
-		#::amsn::RecvWin $cookie
-		if { $cookie != -1 } {
-			::MSNFT::acceptFT $chatid $cookie
-		} else {
-			::MSN6FT::AcceptFT $chatid [lindex $varlist 0] [lindex $varlist 1] [lindex $varlist 2] [lindex $varlist 3] [lindex $varlist 4] [lindex $varlist 5]
-			set cookie [lindex $varlist 4]
-		}
+		set chatid [::MSN::chatTo $chatid]
+
+		::MSN::ChatQueue $chatid [list ::amsn::AcceptFTOpenSB $chatid $cookie $varlist]
 
 		set win_name [::ChatWindow::For $chatid]
 		if { [::ChatWindow::For $chatid] == 0} {
 			return 0
 		}
 
-		[::ChatWindow::GetOutText ${win_name}] tag configure ftyes$cookie \
-			-foreground #808080 -font bplainf -underline false
-		[::ChatWindow::GetOutText ${win_name}] tag bind ftyes$cookie <Enter> ""
-		[::ChatWindow::GetOutText ${win_name}] tag bind ftyes$cookie <Leave> ""
-		[::ChatWindow::GetOutText ${win_name}] tag bind ftyes$cookie <Button1-ButtonRelease> ""
+		if { $cookie != -1 } {
+			set cookie2 $cookie
+		} else {
+			set cookie2 [lindex $varlist 4]
+		}
 
-		[::ChatWindow::GetOutText ${win_name}] tag configure ftsaveas$cookie \
+		[::ChatWindow::GetOutText ${win_name}] tag configure ftyes$cookie2 \
 			-foreground #808080 -font bplainf -underline false
-		[::ChatWindow::GetOutText ${win_name}] tag bind ftsaveas$cookie <Enter> ""
-		[::ChatWindow::GetOutText ${win_name}] tag bind ftsaveas$cookie <Leave> ""
-		[::ChatWindow::GetOutText ${win_name}] tag bind ftsaveas$cookie <Button1-ButtonRelease> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind ftyes$cookie2 <Enter> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind ftyes$cookie2 <Leave> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind ftyes$cookie2 <Button1-ButtonRelease> ""
 
-		[::ChatWindow::GetOutText ${win_name}] tag configure ftno$cookie \
+		[::ChatWindow::GetOutText ${win_name}] tag configure ftsaveas$cookie2 \
 			-foreground #808080 -font bplainf -underline false
-		[::ChatWindow::GetOutText ${win_name}] tag bind ftno$cookie <Enter> ""
-		[::ChatWindow::GetOutText ${win_name}] tag bind ftno$cookie <Leave> ""
-		[::ChatWindow::GetOutText ${win_name}] tag bind ftno$cookie <Button1-ButtonRelease> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind ftsaveas$cookie2 <Enter> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind ftsaveas$cookie2 <Leave> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind ftsaveas$cookie2 <Button1-ButtonRelease> ""
+
+		[::ChatWindow::GetOutText ${win_name}] tag configure ftno$cookie2 \
+			-foreground #808080 -font bplainf -underline false
+		[::ChatWindow::GetOutText ${win_name}] tag bind ftno$cookie2 <Enter> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind ftno$cookie2 <Leave> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind ftno$cookie2 <Button1-ButtonRelease> ""
 
 		[::ChatWindow::GetOutText ${win_name}] conf -cursor xterm
 
