@@ -69,6 +69,24 @@ namespace eval ::winskin {
 			::skin::setPixmap winskin_close winskin_close.gif pixmaps [file join $dir pixmaps]
 			::skin::setPixmap winskin_menu winskin_menu.gif pixmaps [file join $dir pixmaps]
 		}
+
+		# Create a new menu which copies main_menu
+		# to avoid tk bug when tk_popup menubar
+		# #tcl irc: <dkf_> vivia: menubars should not be popped up, ever
+		menu .copy_of_main_menu -tearoff 0 -type normal
+	        #Change the name of the main menu on Mac OS X(TK Aqua) for "File"
+	        if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+               		.copy_of_main_menu add cascade -label "[trans file]" -menu .main_menu.file
+	        } else {
+	                .copy_of_main_menu add cascade -label "[trans msn]" -menu .main_menu.file
+	        }
+
+       		.copy_of_main_menu add cascade -label "[trans actions]" -menu .main_menu.actions
+        	.copy_of_main_menu add cascade -label "[trans tools]" -menu .main_menu.tools
+	        .copy_of_main_menu add cascade -label "[trans help]" -menu .main_menu.helping
+	#	set evPar(menu) .copy_of_main_menu	
+	#	::plugins::PostEvent mainmenu evPar
+
 	}
 
 	# ::winskin::switchskin
@@ -134,9 +152,9 @@ namespace eval ::winskin {
 					update idletasks
 					wm state . withdrawn
 
-					if { $::winskin::config(topmost) == 1 } {
+#					if { $::winskin::config(topmost) == 1 } {
 						wm overrideredirect . 1
-					}
+#					}
 					if { $::winskin::config(hidemenu) == 1 } {
 						. conf -menu ""
 					}
@@ -335,7 +353,7 @@ namespace eval ::winskin {
 			bind $imagm <ButtonPress-1> "::winskin::buttondown"
 			bind $imagm <B1-Motion> "::winskin::drag"
 			bind $imagm <ButtonRelease-1> "::winskin::release"
-			bind $imagn <ButtonPress-1> "tk_popup .main_menu %X %Y"
+			bind $imagn <ButtonPress-1> "tk_popup .copy_of_main_menu %X %Y"
 			bind $imagr <ButtonPress-1> "::winskin::buttondown"
 			bind $imagr <B1-Motion> "::winskin::resize"
 			bind $imagr <ButtonRelease-1> "::winskin::release"
