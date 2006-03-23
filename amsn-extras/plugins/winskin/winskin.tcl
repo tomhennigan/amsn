@@ -70,10 +70,6 @@ namespace eval ::winskin {
 			::skin::setPixmap winskin_menu winskin_menu.gif pixmaps [file join $dir pixmaps]
 		}
 
-		# Create a new menu which copies main_menu
-		# to avoid tk bug when tk_popup menubar
-		# #tcl irc: <dkf_> vivia: menubars should not be popped up, ever
-		.main_menu clone .copy_of_main_menu	
 	}
 
 	# ::winskin::switchskin
@@ -220,6 +216,8 @@ namespace eval ::winskin {
 		upvar 2 $evPar vars
 		variable skinned
 
+		catch { .main_menu clone .copy_of_main_menu }
+
 		if { ($::winskin::config(removeicons) == 1) && ($skinned == 1) } {
 			#remove icons
 			foreach ic [$vars(text) window names] {
@@ -331,6 +329,7 @@ namespace eval ::winskin {
 			incr usedwidth 10
 			incr usedwidth [image width [$imag cget -image]]
 			incr usedwidth 10
+
 			frame $filler -width [expr {[winfo width $vars(text)] - $usedwidth}] \
 					-borderwidth 0 \
 					-background [::skin::getKey contactlistbg]
