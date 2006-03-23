@@ -90,8 +90,8 @@ broughtby Tack till dessa programmerare för att ha skapat aMSN
 browse Bläddra
 browser Webbläsare
 browserexample ( \$url byts ut mot URLen). Ex: firefox \$url
-bugerror Tyvärr, men det dök upp ett problem vid anslutandet till buggdatabasen. Var vänlig och kontrollera din internetuppkoppling.
-bugnocomment Skicka utan en kommentar? Om du kommenterar buggen hjälper du oss hitta vad som gick fel och fixa det enklare.
+bugerror Tyvärr, men det dök upp ett problem vid anslutandet till feldatabasen. Var vänlig och kontrollera din internetuppkoppling.
+bugnocomment Skicka utan en kommentar? Om du kommenterar felet hjälper du oss hitta felet och enklare åtgärda det.
 busy Upptagen
 cachedpics $1 lagrade bilder
 cagreement Konfidentialitetsöverenskommelse
@@ -124,7 +124,7 @@ chatack Accepterar konversation från
 chatmaxmin När en kontakt öppnar en konversation så vill jag att den ska vara:
 chatreq Efterfrågar konversation...
 chatsmileys Konversationssmileys
-chatsmileys2 Visa 'Emoticons' och Smileys i konversationer
+chatsmileys2 Visa Emoticons och Smileys i konversationer
 checkblocking Se efter om kontakter blockerar dig kontinuerligt.
 checkemail Visa antal inkomna e-postmeddelanden i din inkorg i kontaktlistan.
 checkfilman Mottagna filer sparas i $1. Välj en filhanterare i programinställningarna för aMSN. Du hittar det under fliken "sökvägar".
@@ -272,7 +272,7 @@ enableremote Aktivera fjärranslutning
 enablesound Aktivera ljud
 encoding Kodning
 encoding2 Välj vilken teckentabell du vill använda
-enterbugdesc Skriv en beskrivning om vad du gjorde för att hjälpa oss återskapa buggen:
+enterbugdesc Skriv en beskrivning om vad du gjorde för att hjälpa oss återskapa felet:
 entercontactemail Skriv in kontaktens e-postadress
 enterfilename Ange ett filnamn
 enternick Skriv in ditt smeknamn
@@ -301,8 +301,6 @@ filtersx Val av filter
 find Hitta
 findnext Hitta nästa
 findprev Hitta föregående
-show_contactdps_in_cl Visa miniatyrer av visningsbilder i kontaktlistan
-statepsm Anpassat personligt meddelande (lämna tomt för oförändrat)
 firewalled Du är bakom en brandvägg eller en router
 followtext Bläddra nedåt när nytt meddelande kommer
 friendlyname Konversationsnamn
@@ -360,7 +358,7 @@ imagefiles Bildfiler
 inbox Inkorg
 insertsmiley Lägg till smiley
 inserttextnote Skriv text i rubriks- och anteckningsfältet och klicka sedan på Spara
-installconvert Du måste installera ImageMagick (konverteringsprogram) för att konvertera bilderna till det format som krävs av MSNs servrar. Du kan ladda ner de binära filerna för ditt operativsystem från ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Om du redan har ImageMagick så har du hittat en bugg. Vänligen rapportera det till utvecklarna av aMSN.
+installconvert Du måste installera ImageMagick (konverteringsprogram) för att konvertera bilderna till det format som krävs av MSNs servrar. Du kan ladda ner de binära filerna för ditt operativsystem från ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Om du redan har ImageMagick så har du hittat ett fel. Vänligen rapportera det till utvecklarna av aMSN.
 internalerror Internt serverfel
 invalidfile $2 som du skrev i "$1" finns inte eller är inte läsbar.
 invalidfile2 Kunde inte skapa fil $1, kontrollera att du har rätt behörighet.
@@ -408,10 +406,10 @@ lleftconf $1 kom in i konversationen
 load Aktivera
 loadcontacts Ladda kontakter
 logbigger Enskilda loggfiler får inte bli större än
-logeventconnect Bokför anslutningar
-logeventdisconnect Bokför utkastningar
-logeventemail Bokför när ett e-postmeddelande inkommer
-logeventstate Bokför statusändringar
+logeventconnect Spara historik för anslutningar
+logeventdisconnect Spara historik för utloggningar
+logeventemail Spara historik för när e-postmeddelanden mottages
+logeventstate Spara historik för statusändringar
 logfandexp Logfilsstorlek och utgångstid av loggfiler
 loggedotherlocation Utkastad! Du är inloggad på en annan plats!
 loggingin Ansluter till tjänsten
@@ -463,7 +461,7 @@ natkeepalive Om du ofta blir utkastad bör du välja detta alternativ
 needonline Du är utloggad eller osynlig
 needwinico2 Behöver winico05.dll i utils/windows mappen för att windows traydocking skall fungera 
 never Aldrig
-new_ft_protocol Använd det nya filöverföringsprotokollet (en del buggar finns kvar)
+new_ft_protocol Använd det nya filöverföringsprotokollet (en del fel kan finnas kvar)
 newline Ny rad
 newmail $1 nya brev i inkorgen
 newmailfolder Du har fått $1 nytt/nya brev i annan hotmailmapp
@@ -494,11 +492,11 @@ note Anteckning
 notificationserver Anslut till (MSN Messenger Server)
 notify Meddela
 notify1 Visa meddelanderuta när någon ansluter
-notify1_5 Visa ruta när en användare loggar ut
-notify1_75 Visa ruta när en användare byter status
+notify1_5 Visa meddelanderuta när en användare loggar ut
+notify1_75 Visa meddelanderuta när en användare byter status
 notify2 Visa meddelanderuta när någon skickar ett meddelande till dig
-notify3 Visa meddelanderuta när ny e-post ankommer
-notify4 Visa meddelanderuta när ny e-post inkommer in annan mapp
+notify3 Visa meddelanderuta när ny e-post mottages
+notify4 Visa meddelanderuta när ny e-post mottages i en annan mapp
 notifyoffset Välj meddelanderutans position
 notifytimeout Antal millisekunder innan notifikationsfönstret försvinner
 notifytyping Skicka signaler vid författande av meddelande
@@ -560,11 +558,11 @@ preflook aMSN Messenger utseende
 prefmsging Meddelandeutseende
 prefname Mitt aMSN-smeknamn
 prefphone Telefonnummer
-prefphone2 Skriv de nummer de som du satt\nsom anförtrodda ska kunna se
+prefphone2 Skriv de nummer som dina anförtrodda kontakter ska kunna se
 prefprivacy Förtroendelista
 prefprivacy2 Kontaktlista
 prefprofile Min Profil
-prefprofile2 Skapa ny eller ändra din profil (beskrivningen \n av dig själv som andra kan se)
+prefprofile2 Skapa ny profil eller ändra din nuvarande (beskrivningen av dig själv som andra kan se)
 prefprofile3 aMSN's Användarkonfigurationsprofiler
 prefproxy Mina proxyinställningar
 prefremote Fjärranslutningsinställningar
@@ -572,7 +570,7 @@ prefsession Automatisk justering av status
 prefshared Delade anslutningar (endast för NAT)
 prefsound Ljudinställningar
 preview Förhandsgranska
-privacy Integritet
+privacy Sekretess
 profiledconfig Profilkonfiguration
 profileexists Du kan inte skapa en profil med detta inloggningsnamn \n eftersom det redan finns. Var vänlig och välj ett annat inloggninsgnamn.
 profileinuse Denna profil används redan av en annan aMSN-session, välj en annan
@@ -583,11 +581,15 @@ proxy Jag använder en proxyserver (HTTP eller SOCKS5)
 proxyconf Proxy-konfiguration
 proxyconfhttp HTTP proxysupport konfiguration
 proxyconnection Proxyserver:
+psmatend Visa personligt meddelande bredvid smeknamnet
+psmdontshow Visa inte personligt meddelande, om det inte bestämts i global/anpassade smeknamn
+psmnewline Visa personligt meddelande under smeknamnet
+psmplace Var ska det personliga meddelandet visas?
 publishphones Dela ut mina telefonnummer
 purge Rensa
 pwcdriver Du använder pwc-drivrutinen
 raised Maximerad
-readonlymsgbox Du kan inte ta emot filen för att mappen som den sparas i är skrivskyddad. Ta bort skrivskyddet och ta emot filen igen.
+readonlymsgbox Du kan inte ta emot filen för att mappen som den ska sparas i är skrivskyddad. Ta bort skrivskyddet och ta emot filen igen.
 readonlywarn VARNING: Filen kommer INTE bli sparad eftersom mappen "Mottagna filer" verkar vara icke-skrivbar. Ge mappen ($1) rätt rättigheter för din användare och försök igen.
 receivedbytes $1 av $2 mottagna
 receiveddir Mottagna filer-mappen
@@ -636,6 +638,7 @@ shareswebcam Delar ut sin webbkamera
 showbanner Visa aMSNs logotyp längst ner i kontaktlistan (kräver omstart)
 showblockedlist Visa en lista över personer som blockerar dig
 showcachedpics Visa lagrade visningsbilder
+show_contactdps_in_cl Visa miniatyrer av visningsbilder i kontaktlistan
 showdisplaypic Visa visningsbild
 showdisplaypic2 Visa bild automatiskt då ett konversationsfönster öppnas
 showmailicon Visa brevikonen i aktivitetsfältet när ett nytt meddelande har tagits emot
@@ -652,7 +655,7 @@ smilefile Smileyns filnamn
 smileintro Fyll i de nödvändiga fälten för att skapa en ny smiley (läs FAQ för hjälp)
 smileintro2 Ändra de nödvändiga fälten för att ändra denna smiley (läs FAQ för hjälp)
 smiletoobig Smileyn du valt är större än den vanliga storleken. Vill du byta storlek på den?
-snackfailed Kunde inte ladda Snackbiblioteket, använder systemstandard
+snackfailed Kunde inte ladda Snackbiblioteket, använder systemets vanliga bibliotek
 sngdblclick Enkelklick öppnar ett nytt konversationsfönster
 sound Ljud
 sound2 Spela upp ljud när en kontakt ansluter eller skickar ett meddelande
@@ -679,6 +682,7 @@ stateinfo Personligt meddelandekonfiguration
 statename Namn på det personliga meddelandet:
 statenewtext Fyll i den nödvändiga informationen för att skapa \n meddelande och tryck Spara
 statenick Anpassat smeknamn (lämna blankt för oförändrat)
+statepsm Anpassat personligt meddelande (lämna tomt för oförändrat)
 stats Statistik
 status Status
 stop Stoppa
@@ -706,10 +710,10 @@ timeremaining Återstående tid
 timestamp Tidsstämpel
 timestamps Aktivera tidsstämpling i konversationer
 title aMSN
-tkerror TK har fått ett fel, det är en bugg i aMSN, var vänlig och rapportera den. Skicka filen $1 till  amsn-bugs@lists.sf.net
-tkerror1 TK har fått ett fel, det är en bugg i aMSN, var vänlig och rapportera den genom att klicka på Rapportera. Du kan klicka Detaljer för att visa information om den eller Ok för att fortsätta chatta med aMSN
+tkerror TK har fått ett fel, det finns ett fel i aMSN, var vänlig och rapportera det. Skicka filen $1 till  amsn-bugs@lists.sf.net
+tkerror1 TK har fått ett fel, det finns ett fel i aMSN, var vänlig och rapportera det genom att klicka på Rapportera. Du kan klicka på Detaljer för att visa information om den eller Ok för att fortsätta chatta med aMSN
 tlsdowncompleted Filen $1 laddades ner till $2. Du måste packa upp den och installera den i $3.
-tlsexplain Mappen där tcl TLS-modulen ligger. Om aMSN inte kan lokalisera den, vänligen specificera den.\n(Krävs för SSL authentication).
+tlsexplain Mappen där tcl TLS-modulen ligger. Om aMSN inte kan lokalisera den, vänligen specificera den (Krävs för SSL).
 tlsinstall TLS installation
 tlsinstallexp aMSN använder MSNP9 vilket kräver en säker anslutning via SSL. \n För att kunna använda aMSN med SSL så måste du installera en modul som heter TLS, \nsom inte finns på denna dator. aMSN kommer hjälpa dig att ladda ner och installera TLS. Välj rätt system så laddas TLS automatiskt ner.
 tlsinstcompleted TLS installerades. Nu ska du kunna använda MSNP9. Om det inte fungerar så valde du antingen fel modul, eller så var den modulen du valde inte tillänglig för ditt system.

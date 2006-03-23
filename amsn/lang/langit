@@ -30,7 +30,7 @@ alarmstatus (Dis)Abilita l'allarme per questo utente
 allfiles Tutti i file
 allmonths Tutti i mesi
 allowallbutbl Permetti a tutti gli utenti tranne quelli nella lista dei bloccati di contattarmi
-allowbadwords Disabilita la censura dei Nickname
+allowbadwords Disabilita la censura dei Nick
 allowlist Permetti la lista:
 allowonlyinal Permetti soltanto agli utenti nella mia lista dei Permessi di contattarmi
 allowseen Permetti a questa persona di vedermi e di contattarmi quando sono connesso
@@ -91,7 +91,7 @@ browse Cerca
 browser Browser
 browserexample (\$url verrà rimpiazzato dall'URL). Es: mozilla \$url
 bugerror Si è verificato un problema durante la connessione al database dei bug. Controlla la tua connessione a Internet.
-bugnocomment Inviare senza commento? I commenti ci aiutano a capire meglio che cos'è andato storto e correggere i bug più facilmente.
+bugnocomment Inviare senza commento? I commenti ci aiutano a capire meglio che cos'è andato storto e correggere i bug più  facilmente.
 busy Occupato
 cagreement Accordo Confidenziale
 cachedpics $1 immagini memorizzate
@@ -110,7 +110,7 @@ clear Cancella
 clearlog Cancella i Log
 clearlog2 Cancella il diario per tutti i tuoi contatti
 clearlog3 Cancella tutti i Log
-clearwebcamlogs Cancella tutti i Log della Webcam
+clearwebcamlogs Cancella tutti i Log della webcam
 clickhere Clicca qui
 clicktoadd Clicca su Aggiungi per una nuova nota
 clicktologin Clicca qui per accedere
@@ -118,7 +118,7 @@ clientcaps Invia pacchetto "x-clientcaps" a clients altrui
 clientname Nome client
 closeall Chiudi tutte le schede nella finestra?
 closealltabs Chiudi tutti i tab
-closed La conversazione con $1 è chiusa per inattività.
+closed La conversazione con $1 è chiusa per inattività
 close Chiudi
 closelabel Quando clicchi sul pulsante di chiusura di una finestra con i tab:
 closeonly Chiudi solo il tab corrente
@@ -200,7 +200,7 @@ disableprofiles Disattiva i profili (utile per Net-cafè o ambienti condivisi)
 disablessl Disattiva SSL
 disableuserfonts Ignora font utilizzati dai client remoti, usa quelli locali predefiniti
 disconnectedfrom Disconnesso da $1
-disconnect $1 si è sconnesso.
+disconnect $1 si è sconnesso/a.
 displayeventconnect Mostra quando i contatti si connettono
 displayeventdisconnect Mostra quando i contatti si sconnettono
 displayeventemail Mostra quando si riceve Posta
@@ -218,7 +218,7 @@ dontdownload Non scaricare TLS, verrà installato automaticamente
 dontshow Non mostrare
 downloadingtls Scaricamento del modulo TLS in corso da:\n$1
 download Scarica
-editcontent Edit the content of the subject field and the note field
+editcontent Modifica il contenuto del campo soggetto e del campo note
 editcustomstate Modifica Stato personale
 edit Modifica
 editmyprofile Modifica il mio Profilo MSN
@@ -275,7 +275,7 @@ ftaccepting In attesa di accettare l'invito al trasferimento file
 ftautoclose Chiudi la finestra quando finisce il trasferimento
 ftconnecterror Errore connettendosi all'utente remoto
 ftconnecting Connessione a $1 sulla porta $2
-ftconnectionlost La connessione con l'utente remoto e caduta.
+ftconnectionlost La connessione con l'utente remoto è caduta.
 ftgotinvitation $1 vuole mandarti il file '$2' ($3 bytes). Sarà salvato nella directory $4. Vuoi ricevere questo file?
 ftportpref Porta iniziale per il trasferimento file
 ftrejectedby $1 ha rifiutato l'invito al trasferimento del file '$2'.
@@ -284,7 +284,7 @@ ftsendinvitation L'invito al trasferimento del file '$2' ($3 bytes) è stato mand
 fullcontactlist Spiacente, la tua lista dei contatti è piena. E' necessario rimuoverne qualcuno per aggiungerne altri.
 getdisppic Attiva la ricezione delle immagini personali degli utenti
 getmoreplugins Preleva altri Plugin!
-getmoreskins Preleva altri skin!
+getmoreskins Preleva altre skin!
 globalcontainer Finestra globale
 globalnick Crea un modello per mostrare i nick dei contatti. Puoi usare queste variabili: \$user_login per la mail del contatto, \$nick per il nick del contatto e \$customnick per un nick personalizzato. Esempio: '\$user_login è \$nick' diventa 'contact@msn.com è Contact'
 globalnicktitle Nick globale
@@ -294,8 +294,7 @@ gotink $1 ti ha inviato un ink.
 goto Vai a $1
 groupadd Aggiungi un gruppo
 groupdelete Cancella un gruppo
-groupexists Il gruppo esiste già
-group Gruppo
+groupexists Il gruppo esiste già group Gruppo
 groupmissing Non riesco a trovare il gruppo
 groupnewname Nuovo nome
 groupnotempty Il gruppo non è vuoto!
@@ -394,14 +393,14 @@ lconvstarted La conversazione è cominciata su $1
 leaveblankforhotmail Lascia in bianco per l'uso di hotmail
 leavejoinsinchat Visualizza la notifica di "entrata/uscita" dalla conversazione all'interno della finestra di chat
 leaves $1 abbandona la conversazione
-lenteredconf $1 è entrato in conversazione su $2
+lenteredconf $1 è entrato/a in conversazione su $2
 lineflushlog Svuota il buffer del file di log ad ogni nuova riga
 linprivate IN PRIVATO
 listening In ascolto
 listeningon In attesa sulla porta $1
 listsmileys Elenco faccine
 listsmileys2 Mostra Emoticons e faccine nella lista contatti principale di aMSN
-ljoinedconf $1 è entrato a far parte della conversazione
+ljoinedconf $1 è entrato/a a far parte della conversazione
 lleftconf $1 ha lasciato la conversazione
 load Carica
 loadcontacts Carica la lista contatti
@@ -419,9 +418,9 @@ loging Diario
 logolder Registra soltanto le chat che hanno preso posto nell'ultimo
 logout Abbandona
 logsbydate Ordina log per data (L'apertura della cronologia è velocizzata)
-logsin si è appena connesso
+logsin si è appena connesso/a
 logsmileys Mostra le emoticon e le facine nella finestra dell'History di aMSN
-logsout è appena uscito
+logsout è appena uscito/a
 logwebcam Salva tutte le sessioni della webcam nel diario di aMSN per una visione futura  
 longnick Il tuo nick è lungo più di 130 caratteri. Il protocollo ufficiale di MSN non lo consente. Vuoi impostarlo ugualmente?
 longp4c Il tuo soprannome è più lungo di 130 caratteri. Il Soprannome che apprarirà nella versione ufficiale di MSN sarà $1. Sei sicuro di salvare le impostazioni?
@@ -478,7 +477,7 @@ nodataavailable Non ci sono dati disponibili per $1
 nodevices Non hai dispositivi installati
 nogap Nessuno spazio tra i gruppi
 nogroup Nessun gruppo
-nologfile Non c'é un file di registro per $1
+nologfile Non c'è un file di registro per $1
 noneavailable Niente disponibile
 nonewmail Nessun nuovo messaggio di posta
 nonewver Non ci sono nuove versioni da scaricare
@@ -499,7 +498,7 @@ notify1 Mostra una finestra di notifica quando i contatti vengono in linea
 notify1_5 Mostra una finestra di notifica quando i contatti vanno fuori linea
 notify1_75 Mostra una finestra di notifica quando i contatti cambiano stato
 notify2 Mostra una finestra di notifica quando viene ricevuto un nuovo messaggio
-notify3 Mostra una finestra di notifica quando una email raggiunge la tua casella di posta
+notify3 Mostra una finestra di notifica quando una e-mail raggiunge la tua casella di posta
 notify4 Mostra una finestra di notifica quando arriva nuova posta in cartelle varie
 notinlist Non sei presente nella sua lista contatti
 notls Il protocollo MSN 9 richiede il pacchetto tls. Al momento è impossibile trovarlo. Se è installato, è necessario specificare il percorso delle librerie nella finestra Preferenze (es: /opt/tls/lib). \n\nIl pacchetto tls può essere scaricato da http://tls.sf.net.
@@ -520,7 +519,7 @@ options Opzioni
 ordercontactsby Ordina i contatti per
 ordergroupsby Ordina i gruppi per
 original Originale
-other Altri
+other Altro
 others Altri
 pager Impaginatore
 pass Password
@@ -580,6 +579,10 @@ proxyconf Configurazione proxy
 proxyconfhttp Configurazione supporto proxy HTTP
 proxyconnection Mi connetto ad internet usando un server proxy:
 proxy Sono dietro un server proxy (HTTP o SOCKS5)
+psmatend Mostra il messaggio personale a fianco del nick
+psmdontshow Non mostrare il messaggio personale, a meno che sia impostato nei nick globali/personalizzati
+psmnewline Mostra il messaggio personale sotto il nick
+psmplace Dove deve apparire il messaggio personale?
 publishphones Pubblica il mio numero di telefono
 purge Elimina
 pwcdriver Stai usando il driver pwc
@@ -603,7 +606,7 @@ rename rinomina
 reporting Invio del rapporto in corso
 report Rapporto
 required_version Impossibile caricare il plugin. Richiede almeno la versione $1 di aMSN
-restartforskin Nota: potresti aver bisogno di riavviare aMSN per vedere lo skin in maniera opportuna!
+restartforskin Nota: potresti aver bisogno di riavviare aMSN per vedere la skin in maniera opportuna!
 reversed Invertito
 reverselist Invertire la lista (RL)
 rightback Torno subito
@@ -716,7 +719,7 @@ tlsinstall Wizard per l'installazione del modulo TLS
 tlsinstcompleted L'installazione del modulo TLS è andata a buon fine. Dovresti essere in grado di utilizzare MSNP9. Se così non fosse, probabilmente hai selezionato un modulo errato oppure non esiste un modulo precompilato per il tuo sistema.
 to A
 today Oggi
-tomobile To Mobile
+tomobile A Mobile
 tools Strumenti
 tooltips Abilita i tooltips
 transnotexists Il file richiesto non è ancora stato tradotto nel linguaggio corrente.
@@ -756,13 +759,13 @@ viewprofile Mostra Profilo
 view Vista
 webcamcanceled La sessione webcam con $1 è stata annullata
 webcamclosebefcancel Devi interrompere tutte le sessioni webcam prima di chiudere la finestra
-webcamconfigure Configura la Webcam
-webcamextloaded L'estensione Webcamsn è stata caricata
-webcamextnotloaded L'estensione Webcamsn non è stata caricata. Devi compilarla.
-webcamfaq FAQ/Aiuto per la Webcam
+webcamconfigure Configura la webcam
+webcamextloaded L'estensione webcamsn è stata caricata
+webcamextnotloaded L'estensione webcamsn non è stata caricata. Devi compilarla.
+webcamfaq FAQ/Aiuto per la webcam
 webcamhistory Guarda le sessioni webcam salvate
 webcaminvitereceived $1 ti ha invitato ad iniziare una sessione webcam. Accetti l'invito?
-webcaminvite $1 ti ha invitato ad una conferenza via webcam, ma aMSN non supporta questa funzionalità.
+webcaminvite $1 ti ha invitato ad una conferenza via webcam, ma aMSN non supporta questa funzionalità
 webcamrejected $1 rifiuta l'invito per la sessione webcam
 webcamrequestreceive Invia la richiesta per ricevere dalla webcam
 webcamrequestsend Invia la richiesta per inviare con la webcam
