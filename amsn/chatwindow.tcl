@@ -464,9 +464,9 @@ namespace eval ::ChatWindow {
 			# calling winflash. If this one or the first one were successful, we add a bind
 			# on FocusIn to call the winflash with the -state 0 option to disable it and we return.
 			if { [set ::tcl_platform(platform)] == "windows" } {
-				if { [catch {winflash $window -count -1} ] } {
+				if { [catch {linflash $window -count -1} ] } {
 					if { ![catch { 
-						load [file join utils windows winflash flash.dll]
+						package require winflash
 						winflash $window -count -1
 					} ] } {
 						bind $window <FocusIn> "catch \" winflash $window -state 0\"; bind $window <FocusIn> \"\""
