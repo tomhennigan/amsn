@@ -172,7 +172,7 @@
 	<lang>
 		<langcode>it</langcode>
 		<name>Italian (italiano)</name>
-		<version>1.65</version>
+		<version>1.66</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -268,7 +268,7 @@
 	<lang>
 		<langcode>sv</langcode>
 		<name>Swedish (svenska)</name>
-		<version>1.15</version>
+		<version>1.16</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
