@@ -134,7 +134,9 @@ namespace eval ::winskin {
 					update idletasks
 					wm state . withdrawn
 
-					wm overrideredirect . 1
+					if { $::winskin::config(topmost) == 1 } {
+						wm overrideredirect . 1
+					}
 					if { $::winskin::config(hidemenu) == 1 } {
 						. conf -menu ""
 					}
@@ -142,6 +144,10 @@ namespace eval ::winskin {
 				}
 
 				set borderremoved 1
+			} else {
+                                if { $::winskin::config(hidemenu) == 1 } {
+					. conf -menu ""
+                                }
 			}
 		} else {
 			set skinned 0
@@ -172,6 +178,9 @@ namespace eval ::winskin {
 				}
 
 				set borderremoved 0
+	                } elseif { $::winskin::config(usewinspecs) == 0 } {
+               		        . conf -menu .main_menu
+
 			}
 
 			#Some verions of tk don't support this
@@ -198,7 +207,7 @@ namespace eval ::winskin {
 
 	# ::winskin::cldrawn
 	# Description:
-	#	Adds a line in the contact list
+	#	Adds a line in the contact list and/or adds the buttons
 	# Arguments:
 	#	event   -> The event wich runs the proc (Supplied by Plugins System)
 	#     evPar   -> The array of parameters (Supplied by Plugins System)
@@ -250,24 +259,6 @@ namespace eval ::winskin {
 			::Widget::getVariable $::pgBuddy data
 			set data(vsb,present) 1
 		}
-	}
-
-
-	# ::winskin::draw
-	# Description:
-	#	Adds a line of buttons in the contact list and/or removes top section
-	# Arguments:
-	#	event   -> The event wich runs the proc (Supplied by Plugins System)
-	#     evPar   -> The array of parameters (Supplied by Plugins System)
-	proc draw {event evPar} {		
-		upvar 2 $evPar vars
-		variable skinned
-
-		if { ($::winskin::config(removetop) == 1) && ($skinned == 1) } {
-			$vars(text) delete 1.0 end
-			#TODO: change postevent and dont hardcode location
-			catch { pack forget $::pgBuddyTop }
-		}
 
 		if { $::winskin::config(addbuttons) == 1 } {
 			set usedwidth 0
@@ -277,7 +268,10 @@ namespace eval ::winskin {
 					-width [winfo width $vars(text)]\
 					-borderwidth 0 \
 					-background [::skin::getKey contactlistbg]
+			set statenow [$vars(text) cget -state]
+			$vars(text) configure -state normal
 			$vars(text) insert 1.0 "\n"
+			$vars(text) configure -state $statenow
 			$vars(text) window create 1.0 -window $buttons -padx 0 -pady 0
 
 			set imag $buttons.skin
@@ -383,6 +377,24 @@ namespace eval ::winskin {
 			#set width [expr {$width - (2 * ([winfo rootx .] - ($wx)))}]
 			set width [expr {$width - (2 * $contentsleft)}]
 		}
+	}
+
+        # ::winskin::draw
+        # Description: 
+        #       Removes top section
+        # Arguments:
+        #       event   -> The event wich runs the proc (Supplied by Plugins System)
+        #     evPar   -> The array of parameters (Supplied by Plugins System)
+        proc draw {event evPar} {  
+                upvar 2 $evPar vars
+                variable skinned
+
+                if { ($::winskin::config(removetop) == 1) && ($skinned == 1) } {
+                        $vars(text) delete 1.0 end
+                        #TODO: change postevent and dont hardcode location
+                        catch { pack forget $::pgBuddyTop }
+                }
+
 	}
 
 	proc release { } {
