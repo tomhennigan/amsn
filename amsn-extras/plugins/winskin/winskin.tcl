@@ -73,20 +73,7 @@ namespace eval ::winskin {
 		# Create a new menu which copies main_menu
 		# to avoid tk bug when tk_popup menubar
 		# #tcl irc: <dkf_> vivia: menubars should not be popped up, ever
-		menu .copy_of_main_menu -tearoff 0 -type normal
-	        #Change the name of the main menu on Mac OS X(TK Aqua) for "File"
-	        if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-               		.copy_of_main_menu add cascade -label "[trans file]" -menu .main_menu.file
-	        } else {
-	                .copy_of_main_menu add cascade -label "[trans msn]" -menu .main_menu.file
-	        }
-
-       		.copy_of_main_menu add cascade -label "[trans actions]" -menu .main_menu.actions
-        	.copy_of_main_menu add cascade -label "[trans tools]" -menu .main_menu.tools
-	        .copy_of_main_menu add cascade -label "[trans help]" -menu .main_menu.helping
-	#	set evPar(menu) .copy_of_main_menu	
-	#	::plugins::PostEvent mainmenu evPar
-
+		.main_menu clone .copy_of_main_menu	
 	}
 
 	# ::winskin::switchskin
