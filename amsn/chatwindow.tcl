@@ -480,7 +480,7 @@ namespace eval ::ChatWindow {
 			} elseif { [OnUnix] } {
 				if { [catch {linflash $window}] } {
 					if { ![catch { 
-						load [file join utils linux linflash flash.so]
+						package require linflash
 						linflash $window
 					} ] } {
 						bind $window <FocusIn> "catch \" linunflash $window \"; bind $window <FocusIn> \"\""
