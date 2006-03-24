@@ -793,7 +793,6 @@ namespace eval ::ChatWindow {
 		return
 	}
 
-
 	#///////////////////////////////////////////////////////////////////////////////
 	# ::ChatWindow::Open () 
 	# Creates a new chat window and returns its name (.msg_n - Where n is winid)
@@ -1901,10 +1900,37 @@ namespace eval ::ChatWindow {
 		set evPar(window_name) "$w"
 		set evPar(bottomleft) [$input getinnerframe]
 		::plugins::PostEvent chatsendbutton evPar
-		
-		
+
+		# Drag and Drop file sending
+		::dnd bindtarget [::ChatWindow::GetInputText $w] Files <Drop> "::ChatWindow::HandleFileDrop $w %D"
+		::dnd bindtarget [::ChatWindow::GetInputText $w] UniformResourceLocator <Drop> "%W insert end %D"
+		::dnd bindtarget [::ChatWindow::GetInputText $w] Text <Drop> {%W insert end %D}
+
 		return $input
 	}
+
+
+###############################################################
+# HandleFileDrop window data                          	      #
+# ------------------------------------------------------------#
+# Proc called when a file is dropped to the input text widget #
+# All Drag and Drop code based on plugin by MeV :             #
+# chrystalyst@free.fr                                         #
+###############################################################
+
+	proc HandleFileDrop {window data} {
+		global tcl_platform
+		#Send the name of the file to the ::amsn::FileTransferSend proc (for windows $data is like this "{filename}")
+		status_log "Drag and Drop: Send filename: "
+		if {$tcl_platform(platform) == "windows"} {
+			status_log  [urldecode [string range $data 1 [expr [string length $data] - 2]]]
+		        ::amsn::FileTransferSend $window [urldecode [string range $data 1 [expr [string length $data] - 2]]]
+		} else {
+			status_log [urldecode [string range $data 7 [expr [string length $data] - 4]]]
+	        	::amsn::FileTransferSend $window [urldecode [string range $data 7 [expr [string length $data] - 4]]]
+		}
+	}
+
 
 
 	proc CreateButtonBar { w bottom } {
