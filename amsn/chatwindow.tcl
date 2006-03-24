@@ -1903,7 +1903,7 @@ namespace eval ::ChatWindow {
 
 		# Drag and Drop file sending
 		::dnd bindtarget [::ChatWindow::GetInputText $w] Files <Drop> "::ChatWindow::HandleFileDrop $w %D"
-		::dnd bindtarget [::ChatWindow::GetInputText $w] UniformResourceLocator <Drop> "%W insert end %D"
+		#::dnd bindtarget [::ChatWindow::GetInputText $w] UniformResourceLocator <Drop> "%W insert end %D"
 		::dnd bindtarget [::ChatWindow::GetInputText $w] Text <Drop> {%W insert end %D}
 
 		return $input
