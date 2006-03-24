@@ -13,6 +13,10 @@ if {$::tcl_version <= 8.3} {
 	exit
 }
 package require AMSN_BWidget
+if {[catch {package require tkdnd}] } {
+	proc dnd { args } {}
+	proc shape { args } {}
+}
 #package require pixmapbutton
 if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 	#Use tclCarbonHICommand for window utilities
@@ -5463,11 +5467,11 @@ proc cmsn_draw_online_wrapped {} {
 	::plugins::PostEvent ContactListDrawn evpar
 }
 
-proc parseCurrentMedia {currentmedia} {
-	if {$currentmedia == ""} { return "" }
+proc parseCurrentMedia {currentMedia} {
+	if {$currentMedia == ""} { return "" }
 
-	set currentmedia [string map {"\\0" "\0"} $currentmedia]
-	set infos [split $currentmedia "\0"]
+	set currentMedia [string map {"\\0" "\0"} $currentMedia]
+	set infos [split $currentMedia "\0"]
 
 	if {[lindex $infos 2] == "0"} { return "" }
 

@@ -1114,7 +1114,7 @@ namespace eval ::MSN {
 		#TODO: encode XML etc
 		if { [::config::getKey protocol] == 11 } {
 			if { [::abook::getPersonal PSM] != $newpsm || $forcechange } {
-				set currentMedia [::abook::getPersonal CurrentMedia]
+				set currentMedia [::abook::getPersonal currentMedia]
 				set currentMedia [::sxml::xmlreplace $currentMedia]
 				set currentMedia [encoding convertto utf-8 $currentMedia]
 				::abook::setPersonal PSM $newpsm
@@ -1142,9 +1142,9 @@ namespace eval ::MSN {
 		} else {
 			set currentMedia ""
 		}
-		::abook::setPersonal CurrentMedia $currentMedia
+		::abook::setPersonal currentMedia $currentMedia
 		set currentMedia [::sxml::xmlreplace $currentMedia]
-		set currentMedia [encoding convertto utf-8 $currentmedia]
+		set currentMedia [encoding convertto utf-8 $currentMedia]
 		set str "<Data><PSM>$psm</PSM><CurrentMedia>$currentMedia</CurrentMedia></Data>"
 		::MSN::WriteSBNoNL ns "UUX" "[string length $str]\r\n$str"
 	}
@@ -3135,13 +3135,13 @@ namespace eval ::Event {
 				return
 			}
 			set psm [GetXmlEntry $xml "Data:PSM"]
-			set currentmedia [GetXmlEntry $xml "Data:CurrentMedia"]
+			set currentMedia [GetXmlEntry $xml "Data:CurrentMedia"]
 		} else {
 			set psm ""
-			set currentmedia ""
+			set currentMedia ""
 		}
 		::abook::setVolatileData $contact PSM [::sxml::replacexml [encoding convertfrom utf-8 $psm]]
-		::abook::setVolatileData $contact currentmedia [::sxml::replacexml [encoding convertfrom utf-8 $currentmedia]]
+		::abook::setVolatileData $contact currentMedia [::sxml::replacexml [encoding convertfrom utf-8 $currentMedia]]
 		cmsn_draw_online 1 2
 	}
 

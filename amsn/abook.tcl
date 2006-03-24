@@ -80,19 +80,19 @@ namespace eval ::abook {
 		set psmmedia ""
 		if { $user_login == "" } {
 	                set psm [::abook::getPersonal PSM]
-        	        set currentmedia [parseCurrentMedia [::abook::getPersonal currentmedia]]
+        	        set currentMedia [parseCurrentMedia [::abook::getPersonal currentMedia]]
 		} else {
                 	set psm [::abook::getVolatileData $user_login PSM]
-                	set currentmedia [parseCurrentMedia [::abook::getVolatileData $user_login currentmedia]]
+                	set currentMedia [parseCurrentMedia [::abook::getVolatileData $user_login currentMedia]]
 		}
                 if {$psm != ""} {
                         append psmmedia "$psm"
                 }
-                if {$currentmedia != ""} {
+                if {$currentMedia != ""} {
                         if { $psm != ""} {
                                 append psmmedia " "
                         }
-                        append psmmedia "$currentmedia"
+                        append psmmedia "$currentMedia"
                 }
 		return $psmmedia
 	}
