@@ -2720,7 +2720,7 @@ namespace eval ::Event {
 
 	constructor {args} {
 		#TODO: remove me when object is destroyed in the right place
-		after 30000 $self destroy
+		after 1000 $self destroy
 	}
 
 	method setRaw { data {headers_list {}} {fields_list {}}} {
