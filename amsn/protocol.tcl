@@ -2720,7 +2720,7 @@ namespace eval ::Event {
 
 	constructor {args} {
 		#TODO: remove me when object is destroyed in the right place
-		after 1000 $self destroy
+		after 30000 { catch { $self destroy } }
 	}
 
 	method setRaw { data {headers_list {}} {fields_list {}}} {
@@ -3527,6 +3527,7 @@ namespace eval ::Event {
 				$p2pmessage createFromMessage $message
 				::MSNP2P::ReadData $p2pmessage $chatid
 				#status_log [$p2pmessage toString 1]
+				catch { $p2pmessage destroy }
 			}
 
 			text/x-mms-emoticon -
@@ -6270,6 +6271,8 @@ namespace eval ::MSN6FT {
 					set p2pmessage [P2PMessage create %AUTO%]
 					$p2pmessage createFromMessage $message
 					::MSNP2P::ReadData $p2pmessage [getObjOption $sid chatid]
+					catch { $p2pmessage destroy }
+					catch { $message destroy }
 					#if { [lindex [::MSNP2P::SessionList get $sid] 7] == "filetransfersuccessfull" } {
 					#	catch { close $sock }
 					#}

@@ -14,7 +14,8 @@
 
 	constructor {args} {
 		#TODO: remove me when object is destroyed in the right place
-		after 1000 $self destroy
+		#DONE (hopefully)
+		#after 30000 $self destroy
 	}
 
 	#creates a P2PMessage object from a normal Message object
