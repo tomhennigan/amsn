@@ -874,8 +874,16 @@ namespace eval ::MSNP2P {
 					} elseif { [lindex [SessionList get $cSid] 7] == "filetransfer" } {
 						# Display message that file transfer is finished...
 						status_log "MSNP2P | $cSid -> File transfer finished!\n"
+						set filename [file join [::config::getKey receiveddir] [lindex [SessionList get $cSid] 8]]
 						::amsn::FTProgress fr $cSid [lindex [SessionList get $cSid] 6] $cOffset $cTotalDataSize
-						SessionList set $cSid [list -1 -1 -1 -1 -1 -1 -1 "filetransfersuccessfull" -1 -1]
+						set finishedname [filenoext $filename]
+						if { [ string range $filename [expr [string length $filename] - 11] [string length $filename]] == ".incomplete" } {
+							if { [catch { file rename $filename $finishedname } ] } {
+								::amsn::infoMsg [trans couldnotrename $filename] warning
+								status_log "Could not rename file $filename to $finishedname!"
+							}
+						}		
+				SessionList set $cSid [list -1 -1 -1 -1 -1 -1 -1 "filetransfersuccessfull" -1 -1]
 					}
 				}
 			} elseif { $cMsgSize == 4 } {

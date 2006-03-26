@@ -137,6 +137,14 @@ namespace eval ::MSNFT {
    proc FinishedFT { cookie } {
       variable filedata
 
+      set filename [file join [::config::getKey receiveddir] [lindex $filedata($cookie) 0] ]
+      set finishedname [filenoext $filename]
+      if { [string range $filename [expr [string length $filename] - 11] [string length $filename]] == ".incomplete" } {
+            if { [catch { file rename $filename $finishedname } ] } {
+                  ::amsn::infoMsg [trans couldnotrename $filename] warning
+            }      
+      }
+
       DeleteFT $cookie
       status_log "File transfer finished ok\n"
    }
@@ -6557,15 +6565,17 @@ namespace eval ::MSN6FT {
 		set filename [file join [::config::getKey receiveddir] $filename1]
 
 		set origfile $filename
+		set incompl "incomplete"
 
 		set num 1
-		while { [file exists $filename] } {
+		while { [file exists $filename] || [file exists $filename.$incompl] } {
 	                set filename "[filenoext $origfile] $num[fileext $origfile]"
 			#set filename "$origfile.$num"
 			incr num
 		}
 
 		status_log "Saving to file $filename\n" green
+		set filename $filename.$incompl
 
 		# If we can't create the file notify the user and reject the FT request
 		if {[catch {open $filename w} fileid]} {
