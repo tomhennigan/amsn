@@ -127,6 +127,9 @@ proc trayicon_init {} {
  #     $iconmenu add command -label "[trans preferences]..." -command Preferences
  
        $iconmenu add separator         
+
+       $iconmenu add command -label "[trans gotomailbox]..." -command ::hotmail::hotmail_login
+       $iconmenu add separator
  
  #the login/logout one, defined later on (see below)
        $iconmenu add command
@@ -136,6 +139,7 @@ proc trayicon_init {} {
        ## set icon to current status if added icon while already logged in
        if { [::MSN::myStatusIs] != "FLN" } {
                statusicon_proc [::MSN::myStatusIs]
+       $iconmenu add separator
                mailicon_proc [::hotmail::unreadMessages]
        }
 
@@ -236,14 +240,14 @@ proc statusicon_proc {status} {
 				$iconmenu entryconfigure 4 -state disabled
 
 #Login/Logout
-				$iconmenu entryconfigure 7 -label "[trans login]" -command "::MSN::connect" -state normal
+				$iconmenu entryconfigure 9 -label "[trans login]" -command "::MSN::connect" -state normal
 
 			} else {
 
 				$iconmenu entryconfigure 2 -state normal
 				$iconmenu entryconfigure 4 -state normal
 
-				$iconmenu entryconfigure 7 -label "[trans logout]" -command "::MSN::logout"
+				$iconmenu entryconfigure 9 -label "[trans logout]" -command "::MSN::logout"
 
 				
 			}
