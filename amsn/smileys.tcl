@@ -859,6 +859,10 @@ namespace eval ::smiley {
 				#User entered no description
 				msg_box "[trans wrongfields [trans description] [trans triggers] [trans smilefile] ]"
 				return -1
+			} elseif { [info exists custom_emotions($name)] } {
+				#Smiley exists
+				msg_box "[trans smileyexists]"
+				return -1
 			}
 			#set name "[string map { "\[" "\\\[" "\]" "\\\]" } $new_custom_cfg(name)]"
 			set edit 0
