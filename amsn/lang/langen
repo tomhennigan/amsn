@@ -189,6 +189,7 @@ copytoclipboard Copy $1 to the clipboard
 copytogroup Copy to group
 corruptconfig Configuration file is corrupt. Creating new one. Old file will be saved to $1. Please send it to us to check what happened.
 corruptstates Custom states config is corrupt. Creating new one. Old file will be saved to $1. Please send it to us to check what happened.
+couldnotrename Could not rename file $1
 countrycode My Country/Region code
 cprofile Create Profile
 created Created
@@ -327,6 +328,7 @@ globaloverride Global nickname pattern should override custom nicknames
 gonelunch Gone to lunch
 gotink $1 sent you an ink.
 goto Go to $1
+gotomailbox Go to mailbox
 groupadd Add a group
 groupdelete Delete a group
 groupexists Group already exists
