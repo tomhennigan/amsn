@@ -1123,6 +1123,7 @@ namespace eval ::MSN {
 				
 				set psm "<Data><PSM>$newpsm</PSM><CurrentMedia>$currentMedia</CurrentMedia></Data>"
 				::MSN::WriteSBNoNL ns "UUX" "[string length $psm]\r\n$psm"
+				save_config
 			}
 		} else {
 			#Do nothing
