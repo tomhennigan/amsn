@@ -3798,6 +3798,7 @@ proc choose_font { parent title {initialfont ""} {initialcolor ""}} {
 # change_font
 # Opens a font selector and changes the config key given by $key to the font selected
 proc change_font {win_name key} {
+	puts "change $key"
 	set basesize [lindex [::config::getGlobalKey basefont] 1]
 
 	#Get current font configuration
@@ -3806,18 +3807,20 @@ proc change_font {win_name key} {
 	set fontstyle [lindex [::config::getKey $key] 1]
 	set fontcolor [lindex [::config::getKey $key] 2]
 
-	if { [catch {
-			set selfont_and_color [choose_font .${win_name} [trans choosebasefont] [list $fontname $fontsize $fontstyle] "#$fontcolor"]
-		}]} {
+	#if { [catch {
+	#		set selfont_and_color [choose_font .${win_name} [trans choosebasefont] [list $fontname $fontsize $fontstyle] "#$fontcolor"]
+	#	}]} {
 
-		set selfont_and_color [choose_font .${win_name} [trans choosebasefont] [list "helvetica" 12 [list]] #000000]
+		if { $fontname	== "" } { set fontname helvetica }
+		if { $fontcolor	== "" } { set fontcolor 000000 }
+		set selfont_and_color [choose_font .${win_name} [trans choosebasefont] [list $fontname $fontsize $fontstyle] "#$fontcolor"]
 
-	}
+	#}
 
 	set selfont [lindex $selfont_and_color 0]
 	set selcolor [lindex $selfont_and_color 1]
 
-	if { $selfont == ""} {
+	if { $selfont == "" || $fontname == $selfont && $fontcolor == $selcolor } {
 		return
 	}
 
