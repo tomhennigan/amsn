@@ -328,7 +328,6 @@ globaloverride Global nickname pattern should override custom nicknames
 gonelunch Gone to lunch
 gotink $1 sent you an ink.
 goto Go to $1
-gotomailbox Go to mailbox
 groupadd Add a group
 groupdelete Delete a group
 groupexists Group already exists
