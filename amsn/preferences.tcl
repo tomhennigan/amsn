@@ -47,6 +47,8 @@ namespace eval Preferences {
 		$frame addItem [Label .prefs.personal.preffont.lab -text [trans preffont2] -align center]
 		$frame addItem [CommandButton .prefs.personal.preffont.changefont -text [trans changefont] \
 			-variable [::config::getVar mychatfont] -buttoncommand ::Preferences::ChangeFont]
+		$frame addItem [CommandButton .prefs.personal.preffont.changeincomingfont -text [trans changefont] \
+			-variable [::config::getVar theirchatfont] -buttoncommand ::Preferences::ChangeFont]
 		$section addItem $frame
 	
 		set frame [ItemsFrame .prefs.personal.prefphone -text [trans prefphone] -icon prefphone]
@@ -1553,10 +1555,12 @@ proc Preferences { { settings "personal"} } {
 	set lfname [labelframe $frm.lfname3 -text [trans preffont]]
 	pack $frm.lfname3 -anchor n -side top -expand 1 -fill x
 	label $lfname.pfont -image [::skin::loadPixmap preffont]
-	label $lfname.lfont -text [trans preffont2] -padx 10
-	button $lfname.bfont -text [trans changefont] -command "change_myfont cfg"
-	pack $lfname.pfont $lfname.lfont -side left
-	pack $lfname.bfont -side right -padx 15
+	label $lfname.lfontout -text [trans preffont2]
+	label $lfname.lfontin -text [trans preffont4]
+	button $lfname.bfontout -text [trans changefont] -command "change_font cfg mychatfont"
+	button $lfname.bfontin -text [trans changefont] -command "change_font cfg theirchatfont"
+	pack $lfname.pfont -side left
+	pack $lfname.lfontout $lfname.bfontout $lfname.lfontin $lfname.bfontin -anchor w -pady 3 -padx 15 -side top
 
 	## Phone Numbers Frame ##
 	set lfname [labelframe $frm.lfname4 -text [trans prefphone]]

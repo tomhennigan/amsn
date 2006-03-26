@@ -1463,11 +1463,17 @@ namespace eval ::amsn {
 		if {[string first "S" $fontstyle] >= 0} {
 			lappend style "overstrike"
 		}
-		#If user want to see his own fonts when he receives messages
-        if { [::config::getKey disableuserfonts] } {	 
-             set fontfamily [lindex [::config::getKey mychatfont] 0]	 
-             set style [lindex [::config::getKey mychatfont] 1]	 
-             #set fontcolor [lindex [::config::getKey mychatfont] 2]	 
+		if { [::config::getKey disableuserfonts] } {	 
+			# If user wants incoming and outgoing messages to have the same font\
+			set fontfamily [lindex [::config::getKey mychatfont] 0]	 
+			set style [lindex [::config::getKey mychatfont] 1]	 
+			#set fontcolor [lindex [::config::getKey mychatfont] 2]	 
+		} elseif { [::config::getKey theirchatfont] != "" && $user != [::config::getKey login] } {
+			# If user wants to specify a font for incoming messages (to override that user's font)
+			foreach { fontfamily style fontcolor } [::config::getKey theirchatfont] {}
+			#set fontfamily [lindex  0]	 
+			#set style [lindex [::config::getKey theirchatfont] 1]
+			#set fontcolor [lindex [::config::getKey theirchatfont 2]
 		}
 
 		#if customfnick exists replace the nick with customfnick
@@ -3789,15 +3795,16 @@ proc choose_font { parent title {initialfont ""} {initialcolor ""}} {
 
 
 #///////////////////////////////////////////////////////////////////////
-proc change_myfont {win_name} {
-
+# change_font
+# Opens a font selector and changes the config key given by $key to the font selected
+proc change_font {win_name key} {
 	set basesize [lindex [::config::getGlobalKey basefont] 1]
 
 	#Get current font configuration
-	set fontname [lindex [::config::getKey mychatfont] 0]
+	set fontname [lindex [::config::getKey $key] 0]
 	set fontsize [expr {$basesize + [::config::getKey textsize]}]
-	set fontstyle [lindex [::config::getKey mychatfont] 1]
-	set fontcolor [lindex [::config::getKey mychatfont] 2]
+	set fontstyle [lindex [::config::getKey $key] 1]
+	set fontcolor [lindex [::config::getKey $key] 2]
 
 	if { [catch {
 			set selfont_and_color [choose_font .${win_name} [trans choosebasefont] [list $fontname $fontsize $fontstyle] "#$fontcolor"]
@@ -3824,7 +3831,7 @@ proc change_myfont {win_name} {
 		set selcolor [string range $selcolor 1 end]
 	}
 
-	::config::setKey mychatfont [list $sel_fontfamily $sel_fontstyle $selcolor]
+	::config::setKey $key [list $sel_fontfamily $sel_fontstyle $selcolor]
 
 
 	change_myfontsize [::config::getKey textsize]
