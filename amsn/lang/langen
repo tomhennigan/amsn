@@ -609,6 +609,7 @@ rename Rename
 reporting Reporting
 report Report
 required_version Unable to load this plugin. It requires, at least, aMSN version $1
+resetincomingfont Reset font (use font message sender chooses)
 restartforskin Note: You may need to restart aMSN to view the skin properly!
 reversed Reversed
 reverselist Reverse list (RL):
