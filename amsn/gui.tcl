@@ -1188,6 +1188,10 @@ namespace eval ::amsn {
 	proc FTWin {cookie filename user {chatid 0}} {
 		status_log "Creating receive progress window\n"
 
+		if { [string range $filename [expr [string length $filename] - 11] [string length $filename]] == ".incomplete" } {
+			set filename [filenoext $filename]
+		}
+
 		# Set appropriate Cancel command
 		if { [::MSNP2P::SessionList get $cookie] == 0 } {
 			set cancelcmd "::MSNFT::cancelFT $cookie"
