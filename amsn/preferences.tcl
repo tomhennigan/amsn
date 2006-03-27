@@ -2376,8 +2376,8 @@ proc Preferences { { settings "personal"} } {
 	scrollbar $lfname.allowlist.ys -command "$lfname.allowlist.box yview" -highlightthickness 0 \
          -borderwidth 1 -elementborderwidth 2
         pack $lfname.allowlist.label $lfname.allowlist.box -side top -expand false -fill x
-	pack $lfname.allowlist.ys -side right -fill y
-        pack $lfname.allowlist.box -side left -expand true -fill both
+	pack $lfname.allowlist.box -side left -expand true -fill both
+	pack $lfname.allowlist.ys -side right -fill y -expand false
 
 
         frame $lfname.blocklist -relief sunken -borderwidth 3
@@ -2387,8 +2387,8 @@ proc Preferences { { settings "personal"} } {
 	scrollbar $lfname.blocklist.ys -command "$lfname.blocklist.box yview" -highlightthickness 0 \
          -borderwidth 1 -elementborderwidth 2
         pack $lfname.blocklist.label $lfname.blocklist.box -side top -expand false -fill x
-	pack $lfname.blocklist.ys -side right -fill y
 	pack $lfname.blocklist.box -side left -expand true -fill both
+	pack $lfname.blocklist.ys -side right -fill y -expand false
 
 
 	frame $lfname.buttons -borderwidth 0
@@ -2422,7 +2422,7 @@ proc Preferences { { settings "personal"} } {
 	scrollbar $lfname.contactlist.ys -command "$lfname.contactlist.box yview" -highlightthickness 0 \
          -borderwidth 1 -elementborderwidth 2
         pack $lfname.contactlist.label $lfname.contactlist.box -side top -expand false -fill x
-	pack $lfname.contactlist.ys -side right -fill y
+	pack $lfname.contactlist.ys -side right -fill y -expand false
 	pack $lfname.contactlist.box -side left -expand true -fill both
   
 	frame $lfname.reverselist -relief sunken -borderwidth 3
@@ -2432,7 +2432,7 @@ proc Preferences { { settings "personal"} } {
 	scrollbar $lfname.reverselist.ys -command "$lfname.reverselist.box yview" -highlightthickness 0 \
          -borderwidth 1 -elementborderwidth 2
         pack $lfname.reverselist.label $lfname.reverselist.box -side top -expand false -fill x
-	pack $lfname.reverselist.ys -side right -fill y
+	pack $lfname.reverselist.ys -side right -fill y -expand false
 	pack $lfname.reverselist.box -side left -expand true -fill both
 
         frame $lfname.adding

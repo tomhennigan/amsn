@@ -1922,12 +1922,18 @@ namespace eval ::ChatWindow {
 		global tcl_platform
 		#Send the name of the file to the ::amsn::FileTransferSend proc (for windows $data is like this "{filename}")
 		status_log "Drag and Drop: Send filename: "
+		set data [string map {\r "" \n "" \x00 ""} $data]
+		set data [urldecode $data]
 		if {$tcl_platform(platform) == "windows"} {
-			status_log  [urldecode [string range $data 1 [expr [string length $data] - 2]]]
-		        ::amsn::FileTransferSend $window [urldecode [string range $data 1 [expr [string length $data] - 2]]]
+			status_log $data
+		        ::amsn::FileTransferSend $window $data
 		} else {
-			status_log [urldecode [string range $data 7 [expr [string length $data] - 4]]]
-	        	::amsn::FileTransferSend $window [urldecode [string range $data 7 [expr [string length $data] - 4]]]
+			#TODO: improve this ???
+			if { [string range $data 0 6] == "file://" } {
+				set data [string range $data 7 [string length $data]]
+			}
+			status_log $data
+	        	::amsn::FileTransferSend $window $data
 		}
 	}
 
