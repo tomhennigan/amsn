@@ -363,7 +363,7 @@ proc EditNewState { mode { idx "" } } {
 	frame .editstate.1 -class Degt
 	label .editstate.1.away -image [::skin::loadPixmap prefaway]
 	pack .editstate.1.away -side left -anchor nw
-    
+
 	if { $mode == 0 || $mode == 1 } {
 		label .editstate.1.laway -text [trans statenewtext] -padx 10 -justify left -font splainf
 	} else { 
@@ -373,8 +373,12 @@ proc EditNewState { mode { idx "" } } {
     
 	label $lfname.ldesc -text "[trans statename] :" -font splainf 
 	entry $lfname.edesc -bg #FFFFFF -font splainf -width 40
+	set desccopypastemenu [CreateCopyPasteMenu $lfname.edesc]
+	bind $lfname.edesc <Button3-ButtonRelease> "tk_popup $desccopypastemenu %X %Y"
 	label $lfname.lnick -text "[trans statenick] :" -font splainf
 	entry $lfname.enick -bg #FFFFFF -font splainf  -width 40
+	set nickcopypastemenu [CreateCopyPasteMenu $lfname.enick]
+	bind $lfname.enick <Button3-ButtonRelease> "tk_popup $nickcopypastemenu %X %Y"
 	menubutton $lfname.nickhelp -font sboldf -text "<-" -menu $lfname.nickhelp.menu
 	menu $lfname.nickhelp.menu -tearoff 0
 	$lfname.nickhelp.menu add command -label [trans nick] -command "$lfname.enick insert insert \\\$nick"
@@ -382,6 +386,8 @@ proc EditNewState { mode { idx "" } } {
 	$lfname.nickhelp.menu add command -label [trans delete] -command "$lfname.enick delete 0 end"
 	label $lfname.lpsm -text "[trans statepsm] :" -font splainf
         entry $lfname.epsm -bg #FFFFFF -font splainf  -width 40
+	set psmcopypastemenu [CreateCopyPasteMenu $lfname.epsm]
+	bind $lfname.epsm <Button3-ButtonRelease> "tk_popup $psmcopypastemenu %X %Y"
         menubutton $lfname.psmhelp -font sboldf -text "<-" -menu $lfname.psmhelp.menu
         menu $lfname.psmhelp.menu -tearoff 0
         $lfname.psmhelp.menu add command -label [trans psm] -command "$lfname.epsm insert insert \\\$psm"
@@ -392,6 +398,8 @@ proc EditNewState { mode { idx "" } } {
 	combobox::combobox $lfname.statebox -editable false -highlightthickness 0 -width 37 -bg #FFFFFF -font splainf -command ""
 	label $lfname.lmsg -text "[trans stateautomsg] :" -font splainf
 	text $lfname.emsg -background white -borderwidth 2 -relief ridge -width 40 -height 5 -font splainf
+	set msgcopypastemenu [CreateCopyPasteMenu $lfname.emsg]
+	bind $lfname.emsg <Button3-ButtonRelease> "tk_popup $msgcopypastemenu %X %Y"
 	pack .editstate.1 -expand false -fill x -side top -pady 15
 	pack .editstate.lfname -expand 1 -fill both -side top
 	grid $lfname.ldesc -row 1 -column 1 -sticky w -pady 5 -padx 5
@@ -464,6 +472,31 @@ proc EditNewState { mode { idx "" } } {
 	pack .editstate.buttons -side top -fill x -pady 10
 	moveinscreen .editstate
 	catch {focus .editstate}
+}
+
+#///////////////////////////////////////////////////////////////////////////////
+# CreateCopyPasteMenu ( w )
+# Returns a menu with Cut - Copy - Paste commands
+
+proc CreateCopyPasteMenu { w } {
+	set menu $w.copypaste
+
+        menu $menu -tearoff 0 -type normal
+
+        $menu add command -label [trans cut] \
+                -command "status_log cut\n;::amsn::tk_textCut $w"
+        $menu add command -label [trans copy] \
+                -command "status_log copy\n;::amsn::tk_textCopy $w"
+        $menu add command -label [trans paste] \
+                -command "status_log pasteHere\n;pasteHere $w"
+
+        return $menu
+}
+
+#///////////////////////////////////////////////////////////////////////
+proc pasteHere { w } {
+        set contents [ selection get -selection CLIPBOARD ]
+        $w insert insert $contents
 }
 
 #///////////////////////////////////////////////////////////////////////////////
