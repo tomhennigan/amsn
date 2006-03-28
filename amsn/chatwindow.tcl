@@ -1925,6 +1925,9 @@ namespace eval ::ChatWindow {
 		set data [string map {\r "" \n "" \x00 ""} $data]
 		set data [urldecode $data]
 		if {$tcl_platform(platform) == "windows"} {
+			if { [string index $data 0] == "{" && [string index $data end] == "}" } {
+				set data [string range $data 1 end-1]
+			}
 			status_log $data
 		        ::amsn::FileTransferSend $window $data
 		} else {
