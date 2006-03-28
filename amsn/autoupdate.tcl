@@ -693,9 +693,8 @@ namespace eval ::autoupdate {
 
 		#Checkbox for each plugin
 		foreach plugin $::plugins::UpdatedPlugins {
-			set name [lindex $plugin 6]
-			checkbutton $frame.plugin$name -onvalue 1 -offvalue 0 -text " $name" -variable ::autoupdate::plugin($name) -anchor w
-			pack configure $frame.plugin$name -side top -fill x
+			checkbutton $frame.plugin$plugin -onvalue 1 -offvalue 0 -text " $plugin" -variable ::autoupdate::plugin($plugin) -anchor w
+			pack configure $frame.plugin$plugin -side top -fill x
 		}
 		
 		# Create a frame that will contain the progress of the update
@@ -749,8 +748,7 @@ namespace eval ::autoupdate {
 
 		if { [info exists ::plugins::UpdatedPlugins] && $::plugins::UpdatedPlugins != ""} {
 			foreach plugin $::plugins::UpdatedPlugins {
-				set name [lindex $plugin 6]
-				if { [::autoupdate::ReadPluginSelected $name] == 1 } {
+				if { [::autoupdate::ReadPluginSelected $plugin] == 1 } {
 					::plugins::UpdatePlugin $plugin
 				}
 			}
@@ -770,7 +768,7 @@ namespace eval ::autoupdate {
 			destroy ".updatelangplugin"
 		}
 	
-		foreach plugin [::plugins::findplugins] {
+		foreach plugin [::plugins::getPlugins] {
 			set namespace [lindex $plugin 6]
 			set file [file join $HOME2 $namespace.xml]
 			file delete $file
@@ -792,8 +790,7 @@ namespace eval ::autoupdate {
 		}
 
 		foreach plugin $::plugins::UpdatedPlugins {
-			set name [lindex $plugin 6]
-			set ::autoupdate::plugin($name) 1
+			set ::autoupdate::plugin($plugin) 1
 		}
 		
 	}
@@ -809,8 +806,7 @@ namespace eval ::autoupdate {
 		}
 
 		foreach plugin $::plugins::UpdatedPlugins {
-			set name [lindex $plugin 6]
-			set ::autoupdate::plugin($name) 0
+			set ::autoupdate::plugin($plugin) 0
 		}
 		
 	}

@@ -260,6 +260,25 @@ namespace eval ::plugins {
 	}
 
 	###############################################################
+        # getPlugins ()
+        #
+	# Returns a list of existing plugins
+        #
+	# Arguments
+	# none
+	#
+	# Return
+	# list of plugins
+	#
+	proc getPlugins {} {
+		set plugins [list]
+		foreach {key plugin} [array get ::plugins::plugins *_name] {
+			lappend plugins $plugin
+		}
+		return $plugins
+	}
+
+	###############################################################
         # updatePluginsArray ()
         #
         # Updates the plugins array which holds info about plugins
@@ -369,6 +388,7 @@ namespace eval ::plugins {
 		set plugins(${name}_plugin_version) $plugin_version
 		#dir is the path to pluginsinfo.xml, so we need to use [file dirname] to get the actual dir path
 		set plugins(${name}_plugin_file) [file join [file dirname $dir] $plugin_file]
+		set plugins(${name}_plugin_dir) [file dirname $dir]
 		set plugins(${name}_plugin_namespace) $plugin_namespace
 		set plugins(${name}_init_proc) $init
 		set plugins(${name}_deinit_proc) $deinit
@@ -519,8 +539,10 @@ namespace eval ::plugins {
 		$w.config configure -state normal
 
 		if {[lsearch "$loadedplugins" $selection] != -1 } {
-			# if the plugin is loaded, enable the Unload button
+			# if the plugin is loaded, enable the Unload button and update the colors
 			$w.load configure -state normal -text [trans unload] -command "::plugins::GUI_Unload"
+			$w.plugin_list itemconfigure [$w.plugin_list curselection] -background #DDF3FE
+
 			# if the plugin has a configlist, then enable configuration.
 			# Otherwise disable it
 			if {[info exists ::[getInfo $selection plugin_namespace]::configlist] == 1} {
@@ -529,8 +551,9 @@ namespace eval ::plugins {
 				$w.config configure -state disabled
 			}
 		} else { # plugin is not loaded
-			# enable the load button and disable config button
+			# enable the load button and disable config button and update color
 			$w.load configure -state normal -text "[trans load]" -command "::plugins::GUI_Load"
+			$w.plugin_list itemconfigure [$w.plugin_list curselection] -background #FFFFFF
 			$w.config configure -state disabled
 		}
 	}
@@ -567,7 +590,6 @@ namespace eval ::plugins {
 
 		#update the buttons and colors in the plugins dialog
 		GUI_NewSel
-		$w.plugin_list itemconfigure [$w.plugin_list curselection] -background #DDF3FE
 	}
 
 
@@ -596,7 +618,6 @@ namespace eval ::plugins {
 		UnLoadPlugin $selection
 		# update the buttons and colors in the dialog
 		GUI_NewSel
-		$w.plugin_list itemconfigure [$w.plugin_list curselection] -background #FFFFFF
 	}
 
 
@@ -988,28 +1009,27 @@ namespace eval ::plugins {
 				array set ::${namespace}::config $::plugins::config(${plugin})
 			}
 		}
-
+	    
+		#add it to loadedplugins, if it's not there already
+		#we need to add it before the init_proc is called!
+		if {[lsearch "$loadedplugins" $plugin] == -1} {
+			plugins_log core "appending to loadedplugins\n"
+			lappend loadedplugins $plugin
+		}
 
 		#call the init proc if it exists
 		if {[info procs ::${namespace}::${init_proc}] == "::${namespace}::${init_proc}"} {
 			plugins_log core "Initializing plugin $plugin with ${namespace}::${init_proc}\n"
 	
-	                #add it to loadedplugins, if it's not there already
-			#we need to add it before the init_proc is called!
-        	        if {[lsearch "$loadedplugins" $plugin] == -1} {
-                	        plugins_log core "appending to loadedplugins\n"
-                        	lappend loadedplugins $plugin
-                	}
-
 			#check for Tcl/Tk errors
 			if {[catch {::${namespace}::${init_proc} [file dirname $file]} res] } {
 				plugins_log core "Initialization of plugin $plugin with ${namespace}::${init_proc} failed\n$res\n$::errorInfo"
 				msg_box "Plugins System: Can't initialize plugin:init procedure caused an internal error"
-				lreplace loadedplugins [lsearch $loadedplugins "$plugin"] [lsearch $loadedplugins "$plugin"]
+				UnLoadPlugin $plugin
 				return -1
 			#If proc returns -1, end because it failed because it's own reasons
 			} elseif {$res == -1} {
-				lreplace loadedplugins [lsearch $loadedplugins "$plugin"] [lsearch $loadedplugins "$plugin"]
+				UnLoadPlugin $plugin
 				return -1
 			}
 			#can someone explain what this is for?
@@ -1028,12 +1048,6 @@ namespace eval ::plugins {
 			plugins_log core "Plugins System: no config for plug-in $plugin\n"
 		}
 				
-		#add it to loadedplugins, if it's not there already
-		if {[lsearch "$loadedplugins" $plugin] == -1} {
-			plugins_log core "appending to loadedplugins\n"
-			lappend loadedplugins $plugin
-		}
-
 		#Call PostEvent Load
 		#Keep in variable if we are online or not
 		#TODO: dosn't exist on start?
@@ -1355,12 +1369,12 @@ namespace eval ::plugins {
 		# If no URL is given, look at the CVS URL
 		if { $URL == "" } {
 
-			set token [::http::geturl "http://amsn.sourceforge.net/autoupdater/plugins/$plugin/plugininfo.xml" -timeout 120000 -binary 1]
+			set token [::http::geturl "${::weburl}/autoupdater/plugins/$plugin/plugininfo.xml" -timeout 120000 -binary 1]
 			set content [::http::data $token]
 			if { [string first "<html>" "$content"] == -1 } {
 				set place 1
 			} else {
-				set token [::http::geturl "http://amsn.sourceforge.net/autoupdater/plugins2/$plugin/plugininfo.xml" -timeout 120000 -binary 1]
+				set token [::http::geturl "${::weburl}/autoupdater/plugins2/$plugin/plugininfo.xml" -timeout 120000 -binary 1]
 				set content [::http::data $token]
 				if { [string first "<html>" "$content"] == -1 } {
 					set place 2
@@ -1483,9 +1497,9 @@ namespace eval ::plugins {
 		}
 		
 		if { $place == 1 } {
-			set token [::http::geturl "http://amsn.sourceforge.net/autoupdater/plugins/$plugin/$plugin.tcl" -timeout 120000 -binary 1]
+			set token [::http::geturl "${::weburl}/autoupdater/plugins/$plugin/$plugin.tcl" -timeout 120000 -binary 1]
 		} elseif { $place == 2 } {
-			set token [::http::geturl "http://amsn.sourceforge.net/autoupdater/plugins2/$plugin/$plugin.tcl" -timeout 120000 -binary 1]
+			set token [::http::geturl "${::weburl}/autoupdater/plugins2/$plugin/$plugin.tcl" -timeout 120000 -binary 1]
 		} elseif { $place == 3 && $URL != "" } {
 			set URL "[subst $URL]"
 			set token [::http::geturl "$URL" -timeout 120000 -binary 1]
@@ -1533,9 +1547,9 @@ namespace eval ::plugins {
 			}
 
 			if { $place == 1 } {
-				set token [::http::geturl "http://amsn.sourceforge.net/autoupdater/plugins/$plugin/lang/lang$langcode" -timeout 120000 -binary 1]
+				set token [::http::geturl "${::weburl}/autoupdater/plugins/$plugin/lang/lang$langcode" -timeout 120000 -binary 1]
 			} elseif { $place == 2 } {
-				set token [::http::geturl "http://amsn.sourceforge.net/autoupdater/plugins2/$plugin/lang/lang$langcode" -timeout 120000 -binary 1]
+				set token [::http::geturl "${::weburl}/autoupdater/plugins2/$plugin/lang/lang$langcode" -timeout 120000 -binary 1]
 			} elseif { $place == 3 && $URL != "" } {
 				set URL "[subst $URL]"
 				set token [::http::geturl "$URL" -timeout 120000 -binary 1]
@@ -1601,9 +1615,9 @@ namespace eval ::plugins {
 			}
 
 			if { $place == 1 } {
-				set token [::http::geturl "http://amsn.sourceforge.net/autoupdater/plugins/$plugin/$file" -timeout 120000 -binary 1]
+				set token [::http::geturl "${::weburl}/autoupdater/plugins/$plugin/$file" -timeout 120000 -binary 1]
 			} elseif { $place == 2} {
-				set token [::http::geturl "http://amsn.sourceforge.net/autoupdater/plugins2/$plugin/$file" -timeout 120000 -binary 1]
+				set token [::http::geturl "${::weburl}/autoupdater/plugins2/$plugin/$file" -timeout 120000 -binary 1]
 			} elseif { $place == 3 && $URL != "" } {
 				set URL "[subst $URL]"
 				set token [::http::geturl "$URL" -timeout 120000 -binary 1]
@@ -1648,42 +1662,41 @@ namespace eval ::plugins {
 	
 		variable loadedplugins
 
-		set namespace [lindex $plugin 0]
-		set required_version [lindex $plugin 3]
-		set file [lindex $plugin 5]
-		set name [lindex $plugin 6]
-		set init_proc [lindex $plugin 7]
-		set place [lindex $plugin 9]
+		set namespace [getInfo $plugin plugin_namespace]
+		set required_version [getInfo $plugin required_version]
+		set file [getInfo $plugin plugin_dir]
+		set init_proc [getInfo $plugin init_proc]
 		
 		set path "$file"
-		set path "[string range $path 0 end-[expr {[string length $name] + 5}]]"
-		set pathinfo "$path/plugininfo.xml"
+
+		set pathinfo [file join $path plugininfo.xml]
 		
-		set main [::plugins::ReadPluginUpdates $name main]
-		set langs [::plugins::ReadPluginUpdates $name lang]
-		set files [::plugins::ReadPluginUpdates $name file]
-		set URLmain [::plugins::ReadPluginUpdates $name URLmain]
-		set URLlang [::plugins::ReadPluginUpdates $name URLlang]
-		set URLfile [::plugins::ReadPluginUpdates $name URLfile]
+		set main [::plugins::ReadPluginUpdates $plugin main]
+		set langs [::plugins::ReadPluginUpdates $plugin lang]
+		set files [::plugins::ReadPluginUpdates $plugin file]
+		set URLmain [::plugins::ReadPluginUpdates $plugin URLmain]
+		set URLlang [::plugins::ReadPluginUpdates $plugin URLlang]
+		set URLfile [::plugins::ReadPluginUpdates $plugin URLfile]
+		set place [::plugins::ReadPluginUpdates $plugin URLplace]
 
 		# if no error occurs while updating the plugin, save the plugininfo.xml file		
 		if { [catch {
-			set mainstate [::plugins::UpdateMain $name $path $main $place $URLmain]
-			set langstate [::plugins::UpdateLangs $name $path $langs $place $URLlang]
-			set filestate [::plugins::UpdateFiles $name $path $files $place $URLfile]
+			set mainstate [::plugins::UpdateMain $plugin $path $main $place $URLmain]
+			set langstate [::plugins::UpdateLangs $plugin $path $langs $place $URLlang]
+			set filestate [::plugins::UpdateFiles $plugin $path $files $place $URLfile]
 			}] } {
-			status_log "Error while updating $name\n" red
+			status_log "Error while updating $plugin\n" red
 		} elseif { $mainstate == 1 && $langstate == 1 && $filestate == 1 } {
 			SavePlugininfo "$plugin" "$pathinfo"
 			
 			# Reload the plugin if it was loaded
-			if { [lsearch $loadedplugins $name] != -1 } {
+			if { [lsearch $loadedplugins $plugin] != -1 } {
 				::plugins::UnLoadPlugin $plugin
-				::plugins::LoadPlugin $namespace $required_version $file $name $init_proc
+				::plugins::LoadPlugin $namespace $required_version $file $plugin $init_proc
 			}
 			
 		} else {
-			status_log "Error while updating $name : main $mainstate, lang $langstate, file $filestate\n" red
+			status_log "Error while updating $plugin : main $mainstate, lang $langstate, file $filestate\n" red
 		}
 		
 	}
@@ -1695,36 +1708,31 @@ namespace eval ::plugins {
 
 		set ::plugins::UpdatedPlugins [list]
 
-		foreach plugin [::plugins::findplugins] {
-
+		foreach plugin [::plugins::getPlugins] {
 			set updated 0
 			set protected 0
 
-			set path [lindex $plugin 5]
-			set name [lindex $plugin 6]
-			set path "[string range $path 0 end-[expr {[string length $name] + 5}]]"
-			set pathinfo "$path/plugininfo.xml"
-			::plugins::get_Version "$pathinfo" "$name"
-			
+			set path [getInfo $plugin plugin_dir]
+			set pathinfo [file join $path plugininfo.xml]
+			::plugins::get_Version "$pathinfo" "$plugin"
+
 			if { ![file writable $pathinfo] } {
 				continue
 			}
-			
-			set place [::plugins::get_OnlineVersion "$pathinfo" "$name" "$::plugins::URL_plugininfo"]
-			
+
+			set place [::plugins::get_OnlineVersion "$pathinfo" "$plugin" "$::plugins::URL_plugininfo"]
+
 			if { $place == 0 || ![info exist ::plugins::plgonlinerequire] || $::plugins::plgonlinerequire == ""} {
 				continue
 			}
-			
-			set plugin [lappend plugin $place]
-			
+
 			# If the online plugin is compatible with the current version of aMSN
 			if { [::plugins::CheckRequirements $::plugins::plgonlinerequire] } {
 
 				# If the main file has been updated
 				if { [::plugins::DetectNew "$::plugins::plgversion" "$::plugins::plgonlineversion"] } {
-				
-					set file [file join $path $name.tcl]
+
+					set file [file join $path $plugin.tcl]
 					
 					if { ![file writable $file] } {
 						set protected 1
@@ -1792,7 +1800,7 @@ namespace eval ::plugins {
 					}
 				}
 				
-				array set ::plugins::UpdatedPlugin$name [list main "$main" lang "$langlist" file "$filelist" URLmain "$::plugins::plgonlineURLmain" URLlang "$::plugins::plgonlineURLlang" URLfile "$::plugins::plgonlineURLfile"]
+				array set ::plugins::UpdatedPlugin$plugin [list main "$main" lang "$langlist" file "$filelist" URLmain "$::plugins::plgonlineURLmain" URLlang "$::plugins::plgonlineURLlang" URLfile "$::plugins::plgonlineURLfile" URLplace "$place"]
 
 				# If the plugin has been updated and no file is protected, add it to the updated plugin list
 				if { $updated == 1 && $protected == 0 } {
@@ -1803,7 +1811,7 @@ namespace eval ::plugins {
 				
 			} else {
 			
-				status_log "Can't update $name : required version $::plugins::plgonlinerequire\n" red
+				status_log "Can't update $plugin : required version $::plugins::plgonlinerequire\n" red
 					
 			}
 
@@ -1857,45 +1865,16 @@ namespace eval ::plugins {
 
 		global HOME2
 		
-		set name [lindex $plugin 6]
-		set file "[file join $HOME2 $name.xml]"
+		set file "[file join $HOME2 $plugin.xml]"
 
 		if { [file exists $file] } {
 			file delete $path
 			file copy $file $path
 			file delete $file
 		} else {
-			status_log "Error while updating $name : can't find plugininfo.xml\n"
+			status_log "Error while updating $plugin : can't find plugininfo.xml\n"
 		}
 
 	}
-
-
-	################################################
-	# pluginVersion ()
-	#
-	# Returns the version number of the plugin
-	# that called this function
-	# Added as patch by Jonne 'JeeBee' Zutt	
-	proc pluginVersion {} {
-	  variable plugins
-
-	  set plugin_namespace [calledFrom]
-
-	  if {$plugin_namespace != -1} {
-		foreach {key value} [array get plugins] {
-		  if {$value == $plugin_namespace && \
-             	   [string first "_plugin_namespace" $key] != -1} {
-			set underscore_idx [string first "_" $key]
-			set idx [string range $key 0 [expr {$underscore_idx - 1}]]
-			return $plugins(${idx}_plugin_version)
-		  }
-		}
-	  }
-	  # plugin not found, or not called from a plugin
-	  return "0.0"
-	}
-
-
 }
 
