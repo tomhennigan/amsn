@@ -216,6 +216,15 @@ namespace eval ::skin {
 		if { $animated == 0 } {
 			::picture::ResizeWithRatio $picName $height $height
 			return $picName
+		} else {
+			set tmpPic [image create photo]
+			$tmpPic copy $picName
+			image delete $picName
+			image create photo $picName
+			$picName copy $tmpPic
+			image delete $tmpPic
+			::picture::ResizeWithRatio $picName $height $height
+			return $picName
 		}
 		return ""
 	}
