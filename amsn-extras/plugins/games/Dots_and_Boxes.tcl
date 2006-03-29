@@ -515,7 +515,7 @@ namespace eval ::Games::Dots_and_Boxes {
       return
     }
 
-    .$win_name.status.lbl configure -text "$opponent_name [::Games::trans quits]"
+    .$win_name.status.lbl configure -text "[::Games::trans quits $opponent_name]"
 
     # Unbind mouse
     bind .$win_name.canvas <ButtonRelease> ""

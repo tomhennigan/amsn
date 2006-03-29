@@ -6,9 +6,9 @@ amsn_lang_version 2
 #
 load_game_failed Failed to load a game
 invite_sent Invitation sent to start
-accepted_invitation accepted the invitation to start
-declined_invitation declined the invitation to start
-wants_to_play wants to play
+accepted_invitation $1 accepted the invitation to start
+declined_invitation $1 declined the invitation to start
+wants_to_play $1 wants to play
 Games Games
 TwoPlayerGames Two-player games
 MultiPlayerGames Multi-player games (conference)
@@ -17,18 +17,11 @@ Hangman Hangman
 Sketch Sketch
 Accept Accept
 Reject Reject
-incompatible_version Warning, you do not use the same version of this plugin!
-uses_version uses version
-missing_plugin probably does not have this plugin loaded or installed
-timeout time-out set to
-seconds seconds
+incompatible_version Warning, you do not use the same version of this plugin! You have version $1, while $2 uses version $3.
+missing_plugin $1 probably does not have this plugin loaded or installed
+timeout time-out set to $1 seconds
 wrong_game_type Start two-player games in private windows and multi-player games in conference windows.
-# Translate the next three keys (advertise_1, 2 and 3) so that the following
-# forms a valid sentence:
-# <<some_user>> requested an aMSN game with you. It seems that <<some_user>> does not have aMSN or does not have the Games plugin loaded. To be able to play with your friends, download  aMSN at <<amsn_location> and install the Games plugin available at <<games_location>>
-advertise_1 requested an aMSN game with you. It seems that
-advertise_2 does not have aMSN or does not have the Games plugin loaded. To be able to play with your friends, download aMSN at
-advertise_3 and install the Games plugin available at
+advertise $1 requested an aMSN game with you. It seems that $2 does not have aMSN or does not have the Games plugin loaded. To be able to play with your friends, download aMSN at $3 and install the Games plugin available at $4.
 #
 # ================================================
 # Language keys used in Dots and Boxes
@@ -54,7 +47,7 @@ game_over_win Game over. Congratulations, you have won!
 game_over_lose Game over, more luck next time.
 game_over_draw Game over, game is drawn.
 click_rematch Click for rematch
-quits has left the game.
+quits $1 has left the game.
 margin_width Margin width
 margin_height Margin height
 width_of_box Width of box
@@ -66,6 +59,7 @@ space_around_dot Space around dot
 # Language keys used in Hangman
 # ================================================
 #
+alphabet {a á â à ä ã å Å Á Ã Ä À Â} b {c ç Ç} d {e é ê ë è É E Ê È} f g h {i í ì î ï Í Î Ï Ì} j k l m {n ñ Ñ} {o ó ô ö ò õ Ô Ò Ö Õ Ó} p q r s t {u ù ú ü û Ú Û Ü Ù} v w x y z
 send_word_to_guess Send the word your opponent has to guess.
 wait_for_word Wait for opponent to send the word you have to guess.
 click_sends_guess Click to send your guess
@@ -86,7 +80,7 @@ fl_method Select method for free letters
 fl_none No free letters
 fl_first Give first letter
 fl_random Give random letter
-guesses_remaining guesses remaining
+guesses_remaining $1 guesses remaining
 rematch_quick Your opponent is waiting for you, click rematch to start new round.
 #
 # ================================================
@@ -110,10 +104,10 @@ wait_for_players Wait until everyone arrived and then click the start button ->
 Start Start
 save_drawing Save drawing
 Round Round
-you_draw you have to draw
-you_guess you have to guess the word being drawn; recall lanuage is set to
-correct_guess You guessed correctly! Solution is:
-points points
+you_draw you have to draw $1.
+you_guess you have to guess the word being drawn; recall lanuage is set to $1.
+correct_guess You guessed correctly! Solution is $1.
+points $1 points
 choose_bkgcol Choose a background color
 empty_dictionary This dictionary does not contain any words that can be used for Sketch, either select another language for this game, or fill your language file appropriately.
 hourglass_courtesy Hourglass courtesy of Bernd Breitenbach.

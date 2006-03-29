@@ -10,6 +10,8 @@
 # FIXME: support for automatically saving all drawings before
 # clear canvas
 
+# FIXME: Increase precision !!
+
 # FIXME: Sketch: change statusbar into
 # "Some player(s) have guessed the word correctly (displayed in green)."
 # FIXME: When drawing while violate is clicked, drawing is still send when
@@ -21,8 +23,8 @@ namespace eval ::Games::Sketch {
   variable GameState
   variable Dict
   # Tolerance used for simplifying polylines
-  variable eps 10
-  variable eps2 100
+  variable eps 3
+  variable eps2 9
 
   variable bkg_color "peach puff"
   variable err_bkg_color "firebrick3"
@@ -370,7 +372,7 @@ namespace eval ::Games::Sketch {
 	  bind .$win_name.canvas <Motion>        "::Games::Sketch::MouseMotion   $gameID %x.0 %y.0"
 	  bind .$win_name.canvas <Leave>         "::Games::Sketch::MouseLeave    $gameID %x.0 %y.0"
 	  .$win_name.status.lbl configure -text \
-		"[::Games::trans Round] ${round}: [::Games::trans you_draw] \"$GameState($gameID,word)\"."
+		"[::Games::trans Round] ${round}: [::Games::trans you_draw $GameState($gameID,word)]"
 	} else {
 	  catch { pack forget .$win_name.uc.sk }
 	  pack .$win_name.uc.gr -in .$win_name.uc -fill both -expand 1
@@ -380,7 +382,7 @@ namespace eval ::Games::Sketch {
 	  bind .$win_name.canvas <Motion>        ""
 	  bind .$win_name.canvas <Leave>         ""
 	  .$win_name.status.lbl configure -text \
-		"[::Games::trans Round] ${round}: [::Games::trans you_guess] $GameState($gameID,lang)."
+		"[::Games::trans Round] ${round}: [::Games::trans you_guess $GameState($gameID,lang)]"
 	}
 	# Hourglass will be restarted when drawer starts drawing
 	stop_hour_glass $gameID .$win_name.time.sandglass
@@ -519,7 +521,7 @@ namespace eval ::Games::Sketch {
 
 	if { [::config::getKey login] == $player && "$sol" != "" } {
 	  .$win_name.status.lbl configure -text \
-		"[::Games::trans correct_guess] $sol"
+		"[::Games::trans correct_guess $sol]"
 	}
 
 	if {"$sol" != ""} {
@@ -532,7 +534,7 @@ namespace eval ::Games::Sketch {
 	  if {$p == $player} {
 		set found 1
 		if {$score > -1} {
-		  .$win_name.player$i configure -text "$nick ($score [::Games::trans points])."
+		  .$win_name.player$i configure -text "$nick ([::Games::trans points $score])."
 		  .$win_name.player$i configure -foreground "dark green"
 		  set scores [lreplace $scores $i [expr {$i+1}] $player $score]
 		  break
@@ -542,7 +544,7 @@ namespace eval ::Games::Sketch {
 	}
 	if {!$found} {
 	  if {$score == -1} {set score 0}
-	  label .$win_name.player$i -text "$nick ($score [::Games::trans points])."
+	  label .$win_name.player$i -text "$nick ([::Games::trans points $score])."
 	  pack .$win_name.player$i -in .$win_name.players -anchor w
 	  lappend scores $player $score
 	  lappend players $player
@@ -563,10 +565,10 @@ namespace eval ::Games::Sketch {
 		  set fg_i [.$win_name.player$i cget -foreground]
 		  set fg_j [.$win_name.player$j cget -foreground]
 		  .$win_name.player$i configure \
-			-text "[::Games::getNick $chat_j] ($score_j [::Games::trans points])."
+			-text "[::Games::getNick $chat_j] ([::Games::trans points $score_j])."
 		  .$win_name.player$i configure -foreground $fg_j
 		  .$win_name.player$j configure \
-			-text "[::Games::getNick $chat_i] ($score_i [::Games::trans points])."
+			-text "[::Games::getNick $chat_i] ([::Games::trans points $score_i])."
 		  .$win_name.player$j configure -foreground $fg_i
 		}
 	  }

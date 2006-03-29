@@ -42,10 +42,6 @@
 #which games /version he has... so you will always know (without need for  
 #timeout) if user supports it..
 
-# FIXME: For encodings problem in Sketch (and possibly Hangman),
-# try [string compare $s1 $s2] instead of $s1 == $s2. Or perhaps
-# using encoding convertfrom.
-
 # FIXME: Use version checking to avoid starting games that don't exist
 # and other games-plugin incompatibilities.
 
@@ -55,7 +51,8 @@ namespace eval ::Games {
 
   # Where to obtain aMSN and the Games plugin?
   variable amsn_url  "http://amsn.sf.net"
-  variable games_url "http://sourceforge.net/tracker/index.php?func=detail&aid=1414743&group_id=54091&atid=733148"
+  variable games_url "http://sf.net/tracker/index.php?func=detail&aid=1414743&group_id=54091&atid=733148"
+  # games_url soon something like "http://amsn.sf.net/plugins.php#Games" or #games ?
 
   variable dir ""
   variable TwoPlayerGames {"Dots_and_Boxes" "Hangman"}
@@ -86,7 +83,7 @@ namespace eval ::Games {
 	if {[catch {::plugins::pluginVersion} version]} {
 	  # Setting version number manually for aMSN 0.95
 	  # Make sure this value matches the one used in plugininfo.xml
-	  set version "0.17"
+	  set version "0.18"
 	}
 
     ::plugins::RegisterPlugin "Games"
@@ -154,8 +151,10 @@ namespace eval ::Games {
   # this namespace's language files and have to call proc trans via this	#
   # proc, so ::plugins::calledFrom knows it should use our language file.	#
   ###########################################################################
-  proc trans { key } {
-    return [::trans $key]
+  proc trans { key args } {
+	# eval trans $key $args -->> DON'T USE THIS !!!
+	# (could be exploited by Tcl-code in a nickname!!!)
+	eval [linsert $args 0 ::trans $key]
   }
 
   ###########################################################################
@@ -499,7 +498,7 @@ namespace eval ::Games {
 
 	  if {$version != $oppVersion} {
 		::amsn::WinWrite $chatid \
-		  "[trans incompatible_version] ($opponent [trans uses_version] $oppVersion)\n" red
+		  "[trans incompatible_version $version $opponent $oppVersion]\n" red
 	  }
 	}
   }
@@ -526,7 +525,7 @@ namespace eval ::Games {
 	  ::amsn::WinWriteIcon $chatid butinvite 3 2
 	  if {$response == 1} {
 		# chatid accepted the invitation
-		::amsn::WinWrite $chatid "[timestamp] [getNick $sender] [trans accepted_invitation] " green
+		::amsn::WinWrite $chatid "[timestamp] [trans accepted_invitation [getNick $sender]] " green
 		::amsn::WinWrite $chatid "[trans $game] " red
 		::amsn::WinWrite $chatid "(${game_init})\n" green
 		if {$OpenChallenges($gameID,host) == [::config::getKey login]} {
@@ -561,7 +560,7 @@ namespace eval ::Games {
 		}
 	  } else {
 		# chatid declined the invitation
-		::amsn::WinWrite $chatid "[timestamp] [getNick $sender] [trans declined_invitation] " green
+		::amsn::WinWrite $chatid "[timestamp] [trans declined_invitation [getNick $sender]] " green
 		::amsn::WinWrite $chatid "[trans $game] " red
 		::amsn::WinWrite $chatid "($OpenChallenges($gameID,init))\n" green
 	  }
@@ -601,7 +600,7 @@ namespace eval ::Games {
 
     ::amsn::WinWriteIcon $chatid butinvite 3 2
     # Show invitation
-    ::amsn::WinWrite $chatid "[getNick $host] [trans wants_to_play] " green
+    ::amsn::WinWrite $chatid "[trans wants_to_play [getNick $host]] " green
     ::amsn::WinWrite $chatid "[trans $game] " red
     ::amsn::WinWrite $chatid "(${game_init})" green
 
@@ -621,7 +620,7 @@ namespace eval ::Games {
 
 	if {$version != $oppVersion} {
 	  ::amsn::WinWrite $chatid \
-		"\n[trans incompatible_version] ($host [trans uses_version] $oppVersion)\n" red
+		"\n[trans incompatible_version $version $host $oppVersion]\n" red
 	}
   }
 
@@ -637,17 +636,15 @@ namespace eval ::Games {
 
     ::amsn::WinWriteIcon $chatid butinvite 3 2
     # Show invitation
-    ::amsn::WinWrite $chatid "[getNick $sender] [trans missing_plugin] " green
-    ::amsn::WinWrite $chatid "([trans timeout] [expr {$timeout_len/1000}] [trans seconds])." green
+    ::amsn::WinWrite $chatid "[trans missing_plugin [getNick $sender]] " green
+    ::amsn::WinWrite $chatid "([trans timeout [expr {$timeout_len/1000}]])." green
 
     # Grey line
     ::amsn::WinWriteIcon $chatid greyline 3
 
 	# Send aMSN/Games plugin advertisement
 	::MSN::messageTo $chatid \
-	  "[getNick [::config::getKey login]] [trans advertise_1] \
-	   [getNick $sender] [trans advertise_2] \
-	   $amsn_url [trans advertise_3] $games_url" 0 ""
+      "[trans advertise [getNick [::config::getKey login]] [getNick $sender] $amsn_url $games_url]" 0 ""
   }
 
   proc InvitationAnswered { gameID host answer } {

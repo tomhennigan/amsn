@@ -12,8 +12,11 @@
 
 # FIXME: Can also continue as 1-player game with random words?
 
-# FIXME: Status bar can remain black, think when timer is cancelled or
-# something?
+# FIXME: Status bar can remain black, think when timer is cancelled 
+# and new one starts that can lead to odd number of times blinking.
+
+# FIXME: Put Alphabet in language file.
+# Make sure both players use the same language.
 
 namespace eval ::Games::Hangman {
 
@@ -66,11 +69,12 @@ namespace eval ::Games::Hangman {
 	set myname   [::Games::getNick $mychat]
 	set oppname  [::Games::getNick $oppchat]
 
-	# If rematching, disable all letter buttons, and unbind all letters
+	# If rematching, disable all letter buttons
 	if {[info exists GameState($gameID,win_name)]} {
-	  for {set a 0} {$a < 26} {incr a} {
-		set l [format "%c" [expr {[scan "a" %c] + $a}]]
-		.$win_name.$l configure -state disabled
+	  set alphabet [::Games::trans alphabet]
+	  for {set a 0} {$a < [llength $alphabet]} {incr a} {
+		set l [lindex [lindex $alphabet $a] 0]
+		.$win_name.l$a configure -state disabled
 	  }
 	}
 
@@ -131,15 +135,15 @@ namespace eval ::Games::Hangman {
 	}
 
 	# Disable letter buttons
-	for {set a 0} {$a < 26} {incr a} {
-	  set l [format "%c" [expr {[scan "a" %c] + $a}]]
-	  .$win_name.$l configure -state disabled
+	set alphabet [::Games::trans alphabet]
+	for {set a 0} {$a < [llength $alphabet]} {incr a} {
+	  set l [lindex [lindex $alphabet $a] 0]
+	  .$win_name.l$a configure -state disabled
 	}
 	# Disable word sending
 	.$win_name.setword configure -state disabled
 	.$win_name.sendword configure -state disabled
-	change_status $gameID \
-	  "$GameState($gameID,opponent_name) [::Games::trans quits]"
+	change_status $gameID "[::Games::trans quits $GameState($gameID,opponent_name)]"
 	# Hide rematch button
 	pack forget .$win_name.status.rematch
   }
@@ -154,9 +158,10 @@ namespace eval ::Games::Hangman {
 	SetOpponentWord $gameID "" ""
 	set_opp_image $gameID 0
 	# Reset button background colors
-	for {set a 0} {$a < 26} {incr a} {
-	  set l [format "%c" [expr {[scan "a" %c] + $a}]]
-	  .$win_name.$l configure -disabledforeground "gray"
+	set alphabet [::Games::trans alphabet]
+	for {set a 0} {$a < [llength $alphabet]} {incr a} {
+	  set l [lindex [lindex $alphabet $a] 0]
+	  .$win_name.l$a configure -disabledforeground "gray"
 	}
 	# Enable word sending
 	.$win_name.setword configure -state normal
@@ -224,13 +229,17 @@ namespace eval ::Games::Hangman {
 	
 	labelframe .$win_name.guess -text "[::Games::trans click_sends_guess]"
 	# Add a button for each letter
-	for {set a 0} {$a < 26} {incr a} {
-	  set l [format "%c" [expr {[scan "a" %c] + $a}]]
-	  set L [string toupper $l]
-	  button .$win_name.$l -state disabled -text $L \
-		-command "::Games::Hangman::LetterButton $gameID $L"
-	  bind .$win_name <$l> ".$win_name.$l invoke"
-	  grid .$win_name.$l -column [expr {$a % 6}] -row [expr {$a / 6}] \
+	set alphabet [::Games::trans alphabet]
+	set cols [expr {int(sqrt([llength $alphabet]))}]
+	for {set a 0} {$a < [llength $alphabet]} {incr a} {
+	  set l [lindex [lindex $alphabet $a] 0]
+	  button .$win_name.l$a -state disabled -text $l \
+		-command "::Games::Hangman::LetterButton $gameID $a"
+	  # Key binding doesn't seem to work for some encodings
+	  if {[regexp -nocase {[A-Z]} $l]} {
+	    bind .$win_name <$l> ".$win_name.l$a invoke"
+	  }
+	  grid .$win_name.l$a -column [expr {$a % $cols}] -row [expr {$a / $cols}] \
 		-padx 3 -pady 3 -in .$win_name.guess
 	}
 	# Your word
@@ -273,7 +282,7 @@ namespace eval ::Games::Hangman {
 	# Display number of guesses remaining
 	set rem [expr {11-$GameState($gameID,my_errors)}]
 	.$win_name.my configure -text \
-	  "$GameState($gameID,my_name) ($rem [::Games::trans guesses_remaining])"
+	  "$GameState($gameID,my_name) ([::Games::trans guesses_remaining $rem])"
   }
 
   proc set_opp_image {gameID i} {
@@ -286,35 +295,39 @@ namespace eval ::Games::Hangman {
 	# Display number of guesses remaining
 	set rem [expr {11-$GameState($gameID,opp_errors)}]
 	.$win_name.opp configure \
-	  -text "$GameState($gameID,opponent_name) ($rem [::Games::trans guesses_remaining])"
+	  -text "$GameState($gameID,opponent_name) ([::Games::trans guesses_remaining $rem])"
   }
 
-  proc LetterButton {gameID L} {
+  proc LetterButton {gameID idx} {
 	variable GameState
 	set win_name $GameState($gameID,win_name)
-	set l [string tolower $L]
+	set alphabet [::Games::trans alphabet]
 
 	if {$GameState($gameID,processing_guess) == 0} {
 	  set GameState($gameID,processing_guess) 1
-	  .$win_name.$l configure -state disabled
-	  .$win_name.$l configure -disabledforeground "dark green"
-	  ::Games::SendMove $gameID "GUESS=$l"
+	  .$win_name.l$idx configure -state disabled
+	  .$win_name.l$idx configure -disabledforeground "dark green"
+	  ::Games::SendMove $gameID "GUESS=$idx"
 	}
   }
 
   # Opponent clicked 'letter'
-  proc ProcessGuess {gameID letter} {
+  proc ProcessGuess {gameID idx} {
 	variable GameState
 	set win_name $GameState($gameID,win_name)
 	set public_word $GameState($gameID,public_word)
 	set private_word $GameState($gameID,private_word)
+	set alphabet [::Games::trans alphabet]
+	set letters [lindex $alphabet $idx]
 
 	# Copy all occurrences of 'letter' from private to public word
 	set match 0
 	for {set i 0} {$i < [string length $private_word]} {incr i} {
 	  set l [string index $private_word $i]
-	  if {[string toupper $l] == [string toupper $letter] && \
-          [string index $public_word $i] == "_"} {
+	  # The $public_word must still have a _ at index $i
+	  # If letter $l is in list $idx it's ok
+	  if {[string index $public_word $i] == "_" && \
+		  [lsearch [string toupper $letters] [string toupper $l]] != -1} {
 		set match 1
 		set public_word [string replace $public_word $i $i $l]
 	  }
@@ -323,13 +336,13 @@ namespace eval ::Games::Hangman {
 	  set GameState($gameID,public_word) $public_word
 	  ::Games::SendMove $gameID "GOOD=$public_word"
 	} else {
-	  ::Games::SendMove $gameID "BAD=$letter"
+	  ::Games::SendMove $gameID "BAD=$idx"
 	  incr GameState($gameID,opp_errors)
 	  if {$GameState($gameID,opp_errors) < 12} {
 		set_opp_image $gameID $GameState($gameID,opp_errors)
 	  }
 	  set GameState($gameID,opp_error_letters) \
-		"$GameState($gameID,opp_error_letters) [string toupper $letter]"
+		"$GameState($gameID,opp_error_letters) [lindex $letters 0]"
 	}
     SetOpponentWord $gameID $public_word $GameState($gameID,opp_error_letters)
 	CheckGameState $gameID
@@ -338,9 +351,19 @@ namespace eval ::Games::Hangman {
   proc SendWord {gameID} {
 	variable GameState
 	set win_name $GameState($gameID,win_name)
+	set alphabet [::Games::trans alphabet]
+
 	set private_word [.$win_name.setword get]
 	# Replace our alphabet to underscores
-	set public_word [regsub -nocase -all {([a-z])} $private_word "_"]
+	#set public_word [regsub -nocase -all {([a-z])} $private_word "_"]
+	set public_word $private_word
+	foreach cat $alphabet {
+	  foreach let $cat {
+		set public_word [string map [list [string tolower $let] "_"] $public_word]
+		set public_word [string map [list [string toupper $let] "_"] $public_word]
+	  }
+	}
+
 	# Apply free letter method
 	switch -exact $GameState($gameID,free_letters) {
 	  "none"	{}
@@ -446,7 +469,7 @@ namespace eval ::Games::Hangman {
 					if {$GameState($gameID,my_errors) < 12} {
 					  set_my_image $gameID $GameState($gameID,my_errors)
 					}
-					.$win_name.$value configure -disabledforeground red
+					.$win_name.l$value configure -disabledforeground red
 				}
 	  }
 	}
@@ -458,6 +481,7 @@ namespace eval ::Games::Hangman {
 	variable GameState
 	set win_name $GameState($gameID,win_name)
 	set new_status ""
+	set alphabet [::Games::trans alphabet]
 
 	# If we (1) did not yet start, (2) received a word in this round and
 	# (3) sended a word, we enable the letter buttons here
@@ -466,9 +490,9 @@ namespace eval ::Games::Hangman {
         [string length $GameState($gameID,private_word)] > 0} {
 	  set GameState($gameID,round_started) 1
 	  # Enable letter buttons
-	  for {set a 0} {$a < 26} {incr a} {
-		set l [format "%c" [expr {[scan "a" %c] + $a}]]
-		.$GameState($gameID,win_name).$l configure -state normal
+	  for {set a 0} {$a < [llength $alphabet]} {incr a} {
+		set l [lindex [lindex $alphabet $a] 0]
+		.$GameState($gameID,win_name).l$a configure -state normal
 	  }
 	  set new_status "[::Games::trans game_started]"
 	} elseif {$GameState($gameID,round_finished) == 0} {
@@ -490,9 +514,9 @@ namespace eval ::Games::Hangman {
 	  }
 	  if {$our_state != 0} {
 		# We are done, disable buttons
-		for {set a 0} {$a < 26} {incr a} {
-		  set l [format "%c" [expr {[scan "a" %c] + $a}]]
-		  .$win_name.$l configure -state disabled
+		for {set a 0} {$a < [llength $alphabet]} {incr a} {
+		  set l [lindex [lindex $alphabet $a] 0]
+		  .$win_name.l$a configure -state disabled
 		}
 	  }
 	  ########################################################
