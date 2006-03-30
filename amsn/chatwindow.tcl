@@ -1871,6 +1871,7 @@ namespace eval ::ChatWindow {
 		global skipthistime
 		set skipthistime 0
 
+		bind $text <Control-S> "window_history add %W; ::amsn::MessageSend $w %W; break"
 		bind $text <Return> "window_history add %W; ::amsn::MessageSend $w %W; break"
 		bind $text <Key-KP_Enter> "window_history add %W; ::amsn::MessageSend $w %W; break"
 

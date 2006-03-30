@@ -2624,7 +2624,19 @@ namespace eval ::amsn {
 		#Return the custom nick, replacing backslashses and variables
 		set customchat [subst -nocommands $customchat]
 
+
+		upvar #0 [string map {: _} ${chatid} ]_smileys emotions
+		if { [info exists emotions] } {
+	 		set emoticons_for_this_chatid [array get emotions]
+ 			unset emotions 
+ 		}
+
 		WinWrite $chatid "\n$customchat" "says" $customfont
+
+	 	if { [info exists emoticons_for_this_chatid] } {
+ 			array set emotions $emoticons_for_this_chatid
+ 			unset emoticons_for_this_chatid
+ 		}
 
 		#Postevent for chat_msg_receive
 		set evPar(user) user
@@ -2643,6 +2655,10 @@ namespace eval ::amsn {
 				::log::PutLog $chatid $nick $msg $fontformat
 
 			}
+		}
+
+		if { [info exists emotions] } {
+			unset emotions
 		}
 
 		::plugins::PostEvent chat_msg_received evPar
@@ -2828,17 +2844,21 @@ namespace eval ::amsn {
 		set fontstyle [lindex $fontformat 1]
 		set fontcolor [lindex $fontformat 2]
 
+
 		[::ChatWindow::GetOutText ${win_name}] configure -state normal -font bplainf -foreground black
 
 		#Store position for later smiley and URL replacement
-		set text_start [[::ChatWindow::GetOutText ${win_name}] index end]
-		set posyx [split $text_start "."]
-		set text_start "[expr {[lindex $posyx 0]-1}].[lindex $posyx 1]"
+		# use end-1c because text widgets always have \n at the end, and it's better than getting the previous line 
+		# as we did before (creates bug when we use a custom chat style that fits in one line..
+		set text_start [[::ChatWindow::GetOutText ${win_name}] index end-1c]
+		#set posyx [split $text_start "."]
+		#set text_start "[expr {[lindex $posyx 0]-1}].[lindex $posyx 1]"
+		
 
 		#Check if this is first line in the text, then ignore the \n
 		#at the beginning of the line
-		if { [[::ChatWindow::GetOutText ${win_name}] get 1.0 end] == "\n" } {
-			if {[string range $txt 0 0] == "\n"} {
+		if { [[::ChatWindow::GetOutText ${win_name}] get 1.0 2.0] == "\n" } {
+			if {[string index $txt 0] == "\n"} {
 				set txt [string range $txt 1 end]
 			}
 		}
@@ -2869,9 +2889,9 @@ namespace eval ::amsn {
 		set evPar(winname) {win_name}
 		set evPar(msg) txt
 		::plugins::PostEvent WinWrite evPar
-
+		
 		[::ChatWindow::GetOutText ${win_name}] insert end "$txt" $tagid
-
+		
 		#TODO: Make an url_subst procedure, and improve this using regular expressions
 		variable urlcount
 		variable urlstarts

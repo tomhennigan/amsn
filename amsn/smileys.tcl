@@ -304,8 +304,12 @@ namespace eval ::smiley {
 			#Keep searching until no matches
 			set start $textbegin
 			while {[set pos [$tw search -exact $nocase -- $symbol $start $end]] != ""} {
-			
-				
+
+				# Make sure we found the smiley as it is, bug caused by elided text, such as ::op smileys
+				if { [string compare $nocase [$tw get $pos ${pos}+[string length $symbol]c]  $symbol] != 0} {
+					set start ${pos}+1c
+					continue
+				}
 				set start [::smiley::SubstSmiley $tw $pos $symbol $image_name $image_file $animated $sound]
 				#If SubstSmiley returns -1, start from beggining.
 				#See why in SubstSmiley. This is a fix
@@ -1095,37 +1099,33 @@ proc is_true { data } {
 proc custom_smile_subst { chatid tw {textbegin "0.0"} {end "end"} } {
     upvar #0 [string map {: _} ${chatid} ]_smileys emotions
 
-    if { ![info exists emotions] } { return }
-
-    after 250 "custom_smile_subst2 $chatid $tw $textbegin $end"
-
-} 
-
-proc custom_smile_subst2 { chatid tw textbegin end } { 
-    upvar #0 [string map {: _} ${chatid} ]_smileys emotions
-
     set scrolling [::ChatWindow::getScrolling $tw]
 
     if { ![info exists emotions] } { return }
 
-    status_log "Parsing text for [array names emotions] with tw = $tw, textbegin = $textbegin and end = $end\n"
+	#status_log "Parsing text for [array names emotions] with tw = $tw, textbegin = $textbegin and end = $end\n"
+	#status_log "text to parse : [$tw get $textbegin $end]\n"
 
     foreach symbol [array names emotions] {
 	set chars [string length $symbol]
 	set file [::MSNP2P::GetFilenameFromMSNOBJ $emotions($symbol)]
 	if { $file == "" } { continue }
 
-	status_log "Got file $file for symbol -$symbol-\n" red
+	#status_log "Got file $file for symbol -$symbol-\n" red
 
 	set start $textbegin
-	status_log "result $tw search -exact -nocase bb $start $end : [$tw search -exact -nocase bb $start $end]--- $start -- $textbegin\n"
 
-	while {[set pos [$tw search -exact -- $symbol $start $end]] != ""} {
-	    status_log "Found match at pos : $pos\n" red
-
-	    set posyx [split $pos "."]
-	    set endpos "[lindex $posyx 0].[expr {[lindex $posyx 1] + $chars}]"
-
+	    # TODO this still needs to be fixed by using [$tw get $start $end] and searching in the text/removing what we found
+	    # in the text, because tk 8.4 has a bug with elided text, it's fixed in 8.5, I'll fill a bug report soon and 
+	    # add it in the comments...
+	    while {[set pos [$tw search -exact -- $symbol $start $end]] != ""} {
+		 
+		    set endpos [$tw index $pos+[string length $symbol]c]
+		    # used to avoid invalid search caused by elided text, such as in ::op
+		    if { [string compare [$tw get $pos $endpos]  $symbol] != 0} {
+			    set start ${pos}+1c
+			    continue
+		    }
 
 	    $tw tag configure smiley -elide true
 	    $tw tag add smiley $pos $endpos
@@ -1147,7 +1147,7 @@ proc custom_smile_subst2 { chatid tw textbegin end } {
 	}
     }
 
-    unset emotions
+	#unset emotions
     
     if { $scrolling } { ::ChatWindow::Scroll $tw }
 }
