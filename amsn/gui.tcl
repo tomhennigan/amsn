@@ -2858,6 +2858,8 @@ namespace eval ::amsn {
 		if { [info tclversion] == 8.4 && $tagname == "user" } {
 			if { [[::ChatWindow::GetOutText ${win_name}] get end-2c]!= "\n" } {
 				[::ChatWindow::GetOutText ${win_name}] search -elide -regexp -count all_chars .* end-1l end-1c
+				#Remove line below and aMSN Plus causes bug report
+				set visible_chars $all_chars
 				[::ChatWindow::GetOutText ${win_name}] search -regexp -count visible_chars .* end-1l end-1c
 				set elided_chars [expr $all_chars - $visible_chars + 1]
 				set text_start $text_start-${elided_chars}c
