@@ -2983,10 +2983,25 @@ namespace eval ::Event {
 	}
 
 	method handleLSG { command } {
+		global loading_list_info
 		if { [::config::getKey protocol] == 11} {
 			set group [Group create %AUTO% -name [lindex $command 1] -id [lindex $command 2]]
 			$group showInfo
 			::groups::Set [lindex $command 2] [lindex $command 1]
+	
+			#Increment the group number
+			incr loading_list_info(gcurrent)
+
+			#Get the current group number
+			set current $loading_list_info(gcurrent)
+			set total $loading_list_info(gtotal)
+
+
+			# Check if there are no users and we got all LSGs, then we finished the authentification
+			if {$current == $total && $loading_list_info(total) == 0} {
+				$self authenticationDone
+			}
+			
 		} else {
 			::groups::Set [lindex $command 1] [lindex $command 2]
 		}
@@ -2995,18 +3010,29 @@ namespace eval ::Event {
 		}
 	}
 
+	method authenticationDone {} {
+		$self setInitialStatus
+		#@@@@@@@@@@@@@@@@@@@
+		cmsn_draw_online 1
+		
+		set ::contactlist_loaded 1
+		::abook::setConsistent
+		::abook::saveToDisk
+	}
+
 	method handleLST { command } {
 		global contactlist_loaded
 		global loading_list_info
 
 		set contactlist_loaded 0
 
+		#Increment the contact number
+		incr loading_list_info(current)
+
 		#Get the current contact number
 		set current $loading_list_info(current)
 		set total $loading_list_info(total)
 
-		#Increment the contact number
-		incr loading_list_info(current)
 
 		set nickname ""
 		set contactguid ""
@@ -3086,14 +3112,7 @@ namespace eval ::Event {
 
 		#Last user in list
 		if {$current == $total} {
-			$self setInitialStatus
-			#@@@@@@@@@@@@@@@@@@@
-			cmsn_draw_online 1
-
-			set contactlist_loaded 1
-			::abook::setConsistent
-			::abook::saveToDisk
-			
+			$self authenticationDone			
 		}
 
 	}
@@ -4468,8 +4487,14 @@ proc cmsn_ns_handler {item {message ""}} {
 
 						set loading_list_info(version) [lindex $item 3]
 						set loading_list_info(total) [lindex $item 4]
-						set loading_list_info(current) 1
+						set loading_list_info(current) 0
+						set loading_list_info(gcurrent) 0
 						set loading_list_info(gtotal) [lindex $item 5]
+
+						# Check if there are no users and no groups, then we already finished authentification
+						if {$loading_list_info(gtotal) == 0 && $loading_list_info(total) == 0} {
+							ns authenticationDone							
+						}
 					}
 				} else {
 					if { [llength $item] == 5 } {
@@ -4483,7 +4508,7 @@ proc cmsn_ns_handler {item {message ""}} {
 
 						set loading_list_info(version) [lindex $item 2]
 						set loading_list_info(total) [lindex $item 3]
-						set loading_list_info(current) 1
+						set loading_list_info(current) 0
 						set loading_list_info(gtotal) [lindex $item 4]
 					}
 				}
@@ -5349,12 +5374,13 @@ proc cmsn_listupdate {recv} {
 
 		set command LST
 
+		#Increment the contact number
+		incr loading_list_info(current)
+
 		#Get the current contact number
 		set current $loading_list_info(current)
 		set total $loading_list_info(total)
 
-		#Increment the contact number
-		incr loading_list_info(current)
 
 		set username [lindex $recv 1]
 		set nickname [urldecode [lindex $recv 2]]

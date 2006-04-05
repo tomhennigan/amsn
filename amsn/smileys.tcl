@@ -303,17 +303,36 @@ namespace eval ::smiley {
 			
 			#Keep searching until no matches
 			set start $textbegin
-			while {[set pos [$tw search -exact $nocase -- $symbol $start $end]] != ""} {
+			while {[set pos [$tw search -exact -elide $nocase -- $symbol $start $end]] != "" } {
+				set start [$tw index ${pos}+1c]
+				set endpos [$tw index $pos+[string length $symbol]c]
 
-				# Make sure we found the smiley as it is, bug caused by elided text, such as ::op smileys
-				if { [string compare $nocase [$tw get $pos ${pos}+[string length $symbol]c]  $symbol] != 0} {
-					set start ${pos}+1c
+				set skip 0
+				# used to avoid invalid search caused by elided text, such as in ::op
+				if { [string compare $nocase [$tw get $pos $endpos]  $symbol] != 0} {
+					continue
+				} else {
+					for { set i $pos } {$i <= $endpos && !$skip} {set i [$tw index $i+1c]} {
+						set tags [$tw tag names $i]
+						foreach tag_name $tags {
+							set elided [$tw tag cget $tag_name -elide]
+							if {$elided != "" && $elided} {
+								set skip 1
+								break;
+							}
+						}
+					}
+				}
+				
+				if { $skip } {
 					continue
 				}
+
 				set start [::smiley::SubstSmiley $tw $pos $symbol $image_name $image_file $animated $sound]
 				#If SubstSmiley returns -1, start from beggining.
 				#See why in SubstSmiley. This is a fix
 				if { $start == -1 } { set start $textbegin }
+				
 		
 			}
 			
@@ -1097,54 +1116,69 @@ proc is_true { data } {
 
 
 proc custom_smile_subst { chatid tw {textbegin "0.0"} {end "end"} } {
-    upvar #0 [string map {: _} ${chatid} ]_smileys emotions
-
-    set scrolling [::ChatWindow::getScrolling $tw]
-
-    if { ![info exists emotions] } { return }
+	upvar #0 [string map {: _} ${chatid} ]_smileys emotions
+	
+	set scrolling [::ChatWindow::getScrolling $tw]
+	
+	if { ![info exists emotions] } { return }
 
 	#status_log "Parsing text for [array names emotions] with tw = $tw, textbegin = $textbegin and end = $end\n"
 	#status_log "text to parse : [$tw get $textbegin $end]\n"
 
-    foreach symbol [array names emotions] {
-	set chars [string length $symbol]
-	set file [::MSNP2P::GetFilenameFromMSNOBJ $emotions($symbol)]
-	if { $file == "" } { continue }
+	foreach symbol [array names emotions] {
+		set chars [string length $symbol]
+		set file [::MSNP2P::GetFilenameFromMSNOBJ $emotions($symbol)]
+		if { $file == "" } { continue }
+		
+		#status_log "Got file $file for symbol -$symbol-\n" red
+		
+		set start $textbegin
+		
+		# TODO this still needs to be fixed by using [$tw get $start $end] and searching in the text/removing what we found
+		# in the text, because tk 8.4 has a bug with elided text, it's fixed in 8.5, I'll fill a bug report soon and 
+		# add it in the comments...
+		while {[set pos [$tw search -exact -elide -- $symbol $start $end]] != ""} {
+			set start ${pos}+1c
+			set endpos [$tw index $pos+[string length $symbol]c]
+			
+			set skip 0
+			# used to avoid invalid search caused by elided text, such as in ::op
+			if { [string compare [$tw get $pos $endpos]  $symbol] != 0} {
+				continue
+			} else {
+				for { set i $pos } {$i <= $endpos && !$skip } {set i [$tw index $i+1c]} {
+					set tags [$tw tag names $i]
+					foreach tag_name $tags {
+						set elided [$tw tag cget $tag_name -elide]
+						if {$elided != "" && $elided} {
+							set skip 1
+							break
+						}
+					}
+				}
+			}
+			if {$skip} {
+				continue
+			}
 
-	#status_log "Got file $file for symbol -$symbol-\n" red
-
-	set start $textbegin
-
-	    # TODO this still needs to be fixed by using [$tw get $start $end] and searching in the text/removing what we found
-	    # in the text, because tk 8.4 has a bug with elided text, it's fixed in 8.5, I'll fill a bug report soon and 
-	    # add it in the comments...
-	    while {[set pos [$tw search -exact -- $symbol $start $end]] != ""} {
-		 
-		    set endpos [$tw index $pos+[string length $symbol]c]
-		    # used to avoid invalid search caused by elided text, such as in ::op
-		    if { [string compare [$tw get $pos $endpos]  $symbol] != 0} {
-			    set start ${pos}+1c
-			    continue
+			$tw tag configure smiley -elide true
+			$tw tag add smiley $pos $endpos
+			
+			set twTag "custom_smiley_$file"
+			set copyMenu "${tw}.custom_smiley_$file"
+			if { ![winfo exists $copyMenu] } {
+				menu $copyMenu -tearoff 0 -type normal
+				$copyMenu add command -label "[trans emoticon_steal] ($symbol)" -command "::smiley::addSmileyFromTW {$file} {[string map {"\\" "\\\\"} $symbol]}"
+				$tw tag bind $twTag <Enter> "$tw configure -cursor hand2"
+				$tw tag bind $twTag <Leave> "$tw configure -cursor xterm"
+				$tw tag bind $twTag <<Button1>> "tk_popup $copyMenu %X %Y"
 		    }
-
-	    $tw tag configure smiley -elide true
-	    $tw tag add smiley $pos $endpos
-	    
-	    set twTag "custom_smiley_$file"
-	    set copyMenu "${tw}.custom_smiley_$file"
-	    if { ![winfo exists $copyMenu] } {
-		menu $copyMenu -tearoff 0 -type normal
-		$copyMenu add command -label "[trans emoticon_steal] ($symbol)" -command "::smiley::addSmileyFromTW {$file} {[string map {"\\" "\\\\"} $symbol]}"
-		$tw tag bind $twTag <Enter> "$tw configure -cursor hand2"
-		$tw tag bind $twTag <Leave> "$tw configure -cursor xterm"
-		$tw tag bind $twTag <<Button1>> "tk_popup $copyMenu %X %Y"
+			
+			set smileyIdx [$tw image create $endpos -image "custom_smiley_$file" -padx 0 -pady 0]
+			$tw tag add $twTag $smileyIdx
+			$tw tag remove smiley $endpos
+		    
 	    }
-
-	    set smileyIdx [$tw image create $endpos -image "custom_smiley_$file" -padx 0 -pady 0]
-	    $tw tag add $twTag $smileyIdx
-	    $tw tag remove smiley $endpos
-	    
-	}
     }
 
 	#unset emotions
