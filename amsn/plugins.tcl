@@ -236,18 +236,18 @@ namespace eval ::plugins {
 
 
 	###############################################################
-        # getInfo (plugin,param)
-        #
-        # Checks the plugins array and return the parameter in the 
-	# pluginsinfo.xml file that is symbolized by param
-        #
-        # Arguments
-        # plugin - name of plugin
+	# getInfo (plugin,param)
+	#
+	# Checks the plugins array and return the parameter in the 
+	# plugininfo.xml file that is symbolized by param
+	#
+	# Arguments
+	# plugin - name of plugin
 	# param - name of parameter to check for
-        #
-        # Return
-        # string - the value of the parameter, empty if not found
-        #
+	#
+	# Return
+	# string - the value of the parameter, empty if not found
+	#
 	
 	proc getInfo {plugin param} {
 		variable plugins
@@ -374,7 +374,19 @@ namespace eval ::plugins {
 
 		set name $sdata(${cstack}:name)
 		set author $sdata(${cstack}:author)
-		set desc $sdata(${cstack}:description)
+
+		#Now plugins have an other field in plugininfo.xml in which the description can be translated.
+		#It should be used as
+		#<description_fr>the description in french</description_fr>
+		#The defaut description must be written in english
+		#The file should be encoded in utf-8
+		set langcode [::config::getGlobalKey language]
+		if { ($langcode != "en") && [info exists sdata(${cstack}:description_${langcode}) ] } {
+			set desc $sdata(${cstack}:description_${langcode})
+		} else {
+			set desc $sdata(${cstack}:description)
+		}
+
 		set amsn_version $sdata(${cstack}:amsn_version)
 		set plugin_version $sdata(${cstack}:plugin_version)
 		set plugin_file $sdata(${cstack}:plugin_file)
@@ -905,7 +917,7 @@ namespace eval ::plugins {
 		UnRegisterEvents $plugin
 
 		#get the namespace and deinit proc and if it exists, call it
-		set namespace [::plugins::getInfo $plugin namespace]
+		set namespace [::plugins::getInfo $plugin plugin_namespace]
 		set deinit [::plugins::getInfo $plugin deinit_proc]
 		if {[info procs "::${namespace}::${deinit}"] == "::${namespace}::${deinit}"} {
 			if { [catch {::${namespace}::${deinit}} res] } {
