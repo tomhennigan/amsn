@@ -429,6 +429,9 @@ namespace eval ::plugins {
 		variable loadedplugins
 		# array that holds info about currently selected plugin
 		variable selection
+		# the path to the frame where are displayed pieces of information for a plugin
+		variable mF
+
 		# clear the selection
 		set selection ""
 		# set the window path
@@ -448,16 +451,21 @@ namespace eval ::plugins {
 			listbox $w.plugin_list -background "white" -height 15 -yscrollcommand "$w.ys set" -relief flat -highlightthickness 0
 			scrollbar $w.ys -command "$w.plugin_list yview"
 
-
+			#Scrollableframe that will contain pieces of information about a plugin
+			ScrolledWindow $w.sw 
+			ScrollableFrame $w.sw.sf -areaheight 0 -areawidth 0 
+			$w.sw setwidget $w.sw.sf
+			set mF [$w.sw.sf getframe]	
+			
 			# holds the plugins info like name and description
-			label $w.name_title -text [trans name] -font sboldf
-			label $w.name  -wraplength 300 
-			label $w.version_title -text [trans version] -font sboldf
-			label $w.version
-			label $w.author_title -text [trans author] -font sboldf
-			label $w.author  -wraplength 300 
-			label $w.desc_title -text [trans description] -font sboldf
-			label $w.desc -width 40 \
+			label $mF.name_title -text [trans name] -font sboldf
+			label $mF.name  -wraplength 300 
+			label $mF.version_title -text [trans version] -font sboldf
+			label $mF.version
+			label $mF.author_title -text [trans author] -font sboldf
+			label $mF.author  -wraplength 300 
+			label $mF.desc_title -text [trans description] -font sboldf
+			label $mF.desc -width 40 \
 			    -wraplength 300 -justify left -anchor w
 			# holds the 'command center' buttons
 			label $w.getmore -text "[trans getmoreplugins]" -fg #0000FF
@@ -488,15 +496,15 @@ namespace eval ::plugins {
 
 			pack $w.plugin_list -fill both -side left
 			pack $w.ys -fill both -side left
-			pack $w.name_title -padx 5 -anchor w
-			pack $w.name -padx 5 -anchor w
-			pack $w.version_title -padx 5 -anchor w
-			pack $w.version -padx 5 -anchor w 
-			pack $w.author_title -padx 5 -anchor w
-			pack $w.author -padx 5 -anchor w
-			pack $w.desc_title -padx 5 -anchor w
-			pack $w.desc -anchor nw -expand true -fill x -padx 5
-
+			pack $mF.name_title -padx 5 -anchor w
+			pack $mF.name -padx 5 -anchor w
+			pack $mF.version_title -padx 5 -anchor w
+			pack $mF.version -padx 5 -anchor w 
+			pack $mF.author_title -padx 5 -anchor w
+			pack $mF.author -padx 5 -anchor w
+			pack $mF.desc_title -padx 5 -anchor w
+			pack $mF.desc -anchor nw -expand true -fill x -padx 5
+			pack $w.sw -anchor w -side top -expand true -fill both
 			pack $w.getmore -side top -anchor e -padx 5
 			bind $w.getmore <Enter> "$w.getmore configure -font sunderf"
 			bind $w.getmore <Leave> "$w.getmore configure -font splainf"
@@ -532,6 +540,8 @@ namespace eval ::plugins {
 		variable plugins
 		# the loaded plugins
 		variable loadedplugins
+		# the path to the frame where are displayed pieces of information for a plugin
+		variable mF
 
 		# find the id of the currently selected plugin
 		set selection [$w.plugin_list get [$w.plugin_list curselection]]
@@ -541,10 +551,10 @@ namespace eval ::plugins {
 		}
 
 		# update the description
-		$w.name configure -text $selection
-		$w.author configure -text [getInfo $selection author]
-		$w.version configure -text [getInfo $selection plugin_version]
-		$w.desc configure -text [getInfo $selection description]
+		$mF.name configure -text $selection
+		$mF.author configure -text [getInfo $selection author]
+		$mF.version configure -text [getInfo $selection plugin_version]
+		$mF.desc configure -text [getInfo $selection description]
 		
 		# update the buttons
 
