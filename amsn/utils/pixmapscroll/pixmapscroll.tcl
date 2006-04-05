@@ -72,7 +72,7 @@ snit::widgetadaptor scrollbar {
 	option -autohide -default 0 -configuremethod ChangeHide
 
 	typeconstructor {
-		$type reloadimages "" 1
+		reloadimages "" 1
 	}
 
 	constructor {args} {
@@ -535,7 +535,7 @@ snit::widgetadaptor scrollbar {
 		}
 	}
 
-	typemethod reloadimages { dir {force 0} } {
+	proc reloadimages { dir {force 0} } {
 		foreach orientation {horizontal vertical} {
 			foreach pic {arrow1 arrow2 slidertop sliderbody sliderbottom slidergrip} {
 				foreach hov {{} _hover _pressed _disabled} {

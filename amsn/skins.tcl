@@ -361,8 +361,8 @@ namespace eval ::skin {
 			#We are not using pixmapscroll on Mac OS X
 			# Reload pixmapscroll's images
 			set psdir [LookForExtFolder $skin_name "pixmapscroll"]
-			if {$psdir != 0} {
-				scrollbar reloadimages $psdir
+			if {$psdir != 0 && ![catch "package present pixmapscroll"]} {
+				::scrollbar::reloadimages $psdir
 				status_log "skin $skin_name 's scrollbar loaded"
 			}	
 		}
