@@ -2853,7 +2853,16 @@ namespace eval ::amsn {
 		set text_start [[::ChatWindow::GetOutText ${win_name}] index end-1c]
 		#set posyx [split $text_start "."]
 		#set text_start "[expr {[lindex $posyx 0]-1}].[lindex $posyx 1]"
-		
+
+		#Ugly hack for elided search, but at least it works!...
+		if { [info tclversion] == 8.4 && $tagname == "user" } {
+			if { [[::ChatWindow::GetOutText ${win_name}] get end-2c]!= "\n" } {
+				[::ChatWindow::GetOutText ${win_name}] search -elide -regexp -count all_chars .* end-1l end-1c
+				[::ChatWindow::GetOutText ${win_name}] search -regexp -count visible_chars .* end-1l end-1c
+				set elided_chars [expr $all_chars - $visible_chars + 1]
+				set text_start $text_start-${elided_chars}c
+			}
+		}
 
 		#Check if this is first line in the text, then ignore the \n
 		#at the beginning of the line
