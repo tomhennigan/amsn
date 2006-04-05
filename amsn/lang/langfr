@@ -189,6 +189,7 @@ copytoclipboard Copier $1
 copytogroup Copier vers groupe
 corruptconfig Fichier de configuration corrompu. Créez-en un nouveau. L'ancien fichier sera sauvegardé vers $1. Envoyez-le nous afin que nous regardions ce qui s'est passé.
 corruptstates Fichier de configuration des status corrompu. Créez-en un nouveau. L'ancien fichier sera sauvegardé vers $1. Envoyez-le nous afin que nous regardions ce qui s'est passé.
+couldnotrename Impossible de renommer le fichier $1
 countrycode Mon pays/code région
 cprofile Créer un profil
 created créé[e]
@@ -547,9 +548,10 @@ prefblock3 Groupe "Vous avez été bloqué par"
 prefconnection Préférences de connexion
 prefemotic Emoticônes et smileys
 preferences Préférences
+preffont Texte de mes messages
 preffont2 Changer la façon dont les autres voient mon texte dans les conversations
 preffont3 Changer la police et la taille de l'interface d'aMSN
-preffont Texte de mes messages
+preffont4 Changer la façon dont je vois le texte des contacts dans la fenêtre de conversation
 prefft Configuration des transferts de fichiers, peer-to-peer et NAT
 preflibs Répertoires des bibliothèques
 preflog1 Mon historique et ses options
@@ -607,6 +609,7 @@ rename Renommer
 report Envoyer
 reporting Envoi du bug....
 required_version Impossible de charger ce plugin. Il nécessite au moins la version $1 d'aMSN
+resetincomingfont Mettre à zéro : Utiliser la police que le contact a choisi.
 restartforskin Note : Il se peut que vous ayez à redémarrer aMSN pour que l'apparence fonctionne au mieux.
 reversed Ordre inversé
 reverselist Liste inversée :
