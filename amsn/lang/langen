@@ -244,6 +244,9 @@ displayeventemail Display when an E-Mail is received
 displayeventstate Display when contacts change status
 displayp4context Display P4-Context field content as message sender
 displaypic Display Picture
+curdisplaypic Current display picture
+otherdisplaypic Other display pictures of this user (click for more options)
+loadotherdisplaypic Loading DPs of $1, please wait...
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Gnome Dock
 docking Docking
@@ -749,6 +752,7 @@ useother Use a different program
 useralreadyonlist User is already on contact list
 userblocked The user is online but blocked you
 userdata User Data
+userdps User display pictures
 usernotonline The user is not online
 userproperties User properties of $1
 user User

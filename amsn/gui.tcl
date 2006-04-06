@@ -2857,6 +2857,7 @@ namespace eval ::amsn {
 		#Ugly hack for elided search, but at least it works!...
 		if { [info tclversion] == 8.4 && $tagname == "user" } {
 			if { [[::ChatWindow::GetOutText ${win_name}] get end-2c]!= "\n" } {
+				set all_chars 0
 				[::ChatWindow::GetOutText ${win_name}] search -elide -regexp -count all_chars .* end-1l end-1c
 				#Remove line below and aMSN Plus causes bug report
 				set visible_chars $all_chars
@@ -7752,18 +7753,21 @@ proc chooseFileDialog { {initialfile ""} {title ""} {parent ""} {entry ""} {oper
 }
 
 
-proc pictureDeleteFile {} {
+proc pictureDeleteFile { {filename ""} {widget .picbrowser.mypic} } {
 	global selected_image HOME
 
-	if { $selected_image!="" && [file exists [file join $HOME displaypic $selected_image]]} {
+	if { $filename == "" } {
+		set filename [file join $HOME displaypic $selected_image]
+	}
+
+	if { [file exists $filename]} {
 		set answer [::amsn::messageBox [trans confirm] yesno question [trans delete]]
 		if { $answer == "yes"} {
-			set filename [file join $HOME displaypic $selected_image]
 			catch {file delete $filename}
 			catch {file delete [filenoext $filename].gif}
 			catch {file delete [filenoext $filename].dat}
 			set selected_image ""
-			.picbrowser.mypic configure -image [::skin::getNoDisplayPicture]
+			$widget configure -image [::skin::getNoDisplayPicture]
 			if { [file exists $filename] == 1 } {
 				::amsn::messageBox [trans faileddelete] ok error [trans failed]
 				status_log "Failed: file $filename could not be deleted.\n";
@@ -7772,7 +7776,7 @@ proc pictureDeleteFile {} {
 
 	} else {
 		::amsn::messageBox [trans faileddeleteperso] ok error [trans failed]
-		status_log "Failed: file [file join $HOME displaypic $selected_image] does not exists.\n";
+		status_log "Failed: file $filename does not exists.\n";
 	}
 }
 

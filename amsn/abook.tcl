@@ -972,6 +972,65 @@ namespace eval ::abookGui {
        ::themes::AddClass NoteBook * {-background $bgcol} 90
    }
    
+	proc userDPs_popup_menu { X Y filename widget } {
+	  # Create pop-up menu if it doesn't yet exists
+	  set the_menu .userDPs_menu
+	  catch {destroy $the_menu}
+	  menu $the_menu -tearoff 0 -type normal
+	  $the_menu add command \
+		-label "[trans copytoclipboard [string tolower [trans filename]]]" \
+		-command "clipboard clear ; clipboard append $filename"
+	  $the_menu add command -label "[trans delete]" \
+		-command "pictureDeleteFile $filename $widget"
+	  $the_menu add command -label "Set as custom display picture for this user" \
+		-command [list ::amsn::messageBox "Sorry, not yet implemented" ok error [trans failed]]
+	  $the_menu add command -label "Set as my display picture" \
+		-command [list set_displaypic $filename]
+		#-command [list ::abookGui::set_userDP_as_mine $filename]
+	  tk_popup $the_menu $X $Y
+	}
+
+	proc userDPs_raise_cmd { nb email } { 
+		if {![info exists ::abookGui::OtherDPList($email)] || \
+		    [llength $::abookGui::OtherDPList($email)] == 0 } {
+		  ::amsn::notifyAdd [trans loadotherdisplaypic $email] ""
+
+		  set nbIdent [$nb getframe userDPs]
+		  set mainFrame [$nbIdent.otherpics.sf getframe]
+
+		  global HOME
+		  set cachefiles [glob -nocomplain -directory [file join $HOME displaypic cache] *.dat]
+		  proc grep { fd re } {
+			  set result 0
+			  while {[gets $fd s] >= 0} {
+				  if [regexp $re $s] { set result 1 }
+			  }
+			  return $result
+		  }
+
+		  set i 0
+		  set dps_per_row 4
+		  set pic_in_use [::abook::getContactData $email displaypicfile ""]
+		  foreach f $cachefiles {
+			if {[string first $pic_in_use $f] == -1} {
+			  set fd [open $f]
+			  if { [grep $fd $email] == 1 } {
+				  if { [catch {set img [image create photo -file [filenoext $f].png -format cximage]}] } { continue }
+				  lappend ::abookGui::OtherDPList($email) $img
+				  button $mainFrame.$i -image $img
+				  bind $mainFrame.$i <ButtonPress-1> \
+					[list ::abookGui::userDPs_popup_menu %X %Y [filenoext $f].png $mainFrame.$i]
+				  grid $mainFrame.$i \
+					  -row [expr {$i / $dps_per_row}] -column [expr {$i % $dps_per_row}] \
+					  -pady 5 -padx 5
+				  incr i
+			  }
+			  close $fd
+			}
+		  }
+		}
+	}
+
 	proc showUserProperties { email } {
 		global colorval_$email
 		set w ".user_[::md5::md5 $email]_prop"
@@ -986,6 +1045,8 @@ namespace eval ::abookGui {
 		$w.nb insert 0 userdata -text [trans userdata]
 		$w.nb insert 1 notify -text [trans notifywin]
 		$w.nb insert 2 alarms -text [trans alarms]
+		$w.nb insert 3 userDPs -text [trans userdps] \
+			-raisecmd [list ::abookGui::userDPs_raise_cmd $w.nb $email]
 		##############
 		#Userdata page
 		##############
@@ -1224,6 +1285,26 @@ namespace eval ::abookGui {
 		set nbIdent [$nbIdent.sw.sf getframe]
 		
 		::alarms::configDialog $email $nbIdent
+		##############
+		#UserDPs page
+		##############
+		set nbIdent [$w.nb getframe userDPs]
+		# User's current display picture
+		label $nbIdent.titlepic1 -text "[trans curdisplaypic]" -font bboldunderf
+		label $nbIdent.displaypic -image [::skin::getDisplayPicture $email]
+		# Other display pictures of user
+		label $nbIdent.titlepic2 -text "[trans otherdisplaypic]" \
+			-font bboldunderf
+		ScrolledWindow $nbIdent.otherpics
+		ScrollableFrame $nbIdent.otherpics.sf
+		set mainFrame [$nbIdent.otherpics.sf getframe]
+		$nbIdent.otherpics setwidget $nbIdent.otherpics.sf
+
+		pack $nbIdent.titlepic1 -anchor w -padx 5 -pady 5
+		pack $nbIdent.displaypic -anchor w -padx 7 -pady 5
+		pack $nbIdent.titlepic2 -anchor w -padx 5 -pady 5
+		pack $nbIdent.otherpics -expand true -fill both
+
 		##########
 		#Common
 		##########
@@ -1321,6 +1402,13 @@ namespace eval ::abookGui {
 			unset ::notifystatus($email)
 			unset ::notifymsg($email)
 			
+			#Free display pictures
+			if {[info exists ::abookGui::OtherDPList($email)]} {
+			  foreach img $::abookGui::OtherDPList($email) {
+				  image delete $img
+			  }
+			}
+			set ::abookGui::OtherDPList($email) {}
 		}
 	}
 	
@@ -1425,5 +1513,5 @@ namespace eval ::abookGui {
 		cmsn_draw_online
 		::abook::saveToDisk
 	}
-         
+
 }
