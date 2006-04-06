@@ -4077,6 +4077,8 @@ proc cmsn_change_state {recv} {
 		set msnobj [urldecode [lindex $recv 6]]
 		#Add clientID to abook
 		add_Clientid $user [lindex $recv 5]
+		#Previous clientname info is now inaccurate
+		::abook::setContactData $user clientname ""
 	} else {
 		#Coming online or changing state
 		set user [lindex $recv 2]
@@ -4268,6 +4270,9 @@ proc cmsn_change_state {recv} {
 			#Register PostEvent "UserConnect" for Plugins, email = email user_name=custom nick
 			set evPar(user) user
 			set evPar(user_name) custom_user_name
+			#Reset clientname, if it's not M$N it will set it again
+			#later on with x-clientcaps
+			::abook::setContactData $user clientname ""
 			::plugins::PostEvent UserConnect evPar
 		}
 
