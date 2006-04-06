@@ -309,7 +309,7 @@ namespace eval ::smiley {
 
 				#set skip 0
 				# used to avoid invalid search caused by elided text, such as in ::op
-				if { [string compare $nocase [$tw get $pos $endpos]  $symbol] != 0} {
+				if { [string equal -nocase [$tw get $pos $endpos]  $symbol] == 0} {
 					continue
 				#} else {
 				#	for { set i $pos } {$i <= $endpos && !$skip} {set i [$tw index $i+1c]} {
