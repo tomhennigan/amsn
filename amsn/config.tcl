@@ -1275,14 +1275,17 @@ proc CheckLock { email } {
 					fileevent $clientSock readable "lockcltHdl $clientSock"
 					fconfigure $clientSock -buffering line
 					puts $clientSock "AMSN_LOCK_PING"
+					after 5000 [list set response failed]
 					vwait response
-	
-					#set response [gets $clientSock]
+
 					if { $response == "AMSN_LOCK_PONG" } {
 						status_log "CheckLock: Got PONG response\n" green
 						# profile is locked
 						close $clientSock
 						return -1
+					} elseif { $response == "failed" } {
+						status_log "CheckLock: failed to get response from port $Port. Reseting to 0\n" blue
+						LoginList changelock 0 $email 0
 					} else {
 						status_log "CheckLock: another program using port $Port. Reseting to 0\n" blue
 						# other non amsn program is using the lock port, we better reset the lock to 0
@@ -1300,9 +1303,6 @@ proc CheckLock { email } {
 
 	}
 	return 0
-}
-
-proc phony { sock } {
 }
 
 proc lockcltHdl { sock } {
