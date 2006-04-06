@@ -2162,6 +2162,26 @@ namespace eval ::CAMGUI {
 			label $w.capture -text "[trans captureextnotloaded $extension]" -font sboldf -foreground red
 		}
 		pack $w.capture -expand true -padx 5
+
+		checkbutton $w.wanttosharecam -text "[trans wanttosharecam]" -font sboldf -variable [::config::getVar wanttosharecam] -onvalue 1 -offvalue 0 -state disabled
+		pack $w.wanttosharecam
+
+		if { [info exists ::webcamsn_loaded] && $::webcamsn_loaded && [info exists ::capture_loaded] && $::capture_loaded } {
+			set campresent 0
+			#TODO: code for other platforms!!
+			#TODO: check if campresent this before connecting
+			#(when you set the clientid)
+			#to avoid problems when user disconnected cam
+			if { [set ::tcl_platform(os)] == "Linux" } {
+				if { [llength [::Capture::ListDevices]] > 0 } {
+					set campresent 1
+				}
+			}
+			if { $campresent == 1 } {
+				$w.wanttosharecam configure -state active
+			}
+		}
+
 		button $w.settings -command "::CAMGUI::ChooseDevice" -text "[trans changevideosettings]"
 		#Add button to change settings
 		if { ![info exists ::pwc_driver] || $::pwc_driver == 0} {

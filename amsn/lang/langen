@@ -760,6 +760,7 @@ videoconversationrequest You just received a video conversation (bidirectional a
 viewcontactsby View contacts by
 viewprofile View Profile
 view View
+wanttosharecam I want to make my webcam available to others
 webcamcanceled The webcam session with $1 has been canceled
 webcamclosebefcancel You have to cancel all webcam sessions before closing the window
 webcamconfigure Configure Webcam

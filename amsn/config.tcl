@@ -180,6 +180,8 @@ namespace eval ::config {
 		::config::setKey blockusers 2
 		::config::setKey showblockedgroup 0
 
+		::config::setKey wanttosharecam 0
+
 		::config::setKey emotisounds 1			;#Play sound on certain emoticons
 		::config::setKey animatedsmileys 1		;#Show animated smileys
 
@@ -641,6 +643,10 @@ proc load_config {} {
 	::MSN::setClientCap msnc4
 	::MSN::setClientCap inkgif
 	::MSN::setClientCap multip
+
+	if { [::config::getKey wanttosharecam] } {
+		::MSN::setClientCap webcam
+	}
 
 	# Load up the personal states
 	LoadStateList
