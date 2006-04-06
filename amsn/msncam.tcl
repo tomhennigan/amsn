@@ -1444,6 +1444,31 @@ namespace eval ::MSNCAM {
 
 namespace eval ::CAMGUI {
 
+	proc camPresent { } {
+		if { ! [info exists ::webcamsn_loaded] } { ::CAMGUI::ExtensionLoaded }
+		if { ! $::webcamsn_loaded } { status_log "Error when trying to load Webcamsn extension" red; return }
+		if { ! [info exists ::capture_loaded] } { ::CAMGUI::CaptureLoaded }
+		if { ! $::capture_loaded } { return }
+		#Now we are sure that both webcamsn and capture are loaded
+		set campresent 0
+		if { [set ::tcl_platform(os)] == "Linux" } {
+                        if { [llength [::Capture::ListDevices]] > 0 } {
+                                set campresent 1
+                        }
+		} elseif { [set ::tcl_platform(platform)] == "windows" } {
+			tkvideo .webcam_preview
+			set devices [.webcam_preview devices]
+			if { [llength $devices] > 0 } {
+				set campresent 1
+			}
+			destroy .webcam_preview
+		} elseif { [set ::tcl_platform(os)] == "Darwin" } {
+			#Jerome said there's no easy Windows way to check...
+			set campresent 1
+		}
+		return $campresent
+	}
+
 	proc ShowCamFrame { sid data } {
 		if { ! [info exists ::webcamsn_loaded] } { ExtensionLoaded }
 		if { ! $::webcamsn_loaded } { return }
@@ -2163,23 +2188,11 @@ namespace eval ::CAMGUI {
 		}
 		pack $w.capture -expand true -padx 5
 
-		checkbutton $w.wanttosharecam -text "[trans wanttosharecam]" -font sboldf -variable [::config::getVar wanttosharecam] -onvalue 1 -offvalue 0 -state disabled
+		checkbutton $w.wanttosharecam -text "[trans wanttosharecam]" -font sboldf -variable [::config::getVar wanttosharecam] -onvalue 1 -offvalue 0 -state disabled -command "::CAMGUI::buttonToggled"
 		pack $w.wanttosharecam
 
-		if { [info exists ::webcamsn_loaded] && $::webcamsn_loaded && [info exists ::capture_loaded] && $::capture_loaded } {
-			set campresent 0
-			#TODO: code for other platforms!!
-			#TODO: check if campresent this before connecting
-			#(when you set the clientid)
-			#to avoid problems when user disconnected cam
-			if { [set ::tcl_platform(os)] == "Linux" } {
-				if { [llength [::Capture::ListDevices]] > 0 } {
-					set campresent 1
-				}
-			}
-			if { $campresent == 1 } {
-				$w.wanttosharecam configure -state active
-			}
+		if { [::CAMGUI::camPresent] == 1 } {
+			$w.wanttosharecam configure -state active
 		}
 
 		button $w.settings -command "::CAMGUI::ChooseDevice" -text "[trans changevideosettings]"
@@ -2202,6 +2215,18 @@ namespace eval ::CAMGUI {
 		moveinscreen $w 30
 		
 	
+	}
+
+	proc buttonToggled { } {
+		if { [::config::getKey wanttosharecam] } {
+			::MSN::setClientCap webcam
+		} else {
+			::MSN::setClientCap webcam 0
+		}
+		#Refresh clientid if connected
+		if { [::MSN::myStatusIs] != "FLN" } {
+			::MSN::changeStatus [set ::MSN::myStatus]
+		}
 	}
 	
 	
@@ -3779,5 +3804,8 @@ status_log "Config'ed: $brightness, $contrast, $hue, $color"
 
 
 #Close the ::CAMSETUP namespace
+}
+if { [::config::getKey wanttosharecam] && [::CAMGUI::camPresent] == 1 } {
+	::MSN::setClientCap webcam
 }
 

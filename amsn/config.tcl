@@ -644,10 +644,6 @@ proc load_config {} {
 	::MSN::setClientCap inkgif
 	::MSN::setClientCap multip
 
-	if { [::config::getKey wanttosharecam] } {
-		::MSN::setClientCap webcam
-	}
-
 	# Load up the personal states
 	LoadStateList
 	if { [winfo exists .my_menu] } {CreateStatesMenu .my_menu}
