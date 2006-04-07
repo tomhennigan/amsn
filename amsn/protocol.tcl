@@ -928,6 +928,9 @@ namespace eval ::MSN {
 
 		::abook::unsetConsistent
 
+		#Try to update Preferences
+		catch {InitPref 1}
+
 		set automessage "-1"
 
 		cmsn_draw_offline
@@ -3018,6 +3021,9 @@ namespace eval ::Event {
 		set ::contactlist_loaded 1
 		::abook::setConsistent
 		::abook::saveToDisk
+		#Update Preferences window if it's open
+		after 1000 {catch {InitPref 1}}
+
 	}
 
 	method handleLST { command } {
