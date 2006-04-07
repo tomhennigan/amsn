@@ -762,6 +762,18 @@ namespace eval ::ChatWindow {
 	}
 	#///////////////////////////////////////////////////////////////////////////////
 
+	# ::ChatWindow::getAllChatIds
+	# Returns a list of all chatids of all open windows
+
+	proc getAllChatIds { } {
+
+		set chatids ""
+		foreach win_name [array names ::ChatWindow::chat_ids] {
+			lappend chatids [::ChatWindow::Name $win_name]
+		}
+		return $chatids
+	}
+
 
 	#TODO: Deprecated, remove?
 	proc TabbedWindowsInfo { } {
