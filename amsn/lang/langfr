@@ -110,7 +110,7 @@ change Changer
 change_account_info Changer les informations concernant votre compte 
 change_mobile Changer les paramètres du Mobile
 changecustomstate Changer à
-changedisplaypic Changer l'avatar
+changedisplaypic Changer mon avatar
 changefont Changer la police
 changeglobnick Changer le pseudonyme général
 changenick Changer de pseudonyme
@@ -194,6 +194,7 @@ countrycode Mon pays/code région
 cprofile Créer un profil
 created créé[e]
 credits Crédits
+curdisplaypic Avatar actuel
 currentdate Date actuelle
 currentlanguage Langue actuelle
 currentnotes Notes actuelles
@@ -418,6 +419,7 @@ loginas Se connecter en tant que
 loging Historique
 login Se connecter
 logolder Enregistrer seulement les conversations qui ont eu lieu dans les
+loadotherdisplaypic Chargement des avatars de $1, patientez...
 logout Se déconnecter
 logsbydate Trier les historiques par date (affichage de l'historique plus rapide)
 logsin vient de se connecter
@@ -522,6 +524,7 @@ ordercontactsby Trier les contacts
 ordergroupsby Trier les groupes par
 original Originale
 other Autre
+otherdisplaypic Autres avatars de ce contact (cliquer sur l'avatar pour plus d'options)
 others Autres
 p4contextprefix Préfixe du champ P4-Context
 pager Pager
@@ -749,6 +752,7 @@ usemsnp11 Ajoute la possibilité de lire et d'écrire des messages personnels (cec
 useralreadyonlist Utilisateur déjà présent dans la liste
 userblocked Ce contact est en ligne mais vous l'avez bloqué
 userdata Données du contact
+userdps Avatars
 usernotonline Le contact n'est pas en ligne
 userproperties Propriétés du contact $1
 user Utilisateur
@@ -760,6 +764,7 @@ videoconversationrequest Vous venez de recevoir une invite pour une conversation
 viewcontactsby Afficher les contacts par
 viewprofile Afficher le profil
 view Vue
+wanttosharecam Je souhaite que les autres voient ma webcam
 webcam Webcam
 webcamcanceled La conversation par webcam avec $1 a été annulée
 webcamclosebefcancel Vous devez annuler toutes les conversations par webcam avant de fermer la fenêtre
