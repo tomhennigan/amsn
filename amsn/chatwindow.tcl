@@ -2287,7 +2287,14 @@ namespace eval ::ChatWindow {
 		set user_list [::MSN::usersInChat $chatid]
 
 		if {[llength $user_list] == 0} {
-			return 0
+			#return 0
+			#We have a chatwindow, but no SB for it.
+			#Check if the chatid is a valid user...
+			if { [lsearch [::abook::getAllContacts] $chatid] != -1 } {
+				set user_list $chatid
+			} else {
+				return 0
+			}
 		}
 
 		set win_name [::ChatWindow::For $chatid]

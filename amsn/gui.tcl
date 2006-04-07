@@ -2104,6 +2104,14 @@ namespace eval ::amsn {
 
 		set userlist [list]
 		set chatusers [::MSN::usersInChat [::ChatWindow::Name $win_name]]
+		if { [llength $chatusers] == 0 } {
+			#No SB yet. Check if chatid is a valid user
+			#example: opened chat while appearing offline
+			set chatid [::ChatWindow::Name $win_name]
+			if { [lsearch [::abook::getAllContacts] $chatid] != -1 } {
+				set chatusers $chatid
+			}
+		}
 
 		foreach user_login $chatusers {
 			set user_state_code [::abook::getVolatileData $user_login state FLN]

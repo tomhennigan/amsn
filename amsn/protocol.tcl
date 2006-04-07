@@ -3178,12 +3178,16 @@ namespace eval ::Event {
 		::abook::setVolatileData $contact currentMedia [::sxml::replacexml [encoding convertfrom utf-8 $currentMedia]]
 		cmsn_draw_online 1 2
 		foreach chat_id [::ChatWindow::getAllChatIds] {
-                        foreach user_in_chat [::MSN::usersInChat $chat_id] {
-                                if { $user_in_chat == $contact } {
-                                        ::ChatWindow::TopUpdate $chat_id
-                                        continue
-                                }
-                        }
+			if { $chatid == $contact } {
+				::ChatWindow::TopUpdate $chat_id
+			} else {
+                        	foreach user_in_chat [::MSN::usersInChat $chat_id] {
+	                                if { $user_in_chat == $contact } {
+	                                        ::ChatWindow::TopUpdate $chat_id
+	                                        break
+	                                }
+	                        }
+			}
                 }
 	}
 
@@ -4364,10 +4368,14 @@ proc cmsn_change_state {recv} {
 		cmsn_draw_online 1 2
 
 		foreach chat_id [::ChatWindow::getAllChatIds] {
-			foreach user_in_chat [::MSN::usersInChat $chat_id] {
-				if { $user_in_chat == $user } {
-					::ChatWindow::TopUpdate $chat_id
-					continue
+			if { $chat_id == $user } {
+				::ChatWindow::TopUpdate $chat_id
+			} else {
+				foreach user_in_chat [::MSN::usersInChat $chat_id] {
+					if { $user_in_chat == $user } {
+						::ChatWindow::TopUpdate $chat_id
+						break
+					}
 				}
 			}
 		}
