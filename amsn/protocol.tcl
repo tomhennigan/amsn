@@ -4829,7 +4829,7 @@ proc cmsn_auth {{recv ""}} {
 		a {
 			#Send three first commands at same time, to it faster
 			if { [::config::getKey protocol] == 11 } {
-				::MSN::WriteSB ns "VER" "MSNP13 MSNP12 CVR0"
+				::MSN::WriteSB ns "VER" "MSNP12 CVR0"
 			} else {
 				::MSN::WriteSB ns "VER" "MSNP9 CVR0"
 			}
