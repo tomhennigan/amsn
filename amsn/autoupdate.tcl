@@ -769,9 +769,7 @@ namespace eval ::autoupdate {
 		}
 	
 		foreach plugin [::plugins::getPlugins] {
-			set namespace [lindex $plugin 6]
-			set file [file join $HOME2 $namespace.xml]
-			file delete $file
+			file delete [file join $HOME2 $plugin.xml]
 		}
 		
 		unset -nocomplain ::lang::UpdatedLang
