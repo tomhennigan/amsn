@@ -3177,6 +3177,14 @@ namespace eval ::Event {
 		::abook::setVolatileData $contact PSM [::sxml::replacexml [encoding convertfrom utf-8 $psm]]
 		::abook::setVolatileData $contact currentMedia [::sxml::replacexml [encoding convertfrom utf-8 $currentMedia]]
 		cmsn_draw_online 1 2
+		foreach chat_id [::ChatWindow::getAllChatIds] {
+                        foreach user_in_chat [::MSN::usersInChat $chat_id] {
+                                if { $user_in_chat == $contact } {
+                                        ::ChatWindow::TopUpdate $chat_id
+                                        continue
+                                }
+                        }
+                }
 	}
 
 	method setInitialStatus { } {
@@ -3918,6 +3926,10 @@ proc cmsn_update_users {sb recv} {
 
 			set usr_login [lindex [$sb cget -users] 0]
 
+			if { [llength [$sb cget -users]] > 1 } {
+				::ChatWindow::TopUpdate $chatid
+			}
+
 			if { [llength [$sb cget -users]] == 1 } {
 				#We were a conference! try to become a private
 
@@ -3956,6 +3968,8 @@ proc cmsn_update_users {sb recv} {
 
 
 					set chatid $newchatid
+
+					::ChatWindow::TopUpdate $chatid
 
 
 				}
@@ -4016,6 +4030,7 @@ proc cmsn_update_users {sb recv} {
 
 				$sb configure -last_user $usr_login
 				set chatid $usr_login
+				::ChatWindow::TopUpdate $chatid
 
 			} else {
 
@@ -4038,6 +4053,8 @@ proc cmsn_update_users {sb recv} {
 				status_log "cmsn_update_users: JOI - Another user joins, Now I'm chatid $chatid (I was $oldchatid)\n"
 
 				::ChatWindow::Change $oldchatid $chatid
+
+				::ChatWindow::TopUpdate $chatid
 
 			}
 
@@ -4345,6 +4362,15 @@ proc cmsn_change_state {recv} {
 	::MSN::contactListChanged
 	if { $state_changed || $nick_changed } {
 		cmsn_draw_online 1 2
+
+		foreach chat_id [::ChatWindow::getAllChatIds] {
+			foreach user_in_chat [::MSN::usersInChat $chat_id] {
+				if { $user_in_chat == $user } {
+					::ChatWindow::TopUpdate $chat_id
+					continue
+				}
+			}
+		}
 	}
 }
 

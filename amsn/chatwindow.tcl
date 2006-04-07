@@ -2445,8 +2445,8 @@ namespace eval ::ChatWindow {
 
 		after cancel "::ChatWindow::TopUpdate $chatid"
 
-		#TODO: Get this 5000 out and refresh only when needed
-		after 5000 "::ChatWindow::TopUpdate $chatid"
+		#DONE: Get this 5000 out and refresh only when needed
+		#after 5000 "::ChatWindow::TopUpdate $chatid"
 
 	}
 
