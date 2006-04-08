@@ -3178,7 +3178,7 @@ namespace eval ::Event {
 		::abook::setVolatileData $contact currentMedia [::sxml::replacexml [encoding convertfrom utf-8 $currentMedia]]
 		cmsn_draw_online 1 2
 		foreach chat_id [::ChatWindow::getAllChatIds] {
-			if { $chatid == $contact } {
+			if { $chat_id == $contact } {
 				::ChatWindow::TopUpdate $chat_id
 			} else {
                         	foreach user_in_chat [::MSN::usersInChat $chat_id] {
