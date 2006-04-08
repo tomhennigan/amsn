@@ -1022,7 +1022,7 @@ namespace eval ::pop3 {
 		#doing the query, we don't use ::http::formatQuery because it returns a bad string, urlencode is preferred
 		set gmail(query) ""
 		#the continue value, in the query, contains ui%3Dhtml%26zy%3Dl which informs the gmail server that we don't use Javascript
-		append gmail(query) ltmpl=yj_blanco&ltmplcache=2&continue=http%3A%2F%2Fmail.google.com%2Fmail%3Fui%3Dhtml%26zy%3Dl&service=mail&rm=false&ltmpl=yj_blanco&Email=billiob&Passwd= [urlencode [pop3::decrypt $::pop3::config(passe_$acntn)] ] &rmShown=1&null=Connexion
+		append gmail(query) ltmpl=yj_blanco&ltmplcache=2&continue=http%3A%2F%2Fmail.google.com%2Fmail%3Fui%3Dhtml%26zy%3Dl&service=mail&rm=false&ltmpl=yj_blanco&Email= [urlencode [pop3::decrypt $::pop3::config(user_$acntn)] ] &Passwd= [urlencode [pop3::decrypt $::pop3::config(passe_$acntn)] ] &rmShown=1&null=Connexion
 		
 		#sending the email and the pass, as if they were typed in a form on the website
 		#1st page !
