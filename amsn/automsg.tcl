@@ -373,12 +373,8 @@ proc EditNewState { mode { idx "" } } {
     
 	label $lfname.ldesc -text "[trans statename] :" -font splainf 
 	entry $lfname.edesc -bg #FFFFFF -font splainf -width 40
-	set desccopypastemenu [CreateCopyPasteMenu $lfname.edesc]
-	bind $lfname.edesc <Button3-ButtonRelease> "tk_popup $desccopypastemenu %X %Y"
 	label $lfname.lnick -text "[trans statenick] :" -font splainf
 	entry $lfname.enick -bg #FFFFFF -font splainf  -width 40
-	set nickcopypastemenu [CreateCopyPasteMenu $lfname.enick]
-	bind $lfname.enick <Button3-ButtonRelease> "tk_popup $nickcopypastemenu %X %Y"
 	menubutton $lfname.nickhelp -font sboldf -text "<-" -menu $lfname.nickhelp.menu
 	menu $lfname.nickhelp.menu -tearoff 0
 	$lfname.nickhelp.menu add command -label [trans nick] -command "$lfname.enick insert insert \\\$nick"
@@ -386,8 +382,6 @@ proc EditNewState { mode { idx "" } } {
 	$lfname.nickhelp.menu add command -label [trans delete] -command "$lfname.enick delete 0 end"
 	label $lfname.lpsm -text "[trans statepsm] :" -font splainf
         entry $lfname.epsm -bg #FFFFFF -font splainf  -width 40
-	set psmcopypastemenu [CreateCopyPasteMenu $lfname.epsm]
-	bind $lfname.epsm <Button3-ButtonRelease> "tk_popup $psmcopypastemenu %X %Y"
         menubutton $lfname.psmhelp -font sboldf -text "<-" -menu $lfname.psmhelp.menu
         menu $lfname.psmhelp.menu -tearoff 0
         $lfname.psmhelp.menu add command -label [trans psm] -command "$lfname.epsm insert insert \\\$psm"
@@ -484,9 +478,9 @@ proc CreateCopyPasteMenu { w } {
         menu $menu -tearoff 0 -type normal
 
         $menu add command -label [trans cut] \
-                -command "status_log cut\n;::amsn::tk_textCut $w"
+                -command "status_log cut\n;tk_textCut $w"
         $menu add command -label [trans copy] \
-                -command "status_log copy\n;::amsn::tk_textCopy $w"
+                -command "status_log copy\n;tk_textCopy $w"
         $menu add command -label [trans paste] \
                 -command "status_log pasteHere\n;pasteHere $w"
 
