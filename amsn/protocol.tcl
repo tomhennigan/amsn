@@ -468,12 +468,31 @@ namespace eval ::MSNFT {
    #All about sending files
    ###################################
 
+	proc supportsNewFT { clientid } {
+
+		set msnc1 268435456
+		set msnc2 536870912
+		set msnc3 805306368
+		set msnc4 1073741824
+		set msnc5 1342177280
+
+		if { ($clientid & $msnc1) == $msnc1 || \
+			($clientid & $msnc2) == $msnc2 || \
+			($clientid & $msnc3) == $msnc3 || \
+			($clientid & $msnc4) == $msnc4 || \
+			($clientid & $msnc5) == $msnc5 } {
+			return 1
+		}
+
+		return 0
+
+	}
+
    proc sendFTInvitation { chatid filename filesize ipaddr cookie} {
       #Invitation to filetransfer, initial message
       variable filedata
 
-		#Use new FT protocol only if the user choosed this option in advanced preferences.
-      if {![::config::getKey disable_new_ft_protocol]} {
+      if {[supportsNewFT [::abook::getContactData $chatid clientid]]} {
       	#::MSN6FT::SendFT $chatid $filename $filesize
 	set sid [::MSN6FT::SendFT $chatid $filename $filesize]
 	setObjOption $cookie msn6ftsid $sid
@@ -511,12 +530,9 @@ namespace eval ::MSNFT {
    }
 
     proc cancelFTInvitation { chatid cookie } {
-	if {![::config::getKey disable_new_ft_protocol]} {
-	    #DONE: here we should send CANCEL message so the other side will know it is cancelled
-	    set sid [getObjOption $cookie msn6ftsid]
-	    if { $sid != "" } {
+	set sid [getObjOption $cookie msn6ftsid]
+	if { $sid != "" } {
 		::MSN6FT::CancelFT $chatid $sid
-	    }
 	} else {
 	    rejectFT $chatid $cookie
 	}
@@ -6228,11 +6244,6 @@ namespace eval ::MSN6FT {
 
 	proc connectMsnFTP { sid nonce ip port } {
 
-		#Use new FT protocol only if the user choosed this option in advanced preferences.
-		if {[::config::getKey disable_new_ft_protocol]} {
-			return
-		}
-
 		if { [catch {set sock [socket -async $ip $port]}] } {
 			status_log "ERROR CONNECTING TO THE SERVER\n\n" red
 			return 0
@@ -6590,11 +6601,6 @@ namespace eval ::MSN6FT {
 	}
 
 	proc answerFTInvite { sid chatid branchid conntype } {
-
-		#Use new FT protocol only if the user choosed this option in advanced preferences.
-		if {[::config::getKey disable_new_ft_protocol]} {
-			return
-		}
 
 		::MSNP2P::SessionList set $sid [list -1 -1 -1 -1 -1 -1 -1 -1 -1 "$branchid" ]
 		set session [::MSNP2P::SessionList get $sid]
