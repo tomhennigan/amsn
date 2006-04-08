@@ -1,4 +1,5 @@
-#! /bin/sh  -- needs banshee 0.10.6 and newer 
+#!/bin/sh
+#needs banshee 0.10.6 and newer 
 # By Ruben "RubenV" Vermeersch
 
 if [ -z "$(pidof banshee)" ]; then
