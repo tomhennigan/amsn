@@ -261,7 +261,7 @@ if(!defined('_BUG_CLASS_')) {
       echo '<caption class="bug_title">Bug Reports</caption>';
       
       echo '<tr class="bug_row"><td class="bug_info" colspan="2">';
-      echo '<b>Reports: </b>';
+      echo '<b>Reports '.count($this->bugs).' : </b>';
       foreach($this->bugs as $report) {
 	echo '<a href="?show=bugreport&amp;id='.$report.'">'.$report.'</a> ';
       }

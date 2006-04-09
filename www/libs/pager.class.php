@@ -7,7 +7,7 @@ if(!defined('_PAGER_CLASS_')) {
 
   class Pager {
     var $from=0;
-    var $to=10;
+    var $to=100;
     var $incr=10;
     var $max=false;
     var $cssclass="pager";
@@ -61,10 +61,25 @@ if(!defined('_PAGER_CLASS_')) {
       echo '<table class="'.$class.'_table" style="width:100%">';
       echo '<tr class="'.$class.'_row"><td class="'.$class.'_left">';
       $this->display_prev();
+      echo '</td><td class="'.$class.'_center" style="text-align:center">';
+      $this->display_current();
       echo '</td><td class="'.$class.'_right" style="text-align:right">';
       $this->display_next();
       echo '</td></tr>';
       echo '</table>';
+    }
+
+    function display_current() {
+      $from=$this->from();
+      $to=$this->to();
+      $incr=$this->incr();
+      $max=$this->max();
+      $class=$this->cssclass();
+
+      if ($max != false && $to > $max)
+         $to = $max;
+
+      echo '*Viewing reports '.$from.' to '.$to.' out of '.$max.'*';
     }
 
     function display_next() {
@@ -92,7 +107,13 @@ if(!defined('_PAGER_CLASS_')) {
 
       if($max===false || $nfrom<$max)
         echo '<a class="'.$class.'_next" href="'.$next.'">';
-      echo 'Next -&gt;';
+
+      echo 'Next';
+      if($max===false || $nfrom<$max)
+          echo ' ('.$nfrom.') -&gt;';
+       else
+          echo ' -&gt;';
+
       if($max===false || $nfrom<$max)
         echo '</a>';
     }
@@ -122,7 +143,11 @@ if(!defined('_PAGER_CLASS_')) {
       
       if($pfrom>=0 && $pto>=0)
         echo '<a class="'.$class.'_prev" href="'.$previous.'">';
+
       echo '&lt;- Prev';
+      if ($pfrom>=0 && $pto>=0) 
+         echo ' ('.$pfrom.')';
+
       if($pfrom>=0 && $pto>=0)
         echo '</a>';
     }
