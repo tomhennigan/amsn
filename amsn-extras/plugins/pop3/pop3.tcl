@@ -1009,32 +1009,40 @@ namespace eval ::pop3 {
 		package require tls
 		#bind the https in order to use tls
 		http::register https 443 ::tls::socket
-		
+			
 		#this the array where i put all the variables (i should change that)
 		array set gmail {}
 		
+		#remove the quotes around the login if they exists (don't know why this is commented !)
+		if {[string equal [string index $::pop3::config(user_$acntn) 0] "\"" ] && [string equal [string index $::pop3::config(user_$acntn) end] "\""]} {
+			set ::pop3::config(user_$acntn) [string range $::pop3::config(user_$acntn) 1 end-1]
+		}
+
 		#get the current time
 		set gmail(start_time) [clock seconds]
 		#create the http headers
 		set gmail(headers) [list "Host" "www.google.com" "User-Agent" "User-Agent: Mozilla/5.0 (compatible;)" \
-			"Referer" "https://www.google.com/accounts/ServiceLogin?service=mail&passive=true&rm=false&continue=https%3A%2F%2Fmail.google.com%2Fmail%3Fui%3Dhtml%26zy%3Dl&ltmpl=yj_blanco&ltmplcache=2"\
-			"Cookie" "GoogleAccountsLocale_session=en"]
+			"Referer" "https://www.google.com/accounts/ServiceLogin?service=mail&passive=true&rm=false&continue=https%3A%2F%2Fmail.google.com%2Fmail%3Fui%3Dhtml%26zy%3Dl&ltmpl=yj_blanco&ltmplcache=2&hl=en"]
+
 		#doing the query, we don't use ::http::formatQuery because it returns a bad string, urlencode is preferred
 		set gmail(query) ""
 		#the continue value, in the query, contains ui%3Dhtml%26zy%3Dl which informs the gmail server that we don't use Javascript
-		append gmail(query) ltmpl=yj_blanco&ltmplcache=2&continue=http%3A%2F%2Fmail.google.com%2Fmail%3Fui%3Dhtml%26zy%3Dl&service=mail&rm=false&ltmpl=yj_blanco&Email= [urlencode [pop3::decrypt $::pop3::config(user_$acntn)] ] &Passwd= [urlencode [pop3::decrypt $::pop3::config(passe_$acntn)] ] &rmShown=1&null=Connexion
-		
+		append gmail(query) ltmpl=yj_blanco&ltmplcache=2&hl=en&PersistentCookie=yes&continue=http%3A%2F%2Fmail.google.com%2Fmail%3Fui%3Dhtml%26zy%3Dl&service=mail&rm=false&ltmpl=yj_blanco&Email= [urlencode $::pop3::config(user_$acntn)] &Passwd= [urlencode [pop3::decrypt $::pop3::config(passe_$acntn)] ] &rmShown=1&null=Connexion
+#plugins_log "pop3" "(GMAIL)(query)$gmail(query)"	
+
 		#sending the email and the pass, as if they were typed in a form on the website
 		#1st page !
 		set gmail(1stpage) [http::geturl https://www.google.com/accounts/ServiceLoginAuth -query $gmail(query) -headers $gmail(headers) -validate 0 ]
+#plugins_log "pop3" "(GMAIL)(1stpage)$gmail(1stpage)"	
 		#now, analyse the 1st page
 		upvar \#0 $gmail(1stpage) state
+
 		#gets the invitations to create a cookie by parsing $state
 		set gmail(cookies) [list]
 		foreach {name value} $state(meta) {
 			if { $name eq "Set-Cookie" } {
-				regexp {(\w+)=([\/\$\*\~\%\,\!\'\#\.\@\+\-\=\?\:\^\_[:alnum:]]+)\;} $value -> gmail(name) gmail(value)
-				set gmail($gmail(name)) $gmail(value)
+				regexp {(\w+)=([\/\$\*\~\%\,\!\'\#\.\@\+\-\=\?\:\^\_[:alnum:]]+)\;} $value -> name value
+				set gmail($name) $value
 			}
 		}
 		set gmail(data) [array get $gmail(1stpage)]
