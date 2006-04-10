@@ -1381,16 +1381,24 @@ namespace eval ::MSNCAM {
 
 	proc SendFrame { sock encoder img } {
 		#If the img is not at the right size, don't encode (crash issue..)
+
+		if { [::config::getKey lowrescam] } {
+			set camwidth 160
+			set camheight 120
+                } else {
+                        set camwidth 320
+			set camheight 240
+                }
 		
 		if { !([info exists ::test_webcam_send_log] && $::test_webcam_send_log != "")
-		     && ([image width $img] != "320" || [image height $img] != "240") } {
+		     && ([image width $img] != "$camwidth" || [image height $img] != "$camheight") } {
 			#status_log "webcam: Wrong size: Width is [image width $img] and height is [image height $img]\n" red
 			#return
 			
 			#We crop the image to avoid bad sizes
 			#This is a test..seems to work well for bad-sized ratio camera
 			if { [image width $img] != "0" || [image height $img] != "0" } {
-				$img configure -width 320 -height 240
+				$img configure -width $camwidth -height $camheight
 			} else {
 				return
 			}
@@ -1710,7 +1718,11 @@ namespace eval ::CAMGUI {
 	proc Grab_Windows {grabber socket encoder img} {
 
 		if { $encoder == "" } {
-			set encoder [::Webcamsn::NewEncoder HIGH]
+			if { [::config::getKey lowrescam] } {
+				set encoder [::Webcamsn::NewEncoder LOW]
+			} else {
+				set encoder [::Webcamsn::NewEncoder HIGH]
+			}
 			setObjOption $socket codec $encoder
 		}
 
@@ -1723,12 +1735,17 @@ namespace eval ::CAMGUI {
 	}
 
 	proc Grab_Linux {grabber socket encoder img} {
+		if { [::config::getKey lowrescam] } {
+			set cam_res LOW
+		} else {
+			set cam_res HIGH
+		}
 		if { ([info exists ::test_webcam_send_log] && $::test_webcam_send_log != "") ||
-		     ![catch { ::Capture::Grab $grabber $img} res] } {
+		     ![catch { ::Capture::Grab $grabber $img $cam_res} res] } {
 			if { !([info exists ::test_webcam_send_log] && 
 			      $::test_webcam_send_log != "") &&$encoder == "" } {
-				if { $res == "" } { set res HIGH }
-				set encoder [::Webcamsn::NewEncoder $res]
+				#if { $res == "" } { set res HIGH }
+				set encoder [::Webcamsn::NewEncoder $cam_res]
 				setObjOption $socket codec $encoder
 			}
 			::MSNCAM::SendFrame $socket $encoder $img
@@ -1741,7 +1758,11 @@ namespace eval ::CAMGUI {
 	proc Grab_Mac { grabber socket encoder img } {
 
 		if { $encoder == "" } {
-			set encoder [::Webcamsn::NewEncoder HIGH]
+			if { [::config::getKey lowrescam] } {
+				set encoder [::Webcamsn::NewEncoder LOW]
+			} else {
+				set encoder [::Webcamsn::NewEncoder HIGH]
+			}
 			setObjOption $socket codec $encoder
 		}
 
@@ -1778,10 +1799,15 @@ namespace eval ::CAMGUI {
 		
 		toplevel $w
 		wm protocol $w WM_DELETE_WINDOW "::CAMGUI::CloseGrabberWindowMac"
+		if { [::config::getKey lowrescam] } {
+			set camwidth 160
+		} else {
+			set camwidth 320
+		}
 	
 		#Add grabber to the window
 		#Show message error if it's not possible
-		if { ![catch {seqgrabber $w.seq -width 320} res] } {
+		if { ![catch {seqgrabber $w.seq -width $camwidth} res] } {
 			
 			catch {$w.seq configure -volume 0}
 			pack $w.seq
@@ -2191,8 +2217,12 @@ namespace eval ::CAMGUI {
 		checkbutton $w.wanttosharecam -text "[trans wanttosharecam]" -font sboldf -variable [::config::getVar wanttosharecam] -onvalue 1 -offvalue 0 -state disabled -command "::CAMGUI::buttonToggled"
 		pack $w.wanttosharecam
 
+		checkbutton $w.lowrescam -text "[trans lowrescam]" -font sboldf -variable [::config::getVar lowrescam] -onvalue 1 -offvalue 0 -state disabled
+		pack $w.lowrescam
+
 		if { [::CAMGUI::camPresent] == 1 } {
 			$w.wanttosharecam configure -state active
+			$w.lowrescam configure -state active
 		}
 
 		button $w.settings -command "::CAMGUI::ChooseDevice" -text "[trans changevideosettings]"
@@ -2456,8 +2486,13 @@ namespace eval ::CAMGUI {
 	proc PreviewLinux { grabber img } {
 		set semaphore ::CAMGUI::sem_$grabber
 		set $semaphore 0
+		if { [::config::getKey lowrescam] } {
+			set cam_res LOW
+		} else {
+			set cam_res HIGH
+		}
 		while { [::Capture::IsValid $grabber] && [lsearch [image names] $img] != -1 } {
-			if {[catch {::Capture::Grab $grabber $img} res]} {
+			if {[catch {::Capture::Grab $grabber $img $cam_res} res]} {
 				status_log "Problem grabbing from the device.  Device busy or unavailable ?\n\t \"$res\""
 			}
 			after 100 "incr $semaphore"
@@ -3217,15 +3252,24 @@ namespace eval ::CAMSETUP {
 
 				#create the 'rightframe' canvas where the preview-image will be shown
 				set rightframe $frame.right
+
+                                if { [::config::getKey lowrescam] } {
+                                        set camwidth 160
+                                        set camheight 120
+                                } else {
+                                        set camwidth 320
+                                        set camheight 240
+                                }
+
 				#this is a canvas so we gcan have a border and put some OSD-like text on it too
-				canvas $rightframe -background #000000 -width 320 -height 240 -bd 0
+				canvas $rightframe -background #000000 -width $camwidth -height $camheight -bd 0
 				pack $rightframe -side right -padx 10
 
 				#draw the border image that will be layed ON the preview-img
 				$rightframe create image 0 0 -image [::skin::loadPixmap camempty] -anchor nw -tag border
 				#give the canvas a clear name
 				set previmc $rightframe
-				
+
 				##First "if on unix" (linux -> v4l), then for windows##
 				if {[OnUnix]} {
 
@@ -3425,8 +3469,13 @@ status_log "$device"
 			
 			set semaphore ::CAMGUI::sem_$::CAMGUI::webcam_preview
 			set $semaphore 0
+			if { [::config::getKey lowrescam] } {
+				set cam_res "LOW"
+			} else {
+				set cam_res "HIGH"
+			}
 			while { [::Capture::IsValid $::CAMGUI::webcam_preview] && [lsearch [image names] $previmg] != -1 } {
-				if {[catch {::Capture::Grab $::CAMGUI::webcam_preview $previmg} res]} {
+				if {[catch {::Capture::Grab $::CAMGUI::webcam_preview $previmg $cam_res} res ]} {
 					status_log "Problem grabbing from the device:\n\t \"$res\""
 					$previmc create text 10 215 -anchor nw -font bboldf -text "ERROR: $res" -fill #FFFFFF -anchor nw -tag errmsg
 				after 2000 "catch { $previmc delete errmsg }"
@@ -3559,10 +3608,19 @@ status_log "$device"
 		#frame $leftframe -bd 0
 		#pack $leftframe -side left -padx 10
 
+               if { [::config::getKey lowrescam] } {
+                        set camwidth 160
+			set camheight 120
+                } else {
+                        set camwidth 320
+			set camheight 240
+                }
+
+
 		#create the 'rightframe' canvas where the preview-image will be shown
 		set rightframe $frame.right
 		#this is a canvas so we gcan have a border and put some OSD-like text on it too
-		canvas $rightframe -background #000000 -width 320 -height 240 -bd 0
+		canvas $rightframe -background #000000 -width $camwidth -height $camheight -bd 0
 		pack $rightframe -side right -padx 10
 
 		#draw the border image that will be layed ON the preview-img
@@ -3647,7 +3705,7 @@ status_log "Config'ed: $brightness, $contrast, $hue, $color"
 			set semaphore ::CAMGUI::sem_$::CAMGUI::webcam_preview
 			set $semaphore 0
 			while { [::Capture::IsValid $::CAMGUI::webcam_preview] && [lsearch [image names] $previmg] != -1 } {
-				if {[catch {::Capture::Grab $::CAMGUI::webcam_preview $previmg} res]} {
+				if {[catch {::Capture::Grab $::CAMGUI::webcam_preview $previmg $cam_res} res ]} {
 					status_log "Problem grabbing from the device:\n\t \"$res\""
 					$previmc create text 10 215 -anchor nw -font bboldf -text "ERROR: $res" -fill #FFFFFF -anchor nw -tag errmsg
 					after 2000 "catch { $previmc delete errmsg }"				
