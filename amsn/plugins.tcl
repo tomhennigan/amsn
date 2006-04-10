@@ -459,14 +459,13 @@ namespace eval ::plugins {
 			
 			# holds the plugins info like name and description
 			label $mF.name_title -text [trans name] -font sboldf
-			label $mF.name  -wraplength 300 
+			label $mF.name  -wraplength 280 
 			label $mF.version_title -text [trans version] -font sboldf
 			label $mF.version
 			label $mF.author_title -text [trans author] -font sboldf
-			label $mF.author  -wraplength 300 
+			label $mF.author  -wraplength 280 
 			label $mF.desc_title -text [trans description] -font sboldf
-			label $mF.desc -width 40 \
-			    -wraplength 300 -justify left -anchor w
+			label $mF.desc -width 40 -wraplength 280 -justify left -anchor w
 			# holds the 'command center' buttons
 			label $w.getmore -text "[trans getmoreplugins]" -fg #0000FF
 
