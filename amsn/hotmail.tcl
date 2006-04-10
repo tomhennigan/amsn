@@ -80,7 +80,12 @@ namespace eval ::hotmail {
 
 	proc viewProfile {user_login} {
 		#launch_browser "http://members.msn.com/default.msnw?mem=${user_login}&pgmarket="
-		gotURL "http://members.msn.com/default.msnw?mem=${user_login}&pgmarket="
+		set u_login [::config::getKey login]	
+		if {[string match *@hotmail.* $u_login ] || [string match *@msn.* $u_login ] } {
+			gotURL "http://members.msn.com/default.msnw?mem=${user_login}&pgmarket="
+		} else {
+			launch_browser "http://g.msn.com/5meen_us/106?passport=${user_login}"
+		}
 	}
 
 	proc composeMail { toaddr} {
