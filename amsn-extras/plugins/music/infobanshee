@@ -6,6 +6,6 @@ if [ -z "$(pidof banshee)" ]; then
 	echo 0
 else 
 	banshee --query-status --query-title --query-artist \
-			--query-uri --query-cover-uri
+			--query-uri --query-cover-uri |sed  s/^﻿//
 fi
 exit 0

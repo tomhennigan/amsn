@@ -638,6 +638,7 @@ namespace eval ::music {
 			#actualsong isn't yet defined by asynchronous exec
 			return 0
 		}
+		puts "$tmplst"
 		
 		if {$tmplst == 0} {
 			set Status 0
