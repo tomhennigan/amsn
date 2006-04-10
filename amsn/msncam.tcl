@@ -1382,7 +1382,7 @@ namespace eval ::MSNCAM {
 	proc SendFrame { sock encoder img } {
 		#If the img is not at the right size, don't encode (crash issue..)
 
-		if { [::config::getKey lowrescam] } {
+		if { [::config::getKey lowrescam] && [set ::tcl_platform(os)] == "Linux" } {
 			set camwidth 160
 			set camheight 120
                 } else {
@@ -1471,7 +1471,7 @@ namespace eval ::CAMGUI {
 			}
 			destroy .webcam_preview
 		} elseif { [set ::tcl_platform(os)] == "Darwin" } {
-			#Jerome said there's no easy Windows way to check...
+			#Jerome said there's no easy Mac way to check...
 			set campresent 1
 		}
 		return $campresent
@@ -1717,14 +1717,8 @@ namespace eval ::CAMGUI {
 
 	proc Grab_Windows {grabber socket encoder img} {
 
-		if { $encoder == "" } {
-			if { [::config::getKey lowrescam] } {
-				set encoder [::Webcamsn::NewEncoder LOW]
-			} else {
-				set encoder [::Webcamsn::NewEncoder HIGH]
-			}
-			setObjOption $socket codec $encoder
-		}
+		set encoder [::Webcamsn::NewEncoder HIGH]
+		setObjOption $socket codec $encoder
 
 		if { ![catch { $grabber picture $img} res] } {
 			::MSNCAM::SendFrame $socket $encoder $img
@@ -1744,8 +1738,8 @@ namespace eval ::CAMGUI {
 		     ![catch { ::Capture::Grab $grabber $img $cam_res} res] } {
 			if { !([info exists ::test_webcam_send_log] && 
 			      $::test_webcam_send_log != "") &&$encoder == "" } {
-				#if { $res == "" } { set res HIGH }
-				set encoder [::Webcamsn::NewEncoder $cam_res]
+				if { $res == "" } { set res $cam_res }
+				set encoder [::Webcamsn::NewEncoder $res]
 				setObjOption $socket codec $encoder
 			}
 			::MSNCAM::SendFrame $socket $encoder $img
@@ -1757,14 +1751,7 @@ namespace eval ::CAMGUI {
 
 	proc Grab_Mac { grabber socket encoder img } {
 
-		if { $encoder == "" } {
-			if { [::config::getKey lowrescam] } {
-				set encoder [::Webcamsn::NewEncoder LOW]
-			} else {
-				set encoder [::Webcamsn::NewEncoder HIGH]
-			}
-			setObjOption $socket codec $encoder
-		}
+		set encoder [::Webcamsn::NewEncoder HIGH]
 
 		if {[winfo ismapped $grabber]} {
 			set socker_ [getObjOption $img socket]
@@ -2218,7 +2205,9 @@ namespace eval ::CAMGUI {
 		pack $w.wanttosharecam
 
 		checkbutton $w.lowrescam -text "[trans lowrescam]" -font sboldf -variable [::config::getVar lowrescam] -onvalue 1 -offvalue 0 -state disabled
-		pack $w.lowrescam
+		if { [set ::tcl_platform(os)] == "Linux" } {
+			pack $w.lowrescam
+		}
 
 		if { [::CAMGUI::camPresent] == 1 } {
 			$w.wanttosharecam configure -state active
