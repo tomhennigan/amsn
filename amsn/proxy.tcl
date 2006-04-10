@@ -347,7 +347,23 @@ proc globalWrite { proxy name {msg ""} } {
 	}
 
 	method authInit {} {
-		catch {::http::unregister https}
+		#catch {::http::unregister https}
+
+		global tlsinstalled
+
+                #Check if we need to install the TLS module
+                if { $tlsinstalled == 0 && [checking_package_tls] == 0 && [::config::getKey nossl] == 0} {
+                        ::autoupdate::installTLS
+                        return -1
+                }
+
+                #If SSL is used, register https:// protocol
+                if { [::config::getKey nossl] == 0 } {
+                        http::register https 443 ::tls::socket
+                } else  {
+                        catch {http::unregister https}
+                }
+
 
 		set proxy_host [ns cget -proxy_host]
 		set proxy_port [ns cget -proxy_port]
@@ -377,7 +393,7 @@ proc globalWrite { proxy name {msg ""} } {
 			lappend head "Proxy-Authorization" "Basic [::base64::encode $proxy_user:$proxy_password]"
 		}
 
-		set url [string map { https:// http:// } $url]
+		#set url [string map { https:// http:// } $url]
 		status_log "::HTTPConnection::authenticate: Getting $url\n" blue
 		::http::geturl $url -command "$self GotAuthReply [list $str]" -headers $head
 #			eval [ns cget -autherror_handler]
