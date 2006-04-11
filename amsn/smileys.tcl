@@ -164,7 +164,7 @@ namespace eval ::smiley {
 			set emotion($field_sort) [string trim $sdata($field)]
 		}
 		#Create the image now and store it
-		if { [catch { image create photo -file $emotion(file) -format cximage } emotion(image_name) ] } {
+		if { [catch { image create photo $emotion(image_name) -file $emotion(file) -format cximage } emotion(image_name) ] } {
 			status_log "Error when creating image for emoticon $emotion(name) : $emotion(image_name)"
 			#Error when creating smiley's image so we don't add it
 			return 0
@@ -1012,7 +1012,7 @@ namespace eval ::smiley {
 		
 		
 		
-		set emotion(image_name) [image create photo -file $emotion(file) -format cximage]
+		set emotion(image_name) [image create photo $emotion(name) -file $emotion(file) -format cximage]
 		set custom_emotions($name) [array get emotion]
 
 		#load_smileys
