@@ -350,8 +350,13 @@ namespace eval ::ChatWindow {
 		catch {destroy $window.bottom.pic}
 		set user_list [::MSN::usersInChat $chatid]
 		
-		global ${window}_show_picture
-		unset ${window}_show_picture
+		#Could be cleaner, but this works, destroying unused vars, saving mem		
+		catch {
+			global ${window}_show_picture ${window}.f.bottom.left.in.inner.text
+			unset ${window}_show_picture
+			unset ${window}.f.bottom.left.in.inner.text
+		}
+		
 		
 		::MSN::leaveChat $chatid
 	}
