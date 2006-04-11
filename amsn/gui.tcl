@@ -4840,7 +4840,9 @@ proc load_my_smaller_pic {} {
 
 	if {[lsearch [image names] my_pic_small] == -1 } {
 		image create photo my_pic_small -format cximage
-		my_pic_small copy my_pic
+		if { [catch {my_pic_small copy my_pic}] } {
+			my_pic_small copy [::skin::getNoDisplayPicture]
+		}
 		::picture::ResizeWithRatio my_pic_small 50 50
 	}
 }
@@ -7428,12 +7430,12 @@ proc convert_image_plus { filename type size } {
 
 
 
-proc load_my_pic { } {
+proc load_my_pic { {nopic 0} } {
 	global pgBuddyTop
-	status_log "load_my_pic: Trying to set display picture [::config::getKey displaypic]\n" blue
-	if {[::config::getKey displaypic] == "" } {
+	if {[::config::getKey displaypic] == "" && no_pic == 1 } {
 		::config::setKey displaypic nopic.gif
 	}
+	status_log "load_my_pic: Trying to set display picture [::config::getKey displaypic]\n" blue
 	if {[file readable [::skin::GetSkinFile displaypic [::config::getKey displaypic]]]} {
 		#We made sure the proc is only called when we need to CHANGE dp
 		#if {[lsearch [image names] my_pic] != -1 && $force} {
@@ -7893,6 +7895,7 @@ proc set_displaypic { file } {
 	} else {
 		status_log "set_displaypic: Setting displaypic to no_pic\n" blue
 		clear_disp
+		load_my_pic 1
 		load_my_smaller_pic
 		::MSN::changeStatus [set ::MSN::myStatus]
 	}
