@@ -2884,7 +2884,7 @@ namespace eval ::ChatWindow {
 		::ChatWindow::UpdateContainerTitle $container
 
 		#make the focus, after 50ms to let the time to the window to be switched
-		after 50 focus [::ChatWindow::GetInputText $win]
+		after 50 catch " focus [::ChatWindow::GetInputText $win] "
 
 	}
 
