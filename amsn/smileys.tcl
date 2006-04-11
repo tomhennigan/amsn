@@ -588,7 +588,7 @@ namespace eval ::smiley {
 	#Create ONE smiley in the smileys menu
 	proc CreateSmileyInMenu {w cols rows smiw smih emot_num name symbol image file animated} {
 		catch {
-			set resized [image create photo]
+			set resized [image create photo ${symbol}_smileymenu_small]
 			$resized copy $image
 			if {[image width $image] > 22 && [image height $image] > 22} {
 				::picture::ResizeWithRatio $resized 22 22

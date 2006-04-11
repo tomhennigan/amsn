@@ -122,7 +122,7 @@ namespace eval ::picture {
 	proc Crop {photo x1 y1 x2 y2} {
 		
 		if {[::picture::Loaded]} {
-			set temp [image create photo]
+			set temp [image create photo] ;#gets destroyed
 			if { [catch {$temp copy $photo -from $x1 $y1 $x2 $y2} res] != 0 } {
 				image delete $temp
 				status_log "Picture.tcl: Unable to crop image with TkCxImage\n$res" red
