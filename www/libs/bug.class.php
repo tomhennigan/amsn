@@ -259,14 +259,29 @@ if(!defined('_BUG_CLASS_')) {
     function show_bugs() {
       echo '<table class="bug" cellspacing="0" align="center">';
       echo '<caption class="bug_title">Bug Reports</caption>';
-      
+      $total_bugs = count($this->bugs);
+
       echo '<tr class="bug_row"><td class="bug_info" colspan="2">';
-      echo '<b>Reports '.count($this->bugs).' : </b>';
+      echo '<b>Reports '.$total_bugs.' : </b>';
+
+      $shown_bugs = 0;
       foreach($this->bugs as $report) {
 	echo '<a href="?show=bugreport&amp;id='.$report.'">'.$report.'</a> ';
+
+	$shown_bugs = $shown_bugs + 1;
+	if ($shown_bugs >= 100) {
+	   $remaining_bugs = $total_bugs - 100;
+	   echo ' ... ('.$remaining_bugs.' more)';
+	   break;
+	}
+
       }
       echo '</td></tr>';
       
+      echo '<tr class="bug_row"><td class="bug_info" colspan="2">';
+      echo '<a href="?show=navigatebug&amp;id='.$this->_id.'">Navigate throught the bugs </a>';
+      echo '</td></tr>';
+
       echo '<tr class="bug_row"><td class="bug_info" colspan="2">';
       echo '<b>Error Text RegExp:</b><br/>';
       echo '<textarea name="error_regexp">';
