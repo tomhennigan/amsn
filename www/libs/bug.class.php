@@ -279,7 +279,7 @@ if(!defined('_BUG_CLASS_')) {
       echo '</td></tr>';
       
       echo '<tr class="bug_row"><td class="bug_info" colspan="2">';
-      echo '<a href="?show=navigatebug&amp;id='.$this->_id.'">Navigate throught the bugs </a>';
+      echo '<a href="?show=navigatebug&amp;id='.$this->_id.'">Navigate through this bug\'s reports</a>';
       echo '</td></tr>';
 
       echo '<tr class="bug_row"><td class="bug_info" colspan="2">';
