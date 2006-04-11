@@ -46,6 +46,8 @@ namespace eval ::config {
 
 		::config::setKey autoresizedp 0
 
+		::config::setKey lowrescam 0
+
 		#Dir for received files
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 		        ::config::setKey receiveddir "[file join $::env(HOME) Desktop/amsn\ received\ files]"

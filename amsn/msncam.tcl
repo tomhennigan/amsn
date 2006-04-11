@@ -1382,7 +1382,7 @@ namespace eval ::MSNCAM {
 	proc SendFrame { sock encoder img } {
 		#If the img is not at the right size, don't encode (crash issue..)
 
-		if { [::config::getKey lowrescam] && [set ::tcl_platform(os)] == "Linux" } {
+		if { [::config::getKey lowrescam] == 1 && [set ::tcl_platform(os)] == "Linux" } {
 			set camwidth 160
 			set camheight 120
                 } else {
@@ -1729,7 +1729,7 @@ namespace eval ::CAMGUI {
 	}
 
 	proc Grab_Linux {grabber socket encoder img} {
-		if { [::config::getKey lowrescam] } {
+		if { [::config::getKey lowrescam] == 1 } {
 			set cam_res LOW
 		} else {
 			set cam_res HIGH
@@ -1786,7 +1786,7 @@ namespace eval ::CAMGUI {
 		
 		toplevel $w
 		wm protocol $w WM_DELETE_WINDOW "::CAMGUI::CloseGrabberWindowMac"
-		if { [::config::getKey lowrescam] } {
+		if { [::config::getKey lowrescam] == 1 } {
 			set camwidth 160
 		} else {
 			set camwidth 320
@@ -2475,7 +2475,7 @@ namespace eval ::CAMGUI {
 	proc PreviewLinux { grabber img } {
 		set semaphore ::CAMGUI::sem_$grabber
 		set $semaphore 0
-		if { [::config::getKey lowrescam] } {
+		if { [::config::getKey lowrescam] == 1 } {
 			set cam_res LOW
 		} else {
 			set cam_res HIGH
@@ -3242,7 +3242,7 @@ namespace eval ::CAMSETUP {
 				#create the 'rightframe' canvas where the preview-image will be shown
 				set rightframe $frame.right
 
-                                if { [::config::getKey lowrescam] } {
+                                if { [::config::getKey lowrescam] == 1 } {
                                         set camwidth 160
                                         set camheight 120
                                 } else {
@@ -3458,7 +3458,7 @@ status_log "$device"
 			
 			set semaphore ::CAMGUI::sem_$::CAMGUI::webcam_preview
 			set $semaphore 0
-			if { [::config::getKey lowrescam] } {
+			if { [::config::getKey lowrescam] == 1 } {
 				set cam_res "LOW"
 			} else {
 				set cam_res "HIGH"
@@ -3597,7 +3597,7 @@ status_log "$device"
 		#frame $leftframe -bd 0
 		#pack $leftframe -side left -padx 10
 
-               if { [::config::getKey lowrescam] } {
+               if { [::config::getKey lowrescam] == 1 } {
                         set camwidth 160
 			set camheight 120
                 } else {
