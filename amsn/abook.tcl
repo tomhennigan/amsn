@@ -1015,7 +1015,7 @@ namespace eval ::abookGui {
 			if {[string first $pic_in_use $f] == -1} {
 			  set fd [open $f]
 			  if { [grep $fd $email] == 1 } {
-				  if { [catch {set img [image create photo -file [filenoext $f].png -format cximage]}] } { continue }
+				  if { [catch {set img [image create photo userDP_$email_$i -file [filenoext $f].png -format cximage]}] } { continue }
 				  lappend ::abookGui::OtherDPList($email) $img
 				  button $mainFrame.$i -image $img
 				  bind $mainFrame.$i <ButtonPress-1> \
