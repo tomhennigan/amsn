@@ -109,10 +109,10 @@ namespace eval ::skin {
 			return ""
 		}
 		#If the loading pixmap is corrupted (like someone stupid trying to change the smileys by himself and is doing something bad), just show a null picture
-		if { [catch {set loaded_${location}($pixmap_name) [image create photo -file [::skin::GetSkinFile ${location} [set ${location}_names($pixmap_name)] \
+		if { [catch {set loaded_${location}($pixmap_name) [image create photo ${location}_${pixmap_name} -file [::skin::GetSkinFile ${location} [set ${location}_names($pixmap_name)] \
 			"" [set ${location}_fblocation($pixmap_name)]] -format cximage] } res ] } {
 		 	status_log "Error while loading pixmap $res"
-		 	set loaded_${location}($pixmap_name) [image create photo -file [::skin::GetSkinFile pixmaps null \
+		 	set loaded_${location}($pixmap_name) [image create photo ${location}_${pixmap_name} -file [::skin::GetSkinFile pixmaps null \
 			 -format cximage]]
 		 }
 	
