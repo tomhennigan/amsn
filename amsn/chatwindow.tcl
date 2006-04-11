@@ -350,6 +350,9 @@ namespace eval ::ChatWindow {
 		catch {destroy $window.bottom.pic}
 		set user_list [::MSN::usersInChat $chatid]
 		
+		global ${window}_show_picture
+		unset ${window}_show_picture
+		
 		::MSN::leaveChat $chatid
 	}
 	#///////////////////////////////////////////////////////////////////////////////
@@ -826,6 +829,7 @@ namespace eval ::ChatWindow {
 			#bind on configure for saving the window shape
 			bind $w <Configure> "::ChatWindow::Configured %W"
 
+
 			wm state $w withdraw
 
 		} else {
@@ -1027,7 +1031,8 @@ namespace eval ::ChatWindow {
 		$w.search bindwindow $w
 
 		bind $w <<Escape>> "::ChatWindow::ContainerClose $w; break"
-		bind $w <Destroy> "::ChatWindow::DetachAll %W"
+		bind $w <Destroy> "::ChatWindow::DetachAll %W; global ${w}_show_picture; catch {unset ${w}_show_picture}"
+
 
 		#Different shortcuts on Mac OS X
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
