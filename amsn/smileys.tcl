@@ -474,6 +474,7 @@ namespace eval ::smiley {
 		set llength 1
 
 		#Search for all possible emotions, after they are sorted by symbol length
+		SortSmileys
 		foreach emotion_data [concat $sortedemotions [list [list "\n" "newline"]]] {
 
 			#Symbol is first element
