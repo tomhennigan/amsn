@@ -556,7 +556,7 @@ namespace eval ::smiley {
 					if { $p2 == "__newline__" } {
 						set l [lreplace $l $listpos $listpos [list text $p1] [list "newline"] [list text $p3] ]
 					} else {
-						set l [lreplace $l $listpos $listpos [list text $p1] [list smiley $p2] [list text $p3] ]
+						set l [lreplace $l $listpos $listpos [list text $p1] [list smiley $p2 $symbol] [list text $p3] ]
 					}
 
 					incr llength 2

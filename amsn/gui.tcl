@@ -4980,7 +4980,7 @@ proc cmsn_draw_buildtop_wrapped {} {
 
         set maxw [expr {[winfo width [winfo parent $pgBuddyTop]]-[$pgBuddyTop.bigstate cget -width]-(2*[::skin::getKey bigstate_xpad])}]
         incr maxw [expr {0-[font measure bboldf -displayof $pgBuddyTop.mystatus " ($my_state_desc)" ]}]
-        set my_short_name [trunc $my_name $pgBuddyTop.mystatus $maxw bboldf]
+        set my_short_name [trunc_with_smileys $my_name $pgBuddyTop.mystatus $maxw bboldf]
         $pgBuddyTop.mystatus insert end "$my_short_name " mystatus
         $pgBuddyTop.mystatus insert end "($my_state_desc)" mystatus
         set psmmedia ""
@@ -5678,7 +5678,7 @@ proc ShowUser {user_login state_code colour section grId} {
 				#Middle line, no status description and no status icon
 				set strw [expr {$maxw+$statew+25}]
 			}
-			set current_line [trunc $current_line $pgBuddy $strw splainf]
+			set current_line [trunc_with_smileys $current_line $pgBuddy $strw splainf]
 		}
 
 		$pgBuddy.text insert $section.last "$current_line" $user_unique_name
@@ -5882,7 +5882,7 @@ proc balloon_motion {window x y msg {pic ""}} {
 	}
 }
 
-# trunc(str, nchars)
+# trunc (str {window ""} {maxw 0 } {font ""})
 #
 # Truncates a string to at most nchars characters and places an ellipsis "..."
 # at the end of it. nchars should include the three characters of the ellipsis.
@@ -5910,18 +5910,52 @@ proc trunc {str {window ""} {maxw 0 } {font ""}} {
 		}
 	}
 	return $str
+}
 
-	set elen 3  ;# The three characters of "..."
-	set slen [string length $str]
-
-	if {$nchars <= $elen || $slen <= $elen || $nchars >= $slen} {
-		set s [string range $str 0 [expr {$nchars - 1}]]
-	} else {
-		set s "[string range $str 0 [expr {$nchars - $elen - 1}]]..."
+# trunc_with_smileys (str {window ""} {maxw 0 } {font ""})
+#
+# The same as the previous one, but also take care of smileys
+#
+proc trunc_with_smileys {str {window ""} {maxw 0 } {font ""}} {
+	if { $window == "" || $font == "" || [::config::getKey truncatenames]!=1} {
+		return $str
 	}
 
-	return $s
+	#first check if whole message fits (increase speed)
+	set str_list [::smiley::parseMessageToList $str 1 0]
+	if { [string equal [lindex [lindex $str_list 0 ] 1]  $str ]  &&\
+		[font measure $font -displayof $window $str] < $maxw } {
+		return $str
+	}
+	set indice 0
+	foreach elt $str_list  {
+		switch [lindex $elt 0] {
+		text {
+				set txt [lindex $elt 1] 
+				set slen [string length $txt]
+				for {set idx 0} { $idx <= $slen} {incr idx} {
+					if { [font measure $font -displayof $window "[string range $txt 0 $idx]..."] > $maxw } {
+						return "[string range $str 0 [expr {$indice+$idx-1}]]..."
+					}
+				}
+				incr indice $slen
+				set maxw [expr {$maxw - [font measure $font -displayof $window $txt]}]
+		}
+		smiley {
+				set maxw [expr {$maxw - [image width [lindex $elt 1]]}]
+				if {$maxw <= 0 } {
+					return "[string range $str 0 [expr {$indice-1}]]..."
+				}
+				incr indice [string length [lindex $elt 2]]
+		}
+		#what should we do in that case ??? 	
+		newline {}
+		}
+	
+	}
+	return $str
 }
+
 
 #returns text string to bind to a on mouse over event to trigger mouse pointer change
 proc onMouseEnterHand { w } {
@@ -7432,7 +7466,7 @@ proc convert_image_plus { filename type size } {
 
 proc load_my_pic { {nopic 0} } {
 	global pgBuddyTop
-	if {[::config::getKey displaypic] == "" && no_pic == 1 } {
+	if { $no_pic || [::config::getKey displaypic] == "" } {
 		::config::setKey displaypic nopic.gif
 	}
 	status_log "load_my_pic: Trying to set display picture [::config::getKey displaypic]\n" blue
