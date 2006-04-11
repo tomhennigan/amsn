@@ -7466,7 +7466,7 @@ proc convert_image_plus { filename type size } {
 
 proc load_my_pic { {nopic 0} } {
 	global pgBuddyTop
-	if { $no_pic || [::config::getKey displaypic] == "" } {
+	if { $nopic || [::config::getKey displaypic] == "" } {
 		::config::setKey displaypic nopic.gif
 	}
 	status_log "load_my_pic: Trying to set display picture [::config::getKey displaypic]\n" blue
