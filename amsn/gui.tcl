@@ -3090,153 +3090,152 @@ namespace eval ::amsn {
 	#plays "sound"
 	proc notifyAdd { msg command {sound ""} {type online} {user ""}} {
 
-		global tcl_platform
-		if { [winfo exists .bossmode] } {
+		#no notifications in bossmode or if disabled
+		if { [winfo exists .bossmode] || [::config::getKey shownotify] == 0} {
 			return
 		}
 
-		if { [::config::getKey shownotify] == 0 } {
-			return;
+		#if we gota sound, play it
+		if { $sound != ""} {
+			play_sound ${sound}.wav
 		}
-
 		
 		# Check if we only want to play the sound notification
 		if { [::config::getKey notifyonlysound] == 0 } {
 
-		
-		variable NotifID
-		variable NotifPos
+			#have a unique name
+			variable NotifID
+			#the position, always incremented with height
+			variable NotifPos
 
-		#New name for the window
-		set w .notif$NotifID
-		incr NotifID
+			#New name for the window
+			set w .notif$NotifID
+			incr NotifID
 
-		toplevel $w -width 1 -height 1
-		wm group $w .
-		wm state $w withdrawn
+			#the window will be stretched by the canvas anyways
+			toplevel $w -width 1 -height 1
+			wm group $w .
+			#no wm borders
+			wm state $w withdrawn
 
-		#To put the notify window in front of all, specific for Windows only
-		if {$tcl_platform(platform) == "windows"} {
-			#Some verions of tk don't support this
-			catch { wm attributes $w -topmost 1 }
-		}
+			#To put the notify window in front of all, specific for Windows only
+			if {[OnWin]} {
+				#Some verions of tk don't support this
+				catch { wm attributes $w -topmost 1 }
+			}
 
 
-		set xpos [::config::getKey notifyXoffset]
-		set ypos [::config::getKey notifyYoffset]
-		#Avoid a bugreport if someone removed his xpos or ypos variable in the preferences
-		if {$xpos == ""} {
-			::config::setKey notifyXoffset 100
 			set xpos [::config::getKey notifyXoffset]
-		}
-		if {$ypos == ""} {
-			::config::setKey notifyYoffset 75
 			set ypos [::config::getKey notifyYoffset]
 
-		}
+			#Avoid a bugreport if someone removed his xpos or ypos variable in the preferences
+			#This seems to be fixed in preferences.tcl line 2965
+#			if {$xpos == ""} {
+#				::config::setKey notifyXoffset 100
+#				set xpos [::config::getKey notifyXoffset]
+#			}
+#			if {$ypos == ""} {
+#				::config::setKey notifyYoffset 75
+#				set ypos [::config::getKey notifyYoffset]
+#			}
+			if { $xpos < 0 } { set xpos 0 }
+			if { $ypos < 0 } { set ypos 0 }
 
+			set height [::skin::getKey notifheight]
 
-
-		set height [::skin::getKey notifheight]
-		#Search for a free notify window position
-		while { [lsearch -exact $NotifPos $ypos] >=0 } {
-			incr ypos $height
-		}
-		lappend NotifPos $ypos
-
-
-		if { $xpos < 0 } { set xpos 0 }
-		if { $ypos < 0 } { set ypos 0 }
-
-		canvas $w.c -bg #EEEEFF -width [::skin::getKey notifwidth] -height [::skin::getKey notifheight] \
-			-relief ridge -borderwidth 0 -highlightthickness 0
-		pack $w.c
-
-		switch $type {
-			online {
-				$w.c create image 0 0 -anchor nw -image [::skin::loadPixmap notifyonline] -tag bg
+			#Search for a free notify window position
+			while { [lsearch -exact $NotifPos $ypos] >=0 } {
+				incr ypos $height
 			}
-			offline {
-				$w.c create image 0 0 -anchor nw -image [::skin::loadPixmap notifyoffline] -tag bg
+			lappend NotifPos $ypos
+
+			canvas $w.c -bg #EEEEFF -width [::skin::getKey notifwidth] -height [::skin::getKey notifheight] \
+				-relief ridge -borderwidth 0 -highlightthickness 0
+			pack $w.c
+
+			#set the background picture
+			switch $type {
+				online {
+					$w.c create image 0 0 -anchor nw -image [::skin::loadPixmap notifyonline] -tag bg
+				}
+				offline {
+					$w.c create image 0 0 -anchor nw -image [::skin::loadPixmap notifyoffline] -tag bg
+				}
+				state {
+					$w.c create image 0 0 -anchor nw -image [::skin::loadPixmap notifystate] -tag bg
+				}
+				plugins {
+					$w.c create image 0 0 -anchor nw -image [::skin::loadPixmap notifyplugins] -tag bg
+				}
+				default {
+					$w.c create image 0 0 -anchor nw -image [::skin::loadPixmap notifyonline] -tag bg
+				}
 			}
-			state {
-				$w.c create image 0 0 -anchor nw -image [::skin::loadPixmap notifystate] -tag bg
+
+			#If it's a notification about a user (user var given) and there is an image (the creation results 1) and we have the config set to show the image, show the display-picture
+			if {$user != "" && [getpicturefornotification $user] && [::config::getKey showpicnotify]} {
+				#Put the image on the canvas
+				$w.c create image [::skin::getKey x_notifydp] [::skin::getKey y_notifydp] -anchor nw\
+					-image smallpicture$user -tag bg
+				#Put the text on the canvas
+				set notify_id [$w.c create text [::skin::getKey x_notifytext] [::skin::getKey y_notifytext] \
+					-font [::skin::getKey notify_font] -justify left\
+					-width [::skin::getKey width_notifytext] -anchor nw\
+					-text "$msg" -tag bg]
+			#else, just show the text, using all the space
+			} else {
+				set notify_id [$w.c create text [expr {[::skin::getKey notifwidth]/2}] [expr {[::skin::getKey notifheight]/2}] \
+					-font [::skin::getKey notify_font] -justify left\
+					-width [expr {[::skin::getKey notifwidth]-20}] -anchor center\
+					-text "$msg" -tag bg]
 			}
-			plugins {
-				$w.c create image 0 0 -anchor nw -image [::skin::loadPixmap notifyplugins] -tag bg
-			}
-			default {
-				$w.c create image 0 0 -anchor nw -image [::skin::loadPixmap notifyonline] -tag bg
-			}
-		}
-		#If it's a notification with user variable and we get a sucessful image create, show the display picture in the notification
+
+			
+			#add the close button
+			$w.c create image [::skin::getKey x_notifyclose] [::skin::getKey y_notifyclose] -anchor nw -image [::skin::loadPixmap notifclose] -tag close 
 
 
-		#If it's a notification about a user (user var given) and there is an image (the creation results 1) and we have the config set to show the image, show the display-picture
-		if {$user != "" && [getpicturefornotification $user] && [::config::getKey showpicnotify]} {
-			#Put the image on the canvas
-			$w.c create image [::skin::getKey x_notifydp] [::skin::getKey y_notifydp] -anchor nw\
-				-image smallpicture$user -tag bg
-			#Put the text on the canvas
-			set notify_id [$w.c create text [::skin::getKey x_notifytext] [::skin::getKey y_notifytext] \
-				-font [::skin::getKey notify_font] -justify left\
-				-width [::skin::getKey width_notifytext] -anchor nw\
-				-text "$msg" -tag bg]
-		#else, just show the text, using all the space
-		} else {
-			set notify_id [$w.c create text [expr {[::skin::getKey notifwidth]/2}] [expr {[::skin::getKey notifheight]/2}] \
-				-font [::skin::getKey notify_font] -justify left\
-				-width [expr {[::skin::getKey notifwidth]-20}] -anchor center\
-				-text "$msg" -tag bg]
-		}
+			if {[string length $msg] >100} {
+				set msg "[string range $msg 0 100]..."
+			}
 
+			set after_id [after [::config::getKey notifytimeout] "::amsn::KillNotify $w $ypos"]
+
+
+			$w.c bind bg <Enter> "$w.c configure -cursor hand2"
+			$w.c bind bg <Leave> "$w.c configure -cursor left_ptr"
+			$w.c bind bg <ButtonRelease-1> "after cancel $after_id; ::amsn::KillNotify $w $ypos; $command"
+			$w.c bind bg <ButtonRelease-3> "after cancel $after_id; ::amsn::KillNotify $w $ypos"
+
+
+			$w.c bind close <Enter> "$w.c configure -cursor hand2"
+			$w.c bind close <Leave> "$w.c configure -cursor left_ptr"
+			$w.c bind close <ButtonRelease-1> "after cancel $after_id; ::amsn::KillNotify $w $ypos"		
+
+			#no title needed"
+#			wm title $w "[trans msn] [trans notify]"
+			wm overrideredirect $w 1
+			#wm transient $w
+
+			#now show it
+			wm state $w normal
+
+			#Raise $w to correct a bug win "wm geometry" in AquaTK (Mac OS X)
+			if {[OnMac]} {
+				lower $w
+			}
+
+			#Disable Grownotify for Mac OS X Aqua/tk users
+			if {![::config::getKey animatenotify] || [OnMac] } {
+				wm geometry $w -$xpos-$ypos
+			} else {
+				wm geometry $w -$xpos-[expr {$ypos-100}]
+				after 50 "::amsn::growNotify $w $xpos [expr {$ypos-100}] $ypos"
+			}
 		
-		$w.c create image [::skin::getKey x_notifyclose] [::skin::getKey y_notifyclose] -anchor nw -image [::skin::loadPixmap notifclose] -tag close 
-
-
-		if {[string length $msg] >100} {
-			set msg "[string range $msg 0 100]..."
-		}
-
-		set after_id [after [::config::getKey notifytimeout] "::amsn::KillNotify $w $ypos"]
-
-
-		$w.c bind bg <Enter> "$w.c configure -cursor hand2"
-		$w.c bind bg <Leave> "$w.c configure -cursor left_ptr"
-		$w.c bind bg <ButtonRelease-1> "after cancel $after_id; ::amsn::KillNotify $w $ypos; $command"
-		$w.c bind bg <ButtonRelease-3> "after cancel $after_id; ::amsn::KillNotify $w $ypos"
-
-
-		$w.c bind close <Enter> "$w.c configure -cursor hand2"
-		$w.c bind close <Leave> "$w.c configure -cursor left_ptr"
-		$w.c bind close <ButtonRelease-1> "after cancel $after_id; ::amsn::KillNotify $w $ypos"		
-
-
-
-
-		wm title $w "[trans msn] [trans notify]"
-		wm overrideredirect $w 1
-		#wm transient $w
-		wm state $w normal
-
-		#Raise $w to correct a bug win "wm geometry" in AquaTK (Mac OS X)
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-			lower $w
-		}
-
-		#Disable Grownotify for Mac OS X Aqua/tk users
-		if {![::config::getKey animatenotify] || (![catch {tk windowingsystem} wsystem] && $wsystem == "aqua") } {
-			wm geometry $w -$xpos-$ypos
-		} else {
-			wm geometry $w -$xpos-[expr {$ypos-100}]
-			after 50 "::amsn::growNotify $w $xpos [expr {$ypos-100}] $ypos"
 		}
 		
-		}
-		
-		if { $sound != ""} {
-			play_sound ${sound}.wav
-		}
+
 
 
 	}
@@ -3260,6 +3259,7 @@ namespace eval ::amsn {
 		wm state $w withdrawn
 		#Delay the destroying, to avoid a bug in tk 8.3
 		after 5000 destroy $w
+		#remove this position from the list
 		set lpos [lsearch -exact $NotifPos $ypos]
 		set NotifPos [lreplace $NotifPos $lpos $lpos]
 	}
