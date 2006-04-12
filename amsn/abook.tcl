@@ -1334,7 +1334,7 @@ namespace eval ::abookGui {
 			bind $w <<Escape>> "destroy $w"
 		}
 
-		bind $w <Destroy> [list ::abookGui::PropDestroyed $email $w %W]
+		bind $w <Destroy> [list ::abookGui::PropDestroyed $email $w %W; unset colorval_$email]
 		
 		moveinscreen $w 30
 	}
