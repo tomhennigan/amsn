@@ -479,6 +479,7 @@ newveravailable Newer version $1 available for download
 next Next
 nick Nick
 noactivity No activity
+nocacheddps No Display Pictures in cache for this user
 nodataavailable No data available for $1
 nodevices Currently, no devices are installed
 nogap No space between groups

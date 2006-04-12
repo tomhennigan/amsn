@@ -1032,7 +1032,7 @@ namespace eval ::abookGui {
 
 			  }
 			  if {$i == 0} {
-			  	if {![winfo exists $mainFrame.nodps]} {label $mainFrame.nodps -text "\tNo displaypictures in cache for this user" }
+			  	if {![winfo exists $mainFrame.nodps]} {label $mainFrame.nodps -text "\t[trans nocacheddps]" }
 			  	pack $mainFrame.nodps
 			 }
 		}
