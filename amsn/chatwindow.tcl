@@ -783,36 +783,6 @@ namespace eval ::ChatWindow {
 	}
 
 
-	#TODO: Deprecated, remove?
-	proc TabbedWindowsInfo { } {
-		set w .tabbedinfo
-
-		if { [winfo exists $w] } {
-			tkwait window $w
-			return
-		}
-		toplevel $w
-
-		label $w.l -text "[trans newtabbedfeature]"
-		set f $w.f
-		frame $f 
-		radiobutton $f.r1 -text "[trans tabbedglobal]" -variable [::config::getVar tabbedchat] -value 1
-		radiobutton $f.r2 -text "[trans tabbedgroups]" -variable [::config::getVar tabbedchat] -value 2
-		radiobutton $f.r3 -text "[trans nottabbed]" -variable [::config::getVar tabbedchat] -value 0
-
-
-		button $w.ok -text "[trans ok]" -command "destroy $w"
-
-		::config::setKey tabbedchat 2
-		
-		pack $f.r1 $f.r2 $f.r3 -side top -expand true -fill both -anchor nw
-		pack $w.l $w.f $w.ok -side top -expand true -fill both
-		
-		tkwait window $w
-
-		return
-	}
-
 	#///////////////////////////////////////////////////////////////////////////////
 	# ::ChatWindow::Open () 
 	# Creates a new chat window and returns its name (.msg_n - Where n is winid)
@@ -1954,11 +1924,18 @@ namespace eval ::ChatWindow {
 			status_log $data
 		        ::amsn::FileTransferSend $window $data
 		} else {
-			#TODO: improve this ???
+
+#TODO: improve this ???
+			#Filter out VFS-protocols
+			foreach type [list smb http https ftp sftp floppy cdrom dvd] {
+				if {[string first $type $data] == 0} { return }
+			}
+
+			#If the data begins with "file://", strip this off
 			if { [string range $data 0 6] == "file://" } {
 				set data [string range $data 7 [string length $data]]
-			}
-			status_log $data
+			} 
+			status_log "We got a filedrop: $data.  Sending FT request ..."
 	        	::amsn::FileTransferSend $window $data
 		}
 	}
@@ -2020,12 +1997,11 @@ namespace eval ::ChatWindow {
 		set_balloon $invite [trans invite]
 
 		#Webcam button
-#TODO:	* Should this maybe only be shown if we have a configured webcam and the contact is known to be able to receive cams ?
 		label $webcam -image [::skin::loadPixmap butwebcam] -relief flat -padx 0 \
-			-background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0\
-			-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg]
-		set_balloon $webcam [trans sendwebcaminvite]
-	
+			-background [::skin::getKey buttonbarbg] -highlightthickness 0\
+			 -borderwidth 0	-highlightbackground [::skin::getKey buttonbarbg]\
+			 -activebackground [::skin::getKey buttonbarbg]
+
 		# Pack them
 		pack $fontsel $smileys -side left -padx 0 -pady 0
 		pack $block $webcam $sendfile $invite -side right -padx 0 -pady 0
@@ -2035,7 +2011,16 @@ namespace eval ::ChatWindow {
 		bind $block    <<Button1>> "::amsn::ShowChatList \"[trans block]/[trans unblock]\" $w ::amsn::blockUnblockUser"
 		bind $sendfile <<Button1>> "::amsn::FileTransferSend $w"
 		bind $invite   <<Button1>> "::amsn::ShowInviteMenu $w \[winfo pointerx $w\] \[winfo pointery $w\]"
-		bind $webcam   <<Button1>> "::amsn::ShowChatList \"[trans sendwebcaminvite]\" $w ::MSNCAM::SendInviteQueue"
+
+		#if we have a webcam configured, have a "send webcam" button, else, use the button to open the wizard
+		if {[::config::getKey webcamDevice] != ""} {
+			set_balloon $webcam [trans sendwebcaminvite]
+			bind $webcam   <<Button1>> "::amsn::ShowChatList \"[trans sendwebcaminvite]\" $w ::MSNCAM::SendInviteQueue"
+
+		} else {
+			set_balloon $webcam [trans webcamconfigure]
+			bind $webcam    <<Button1>> "::CAMGUI::WebcamWizard"
+		}
 
 
 		# Create our bindings
@@ -2462,9 +2447,6 @@ namespace eval ::ChatWindow {
 
 		after cancel "::ChatWindow::TopUpdate $chatid"
 
-		#DONE: Get this 5000 out and refresh only when needed
-		#after 5000 "::ChatWindow::TopUpdate $chatid"
-
 	}
 
 	
@@ -2685,13 +2667,6 @@ namespace eval ::ChatWindow {
 		set w [string map { "." "_"} $win]
 		set tab $container.bar.$w
 
-		# We have two ways of creating this tab button - not anymore, we don't. New canvas based tab should be Tcl/TK 8.3 compatible
-		#if { $::tcl_version >= 8.4 } {
-		#	set btcmd "button"
-		#} else {
-		#	set btcmd "btimg83"
-		#}
-
 		#New canvas-based tab
 		canvas $tab -bg [::skin::getKey tabbarbg] -bd 0 -relief flat -width [image width [::skin::loadPixmap tab]] \
 			-height [image height [::skin::loadPixmap tab]] -highlightthickness 0
@@ -2706,18 +2681,6 @@ namespace eval ::ChatWindow {
 
 		$tab create text [::skin::getKey tab_text_x] [::skin::getKey tab_text_y] -anchor nw -text "$nick" -fill [::skin::getKey tabfg] -tag tab_text -font sboldf -width [::skin::getKey tab_text_width]
 		$tab create image [::skin::getKey tab_close_x] [::skin::getKey tab_close_y] -anchor nw -image [::skin::loadPixmap tab_close] -activeimage [::skin::loadPixmap tab_close_hover] -tag tab_close
-
-		#Old button based tab
-		#$btcmd $tab -image [::skin::loadPixmap tab] \
-		#   -width [image width [::skin::loadPixmap tab]] \
-		#   -command "::ChatWindow::SwitchToTab $container $win" \
-		#   -fg black -bg [::skin::getKey tabbarbg] -bd 0 -relief flat \
-		#   -activebackground [::skin::getKey tabbarbg] \
-		#   -activeforeground black -text "$win" \
-		#   -font sboldf -highlightthickness 0 -pady 0 -padx 0 
-		#if { $::tcl_version >= 8.4 } {
-		#	$tab configure -overrelief flat -compound center
-		#}
 
 
 		bind $tab <Enter> "::ChatWindow::TabEntered $tab $win"
@@ -2857,7 +2820,7 @@ namespace eval ::ChatWindow {
 			return 
 		}
 		
-		# Don't switch if tab clicked is already current tab. > 2 used because otherwise windows for new mesages dont appear. this means this is only effective with three or more tabs open. hope someone can find how to fix this.
+#TODO:		# Don't switch if tab clicked is already current tab. > 2 used because otherwise windows for new mesages dont appear. this means this is only effective with three or more tabs open. hope someone can find how to fix this.
 		if { [info exists containercurrent($container)] == 1 && [set containercurrent($container)] == $win && [llength [set containerwindows($container)]] > 2  } { return }
 
 		if { [info exists containercurrent($container)] && [set containercurrent($container)] != "" } {
@@ -2893,8 +2856,10 @@ namespace eval ::ChatWindow {
 
 		::ChatWindow::UpdateContainerTitle $container
 
-		#make the focus, after 50ms to let the time to the window to be switched
-		after 50 catch " focus [::ChatWindow::GetInputText $win] "
+#TODO:		#make the focus, after 50ms to let the time to the window to be switched
+		# bad code, it should wait for the widget to get packed
+		after 50 "catch {focus [::ChatWindow::GetInputText $win]}"
+		# if the catch fails it should retry, not just fail
 
 	}
 
@@ -2907,7 +2872,7 @@ namespace eval ::ChatWindow {
 		#we'll set a title for the container-window, beginning from scratch
 		set title ""
 
-		#TODO: have the titled made up with a template with vars like $nicknames, $groupname and [trans chat] etc
+#TODO: have the titled made up with a template with vars like $nicknames, $groupname and [trans chat] etc
 
 		if { $chatid != 0 } {
 			#append all nicknames in the chat first to the title	
@@ -2962,11 +2927,6 @@ namespace eval ::ChatWindow {
 	}
 
 	proc UseContainer { } {
-		#set istabbed [::config::getKey tabbedchat]
-		#if { $istabbed == -1} {
-		#	TabbedWindowsInfo
-		#} 
-
 		set istabbed [::config::getKey tabbedchat]
 
 		if { $istabbed == 1 || $istabbed == 2 } {
