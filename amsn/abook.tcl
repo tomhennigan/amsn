@@ -991,43 +991,46 @@ namespace eval ::abookGui {
 	}
 
 	proc userDPs_raise_cmd { nb email } { 
-		if {![info exists ::abookGui::OtherDPList($email)] || \
-		    [llength $::abookGui::OtherDPList($email)] == 0 } {
-		  ::amsn::notifyAdd [trans loadotherdisplaypic $email] ""
 
 		  set nbIdent [$nb getframe userDPs]
 		  set mainFrame [$nbIdent.otherpics.sf getframe]
 
-		  global HOME
-		  set cachefiles [glob -nocomplain -directory [file join $HOME displaypic cache] *.dat]
-		  proc grep { fd re } {
-			  set result 0
-			  while {[gets $fd s] >= 0} {
-				  if [regexp $re $s] { set result 1 }
-			  }
-			  return $result
-		  }
+		  #don't try to redraw the dps if they already are drawed (changing tab)
+		  if {![winfo exists $mainFrame.0]} {
+			  #notification -> should be cahnged
+			  ::amsn::notifyAdd [trans loadotherdisplaypic $email] ""		  
 
-		  set i 0
-		  set dps_per_row 4
-		  set pic_in_use [::abook::getContactData $email displaypicfile ""]
-		  foreach f $cachefiles {
-			if {[string first $pic_in_use $f] == -1} {
-			  set fd [open $f]
-			  if { [grep $fd $email] == 1 } {
-				  if { [catch {set img [image create photo userDP_${email}_$i -file [filenoext $f].png -format cximage]}] } { continue }
-				  lappend ::abookGui::OtherDPList($email) $img
-				  button $mainFrame.$i -image $img
-				  bind $mainFrame.$i <ButtonPress-1> \
-					[list ::abookGui::userDPs_popup_menu %X %Y [filenoext $f].png $mainFrame.$i]
-				  grid $mainFrame.$i \
-					  -row [expr {$i / $dps_per_row}] -column [expr {$i % $dps_per_row}] \
-					  -pady 5 -padx 5
-				  incr i
+
+			  global HOME
+			  set cachefiles [glob -nocomplain -directory [file join $HOME displaypic cache] *.dat]
+			  proc grep { fd re } {
+				  set result 0
+				  while {[gets $fd s] >= 0} {
+					  if [regexp $re $s] { set result 1 }
+				  }
+				  return $result
 			  }
-			  close $fd
-			}
-		  }
+
+			  set i 0
+			  set dps_per_row 4
+			  set pic_in_use [::abook::getContactData $email displaypicfile ""]
+			  foreach f $cachefiles {
+				if {[string first $pic_in_use $f] == -1} {
+				  set fd [open $f]
+				  if { [grep $fd $email] == 1 } {
+					  if { [catch {set img [image create photo userDP_${email}_$i -file [filenoext $f].png -format cximage]}] } { continue }
+					  button $mainFrame.$i -image $img
+					  bind $mainFrame.$i <Destroy> "catch { image delete userDP_${email}_$i }"
+					  bind $mainFrame.$i <ButtonPress-1> \
+						[list ::abookGui::userDPs_popup_menu %X %Y [filenoext $f].png $mainFrame.$i]
+					  grid $mainFrame.$i \
+						  -row [expr {$i / $dps_per_row}] -column [expr {$i % $dps_per_row}] \
+						  -pady 5 -padx 5
+					  incr i
+				  }
+				  close $fd
+				}
+			  }
 		}
 	}
 
@@ -1401,14 +1404,6 @@ namespace eval ::abookGui {
 			unset ::notifyoffline($email)
 			unset ::notifystatus($email)
 			unset ::notifymsg($email)
-			
-			#Free display pictures
-			if {[info exists ::abookGui::OtherDPList($email)]} {
-			  foreach img $::abookGui::OtherDPList($email) {
-				  image delete $img
-			  }
-			}
-			set ::abookGui::OtherDPList($email) {}
 		}
 	}
 	
