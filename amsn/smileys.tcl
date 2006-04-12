@@ -815,13 +815,15 @@ namespace eval ::smiley {
 	proc NewCustomEmoticonGUI_Delete { name } {
 		global custom_emotions
 		
+		catch {image delete $name}
+
 		unset custom_emotions($name)
 		if { [winfo exists .smile_selector]} {destroy .smile_selector}
 		
 		#After modifying, clear sortedemotions, could need sorting again
 		variable sortedemotions
 		if {[info exists sortedemotions]} { unset sortedemotions }
-		
+
 		destroy .new_custom
 
 	}
