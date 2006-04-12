@@ -46,7 +46,7 @@ proc SelectColor::create { path args } {
 	"popup" {
 	    set list      [list at center left right above below]
 	    set placement [Widget::cget $path -placement]
-	    set where     [lindex $placement 0]image
+	    set where     [lindex $placement 0]
 
 	    if {[lsearch $list $where] < 0} {
 		return -code error \
