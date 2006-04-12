@@ -51,6 +51,18 @@ CxImageJPG::~CxImageJPG()
 	if (m_exif) delete m_exif;
 #endif
 }
+
+basic_image_information CxImageJPG::CheckFormat(BYTE * buffer, DWORD size){
+	CxImageJPG img;
+	CxMemFile hFile(buffer,size);
+	img.SetEscape(-1);
+	if (img.Decode(&hFile) == true) {
+		return create_basic_image_information(CXIMAGE_FORMAT_JPG,img.GetWidth(),img.GetHeight());
+	} else {
+		return create_basic_image_information(CXIMAGE_FORMAT_UNKNOWN,0,0);
+	}
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 #if CXIMAGEJPG_SUPPORT_EXIF
 bool CxImageJPG::DecodeExif(CxFile * hFile)

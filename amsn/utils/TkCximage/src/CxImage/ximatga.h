@@ -45,6 +45,7 @@ public:
 //	bool Save(const char * imageFileName){ return CxImage::Save(imageFileName,CXIMAGE_FORMAT_TGA);}
 	bool Decode(CxFile * hFile);
 	bool Decode(FILE *hFile) { CxIOFile file(hFile); return Decode(&file); }
+	static basic_image_information CheckFormat(BYTE * buffer, DWORD size);
 
 #if CXIMAGE_SUPPORT_ENCODE
 	bool Encode(CxFile * hFile);

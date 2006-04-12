@@ -32,6 +32,13 @@ void CxImagePNG::expand2to4bpp(BYTE* prow)
 		*pdst |= (idx & 0x0F)<<pos;
 	}
 }
+
+basic_image_information CxImagePNG::CheckFormat(BYTE * buffer, DWORD size){
+	if (size < 20) return create_basic_image_information(CXIMAGE_FORMAT_UNKNOWN,0,0);
+	if (strncmp((char *)buffer,"\x89PNG\x0d\x0a\x1a\x0a",4)!=0)
+		return create_basic_image_information(CXIMAGE_FORMAT_UNKNOWN,0,0);
+	return create_basic_image_information(CXIMAGE_FORMAT_PNG,btohl(*((long *)(buffer+16))),btohl(*((long *)(buffer+20))));
+}
 ////////////////////////////////////////////////////////////////////////////////
 bool CxImagePNG::Decode(CxFile *hFile)
 {

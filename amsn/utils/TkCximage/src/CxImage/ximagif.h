@@ -145,6 +145,7 @@ public:
 	
 	bool Decode(CxFile * fp);
 	bool Decode(FILE *fp) { CxIOFile file(fp); return Decode(&file); }
+	static basic_image_information CheckFormat(BYTE * buffer, DWORD size);
 
 #if CXIMAGE_SUPPORT_ENCODE
 	bool Encode(CxFile * fp);

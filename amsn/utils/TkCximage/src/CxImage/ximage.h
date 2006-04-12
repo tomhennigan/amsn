@@ -121,6 +121,15 @@ CXIMAGE_FORMAT_RAS,
 CMAX_IMAGE_FORMATS
 };
 
+struct basic_image_information {
+	ENUM_CXIMAGE_FORMATS format;
+	long width,height;
+};
+
+basic_image_information inline create_basic_image_information(ENUM_CXIMAGE_FORMATS format, long width, long height){
+	basic_image_information info={format,width,height};
+	return info;
+}
 /////////////////////////////////////////////////////////////////////////////
 // CxImage class
 /////////////////////////////////////////////////////////////////////////////
@@ -419,6 +428,7 @@ public:
 	bool Decode(FILE * hFile, DWORD imagetype);
 	bool Decode(CxFile * hFile, DWORD imagetype);
 	bool Decode(BYTE * buffer, DWORD size, DWORD imagetype);
+	static basic_image_information CheckFormat(BYTE * buffer, DWORD size);
 //@}
 #endif //CXIMAGE_SUPPORT_DECODE
 

@@ -224,10 +224,10 @@ int Tk_Resize (ClientData clientData,
       return TCL_ERROR;
     }
 
-    if(!image.Flip()) {
+/*    if(!image.Flip()) {
       Tcl_AppendResult(interp, image.GetLastError(), NULL);
       return TCL_ERROR;
-    }
+    }*/
     return CopyImageToTk(interp, &image, Photo, image.GetWidth(), image.GetHeight());
   }
 
@@ -326,10 +326,10 @@ int Tk_Thumbnail (ClientData clientData,
     return TCL_ERROR;
   }
 
-  if(!image.Flip()) {
+/*  if(!image.Flip()) {
 		Tcl_AppendResult(interp, image.GetLastError(), NULL);
 		return TCL_ERROR;
-	}
+	}*/
 
   return CopyImageToTk(interp, &image, Photo, image.GetWidth(), image.GetHeight());
 }

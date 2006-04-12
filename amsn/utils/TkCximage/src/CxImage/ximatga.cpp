@@ -22,6 +22,34 @@
 #define TGA_CompMap 32
 #define TGA_CompMap4 33
 
+basic_image_information CxImageTGA::CheckFormat(BYTE * buffer, DWORD size){
+	TGAHEADER *tgaHead;
+	if (size < sizeof(tgaHead)) return create_basic_image_information(CXIMAGE_FORMAT_UNKNOWN,0,0);
+	tgaHead = (TGAHEADER *)buffer;
+	switch (tgaHead->ImageType){
+	case TGA_Map:
+	case TGA_RGB:
+	case TGA_Mono:
+	case TGA_RLEMap:
+	case TGA_RLERGB:
+	case TGA_RLEMono:
+		if (!(tgaHead->ImageWidth==0 || 
+		tgaHead->ImageHeight==0 || 
+		tgaHead->PixelDepth==0 || 
+		tgaHead->CmapLength>256) && 
+		(tgaHead->PixelDepth==8 || 
+		tgaHead->PixelDepth==15 || 
+		tgaHead->PixelDepth==16 || 
+		tgaHead->PixelDepth!=24 || 
+		tgaHead->PixelDepth!=32))
+		return create_basic_image_information(CXIMAGE_FORMAT_TGA,tgaHead->ImageWidth,tgaHead->ImageHeight) ;
+		break;
+	default:
+		return create_basic_image_information(CXIMAGE_FORMAT_UNKNOWN,0,0);
+		break;
+	}
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 bool CxImageTGA::Decode(CxFile *hFile)
 {

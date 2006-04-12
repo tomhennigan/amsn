@@ -25,6 +25,14 @@ extern "C" {
 #include "../png/png.h"
 }
 
+long int inline btohl( long int dword ) {
+	short int test = 1;
+	if ( *((char *) &test) == 0 )
+		return dword; // Host is big endian
+	else
+		return ( ((dword & 0xff) << 24 ) | ((dword & 0xff00) << 8 ) | ((dword >> 8) & 0xff00) | ((dword >> 24) & 0xff) ); //Host is little endian : we swap the four bytes
+}
+
 class CxImagePNG: public CxImage
 {
 public:
@@ -34,6 +42,7 @@ public:
 //	bool Save(const char * imageFileName){ return CxImage::Save(imageFileName,CXIMAGE_FORMAT_PNG);}
 	bool Decode(CxFile * hFile);
 	bool Decode(FILE *hFile) { CxIOFile file(hFile); return Decode(&file); }
+	static basic_image_information CheckFormat(BYTE * buffer, DWORD size);
 
 #if CXIMAGE_SUPPORT_ENCODE
 	bool Encode(CxFile * hFile);

@@ -93,33 +93,25 @@ int ObjMatch (Tcl_Obj *data, Tcl_Obj *format, int *widthPtr, int *heightPtr, Tcl
   BYTE * buffer = NULL;
   int length = 0;
 
-  CxImage image;
+  basic_image_information fmt;
 
   LOG("Data matching"); //
 
   buffer = Tcl_GetByteArrayFromObj(data, &length);
 
-  LOG(""); //
-
-  if (image.Decode(buffer, length, CXIMAGE_FORMAT_GIF) ||
-      image.Decode(buffer, length, CXIMAGE_FORMAT_PNG) ||
-      image.Decode(buffer, length, CXIMAGE_FORMAT_JPG) ||
-      image.Decode(buffer, length, CXIMAGE_FORMAT_TGA) ||
-      image.Decode(buffer, length, CXIMAGE_FORMAT_BMP)) {
-    *widthPtr = image.GetWidth();
-    *heightPtr = image.GetHeight();
-
-    LOG("Supported Format"); //
-    LOG("Width :"); //
-    APPENDLOG(*widthPtr); //
-    LOG("Heigth :"); //
-    APPENDLOG(*heightPtr); //
-
+  if ((fmt=CxImage::CheckFormat(buffer,length)).format!=CXIMAGE_FORMAT_UNKNOWN) {
+    LOG("Supported Format : "); //
+    APPENDLOG(fmt.format);
+    LOG("Size : ");
+    APPENDLOG(fmt.width);
+    APPENDLOG("x");
+    APPENDLOG(fmt.height);
+    *widthPtr = fmt.width;
+    *heightPtr = fmt.height;
     return true;
   }
 
   LOG("Unknown format");
-
   return false;
 }
 
@@ -178,12 +170,12 @@ int ObjRead (Tcl_Interp *interp, Tcl_Obj *data, Tcl_Obj *format, Tk_PhotoHandle 
     return TCL_ERROR;
   }
 
-  LOG("Flipping image"); //
+  /*LOG("Flipping image"); //
 
   if(!image.Flip()) {
     Tcl_AppendResult(interp, image.GetLastError(), NULL);
     return TCL_ERROR;
-  }
+  }*/
 
   LOG("Encoding to RGBA"); //
 
@@ -259,11 +251,11 @@ int ObjRead (Tcl_Interp *interp, Tcl_Obj *data, Tcl_Obj *format, Tk_PhotoHandle 
 		AnimatedGifInfo->image->SetFrame(numframes - 1);
 		AnimatedGifInfo->image->Decode(FileData, length, CXIMAGE_FORMAT_GIF);
 
-		for(int i = 0; i < numframes; i++){
+		/*for(int i = 0; i < numframes; i++){
 			if(AnimatedGifInfo->image->GetFrameNo(i) != AnimatedGifInfo->image) {
 				AnimatedGifInfo->image->GetFrameNo(i)->Flip();
 			}
-		}
+		}*/
 		LOG("Adding AnimatedGifInfo");
 		APPENDLOG(imageHandle);
 		TkCxImage_lstAddItem(AnimatedGifInfo);
