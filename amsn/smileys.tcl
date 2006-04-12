@@ -163,8 +163,10 @@ namespace eval ::smiley {
 			if { $field_sort == "_dummy_" } {continue}
 			set emotion($field_sort) [string trim $sdata($field)]
 		}
-		#Create the image now and store it
-		if { [catch { image create photo $emotion(image_name) -file $emotion(file) -format cximage } emotion(image_name) ] } {
+
+
+		#Create the image now and store it   ;# $emotion(name) is unique as we store the emoticon in the array under this name (cfr infra)
+		if { [catch { image create photo custom_emoticon_$emotion(name) -file $emotion(file) -format cximage } emotion(image_name) ] } {
 			status_log "Error when creating image for emoticon $emotion(name) : $emotion(image_name)"
 			#Error when creating smiley's image so we don't add it
 			return 0
@@ -588,7 +590,8 @@ namespace eval ::smiley {
 	#Create ONE smiley in the smileys menu
 	proc CreateSmileyInMenu {w cols rows smiw smih emot_num name symbol image file animated} {
 		catch {
-			set resized [image create photo ${symbol}_smileymenu_small]
+			#number of menu-item in name as I'm usure about the name being unique and the quoting of the symbol
+			set resized [image create photo smiley_menu_${emot_num}_small]
 			$resized copy $image
 			if {[image width $image] > 22 && [image height $image] > 22} {
 				::picture::ResizeWithRatio $resized 22 22

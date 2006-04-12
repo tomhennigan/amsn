@@ -79,7 +79,7 @@ namespace eval ::picture {
 		if {[::picture::Loaded]} {
 			#TkCximage
 			if { [catch { 
-				set photo [image create photo -file $original -format cximage] 
+				set photo [image create photo -file $original -format cximage] ;#gets destroyed
 				::CxImage::Resize $photo $width $height 
 				$photo write $destination 
 				image delete $photo
