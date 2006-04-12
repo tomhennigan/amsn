@@ -2372,9 +2372,7 @@ namespace eval ::ChatWindow {
 			$top insert text end $nicktxt			
 
 			set title "${title}${user_name}, "
-
-			#TODO: When we have better, smaller and transparent images, uncomment this
-			
+	
 			if { "$user_state" != "" && "$user_state" != "online" } {
 				set statetxt "\([trans $user_state]\)"
 				$top insert text end $statetxt
