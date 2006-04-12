@@ -1341,7 +1341,7 @@ namespace eval ::abookGui {
 			bind $w <<Escape>> "destroy $w"
 		}
 
-		bind $w <Destroy> [list ::abookGui::PropDestroyed $email $w %W; unset colorval_$email]
+		bind $w <Destroy> [list ::abookGui::PropDestroyed $email $w %W]
 		
 		moveinscreen $w 30
 	}
@@ -1402,12 +1402,15 @@ namespace eval ::abookGui {
 	}
 	
 	proc PropDestroyed { email w win } {
+		global colorval_$email
+
 		if { $w == $win } {
 			#Clean temporal variables
 			unset ::notifyonline($email)
 			unset ::notifyoffline($email)
 			unset ::notifystatus($email)
 			unset ::notifymsg($email)
+			catch {unset colorval_$email}
 		}
 	}
 	
@@ -1507,7 +1510,6 @@ namespace eval ::abookGui {
 			[list [set ::notifyonline($email)] [set ::notifyoffline($email)] [set ::notifystatus($email)] [set ::notifymsg($email)]]
 		
 		destroy $w
-		unset colorval_$email
 		::MSN::contactListChanged
 		cmsn_draw_online
 		::abook::saveToDisk
