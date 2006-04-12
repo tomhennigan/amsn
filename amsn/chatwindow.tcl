@@ -2856,7 +2856,7 @@ namespace eval ::ChatWindow {
 
 #TODO:		#make the focus, after 50ms to let the time to the window to be switched
 		# bad code, it should wait for the widget to get packed
-		after 50 "catch {focus [::ChatWindow::GetInputText $win]}"
+		after 100 "catch {focus [::ChatWindow::GetInputText $win]}"
 		# if the catch fails it should retry, not just fail
 
 	}
