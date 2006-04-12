@@ -259,6 +259,10 @@ namespace eval ::plugins {
 		return ""
 	}
 
+	proc getVarInfo {plugin param} {
+		return "::plugins::plugins(${plugin}_${param})"
+	}
+
 	###############################################################
         # getPlugins ()
         #
@@ -292,9 +296,12 @@ namespace eval ::plugins {
         #
 	
 	proc updatePluginsArray { } {
+
 	       	global HOME HOME2
+
 		#clear the current array
 		array set ::plugins::plugins [list]
+
 		# make a list of all the possible places to search
 		#TODO: Allow user to choose where to search
 		set search_path [list] 
@@ -312,8 +319,10 @@ namespace eval ::plugins {
 			foreach file [glob -nocomplain -directory $dir */plugininfo.xml] {
 				plugins_log core "Found plugin files in $file\n"
 				::plugins::LoadInfo $file
+				::plugins::LoadInfoAutoupdate $file
 			}
 		}
+
        	}
 
 
@@ -330,8 +339,11 @@ namespace eval ::plugins {
 	# list containng the information
 	#
 	proc LoadInfo { path } {
-		if { [file readable [file join [file dirname $path] plugininfo.xml] ] } {
-			set fd [file join [file dirname $path] plugininfo.xml]
+
+		set fd [file join [file dirname $path] plugininfo.xml]
+
+		if { [file readable $fd] } {
+			
 			if { [catch {
 				set plugin_info [sxml::init $fd]
 				sxml::register_routine $plugin_info "plugin" "::plugins::XMLInfo"
@@ -343,9 +355,10 @@ namespace eval ::plugins {
 				return 0
 			}
 		}
-		return 1
-	}
 
+		return 1
+
+	}
 
 	###############################################################
 	# XMLInfo (cstack, cdata, saved_data, cattr saved_attr, args)
@@ -359,20 +372,17 @@ namespace eval ::plugins {
 	# Return
 	# none
 	#
+
 	proc XMLInfo { cstack cdata saved_data cattr saved_attr args } {
+
 		variable plugins
 		upvar $saved_data sdata
 		#get the path from 2 levels up (::plugins::LoadInfo -> ::sxml::parse -> thisproc)
 		#dir is used to set the full path of the file
 		upvar 2 path dir
 
-		if { ! [info exists sdata(${cstack}:deinit_procedure)] } {
-			set deinit ""
-		} else {
-			set deinit $sdata(${cstack}:deinit_procedure)
-		}
-
 		set name $sdata(${cstack}:name)
+		set cur_plugin $name
 		set author $sdata(${cstack}:author)
 
 		#Now plugins have an other field in plugininfo.xml in which the description can be translated.
@@ -392,6 +402,12 @@ namespace eval ::plugins {
 		set plugin_file $sdata(${cstack}:plugin_file)
 		set plugin_namespace $sdata(${cstack}:plugin_namespace)
 		set init $sdata(${cstack}:init_procedure)
+
+		if { ![info exists sdata(${cstack}:deinit_procedure)] } {
+			set deinit ""
+		} else {
+			set deinit $sdata(${cstack}:deinit_procedure)
+		}
 		
 		set plugins(${name}_name) $name
 		set plugins(${name}_author) $author
@@ -436,86 +452,89 @@ namespace eval ::plugins {
 		set selection ""
 		# set the window path
 		set w .plugin_selector
+
 		# if the window already exists, focus it, otherwise create it
 		if {[winfo exists $w]} {
 			raise $w
-		} else {
-			# update the information and list of plugins
-			::plugins::updatePluginsArray
-			# create window and give it it's title
-			toplevel $w
-			wm title $w [trans pluginselector]
-			wm geometry $w 500x400
-			# create widgets
-			# listbox with all the plugins
-			listbox $w.plugin_list -background "white" -height 15 -yscrollcommand "$w.ys set" -relief flat -highlightthickness 0
-			scrollbar $w.ys -command "$w.plugin_list yview"
+			return
+		}
 
-			#Scrollableframe that will contain pieces of information about a plugin
-			ScrolledWindow $w.sw 
-			ScrollableFrame $w.sw.sf -areaheight 0 -areawidth 0 
-			$w.sw setwidget $w.sw.sf
-			set mF [$w.sw.sf getframe]	
+		# update the information and list of plugins
+		::plugins::updatePluginsArray
+		# create window and give it it's title
+		toplevel $w
+		wm title $w [trans pluginselector]
+		wm geometry $w 500x400
+		# create widgets
+		# listbox with all the plugins
+		listbox $w.plugin_list -background "white" -height 15 -yscrollcommand "$w.ys set" -relief flat -highlightthickness 0
+		scrollbar $w.ys -command "$w.plugin_list yview"
+
+		#Scrollableframe that will contain pieces of information about a plugin
+		ScrolledWindow $w.sw 
+		ScrollableFrame $w.sw.sf -areaheight 0 -areawidth 0 
+		$w.sw setwidget $w.sw.sf
+		set mF [$w.sw.sf getframe]	
 			
-			# holds the plugins info like name and description
-			label $mF.name_title -text [trans name] -font sboldf
-			label $mF.name  -wraplength 280 
-			label $mF.version_title -text [trans version] -font sboldf
-			label $mF.version
-			label $mF.author_title -text [trans author] -font sboldf
-			label $mF.author  -wraplength 280 
-			label $mF.desc_title -text [trans description] -font sboldf
-			label $mF.desc -width 40 -wraplength 280 -justify left -anchor w
-			# holds the 'command center' buttons
-			label $w.getmore -text "[trans getmoreplugins]" -fg #0000FF
+		# holds the plugins info like name and description
+		label $mF.name_title -text [trans name] -font sboldf
+		label $mF.name  -wraplength 280 
+		label $mF.version_title -text [trans version] -font sboldf
+		label $mF.version
+		label $mF.author_title -text [trans author] -font sboldf
+		label $mF.author  -wraplength 280 
+		label $mF.desc_title -text [trans description] -font sboldf
+		label $mF.desc -width 40 -wraplength 280 -justify left -anchor w
+		# holds the 'command center' buttons
+		label $w.getmore -text "[trans getmoreplugins]" -fg #0000FF
 
-			button $w.load -text "[trans load]" -command "::plugins::GUI_Load" -state disabled
-			button $w.config -text "[trans configure]" -command "::plugins::GUI_Config" ;#-state disabled
-			button $w.close -text [trans close] -command "::plugins::GUI_Close"
+		button $w.load -text "[trans load]" -command "::plugins::GUI_Load" -state disabled
+		button $w.config -text "[trans configure]" -command "::plugins::GUI_Config" ;#-state disabled
+		button $w.close -text [trans close] -command "::plugins::GUI_Close"
  
-			#loop through all the plugins and add them to the list
-			foreach {plugin} [array names ::plugins::plugins *_name] {
-			    set name $plugins(${plugin})
-			    # add the plugin name to the list at counterid position
-			    $w.plugin_list insert end $name
-			    # if the plugin is loaded, color it one color. otherwise use other colors
-			    #TODO: Why not use skins?
-			    if {[lsearch "$loadedplugins" $plugins(${name}_name)] != -1} {
-				$w.plugin_list itemconfigure end -background #DDF3FE
-			    } else {
-				$w.plugin_list itemconfigure end -background #FFFFFF
-			    }
-			}
-			if {[$w.plugin_list size] > "15"} {
-				$w.plugin_list configure -height [$w.plugin_list size]
-			}
-			#do the bindings
-			bind $w.plugin_list <<ListboxSelect>> "::plugins::GUI_NewSel"
-			bind $w <<Escape>> "::plugins::GUI_Close"
-
-			pack $w.plugin_list -fill both -side left
-			pack $w.ys -fill both -side left
-			pack $mF.name_title -padx 5 -anchor w
-			pack $mF.name -padx 5 -anchor w
-			pack $mF.version_title -padx 5 -anchor w
-			pack $mF.version -padx 5 -anchor w 
-			pack $mF.author_title -padx 5 -anchor w
-			pack $mF.author -padx 5 -anchor w
-			pack $mF.desc_title -padx 5 -anchor w
-			pack $mF.desc -anchor nw -expand true -fill x -padx 5
-			pack $w.sw -anchor w -side top -expand true -fill both
-			pack $w.getmore -side top -anchor e -padx 5
-			bind $w.getmore <Enter> "$w.getmore configure -font sunderf"
-			bind $w.getmore <Leave> "$w.getmore configure -font splainf"
-			set lang [::config::getGlobalKey language]
-			bind $w.getmore <ButtonRelease> "launch_browser $::weburl/plugins.php?lang=$lang"
-
-			pack $w.close $w.config $w.load -padx 5 -pady 5 -side right -anchor se
-
+		#loop through all the plugins and add them to the list
+		foreach {plugin} [array names ::plugins::plugins *_name] {
+		    set name $plugins(${plugin})
+		    # add the plugin name to the list at counterid position
+		    $w.plugin_list insert end $name
+		    # if the plugin is loaded, color it one color. otherwise use other colors
+		    #TODO: Why not use skins?
+		    if {[lsearch "$loadedplugins" $plugins(${name}_name)] != -1} {
+			$w.plugin_list itemconfigure end -background #DDF3FE
+		    } else {
+			$w.plugin_list itemconfigure end -background #FFFFFF
 		    }
+		}
+		if {[$w.plugin_list size] > "15"} {
+			$w.plugin_list configure -height [$w.plugin_list size]
+		}
+		#do the bindings
+		bind $w.plugin_list <<ListboxSelect>> "::plugins::GUI_NewSel"
+		bind $w <<Escape>> "::plugins::GUI_Close"
+
+		pack $w.plugin_list -fill both -side left
+		pack $w.ys -fill both -side left
+		pack $mF.name_title -padx 5 -anchor w
+		pack $mF.name -padx 5 -anchor w
+		pack $mF.version_title -padx 5 -anchor w
+		pack $mF.version -padx 5 -anchor w 
+		pack $mF.author_title -padx 5 -anchor w
+		pack $mF.author -padx 5 -anchor w
+		pack $mF.desc_title -padx 5 -anchor w
+		pack $mF.desc -anchor nw -expand true -fill x -padx 5
+		pack $w.sw -anchor w -side top -expand true -fill both
+		pack $w.getmore -side top -anchor e -padx 5
+		bind $w.getmore <Enter> "$w.getmore configure -font sunderf"
+		bind $w.getmore <Leave> "$w.getmore configure -font splainf"
+		set lang [::config::getGlobalKey language]
+		bind $w.getmore <ButtonRelease> "launch_browser $::weburl/plugins.php?lang=$lang"
+
+		pack $w.close $w.config $w.load -padx 5 -pady 5 -side right -anchor se
+
 
 		moveinscreen $w 30
 		return
+
 	}
 
     
@@ -605,7 +624,7 @@ namespace eval ::plugins {
 		}
 
 		# Do the actual loading and check if it loads properly
-		if { [LoadPlugin $selection [::plugins::getInfo $selection amsn_version] [::plugins::getInfo $selection plugin_file] [::plugins::getInfo $selection plugin_namespace] [::plugins::getInfo $selection init_proc]] == -1 } {
+		if { [LoadPlugin $selection] == -1 } {
 			return
 		}
 
@@ -919,6 +938,7 @@ namespace eval ::plugins {
 	# none
 	#
 	proc UnLoadPlugin { plugin } {
+
 		variable loadedplugins
 		plugins_log core "Unloading plugin $plugin\n"
 
@@ -926,8 +946,8 @@ namespace eval ::plugins {
 		UnRegisterEvents $plugin
 
 		#get the namespace and deinit proc and if it exists, call it
-		set namespace [::plugins::getInfo $plugin plugin_namespace]
-		set deinit [::plugins::getInfo $plugin deinit_proc]
+		set namespace [getInfo $plugin plugin_namespace]
+		set deinit [getInfo $plugin deinit_proc]
 		if {[info procs "::${namespace}::${deinit}"] == "::${namespace}::${deinit}"} {
 			if { [catch {::${namespace}::${deinit}} res] } {
 				plugins_log core "Error in deinit proc : $res"
@@ -942,6 +962,7 @@ namespace eval ::plugins {
 		#remove it from the loadedplugins list
 		set loadedplugins [lreplace $loadedplugins [lsearch $loadedplugins "$plugin"] [lsearch $loadedplugins "$plugin"]]
 		::plugins::save_config
+
 	}
 
 
@@ -959,6 +980,7 @@ namespace eval ::plugins {
 	# none
 	#
 	proc LoadPlugins {} {
+
 	    variable loadedplugins
 	    ::plugins::UnLoadPlugins
 	    
@@ -978,20 +1000,23 @@ namespace eval ::plugins {
 	    #called when a new user logs in, so he migh have diff plugins in
 	    # his ~/.amsn/{user}/plugins
 	    ::plugins::updatePluginsArray
-	    foreach {plugin} $loadedplugins {
+
+	    foreach plugin $loadedplugins {
+		status_log "PLUGIN : $plugin\n" red
 		#check if the plugin exists, then load it
-		#TODO: what should we do if it dosn't exist?
+		#TODO: what should we do if it doesn't exist?
 		# - remove it from loadedplugins, but how to we know to load it if it exists
 		# - (current) keep it and hope nothing calls a proc that depends on this plugin to be loaded (and checks if it is loaded)
 		if {[array names ::plugins::plugins ${plugin}_name] != ""} {
-		    LoadPlugin $plugin [::plugins::getInfo $plugin amsn_version] [::plugins::getInfo $plugin plugin_file] [::plugins::getInfo $plugin plugin_namespace] [::plugins::getInfo $plugin init_proc]
+			LoadPlugin $plugin
 		}
 	    }
+
 	}
 
 
 	###############################################################
-	# LoadPlugin (plugin, required_version, file, namespace, init_proc)
+	# LoadPlugin (plugin)
 	#
 	# Loads the $plugin plugin and restore its configuration from
 	# global namespace if existed.
@@ -1010,8 +1035,14 @@ namespace eval ::plugins {
 	# 1 - success
 	# -1 - failiture
 	#
-	proc LoadPlugin { plugin required_version file namespace init_proc } {
+	proc LoadPlugin { plugin } {
+
 		variable loadedplugins
+
+		set required_version [getInfo $plugin amsn_version]
+		set file [getInfo $plugin plugin_file]
+		set namespace [getInfo $plugin plugin_namespace]
+		set init_proc [getInfo $plugin init_proc]
 
 		#error checking
 		if { ![CheckRequirements $required_version] } {
@@ -1147,7 +1178,7 @@ namespace eval ::plugins {
 
 		#save the loaded plugins
 		foreach {plugin} $loadedplugins {
-			set namespace [::plugins::getInfo $plugin plugin_namespace]
+			set namespace [getInfo $plugin plugin_namespace]
 			puts $file_id "\t<plugin>"
 			puts $file_id "\t\t<name>${plugin}</name>"
 			puts $file_id "\t\t<loaded>true</loaded>"
@@ -1297,91 +1328,165 @@ namespace eval ::plugins {
 	}
 
 
-#/////////////////////////////////////////////////////
-# Load the XML information of a plugin
+	###############################################################
+	# LoadInfoAutoupdate (plugin)
+	#
+	# Load the XML information of a plugin for autoupdate
+	#
+	# Arguments
+	# The name of the plugin
+	#
+	# Return
+	# 0 if an error occured, 1 else
+	#
+	proc LoadInfoAutoupdate { plugin } {
 
-	proc get_Version { path plugin } {
+		variable plugins
+		variable cur_plugin $plugin
 
-		set ::plugins::plgversion ""
-		set ::plugins::plglang ""
-		set ::plugins::plgfile ""
-		set ::plugins::URL_plugininfo ""
+		set plugins(${plugin}_lang) ""
+		set plugins(${plugin}_file) ""
 
-		set id [::sxml::init $path]
-		
-		if { $id!=-1 } {
+		set fd [file join [getInfo $plugin plugin_dir] plugininfo.xml]
 
-			sxml::register_routine $id "plugin" "::plugins::XML_Plugin_CVS"
-			sxml::register_routine $id "plugin:lang" "::plugins::XML_Plugin_Lang"
-			sxml::register_routine $id "plugin:file" "::plugins::XML_Plugin_File"
-			sxml::register_routine $id "plugin:URL" "::plugins::XML_Plugin_URL"
-
-			sxml::parse $id
-
-			sxml::end $id
-
+		if { [file readable $fd] } {
+			
+			if { [catch {
+				set plugin_info [sxml::init $fd]
+				sxml::register_routine $plugin_info "plugin" "::plugins::XMLInfoCVS"
+				sxml::register_routine $plugin_info "plugin:lang" "::plugins::XMLInfoLang"
+				sxml::register_routine $plugin_info "plugin:file" "::plugins::XMLInfoFile"
+				sxml::register_routine $plugin_info "plugin:URL" "::plugins::XMLInfoURLplugininfo"
+				sxml::parse $plugin_info
+				sxml::end $plugin_info
+				plugins_log core "PLUGINS INFO READ\n"
+			} res] } {
+				msg_box "ERROR: PLUGIN $plugin HAS MALFORMED XML PLUGININFO for autoupdate"
+				return 0
+			}
 		}
 
+		return 1
+
 	}
 
 
-	proc XML_Plugin_CVS { cstack cdata saved_data cattr saved_attr args } {
+	###############################################################
+	# XMLInfoCVS (cstack, cdata, saved_data, cattr saved_attr, args)
+	# XMLInfoLang (cstack, cdata, saved_data, cattr saved_attr, args)
+	# XMLInfoFile (cstack, cdata, saved_data, cattr saved_attr, args)
+	# XMLInfoURL (cstack, cdata, saved_data, cattr saved_attr, args)
+	#
+	# Raises the information parsed by the sxml component and appends
+	# each new plugin to $::plugins::plugins array
+	#
+	# Arguments
+	# supplied by the sxml component (its only executor)
+	#
+	# Return
+	# none
+	#
+	proc XMLInfoCVS { cstack cdata saved_data cattr saved_attr args } {
 
 		upvar $saved_data sdata
+		variable plugins
+		variable cur_plugin
 
-		catch {set ::plugins::plgversion $sdata(${cstack}:cvs_version)}
+		if { ![info exists sdata(${cstack}:cvs_version)] } {
+			set cvs_version ""
+		} else {
+			set cvs_version $sdata(${cstack}:cvs_version)
+		}
+
+		set plugins(${cur_plugin}_cvs_version) $cvs_version
 
 		return 0
 
 	}
 
 
-	proc XML_Plugin_Lang { cstack cdata saved_data cattr saved_attr args } {
+	proc XMLInfoLang { cstack cdata saved_data cattr saved_attr args } {
 
 		upvar $saved_data sdata
+		variable plugins
+		variable cur_plugin
 
-		catch {lappend ::plugins::plglang "$sdata(${cstack}:langcode)" "$sdata(${cstack}:version)"}
+		if { ![info exists sdata(${cstack}:langcode)] || ![info exists sdata(${cstack}:version)] } {
+			set  langcode ""
+			set version ""
+		} else {
+			set langcode $sdata(${cstack}:langcode)
+			set version $sdata(${cstack}:version)
+		}
+
+		lappend plugins(${cur_plugin}_lang) [list $langcode $version]
 
 		return 0
 
 	}
 
 
-	proc XML_Plugin_File { cstack cdata saved_data cattr saved_attr args } {
+	proc XMLInfoFile { cstack cdata saved_data cattr saved_attr args } {
 
 		upvar $saved_data sdata
+		variable plugins
+		variable cur_plugin
 
-		catch {lappend ::plugins::plgfile "$sdata(${cstack}:path)" "$sdata(${cstack}:version)"}
+		if { ![info exists sdata(${cstack}:path)] || ![info exists sdata(${cstack}:version)] } {
+			set  path ""
+			set version ""
+		} else {
+			set path $sdata(${cstack}:path)
+			set version $sdata(${cstack}:version)
+		}
+
+		lappend plugins(${cur_plugin}_file) [list $path $version]
 
 		return 0
 
 	}
 	
 	
-	proc XML_Plugin_URL { cstack cdata saved_data cattr saved_attr args } {
+	proc XMLInfoURLplugininfo { cstack cdata saved_data cattr saved_attr args } {
 	
 		upvar $saved_data sdata
+		variable plugins
+		variable cur_plugin
 		
-		catch {set ::plugins::URL_plugininfo "$sdata(${cstack}:plugininfo)"}
+		if { ![info exists sdata(${cstack}:plugininfo)] } {
+			set URL_plugininfo ""
+		} else {
+			set URL_plugininfo $sdata(${cstack}:plugininfo)
+		}
+
+		set plugins(${cur_plugin}_URL_plugininfo) $URL_plugininfo
+
+		return 0
 		
 	}
 
 
-#/////////////////////////////////////////////////////
-# Get the plugininfo.xml on the CVS, and load it
-
-	proc get_OnlineVersion { path plugin {URL ""} } {
+	###############################################################
+	# LoadInfoAutoupdate_Online (plugin)
+	#
+	# Get the plugininfo.xml on the website, and load it
+	#
+	# Arguments
+	# The name of the plugin
+	#
+	# Return
+	# 0 if an error occured, 1 else
+	#
+	proc LoadInfoAutoupdate_Online { plugin } {
 
 		global HOME HOME2
+		variable plugins
+		variable cur_plugin $plugin
+
+		set plugins(${plugin}_lang_online) ""
+		set plugins(${plugin}_file_online) ""
 		
-		set place 0
-		set ::plugins::plgonlinerequire ""
-		set ::plugins::plgonlineversion ""
-		set ::plugins::plgonlinelang ""
-		set ::plugins::plgonlinefile ""
-		set ::plugins::plgonlineURLmain ""
-		set ::plugins::plgonlineURLlang ""
-		set ::plugins::plgonlineURLfile ""
+		set URL [getInfo $plugin URL_plugininfo]
 		
 		set program_dir [set ::program_dir]
 
@@ -1393,12 +1498,12 @@ namespace eval ::plugins {
 			set token [::http::geturl "${::weburl}/autoupdater/plugins/$plugin/plugininfo.xml" -timeout 120000 -binary 1]
 			set content [::http::data $token]
 			if { [string first "<html>" "$content"] == -1 } {
-				set place 1
+				set plugins(${plugin}_URL_place) 1
 			} else {
 				set token [::http::geturl "${::weburl}/autoupdater/plugins2/$plugin/plugininfo.xml" -timeout 120000 -binary 1]
 				set content [::http::data $token]
 				if { [string first "<html>" "$content"] == -1 } {
-					set place 2
+					set plugins(${plugin}_URL_place) 2
 				} else {
 					return 0
 				}
@@ -1414,13 +1519,13 @@ namespace eval ::plugins {
 			if { [string first "<html>" "$content"] != -1 } {
 				return 0
 			}
-			set place 3
+			set plugins(${plugin}_URL_place) 3
 
 		}
 
 		set status [::http::status $token]
 		if { $status != "ok" } {
-			status_log "Can't get plugininfo.xml for $plugin (place $place - URL $URL): $status\n" red
+			status_log "Can't get plugininfo.xml for $plugin (place [getInfo $plugin URL_place] - URL $URL): $status\n" red
 			return 0
 		}
 
@@ -1431,83 +1536,162 @@ namespace eval ::plugins {
 		close $fid
 
 		set id [::sxml::init $filename]
-		sxml::register_routine $id "plugin" "::plugins::XML_OnlinePlugin_CVS"
-		sxml::register_routine $id "plugin:lang" "::plugins::XML_OnlinePlugin_Lang"
-		sxml::register_routine $id "plugin:file" "::plugins::XML_OnlinePlugin_File"
-		sxml::register_routine $id "plugin:URL" "::plugins::XML_OnlinePlugin_URL"
+		sxml::register_routine $id "plugin" "::plugins::XMLInfoCVS_Online"
+		sxml::register_routine $id "plugin:lang" "::plugins::XMLInfoLang_Online"
+		sxml::register_routine $id "plugin:file" "::plugins::XMLInfoFile_Online"
+		sxml::register_routine $id "plugin:URL" "::plugins::XMLInfoURL_Online"
 		sxml::parse $id
 		sxml::end $id
 		
 		} ] } {
 		
-		status_log "Can't get online plugininfo.xml for $plugin (place $place - URL $URL)\n" red
+		status_log "Can't get online plugininfo.xml for $plugin (place [getInfo $plugin URL_place] - URL $URL)\n" red
 		return 0
 		
 		}
 
-		return $place
+		return 1
 
 	}
 
 
-	proc XML_OnlinePlugin_CVS { cstack cdata saved_data cattr saved_attr args } {
+	###############################################################
+	# XMLInfoCVS_Online (cstack, cdata, saved_data, cattr saved_attr, args)
+	# XMLInfoLang_Online (cstack, cdata, saved_data, cattr saved_attr, args)
+	# XMLInfoFile_Online (cstack, cdata, saved_data, cattr saved_attr, args)
+	# XMLInfoURL_Online (cstack, cdata, saved_data, cattr saved_attr, args)
+	#
+	# Raises the information parsed by the sxml component and appends
+	# each new plugin to $::plugins::plugins array
+	#
+	# Arguments
+	# supplied by the sxml component (its only executor)
+	#
+	# Return
+	# none
+	#
+	proc XMLInfoCVS_Online { cstack cdata saved_data cattr saved_attr args } {
 
 		upvar $saved_data sdata
+		variable plugins
+		variable cur_plugin
+
+		if { ![info exists sdata(${cstack}:amsn_version)] || ![info exists sdata(${cstack}:cvs_version)] } {
+			set amsn_version ""
+			set cvs_version ""
+		} else {
+			set amsn_version $sdata(${cstack}:amsn_version)
+			set cvs_version $sdata(${cstack}:cvs_version)
+		}
+
+		set plugins(${cur_plugin}_amsn_version_online) $amsn_version
+		set plugins(${cur_plugin}_cvs_version_online) $cvs_version
+
+		return 0
+
+	}
+
+
+	proc XMLInfoLang_Online { cstack cdata saved_data cattr saved_attr args } {
+
+		upvar $saved_data sdata
+		variable plugins
+		variable cur_plugin
+
+		if { ![info exists sdata(${cstack}:langcode)] || ![info exists sdata(${cstack}:version)] } {
+			set  langcode ""
+			set version ""
+		} else {
+			set langcode $sdata(${cstack}:langcode)
+			set version $sdata(${cstack}:version)
+		}
+
+		lappend plugins(${cur_plugin}_lang_online) [list $langcode $version]
+
+		return 0
+
+	}
+
+
+	proc XMLInfoFile_Online { cstack cdata saved_data cattr saved_attr args } {
+
+		upvar $saved_data sdata
+		variable plugins
+		variable cur_plugin
+
+		if { ![info exists sdata(${cstack}:path)] || ![info exists sdata(${cstack}:version)] } {
+			set  path ""
+			set version ""
+		} else {
+			set path $sdata(${cstack}:path)
+			set version $sdata(${cstack}:version)
+		}
+
+		lappend plugins(${cur_plugin}_file_online) [list $path $version]
+
+		return 0
+
+	}
+
+
+	proc XMLInfoURL_Online { cstack cdata saved_data cattr saved_attr args } {
+
+		upvar $saved_data sdata
+		variable plugins
+		variable cur_plugin
 		
-		catch {set ::plugins::plgonlinerequire $sdata(${cstack}:amsn_version)}
-		catch {set ::plugins::plgonlineversion $sdata(${cstack}:cvs_version)}
+		if { ![info exists sdata(${cstack}:main)] } {
+			set URL_main ""
+		} else {
+			set URL_main $sdata(${cstack}:main)
+		}
+
+		if { ![info exists sdata(${cstack}:plugininfo)] } {
+			set URL_plugininfo ""
+		} else {
+			set URL_plugininfo $sdata(${cstack}:plugininfo)
+		}
+
+		if { ![info exists sdata(${cstack}:lang)] } {
+			set URL_lang ""
+		} else {
+			set URL_lang $sdata(${cstack}:lang)
+		}
+
+		if { ![info exists sdata(${cstack}:file)] } {
+			set URL_file ""
+		} else {
+			set URL_file $sdata(${cstack}:file)
+		}
+
+
+		set plugins(${cur_plugin}_URL_main_online) $URL_main
+		set plugins(${cur_plugin}_URL_plugininfo_online) $URL_plugininfo
+		set plugins(${cur_plugin}_URL_lang_online) $URL_lang
+		set plugins(${cur_plugin}_URL_file_online) $URL_file
 
 		return 0
 
 	}
 
 
-	proc XML_OnlinePlugin_Lang { cstack cdata saved_data cattr saved_attr args } {
-
-		upvar $saved_data sdata
-
-		catch {lappend ::plugins::plgonlinelang [list $sdata(${cstack}:langcode) $sdata(${cstack}:version)]}
-
-		return 0
-
-	}
-
-
-	proc XML_OnlinePlugin_File { cstack cdata saved_data cattr saved_attr args } {
-
-		upvar $saved_data sdata
-
-		catch {lappend ::plugins::plgonlinefile [list $sdata(${cstack}:path) $sdata(${cstack}:version)]}
-
-		return 0
-
-	}
-
-
-	proc XML_OnlinePlugin_URL { cstack cdata saved_data cattr saved_attr args } {
-
-		upvar $saved_data sdata
-
-		catch {set ::plugins::plgonlineURLmain "$sdata(${cstack}:main)"}
-		catch {set ::plugins::plgonlineURLlang "$sdata(${cstack}:lang)"}
-		catch {set ::plugins::plgonlineURLfile "$sdata(${cstack}:file)"}
-		
-		return 0
-
-	}
-
-
-#/////////////////////////////////////////////////////
-# Update the plugin (.tcl file)
-
-	proc UpdateMain { plugin path version place URL } {
+	###############################################################
+	# DownloadMain (plugin)
+	#
+	# Download the main file of a plugin
+	#
+	# Arguments
+	# The name of the plugin
+	#
+	# Return
+	# 0 if there was a problem, 1 else
+	#
+	proc DownloadMain { plugin } {
 	
 		global HOME HOME2
-		
-		# If we already have the current version
-		if { $version == 0 } {
-			return 1
-		}
+		variable plugins
+
+		set version [getInfo $plugin cvs_version_online]
 
 		set program_dir [set ::program_dir]
 		
@@ -1516,6 +1700,9 @@ namespace eval ::plugins {
 		if { [winfo exists $w] } {
 			$w.update.txt configure -text "[trans updating] $plugin..."
 		}
+
+		set place [getInfo $plugin URL_place]
+		set URL [getInfo $plugin URL_main_online]	
 		
 		if { $place == 1 } {
 			set token [::http::geturl "${::weburl}/autoupdater/plugins/$plugin/$plugin.tcl" -timeout 120000 -binary 1]
@@ -1539,7 +1726,7 @@ namespace eval ::plugins {
 			return 0
 		}
 
-		set filename [file join $path $plugin.tcl]
+		set filename [file join [getInfo $plugin plugin_dir] $plugin.tcl]
 		set fid [open $filename w]
 		fconfigure $fid -encoding binary
 		puts -nonewline $fid "$content"
@@ -1549,23 +1736,38 @@ namespace eval ::plugins {
 
 	}
 
-#/////////////////////////////////////////////////////
-# Update the language files
-
-	proc UpdateLangs { plugin path langcodes place URL } {
+	###############################################################
+	# DownloadLangs (plugin langs)
+	#
+	# Download the lang files of a plugin
+	#
+	# Arguments
+	# The name of the plugin
+	# The langs we want to download, which is a list of items "{langcode version}"
+	#
+	# Return
+	# 0 if there was a problem, 1 else
+	#
+	proc DownloadLangs { plugin langs } {
 
 		global HOME HOME2
+		variable plugins
 
 		set program_dir [set ::program_dir]
 		
 		set w ".updatelangplugin"
-
 		
-		foreach { langcode version} $langcodes {
+		foreach lang $langs {
+
+			set langcode [lindex $lang 0]
+			set version [lindex $lang 1]
 		
 			if { [winfo exists $w] } {
 				$w.update.txt configure -text "[trans updating] $plugin : lang$langcode..."
 			}
+
+			set place [getInfo $plugin URL_place]
+			set URL [getInfo $plugin URL_lang_online]
 
 			if { $place == 1 } {
 				set token [::http::geturl "${::weburl}/autoupdater/plugins/$plugin/lang/lang$langcode" -timeout 120000 -binary 1]
@@ -1589,7 +1791,7 @@ namespace eval ::plugins {
 				return 0
 			}
 
-			set filename [file join $path "lang" lang$langcode]
+			set filename [file join [getInfo $plugin plugin_dir] "lang" lang$langcode]
 
 			set fid [open $filename w]
 			fconfigure $fid -encoding binary
@@ -1602,38 +1804,39 @@ namespace eval ::plugins {
 		
 	}
 
-#/////////////////////////////////////////////////////
-# Delete a language file of a plugin
 
-	proc DeleteLang { plugin langcode path} {
-
-		set id [lsearch $::plugins::plglang $langcode]
-
-		if { $id != -1 } {
-			set file "[file join $path "lang" "lang$langcode"]"
-			file delete $file
-			set ::plugins::plglang [lreplace $::plugins::plglang $id [expr {$id + 1}]]
-			status_log "Plugin autoupdate : delete $file\n" blue
-		}
-
-	}
-
-#/////////////////////////////////////////////////////
-# Update all the others files (pictures, sounds...)
-
-	proc UpdateFiles { plugin path files place URL } {
+	###############################################################
+	# DownloadFiles (plugin files)
+	#
+	# Download the other files of a plugin
+	#
+	# Arguments
+	# The name of the plugin
+	# The files we want to download, which is a list of items "{path version}"
+	#
+	# Return
+	# 0 if there was a problem, 1 else
+	#
+	proc DownloadFiles { plugin files } {
 
 		global HOME HOME2
+		variable plugins
 		
 		set program_dir [set ::program_dir]
 		
 		set w ".updatelangplugin"
 		
-		foreach { file version } $files {
+		foreach file_version $files {
+
+			set file [lindex $file_version 0]
+			set version [lindex $file_version 1]
 
 			if { [winfo exists $w] } {
 				$w.update.txt configure -text "[trans updating] $plugin : $file..."
 			}
+
+			set place [getInfo $plugin URL_place]
+			set URL [getInfo $plugin URL_file_online]
 
 			if { $place == 1 } {
 				set token [::http::geturl "${::weburl}/autoupdater/plugins/$plugin/$file" -timeout 120000 -binary 1]
@@ -1657,9 +1860,9 @@ namespace eval ::plugins {
 				return 0
 			}
 
-			set filename [file join $path $file]
+			set filename [file join [getInfo $plugin plugin_dir] $file]
+			set dir [file join [getInfo $plugin plugin_dir] [file dirname $file]]
 
-			set dir [file join $path [file dirname $file]]
 			if { ![file isdirectory $dir] } {
 				file mkdir $dir
 				status_log "Auto-update ($plugin) : create dir $dir\n" red
@@ -1676,175 +1879,230 @@ namespace eval ::plugins {
 
 	}
 
-#/////////////////////////////////////////////////////
-# Update a plugin
 
+	###############################################################
+	# UpdatePlugin (plugin)
+	#
+	# Update a plugin
+	#
+	# Arguments
+	# The name of the plugin
+	#
+	# Return
+	# none
+	#
 	proc UpdatePlugin { plugin } {
 	
+		variable plugins
 		variable loadedplugins
 
-		set namespace [getInfo $plugin plugin_namespace]
-		set required_version [getInfo $plugin required_version]
-		set file [getInfo $plugin plugin_dir]
-		set init_proc [getInfo $plugin init_proc]
-		
-		set path "$file"
-
-		set pathinfo [file join $path plugininfo.xml]
-		
-		set main [::plugins::ReadPluginUpdates $plugin main]
-		set langs [::plugins::ReadPluginUpdates $plugin lang]
-		set files [::plugins::ReadPluginUpdates $plugin file]
-		set URLmain [::plugins::ReadPluginUpdates $plugin URLmain]
-		set URLlang [::plugins::ReadPluginUpdates $plugin URLlang]
-		set URLfile [::plugins::ReadPluginUpdates $plugin URLfile]
-		set place [::plugins::ReadPluginUpdates $plugin URLplace]
+		set error 0
+		set mainstate 0
+		set langstate 0
+		set filestate 0
 
 		# if no error occurs while updating the plugin, save the plugininfo.xml file		
-		if { [catch {
-			set mainstate [::plugins::UpdateMain $plugin $path $main $place $URLmain]
-			set langstate [::plugins::UpdateLangs $plugin $path $langs $place $URLlang]
-			set filestate [::plugins::UpdateFiles $plugin $path $files $place $URLfile]
-			}] } {
-			status_log "Error while updating $plugin\n" red
-		} elseif { $mainstate == 1 && $langstate == 1 && $filestate == 1 } {
-			SavePlugininfo "$plugin" "$pathinfo"
+		#if { [catch {
+
+			if { [getInfo $plugin updated_main] == 1 } {
+				set mainstate [DownloadMain $plugin]
+			} else {
+				set mainstate 1
+			}
+
+			if { [getInfo $plugin updated_lang] == 1 } {
+				set langstate [DownloadLangs $plugin [getInfo $plugin updated_langs]]
+			} else { 
+				set langstate 1
+			}
+
+			if { [getInfo $plugin updated_file] == 1 } {
+				set filestate [DownloadFiles $plugin [getInfo $plugin updated_files]]
+			} else {
+				set filestate 1
+			}
+
+		#	}] } {
+
+		#	status_log "Error while updating $plugin\n" red
+		#	set error 1
+
+		#}
+
+		if { $mainstate == 1 && $langstate == 1 && $filestate == 1 && $error == 0 } {
+
+			SavePlugininfo $plugin
 			
 			# Reload the plugin if it was loaded
 			if { [lsearch $loadedplugins $plugin] != -1 } {
-				::plugins::UnLoadPlugin $plugin
-				::plugins::LoadPlugin $namespace $required_version $file $plugin $init_proc
+				UnLoadPlugin $plugin
+				LoadPlugin $plugin
 			}
 			
 		} else {
-			status_log "Error while updating $plugin : main $mainstate, lang $langstate, file $filestate\n" red
+			status_log "Error while updating $plugin : main $mainstate, lang $langstate, file $filestate, error $error\n" red
 		}
 		
 	}
 
 
-#/////////////////////////////////////////////////////
+	###############################################################
+	# UpdatedPlugins ()
+	#
+	# Look for updated files for every plugins
+	#
+	# Arguments
+	# none
+	#
+	# Return
+	# 1 if a plugin has been updated, 0 else
+	#
 
 	proc UpdatedPlugins { } {
 
-		set ::plugins::UpdatedPlugins [list]
+		variable plugins
 
-		foreach plugin [::plugins::getPlugins] {
+		set updatedplugins 0
+
+		foreach plugin [getPlugins] {
+
 			set updated 0
 			set protected 0
 
+			LoadInfoAutoupdate $plugin
+
 			set path [getInfo $plugin plugin_dir]
-			set pathinfo [file join $path plugininfo.xml]
-			::plugins::get_Version "$pathinfo" "$plugin"
 
-			if { ![file writable $pathinfo] } {
+			# If the file is protected
+			if { ![file writable [file join $path plugininfo.xml]] } {
 				continue
 			}
 
-			set place [::plugins::get_OnlineVersion "$pathinfo" "$plugin" "$::plugins::URL_plugininfo"]
-
-			if { $place == 0 || ![info exist ::plugins::plgonlinerequire] || $::plugins::plgonlinerequire == ""} {
+			if { [LoadInfoAutoupdate_Online $plugin] == 0 } {
 				continue
 			}
 
-			# If the online plugin is compatible with the current version of aMSN
-			if { [::plugins::CheckRequirements $::plugins::plgonlinerequire] } {
+			if { [getInfo $plugin amsn_version_online] == ""} {
+				continue
+			}
 
-				# If the main file has been updated
-				if { [::plugins::DetectNew "$::plugins::plgversion" "$::plugins::plgonlineversion"] } {
+			# If the online plugin is not compatible with the current version of aMSN
+			if { ![::plugins::CheckRequirements [getInfo $plugin amsn_version_online]] } {
+				status_log "Can't update $plugin : required version [getInfo $plugin amsn_version_online]\n" red
+				continue
+			}
 
-					set file [file join $path $plugin.tcl]
-					
-					if { ![file writable $file] } {
-						set protected 1
-					} else {
-						set main "$::plugins::plgonlineversion"
-						set updated 1
-					}
-					
+			# If the main file has been updated
+			if { [DetectNew [getInfo $plugin cvs_version] [getInfo $plugin cvs_version_online]] } {
+
+				set file [file join $path $plugin.tcl]
+				
+				if { ![file writable $file] } {
+					set protected 1
 				} else {
-					set main 0
-				}
-				
-
-				# Check each language file
-				
-				set langlist [list]
-				
-				foreach onlinelang $::plugins::plgonlinelang {
-					set langcode [lindex $onlinelang 0]
-					set onlineversion [lindex $onlinelang 1]
-					if { [::lang::LangExists $langcode] } {
-						set id [expr {[lsearch $::plugins::plglang $langcode] + 1}]
-						if { $id == 0 } {
-							set version "0.0"
-						} else {
-							set version [lindex $::plugins::plglang $id]
-						}
-						if { [::plugins::DetectNew $version $onlineversion] } {
-						
-							set file [file join $path "lang" lang$langcode]
-							
-							if { [file exists $file] && ![file writable $file] } {
-								set protected 1
-							} else {
-								set langlist [lappend langlist "$langcode" "$onlineversion"]
-								set updated 1
-							}
-							
-						}
-					}
-				}
-
-
-				# Check each other file
-				
-				set filelist [list]
-				
-				foreach onlinefile $::plugins::plgonlinefile {
-					set file [lindex $onlinefile 0]
-					set onlineversion [lindex $onlinefile 1]
-					set id [expr {[lsearch $::plugins::plgfile $file] + 1}]
-					if { $id == 0 } {
-						set version "0.0"
-					} else {
-						set version [lindex $::plugins::plgfile $id]
-					}
-					if { [::plugins::DetectNew $version $onlineversion] } {
-						set file2 [file join $path $file]
-						if { [file exists $file2] && ![file writable $file2] } {
-							set protected 1
-						} else {
-							set filelist [lappend filelist "$file" "$onlineversion"]
-							set updated 1
-						}
-					}
-				}
-				
-				array set ::plugins::UpdatedPlugin$plugin [list main "$main" lang "$langlist" file "$filelist" URLmain "$::plugins::plgonlineURLmain" URLlang "$::plugins::plgonlineURLlang" URLfile "$::plugins::plgonlineURLfile" URLplace "$place"]
-
-				# If the plugin has been updated and no file is protected, add it to the updated plugin list
-				if { $updated == 1 && $protected == 0 } {
-					set ::plugins::UpdatedPlugins [lappend ::plugins::UpdatedPlugins $plugin]
-				} elseif { $updated == 1 && $protected == 1 } {
-					status_log "Can't update $plugin : files protected\n" red
+					set plugins(${plugin}_updated_main) 1
+					set updated 1
 				}
 				
 			} else {
+				set plugins(${plugin}_updated_main) 0
+			}
+				
+
+			# Check each language file
+
+			set plugins(${plugin}_updated_langs) ""
 			
-				status_log "Can't update $plugin : required version $::plugins::plgonlinerequire\n" red
+			foreach lang_online [getInfo $plugin lang_online] {
+
+				set langcode_online [lindex $lang_online 0]
+				set version_online [lindex $lang_online 1]
+
+				if { [::lang::LangExists $langcode_online] } {
+
+					foreach lang [getInfo $plugin lang] {
+						set langcode [lindex $lang 0]
+						set version [lindex $lang 1]
+						if { $langcode == $langcode_online } {
+							break
+						}
+					}
+
+					if { [::plugins::DetectNew $version $version_online] } {
 					
+						set file [file join $path "lang" lang$langcode]
+						
+						if { [file exists $file] && ![file writable $file] } {
+							set protected 1
+						} else {
+							lappend plugins(${plugin}_updated_langs) [list $langcode_online $version_online] 
+							set plugins(${plugin}_updated_lang) 1
+							set updated 1
+						}
+						
+					}
+				}
 			}
 
+
+			# Check each other file
+
+			set plugins(${plugin}_updated_files) ""
+			
+			foreach file_online [getInfo $plugin file_online] {
+
+				set pathfile_online [lindex $file_online 0]
+				set version_online [lindex $file_online 1]
+
+				foreach file [getInfo $plugin file] {
+					set pathfile [lindex $file 0]
+					set version [lindex $file 1]
+					if { $pathfile == $pathfile_online } {
+						break
+					}
+				}
+
+				if { [::plugins::DetectNew $version $version_online] } {
+					set file [file join $path $pathfile_online]
+					if { [file exists $file] && ![file writable $file] } {
+						set protected 1
+					} else {
+						lappend plugins(${plugin}_updated_files) [list $pathfile_online $version_online]
+						set plugins(${plugin}_updated_file) 1
+						set updated 1
+					}
+				}
+			}
+
+			# If the plugin has been updated and no file is protected, add it to the updated plugin list
+			if { $updated == 1 && $protected == 0 } {
+				set plugins(${plugin}_updated) 1
+				set updatedplugins 1
+			} elseif { $updated == 1 } {
+				set plugins(${plugin}_updated) 0	
+				status_log "Can't update $plugin : files protected\n" red
+			} else {
+				set plugins(${plugin}_updated) 0
+			}
 			
 		}
+
+		return $updatedplugins
 
 	}
 
 
-#/////////////////////////////////////////////////////
-# Detect if the online version if upper than the current version
-
+	###############################################################
+	# DetectNew (version onlineversion)
+	#
+	# Tell if the onlineversion is upper the version
+	#
+	# Arguments
+	# The version and the onlineversion
+	#
+	# Return
+	# 1 if onlineversion > version, 0 else
+	#
 	proc DetectNew { version onlineversion } {
 
 		set current [split $version "."]
@@ -1855,7 +2113,6 @@ namespace eval ::plugins {
 			return 1
 		} elseif { [lindex $new 1] > [lindex $current 1] } {
 			return 1
-
 		} else {
 			return 0
 		}
@@ -1863,39 +2120,98 @@ namespace eval ::plugins {
 	}
 
 
-#/////////////////////////////////////////////////////
-# Read the updated file of a plugi
-
-	proc ReadPluginUpdates { name array } {
-
-		set list [array get ::plugins::UpdatedPlugin$name]
-		set index [lsearch $list $array]
-		if { $index != -1 } {
-			return [lindex $list [expr {$index + 1}]]
-		} else {
-			return ""
-		}
-	
-	}
-
-
-#/////////////////////////////////////////////////////
-# Save plugininfo.xml
-
-	proc SavePlugininfo { plugin path } {
+	###############################################################
+	# SavePlugininfo (plugin)
+	#
+	# Save the plugininfo.xml file of a plugin
+	#
+	# Arguments
+	# The name of the plugin
+	#
+	# Return
+	# none
+	#
+	proc SavePlugininfo { plugin } {
 
 		global HOME2
 		
 		set file "[file join $HOME2 $plugin.xml]"
+		set pathplugininfo [file join [getInfo $plugin plugin_dir] plugininfo.xml]
 
 		if { [file exists $file] } {
-			file delete $path
-			file copy $file $path
+			file copy -force $file $pathplugininfo
 			file delete $file
 		} else {
 			status_log "Error while updating $plugin : can't find plugininfo.xml\n"
 		}
 
 	}
+
+
+
+	###############################################################
+	# getOnlinePluginsList ()
+	#
+	# Get the list of the plugins which are online
+	#
+	# Arguments
+	# none
+	#
+	# Return
+	# none
+	#
+	proc getOnlinePluginsList { } {
+
+		global HOME2
+
+		set token [::http::geturl "${::weburl}/autoupdater/pluginslist.xml" -timeout 120000 -binary 1]
+
+		set status [::http::status $token]
+		if { $status != "ok" } {
+			return 0
+		}
+
+		set content [::http::data $token]
+
+		set filename [file join $HOME2 "pluginslist.xml"]
+		set fid [open $filename w]
+		fconfigure $fid -encoding binary
+		puts -nonewline $fid "$content"
+		close $fid
+
+	}
+
+
+	###############################################################
+	# OnlinePluginGui ()
+	#
+	# Display the plugins which are online
+	#
+	# Arguments
+	# none
+	#
+	# Return
+	# none
+	#
+	# NOT YET FINISHED
+	#
+	proc OnlinePluginGui { } {
+
+		set w .onlinepluginlist
+
+		if { [winfo exists $w] } {
+			raise $w
+			return
+		}
+
+		::plugins::getOnlinePluginsList
+
+		toplevel $w
+		wm title $w [trans getonlineplugins]
+		wm geometry $w 500x400
+
+	}
+
+
 }
 

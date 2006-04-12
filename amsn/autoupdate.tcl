@@ -642,9 +642,9 @@ namespace eval ::autoupdate {
 		}
 
 		::lang::UpdatedLang
-		::plugins::UpdatedPlugins
+		set updatedplugins [::plugins::UpdatedPlugins]
 
-		if { ($::lang::UpdatedLang == "") && ($::plugins::UpdatedPlugins == "") } {
+		if { ($::lang::UpdatedLang == "") && ($updatedplugins == 0) } {
 			::autoupdate::UpdateLangPlugin_close
 			return 0
 		}
@@ -686,15 +686,17 @@ namespace eval ::autoupdate {
 		}
 
 		#Plugin label
-		if {$::plugins::UpdatedPlugins != ""} {
+		if {$updatedplugins == 1} {
 			label $frame.plugintext -text "[trans pluginselector]" -font sboldf
 			pack configure $frame.plugintext -side top -fill x
 		}
 
 		#Checkbox for each plugin
-		foreach plugin $::plugins::UpdatedPlugins {
-			checkbutton $frame.plugin$plugin -onvalue 1 -offvalue 0 -text " $plugin" -variable ::autoupdate::plugin($plugin) -anchor w
-			pack configure $frame.plugin$plugin -side top -fill x
+		foreach plugin [::plugins::getPlugins] {
+			if { [::plugins::getInfo $plugin updated] == 1 } {
+				checkbutton $frame.plugin$plugin -onvalue 1 -offvalue 0 -text " $plugin" -variable ::plugins::plugins(${plugin}_updated_selected) -anchor w
+				pack configure $frame.plugin$plugin -side top -fill x
+			}
 		}
 		
 		# Create a frame that will contain the progress of the update
@@ -746,11 +748,9 @@ namespace eval ::autoupdate {
 			::lang::UpdateLang $langcodes
 		}
 
-		if { [info exists ::plugins::UpdatedPlugins] && $::plugins::UpdatedPlugins != ""} {
-			foreach plugin $::plugins::UpdatedPlugins {
-				if { [::autoupdate::ReadPluginSelected $plugin] == 1 } {
-					::plugins::UpdatePlugin $plugin
-				}
+		foreach plugin [::plugins::getPlugins] {
+			if { [::plugins::getInfo $plugin updated] == 1 && [::plugins::getInfo $plugin updated_selected] == 1 } {
+				::plugins::UpdatePlugin $plugin
 			}
 		}
 		
@@ -773,7 +773,6 @@ namespace eval ::autoupdate {
 		}
 		
 		unset -nocomplain ::lang::UpdatedLang
-		unset -nocomplain ::plugins::UpdatedPlugins
 		
 	}
 
@@ -787,8 +786,10 @@ namespace eval ::autoupdate {
 			set ::autoupdate::lang($langcode) 1
 		}
 
-		foreach plugin $::plugins::UpdatedPlugins {
-			set ::autoupdate::plugin($plugin) 1
+		foreach plugin [::plugins::getPlugins] {
+			if { [::plugins::getInfo $plugin updated] == 1 } {
+				set ::plugins::plugins(${plugin}_updated_selected) 1
+			}
 		}
 		
 	}
@@ -803,8 +804,10 @@ namespace eval ::autoupdate {
 			set ::autoupdate::lang($langcode) 0
 		}
 
-		foreach plugin $::plugins::UpdatedPlugins {
-			set ::autoupdate::plugin($plugin) 0
+		foreach plugin [::plugins::getPlugins] {
+			if { [::plugins::getInfo $plugin updated] == 1 } {
+				set ::plugins::plugins(${plugin}_updated_selected) 0
+			}
 		}
 		
 	}
@@ -816,16 +819,6 @@ namespace eval ::autoupdate {
 		set lang [array get ::autoupdate::lang]
 		set id [expr {[lsearch $lang $langcode] + 1}]
 		return [lindex $lang $id]
-
-	}
-
-
-	#///////////////////////////////////////////////////////////////////////
-	proc ReadPluginSelected { plugin } {
-
-		set plugins [array get ::autoupdate::plugin]
-		set id [expr {[lsearch $plugins $plugin] + 1}]
-		return [lindex $plugins $id]
 
 	}
 
