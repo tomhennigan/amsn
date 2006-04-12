@@ -2480,7 +2480,7 @@ namespace eval ::CAMGUI {
 		} else {
 			set cam_res HIGH
 		}
-		while { [::Capture::IsValid $grabber] && [lsearch [image names] $img] != -1 } {
+		while { [::Capture::IsValid $grabber] && ![ImageExists $img]} {
 			if {[catch {::Capture::Grab $grabber $img $cam_res} res]} {
 				status_log "Problem grabbing from the device.  Device busy or unavailable ?\n\t \"$res\""
 			}
@@ -2826,7 +2826,7 @@ namespace eval ::CAMGUI {
 		set semaphore ::CAMGUI::sem_$grabber
 		set $semaphore 0
 
-		while { [winfo exists $grabber] && [lsearch [image names] $img] != -1 } {
+		while { [winfo exists $grabber] && ![ImageExists $img] } {
 			catch {$grabber picture $img}
 			after 100 "incr $semaphore"
 			tkwait variable $semaphore
@@ -3463,7 +3463,7 @@ status_log "$device"
 			} else {
 				set cam_res "HIGH"
 			}
-			while { [::Capture::IsValid $::CAMGUI::webcam_preview] && [lsearch [image names] $previmg] != -1 } {
+			while { [::Capture::IsValid $::CAMGUI::webcam_preview] && ![ImageExists $previmg] } {
 				if {[catch {::Capture::Grab $::CAMGUI::webcam_preview $previmg $cam_res} res ]} {
 					status_log "Problem grabbing from the device:\n\t \"$res\""
 					$previmc create text 10 215 -anchor nw -font bboldf -text "ERROR: $res" -fill #FFFFFF -anchor nw -tag errmsg
@@ -3693,7 +3693,7 @@ status_log "Config'ed: $brightness, $contrast, $hue, $color"
 			
 			set semaphore ::CAMGUI::sem_$::CAMGUI::webcam_preview
 			set $semaphore 0
-			while { [::Capture::IsValid $::CAMGUI::webcam_preview] && [lsearch [image names] $previmg] != -1 } {
+			while { [::Capture::IsValid $::CAMGUI::webcam_preview] && ![ImageExists $previmg] } {
 				if {[catch {::Capture::Grab $::CAMGUI::webcam_preview $previmg $cam_res} res ]} {
 					status_log "Problem grabbing from the device:\n\t \"$res\""
 					$previmc create text 10 215 -anchor nw -font bboldf -text "ERROR: $res" -fill #FFFFFF -anchor nw -tag errmsg

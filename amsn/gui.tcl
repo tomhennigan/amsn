@@ -4785,7 +4785,7 @@ proc dpImageDropHandler {window data} {
 proc load_my_smaller_pic {} {
 
 	#if it doesn't exist yet, create it
-	if {[catch {image type my_pic_small} ] } {
+	if {![ImageExists my_pic_small] } {
 		image create photo my_pic_small -format cximage
 		if { [catch {my_pic_small copy my_pic}] } {
 			my_pic_small copy [::skin::getNoDisplayPicture]
@@ -4797,7 +4797,7 @@ proc load_my_smaller_pic {} {
 proc getpicturefornotification {email} {
 
 	#we'll only create it if it's not yet there
-	if { [catch {image type smallpicture$email} ] } {
+	if { ![ImageExists smallpicture$email] } {
 		status_log "Creating a small version of the user's dp for notifications"
 
 		#create the blank image
@@ -8274,3 +8274,7 @@ proc PlatformIs {} {
 		return "unix"
 	}
 }
+proc ImageExists {img} {
+	return [expr {([catch {image type $img}]* -1) + 1}]
+}
+
