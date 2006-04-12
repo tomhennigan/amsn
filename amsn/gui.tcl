@@ -29,7 +29,6 @@ if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 }
 
 
-
 if { $initialize_amsn == 1 } {
 
 	::skin::setKey mainwindowbg #7979f2
@@ -729,6 +728,7 @@ namespace eval ::amsn {
 			
 
 		#Draw our own message
+		#Does this image ever gets destroyed ? When destroying the chatwindow it's embeddeed in it should I guess ? This is not the leak I'm searching for though as I'm not sending inks...
 		set img [image create photo -file $filename]
 		SendMessageFIFO [list ::amsn::ShowInk $chatid [::abook::getPersonal login] $nick $img ink $p4c] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
 		::MSN::ChatQueue $chatid [list ::MSN::SendInk $chatid $filename]
@@ -3170,32 +3170,26 @@ namespace eval ::amsn {
 			}
 		}
 		#If it's a notification with user variable and we get a sucessful image create, show the display picture in the notification
-		if {$user != "" && [getpicturefornotification $user] || [::skin::getKey notify_dp_border]} {
-		
-			if {[::config::getKey showpicnotify]} {
-				if { [getpicturefornotification $user] } {
-					#Create image
-					$w.c create image [::skin::getKey x_notifydp] [::skin::getKey y_notifydp] -anchor nw -image smallpicture$user -tag bg
-					set notify_id [$w.c create text [::skin::getKey x_notifytext] [::skin::getKey y_notifytext] \
-						-font [::skin::getKey notify_font] \
-						-justify left -width [::skin::getKey width_notifytext] -anchor nw -text "$msg" -tag bg]
-				} else {
-					set notify_id [$w.c create text [::skin::getKey x_notifytext] [::skin::getKey y_notifytext] \
-						-font [::skin::getKey notify_font] \
-						-justify left -width [::skin::getKey width_notifytext] -anchor nw -text "$msg" -tag bg]
-				}
-			} else {
-				#Just add the text and use full width
-				set notify_id [$w.c create text [expr {[::skin::getKey notifwidth]/2}] 35 \
-					-font [::skin::getKey notify_font] \
-					-justify center -width [expr {[::skin::getKey notifwidth]-20}] -anchor n -text "$msg" -tag bg]
-			}
+
+
+		#If it's a notification about a user (user var given) and there is an image (the creation results 1) and we have the config set to show the image, show the display-picture
+		if {$user != "" && [getpicturefornotification $user] && [::config::getKey showpicnotify]} {
+			#Put the image on the canvas
+			$w.c create image [::skin::getKey x_notifydp] [::skin::getKey y_notifydp] -anchor nw\
+				-image smallpicture$user -tag bg
+			#Put the text on the canvas
+			set notify_id [$w.c create text [::skin::getKey x_notifytext] [::skin::getKey y_notifytext] \
+				-font [::skin::getKey notify_font] -justify left\
+				-width [::skin::getKey width_notifytext] -anchor nw\
+				-text "$msg" -tag bg]
+		#else, just show the text, using all the space
 		} else {
-			#Just add the text and use full width
-			set notify_id [$w.c create text [expr {[::skin::getKey notifwidth]/2}] 35 \
-				-font [::skin::getKey notify_font] \
-				-justify center -width [expr {[::skin::getKey notifwidth]-20}] -anchor n -text "$msg" -tag bg]
+			set notify_id [$w.c create text [expr {[::skin::getKey notifwidth]/2}] [expr {[::skin::getKey notifheight]/2}] \
+				-font [::skin::getKey notify_font] -justify left\
+				-width [expr {[::skin::getKey notifwidth]-20}] -anchor center\
+				-text "$msg" -tag bg]
 		}
+
 		
 		$w.c create image [::skin::getKey x_notifyclose] [::skin::getKey y_notifyclose] -anchor nw -image [::skin::loadPixmap notifclose] -tag close 
 
@@ -4835,6 +4829,16 @@ proc clickableDisplayPicture {tw type name command {padx 0} {pady 0}} {
 	return $tw.$name
 }
 
+proc dpImageDropHandler {window data} {
+	puts "Drop of image on $window : $data"
+	
+	set data [string map {\r "" \n "" \x00 ""} $data]
+	set data [urldecode $data]
+
+}
+
+
+
 #Create a smaller display picture from the bigger one
 proc load_my_smaller_pic {} {
 
@@ -4849,19 +4853,30 @@ proc load_my_smaller_pic {} {
 
 proc getpicturefornotification {email} {
 
-	image create photo smallpicture$email -format cximage
-	#Verify that we can copy user_pic, if there's an error it means user_pic doesn't exist
-	if {![catch {smallpicture$email copy [::skin::getDisplayPicture $email]}]} {
-		if {[image width smallpicture$email] != 50 && [image height smallpicture$email] != 50} {
-			::picture::ResizeWithRatio smallpicture$email 50 50
-		}
-		return 1
-	} else {
-		destroy smallpicture$email
-		return 0
-	}
-	
+	#we'll only create it if it's not yet there
+	if { [catch {image type smallpicture$email} ] } {
+		status_log "Creating a small version of the user's dp for notifications"
 
+		#create the blank image
+		image create photo smallpicture$email -format cximage
+
+		#Verify that we can copy user_pic, if there's an error it means user_pic doesn't exist
+		if {![catch {smallpicture$email copy [::skin::getDisplayPicture $email]} ] } {
+			if {[image width smallpicture$email] > 50 && [image height smallpicture$email] > 50} {
+				::picture::ResizeWithRatio smallpicture$email 50 50
+			}
+			return 1
+		} else {
+			image delete smallpicture$email
+			#we have no small version, report as error
+			return 0
+		}
+	} else {
+		#we already have an image
+		status_log "The user's small dp requested for notification already exists"
+		
+		return 1
+	}
 }
 
 #///////////////////////////////////////////////////////////////////////
@@ -5101,7 +5116,6 @@ proc cmsn_draw_buildtop_wrapped {} {
 	#finishes redrawing... and we end up with pgBuddyTop disappearing
 	#for 1 second with like 90 contacts
 	update idletasks
-
 
 }
 
@@ -7432,6 +7446,7 @@ proc convert_image { filename destdir size } {
 			#If there's an error, it means the filename is corrupted, remove it
 			catch { file delete $filename }
 			catch { file delete [filenoext $filename].dat }
+			#As the image couldn't ne loaded we can't destroy it :)
 			return
 		}
 		#Resize with ratio
@@ -7733,6 +7748,7 @@ proc reloadAvailablePics { } {
 				continue
 			}
 			addPicture $the_image "[getPictureDesc $filename]" "[lindex $file 0][file tail $filename]"
+			#These images get destroyed wghe the window is closed
 			lappend image_names $the_image
 		}
 	}
