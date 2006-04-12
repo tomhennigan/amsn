@@ -46,7 +46,7 @@ proc SelectColor::create { path args } {
 	"popup" {
 	    set list      [list at center left right above below]
 	    set placement [Widget::cget $path -placement]
-	    set where     [lindex $placement 0]
+	    set where     [lindex $placement 0]image
 
 	    if {[lsearch $list $where] < 0} {
 		return -code error \
@@ -259,6 +259,7 @@ proc SelectColor::dialog {path args} {
         set color ""
     }
     destroy $top
+    catch  {image delete $_image}
     return $color
 }
 
