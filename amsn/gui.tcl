@@ -8275,6 +8275,6 @@ proc PlatformIs {} {
 	}
 }
 proc ImageExists {img} {
-	return ![catch {image type $img}
+	return ![catch {image type $img}]
 }
 
