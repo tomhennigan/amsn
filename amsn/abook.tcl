@@ -997,8 +997,7 @@ namespace eval ::abookGui {
 
 		  #don't try to redraw the dps if they already are drawed (changing tab)
 		  if {![winfo exists $mainFrame.0]} {
-			  #notification -> should be cahnged
-			  ::amsn::notifyAdd [trans loadotherdisplaypic $email] ""		  
+#			  ::amsn::notifyAdd [trans loadotherdisplaypic $email] ""
 
 
 			  global HOME
@@ -1030,7 +1029,12 @@ namespace eval ::abookGui {
 				  }
 				  close $fd
 				}
+
 			  }
+			  if {$i == 0} {
+			  	if {![winfo exists $mainFrame.nodps]} {label $mainFrame.nodps -text "\tNo displaypictures in cache for this user" }
+			  	pack $mainFrame.nodps
+			 }
 		}
 	}
 
