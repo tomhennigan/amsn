@@ -738,64 +738,6 @@ namespace eval ::amsn {
 
 	}
 
-	#///////////////////////////////////////////////////////////////////////////////
-	# FileTransferSend (chatid (filename))
-	# Shows the file transfer window, for window win_name
-	proc FileTransferSendOLD { win_name {filename ""}} {
-
-		set w ${win_name}_sendfile
-		if { [ winfo exists $w ] } {
-			if {$filename == ""} {
-				chooseFileDialog "" "" $w $w.top.fields.file
-			} else {
-				$w.top.fields.file insert 0 $filename
-			}
-			return
-		}
-
-		toplevel $w
-		wm group $w .
-		wm title $w "[trans sendfile]"
-
-		label $w.msg -justify center -text "[trans enterfilename]"
-		pack $w.msg -side top -pady 5
-
-		frame $w.buttons
-		pack $w.buttons -side bottom -fill x -pady 2m
-		button $w.buttons.dismiss -text [trans cancel] -command "destroy $w"
-		button $w.buttons.save -text "[trans ok]" \
-			-command "::amsn::FileTransferSendOk $w $win_name"
-		pack $w.buttons.save $w.buttons.dismiss -side left -expand 1
-
-		frame $w.top
-
-		frame $w.top.labels
-		label $w.top.labels.file -text "[trans filename]:"
-		label $w.top.labels.ip -text "[trans ipaddress]:"
-
-		frame $w.top.fields
-		entry $w.top.fields.file -width 40 -bg #FFFFFF
-		entry $w.top.fields.ip -width 15 -bg #FFFFFF
-		checkbutton $w.top.fields.autoip -text "[trans autoip]" -variable [::config::getVar autoftip]
-
-		pack $w.top.fields.file -side top -anchor w
-		pack $w.top.fields.ip $w.top.fields.autoip -side left -anchor w -pady 5
-		pack $w.top.labels.file $w.top.labels.ip -side top -anchor e
-		pack $w.top.fields -side right -padx 5
-		pack $w.top.labels -side left -padx 5
-		pack $w.top -side top
-
-		$w.top.fields.ip insert 0 "[::config::getKey myip]"
-
-		focus $w.top.fields.file
-
-		if {$filename == ""} {
-			chooseFileDialog "" "" $w $w.top.fields.file
-			::amsn::FileTransferSendOk $w $win_name
-		} else {
-			$w.top.fields.file insert 0 $filename
-		}
-	}
 
 	proc FileTransferSend { win_name {filename ""} } {
 		global starting_dir
@@ -4842,7 +4784,8 @@ proc dpImageDropHandler {window data} {
 #Create a smaller display picture from the bigger one
 proc load_my_smaller_pic {} {
 
-	if {[lsearch [image names] my_pic_small] == -1 } {
+	#if it doesn't exist yet, create it
+	if {[catch {image type my_pic_small} ] } {
 		image create photo my_pic_small -format cximage
 		if { [catch {my_pic_small copy my_pic}] } {
 			my_pic_small copy [::skin::getNoDisplayPicture]
