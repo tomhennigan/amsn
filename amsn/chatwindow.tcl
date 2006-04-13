@@ -2515,7 +2515,7 @@ namespace eval ::ChatWindow {
 
 		set tab $win2tab($win)
 		set container [string range $tab 0 [expr {[string last "." $tab] - 1}] ]
-		set container [string range $container 0 [expr {[string last "." $container] -1]} ]
+		set container [string range $container 0 [expr {[string last "." $container] -1}] ]
 
 		#if tab is not visible, then we should change the color of the < or > button
 		#to let know there is an invisible tab flickering (an incoming message)
