@@ -161,7 +161,7 @@ namespace eval ::MSNP2P {
 
 
 			#if the small picture (for notifications e.g.) already exists, change it
-			if { ![catch {image type smallpicture$user} ] } {
+			if { [ImageExists smallpicture$user] } {
 			
 				status_log "User DP Changed, recreating small image as it already exist"
 				
@@ -231,7 +231,7 @@ namespace eval ::MSNP2P {
 		global msnobjcontext
 
 		set old_msnobj [::base64::decode $context]
-		set msnobj [string range $old_msnobj [string first "<" $old_msnobj] [expr [string first "/>" $old_msnobj] + 1]]
+		set msnobj [string range $old_msnobj [string first "<" $old_msnobj] [expr {[string first "/>" $old_msnobj] + 1}]]
 
 		status_log "GetFilenameFromContext : $context == $old_msnobj == $msnobj\n[string first "<" $old_msnobj] - [string first "/>"  $old_msnobj]\n\n" red
 		if { [info exists msnobjcontext($msnobj)] } {
@@ -396,7 +396,7 @@ namespace eval ::MSNP2P {
 			#			status_log "Data is now : $chunkedData($cId)\n\n";
 			status_log "chunked data :  $cTotalDataSize - $cMsgSize - $cOffset - [string length $chunkedData($cId)]"
 
-			if { $cTotalDataSize != [expr $cMsgSize + $cOffset] } {
+			if { $cTotalDataSize != [expr {$cMsgSize + $cOffset}] } {
 				#	status_log "not enough data to complete chunk...$cTotalDataSize - $cOffset - $cMsgSize - [string length $chunkedData($cId)]" 
 				return
 			} else {
@@ -463,28 +463,28 @@ namespace eval ::MSNP2P {
 			#status_log "Got an invitation!\n" red
 
 			# Let's get the session ID, destination email, branchUID, UID, AppID, Cseq
-			set idx [expr [string first "SessionID:" $data] + 11]
-			set idx2 [expr [string first "\r\n" $data $idx] - 1]
+			set idx [expr {[string first "SessionID:" $data] + 11}]
+			set idx2 [expr {[string first "\r\n" $data $idx] - 1}]
 			set sid [string range $data $idx $idx2]
 
-			set idx [expr [string first "From: <msnmsgr:" $data] + 15]
-			set idx2 [expr [string first "\r\n" $data $idx] - 2]
+			set idx [expr {[string first "From: <msnmsgr:" $data] + 15}]
+			set idx2 [expr {[string first "\r\n" $data $idx] - 2}]
 			set dest [string range $data $idx $idx2]
 
-			set idx [expr [string first "branch=\{" $data] + 8]
-			set idx2 [expr [string first "\}" $data $idx] - 1]
+			set idx [expr {[string first "branch=\{" $data] + 8}]
+			set idx2 [expr {[string first "\}" $data $idx] - 1}]
 			set branchuid [string range $data $idx $idx2]
 
-			set idx [expr [string first "Call-ID: \{" $data] + 10]
-			set idx2 [expr [string first "\}" $data $idx] - 1]
+			set idx [expr {[string first "Call-ID: \{" $data] + 10}]
+			set idx2 [expr {[string first "\}" $data $idx] - 1}]
 			set uid [string range $data $idx $idx2]
 
-			set idx [expr [string first "CSeq:" $data] + 6]
-			set idx2 [expr [string first "\r\n" $data $idx] - 1]
+			set idx [expr {[string first "CSeq:" $data] + 6}]
+			set idx2 [expr {[string first "\r\n" $data $idx] - 1}]
 			set cseq [string range $data $idx $idx2]
 
-			set idx [expr [string first "Content-Type: " $data $idx] + 14]
-			set idx2 [expr [string first "\r\n" $data $idx] - 1]
+			set idx [expr {[string first "Content-Type: " $data $idx] + 14}]
+			set idx2 [expr {[string first "\r\n" $data $idx] - 1}]
 			set ctype [string range $data $idx $idx2]
 
 			status_log "Got INVITE with content-type : $ctype\n" red
@@ -496,12 +496,12 @@ namespace eval ::MSNP2P {
 
 				#this catches an error with MSN7, still need to find out why sid = -1
 				if {$sid == -1} {return}
-				set idx [expr [string first "Conn-Type: " $data] + 11]
-				set idx2 [expr [string first "\r\n" $data $idx] - 1]
+				set idx [expr {[string first "Conn-Type: " $data] + 11}]
+				set idx2 [expr {[string first "\r\n" $data $idx] - 1}]
 				set conntype [string range $data $idx $idx2]
 
-				set idx [expr [string first "UPnPNat: " $data] + 9]
-				set idx2 [expr [string first "\r\n" $data $idx] - 1]
+				set idx [expr {[string first "UPnPNat: " $data] + 9}]
+				set idx2 [expr {[string first "\r\n" $data $idx] - 1}]
 				set upnp [string range $data $idx $idx2]
 
 				# Let's send an ACK
@@ -517,12 +517,12 @@ namespace eval ::MSNP2P {
 			} elseif { $ctype == "application/x-msnmsgr-sessionreqbody" } {
 
 				# Let's check if it's an invitation for buddy icon or emoticon
-				set idx [expr [string first "EUF-GUID:" $data] + 11]
-				set idx2 [expr [string first "\}" $data $idx] - 1]
+				set idx [expr {[string first "EUF-GUID:" $data] + 11}]
+				set idx2 [expr {[string first "\}" $data $idx] - 1}]
 				set eufguid [string range $data $idx $idx2]
 
-				set idx [expr [string first "Context:" $data] + 9]
-				set idx2 [expr [string first "\r\n" $data $idx] - 1]
+				set idx [expr {[string first "Context:" $data] + 9}]
+				set idx2 [expr {[string first "\r\n" $data $idx] - 1}]
 				set context [string range $data $idx $idx2]
 
 
@@ -554,7 +554,7 @@ namespace eval ::MSNP2P {
 						status_log "MSNP2P | $sid $dest -> Sent ACK for INVITE\n" red
 
 						# Let's get filename and filesize from context
-						set idx [expr [string first "Context:" $data] + 9]
+						set idx [expr {[string first "Context:" $data] + 9}]
 						set context [base64::decode [string range $data $idx end]]
 						::MSN6FT::GotFileTransferRequest $chatid $dest $branchuid $cseq $uid $sid $context
 						return
@@ -611,7 +611,7 @@ namespace eval ::MSNP2P {
 					status_log "MSNP2P | $sid $dest -> Sent ACK for INVITE\n" red
 
 					# Let's make and send a 200 OK Message
-					set slpdata [MakeMSNSLP "OK" $dest [::config::getKey login] $branchuid [expr $cseq + 1] $uid 0 0 $sid]
+					set slpdata [MakeMSNSLP "OK" $dest [::config::getKey login] $branchuid [expr {$cseq + 1}] $uid 0 0 $sid]
 					SendPacket [::MSN::SBFor $chatid] [MakePacket $sid $slpdata 1]
 					status_log "MSNP2P | $sid $dest -> Sent 200 OK Message\n" red
 					
@@ -622,12 +622,12 @@ namespace eval ::MSNP2P {
 				}
 			} elseif { $ctype == "application/x-msnmsgr-transrespbody" } {
 				
-				set idx [expr [string first "Call-ID: \{" $data] + 10]
-				set idx2 [expr [string first "\}" $data $idx] -1]
+				set idx [expr {[string first "Call-ID: \{" $data] + 10}]
+				set idx2 [expr {[string first "\}" $data $idx] -1}]
 				set uid [string range $data $idx $idx2]
 				set sid [SessionList findcallid $uid]
-				set idx [expr [string first "Listening: " $data] + 11]
-				set idx2 [expr [string first "\r\n" $data $idx] -1]
+				set idx [expr {[string first "Listening: " $data] + 11}]
+				set idx2 [expr {[string first "\r\n" $data $idx] -1}]
 				set listening [string range $data $idx $idx2]
 				
 				#status_log "MSNP2P | $sid -> Got 200 OK for File transfer, parsing result\n"
@@ -638,25 +638,25 @@ namespace eval ::MSNP2P {
 					set type [lindex [SessionList get $sid] 7]
 
 					if { $listening == "true" } {
-						set idx [expr [string first "Nonce: \{" $data] + 8]
-						set idx2 [expr [string first "\r\n" $data $idx] -2]
+						set idx [expr {[string first "Nonce: \{" $data] + 8}]
+						set idx2 [expr {[string first "\r\n" $data $idx] -2}]
 						set nonce [string range $data $idx $idx2]
 
 						if {[string first "IPv4External-Addrs: " $data] != -1 } {
-							set idx [expr [string first "IPv4External-Addrs: " $data] + 20]
-							set idx2 [expr [string first "\r\n" $data $idx] -1]
+							set idx [expr {[string first "IPv4External-Addrs: " $data] + 20}]
+							set idx2 [expr {[string first "\r\n" $data $idx] -1}]
 							set addr [string range $data $idx $idx2]
 
-							set idx [expr [string first "IPv4External-Port: " $data] + 19]
-							set idx2 [expr [string first "\r\n" $data $idx] -1]
+							set idx [expr {[string first "IPv4External-Port: " $data] + 19}]
+							set idx2 [expr {[string first "\r\n" $data $idx] -1}]
 							set port [string range $data $idx $idx2]
 						} else {
-							set idx [expr [string first "IPv4Internal-Addrs: " $data] + 20]
-							set idx2 [expr [string first "\r\n" $data $idx] -1]
+							set idx [expr {[string first "IPv4Internal-Addrs: " $data] + 20}]
+							set idx2 [expr {[string first "\r\n" $data $idx] -1}]
 							set addr [string range $data $idx $idx2]
 
-							set idx [expr [string first "IPv4Internal-Port: " $data] + 19]
-							set idx2 [expr [string first "\r\n" $data $idx] -1]
+							set idx [expr {[string first "IPv4Internal-Port: " $data] + 19}]
+							set idx2 [expr {[string first "\r\n" $data $idx] -1}]
 							set port [string range $data $idx $idx2]
 						}
 
@@ -677,8 +677,8 @@ namespace eval ::MSNP2P {
 			# Send a 200 OK ACK
 			set first [string first "SessionID:" $data]
 			if { $first != -1 } {
-				set idx [expr [string first "SessionID:" $data] + 11]
-				set idx2 [expr [string first "\r\n" $data $idx] -1]
+				set idx [expr {[string first "SessionID:" $data] + 11}]
+				set idx2 [expr {[string first "\r\n" $data $idx] -1}]
 				set sid [string range $data $idx $idx2]
 				set type [lindex [SessionList get $sid] 7]
 
@@ -693,12 +693,12 @@ namespace eval ::MSNP2P {
 					::MSN6FT::SendFTInvite $sid $chatid
 				}
 			} else {
-				set idx [expr [string first "Call-ID: \{" $data] + 10]
-				set idx2 [expr [string first "\}" $data $idx] -1]
+				set idx [expr {[string first "Call-ID: \{" $data] + 10}]
+				set idx2 [expr {[string first "\}" $data $idx] -1}]
 				set uid [string range $data $idx $idx2]
 				set sid [SessionList findcallid $uid]
-				set idx [expr [string first "Listening: " $data] + 11]
-				set idx2 [expr [string first "\r\n" $data $idx] -1]
+				set idx [expr {[string first "Listening: " $data] + 11}]
+				set idx2 [expr {[string first "\r\n" $data $idx] -1}]
 				set listening [string range $data $idx $idx2]
 
 				#status_log "MSNP2P | $sid -> Got 200 OK for File transfer, parsing result\n"
@@ -711,25 +711,25 @@ namespace eval ::MSNP2P {
 					SendPacket [::MSN::SBFor $chatid] [MakeACK $sid 0 $cTotalDataSize $cId $cAckId]
 
 					if { $listening == "true" } {
-						set idx [expr [string first "Nonce: \{" $data] + 8]
-						set idx2 [expr [string first "\r\n" $data $idx] -2]
+						set idx [expr {[string first "Nonce: \{" $data] + 8}]
+						set idx2 [expr {[string first "\r\n" $data $idx] -2}]
 						set nonce [string range $data $idx $idx2]
 
 						if {[string first "IPv4External-Addrs: " $data] != -1 } {
-							set idx [expr [string first "IPv4External-Addrs: " $data] + 20]
-							set idx2 [expr [string first "\r\n" $data $idx] -1]
+							set idx [expr {[string first "IPv4External-Addrs: " $data] + 20}]
+							set idx2 [expr {[string first "\r\n" $data $idx] -1]
 							set addr [string range $data $idx $idx2]
 
-							set idx [expr [string first "IPv4External-Port: " $data] + 19]
-							set idx2 [expr [string first "\r\n" $data $idx] -1]
+							set idx [expr {[string first "IPv4External-Port: " $data] + 19}]
+							set idx2 [expr {[string first "\r\n" $data $idx] -1]
 							set port [string range $data $idx $idx2]
 						} else {
-							set idx [expr [string first "IPv4Internal-Addrs: " $data] + 20]
-							set idx2 [expr [string first "\r\n" $data $idx] -1]
+							set idx [expr {[string first "IPv4Internal-Addrs: " $data] + 20}]
+							set idx2 [expr {[string first "\r\n" $data $idx] -1]
 							set addr [string range $data $idx $idx2]
 
-							set idx [expr [string first "IPv4Internal-Port: " $data] + 19]
-							set idx2 [expr [string first "\r\n" $data $idx] -1]
+							set idx [expr {[string first "IPv4Internal-Port: " $data] + 19}]
+							set idx2 [expr {[string first "\r\n" $data $idx] -1}]
 							set port [string range $data $idx $idx2]
 						}
 						status_log "MSNP2P | $sid -> Receiver is listening with $addr : $port\n" red
@@ -765,8 +765,8 @@ namespace eval ::MSNP2P {
 		# Check if we got BYE message
 		if { [string first "BYE MSNMSGR:" $data] != -1 } {
 			# Lets get the call ID and find our SessionID
-			set idx [expr [string first "Call-ID: \{" $data] + 10]
-			set idx2 [expr [string first "\}" $data $idx] - 1]
+			set idx [expr {[string first "Call-ID: \{" $data] + 10}]
+			set idx2 [expr {[string first "\}" $data $idx] - 1}]
 			set uid [string range $data $idx $idx2]
 			set sid [SessionList findcallid $uid]
 			status_log "MSNP2P | $sid -> Got BYE for UID : $uid\n" red
@@ -800,8 +800,8 @@ namespace eval ::MSNP2P {
 		# Check if we got DECLINE message
 		if { [string first "603 Decline" $data] != -1 } {
 			# Lets get the call ID and find our SessionID
-			set idx [expr [string first "Call-ID: \{" $data] + 10]
-			set idx2 [expr [string first "\}" $data $idx] - 1]
+			set idx [expr {[string first "Call-ID: \{" $data] + 10}]
+			set idx2 [expr {[string first "\}" $data $idx] - 1}]
 			set uid [string range $data $idx $idx2]
 			set sid [SessionList findcallid $uid]
 			status_log "MSNP2P | $sid -> Got DECLINE for UID : $uid\n" red
@@ -843,10 +843,10 @@ namespace eval ::MSNP2P {
 			if { $type != "webcam" && $fd != "" && $fd != 0 && $fd != -1 } {
 				# File already open and being written to (fd exists)
 				# Lets write data to file
-				puts -nonewline $fd [string range $data 0 [expr $cMsgSize - 1]]
+				puts -nonewline $fd [string range $data 0 [expr {$cMsgSize - 1}]]
 				#status_log "MSNP2P | $sid -> FD EXISTS, file already open... with fd = $fd --- $cOffset + $cMsgSize + $cTotalDataSize . Writing DATA to file\n" red
 				# Check if this is last part if splitted
-				if { [expr $cOffset + $cMsgSize] >= $cTotalDataSize } {
+				if { [expr {$cOffset + $cMsgSize}] >= $cTotalDataSize } {
 					close $fd
 
 					set session_data [SessionList get $cSid]
@@ -896,7 +896,7 @@ namespace eval ::MSNP2P {
 						set filename [file join [::config::getKey receiveddir] [lindex [SessionList get $cSid] 8]]
 						::amsn::FTProgress fr $cSid [lindex [SessionList get $cSid] 6] $cOffset $cTotalDataSize
 						set finishedname [filenoext $filename]
-						if { [ string range $filename [expr [string length $filename] - 11] [string length $filename]] == ".incomplete" } {
+						if { [ string range $filename [expr {[string length $filename] - 11}] [string length $filename]] == ".incomplete" } {
 							if { [catch { file rename $filename $finishedname } ] } {
 								::amsn::infoMsg [trans couldnotrename $filename] warning
 								status_log "Could not rename file $filename to $finishedname!"
@@ -937,7 +937,7 @@ namespace eval ::MSNP2P {
 
 				status_log "Received data for webcam $sid : $data\n$msg\n" red
 
-				if {[expr $cOffset + $cMsgSize] >= $cTotalDataSize} {
+				if {[expr {$cOffset + $cMsgSize}] >= $cTotalDataSize} {
 					SendPacket [::MSN::SBFor $chatid] [MakeACK $sid $cSid $cTotalDataSize $cId $cAckId]
 				}
 
@@ -965,7 +965,7 @@ namespace eval ::MSNP2P {
 
 					setObjOption $sid xml $xml
 
-					if { [expr $cOffset + $cMsgSize] >= $cTotalDataSize } {
+					if { [expr {$cOffset + $cMsgSize}] >= $cTotalDataSize } {
 						set xml [string range $xml 10 end]
 						setObjOption $sid xml $xml
 
@@ -989,7 +989,7 @@ namespace eval ::MSNP2P {
 				set ink_message "${ink_message}[string range $data 0 [expr { $cMsgSize - 1}]]"
 				setObjOption $sid ink_message_$cId $ink_message
 
-				if {[expr $cOffset + $cMsgSize] >= $cTotalDataSize} {
+				if {[expr {$cOffset + $cMsgSize}] >= $cTotalDataSize} {
 					setObjOption $sid ink_message_$cId ""
 					SendPacket [::MSN::SBFor $chatid] [MakeACK $sid $cSid $cTotalDataSize $cId $cAckId]
 					set ink_message [FromUnicode $ink_message]
@@ -1395,7 +1395,7 @@ namespace eval ::MSNP2P {
 			set msg [MakePacket $sid $data 0 0 0 0 0 0 16777264]
 			set msg_len [string length $msg]
 			puts -nonewline $sock "MSG [incr ::MSN::trid] D $msg_len\r\n$msg"
-			set offset [expr $offset + 1202]
+			set offset [expr {$offset + 1202}]
 			SessionList set $sid [list -1 -1 $offset -1 -1 -1 -1 -1 -1 -1]
 			::amsn::FTProgress s $sid "" $offset $filesize
 			#catch {after 200 [list catch {fileevent $sock writable "::MSNP2P::SendDataEvent $sbn $sid $fd"}]}
@@ -1406,10 +1406,10 @@ namespace eval ::MSNP2P {
 			set msg [MakePacket $sid $data 0 0 0 0 0 0 16777264]
 			set msg_len [string length $msg]
 			puts -nonewline $sock "MSG [incr ::MSN::trid] D $msg_len\r\n$msg"
-			set offset [expr $offset + 1202]
+			set offset [expr {$offset + 1202}]
 			SessionList set $sid [list -1 -1 0 -1 -1 -1 -1 -1 -1 -1 ]
 
-			set msgId [expr [lindex [SessionList get $sid] 0] + 1]
+			set msgId [expr {[lindex [SessionList get $sid] 0] + 1}]
 			SessionList set $sid [list $msgId -1 0 -1 DATASENT -1 0 -1 -1 -1]
 			close $fd
 			unset fd
@@ -1458,19 +1458,19 @@ namespace eval ::MSNP2P {
 			return
 		}
 
-		if { [expr $offset + 1202] < [string length $slpdata] } {
-			set msg [MakePacket $sid [string range $slpdata $offset [expr $offset + 1201]] $nullsid $MsgId $TotalSize $Offset $Destination $AfterAck $flags]
+		if { [expr {$offset + 1202}] < [string length $slpdata] } {
+			set msg [MakePacket $sid [string range $slpdata $offset [expr {$offset + 1201}]] $nullsid $MsgId $TotalSize $Offset $Destination $AfterAck $flags]
 			set msg_len [string length $msg]
 			::MSN::WriteSBNoNL $sbn "MSG" "D $msg_len\r\n$msg"
-			set offset [expr $offset + 1202]
+			set offset [expr {$offset + 1202}]
 			SessionList set $sid [list -1 -1 $offset -1 -1 -1 -1 -1 -1 -1]
 			after 200 [list fileevent $fd writable "::MSNP2P::SendPacketExtEvent $sbn $sid [list $slpdata] $nullsid $MsgId $TotalSize $Offset $Destination $AfterAck $flags" ]
 		} else {
 
-			set msg [MakePacket $sid [string range $slpdata $offset [expr $offset + 1201]] $nullsid $MsgId $TotalSize $Offset $Destination $AfterAck $flags]
+			set msg [MakePacket $sid [string range $slpdata $offset [expr {$offset + 1201}]] $nullsid $MsgId $TotalSize $Offset $Destination $AfterAck $flags]
 			set msg_len [string length $msg]
 			::MSN::WriteSBNoNL $sbn "MSG" "D $msg_len\r\n$msg"
-			set offset [expr $offset + 1202]
+			set offset [expr {$offset + 1202}]
 			SessionList set $sid [list -1 -1 0 -1 -1 -1 -1 -1 -1 -1 ]
 		}
 	}

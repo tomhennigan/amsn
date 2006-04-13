@@ -73,7 +73,7 @@ namespace eval ::pluginslog {
 	}
 	$window.info delete 1.0 end
 	for {set count 0} {$count < $arraysize} {incr count} {
-		set x [expr ($count + $startpos)%500]
+		set x [expr {($count + $startpos)%500}]
 		set plugin [lindex $::pluginslog::log($x) 0]
 		#if no filters, show all
 		#if in filter, show it.

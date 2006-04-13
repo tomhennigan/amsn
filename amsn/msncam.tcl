@@ -46,7 +46,7 @@ proc nbread { sock numChars } {
 		fileevent $sock readable ""
 		
 		while { $tmpsize < $numChars && ![eof $sock] } {
-			append tmpdata [read $sock [expr $numChars - $tmpsize]]
+			append tmpdata [read $sock [expr {$numChars - $tmpsize}]]
 			set tmpsize [string length $tmpdata]
 			update
 		}
@@ -68,7 +68,7 @@ proc nbgets { sock {varName ""} } {
 		set char [nbread $sock 1]
 		append data $char
 	}
-	set data [string range $data 0 [expr [string length $data] - 2] ]
+	set data [string range $data 0 [expr {[string length $data] - 2}] ]
 	
 	if { $varName != "" } {
 		upvar 1 $varName buffer
@@ -191,7 +191,7 @@ namespace eval ::MSNCAM {
 		}
 
 		# Let's make and send a 200 OK Message
-		set slpdata [::MSNP2P::MakeMSNSLP "OK" $dest [::config::getKey login] $branchuid [expr $cseq + 1] $uid 0 0 $sid]
+		set slpdata [::MSNP2P::MakeMSNSLP "OK" $dest [::config::getKey login] $branchuid [expr {$cseq + 1}] $uid 0 0 $sid]
 		::MSNP2P::SendPacket [::MSN::SBFor $chatid] [::MSNP2P::MakePacket $sid $slpdata 1]
 
 		SendAcceptInvite $sid $chatid
@@ -254,7 +254,7 @@ namespace eval ::MSNCAM {
 
 		set size [string length $msg]
 
-		set data "[binary format ii $sid $MsgId][binword 0][binword $size][binary format iiii $size 0 [expr int([expr rand() * 1000000000])%125000000 + 4] 0][binword 0]${msg}${footer}"
+		set data "[binary format ii $sid $MsgId][binword 0][binword $size][binary format iiii $size 0 [expr {int([expr {rand() * 1000000000}])%125000000 + 4}] 0][binword 0]${msg}${footer}"
 
 		set theader "MIME-Version: 1.0\r\nContent-Type: application/x-msnmsgrp2p\r\nP2P-Dest: $dest\r\n\r\n"
 
@@ -283,7 +283,7 @@ namespace eval ::MSNCAM {
 
 		set size [string length $msg]
 
-		set data "[binary format ii $sid $MsgId][binword 0][binword $size][binary format iiii $size 0 [expr int([expr rand() * 1000000000])%125000000 + 4] 0][binword 0]${msg}${footer}"
+		set data "[binary format ii $sid $MsgId][binword 0][binword $size][binary format iiii $size 0 [expr {int([expr {rand() * 1000000000}])%125000000 + 4}] 0][binword 0]${msg}${footer}"
 
 		set theader "MIME-Version: 1.0\r\nContent-Type: application/x-msnmsgrp2p\r\nP2P-Dest: $dest\r\n\r\n"
 
@@ -309,7 +309,7 @@ namespace eval ::MSNCAM {
 
 		set size [string length $msg]
 
-		set data "[binary format ii $sid $MsgId][binword 0][binword $size][binary format iiii $size 0 [expr int([expr rand() * 1000000000])%125000000 + 4] 0][binword 0]${msg}${footer}"
+		set data "[binary format ii $sid $MsgId][binword 0][binword $size][binary format iiii $size 0 [expr {int([expr {rand() * 1000000000}])%125000000 + 4}] 0][binword 0]${msg}${footer}"
 
 		set theader "MIME-Version: 1.0\r\nContent-Type: application/x-msnmsgrp2p\r\nP2P-Dest: $dest\r\n\r\n"
 
@@ -333,7 +333,7 @@ namespace eval ::MSNCAM {
 
 		set size [string length $msg]
 
-		set data "[binary format ii $sid $MsgId][binword 0][binword $size][binary format iiii $size 0 [expr int([expr rand() * 1000000000])%125000000 + 4] 0][binword 0]${msg}${footer}"
+		set data "[binary format ii $sid $MsgId][binword 0][binword $size][binary format iiii $size 0 [expr {int([expr {rand() * 1000000000}])%125000000 + 4}] 0][binword 0]${msg}${footer}"
 
 		set theader "MIME-Version: 1.0\r\nContent-Type: application/x-msnmsgrp2p\r\nP2P-Dest: $dest\r\n\r\n"
 
@@ -366,7 +366,7 @@ namespace eval ::MSNCAM {
 	proc SendCamInvitation { chatid guid context } {
 		status_log "Sending Webcam Request\n"
 
-		set sid [expr int([expr rand() * 1000000000])%125000000 + 4]
+		set sid [expr {int([expr {rand() * 1000000000}])%125000000 + 4}]
 		# Generate BranchID and CallID
 		set branchid "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
 		set callid "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
@@ -492,23 +492,23 @@ namespace eval ::MSNCAM {
 
 	proc ConnectToReflector { sid refldata } {
 
-		set ru [string range $refldata [expr [string first "ru=" $refldata] + 3] end]
+		set ru [string range $refldata [expr {[string first "ru=" $refldata] + 3}] end]
 		if { [string first "&" $ru] != -1 } {
-			set ru [string range $ru 0 [expr [string first "&" $ru] -1]]
+			set ru [string range $ru 0 [expr {[string first "&" $ru] -1}]]
 		}
 
-		set ti [string range $refldata [expr [string first "ti=" $refldata] + 3] end]
+		set ti [string range $refldata [expr {[string first "ti=" $refldata] + 3}] end]
 		if { [string first "&" $ti] != -1 } {
-			set ti [string range $ti 0 [expr [string first "&" $ti] -1]]
+			set ti [string range $ti 0 [expr {[string first "&" $ti] -1}]]
 		}
 
 
 		if { [string first "http://" $ru] != -1 } {
-			set ru [string range $ru [expr [string first "http://" $ru] + 7] end]
+			set ru [string range $ru [expr {[string first "http://" $ru] + 7}] end]
 		}
 
-		set host [string range $ru 0 [expr [string first ":" $ru]-1]]
-		set port [string range $ru [expr [string first ":" $ru]+1] end]
+		set host [string range $ru 0 [expr {[string first ":" $ru]-1}]]
+		set port [string range $ru [expr {[string first ":" $ru]+1}] end]
 		
 		status_log "Connecting to reflector : $host at $port\n$ru - [string first ":" $ru]\n$ti\n$refldata\n" red
 
@@ -839,7 +839,7 @@ namespace eval ::MSNCAM {
 
 		set MsgId [lindex [::MSNP2P::SessionList get $sid] 0]
 
-		set bheader [binary format ii 0 $MsgId][binword 0][binword 0][binary format iiii 0 4 [expr int([expr rand() * 1000000000])%125000000 + 4] 0][binword 0]
+		set bheader [binary format ii 0 $MsgId][binword 0][binword 0][binary format iiii 0 4 [expr {int([expr {rand() * 1000000000}])%125000000 + 4}] 0][binword 0]
 
 		puts -nonewline $sock "[binary format i 48]$bheader"
 		status_log "Closing socket... \n" red
@@ -1048,7 +1048,7 @@ namespace eval ::MSNCAM {
 		#status_log "createSession url get finished : $tmp_data\n" red
 		
 		if { $::webcamsn_loaded && [::http::status $token] == "ok" && [::http::ncode $token] == 200 } {
-			set tmp_data [string range $tmp_data [expr [string first "?>" $tmp_data] +2] end]
+			set tmp_data [string range $tmp_data [expr {[string first "?>" $tmp_data] +2}] end]
 
 			status_log "Got XML : $tmp_data"
 
@@ -1099,7 +1099,7 @@ namespace eval ::MSNCAM {
 
 		if { [::http::status $token] == "ok" && [::http::ncode $token] == 200 } {
 		
-			set tmp_data [string range $tmp_data [expr [string first "?>" $tmp_data] +2] end]
+			set tmp_data [string range $tmp_data [expr {[string first "?>" $tmp_data] +2}] end]
 
 			if {[catch {set xml [xml2list $tmp_data] } res ] } {
 				status_log "Error in parsing xml file... $tmp_data  -- res\n" red
@@ -1325,11 +1325,11 @@ namespace eval ::MSNCAM {
 		::MSNP2P::SessionList set $sid [list $MsgId -1 -1 -1 -1 -1 -1 -1 -1 -1 ]
 
 
-		if { [expr $offset + 1202] < $totalsize } {
+		if { [expr {$offset + 1202}] < $totalsize } {
 			set footer "\x00\x00\x00\x04"
 			set to_send [string range $msg 0 1201]
 			set size [string length $to_send]
-			set data "[binary format ii $sid $MsgId][binword $offset][binword $totalsize][binary format iiii $size 0 [expr int([expr rand() * 1000000000])%125000000 + 4] 0][binword 0]${to_send}${footer}"
+			set data "[binary format ii $sid $MsgId][binword $offset][binword $totalsize][binary format iiii $size 0 [expr {int([expr {rand() * 1000000000}])%125000000 + 4}] 0][binword 0]${to_send}${footer}"
 
 			set theader "MIME-Version: 1.0\r\nContent-Type: application/x-msnmsgrp2p\r\nP2P-Dest: $dest\r\n\r\n"
 
@@ -1337,14 +1337,14 @@ namespace eval ::MSNCAM {
 			set msg_len [string length $data]
 
 			::MSNP2P::SendPacket [::MSN::SBFor $chatid] "$data"
-			set offset [expr $offset + 1202]
+			set offset [expr {$offset + 1202}]
 			set msg [string range $msg 1202 end]
 			SendXMLChunk $chatid $sid $msg $offset $totalsize
 		} else {
 			set footer "\x00\x00\x00\x04"
 			set to_send $msg
 			set size [string length $to_send]
-			set data "[binary format ii $sid $MsgId][binword $offset][binword $totalsize][binary format iiii $size 0 [expr int([expr rand() * 1000000000])%125000000 + 4] 0][binword 0]${to_send}${footer}"
+			set data "[binary format ii $sid $MsgId][binword $offset][binword $totalsize][binary format iiii $size 0 [expr {int([expr {rand() * 1000000000}])%125000000 + 4}] 0][binword 0]${to_send}${footer}"
 
 			set theader "MIME-Version: 1.0\r\nContent-Type: application/x-msnmsgrp2p\r\nP2P-Dest: $dest\r\n\r\n"
 
@@ -1530,8 +1530,8 @@ namespace eval ::CAMGUI {
 		if { [set ::tcl_platform(os)] == "Linux" } {
 			if {$source == "0" } { set source "/dev/video0:0" }
 			set pos [string last ":" $source]
-			set dev [string range $source 0 [expr $pos-1]]
-			set channel [string range $source [expr $pos+1] end]
+			set dev [string range $source 0 [expr {$pos-1}]]
+			set channel [string range $source [expr {$pos+1}] end]
 		}
 
 		set grabber [getObjOption $sid grabber]
@@ -1580,8 +1580,8 @@ namespace eval ::CAMGUI {
 
 			} elseif { [set ::tcl_platform(os)] == "Linux" } {
 				set pos [string last ":" $source]
-				set dev [string range $source 0 [expr $pos-1]]
-				set channel [string range $source [expr $pos+1] end]
+				set dev [string range $source 0 [expr {$pos-1}]]
+				set channel [string range $source [expr {$pos+1}] end]
 
 				if { [catch { ::Capture::Open $dev $channel } grabber] } {
 					::MSNCAM::CancelCam $chatid $sid
