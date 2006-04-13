@@ -189,6 +189,7 @@ copytoclipboard Kopiera $1 till klippbordet
 copytogroup Kopiera till grupp
 corruptconfig Konfigurationsfilen är korrupt. En ny konfigurationsfil är skapad. Den gamla filen sparas till $1. Skicka den gärna till oss så vi får se vad som är fel.
 corruptstates Konfigurationsfilen för personlig status är korrupt. En ny konfigurationsfil är skapad. Gamla filen sparad som $1. Skicka den gärna till oss och berätta vad som hände.
+couldnotrename Kunde ej döpa om filen $1
 countrycode Landskod
 cprofile Skapa ny profil
 created Skapad
@@ -550,6 +551,7 @@ preferences Inställningar
 preffont Min meddelandetext
 preffont2 Ändra hur andra ser min text i konversationer
 preffont3 Ändra aMSNs teckensnitt och storlek
+preffont4 Ändra hur jag ser mina kontakters text i konversationerna.
 prefft Filöverföring, "peer-to-peer" och NAT inställningar.
 preflibs TLS-mappen
 preflog1 Historikinställningar
@@ -607,6 +609,7 @@ rename Byt namn
 report Rapportera
 reporting Rapporterar
 required_version Ej möjligt att ladda plugin. Kräver minst version $1 av aMSN
+resetincomingfont Återställ typsnitt (använd det typsnitt kontakten använder)
 restartforskin Notera: Du måste starta om aMSN för att visa temat korrekt
 reversed Omvänd
 reverselist Du finns på dessa användares kontaktlista:
