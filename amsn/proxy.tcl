@@ -349,7 +349,7 @@ proc globalWrite { proxy name {msg ""} } {
 	method authInit {} {
 		#catch {::http::unregister https}
 
-		global tlsinstalled
+		global tlsinstalled login_passport_url
 
                 #Check if we need to install the TLS module
                 if { $tlsinstalled == 0 && [checking_package_tls] == 0 && [::config::getKey nossl] == 0} {
@@ -377,7 +377,18 @@ proc globalWrite { proxy name {msg ""} } {
 			::http::config -proxyhost $proxy_host -proxyport $proxy_port
 		}
 
-		set ::login_passport_url "https://login.passport.com/login2.srf"
+#		set ::login_passport_url "https://login.passport.com/login2.srf"
+		        if { [::config::getKey nossl] == 1 } {
+                        #If we can't use ssl, avoid getting url from nexus
+                        set login_passport_url "https://login.passport.com/login2.srf"
+                } else {
+                        #Contact nexus to get login url
+                        set login_passport_url 0
+                        degt_protocol $self
+
+                        after 0 "catch {::http::geturl [list https://nexus.passport.com/rdr/pprdr.asp] -timeout 10000 -command {globalGotNexusReply $self}}"
+                }
+
 	}
 
 	method authenticate {str url} {
@@ -399,6 +410,38 @@ proc globalWrite { proxy name {msg ""} } {
 #			eval [ns cget -autherror_handler]
 #
 	}
+
+        method GotNexusReply {token {total 0} {current 0}} {
+
+                global login_passport_url
+                if { [::http::status $token] != "ok" || [::http::ncode $token ] != 200 } {
+                        #Nexus connection failed, so let's just set login URL manually
+                        set loginurl "https://login.passport.com/login2.srf"
+                        status_log "gotNexusReply: error in nexus reply, getting url manually\n" red
+                } else {
+                        #We got reply from nexus. Extract login URL
+                        upvar #0 $token state
+
+                        set index [expr {[lsearch $state(meta) "PassportURLs"]+1}]
+                        set values [split [lindex $state(meta) $index] ","]
+                        set index [lsearch $values "DALogin=*"]
+                        set loginurl "https://[string range [lindex $values $index] 8 end]"
+                        status_log "gotNexusReply: loginurl=$loginurl\n" green
+                }
+                ::http::cleanup $token
+
+                #If $login_passport_url == 0, we got login url before authentication took place
+                if { $login_passport_url == 0 } {
+                        #Set loginurl (will be used in authentication), and rest in peace
+                        set login_passport_url $loginurl
+                        status_log "gotNexusReply: finished before authentication took place\n" green
+                } else {
+                        #Authentication is waiting for us to get this url!! Do authentication inmediatly
+                        status_log "gotNexusReply: authentication was waiting for me, so I'll do it\n" green
+                        $self authenticate $login_passport_url $loginurl
+                }
+
+        }
 
 	method GotAuthReply { str token } {
 		if { [::http::status $token] != "ok" } {
