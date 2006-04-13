@@ -2867,6 +2867,12 @@ namespace eval ::Event {
 			if {[lsearch {MSG NOT PAG IPG UBX GCF} [string range $command 0 2]] != -1} {
 			        set length [lindex [split $command] end]
 
+				#There is a bug (#2265) where $length is not numeric
+				# report error on status_log is this occurs so we can track it down
+				if {![string is integer $length]} {
+					status_log "#-----------------------#\nERROR in $self :: var \$length is \"$lenght\" while it should be an integer !!!\n\tCommand: $command (last element is length)\n#-----------------------#" white
+				}
+
 				set remaining [string range $dataBuffer [expr {$idx +2}] end]
 				#if the whole payload is in the buffer process the command else return
 				if { [string length $remaining] >= $length } {
