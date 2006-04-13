@@ -7,14 +7,18 @@ musicseparator Simbolo tra il nick e la canzone
 musicstopmsg Messaggio riproduttore in stop
 musiccurrent Mostra la canzone attuale
 musicsend Spedisci la canzone attuale
-musicerr Nulla è in riproduzione, o il plugin non riesce a trovare le informazioni.
+artsend Spedisci la copertina dell'album attuale
+musicerr Nulla Ã¨ in riproduzione, o il plugin non riesce a trovare le informazioni.
 playing Playing : $1
-musicoserr Il tuo sistema operativo ($1) non è ancora supportato dal plugin Music
+musicoserr Il tuo sistema operativo ($1) non Ã¨ ancora supportato dal plugin Music
 musicplayer Scegli il tuo riproduttore preferito
-musicstopdefault Riproduttore in stop
+musicstopdefault Riproduttore fermo
 separator Separatore
 songartist Canzone-Artista
 song Canzone
 artistsong Artista-Canzone
-choose_order Scegli l'ordine per il nome della canzone e dell'artista (non compatibile con XMMS)
+choose_order Scegli l'ordine per il nome della canzone e dell'artista
 musicballontext Clicca qui per mostrare/nascondere la canzone nel tuo nick
+changepic Cambia la foto con la copertina dell'album se possibile
+music_mpd_ip Indirizzo IP del tuo server MPD
+music_mpd_port Porta del tuo server MPD
