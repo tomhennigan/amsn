@@ -17,13 +17,14 @@
 	#include <assert.h>
 #endif
 
-basic_image_information CxImageGIF::CheckFormat(BYTE * buffer, DWORD size)
+bool CxImageGIF::CheckFormat(BYTE * buffer, DWORD size, basic_image_information* basic_info)
 {
 	struct_dscgif *dscgif;
-	if (size<sizeof(*dscgif)) return create_basic_image_information(CXIMAGE_FORMAT_UNKNOWN,0,0);
+	if (size<sizeof(*dscgif)) return false;
 	dscgif = (struct_dscgif *) buffer;
-	if (strncmp(dscgif->header,"GIF8",4)!=0) return create_basic_image_information(CXIMAGE_FORMAT_UNKNOWN,0,0);
-	return create_basic_image_information(CXIMAGE_FORMAT_GIF,ltohs(dscgif->scrwidth),ltohs(dscgif->scrheight));
+	if (strncmp(dscgif->header,"GIF8",4)!=0) return false;
+	create_basic_image_information(CXIMAGE_FORMAT_GIF,ltohs(dscgif->scrwidth),ltohs(dscgif->scrheight),basic_info);
+	return true;
 }
 
 

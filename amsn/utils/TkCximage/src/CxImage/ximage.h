@@ -126,9 +126,10 @@ struct basic_image_information {
 	long width,height;
 };
 
-basic_image_information inline create_basic_image_information(ENUM_CXIMAGE_FORMATS format, long width, long height){
-	basic_image_information info={format,width,height};
-	return info;
+void inline create_basic_image_information(ENUM_CXIMAGE_FORMATS format, long width, long height,basic_image_information *basic_info){
+	basic_info->format=format;
+	basic_info->width=width;
+	basic_info->height=height;
 }
 /////////////////////////////////////////////////////////////////////////////
 // CxImage class
@@ -428,7 +429,7 @@ public:
 	bool Decode(FILE * hFile, DWORD imagetype);
 	bool Decode(CxFile * hFile, DWORD imagetype);
 	bool Decode(BYTE * buffer, DWORD size, DWORD imagetype);
-	static basic_image_information CheckFormat(BYTE * buffer, DWORD size);
+	static bool CheckFormat(BYTE * buffer, DWORD size,basic_image_information *basic_info);
 //@}
 #endif //CXIMAGE_SUPPORT_DECODE
 

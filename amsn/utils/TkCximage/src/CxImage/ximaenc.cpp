@@ -923,95 +923,95 @@ bool CxImage::Decode(CxFile *hFile, DWORD imagetype)
  * \return true if everything is ok
  * \sa ENUM_CXIMAGE_FORMATS
  */
-basic_image_information CxImage::CheckFormat(BYTE * buffer, DWORD size)
+bool CxImage::CheckFormat(BYTE * buffer, DWORD size, basic_image_information *basic_info)
 {
-	basic_image_information format=create_basic_image_information(CXIMAGE_FORMAT_UNKNOWN,0,0);
+	create_basic_image_information(CXIMAGE_FORMAT_UNKNOWN,0,0,basic_info);
 #if CXIMAGE_SUPPORT_BMP
 	{
-	if ((format=CxImageBMP::CheckFormat(buffer,size)).format!=CXIMAGE_FORMAT_UNKNOWN) 
-		return format;
+	if (CxImageBMP::CheckFormat(buffer,size,basic_info)) 
+		return true;
 	}
 #endif
 #if CXIMAGE_SUPPORT_JPG
 	{
-	if ((format=CxImageJPG::CheckFormat(buffer,size)).format!=CXIMAGE_FORMAT_UNKNOWN) 
-		return format;
+	if (CxImageJPG::CheckFormat(buffer,size,basic_info)) 
+		return true;
 	}
 #endif
 /*#if CXIMAGE_SUPPORT_ICO
 	{
-	if ((format=CxImageICO::CheckFormat(buffer,size)).format!=CXIMAGE_FORMAT_UNKNOWN) 
-		return format;
+	if (CxImageICO::CheckFormat(buffer,size,basic_info)) 
+		return true;
 	}
 #endif*/
 #if CXIMAGE_SUPPORT_GIF
 	{
-	if ((format=CxImageGIF::CheckFormat(buffer,size)).format!=CXIMAGE_FORMAT_UNKNOWN) 
-		return format;
+	if (CxImageGIF::CheckFormat(buffer,size,basic_info)) 
+		return true;
 	}
 #endif
 #if CXIMAGE_SUPPORT_PNG
 	{
-	if ((format=CxImagePNG::CheckFormat(buffer,size)).format!=CXIMAGE_FORMAT_UNKNOWN) 
-		return format;
+	if (CxImagePNG::CheckFormat(buffer,size,basic_info)) 
+		return true;
 	}
 #endif
 /*#if CXIMAGE_SUPPORT_TIF
 	{
-	if ((format=CxImageTIF::CheckFormat(buffer,size)).format!=CXIMAGE_FORMAT_UNKNOWN) 
-		return format;
+	if (CxImageTIF::CheckFormat(buffer,size,basic_info)) 
+		return true;
 	}
 #endif*/
 /*#if CXIMAGE_SUPPORT_MNG
 	{
-	if ((format=CxImageMNG::CheckFormat(buffer,size)).format!=CXIMAGE_FORMAT_UNKNOWN) 
-		return format;
+	if (CxImageMNG::CheckFormat(buffer,size,basic_info)) 
+		return true;
 	}
 #endif*/
 #if CXIMAGE_SUPPORT_TGA
 	{
-	if ((format=CxImageTGA::CheckFormat(buffer,size)).format!=CXIMAGE_FORMAT_UNKNOWN) 
-		return format;
+	if (CxImageTGA::CheckFormat(buffer,size,basic_info)) 
+		return true;
 	}
 #endif
 /*#if CXIMAGE_SUPPORT_PCX
 	{
-	if ((format=CxImagePCX::CheckFormat(buffer,size)).format!=CXIMAGE_FORMAT_UNKNOWN) 
-		return format;
+	if (CxImagePCX::CheckFormat(buffer,size,basic_info)) 
+		return true;
 	}
 #endif*/
 /*#if CXIMAGE_SUPPORT_WBMP
 	{
-	if ((format=CxImageWBMP::CheckFormat(buffer,size)).format!=CXIMAGE_FORMAT_UNKNOWN) 
-		return format;
+	if (CxImageWBMP::CheckFormat(buffer,size,basic_info)) 
+		return true;
 	}
 #endif*/
 /*#if CXIMAGE_SUPPORT_WMF && CXIMAGE_SUPPORT_WINDOWS
 	{
-	if ((format=CxImageWMF::CheckFormat(buffer,size)).format!=CXIMAGE_FORMAT_UNKNOWN) 
-		return format;
+	if (CxImageWMF::CheckFormat(buffer,size,basic_info)) 
+		return true;
 	}
 #endif*/
 /*#if CXIMAGE_SUPPORT_J2K
 	{
-	if ((format=CxImageJ2K::CheckFormat(buffer,size)).format!=CXIMAGE_FORMAT_UNKNOWN) 
-		return format;
+	if (CxImageJ2K::CheckFormat(buffer,size,basic_info)) 
+		return true;
 	}
 #endif*/
 /*#if CXIMAGE_SUPPORT_JBG
 	{
-	if ((format=CxImageJBG::CheckFormat(buffer,size)).format!=CXIMAGE_FORMAT_UNKNOWN) 
-		return format;
+	if (CxImageJBG::CheckFormat(buffer,size,basic_info)) 
+		return true;
 	}
 #endif*/
 /*#if CXIMAGE_SUPPORT_JASPER
 	{
-	if ((format=CxImageJAS::CheckFormat(buffer,size)).format!=CXIMAGE_FORMAT_UNKNOWN) 
-		return format;
+	if (CxImageJasper::CheckFormat(buffer,size,basic_info)) 
+		return true;
 	}
 #endif*/
 
-	return create_basic_image_information(CXIMAGE_FORMAT_UNKNOWN,0,0);
+	return false;
 }
 ////////////////////////////////////////////////////////////////////////////////
 #endif //CXIMAGE_SUPPORT_DECODE

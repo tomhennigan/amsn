@@ -22,9 +22,9 @@
 #define TGA_CompMap 32
 #define TGA_CompMap4 33
 
-basic_image_information CxImageTGA::CheckFormat(BYTE * buffer, DWORD size){
+bool CxImageTGA::CheckFormat(BYTE * buffer, DWORD size, basic_image_information *basic_info){
 	TGAHEADER *tgaHead;
-	if (size < sizeof(tgaHead)) return create_basic_image_information(CXIMAGE_FORMAT_UNKNOWN,0,0);
+	if (size < sizeof(tgaHead)) return false;
 	tgaHead = (TGAHEADER *)buffer;
 	switch (tgaHead->ImageType){
 	case TGA_Map:
@@ -42,10 +42,11 @@ basic_image_information CxImageTGA::CheckFormat(BYTE * buffer, DWORD size){
 		tgaHead->PixelDepth==16 || 
 		tgaHead->PixelDepth!=24 || 
 		tgaHead->PixelDepth!=32))
-		return create_basic_image_information(CXIMAGE_FORMAT_TGA,tgaHead->ImageWidth,tgaHead->ImageHeight) ;
+		create_basic_image_information(CXIMAGE_FORMAT_TGA,tgaHead->ImageWidth,tgaHead->ImageHeight, basic_info);
+		return true;
 		break;
 	default:
-		return create_basic_image_information(CXIMAGE_FORMAT_UNKNOWN,0,0);
+		return false;
 		break;
 	}
 }

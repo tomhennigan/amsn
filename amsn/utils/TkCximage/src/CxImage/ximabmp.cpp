@@ -39,17 +39,18 @@ bool CxImageBMP::Encode(CxFile * hFile)
 ////////////////////////////////////////////////////////////////////////////////
 #if CXIMAGE_SUPPORT_DECODE
 ////////////////////////////////////////////////////////////////////////////////
-basic_image_information CxImageBMP::CheckFormat(BYTE * buffer, DWORD size){
+bool CxImageBMP::CheckFormat(BYTE * buffer, DWORD size, basic_image_information *basic_info){
 	BITMAPFILEHEADER   *bf;
 	BITMAPINFOHEADER   *bi;
 
 	bf = (BITMAPFILEHEADER *) buffer;
 
-	if (size < (sizeof(*bf)+sizeof(*bi))) return create_basic_image_information(CXIMAGE_FORMAT_UNKNOWN,0,0);
-	if (bf->bfType != BFT_BITMAP) return create_basic_image_information(CXIMAGE_FORMAT_UNKNOWN,0,0);
+	if (size < (sizeof(*bf)+sizeof(*bi))) return false;
+	if (bf->bfType != BFT_BITMAP) return false;
 	bi = (BITMAPINFOHEADER *) (buffer + sizeof(*bf));
 
-	return create_basic_image_information(CXIMAGE_FORMAT_BMP,bi->biWidth,bi->biHeight);
+	create_basic_image_information(CXIMAGE_FORMAT_BMP,bi->biWidth,bi->biHeight, basic_info);
+	return true;
 }
 
 

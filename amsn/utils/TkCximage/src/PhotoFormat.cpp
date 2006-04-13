@@ -99,7 +99,7 @@ int ObjMatch (Tcl_Obj *data, Tcl_Obj *format, int *widthPtr, int *heightPtr, Tcl
 
   buffer = Tcl_GetByteArrayFromObj(data, &length);
 
-  if ((fmt=CxImage::CheckFormat(buffer,length)).format!=CXIMAGE_FORMAT_UNKNOWN) {
+  if (CxImage::CheckFormat(buffer,length,&fmt)) {
     LOG("Supported Format : "); //
     APPENDLOG(fmt.format);
     LOG("Size : ");

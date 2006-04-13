@@ -52,14 +52,15 @@ CxImageJPG::~CxImageJPG()
 #endif
 }
 
-basic_image_information CxImageJPG::CheckFormat(BYTE * buffer, DWORD size){
+bool CxImageJPG::CheckFormat(BYTE * buffer, DWORD size, basic_image_information *basic_info){
 	CxImageJPG img;
 	CxMemFile hFile(buffer,size);
 	img.SetEscape(-1);
 	if (img.Decode(&hFile) == true) {
-		return create_basic_image_information(CXIMAGE_FORMAT_JPG,img.GetWidth(),img.GetHeight());
+		create_basic_image_information(CXIMAGE_FORMAT_JPG,img.GetWidth(),img.GetHeight(),basic_info);
+		return true;
 	} else {
-		return create_basic_image_information(CXIMAGE_FORMAT_UNKNOWN,0,0);
+		return false;
 	}
 }
 
