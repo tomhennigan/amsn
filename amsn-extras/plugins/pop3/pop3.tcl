@@ -1046,6 +1046,8 @@ namespace eval ::pop3 {
 			}
 		}
 		set gmail(data) [array get $gmail(1stpage)]
+		array unset $gmail(1stpage)
+
 #plugins_log "pop3" "(GMAIL)(data1)\n$gmail(data)"
 		#we get the URL of the next page we're going to "browse"
 		set gmail(URL_2ndpage) ""
@@ -1058,10 +1060,11 @@ namespace eval ::pop3 {
 		#2nd page !
 		set gmail(2ndpage) [http::geturl $gmail(URL_2ndpage) -headers $gmail(headers) -validate 0 ]
 		set gmail(URL_3rdpage) ""
-		set gmail(data2) [array get $gmail(2ndpage)]
 
+#set gmail(data2) [array get $gmail(2ndpage)]
 #plugins_log "pop3" "(GMAIL)(data2)\n$gmail(data2)"
 		set gmail(data2) [::http::data $gmail(2ndpage)]
+		array unset $gmail(2ndpage)
 		set pos1 [expr [string first "<meta content=\"0\;" $gmail(data2)] + 22]
 		set pos2 [expr [string first "\" http-equiv=\"refresh\"" $gmail(data2) $pos1] -1]
 		set gmail(URL_3rdpage) [string range $gmail(data2) $pos1 $pos2]
@@ -1090,7 +1093,8 @@ namespace eval ::pop3 {
 				
 			}
 		}
-		
+
+		array unset $gmail(3rdpage)
 		lappend gmail(cookies_to_4thpage) "SID=$gmail(SID)"
 		set gmail(URL_4thpage) "https://mail.google.com"
 		set gmail(null) ""
@@ -1101,13 +1105,14 @@ namespace eval ::pop3 {
 			"Referer" "https://www.google.com/accounts/ServiceLogin?service=mail&passive=true&rm=false&continue=https%3A%2F%2Fmail.google.com%2Fmail%3Fui%3Dhtml%26zy%3Dl&ltmpl=yj_blanco&ltmplcache=2" \
 			"Cookie" [join $gmail(cookies_to_4thpage) {;}]]
 		set gmail(4thpage) [http::geturl [urldecode $gmail(URL_4thpage)] -headers $gmail(headers) -validate 0 ]
-		set gmail(data4) [array get $gmail(4thpage)]
-#plugins_log "pop3" "(GMAIL)(data4)\n$gmail(data4)"
+		set gmail(dataINBOX) [array get $gmail(4thpage)]
+#plugins_log "pop3" "(GMAIL)(dataINBOX)\n$gmail(dataINBOX)"
 		
 		#4th page ! The Final one !
 		set gmail(Unreads) 0
 		#get the data of the third page, the "inbox" page.
 		set gmail(dataINBOX) [::http::data $gmail(4thpage)]
+		array unset $gmail(4thpage)		
 		set gmail(dataINBOX) [split $gmail(dataINBOX) "\n"]
 		set gmail(text_line) [lindex $gmail(dataINBOX) 0]
 		#now, parsing !
@@ -1166,6 +1171,7 @@ namespace eval ::pop3 {
 			cmsn_draw_online
 			::pop3::notify $acntn
 		}
+		array unset gmail
 	}
 }
 
