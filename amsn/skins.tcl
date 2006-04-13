@@ -266,11 +266,11 @@ namespace eval ::skin {
 
 		set barheight [image height [loadPixmap colorbar]]
 		set barwidth [image width [loadPixmap colorbar]]
-		set barendwidth [expr $barwidth - 11]
+		set barendwidth [expr {$barwidth - 11}]
 		if { $width < $barwidth } {
 			set width $barwidth
 		}
-		set barendstart [expr $width - $barendwidth]
+		set barendstart [expr {$width - $barendwidth}]
 
 
 		# Create the color bar copying from the pixmap
@@ -278,7 +278,7 @@ namespace eval ::skin {
 		mainbar blank
 		mainbar copy [loadPixmap colorbar] -from 0 0 10 $barheight
 		mainbar copy [loadPixmap colorbar] -from 10 0 11 $barheight -to 10 0 $barendstart $barheight
-		mainbar copy [loadPixmap colorbar] -from [expr $barwidth - $barendwidth] 0 $barwidth $barheight -to $barendstart 0 $width $barheight
+		mainbar copy [loadPixmap colorbar] -from [expr {$barwidth - $barendwidth}] 0 $barwidth $barheight -to $barendstart 0 $width $barheight
 
 		set pgbuddy_colorbar_width $win_width
 		set ::skin::loaded_images(colorbar) 1
@@ -545,7 +545,7 @@ namespace eval ::skin {
 	#Theses 2 procs are used in ::skin::GetSkinFile
 	proc filenoext { filename } {
 		if {[string last . $filename] != -1 } {
-			return "[string range $filename 0 [expr [string last . $filename] - 1]]"
+			return "[string range $filename 0 [expr {[string last . $filename] - 1}]]"
 		} else {
 			return $filename
 		}
@@ -567,7 +567,7 @@ namespace eval ::skin {
 		upvar $saved_data sdata
 
 		foreach key [array names sdata] {
-			set skin([string range $key [expr [string length $cstack] + 1] [string length $key]]) [string trim $sdata($key)]
+			set skin([string range $key [expr {[string length $cstack] + 1}] [string length $key]]) [string trim $sdata($key)]
 		}
 
 		return 0
@@ -616,7 +616,7 @@ namespace eval ::skin {
 	proc SetConfigKeys {cstack cdata saved_data cattr saved_attr args} {
 		upvar $saved_data sdata
 		foreach key [array names sdata] {
-			::skin::setKey [string range $key [expr [string length $cstack] + 1] [string length $key]] [string trim $sdata($key)]
+			::skin::setKey [string range $key [expr {[string length $cstack] + 1}] [string length $key]] [string trim $sdata($key)]
 		}
 
 		# This bits are used to override certain keys loaded before with specific values for MacOS X (TkAqua)

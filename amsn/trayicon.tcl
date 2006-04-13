@@ -82,7 +82,7 @@ proc trayicon_init {} {
 	destroy .trayiconwin
 	toplevel .trayiconwin -class Amsn
 	wm overrideredirect .trayiconwin 1
-	wm geometry .trayiconwin "+0+[expr 2 * [winfo screenheight .]]"
+	wm geometry .trayiconwin "+0+[expr {2 * [winfo screenheight .]}]"
 	wm state .trayiconwin withdrawn
 	destroy .trayiconwin.immain
 	set iconmenu .trayiconwin.immain
@@ -162,7 +162,7 @@ proc taskbar_icon_handler { msg x y } {
 
 		#workaround for bug with the popup not unposting
 		wm state .trayiconwin normal
-		wm geometry .trayiconwin "+0+[expr 2 * [winfo screenheight .]]"
+		wm geometry .trayiconwin "+0+[expr {2 * [winfo screenheight .]}]"
 		focus -force .trayiconwin
 
 		tk_popup $iconmenu [expr "$x + 85"] [expr "$y - 11"] [$iconmenu index end]

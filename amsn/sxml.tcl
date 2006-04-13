@@ -291,7 +291,7 @@ namespace eval sxml {
 	set path [string tolower $path]
 	set x [lsearch -exact $xml_procs($id) $path]
 	if { $x !=-1 } {
-	    set xml_procs($id) [lreplace $xml_procs($id) $x [expr $x + 1] $path $proc]
+	    set xml_procs($id) [lreplace $xml_procs($id) $x [expr {$x + 1}] $path $proc]
 	    return 0
 	}
 
@@ -421,7 +421,7 @@ proc do_extended_proc_search {proclist cstack} {
     if { $y < 1 } {
 	return -1
     }
-    set searchfor [join [lrange $els 0 [expr $y - 2]] ":"]
+    set searchfor [join [lrange $els 0 [expr {$y - 2}]] ":"]
     if { "$searchfor" == "" } {
 	set searchfor "*"
     } else {
@@ -468,8 +468,8 @@ proc parse {id} {
 
     set trace $xml_attrs(${id}_trace)
 
-    set xml_s_len [expr [string length $xml_cdata_start] - 1]
-    set xml_e_len [expr [string length $xml_cdata_end] - 1]
+    set xml_s_len [expr {[string length $xml_cdata_start] - 1}]
+    set xml_e_len [expr {[string length $xml_cdata_end] - 1}]
 
     #################################################################
     # Check for the special _default_ handler and ensure this	#
@@ -477,7 +477,7 @@ proc parse {id} {
     #################################################################
 
     set have_default [lsearch -exact $xml_procs($id) _default_]
-    if { $have_default == -1 || [expr $have_default % 3] != 0 } {
+    if { $have_default == -1 || [expr {$have_default % 3}] != 0 } {
 	set defproc ""
     } else {
 	incr have_default
@@ -531,7 +531,7 @@ proc parse {id} {
 		#################################################
 		# Cope with --> end comments...			#
 		#################################################
-		set ch3 [string range $cline $c [expr $c + 2]]
+		set ch3 [string range $cline $c [expr {$c + 2}]]
 		if { "$ch3" == "-->" } {
 		    set status $prev_status
 		    incr c 3; continue
@@ -539,7 +539,7 @@ proc parse {id} {
 		if { "$ch" != "?" } {
 		    incr c; continue
 		}
-		set ch2 [string index $cline [expr $c + 1] ]
+		set ch2 [string index $cline [expr {$c + 1}] ]
 		if { "$ch2" == ">" } {
 		    set status $prev_status
 		    incr c 2; continue
@@ -575,7 +575,7 @@ proc parse {id} {
 		    #########################################
 		    # Look for <!-- comment start tag	#
 		    #########################################
-		    set ch3 [string range $cline $c [expr $c + 2]]
+		    set ch3 [string range $cline $c [expr {$c + 2}]]
 		    if { "$ch3" == "!--" } {
 			set status 4
 			set prev_status 0
@@ -609,7 +609,7 @@ proc parse {id} {
 			    }
 			    return -2
 			}
-			set xx [string range $xx 0 [expr $xx2 - 1] ]
+			set xx [string range $xx 0 [expr {$xx2 - 1}] ]
 			if { [catch {set ctag_attrs [xml_tag_attrs_to_str $xx empty_ctag $xml_cdata_parse($id)]}] } {
 			    if { $xml_attrs(${id}_silent) == 0 } {
 				puts stderr "Current stack: $cstack:$tag"
@@ -693,15 +693,15 @@ proc parse {id} {
 		# at current position, or the end tag...	#
 		#################################################
 
-		if { "[string range $cline $c [expr $c + $xml_s_len]]" == $xml_cdata_start } {
+		if { "[string range $cline $c [expr {$c + $xml_s_len}]]" == $xml_cdata_start } {
 		    set xml_cdata_parse($id) 1
-		    incr c [expr $xml_s_len + 1]
+		    incr c [expr {$xml_s_len + 1}]
 		    continue
 		}
 
-		if { "[string range $cline $c [expr $c + $xml_e_len]]" == $xml_cdata_end } {
+		if { "[string range $cline $c [expr {$c + $xml_e_len}]]" == $xml_cdata_end } {
 		    set xml_cdata_parse($id) 0
-		    incr c [expr $xml_e_len + 1]
+		    incr c [expr {$xml_e_len + 1}]
 		    continue
 		}
 
@@ -782,7 +782,7 @@ proc parse {id} {
 		    set cdata "$xml_data_stack($cstack)"
 		}
 		set xml_data_stack($cstack) "$cdata"
-		if { ( $x ==-1 || [expr $x % 3] != 0 ) && $xml_attrs(${id}_extended) == 1 } {
+		if { ( $x ==-1 || [expr {$x % 3}] != 0 ) && $xml_attrs(${id}_extended) == 1 } {
 		    #################################
 		    # If wild carding has been 	#
 		    # enabled then perform an extra	#
@@ -790,7 +790,7 @@ proc parse {id} {
 		    #################################
 		    set x [do_extended_proc_search $xml_procs($id) $cstack]
 		}
-		if { $x ==-1 || [expr $x % 3] != 0 } {
+		if { $x ==-1 || [expr {$x % 3}] != 0 } {
 		    #################################
 		    # Check for default handler...	#
 		    #################################
@@ -823,7 +823,7 @@ proc parse {id} {
 			}
 		    }
 		} else {
-		    set proc [lindex $xml_procs($id) [expr $x + 1]]
+		    set proc [lindex $xml_procs($id) [expr {$x + 1}]]
 		    if { "$trace" >= 1 } {
 			puts "Trace: Calling proc $proc"
 		    }

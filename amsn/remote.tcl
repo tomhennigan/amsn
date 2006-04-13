@@ -272,7 +272,7 @@ proc read_remote { command sock } {
 
 proc md5keygen { } { 
 	set key [expr rand()]
-	set key [expr $key * 1000000]
+	set key [expr {$key * 1000000}]
 
 	return "$key"
 }
