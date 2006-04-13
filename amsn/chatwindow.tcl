@@ -568,7 +568,7 @@ namespace eval ::ChatWindow {
  		set info2 [winfo y $window]
  		#Determine the maximum place in Y to place a window
  		#Size of the screen (in y) - size of the window
- 		set max [expr [winfo vrootheight $window] - [winfo height $window]]
+ 		set max [expr {[winfo vrootheight $window] - [winfo height $window]}]
  		#If the position of the window in y is superior to the maximum
  		#Then up the window by the size of the window
  		if { $info2 > $max } { 
@@ -1470,7 +1470,7 @@ namespace eval ::ChatWindow {
 		}
 		
 		set toX [::skin::getKey topbarpadx]
-		set usrsX [expr $toX + [font measure bplainf "[trans to]:"] + 5]
+		set usrsX [expr {$toX + [font measure bplainf "[trans to]:"] + 5}]
 		set txtY [::skin::getKey topbarpady]
 		
 		$top create text $toX $txtY -fill [::skin::getKey topbartext] -state disabled -font bplainf -text "[trans to]:" -anchor nw -tag to
@@ -1478,7 +1478,7 @@ namespace eval ::ChatWindow {
 		$top create text $usrsX $txtY -fill [::skin::getKey topbartext] -state disabled -font sboldf -anchor nw -tag text
 		
 		#As the contact list isn't filled we set the height to fit with the To field
-		$top configure -height [expr [::ChatWindow::MeasureTextCanvas $top "to" [$top itemcget to -text] "h"] + 2*[::skin::getKey topbarpady]]
+		$top configure -height [expr {[::ChatWindow::MeasureTextCanvas $top "to" [$top itemcget to -text] "h"] + 2*[::skin::getKey topbarpady]}]
 
 		return $top
 	}
@@ -2130,9 +2130,9 @@ namespace eval ::ChatWindow {
 
             # If the current tab is the last go the the first, else go to the next.
             if { $tabPos == 0 } {
-                set nextTab [expr [llength $windows] - 1]
+                set nextTab [expr {[llength $windows] - 1}]
             } else {
-                set nextTab [expr $tabPos - 1]
+                set nextTab [expr {$tabPos - 1}]
             }
 
             SwitchToTab $container [lindex $windows $nextTab]
@@ -2153,10 +2153,10 @@ namespace eval ::ChatWindow {
             set tabPos [lsearch $windows $currentWin]
 
             # If the current tab is the last go the the first, else go to the next.
-            if { $tabPos == [expr [llength $windows] - 1] } {
+            if { $tabPos == [expr {[llength $windows] - 1}] } {
                 set nextTab 0
             } else {
-                set nextTab [expr $tabPos + 1]
+                set nextTab [expr {$tabPos + 1}]
             }
 
             SwitchToTab $container [lindex $windows $nextTab]
@@ -2237,13 +2237,13 @@ namespace eval ::ChatWindow {
 		set font [$widget itemcget $id -font]
 		if { $dimension == "w" } {
 			if { $font != "" } {
-				set idx [expr [string first "\n" $text] - 1] 
+				set idx [expr {[string first "\n" $text] - 1}] 
 				if { $idx < 0 } { set idx end }
 				set m [font measure $font -displayof $widget [string range $text \
 					0 $idx]]
 				return $m
 			} else {
-				set idx [expr [string first "\n" $text] - 1] 
+				set idx [expr {[string first "\n" $text] - 1}] 
 				if { $idx < 0 } { set idx end }
 				set f [font create -family helvetica -size 12 -weight normal]
 				set m [font measure $f -displayof $widget [string range $text \
@@ -2256,12 +2256,12 @@ namespace eval ::ChatWindow {
 				#Get number of lines
 				set n [llength [split $text "\n"]]
 				#Multiply font size by no. lines and add gap between lines * (no. lines - 1).
-				return [expr $n * [font configure $font -size] + (($n - 1) * 7)]
+				return [expr {$n * [font configure $font -size] + (($n - 1) * 7)}]
 			} else {
 				#Get number of lines
 				set n [llength [split $text "\n"]]
 				#Multiply font size by no. lines and add gap between lines * (no. lines - 1).
-				return [expr ($n * 12) + (($n - 1) * 7)]
+				return [expr {($n * 12) + (($n - 1) * 7)}]
 			}
 		}
 	}
@@ -2420,7 +2420,7 @@ namespace eval ::ChatWindow {
 		
 		$top dchars text [expr {$size - 1}] end
 		
-		$top configure -height [expr [MeasureTextCanvas $top "text" [$top itemcget text -text] "h"] + 2*[::skin::getKey topbarpady]]
+		$top configure -height [expr {[MeasureTextCanvas $top "text" [$top itemcget text -text] "h"] + 2*[::skin::getKey topbarpady]}]
 
 		if { [GetContainerFromWindow $win_name] == "" } {
 			if { [info exists ::ChatWindow::new_message_on(${win_name})] && $::ChatWindow::new_message_on(${win_name}) == "asterisk" } {
@@ -2514,8 +2514,8 @@ namespace eval ::ChatWindow {
 		if { $win == [GetCurrentWindow [winfo toplevel $win]] } { return }
 
 		set tab $win2tab($win)
-		set container [string range $tab 0 [expr [string last "." $tab] - 1] ]
-		set container [string range $container 0 [expr [string last "." $container] -1] ]
+		set container [string range $tab 0 [expr {[string last "." $tab] - 1]} ]
+		set container [string range $container 0 [expr {[string last "." $container] -1]} ]
 
 		#if tab is not visible, then we should change the color of the < or > button
 		#to let know there is an invisible tab flickering (an incoming message)
@@ -2554,7 +2554,7 @@ namespace eval ::ChatWindow {
 
 		set count [set winflicker($win)]
 
-		if { [expr $count % 2] == 0 } {
+		if { [expr {$count % 2}] == 0 } {
 			$tab itemconfigure tab_bg -image [::skin::loadPixmap tab_flicker]
 		} else {
 			$tab itemconfigure tab_bg -image [::skin::loadPixmap tab]	
@@ -2946,7 +2946,7 @@ namespace eval ::ChatWindow {
 		#set less_w [font measure sboldf <]
 		#set more_w [font measure sboldf >]
 
-		set bar_w [expr $bar_w - $less_w - $more_w]
+		set bar_w [expr {$bar_w - $less_w - $more_w}]
 		
 
 		set max_tabs [expr {int(floor($bar_w / $tab_w))}]
@@ -3088,9 +3088,9 @@ namespace eval ::ChatWindow {
 			set first_idx [lsearch $windows [lindex $visible 0]]
 		}
 		
-		set visible [lrange $windows $first_idx [expr $first_idx + $max - 1]]
+		set visible [lrange $windows $first_idx [expr {$first_idx + $max - 1}]]
 		if { [llength $visible] < $max } {
-			set visible [lrange $windows end-[expr $max -1] end]
+			set visible [lrange $windows end-[expr {$max -1}] end]
 		}
 
 		set visibletabs($container) $visible
@@ -3241,7 +3241,7 @@ namespace eval ::ChatWindow {
 				} 
 				image {
 					if { [string first "#" $value] != -1 } {
-						set value [string range $value 0 [expr [string last "#" $value] -1]]
+						set value [string range $value 0 [expr {[string last "#" $value] -1}]]
 					}
 					$w image create $index -image $value
 				}

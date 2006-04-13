@@ -214,7 +214,7 @@ proc CreateStatesMenu { path } {
 		CreateStatesMenu $iconmenu.imstatus
 	}
 	if { [::config::getKey use_dock] && [winfo exists $iconmenu.imstatus] && $path == "$iconmenu.imstatus" } {
-		$path delete [expr "[$path index end] - 3"] end
+		$path delete [expr {[$path index end] - 3}] end
 	}
 }
 	

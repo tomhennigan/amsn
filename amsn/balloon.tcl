@@ -103,11 +103,11 @@ proc balloon {target message pic {cx 0} {cy 0} } {
 	}
 	
 	if { $cx == 0 && $cy == 0 } {
-	    set x [expr [winfo rootx ${target}] + ([winfo width ${target}]/2)]
-	    set y [expr [winfo rooty ${target}] + [winfo height ${target}] + 2]
+	    set x [expr {[winfo rootx ${target}] + ([winfo width ${target}]/2)}]
+	    set y [expr {[winfo rooty ${target}] + [winfo height ${target}] + 2}]
 	} else {
-	    set x [expr $cx + 12]
-	    set y [expr $cy + 2]
+	    set x [expr {$cx + 12}]
+	    set y [expr {$cy + 2}]
 	}
 	
 	if { [catch { toplevel .balloon -bg [::skin::getKey balloonborder]}] != 0 } {
@@ -128,9 +128,9 @@ proc balloon {target message pic {cx 0} {cy 0} } {
 	frame .balloon.f -bg [::skin::getKey balloonbackground]
 	
 	if {$tcl_platform(platform) == "windows"} {
-		set bw [expr [::skin::getKey balloonborderwidth]]
+		set bw [::skin::getKey balloonborderwidth]
 	} else {
-		set bw [expr [::skin::getKey balloonborderwidth] - 1 ]
+		set bw [expr {[::skin::getKey balloonborderwidth] - 1 }]
 		if {$bw < 0} {
 			set bw 0
 		}
@@ -159,9 +159,9 @@ proc balloon {target message pic {cx 0} {cy 0} } {
 	    -text ${message} -relief flat \
 	    -bg [::skin::getKey balloonbackground] -fg [::skin::getKey balloontext] -padx 2 -pady 0 -anchor w -font [::skin::getKey balloonfont] -justify left -wraplength $wlength
 	if {$tcl_platform(platform) == "windows"} {
-		set bw [expr [::skin::getKey balloonborderwidth]]
+		set bw [::skin::getKey balloonborderwidth]
 	} else {
-		set bw [expr [::skin::getKey balloonborderwidth] - 1 ]
+		set bw [expr {[::skin::getKey balloonborderwidth] - 1 }]
 		if {$bw < 0} {
 			set bw 0
 		}
