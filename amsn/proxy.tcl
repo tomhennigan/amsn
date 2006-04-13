@@ -38,6 +38,47 @@ proc globalWrite { proxy name {msg ""} } {
 	}
 }
 
+#The only way to get HTTP proxy + SSL to work...
+#http://wiki.tcl.tk/2627
+proc secureSocket { args } {
+	set phost [::http::config -proxyhost]
+	set pport [::http::config -proxyport]
+	upvar host thost
+	upvar port tport
+
+	# if a proxy has been configured
+	if {[string length $phost] && [string length $pport]} {
+		# not a gret way to do authentication, but it works here
+		set auth ""
+		if [regexp {([^:]+):([^@]+)@(.+)} $phost x user pass phost] {
+			set auth "Proxy-Authorization: Basic [base64::encode $user:$pass]\n"
+		}
+
+		# create the socket to the proxy
+		set socket [socket $phost $pport]
+		fconfigure $socket -blocking 1 -buffering full -translation crlf
+		puts $socket "CONNECT $thost:$tport HTTP/1.1"
+		puts $socket $auth
+		flush $socket
+
+		while {[gets $socket r] > 0} {
+			append reply $r
+		}
+
+		# be sure there's a valid response code
+		if {! [regexp {^HTTP/.* 200} $reply]} {
+			return -code error $reply
+		}
+
+		# now add tls to the socket and return it
+		fconfigure $socket -blocking 0
+		return [::tls::import $socket]
+	}
+
+	# if not proxifying, just create a tls socket directly
+	return [::tls::socket $thost $tport]
+}
+
 ::snit::type Proxy {
 
 	delegate method * to proxy
@@ -359,7 +400,7 @@ proc globalWrite { proxy name {msg ""} } {
 
                 #If SSL is used, register https:// protocol
 #                if { [::config::getKey nossl] == 0 } {
-                        http::register https 443 ::tls::socket
+#                        http::register https 443 ::tls::socket
 #                } else  {
 #                        catch {http::unregister https}
 #                }
@@ -376,6 +417,9 @@ proc globalWrite { proxy name {msg ""} } {
 
 			::http::config -proxyhost $proxy_host -proxyport $proxy_port
 		}
+
+		# http://wiki.tcl.tk/2627 :(
+		http::register https 443 secureSocket
 
 #		set ::login_passport_url "https://login.passport.com/login2.srf"
 #		        if { [::config::getKey nossl] == 1 } {
