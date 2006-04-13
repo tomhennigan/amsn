@@ -48,10 +48,11 @@ proc secureSocket { args } {
 
 	# if a proxy has been configured
 	if {[string length $phost] && [string length $pport]} {
-		# not a gret way to do authentication, but it works here
 		set auth ""
-		if [regexp {([^:]+):([^@]+)@(.+)} $phost x user pass phost] {
-			set auth "Proxy-Authorization: Basic [base64::encode $user:$pass]\n"
+		if { [::config::getKey proxyauthenticate] } {
+			set proxy_user [::config::getKey proxyuser]
+			set proxy_pass [::config::getKey proxypass]
+			set auth "Proxy-Authorization: Basic [base64::encode $proxy_user:$proxy_pass]\n"
 		}
 
 		# create the socket to the proxy
