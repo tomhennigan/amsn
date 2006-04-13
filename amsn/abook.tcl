@@ -1132,7 +1132,7 @@ namespace eval ::abookGui {
 			if { [string index [set colorval_$email] 0] == "#" } {
 				set colorval_$email [string range [set colorval_$email] 1 end]
 			}
-			set colorval_$email "#[string repeat 0 [expr {6-[string length [set colorval_$email]}]]][set colorval_$email]"
+			set colorval_$email "#[string repeat 0 [expr {6-[string length [set colorval_$email]]}]][set colorval_$email]"
 			#If the color is white we can't see the contact on the list : we ignore the custom color
 			$nbIdent.customcolorf.col configure -background [set colorval_${email}] -highlightthickness 1 
 		} else {
