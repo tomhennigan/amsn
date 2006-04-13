@@ -148,31 +148,31 @@ proc globalWrite { proxy name {msg ""} } {
 		global tlsinstalled login_passport_url
 
 		#Check if we need to install the TLS module
-		if { $tlsinstalled == 0 && [checking_package_tls] == 0 && [::config::getKey nossl] == 0} {
+		if { $tlsinstalled == 0 && [checking_package_tls] == 0} {
 			::autoupdate::installTLS
 			return -1
 		}
 
 		#If SSL is used, register https:// protocol
-		if { [::config::getKey nossl] == 0 } {
+#		if { [::config::getKey nossl] == 0 } {
 			http::register https 443 ::tls::socket
-		} else  {
-			catch {http::unregister https}
-		}
+#		} else  {
+#			catch {http::unregister https}
+#		}
 
 		#No proxy is used
 		::http::config -proxyhost ""
 
-		if { [::config::getKey nossl] == 1 } {
-			#If we can't use ssl, avoid getting url from nexus
-			set login_passport_url "https://login.passport.com/login2.srf"
-		} else {
+#		if { [::config::getKey nossl] == 1 } {
+#			#If we can't use ssl, avoid getting url from nexus
+#			set login_passport_url "https://login.passport.com/login2.srf"
+#		} else {
 			#Contact nexus to get login url
 			set login_passport_url 0
 			degt_protocol $self
 
 			after 0 "catch {::http::geturl [list https://nexus.passport.com/rdr/pprdr.asp] -timeout 10000 -command {globalGotNexusReply $self}}"
-		}
+#		}
 	}
 
 	method authenticate {str url} {
@@ -181,9 +181,9 @@ proc globalWrite { proxy name {msg ""} } {
 		#if { [::config::getKey nossl] == 1 || ([::config::getKey connectiontype] != "direct" && [::config::getKey connectiontype] != "http") } {
 		#	set url [string map { https:// http:// } $url]
 		#}
-		if { [::config::getKey nossl] == 1 } {
-			set url [string map { https:// http:// } $url]
-		}
+#		if { [::config::getKey nossl] == 1 } {
+#			set url [string map { https:// http:// } $url]
+#		}
 		status_log "::DirectConnection::authenticate: Getting $url\n" blue
 		if { [catch {::http::geturl $url -command "globalGotAuthReply $self [list $str]" -headers $head}] } {
 			eval [ns cget -autherror_handler]
@@ -352,17 +352,17 @@ proc globalWrite { proxy name {msg ""} } {
 		global tlsinstalled login_passport_url
 
                 #Check if we need to install the TLS module
-                if { $tlsinstalled == 0 && [checking_package_tls] == 0 && [::config::getKey nossl] == 0} {
+                if { $tlsinstalled == 0 && [checking_package_tls] == 0} {
                         ::autoupdate::installTLS
                         return -1
                 }
 
                 #If SSL is used, register https:// protocol
-                if { [::config::getKey nossl] == 0 } {
-                        http::register https 443 ::tls::socket
-                } else  {
+#                if { [::config::getKey nossl] == 0 } {
+ #                       http::register https 443 ::tls::socket
+  #              } else  {
                         catch {http::unregister https}
-                }
+   #             }
 
 
 		set proxy_host [ns cget -proxy_host]
@@ -378,16 +378,16 @@ proc globalWrite { proxy name {msg ""} } {
 		}
 
 #		set ::login_passport_url "https://login.passport.com/login2.srf"
-		        if { [::config::getKey nossl] == 1 } {
+#		        if { [::config::getKey nossl] == 1 } {
                         #If we can't use ssl, avoid getting url from nexus
-                        set login_passport_url "https://login.passport.com/login2.srf"
-                } else {
+#                        set login_passport_url "https://login.passport.com/login2.srf"
+#                } else {
                         #Contact nexus to get login url
                         set login_passport_url 0
                         degt_protocol $self
 
                         after 0 "catch {::http::geturl [list https://nexus.passport.com/rdr/pprdr.asp] -timeout 10000 -command {globalGotNexusReply $self}}"
-                }
+#                }
 
 	}
 

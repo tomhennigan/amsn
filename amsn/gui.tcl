@@ -4505,7 +4505,7 @@ proc cmsn_draw_login {} {
 
 	$mainframe.statelist select [get_state_list_idx [::config::getKey connectas]]
 
-	checkbutton $mainframe.nossl -text "[trans disablessl]" -variable [::config::getVar nossl] -padx 10 -command SSLToggled
+#	checkbutton $mainframe.nossl -text "[trans disablessl]" -variable [::config::getVar nossl] -padx 10 -command SSLToggled
 
 	label $mainframe.example -text "[trans examples] :\ncopypastel@hotmail.com\nelbarney@msn.com\nexample@passport.com" -font examplef -padx 10
 
@@ -4530,7 +4530,7 @@ proc cmsn_draw_login {} {
 	grid $mainframe.example -row 1 -column 4 -rowspan 4
 
 	#if { [::config::getGlobalKey disableprofiles] != 1 } {
-		grid $mainframe.nossl -row 7 -column 1 -sticky en -columnspan 4
+#		grid $mainframe.nossl -row 7 -column 1 -sticky en -columnspan 4
 	#}
 
 	pack .login.main .login.buttons -side top -anchor n -expand true -fill both -padx 10 -pady 10
