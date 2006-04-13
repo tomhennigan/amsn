@@ -428,6 +428,7 @@ logsout vient juste de se déconnecter
 logwebcam Enregister toutes les sessions webcam sessions dans l'historique d'aMSN pour une lecture ultèrieure
 longnick Votre pseudonyme est supèrieur à 130 caractères. Ce n'est pas supporté officiellement par le protocol MSN. Etes-vous sûrs de vouloir le mettre ?
 longp4c Votre pseudonyme de conversation dépasse les 130 caractères. Le client MSN officiel affichera $1. Voulez-vous continuer ?
+lowrescam Utilisation d'une webcam à basse résolution
 lprivtoconf Conversation privée changée en conférence avec $1
 luclosedwin Vous avez fermé la fenêtre le $1
 mailerexample (\$recipient = destinataire) Laisser vide pour utiliser Hotmail
@@ -486,6 +487,7 @@ noneavailable Pas disponible
 nonewmail Pas de nouveau message
 nonewver Il n'y a pas de nouvelle version disponible
 no Non
+nocacheddps Il n'y a pas d'avatars enregistrés pour cet utilisateur
 nopic Pas d'avatar
 noprofileexists Utiliser les profils... \nUtiliser le boutton Ajouter nouveau profil dans cette fenetre pour en créer un nouveau.
 normal Ordre normal
