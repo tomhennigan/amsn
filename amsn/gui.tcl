@@ -1130,7 +1130,7 @@ namespace eval ::amsn {
 	proc FTWin {cookie filename user {chatid 0}} {
 		status_log "Creating receive progress window\n"
 
-		if { [string range $filename [expr [string length $filename] - 11] [string length $filename]] == ".incomplete" } {
+		if { [string range $filename [expr {[string length $filename] - 11}] [string length $filename]] == ".incomplete" } {
 			set filename [filenoext $filename]
 		}
 
@@ -2812,7 +2812,7 @@ namespace eval ::amsn {
 				#Remove line below and aMSN Plus causes bug report
 				set visible_chars $all_chars
 				[::ChatWindow::GetOutText ${win_name}] search -regexp -count visible_chars .* end-1l end-1c
-				set elided_chars [expr $all_chars - $visible_chars + 1]
+				set elided_chars [expr {$all_chars - $visible_chars + 1}]
 				set text_start $text_start-${elided_chars}c
 			}
 		}
@@ -4587,7 +4587,7 @@ proc get_state_list_idx { value } {
 	
 	for {set idx 0} {$idx < [StateList size] } { incr idx } {
 		if {"** [lindex [StateList get $idx] 0] **" == $value} {
-			return [expr 8 + $idx]
+			return [expr {8 + $idx}]
 		}
 	}
 
@@ -5279,7 +5279,7 @@ proc cmsn_draw_online_wrapped {} {
 			if { [string index $custom_colour 0] == "#" } {
 				set custom_colour [string range $custom_colour 1 end]
 			}
-			set custom_colour "#[string repeat 0 [expr 6-[string length $custom_colour]]]$custom_colour"
+			set custom_colour "#[string repeat 0 [expr {6-[string length $custom_colour]}]]$custom_colour"
 			#If the color is the same that the colour of the CL we can't see the contact on the list : we ignore the custom color
 			if { $custom_colour != [::skin::getKey topcontactlistbg] } {
 				set colour $custom_colour
@@ -5496,11 +5496,11 @@ proc parseCurrentMedia {currentMedia} {
 
 	set pattern [lindex $infos 3]
 
-	set nrParams [expr [llength $infos] - 4]
+	set nrParams [expr {[llength $infos] - 4}]
 	set lstMap [list]
 	for {set idx 0} {$idx < $nrParams} {incr idx} {
 		lappend lstMap "\{$idx\}"
-		lappend lstMap [lindex $infos [expr $idx + 4]]
+		lappend lstMap [lindex $infos [expr {$idx + 4}]]
 	}
 
 	append out [string map $lstMap $pattern]
@@ -7016,7 +7016,7 @@ proc urlParserString { str } {
 		set pos [lindex $url_indices 1]
 		set pos_start [lindex $url_indices 0]
 		#check if the url was not found before
-		if { ![regexp :// [string range $str [expr $pos_start - 3] $pos ] ]} {
+		if { ![regexp :// [string range $str [expr {$pos_start - 3}] $pos ] ]} {
 			lappend list2return $pos_start $pos
                 }
 	}

@@ -235,7 +235,7 @@ namespace eval ::groups {
 						if {$gp == $gid} {
 							set name [::abook::getNick ${user_login}]
 							after $timer [list ::MSN::blockUser ${user_login} [urlencode $name]]
-							set timer [expr $timer + 250]
+							set timer [expr {$timer + 250}]
 						}
 					}
 				}
@@ -256,7 +256,7 @@ namespace eval ::groups {
 						#If yes, unblock the user
 						set name [::abook::getNick ${user_login}]
 						after $timer [list ::MSN::unblockUser ${user_login} [urlencode $name]]
-						set timer [expr $timer + 250]
+						set timer [expr {$timer + 250}]
 					}
 				}
 			}
@@ -682,7 +682,7 @@ namespace eval ::groups {
 				set passport2 [split $contact "@ ."]
 				if { [::config::getKey tempcontact_$passport2] == 1 } {
 					
-					set timer [expr $timer + 250]
+					set timer [expr {$timer + 250}]
 					after $timer ::MSN::copyUser $contact $gid
 				}
 				::config::unsetKey tempcontact_$passport2
@@ -847,7 +847,7 @@ namespace eval ::groups {
 		foreach gid $gidlistyes {
 			if {[lsearch [::abook::getGroups $email] $gid] == -1} {
 				after $timer ::MSN::copyUser $email $gid
-				set timer [expr $timer + 250]
+				set timer [expr {$timer + 250}]
 			}
 		}
 
@@ -855,7 +855,7 @@ namespace eval ::groups {
 		foreach gid $gidlistno {
 			if {[lsearch [::abook::getGroups $email] $gid] != -1} {
 				after $timer ::MSN::deleteUser $email $gid
-				set timer [expr $timer + 250]
+				set timer [expr {$timer + 250}]
 			}
 		}
 

@@ -680,7 +680,7 @@ namespace eval ::lang {
 		set list [array get ::lang::Lang$langcode]
 		set index [lsearch $list $array]
 		if { $index != -1 } {
-			return [lindex $list [expr $index + 1]]
+			return [lindex $list [expr {$index + 1}]]
 		} else {
 			return ""
 		}
@@ -692,7 +692,7 @@ namespace eval ::lang {
 		set list [array get ::lang::OnlineLang$langcode]
 		set index [lsearch $list $array]
 		if { $index != -1 } {
-			return [lindex $list [expr $index + 1]]
+			return [lindex $list [expr {$index + 1}]]
 		} else {
 			return ""
 		}

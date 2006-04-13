@@ -218,7 +218,7 @@ namespace eval des {
 		    # For efficiency
 		    set right1 [expr {$right ^ [lindex $keys $i]}]; 
 		    set right2 [expr {((($right >> 4) & 0x0fffffff) | \
-					   (($right << 28) & 0xffffffff)) ^ [lindex $keys [expr $i + 1]]}];
+					   (($right << 28) & 0xffffffff)) ^ [lindex $keys [expr {$i + 1}]]}];
  
 		    # puts "right1: [format %x $right1]";
 		    # puts "right2: [format %x $right2]";
@@ -226,14 +226,14 @@ namespace eval des {
 		    # The result is attained by passing these bytes through the S selection functions
 		    set temp $left;
 		    set left $right;
-		    set right [expr {$temp ^ ([lindex $spfunction2 [expr ($right1 >> 24) & 0x3f]] | \
-						 [lindex $spfunction4 [expr ($right1 >> 16) & 0x3f]] | \
-						 [lindex $spfunction6 [expr ($right1 >>  8) & 0x3f]] | \
-						 [lindex $spfunction8 [expr $right1 & 0x3f]] | \
-						 [lindex $spfunction1 [expr ($right2 >> 24) & 0x3f]] | \
-						 [lindex $spfunction3 [expr ($right2 >> 16) & 0x3f]] | \
-						 [lindex $spfunction5 [expr ($right2 >>  8) & 0x3f]] | \
-						  [lindex $spfunction7 [expr $right2 & 0x3f]])}];
+		    set right [expr {$temp ^ ([lindex $spfunction2 [expr {($right1 >> 24) & 0x3f}]] | \
+						 [lindex $spfunction4 [expr {($right1 >> 16) & 0x3f}]] | \
+						 [lindex $spfunction6 [expr {($right1 >>  8) & 0x3f}]] | \
+						 [lindex $spfunction8 [expr {$right1 & 0x3f}]] | \
+						 [lindex $spfunction1 [expr {($right2 >> 24) & 0x3f}]] | \
+						 [lindex $spfunction3 [expr {($right2 >> 16) & 0x3f}]] | \
+						 [lindex $spfunction5 [expr {($right2 >>  8) & 0x3f}]] | \
+						  [lindex $spfunction7 [expr {$right2 & 0x3f}]])}];
  
 		    # puts "Left iter: [format %x $left]";
 		    # puts "Right iter: [format %x $right]";
@@ -384,9 +384,9 @@ namespace eval des {
 	    set temp [expr {(($right >> 8) ^ $left) & 0x00ff00ff}]
 	    set left [expr {$left ^ $temp}]
 	    set right [expr {$right ^ ($temp << 8)}]
-	    set temp [expr (($left >> 1) ^ $right) & 0x55555555]
-	    set right [expr $right ^ $temp]
-	    set left [expr $left ^ ($temp << 1)]
+	    set temp [expr {(($left >> 1) ^ $right) & 0x55555555}]
+	    set right [expr {$right ^ $temp}]
+	    set left [expr {$left ^ ($temp << 1)}]
 	    
 	    #puts "Left key PC1: [format %x $left]"
 	    #puts "Right key PC1: [format %x $right]"
