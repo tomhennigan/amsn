@@ -359,10 +359,10 @@ proc globalWrite { proxy name {msg ""} } {
 
                 #If SSL is used, register https:// protocol
 #                if { [::config::getKey nossl] == 0 } {
- #                       http::register https 443 ::tls::socket
-  #              } else  {
-                        catch {http::unregister https}
-   #             }
+                        http::register https 443 ::tls::socket
+#                } else  {
+#                        catch {http::unregister https}
+#                }
 
 
 		set proxy_host [ns cget -proxy_host]
@@ -386,7 +386,7 @@ proc globalWrite { proxy name {msg ""} } {
                         set login_passport_url 0
                         degt_protocol $self
 
-                        after 0 "catch {::http::geturl [list https://nexus.passport.com/rdr/pprdr.asp] -timeout 10000 -command {globalGotNexusReply $self}}"
+                        after 10 "::http::geturl [list https://nexus.passport.com/rdr/pprdr.asp] -timeout 10000 -command {globalGotNexusReply $self}"
 #                }
 
 	}
