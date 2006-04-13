@@ -2949,7 +2949,7 @@ namespace eval ::ChatWindow {
 		set bar_w [expr {$bar_w - $less_w - $more_w}]
 		
 
-		set max_tabs [expr {int(floor($bar_w / $tab_w))}]
+		set max_tabs [expr int(floor($bar_w / $tab_w))]
 		set number_tabs [llength [set containerwindows($container)]]
 	
 		set less ${container}.bar.less
