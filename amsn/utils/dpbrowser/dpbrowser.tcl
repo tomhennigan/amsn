@@ -32,7 +32,7 @@ status_log "creating dpbrowser widget $self with arguments $args at $hull"
 		$self configurelist $args
 
 
-		global HOMEp
+		global HOME
 		set email $options(-user)
 		set cachefiles [glob -nocomplain -directory [file join $HOME displaypic cache] *.dat]
 		
