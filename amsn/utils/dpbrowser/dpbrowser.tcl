@@ -195,4 +195,9 @@ puts "sw created"
 		set selected_path $file
 		#select the image in the widget ?
 	}
+	
+	method getselection {} {
+		global selected_path
+		return $selected_path
+	}
 }

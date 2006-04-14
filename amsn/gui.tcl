@@ -7455,7 +7455,7 @@ proc dpBrowser {} {
 	global selected_path
 
 	package require dpbrowser
-
+	
 #TODO: remove this line:
 	load_my_pic
 
@@ -7468,7 +7468,17 @@ proc dpBrowser {} {
 	toplevel $w
 	wm title $w "[trans picbrowser]"
 		
-
+	#Get all the contacts
+	foreach contact [::abook::getAllContacts] {
+		#Selects the contacts who are in our list and adds them to the contact_list
+		if {[string last "FL" [::abook::getContactData $contact lists]] != -1} {
+			lappend contact_list $contact
+		}
+	}
+	#Sorts contacts
+	set contactlist [lsort -dictionary $contact_list]
+	
+	
 	################
 	# First column #
 	################
@@ -7480,7 +7490,19 @@ proc dpBrowser {} {
 	frame $w.moredpstitle -bd 0
 	label $w.moredpstitle.text -text "Dp's in cache for:" -font bboldf
 	#combobox to choose user which configures the widget with -user $user
+
+	set combo $w.moredpstitle.combo
+	combobox::combobox $combo -highlightthickness 0 -width 22  -font splainf -exportselection true -command "configuredpbrowser" -editable false -bg #FFFFFF
+	$combo list delete 0 end
+	$combo list insert end "Select a contact:"
+	foreach contact $contactlist {
+		#put the name of the device in the widget
+		$combo list insert end $contact
+	}
+	catch {$combo select 0}
+
 	pack $w.moredpstitle.text -side left
+	pack $w.moredpstitle.combo -side right
 
 	::dpbrowser $w.mydps -width 3 -user self
 
@@ -7515,7 +7537,7 @@ proc dpBrowser {} {
 	#first column
 	grid $w.mydpstitle -row 0 -column 0 -sticky nw
 	grid $w.mydps -row 1 -column 0 -rowspan 4 -sticky nsew
-	grid $w.moredpstitle -row 5 -column 0 -sticky w
+	grid $w.moredpstitle -row 5 -column 0 -sticky ew
 	grid $w.moredps -row 6 -column 0 -sticky nsew
 	
 	#second column
@@ -7529,7 +7551,11 @@ proc dpBrowser {} {
 }
 
 
-
+proc configuredpbrowser {combowidget selection} {
+	puts "$combowidget $selection"
+	if {$selection == "Select a contact:"} {set selection ""}
+	[winfo toplevel $combowidget].moredps configure -user $selection
+}
 
 
 proc pictureBrowser {} {
