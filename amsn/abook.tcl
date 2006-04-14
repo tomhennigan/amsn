@@ -965,78 +965,26 @@ namespace eval ::abookGui {
    #
    # P U B L I C
    #
-   proc Init {} {
-       variable bgcol
-       ::themes::AddClass ABook * {-background $bgcol} 90
-       ::themes::AddClass ABook Label {-background $bgcol} 90
-       ::themes::AddClass NoteBook * {-background $bgcol} 90
-   }
-   
-	proc userDPs_popup_menu { X Y filename widget } {
-	  # Create pop-up menu if it doesn't yet exists
-	  set the_menu .userDPs_menu
-	  catch {destroy $the_menu}
-	  menu $the_menu -tearoff 0 -type normal
-	  $the_menu add command \
-		-label "[trans copytoclipboard [string tolower [trans filename]]]" \
-		-command "clipboard clear ; clipboard append $filename"
-	  $the_menu add command -label "[trans delete]" \
-		-command "pictureDeleteFile $filename $widget"
-	  $the_menu add command -label "Set as custom display picture for this user" \
-		-command [list ::amsn::messageBox "Sorry, not yet implemented" ok error [trans failed]]
-	  $the_menu add command -label "Set as my display picture" \
-		-command [list set_displaypic $filename]
-		#-command [list ::abookGui::set_userDP_as_mine $filename]
-	  tk_popup $the_menu $X $Y
+   	proc Init {} {
+		variable bgcol
+		::themes::AddClass ABook * {-background $bgcol} 90
+		::themes::AddClass ABook Label {-background $bgcol} 90
+		::themes::AddClass NoteBook * {-background $bgcol} 90
 	}
+   
 
 	proc userDPs_raise_cmd { nb email } { 
-
-		  set nbIdent [$nb getframe userDPs]
-		  set mainFrame [$nbIdent.otherpics.sf getframe]
-
-		  #don't try to redraw the dps if they already are drawed (changing tab)
-		  if {![winfo exists $mainFrame.0]} {
-#			  ::amsn::notifyAdd [trans loadotherdisplaypic $email] ""
-
-
-			  global HOME
-			  set cachefiles [glob -nocomplain -directory [file join $HOME displaypic cache] *.dat]
-			  proc grep { fd re } {
-				  set result 0
-				  while {[gets $fd s] >= 0} {
-					  if [regexp $re $s] { set result 1 }
-				  }
-				  return $result
-			  }
-
-			  set i 0
-			  set dps_per_row 4
-			  set pic_in_use [::abook::getContactData $email displaypicfile ""]
-			  foreach f $cachefiles {
-				if {[string first $pic_in_use $f] == -1} {
-				  set fd [open $f]
-				  if { [grep $fd $email] == 1 } {
-					  if { [catch {set img [image create photo userDP_${email}_$i -file [filenoext $f].png -format cximage]}] } { continue }
-					  button $mainFrame.$i -image $img
-					  bind $mainFrame.$i <Destroy> "catch { image delete userDP_${email}_$i }"
-					  bind $mainFrame.$i <ButtonPress-1> \
-						[list ::abookGui::userDPs_popup_menu %X %Y [filenoext $f].png $mainFrame.$i]
-					  grid $mainFrame.$i \
-						  -row [expr {$i / $dps_per_row}] -column [expr {$i % $dps_per_row}] \
-						  -pady 5 -padx 5
-					  incr i
-				  }
-				  close $fd
-				}
-
-			  }
-			  if {$i == 0} {
-			  	if {![winfo exists $mainFrame.nodps]} {label $mainFrame.nodps -text "\t[trans nocacheddps]" }
-			  	pack $mainFrame.nodps
-			 }
+		package require dpbrowser
+		set nbIdent [$nb getframe userDPs]
+		
+		if { ![winfo exists $nbIdent.otherpics]} {
+			::dpbrowser $nbIdent.otherpics -user $email
+			pack $nbIdent.otherpics -expand true -fill both
 		}
 	}
+		  
+
+
 
 	proc showUserProperties { email } {
 		global colorval_$email
@@ -1302,15 +1250,16 @@ namespace eval ::abookGui {
 		# Other display pictures of user
 		label $nbIdent.titlepic2 -text "[trans otherdisplaypic]" \
 			-font bboldunderf
-		ScrolledWindow $nbIdent.otherpics
-		ScrollableFrame $nbIdent.otherpics.sf
-		set mainFrame [$nbIdent.otherpics.sf getframe]
-		$nbIdent.otherpics setwidget $nbIdent.otherpics.sf
+
+#		ScrolledWindow $nbIdent.otherpics
+#		ScrollableFrame $nbIdent.otherpics.sf
+#		set mainFrame [$nbIdent.otherpics.sf getframe]
+#		$nbIdent.otherpics setwidget $nbIdent.otherpics.sf
 
 		pack $nbIdent.titlepic1 -anchor w -padx 5 -pady 5
 		pack $nbIdent.displaypic -anchor w -padx 7 -pady 5
 		pack $nbIdent.titlepic2 -anchor w -padx 5 -pady 5
-		pack $nbIdent.otherpics -expand true -fill both
+#		pack $nbIdent.otherpics -expand true -fill both
 
 		##########
 		#Common

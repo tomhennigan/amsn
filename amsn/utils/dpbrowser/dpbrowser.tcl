@@ -69,7 +69,7 @@ puts $greps
 				label $entry.img -image userDP_${email}_$i
 				bind $entry <Destroy> "catch { image delete userDP_${email}_$i}"
 				bind $entry.img <ButtonPress-3> \
-					[list $self dp_popup_menu %X %Y [filenoext $file].png $self.$i]
+					[list $self dp_popup_menu %X %Y [filenoext $file].png $entry.img]
 
 #TODO: a tooltip with the full size image
 				bind $entry.img <Enter> ""
