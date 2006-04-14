@@ -1,0 +1,11 @@
+amsn_lang_version 2
+always Alati
+beginendconversation Näita vestluse algust ja lõppu
+checknote Näita kui olen kontakti kohta lisanud märkmeid
+daysnumber X Mitme päeva?
+filetransfert Näita failiedastamisi
+lastsentence Eelmise vestluse viimased laused
+nbdisplay Näidatavaid ridasid:
+noteswritten Sa oled selle kontakti kohta märkmeid lisanud
+talklast Kui viimane vestlus toimus X päeva jooksul
+talkwithin Kui viimane vestlus toimus X päeva eest
