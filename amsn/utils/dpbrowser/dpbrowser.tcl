@@ -34,7 +34,12 @@ status_log "creating dpbrowser widget $self with arguments $args at $hull"
 
 		global HOME
 		set email $options(-user)
-		set cachefiles [glob -nocomplain -directory [file join $HOME displaypic cache] *.dat]
+
+		if {$email == "self"} {
+			set cachefiles [glob -nocomplain -directory [file join $HOME displaypic] *.dat]
+		} else {
+			set cachefiles [glob -nocomplain -directory [file join $HOME displaypic cache] *.dat]	
+		}
 		
 #TODO: set in order of time
 #	use: [file atime $file]	(the last acces time in seconds from a fixed point > not available on FAT)	
@@ -65,6 +70,9 @@ status_log "creating dpbrowser widget $self with arguments $args at $hull"
 
 
 				set greps [$self grep $fd $email]
+				
+
+
 				#if the image belongs to this user, add it
 				if { [lindex $greps 0] } {
 
@@ -131,7 +139,7 @@ status_log "creating dpbrowser widget $self with arguments $args at $hull"
 		#skip the first line as the email is on the second
 		set date [gets $chan]
 		#check the second for $id
-		if {[regexp $id [gets $chan]]} {
+		if {[regexp $id [gets $chan]] || $id == "self"} {
 			return [list 1 $date]
 		} else {
 			return 0
