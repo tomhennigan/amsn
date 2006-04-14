@@ -993,7 +993,7 @@ namespace eval ::plugins {
 	    #the configuration list is empty which means load_config
 	    #makes loadedplugins empty
 	    if {[llength $loadedplugins] == 0} {
-		    set loadedplugins [list "Nudge" "Cam Shooter"]
+		    set loadedplugins [list "Nudge" "Cam Shooter" "remind"]
 	    }
 
 	    #update the list of installed plugins because this proc is usually 
