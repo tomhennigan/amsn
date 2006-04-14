@@ -20,6 +20,7 @@ if { $initialize_amsn == 1 } {
 	package require base64
 	package require sha1
 	package require snit
+	package require SOAP
 }
 
 
@@ -2691,6 +2692,21 @@ puts here!
 		return [lindex $state 5]
 	}
 
+	proc getClientConfig {} {
+		SOAP::create GetClientConfig \
+			-uri "http://www.msn.com/webservices/Messenger/Client" \
+			-proxy "http://config.messenger.msn.com/Config/MsgrConfig.asmx" \
+			-action "http://www.msn.com/webservices/Messenger/Client/GetClientConfig" \
+			-wrapProc getClientConfigXml
+		return [GetClientConfig]
+	}
+
+	proc getClientConfigXml {procVarName args} {
+		#TODO: make it choose the right Country, CLCID, PLCID, GeoID
+		return {<?xml version="1.0" encoding="utf-8"?> <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Body><GetClientConfig xmlns='http://www.msn.com/webservices/Messenger/Client'> <clientinfo> <Country>HT</Country> <CLCID>0409</CLCID> <PLCID>0409</PLCID> <GeoID>244</GeoID> </clientinfo> </GetClientConfig></soap:Body></soap:Envelope>}
+	}
+
+
 }
 
 namespace eval ::Event {
@@ -4852,6 +4868,8 @@ proc cmsn_auth {{recv ""}} {
 			#Send three first commands at same time, to it faster
 			if { [::config::getKey protocol] == 11 } {
 				::MSN::WriteSB ns "VER" "MSNP12 CVR0"
+			} elseif { [::config::getKey protocol] == 13 } {
+				::MSN::WriteSB ns "VER" "MSNP13 CVR0"
 			} else {
 				::MSN::WriteSB ns "VER" "MSNP9 CVR0"
 			}
