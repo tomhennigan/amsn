@@ -7,6 +7,8 @@ snit::widgetadaptor dpbrowser {
 	option -width -default 5
 #	option -height -default 500
 	option -bg -default white -configuremethod SetConfig
+	option -mode -default "properties"
+	#modes "properties" where you right-click with actions and mode "select" where left click sets as your image preview for new pic browser"
 
 #	option -addinuse -default 0 -configuremethod SetConfig
 
@@ -34,26 +36,20 @@ status_log "creating dpbrowser widget $self with arguments $args at $hull"
 
 		global HOME
 		set email $options(-user)
+		set dps_per_row $options(-width)
 
 		if {$email == "self"} {
 			set cachefiles [glob -nocomplain -directory [file join $HOME displaypic] *.dat]
+			set pic_in_use [::abook::getContactData $email displaypicfile ""]
 		} else {
 			set cachefiles [glob -nocomplain -directory [file join $HOME displaypic cache] *.dat]	
+			set pic_in_use [::abook::getContactData $email displaypicfile ""]
 		}
-		
-#TODO: set in order of time
+#TODO: put in order of time
 #	use: [file atime $file]	(the last acces time in seconds from a fixed point > not available on FAT)	
 
 		set gridxpad 5
-		
-
-		set i 0
-		
-		set dps_per_row $options(-width)
-		#if we don't add the in_use pic, save its name so we can exclude it
-#		if {!$options(-addinuse)} { 
-			set pic_in_use [::abook::getContactData $email displaypicfile ""]
-#		}
+		set i 0	
 
 
 		if {$email != ""} {
@@ -84,8 +80,17 @@ status_log "creating dpbrowser widget $self with arguments $args at $hull"
 
 					label $entry.img -image userDP_${email}_$i -bg $color
 					bind $entry <Destroy> "catch { image delete userDP_${email}_$i}"
-					bind $entry.img <ButtonPress-3> \
-						[list $self dp_popup_menu %X %Y [filenoext $file].png $entry.img]
+					if {$options(-mode) == "properties"} {
+						bind $entry.img <ButtonPress-3> \
+							[list $self dp_popup_menu %X %Y\
+							[filenoext $file].png $entry.img $email]
+					} elseif { $options(-mode) == "select"} {
+						bind $entry.img <ButtonPress-3> \
+							[list $self dp_popup_menu %X %Y\
+							[filenoext $file].png $entry.img $email]
+						#selection binding
+#						bind $entry.img <ButtonPress-1> 
+					}
 
 	#TODO: a tooltip with the full size image
 					bind $entry.img <Enter> ""
@@ -151,7 +156,7 @@ status_log "creating dpbrowser widget $self with arguments $args at $hull"
 	
 	}
 
-	method dp_popup_menu { X Y filename widget } {
+	method dp_popup_menu { X Y filename widget user} {
 		# Create pop-up menu if it doesn't yet exists
 		set the_menu .userDPs_menu
 		catch {destroy $the_menu}

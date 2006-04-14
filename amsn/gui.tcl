@@ -7451,6 +7451,84 @@ proc load_my_pic { {nopic 0} } {
 }
 
 
+proc dpBrowser {} {
+	global selected_path
+
+	package require dpbrowser
+
+	set w .dpbrowser
+	#if it already exists, create the window, otherwise, raise it
+	if { [winfo exists $w] } {
+		raise $w
+		return
+	}
+	toplevel $w
+	wm title $w "[trans picbrowser]"
+		
+
+	################
+	# First column #
+	################
+	frame $w.mydpstitle -bd 0
+	label $w.mydpstitle.text -text "My cached display pictures:" -font bboldf
+	#clear cache button ?
+	pack $w.mydpstitle.text -side left
+
+	frame $w.moredpstitle -bd 0
+	label $w.moredpstitle.text -text "Dp's in cache for:" -font bboldf
+	#combobox
+	pack $w.moredpstitle.text -side left
+
+	::dpbrowser $w.mydps -width 3 -user self
+
+	::dpbrowser $w.moredps -width 3
+
+	#################
+	# second column #
+	#################
+
+	#preview
+	label $w.dppreviewtxt -text "Preview:"
+	label $w.dppreview -image my_pic
+	
+	#browse button
+	button $w.browsebutton -command "set selected_path \[pictureChooseFile\]; updateDPPreview" -text "[trans browse]..."
+	
+	#under this button is space for more buttons we'll make a frame for so plugins can pack stuff in this frame
+	frame $w.pluginsframe -bd 0
+
+
+
+	#################
+	# lower pane    #
+	#################	
+	frame $w.lowerpane -bd 0
+	button $w.lowerpane.ok -text "[trans ok]"
+	button $w.lowerpane.cancel -text "[trans cancel]" -command "destroy .dpbrowser"
+	pack $w.lowerpane.ok $w.lowerpane.cancel -side right -padx 5
+
+
+
+
+	#first column
+	grid $w.mydpstitle -row 0 -column 0 -sticky nw
+	grid $w.mydps -row 1 -column 0 -rowspan 4 -sticky nsew
+	grid $w.moredpstitle -row 5 -column 0 -sticky w
+	grid $w.moredps -row 6 -column 0 -sticky nsew
+	
+	#second column
+	grid $w.dppreviewtxt -row 0 -column 1 -padx 3 -pady 3 -sticky nw
+	grid $w.dppreview -row 1 -column 1 -padx 3 -pady 3 -sticky ne
+	grid $w.browsebutton -row 2 -column 1 -padx 3 -pady 3 -sticky n
+	grid $w.pluginsframe -row 3 -column 1 -sticky nesw
+	
+	#lower pane
+	grid $w.lowerpane -row 7 -column 0 -columnspan 2 -sticky e -padx 2 -pady 2
+}
+
+
+
+
 
 proc pictureBrowser {} {
 	global selected_image
