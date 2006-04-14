@@ -4,8 +4,8 @@ package provide dpbrowser 0.1
 snit::widgetadaptor dpbrowser {
 
 	option -user -default "" -configuremethod SetConfig
-	option -width -default 500
-	option -height -default 500
+	option -width -default 5
+#	option -height -default 500
 	option -bg -default white -configuremethod SetConfig
 
 #	option -addinuse -default 0 -configuremethod SetConfig
@@ -14,7 +14,7 @@ snit::widgetadaptor dpbrowser {
 	constructor { args } {
 		set color $options(-bg)
 		#create the base frame
-		installhull using frame -width $options(-width) -height $options(-height) -bg $color -bd 0 -relief flat
+		installhull using frame -bg $color -bd 0 -relief flat
 		$self configurelist $args
 		
 puts "creating dpbrowser widget $self with arguments $args at $hull"
@@ -43,7 +43,7 @@ puts "creating dpbrowser widget $self with arguments $args at $hull"
 		
 
 		set i 0
-		set dps_per_row 4
+		set dps_per_row $options(-width)
 		#if we don't add the in_use pic, save its name so we can exclude it
 #		if {!$options(-addinuse)} { 
 			set pic_in_use [::abook::getContactData $email displaypicfile ""]
