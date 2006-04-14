@@ -14,16 +14,31 @@ snit::widgetadaptor dpbrowser {
 
 
 	constructor { args } {
-		set color $options(-bg)
 		#create the base frame
-		installhull using frame -bg $color -bd 0 -relief flat
+		installhull using frame -bg $options(-bg) -bd 0 -relief flat
 		$self configurelist $args
 		
 status_log "creating dpbrowser widget $self with arguments $args at $hull"
 
+		
+puts "sw created"
+		$self fill
 
-#ScrollableFrame $nbIdent.otherpics.sf
-#		set mainFrame [$nbIdent.otherpics.sf getframe]
+
+
+#		Configure all options off the widget
+#		$self configurelist $args
+
+	}
+
+
+
+	method fill { } {
+
+		if {[winfo exists $self.sw] } { destroy $self.sw}
+
+		set color $options(-bg)
+
 		ScrolledWindow $self.sw -bg $color
 		ScrollableFrame $self.sw.sf -bg $color
 		$self.sw setwidget $self.sw.sf
@@ -31,7 +46,7 @@ status_log "creating dpbrowser widget $self with arguments $args at $hull"
 		
 		set frame [$self.sw.sf getframe]
 
-		$self configurelist $args
+#		$self configurelist $args
 
 
 		global HOME
@@ -80,16 +95,16 @@ status_log "creating dpbrowser widget $self with arguments $args at $hull"
 
 					label $entry.img -image userDP_${email}_$i -bg $color
 					bind $entry <Destroy> "catch { image delete userDP_${email}_$i}"
-					if {$options(-mode) == "properties"} {
-						bind $entry.img <ButtonPress-3> \
-							[list $self dp_popup_menu %X %Y\
-							[filenoext $file].png $entry.img $email]
-					} elseif { $options(-mode) == "select"} {
+					if {$email == "self"} {
 						bind $entry.img <ButtonPress-3> \
 							[list $self dp_popup_menu %X %Y\
 							[filenoext $file].png $entry.img $email]
 						#selection binding
-#						bind $entry.img <ButtonPress-1> 
+						bind $entry.img <ButtonPress-1> [list $self selectdp [filenoext $file].png $entry.img]
+					} else {
+						bind $entry.img <ButtonPress-3> \
+							[list $self dp_popup_menu %X %Y\
+							[filenoext $file].png $entry.img $email]
 					}
 
 	#TODO: a tooltip with the full size image
@@ -116,15 +131,11 @@ status_log "creating dpbrowser widget $self with arguments $args at $hull"
 		} else {
 			label $frame.nodps -text "\t[trans nouserspecified]" -bg $color
 			pack $frame.nodps		
-		}
+		}	
 	
-
-
-
-#		Configure all options off the widget
-#		$self configurelist $args
-
+	
 	}
+
 
 
 	method SetConfig {option value} {
@@ -132,11 +143,12 @@ status_log "creating dpbrowser widget $self with arguments $args at $hull"
 
 		#actions after change of options
 		#the space was added so the option isn't passed to the switch command
-#		switch " $option" {
-#			" -blah" {
-#				$self UpdateBlah
-#			}			
-#		}
+		switch " $option" {
+			" -user" {
+				$self fill
+#a way to redraw with another user
+			}			
+		}
 			
 	}
 	
@@ -152,11 +164,15 @@ status_log "creating dpbrowser widget $self with arguments $args at $hull"
 	}
 	
 	method showtooltip {X Y imgfile} {
-	
+#to show the full size image	
 	
 	}
 
 	method dp_popup_menu { X Y filename widget user} {
+		global selected_image
+		
+#if user is self have another menu ?		
+		
 		# Create pop-up menu if it doesn't yet exists
 		set the_menu .userDPs_menu
 		catch {destroy $the_menu}
@@ -173,6 +189,10 @@ status_log "creating dpbrowser widget $self with arguments $args at $hull"
 		tk_popup $the_menu $X $Y
 	}
 
-
-
+	method selectdp { file imgwidget } {
+		global selected_path
+		if { [catch { image create photo my_pic -file $file -format cximage }] } { return }
+		set selected_path $file
+		#select the image in the widget ?
+	}
 }

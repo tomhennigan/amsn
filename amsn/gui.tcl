@@ -7456,6 +7456,9 @@ proc dpBrowser {} {
 
 	package require dpbrowser
 
+#TODO: remove this line:
+	load_my_pic
+
 	set w .dpbrowser
 	#if it already exists, create the window, otherwise, raise it
 	if { [winfo exists $w] } {
@@ -7476,7 +7479,7 @@ proc dpBrowser {} {
 
 	frame $w.moredpstitle -bd 0
 	label $w.moredpstitle.text -text "Dp's in cache for:" -font bboldf
-	#combobox
+	#combobox to choose user which configures the widget with -user $user
 	pack $w.moredpstitle.text -side left
 
 	::dpbrowser $w.mydps -width 3 -user self
@@ -7492,7 +7495,8 @@ proc dpBrowser {} {
 	label $w.dppreview -image my_pic
 	
 	#browse button
-	button $w.browsebutton -command "set selected_path \[pictureChooseFile\]; updateDPPreview" -text "[trans browse]..."
+	button $w.browsebutton -command "set selected_path \[pictureChooseFile\]" -text "[trans browse]..."
+#TODO: pictureChooseFile to be changed to our working and it should update our preview
 	
 	#under this button is space for more buttons we'll make a frame for so plugins can pack stuff in this frame
 	frame $w.pluginsframe -bd 0
@@ -7503,11 +7507,9 @@ proc dpBrowser {} {
 	# lower pane    #
 	#################	
 	frame $w.lowerpane -bd 0
-	button $w.lowerpane.ok -text "[trans ok]"
+	button $w.lowerpane.ok -text "[trans ok]" -command "set_displaypic \${selected_image};destroy $w"
 	button $w.lowerpane.cancel -text "[trans cancel]" -command "destroy .dpbrowser"
 	pack $w.lowerpane.ok $w.lowerpane.cancel -side right -padx 5
-
-
 
 
 	#first column
@@ -7520,7 +7522,7 @@ proc dpBrowser {} {
 	grid $w.dppreviewtxt -row 0 -column 1 -padx 3 -pady 3 -sticky nw
 	grid $w.dppreview -row 1 -column 1 -padx 3 -pady 3 -sticky ne
 	grid $w.browsebutton -row 2 -column 1 -padx 3 -pady 3 -sticky n
-	grid $w.pluginsframe -row 3 -column 1 -sticky nesw
+	grid $w.pluginsframe -row 3 -rowspan 4 -column 1 -sticky nesw
 	
 	#lower pane
 	grid $w.lowerpane -row 7 -column 0 -columnspan 2 -sticky e -padx 2 -pady 2
