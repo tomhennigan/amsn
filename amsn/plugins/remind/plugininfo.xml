@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <plugin>
 	<name>remind</name>
-	<author>Fred</author>
+	<author>Frederic Diaz</author>
 	<description>Shows the last sentences of the previous conversations when opening a new chat window</description>
 	<amsn_version>0.94</amsn_version>
 	<plugin_version>1.2</plugin_version>
@@ -36,10 +36,10 @@
 	</lang>
 	
 	<URL>
-		<main>http://amsn.sourceforge.net/autoupdater/plugins/remind/remind.tcl</main>
-		<plugininfo>http://amsn.sourceforge.net/autoupdater/plugins/remind/plugininfo.xml</plugininfo>
-		<lang>http://amsn.sourceforge.net/autoupdater/plugins/remind/lang/lang$langcode</lang>
-		<file>http://amsn.sourceforge.net/autoupdater/plugins/remind/$file</file>
+		<main>http://amsn.sourceforge.net/autoupdater/plugins2/remind/remind.tcl</main>
+		<plugininfo>http://amsn.sourceforge.net/autoupdater/plugins2/remind/plugininfo.xml</plugininfo>
+		<lang>http://amsn.sourceforge.net/autoupdater/plugins2/remind/lang/lang$langcode</lang>
+		<file>http://amsn.sourceforge.net/autoupdater/plugins2/remind/$file</file>
 	</URL>
 
 </plugin>
