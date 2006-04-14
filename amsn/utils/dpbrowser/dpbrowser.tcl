@@ -1,5 +1,5 @@
 package require snit
-package provide dpbrowser 0.1
+package provide dpbrowser 0.2
 
 snit::widgetadaptor dpbrowser {
 
@@ -17,7 +17,7 @@ snit::widgetadaptor dpbrowser {
 		installhull using frame -bg $color -bd 0 -relief flat
 		$self configurelist $args
 		
-puts "creating dpbrowser widget $self with arguments $args at $hull"
+status_log "creating dpbrowser widget $self with arguments $args at $hull"
 
 
 #ScrollableFrame $nbIdent.otherpics.sf
@@ -32,7 +32,7 @@ puts "creating dpbrowser widget $self with arguments $args at $hull"
 		$self configurelist $args
 
 
-		global HOME
+		global HOMEp
 		set email $options(-user)
 		set cachefiles [glob -nocomplain -directory [file join $HOME displaypic cache] *.dat]
 		
@@ -43,63 +43,73 @@ puts "creating dpbrowser widget $self with arguments $args at $hull"
 		
 
 		set i 0
+		
 		set dps_per_row $options(-width)
 		#if we don't add the in_use pic, save its name so we can exclude it
 #		if {!$options(-addinuse)} { 
 			set pic_in_use [::abook::getContactData $email displaypicfile ""]
 #		}
 
-		foreach file $cachefiles {
-			#exclude the image the user is currently using
-			if { [string first $pic_in_use $file] == -1 } {
-			set fd [open $file]
 
-			set greps [$self grep $fd $email]
-puts $greps
-			#if the image belongs to this user, add it
-			if { [lindex $greps 0] } {
-#puts "add it"
+		if {$email != ""} {
 
-				#if a problem loading the image arises, go to next
-				if { [catch { image create photo userDP_${email}_$i -file [filenoext $file].png -format cximage }] } { continue }
-				::picture::ResizeWithRatio userDP_${email}_$i 96 96
-				set entry $frame.${i}_shell
-				frame $entry -bg $color -bd 0 -relief flat
-
-				label $entry.img -image userDP_${email}_$i
-				bind $entry <Destroy> "catch { image delete userDP_${email}_$i}"
-				bind $entry.img <ButtonPress-3> \
-					[list $self dp_popup_menu %X %Y [filenoext $file].png $entry.img]
-
-#TODO: a tooltip with the full size image
-				bind $entry.img <Enter> ""
-				bind $entry.img <Leave> ""
-
-				label $entry.text -text [lindex $greps 1] -bg $color
-
-				pack $entry.img $entry.text -side top				
-				grid $entry \
-					-row [expr {$i / $dps_per_row}] -column [expr {$i % $dps_per_row}] \
-					-pady $gridxpad -padx $gridxpad
-				incr i
-				
+			if {$email == "all"} {
+				set email ""
 			}
-			close $fd
-			}
-#puts "2"
-		}
+		
+			foreach file $cachefiles {
+				#exclude the image the user is currently using
+				if { [string first $pic_in_use $file] == -1 } {
+				set fd [open $file]
 
-		if {$i == 0} {
-			if {![winfo exists $frame.nodps]} {
-				label $frame.nodps -text "\t[trans nocacheddps]" 
+
+
+				set greps [$self grep $fd $email]
+				#if the image belongs to this user, add it
+				if { [lindex $greps 0] } {
+
+					#if a problem loading the image arises, go to next
+					if { [catch { image create photo userDP_${email}_$i -file [filenoext $file].png -format cximage }] } { continue }
+					::picture::ResizeWithRatio userDP_${email}_$i 96 96
+					set entry $frame.${i}_shell
+					frame $entry -bg $color -bd 0 -relief flat
+
+					label $entry.img -image userDP_${email}_$i
+					bind $entry <Destroy> "catch { image delete userDP_${email}_$i}"
+					bind $entry.img <ButtonPress-3> \
+						[list $self dp_popup_menu %X %Y [filenoext $file].png $entry.img]
+
+	#TODO: a tooltip with the full size image
+					bind $entry.img <Enter> ""
+					bind $entry.img <Leave> ""
+
+					label $entry.text -text [lindex $greps 1] -bg $color
+
+					pack $entry.img $entry.text -side top				
+					grid $entry \
+						-row [expr {$i / $dps_per_row}] -column [expr {$i % $dps_per_row}] \
+						-pady $gridxpad -padx $gridxpad
+					incr i
+					
+				}
+				close $fd
+				}
+
+			}
+			if {$i == 0} {
+				label $frame.nodps -text "\t[trans nocacheddps]" -bg $color
 				pack $frame.nodps
-			}
-		 }
+			 }
+		} else {
+			label $frame.nodps -text "\t[trans nouserspecified]" -bg $color
+			pack $frame.nodps		
+		}
+	
 
 
 
 #		Configure all options off the widget
-		$self configurelist $args
+#		$self configurelist $args
 
 	}
 
