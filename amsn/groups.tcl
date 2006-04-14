@@ -140,7 +140,7 @@ namespace eval ::groups {
 
 
 		bind $w.groupname.ent <Return> { 
-			::groups::Add "[$w.groupname.ent get]" dlgMsg; 
+			::groups::Add "[.dlgag.groupname.ent get]" dlgMsg; 
 			destroy $w
 		}
 
