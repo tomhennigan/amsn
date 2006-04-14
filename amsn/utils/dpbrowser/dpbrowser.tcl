@@ -74,7 +74,7 @@ status_log "creating dpbrowser widget $self with arguments $args at $hull"
 					set entry $frame.${i}_shell
 					frame $entry -bg $color -bd 0 -relief flat
 
-					label $entry.img -image userDP_${email}_$i
+					label $entry.img -image userDP_${email}_$i -bg $color
 					bind $entry <Destroy> "catch { image delete userDP_${email}_$i}"
 					bind $entry.img <ButtonPress-3> \
 						[list $self dp_popup_menu %X %Y [filenoext $file].png $entry.img]
