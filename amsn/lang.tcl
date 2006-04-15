@@ -196,6 +196,8 @@ namespace eval ::lang {
 	#///////////////////////////////////////////////////////////////////////
 	proc show_languagechoose {} {
 
+		global HOME2
+
 		set languages [list]
 
 		::lang::LoadOnlineVersions
@@ -275,7 +277,7 @@ namespace eval ::lang {
 		# _| Manager |____
 		set frm [$nb.nn getframe manager]
 
-		if { $::lang::LoadOk == 1 } {		
+		if { $::lang::LoadOk == 1 && [file writable [file join $HOME2 langlist.xml]]} {		
 
 		# Create a list box where we will put the lang
 		frame $frm.selection -class Amsn -borderwidth 0
