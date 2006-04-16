@@ -2001,7 +2001,7 @@ namespace eval ::ChatWindow {
 			-background [::skin::getKey buttonbarbg] -highlightthickness 0\
 			 -borderwidth 0	-highlightbackground [::skin::getKey buttonbarbg]\
 			 -activebackground [::skin::getKey buttonbarbg]
-		set_balloon $webcam [trans sendwebcaminvite]
+		set_balloon $block "--command--::ChatWindow::SetWebcamText"		
 
 		# Pack them
 		pack $fontsel $smileys -side left -padx 0 -pady 0
@@ -2049,7 +2049,14 @@ namespace eval ::ChatWindow {
 			::CAMGUI::WebcamWizard
 		}
 	}		
+	proc SetWebcamText {} {
+		if {[::config::getKey webcamDevice] != ""} {
+			return "[trans sendwebcaminvite]"
 
+		} else {
+			return "[trans webcamconfigure]"
+		}
+	}
 
 
 	#Show a different ballon if the user is currently blocked or unblocked
