@@ -2001,6 +2001,7 @@ namespace eval ::ChatWindow {
 			-background [::skin::getKey buttonbarbg] -highlightthickness 0\
 			 -borderwidth 0	-highlightbackground [::skin::getKey buttonbarbg]\
 			 -activebackground [::skin::getKey buttonbarbg]
+		set_balloon $webcam [trans sendwebcaminvite]
 
 		# Pack them
 		pack $fontsel $smileys -side left -padx 0 -pady 0
@@ -2013,14 +2014,7 @@ namespace eval ::ChatWindow {
 		bind $invite   <<Button1>> "::amsn::ShowInviteMenu $w \[winfo pointerx $w\] \[winfo pointery $w\]"
 
 		#if we have a webcam configured, have a "send webcam" button, else, use the button to open the wizard
-		if {[::config::getKey webcamDevice] != ""} {
-			set_balloon $webcam [trans sendwebcaminvite]
-			bind $webcam   <<Button1>> "::amsn::ShowChatList \"[trans sendwebcaminvite]\" $w ::MSNCAM::SendInviteQueue"
-
-		} else {
-			set_balloon $webcam [trans webcamconfigure]
-			bind $webcam    <<Button1>> "::CAMGUI::WebcamWizard"
-		}
+		bind $webcam   <<Button1>> "::ChatWindow::webcambuttonAction $w"
 
 
 		# Create our bindings
@@ -2045,6 +2039,19 @@ namespace eval ::ChatWindow {
 
 		return $buttons
 	}
+
+
+	proc webcambuttonAction { w } {
+		if {[::config::getKey webcamDevice] != ""} {
+			::amsn::ShowChatList \"[trans sendwebcaminvite]\" $w ::MSNCAM::SendInviteQueue
+
+		} else {
+			::CAMGUI::WebcamWizard
+		}
+	}		
+
+
+
 	#Show a different ballon if the user is currently blocked or unblocked
 	proc SetBlockText {win_name} {
 		set Chatters [::MSN::usersInChat [::ChatWindow::Name $win_name]]
