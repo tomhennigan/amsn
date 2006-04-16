@@ -2001,7 +2001,7 @@ namespace eval ::ChatWindow {
 			-background [::skin::getKey buttonbarbg] -highlightthickness 0\
 			 -borderwidth 0	-highlightbackground [::skin::getKey buttonbarbg]\
 			 -activebackground [::skin::getKey buttonbarbg]
-		set_balloon $block "--command--::ChatWindow::SetWebcamText"		
+		set_balloon $webcam "--command--::ChatWindow::SetWebcamText"		
 
 		# Pack them
 		pack $fontsel $smileys -side left -padx 0 -pady 0
