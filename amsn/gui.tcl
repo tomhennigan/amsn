@@ -3755,10 +3755,10 @@ proc cmsn_draw_main {} {
 
 proc Showhidemenu { } {
 
-	if { [lindex [. conf -menu] 4] == "" } {
-		. conf -menu .main_menu
+	if { [string length [. cget -menu] ] == 0 } {
+		. configure -menu .main_menu
 	} else {
-		. conf -menu ""
+		. configure -menu ""
 	}
 
 }
