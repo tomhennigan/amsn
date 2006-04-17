@@ -3007,10 +3007,16 @@ namespace eval ::Event {
 				PRP {
 					$self handlePRP $command
 				}
+				#psm info
 				UBX {
 					$self handleUBX $command $payload
 					catch {$message destroy}
 				}
+				#spaces info
+				NOT {
+					$self handleNOT $command $payload
+					catch {$message destroy}
+				}				
 				default {
 					cmsn_ns_handler $command $message
 				}
@@ -3228,6 +3234,12 @@ namespace eval ::Event {
 	                        }
 			}
                 }
+	}
+	
+	method handleNOT { command payload } {
+		#save the spaces notification here
+		set contact [lindex $command 1]
+		status_log "got spaces notification for $contact"
 	}
 
 	method setInitialStatus { } {
