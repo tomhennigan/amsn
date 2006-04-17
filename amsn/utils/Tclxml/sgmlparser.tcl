@@ -20,7 +20,7 @@ package require sgml 1.9
 
 package require uri 1.1
 
-package provide sgmlparser 1.0
+package provide sgmlparser 1.1
 
 namespace eval sgml {
     namespace export tokenise parseEvent
