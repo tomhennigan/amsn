@@ -3009,6 +3009,7 @@ namespace eval ::Event {
 				}
 				UBX {
 					$self handleUBX $command $payload
+					catch {$message destroy}
 				}
 				default {
 					cmsn_ns_handler $command $message
@@ -3664,9 +3665,6 @@ namespace eval ::Event {
 				::plugins::PostEvent PacketReceived evpar
 			}
 		}
-		
-		status_log "Destroying $message" 
-		$message destroy
 	}
 	method search { option index } {
 		return [lsearch $options($option) $index]
@@ -4453,6 +4451,7 @@ proc cmsn_ns_handler {item {message ""}} {
 		switch [lindex $item 0] {
 			MSG {
 				cmsn_ns_msg $item $message
+				$message destroy
 				return 0
 			}
 		    	IPG {
@@ -6398,6 +6397,7 @@ namespace eval ::MSN6FT {
 	
 					set p2pmessage [P2PMessage create %AUTO%]
 					$p2pmessage createFromMessage $message
+				
 					::MSNP2P::ReadData $p2pmessage [getObjOption $sid chatid]
 					catch { $p2pmessage destroy }
 					catch { $message destroy }
