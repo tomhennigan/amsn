@@ -3665,6 +3665,7 @@ namespace eval ::Event {
 				::plugins::PostEvent PacketReceived evpar
 			}
 		}
+		$message destroy
 	}
 	method search { option index } {
 		return [lsearch $options($option) $index]
