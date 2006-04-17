@@ -3643,6 +3643,16 @@ namespace eval ::Event {
 				SendMessageFIFO [list ::amsn::ShowInk $chatid $typer $nick $img ink $p4c_enabled] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
 
 			}
+			text/x-keepalive {
+			#kopete sends this to keep the SB open all time when the window is open, every 50 seconds.  Generates a lot of network traffic + handling cpu power for nothing.
+
+				#if we didn't receive any message on this SB, close it
+				if {[$self cget -lastmsgtime] == 0} {
+					status_log "Closing the SB for an aggresive Kopete user: $chatid" white
+					::MSN::CloseSB $self
+				}			
+			}
+
 
 			default {
 				status_log "$self handleMSG: === UNKNOWN MSG ===\n$command\n[$message getHeaders]\n[$message getBody]" red
@@ -3654,6 +3664,7 @@ namespace eval ::Event {
 				::plugins::PostEvent PacketReceived evpar
 			}
 		}
+		
 		status_log "Destroying $message" 
 		$message destroy
 	}
