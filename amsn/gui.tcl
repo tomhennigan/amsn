@@ -2434,6 +2434,8 @@ namespace eval ::amsn {
 
 		    #Draw our own message
 		    messageFrom $chatid [::abook::getPersonal login] $nick $message user $p4c
+		    #as this object isn't used anymore, destroy it
+		    $message destroy
 		    ::MSN::messageTo $chatid "$msgchunk" $ackid $friendlyname
 
 
