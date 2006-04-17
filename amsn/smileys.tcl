@@ -1018,7 +1018,7 @@ namespace eval ::smiley {
 		
 		
 		
-		set emotion(image_name) [image create photo {$emotion(name)} -file $emotion(file) -format cximage]
+		set emotion(image_name) [image create photo -file $emotion(file) -format cximage]
 		set custom_emotions($name) [array get emotion]
 
 		#load_smileys
