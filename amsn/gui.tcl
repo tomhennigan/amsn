@@ -3701,6 +3701,9 @@ proc cmsn_draw_main {} {
 		bind . <Control-p> Preferences
 		#Boss mode
 		bind . <Control-Alt-space> BossMode
+		#Show/hide menu
+		bind . <Control-m> Showhidemenu
+		
 	}
 
 	#Shortcut to Quit aMSN on Mac OS X
@@ -3747,6 +3750,16 @@ proc cmsn_draw_main {} {
 
 }
 #///////////////////////////////////////////////////////////////////////
+
+proc Showhidemenu { } {
+
+	if { [lindex [. conf -menu] 4] == "" } {
+		. conf -menu .main_menu
+	} else {
+		. conf -menu ""
+	}
+
+}
 
 
 
@@ -8182,7 +8195,7 @@ proc degt_ns_command_win {} {
 		::MSN::WriteSB ns $nscmd $nspar
 		}
 	}
-	bind . <Control-m> { degt_ns_command_win_toggle }
+#	bind . <Control-m> { degt_ns_command_win_toggle }
 	wm protocol .nscmd WM_DELETE_WINDOW { degt_ns_command_win_toggle }
 }
 
