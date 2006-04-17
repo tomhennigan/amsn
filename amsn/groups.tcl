@@ -847,7 +847,7 @@ namespace eval ::groups {
 		foreach gid $gidlistyes {
 			if {[lsearch [::abook::getGroups $email] $gid] == -1} {
 				after $timer ::MSN::copyUser $email $gid
-				set timer [expr {$timer + 250}]
+				set timer [expr {$timer + 1000}]
 			}
 		}
 
@@ -855,7 +855,7 @@ namespace eval ::groups {
 		foreach gid $gidlistno {
 			if {[lsearch [::abook::getGroups $email] $gid] != -1} {
 				after $timer ::MSN::deleteUser $email $gid
-				set timer [expr {$timer + 250}]
+				set timer [expr {$timer + 1000}]
 			}
 		}
 
