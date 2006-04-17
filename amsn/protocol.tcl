@@ -2764,7 +2764,7 @@ namespace eval ::Event {
 
 	constructor {args} {
 		#TODO: remove me when object is destroyed in the right place
-		after 30000 { catch { $self destroy } }
+#		after 30000 { catch { $self destroy } }
 	}
 
 	method setRaw { data {headers_list {}} {fields_list {}}} {
@@ -3654,6 +3654,8 @@ namespace eval ::Event {
 				::plugins::PostEvent PacketReceived evpar
 			}
 		}
+		status_log "Destroying $message" 
+		$message destroy
 	}
 	method search { option index } {
 		return [lsearch $options($option) $index]
