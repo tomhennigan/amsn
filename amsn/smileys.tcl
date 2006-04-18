@@ -1170,8 +1170,8 @@ proc custom_smile_subst { chatid tw {textbegin "0.0"} {end "end"} } {
 			$tw tag configure smiley -elide true
 			$tw tag add smiley $pos $endpos
 			
-			set twTag "custom_smiley_$file"
-			set copyMenu "${tw}.custom_smiley_$file"
+			set twTag "emoticonCustom_std_$file"
+			set copyMenu "${tw}.emoticonCustom_std_$file"
 			if { ![winfo exists $copyMenu] } {
 				menu $copyMenu -tearoff 0 -type normal
 				$copyMenu add command -label "[trans emoticon_steal] ($symbol)" -command "::smiley::addSmileyFromTW {$file} {[string map {"\\" "\\\\"} $symbol]}"
@@ -1180,7 +1180,7 @@ proc custom_smile_subst { chatid tw {textbegin "0.0"} {end "end"} } {
 				$tw tag bind $twTag <<Button1>> "tk_popup $copyMenu %X %Y"
 		    }
 			
-			set smileyIdx [$tw image create $endpos -image "emoticonCustomRcd_std_$file" -padx 0 -pady 0]
+			set smileyIdx [$tw image create $endpos -image "emoticonCustom_std_$file" -padx 0 -pady 0]
 			$tw tag add $twTag $smileyIdx
 			$tw tag remove smiley $endpos
 		    

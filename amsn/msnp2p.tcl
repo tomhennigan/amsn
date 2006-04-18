@@ -196,16 +196,16 @@ namespace eval ::MSNP2P {
 			return
 		}
 
-		image create photo custom_smiley_$filename -width 19 -height 19
+		image create photo emoticonCustom_std_$filename -width 19 -height 19
 
 		status_log "::MSNP2P::GetUserPic: filename is $filename\n" white
 
 
 		global HOME
-		if { [catch {image create photo custom_smiley_$filename -file "[file join $HOME smileys cache ${filename}].png" -format cximage}] } {
+		if { [catch {image create photo emoticonCustom_std_$filename -file "[file join $HOME smileys cache ${filename}].png" -format cximage}] } {
 			#We didn't manage to load the smiley (either we haven't it either it's bad) so we ask it
 			status_log "::MSNP2P::GetUser: FILE [file join $HOME smileys cache ${filename}] doesn't exist!!\n" white
-			image create photo custom_smiley_$filename -width 19 -height 19
+			image create photo emoticonCustom_std_$filename -width 19 -height 19
 
 			create_dir [file join $HOME smileys]
 			create_dir [file join $HOME smileys cache]
@@ -885,7 +885,7 @@ namespace eval ::MSNP2P {
 								set tw [::ChatWindow::GetOutText [::ChatWindow::For $chatid]]
 								#set file [filenoext $file].gif
 								set scrolling [::ChatWindow::getScrolling $tw]
-								catch {image create photo custom_smiley_${filename} -file "[file join $HOME smileys cache ${filename}.png]" -format cximage}
+								catch {image create photo emoticonCustom_std_${filename} -file "[file join $HOME smileys cache ${filename}.png]" -format cximage}
 								if { $scrolling } { ::ChatWindow::Scroll $tw }
 							}
 						}
