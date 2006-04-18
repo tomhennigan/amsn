@@ -25,7 +25,7 @@ if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 	catch {load utils/macosx/Quicktimetcl3.1/quicktimetcl3.1.dylib}
 } else {
 	package require pixmapscroll
-#	package require pixmapmenu
+	#package require pixmapmenu
 }
 
 
@@ -496,6 +496,9 @@ namespace eval ::amsn {
 
 		status_log "filename: $filename"
 
+		# Used to avoid a bug for dbusviewer where the $filename points to /home/user/.amsn the dot makes 
+		# tk think it's a window's path separator and it says that the window .help/home/user/ doesn't exit (for .amsn to be its child)
+		set w [string map {. "_" " " "__"} $w]
 
 
 		if { [winfo exists $w] } {

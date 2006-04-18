@@ -653,19 +653,19 @@ namespace eval ::MSNCAM {
 						if { $size > 0 } {
 							set data "$header[nbread $sock $size]"
 							::CAMGUI::ShowCamFrame $sid $data
-						} else {
+						} elseif { $size != 0 } {
 							setObjOption $sock state "END"
 							status_log "ERROR1 : $header - invalid data received" red
 						}
 
 					} else {
 						setObjOption $sock state "END"
-						status_log "ERROR1 : $data - [nbgets $sock] - [nbgets $sock]\n" red
+						status_log "ERROR2 : $data - [nbgets $sock] - [nbgets $sock]\n" red
 					}
 
 				} else {
 					setObjOption $sock state "END"
-					status_log "ERROR1 : [nbgets $sock] - should never received data on state $state when we're the client\n" red
+					status_log "ERROR3 : [nbgets $sock] - should never received data on state $state when we're the client\n" red
 				}
 			}
 			"TSP_SEND" 
@@ -677,7 +677,7 @@ namespace eval ::MSNCAM {
 					catch { fileevent $sock writable "::MSNCAM::WriteToSock $sock" }
 				} else {
 					setObjOption $sock state "END"
-					status_log "ERROR1 : Received $data from socket on state TSP_SEND \n" red
+					status_log "ERROR4 : Received $data from socket on state TSP_SEND \n" red
 				}
 			}
 			"TSP_RECEIVE" -
@@ -709,10 +709,10 @@ namespace eval ::MSNCAM {
 						catch { fileevent $sock writable "::MSNCAM::WriteToSock $sock" }
 					}
 					#::CAMGUI::ShowCamFrame $sid $data
-				} else {
+				} elseif {$size != 0 }  {
 					#AuthFailed $sid $sock
 					setObjOption $sock state "END"
-					status_log "ERROR1 : $data - invalid data received" red
+					status_log "ERROR5 : $data - invalid data received" red
 
 				}
 
@@ -1357,17 +1357,22 @@ namespace eval ::MSNCAM {
 	}
 
 	proc GetCamDataSize { data } {
-		binary scan $data ssssiiii h_size w h r1 p_size fcc r2 r3
+		binary scan $data ccsssiiii h_size paused w h r1 p_size fcc r2 r3
 
 		binary scan "\x30\x32\x4C\x4D" I r_fcc
 
 		if { [string length $data] < 24 } {
 			return 0
 		}
-
+		#status_log "got webcam header :  $data" green
 		if { $h_size != 24 } {
 			status_log "invalid - $h_size - $data" red
 			return -1
+		}
+		# Pause header
+		if { $paused == 1} {
+			#status_log "Got 'pause' header" red
+			return 0
 		}
 		if { $fcc != $r_fcc} {
 			status_log "fcc invalide - $fcc - $r_fcc - $data" red
