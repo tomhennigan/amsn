@@ -466,6 +466,9 @@ namespace eval ::config {
 
 proc save_config {} {
 	global tcl_platform HOME HOME2 version password custom_emotions
+	
+	#saving the plugins
+	::plugins::save_config
 
 	status_log "save_config: saving config for user [::config::getKey login] in $HOME]\n" black
 
