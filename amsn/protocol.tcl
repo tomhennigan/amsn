@@ -3053,9 +3053,6 @@ namespace eval ::Event {
 		} else {
 			::groups::Set [lindex $command 1] [lindex $command 2]
 		}
-		if { [::config::getKey expanded_group_[lindex $command 1]]!="" } {
-			set ::groups::bShowing([lindex $command 1]) [::config::getKey expanded_group_[lindex $command 1]]
-		}
 	}
 
 	method authenticationDone {} {
@@ -5070,12 +5067,6 @@ proc recreate_contact_lists {} {
 	#from ::abook
 	foreach groupid [::groups::GetList] {
 		::groups::Set $groupid [::groups::GetName $groupid]
-		if { [::config::getKey expanded_group_$groupid]!="" } {
-			set ::groups::bShowing($groupid) [::config::getKey expanded_group_$groupid]
-		} else {
-			set ::groups::bShowing($groupid) 1
-			::config::setKey expanded_group_$groupid 1
-		}
 	}
 
 	#Let's put every user in their contacts list and groups

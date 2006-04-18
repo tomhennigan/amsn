@@ -388,6 +388,11 @@ namespace eval ::groups {
 		set uMemberCnt($gid) 0
 		set uMemberCnt_online($gid) 0
 		set bShowing($gid) 1
+		if { [::config::getKey expanded_group_$gid]!="" } {
+			set bShowing($gid) [::config::getKey expanded_group_$gid]
+		}
+		::config::setKey expanded_group_$gid [set bShowing($gid)]
+
 		abook::setContactData contactlist groups [array get groups]	
 		::groups::updateMenu menu .group_list_delete ::groups::menuCmdDelete
 		::groups::updateMenu menu .group_list_rename ::groups::menuCmdRename
@@ -406,9 +411,9 @@ namespace eval ::groups {
 			set bShowing($gid) 1
 		}
 		
-		::config::setKey expanded_group_$gid $bShowing($gid)
+		::config::setKey expanded_group_$gid [set bShowing($gid)]
 	
-		return $bShowing($gid)
+		return [set bShowing($gid)]
 	}
    
 	proc UpdateCount {gid rel_qty {online ""}} {
@@ -439,6 +444,10 @@ namespace eval ::groups {
 		variable bShowing
 		if {![info exists bShowing($gid)]} {
 			set bShowing($gid) 1	
+			if { [::config::getKey expanded_group_$gid]!="" } {
+				set bShowing($gid) [::config::getKey expanded_group_$gid]
+			}
+			::config::setKey expanded_group_$gid [set bShowing($gid)]
 		}
 	
 		return $bShowing($gid)
@@ -495,12 +504,12 @@ namespace eval ::groups {
 		set bShowing(offline)	1
 		set bShowing(blocked)   1
 	
-		if { [::config::getKey expanded_group_online]!="" } {
-			set bShowing(online) [::config::getKey expanded_group_online]
+		foreach groupid {online offline blocked} {
+			if { [::config::getKey expanded_group_$groupid]!="" } {
+				set bShowing($groupid) [::config::getKey expanded_group_$groupid]
+			}
 		}
-		if { [::config::getKey expanded_group_offline]!="" } {
-			set bShowing(offline) [::config::getKey expanded_group_offline]
-		}
+
 		::abook::setContactData contactlist groups ""
 		::abook::unsetConsistent
 		#Clear list of groups
@@ -551,6 +560,11 @@ namespace eval ::groups {
 		set uMemberCnt_online($nr) 0
 		set bShowing($nr)   1
 		
+		if { [::config::getKey expanded_group_$nr]!="" } {
+			set bShowing($nr) [::config::getKey expanded_group_$nr]
+		}
+		::config::setKey expanded_group_$nr [set bShowing($nr)]
+
 		abook::setContactData contactlist groups [array get groups]       
 		
 		#status_log "Groups: added group $nr ($name)\n" blue
