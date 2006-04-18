@@ -916,10 +916,11 @@ namespace eval ::plugins {
 	# Return
 	# none
 	#
-	proc UnLoadPlugins { } {
+	proc UnLoadPlugins { {save 1} } {
 		variable loadedplugins
 		foreach {plugin} "$loadedplugins" {
-			::plugins::UnLoadPlugin $plugin
+			# the "0" is to tell UnLoadPlugin not to save the config
+			::plugins::UnLoadPlugin $plugin $save
 		}
 	}
 
@@ -937,7 +938,7 @@ namespace eval ::plugins {
 	# Return
 	# none
 	#
-	proc UnLoadPlugin { plugin } {
+	proc UnLoadPlugin { plugin {save 1}} {
 
 		variable loadedplugins
 		plugins_log core "Unloading plugin $plugin\n"
@@ -955,13 +956,14 @@ namespace eval ::plugins {
 		}
 
 		#copy the config array to a config plugin
-		if {[array exists ::${namespace}::config] == 1} {
+		if {[array exists ::${namespace}::config]} {
 			set ::plugins::config($plugin) [array get ::${namespace}::config]
 		}
 
 		#remove it from the loadedplugins list
 		set loadedplugins [lreplace $loadedplugins [lsearch $loadedplugins "$plugin"] [lsearch $loadedplugins "$plugin"]]
-		::plugins::save_config
+
+		if {$save} { ::plugins::save_config }
 
 	}
 
@@ -982,7 +984,9 @@ namespace eval ::plugins {
 	proc LoadPlugins {} {
 
 	    variable loadedplugins
-	    ::plugins::UnLoadPlugins
+		# the "0" is to tell UnLoadPlugins not to save the config
+		# the config should not be saved now, but when disconnecting or closing aMSN
+	    ::plugins::UnLoadPlugins 0
 	    
 	    #resets the loadedplugins list to plugins that were loaded before
 	    load_config
