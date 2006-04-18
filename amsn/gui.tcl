@@ -1778,7 +1778,7 @@ namespace eval ::amsn {
 		set users [::MSN::usersInChat $chatid]
 		#Switch to "my picture" or "user picture"
 		$win.picmenu add command -label "[trans showmypic]" \
-			-command [list ::amsn::ChangePicture $win my_pic [trans mypic]]
+			-command [list ::amsn::ChangePicture $win displaypicture_std_self [trans mypic]]
 		foreach user $users {
 			$win.picmenu add command -label "[trans showuserpic $user]" \
 				-command "::amsn::ChangePicture $win \[::skin::getDisplayPicture $user\] \[trans showuserpic $user\]"
@@ -1788,8 +1788,9 @@ namespace eval ::amsn {
 		$win.picmenu add command -label "[trans changedisplaypic]..." -command pictureBrowser
 
 		set user [$win.f.bottom.pic.image cget -image]
-		if { $user != "no_pic" && $user != "my_pic" } {
-			set user [string range $user 9 end]
+		if { $user != "displaypicture_std_none" && $user != "displaypicture_std_self" } {
+#FIXME -> is the index well recount ?
+			set user [string range $user 23 end]
 			$win.picmenu add separator
 			#Sub-menu to change size
 			$win.picmenu add cascade -label "[trans changesize]" -menu $win.picmenu.size
@@ -1821,7 +1822,7 @@ namespace eval ::amsn {
 			#change_balloon $win.f.bottom.pic.image $balloontext
 		}
 		if { [catch {$win.f.bottom.pic.image configure -image $picture}] } {
-			status_log "Failed to set picture, using no_pic\n" red
+			status_log "Failed to set picture, using displaypicture_std_none\n" red
 			$win.f.bottom.pic.image configure -image [::skin::getNoDisplayPicture]
 			#change_balloon $win.f.bottom.pic.image [trans nopic]
 			change_balloon $pictureinner [trans nopic]
@@ -3123,7 +3124,7 @@ namespace eval ::amsn {
 			if {$user != "" && [getpicturefornotification $user] && [::config::getKey showpicnotify]} {
 				#Put the image on the canvas
 				$w.c create image [::skin::getKey x_notifydp] [::skin::getKey y_notifydp] -anchor nw\
-					-image smallpicture$user -tag bg
+					-image displaypicture_not_$user -tag bg
 				#Put the text on the canvas
 				set notify_id [$w.c create text [::skin::getKey x_notifytext] [::skin::getKey y_notifytext] \
 					-font [::skin::getKey notify_font] -justify left\
@@ -4780,7 +4781,7 @@ proc clickableDisplayPicture {tw type name command {padx 0} {pady 0}} {
 	    -bg [::skin::getKey topcontactlistbg] -highlightthickness 0 \
 	    -cursor hand2 -borderwidth 0
 	
-	$tw.$name create image [::skin::getKey x_dp_top] [::skin::getKey y_dp_top] -anchor nw -image my_pic_small
+	$tw.$name create image [::skin::getKey x_dp_top] [::skin::getKey y_dp_top] -anchor nw -image displaypicture_not_self
 	$tw.$name create image 0 0 -anchor nw -image [::skin::loadPixmap mystatus_bg]
 
 
@@ -4803,39 +4804,36 @@ proc dpImageDropHandler {window data} {
 proc load_my_smaller_pic {} {
 
 	#if it doesn't exist yet, create it
-	if {![ImageExists my_pic_small] } {
-		image create photo my_pic_small -format cximage
-		if { [catch {my_pic_small copy my_pic}] } {
-			my_pic_small copy [::skin::getNoDisplayPicture]
+	if {![ImageExists displaypicture_not_self] } {
+		image create photo displaypicture_not_self -format cximage
+		if { [catch {displaypicture_not_self copy displaypicture_std_self}] } {
+			displaypicture_not_self copy [::skin::getNoDisplayPicture]
 		}
-		::picture::ResizeWithRatio my_pic_small 50 50
+		::picture::ResizeWithRatio displaypicture_not_self 50 50
 	}
 }
 
 proc getpicturefornotification {email} {
 
 	#we'll only create it if it's not yet there
-	if { ![ImageExists smallpicture$email] } {
-		status_log "Creating a small version of the user's dp for notifications"
+	if { ![ImageExists displaypicture_not_$email] } {
 
 		#create the blank image
-		image create photo smallpicture$email -format cximage
+		image create photo displaypicture_not_$email -format cximage
 
 		#Verify that we can copy user_pic, if there's an error it means user_pic doesn't exist
-		if {![catch {smallpicture$email copy [::skin::getDisplayPicture $email]} ] } {
-			if {[image width smallpicture$email] > 50 && [image height smallpicture$email] > 50} {
-				::picture::ResizeWithRatio smallpicture$email 50 50
+		if {![catch {displaypicture_not_$email copy [::skin::getDisplayPicture $email]} ] } {
+			if {[image width displaypicture_not_$email] > 50 && [image height displaypicture_not_$email] > 50} {
+				::picture::ResizeWithRatio displaypicture_not_$email 50 50
 			}
 			return 1
 		} else {
-			image delete smallpicture$email
+			image delete displaypicture_not_$email
 			#we have no small version, report as error
 			return 0
 		}
 	} else {
 		#we already have an image
-		status_log "The user's small dp requested for notification already exists"
-		
 		return 1
 	}
 }
@@ -4909,7 +4907,7 @@ proc cmsn_draw_buildtop_wrapped {} {
         } else { 
                 set disppic [clickableDisplayPicture $pgBuddyTop mystatus bigstate {tk_popup .my_menu %X %Y} [::skin::getKey bigstate_xpad] [::skin::getKey bigstate_ypad]]
         }
-        set pic_name my_pic
+        set pic_name displaypicture_std_self
         bind $pgBuddyTop.bigstate <<Button3>> {tk_popup .my_menu %X %Y} 
         pack $disppic -side left -padx [::skin::getKey bigstate_xpad] -pady [::skin::getKey bigstate_ypad]
 
@@ -5710,7 +5708,7 @@ proc ShowUser {user_login state_code colour section grId} {
 
 	}
 	if {$small_dp != ""} {
-		set imgIdx [$pgBuddy.text image create $section.last -image $small_dp -padx 3 -pady 1 -name [string map { "-" "\\" } "small_dp_${user_login}"]]
+		set imgIdx [$pgBuddy.text image create $section.last -image $small_dp -padx 3 -pady 1 -name [string map { "-" "\\" } "displaypicture_tny_${user_login}"]]
 	} else {
 		set imgIdx [$pgBuddy.text image create $section.last -image [::skin::loadPixmap $image_type] -padx 3 -pady 1]
 	}
@@ -7448,13 +7446,13 @@ proc load_my_pic { {nopic 0} } {
 	status_log "load_my_pic: Trying to set display picture [::config::getKey displaypic]\n" blue
 	if {[file readable [::skin::GetSkinFile displaypic [::config::getKey displaypic]]]} {
 		#We made sure the proc is only called when we need to CHANGE dp
-		#if {[lsearch [image names] my_pic] != -1 && $force} {
-		#	image delete my_pic
-		#	catch {image delete my_pic_small}
+		#if {[lsearch [image names] displaypicture_std_self] != -1 && $force} {
+		#	image delete displaypicture_std_self
+		#	catch {image delete displaypicture_not_self}
 		#}
-		catch {image delete my_pic}
-		catch {image delete my_pic_small}
-		image create photo my_pic -file "[::skin::GetSkinFile displaypic [::config::getKey displaypic]]" -format cximage
+		catch {image delete displaypicture_std_self}
+		catch {image delete displaypicture_not_self}
+		image create photo displaypicture_std_self -file "[::skin::GetSkinFile displaypic [::config::getKey displaypic]]" -format cximage
 		if { [::skin::getKey showdisplaycontactlist] && [winfo exists $pgBuddyTop.bigstate] } {
 			#Recreate the status image
 			destroy $pgBuddyTop.bigstate
@@ -7532,7 +7530,7 @@ proc dpBrowser {} {
 
 	#preview
 	label $w.dppreviewtxt -text "Preview:"
-	label $w.dppreview -image my_pic
+	label $w.dppreview -image displaypicture_std_self
 	
 	#browse button
 	button $w.browsebutton -command "set selected_path \[pictureChooseFile\]" -text "[trans browse]..."
@@ -7595,10 +7593,10 @@ proc pictureBrowser {} {
 	.picbrowser.pics setwidget .picbrowser.pics.text
 
 	#Should be only called when we CHANGE the dp, not in the browser!
-	#and my_pic is created when we log in anyway...
+	#and displaypicture_std_ is created when we log in anyway...
 	#load_my_pic
 
-	label .picbrowser.mypic -image my_pic -background white -borderwidth 2 -relief solid
+	label .picbrowser.mypic -image displaypicture_std_self -background white -borderwidth 2 -relief solid
 	label .picbrowser.mypic_label -text "[trans mypic]" -font splainf
 
 	button .picbrowser.browse -command "set selected_image \[pictureChooseFile\]; reloadAvailablePics" -text "[trans browse]..."
@@ -8000,8 +7998,8 @@ proc AskDPSize { cursize } {
 }
 
 proc set_displaypic { file } {
-	catch {image delete my_pic}
-	catch {image delete my_pic_small}
+	catch {image delete displaypicture_std_self}
+	catch {image delete displaypicture_not_self}
 	if { $file != "" } {
 		::config::setKey displaypic $file
 		status_log "set_displaypic: File set to $file\n" blue
@@ -8010,7 +8008,7 @@ proc set_displaypic { file } {
 		::MSN::changeStatus [set ::MSN::myStatus]
 		save_config
 	} else {
-		status_log "set_displaypic: Setting displaypic to no_pic\n" blue
+		status_log "set_displaypic: Setting displaypic to displaypicture_std_none\n" blue
 		clear_disp
 		load_my_pic 1
 		load_my_smaller_pic
@@ -8023,7 +8021,7 @@ proc clear_disp { } {
 
 	::config::setKey displaypic nopic.gif
 
-	catch {image create photo my_pic -file "[::skin::GetSkinFile displaypic nopic.gif]" -format cximage}
+	catch {image create photo displaypicture_std_self -file "[::skin::GetSkinFile displaypic nopic.gif]" -format cximage}
 	
 	if { [::skin::getKey showdisplaycontactlist] && [winfo exists $pgBuddyTop.bigstate] } {
 		#Recreate the status image

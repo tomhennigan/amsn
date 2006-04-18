@@ -6009,7 +6009,7 @@ namespace eval ::MSN6FT {
 				status_log $res
 			}
 			
-			if {$image != "no_pic"} {
+			if {$image != "displaypicture_std_none"} {
 				image delete $image
 			}
 			

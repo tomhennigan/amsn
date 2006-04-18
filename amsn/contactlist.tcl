@@ -413,7 +413,7 @@ snit::widget contactlist {
 		set mypicbgid [$top create image 0 0 -anchor nw -image [::skin::loadPixmap mypicbgimg]]
 		set mypicoverlayid [$top create image 0 0 -anchor nw -image [::skin::loadPixmap mypicoverlayimg]]
 		load_my_smaller_pic
-		set mypicid [$top create image 0 0 -anchor nw -image my_pic_small]
+		set mypicid [$top create image 0 0 -anchor nw -image displaypicture_not_self]
 		set mynickid [$top create text 0 0 -anchor nw -fill $mynickcol -font $mynickfont -text "Hobbes - all the colours of the rainbow!!!"]
 		set mypsmid [$top create text 0 0 -anchor nw -fill $mypsmcol -font $mypsmfont -text "http://amsn.sf.net/"]
 		set mymusicid [$top create text 0 0 -anchor nw -fill $mymusiccol -font $mymusicfont -text "Kate Bush - Aerial tal"]

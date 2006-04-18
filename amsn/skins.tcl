@@ -108,11 +108,27 @@ namespace eval ::skin {
 		if { ! [info exists ${location}_names($pixmap_name) ] } {
 			return ""
 		}
+
+status_log "loc: $location"
+		#for better image naming convention
+		switch "$location" {
+				smileys {
+status_log "SMILEY"
+					set naming "emoticonStd_std"
+				}
+				"pixmaps" {
+					set naming "uiElement_std"
+				}
+				default {
+					set naming $location
+				}
+		}
+
 		#If the loading pixmap is corrupted (like someone stupid trying to change the smileys by himself and is doing something bad), just show a null picture
-		if { [catch {set loaded_${location}($pixmap_name) [image create photo ${location}_${pixmap_name} -file [::skin::GetSkinFile ${location} [set ${location}_names($pixmap_name)] \
+		if { [catch {set loaded_${location}($pixmap_name) [image create photo ${naming}_${pixmap_name} -file [::skin::GetSkinFile ${location} [set ${location}_names($pixmap_name)] \
 			"" [set ${location}_fblocation($pixmap_name)]] -format cximage] } res ] } {
 		 	status_log "Error while loading pixmap $res"
-		 	set loaded_${location}($pixmap_name) [image create photo ${location}_${pixmap_name} -file [::skin::GetSkinFile pixmaps null \
+		 	set loaded_${location}($pixmap_name) [image create photo ${naming}_${pixmap_name} -file [::skin::GetSkinFile pixmaps null \
 			 -format cximage]]
 		 }
 	
@@ -123,24 +139,24 @@ namespace eval ::skin {
 	################################################################
 	# ::skin::getNoDisplayPicture ([skin_name])
 	# Checks if the image was previously loaded, or we need to load
-	# it. This way, the no_pic will be loaded first time it's used.
-	# It always returns 'no_pic', is always the same name (static).
+	# it. This way, the displaypicture_std_none will be loaded first time it's used.
+	# It always returns 'displaypicture_std_none', is always the same name (static).
 	# Arguments:
 	#  - skin_name => [NOT REQUIRED] Overrides the current skin.
 	proc getNoDisplayPicture { {skin_name ""} } {
 		variable loaded_images
-		if { [info exists loaded_images(no_pic)] } {
-			return no_pic
+		if { [info exists loaded_images(displaypicture_std_none)] } {
+			return displaypicture_std_none
 		}
-		image create photo no_pic -file [::skin::GetSkinFile displaypic nopic.gif $skin_name] -format cximage
-		set loaded_images(no_pic) 1
-		return no_pic
+		image create photo displaypicture_std_none -file [::skin::GetSkinFile displaypic nopic.gif $skin_name] -format cximage
+		set loaded_images(displaypicture_std_none) 1
+		return displaypicture_std_none
 	}
 
 	proc getDisplayPicture { email {force 0}} {
 		global HOME
-		
-		set picName user_pic_$email
+				
+		set picName displaypicture_std_$email
 		
 		if {[catch {image width $picName}] == 0  && $force == 0} {
 			return $picName
@@ -172,7 +188,7 @@ namespace eval ::skin {
 		} elseif { [::config::getKey autoresizedp] && ![::picture::IsAnimated $file] && $cursize != "96x96"} {
 			::picture::Resize $picName 96 96
 		}
-		if { [catch {image height small_dp_$email} height] == 0} {
+		if { [catch {image height displaypicture_tny_$email} height] == 0} {
 			#Little DP exists so we have to update it
 			::skin::getLittleDisplayPicture $email $height 1
 		}
@@ -182,7 +198,7 @@ namespace eval ::skin {
 	proc getLittleDisplayPicture { email height {force 0}} {
 		global HOME
 
-		set picName small_dp_$email
+		set picName displaypicture_tny_$email
 		
 		if {[catch {image width $picName}] == 0  && $force == 0} {
 			return $picName
@@ -217,7 +233,7 @@ namespace eval ::skin {
 			::picture::ResizeWithRatio $picName $height $height
 			return $picName
 		} else {
-			set tmpPic [image create photo]  ;#gets destroyed
+			set tmpPic [image create photo tmp]  ;#gets destroyed
 			$tmpPic copy $picName
 			image delete $picName
 			image create photo $picName
@@ -255,14 +271,14 @@ namespace eval ::skin {
 
 		# Avoid deleting/recreating the colorbar every CL refresh!
 		if { [info exists pgbuddy_colorbar_width] && $pgbuddy_colorbar_width == $win_width } {
-			return mainbar
+			return uiDynamicElement_mainbar
 		}
 
 		set width $win_width
-		# Delete old mainbar, and load colorbar
+		# Delete old uiDynamicElement_mainbar, and load colorbar
 		# The colorbar will be loaded as follows:
 		# [first 10 px][11th px repeating to fill][the rest of the colorbar]
-		catch {image delete mainbar}
+		catch {image delete uiDynamicElement_mainbar}
 
 		set barheight [image height [loadPixmap colorbar]]
 		set barwidth [image width [loadPixmap colorbar]]
@@ -274,15 +290,15 @@ namespace eval ::skin {
 
 
 		# Create the color bar copying from the pixmap
-		image create photo mainbar -width $width -height $barheight
-		mainbar blank
-		mainbar copy [loadPixmap colorbar] -from 0 0 10 $barheight
-		mainbar copy [loadPixmap colorbar] -from 10 0 11 $barheight -to 10 0 $barendstart $barheight
-		mainbar copy [loadPixmap colorbar] -from [expr {$barwidth - $barendwidth}] 0 $barwidth $barheight -to $barendstart 0 $width $barheight
+		image create photo uiDynamicElement_mainbar -width $width -height $barheight
+		uiDynamicElement_mainbar blank
+		uiDynamicElement_mainbar copy [loadPixmap colorbar] -from 0 0 10 $barheight
+		uiDynamicElement_mainbar copy [loadPixmap colorbar] -from 10 0 11 $barheight -to 10 0 $barendstart $barheight
+		uiDynamicElement_mainbar copy [loadPixmap colorbar] -from [expr {$barwidth - $barendwidth}] 0 $barwidth $barheight -to $barendstart 0 $width $barheight
 
 		set pgbuddy_colorbar_width $win_width
 		set ::skin::loaded_images(colorbar) 1
-		return mainbar
+		return uiDynamicElement_mainbar
 	}
 
 
@@ -340,8 +356,8 @@ namespace eval ::skin {
 
 		# Now reload special images that need special treatment
 		variable loaded_images
-		if {[info exists loaded_images(no_pic)]} {
-			unset loaded_images(no_pic)
+		if {[info exists loaded_images(displaypicture_std_none)]} {
+			unset loaded_images(displaypicture_std_none)
 			::skin::getNoDisplayPicture $skin_name
 		}
 		if {[info exists loaded_images(colorbar)]} {
@@ -699,11 +715,11 @@ namespace eval ::skinsGUI {
 		label $w.status -text ""
 		pack $w.status -side bottom
 
-		image create photo blank -width 1 -height 75
-		label $w.main.left.images.blank -image blank
+#		image create photo blank -width 1 -height 75
+#		label $w.main.left.images.blank -image blank
 
-		image create photo blank2 -width 400 -height 1
-		label $w.main.left.images.blank2 -image blank2
+#		image create photo blank2 -width 400 -height 1
+#		label $w.main.left.images.blank2 -image blank2
 
 		set select -1
 		set idx 0
@@ -798,8 +814,8 @@ namespace eval ::skinsGUI {
 		grid $w.main.left.images.6 -in $w.main.left.images -row 1 -column 6
 		grid $w.main.left.images.7 -in $w.main.left.images -row 1 -column 7
 		grid $w.main.left.images.8 -in $w.main.left.images -row 1 -column 8
-		grid $w.main.left.images.blank -in $w.main.left.images -row 1 -column 10
-		grid $w.main.left.images.blank2 -in $w.main.left.images -row 2 -column 1 -columnspan 8
+#		grid $w.main.left.images.blank -in $w.main.left.images -row 1 -column 10
+#		grid $w.main.left.images.blank2 -in $w.main.left.images -row 2 -column 1 -columnspan 8
 
 		$w.main.left.desc configure -state normal
 		$w.main.left.desc delete 0.0 end
@@ -828,6 +844,7 @@ namespace eval ::skinsGUI {
 			destroy .skin_selector.main.left.images.8
 		}
 		catch {
+#TODO the destruction of the images should be binded to the destruction of the widget they're in
 			image delete preview1
 			image delete preview2
 			image delete preview3

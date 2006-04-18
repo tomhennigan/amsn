@@ -166,7 +166,7 @@ namespace eval ::smiley {
 
 
 		#Create the image now and store it   ;# $emotion(name) is unique as we store the emoticon in the array under this name (cfr infra)
-		if { [catch { image create photo custom_emoticon_$emotion(name) -file $emotion(file) -format cximage } emotion(image_name) ] } {
+		if { [catch { image create photo emoticonCustom_std_$emotion(text) -file $emotion(file) -format cximage } emotion(image_name) ] } {
 			status_log "Error when creating image for emoticon $emotion(name) : $emotion(image_name)"
 			#Error when creating smiley's image so we don't add it
 			return 0
@@ -591,7 +591,7 @@ namespace eval ::smiley {
 	proc CreateSmileyInMenu {w cols rows smiw smih emot_num name symbol image file animated} {
 		catch {
 			#number of menu-item in name as I'm usure about the name being unique and the quoting of the symbol
-			set resized [image create photo smiley_menu_${emot_num}_small]
+			set resized [image create photo emoticonAll_tny_${emot_num}_small]
 			$resized copy $image
 			if {[image width $image] > 22 && [image height $image] > 22} {
 				::picture::ResizeWithRatio $resized 22 22
@@ -947,18 +947,18 @@ namespace eval ::smiley {
 			} else {
 				set titleid custom_new
 			}
-			image create photo temp_smiley -file [::skin::GetSkinFile smileys "$new_custom_cfg(file)"]
+			image create photo tmp -file [::skin::GetSkinFile smileys "$new_custom_cfg(file)"]
 			
 			set filetail_noext [filenoext [file tail "$new_custom_cfg(file)"]]
 			set destfile [file join $HOME smileys $filetail_noext]
 			
-			if { [image width temp_smiley] > 19 || [image height temp_smiley] > 19 } {
+			if { [image width tmp] > 19 || [image height tmp] > 19 } {
 				#Smiley is static and bigger than 19x19 we ask for resizing
 				if { [::amsn::messageBox "[trans smiletoobig]" yesno question "[trans $titleid ]"] == "yes" } {
 					#The user wants resize it
 					set file [convert_image_plus [::skin::GetSkinFile smileys "$new_custom_cfg(file)"] smileys 19x19]
 				} else {
-					if { [image width temp_smiley] > 50 || [image height temp_smiley] > 50 } {
+					if { [image width tmp] > 50 || [image height tmp] > 50 } {
 						#MSN can't show static smileys which are bigger than 50x50 so we resize it
 						set file [convert_image_plus [::skin::GetSkinFile smileys "$new_custom_cfg(file)"] smileys 50x50]
 					} else {
@@ -1018,7 +1018,7 @@ namespace eval ::smiley {
 		
 		
 		
-		set emotion(image_name) [image create photo custom_smiley_image_$emotion(name) -file $emotion(file) -format cximage]
+		set emotion(image_name) [image create photo emoticonCustom_std_$emotion(text) -file $emotion(file) -format cximage]
 		set custom_emotions($name) [array get emotion]
 
 		#load_smileys
@@ -1180,7 +1180,7 @@ proc custom_smile_subst { chatid tw {textbegin "0.0"} {end "end"} } {
 				$tw tag bind $twTag <<Button1>> "tk_popup $copyMenu %X %Y"
 		    }
 			
-			set smileyIdx [$tw image create $endpos -image "custom_smiley_$file" -padx 0 -pady 0]
+			set smileyIdx [$tw image create $endpos -image "emoticonCustomRcd_std_$file" -padx 0 -pady 0]
 			$tw tag add $twTag $smileyIdx
 			$tw tag remove smiley $endpos
 		    

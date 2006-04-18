@@ -161,19 +161,19 @@ namespace eval ::MSNP2P {
 
 
 			#if the small picture (for notifications e.g.) already exists, change it
-			if { [ImageExists smallpicture$user] } {
+			if { [ImageExists displaypicture_not_$user] } {
 			
 				status_log "User DP Changed, recreating small image as it already exist"
 				
 				#clear it first before overwriting
-				smallpicture$user blank
+				displaypicture_not_$user blank
 				#if there is no problem copying, it's OK, we resize it if bigger then 50x50
-				if {![catch {smallpicture$user copy user_pic_$user}]} {
-					if {[image width smallpicture$user] > 50 || [image height smallpicture$user] > 50} {
-						::picture::ResizeWithRatio smallpicture$user 50 50
+				if {![catch {displaypicture_not_$user copy user_pic_$user}]} {
+					if {[image width displaypicture_not_$user] > 50 || [image height displaypicture_not_$user] > 50} {
+						::picture::ResizeWithRatio displaypicture_not_$user 50 50
 					}
 				} else {
-					image delete smallpicture$user
+					image delete displaypicture_not_$user
 				}
 			}				
 			
