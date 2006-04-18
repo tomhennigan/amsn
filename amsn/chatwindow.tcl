@@ -795,7 +795,8 @@ namespace eval ::ChatWindow {
 	
 			set mainmenu [CreateMainMenu $w]
 			$w conf -menu $mainmenu
-			
+			bind $w <Control-m> "::ChatWindow::ShowHideChatWindowMenu $w $mainmenu"
+
 			#Send a postevent for the creation of menu
 			set evPar(window_name) "$w"
 			set evPar(menu_name) "$mainmenu"
@@ -878,6 +879,7 @@ namespace eval ::ChatWindow {
 		set container [CreateContainerWindow]
 		set mainmenu [CreateMainMenu $container]
 		$container configure -menu $mainmenu
+		bind $container <Control-m> "::ChatWindow::ShowHideChatWindowMenu $container $mainmenu"
 		
 		#Change Close item menu because the behavior is not the same with tabs
 		$container.menu.msn delete "[trans close]"
@@ -1142,6 +1144,13 @@ namespace eval ::ChatWindow {
 
 	}
 
+	proc ShowHideChatWindowMenu { window menu } {
+		if { [string length [$window cget -menu]] > 0 } {
+			$window configure -menu {}
+		} else {
+			$window configure -menu $menu
+		}
+	}
 
 	#############################################
 	# CreateMainMenu $w
