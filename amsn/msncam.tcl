@@ -1505,6 +1505,7 @@ namespace eval ::CAMGUI {
 			set img [image create photo [TmpImgName]]
 			label $window.l -image $img
 			pack $window.l
+			bind $window.l <Destroy> "image delete $img"
 			button $window.q -command "::MSNCAM::CancelCam $chatid $sid" -text "[trans stopwebcamreceive]"
 			pack $window.q -expand true -fill x
 			setObjOption $sid window $window
@@ -1665,6 +1666,7 @@ namespace eval ::CAMGUI {
 				wm title $window "$chatid - [::abook::getDisplayNick $chatid]"
 				label $window.l -image $img
 				pack $window.l
+				bind $window.l <Destroy> "image delete $img"				
 				button $window.settings -command "::CAMGUI::ShowPropertiesPage $grabber $img" -text "[trans changevideosettings]"
 				pack $window.settings -expand true -fill x
 				button $window.q -command "::MSNCAM::CancelCam $chatid $sid" -text "[trans stopwebcamsend]"
