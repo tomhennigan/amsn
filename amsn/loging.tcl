@@ -614,6 +614,10 @@ proc OpenCamLogWin { {email ""} } {
                                               if { \[::log::ClearCamLog $email \"\$date\"\] } { 
 				                    destroy $wname
 			         	      }" \
+
+	frame $wname.slider -class Amsn -borderwidth 0
+
+	scale $wname.slider.playbackspeed -from 10 -to 500 -resolution 1 -showvalue 1 -label "[trans playbackspeed]" -variable [::config::getVar playbackspeed] -orient horizontal
 	                            
 	
 
@@ -630,6 +634,8 @@ proc OpenCamLogWin { {email ""} } {
 	pack $wname.buttons.clear -padx 0 -side right
 	pack $wname.buttons.close -padx 0 -side right
 	pack $wname.buttons -side bottom -fill x -pady 3
+	pack $wname.slider.playbackspeed -fill x
+	pack $wname.slider -side bottom -fill x -pady 3
 	bind $wname <<Escape>> "destroy $wname"
 	bind $wname <Destroy> "::CAMGUI::Stop $img; catch {image delete $img}"
 	moveinscreen $wname 30

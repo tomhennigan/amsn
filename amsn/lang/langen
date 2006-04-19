@@ -539,6 +539,7 @@ phones Phone numbers
 picbrowser Display Pictures browser
 picfile Picture File (GIF < 500 x 500)
 picstatus Picture Alarm
+playbackspeed Playback speed (milliseconds between each frame)
 playing Playing: $1
 play Play
 pluginselector Select Plugins

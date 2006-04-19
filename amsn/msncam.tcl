@@ -2478,6 +2478,9 @@ namespace eval ::CAMGUI {
 	}
 
 	proc PreviewLinux { grabber img } {
+		if { [::config::getKey playbackspeed] == "" } {
+			::config::setKey playbackspeed 100
+		}
 		set semaphore ::CAMGUI::sem_$grabber
 		set $semaphore 0
 		if { [::config::getKey lowrescam] == 1 } {
@@ -2489,7 +2492,7 @@ namespace eval ::CAMGUI {
 			if {[catch {::Capture::Grab $grabber $img $cam_res} res]} {
 				status_log "Problem grabbing from the device.  Device busy or unavailable ?\n\t \"$res\""
 			}
-			after 100 "incr $semaphore"
+			after [::config::getKey playbackspeed] "incr $semaphore"
 			tkwait variable $semaphore
 		}
 	}
