@@ -732,7 +732,7 @@ namespace eval ::amsn {
 
 		#Draw our own message
 		#Does this image ever gets destroyed ? When destroying the chatwindow it's embeddeed in it should I guess ? This is not the leak I'm searching for though as I'm not sending inks...
-		set img [image create photo -file $filename]
+		set img [image create photo [TmpImgName] -file $filename]
 		SendMessageFIFO [list ::amsn::ShowInk $chatid [::abook::getPersonal login] $nick $img ink $p4c] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
 		::MSN::ChatQueue $chatid [list ::MSN::SendInk $chatid $filename]
 
@@ -6852,6 +6852,7 @@ proc timestamp {} {
 # to the status window
 proc status_log {txt {colour ""}} {
 	global followtext_status queued_status
+#	return
 
 	#ensure txt ends in a newline
 	if { [string index $txt end] != "\n" } {
@@ -7401,7 +7402,7 @@ proc convert_image { filename destdir size } {
 		}
 	
 		#Create img from the file
-		if {[catch {set img [image create photo -file $filename -format cximage]} res]} {
+		if {[catch {set img [image create photo [TmpImgName] -file $filename -format cximage]} res]} {
 			#If there's an error, it means the filename is corrupted, remove it
 			catch { file delete $filename }
 			catch { file delete [filenoext $filename].dat }
@@ -7760,7 +7761,7 @@ proc reloadAvailablePics { } {
 	foreach filename [lsort -dictionary $files] {
 		set skin_file "[::skin::GetSkinFile displaypic [file tail $filename]]"
 		if { [file exists $skin_file] } {
-			#set the_image [image create photo -file $skin_file ]
+			#set the_image [image create photo [TmpImgName] -file $skin_file ]
 			#addPicture $the_image "[getPictureDesc $filename]" [file tail $filename]
 			#lappend image_names $the_image
 			lappend image_order [list "" ${filename}]
@@ -7771,7 +7772,7 @@ proc reloadAvailablePics { } {
 
 	foreach filename [lsort -dictionary $myfiles] {
 		if { [file exists $filename] } {
-			#set the_image [image create photo -file "[filenoext $filename].gif" ]
+			#set the_image [image create photo [TmpImgName] -file "[filenoext $filename].gif" ]
 			#addPicture $the_image "[getPictureDesc $filename]" [file tail $filename]
 			#lappend image_names $the_image
 			lappend image_order [list "" ${filename}]
@@ -7789,7 +7790,7 @@ proc reloadAvailablePics { } {
 		set cached_order [list]
 		foreach filename $cachefiles {
 			if { [file exists $filename] } {
-				#set the_image [image create photo -file "[filenoext $filename].gif" ]
+				#set the_image [image create photo [TmpImgName] -file "[filenoext $filename].gif" ]
 				#addPicture $the_image "[getPictureDesc $filename]" "cache/[file tail $filename]"
 				#lappend image_names $the_image
 				lappend cached_order [list [lindex [getPictureDesc $filename] 1] ${filename}]
@@ -7806,7 +7807,7 @@ proc reloadAvailablePics { } {
 		} else {
 			set filename [lindex $file 1]
 			
-			if {[catch {set the_image [image create photo -file $filename -format cximage]} res]} {
+			if {[catch {set the_image [image create photo [TmpImgName] -file $filename -format cximage]} res]} {
 				#If there's an error, it means the filename is corrupted, remove it
 				catch { file delete $filename }
 				catch { file delete [filenoext $filename].dat }
@@ -7928,7 +7929,7 @@ proc pictureChooseFile { } {
 				pictureBrowser
 			}
 
-			set image_name [image create photo -file [::skin::GetSkinFile "displaypic" "[filenoext [file tail $file]].png"] -format cximage]
+			set image_name [image create photo [TmpImgName] -file [::skin::GetSkinFile "displaypic" "[filenoext [file tail $file]].png"] -format cximage]
 			status_log $image_name red
 			.picbrowser.mypic configure -image $image_name
 			set selected_image "[filenoext [file tail $file]].png"
@@ -8042,9 +8043,8 @@ if { $initialize_amsn == 1 } {
 
 proc degt_protocol { str {colour ""}} {
 	global followtext_degt
-
+#	return
 	.degt.mid.txt insert end "[timestamp] $str\n" $colour
-#	puts "$str"
 	.degt.mid.txt delete 0.0 end-1000lines
 	if { $followtext_degt == 1} {
 		.degt.mid.txt yview end
@@ -8399,4 +8399,14 @@ proc PlatformIs {} {
 proc ImageExists {img} {
 	return [expr {([catch {image type $img}]* -1) + 1}]
 }
+
+proc TmpImgName {} {
+	set idx 0
+	while {[ImageExists tmp$idx]} {
+		incr idx
+	}
+	return tmp$idx
+}
+
+
 

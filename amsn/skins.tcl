@@ -109,14 +109,12 @@ namespace eval ::skin {
 			return ""
 		}
 
-status_log "loc: $location"
 		#for better image naming convention
 		switch "$location" {
 				smileys {
-status_log "SMILEY"
 					set naming "emoticonStd_std"
 				}
-				"pixmaps" {
+				pixmaps {
 					set naming "uiElement_std"
 				}
 				default {
@@ -233,7 +231,7 @@ status_log "SMILEY"
 			::picture::ResizeWithRatio $picName $height $height
 			return $picName
 		} else {
-			set tmpPic [image create photo tmp]  ;#gets destroyed
+			set tmpPic [imageTemp]  ;#gets destroyed
 			$tmpPic copy $picName
 			image delete $picName
 			image create photo $picName

@@ -616,7 +616,7 @@ snit::widget contactlist {
 			return {}
 		}
 		# Create canvas items (pic, nick, psm, music, state)
-		set img [image create photo]
+		set img [image create photo [TmpImgName]]
 		$img copy [::skin::getDisplayPicture $id]
 		::picture::ResizeWithRatio $img 32 32
 		set buddyid($groupid.$id) [$list create image 0 0 -anchor nw -image $img]
@@ -694,7 +694,7 @@ snit::widget contactlist {
 		if { [$self ContactInGroup $id $groupid] } {
 			# Change the image of the canvas item
 			image delete [$list itemcget $buddyid($groupid.$id)]
-			set img [image create photo]
+			set img [image create photo [TmpImgName]]
 			$img copy [::skin::getDisplayPicture $id]
 			::picture::ResizeWithRatio $img 32 32
 			$list itemconfigure $buddyid($groupid.$id) -image $img

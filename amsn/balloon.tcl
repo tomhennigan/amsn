@@ -56,6 +56,8 @@ proc set_balloon {target message {pic ""}} {
     set Bulle(${target}) ${message}
     set BullePic(${target}) ${pic}
     bindtags ${target} "[bindtags ${target}] Bulle"
+    bind $target <Destroy> "array unset Bulle ${target}; array unset BullePic ${target}"
+    
 }
 
 proc change_balloon {target message {pic ""}} {

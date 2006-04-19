@@ -1469,7 +1469,7 @@ namespace eval ::ChatWindow {
 		
 		if { [::skin::getKey chat_top_pixmap] } {
 			set bg "::$top.bg"
-			set topimg [image create photo] ;#gets destroyed
+			set topimg [image create photo [TmpImgName]] ;#gets destroyed
 			$topimg copy [::skin::loadPixmap cwtopback]
 			::picture::Colorize $topimg [::skin::getKey topbarbg]
 			scalable-bg $bg -source $topimg -n [::skin::getKey topbarpady] -e [::skin::getKey topbarpadx] -s [::skin::getKey topbarpady] -w [::skin::getKey topbarpadx] -width 0 -height 0

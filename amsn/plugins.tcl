@@ -5,6 +5,7 @@
 #####################################################
 
 proc plugins_log {plugin msg} {
+#return
 	if {[info procs "::pluginslog::plugins_log"] == "::pluginslog::plugins_log"} {
 		::pluginslog::plugins_log $plugin $msg
 	} else {

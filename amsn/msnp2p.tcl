@@ -1005,7 +1005,7 @@ namespace eval ::MSNP2P {
 					} else {
 						set data $body
 					}
-					set img [image create photo -data $data]
+					set img [image create photo [TmpImgName] -data $data]
 					set user [lindex [::MSN::usersInChat $chatid] 0]
 					set nick [::abook::getDisplayNick $user]
 					set p4c_enabled 0

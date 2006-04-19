@@ -79,8 +79,8 @@ namespace eval ::picture {
 		if {[::picture::Loaded]} {
 			#TkCximage
 			if { [catch { 
-				set photo [image create photo -file $original -format cximage] ;#gets destroyed
-				::CxImage::Resize $photo $width $height 
+				set photo [image create photo [TmpImgName] -file $original -format cximage] ;#gets destroyed
+				::picture::ResizeWithRatio $photo $width $height 
 				$photo write $destination 
 				image delete $photo
 			} res ] } 	{
@@ -122,7 +122,7 @@ namespace eval ::picture {
 	proc Crop {photo x1 y1 x2 y2} {
 		
 		if {[::picture::Loaded]} {
-			set temp [image create photo] ;#gets destroyed
+			set temp [image create photo [TmpImgName]] ;#gets destroyed
 			if { [catch {$temp copy $photo -from $x1 $y1 $x2 $y2} res] != 0 } {
 				image delete $temp
 				status_log "Picture.tcl: Unable to crop image with TkCxImage\n$res" red
@@ -229,7 +229,7 @@ namespace eval ::picture {
 			error "The file doesn't exists"
 		}
 		
-		if {[catch {set img [image create photo -file $filename -format cximage]} res]} {
+		if {[catch {set img [image create photo [TmpImgName] -file $filename -format cximage]} res]} {
 			status_log "Picture.tcl::GetPictureSize: $res\n" red
 			error "$res"
 		}

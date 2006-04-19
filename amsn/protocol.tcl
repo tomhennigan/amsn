@@ -3648,7 +3648,7 @@ namespace eval ::Event {
 				} else {
 					set data $body
 				}
-				set img [image create photo -data $data]
+				set img [image create photo [TmpImgName] -data $data]
 
 				SendMessageFIFO [list ::amsn::ShowInk $chatid $typer $nick $img ink $p4c_enabled] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
 
@@ -5989,7 +5989,7 @@ namespace eval ::MSN6FT {
 		if { $nopreview == 0 } {
 			#Here we resize the picture and save it in /FT/cache for the preview (we send it and we see it)
 			create_dir [file join [set ::HOME] FT cache]
-			if {[catch {set image [image create photo -file $filename]}]} {
+			if {[catch {set image [image create photo [TmpImgName] -file $filename]}]} {
 				set image [::skin::getNoDisplayPicture]
 			}
 			if {[catch {::picture::ResizeWithRatio $image 96 96} res]} {
@@ -6628,7 +6628,7 @@ namespace eval ::MSN6FT {
 			puts -nonewline $fd "$previewdata"
 			close $fd
 			set file [file join $dir ${sid}.png]
-			if { $file != "" && ![catch {set img [image create photo -file $file]} res]} {
+			if { $file != "" && ![catch {set img [image create photo [TmpImgName] -file $file]} res]} {
 				::skin::setPixmap FT_preview_${sid} "[file join $dir ${sid}.png]"			
 			}
 			catch {image delete $img}

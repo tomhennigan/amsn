@@ -1502,7 +1502,7 @@ namespace eval ::CAMGUI {
 			set chatid [getObjOption $sid chatid]
 			wm title $window "$chatid - [::abook::getDisplayNick $chatid]"
 			wm protocol $window WM_DELETE_WINDOW "::MSNCAM::CancelCam $chatid $sid"
-			set img [image create photo]
+			set img [image create photo [TmpImgName]]
 			label $window.l -image $img
 			pack $window.l
 			button $window.q -command "::MSNCAM::CancelCam $chatid $sid" -text "[trans stopwebcamreceive]"
@@ -1641,7 +1641,7 @@ namespace eval ::CAMGUI {
 
 			#Don't show the sending frame on Mac OS X (we already have the grabber)
 			if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-				set img [image create photo]
+				set img [image create photo [TmpImgName]]
 				set w .grabber
 
 				if { [winfo exists $w] } {
@@ -1660,7 +1660,7 @@ namespace eval ::CAMGUI {
 				}
 
 			} else {
-				set img [image create photo]
+				set img [image create photo [TmpImgName]]
 				toplevel $window
 				wm title $window "$chatid - [::abook::getDisplayNick $chatid]"
 				label $window.l -image $img
@@ -2348,7 +2348,7 @@ namespace eval ::CAMGUI {
 
 		label $status -text "[trans choosedevice]"
 
-		set img [image create photo]
+		set img [image create photo [TmpImgName]]
 		label $preview -image $img
 		button $settings -text "[trans changevideosettings]"
 
@@ -2627,7 +2627,7 @@ namespace eval ::CAMGUI {
 		pack $buttons.ok $buttons.cancel -side left
 
 		if { $img == "" } {
-			set img [image create photo]
+			set img [image create photo [TmpImgName]]
 		}
 		label $preview -image $img
 
@@ -2749,7 +2749,7 @@ namespace eval ::CAMGUI {
 
 		label $status -text "[trans choosedevice]"
 
-		set img [image create photo]
+		set img [image create photo [TmpImgName]]
 		label $preview -image $img
 		button $settings -text "[trans changevideosettings]" -command "::CAMGUI::Choose_SettingsWindows $devs.list"
 
@@ -3450,7 +3450,7 @@ status_log "$device"
 				return
 			}
 
-			set previmg [image create photo]
+			set previmg [image create photo [TmpImgName]]
 
 					
 			$previmc create image 0 0 -image $previmg -anchor nw 
@@ -3637,7 +3637,7 @@ status_log "$device"
 			return
 		}
 
-		set previmg [image create photo]
+		set previmg [image create photo [TmpImgName]]
 
 					
 		$previmc create image 0 0 -image $previmg -anchor nw 

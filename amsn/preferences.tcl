@@ -2552,7 +2552,7 @@ proc Preferences { { settings "personal"} } {
     #catch { Rnotebook:raise $nb $Preftabs($settings) }
 
     
-    bind .cfg <Destroy> "RestorePreferences %W"
+    bind .cfg <Destroy> "RestorePreferences %W; array unset myconfig"
 
     wm state .cfg normal
 
