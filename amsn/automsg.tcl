@@ -105,7 +105,7 @@ proc StateList { action { argument "" } {argument2 ""} } {
 
 		show {
 			for {set idx 0} {$idx < [array size StatesList]} {incr idx} {
-				puts stdout "$idx : $StatesList($idx)\n"
+				#puts stdout "$idx : $StatesList($idx)\n"
 			}
 			}
 		clear {

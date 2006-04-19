@@ -3797,7 +3797,7 @@ proc choose_font { parent title {initialfont ""} {initialcolor ""}} {
 # change_font
 # Opens a font selector and changes the config key given by $key to the font selected
 proc change_font {win_name key} {
-	puts "change $key"
+	#puts "change $key"
 	set basesize [lindex [::config::getGlobalKey basefont] 1]
 
 	#Get current font configuration
@@ -4791,7 +4791,7 @@ proc clickableDisplayPicture {tw type name command {padx 0} {pady 0}} {
 }
 
 proc dpImageDropHandler {window data} {
-	puts "Drop of image on $window : $data"
+	#puts "Drop of image on $window : $data"
 	
 	set data [string map {\r "" \n "" \x00 ""} $data]
 	set data [urldecode $data]
@@ -7569,7 +7569,7 @@ proc dpBrowser {} {
 
 
 proc configuredpbrowser {combowidget selection} {
-	puts "$combowidget $selection"
+	#puts "$combowidget $selection"
 	if {$selection == "Select a contact:"} {set selection ""}
 	[winfo toplevel $combowidget].moredps configure -user $selection
 }

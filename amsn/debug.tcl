@@ -102,9 +102,10 @@ namespace eval ::debug {
 		set force 1
 
 		#if we're writing to the file, also write to stdout
-		if {$wchannel != "stdout"} {
-			puts $data
-		}
+		#.. better not :D
+		#if {$wchannel != "stdout"} {
+		#	puts $data
+		#}
 		puts $wchannel $data
 		
 		catch {if {$force == 1} {

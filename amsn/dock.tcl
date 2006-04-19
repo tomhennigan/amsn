@@ -59,7 +59,8 @@ proc dock_handler { sock } {
 	} elseif { $l == "AMSN_CLOSE" } {
 		exit
 	} else {
-		puts stdout "Unknown dock command"
+		#puts stdout "Unknown dock command"
+		status_log "Unknown dock command"
 	}
 }
 
@@ -109,11 +110,13 @@ proc accept_dock { sock addr cport } {
 			puts $docksock [::MSN::myStatusIs]
 			fileevent $docksock readable [list dock_handler $docksock]
 		} else {
-			puts stdout "Error During HandShake! Closing!"
+			#puts stdout "Error During HandShake! Closing!"
+			status_log  "Error During HandShake! Closing!"
 			close_dock
 		}
 	} else {
-		puts stdout "Dock connection attempted from remote location, refused!"
+		#puts stdout "Dock connection attempted from remote location, refused!"
+		status_log "Dock connection attempted from remote location, refused!"
 	}
 }
 
