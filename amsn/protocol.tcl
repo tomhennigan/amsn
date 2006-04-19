@@ -3555,8 +3555,8 @@ namespace eval ::Event {
 
 
 				#Do we need this? Looks a bit... untidy
-				puts $invcommand
-				puts $cookie
+				#puts $invcommand
+				#puts $cookie
 
 				if {$invcommand == "INVITE" } {
 

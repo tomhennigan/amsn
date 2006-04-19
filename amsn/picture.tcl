@@ -28,7 +28,7 @@ namespace eval ::picture {
 				} 
 			}
 		}
-		puts "Picture.tcl: TkCximage not loaded\n$err"
+		#puts "Picture.tcl: TkCximage not loaded\n$err"
 		return 0
 		
 	}
