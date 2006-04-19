@@ -275,14 +275,14 @@ namespace eval sxml {
 	    set valid [info procs $proc]
 	    if { "$valid" == "" } {
 		if { $xml_attrs(${id}_silent) == 0 } {
-		    puts stderr "Error: Specified procedure to register \"$proc\" is not defined."
+		    #puts stderr "Error: Specified procedure to register \"$proc\" is not defined."
 		}
 		return -2
 	    }
 	    set args [info args $proc]
 	    if { [llength $args] != 6 } {
 		if { $xml_attrs(${id}_silent) == 0 } {
-		    puts stderr "Error: Specified procedure to register \"$proc\" does not have valid argument count."
+		    #puts stderr "Error: Specified procedure to register \"$proc\" does not have valid argument count."
 		}
 		return -3
 	    }
@@ -310,7 +310,7 @@ namespace eval sxml {
 	    set x [regexp { ([[:alnum:]\-_]+)="([^"]*)"} $attrstr junk a1 a2]
 		if {$x == 0} break
 		if { ! [validate_name $a1] } {
-			puts stderr "Error: Invalid attribute name: $a1"
+			#puts stderr "Error: Invalid attribute name: $a1"
 			return -code error 1
 		}
 		set a2 [xml_handle_bs_string $a2 $incdata]
@@ -322,7 +322,7 @@ namespace eval sxml {
 	    if { "[string trim "$attrstr"]" == "/" } {
 		set empty_tag 1
 	    } elseif {[llength $attrstr] != 0} {
-		puts stderr "Malformed attributes: $attrstr found in:\n$oattr"
+		#puts stderr "Malformed attributes: $attrstr found in:\n$oattr"
 		return -code error 1
 	    }
 	    return $attrs
@@ -511,7 +511,7 @@ proc parse {id} {
 	gets $xml_file($id) cline
 	incr cfileline
 	if { "$trace" >= 1 } {
-	    puts "Trace: Read line ($status): $cline"
+	    #puts "Trace: Read line ($status): $cline"
 	}
 	append cline "\n"
 	#########################################################
@@ -604,15 +604,15 @@ proc parse {id} {
 			set xx2 [string first ">" $xx]
 			if { $xx2 == -1 } {
 			    if { $xml_attrs(${id}_silent) == 0 } {
-				puts stderr "Error: End of line before end of tag encountered."
-				puts stderr "Current line below: \n$cline"
+				#puts stderr "Error: End of line before end of tag encountered."
+				#puts stderr "Current line below: \n$cline"
 			    }
 			    return -2
 			}
 			set xx [string range $xx 0 [expr {$xx2 - 1}] ]
 			if { [catch {set ctag_attrs [xml_tag_attrs_to_str $xx empty_ctag $xml_cdata_parse($id)]}] } {
 			    if { $xml_attrs(${id}_silent) == 0 } {
-				puts stderr "Current stack: $cstack:$tag"
+				#puts stderr "Current stack: $cstack:$tag"
 			    }
 			    return -9
 			}
@@ -629,7 +629,7 @@ proc parse {id} {
 		#################################################
 		set tag [string tolower $tag]
 		if { "$trace" >= 1 } {
-		    puts "Trace: Start-tag: $tag"
+		    #puts "Trace: Start-tag: $tag"
 		}
 		if { [string length $cstack] == 0 } {
 		    #################################################################
@@ -639,13 +639,13 @@ proc parse {id} {
 		    #################################################################
 		    if { $xml_hadtoplevel($id) == 1 } {
 			if { $xml_attrs(${id}_silent) == 0 } {
-			    puts stderr "Error: Second top-level entity found! ($tag)"
+			    #puts stderr "Error: Second top-level entity found! ($tag)"
 			}
 			return -7
 		    }
 		    if { ! [validate_name $tag] } {
 			if { $xml_attrs(${id}_silent) == 0 } {
-			    puts stderr "Error: Entity name malformed: $tag"
+			    #puts stderr "Error: Entity name malformed: $tag"
 			}
 			return -8
 		    }
@@ -654,7 +654,7 @@ proc parse {id} {
 		} else {
 		    if { ! [validate_name $tag] } {
 			if { $xml_attrs(${id}_silent) == 0 } {
-			    puts stderr "Error: Entity name malformed: $tag"
+			    #puts stderr "Error: Entity name malformed: $tag"
 			}
 			return -8
 		    }
@@ -718,7 +718,7 @@ proc parse {id} {
 		    set status 3
 		    set etag ""
 		    if { "$trace" >= 1 } {
-			puts "Trace: Saving $cstack: $cdata"
+			#puts "Trace: Saving $cstack: $cdata"
 		    }
 		    if {[info exists xml_data_stack($cstack)]} {
 			append xml_data_stack($cstack) $cdata
@@ -762,21 +762,21 @@ proc parse {id} {
 		#########################################
 		set etag [string tolower $etag]
 		if { "$trace" >= 1 } {
-		    puts "Trace: End-tag: $etag"
+		    #puts "Trace: End-tag: $etag"
 		}
 		set xx_el [llength [split $cstack :]]
 		incr xx_el -1
 		set xx_ll [lindex [split $cstack :] $xx_el]
 		if { "$etag" != "/$xx_ll" } {
 		    if { $xml_attrs(${id}_silent) == 0 } {
-			puts stderr "Error: End tag mismatch ($xx_ll -> $etag)"
-			puts stderr "Current stack: $cstack"
+			#puts stderr "Error: End tag mismatch ($xx_ll -> $etag)"
+			#puts stderr "Current stack: $cstack"
 		    }
 		    return -3
 		}
 		set x [lsearch -exact $xml_procs($id) $cstack]
 		if { "$trace" >= 2 } {
-		    puts "Trace: Searched $xml_procs($id) for $cstack - Result = $x"
+		    #puts "Trace: Searched $xml_procs($id) for $cstack - Result = $x"
 		}
 		if { [info exists xml_data_stack($cstack)] } {
 		    set cdata "$xml_data_stack($cstack)"
@@ -807,8 +807,8 @@ proc parse {id} {
 			    set xml_data_stack($cstack) {}
 			} elseif { ($r != "0" && $r != "SXML_OK") || $r == "SXML_ERROR" } {
 			    if { $xml_attrs(${id}_silent) == 0 } {
-				puts stderr "Error: Returned error when calling: $defproc"
-				puts stderr "Current stack: $cstack"
+				#puts stderr "Error: Returned error when calling: $defproc"
+				#puts stderr "Current stack: $cstack"
 			    }
 			    return -4
 			}
@@ -819,13 +819,13 @@ proc parse {id} {
 			# the saved data....		#
 			#################################
 			if { "$trace" >= 1 } {
-			    puts "Trace: Added-saved: $tag=$cdata"
+			    #puts "Trace: Added-saved: $tag=$cdata"
 			}
 		    }
 		} else {
 		    set proc [lindex $xml_procs($id) [expr {$x + 1}]]
 		    if { "$trace" >= 1 } {
-			puts "Trace: Calling proc $proc"
+			#puts "Trace: Calling proc $proc"
 		    }
 		    xml_construct_attr_list $cstack myarr
 		    xml_construct_data_list $cstack myarr2
@@ -839,8 +839,8 @@ proc parse {id} {
 			set xml_data_stack($cstack) {}
 		    } elseif { ($r != "0" && $r != "SXML_OK") || $r == "SXML_ERROR" } {
 			if { $xml_attrs(${id}_silent) == 0 } {
-			    puts stderr "Error: Returned error when calling: $proc"
-			    puts stderr "Current stack: $cstack"
+			    #puts stderr "Error: Returned error when calling: $proc"
+			    #puts stderr "Current stack: $cstack"
 			}
 			return -4
 		    }
@@ -855,20 +855,20 @@ proc parse {id} {
 		set status 0
 		incr c; continue
 	    }
-	    puts "stderr: Warning invalid state encountered!"
+	    #puts "stderr: Warning invalid state encountered!"
 	    incr c
 	}
     }
     if { $status == 4 } {
 	if { $xml_attrs(${id}_silent) == 0 } {
-	    puts stderr "Error: End of file during comment - comment started on line $comstart."
+	    #puts stderr "Error: End of file during comment - comment started on line $comstart."
 	}
 	return -5
     }
     if { $status != 0 || [string length $cstack] > 0 } {
 	if { $xml_attrs(${id}_silent) == 0 } {
-	    puts stderr "Error: Data exhausted, format not satisfied."
-	    puts stderr "Current stack: $cstack"
+	    #puts stderr "Error: Data exhausted, format not satisfied."
+	    #puts stderr "Current stack: $cstack"
 	}
 	return -6
     }
