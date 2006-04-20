@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 
 <version>
 	<lang>
@@ -173,7 +173,7 @@
 		<langcode>it</langcode>
 		<name>Italian (italiano)</name>
 		<version>1.67</version>
-		<encoding>iso8859-1</encoding>
+		<encoding>utf-8</encoding>
 	</lang>
 	<lang>
 		<langcode>ja</langcode>
