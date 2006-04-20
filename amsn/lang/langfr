@@ -540,6 +540,7 @@ picbrowser Voir mes avatars
 picfile Image associée à l'alarme (GIF < 500x500)
 picstatus Activer/Désactiver l'image associée à l'alarme
 play Jouer
+playbackspeed Vitesse de lecture (nombre de millisecondes entre chaque image)
 playing Joue: $1
 pluginselector Sélection d'un plug-in
 port Port
