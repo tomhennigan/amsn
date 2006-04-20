@@ -1445,6 +1445,7 @@ namespace eval ::MSN {
 	proc StartPolling {} {
 
 		if {([::config::getKey keepalive] == 1) && ([::config::getKey connectiontype] == "direct")} {
+			variable pollstatus 0
 			after cancel "::MSN::PollConnection"
 			after 60000 "::MSN::PollConnection"
 		} else {
@@ -1459,12 +1460,23 @@ namespace eval ::MSN {
 
 	#Send a keepalive message
 	proc PollConnection {} {
+		variable pollstatus
 		#Let's try to keep the connection alive... sometimes it gets closed if we
 		#don't do send or receive something for a long time
 		if { [::MSN::myStatusIs] != "FLN" } {
 			::MSN::WriteSBRaw ns "PNG\r\n"
-		}
+			
+			#Reconnect if necessary
+			if { $pollstatus > 1 && [::config::getKey reconnect] == 1 } {
+				set ::oldstatus [::MSN::myStatusIs]
+				::MSN::logout
+				::MSN::reconnect "[trans connectionlost]"
+			} elseif { $pollstatus > 10 } {
+				::MSN::logout
+			}
+			incr pollstatus
 
+		}
 		after 60000 "::MSN::PollConnection"
 	}
 
@@ -4697,6 +4709,7 @@ proc cmsn_ns_handler {item {message ""}} {
 
 			QNG {
 				#Ping response
+				variable ::MSN::pollstatus 0
 				return 0
 			}
 			200 {
