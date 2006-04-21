@@ -57,7 +57,7 @@ proc secureSocket { args } {
 
 		# create the socket to the proxy
 		set socket [socket $phost $pport]
-		fconfigure $socket -blocking 1 -buffering full -translation crlf
+		fconfigure $socket -buffering full -translation crlf
 		puts $socket "CONNECT $thost:$tport HTTP/1.1"
 		puts $socket $auth
 		flush $socket
