@@ -3740,7 +3740,8 @@ proc cmsn_rng {recv} {
 
 	global sb_list
 
-	set emaill [string tolower [lindex $recv 5]]
+	set email [string tolower [lindex $recv 5]]
+	if {[::abook::getContactData $email ignored 0] != 0} { return 0 }
 
 	set sb [::MSN::GetNewSB]
 
