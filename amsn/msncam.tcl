@@ -2843,7 +2843,6 @@ namespace eval ::CAMGUI {
 	}
 
 	proc Play { img filename } {
-		variable seek_val
 
 		if { [::config::getKey playbackspeed] == "" } {
 			::config::setKey playbackspeed 100
@@ -2858,13 +2857,23 @@ namespace eval ::CAMGUI {
 			after 250 "incr $semaphore"
 			return
 		}
+		if { ![info exists $::seek_val($img)] } {
+			set ::seek_val($img) 0
+		}
 
 		set $semaphore 0
 
 		set fd [open $filename]
 		fconfigure $fd -encoding binary -translation binary
-		catch { seek $fd $seek_val }
+		set ::seek_val($img) 0
 		set data [read $fd]
+		set whole_size [string length $data]
+
+		status_log "seek val was $::seek_val($img) "
+		set ::seek_val($img) [expr {[string first "ML20" $data $::seek_val($img)] - 12}]
+		status_log "seek val is $::seek_val($img) "
+		set data [string range $data $::seek_val($img) end]
+	
 		close $fd
 	
 		set decoder [::Webcamsn::NewDecoder]
@@ -2879,6 +2888,7 @@ namespace eval ::CAMGUI {
 				status_log "Play : Decode error $res" red
 			}
 			set data [string range $data $size end]
+			set ::seek_val($img) [expr { $whole_size - [string length $data ] } ]
 			#after 100 "incr $semaphore"
 			after [::config::getKey playbackspeed] "incr $semaphore"
 			tkwait variable $semaphore
@@ -2890,7 +2900,7 @@ namespace eval ::CAMGUI {
 	}
 
 	proc Seek { img filename seek } {
-		variable seek_val $seek
+		set ::seek_val($img) $seek
 
 		set semaphore ::${img}_semaphore
 		if {![info exists $semaphore] } {
@@ -2921,6 +2931,7 @@ namespace eval ::CAMGUI {
 			return
 		}
 		after cancel "incr $semaphore"
+		set ::seek_val($img) 0
 		catch {unset $semaphore}
 		catch {$img blank}
 	}	

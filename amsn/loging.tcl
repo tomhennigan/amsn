@@ -616,9 +616,17 @@ proc OpenCamLogWin { {email ""} } {
 	frame $wname.slider -class Amsn -borderwidth 0
 
 	scale $wname.slider.playbackspeed -from 10 -to 500 -resolution 1 -showvalue 1 -label "[trans playbackspeed]" -variable [::config::getVar playbackspeed] -orient horizontal
-	                            
 	
+	frame $wname.position -class Amsn -borderwidth 0
 
+	if { ![info exists ::seek_val($img)] } {
+		set ::seek_val($img) 0
+	}
+
+	scale $wname.position.slider -from 0 -to [file size [file join ${webcam_dir} ${email}.cam]] -resolution 1 -showvalue 1 -label "[trans playbackposition]" -variable ::seek_val($img) -orient horizontal
+	#not using -command to avoid constantly changing while user is dragging it around
+	bind $wname.position.slider <Button1-ButtonPress> "::CAMGUI::Pause $img"
+	bind $wname.position.slider <Button1-ButtonRelease> "::CAMGUI::Seek $img \"[file join ${webcam_dir} ${email}.cam]\" \[set ::seek_val($img)\]"
 
       	
 	pack $wname.top -side top -fill x
@@ -634,6 +642,8 @@ proc OpenCamLogWin { {email ""} } {
 	pack $wname.buttons -side bottom -fill x -pady 3
 	pack $wname.slider.playbackspeed -fill x
 	pack $wname.slider -side bottom -fill x -pady 3
+	pack $wname.position.slider -fill x
+	pack $wname.position -side bottom -fill x -pady 3
 	bind $wname <<Escape>> "destroy $wname"
 	bind $wname <Destroy> "::CAMGUI::Stop $img; catch {image delete $img}"
 	moveinscreen $wname 30
