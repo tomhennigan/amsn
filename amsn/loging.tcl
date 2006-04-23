@@ -571,8 +571,6 @@ proc OpenCamLogWin { {email ""} } {
 
 	set img [image create photo ${wname}_img -w 320 -h 240]
       	label $wname.blueframe.log.l -image $img
-  
-
 
 	frame $wname.top.contact  -class Amsn -borderwidth 0
 	combobox::combobox $wname.top.contact.list -editable true -highlightthickness 0 -width 22 -bg #FFFFFF -font splainf
@@ -590,8 +588,8 @@ proc OpenCamLogWin { {email ""} } {
 	$wname.top.contact.list configure -command "::log::ChangeCamLogWin $wname $email"
 	$wname.top.contact.list configure -editable false
 
-	pack $wname.top.contact.list -side left
-	pack $wname.top.contact -side left
+	pack $wname.top.contact.list -side left -expand true -fill both
+	grid $wname.top.contact -row 0 -column 0 -sticky news
 
 	::log::CamLogsByDate $wname $email "1"
 
@@ -639,6 +637,83 @@ proc OpenCamLogWin { {email ""} } {
 	bind $wname <<Escape>> "destroy $wname"
 	bind $wname <Destroy> "::CAMGUI::Stop $img; catch {image delete $img}"
 	moveinscreen $wname 30
+}
+
+proc UpdateCamMetadata {email} {
+	global webcam_dir
+	if { ![catch {set fd [open [file join $webcam_dir ${email}.dat] a]}] } {
+		set epoch [clock seconds]
+		if { ![catch {set fsize [file size [file join $webcam_dir ${email}.cam]]}] } {
+			catch {puts $fd "$epoch $fsize"}
+		}
+		close $fd
+	}
+}
+
+proc UpdateSessionList {wname email {date "."}} {
+	global webcam_dir
+	variable logged_webcam_sessions
+
+	# Clear session list
+	$wname.top.sessions.list configure -editable true
+	$wname.top.sessions.list list delete 0 end
+	# Open metadata
+	set metadata [file join $webcam_dir $date ${email}.dat]
+	if { ![catch {set fd [open "$metadata"]}] } {
+		# Parse session data
+		array unset logged_webcam_sessions
+		set i 0
+		while {[gets $fd line] >= 0} {
+			set logged_webcam_sessions($i,epoch) [lindex $line 0]
+			set logged_webcam_sessions($i,fsize) [lindex $line 1]
+			incr i
+		}
+		close $fd
+		# Add sessions to combobox
+		for {set j 0} {$j < $i} {incr j} {
+			set epoch [clock format $logged_webcam_sessions($j,epoch)]
+			if {$j < [expr {$i-1}]} {
+				set fsize1 $logged_webcam_sessions($j,fsize)
+				set fsize2 $logged_webcam_sessions([expr {$j+1}],fsize)
+				set fsize [expr {$fsize2 - $fsize1}]
+			} else {
+				set fsize1 $logged_webcam_sessions($j,fsize)
+				set fsize2 [file size [file join $webcam_dir $date ${email}.cam]]
+				set fsize [expr {$fsize2 - $fsize1}]
+			}
+
+			set fsize "[::amsn::sizeconvert $fsize]o"
+			$wname.top.sessions.list list insert end "Session [expr {$j+1}], ${epoch}, (${fsize})"
+		}
+	} else {
+		status_log "::log::UpdateSessionList: cannot open metadata $metadata."
+	}
+	$wname.top.sessions.list select 0
+	$wname.top.sessions.list configure -editable false
+}
+
+proc JumpToSession {wname widget sel} {
+	global webcam_dir
+	variable logged_webcam_sessions
+
+	set idx [$wname.top.sessions.list curselection]
+	if {[catch {set seekval $logged_webcam_sessions($idx,fsize)}]} {
+		set seekval 0
+	}
+
+	# Rebuild .cam filename
+	set email [$wname.top.contact.list list get [$wname.top.contact.list curselection]]
+    set date [$wname.top.date.list list get [$wname.top.date.list curselection]]
+	if { $date == "[trans currentdate]" } { set date "." }
+	if { $date == "_ _ _ _ _" } { return }
+	set filename [file join ${webcam_dir} $date ${email}.cam]
+
+	status_log "Seeking to $sel at $seekval"
+	# after 100 to give the combobox time to close, how to do this neatly?
+	after 100 "catch {::CAMGUI::Seek ${wname}_img $filename $seekval}"
+	#if {[catch {::CAMGUI::Seek ${wname}_img $filename $seekval} res]} {
+	#	status_log "Seeking failed: $res"
+	#}
 }
 
 proc wname {email} {
@@ -722,6 +797,11 @@ proc CamLogsByDate {wname email init} {
 		if {$init == 1} {
 			frame $wname.top.date  -class Amsn -borderwidth 0
 			combobox::combobox $wname.top.date.list -editable true -highlightthickness 0 -width 22 -bg #FFFFFF -font splainf
+			frame $wname.top.sessions  -class Amsn -borderwidth 0
+			combobox::combobox $wname.top.sessions.list \
+				-command "::log::JumpToSession $wname" \
+				-highlightthickness 0 -width 22 -bg #FFFFFF -font splainf
+
 		}			
 		set date_list ""
 		set erdate_list ""
@@ -762,9 +842,15 @@ proc CamLogsByDate {wname email init} {
 
 		$wname.top.date.list configure -command "::log::ChangeCamLogToDate $wname $email"
 		$wname.top.date.list configure -editable false
-		pack $wname.top.date.list -side right
-		pack $wname.top.date -side right
+		pack $wname.top.date.list -side right -expand true -fill both
+		grid $wname.top.date -row 0 -column 1 -sticky news
 	}
+
+	UpdateSessionList $wname $email
+	pack $wname.top.sessions.list -expand true -fill both
+	grid $wname.top.sessions -row 1 -column 0 -columnspan 2 -sticky news
+	grid columnconfigure $wname.top 0 -weight 1
+	grid columnconfigure $wname.top 1 -weight 1
 }
 
 proc Fileexist {email date} {
@@ -812,6 +898,22 @@ proc ResetDelete {w email} {
 						} "
 }
 
+proc ResetCamDelete {w email} {
+	
+	global date
+
+	set name [::log::wname $email]
+
+	#Redefined the command of the button according to the new contact logging
+	$w.buttons.clear configure -command	"if { !\[winfo exists $w.top.date.list\] } { \
+							set date \".\" \
+						} else {
+							set date \[$w.top.date.list list get \[$w.top.date.list curselection\]\]\
+						}
+						if { \[::log::ClearCamLog $email \"\$date\"\] } { 
+							destroy $w
+						} "
+}
 
 proc ChangeLogToDate { w email widget date } {
 
@@ -881,6 +983,8 @@ proc ChangeCamLogToDate { w email widget date } {
 	    -state $exists
 	$w.buttons.stop configure -command "::CAMGUI::Stop $img" \
 	    -state $exists
+
+	UpdateSessionList $w $email $date
 }
 
 proc ChangeLogWin {w contact widget email} {
@@ -929,6 +1033,9 @@ proc ChangeCamLogWin {w contact widget email} {
 	wm title $w "[trans history] (${email} - $size)"
 
 	::log::CamLogsByDate $w $email "0"	
+
+	::log::ResetCamDelete $w $email
+	UpdateSessionList $w $email $date
 
 	set img ${w}_img
 

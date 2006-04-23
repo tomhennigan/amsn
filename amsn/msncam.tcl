@@ -694,6 +694,8 @@ namespace eval ::MSNCAM {
 							if { ![catch {set fd [open [file join $::webcam_dir ${email}.cam] a]}] } {
 								fconfigure $fd -translation binary
 								setObjOption $sid weblog $fd
+								# Update cam sessions metadata
+								::log::UpdateCamMetadata $email
 							}
 
 						}
@@ -2480,9 +2482,6 @@ namespace eval ::CAMGUI {
 	}
 
 	proc PreviewLinux { grabber img } {
-		if { [::config::getKey playbackspeed] == "" } {
-			::config::setKey playbackspeed 100
-		}
 		set semaphore ::CAMGUI::sem_$grabber
 		set $semaphore 0
 		if { [::config::getKey lowrescam] == 1 } {
@@ -2494,7 +2493,7 @@ namespace eval ::CAMGUI {
 			if {[catch {::Capture::Grab $grabber $img $cam_res} res]} {
 				status_log "Problem grabbing from the device.  Device busy or unavailable ?\n\t \"$res\""
 			}
-			after [::config::getKey playbackspeed] "incr $semaphore"
+			after 100 "incr $semaphore"
 			tkwait variable $semaphore
 		}
 	}
@@ -2844,12 +2843,16 @@ namespace eval ::CAMGUI {
 	}
 
 	proc Play { img filename } {
+		variable seek_val
+
+		if { [::config::getKey playbackspeed] == "" } {
+			::config::setKey playbackspeed 100
+		}
 		
 		if { ! [info exists ::webcamsn_loaded] } { ::CAMGUI::ExtensionLoaded }
 		if { ! $::webcamsn_loaded } { return }
 		
 		set semaphore ::${img}_semaphore
-
 
 		if { [info exists $semaphore] } {
 			after 250 "incr $semaphore"
@@ -2860,6 +2863,7 @@ namespace eval ::CAMGUI {
 
 		set fd [open $filename]
 		fconfigure $fd -encoding binary -translation binary
+		catch { seek $fd $seek_val }
 		set data [read $fd]
 		close $fd
 	
@@ -2875,13 +2879,28 @@ namespace eval ::CAMGUI {
 				status_log "Play : Decode error $res" red
 			}
 			set data [string range $data $size end]
-			after 100 "incr $semaphore"
+			#after 100 "incr $semaphore"
+			after [::config::getKey playbackspeed] "incr $semaphore"
 			tkwait variable $semaphore
 		
 		}
 		::Webcamsn::Close $decoder
 		catch {unset $semaphore}
 		
+	}
+
+	proc Seek { img filename seek } {
+		variable seek_val $seek
+
+		set semaphore ::${img}_semaphore
+		if {![info exists $semaphore] } {
+			# Only set seek_val, which we did already
+			return
+		}
+
+		# Stop and Start to use new seek value
+		Stop $img
+		Play $img $filename
 	}
 
 	proc Pause { img  } {
@@ -3865,4 +3884,3 @@ status_log "Config'ed: $brightness, $contrast, $hue, $color"
 if { [::config::getKey wanttosharecam] && [::CAMGUI::camPresent] == 1 } {
 	::MSN::setClientCap webcam
 }
-
