@@ -489,16 +489,16 @@ namespace eval ::amsn {
 		}
 			
 		if {$langcode == "en"} {
-			set w .help${filename}en
+			set w help${filename}en
 		} else {
-			set w .help${filename}
+			set w help${filename}
 		}
 
 		status_log "filename: $filename"
 
 		# Used to avoid a bug for dbusviewer where the $filename points to /home/user/.amsn the dot makes 
 		# tk think it's a window's path separator and it says that the window .help/home/user/ doesn't exit (for .amsn to be its child)
-		set w [string map {. "_" " " "__"} $w]
+		set w ".[string map {. "_" " " "__"} $w]"
 
 
 		if { [winfo exists $w] } {
