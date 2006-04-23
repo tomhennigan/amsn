@@ -2857,21 +2857,18 @@ namespace eval ::CAMGUI {
 			after 250 "incr $semaphore"
 			return
 		}
-		if { ![info exists $::seek_val($img)] } {
-			set ::seek_val($img) 0
-		}
+		#if { ![info exists $::seek_val($img)] } {
+		#	set ::seek_val($img) 0
+		#}
 
 		set $semaphore 0
 
 		set fd [open $filename]
 		fconfigure $fd -encoding binary -translation binary
-		set ::seek_val($img) 0
 		set data [read $fd]
 		set whole_size [string length $data]
 
-		status_log "seek val was $::seek_val($img) "
 		set ::seek_val($img) [expr {[string first "ML20" $data $::seek_val($img)] - 12}]
-		status_log "seek val is $::seek_val($img) "
 		set data [string range $data $::seek_val($img) end]
 	
 		close $fd
@@ -2910,6 +2907,7 @@ namespace eval ::CAMGUI {
 
 		# Stop and Start to use new seek value
 		Stop $img
+		set ::seek_val($img) $seek
 		Play $img $filename
 	}
 

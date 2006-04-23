@@ -619,14 +619,20 @@ proc OpenCamLogWin { {email ""} } {
 	
 	frame $wname.position -class Amsn -borderwidth 0
 
-	if { ![info exists ::seek_val($img)] } {
-		set ::seek_val($img) 0
-	}
+	#if { ![info exists ::seek_val($img)] } {
+	#	set ::seek_val($img) 0
+	#}
 
-	scale $wname.position.slider -from 0 -to [file size [file join ${webcam_dir} ${email}.cam]] -resolution 1 -showvalue 1 -label "[trans playbackposition]" -variable ::seek_val($img) -orient horizontal
+	if { ![file exists [file join ${webcam_dir} ${email}.cam]] } {
+		set whole_size 0
+	} else {
+		set whole_size [file size [file join ${webcam_dir} ${email}.cam]]
+	}
+	scale $wname.position.slider -from 0 -to $whole_size -resolution 1 -showvalue 0 -label "[trans playbackposition]" -variable ::seek_val($img) -orient horizontal
 	#not using -command to avoid constantly changing while user is dragging it around
+	interp alias {} imgseek {} ::CAMGUI::Seek $img [file join ${webcam_dir} ${email}.cam]
 	bind $wname.position.slider <Button1-ButtonPress> "::CAMGUI::Pause $img"
-	bind $wname.position.slider <Button1-ButtonRelease> "::CAMGUI::Seek $img \"[file join ${webcam_dir} ${email}.cam]\" \[set ::seek_val($img)\]"
+	bind $wname.position.slider <Button1-ButtonRelease> {imgseek [%W get]}
 
       	
 	pack $wname.top -side top -fill x
