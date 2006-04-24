@@ -994,6 +994,15 @@ proc ChangeCamLogToDate { w email widget date } {
 
 	::CAMGUI::Stop $img
 
+        if { ![file exists [file join ${webcam_dir} ${email}.cam]] } {
+                set whole_size 0
+        } else {
+                set whole_size [file size [file join ${webcam_dir} ${email}.cam]]
+        }
+        $w.position.slider configure -to $whole_size
+        bind $w.position.slider <Button1-ButtonRelease> "::CAMGUI::Seek $img \[file join \${webcam_dir} ${email}.cam] \[%W get]"
+
+
 	$w.buttons.play configure -command "::CAMGUI::Play $img \"[file join ${webcam_dir} $date ${email}.cam]\"" \
 	    -state $exists
 	$w.buttons.pause configure -command "::CAMGUI::Pause $img" \
