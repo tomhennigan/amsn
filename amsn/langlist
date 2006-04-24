@@ -173,7 +173,7 @@
 		<langcode>it</langcode>
 		<name>Italian (italiano)</name>
 		<version>1.68</version>
-		<encoding>iso-8859-1</encoding>
+		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
 		<langcode>ja</langcode>
