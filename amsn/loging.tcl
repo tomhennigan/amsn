@@ -630,9 +630,10 @@ proc OpenCamLogWin { {email ""} } {
 	}
 	scale $wname.position.slider -from 0 -to $whole_size -resolution 1 -showvalue 0 -label "[trans playbackposition]" -variable ::seek_val($img) -orient horizontal
 	#not using -command to avoid constantly changing while user is dragging it around
-	interp alias {} imgseek {} ::CAMGUI::Seek $img [file join ${webcam_dir} ${email}.cam]
+	#interp alias {} imgseek {} ::CAMGUI::Seek $img [file join ${webcam_dir} ${email}.cam]
 	bind $wname.position.slider <Button1-ButtonPress> "::CAMGUI::Pause $img"
-	bind $wname.position.slider <Button1-ButtonRelease> {imgseek [%W get]}
+	#bind $wname.position.slider <Button1-ButtonRelease> {imgseek [%W get]}
+	bind $wname.position.slider <Button1-ButtonRelease> "::CAMGUI::Seek $img \[file join \${webcam_dir} ${email}.cam] \[%W get]"
 
       	
 	pack $wname.top -side top -fill x
@@ -1063,6 +1064,13 @@ proc ChangeCamLogWin {w contact widget email} {
 	    -state $exists
 	$w.buttons.stop configure -command "::CAMGUI::Stop $img" \
 	    -state $exists
+        if { ![file exists [file join ${webcam_dir} ${email}.cam]] } {
+                set whole_size 0
+        } else {
+                set whole_size [file size [file join ${webcam_dir} ${email}.cam]]
+        }
+	$w.position.slider configure -to $whole_size
+	bind $w.position.slider <Button1-ButtonRelease> "::CAMGUI::Seek $img \[file join \${webcam_dir} ${email}.cam] \[%W get]"
 
 
 	catch {$w.top.date.list select 0}

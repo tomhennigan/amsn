@@ -2931,7 +2931,7 @@ namespace eval ::CAMGUI {
 		after cancel "incr $semaphore"
 		set ::seek_val($img) 0
 		catch {unset $semaphore}
-		catch {$img blank}
+		#catch {$img blank}
 	}	
 }
 
