@@ -2872,6 +2872,9 @@ namespace eval ::CAMGUI {
 		set data [string range $data $::seek_val($img) end]
 	
 		close $fd
+
+		#we need it for seeking.......
+		set whole_data $data
 	
 		set decoder [::Webcamsn::NewDecoder]
 		
@@ -2889,6 +2892,11 @@ namespace eval ::CAMGUI {
 			#after 100 "incr $semaphore"
 			after [::config::getKey playbackspeed] "incr $semaphore"
 			tkwait variable $semaphore
+			#Check if something changed seek_val in the meantime
+			if { $::seek_val($img) != [expr { $whole_size - [string length $data ] } ] } {
+				set ::seek_val($img) [expr {[string first "ML20" $whole_data $::seek_val($img)] - 12}]
+				set data [string range $whole_data $::seek_val($img) end]
+			}
 		
 		}
 		::Webcamsn::Close $decoder
@@ -2906,7 +2914,7 @@ namespace eval ::CAMGUI {
 		}
 
 		# Stop and Start to use new seek value
-		Stop $img
+		Pause $img
 		set ::seek_val($img) $seek
 		Play $img $filename
 	}
