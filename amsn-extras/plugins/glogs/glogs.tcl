@@ -60,7 +60,7 @@ namespace eval ::glogs {
 		} else {
 			set s +
 		}
-		set zone [format %s%02d%02d $s [expr {$diff/60}] [expr {$diff%60}]]
+		set ::glogs::zone [format %s%02d%02d $s [expr {$diff/60}] [expr {$diff%60}]]
 		
 		#register events
 		::plugins::RegisterEvent "GLogs" chat_msg_received msg_received
