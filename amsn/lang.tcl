@@ -560,12 +560,14 @@ namespace eval ::lang {
 			set content [::http::data $token]
 			set status [::http::status $token]
 		} ] } {
+			catch {::http::cleanup $token}
 			status_log "Error while uploading lang : $langcode\n" red
 			return
 		}
 
 		#If an error occured, stop the process
 		if { $status != "ok" } {
+			::http::cleanup $token
 			status_log "Error while uploading lang : $langcode ($status)\n" red
 			return
 		}
@@ -573,6 +575,7 @@ namespace eval ::lang {
 		# Puts the content into the file
 		set file "[file join ${dir} $lang]"
 		if { ![file writable $file] && [file exists $file] } {
+			::http::cleanup $token
 			status_log "Error while updating $file : file is protected\n" red
 			return
 		}
@@ -586,6 +589,7 @@ namespace eval ::lang {
 			status_log "Error while updating $file : file is protected\n" red
 			return
 		}
+		::http::cleanup $token
 
 		# Add the language into the language list
 		::lang::AddLang "$langcode" "$name" "$version" "$encoding"
@@ -806,6 +810,7 @@ namespace eval ::lang {
 			fconfigure $fid -encoding binary
 			puts -nonewline $fid "$content"
 			close $fid
+			::http::cleanup $token
 
 			set id [::sxml::init $filename]
 			sxml::register_routine $id "version:lang" "::lang::XMLOnlineLang"

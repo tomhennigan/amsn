@@ -1502,6 +1502,8 @@ namespace eval ::plugins {
 
 			set token [::http::geturl "${::weburl}/autoupdater/plugins/$plugin/plugininfo.xml" -timeout 120000 -binary 1]
 			set content [::http::data $token]
+			::http::cleanup $token
+			
 			if { [string first "<html>" "$content"] == -1 } {
 				set plugins(${plugin}_URL_place) 1
 			} else {
@@ -1510,6 +1512,7 @@ namespace eval ::plugins {
 				if { [string first "<html>" "$content"] == -1 } {
 					set plugins(${plugin}_URL_place) 2
 				} else {
+					::http::cleanup $token
 					return 0
 				}
 
@@ -1522,6 +1525,7 @@ namespace eval ::plugins {
 			set token [::http::geturl "$URL" -timeout 120000 -binary 1]
 			set content [::http::data $token]
 			if { [string first "<html>" "$content"] != -1 } {
+				::http::cleanup $token
 				return 0
 			}
 			set plugins(${plugin}_URL_place) 3
@@ -1530,7 +1534,8 @@ namespace eval ::plugins {
 
 		set status [::http::status $token]
 		if { $status != "ok" } {
-			status_log "Can't get plugininfo.xml for $plugin (place [getInfo $plugin URL_place] - URL $URL): $status\n" red
+			::http::cleanup $token
+			status_log "Can't get plugininfo.xml for $plugin (place [getInfo $plugin URL_place] - URL $URL): $status (http token: $token)\n" red
 			return 0
 		}
 
@@ -1539,6 +1544,7 @@ namespace eval ::plugins {
 		fconfigure $fid -encoding binary
 		puts -nonewline $fid "$content"
 		close $fid
+		::http::cleanup $token
 
 		set id [::sxml::init $filename]
 		sxml::register_routine $id "plugin" "::plugins::XMLInfoCVS_Online"
@@ -1550,7 +1556,8 @@ namespace eval ::plugins {
 		
 		} ] } {
 		
-		status_log "Can't get online plugininfo.xml for $plugin (place [getInfo $plugin URL_place] - URL $URL)\n" red
+		status_log "Can't get online plugininfo.xml for $plugin (place [getInfo $plugin URL_place] - URL $URL)(token: $token)\n" red
+		::http::cleanup $token
 		return 0
 		
 		}
@@ -1722,12 +1729,14 @@ namespace eval ::plugins {
 
 		set status [::http::status $token]
 		if { $status != "ok" } {
+			::http::cleanup $token
 			return 0
 		}
 
 		set content [::http::data $token]
 		
 		if { [string first "<html>" "$content"] != -1 } {
+			::http::cleanup $token
 			return 0
 		}
 
@@ -1736,6 +1745,7 @@ namespace eval ::plugins {
 		fconfigure $fid -encoding binary
 		puts -nonewline $fid "$content"
 		close $fid
+		::http::cleanup $token		
 		
 		return 1
 
@@ -1787,12 +1797,14 @@ namespace eval ::plugins {
 
 			set status [::http::status $token]
 			if { $status != "ok" } {
+				::http::cleanup $token
 				return 0
 			}
 
 			set content [::http::data $token]
 			
 			if { [string first "<html>" "$content"] != -1 } {
+				::http::cleanup $token
 				return 0
 			}
 
@@ -1802,6 +1814,7 @@ namespace eval ::plugins {
 			fconfigure $fid -encoding binary
 			puts -nonewline $fid "$content"
 			close $fid
+			::http::cleanup $token
 
 		}
 		
@@ -1856,13 +1869,15 @@ namespace eval ::plugins {
 
 			set status [::http::status $token]
 			if { $status != "ok" } {
+				::http::cleanup $token
 				return 0
 			}
 
 			set content [::http::data $token]
 			
 			if { [string first "<html>" "$content"] != -1 } {
-				return 0
+				::http::cleanup $token
+				return 0				
 			}
 
 			set filename [file join [getInfo $plugin plugin_dir] $file]
@@ -1877,6 +1892,7 @@ namespace eval ::plugins {
 			fconfigure $fid -encoding binary
 			puts -nonewline $fid "$content"
 			close $fid
+			::http::cleanup $token
 			
 		}
 		
@@ -2173,6 +2189,7 @@ namespace eval ::plugins {
 
 		set status [::http::status $token]
 		if { $status != "ok" } {
+			::http::cleanup $token
 			return 0
 		}
 
@@ -2183,7 +2200,7 @@ namespace eval ::plugins {
 		fconfigure $fid -encoding binary
 		puts -nonewline $fid "$content"
 		close $fid
-
+		::http::cleanup $token
 	}
 
 
