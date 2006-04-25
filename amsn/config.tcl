@@ -302,6 +302,7 @@ namespace eval ::config {
 		::config::setKey psmplace 1		;#The place where must be shown the PSM (0: not shown, 1: At the end, 2: In a new line)
 		::config::setKey globaloverride 0		;# Sets whether Global nicknames pattern should override custom nicks, disabled by default
 
+		catch { unset ::custom_emotions }
 
 		#System options, not intended to be edited (unless you know what you're doing)
 		set password ""
