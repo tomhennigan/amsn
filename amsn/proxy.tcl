@@ -56,19 +56,22 @@ proc secureSocket { args } {
 		}
 		#TODO: make async: set socket [socket -async $phost $pport]
 		# create the socket to the proxy
-		set socket [socket $phost $pport]
-		fconfigure $socket -buffering full -translation crlf
+		set socket [socket -async $phost $pport]
+		fconfigure $socket -buffering line -translation crlf
 		puts $socket "CONNECT $thost:$tport HTTP/1.1"
 		puts $socket $auth
 		flush $socket
 
 		while {[gets $socket r] > 0} {
-			append reply $r
+			lappend reply $r
 		}
 
+		set result [lindex $reply 0]
+		set code [lindex [split $result { }] 1]
+
 		# be sure there's a valid response code
-		if {! [regexp {^HTTP/.* 200} $reply]} {
-			return -code error $reply
+		if {! ($code >= 200 && $code < 300)} {
+			return -code error $result
 		}
 
 		# now add tls to the socket and return it
@@ -416,11 +419,21 @@ proc secureSocket { args } {
 				set proxy_port 8080
 			}
 
-			::http::config -proxyhost $proxy_host -proxyport $proxy_port
+                	if { [::config::getKey proxyauthenticate] } {
+	                        set proxy_user [::config::getKey proxyuser]
+	                        set proxy_pass [::config::getKey proxypass]
+	                        ::http::config -proxyhost ${proxy_user}:${proxy_pass}@${proxy_host} -proxyport $proxy_port
+	                } else {
+	                        ::http::config -proxyhost $proxy_host -proxyport $proxy_port
+	                }
 		}
 
 		# http://wiki.tcl.tk/2627 :(
-		http::register https 443 secureSocket
+		if { [catch {http::register https 443 secureSocket} res]} {
+			MSN::logout
+			MSN::reconnect "Proxy returned error: $res"
+			return -1
+		}
 
 #		set ::login_passport_url "https://login.passport.com/login2.srf"
 #		        if { [::config::getKey nossl] == 1 } {
