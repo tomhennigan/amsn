@@ -2901,6 +2901,7 @@ namespace eval ::CAMGUI {
 		}
 		::Webcamsn::Close $decoder
 		catch {unset $semaphore}
+		catch {unset $whole_data}
 		
 	}
 
