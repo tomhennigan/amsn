@@ -2874,7 +2874,7 @@ namespace eval ::CAMGUI {
 		close $fd
 
 		#we need it for seeking.......
-		set whole_data $data
+		set ::whole_data($img) $data
 	
 		set decoder [::Webcamsn::NewDecoder]
 		
@@ -2894,14 +2894,14 @@ namespace eval ::CAMGUI {
 			tkwait variable $semaphore
 			#Check if something changed seek_val in the meantime
 			if { $::seek_val($img) != [expr { $whole_size - [string length $data ] } ] } {
-				set ::seek_val($img) [expr {[string first "ML20" $whole_data $::seek_val($img)] - 12}]
-				set data [string range $whole_data $::seek_val($img) end]
+				set ::seek_val($img) [expr {[string first "ML20" $::whole_data($img) $::seek_val($img)] - 12}]
+				set data [string range $::whole_data($img) $::seek_val($img) end]
 			}
 		
 		}
 		::Webcamsn::Close $decoder
 		catch {unset $semaphore}
-		catch {unset $whole_data}
+		catch {unset ::whole_data($img)}
 		
 	}
 
@@ -2940,6 +2940,7 @@ namespace eval ::CAMGUI {
 		after cancel "incr $semaphore"
 		set ::seek_val($img) 0
 		catch {unset $semaphore}
+		catch {unset ::whole_data($img)}
 		catch {$img blank}
 	}	
 }
