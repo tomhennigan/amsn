@@ -1789,8 +1789,8 @@ namespace eval ::amsn {
 
 		set user [$win.f.bottom.pic.image cget -image]
 		if { $user != "displaypicture_std_none" && $user != "displaypicture_std_self" } {
-#FIXME -> is the index well recount ?
-			set user [string range $user 23 end]
+			#made easy for if we would change the image names
+			set user [string range $user [string length "displaypicture_std_"] end]
 			$win.picmenu add separator
 			#Sub-menu to change size
 			$win.picmenu add cascade -label "[trans changesize]" -menu $win.picmenu.size
