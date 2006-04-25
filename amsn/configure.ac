@@ -28,7 +28,7 @@ else
     DEBUG="no"
 fi
 
-AC_ARG_ENABLE(debug,
+AC_ARG_ENABLE(static,
   [  --enable-static         enable static link of libstdc++],[enable_static=yes])
 
 AC_SUBST(STATIC)
