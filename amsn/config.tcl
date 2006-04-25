@@ -5,7 +5,7 @@
 namespace eval ::config {
 
 	proc configDefaults {} {
-		global tcl_platform password auto_path advanced_options
+		global tcl_platform password auto_path advanced_options custom_emotions
 
 		::config::setKey nossl 0			;#Disable the use of SSL, so it doesn't requite TLS package: 0|1
 
@@ -302,7 +302,9 @@ namespace eval ::config {
 		::config::setKey psmplace 1		;#The place where must be shown the PSM (0: not shown, 1: At the end, 2: In a new line)
 		::config::setKey globaloverride 0		;# Sets whether Global nicknames pattern should override custom nicks, disabled by default
 
-		catch { unset ::custom_emotions }
+		if { [info exists custom_emotions] } {
+			unset custom_emotions
+		}
 
 		#System options, not intended to be edited (unless you know what you're doing)
 		set password ""
