@@ -54,7 +54,7 @@ proc secureSocket { args } {
 			set proxy_pass [::config::getKey proxypass]
 			set auth "Proxy-Authorization: Basic [base64::encode $proxy_user:$proxy_pass]\n"
 		}
-
+		#TODO: make async: set socket [socket -async $phost $pport]
 		# create the socket to the proxy
 		set socket [socket $phost $pport]
 		fconfigure $socket -buffering full -translation crlf
@@ -431,7 +431,12 @@ proc secureSocket { args } {
                         set login_passport_url 0
                         degt_protocol $self
 
-                        after 10 "::http::geturl [list https://nexus.passport.com/rdr/pprdr.asp] -timeout 10000 -command {globalGotNexusReply $self}"
+                        if { [catch {::http::geturl [list https://nexus.passport.com/rdr/pprdr.asp] -timeout 10000 -command {globalGotNexusReply $self}} res]} {
+				MSN::logout
+				MSN::reconnect "proxy error: $res"
+				return -1
+			}
+
 #                }
 
 	}
