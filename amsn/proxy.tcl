@@ -41,10 +41,17 @@ proc globalWrite { proxy name {msg ""} } {
 #The only way to get HTTP proxy + SSL to work...
 #http://wiki.tcl.tk/2627
 proc secureSocket { args } {
+puts "args to secureSocket : $args"
+set c [catch { eval secureSocket2 $args } res]
+puts "catch == $c"
+puts "res == $res"
+return $res
+}
+proc secureSocket2 {args} {
 	set phost [::http::config -proxyhost]
 	set pport [::http::config -proxyport]
-	upvar host thost
-	upvar port tport
+	upvar 2 host thost
+	upvar 2 port tport
 
 	# if a proxy has been configured
 	if {[string length $phost] && [string length $pport]} {
@@ -445,14 +452,15 @@ proc secureSocket { args } {
                         set login_passport_url 0
                         degt_protocol $self
 
-			::http::geturl [list https://nexus.passport.com/rdr/pprdr.asp] -timeout 10000 -command [list globalGotNexusReply $self]
-#                        if { [catch {::http::geturl [list https://nexus.passport.com/rdr/pprdr.asp] -timeout 10000 -command [list globalGotNexusReply $self]} res]} {
-#				MSN::logout
-#				MSN::reconnect "proxy error: $res"
-#				return -1
-#			}
+			#::http::geturl [list https://nexus.passport.com/rdr/pprdr.asp] -timeout 10000 -command [list globalGotNexusReply $self]
+                        if { [catch {::http::geturl https://nexus.passport.com/rdr/pprdr.asp -timeout 10000 -command [list globalGotNexusReply $self]} res]} {
+				MSN::logout
+				MSN::reconnect "proxy error: $res"
+				return -1
+			}
 
 #                }
+		return 1
 
 	}
 
