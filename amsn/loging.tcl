@@ -600,6 +600,7 @@ proc OpenCamLogWin { {email ""} } {
 	button $wname.buttons.stop -text "[trans stop]" -command "::CAMGUI::Stop $img" \
 	    -state $exists
 
+	button $wname.buttons.save -text "[trans snapshot]" -command "::CAMGUI::saveToImage $img" -state $exists
 	button $wname.buttons.close -text "[trans close]" -command "destroy $wname"
 #	button $wname.buttons.stats -text "[trans stats]" -command "::log::cam_stats"
 
@@ -644,6 +645,7 @@ proc OpenCamLogWin { {email ""} } {
 	pack $wname.buttons.pause -padx 0 -side left
 	pack $wname.buttons.stop -padx 0 -side left
 #	pack $wname.buttons.stats -padx 0 -side right
+	pack $wname.buttons.save -padx 0 -side right
 	pack $wname.buttons.clear -padx 0 -side right
 	pack $wname.buttons.close -padx 0 -side right
 	pack $wname.buttons -side bottom -fill x -pady 3

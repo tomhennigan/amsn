@@ -2962,6 +2962,17 @@ namespace eval ::CAMGUI {
 		catch {unset ::whole_data($img)}
 		catch {$img blank}
 	}	
+
+	proc saveToImage { img } {
+
+		Pause $img
+		set filename [tk_getSaveFile -filetypes {{"PNG files" .png}}]
+		if { $filename != "" } {
+			$img write $filename -format cxpng
+		}
+
+	}
+
 }
 
 
