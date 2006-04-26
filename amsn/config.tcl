@@ -187,6 +187,7 @@ namespace eval ::config {
 
 		::config::setKey emotisounds 1			;#Play sound on certain emoticons
 		::config::setKey animatedsmileys 1		;#Show animated smileys
+		::config::setKey customsmileys 1                ;#Show other people s custom smileys
 
 		#Custom smileys configuration
 		::config::setKey custom_smileys 1
