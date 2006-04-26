@@ -2571,7 +2571,6 @@ namespace eval ::ChatWindow {
 		}
 
 		if { [::picture::IsAnimated [::skin::GetSkinFile pixmaps tab_flicker.gif]] } {
-			puts "flicker img is animated"
 			$tab itemconfigure tab_bg -image [::skin::loadPixmap tab_flicker]
 		} else {			
 
