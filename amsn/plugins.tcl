@@ -1535,7 +1535,7 @@ namespace eval ::plugins {
 		set status [::http::status $token]
 		if { $status != "ok" } {
 			::http::cleanup $token
-			status_log "Can't get plugininfo.xml for $plugin (place [getInfo $plugin URL_place] - URL $URL): $status (http token: $token)\n" red
+			status_log "Can't get plugininfo.xml for $plugin (place [getInfo $plugin URL_place] - URL $URL): $status\n" red
 			return 0
 		}
 
@@ -1556,7 +1556,7 @@ namespace eval ::plugins {
 		
 		} ] } {
 		
-		status_log "Can't get online plugininfo.xml for $plugin (place [getInfo $plugin URL_place] - URL $URL)(token: $token)\n" red
+		status_log "Can't get online plugininfo.xml for $plugin (place [getInfo $plugin URL_place] - URL $URL)\n" red
 		::http::cleanup $token
 		return 0
 		
