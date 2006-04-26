@@ -62,6 +62,7 @@ proc secureSocket { args } {
 		puts $socket $auth
 		flush $socket
 
+		set reply ""
 		while {[gets $socket r] > 0} {
 			lappend reply $r
 		}
@@ -444,11 +445,12 @@ proc secureSocket { args } {
                         set login_passport_url 0
                         degt_protocol $self
 
-                        if { [catch {::http::geturl [list https://nexus.passport.com/rdr/pprdr.asp] -timeout 10000 -command {globalGotNexusReply $self}} res]} {
-				MSN::logout
-				MSN::reconnect "proxy error: $res"
-				return -1
-			}
+			::http::geturl [list https://nexus.passport.com/rdr/pprdr.asp] -timeout 10000 -command [list globalGotNexusReply $self]
+#                        if { [catch {::http::geturl [list https://nexus.passport.com/rdr/pprdr.asp] -timeout 10000 -command [list globalGotNexusReply $self]} res]} {
+#				MSN::logout
+#				MSN::reconnect "proxy error: $res"
+#				return -1
+#			}
 
 #                }
 
