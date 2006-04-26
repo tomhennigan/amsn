@@ -1605,16 +1605,16 @@ namespace eval ::CAMGUI {
 					set set_h [lindex $settings 2]
 					set set_co [lindex $settings 3]
 
-					if {[string is integer -strict $set_b]} {
+					if {[string is integer -strict $set_b] && $set_b > 0 && $set_b < 65535 } {
 						::Capture::SetBrightness $grabber $set_b
 					}
-					if {[string is integer -strict $set_c]} {
+					if {[string is integer -strict $set_c] && $set_c > 0 && $set_c < 65535 } {
 						::Capture::SetContrast $grabber $set_c
 					}
-					if {[string is integer -strict $set_h]} {
+					if {[string is integer -strict $set_h] && $set_h > 0 && $set_h < 65535 } {
 						::Capture::SetHue $grabber $set_h
 					}
-					if {[string is integer -strict $set_co]} {
+					if {[string is integer -strict $set_co] && $set_co > 0 && $set_co < 65535 } {
 						::Capture::SetColour $grabber $set_co
 					}
 				}
@@ -2462,16 +2462,16 @@ namespace eval ::CAMGUI {
 			set set_h [lindex $sets 2]
 			set set_co [lindex $sets 3]
 
-			if {[string is integer -strict $set_b]} {
+			if {[string is integer -strict $set_b] && $set_b > 0 && $set_b < 65535 } {
 				::Capture::SetBrightness $::CAMGUI::webcam_preview $set_b
 			}
-			if {[string is integer -strict $set_c]} {
+			if {[string is integer -strict $set_c] && $set_c > 0 && $set_c < 65535 } {
 				::Capture::SetContrast $::CAMGUI::webcam_preview $set_c
 			}
-			if {[string is integer -strict $set_h]} {
+			if {[string is integer -strict $set_h] && $set_h > 0 && $set_b < 65535 } {
 				::Capture::SetHue $::CAMGUI::webcam_preview $set_h
 			}
-			if {[string is integer -strict $set_co]} {
+			if {[string is integer -strict $set_co] && $set_co > 0 && $set_co < 65535 } {
 				::Capture::SetColour $::CAMGUI::webcam_preview $set_co
 			}
 		}
@@ -2584,19 +2584,18 @@ namespace eval ::CAMGUI {
 		set set_h [lindex $settings 2]
 		set set_co [lindex $settings 3]
 
-		if {[string is integer -strict $set_b]} {
-			::Capture::SetBrightness $capture_fd $set_b
-		}
-		if {[string is integer -strict $set_c]} {
-			::Capture::SetContrast $capture_fd $set_c
-		}
-		if {[string is integer -strict $set_h]} {
-			::Capture::SetHue $capture_fd $set_h
-		}
-		if {[string is integer -strict $set_co]} {
-			::Capture::SetColour $capture_fd $set_co
-		}
-
+                if {[string is integer -strict $set_b] && $set_b > 0 && $set_b < 65535 } {
+                        ::Capture::SetBrightness $grabber $set_b
+                }
+                if {[string is integer -strict $set_c] && $set_c > 0 && $set_c < 65535 } {
+                        ::Capture::SetContrast $grabber $set_c
+                }
+                if {[string is integer -strict $set_h] && $set_h > 0 && $set_h < 65535 } {
+                        ::Capture::SetHue $grabber $set_h
+                }
+                if {[string is integer -strict $set_co] && $set_co > 0 && $set_co < 65535 } {
+                        ::Capture::SetColour $grabber $set_co
+                }
 
 		
 		set set_b [::Capture::GetBrightness $capture_fd]
@@ -2655,6 +2654,8 @@ namespace eval ::CAMGUI {
 	}
 
 	proc Properties_SetLinux { w property capture_fd new_value } {
+
+		if { ! ([string is integer -strict $new_value] && $value > 0 && $value < 65535 ) } { return }
 
 		switch $property {
 			b {
