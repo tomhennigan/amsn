@@ -41,17 +41,10 @@ proc globalWrite { proxy name {msg ""} } {
 #The only way to get HTTP proxy + SSL to work...
 #http://wiki.tcl.tk/2627
 proc secureSocket { args } {
-puts "args to secureSocket : $args"
-set c [catch { eval secureSocket2 $args } res]
-puts "catch == $c"
-puts "res == $res"
-return $res
-}
-proc secureSocket2 {args} {
 	set phost [::http::config -proxyhost]
 	set pport [::http::config -proxyport]
-	upvar 2 host thost
-	upvar 2 port tport
+	upvar host thost
+	upvar port tport
 
 	# if a proxy has been configured
 	if {[string length $phost] && [string length $pport]} {
