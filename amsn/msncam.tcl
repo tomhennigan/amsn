@@ -2893,9 +2893,11 @@ namespace eval ::CAMGUI {
 			after [::config::getKey playbackspeed] "incr $semaphore"
 			tkwait variable $semaphore
 			#Check if something changed seek_val in the meantime
-			if { $::seek_val($img) != [expr { $whole_size - [string length $data ] } ] } {
-				set ::seek_val($img) [expr {[string first "ML20" $::whole_data($img) $::seek_val($img)] - 12}]
-				set data [string range $::whole_data($img) $::seek_val($img) end]
+			if { [info exists ::whole_data($img) ] } {
+				if { $::seek_val($img) != [expr { $whole_size - [string length $data ] } ] } {
+					set ::seek_val($img) [expr {[string first "ML20" $::whole_data($img) $::seek_val($img)] - 12}]
+					set data [string range $::whole_data($img) $::seek_val($img) end]
+				}
 			}
 		
 		}
