@@ -2842,6 +2842,29 @@ namespace eval ::CAMGUI {
 		}
 	}
 
+	proc getNextKeyframe { data {offset 0} } {
+
+		set whole_size [string length $data]
+		set offset [expr {[string first "ML20" $data $offset] - 12}] 
+		set keyframe 0
+		while { $keyframe == 0 } {
+			set data [string range $data $offset end]
+			binary scan $data ccsssiiii h_size paused w h r1 p_size fcc r2 r3
+			#set keyframe [expr { $r1 & 0x01 }]
+			set keyframe 1
+			#We have it already, it's just for the sanity checks
+			set p_size [::MSNCAM::GetCamDataSize $data]
+			if { $p_size > 0 } {
+				set offset [expr { 24 + $p_size}]
+			} else {
+				set offset [expr {[string first "ML20" $data] - 12}]
+			}
+		}
+
+		return [expr {$whole_size - [string length $data]}]
+
+	}
+
 	proc Play { img filename } {
 
 		if { [::config::getKey playbackspeed] == "" } {
@@ -2857,9 +2880,9 @@ namespace eval ::CAMGUI {
 			after 250 "incr $semaphore"
 			return
 		}
-		#if { ![info exists $::seek_val($img)] } {
-		#	set ::seek_val($img) 0
-		#}
+		if { ![info exists ::seek_val($img)] } {
+			set ::seek_val($img) 0
+		}
 
 		set $semaphore 0
 
@@ -2868,13 +2891,13 @@ namespace eval ::CAMGUI {
 		set data [read $fd]
 		set whole_size [string length $data]
 
-		set ::seek_val($img) [expr {[string first "ML20" $data $::seek_val($img)] - 12}]
-		set data [string range $data $::seek_val($img) end]
+		set ::seek_val($img) [getNextKeyframe $data $::seek_val($img)]
 	
 		close $fd
 
 		#we need it for seeking.......
 		set ::whole_data($img) $data
+		set data [string range $data $::seek_val($img) end]
 	
 		set decoder [::Webcamsn::NewDecoder]
 		
@@ -2892,14 +2915,7 @@ namespace eval ::CAMGUI {
 			#after 100 "incr $semaphore"
 			after [::config::getKey playbackspeed] "incr $semaphore"
 			tkwait variable $semaphore
-			#Check if something changed seek_val in the meantime
-			if { [info exists ::whole_data($img) ] } {
-				if { $::seek_val($img) != [expr { $whole_size - [string length $data ] } ] } {
-					set ::seek_val($img) [expr {[string first "ML20" $::whole_data($img) $::seek_val($img)] - 12}]
-					set data [string range $::whole_data($img) $::seek_val($img) end]
-				}
-			}
-		
+	
 		}
 		::Webcamsn::Close $decoder
 		catch {unset $semaphore}
@@ -2917,7 +2933,7 @@ namespace eval ::CAMGUI {
 		}
 
 		# Stop and Start to use new seek value
-		Pause $img
+		Stop $img
 		set ::seek_val($img) $seek
 		Play $img $filename
 	}
