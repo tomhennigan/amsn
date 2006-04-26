@@ -2570,37 +2570,45 @@ namespace eval ::ChatWindow {
 			}
 		}
 
-		after cancel "::ChatWindow::FlickerTab $win 0"
-		if { $new == 1 || ![info exists winflicker($win)]} {
-			set winflicker($win) 0
-		}
-
-		set count [set winflicker($win)]
-
-		if { [expr {$count % 2}] == 0 } {
+		if { [::picture::IsAnimated [::skin::GetSkinFile pixmaps tab_flicker.gif]] } {
+			puts "flicker img is animated"
 			$tab itemconfigure tab_bg -image [::skin::loadPixmap tab_flicker]
-		} else {
-			$tab itemconfigure tab_bg -image [::skin::loadPixmap tab]	
+		} else {			
+
+
+			after cancel "::ChatWindow::FlickerTab $win 0"
+			if { $new == 1 || ![info exists winflicker($win)]} {
+				set winflicker($win) 0
+			}
+
+			set count [set winflicker($win)]
+
+
+			if { [expr {$count % 2}] == 0 } {
+				$tab itemconfigure tab_bg -image [::skin::loadPixmap tab_flicker]
+			} else {
+				$tab itemconfigure tab_bg -image [::skin::loadPixmap tab]	
+			}
+
+			incr winflicker($win)
+
+			#if { $count > 10 } {
+			#	$tab configure -image [::skin::loadPixmap tab_flicker]
+			#	return
+			#}
+
+			#Check if the container window lost focus, then make it flicker:
+			set container [GetContainerFromWindow $win]
+			if { $container != "" } {
+				if { ![info exists ::ChatWindow::new_message_on(${container})] &&
+				     [string first $container [focus]] != 0 } {
+					Flicker $container
+				}	
+			}
+			
+			
+			after 300 "::ChatWindow::FlickerTab $win 0"
 		}
-
-		incr winflicker($win)
-
-		#if { $count > 10 } {
-		#	$tab configure -image [::skin::loadPixmap tab_flicker]
-		#	return
-		#}
-
-		#Check if the container window lost focus, then make it flicker:
-		set container [GetContainerFromWindow $win]
-		if { $container != "" } {
-			if { ![info exists ::ChatWindow::new_message_on(${container})] &&
-			     [string first $container [focus]] != 0 } {
-				Flicker $container
-			}	
-		}
-		
-		
-		after 300 "::ChatWindow::FlickerTab $win 0"
 
 	}
 
@@ -2759,6 +2767,7 @@ namespace eval ::ChatWindow {
 	}
 
 	proc TabEntered { tab win } {
+		
 		after cancel "::ChatWindow::FlickerTab $win"; 
 		set ::ChatWindow::oldpixmap($tab) [$tab itemcget tab_bg -image] 
 		$tab itemconfigure tab_bg -image [::skin::loadPixmap tab_hover]
