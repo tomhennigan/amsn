@@ -3036,6 +3036,16 @@ namespace eval ::CAMGUI {
 		
 	}
 
+	proc Resume { w filename } {
+
+		set img ${w}_img
+		set semaphore ::${img}_semaphore
+		if { [info exists $semaphore] } {
+			Play $w $filename
+		}
+
+	}
+
 	proc Seek { w filename seek } {
 		set img ${w}_img
 		status_log "Seek to $seek"

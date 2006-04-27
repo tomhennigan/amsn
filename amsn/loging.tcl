@@ -645,7 +645,7 @@ namespace eval ::log {
 		#interp alias {} imgseek {} ::CAMGUI::Seek $wname [file join ${webcam_dir} ${email}.cam]
 		bind $wname.position.slider <ButtonPress-1> "puts ButtonPress; ::CAMGUI::Pause $wname"
 		#bind $wname.position.slider <Button1-ButtonRelease> {imgseek [%W get]}
-		bind $wname.position.slider <Button1-ButtonRelease> "::CAMGUI::Seek $wname \"[file join ${webcam_dir} ${email}.cam]\" \[%W get\]"
+		bind $wname.position.slider <ButtonRelease-1> "::CAMGUI::Resume $wname \"[file join ${webcam_dir} ${email}.cam]\""
 
 		
 		pack $wname.top -side top -fill x

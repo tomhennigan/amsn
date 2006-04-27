@@ -239,7 +239,6 @@ namespace eval ::picture {
 	}
 	
 	#To verify if a picture is animated (1) or not (0)
-#}	proc IsAnimated {file {use_cache 1}} {
 	proc IsAnimated {file } {
 #		variable animated_files_cache
 
