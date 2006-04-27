@@ -206,6 +206,7 @@ customcolor Couleur personnalisée
 custom_edit Editer un émoticon personnalisé
 custom_new Créer un émoticon personnalisé
 customnick Pseudo personnalisé
+customsmileys Afficher les émoticônes/smileys des contacts
 customstyle Style personnalisé
 cut Couper
 cutimagebox Sélectionnez la partie de l'image qui vous intéresse en redimensionnant et/ou en déplaçant la boîte de sélection
@@ -533,6 +534,8 @@ pager Pager
 pass Mot de passe
 paste Coller
 pause Pause
+pausedwebcamreceive La webcam a été mise en pause par le contact
+pausewebcamsend Mettre en pause l'envoi de la webcam
 personal Personnel
 phones Numéros de téléphone
 phone Téléphone
@@ -540,7 +543,9 @@ picbrowser Voir mes avatars
 picfile Image associée à l'alarme (GIF < 500x500)
 picstatus Activer/Désactiver l'image associée à l'alarme
 play Jouer
+playbackposition Position de la lecture
 playbackspeed Vitesse de lecture (nombre de millisecondes entre chaque image)
+playwebcamsend Continuer l'envoi de la webcam
 playing Joue: $1
 pluginselector Sélection d'un plug-in
 port Port
@@ -665,6 +670,7 @@ smileintro2 Veuillez editer les champs obligatoires pour personnaliser cet émoti
 smileintro Veuillez remplir les champs obligatoires pour créer un nouvel émoticon (voir la FAQ pour l'aide)
 smiletoobig L'émoticon que vous avez choisi est plus grand que la taille normale. Voulez-vous le redimensionner ?
 snackfailed Snack n'a pas pu se lancer, retour à la valeur par défaut
+snapshot Garder l'image
 sngdblclick Un click simple ouvre une nouvelle fenêtre de conversation
 sound2 Jouer un son quand un contact se connecte ou quand un message est reçu
 soundactive Jouer un son même lorsque le message arrive dans la fenêtre active
