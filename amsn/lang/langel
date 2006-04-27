@@ -535,7 +535,7 @@ pass Κωδικός
 paste Επικόλληση
 pause Παύση
 pausedwebcamreceive Έγινε παύση της webcam από τον άλλο χρήστη
-pausedwebcamsend Παύση αποστολής webcam
+pausewebcamsend Παύση αποστολής webcam
 personal Προσωπικά
 phone Τηλέφωνο
 phones Τηλέφωνα
