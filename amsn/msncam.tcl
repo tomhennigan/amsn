@@ -16,13 +16,13 @@ proc setObjOption { obj option value } {
 
 }
 
-proc getObjOption { obj option } {
+proc getObjOption { obj option {def ""}} {
 	global objects
 
 	if { [info exists objects($obj)] } {
 		set my_list  [set objects($obj)]
 	} else {
-		return ""
+		return $def
 	}
 
 	array set my_obj $my_list
@@ -30,7 +30,7 @@ proc getObjOption { obj option } {
 	if { [info exists my_obj($option)] } {
 		return [set my_obj($option)]
 	} else {
-		return ""
+		return $def
 	}
 
 }
@@ -537,6 +537,16 @@ namespace eval ::MSNCAM {
 	}
 
 
+	proc PausePlayCam { window sock } {
+		set state [getObjOption $sock state] 
+		if {$state == "SEND"} {
+			setObjOption $sock state "PAUSED"
+			$window.pause configure -text "[trans playwebcamsend]"
+		} elseif {$state == "PAUSED" } {
+			setObjOption $sock state "SEND"
+			$window.pause configure -text "[trans pausewebcamsend]"
+		}
+	}
 
 	proc ReadFromSock { sock } {
 
@@ -656,6 +666,8 @@ namespace eval ::MSNCAM {
 						} elseif { $size != 0 } {
 							setObjOption $sock state "END"
 							status_log "ERROR1 : $header - invalid data received" red
+						} else {
+							::CAMGUI::GotPausedFrame $sid
 						}
 
 					} else {
@@ -716,6 +728,8 @@ namespace eval ::MSNCAM {
 					setObjOption $sock state "END"
 					status_log "ERROR5 : $data - invalid data received" red
 
+				} else {
+					::CAMGUI::GotPausedFrame $sid
 				}
 
 			}
@@ -810,6 +824,28 @@ namespace eval ::MSNCAM {
 			{
 				after 250 "::CAMGUI::GetCamFrame $sid $sock;
 					   catch {fileevent $sock writable \"::MSNCAM::WriteToSock $sock\" }"
+			}
+			"PAUSED" 
+			{
+				set encoder [getObjOption $sock codec]
+				if { $encoder != "" } {
+					set uid [getObjOption $encoder unique_id]
+					if {$uid == "" } {
+						set byte1 [myRand 1 255]
+						set byte2 [myRand 1 255]
+						set byte3 [myRand 1 255]
+						set byte4 [myRand 1 255]
+						set uid [binary format cccc $byte1 $byte2 $byte3 $byte4]					
+						setObjOption $encoder unique_id $uid
+					}
+				} else {
+					set uid 0
+				}
+
+				after cancel "catch {fileevent $sock writable \"::MSNCAM::WriteToSock $sock\" }"
+				after 4000 "catch {fileevent $sock writable \"::MSNCAM::WriteToSock $sock\" }"
+				set data "[binary format ccsssiiii 24 1 0 0 0 0 0 $uid [clock clicks -milliseconds]]"
+				status_log "sending paused header"
 			}
 			"TSP_RECEIVE" 
 			{
@@ -1359,16 +1395,33 @@ namespace eval ::MSNCAM {
 	}
 
 	proc GetCamDataSize { data } {
-		binary scan $data ccsssiiii h_size paused w h r1 p_size fcc r2 r3
 
-		binary scan "\x30\x32\x4C\x4D" I r_fcc
+		# struct header {
+		#    char header_size;
+		#    char is_pause_frame;
+		#    short width;
+		#    short height;
+		#    short is_keyframe;
+		#    int payload_size;
+		#    int FCC; \\ ML20
+		#    int unique_random_id;
+		#    int timestamp;
+		# }
+		
 
 		if { [string length $data] < 24 } {
-			return 0
+			return -1
 		}
+
+
+		#binary scan $data ccsssiiii h_size paused w h is_keyframe p_size fcc uid timestamp
+		binary scan $data cc@8i h_size paused p_size
+		
+		#binary scan "\x30\x32\x4C\x4D" I r_fcc
+
 		#status_log "got webcam header :  $data" green
 		if { $h_size != 24 } {
-			status_log "invalid - $h_size - $data" red
+			status_log "invalid - $h_size - [string range $data 0 50]" red
 			return -1
 		}
 		# Pause header
@@ -1376,8 +1429,10 @@ namespace eval ::MSNCAM {
 			#status_log "Got 'pause' header" red
 			return 0
 		}
-		if { $fcc != $r_fcc} {
-			status_log "fcc invalide - $fcc - $r_fcc - $data" red
+		set fcc [string range $data 12 15]
+		if { $fcc != "ML20" } {
+		# if { $fcc != $r_fcc} 
+			status_log "fcc invalide - $fcc - [string range $data 0 50]" red
 			return -1
 		}
 		#status_log "resolution : $w x $h - $h_size $p_size \n" red
@@ -1437,8 +1492,43 @@ namespace eval ::MSNCAM {
 					set data "$header[read $fd $size]"
 				}
 			} else {
-				set header "[binary format ssssi 24 [::Webcamsn::GetWidth $encoder] [::Webcamsn::GetHeight $encoder] 0 [string length $data]]"
-				set header "${header}\x4D\x4C\x32\x30\x00\x00\x00\x00\x00\x00\x00\x00"
+				# struct header {
+				#    char header_size;
+				#    char is_pause_frame;
+				#    short width;
+				#    short height;
+				#    short is_keyframe;
+				#    int payload_size;
+				#    int FCC; \\ ML20
+				#    int unique_random_id;
+				#    int timestamp;
+				# }
+				
+				# determine if it's a keyframe..
+				binary scan $data @12c keyframe_flag
+				if {[info exists keyframe_flag] && $keyframe_flag == 0} {
+					set is_keyframe 1 
+				} else {
+					set is_keyframe 0
+				}
+				set uid [getObjOption $encoder unique_id]
+				if {$uid == "" } {
+					set byte1 [myRand 1 255]
+					set byte2 [myRand 1 255]
+					set byte3 [myRand 1 255]
+					set byte4 [myRand 1 255]
+					set uid [binary format cccc $byte1 $byte2 $byte3 $byte4]					
+					setObjOption $encoder unique_id $uid
+				}
+
+				# set basic header info
+				set header "[binary format ccsssi 24 0 [::Webcamsn::GetWidth $encoder] [::Webcamsn::GetHeight $encoder] $is_keyframe [string length $data]]"
+				# add ML20
+				append header "\x4D\x4C\x32\x30"
+				# add a unique identifier
+				append header "$uid"
+				# add a timestamp
+				append header "[binary format i [clock clicks -milliseconds]]"
 				set data "${header}${data}"
 
 			}
@@ -1508,16 +1598,27 @@ namespace eval ::CAMGUI {
 			label $window.l -image $img
 			pack $window.l
 			bind $window.l <Destroy> "image delete $img"
+			label $window.paused -fg red -text ""
+			pack $window.paused -expand true -fill x
 			button $window.q -command "::MSNCAM::CancelCam $chatid $sid" -text "[trans stopwebcamreceive]"
 			pack $window.q -expand true -fill x
 			setObjOption $sid window $window
 			setObjOption $sid image $img
+		} else {
+			$window.paused configure -text ""
 		}
 
 		set img [getObjOption $sid image]
 
 		catch {::Webcamsn::Decode $decoder $img $data}
 
+	}
+	
+	proc GotPausedFrame {sid} {
+		set window [getObjOption $sid window]
+		if { $window != "" } {
+			$window.paused configure -text "[trans pausedwebcamreceive]"
+		}
 	}
 
 	proc GetCamFrame { sid socket } {
@@ -1668,7 +1769,9 @@ namespace eval ::CAMGUI {
 				wm title $window "$chatid - [::abook::getDisplayNick $chatid]"
 				label $window.l -image $img
 				pack $window.l
-				bind $window.l <Destroy> "image delete $img"				
+				bind $window.l <Destroy> "image delete $img"
+				button $window.pause -command "::MSNCAM::PausePlayCam $window $socket" -text "[trans pausewebcamsend]"
+				pack $window.pause -expand true -fill x
 				button $window.settings -command "::CAMGUI::ShowPropertiesPage $grabber $img" -text "[trans changevideosettings]"
 				pack $window.settings -expand true -fill x
 				button $window.q -command "::MSNCAM::CancelCam $chatid $sid" -text "[trans stopwebcamsend]"
@@ -2842,30 +2945,36 @@ namespace eval ::CAMGUI {
 		}
 	}
 
-	proc getNextKeyframe { data {offset 0} } {
+	proc getNextKeyframeOffset { data {offset 0} } {
 
 		set whole_size [string length $data]
 		set offset [expr {[string first "ML20" $data $offset] - 12}] 
 		set keyframe 0
-		while { $keyframe == 0 } {
-			set data [string range $data $offset end]
-			binary scan $data ccsssiiii h_size paused w h r1 p_size fcc r2 r3
-			#set keyframe [expr { $r1 & 0x01 }]
-			set keyframe 1
-			#We have it already, it's just for the sanity checks
-			set p_size [::MSNCAM::GetCamDataSize $data]
-			if { $p_size > 0 } {
-				set offset [expr { 24 + $p_size}]
+		while { $keyframe == 0 && $offset < $whole_size} {
+			binary scan $data @${offset}c@[expr {$offset + 8}]i h_size p_size
+			binary scan $data @[expr {$offset + 24 + 12}]c not_keyframe
+			if { $h_size == 24 && $not_keyframe == 0 } {
+				set keyframe 1
 			} else {
-				set offset [expr {[string first "ML20" $data] - 12}]
+				incr offset 24
+				incr offset $p_size
 			}
 		}
 
-		return [expr {$whole_size - [string length $data]}]
+		return $offset
 
 	}
 
-	proc Play { img filename } {
+	proc ::incr_sem {sem} {
+		if { [info exists $sem] } {
+			incr $sem
+		}
+	}
+
+	proc Play { w filename } {
+		set img ${w}_img
+		::log::updateCamButtonsState $w play
+		status_log "Play"
 
 		if { [::config::getKey playbackspeed] == "" } {
 			::config::setKey playbackspeed 100
@@ -2877,7 +2986,7 @@ namespace eval ::CAMGUI {
 		set semaphore ::${img}_semaphore
 
 		if { [info exists $semaphore] } {
-			after 250 "incr $semaphore"
+			after [::config::getKey playbackspeed] "incr_sem $semaphore"
 			return
 		}
 		if { ![info exists ::seek_val($img)] } {
@@ -2886,88 +2995,121 @@ namespace eval ::CAMGUI {
 
 		set $semaphore 0
 
-		set fd [open $filename]
+		set fd [open $filename r]
 		fconfigure $fd -encoding binary -translation binary
 		set data [read $fd]
-		set whole_size [string length $data]
-
-		set ::seek_val($img) [getNextKeyframe $data $::seek_val($img)]
-	
+		set whole_size [file size $filename]
 		close $fd
-
-		#we need it for seeking.......
-		set ::whole_data($img) $data
-		set data [string range $data $::seek_val($img) end]
+	
 	
 		set decoder [::Webcamsn::NewDecoder]
-		
-		while { [set size [::MSNCAM::GetCamDataSize $data] ] > 0 } {
-		
+
+		while { [set ::seek_val($img)] < $whole_size } {
+			set temp_data [string range $data [set ::seek_val($img)] end]
+			set size [::MSNCAM::GetCamDataSize $temp_data] 
+			if {$size < 0} {
+				set ::seek_val($img) [getNextKeyframeOffset $data $::seek_val($img)]
+				continue
+			}
+
 			if { ![info exists $semaphore] } {
 				break
 			}
-			incr size +24
-			if { [catch { ::Webcamsn::Decode $decoder $img $data} res] } {
+			if { [catch { ::Webcamsn::Decode $decoder $img $temp_data} res] } {
 				status_log "Play : Decode error $res" red
+				set ::seek_val($img) [getNextKeyframeOffset $data $::seek_val($img)]
 			}
-			set data [string range $data $size end]
-			set ::seek_val($img) [expr { $whole_size - [string length $data ] } ]
-			#after 100 "incr $semaphore"
-			after [::config::getKey playbackspeed] "incr $semaphore"
+
+			incr ::seek_val($img) $size
+			incr ::seek_val($img) +24
+
+			# Make sure the semaphore wasn't unset during the call to Decode, and that the 'after' gets executed after the 'after cancel' is called..
+			after [::config::getKey playbackspeed] "incr_sem $semaphore"
 			tkwait variable $semaphore
+
 	
 		}
 		::Webcamsn::Close $decoder
 		catch {unset $semaphore}
-		catch {unset ::whole_data($img)}
 		
 	}
 
-	proc Seek { img filename seek } {
+	proc Seek { w filename seek } {
+		set img ${w}_img
+		status_log "Seek to $seek"
+
+
 		set ::seek_val($img) $seek
 
-		set semaphore ::${img}_semaphore
-		if {![info exists $semaphore] } {
-			# Only set seek_val, which we did already
-			return
-		}
 
-		# Stop and Start to use new seek value
-		Stop $img
-		set ::seek_val($img) $seek
-		Play $img $filename
+#	 	set semaphore ::${img}_semaphore
+# 		if {![info exists $semaphore] } {
+# 			# Only set seek_val, which we did already
+# 			return
+# 		}
+
+# 		# Stop and Start to use new seek value
+# 		Stop $w
+# 		set ::seek_val($img) $seek
+# 		Play $w $filename
 	}
 
-	proc Pause { img  } {
+	proc Pause { w  } {
+		set img ${w}_img
+		::log::updateCamButtonsState $w pause
+		status_log "Pause"
+
 		set semaphore ::${img}_semaphore
 		
 		if { ![info exists $semaphore] } {
 			return
 		}
 
-		after cancel "incr $semaphore"
+		after cancel "incr_sem $semaphore"
 
 	}
 
-	proc Stop { img } {
+	proc Stop { w } {
+		set img ${w}_img
+		::log::updateCamButtonsState $w stop
+		status_log "Stop"
+
 		set semaphore ::${img}_semaphore
 		
 		if { ![info exists $semaphore] } {
 			return
 		}
-		after cancel "incr $semaphore"
+		after cancel "incr_sem $semaphore"
 		set ::seek_val($img) 0
 		catch {unset $semaphore}
-		catch {unset ::whole_data($img)}
 		catch {$img blank}
 	}	
 
-	proc saveToImage { img } {
+	proc saveToImage { w } {
+		set img ${w}_img
 
-		Pause $img
+		Pause $w
+
+		set ::${w}_saveToImageFormat "cximage"
+
+		set new_w $w.saveToImageFormat
+		toplevel $new_w
+		radiobutton $new_w.gif -text "GIF File" -variable ::${w}_saveToImageFormat -value "cxgif"
+		radiobutton $new_w.png -text "PNG File" -variable ::${w}_saveToImageFormat -value "cxpng"
+		radiobutton $new_w.jpg -text "JPG File" -variable ::${w}_saveToImageFormat -value "cxjpg"
+		radiobutton $new_w.tga -text "TGA File" -variable ::${w}_saveToImageFormat -value "cxtga"
+		radiobutton $new_w.default -text "Choose from file extension" -variable ::${w}_saveToImageFormat -value "cximage"	
+		label $new_w.separator -text " "
+		button $new_w.ok -text "[trans save]" -command "destroy $new_w; ::CAMGUI::saveToImageStep2 $w; unset ::${w}_saveToImageFormat"
+		pack $new_w.gif $new_w.png $new_w.jpg $new_w.tga $new_w.default $new_w.separator $new_w.ok -side top
+	}
+
+	proc saveToImageStep2  { w } {
+		set img ${w}_img
+		
 		set filename [tk_getSaveFile -filetypes {{"PNG files" .png}}]
 		if { $filename != "" } {
-			$img write $filename -format cxpng
+			$img write $filename -format [set ::${w}_saveToImageFormat]
 		}
 
 	}

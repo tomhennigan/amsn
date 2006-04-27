@@ -1496,72 +1496,73 @@ namespace eval ::plugins {
 		set program_dir [set ::program_dir]
 
 		if { [catch {
-		
-		# If no URL is given, look at the CVS URL
-		if { $URL == "" } {
-
-			set token [::http::geturl "${::weburl}/autoupdater/plugins/$plugin/plugininfo.xml" -timeout 120000 -binary 1]
-			set content [::http::data $token]
-			::http::cleanup $token
 			
-			if { [string first "<html>" "$content"] == -1 } {
-				set plugins(${plugin}_URL_place) 1
-			} else {
-				set token [::http::geturl "${::weburl}/autoupdater/plugins2/$plugin/plugininfo.xml" -timeout 120000 -binary 1]
+			# If no URL is given, look at the CVS URL
+			if { $URL == "" } {
+				
+				set token [::http::geturl "${::weburl}/autoupdater/plugins/$plugin/plugininfo.xml" -timeout 120000 -binary 1]
 				set content [::http::data $token]
+				::http::cleanup $token
+				
 				if { [string first "<html>" "$content"] == -1 } {
-					set plugins(${plugin}_URL_place) 2
+					set plugins(${plugin}_URL_place) 1
 				} else {
+					set token [::http::geturl "${::weburl}/autoupdater/plugins2/$plugin/plugininfo.xml" -timeout 120000 -binary 1]
+					set content [::http::data $token]
+					if { [string first "<html>" "$content"] == -1 } {
+						set plugins(${plugin}_URL_place) 2
+					} else {
+						::http::cleanup $token
+						return 0
+					}
+					
+				}
+
+				
+				# Else, look at the URL given
+			} else {
+				
+				set token [::http::geturl "$URL" -timeout 120000 -binary 1]
+				set content [::http::data $token]
+				if { [string first "<html>" "$content"] != -1 } {
 					::http::cleanup $token
 					return 0
 				}
-
+				set plugins(${plugin}_URL_place) 3
+				
 			}
-
-
-		# Else, look at the URL given
-		} else {
-		
-			set token [::http::geturl "$URL" -timeout 120000 -binary 1]
-			set content [::http::data $token]
-			if { [string first "<html>" "$content"] != -1 } {
+			
+			set status [::http::status $token]
+			if { $status != "ok" } {
+				status_log "Can't get plugininfo.xml for $plugin (place [getInfo $plugin URL_place] - URL $URL): $status (http token: $token)\n" red
 				::http::cleanup $token
 				return 0
 			}
-			set plugins(${plugin}_URL_place) 3
-
-		}
-
-		set status [::http::status $token]
-		if { $status != "ok" } {
+			
+			set filename "[file join $HOME2 $plugin.xml]"
+			set fid [open $filename w]
+			fconfigure $fid -encoding binary
+			puts -nonewline $fid "$content"
+			close $fid
 			::http::cleanup $token
-			status_log "Can't get plugininfo.xml for $plugin (place [getInfo $plugin URL_place] - URL $URL): $status\n" red
-			return 0
-		}
-
-		set filename "[file join $HOME2 $plugin.xml]"
-		set fid [open $filename w]
-		fconfigure $fid -encoding binary
-		puts -nonewline $fid "$content"
-		close $fid
-		::http::cleanup $token
-
-		set id [::sxml::init $filename]
-		sxml::register_routine $id "plugin" "::plugins::XMLInfoCVS_Online"
-		sxml::register_routine $id "plugin:lang" "::plugins::XMLInfoLang_Online"
-		sxml::register_routine $id "plugin:file" "::plugins::XMLInfoFile_Online"
-		sxml::register_routine $id "plugin:URL" "::plugins::XMLInfoURL_Online"
-		sxml::parse $id
-		sxml::end $id
 		
+			set id [::sxml::init $filename]
+			sxml::register_routine $id "plugin" "::plugins::XMLInfoCVS_Online"
+			sxml::register_routine $id "plugin:lang" "::plugins::XMLInfoLang_Online"
+			sxml::register_routine $id "plugin:file" "::plugins::XMLInfoFile_Online"
+			sxml::register_routine $id "plugin:URL" "::plugins::XMLInfoURL_Online"
+			sxml::parse $id
+			sxml::end $id
+			
 		} ] } {
-		
-		status_log "Can't get online plugininfo.xml for $plugin (place [getInfo $plugin URL_place] - URL $URL)\n" red
-		::http::cleanup $token
-		return 0
-		
+			if {[info exists token] } {
+				status_log "Can't get online plugininfo.xml for $plugin (place [getInfo $plugin URL_place] - URL $URL)(token: $token)\n" red
+				::http::cleanup $token
+			}
+			return 0
+			
 		}
-
+		
 		return 1
 
 	}

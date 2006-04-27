@@ -534,6 +534,8 @@ pager Pager
 pass Password
 paste Paste
 pause Pause
+pausewebcamsend Pause sending of webcam
+pausedwebcamreceive The webcam has been paused by the other user
 personal Personal
 phone Phone
 phones Phone numbers
@@ -545,6 +547,7 @@ playbackspeed Playback speed (milliseconds between each frame)
 playing Playing: $1
 play Play
 playbackposition Playback position
+playwebcamsend Resume sending webcam
 pluginselector Select Plugins
 port Port
 portswellconfigured Your ports are well configured
