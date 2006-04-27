@@ -239,8 +239,9 @@ namespace eval ::picture {
 	}
 	
 	#To verify if a picture is animated (1) or not (0)
-	proc IsAnimated {file {use_cache 1}} {
-		variable animated_files_cache
+#}	proc IsAnimated {file {use_cache 1}} {
+	proc IsAnimated {file } {
+#		variable animated_files_cache
 
 		if { ![file exists $file] } {
 			status_log "Picture.tcl: The file doesn't exists $file\n" red
@@ -252,9 +253,9 @@ namespace eval ::picture {
 			return 0			
 		}
 
-		if {$use_cache && [info exists animated_files_cache($file)] } {
-			return [set animated_files_cache($file)]
-		}
+#		if {$use_cache && [info exists animated_files_cache($file)] } {
+#			return [set animated_files_cache($file)]
+#		}
 		
 		if { [catch {::CxImage::IsAnimated $file} res] } {
 			#Corrupted image.. might as well delete it and redownload it some other time..
@@ -262,7 +263,7 @@ namespace eval ::picture {
 			status_log "Picture.tcl: Unable to read file $file \n$res" red
 			error "Picture.tcl: Unable to read file $file \n$res"
 		} else {
-			set animated_files_cache($file) $res
+#			set animated_files_cache($file) $res
 			return $res
 		}
 	}

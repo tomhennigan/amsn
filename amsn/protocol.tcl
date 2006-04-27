@@ -4807,7 +4807,7 @@ proc cmsn_ns_handler {item {message ""}} {
 				return 0
 			}
 			default {
-				status_log "Got unknown NS input!! --> [lindex $item 0]\n" red
+				status_log "Got unknown NS input!! --> [lindex $item 0]\n\t$item" red
 				return 0
 			}
 		}

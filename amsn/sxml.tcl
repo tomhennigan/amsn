@@ -944,7 +944,7 @@ proc GetXmlEntry { list find {stack ""}} {
 				set key [lindex $subkey 0]
 				set value [lindex $subkey 1]
 				if {$key == "#text" } { 
-					status_log "Found value : $value" blue
+#					status_log "Found value : $value" blue
 					return $value 
 				}
 			}
