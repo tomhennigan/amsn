@@ -2582,6 +2582,7 @@ namespace eval ::CAMGUI {
 			[split [::config::getKey "webcam$device:$channel" "0:0:0:0"] ":"]\
 			{break}
 
+		#if the values stored in config are valid, set 'm
                 if {[string is integer -strict $set_b] && $set_b > 0 && $set_b < 65535 } {
                         ::Capture::SetBrightness $capture_fd $set_b
                 }
@@ -2595,7 +2596,7 @@ namespace eval ::CAMGUI {
                         ::Capture::SetColour $capture_fd $set_co
                 }
 
-		
+		#otherwise just get the device settings, also to make sure the above set's are well done		
 		set set_b [::Capture::GetBrightness $capture_fd]
 		set set_c [::Capture::GetContrast $capture_fd]
 		set set_h [::Capture::GetHue $capture_fd]
@@ -2629,7 +2630,7 @@ namespace eval ::CAMGUI {
 		}
 		label $preview -image $img
 
-		after 0 "::CAMGUI::PreviewLinux $capture_fd $img"
+#		after 0 "::CAMGUI::PreviewLinux $capture_fd $img"
 
 		pack $slides -fill x -expand true
 		pack $preview $buttons -side top
@@ -2687,7 +2688,7 @@ namespace eval ::CAMGUI {
 			set brightness [::Capture::GetBrightness $capture_fd]
 			set contrast [::Capture::GetContrast $capture_fd]
 			set hue [::Capture::GetHue $capture_fd]
-			set colour [::Capture::GetColour $capture_fd]
+		 	set colour [::Capture::GetColour $capture_fd]
 			::config::setKey "webcam$device:$channel" "$brightness:$contrast:$hue:$colour"
 		}
 		grab release $window
