@@ -2541,6 +2541,7 @@ namespace eval ::CAMGUI {
 
 	proc ShowPropertiesPageLinux { capture_fd {img ""} } {
 
+		#if the channel for reading (capture) is not valid
 		if { ![::Capture::IsValid $capture_fd] } {
 			return
 		}
@@ -2559,6 +2560,7 @@ namespace eval ::CAMGUI {
 
 		set grabbers [::Capture::ListGrabbers]
 		status_log "Grabbers : $grabbers"
+		#withing the list of grabbers, get the device/channel for our grabber
 		foreach grabber $grabbers {
 			if { [lindex $grabber 0] == $capture_fd } {
 				set device [lindex $grabber 1]
@@ -2567,14 +2569,13 @@ namespace eval ::CAMGUI {
 			}
 		}
 
+		#if there already exists a list of windows using this grabber, append this one
 		if { [info exists ::grabbers($capture_fd)] } {
-			set windows $::grabbers($capture_fd)
+			lappend ::grabbers($capture_fd) $window
+		#otherwise, create this list with this window as first element
 		} else {
-			set windows [list]
+			set ::grabbers($capture_fd) [list $window]
 		}
-
-		lappend windows $window
-		set ::grabbers($capture_fd) $windows
 
 
 		set settings [::config::getKey "webcam$device:$channel" "0:0:0:0"]
@@ -2585,16 +2586,16 @@ namespace eval ::CAMGUI {
 		set set_co [lindex $settings 3]
 
                 if {[string is integer -strict $set_b] && $set_b > 0 && $set_b < 65535 } {
-                        ::Capture::SetBrightness $grabber $set_b
+                        ::Capture::SetBrightness $capture_fd $set_b
                 }
                 if {[string is integer -strict $set_c] && $set_c > 0 && $set_c < 65535 } {
-                        ::Capture::SetContrast $grabber $set_c
+                        ::Capture::SetContrast $capture_fd $set_c
                 }
                 if {[string is integer -strict $set_h] && $set_h > 0 && $set_h < 65535 } {
-                        ::Capture::SetHue $grabber $set_h
+                        ::Capture::SetHue $capture_fd $set_h
                 }
                 if {[string is integer -strict $set_co] && $set_co > 0 && $set_co < 65535 } {
-                        ::Capture::SetColour $grabber $set_co
+                        ::Capture::SetColour $capture_fd $set_co
                 }
 
 		
@@ -2655,7 +2656,7 @@ namespace eval ::CAMGUI {
 
 	proc Properties_SetLinux { w property capture_fd new_value } {
 
-		if { ! ([string is integer -strict $new_value] && $value > 0 && $value < 65535 ) } { return }
+		if { ! ([string is integer -strict $new_value] && $new_value > 0 && $new_value < 65535 ) } { return }
 
 		switch $property {
 			b {
