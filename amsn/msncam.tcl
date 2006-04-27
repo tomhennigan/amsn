@@ -2577,13 +2577,10 @@ namespace eval ::CAMGUI {
 			set ::grabbers($capture_fd) [list $window]
 		}
 
-
-		set settings [::config::getKey "webcam$device:$channel" "0:0:0:0"]
-		set settings [split $settings ":"]
-		set set_b [lindex $settings 0]
-		set set_c [lindex $settings 1]
-		set set_h [lindex $settings 2]
-		set set_co [lindex $settings 3]
+		#split the capture settings in a list of values and store 'm in the named vars
+		foreach {set_b set_c set_h set_co }\
+			[split [::config::getKey "webcam$device:$channel" "0:0:0:0"] ":"]\
+			{break}
 
                 if {[string is integer -strict $set_b] && $set_b > 0 && $set_b < 65535 } {
                         ::Capture::SetBrightness $capture_fd $set_b
