@@ -40,6 +40,7 @@ proc globalWrite { proxy name {msg ""} } {
 
 #The only way to get HTTP proxy + SSL to work...
 #http://wiki.tcl.tk/2627
+#helped by patthoyts autoproxy!
 proc secureSocket { args } {
 	set phost [::http::config -proxyhost]
 	set pport [::http::config -proxyport]
@@ -59,8 +60,15 @@ proc secureSocket { args } {
 		set socket [socket -async $phost $pport]
 		fconfigure $socket -buffering line -translation crlf
 		puts $socket "CONNECT $thost:$tport HTTP/1.1"
-		puts $socket $auth
-		flush $socket
+        	puts $socket "Host: $thost"
+	        puts $socket "User-Agent: [http::config -useragent]"
+	        puts $socket "Proxy-Connection: keep-alive"
+	        puts $socket "Connection: keep-alive"
+		if { [string length $auth] > 0 } {
+			puts $socket $auth
+		}
+		puts $socket ""
+		#flush $socket
 
 		set reply ""
 		while {[gets $socket r] > 0} {
@@ -76,7 +84,7 @@ proc secureSocket { args } {
 		}
 
 		# now add tls to the socket and return it
-		fconfigure $socket -blocking 0
+		fconfigure $socket -blocking 0 -buffering none -translation binary
 		return [::tls::import $socket]
 	}
 
