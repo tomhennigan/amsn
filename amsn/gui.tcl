@@ -7051,14 +7051,15 @@ proc show_umenu {user_login grId x y} {
 	.user_menu add command -label "[trans copytoclipboard \"${user_login}\"]" \
 		-command "clipboard clear;clipboard append \"${user_login}\""
 
-	.user_menu add command -label "[trans copytoclipboard \"[::abook::getNick ${user_login}]\"]"  -command "clipboard clear;clipboard append \"[::abook::getNick ${user_login}]\""
-	if { [::abook::getVolatileData ${user_login} PSM] != "" } {
-		.user_menu add command -label "[trans copytoclipboard \"[::abook::getVolatileData ${user_login} PSM]\"]"  -command "clipboard clear;clipboard append \"[::abook::getVolatileData ${user_login} PSM]\""
+	set the_nick [::abook::getNick ${user_login}]
+	set the_psm [::abook::getVolatileData $user_login PSM]
+	.user_menu add command -label "[trans copytoclipboard \"$the_nick\"]"  -command "clipboard clear;[list clipboard append $the_nick]"
+	if { $the_psm != "" } {
+		.user_menu add command -label "[trans copytoclipboard \"$the_psm\"]"  -command "clipboard clear;[list clipboard append $the_psm]"
 	}
 		
 	#parse nick and PSM in the same time.
-	set nickpsm [::abook::getNick ${user_login}]
-	append nickpsm " " [::abook::getVolatileData $user_login PSM]
+	set nickpsm ${the_nick}${the_psm}
 	set url_indices [urlParserString "$nickpsm"]
 	for {set i 0} {$i<[llength $url_indices]} {incr i} {
 		set pos_start [lindex $url_indices $i ]
