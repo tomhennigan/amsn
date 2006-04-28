@@ -208,8 +208,7 @@ namespace eval ::abook {
 		set sk [ns cget -sock]
 
 		if { $sk != "" } {
-			set ip ""
-			catch {set ip [lindex [fconfigure $sk -sockname] 0]}
+			foreach ip $sk {break}
 			return $ip
 		} else {
 			return ""
@@ -375,8 +374,7 @@ namespace eval ::abook {
 
 			set user_data($field) $data
 		}
-
-		#We store the array as a plain list, as we can't have an array of arrays
+		
 		set users_data($user_login) [array get user_data]
 		
 		#We make this to notify preferences > groups to be refreshed

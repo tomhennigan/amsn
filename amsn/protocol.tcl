@@ -4398,7 +4398,7 @@ proc cmsn_change_state {recv} {
 	}
 
 	# Retreive the new display picture if it changed
-	set oldmsnobj [::abook::getVolatileData $user msobj]
+#	set oldmsnobj [::abook::getVolatileData $user msobj]
 	#set list_users [lreplace $list_users $idx $idx [list $user $user_name $state_no $msnobj]]
 
 	::abook::setVolatileData $user state $substate
@@ -4652,13 +4652,20 @@ proc cmsn_ns_handler {item {message ""}} {
 				return 0
 			}
 			BPR {
-				if { [llength $item] == 3} {
-					#That's here we receive MOB, PHM,PHW,PHH information
-					global loading_list_info
-					::abook::setVolatileData $loading_list_info(last) [lindex $item 1] [urldecode [lindex $item 2]]
+				global loading_list_info
+
+				if { [string length [lindex $item 1]] == 3 } {
+					set var [lindex $item 1]
+					set value [lindex $item 2]
+					if {[string first "tel:" $value] == 0} {
+						set value [string range $value [string length "tel:"] end]
+					}
+					::abook::setVolatileData $loading_list_info(last) $var $value
 				} else {
-					# Update entry in address book setContact(email,PH*/M*,phone/setting)
-					::abook::setContactData [lindex $item 2] [lindex $item 3] [urldecode [lindex $item 4]]
+					#here the first element is the addres of the user, this is when it's not received on login.
+					set var [lindex $item 2
+					set value [lindex $item 3
+					::abook::setVolatileData [lindex $item 1] $var $value
 				}
 				return 0
 			}
