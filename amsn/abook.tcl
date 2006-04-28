@@ -987,7 +987,7 @@ namespace eval ::abookGui {
 
 
 	proc showUserProperties { email } {
-		global colorval_$email
+		global colorval_$email showcustomsmileys_$email
 		set w ".user_[::md5::md5 $email]_prop"
 		if { [winfo exists $w] } {
 			raise $w
@@ -1070,6 +1070,7 @@ namespace eval ::abookGui {
 		label $nbIdent.customcolor -text "[trans customcolor]:"
 		frame $nbIdent.customcolorf -relief groove -borderwidth 2
 		set colorval_$email [::abook::getContactData $email customcolor] 
+		set showcustomsmileys_$email [::abook::getContactData $email showcustomsmileys]
 
 		#frame $nbIdent.customcolorf.col -width 40 -bd 0 -relief flat\
 		#	-highlightthickness 1 -takefocus 0 \
@@ -1091,7 +1092,7 @@ namespace eval ::abookGui {
 		pack $nbIdent.customcolorf.col -side left -expand true -fill y -pady 5 -padx 8
 		pack $nbIdent.customcolorf.bset -side left -padx 3 -pady 2
 		pack $nbIdent.customcolorf.brem -side left -padx 3 -pady 2
-		
+
 		label $nbIdent.g -text "[trans group]" -font bboldunderf
 		label $nbIdent.g1 -text "[::abook::getGroupsname $email]" -font splainf -fg blue -justify left -wraplength 300
 		button $nbIdent.g2 -text [trans change] -command "::groups::Groupmanager $email $nbIdent"
@@ -1154,38 +1155,48 @@ namespace eval ::abookGui {
 		grid $nbIdent.ycustomfnick -row 5 -column 1 -sticky wne -columnspan 3
 		grid $nbIdent.customcolor -row 6 -column 0 -sticky e
 		grid $nbIdent.customcolorf -row 6 -column 1 -sticky w -columnspan 3
+
+                label $nbIdent.default -font sboldf -text "*" -justify center
+                label $nbIdent.yes -font sboldf -text [trans yes] -justify center
+                label $nbIdent.no -font sboldf -text [trans no] -justify center
+
+                grid $nbIdent.default -row 7 -column 0 -sticky we -padx 5
+                grid $nbIdent.yes -row 7 -column 1 -sticky we -padx 5
+                grid $nbIdent.no -row 7 -column 2 -sticky we -padx 5
+
+		AddOption $nbIdent showcustomsmileys showcustomsmileys_$email [trans custshowcustomsmileys] 8
 	
-		grid $nbIdent.g -row 7 -column 0 -pady 5 -padx 5 -sticky w
-		grid $nbIdent.g1 -row 8 -column 0 -sticky e
-		grid $nbIdent.g2 -row 8 -column 1 -sticky w
+		grid $nbIdent.g -row 9 -column 0 -pady 5 -padx 5 -sticky w
+		grid $nbIdent.g1 -row 10 -column 0 -sticky e
+		grid $nbIdent.g2 -row 10 -column 1 -sticky w
 		
-		grid $nbIdent.titlephones -row 9 -column 0 -pady 5 -padx 5 -columnspan 2 -sticky w 
-		grid $nbPhone.phh -row 10 -column 0 -sticky e
-		grid $nbPhone.phh1 -row 10 -column 1 -sticky w
-		grid $nbPhone.phw -row 11 -column 0 -sticky e
-		grid $nbPhone.phw1 -row 11 -column 1 -sticky w
-		grid $nbPhone.phm -row 12 -column 0 -sticky e
-		grid $nbPhone.phm1 -row 12 -column 1 -sticky w
-		grid $nbPhone.php -row 13 -column 0 -sticky e
-		grid $nbPhone.php1 -row 13 -column 1 -sticky w
+		grid $nbIdent.titlephones -row 11 -column 0 -pady 5 -padx 5 -columnspan 2 -sticky w 
+		grid $nbPhone.phh -row 12 -column 0 -sticky e
+		grid $nbPhone.phh1 -row 12 -column 1 -sticky w
+		grid $nbPhone.phw -row 13 -column 0 -sticky e
+		grid $nbPhone.phw1 -row 13 -column 1 -sticky w
+		grid $nbPhone.phm -row 14 -column 0 -sticky e
+		grid $nbPhone.phm1 -row 14 -column 1 -sticky w
+		grid $nbPhone.php -row 15 -column 0 -sticky e
+		grid $nbPhone.php1 -row 15 -column 1 -sticky w
 		
-		grid $nbIdent.titleothers -row 18 -column 0 -pady 5 -padx 5 -columnspan 2 -sticky w 
-		grid $nbPhone.lastlogin -row 19 -column 0 -sticky e
-		grid $nbPhone.lastlogin1 -row 19 -column 1 -sticky w
-		grid $nbPhone.lastlogout -row 19 -column 2 -sticky e
-		grid $nbPhone.lastlogout1 -row 19 -column 3 -sticky w
-		grid $nbPhone.lastmsgedme -row 21 -column 0 -sticky e
-		grid $nbPhone.lastmsgedme1 -row 21 -column 1 -sticky w
-		grid $nbPhone.lastseen -row 21 -column 2 -sticky e
-		grid $nbPhone.lastseen1 -row 21 -column 3 -sticky w
-		grid $nbPhone.clientname -row 22 -column 0 -sticky e
-		grid $nbPhone.clientname1 -row 22 -column 1 -sticky w
-		grid $nbPhone.clientid -row 22 -column 1 -sticky e
-		grid $nbPhone.chatlogging -row 22 -column 2 -sticky e
-		grid $nbPhone.chatlogging1 -row 22 -column 3 -sticky w
+		grid $nbIdent.titleothers -row 20 -column 0 -pady 5 -padx 5 -columnspan 2 -sticky w 
+		grid $nbPhone.lastlogin -row 21 -column 0 -sticky e
+		grid $nbPhone.lastlogin1 -row 21 -column 1 -sticky w
+		grid $nbPhone.lastlogout -row 21 -column 2 -sticky e
+		grid $nbPhone.lastlogout1 -row 21 -column 3 -sticky w
+		grid $nbPhone.lastmsgedme -row 23 -column 0 -sticky e
+		grid $nbPhone.lastmsgedme1 -row 23 -column 1 -sticky w
+		grid $nbPhone.lastseen -row 23 -column 2 -sticky e
+		grid $nbPhone.lastseen1 -row 23 -column 3 -sticky w
+		grid $nbPhone.clientname -row 24 -column 0 -sticky e
+		grid $nbPhone.clientname1 -row 24 -column 1 -sticky w
+		grid $nbPhone.clientid -row 24 -column 1 -sticky e
+		grid $nbPhone.chatlogging -row 24 -column 2 -sticky e
+		grid $nbPhone.chatlogging1 -row 24 -column 3 -sticky w
 		
-		grid $nbPhone.titlepic -row 28 -column 0 -sticky w -columnspan 2 -pady 5 -padx 5
-		grid $nbPhone.displaypic -row 29 -column 0 -sticky w -columnspan 2 -padx 8
+		grid $nbPhone.titlepic -row 30 -column 0 -sticky w -columnspan 2 -pady 5 -padx 5
+		grid $nbPhone.displaypic -row 31 -column 0 -sticky w -columnspan 2 -padx 8
 		#grid columnconfigure $nbIdent.fothers 1 -weight 1
 		
 		grid columnconfigure $nbIdent 1 -weight 1
@@ -1351,7 +1362,7 @@ namespace eval ::abookGui {
 	}
 	
 	proc PropDestroyed { email w win } {
-		global colorval_$email
+		global colorval_$email showcustomsmileys_$email
 
 		if { $w == $win } {
 			#Clean temporal variables
@@ -1360,6 +1371,7 @@ namespace eval ::abookGui {
 			unset ::notifystatus($email)
 			unset ::notifymsg($email)
 			catch {unset colorval_$email}
+			catch {unset showcustomsmileys_$email}
 		}
 	}
 	
@@ -1441,7 +1453,7 @@ namespace eval ::abookGui {
 	}
 
 	proc PropOk { email w } {
-		global colorval_$email
+		global colorval_$email showcustomsmileys_$email
 		
 		if {[::alarms::SaveAlarm $email] != 0 } {
 			return
@@ -1451,8 +1463,8 @@ namespace eval ::abookGui {
 		set nbIdent [$nbIdent.sw.sf getframe]
 
 		# Store custom display information options
-		::abook::setAtomicContactData $email [list customnick customfnick cust_p4c_name customcolor] \
-			[list [$nbIdent.customnick.ent get] [$nbIdent.customfnick.ent get] [$nbIdent.ycustomfnick.ent get] [set colorval_$email]]
+		::abook::setAtomicContactData $email [list customnick customfnick cust_p4c_name customcolor showcustomsmileys] \
+			[list [$nbIdent.customnick.ent get] [$nbIdent.customfnick.ent get] [$nbIdent.ycustomfnick.ent get] [set colorval_$email] [set showcustomsmileys_$email]]
 
 		# Store custom notification options
 		::abook::setAtomicContactData $email [list notifyonline notifyoffline notifystatus notifymsg] \

@@ -207,6 +207,7 @@ custom_new Add new custom smiley
 customnick Custom Nick
 customsmileys Display other users' Custom Emoticons
 customstyle Customized style
+custshowcustomsmileys Show user's Custom Emoticons
 cut Cut
 cutimageboxreset Reset the selection box\nsize to:
 cutimagebox Select the part of the image you want to use, resizing and moving the selection-box
