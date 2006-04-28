@@ -7050,6 +7050,11 @@ proc show_umenu {user_login grId x y} {
 	.user_menu delete 0 end
 	.user_menu add command -label "[trans copytoclipboard \"${user_login}\"]" \
 		-command "clipboard clear;clipboard append \"${user_login}\""
+
+	.user_menu add command -label "[trans copytoclipboard \"[::abook::getNick ${user_login}]\"]"  -command "clipboard clear;clipboard append \"[::abook::getNick ${user_login}]\""
+	if { [::abook::getVolatileData ${user_login} PSM] != "" } {
+		.user_menu add command -label "[trans copytoclipboard \"[::abook::getVolatileData ${user_login} PSM]\"]"  -command "clipboard clear;clipboard append \"[::abook::getVolatileData ${user_login} PSM]\""
+	}
 		
 	#parse nick and PSM in the same time.
 	set nickpsm [::abook::getNick ${user_login}]
