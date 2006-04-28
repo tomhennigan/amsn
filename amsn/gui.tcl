@@ -2917,7 +2917,7 @@ namespace eval ::amsn {
 		}
 
 		if {[::config::getKey chatsmileys]} {
-			if {[::config::getKey customsmileys] && [::abook::getContactData $user showcustomsmileys] != 0 } {
+			if {([::config::getKey customsmileys] && [::abook::getContactData $user showcustomsmileys] != 0) || [::abook::getContactData $user showcustomsmileys] == 1 } {
 				custom_smile_subst $chatid [::ChatWindow::GetOutText ${win_name}] $text_start end
 			}
 			#Replace smileys... if you're sending custom ones, replace them too (last parameter)
