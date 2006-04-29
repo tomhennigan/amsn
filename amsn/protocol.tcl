@@ -4663,8 +4663,8 @@ proc cmsn_ns_handler {item {message ""}} {
 					::abook::setVolatileData $loading_list_info(last) $var $value
 				} else {
 					#here the first element is the addres of the user, this is when it's not received on login.
-					set var [lindex $item 2
-					set value [lindex $item 3
+					set var [lindex $item 2]
+					set value [lindex $item 3]
 					::abook::setVolatileData [lindex $item 1] $var $value
 				}
 				return 0
