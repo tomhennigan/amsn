@@ -508,7 +508,7 @@ int Capture_Close _ANSI_ARGS_((ClientData clientData,
     return TCL_ERROR;
   }
   
-  capItem->dev.v->stopvideo(capItem->handle);
+  capItem->dev.v->stopvideo(capItem->dev.handle);
   
   // If a converter was used, close it and release the rgb_buffer
   if (capItem->handle) {
