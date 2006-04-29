@@ -1696,7 +1696,7 @@ proc Preferences { { settings "personal"} } {
 	checkbutton $lfname.1.show_contactdps_in_cl -text "[trans show_contactdps_in_cl]" -onvalue 1 -offvalue 0 -variable [::config::getVar show_contactdps_in_cl]
 	#checkbutton $lfname.1.log -text "[trans logsmileys]" -onvalue 1 -offvalue 0 -variable [::config::getVar logsmileys] -state disabled
 	#pack $lfname.1.chat $lfname.1.list $lfname.1.sound  $lfname.1.animated $lfname.1.log -anchor w -side top -padx 10
-	pack $lfname.1.chat $lfname.1.list $lfname.1.sound  $lfname.1.animated $lfname.1.show_contactdps_in_cl -anchor w -side top -padx 10 -pady 0
+	pack $lfname.1.chat $lfname.1.list $lfname.1.sound  $lfname.1.animated $lfname.1.customsmileys $lfname.1.show_contactdps_in_cl -anchor w -side top -padx 10 -pady 0
 
 	## Alerts and Sounds Frame ##
 	set lfname [labelframe $frm.lfname3 -text [trans prefalerts]]

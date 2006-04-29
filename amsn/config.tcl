@@ -190,7 +190,6 @@ namespace eval ::config {
 		::config::setKey customsmileys 1                ;#Show other people s custom smileys
 
 		#Custom smileys configuration
-		::config::setKey custom_smileys 1
 		::config::setKey logsbydate 1
 		::config::setKey p4c_name ""
 		::config::setKey tabbedchat 2
