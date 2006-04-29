@@ -2727,7 +2727,8 @@ namespace eval ::ChatWindow {
 		
 	}
 
-	proc CloseTab { tab } {
+	proc CloseTab { tab {detach 0}} {
+		variable win_history
 		variable containercurrent
 		variable containerprevious
 		variable containerwindows
@@ -2738,6 +2739,10 @@ namespace eval ::ChatWindow {
 
 		set container [winfo toplevel $win]
 
+		if {!$detach} {
+			array unset win_history [GetInputText $win]
+		}
+		
 		destroy $win
 		destroy [set win2tab($win)]
 		set idx [lsearch [set containerwindows($container)] $win]
@@ -3222,7 +3227,7 @@ namespace eval ::ChatWindow {
 		#Delete images if not in use
 		catch {destroy $win.bottom.pic}
 
-		CloseTab $tab
+		CloseTab $tab 1
 
 		#We now clean the old history
 		if { [info exists win_history(${winhisto}_count)] } {
