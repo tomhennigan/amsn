@@ -355,12 +355,17 @@ namespace eval ::Nudge {
 	################################################	
 	proc clitemmenu { event evpar } {
 		upvar 2 $evpar newvar
-		#Add a separator to the menu
-		$newvar(menu_name) add separator
-		
-		#Add label in the menu
-		$newvar(menu_name) add command -label "$::Nudge::language(send_nudge)" \
-		-command "::Nudge::ClSendNudge $newvar(user_login)"
+
+		#Add separator and label in the menu
+		if { [winfo exists ${newvar(menu_name)}.actions] } {
+			${newvar(menu_name)}.actions add separator
+			${newvar(menu_name)}.actions add command -label "$::Nudge::language(send_nudge)" \
+			-command "::Nudge::ClSendNudge $newvar(user_login)"
+		} else {
+			$newvar(menu_name) add separator
+			$newvar(menu_name) add command -label "$::Nudge::language(send_nudge)" \
+			-command "::Nudge::ClSendNudge $newvar(user_login)"
+		}
 		::Nudge::log "Create Send Nudge item in right click menu"
 	}
 

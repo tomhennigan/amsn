@@ -3242,6 +3242,7 @@ proc cmsn_draw_main {} {
 	menu .user_menu -tearoff 0 -type normal
 	menu .user_menu.move_group_menu -tearoff 0 -type normal
 	menu .user_menu.copy_group_menu -tearoff 0 -type normal
+	menu .user_menu.actions -tearoff 0 -type normal
 	menu .menu_invite -tearoff 0 -type normal
 
 	#Main menu
@@ -3640,7 +3641,7 @@ proc cmsn_draw_main {} {
 
 	text $pgBuddy.text -background [::skin::getKey contactlistbg] -width 30 -height 0 -wrap none \
 		-cursor left_ptr -font splainf \
-		-selectbackground [::skin::getKey contactlistbg] -selectborderwidth 0 -exportselection 0 \
+		-selectborderwidth 0 -exportselection 1 \
 		-relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0
 
 	$pgBuddy setwidget $pgBuddy.text
@@ -7048,6 +7049,7 @@ proc show_umenu {user_login grId x y} {
 
 	set blocked [::MSN::userIsBlocked $user_login]
 	.user_menu delete 0 end
+	.user_menu.actions delete 0 end
 	.user_menu add command -label "[trans copytoclipboard \"${user_login}\"]" \
 		-command "clipboard clear;clipboard append \"${user_login}\""
 
@@ -7074,7 +7076,11 @@ proc show_umenu {user_login grId x y} {
 	}
 
 	.user_menu add separator
-	.user_menu add command -label "[trans sendmsg]" \
+
+	.user_menu add cascade -label "[trans actions]" \
+		-menu .user_menu.actions
+
+	.user_menu.actions add command -label "[trans sendmsg]" \
 		-command "::amsn::chatUser ${user_login}"
 
 	if { [::abook::getContactData $user_login msn_mobile] =="1" } {
@@ -7082,10 +7088,10 @@ proc show_umenu {user_login grId x y} {
 	} else {
 	    set mob_menu_state "disabled"
 	}
-	.user_menu add command -label "[trans sendmobmsg]" \
+	.user_menu.actions add command -label "[trans sendmobmsg]" \
 	    -command "::MSNMobile::OpenMobileWindow ${user_login}" -state $mob_menu_state
 
-	.user_menu add command -label "[trans sendmail]" \
+	.user_menu.actions add command -label "[trans sendmail]" \
 		-command "launch_mailer $user_login"
 	.user_menu add command -label "[trans viewprofile]" \
 		-command "::hotmail::viewProfile [list ${user_login}]"
