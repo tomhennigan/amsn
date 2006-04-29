@@ -3641,7 +3641,7 @@ proc cmsn_draw_main {} {
 
 	text $pgBuddy.text -background [::skin::getKey contactlistbg] -width 30 -height 0 -wrap none \
 		-cursor left_ptr -font splainf \
-		-selectborderwidth 0 -exportselection 1 \
+		-selectbackground [::skin::getKey contactlistbg] -selectborderwidth 0 -exportselection 0 \
 		-relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0
 
 	$pgBuddy setwidget $pgBuddy.text
@@ -7055,10 +7055,6 @@ proc show_umenu {user_login grId x y} {
 
 	set the_nick [::abook::getNick ${user_login}]
 	set the_psm [::abook::getVolatileData $user_login PSM]
-	.user_menu add command -label "[trans copytoclipboard \"$the_nick\"]"  -command "clipboard clear;[list clipboard append $the_nick]"
-	if { $the_psm != "" } {
-		.user_menu add command -label "[trans copytoclipboard \"$the_psm\"]"  -command "clipboard clear;[list clipboard append $the_psm]"
-	}
 		
 	#parse nick and PSM in the same time.
 	set nickpsm ${the_nick}${the_psm}
