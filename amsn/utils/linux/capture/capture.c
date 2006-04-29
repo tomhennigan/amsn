@@ -480,6 +480,8 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
     captureItem->rgb_buffer = ng_malloc_video_buf(&captureItem->dev, &captureItem->fmt);
   }
   
+  captureItem->dev.v->startvideo(captureItem->dev.handle, 25, 1);
+  
   Tcl_SetObjResult(interp, Tcl_NewStringObj(captureItem->captureName,-1));
   
   return TCL_OK;
@@ -505,6 +507,8 @@ int Capture_Close _ANSI_ARGS_((ClientData clientData,
     Tcl_AppendResult(interp, "Invalid capture descriptor.", (char *) NULL);
     return TCL_ERROR;
   }
+  
+  capItem->dev.v->stopvideo(capItem->handle);
   
   // If a converter was used, close it and release the rgb_buffer
   if (capItem->handle) {
@@ -607,7 +611,7 @@ int Capture_Grab _ANSI_ARGS_((ClientData clientData,
   // - High resolution
   // - Low resolution
   for (dim_idx = resolution;;) {
-    if ((capItem->image_data = capItem->dev.v->getimage(capItem->dev.handle)) == NULL) {
+    if ((capItem->image_data = capItem->dev.v->nextframe(capItem->dev.handle)) == NULL) {
 #   ifdef DEBUG
       fprintf(stderr,"Capturing image failed at %d, %d\n", fmt.width, fmt.height);
 #   endif
