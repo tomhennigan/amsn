@@ -4656,7 +4656,7 @@ proc cmsn_ns_handler {item {message ""}} {
 
 				if { [string length [lindex $item 1]] == 3 } {
 					set var [lindex $item 1]
-					set value [lindex $item 2]
+					set value [urldecode [lindex $item 2]]
 					if {[string first "tel:" $value] == 0} {
 						set value [string range $value [string length "tel:"] end]
 					}
@@ -4664,7 +4664,7 @@ proc cmsn_ns_handler {item {message ""}} {
 				} else {
 					#here the first element is the addres of the user, this is when it's not received on login.
 					set var [lindex $item 2]
-					set value [lindex $item 3]
+					set value [urldecode [lindex $item 3]]
 					::abook::setVolatileData [lindex $item 1] $var $value
 				}
 				return 0
