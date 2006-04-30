@@ -82,7 +82,7 @@
 	<lang>
 		<langcode>en</langcode>
 		<name>English</name>
-		<version>1.369</version>
+		<version>1.370</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -106,7 +106,7 @@
 	<lang>
 		<langcode>fr</langcode>
 		<name>French - France (français)</name>
-		<version>1.169</version>
+		<version>1.170</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
