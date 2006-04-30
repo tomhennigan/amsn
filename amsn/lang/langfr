@@ -208,6 +208,7 @@ custom_new Créer un émoticon personnalisé
 customnick Pseudo personnalisé
 customsmileys Afficher les émoticônes/smileys des contacts
 customstyle Style personnalisé
+custshowcustomsmileys Afficher les émoticônes/smileys de ce contact
 cut Couper
 cutimagebox Sélectionnez la partie de l'image qui vous intéresse en redimensionnant et/ou en déplaçant la boîte de sélection
 cutimageboxreset Mettre à zéro la boîte de sélection\ntaille:
@@ -279,7 +280,7 @@ enterbugdesc Entrez une description de ce que vous faisiez pour nous aider a rep
 entercontactemail Ajouter un contact de messagerie
 enterfilename Entrez le nom du fichier
 enternick Mon pseudonyme
-enterpsm Message personnel
+enterpsm Mon Message personnel
 errortls Erreur lors de l'installation du module TLS:
 eventhistory Voir l'historique des événements
 examples Exemples
@@ -594,6 +595,7 @@ proxyconf Configuration du proxy
 proxyconfhttp Configuration du support proxy HTTP
 proxyconnection Je me connecte à Internet via un serveur proxy :
 proxy Je suis derrière un serveur proxy (HTTP ou SOCKS5)
+psm Message Personnel
 psmatend Afficher le Message Personnel à côté du pseudonyme
 psmdontshow Ne pas montrer le Message Personnel, sauf si défini dans un pseudonyme général ou personnalisé
 psmnewline Afficher le Message Personnel en dessous du pseudonyme

@@ -282,7 +282,7 @@ enterbugdesc Enter a description of what you were doing to help us reproduce the
 entercontactemail Enter contact e-mail
 enterfilename Please enter a filename
 enternick Enter your nick
-enterpsm Personal Message
+enterpsm Your Personal Message
 errortls Error installing TLS module:
 eventhistory View events history
 examples Examples
@@ -596,6 +596,7 @@ proxyconfhttp HTTP proxy support configuration
 proxyconf Proxy configuration
 proxyconnection I connect to the internet using a proxy server:
 proxy I am behind a proxy server (HTTP or SOCKS5)
+psm Personal Message
 psmatend Show Personal Message beside the nickname
 psmdontshow Don't show Personal Message, unless otherwise defined in global/custom nicks
 psmnewline Show Personal Message below the nickname
