@@ -76,7 +76,7 @@ namespace eval ::abook {
 
 	# Get PSM and currentMedia
 	proc getpsmmedia { { user_login "" } } {
-		if { [::config::getKey protocol] != 11 } { return }
+		if { [::config::getKey protocol] < 11 } { return }
 		set psmmedia ""
 		if { $user_login == "" } {
 	                set psm [::abook::getPersonal PSM]
@@ -591,7 +591,7 @@ namespace eval ::abook {
 	proc parseCustomNick { input nick user_login customnick {psm ""} } {
 		#If there's no customnick set, default to user_login
 		if { $customnick == "" } {
-			if { [::config::getKey protocol] == 11 && $psm != "" } {
+			if { [::config::getKey protocol] >= 11 && $psm != "" } {
 				set customnick $user_login\n$psm
 			} else {
 				set customnick $user_login
@@ -923,7 +923,7 @@ namespace eval ::abook {
 	
 		foreach contact $ImportedContact {
 			status_log "Importation of contacts : $contact\n" red
-			if { [::config::getKey protocol] == 11 } {
+			if { [::config::getKey protocol] >= 11 } {
 				::MSN::WriteSB ns "ADC" "FL N=$contact F=$contact"
 			} else {
 				::MSN::WriteSB ns "ADD" "FL $contact $contact 0"
@@ -1013,11 +1013,30 @@ namespace eval ::abookGui {
 		label $nbIdent.title1 -text [trans identity] -font bboldunderf
 		
 		label $nbIdent.e -text "[trans email]:" -wraplength 300 
-		label $nbIdent.e1 -text $email -font splainf -fg blue 
-		
+		set h [expr {[string length $email]/50 +1}]
+		text $nbIdent.e1 -font splainf -fg blue -width 50 -height $h -wrap char
+		$nbIdent.e1 delete 0.0 end
+		$nbIdent.e1 insert 0.0 $email
+		$nbIdent.e1 configure -state disabled
+
 		label $nbIdent.h -text "[trans nick]:"
-		label $nbIdent.h1 -text [::abook::getNick $email] -font splainf -fg blue -wraplength 300 -justify left
+		set nick [::abook::getNick $email]
+		set h [expr {[string length $nick]/50 +1}]
+		text $nbIdent.h1 -font splainf -fg blue -width 50 -height $h -wrap char
+		$nbIdent.h1 delete 0.0 end
+		$nbIdent.h1 insert 0.0 $nick
+		$nbIdent.h1 configure -state disabled
 		
+		if { [::config::getKey protocol] >= 11 } {
+			label $nbIdent.psm -text "[trans psm]:"
+			set psm [::abook::getVolatileData $email PSM]
+			set h [expr {[string length $psm]/50 +1}]
+			text $nbIdent.psm1 -font splainf -fg blue -width 50 -height $h -wrap char
+			$nbIdent.psm1 delete 0.0 end
+			$nbIdent.psm1 insert 0.0 $psm
+			$nbIdent.psm1 configure -state disabled
+		}
+
 		label $nbIdent.customnickl -text "[trans customnick]:"
 		frame $nbIdent.customnick
 		entry $nbIdent.customnick.ent -font splainf -bg white
@@ -1025,7 +1044,7 @@ namespace eval ::abookGui {
 		menu $nbIdent.customnick.help.menu -tearoff 0
 		$nbIdent.customnick.help.menu add command -label [trans nick] -command "$nbIdent.customnick.ent insert insert \\\$nick"
 		$nbIdent.customnick.help.menu add command -label [trans email] -command "$nbIdent.customnick.ent insert insert \\\$user_login"
-		if { [::config::getKey protocol] == 11 } {
+		if { [::config::getKey protocol] >= 11 } {
 			$nbIdent.customnick.help.menu add command -label [trans psm] -command "$nbIdent.customnick.ent insert insert \\\$psm"
 		}
 		$nbIdent.customnick.help.menu add separator
@@ -1040,7 +1059,7 @@ namespace eval ::abookGui {
 		menu $nbIdent.customfnick.help.menu -tearoff 0
 		$nbIdent.customfnick.help.menu add command -label [trans nick] -command "$nbIdent.customfnick.ent insert insert \\\$nick"
 		$nbIdent.customfnick.help.menu add command -label [trans email] -command "$nbIdent.customfnick.ent insert insert \\\$user_login"
-                if { [::config::getKey protocol] == 11 } {
+                if { [::config::getKey protocol] >= 11 } {
                         $nbIdent.customfnick.help.menu add command -label [trans psm] -command "$nbIdent.customfnick.ent insert insert \\\$psm"
                 }
 		$nbIdent.customfnick.help.menu add separator
@@ -1056,7 +1075,7 @@ namespace eval ::abookGui {
 		menu $nbIdent.ycustomfnick.help.menu -tearoff 0
 		$nbIdent.ycustomfnick.help.menu add command -label [trans nick] -command "$nbIdent.ycustomfnick.ent insert insert \\\$nick"
 		$nbIdent.ycustomfnick.help.menu add command -label [trans email] -command "$nbIdent.ycustomfnick.ent insert insert \\\$user_login"
-                if { [::config::getKey protocol] == 11 } {
+                if { [::config::getKey protocol] >= 11 } {
                         $nbIdent.ycustomfnick.help.menu add command -label [trans psm] -command "$nbIdent.ycustomfnick.ent insert insert \\\$psm"
                 }
 		$nbIdent.ycustomfnick.help.menu add separator
@@ -1145,24 +1164,22 @@ namespace eval ::abookGui {
 		grid $nbIdent.e1 -row 1 -column 1 -sticky w -columnspan 3
 		grid $nbIdent.h -row 2 -column 0 -sticky e
 		grid $nbIdent.h1 -row 2 -column 1 -sticky w -columnspan 3
-		grid $nbIdent.customnickl -row 3 -column 0 -sticky en
-		grid $nbIdent.customnick -row 3 -column 1 -sticky wne -columnspan 3
-		grid $nbIdent.customfnickl -row 4 -column 0 -sticky en
-		grid $nbIdent.customfnick -row 4 -column 1 -sticky wne -columnspan 3
-		grid $nbIdent.ycustomfnickl -row 5 -column 0 -sticky en
-		grid $nbIdent.ycustomfnick -row 5 -column 1 -sticky wne -columnspan 3
-		grid $nbIdent.customcolor -row 6 -column 0 -sticky e
-		grid $nbIdent.customcolorf -row 6 -column 1 -sticky w -columnspan 3
-
-                label $nbIdent.default -font sboldf -text "*" -justify center
-                label $nbIdent.yes -font sboldf -text [trans yes] -justify center
-                label $nbIdent.no -font sboldf -text [trans no] -justify center
-
-                grid $nbIdent.default -row 7 -column 0 -sticky we -padx 5
-                grid $nbIdent.yes -row 7 -column 1 -sticky we -padx 5
-                grid $nbIdent.no -row 7 -column 2 -sticky we -padx 5
-
-		AddOption $nbIdent showcustomsmileys showcustomsmileys_$email [trans custshowcustomsmileys] 8
+		if { [::config::getKey protocol] >= 11 } {
+			grid $nbIdent.psm -row 3 -column 0 -sticky e
+			grid $nbIdent.psm1 -row 3 -column 1 -sticky w -columnspan 3
+		}
+		grid $nbIdent.customnickl -row 4 -column 0 -sticky en
+		grid $nbIdent.customnick -row 4 -column 1 -sticky wne -columnspan 3
+		grid $nbIdent.customfnickl -row 5 -column 0 -sticky en
+		grid $nbIdent.customfnick -row 5 -column 1 -sticky wne -columnspan 3
+		grid $nbIdent.ycustomfnickl -row 6 -column 0 -sticky en
+		grid $nbIdent.ycustomfnick -row 6 -column 1 -sticky wne -columnspan 3
+		grid $nbIdent.customcolor -row 7 -column 0 -sticky e
+		grid $nbIdent.customcolorf -row 7 -column 1 -sticky w -columnspan 3
+		
+		checkbutton $nbIdent.showcustomsmileys -variable showcustomsmileys_$email -text "[trans custshowcustomsmileys]"
+		#the -columnspan option is here so that the checkbutton fills more space
+		grid $nbIdent.showcustomsmileys -row 8 -sticky w -columnspan 4
 	
 		grid $nbIdent.g -row 9 -column 0 -pady 5 -padx 5 -sticky w
 		grid $nbIdent.g1 -row 10 -column 0 -sticky e
