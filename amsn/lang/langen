@@ -358,8 +358,9 @@ huge Huge
 hybrid Hybrid mode
 ident Identifying
 identity Identity
-ignoreerrors Silently ignore other AMSN errors until the end of session
 ignore Ignore
+ignorecontact Ignore the conversations from the contact
+ignoreerrors Silently ignore other AMSN errors until the end of session
 imagefiles Image Files
 inbox Inbox
 insertsmiley Insert emoticon
