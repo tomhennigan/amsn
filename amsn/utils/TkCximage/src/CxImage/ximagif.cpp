@@ -83,6 +83,7 @@ bool CxImageGIF::Decode(CxFile *fp)
 	char ch;
 	bool bPreviousWasNull = true;
 	int  prevdispmeth = 0;
+	CxImage *previousFrame = NULL;
 
 	for (BOOL bContinue = TRUE; bContinue; )
 	{
@@ -140,6 +141,8 @@ bool CxImageGIF::Decode(CxFile *fp)
 					backimage.Create(dscgif.scrwidth, dscgif.scrheight, bpp, CXIMAGE_FORMAT_GIF);
 					first_transparent_index = info.nBkgndIndex;
 					backimage.Clear((BYTE)gifgce.transpcolindex);
+					previousFrame = new CxImage(backimage);
+					previousFrame->RetreiveSingleFrame();
 				} else {
 				//generic frame: handle disposal method from previous one
 				/*Values :  0 -   No disposal specified. The decoder is
@@ -152,9 +155,20 @@ bool CxImageGIF::Decode(CxFile *fp)
 								  restore the area overwritten by the graphic with
 								  what was there prior to rendering the graphic.
 				*/
-					backimage.Copy(*this);
 					if (prevdispmeth==2){
+						backimage.Copy(*this,false,false,false);
 						backimage.Clear((BYTE)first_transparent_index);
+					} else if (prevdispmeth==3) {
+						backimage.Copy(*this,false,false,false);
+						backimage.Create(previousFrame->GetWidth(),
+							previousFrame->GetHeight(),
+							previousFrame->GetBpp(),CXIMAGE_FORMAT_GIF);
+						memcpy(backimage.GetDIB(),previousFrame->GetDIB(),
+							backimage.GetSize());
+						backimage.AlphaSet(*previousFrame);
+						
+					} else {
+						backimage.Copy(*this);
 					}
 				}
 				
@@ -169,7 +183,7 @@ bool CxImageGIF::Decode(CxFile *fp)
 						r[i] = TabCol.paleta[i].r;
 						g[i] = TabCol.paleta[i].g;
 						b[i] = TabCol.paleta[i].b;
-
+						fprintf(stderr,"%u %u %u\n",r[i],g[i],b[i]);
 						if (RGB(r[i],g[i],b[i]) == 0xFFFFFF) has_white = 1;
 					}
 
@@ -240,7 +254,7 @@ bool CxImageGIF::Decode(CxFile *fp)
 				
 				if (info.bGetAllFrames) {
 					if (iImage == 0) {
-						delete info.GifFrames;
+						DestroyGifFrames();
 						info.GifFrames = new CxImage*[info.nNumFrames];
 						for(int frameIdx = 0; frameIdx < info.nNumFrames; frameIdx++){
 							info.GifFrames[frameIdx] = NULL;
@@ -252,8 +266,13 @@ bool CxImageGIF::Decode(CxFile *fp)
 						info.GifFrames[iImage] = new CxImage(*this);
 					info.GifFrames[iImage]->RetreiveSingleFrame();
 				}
-				if (info.nFrame==iImage) bContinue=false; else iImage++;
+				if (prevdispmeth <= 1) {
+					delete previousFrame;
+					previousFrame = new CxImage(*this);
+					previousFrame->RetreiveSingleFrame();
+				}
 
+				if (info.nFrame==iImage) bContinue=false; else iImage++;
 
 				break;
 				}
@@ -274,8 +293,8 @@ bool CxImageGIF::Decode(CxFile *fp)
 		}
 		Transfer(*imaRGB);
 	}
-	
 	delete imaRGB;
+	delete previousFrame;
 
 	return true;
 
@@ -300,7 +319,7 @@ bool CxImageGIF::DecodeExtension(CxFile *fp)
 				//fprintf(stderr, "Transparency block get, valid ? %u, Has transparency ? %u\n",bContinue, gifgce.flags & 0x1);
 				//fprintf(stderr, "transpcolflag %u : userinputflag %u : dispmeth %u : res %u\n", gifgce.flags & 0x1, (gifgce.flags >> 1) & 0x1, (gifgce.flags >> 2) & 0x7, (gifgce.flags >> 5) & 0x7 );
 				if (bContinue) {
-					if (gifgce.flags & 0x1) info.nBkgndIndex  = gifgce.transpcolindex;
+					if (gifgce.flags & 0x1) info.nBkgndIndex = gifgce.transpcolindex;
 					info.dwFrameDelay = gifgce.delaytime;
 					SetDisposalMethod((gifgce.flags >> 2) & 0x7);
 				}
