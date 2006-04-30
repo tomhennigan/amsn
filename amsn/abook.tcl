@@ -552,6 +552,26 @@ namespace eval ::abook {
 		}
 	}
 
+	proc CreateCopyMenu { w } {
+		set menu $w.copy
+		menu $menu -tearoff 0 -type normal
+		$menu add command -label [trans copy] \
+			-command "::abook::copyFromText $w"
+
+		return $menu
+	}
+
+	proc copyFromText { w } {
+
+		set index [$w tag ranges sel]
+		clipboard clear
+		set dump [$w dump -text [lindex $index 0] [lindex $index 1]]
+		foreach { text output index } $dump {
+			clipboard append "$output"
+		}
+
+	}
+
 	proc dateconvert {time} {
 		set date [clock format [clock seconds] -format "%D"]
 		if {$time == ""} {
@@ -1014,27 +1034,33 @@ namespace eval ::abookGui {
 		
 		label $nbIdent.e -text "[trans email]:" -wraplength 300 
 		set h [expr {[string length $email]/50 +1}]
-		text $nbIdent.e1 -font splainf -fg blue -width 50 -height $h -wrap char
+		text $nbIdent.e1 -font splainf -fg blue -width 50 -height $h -wrap char -bd 0
 		$nbIdent.e1 delete 0.0 end
 		$nbIdent.e1 insert 0.0 $email
 		$nbIdent.e1 configure -state disabled
+		set e1copymenu [::abook::CreateCopyMenu $nbIdent.e1]
+		bind $nbIdent.e1 <Button3-ButtonRelease> "tk_popup $e1copymenu %X %Y"
 
 		label $nbIdent.h -text "[trans nick]:"
 		set nick [::abook::getNick $email]
 		set h [expr {[string length $nick]/50 +1}]
-		text $nbIdent.h1 -font splainf -fg blue -width 50 -height $h -wrap char
+		text $nbIdent.h1 -font splainf -fg blue -width 50 -height $h -wrap char -bd 0
 		$nbIdent.h1 delete 0.0 end
 		$nbIdent.h1 insert 0.0 $nick
 		$nbIdent.h1 configure -state disabled
+		set h1copymenu [::abook::CreateCopyMenu $nbIdent.h1]
+		bind $nbIdent.h1 <Button3-ButtonRelease> "tk_popup $h1copymenu %X %Y"
 		
 		if { [::config::getKey protocol] >= 11 } {
 			label $nbIdent.psm -text "[trans psm]:"
 			set psm [::abook::getVolatileData $email PSM]
 			set h [expr {[string length $psm]/50 +1}]
-			text $nbIdent.psm1 -font splainf -fg blue -width 50 -height $h -wrap char
+			text $nbIdent.psm1 -font splainf -fg blue -width 50 -height $h -wrap char -bd 0
 			$nbIdent.psm1 delete 0.0 end
 			$nbIdent.psm1 insert 0.0 $psm
 			$nbIdent.psm1 configure -state disabled
+			set psm1copymenu [::abook::CreateCopyMenu $nbIdent.psm1]
+			bind $nbIdent.psm1 <Button3-ButtonRelease> "tk_popup $psm1copymenu %X %Y"
 		}
 
 		label $nbIdent.customnickl -text "[trans customnick]:"
