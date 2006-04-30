@@ -1767,6 +1767,14 @@ namespace eval ::ChatWindow {
 		# Bind the focus
 		bind $bottom <FocusIn> "focus $input"
 
+		#send chatwininput postevent
+		set evPar(input) $input
+		set evPar(buttons) $buttons
+		set evPar(picture) $picture
+		set evPar(window) "$w"
+
+		::plugins::PostEvent chatwininput evPar		
+
 		return $bottom
 
 	}

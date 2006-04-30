@@ -13,6 +13,8 @@ namespace eval ::winskin {
 		::plugins::RegisterEvent winskin ContactListColourBarDrawn draw
 		::plugins::RegisterEvent winskin ContactListDrawn cldrawn
 		::plugins::RegisterEvent winskin OnConnect connected
+		::plugins::RegisterEvent winskin chatwininput buttonbarCreated
+#		::plugins::RegisterEvent winskin chatmenu addMenuOption		
 
 		array set ::winskin::config {
 			usewinspecs {0}
@@ -28,6 +30,7 @@ namespace eval ::winskin {
 			startskinned {0}
 			topmost {0}
 			titleheight {19}
+			removechatbuttons {0}
 		}
 
 		set ::winskin::configlist [list \
@@ -43,6 +46,7 @@ namespace eval ::winskin {
 			[list bool "Start Skinned (on connection)" startskinned] \
 			[list bool "Always On Top (only able to disable in windows)" topmost] \
 			[list str "Height of titlebar in pixels (should not need to be changed)" titleheight] \
+			[list bool "Remove the bar with action-buttons in chatwindows" removechatbuttons]\
 		]
 
 		if {$::tcl_platform(platform) == "windows"} {
@@ -204,6 +208,16 @@ namespace eval ::winskin {
 			::winskin::switchskin 1
 		}		
 	}
+
+
+	proc buttonbarCreated {event evPar} {
+			upvar 2 $evPar newvar
+		if {$::winskin::config(removechatbuttons)} {
+			pack forget $newvar(buttons)
+		}
+			
+	}
+
 
 
 	# ::winskin::cldrawn
