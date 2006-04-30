@@ -59,7 +59,7 @@ proc secureSocket { args } {
 		# create the socket to the proxy
 		set socket [socket -async $phost $pport]
 		fconfigure $socket -buffering line -translation crlf
-		puts $socket "CONNECT $thost:$tport HTTP/1.1"
+		puts $socket "CONNECT $thost:$tport HTTP/1.0"
         	puts $socket "Host: $thost"
 	        puts $socket "User-Agent: [http::config -useragent]"
 	        puts $socket "Proxy-Connection: keep-alive"
