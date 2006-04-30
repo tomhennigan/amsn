@@ -1005,7 +1005,7 @@ namespace eval ::abookGui {
 
 
 	proc showUserProperties { email } {
-		global colorval_$email showcustomsmileys_$email
+		global colorval_$email showcustomsmileys_$email ignorecontact_$email
 		set w ".user_[::md5::md5 $email]_prop"
 		if { [winfo exists $w] } {
 			raise $w
@@ -1114,6 +1114,7 @@ namespace eval ::abookGui {
 		frame $nbIdent.customcolorf -relief groove -borderwidth 2
 		set colorval_$email [::abook::getContactData $email customcolor] 
 		set showcustomsmileys_$email [::abook::getContactData $email showcustomsmileys]
+		set ignorecontact_$email [::abook::getContactData $email ignored]
 
 		#frame $nbIdent.customcolorf.col -width 40 -bd 0 -relief flat\
 		#	-highlightthickness 1 -takefocus 0 \
@@ -1204,22 +1205,24 @@ namespace eval ::abookGui {
 		grid $nbIdent.customcolorf -row 7 -column 1 -sticky w -columnspan 3
 		
 		checkbutton $nbIdent.showcustomsmileys -variable showcustomsmileys_$email -text "[trans custshowcustomsmileys]"
+		checkbutton $nbIdent.ignoreuser -variable ignorecontact_$email -text "[trans ignorecontact]"
 		#the -columnspan option is here so that the checkbutton fills more space
 		grid $nbIdent.showcustomsmileys -row 8 -sticky w -columnspan 4
+		grid $nbIdent.ignoreuser -row 9 -sticky w -columnspan 4
 	
-		grid $nbIdent.g -row 9 -column 0 -pady 5 -padx 5 -sticky w
-		grid $nbIdent.g1 -row 10 -column 0 -sticky e
-		grid $nbIdent.g2 -row 10 -column 1 -sticky w
+		grid $nbIdent.g -row 10 -column 0 -pady 5 -padx 5 -sticky w
+		grid $nbIdent.g1 -row 11 -column 0 -sticky e
+		grid $nbIdent.g2 -row 11 -column 1 -sticky w
 		
-		grid $nbIdent.titlephones -row 11 -column 0 -pady 5 -padx 5 -columnspan 2 -sticky w 
-		grid $nbPhone.phh -row 12 -column 0 -sticky e
-		grid $nbPhone.phh1 -row 12 -column 1 -sticky w
-		grid $nbPhone.phw -row 13 -column 0 -sticky e
-		grid $nbPhone.phw1 -row 13 -column 1 -sticky w
-		grid $nbPhone.phm -row 14 -column 0 -sticky e
-		grid $nbPhone.phm1 -row 14 -column 1 -sticky w
-		grid $nbPhone.php -row 15 -column 0 -sticky e
-		grid $nbPhone.php1 -row 15 -column 1 -sticky w
+		grid $nbIdent.titlephones -row 12 -column 0 -pady 5 -padx 5 -columnspan 2 -sticky w 
+		grid $nbPhone.phh -row 13 -column 0 -sticky e
+		grid $nbPhone.phh1 -row 13 -column 1 -sticky w
+		grid $nbPhone.phw -row 14 -column 0 -sticky e
+		grid $nbPhone.phw1 -row 14 -column 1 -sticky w
+		grid $nbPhone.phm -row 15 -column 0 -sticky e
+		grid $nbPhone.phm1 -row 15 -column 1 -sticky w
+		grid $nbPhone.php -row 16 -column 0 -sticky e
+		grid $nbPhone.php1 -row 16 -column 1 -sticky w
 		
 		grid $nbIdent.titleothers -row 20 -column 0 -pady 5 -padx 5 -columnspan 2 -sticky w 
 		grid $nbPhone.lastlogin -row 21 -column 0 -sticky e
@@ -1403,7 +1406,7 @@ namespace eval ::abookGui {
 	}
 	
 	proc PropDestroyed { email w win } {
-		global colorval_$email showcustomsmileys_$email
+		global colorval_$email showcustomsmileys_$email ignorecontact_$email
 
 		if { $w == $win } {
 			#Clean temporal variables
@@ -1413,6 +1416,7 @@ namespace eval ::abookGui {
 			unset ::notifymsg($email)
 			catch {unset colorval_$email}
 			catch {unset showcustomsmileys_$email}
+			catch {unset ignorecontact_$email}
 		}
 	}
 	
@@ -1494,7 +1498,7 @@ namespace eval ::abookGui {
 	}
 
 	proc PropOk { email w } {
-		global colorval_$email showcustomsmileys_$email
+		global colorval_$email showcustomsmileys_$email ignorecontact_$email
 		
 		if {[::alarms::SaveAlarm $email] != 0 } {
 			return
@@ -1504,8 +1508,8 @@ namespace eval ::abookGui {
 		set nbIdent [$nbIdent.sw.sf getframe]
 
 		# Store custom display information options
-		::abook::setAtomicContactData $email [list customnick customfnick cust_p4c_name customcolor showcustomsmileys] \
-			[list [$nbIdent.customnick.ent get] [$nbIdent.customfnick.ent get] [$nbIdent.ycustomfnick.ent get] [set colorval_$email] [set showcustomsmileys_$email]]
+		::abook::setAtomicContactData $email [list customnick customfnick cust_p4c_name customcolor showcustomsmileys ignored] \
+			[list [$nbIdent.customnick.ent get] [$nbIdent.customfnick.ent get] [$nbIdent.ycustomfnick.ent get] [set colorval_$email] [set showcustomsmileys_$email] [set ignorecontact_$email]]
 
 		# Store custom notification options
 		::abook::setAtomicContactData $email [list notifyonline notifyoffline notifystatus notifymsg] \
