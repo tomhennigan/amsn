@@ -548,7 +548,6 @@ playbackposition Playback position
 playbackspeed Playback speed (milliseconds between each frame)
 playing Playing: $1
 play Play
-playbackposition Playback position
 playwebcamsend Resume sending webcam
 pluginselector Select Plugins
 port Port
