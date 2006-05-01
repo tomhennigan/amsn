@@ -206,7 +206,9 @@ customcolor Colore Personalizzato
 custom_edit Crea una faccina personalizzata
 custom_new Aggiungi una nuova faccina personalizzata
 customnick Soprannome Personalizzato
+customsmileys Mostra le emoticons personalizzate degli altri utenti
 customstyle Stile personalizzato
+custshowcustomsmileys Mostra le emoticons personalizzate dell'utente
 cutimageboxreset Reimposta la grandezza del\nbox di selezione a:
 cutimagebox Seleziona la parte di immagine che vuoi utilizzare ridimensionando e muovendo il box di selezione
 cut Taglia
@@ -356,6 +358,7 @@ ident Identificazione
 identity Identità
 ignoreerrors Ignora gli altri errori di aMSN fino al termine della sessione
 ignore Ignora
+ignorecontact Ignora le conversazioni da questo contatto
 imagefiles Files immagine
 inbox Posta in Arrivo
 insertsmiley Inserisci emoticon
@@ -532,6 +535,8 @@ pager Impaginatore
 pass Password
 paste Incolla
 pause Pausa
+pausedwebcamreceive La webcam è stata messa in pausa dall'altro utente
+pausewebcamsend Pausa invio webcam
 personal Personale
 phones Numeri di Telefono
 phone Telefono
@@ -540,6 +545,9 @@ picfile File dell'immagine dell'allarme (GIF < 500x500)
 picstatus (Dis)Abilita l'immagine per l'allarme
 playing Sto ascoltando: $1
 play Play
+playbackposition Posizione di riproduzione
+playbackspeed Velocità di riproduzione (millisecondi tra ogni frame)
+playwebcamsend Riprendi invio webcam
 pluginselector Seleziona i Plugins
 port Porta
 portswellconfigured Le tue porte sono ben configurate
@@ -587,6 +595,7 @@ proxyconf Configurazione proxy
 proxyconfhttp Configurazione supporto proxy HTTP
 proxyconnection Mi connetto ad internet usando un server proxy:
 proxy Sono dietro un server proxy (HTTP o SOCKS5)
+psm Messaggio personale
 psmatend Mostra il messaggio personale a fianco del nick
 psmdontshow Non mostrare il messaggio personale, a meno che sia impostato nei nick globali/personalizzati
 psmnewline Mostra il messaggio personale sotto il nick
@@ -664,6 +673,7 @@ smileintro Per favore riempi i campi richiesti per creare una nuova faccina pers
 smileintro2 Per favore modifica i campi richiesti per personalizzare questa faccina (guarda le FAQ per un aiuto)
 smiletoobig La faccina che hai scelto è più grande del normale. Vuoi adattarla?
 snackfailed Impossibile caricare libreria Snack, torno al default
+snapshot Istantanea
 sngdblclick Un click per aprire una nuova finestra per i messaggi
 soundactive Riproduci un suono anche quando ricevi un messaggio nella finestra attiva
 sound Attiva suoni
