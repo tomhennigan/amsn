@@ -136,7 +136,8 @@ Remember, joining or not is not an option. You MUST subscribe.
 ==================
 
 When you add new keys, you should send the entire updated langXX
-file to the translator managers, who can be reached at
+file, compressed using GZIP or ZIP (.gz or .zip files),
+to the translator managers, who can be reached at
 
     amsn-translations@lists.sourceforge.net
 
@@ -144,7 +145,7 @@ Diff files are also accepted, and can be used in certain cases where
 you update more than one file with a single diff or you merge
 different files into one, but the best and easyest way (for both
 translators and managers) is to send the whole translated file. If
-in doubt, send the entire file.
+in doubt, send the entire compressed file.
 
 Keys sent in the body of the email will be ignored, due to character
 coding and line break issues.
@@ -202,9 +203,10 @@ Please MAKE SURE there are no errors in the file before sorting, or the
 file can be messed up.
 When in doubt, ask! (amsn-lang@lists.sourceforge.net)
 
-5. When all errors are fixed, send the updated file to
-amsn-translations@lists.sourceforge.net
--We will ONLY accept langfiles. We will NOT accept, in ANY way,
+5. When all errors are fixed, compress (gzip o zip) the updated file
+and send it to amsn-translations@lists.sourceforge.net
+-We will ONLY accept gzipped or zipped langfiles.
+-We will NOT accept, in ANY way,
 individual keys received in the body of the email. You MUST send
 the COMPLETE langfile (for instance, langit if you are italian)
 ATTACHED to de email message. Only in special cases we will accept
@@ -302,7 +304,8 @@ the lang/ folder to check for errors in the translation. There is a
 description of these scripts in section 3 of this document.
 When in doubt, ask! (amsn-lang@lists.sourceforge.net)
 
-7. Only after testing for one or two days, send the new file to
+7. Only after testing for one or two days, send the new file,
+compressed with gzip or zip, to:
 
     amsn-translations@lists.sourceforge.net
 
@@ -319,7 +322,8 @@ the encoding!
 ===========================
 
 When a new translation arrives to you, you should only accept it if
-is a diff file or a complete langXX file. Do not accept other kinds
+is a diff file or a complete compressed langXX file.
+Do not accept other kinds
 of submissions, 'cause our users have the sad habit of sending sparse
 translated keys by mail, and it's a big job :)
 
