@@ -183,7 +183,6 @@ bool CxImageGIF::Decode(CxFile *fp)
 						r[i] = TabCol.paleta[i].r;
 						g[i] = TabCol.paleta[i].g;
 						b[i] = TabCol.paleta[i].b;
-						fprintf(stderr,"%u %u %u\n",r[i],g[i],b[i]);
 						if (RGB(r[i],g[i],b[i]) == 0xFFFFFF) has_white = 1;
 					}
 
