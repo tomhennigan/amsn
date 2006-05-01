@@ -565,6 +565,11 @@ namespace eval ::abook {
 
 		set index [$w tag ranges sel]
 		clipboard clear
+
+		if { [llength $index] < 2 } {
+			set index [list 0.0 end]
+		}
+
 		set dump [$w dump -text [lindex $index 0] [lindex $index 1]]
 		foreach { text output index } $dump {
 			clipboard append "$output"
