@@ -151,12 +151,12 @@ clicktoadd Klik op de knop 'Toevoegen' voor een nieuwe notitie
 clicktologin Klik hier om je aan te melden
 clientcaps Stuur x-clientcaps pakketje naar andere clients
 clientname Client naam
+close Afsluiten
 closeall Alle tabbladen in dit venster sluiten?
 closealltabs altijd alle tabbladen sluiten
 closed Het gesprek met $1 is wegens inactiviteit afgesloten
 closelabel Bij het klikken op de sluitknop van een venster met tabbladen
 closeonly alleen het zichtbare tabblad sluiten
-close Afsluiten
 closingdocks Minimaliseren i.p.v. sluiten
 color Kleur
 command Commando
@@ -189,10 +189,12 @@ copytoclipboard Kopiëren: $1
 copytogroup Kopiëren naar groep
 corruptconfig Het configuratiebestand is beschadigd. Er wordt een nieuw bestand aangemaakt. Het oude wordt opgeslagen in $1. Wil je het oude bestand alsjeblieft naar ons opsturen zodat wij kunnen nagaan wat er fout is gegaan?
 corruptstates Het aangepaste statussen bestand is beschadigd. Er wordt een nieuw bestand aangemaakt. Het oude wordt opgeslagen in $1. Wil je het oude bestand alsjeblieft naar ons opsturen zodat wij kunnen nagaan wat er fout is gegaan?
+couldnotrename Het bestand $1 kon niet hernoemd worden
 countrycode Landnummer
 cprofile Maak profiel
 created Gemaakt
 credits De makers
+curdisplaypic Huidige schermafbeelding
 currentdate Huidige datum
 currentlanguage Deze taal gebruikt u nu
 currentnotes Huidige notities
@@ -204,6 +206,7 @@ customcolor Aangepaste kleur
 custom_edit Bewerk zelfgemaakte emoticon
 custom_new Maak een nieuwe emoticon
 customnick Aangepaste Schermnaam
+customsmileys Aangepaste smileys van contacten weergeven
 customstyle Aangepaste stijl
 cutimageboxreset Maak de selectie-rechthoek:
 cutimagebox Selecteer het deel van de foto dat je gebruiken wilt, door de selectie-rechthoek van grootte te veranderen en deze te verplaatsen.
@@ -298,6 +301,9 @@ filetransfercomplete Bestandsoverdracht voltooid
 filters Filters
 filtersselect Kies de filters die je wilt toepassen\n(NB: Indien geen filter is gekozen, wordt alles weegegeven)
 filtersx Filter keuze
+findnext Volgende zoeken
+findprev Vorige zoeken
+find Zoeken
 firewalled Je bevindt je achter een firewall of router
 followtext Scroll naar beneden als er nieuwe tekst is ingevoerd
 friendlyname Schermnaam tijdens gesprek
@@ -402,6 +408,7 @@ ljoinedconf $1 nam deel aan de vergadering
 lleftconf $1 heeft de vergadering verlaten
 load Activeren
 loadcontacts Laad de contactenlijst
+loadotherdisplaypic Even geduld a.u.b. de schermafbeeldingen van $1 worden geladen...
 logbigger Het logboek mag per contact niet groter zijn dan
 logeventconnect In logboek vastleggen wanneer een contact online komt
 logeventdisconnect In logboek vastleggen wanneer een contact offline gaat
@@ -422,6 +429,7 @@ logsout heeft zich afgemeld
 logwebcam Sla alle webcamsessies op om ze later nog eens te kunnen bekijken
 longnick De naam die je hebt ingesteld is langer dan 130 tekens, dit is eigenlijk te lang. Wil je het toch proberen?
 longp4c Je hebt voor 'Schermnaam tijdens gesprek' meer dan 130 tekens opgegeven. Dit wordt niet ondersteund door de originele MSN-client, die zal de naam daarom weergeven als $1. Wil je de opgegeven naam toch gebruiken?
+lowrescam Gebruik alleen de lage resolutie voor mijn webcam
 lprivtoconf Privé-gesprek veranderde in vergadering met $1
 luclosedwin Je hebt het venster gesloten op $1
 mailer E-mailprogramma
@@ -471,6 +479,7 @@ newveravailable Versie $1 is beschikbaar voor downloaden.
 next Volgende
 nick Schermnaam
 noactivity Geen activiteit
+nocacheddps Er zijn geen opgeslagen schermafbeeldingen voor dit contact
 nodataavailable Geen gegevens beschikbaar voor $1
 nodevices Er zijn geen apparaten geïnstalleerd
 nogap Geen ruimte openlaten tussen groepen
@@ -518,12 +527,15 @@ ordercontactsby Contacten sorteren op
 ordergroupsby Sortering groepen
 original Origineel
 other Andere
+otherdisplaypic Overige schermafbeeldingen van dit contact (klik voor meer opties)
 others Overigen
 p4contextprefix Voorvoegsel voor de alternatieve schermnaam
 pager Semafoon
 pass Wachtwoord
 paste Plakken
+pausedwebcamreceive De webcam is op pauze gezet door de zender
 pause Pauze
+pausewebcamsend Webcam pauze
 personal Persoonlijk
 phone Abonneenummer
 phones Telefoonnummers
@@ -531,7 +543,10 @@ picbrowser Afbeeldingenbrowser
 picfile Alarmafbeelding (GIF < 500 x 500 pixels)
 picstatus Alarmafbeelding gebruiken
 play Afspelen
+playbackposition Afspeelpositie
+playbackspeed Afspeelsnelheid (in ms per frame)
 playing $1 wordt afgespeeld
+playwebcamsend Webcam hervatten
 pluginselector Plugins
 port Poort
 portswellconfigured Je netwerkinstellingen zijn in orde.
@@ -546,6 +561,7 @@ prefemotic Emoticons
 preferences Voorkeuren
 preffont2 Het lettertype voor berichten wijzigen
 preffont3 Lettertype en -grootte van aMSN wijzigen
+preffont4 De weergave van berichten van mijn contacten aanpassen
 preffont Mijn berichttekst
 prefft Bestandsoverdracht, peer-to-peer en NAT instellingen
 preflibs Zoekpad voor libraries
@@ -578,6 +594,10 @@ proxyconfhttp Configuratie voor HTTP proxy ondersteuning
 proxyconf Proxy configuratie
 proxyconnection Gebruik de onderstaande proxyserver
 proxy Gebruik een Proxy Server (HTTP of SOCKS5)
+psmatend Geef persoonlijk bericht weer naast de schermnaam
+psmdontshow Geef geen persoonlijk bericht weer, tenzij anders aangegeven in de algemene/aangepaste schermnaam.
+psmnewline Geef persoonlijk bericht weer onder de schermnaam
+psmplace Hoe wil je persoonlijke berichten gepositioneerd hebben?
 publishphones Mijn telefoonnummers publiceren
 purge Legen
 pwcdriver Je gebruikt de pwc driver
@@ -600,6 +620,7 @@ rename Hernoemen
 report Foutrapport versturen
 reporting Foutrapport wordt verstuurd
 required_version Kan de plugin niet laden, omdat die minimaal aMSN $1 nodig heeft om te werken.
+resetincomingfont Herstellen (gebruik de lettertype-instellingen van de zender)
 restartforskin Let op: Het kan zo zijn dat je aMSN eerst moet herstarten voordat de skin correct wordt weergegeven.
 reversed Aflopend
 reverselist [RL] Omgekeerde lijst
@@ -649,6 +670,7 @@ smileintro2 Pas de nodige velden aan om deze emoticon te bewerken
 smileintro Vul de nodige velden in om een nieuwe emoticon te maken
 smiletoobig De gekozen emoticon is groter dan gewoonlijk. Wil je de grootte aanpassen?
 snackfailed Het is niet gelukt om Snack te laden. Teruggevallen op de standaardfuncties.
+snapshot Foto
 sngdblclick Slechts eenmaal klikken om een nieuw gespreksvenster te openen
 sound2 Geluid afspelen wanneer contacten zich aanmelden of een bericht verzenden
 soundactive Speel ook geluid af als een bericht aankomt in een actief venster
@@ -739,6 +761,7 @@ useother Gebruik een ander programma
 useralreadyonlist Deze gebruiker staat al in je lijst
 userblocked Dit contact is online maar heeft je geblokkeerd
 userdata Gebruikersinformatie
+userdps Schermafbeeldingen
 user Gebruiker
 usernotonline Dit contact is offline
 userproperties Eigenschappen van $1
@@ -750,6 +773,7 @@ videoconversationrequest Je hebt een uitnodiging ontvangen voor een video-conver
 view Beeld
 viewcontactsby Contacten weergeven met
 viewprofile Profiel weergeven
+wanttosharecam Ik wil mijn webcam beschikbaar maken voor anderen
 webcamcanceled De webcamsessie met $1 is beëindigd
 webcamclosebefcancel Je moet alle webcamsessies beëindigen alvorens het venster te sluiten
 webcamconfigure Webcam instellen

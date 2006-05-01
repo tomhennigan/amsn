@@ -189,10 +189,12 @@ copytoclipboard Copia $1 para a área de transferencia
 copytogroup Copiar para o grupo
 corruptconfig O arquivo de configuração está corrompido. Criando configuração nova. A configuração antiga será salva em $1. \nPor favor mande o arquivo para que possamos analisar o problema.
 corruptstates O arquivo de configuração dos estados está corrompido. Criando configuração nova. A configuração antiga será salva em $1. \nPor favor, mande-nos o arquivo para que possamos analisar o problema.
+couldnotrename Não é possível renomear o arquivo $1
 countrycode Código do país/região
 cprofile Criar Perfil
 created Criado 
 credits Créditos
+curdisplaypic Imagem corrente
 currentdate Data Atual
 currentlanguage Este é o idioma que você está usando
 currentnotes Comentários atuais 
@@ -204,7 +206,9 @@ customcolor Cor personalizada
 custom_edit Editar Smiley personalizado
 custom_new Adicionar um novo Smiley
 customnick Apelido personalizado
+customsmileys Mostrar os Emotions personalizados de outros usuários
 customstyle Estilo personalizado
+custshowcustomsmileys Mostrar Emotions personalizados
 cutimageboxreset Reinicie o tamanho da caixa\n de seleção para:
 cutimagebox Selecione uma parte da imagem que você quer usar, redimensionando e movendo o seletor da caixa
 cut Recortar
@@ -404,6 +408,7 @@ ljoinedconf $1 entrou na conferência
 lleftconf $1 deixou a conferência
 load Carregar
 loadcontacts Carregar lista de contatos
+loadotherdisplaypic Carregar DPs de $1, por favor espere...
 logbigger Tamanho dos arquivos para cada contato nunca deve exceder
 logeventconnect Registrar conexões
 logeventdisconnect Registrar desconexões
@@ -424,6 +429,7 @@ logsout acabou de desconectar
 logwebcam Salvar todas as sessões da webcam no histórico para visualização futura
 longnick Seu apelido contém mais de 130 caracteres. Isso não é oficialmente suportado pela rede do MSN. Tem certeza que deseja continuar?
 longp4c O nome pelo qual prefere ser chamado é maior que 130 caracteres. Ele aparecerá no cliente MSN oficial como $1. Você tem certeza que quer definir isso?
+lowrescam Usar baixa resolução na webcam
 lprivtoconf Conversa particular convertida em conferência com $1
 luclosedwin Você fechou a janela em $1
 mailer Cliente de e-mail
@@ -473,6 +479,7 @@ newveravailable Nova versão $1 disponível para download
 next Próximo
 nick Apelido
 noactivity Sem atividade
+nocacheddps Não mostrar figuras em cache para esse usuário
 nodataavailable Sem dados disponíveis para $1
 nodevices No momento, não há devices instalados
 nogap Nenhum espaço entre grupos
@@ -519,21 +526,27 @@ options Opções
 ordercontactsby Ordenar contatos por
 ordergroupsby Ordenar grupos por
 original Original
+otherdisplaypic Outras figuras desse usuário (clique para mais opções)
 other Outro
 others Outros
 p4contextprefix Adicionar este prefixo ao campo de contexto-P4 de remetente
 pager Pager
 pass Senha
 paste Colar
+pausedwebcamreceive A câmera foi pausada por outro usuário
 pause Pausar
+pausewebcamsend Enviar pause da webcam
 personal Pessoal
 phones Números de telefone
 phone Telefone
 picbrowser Mostrar navegador de imagens
 picfile Arquivo de imagem (GIF < 500 x 500)
 picstatus Ativar/Desativar imagem nos avisos
+playbackposition Posição de playback
+playbackspeed Velocidade do Playback (milisegundos entre cada frame)
 playing Tocando: $1
 play Tocar
+playwebcamsend Enviar resumo da webcam
 pluginselector Seleciona plugins
 port Porta
 portswellconfigured Suas portas estão já estão configuradas
@@ -548,6 +561,7 @@ prefemotic Emoticons e Smileys
 preferences Preferências
 preffont2 Alterar a maneira como os outros \nvêem meu texto em conversas
 preffont3 Alterar as fontes da interface do aMSN
+preffont4 Mudar o modo como vejo o texto na sessão de chat de outras pessoas
 preffont Minhas mensagens de texto
 prefft Transferência de arquivos, ponto-a-ponto e configurações de NAT
 preflibs Pastas das bibliotecas
@@ -606,6 +620,7 @@ rename Renomear
 reporting Reportando
 report Reportar
 required_version Impossível carregar plugin. Necessário aMSN versão $1 ou superior.
+resetincomingfont Resetar font (usar a fonte escolhida pelo outro usuário)
 restartforskin Nota: Você não precisa reiniciar aMSN para ver o skin propriamente
 reversed Inverso
 reverselist Lista de reversos (RL):
@@ -655,6 +670,7 @@ smileintro2 Por Favor edite os campos necessários para personalizar este smiley 
 smileintro Por favor preencha os campos necessários para criar um novo smiley (Leia o FAQ para ajuda)
 smiletoobig O smiley que você escolheu é maior que o tamanho normal. Quer mudar seu tamanho?
 snackfailed Falha ao carregar Snack, revertendo para o padrão
+snapshot Snapshot
 sngdblclick Um clique para abrir uma nova janela de mensagem
 sound2 Tocar sons quando algum contato entrar ou enviar uma mensagem
 soundactive Reproduzir sons quando receber mensagens também nas janelas ativas
@@ -745,6 +761,7 @@ useother Usar um programa diferente
 useralreadyonlist Usuário já está na lista de contatos
 userblocked Usuário está online mas bloqueou você
 userdata Dados do usuário
+userdps Mostrar figura do usuário
 usernotonline Usuário não está online
 userproperties Propriedades do usuário $1
 user Usuário
@@ -756,6 +773,7 @@ videoconversationrequest Você recebeu um pedido de video conversação (bi-direcio
 viewcontactsby Visualizar contatos por
 viewprofile Ver Perfil
 view Visualizar
+wanttosharecam Eu quero fazer minha câmera disponível para os outros
 webcamcanceled A sessão de webcam com $1 foi cancelada
 webcamclosebefcancel Voce deve fechar todas as sessoes de webcam antes de fechar a janela
 webcamconfigure Configurar Webcam

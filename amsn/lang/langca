@@ -189,10 +189,12 @@ copytoclipboard Copiar $1 al portaretalls
 copytogroup Copia al grup
 corruptconfig El fitxer de configuració conté errors. Ara en crearé un de nou i desaré l'antic a $1. Si vols ajudar-nos, envia'ns el fitxer erroni.
 corruptstates El fitxer d'estats personalitzats conté errors. Ara en crearé un de nou i desaré l'antic a $1. Si vols ajudar-nos, envia'ns el fitxer erroni.
+couldnotrename No s'ha pogut renombrar l'arxiu $1
 countrycode Codi de país o regió
 cprofile Crear perfil
 created Creat
 credits Crèdits
+curdisplaypic Actual avatar
 currentdate Data actual
 currentlanguage Aquesta és la llengua que utilitzes
 currentnotes Notes actuals
@@ -204,7 +206,9 @@ customcolor Color personalitzat
 custom_edit Editar emoticona personalitzada
 custom_new Afegir emoticona personalitzada
 customnick Sobrenom personalitzat
+customsmileys Mostrar les emoticones personalitzades dels altres
 customstyle Estil personalitzat
+custshowcustomsmileys Mostra les emoticones personalitzades de l'usuari
 cutimageboxreset Modifica la caixa de selecció.\nTamany a:
 cutimagebox Selecciona la part de l'imatge que vols utilitzar, redimensionant i movent la caixa de selecció
 cut Talla
@@ -405,6 +409,7 @@ ljoinedconf $1 s'uneix a la conversa
 lleftconf $1 deixa la conversa
 load Carregar
 loadcontacts Obrir una llista de contactes
+loadotherdisplaypic Carregant DPs de $1, sisplau espera...
 logbigger No vull que els fitxers de registre d'un contacte superin les
 logeventconnect Registra les connexions
 logeventdisconnect Registra les desconnexions
@@ -425,6 +430,7 @@ logsout s'acaba de desconnectar
 logwebcam Desar totes les sessions de webcam al historial de l'aMSN per futures revisions
 longnick El teu sobrenom conté més de 130 caràcters i el protocol MSN no els accepta. Estàs segur de voler tenir aquest sobrenom?
 longp4c El teu sobrenom és més llarg de 130 caràcters. El sobrenom que es veurà des d'un client oficial MSN serà $1. Estàs segur d'utilitzar-lo?
+lowrescam Fes servir webcam a baixa resolució
 lprivtoconf La conversa privada canvia a conversa múltiple amb $1
 luclosedwin Has tancat la finestra a les $1
 mailerexample (\$recipient indica l'adreça del contacte) Deixa-ho buit per utilitzar hotmail.
@@ -474,6 +480,7 @@ newveravailable La versió $1 està disponible per baixar
 next Següent
 nick Sobrenom
 noactivity Sense activitat
+nocacheddps Cap avatar en memòria cau per aquest usuari
 nodataavailable No hi ha dades disponibles per a $1
 nodevices No hi han dispositius instal·lats
 nogap Sense espais entre els grups
@@ -520,21 +527,27 @@ options Opcions
 ordercontactsby Ordenar els contactes per
 ordergroupsby Ordenar grups per
 original Original
+otherdisplaypic Altres avatars d'aquest usuari (click per més opcions)
 others Altres
 other Un altre
 p4contextprefix Text complementari al P4-Context
 pager Paginador
 pass Contrasenya
 paste Enganxa
+pausedwebcamreceive La webcam ha estat pausada per l'altre usuari
 pause Pausa
+pausewebcamsend Pausa enviant de la webcam
 personal Personal
 phones Números de telèfon
 phone Telèfon
 picbrowser Navegador d'avatars
 picfile Fitxer d'imatge per a l'alarma (GIF < 500 x 500)
 picstatus Imatge per a l'alarma
+playbackposition Moment de reproducció
+playbackspeed Velocitat de reproducció (mil·lisegons entre cada fotograma)
 playing Reproduint: $1
 play Reproduir
+playwebcamsend Tornar a enviar webcam
 pluginselector Selecciona el connector
 port Port
 portswellconfigured Els ports estan configurats correctament
@@ -549,6 +562,7 @@ prefemotic Emoticones
 preferences Preferències
 preffont2 Canvia com els altres veuen el meu text en una conversa
 preffont3 Canvia el tipus de lletra i la mida de la interfície de l'aMSN
+preffont4 Canvia la manera en què veig el text dels altres en sessions de chat
 preffont Text dels meus missatges
 prefft Ajustaments de la transmissió de fitxers, P2P i NAT
 preflibs Directori de les biblioteques
@@ -582,6 +596,7 @@ proxyconfhttp Configuració del suport per al servidor intermediari HTTP
 proxyconnection Em connecto a Internet a través d'un servidor intermediari (proxy):
 proxy Estic darrera un servidor intermediari (HTTP o SOCKS5)
 psmatend Mostra missatge personal a més a més del nick
+psmdontshow No mostris el Missatge Personal, excepte si no es defineix així en el nick global/personalitzat
 psmnewline Mostra el missatge personal sota el nick
 psmplace On hauria de ser situat el missatge personal?
 publishphones Publicar els meus números de telèfon
@@ -606,6 +621,7 @@ rename Renombrar
 report Informe
 reporting Informant
 required_version Impossible carregar aquest plugin, necessites com a mínim la versió $1 de l'aMSN perquè funcioni
+resetincomingfont Restableix el tipus de lletra (utilitza la lletra que l'enviant escull)
 restartforskin Nota: Has de reiniciar l'aMSN per seure el tema correctament!
 reversed Invertit
 reverselist Llista inversa:
@@ -655,6 +671,7 @@ smileintro2 Edita els camps per personalitzar aquesta emoticona (a les FAQ tens 
 smileintro Emplena els camps per crear una nova emoticona personalitzada (a les FAQ tens més ajuda)
 smiletoobig La enoticona que has seleccionat és més grossa de la mida normal. El vols canviar de mida ?
 snackfailed No puc carregar SNACK. Utilitzaré la configuració per defecte.
+snapshot Captura
 sngdblclick Obre una nova finestra de conversa amb un sol clic
 sound2 Reprodueix sons quan els contactes es connectin o enviïn missatges
 soundactive Reprodueix so quan es rebi un missatge si la finestra està activa
@@ -745,6 +762,7 @@ useother Utilitza un altre programa
 useralreadyonlist L'usuari ja és a la llista de contactes
 userblocked Aquest usuari està connectat però t'ha bloquejat a la seva llista
 userdata Dades d'usuari
+userdps Avatars de l'usuari
 usernotonline L'usuari no està connectat
 userproperties Propietats de l'usuari $1
 user Usuari
@@ -756,6 +774,7 @@ videoconversationrequest Has rebut una invitació a una conversa de video (audio 
 viewcontactsby Mostra els contactes per
 viewprofile Mostrar perfil
 view Veure
+wanttosharecam Vull fer tenir disponible la meva webcam pels altres
 webcamcanceled La sessió de càmara web amb $1 ha estat cancel·lada
 webcamclosebefcancel Has de cancel·lar totes les sessions de càmara web avanç de tancar la finestra
 webcam Càmara web

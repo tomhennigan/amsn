@@ -1,4 +1,5 @@
 amsn_lang_version 2
+aboutamsn AMSN-ren inguruan
 about Honi buruz
 acceptfile Onartu $1 fitxategia, tamaina $2? $3 gisa gordeta
 accept Onartu
@@ -7,7 +8,7 @@ activeautoupdate Egunera automatikoa aktibatu
 addacontact Kontaktua gehitu
 addedyou $1 ($2) k bere kontaktuen zerrendara gehitu zaitu
 add Gehitu
-addprofiledesc Hasiera saioa zeinarentzako profil bat sortu nahi duzun idatzi.  \n Profil bakoitzeko konfigurazio desberdinak eduki ditzakezu \n Historia,Alarmak  edota ìGakoa gogoratuî ezin duzu Profilik gabe erabili.
+addprofiledesc Hasiera saioa zeinarentzako profil bat sortu nahi duzun idatzi.  \n Profil bakoitzeko konfigurazio desberdinak eduki ditzakezu \n Historia,Alarmak  edota ‚ÄúGakoa gogoratu‚Äù ezin duzu Profilik gabe erabili.
 addprofile Profil berria sortu
 addstate Egoera berria sortu
 addto $1-era gehitu
@@ -42,7 +43,9 @@ appearance Itxura
 appearoff Konektatuta
 areacode Kode eremua
 aretyping $1 idazten daude desberdinak edukiko dituzu profil honentzako. \n Sakatu "Profila sortu"-n $1 -rentzat profil berria sortzeko.
+askcontactwebcam zure webkamera kontaktuagaitik galdetzeko, edo
 askeachtime Aldi bakoitzean galdetu
+asksendingyourwebcam zure webkamera bidali ahal duzun galdetzeko
 askwebcam Erabiltzaile honi webcam-a bidaltzeko eskatu
 author Egilea
 autoaccepted Fitxategi Transferentzia automatikoki onartua
@@ -57,6 +60,7 @@ autoidle Auto aktibitate eza
 autoip IP automatikoa
 automessage AutoMezua
 autonoact Erakutsi "Ez aktibo" ez-aktibo nagoenean honengaitik:
+autoresizedp Erakusten diren irudiak automatikoki berregokitu lehenetsitako neurrira
 avaccepted Bideokonferentzia deia onartua
 avcanceled Bideo konferentzia errefusatua
 avgotinvitation Bideo konferentzia baterako gonbidapen bat jaso da $1-rengandik.
@@ -66,6 +70,7 @@ away Ez dago
 awaymsg1 Galdetu "ez nago" mezuengaitik "Ez nago/Okupatuta/BRB" mezuetara aldatzen dudan bakoitzean
 awaymsg2 Inoiz ez galdetu, eta erabili azpiko mezua
 baduserpass Erabiltzaile izena edo pasahitza ez da zuzena
+badwebcam Webcam-aren irudia ezin dut bistaratu. Egiaztatu ondo konektatuta eta instalatuta dagoela.
 bgcolor Aldatu aMSN-ren atzeko planoaren kolorea
 blankdirect Konexio zuzena erabiltzeko zuriz utzi
 block Blokeatu
@@ -80,28 +85,39 @@ blocklist Blokeo Zerrenda (BZ):
 blockmessage Pertsona hauek konektatu daude eta zu blokeatu zaituzte
 blockusers Momentuan konprobatzeko erabiltzaileen kopurua
 bouncedock Mezu bat jasotzerakoan aMSN-ren ikonoak kaian
+brightness Argitasuna
 broughtby Honako progamatzaile hauei esker AMSN erabili dezakezu
 browse Nabigatu
 browserexample ( \$url URL-arekin ordezkatua izango da). Adibidez:: mozilla \$url
 browser Nabigatzailea
+bugerror Parkatu baina akatsen datubasera konektatzerakoan arazo bat egon da. Mesedez, egiaztatu zure Internet konexioa.
+bugnocomment Komentariorik gabe bidali? Komentarioak zer doan txarto eta nola zuzendu esatera laguntzen digu.
 busy Okupatuta
 cachedpics $1 irudi jasota
+cagreement Ixilpeko Akordioa
 cancel Utzi
 cannotdeleteprofile Ezin da profila ezabatu, aMSN beste sesio batean erabilia izaten omen ari delako
 cantexec $1 aplikazioa ezin izan da exekutatua izan. Konfigurazioa egiaztatu
 cantloadonlineversion Eguneratutako hizkuntz-zerrenda ezin da Internetetik jaso
 cantremoveothers "Besteak" taldea ezin da ezabatu
+captureextloaded -$1- kaptura luzapenakargaturik
+captureextnotloaded -$1- kaptura luzapena ez dago kargaturik, konpilatu behar duzu lehenago
+captureproperties Webkameraren irudiaren xehetasunak
 casesensitive Maiuskulu/Minuskula disparadoreak erabili
 cfgalarm Alarma Konfiguratu/Gehitu/Ezabatu
 cfgalarmall Alarma Globala Konfiguratu/Gehitu/Ezabatu
+change_account_info Kontuaren Informazioa Aldatu
 change Aldatu
 changecustomstate Egoera honetara aldatu
 changedisplaypic Konfiguratu/Gehitu/Ezabatu Alarma
 changefont Letra-tipoa aldatu
 changeglobnick Ezizen orokorra aldatu
+change_mobile Mugikorraren ezarpenak aldatu
 changenick Ezizena aldatu
 changesize Neurria aldatu
 changestate $1-k $2 egoerara aldaketa egiten du
+changevideosettings Bideo xehetasunak aldatu
+channels Kanalak
 charscounter Txat leihoan idatzitako karakterren kontagailua
 chatack -ren txata onartzen
 chatmaxmin Kontaktu batek nirekin txat bat irekitzen duenean, txat hori honelakoa izatea nahi dut:
@@ -119,7 +135,9 @@ checkver Bertsio berria dagoen egiaztatu
 choosearq Zure ordenagailuaren arkitektura hautatu
 choosebasefont Letra-mota hautatu
 choosebgcolor Atzeko planoko kolorea hautatu
+choosechannel Kanal bat aukeratu mesedez
 choosecontact Zerrendatik kontaktu bat hautatu
+choosedevice Gailu bat aukeratu mesedez
 choosefontcolor letrako kolorea hautatu
 chooseskin Erabiltzea gustatuko litzaizuken azala hautatu
 ch_to_state Egoera berrira aldatu
@@ -128,6 +146,7 @@ clearlog2 Ezabatu zure kontaktu guztien historia
 clearlog3 Log guztiak ezabatu
 clearlog Log-a ezabatu
 clearwebcamlogs Ezabatu Webcam-etako log guztiak
+clickhere klik egin hemen
 clicktoadd Sakatu gehitu botoiari ohar berri bat egiteko.
 clicktologin Klik egin hemen saioa hasteko
 clientcaps x-clientcaps paketeak beste bezeroei bidali
@@ -139,6 +158,7 @@ close Itxi
 closelabel Tab-ak dituen txat lehioetan itxi botoiari ematerakoan
 closeonly Erabiltzen zabiltzan tab-a bakarrik itxi
 closingdocks Ixteko botoiak minimizatzen du
+color Kolorea
 command Komandoa
 commandstatus Komandoa exekutatu
 configure Konfiguratu
@@ -161,16 +181,20 @@ contactdoesnotexist Kontaktua ez da existitzen
 contact Kontaktua
 contactlist Kontaktuen zerrenda (KZ):
 continuously Jarraiki
+contrast Contrast
 conversationwith $1 erabiltzaile daude hizketan
 convertexplain ImageMagick-etik (Erakusten diren irudientzako beharrezkoa) exekutableetan bihurtzeko (CONVERT) bidea.\n Zuriz utzi CONVERT bidean badago
 copy Kopiatu
+copytoclipboard $1 arbelera kopiatu
 copytogroup Taldera kopiatu
 corruptconfig Konfigurazio fitxategia txarto dago. Berri bat sortzen. Fitxategi zaharra $1 -era gordeko da. Bidaliguzu faborez zer gertatu den egiaztatu dezagun.
 corruptstates Egoera pertsonalizatuen fitxategia txarto dago. Berri bat sortzen. Fitxategi zaharra $1 -era gordeko da. Bidaliguzu faborez zer gertatu den egiaztatu dezagun.
+couldnotrename $1 fitxategia ezin izan da berrizendatu
 countrycode Nire estatu/eskualde kodea
 cprofile Sortu profila
 created Sortuta
 credits Tituluak
+curdisplaypic Momentuko erakutsitako irudia
 currentdate Gaurko eguna
 currentlanguage Erabiltzen zabiltzan hizkuntza hau da 
 currentnotes Orain arteko oharrak
@@ -182,8 +206,12 @@ customcolor Kolore pertsonalizatua
 custom_edit Pertsonalizatutako begitartea editatu
 custom_new Pertsonalizatutako begitarte berria gehitu
 customnick Ezizen pertsonalizatua
+customsmileys Erakutsi beste erabiltzaileen Pertsonalizatutako Emotikonak
 customstyle Estilo pertsonalizatua
+custshowcustomsmileys Erakutsi erabiltzailearen Pertsonalizatutako Emotikonak
 cut Ebaki
+cutimagebox Erabili nahi duzun irudiaren partea hautatu, tamainua aldatzen eta hautaketa-kutxa mugitzen
+cutimageboxreset  Hautaketa-kutxaren tamaina berrezarri honetara:
 date Data
 dateformat Data formatua aldatu
 day Eguna
@@ -202,6 +230,9 @@ delprofile2 Ezabatu nahi duzun profila aukeratu
 delprofile Profila ezabatu
 description Deskripzioa
 detach Deskonektatu
+details Xehetasunak
+devicebusy $1 gailua okupatuta
+devices Gailuak
 directconnection Internetera zuzeneko konexioa daukat (1863. ataka erabiltzen du)
 disabled Desgaituta
 disableprofiles Profilak desgaitu (Cyber-kafetegi eta ingurune publikoetarako erabilgarria)
@@ -221,12 +252,15 @@ dockgtk Gnome ikonoa
 dockingoff Desaktibatuta
 docking Sistemako bandejan ikonoa
 dockkde KDE ikonoa
+done Eginda
 dontdownload TLS ez deskargatu, ni neuk nere kasa instalatuko dut
 dontshow Ez erakutsi
 download Deskargatu
 downloadingtls $1-tik TLS modulua deskargatzen
+editcontent Gaiaren eremua editatu eta notaren eremua
 editcustomstate Editatu
 edit Editatu
+editmyprofile Nire MSN Profila editatu
 editnewstate Automezu Pertsonalaren Egoera berria
 editprofile Profila editatu
 editstate Esistitzen den Automezu pertsonalaren Egoera editatu
@@ -242,9 +276,11 @@ enableremote Urruneko kontrola gaitu
 enablesound Soinuak erreproduzitu
 encoding2 Aldatu zure karaktereak kodetzen diren modua
 encoding Kodeatzen
+enterbugdesc Egiten zebiltzanaren deskribaketa sartu, guri akatsa erreproduzitzen laguntzeko:
 entercontactemail Kontaktuaren e-posta sartu
 enterfilename Fitxategi-izena sartu mesedez
 enternick Zure ezizena sartu
+enterpsm Zure mezu pertsonala
 errortls TLS modulua instalatzerakoan errorea:
 eventhistory Gertakizunen historia erakutsi
 examples Adibideak
@@ -266,6 +302,10 @@ filetransfer Fitxategien transferentzia
 filters Iragazkia
 filtersselect Ikusi nahi dituzun iragazkiak hautatu\n (Ez badituzu aukeratzen guztiak erakustea ezin nahi du)
 filtersx Iragazkiaren hautaketa
+find Bilatu
+findnext Hurrengoa bilatu
+findprev Lehenekoa bilatu
+firewalled Suebaki edo enrutatzaile baten atzean zaude
 followtext Testu berria sartzen denean korritu behera
 friendlyname Lagunarteko izena
 ftacceptedby $1 [e]-k $2 fitxategia jasotzea onartu du
@@ -282,11 +322,15 @@ ftrejected Fitxategi transferentzia gaitzetsita
 ftsendinvitation $2 fitxategiaren transmisiorako gonbidapena ($3 byte) $1 -era bidalia izan da
 fullcontactlist Parkatu, baina zure kontaktu zerrenda beteta dago. Berri batzuk gehitzeko baten batzuk ezabatu behar dituzu lehenago.
 getdisppic Beste erabiltzaileetatik Pantaila Irudiak jasotzea baimendu
+getmoreplugins  Plugin gehiago sortu!
+getmoreskins Azal gehiago lortu
 globalcontainer Edukiontzi globlala
 globalnicktitle Ezizen orokorra
 globalnick Zure kontaktuen ezizenak eratzeko eredu jakin bat sartu. Honako aldagai hauek erabili \$user_login zure kontaktuen helbiderako, \$nick zure erabiltzaileen ezizenentzako eta \$customnick zure kontaktuen ezizenentzako pertsonalizatuentzako. Hau da: '\$user_login  \$nick da' eta 'kontaktua@msn.com kontaktua da'
 globaloverride Ezizen orokorren ereduak ezizen pertsonalizatuen gainean gorde
 gonelunch Jatera joanda
+gotink $1(e)-k tinta bidaltzen dizu.
+goto $1-era jo
 groupadd Talde bat gehitu
 groupdelete Talde bat ezabatu
 groupexists Talde hau badago lehendik
@@ -307,10 +351,13 @@ hidewindow Leihoa ezkutatu
 history Historia
 home Etxea
 httpconnection HTTP metodoa erabiliz konektatu (80. atakan HTTP protokoloa erabili)
+hue √ëabardura
+huge Oso haundia
 hybrid Modu hibridoa
 ident Identifikatzen
 identity Identitatea
 ignoreerrors Sesioa amaitu arte AMSN-ren beste akats batzuei jaramonik ez egin
+ignore Ezikusi
 imagefiles Irudien Fitxategiak
 inbox Sarrera-bandeja
 insertsmiley Begitartea sartu
@@ -338,6 +385,7 @@ keeplog2 aMSN-ren historian solasaldi guztiak gorde, etorkizunerako ikuspegientz
 keeplog Txat-eko solasaldiak gorde
 language Hizkuntza
 language_manager Hizkuntza kudeatzailea
+large Haundia
 lastlogin Azken Saio-hasiera
 lastlogout Azken Saio-bukaera
 lastmsgedme Azken mezua
@@ -353,6 +401,7 @@ leaves $1 berriketatik ateratzen da
 lenteredconf $1 $2 solasaldian sartu da
 lineflushlog Flush log fitxategiak lerro bat eta gero
 linprivate Pribatuan
+listening Entzuten
 listeningon $1 ataka entzuten
 listsmileys2 aMSN-ren kontaktu zerrendan Emoticon eta Smileyk erakutsi
 listsmileys Smiley-ak kontaktuan
@@ -360,6 +409,7 @@ ljoinedconf $1 solasaldian sartu da
 lleftconf $1-ek solasaldia utzi du
 loadcontacts Kontaktuen zerrenda kargatu
 load Kargatu
+loadotherdisplaypic $1-en erakutsi irudiak kargatzen, itxaron mesedez...
 logbigger Kontaktu bakoitzerako log fitxategiaren tamaina ez da sekulan gainditzen
 logeventconnect Konexioak logatu
 logeventdisconnect Deskonexioak logatu
@@ -380,6 +430,7 @@ logsout Oraintxe bertan atera egin da
 logwebcam Webcam saio guztiak aMSNren historikoan gorde etorkizunean ikusi ahal izateko
 longnick Zure ezizena 130 karaktere baino haundiagoa da. Ofizialki hau ez da MSN protokologaitik onargarria. Horrela utzi nahi duzu
 longp4c Zure lagunarteko izena 130 karaktere baino haundiagoa da. MSN bezero ofizialean aterako den lagunarteko izena $1 izango da. Seguru zaude?
+lowrescam Erresoluzio gutxiko webcam-a erabili
 lprivtoconf Txat pribatua, $1ekin konferentzia bilakatu da
 luclosedwin $1n leihoa itxi duzu
 mailer Bidalketa-funtzioa
@@ -429,7 +480,9 @@ newveravailable $1 bertsio berria deskargatzeko erabilgarri
 next Hurrengoa
 nick Ezizena
 noactivity Ez dago aktibitaterik
+nocacheddps Erabiltzaile honetako erakusteko irudirik ez dago katxean
 nodataavailable $1 -erako ez dago data erabilgarririk
+nodevices Ez daukazu gailurik instalaturik
 no Ez
 nogap Taldeen artean hutsunerik ez
 nogroup Talderik ez
@@ -463,6 +516,7 @@ nudge $1-[e]k zure arreta eskatzen du
 offline Deskonektatuta
 ok Ok
 onenewmail Mezu berri bat zure sarrera-bandejan
+onlinehelp Online laguntza
 online Konektatuta
 onphone Telefonoz hitzegiten
 opendir Direktorioa ireki
@@ -474,33 +528,41 @@ ordercontactsby Kontaktuak ordenatu
 ordergroupsby Taldeak ordenatu honen arabera
 original Jatorrizkoa
 other Beste bat
+otherdisplaypic Erabiltzaile honen bestelako erakutsi irudiak (klik egin informazio gehiagorako)
 others Beste batzuk
 p4contextprefix Hitz hau P4-Context bidaltzaileen aurrean jarri
 pager Bilagailu
 pass Pasahitza
 paste Itsatsi
+pausedwebcamreceive Webkama beste erabiltzaileak gelditu du
 pause Pause
+pausewebcamsend Webkametik bidaltzen gelditu
 personal Pertsonala
 phones Telefono zenbakiak
 phone Telefonoa
 picbrowser Erakutsi Irudien arakatzailea
 picfile Alarmaren irudiaren fitxategia (GIF < 500 x 500)
 picstatus Alarmaren irudia ON/OFF
+playbackposition Playback posizioa
+playbackspeed Playback abiadura (frame arteko milisegunduak)
 playing Erreproduzitzen: $1
 play Play
+playwebcamsend Berrekin webkametik bidaltzen
 pluginselector Plugin-a aukeratu
 port Ataka
+portswellconfigured Zure atakak ondo konfiguraturik daude
 prefalerts Nire gertaeren alertak eta soinuak
 prefapps Aplikazioak
 prefawaymsg Nire ez-nago motako mezua
 prefblock1 Deskonektatzerakoan egiaztatu
 prefblock2 Etengabe egiaztatu
-prefblock3 ìHauek blokeatuta izan zaraî taldea
+prefblock3 ‚ÄúHauek blokeatuta izan zara‚Äù taldea
 prefconnection Konekzioen ezarpena
 prefemotic Emozio ikonoak eta Smiley-ak
 preferences Hobespenak
 preffont2 Aldatu besteek txatetan nire testuak ikusten duten modua
 preffont3 Aldatu aMSN-ren interfazearen letra-mota eta letra-tamaina
+preffont4 Txat saioetan besteen testua ikusten dudan modua aldatzen du
 preffont Nire mezuaren testua
 prefft Fitxategien transferentzia, peer-to-peer eta NAT ezarpenak
 preflibs Programategien direktorioak
@@ -533,11 +595,17 @@ proxyconfhttp HTTP proxyaren konfigurazioa
 proxyconf Proxyaren konfigurazioa
 proxyconnection Proxy zerbitzari bat erabiliz Internetera konektatzen naiz:
 proxy Proxy baten atzean nago (HTTP edo Socks5)
+psmatend Ezizenaren ondoan mezu pertsonala erakutsi
+psmdontshow Mezu pertsonala ez erakutsi, global/pertsonalizatu ezizenetan definitu ez badu
+psm Mezu pertsonala
+psmnewline Mezu pertsonala Ezizenaren azpian erakutsi
+psmplace Non egon beharko luke Mezu Pertsonala?
 publishphones Nire telefono zenbakiak argitara eman
 purge Purgatu
+pwcdriver pwc kontrolatzailea erabiltzen zabiltza
 raised Tolestuta
 readonlymsgbox Fitxategi transferentzia hau bertan behera utzi da, zeren eta direktorio hartzailea irakurri-soilik egoera dauka. Direktorio honetako aukeraketak aldatu
-readonlywarn KONTUZ: Fitxategia seguraski EZ da ondo gordeko zeren eta ìJasotako fitxategiakî direktorioa idatzi-babestua dago. Hartzaile direktorioko ( $1 ) baimenak ono daudela begiratu
+readonlywarn KONTUZ: Fitxategia seguraski EZ da ondo gordeko zeren eta ‚ÄúJasotako fitxategiak‚Äù direktorioa idatzi-babestua dago. Hartzaile direktorioko ( $1 ) baimenak ono daudela begiratu
 receivedbytes $2 byteetako $1 jasota
 receiveddir Jasotako Fitxategien direktorioa
 receivefile Fitxategia jaso
@@ -551,7 +619,11 @@ remembersetting Ezarpen hauek gogoratu
 removeempty Remove empty groups from the contact list
 removefromlist Zerrenda honetatik ezabatu
 rename Berrizendatu
+report Informatu
+reporting Informatzen
 required_version Plugin hau ezin da kargatu. Gutxienez $1 bertsioa behar du
+resetincomingfont Iturria berrezarri (bidaltzailearen iturri aukeraketak erabili)
+restartforskin Oharra: Azala ondo ikusteko, aMSN berrabiarazi beharko duzu
 reversed Alderantzikatuta
 reverselist Aldirantzizko Zerrenda
 rightback Oraintxe bueltan nago
@@ -566,6 +638,7 @@ selectall Denak hautatu
 selectplugins Gaitu nahi dituzun plugin-ak hautatu
 selectskin Zerrendatik azal bat aukeratu
 send Bidali
+sendemail Nire eposta helbidea bidali, aldaketen inguruan informatu diezadaten
 sendfile Fitxategia bidali
 sendmail E-posta bidali
 sendmobmsg Bidali mugikor batera
@@ -577,11 +650,14 @@ servergoingdown Deskonektaturik: Zerbitzaria mantentze lanetarako itzaliko da
 serverunavailable Zerbitzaria erabilezina dago
 server Zerbitzaria
 session Sesioa
+shareswebcam Webcam-a konpartitu
 showbanner aMSN-aren bannerrak erakutsi
 showblockedlist Zu blokeatu zaituzten pertsonen zerrenda erakutsi
 showcachedpics Beste erabiltzaileak erabilitako irudiak eta gordetakoak erakutsi
+show_contactdps_in_cl Kontaktuen irudi-txikiak erakutsi. Erakutsi Irudiak Kontaktu Zerrendan
 showdisplaypic2 Pantaila Irudia erakutsi lehenetsita txat leiho bat irekitzen denean
 showdisplaypic Pantaila Irudia erakutsi
+showmailicon Eposta berria iristerakoan Posta ikonoa erakutsi
 showmypic Nire Pantaila Irudia
 shownotify Gertaera batzuk gertatzen direnean jakinarazpen leihoa erakutsi
 showpicnotify Jakinarazpen leihoan erabiltzaileen argazkiak erakutsi
@@ -589,12 +665,14 @@ showuserpic $1 Pantaila Irudia
 signinstatus Izen-ematearen egoera
 skin Azala
 skinselector Azalen aukeratzailea
+small Txikia
 smileconfig Pertsonalizatutako begitartearen konfigurazioa
 smilefile Begitartearen fitxategia
 smileintro2 Behar diren eremuak bete, begitarte hau pertsonalizatzeko (MEG-FAQ ikusi laguntza behar baduzu)
 smileintro Begitarte hau sortzeko behar diren eremuak bete (MEG-FAQ ikusi laguntza behar baduzu)
 smiletoobig Hautatutako smiley-a tamaina normalekoak baino haundiagoa da. Tamainuz aldatzea nahi al duzu?
 snackfailed Snack ezin izan da kargatu, lehenetsitakoara bueltan
+snapshot Argazkia
 sngdblclick Klik xumea mezu berrien leihoa irekitzeko
 sound2 Kontaktuak sartzen direnean edo mezu bat jasotzerakoan soinu bat jo
 soundactive Leihoa aktiboetan zaudenean mezu bat jasotzerakoan soinuak egin ere.
@@ -611,6 +689,7 @@ splashstart Hasi
 sslwarning KONTUZ: SSL desgaitzen baduzu enkripzioa desgaituko duzu ere, beraz zure gakoa testu arrunta bezalaxe bidalia izango da interneten bidez.
 startoffline2 "Deskonektatuta ematen du" bezala sarrera-sinadura egin
 startoffline Deskonektatuta hasi
+startonboot Windows-aren hasieran aMSN hasi
 startontray AMSN aska ikurran bakarrik abiarazi
 stateautomsg Automezua bidaltzeko
 statechange Egoera honako honetara aldatuta:
@@ -620,10 +699,13 @@ stateinfo Egoera pertsonalaren konfigurazioa
 statename Egoera Pertsonalaren izena
 statenewtext Behar den informazioa bete zure Egoera Pertsonal \n berria sortzeko eta gero Gorde sakatu
 statenick Ezizen pertsonalizatua (aldaketak egon ez daitezen zuriz utzi)
+statepsm Mezu pertsonal pertsonalizatua (aldaketarik ez balego utzi zuriz)
 stats Estatistikak
 status Egoera
 stopalarm Alarma gelditu
 stop Stop
+stopwebcamreceive Webkamera jasotzen gelditu
+stopwebcamsend Webkamera bidaltzen gelditu
 storenickname Jatorrizko ezizenara bueltatu, egoera pertsonalizatu eta ezizen pertsonalizatu bat eta gero
 strictfonts Estilo iturri guztiak nik aukeratutako tamainura murriztu
 stylechat Txateko kanpo-itxura bera
@@ -645,24 +727,27 @@ timeremaining Falta den denpora
 timestamp Denbora marka
 timestamps Data-zigilua gaitu
 title Al's Messenger
+tkerror1 TK akats bat dauka, amsn-n akats bat dago, Informatu botoian klik eginez informatu. Xehetasunetan klik egin dezakezu akatsaren inguruko informazio gehiago jasotzeko, edo Ados-en klik egin aMSN-rekin txateatzen jarraitzeko
 tkerror TK-k akats bat topatu du, amsn-n akats bat dago, eman honen berri mesedez. $1 fitxategia amsn-bugs@lists.sf.net helbidera bidali
 tlsdowncompleted $1 fitxategia $2 direktorioan gorde izan da. Atera eta eraiki behar duzu (kode iturburua deskargatu bazenuen) eta $3 -ren barruan instalatu.
 tlsexplain tcl TLS modulua dagoen direktoria. AMSN-k ez badu aurkitzen, esan zuk.\n(SSL autentifikaziorako beharrezkoa).
 tlsinstallexp AMSn-k MSNP9 erabiltzen du orain, zeinak SSL konexio \n seguru bat erabili behar du. SSL erabiltzeko TLS izena duen modulu bat instalatu behar du aMSN-k, \n zeina zure sisteman ez dago. Morroi honek TLS deskargatu eta instalatzen lagunduko zaitu. \n Zure 
 tlsinstall TLS modulua instalatzeko morroia
-tlsinstcompleted TLS moduluaren instalazioa primeran egin da ñ orain MSNP9 erabiltzeko ez zenuke arazorik eduki behar. Hau ez badabil, orduan seguraski ez zenuela modulu egokia hautatu edo konpilatutako modulu bat zure sisteman ez dago erabilgarria.
+tlsinstcompleted TLS moduluaren instalazioa primeran egin da ‚Äì orain MSNP9 erabiltzeko ez zenuke arazorik eduki behar. Hau ez badabil, orduan seguraski ez zenuela modulu egokia hautatu edo konpilatutako modulu bat zure sisteman ez dago erabilgarria.
 today Gaur
 tomobile Mugikorrera
 to Nori
 tools Tresnak
 tooltips Argibideak gaitu
 transnotexists Eskatutako fitxategia erabiltzen ari zaren hizkuntzara ez da momentuz itzulia izan
+trayicon Jakinarazpen zonaldean egoera ikono bat erakutsi
 traynotcompiled Erretilu ikonoaren plugin-a ez da momentuz konpilatua izan. Begiratu Plugins/traydoc
 triggers Disparadoreen testua
 truncatenames1 Kontaktu zerrenda baino luzeago diren erabiltzaileen izaneak trunkatu leihoaren izenburuan eta Kontaktu zerrendan
 truncatenames2 Kontaktu zerrenda baino luzeago diren erabiltzaileen izaneak trunkatu barru bihurgailuekin
 truncatenicks Leihoa baino zabalagoak diren erabiltzaile izenak trunkatu
 twonewmail $1 mezu berri zure sarrera-bandejan
+type datzi
 unblock Desblokeatu
 unknown Ezezaguna
 unload Deskargatu
@@ -670,12 +755,15 @@ unselectall Denak ezhautatu
 uoffline Deskonektatuta
 uonline Konektatuta
 update Eguneratu
+updateonlycurrentlanguage Momentuko hizkuntza eguneratu bakarrik
 updating Eguneratzen
 useasdp Erabili pantaila irudi moduan
+usemsnp11 Mezu Pertsonaletarako laguntza gaitu (ezaugarri EXPERIMENTALA) -- profila behar du + berrabiarazketa
 useother Programa desberdina erabili
 useralreadyonlist Erabiltzailea kontaktuen zerrendan dago jada
 userblocked Erabiltzailea konektatuta dago, baina zu blokeatu zaitu
 userdata Erabiltzailearen datuak
+userdps Erabiltzailearen erakutsi irudiak
 user Erabiltzaile
 usernotonline Erabiltzailea ez dago konektaturik
 userproperties $1-aren ezaugarriak erabili
@@ -683,11 +771,26 @@ useryourself Zeure buruarekin ezin duzu txateatu
 usesnack Snack libreria erabili (Tcl internal)
 verifyblocked Begiratu nork blokeatuta zaituen
 version Bertsioa
+videoconversationrequest Bideo elkarrizketarako (bi zentzutakoa, audio eta bideoa) eskaera bat jaso berri duzu. Ezaugarri hau ez dago erabilgarri aMSN-an momentuz eta ezeztatu egin da. Hala ere, webkamera elkarrizketa estandarra erabili dezakezu.
 viewcontactsby Kontaktuak sailkatu
 view Ikuspegia
 viewprofile Profila ikusi
+wanttosharecam Nire webkama besteontzako ikusgarri egotea nahi dut
+webcamcanceled $1-rekin webkamera saioa amaitu egin da
+webcamclosebefcancel Webkamera saio guztiak utzi behar dituzu leihoa itxi baino lehen
+webcamconfigure Webkamera konfiguratu
+webcamextloaded Webcamsn luzapena kargatuta
+webcamextnotloaded Webcamsn luzapena ez dago kargatuta. Konpilatu behar duzu.
+webcamfaq MEG/Laguntza Webkamerarako
 webcamhistory Ikusi Webcam saioak
 webcaminvite $1-k webcam sesio bat hastera gonbidatu zaitu, baina aMSN-k ez du posibilitate hau soportatzen.
+webcaminvitereceived $1(e)-k webkamera saio bat irekitzera gonbidatzen dizu. Saio hau onartu nahi duzu?
+webcamrejected $1 webkamera sesiorako gonbidapena ezetsi du
+webcamrequestreceive Webkamera jasotzeko eskaera bidali
+webcamrequestsend Webkamera bidaltzeko eskaera bidali
+webcamsending Orain webkamera bidaltzen ari diozun jendea zerrendatu\nUzteko klik egin
+webcam Webkamera
+whatisamsn aMSN plataformatik independiente den MSN Messengerraren klon bat da
 whatsize Eskatu duzun irudia ez dago erakusteko tamaina normalean\nsize (96x96)? Irudi hau ze tamainan erakustea gustatuko litzaizuke?
 willjoin $1 berriketan sartzera itxaroten
 winkreceived $1-tik Wink bat jaso duzu. Ezaugarri hau aMSN-n ez dago momentuz.
@@ -708,68 +811,3 @@ youblocked Honako honek blokeatu zaitu:
 yousay Zuk diozu
 youwant Zuk itxaroten duzu
 zoom Zooma
-aboutamsn AMSN-ren inguruan
-badwebcam Webcam-aren irudia ezin dut bistaratu. Egiaztatu ondo konektatuta eta instalatuta dagoela.
-brightness Argitasuna
-bugerror Parkatu baina akatsen datubasera konektatzerakoan arazo bat egon da. Mesedez, egiaztatu zure Internet konexioa.
-cagreement Ixilpeko Akordioa
-captureextloaded -$1- kaptura luzapenakargaturik
-captureextnotloaded -$1- kaptura luzapena ez dago kargaturik, konpilatu behar duzu lehenago
-captureproperties Webkameraren irudiaren xehetasunak
-changevideosettings Bideo xehetasunak aldatu
-channels Kanalak
-choosechannel Kanal bat aukeratu mesedez
-choosedevice Gailu bat aukeratu mesedez
-color Kolorea
-contrast Contrast
-cutimagebox Erabili nahi duzun irudiaren partea hautatu, tamainua aldatzen eta hautaketa-kutxa mugitzen
-cutimageboxreset  Hautaketa-kutxaren tamaina berrezarri honetara:
-details Xehetasunak
-devicebusy $1 gailua okupatuta
-devices Gailuak
-done Eginda
-enterbugdesc Egiten zebiltzanaren deskribaketa sartu, guri akatsa erreproduzitzen laguntzeko:
-firewalled Suebaki edo enrutatzaile baten atzean zaude
-gotink $1(e)-k tinta bidaltzen dizu.
-hue —abardura
-huge Oso haundia
-ignore Ezikusi
-large Haundia
-listening Entzuten
-nodevices Ez daukazu gailurik instalaturik
-onlinehelp Online laguntza
-portswellconfigured Zure atakak ondo konfiguraturik daude
-pwcdriver pwc kontrolatzailea erabiltzen zabiltza
-report Informatu
-reporting Informatzen
-sendemail Nire eposta helbidea bidali, aldaketen inguruan informatu diezadaten
-shareswebcam Webcam-a konpartitu
-small Txikia
-stopwebcamreceive Webkamera jasotzen gelditu
-stopwebcamsend Webkamera bidaltzen gelditu
-tkerror1 TK akats bat dauka, amsn-n akats bat dago, Informatu botoian klik eginez informatu. Xehetasunetan klik egin dezakezu akatsaren inguruko informazio gehiago jasotzeko, edo Ados-en klik egin aMSN-rekin txateatzen jarraitzeko
-trayicon Jakinarazpen zonaldean egoera ikono bat erakutsi
-type datzi
-updateonlycurrentlanguage Momentuko hizkuntza eguneratu bakarrik
-webcam Webkamera
-webcamclosebefcancel Webkamera saio guztiak utzi behar dituzu leihoa itxi baino lehen
-webcamcanceled $1-rekin webkamera saioa amaitu egin da
-webcamconfigure Webkamera konfiguratu
-webcamextloaded Webcamsn luzapena kargatuta
-webcamextnotloaded Webcamsn luzapena ez dago kargatuta. Konpilatu behar duzu.
-webcamfaq MEG/Laguntza Webkamerarako
-webcaminvitereceived $1(e)-k webkamera saio bat irekitzera gonbidatzen dizu. Saio hau onartu nahi duzu?
-webcamrejected $1 webkamera sesiorako gonbidapena ezetsi du
-webcamrequestsend Webkamera bidaltzeko eskaera bidali
-webcamrequestreceive Webkamera jasotzeko eskaera bidali
-webcamsending Orain webkamera bidaltzen ari diozun jendea zerrendatu\nUzteko klik egin
-whatisamsn aMSN plataformatik independiente den MSN Messengerraren klon bat da
-askcontactwebcam zure webkamera kontaktuagaitik galdetzeko, edo
-asksendingyourwebcam zure webkamera bidali ahal duzun galdetzeko
-clickhere klik egin hemen
-editcontent Gaiaren eremua editatu eta notaren eremua
-getmoreskins Azal gehiago lortu
-restartforskin Oharra: Azala ondo ikusteko, aMSN berrabiarazi beharko duzu
-videoconversationrequest Bideo elkarrizketarako (bi zentzutakoa, audio eta bideoa) eskaera bat jaso berri duzu. Ezaugarri hau ez dago erabilgarri aMSN-an momentuz eta ezeztatu egin da. Hala ere, webkamera elkarrizketa estandarra erabili dezakezu.
-getmoreplugins  Plugin gehiago sortu!
-startonboot Windows-aren hasieran aMSN hasi

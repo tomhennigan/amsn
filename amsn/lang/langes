@@ -60,6 +60,7 @@ autoidle Detección de inactividad
 autoip IP Automática
 automessage Mensaje automático
 autonoact Mostrarme como "Sin actividad" cuando no hay actividad en
+autoresizedp Redimensionar automáticamente la imágen al tamaño predeterminado
 avaccepted Aceptada llamada para Video Conferencia
 avcanceled Cancelada llamada para Video Conferencia
 avgotinvitation Recibida invitación para Video Conferencia de $1
@@ -105,11 +106,13 @@ captureproperties Propiedades de la cámara web
 casesensitive Diferenciar mayúsculas/minusculas en disparador
 cfgalarmall Cambiar/Añadir/Quitar alarma global
 cfgalarm Cambiar/Quitar alarma
+change_account_info Cambiar la información de la cuenta
 change Cambiar
 changecustomstate Cambiar a
 changedisplaypic Cambiar imagen mostrada
 changefont Cambiar fuente
 changeglobnick Cambiar nick personalizado globalmente
+change_mobile Cambiar la configuración del Móvil
 changenick Cambiar apodo
 changesize Cambiar tamaño
 changestate $1 cambia su estado a $2
@@ -186,10 +189,12 @@ copytoclipboard Copiar $1 al portapapeles
 copytogroup Copiar al grupo
 corruptconfig El archivo de configuración está corrupto. Creando uno nuevo. El antiguo será salvado como $1. Por favor, envianoslo para ver qué ha ocurrido.
 corruptstates El archivo de la configuración de los autoestados está corrupto. Creando uno nuevo. El antiguo será salvado como $1. Por favor, envianoslo para ver qué ha ocurrido.
+couldnotrename No se puede renombrar $1
 countrycode Código de país/región
 cprofile Crear perfil
 created Creado
 credits Créditos
+curdisplaypic Imagen mostrada actualmente
 currentdate Fecha actual
 currentlanguage Este es el idioma usado actualmente
 currentnotes Notas actuales
@@ -201,7 +206,9 @@ customcolor Color personal
 custom_edit Editar emoticono personalizado
 custom_new Añadir emoticono personalizado
 customnick Apodo personal
+customsmileys Mostrar emoticonos personalizados de otros usuarios
 customstyle Estilo personalizado
+custshowcustomsmileys Mostrar emoticonos personalizados del usuario
 cut Cortar
 cutimageboxreset Reinicia el \ntamaño de la caja de selección a:
 cutimagebox  Seleccione la parte de la imagen que quiere usar, redimensionándola y moviendo la caja de selección
@@ -253,6 +260,7 @@ downloadingtls Descargando el módulo TLS desde:\n $1
 editcontent Editar el contenido del campo Asunto y el campo Nota
 editcustomstate Editar estado personalizado
 edit Edición
+editmyprofile Editar mi perfil MSN
 editnewstate Nuevo mensaje automático para estado personalizado
 editprofile Editar Perfil
 editstate Editar mensaje automático para estado personalizado
@@ -294,6 +302,9 @@ filetransfer Transferencia de archivos
 filters Filtros
 filtersselect Elige los filtros que deseas ver\n(Si no se selecciona ninguno se mostrarán todos)
 filtersx Filtrar selección
+find Buscar
+findnext Buscar Siguiente
+findprev Buscar Anterior
 firewalled Te encuentras detrás de un cortafuegos o de un enrutador
 followtext Desplazar hacia abajo cuando aparezca nuevo texto
 friendlyname Apodo en conversación
@@ -345,6 +356,7 @@ huge enorme
 hybrid Modo híbrido
 ident Identificándose
 identity Identificación
+ignorecontact Ignorar las conversaciones con este usuario
 ignoreerrors Ignorar silenciosamente los errores de aMSN hasta el final de la sesión
 ignore Ignorar
 imagefiles Archivos de imágenes
@@ -398,6 +410,7 @@ ljoinedconf $1 se une a la conversación
 lleftconf $1 deja la conversación
 loadcontacts Cargar lista de contactos
 load Habilitar
+loadotherdisplaypic Cargando las imágenes mostradas de $1, por favor espere...
 logbigger Archivos de registro de un contacto no superan los
 logeventconnect Registrar las conexiones
 logeventdisconnect Registrar las desconexiones
@@ -418,6 +431,7 @@ logsout acaba de terminar la sesión
 logwebcam Salvar todas las sesiones de cámara web al histórico de aMSN para poder verlas de nuevo
 longnick La longitud de tu apodo es mayor de 130 caracteres. Esto no está soportado oficialmente por el protocolo MSN. ¿Estás seguro que deseas cambiarlo?
 longp4c Tu apodo en conversación tiene más de 130 caracteres. Y el apodo mostrado en el cliente MSN oficial será "$1". ¿ Deseas continuar ?
+lowrescam Use una cámara web de baja resolución
 lprivtoconf El privado se convierte en conversación múltiple con $1
 luclosedwin Has cerrado la ventana a las $1
 mailer Comando de correo electrónico
@@ -467,6 +481,8 @@ newveravailable Nueva versión $1 disponible para descarga
 next Siguiente
 nick Apodo
 noactivity Sin actividad
+nocacheddps No almacenar las imágenes para mostrar de este usuario en cache
+nocacheddpsNo hay imágenes en la caché para mostrar de este usuario
 nodataavailable No hay datos disponibles para $1
 nodevices No tienes dispositivos instalados
 nogap No dejar espacio entre los grupos en lista de contactos
@@ -513,21 +529,27 @@ options Opciones
 ordercontactsby Ordenar contactos por
 ordergroupsby Ordenar grupos por
 original Original
+otherdisplaypic Otras imágenes mostradas de este usuario (click para más opciones)
 other Otro
 others Otras
 p4contextprefix Prefijar remitentes en P4-Context con esta cadena de caracteres
 pager Paginador
 pass Contraseña
 paste Pegar
+pausedwebcamreceive La cámara web ha sido pausada por el otro usuario
 pause Pausa
+pausewebcamsend Pausa en el envío de la cámara web
 personal Personal
 phones Números de teléfono
 phone Teléfono
 picbrowser Navegador de imágenes para mostrar
 picfile Archivo de imagen (GIF < 500 x 500)
 picstatus Imagen para la alarma
+playbackposition Posición de playback
+playbackspeed Velocidad de playback (milisegundos entre cada fotograma)
 playing Reproduciendo: $1
 play Reproducir
+playwebcamsend Reanudación del envío de cámara web
 pluginselector Selector de plug-ins
 port Puerto
 portswellconfigured Los puertos están bien configurados
@@ -542,6 +564,7 @@ prefemotic Emoticonos y smileys.
 preferences Preferencias
 preffont2 Cambia la forma en que otros ven mi texto en la conversación
 preffont3 Cambiar el tipo de letra y tamaño del interface de aMSN
+preffont4 Cambiar la forma en la que veo el texto de otros usuarios en las sesiones de chat
 preffont Texto de mis mensajes
 prefft Transferencias de archivos, igual-a-igual y configuración de NAT
 preflibs Directorio para bibliotecas
@@ -574,6 +597,11 @@ proxyconf Configuración proxy
 proxyconfhttp Configurar soporte de proxy HTTP
 proxyconnection Me conecto a Internet usando un servidor proxy:
 proxy Estoy detrás de un servidor proxy (HTTP o SOCKS5)
+psmatend Mostrar Mensaje Personal junto al apodo
+psmdontshow No mostrar el mensaje personal a no ser que se defina en Apodo Global/Personalizado
+psmnewline Mostrar Mensaje Personal debajo del apodo
+psmplace Dónde debería mostrarse el Mensaje Personal?
+psm Privado
 publishphones Publicar mis números de teléfono
 purge Purgar
 pwcdriver Estás usando el controlador 'pwc'
@@ -596,6 +624,7 @@ rename Cambiar nombre
 report Informe
 reporting Generando informe
 required_version Imposible cargar este plugin. Este plugin requiere como mínimo aMSN $1 para funcionar
+resetincomingfont Reiniciar la fuente (usar la fuente que elige el que envía)
 restartforskin Nota: ¡Necesitarás reiniciar aMSN para ver el skin bien!
 reversed Invertido
 reverselist Lista Inversa(RL):
@@ -627,8 +656,10 @@ shareswebcam Usuario con cámara web
 showbanner Mostrar el cartel de aMSN en la lista de contactos
 showblockedlist Mostrar contactos que te bloquean
 showcachedpics Mostrar imágenes para mostrar almacenadas
+show_contactdps_in_cl Mostrar miniaturas de las Imáenes para Mostrar en la Lista de Contactos
 showdisplaypic2 Por defecto, ver la imagen para mostrar al abrir una ventana de conversación.
 showdisplaypic Ver imagen para mostrar
+showmailicon Mostar el icono de correo en la bandeja del sistema cuando llegue un nuevo correo electrónico
 showmypic Mostrar mi imagen
 shownotify Mostrar ventana de avisos al producirse diversos eventos
 showpicnotify Mostrar imágenes de usuarios en las ventanas de avisos
@@ -643,6 +674,7 @@ smileintro2 Edita los siguientes campos para personalizar el emoticono (ver FAQ 
 smileintro Rellena los siguientes campos para crear un emoticono personalizado (ver FAQ para más información)
 smiletoobig El emoticono seleccionado es más grande de lo normal. ¿ Deseas cambiar el tamaño ?
 snackfailed Fallo al cargar SNACK, volviendo a configuración por defecto
+snapshot Captura de pantalla
 sngdblclick Un sólo click para abrir una ventana de conversación
 sound2 Reproducir sonidos cuando los contactos se conectan o envían mensajes
 soundactive Reproducir sonidos al recibir mensajes también en ventanas activas
@@ -668,6 +700,7 @@ stateinfo Configuración de estados personalizados
 statename Nombre del estado personalizado
 statenewtext Rellena la información requerida para crear \nel nuevo estado personalizado, y pulsa Guardar
 statenick Apodo personalizado (en blanco para ninguno)
+statepsm Mensaje Personal (dejar en blanco para mantener el actual)
 state Quiero aparecer como
 stats Estadísticas
 status Estado
@@ -733,6 +766,7 @@ useother Usar un comando o programa distinto
 useralreadyonlist El usuario ya se encuentra en la lista de contactos.
 userblocked El usuario se encuentra conectado pero estás bloqueado
 userdata Datos de usuario 
+userdps Imágenes para mostrar del usuario
 usernotonline El usuario no se encuentra en línea
 userproperties Propiedades del usuario $1
 user Usuario
@@ -744,6 +778,7 @@ videoconversationrequest Acabas de recibir una petición de conversación de ví
 viewcontactsby Ver contactos como
 viewprofile Ver perfil
 view Ver
+wanttosharecam Quiero que mi cámara web esté disponible para otros
 webcamcanceled La sesión de cámara web con $1 ha sido cancelada
 webcamclosebefcancel Tendrás que cancelar todas las sesiones de cámara web antes de cerrar la ventana
 webcam Cámara web
@@ -780,17 +815,3 @@ youblocked Has sido bloqueado
 yousay Dices
 youwant Quieres
 zoom Ampliación
-autoresizedp Redimensionar automáticamente la imágen al tamaño predeterminado
-change_account_info Cambiar la información de la cuenta
-change_mobile Cambiar la configuración del Móvil
-editmyprofile Editar mi perfil MSN
-showmailicon Mostar el icono de correo en la bandeja del sistema cuando llegue un nuevo correo electrónico
-find Buscar
-findnext Buscar Siguiente
-findprev Buscar Anterior
-psmatend Mostrar Mensaje Personal junto al apodo
-psmdontshow No mostrar el mensaje personal a no ser que se defina en Apodo Global/Personalizado
-psmnewline Mostrar Mensaje Personal debajo del apodo
-psmplace Dónde debería mostrarse el Mensaje Personal?
-show_contactdps_in_cl Mostrar miniaturas de las Imáenes para Mostrar en la Lista de Contactos
-statepsm Mensaje Personal (dejar en blanco para mantener el actual)
