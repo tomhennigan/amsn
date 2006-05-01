@@ -60,6 +60,7 @@ autoidle Marcar com inactiu automàticament
 autoip IP Automàtica
 automessage Missatge automàtic
 autonoact Mostrar-me com "Inactiu" després d'estar inactiu durant
+autoresizedp Canviar de mida automàticament les imatges per mostrar a la mida predeterminada
 avaccepted Trucada de videoconferència acceptada
 avcanceled Trucada de videoconferència cancel·lada
 avgotinvitation Has rebut una invitació de videoconferència de $1
@@ -105,6 +106,8 @@ captureproperties Propietats de la imatge de webcam
 casesensitive Usar disparadors sensibles a maj/min
 cfgalarmall Canviar/Afegir/Llevar avís global
 cfgalarm Configurar/Afegir/Esborrar avís
+change_account_info Canvia informació del compte
+change_mobile Canvia configuració de mòbil
 change Canviar
 changecustomstate Canviar a
 changedisplaypic Canviar l'imatge a mostrar (avatar)
@@ -253,6 +256,7 @@ downloadingtls Descarregant modul TLS des de: \n $1
 editcustomstate Editar estat personalitzat
 edit Editar
 editcontent Edita el contingut del camp assumpte i del camp nota
+editmyprofile Editar el meu perfil del MSN
 editnewstate Nou missatge automàtic personal d'estat
 editprofile Editar Perfil
 editstate Editar un missatge automàtic d'estat existent
@@ -294,6 +298,9 @@ filetransfercomplete Transferència de fitxer completada
 filters Filtres
 filtersselect Tria els filtres que vols vore\n(No triar cap significa mostrar tots)
 filtersx Selecció de filtres
+find Cerca
+findnext Cerca el següent
+findprev Cerca l'anterior
 firewalled Estàs utilitzant un tallafoc (fiewall) o estàs darrere un router
 followtext Avançar quan s'introduixca nou text
 friendlyname Mot en conversa
@@ -574,6 +581,10 @@ proxyconf Configuració proxy
 proxyconfhttp Configurar suport de proxy http
 proxyconnection Em connecte a internet a través d'un servidor proxy:
 proxy Estic darrere d'un servidor proxy (HTTP o SOCKS5)
+psmatend Mostra missatge personal al costat del nick
+psmdontshow No mostrar el missatge personal, excepte si s'ha definit una altra cosa en els nicks globals/personalitzats
+psmnewline Mostra el missatge personal sota el nick
+psmplace On hauria de ser situat el missatge personal?
 publishphones Publicar els meus numeros de telèfon
 purge Purgar
 pwcdriver Estàs usant el controlador pwc
@@ -624,11 +635,13 @@ server Servidor
 serverunavailable El servidor no es troba disponible
 session Sessió
 shareswebcam Comparteix webcam
+show_contactdps_in_cl Mostrar miniatures dels avatars dels contactes a la llista
 showbanner Mostra l'anunci de l'aMSN
 showblockedlist Mostrar la llista de persones que t'han bloquejat
 showcachedpics Mostrar Imatges per a Mostrar guardades
 showdisplaypic Vore Imatge per a Mostar
 showdisplaypic2 Per defecte, vore la Imatge per a Mostrar al obrir una finestra de conversa
+showmailicon Mostrar una icona a la barra de tasques en arribar correu nou
 showmypic La meua Imatge de Mostra
 shownotify Mostrar finestra d'avís al produïr-se diferents events
 showpicnotify Mostrar les imatges dels usuaris a les finestres d'alerta
@@ -668,6 +681,7 @@ stateinfo Configuració personal d'estat
 statename Nom de l'estat personalitzat
 statenewtext Per favor, reompli la informació requerida per a crear \n el teu nou Estat personal i polsa Guardar
 statenick Mot personalitzat (deixar en blanc per a no canviar-lo)
+statepsm Missatge personal personalitzat (deixa en blanc per no canviar res)
 state Vull aparentar com
 stats Estadístiques
 status Estat
