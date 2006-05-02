@@ -348,20 +348,29 @@ int Tk_Colorize (ClientData clientData,
   XColor *color;
   int i=0;
   unsigned char* ptr=NULL;
-  unsigned char red, green, blue;    
+  unsigned char red, green, blue;
+  bool alpha = false;
+  double opacity = 1.0;
 
   // We verify the arguments, we must have two args, not more
-  if( objc != 3) {
-    Tcl_AppendResult (interp, "Wrong number of args.\nShould be \"::CxImage::Colorize photoImage_name color\"" , (char *) NULL);
+  if( objc < 3 && objc > 4) {
+    Tcl_AppendResult (interp, "Wrong number of args.\nShould be \"::CxImage::Colorize photoImage_name color ?opacity?\"" , (char *) NULL);
     return TCL_ERROR;
   }
 	
 	
   // Get the first argument string (object name) and check it 
   ImageName = Tcl_GetStringFromObj(objv[1], NULL);
-	
-  if( (color = Tk_AllocColorFromObj(interp, Tk_MainWindow(interp), objv[2])) == NULL) {
-    Tcl_AppendResult(interp, "Invalid Color for background", NULL);
+
+  if (objc == 4) {
+    if( Tcl_GetDoubleFromObj(interp, objv[3], &opacity) == TCL_ERROR) {
+        Tcl_AppendResult(interp, "The opacity you specified is not a valid number", NULL);
+        return TCL_ERROR;
+    }
+  }
+
+  if (opacity < 0 && opacity > 1) {
+    Tcl_AppendResult(interp, "The opacity you specified is not between 0 and 1", NULL);
     return TCL_ERROR;
   }
 
@@ -370,11 +379,20 @@ int Tk_Colorize (ClientData clientData,
     return TCL_ERROR;
   }
 
+  if( (color = Tk_AllocColorFromObj(interp, Tk_MainWindow(interp), objv[2])) == NULL) {
+    Tcl_AppendResult(interp, "Invalid Color for background", NULL);
+    return TCL_ERROR;
+  }
+
   Tk_PhotoGetImage(Photo, &photoData);
   
   red=(BYTE) color->red;
   green=(BYTE) color->green;
   blue=(BYTE) color->blue;
+
+
+  if (photoData.offset[3] != photoData.offset[0] && photoData.offset[3] != photoData.offset[1] && photoData.offset[3] != photoData.offset[2] && opacity != 1.0)
+    alpha = true;
   
   for (i = 0; i < (photoData.pixelSize*photoData.width*photoData.height); i+= photoData.pixelSize) {
     ptr = photoData.pixelPtr+i;//pixelPtrCopy+i;
@@ -383,7 +401,9 @@ int Tk_Colorize (ClientData clientData,
     *(ptr+photoData.offset[0])=( red * *(ptr + photoData.offset[0]) )/255;
     *(ptr+photoData.offset[1])=( green * *(ptr + photoData.offset[1]) )/255;
     *(ptr+photoData.offset[2])=( blue * *(ptr + photoData.offset[2]) )/255;
-
+    if (alpha) {
+      *(ptr+photoData.offset[3])= (char) (opacity * *(ptr + photoData.offset[3]) );
+    }
   }
   
   #if TK_MINOR_VERSION == 3

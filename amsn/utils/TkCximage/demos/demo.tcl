@@ -269,23 +269,30 @@ proc Colorize { } {
 	entry .color.f1.c 
 
 	frame .color.f2
-	button .color.f2.ok -text "Colorize" -command "Colorize2"
-	button .color.f2.cancel -text "Cancel" -command "grab release .color; destroy .color"
+	label .color.f2.lo -text "Opacity : "
+	entry .color.f2.o
+	.color.f2.o insert 0 "1"
+
+	frame .color.f3
+	button .color.f3.ok -text "Colorize" -command "Colorize2"
+	button .color.f3.cancel -text "Cancel" -command "grab release .color; destroy .color"
 
 	pack .color.f1.lc .color.f1.c -side left
-	pack .color.f2.ok .color.f2.cancel -side left
+	pack .color.f2.lo .color.f2.o -side left
+	pack .color.f3.ok .color.f3.cancel -side left
 
-	pack .color.f1 .color.f2 -side top
+	pack .color.f1 .color.f2 .color.f3 -side top
 	grab set .color
 
 }
 
 proc Colorize2 { } {
 	set color [.color.f1.c get]
+	set opacity [.color.f2.o get]
 	grab release .color
 	destroy .color
 
-	if { [catch {::CxImage::Colorize $::loaded $color} res ] != 0 } {
+	if { [catch {::CxImage::Colorize $::loaded $color $opacity} res ] != 0 } {
 			msg_box "Unable to create thumbnail\n$res"
 	}
 }
