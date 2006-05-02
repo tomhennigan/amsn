@@ -846,7 +846,8 @@ namespace eval ::MSNCAM {
 				after 4000 "catch {fileevent $sock writable \"::MSNCAM::WriteToSock $sock\" }"
 				set data "[binary format ccsssii 24 1 0 0 0 0 0]"
 				append data $uid
-				append data "[binary format i [clock clicks -milliseconds]]"
+				set timestamp [ expr { [clock clicks -milliseconds] % 315360000 } ]
+				append data "[binary format i $timestamp]"
 				status_log "sending paused header"
 			}
 			"TSP_RECEIVE" 
@@ -1530,7 +1531,8 @@ namespace eval ::MSNCAM {
 				# add a unique identifier
 				append header "$uid"
 				# add a timestamp
-				append header "[binary format i [clock clicks -milliseconds]]"
+				set timestamp [ expr { [clock clicks -milliseconds] % 315360000 } ]
+				append header "[binary format i $timestamp]"
 				set data "${header}${data}"
 
 			}
