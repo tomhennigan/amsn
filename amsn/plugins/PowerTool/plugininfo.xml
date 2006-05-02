@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <plugin>
 	<name>Powertool</name>
-	<author>Jerome Gagnon-Voyer, Karel Demeyer and Alberto Diaz</author>
+	<author>aMSN Team</author>
 	<description>This plugin adds functionality for power-users to aMSN</description>
 	<amsn_version>0.95</amsn_version>
 	<plugin_version>0.1</plugin_version>
