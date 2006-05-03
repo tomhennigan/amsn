@@ -3242,7 +3242,7 @@ proc cmsn_draw_main {} {
 	menu .user_menu -tearoff 0 -type normal
 	menu .user_menu.move_group_menu -tearoff 0 -type normal
 	menu .user_menu.copy_group_menu -tearoff 0 -type normal
-	menu .user_menu.actions -tearoff 0 -type normal
+#	menu .user_menu.actions -tearoff 0 -type normal
 	menu .menu_invite -tearoff 0 -type normal
 
 	#Main menu
@@ -3641,7 +3641,7 @@ proc cmsn_draw_main {} {
 
 	text $pgBuddy.text -background [::skin::getKey contactlistbg] -width 30 -height 0 -wrap none \
 		-cursor left_ptr -font splainf \
-		-selectbackground [::skin::getKey contactlistbg] -selectborderwidth 0 -exportselection 0 \
+		-selectbackground [::skin::getKey contactlistbg] -selectborderwidth 0 -exportselection 1 \
 		-relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0
 
 	$pgBuddy setwidget $pgBuddy.text
@@ -7048,57 +7048,70 @@ proc urlParserString { str } {
 proc show_umenu {user_login grId x y} {
 
 	set blocked [::MSN::userIsBlocked $user_login]
+	#clear the menu
 	.user_menu delete 0 end
-	.user_menu.actions delete 0 end
-	.user_menu add command -label "[trans copytoclipboard \"${user_login}\"]" \
-		-command "clipboard clear;clipboard append \"${user_login}\""
 
+	set statecode [::abook::getVolatileData $user_login state FLN]
+	set mobile [::abook::getContactData $user_login msn_mobile]
+
+
+	#If the user is not offline, we can send a message
+	if {$statecode != "FLN"} {
+		.user_menu add command -label "[trans sendmsg]" \
+			-command "::amsn::chatUser ${user_login}"
+	}
+
+	#If it's possible to send SMS's, add an action
+	if { $mobile } {
+		.user_menu.actions add command -label "[trans sendmobmsg]" \
+			-command "::MSNMobile::OpenMobileWindow ${user_login}"
+	}
+
+	#send e-mail action
+	.user_menu add command -label "[trans sendmail]" \
+			-command "launch_mailer $user_login"
+
+	#here the nudges plugin should add nudge action	
+
+	#view profile action			
+	.user_menu add command -label "[trans viewprofile]" \
+		-command "::hotmail::viewProfile [list ${user_login}]"		
+			
+	#-----------------------
+	.user_menu add separator
+
+	#The url-actions
 	set the_nick [::abook::getNick ${user_login}]
 	set the_psm [::abook::getVolatileData $user_login PSM]
-		
 	#parse nick and PSM in the same time.
-	set nickpsm ${the_nick}${the_psm}
+	set nickpsm "${the_nick} ${the_psm}"
 	set url_indices [urlParserString "$nickpsm"]
 	for {set i 0} {$i<[llength $url_indices]} {incr i} {
 		set pos_start [lindex $url_indices $i ]
 		incr i
 		set pos [lindex $url_indices $i ]
 		set urltext [string range $nickpsm $pos_start $pos]
-		.user_menu add separator
 		.user_menu add command -label "[trans goto ${urltext} ] " \
 		-command "launch_browser [string map {% %%} [list $urltext]]"
 		.user_menu add command -label "[trans copytoclipboard \"${urltext}\"]" \
 		-command "clipboard clear;clipboard append \"${urltext}\""
+		#end with a separator:
+		#-----------------------
+		.user_menu add separator
 	}
 
-	.user_menu add separator
-
-	.user_menu add cascade -label "[trans actions]" \
-		-menu .user_menu.actions
-
-	.user_menu.actions add command -label "[trans sendmsg]" \
-		-command "::amsn::chatUser ${user_login}"
-
-	if { [::abook::getContactData $user_login msn_mobile] =="1" } {
-	    set mob_menu_state "normal"
-	} else {
-	    set mob_menu_state "disabled"
-	}
-	.user_menu.actions add command -label "[trans sendmobmsg]" \
-	    -command "::MSNMobile::OpenMobileWindow ${user_login}" -state $mob_menu_state
-
-	.user_menu.actions add command -label "[trans sendmail]" \
-		-command "launch_mailer $user_login"
-	.user_menu add command -label "[trans viewprofile]" \
-		-command "::hotmail::viewProfile [list ${user_login}]"
+	#chat history
 	.user_menu add command -label "[trans history]" \
 		-command "::log::OpenLogWin ${user_login}"
-
-	# Add requested and done by Paller 
+	#webcam history
 	.user_menu add command -label "[trans webcamhistory]" \
 	    -command "::log::OpenCamLogWin ${user_login}" 
 
+	#-----------------------
 	.user_menu add separator
+
+
+	#block/unblock
 	if {$blocked == 0} {
 		.user_menu add command -label "[trans block]" -command  "::amsn::blockUser ${user_login}"
 	} else {
@@ -7106,33 +7119,31 @@ proc show_umenu {user_login grId x y} {
 			-command  "::amsn::unblockUser ${user_login}"
 	}
 
+	#move/copy
 	::groups::updateMenu menu .user_menu.move_group_menu ::groups::menuCmdMove [list $grId $user_login]
 	::groups::updateMenu menu .user_menu.copy_group_menu ::groups::menuCmdCopy $user_login
-
 
 	if {[::config::getKey orderbygroup]} {
 		.user_menu add cascade -label "[trans movetogroup]" -menu .user_menu.move_group_menu
 		.user_menu add cascade -label "[trans copytogroup]" -menu .user_menu.copy_group_menu
-		.user_menu add command -label "[trans delete]" -command "::amsn::deleteUser ${user_login} $grId"
 	} else {
 		.user_menu add cascade -label "[trans movetogroup]"  -state disabled
 		.user_menu add cascade -label "[trans copytogroup]"  -state disabled
-		.user_menu add command -label "[trans delete]" -command "::amsn::deleteUser ${user_login} $grId"
 	}
 
+	#delete
+	.user_menu add command -label "[trans delete]" -command "::amsn::deleteUser ${user_login} $grId"
+
+	#-----------------------
 	.user_menu add separator
 
-	#.user_menu add command -label "[trans customnick]" \
-	#-command "::abookGui::showCustomNickScreen $user_login"
-	.user_menu add command -label "[trans properties]" \
-	-command "::abookGui::showUserProperties $user_login"
 
-	# Display Alarm Config settings
-	#NOT NEEDED ANYMORE! Change it inside preferences!!
-	#.user_menu add separator
 	.user_menu add command -label "[trans cfgalarm]" -command "::abookGui::showUserProperties $user_login; .user_[::md5::md5 $user_login]_prop.nb raise alarms"
 
-	.user_menu add command -label "[trans note]" -command "::notes::Display_Notes $user_login"
+#	.user_menu add command -label "[trans note]" -command "::notes::Display_Notes $user_login"
+
+	.user_menu add command -label "[trans properties]" \
+	-command "::abookGui::showUserProperties $user_login"
 
 	# PostEvent 'right_menu'
 	set evPar(menu_name) .user_menu
@@ -8284,6 +8295,8 @@ proc my_TextSetCursor {w pos} {
 
 proc my_TextKeySelect {w new} {
 
+#    $w mark set anchor insert
+    
     if {[string equal [$w tag nextrange sel 1.0 end] ""]} {
 	if {[$w compare $new < insert]} {
 	    $w tag add sel $new insert

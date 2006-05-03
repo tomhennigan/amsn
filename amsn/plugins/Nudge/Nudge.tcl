@@ -362,8 +362,9 @@ namespace eval ::Nudge {
 			${newvar(menu_name)}.actions add command -label "$::Nudge::language(send_nudge)" \
 			-command "::Nudge::ClSendNudge $newvar(user_login)"
 		} else {
-			$newvar(menu_name) add separator
-			$newvar(menu_name) add command -label "$::Nudge::language(send_nudge)" \
+			
+
+			$newvar(menu_name) insert [trans viewprofile] command -label "$::Nudge::language(send_nudge)" \
 			-command "::Nudge::ClSendNudge $newvar(user_login)"
 		}
 		::Nudge::log "Create Send Nudge item in right click menu"
