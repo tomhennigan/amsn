@@ -1167,32 +1167,25 @@ namespace eval ::ChatWindow {
 			menu $mainmenu -tearoff 0 -type menubar -borderwidth 0 -activeborderwidth -0
 		}
 
-		set msnmenu [CreateMsnMenu $w $mainmenu]
+		set chatmenu [CreateChatMenu $w $mainmenu]
 		set editmenu [CreateEditMenu $w $mainmenu]
 		set viewmenu [CreateViewMenu $w $mainmenu]
-		set actionsmenu [CreateActionsMenu $w $mainmenu]
-		set applemenu [CreateAppleMenu $mainmenu]
+		set contactmenu [CreateContactMenu $w $mainmenu]
 
 
-		# Change MSN menu's caption on Mac for "File" to match the Apple UI Standard
+		# App menu, only on Mac OS X (see Mac Interface Guidelines)
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-			$mainmenu add cascade -label "[trans file]" -menu $msnmenu
-		} else {
-			$mainmenu add cascade -label "[trans msn]" -menu $msnmenu
+			set applemenu [CreateAppleMenu $mainmenu]
+			$mainmenu add cascade -label "aMSN" -menu $applemenu
 		}
 
+		#no need to call it "file"
+		# http://developer.apple.com/documentation/UserExperience/Conceptual/OSXHIGuidelines/index.html
+		$mainmenu add cascade -label "[trans chat]" -menu $chatmenu
 		$mainmenu add cascade -label "[trans edit]" -menu $editmenu
 		$mainmenu add cascade -label "[trans view]" -menu $viewmenu
-		$mainmenu add cascade -label "[trans actions]" -menu $actionsmenu
+		$mainmenu add cascade -label "[trans contact]" -menu $contactmenu
 
-		# Apple menu, only on Mac OS X for legacy reasons (Each OS X app have one Apple menu)
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-			$mainmenu add cascade -label "Apple" -menu $applemenu
-		}
-
-		#TODO: We always want these menus and bindings enabled? Think it!!
-#		$msnmenu entryconfigure 3 -state normal
-#		$actionsmenu entryconfigure 8 -state normal
 
 
 		return $mainmenu
@@ -1213,6 +1206,8 @@ namespace eval ::ChatWindow {
 			-command Preferences -accelerator "Command-,"
 		$applemenu add separator
 
+		#might need a quit action here, according to macd guidelines
+		
 		return $applemenu
 	}
 
@@ -1220,29 +1215,49 @@ namespace eval ::ChatWindow {
 	# CreateMsnMenu $menu
 	# This proc should create the Amsn submenu of the chat window
 	#
-	proc CreateMsnMenu { w menu } {
-		set msnmenu $menu.msn
-		menu $msnmenu -tearoff 0 -type normal
+	proc CreateChatMenu { w menu } {
+		set chatmenu $menu.msn
+		menu $chatmenu -tearoff 0 -type normal
 
-		$msnmenu add command -label "[trans savetofile]..." \
-			-command " ChooseFilename \[::ChatWindow::GetOutText \[::ChatWindow::getCurrentTab $w\]\] \[::ChatWindow::getCurrentTab $w\]"
-		$msnmenu add separator
-		$msnmenu add command -label "[trans sendfile]..." \
-			-command "::amsn::FileTransferSend \[::ChatWindow::getCurrentTab $w\]"
-		$msnmenu add command -label "[trans openreceived]..." \
-			-command {launch_filemanager "[::config::getKey receiveddir]"}
-		$msnmenu add separator
+		#new chat
+		$chatmenu add command -label "[trans newchat]..." \
+			-command [list ::amsn::ShowSendMsgList [trans sendmsg] ::amsn::chatUser]
+			
+		#Save
+		$chatmenu add command -label "[trans savetofile]..." \
+			-command " ChooseFilename \[::ChatWindow::GetOutText \[::ChatWindow::getCurrentTab $w\]\] \[::ChatWindow::getCurrentTab $w\]"		
+
+		#Clear
+		$chatmenu add command -label "[trans clear]" -command [list ::ChatWindow::Clear $w]
+
+		#----------------------
+		$chatmenu add separator
 		
+		#Invite a user to the chat
+		$chatmenu add command -label "[trans invite]..." \
+			-command "::amsn::ShowInviteList \"[trans invite]\" \[::ChatWindow::getCurrentTab $w\]"
+
+		#----------------------
+		$chatmenu add separator
+			
+
+#TODO:		#powertool should add the "hide window" thing here	
+#		if {[catch {tk windowingsystem} wsystem] || $wsystem != "aqua"} {
+#			$chatmenu add command -label "[trans hidewindow]" \
+#				-command "wm state \[winfo toplevel \[::ChatWindow::getCurrentTab $w\]\] withdraw"
+#		}
+
+
 		#Add accelerator label to "close" on Mac Version
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-			$msnmenu add command -label "[trans close]" \
+			$chatmenu add command -label "[trans close]" \
 				-command "::ChatWindow::Close $w" -accelerator "Command-W"
 		} else {
-			$msnmenu add command -label "[trans close]" \
+			$chatmenu add command -label "[trans close]" \
 				-command "::ChatWindow::Close $w"
 		}
-
-		return $msnmenu
+		
+		return $chatmenu
 		
 	}
 
@@ -1284,7 +1299,9 @@ namespace eval ::ChatWindow {
 		}
 
 		$editmenu add separator
-		$editmenu add command -label "[trans clear]" -command [list ::ChatWindow::Clear $w]
+
+		#should be called "Webcam preferences"
+		$editmenu add command -label "[trans webcamconfigure]" -command "::CAMGUI::WebcamWizard"
 
 		return $editmenu
 	}
@@ -1300,26 +1317,29 @@ namespace eval ::ChatWindow {
 		set viewmenu $menu.view
 		menu $viewmenu -tearoff 0 -type normal
 
-		$viewmenu add cascade -label "[trans style]" -menu [CreateStyleMenu $viewmenu]
-		$viewmenu add cascade -label "[trans textsize]" -menu [CreateTextSizeMenu $viewmenu]
-		$viewmenu add separator
+		#show emoticons check
 		$viewmenu add checkbutton -label "[trans chatsmileys]" \
 			-onvalue 1 -offvalue 0 -variable [::config::getVar chatsmileys]
 
-		set ${w}_show_picture 0
-		
+		#show dp check
 		$viewmenu add checkbutton -label "[trans showdisplaypic]" \
-			-command "::amsn::ShowOrHidePicture \[::ChatWindow::getCurrentTab $w\]" -onvalue 1 \
-			-offvalue 0 -variable "${w}_show_picture"
+			-command "::amsn::ShowOrHidePicture \[::ChatWindow::getCurrentTab $w\]"\
+			-onvalue 1 -offvalue 0 -variable "${w}_show_picture"
+		
+		#----------------------
+		$viewmenu add separator			
+		
+		#chatstyle
+		$viewmenu add cascade -label "[trans style]" -menu [CreateStyleMenu $viewmenu]
+
+		#textstyle
+		$viewmenu add cascade -label "[trans textsize]" -menu [CreateTextSizeMenu $viewmenu]
+
+
+		set ${w}_show_picture 0
+	
 		
 
-		# Remove this menu item on Mac OS X because we "lost" the window instead
-		# of just hide it
-		if {[catch {tk windowingsystem} wsystem] || $wsystem != "aqua"} {
-			$viewmenu add separator
-			$viewmenu add command -label "[trans hidewindow]" \
-				-command "wm state \[winfo toplevel \[::ChatWindow::getCurrentTab $w\]\] withdraw"
-		}
 		
 		return $viewmenu
 	}
@@ -1367,55 +1387,93 @@ namespace eval ::ChatWindow {
 	}
 
 	#############################################
-	# CreateActionsMenu $menu
+	# Createcontactmenu $menu
 	# This proc should create the Actions submenu of the chat window
 	#
-	proc CreateActionsMenu { w menu } {
-		set actionsmenu $menu.actions
+	proc CreateContactMenu { w menu } {
+		set contactmenu $menu.contact
 
-		menu $actionsmenu -tearoff 0 -type normal
+		menu $contactmenu -tearoff 0 -type normal
 
-		$actionsmenu add command -label "[trans addtocontacts]" \
-			-command "::amsn::ShowAddList \"[trans addtocontacts]\" \[::ChatWindow::getCurrentTab $w\] ::MSN::addUser"
-		$actionsmenu add command -label "[trans block]/[trans unblock]" \
-			-command "::amsn::ShowChatList \"[trans block]/[trans unblock]\" \[::ChatWindow::getCurrentTab $w\] ::amsn::blockUnblockUser"
-		$actionsmenu add separator
-		$actionsmenu add command -label "[trans viewprofile]" \
-			-command "::amsn::ShowChatList \"[trans viewprofile]\" \[::ChatWindow::getCurrentTab $w\] ::hotmail::viewProfile"
-											
-		$actionsmenu add command -label "[trans properties]" \
-			-command "::amsn::ShowChatList \"[trans properties]\" \[::ChatWindow::getCurrentTab $w\] ::abookGui::showUserProperties"
-		$actionsmenu add command -label "[trans note]..." \
-			-command "::amsn::ShowChatList \"[trans note]\" \[::ChatWindow::getCurrentTab $w\] ::notes::Display_Notes"
-		# Change accelerator for history on Mac OS X
+
+		$contactmenu add command -label "[trans sendfile]..." \
+			-command "::amsn::FileTransferSend \[::ChatWindow::getCurrentTab $w\]"
+
+		$contactmenu add command -label "[trans askwebcam]..." \
+			-command "::amsn::ShowChatList \"[trans askwebcam]\" \[::ChatWindow::getCurrentTab $w\] ::MSNCAM::AskWebcamQueue"
+
+		$contactmenu add command -label "[trans sendwebcaminvite]..." \
+			-command "::amsn::ShowChatList \"[trans sendwebcaminvite]\" \[::ChatWindow::getCurrentTab $w\] ::MSNCAM::SendInviteQueue"
+
+		#nudge to add item here
+
+		#-------------------------
+		$contactmenu add separator
+
+		#Chat history
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-			$actionsmenu add command -label "[trans history]" \
+			$contactmenu add command -label "[trans history]" \
 				-command "::amsn::ShowChatList \"[trans history]\" \[::ChatWindow::getCurrentTab $w\] ::log::OpenLogWin" \
 				-accelerator "Command-Option-H"
 		} else {
-			$actionsmenu add command -label "[trans history]" \
+			$contactmenu add command -label "[trans history]" \
 				-command "::amsn::ShowChatList \"[trans history]\" \[::ChatWindow::getCurrentTab $w\] ::log::OpenLogWin" \
 				-accelerator "Ctrl+H"
 		}
-		$actionsmenu add command -label "[trans webcamhistory]" \
+
+		#webcam history
+		$contactmenu add command -label "[trans webcamhistory]" \
 		    -command "::amsn::ShowChatList \"[trans webcamhistory]\" \[::ChatWindow::getCurrentTab $w\] ::log::OpenCamLogWin" 
-		$actionsmenu add separator
-		$actionsmenu add command -label "[trans invite]..." \
-			-command "::amsn::ShowInviteList \"[trans invite]\" \[::ChatWindow::getCurrentTab $w\]"
-		$actionsmenu add separator
-		$actionsmenu add command -label "[trans sendmail]..." \
-			-command "::amsn::ShowChatList \"[trans sendmail]\" \[::ChatWindow::getCurrentTab $w\] launch_mailer"
-		$actionsmenu add command -label "[trans sendfile]..." \
-			-command "::amsn::FileTransferSend \[::ChatWindow::getCurrentTab $w\]"
-		$actionsmenu add command -label "[trans sendwebcaminvite]..." \
-			-command "::amsn::ShowChatList \"[trans sendwebcaminvite]\" \[::ChatWindow::getCurrentTab $w\] ::MSNCAM::SendInviteQueue"
-		$actionsmenu add command -label "[trans askwebcam]..." \
-			-command "::amsn::ShowChatList \"[trans askwebcam]\" \[::ChatWindow::getCurrentTab $w\] ::MSNCAM::AskWebcamQueue"
-		$actionsmenu add separator
-		$actionsmenu add command -label "[trans webcamconfigure]" -command "::CAMGUI::WebcamWizard"
+
+		#received files
+		$contactmenu add command -label "[trans openreceived]..." \
+			-command {launch_filemanager "[::config::getKey receiveddir]"}
+
+
+		#-------------------------
+		$contactmenu add separator
+		
+		#profile
+		$contactmenu add command -label "[trans viewprofile]" \
+			-command "::amsn::ShowChatList \"[trans viewprofile]\" \[::ChatWindow::getCurrentTab $w\] ::hotmail::viewProfile"		
+		
+		#email
+		$contactmenu add command -label "[trans sendmail]..." \
+			-command "::amsn::ShowChatList \"[trans sendmail]\" \[::ChatWindow::getCurrentTab $w\] launch_mailer"		
+		
+		#sms
+#TODO		
+		#-------------------------
+		$contactmenu add separator
+		
+		#notes
+		$contactmenu add command -label "[trans note]..." \
+			-command "::amsn::ShowChatList \"[trans note]\" \[::ChatWindow::getCurrentTab $w\] ::notes::Display_Notes"
+
+		#alarm
+#TODO:		
+
+
+		#-------------------------
+		$contactmenu add separator
+		
+		#block/unblock
+		$contactmenu add command -label "[trans block]/[trans unblock]" \
+			-command "::amsn::ShowChatList \"[trans block]/[trans unblock]\" \[::ChatWindow::getCurrentTab $w\] ::amsn::blockUnblockUser"		
+		
+		#add to list
+		$contactmenu add command -label "[trans addtocontacts]" \
+			-command "::amsn::ShowAddList \"[trans addtocontacts]\" \[::ChatWindow::getCurrentTab $w\] ::MSN::addUser"
+
+		#-------------------------
+		$contactmenu add separator
+
+		#properties							
+		$contactmenu add command -label "[trans properties]" \
+			-command "::amsn::ShowChatList \"[trans properties]\" \[::ChatWindow::getCurrentTab $w\] ::abookGui::showUserProperties"
 
 		
-		return $actionsmenu
+		return $contactmenu
 	}
 
 
@@ -2894,7 +2952,7 @@ namespace eval ::ChatWindow {
 			$tab itemconfigure tab_bg -image [::skin::loadPixmap tab_current]
 		}
 
-		$container.menu.view entryconfigure 4 -variable "${win}_show_picture"
+		$container.menu.view entryconfigure [trans showdisplaypic] -variable "${win}_show_picture"
 
 		::ChatWindow::UpdateContainerTitle $container
 
