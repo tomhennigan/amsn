@@ -1298,11 +1298,6 @@ namespace eval ::ChatWindow {
 			$editmenu add command -label "[trans findprev]" -command "$w.search findprev" -accelerator "Shift+F3"
 		}
 
-		$editmenu add separator
-
-		#should be called "Webcam preferences"
-		$editmenu add command -label "[trans webcamconfigure]" -command "::CAMGUI::WebcamWizard"
-
 		return $editmenu
 	}
 
