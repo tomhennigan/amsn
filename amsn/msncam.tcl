@@ -538,18 +538,12 @@ namespace eval ::MSNCAM {
 
 
 	proc PausePlayCam { window sock } {
-		set state [getObjOption $sock state]
-		set sid [getObjOption $sock sid]
-		set reflector [getObjOption $sid reflector]
-		if {$state == "SEND" || $state == "TSP_SEND"} {
+		set state [getObjOption $sock state] 
+		if {$state == "SEND"} {
 			setObjOption $sock state "PAUSED"
 			$window.pause configure -text "[trans playwebcamsend]"
 		} elseif {$state == "PAUSED" } {
-			if { $reflector } {
-				setObjOption $sock state "TSP_SEND"
-			} else {
-				setObjOption $sock state "SEND"
-			}
+			setObjOption $sock state "SEND"
 			$window.pause configure -text "[trans pausewebcamsend]"
 		}
 	}
@@ -848,13 +842,12 @@ namespace eval ::MSNCAM {
 					set uid 0
 				}
 
-				if { ! $reflector } {
-					after cancel "catch {fileevent $sock writable \"::MSNCAM::WriteToSock $sock\" }"
-					after 4000 "catch {fileevent $sock writable \"::MSNCAM::WriteToSock $sock\" }"
-				}
+				after cancel "catch {fileevent $sock writable \"::MSNCAM::WriteToSock $sock\" }"
+				after 4000 "catch {fileevent $sock writable \"::MSNCAM::WriteToSock $sock\" }"
 				set data "[binary format ccsssii 24 1 0 0 0 0 0]"
 				append data $uid
-				append data "[binary format i [clock clicks -milliseconds]]"
+				set timestamp [ expr { [clock clicks -milliseconds] % 315360000 } ]
+				append data "[binary format i $timestamp]"
 				status_log "sending paused header"
 			}
 			"TSP_RECEIVE" 
@@ -1538,7 +1531,8 @@ namespace eval ::MSNCAM {
 				# add a unique identifier
 				append header "$uid"
 				# add a timestamp
-				append header "[binary format i [clock clicks -milliseconds]]"
+				set timestamp [ expr { [clock clicks -milliseconds] % 315360000 } ]
+				append header "[binary format i $timestamp]"
 				set data "${header}${data}"
 
 			}
