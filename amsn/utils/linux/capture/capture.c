@@ -757,13 +757,15 @@ int Capture_SetAttribute _ANSI_ARGS_((ClientData clientData,
   }
   
   // Get new_value and check its validity
+  //2 conditions below modified to silently ignore erroneous value instead of throwing error
   if (Tcl_GetIntFromObj(interp, objv[2], &new_value) == TCL_ERROR) {
-    return TCL_ERROR;
+    return TCL_OK;
   }
   
   if (new_value > 65535 || new_value < 0) {
-    Tcl_AppendResult(interp, "Invalid value. It should be between 0 and 65535" , (char *) NULL);
-    return TCL_ERROR;
+//    Tcl_AppendResult(interp, "Invalid value. It should be between 0 and 65535" , (char *) NULL);
+//    return TCL_ERROR;
+    return TCL_OK;
   }
   
   // Get the ng_attribute struct from the attribute id
