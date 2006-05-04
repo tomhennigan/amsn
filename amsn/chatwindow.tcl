@@ -2491,7 +2491,11 @@ namespace eval ::ChatWindow {
 	
 			$top insert text end $nicktxt			
 
-			set title "${title}${user_name}, "
+			if { $user_name != "" } {
+				set title "${title}${user_name}, "
+			} else {
+				set title "${title}${user_login}, "
+			}
 	
 			if { "$user_state" != "" && "$user_state" != "online" } {
 				set statetxt "\([trans $user_state]\)"
