@@ -71,6 +71,7 @@ namespace eval ::Nudge {
 			shakes {10}
 			shaketoo {0}
 			addbutton {1}
+			addclmenuitem {0}
 		}
 	}
 	
@@ -90,6 +91,7 @@ namespace eval ::Nudge {
 			[list bool "$::Nudge::language(sound_send)" soundnotsend] \
 			[list bool "$::Nudge::language(sound_receive)" soundnotrec] \
 			[list bool "$::Nudge::language(add_button)" addbutton] \
+			[list bool "$::Nudge::language(add_clmenuitem)" addclmenuitem] \
 		]
 	}
 	########################################
@@ -100,7 +102,7 @@ namespace eval ::Nudge {
 	########################################
 	proc load_nudge_languages {dir} {
 		#Verify if aMSN version is 0.94 or better
-		if {[::Nudge::version_094]} {
+		if { [::Nudge::version_094] } {
 			#If 0.94, use only english keys because 0.94 is not compatible with langfiles in plugins
 			::Nudge::language_array_094
 		} else {
@@ -129,6 +131,7 @@ namespace eval ::Nudge {
 			sound_send "Play a sound upon sending a nudge" \
 			sound_receive "Play a sound upon receiving a nudge." \
 			add_button "Add a button to send a nudge in the chatwindow" \
+			add_clmenuitem "Add an item to the contactlist popup-menu" \
 			send_nudge "Send nudge" \
 			no_nudge_support "You cannot sent a nudge to your contact because he or she doesn't use a client that supports nudges" \
 			nudge_sent "You have just sent a Nudge" \
@@ -142,11 +145,13 @@ namespace eval ::Nudge {
 	# Compatible with lang files           #
 	########################################
 	proc language_array {} {
-		array set ::Nudge::language [list shake_receive "[trans shake_receive]" shake_send "[trans shake_send]" \
-			shake_nudge "[trans shake_nudge]" popup_nudge "[trans popup_nudge]" notify_send "[trans notify_send]" \
-			notify_receive "[trans notify_receive]" sound_send "[trans sound_send]" sound_receive "[trans sound_receive]" \
-			add_button "[trans add_button]" send_nudge "[trans send_nudge]" no_nudge_support "[trans no_nudge_support]" \
-			nudge_sent "[trans nudge_sent]" \
+		array set ::Nudge::language [list shake_receive "[trans shake_receive]" \
+			shake_send "[trans shake_send]" shake_nudge "[trans shake_nudge]" \
+			popup_nudge "[trans popup_nudge]" notify_send "[trans notify_send]" \
+			notify_receive "[trans notify_receive]" sound_send "[trans sound_send]" \
+			sound_receive "[trans sound_receive]" add_button "[trans add_button]" \
+			add_clmenuitem "[trans add_clmenuitem]" send_nudge "[trans send_nudge]" \
+			no_nudge_support "[trans no_nudge_support]" nudge_sent "[trans nudge_sent]" \
 		]
 	}
 	
@@ -356,18 +361,20 @@ namespace eval ::Nudge {
 	proc clitemmenu { event evpar } {
 		upvar 2 $evpar newvar
 
-		#Add separator and label in the menu
-		if { [winfo exists ${newvar(menu_name)}.actions] } {
-			${newvar(menu_name)}.actions add separator
-			${newvar(menu_name)}.actions add command -label "$::Nudge::language(send_nudge)" \
-			-command "::Nudge::ClSendNudge $newvar(user_login)"
-		} else {
-			
+		if { $::Nudge::config(addclmenuitem) == 1 } {
+			#Add separator and label in the menu
+			if { [winfo exists ${newvar(menu_name)}.actions] } {
+				${newvar(menu_name)}.actions add separator
+				${newvar(menu_name)}.actions add command -label "$::Nudge::language(send_nudge)" \
+				-command "::Nudge::ClSendNudge $newvar(user_login)"
+			} else {
+				
 
-			$newvar(menu_name) insert [trans viewprofile] command -label "$::Nudge::language(send_nudge)" \
-			-command "::Nudge::ClSendNudge $newvar(user_login)"
+				$newvar(menu_name) insert [trans viewprofile] command -label "$::Nudge::language(send_nudge)" \
+				-command "::Nudge::ClSendNudge $newvar(user_login)"
+			}
+			::Nudge::log "Create Send Nudge item in right click menu"
 		}
-		::Nudge::log "Create Send Nudge item in right click menu"
 	}
 
 	################################################  
