@@ -326,7 +326,7 @@ namespace eval ::Nudge {
 	proc itemmenu { event evpar } {
 		upvar 2 $evpar newvar
 		#Add a separator to the menu
-		$newvar(menu_name).actions add separator
+#		$newvar(menu_name).actions add separator
 		#Add label in the menu
 		$newvar(menu_name).actions add command -label "$::Nudge::language(send_nudge)" \
 		-command "::Nudge::send_via_queue \[::ChatWindow::getCurrentTab $newvar(window_name)\]"

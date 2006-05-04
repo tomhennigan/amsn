@@ -1170,7 +1170,9 @@ namespace eval ::ChatWindow {
 		set chatmenu [CreateChatMenu $w $mainmenu]
 		set editmenu [CreateEditMenu $w $mainmenu]
 		set viewmenu [CreateViewMenu $w $mainmenu]
+		set actionsmenu [CreateActionsMenu $w $mainmenu]
 		set contactmenu [CreateContactMenu $w $mainmenu]
+		set helpmenu [CreateHelpMenu $w $mainmenu]
 
 
 		# App menu, only on Mac OS X (see Mac Interface Guidelines)
@@ -1184,7 +1186,9 @@ namespace eval ::ChatWindow {
 		$mainmenu add cascade -label "[trans chat]" -menu $chatmenu
 		$mainmenu add cascade -label "[trans edit]" -menu $editmenu
 		$mainmenu add cascade -label "[trans view]" -menu $viewmenu
+		$mainmenu add cascade -label "[trans actions]" -menu $actionsmenu		
 		$mainmenu add cascade -label "[trans contact]" -menu $contactmenu
+		$mainmenu add cascade -label "[trans help]" -menu $helpmenu
 
 
 
@@ -1382,28 +1386,38 @@ namespace eval ::ChatWindow {
 	}
 
 	#############################################
-	# Createcontactmenu $menu
+	# CreateActionsMenu $w $menu
 	# This proc should create the Actions submenu of the chat window
+	#
+	proc CreateActionsMenu { w menu } {
+		set actionsmenu $menu.actions
+
+		menu $actionsmenu -tearoff 0 -type normal
+
+		$actionsmenu add command -label "[trans sendfile]..." \
+			-command "::amsn::FileTransferSend \[::ChatWindow::getCurrentTab $w\]"
+
+		$actionsmenu add command -label "[trans askwebcam]..." \
+			-command "::amsn::ShowChatList \"[trans askwebcam]\" \[::ChatWindow::getCurrentTab $w\] ::MSNCAM::AskWebcamQueue"
+
+		$actionsmenu add command -label "[trans sendwebcaminvite]..." \
+			-command "::amsn::ShowChatList \"[trans sendwebcaminvite]\" \[::ChatWindow::getCurrentTab $w\] ::MSNCAM::SendInviteQueue"
+
+		#nudge to add item here
+	
+		return $actionsmenu
+	}
+
+
+	#############################################
+	# Createcontactmenu $menu
+	# This proc should create the Contact submenu of the chat window
 	#
 	proc CreateContactMenu { w menu } {
 		set contactmenu $menu.contact
 
 		menu $contactmenu -tearoff 0 -type normal
 
-
-		$contactmenu add command -label "[trans sendfile]..." \
-			-command "::amsn::FileTransferSend \[::ChatWindow::getCurrentTab $w\]"
-
-		$contactmenu add command -label "[trans askwebcam]..." \
-			-command "::amsn::ShowChatList \"[trans askwebcam]\" \[::ChatWindow::getCurrentTab $w\] ::MSNCAM::AskWebcamQueue"
-
-		$contactmenu add command -label "[trans sendwebcaminvite]..." \
-			-command "::amsn::ShowChatList \"[trans sendwebcaminvite]\" \[::ChatWindow::getCurrentTab $w\] ::MSNCAM::SendInviteQueue"
-
-		#nudge to add item here
-
-		#-------------------------
-		$contactmenu add separator
 
 		#Chat history
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
@@ -1438,16 +1452,6 @@ namespace eval ::ChatWindow {
 		
 		#sms
 #TODO		
-		#-------------------------
-		$contactmenu add separator
-		
-		#notes
-		$contactmenu add command -label "[trans note]..." \
-			-command "::amsn::ShowChatList \"[trans note]\" \[::ChatWindow::getCurrentTab $w\] ::notes::Display_Notes"
-
-		#alarm
-#TODO:		
-
 
 		#-------------------------
 		$contactmenu add separator
@@ -1460,6 +1464,19 @@ namespace eval ::ChatWindow {
 		$contactmenu add command -label "[trans addtocontacts]" \
 			-command "::amsn::ShowAddList \"[trans addtocontacts]\" \[::ChatWindow::getCurrentTab $w\] ::MSN::addUser"
 
+
+		#-------------------------
+		$contactmenu add separator
+
+		#alarm
+#TODO:		
+
+		
+		#notes
+		$contactmenu add command -label "[trans note]..." \
+			-command "::amsn::ShowChatList \"[trans note]\" \[::ChatWindow::getCurrentTab $w\] ::notes::Display_Notes"
+
+
 		#-------------------------
 		$contactmenu add separator
 
@@ -1470,6 +1487,25 @@ namespace eval ::ChatWindow {
 		
 		return $contactmenu
 	}
+	
+	#############################################
+	# CreateHelpMenu $w $menu
+	# This proc should create the Actions submenu of the chat window
+	#
+	proc CreateHelpMenu { w menu } {
+		set helpmenu $menu.help
+
+		menu $helpmenu -tearoff 0 -type normal
+
+		$helpmenu add command -label "[trans helpcontents]" \
+			-command "::amsn::showHelpFileWindow HELP [list [trans helpcontents]]"
+
+		$helpmenu add separator
+
+		$helpmenu add command -label "[trans about]" -command ::amsn::aboutWindow
+
+		return $helpmenu
+	}	
 
 
 	################################################
