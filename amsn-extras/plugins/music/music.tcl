@@ -212,6 +212,11 @@ namespace eval ::music {
 				"Amarok" [list GetSongAmarok TreatSongAmarok FillFrameComplete] \
 				"Banshee" [list GetSongBanshee TreatSongBanshee FillFrameComplete] \
 				"MPD" [list GetSongMPD TreatSongMPD FillFrameMPD] \
+			"freebsd" [list \
+				"XMMS" [list GetSongXMMS TreatSongXMMS FillFrameEmpty] \
+				"Amarok" [list GetSongAmarok TreatSongAmarok FillFrameComplete] \
+				"Banshee" [list GetSongBanshee TreatSongBanshee FillFrameComplete] \
+				"MPD" [list GetSongMPD TreatSongMPD FillFrameMPD] \
 			] \
 			"windows nt" [list \
 				"WinAmp" [list GetSongWinamp TreatSongWinamp FillFrameLess] \
