@@ -141,7 +141,7 @@ namespace eval ::plugins {
 			return -1
 		}
 		
-		set namespace [getInfo $plugin plugin_namespace)
+		set namespace [getInfo $plugin plugin_namespace]
 
 		# do stuff only if there is a such a command for the event
 		#TODO: do we need to check if such a event exists?
