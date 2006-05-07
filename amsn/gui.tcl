@@ -7062,7 +7062,7 @@ proc show_umenu {user_login grId x y} {
 	}
 
 	#If it's possible to send SMS's, add an action
-	if { $mobile } {
+	if { $mobile == 1} {
 		.user_menu add command -label "[trans sendmobmsg]" \
 			-command "::MSNMobile::OpenMobileWindow ${user_login}"
 	}
