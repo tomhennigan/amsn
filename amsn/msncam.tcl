@@ -542,10 +542,16 @@ namespace eval ::MSNCAM {
 		if {$state == "SEND"} {
 			setObjOption $sock state "PAUSED"
 			$window.pause configure -text "[trans playwebcamsend]"
+		} elseif {$state == "TSP_SEND" } {
+			setObjOption $sock state "TSP_PAUSED"
+			$window.pause configure -text "[trans playwebcamsend]"
 		} elseif {$state == "PAUSED" } {
 			setObjOption $sock state "SEND"
 			$window.pause configure -text "[trans pausewebcamsend]"
-		}
+		}  elseif {$state == "TSP_PAUSED" } {
+			setObjOption $sock state "TSP_SEND"
+			$window.pause configure -text "[trans pausewebcamsend]"
+		} 
 	}
 
 	proc ReadFromSock { sock } {
@@ -825,6 +831,7 @@ namespace eval ::MSNCAM {
 				after 250 "::CAMGUI::GetCamFrame $sid $sock;
 					   catch {fileevent $sock writable \"::MSNCAM::WriteToSock $sock\" }"
 			}
+			"TSP_PAUSED"
 			"PAUSED" 
 			{
 				set encoder [getObjOption $sock codec]
