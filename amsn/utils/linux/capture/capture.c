@@ -1,5 +1,11 @@
 #include "capture.h"
 
+// List management function prototypes
+static struct list_ptr* Capture_lstGetListItem(char *list_element_id);
+static struct data_item* Capture_lstAddItem(struct data_item* item);
+static struct data_item* Capture_lstGetItem(char *list_element_id);
+static struct data_item* Capture_lstDeleteItem(char *list_element_id);
+
 static struct list_ptr* opened_devices = NULL;
 
 /* List of TCL commands and their implementation */
@@ -20,6 +26,7 @@ static struct { char* command; Tcl_ObjCmdProc *proc; } proc_list[] = {
   { "::Capture::GetColour", Capture_GetAttribute },
   { "::Capture::IsValid", Capture_IsValid },
   { "::Capture::ListGrabbers", Capture_ListGrabbers },
+  { "::Capture::Debug", Capture_Debug },
   { NULL, NULL } // If you like segfaults, remove this!
 };
 
@@ -35,7 +42,7 @@ struct list_ptr {
 /////////////////////////////////////
 
 /* Get a pointer to the listhead struct of the item with the specified name */
-struct list_ptr* Capture_lstGetListItem(char *list_element_id) {
+static struct list_ptr* Capture_lstGetListItem(char *list_element_id) {
   struct list_ptr* item = g_list;
 
   while(item && strcmp(item->element->list_element_id, list_element_id))
@@ -46,7 +53,7 @@ struct list_ptr* Capture_lstGetListItem(char *list_element_id) {
 
 
 /* Add an item to the list */
-struct data_item* Capture_lstAddItem(struct data_item* item) {
+static struct data_item* Capture_lstAddItem(struct data_item* item) {
   struct list_ptr* newItem = NULL;
 
   if (!item) return NULL;
@@ -71,7 +78,7 @@ struct data_item* Capture_lstAddItem(struct data_item* item) {
 
 
 /* Get the item with the specified name */
-struct data_item* Capture_lstGetItem(char *list_element_id) {
+static struct data_item* Capture_lstGetItem(char *list_element_id) {
   struct list_ptr* listitem = Capture_lstGetListItem(list_element_id);
   
   if (listitem)
@@ -82,7 +89,7 @@ struct data_item* Capture_lstGetItem(char *list_element_id) {
 
 
 /* Remove the item with the specified name */
-struct data_item* Capture_lstDeleteItem(char *list_element_id) {
+static struct data_item* Capture_lstDeleteItem(char *list_element_id) {
   struct list_ptr* item = Capture_lstGetListItem(list_element_id);
   struct data_item* element = NULL;
   
@@ -882,8 +889,22 @@ int Capture_IsValid _ANSI_ARGS_((ClientData clientData,
   return TCL_OK;
 }
 
+/* ::Capture::Debug - Set the ng_debug flag */
+int Capture_Debug _ANSI_ARGS_((ClientData clientData,
+			      Tcl_Interp *interp,
+			      int objc,
+			      Tcl_Obj *CONST objv[]))
+{
+  // Check the number of arguments
+  if (objc != 2) {
+    Tcl_WrongNumArgs(interp, 1, objv, "flag");
+    return TCL_ERROR;
+  }
 
-/* ::Capture::Init - Initialisation of the capture extension */
+  return Tcl_GetBooleanFromObj(interp, objv[1], &ng_debug);
+}
+
+/* Initialisation of the capture extension */
 int Capture_Init (Tcl_Interp *interp )
 {
   int i;

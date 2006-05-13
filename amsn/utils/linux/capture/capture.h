@@ -83,12 +83,6 @@ struct capture_item {
 #define data_item capture_item
 #define list_element_id captureName
 
-// List management functions
-EXTERN struct list_ptr* Capture_lstGetListItem(char *list_element_id);
-EXTERN struct data_item* Capture_lstAddItem(struct data_item* item);
-EXTERN struct data_item* Capture_lstGetItem(char *list_element_id);
-EXTERN struct data_item* Capture_lstDeleteItem(char *list_element_id);
-
 // Capture extension's Tcl command implementations
 EXTERN int Capture_ListDevices _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]));
 EXTERN int Capture_ListChannels _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]));
@@ -103,6 +97,8 @@ EXTERN int Capture_IsValid _ANSI_ARGS_((ClientData clientData, Tcl_Interp *inter
 
 EXTERN int Capture_SetAttribute _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]));
 EXTERN int Capture_GetAttribute _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]));
+
+EXTERN int Capture_Debug _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]));
 
 // Capture extension initialisation functions
 EXTERN int Capture_Init _ANSI_ARGS_((Tcl_Interp *interp));
