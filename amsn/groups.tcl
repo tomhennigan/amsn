@@ -789,7 +789,9 @@ namespace eval ::groups {
 
 		frame $w.box
 
-		set gidlist [::groups::GetList]
+		# The Unique Group ID (MSN) is sent with the RemoveGroup message.
+		# The first group's ID is zero (0) (MSN)
+		set gidlist [lrange [::groups::GetList] 1 end]
 
 		set thelistnames [list]
 
@@ -833,7 +835,9 @@ namespace eval ::groups {
 
 		set name [::abook::getNick $email]
 
-		set gidlist [::groups::GetList]
+		# The Unique Group ID (MSN) is sent with the RemoveGroup message.
+		# The first group's ID is zero (0) (MSN)
+		set gidlist [lrange [::groups::GetList] 1 end]
 
 		set gidlistyes [list]
 		set gidlistno [list]
@@ -889,7 +893,10 @@ namespace eval ::groups {
 
 	proc GroupmanagerClose { email } {
 
-		set gidlist [::groups::GetList]
+		# The Unique Group ID (MSN) is sent with the RemoveGroup message.
+		# The first group's ID is zero (0) (MSN)
+		set gidlist [lrange [::groups::GetList] 1 end]
+
 		foreach gid $gidlist {
 			::config::unsetKey tempgroup_[::md5::md5 $email]($gid)
 		}

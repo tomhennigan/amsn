@@ -1218,7 +1218,12 @@ namespace eval ::abookGui {
 		grid $nbIdent.g -row 10 -column 0 -pady 5 -padx 5 -sticky w
 		grid $nbIdent.g1 -row 11 -column 0 -sticky e
 		grid $nbIdent.g2 -row 11 -column 1 -sticky w
-		
+		#disable the option if there are no group
+		if {[::groups::GetList] == [list 0 ]} {
+			$nbIdent.g1 configure -state disabled
+			$nbIdent.g2 configure -state disabled
+		}
+
 		grid $nbIdent.titlephones -row 12 -column 0 -pady 5 -padx 5 -columnspan 2 -sticky w 
 		grid $nbPhone.phh -row 13 -column 0 -sticky e
 		grid $nbPhone.phh1 -row 13 -column 1 -sticky w
