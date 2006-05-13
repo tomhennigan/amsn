@@ -1142,7 +1142,6 @@ static int ng_plugins(char *dirname)
 
 	if (NULL == (initcall = dlsym(plugin,"ng_plugin_init"))) {
 	    if (NULL == (initcall = dlsym(plugin,"_ng_plugin_init"))) {
-		fprintf(stderr,"dlsym[%s]: %s\n",filename,dlerror());
 		continue;
 	    }
 	}
