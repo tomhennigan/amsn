@@ -3022,13 +3022,12 @@ namespace eval ::amsn {
 
 	}
 
-	proc closeAmsn {} {
-
-		set answer [::amsn::messageBox [trans exitamsn] yesno question [trans title]]
-		if { $answer == "yes"} {
-			exit
-		}
-	}
+#	proc closeAmsn {} {
+#		set answer [::amsn::messageBox [trans exitamsn] yesno question [trans title]]
+#		if { $answer == "yes"} {
+#			exit
+#		}
+#	}
 
 	proc closeOrDock { closingdocks } {
 		global systemtray_exist statusicon ishidden
@@ -3041,7 +3040,7 @@ namespace eval ::amsn {
 			}
 
 		} else {
-			::amsn::closeAmsn
+			exit	 ;# WAS:	::amsn::closeAmsn
 		}
 	}
 
@@ -3275,6 +3274,8 @@ proc cmsn_draw_main {} {
 		$appmenu add command -label "[trans about] aMSN" \
 			-command ::amsn::aboutWindow
 		$appmenu add separator
+		$appmenu add command -label "[trans pluginselector]" \
+			-command ::plugins::PluginGui
 		$appmenu add command -label "[trans preferences]..." \
 			-command Preferences -accelerator "Command-,"
 		$appmenu add separator
@@ -3304,8 +3305,7 @@ proc cmsn_draw_main {} {
 	#log in with another profile
 	$accnt add command -label "[trans loginas]..." -command cmsn_draw_login -state normal
 
-#Note:  One might think we should allways have both entries (login and login_as) in the menu with "login" (with profile) greyed out ifit's not available.  Though, this makes us have 2 entries that are allmost the same, definately in teh transalted string.  As this menu doesn't swap all the time and only does so when once this option is set to have a profile, I don't think there's a problem of having this entry not be there when there is no profile.  It's like, when you load a plugin for a new action it can add an item but that item wasn't there before and greyed out.
-
+#Note:  One might think we should always have both entries (login and login_as) in the menu with "login" (with profile) greyed out if it's not available.  Though, this makes us have 2 entries that are allmost the same, definately in the translated string.  As this menu doesn't swap all the time and only does so when once this option is set to have a profile, I don't think there's a problem of having this entry not be there when there is no profile.  It's like, when you load a plugin for a new action it can add an item but that item wasn't there before and greyed out.
 
 	#log out
 	$accnt add command -label "[trans logout]" -command "::MSN::logout" -state disabled
@@ -3342,26 +3342,24 @@ proc cmsn_draw_main {} {
 	#events history
 	$accnt add  command -label "[trans eventhistory]" -command "::log::OpenLogWin eventlog" -state disabled
 	
-	#-------------------
-	$accnt add separator
-
-#	$accnt add checkbutton -label "[trans sound]" -onvalue 1 -offvalue 0 -variable [::config::getVar sound]u
-		
- 	$accnt add command -label "[trans pluginselector]" -command ::plugins::PluginGui
-
-	$accnt add command -label "[trans preferences]" -command Preferences  -accelerator "Ctrl-P"
-
-
-	#-------------------
-	$accnt add separator
-	
-
-	#On mac we don'thave these in the menu
+	#On mac these are in the app menu instead of here, except for minimize, which doesn't exist on mac.
 	if {![OnMac]} {
+		#-------------------
+		$accnt add separator
+	
+#		$accnt add checkbutton -label "[trans sound]" -onvalue 1 -offvalue 0 -variable [::config::getVar sound]u
+			
+		$accnt add command -label "[trans pluginselector]" -command ::plugins::PluginGui
+	
+		$accnt add command -label "[trans preferences]" -command Preferences -accelerator "Ctrl-P"
+
+		#-------------------
+		$accnt add separator
+
 		#Minimize to tray
 		$accnt add command -label "[trans minimize]" -command "::amsn::closeOrDock 1"
 		#Terminate aMSN
-		$accnt add command -label "[trans quit]" -command "::amsn::closeOrDock 0"
+		$accnt add command -label "[trans quit]" -command "::amsn::closeOrDock 0" -accelerator "Ctrl-Q"
 	}
 
 
@@ -3732,45 +3730,43 @@ proc cmsn_draw_main {} {
 	#delete F10 binding that crashes amsn
 	bind all <F10> ""
 
-	#Command-key for "key shortcut" in Mac OS X
+	#Set key bindings. They are different on Mac. (e.g. Command key instead of Control)
 	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 		#Status log
 		bind . <Command-s> toggle_status
 		bind . <Command-S> toggle_status
 		#Console
-		bind . <Control-c> "load_console; console show"
-		bind . <Control-C> "load_console; console show"
+		bind . <Command-c> "load_console; console show"
+		bind . <Command-C> "load_console; console show"
 		#Preferences
 		bind . <Command-,> Preferences
 		#BossMode
 		bind . <Command-Option-space> BossMode
 		#Plugins log
-	    bind . <Option-p> ::pluginslog::toggle
-	    bind . <Option-P> ::pluginslog::toggle
-	    #Minimize contact list
-	    bind . <Command-m> "catch {carbon::processHICommand mini .}"
-	    bind . <Command-M> "catch {carbon::processHICommand mini .}"
+		bind . <Option-p> ::pluginslog::toggle
+		bind . <Option-P> ::pluginslog::toggle
+		#Minimize contact list
+		bind . <Command-m> "catch {carbon::processHICommand mini .}"
+		bind . <Command-M> "catch {carbon::processHICommand mini .}"
+
+		bind all <Command-q> "exit"
+		bind all <Command-Q> "exit"
+		bind all <Command-Key-1> "raise ."
 	} else {
 		#Status log
 		bind . <Control-s> toggle_status
 		#Console
 		bind . <Control-c> "load_console; console show"
 		#Plugins log
-	    bind . <Alt-p> ::pluginslog::toggle
-	    #Preferences
+		bind . <Alt-p> ::pluginslog::toggle
+		#Preferences
 		bind . <Control-p> Preferences
+		#Quit
+		bind . <Control-q> exit
 		#Boss mode
 		bind . <Control-Alt-space> BossMode
 		#Show/hide menu
 		bind . <Control-m> Showhidemenu
-		
-	}
-
-	#Shortcut to Quit aMSN on Mac OS X
-	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-		bind all <Command-q> "exit"
-		bind all <Command-Q> "exit"
-		bind all <Command-Key-1> "raise ."
 	}
 
 	wm protocol . WM_DELETE_WINDOW {::amsn::closeOrDock [::config::getKey closingdocks]}
