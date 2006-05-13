@@ -433,6 +433,7 @@ logsout has just logged out
 logwebcam Save all webcam sessions to aMSN's History for future viewing
 longnick Your nickname is longer than 130 characters. This is not officially supported by the MSN protocol. Are you sure you want to set it?
 longp4c Your Friendly Name is longer than 130 characters. The Friendly Name that will appear on the official MSN client will be $1. Are you sure you want to set it?
+longpsm Your personal message is too long. This is not officially supported by the MSN protocol. Are you sure you want to set it?
 lowrescam Use a low-resolution webcam
 lprivtoconf Private chat turned into Conference with $1
 luclosedwin You have closed the window on $1

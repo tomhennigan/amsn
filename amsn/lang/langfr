@@ -431,6 +431,7 @@ logsout vient juste de se déconnecter
 logwebcam Enregister toutes les sessions webcam sessions dans l'historique d'aMSN pour une lecture ultèrieure
 longnick Votre pseudonyme est supèrieur à 130 caractères. Ce n'est pas supporté officiellement par le protocol MSN. Etes-vous sûrs de vouloir le mettre ?
 longp4c Votre pseudonyme de conversation dépasse les 130 caractères. Le client MSN officiel affichera $1. Voulez-vous continuer ?
+longpsm Votre message personnel est trop long. Ce n'est pas support officiellement par le protocol MSN. Etes-vous srs de vouloir le mettre ?
 lowrescam Utilisation d'une webcam à basse résolution
 lprivtoconf Conversation privée changée en conférence avec $1
 luclosedwin Vous avez fermé la fenêtre le $1
