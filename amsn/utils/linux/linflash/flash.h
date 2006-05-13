@@ -12,6 +12,7 @@
 
 // Include files, must include windows.h before tk.h and tcl.h before tk.h
 #include <X11/Xutil.h>
+#include <X11/Xatom.h>
 
 #include <tcl.h>
 #include <tk.h>
@@ -64,7 +65,7 @@ EXTERN int Tk_UnFlashWindow (ClientData clientData,
 			   int objc,
 			   Tcl_Obj *CONST objv[]);
 
-EXTERN int flash_window (Tcl_Interp *interp, Tcl_Obj *CONST objv1, long flash);
+EXTERN int flash_window (Tcl_Interp *interp, Tcl_Obj *CONST objv1, int flash);
 
 
 

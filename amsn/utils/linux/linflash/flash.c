@@ -62,7 +62,7 @@ int Tk_FlashWindow (ClientData clientData,
   }
 	
 
-  return flash_window(interp, objv[1], 1l);
+  return flash_window(interp, objv[1], 1);
 }
 
 int Tk_UnFlashWindow (ClientData clientData,
@@ -78,10 +78,10 @@ int Tk_UnFlashWindow (ClientData clientData,
   }
 	
 
-  return flash_window(interp, objv[1], 0l);
+  return flash_window(interp, objv[1], 0);
 }
 
-int flash_window (Tcl_Interp *interp, Tcl_Obj *CONST objv1, long flash) {
+int flash_window (Tcl_Interp *interp, Tcl_Obj *CONST objv1, int flash) {
 
   // We declare our variables, we need one for every intermediate token we get,
   // so we can verify if one of the function calls returned NULL
@@ -94,6 +94,15 @@ int flash_window (Tcl_Interp *interp, Tcl_Obj *CONST objv1, long flash) {
 
   static Atom demandsAttention;
   static Atom wmState;
+  static Atom wmSupported;
+
+  Atom type_return;
+  Atom *curr_atom = NULL;
+  int format_return;
+  unsigned long bytes_after_return;
+  unsigned long nitems_return;
+  unsigned char *prop_return = 0;
+  int hasFlag = 0;
 
   XEvent e;
   memset(&e, 0, sizeof(e));
@@ -130,9 +139,25 @@ int flash_window (Tcl_Interp *interp, Tcl_Obj *CONST objv1, long flash) {
   // We need Atom-s created only once, they don't change during runtime
   demandsAttention = XInternAtom(xdisplay, "_NET_WM_STATE_DEMANDS_ATTENTION", True);
   wmState = XInternAtom(xdisplay, "_NET_WM_STATE", True);
+  wmSupported = XInternAtom(xdisplay, "_NET_SUPPORTED", True);
 
   XQueryTree(xdisplay, window, &root, &parent, &children, &n);
   XFree(children);
+
+  if( XGetWindowProperty( xdisplay, root, wmSupported, 0, 4096, False, XA_ATOM,
+                            &type_return, &format_return,
+                            &nitems_return, &bytes_after_return,
+                            &prop_return ) == Success && nitems_return ) {
+    for( curr_atom = (Atom *)prop_return; nitems_return > 0; nitems_return--, curr_atom++) {
+      if ( *curr_atom == demandsAttention) {
+        hasFlag = 1;
+        break;
+      }
+    }
+    XFree( prop_return );
+  }
+  if (!hasFlag)
+    return TCL_ERROR;
 
   e.xclient.type = ClientMessage;
   e.xclient.message_type = wmState;
