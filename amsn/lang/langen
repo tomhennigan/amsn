@@ -608,6 +608,7 @@ psmplace Where should the Personal Message be placed ?
 publishphones Publish my phone numbers
 purge Purge
 pwcdriver You are using the pwc driver
+quitmac Quit aMSN
 quit Quit
 raised Raised/Deiconified
 readonlymsgbox The file transfer has been canceled due to the received directory being read-only. Please fix the permissions on this directory.

@@ -138,7 +138,7 @@ proc trayicon_init {} {
  
  #the login/logout one, defined later on (see below)
        $iconmenu add command
-       $iconmenu add command -label "[trans close]" -command "exit"
+       $iconmenu add command -label "[trans quit]" -command "exit"
        CreateStatesMenu .my_menu
 
        ## set icon to current status if added icon while already logged in

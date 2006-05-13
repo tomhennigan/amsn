@@ -24,7 +24,7 @@ agotinvitation $1 nodigt je uit voor een gesprek via een audioverbinding
 alarmonconnect Alarm laten afgaan wanneer dit contact online komt
 alarmondisconnect Alarm laten afgaan wanneer dit contact offline gaat
 alarmonmsg Alarm laten afgaan wanneer er een bericht van dit contact binnenkomt
-alarmonstatus Alarm laten afgaan wanneer dit contactn van status verandert
+alarmonstatus Alarm laten afgaan wanneer dit contact van status verandert
 alarmpref Alarminstellingen voor gebruiker
 alarms Alarm
 alarmstatus Alarm inschakelen
@@ -423,7 +423,7 @@ loggedotherlocation De verbinding is verbroken omdat je elders bent aangemeld.
 loggingin Even geduld,\nBezig met aanmelden
 login Aanmelden
 loginas Aanmelden als
-loging Logboeken
+loging Logt gesprekken
 logolder Bewaar alleen de gesprekken de plaatsvonden in de laatste
 logout Afmelden
 logsbydate Logs sorteren op datum (Geschiedenis laadt een stuk sneller)
@@ -433,6 +433,7 @@ logsout heeft zich afgemeld
 logwebcam Sla alle webcamsessies op om ze later nog eens te kunnen bekijken
 longnick De naam die je hebt ingesteld is langer dan 130 tekens, dit is eigenlijk te lang. Wil je het toch proberen?
 longp4c Je hebt voor 'Schermnaam tijdens gesprek' meer dan 130 tekens opgegeven. Dit wordt niet ondersteund door de originele MSN-client, die zal de naam daarom weergeven als $1. Wil je de opgegeven naam toch gebruiken?
+longpsm Je persoonlijk bericht is langer dan het MSN protocol officieel toestaat. Wil je het toch proberen in te stellen?
 lowrescam Gebruik alleen de lage resolutie voor mijn webcam
 lprivtoconf Privé-gesprek veranderde in vergadering met $1
 luclosedwin Je hebt het venster gesloten op $1
@@ -767,7 +768,7 @@ usemsnp11 EXPERIMENTEEL: Ondersteuning van Persoonlijke berichten activeren -- A
 useother Gebruik een ander programma
 useralreadyonlist Deze gebruiker staat al in je lijst
 userblocked Dit contact is online maar heeft je geblokkeerd
-userdata Gebruikersinformatie
+userdata Contactgegevens
 userdps Schermafbeeldingen
 user Gebruiker
 usernotonline Dit contact is offline
