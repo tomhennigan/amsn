@@ -13,17 +13,22 @@ proc iconify_proc {} {
 	
 	if { [OnWin] } {
 		taskbar_icon_handler WM_LBUTTONDBLCLK 0 0
-		return
-	}
-
-	if { [focus] == "."} {
-		wm iconify .
-		wm state . withdrawn
 	} else {
-		wm deiconify .
-		wm state . normal
-		raise .
-		focus -force .
+		if { [winfo exists .bossmode] } {
+			wm state .bossmode normal
+			raise .bossmode
+			focus -force .bossmode
+			return
+		}
+		if { [focus] == "."} {
+			wm iconify .
+			wm state . withdrawn
+		} else {
+			wm deiconify .
+			wm state . normal
+			raise .
+			focus -force .
+		}
 	}
 	#bind $statusicon <Button-1> deiconify_proc
 }
@@ -318,8 +323,9 @@ proc statusicon_proc {status} {
 					set trayicon [winico create [::skin::GetSkinFile winicons hidden.ico]]
 				}
 			  }
-			  "BOSS" {   #for bossmode, only for win at the moment
-				#set pixmap "[::skin::GetSkinFile pixmaps doffline.xpm]"
+			  "BOSS" {   
+				#for bossmode
+				set pixmap "[::skin::GetSkinFile pixmaps dboss.png]"
 				set tooltip "[trans pass]"
 				if { [WinDock] } {
 					set trayicon [winico create [::skin::GetSkinFile winicons bossmode.ico]]

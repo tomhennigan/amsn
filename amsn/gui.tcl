@@ -7328,10 +7328,10 @@ proc BossMode { } {
 				wm state .bossmode withdraw
 				wm protocol .bossmode WM_DELETE_WINDOW "wm state .bossmode withdraw"
 				catch {wm iconbitmap .bossmode [::skin::GetSkinFile winicons bossmode.ico]}
-				statusicon_proc "BOSS"
 			} else {
 				wm protocol .bossmode WM_DELETE_WINDOW "BossMode"
 			}
+			statusicon_proc "BOSS"
 		}
 
 		foreach child $children {
@@ -7391,9 +7391,7 @@ proc BossMode { } {
 		set bossMode 0
 		destroy .bossmode
 
-		if { [WinDock] } {
-			statusicon_proc [::MSN::myStatusIs]
-		}
+		statusicon_proc [::MSN::myStatusIs]
 	}
 
 
