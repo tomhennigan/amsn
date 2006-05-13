@@ -7054,24 +7054,40 @@ proc show_umenu {user_login grId x y} {
 	set statecode [::abook::getVolatileData $user_login state FLN]
 	set mobile [::abook::getContactData $user_login msn_mobile]
 
-
-	#If the user is not offline, we can send a message
+	#Add the first item, depending on what's possible
 	if {$statecode != "FLN"} {
-		.user_menu add command -label "[trans sendmsg]" \
+		.user_menu add command -label "[trans sendmsg] ($user_login)" \
 			-command "::amsn::chatUser ${user_login}"
-	}
-
-	#If it's possible to send SMS's, add an action
-	if { $mobile == 1} {
-		.user_menu add command -label "[trans sendmobmsg]" \
+		set first "[trans sendmsg] ($user_login)"
+	} elseif { $mobile == 1 } {
+		.user_menu add command -label "[trans sendmobmsg] ($user_login)" \
 			-command "::MSNMobile::OpenMobileWindow ${user_login}"
-	}
-
-	#send e-mail action
-	.user_menu add command -label "[trans sendmail]" \
+		set first "[trans sendmobmsg] ($user_login)"
+	} else {
+		.user_menu add command -label "[trans sendmail] ($user_login)" \
 			-command "launch_mailer $user_login"
+		set first "[trans sendmail] ($user_login)"
+	}
+	
+	#here comes the actions submenu if more then 3 extra actions are defined.  We add all the core actions here, plugins can add actions later, and after plugins are done we chack how much actions there are.  If more then 3, the submenu is added, esle, all acitons are copied in the root menu over here.	
+	set actions .user_menu.actionssubmenu
+	if {[winfo exists $actions]} { destroy $actions }
+	menu $actions -tearoff 0 -type normal
 
-	#here the nudges plugin should add nudge action	
+	#add mobile if it's not already the default action
+	#	mobile is default when offline and a mobile account is set up
+	if { $mobile == 1 && $statecode != "FLN"} {
+		$actions add command -label "[trans sendmobmsg]" \
+		-command "::MSNMobile::OpenMobileWindow ${user_login}"	
+	}
+	
+	
+	#add e-mail if it's not already the default action	
+	#	e-mail is default when offline and no mobile account set up
+	if { !($mobile != 1 && $statecode == "FLN")} {
+		$actions add command -label "[trans sendmail]" \
+			-command "launch_mailer $user_login"
+	}
 
 	#view profile action			
 	.user_menu add command -label "[trans viewprofile]" \
@@ -7149,6 +7165,27 @@ proc show_umenu {user_login grId x y} {
 	set evPar(menu_name) .user_menu
 	set evPar(user_login) ${user_login}
 	::plugins::PostEvent right_menu evPar
+
+	#check if the actions-submenu contains 3 or more items.  If not, add those items to the root menu.	
+	set nrofactions [$actions index end]
+	#index starts counting at 0, this means "less then 3 items"
+
+	set start [expr [.user_menu index $first] + 1]
+	if {$nrofactions < 2 }  {
+		for {set i 0} {$i <= $nrofactions} {incr i} {
+			eval .user_menu insert $start [$actions type $i]
+			foreach option [$actions entryconfigure $i] {
+#FIXME				#why is the value the last item in this list ?
+				.user_menu entryconfigure $start [lindex $option 0] [lindex $option end]
+			}
+			incr start
+		}
+	} elseif { $nrofactions == "none"} {
+		#menu is empty
+	} else {
+		#3 or more actions are defines, add the submenu
+		.user_menu insert $start cascade -label "[trans moreactions]" -menu $actions
+	}
 
 	tk_popup .user_menu $x $y
 }
