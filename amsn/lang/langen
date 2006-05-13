@@ -3,6 +3,7 @@ about About
 aboutamsn About Alvaro's Messenger
 accept Accept
 acceptfile Do you want to accept the file $1 (size $2 bytes)? It will be saved in $3
+account Account
 actions Actions
 activeautoupdate Activate auto-update
 addacontact Add a contact
@@ -180,6 +181,7 @@ contactadded Contact added
 contact Contact
 contactdoesnotexist Contact does not exist!
 contactlist Contact list (FL):
+contacts Contacts
 continuously Continuously
 contrast Contrast
 conversationwith $1 users in conversation
@@ -194,6 +196,7 @@ countrycode My Country/Region code
 cprofile Create Profile
 created Created
 credits Credits
+curdisplaypic Current display picture
 currentdate Current Date
 currentlanguage This is the language currently in use
 currentnotes Current notes
@@ -246,9 +249,6 @@ displayeventemail Display when an E-Mail is received
 displayeventstate Display when contacts change status
 displayp4context Display P4-Context field content as message sender
 displaypic Display Picture
-curdisplaypic Current display picture
-otherdisplaypic Other display pictures of this user (click for more options)
-loadotherdisplaypic Loading DPs of $1, please wait...
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Gnome Dock
 docking Docking
@@ -358,9 +358,9 @@ huge Huge
 hybrid Hybrid mode
 ident Identifying
 identity Identity
-ignore Ignore
 ignorecontact Ignore the conversations from the contact
 ignoreerrors Silently ignore other AMSN errors until the end of session
+ignore Ignore
 imagefiles Image Files
 inbox Inbox
 insertsmiley Insert emoticon
@@ -412,6 +412,7 @@ ljoinedconf $1 has joined conference
 lleftconf $1 has left conference
 loadcontacts Load contact list
 load Load
+loadotherdisplaypic Loading DPs of $1, please wait...
 logbigger Log file sizes for each contact never exceeds 
 logeventconnect Log the connections
 logeventdisconnect Log the disconnections
@@ -440,6 +441,7 @@ mailer Mailer
 maintenance The server is going down for maintenance in $1 minutes
 maximised Maximised
 minimised Minimised/Iconified
+minimize Minimize to tray
 mins minutes
 mobilegrp1 Mobile group
 mobilegrp2 Put users in "Mobile" group when offline (and sorted by status)
@@ -529,15 +531,16 @@ options Options
 ordercontactsby Order contacts by
 ordergroupsby Order groups by
 original Original
+otherdisplaypic Other display pictures of this user (click for more options)
 other Other
 others Others
 p4contextprefix Prefix P4-Context senders with this string
 pager Pager
 pass Password
 paste Paste
+pausedwebcamreceive The webcam has been paused by the other user
 pause Pause
 pausewebcamsend Pause sending of webcam
-pausedwebcamreceive The webcam has been paused by the other user
 personal Personal
 phone Phone
 phones Phone numbers
@@ -562,8 +565,8 @@ prefconnection Connection settings
 prefemotic Emotions Icons and Smileys 
 preferences Preferences
 preffont2 Change the way others see my text in chat sessions
-preffont4 Change the way I see other people's text in chat sessions
 preffont3 Change aMSN's interface font and size
+preffont4 Change the way I see other people's text in chat sessions
 preffont My Message Text
 prefft File transfer, peer-to-peer and NAT settings
 preflibs Libraries directories
@@ -596,14 +599,15 @@ proxyconfhttp HTTP proxy support configuration
 proxyconf Proxy configuration
 proxyconnection I connect to the internet using a proxy server:
 proxy I am behind a proxy server (HTTP or SOCKS5)
-psm Personal Message
 psmatend Show Personal Message beside the nickname
 psmdontshow Don't show Personal Message, unless otherwise defined in global/custom nicks
 psmnewline Show Personal Message below the nickname
+psm Personal Message
 psmplace Where should the Personal Message be placed ?
 publishphones Publish my phone numbers
 purge Purge
 pwcdriver You are using the pwc driver
+quit Quit
 raised Raised/Deiconified
 readonlymsgbox The file transfer has been canceled due to the received directory being read-only. Please fix the permissions on this directory.
 readonlywarn WARNING: The file will probably NOT be saved correctly as the "Received files" directory seems to be write-protected. Please ensure that the permissions on the target directory ($1) are set correctly before transfering the file.

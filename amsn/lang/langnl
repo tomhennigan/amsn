@@ -3,6 +3,7 @@ aboutamsn Over Alvaro's Messenger
 about Over aMSN
 accept Accepteren
 acceptfile Wil je het bestand $1 (omvang: $2) accepteren? Het bestand zal worden opgeslagen in $3
+account Account
 actions Acties
 activeautoupdate Automatisch bijwerken inschakelen
 addacontact Contact toevoegen
@@ -151,12 +152,12 @@ clicktoadd Klik op de knop 'Toevoegen' voor een nieuwe notitie
 clicktologin Klik hier om je aan te melden
 clientcaps Stuur x-clientcaps pakketje naar andere clients
 clientname Client naam
-close Afsluiten
 closeall Alle tabbladen in dit venster sluiten?
 closealltabs altijd alle tabbladen sluiten
 closed Het gesprek met $1 is wegens inactiviteit afgesloten
 closelabel Bij het klikken op de sluitknop van een venster met tabbladen
 closeonly alleen het zichtbare tabblad sluiten
+close Sluiten
 closingdocks Minimaliseren i.p.v. sluiten
 color Kleur
 command Commando
@@ -180,6 +181,7 @@ contactadded Aan je contactenlijst is toegevoegd
 contact Contact
 contactdoesnotexist Contact bestaat niet!
 contactlist [FL] Contactenlijst
+contacts Contacten
 continuously Onafgebroken
 contrast Contrast
 conversationwith $1 deelnemers aan het gesprek
@@ -208,6 +210,7 @@ custom_new Maak een nieuwe emoticon
 customnick Aangepaste Schermnaam
 customsmileys Aangepaste smileys van contacten weergeven
 customstyle Aangepaste stijl
+custshowcustomsmileys Aangepaste emoticons van dit contact weergeven
 cutimageboxreset Maak de selectie-rechthoek:
 cutimagebox Selecteer het deel van de foto dat je gebruiken wilt, door de selectie-rechthoek van grootte te veranderen en deze te verplaatsen.
 cut Knippen
@@ -355,6 +358,7 @@ huge Extra groot
 hybrid Hybride modus
 ident Bezig met identificeren
 identity Identiteit
+ignorecontact Inkomende berichten van dit contact negeren
 ignoreerrors Negeer de overige AMSN-foutberichten tot het einde van de sessie
 ignore Negeren
 imagefiles Beeldbestanden
@@ -407,7 +411,7 @@ listsmileys Toon emoticons in lijst
 ljoinedconf $1 nam deel aan de vergadering
 lleftconf $1 heeft de vergadering verlaten
 load Activeren
-loadcontacts Laad de contactenlijst
+loadcontacts Contactenlijst importeren
 loadotherdisplaypic Even geduld a.u.b. de schermafbeeldingen van $1 worden geladen...
 logbigger Het logboek mag per contact niet groter zijn dan
 logeventconnect In logboek vastleggen wanneer een contact online komt
@@ -437,6 +441,7 @@ mailerexample ( \$recipient = Geadresseerde ) Laat dit veld leeg als je Hotmail 
 maintenance De server zal wegens onderhoudswerkzaamheden over $1 minuten enige tijd niet beschikbaar zijn
 maximised Gemaximaliseerd
 minimised Gespreksvenster niet activeren
+minimize Minimaliseren naar systeemvak
 mins minuten
 mobilegrp1 Mobiel groep
 mobilegrp2 Plaats contacten in de groep 'Mobiel' wanneer ze offline zijn (bij sortering op status)
@@ -597,10 +602,12 @@ proxy Gebruik een Proxy Server (HTTP of SOCKS5)
 psmatend Geef persoonlijk bericht weer naast de schermnaam
 psmdontshow Geef geen persoonlijk bericht weer, tenzij anders aangegeven in de algemene/aangepaste schermnaam.
 psmnewline Geef persoonlijk bericht weer onder de schermnaam
+psm Persoonlijk bericht
 psmplace Hoe wil je persoonlijke berichten gepositioneerd hebben?
 publishphones Mijn telefoonnummers publiceren
 purge Legen
 pwcdriver Je gebruikt de pwc driver
+quit Afsluiten
 raised Gespreksvenster activeren
 readonlymsgbox De bestandsoverdracht is geannuleerd vanwege alleen-lezen toegang tot de map voor ontvangen bestanden. Pas de toegangsrechten voor deze map aan.
 readonlywarn WAARSCHUWING: Het bestand zal waarschijnlijk NIET correct worden opgeslagen, omdat de map voor ontvangen bestanden beschermd blijkt te zijn tegen schrijven. Zorg ervoor dat de rechten voor de doelmap ($1) correct zijn ingesteld voordat de bestandsoverdracht wordt gestart.
@@ -627,7 +634,7 @@ reverselist [RL] Omgekeerde lijst
 rightback Ben zo terug
 saveas Opslaan als
 savechatwinsize Chatvenster grootte opslaan na het aanpassen van de grootte
-savecontacts Contactenlijst opslaan
+savecontacts Contactenlijst exporteren
 save Opslaan
 savetofile Opslaan in bestand
 says $1 zegt
