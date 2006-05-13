@@ -208,6 +208,7 @@ if { $initialize_amsn == 1 } {
 		event add <<Cut>> <Control-x> <Control-X>
 	}
 
+
 	#Set the default option for canvas -highlightthickness
 	option add *Canvas.highlightThickness 0
 
@@ -346,6 +347,15 @@ namespace eval ::amsn {
 		::themes::AddClass Amsn Entry $Entry 90
 		::themes::AddClass Amsn Label $Label 90
 		::abookGui::Init
+
+
+	#Register events
+	::Event::registerEvent loggedIn all loggedInGuiConf
+	
+	
+
+
+
 	}
 
 	#///////////////////////////////////////////////////////////////////////////////
@@ -3251,228 +3261,269 @@ proc cmsn_draw_main {} {
 	} else {
 		menu .main_menu -tearoff 0 -type menubar -borderwidth 0 -activeborderwidth -0
 	}
+	
+	######################################################
+	# Add the menus in the menubar                       #
+	######################################################
 
-	#Change the name of the main menu on Mac OS X(TK Aqua) for "File"
-	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-		.main_menu add cascade -label "[trans file]" -menu .main_menu.file
-	} else {
-		.main_menu add cascade -label "[trans msn]" -menu .main_menu.file
+	
+	#for apple, the first menu is the "App menu"
+	if {[OnMac]} {
+		.main_menu add cascade -label "aMSN" -menu .main_menu.appmenu
+		set appmenu .main_menu.appmenu
+		menu $appmenu -tearoff 0 -type normal
+		$appmenu add command -label "[trans about] aMSN" \
+			-command ::amsn::aboutWindow
+		$appmenu add separator
+		$appmenu add command -label "[trans preferences]..." \
+			-command Preferences -accelerator "Command-,"
+		$appmenu add separator
+		$appmenu add command -label "[trans quit] aMSN" \
+			-command exit -accelerator "Command-Q"
+	}
+	.main_menu add cascade -label "[trans account]" -menu .main_menu.account
+	.main_menu add cascade -label "[trans view]" -menu .main_menu.view
+	.main_menu add cascade -label "[trans actions]" -menu .main_menu.actions
+	.main_menu add cascade -label "[trans contacts]" -menu .main_menu.contacts
+	.main_menu add cascade -label "[trans help]" -menu .main_menu.helpmenu
+		
+
+
+	###########################
+	#Account menu
+	###########################
+	set accnt .main_menu.account
+	menu $accnt -tearoff 0 -type normal
+	
+	#Log in with default profile
+	if { [string length [::config::getKey login]] > 0 && $password != ""} {
+		$accnt add command -label "[trans login] ([::config::getKey login])"\
+			-command ::MSN::connect -state normal
+	}
+		
+	#log in with another profile
+	$accnt add command -label "[trans loginas]..." -command cmsn_draw_login -state normal
+
+#Note:  One might think we should allways have both entries (login and login_as) in the menu with "login" (with profile) greyed out ifit's not available.  Though, this makes us have 2 entries that are allmost the same, definately in teh transalted string.  As this menu doesn't swap all the time and only does so when once this option is set to have a profile, I don't think there's a problem of having this entry not be there when there is no profile.  It's like, when you load a plugin for a new action it can add an item but that item wasn't there before and greyed out.
+
+
+	#log out
+	$accnt add command -label "[trans logout]" -command "::MSN::logout" -state disabled
+	
+	#-------------------
+	$accnt add separator
+	
+	#change status submenu
+	$accnt add cascade -label "[trans mystatus]" -menu .my_menu -state disabled
+	
+	#change nick
+	$accnt add command -label "[trans changenick]..." -command cmsn_change_name -state disabled
+
+	#change dp
+	$accnt add command -label "[trans changedisplaypic]..." -command pictureBrowser -state disabled
+
+	#-------------------
+	$accnt add separator
+	
+	#go to inbox
+	$accnt add command -label "[trans inbox]" -command "::hotmail::hotmail_login" -state disabled
+	
+	#go to my profile
+	$accnt add command -label "[trans editprofile]" -command "::hotmail::hotmail_profile" -state disabled
+
+
+	#-------------------
+	$accnt add separator
+
+	#received files
+	$accnt add command -label "[trans openreceived]" -command {launch_filemanager\
+		"[::config::getKey receiveddir]"}
+		
+	#events history
+	$accnt add  command -label "[trans eventhistory]" -command "::log::OpenLogWin eventlog" -state disabled
+	
+	#-------------------
+	$accnt add separator
+
+#	$accnt add checkbutton -label "[trans sound]" -onvalue 1 -offvalue 0 -variable [::config::getVar sound]u
+		
+ 	$accnt add command -label "[trans pluginselector]" -command ::plugins::PluginGui
+
+	$accnt add command -label "[trans preferences]" -command Preferences  -accelerator "Ctrl-P"
+
+
+	#-------------------
+	$accnt add separator
+	
+
+	#On mac we don'thave these in the menu
+	if {![OnMac]} {
+		#minimize
+		$accnt add command -label "[trans minimize]" -command "::amsn::closeOrDock 1"
+		#close action
+		$accnt add command -label "[trans close]" -command "::amsn::closeOrDock 0"
 	}
 
-	.main_menu add cascade -label "[trans actions]" -menu .main_menu.actions
 
-	.main_menu add cascade -label "[trans tools]" -menu .main_menu.tools
-	.main_menu add cascade -label "[trans help]" -menu .main_menu.helping
+
+
+
+	###########################
+	#View menu
+	###########################
+	set view .main_menu.view
+	menu $view -tearoff 0 -type normal
+
+	#Add the "view by" radio buttons
+	$view add radio -label "Sort contacts by [trans status]" -value 0 \
+	-variable [::config::getVar orderbygroup] -command "cmsn_draw_online 0 2" -state disabled
+	$view add radio -label "Sort contacts by [trans group]" -value 1 \
+	-variable [::config::getVar orderbygroup] -command "cmsn_draw_online 0 2" -state disabled
+	$view add radio -label "Sort contacts in [trans hybrid]" -value 2 \
+	-variable [::config::getVar orderbygroup] -command "cmsn_draw_online 0 2" -state disabled
+	
+	#-------------------
+	$view add separator	
+
+	$view add radio -label "Show contacts with [trans nick]" -value 0 \
+		-variable [::config::getVar emailsincontactlist] -command "cmsn_draw_online 0 2" -state disabled
+	$view add radio -label "Show contacts with [trans email]" -value 1 \
+		-variable [::config::getVar emailsincontactlist] -command "cmsn_draw_online 0 2" -state disabled
+
+	#-------------------
+	$view add separator
+	
+	$view add command -label "[trans changeglobnick]..." -command "::abookGui::SetGlobalNick"
+
+	#-------------------
+	$view add separator
+	
+	$view add radio -label "Sort groups [trans normal]" -value 1 \
+		-variable [::config::getVar ordergroupsbynormal] -command "cmsn_draw_online 0 2" -state disabled
+	$view add radio -label "Sort groups [trans reversed]" -value 0 \
+		-variable [::config::getVar ordergroupsbynormal] -command "cmsn_draw_online 0 2" -state disabled
+
+
+
+	###########################
+	#Actions menu
+	###########################
+	set actions .main_menu.actions
+	menu $actions -tearoff 0 -type normal
+
+	#Send msg
+	$actions add command -label "[trans sendmsg]..." -command [list ::amsn::ShowSendMsgList [trans sendmsg] ::amsn::chatUser] -state disabled
+
+	#Send SMS
+	$actions add command -label "SMS TODO" -command "" -state disabled
+
+	#Send e-mail
+	$actions add command -label "[trans sendmail]..." -command [list ::amsn::ShowSendEmailList [trans sendmail] launch_mailer] -state disabled
+	
+	#-------------------
+	$actions add separator
+
+	#Send File
+	$actions add command -label "[trans sendfile]..." -state disabled	
+
+	#Send Webcam
+	$actions add command -label "SEND CAM TODO" -command "" -state disabled
+	
+	#Ask Webcam
+	$actions add command -label "ASK CAM TODO" -command "" -state disabled
+	
+	
+	###########################
+	#Contacts menu
+	###########################
+	set conts .main_menu.contacts
+	menu $conts -tearoff 0 -type normal
+
+	#add contact
+	$conts add command -label "[trans addacontact]..." -command cmsn_draw_addcontact -state disabled
+		
+	#remove contact
+	$conts add command -label "[trans delete]..." -command [list ::amsn::ShowDeleteList [trans delete] ::amsn::deleteUser] -state disabled
+	
+	#contact properties
+	$conts add command -label "[trans properties]..." -command [list ::amsn::ShowSeePropertiesList [trans properties] ::abookGui::showUserProperties] -state disabled
+	
+	#-------------------
+	$conts add separator
+	
+	#Add group
+	$conts add command -label "[trans groupadd]..." -state disabled
+
+	#remove group
+	$conts add cascade -label "[trans groupdelete]" -state disabled
+
+
+	#rename group
+	$conts add cascade -label "[trans grouprename]"  -state disabled	
+
+#	::groups::Init $conts
+	
+	#-------------------
+	$conts add separator
+
+	#chat history
+	$conts add command -label "[trans history]" -command ::log::OpenLogWin
+
+	#webcam history
+	$conts add command -label "[trans webcamhistory]" -command ::log::OpenCamLogWin		
+	
+	#-------------------
+	$conts add separator
+	
+	$conts add command -label "[trans savecontacts]..." \
+		-command "saveContacts" -state disabled
+	$conts add command -label "[trans loadcontacts]..." \
+		 -command "::abook::importContact" -state disabled	
+		
+
+	###########################
+	#Help menu
+	###########################
+
+	set help .main_menu.helpmenu
+	menu $help -tearoff 0 -type normal
+
+	$help add command -label "[trans helpcontents]" \
+			-command "::amsn::showHelpFileWindow HELP [list [trans helpcontents]]"
+
+	set lang [::config::getGlobalKey language]
+	$help add command -label "[trans faq]" \
+	    -command "launch_browser \"http://amsn.sourceforge.net/faq.php?lang=$lang\""
+    
+	$help add command -label "[trans onlinehelp]" \
+			-command "launch_browser http://amsn.sourceforge.net/wiki/tiki-index.php?"
+
+	$help add separator
+	
+	$help add command -label "TODO MSN NETWORK STATUS"
+	
+	$help add command -label "TODO SEND FEEDBACK"
+
+	$help add separator
+
+	$help add command -label "[trans about]" -command ::amsn::aboutWindow
+
+
 
 	#add a postevent to modify the main menu
 	set evPar(menu) .main_menu
-	::plugins::PostEvent mainmenu evPar
-
-
-	#.main_menu.tools add separator
-
-	#Apple menu, only on Mac OS X
-	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-		.main_menu add cascade -label "Apple" -menu .main_menu.apple
-		menu .main_menu.apple -tearoff 0 -type normal
-		.main_menu.apple add command -label "[trans about] aMSN" -command ::amsn::aboutWindow
-		.main_menu.apple add separator
-		.main_menu.apple add command -label "[trans preferences]..." -command Preferences -accelerator "Command-,"
-		.main_menu.apple add separator
-	}
-
-
-	#File menu
-	menu .main_menu.file -tearoff 0 -type normal
-	if { [string length [::config::getKey login]] > 0 } {
-		if {$password != ""} {
-			.main_menu.file add command -label "[trans loginas]..." \
-				-command ::MSN::connect -state normal
-		} else {
-			.main_menu.file add command -label "[trans loginas]..." \
-				-command cmsn_draw_login -state normal
-		}
-	} else {
-		.main_menu.file add command -label "[trans loginas]..." \
-			-command cmsn_draw_login -state normal
-	}
-	.main_menu.file add command -label "[trans login]..." -command \
-	cmsn_draw_login
-	.main_menu.file add command -label "[trans logout]" -command "::MSN::logout"
-	.main_menu.file add cascade -label "[trans mystatus]" \
-		-menu .my_menu -state disabled
-	.main_menu.file add separator
-	.main_menu.file add command -label "[trans inbox]" -command "::hotmail::hotmail_login"
-	.main_menu.file add separator
-	.main_menu.file add command -label "[trans savecontacts]..." \
-		-command "saveContacts" -state disabled
-	.main_menu.file add command -label "[trans loadcontacts]..." \
-		 -command "::abook::importContact" -state disabled
-	.main_menu.file add separator
-	.main_menu.file add command -label "[trans sendfile]..." -state disabled
-	.main_menu.file add command -label "[trans openreceived]" \
-		-command {launch_filemanager "[::config::getKey receiveddir]"}
-	.main_menu.file add separator
-	.main_menu.file add command -label "[trans close]" -command "exit"
-
-	#Actions menu
-	menu .main_menu.actions -tearoff 0 -type normal
-	.main_menu.actions add command -label "[trans sendmsg]..." -command [list ::amsn::ShowSendMsgList [trans sendmsg] ::amsn::chatUser]
-
-	.main_menu.actions add command -label "[trans sendmail]..." -command [list ::amsn::ShowSendEmailList [trans sendmail] launch_mailer]
-	#.main_menu.actions add command -label "[trans verifyblocked]..." -command "VerifyBlocked"
-	#.main_menu.actions add command -label "[trans showblockedlist]..." -command "VerifyBlocked ; show_blocked"
-	.main_menu.actions add command -label "[trans changenick]..." -command cmsn_change_name
-	.main_menu.actions add separator
-	.main_menu.actions add command -label "[trans checkver]" -command "::autoupdate::check_version"
-
-
-	#Order Contacts By submenu
-	menu .order_by -tearoff 0 -type normal
-	.order_by add radio -label "[trans status]" -value 0 \
-		-variable [::config::getVar orderbygroup] -command "cmsn_draw_online 0 2"
-	.order_by add radio -label "[trans group]" -value 1 \
-		-variable [::config::getVar orderbygroup] -command "cmsn_draw_online 0 2"
-	.order_by add radio -label "[trans hybrid]" -value 2 \
-		-variable [::config::getVar orderbygroup] -command "cmsn_draw_online 0 2"
-
-	#Order Groups By submenu
-	#Added by Trevor Feeney
-	menu .ordergroups_by -tearoff 0 -type normal
-	.ordergroups_by add radio -label "[trans normal]" -value 1 \
-		-variable [::config::getVar ordergroupsbynormal] -command "cmsn_draw_online 0 2"
-	.ordergroups_by add radio -label "[trans reversed]" -value 0 \
-		-variable [::config::getVar ordergroupsbynormal] -command "cmsn_draw_online 0 2"
-
-	#Order Contacts By submenu
-	menu .view_by -tearoff 0 -type normal
-	.view_by add radio -label "[trans nick]" -value 0 \
-		-variable [::config::getVar emailsincontactlist] -command "cmsn_draw_online 0 2"
-	.view_by add radio -label "[trans email]" -value 1 \
-		-variable [::config::getVar emailsincontactlist] -command "cmsn_draw_online 0 2"
-	.view_by add separator
-	.view_by add command -label "[trans changeglobnick]..." -command "::abookGui::SetGlobalNick"
+	::plugins::PostEvent mainmenu evPar	
 
 
 
-	#Tools menu
-	menu .main_menu.tools -tearoff 0 -type normal
-	.main_menu.tools add command -label "[trans addacontact]..." -command cmsn_draw_addcontact
-	.main_menu.tools add cascade -label "[trans admincontacts]" -menu .admin_contacts_menu
-
-	menu .admin_contacts_menu -tearoff 0 -type normal
-	.admin_contacts_menu add command -label "[trans delete]..." -command [list ::amsn::ShowDeleteList [trans delete] ::amsn::deleteUser]
-	.admin_contacts_menu add command -label "[trans properties]..." -command [list ::amsn::ShowSeePropertiesList [trans properties] ::abookGui::showUserProperties]
-
-	::groups::Init .main_menu.tools
-
-	.main_menu.tools add separator
-	.main_menu.tools add cascade -label "[trans ordercontactsby]" -menu .order_by
-
-	.main_menu.tools add cascade -label "[trans viewcontactsby]" -menu .view_by
-
-	#Added by Trevor Feeney
-	#User to reverse group lists
-	.main_menu.tools add cascade -label "[trans ordergroupsby]" -menu .ordergroups_by -state disabled
-
-	#View the history and the event log
-	.main_menu.tools add separator
-	.main_menu.tools add command -label "[trans history]" -command ::log::OpenLogWin
-	.main_menu.tools add command -label "[trans webcamhistory]" -command ::log::OpenCamLogWin
-	.main_menu.tools add command -label "[trans eventhistory]" -command "::log::OpenLogWin eventlog"
-
-	#Unnecessary separator when you remove the 2 dockings items menu on Mac OS X
-#	if {$tcl_platform(os) != "Darwin"} {
-#		.main_menu.tools add separator
-#	}
-
-	#.main_menu.tools add cascade -label "[trans options]" -menu .options
-
-	#Options menu
-	#menu .options -tearoff 0 -type normal
-	#.options add command -label "[trans changenick]..." -state disabled \
-	#   -command cmsn_change_name -state disabled
-	#   .options add command -label "[trans publishphones]..." -state disabled \
-	#   -command "::abookGui::showUserProperties [::config::getKey login] -edit"
-	#.options add separator
-	#.options add command -label "[trans preferences]..." -command Preferences
-
-	#TODO: Move this into preferences window
-	#.options add cascade -label "[trans docking]" -menu .dock_menu
-
-	#Disable item menu for docking in Mac OS X(incompatible)
-#	if {$tcl_platform(os) != "Darwin"} {
-#		.main_menu.tools add cascade -label "[trans docking]" -menu .dock_menu
-#	}
-
-#	menu .dock_menu -tearoff 0 -type normal
-#	.dock_menu add radio -label "[trans dockingoff]" -value 0 -variable [::config::getVar dock] -command "init_dock"
-#	if { $tcl_platform(platform) == "windows"} {
-#		.dock_menu add radio -label "[trans dockfreedesktop]" -value 3 -variable [::config::getVar dock] -command "init_dock" -state disabled
-#		.dock_menu add radio -label "[trans dockgtk]" -value 1 -variable [::config::getVar dock] -command "init_dock" -state disabled
-		#.dock_menu add radio -label "[trans dockkde]" -value 2 -variable [::config::getVar dock] -command "init_dock" -state disabled
-		### need to add dockwindows to translation files
-#		.dock_menu add radio -label "Windows" -value 4 -variable [::config::getVar dock] -command "init_dock"
-#	} else {
-#		.dock_menu add radio -label "[trans dockfreedesktop]" -value 3 -variable [::config::getVar dock] -command "init_dock"
-#		.dock_menu add radio -label "[trans dockgtk]" -value 1 -variable [::config::getVar dock] -command "init_dock"
-		#.dock_menu add radio -label "[trans dockkde]" -value 2 -variable [::config::getVar dock] -command "init_dock"
-		### need to add dockwindows to translation files
-#		.dock_menu add radio -label "Windows" -value 4 -variable [::config::getVar dock] -command "init_dock" -state disabled
-
-#	}
-
-	.main_menu.tools add separator
-	#.options add checkbutton -label "[trans sound]" -onvalue 1 -offvalue 0 -variable [::config::getVar sound]
-	#Let's disable adverts until it works, it's only problems for know
-	::config::setKey adverts 0
-	#.options add checkbutton -label "[trans adverts]" -onvalue 1 -offvalue 0 -variable [::config::getVar adverts] \
-	#-command "msg_box \"[trans mustrestart]\""
-	#.options add checkbutton -label "[trans closingdocks]" -onvalue 1 -offvalue 0 -variable [::config::getVar closingdocks]
-	#.options add separator
-	#.options add command -label "[trans language]..." -command "::lang::show_languagechoose"
-	# .options add command -label "[trans skinselector]..." -command ::skinsGUI::SelectSkin
-
-
-	.main_menu.tools add checkbutton -label "[trans sound]" -onvalue 1 -offvalue 0 -variable [::config::getVar sound]
-
-	#Disable item menu for docking in Mac OS X(incompatible)
-	if {$tcl_platform(os) != "Darwin"} {
-		.main_menu.tools add checkbutton -label "[trans closingdocks]" -onvalue 1 -offvalue 0 -variable [::config::getVar closingdocks]
-	}
-
-
-	.main_menu.tools add separator
-	.main_menu.tools add command -label "[trans language]" -command "::lang::show_languagechoose"
- 	.main_menu.tools add command -label "[trans pluginselector]" -command ::plugins::PluginGui
-	.main_menu.tools add command -label "[trans skinselector]" -command ::skinsGUI::SelectSkin
-	.main_menu.tools add command -label "[trans preferences]" -command Preferences
-	#The new preference window is delayed for later
-	#.main_menu.tools add command -label "[trans preferences](NEW, TESTING)..." -command Preferences::Show
-
-	#Help menu
-	menu .main_menu.helping -tearoff 0 -type normal
-
-	.main_menu.helping add command -label "[trans helpcontents]" \
-			-command "::amsn::showHelpFileWindow HELP [list [trans helpcontents]]"
-	.main_menu.helping add separator
-
-	set lang [::config::getGlobalKey language]
-	.main_menu.helping add command -label "[trans faq]" \
-	    -command "launch_browser \"http://amsn.sourceforge.net/faq.php?lang=$lang\""
-    
-	.main_menu.helping add command -label "[trans onlinehelp]" \
-			-command "launch_browser http://amsn.sourceforge.net/wiki/tiki-index.php?"
-
-	.main_menu.helping add separator
-
-	.main_menu.helping add command -label "[trans about]" -command ::amsn::aboutWindow
-
-#	.main_menu.helping add command -label "[trans version]..." -command \
-	"msg_box \"[trans version]: $::version\n[trans date]: [::abook::dateconvert $date]\n$weburl\""
-#-> now in about box
-
+	######################################################
+	# Set these menus for the main window                #
+	######################################################
 	. conf -menu .main_menu
+
+
+	::config::setKey adverts 0
+
 
 
 	#image create photo mainback -file [::skin::GetSkinFile pixmaps back.gif]
@@ -3759,6 +3810,56 @@ proc cmsn_draw_main {} {
 
 }
 #///////////////////////////////////////////////////////////////////////
+
+
+
+
+proc loggedInGuiConf { event } {
+
+	proc enable { menu entry {state 1}} {
+		if { $state == 1 } {
+			$menu entryconfigure $entry -state normal
+		} else {
+			$menu entryconfigure $entry -state disabled			
+		}
+		
+	}
+	proc enableEntries {menu entrieslist} {
+		foreach index $entrieslist {
+			enable $menu $index
+		}
+	}
+			
+
+	
+	set menu .main_menu.account
+	
+	enable $menu 0 0
+	if {[$menu index "[trans loginas]..."] == 1} {
+		enable $menu 1 0
+		set lo 2
+	} else {
+		set lo 1
+	}
+	#entries to enable in the Account menu, beginning with the logout entry
+	enableEntries $menu [list $lo [incr lo 2] [incr lo 1]  [incr lo 1]  [incr lo 2] [incr lo 1] [incr lo 3]]
+
+	#view menu
+	set menu .main_menu.view
+	enableEntries $menu [list 0 1 2 4 5 9 10]
+	
+	#actions menu
+	set menu .main_menu.actions
+	enableEntries $menu [list 0 1 2 4 5 6]
+	
+	#contacts menu
+	set menu .main_menu.contacts
+	enableEntries $menu [list 0 1 2 4 11 12]
+
+}
+
+
+
 
 proc Showhidemenu { } {
 
@@ -4266,7 +4367,7 @@ proc cmsn_draw_offline {} {
 			$pgBuddy.text insert end "[::config::getKey login]\n" start_loginas
 			$pgBuddy.text insert end "[trans clicktologin]" start_loginas
 		}
-		.main_menu.file entryconfigure 0 -label "[trans loginas] [::config::getKey login]"
+#		.main_menu.file entryconfigure 0 -label "[trans loginas] [::config::getKey login]"
 
 		$pgBuddy.text insert end "\n\n\n\n\n"
 
@@ -4278,7 +4379,7 @@ proc cmsn_draw_offline {} {
 
 		$pgBuddy.text insert end "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
 
-		.main_menu.file entryconfigure 0 -label "[trans loginas]..."
+#		.main_menu.file entryconfigure 0 -label "[trans loginas]..."
 	}
 
 
@@ -4289,44 +4390,44 @@ proc cmsn_draw_offline {} {
 
 
 	#Log in
-	.main_menu.file entryconfigure 0 -state normal
-	.main_menu.file entryconfigure 1 -state normal
-	#Log out
-	.main_menu.file entryconfigure 2 -state disabled
-	#My status
-	.main_menu.file entryconfigure 3 -state disabled
-	#Inbox
-	.main_menu.file entryconfigure 5 -state disabled
-
-	#Add a contact
-	.main_menu.tools entryconfigure 0 -state disabled
-	.main_menu.tools entryconfigure 1 -state disabled
-	.main_menu.tools entryconfigure 4 -state disabled
-	#Added by Trevor Feeney
-	#Disables Group Order menu
-	.main_menu.tools entryconfigure 5 -state disabled
-	#Disables View Contacts by
-	.main_menu.tools entryconfigure 6 -state disabled
-	#Disable "View History" and "View Webcam Session"
-	.main_menu.tools entryconfigure 8 -state disabled
-	.main_menu.tools entryconfigure 9 -state disabled
+#	.main_menu.file entryconfigure 0 -state normal
+#	.main_menu.file entryconfigure 1 -state normal
+#	#Log out
+#	.main_menu.file entryconfigure 2 -state disabled
+#	#My status
+#	.main_menu.file entryconfigure 3 -state disabled
+#	#Inbox
+#	.main_menu.file entryconfigure 5 -state disabled
+#
+#	#Add a contact
+#	.main_menu.tools entryconfigure 0 -state disabled
+#	.main_menu.tools entryconfigure 1 -state disabled
+#	.main_menu.tools entryconfigure 4 -state disabled
+#	#Added by Trevor Feeney
+#	#Disables Group Order menu
+#	.main_menu.tools entryconfigure 5 -state disabled
+#	#Disables View Contacts by
+#	.main_menu.tools entryconfigure 6 -state disabled
+#	#Disable "View History" and "View Webcam Session"
+#	.main_menu.tools entryconfigure 8 -state disabled
+#	.main_menu.tools entryconfigure 9 -state disabled
 	#Disable "View Event Logging"
-	.main_menu.tools entryconfigure 10 -state disabled
+#	.main_menu.tools entryconfigure 10 -state disabled
 
 	#Change nick
-	configureMenuEntry .main_menu.actions "[trans changenick]..." disabled
+#	configureMenuEntry .main_menu.actions "[trans changenick]..." disabled
 
-	configureMenuEntry .main_menu.actions "[trans sendmail]..." disabled
-	configureMenuEntry .main_menu.actions "[trans sendmsg]..." disabled
-
-	configureMenuEntry .main_menu.actions "[trans sendmsg]..." disabled
+#	configureMenuEntry .main_menu.actions "[trans sendmail]..." disabled
+#	configureMenuEntry .main_menu.actions "[trans sendmsg]..." disabled
+#
+#	configureMenuEntry .main_menu.actions "[trans sendmsg]..." disabled
 	#configureMenuEntry .main_menu.actions "[trans verifyblocked]..." disabled
 	#configureMenuEntry .main_menu.actions "[trans showblockedlist]..." disabled
 
 
-	configureMenuEntry .main_menu.file "[trans savecontacts]..." disabled
-	configureMenuEntry .main_menu.file "[trans loadcontacts]..." disabled
-
+#	configureMenuEntry .main_menu.file "[trans savecontacts]..." disabled
+#	configureMenuEntry .main_menu.file "[trans loadcontacts]..." disabled
+#
 	#Publish Phone Numbers
 	#   configureMenuEntry .options "[trans publishphones]..." disabled
 
@@ -6883,7 +6984,7 @@ proc status_log {txt {colour ""}} {
 #      and translated ones
 # configureMenuEntry .main_menu.file "[trans addcontact]" disabled|normal
 proc configureMenuEntry {m e s} {
-	$m entryconfigure $e -state $s
+#	$m entryconfigure $e -state $s
 }
 #///////////////////////////////////////////////////////////////////////
 

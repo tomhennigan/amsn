@@ -297,12 +297,12 @@ namespace eval ::groups {
 			set gname [::groups::GetName $gid]	;# Group Name (unencoded)
 			
 			if {$type == "menu"} {
-				$path add command -label $gname -command "$cb $gid $pars"
+#				$path add command -label $gname -command "$cb $gid $pars"
 			} else {
 				if {$i == 0} {
-				set mpath [tk_optionMenu $path ::groups::groupname $gname]
+#				set mpath [tk_optionMenu $path ::groups::groupname $gname]
 				} else {
-				$mpath add radiobutton -label $gname -variable ::groups::groupname
+#				$mpath add radiobutton -label $gname -variable ::groups::groupname
 				}
 			}
 			# To obtain the label of the i'th menu entry
@@ -333,8 +333,8 @@ namespace eval ::groups {
 	
 		::abook::setContactData contactlist groups [array get groups]
 		# Update the Delete Group... menu
-		::groups::updateMenu menu .group_list_delete ::groups::menuCmdDelete
-		::groups::updateMenu menu .group_list_rename ::groups::menuCmdRename
+		::groups::updateMenu #menu .group_list_delete ::groups::menuCmdDelete
+		::groups::updateMenu #menu .group_list_rename ::groups::menuCmdRename
 	}
 
 	proc DeleteCB {pdu} {	# RMG 24 12065 15
@@ -362,8 +362,8 @@ namespace eval ::groups {
 		# a new list
 		abook::setContactData contactlist groups [array get groups]
 		# Update the Delete Group... menu
-		::groups::updateMenu menu .group_list_delete ::groups::menuCmdDelete
-		::groups::updateMenu menu .group_list_rename ::groups::menuCmdRename
+#		::groups::updateMenu #menu .group_list_delete ::groups::menuCmdDelete
+#		::groups::updateMenu #menu .group_list_rename ::groups::menuCmdRename
 	}
 
 	proc AddCB {pdu} {	# ADG 23 12064 New%20Group 15 =?�-CC
@@ -394,8 +394,8 @@ namespace eval ::groups {
 		::config::setKey expanded_group_$gid [set bShowing($gid)]
 
 		abook::setContactData contactlist groups [array get groups]	
-		::groups::updateMenu menu .group_list_delete ::groups::menuCmdDelete
-		::groups::updateMenu menu .group_list_rename ::groups::menuCmdRename
+#		::groups::updateMenu menu .group_list_delete ::groups::menuCmdDelete
+#		::groups::updateMenu menu .group_list_rename ::groups::menuCmdRename
 	}
    
 	proc ToggleStatus {gid} {
@@ -526,11 +526,11 @@ namespace eval ::groups {
 		variable parent
 		variable entryid
 	
-		::groups::updateMenu menu .group_list_delete ::groups::menuCmdDelete
-		::groups::updateMenu menu .group_list_rename ::groups::menuCmdRename
+#		::groups::updateMenu menu .group_list_delete ::groups::menuCmdDelete
+#		::groups::updateMenu menu .group_list_rename ::groups::menuCmdRename
 		# The entryid of the parent is 0
-		$parent entryconfigure $entryid -state normal
-		$parent entryconfigure 6 -state normal
+#		$parent entryconfigure $entryid -state normal
+#		$parent entryconfigure 6 -state normal
 		#status_log "Groups: menu enabled\n" blue
 	}
 
@@ -539,8 +539,8 @@ namespace eval ::groups {
 		variable parent 
 		variable entryid
 	
-		$parent entryconfigure $entryid -state disabled
-		$parent entryconfigure 6 -state disabled
+#		$parent entryconfigure $entryid -state disabled
+#		$parent entryconfigure 6 -state disabled
 
 	}
 

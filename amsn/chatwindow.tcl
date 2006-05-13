@@ -1167,6 +1167,13 @@ namespace eval ::ChatWindow {
 			menu $mainmenu -tearoff 0 -type menubar -borderwidth 0 -activeborderwidth -0
 		}
 
+		# App menu, only on Mac OS X (see Mac Interface Guidelines)
+		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+			set applemenu [CreateAppleMenu $mainmenu]
+			$mainmenu add cascade -label "aMSN" -menu $applemenu
+		}
+
+
 		set chatmenu [CreateChatMenu $w $mainmenu]
 		set editmenu [CreateEditMenu $w $mainmenu]
 		set viewmenu [CreateViewMenu $w $mainmenu]
@@ -1175,11 +1182,6 @@ namespace eval ::ChatWindow {
 		set helpmenu [CreateHelpMenu $w $mainmenu]
 
 
-		# App menu, only on Mac OS X (see Mac Interface Guidelines)
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-			set applemenu [CreateAppleMenu $mainmenu]
-			$mainmenu add cascade -label "aMSN" -menu $applemenu
-		}
 
 		#no need to call it "file"
 		# http://developer.apple.com/documentation/UserExperience/Conceptual/OSXHIGuidelines/index.html
@@ -1210,7 +1212,7 @@ namespace eval ::ChatWindow {
 			-command Preferences -accelerator "Command-,"
 		$applemenu add separator
 
-		#might need a quit action here, according to macd guidelines
+#TODO		#might need a "quit AMSN "action here, according to macd guidelines
 		
 		return $applemenu
 	}
@@ -1227,12 +1229,14 @@ namespace eval ::ChatWindow {
 		$chatmenu add command -label "[trans newchat]..." \
 			-command [list ::amsn::ShowSendMsgList [trans sendmsg] ::amsn::chatUser]
 			
+		if {[OnMac]} {
+			$chatmenu add command -label "[trans close]" \
+				-command "::ChatWindow::Close $w" -accelerator "Command-W"
+		} 
+		
 		#Save
 		$chatmenu add command -label "[trans savetofile]..." \
 			-command " ChooseFilename \[::ChatWindow::GetOutText \[::ChatWindow::getCurrentTab $w\]\] \[::ChatWindow::getCurrentTab $w\]"		
-
-		#Clear
-		$chatmenu add command -label "[trans clear]" -command [list ::ChatWindow::Clear $w]
 
 		#----------------------
 		$chatmenu add separator
@@ -1241,8 +1245,6 @@ namespace eval ::ChatWindow {
 		$chatmenu add command -label "[trans invite]..." \
 			-command "::amsn::ShowInviteList \"[trans invite]\" \[::ChatWindow::getCurrentTab $w\]"
 
-		#----------------------
-		$chatmenu add separator
 			
 
 #TODO:		#powertool should add the "hide window" thing here	
@@ -1253,10 +1255,10 @@ namespace eval ::ChatWindow {
 
 
 		#Add accelerator label to "close" on Mac Version
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-			$chatmenu add command -label "[trans close]" \
-				-command "::ChatWindow::Close $w" -accelerator "Command-W"
-		} else {
+		if {![OnMac]} {
+			#----------------------
+			$chatmenu add separator
+
 			$chatmenu add command -label "[trans close]" \
 				-command "::ChatWindow::Close $w"
 		}
@@ -1333,6 +1335,13 @@ namespace eval ::ChatWindow {
 
 		#textstyle
 		$viewmenu add cascade -label "[trans textsize]" -menu [CreateTextSizeMenu $viewmenu]
+
+		#----------------------
+		$viewmenu add separator
+
+		#Clear
+		$viewmenu add command -label "[trans clear]" -command [list ::ChatWindow::Clear $w]
+
 
 
 		set ${w}_show_picture 0
@@ -1450,8 +1459,9 @@ namespace eval ::ChatWindow {
 		$contactmenu add command -label "[trans sendmail]..." \
 			-command "::amsn::ShowChatList \"[trans sendmail]\" \[::ChatWindow::getCurrentTab $w\] launch_mailer"		
 		
-		#sms
-#TODO		
+#TODO		#sms
+		$contactmenu add command -label "SMS TODO" \
+			-command ""	
 
 		#-------------------------
 		$contactmenu add separator
@@ -1468,8 +1478,9 @@ namespace eval ::ChatWindow {
 		#-------------------------
 		$contactmenu add separator
 
-		#alarm
-#TODO:		
+#TODO:		#alarm
+		$contactmenu add command -label "SET ALARM TODO" \
+			-command ""
 
 		
 		#notes
@@ -1493,7 +1504,7 @@ namespace eval ::ChatWindow {
 	# This proc should create the Actions submenu of the chat window
 	#
 	proc CreateHelpMenu { w menu } {
-		set helpmenu $menu.help
+		set helpmenu $menu.helpmenu
 
 		menu $helpmenu -tearoff 0 -type normal
 

@@ -5033,43 +5033,13 @@ proc cmsn_auth {{recv ""}} {
 			#      send_dock "NLN"
 			send_dock "MAIL" 0
 
-			#Log out
-			.main_menu.file entryconfigure 2 -state normal
-			#My status
-			.main_menu.file entryconfigure 3 -state normal
-			#Inbox
-			.main_menu.file entryconfigure 5 -state normal
-			#savecontactlist
-			.main_menu.file entryconfigure 7 -state normal
-			#LoadContactlist
-			.main_menu.file entryconfigure 8 -state normal
-
-			#Add a contact
-			.main_menu.tools entryconfigure 0 -state normal
-			.main_menu.tools entryconfigure 1 -state normal
-			.main_menu.tools entryconfigure 4 -state normal
-			#Added by Trevor Feeney
-			#Enables the Group Order Menu
-			.main_menu.tools entryconfigure 5 -state normal
-			#Enables View contacts by
-			.main_menu.tools entryconfigure 6 -state normal
-
-			#Enable View History and webcam session
-			.main_menu.tools entryconfigure 8 -state normal
-			.main_menu.tools entryconfigure 9 -state normal
-			#Enable View Event logging
-			.main_menu.tools entryconfigure 10 -state normal
-
-			#Change nick
-			configureMenuEntry .main_menu.actions "[trans changenick]..." normal
-			#configureMenuEntry .options "[trans changenick]..." normal
-
-			configureMenuEntry .main_menu.actions "[trans sendmail]..." normal
-			configureMenuEntry .main_menu.actions "[trans sendmsg]..." normal
 
 			load_my_pic
 
-			#Send postevent "OnConnect" to plugin when we connect
+			#Send "loggedIn" core event
+			::Event::fireEvent loggedIn protocol
+
+			#Send event "OnConnect" to plugins when we connect
 			::plugins::PostEvent OnConnect evPar
 
 			return 0
@@ -5371,10 +5341,10 @@ proc cmsn_ns_connect { username {password ""} {nosignin ""} } {
 	}
 
 	#Log in
-	.main_menu.file entryconfigure 0 -state disabled
-	.main_menu.file entryconfigure 1 -state disabled
+#	.main_menu.file entryconfigure 0 -state disabled
+#	.main_menu.file entryconfigure 1 -state disabled
 	#Log out
-	.main_menu.file entryconfigure 2 -state normal
+#	.main_menu.file entryconfigure 2 -state normal
 
 
 	::MSN::StartPolling
