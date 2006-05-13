@@ -3358,10 +3358,10 @@ proc cmsn_draw_main {} {
 
 	#On mac we don'thave these in the menu
 	if {![OnMac]} {
-		#minimize
+		#Minimize to tray
 		$accnt add command -label "[trans minimize]" -command "::amsn::closeOrDock 1"
-		#close action
-		$accnt add command -label "[trans close]" -command "::amsn::closeOrDock 0"
+		#Terminate aMSN
+		$accnt add command -label "[trans quit]" -command "::amsn::closeOrDock 0"
 	}
 
 
