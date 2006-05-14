@@ -199,6 +199,12 @@ namespace eval ::MSNCAM {
 		SendSyn $sid $chatid
 	}
 
+	proc AcceptWebcamOpenSB {chatid dest branchuid cseq uid sid producer } {
+		if {[catch {::MSNCAM::AcceptWebcam $chatid $dest $branchuid $cseq $uid $sid $producer} res]} {
+			status_log "Error in InvitationAccepted: $res\n" red
+			return 0
+		}
+	}
 
 	proc SendAcceptInvite { sid chatid} {
 
@@ -831,7 +837,7 @@ namespace eval ::MSNCAM {
 				after 250 "::CAMGUI::GetCamFrame $sid $sock;
 					   catch {fileevent $sock writable \"::MSNCAM::WriteToSock $sock\" }"
 			}
-			"TSP_PAUSED"
+			"TSP_PAUSED" -
 			"PAUSED" 
 			{
 				set encoder [getObjOption $sock codec]
@@ -2173,14 +2179,11 @@ namespace eval ::CAMGUI {
 		[::ChatWindow::GetOutText ${win_name}] conf -cursor left_ptr
 		
 		#Execute the accept webcam protocol
-		if {[catch {::MSNCAM::AcceptWebcam $chatid $dest $branchuid $cseq $uid $sid $producer} res]} {
-			status_log "Error in InvitationAccepted: $res\n" red
+		if {[::MSN::ChatQueue $chatid [list ::MSNCAM::AcceptWebcamOpenSB $chatid $dest $branchuid $cseq $uid $sid $producer]] == 0} {
 			return 0
 		}
-		
-		
 	}
-	
+
 	proc InvitationRejected {chatid sid branchuid uid} {
 		
 		#Get the chatwindow name
