@@ -1220,7 +1220,7 @@ namespace eval ::abookGui {
 		pack $nbSettings.fNick.ycustomfnick.help -side left
 		
 		# The custom color frame
-		label $nbSettings.fNick.lColor -text [trans customcolor]
+		label $nbSettings.fNick.lColor -text "[trans customcolor]:"
 		frame $nbSettings.fNick.fColor -relief flat
 		set colorval_$email [::abook::getContactData $email customcolor] 
 		set showcustomsmileys_$email [::abook::getContactData $email showcustomsmileys]

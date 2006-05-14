@@ -119,7 +119,7 @@ namespace eval ::groups {
 		frame $w.b 
 		button $w.b.ok -text "[trans ok]"   \
 			-command {
-				::groups::Add "[.dlgag.groupname.ent get]" dlgMsg; 
+				::groups::Add "[.dlgag.groupname.ent get]" dlgMsg;
 				destroy .dlgag
 			}
 		button $w.b.cancel -text "[trans cancel]"   \
@@ -788,15 +788,19 @@ namespace eval ::groups {
 		set sortlist [lsort -dictionary -index 0 $thelistnames]
 		set sortlist2 [list]
 
+		frame $w.box
+
 		foreach group $sortlist {
 			set name [lindex $group 0]
 			set gid [lindex $group 1]
 			lappend glist $name
 			lappend sortlist2 $gid
-			checkbutton $w.w$gid -onvalue 1 -offvalue 0 -text " $name" -variable [::config::getVar tempgroup_[::md5::md5 $email]($gid)] -anchor w
-			pack configure $w.w$gid -side top -fill x
+			checkbutton $w.box.w$gid -onvalue 1 -offvalue 0 -text " $name" -variable [::config::getVar tempgroup_[::md5::md5 $email]($gid)] -anchor w
+			pack configure $w.box.w$gid -side top -fill x
 			::config::setKey tempgroup_[::md5::md5 $email]($gid) [Belongtogp $email $gid]
 		}
+		
+		pack configure $w.box -side top -fill x
 	}
 
 	proc GroupmanagerOk { email } {
