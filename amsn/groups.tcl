@@ -771,24 +771,7 @@ namespace eval ::groups {
 		} 
 	}
 
-	proc Groupmanager {email {winpref ""}} {
-		
-		set w ".gpmanage_[::md5::md5 $email]"
-
-		if {[winfo exists $w]} {
-			raise $w
-			return
-		}
-
-		toplevel $w
-		wm title $w "[trans groups] ($email)"
-		#wm geometry $w 350x200+30+30
-		wm protocol $w WM_DELETE_WINDOW "::groups::GroupmanagerClose $email"
-
-		label $w.txt -text "[trans groups] :"
-
-		frame $w.box
-
+	proc Groupmanager { email w } {
 		# The Unique Group ID (MSN) is sent with the RemoveGroup message.
 		# The first group's ID is zero (0) (MSN)
 		set gidlist [lrange [::groups::GetList] 1 end]
@@ -810,31 +793,13 @@ namespace eval ::groups {
 			set gid [lindex $group 1]
 			lappend glist $name
 			lappend sortlist2 $gid
-			checkbutton $w.box.w$gid -onvalue 1 -offvalue 0 -text " $name" -variable [::config::getVar tempgroup_[::md5::md5 $email]($gid)] -anchor w
-			pack configure $w.box.w$gid -side top -fill x
+			checkbutton $w.w$gid -onvalue 1 -offvalue 0 -text " $name" -variable [::config::getVar tempgroup_[::md5::md5 $email]($gid)] -anchor w
+			pack configure $w.w$gid -side top -fill x
 			::config::setKey tempgroup_[::md5::md5 $email]($gid) [Belongtogp $email $gid]
 		}
-
-		frame $w.button
-
-		button $w.button.ok -text [trans ok] -command "::groups::GroupmanagerOk $email $winpref"
-		button $w.button.close -text [trans close] -command "::groups::GroupmanagerClose $email"
-		bind $w <<Escape>> "::groups::GroupmanagerClose $email"
-		pack configure $w.button.ok -side right
-		pack configure $w.button.close -side right
-
-		pack configure $w.txt -side top
-		pack configure $w.box -side top -fill x
-		pack configure $w.button -side bottom -fill x -ipady 10 -ipadx 10
-
-		moveinscreen $w 30
-
 	}
 
-	proc GroupmanagerOk {email {winpref ""}} {
-
-		set name [::abook::getNick $email]
-
+	proc GroupmanagerOk { email } {
 		# The Unique Group ID (MSN) is sent with the RemoveGroup message.
 		# The first group's ID is zero (0) (MSN)
 		set gidlist [lrange [::groups::GetList] 1 end]
@@ -878,16 +843,6 @@ namespace eval ::groups {
 		}
 
 		destroy .gpmanage_[::md5::md5 $email]
-
-		#If the properties window is open, change the groups of the contact in it
-		if {$winpref != ""} {
-			set groups ""
-			foreach gid $gidlistyes {
-				set groups "$groups[::groups::GetName $gid], "
-			}
-			set groups [string range $groups 0 end-2]
-			$winpref.g1 configure -text "$groups"
-		}
 	}
 
 

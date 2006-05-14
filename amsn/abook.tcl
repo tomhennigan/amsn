@@ -1021,10 +1021,11 @@ namespace eval ::abookGui {
 		
 		NoteBook $w.nb
 		$w.nb insert 0 userdata -text [trans userdata]
-		$w.nb insert 1 notify -text [trans notifywin]
+		$w.nb insert 1 usersettings -text [trans usersettings]
 		$w.nb insert 2 alarms -text [trans alarms]
 		$w.nb insert 3 userDPs -text [trans userdps] \
 			-raisecmd [list ::abookGui::userDPs_raise_cmd $w.nb $email]
+
 		##############
 		#Userdata page
 		##############
@@ -1035,241 +1036,236 @@ namespace eval ::abookGui {
 		$nbIdent.sw setwidget $nbIdent.sw.sf
 		set nbIdent [$nbIdent.sw.sf getframe]
 		
-		label $nbIdent.title1 -text [trans identity] -font bboldunderf
+		labelframe $nbIdent.fBasicInfo -relief groove -text [trans identity]
 		
-		label $nbIdent.e -text "[trans email]:" -wraplength 300 
-		set h [expr {[string length $email]/50 +1}]
-		text $nbIdent.e1 -font splainf -fg blue -width 50 -height $h -wrap char -bd 0
-		$nbIdent.e1 delete 0.0 end
-		$nbIdent.e1 insert 0.0 $email
-		$nbIdent.e1 configure -state disabled
-		set e1copymenu [::abook::CreateCopyMenu $nbIdent.e1]
-		bind $nbIdent.e1 <Button3-ButtonRelease> "tk_popup $e1copymenu %X %Y"
-
-		label $nbIdent.h -text "[trans nick]:"
+		label $nbIdent.fBasicInfo.displaypic -image [::skin::getDisplayPicture $email] -highlightthickness 2 -highlightbackground black -borderwidth 0
+		
 		set nick [::abook::getNick $email]
 		set h [expr {[string length $nick]/50 +1}]
-		text $nbIdent.h1 -font splainf -fg blue -width 50 -height $h -wrap char -bd 0
-		$nbIdent.h1 delete 0.0 end
-		$nbIdent.h1 insert 0.0 $nick
-		$nbIdent.h1 configure -state disabled
-		set h1copymenu [::abook::CreateCopyMenu $nbIdent.h1]
-		bind $nbIdent.h1 <Button3-ButtonRelease> "tk_popup $h1copymenu %X %Y"
+		text $nbIdent.fBasicInfo.h1 -font bigfont -fg blue -height $h -wrap word -bd 0
+		$nbIdent.fBasicInfo.h1 delete 0.0 end
+		$nbIdent.fBasicInfo.h1 insert 0.0 $nick
+		$nbIdent.fBasicInfo.h1 configure -state disabled
+		set h1copymenu [::abook::CreateCopyMenu $nbIdent.fBasicInfo.h1]
+		bind $nbIdent.fBasicInfo.h1 <Button3-ButtonRelease> "tk_popup $h1copymenu %X %Y"
 		
 		if { [::config::getKey protocol] >= 11 } {
-			label $nbIdent.psm -text "[trans psm]:"
 			set psm [::abook::getVolatileData $email PSM]
 			set h [expr {[string length $psm]/50 +1}]
-			text $nbIdent.psm1 -font splainf -fg blue -width 50 -height $h -wrap char -bd 0
-			$nbIdent.psm1 delete 0.0 end
-			$nbIdent.psm1 insert 0.0 $psm
-			$nbIdent.psm1 configure -state disabled
-			set psm1copymenu [::abook::CreateCopyMenu $nbIdent.psm1]
-			bind $nbIdent.psm1 <Button3-ButtonRelease> "tk_popup $psm1copymenu %X %Y"
+			text $nbIdent.fBasicInfo.psm1 -font sitalf -fg blue -height $h -wrap word -bd 0
+			$nbIdent.fBasicInfo.psm1 delete 0.0 end
+			$nbIdent.fBasicInfo.psm1 insert 0.0 $psm
+			$nbIdent.fBasicInfo.psm1 configure -state disabled
+			set psm1copymenu [::abook::CreateCopyMenu $nbIdent.fBasicInfo.psm1]
+			bind $nbIdent.fBasicInfo.psm1 <Button3-ButtonRelease> "tk_popup $psm1copymenu %X %Y"
 		}
 
-		label $nbIdent.customnickl -text "[trans customnick]:"
-		frame $nbIdent.customnick
-		entry $nbIdent.customnick.ent -font splainf -bg white
-		menubutton $nbIdent.customnick.help -font sboldf -text "<-" -menu $nbIdent.customnick.help.menu
-		menu $nbIdent.customnick.help.menu -tearoff 0
-		$nbIdent.customnick.help.menu add command -label [trans nick] -command "$nbIdent.customnick.ent insert insert \\\$nick"
-		$nbIdent.customnick.help.menu add command -label [trans email] -command "$nbIdent.customnick.ent insert insert \\\$user_login"
+		set h [expr {[string length $email]/50 +1}]
+		text $nbIdent.fBasicInfo.e1 -font splainf -fg blue -height $h -wrap word -bd 0
+		$nbIdent.fBasicInfo.e1 delete 0.0 end
+		$nbIdent.fBasicInfo.e1 insert 0.0 $email
+		$nbIdent.fBasicInfo.e1 configure -state disabled
+		set e1copymenu [::abook::CreateCopyMenu $nbIdent.fBasicInfo.e1]
+		bind $nbIdent.fBasicInfo.e1 <Button3-ButtonRelease> "tk_popup $e1copymenu %X %Y"
+		
+		frame $nbIdent.fBasicInfo.fGroup
+		label $nbIdent.fBasicInfo.fGroup.g -text "[trans group]:" -font splainf
+		label $nbIdent.fBasicInfo.fGroup.g1 -text "[::abook::getGroupsname $email]" -font splainf -fg blue -justify left -wraplength 300
+		pack $nbIdent.fBasicInfo.fGroup.g -side left
+		pack $nbIdent.fBasicInfo.fGroup.g1 -side right
+		
+		grid $nbIdent.fBasicInfo.displaypic -row 0 -column 0 -sticky nwe -rowspan 4 -padx {0 8}
+		grid $nbIdent.fBasicInfo.h1 -row 0 -column 1 -sticky w
+		grid $nbIdent.fBasicInfo.e1 -row 1 -column 1 -sticky w
 		if { [::config::getKey protocol] >= 11 } {
-			$nbIdent.customnick.help.menu add command -label [trans psm] -command "$nbIdent.customnick.ent insert insert \\\$psm"
+			grid $nbIdent.fBasicInfo.psm1 -row 2 -column 1 -sticky w
 		}
-		$nbIdent.customnick.help.menu add separator
-		$nbIdent.customnick.help.menu add command -label [trans delete] -command "$nbIdent.customnick.ent delete 0 end"
-		$nbIdent.customnick.ent insert end [::abook::getContactData $email customnick]
-		pack $nbIdent.customnick.ent -side left -expand true -fill x
-		pack $nbIdent.customnick.help -side left
-		label $nbIdent.customfnickl -text "[trans friendlyname]:"
-		frame $nbIdent.customfnick
-		entry $nbIdent.customfnick.ent -font splainf -bg white
-		menubutton $nbIdent.customfnick.help -font sboldf -text "<-" -menu $nbIdent.customfnick.help.menu
-		menu $nbIdent.customfnick.help.menu -tearoff 0
-		$nbIdent.customfnick.help.menu add command -label [trans nick] -command "$nbIdent.customfnick.ent insert insert \\\$nick"
-		$nbIdent.customfnick.help.menu add command -label [trans email] -command "$nbIdent.customfnick.ent insert insert \\\$user_login"
+		grid $nbIdent.fBasicInfo.fGroup -row 3 -column 1 -sticky w
+		grid columnconfigure $nbIdent.fBasicInfo 1 -weight 1
+
+		labelframe $nbIdent.fPhone -text [trans phones]
+		label $nbIdent.fPhone.phh -text "[trans home]:" 
+		label $nbIdent.fPhone.phh1 -font splainf -text [::abook::getVolatileData $email phh] -fg blue \
+		-justify left -wraplength 300 
+		label $nbIdent.fPhone.phw -text "[trans work]:"
+		label $nbIdent.fPhone.phw1 -font splainf -text [::abook::getVolatileData $email phw] -fg blue \
+			-justify left -wraplength 300 
+		label $nbIdent.fPhone.phm -text "[trans mobile]:" 
+		label $nbIdent.fPhone.phm1 -font splainf -text [::abook::getVolatileData $email phm] -fg blue \
+		-justify left -wraplength 300 
+		label $nbIdent.fPhone.php -text "[trans pager]:" 
+		label $nbIdent.fPhone.php1 -font splainf -text [::abook::getVolatileData $email mob] -fg blue \
+		-justify left -wraplength 300 
+
+		grid $nbIdent.fPhone.phh -row 0 -column 0 -sticky e
+		grid $nbIdent.fPhone.phh1 -row 0 -column 1 -sticky w
+		grid $nbIdent.fPhone.phw -row 1 -column 0 -sticky e
+		grid $nbIdent.fPhone.phw1 -row 1 -column 1 -sticky w
+		grid $nbIdent.fPhone.phm -row 2 -column 0 -sticky e
+		grid $nbIdent.fPhone.phm1 -row 2 -column 1 -sticky w
+		grid $nbIdent.fPhone.php -row 3 -column 0 -sticky e
+		grid $nbIdent.fPhone.php1 -row 3 -column 1 -sticky w
+		grid columnconfigure $nbIdent.fPhone 1 -weight 1
+
+		labelframe $nbIdent.fStats -text [trans others]
+		label $nbIdent.fStats.lastlogin -text "[trans lastlogin]:"
+		label $nbIdent.fStats.lastlogin1 -text [::abook::dateconvert "[::abook::getContactData $email last_login]"] -font splainf -fg blue 
+		
+		label $nbIdent.fStats.lastlogout -text "[trans lastlogout]:"
+		label $nbIdent.fStats.lastlogout1 -text [::abook::dateconvert "[::abook::getContactData $email last_logout]"] -font splainf -fg blue 
+
+		label $nbIdent.fStats.lastseen -text "[trans lastseen]:"
+		if { [::abook::getVolatileData $email state] == "FLN" || [lsearch [::abook::getContactData $email lists] "FL"] == -1} {
+			label $nbIdent.fStats.lastseen1 -text [::abook::dateconvert "[::abook::getContactData $email last_seen]"] -font splainf -fg blue
+		} elseif { [::abook::getContactData $email last_seen] == "" } {		
+			label $nbIdent.fStats.lastseen1 -text "" -font splainf -fg blue
+		} else {
+			label $nbIdent.fStats.lastseen1 -text [trans online] -font splainf -fg blue
+		}
+		
+		label $nbIdent.fStats.lastmsgedme -text "[trans lastmsgedme]:"
+		label $nbIdent.fStats.lastmsgedme1 -text [::abook::dateconvert "[::abook::getContactData $email last_msgedme]"] -font splainf -fg blue
+		#Client-name of the user (from Gaim, dMSN, etc)
+		label $nbIdent.fStats.clientname -text "[trans clientname]:"
+		label $nbIdent.fStats.clientname1 -text "[::abook::getContactData $email clientname] ([::abook::getContactData $email client])" -font splainf -fg blue
+		
+		#Does the user record the conversation or not
+		if { [::abook::getContactData $email chatlogging] eq "Y" } {
+			set chatlogging [trans yes]
+		} elseif { [::abook::getContactData $email chatlogging] eq "N" } {
+			set chatlogging [trans no]
+		} else {
+			set chatlogging [trans unknown]
+		}
+		
+		label $nbIdent.fStats.chatlogging -text "[trans loging]:"
+		label $nbIdent.fStats.chatlogging1 -text $chatlogging -font splainf -fg blue
+		grid $nbIdent.fStats.lastlogin -row 0 -column 0 -sticky e
+		grid $nbIdent.fStats.lastlogin1 -row 0 -column 1 -sticky w
+		grid $nbIdent.fStats.lastlogout -row 1 -column 0 -sticky e
+		grid $nbIdent.fStats.lastlogout1 -row 1 -column 1 -sticky w
+		grid $nbIdent.fStats.lastmsgedme -row 2 -column 0 -sticky e
+		grid $nbIdent.fStats.lastmsgedme1 -row 2 -column 1 -sticky w
+		grid $nbIdent.fStats.lastseen -row 3 -column 0 -sticky e
+		grid $nbIdent.fStats.lastseen1 -row 3 -column 1 -sticky w
+		grid $nbIdent.fStats.clientname -row 4 -column 0 -sticky e
+		grid $nbIdent.fStats.clientname1 -row 4 -column 1 -sticky w
+		grid $nbIdent.fStats.chatlogging -row 5 -column 0 -sticky e
+		grid $nbIdent.fStats.chatlogging1 -row 5 -column 1 -sticky w
+		grid columnconfigure $nbIdent.fStats 1 -weight 1
+		
+		grid $nbIdent.fBasicInfo -row 0 -column 0 -sticky nwse -columnspan 2 -ipadx 4 -ipady 4
+		grid $nbIdent.fPhone -row 1 -column 0 -sticky nwse -padx { 0 4 } -pady { 8 0 }
+		grid $nbIdent.fStats -row 1 -column 1 -sticky nwse -padx { 4 0 } -pady { 8 0 }
+		grid columnconfigure $nbIdent { 0 1 } -weight 1
+		
+		pack $sw -expand true -fill both
+		
+		##############
+		#User settings page
+		#############
+		set nbSettings [$w.nb getframe usersettings]
+		ScrolledWindow $nbSettings.sw
+		set sw $nbSettings.sw
+		ScrollableFrame $nbSettings.sw.sf -constrainedwidth 1
+		$nbSettings.sw setwidget $nbSettings.sw.sf
+		set nbSettings [$nbSettings.sw.sf getframe]
+		
+		labelframe $nbSettings.fNick -relief groove -text [trans nick]
+		label $nbSettings.fNick.customnickl -text "[trans customnick]:"
+		frame $nbSettings.fNick.customnick
+		entry $nbSettings.fNick.customnick.ent -font splainf -bg white
+		menubutton $nbSettings.fNick.customnick.help -font sboldf -text "<-" -menu $nbSettings.fNick.customnick.help.menu
+		menu $nbSettings.fNick.customnick.help.menu -tearoff 0
+		$nbSettings.fNick.customnick.help.menu add command -label [trans nick] -command "$nbSettings.fNick.customnick.ent insert insert \\\$nick"
+		$nbSettings.fNick.customnick.help.menu add command -label [trans email] -command "$nbSettings.fNick.customnick.ent insert insert \\\$user_login"
+		if { [::config::getKey protocol] >= 11 } {
+			$nbSettings.fNick.customnick.help.menu add command -label [trans psm] -command "$nbSettings.fNick.customnick.ent insert insert \\\$psm"
+		}
+		$nbSettings.fNick.customnick.help.menu add separator
+		$nbSettings.fNick.customnick.help.menu add command -label [trans delete] -command "$nbSettings.fNick.customnick.ent delete 0 end"
+		$nbSettings.fNick.customnick.ent insert end [::abook::getContactData $email customnick]
+		pack $nbSettings.fNick.customnick.ent -side left -expand true -fill x
+		pack $nbSettings.fNick.customnick.help -side left
+		label $nbSettings.fNick.customfnickl -text "[trans friendlyname]:"
+		frame $nbSettings.fNick.customfnick
+		entry $nbSettings.fNick.customfnick.ent -font splainf -bg white
+		menubutton $nbSettings.fNick.customfnick.help -font sboldf -text "<-" -menu $nbSettings.fNick.customfnick.help.menu
+		menu $nbSettings.fNick.customfnick.help.menu -tearoff 0
+		$nbSettings.fNick.customfnick.help.menu add command -label [trans nick] -command "$nbSettings.fNick.customfnick.ent insert insert \\\$nick"
+		$nbSettings.fNick.customfnick.help.menu add command -label [trans email] -command "$nbSettings.fNick.customfnick.ent insert insert \\\$user_login"
                 if { [::config::getKey protocol] >= 11 } {
-                        $nbIdent.customfnick.help.menu add command -label [trans psm] -command "$nbIdent.customfnick.ent insert insert \\\$psm"
+                        $nbSettings.fNick.customfnick.help.menu add command -label [trans psm] -command "$nbSettings.fNick.customfnick.ent insert insert \\\$psm"
                 }
-		$nbIdent.customfnick.help.menu add separator
-		$nbIdent.customfnick.help.menu add command -label [trans delete] -command "$nbIdent.customfnick.ent delete 0 end"
-		$nbIdent.customfnick.ent insert end [::abook::getContactData $email customfnick]
-		pack $nbIdent.customfnick.ent -side left -expand true -fill x
-		pack $nbIdent.customfnick.help -side left
+		$nbSettings.fNick.customfnick.help.menu add separator
+		$nbSettings.fNick.customfnick.help.menu add command -label [trans delete] -command "$nbSettings.fNick.customfnick.ent delete 0 end"
+		$nbSettings.fNick.customfnick.ent insert end [::abook::getContactData $email customfnick]
+		pack $nbSettings.fNick.customfnick.ent -side left -expand true -fill x
+		pack $nbSettings.fNick.customfnick.help -side left
 	
-		label $nbIdent.ycustomfnickl -text "[trans myfriendlyname]:"
-		frame $nbIdent.ycustomfnick
-		entry $nbIdent.ycustomfnick.ent -font splainf -bg white
-		menubutton $nbIdent.ycustomfnick.help -font sboldf -text "<-" -menu $nbIdent.ycustomfnick.help.menu
-		menu $nbIdent.ycustomfnick.help.menu -tearoff 0
-		$nbIdent.ycustomfnick.help.menu add command -label [trans nick] -command "$nbIdent.ycustomfnick.ent insert insert \\\$nick"
-		$nbIdent.ycustomfnick.help.menu add command -label [trans email] -command "$nbIdent.ycustomfnick.ent insert insert \\\$user_login"
+		label $nbSettings.fNick.ycustomfnickl -text "[trans myfriendlyname]:"
+		frame $nbSettings.fNick.ycustomfnick
+		entry $nbSettings.fNick.ycustomfnick.ent -font splainf -bg white
+		menubutton $nbSettings.fNick.ycustomfnick.help -font sboldf -text "<-" -menu $nbSettings.fNick.ycustomfnick.help.menu
+		menu $nbSettings.fNick.ycustomfnick.help.menu -tearoff 0
+		$nbSettings.fNick.ycustomfnick.help.menu add command -label [trans nick] -command "$nbSettings.fNick.ycustomfnick.ent insert insert \\\$nick"
+		$nbSettings.fNick.ycustomfnick.help.menu add command -label [trans email] -command "$nbSettings.fNick.ycustomfnick.ent insert insert \\\$user_login"
                 if { [::config::getKey protocol] >= 11 } {
-                        $nbIdent.ycustomfnick.help.menu add command -label [trans psm] -command "$nbIdent.ycustomfnick.ent insert insert \\\$psm"
+                        $nbSettings.fNick.ycustomfnick.help.menu add command -label [trans psm] -command "$nbSettings.fNick.ycustomfnick.ent insert insert \\\$psm"
                 }
-		$nbIdent.ycustomfnick.help.menu add separator
-		$nbIdent.ycustomfnick.help.menu add command -label [trans delete] -command "$nbIdent.ycustomfnick.ent delete 0 end"
-		$nbIdent.ycustomfnick.ent insert end [::abook::getContactData $email cust_p4c_name]
-		pack $nbIdent.ycustomfnick.ent -side left -expand true -fill x
-		pack $nbIdent.ycustomfnick.help -side left
+		$nbSettings.fNick.ycustomfnick.help.menu add separator
+		$nbSettings.fNick.ycustomfnick.help.menu add command -label [trans delete] -command "$nbSettings.fNick.ycustomfnick.ent delete 0 end"
+		$nbSettings.fNick.ycustomfnick.ent insert end [::abook::getContactData $email cust_p4c_name]
+		pack $nbSettings.fNick.ycustomfnick.ent -side left -expand true -fill x
+		pack $nbSettings.fNick.ycustomfnick.help -side left
+		
 		# The custom color frame
-		label $nbIdent.customcolor -text "[trans customcolor]:"
-		frame $nbIdent.customcolorf -relief groove -borderwidth 2
+		label $nbSettings.fNick.lColor -text [trans customcolor]
+		frame $nbSettings.fNick.fColor -relief flat
 		set colorval_$email [::abook::getContactData $email customcolor] 
 		set showcustomsmileys_$email [::abook::getContactData $email showcustomsmileys]
 		set ignorecontact_$email [::abook::getContactData $email ignored]
 
-		#frame $nbIdent.customcolorf.col -width 40 -bd 0 -relief flat\
-		#	-highlightthickness 1 -takefocus 0 \
-		#	-highlightbackground black \
-		#	-highlightcolor black
-		frame $nbIdent.customcolorf.col -width 40 -bd 0 -relief flat -highlightbackground black -highlightcolor black
+		frame $nbSettings.fNick.fColor.col -width 40 -bd 0 -relief flat -highlightbackground black -highlightcolor black
 		if { [set colorval_$email] != "" } {
 			if { [string index [set colorval_$email] 0] == "#" } {
 				set colorval_$email [string range [set colorval_$email] 1 end]
 			}
 			set colorval_$email "#[string repeat 0 [expr {6-[string length [set colorval_$email]]}]][set colorval_$email]"
 			#If the color is white we can't see the contact on the list : we ignore the custom color
-			$nbIdent.customcolorf.col configure -background [set colorval_${email}] -highlightthickness 1 
+			$nbSettings.fNick.fColor.col configure -background [set colorval_${email}] -highlightthickness 1 
 		} else {
-			$nbIdent.customcolorf.col configure -background [$nbIdent.customcolorf cget -background] -highlightthickness 0
+			$nbSettings.fNick.fColor.col configure -background [$nbSettings.fNick.fColor cget -background] -highlightthickness 0
 		}
-		button $nbIdent.customcolorf.bset -text "[trans change]" -command "::abookGui::ChangeColor $email $nbIdent" 
-		button $nbIdent.customcolorf.brem -text "[trans delete]" -command "::abookGui::RemoveCustomColor $email $nbIdent" 
-		pack $nbIdent.customcolorf.col -side left -expand true -fill y -pady 5 -padx 8
-		pack $nbIdent.customcolorf.bset -side left -padx 3 -pady 2
-		pack $nbIdent.customcolorf.brem -side left -padx 3 -pady 2
+		button $nbSettings.fNick.fColor.bset -text "[trans change]" -command "::abookGui::ChangeColor $email $nbSettings" 
+		button $nbSettings.fNick.fColor.brem -text "[trans delete]" -command "::abookGui::RemoveCustomColor $email $nbSettings" 
+		pack $nbSettings.fNick.fColor.col -side left -expand true -fill y -pady 5 -padx 8
+		pack $nbSettings.fNick.fColor.bset -side left -padx 3 -pady 2
+		pack $nbSettings.fNick.fColor.brem -side left -padx 3 -pady 2
+		
+		grid $nbSettings.fNick.customnickl -row 0 -column 0 -sticky e
+		grid $nbSettings.fNick.customnick -row 0 -column 1 -sticky we
+		grid $nbSettings.fNick.customfnickl -row 1 -column 0 -sticky e
+		grid $nbSettings.fNick.customfnick -row 1 -column 1 -sticky we
+		grid $nbSettings.fNick.ycustomfnickl -row 2 -column 0 -sticky e
+		grid $nbSettings.fNick.ycustomfnick -row 2 -column 1 -sticky we
+		grid $nbSettings.fNick.lColor -row 3 -column 0 -sticky e
+		grid $nbSettings.fNick.fColor -row 3 -column 1 -sticky w
+		grid columnconfigure $nbSettings.fNick 1 -weight 1
+		
+		labelframe $nbSettings.fChat -relief groove -text [trans chat]
+		checkbutton $nbSettings.fChat.showcustomsmileys -variable showcustomsmileys_$email -text "[trans custshowcustomsmileys]" -anchor w
+		checkbutton $nbSettings.fChat.ignoreuser -variable ignorecontact_$email -text "[trans ignorecontact]" -anchor w
+		pack $nbSettings.fChat.showcustomsmileys -side top -fill x
+		pack $nbSettings.fChat.ignoreuser -side top -fill x
+		
+		labelframe $nbSettings.fGroup -relief groove -text [trans groups]
+		::groups::Groupmanager $email $nbSettings.fGroup
 
-		label $nbIdent.g -text "[trans group]" -font bboldunderf
-		label $nbIdent.g1 -text "[::abook::getGroupsname $email]" -font splainf -fg blue -justify left -wraplength 300
-		button $nbIdent.g2 -text [trans change] -command "::groups::Groupmanager $email $nbIdent"
-		
-		label $nbIdent.titlephones -text [trans phones] -font bboldunderf
-		
-		set nbPhone $nbIdent
-		label $nbPhone.phh -text "[trans home]:" 
-		label $nbPhone.phh1 -font splainf -text [::abook::getVolatileData $email phh] -fg blue \
-		-justify left -wraplength 300 
-		label $nbPhone.phw -text "[trans work]:"
-		label $nbPhone.phw1 -font splainf -text [::abook::getVolatileData $email phw] -fg blue \
-			-justify left -wraplength 300 
-		label $nbPhone.phm -text "[trans mobile]:" 
-		label $nbPhone.phm1 -font splainf -text [::abook::getVolatileData $email phm] -fg blue \
-		-justify left -wraplength 300 
-		label $nbPhone.php -text "[trans pager]:" 
-		label $nbPhone.php1 -font splainf -text [::abook::getVolatileData $email mob] -fg blue \
-		-justify left -wraplength 300 
-		label $nbIdent.titleothers -text [trans others] -font bboldunderf 
-		
-		label $nbIdent.lastlogin -text "[trans lastlogin]:"
-		label $nbIdent.lastlogin1 -text [::abook::dateconvert "[::abook::getContactData $email last_login]"] -font splainf -fg blue 
-		
-		label $nbIdent.lastlogout -text "[trans lastlogout]:"
-		label $nbIdent.lastlogout1 -text [::abook::dateconvert "[::abook::getContactData $email last_logout]"] -font splainf -fg blue 
-
-		label $nbIdent.lastseen -text "[trans lastseen]:"
-		if { [::abook::getVolatileData $email state] == "FLN" || [lsearch [::abook::getContactData $email lists] "FL"] == -1} {
-			label $nbIdent.lastseen1 -text [::abook::dateconvert "[::abook::getContactData $email last_seen]"] -font splainf -fg blue
-		} elseif { [::abook::getContactData $email last_seen] == "" } {		
-			label $nbIdent.lastseen1 -text "" -font splainf -fg blue
-		} else {
-			label $nbIdent.lastseen1 -text [trans online] -font splainf -fg blue
-		}
-		
-		label $nbIdent.lastmsgedme -text "[trans lastmsgedme]:"
-		label $nbIdent.lastmsgedme1 -text [::abook::dateconvert "[::abook::getContactData $email last_msgedme]"] -font splainf -fg blue
-		#Client-name of the user (from Gaim, dMSN, etc)
-		label $nbIdent.clientname -text "[trans clientname]:"
-		label $nbIdent.clientname1 -text [::abook::getContactData $email clientname] -font splainf -fg blue
-		label $nbIdent.clientid -text "([::abook::getContactData $email client])" -font splainf -fg blue
-		#Does the user record the conversation or not
-		label $nbIdent.chatlogging -text "[trans loging]:"
-		label $nbIdent.chatlogging1 -text [::abook::getContactData $email chatlogging] -font splainf -fg blue
-
-		label $nbIdent.titlepic -text "[trans displaypic]" -font bboldunderf
-		label $nbIdent.displaypic -image [::skin::getDisplayPicture $email] -highlightthickness 2 -highlightbackground black -borderwidth 0
-				
-		grid $nbIdent.title1 -row 0 -column 0 -pady 5 -padx 5 -columnspan 3 -sticky w 
-		grid $nbIdent.e -row 1 -column 0 -sticky e
-		grid $nbIdent.e1 -row 1 -column 1 -sticky w -columnspan 3
-		grid $nbIdent.h -row 2 -column 0 -sticky e
-		grid $nbIdent.h1 -row 2 -column 1 -sticky w -columnspan 3
-		if { [::config::getKey protocol] >= 11 } {
-			grid $nbIdent.psm -row 3 -column 0 -sticky e
-			grid $nbIdent.psm1 -row 3 -column 1 -sticky w -columnspan 3
-		}
-		grid $nbIdent.customnickl -row 4 -column 0 -sticky en
-		grid $nbIdent.customnick -row 4 -column 1 -sticky wne -columnspan 3
-		grid $nbIdent.customfnickl -row 5 -column 0 -sticky en
-		grid $nbIdent.customfnick -row 5 -column 1 -sticky wne -columnspan 3
-		grid $nbIdent.ycustomfnickl -row 6 -column 0 -sticky en
-		grid $nbIdent.ycustomfnick -row 6 -column 1 -sticky wne -columnspan 3
-		grid $nbIdent.customcolor -row 7 -column 0 -sticky e
-		grid $nbIdent.customcolorf -row 7 -column 1 -sticky w -columnspan 3
-		
-		checkbutton $nbIdent.showcustomsmileys -variable showcustomsmileys_$email -text "[trans custshowcustomsmileys]"
-		checkbutton $nbIdent.ignoreuser -variable ignorecontact_$email -text "[trans ignorecontact]"
-		#the -columnspan option is here so that the checkbutton fills more space
-		grid $nbIdent.showcustomsmileys -row 8 -sticky w -columnspan 4
-		grid $nbIdent.ignoreuser -row 9 -sticky w -columnspan 4
-	
-		grid $nbIdent.g -row 10 -column 0 -pady 5 -padx 5 -sticky w
-		grid $nbIdent.g1 -row 11 -column 0 -sticky e
-		grid $nbIdent.g2 -row 11 -column 1 -sticky w
-		#disable the option if there are no group
-		if {[::groups::GetList] == [list 0 ]} {
-			$nbIdent.g1 configure -state disabled
-			$nbIdent.g2 configure -state disabled
-		}
-
-		grid $nbIdent.titlephones -row 12 -column 0 -pady 5 -padx 5 -columnspan 2 -sticky w 
-		grid $nbPhone.phh -row 13 -column 0 -sticky e
-		grid $nbPhone.phh1 -row 13 -column 1 -sticky w
-		grid $nbPhone.phw -row 14 -column 0 -sticky e
-		grid $nbPhone.phw1 -row 14 -column 1 -sticky w
-		grid $nbPhone.phm -row 15 -column 0 -sticky e
-		grid $nbPhone.phm1 -row 15 -column 1 -sticky w
-		grid $nbPhone.php -row 16 -column 0 -sticky e
-		grid $nbPhone.php1 -row 16 -column 1 -sticky w
-		
-		grid $nbIdent.titleothers -row 20 -column 0 -pady 5 -padx 5 -columnspan 2 -sticky w 
-		grid $nbPhone.lastlogin -row 21 -column 0 -sticky e
-		grid $nbPhone.lastlogin1 -row 21 -column 1 -sticky w
-		grid $nbPhone.lastlogout -row 21 -column 2 -sticky e
-		grid $nbPhone.lastlogout1 -row 21 -column 3 -sticky w
-		grid $nbPhone.lastmsgedme -row 23 -column 0 -sticky e
-		grid $nbPhone.lastmsgedme1 -row 23 -column 1 -sticky w
-		grid $nbPhone.lastseen -row 23 -column 2 -sticky e
-		grid $nbPhone.lastseen1 -row 23 -column 3 -sticky w
-		grid $nbPhone.clientname -row 24 -column 0 -sticky e
-		grid $nbPhone.clientname1 -row 24 -column 1 -sticky w
-		grid $nbPhone.clientid -row 24 -column 1 -sticky e
-		grid $nbPhone.chatlogging -row 24 -column 2 -sticky e
-		grid $nbPhone.chatlogging1 -row 24 -column 3 -sticky w
-		
-		grid $nbPhone.titlepic -row 30 -column 0 -sticky w -columnspan 2 -pady 5 -padx 5
-		grid $nbPhone.displaypic -row 31 -column 0 -sticky w -columnspan 2 -padx 8
-		#grid columnconfigure $nbIdent.fothers 1 -weight 1
-		
-		grid columnconfigure $nbIdent 1 -weight 1
-		
-		pack $sw -expand true -fill both
-		
-		##############
-		#Notify page
-		#############
-		set nbIdent [$w.nb getframe notify]
-		ScrolledWindow $nbIdent.sw
-		pack $nbIdent.sw -expand true -fill both
-		ScrollableFrame $nbIdent.sw.sf
-		$nbIdent.sw setwidget $nbIdent.sw.sf
-		set nbIdent [$nbIdent.sw.sf getframe]
-		
-		label $nbIdent.default -font sboldf -text "*" -justify center
-		label $nbIdent.yes -font sboldf -text [trans yes] -justify center
-		label $nbIdent.no -font sboldf -text [trans no] -justify center
+		labelframe $nbSettings.fNotify -relief groove -text [trans notifywin]
+		label $nbSettings.fNotify.default -font sboldf -text "*" -justify center
+		label $nbSettings.fNotify.yes -font sboldf -text [trans yes] -justify center
+		label $nbSettings.fNotify.no -font sboldf -text [trans no] -justify center
 		
 		#Set default values
 		set ::notifyonline($email) [::abook::getContactData $email notifyonline ""]
@@ -1278,59 +1274,63 @@ namespace eval ::abookGui {
 		set ::notifymsg($email) [::abook::getContactData $email notifymsg ""]
 		
 		#Add the checkboxes
-		AddOption $nbIdent notifyonline notifyonline($email) [trans custnotifyonline] 1
-		AddOption $nbIdent notifyoffline notifyoffline($email) [trans custnotifyoffline] 2
-		AddOption $nbIdent notifystatus notifystatus($email) [trans custnotifystatus] 3
-		AddOption $nbIdent notifymsg notifymsg($email) [trans custnotifymsg] 4
+		AddOption $nbSettings.fNotify notifyonline notifyonline($email) [trans custnotifyonline] 1
+		AddOption $nbSettings.fNotify notifyoffline notifyoffline($email) [trans custnotifyoffline] 2
+		AddOption $nbSettings.fNotify notifystatus notifystatus($email) [trans custnotifystatus] 3
+		AddOption $nbSettings.fNotify notifymsg notifymsg($email) [trans custnotifymsg] 4
 		
-		grid $nbIdent.default -row 0 -column 0 -sticky we -padx 5
-		grid $nbIdent.yes -row 0 -column 1 -sticky we -padx 5
-		grid $nbIdent.no -row 0 -column 2 -sticky we -padx 5
+		grid $nbSettings.fNotify.default -row 0 -column 0 -sticky we -padx 5
+		grid $nbSettings.fNotify.yes -row 0 -column 1 -sticky we -padx 5
+		grid $nbSettings.fNotify.no -row 0 -column 2 -sticky we -padx 5
+		grid columnconfigure $nbSettings.fNotify 3 -weight 1
 		
-			
+		grid $nbSettings.fNick -row 0 -column 0 -sticky nwse -columnspan 2 -pady { 0 4 }
+		grid $nbSettings.fChat -row 1 -column 0 -sticky nwse -padx { 0 4 } -pady 4
+		grid $nbSettings.fGroup -row 1 -column 1 -sticky nwse -padx { 4 0 } -pady 4
+		grid $nbSettings.fNotify -row 2 -column 0 -sticky nwse -columnspan 2 -pady { 4 0 }
+		grid columnconfigure $nbSettings { 0 1 } -weight 1
+		
+		pack $sw -expand true -fill both
+
 		##############
 		#Alarms frame
 		##############
-		
-		set nbIdent [$w.nb getframe alarms]
-		
-		ScrolledWindow $nbIdent.sw
-		
-		pack $nbIdent.sw -expand true -fill both
-		
-		ScrollableFrame $nbIdent.sw.sf
-	
-		$nbIdent.sw setwidget $nbIdent.sw.sf
-		
-		set nbIdent [$nbIdent.sw.sf getframe]
-		
-		::alarms::configDialog $email $nbIdent
+		set nbAlarm [$w.nb getframe alarms]
+		ScrolledWindow $nbAlarm.sw
+		pack $nbAlarm.sw -expand true -fill both
+		ScrollableFrame $nbAlarm.sw.sf
+		$nbAlarm.sw setwidget $nbAlarm.sw.sf
+
+		set nbAlarm [$nbAlarm.sw.sf getframe]
+		::alarms::configDialog $email $nbAlarm
+
 		##############
 		#UserDPs page
 		##############
-		set nbIdent [$w.nb getframe userDPs]
+		set nbUserDPs [$w.nb getframe userDPs]
 		# User's current display picture
-		label $nbIdent.titlepic1 -text "[trans curdisplaypic]" -font bboldunderf
-		label $nbIdent.displaypic -image [::skin::getDisplayPicture $email]
+		label $nbUserDPs.titlepic1 -text "[trans curdisplaypic]" -font bboldunderf
+		label $nbUserDPs.displaypic -image [::skin::getDisplayPicture $email]
 		# Other display pictures of user
-		label $nbIdent.titlepic2 -text "[trans otherdisplaypic]" \
+		label $nbUserDPs.titlepic2 -text "[trans otherdisplaypic]" \
 			-font bboldunderf
 
-#		ScrolledWindow $nbIdent.otherpics
-#		ScrollableFrame $nbIdent.otherpics.sf
-#		set mainFrame [$nbIdent.otherpics.sf getframe]
-#		$nbIdent.otherpics setwidget $nbIdent.otherpics.sf
+#		ScrolledWindow $nbUserDPs.otherpics
+#		ScrollableFrame $nbUserDPs.otherpics.sf
+#		set mainFrame [$nbUserDPs.otherpics.sf getframe]
+#		$nbUserDPs.otherpics setwidget $nbUserDPs.otherpics.sf
 
-		pack $nbIdent.titlepic1 -anchor w -padx 5 -pady 5
-		pack $nbIdent.displaypic -anchor w -padx 7 -pady 5
-		pack $nbIdent.titlepic2 -anchor w -padx 5 -pady 5
-#		pack $nbIdent.otherpics -expand true -fill both
+		pack $nbUserDPs.titlepic1 -anchor w -padx 5 -pady 5
+		pack $nbUserDPs.displaypic -anchor w -padx 7 -pady 5
+		pack $nbUserDPs.titlepic2 -anchor w -padx 5 -pady 5
+#		pack $nbUserDPs.otherpics -expand true -fill both
 
 		##########
 		#Common
 		##########
 		$w.nb compute_size
 		[$w.nb getframe userdata].sw.sf compute_size
+		[$w.nb getframe usersettings].sw.sf compute_size
 		[$w.nb getframe alarms].sw.sf compute_size
 		$w.nb compute_size
 		$w.nb raise userdata
@@ -1338,7 +1338,7 @@ namespace eval ::abookGui {
 		frame $w.buttons
 		
 		button $w.buttons.ok -text [trans accept] -command [list ::abookGui::PropOk $email $w]
-		button $w.buttons.cancel -text [trans cancel] -command [list destroy $w]
+		button $w.buttons.cancel -text [trans cancel] -command [list ::abookGui::PropCancel $email $w]
 		
 		pack $w.buttons.ok $w.buttons.cancel -side right -padx 5 -pady 3
 		
@@ -1352,7 +1352,7 @@ namespace eval ::abookGui {
 			wm protocol $w WM_DELETE_WINDOW "[list ::abookGui::closeProperties $email $w]"
 			bind $w <<Escape>> "[list ::abookGui::closeProperties $email $w]"
 		} else {
-			bind $w <<Escape>> "destroy $w"
+			bind $w <<Escape>> "[list ::abookGui::PropCancel $email $w]"
 		}
 
 		bind $w <Destroy> [list ::abookGui::PropDestroyed $email $w %W]
@@ -1411,7 +1411,7 @@ namespace eval ::abookGui {
 			::abookGui::PropOk $email $w
 		#When the user do not answer yes (no), then Restore previous preferences and close the window
 		} else {
-			destroy $w
+			::abookGui::PropCancel $email $w
 		}
 	}
 	
@@ -1430,17 +1430,17 @@ namespace eval ::abookGui {
 		}
 	}
 	
-	proc AddOption { nbIdent name var text row} {
-		radiobutton $nbIdent.${name}_default -value "" -variable $var
-		radiobutton $nbIdent.${name}_yes -value 1 -variable $var
-		radiobutton $nbIdent.${name}_no -value 0 -variable $var
-		label $nbIdent.${name} -font splainf -text $text -justify left
+	proc AddOption { nbNotify name var text row} {
+		radiobutton $nbNotify.${name}_default -value "" -variable $var
+		radiobutton $nbNotify.${name}_yes -value 1 -variable $var
+		radiobutton $nbNotify.${name}_no -value 0 -variable $var
+		label $nbNotify.${name} -font splainf -text $text -justify left
 		
-		grid $nbIdent.${name}_default -row $row -column 0 -sticky we
-		grid $nbIdent.${name}_yes -row $row -column 1 -sticky we
-		grid $nbIdent.${name}_no -row $row -column 2 -sticky we
+		grid $nbNotify.${name}_default -row $row -column 0 -sticky we
+		grid $nbNotify.${name}_yes -row $row -column 1 -sticky we
+		grid $nbNotify.${name}_no -row $row -column 2 -sticky we
 		
-		grid $nbIdent.${name} -row $row -column 3 -sticky w
+		grid $nbNotify.${name} -row $row -column 3 -sticky w
 	}
 
 	
@@ -1450,14 +1450,13 @@ namespace eval ::abookGui {
 		if { $color == "" } { return }
 
 		set colorval_$email $color
-		$w.customcolorf.col configure -background [set colorval_${email}] -highlightthickness 1 
-		
+		$w.fNick.fColor.col configure -background [set colorval_${email}] -highlightthickness 1 
 	}
 	
 	proc RemoveCustomColor { email w } {	
 	   	global colorval_$email	
 		set colorval_$email ""
-		$w.customcolorf.col configure -background [$w.customcolorf cget -background] -highlightthickness 0
+		$w.fNick.fColor.col configure -background [$w.customcolorf cget -background] -highlightthickness 0
 	}
 
 	proc SetGlobalNick { } {
@@ -1514,13 +1513,16 @@ namespace eval ::abookGui {
 			return
 		}
 	
-		set nbIdent [$w.nb getframe userdata]
-		set nbIdent [$nbIdent.sw.sf getframe]
+		set nbSettings [$w.nb getframe usersettings]
+		set nbSettings [$nbSettings.sw.sf getframe]
 
 		# Store custom display information options
 		::abook::setAtomicContactData $email [list customnick customfnick cust_p4c_name customcolor showcustomsmileys ignored] \
-			[list [$nbIdent.customnick.ent get] [$nbIdent.customfnick.ent get] [$nbIdent.ycustomfnick.ent get] [set colorval_$email] [set showcustomsmileys_$email] [set ignorecontact_$email]]
+			[list [$nbSettings.fNick.customnick.ent get] [$nbSettings.fNick.customfnick.ent get] [$nbSettings.fNick.ycustomfnick.ent get] [set colorval_$email] [set showcustomsmileys_$email] [set ignorecontact_$email]]
 
+		# Store groups
+		::groups::GroupmanagerOk $email
+		
 		# Store custom notification options
 		::abook::setAtomicContactData $email [list notifyonline notifyoffline notifystatus notifymsg] \
 			[list [set ::notifyonline($email)] [set ::notifyoffline($email)] [set ::notifystatus($email)] [set ::notifymsg($email)]]
@@ -1529,6 +1531,11 @@ namespace eval ::abookGui {
 		::MSN::contactListChanged
 		cmsn_draw_online
 		::abook::saveToDisk
+	}
+	
+	proc PropCancel { email w } {
+		::groups::GroupmanagerClose $email
+		destroy $w
 	}
 
 }

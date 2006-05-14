@@ -773,6 +773,7 @@ userdata User Data
 userdps User display pictures
 usernotonline The user is not online
 userproperties User properties of $1
+usersettings Settings
 user User
 useryourself You can't chat with yourself
 usesnack Use the Snack library (Tcl internal)
