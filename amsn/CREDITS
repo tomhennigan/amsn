@@ -26,10 +26,10 @@ Arieh Schneier - lio_lion@users.sourceforge.net
 Phil - lephilousophe@users.sourceforge.net
 Sander Hoentjen - tjikkun@users.sourceforge.net
 Frederic Diaz - gadget_boy@users.sourceforge.net
-Mark - markitus@catmail.homelinux.org
 Karel Demeyer - scapor@users.sourceforge.net
+Vivia Nikolaidou - vivia@users.sourceforge.net
+Harry Vennik - thaven@users.sourceforge.net
 Didimo E. Grimaldo T.
-Aitor R. de Samaniego (Code contributions)
 
 
 ========================================================
@@ -360,7 +360,7 @@ Marco Rodriguez M. (TLS for Linux-Sparc)
 R. Braun (TLS for NetBSD-Sparc64)
 Badlop (NSIS Windows Installer)
 Thomas Geirhovd (Skin manager)
-Vivia Nikolaidou
+Aitor R. de Samaniego (Code contributions)
 Yves Manuel (Hosted the forums and helped with the new website)
 ZoRoNaX (Documentation on MSNP2P)
 
@@ -368,4 +368,4 @@ CxImage 5.99c - (c) 2001-2004 by Davide Pizzolato
 Ole Andre Vadla Ravnas - Special thanx for the libmimic implementation of webcam codec
 XawTV Team (providing the libng library for accessing webcam devices easily)
 GrdScarabe for his great documentation/FAQ/translation work and contributions
-Harry Vennik for his many contributions and design help.
+
