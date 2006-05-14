@@ -3,6 +3,7 @@ about À propos de...
 aboutamsn A propos de Alvaro's Messenger
 accept Accepter
 acceptfile Accepter le fichier $1 (taille = $2)? enregistré dans $3
+account Compte
 actions Actions
 activeautoupdate Activer la mise à jour automatique
 addacontact Ajouter un contact
@@ -177,6 +178,7 @@ connecting Se connecter
 connection Connexion
 connectionlost Déconnecté[e] : la connexion avec le serveur a été perdue
 contact Contact
+contacts Contacts
 contactadded Contact ajouté
 contactdoesnotexist Personne introuvable
 contactlist Liste de contacts :
@@ -431,7 +433,7 @@ logsout vient juste de se déconnecter
 logwebcam Enregister toutes les sessions webcam sessions dans l'historique d'aMSN pour une lecture ultèrieure
 longnick Votre pseudonyme est supèrieur à 130 caractères. Ce n'est pas supporté officiellement par le protocol MSN. Etes-vous sûrs de vouloir le mettre ?
 longp4c Votre pseudonyme de conversation dépasse les 130 caractères. Le client MSN officiel affichera $1. Voulez-vous continuer ?
-longpsm Votre message personnel est trop long. Ce n'est pas support officiellement par le protocol MSN. Etes-vous srs de vouloir le mettre ?
+longpsm Votre message personnel est trop long. Ce n'est pas supporté officiellement par le protocol MSN. Etes-vous sûrs de vouloir le mettre ?
 lowrescam Utilisation d'une webcam à basse résolution
 lprivtoconf Conversation privée changée en conférence avec $1
 luclosedwin Vous avez fermé la fenêtre le $1
@@ -440,6 +442,7 @@ mailer Programme de courrier
 maintenance Le serveur sera hors-service pour cause de maintenance dans $1 minutes
 maximised Maximisée
 minimised Minimisée/Icônifiée
+minimize Mininiser aMSN
 mins minutes
 mobile Mobile
 mobilegrp1 Groupe Mobile
@@ -605,6 +608,8 @@ psmplace Où doit être placé le Message Personnel ?
 publishphones Publier mes numéros de téléphone
 purge Tout effacer
 pwcdriver Vous utilisez le pilote pwc
+quit Quitter
+quitmac Quitter aMSN
 raised Maximisée/Désicônifiée
 readonlymsgbox Le tranfert de fichier a été annulé, car le répertoire de réception est en lecture seule. Veillez modifier les droits d'accès de ce répertoire.
 readonlywarn AVERTISSEMENT: Le fichier ne sera probablement PAS sauvegardé correctement, car le répertoire de réception de fichiers semble être protégé en écriture. Veuillez vous assurer que les droits d'accès du répertoire $1 sont configurés correctement avant de transférer le fichier.
