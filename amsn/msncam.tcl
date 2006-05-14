@@ -544,19 +544,22 @@ namespace eval ::MSNCAM {
 
 
 	proc PausePlayCam { window sock } {
-		set state [getObjOption $sock state] 
+		set state [getObjOption $sock state]
+		after cancel "catch {fileevent $sock writable \"::MSNCAM::WriteToSock $sock\" }"
 		if {$state == "SEND"} {
 			setObjOption $sock state "PAUSED"
 			$window.pause configure -text "[trans playwebcamsend]"
 		} elseif {$state == "TSP_SEND" } {
 			setObjOption $sock state "TSP_PAUSED"
 			$window.pause configure -text "[trans playwebcamsend]"
+			catch { fileevent $sock writable "::MSNCAM::WriteToSock $sock" }
 		} elseif {$state == "PAUSED" } {
 			setObjOption $sock state "SEND"
 			$window.pause configure -text "[trans pausewebcamsend]"
 		}  elseif {$state == "TSP_PAUSED" } {
 			setObjOption $sock state "TSP_SEND"
 			$window.pause configure -text "[trans pausewebcamsend]"
+			catch { fileevent $sock writable "::MSNCAM::WriteToSock $sock" }
 		} 
 	}
 
