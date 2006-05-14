@@ -174,6 +174,13 @@ namespace eval ::MSNCAM {
 		::MSNP2P::SessionList unset $sid
 	}
 
+	proc RejectFTOpenSB { chatid sid branchuid uid } {
+		#Execute the reject webcam protocol
+		if {[catch {::MSNCAM::RejectFT $chatid $sid $branchuid $uid} res]} {
+			status_log "Error in InvitationRejected: $res\n" red
+			return 0
+		}
+	}
 
 	#//////////////////////////////////////////////////////////////////////////////
 	# AcceptFT ( chatid dest branchuid cseq uid sid filename1 )
@@ -2212,8 +2219,7 @@ namespace eval ::CAMGUI {
 		[::ChatWindow::GetOutText ${win_name}] conf -cursor left_ptr
 		
 		#Execute the reject webcam protocol
-		if {[catch {::MSNCAM::RejectFT $chatid $sid $branchuid $uid} res]} {
-			status_log "Error in InvitationRejected: $res\n" red
+		if {[::MSN::ChatQueue $chatid [list ::MSNCAM::RejectFTOpenSB $chatid $sid $branchuid $uid ]] == 0} {
 			return 0
 		}
 	}
