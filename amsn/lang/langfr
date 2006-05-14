@@ -775,6 +775,7 @@ usernotonline Le contact n'est pas en ligne
 userproperties Propriétés du contact $1
 user Utilisateur
 useryourself Vous ne pouvez pas dialoguer avec vous-même
+usersettings Paramètres
 usesnack Utiliser la librairie Snack (interne à Tcl)
 verifyblocked Contrôler les personnes qui vous ont bloqué
 version Version
