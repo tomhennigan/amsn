@@ -1185,6 +1185,8 @@ ng_init(void)
     count += ng_plugins("./utils/linux/capture/libng/contrib-plugins");
 
  
+    /*
     if (0 == count)
 	fprintf(stderr,"WARNING: no plugins found [%s]\n",LIBDIR);
+    */
 }
