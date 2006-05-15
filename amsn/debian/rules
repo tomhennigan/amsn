@@ -95,8 +95,8 @@ binary-arch: build install
 #	dh_installinfo
 	dh_installman
 	dh_link
-	dh_strip
-	dh_compress
+	dh_strip -XlibTclxml3.1.so
+	dh_compress -XlibTclxml3.1.so
 	dh_fixperms
 #	dh_perl
 #	dh_python
