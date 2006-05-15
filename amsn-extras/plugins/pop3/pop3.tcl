@@ -1011,160 +1011,150 @@ namespace eval ::pop3 {
 		http::register https 443 ::tls::socket
 			
 		#this the array where i put all the variables (i should change that)
-		array set gmail {}
-		
-		#remove the quotes around the login if they exists (don't know why this is commented !)
+		set unreads 0
+
+		#remove the quotes around the login if they exists
 		if {[string equal [string index $::pop3::config(user_$acntn) 0] "\"" ] && [string equal [string index $::pop3::config(user_$acntn) end] "\""]} {
 			set ::pop3::config(user_$acntn) [string range $::pop3::config(user_$acntn) 1 end-1]
 		}
 
-		#get the current time
-		set gmail(start_time) [clock seconds]
-		#create the http headers
-		set gmail(headers) [list "Host" "www.google.com" "User-Agent" "User-Agent: Mozilla/5.0 (compatible;)" \
-			"Referer" "https://www.google.com/accounts/ServiceLogin?service=mail&passive=true&rm=false&continue=https%3A%2F%2Fmail.google.com%2Fmail%3Fui%3Dhtml%26zy%3Dl&ltmpl=yj_blanco&ltmplcache=2&hl=en"]
+		#here we go to the page created for mobiles :)
+		set headers [list "Host" "gmail.com" ]
+		set url "http://m.gmail.com/"
+		set token [http::geturl $url -headers $headers -validate 0 ]
+		set data [array get $token]
+		http::cleanup $token
+#plugins_log "pop3" "data:=$data"
+		regexp {Location\ ([\/\$\*\~\%\,\!\'\#\.\@\+\-\=\?\;\:\^\&\_[:alnum:]]+)\ } $data -> url
+#plugins_log "pop3" "(GMAIL)Location:=$url"
+		
+		#we're redirected	
+		set headers [list "Host" "mail.google.com"]
+		set token [http::geturl $url -headers $headers -validate 0 ]
+		set data [array get $token]
+#plugins_log "pop3" "data:=$data"
+		set purl $url
+		regexp {Location\ ([\/\$\*\~\%\,\!\'\#\.\@\+\-\=\?\;\:\^\&\_[:alnum:]]+)\ } $data -> url
+		http::cleanup $token
+#plugins_log "pop3" "(GMAIL)Location:=$url"
 
-		#doing the query, we don't use ::http::formatQuery because it returns a bad string, urlencode is preferred
-		set gmail(query) ""
-		#the continue value, in the query, contains ui%3Dhtml%26zy%3Dl which informs the gmail server that we don't use Javascript
-		append gmail(query) ltmpl=yj_blanco&ltmplcache=2&hl=en&PersistentCookie=yes&continue=http%3A%2F%2Fmail.google.com%2Fmail%3Fui%3Dhtml%26zy%3Dl&service=mail&rm=false&ltmpl=yj_blanco&Email= [urlencode $::pop3::config(user_$acntn)] &Passwd= [urlencode [pop3::decrypt $::pop3::config(passe_$acntn)] ] &rmShown=1&null=Connexion
-#plugins_log "pop3" "(GMAIL)(query)$gmail(query)"	
 
-		#sending the email and the pass, as if they were typed in a form on the website
-		#1st page !
-		set gmail(1stpage) [http::geturl https://www.google.com/accounts/ServiceLoginAuth -query $gmail(query) -headers $gmail(headers) -validate 0 ]
-#plugins_log "pop3" "(GMAIL)(1stpage)$gmail(1stpage)"	
-		#now, analyse the 1st page
-		upvar \#0 $gmail(1stpage) state
+		#and again
+		set headers [list "Host" "mail.google.com"]
+		set token [http::geturl $url -headers $headers -validate 0 ]
+		set data [array get $token]
+#plugins_log "pop3" "data:=$data"
+		set purl $url
 
+		#making the query
+		set query ""
+		set body [::http::data $token]
+		http::cleanup $token
+		set pos2 1
+		set name ""
+		set value ""
+		set type ""
+		for {set i 1} {$i<=[regexp -all {input } $body]} {incr i} {
+			set pos1 [expr {[string first "<input" $body $pos2] + 6}]
+			set pos2 [expr {[string first ">" $body $pos1] -1}]
+			set input [string range $body $pos1 $pos2]
+#plugins_log "pop3" "input:=$input"
+			regexp {type=\"(\w+)\"} $input -> type
+#plugins_log "pop3" "type:=$type"
+			switch $type {
+				hidden {
+					regexp {name=\"(\w+)\"} $input -> name
+					regexp {value=\"([\/\$\*\~\%\,\!\'\#\.\@\+\-\=\?\;\:\^\&\_[:alnum:]]+)\"} $input -> value
+					if {$query != ""} {
+						append query "&"
+					}
+					append query $name = [urlencode $value]
+				}
+				text {
+					#here, we fill the login
+					regexp {name=\"(\w+)\"} $input -> name
+					if {$query != ""} {
+						append query "&"
+					}
+					append query $name = [urlencode $::pop3::config(user_$acntn)]
+				}
+				password {
+					#here, we fill the password :)
+					regexp {name=\"(\w+)\"} $input -> name
+					if {$query != ""} {
+						append query "&"
+					}
+					append query $name = [urlencode [pop3::decrypt $::pop3::config(passe_$acntn)]]
+				}
+				checkbox {
+					regexp {name=\"(\w+)\"} $input -> name
+					regexp {value=\"(\w+)\"} $input -> value
+					if {$query != ""} {
+						append query "&"
+					}
+					append query $name = $value
+				}
+				submit {}
+				default {}
+			}
+		}
+#plugins_log "pop3" "(GMAIL)query:=$query"
+#plugins_log "pop3" "(GMAIL)purl:=$purl"
+		
+
+		#sending login + pass
+		set headers [list "Host" "www.google.com" "Referer" "$purl"]
+		#TODO : don't harcode $url
+		set url https://www.google.com/accounts/ServiceLoginAuth
+		set token [http::geturl $url -query $query -headers $headers -validate 0 ]
+		set data [array get $token]
+#plugins_log "pop3" "data:=$data"
+		regexp {Location\ ([\/\$\*\~\%\,\!\'\#\.\@\+\-\=\?\;\:\^\&\_[:alnum:]]+)\ Content-Type} $data -> url
+#plugins_log "pop3" "(GMAIL)Location:=$url"
+
+		#redirected to a page where it checks the cookies
+		upvar \#0 $token state
 		#gets the invitations to create a cookie by parsing $state
-		set gmail(cookies) [list]
+		array set cookies {}
 		foreach {name value} $state(meta) {
 			if { $name eq "Set-Cookie" } {
 				regexp {(\w+)=([\/\$\*\~\%\,\!\'\#\.\@\+\-\=\?\:\^\_[:alnum:]]+)\;} $value -> name value
-				set gmail($name) $value
+				set cookies($name) $value
 			}
 		}
-		set gmail(data) [array get $gmail(1stpage)]
-		array unset $gmail(1stpage)
-
-#plugins_log "pop3" "(GMAIL)(data1)\n$gmail(data)"
-		#we get the URL of the next page we're going to "browse"
-		set gmail(URL_2ndpage) ""
-		#there should be a better way to do that ! (using string match/range for example)
-		regexp {Location\ ([\/\$\*\~\%\,\!\'\#\.\@\+\-\=\?\;\:\^\&\_[:alnum:]]+)\ Content-Type} $gmail(data) -> gmail(URL_2ndpage)
-		set gmail(cookies_to_2ndpage) [list GoogleAccountsLocale_session=en LSID=$gmail(LSID) SID=$gmail(SID) ]
-		set gmail(headers) [list "Host" "mail.google.com" "User-Agent" "User-Agent: Mozilla/5.0 (compatible;)" \
-			"Referer" "https://www.google.com/accounts/ServiceLogin?service=mail&passive=true&rm=false&continue=https%3A%2F%2Fmail.google.com%2Fmail%3Fui%3Dhtml%26zy%3Dl&ltmpl=yj_blanco&ltmplcache=2" \
-			"Cookie" [join $gmail(cookies_to_2ndpage) {;}]]
-		#2nd page !
-		set gmail(2ndpage) [http::geturl $gmail(URL_2ndpage) -headers $gmail(headers) -validate 0 ]
-		set gmail(URL_3rdpage) ""
-
-#set gmail(data2) [array get $gmail(2ndpage)]
-#plugins_log "pop3" "(GMAIL)(data2)\n$gmail(data2)"
-		set gmail(data2) [::http::data $gmail(2ndpage)]
-		array unset $gmail(2ndpage)
-		set pos1 [expr [string first "<meta content=\"0\;" $gmail(data2)] + 22]
-		set pos2 [expr [string first "\" http-equiv=\"refresh\"" $gmail(data2) $pos1] -1]
-		set gmail(URL_3rdpage) [string range $gmail(data2) $pos1 $pos2]
-		set gmail(URL_3rdpage) [string map { &amp; & } $gmail(URL_3rdpage)]
-#plugins_log "pop3" "(GMAIL)(URL_3rdpage)\n$gmail(URL_3rdpage)"
-
-		set gmail(cookies_to_3rdpage) [list SID=$gmail(SID) ]
-		set gmail(headers) [list "Host" "mail.google.com" "User-Agent" "User-Agent: Mozilla/5.0 (compatible;)" \
-			"Referer" "https://www.google.com/accounts/ServiceLogin?service=mail&passive=true&rm=false&continue=https%3A%2F%2Fmail.google.com%2Fmail%3Fui%3Dhtml%26zy%3Dl&ltmpl=yj_blanco&ltmplcache=2" \
-			"Cookie" [join $gmail(cookies_to_3rdpage) {;}]]
-		set gmail(3rdpage) [http::geturl [urldecode $gmail(URL_3rdpage)] -headers $gmail(headers) -validate 1 ]
-		set gmail(data3) [array get $gmail(3rdpage)]
-#plugins_log "pop3" "(GMAIL)(data3)\n$gmail(data3)"
-
-		#analyse the 3rd page.
-		set cookies_to_4thpage [list]
-		upvar \#0 $gmail(3rdpage) state
-		#here, we get some values like gmail(GX) for example.
-		foreach {name value} $state(meta) {
-			if { $name eq "Set-Cookie" } {
-				if { [string equal [string range $value 0 1] "GX"] } {
-					lappend gmail(cookies_to_4thpage) [lindex [split $value {;}] 0]
-				} elseif { [string equal [string range $value 0 1] "S="] } {
-					lappend gmail(cookies_to_4thpage) [lindex [split $value {;}] 0]
-				}
-				
-			}
-		}
-
-		array unset $gmail(3rdpage)
-		lappend gmail(cookies_to_4thpage) "SID=$gmail(SID)"
-		set gmail(URL_4thpage) "https://mail.google.com"
-		set gmail(null) ""
-		regexp {Location\ ([\/\$\*\~\%\,\!\'\#\.\@\+\-\=\?\;\:\^\&\_[:alnum:]]+)\ Content-} $gmail(data3) -> gmail(null)
-		append gmail(URL_4thpage) $gmail(null) 
-#plugins_log "pop3" "(GMAIL)(URL_4thpage)\n$gmail(URL_4thpage)"
-		set gmail(headers) [list "Host" "mail.google.com" "User-Agent" "User-Agent: Mozilla/5.0 (compatible;)" \
-			"Referer" "https://www.google.com/accounts/ServiceLogin?service=mail&passive=true&rm=false&continue=https%3A%2F%2Fmail.google.com%2Fmail%3Fui%3Dhtml%26zy%3Dl&ltmpl=yj_blanco&ltmplcache=2" \
-			"Cookie" [join $gmail(cookies_to_4thpage) {;}]]
-		set gmail(4thpage) [http::geturl [urldecode $gmail(URL_4thpage)] -headers $gmail(headers) -validate 0 ]
-		set gmail(dataINBOX) [array get $gmail(4thpage)]
-#plugins_log "pop3" "(GMAIL)(dataINBOX)\n$gmail(dataINBOX)"
+		http::cleanup $token
+		set cookies_header [list LSID=$cookies(LSID) SID=$cookies(SID) ]
+		set headers [list "Host" "www.google.com" "Referer" "$purl" "Cookie" [join $cookies_header {;}]]
+		set token [http::geturl $url -query $query -headers $headers -validate 0 ]
+		set data [array get $token]
+		http::cleanup $token
+#plugins_log "pop3" "data:=$data"
 		
-		#4th page ! The Final one !
-		set gmail(Unreads) 0
-		#get the data of the third page, the "inbox" page.
-		set gmail(dataINBOX) [::http::data $gmail(4thpage)]
-		array unset $gmail(4thpage)		
-		set gmail(dataINBOX) [split $gmail(dataINBOX) "\n"]
-		set gmail(text_line) [lindex $gmail(dataINBOX) 0]
-		#now, parsing !
-		for {set i 1} {$i<=[llength $gmail(dataINBOX)]} {incr i} {
-		#just for me to debug !! Uncomment it only if i have asked you to do so !!
-#plugins_log "pop3" "(GMAIL)(text_line)\n$gmail(text_line)"
-			#we are searching for a line where there is something like :
-			#<title>Gmail - Boîte de réception</title>
-			#"Boîte de réception" means Inbox in french
-			#we're getting this "inbox translation" string
-			if { [string match *<title>* $gmail(text_line)] } {
-				#self-explaining :p
-			#				set pos1 [expr [string first <title>Google\ Mail $gmail(text_line)] + 21]
-				set pos1 [expr [string first <title> $gmail(text_line)] + 7]
-				set pos2 [expr [string first </title> $gmail(text_line)] - 1]
-				set title [string range $gmail(text_line) $pos1 $pos2]
-				
-				set pos1 [expr [string first - $title] + 2]
-				set gmail(trans_inbox) [string range $title $pos1 end]
-				
-				plugins_log "pop3" "gmail(trans_inbo) is $gmail(trans_inbox)"
-			}
-			#get the number of unread messages
-			#the line we're seaching contains something like
-			#Boîte de réception&nbsp;(7)
-			#That's why we need the translation of "inbox"
-			if { [info exists gmail(trans_inbox)] && [string match *${gmail(trans_inbox)}* $gmail(text_line) ] } {
-			#just for me to debug !! Uncomment it only if i have asked you to do so !!
-#plugins_log "pop3" "(GMAIL)(text_line)\n$gmail(text_line)"
-				set pos1 [expr [string first $gmail(trans_inbox) $gmail(text_line)] + [string length $gmail(trans_inbox)]]
-				set pos2 [expr [string first ( $gmail(text_line) $pos1] + 1 ]
-				set pos3 [expr [string first ) $gmail(text_line) $pos2] -1 ]
-				set gmail(Unreads) [string range $gmail(text_line) $pos2 $pos3]
-				plugins_log "pop3" "gmail(Unreads) is $gmail(Unreads)"
-				#check if gmail(UnReads) is the good value : a digit, and check if it's the right digit, not an image size for example, by testing if
-				#the value is close enough to the "Boîte de réception" string
-				if {![string is digit -strict $gmail(Unreads)] || [expr $pos2 - $pos1] > 10 } {
-					set gmail(Unreads) 0
-				}
-#plugins_log "pop3" "(GMAIL)(some_stuff)\n$gmail(Unreads)\n[string is digit -strict $gmail(Unreads)]\n$pos1\n$pos2\n$pos3"
+		#getting the next url
+		set pos1 [expr [string first "<meta content=\"0\;" $data)] + 22]
+		set pos2 [expr [string first "\" http-equiv=\"refresh\"" $data $pos1] -1]
+		set url [string range $data $pos1 $pos2]
+		set url [string map { &amp; & } $url]
+#plugins_log "pop3" "(GMAIL)url:=$url"
+		
+		#that will be the latest page
+		set cookies_header [list SID=$cookies(SID) ]
+		set headers [list "Host" "mail.google.com" "Cookie" [join $cookies_header {;}]]
+		set token [http::geturl $url -query $query -headers $headers -validate 0 ]
+		set data [array get $token]
+#plugins_log "pop3" "data:=$data"
+		set body [::http::data $token]
+		http::cleanup $token
 
-			}
-			#get the next line.
-			set gmail(text_line) [lindex $gmail(dataINBOX) $i ]
-		}
+		#find the amount of unread messages
+		regexp {Inbox&nbsp;\((\d+)\)} $body -> unreads
 
-		plugins_log pop3 "POP3 ($acntn) messages: $gmail(Unreads)\n"
+		plugins_log pop3 "POP3 ($acntn) messages: $unreads\n"
 		set dontnotifythis 1
-		if { [set ::pop3::emails_$acntn] != $gmail(Unreads) } {
+		if { [set ::pop3::emails_$acntn] != $unreads } {
 			set dontnotifythis 0
-			set ::pop3::newMails_$acntn $gmail(Unreads)
-			set ::pop3::emails_$acntn $gmail(Unreads)
+			set ::pop3::newMails_$acntn $unreads
+			set ::pop3::emails_$acntn $unreads
 		}
 
 		if { $dontnotifythis == 0 } {
