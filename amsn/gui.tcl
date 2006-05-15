@@ -3450,7 +3450,7 @@ proc cmsn_draw_main {} {
 	$conts add separator
 	
 	#Add group
-	$conts add command -label "[trans groupadd]..." -state disabled
+	$conts add command -label "[trans groupadd]..." -state disabled -command ::groups::dlgAddGroup
 
 	#remove group
 	$conts add cascade -label "[trans groupdelete]" -state disabled -menu .group_list_delete

@@ -270,7 +270,7 @@ namespace eval ::groups {
 		if {$type == "menu"} {
 			$path delete 0 end
 		}
-		# The Unique Group ID (MSN) is sent with the RemoveGroup message.updateMenu
+		# The Unique Group ID (MSN) is sent with the RemoveGroup message.
 		# The first group's ID is zero (0) (MSN)
 		set glist [lrange [::groups::GetList] 1 end]
 
@@ -330,8 +330,8 @@ namespace eval ::groups {
 	
 		::abook::setContactData contactlist groups [array get groups]
 		# Update the Delete Group... menu
-		::groups::updateMenu #menu .group_list_delete ::groups::menuCmdDelete
-		::groups::updateMenu #menu .group_list_rename ::groups::menuCmdRename
+		::groups::updateMenu menu .group_list_delete ::groups::menuCmdDelete
+		::groups::updateMenu menu .group_list_rename ::groups::menuCmdRename
 	}
 
 	proc DeleteCB {pdu} {	# RMG 24 12065 15
@@ -359,8 +359,8 @@ namespace eval ::groups {
 		# a new list
 		abook::setContactData contactlist groups [array get groups]
 		# Update the Delete Group... menu
-#		::groups::updateMenu #menu .group_list_delete ::groups::menuCmdDelete
-#		::groups::updateMenu #menu .group_list_rename ::groups::menuCmdRename
+		::groups::updateMenu menu .group_list_delete ::groups::menuCmdDelete
+		::groups::updateMenu menu .group_list_rename ::groups::menuCmdRename
 	}
 
 	proc AddCB {pdu} {	# ADG 23 12064 New%20Group 15 =?�-CC
@@ -391,8 +391,8 @@ namespace eval ::groups {
 		::config::setKey expanded_group_$gid [set bShowing($gid)]
 
 		abook::setContactData contactlist groups [array get groups]	
-#		::groups::updateMenu menu .group_list_delete ::groups::menuCmdDelete
-#		::groups::updateMenu menu .group_list_rename ::groups::menuCmdRename
+		::groups::updateMenu menu .group_list_delete ::groups::menuCmdDelete
+		::groups::updateMenu menu .group_list_rename ::groups::menuCmdRename
 	}
    
 	proc ToggleStatus {gid} {
@@ -523,8 +523,8 @@ namespace eval ::groups {
 		variable parent
 		variable entryid
 	
-#		::groups::updateMenu menu .group_list_delete ::groups::menuCmdDelete
-#		::groups::updateMenu menu .group_list_rename ::groups::menuCmdRename
+		::groups::updateMenu menu .group_list_delete ::groups::menuCmdDelete
+		::groups::updateMenu menu .group_list_rename ::groups::menuCmdRename
 		# The entryid of the parent is 0
 #		$parent entryconfigure $entryid -state normal
 #		$parent entryconfigure 6 -state normal
