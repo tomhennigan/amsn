@@ -1636,6 +1636,7 @@ proc Preferences { { settings "personal"} } {
 	set lfname [labelframe $frm.lfname -text [trans preflook]]
 	pack $frm.lfname -anchor n -side top -expand 0 -fill x
 	label $lfname.plook -image [::skin::loadPixmap preflook]
+	frame $lfname.0 -class Degt
 	frame $lfname.1 -class Degt
 #	frame $lfname.2 -class Degt
 	frame $lfname.3 -class Degt
@@ -1643,10 +1644,13 @@ proc Preferences { { settings "personal"} } {
 #	frame $lfname.5 -class Degt
 	frame $lfname.6 -class Degt
 
+	button $lfname.0.skinbutton -text [trans skinselector] -font sboldf -command ::skinsGUI::SelectSkin
+	pack $lfname.0.skinbutton -side left
+
 	label $lfname.1.llook -text "[trans encoding2]" -padx 10
 	button $lfname.1.bencoding -text [trans encoding] -font sboldf -command "show_encodingchoose"
 	pack $lfname.plook -anchor nw -side left
-	pack $lfname.1 -side top -padx 0 -pady 0 -expand 1 -fill both
+	pack $lfname.0 $lfname.1 -side top -padx 0 -pady 0 -expand 1 -fill both
 	pack $lfname.1.llook -side left
 	pack $lfname.1.bencoding -side right -padx 15
 #	label $lfname.2.llook -text "[trans bgcolor]" -padx 10
