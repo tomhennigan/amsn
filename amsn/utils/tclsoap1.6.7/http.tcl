@@ -12,7 +12,7 @@
 package require http 2;                 # tcl
 
 namespace eval ::SOAP::Transport::http {
-    variable version 1.0
+    variable version 1.0.1
     variable rcsid {$Id$}
     variable options
 
