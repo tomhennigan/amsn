@@ -1181,7 +1181,7 @@ namespace eval ::amsn {
 
 		#Open directory and Open picture button
 		button $w.close -text "[trans cancel]" -command $cancelcmd
-		button $w.open -text "[trans opendir]" -state disable -command "launch_filemanager \"$filedir\""
+		button $w.open -text "[trans opendir]" -state normal -command "launch_filemanager \"$filedir\""
 		button $w.openfile -text "[trans openfile]" -state disable -command "open_file {$filepath}"
 		pack $w.close $w.open $w.openfile -side right -pady 5 -padx 10
 
@@ -1323,7 +1323,6 @@ namespace eval ::amsn {
 				::dkfprogress::SetProgress $w.prbar 100
 				$w.progress configure -text "[trans filetransfercomplete]"
 				$w.close configure -text "[trans close]" -command "destroy $w"
-				$w.open configure -state normal
 				$w.openfile configure -state normal
 				wm protocol $w WM_DELETE_WINDOW "destroy $w"
 				bind $w <<Escape>> "destroy $w"
