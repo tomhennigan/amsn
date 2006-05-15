@@ -270,26 +270,23 @@ namespace eval ::groups {
 		if {$type == "menu"} {
 			$path delete 0 end
 		}
-		# The Unique Group ID (MSN) is sent with the RemoveGroup message.
+		# The Unique Group ID (MSN) is sent with the RemoveGroup message.updateMenu
 		# The first group's ID is zero (0) (MSN)
 		set glist [lrange [::groups::GetList] 1 end]
 
-		
-		#Let's sort the groups by name
+		#SORT THE GROUP-IDS BY GROUP-NAME
 		set thelistnames [list]
-		
 		foreach gid $glist {
 			set thename [::groups::GetName $gid]
 			lappend thelistnames [list "$thename" $gid]
 		}
-		
 		set sortlist [lsort -dictionary -index 0 $thelistnames ]
 		set glist [list]
-		
 		foreach gdata $sortlist {
 			lappend glist [lindex $gdata 1]
 		}              
-		
+
+
 		set gcnt [llength $glist]
 		
 		for {set i 0} {$i < $gcnt} {incr i} {
@@ -297,7 +294,7 @@ namespace eval ::groups {
 			set gname [::groups::GetName $gid]	;# Group Name (unencoded)
 			
 			if {$type == "menu"} {
-#				$path add command -label $gname -command "$cb $gid $pars"
+				$path add command -label $gname -command "$cb $gid $pars"
 			} else {
 				if {$i == 0} {
 #				set mpath [tk_optionMenu $path ::groups::groupname $gname]
@@ -468,22 +465,22 @@ namespace eval ::groups {
 		menu .group_list_rename -tearoff 0 -type normal
 	
 		# The submenu of standard group actions
-		menu .group_menu -tearoff 0 -type normal
-		.group_menu add command -label "[trans groupadd]..." \
-			-command ::groups::dlgAddGroup
-		.group_menu add cascade -label "[trans grouprename]" \
-			-menu .group_list_rename
-		.group_menu add cascade -label "[trans groupdelete]" \
-			-menu .group_list_delete
-
+#		menu .group_menu -tearoff 0 -type normal
+#		.group_menu add command -label "[trans groupadd]..." \
+#			-command ::groups::dlgAddGroup
+#		.group_menu add cascade -label "[trans grouprename]" \
+#			-menu .group_list_rename
+#		.group_menu add cascade -label "[trans groupdelete]" \
+#			-menu .group_list_delete
+#
 	
 		# Attach the Group Administration entry to the parent menu
-		$p add cascade -label "[trans admingroups]" -state disabled \
-			-menu .group_menu
+#		$p add cascade -label "[trans admingroups]" -state disabled \
+#			-menu .group_menu
 	
-		set parent $p		;# parent menu where we attach
+#		set parent $p		;# parent menu where we attach
 		# We need the next to dynamically enable/disable the menu widget
-		set entryid [$p index "[trans admingroups]"]
+#		set entryid [$p index "[trans admingroups]"]
 	
 	
 	}

@@ -3453,13 +3453,12 @@ proc cmsn_draw_main {} {
 	$conts add command -label "[trans groupadd]..." -state disabled
 
 	#remove group
-	$conts add cascade -label "[trans groupdelete]" -state disabled
+	$conts add cascade -label "[trans groupdelete]" -state disabled -menu .group_list_delete
 
 
 	#rename group
-	$conts add cascade -label "[trans grouprename]"  -state disabled	
-
-#	::groups::Init $conts
+	$conts add cascade -label "[trans grouprename]"  -state disabled -menu .group_list_rename
+	::groups::Init $conts
 	
 	#-------------------
 	$conts add separator
@@ -3812,6 +3811,10 @@ proc cmsn_draw_main {} {
 
 proc loggedInGuiConf { event } {
 
+
+	################################################################
+	# Enable menu entries that are greyed out when not logged in
+	################################################################
 	proc enable { menu entry {state 1}} {
 		if { $state == 1 } {
 			$menu entryconfigure $entry -state normal
@@ -3850,7 +3853,16 @@ proc loggedInGuiConf { event } {
 	
 	#contacts menu
 	set menu .main_menu.contacts
-	enableEntries $menu [list 0 1 2 4 11 12]
+	enableEntries $menu [list 0 1 2 4 5 6 11 12]
+
+
+
+
+	################################################################
+	# Create the groups menus
+	################################################################
+	::groups::updateMenu menu .group_list_delete ::groups::menuCmdDelete
+	::groups::updateMenu menu .group_list_rename ::groups::menuCmdRename
 
 }
 
