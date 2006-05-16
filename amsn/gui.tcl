@@ -3603,6 +3603,7 @@ proc cmsn_draw_main {} {
 	::skin::setPixmap belloff belloff.gif
 
 	::skin::setPixmap notinlist notinlist.gif
+	::skin::setPixmap notinlistoff notinlistoff.gif
 	::skin::setPixmap smile smile.gif
 
 	::skin::setPixmap loganim loganim.gif
@@ -5722,7 +5723,11 @@ proc ShowUser {user_login state_code colour section grId} {
 	if {$not_in_reverse} {
 		set imgname2 "img2_[getUniqueValue]"
 
-		set imgIdx [$pgBuddy.text image create $section.last -image [::skin::loadPixmap notinlist] -padx 1 -pady 1]
+		if {$state_code == "FLN"} {
+			set imgIdx [$pgBuddy.text image create $section.last -image [::skin::loadPixmap notinlistoff] -padx 1 -pady 1]
+		} else {
+			set imgIdx [$pgBuddy.text image create $section.last -image [::skin::loadPixmap notinlist] -padx 1 -pady 1]
+		}
 		$pgBuddy.text tag add $imgname2 $imgIdx
 		if { [::skin::getKey underline_contact] } {
 			$pgBuddy.text tag bind $imgname2 <Enter> "$pgBuddy.text tag conf $user_unique_name -under 1"
