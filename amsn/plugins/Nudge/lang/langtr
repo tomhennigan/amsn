@@ -10,4 +10,9 @@ add_button Sohbet penceresine titreþim gönderme düðmesi ekle
 send_nudge Titreþim gönder!
 no_nudge_support Baðlantýnýzýn istemcisi desteklemediði için titreþim gönderilemedi.
 nudge_sent Titreþim gönderdiniz.
+limit Activate Nudge receive limitation
+delay Minimum time between 2 nudge from the same contact (in seconds)
+send_nudge Send nudge
+no_nudge_support You cannot sent a nudge to your contact because he or she doesn't use a client that supports nudges
+block_nudge Block/Unblock nudges
 

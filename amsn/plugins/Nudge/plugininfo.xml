@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <plugin>
 	<name>Nudge</name>
-	<author>Jerome Gagnon-Voyer, Karel Demeyer and Alberto Diaz</author>
+	<author>Jerome Gagnon-Voyer, Karel Demeyer and Alberto Diaz, Doki</author>
 	<description>This plugin implements the Nudge feature (From MSN 7.0) into aMSN</description>
 	<amsn_version>0.94</amsn_version>
 	<plugin_version>0.6</plugin_version>

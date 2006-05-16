@@ -11,3 +11,8 @@ add_button Añadir un botón para enviar un nudge en la ventana de chat.
 send_nudge Enviar nudge.
 no_nudge_support No se puede enviar un nudge a su contacto por que él o ella no usa un cliente que soporte nudges.
 nudge_sent Ya ha enviado un Nudge.
+limit Activate Nudge receive limitation
+delay Minimum time between 2 nudge from the same contact (in seconds)
+send_nudge Send nudge
+no_nudge_support You cannot sent a nudge to your contact because he or she doesn't use a client that supports nudges
+block_nudge Block/Unblock nudges

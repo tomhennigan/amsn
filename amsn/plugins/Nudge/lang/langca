@@ -11,3 +11,8 @@ add_button Afegeix un botó per enviar un nudge en la finestra del xat
 send_nudge Envia un nudge
 no_nudge_support No pots enviar un nudge al teu contacte perquè no utilitza un client que soporti aquesta característica
 nudge_sent Has enviat un nudge
+limit Activate Nudge receive limitation
+delay Minimum time between 2 nudge from the same contact (in seconds)
+send_nudge Send nudge
+no_nudge_support You cannot sent a nudge to your contact because he or she doesn't use a client that supports nudges
+block_nudge Block/Unblock nudges

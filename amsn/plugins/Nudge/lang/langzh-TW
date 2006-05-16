@@ -11,3 +11,8 @@ add_button 在交談視窗新增傳送輕輕推的按鈕
 send_nudge 傳送輕輕推
 no_nudge_support 您不能傳送輕輕推給您的聯絡人,因為他所使用的軟體並不支援輕輕推
 nudge_sent 您剛剛才剛傳送了一個輕輕推
+limit Activate Nudge receive limitation
+delay Minimum time between 2 nudge from the same contact (in seconds)
+send_nudge Send nudge
+no_nudge_support You cannot sent a nudge to your contact because he or she doesn't use a client that supports nudges
+block_nudge Block/Unblock nudges

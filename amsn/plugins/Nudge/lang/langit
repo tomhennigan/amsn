@@ -11,3 +11,8 @@ add_button Aggiungi un pulsante nella finestra di chat per inviare richieste d'a
 send_nudge Richiedi l'attenzione
 no_nudge_support Non puoi inviare una richiesta d'attenzione a questo contatto perche' lui/lei usa un client che non la supporta
 nudge_sent Hai appena inviato una richiesta d'attenzione
+limit Activate Nudge receive limitation
+delay Minimum time between 2 nudge from the same contact (in seconds)
+send_nudge Send nudge
+no_nudge_support You cannot sent a nudge to your contact because he or she doesn't use a client that supports nudges
+block_nudge Block/Unblock nudges

@@ -11,3 +11,8 @@ add_button Voeg een knop om een nudge te verzenden toe aan het gespreksvenster
 send_nudge Verzend een nudge
 no_nudge_support Je kan deze persoon geen nudge sturen omdat zijn of haar Messenger geen nudges ondersteunt
 nudge_sent Je hebt zojuist een nudge verzonden
+limit Activate Nudge receive limitation
+delay Minimum time between 2 nudge from the same contact (in seconds)
+send_nudge Send nudge
+no_nudge_support You cannot sent a nudge to your contact because he or she doesn't use a client that supports nudges
+block_nudge Block/Unblock nudges

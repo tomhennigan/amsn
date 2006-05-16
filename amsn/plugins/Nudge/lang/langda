@@ -11,3 +11,8 @@ add_button Tilfør en knap til at sende vink i chatvinduet
 send_nudge Send vink
 no_nudge_support Du kan ikke sende et vink til denne kontakt fordi kontaktpersonen ikke har en version af Msn Messenger der understøtte det
 nudge_sent Du har send et vink!
+limit Activate Nudge receive limitation
+delay Minimum time between 2 nudge from the same contact (in seconds)
+send_nudge Send nudge
+no_nudge_support You cannot sent a nudge to your contact because he or she doesn't use a client that supports nudges
+block_nudge Block/Unblock nudges

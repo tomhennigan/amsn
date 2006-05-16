@@ -11,3 +11,8 @@ add_button Ajouter un bouton à la fenêtre de discussion pour envoyer directement
 send_nudge Envoyer un nudge
 no_nudge_support Vous ne pouvez pas envoyer un nudge car votre contact utilise un logiciel qui ne supporte pas les nudges
 nudge_sent Vous avez envoyé un nudge
+limit Activer la limitation de nudge en reception
+delay Temps minimum entre deux Nudges reçu d'un même contact (en secondes)
+send_nudge Envoyer un nudge
+no_nudge_support Vous ne pouvez pas envoyer un nudge car votre contact utilise un logiciel qui ne supporte pas les nudges
+block_nudge Bloquer/Débloquer les nudges

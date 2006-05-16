@@ -53,6 +53,7 @@ namespace eval ::Nudge {
 		::plugins::RegisterEvent Nudge chatmenu itemmenu
 		::plugins::RegisterEvent Nudge right_menu clitemmenu
 		::plugins::RegisterEvent Nudge AllPluginsLoaded add_command
+		::plugins::RegisterEvent Nudge chatwindowbutton blockbutton
 	}
 	
 	########################################
@@ -72,6 +73,8 @@ namespace eval ::Nudge {
 			shaketoo {0}
 			addbutton {1}
 			addclmenuitem {0}
+			limit {1}
+			delay {60}
 		}
 	}
 	
@@ -92,6 +95,8 @@ namespace eval ::Nudge {
 			[list bool "$::Nudge::language(sound_receive)" soundnotrec] \
 			[list bool "$::Nudge::language(add_button)" addbutton] \
 			[list bool "$::Nudge::language(add_clmenuitem)" addclmenuitem] \
+			[list bool "$::Nudge::language(limit)" limit] \
+			[list str "\t$::Nudge::language(delay):" delay] \
 		]
 	}
 	########################################
@@ -135,6 +140,11 @@ namespace eval ::Nudge {
 			send_nudge "Send nudge" \
 			no_nudge_support "You cannot sent a nudge to your contact because he or she doesn't use a client that supports nudges" \
 			nudge_sent "You have just sent a Nudge" \
+			limit "Activate Nudge receive limitation" \
+			delay "Minimum time between 2 nudge from the same contact (in seconds)" \
+			block_nudge "Block/Unblock Nudges" \
+			no_nudge_support "You cannot sent a nudge to your contact because he or she doesn't use a client that supports nudges" \
+			nudge_sent "You have just sent a Nudge" \
 		]
 	}
 	
@@ -152,6 +162,7 @@ namespace eval ::Nudge {
 			sound_receive "[trans sound_receive]" add_button "[trans add_button]" \
 			add_clmenuitem "[trans add_clmenuitem]" send_nudge "[trans send_nudge]" \
 			no_nudge_support "[trans no_nudge_support]" nudge_sent "[trans nudge_sent]" \
+			limit "[trans limit]" delay "[trans delay]" block_nudge "[trans block_nudge]" \
 		]
 	}
 	
@@ -166,6 +177,19 @@ namespace eval ::Nudge {
 		upvar 2 $args(chatid) chatid
 		upvar 2 $args(nick) nick
 		upvar 2 $args(msg) msg
+		set timestamp [clock seconds]
+		set lastnudge [::abook::getVolatileData $chatid last_nudge]
+		set auth [::abook::getContactData $chatid auth_nudge]	
+		
+		if {$auth == ""} {
+			set auth 1
+		}
+		if {$lastnudge == ""} {
+			set lastnudge 0
+		}
+		
+		set lastnudge [expr $timestamp-$lastnudge]
+
 		#The way to get headers change on 0.95
 		if {[::Nudge::version_094]} {
 			set header "[::MSN::GetHeaderValue $msg Content-Type]"
@@ -174,8 +198,14 @@ namespace eval ::Nudge {
 			set header "[$msg getHeader Content-Type]"
 			set ID "[$msg getField ID]"
 		}
+		
+		#If the user choosed to desactivate nudge receive limitation
+		if {$::Nudge::config(limit) == 0} {
+			set lastnudge [expr $lastnudge+$::Nudge::config(delay)]
+			set auth 1
+		}
 
-		if {$header == "text/x-msnmsgr-datacast" && $ID == "1"} {
+		if {$header == "text/x-msnmsgr-datacast" && $ID == "1" && $lastnudge > $::Nudge::config(delay) && $auth=="1"} {
 			::Nudge::log "Start receiving nudge from <[::abook::getDisplayNick $chatid]>"
 			#If the user choosed to have the nudge notified in the window
 			if { $::Nudge::config(notsentinwin) == 1 } {
@@ -208,6 +238,7 @@ namespace eval ::Nudge {
 				::Nudge::log "Show growl notification"
 			}
 			
+			::abook::setVolatileData $chatid last_nudge $timestamp
 			::Nudge::log "Receiving nudge from <[::abook::getDisplayNick $chatid]> is finished"		
 		
 		}
@@ -315,7 +346,7 @@ namespace eval ::Nudge {
 			::Nudge::log "Nudge button added the new window: $newvar(window_name)"
 		}
 	}
-
+	
 	################################################
 	# ::Nudge::itemmenu event epvar                #
 	# -------------------------------------------  #
@@ -606,4 +637,61 @@ namespace eval ::Nudge {
 			::skin::setPixmap nudgebutton nudgebutton.gif
 			::skin::setPixmap nudgebutton_hover nudgebutton_hover.gif
 	}
+
+	################################################
+	# ::Nudge::blockbutton event epvar             #
+	# -------------------------------------------  #
+	# Button to add in the chat window             #
+	# When we click on that button,we block/deblock#
+	# Nudge ability for that contact               #
+	################################################	
+	proc blockbutton { event evpar } {
+		if { $::Nudge::config(addbutton) == 1 } {
+			upvar 2 $evpar newvar
+			set nudgebutton $newvar(bottom).nudgeblock
+			set chatid [::ChatWindow::Name $newvar(window_name)]
+			if {[::abook::getContactData $chatid auth_nudge] == "0"} {
+				set nudgeimg "nudgeoff"
+			} else {
+				set nudgeimg "nudge"
+			}
+			#Create the button with an actual Pixmap
+			#Use after 1 to avoid a bug on Mac OS X when we close the chatwindow before the end of the nudge
+			#Keep compatibility with 0.94 for the getColor
+			if {[::Nudge::version_094]} {
+				label $nudgebutton -image [::skin::loadPixmap $nudgeimg] -relief flat -padx 0 \
+				-background [::skin::getColor background2] -highlightthickness 0 -borderwidth 0 \
+				-highlightbackground [::skin::getColor background2] -activebackground [::skin::getColor background2]\
+			} else {
+				label $nudgebutton -image [::skin::loadPixmap $nudgeimg] -relief flat -padx 0 \
+				-background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0 \
+				-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg]\
+			}
+			bind $nudgebutton <<Button1>> "after 1 ::Nudge::blocknudge $chatid $nudgebutton"
+			
+			#Define baloon info
+			set_balloon $nudgebutton "$::Nudge::language(block_nudge)"
+		
+			#Pack the button in the right area
+			pack $nudgebutton -side right
+			::Nudge::log "Nudge block button added the new window: $newvar(window_name)"
+		}
+	}
+
+	##############################################
+	# ::Nudge::blocknudge                        #
+	# -------------------------------------------#
+	# Set/Unset nudge authorization for a contact#
+	# Change picture in the chat window according#
+	# to the state.                              #
+	##############################################
+	proc blocknudge {chatid button} {
+			if {[::abook::getContactData $chatid auth_nudge] == "1"} {
+				::abook::setContactData $chatid auth_nudge 0
+				$button configure -image [::skin::loadPixmap nudgeoff]
+			} else {
+				::abook::setContactData $chatid auth_nudge 1
+				$button configure -image [::skin::loadPixmap nudge]
+			}			
+		}
 }
