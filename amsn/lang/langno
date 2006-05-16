@@ -21,7 +21,6 @@ advancedprefs Konfigurasjon av avanserte alternativer
 adverts Reklame
 agotinvitation Mottok lydinvitasjon fra $1
 alarmonconnect Aktiver alarm når en bruker logger på
-alarmondisconnect Aktiver alarm når en bruker logger av
 alarmondisconnect Aktiver alarm når denne brukeren logger av eller går i usynlig modus
 alarmonmsg Aktiver alarm når en bruker sender deg en melding
 alarmonstatus Akiver alarm når en bruker endrer status
@@ -179,7 +178,7 @@ connectionlost Frakoblet: Tilkobling til tjeneren ble lukket
 connection Tilkobling
 contactadded Kontakten er lagt til
 contactdoesnotexist Kontakten eksisterer ikke!
-contact kontakt
+contact Kontakt
 contactlist Kontaktliste (KL):
 continuously Kontinuerlig
 contrast Kontrast
@@ -499,7 +498,6 @@ noskins Finner ikke standardutseende i skins/-katalogen. Kan ikke starte aMSN
 nosystemtray System tray er ikke tilgjengelig
 note Notat
 notificationserver Frste MSN-tjener (MSN Messenger-tjener)
-notify1_5 Vis varsel når brukere logger av
 notify1_75 Bruk visningsvindu når en kontakt endrer status
 notify1 Bruk visningsvindu når en kontakt logger på
 notify1_5 Bruk visningsvindu når en kontakt logger av
@@ -814,3 +812,11 @@ youblocked Du har blitt blokkert av
 yousay Du sier
 youwant Du vil
 zoom Zoom
+account Konto
+contacts Kontakter
+longpsm Din personlige melding er for lang, dette er ikke støttet av den offisielle MSN protokollen. Sikker på at du vil sette dette som personlig melding?
+minimize Minimer til tray
+msnstatus Status til MSN nettverket
+quit Avslutt
+quitmac Avslutt aMSN
+usersettings Instillinger
