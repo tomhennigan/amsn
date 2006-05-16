@@ -19,7 +19,7 @@ instantly answer and send us the translation.<br/><br/><br/>
 
 <b>How to translate missing keys, please READ THIS before translating!</b><br/><br/>
 RULES THAT MUST BE FOLLOWED:<br/></p>
-<ul><li>Please read the <a href='http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/amsn/msn/lang/LANG-HOWTO?rev=HEAD&amp;content-type=text/plain'><b>LANG-HOWTO</b></a> file.</li>
+<ul><li>Please read the <a href='http://svn.sourceforge.net/viewcvs.cgi/*checkout*/amsn/trunk/amsn/lang/LANG-HOWTO'><b>LANG-HOWTO</b></a> file.</li>
 
 <li>Read LANG-HOWTO again!</li>
 <li>Just click the link of the language you want to update (at the bottom of this page)
@@ -48,7 +48,7 @@ substituted during execution with some values.<br/><br/><br/>
 
 <b>How to add a new language</b><br/><br/>
 <ul><li>Choose a short identifier for your language (for example english - en).</li>
-<li>Download the english language file <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/amsn/msn/lang/langen?rev=HEAD&amp;content-type=text/plain">here</a>.</li>
+<li>Download the english language file <a href="http://svn.sourceforge.net/viewcvs.cgi/*checkout*/amsn/trunk/amsn/lang/langen">here</a>.</li>
 <li>Rename the file to langXX with XX the identifier you've chosen</li>
 <li>Translate the file, except for the first word of each line (that is the key).</li>
 <li>Send the new file to <a href="mailto:amsn-translations@lists.sourceforge.net">amsn-translations@lists.sourceforge.net</a></li>
