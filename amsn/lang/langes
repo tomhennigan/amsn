@@ -1,4 +1,4 @@
-amsn_lang_version 2
+﻿amsn_lang_version 2
 about Acerca de
 aboutamsn Acerca de Alvaro's Messenger
 accept Aceptar
@@ -815,3 +815,11 @@ youblocked Has sido bloqueado
 yousay Dices
 youwant Quieres
 zoom Ampliación
+account Cuenta
+contacts Contactos
+longpsm Tu mensaje personal es demasiado largo. Esto no está soportado oficialmente por el protocolo MSN. ¿Estás seguro que deseas utilizarlo?
+minimize Minimizar a la bandeja
+msnstatus Estado de la red MSN
+quit Salir
+quitmac Salir de AMSN
+usersettings Preferencias
