@@ -457,6 +457,7 @@ msgflicker Laat de titel van het gespreksvenster knipperen als een bericht aanko
 msgmaxmin Weergave van binnenkomende berichten in een bestaand gesprek
 msgmode Kies hoe meerdere gespreksvensters worden weergegeven
 msn AMSN
+msnstatus MSN Messenger netwerk status
 msnstyle Gesprek in MSN-stijl
 mustrestart Je moet het programma herstarten voordat de veranderingen effect hebben
 myfriendlyname Mijn schermnaam tijdens een gesprek
@@ -473,6 +474,7 @@ needonline Je bent niet online
 needwinico2 Het bestand winico05.dll moet in de map utils/windows om het Windows systeemvak te kunnen gebruiken.
 never Nooit
 new_ft_protocol Gebruik het nieuwe protocol voor bestandsoverdracht (er zijn nog enkele bugs)
+newchat Nieuw gesprek
 newline Nieuwe regel
 newmailfolder Je hebt $1 nieuwe berichten in andere Hotmail-mappen
 newmailfrom Nieuwe e-mail van $1 ($2)

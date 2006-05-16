@@ -474,6 +474,7 @@ needonline You still are/appear offline!
 needwinico2 Need winico05.dll in the utils/windows directory for windows traydocking to work
 never Never
 new_ft_protocol Use new File Transfer protocol (some bugs remain)
+newchat New chat
 newline Newline
 newmail $1 new message(s) in Inbox
 newmailfolder You have $1 new message(s) in other Hotmail folders
