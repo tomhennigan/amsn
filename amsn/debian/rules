@@ -96,13 +96,13 @@ binary-arch: build install
 	dh_installman
 	dh_link
 	dh_strip -XlibTclxml3.1.so
-	dh_compress -XlibTclxml3.1.so
+	dh_compress
 	dh_fixperms
 #	dh_perl
 #	dh_python
 #	dh_makeshlibs
 	dh_installdeb
-	dh_shlibdeps
+	dh_shlibdeps -XlibTclxml3.1.so
 	dh_gencontrol
 	dh_md5sums
 	dh_builddeb --destdir="./distrib/DEB" --filename="amsn_${VERSION}.deb"
