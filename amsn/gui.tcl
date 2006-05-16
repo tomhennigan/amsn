@@ -1883,7 +1883,7 @@ namespace eval ::amsn {
 	#///////////////////////////////////////////////////////////////////////////////
 
 
-	proc ShowSendMsgList {title command} {
+	proc ShowUserList {title command} {
 		#Replace for"::amsn::ChooseList \"[trans sendmsg]\" online ::amsn::chatUser 1 0"
 
 		set userlist [list]
@@ -1899,61 +1899,6 @@ namespace eval ::amsn {
 		}
 
 		::amsn::listChoose $title $userlist $command 1 1
-	}
-
-
-	proc ShowSendEmailList {title command} {
-		#Replace for "::amsn::ChooseList \"[trans sendmail]\" both \"launch_mailer\" 1 0"
-		set userlist [list]
-
-		foreach user_login [::MSN::sortedContactList] {
-			set user_state_code [::abook::getVolatileData $user_login state FLN]
-
-			if { $user_state_code == "NLN" } {
-				lappend userlist [list [::abook::getDisplayNick $user_login] $user_login]
-			} else {
-				lappend userlist [list "[::abook::getDisplayNick $user_login] ([trans [::MSN::stateToDescription $user_state_code]])" $user_login]
-			}
-		}
-
-		::amsn::listChoose $title $userlist $command 1 1
-
-	}
-
-	proc ShowDeleteList {title command} {
-		#Replace for -command  "::amsn::ChooseList \"[trans delete]\" both ::amsn::deleteUser 0 0"
-		set userlist [list]
-
-		foreach user_login [::MSN::sortedContactList] {
-			set user_state_code [::abook::getVolatileData $user_login state FLN]
-
-			if { $user_state_code == "NLN" } {
-				lappend userlist [list [::abook::getDisplayNick $user_login] $user_login]
-			} else {
-				lappend userlist [list "[::abook::getDisplayNick $user_login] ([trans [::MSN::stateToDescription $user_state_code]])" $user_login]
-			}
-		}
-
-		::amsn::listChoose $title $userlist $command 0 0
-
-	}
-
-	proc ShowSeePropertiesList {title command} {
-		#Replace for -command  "::amsn::ChooseList \"[trans delete]\" both ::amsn::deleteUser 0 0"
-		set userlist [list]
-
-		foreach user_login [::MSN::sortedContactList] {
-			set user_state_code [::abook::getVolatileData $user_login state FLN]
-
-			if { $user_state_code == "NLN" } {
-				lappend userlist [list [::abook::getDisplayNick $user_login] $user_login]
-			} else {
-				lappend userlist [list "[::abook::getDisplayNick $user_login] ([trans [::MSN::stateToDescription $user_state_code]])" $user_login]
-			}
-		}
-
-		::amsn::listChoose $title $userlist $command 1 0
-
 	}
 
 
@@ -2095,7 +2040,6 @@ namespace eval ::amsn {
 	#shown in the list. Column 1 is the use used to parameter to the command
 	proc listChoose {title itemlist command {other 0} {skip 1}} {
 		global userchoose_req tcl_platform
-
 		set itemcount [llength $itemlist]
 
 		#If just 1 user, and $skip flag set to one, just run command on that user
@@ -3409,13 +3353,13 @@ proc cmsn_draw_main {} {
 	menu $actions -tearoff 0 -type normal
 
 	#Send msg
-	$actions add command -label "[trans sendmsg]..." -command [list ::amsn::ShowSendMsgList [trans sendmsg] ::amsn::chatUser] -state disabled
+	$actions add command -label "[trans sendmsg]..." -command [list ::amsn::ShowUserList [trans sendmsg] ::amsn::chatUser] -state disabled
 
 	#Send SMS
-	$actions add command -label "SMS TODO" -command "" -state disabled
+	$actions add command -label "[trans sendmobmsg]" -command [list ::amsn::ShowUserList [trans sendmobmsg] ::MSNMobile::OpenMobileWindow] -state disabled
 
 	#Send e-mail
-	$actions add command -label "[trans sendmail]..." -command [list ::amsn::ShowSendEmailList [trans sendmail] launch_mailer] -state disabled
+	$actions add command -label "[trans sendmail]..." -command [list ::amsn::ShowUserList [trans sendmail] launch_mailer] -state disabled
 	
 	#-------------------
 	$actions add separator
@@ -3440,10 +3384,10 @@ proc cmsn_draw_main {} {
 	$conts add command -label "[trans addacontact]..." -command cmsn_draw_addcontact -state disabled
 		
 	#remove contact
-	$conts add command -label "[trans delete]..." -command [list ::amsn::ShowDeleteList [trans delete] ::amsn::deleteUser] -state disabled
+	$conts add command -label "[trans delete]..." -command [list ::amsn::ShowUserList [trans delete] ::amsn::deleteUser] -state disabled
 	
 	#contact properties
-	$conts add command -label "[trans properties]..." -command [list ::amsn::ShowSeePropertiesList [trans properties] ::abookGui::showUserProperties] -state disabled
+	$conts add command -label "[trans properties]..." -command [list ::amsn::ShowUserList [trans properties] ::abookGui::showUserProperties] -state disabled
 	
 	#-------------------
 	$conts add separator
@@ -3496,7 +3440,8 @@ proc cmsn_draw_main {} {
 
 	$help add separator
 	
-	$help add command -label "TODO MSN NETWORK STATUS"
+	$help add command -label "[trans msnstatus]" \
+	    -command "launch_browser \"http://messenger.msn.com/Status.aspx\""
 	
 	$help add command -label "TODO SEND FEEDBACK"
 

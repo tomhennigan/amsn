@@ -1958,7 +1958,6 @@ namespace eval ::MSN {
 	proc usersInChat { chatid } {
 		set sb [SBFor $chatid]
 		if { $sb == 0 || [catch {$sb cget -name}] } {
-puts here!
 			status_log "usersInChat: no SB for chat $chatid!! (shouldn't happen?)\n" white
 			return [list]
 		}

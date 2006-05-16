@@ -457,6 +457,7 @@ msgmaxmin When a new message arrives I want it to be:
 msg Message
 msgmode Select how to handle multiple message windows:
 msn aMSN
+msnstatus MSN Network Status
 msnstyle MSN style chat
 mustrestart You must restart the program to apply changes
 myfriendlyname My friendly name
