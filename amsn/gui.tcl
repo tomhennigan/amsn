@@ -3597,13 +3597,13 @@ proc cmsn_draw_main {} {
 	::skin::setPixmap notifystate notifystate.gif
 
 	::skin::setPixmap blocked blocked.gif
+	::skin::setPixmap blocked_off blocked_off.gif
 	::skin::setPixmap colorbar colorbar.gif
 
 	::skin::setPixmap bell bell.gif
 	::skin::setPixmap belloff belloff.gif
 
 	::skin::setPixmap notinlist notinlist.gif
-	::skin::setPixmap notinlistoff notinlistoff.gif
 	::skin::setPixmap smile smile.gif
 
 	::skin::setPixmap loganim loganim.gif
@@ -5647,7 +5647,11 @@ proc ShowUser {user_login state_code colour section grId} {
 
 
 	if {[lsearch [::abook::getLists $user_login] BL] != -1} {
-		set image_type "blocked"
+		if { $state_code == "FLN" } {
+			set image_type "blocked_off"
+		} else {	
+			set image_type "blocked"
+		}
 		if {$state_desc == ""} {set state_desc " ([trans blocked])"}
 	}
 
@@ -5723,11 +5727,7 @@ proc ShowUser {user_login state_code colour section grId} {
 	if {$not_in_reverse} {
 		set imgname2 "img2_[getUniqueValue]"
 
-		if {$state_code == "FLN"} {
-			set imgIdx [$pgBuddy.text image create $section.last -image [::skin::loadPixmap notinlistoff] -padx 1 -pady 1]
-		} else {
-			set imgIdx [$pgBuddy.text image create $section.last -image [::skin::loadPixmap notinlist] -padx 1 -pady 1]
-		}
+		set imgIdx [$pgBuddy.text image create $section.last -image [::skin::loadPixmap notinlist] -padx 1 -pady 1]
 		$pgBuddy.text tag add $imgname2 $imgIdx
 		if { [::skin::getKey underline_contact] } {
 			$pgBuddy.text tag bind $imgname2 <Enter> "$pgBuddy.text tag conf $user_unique_name -under 1"
