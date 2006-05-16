@@ -955,6 +955,15 @@ namespace eval ::MSN {
 		#an event to let the GUI know we are actually logged out now
 		::Event::fireEvent loggedOut protocol
 
+		#Set all CW users as offline
+		foreach user_name [::abook::getAllContacts] {
+			::abook::setVolatileData $user_name state "FLN"
+		}
+
+		foreach chat_id [::ChatWindow::getAllChatIds] {
+			::ChatWindow::TopUpdate $chat_id
+		}
+
 		#Alert dock of status change
 		#      send_dock "FLN"
 		send_dock "STATUS" "FLN"
