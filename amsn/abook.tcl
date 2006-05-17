@@ -1138,7 +1138,7 @@ namespace eval ::abookGui {
 			set chatlogging [trans unknown]
 		}
 		
-		label $nbIdent.fStats.chatlogging -text "[trans loging]:"
+		label $nbIdent.fStats.chatlogging -text "[trans logschats]:"
 		label $nbIdent.fStats.chatlogging1 -text $chatlogging -font splainf -fg blue
 		grid $nbIdent.fStats.lastlogin -row 0 -column 0 -sticky e
 		grid $nbIdent.fStats.lastlogin1 -row 0 -column 1 -sticky w
