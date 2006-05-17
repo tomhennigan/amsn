@@ -1212,7 +1212,7 @@ namespace eval ::MSNP2P {
 		} elseif { $method == "OK" } {
 			set data "MSNSLP/1.0 200 OK\r\n"
 		} elseif { $method == "DECLINE" } {
-			set data "MSNSLP/1.0 603 DECLINE\r\n"
+			set data "MSNSLP/1.0 603 Decline\r\n"
 		}
 
 		# Lets create our message body first (so we can calc it's length for the header)
