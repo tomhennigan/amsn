@@ -351,10 +351,7 @@ namespace eval ::amsn {
 
 	#Register events
 	::Event::registerEvent loggedIn all loggedInGuiConf
-	
-	
-
-
+	::Event::registerEvent loggedOut all loggedOutGuiConf
 
 	}
 
@@ -3768,9 +3765,9 @@ proc loggedInGuiConf { event } {
 		}
 		
 	}
-	proc enableEntries {menu entrieslist} {
+	proc enableEntries {menu entrieslist {state 1}} {
 		foreach index $entrieslist {
-			enable $menu $index
+			enable $menu $index $state
 		}
 	}
 			
@@ -3811,6 +3808,49 @@ proc loggedInGuiConf { event } {
 
 }
 
+proc loggedOutGuiConf { event } {
+	################################################################
+	# Enable menu entries that are greyed out when not logged in
+	################################################################
+	proc enable { menu entry {state 1}} {
+		if { $state == 1 } {
+			$menu entryconfigure $entry -state normal
+		} else {
+			$menu entryconfigure $entry -state disabled			
+		}
+		
+	}
+	proc enableEntries {menu entrieslist {state 1}} {
+		foreach index $entrieslist {
+			enable $menu $index $state
+		}
+	}
+			
+	set menu .main_menu.account
+	
+	enable $menu 0 1
+	if {[$menu index "[trans loginas]..."] == 1} {
+		enable $menu 1 1
+		set lo 2
+	} else {
+		set lo 1
+	}
+	#entries to enable in the Account menu, beginning with the logout entry
+	enableEntries $menu [list $lo [incr lo 2] [incr lo 1]  [incr lo 1]  [incr lo 2] [incr lo 1] [incr lo 3]] 0
+
+	#view menu
+	set menu .main_menu.view
+	enableEntries $menu [list 0 1 2 4 5 9 10] 0
+	
+	#actions menu
+	set menu .main_menu.actions
+	enableEntries $menu [list 0 1 2 4 5 6] 0
+	
+	#contacts menu
+	set menu .main_menu.contacts
+	enableEntries $menu [list 0 1 2 4 5 6 11 12] 0
+
+}
 
 
 
