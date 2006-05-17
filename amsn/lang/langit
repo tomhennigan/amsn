@@ -3,6 +3,7 @@ aboutamsn Informazioni su Alvaro's Messenger
 about Informazioni
 accept Accetta
 acceptfile Accetto il file $1, dimensioni $2? Salvato in $3
+account Account
 actions Azioni
 activeautoupdate Aggiornamento automatico
 addacontact Aggiungi un contatto
@@ -180,6 +181,7 @@ contactadded Contatto aggiunto
 contact Contatto
 contactdoesnotexist Il contatto non esiste
 contactlist Lista dei contatti:
+contacts Contatti
 continuously Continuamente
 contrast Contrasto
 conversationwith $1 utenti in conversazione
@@ -431,6 +433,7 @@ logsout è appena uscito/a
 logwebcam Salva tutte le sessioni della webcam nel diario di aMSN per una visione futura
 longnick Il tuo nick è lungo più di 130 caratteri. Il protocollo ufficiale di MSN non lo consente. Vuoi impostarlo ugualmente?
 longp4c Il tuo soprannome è più lungo di 130 caratteri. Il Soprannome che apprarirà nella versione ufficiale di MSN sarà $1. Sei sicuro di salvare le impostazioni?
+longpsm Il tuo messaggio personale è troppo lungo. Non è ufficialmente supportato dal protocollo di MSN. Sei sicuro di volerlo usare?
 lowrescam Usa una webcam a bassa risoluzione
 lprivtoconf Chat privata divenuta conversazione con $1
 luclosedwin Hai chiuso la finestra su $1
@@ -439,6 +442,7 @@ mailerexample ( \$recipient = Destinatario ) Lasciare in bianco se si usa hotmai
 maintenance Il server chiuderà la connessione tra $1 minuti per manutenzione
 maximised Massimizzato
 minimised Ridotto ad icona
+minimize Riduci ad icona
 mins Minuti
 mobilegrp1 Gruppo utenti "Mobile"
 mobilegrp2 Inserisci utenti nel gruppo "Mobile" quando sono sconnessi (ordinati per status)
@@ -453,6 +457,7 @@ msgmaxmin Quando arriva un nuovo messaggio voglio che sia:
 msg Messaggio
 msgmode Seleziona come gestire le finestre dei messaggi multipli:
 msn aMSN
+msnstatus Status del Network MSN
 msnstyle Chat in stile MSN
 mustrestart Devi riavviare il programma per attivare le modifiche
 myfriendlyname Il mio nome comune
@@ -468,6 +473,7 @@ natkeepalive Se la connessione cade continuamente abilita questa opzione
 needonline Sembra che tu sia scollegato!
 needwinico2 Affinché l'icona nella traybar funzioni è necessario che nella cartella utils/windows di aMSN ci sia winico05.dll
 never Mai
+newchat Nuova chat
 new_ft_protocol Usa il nuovo protocollo di trasferimento files (ancora sotto test)
 newline A capo
 newmailfolder Hai $1 nuovi messaggi Hotmail in cartelle varie
@@ -604,6 +610,8 @@ publishphones Pubblica il mio numero di telefono
 purge Elimina
 pwcdriver Stai usando il driver pwc
 p4contextprefix Prefissa i mittenti nel P4-Context con questa serie di caratteri
+quit Chiudi
+quitmac Chiudi aMSN
 raised Ingrandito
 readonlymsgbox Il trasferimento del file è stato annullato perché la directory di destinazione ha permessi di sola lettura. \nPer favore cambia i permessi.
 readonlywarn ATTENZIONE: Il file potrebbe NON venire salvato correttamente poiché la directory "File Ricevuti" sembra essere protetta in scrittura.\nPer favore assicurati che i permessi della directory ($1) siano impostati correttamente prima di trasferire il file.
@@ -770,6 +778,7 @@ userproperties Proprietà dell'utente $1
 user Utente
 useryourself Non puoi chattare con te stesso
 usesnack Utilizza la libreria Snack (Tcl)
+usersettings Settaggi
 verifyblocked Controlla le persone che ti stanno bloccando
 version Versione
 videoconversationrequest Hai ricevuto una richiesta di conversazione video (audio e video bidirezionali). Questa funzionalità non è supportata da aMSN e la richiesta è stata annullata. Puoi comunque utilizzare la normale conversazione con webcam.
