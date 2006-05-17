@@ -1899,6 +1899,8 @@ namespace eval ::MSN {
 				# DO NOT cleanchat... it's needed for ::ChatWindow::TopUpdate
 				# ::MSN::CleanChat $chatid
 				::amsn::chatStatus $chatid "$user: [trans usernotonline]\n" miniwarning
+				::abook::setVolatileData $user state "FLN"
+				::ChatWindow::TopUpdate $chatid
 				#msg_box "[trans usernotonline]"
 				return 0
 			}
