@@ -20,7 +20,7 @@ if { $initialize_amsn == 1 } {
 	package require base64
 	package require sha1
 	package require snit
-	package require -exact SOAP 1.6.7.1
+	package require SOAP
 }
 
 
