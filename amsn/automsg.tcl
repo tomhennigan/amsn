@@ -302,8 +302,8 @@ proc ChCustomState { idx } {
 		::MSN::changeStatus $new_state
 
 		#PostEvent 'ChangeMyState' when the user changes his/her state
-		set evPar(automessage) $automessage
-		set evPar(idx) $new_state
+		set evPar(automessage) automessage
+		set evPar(idx) new_state
 		::plugins::PostEvent ChangeMyState evPar
 	} else {
 		status_log "ChCustomState where state didnt exist !!!" red
