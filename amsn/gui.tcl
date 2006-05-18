@@ -3208,8 +3208,8 @@ proc cmsn_draw_main {} {
 	
 	#for apple, the first menu is the "App menu"
 	if {[OnMac]} {
-		.main_menu add cascade -label "aMSN" -menu .main_menu.appmenu
-		set appmenu .main_menu.appmenu
+		.main_menu add cascade -label "aMSN" -menu .main_menu.apple
+		set appmenu .main_menu.apple
 		menu $appmenu -tearoff 0 -type normal
 		$appmenu add command -label "[trans about] aMSN" \
 			-command ::amsn::aboutWindow
