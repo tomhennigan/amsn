@@ -750,6 +750,11 @@ namespace eval ::amsn {
 
 
 	proc FileTransferSend { win_name {filename ""} } {
+		
+		if {![winfo exists $win_name] } {
+			set win_name [::amsn::chatUser $win_name]
+		}
+			
 		global starting_dir
 
 #		set filename [ $w.top.fields.file get ]
@@ -793,6 +798,7 @@ namespace eval ::amsn {
 		}
 
 		set chatid [::ChatWindow::Name $win_name]
+	status_log "chatid:=$chatid" red
 
 		set users [::MSN::usersInChat $chatid]
 
@@ -2629,6 +2635,7 @@ namespace eval ::amsn {
 	# use it and reconnect if necessary (will call to the protocol function chatUser),
 	# and raise and focus that window. If the window doesn't exist it will open a new
 	# one. 'user' is the mail address of the user to chat with.
+	#returns the name of the window
 	proc chatUser { user } {
 
 #		set lowuser [string tolower $user]
@@ -2714,6 +2721,7 @@ namespace eval ::amsn {
 			::ChatWindow::SwitchToTab $container $win_name
 		}
 		focus [::ChatWindow::GetInputText ${win_name}]
+		return	$win_name
 
 	}
 	#///////////////////////////////////////////////////////////////////////////////
@@ -3311,19 +3319,19 @@ proc cmsn_draw_main {} {
 	menu $view -tearoff 0 -type normal
 
 	#Add the "view by" radio buttons
-	$view add radio -label "Sort contacts by [trans status]" -value 0 \
+	$view add radio -label "[trans sortby [trans contacts] [trans status]]" -value 0 \
 	-variable [::config::getVar orderbygroup] -command "cmsn_draw_online 0 2" -state disabled
-	$view add radio -label "Sort contacts by [trans group]" -value 1 \
+	$view add radio -label "[trans sortby [trans contacts] [trans group]]" -value 1 \
 	-variable [::config::getVar orderbygroup] -command "cmsn_draw_online 0 2" -state disabled
-	$view add radio -label "Sort contacts in [trans hybrid]" -value 2 \
+	$view add radio -label "[trans sortin [trans contacts] [trans hybrid]]" -value 2 \
 	-variable [::config::getVar orderbygroup] -command "cmsn_draw_online 0 2" -state disabled
 	
 	#-------------------
 	$view add separator	
 
-	$view add radio -label "Show contacts with [trans nick]" -value 0 \
+	$view add radio -label "[trans showwith [trans contacts] [trans nick]]" -value 0 \
 		-variable [::config::getVar emailsincontactlist] -command "cmsn_draw_online 0 2" -state disabled
-	$view add radio -label "Show contacts with [trans email]" -value 1 \
+	$view add radio -label "[trans showwith [trans contacts] [trans email]]" -value 1 \
 		-variable [::config::getVar emailsincontactlist] -command "cmsn_draw_online 0 2" -state disabled
 
 	#-------------------
@@ -3334,9 +3342,9 @@ proc cmsn_draw_main {} {
 	#-------------------
 	$view add separator
 	
-	$view add radio -label "Sort groups [trans normal]" -value 1 \
+	$view add radio -label "[trans sortby [trans groups] [trans stdorder]]" -value 1 \
 		-variable [::config::getVar ordergroupsbynormal] -command "cmsn_draw_online 0 2" -state disabled
-	$view add radio -label "Sort groups [trans reversed]" -value 0 \
+	$view add radio -label "[trans sortby [trans groups] [trans reversed]]" -value 0 \
 		-variable [::config::getVar ordergroupsbynormal] -command "cmsn_draw_online 0 2" -state disabled
 
 
@@ -3360,14 +3368,14 @@ proc cmsn_draw_main {} {
 	$actions add separator
 
 	#Send File
-	$actions add command -label "[trans sendfile]..." -state disabled	
+	$actions add command -label "[trans sendfile]..." -command [list ::amsn::ShowUserList [trans sendfile] ::amsn::FileTransferSend] -state disabled	
 
 	#Send Webcam
-	$actions add command -label "SEND CAM TODO" -command "" -state disabled
+	$actions add command -label "[trans sendcam]" -command "" -command [list ::amsn::ShowUserList [trans sendcam] ::MSNCAM::SendInviteQueue] -state disabled
 	
 	#Ask Webcam
-	$actions add command -label "ASK CAM TODO" -command "" -state disabled
-	
+	$actions add command -label "[trans askcam]" -command "" -command [list ::amsn::ShowUserList [trans askcam] ::MSNCAM::AskWebcamQueue] -state disabled
+
 	
 	###########################
 	#Contacts menu

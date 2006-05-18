@@ -427,6 +427,7 @@ logolder Enregistrer seulement les conversations qui ont eu lieu dans les
 loadotherdisplaypic Chargement des avatars de $1, patientez...
 logout Se déconnecter
 logsbydate Trier les historiques par date (affichage de l'historique plus rapide)
+logschats enregistre les conversations
 logsin vient de se connecter
 logsmileys Afficher les émoticônes/smileys dans la fenêtre d'historique de aMSN
 logsout vient juste de se déconnecter
@@ -474,6 +475,7 @@ needonline Vous êtes toujours déconnecté[e]!
 needwinico2 Winico05.dll doit figurer dans le dossier utilitaires/windows pour que l'intégration dans le dock fonctionne
 never Jamais
 new_ft_protocol Utiliser le nouveau protocole de téléchargement de fichiers (certains bugs peuvent subsister)
+newchat Nouvelle conversation
 newmail $1 nouveaux messages
 newmailfolder $1 nouveaux messages dans les autres dossiers Hotmail
 newmailfrom Nouveau message de $1 ($2)
@@ -669,6 +671,7 @@ showmypic Mon avatar
 showmailicon Montrer l'icône des mails dans la boîte à miniatures lorsque de nouveaux mails arrivent
 shownotify Afficher la fenêtre d'annonce quand certains événements se produisent
 showpicnotify Montrer l'avatar des contacts dans la fenêtre d'annonce
+showwith Montrer $1 par $2
 showuserpic Icône de $1
 signinstatus Status lors de la connexion
 skin apparence
@@ -682,6 +685,8 @@ smiletoobig L'émoticon que vous avez choisi est plus grand que la taille normale
 snackfailed Snack n'a pas pu se lancer, retour à la valeur par défaut
 snapshot Garder l'image
 sngdblclick Un click simple ouvre une nouvelle fenêtre de conversation
+sortby Trier $1 par $2
+sortin Trier $1 en $2
 sound2 Jouer un son quand un contact se connecte ou quand un message est reçu
 soundactive Jouer un son même lorsque le message arrive dans la fenêtre active
 soundcommand Ceci est la commande de lecture de sons (ex: esdplay)
@@ -710,6 +715,7 @@ statenewtext Veuillez entrer les informations nécessaires\nà la création de votr
 statenick pseudonyme personnalisé (laisser vierge pour aucun changement)
 stats Statistiques
 status Statut
+stdorder ordre standard
 stop Arrêter
 stopalarm Arrêter l'alarme
 stopwebcamreceive Arrêter la réception de la webcam

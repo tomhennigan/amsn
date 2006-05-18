@@ -377,6 +377,11 @@ namespace eval ::MSNCAM {
 	}
 
 	proc SendCamInvitation { chatid guid context } {
+
+		if {[::ChatWindow::For $chatid]==0} {
+			::amsn::chatUser $chatid
+		}
+
 		status_log "Sending Webcam Request\n"
 
 		set sid [expr {int([expr {rand() * 1000000000}])%125000000 + 4}]
