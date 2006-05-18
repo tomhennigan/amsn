@@ -57,7 +57,6 @@ proc set_balloon {target message {pic ""}} {
     set BullePic(${target}) ${pic}
     bindtags ${target} "[bindtags ${target}] Bulle"
     bind $target <Destroy> "array unset Bulle ${target}; array unset BullePic ${target}"
-    
 }
 
 proc change_balloon {target message {pic ""}} {
@@ -79,7 +78,7 @@ proc kill_balloon {} {
     }
 }
 
-proc balloon {target message pic {cx 0} {cy 0} } {
+proc balloon {target message pic {cx 0} {cy 0} {fonts ""} {mode "simple"} } {
     global Bulle tcl_platform
     #check that the mouse is over the target (fix a tk bug - in windows)
     if {[eval winfo containing  [winfo pointerxy .]]!=$target} {
@@ -94,15 +93,6 @@ proc balloon {target message pic {cx 0} {cy 0} } {
     after cancel "kill_balloon"
     if {$Bulle(first) == 1 } {
         set Bulle(first) 2
-	
-	if { [string equal -length 11 $message "--command--"] } {
-		set command [string range $message 11 end]
-		set message [eval $command]
-	}
-	if { [string equal -length 11 $pic "--command--"] } {
-		set command [string range $pic 11 end]
-		set pic [eval $command]
-	}
 	
 	if { $cx == 0 && $cy == 0 } {
 	    set x [expr {[winfo rootx ${target}] + ([winfo width ${target}]/2)}]
@@ -138,10 +128,16 @@ proc balloon {target message pic {cx 0} {cy 0} } {
 		}
 	}
 	pack .balloon.f -padx $bw -pady $bw
+	
+	if { [string equal -length 11 $pic "--command--"] } {
+		set command [string range $pic 11 end]
+		set pic [eval $command]
+	}
+	
 	if { $pic != "" && ![catch {$pic cget -file}]} {
 		label .balloon.f.pic -image $pic -bg [::skin::getKey balloonbackground]
-		pack .balloon.f.pic -side left
 		set iwidth [image width $pic]
+		pack .balloon.f.pic -side left
 	} else {
 		set iwidth 0
 	}
@@ -157,9 +153,38 @@ proc balloon {target message pic {cx 0} {cy 0} } {
 		set wlength 200
 	}
 
-        label .balloon.f.l \
-	    -text ${message} -relief flat \
-	    -bg [::skin::getKey balloonbackground] -fg [::skin::getKey balloontext] -padx 2 -pady 0 -anchor w -font [::skin::getKey balloonfont] -justify left -wraplength $wlength
+	if { $mode == "complex" } {
+		set i 1;
+		foreach msg_part $message font_part $fonts {
+			if { [string equal -length 11 $msg_part "--command--"] } {
+				set command [string range $message 11 end]
+				set message [eval $command]
+			}
+			if { $font_part == "" } {
+				set font_part [::skin::getKey balloonfont]
+			}
+			
+			label ".balloon.f.l$i" \
+			-text ${msg_part} -relief flat \
+			-bg [::skin::getKey balloonbackground] -fg [::skin::getKey balloontext] -padx 2 -pady 0 \
+			-anchor w -font $font_part -justify left -wraplength $wlength
+			pack ".balloon.f.l$i" -side top -fill x
+			incr i
+		}
+	} elseif { $mode == "simple" } {
+		if { [string equal -length 11 $message "--command--"] } {
+			set command [string range $message 11 end]
+			set message [eval $command]
+		}
+	        label .balloon.f.l \
+		    -text ${message} -relief flat \
+		    -bg [::skin::getKey balloonbackground] -fg [::skin::getKey balloontext] -padx 2 -pady 0 -anchor w \
+		    -font [::skin::getKey balloonfont] -justify left -wraplength $wlength
+		pack .balloon.f.l -side left
+	} else {
+		error "Optional parameter mode must be either \"simple\" or \"complex\"."
+	}
+
 	if {$tcl_platform(platform) == "windows"} {
 		set bw [::skin::getKey balloonborderwidth]
 	} else {
@@ -169,7 +194,6 @@ proc balloon {target message pic {cx 0} {cy 0} } {
 		}
 	}
 	
-	pack .balloon.f.l -side left
         wm geometry .balloon +${x}+${y}
         
 	#Focus last windows , in AquaTK ("Mac OS X focus bug")

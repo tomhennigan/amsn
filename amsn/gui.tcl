@@ -5066,23 +5066,19 @@ proc cmsn_draw_buildtop_wrapped {} {
                 $pgBuddyTop.mystatus insert end "\n$psmmedia" mypsmmedia
         }
 
-        if {$psmmedia == ""} {
-                set balloon_message [string map {"%" "%%"} "$my_name\n [::config::getKey login]\n [trans status] : $my_state_desc"]
-        } else {
-                set balloon_message [string map {"%" "%%"} "$my_name\n $psmmedia\n [::config::getKey login]\n [trans status] : $my_state_desc"]
-        }
+	set balloon_message [list "$my_name" "$psmmedia" "[::config::getKey login]" "[trans status] : $my_state_desc"]
+	set fonts [list "bboldf" "sitalf" "bplainf" "bplainf"]
+	
+        $pgBuddyTop.mystatus tag bind mystatus <Enter> \
+        	+[list balloon_enter %W %X %Y $balloon_message $pic_name $fonts complex]
+        $pgBuddyTop.mystatus tag bind mystatus <Leave> "+set Bulle(first) 0; kill_balloon"
+        $pgBuddyTop.mystatus tag bind mystatus <Motion> \
+        	+[list balloon_motion %W %X %Y $balloon_message $pic_name $fonts complex]
 
-        $pgBuddyTop.mystatus tag bind mystatus <Enter> +[list balloon_enter %W %X %Y $balloon_message $pic_name]
-
-        $pgBuddyTop.mystatus tag bind mystatus <Leave> \
-                "+set Bulle(first) 0; kill_balloon"
-
-        $pgBuddyTop.mystatus tag bind mystatus <Motion> +[list balloon_motion %W %X %Y $balloon_message $pic_name]
-
-        bind $pgBuddyTop.bigstate <Enter> +[list balloon_enter %W %X %Y $balloon_message $pic_name]
+        bind $pgBuddyTop.bigstate <Enter> +[list balloon_enter %W %X %Y $balloon_message $pic_name $fonts]
         bind $pgBuddyTop.bigstate <Leave> \
                 "+set Bulle(first) 0; kill_balloon;"
-        bind $pgBuddyTop.bigstate <Motion> +[list balloon_motion %W %X %Y $balloon_message $pic_name]
+        bind $pgBuddyTop.bigstate <Motion> +[list balloon_motion %W %X %Y $balloon_message $pic_name $fonts]
 
         if {[::config::getKey listsmileys]} {
                 ::smiley::substSmileys $pgBuddyTop.mystatus
@@ -5850,56 +5846,34 @@ proc ShowUser {user_login state_code colour section grId} {
 	}
 
 	if { [::config::getKey tooltips] == 1 } {
-		if {$not_in_reverse} {
-			set balloon_message2 "\n[trans notinlist]"
-		} else {
-			set balloon_message2 ""
+		set gname ""
+		set glist [::abook::getGroups $user_login]
+		foreach i $glist {
+			set gname "$gname [::groups::GetName $i]"
 		}
-		if {[::config::getKey orderbygroup] == 0} {
-			set gname ""
-			set glist [::abook::getGroups $user_login]
-			foreach i $glist {
-				set gname "$gname [::groups::GetName $i]"
-			}
-			set balloon_message3 "\n[trans group] : $gname"
-		} else {
-			set balloon_message3 ""
-		}
-		if {$state_code == "FLN"} {
-			set balloon_message4 "\n[trans lastseen] : [::abook::dateconvert "[::abook::getContactData $user_login last_seen]"]"
-		} else {
-			set balloon_message4 ""
-		}
-		if {[::abook::getContactData $user_login webcam_shared] == 1} {
-			set balloon_message5 "\n[trans shareswebcam]"
-		} else {
-			set balloon_message5 ""
-		}		
-		set psmmedia [::abook::getpsmmedia $user_login]
-		if { $psmmedia != "" } {
-			append psmmedia "\n"
-		}
-		
-		set balloon_message "[string map {"%" "%%"} [::abook::getNick $user_login]]\n${psmmedia}$user_login\n[trans status] : [trans [::MSN::stateToDescription $state_code]] $balloon_message2 $balloon_message3 $balloon_message4 $balloon_message5\n[trans lastmsgedme] : [::abook::dateconvert "[::abook::getContactData $user_login last_msgedme]"]"
-		$pgBuddy.text tag bind $user_unique_name <Enter> +[list balloon_enter %W %X %Y $balloon_message "--command--::skin::getDisplayPicture $user_login"]
+
+		set balloon_message [list "[::abook::getNick $user_login]" "[::abook::getpsmmedia $user_login]" "$user_login" "[trans status] : [trans [::MSN::stateToDescription $state_code]]" "[trans group] : $gname"]
+		set fonts [list "bboldf" "sitalf" "bplainf" "bplainf" "bplainf"]
+
+		$pgBuddy.text tag bind $user_unique_name <Enter> +[list balloon_enter %W %X %Y $balloon_message "--command--::skin::getDisplayPicture $user_login" "$fonts" complex]
 
 		$pgBuddy.text tag bind $user_unique_name <Leave> \
 			"+set Bulle(first) 0; kill_balloon"
 
-		$pgBuddy.text tag bind $user_unique_name <Motion> +[list balloon_motion %W %X %Y $balloon_message "--command--::skin::getDisplayPicture $user_login"]
+		$pgBuddy.text tag bind $user_unique_name <Motion> +[list balloon_motion %W %X %Y $balloon_message "--command--::skin::getDisplayPicture $user_login" "$fonts" complex]
 
-		$pgBuddy.text tag bind $imgname <Enter> +[list balloon_enter %W %X %Y $balloon_message "--command--::skin::getDisplayPicture $user_login"]
+		$pgBuddy.text tag bind $imgname <Enter> +[list balloon_enter %W %X %Y $balloon_message "--command--::skin::getDisplayPicture $user_login" "$fonts" complex]
 		$pgBuddy.text tag bind $imgname <Leave> \
 			"+set Bulle(first) 0; kill_balloon"
 
-		$pgBuddy.text tag bind $imgname <Motion> +[list balloon_motion %W %X %Y $balloon_message "--command--::skin::getDisplayPicture $user_login"]
+		$pgBuddy.text tag bind $imgname <Motion> +[list balloon_motion %W %X %Y $balloon_message "--command--::skin::getDisplayPicture $user_login" "$fonts" complex]
 
 		if {$not_in_reverse} {
-			$pgBuddy.text tag bind $imgname2 <Enter> +[list balloon_enter %W %X %Y $balloon_message "--command--::skin::getDisplayPicture $user_login"]
+			$pgBuddy.text tag bind $imgname2 <Enter> +[list balloon_enter %W %X %Y $balloon_message "--command--::skin::getDisplayPicture $user_login" "$fonts" complex]
 			$pgBuddy.text tag bind $imgname2 <Leave> \
 				"+set Bulle(first) 0; kill_balloon"
 
-			$pgBuddy.text tag bind $imgname2 <Motion> +[list balloon_motion %W %X %Y $balloon_message "--command--::skin::getDisplayPicture $user_login"]
+			$pgBuddy.text tag bind $imgname2 <Motion> +[list balloon_motion %W %X %Y $balloon_message "--command--::skin::getDisplayPicture $user_login" "$fonts" complex]
 		}
 	}
 	#Change mouse button and add control-click on Mac OS X
@@ -5944,21 +5918,21 @@ proc ShowUser {user_login state_code colour section grId} {
 }
 #///////////////////////////////////////////////////////////////////////
 
-proc balloon_enter {window x y msg {pic ""}} {
+proc balloon_enter {window x y msg {pic ""} {fonts ""} {mode "simple"}} {
 	global Bulle
-	#"+set Bulle(set) 0;set Bulle(first) 1; set Bulle(id) \[after 1000 [list balloon %W [list $balloon_message)] %X %Y]\]"
+	#"+set Bulle(set) 0;set Bulle(first) 1; set Bulle(id) \[after 1000 [list balloon %W [list $balloon_message] %X %Y]\]"
 	set Bulle(set) 0
 	set Bulle(first) 1
-	set Bulle(id) [after 1000 [list balloon ${window} ${msg} ${pic} $x $y]]
+	set Bulle(id) [after 1000 [list balloon ${window} ${msg} ${pic} $x $y ${fonts} ${mode}]]
 }
 
-proc balloon_motion {window x y msg {pic ""}} {
+proc balloon_motion {window x y msg {pic ""} {fonts ""} {mode "simple"}} {
 	global Bulle
 	#"if {\[set Bulle(set)\] == 0} \{after cancel \[set Bulle(id)\]; \
 	#         set Bulle(id) \[after 1000 [list balloon %W [list $balloon_message] %X %Y]\]\} "
 	if {[set Bulle(set)] == 0} {
 		after cancel [set Bulle(id)]
-		set Bulle(id) [after 1000 [list balloon ${window} ${msg} ${pic} $x $y]]
+		set Bulle(id) [after 1000 [list balloon ${window} ${msg} ${pic} $x $y ${fonts} ${mode}]]
 	}
 }
 
