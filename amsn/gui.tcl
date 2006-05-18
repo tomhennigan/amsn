@@ -5066,7 +5066,7 @@ proc cmsn_draw_buildtop_wrapped {} {
                 $pgBuddyTop.mystatus insert end "\n$psmmedia" mypsmmedia
         }
 
-	set balloon_message [list "$my_name" "$psmmedia" "[::config::getKey login]" "[trans status] : $my_state_desc"]
+	set balloon_message [list "[string map {"%" "%%"} $my_name]" "[string map {"%" "%%"} $psmmedia]" "[::config::getKey login]" "[trans status] : $my_state_desc"]
 	set fonts [list "bboldf" "sitalf" "bplainf" "bplainf"]
 	
         $pgBuddyTop.mystatus tag bind mystatus <Enter> \
@@ -5852,7 +5852,7 @@ proc ShowUser {user_login state_code colour section grId} {
 			set gname "$gname [::groups::GetName $i]"
 		}
 
-		set balloon_message [list "[::abook::getNick $user_login]" "[::abook::getpsmmedia $user_login]" "$user_login" "[trans status] : [trans [::MSN::stateToDescription $state_code]]" "[trans group] : $gname"]
+		set balloon_message [list "[string map {"%" "%%"} [::abook::getNick $user_login]]" "[string map {"%" "%%"} [::abook::getpsmmedia $user_login]]" "$user_login" "[trans status] : [trans [::MSN::stateToDescription $state_code]]" "[trans group] : $gname"]
 		set fonts [list "bboldf" "sitalf" "bplainf" "bplainf" "bplainf"]
 
 		$pgBuddy.text tag bind $user_unique_name <Enter> +[list balloon_enter %W %X %Y $balloon_message "--command--::skin::getDisplayPicture $user_login" "$fonts" complex]
