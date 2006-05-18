@@ -665,13 +665,14 @@ show_contactdps_in_cl Montrer des avatars dans la liste de contact
 showbanner Affiche la bannière d'aMSN
 showblockedlist Voir la liste des personnes que vous avez bloqué
 showcachedpics Afficher/Masquer les avatars cachés
+showcontactemail Voir les contacts par leur email
+showcontactnick Voir les contacts par leur pseudonyme
 showdisplaypic2 Afficher l'avatar par défaut à l'ouverture d'une fenêtre de conversation
 showdisplaypic Afficher l'avatar
 showmypic Mon avatar
 showmailicon Montrer l'icône des mails dans la boîte à miniatures lorsque de nouveaux mails arrivent
 shownotify Afficher la fenêtre d'annonce quand certains événements se produisent
 showpicnotify Montrer l'avatar des contacts dans la fenêtre d'annonce
-showwith Montrer $1 par $2
 showuserpic Icône de $1
 signinstatus Status lors de la connexion
 skin apparence
@@ -685,8 +686,11 @@ smiletoobig L'émoticon que vous avez choisi est plus grand que la taille normale
 snackfailed Snack n'a pas pu se lancer, retour à la valeur par défaut
 snapshot Garder l'image
 sngdblclick Un click simple ouvre une nouvelle fenêtre de conversation
-sortby Trier $1 par $2
-sortin Trier $1 en $2
+sortcontactgroup Trier les contacts par leur group
+sortcontacthybrid Trier les contacts en mode hybride
+sortcontactstatus Trier les contacts par leur statut
+sortgroupsasc Trier les groupes dans l'ordre standard
+sortgroupsdesc Trier les groupes dans l'ordre inversé
 sound2 Jouer un son quand un contact se connecte ou quand un message est reçu
 soundactive Jouer un son même lorsque le message arrive dans la fenêtre active
 soundcommand Ceci est la commande de lecture de sons (ex: esdplay)
@@ -715,7 +719,6 @@ statenewtext Veuillez entrer les informations nécessaires\nà la création de votr
 statenick pseudonyme personnalisé (laisser vierge pour aucun changement)
 stats Statistiques
 status Statut
-stdorder ordre standard
 stop Arrêter
 stopalarm Arrêter l'alarme
 stopwebcamreceive Arrêter la réception de la webcam
