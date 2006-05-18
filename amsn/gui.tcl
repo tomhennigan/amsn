@@ -3219,8 +3219,6 @@ proc cmsn_draw_main {} {
 		$appmenu add command -label "[trans preferences]..." \
 			-command Preferences -accelerator "Command-,"
 		$appmenu add separator
-		$appmenu add command -label "[trans quitmac]" \
-			-command exit -accelerator "Command-Q"
 	}
 	.main_menu add cascade -label "[trans account]" -menu .main_menu.account
 	.main_menu add cascade -label "[trans view]" -menu .main_menu.view
