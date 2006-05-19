@@ -611,7 +611,6 @@ purge Elimina
 pwcdriver Stai usando il driver pwc
 p4contextprefix Prefissa i mittenti nel P4-Context con questa serie di caratteri
 quit Chiudi
-quitmac Chiudi aMSN
 raised Ingrandito
 readonlymsgbox Il trasferimento del file è stato annullato perché la directory di destinazione ha permessi di sola lettura. \nPer favore cambia i permessi.
 readonlywarn ATTENZIONE: Il file potrebbe NON venire salvato correttamente poiché la directory "File Ricevuti" sembra essere protetta in scrittura.\nPer favore assicurati che i permessi della directory ($1) siano impostati correttamente prima di trasferire il file.

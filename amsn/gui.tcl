@@ -3260,7 +3260,7 @@ proc cmsn_draw_main {} {
 	$accnt add separator
 	
 	#change status submenu
-	$accnt add cascade -label "[trans mystatus]" -menu .my_menu -state disabled
+	$accnt add cascade -label "[trans changestatus]" -menu .my_menu -state disabled
 	
 	#change nick
 	$accnt add command -label "[trans changenick]..." -command cmsn_change_name -state disabled

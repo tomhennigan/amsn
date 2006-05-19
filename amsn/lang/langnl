@@ -44,6 +44,7 @@ appearance Weergave
 appearoff Offline weergeven
 areacode Netnummer
 aretyping $1 zijn bezig met typen
+askcam Webcam vragen
 askcontactwebcam om je contact te vragen of jij zijn/haar webcambeeld mag zien.
 askeachtime Altijd vragen wat er moet gebeuren
 asksendingyourwebcam om hem/haar uit te nodigen om jou webcambeeld te bekijken
@@ -116,6 +117,7 @@ change_mobile Instellingen voor MSN Mobiel aanpassen
 changenick Schermnaam wijzigen
 changesize Grootte wijzigen
 changestate $1 heeft de status veranderd in $2
+changestatus Status wijzigen
 changevideosettings Webcaminstellingen aanpassen
 change Wijzigen
 channels Kanalen
@@ -333,8 +335,9 @@ globaloverride Het algemene schermnaam-patroon heeft voorrang op aangepaste sche
 gonelunch Lunchpauze
 gotink $1 heeft je een handgeschreven bericht gestuurd
 goto Ga naar $1
+gotoinbox Ga naar Postvak IN
 groupadd Nieuwe groep maken
-groupdelete Een groep verwijderen
+groupdelete Groep verwijderen
 groupexists Groep bestaat al
 group Groep
 groupmissing Kan de groep niet vinden
@@ -376,10 +379,10 @@ invalidpicsize Het opgegeven plaatje is te groot. Zoek alsjeblieft een kleinere 
 invalidsound Het opgegeven geluidsbestand bestaat niet.
 invalidusername Ongeldige gebruikersnaam
 invitationcancelled De uitnodiging is geannuleerd
-invite Nodig iemand uit om deel te nemen aan dit gesprek
+invite Iemand uitnodigen...
 ipaddress IP-adres
 ipdetect Detecteer het IP-adres voor bestandsoverdracht via HTTP
-ircstyle Gesprek in IRC-stijl
+ircstyle IRC-stijl
 istyping $1 is aan het typen
 joins $1 neemt deel aan het gesprek
 justonce Maar één keer
@@ -459,13 +462,13 @@ msgmaxmin Weergave van binnenkomende berichten in een bestaand gesprek
 msgmode Kies hoe meerdere gespreksvensters worden weergegeven
 msn AMSN
 msnstatus MSN Messenger netwerk status
-msnstyle Gesprek in MSN-stijl
+msnstyle MSN-stijl
 mustrestart Je moet het programma herstarten voordat de veranderingen effect hebben
 myfriendlyname Mijn schermnaam tijdens een gesprek
 myhomephone Mijn telefoonnummer (thuis)
 mymobilephone Mijn mobiele nummer
 mynick Mijn schermnaam
-mypic Mijn afbeelding
+mypic Mijn schermafbeelding
 mystatus Mijn status
 myworkphone Mijn telefoonnummer (werk)
 name Naam
@@ -474,8 +477,8 @@ natkeepalive Verbinding in stand houden (Selecteren als de verbinding regelmatig
 needonline Je bent niet online
 needwinico2 Het bestand winico05.dll moet in de map utils/windows om het Windows systeemvak te kunnen gebruiken.
 never Nooit
-new_ft_protocol Gebruik het nieuwe protocol voor bestandsoverdracht (er zijn nog enkele bugs)
 newchat Nieuw gesprek
+new_ft_protocol Gebruik het nieuwe protocol voor bestandsoverdracht (er zijn nog enkele bugs)
 newline Nieuwe regel
 newmailfolder Je hebt $1 nieuwe berichten in andere Hotmail-mappen
 newmailfrom Nieuwe e-mail van $1 ($2)
@@ -646,10 +649,11 @@ sbcon Bezig met verbinden met schakelbord
 selectall Alles selecteren
 selectplugins Selecteer de plugins die je wilt activeren
 selectskin Kies een skin uit de lijst
+sendcam Webcam verzenden
 sendemail Stuur mijn e-mailadres mee, en houdt mij op de hoogte van wijzigingen (zie Vertrouwelijkheids verklaring)
-sendfile Een bestand of foto verzenden
+sendfile Een bestand verzenden
 sendmail Een e-mail verzenden
-sendmobmsg Een SMS bericht verzenden
+sendmobmsg Een bericht verzenden naar mobiel
 sendmsg Een bericht verzenden
 sendwebcaminvite Nodig dit contact uit om je webcam te bekijken
 send Zend
@@ -664,6 +668,8 @@ showbanner aMSN banner weergeven
 showblockedlist Toon de lijst van mensen die je geblokkeerd hebben
 showcachedpics Opgeslagen schermafbeeldingen van contacten weergeven.
 show_contactdps_in_cl Verkleinde schermafbeeldingen weergeven in de contactenlijst
+showcontactemail Contacten weergeven met e-mail adres
+showcontactnick Contacten weergeven met schermnaam
 showdisplaypic2 Schermafbeelding standaard tonen bij het openen van een gespreksvenster
 showdisplaypic Toon schermafbeelding
 showmailicon E-mail pictogram weergeven in het systeemvak als er nieuwe e-mails binnenkomen
@@ -683,6 +689,11 @@ smiletoobig De gekozen emoticon is groter dan gewoonlijk. Wil je de grootte aanp
 snackfailed Het is niet gelukt om Snack te laden. Teruggevallen op de standaardfuncties.
 snapshot Foto
 sngdblclick Slechts eenmaal klikken om een nieuw gespreksvenster te openen
+sortcontactgroup Contacten sorteren op groep
+sortcontacthybrid Contacten sorteren in hybride modus
+sortcontactstatus Contacten sorteren op Status
+sortgroupsasc Groepen oplopend sorteren
+sortgroupsdesc Groepen aflopend sorteren
 sound2 Geluid afspelen wanneer contacten zich aanmelden of een bericht verzenden
 soundactive Speel ook geluid af als een bericht aankomt in een actief venster
 soundcommand Dit moet het afspeelcommando zijn (vb: esdplay)
@@ -773,10 +784,10 @@ useralreadyonlist Deze gebruiker staat al in je lijst
 userblocked Dit contact is online maar heeft je geblokkeerd
 userdata Contactgegevens
 userdps Schermafbeeldingen
-usersettings Instellingen
 user Gebruiker
 usernotonline Dit contact is offline
 userproperties Eigenschappen van $1
+usersettings Instellingen
 useryourself Je kunt geen gesprek met jezelf starten
 usesnack Gebruik de Snack functie-bibliotheek (ingebouwd in Tcl)
 verifyblocked Controleer wie jou blokkeren

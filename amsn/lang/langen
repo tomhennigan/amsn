@@ -118,6 +118,7 @@ change_mobile Change Mobile settings
 changenick Change Nick
 changesize Change size
 changestate $1 changes state to $2
+changestatus Change Status
 changevideosettings Change video settings
 channels Channels
 charscounter Typed characters counter in chat window
@@ -467,8 +468,8 @@ myfriendlyname My friendly name
 myhomephone My Home Phone
 mymobilephone My Mobile Phone
 mynick My Nickname
-mypic My Display Picture:
-mystatus My status
+mypic My Display Picture
+mystatus My Status
 myworkphone My Work Phone
 name Name
 natip IP detection by web page 
@@ -613,7 +614,6 @@ psmplace Where should the Personal Message be placed ?
 publishphones Publish my phone numbers
 purge Purge
 pwcdriver You are using the pwc driver
-quitmac Quit aMSN
 quit Quit
 raised Raised/Deiconified
 readonlymsgbox The file transfer has been canceled due to the received directory being read-only. Please fix the permissions on this directory.
@@ -690,7 +690,7 @@ snackfailed Snack failed to load, reverting to default
 snapshot Snapshot
 sngdblclick Single click to open a new message window
 sortgroupsasc Sort Groups Ascending
-sortgroupsdesc Sort Ggroups Descending
+sortgroupsdesc Sort Groups Descending
 sortcontactgroup Sort Contacts by Group
 sortcontacthybrid Sort Contacts in Hybrid Mode
 sortcontactstatus Sort Contacts by Status

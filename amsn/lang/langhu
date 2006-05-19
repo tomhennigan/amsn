@@ -611,7 +611,6 @@ publishphones A telefonszámom közzététele
 purge Tisztítás
 pwcdriver Jelenleg pwc drivert használsz
 quit Kilépés
-quitmac Kilépés az aMSN-böl
 raised Teljes méret
 readonlymsgbox A fájl átvitel megszakadt, mert a cél könyvtár írásvédett. Légyszíves állítsd át a jogokat ehhez a könyvtárhoz.
 readonlywarn FIGYELEM: A fájl NEM lesz mentve a "Beérkezett fájlok" könyvtárba, mert az írásvédett. Légyszíves gyõzõdj meg arról, hogy a cél könyvtárhoz ($1) jól vannak beállítva az írás jogok.
