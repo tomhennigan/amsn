@@ -1134,7 +1134,7 @@ namespace eval ::pop3 {
 		set pos1 [expr [string first "<meta content=\"0\;" $data)] + 22]
 		set pos2 [expr [string first "\" http-equiv=\"refresh\"" $data $pos1] -1]
 		set url [string range $data $pos1 $pos2]
-		set url [string map { &amp; & } $url]
+		set url [string map { &amp; & &quot; "" } $url]
 #plugins_log "pop3" "(GMAIL)url:=$url"
 		
 		#that will be the latest page
