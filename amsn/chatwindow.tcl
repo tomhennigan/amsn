@@ -1406,11 +1406,11 @@ namespace eval ::ChatWindow {
 		$actionsmenu add command -label "[trans sendfile]..." \
 			-command "::amsn::FileTransferSend \[::ChatWindow::getCurrentTab $w\]"
 
-		$actionsmenu add command -label "[trans askwebcam]..." \
-			-command "::amsn::ShowChatList \"[trans askwebcam]\" \[::ChatWindow::getCurrentTab $w\] ::MSNCAM::AskWebcamQueue"
+		$actionsmenu add command -label "[trans askcam]..." \
+			-command "::amsn::ShowChatList \"[trans askcam]\" \[::ChatWindow::getCurrentTab $w\] ::MSNCAM::AskWebcamQueue"
 
-		$actionsmenu add command -label "[trans sendwebcaminvite]..." \
-			-command "::amsn::ShowChatList \"[trans sendwebcaminvite]\" \[::ChatWindow::getCurrentTab $w\] ::MSNCAM::SendInviteQueue"
+		$actionsmenu add command -label "[trans sendcam]..." \
+			-command "::amsn::ShowChatList \"[trans sendcam]\" \[::ChatWindow::getCurrentTab $w\] ::MSNCAM::SendInviteQueue"
 
 		#nudge to add item here
 	

@@ -6,14 +6,14 @@ acceptfile Do you want to accept the file $1 (size $2 bytes)? It will be saved i
 account Account
 actions Actions
 activeautoupdate Activate auto-update
-addacontact Add a contact
+addacontact Add Contact
 add Add
 addedyou $1 ($2) has added you to his/her contact list
 addprofile Add New Profile
 addprofiledesc Enter the login which you would like to create a new profile for. \nProfiles allow you to have different configurations for each login.\nWithout profiles you cannot use the History, Alarms or "Remember Password" functions.
 addstate Add New State
 addto Add to $1
-addtocontacts Add to contact list
+addtocontacts Add to Contact List
 addtoo Add this person to my contact list
 admincontacts Admin contacts
 admingroups Admin groups
@@ -44,6 +44,7 @@ appearance Appearance
 appearoff Appear offline
 areacode Area Code
 aretyping $1 are typing a message
+askcam Ask to Receive Webcam
 askcontactwebcam to ask for your contact's webcam, or 
 askeachtime Ask each time
 asksendingyourwebcam to ask for sending your own webcam
@@ -114,7 +115,7 @@ changedisplaypic Change Display picture
 changefont Change font
 changeglobnick Change Global Nick
 change_mobile Change Mobile settings
-changenick Change nick
+changenick Change Nick
 changesize Change size
 changestate $1 changes state to $2
 changevideosettings Change video settings
@@ -125,7 +126,7 @@ chat Chat
 chatmaxmin When a contact opens a chat with me I want it to be:
 chatreq Requesting chat
 chatsmileys2 Display Emoticons and Smileys in chat windows
-chatsmileys Chat smileys
+chatsmileys Show Smileys in Chat
 checkblocking Continuously check if users are blocking you
 checkemail Show mail notification line (inbox) in contact list
 checkfilman Received files will be saved in $1. Please check file manager settings in preferences window.
@@ -209,7 +210,7 @@ custom_edit Edit custom smiley
 custom_new Add new custom smiley
 customnick Custom Nick
 customsmileys Display other users' Custom Emoticons
-customstyle Customized style
+customstyle Customized Style
 custshowcustomsmileys Show user's Custom Emoticons
 cut Cut
 cutimageboxreset Reset the selection box\nsize to:
@@ -284,7 +285,7 @@ enterfilename Please enter a filename
 enternick Enter your nick
 enterpsm Your Personal Message
 errortls Error installing TLS module:
-eventhistory View events history
+eventhistory View Events History
 examples Examples
 exitamsn Are you sure you want to quit?
 extras Extra Services
@@ -333,19 +334,20 @@ globaloverride Global nickname pattern should override custom nicknames
 gonelunch Gone to lunch
 gotink $1 sent you an ink.
 goto Go to $1
-groupadd Add a group
-groupdelete Delete a group
+gotoinbox Go to Inbox
+groupadd Add Group
+groupdelete Delete Group
 groupexists Group already exists
 group Group
 groupmissing Cannot find group
 groupnewname New name
 groupnotempty Group is not empty!
 groupoldname Old name
-grouprename Rename a group
+grouprename Rename Group
 groups Groups
 groupunknown Unknown group
 handle Handle
-helpcontents Help contents
+helpcontents Help Contents
 help Help
 hidedisplaypic Hide Display Picture
 hiden Hide the emoticon from the smileys menu
@@ -379,7 +381,7 @@ invitationcancelled The invitation was cancelled
 invite Invite
 ipaddress IP Address
 ipdetect Detect correct IP for File Transfers using HTTP
-ircstyle IRC style chat
+ircstyle IRC Style
 istyping $1 is typing a message
 joins $1 joins conversation
 justonce Just once
@@ -410,7 +412,7 @@ listsmileys2 Display Emoticons and Smileys in aMSN's main contact list
 listsmileys List smileys
 ljoinedconf $1 has joined conference
 lleftconf $1 has left conference
-loadcontacts Load contact list
+loadcontacts Load Contact List
 load Load
 loadotherdisplaypic Loading DPs of $1, please wait...
 logbigger Log file sizes for each contact never exceeds 
@@ -443,7 +445,7 @@ mailer Mailer
 maintenance The server is going down for maintenance in $1 minutes
 maximised Maximised
 minimised Minimised/Iconified
-minimize Minimize to tray
+minimize Minimize to Tray
 mins minutes
 mobilegrp1 Mobile group
 mobilegrp2 Put users in "Mobile" group when offline (and sorted by status)
@@ -459,7 +461,7 @@ msg Message
 msgmode Select how to handle multiple message windows:
 msn aMSN
 msnstatus MSN Network Status
-msnstyle MSN style chat
+msnstyle MSN Style
 mustrestart You must restart the program to apply changes
 myfriendlyname My friendly name
 myhomephone My Home Phone
@@ -475,7 +477,7 @@ needonline You still are/appear offline!
 needwinico2 Need winico05.dll in the utils/windows directory for windows traydocking to work
 never Never
 new_ft_protocol Use new File Transfer protocol (some bugs remain)
-newchat New chat
+newchat New Chat
 newline Newline
 newmail $1 new message(s) in Inbox
 newmailfolder You have $1 new message(s) in other Hotmail folders
@@ -524,13 +526,13 @@ nudge $1 requests your attention
 offline Offline
 ok Ok
 onenewmail 1 new message in Inbox
-onlinehelp Online help
+onlinehelp Online Help
 online Online
 onphone On phone
 opendir Open directory
 openfilecommand Open file command
 openfile Open
-openreceived Open received files
+openreceived Open Received Files
 options Options
 ordercontactsby Order contacts by
 ordergroupsby Order groups by
@@ -639,7 +641,7 @@ reverselist Reverse list (RL):
 rightback Be right back
 saveas Save as
 savechatwinsize Save chat window size as default when resizing it
-savecontacts Save contact list
+savecontacts Save Contact List
 save Save
 savetofile Save to File
 says $1 says
@@ -647,11 +649,12 @@ sbcon Connecting to Switch Board
 selectall Select all
 selectplugins Please select the plugins you want enabled
 selectskin Please choose a skin from the list
+sendcam Send Webcam
 sendemail Send my email address to notify me of changes
-sendfile Send file
-sendmail Send mail
-sendmobmsg Send to Mobile device
-sendmsg Send message
+sendfile Send File
+sendmail Send E-mail
+sendmobmsg Send to Mobile Device
+sendmsg Send Message
 send Send
 sendwebcaminvite Invite a user to see your webcam
 sentbytes Sent $1 of $2 bytes
@@ -664,8 +667,8 @@ shareswebcam Shares webcam
 showbanner Show aMSN's banner
 showblockedlist Show list of people who blocked you
 showcachedpics Show cached display pictures
-showcontactemail Show contacts with e-mail
-showcontactnick Show contacts with nickname
+showcontactemail Show Contacts with E-mail
+showcontactnick Show Contacts with Nickname
 show_contactdps_in_cl Show thumbnails of contacts Display Pictures in Contact List
 showdisplaypic2 Show Display Picture by default when a chat window is opened
 showdisplaypic Show Display Picture
@@ -686,11 +689,11 @@ smiletoobig The smiley you choose is bigger than normal size. Do you want to res
 snackfailed Snack failed to load, reverting to default
 snapshot Snapshot
 sngdblclick Single click to open a new message window
-sortgroupsasc Sort groups ascending
-sortgroupsdesc Sort groups descending
-sortcontactgroup Sort contacts by group
-sortcontacthybrid Sort contacts in hybrid mode
-sortcontactstatus Sort contacts by status
+sortgroupsasc Sort Groups Ascending
+sortgroupsdesc Sort Ggroups Descending
+sortcontactgroup Sort Contacts by Group
+sortcontacthybrid Sort Contacts in Hybrid Mode
+sortcontactstatus Sort Contacts by Status
 sound2 Play sounds when contacts sign in or send a message
 soundactive Play sounds when receiving incoming messages also in active windows
 soundcommand This has to be the play command (ex: esdplay)
@@ -737,7 +740,7 @@ tabbedgroups A tabbed window for users from the same group
 tabbed Tabbed Windows
 tabtitlenick Display nicks in the tabs instead of email
 temp_state Temporary state (will not be saved)
-textsize Text size
+textsize Text Size
 thismonth This month
 throughserver Through server
 timeremaining Time remaining
@@ -800,7 +803,7 @@ webcamconfigure Configure Webcam
 webcamextloaded Webcamsn extension is loaded
 webcamextnotloaded Webcamsn extension is not loaded. You have to compile it.
 webcamfaq FAQ/Help for Webcam
-webcamhistory View Webcam sessions
+webcamhistory View Webcam Sessions
 webcaminvite $1 invited you to start an webcam session, but aMSN does not support this feature.
 webcaminvitereceived $1 invited you to start a webcam session. Do you want to accept this session?
 webcamrejected $1 rejected invitation for webcam session

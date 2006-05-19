@@ -133,7 +133,7 @@ proc trayicon_init {} {
  
        $iconmenu add separator         
 
-       $iconmenu add command -label "[trans goto [trans inbox]]..." -command ::hotmail::hotmail_login
+       $iconmenu add command -label "[trans gotoinbox]" -command ::hotmail::hotmail_login
        $iconmenu add separator
  
  #the login/logout one, defined later on (see below)

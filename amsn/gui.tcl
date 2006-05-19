@@ -3272,7 +3272,7 @@ proc cmsn_draw_main {} {
 	$accnt add separator
 	
 	#go to inbox
-	$accnt add command -label "[trans inbox]" -command "::hotmail::hotmail_login" -state disabled
+	$accnt add command -label "[trans gotoinbox]" -command "::hotmail::hotmail_login" -state disabled
 	
 	#go to my profile
 	$accnt add command -label "[trans editprofile]" -command "::hotmail::hotmail_profile" -state disabled
@@ -3359,7 +3359,7 @@ proc cmsn_draw_main {} {
 	$actions add command -label "[trans sendmsg]..." -command [list ::amsn::ShowUserList [trans sendmsg] ::amsn::chatUser] -state disabled
 
 	#Send SMS
-	$actions add command -label "[trans sendmobmsg]" -command [list ::amsn::ShowUserList [trans sendmobmsg] ::MSNMobile::OpenMobileWindow] -state disabled
+	$actions add command -label "[trans sendmobmsg]..." -command [list ::amsn::ShowUserList [trans sendmobmsg] ::MSNMobile::OpenMobileWindow] -state disabled
 
 	#Send e-mail
 	$actions add command -label "[trans sendmail]..." -command [list ::amsn::ShowUserList [trans sendmail] launch_mailer] -state disabled
@@ -3371,10 +3371,10 @@ proc cmsn_draw_main {} {
 	$actions add command -label "[trans sendfile]..." -command [list ::amsn::ShowUserList [trans sendfile] ::amsn::FileTransferSend] -state disabled	
 
 	#Send Webcam
-	$actions add command -label "[trans sendcam]" -command "" -command [list ::amsn::ShowUserList [trans sendcam] ::MSNCAM::SendInviteQueue] -state disabled
+	$actions add command -label "[trans sendcam]..." -command "" -command [list ::amsn::ShowUserList [trans sendcam] ::MSNCAM::SendInviteQueue] -state disabled
 	
 	#Ask Webcam
-	$actions add command -label "[trans askcam]" -command "" -command [list ::amsn::ShowUserList [trans askcam] ::MSNCAM::AskWebcamQueue] -state disabled
+	$actions add command -label "[trans askcam]..." -command "" -command [list ::amsn::ShowUserList [trans askcam] ::MSNCAM::AskWebcamQueue] -state disabled
 
 	
 	###########################
