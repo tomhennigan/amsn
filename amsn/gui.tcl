@@ -5067,7 +5067,7 @@ proc cmsn_draw_buildtop_wrapped {} {
         }
 
 	set balloon_message [list "[string map {"%" "%%"} $my_name]" "[string map {"%" "%%"} $psmmedia]" "[::config::getKey login]" "[trans status] : $my_state_desc"]
-	set fonts [list "bboldf" "sitalf" "bplainf" "bplainf"]
+	set fonts [list "sboldf" "sitalf" "splainf" "splainf"]
 	
         $pgBuddyTop.mystatus tag bind mystatus <Enter> \
         	+[list balloon_enter %W %X %Y $balloon_message $pic_name $fonts complex]
@@ -5075,10 +5075,9 @@ proc cmsn_draw_buildtop_wrapped {} {
         $pgBuddyTop.mystatus tag bind mystatus <Motion> \
         	+[list balloon_motion %W %X %Y $balloon_message $pic_name $fonts complex]
 
-        bind $pgBuddyTop.bigstate <Enter> +[list balloon_enter %W %X %Y $balloon_message $pic_name $fonts]
-        bind $pgBuddyTop.bigstate <Leave> \
-                "+set Bulle(first) 0; kill_balloon;"
-        bind $pgBuddyTop.bigstate <Motion> +[list balloon_motion %W %X %Y $balloon_message $pic_name $fonts]
+        bind $pgBuddyTop.bigstate <Enter> +[list balloon_enter %W %X %Y $balloon_message $pic_name $fonts complex]
+        bind $pgBuddyTop.bigstate <Leave> "+set Bulle(first) 0; kill_balloon;"
+        bind $pgBuddyTop.bigstate <Motion> +[list balloon_motion %W %X %Y $balloon_message $pic_name $fonts complex]
 
         if {[::config::getKey listsmileys]} {
                 ::smiley::substSmileys $pgBuddyTop.mystatus
@@ -5853,7 +5852,7 @@ proc ShowUser {user_login state_code colour section grId} {
 		}
 
 		set balloon_message [list "[string map {"%" "%%"} [::abook::getNick $user_login]]" "[string map {"%" "%%"} [::abook::getpsmmedia $user_login]]" "$user_login" "[trans status] : [trans [::MSN::stateToDescription $state_code]]" "[trans group] : $gname"]
-		set fonts [list "bboldf" "sitalf" "bplainf" "bplainf" "bplainf"]
+		set fonts [list "sboldf" "sitalf" "splainf" "splainf" "splainf"]
 
 		$pgBuddy.text tag bind $user_unique_name <Enter> +[list balloon_enter %W %X %Y $balloon_message "--command--::skin::getDisplayPicture $user_login" "$fonts" complex]
 
