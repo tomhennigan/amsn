@@ -13,7 +13,7 @@
         <br /><br />
         You can find instructions on how to install plugins in our <a href="http://amsn.sourceforge.net/wiki/tiki-index.php?page=Installing+Plugins+and+Skins">skin and plugin installation guide</a>.
         <br /><br />
-        If you would like to submit your plugin to this page, email it as a zip archive to amsn-plugins at lists dot sourceforge dot net. Please include a screenshot, description, which version(s) of aMSN it's for, and the platform/OS it's for.
+	If you would like to submit your plugin to this page, please read the <a href="http://amsn.sourceforge.net/wiki/tiki-index.php?page=Skin+and+plugin+submitting+guide">plugin submitting guide</a>.
 <br /><br />
 
 <a NAME="top"> </a>
