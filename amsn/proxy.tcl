@@ -49,12 +49,6 @@ proc secureSocket { args } {
 
 	# if a proxy has been configured
 	if {[string length $phost] && [string length $pport]} {
-		set auth ""
-		if { [::config::getKey proxyauthenticate] } {
-			set proxy_user [::config::getKey proxyuser]
-			set proxy_pass [::config::getKey proxypass]
-			set auth "Proxy-Authorization: Basic [base64::encode $proxy_user:$proxy_pass]\n"
-		}
 		#TODO: make async: set socket [socket -async $phost $pport]
 		# create the socket to the proxy
 		set socket [socket -async $phost $pport]
@@ -62,10 +56,14 @@ proc secureSocket { args } {
 		puts $socket "CONNECT $thost:$tport HTTP/1.0"
         	puts $socket "Host: $thost"
 	        puts $socket "User-Agent: [http::config -useragent]"
-	        puts $socket "Proxy-Connection: keep-alive"
-	        puts $socket "Connection: keep-alive"
-		if { [string length $auth] > 0 } {
-			puts $socket $auth
+		puts $socket "Content-Length: 0"
+	        puts $socket "Proxy-Connection: Keep-Alive"
+	        puts $socket "Connection: Keep-Alive"
+		puts $socket "Pragma: no-cache"
+		if { [::config::getKey proxyauthenticate] } {
+			set proxy_user [::config::getKey proxyuser]
+			set proxy_pass [::config::getKey proxypass]
+			puts $socket "Proxy-Authorization: Basic [base64::encode ${proxy_user}:${proxy_pass}]"
 		}
 		puts $socket ""
 		#flush $socket
