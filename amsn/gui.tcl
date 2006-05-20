@@ -2981,7 +2981,7 @@ namespace eval ::amsn {
 		global systemtray_exist statusicon ishidden
 		if {$closingdocks} {
 			wm iconify .
-			if { $systemtray_exist == 1 && $statusicon != 0 && [::config::getKey closingdocks] } {
+			if { $systemtray_exist == 1 && $statusicon != 0 } {
 				status_log "Hiding\n" white
 				wm state . withdrawn
 				set ishidden 1
