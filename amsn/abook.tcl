@@ -1072,14 +1072,14 @@ namespace eval ::abookGui {
 		label $nbIdent.fBasicInfo.fGroup.g -text "[trans group]:" -font splainf
 		label $nbIdent.fBasicInfo.fGroup.g1 -text "[::abook::getGroupsname $email]" -font splainf -fg blue -justify left -wraplength 300
 		pack $nbIdent.fBasicInfo.fGroup.g -side left
-		pack $nbIdent.fBasicInfo.fGroup.g1 -side right
+		pack $nbIdent.fBasicInfo.fGroup.g1 -side left
 		
 		grid $nbIdent.fBasicInfo.displaypic -row 0 -column 0 -sticky nwe -rowspan 4 -padx {0 8}
 		grid $nbIdent.fBasicInfo.h1 -row 0 -column 1 -sticky w
-		grid $nbIdent.fBasicInfo.e1 -row 1 -column 1 -sticky w
 		if { [::config::getKey protocol] >= 11 } {
-			grid $nbIdent.fBasicInfo.psm1 -row 2 -column 1 -sticky w
+			grid $nbIdent.fBasicInfo.psm1 -row 1 -column 1 -sticky w
 		}
+		grid $nbIdent.fBasicInfo.e1 -row 2 -column 1 -sticky w
 		grid $nbIdent.fBasicInfo.fGroup -row 3 -column 1 -sticky w
 		grid columnconfigure $nbIdent.fBasicInfo 1 -weight 1
 
