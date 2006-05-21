@@ -66,5 +66,6 @@ $plugins=array(array('aMSN Plus!','aMSN Extension similar to MSN Plus! (commands
 		array('WinSkin','Some options to make the contact list smaller','Arieh Schneier','0.11','All','aMSN 0.94',75,'winskin-0.11.zip'),
                 array('BigSmileys','Show an extra smileys button for selecting from customs smileys with a bigger preview.','Pablo Novara','20060116','All','aMSN 0.94',93,'bigsmileys-20060116.zip'),
                 array('Drae','Search for the description of the selected word in the Royal Spanish Academy dictionary <br/>--<br/>Busca la definicion del texto seleccionado en el diccionario de la Real Academia Espa�la.','Zaskar','1.0','Linux (requires lynx)','aMSN 0.94',92,'drae-1.0.zip'),
-		array('Organize Received','Saves received files by default in a subdirectory of the sender and optionally into another subdirectory of the date','Nilton Volpato','0.4','All','aMSN 0.94',0,'organize_received-0.4.zip'));
+		array('Organize Received','Saves received files by default in a subdirectory of the sender and optionally into another subdirectory of the date','Nilton Volpato','0.4','All','aMSN 0.94',0,'organize_received-0.4.zip'),
+		array('SendDraw','Pablo Novara','Allows you to send a image file as a draw to your contacts.','20060213','All','aMSN 0.95',0,'senddraw-20060213.zip'));
 ?>
