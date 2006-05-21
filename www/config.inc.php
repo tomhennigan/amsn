@@ -30,7 +30,8 @@ $devels=array(array('Alvaro J. Iradier Muro','airadier',551303,true),
                 array('Sander Hoentjen','tjikkun',491386,true));
 
 #format: 0->name 1->description 2->author 3->ID of image in wiki or 0 for none 4-> filename on the sf.net release system, blank for non
-$skins=array(array("pmdzskin",'pmdzskin','pmd',0,'pmdzskin-1.0.zip'),
+$skins=array(	array("Haudrey",'Haudrey','acabtheshura',0,'haudrey_aMSN_v1.2.zip'),
+	array("pmdzskin",'pmdzskin','pmd',0,'pmdzskin-1.0.zip'),
 	array("aDarwin",'A well deserved tribute to Darwin','Daniel Buenfil',81,'aDarwinV.4-0.95.zip'),
         array('aMSN for Mac','aMSN for Mac','Antero &amp; Martti Tiainen',65,'amsn-for-mac-0.95.zip'),
         array('Aqua Skin','Aqua Skin','BigBadBen',87,'AQUA-0.95.zip'),
