@@ -44,6 +44,7 @@ appearance Apparence
 appearoff Apparaître déconnecté[e]
 areacode Code régional
 aretyping $1 sont en train de taper un message
+askcam Demander à visionner la webcam
 askcontactwebcam pour demander à voir la webcam de votre contact, ou 
 askeachtime Demander à chaque fois
 asksendingyourwebcam pour inviter votre contact a voir votre webcam
@@ -117,6 +118,7 @@ changeglobnick Changer le pseudonyme général
 changenick Changer de pseudonyme
 changesize Changer la taille
 changestate $1 a changé de statut : $2
+changestatus Changer de statut
 changevideosettings Changer les paramètres vidéo
 channels Canaux
 charscounter Compteur de caractères dans la fenêtre de conversation
@@ -333,6 +335,7 @@ globaloverride Modèles de pseudonymes devant remplacer les pseudonymes personnal
 gonelunch Parti[e] manger
 gotink $1 vous a envoyé un message manuscrit
 goto Aller sur $1
+gotoinbox Aller à la boîte de réception
 groupadd Ajouter un groupe
 groupdelete Supprimer un groupe
 groupexists Le groupe existe déjà
@@ -647,6 +650,7 @@ selectall Tout sélectionner
 selectplugins Sélectionnez un plug-in
 selectskin Sélectionnez dans la liste l'apparence que vous souhaitez utiliser
 send Envoyer
+sendcam Envoyer la webcam 
 sendemail Envoyer mon adresse email pour m'avertir des changements
 sendfile Envoyer un fichier
 sendmail Envoyer un courrier
