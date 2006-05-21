@@ -3,6 +3,7 @@ aboutamsn AMSN-ren inguruan
 about Honi buruz
 acceptfile Onartu $1 fitxategia, tamaina $2? $3 gisa gordeta
 accept Onartu
+account Kontua
 actions Ekintzak
 activeautoupdate Egunera automatikoa aktibatu 
 addacontact Kontaktua gehitu
@@ -43,6 +44,7 @@ appearance Itxura
 appearoff Konektatuta
 areacode Kode eremua
 aretyping $1 idazten daude desberdinak edukiko dituzu profil honentzako. \n Sakatu "Profila sortu"-n $1 -rentzat profil berria sortzeko.
+askcam Galdetu Webcam jasotzeko
 askcontactwebcam zure webkamera kontaktuagaitik galdetzeko, edo
 askeachtime Aldi bakoitzean galdetu
 asksendingyourwebcam zure webkamera bidali ahal duzun galdetzeko
@@ -116,6 +118,7 @@ change_mobile Mugikorraren ezarpenak aldatu
 changenick Ezizena aldatu
 changesize Neurria aldatu
 changestate $1-k $2 egoerara aldaketa egiten du
+changestatus Egoera aldatu
 changevideosettings Bideo xehetasunak aldatu
 channels Kanalak
 charscounter Txat leihoan idatzitako karakterren kontagailua
@@ -180,6 +183,7 @@ contactadded Kontaktua gehituta
 contactdoesnotexist Kontaktua ez da existitzen
 contact Kontaktua
 contactlist Kontaktuen zerrenda (KZ):
+contacts Kontaktua
 continuously Jarraiki
 contrast Contrast
 conversationwith $1 erabiltzaile daude hizketan
@@ -331,6 +335,7 @@ globaloverride Ezizen orokorren ereduak ezizen pertsonalizatuen gainean gorde
 gonelunch Jatera joanda
 gotink $1(e)-k tinta bidaltzen dizu.
 goto $1-era jo
+gotoinbox Mezu-sarrerara jo
 groupadd Talde bat gehitu
 groupdelete Talde bat ezabatu
 groupexists Talde hau badago lehendik
@@ -425,12 +430,14 @@ login Saioa hasi
 logolder Iraganean egon diren solasaldiak logean gorde bakarrik
 logout Saioa amaitu
 logsbydate Logak datagaitik sailkatu
+logschats Elkarrizketak gordetzen dago
 logsin [e]-k oraintxe bertan saioa hasi du
 logsmileys Historia leihoan aMSN-ren Emoticonak eta Smiley-ak erakutsi
 logsout Oraintxe bertan atera egin da
 logwebcam Webcam saio guztiak aMSNren historikoan gorde etorkizunean ikusi ahal izateko
 longnick Zure ezizena 130 karaktere baino haundiagoa da. Ofizialki hau ez da MSN protokologaitik onargarria. Horrela utzi nahi duzu
 longp4c Zure lagunarteko izena 130 karaktere baino haundiagoa da. MSN bezero ofizialean aterako den lagunarteko izena $1 izango da. Seguru zaude?
+longpsm Zure mezu pertsonala luzeegia da. Hau ez dago ofizialki MSN
 lowrescam Erresoluzio gutxiko webcam-a erabili
 lprivtoconf Txat pribatua, $1ekin konferentzia bilakatu da
 luclosedwin $1n leihoa itxi duzu
@@ -439,6 +446,7 @@ mailerexample ( \$recipient = Hartzailea) Hotmail erabiltzeko utzi zuriz
 maintenance Zerbitzaria $1 minututan mantenimendurako jokoz kanpo geldituko da
 maximised Maximizatu
 minimised Minimizatu
+minimize Txikiagotu erretilutzeko
 mins minutuak
 mobilegrp1 Mugikor taldea
 mobilegrp2 sartu kontaktuak "mugikor" taldean deskonektaturik daudenean (egoeraz ordenaturik)
@@ -453,6 +461,7 @@ msgmaxmin Mezu berri bat jasotzen dudanean hura honako hau izatea nahi dut:
 msg Mezua
 msgmode Mezu anitzen leihoak nola erabili hautatu:
 msn AMSN
+msnstatus MSN Sarearen Egoera
 msnstyle MSN txataren estiloa
 mustrestart Aldaketak aplikatzeko programa berrabiarazi behar duzu
 myfriendlyname Nire lagunarteko izena
@@ -468,6 +477,7 @@ natkeepalive Maiz deskonektatua gelditzen bazara "Konektatuta gelditu" gaitu
 needonline Oraindik deskonektatuta zaude edo deskonektatuta ematen duzu!
 needwinico2 winico05.dll tresna/leihoen direcktorioan behar duzu leihoen traydocking-a ondo funtzionatu dezan
 never Inoiz ez
+newchat Txat berria
 new_ft_protocol Fitxategi Transferentziarako Protokolo berria erabili (Zenbait akats jarraitzen dute)
 newline Lerro berria
 newmail $1 mezu berri zure sarrera-bandejan
@@ -592,6 +602,7 @@ profileinuse Profil hau beste aMSN sesio batengaitik erabilia izaten ari da, hau
 profileloginradio Hasi saioa esistitzen den Profil bat erabiliz
 profiles Profilak
 properties Propietateak
+protokoloagaitik onartuta. Seguru hau jarri nahi duzula?
 proxyconfhttp HTTP proxyaren konfigurazioa
 proxyconf Proxyaren konfigurazioa
 proxyconnection Proxy zerbitzari bat erabiliz Internetera konektatzen naiz:
@@ -604,6 +615,7 @@ psmplace Non egon beharko luke Mezu Pertsonala?
 publishphones Nire telefono zenbakiak argitara eman
 purge Purgatu
 pwcdriver pwc kontrolatzailea erabiltzen zabiltza
+quit Irten
 raised Tolestuta
 readonlymsgbox Fitxategi transferentzia hau bertan behera utzi da, zeren eta direktorio hartzailea irakurri-soilik egoera dauka. Direktorio honetako aukeraketak aldatu
 readonlywarn KONTUZ: Fitxategia seguraski EZ da ondo gordeko zeren eta “Jasotako fitxategiak” direktorioa idatzi-babestua dago. Hartzaile direktorioko ( $1 ) baimenak ono daudela begiratu
@@ -639,6 +651,7 @@ selectall Denak hautatu
 selectplugins Gaitu nahi dituzun plugin-ak hautatu
 selectskin Zerrendatik azal bat aukeratu
 send Bidali
+sendcam Webcam bidali
 sendemail Nire eposta helbidea bidali, aldaketen inguruan informatu diezadaten
 sendfile Fitxategia bidali
 sendmail E-posta bidali
@@ -656,6 +669,8 @@ showbanner aMSN-aren bannerrak erakutsi
 showblockedlist Zu blokeatu zaituzten pertsonen zerrenda erakutsi
 showcachedpics Beste erabiltzaileak erabilitako irudiak eta gordetakoak erakutsi
 show_contactdps_in_cl Kontaktuen irudi-txikiak erakutsi. Erakutsi Irudiak Kontaktu Zerrendan
+showcontactemail Kontaktuak Epostarekin erakutsi
+showcontactnick Ezizenarekin kontaktuak erakutsi
 showdisplaypic2 Pantaila Irudia erakutsi lehenetsita txat leiho bat irekitzen denean
 showdisplaypic Pantaila Irudia erakutsi
 showmailicon Eposta berria iristerakoan Posta ikonoa erakutsi
@@ -663,6 +678,7 @@ showmypic Nire Pantaila Irudia
 shownotify Gertaera batzuk gertatzen direnean jakinarazpen leihoa erakutsi
 showpicnotify Jakinarazpen leihoan erabiltzaileen argazkiak erakutsi
 showuserpic $1 Pantaila Irudia
+showwith $2-rekin $1 erakutsi
 signinstatus Izen-ematearen egoera
 skin Azala
 skinselector Azalen aukeratzailea
@@ -675,6 +691,13 @@ smiletoobig Hautatutako smiley-a tamaina normalekoak baino haundiagoa da. Tamain
 snackfailed Snack ezin izan da kargatu, lehenetsitakoara bueltan
 snapshot Argazkia
 sngdblclick Klik xumea mezu berrien leihoa irekitzeko
+sortby $1 $2-gaitik ordenatu
+sortcontactgroup Kontaktuak taldeagaitik ordenatu
+sortcontacthybrid Kontaktuak modu hibridoan erakutsi
+sortcontactstatus Kontaktuak Egoeratik Ordenatu
+sortgroupsasc Behetik gora Taldeak ordenatu
+sortgroupsdesc Goitik behera Taldeak ordenatu
+sortin $1 ordenatu $2-n
 sound2 Kontaktuak sartzen direnean edo mezu bat jasotzerakoan soinu bat jo
 soundactive Leihoa aktiboetan zaudenean mezu bat jasotzerakoan soinuak egin ere.
 soundcommand Hau martxan jartzeko komandoa izan behar da (ex: esdplay)
@@ -703,6 +726,7 @@ statenick Ezizen pertsonalizatua (aldaketak egon ez daitezen zuriz utzi)
 statepsm Mezu pertsonal pertsonalizatua (aldaketarik ez balego utzi zuriz)
 stats Estatistikak
 status Egoera
+stdorder eskaera normala
 stopalarm Alarma gelditu
 stop Stop
 stopwebcamreceive Webkamera jasotzen gelditu
@@ -768,6 +792,7 @@ userdps Erabiltzailearen erakutsi irudiak
 user Erabiltzaile
 usernotonline Erabiltzailea ez dago konektaturik
 userproperties $1-aren ezaugarriak erabili
+usersettings Ezarpenak
 useryourself Zeure buruarekin ezin duzu txateatu
 usesnack Snack libreria erabili (Tcl internal)
 verifyblocked Begiratu nork blokeatuta zaituen
@@ -812,17 +837,3 @@ youblocked Honako honek blokeatu zaitu:
 yousay Zuk diozu
 youwant Zuk itxaroten duzu
 zoom Zooma
-account Kontua
-contacts Kontaktua
-logschats Elkarrizketak gordetzen dago
-longpsm Zure mezu pertsonala luzeegia da. Hau ez dago ofizialki MSN
-protokoloagaitik onartuta. Seguru hau jarri nahi duzula?
-minimize Txikiagotu erretilutzeko
-msnstatus MSN Sarearen Egoera
-newchat Txat berria
-quit Irten
-showwith $2-rekin $1 erakutsi
-sortby $1 $2-gaitik ordenatu
-sortin $1 ordenatu $2-n
-stdorder eskaera normala
-usersettings Ezarpenak
