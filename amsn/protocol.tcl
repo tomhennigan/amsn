@@ -1161,6 +1161,7 @@ namespace eval ::MSN {
 				set psm "<Data><PSM>$newpsm</PSM><CurrentMedia>$currentMedia</CurrentMedia></Data>"
 				::MSN::WriteSBNoNL ns "UUX" "[string length $psm]\r\n$psm"
 				save_config
+#				::Event::fireEvent myPSMChange protocol $userlogin
 			}
 		} else {
 			#Do nothing
@@ -1343,7 +1344,7 @@ namespace eval ::MSN {
 		}
 
 		# An event to let the GUI know a user is copied/added to a group
-		::Event::fireEvent addedUser protocol $passport $newGid
+		::Event::fireEvent contactAdded protocol $passport $newGid
 	}
 
 
@@ -1371,7 +1372,7 @@ namespace eval ::MSN {
 			set contact [urldecode [lindex $item 4]]    ;# Email address
 			#an event to let the GUI know a user is copied/added to a group
 			set newGid [lindex $item 6]
-			::Event::fireEvent addedUser protocol $contact $newGid
+			::Event::fireEvent contactAdded protocol $contact $newGid
 			msg_box "[trans contactadded]\n$contact"
 		}
 
@@ -1392,7 +1393,7 @@ namespace eval ::MSN {
 			#an event to let the GUI know a user is copied/added to a group
 			::abook::setContactData $contact contactguid [string range [lindex $item 5] 2 end]
 			::abook::setContactForGuid [string range [lindex $item 5] 2 end] $contact
-			::Event::fireEvent addedUser protocol $contact $gid
+			::Event::fireEvent contactAdded protocol $contact $gid
 			if { $gid != 0 } {
 				moveUser $contact 0 $gid
 			}
@@ -2763,6 +2764,17 @@ namespace eval ::Event {
 		variable eventsArray
 		lappend eventsArray($eventName,$caller) $listener
 	}
+	
+	proc unregisterEvent { eventName caller listener } {
+		variable eventsArray
+		set idx [lsearch [lindex [array get eventsArray "$eventName,$caller"] 1] $listener]
+		if { $idx != -1 } {
+			set eventsArray($eventName,$caller) [lreplace $eventsArray($eventName,$caller) $idx $idx]
+		} else {
+			status_log "ERROR: tried to unregister an unexistant event: $eventName,$caller" white
+		}
+			
+	}
 
 }
 
@@ -3253,6 +3265,7 @@ namespace eval ::Event {
 	                        }
 			}
                 }
+		::Event::fireEvent contactPSMChange protocol $contact
 	}
 	
 	method handleNOT { command payload } {
