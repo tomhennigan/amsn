@@ -332,6 +332,7 @@ namespace eval ::groups {
 		# Update the Delete Group... menu
 		::groups::updateMenu menu .group_list_delete ::groups::menuCmdDelete
 		::groups::updateMenu menu .group_list_rename ::groups::menuCmdRename
+		::Event::fireEvent groupRenamed groups $gid $gname
 	}
 
 	proc DeleteCB {pdu} {	# RMG 24 12065 15
@@ -361,6 +362,7 @@ namespace eval ::groups {
 		# Update the Delete Group... menu
 		::groups::updateMenu menu .group_list_delete ::groups::menuCmdDelete
 		::groups::updateMenu menu .group_list_rename ::groups::menuCmdRename
+		::Event::fireEvent groupRemoved groups $gid
 	}
 
 	proc AddCB {pdu} {	# ADG 23 12064 New%20Group 15 =?�-CC
@@ -393,6 +395,7 @@ namespace eval ::groups {
 		abook::setContactData contactlist groups [array get groups]	
 		::groups::updateMenu menu .group_list_delete ::groups::menuCmdDelete
 		::groups::updateMenu menu .group_list_rename ::groups::menuCmdRename
+		::Event::fireEvent groupAdded groups $gid
 	}
    
 	proc ToggleStatus {gid} {
