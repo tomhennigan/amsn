@@ -1296,7 +1296,7 @@ namespace eval ::MSN {
 			::MSN::WriteSB ns ADD "BL $userlogin $username"
 		}
 		#an event to let the GUI know a user is blocked
-		after 500 ::Event::fireEvent blockedContact protocol $userlogin
+		after 500 ::Event::fireEvent contactBlocked protocol $userlogin
 	}
 
 	proc unblockUser { userlogin username} {
@@ -1307,7 +1307,7 @@ namespace eval ::MSN {
 			::MSN::WriteSB ns ADD "AL $userlogin $username"
 		}
 		#an event to let the GUI know a user is unblocked
-		after 500 ::Event::fireEvent unblockedContact protocol $userlogin
+		after 500 ::Event::fireEvent contactUnblocked protocol $userlogin
 	}
 
 	# Move user from one group to another group
@@ -1327,7 +1327,7 @@ namespace eval ::MSN {
 		}
 
 		#an event to let the GUI know a user is moved between 2 groups
-		::Event::fireEvent movedContact protocol $passport $oldGid $newGid
+		::Event::fireEvent contactMoved protocol $passport $oldGid $newGid
 
 	}
 
@@ -1444,7 +1444,7 @@ namespace eval ::MSN {
 		}
 
 		#an event to let the GUI know a user is removed from a group / the list
-		::Event::fireEvent deletedUser protocol $userlogin $grId
+		::Event::fireEvent contactRemoved protocol $userlogin $grId
 	}
 
 	##################################################
