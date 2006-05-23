@@ -5851,7 +5851,7 @@ proc ShowUser {user_login state_code colour section grId} {
 			set gname "$gname [::groups::GetName $i]"
 		}
 
-		set balloon_message [list "[string map {"%" "%%"} [::abook::getNick $user_login]]" "[string map {"%" "%%"} [::abook::getpsmmedia $user_login]]" "$user_login" "[trans status]: [trans [::MSN::stateToDescription $state_code]]" "[trans group]: $gname"]
+		set balloon_message [list "[string map {"%" "%%"} [::abook::getNick $user_login]]" "[string map {"%" "%%"} [::abook::getpsmmedia $user_login]]" "$user_login" "[trans status]: [trans [::MSN::stateToDescription $state_code]]" "[trans group]:$gname"]
 		set fonts [list "sboldf" "sitalf" "splainf" "splainf" "splainf"]
 
 		$pgBuddy.text tag bind $user_unique_name <Enter> +[list balloon_enter %W %X %Y $balloon_message "--command--::skin::getDisplayPicture $user_login" "$fonts" complex]
