@@ -157,6 +157,7 @@ proc load_console {} {
 proc reload_files { } {
     uplevel \#0 {
 	
+	source amsncore.tcl
 	source ctthemes.tcl
 	source progressbar.tcl	;# Progressbar Megawidget
 	source migmd5.tcl
