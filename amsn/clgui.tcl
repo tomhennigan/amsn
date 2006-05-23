@@ -5,10 +5,11 @@
 #	* gui.tcl: getpicturefornotification
 
 
-# catch {destroy .test}; source clgui.tcl ; toplevel .test ; clwidget .test.cl ; pack .test.cl -anchor nw 
-
-
 snit::widgetadaptor clgroup {
+
+	delegate method * to hull
+	delegate option * to hull
+
 	option -state -default 1 -configuremethod setConfig ;# 1 = expanded, 0 = collapsed
 	option -name -configuremethod setConfig
 	option -color -configuremethod setConfig
@@ -279,6 +280,9 @@ snit::widgetadaptor clgroup {
 
 
 snit::widgetadaptor clcontact {
+
+	delegate method * to hull
+	delegate option * to hull
 
 	#protocol given options
 	option -address -default defaultaddress -configuremethod setConfig
@@ -849,6 +853,22 @@ snit::widgetadaptor clwidget {
 	}	
 }
 
+
+snit::widgetadaptor clself {
+
+	delegate method * to hull
+	delegate option * to hull
+
+	option -state -default FLN -configuremethod setConfig
+	option -nickname -default 1 -configuremethod setConfig
+	option -message -default 1 -configuremethod setConfig
+	option -image -default 0 -configuremethod setConfig
+	
+	constructor { args } {
+		installhull using canvas -bg white -constrainedwidth 1
+
+	}
+}
 
 
 #create a demo window
