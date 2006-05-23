@@ -2978,19 +2978,95 @@ namespace eval ::amsn {
 #	}
 
 	proc closeOrDock { closingdocks } {
-		global systemtray_exist statusicon ishidden
-		if {$closingdocks} {
-			wm iconify .
-			if { $systemtray_exist == 1 && $statusicon != 0 } {
-				status_log "Hiding\n" white
-				wm state . withdrawn
-				set ishidden 1
+###
+### $closingdocks:	1 = dock
+###			2 = close
+###			0 /unexistant = ask
+
+		global rememberdock
+		set rememberdock 0
+
+		
+		if {$closingdocks == 1} {
+			closeOrDockDock
+		} elseif { $closingdocks == 2} {
+			exit	 ;# WAS:	::amsn::closeAmsn
+		} else {
+#TODO
+			set w .closeordock
+
+			if { [winfo exists $w] } {
+				raise $w
+				return
 			}
 
-		} else {
-			exit	 ;# WAS:	::amsn::closeAmsn
+			toplevel $w
+			wm title $w "[trans closeordock]"
+			
+			#Create the 2 frames
+			frame $w.top
+			frame $w.buttons
+			
+			#Create the picture of warning (at left)
+			label $w.top.bitmap -image [::skin::loadPixmap warning]
+			pack $w.top.bitmap -side left -pady 5 -padx 10
+			
+			label $w.top.question -text "[trans askcloseordock]" -font bigfont
+			pack $w.top.question -pady 5 -padx 10
+			
+		
+			checkbutton $w.top.remember -text [trans remembersetting] -variable rememberdock
+			pack $w.top.remember -pady 5 -padx 10 -side left
+			
+			#Create the buttons
+			button $w.buttons.quit -text "[trans quit]" -command "::amsn::closeOrDockClose"
+			button $w.buttons.dock -text "[trans dock]" -command "::amsn::closeOrDockDock"
+			button $w.buttons.cancel -text "[trans cancel]" -command "destroy $w"
+			pack $w.buttons.quit -pady 5 -padx 5 -side right
+			pack $w.buttons.cancel -pady 5 -padx 5 -side left
+			pack $w.buttons.dock -pady 5 -padx 5 -side right
+			
+			#Pack frames
+			pack $w.top -pady 5 -padx 5 -side top
+			pack $w.buttons -pady 5 -padx 5 -fill x
+
+			moveinscreen $w 30
+			bind $w <<Escape>> "destroy $w"
+
+			
 		}
+		
 	}
+	
+	proc closeOrDockDock {} {
+		global systemtray_exist statusicon ishidden rememberdock
+
+		if {$rememberdock} {
+puts "save conf"
+			::config::setKey closingdocks 1
+		}
+		wm iconify .
+		if { $systemtray_exist == 1 && $statusicon != 0 && [::config::getKey closingdocks] } {
+			status_log "Hiding\n" white
+			wm state . withdrawn
+			set ishidden 1
+		}	
+		destroy .closeordock
+		unset rememberdock
+	}
+
+	proc closeOrDockClose {} {
+		global rememberdock
+
+		if {$rememberdock} {
+			::config::setKey closingdocks 2
+		}
+
+		destroy .closeordock
+		unset rememberdock
+		exit		
+	}
+	
 
 
 	#Adds a message to the notify, that executes "command" when clicked, and
@@ -3305,7 +3381,7 @@ proc cmsn_draw_main {} {
 		#Minimize to tray
 		$accnt add command -label "[trans minimize]" -command "::amsn::closeOrDock 1"
 		#Terminate aMSN
-		$accnt add command -label "[trans quit]" -command "::amsn::closeOrDock 0" -accelerator "Ctrl-Q"
+		$accnt add command -label "[trans quit]" -command "::amsn::closeOrDock [::config::getKey closingdocks]" -accelerator "Ctrl-Q"
 	}
 
 
@@ -4387,49 +4463,6 @@ proc cmsn_draw_offline {} {
 
 	$pgBuddy.text configure -state disabled
 
-
-	#Log in
-#	.main_menu.file entryconfigure 0 -state normal
-#	.main_menu.file entryconfigure 1 -state normal
-#	#Log out
-#	.main_menu.file entryconfigure 2 -state disabled
-#	#My status
-#	.main_menu.file entryconfigure 3 -state disabled
-#	#Inbox
-#	.main_menu.file entryconfigure 5 -state disabled
-#
-#	#Add a contact
-#	.main_menu.tools entryconfigure 0 -state disabled
-#	.main_menu.tools entryconfigure 1 -state disabled
-#	.main_menu.tools entryconfigure 4 -state disabled
-#	#Added by Trevor Feeney
-#	#Disables Group Order menu
-#	.main_menu.tools entryconfigure 5 -state disabled
-#	#Disables View Contacts by
-#	.main_menu.tools entryconfigure 6 -state disabled
-#	#Disable "View History" and "View Webcam Session"
-#	.main_menu.tools entryconfigure 8 -state disabled
-#	.main_menu.tools entryconfigure 9 -state disabled
-	#Disable "View Event Logging"
-#	.main_menu.tools entryconfigure 10 -state disabled
-
-	#Change nick
-#	configureMenuEntry .main_menu.actions "[trans changenick]..." disabled
-
-#	configureMenuEntry .main_menu.actions "[trans sendmail]..." disabled
-#	configureMenuEntry .main_menu.actions "[trans sendmsg]..." disabled
-#
-#	configureMenuEntry .main_menu.actions "[trans sendmsg]..." disabled
-	#configureMenuEntry .main_menu.actions "[trans verifyblocked]..." disabled
-	#configureMenuEntry .main_menu.actions "[trans showblockedlist]..." disabled
-
-
-#	configureMenuEntry .main_menu.file "[trans savecontacts]..." disabled
-#	configureMenuEntry .main_menu.file "[trans loadcontacts]..." disabled
-#
-	#Publish Phone Numbers
-	#   configureMenuEntry .options "[trans publishphones]..." disabled
-
 	#Initialize Preferences if window is open
 	#TODO. Better than this, trigger an event, and listen in prefrences for that event
 	if { [winfo exists .cfg] } {
@@ -5066,7 +5099,7 @@ proc cmsn_draw_buildtop_wrapped {} {
                 $pgBuddyTop.mystatus insert end "\n$psmmedia" mypsmmedia
         }
 
-	set balloon_message [list "[string map {"%" "%%"} $my_name]" "[string map {"%" "%%"} $psmmedia]" "[::config::getKey login]" "[trans status]: $my_state_desc"]
+	set balloon_message [list "[string map {"%" "%%"} $my_name]" "[string map {"%" "%%"} $psmmedia]" "[::config::getKey login]" "[trans status] : $my_state_desc"]
 	set fonts [list "sboldf" "sitalf" "splainf" "splainf"]
 	
         $pgBuddyTop.mystatus tag bind mystatus <Enter> \
@@ -5851,7 +5884,7 @@ proc ShowUser {user_login state_code colour section grId} {
 			set gname "$gname [::groups::GetName $i]"
 		}
 
-		set balloon_message [list "[string map {"%" "%%"} [::abook::getNick $user_login]]" "[string map {"%" "%%"} [::abook::getpsmmedia $user_login]]" "$user_login" "[trans status]: [trans [::MSN::stateToDescription $state_code]]" "[trans group]:$gname"]
+		set balloon_message [list "[string map {"%" "%%"} [::abook::getNick $user_login]]" "[string map {"%" "%%"} [::abook::getpsmmedia $user_login]]" "$user_login" "[trans status] : [trans [::MSN::stateToDescription $state_code]]" "[trans group] : $gname"]
 		set fonts [list "sboldf" "sitalf" "splainf" "splainf" "splainf"]
 
 		$pgBuddy.text tag bind $user_unique_name <Enter> +[list balloon_enter %W %X %Y $balloon_message "--command--::skin::getDisplayPicture $user_login" "$fonts" complex]
@@ -6328,70 +6361,65 @@ proc cmsn_change_name {} {
 	wm group $w .
 	wm title $w "[trans changenick] - [trans title]"
 
-	frame $w.f
-	label $w.f.nick_label -font sboldf -text "[trans enternick]:"
-	entry $w.f.nick_entry -width 40 -bg #FFFFFF -font splainf
-	label $w.f.nick_smiley -image [::skin::loadPixmap butsmile] -relief flat -padx 3 -highlightthickness 0
-	label $w.f.nick_newline -image [::skin::loadPixmap butnewline] -relief flat -padx 3
+	#ShowTransient $w
 
-	label $w.f.psm_label -font sboldf -text "[trans enterpsm]:"
-	entry $w.f.psm_entry -width 40 -bg #FFFFFF -font splainf
-	label $w.f.psm_smiley -image [::skin::loadPixmap butsmile] -relief flat -padx 3 -highlightthickness 0
-	label $w.f.psm_newline -image [::skin::loadPixmap butnewline] -relief flat -padx 3
 
-	label $w.f.p4c_label -font sboldf -text "[trans friendlyname]:"
-	entry $w.f.p4c_entry -width 40 -bg #FFFFFF -font splainf
-	label $w.f.p4c_smiley -image [::skin::loadPixmap butsmile] -relief flat -padx 3 -highlightthickness 0
-	label $w.f.p4c_newline -image [::skin::loadPixmap butnewline] -relief flat -padx 3
-	
-	grid $w.f.nick_label -row 0 -column 0 -sticky w
-	grid $w.f.nick_entry -row 0 -column 1 -sticky we
-	grid $w.f.nick_smiley -row 0 -column 2
-	grid $w.f.nick_newline -row 0 -column 3
-	
-	if { [::config::getKey protocol] == 11} {
-		grid $w.f.psm_label -row 1 -column 0 -sticky w
-		grid $w.f.psm_entry -row 1 -column 1 -sticky we
-		grid $w.f.psm_smiley -row 1 -column 2
-		grid $w.f.psm_newline -row 1 -column 3
-	}
-	
-	grid $w.f.p4c_label -row 2 -column 0 -sticky w
-	grid $w.f.p4c_entry -row 2 -column 1 -sticky we
-	grid $w.f.p4c_smiley -row 2 -column 2
-	grid $w.f.p4c_newline -row 2 -column 3
-	
-	grid columnconfigure $w.f 1 -weight 1
+	frame $w.fn
+	label $w.fn.label -font sboldf -text "[trans enternick]:"
+	entry $w.fn.name -width 40 -bg #FFFFFF -font splainf
+	label $w.fn.smiley -image [::skin::loadPixmap butsmile] -relief flat -padx 3 -highlightthickness 0
+	label $w.fn.newline -image [::skin::loadPixmap butnewline] -relief flat -padx 3
+
+	frame $w.psm
+	label $w.psm.label -font sboldf -text "[trans enterpsm]:"
+	entry $w.psm.name -width 40 -bg #FFFFFF -font splainf
+	label $w.psm.smiley -image [::skin::loadPixmap butsmile] -relief flat -padx 3 -highlightthickness 0
+	label $w.psm.newline -image [::skin::loadPixmap butnewline] -relief flat -padx 3
+
+	frame $w.p4c
+	label $w.p4c.label -font sboldf -text "[trans friendlyname]:"
+	entry $w.p4c.name -width 40 -bg #FFFFFF -font splainf
+	label $w.p4c.smiley -image [::skin::loadPixmap butsmile] -relief flat -padx 3 -highlightthickness 0
+	label $w.p4c.newline -image [::skin::loadPixmap butnewline] -relief flat -padx 3
 
 	frame $w.fb
 	button $w.fb.ok -text [trans ok] -command change_name_ok
 	button $w.fb.cancel -text [trans cancel] -command "destroy $w"
-	pack $w.fb.cancel -side right -padx { 5 0 }
-	pack $w.fb.ok -side right
-
-	pack $w.f $w.fb -side top -fill x -expand true -padx 5
-		
 	bind $w <<Escape>> "destroy $w"
-	bind $w.f.nick_entry <Return> "change_name_ok"
-	bind $w.f.psm_entry <Return> "change_name_ok"
-	bind $w.f.p4c_entry <Return> "change_name_ok"
-	bind $w.f.nick_smiley  <Button1-ButtonRelease> "::smiley::smileyMenu %X %Y $w.f.nick_entry"
-	bind $w.f.psm_smiley  <Button1-ButtonRelease> "::smiley::smileyMenu %X %Y $w.f.psm_entry"
-	bind $w.f.p4c_smiley  <Button1-ButtonRelease> "::smiley::smileyMenu %X %Y $w.f.p4c_entry"
-	bind $w.f.nick_newline  <Button1-ButtonRelease> "$w.f.nick_entry insert end \"\n\""
-	bind $w.f.psm_newline  <Button1-ButtonRelease> "$w.f.psm_entry insert end \"\n\""
-	bind $w.f.p4c_newline <Button1-ButtonRelease> "$w.f.p4c_entry insert end \"\n\""
-	bind $w.f.nick_entry <Tab> "focus $w.f.psm_entry; break"
-	bind $w.f.psm_entry <Tab> "focus $w.f.p4c_entry; break"
-	bind $w.f.p4c_entry <Tab> "focus $w.f.nick_entry; break"
 
-	$w.f.nick_entry insert 0 [::abook::getPersonal MFN]
-	$w.f.psm_entry insert 0 [::abook::getPersonal PSM]
-	$w.f.p4c_entry insert 0 [::config::getKey p4c_name]
+
+	pack $w.fn.label $w.fn.name $w.fn.newline $w.fn.smiley -side left -fill x -expand true
+	pack $w.psm.label $w.psm.name $w.psm.newline $w.psm.smiley -side left -fill x -expand true
+	pack $w.p4c.label $w.p4c.name $w.p4c.newline $w.p4c.smiley -side left -fill x -expand true
+	pack $w.fb.ok $w.fb.cancel -side right -padx 5
+
+	if { [::config::getKey protocol] == 11} {
+		pack $w.fn $w.psm $w.p4c $w.fb -side top -fill x -expand true -padx 5
+	} else {
+		pack $w.fn $w.p4c $w.fb -side top -fill x -expand true -padx 5
+	}
+		
+
+	bind $w.fn.name <Return> "change_name_ok"
+	bind $w.psm.name <Return> "change_name_ok"
+	bind $w.p4c.name <Return> "change_name_ok"
+	bind $w.fn.smiley  <Button1-ButtonRelease> "::smiley::smileyMenu %X %Y $w.fn.name"
+	bind $w.psm.smiley  <Button1-ButtonRelease> "::smiley::smileyMenu %X %Y $w.psm.name"
+	bind $w.p4c.smiley  <Button1-ButtonRelease> "::smiley::smileyMenu %X %Y $w.p4c.name"
+	bind $w.fn.newline  <Button1-ButtonRelease> "$w.fn.name insert end \"\n\""
+	bind $w.psm.newline  <Button1-ButtonRelease> "$w.psm.name insert end \"\n\""
+	bind $w.p4c.newline <Button1-ButtonRelease> "$w.p4c.name insert end \"\n\""
+	bind $w.fn.name <Tab> "focus $w.psm.name; break"
+	bind $w.psm.name <Tab> "focus $w.p4c.name; break"
+	bind $w.p4c.name <Tab> "focus $w.fn.name; break"
+
+	$w.fn.name insert 0 [::abook::getPersonal MFN]
+	$w.psm.name insert 0 [::abook::getPersonal PSM]
+	$w.p4c.name insert 0 [::config::getKey p4c_name]
 
 	catch {
 		raise $w
-		focus -force $w.f.nick_entry
+		focus -force $w.fn.name
 	}
 	moveinscreen $w 30
 }
@@ -6402,7 +6430,7 @@ proc cmsn_change_name {} {
 #///////////////////////////////////////////////////////////////////////
 proc change_name_ok {} {
 
-	set new_name [.change_name.f.nick_entry get]
+	set new_name [.change_name.fn.name get]
 	if {$new_name != ""} {
 		if { [string length $new_name] > 130} {
 			set answer [::amsn::messageBox [trans longnick] yesno question [trans confirm]]
@@ -6413,19 +6441,19 @@ proc change_name_ok {} {
 		::MSN::changeName [::config::getKey login] $new_name
 	}
 
-	if { [::config::getKey protocol] == 11} {
-		set new_psm [.change_name.f.psm_entry get]
-		#TODO: how many chars in a Personal Message?
-		if { [string length $new_psm] > 130} {
-			set answer [::amsn::messageBox [trans longpsm] yesno question [trans confirm]]
-			if { $answer == "no" } {
-				return
-			}
+if { [::config::getKey protocol] == 11} {
+	set new_psm [.change_name.psm.name get]
+	#TODO: how many chars in a Personal Message?
+	if { [string length $new_psm] > 130} {
+		set answer [::amsn::messageBox [trans longpsm] yesno question [trans confirm]]
+		if { $answer == "no" } {
+			return
 		}
-		::MSN::changePSM $new_psm
 	}
+	::MSN::changePSM $new_psm
+}
 
-	set friendly [.change_name.f.p4c_entry get]
+	set friendly [.change_name.p4c.name get]
 	if { [string length $friendly] > 130} {
 		set answer [::amsn::messageBox [trans longp4c [string range $friendly 0 129]] yesno question [trans confirm]]
 		if { $answer == "no" } {
@@ -8474,79 +8502,3 @@ proc highlight_selected_tags { text tags } {
 		}
 	}
 }
-
-# Implements "lsearch -all" for Tcl/TK 8.3 compatbility
-proc lsearchall {slist sterm} {
-	set i 0
-	foreach item $slist {
-		if { [lsearch $item $sterm] > -1 } {
-			lappend rlist $i
-		}
-		incr i
-	}
-	return $rlist
-}
-
-# Implements a button with background pixmap and text for Tcl/Tk 8.3
-proc btimg83 {w {args {}} } {
-	catch {destroy $w}
-	catch {destroy ${w}_lbl}
-	eval button $w  $args
-	pack propagate $w 0
-	pack [label ${w}_lbl -text [$w cget -text] \
-              -fg black -bg [::skin::getKey tabbarbg] -bd 0 -relief flat \
-	      -activebackground [::skin::getKey tabbarbg] \
-              -activeforeground black -font sboldf -highlightthickness 0 \
-              -pady 0 -padx 0] -side bottom -ipady 3 -in $w
-	foreach item [bind Button] {
-		bind ${w}_lbl $item [string map "%W $w" [bind Button $item]]
-	}
-	return $w
-}
-
-proc OnMac {} {
-	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-		return 1
-	} else {
-		return 0
-	}
-}
-proc OnWin {} {
-	global tcl_platform
-	if {$tcl_platform(platform) == "windows"} {
-		return 1
-	} else {
-		return 0
-	}
-}
-proc OnUnix {} {
-	if { ![catch {tk windowingsystem} wsystem] && $wsystem  == "x11" } {
-		return 1
-	} else {
-		return 0
-	}
-}
-proc PlatformIs {} {
-	global tcl_platform
-	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-		return "mac"
-	} elseif {$tcl_platform(platform) == "windows"} {
-		return "win"
-	} else {
-		return "unix"
-	}
-}
-proc ImageExists {img} {
-	return [expr {([catch {image type $img}]* -1) + 1}]
-}
-
-proc TmpImgName {} {
-	set idx 0
-	while {[ImageExists tmp$idx]} {
-		incr idx
-	}
-	return tmp$idx
-}
-
-
-
