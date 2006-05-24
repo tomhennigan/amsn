@@ -1139,7 +1139,7 @@ namespace eval ::log {
 			set whole_size [file size [file join ${webcam_dir} ${email}.cam]]
 		}
 		$w.position.slider configure -to $whole_size
-		bind $w.position.slider <ButtonRelease-1> [list ::CAMGUI::Seek $w [file join ${webcam_dir} ${email}.cam]]
+		bind $w.position.slider <ButtonRelease-1> [list ::CAMGUI::Resume $w [file join ${webcam_dir} ${email}.cam]]
 
 		if { $whole_size > 0 } {
 			$w.slider.playbackspeed configure -state normal

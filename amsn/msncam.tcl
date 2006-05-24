@@ -729,7 +729,7 @@ namespace eval ::MSNCAM {
 					if { [::config::getKey webcamlogs] == 1 } {
 						set fd [getObjOption $sid weblog]
 						if { $fd == "" } {
-							set email [lindex [::MSNP2P::SessionList get $sid] 3]
+							set email [string tolower [lindex [::MSNP2P::SessionList get $sid] 3]]
 							if { ![catch {set fd [open [file join $::webcam_dir ${email}.cam] a]}] } {
 								fconfigure $fd -translation binary
 								setObjOption $sid weblog $fd

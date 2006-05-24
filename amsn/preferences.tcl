@@ -1093,8 +1093,8 @@ proc test2 {item oldval newval} {
 proc new_preferences {} {
 	PreferencesWindow create .prefs
 	
-	PreferenceSection create .prefs.personal
-	PreferenceSection create .prefs.personal.nick
+	PreferencesSection create .prefs.personal
+	PreferencesSection create .prefs.personal.nick
 	
 	.prefs.personal addItem 
 	
