@@ -450,7 +450,7 @@ snit::widgetadaptor clwidget {
 	constructor { args } {
 		installhull using ScrollableFrame -bg white -constrainedwidth 1
 		set widg [$self getframe]
-
+puts [array get options]
 		#Create a sorted list of the groups:
 		$self redrawCL
 		
@@ -471,6 +471,8 @@ snit::widgetadaptor clwidget {
 		::Event::registerEvent groupRenamed groups $self
 
 		::Event::registerEvent loggedOut protocol $self
+		
+		$self configurelist $args
 	}
 	
 	destructor {
@@ -945,7 +947,8 @@ catch {destroy .test}
 toplevel .test
 
 ScrolledWindow .test.sw
-clwidget .test.sw.cl
+
+clwidget .test.sw.cl ;#-groupoffline 0 -orderbygroup 1 -groupmobile 1 -orderdecreasing 1 -hideemptygroups 1
 
 .test.sw setwidget .test.sw.cl
 
