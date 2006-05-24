@@ -3300,10 +3300,8 @@ proc cmsn_draw_main {} {
 		$appmenu add separator
 		$appmenu add command -label "[trans skinselector]" \
 		  -command ::skinsGUI::SelectSkin -accelerator "Command-Shift-S"
-		bind . <Command-S> ::skinsGUI::SelectSkin
 		$appmenu add command -label "[trans pluginselector]" \
 		  -command ::plugins::PluginGui -accelerator "Command-Shift-P"
-		bind . <Command-P> ::plugins::PluginGui
 		$appmenu add separator
 		$appmenu add command -label "[trans preferences]..." \
 			-command Preferences -accelerator "Command-,"
@@ -3775,6 +3773,10 @@ proc cmsn_draw_main {} {
 		#Console
 		bind . <Command-c> "load_console; console show"
 		bind . <Command-C> "load_console; console show"
+		#Skin selector
+		bind . <Command-S> ::skinsGUI::SelectSkin
+		#Plugin selector
+		bind . <Command-P> ::plugins::PluginGui
 		#Preferences
 		bind . <Command-,> Preferences
 		#BossMode
