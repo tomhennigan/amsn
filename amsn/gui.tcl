@@ -5901,7 +5901,7 @@ proc ShowUser {user_login state_code colour section grId} {
 			set gname "$gname [::groups::GetName $i]"
 		}
 
-		set balloon_message [list "[string map {"%" "%%"} [::abook::getNick $user_login]]" "[string map {"%" "%%"} [::abook::getpsmmedia $user_login]]" "$user_login" "[trans status] : [trans [::MSN::stateToDescription $state_code]]" "[trans group] : $gname"]
+		set balloon_message [list "[string map {"%" "%%"} [::abook::getNick $user_login]]" "[string map {"%" "%%"} [::abook::getpsmmedia $user_login]]" "$user_login" "[trans status]: [trans [::MSN::stateToDescription $state_code]]" "[trans group]:$gname"]
 		set fonts [list "sboldf" "sitalf" "splainf" "splainf" "splainf"]
 
 		$pgBuddy.text tag bind $user_unique_name <Enter> +[list balloon_enter %W %X %Y $balloon_message "--command--::skin::getDisplayPicture $user_login" "$fonts" complex]
@@ -6367,7 +6367,6 @@ proc newcontact_ok { w x0 x1 } {
 
 #///////////////////////////////////////////////////////////////////////
 proc cmsn_change_name {} {
-
 	set w .change_name
 	if {[winfo exists $w]} {
 		raise $w
@@ -6378,65 +6377,70 @@ proc cmsn_change_name {} {
 	wm group $w .
 	wm title $w "[trans changenick] - [trans title]"
 
-	#ShowTransient $w
+	frame $w.f
+	label $w.f.nick_label -font sboldf -text "[trans enternick]:"
+	entry $w.f.nick_entry -width 40 -bg #FFFFFF -font splainf
+	label $w.f.nick_smiley -image [::skin::loadPixmap butsmile] -relief flat -padx 3 -highlightthickness 0
+	label $w.f.nick_newline -image [::skin::loadPixmap butnewline] -relief flat -padx 3
 
+	label $w.f.psm_label -font sboldf -text "[trans enterpsm]:"
+	entry $w.f.psm_entry -width 40 -bg #FFFFFF -font splainf
+	label $w.f.psm_smiley -image [::skin::loadPixmap butsmile] -relief flat -padx 3 -highlightthickness 0
+	label $w.f.psm_newline -image [::skin::loadPixmap butnewline] -relief flat -padx 3
 
-	frame $w.fn
-	label $w.fn.label -font sboldf -text "[trans enternick]:"
-	entry $w.fn.name -width 40 -bg #FFFFFF -font splainf
-	label $w.fn.smiley -image [::skin::loadPixmap butsmile] -relief flat -padx 3 -highlightthickness 0
-	label $w.fn.newline -image [::skin::loadPixmap butnewline] -relief flat -padx 3
-
-	frame $w.psm
-	label $w.psm.label -font sboldf -text "[trans enterpsm]:"
-	entry $w.psm.name -width 40 -bg #FFFFFF -font splainf
-	label $w.psm.smiley -image [::skin::loadPixmap butsmile] -relief flat -padx 3 -highlightthickness 0
-	label $w.psm.newline -image [::skin::loadPixmap butnewline] -relief flat -padx 3
-
-	frame $w.p4c
-	label $w.p4c.label -font sboldf -text "[trans friendlyname]:"
-	entry $w.p4c.name -width 40 -bg #FFFFFF -font splainf
-	label $w.p4c.smiley -image [::skin::loadPixmap butsmile] -relief flat -padx 3 -highlightthickness 0
-	label $w.p4c.newline -image [::skin::loadPixmap butnewline] -relief flat -padx 3
+	label $w.f.p4c_label -font sboldf -text "[trans friendlyname]:"
+	entry $w.f.p4c_entry -width 40 -bg #FFFFFF -font splainf
+	label $w.f.p4c_smiley -image [::skin::loadPixmap butsmile] -relief flat -padx 3 -highlightthickness 0
+	label $w.f.p4c_newline -image [::skin::loadPixmap butnewline] -relief flat -padx 3
+	
+	grid $w.f.nick_label -row 0 -column 0 -sticky w
+	grid $w.f.nick_entry -row 0 -column 1 -sticky we
+	grid $w.f.nick_smiley -row 0 -column 2
+	grid $w.f.nick_newline -row 0 -column 3
+	
+	if { [::config::getKey protocol] == 11} {
+		grid $w.f.psm_label -row 1 -column 0 -sticky w
+		grid $w.f.psm_entry -row 1 -column 1 -sticky we
+		grid $w.f.psm_smiley -row 1 -column 2
+		grid $w.f.psm_newline -row 1 -column 3
+	}
+	
+	grid $w.f.p4c_label -row 2 -column 0 -sticky w
+	grid $w.f.p4c_entry -row 2 -column 1 -sticky we
+	grid $w.f.p4c_smiley -row 2 -column 2
+	grid $w.f.p4c_newline -row 2 -column 3
+	
+	grid columnconfigure $w.f 1 -weight 1
 
 	frame $w.fb
 	button $w.fb.ok -text [trans ok] -command change_name_ok
 	button $w.fb.cancel -text [trans cancel] -command "destroy $w"
-	bind $w <<Escape>> "destroy $w"
+	pack $w.fb.cancel -side right -padx { 5 0 }
+	pack $w.fb.ok -side right
 
-
-	pack $w.fn.label $w.fn.name $w.fn.newline $w.fn.smiley -side left -fill x -expand true
-	pack $w.psm.label $w.psm.name $w.psm.newline $w.psm.smiley -side left -fill x -expand true
-	pack $w.p4c.label $w.p4c.name $w.p4c.newline $w.p4c.smiley -side left -fill x -expand true
-	pack $w.fb.ok $w.fb.cancel -side right -padx 5
-
-	if { [::config::getKey protocol] == 11} {
-		pack $w.fn $w.psm $w.p4c $w.fb -side top -fill x -expand true -padx 5
-	} else {
-		pack $w.fn $w.p4c $w.fb -side top -fill x -expand true -padx 5
-	}
+	pack $w.f $w.fb -side top -fill x -expand true -padx 5
 		
+	bind $w <<Escape>> "destroy $w"
+	bind $w.f.nick_entry <Return> "change_name_ok"
+	bind $w.f.psm_entry <Return> "change_name_ok"
+	bind $w.f.p4c_entry <Return> "change_name_ok"
+	bind $w.f.nick_smiley  <Button1-ButtonRelease> "::smiley::smileyMenu %X %Y $w.f.nick_entry"
+	bind $w.f.psm_smiley  <Button1-ButtonRelease> "::smiley::smileyMenu %X %Y $w.f.psm_entry"
+	bind $w.f.p4c_smiley  <Button1-ButtonRelease> "::smiley::smileyMenu %X %Y $w.f.p4c_entry"
+	bind $w.f.nick_newline  <Button1-ButtonRelease> "$w.f.nick_entry insert end \"\n\""
+	bind $w.f.psm_newline  <Button1-ButtonRelease> "$w.f.psm_entry insert end \"\n\""
+	bind $w.f.p4c_newline <Button1-ButtonRelease> "$w.f.p4c_entry insert end \"\n\""
+	bind $w.f.nick_entry <Tab> "focus $w.f.psm_entry; break"
+	bind $w.f.psm_entry <Tab> "focus $w.f.p4c_entry; break"
+	bind $w.f.p4c_entry <Tab> "focus $w.f.nick_entry; break"
 
-	bind $w.fn.name <Return> "change_name_ok"
-	bind $w.psm.name <Return> "change_name_ok"
-	bind $w.p4c.name <Return> "change_name_ok"
-	bind $w.fn.smiley  <Button1-ButtonRelease> "::smiley::smileyMenu %X %Y $w.fn.name"
-	bind $w.psm.smiley  <Button1-ButtonRelease> "::smiley::smileyMenu %X %Y $w.psm.name"
-	bind $w.p4c.smiley  <Button1-ButtonRelease> "::smiley::smileyMenu %X %Y $w.p4c.name"
-	bind $w.fn.newline  <Button1-ButtonRelease> "$w.fn.name insert end \"\n\""
-	bind $w.psm.newline  <Button1-ButtonRelease> "$w.psm.name insert end \"\n\""
-	bind $w.p4c.newline <Button1-ButtonRelease> "$w.p4c.name insert end \"\n\""
-	bind $w.fn.name <Tab> "focus $w.psm.name; break"
-	bind $w.psm.name <Tab> "focus $w.p4c.name; break"
-	bind $w.p4c.name <Tab> "focus $w.fn.name; break"
-
-	$w.fn.name insert 0 [::abook::getPersonal MFN]
-	$w.psm.name insert 0 [::abook::getPersonal PSM]
-	$w.p4c.name insert 0 [::config::getKey p4c_name]
+	$w.f.nick_entry insert 0 [::abook::getPersonal MFN]
+	$w.f.psm_entry insert 0 [::abook::getPersonal PSM]
+	$w.f.p4c_entry insert 0 [::config::getKey p4c_name]
 
 	catch {
 		raise $w
-		focus -force $w.fn.name
+		focus -force $w.f.nick_entry
 	}
 	moveinscreen $w 30
 }
@@ -6447,7 +6451,7 @@ proc cmsn_change_name {} {
 #///////////////////////////////////////////////////////////////////////
 proc change_name_ok {} {
 
-	set new_name [.change_name.fn.name get]
+	set new_name [.change_name.f.nick_entry get]
 	if {$new_name != ""} {
 		if { [string length $new_name] > 130} {
 			set answer [::amsn::messageBox [trans longnick] yesno question [trans confirm]]
@@ -6458,19 +6462,19 @@ proc change_name_ok {} {
 		::MSN::changeName [::config::getKey login] $new_name
 	}
 
-if { [::config::getKey protocol] == 11} {
-	set new_psm [.change_name.psm.name get]
-	#TODO: how many chars in a Personal Message?
-	if { [string length $new_psm] > 130} {
-		set answer [::amsn::messageBox [trans longpsm] yesno question [trans confirm]]
-		if { $answer == "no" } {
-			return
+	if { [::config::getKey protocol] == 11} {
+		set new_psm [.change_name.f.psm_entry get]
+		#TODO: how many chars in a Personal Message?
+		if { [string length $new_psm] > 130} {
+			set answer [::amsn::messageBox [trans longpsm] yesno question [trans confirm]]
+			if { $answer == "no" } {
+				return
+			}
 		}
+		::MSN::changePSM $new_psm
 	}
-	::MSN::changePSM $new_psm
-}
 
-	set friendly [.change_name.p4c.name get]
+	set friendly [.change_name.f.p4c_entry get]
 	if { [string length $friendly] > 130} {
 		set answer [::amsn::messageBox [trans longp4c [string range $friendly 0 129]] yesno question [trans confirm]]
 		if { $answer == "no" } {
