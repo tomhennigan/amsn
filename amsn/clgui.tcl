@@ -450,7 +450,7 @@ snit::widgetadaptor clwidget {
 	constructor { args } {
 		installhull using ScrollableFrame -bg white -constrainedwidth 1
 		set widg [$self getframe]
-puts [array get options]
+
 		#Create a sorted list of the groups:
 		$self redrawCL
 		
