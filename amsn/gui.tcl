@@ -3298,8 +3298,13 @@ proc cmsn_draw_main {} {
 		$appmenu add command -label "[trans about] aMSN" \
 			-command ::amsn::aboutWindow
 		$appmenu add separator
+		$appmenu add command -label "[trans skinselector]" \
+		  -command ::skinsGUI::SelectSkin -accelerator "Command-Shift-S"
+		bind . <Command-S> ::skinsGUI::SelectSkin
 		$appmenu add command -label "[trans pluginselector]" \
-			-command ::plugins::PluginGui
+		  -command ::plugins::PluginGui -accelerator "Command-Shift-P"
+		bind . <Command-P> ::plugins::PluginGui
+		$appmenu add separator
 		$appmenu add command -label "[trans preferences]..." \
 			-command Preferences -accelerator "Command-,"
 		$appmenu add separator
@@ -3507,8 +3512,16 @@ proc cmsn_draw_main {} {
 	set help .main_menu.helpmenu
 	menu $help -tearoff 0 -type normal
 
-	$help add command -label "[trans helpcontents]" \
-			-command "::amsn::showHelpFileWindow HELP [list [trans helpcontents]]"
+	if {[OnMac]} {
+		# The help menu on a mac should be given the Command-? accelerator.
+		$help add command -label "[trans helpcontents]" \
+		  -command "::amsn::showHelpFileWindow HELP [list [trans helpcontents]]"\
+		  -accelerator "Command-?"
+		bind all <Command-?> ::amsn::showHelpFileWindow\ HELP\ [list [trans helpcontents]]
+	} else {
+		$help add command -label "[trans helpcontents]" \
+		-command "::amsn::showHelpFileWindow HELP [list [trans helpcontents]]"
+	}
 
 	set lang [::config::getGlobalKey language]
 	$help add command -label "[trans faq]" \
@@ -3757,21 +3770,23 @@ proc cmsn_draw_main {} {
 	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 		#Status log
 		bind . <Command-s> toggle_status
-		bind . <Command-S> toggle_status
+		# Command-Shift-s is now used by the skin menuitem in appmenu.
+		#bind . <Command-S> toggle_status
 		#Console
 		bind . <Command-c> "load_console; console show"
 		bind . <Command-C> "load_console; console show"
 		#Preferences
 		bind . <Command-,> Preferences
 		#BossMode
-		bind . <Command-Option-space> BossMode
+		# Command Alt space is used as a global key combo since Mac OS X 10.4.
+		#bind . <Command-Alt-space> BossMode
+		bind . <Command-Shift-space> BossMode
 		#Plugins log
 		bind . <Option-p> ::pluginslog::toggle
 		bind . <Option-P> ::pluginslog::toggle
 		#Minimize contact list
 		bind . <Command-m> "catch {carbon::processHICommand mini .}"
 		bind . <Command-M> "catch {carbon::processHICommand mini .}"
-
 		bind all <Command-q> "exit"
 		bind all <Command-Q> "exit"
 		bind all <Command-Key-1> "raise ."
