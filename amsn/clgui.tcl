@@ -3,7 +3,19 @@
 #	* protocol.tcl (events)
 #	* abook.tcl (user data)
 #	* gui.tcl: getpicturefornotification
+#	* more stuff I forgot I guess
 
+#TODO:
+#	* visual appearance of a contact
+#		- multiple themes
+#		- all bindings ('bindtags' ?)
+#		- balloon
+#	* make the title of the individuals group not shown
+#	* per contact "groupslist" to have a list of all the groups the contact is in 
+#		instead of only where it resides in that object
+#	* clself widget
+#		- 
+#	...
 
 snit::widgetadaptor clgroup {
 
