@@ -39,7 +39,7 @@ snit::widgetadaptor clgroup {
 		frame $title -bg white -relief flat -highlightthickness 0
 		frame $cwidg -bg white -relief flat -highlightthickness 0
 
-		pack $title $cwidg -side top -expand 1 -fill x -anchor w
+		pack $title $cwidg -side top -fill x -anchor w
 
 		label $title.icon -image [::skin::loadPixmap contract] -bg white
 		label $title.gname -text "groupname" -fg black -bg white -font sboldf
@@ -687,9 +687,7 @@ snit::widgetadaptor clwidget {
 		}
 
 
-		set contacts [::MSN::sortedContactList]
-
-		foreach contact $contacts { 
+		foreach contact [::MSN::sortedContactList] { 
 			foreach gid [::abook::getGroups $contact] {
 				set altgid [$self getContactGroups $contact 1]
 				if {$altgid == ""} {
@@ -786,6 +784,10 @@ snit::widgetadaptor clwidget {
 		}	
 	
 	}
+	
+	method getGroupWidgets {} {
+		return [winfo children $widg]
+	}
 
 	method setConfig {option value} {
 		set oldvalue $options($option)
@@ -799,18 +801,84 @@ snit::widgetadaptor clwidget {
 
 		switch " $option" {
 			" -groupoffline" {
-				$self redrawCL
+				if {!$options(-orderbygroup)} {
+					#if we are ordered by statutus this doesn't do anything
+					return
+				}
+
+				$self updateGroups
+				#group offline contacts
+				if {$value == 1} {
+
+					#add offline groups
+					set exp [::config::getKey expanded_group_offline]
+					if { $exp == "" } { set exp 1 }
+					clgroup $widg.offline -state $exp -color black -name [trans offline] -hideifempty $options(-hideemptygroups)
+					pack $widg.offline -anchor w -side top
+
+					#foreach group, get the offline contacts and move 'm to the offline group
+					foreach groupwidg [$self getGroupWidgets] {
+						set group [winfo name $groupwidg]
+						foreach contact [$widg.$group getContactsWithState FLN] {
+							#don't change for mobile group
+							if {$group != "mobile" } {
+								$widg.$group rmContact $contact
+								$widg.offline addContact $contact $group
+							}
+						}
+					}
+				#UNgroup offline contacts
+				} else {
+					#move all contacts from the offline group to their respective groups
+					foreach contact [$widg.offline getContactsWithState FLN] {
+						foreach group [::abook::getGroups $contact] {
+							$widg.offline rmContact $contact
+							$widg.$group addContact $contact $group
+						}
+					}				
+				destroy $widg.offline
+				}
 			}
 			" -groupmobile" {				
-#				$self redrawCL
+				$self updateGroups
 				if {$value == 1} {
-					$self redrawCL
-					#create a mobile group
-#					#find all mobile users, delete 'm from offline and add 'm to mobile
-#					
+					#add mobile group
+					set exp [::config::getKey expanded_group_mobile]
+					if { $exp == "" } { set exp 1 }
+					clgroup $widg.mobile -state $exp -color black -name [trans mobile] -hideifempty $options(-hideemptygroups)
+					if { [winfo exists $widg.offline] } {
+						pack $widg.mobile -anchor w -side top -before $widg.offline
+					} else {
+						pack $widg.mobile -anchor w -side top
+					}
+
+					#move all mobile contacts to mobiule group
+					foreach contact [::MSN::sortedContactList] { 
+						#if it's a mobile contact
+						if { [::abook::getContactData $contact msn_mobile] == "1" && [::abook::getVolatileData $contact state FLN] == "FLN" } {
+							
+							set contactgroups [::abook::getGroups $contact]
+							#see in what groups the contact is now
+							if {$options(-orderbygroup) && !$options(-groupoffline)} {
+								set groups $contactgroups
+							} else {
+								set groups offline
+							}
+							
+							#remove it from each of these groups
+							foreach group $groups {
+								$widg.$group rmContact $contact
+							}
+
+							#listen carefully, I'm gonna add this only once
+							if {[$self getContactGroups $contact 1] == "mobile"} {
+								$widg.mobile addContact $contact [lindex $contactgroups 0]
+							}
+						}
+					}
 				} else {
 					#remove all mobile users, add 'm to their groups
-					foreach contact [$widg.mobile getContactsWithState ALL] {
+					foreach contact [$widg.mobile getContactsWithState FLN] {
 						$widg.mobile rmContact $contact
 						foreach gid [::abook::getGroups $contact] {
 							set altgid [$self getContactGroups $contact 1]
@@ -825,9 +893,9 @@ snit::widgetadaptor clwidget {
 						}
 					}
 					#remove mobile group
-					destroy $widg.mobile				
-#				
-#				}				
+					destroy $widg.mobile
+				
+				}				
 			}
 			" -orderbygroup" {
 				$self redrawCL
