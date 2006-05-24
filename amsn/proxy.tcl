@@ -77,7 +77,10 @@ proc secureSocket { args } {
 		set code [lindex [split $result { }] 1]
 
 		# be sure there's a valid response code
-		if {! ($code >= 200 && $code < 300)} {
+		# We use a regexp because of some (or maybe only one) proxy returning "HTTP/1.0  200 .." with two spaces, 
+		# so the split makes the code the 3rd argument not the second, and $code becomes empty. 
+		# refer to http://amsn.sf.net/forums/viewtopic.php?t=1030
+		if {! [regexp {^HTTP/1\.[01] +2[0-9][0-9]} $result]} {
 			return -code error $result
 		}
 
