@@ -2970,13 +2970,6 @@ namespace eval ::amsn {
 
 	}
 
-#	proc closeAmsn {} {
-#		set answer [::amsn::messageBox [trans exitamsn] yesno question [trans title]]
-#		if { $answer == "yes"} {
-#			exit
-#		}
-#	}
-
 	proc closeOrDock { closingdocks } {
 ###
 ### $closingdocks:	1 = dock
@@ -2990,9 +2983,8 @@ namespace eval ::amsn {
 		if {$closingdocks == 1} {
 			closeOrDockDock
 		} elseif { $closingdocks == 2} {
-			exit	 ;# WAS:	::amsn::closeAmsn
+			exit
 		} else {
-#TODO
 			set w .closeordock
 
 			if { [winfo exists $w] } {
@@ -3384,7 +3376,7 @@ proc cmsn_draw_main {} {
 		#Minimize to tray
 		$accnt add command -label "[trans minimize]" -command "::amsn::closeOrDock 1"
 		#Terminate aMSN
-		$accnt add command -label "[trans quit]" -command "::amsn::closeOrDock [::config::getKey closingdocks]" -accelerator "Ctrl-Q"
+		$accnt add command -label "[trans quit]" -command "::amsn::closeOrDock 2" -accelerator "Ctrl-Q"
 	}
 
 
