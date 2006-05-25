@@ -7,6 +7,16 @@
 #		nicknames for each status. We don't need backwards compatibility in 
 #		custom status system because previous versions don't store them 
 
+#a custom state is stored in the array StatesList
+#each state as an idx (an integer) is saved as argument in
+#StatesList($idx) which is a list of the following elements : (in order)
+# - the name of this state
+# - the custom nick
+# - the number describing the status (0 for Online ....)
+# - the number of lines of the automessage
+# - the automessage itself
+# - the personal message (aka psm)
+
 #///////////////////////////////////////////////////////////////////////////////
 # LoadStateList ()
 # Loads the list of states from the file in the HOME dir
@@ -43,13 +53,13 @@ proc SaveStateList {} {
 	set idx 0
 	while { $idx <= [expr {[StateList size] - 1}] } {
 		set tmp [StateList get $idx]
-		set tmp0 [::sxml::xmlreplace [lindex $tmp 0]]
-		set tmp1 [::sxml::xmlreplace [lindex $tmp 1]]
-		set tmp2 [::sxml::xmlreplace [lindex $tmp 2]]
-		set tmp4 [::sxml::xmlreplace [lindex $tmp 4]]
-		set tmp5 [::sxml::xmlreplace [lindex $tmp 5]]
-		puts $file_id "   <newstate>\n      <name>$tmp0</name>\n      <nick>$tmp1</nick>"
-		puts $file_id "      <state>$tmp2</state>\n      <message>$tmp4</message>\n      <psm>$tmp5</psm>\n   </newstate>\n"
+		set name [::sxml::xmlreplace [lindex $tmp 0]]
+		set nick [::sxml::xmlreplace [lindex $tmp 1]]
+		set state [::sxml::xmlreplace [lindex $tmp 2]]
+		set msg [::sxml::xmlreplace [lindex $tmp 4]]
+		set psm [::sxml::xmlreplace [lindex $tmp 5]]
+		puts $file_id "   <newstate>\n      <name>$name</name>\n      <nick>$nick</nick>"
+		puts $file_id "      <state>$state</state>\n      <message>$msg</message>\n      <psm>$psm</psm>\n   </newstate>\n"
 		incr idx 1
 	}
 	puts $file_id "</states>"
@@ -61,7 +71,7 @@ proc SaveStateList {} {
 # StateList (action argument)
 # Controls information for list of states
 # action can be :
-#	add : add a new state to the list (have to give a list with 3 elements)
+#	add : add a new state to the list (have to give a list with 6 elements)
 #	promote : makes state given by argument (is an index) the last used (for aging)
 #	get : Returns the state given by argument (is an index), returns 0 if dosen't exist
 #	unset : Removes state given by argument (is an index)
@@ -105,7 +115,7 @@ proc StateList { action { argument "" } {argument2 ""} } {
 
 		show {
 			for {set idx 0} {$idx < [array size StatesList]} {incr idx} {
-				#puts stdout "$idx : $StatesList($idx)\n"
+				status_log "$idx : $StatesList($idx)\n"
 			}
 			}
 		clear {
@@ -326,7 +336,8 @@ proc ChCustomState { idx } {
 # mode is 1 for adding a temporary state
 # mode is 2 for editing an old state, need to give idx of state to edit
 proc EditNewState { mode { idx "" } } {
-	global stemp chstate
+	global chstate
+	variable stemp
 	if { $mode == 2 } {
 		if { $idx != "" } {
 			if { [StateList get $idx] == 0 } {
@@ -415,14 +426,12 @@ proc EditNewState { mode { idx "" } } {
                 grid $lfname.lmsg -row 4 -column 1 -sticky nw -pady 10 -padx 5
                 grid $lfname.emsg -row 4 -column 2 -sticky w -pady 10 -padx 5
 	}
-
+	
 	#Frame for options
 	frame .editstate.options -class Degt
 	if { $mode != 2 } {
-		if { [info exists stemp] } {
-			unset stemp
-		}
-		checkbutton .editstate.options.stemp -text "[trans temp_state]" -onvalue 1 -offvalue 0 -font sboldf
+		set stemp 0
+		checkbutton .editstate.options.stemp -text "[trans temp_state]" -onvalue 1 -offvalue 0 -font sboldf -variable stemp
 		pack .editstate.options.stemp -anchor w -side top -padx 10 -pady 0
 	} elseif { $mode == 2 } {
 		set stemp 2
@@ -501,9 +510,11 @@ proc pasteHere { w } {
 # mode is 1 for adding a temporary state
 # mode is 2 for editing an old state, need to give idx of state to edit
 proc ButtonSaveState { lfname { idx "" } } {
-	# Global variables for temp status and changin the new state, from checkbutton on EditNewState
-	global stemp chstate
+	variable stemp
 	set mode $stemp
+
+	# Global variables for temp status and changin the new state, from checkbutton on EditNewState
+	global chstate
 	lappend gui_info [$lfname.edesc get]
 	lappend gui_info [$lfname.enick get]
 	lappend gui_info [$lfname.statebox curselection]
