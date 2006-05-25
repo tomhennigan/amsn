@@ -159,6 +159,7 @@ closealltabs altijd alle tabbladen sluiten
 closed Het gesprek met $1 is wegens inactiviteit afgesloten
 closelabel Bij het klikken op de sluitknop van een venster met tabbladen
 closeonly alleen het zichtbare tabblad sluiten
+closeordock Als je de contactenlijst sluit, wordt aMSN afgesloten. Wellicht wilde je enkel het venster sluiten en aMSN actief houden in het systeemvak.\n\nWil je aMSN werkelijk afsluiten?
 close Sluiten
 closingdocks Minimaliseren i.p.v. sluiten
 color Kleur
@@ -627,7 +628,7 @@ reconnecting Bezig met opnieuw verbinden met de server
 reconnect Wachten tot $1 opnieuw verbindt
 reject Afwijzen
 rememberpass Wachtwoord onthouden
-remembersetting Deze instelling onthouden
+remembersetting Onthoudt mijn keuze
 removeempty Lege groepen verwijderen uit de contactenlijst
 removefromlist Verwijder uit deze lijst
 rename Hernoemen

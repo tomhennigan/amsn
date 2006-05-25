@@ -160,6 +160,7 @@ close Close
 closed Conversation with $1 has been closed due to inactivity
 closelabel When you click the close button in a tabbed chat window
 closeonly Close only the current tab
+closeordock Closing the contact list window will quit aMSN. Maybe you meant to just close the window and have aMSN stay alive in the tray.\n\nAre you sure you want to quit aMSN?
 closingdocks Close button minimizes
 color Color
 command Command
@@ -627,7 +628,7 @@ reconnecting Reconnecting to server
 reconnect Waiting for $1 to reconnect
 reject Reject
 rememberpass Remember password
-remembersetting Remember this setting
+remembersetting Remember my choice
 removeempty Remove empty groups from the contact list
 removefromlist Remove from this list
 rename Rename

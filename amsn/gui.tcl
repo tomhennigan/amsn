@@ -2993,7 +2993,9 @@ namespace eval ::amsn {
 			}
 
 			toplevel $w
-			wm title $w "[trans closeordock]"
+			wm title $w "[trans title]"
+			wm group $w .
+			wm resizable $w 0 0
 			
 			#Create the 2 frames
 			frame $w.top
@@ -3001,26 +3003,26 @@ namespace eval ::amsn {
 			
 			#Create the picture of warning (at left)
 			label $w.top.bitmap -image [::skin::loadPixmap warning]
-			pack $w.top.bitmap -side left -pady 5 -padx 10
+			pack $w.top.bitmap -side left -pady 0 -padx { 0 12 }
 			
-			label $w.top.question -text "[trans askcloseordock]" -font bigfont
-			pack $w.top.question -pady 5 -padx 10
+			label $w.top.question -text "[trans closeordock]" -wraplength 400 -justify left
+			pack $w.top.question -pady 0 -padx 0 -side top
 			
 		
-			checkbutton $w.top.remember -text [trans remembersetting] -variable rememberdock
-			pack $w.top.remember -pady 5 -padx 10 -side left
+			checkbutton $w.top.remember -text [trans remembersetting] -variable rememberdock -anchor w
+			pack $w.top.remember -pady 5 -padx 10 -side bottom -fill x
 			
 			#Create the buttons
 			button $w.buttons.quit -text "[trans quit]" -command "::amsn::closeOrDockClose"
-			button $w.buttons.dock -text "[trans dock]" -command "::amsn::closeOrDockDock"
+			button $w.buttons.dock -text "[trans minimize]" -command "::amsn::closeOrDockDock"
 			button $w.buttons.cancel -text "[trans cancel]" -command "destroy $w"
-			pack $w.buttons.quit -pady 5 -padx 5 -side right
-			pack $w.buttons.cancel -pady 5 -padx 5 -side left
-			pack $w.buttons.dock -pady 5 -padx 5 -side right
+			pack $w.buttons.quit -pady 0 -padx 0 -side right
+			pack $w.buttons.cancel -pady 0 -padx { 0 6 } -side right
+			pack $w.buttons.dock -pady 0 -padx 6 -side right
 			
 			#Pack frames
-			pack $w.top -pady 5 -padx 5 -side top
-			pack $w.buttons -pady 5 -padx 5 -fill x
+			pack $w.top -pady 12 -padx 12 -side top
+			pack $w.buttons -pady 12 -padx 12 -fill x
 
 			moveinscreen $w 30
 			bind $w <<Escape>> "destroy $w"
@@ -3034,7 +3036,6 @@ namespace eval ::amsn {
 		global systemtray_exist statusicon ishidden rememberdock
 
 		if {$rememberdock} {
-puts "save conf"
 			::config::setKey closingdocks 1
 		}
 		wm iconify .
