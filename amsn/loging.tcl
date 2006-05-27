@@ -123,7 +123,14 @@ namespace eval ::log {
 					status_log "moving file error $res \n"
 				}
 			}
-			
+
+			foreach file [glob -nocomplain -types f "${webcam_dir}/*.dat"] {
+				status_log "moving $file\n" blue
+				if {[catch {file rename $file [file join ${webcam_dir} $cam_to]} res]} {
+					status_log "moving file error $res \n"
+				}
+			}
+
 			set fd [open "[file join ${log_dir} date]" w]
 			close $fd
 			
@@ -724,7 +731,8 @@ namespace eval ::log {
 		$wname.top.sessions.list list delete 0 end
 		# Open metadata
 		set metadata [file join $webcam_dir $date ${email}.dat]
-		if { [file exists "$metadata"] } {
+		set camfile [file join $webcam_dir $date ${email}.cam]
+		if { [file exists "$metadata"] && [file exists "$camfile"]} {
 			set fd [open "$metadata" r]
 			# Parse session data
 			array unset logged_webcam_sessions_${email}
@@ -744,7 +752,7 @@ namespace eval ::log {
 					set fsize [expr {$fsize2 - $fsize1}]
 				} else {
 					set fsize1 [set logged_webcam_sessions_${email}($j,fsize)]
-					set fsize2 [file size [file join $webcam_dir $date ${email}.cam]]
+					set fsize2 [file size "$camfile"]
 					set fsize [expr {$fsize2 - $fsize1}]
 				}
 

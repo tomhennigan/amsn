@@ -2973,22 +2973,32 @@ namespace eval ::CAMGUI {
 		}
 	}
 
-	proc getNextKeyframeOffset { data {offset 0} } {
-
-		set whole_size [string length $data]
-		set offset [expr {[string first "ML20" $data $offset] - 12}] 
+	proc getNextKeyframeOffset { filename {offset 0} } {
+		set fd [open $filename r]
+		seek $fd $offset
+		fconfigure $fd -encoding binary -translation binary
+		set data [read $fd 1024000]
+		# we need to start looking at least after the 12th char otherwise the $advance -12 will give us a negative value in our data.
+		set advance [string first "ML20" $data 12]
+		if { $advance == -1 } {
+			close $fd
+			return [file size $filename]
+		}
+		incr advance -12
 		set keyframe 0
-		while { $keyframe == 0 && $offset < $whole_size} {
-			binary scan $data @${offset}c@[expr {$offset + 8}]i h_size p_size
-			binary scan $data @[expr {$offset + 24 + 12}]c not_keyframe
+		while { $keyframe == 0 && $advance < [file size $filename]} {
+			binary scan $data @${advance}c@[expr {$advance + 8}]i h_size p_size
+			binary scan $data @[expr {$advance + 24 + 12}]c not_keyframe
 			if { $h_size == 24 && $not_keyframe == 0 } {
 				set keyframe 1
 			} else {
-				incr offset 24
-				incr offset $p_size
+				incr advance 24
+				incr advance $p_size
 			}
 		}
 
+		close $fd
+		incr offset $advance
 		return $offset
 
 	}
@@ -3025,31 +3035,35 @@ namespace eval ::CAMGUI {
 
 		set fd [open $filename r]
 		fconfigure $fd -encoding binary -translation binary
-		set data [read $fd]
-		set whole_size [file size $filename]
-		close $fd
+		#close $fd
 	
 	
 		set decoder [::Webcamsn::NewDecoder]
 
-		while { [set ::seek_val($img)] < $whole_size } {
-			set temp_data [string range $data [set ::seek_val($img)] end]
-			set size [::MSNCAM::GetCamDataSize $temp_data] 
+		while { [set ::seek_val($img)] < [file size $filename] } {
+			seek $fd [set ::seek_val($img)]
+			set data [read $fd 24]
+			set size [::MSNCAM::GetCamDataSize $data] 
 			if {$size < 0} {
-				set ::seek_val($img) [getNextKeyframeOffset $data $::seek_val($img)]
+				set ::seek_val($img) [getNextKeyframeOffset $filename $::seek_val($img)]
 				continue
 			}
+			append data [read $fd $size]
 
 			if { ![info exists $semaphore] } {
 				break
 			}
-			if { [catch { ::Webcamsn::Decode $decoder $img $temp_data} res] } {
-				status_log "Play : Decode error $res" red
-				set ::seek_val($img) [getNextKeyframeOffset $data $::seek_val($img)]
-			}
 
-			incr ::seek_val($img) $size
-			incr ::seek_val($img) +24
+
+			if { [catch { ::Webcamsn::Decode $decoder $img $data} res] } {
+				status_log "Play : Decode error $res" red
+				set ::seek_val($img) [getNextKeyframeOffset $filename $::seek_val($img)]
+				::Webcamsn::Close $decoder
+				set decoder [::Webcamsn::NewDecoder]
+			} else {
+				incr ::seek_val($img) $size
+				incr ::seek_val($img) +24
+			}
 
 			# Make sure the semaphore wasn't unset during the call to Decode, and that the 'after' gets executed after the 'after cancel' is called..
 			after [::config::getKey playbackspeed] "incr_sem $semaphore"
@@ -3057,6 +3071,7 @@ namespace eval ::CAMGUI {
 
 	
 		}
+		close $fd
 		::Webcamsn::Close $decoder
 		catch {unset $semaphore}
 		
