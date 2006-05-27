@@ -160,6 +160,7 @@ closeall Fermer tous les onglets de la fenêtre ?
 closealltabs Fermer tous les onglets
 closelabel Lorsque vous cliquez sur le bouton Fermer dans une fenêtre de conversation à onglets
 closeonly Ne fermer que l'onglet courant
+closeordock Fermer la fenêtre de la liste de contacts va quitter aMSN. Peut-être que vous souhaitez seulement fermer la fenêtre et avoir aMSN dans la boîte à miniatures (systray ou traydock).\n\nEtes-vous sûr de vouloir quitter aMSN?
 closingdocks Le bouton Fermer ancre l'application
 color Couleur
 command Commande
