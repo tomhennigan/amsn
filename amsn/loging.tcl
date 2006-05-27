@@ -1439,45 +1439,34 @@ namespace eval ::log {
 		::log::CloseLogEvent
 	}
 
-	#When contacts go online
-	proc eventconnect {name} {
-		if {[::config::getKey display_event_connect]} {
-			.main.eventmenu.list list insert 0 "[clock format [clock seconds] -format "%H:%M:%S"] : $name [trans online]"
-		}
-		if {[::config::getKey log_event_connect]} {
-			::log::EventLog "$name [trans online]"
-		}
-	}
+	proc event { event name {status ""} } {
 
-	#When contacts go offline
-	proc eventdisconnect {name} {
-		if {[::config::getKey display_event_disconnect]} {
-			.main.eventmenu.list list insert 0 "[clock format [clock seconds] -format "%H:%M:%S"] : $name [trans offline]"
+		switch $event {
+			connect {
+				set eventlog "$name [trans online]"
+			}
+			disconnect {
+				set eventlog "$name [trans offline]"
+			}
+			email {
+				set eventlog "[trans email] $name"
+			}
+			state {
+				set eventlog "$name [trans $status]"
+			}
 		}
-		if {[::config::getKey log_event_disconnect]} {
-			::log::EventLog "$name [trans offline]"
-		}
-	}
 
-	#When a mail is received
-	proc eventmail { name } {
-		if {[::config::getKey display_event_email]} {
-			.main.eventmenu.list list insert 0 "[clock format [clock seconds] -format "%H:%M:%S"] : [trans email] $name"
+		if {[::config::getKey display_event_$event]} {
+			set eventmenu "[clock format [clock seconds] -format "%H:%M:%S"] : $eventlog"
+			.main.eventmenu.list list insert 0 $eventmenu
+			.main.eventmenu.list list delete 100 end
 			.main.eventmenu.list select 0
 		}
-		if {[::config::getKey log_event_email]} {
-			::log::EventLog "[trans email] $name"
-		}
-	}
 
-	#When contacts change status
-	proc eventstatus { name state } {
-		if {[::config::getKey display_event_state]} {
-			.main.eventmenu.list list insert 0 "[clock format [clock seconds] -format "%H:%M:%S"] : $name [trans $state]"
+		if {[::config::getKey log_event_$event]} {
+			::log::EventLog $eventlog
 		}
-		if {[::config::getKey log_event_state]} {
-			::log::EventLog "$name [trans $state]"
-		}
+
 	}
 
 	#Check if an event display is activated

@@ -232,7 +232,7 @@ namespace eval ::hotmail {
 					}
 				}
 
-				::log::eventmail $from
+				::log::event email $from
 	
 			}
 			"text/x-msmsgsinitialemailnotification" {

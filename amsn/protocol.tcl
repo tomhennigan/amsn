@@ -4343,7 +4343,7 @@ proc cmsn_change_state {recv} {
 			#Register last logout, last seen and notify it in the events
 			::abook::setAtomicContactData $user [list last_logout last_seen] \
 			    [list [clock format [clock seconds] -format "%D - %H:%M:%S"] [clock format [clock seconds] -format "%D - %H:%M:%S"]]
-			::log::eventdisconnect $custom_user_name
+			::log::event disconnect $custom_user_name
 		}
 
 		# Added by Yoda-BZH
@@ -4366,7 +4366,7 @@ proc cmsn_change_state {recv} {
 
 		if { $state_changed } {
 			#Notify in the events
-			::log::eventstatus $custom_user_name [::MSN::stateToDescription $substate]
+			::log::event state $custom_user_name [::MSN::stateToDescription $substate]
 		}
 
 		# Added by Yoda-BZH
@@ -4388,7 +4388,7 @@ proc cmsn_change_state {recv} {
 		if { $state_changed } {
 			#Register last login and notify it in the events
 			::abook::setContactData $user last_login [clock format [clock seconds] -format "%D - %H:%M:%S"]
-			::log::eventconnect $custom_user_name
+			::log::event connect $custom_user_name
 			#Register PostEvent "UserConnect" for Plugins, email = email user_name=custom nick
 			set evPar(user) user
 			set evPar(user_name) custom_user_name
