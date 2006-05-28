@@ -2970,6 +2970,13 @@ namespace eval ::amsn {
 
 	}
 
+	proc closeAmsnMac {} {
+		set answer [::amsn::messageBox [trans exitamsn] yesno question [trans title]]
+		if { $answer == "yes"} {
+			exit
+		}
+	}
+
 	proc closeOrDock { closingdocks } {
 ###
 ### $closingdocks:	1 = dock
@@ -3800,7 +3807,7 @@ proc cmsn_draw_main {} {
 	}
 
 	if { [OnMac] } {
-		wm protocol . WM_DELETE_WINDOW { exit }
+		wm protocol . WM_DELETE_WINDOW { closeAmsnMac }
 	} else {
 		wm protocol . WM_DELETE_WINDOW {::amsn::closeOrDock [::config::getKey closingdocks]}
 	}
