@@ -226,9 +226,10 @@ namespace eval ::plugins {
         #
 
 	proc namespaceExists {namespace} {
+		variable plugins
 		# go through each namespace
-       		foreach {current} [array names ::plugins::plugins *_plugin_namespace] {
-		    if { "$current" == "$namespace" } {
+       		foreach {current} [array names plugins *_plugin_namespace] {
+		    if { $plugins(${current}) == $namespace } {
 			return 1
 		    }
 		}
