@@ -539,7 +539,7 @@ options Options
 ordercontactsby Order contacts by
 ordergroupsby Order groups by
 original Original
-otherdisplaypic Other display pictures of this user (click for more options)
+otherdisplaypic Other display pictures of this user (right-click for more options)
 other Other
 others Others
 p4contextprefix Prefix P4-Context senders with this string
@@ -785,6 +785,7 @@ useralreadyonlist User is already on contact list
 userblocked The user is online but blocked you
 userdata User Data
 userdps User display pictures
+setasmydp Set as my display picture
 usernotonline The user is not online
 userproperties User properties of $1
 usersettings Settings

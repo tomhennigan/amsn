@@ -184,7 +184,7 @@ puts "sw created"
 			-command "pictureDeleteFile $filename $widget"
 #		$the_menu add command -label "Set as custom display picture for this user" \
 			-command [list ::amsn::messageBox "Sorry, not yet implemented" ok error [trans failed]]
-		$the_menu add command -label "Set as my display picture" \
+		$the_menu add command -label "[trans setasmydp]" \
 			-command [list set_displaypic $filename]
 		tk_popup $the_menu $X $Y
 	}
