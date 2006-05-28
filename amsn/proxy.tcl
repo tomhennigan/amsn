@@ -432,10 +432,8 @@ proc secureSocket { args } {
                 	if { [::config::getKey proxyauthenticate] } {
 	                        set proxy_user [::config::getKey proxyuser]
 	                        set proxy_pass [::config::getKey proxypass]
-	                        ::http::config -proxyhost ${proxy_user}:${proxy_pass}@${proxy_host} -proxyport $proxy_port
-	                } else {
-	                        ::http::config -proxyhost $proxy_host -proxyport $proxy_port
-	                }
+	                } 
+			::http::config -proxyhost $proxy_host -proxyport $proxy_port
 		}
 
 		# http://wiki.tcl.tk/2627 :(
