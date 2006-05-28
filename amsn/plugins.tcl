@@ -486,7 +486,8 @@ namespace eval ::plugins {
 		label $mF.author_title -text [trans author] -font sboldf
 		label $mF.author  -wraplength 280 
 		label $mF.desc_title -text [trans description] -font sboldf
-		label $mF.desc -width 40 -wraplength 280 -justify left -anchor w
+		# TODO make the -wraplength fit the label's width
+		label $mF.desc -wraplength 280 -justify left -anchor w
 		# holds the 'command center' buttons
 		label $w.getmore -text "[trans getmoreplugins]" -fg #0000FF
 
