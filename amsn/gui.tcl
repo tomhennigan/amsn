@@ -2028,10 +2028,9 @@ namespace eval ::amsn {
 		}
 
 		if { [llength $userlist] > 0 } {
-			status_log "Here\n"
 			::amsn::listChoose $title $userlist $command 0 1
 		} else {
-			status_log "No users\n"
+			status_log "ShowChatList: No users\n"
 		}
 
 	}

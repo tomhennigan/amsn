@@ -1315,15 +1315,12 @@ namespace eval ::abookGui {
 		label $nbUserDPs.titlepic2 -text "[trans otherdisplaypic]" \
 			-font bboldunderf
 
-#		ScrolledWindow $nbUserDPs.otherpics
-#		ScrollableFrame $nbUserDPs.otherpics.sf
-#		set mainFrame [$nbUserDPs.otherpics.sf getframe]
-#		$nbUserDPs.otherpics setwidget $nbUserDPs.otherpics.sf
-
+		#Other display pictures get loaded when the dp tab is raised
+		#See proc userDPs_raise_cmd
+		
 		pack $nbUserDPs.titlepic1 -anchor w -padx 5 -pady 5
 		pack $nbUserDPs.displaypic -anchor w -padx 7 -pady 5
 		pack $nbUserDPs.titlepic2 -anchor w -padx 5 -pady 5
-#		pack $nbUserDPs.otherpics -expand true -fill both
 
 		##########
 		#Common
@@ -1358,6 +1355,11 @@ namespace eval ::abookGui {
 		bind $w <Destroy> [list ::abookGui::PropDestroyed $email $w %W]
 		
 		moveinscreen $w 30
+	}
+	
+	proc showUserAlarmSettings { email } {
+		showUserProperties $email
+		.user_[::md5::md5 $email]_prop.nb raise alarms
 	}
 	
 	proc showCustomNickScreen { email } {

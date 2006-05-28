@@ -1478,9 +1478,9 @@ namespace eval ::ChatWindow {
 		#-------------------------
 		$contactmenu add separator
 
-#TODO:		#alarm
-		$contactmenu add command -label "SET ALARM TODO" \
-			-command ""
+		#alarm
+		$contactmenu add command -label "[trans cfgalarm]" \
+			-command "::amsn::ShowChatList \"[trans cfgalarm]\" \[::ChatWindow::getCurrentTab $w\] ::abookGui::showUserAlarmSettings"
 
 		
 		#notes
