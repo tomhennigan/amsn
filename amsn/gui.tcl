@@ -2984,44 +2984,6 @@ namespace eval ::amsn {
 			closeOrDockDock
 		} elseif { $closingdocks == 2} {
 			exit
-
-		} elseif {[OnMac]} {
-		# Don't use close or dock for OS X.
-
-			set w .closeordock
-
-			if { [winfo exists $w] } {
-				raise $w
-				return
-			}
-
-			toplevel $w
-			wm title $w "[trans quit]"
-
-			#Create the 2 frames
-			frame $w.top
-			frame $w.buttons
-
-			#Create the picture of warning (at left)
-			label $w.top.bitmap -image [::skin::loadPixmap warning]
-			pack $w.top.bitmap -side left -pady 5 -padx 10
-
-			label $w.top.question -text "[trans exitamsn]" -font bigfont
-			pack $w.top.question -pady 5 -padx 10
-
-			#Create the buttons
-			button $w.buttons.quit -text "[trans quit]" -command "::amsn::closeOrDockClose"
-			button $w.buttons.cancel -text "[trans cancel]" -command "destroy $w"
-			pack $w.buttons.quit -pady 5 -padx 5 -side right
-			pack $w.buttons.cancel -pady 5 -padx 5 -side left
-
-			#Pack frames
-			pack $w.top -pady 5 -padx 5 -side top
-			pack $w.buttons -pady 5 -padx 5 -fill x
-
-			moveinscreen $w 30
-			bind $w <<Escape>> "destroy $w"
-
 		} else {
 			set w .closeordock
 
@@ -3837,7 +3799,11 @@ proc cmsn_draw_main {} {
 		bind . <Control-m> Showhidemenu
 	}
 
-	wm protocol . WM_DELETE_WINDOW {::amsn::closeOrDock [::config::getKey closingdocks]}
+	if { [OnMac] } {
+		wm protocol . WM_DELETE_WINDOW { exit }
+	} else {
+		wm protocol . WM_DELETE_WINDOW {::amsn::closeOrDock [::config::getKey closingdocks]}
+	}
 
 	cmsn_draw_status
 	cmsn_draw_offline
