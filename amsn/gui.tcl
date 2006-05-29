@@ -3806,7 +3806,7 @@ proc cmsn_draw_main {} {
 	}
 
 	if { [OnMac] } {
-		wm protocol . WM_DELETE_WINDOW { closeAmsnMac }
+		wm protocol . WM_DELETE_WINDOW { ::amsn::closeAmsnMac }
 	} else {
 		wm protocol . WM_DELETE_WINDOW {::amsn::closeOrDock [::config::getKey closingdocks]}
 	}
