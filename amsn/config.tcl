@@ -1275,7 +1275,7 @@ proc CheckLock { email } {
 	set Port [LoginList getlock 0 $email]
 	status_log "CheckLock: LoginList getlock called. Lock=$Port\n" blue
 	if { $Port != 0 } {
-		if { [catch {socket -server phony -myaddr localhost $Port} newlockSock] != 0  } {
+		if { [catch {socket -server phony $Port} newlockSock] != 0  } {
 			status_log "CheckLock Port is already in use: $newlockSock\n" red
 			# port is taken, let's make sure it's a profile lock
 			foreach {local_host} { localhost "[info hostname]" 127.0.0.1 } {
@@ -1351,31 +1351,17 @@ proc LockProfile { email } {
 	while { $tries < 5 } {
 		set Port [GetRandomProfilePort]
 		status_log "LockProfile: Got random port $Port\n" blue
-		if { [catch {socket -server lockSvrNew -myaddr localhost $Port} newlockSock] == 0  } {
-			# Got one
+		if { [catch {socket -server lockSvrNew $Port} newlockSock] == 0  } {
 			LoginList changelock 0 $email $Port
 			set lockSock $newlockSock
 			break
+		} elseif {$tries >= 5} {
+			::amsn::errorMsg "Unable to get a socket from locahost.\n Check your /etc/hosts file, please."
+			exit 1
 		} else {
-			if { [catch {socket -server lockSvrNew -myaddr [info hostname] $Port} newlockSock] == 0  } {
-				LoginList changelock 0 $email $Port
-				set lockSock $newlockSock
-				break
-			} else {
-				if { [catch {socket -server lockSvrNew -myaddr 127.0.0.1 $Port} newlockSock] == 0  } {
-					LoginList changelock 0 $email $Port
-					set lockSock $newlockSock
-					break
-				} elseif {$tries >= 5} {
-					::amsn::errorMsg "Unable to get a socket from locahost.\n Check your /etc/hosts file, please."
-					exit 1
-				} else {
-					catch {status_log "unable to create socket on port $Port - $newlockSock"}
-					incr tries
-				}
-			}
+			catch {status_log "unable to create socket on port $Port - $newlockSock"}
+			incr tries
 		}
-
 	}
 #	if { $trigger == 1 } {
 		#vwait events
@@ -1387,12 +1373,12 @@ proc lockSvrNew { sock addr port} {
 	status_log "lockSvrNew: Accepting connection on port $port\n" blue
 
 #	if { $addr == "127.0.0.1" } {
-		fileevent $sock readable "lockSvrHdl $sock"
+		fileevent $sock readable "lockSvrHdl $addr $sock"
 		fconfigure $sock -buffering line
 #	}
 }
 
-proc lockSvrHdl { sock } {
+proc lockSvrHdl { addr sock } {
 	status_log "lockSvrHdl: handling connection\n" blue
 
 	set command [gets $sock]
@@ -1402,9 +1388,11 @@ proc lockSvrHdl { sock } {
 	    close_remote $sock
 	} else {
 		if { $command == "AMSN_LOCK_PING" } {
-			status_log "lockSvrHdl: PING - PONG\n" blue
-
-			catch {puts $sock "AMSN_LOCK_PONG"}
+			# don't allow anyone to ping and know we are an amsn port unless it's coming from the localhost
+			if { $addr == "127.0.0.1" } {
+				status_log "lockSvrHdl: PING - PONG\n" blue
+				catch {puts $sock "AMSN_LOCK_PONG"}
+			}
 		} else {
 		    read_remote $command $sock
 		}
