@@ -1768,9 +1768,9 @@ proc Preferences { { settings "personal"} } {
 	pack $lfname.3 -side top -padx 0 -expand 1 -fill both
 
 	if {$::tcl_platform(platform) == "windows"} { 
-		pack $lfname.3.lreconnect $lfname.3.lonstart $lfname.3.lmsnp11 $lfname.3.startonboot  -anchor w -side top
+		pack $lfname.3.lreconnect $lfname.3.lonstart $lfname.3.startonboot  -anchor w -side top
 	} else {
-		pack $lfname.3.lreconnect $lfname.3.lonstart $lfname.3.lmsnp11 -anchor w -side top       
+		pack $lfname.3.lreconnect $lfname.3.lonstart -anchor w -side top       
 	}
 
 	## Away Messages Frame ##
