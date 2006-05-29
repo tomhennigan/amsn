@@ -431,7 +431,7 @@ logolder Enregistrer seulement les conversations qui ont eu lieu dans les
 loadotherdisplaypic Chargement des avatars de $1, patientez...
 logout Se déconnecter
 logsbydate Trier les historiques par date (affichage de l'historique plus rapide)
-logschats enregistre les conversations
+logschats Enregistre les conversations
 logsin vient de se connecter
 logsmileys Afficher les émoticônes/smileys dans la fenêtre d'historique de aMSN
 logsout vient juste de se déconnecter
@@ -664,6 +664,7 @@ servergoingdown Serveur en cours d'arrêt
 server Serveur
 serverunavailable Serveur non disponible
 session Session
+setasmydp Utiliser comme avatar
 shareswebcam Possède une webcam
 show_contactdps_in_cl Montrer des avatars dans la liste de contact
 showbanner Affiche la bannière d'aMSN
@@ -780,7 +781,6 @@ updateonlycurrentlanguage Ne mettre à jour que la langue courante
 updating Mise à jour
 useasdp Utiliser en tant qu'avatar
 useother Utiliser un programme différent
-usemsnp11 Ajoute la possibilité de lire et d'écrire des messages personnels (ceci est une fonction EXPERIMENTALE !) -- Pour cela vous avez besoin d'un profil et de relancer aMSN
 useralreadyonlist Utilisateur déjà présent dans la liste
 userblocked Ce contact est en ligne mais vous l'avez bloqué
 userdata Données du contact
