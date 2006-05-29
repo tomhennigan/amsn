@@ -2986,6 +2986,7 @@ namespace eval ::CAMGUI {
 		}
 		incr advance -12
 		set keyframe 0
+		set not_keyframe 1
 		while { $keyframe == 0 && $advance < [file size $filename]} {
 			binary scan $data @${advance}c@[expr {$advance + 8}]i h_size p_size
 			binary scan $data @[expr {$advance + 24 + 12}]c not_keyframe
