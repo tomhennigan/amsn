@@ -108,20 +108,10 @@ proc trayicon_init {} {
 
 	$iconmenu add command -label "[trans offline]" -command iconify_proc
 	$iconmenu add separator
-	if { [string length [::config::getKey login]] > 0 } {
-	     if {$password != ""} {
-	        #$iconmenu add command -label "[trans login] [::config::getKey login]" -command "::MSN::connect" -state normal
-	     } else {
-	     	#$iconmenu add command -label "[trans login] [::config::getKey login]" -command cmsn_draw_login -state normal
-	     }
-	} else {
-	     #$iconmenu add command -label "[trans login]" -command "::MSN::connect" -state disabled
-	}
-	#$iconmenu add command -label "[trans login]..." -command cmsn_draw_login
 
+	$iconmenu add command -label "[trans sendmsg]..." -command [list ::amsn::ShowUserList [trans sendmsg] ::amsn::chatUser] 
 
-
- #     $iconmenu add separator         
+       $iconmenu add separator         
  
        $iconmenu add cascade -label "[trans mystatus]" -menu $iconmenu.imstatus -state disabled        
  
@@ -141,9 +131,10 @@ proc trayicon_init {} {
        $iconmenu add command -label "[trans quit]" -command "exit"
        CreateStatesMenu .my_menu
 
+       statusicon_proc [::MSN::myStatusIs]
+
        ## set icon to current status if added icon while already logged in
        if { [::MSN::myStatusIs] != "FLN" } {
-               statusicon_proc [::MSN::myStatusIs]
        $iconmenu add separator
                mailicon_proc [::hotmail::unreadMessages]
        }
@@ -239,20 +230,23 @@ proc statusicon_proc {status} {
 	} elseif {$systemtray_exist == 1 && $statusicon != 0 && ( [UnixDock] || [WinDock] ) && $status != "REMOVE"} {
 		if { $status != "" } {
 			if { $status == "FLN" } {
-#Status submenu
+				# Send message 
 				$iconmenu entryconfigure 2 -state disabled
-#Change nick
+				#Status submenu
 				$iconmenu entryconfigure 4 -state disabled
+				#Change nick
+				$iconmenu entryconfigure 6 -state disabled
 
-#Login/Logout
-				$iconmenu entryconfigure 9 -label "[trans login]" -command "::MSN::connect" -state normal
+				#Login/Logout
+				$iconmenu entryconfigure 11 -label "[trans login]" -command "::MSN::connect" -state normal
 
 			} else {
 
 				$iconmenu entryconfigure 2 -state normal
 				$iconmenu entryconfigure 4 -state normal
+				$iconmenu entryconfigure 6 -state normal
 
-				$iconmenu entryconfigure 9 -label "[trans logout]" -command "::MSN::logout"
+				$iconmenu entryconfigure 11 -label "[trans logout]" -command "::MSN::logout"
 
 				
 			}
