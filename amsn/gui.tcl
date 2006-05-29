@@ -3720,7 +3720,7 @@ proc cmsn_draw_main {} {
 
 	text $pgBuddy.text -background [::skin::getKey contactlistbg] -width 30 -height 0 -wrap none \
 		-cursor left_ptr -font splainf \
-		-selectbackground [::skin::getKey contactlistbg] -selectborderwidth 0 -exportselection 1 \
+		-selectbackground [::skin::getKey contactlistbg] -selectborderwidth 0 -exportselection 0 \
 		-relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0
 
 	$pgBuddy setwidget $pgBuddy.text
