@@ -321,7 +321,7 @@ proc close_remote { sock } {
 }
 
 proc init_remote_DS { } {
-	catch {socket -server new_remote_DS -myaddr [info hostname] 63251}
+	catch {socket -server new_remote_DS 63251}
 }
 
 proc new_remote_DS { sock addr port } {
