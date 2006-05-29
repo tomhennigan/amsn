@@ -1461,7 +1461,7 @@ namespace eval ::ChatWindow {
 		
 		#sms
 		$contactmenu add command -label "[trans sendmobmsg]..." \
-			-command "::amsn::ShowChatList \"[trans cfgalarm]\" \[::ChatWindow::getCurrentTab $w\] ::MSNMobile::OpenMobileWindow"
+			-command "::amsn::ShowChatList \"[trans sendmobmsg]\" \[::ChatWindow::getCurrentTab $w\] ::MSNMobile::OpenMobileWindow"
 
 		#-------------------------
 		$contactmenu add separator
