@@ -779,7 +779,6 @@ updateonlycurrentlanguage Update only the current language
 update Update
 updating Updating
 useasdp Use as Display Picture
-usemsnp11 Enable support for Personal Messages (EXPERIMENTAL feature) -- needs profile + restart
 useother Use a different program
 useralreadyonlist User is already on contact list
 userblocked The user is online but blocked you
