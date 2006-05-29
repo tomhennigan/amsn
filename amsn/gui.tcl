@@ -5972,7 +5972,7 @@ proc balloon_enter {window x y msg {pic ""} {fonts ""} {mode "simple"}} {
 	#"+set Bulle(set) 0;set Bulle(first) 1; set Bulle(id) \[after 1000 [list balloon %W [list $balloon_message] %X %Y]\]"
 	set Bulle(set) 0
 	set Bulle(first) 1
-	set Bulle(id) [after 1000 [list balloon ${window} ${msg} ${pic} $x $y ${fonts} ${mode}]]
+	set Bulle(id) [after 700 [list balloon ${window} ${msg} ${pic} $x $y ${fonts} ${mode}]]
 }
 
 proc balloon_motion {window x y msg {pic ""} {fonts ""} {mode "simple"}} {
