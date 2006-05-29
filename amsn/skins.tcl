@@ -496,7 +496,9 @@ namespace eval ::skin {
 		#Get file from ~/.amsn/amsn-extras/skins folder
 		lappend locations [file join $HOME2 amsn-extras skins $skin $type]
 		#Get file from default skin
-		lappend locations [file join [set ::program_dir] skins $defaultskin $type]
+		if { [::skin::getKey ignoredefaultsmileys] == 1 || $type != "smileys" } {
+			lappend locations [file join [set ::program_dir] skins $defaultskin $type]
+		}
 		#Get file from fallback location
 		if { ($fblocation != "") } {
 			lappend locations [file join $fblocation]
