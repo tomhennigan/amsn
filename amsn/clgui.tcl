@@ -5,6 +5,7 @@
 #	* gui.tcl: getpicturefornotification
 #	* more stuff I forgot I guess
 
+source contact.tcl
 #TODO:
 #	* visual appearance of a contact
 #		- multiple themes
@@ -17,270 +18,279 @@
 #		- 
 #	...
 
+snit::widgetadaptor stategroup {
+	delegate method * to hull
+	delegate option * to hull
+	
+	option -state -readonly 1 ;# The state it represents
+	option -color -readonly 1 ;# The color of the contacts, depends on the state
+	option -group -configuremethod setConfig
+	delegate option * to parent_group
+
+	variable contacts [list]
+	variable contacts_widgets -array [list]
+	variable statecodes [list NLN IDL BRB PHN BSY AWY LUN MOB FLN]
+	variable parent_group
+
+	constructor { args } {
+		installhull using frame -bg white -relief flat -highlightthickness 0
+
+		$self configurelist $args
+		
+	}
+
+	#######################################################################
+	# Methods to be called from outside
+	#######################################################################
+	#add a contact to the widget
+	method {contact add} {contact} {
+		set contact_uid [$contact cget -uid]
+		set widg $self.$contact_uid
+		set contactstate [$contact cget -state]
+		set contactnick [$contact cget -nick]
+
+		#do not add a contact that already exists in this group
+		if {[lsearch $contacts $contact] == -1} {
+			lappend $contacts $contact
+			set widget [clcontact $widg -contact $contact -group $self]
+			set contacts_widgets($contact_uid) $widget
+
+			$self reorder
+
+			set pack_opts "-anchor w"
+			if { [llength $contacts] > 1 } {
+				set idx [lsearch $contacts $contact]
+				if { $idx == 0 } {
+					append pack_opts " -before "
+					append pack_opts [lindex $contacts 1]
+				} else { 
+					append pack_opts " -after "
+					append pack_opts [lindex $contacts [expr {$idx -1}]]
+				}
+			}
+			eval pack $widget $pack_opts
+		}
+
+		$options(-group) contact added $contact
+	}
+
+	method {contact remove} {contact} {
+		set idx [lsearch $contacts $contact]
+		if { $idx != -1 } {
+			set widget [$self getContactWidget $contact]
+			set contacts [lreplace $contacts $idx $idx]
+			pack forget $widget
+		}
+		$options(-group) contact removed $contact
+
+	}
+
+	method {contact count} { } {
+		return [llength $contacts]
+	}
+
+	#######################################################################
+	# Helper methods, only called within this object
+	#######################################################################
+
+	method reorder { } {
+		set contacts [lsort -command "$self contact compare " $contacts]
+	}
+
+	method {contact compare} {contact1 contact2} {
+		# TODO make it depend on how you want to sort your contacts
+		return [string compare -nocase [$contact1 cget -email] [$contact2 cget -email]]
+	}
+
+	method getContactWidget { contact } {
+		set contact_uid [$contact cget -uid]
+		if { [info exists contacts_widgets($contact_uid)] } {
+			return [set contacts_widgets($contact_uid)]
+		}
+		return {}
+	}
+
+	method getContacts {} {
+		return $contacts
+	}
+
+	method setConfig {option value} {
+		set options($option) $value
+		if {$option == "-group" } { set parent_group $value }
+	}
+	
+}
+
+
 snit::widgetadaptor clgroup {
 
 	delegate method * to hull
 	delegate option * to hull
 
-	option -state -default 1 -configuremethod setConfig ;# 1 = expanded, 0 = collapsed
-	option -name -configuremethod setConfig
-	option -color -configuremethod setConfig
-	option -notitle -default 0
+	option -expanded -default 1 -configuremethod setConfig ;# 1 = expanded, 0 = collapsed
+	option -name
+	option -hoveredcolor -default skyblue -configuremethod setConfig
+	option -collapsedcolor -default grey55 -configuremethod setConfig
+	option -expandedcolor -default black -configuremethod setConfig
 	option -hideifempty -default 1 -configuremethod setConfig
+	option -group -readonly 1
+	option -groupid
 
 	variable count 0
-	variable contactslist [list ] ;#lists addresses sorted by state and nick/email
-	variable title ;#widget with all title elements
-	variable cwidg ;#widget where the contacts are packed in
-	variable statecodes [list NLN IDL BRB PHN BSY AWY LUN MOB FLN]
-	variable ctperstate ;#array with all [list $email $nick] lists per state
+	variable hideframe ;# widget with all elements, allows to not show the groups if empty
+	variable title ;# widget with all title elements
+	variable cwidg ;# widget where the contacts are packed in
+	variable stategroups -array  [list]
+  	variable hovered 0
 
 	constructor { args } {
 		installhull using frame -bg white -relief flat -highlightthickness 0
 
-		set hidef $self.hideframe
-		frame $hidef -bg white -relief flat -highlightthickness 0
+		set hideframe $self.hideframe
+		frame $hideframe -bg white -relief flat -highlightthickness 0
 
-		foreach state $statecodes {
-			set ctperstate($state) [list ]
-		}
-		
-		set title $hidef.title
-		set cwidg $hidef.contacts
+		set title $hideframe.title
+		set cwidg $hideframe.contacts
 		
 		frame $title -bg white -relief flat -highlightthickness 0
 		frame $cwidg -bg white -relief flat -highlightthickness 0
 
 		pack $title $cwidg -side top -fill x -anchor w
 
+		# TODO : will depend on wheter we want to group users by status or have the different states mixed in a group
+		foreach state [list NLN IDL BRB PHN BSY AWY LUN MOB FLN] {
+			set stategroups($state) [stategroup $cwidg.stategroup_$state -group $self -state $state]
+			pack [set stategroups($state)] -side top -fill x -anchor w
+		}
+
+		
 		label $title.icon -image [::skin::loadPixmap contract] -bg white
-		label $title.gname -text "groupname" -fg black -bg white -font sboldf
+		label $title.gname -textvariable options(-name) -fg black -bg white -font sboldf
 		label $title.gcount -fg black -bg white -font sboldf
 		pack $title.icon $title.gname $title.gcount -side left
 		
 		#bindings
-		bind $title.icon <Button1-ButtonRelease> "$self toggleState"
-		bind $title.gname <Button1-ButtonRelease> "$self toggleState"
-		bind $title.gcount <Button1-ButtonRelease> "$self toggleState"
-		bind $title <Enter> [list $self titlehover $title.icon on]
-		bind $title <Leave> [list $self titlehover $title.icon off]
+		bind $title.icon <Button1-ButtonRelease> ";puts test ; $self toggleState"
+		bind $title.gname <Button1-ButtonRelease> ";puts test ; $self toggleState"
+		bind $title.gcount <Button1-ButtonRelease> ";puts test ; $self toggleState"
+		bind $title <Enter> [list $self titlehover true]
+		bind $title <Leave> [list $self titlehover false]
 		
-#		bind $title.gname <Button1-ButtonRelease> "$self toggleState"
-#		bind $title.gcount <Button1-ButtonRelease> "$self toggleState"
+
+		$self updateCount
 
 		$self configurelist $args
-		$self updateCount
 	}
+
 	#######################################################################
 	# Methods to be called from outside
 	#######################################################################
 	#add a contact to the widget
-	method addContact { address groupid} {
-		set widg $cwidg.[::md5::md5 $address]
-		set contactstate [::abook::getVolatileData $address state FLN]
-		set contactnick [::abook::getNick $address]
-
-		#do not add a contact that already exists in this group
-		if {![winfo exists $widg]} {
-			#get image
-			if { [getpicturefornotification $address] } {
-				set img displaypicture_not_$address
-			} else {
-				set img none
-			}
-
-			#create the contact's widget
-			clcontact $widg -address $address -nickname $contactnick\
-				-message [::abook::getpsmmedia $address] -state $contactstate\
-				-image $img -groupid $groupid -blocked [::MSN::userIsBlocked $address]\
-				-notinrl [expr {[lsearch [::abook::getLists $address] RL] == -1}]
-
-			#pack it at the right position
-			$self positionContact $address
-			
-			#update count
-			$self updateCount 1
-#			puts "added $address to $options(-name)"
-		}
-
+	method {contact add} {contact} {
+		set contact_state [$contact cget -state]
+		[set stategroups($contact_state)] contact add $contact
 	}
 
 	#remove a contact from the widget	
-	method rmContact { address } {
-		set widg $cwidg.[::md5::md5 $address]
-
-		if {![winfo exists $widg] && [lsearch $contactslist $address] == -1} {
-			#no contact to remove here, move on
-			#puts "nothing to remove, $address is not in $options(-name)"
-		} elseif {![winfo exists $widg]} {
-			puts "ERR: contact widget doesn't exist though the contact is still in the lists"
-			#remove the contact from the list of his/her state
-			$self rmContFromLists $address
-		} elseif { [lsearch $contactslist $address] == -1 } {
-			puts "ERR: contact is not in the list for this groupwidget"
-			#destroy widget
-			destroy $widg
-			$self updateCount -1		
-#			puts "removed $address from $options(-name)"
-		} else {
-			set contactstate [::abook::getVolatileData $address state FLN]
-
-			#remove the contact from the list of his/her state
-			$self rmContFromLists $address
-						
-			#destroy widget
-			destroy $widg
-			
-			$self updateCount -1		
-#			puts "removed $address from $options(-name)"
-		}
-
+	method {contact remove} { address } {
+		set contact_state [$contact cget -state]
+		[set stategroups($contact_state)] contact remove $contact
 	}	
 
-	#(re)packs the widget in on the right place
-	method positionContact {address} {
-		set id [::md5::md5 $address]
-		set w $cwidg.$id
 
-		#if the contact is already in the list, first remove it
-		if {[lsearch $contactslist $address] != -1} {		
-			$self rmContFromLists $address
-		}
-		#add the contact (again, at the right position)
-		$self addContToLists $address [::abook::getVolatileData $address state FLN]
-		#if it's the only item in the list, just pack it
-		if {[llength $contactslist] == 1} {
-			pack $w -anchor w
-		#if it's the last item
-		} elseif { [lindex $contactslist end] == $address } {
-			set cid [::md5::md5 [lindex $contactslist end-1]]
-			pack $w -after $cwidg.$cid -anchor w 
-		#else, pack it before the next contact
-		} else {
-			set cid [::md5::md5 [lindex $contactslist\
-				[expr {[lsearch $contactslist $address] + 1}]]]
-			pack $w -before $cwidg.$cid -anchor w
-		}	
+	method {contact added} {contact} {
+		incr count
+		$self updateCount
+	}
+	method {contact removed} {contact} {
+		incr count -1
+		$self updateCount
 	}
 	
 	#######################################################################
 	# Helper methods, only called within this object
 	#######################################################################
 
-	method addContToLists { address state } {
-		#add the contact to the list of his/her state,; only if it's not yet present in the group
-		if {[lsearch $contactslist $address] == -1 } {
-			#if we want contacts sorted by email change the index to 0 under here
-			set ctperstate($state) [lsort -index 1 [lappend ctperstate($state) [list $address [::abook::getNick $address]]]]
+	method getContacts { } {
+		set contactslist [list]
+		foreach st [array names stategroups]  {
+			lappend contactslist [$self getContactsWithState $st]
 		}
-		$self updateCL
-	}	
-
-	method rmContFromLists { address } {
-		foreach state $statecodes {
-			set idx [lsearch -index 0 $ctperstate($state) $address]
-			set ctperstate($state) [lreplace $ctperstate($state) $idx $idx]
-		}		
-		$self updateCL
+		return $contactslist
 	}
 
-
-	method updateCL {} {
-		set contactslist [list ]
-		foreach state $statecodes {
-			foreach contact [lindex [array get ctperstate $state] 1] {
-				set contactslist [lappend contactslist [lindex $contact 0]]
-				
-			}
-		}
-	}
 	method getContactsWithState {state} {
 		if { $state == "ALL" } {
-			return $contactslist		
+			return [$self getContactsInGroup]
 		} else {
-			set list [list ]
-			foreach contact [lindex [array get ctperstate $state] 1] {
-				lappend list [lindex $contact 0]
-			}
-			return $list
+			return [[set stategroups($state)] getContacts]
 		}
 	}
 
-	method getContactWidget { address } {
-		set id [::md5::md5 $address]
-		set widg $cwidg.$id
-
-		#check if the contact exists both in ui and memory
-		if {([lsearch $contactslist $address] != -1) && [winfo exists $widg]} {
-			return $widg
-		} else {
-			return ""
-		}		
+	method getContactWidget { contact } {
+		set contact_state [$contact cget -state]
+		return [[set stategroups($contact_state)] getContactWidget $contact]
 	}	
 
 	method toggleState {} {
-		if {$options(-state) == 1} {
-			set newstate 0
-#			$self configure -state 0
-		} else {
-			set newstate 1
-#			$self configure -state 1
-		}
-		$self configure -state $newstate
-		$self titlehover $title.icon on
+		$self configure -expanded [expr ! $options(-expanded)]
 	}
 	
-	method titlehover {w state} {
-		if {$state == "on"} {
-			if {$options(-state) == 1} {
-				set img [::skin::loadPixmap contract_hover]
-			} else {
-				set img [::skin::loadPixmap expand_hover]
-			}
+	method titlehover {state} {
+		set hovered $state
+
+		if {$options(-expanded)} {
+			set img_name "contract"
+			set color $options(-expandedcolor)
 		} else {
-			if {$options(-state) == 1} {
-				set img [::skin::loadPixmap contract]
-			} else {
-				set img [::skin::loadPixmap expand]
-			}
+			set img_name "expand"
+			set color $options(-collapsedcolor)
 		}
-		$w configure -image $img
+
+		if {$state} {
+			append img_name "_hover"
+			set color $options(-hoveredcolor)
+		}
+
+		$title.icon configure -image [::skin::loadPixmap $img_name]
+		$title.gcount configure -fg $color
+		$title.gname configure -fg $color
 	}
-	method updateCount {{addition 0 }} {
-		incr count $addition
+
+	method updateCount {} {
 		$title.gcount configure -text "($count)"
 		if {$options(-hideifempty) && $count < 1} {
-			pack forget $self.hideframe
+			pack forget $hideframe
 		} else {
-			pack $self.hideframe
+			pack $hideframe
 		}	
 	}
 
 	method setConfig {option value} {
 		set options($option) $value
 
+		puts "setting $option to $value"
 		#actions after change of options
 		#the space was added so the option isn't passed to the switch command
-		switch " $option" {
-			" -name" {
-				$title.gname configure -text "$options(-name)"
-			}
-			" -state" {
+		switch -- $option {
+			-expanded {
 				if {$value == 1} {
 					pack $cwidg
 					set img [::skin::loadPixmap contract]
 				} else {
 					pack forget $cwidg
-					set img [::skin::loadPixmap expand]			
+					set img [::skin::loadPixmap expand]
 				}
 				$title.icon configure -image $img
 				::config::setKey expanded_group_[winfo name $self] $value
+				$self titlehover $hovered
 			}
-			" -color" {
-				$title.gcount configure -fg $options(-color)
-				$title.gname configure -fg $options(-color)
+			-collapsedcolor -
+			-hoveredcolor -
+			-expandedcolor {
+				$self titlehover $hovered
 			}
-			" -hideifempty" {
+			-hideifempty {
 				$self updateCount
 			}
 		
@@ -297,7 +307,9 @@ snit::widgetadaptor clcontact {
 	delegate option * to hull
 
 	#protocol given options
-	option -address -default defaultaddress -configuremethod setConfig
+	option -contact
+	option -group 
+	option -address -configuremethod setConfig
 	option -groupid -default 0
 	option -nickname -default defaultnickname -configuremethod setConfig
 	option -message -default "" -configuremethod setConfig ;#personnal message
@@ -327,6 +339,23 @@ snit::widgetadaptor clcontact {
 
 	constructor { args } {
 		installhull using frame -bg white -relief flat -highlightthickness 0
+
+		$self configurelist $args
+
+
+		set options(-address) [$options(-contact) cget -email]
+		set options(-nickname) [$options(-contact) cget -nick]
+		set options(-message) [::abook::getpsmmedia $options(-address)]
+		set options(-state) [$options(-contact) cget -state]
+
+		if { [getpicturefornotification $options(-address)] } {
+			set options(-image) displaypicture_not_$options(-address)			
+		} else {
+			set options(-image) none
+		}
+		set options(-groupid) [$options(-group) cget -groupid]
+		set options(-blocked) [::MSN::userIsBlocked $options(-address)]
+		set options(-notinrl) [expr {[lsearch [::abook::getLists $options(-address)] RL] == -1}]
 
 		#####################
 		#All UI for contact
@@ -363,7 +392,6 @@ snit::widgetadaptor clcontact {
 		label $third.state -text "([trans [::MSN::stateToDescription $options(-state)]])" -bg white
 		pack $third.state -anchor w
 		
-		$self configurelist $args
 		
 		#####################
 		#UI Bindings
@@ -394,6 +422,20 @@ snit::widgetadaptor clcontact {
 			bindContactAction $self ""
 		}
 		bind $self.left <<Button3>> "show_umenu $options(-address) $options(-groupid) %X %Y"
+
+		$self configure -address [$options(-contact) cget -email]
+		$self configure -nickname [$options(-contact) cget -nick]
+		$self configure -message [::abook::getpsmmedia $options(-address)]
+		$self configure -state [$options(-contact) cget -state]
+
+		if { [getpicturefornotification $options(-address)] } {
+			$self configure -image displaypicture_not_$options(-address)			
+		} else {
+			$self configure -image none
+		}
+		$self configure -groupid [$options(-group) cget -groupid]
+		$self configure -blocked [::MSN::userIsBlocked $options(-address)]
+		$self configure -notinrl [expr {[lsearch [::abook::getLists $options(-address)] RL] == -1}]
 		
 	}
 	
@@ -406,7 +448,7 @@ snit::widgetadaptor clcontact {
 				$state configure -text "([trans [::MSN::stateToDescription $value]])"
 				$left itemconfigure statusemblem -image [::skin::loadPixmap [::MSN::stateToDescription $value]] 
 				#reposition in list ($groupwidg position $contact)
-				[winfo parent [winfo parent [winfo parent $self]]] positionContact $options(-address)
+				#[winfo parent [winfo parent [winfo parent $self]]] positionContact $options(-address)
 
 			}
 			" -image" {				
@@ -456,6 +498,7 @@ snit::widgetadaptor clwidget {
 	option -hideemptygroups -default 1 -configuremethod setConfig
 	
 	#vars
+	variable contacts -array [list]
 	variable groupnames [list ] ;#sorted list of all groups in UI
 	variable widg ;#widget were the groups are packed in
 
@@ -515,7 +558,7 @@ snit::widgetadaptor clwidget {
 		set exp [::config::getKey expanded_group_$gid]
 		if { $exp == "" } { set exp 1 }
 			
-		clgroup $widg.$gid -state $exp -color black -name [lindex $group 0] -hideifempty $options(-hideemptygroups)
+		clgroup $widg.$gid -expanded $exp -name [lindex $group 0] -hideifempty $options(-hideemptygroups) -groupid $gid
 
 		if {$idx != 0} {
 			set after [lindex [lindex $groupnames [expr {$idx - 1} ] ] 1]
@@ -547,7 +590,8 @@ snit::widgetadaptor clwidget {
 			destroy $group
 		}	
 	}
-	method contactBlocked {contact} {
+	method contactBlocked {contact_email} {
+		set contact [$self emailToContact $contact_email]
 		set groups [$self getContactGroups $contact]
 		foreach group $groups {
 			set cwidg [$widg.$group getContactWidget $contact]
@@ -556,7 +600,8 @@ snit::widgetadaptor clwidget {
 		}		
 	}
 
-	method contactUnblocked {contact} {
+	method contactUnblocked {contact_email} {
+		set contact [$self emailToContact $contact_email]
 		set groups [$self getContactGroups $contact]
 		foreach group $groups {
 			set cwidg [$widg.$group getContactWidget $contact]
@@ -565,72 +610,90 @@ snit::widgetadaptor clwidget {
 		}		
 	}
 
-	method contactMoved {args} {
+	method emailToContact { contact_email } {
+		if { [info exists contacts($contact_email)] } {
+			return [set contacts($contact_email)]
+		} else {
+			set contact [contact create %AUTO% -email $contact_email]
+			set contacts($contact_email) $contact
+			return $contact
+		}
+	}
+
+	method contactMoved {contact_email oldgid newgid} {
 		#if not ordered by group, moving a contact doesn't do anything in the UI
 		if { !$options(-orderbygroup) } {
-			foreach {contact oldgid newgid} $args {break}
+			set contact [$self emailToContact $contact_email]
 
 			#remove from the former group
-			$widg.$oldgid rmContact $contact
+			$widg.$oldgid contact remove $contact
 
 			#add to the new group
 			set altgid [$self getContactGroups $contact 1]
 			if {$altgid == ""} {
-				$widg.$newgid addContact $contact $newgid
+				$widg.$newgid contact add $contact
 			} else {
-				$widg.$altgid addContact $contact $newgid
+				$widg.$altgid contact add $contact
 			}
 		}
 	}
 
-	method contactRemoved {args} {
-		foreach {contact gid} $args {break}
+	method contactRemoved {contact_email gid} {
+		set contact [$self emailToContact $contact_email]
+
 		#if gid exists, remove from that group, otherwise, remove from all groups
 		if {[winfo exists $widg.$gid]} {
-			$widg.$gid rmContact $contact
+			$widg.$gid contact remove $contact
 		} else {
 			#remove from all groups where it resides
 			foreach gid [$self getContactGroups $contact] {
-				$widg.$gid rmContact $contact
+				$widg.$gid contact remove $contact
 			}
 		}
 
 	}
 	
-	method contactAdded {args} {
-		foreach {contact newgid} $args {break}
+	method contactAdded {contact_email newgid} {
+		set contact [$self emailToContact $contact_email]
+
 		#add to the new group (only this group!)
 		set altgid [$self getContactGroups $contact 1]
 		if {$altgid == ""} {
-			$widg.$newgid addContact $contact $newgid
+			$widg.$newgid contact add $contact
 		} else {
-			$widg.$altgid addContact $contact $newgid
+			$widg.$altgid contact add $contact
 		}			
 
 	}
 
-	method contactNickChange { contact } {
+	method contactNickChange { contact_email } {
+		set contact [$self emailToContact $contact_email]
+
 		set groups [$self getContactGroups $contact]
 		foreach group $groups {
 			set cwidg [$widg.$group getContactWidget $contact]
 			if {$cwidg == ""} { return }
-			$cwidg configure -nickname [::abook::getNick $contact]
+			$cwidg configure -nickname [::abook::getNick $contact_email]
 		}
 	}	
 
-	method contactPSMChange { contact } {
+	method contactPSMChange { contact_email } {
+		set contact [$self emailToContact $contact_email]
+
 		set groups [$self getContactGroups $contact]
 		foreach group $groups {
 			set cwidg [$widg.$group getContactWidget $contact]
 			if {$cwidg == ""} { return }
-			$cwidg configure -message [::abook::getpsmmedia $contact]
+			$cwidg configure -message [::abook::getpsmmedia $contact_email]
 		}
 	}
 
-	method contactStateChange { contact } {
+	method contactStateChange { contact_email } {
+		set contact [$self emailToContact $contact_email]
+
 		#change state
-		set state [::abook::getVolatileData $contact state FLN]
-		set groups [::abook::getGroups $contact]
+		set state [::abook::getVolatileData $contact_email state FLN]
+		set groups [::abook::getGroups $contact_email]
 		set offgroup [$self getContactGroups $contact 1]
 
 		if { $options(-orderbygroup) } {
@@ -648,10 +711,10 @@ snit::widgetadaptor clwidget {
 				if {$offgroup != ""} {
 #					puts "Contact $contact goes offline, moving from group to mobile/offline group"
 					#remove from this group
-					$widg.$gid rmContact $contact
+					$widg.$gid contact remove $contact
 					#add contact to the mobile/offline group
 					if { $gid == "online" } { set gid [lindex $groups 0] }
-					$widg.$offgroup addContact $contact $gid
+					$widg.$offgroup contact add $contact
 				} else {
 #					puts "Contact $contact changes status and stays in the same group"
 					#change status
@@ -665,14 +728,14 @@ snit::widgetadaptor clwidget {
 #					puts "Contact $contact comes online, was not in group \nremoving from offline/mobile and adding in this group"
 					#remove it from the offline/mobile groups
 					if {[winfo exists $widg.offline]} {
-						$widg.offline rmContact $contact
+						$widg.offline contact remove $contact
 					}
 					if {[winfo exists $widg.mobile]} {
-						$widg.mobile rmContact $contact
+						$widg.mobile contact remove $contact
 					}
 
 					if { $gid == "online" } { set gid_ [lindex $groups 0] } else { set gid_ $gid }
-					$widg.$gid addContact $contact $gid_
+					$widg.$gid contact add $contact
 				} else {
 					puts "ERR ! $contact should be in $offgroup but it is not here nor in it's group"
 				}
@@ -696,13 +759,15 @@ snit::widgetadaptor clwidget {
 			set gid [lindex $group 1]
 			set exp [::config::getKey expanded_group_$gid]
 			if { $exp == "" } { set exp 1 }
-			clgroup $widg.$gid -state $exp -color black -name [lindex $group 0] -hideifempty $options(-hideemptygroups)
+			clgroup $widg.$gid -expanded $exp -name [lindex $group 0] -hideifempty $options(-hideemptygroups) -groupid $gid
 			pack $widg.$gid -anchor w -side top
 		}
 
 
-		foreach contact [::MSN::sortedContactList] { 
-			foreach gid [::abook::getGroups $contact] {
+		foreach contact_email [::MSN::sortedContactList] { 
+			foreach gid [::abook::getGroups $contact_email] {
+				set contact [$self emailToContact $contact_email]
+
 				set altgid [$self getContactGroups $contact 1]
 				if {$altgid == ""} {
 					if {!$options(-orderbygroup)} {
@@ -711,7 +776,7 @@ snit::widgetadaptor clwidget {
 						set altgid $gid
 					}
 				}
-				$widg.$altgid addContact $contact $gid
+				$widg.$altgid contact add $contact
 			}
 		}	
 	}
@@ -760,7 +825,8 @@ snit::widgetadaptor clwidget {
 		}
 	}
 		
-	method getContactGroups { contact {offonly 0}} {
+	method getContactGroups { contact_obj {offonly 0}} {
+		set contact [$contact_obj cget -email]
 		set status [::abook::getVolatileData $contact state FLN]
 		# Online/Offline mode
 		if { !$options(-orderbygroup) } {
@@ -827,7 +893,7 @@ snit::widgetadaptor clwidget {
 					#add offline groups
 					set exp [::config::getKey expanded_group_offline]
 					if { $exp == "" } { set exp 1 }
-					clgroup $widg.offline -state $exp -color black -name [trans offline] -hideifempty $options(-hideemptygroups)
+					clgroup $widg.offline -expanded $exp -name [trans offline] -hideifempty $options(-hideemptygroups) -groupid 0
 					pack $widg.offline -anchor w -side top
 
 					#foreach group, get the offline contacts and move 'm to the offline group
@@ -836,8 +902,8 @@ snit::widgetadaptor clwidget {
 						foreach contact [$widg.$group getContactsWithState FLN] {
 							#don't change for mobile group
 							if {$group != "mobile" } {
-								$widg.$group rmContact $contact
-								$widg.offline addContact $contact $group
+								$widg.$group contact remove $contact
+								$widg.offline contact add $contact
 							}
 						}
 					}
@@ -846,8 +912,8 @@ snit::widgetadaptor clwidget {
 					#move all contacts from the offline group to their respective groups
 					foreach contact [$widg.offline getContactsWithState FLN] {
 						foreach group [::abook::getGroups $contact] {
-							$widg.offline rmContact $contact
-							$widg.$group addContact $contact $group
+							$widg.offline contact remove $contact
+							$widg.$group contact add $contact
 						}
 					}				
 				destroy $widg.offline
@@ -859,7 +925,7 @@ snit::widgetadaptor clwidget {
 					#add mobile group
 					set exp [::config::getKey expanded_group_mobile]
 					if { $exp == "" } { set exp 1 }
-					clgroup $widg.mobile -state $exp -color black -name [trans mobile] -hideifempty $options(-hideemptygroups)
+					clgroup $widg.mobile -expanded $exp -name [trans mobile] -hideifempty $options(-hideemptygroups) -groupid 0
 					if { [winfo exists $widg.offline] } {
 						pack $widg.mobile -anchor w -side top -before $widg.offline
 					} else {
@@ -867,11 +933,12 @@ snit::widgetadaptor clwidget {
 					}
 
 					#move all mobile contacts to mobiule group
-					foreach contact [::MSN::sortedContactList] { 
+					foreach contact_email [::MSN::sortedContactList] { 
+						set contact [$self emailToContact $contact_email]
 						#if it's a mobile contact
-						if { [::abook::getContactData $contact msn_mobile] == "1" && [::abook::getVolatileData $contact state FLN] == "FLN" } {
+						if { [::abook::getContactData $contact_email msn_mobile] == "1" && [::abook::getVolatileData $contact_email state FLN] == "FLN" } {
 							
-							set contactgroups [::abook::getGroups $contact]
+							set contactgroups [::abook::getGroups $contact_email]
 							#see in what groups the contact is now
 							if {$options(-orderbygroup) && !$options(-groupoffline)} {
 								set groups $contactgroups
@@ -881,20 +948,21 @@ snit::widgetadaptor clwidget {
 							
 							#remove it from each of these groups
 							foreach group $groups {
-								$widg.$group rmContact $contact
+								$widg.$group contact remove $contact
 							}
 
 							#listen carefully, I'm gonna add this only once
 							if {[$self getContactGroups $contact 1] == "mobile"} {
-								$widg.mobile addContact $contact [lindex $contactgroups 0]
+								$widg.mobile contact add $contact
 							}
 						}
 					}
 				} else {
 					#remove all mobile users, add 'm to their groups
-					foreach contact [$widg.mobile getContactsWithState FLN] {
-						$widg.mobile rmContact $contact
-						foreach gid [::abook::getGroups $contact] {
+					foreach contact_email [$widg.mobile getContactsWithState FLN] {
+						set contact [$self emailToContact $contact_email]
+						$widg.mobile contact remove $contact
+						foreach gid [::abook::getGroups $contact_email] {
 							set altgid [$self getContactGroups $contact 1]
 							if {$altgid == ""} {
 								if {!$options(-orderbygroup)} {
@@ -903,7 +971,7 @@ snit::widgetadaptor clwidget {
 									set altgid $gid
 								}
 							}
-							$widg.$altgid addContact $contact $gid
+							$widg.$altgid contact add $contact
 						}
 					}
 					#remove mobile group
