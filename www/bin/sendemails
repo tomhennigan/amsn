@@ -1,16 +1,17 @@
 #!/bin/bash
 user=root
 passwd=
+host=localhost
 db=www
 
-ROWS=`mysql --user=$user --password=$passwd $db -e "SELECT email_id FROM _email LIMIT 100" -B -N`
+ROWS=`mysql -h $host --user=$user --password=$passwd $db -e "SELECT email_id FROM _email LIMIT 100" -B -N`
 
 for id in $ROWS
 do
-	data=`mysql --user=$user --password=$passwd $db -e "SELECT * FROM _email WHERE email_id=$id" -B -N`
+	data=`mysql -h $host --user=$user --password=$passwd $db -e "SELECT * FROM _email WHERE email_id=$id" -B -N`
 	to=`echo "$data" | awk -F "\t" '{print $2}'`
 	subject=`echo "$data" | awk -F "\t" '{print $3}'`
 	body=`echo "$data" | awk -F "\t" '{print $4}'`
-	echo "$body" |mail -s $subject $to
-	mysql --user=$user --password=$passwd $db -e "DELETE FROM _email WHERE email_id=$id"
+	echo "$body" |mail -s "$subject" $to
+	mysql -h $host --user=$user --password=$passwd $db -e "DELETE FROM _email WHERE email_id=$id"
 done

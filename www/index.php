@@ -56,10 +56,10 @@ switch(remoteOS()) {
     $url="download.php";
     break;
   }
-echo '<a href="'.$url.'" id="download">Download</a>';
+echo '<a href="'.$url.'" id="download"></a>';
 ?>
-<a href="plugins.php" id="plugins">Plugins</a>
-<a href="skins.php" id="skins">Skins</a>
+<a href="plugins.php" id="plugins"></a>
+<a href="skins.php" id="skins"></a>
 
 <?php include inc . 'news.php' ?>
 <?php include inc . 'footer.php'; ?>

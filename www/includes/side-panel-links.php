@@ -11,6 +11,8 @@
 <a href="http://validator.w3.org/check?uri=referer"><img src="images/vxhtml.png" alt="Valid XHTML 1.0!" /></a>
 <br/><br/>
 <a href="http://jigsaw.w3.org/css-validator/validator?uri=http://amsn.sourceforge.net/stylesheet.css"><img src="images/vcss.png" alt="Valid CSS!" /></a>
+<br/><br/>
+<a href="http://mac.softpedia.com/get/Internet-Utilities/aMSN.shtml"><img src="images/softpedia-pick.png" alt="Softpedia Pick!" /></a>
 </div>
 <div class="block_right_bottom"></div>
 </div>

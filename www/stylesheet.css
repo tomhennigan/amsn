@@ -226,8 +226,7 @@ a#download
   height: 45px;
   margin: 2px 10px 2px 10px;
   cursor: pointer;
-  background: #fff url(images/download.png) no-repeat;
-  color: transparent
+  background: #fff url(images/download.png) no-repeat
 }
 
 a#download:hover
@@ -244,8 +243,7 @@ a#plugins
   height: 45px;
   margin: 2px 10px 2px 10px;
   cursor: pointer;
-  background: #fff url(images/plugins.png) no-repeat;
-  color: transparent
+  background: #fff url(images/plugins.png) no-repeat
 }
 
 a#plugins:hover
@@ -262,8 +260,7 @@ a#skins
   height: 45px;
   margin: 2px 10px 2px 10px;
   cursor: pointer;
-  background: #fff url(images/skins.png) no-repeat;
-  color: transparent
+  background: #fff url(images/skins.png) no-repeat
 }
 
 a#skins:hover

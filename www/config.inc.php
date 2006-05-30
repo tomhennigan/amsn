@@ -6,7 +6,7 @@ define('DBPASS','');
 define('EMAIL','nobody@sf.net');
 
 /* Webpage Configuration */
-define('DBNAME_WWW','www');
+define('DBNAME_WWW','amsn');
 define('DBNAME_FORUM','phpbb');
 
 /* Bugs Configuration */

@@ -37,9 +37,23 @@
         <br />IRC Nick: 
         <br /><a href="">Web site</a> &#8226; <a href="">Blog</a></td></tr>
 
+<tr><td><img  title="Harry Vennik" alt="Harry Vennik" src="images/developer-harry.png" width="168" height="147" /></td><td>
+<b>Harry Vennik</b>
+        <br />Role: 
+        <br />Location: 
+        <br />IRC Nick: 
+        <br /><a href="">Web site</a> &#8226; <a href="">Blog</a></td></tr>
+
 <tr><td><img  title="Jerome Gagnon-Voyer" alt="Jerome Gagnon-Voyer" src="images/developer-jerome.png" width="168" height="147" /></td><td>
 <b>Jerome Gagnon-Voyer</b>
         <br />Role: Mac Porter &#8226; Maintainer &#8226; Admin &#8226; Developer
+        <br />Location: 
+        <br />IRC Nick: 
+        <br /><a href="">Web site</a> &#8226; <a href="">Blog</a></td></tr>
+
+<tr><td><img  title="Jonne Zutt" alt="Jonne Zutt" src="images/developer-jonne.png" width="168" height="147" /></td><td>
+<b>Jonne Zutt</b>
+        <br />Role: Developer &#8226; Games Plugin Maintainer
         <br />Location: 
         <br />IRC Nick: 
         <br /><a href="">Web site</a> &#8226; <a href="">Blog</a></td></tr>
@@ -63,6 +77,13 @@
         <br />Role: Admin &#8226; Developer &#8226; Retired webpage developer &#8226;<a href="http://farsight.sourceforge.net/"> Farsight Project Manager</a>
         <br />Location: 
         <br />IRC Nick: burger 
+        <br /><a href="">Web site</a> &#8226; <a href="">Blog</a></td></tr>
+
+<tr><td><img  title="Lee Olson" alt="Lee Olson" src="images/developer-default.png" width="168" height="147" /></td><td>
+<b>Lee Olson</b>
+        <br />Role: Graphics &#8226; Skin Designer &#8226; Web Designer
+        <br />Location: 
+        <br />IRC Nick: 
         <br /><a href="">Web site</a> &#8226; <a href="">Blog</a></td></tr>
 
 <tr><td><img  title="Luis Q. T." alt="Luis Q. T." src="images/developer-default.png" width="168" height="147" /></td><td>
@@ -105,8 +126,7 @@
 <tr><td><img  title="Vivia Nikolaidou" alt="Vivia Nikolaidou" src="images/developer-vivia.png" width="168" height="147" /></td><td>
 <b>Vivia Nikolaidou</b>
         <br />Role: Developer &#8226; Tester &#8226; Internationalization
-        <br />Location:
-        <br />IRC Nick:
+        <br />Location:         <br />IRC Nick:
         <br /><a href="">Web site</a> &#8226; <a href="">Blog</a></td></tr>
 
 <tr><td><img  title="Youness Alaoui" alt="Youness Alaoui" src="images/developer-youness.png" width="168" height="147" /></td><td>
@@ -123,13 +143,6 @@
 <table class="IEFixPNG developer"><tbody><tr><td><img  title="Rafael Rodriguez" alt="Rafael Rodriguez" src="images/developer-default.png" width="168" height="147" /></td><td>
 <b>Rafael Rodriguez</b>
         <br />Role: Tester
-        <br />Location: 
-        <br />IRC Nick: 
-        <br /><a href="">Web site</a> &#8226; <a href="">Blog</a></td></tr>
-
-<tr><td><img  title="Lee Olson" alt="Lee Olson" src="images/developer-default.png" width="168" height="147" /></td><td>
-<b>Lee Olson</b>
-        <br />Role: Graphics &#8226; Skin Designer &#8226; Web Designer
         <br />Location: 
         <br />IRC Nick: 
         <br /><a href="">Web site</a> &#8226; <a href="">Blog</a></td></tr>
@@ -221,13 +234,6 @@
 <tr><td><img  title="Gaz Iggi" alt="Gaz Iggi" src="images/developer-default.png" width="168" height="147" /></td><td>
 <b>Gaz Iggi</b>
         <br />Role: Developer
-        <br />Location: 
-        <br />IRC Nick: 
-        <br /><a href="">Web site</a> &#8226; <a href="">Blog</a></td></tr>
-
-<tr><td><img  title="Harry Vennik" alt="Harry Vennik" src="images/developer-harry.png" width="168" height="147" /></td><td>
-<b>Harry Vennik</b>
-        <br />Role: 
         <br />Location: 
         <br />IRC Nick: 
         <br /><a href="">Web site</a> &#8226; <a href="">Blog</a></td></tr>
