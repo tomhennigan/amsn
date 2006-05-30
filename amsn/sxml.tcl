@@ -176,9 +176,13 @@ namespace eval sxml {
 	# Default the attributes currently supported.			#
 	#################################################################
 	set xml_attrs(${xml_invoc}_trace) 0
-	set xml_attrs(${xml_invoc}_silent) 0
+	set xml_attrs(${xml_invoc}_silent) 1
 	set xml_attrs(${xml_invoc}_pedantic) 0
 	set xml_attrs(${xml_invoc}_extended) 0
+
+	if { $xml_attrs(${xml_invoc}_trace) >= 1 } {
+		status_log "sxml $xml_invoc : Init for file $file"
+	}
 
 	return $xml_invoc
     }
@@ -208,6 +212,12 @@ namespace eval sxml {
 	if { ! [info exists xml_stack($id)] } {
 	    return -1
 	}
+
+
+	    if { $xml_attrs(${id}_trace) >= 1 } {
+		status_log "sxml $id : Closing sxml parsing"
+	    }
+
 	catch {close $xml_file($id)}
 	unset xml_file($id)
 	unset xml_stack($id)
@@ -265,6 +275,7 @@ namespace eval sxml {
 	if { ! [info exists xml_stack($id)]} {
 	    return -1
 	}
+
 	#################################################################
 	# We should also make sure that the specified routine already	#
 	# exists, and has the correct number of arguments.		#
@@ -275,14 +286,14 @@ namespace eval sxml {
 	    set valid [info procs $proc]
 	    if { "$valid" == "" } {
 		if { $xml_attrs(${id}_silent) == 0 } {
-		    #puts stderr "Error: Specified procedure to register \"$proc\" is not defined."
+		    status_log "Error: Specified procedure to register \"$proc\" is not defined."
 		}
 		return -2
 	    }
 	    set args [info args $proc]
 	    if { [llength $args] != 6 } {
 		if { $xml_attrs(${id}_silent) == 0 } {
-		    #puts stderr "Error: Specified procedure to register \"$proc\" does not have valid argument count."
+		    status_log "Error: Specified procedure to register \"$proc\" does not have valid argument count."
 		}
 		return -3
 	    }
@@ -310,7 +321,7 @@ namespace eval sxml {
 	    set x [regexp { ([[:alnum:]\-_]+)="([^"]*)"} $attrstr junk a1 a2]
 		if {$x == 0} break
 		if { ! [validate_name $a1] } {
-			#puts stderr "Error: Invalid attribute name: $a1"
+			status_log "Error: Invalid attribute name: $a1"
 			return -code error 1
 		}
 		set a2 [xml_handle_bs_string $a2 $incdata]
@@ -322,7 +333,7 @@ namespace eval sxml {
 	    if { "[string trim "$attrstr"]" == "/" } {
 		set empty_tag 1
 	    } elseif {[llength $attrstr] != 0} {
-		#puts stderr "Malformed attributes: $attrstr found in:\n$oattr"
+		status_log "Malformed attributes: $attrstr found in:\n$oattr"
 		return -code error 1
 	    }
 	    return $attrs
@@ -461,6 +472,11 @@ proc parse {id} {
     variable xml_cdata_end
     variable xml_attrs
 
+	if { $xml_attrs(${id}_trace) >= 1 } {
+		status_log "sxml $id : Started parsing"
+	}
+
+
     #################################################################
     # If the trace attribute has been set, then set the local	#
     # variable to indicate this fact.				#
@@ -508,12 +524,36 @@ proc parse {id} {
     set cfileline 0
     set status 0
     while {! [eof $xml_file($id)]} {
-	gets $xml_file($id) cline
-	incr cfileline
-	if { "$trace" >= 1 } {
-	    #puts "Trace: Read line ($status): $cline"
-	}
-	append cline "\n"
+	    # The following commented block could be used instead of the 3 [read/string map/append] lines that come right after
+	    # The advantage is that, this way we get the line number for each tag (only used in a puts, if no closing tag for a comment is found), 
+	    # but we might have a bug on a line like "<entry/> <entry" ...
+
+	    # Both versions are used to avoid a bug on reading files where the tags are multiline like in .svn/entries for example
+	    
+#	    gets $xml_file($id) cline
+#	    incr cfileline
+#	    if { "$trace" >= 1 } {
+#	        status_log "Trace: Read line ($status): $cline"
+#	    }
+#
+#	    if { [string first "<" $cline] != -1 } {
+#		    while { [string first ">" $cline] == -1 && ! [eof $xml_file($id)] } {
+#			    append cline [gets $xml_file($id)]
+#			    incr cfileline
+#			    if { "$trace" >= 1 } {
+#				    status_log "Trace: Append line ($status): $cline"
+#			    }
+#		    } 
+#	    }
+#	    append cline "\n"
+
+
+	    # The following lines read the whole file and put it as a single line.
+	    set cline [read $xml_file($id)]
+	    set cline [string map { "\n" "" } $cline]
+	    append cline "\n"
+
+
 	#########################################################
 	# The processing of <tag/> is performed by		#
 	# pre-processing each line to convert <tag/> to		#
@@ -603,16 +643,17 @@ proc parse {id} {
 			set xx [string range $cline $c end]
 			set xx2 [string first ">" $xx]
 			if { $xx2 == -1 } {
-			    if { $xml_attrs(${id}_silent) == 0 } {
-				#puts stderr "Error: End of line before end of tag encountered."
-				#puts stderr "Current line below: \n$cline"
-			    }
-			    return -2
+				if { $xml_attrs(${id}_silent) == 0 } {
+					status_log "Error: End of line before end of tag encountered."
+					status_log "Current line below: \n$cline"
+				}
+				return -2
+				
 			}
 			set xx [string range $xx 0 [expr {$xx2 - 1}] ]
 			if { [catch {set ctag_attrs [xml_tag_attrs_to_str $xx empty_ctag $xml_cdata_parse($id)]}] } {
 			    if { $xml_attrs(${id}_silent) == 0 } {
-				#puts stderr "Current stack: $cstack:$tag"
+				status_log "Current stack: $cstack:$tag"
 			    }
 			    return -9
 			}
@@ -629,7 +670,7 @@ proc parse {id} {
 		#################################################
 		set tag [string tolower $tag]
 		if { "$trace" >= 1 } {
-		    #puts "Trace: Start-tag: $tag"
+		    status_log "Trace: Start-tag: $tag"
 		}
 		if { [string length $cstack] == 0 } {
 		    #################################################################
@@ -639,13 +680,13 @@ proc parse {id} {
 		    #################################################################
 		    if { $xml_hadtoplevel($id) == 1 } {
 			if { $xml_attrs(${id}_silent) == 0 } {
-			    #puts stderr "Error: Second top-level entity found! ($tag)"
+			    status_log "Error: Second top-level entity found! ($tag)"
 			}
 			return -7
 		    }
 		    if { ! [validate_name $tag] } {
 			if { $xml_attrs(${id}_silent) == 0 } {
-			    #puts stderr "Error: Entity name malformed: $tag"
+			    status_log "Error: Entity name malformed: $tag"
 			}
 			return -8
 		    }
@@ -654,7 +695,7 @@ proc parse {id} {
 		} else {
 		    if { ! [validate_name $tag] } {
 			if { $xml_attrs(${id}_silent) == 0 } {
-			    #puts stderr "Error: Entity name malformed: $tag"
+				status_log "Error: Entity name malformed: $tag"
 			}
 			return -8
 		    }
@@ -718,7 +759,7 @@ proc parse {id} {
 		    set status 3
 		    set etag ""
 		    if { "$trace" >= 1 } {
-			#puts "Trace: Saving $cstack: $cdata"
+			status_log "Trace: Saving $cstack: $cdata"
 		    }
 		    if {[info exists xml_data_stack($cstack)]} {
 			append xml_data_stack($cstack) $cdata
@@ -762,21 +803,21 @@ proc parse {id} {
 		#########################################
 		set etag [string tolower $etag]
 		if { "$trace" >= 1 } {
-		    #puts "Trace: End-tag: $etag"
+		    status_log "Trace: End-tag: $etag"
 		}
 		set xx_el [llength [split $cstack :]]
 		incr xx_el -1
 		set xx_ll [lindex [split $cstack :] $xx_el]
 		if { "$etag" != "/$xx_ll" } {
 		    if { $xml_attrs(${id}_silent) == 0 } {
-			#puts stderr "Error: End tag mismatch ($xx_ll -> $etag)"
-			#puts stderr "Current stack: $cstack"
+			status_log "Error: End tag mismatch ($xx_ll -> $etag)"
+			status_log "Current stack: $cstack"
 		    }
 		    return -3
 		}
 		set x [lsearch -exact $xml_procs($id) $cstack]
 		if { "$trace" >= 2 } {
-		    #puts "Trace: Searched $xml_procs($id) for $cstack - Result = $x"
+		    status_log "Trace: Searched $xml_procs($id) for $cstack - Result = $x"
 		}
 		if { [info exists xml_data_stack($cstack)] } {
 		    set cdata "$xml_data_stack($cstack)"
@@ -807,8 +848,8 @@ proc parse {id} {
 			    set xml_data_stack($cstack) {}
 			} elseif { ($r != "0" && $r != "SXML_OK") || $r == "SXML_ERROR" } {
 			    if { $xml_attrs(${id}_silent) == 0 } {
-				#puts stderr "Error: Returned error when calling: $defproc"
-				#puts stderr "Current stack: $cstack"
+				status_log "Error: Returned error when calling: $defproc"
+				status_log "Current stack: $cstack"
 			    }
 			    return -4
 			}
@@ -819,13 +860,13 @@ proc parse {id} {
 			# the saved data....		#
 			#################################
 			if { "$trace" >= 1 } {
-			    #puts "Trace: Added-saved: $tag=$cdata"
+			    status_log "Trace: Added-saved: $tag=$cdata"
 			}
 		    }
 		} else {
 		    set proc [lindex $xml_procs($id) [expr {$x + 1}]]
 		    if { "$trace" >= 1 } {
-			#puts "Trace: Calling proc $proc"
+			status_log "Trace: Calling proc $proc"
 		    }
 		    xml_construct_attr_list $cstack myarr
 		    xml_construct_data_list $cstack myarr2
@@ -839,8 +880,8 @@ proc parse {id} {
 			set xml_data_stack($cstack) {}
 		    } elseif { ($r != "0" && $r != "SXML_OK") || $r == "SXML_ERROR" } {
 			if { $xml_attrs(${id}_silent) == 0 } {
-			    #puts stderr "Error: Returned error when calling: $proc"
-			    #puts stderr "Current stack: $cstack"
+			    status_log "Error: Returned error when calling: $proc"
+			    status_log "Current stack: $cstack"
 			}
 			return -4
 		    }
@@ -855,23 +896,28 @@ proc parse {id} {
 		set status 0
 		incr c; continue
 	    }
-	    #puts "stderr: Warning invalid state encountered!"
+	    status_log "stderr: Warning invalid state encountered!"
 	    incr c
 	}
     }
     if { $status == 4 } {
 	if { $xml_attrs(${id}_silent) == 0 } {
-	    #puts stderr "Error: End of file during comment - comment started on line $comstart."
+	    status_log "Error: End of file during comment - comment started on line $comstart."
 	}
 	return -5
     }
     if { $status != 0 || [string length $cstack] > 0 } {
 	if { $xml_attrs(${id}_silent) == 0 } {
-	    #puts stderr "Error: Data exhausted, format not satisfied."
-	    #puts stderr "Current stack: $cstack"
+	    status_log "Error: Data exhausted, format not satisfied."
+	    status_log "Current stack: $cstack"
 	}
 	return -6
     }
+
+
+	if { $xml_attrs(${id}_trace) >= 1 } {
+		status_log "sxml $id : Stopped parsing"
+	}
     return 0
 }
 
@@ -945,7 +991,7 @@ proc GetXmlEntry { list find {stack ""}} {
 				set key [lindex $subkey 0]
 				set value [lindex $subkey 1]
 				if {$key == "#text" } { 
-#					status_log "Found value : $value" blue
+					#status_log "Found value : $value" blue
 					return $value 
 				}
 			}

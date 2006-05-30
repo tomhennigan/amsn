@@ -22,6 +22,37 @@ namespace eval ::bugs {
 	return [clock scan "$month/$day/$year $hour:$minute:00"]
     }
 
+	proc get_svn_revision { } {
+		variable svn_revision
+		set entries_file [file join .svn entries]
+		if { [file exists "$entries_file"] } {
+			set svn_revision -1
+			set sxml_err -1
+			catch {
+				set sxml_id [::sxml::init $entries_file]
+				::sxml::register_routine $sxml_id "wc-entries:entry" ::bugs::got_svn_entry
+				set sxml_err [::sxml::parse $sxml_id]
+				::sxml::end $sxml_id
+			} 
+			if { $sxml_err == 0 } {
+				return $svn_revision
+			} else {
+				return -1
+			}
+		} else {
+			return -1
+		}
+	}
+	
+	proc got_svn_entry   {cstack cdata saved_data cattr saved_attr args} { 
+		variable svn_revision
+		array set attr $cattr
+		if { [info exists attr(name)] && [info exists attr(revision)] && $attr(name) == "" } { 
+			set svn_revision $attr(revision)
+		}
+		return 0
+	}
+
     proc bgerror { args } {
 	global errorInfo errorCode HOME2 tcl_platform tk_patchLevel tcl_patchLevel
 	variable dont_give_bug_reports
