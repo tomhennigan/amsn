@@ -3485,10 +3485,10 @@ proc cmsn_draw_main {} {
 	$conts add separator
 
 	#chat history
-	$conts add command -label "[trans history]" -command ::log::OpenLogWin
+	$conts add command -label "[trans history]" -command ::log::OpenLogWin -state disabled
 
 	#webcam history
-	$conts add command -label "[trans webcamhistory]" -command ::log::OpenCamLogWin		
+	$conts add command -label "[trans webcamhistory]" -command ::log::OpenCamLogWin	-state disabled
 	
 	#-------------------
 	$conts add separator
@@ -3894,7 +3894,7 @@ proc loggedInGuiConf { event } {
 	
 	#contacts menu
 	set menu .main_menu.contacts
-	enableEntries $menu [list 0 1 2 4 5 6 11 12]
+	enableEntries $menu [list 0 1 2 4 5 6 8 9 11 12]
 
 
 
@@ -3947,7 +3947,7 @@ proc loggedOutGuiConf { event } {
 	
 	#contacts menu
 	set menu .main_menu.contacts
-	enableEntries $menu [list 0 1 2 4 5 6 11 12] 0
+	enableEntries $menu [list 0 1 2 4 5 6 8 9 11 12] 0
 
 }
 
