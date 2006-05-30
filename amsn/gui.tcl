@@ -3529,7 +3529,7 @@ proc cmsn_draw_main {} {
 	$help add command -label "[trans msnstatus]" \
 	    -command "launch_browser \"http://messenger.msn.com/Status.aspx\""
 	
-	$help add command -label "TODO SEND FEEDBACK"
+	$help add command -label "[trans sendfeedback]" -command "launch_browser \"http://amsn.sourceforge.net/forums/index.php\""
 
 	$help add separator
 

@@ -652,6 +652,7 @@ selectplugins Please select the plugins you want enabled
 selectskin Please choose a skin from the list
 sendcam Send Webcam
 sendemail Send my email address to notify me of changes
+sendfeedback Send Feedback
 sendfile Send File
 sendmail Send E-mail
 sendmobmsg Send to Mobile Device
