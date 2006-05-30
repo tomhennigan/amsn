@@ -63,7 +63,7 @@ namespace eval ::debug {
 	proc writeOn {} {
 		global HOME2
 		variable debugfile
-		variable wchannel
+		global wchannel
 
 		set debugfile [file join $HOME2 debug.log]
 		#open the file for writing at the end of it
