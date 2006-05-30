@@ -38,7 +38,7 @@ namespace eval ::smiley {
 	# having the correct order in the menu) then we add the elements in the array emotions
 	proc newEmoticon {cstack cdata saved_data cattr saved_attr args} {
 		
-		global emotions emotions_data emotions_names
+		global emotions emotions_data emotions_names emotions_cleared
 		upvar $saved_data sdata
 		
 		#Check if no important fields are missing, or emoticon is disabled
@@ -47,6 +47,13 @@ namespace eval ::smiley {
 		if { ! [info exists sdata(${cstack}:text)] } { return 0 }
 		if { ! [info exists sdata(${cstack}:file)] } { return 0 }
 		if { [info exists sdata(${cstack}:disabled)] && [is_true $sdata(${cstack}:disabled)] } { return 0 }
+
+		if { [::skin::getKey ignoredefaultsmileys] == 1 && ! [info exists emotions_cleared] } {
+			set emotions_cleared 1
+			unset emotions_data
+			unset emotions_names
+			unset emotions
+		}
 		
 		#Get the smiley info: name, text and file, and other
 		#existing fields, like sound or animated. Store them

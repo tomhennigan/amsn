@@ -401,6 +401,8 @@ namespace eval ::skin {
 		sxml::register_routine $skin_id "skin:smileys:size" ::skin::SetEmoticonSize
 		sxml::parse $skin_id
 		sxml::end $skin_id
+
+		catch { unset ::emotions_cleared }
 		
 		# Then reload the real skin
 		set skin_id [sxml::init [::skin::GetSkinFile "" settings.xml $skin_name]]
@@ -496,12 +498,12 @@ namespace eval ::skin {
 		#Get file from ~/.amsn/amsn-extras/skins folder
 		lappend locations [file join $HOME2 amsn-extras skins $skin $type]
 		#Get file from default skin
-		if { [::skin::getKey ignoredefaultsmileys] == 1 || $type != "smileys" } {
+		if { [::skin::getKey ignoredefaultsmileys] != 1 || $type != "smileys" } {
 			lappend locations [file join [set ::program_dir] skins $defaultskin $type]
-		}
-		#Get file from fallback location
-		if { ($fblocation != "") } {
-			lappend locations [file join $fblocation]
+			#Get file from fallback location
+			if { ($fblocation != "") } {
+				lappend locations [file join $fblocation]
+			}
 		}
 
 		foreach location $locations {
