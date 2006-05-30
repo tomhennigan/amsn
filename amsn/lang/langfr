@@ -653,6 +653,7 @@ selectskin Sélectionnez dans la liste l'apparence que vous souhaitez utiliser
 send Envoyer
 sendcam Envoyer la webcam 
 sendemail Envoyer mon adresse email pour m'avertir des changements
+sendfeedback Envoyer ses impressions sur aMSN
 sendfile Envoyer un fichier
 sendmail Envoyer un courrier
 sendmobmsg Envoyer un message au mobile
