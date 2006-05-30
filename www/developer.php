@@ -45,8 +45,8 @@ If you have run into a bug while using aMSN, please submit it with details on re
 
 <ul>
 <li>
-<b>aMSN CVS</b><br /><br />
-If you want to be on the bleeding egde of AMSN you can download our most recent developement version directly from our sourceforge CVS. CVS
+<b>aMSN SVN</b><br /><br />
+If you want to be on the bleeding egde of AMSN you can download our most recent developement version directly from our sourceforge SVN. SVN
 contains new bug fixes from the previous releases. On the other hand, it might not be and probably is not stable.
 <br />
 </li>
@@ -54,7 +54,7 @@ contains new bug fixes from the previous releases. On the other hand, it might n
 
 <ul>
 <li>
-<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/amsn/">Browse CVS Repository</a>
+<a href="http://svn.sourceforge.net/viewcvs.cgi/amsn/trunk/amsn/">Browse SVN Repository</a>
 <br />
 </li>
 </ul>
