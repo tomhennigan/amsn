@@ -5698,6 +5698,9 @@ proc getUniqueValue {} {
 proc ShowUser {user_login state_code colour section grId} {
 	global pgBuddy emailBList Bulle tcl_platform
 
+	# font splainf is used in contact list, compute pixel width of a space
+	set width_of_space [font measure splainf -displayof $pgBuddy.text " "]
+
 	if {($state_code != "NLN") && ($state_code !="FLN")} {
 		set state_desc " ([trans [::MSN::stateToDescription $state_code]])"
 	} else {
@@ -5760,12 +5763,27 @@ proc ShowUser {user_login state_code colour section grId} {
 
 	set last_element [expr {[llength $user_lines] -1 }]
 
+	# Compute small_dp that is used later, here used only to align PSM
+	set small_dp ""
+	if {[::config::getKey show_contactdps_in_cl] == "1" && ![::MSN::userIsBlocked $user_login] } {
+		set small_dp [::skin::getLittleDisplayPicture ${user_login} [image height [::skin::loadPixmap $image_type]] ]
+	}
+
 	if {$psm != "" && [::config::getKey emailsincontactlist] == 0 } {
 		if {[::config::getKey psmplace] == 1 } {
 			$pgBuddy.text insert $section.last " - $psm" [list $user_unique_name psm_tag]
 		} elseif {[::config::getKey psmplace] == 2 } {
+			# Compute buddy icon width
+			if {$small_dp != ""} {
+				set small_dp_width [image width $small_dp]
+			} else {
+				set small_dp_width [image width [::skin::loadPixmap $image_type]]
+			}
+			# Create a string of ceiling(small_dp_width / width_of_space spaces)
+			set dp_spaces [string repeat " " [expr {($small_dp_width - 1) / $width_of_space + 1}]]
+			# Insert PSM aligned with buddy icon
 			$pgBuddy.text insert $section.last "$psm" [list $user_unique_name psm_tag]
-			$pgBuddy.text insert $section.last "\n$user_ident"
+			$pgBuddy.text insert $section.last "\n$user_ident  $dp_spaces"
 		}
 	}
 
@@ -5854,11 +5872,6 @@ proc ShowUser {user_login state_code colour section grId} {
 	set imgname "img[getUniqueValue]"
 	set displaypicfilename [::abook::getContactData $user_login displaypicfile "" ]
 
-	set small_dp ""
-	if {[::config::getKey show_contactdps_in_cl] == "1" && ![::MSN::userIsBlocked $user_login] } {
-		set small_dp [::skin::getLittleDisplayPicture ${user_login} [image height [::skin::loadPixmap $image_type]] ]
-
-	}
 	if {$small_dp != ""} {
 		set imgIdx [$pgBuddy.text image create $section.last -image $small_dp -padx 3 -pady 1 -name [string map { "-" "\\" } "displaypicture_tny_${user_login}"]]
 	} else {
