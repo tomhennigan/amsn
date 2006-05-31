@@ -44,6 +44,7 @@ appearance Utseende
 appearoff Osynlig
 areacode Riktnummer
 aretyping $1 skriver ett meddelande
+askcam Ta emot webbkamera
 askcontactwebcam att fråga efter din kontakts webbkamera, eller
 askeachtime Fråga varje gång
 asksendingyourwebcam för att be om att sända din egen webbkamera
@@ -117,6 +118,7 @@ change_mobile Byt mobilinställningar
 changenick Byt smeknamn
 changesize Ändra storlek
 changestate $1 byter status till $2
+changestatus Byt status
 changevideosettings Ändra videoinställningar
 channels Kanaler
 charscounter Räknare för antal skrivna tecken i konversationsfönstret
@@ -333,6 +335,7 @@ globaloverride Globala smeknamn åsidosätter anpassade smeknamn
 gonelunch Är och äter
 gotink $1 skickade en ink.
 goto Gå till $1
+gotoinbox Gå till inkorgen
 group Grupp
 groupadd Lägg till grupp
 groupdelete Ta bort grupp
@@ -411,7 +414,7 @@ listsmileys2 Lista smileys
 ljoinedconf $1 anslöts till konversationen
 lleftconf $1 kom in i konversationen
 load Aktivera
-loadcontacts Ladda kontakter
+loadcontacts Öppna kontaktlista
 loadotherdisplaypic Laddar visningsbilder för $1...
 logbigger Enskilda loggfiler får inte bli större än
 logeventconnect Spara historik för anslutningar
@@ -427,6 +430,7 @@ loging Loggar
 logolder Spara bara chat-loggar som är äldre än
 logout Logga ut
 logsbydate Ordna historiken efter datum (visa historik-funktionen blir märkbart snabbare av detta)
+logschats Sparar historik
 logsin har just loggat in
 logsmileys Visa grafiska smileys i aMSNs historikvisare
 logsout loggade ut.
@@ -473,6 +477,7 @@ natkeepalive Om du ofta blir ofrivilligt utloggad bör du välja detta alternativ
 needonline Du är utloggad eller osynlig
 needwinico2 Behöver winico05.dll i utils/windows mappen för att windows aktivitetsfältsikon skall fungera 
 never Aldrig
+newchat Ny konversation
 new_ft_protocol Använd det nya filöverföringsprotokollet (en del fel kan finnas kvar)
 newline Ny rad
 newmail $1 nya brev i inkorgen
@@ -645,6 +650,7 @@ selectall Markera alla
 selectplugins Välj de plugins du vill använda
 selectskin Välj ett tema från listan
 send Skicka
+sendcam Sänd webbkamera
 sendemail Skicka min e-postadress för att underrätta mig när något ändras
 sendfile Skicka fil
 sendmail Skicka brev
@@ -662,6 +668,8 @@ showbanner Visa aMSNs logotyp längst ner i kontaktlistan (kräver omstart)
 showblockedlist Visa en lista över personer som blockerar dig
 showcachedpics Visa lagrade visningsbilder
 show_contactdps_in_cl Visa miniatyrer av visningsbilder i kontaktlistan
+showcontactemail Visa kontakternas e-postadresser
+showcontactnick Visa kontakternas smeknamn
 showdisplaypic Visa visningsbild
 showdisplaypic2 Visa visningsbilder automatiskt när ett konversationsfönster öppnas
 showmailicon Visa brevikonen i aktivitetsfältet när ett nytt brev har tagits emot
@@ -681,6 +689,11 @@ smiletoobig Smileyn du valt är större än den vanliga storleken. Vill du byta sto
 snackfailed Kunde inte ladda Snackbiblioteket, använder systemets vanliga bibliotek
 snapshot Skärmdump
 sngdblclick Enkelklick öppnar ett nytt konversationsfönster
+sortcontactgroup Sortera kontakter efter gruppnamn
+sortcontacthybrid Sortera kontakter i hybridläge
+sortcontactstatus Sortera kontakter efter status
+sortgroupsasc Sortera grupper i ordning
+sortgroupsdesc Sortera grupper i omvänd ordning
 sound Ljud
 sound2 Spela upp ljud när en kontakt ansluter eller skickar ett meddelande
 soundactive Spela ljud när nytt meddelande har mottagits även i aktiva fönster 

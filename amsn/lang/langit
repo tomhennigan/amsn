@@ -44,6 +44,7 @@ appearance Interfaccia
 appearoff Invisibile
 areacode Codice dell'area
 aretyping $1 stanno scrivendo un messaggio
+askcam Chiedi di visualizzare la webcam
 askcontactwebcam per chiedere di visualizzare la webcam del tuo contatto, o
 askeachtime Chiedi ogni volta
 asksendingyourwebcam per chiedere di inviare immagini dalla tua webcam
@@ -109,6 +110,7 @@ cfgalarmall Configura/Aggiungi/Rimuovi l'allarme globale
 cfgalarm Configura/Aggiungi/Rimuovi l'allarme
 change_account_info Modifica informazioni Account
 change Cambia
+changestatus Cambia Status
 changecustomstate Passa a
 changedisplaypic Cambia l'immagine personale
 changefont Cambia font
@@ -330,6 +332,7 @@ globalcontainer Finestra globale
 globalnick Crea un modello per mostrare i nick dei contatti. Puoi usare queste variabili: \$user_login per la mail del contatto, \$nick per il nick del contatto e \$customnick per un nick personalizzato. Esempio: '\$user_login è \$nick' diventa 'contact@msn.com è Contact'
 globalnicktitle Nick globale
 globaloverride Il modello dei nick globali dovrebbe avere precedenza sui nick personalizzati
+gotoinbox Vai all'Inbox
 gonelunch A pranzo
 gotink $1 ti ha inviato un ink.
 goto Vai a $1
@@ -427,6 +430,7 @@ loging Diario
 logolder Registra soltanto le chat che hanno preso posto nell'ultimo
 logout Abbandona
 logsbydate Ordina log per data (L'apertura della cronologia è velocizzata)
+logschats Sta loggando le chat
 logsin si è appena connesso/a
 logsmileys Mostra le emoticon e le facine nella finestra dell'History di aMSN
 logsout è appena uscito/a
@@ -645,6 +649,7 @@ sbcon Connessione a Switch Board
 selectall Seleziona tutto
 selectplugins Seleziona i Plugins che desideri attivare
 selectskin Seleziona una Skin dalla lista
+sendcam Invia la Webcam
 sendemail Invia in mio indirizzo e-mail per avvisarmi riguardo cambiamenti
 sendfile Invia un file
 send Invia
@@ -662,6 +667,8 @@ shareswebcam Condividi la webcam
 showbanner Visualizza il banner di aMSN
 showblockedlist Mostra la lista delle persone che ti bloccano
 showcachedpics Visualizza le immagini memorizzate in cache
+showcontactemail Mostra i contatti con l'e-mail
+showcontactnick Mostra i contatti con il nick
 show_contactdps_in_cl Mostra l'immagine dei contatti nella Lista Contatti
 showdisplaypic Mostra l'immagine personale
 showdisplaypic2 Mostra l'immagine personale in ogni nuova finestra di chat
@@ -682,6 +689,11 @@ smiletoobig La faccina che hai scelto è più grande del normale. Vuoi adattarla?
 snackfailed Impossibile caricare libreria Snack, torno al default
 snapshot Istantanea
 sngdblclick Un click per aprire una nuova finestra per i messaggi
+sortcontactgroup Ordina i contatti per gruppo
+sortcontacthybrid Ordina i contatti in modo ibrido
+sortcontactstatus Ordina i contatti per status
+sortgroupsasc Ordina i gruppi in ordine ascendente
+sortgroupsdesc Ordina i gruppi in ordine discendente
 soundactive Riproduci un suono anche quando ricevi un messaggio nella finestra attiva
 sound Attiva suoni
 soundcommand Questo deve essere il comando per emettere il suono (es.: esdplay)
@@ -773,7 +785,7 @@ userblocked L'utente è in linea ma ti ha bloccato
 userdata Dati Utente
 userdps Immagini dell'utente
 usernotonline Questo Utente non è in linea
-userproperties Proprietà dell'utente $1
+userproperties Proprieta' dell'utente $1
 user Utente
 useryourself Non puoi chattare con te stesso
 usesnack Utilizza la libreria Snack (Tcl)
