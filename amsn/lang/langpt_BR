@@ -3,6 +3,7 @@ aboutamsn Sobre Alvaro's Messenger
 about Sobre
 accept Aceitar
 acceptfile Aceitar arquivo $1, tamanho $2? Salvo em $3
+account Conta
 actions Ações
 activeautoupdate Auto-atualização ativa 
 addacontact Adicionar um contato
@@ -43,6 +44,7 @@ appearance Aparência
 appearoff Aparecer off-line
 areacode DDD
 aretyping $1 está digitando uma mensagem
+askcam Pedir para receber Webcam
 askcontactwebcam Ligar WebCam
 askeachtime Perguntar toda vez
 asksendingyourwebcam pedir para que seja enviado sua própria webcam
@@ -116,6 +118,7 @@ change_mobile Mudar opçoes de Mobile
 changenick Alterar Apelido
 changesize Alterar tamanho
 changestate $1 mudou o estado para $2
+changestatus Mudar status
 changevideosettings Mude configuracoes do video
 channels Canais
 charscounter Contador de caracteres digitados na janela de conversa
@@ -157,6 +160,7 @@ closed Conversa com $1 fechada por inatividade
 close Fechar
 closelabel Quando você clicar o botão de fechar na janela de chat em abas
 closeonly Fechar somente este tab
+closeordock Fechando a janela da lista de contatos irá fechar o aMSN. Talvez você deseje fechar apenas a janela e deixar o aMSN no systray. \n\nVocê tem certeza que deseja fechar o aMSN?
 closingdocks Botão fechar minimiza janela
 color Cor
 command Comando
@@ -180,6 +184,7 @@ contactadded Contato adicionado
 contact Contatar 
 contactdoesnotexist O contato não existe!
 contactlist Lista de contatos (CL):
+contacts Contatos
 continuously Continuamente
 contrast Contraste
 conversationwith $1 usuários na conversa 
@@ -330,6 +335,7 @@ globalnicktitle Apelido global
 globaloverride Padrão global de apelidos deve sobrepor-se aos apelidos personalizados
 gonelunch Fui comer, dá licença?
 gotink $1 te enviou um ink
+gotoinbox Ir para a Caixa de email
 goto Ir para $1
 groupadd Adicionar um grupo
 groupdelete Apagar um grupo
@@ -351,10 +357,12 @@ hidewindow Esconder a Janela
 history Ver histórico
 home Casa
 httpconnection Conectando usando método HTTP (usa o protocolo HTTP na porta 80)
+hue tonalidade
 huge Muito grande
 hybrid Modo híbrido
 ident Identificando
 identity Identificar
+ignorecontact Ignorar conversação deste contato
 ignoreerrors Ignorar silenciosamente outros erros do aMSN até o fim desta sessão
 ignore Ignore
 imagefiles Arquivos de Imagem
@@ -423,12 +431,14 @@ loging Histórico
 logolder Manter apenas conversas dos últimos
 logout Sair
 logsbydate Ordenar logs por data (histórico carrega bem mais rápido)
+logschats Está logando os chats
 logsin acabou de entrar
 logsmileys Mostrar Emoticons e Smileys na janela de Histórico do aMSN
 logsout acabou de desconectar
 logwebcam Salvar todas as sessões da webcam no histórico para visualização futura
 longnick Seu apelido contém mais de 130 caracteres. Isso não é oficialmente suportado pela rede do MSN. Tem certeza que deseja continuar?
 longp4c O nome pelo qual prefere ser chamado é maior que 130 caracteres. Ele aparecerá no cliente MSN oficial como $1. Você tem certeza que quer definir isso?
+longpsm Sua mensagem pessoal é muito longa. Isto não é suportando oficialmente pelo protocolo do MSN. Você tem certeza que deseja setá-la?
 lowrescam Usar baixa resolução na webcam
 lprivtoconf Conversa particular convertida em conferência com $1
 luclosedwin Você fechou a janela em $1
@@ -437,6 +447,7 @@ mailerexample ( \$recipient = Receptor ) Deixe em branco ao usar o hotmail
 maintenance O servidor sairá do ar para manutenção em $1 minutos.
 maximised Maximizado
 minimised Minimizado
+minimize Minimizar para o sytray
 mins minutos
 mobile Celular
 mobilegrp1 Grupo Telefone Celular 
@@ -451,6 +462,7 @@ msgmaxmin Quando uma mensagem chega eu gostaria de ser:
 msg Mensagem
 msgmode Selecione como lidar com múltiplas janelas de mensagem:
 msn aMSN
+msnstatus Status da rede MSN
 msnstyle Chat estilo MSN
 mustrestart Você precisa reiniciar o programa para efetuar as mudanças
 myfriendlyname Nome pelo qual prefiro ser chamado
@@ -466,6 +478,7 @@ natkeepalive Estou sendo desconectado com freqüência (manter conexão ativa)
 needonline Você ainda está/aparece desconectado
 needwinico2 Preciso do arquivo winico05.dll na pasta utils/windows para que o ícone de inicialização rápida possa funcionar na barra de tarefas do windows 
 never Nunca
+newchat Novo chat
 new_ft_protocol Novo protocolo de transferência de arquivos (ainda possui alguns bugs)
 newline Nova Linha
 newmail $1 nova(s) mensagem(ns) na Caixa de Entrada
@@ -485,10 +498,10 @@ nodevices No momento, não há devices instalados
 nogap Nenhum espaço entre grupos
 nogroup Nenhum grupo
 nologfile Sem log para $1
-no Não
 noneavailable Nada Disponível
 nonewmail Sem novas mensagens na Caixa de Entrada
 nonewver Não existe versão mais recente do programa disponível para download
+no Não
 nopic Sem imagem
 noprofileexists Não há nenhum perfil instalado, \n você têm de instalar (ou criar) um se quiser usar múltiplos logins. \nUse o botão Adicionar Novo Perfil nesta janela para adicionar um novo perfil
 normal Normal
@@ -596,11 +609,13 @@ proxyconnection Eu conecto à Internet usando um servidor proxy:
 proxy Eu estou atrás de um servidor de proxy (HTTP ou SOCKS5)
 psmatend Mostrar mensagem pessoal ao lado do nickname
 psmdontshow Não mostrar mensagem pessoal, ao inves mostre nick global/customizado 
+psm Mensagem Pessoal
 psmnewline Mostrar mensagem pessoal embaixo do nickname 
 psmplace Onde a mensagem pessoal deve ser colocada?
 publishphones Exibir meus números de telefone
 purge Remover
 pwcdriver Você está usando um driver pwc
+quit Sair
 raised Maximizado/Minimizado
 readonlymsgbox Diretório sem permissão de escrita. Por favor ajuste as permissões nessa pasta.
 readonlywarn  AVISO: O arquivo provavelmente não será salvo corretamente pois a pasta "Arquivo recebidos" está protegido contra gravação. Por favor verifique se as permissões da pasta ($1) estão corretas antes de transferir o arquivo.
@@ -635,6 +650,7 @@ sbcon Conectando ao "Switch Board"
 selectall Selecionar tudo
 selectplugins Por favor escolha o plugin que quer ativar
 selectskin Por favor escolha uma skin da lista
+sendcam Enviar Webcam
 sendemail Me envie email para me notificar de mudanças
 send Enviar
 sendfile Enviar arquivo
@@ -648,11 +664,14 @@ servergoingdown Desconectado: servidor está sendo desligado
 server Servidor
 serverunavailable Servidor não disponível
 session Sessão
+setasmydp Setar como minha imagem de exibição
 shareswebcam Compartilhar webcam
 showbanner Mostrar banner do aMSN
 showblockedlist Mostra a lista de usuários que bloquearam você
 showcachedpics Mostrar imagens de exibição armazenadas
 show_contactdps_in_cl Mostrar imagens de contatos Mostrar imagens na na lista de contatos 
+showcontactemail Mostrar contatos com e-mail
+showcontactnick Mostrar contatos com Nickname
 showdisplaypic2 Mostrar imagem de exibição automaticamente quando uma janela de conversa é aberta
 showdisplaypic Mostrar imagem de exibição
 showmailicon Mostrar icone de email quando novos emails chegarem
@@ -672,6 +691,11 @@ smiletoobig O smiley que você escolheu é maior que o tamanho normal. Quer mudar 
 snackfailed Falha ao carregar Snack, revertendo para o padrão
 snapshot Snapshot
 sngdblclick Um clique para abrir uma nova janela de mensagem
+sortcontactgroup Ordenar contatos por grupo
+sortcontacthybrid Ordenar contatos num modo hibrido
+sortcontactstatus Ordenar contatos por status
+sortgroupsasc Ordenar grupos ascendente
+sortgroupsdesc Ordenar grupos descendente
 sound2 Tocar sons quando algum contato entrar ou enviar uma mensagem
 soundactive Reproduzir sons quando receber mensagens também nas janelas ativas
 soundcommand Comando para tocar sons (ex: play)
@@ -756,7 +780,6 @@ update Atualizar
 updateonlycurrentlanguage Atualize apenas a linguagem corrente
 updating Atualizando 
 useasdp Usar como sua própria figura
-usemsnp11 Habilitar suporte a Mensagem Pessoal (EXPERIMENTAL) - Precisa de perfil + reinicio
 useother Usar um programa diferente
 useralreadyonlist Usuário já está na lista de contatos
 userblocked Usuário está online mas bloqueou você
@@ -764,6 +787,7 @@ userdata Dados do usuário
 userdps Mostrar figura do usuário
 usernotonline Usuário não está online
 userproperties Propriedades do usuário $1
+usersettings Configurar
 user Usuário
 useryourself Você não pode conversar consigo mesmo
 usesnack Usar a biblioteca Snack (interna do Tcl)
@@ -809,6 +833,3 @@ youblocked Você foi bloqueado
 yousay Você diz
 youwant Você quer
 zoom Zoom 
-hue tonalidade
-ignorecontact Ignorar conversação deste contato
-psm Mensagem Pessoal
