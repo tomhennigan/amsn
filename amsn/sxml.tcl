@@ -175,8 +175,8 @@ namespace eval sxml {
 	#################################################################
 	# Default the attributes currently supported.			#
 	#################################################################
-	set xml_attrs(${xml_invoc}_trace) 0
-	set xml_attrs(${xml_invoc}_silent) 1
+	set xml_attrs(${xml_invoc}_trace) 1
+	set xml_attrs(${xml_invoc}_silent) 0
 	set xml_attrs(${xml_invoc}_pedantic) 0
 	set xml_attrs(${xml_invoc}_extended) 0
 
@@ -530,28 +530,28 @@ proc parse {id} {
 
 	    # Both versions are used to avoid a bug on reading files where the tags are multiline like in .svn/entries for example
 	    
-#	    gets $xml_file($id) cline
-#	    incr cfileline
-#	    if { "$trace" >= 1 } {
-#	        status_log "Trace: Read line ($status): $cline"
-#	    }
-#
-#	    if { [string first "<" $cline] != -1 } {
-#		    while { [string first ">" $cline] == -1 && ! [eof $xml_file($id)] } {
-#			    append cline [gets $xml_file($id)]
-#			    incr cfileline
-#			    if { "$trace" >= 1 } {
-#				    status_log "Trace: Append line ($status): $cline"
-#			    }
-#		    } 
-#	    }
-#	    append cline "\n"
+	    gets $xml_file($id) cline
+	    incr cfileline
+	    if { "$trace" >= 1 } {
+	        status_log "Trace: Read line ($status): $cline"
+	    }
 
-
-	    # The following lines read the whole file and put it as a single line.
-	    set cline [read $xml_file($id)]
-	    set cline [string map { "\n" "" } $cline]
+	    if { [string first "<" $cline] != -1 } {
+		    while { [string first ">" $cline] == -1 && ! [eof $xml_file($id)] } {
+			    append cline [gets $xml_file($id)]
+			    incr cfileline
+			    if { "$trace" >= 1 } {
+				    status_log "Trace: Append line ($status): $cline"
+			    }
+		    } 
+	    }
 	    append cline "\n"
+
+
+#	    # The following lines read the whole file and put it as a single line.
+#	    set cline [read $xml_file($id)]
+#	    set cline [string map { "\n" "" } $cline]
+#	    append cline "\n"
 
 
 	#########################################################
