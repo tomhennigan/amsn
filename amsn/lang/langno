@@ -3,6 +3,7 @@ aboutamsn Om Alvaro's Messenger
 about Om
 accept Aksepter
 acceptfile Aksepter fil $1, størrelse $2? filen vil lagres i $3
+account Konto
 actions Hendelser
 activeautoupdate Aktiv auto-oppdatering
 addacontact Legg til en kontakt
@@ -43,6 +44,7 @@ appearance Tilgjengelighet
 appearoff Se ut som jeg er frakoblet
 areacode Retningsnummer
 aretyping $1 skriver en melding
+askcam Spør om å motta webkamera
 askcontactwebcam for å spørre om din kontakt sitt webkamera, eller
 askeachtime Spør hver gang
 asksendingyourwebcam for å spørre om å sende ditt webkamera
@@ -116,6 +118,7 @@ change_mobile Endre Mobile instillinger
 changenick Endre kallenavn
 changesize Endre størrelse
 changestate $1 har endret status til $2
+changestatus Bytt status
 changevideosettings Videoinstillinger
 channels Kanaler
 charscounter Teller skrevne bokstaver i samtalevinduet
@@ -180,11 +183,12 @@ contactadded Kontakten er lagt til
 contactdoesnotexist Kontakten eksisterer ikke!
 contact Kontakt
 contactlist Kontaktliste (KL):
+contacts Kontakter
 continuously Kontinuerlig
 contrast Kontrast
 conversationwith $1 brukere i samtalen
 convertexplain Filstien til CONVERT-programfilen, fra ImageMagick (kreves for bilder av kontakter).\n La stå tom hvis CONVERT er i filstien.
-copy Kopi?
+copy Kopi
 copytoclipboard Kopier $1 til utklippstavlen
 copytogroup Kopi? til gruppe
 corruptconfig Konfigurasjonsfilen er ødelagt - lag en ny. Den gamle filen blir lagret til $1. Vær vennlig å send den til oss slik at vi kan sjekke hva som er galt.
@@ -331,6 +335,7 @@ globaloverride Globale kallenavnsmønster skal overstyre egendefinerte kallenavn
 gonelunch Ute til lunsj
 gotink $1 sendte deg en ink, en håndtegnet beskjed/bilde
 goto Gå til $1
+gotoinbox Gå til innboks
 groupadd Legg til en gruppe
 groupdelete Slett en gruppe
 groupexists Gruppen eksisterer allerede
@@ -425,12 +430,14 @@ login Logg inn
 logolder Logg kun samtaler fra de siste
 logout Logg ut
 logsbydate Sorter logger på dato
+logschats logger samtaler
 logsin har nettopp logget inn
 logsmileys Vis uttrykksikoner og smilefjes i aMSNs historie-vindu
 logsout har akkurat koblet fra
 logwebcam Logg alle webkamerasamtaler til fremtidig seing
 longnick Ditt kallenavn er lengre enn 130 tegn. Dette er ikke støttet av MSN-protokollen. Er du sikker på at du ønsker å beholde kallenavnet?
 longp4c Ditt vennenavn er lengre enn 130 tegn. Vennenavnet som vil vises på den offisielle MSN-klienten er $1. Er du sikker på at du ønsker å beholde vennenavnet?
+longpsm Din personlige melding er for lang, dette er ikke støttet av den offisielle MSN protokollen. Sikker på at du vil sette dette som personlig melding?
 lowrescam Bruk webkamera med lav opplsning
 lprivtoconf Endret status for privat samtale med $1 til konferanse
 luclosedwin Du har lukket samtalevinduet med $1
@@ -439,6 +446,7 @@ mailerexample ( \$recipient = Recipient ) La stå blank for å bruke Hotmail
 maintenance Serveren stenges på grunn av vedlikehold om $1 minutter
 maximised Maksimert
 minimised Minimert
+minimize Minimer til tray
 mins minutter
 mobilegrp1 Mobil gruppe
 mobilegrp2 Sett brukere inn i "Mobilgruppen" når de er frakoblet (og sortert etter status)
@@ -453,6 +461,7 @@ msgflicker Om samtalevinduet ikke er i fokus, la tittelfeltet til samtalevinduet
 msgmaxmin Når en ny melding ankommer, ønsker jeg at den skal være:
 msgmode Velg hvordan du ønsker å behandle flere samtalevinduer:
 msn aMSN
+msnstatus Status til MSN nettverket
 msnstyle MSN-aktige samtaler
 mustrestart Du må starte programmet på nytt for å aktivere endringene
 myfriendlyname Mitt samtalenavn
@@ -468,6 +477,7 @@ natkeepalive Om du har problemer med hyppig frakobling, velg denne opsjonen.
 needonline Det ser ut til at du fremdeles er frakoblet.
 needwinico2 Trenger winico05.dll i "utils/windows"-mappen for at windows tray-dokking skal fungere
 never Aldri
+newchat Ny samtale
 new_ft_protocol Bruk ny filoverfringsprotokoll(noen problemer gjenst?)
 newline Ny linje
 newmail $1 nye meldinger i innboksen
@@ -498,9 +508,9 @@ noskins Finner ikke standardutseende i skins/-katalogen. Kan ikke starte aMSN
 nosystemtray System tray er ikke tilgjengelig
 note Notat
 notificationserver Frste MSN-tjener (MSN Messenger-tjener)
+notify1_5 Bruk visningsvindu når en kontakt logger av
 notify1_75 Bruk visningsvindu når en kontakt endrer status
 notify1 Bruk visningsvindu når en kontakt logger på
-notify1_5 Bruk visningsvindu når en kontakt logger av
 notify2 Bruk visningsvindu når du mottar en ny melding
 notify3 Bruk visningsvindu når du mottar en ny e-post
 notify4 Informer meg når nye e-poster mottas i andre mapper
@@ -604,6 +614,7 @@ psmplace Hvor skal den Personlig Beskjed plasseres?
 publishphones Publiser mine telefonnummre
 purge Tm
 pwcdriver Du bruker pwc-driveren
+quit Avslutt
 raised Åpnet
 readonlymsgbox Filoverføringen har blitt avbrudt på grunn av at du kun har lese-tilgang til katalogen filen skal lagres i. Endre rettighetene på katalogen.
 readonlywarn ADVARSEL: Filen vil mest sannsynlig IKKE bli lagret ettersom katalogen den skal lagres til ser ut til å være skrivebeskyttet. Vennligst sørg for at det er satt riktige tilganger på katalogen før du overfører filer.
@@ -638,6 +649,7 @@ sbcon Kobler til koblingstavle
 selectall Velg alt
 selectplugins Vennligst velg tilleggsprogramvare som du ønsker å bruke
 selectskin Velg et utseende fra listen
+sendcam Send webkamera
 sendemail Send min e-post for å underrette meg for forandringer
 sendfile Send fil
 sendmail Send e-post
@@ -656,6 +668,8 @@ showbanner Vis aMSN's banner
 showblockedlist Vis liste over brukere som har blokkert deg
 showcachedpics Vis lagrede personlige bilder
 show_contactdps_in_cl Vis miniatyrbilder av kontakters utstillingsbilde i kontakt listen
+showcontactemail Vis kontakter med epost
+showcontactnick Vis kontakter med kallenavn
 showdisplaypic2 Vis personlig bilde som standard når et samtalevindu blir åpnet
 showdisplaypic Vis personlig bilde
 showmailicon Vis e-mail ikon i oppgavelinjen når nye e-mailer kommer
@@ -675,6 +689,11 @@ smiletoobig Uttrykksikonet du valgte er større enn normal størrelse. Vil du neds
 snackfailed Kunne ikke laste Snack, går tilbake til standard
 snapshot Skjermbilde
 sngdblclick Enkeltklikk for å åpne et nytt meldingsvindu
+sortcontactgroup Sorter Kontakter etter Grupper
+sortcontacthybrid Sorter Kontakter etter Hybridmodus
+sortcontactstatus Sorter Kontakter etter Status
+sortgroupsasc Sorter Grupper Stigende
+sortgroupsdesc Sorter Grupper Synkende
 sound2 Spill av lyder når personer logger inn eller sender meg en melding
 soundactive Spill av en lyd når det kommer inn meldinger i aktive samtalevinduer
 soundcommand Dette er kommando for å spille av en lyd (eksempelvis: esdplay)
@@ -768,6 +787,7 @@ userdata Brukerinformasjon
 userdps Bruker personlige bilder
 usernotonline Brukeren er ikke koblet til
 userproperties Egenskaper for bruker $1
+usersettings Instillinger
 useryourself Du kan ikke snakke med deg selv
 usesnack Bruk Snack-biblioteket (Tcl's innebygde)
 verifyblocked Se etter folk som blokkerer deg
@@ -784,7 +804,7 @@ webcamextloaded Webcamsn-tillegg er lastet
 webcamextnotloaded Webcamsn-tillegg er ikke lastet. Du må kompilere det først.
 webcamfaq FAQ/hjelp for Webkamera
 webcamhistory Se webkamera-samtalen
-webcaminvite $1 inviterte deg til å starte en webkamerakt, men aMSN sttter ikke denne funksjonen
+webcaminvite $1 inviterte deg til å starte en webkameraakt, men aMSN sttter ikke denne funksjonen
 webcaminvitereceived $1 har invitert deg til å starte en webkamera-samtale. Godtar du denne samtalen?
 webcamrejected $1 avslo invitasjonen til en webkamera-samtale
 webcamrequestreceive Sendte ønske om å motta webkamera
@@ -812,10 +832,3 @@ youblocked Du har blitt blokkert av
 yousay Du sier
 youwant Du vil
 zoom Zoom
-account Konto
-contacts Kontakter
-longpsm Din personlige melding er for lang, dette er ikke støttet av den offisielle MSN protokollen. Sikker på at du vil sette dette som personlig melding?
-minimize Minimer til tray
-msnstatus Status til MSN nettverket
-quit Avslutt
-usersettings Instillinger
