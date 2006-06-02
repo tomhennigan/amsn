@@ -4666,7 +4666,7 @@ proc cmsn_draw_login {} {
 	combobox::combobox $mainframe.statelist -editable false -highlightthickness 0 -width 15 -bg #FFFFFF -font splainf -command remember_state_list
 	$mainframe.statelist list delete 0 end
 	set i 0
-	while {$i < "8"} {
+	while {$i < 8} {
 		set statecode "[::MSN::numberToState $i]"
 		set description "[trans [::MSN::stateToDescription $statecode]]"
 		$mainframe.statelist list insert end $description
@@ -4743,15 +4743,20 @@ proc cmsn_draw_login {} {
 }
 
 proc remember_state_list {w value} {
-	::config::setKey connectas $value
+	set idx [get_state_list_idx $value]
+	if {$idx >= 8} {
+		::config::setKey connectas $value
+	} else {
+		::config::setKey connectas [::MSN::numberToState $idx]
+	}
 }
 proc get_state_list_idx { value } {
 	set i 0
-	while {$i < "8"} {
+	while {$i < 8} {
 		set statecode "[::MSN::numberToState $i]"
 		set description "[trans [::MSN::stateToDescription $statecode]]"
 		
-		if {$description == $value} {
+		if {$description == $value || $statecode == $value} {
 			return $i
 		}
 		incr i
@@ -4768,31 +4773,13 @@ proc get_state_list_idx { value } {
 }
 
 proc is_connectas_custom_state { value } {
-	set i 0
-	while {$i < "8"} {
-		set statecode "[::MSN::numberToState $i]"
-		set description "[trans [::MSN::stateToDescription $statecode]]"
-		
-		if {$description == $value} {
-			return 0
-		}
-		incr i
-	}	
-		
-	for {set idx 0} {$idx < [StateList size] } { incr idx } {
-		if {"** [lindex [StateList get $idx] 0] **" == $value} {
-			return 1
-		}
-	}
-
-	status_log "Variable connectas is not valid $value\n" red
-	return 0
+	return [expr [get_state_list_idx $value] >= 8]
 }
 
 
 proc get_custom_state_idx { value } {
 	for {set idx 0} {$idx < [StateList size] } { incr idx } {
-		if {"** [lindex [StateList get $idx] 0] **" == $value} {
+		if { "** [lindex [StateList get $idx] 0] **" == $value} {
 			return $idx
 		}
 	}

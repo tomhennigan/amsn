@@ -486,6 +486,7 @@ proc save_config {} {
 	} res]} {
 		return 0
 	}
+	fconfigure $file_id -encoding utf-8
 
 	status_log "save_config: saving config_file. Opening of file returned : $res\n"
 	set loginback [::config::getKey login]
