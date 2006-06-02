@@ -568,6 +568,7 @@ namespace eval ::MSNCAM {
 		} elseif {$state == "PAUSED" } {
 			setObjOption $sock state "SEND"
 			$window.pause configure -text "[trans pausewebcamsend]"
+			catch { fileevent $sock writable "::MSNCAM::WriteToSock $sock" }
 		}  elseif {$state == "TSP_PAUSED" } {
 			setObjOption $sock state "TSP_SEND"
 			$window.pause configure -text "[trans pausewebcamsend]"
