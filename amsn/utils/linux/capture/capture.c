@@ -252,11 +252,10 @@ int Capture_ListChannels _ANSI_ARGS_((ClientData clientData,
 			      int objc,
 			      Tcl_Obj *CONST objv[]))
 {
-  char *                  dev = NULL;
-  struct video_capability vcap;
-  struct video_channel    vc;
+  char *                  device = NULL;
   int                     i;
-  int                     fvideo;
+  struct ng_devstate          dev;
+  struct ng_attribute *attr = NULL;
   Tcl_Obj*                channel[2] = {NULL,NULL};
   Tcl_Obj*                lstChannel = NULL;
   Tcl_Obj*                lstAll = NULL;
@@ -267,53 +266,40 @@ int Capture_ListChannels _ANSI_ARGS_((ClientData clientData,
   }
   
   // Get the device name
-  dev = Tcl_GetStringFromObj(objv[1], NULL);
+  device = Tcl_GetStringFromObj(objv[1], NULL);
   
-  // Open the device
-  if ((fvideo = open(dev, O_RDONLY)) == -1) {
-    Tcl_AppendResult(interp, "Error opening device" , (char *) NULL);
-    return TCL_ERROR;
-  }
-  
-  // Get device capabilities
-  if (ioctl(fvideo, VIDIOCGCAP, &vcap) < 0) {
-    Tcl_AppendResult(interp, "Error getting capabilities", (char *) NULL);
-    close(fvideo);
-    return TCL_ERROR;
-  }
-  
-  lstAll=Tcl_NewListObj(0, NULL);
-  
-  for (i = 0; i < vcap.channels; i++) {
-    vc.channel = i;
-    if (ioctl(fvideo, VIDIOCGCHAN, &vc) < 0){
-      Tcl_AppendResult(interp, "Error getting capabilities", (char *) NULL);
-      close(fvideo);
-      return TCL_ERROR;
-    }
-    
+  // Init the device and let libng find the appropriate driver for it
+  if (0 != ng_vid_init(&dev, device)) {
 #   ifdef DEBUG
-      fprintf(stderr,"Video Source (%d) Name : %s\n",i, vc.name);
-      fprintf(stderr, "channel %d: %s ", vc.channel, vc.name);
-      fprintf(stderr, "%d tuners, has ", vc.tuners);
-      if (vc.flags & VIDEO_VC_TUNER) fprintf(stderr, "tuner(s) ");
-      if (vc.flags & VIDEO_VC_AUDIO) fprintf(stderr, "audio ");
-      fprintf(stderr, "\ntype: ");
-      if (vc.type & VIDEO_TYPE_TV) fprintf(stderr, "TV ");
-      if (vc.type & VIDEO_TYPE_CAMERA) fprintf(stderr, "CAMERA ");
-      fprintf(stderr, "norm: %d\n", vc.norm);
+      fprintf(stderr,"no grabber device available\n");
 #   endif
-    
-    channel[0] = Tcl_NewIntObj(vc.channel);
-    channel[1] = Tcl_NewStringObj(vc.name,-1);
+    Tcl_AppendResult (interp, "no grabber device available\n" , (char *) NULL);
+    return TCL_ERROR;
+  }
+
+  // Search for the ATTR_ID_INPUT (channel) ng_attribute struct
+  attr = ng_attr_byid(&dev, ATTR_ID_INPUT);
+
+  lstAll=Tcl_NewListObj(0, NULL);
+
+  // Lists the channels
+  const char * devName = NULL;
+  for(i=0; (devName = ng_attr_getstr(attr,i)) != NULL; i++) {
+    channel[0] = Tcl_NewIntObj(i);
+    channel[1] = Tcl_NewStringObj(devName,-1);
     lstChannel = Tcl_NewListObj(2,channel);
     Tcl_ListObjAppendElement(interp,lstAll,lstChannel);
   }
-  
-  close(fvideo);
-  
-  Tcl_SetObjResult(interp,lstAll);
-  return TCL_OK;
+
+  ng_dev_fini(&dev);
+
+  if (attr != NULL) {
+    Tcl_SetObjResult(interp,lstAll);
+    return TCL_OK;
+  } else {
+    Tcl_AppendResult (interp, "Error getting channels list\n" , (char *) NULL);
+    return TCL_ERROR;
+  }
 }
 
 
@@ -455,7 +441,7 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
   // Select the colorspace conversion to use, return an error if none is found (we can't do without!)
   if (set_color_conv(captureItem) != 0) {
 #   ifdef DEBUG
-      fprintf(stderr, "Your webcam uses a palette that this extension does not support yet");
+      fprintf(stderr, "Your webcam uses a palette that this extension does not support yet\n");
 #   endif
 
     Tcl_AppendResult (interp, "Your webcam uses a palette that this extension does not support yet" , (char *) NULL);
