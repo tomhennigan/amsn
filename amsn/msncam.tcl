@@ -844,10 +844,7 @@ namespace eval ::MSNCAM {
 					AuthSuccessfull $sid $sock
 				}
 			}
-			"TSP_SEND" 
-			{
-				after 250 "::CAMGUI::GetCamFrame $sid $sock"	
-			}
+			"TSP_SEND" -
 			"SEND"
 			{
 				after 250 "::CAMGUI::GetCamFrame $sid $sock;
