@@ -3,6 +3,7 @@ about Acerca de
 aboutamsn Acerca de Alvaro's Messenger
 accept Aceptar
 acceptfile ¿Aceptar archivo $1, tamaño $2 bytes? Se guardará en $3
+account Cuenta
 actions Acciones
 activeautoupdate Activar actualización automática
 add Añadir
@@ -43,6 +44,7 @@ appearance Apariencia
 appearoff Invisible
 areacode Código de area
 aretyping $1 está escribiendo un mensaje
+askcam Solicitar Recibir Webcam
 askcontactwebcam Preguntar por tus contactos de cámara web, o
 askeachtime Preguntar siempre
 asksendingyourwebcam Preguntar para enviar tu cámara web
@@ -116,6 +118,7 @@ change_mobile Cambiar la configuración del Móvil
 changenick Cambiar apodo
 changesize Cambiar tamaño
 changestate $1 cambia su estado a $2
+changestatus Cambiar Estado
 changevideosettings Cambiar configuración de vídeo
 channels Canales
 charscounter Contador de caracteres tecleados en ventana de chat
@@ -157,6 +160,7 @@ close Cerrar
 closed Conversación con $1 cerrada por inactividad
 closelabel Al cerrar una ventana de chat que contiene varias pestañas
 closeonly Cerrar sólo la pestaña actual
+closeordock Al cerrar la lista de contactos se saldrá de AMSN. Quizás sólo quiera cerrar la ventana y que AMSN permanezca en la bandeja del sistema.\n\n¿Está seguro de que desea salir de AMSN?
 closingdocks Botón de cerrar iconifica la ventana
 color Color
 command Comando
@@ -180,6 +184,7 @@ contactadded Contacto añadido
 contact Contacto
 contactdoesnotexist El contacto que intentas añadir no existe
 contactlist Lista de Contactos (FL):
+contacts Contactos
 continuously De forma contínua
 contrast Contraste
 conversationwith $1 usuarios en la conversación
@@ -330,6 +335,7 @@ globalnicktitle Apodo global
 globaloverride El apodo global debe sobreescribir el apodo personalizado
 gonelunch Salí a comer
 gotink $1 le envió una ink
+gotoinbox Ir a Bandeja de entrada
 goto Ir a $1
 groupadd Añadir un grupo
 groupdelete Borrar un grupo
@@ -425,12 +431,14 @@ login Iniciar sesión
 logolder Registrar sólamente conversaciones ocurridas en el último
 logout Cerrar sesión
 logsbydate Ordenar históricos por fechas (ver historial carga mucho más rápido)
+logschats Guarda historial de conversaciones
 logsin acaba de iniciar sesión
 logsmileys Mostrar emoticonos y smileys en la ventana de historial de aMSN
 logsout acaba de terminar la sesión
 logwebcam Salvar todas las sesiones de cámara web al histórico de aMSN para poder verlas de nuevo
 longnick La longitud de tu apodo es mayor de 130 caracteres. Esto no está soportado oficialmente por el protocolo MSN. ¿Estás seguro que deseas cambiarlo?
 longp4c Tu apodo en conversación tiene más de 130 caracteres. Y el apodo mostrado en el cliente MSN oficial será "$1". ¿ Deseas continuar ?
+longpsm Tu mensaje personal es demasiado largo. Esto no está soportado oficialmente por el protocolo MSN. ¿Estás seguro que deseas utilizarlo?
 lowrescam Use una cámara web de baja resolución
 lprivtoconf El privado se convierte en conversación múltiple con $1
 luclosedwin Has cerrado la ventana a las $1
@@ -439,6 +447,7 @@ mailerexample ( \$recipient = Destinatario ) Dejar en blanco para usar Hotmail
 maintenance El servidor quedará fuera de servicio en $1 minuto/s para su mantenimiento
 maximised Maximizada
 minimised Minimizada/Iconificada
+minimize Minimizar a la bandeja
 mins minutos
 mobilegrp1 Grupo "Móviles"
 mobilegrp2 Poner usuarios en el grupo "Móviles" cuando están desconectados (y lista ordenada por estado)
@@ -453,6 +462,7 @@ msgmaxmin Cuando un nuevo mensaje llega quiero que sea :
 msg Mensaje
 msgmode Elige cómo administrar ventanas de múltiples mensajes :
 msn aMSN
+msnstatus Estado de la red MSN
 msnstyle Chat estilo MSN
 mustrestart Debes reiniciar el programa para aplicar los cambios
 myfriendlyname Mi apodo en conversación
@@ -468,6 +478,7 @@ natkeepalive Si sufres desconexiones continuamente, activa esta opción
 needonline Todavía estás/apareces desconectado
 needwinico2 Se requiere el archivo winico05.dll en la carpeta utils/windows para que funcione el icono en la bandeja del sistema
 never Nunca
+newchat Nueva conversación
 new_ft_protocol Usar el nuevo protocolo de transferencias de ficheros (INESTABLE)
 newline Salto de línea
 newmail $1 mensajes nuevos en bandeja de entrada
@@ -518,7 +529,7 @@ nudge $1 reclama tu atención
 offline Desconectado
 ok Aceptar
 onenewmail 1 mensaje nuevo en bandeja de entrada
-online En línea
+online Conectado
 onlinehelp Ayuda en línea
 onphone Al teléfono
 opendir Abrir carpeta
@@ -605,6 +616,7 @@ psm Privado
 publishphones Publicar mis números de teléfono
 purge Purgar
 pwcdriver Estás usando el controlador 'pwc'
+quit Salir
 raised Elevada/Desiconificada
 readonlymsgbox La transferencia de archivos se ha cancelado porque el directorio de recepción es de sólo lectura. Comprueba los permisos de este directorio.
 readonlywarn AVISO: El archivo puede NO ser guardado correctamente porque el directorio de archivos recibidos parece estar protegido contra escritura. Comprueba que los permisos en el directorio ($1) son correctos antes de la transferencia
@@ -639,8 +651,10 @@ sbcon Conectando a la centralita telefónica
 selectall Seleccionar todos
 selectplugins Marca los plug-ins que deseas activar
 selectskin Elige un tema (skin) de la lista
+sendcam Enviar webcam
 sendemail Incluir mi dirección de correo electrónico para ser avisado de los cambios
 send Enviar
+sendfeedback Enviar comentarios
 sendfile Enviar archivo
 sendmail Enviar correo electrónico
 sendmobmsg Enviar a dispositivo móvil
@@ -652,11 +666,14 @@ servergoingdown Desconectado: El servidor se va a apagar para mantenimiento
 server Servidor
 serverunavailable El servidor no está disponible
 session Sesión
+setasmydp Establecer como mi Imagen para Mostrar
 shareswebcam Usuario con cámara web
 showbanner Mostrar el cartel de aMSN en la lista de contactos
 showblockedlist Mostrar contactos que te bloquean
 showcachedpics Mostrar imágenes para mostrar almacenadas
 show_contactdps_in_cl Mostrar miniaturas de las Imáenes para Mostrar en la Lista de Contactos
+showcontactemail Mostrar el Email de los Contactos
+showcontactnick Mostrar el Apodo de los Contactos
 showdisplaypic2 Por defecto, ver la imagen para mostrar al abrir una ventana de conversación.
 showdisplaypic Ver imagen para mostrar
 showmailicon Mostar el icono de correo en la bandeja del sistema cuando llegue un nuevo correo electrónico
@@ -676,6 +693,11 @@ smiletoobig El emoticono seleccionado es más grande de lo normal. ¿ Deseas cam
 snackfailed Fallo al cargar SNACK, volviendo a configuración por defecto
 snapshot Captura de pantalla
 sngdblclick Un sólo click para abrir una ventana de conversación
+sortcontactgroup Ordenador Contactos por Grupo
+sortcontacthybrid Ordenar Contactos en modo Mixto
+sortcontactstatus Ordenador contactos por Estado
+sortgroupsasc Orden Ascendente para Grupos
+sortgroupsdesc Orden Descendente para Grupos
 sound2 Reproducir sonidos cuando los contactos se conectan o envían mensajes
 soundactive Reproducir sonidos al recibir mensajes también en ventanas activas
 soundcommand El comando para reproducir un sonido (por ej: esdplay)
@@ -769,6 +791,7 @@ userdata Datos de usuario
 userdps Imágenes para mostrar del usuario
 usernotonline El usuario no se encuentra en línea
 userproperties Propiedades del usuario $1
+usersettings Preferencias
 user Usuario
 useryourself No puedes hablar contigo mismo
 usesnack Usar la biblioteca SNACK (Extensión de TCL)
@@ -815,10 +838,3 @@ youblocked Has sido bloqueado
 yousay Dices
 youwant Quieres
 zoom Ampliación
-account Cuenta
-contacts Contactos
-longpsm Tu mensaje personal es demasiado largo. Esto no está soportado oficialmente por el protocolo MSN. ¿Estás seguro que deseas utilizarlo?
-minimize Minimizar a la bandeja
-msnstatus Estado de la red MSN
-quit Salir
-usersettings Preferencias
