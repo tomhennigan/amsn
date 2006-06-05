@@ -720,6 +720,14 @@ namespace eval ::MSNCAM {
 					status_log "ERROR4 : Received $data from socket on state TSP_SEND \n" red
 				}
 			}
+			"TSP_PAUSED"
+			{
+				set data [nbread $sock 4]
+				if { $data != "\xd2\x04\x00\x00" } {
+					setObjOption $sock state "END"
+					status_log "ERROR4 : Received $data from socket on state TSP_PAUSED \n" red
+				}
+			}
 			"TSP_RECEIVE" -
 			"RECEIVE"
 			{
@@ -844,7 +852,9 @@ namespace eval ::MSNCAM {
 					AuthSuccessfull $sid $sock
 				}
 			}
-			"TSP_SEND" -
+			"TSP_SEND" {
+				after 250 "::CAMGUI::GetCamFrame $sid $sock"
+			}
 			"SEND"
 			{
 				after 250 "::CAMGUI::GetCamFrame $sid $sock;
