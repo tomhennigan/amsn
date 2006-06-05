@@ -3009,7 +3009,7 @@ namespace eval ::amsn {
 			
 			#Create the picture of warning (at left)
 			label $w.top.bitmap -image [::skin::loadPixmap warning]
-			pack $w.top.bitmap -side left -pady 0 -padx { 0 12 }
+			pack $w.top.bitmap -side left -pady 0 -padx [list 0 12 ]
 			
 			label $w.top.question -text "[trans closeordock]" -wraplength 400 -justify left
 			pack $w.top.question -pady 0 -padx 0 -side top
@@ -3023,7 +3023,7 @@ namespace eval ::amsn {
 			button $w.buttons.dock -text "[trans minimize]" -command "::amsn::closeOrDockDock"
 			button $w.buttons.cancel -text "[trans cancel]" -command "destroy $w"
 			pack $w.buttons.quit -pady 0 -padx 0 -side right
-			pack $w.buttons.cancel -pady 0 -padx { 0 6 } -side right
+			pack $w.buttons.cancel -pady 0 -padx [list 0 6 ] -side right
 			pack $w.buttons.dock -pady 0 -padx 6 -side right
 			
 			#Pack frames
@@ -6415,7 +6415,7 @@ proc cmsn_change_name {} {
 	frame $w.fb
 	button $w.fb.ok -text [trans ok] -command change_name_ok
 	button $w.fb.cancel -text [trans cancel] -command "destroy $w"
-	pack $w.fb.cancel -side right -padx { 5 0 }
+	pack $w.fb.cancel -side right -padx [list 5 0 ]
 	pack $w.fb.ok -side right
 
 	pack $w.f $w.fb -side top -fill x -expand true -padx 5
