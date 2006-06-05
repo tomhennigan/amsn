@@ -1024,26 +1024,26 @@ namespace eval ::pop3 {
 		set token [http::geturl $url -headers $headers -validate 0 ]
 		set data [array get $token]
 		http::cleanup $token
-#plugins_log "pop3" "data:=$data"
+#plugins_log "pop3" "data1:=$data"
 		regexp {Location\ ([\/\$\*\~\%\,\!\'\#\.\@\+\-\=\?\;\:\^\&\_[:alnum:]]+)\ } $data -> url
-#plugins_log "pop3" "(GMAIL)Location:=$url"
+#plugins_log "pop3" "(GMAIL)Location1:=$url"
 		
 		#we're redirected	
 		set headers [list "Host" "mail.google.com"]
 		set token [http::geturl $url -headers $headers -validate 0 ]
 		set data [array get $token]
-#plugins_log "pop3" "data:=$data"
+#plugins_log "pop3" "data2:=$data"
 		set purl $url
 		regexp {Location\ ([\/\$\*\~\%\,\!\'\#\.\@\+\-\=\?\;\:\^\&\_[:alnum:]]+)\ } $data -> url
 		http::cleanup $token
-#plugins_log "pop3" "(GMAIL)Location:=$url"
+#plugins_log "pop3" "(GMAIL)Location2:=$url"
 
 
 		#and again
 		set headers [list "Host" "mail.google.com"]
 		set token [http::geturl $url -headers $headers -validate 0 ]
 		set data [array get $token]
-#plugins_log "pop3" "data:=$data"
+#plugins_log "pop3" "data3:=$data"
 		set purl $url
 
 		#making the query
@@ -1108,9 +1108,9 @@ namespace eval ::pop3 {
 		set url https://www.google.com/accounts/ServiceLoginAuth
 		set token [http::geturl $url -query $query -headers $headers -validate 0 ]
 		set data [array get $token]
-#plugins_log "pop3" "data:=$data"
+#plugins_log "pop3" "data4:=$data"
 		regexp {Location\ ([\/\$\*\~\%\,\!\'\#\.\@\+\-\=\?\;\:\^\&\_[:alnum:]]+)\ Content-Type} $data -> url
-#plugins_log "pop3" "(GMAIL)Location:=$url"
+#plugins_log "pop3" "(GMAIL)Location3:=$url"
 
 		#redirected to a page where it checks the cookies
 		upvar \#0 $token state
@@ -1128,21 +1128,26 @@ namespace eval ::pop3 {
 		set token [http::geturl $url -query $query -headers $headers -validate 0 ]
 		set data [array get $token]
 		http::cleanup $token
-#plugins_log "pop3" "data:=$data"
+#plugins_log "pop3" "data5:=$data"
 		
 		#getting the next url
 		set pos1 [expr [string first "<meta content=\"0\;" $data)] + 22]
 		set pos2 [expr [string first "\" http-equiv=\"refresh\"" $data $pos1] -1]
 		set url [string range $data $pos1 $pos2]
 		set url [string map { &amp; & &quot; "" } $url]
-#plugins_log "pop3" "(GMAIL)url:=$url"
+		set url [string map { &amp; & &quot; "" } $url]
+		if {[string equal [string index $url 0] "'" ] && [string equal [string index $url end] "'"]} {
+			set url [string range $url 1 end-1]
+		}
+#plugins_log "pop3" "(GMAIL)url6:=$url"
 		
 		#that will be the latest page
 		set cookies_header [list SID=$cookies(SID) ]
+#plugins_log "pop3" "(GMAIL)[array names cookies]"
 		set headers [list "Host" "mail.google.com" "Cookie" [join $cookies_header {;}]]
-		set token [http::geturl $url -query $query -headers $headers -validate 0 ]
+		set token [http::geturl $url -headers $headers -validate 0 ]
 		set data [array get $token]
-#plugins_log "pop3" "data:=$data"
+#plugins_log "pop3" "data6:=$data"
 		set body [::http::data $token]
 		http::cleanup $token
 
