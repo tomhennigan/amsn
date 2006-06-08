@@ -83,57 +83,37 @@ namespace eval ::autoupdate {
 	proc downloadTLS {} {
 		global tlsplatform
 
-		set baseurl "http://osdn.dl.sourceforge.net/sourceforge/amsn/tls1.4.1"
-
 		if { $tlsplatform == "nodown" } {
 			::amsn::infoMsg [trans notls]
 			return
-		} else {
-			switch $tlsplatform {
-				"linuxx86" {
-					set downloadurl "$baseurl-linux-x86.tar.gz"
-				}
-				"linuxppc" {
-					set downloadurl "$baseurl-linux-ppc.tar.gz"
-				}
-				"linuxsparc" {
-					set downloadurl "$baseurl-linux-sparc.tar.gz"
-				}
-				"netbsdx86" {
-					set downloadurl "$baseurl-netbsd-x86.tar.gz"
-				}
-				"netbsdsparc64" {
-					set downloadurl "$baseurl-netbsd-sparc64.tar.gz"
-				}
-				"freebsdx86" {
-					set downloadurl "$baseurl-freebsd-x86.tar.gz"
-				}
-				"solaris26" {
-					set downloadurl "$baseurl-solaris26-sparc.tar.gz"
-				}
-				"win32" {
-					set downloadurl "$baseurl.exe"
-				}
-				"mac" {
-					set downloadurl "[string range $baseurl 0 end-3]5.0-mac.tar.gz"
-				}				
-				"src" {
-					set downloadurl "$baseurl-src.tar.gz"
-				}
-				default {
-					set downloadurl "none"
-				}
-			}
+		}
+
+		set downloadurl "http://amsn.sf.net/download-tls.php?arch=$tlsplatform"
+
+
+		if {[ catch {set tok [::http::geturl $downloadurl -command "::autoupdate::downloadTLS2 $downloadurl"]} res ]} {
+			::autoupdate::errorDownloadingTLS $res
+			catch {::http::cleanup $tok}
+		}
+	}
+
+	proc downloadTLS2 { downloadurl token } {
+		status_log "status: [http::status $token]\n"
+		if { [::http::ncode $token] == 302} {
+
+
+			upvar #0 $token state
+			array set meta $state(meta)
+			set downloadurl $meta(Location)
 
 			set w .tlsprogress
-			
+
 			if {[winfo exists $w]} {
 				destroy $w
 			}
-			
+
 			toplevel $w
 			wm group $w .
-			#wm geometry $w 350x160
 
 			label $w.l -text "[trans downloadingtls $downloadurl]" -font splainf
 			pack $w.l -side top -anchor w -padx 10 -pady 10
@@ -155,12 +135,15 @@ namespace eval ::autoupdate {
 				$w.close configure -command "::http::reset $tok"
 				wm protocol $w WM_DELETE_WINDOW "::http::reset $tok"
 			}
+		} else {
+			::autoupdate::errorDownloadingTLS "No redirect from $downloadurl"
+			catch {::http::cleanup $token}
 		}
 	}
+		
 
 	proc downloadTLSCompleted { downloadurl token } {
 		global HOME2 tlsplatform
-
 		status_log "status: [http::status $token]\n"
 		if { [::http::status $token] == "reset" } {
 			::http::cleanup $token
