@@ -72,7 +72,7 @@ away Ausente
 awaymsg1 Solicitar mensagem quando eu mudar meu estado para Ausente/Volto Logo/Ocupado
 awaymsg2 Nunca pergunte e sempre use a mensagem abaixo
 baduserpass Usuário ou senha inválido
-badwebcam Não é possível mostrar a imagem da webcam. Certifique-se que sua webcam está plugada e bem configurada.
+badwebcam Não é possível mostrar a imagem da webcam. Certifique-se que sua webcam está conectada e bem configurada.
 bgcolor Alterar a cor de fundo do aMSN
 blankdirect Deixar em branco para conexão direta
 block Bloquear
@@ -498,10 +498,10 @@ nodevices No momento, não há devices instalados
 nogap Nenhum espaço entre grupos
 nogroup Nenhum grupo
 nologfile Sem log para $1
+no Não
 noneavailable Nada Disponível
 nonewmail Sem novas mensagens na Caixa de Entrada
 nonewver Não existe versão mais recente do programa disponível para download
-no Não
 nopic Sem imagem
 noprofileexists Não há nenhum perfil instalado, \n você têm de instalar (ou criar) um se quiser usar múltiplos logins. \nUse o botão Adicionar Novo Perfil nesta janela para adicionar um novo perfil
 normal Normal
@@ -653,6 +653,7 @@ selectskin Por favor escolha uma skin da lista
 sendcam Enviar Webcam
 sendemail Me envie email para me notificar de mudanças
 send Enviar
+sendfeedback Enviar sugestões
 sendfile Enviar arquivo
 sendmail Enviar e-mail
 sendmobmsg Enviar ao celular 
