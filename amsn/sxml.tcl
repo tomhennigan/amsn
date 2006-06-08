@@ -176,7 +176,7 @@ namespace eval sxml {
 	# Default the attributes currently supported.			#
 	#################################################################
 	set xml_attrs(${xml_invoc}_trace) 0
-	set xml_attrs(${xml_invoc}_silent) 0
+	set xml_attrs(${xml_invoc}_silent) 1
 	set xml_attrs(${xml_invoc}_pedantic) 0
 	set xml_attrs(${xml_invoc}_extended) 0
 
