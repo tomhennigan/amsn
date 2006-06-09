@@ -62,12 +62,14 @@ namespace eval ::autoupdate {
 		pack .tlsdown.f.ok -side right -padx 10 -pady 10
 
 		pack .tlsdown.linuxx86 -side top -anchor w -padx 15
+		pack .tlsdown.linuxx86_64 -side top -anchor w -padx 15
 		pack .tlsdown.linuxppc -side top -anchor w -padx 15
 		pack .tlsdown.linuxsparc -side top -anchor w -padx 15
 		pack .tlsdown.netbsdx86 -side top -anchor w -padx 15
 		pack .tlsdown.netbsdsparc64 -side top -anchor w -padx 15
 		pack .tlsdown.freebsdx86 -side top -anchor w -padx 15
 		pack .tlsdown.solaris26 -side top -anchor w -padx 15
+		pack .tlsdown.solaris28 -side top -anchor w -padx 15
 		pack .tlsdown.mac -side top -anchor w -padx 15
 		pack .tlsdown.win32 -side top -anchor w -padx 15
 		pack .tlsdown.src -side top -anchor w -padx 15
