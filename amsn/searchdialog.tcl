@@ -8,7 +8,7 @@
 snit::widget searchdialog {
 
 	option -searchin -configuremethod SetSearchIn ;# The text widget to search
-	option -title -default Find
+	option -title -default [trans find]
 
 	delegate option * to hull
 
