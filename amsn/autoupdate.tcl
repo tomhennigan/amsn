@@ -10,6 +10,8 @@ namespace eval ::autoupdate {
 			set tlsplatform "linuxppc"
 		} elseif { ($tcl_platform(os) == "Linux") && ($tcl_platform(machine) == "sparc")} {
 			set tlsplatform "linuxsparc"
+		} elseif { ($tcl_platform(os) == "Linux") && ($tcl_platform(machine) == "x86_64")} {
+			set tlsplatform "linuxx86_64"
 		} elseif { $tcl_platform(os) == "Linux" } {
 			set tlsplatform "linuxx86"
 		} elseif { $tcl_platform(os) == "NetBSD"} {
@@ -17,7 +19,7 @@ namespace eval ::autoupdate {
 		} elseif { $tcl_platform(os) == "FreeBSD"} {
 			set tlsplatform "freebsdx86"
 		} elseif { $tcl_platform(os) == "Solaris"} {
-			set tlsplatform "solaris26"
+			set tlsplatform "solaris28"
 		} elseif { $tcl_platform(platform) == "windows"} {
 			set tlsplatform "win32"
 		} elseif { $tcl_platform(os) == "Darwin" } {
@@ -37,12 +39,14 @@ namespace eval ::autoupdate {
 		pack .tlsdown.choose -side top -anchor w -padx 10 -pady 10
 
 		radiobutton .tlsdown.linuxx86 -text "Linux-x86" -variable tlsplatform -value "linuxx86" -font splainf
+		radiobutton .tlsdown.linuxx86_64 -text "Linux-x86_64" -variable tlsplatform -value "linuxx86_64" -font splainf
 		radiobutton .tlsdown.linuxppc -text "Linux-PowerPC" -variable tlsplatform -value "linuxppc" -font splainf
 		radiobutton .tlsdown.linuxsparc -text "Linux-SPARC" -variable tlsplatform -value "linuxsparc" -font splainf
 		radiobutton .tlsdown.netbsdx86 -text "NetBSD-x86" -variable tlsplatform -value "netbsdx86" -font splainf
 		radiobutton .tlsdown.netbsdsparc64 -text "NetBSD-SPARC64" -variable tlsplatform -value "netbsdsparc64" -font splainf
 		radiobutton .tlsdown.freebsdx86 -text "FreeBSD-x86" -variable tlsplatform -value "freebsdx86" -font splainf
 		radiobutton .tlsdown.solaris26 -text "Solaris 2.6 SPARC" -variable tlsplatform -value "solaris26" -font splainf
+		radiobutton .tlsdown.solaris28 -text "Solaris 2.8 SPARC" -variable tlsplatform -value "solaris28" -font splainf
 		radiobutton .tlsdown.win32 -text "Windows" -variable tlsplatform -value "win32" -font splainf
 		radiobutton .tlsdown.mac -text "Mac OS X" -variable tlsplatform -value "mac" -font splainf
 		radiobutton .tlsdown.src -text "[trans sourcecode]" -variable tlsplatform -value "src" -font splainf
