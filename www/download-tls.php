@@ -21,7 +21,7 @@ switch ($_GET["arch"]) {
 	case "freebsdx86":
 		$filename = "tls1.4.1-freebsd-x86.tar.gz";
 		break;
-	case "solaris26"
+	case "solaris26":
 		$filename = "tls1.4.1-solaris26-sparc.tar.gz";
 		break;
 	case "solaris28":

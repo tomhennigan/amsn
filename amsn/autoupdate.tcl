@@ -94,7 +94,7 @@ namespace eval ::autoupdate {
 			return
 		}
 
-		set downloadurl "http://amsn.sf.net/download-tls.php?arch=$tlsplatform"
+		set downloadurl "http://amsn.sourceforge.net/download-tls.php?arch=$tlsplatform"
 
 
 		if {[ catch {set tok [::http::geturl $downloadurl -command "::autoupdate::downloadTLS2 $downloadurl"]} res ]} {
@@ -111,6 +111,7 @@ namespace eval ::autoupdate {
 			upvar #0 $token state
 			array set meta $state(meta)
 			set downloadurl $meta(Location)
+			status_log "got referal to $downloadurl"
 
 			set w .tlsprogress
 
@@ -169,7 +170,9 @@ namespace eval ::autoupdate {
 
 		switch $tlsplatform {
 			"solaris26" -
+			"solaris28" -
 			"linuxx86" -
+			"linuxx86_64" -
 			"linuxppc" -
 			"linuxsparc" -
 			"netbsdx86" -
