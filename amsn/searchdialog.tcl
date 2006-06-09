@@ -57,8 +57,8 @@ snit::widget searchdialog {
 		wm title $win $options(-title)
 
 		# Install widget components
-		install top using labelframe $self.t -text Find
-		install middle using labelframe $self.m -text Options
+		install top using labelframe $self.t -text [trans find]
+		install middle using labelframe $self.m -text [trans options]
 		install bottom using frame $self.b
 		install entry using entry $top.e -bg white -fg black
 		install asyoutypeit using checkbutton $middle.a -text [trans findasyoutype] -variable [myvar useasyoutype]

@@ -308,6 +308,7 @@ filters Filters
 filtersselect Select the filters you want to use\n(Note: none selected means 'show all')
 filtersx Filter Selection
 find Find
+findasyoutype Find as you type
 findnext Find Next
 findprev Find Previous
 firewalled You are firewalled or behind a router
@@ -647,6 +648,8 @@ save Save
 savetofile Save to File
 says $1 says
 sbcon Connecting to Switch Board
+searchdown Search up
+searchup Search down
 selectall Select all
 selectplugins Please select the plugins you want enabled
 selectskin Please choose a skin from the list
@@ -780,6 +783,7 @@ updateonlycurrentlanguage Update only the current language
 update Update
 updating Updating
 useasdp Use as Display Picture
+useasregexp Use as a Regular Expression (regexp)
 useother Use a different program
 useralreadyonlist User is already on contact list
 userblocked The user is online but blocked you
