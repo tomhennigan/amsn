@@ -190,6 +190,13 @@ int Capture_ListDevices _ANSI_ARGS_((ClientData clientData,
   struct ng_devinfo * info = NULL;
   char                name[50];
   int                 i = 0;
+
+  Tcl_HashTable       table;
+  int                 isNew;
+
+  struct list_head *item;
+  struct ng_vid_driver *drv;
+
   Tcl_Obj *           device[2] = { NULL, NULL };
   Tcl_Obj *           lstDevice = NULL;
   Tcl_Obj *           lstAll = NULL;
@@ -198,49 +205,43 @@ int Capture_ListDevices _ANSI_ARGS_((ClientData clientData,
     Tcl_WrongNumArgs(interp, 1, objv, (char *)NULL);
     return TCL_ERROR;
   }
+
+  Tcl_InitHashTable(&table,TCL_STRING_KEYS);
   
   lstAll=Tcl_NewListObj(0, NULL);
-  
-  // Probe for devices from the v4l driver
-  info = ng_vid_probe("v4l");
-  if (info) {
-    // loop on all found devices
-    for (i = 0; info[i].device[0] != 0; i++) {
-#     ifdef DEBUG
-        fprintf(stderr, "Found %s at %s\n", info[i].name, info[i].device);
-#     endif
-      
-      strcpy(name, "V4L: ");
-      strcat(name, info[i].name);
-      device[0]=Tcl_NewStringObj(info[i].device,-1);
-      device[1]=Tcl_NewStringObj(name,-1);
-      lstDevice=Tcl_NewListObj(2,device);
-      Tcl_ListObjAppendElement(interp,lstAll,lstDevice);
+  /* check all grabber drivers */
+  list_for_each(item,&ng_vid_drivers) {
+    drv = list_entry(item, struct ng_vid_driver, list);
+    if (ng_debug)
+      fprintf(stderr,"vid-probe: trying: %s... \n", drv->name);
+
+    info = drv->probe(ng_debug);
+    if (info) {
+      // loop on all found devices
+      for (i = 0; info[i].device[0] != 0; i++) {
+#       ifdef DEBUG
+          fprintf(stderr, "Found %s at %s\n", info[i].name, info[i].device);
+#       endif
+
+        strcpy(name, drv->name);
+        strcat(name, ": ");
+        strcat(name, info[i].name);
+
+        Tcl_CreateHashEntry(&table, info[i].device, &isNew);
+        if(isNew) {
+          //The device wasn't listed yet...
+          device[0]=Tcl_NewStringObj(info[i].device,-1);
+          device[1]=Tcl_NewStringObj(name,-1);
+          lstDevice=Tcl_NewListObj(2,device);
+          Tcl_ListObjAppendElement(interp,lstAll,lstDevice);
+        }
+      }
     }
+    free(info);
   }
-  
-  free(info);
-  
-  // Probe for devices from the v4l2 driver
-  info = ng_vid_probe("v4l2");
-  if (info) {
-    // loop on all found devices
-    for (i = 0; info[i].device[0] != 0; i++) {
-#     ifdef DEBUG
-        fprintf(stderr, "Found %s at %s\n", info[i].name, info[i].device);
-#     endif
-      
-      strcpy(name, "V4L-2: ");
-      strcat(name, info[i].name);
-      device[0]=Tcl_NewStringObj(info[i].device,-1);
-      device[1]=Tcl_NewStringObj(name,-1);
-      lstDevice=Tcl_NewListObj(2,device);
-      Tcl_ListObjAppendElement(interp,lstAll,lstDevice);
-    }
-  }
-  
-  free(info);
-  
+
+  Tcl_DeleteHashTable(&table);
+
   Tcl_SetObjResult(interp,lstAll);
   return TCL_OK;
 }
@@ -887,7 +888,7 @@ int Capture_Debug _ANSI_ARGS_((ClientData clientData,
     return TCL_ERROR;
   }
 
-  return Tcl_GetBooleanFromObj(interp, objv[1], &ng_debug);
+  return Tcl_GetIntFromObj(interp, objv[1], &ng_debug);
 }
 
 /* Initialisation of the capture extension */
