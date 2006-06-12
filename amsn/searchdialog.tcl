@@ -8,8 +8,7 @@
 snit::widget searchdialog {
 
 	option -searchin -configuremethod SetSearchIn ;# The text widget to search
-	#option -title -default [trans find]
-	option -title -default find
+	option -title
 
 	delegate option * to hull
 
@@ -52,6 +51,8 @@ snit::widget searchdialog {
 		set useasyoutype 1
 		set searchdirect down
 		set useregexp 0
+
+		set options(-title) [trans find]
 
 		$self configurelist $args
 
