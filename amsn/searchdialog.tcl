@@ -59,29 +59,19 @@ snit::widget searchdialog {
 		wm title $win $options(-title)
 
 		# Install widget components
-		#install top using labelframe $self.t -text [trans find]
-		#install middle using labelframe $self.m -text [trans options]
-		install top using labelframe $self.t -text find
-		install middle using labelframe $self.m -text options
+		install top using labelframe $self.t -text "[trans find]"
+		install middle using labelframe $self.m -text "[trans options]"
 		install bottom using frame $self.b
 		install entry using entry $top.e -bg white -fg black
-		#install asyoutypeit using checkbutton $middle.a -text [trans findasyoutype] -variable [myvar useasyoutype]
-		#install case using checkbutton $middle.c -text [trans casesensitive] -variable [myvar matchcase]
-		#install up using radiobutton $middle.u -text [trans searchup] -variable [myvar searchdirect] -value up
-		#install down using radiobutton $middle.d -text [trans searchdown] -variable [myvar searchdirect] -value down
-		#install regexp using checkbutton $middle.r -text [trans useasregexp] -variable [myvar useregexp]
-		install asyoutypeit using checkbutton $middle.a -text findasyoutype -variable [myvar useasyoutype]
-		install case using checkbutton $middle.c -text casesensitive -variable [myvar matchcase]
-		install up using radiobutton $middle.u -text searchup -variable [myvar searchdirect] -value up
-		install down using radiobutton $middle.d -text searchdown -variable [myvar searchdirect] -value down
-		install regexp using checkbutton $middle.r -text useasregexp -variable [myvar useregexp]
+		install asyoutypeit using checkbutton $middle.a -text "[trans findasyoutype]" -variable [myvar useasyoutype]
+		install case using checkbutton $middle.c -text "[trans casesensitive]" -variable [myvar matchcase]
+		install up using radiobutton $middle.u -text "[trans searchup]" -variable [myvar searchdirect] -value up
+		install down using radiobutton $middle.d -text "[trans searchdown]" -variable [myvar searchdirect] -value down
+		install regexp using checkbutton $middle.r -text "[trans useasregexp]" -variable [myvar useregexp]
 		install regexplabel using label $middle.l -fg #ee0000
-		#install nextbutton using button $bottom.n -text [trans findnext] -command "$self findnext" -default active
-		#install prevbutton using button $bottom.p -text [trans findprev] -command "$self findprev"
-		#install closebutton using button $bottom.c -text [trans close] -command "$self hide"
-		install nextbutton using button $bottom.n -text findnext -command "$self findnext" -default active
-		install prevbutton using button $bottom.p -text findprev -command "$self findprev"
-		install closebutton using button $bottom.c -text close -command "$self hide"
+		install nextbutton using button $bottom.n -text "[trans findnext]" -command "$self findnext" -default active
+		install prevbutton using button $bottom.p -text "[trans findprev]" -command "$self findprev"
+		install closebutton using button $bottom.c -text "[trans close]" -command "$self hide"
 
 		# Pack them
 		pack $top $middle $bottom -side top -expand true -fill both -padx 3m -pady 2m
