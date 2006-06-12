@@ -1361,7 +1361,7 @@ namespace eval ::ChatWindow {
 		set textsizemenu $menu.textsize
 		menu $textsizemenu -tearoff 0 -type normal
 
-		foreach size {" 8" " 6" " 4" " 2" " 1" "   0" " -0" " -2" } { 
+		foreach size {" 8" " 6" " 4" " 2" " 1" "   0" " -2" " -4" } { 
 			if {$size > 0 } {
 				$textsizemenu add command -label "+$size" -command "change_myfontsize $size"
 			} else {
