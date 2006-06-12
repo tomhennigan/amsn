@@ -315,8 +315,8 @@ namespace eval ::chameleon::notebook {
        error "Unable to find tab with index $index"
    }
 
-   proc notebook_select { w index } {
-       return [$w select $index]
+   proc notebook_select { w args } {
+       return [eval $w select $args]
    }
 
    proc notebook_tab { w index args } {
