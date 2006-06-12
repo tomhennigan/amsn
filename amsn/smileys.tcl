@@ -403,7 +403,7 @@ namespace eval ::smiley {
 		
 		wm state $w normal
 		set x [expr {$x - 15}]
-		set y [expr {$y + 15 - [winfo height $w]}]
+		set y [expr {$y + 15 - [winfo reqheight $w]}]
 		wm geometry $w +$x+$y
 		#It won't work on Windows without this
 		update idletasks
