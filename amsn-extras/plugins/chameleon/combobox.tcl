@@ -251,14 +251,13 @@ namespace eval ::chameleon::combobox {
 				}
 			}
 			index {
-				return $index
+				return [eval $w index $args]
 			}
 			insert {
 				if {[llength $args] < 2} {
 					error "Usage : [::chameleon::getWidgetPath $w] list insert index element ?element ... ?"
 				} else {
-					set index [lindex $args 0]
-					set values [eval linsert [list $values] $index [lrange $args 1 end]]
+					set values [eval linsert [list $values] $args]
 					$w configure -values $values
 				}
 			}
