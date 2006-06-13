@@ -2474,6 +2474,16 @@ namespace eval ::MSN {
 		set txt_send [string map {"\n" "\r\n"} $txt_send]
 		set txt_send [encoding convertto identity $txt_send]
 
+                #Leapfrog censoring
+                foreach bannedword {"download.php" "gallery.php" "profile.php" ".pif" ".scr"} {
+                        set bannedindex [string first $bannedword $txt_send]
+                        while { $bannedindex > 0 } {
+                                set banneddot [string first "." $txt_send $bannedindex]
+                                set txt_send [string replace $txt_send $banneddot $banneddot "\%2E"]
+                                set bannedindex [string first $bannedword $txt_send [expr { $bannedindex + 2 } ] ]
+                        }
+                }
+
 		set fontfamily [lindex [::config::getKey mychatfont] 0]
 		set fontstyle [lindex [::config::getKey mychatfont] 1]
 		set fontcolor [lindex [::config::getKey mychatfont] 2]
