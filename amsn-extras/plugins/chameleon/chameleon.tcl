@@ -11,7 +11,7 @@ namespace eval ::chameleon {
 				labelframe label \
 				radiobutton checkbutton \
 				NoteBook entry combobox::combobox \
-				menubutton];# scrollbar]
+				menubutton scrollbar]
     variable wrapped_into
     variable wrapped_shortname
     
@@ -145,8 +145,6 @@ namespace eval ::chameleon {
 	set ::chameleon::configlist [list [list frame ::chameleon::populateframe ""]]
 	set plugin_dir $dir
 
-	    #catch  {console show }
-
 	if { [info exists ::Chameleon_cfg(theme)] } {
 	    SetTheme $::Chameleon_cfg(theme)
 	} else {
@@ -164,8 +162,7 @@ namespace eval ::chameleon {
 	    variable lastSetBgColor 
 	    wrap 1
 
-	    option add *Canvas.background $defaultBgColor
-	    option add *Toplevel.background $defaultBgColor
+	    option add *background $defaultBgColor
 	    RecursivelySetBgColor . $defaultBgColor
 	    set lastSetBgColor $defaultBgColor
     }
@@ -202,8 +199,7 @@ namespace eval ::chameleon {
 		    return
 	    }
 
-	    option add *Canvas.background $bgcolor
-	    option add *Toplevel.background $bgcolor
+	    option add *background $bgcolor
 	    RecursivelySetBgColor . $bgcolor
 	    
 	    set lastSetBgColor $bgcolor
@@ -322,12 +318,12 @@ namespace eval ::chameleon {
 		     [info commands ::${tk_widget_type}] == "::${tk_widget_type}"  } {
 		    plugins_log "Chameleon" "Wrapping ${tk_widget_type}"
 		    rename ::${tk_widget_type} ::tk::${tk_widget_type}
-		    proc ::${tk_widget_type} {w args} "eval ::chameleon::${widget_type}::${widget_type} \$w \$args"
+		    proc ::${tk_widget_type} {w args} "set newargs \[list \$w\]; eval lappend newargs \$args; eval ::chameleon::${widget_type}::${widget_type} \$newargs"
 		} else {
 			if {${tk_widget_type} == "NoteBook" } {
 				package require AMSN_BWidget
 				NoteBook::use
-				proc ::Chameleon_NoteBook {w args} "eval ::chameleon::${widget_type}::${widget_type} \$w \$args"
+			    proc ::Chameleon_NoteBook {w args} "set newargs \[list \$w\]; eval lappend newargs \$args; eval ::chameleon::${widget_type}::${widget_type} \$newargs"
 				interp alias {} ::NoteBook {} ::Chameleon_NoteBook
 				#proc ::NoteBook { args } { return [eval ::NoteBook::create $args] }
 			}
@@ -415,25 +411,30 @@ namespace eval ::chameleon {
     
 
 
-    proc ::chameleon::copyStyle { widget_type dest } {
+    proc ::chameleon::copyStyle { widget_type dest options} {
 	
-	    set src [widgetToStyle $widget_type]
+	    set src [widgetToStyle $widget_type $dest $options]
 
 	append dest ".$src"
 
 	#Copy parameters from one style to another
-	eval style configure $dest [style configure $src]
+	    eval [list style configure $dest] [style configure $src]
 	#eval style layout $dest \{[style layout $src]\}
 	#eval style map $dest [style map $src]
 
 	return $dest
     }
 
-    proc ::chameleon::widgetToStyle { widget_type } {
-	    set src ""
+    proc ::chameleon::widgetToStyle { widget_type dest options } {
+	set src ""
 	if {$widget_type == "scrollbar" } {
 	    if { [catch {$dest cget -orient} orientation]} {
-		set orientation "vertical"
+		array set opt $options
+		if { [info exists opt(-orient)] } { 
+		    set orientation $opt(-orient)
+		} else {
+		    set orientation "vertical"
+		}
 	    }
 	    append src [string toupper [string range $orientation 0 0]]
 	    append src [string range $orientation 1 end]

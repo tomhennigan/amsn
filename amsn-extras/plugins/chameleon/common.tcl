@@ -12,14 +12,13 @@ namespace eval ::chameleon {
 	variable ttk_widget_type
 	variable ${widget_type}_widgetOptions
 
-	    #puts "Creating widget $widget_type : $w $args"
-	    #::chameleon::printStackTrace
-
-	if { ${widget_type} == "scrollbar" && $w == "reloadimages" } {
-	    return
-	}
-
-	set w_name [eval ::ttk::${ttk_widget_type} $w [eval ${widget_type}_parseConfArgs ::chameleon::${widget_type}::${widget_type}_proc_$w $args]]
+	#puts "Creating widget $widget_type : $w $args"
+	#::chameleon::printStackTrace
+	
+	set evalargs [list ::chameleon::${widget_type}::${widget_type}_proc_$w]
+	eval lappend evalargs $args
+	set confargs [eval ${widget_type}_parseConfArgs $evalargs]
+	set w_name [eval [list ::ttk::${ttk_widget_type} $w] $confargs]
 
 	if { [info command ::chameleon::${widget_type}::${widget_type}_proc_${w_name}] == "::chameleon::${widget_type}::${widget_type}_proc_${w_name}" } {
 	    rename ::chameleon::${widget_type}::${widget_type}_proc_${w_name} ""
@@ -35,7 +34,7 @@ namespace eval ::chameleon {
 	}
 
 	proc ::${w_name} { command args } \
-	    "eval ::chameleon::${widget_type}::${widget_type}_launchCommand ${w_name} \$command \$args"
+	    "set newargs \[list ${w_name}\] ; lappend newargs \$command; eval lappend newargs \$args; eval ::chameleon::${widget_type}::${widget_type}_launchCommand \$newargs"
 	
 	bind ${w_name} <Destroy> "::chameleon::widgetDestroyed [string map {"%" "\\%"} ::chameleon::${widget_type}::${widget_type}_proc_${w_name}]"
 
@@ -66,7 +65,6 @@ namespace eval ::chameleon {
 	    }
 	    append pattern "*"
 
-
 	    if {[string match $pattern $name] &&
 		[string length $command] >= $min} {
 		    set w ::chameleon::${widget_type}::${widget_type}_proc_${w_name}
@@ -79,7 +77,10 @@ namespace eval ::chameleon {
 		    }
 		    
 		    #puts "Executing2 [subst $execute] $args"
-		    return [uplevel 3 "eval [subst $execute] [list $args]"]
+		# We need to subst using espaced list so that the elements inside $execute are substituted each in a list element.
+		set evalargs [subst "\[list $execute\]"]
+		eval lappend evalargs $args
+		return [uplevel 3 [list eval $evalargs]]
 	    }
 	}
 
@@ -103,22 +104,31 @@ namespace eval ::chameleon {
 	    set options([set ${widget_type}_widgetOptions($name)]) $value
 	} 
 
-#	plugins_log "Chameleon" "Got configure options : [array get options]"
-	if { [info exists options(-styleOption)] } {
-		set newStyle ""
-		catch { set newStyle [$w cget -style]}
-		if { $newStyle == "" } {
-			set newStyle [::chameleon::copyStyle ${widget_type} $w]
-		} 
-		eval style configure $newStyle [eval ${widget_type}_parseStyleArgs $args]
-		set options(-style) $newStyle
-	}
+	#plugins_log "Chameleon" "Got configure options : [array get options]"
 	
 	array unset options -toImplement
-	array unset options -styleOption
 	array unset options -ignore
 
-	return [eval ${widget_type}_customParseConfArgs $w [list [array get options]] $args]
+	set evalargs [list $w]
+	lappend evalargs [array get options]
+	eval lappend evalargs $args
+
+	array unset options
+	array set options [eval ${widget_type}_customParseConfArgs $evalargs]
+
+	if { [info exists options(-styleOption)] } {
+	    set newStyle ""
+	    catch { set newStyle [$w cget -style]}
+	    if { $newStyle == "" } {
+		set newStyle [::chameleon::copyStyle ${widget_type} $w [array get options]]
+	    } 
+	    eval [list style configure $newStyle] [eval ${widget_type}_parseStyleArgs $args]
+	    set options(-style) $newStyle
+	}
+
+	array unset options -styleOption
+	return [array get options]
+
     }
 
     proc ::chameleon::${widget_type}::${widget_type}_parseStyleArgs { args } {
@@ -209,27 +219,27 @@ namespace eval ::chameleon {
 
 	switch -- [set ${widget_type}_widgetOptions($option)] {
 	    "-toImplement" {
-		set value [eval ${widget_type}_customCget $w $option]
+		set value [eval [list ${widget_type}_customCget $w $option]]
 	    }
 	    "-ignore" {
-		set value [eval [${widget_type}_getOriginal] cget $option]
+		set value [eval [list [${widget_type}_getOriginal] cget $option]]
 	    } 
 	    "-styleOption" {
 		    set style [$w cget -style] 
 		    if {$style == "" } {
-			    set style [::chameleon::widgetToStyle $widget_type]
+			set style [::chameleon::widgetToStyle $widget_type $w {}]
 		    }
 		    
-		    set conf [eval style configure $style]
+		set conf [eval [list style configure $style]]
 		    set ind [lsearch $conf [list $option *]]
 		    if {$ind != -1 } {
 			    set value [lindex [lindex $conf $ind] end]
 		    } else {
-			    set value [eval [${widget_type}_getOriginal] cget $option]
+			set value [eval [list [${widget_type}_getOriginal] cget $option]]
 		    }
 	    } 
 	    default {
-		set value [eval $w cget $option]
+		set value [eval [list $w cget $option]]
 	    }
 	}
 
@@ -240,6 +250,9 @@ namespace eval ::chameleon {
 	variable widget_type
 	variable ${widget_type}_widgetLayout
 
+	set evalargs [list $w]
+	eval lappend evalargs $args
+
 	if {[llength $args] == 0 } {
 	    set conf [[${widget_type}_getOriginal] configure]
 	    lappend conf [$w configure]
@@ -247,11 +260,11 @@ namespace eval ::chameleon {
 	} elseif {[llength $args] == 1 } {
 		set conf [[${widget_type}_getOriginal] configure $args]
 		foreach {opt dbname dbclass def cur} $conf break
-		set value [eval ${widget_type}_cget $w $args]
+		set value [eval ${widget_type}_cget $evalargs]
 		return [list $opt $dbname $dbclass $def $value]
 	} else {
-	    set options [eval ${widget_type}_parseConfArgs $w $args]
-	    return [eval $w configure $options]
+	    set options [eval ${widget_type}_parseConfArgs $evalargs]
+	    return [eval [list $w configure] $options]
 	}
     }
 
@@ -267,6 +280,10 @@ namespace eval ::chameleon {
 	    }
 	    error "invalid command name \"${w_name}\""
 	}
-	return [eval ${widget_type}_parseCommand ${w_name} $command $args]
+	
+	set evalargs [list ${w_name}]
+	lappend evalargs $command
+	eval lappend evalargs $args
+	return [eval ${widget_type}_parseCommand $evalargs]
     }
 }

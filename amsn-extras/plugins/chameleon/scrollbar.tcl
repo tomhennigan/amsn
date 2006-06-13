@@ -1,6 +1,29 @@
 namespace eval ::chameleon::scrollbar {
     proc scrollbar_customParseConfArgs {w parsed_options args } {
-	return $parsed_options
+	array set options $args
+	array set ttk_options $parsed_options
+	
+	if { [info exists options(-orient)] } {
+	    set pattern ""
+	    for {set i 0} {$i < [string length $options(-orient)] } {incr i} {
+		if {$i == 0 } {
+		    append pattern [string index $options(-orient) $i]
+		} else {
+		    append pattern "\[[string index $options(-orient) $i]\]"
+		}
+	    }
+	    append pattern "*"
+
+	    if {[string match $pattern "vertical"]} {
+		set ttk_options(-orient) "vertical"
+	    } elseif {[string match $pattern "horizontal"]} {
+		set ttk_options(-orient) "horizontal"
+	    } else {
+		set ttk_options(-orient) $options(-orient)
+	    }
+	}
+	
+	return [array get ttk_options]
     }
 
     proc init_scrollbarCustomOptions { } {
@@ -18,7 +41,7 @@ namespace eval ::chameleon::scrollbar {
 	    -highlightcolor -ignore
 	    -highlightthickness -ignore
 	    -jump -ignore
-	    -orient -orient
+	    -orient -toImplement
 	    -relief -styleOption
 	    -repeatdelay -ignore
 	    -repeatinterval -ignore
@@ -46,6 +69,9 @@ namespace eval ::chameleon::scrollbar {
     }
 	    
     proc scrollbar_customCget { w option } {
+	if {$option == "-orient"} {
+	    return [$w cget -orient]
+	}
 	return ""
     }
 
