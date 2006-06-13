@@ -67,7 +67,7 @@ namespace eval ::config {
 
 		#Some Autodetected options
 		if {$tcl_platform(os) == "Darwin"} {
-			::config::setKey soundcommand "./sndplay \$sound";#Soundplayer for Mac OS 10.3-10.4	
+			::config::setKey soundcommand "./utils/macosx/sndplay \$sound";#Soundplayer for Mac OS 10.3-10.4	
 			::config::setKey browser "open \$url"
 			::config::setKey notifyXoffset 100
 			::config::setKey notifyYoffset 75
@@ -604,12 +604,11 @@ proc load_config {} {
 			#Force the change to not start amsn on tray if someone choosed that in advanced preferences
 			::config::setKey startontray 0
 			# Force the change of the default sound command
-			# For Mac OS X users who used aMSN 0.90 at the beggining
-			set soundmac [string range "[::config::getKey soundcommand]" 1 11]
-				if { $soundmac=="program_dir" } {
-						::config::setKey soundcommand "./sndplay \$sound"
-				}
+			# For Mac OS X users who used aMSN 0.95 at the beggining
+			if {[::config::getKey soundcommand] == "./sndplay" } {
+				::config::setKey soundcommand "./utils/macosx/sndplay \$sound"
 			}
+		}
 	}
 	#Force to change the path to the new path of plwav.exe
 	if {$tcl_platform(platform) == "windows"} {
