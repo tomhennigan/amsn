@@ -2833,8 +2833,8 @@ namespace eval ::amsn {
 
 				set final 0
 				set caracter [string range $urltext $final $final]
-				while { $caracter != " " && $caracter != "\n" \
-					&& $caracter != ")" && $caracter != "("} {
+				# Removed this: && $caracter != ")" && $caracter != "("
+				while { $caracter != " " && $caracter != "\n" } {
 					set final [expr {$final+1}]
 					set caracter [string range $urltext $final $final]
 				}
