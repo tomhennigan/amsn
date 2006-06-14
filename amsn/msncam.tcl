@@ -1908,6 +1908,7 @@ namespace eval ::CAMGUI {
 
 		if { $encoder == "" } {
 			set encoder [::Webcamsn::NewEncoder HIGH]
+			setObjOption $socket codec $encoder
 		}
 
 		if {[winfo ismapped $grabber]} {
