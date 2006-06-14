@@ -5045,8 +5045,7 @@ proc cmsn_auth {{recv ""}} {
 				::abook::setPersonal MFN [urldecode [lindex $recv 4]]
 			}
 			::abook::setPersonal login [lindex $recv 3]
-			recreate_contact_lists
-
+			
 			#We need to wait until the SYN reply comes, or we can send the CHG request before
 			#the server sends the list, and then it won't work (all contacts offline)
 			#::MSN::WriteSB ns "SYN" "$list_version" initial_syn_handler
@@ -5059,7 +5058,8 @@ proc cmsn_auth {{recv ""}} {
 					::MSN::WriteSB ns "SYN" "0 0" initial_syn_handler
 				}
 			} else {
-				::MSN::WriteSB ns "SYN" "[::abook::getContactData contactlist list_version 0]" initial_syn_handler
+			    recreate_contact_lists
+			    ::MSN::WriteSB ns "SYN" "[::abook::getContactData contactlist list_version 0]" initial_syn_handler
 			}
 
 			#Alert dock of status change
@@ -5100,10 +5100,12 @@ proc recreate_contact_lists {} {
 	::MSN::clearList RL
 	foreach user [::abook::getAllContacts] {
 		foreach list_name [::abook::getLists $user] {
-			if { $list_name == "FL" } {
-				::abook::setVolatileData $user state FLN
-			}
+		    if { $list_name == "FL" } {
+			::abook::setVolatileData $user state FLN
+			} 
+		    if { $list_name == "AL" || $list_name == "BL" || $list_name == "FL" || $list_name == "RL"} {
 			::MSN::addToList $list_name $user
+		    }
 		}
 	}
 
