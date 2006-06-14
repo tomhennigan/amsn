@@ -2135,7 +2135,7 @@ namespace eval ::plugins {
 			return 0
 		} elseif { [lindex $new 0] > [lindex $current 0] } {
 			return 1
-		} elseif { [lindex $new 1] > [lindex $current 1] } {
+		} elseif { [lindex $new 0] == [lindex $current 0] && [lindex $new 1] > [lindex $current 1] } {
 			return 1
 		} else {
 			return 0
