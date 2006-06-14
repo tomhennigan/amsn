@@ -4,7 +4,9 @@
 package require snit
 package provide pixmapscroll 0.9
 
-snit::widgetadaptor scrollbar {
+interp alias {} scrollbar {} pixmapscrollbar
+
+snit::widgetadaptor pixmapscrollbar {
 
 	typevariable scrollbarlist {}
 
