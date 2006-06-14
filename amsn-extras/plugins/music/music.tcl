@@ -210,12 +210,14 @@ namespace eval ::music {
 			"linux" [list \
 				"XMMS" [list GetSongXMMS TreatSongXMMS FillFrameEmpty] \
 				"Amarok" [list GetSongAmarok TreatSongAmarok FillFrameComplete] \
+				"Rhythmbox" [list GetSongRhythmbox TreatSongRhythmbox FillFrameLess] \
 				"Banshee" [list GetSongBanshee TreatSongBanshee FillFrameComplete] \
 				"MPD" [list GetSongMPD TreatSongMPD FillFrameMPD] \
 			]\
 			"freebsd" [list \
 				"XMMS" [list GetSongXMMS TreatSongXMMS FillFrameEmpty] \
 				"Amarok" [list GetSongAmarok TreatSongAmarok FillFrameComplete] \
+				"Rhythmbox" [list GetSongRhythmbox TreatSongRhythmbox FillFrameLess] \
 				"Banshee" [list GetSongBanshee TreatSongBanshee FillFrameComplete] \
 				"MPD" [list GetSongMPD TreatSongMPD FillFrameMPD] \
 			] \
@@ -644,7 +646,6 @@ namespace eval ::music {
 			#actualsong isn't yet defined by asynchronous exec
 			return 0
 		}
-		puts "$tmplst"
 		
 		if {$tmplst == 0} {
 			set Status 0
@@ -679,6 +680,55 @@ namespace eval ::music {
 			lappend return [urldecode [string range $Uri 7 end]]
 			#Third element is the path to the album cover-art (if available, else it is "")
 			lappend return $CoverUri
+		}
+
+		return $return
+	}
+
+	###############################################
+	# ::music::TreatSongRhythmbox                 #
+	# ------------------------------------------- #
+	# Gets the current playing song in Rhythmbox  #
+	###############################################
+	proc TreatSongRhythmbox {} {
+		#Grab the information asynchronously : thanks to Tjikkun
+		after 0 {::music::exec_async [list "sh" [file join $::music::musicpluginpath "inforhythmbox"]] }
+		return 0
+	}
+
+	###############################################
+	# ::music::GetSongRhythmbox                   #
+	# ------------------------------------------- #
+	# Gets the current playing song in Rhythmbox  #
+	###############################################
+	proc GetSongRhythmbox {} {
+		#actualsong is filled asynchronously in TreatSongRhythmbox
+		#Split the lines into a list and set the variables as appropriate
+		if { [catch {split $::music::actualsong "\n"} tmplst] } {
+			#actualsong isn't yet defined by asynchronous exec
+			return 0
+		}
+
+		#Get the 4 first lines
+		set song [lindex $tmplst 0]
+		set art [lindex $tmplst 1]
+		set path [lindex $tmplst 2]
+		set songlength [lindex $tmplst 3]
+		
+		if {$songlength == "-1"} {
+			return 0
+		} else {
+			#Define in which  order we want to show the song (from the config)
+			#Use the separator(from the cong) betwen song and artist
+			if {$::music::config(songart) == 1} {
+				append songart $song " " $::music::config(separator) " " $art
+			} elseif {$::music::config(songart) == 2} {
+				append songart $art " " $::music::config(separator) " " $song
+			} elseif {$::music::config(songart) == 3} {
+				append songart $song
+			}
+			lappend return $songart
+			lappend return [urldecode [string range $path 5 end]]
 		}
 
 		return $return

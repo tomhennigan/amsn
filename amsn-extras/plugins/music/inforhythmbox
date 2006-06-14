@@ -1,8 +1,11 @@
 #! /bin/sh
-if [ -z "$(pidof rhythmbox)" ]; then
-	echo 0
-else 
+
+if [ -z `/sbin/pidof rhythmbox` ]; then
 	echo ""
-	rhythmbox --print-playing --print-playing-artist --print-playing-path --no-focus
+	echo ""
+	echo ""
+	echo -1
+else 
+		rhythmbox --print-playing --print-playing-artist --print-playing-path --print-song-length --no-focus
 fi
 exit 0
