@@ -50,6 +50,14 @@ if (!user_level()) {
 <?php } ?>
     </ul></li>
 <?php } if (user_level(3)) { ?>
+    <li>Skins<ul>
+        <li><a href="index.php?load=skins&amp;action=add">New skin</a></li>
+<?php if (user_level(4)) { ?>
+        <li><a href="index.php?load=skins&amp;action=edit">Edit skin</a></li>
+        <li><a href="index.php?load=skins&amp;action=remove">Remove skin</a></li>
+<?php } ?>
+    </ul></li>
+<?php } if (user_level(3)) { ?>
     <li>Screenshots<ul>
         <li><a href="index.php?load=screenshots&amp;action=add">New screenshot</a></li>
     </ul></li>

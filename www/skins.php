@@ -21,37 +21,70 @@
 	<br /><br />
 
 <a NAME="top">
-	<h4 class="title">0.95 Skins</h4>
 	<br />
 </a>
 
 <?php
 
-$toc_arrays = $skins;
-include inc . 'toc.php';
+if (!mysql_num_rows(($q = mysql_query("SELECT *  FROM `amsn_skins` ORDER BY `name`")))) {
+    echo "<p>There are no screenshots available.</p>\n";
+} else {
+	$elements_per_line=5;
+	$i = 0;
+	echo '<div style="text-align:center">';
+	while ($skin = mysql_fetch_assoc($q)) {
+		if ($i > 0 )
+			echo ' | ';
+		echo '<a href="#'. $skin['name']. '"> ' . $skin['name'] . ' </a>';
+		$i = $i + 1;
+        	if ($i == $elements_per_line) {
+			echo '<br />';
+			$i = 0;
+        	}
+	}
+	echo '</div> <br/> <br/>';
+	mysql_data_seek($q, 0);
+	while ($skin = mysql_fetch_assoc($q)) {
+?>
+<a NAME="<?php echo $skin['name']?>">
+<table class="skins">
+  <tbody><tr>
+    <td>
+      <ul>
+        <li class="skintitle"><?php echo $skin['name'] ?></li>
+        <li class="lg"><?php echo $skin['desc'] ?></li>
+        <li class="dg">Created by: <?php echo $skin['author'] ?></li>
+<?php 
+		if ($skin['screen']>0) {
+?>
+        <li class="lg"><a href="http://amsn.sourceforge.net/wiki/show_image.php?id=<?php echo $skin['screen']?>"><strong>Screenshot</strong></a></li>
+<?php 
+		}
+		else {
+?>
+        <li class="lg"><strong>No screenshot</strong></li>
+<?php
+		}
 
-foreach($skins as $skin) {
-        echo '<a NAME="' . $skin[0] . '">';
-	echo '<table class="skins">';
-	echo " <tbody><tr>\n";
-        echo "  <td>\n";
-	echo "   <ul>\n";
-	echo '    <li class="skintitle">'.$skin[0]."</li>\n";
-	echo '    <li class="lg">'.$skin[1]."</li>\n";
-	echo '    <li class="dg">Created by: '.$skin[2]." </li>\n";
-	if($skin[3]>0)
-		echo '    <li class="lg"><a href="http://amsn.sourceforge.net/wiki/show_image.php?id='.$skin[3].'"><strong>Screenshot</strong></a></li>'."\n";
-	if($skin[4]!='')
-		echo '    <li class="dg"><a href="http://prdownloads.sourceforge.net/amsn/'.$skin[4].'"><strong>Download this skin</strong></a></li>'."\n";
-	else
-		echo '    <li class="dg"><strong>Download comming soon!</strong></li>'."\n";
-	echo "   </ul>\n";
-	echo "  </td>\n";
-	echo " </tr>\n";
-	echo " </tbody>\n";
-	echo "</table>\n";
-	echo "<br/>\n";
-	echo "<a/>\n";
+		if ($skin['url']!='') {
+?>
+        <li class="dg"><a href="http://prdownloads.sourceforge.net/amsn/<?php echo $skin['url']?>"><strong>Download this skin</strong></a></li>
+<?php
+		}
+		else {
+?>
+        <li class="dg"><strong>Download comming soon!</strong></li>
+<?php
+		}
+?>
+      </ul>
+    </td>
+  </tr></tbody>
+</table>
+<br/>
+<a/>
+<?php
+	}
 }
 ?>
 
