@@ -20,14 +20,14 @@
 	a screenshot, description, and which version(s) of aMSN it is for.
 	<br /><br />
 
-<a NAME="top">
+<a name="top">
 	<br />
 </a>
 
 <?php
 
 if (!mysql_num_rows(($q = mysql_query("SELECT *  FROM `amsn_skins` ORDER BY `name`")))) {
-    echo "<p>There are no screenshots available.</p>\n";
+    echo "<p>There are no skins available.</p>\n";
 } else {
 	$elements_per_line=5;
 	$i = 0;
@@ -35,18 +35,18 @@ if (!mysql_num_rows(($q = mysql_query("SELECT *  FROM `amsn_skins` ORDER BY `nam
 	while ($skin = mysql_fetch_assoc($q)) {
 		if ($i > 0 )
 			echo ' | ';
-		echo '<a href="#'. $skin['name']. '"> ' . $skin['name'] . ' </a>';
+		echo '<a href="#'. $skin['id']. '"> ' . $skin['name'] . ' </a>';
 		$i = $i + 1;
         	if ($i == $elements_per_line) {
-			echo '<br />';
+			echo "<br />\n";
 			$i = 0;
         	}
 	}
-	echo '</div> <br/> <br/>';
+	echo "</div> <br/> <br/>\n";
 	mysql_data_seek($q, 0);
 	while ($skin = mysql_fetch_assoc($q)) {
 ?>
-<a NAME="<?php echo $skin['name']?>">
+<a name="<?php echo $skin['id']?>" />
 <table class="skins">
   <tbody><tr>
     <td>
@@ -81,15 +81,14 @@ if (!mysql_num_rows(($q = mysql_query("SELECT *  FROM `amsn_skins` ORDER BY `nam
     </td>
   </tr></tbody>
 </table>
-<br/>
-<a/>
+<br />
 <?php
 	}
 }
 ?>
 
 <br/><br/>
-<center><strong><a href="#top">Back to top</a></strong></center>
+<div style="text-align:center"><strong><a href="#top">Back to top</a></strong></div>
 
 
 <?php include inc . 'footer.php';?>

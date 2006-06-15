@@ -45,7 +45,7 @@ if ($_GET['action'] == 'add') {
         form();
 } else if ($_GET['action'] == 'remove' || $_GET['action'] == 'edit') {
     if (!mysql_num_rows(($q = @mysql_query("SELECT * FROM `amsn_menu` ORDER BY `men_pos`, `men_id` ASC")))) {
-        echo "<p>There are no menu items yet, you can <a href=\"cpanel.php?load=menu&amp;action=add\">create one</a></p>\n";
+        echo "<p>There are no menu items yet, you can <a href=\"index.php?load=menu&amp;action=add\">create one</a></p>\n";
         return;
     }
 

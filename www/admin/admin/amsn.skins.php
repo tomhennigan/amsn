@@ -48,7 +48,7 @@ if ($_GET['action'] == 'add') {
         form();
 } else if ($_GET['action'] == 'remove' || $_GET['action'] == 'edit') {
     if (!mysql_num_rows(($q = @mysql_query("SELECT * FROM `amsn_skins` ORDER BY `name` ASC")))) {
-        echo "<p>There are no skins yet, you can <a href=\"cpanel.php?load=skins&amp;action=add\">add one</a></p>\n";
+        echo "<p>There are no skins yet, you can <a href=\"index.php?load=skins&amp;action=add\">add one</a></p>\n";
         return;
     }
 

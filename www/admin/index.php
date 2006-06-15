@@ -58,6 +58,14 @@ if (!user_level()) {
 <?php } ?>
     </ul></li>
 <?php } if (user_level(3)) { ?>
+    <li>Plugins<ul>
+        <li><a href="index.php?load=plugins&amp;action=add">New plugin</a></li>
+<?php if (user_level(4)) { ?>
+        <li><a href="index.php?load=plugins&amp;action=edit">Edit plugin</a></li>
+        <li><a href="index.php?load=plugins&amp;action=remove">Remove plugin</a></li>
+<?php } ?>
+    </ul></li>
+<?php } if (user_level(3)) { ?>
     <li>Screenshots<ul>
         <li><a href="index.php?load=screenshots&amp;action=add">New screenshot</a></li>
     </ul></li>

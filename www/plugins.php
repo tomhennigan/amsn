@@ -16,38 +16,77 @@
         If you would like to submit your plugin to this page, email it as a zip archive to amsn-plugins at lists dot sourceforge dot net. Please include a screenshot, description, which version(s) of aMSN it's for, and the platform/OS it's for.
 <br /><br />
 
-<a NAME="top"> </a>
-
+<a name="top">
+	<br />
+</a>
 <?php
 
-$toc_arrays = $plugins;
-include inc . 'toc.php';
+if (!mysql_num_rows(($q = mysql_query("SELECT *  FROM `amsn_plugins` ORDER BY `name`")))) {
+    echo "<p>There are no plugins available.</p>\n";
+} else {
+	$elements_per_line=5;
+	$i = 0;
+	echo '<div style="text-align:center">';
+	while ($plugin = mysql_fetch_assoc($q)) {
+		if ($i > 0 )
+			echo ' | ';
+		echo '<a href="#'. $plugin['id']. '"> ' . $plugin['name'] . ' </a>';
+		$i = $i + 1;
+        	if ($i == $elements_per_line) {
+			echo "<br />\n";
+			$i = 0;
+        	}
+	}
+	echo "</div> <br/> <br />\n";
+	mysql_data_seek($q, 0);
+	while ($plugin = mysql_fetch_assoc($q)) {
+?>
+<a name="<?php echo $plugin['id']?>" />
+<table class="plugins">
+  <tbody><tr>
+    <td>
+      <ul>
+        <li class="plugintitle"><?php echo $plugin['name'] ?></li>
+        <li class="lg"><?php echo $plugin['desc'] ?></li>
+        <li class="dg">Created by: <?php echo $plugin['author'] ?></li>
+        <li class="lg">Version: <?php echo $plugin['version'] ?></li>
+        <li class="dg">Platform/OS: <?php echo $plugin['platform'] ?></li>
+        <li class="lg">Requires: <?php echo $plugin['requires'] ?></li>
+<?php 
+		if ($plugin['screen']>0) {
+?>
+        <li class="dg"><a href="http://amsn.sourceforge.net/wiki/show_image.php?id=<?php echo $plugin['screen']?>"><strong>Screenshot</strong></a></li>
+<?php 
+		}
+		else {
+?>
+        <li class="dg"><strong>No screenshot</strong></li>
+<?php
+		}
 
-foreach($plugins as $plugin) {
-        echo '<a NAME="' . $plugin[0] . '">';
-	echo '<table class="plugins">';
-	echo ' <tr><td>';
-	echo '  <ul>';
-	echo '   <li class="plugintitle">'.$plugin[0].'</li>';
-	echo '   <li class="lg">Author: '.$plugin[2].'</li>';
-	echo '   <li class="dg">Version: '.$plugin[3].'</li>';
-	echo '   <li class="lg">Platform/OS: '.$plugin[4].'</li>';
-	echo '   <li class="dg">Requires: '.$plugin[5].'</li>';
-	echo '   <li class="lg">'.$plugin[1].'</li>';
-	if($plugin[6]>0)
-		echo '   <li class="dg"><a href="http://amsn.sourceforge.net/wiki/show_image.php?id='.$plugin[6].'"><strong>Screenshot</strong></a></li>';
-	if($plugin[7]!='')
-		echo '   <li class="lg"><a href="http://prdownloads.sourceforge.net/amsn/'.$plugin[7].'"><strong>Download this plugin</strong></a></li>';
-	echo '  </ul>';
-	echo ' </td></tr>';
-	echo '</table>';
-	echo '<br/>';
-	echo '<a/>';
+		if ($plugin['url']!='') {
+?>
+        <li class="lg"><a href="http://prdownloads.sourceforge.net/amsn/<?php echo $plugin['url']?>"><strong>Download this plugin</strong></a></li>
+<?php
+		}
+		else {
+?>
+        <li class="lg"><strong>Download comming soon!</strong></li>
+<?php
+		}
+?>
+      </ul>
+    </td>
+  </tr></tbody>
+</table>
+<br />
+<?php
+	}
 }
 ?>
 
 <br/><br/>
-<center><strong><a href="#top">Back to top</a></strong></center>
+<div style="text-align:center"><strong><a href="#top">Back to top</a></strong></div>
 
 
 <?php include inc . 'footer.php'; ?>
