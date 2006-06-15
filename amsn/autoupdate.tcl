@@ -525,6 +525,8 @@ namespace eval ::autoupdate {
 				if {[lindex $lastver $x] > [lindex $yourver $x]} {
 					set newer 1
 					break
+				} elseif {[lindex $lastver $x] < [lindex $yourver $x]} {
+					break
 				}
 			}
 
