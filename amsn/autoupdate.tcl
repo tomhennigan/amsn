@@ -518,14 +518,20 @@ namespace eval ::autoupdate {
 
 		if { [::http::status $token] == "ok" && [::http::ncode $token] == 200 } {
 			set tmp_data [string map {"\n" "" "\r" ""} $tmp_data]
-			set lastver [split $tmp_data "."]
-			set yourver [split $version "."]
+			set lastver [split $tmp_data {"." "rc"}]
+			set yourver [split $version {"." "rc"}]
 
+			#cheking if 0.96 > 0.90 > 0.90rc3
 			for {set x 0} {$x<[llength "$lastver"]} {incr x} {
-				if {[lindex $lastver $x] > [lindex $yourver $x]} {
-					set newer 1
+				set lver [lindex $lastver $x]
+				set yver [lindex $yourver $x]
+				set yver2 [lindex $yourver [expr {$x + 1}]]
+				#no "rc" in yourver
+				if { ("$lver" == "") && ("$yver2" == "")} {
 					break
-				} elseif {[lindex $lastver $x] < [lindex $yourver $x]} {
+				}
+				if {"$lver" > "$yver" } {
+					set newver 1
 					break
 				}
 			}
