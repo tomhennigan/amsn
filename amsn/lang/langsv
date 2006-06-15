@@ -160,6 +160,7 @@ closealltabs Stäng alla flikar
 closed Konversationen med $1 stängdes på grund av inaktivitet.
 closelabel När du klickar på Stäng-knappen i ett flikat konversationsfönster
 closeonly Stäng bara nuvarande flik
+closeordock Om du stänger kontaktlistans fönster avslutas aMSN. Kanske vill du bara minimera fönstret till systemlisten. Är du säker på att du vill avsluta aMSN?
 closingdocks Stängknappen minimerar programmet till systemfältet
 color Färg
 command Kommando
@@ -307,6 +308,7 @@ filters Filtren
 filtersselect Väj filtren du vill se\n(Notera att inga valda betyder visa alla)
 filtersx Val av filter
 find Hitta
+findasyoutype Sök medan du skriver
 findnext Hitta nästa
 findprev Hitta föregående
 firewalled Du är bakom en brandvägg eller en router
@@ -646,12 +648,15 @@ savecontacts Spara kontaktlista
 savetofile Spara som fil
 says $1 säger
 sbcon Ansluter till uppslagsserver
+searchdown Sök nedåt
+searchup Sök uppåt
 selectall Markera alla
 selectplugins Välj de plugins du vill använda
 selectskin Välj ett tema från listan
 send Skicka
 sendcam Sänd webbkamera
 sendemail Skicka min e-postadress för att underrätta mig när något ändras
+sendfeedback Ge feedback
 sendfile Skicka fil
 sendmail Skicka brev
 sendmobmsg Skicka till den mobila enheten
@@ -663,6 +668,7 @@ serverbusy Servern är upptagen
 servergoingdown Utloggad: Serverfel.
 serverunavailable Servern går inte att hitta
 session Session
+setasmydp Använd som visningbild
 shareswebcam Delar ut sin webbkamera
 showbanner Visa aMSNs logotyp längst ner i kontaktlistan (kräver omstart)
 showblockedlist Visa en lista över personer som blockerar dig
@@ -778,7 +784,7 @@ update Uppdatera
 updateonlycurrentlanguage Uppdatera bara det nuvarande språket
 updating Uppdaterar
 useasdp Använd som visningsbild
-usemsnp11 Aktivera stöd för personligt meddelande (EXPERIMENTIELL funktion) -- behöver profil + omstart
+useasregexp Används som ett reguljärt uttryck (regexp)
 useother Använd ett annat program
 user Användare
 useralreadyonlist Användaren finns redan i listan
