@@ -863,6 +863,7 @@ namespace eval ::MSN {
 		after cancel ::MSN::connect
 		catch { unset ::oldstatus }
 		::MSN::logout
+		cmsn_draw_offline
 
 	}
 
