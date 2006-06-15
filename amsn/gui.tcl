@@ -212,9 +212,11 @@ if { $initialize_amsn == 1 } {
 	#Set the default option for canvas -highlightthickness
 	option add *Canvas.highlightThickness 0
 
-	#Mappings for Shift-BackSpace
-	bind Entry <Terminate_Server> [bind Entry <BackSpace>]
-	bind Text <Terminate_Server> [bind Text <BackSpace>]
+	if { [OnUnix] } {
+		#Mappings for Shift-BackSpace
+		bind Entry <Terminate_Server> [bind Entry <BackSpace>]
+		bind Text <Terminate_Server> [bind Text <BackSpace>]
+	}
 
 	if { $::tcl_version >= 8.4 } {
 		#To avoid a bug inside panedwindow, by Youness
