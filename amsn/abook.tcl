@@ -755,7 +755,7 @@ namespace eval ::abook {
 	#possible types: csv, amsn
 	proc saveToDisk { {filename ""} {type "amsn"} } {
 		
-		if { ![isConsistent] } {
+		if { ![isConsistent] || ![LoginList lockexists "" [::config::getKey login]] } {
 			return
 		}
 	
