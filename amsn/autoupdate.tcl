@@ -510,11 +510,8 @@ namespace eval ::autoupdate {
 	package require http
 
 	proc check_web_version { token } {
-		global version weburl
-
-		if { [ info exists ::rc_version ] } {
-			set version $::rc_version
-		}
+		global version rcversion weburl
+		if { ![info exists rcversion] } { set rcversion $version }
 
 		set newer 0
 
@@ -523,7 +520,7 @@ namespace eval ::autoupdate {
 		if { [::http::status $token] == "ok" && [::http::ncode $token] == 200 } {
 			set tmp_data [string map {"\n" "" "\r" ""} $tmp_data]
 			set lastver [split $tmp_data "."]
-			set yourver [split $version "."]
+			set yourver [split $rcversion "."]
 
 			for {set x 0} {$x<[llength "$lastver"]} {incr x} {
 				if {[lindex $lastver $x] > [lindex $yourver $x]} {
@@ -534,7 +531,7 @@ namespace eval ::autoupdate {
 				}
 			}
 
-			catch {status_log "check_web_ver: Current= $yourver New=$lastver ($tmp_data)\n"}
+			catch {status_log "check_web_ver: Current= $rcversion New=$tmp_data\n"}
 			#Time in second when the user clicked to not have an alert before 3 days
 			set weekdate [::config::getKey weekdate]
 			#Actual time in seconds

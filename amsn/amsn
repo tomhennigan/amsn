@@ -50,8 +50,12 @@ wm state . withdraw
 ############################################################
 ### Some global variables
 ############################################################
-set version "0.96b"
-set date "12/22/2005"
+# variable rcversion so autoupdate has no problems, version is used to be easier for users
+# rcversion major.minor.patch, patch is 91,92 for RC's and after a release we put .svn
+# behind the version (after 0.95.90 comes 0.95.90.svn, after 0.96 comes 0.96.90.svn)
+set version "0.97b"
+set rcversion "0.96.90.svn"
+set date "06/16/2006"
 set weburl "http://amsn.sourceforge.net"
 set program_dir "."
 set HOME ""
