@@ -751,16 +751,19 @@ namespace eval ::music {
 		set chan [socket -async $::music::config(mpd_ip) $::music::config(mpd_port)]
 		if { [catch {gets $chan line} err] } {
 			plugins_log Music "error : $err"
+			close $chan
 			return 0
 		}
 		if {[string range $line 0 1] != "OK" } {
 			plugins_log Music "error : [MPD] no OK found "
+			close $chan
 			return 0
 		}
 		puts $chan "status"
 		flush $chan
 		if { [catch {gets $chan line} err] } {
 			plugins_log Music "error : $err"
+			close $chan
 			return 0
 		}
 		while {[string range $line 0 1] != "OK" } {
@@ -768,11 +771,13 @@ namespace eval ::music {
 				set state [string range $line 7 end]
 				plugins_log Music "state of the player is $state"
 				if { $state == "stop" || $state == "pause" } {
+					close $chan
 					return 0
 				}
 			}
 			if { [catch {gets $chan line} err] } {
 				plugins_log Music "error : $err"
+				close $chan
 				return 0
 			}		
 		}
@@ -780,6 +785,7 @@ namespace eval ::music {
 		while {[string range $line 0 1] != "OK" } {
 			if { [catch {gets $chan line} err] } {
 				plugins_log Music "error : $err"
+				close $chan
 				return 0
 			}		
 		}
@@ -788,6 +794,7 @@ namespace eval ::music {
 		flush $chan
 		if { [catch {gets $chan line} err] } {
 			plugins_log Music "error : $err"
+			close $chan
 			return 0
 		}		
 		set Title ""
@@ -811,6 +818,7 @@ namespace eval ::music {
 			}
 			if { [catch {gets $chan line} err] } {
 				plugins_log music "error : $err"
+				close $chan
 				return 0
 			}		
 		}
