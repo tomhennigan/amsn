@@ -151,6 +151,15 @@ namespace eval ::chameleon {
 	    SetTheme $::chameleon::config(theme)
 	}
 
+
+
+	# Initialization of the needed wrapped alternatives
+	catch { 
+	    package require AMSN_BWidget
+	    package require pixmapscroll
+	    NoteBook::use
+	}
+
 	wrap 0
 
 	# need to reset the theme at idle so the option add will actually be effective!
@@ -286,10 +295,6 @@ namespace eval ::chameleon {
 		    rename ::${tk_widget_type} ""
 		    rename ::tk::${tk_widget_type} ::${tk_widget_type}
 		} else {
-			if {${tk_widget_type} == "NoteBook" } {
-				interp alias {} ::NoteBook {} ::NoteBook::create
-				#proc ::NoteBook { args } { return [eval ::NoteBook::create $args] }
-			}
 		    plugins_log "Chameleon" "Not unwrapping ${tk_widget_type}"
 		    plugins_log "Chameleon" "Because of : [info command ::tk::${tk_widget_type}] - [info procs ::${tk_widget_type}]"
 		}
@@ -315,18 +320,11 @@ namespace eval ::chameleon {
 
 
 		if { [info commands ::tk::${tk_widget_type}] == "" && 
-		     [info commands ::${tk_widget_type}] == "::${tk_widget_type}"  } {
+		     [info commands ::${tk_widget_type}] == "::${tk_widget_type}" } {
 		    plugins_log "Chameleon" "Wrapping ${tk_widget_type}"
 		    rename ::${tk_widget_type} ::tk::${tk_widget_type}
 		    proc ::${tk_widget_type} {w args} "set newargs \[list \$w\]; eval lappend newargs \$args; eval ::chameleon::${widget_type}::${widget_type} \$newargs"
 		} else {
-			if {${tk_widget_type} == "NoteBook" } {
-				package require AMSN_BWidget
-				NoteBook::use
-			    proc ::Chameleon_NoteBook {w args} "set newargs \[list \$w\]; eval lappend newargs \$args; eval ::chameleon::${widget_type}::${widget_type} \$newargs"
-				interp alias {} ::NoteBook {} ::Chameleon_NoteBook
-				#proc ::NoteBook { args } { return [eval ::NoteBook::create $args] }
-			}
 		    plugins_log "Chameleon" "Not wrapping ${tk_widget_type}"
 		    plugins_log "Chameleon" "Because of : [info command ::tk::${tk_widget_type}] - [info command ::${tk_widget_type}] - [info procs ::${tk_widget_type}] - [info procs ::tk::${tk_widget_type}]"
 		}

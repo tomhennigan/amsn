@@ -94,8 +94,15 @@ namespace eval ::chameleon::notebook {
    }
 
    proc notebook_tabChanged { w } {
-       #FIXME
-      #puts "Tab changed on $w to : [$w index current]"
+       variable pageOptions
+       set page [notebook_getPageAt $w [$w index current]]
+       if { [info exists pageOptions($w:$page)] } {
+	   array set opts [set pageOptions($w:$page)]
+	   if {[info exists opts(-raisecmd)] } {
+	       eval $opts(-raisecmd)
+	   }
+       }
+
    }
 
     proc notebook_customCget { w option } {
