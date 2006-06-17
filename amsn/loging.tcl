@@ -1119,7 +1119,7 @@ namespace eval ::log {
 
 		global webcam_dir
 
-		status_log "Switch to $email\n\n" blue
+		status_log "(CamLoging)Switch to $email" blue
 
 		if { [file exists [file join ${webcam_dir} ${email}.cam]] } {
 			set size "[::amsn::sizeconvert [file size "[file join ${webcam_dir} ${email}.cam]"]]o"
@@ -1128,9 +1128,6 @@ namespace eval ::log {
 			set exists disabled
 			set size "0Ko"
 		}
-
-
-		wm title $w "[trans history] (${email} - $size)"
 
 		::log::CamLogsByDate $w $email "0"	
 		::log::ResetCamDelete $w $email
@@ -1163,6 +1160,8 @@ namespace eval ::log {
 		$w.buttons.pause configure -command "::CAMGUI::Pause $w"  -state disabled
 		$w.buttons.stop configure -command "::CAMGUI::Stop $w" -state disabled
 
+		
+		wm title $w "[trans webcamhistory] (${email} - $size)"
 
 	}	
 	#///////////////////////////////////////////////////////////////////////////////
