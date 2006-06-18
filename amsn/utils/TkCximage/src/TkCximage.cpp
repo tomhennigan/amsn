@@ -258,14 +258,14 @@ int Tkcximage_Init (Tcl_Interp *interp ) {
   const char *KnownFormats[] = {"cximage", "cxgif", "cxpng", "cxjpg", "cxtga", "cxbmp"};
 
   //Check Tcl version is 8.3 or higher
-  if (Tcl_InitStubs(interp, "8.3", 0) == NULL) {
+  if (Tcl_InitStubs(interp, TCL_VERSION, 0) == NULL) {
     return TCL_ERROR;
   }
 
   LOG("Tcl stub initialized"); //
 
   //Check TK version is 8.3 or higher
-  if (Tk_InitStubs(interp, "8.3", 0) == NULL) {
+  if (Tk_InitStubs(interp, TK_VERSION, 0) == NULL) {
     return TCL_ERROR;
   }
 
