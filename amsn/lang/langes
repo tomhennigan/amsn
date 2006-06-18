@@ -307,6 +307,7 @@ filetransfer Transferencia de archivos
 filters Filtros
 filtersselect Elige los filtros que deseas ver\n(Si no se selecciona ninguno se mostrarán todos)
 filtersx Filtrar selección
+findasyoutype Encontrar al teclear
 find Buscar
 findnext Buscar Siguiente
 findprev Buscar Anterior
@@ -648,6 +649,8 @@ save Guardar
 savetofile Guardar en archivo
 says $1 dice
 sbcon Conectando a la centralita telefónica
+searchdown Buscar arriba
+searchup Buscar abajo
 selectall Seleccionar todos
 selectplugins Marca los plug-ins que deseas activar
 selectskin Elige un tema (skin) de la lista
@@ -783,6 +786,7 @@ update Actualizar
 updateonlycurrentlanguage Actualización sólo del lenguaje actual
 updating Actualizando
 useasdp Usar como imagen para mostrar
+useasregexp Interpretar como expresión regular
 usemsnp11 Activar soporte para Mensajes Personales (función EXPERIMENTAL) -- requiere usar un perfil, y reiniciar AMSN
 useother Usar un comando o programa distinto
 useralreadyonlist El usuario ya se encuentra en la lista de contactos.
