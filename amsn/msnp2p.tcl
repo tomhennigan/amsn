@@ -372,8 +372,6 @@ namespace eval ::MSNP2P {
 		#	        set cTotalDataSize [int2word $cTotalDataSize1 $cTotalDataSize2]
 		#   	        set cAckSize [int2word $cAckSize1 $cAckSize2]
 
-		#status_log "Read header : $cSid $cId $cOffset $cTotalDataSize $cMsgSize $cFlags $cAckId $cAckUID $cAckSize\n" red
-		#status_log "Sid : $cSid -> " red
 
 		set cSid [$message cget -sessionid]
 		set cId [$message cget -identifier]
@@ -385,6 +383,9 @@ namespace eval ::MSNP2P {
 		set cAckUID [$message cget -ackuid]
 		set cAckSize [$message cget -acksize]
 		set data [$message getBody]
+
+		#status_log "Read header : $cSid $cId $cOffset $cTotalDataSize $cMsgSize $cFlags $cAckId $cAckUID $cAckSize\n$data" red
+		
 
 		if {$cSid == "0" && $cMsgSize != "0" && $cMsgSize != $cTotalDataSize } {
 
@@ -418,7 +419,6 @@ namespace eval ::MSNP2P {
 		# Check if this is an ACK Message
 		# TODO : Actually check if the ACK is good ? check size and all that crap...
 		if { $cMsgSize == 0 } {
-
 			# Let us check if any of our sessions is waiting for an ACK
 			set sid [SessionList findid $cAckId]
 			status_log "GOT SID : $sid for Ackid : $cAckId\n"
@@ -457,8 +457,10 @@ namespace eval ::MSNP2P {
 			}
 			return
 		}
-		#status_log "ReadData : data : $data"
+
+		#status_log "ReadData : data : $data" green
 		# Check if this is an INVITE message
+
 		if { [string first "INVITE MSNMSGR" $data] != -1 } {
 			#status_log "Got an invitation!\n" red
 
@@ -621,7 +623,6 @@ namespace eval ::MSNP2P {
 					return
 				}
 			} elseif { $ctype == "application/x-msnmsgr-transrespbody" } {
-				
 				set idx [expr {[string first "Call-ID: \{" $data] + 10}]
 				set idx2 [expr {[string first "\}" $data $idx] -1}]
 				set uid [string range $data $idx $idx2]
@@ -676,7 +677,9 @@ namespace eval ::MSNP2P {
 		if { [string first "MSNSLP/1.0 200 OK" $data] != -1 } {
 			# Send a 200 OK ACK
 			set first [string first "SessionID:" $data]
-			if { $first != -1 } {
+			#msn8 introduce a SessionId in the Direct connection invitation message, that's why we check for listening
+			set listening_idx [string first "Listening:" $data]
+			if { $first != -1 && $listening_idx == -1} {
 				set idx [expr {[string first "SessionID:" $data] + 11}]
 				set idx2 [expr {[string first "\r\n" $data $idx] -1}]
 				set sid [string range $data $idx $idx2]
