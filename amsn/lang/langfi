@@ -325,7 +325,7 @@ ftgotinvitation $1 haluaa l‰hett‰‰ sinulle tiedoston '$2' ($3 tavua). Se tallenn
 ftportpref Ensimm‰inen porti tiedostonsiirrolle
 ftrejected Tiedoston siirto hyl‰tty
 ftrejectedby $1 kielt‰ytyi vastaanottamasta tiedostoa $2
-ftsendinvitation Tiedostoa '$2' ($3 tavua) yritet‰‰n l‰hett‰‰ $1lle. Odotetaan vastaanottajan hyv‰ksynt‰‰.
+ftsendinvitation Tiedostoa '$2' ($3 tavua) yritet‰‰n l‰hett‰‰ $1:lle. Odotetaan vastaanottajan hyv‰ksynt‰‰.
 fullcontactlist Yhteyslistasi on t‰ysi. Sinun tarvitsee poistaa joitain henkilˆit‰ listalta, jos haluat lis‰t‰ uusia.
 getdisppic Hae muiden k‰ytt‰jien kuvat
 getmoreplugins Hae lis‰‰ lis‰osia!
