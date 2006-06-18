@@ -161,6 +161,7 @@ close Chiudi
 closelabel Quando clicchi sul pulsante di chiusura di una finestra con i tab:
 closeonly Chiudi solo il tab corrente
 closingdocks Pulsante chiudi riduce a icona
+closeordock La chiusura della finestra della lista dei contatti chiuderà aMSN. Forse vuoi solo chiudere la finestra e vuoi avere aMSN aperto nella barra delle applicazioni.\n\nSei sicuro/a di voler chiudere aMSN?
 color Colore
 command Comando
 commandstatus Esegui comando
@@ -653,6 +654,7 @@ sendcam Invia la Webcam
 sendemail Invia in mio indirizzo e-mail per avvisarmi riguardo cambiamenti
 sendfile Invia un file
 send Invia
+sendfeedback Spedisci un resoconto
 sendmail Manda e-mail
 sendmobmsg Invia a dispositivo mobile
 sendmsg Manda un messaggio
@@ -663,6 +665,7 @@ servergoingdown Sei stato disconnesso poiché il server si sta fermando
 server Server
 serverunavailable Il server non è disponibile
 session Sessione
+setasmydp Usa come mia immagine
 shareswebcam Condividi la webcam
 showbanner Visualizza il banner di aMSN
 showblockedlist Mostra la lista delle persone che ti bloccano
@@ -785,7 +788,7 @@ userblocked L'utente è in linea ma ti ha bloccato
 userdata Dati Utente
 userdps Immagini dell'utente
 usernotonline Questo Utente non è in linea
-userproperties Proprieta' dell'utente $1
+userproperties Proprietà dell'utente $1
 user Utente
 useryourself Non puoi chattare con te stesso
 usesnack Utilizza la libreria Snack (Tcl)
