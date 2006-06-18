@@ -20,13 +20,14 @@ namespace eval ::picture {
 			} else {
 				catch {load [file join utils TkCximage TkCximage.so]} err
 			}
-			
-			foreach lib [info loaded] {
-				if { [lindex $lib 1] == "Tkcximage" } {
-					set ::tkcximageloaded 1
-					return 1
-				} 
+
+			# We try to create an image of format cximage, if TkCximage was loaded, then it will work, if not, it will fail.
+			# This is because the previous 'load' could load the .so even if it was compiled for another version of Tcl/Tk
+			if { [catch {image create photo -format cximage -file [::skin::GetSkinFile pixmaps null] } ] == 0 } {
+				set ::tkcximageloaded 1
+				return 1
 			}
+
 		}
 		#puts "Picture.tcl: TkCximage not loaded\n$err"
 		return 0
