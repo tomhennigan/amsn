@@ -168,7 +168,7 @@ proc reload_files { } {
 	source des.tcl		;# DES encryption
 	source sxml.tcl   	;# Simple XML parser
 #	source combobox.tcl	;# The all mighty combobox is here! (B. Oakley)
-	package require combobox	
+	package require combobox 2.3
 	source mutex.tcl
 	source lang.tcl
 	source automsg.tcl
