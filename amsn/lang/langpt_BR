@@ -307,6 +307,7 @@ filetransfer Transferência de arquivo.
 filters Filtros
 filtersselect Selecione os filtros que você deseja ver\n(Nota: nenhum selecionado significa mostrar todos) 
 filtersx Seleção de filtros 
+findasyoutype Encontrar como digitou
 find Encontrar
 findnext Encontrar próximo
 findprev Encontrar anterior
@@ -647,6 +648,8 @@ save Salvar
 savetofile Salvar para arquivo
 says $1 diz
 sbcon Conectando ao "Switch Board"
+searchdown Procurar pra cima
+searchup Procurar para baixo
 selectall Selecionar tudo
 selectplugins Por favor escolha o plugin que quer ativar
 selectskin Por favor escolha uma skin da lista
@@ -781,6 +784,7 @@ update Atualizar
 updateonlycurrentlanguage Atualize apenas a linguagem corrente
 updating Atualizando 
 useasdp Usar como sua própria figura
+useasregexp Usar como expressão regular (regexp)
 useother Usar um programa diferente
 useralreadyonlist Usuário já está na lista de contatos
 userblocked Usuário está online mas bloqueou você
