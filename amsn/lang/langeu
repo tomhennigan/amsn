@@ -160,6 +160,7 @@ closed Aktibitate eza dela eta $1[e]-kin zeneukan elkarrizketa itxita
 close Itxi
 closelabel Tab-ak dituen txat lehioetan itxi botoiari ematerakoan
 closeonly Erabiltzen zabiltzan tab-a bakarrik itxi
+closeordock Kontaktuen zerrendaren leihoa ixteak aMSN itxiaraziko du. Agian leiho hau itxi, eta aMSN barran bizirik edukitzea nahi duzu.\n\nSeguru aMSN itxi nahi duzula?
 closingdocks Ixteko botoiak minimizatzen du
 color Kolorea
 command Komandoa
@@ -306,6 +307,7 @@ filetransfer Fitxategien transferentzia
 filters Iragazkia
 filtersselect Ikusi nahi dituzun iragazkiak hautatu\n (Ez badituzu aukeratzen guztiak erakustea ezin nahi du)
 filtersx Iragazkiaren hautaketa
+findasyoutype Bilatu zuk idatzita moduan
 find Bilatu
 findnext Hurrengoa bilatu
 findprev Lehenekoa bilatu
@@ -647,12 +649,15 @@ save Gorde
 savetofile Gorde fitxategian
 says $1[e]k dio
 sbcon Switch Board-era konektatzen
+searchdown Behean bilatu
+searchup Goian bilatu
 selectall Denak hautatu
 selectplugins Gaitu nahi dituzun plugin-ak hautatu
 selectskin Zerrendatik azal bat aukeratu
 send Bidali
 sendcam Webcam bidali
 sendemail Nire eposta helbidea bidali, aldaketen inguruan informatu diezadaten
+sendfeedback Hartuemona bidali
 sendfile Fitxategia bidali
 sendmail E-posta bidali
 sendmobmsg Bidali mugikor batera
@@ -664,6 +669,7 @@ servergoingdown Deskonektaturik: Zerbitzaria mantentze lanetarako itzaliko da
 serverunavailable Zerbitzaria erabilezina dago
 server Zerbitzaria
 session Sesioa
+setasmydp Nire erakutsi irudi moduan ezarri
 shareswebcam Webcam-a konpartitu
 showbanner aMSN-aren bannerrak erakutsi
 showblockedlist Zu blokeatu zaituzten pertsonen zerrenda erakutsi
@@ -783,6 +789,7 @@ update Eguneratu
 updateonlycurrentlanguage Momentuko hizkuntza eguneratu bakarrik
 updating Eguneratzen
 useasdp Erabili pantaila irudi moduan
+useasregexp Esprezio erregularra moduan erabili (regexp)
 usemsnp11 Mezu Pertsonaletarako laguntza gaitu (ezaugarri EXPERIMENTALA) -- profila behar du + berrabiarazketa
 useother Programa desberdina erabili
 useralreadyonlist Erabiltzailea kontaktuen zerrendan dago jada

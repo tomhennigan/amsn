@@ -648,8 +648,8 @@ save Save
 savetofile Save to File
 says $1 says
 sbcon Connecting to Switch Board
-searchdown Search up
-searchup Search down
+searchdown Search down
+searchup Search up
 selectall Select all
 selectplugins Please select the plugins you want enabled
 selectskin Please choose a skin from the list
