@@ -308,6 +308,7 @@ filters Φίλτρα
 filtersselect Επιλέξτε τα φίλτρα που θέλετε να δείτε\n(Σημείωση: Κανένα επιλεγμένο σημαίνει εμφάνιση όλων)
 filtersx Επιλογή φίλτρων
 find Εύρεση
+findasyoutype Εύρεση κατά την πληκτρολόγηση
 findnext Εύρεση επόμενου
 findprev Εύρεση προηγούμενου
 firewalled Είστε πίσω από τείχος προστασίας ή router
@@ -647,6 +648,8 @@ savecontacts Αποθήκευση λίστας επαφών
 savetofile Αποθήκευση σε αρχείο
 says $1 λέει
 sbcon Συνδέομαι στο Switch Board
+searchdown Εύρεση κάτω
+searchup Εύρεση πάνω
 selectall Επιλογή όλων
 selectplugins Διάλεξε τις προσθήκες που θες ενεργοποιημένες
 selectskin Διάλεξε δέρμα από την λίστα
@@ -781,6 +784,7 @@ update Αναβάθμιση
 updateonlycurrentlanguage Να ενημερώνεται μόνο η τρέχουσα γλώσσα
 updating Ενημερώνεται
 useasdp Να χρησιμοποιηθεί ως εικόνα εμφάνισης
+useasregexp Χρήση ως Κανονική Έκφραση (regexp)
 useother Χρήση άλλου προγράμματος
 user Χρήστης
 useralreadyonlist Ο χρήστης είναι ήδη στην λίστα επαφών
