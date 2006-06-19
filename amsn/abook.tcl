@@ -1074,7 +1074,7 @@ namespace eval ::abookGui {
 		pack $nbIdent.fBasicInfo.fGroup.g -side left
 		pack $nbIdent.fBasicInfo.fGroup.g1 -side left
 		
-		grid $nbIdent.fBasicInfo.displaypic -row 0 -column 0 -sticky nwe -rowspan 4 -padx {0 8}
+		grid $nbIdent.fBasicInfo.displaypic -row 0 -column 0 -sticky nwe -rowspan 4 -padx [list 0 8]
 		grid $nbIdent.fBasicInfo.h1 -row 0 -column 1 -sticky w
 		if { [::config::getKey protocol] >= 11 } {
 			grid $nbIdent.fBasicInfo.psm1 -row 1 -column 1 -sticky w
@@ -1155,8 +1155,8 @@ namespace eval ::abookGui {
 		grid columnconfigure $nbIdent.fStats 1 -weight 1
 		
 		grid $nbIdent.fBasicInfo -row 0 -column 0 -sticky nwse -columnspan 2 -ipadx 4 -ipady 4
-		grid $nbIdent.fPhone -row 1 -column 0 -sticky nwse -padx { 0 4 } -pady { 8 0 }
-		grid $nbIdent.fStats -row 1 -column 1 -sticky nwse -padx { 4 0 } -pady { 8 0 }
+		grid $nbIdent.fPhone -row 1 -column 0 -sticky nwse -padx [lit 0 4] -pady [list 8 0]
+		grid $nbIdent.fStats -row 1 -column 1 -sticky nwse -padx [list 4 0] -pady [list 8 0]
 		grid columnconfigure $nbIdent { 0 1 } -weight 1
 		
 		pack $sw -expand true -fill both
@@ -1284,10 +1284,10 @@ namespace eval ::abookGui {
 		grid $nbSettings.fNotify.no -row 0 -column 2 -sticky we -padx 5
 		grid columnconfigure $nbSettings.fNotify 3 -weight 1
 		
-		grid $nbSettings.fNick -row 0 -column 0 -sticky nwse -columnspan 2 -pady { 0 4 }
-		grid $nbSettings.fChat -row 1 -column 0 -sticky nwse -padx { 0 4 } -pady 4
-		grid $nbSettings.fGroup -row 1 -column 1 -sticky nwse -padx { 4 0 } -pady 4
-		grid $nbSettings.fNotify -row 2 -column 0 -sticky nwse -columnspan 2 -pady { 4 0 }
+		grid $nbSettings.fNick -row 0 -column 0 -sticky nwse -columnspan 2 -pady [list 0 4]
+		grid $nbSettings.fChat -row 1 -column 0 -sticky nwse -padx [list 0 4] -pady 4
+		grid $nbSettings.fGroup -row 1 -column 1 -sticky nwse -padx [list 4 0] -pady 4
+		grid $nbSettings.fNotify -row 2 -column 0 -sticky nwse -columnspan 2 -pady [list 4 0]
 		grid columnconfigure $nbSettings { 0 1 } -weight 1
 		
 		pack $sw -expand true -fill both
