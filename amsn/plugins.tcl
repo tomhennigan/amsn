@@ -144,7 +144,10 @@ namespace eval ::plugins {
 		set namespace [getInfo $plugin plugin_namespace]
 
 		# do stuff only if there is a such a command for the event
-		#TODO: do we need to check if such a event exists?
+		if { [info exists pluginsevents(${event})] == 0 } {
+			plugins_log core "Trying to unregister a unknown event...\n"
+			return -1
+		} 
 		set pos [lsearch $pluginsevents(${event}) "\:\:$namespace\:\:$cmd"]
 		if {$pos != -1} {
 			# the long erase way to remove a item from the list
