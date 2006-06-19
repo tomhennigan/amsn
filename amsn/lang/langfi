@@ -30,7 +30,7 @@ alarms Hälytykset
 alarmstatus Aseta hälytys päälle/pois 
 allfiles Kaikki tiedostot
 allmonths Kaikki kuukaudet
-allow_sms Salli muiden käyttäjien ottaa yhteyttä minuun minun langattomaan MSN-laitteeseen
+allow_sms Salli muiden käyttäjien ottaa yhteyttä langattomaan MSN-laitteeseeni
 allowallbutbl Salli kaikkien käyttäjien ottaa yhteys minuun, paitsi estettyjen.
 allowbadwords Älä sensuroi käyttäjien lempinimiä
 allowlist Sallittut nimimerkit:
@@ -44,7 +44,7 @@ appearance Olemus
 appearoff Näyttäydy muille offline-tilaisena
 areacode Suuntanumero
 aretyping $1 kirjoittavat viestiä
-askcam Pyydä ottamaan vastaan Webcam
+askcam Pyydä ottamaan vastaan webcam
 askcontactwebcam kysyä sinun kontaktin webcamia, tai
 askeachtime Kysy joka kerta
 asksendingyourwebcam pyydä lupa oman webcamin lähetykseen
@@ -211,9 +211,9 @@ custom_edit Muokkaa mukautettua hymiötä
 custom_new Luo uusi mukautettu hymiö
 customcolor Muu väri
 customnick Muu lempinimi
-customsmileys Näytä muiden käyttäjien kustomoidut emootiot
+customsmileys Näytä muiden käyttäjien kustomoidut emootioikonit
 customstyle Erikois Tyyli
-custshowcustomsmileys Näytä käyttäjien kustmoidut emootiot
+custshowcustomsmileys Näytä käyttäjän kustomoidut emootioikonit
 cut Leikkaa
 cutimagebox Valitse kuvasta osa jota haluat käyttää, vaihtamalla kokoa ja siirtämällä valintalaatikkoa
 cutimageboxreset Palauta valintalaatikon\n koko:
@@ -643,7 +643,7 @@ reverselist Takaperin lista (TL):
 rightback Tulen kohta takaisin
 save Tallenna
 saveas Tallenna nimellä
-savechatwinsize Tallenna ikkunen koko oletukseksi säätäessä sen kokoa
+savechatwinsize Tallenna ikkunan koko oletukseksi säätäessä sen kokoa
 savecontacts Tallenna yhteystiedot
 savetofile Tallenna tiedostoon
 says $1 sanoo
@@ -654,12 +654,12 @@ selectall Valitse kaikki
 selectplugins Ole hyvä ja valitse lisäosat jotka haluat käyttöön
 selectskin Valitse ulkoasu:
 send Lähetä
-sendcam Lähetä Webcam
+sendcam Lähetä webcam
 sendemail Lähetä sähköpostiosoitteeni saadakseni tiedon muutoksista
-sendfeedback Lähetä Palautetta
+sendfeedback Lähetä palautetta
 sendfile Lähetä tiedosto
 sendmail Lähetä sähköpostiviesti
-sendmobmsg Lähetä Kapulaan
+sendmobmsg Lähetä kapulaan
 sendmsg Lähetä viesti
 sendwebcaminvite Kutsu käyttäjä katsomaan webcamiasi
 sentbytes Lähetetty $1 / $2 tavusta
@@ -674,8 +674,8 @@ show_contactdps_in_cl Näytä käyttäjien Kuvat Käyttäjälistassa
 showbanner Näytä aMSN:n banneri
 showblockedlist Näytä listä käyttäjistä jotka ovat estänee sinut
 showcachedpics Näytä muistissa olevat kuvat
-showcontactemail Näytä Käyttäjät joilla on sähköposti
-showcontactnick Näytä Käyttäjät joilla on lempinimi
+showcontactemail Näytä Käyttäjien sähköposti
+showcontactnick Näytä Käyttäjien lempinimi
 showdisplaypic Näytä Kuva
 showdisplaypic2 Näytä Kuva oletusarvoisesti kun keskusteluikkuna on avattu
 showmailicon Näytä posti-ikoni alapalkissa kun uutta sähköpostia saapuu
@@ -818,7 +818,7 @@ webcamrequestreceive Lähetetty pyyntö ottaa vastaan webcamia
 webcamrequestsend Lähetetty pyyntö lähettää webcamia
 webcamsending Listä ihmisistä jotka ovat tällä hetkellä lähettämssä webcamia\nClick to cancel
 whatisamsn aMSN on käyttöympäristöriippumaton MSN Messenger klooni
-whatsize Kuvat jota pyysit ei ole normaali näyttökuva (96x96) MItä kokoa haluaisit kuvat näkyvän?
+whatsize Haluttu kuva ei ole oikeaa tyyppiä (96x96) Minkä kokoisena haluaisit sen näkyvän?
 willjoin Odottaa $1 liittymistä keskusteluun
 winkreceived Olet vastaanottanut Wink:n käyttjältä $1. Tämä ominaisuus ei ole tällä hetkellä tuettuna aMSN:ssa.
 wintitlenick Näytä lempinimet välilehdillä sähköpostin sijaan
