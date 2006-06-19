@@ -63,7 +63,7 @@ function user_new($user, $mail, $level)
     $pass = RandomString();
     if (!@mysql_num_rows(mysql_query("SELECT `id` FROM `amsn_users` WHERE `user` = '" . mysql_real_escape_string($user) . "' LIMIT 1"))) {
         if (@mysql_query("INSERT INTO `amsn_users` (user, pass, email, level) VALUES ('" . mysql_real_escape_string($user) . "', '" . sha1($pass) . "', '" . mysql_real_escape_string($mail) . "', '" . (int)$level . "')")) {
-            if (!mail($mail, "aMSN Web administration", "You are now a part of the aMSN webpage administration, welcome!\nYour username and password are the following:\n\n - User: $user\n - Password: $pass\n\nYou can change the password anytime you want in your control panel", "From: aMSN Admin <admin@amsn.sf.net>")) {
+            if (email($mail, "aMSN Web administration", "You are now a part of the aMSN webpage administration, welcome!\nYour username and password are the following:\n\n - User: $user\n - Password: $pass\n\nYou can change the password anytime you want in your control panel", "From: aMSN Admin <admin@amsn.sf.net>")) {
                 mysql_query("DELETE FROM `amsn_users` WHERE id = '" . mysql_insert_id() . "' LIMIT 1");
 	echo "dude";
                 return false;

@@ -2,6 +2,7 @@
 require_once 'config.inc.php';
 require_once 'mysql_sessions.inc.php';
 require_once 'libs/lang.lib.php';
+require_once 'libs/sf.lib.php';
 
 define('inc', 'includes' . DIRECTORY_SEPARATOR);
 $_GET['section'] = (isset($_GET['section']) && !empty($_GET['section'])) ? $_GET['section'] : 'home';
