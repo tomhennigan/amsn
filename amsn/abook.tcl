@@ -1155,7 +1155,7 @@ namespace eval ::abookGui {
 		grid columnconfigure $nbIdent.fStats 1 -weight 1
 		
 		grid $nbIdent.fBasicInfo -row 0 -column 0 -sticky nwse -columnspan 2 -ipadx 4 -ipady 4
-		grid $nbIdent.fPhone -row 1 -column 0 -sticky nwse -padx [lit 0 4] -pady [list 8 0]
+		grid $nbIdent.fPhone -row 1 -column 0 -sticky nwse -padx [list 0 4] -pady [list 8 0]
 		grid $nbIdent.fStats -row 1 -column 1 -sticky nwse -padx [list 4 0] -pady [list 8 0]
 		grid columnconfigure $nbIdent { 0 1 } -weight 1
 		
