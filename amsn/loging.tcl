@@ -1458,7 +1458,7 @@ namespace eval ::log {
 		if {[::config::getKey display_event_$event]} {
 			set eventmenu "[clock format [clock seconds] -format "%H:%M:%S"] : $eventlog"
 			.main.eventmenu.list list insert 0 $eventmenu
-			if { [.main.eventmenu.list list index end] > 100 } {
+			if { [.main.eventmenu.list list size] > 100 } {
 				.main.eventmenu.list list delete 100 end
 			}
 			.main.eventmenu.list select 0
