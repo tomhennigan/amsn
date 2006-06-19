@@ -3517,7 +3517,7 @@ proc cmsn_draw_main {} {
 		$help add command -label "[trans helpcontents]" \
 		  -command "::amsn::showHelpFileWindow HELP [list [trans helpcontents]]"\
 		  -accelerator "Command-?"
-		bind all <Command-?> ::amsn::showHelpFileWindow\ HELP\ [list [trans helpcontents]]
+		bind all <Command-?> "::amsn::showHelpFileWindow HELP [list [trans helpcontents]]"
 	} else {
 		$help add command -label "[trans helpcontents]" \
 		-command "::amsn::showHelpFileWindow HELP [list [trans helpcontents]]"
