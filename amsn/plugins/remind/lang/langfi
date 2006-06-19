@@ -1,0 +1,11 @@
+amsn_lang_version 2
+always Aina
+beginendconversation Näytä keskustelun alku ja loppu
+checknote Näytä viestit
+daysnumber Päivien määrä
+filetransfert Näytä tiedostonsiirrot
+lastsentence Viimeinen lause viime keskustelussa
+nbdisplay Näytettyjen rivien määrä
+noteswritten Olet kirjoittanut viestin tästä henkilöstä
+talklast Jos olemme keskustelleet viimeisten x päivien aikana
+talkwithin Jos emme ole keskustelleet viimeisten x päivien aikana

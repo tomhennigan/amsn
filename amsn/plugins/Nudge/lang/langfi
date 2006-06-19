@@ -1,0 +1,16 @@
+amsn_lang_version 2
+add_button Lisää 'Lähetä heräte'-nappi keskusteluikkunaan
+block_nudge Estä/Salli herätteet
+delay Vähimmäis aika 2 herätteen välillä samalta henkilöltä (sekunneissa)
+limit Kytke päälle Heräteen vastaanotto rajoitus
+no_nudge_support Et voi lähettää herätettä henkilölle koska hänen yhteysohjelmansa ei tue herätteitä
+notify_receive Ilmoita saapuvista herätteistä keskusteluikkunassa
+notify_send Ilmoita lähetetyistä herätteistä keskusteluikkunassa
+nudge_sent Olet juuri lähettänyt herätteen
+popup_nudge Ilmoita herätteistä popup-ikkunalla
+send_nudge Lähetä heräte
+shake_nudge Täristyksiä per heräte
+shake_receive Täristä ikkunaa herätteen saapuessa
+shake_send Täristä ikkunaa lähetettäessä herätettä
+sound_receive Soita ääni herätteen saapuessa
+sound_send Soita ääni lähetetäessä herätettä
