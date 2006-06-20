@@ -960,7 +960,7 @@ namespace eval ::music {
 	# Find where's the plugin directory(by getKey) #
 	################################################
 	proc exec_applescript {} {
-		after 0 {::music::exec_async_mac [file join $::music::musicpluginpath display_and_send.scpt]}
+		after 0 {::music::exec_async_mac [file join $::music::musicpluginpath display_and_send.applescript]}
 		return 0
 	}
 
