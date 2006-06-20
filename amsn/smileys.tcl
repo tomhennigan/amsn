@@ -1174,6 +1174,11 @@ proc custom_smile_subst { chatid tw {textbegin "0.0"} {end "end"} } {
 				continue
 			}
 
+			# Also skip if we are part of a url
+			if { [lsearch -exact [$tw tag names $pos] "dont_replace_smileys"] != -1 } {
+				continue
+			}
+
 			$tw tag configure smiley -elide true
 			$tw tag add smiley $pos $endpos
 			
