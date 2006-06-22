@@ -3807,8 +3807,11 @@ proc cmsn_draw_main {} {
 		bind . <Control-q> exit
 		#Boss mode
 		bind . <Control-Alt-space> BossMode
-		#Show/hide menu
-		bind . <Control-m> Showhidemenu
+
+		# Show/hide menu binding with toggle == 1
+		bind . <Control-m> "Showhidemenu 1"
+		# Make sure we restore the previous setting
+		Showhidemenu 0
 	}
 
 	if { [OnMac] } {
@@ -3957,15 +3960,28 @@ proc loggedOutGuiConf { event } {
 
 }
 
+proc ShowFirstTimeMenuHidingFeature { parent } {
+    return [expr [tk_messageBox -default no -icon warning -title [trans hidemenu] -message [trans hidemenumessage] -parent $parent -type yesno] == yes]
+}
 
 
-proc Showhidemenu { } {
+proc Showhidemenu { {toggle 0} } {
 
-	if { [string length [. cget -menu] ] == 0 } {
-		. configure -menu .main_menu
-	} else {
-		. configure -menu ""
+    if {$toggle} { 
+	if { [::config::getKey showmainmenu -1] == -1 } {
+	    if { [ShowFirstTimeMenuHidingFeature .] == 0 } {
+		return
+	    }
 	}
+	::config::setKey showmainmenu [expr ![::config::getKey showmainmenu -1]] 
+	
+    } 
+
+    if { [::config::getKey showmainmenu -1]} {
+	. configure -menu .main_menu
+    } else {
+	. configure -menu ""
+    }
 
 }
 

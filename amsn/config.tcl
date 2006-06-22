@@ -198,6 +198,11 @@ namespace eval ::config {
 
 
 	        ::config::setKey noftpreview 0
+
+	        # Show/hide menu feature
+	        ::config::setKey showmainmenu -1
+	        ::config::setKey showcwmenus -1
+
 		#Advanced options, not in preferences window
 		# Create the entry in the list and then, set
 		# the variable at bottom
@@ -671,6 +676,12 @@ proc load_config {} {
 	global initialize_amsn
 	if { $initialize_amsn != 1 } {
 		resetBanner
+	}
+
+        # Show/hide menus when switching profiles 
+    	if {[catch {tk windowingsystem} wsystem] || $wsystem != "aqua"} {
+	    Showhidemenu 0
+	    ::ChatWindow::ShowHideChatWindowMenus . 0
 	}
 
 	#load Snack when being used

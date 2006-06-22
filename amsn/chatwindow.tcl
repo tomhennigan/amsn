@@ -163,6 +163,8 @@ namespace eval ::ChatWindow {
 				set ::ChatWindow::windows [lreplace $::ChatWindow::windows $idx $idx]
 			}
 			destroy $window
+		        ChatWindowDestroyed $window
+
 		}
 		
 	}
@@ -180,6 +182,7 @@ namespace eval ::ChatWindow {
 		#If user choosed to always close all tabs when clicking the close button
 		if {[::config::getKey ContainerCloseAction] == 1} {
 			::ChatWindow::CloseAll $window; destroy $window
+		        ChatWindowDestroyed $window
 			return
 		}
 		
@@ -233,6 +236,7 @@ namespace eval ::ChatWindow {
 		
 		if {$action == "yes"} {
 			::ChatWindow::CloseAll $window; destroy $window; destroy $w
+		        ChatWindowDestroyed $window
 			if {[::config::getKey remember]} {
 				::config::setKey ContainerCloseAction 1
 			}
@@ -273,6 +277,7 @@ namespace eval ::ChatWindow {
 		}
 
 		destroy $w
+	        ChatWindowDestroyed $w
 		
 	}
 
@@ -795,7 +800,13 @@ namespace eval ::ChatWindow {
 	
 			set mainmenu [CreateMainMenu $w]
 			$w conf -menu $mainmenu
-			bind $w <Control-m> "::ChatWindow::ShowHideChatWindowMenu $w $mainmenu"
+
+		     	if {[catch {tk windowingsystem} wsystem] || $wsystem != "aqua"} {
+			    # Bind, add new container to list of CWs and restore old setting for the show/hide CW menus
+			    bind $w <Control-m> "::ChatWindow::ShowHideChatWindowMenus $w 1"
+			    NewChatWindowCreated $w $mainmenu
+			    ShowHideChatWindowMenus $w 0
+			}
 
 			#Send a postevent for the creation of menu
 			set evPar(window_name) "$w"
@@ -879,8 +890,14 @@ namespace eval ::ChatWindow {
 		set container [CreateContainerWindow]
 		set mainmenu [CreateMainMenu $container]
 		$container configure -menu $mainmenu
-		bind $container <Control-m> "::ChatWindow::ShowHideChatWindowMenu $container $mainmenu"
-		
+
+		if {[catch {tk windowingsystem} wsystem] || $wsystem != "aqua"} {
+		    # Bind, add new container to list of CWs and restore old setting for the show/hide CW menus
+		    bind $container <Control-m> "::ChatWindow::ShowHideChatWindowMenus $container 1"
+		    NewChatWindowCreated $container $mainmenu
+		    ShowHideChatWindowMenus $container 0
+		}
+
 		#Change Close item menu because the behavior is not the same with tabs
 		$container.menu.msn delete "[trans close]"
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
@@ -1144,12 +1161,44 @@ namespace eval ::ChatWindow {
 
 	}
 
-	proc ShowHideChatWindowMenu { window menu } {
-		if { [string length [$window cget -menu]] > 0 } {
-			$window configure -menu {}
-		} else {
-			$window configure -menu $menu
+	proc NewChatWindowCreated { window menu }  {
+	    variable chatWindowMenus
+	    set chatWindowMenus($window) $menu
+	}
+	proc ChatWindowDestroyed { window }  {
+	    variable chatWindowMenus
+	    array unset chatWindowMenus $window
+	}
+
+	proc ShowHideChatWindowMenus { {window .} {toggle 0} } {
+	    variable chatWindowMenus
+
+	    puts "showhide"
+
+	    if {$toggle} { 
+		if { [::config::getKey showcwmenus -1] == -1 } {
+		    if { [ShowFirstTimeMenuHidingFeature $window] == 0 } {
+			return
+		    }
 		}
+		::config::setKey showcwmenus [expr ![::config::getKey showcwmenus -1]] 
+		
+	    } 
+	    
+	    if { [::config::getKey showcwmenus -1]} {
+		foreach win [array names chatWindowMenus] {
+		    if { [winfo exists $win] } {
+			$win configure -menu [set chatWindowMenus($win)]
+		    }
+		}
+	    } else {
+		foreach win [array names chatWindowMenus] {
+		    if { [winfo exists $win] } {
+			$win configure -menu {}
+		    }
+		}
+	    }
+
 	}
 
 	#############################################
@@ -2876,6 +2925,7 @@ namespace eval ::ChatWindow {
 		if { $newwin == "" } { 
 			set containercurrent($container) ""
 			destroy $container
+		        ChatWindowDestroyed $container
 		} else {
 			SwitchToTab $container $newwin
 		}

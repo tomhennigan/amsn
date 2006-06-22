@@ -353,6 +353,8 @@ handle Handle
 helpcontents Help Contents
 help Help
 hidedisplaypic Hide Display Picture
+hidemenu Show/Hide menus
+hidemenumessage Are you sure you want to hide the menus ?\nYou can restore them any time by using the show/hide menus hotkey 'Ctrl-M'.
 hiden Hide the emoticon from the smileys menu
 hidewindow Hide Window
 history View History
