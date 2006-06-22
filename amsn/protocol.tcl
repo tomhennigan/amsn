@@ -6005,6 +6005,12 @@ namespace eval ::MSN6FT {
 		} else {
 			set nopreview 1
 		}
+
+		# If the advanced option to not send the preview is enabled, we force it not to send any preview
+		if {[::config::getKey noftpreview]} {
+		    set nopreview 1
+		}
+ 
 		set context "[binary format i 574][binary format i 2][binary format i $filesize][binary format i 0][binary format i $nopreview]"
 
 

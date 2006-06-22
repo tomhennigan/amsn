@@ -196,6 +196,8 @@ namespace eval ::config {
 		::config::setKey ContainerCloseAction 0
 		::config::setKey showMobileGroup 1
 
+
+	        ::config::setKey noftpreview 0
 		#Advanced options, not in preferences window
 		# Create the entry in the list and then, set
 		# the variable at bottom
@@ -250,6 +252,7 @@ namespace eval ::config {
 			[list local keepalive bool keepalive natkeepalive]\
 			[list local default_ns_server str notificationserver]\
 			[list local lazypicretrieval bool lazypicretrieval]\
+			[list local noftpreview bool noftpreview]\
 			[list title MSN] \
 			[list local displayp4context bool displayp4context] \
 			[list local p4contextprefix str p4contextprefix] \

@@ -492,17 +492,18 @@ newtabbedfeature aMSN has a new feature for managing conversation, you can now h
 newveravailable Newer version $1 available for download
 next Next
 nick Nick
+no No
 noactivity No activity
 nocacheddps No Display Pictures in cache for this user
 nodataavailable No data available for $1
 nodevices Currently, no devices are installed
+noftpreview Disable sending a preview of images in file transfers
 nogap No space between groups
 nogroup No group
 nologfile No Log file for $1
 noneavailable None Available
 nonewmail No new messages in Inbox
 nonewver There are no new versions available to download
-no No
 nopic No picture
 noprofileexists There are currently no profiles, \n you must create one if you wish to use profiled logins. \nUse the Add New Profile button in this window to add a new profile.
 normal Normal
