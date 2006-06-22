@@ -1,0 +1,19 @@
+#!/bin/bash
+lastuser=""
+filelist=""
+
+for i in `find . -not -group amsn -or  -group amsn -not -perm -g=w -printf "%u|%p\n" | sort`
+do
+	user=`echo $i | awk -F\| '{ print $1 }'`
+	file=`echo $i | awk -F\| '{ print $2 }'`
+	if [ "$lastuser" != "$user" ]
+	then
+		echo -e "It seems like you are the only with write permission to the following files. Please give write permissions to the amsn group or remove them.\n$filelist"|mail -s "aMSN Permission Problems" "$lastuser\@users.sf.net"
+		echo -e "$lastuser\n$filelist"
+		lastuser=$user
+		filelist="\t$file\n"
+	else
+		filelist="$filelist\t$file\n"
+	fi
+#	echo "$i"
+done
