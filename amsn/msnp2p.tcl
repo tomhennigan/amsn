@@ -741,7 +741,6 @@ namespace eval ::MSNP2P {
 							::MSNP2P::SessionList set $sid [list -1 -1 -1 -1 "INVITE2" -1 -1 -1 -1 -1]
 							::MSN6FT::ConnectSockets $sid $nonce $addr $port 1
 						} elseif { $type == "webcam" } {
-							setObjOption $sid accepted 1
 							::MSNCAM::SendSyn $sid $chatid
 						}
 					} elseif { $listening == "false" } {
@@ -749,7 +748,6 @@ namespace eval ::MSNP2P {
 						if { $type == "filetransfer" } {
 							::MSN6FT::SendFTInvite2 $sid $chatid
 						} elseif { $type == "webcam" } {
-							setObjOption $sid accepted 1
 							::MSNCAM::SendSyn $sid $chatid
 							#::MSNCAM::SendAcceptInvite $sid $chatid
 						}
@@ -816,11 +814,14 @@ namespace eval ::MSNP2P {
 
 				# If it's a file transfer, advise the user it has been canceled
 				if { [lindex [SessionList get $sid] 7] == "webcam" } {
-					if { [getObjOption $sid accepted] != 1 } {
-						::CAMGUI::InvitationDeclined $chatid
-					} else {
-						::MSNCAM::SendSyn $sid $chatid	
-					}
+				    set idx [expr {[string first "Content-Type: " $data] + 14}]
+				    set idx2 [expr {[string first "\r\n" $data $idx] - 1}]
+				    set content_type [string range $data $idx $idx2]
+				    if { $content_type != "null" } {
+					::CAMGUI::InvitationDeclined $chatid
+				    } else {
+					::MSNCAM::SendSyn $sid $chatid	
+				    }
 				}
 
 
