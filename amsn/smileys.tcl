@@ -1245,7 +1245,7 @@ proc process_custom_smileys_SB { txt {animated 0} } {
 		}
 		
 		array set emotion $custom_emotions($name)
-		foreach symbol $emotion(text) {
+		foreach symbol [encoding convertto identity $emotion(text)] {
 			set symbol2 [string toupper $symbol]
 		
 			set file $emotion(file)
