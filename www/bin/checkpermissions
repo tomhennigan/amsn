@@ -6,9 +6,9 @@ for i in `find . -not -group amsn -or  -group amsn -not -perm -g=w -printf "%u|%
 do
 	user=`echo $i | awk -F\| '{ print $1 }'`
 	file=`echo $i | awk -F\| '{ print $2 }'`
-	if [ "$lastuser" != "$user" ]
+	if [ "x$lastuser" != "x$user" AND "x$lastuser" != "" ]
 	then
-		echo -e "It seems like you are the only with write permission to the following files. Please give write permissions to the amsn group or remove them.\n$filelist"|mail -s "aMSN Permission Problems" "$lastuser\@users.sf.net"
+		echo -e "It seems like you are the only with write permission to the following files in the $dir directory on the sourceforce servers.. Please give write permissions to the amsn group or remove them.\n$filelist"|mail -s "aMSN Permission Problems" "${lastuser}@users.sf.net"
 		echo -e "$lastuser\n$filelist"
 		lastuser=$user
 		filelist="\t$file\n"
