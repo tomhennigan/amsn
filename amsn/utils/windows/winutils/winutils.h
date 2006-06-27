@@ -10,9 +10,6 @@
 #ifndef _WINUTILS
 #define _WINUTILS
 
-#define USE_TCL_STUBS
-#define USE_TK_STUBS
-
 // Include files, must include windows.h before tk.h and tcl.h before tk.h
 #include <windows.h>
 

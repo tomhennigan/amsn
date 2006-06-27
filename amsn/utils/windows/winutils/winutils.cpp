@@ -58,9 +58,9 @@ static int Tk_WinLoadFile (ClientData clientData,
 								 int objc,
 								 Tcl_Obj *CONST objv[]) {
 
-	char * file = NULL;
-	char * arguments = NULL;
-
+	WCHAR *file = NULL;
+	Tcl_Obj *argsObj = NULL;
+	WCHAR* argsStr = NULL;
 
 	// We verify the arguments, we must have one arg, not more
 	if( objc < 2) {
@@ -69,20 +69,22 @@ static int Tk_WinLoadFile (ClientData clientData,
 	}
 
 	// Get the first argument string (file)
-	file=Tcl_GetStringFromObj(objv[1], NULL);
+	file = Tcl_GetUnicode(objv[1]);
 
-	//Get the arguments
-	if (objc > 2)
-	{
-		arguments = Tcl_GetStringFromObj(objv[2], NULL);
-	}
-	for (int i=3; i<objc; i++)
-	{
-		strcat(arguments, " ");
-		strcat(arguments, Tcl_GetStringFromObj(objv[i], NULL) );
+	if (objc >= 3) {
+		argsObj = Tcl_NewStringObj("", 0);
+		//Get the arguments
+		for (int i=2; i<objc; i++)
+		{
+			Tcl_AppendObjToObj(argsObj, objv[i]);
+			if (i == objc-1) Tcl_AppendToObj(argsObj," ",-1);
+		}
+		argsStr = Tcl_GetUnicode(argsObj);
 	}
 
-	ShellExecute(NULL,"open", file, arguments, NULL, SW_SHOWNORMAL);
+	if ((int) ShellExecute(NULL,L"open", file, argsStr, NULL, SW_SHOWNORMAL) <= 32) {
+		return TCL_ERROR;
+	}
 
 
 	return TCL_OK;
@@ -93,7 +95,7 @@ static int Tk_WinPlaySound (ClientData clientData,
 								 int objc,
 								 Tcl_Obj *CONST objv[]) {
 
-	char * file = NULL;
+	WCHAR *file = NULL;
 
 
 	// We verify the arguments, we must have one arg, not more
@@ -103,7 +105,7 @@ static int Tk_WinPlaySound (ClientData clientData,
 	}
 
 	// Get the first argument string (file)
-	file=Tcl_GetStringFromObj(objv[1], NULL);
+	file = Tcl_GetUnicode(objv[1]);
 
 	PlaySound(file, NULL, SND_ASYNC | SND_NODEFAULT);
 
@@ -116,24 +118,16 @@ static int Tk_WinSayit (ClientData clientData,
 								 int objc,
 								 Tcl_Obj *CONST objv[]) {
 
-	char * text = NULL;
-	WCHAR text2[2000];
-
+	WCHAR * text = NULL;
 
 	// We verify the arguments, we must have one arg, not more
 	if( objc < 2) {
-		Tcl_AppendResult (interp, "Wrong number of args.\nShould be \"WinLoadFile file\"" , (char *) NULL);
+		Tcl_AppendResult (interp, "Wrong number of args.\nShould be \"WinSayit text\"" , (char *) NULL);
 		return TCL_ERROR;
 	}
 
 	// Get the first argument string (file)
-	text=Tcl_GetStringFromObj(objv[1], NULL);
-	for(int i=0;;i++)
-	{
-		mbtowc(&text2[i],&text[i],MB_CUR_MAX);
-		if(text[i]=='\0') break;
-	}
-
+	text=Tcl_GetUnicode(objv[1]);
 
     ISpVoice * pVoice = NULL;
 
@@ -145,7 +139,7 @@ static int Tk_WinSayit (ClientData clientData,
     HRESULT hr = CoCreateInstance(CLSID_SpVoice, NULL, CLSCTX_ALL, IID_ISpVoice, (void **)&pVoice);
     if( SUCCEEDED( hr ) )
     {
-        hr = pVoice->Speak(text2, SPF_DEFAULT | SPF_IS_NOT_XML, NULL); //| SPF_ASYNC 
+        hr = pVoice->Speak(text, SPF_DEFAULT | SPF_IS_NOT_XML, NULL); //| SPF_ASYNC 
         pVoice->Release();
         pVoice = NULL;
     }
@@ -365,12 +359,13 @@ static int Tk_WinReplaceTitle (ClientData clientData,
 */
 int Winutils_Init (Tcl_Interp *interp ) {
 	
-	if (Tcl_InitStubs(interp, "8.3", 0) == NULL) {
+	//Check TCl version
+	if (Tcl_InitStubs(interp, TCL_VERSION, 0) == NULL) {
 		return TCL_ERROR;
 	}
 
-	//Check TK version is 8.0 or higher
-	if (Tk_InitStubs(interp, "8.3", 0) == NULL) {
+	//Check TK version
+	if (Tk_InitStubs(interp, TK_VERSION, 0) == NULL) {
 		return TCL_ERROR;
 	}
 	
