@@ -1206,27 +1206,21 @@ proc custom_smile_subst { chatid tw {textbegin "0.0"} {end "end"} } {
 
 #Called from the protocol layer to parse a x-mms-emoticon message
 proc parse_x_mms_emoticon { data chatid } {
-    upvar #0 [string map {: _} ${chatid} ]_smileys smile
+	upvar #0 [string map {: _} ${chatid} ]_smileys smile
 
 
-    #Line below changed from != -1 to == 0 because -1 means
-    #"enabled but imagemagick unavailable"
-    if { [::config::getKey getdisppic] == 0 } { return }
+	#Line below changed from != -1 to == 0 because -1 means
+	#"enabled but imagemagick unavailable"
+	if { [::config::getKey getdisppic] == 0 } { return }
 
-    set start 0
-    while { $start < [string length $data]} {
-	set end [string first "	" $data $start]
-	set symbol [encoding convertfrom identity [string range $data $start [expr {$end - 1}]]]
-	set start [expr {$end + 1}]
-	set end [string first "	" $data $start]
-	set msnobj [string range $data $start [expr {$end - 1}]]
-	set start [expr {$end + 1}]
+	#data is in format: symbol<TAB>msnobj<TAB> (repeated for every custom emoticon)
+	set emoticonlist [split [string trimright $data] "\t"]
+	foreach {symbol msnobj} $emoticonlist {
+		set symbol [encoding convertfrom identity $symbol]
+		set smile($symbol) "$msnobj"
+	}
 
-	set smile($symbol) "$msnobj"
-    }
-	
-    status_log "Got smileys : [array names smile]\n" 
-
+	status_log "Got smileys : [array names smile]\n" 
 }
 
 proc process_custom_smileys_SB { txt {animated 0} } {
@@ -1253,7 +1247,7 @@ proc process_custom_smileys_SB { txt {animated 0} } {
 			     (!$animated && (! [ info exists emotion(animated) ] || ! [ is_true $emotion(animated) ]))} {
 				if { [info exists emotion(casesensitive)] && [is_true $emotion(casesensitive)] } {
 					if {  [string first $symbol $txt] != -1 } {
-						append msg "$symbol	[create_msnobj [::config::getKey login] 2 [::skin::GetSkinFile smileys [filenoext $file].png]]	"
+						append msg "$symbol\t[create_msnobj [::config::getKey login] 2 [::skin::GetSkinFile smileys [filenoext $file].png]]\t"
 					}
 				} else {
 					set msnobj ""
@@ -1266,7 +1260,7 @@ proc process_custom_smileys_SB { txt {animated 0} } {
 						set idx [string first $symbol2 $txt2 $startidx]
 						set startidx [expr {$idx + [string length $symbol2]}]
 						set symbol [string range $txt $idx [expr {$startidx - 1}]]
-						append msg "$symbol	$msnobj	"
+						append msg "$symbol\t$msnobj\t"
 					}
 				}
 			}
