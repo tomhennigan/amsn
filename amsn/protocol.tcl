@@ -1948,11 +1948,11 @@ namespace eval ::MSN {
       #Jerome: I disable that feature because I'm not sure users will like to provide theses kinds of
       #informations to everybody, but it can be useful later..
       #Verify the platform (feel free to improve it if you want better details, like bsd, etc)
-      #if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+      #if { [OnDarwin] } {
       #	set operatingsystem "Mac OS X"
-      #} elseif {$tcl_platform(platform) == "windows"} {
+      #} elseif { [OnWin] } {
       #	set operatingsystem "Windows"
-      #} elseif {$tcl_platform(platform) == "unix"} {
+      #} elseif { [OnLinux] } {
       #	set operatingsystem "Linux"
       #}
       #Add the operating system to the msg
@@ -3736,13 +3736,12 @@ namespace eval ::Event {
 # of line is passed to the shell to be executed and its output inserted
 # in place.
 proc parse_exec {text} {
-	global tcl_platform
 	foreach line [split $text "\n"] {
 		if {[string index $line 0] == "|"} {
 			set cmd [string range $line 1 [string length $line]]
-			if {$tcl_platform(platform) == "unix"} {
+			if { [OnLinux] } {
 				catch {exec /bin/sh -c $cmd} output
-			} elseif {$tcl_platform(platform) == "windows"} {
+			} elseif { [OnWin] } {
 				catch {exec "c:\\windows\\system32\\cmd.exe" /c $cmd} output
 			}
 			append outtext "$output\n"
@@ -6870,7 +6869,7 @@ namespace eval ::MSNAV {
 		}
 
 		set win_name [::ChatWindow::MakeFor $chatid $txt $fromlogin]
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		if { [OnDarwin] } {
 			::amsn::WinWrite $chatid "\nAudio/Video requests are not supported on Mac OS X, only Webcam" green
 			return
 		}

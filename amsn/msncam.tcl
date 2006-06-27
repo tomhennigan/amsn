@@ -93,7 +93,7 @@ namespace eval ::MSNCAM {
 		#draw a notification in the window (gui)
 		::CAMGUI::CamCanceled $chatid
 
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		if { [OnDarwin] } {
 			set grabber .grabber.seq
 			#Delete the button of current cams sending, on Mac OS X, if it exists
 			if { [winfo exists .grabber.delete_$sid] } {
@@ -1484,7 +1484,7 @@ namespace eval ::MSNCAM {
 	proc SendFrame { sock encoder img } {
 		#If the img is not at the right size, don't encode (crash issue..)
 
-		if { [::config::getKey lowrescam] == 1 && [set ::tcl_platform(os)] == "Linux" } {
+		if { [::config::getKey lowrescam] == 1 && [OnLinux] } {
 			set camwidth 160
 			set camheight 120
                 } else {
@@ -1597,18 +1597,18 @@ namespace eval ::CAMGUI {
 		if { ! $::capture_loaded } { return }
 		#Now we are sure that both webcamsn and capture are loaded
 		set campresent 0
-		if { [set ::tcl_platform(os)] == "Linux" } {
+		if { [OnLinux] } {
                         if { [llength [::Capture::ListDevices]] > 0 } {
                                 set campresent 1
                         }
-		} elseif { [set ::tcl_platform(platform)] == "windows" } {
+		} elseif { [OnWin] } {
 			tkvideo .webcam_preview
 			set devices [.webcam_preview devices]
 			if { [llength $devices] > 0 } {
 				set campresent 1
 			}
 			destroy .webcam_preview
-		} elseif { [set ::tcl_platform(os)] == "Darwin" } {
+		} elseif { [OnDarwin] } {
 			#Jerome said there's no easy Mac way to check...
 			set campresent 1
 		}
@@ -1687,7 +1687,7 @@ namespace eval ::CAMGUI {
 		set encoder [getObjOption $socket codec]
 		set source [getObjOption $sid source]
 
-		if { [set ::tcl_platform(os)] == "Linux" } {
+		if { [OnLinux] } {
 			if {$source == "0" } { set source "/dev/video0:0" }
 			set pos [string last ":" $source]
 			set dev [string range $source 0 [expr {$pos-1}]]
@@ -1696,7 +1696,7 @@ namespace eval ::CAMGUI {
 
 		set grabber [getObjOption $sid grabber]
 		if { $grabber == "" } {
-			if { [set ::tcl_platform(platform)] == "windows" } {
+			if { [OnWin] } {
 				foreach grabberItm [array names ::grabbers] {
 					if {[$grabberItm cget -source] == $source} {
 						set grabber $grabberItm
@@ -1706,9 +1706,9 @@ namespace eval ::CAMGUI {
 				if { $grabber == "" } {
 					set grabber .grabber_$sid
 				}
-			} elseif { [set ::tcl_platform(os)] == "Darwin" } {
+			} elseif { [OnDarwin] } {
 				set grabber .grabber.seq
-			} elseif { [set ::tcl_platform(os)] == "Linux" } {
+			} elseif { [OnLinux] } {
 				set grabber [::Capture::GetGrabber $dev $channel]
 			}
 		}
@@ -1719,7 +1719,7 @@ namespace eval ::CAMGUI {
 		if { !([info exists ::test_webcam_send_log] && $::test_webcam_send_log != "") && ![::CAMGUI::IsGrabberValid $grabber] } {
 			status_log "Invalid grabber : $grabber"
 
-			if { [set ::tcl_platform(platform)] == "windows" } {
+			if { [OnWin] } {
 
 				set grabber .grabber_$sid
 				set grabber [tkvideo $grabber]
@@ -1729,7 +1729,7 @@ namespace eval ::CAMGUI {
 
 				setObjOption $sid grab_proc "Grab_Windows"
 
-			} elseif { [set ::tcl_platform(os)] == "Darwin" } {
+			} elseif { [OnDarwin] } {
 				#Add grabber to the window
 				if {![::CAMGUI::CreateGrabberWindowMac]} {
 					::MSNCAM::CancelCam $chatid $sid
@@ -1737,7 +1737,7 @@ namespace eval ::CAMGUI {
 				}
 				setObjOption $sid grab_proc "Grab_Mac"
 
-			} elseif { [set ::tcl_platform(os)] == "Linux" } {
+			} elseif { [OnLinux] } {
 				set pos [string last ":" $source]
 				set dev [string range $source 0 [expr {$pos-1}]]
 				set channel [string range $source [expr {$pos+1}] end]
@@ -1794,7 +1794,7 @@ namespace eval ::CAMGUI {
 			set window .webcam_$sid
 
 			#Don't show the sending frame on Mac OS X (we already have the grabber)
-			if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+			if { [OnDarwin] } {
 				set img [image create photo [TmpImgName]]
 				set w .grabber
 
@@ -1829,7 +1829,7 @@ namespace eval ::CAMGUI {
 				wm protocol $window WM_DELETE_WINDOW "::MSNCAM::CancelCam $chatid $sid"
 			}
 
-			if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+			if { [OnDarwin] } {
 				if {![winfo exists ::grabbers($grabber)]} {
 					setObjOption $sid grab_proc "Grab_Mac"
 					set ::grabbers($grabber) [list]
@@ -1854,13 +1854,13 @@ namespace eval ::CAMGUI {
 		}
 
 		if { $grab_proc == "" } {
-			if { [set ::tcl_platform(platform)] == "windows" } {
+			if { [OnWin] } {
 				setObjOption $sid grab_proc "Grab_Windows"
 
-			} elseif { [set ::tcl_platform(os)] == "Darwin" } {
+			} elseif { [OnDarwin] } {
 				setObjOption $sid grab_proc "Grab_Mac"
 
-			} elseif { [set ::tcl_platform(os)] == "Linux" } {
+			} elseif { [OnLinux] } {
 				setObjOption $sid grab_proc "Grab_Linux"
 
 			} else {
@@ -2006,11 +2006,9 @@ namespace eval ::CAMGUI {
 #		status_log "Testing grabber : $grabber"
 		if { !([info exists ::capture_loaded] && $::capture_loaded) } { return 0 }
 
-		if { [set ::tcl_platform(platform)] == "windows" } {
+		if { [OnWin] || [OnDarwin] } {
 			return [winfo exists $grabber]
-		} elseif { [set ::tcl_platform(os)] == "Darwin" } {
-			return [winfo exists $grabber]
-		} elseif { [set ::tcl_platform(os)] == "Linux" } {
+		} elseif { [OnLinux] } {
 			return [::Capture::IsValid $grabber]
 		} else {
 			return 0
@@ -2037,12 +2035,12 @@ namespace eval ::CAMGUI {
 
 		if { [llength $windows] > 0 } { return }
 
-		if { [set ::tcl_platform(os)] == "Linux" } {
+		if { [OnLinux] } {
 			::Capture::Close $grabber
-		} elseif { [set ::tcl_platform(os)] == "Darwin" } {
+		} elseif { [OnDarwin] } {
 			destroy $grabber
 			destroy .grabber
-		} elseif { [set ::tcl_platform(platform)] == "windows" } {
+		} elseif { [OnWin] } {
 			destroy $grabber
 		}
 		unset ::grabbers($grabber)
@@ -2052,11 +2050,11 @@ namespace eval ::CAMGUI {
 	proc CaptureLoaded { } {
 		if { [info exists ::capture_loaded] && $::capture_loaded } { return 1 }
 
-		if { [set ::tcl_platform(platform)] == "windows" } {
+		if { [OnWin] } {
 			set extension "tkvideo"
-		} elseif { [set ::tcl_platform(os)] == "Darwin" } {
+		} elseif { [OnDarwin] } {
 			set extension "QuickTimeTcl"
-		} elseif { [set ::tcl_platform(os)] == "Linux" } {
+		} elseif { [OnLinux] } {
 			set extension "capture"
 		} else {
 			set ::capture_loaded 0
@@ -2069,7 +2067,7 @@ namespace eval ::CAMGUI {
 		} else {
 			
 			#Verify for that pwc_driver
-			if { [set ::tcl_platform(os)] == "Linux" }  {
+			if { [OnLinux] }  {
 				catch { exec /sbin/lsmod } pwc_driver
 				if {[string first $pwc_driver "pwc"] != -1 } {
 					set ::pwc_driver 1
@@ -2346,11 +2344,11 @@ namespace eval ::CAMGUI {
 		}
 		pack $w.webcamsn -expand true -padx 5
 		#Verify if the capture extension is loaded, change on each platform
-		if { [set ::tcl_platform(platform)] == "windows" } {
+		if { [OnWin] } {
 			set extension "tkvideo"
-		} elseif { [set ::tcl_platform(os)] == "Darwin" } {
+		} elseif { [OnDarwin] } {
 			set extension "QuickTimeTcl"
-		} elseif { [set ::tcl_platform(os)] == "Linux" } {
+		} elseif { [OnLinux] } {
 			set extension "capture"
 		} else {
 			set extension "[trans unknown]"
@@ -2368,7 +2366,7 @@ namespace eval ::CAMGUI {
 		pack $w.wanttosharecam
 
 		checkbutton $w.lowrescam -text "[trans lowrescam]" -font sboldf -variable [::config::getVar lowrescam] -onvalue 1 -offvalue 0 -state disabled
-		if { [set ::tcl_platform(os)] == "Linux" } {
+		if { [OnLinux] } {
 			pack $w.lowrescam
 		}
 
@@ -2416,11 +2414,11 @@ namespace eval ::CAMGUI {
 		if { ! [info exists ::capture_loaded] } { CaptureLoaded }
 		if { ! $::capture_loaded } { return }
 
-		if { [set ::tcl_platform(os)] == "Linux" } {
+		if { [OnLinux] } {
 			ChooseDeviceLinux
-		} elseif { [set ::tcl_platform(os)] == "Darwin" } {
+		} elseif { [OnDarwin] } {
 			ChooseDeviceMac
-		} elseif { [set ::tcl_platform(platform)] == "windows" } {
+		} elseif { [OnWin] } {
 			ChooseDeviceWindows
 		}
 	}
@@ -2430,11 +2428,11 @@ namespace eval ::CAMGUI {
 		if { ! $::capture_loaded } { return }
 		if { ![IsGrabberValid $grabber] } { return }
 		
-		if { [set ::tcl_platform(os)] == "Linux" } {
+		if { [OnLinux] } {
 			ShowPropertiesPageLinux $grabber $img
-		} elseif { [set ::tcl_platform(os)] == "Darwin" } {
+		} elseif { [OnDarwin] } {
 			return
-		} elseif { [set ::tcl_platform(platform)] == "windows" } {
+		} elseif { [OnWin] } {
 			$grabber propertypage filter
 		}
 	}
@@ -3392,9 +3390,9 @@ namespace eval ::CAMSETUP {
 		##Capture extension check
 		#set the name for the capture extension
 		set capextname "grab"
-		if { [set ::tcl_platform(platform)] == "windows" } { set capextname "tkvideo"}\
-		 elseif { [set ::tcl_platform(os)] == "Darwin" } { set capextname "QuickTimeTcl"}\
-		 elseif { [set ::tcl_platform(os)] == "Linux" } { set capextname "capture" }
+		if { [OnWin] } { set capextname "tkvideo"}\
+		 elseif { [OnDarwin] } { set capextname "QuickTimeTcl"}\
+		 elseif { [OnLinux] } { set capextname "capture" }
 		
 		#check if loaded
 		if {[::CAMGUI::CaptureLoaded]} { 
@@ -3440,10 +3438,6 @@ namespace eval ::CAMSETUP {
 		pack $wcextpicl -side right				
 		pack $capexttext -side left
 		pack $capextpicl -side right
-
-
-		
-		
 	}
 	
 
@@ -3462,7 +3456,7 @@ namespace eval ::CAMSETUP {
 		global previmg
 
 		#when running on mac, this will be step 2 and 3 with only 1 button to open the QT prefs
-		if { [OnMac] } {
+		if { [OnDarwin] } {
 			SetTitlecText "Set up webcamdevice and channel and finetune picture (Step 2 and 3 of 5)"
 
 			#clear the content and optionsframe
@@ -3483,8 +3477,6 @@ namespace eval ::CAMSETUP {
 
 			button $frame.button -text "Open camsettings window" -command "::CAMGUI::ChooseDeviceMac"
 			pack $frame.button
-			
-				
 		} else {
 			#Set the title-text
 			SetTitlecText "Set up webcamdevice and channel (Step 2 of 5)"
@@ -3556,7 +3548,7 @@ namespace eval ::CAMSETUP {
 				set previmc $rightframe
 
 				##First "if on unix" (linux -> v4l), then for windows##
-				if {[OnUnix]} {
+				if {[OnLinux]} {
 
 					#first clear the grabber var
 					set ::CAMGUI::webcam_preview ""
@@ -3854,7 +3846,7 @@ status_log "$device"
 
 	proc Step3 {} {
 	
-		if {[OnMac]} {
+		if {[OnDarwin]} {
 			::CAMSETUP::Step2
 			return
 		}

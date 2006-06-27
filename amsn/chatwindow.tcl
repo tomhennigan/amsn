@@ -1,4 +1,3 @@
-
 #########################################
 #    Chat Window code abstraction       #
 #           By Alberto D�z            #
@@ -476,7 +475,7 @@ namespace eval ::ChatWindow {
 			# so we do it in a catch statement, if it fails. Then load the extension before
 			# calling winflash. If this one or the first one were successful, we add a bind
 			# on FocusIn to call the winflash with the -state 0 option to disable it and we return.
-			if { [set ::tcl_platform(platform)] == "windows" } {
+			if { [OnWin] } {
 				if { [catch {linflash $window -count -1} ] } {
 					if { ![catch { 
 						package require winflash
@@ -490,7 +489,7 @@ namespace eval ::ChatWindow {
 					return
 				}
 			#if on the X window system
-			} elseif { [OnUnix] } {
+			} elseif { [OnLinux] } {
 				if { [catch {linflash $window}] } {
 					if { ![catch { 
 						package require linflash
@@ -665,8 +664,7 @@ namespace eval ::ChatWindow {
 
 				wm deiconify ${top_win}
 
-				if { ![catch {tk windowingsystem} wsystem] && $wsystem == "aqua" } {
-				#	lower ${top_win}
+				if { [OnMac] } {
 					::ChatWindow::MacPosition ${top_win}
 				} else {
 					raise ${top_win}
@@ -687,8 +685,8 @@ namespace eval ::ChatWindow {
 				if { ([::config::getKey notifymsg] == 1 && [::abook::getContactData $chatid notifymsg -1] != 0) ||
 				[::abook::getContactData $chatid notifymsg -1] == 1 } {
 					::amsn::notifyAdd "$msg" "::amsn::chatUser $chatid"
-					#Regive focus on Mac OS X
-					if { ![catch {tk windowingsystem} wsystem] && $wsystem == "aqua" } {
+					#Regive focus on Mac OS X / TkAqua
+					if { [OnMac] } {
 						after 1000 "catch {focus -force $lastfocus}"
 					}
 				}
@@ -705,14 +703,11 @@ namespace eval ::ChatWindow {
 
 				wm deiconify ${top_win}
 
-				#To have the new window "behind" on Mac OS X
-				if { ![catch {tk windowingsystem} wsystem] && $wsystem == "aqua" } {
-					#lower ${top_win}
+				if { [OnMac] } {
 					::ChatWindow::MacPosition ${top_win}
 				} else {
 					raise ${top_win}
 				}
-
 			} else {
 				#Container for tabs might be non-iconified
 				if { [wm state $top_win] != "normal" } {
@@ -733,7 +728,7 @@ namespace eval ::ChatWindow {
 		}
 
 		#Dock Bouncing on Mac OS X
-		if { ![catch {tk windowingsystem} wsystem] && $wsystem == "aqua" } {
+		if { [OnMac] } {
 			# tclCarbonNotification is in plugins, we have to require it
 			package require tclCarbonNotification
 
@@ -792,7 +787,7 @@ namespace eval ::ChatWindow {
 	# ::ChatWindow::Open () 
 	# Creates a new chat window and returns its name (.msg_n - Where n is winid)
 	proc Open { {container ""} } {
-		global  HOME tcl_platform
+		global  HOME
 
 
 		if { [UseContainer] == 0 || $container == "" } {
@@ -801,7 +796,7 @@ namespace eval ::ChatWindow {
 			set mainmenu [CreateMainMenu $w]
 			$w conf -menu $mainmenu
 
-		     	if {[catch {tk windowingsystem} wsystem] || $wsystem != "aqua"} {
+		     	if { ![OnMac] } {
 			    # Bind, add new container to list of CWs and restore old setting for the show/hide CW menus
 			    bind $w <Control-m> "::ChatWindow::ShowHideChatWindowMenus $w 1"
 			    NewChatWindowCreated $w $mainmenu
@@ -867,7 +862,7 @@ namespace eval ::ChatWindow {
 		if { !([UseContainer] == 0 || $container == "" )} {
 			AddWindowToContainer $container $w
 		} else {
-			if { ![catch {tk windowingsystem} wsystem] && $wsystem == "aqua" } {
+			if { ![OnMac] } {
 				lower $w
 				::ChatWindow::MacPosition $w
 			}
@@ -891,7 +886,7 @@ namespace eval ::ChatWindow {
 		set mainmenu [CreateMainMenu $container]
 		$container configure -menu $mainmenu
 
-		if {[catch {tk windowingsystem} wsystem] || $wsystem != "aqua"} {
+		if { ![OnMac] } {
 		    # Bind, add new container to list of CWs and restore old setting for the show/hide CW menus
 		    bind $container <Control-m> "::ChatWindow::ShowHideChatWindowMenus $container 1"
 		    NewChatWindowCreated $container $mainmenu
@@ -900,7 +895,7 @@ namespace eval ::ChatWindow {
 
 		#Change Close item menu because the behavior is not the same with tabs
 		$container.menu.msn delete "[trans close]"
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		if { [OnMac] } {
 			$container.menu.msn add command -label "[trans close]" \
 				-command "::ChatWindow::CloseTabInContainer $container" -accelerator "Command-W"
 		} else {
@@ -961,8 +956,6 @@ namespace eval ::ChatWindow {
 	# container and configure it and then return it's pathname
 	#
 	proc CreateContainerWindow { } {
-		global tcl_platform
-			
 		set w ".container_$::ChatWindow::containerid"
 		incr ::ChatWindow::containerid
 			
@@ -976,7 +969,7 @@ namespace eval ::ChatWindow {
 			status_log "No config(winchatsize). Setting default size for chat window\n" red
 		}
 
-		if {$tcl_platform(platform) == "windows"} {
+		if { [OnWin] } {
 			wm geometry $w +0+0
 		}
 
@@ -991,7 +984,7 @@ namespace eval ::ChatWindow {
 		wm group $w .
 
 		# If the platform is NOT windows, set the windows' icon to our xbm
-		if {$tcl_platform(platform) != "windows"} {
+		if { ![OnWin] } {
 			catch {wm iconbitmap $w @[::skin::GetSkinFile pixmaps amsn.xbm]}
 			catch {wm iconmask $w @[::skin::GetSkinFile pixmaps amsnmask.xbm]}
 		}
@@ -1003,7 +996,7 @@ namespace eval ::ChatWindow {
 		bind $w <<Paste>> "status_log paste\n;tk_textPaste \[::ChatWindow::GetCurrentWindow $w\]"
 
 		# Change shortcut for history and find on Mac OS X
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		if { [OnMac] } {
 			bind $w <Command-Option-h> \
 				"::amsn::ShowChatList \"[trans history]\" \[::ChatWindow::GetCurrentWindow $w\] ::log::OpenLogWin"
 			# Control-w for closing current tab not implemented on Mac (germinator)
@@ -1029,7 +1022,7 @@ namespace eval ::ChatWindow {
 
 
 		#Different shortcuts on Mac OS X
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		if { [OnMac] } {
 			bind $w <Command-,> "Preferences"
 			bind $w <Command-m> "catch {carbon::processHICommand mini $w}"
 			bind $w <Command-M> "catch {carbon::processHICommand mini $w}"
@@ -1046,8 +1039,6 @@ namespace eval ::ChatWindow {
 
 	proc CreateTabbedWindow { container } {
 
-		global tcl_platform
-
 		set w "${container}.msg_${::ChatWindow::winid}"
 		incr ::ChatWindow::winid
 
@@ -1060,7 +1051,7 @@ namespace eval ::ChatWindow {
     }
 
 		# If the platform is NOT windows, set the windows' icon to our xbm
-		if {$tcl_platform(platform) != "windows"} {
+		if { ![OnWin] } {
 			catch {wm iconbitmap $w @[::skin::GetSkinFile pixmaps amsn.xbm]}
 			catch {wm iconmask $w @[::skin::GetSkinFile pixmaps amsnmask.xbm]}
 		}
@@ -1072,7 +1063,7 @@ namespace eval ::ChatWindow {
 		bind $w <<Paste>> "status_log paste\n;tk_textPaste $w"
 
 		#Change shortcut for history on Mac OS X
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		if { [OnMac] } {
 			bind $w <Command-Option-h> \
 				"::amsn::ShowChatList \"[trans history]\" $w ::log::OpenLogWin"
 		} else {
@@ -1093,8 +1084,7 @@ namespace eval ::ChatWindow {
 	# configure it and then return it's pathname
 	#
 	proc CreateTopLevelWindow { } {
-		global tcl_platform
-		
+	
 		set w ".msg_$::ChatWindow::winid"
 		incr ::ChatWindow::winid
 			
@@ -1107,7 +1097,7 @@ namespace eval ::ChatWindow {
 			status_log "No config(winchatsize). Setting default size for chat window\n" red
 		}
 
-		if {$tcl_platform(platform) == "windows"} {
+		if { [OnWin] } {
 			wm geometry $w +0+0
 		}
 
@@ -1122,11 +1112,10 @@ namespace eval ::ChatWindow {
 		wm group $w .
 
 		# If the platform is NOT windows, set the windows' icon to our xbm
-		if {$tcl_platform(platform) != "windows"} {
+		if { ![OnWin] } {
 			catch {wm iconbitmap $w @[::skin::GetSkinFile pixmaps amsn.xbm]}
 			catch {wm iconmask $w @[::skin::GetSkinFile pixmaps amsnmask.xbm]}
 		}
-
 
 		# Create the necessary bindings
 		bind $w <<Cut>> "status_log cut\n;tk_textCut $w"
@@ -1134,7 +1123,7 @@ namespace eval ::ChatWindow {
 		bind $w <<Paste>> "status_log paste\n;tk_textPaste $w"
 
 		#Change shortcut for history on Mac OS X
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		if { [OnMac] } {
 			bind $w <Command-Option-h> \
 				"::amsn::ShowChatList \"[trans history]\" $w ::log::OpenLogWin"
 		} else {
@@ -1146,7 +1135,7 @@ namespace eval ::ChatWindow {
 		bind $w <Destroy> "window_history clear %W; ::ChatWindow::Closed $w %W"
 
 		#Different shortcuts on Mac OS X
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		if { [OnMac] } {
 			bind $w <Command-,> "Preferences"
 			bind $w <Command-m> "catch {carbon::processHICommand mini $w}"
 			bind $w <Command-M> "catch {carbon::processHICommand mini $w}"
@@ -1217,11 +1206,10 @@ namespace eval ::ChatWindow {
 		}
 
 		# App menu, only on Mac OS X (see Mac Interface Guidelines)
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		if { [OnMac] } {
 			set applemenu [CreateAppleMenu $mainmenu]
 			$mainmenu add cascade -label "aMSN" -menu $applemenu
 		}
-
 
 		set chatmenu [CreateChatMenu $w $mainmenu]
 		set editmenu [CreateEditMenu $w $mainmenu]
@@ -1229,8 +1217,6 @@ namespace eval ::ChatWindow {
 		set actionsmenu [CreateActionsMenu $w $mainmenu]
 		set contactmenu [CreateContactMenu $w $mainmenu]
 		set helpmenu [CreateHelpMenu $w $mainmenu]
-
-
 
 		#no need to call it "file"
 		# http://developer.apple.com/documentation/UserExperience/Conceptual/OSXHIGuidelines/index.html
@@ -1240,8 +1226,6 @@ namespace eval ::ChatWindow {
 		$mainmenu add cascade -label "[trans actions]" -menu $actionsmenu		
 		$mainmenu add cascade -label "[trans contact]" -menu $contactmenu
 		$mainmenu add cascade -label "[trans help]" -menu $helpmenu
-
-
 
 		return $mainmenu
 	}
@@ -1261,8 +1245,6 @@ namespace eval ::ChatWindow {
 			-command Preferences -accelerator "Command-,"
 		$applemenu add separator
 
-#TODO		#might need a "quit AMSN "action here, according to macd guidelines
-		
 		return $applemenu
 	}
 
@@ -1278,7 +1260,10 @@ namespace eval ::ChatWindow {
 		$chatmenu add command -label "[trans newchat]..." \
 			-command [list ::amsn::ShowSendMsgList [trans sendmsg] ::amsn::chatUser]
 			
-		if {[OnMac]} {
+		if { [OnMac] } {
+			#----------------------
+			$chatmenu add separator
+			
 			$chatmenu add command -label "[trans close]" \
 				-command "::ChatWindow::Close $w" -accelerator "Command-W"
 		} 
@@ -1297,14 +1282,13 @@ namespace eval ::ChatWindow {
 			
 
 #TODO:		#powertool should add the "hide window" thing here	
-#		if {[catch {tk windowingsystem} wsystem] || $wsystem != "aqua"} {
+#		if { ![OnMac] } {
 #			$chatmenu add command -label "[trans hidewindow]" \
 #				-command "wm state \[winfo toplevel \[::ChatWindow::getCurrentTab $w\]\] withdraw"
 #		}
 
 
-		#Add accelerator label to "close" on Mac Version
-		if {![OnMac]} {
+		if { ![OnMac] } {
 			#----------------------
 			$chatmenu add separator
 
@@ -1327,7 +1311,7 @@ namespace eval ::ChatWindow {
 		menu $editmenu -tearoff 0 -type normal
 
 		#Change the accelerator on Mac OS X
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		if { [OnMac] } {
 			$editmenu add command -label "[trans cut]" \
 				-command "tk_textCut \[::ChatWindow::getCurrentTab $w\]" -accelerator "Command+X"
 			$editmenu add command -label "[trans copy]" \
@@ -1478,7 +1462,7 @@ namespace eval ::ChatWindow {
 
 
 		#Chat history
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		if { [OnMac] } {
 			$contactmenu add command -label "[trans history]" \
 				-command "::amsn::ShowChatList \"[trans history]\" \[::ChatWindow::getCurrentTab $w\] ::log::OpenLogWin" \
 				-accelerator "Command-Option-H"
@@ -1688,45 +1672,31 @@ namespace eval ::ChatWindow {
 	proc CreatePanedWindow { w } {
 		
 		set paned $w.f
-		if { $::tcl_version >= 8.4 } {
-			panedwindow $paned \
-				-background [::skin::getKey chatwindowbg] \
-				-borderwidth 0 \
-				-relief flat \
-				-orient vertical
-		} else {
-			frame $paned -background [::skin::getKey chatwindowbg] -borderwidth 0 -relief flat 
-		}
+		
+		panedwindow $paned \
+			-background [::skin::getKey chatwindowbg] \
+			-borderwidth 0 \
+			-relief flat \
+			-orient vertical
+		
 		set output [CreateOutputWindow $w $paned]
 		set input [CreateInputWindow $w $paned]
 
-		if { $::tcl_version >= 8.4 } {
-			$paned add $output $input
-			$paned paneconfigure $output -minsize 50 -height 200
-			$paned paneconfigure $input -minsize 100 -height 120
-			$paned configure \
-				-showhandle [::skin::getKey chat_sash_showhandle] \
-				-sashpad [::skin::getKey chat_sash_pady] \
-				-sashwidth [::skin::getKey chat_sash_width] \
-				-sashrelief [::skin::getKey chat_sash_relief]
-		} else {
-			pack $output -expand true -fill both -padx 0 -pady 0
-			pack $input \
-				-side top \
-				-expand false \
-				-fill both \
-				-padx [::skin::getKey chat_input_padx] \
-				-pady [::skin::getKey chat_input_pady]
-		}
+		$paned add $output $input
+		$paned paneconfigure $output -minsize 50 -height 200
+		$paned paneconfigure $input -minsize 100 -height 120
+		$paned configure \
+			-showhandle [::skin::getKey chat_sash_showhandle] \
+			-sashpad [::skin::getKey chat_sash_pady] \
+			-sashwidth [::skin::getKey chat_sash_width] \
+			-sashrelief [::skin::getKey chat_sash_relief]
 
 		# Bind on focus, so we always put the focus on the input window
 		bind $paned <FocusIn> "focus $input"
 
 		bind $input <Configure> "::ChatWindow::InputPaneConfigured $paned $input $output %W %h"
-		if { $::tcl_version >= 8.4 } {
-			bind $output <Configure> "::ChatWindow::OutputPaneConfigured $paned $input $output %W %h"
-			bind $paned <Configure> "::ChatWindow::PanedWindowConfigured $paned $input $output %W %h"
-		}
+		bind $output <Configure> "::ChatWindow::OutputPaneConfigured $paned $input $output %W %h"
+		bind $paned <Configure> "::ChatWindow::PanedWindowConfigured $paned $input $output %W %h"
 
 		return $paned
 	}
@@ -1766,20 +1736,15 @@ namespace eval ::ChatWindow {
 
 		set scrolling [getScrolling [::ChatWindow::GetOutText $win]]
 
-		if { $::tcl_version >= 8.4 } {
-			#check that the drag adhered to minsize input pane
-			#first checking that there is enough room otherwise you get an infinite loop
-			if { ( [winfo height $input] < [$paned panecget $input -minsize] ) \
-					&& ( [winfo height $output] > [$paned panecget $output -minsize] ) \
-					&& ( [winfo height $paned] > [$paned panecget $output -minsize] ) } {
-
-				::ChatWindow::SetSashPos $paned $input $output
-			}
+		#check that the drag adhered to minsize input pane
+		#first checking that there is enough room otherwise you get an infinite loop
+		if { ( [winfo height $input] < [$paned panecget $input -minsize] ) \
+			&& ( [winfo height $output] > [$paned panecget $output -minsize] ) \
+			&& ( [winfo height $paned] > [$paned panecget $output -minsize] ) } {
+			::ChatWindow::SetSashPos $paned $input $output
 		}
 
-
 		if { $scrolling } { after 100 "catch {::ChatWindow::Scroll [::ChatWindow::GetOutText $win]}" }
-
 
 		if { [::config::getKey savechatwinsize] } {
 			::config::setKey winchatoutheight [winfo height $output]
@@ -1818,7 +1783,6 @@ namespace eval ::ChatWindow {
 	}
 
 	proc CreateOutputWindow { w paned } {
-		
 		# Name our widgets
 		set fr $paned.out
 		set out $fr.scroll
@@ -1856,7 +1820,7 @@ namespace eval ::ChatWindow {
 		bind $textinner <<Button3>> "tk_popup $w.copy %X %Y"
 
 		# Do not bind copy command on button 1 on Mac OS X 
-		if {![catch {tk windowingsystem} wsystem] && $wsystem != "aqua"} {
+		if { ![OnMac] } {
 			bind $textinner <Button1-ButtonRelease> "copy 0 $w"
 		}
 
@@ -1929,8 +1893,6 @@ namespace eval ::ChatWindow {
 	}
 
 	proc CreateInputFrame { w bottom} { 
-		global tcl_platform
-
 		# Create The input frame
 		set input $bottom.in
 		framec $input -class Amsn -relief solid \
@@ -1948,28 +1910,23 @@ namespace eval ::ChatWindow {
 			-borderwidth 0 -relief solid -highlightthickness 0 -exportselection 1
 		
 		frame $sendbuttonframe -borderwidth 0 -bg [::skin::getKey sendbuttonbg]
-		# Send button in conversation window, specifications and command. Only
-		# compatible with Tcl/Tk 8.4. Disable it on Mac OS X (TkAqua looks better)
-		if { ($::tcl_version >= 8.4) && ($tcl_platform(os) != "Darwin") } {
-			# New pixmap-skinnable button (For Windows and Unix > Tcl/Tk 8.3)
+		
+		# Send button in conversation window, specifications and command.
+		if { ![OnMac] } {
 			button $sendbutton -image [::skin::loadPixmap sendbutton] \
 				-command "::amsn::MessageSend $w $text" \
 				-fg black -bg [::skin::getKey sendbuttonbg] -bd 0 -relief flat \
-				-activebackground [::skin::getKey sendbuttonbg] -activeforeground black -text [trans send] \
-				-font sboldf -highlightthickness 0 -pady 0 -padx 0 -overrelief flat -compound center
-		} elseif { $tcl_platform(os) == "Darwin" } {
+				-activebackground [::skin::getKey sendbuttonbg] -activeforeground black \
+				-text [trans send] -font sboldf -highlightthickness 0 -pady 0 -padx 0 \
+				-overrelief flat -compound center
+		} else {
 			label $sendbutton -image [::skin::loadPixmap sendbutton] \
 				-fg black -bg [::skin::getKey sendbuttonbg] -bd 0 -relief flat \
-				-activebackground [::skin::getKey sendbuttonbg] -activeforeground black -text [trans send] \
-				-font sboldf -highlightthickness 0 -pady 0 -padx 0 -relief flat -compound center
+				-activebackground [::skin::getKey sendbuttonbg] -activeforeground black \
+				-text [trans send] -font sboldf -highlightthickness 0 -pady 0 -padx 0 \
+				-relief flat -compound center
 			bind $sendbutton <<Button1>> "::amsn::MessageSend $w $text"
-		} else 	{
-			# Standard grey flat button (For Tcl/Tk < 8.4 and Mac OS X)
-			button $sendbutton  -text "\n[trans send]\n" -width 6 -borderwidth 1 \
-				-relief solid -command "::amsn::MessageSend $w $text" \
-				-font bplainf -highlightthickness 0 -highlightbackground [::skin::getKey sendbuttonbg]
 		}
-
 
 		# Configure my widgets
 		$sendbutton configure -state normal
@@ -1977,19 +1934,16 @@ namespace eval ::ChatWindow {
 
 		# Create my bindings
 		bind $sendbutton <Return> "::amsn::MessageSend $w $text; break"
-		#Don't insert picture if TCL 8.3 or Mac OS X because it's the old-style button
-		if { $::tcl_version >= 8.4 } {
-			bind $sendbutton <Enter> "$sendbutton configure -image [::skin::loadPixmap sendbutton_hover]"
-			bind $sendbutton <Leave> "$sendbutton configure -image [::skin::loadPixmap sendbutton]"
-		}
+		bind $sendbutton <Enter> "$sendbutton configure -image [::skin::loadPixmap sendbutton_hover]"
+		bind $sendbutton <Leave> "$sendbutton configure -image [::skin::loadPixmap sendbutton]"
 		bind $text <Shift-Return> {%W insert insert "\n"; %W see insert; break}
 		bind $text <Control-KP_Enter> {%W insert insert "\n"; %W see insert; break}
 		bind $text <Shift-KP_Enter> {%W insert insert "\n"; %W see insert; break}
 
 		# Change shortcuts on Mac OS X (TKAqua). ALT=Option Control=Command on Mac
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		if { [OnMac] } {
 			bind $text <Command-Return> {%W insert insert "\n"; %W see insert; break}
-			bind $text <Command-Option-space> BossMode
+			bind $text <Command-Shift-space> BossMode
 			bind $text <Command-a> {%W tag add sel 1.0 {end - 1 chars};break}
 			bind $text <Command-A> {%W tag add sel 1.0 {end - 1 chars};break}
 		} else {
@@ -2033,8 +1987,8 @@ namespace eval ::ChatWindow {
 		bind $text <Return> "window_history add %W; ::amsn::MessageSend $w %W; break"
 		bind $text <Key-KP_Enter> "window_history add %W; ::amsn::MessageSend $w %W; break"
 
-		#Different shortcuts on Mac OS X
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		#Different shortcuts on Mac OS X / TkAqua
+		if { [OnMac] } {
 			bind $text <Control-s> "window_history add %W; ::amsn::MessageSend $w %W; break"
 			bind $text <Command-Up> "window_history previous %W; break"
 			bind $text <Command-Down> "window_history next %W; break"
@@ -2069,21 +2023,19 @@ namespace eval ::ChatWindow {
 	}
 
 
-###############################################################
-# HandleFileDrop window data                          	      #
-# ------------------------------------------------------------#
-# Proc called when a file is dropped to the input text widget #
-# All Drag and Drop code based on plugin by MeV :             #
-# chrystalyst@free.fr                                         #
-###############################################################
-
+	###############################################################
+	# HandleFileDrop window data                          	      #
+	# ------------------------------------------------------------#
+	# Proc called when a file is dropped to the input text widget #
+	# All Drag and Drop code based on plugin by MeV :             #
+	# chrystalyst@free.fr                                         #
+	###############################################################
 	proc HandleFileDrop {window data} {
-		global tcl_platform
 		#Send the name of the file to the ::amsn::FileTransferSend proc (for windows $data is like this "{filename}")
 		status_log "Drag and Drop: Send filename: "
 		set data [string map {\r "" \n "" \x00 ""} $data]
 		set data [urldecode $data]
-		if {$tcl_platform(platform) == "windows"} {
+		if { [OnWin] } {
 			if { [string index $data 0] == "{" && [string index $data end] == "}" } {
 				set data [string range $data 1 end-1]
 			}
@@ -2279,15 +2231,11 @@ namespace eval ::ChatWindow {
 		bind $showpic <<Button1>> "::amsn::ToggleShowPicture $w; ::amsn::ShowOrHidePicture $w"
 		bind $pictureinner <Button1-ButtonRelease> "::amsn::ShowPicMenu $w %X %Y\n"
 		bind $pictureinner <<Button3>> "::amsn::ShowPicMenu $w %X %Y\n"
-		#reset the minsize of pane when configured (not tcl 8.3)
-		if { $::tcl_version >= 8.4 } {
-			if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-				#Disable temporary, crash issue with that line
-			} else {
-				bind $picture <Configure> "::ChatWindow::ImageResized $w %h [::skin::getKey chat_dp_pady]"
-			}
+			
+		#For TkAqua: Disable temporary, crash issue with that line
+		if { ![OnMac] } {
+			bind $picture <Configure> "::ChatWindow::ImageResized $w %h [::skin::getKey chat_dp_pady]"
 		}
-
 
 		# This proc is called to load the Display Picture if exists and is readable
 		#load_my_pic
@@ -2362,7 +2310,6 @@ namespace eval ::ChatWindow {
 		if { $h < 100 } {
 			set h 100
 		}
-		
 		
 		status_log "setting bottom pane misize for $win to $h\n"
 		$win.f paneconfigure $win.f.bottom -minsize $h	
@@ -2814,7 +2761,7 @@ namespace eval ::ChatWindow {
 			set containerwindows($container) $win
 			SwitchToTab $container $win
 			
-			if { ![catch {tk windowingsystem} wsystem] && $wsystem == "aqua" } {
+			if { [OnMac] } {
 				lower $container
 			}
 			
@@ -3162,8 +3109,9 @@ namespace eval ::ChatWindow {
 		} else {
 			#Fix  hidden tabs problem, thanks to Le philousophe
 			pack ${container}.bar -side top -fill both -expand false
-			#Theses lines are absolutely necessary on Mac OS X to fix a crash problem
-			if { [winfo exists [GetCurrentWindow $container]] && $dorepack && ![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+			
+			#These lines are absolutely necessary on Mac OS X to fix a crash problem
+			if { [OnMac] && [winfo exists [GetCurrentWindow $container]] && $dorepack } {
 				pack forget [GetCurrentWindow $container]
 				pack [GetCurrentWindow $container] -side bottom -expand true -fill both
 			}
@@ -3491,7 +3439,7 @@ namespace eval ::ChatWindow {
 
 		update idletasks
 
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		if { [OnMac] } {
 			::ChatWindow::MacPosition ${top_win}
 		}
 		::ChatWindow::TopUpdate $chatid

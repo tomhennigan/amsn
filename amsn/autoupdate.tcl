@@ -6,23 +6,25 @@ namespace eval ::autoupdate {
 		global tcl_platform
 		global tlsplatform
 
-		if { ($tcl_platform(os) == "Linux") && ($tcl_platform(machine) == "ppc")} {
-			set tlsplatform "linuxppc"
-		} elseif { ($tcl_platform(os) == "Linux") && ($tcl_platform(machine) == "sparc")} {
-			set tlsplatform "linuxsparc"
-		} elseif { ($tcl_platform(os) == "Linux") && ($tcl_platform(machine) == "x86_64")} {
-			set tlsplatform "linuxx86_64"
-		} elseif { $tcl_platform(os) == "Linux" } {
-			set tlsplatform "linuxx86"
+		if { [OnLinux] } {
+			if { ($tcl_platform(machine) == "ppc")} {
+				set tlsplatform "linuxppc"
+			} elseif { ($tcl_platform(machine) == "sparc")} {
+				set tlsplatform "linuxsparc"
+			} elseif { ($tcl_platform(machine) == "x86_64")} {
+				set tlsplatform "linuxx86_64"
+			} else {
+				set tlsplatform "linuxx86"
+			}
 		} elseif { $tcl_platform(os) == "NetBSD"} {
 			set tlsplatform "netbsdx86"
 		} elseif { $tcl_platform(os) == "FreeBSD"} {
 			set tlsplatform "freebsdx86"
 		} elseif { $tcl_platform(os) == "Solaris"} {
 			set tlsplatform "solaris28"
-		} elseif { $tcl_platform(platform) == "windows"} {
+		} elseif { [OnWin] } {
 			set tlsplatform "win32"
-		} elseif { $tcl_platform(os) == "Darwin" } {
+		} elseif { [OnDarwin] } {
 			set tlsplatform "mac"
 		} else {
 			set tlsplatform "src"
@@ -344,9 +346,9 @@ namespace eval ::autoupdate {
 		set new_version [string replace $new_version 1 1 "_"]
 		#set new_version [string replace $new_version 1 1 "-"]
 		append amsn_url "http://aleron.dl.sourceforge.net/sourceforge/amsn/amsn-" $new_version
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		if { [OnDarwin] } {
 			append amsn_url ".dmg"
-		} elseif { $::tcl_platform(platform)=="windows" } {
+		} elseif { [OnWin] } {
 			append amsn_url ".exe"
 		} else { 
 			append amsn_url ".tar.gz"
@@ -434,10 +436,10 @@ namespace eval ::autoupdate {
 	#(It's ok For Mac OS X, change it on your platform if you feel it's not good)
 	proc get_default_location {} {
 		global env
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		if { [OnDarwin] } {
 			set namelocation "Desktop"
 			set defaultlocation "[file join $env(HOME) Desktop]"
-		} elseif { $::tcl_platform(platform)=="windows" } {
+		} elseif { [OnWin] } {
 			set namelocation "Received files folder"
 			set defaultlocation "[::config::getKey receiveddir]"
 		} else { 
@@ -491,11 +493,11 @@ namespace eval ::autoupdate {
 			$w.top.text configure -text "Done\n Saved $fname in $savedir."
 			$w.bottom.save configure -command "launch_filemanager \"$savedir\";destroy $w" -text "Open directory" -default normal
 			$w.bottom.saveas configure -command "destroy $w" -text "Close" -default active
-			#if { $::tcl_platform(platform)=="unix" } {
+			#if { [OnLinux] } {
 			#	button $w.bottom.install -text "Install" -command "amsn_install_linux $savedir $fname"
 			#	pack $w.bottom.install
 			#}
-			#if { $::tcl_platform(platform)=="windows" } {
+			#if { [OnWin] } {
 			#	button $w.bottom.install -text "Install" -command "amsn_install_windows $savedir $fname"
 			#	pack $w.bottom.install
 			#}
@@ -503,7 +505,6 @@ namespace eval ::autoupdate {
 			bind $w <<Destroy>> "destroy $w"
 			wm protocol $w WM_DELETE_WINDOW "destroy $w"
 		}
-
 	}
 
 	#///////////////////////////////////////////////////////////////////////
@@ -555,11 +556,8 @@ namespace eval ::autoupdate {
 			} else {
 				status_log "Not yet 3 days or no new version\n" red 
 			}
-
-
 		} else {
 			catch {status_log "check_web_ver: status=[::http::status $token] ncode=[::http::ncode $token]\n" blue}
-
 		}
 		::http::cleanup $token
 
@@ -581,7 +579,6 @@ namespace eval ::autoupdate {
 
 	proc check_version {} {
 		global weburl
-
 
 		if { [winfo exists .checking] } {
 			raise .checking
@@ -816,6 +813,4 @@ namespace eval ::autoupdate {
 		return [lindex $lang $id]
 
 	}
-
-
 }

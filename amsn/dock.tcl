@@ -127,12 +127,12 @@ proc init_dock {} {
 
 		if {[OnWin]} {
 			trayicon_init
-		} elseif {[OnUnix]} {
+		} elseif {[OnLinux]} {
 			#We use the freedesktop standard here
 			if { $systemtray_exist == 0 } {
 				trayicon_init
 				if { $systemtray_exist == -1 } {
-status_log "dock prob dock.tcl"
+					status_log "dock prob dock.tcl"
 					#Too bad, couldn't load the trayicon
 #					msg_box "[trans nosystemtray]"
 				}
@@ -145,7 +145,7 @@ status_log "dock prob dock.tcl"
 }
 
 proc UnixDock { } {
-	if {[::config::getKey use_dock] && [OnUnix] } {
+	if {[::config::getKey use_dock] && [OnLinux] } {
 		return 1
 	} else {
 		return 0

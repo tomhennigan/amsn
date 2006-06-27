@@ -7,17 +7,16 @@ namespace eval ::picture {
 	set ::tkcximageloaded 0
 	#Proc to check if tkcximage is loaded
 	proc Loaded {} {
-		global tcl_platform
 		if {$::tkcximageloaded} {
 			return 1
 		} else {
 			catch {package require TkCximage} err
 			#Fix a strange bug where sometimes package require TkCximage doesn't work
-			if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+			if { [OnDarwin] } {
 				catch {load [file join utils macosx TkCximage TkCximage.dylib]} err
-			} elseif { $tcl_platform(platform) == "windows"} {
+			} elseif { [OnWin] } {
 				catch {load [file join utils TkCximage TkCximage.dll]} err
-			} else {
+			} elseif { [OnLinux] } {
 				catch {load [file join utils TkCximage TkCximage.so]} err
 			}
 

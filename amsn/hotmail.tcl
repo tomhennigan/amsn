@@ -32,7 +32,7 @@ namespace eval ::hotmail {
 	}
 
 	proc gotURL {main_url {post_url "https://loginnet.passport.com/ppsecure/md5auth.srf?lc=1033"} {id 2}} {
-		global tcl_platform HOME password
+		global HOME password
 
 		set fd [open "hotmlog.htm" r]
 		set page_data [read $fd]
@@ -60,7 +60,7 @@ namespace eval ::hotmail {
 		
 		set page_data [subst -nocommands -nobackslashes $page_data]
 		
-		if {$tcl_platform(platform) == "unix"} {
+		if { [OnLinux] } {
 			set file_id [open "[file join ${HOME} hotlog.htm]" w 00600]
 		} else {
 			set file_id [open "[file join ${HOME} hotlog.htm]" w]
@@ -70,10 +70,10 @@ namespace eval ::hotmail {
 		
 		close $file_id
 		
-		if {$tcl_platform(os) != "Darwin"} {
-			launch_browser "file://${HOME}/hotlog.htm" 1
-		} else {
+		if { [OnDarwin] } {
 			launch_browser [file join ${HOME} hotlog.htm] 1
+		} else {
+			launch_browser "file://${HOME}/hotlog.htm" 1
 		}
 		
 	}
@@ -115,7 +115,6 @@ namespace eval ::hotmail {
 		set begin 0
 		set end [string first "=" $str $begin]
 		set decode ""
-
 
 		while { $end >=0 } {
 			set decode "${decode}[string range $str $begin [expr {$end-1}]]"

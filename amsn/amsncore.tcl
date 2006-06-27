@@ -71,6 +71,7 @@ namespace eval ::Event {
 # Functions to know which platform we're on    #
 ################################################
 
+#Test for Aqua GUI
 proc OnMac {} {
 	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 		return 1
@@ -78,29 +79,44 @@ proc OnMac {} {
 		return 0
 	}
 }
-proc OnWin {} {
+
+#Test for Darwin OS
+#Will return 1 for X11 on Mac, OnMac returns 0 in that case
+proc OnDarwin {} {
 	global tcl_platform
-	if {$tcl_platform(platform) == "windows"} {
+	if { $tcl_platform(os) == "Darwin" } {
 		return 1
 	} else {
 		return 0
 	}
 }
-proc OnUnix {} {
+
+#Test for Windows
+proc OnWin {} {
+	global tcl_platform
+	if { $tcl_platform(platform) == "windows" } {
+		return 1
+	} else {
+		return 0
+	}
+}
+
+#Test for Linux
+proc OnLinux {} {
+	global tcl_platform
+	if { $tcl_platform(os) == "Linux" } {
+		return 1
+	} else {
+		return 0
+	}
+}
+
+#Test for X11 windowing system
+proc OnX11 {} {
 	if { ![catch {tk windowingsystem} wsystem] && $wsystem  == "x11" } {
 		return 1
 	} else {
 		return 0
-	}
-}
-proc PlatformIs {} {
-	global tcl_platform
-	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-		return "mac"
-	} elseif {$tcl_platform(platform) == "windows"} {
-		return "win"
-	} else {
-		return "unix"
 	}
 }
 

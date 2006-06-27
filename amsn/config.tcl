@@ -5,7 +5,7 @@
 namespace eval ::config {
 
 	proc configDefaults {} {
-		global tcl_platform password auto_path advanced_options custom_emotions
+		global password auto_path advanced_options custom_emotions
 
 		::config::setKey nossl 0			;#Disable the use of SSL, so it doesn't requite TLS package: 0|1
 
@@ -51,11 +51,11 @@ namespace eval ::config {
 		::config::setKey playbackspeed 100
 
 		#Dir for received files
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		if { [OnMac] } {
 		        ::config::setKey receiveddir "[file join $::env(HOME) Desktop/amsn\ received\ files]"
-		} elseif {$tcl_platform(platform) == "unix"} {
+		} elseif { [OnLinux] } {
 			::config::setKey receiveddir "[file join $::env(HOME) amsn_received]"
-		} elseif {$tcl_platform(platform) == "windows"} {
+		} elseif { [OnWin] } {
 			if {[info exists env(USERPROFILE)]} {
 				::config::setKey receiveddir "[file join $::env(USERPROFILE) amsn_received]"
 			} else {
@@ -66,7 +66,7 @@ namespace eval ::config {
 		}
 
 		#Some Autodetected options
-		if {$tcl_platform(os) == "Darwin"} {
+		if { [OnDarwin] } {
 			::config::setKey soundcommand "./utils/macosx/sndplay \$sound";#Soundplayer for Mac OS 10.3-10.4	
 			::config::setKey browser "open \$url"
 			::config::setKey notifyXoffset 100
@@ -74,7 +74,7 @@ namespace eval ::config {
 			::config::setKey filemanager "open \$location"
 			::config::setKey openfilecommand "open \$file"
 			::config::setKey usesnack 0
-		} elseif {$tcl_platform(platform) == "unix"} {
+		} elseif { [OnLinux] } {
 			::config::setKey soundcommand "play \$sound"
 			::config::setKey browser "mozilla \$url"
 			::config::setKey notifyXoffset 0
@@ -82,7 +82,7 @@ namespace eval ::config {
 			::config::setKey filemanager "my_filemanager open \$location"
 			::config::setKey openfilecommand ""
 			::config::setKey usesnack 0
-		} elseif {$tcl_platform(platform) == "windows"} {
+		} elseif { [OnWin] } {
 			::config::setKey soundcommand "utils/windows/plwav.exe \$sound"
 			::config::setKey browser "explorer \$url"
 			::config::setKey notifyXoffset 0
@@ -122,7 +122,7 @@ namespace eval ::config {
 
 
 		#Specific configs for Mac OS X (Aqua) first, and for others systems after
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		if { [OnMac] } {
 			::config::setKey wingeometry 275x400-200+200		;#Main window geometry on Mac OS X
 			::config::setKey backgroundcolor  #ECECEC		;#AMSN Mac OS X background color
 			::config::setKey dockbounce once					;#Dock bouncing on Mac OS X
@@ -150,7 +150,7 @@ namespace eval ::config {
 		::config::setKey notifyemailother 0			;#Show notify window when a new mail arrives in other folders
 
 		#Specific for Mac OS X, if newchatwinstate=1, new windows of message never appear
-		if {$tcl_platform(os) == "Darwin"} {
+		if { [OnMac] } {
 			::config::setKey newchatwinstate 0		;#Iconify or restore chat window on new chat
 			::config::setKey newmsgwinstate 0		;#Iconify or restore chat window on new message
 		} else {
@@ -327,7 +327,7 @@ namespace eval ::config {
 	}
 
 	proc globalDefaults {} {
-		global gconfig tcl_platform
+		global gconfig
 
 		setGlobalKey last_client_version ""
 		setGlobalKey language [detect_language "en"]	;#Default language
@@ -335,9 +335,9 @@ namespace eval ::config {
 		setGlobalKey disableprofiles 0 ;#Disable profiles (useful for cybercafes or similar)
 
 		#Specific configs for Mac OS X (Aqua) first, and for others systems after
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		if { [OnMac] } {
 			setGlobalKey basefont [list {Lucida Grande} 12 normal]	;#AMSN Mac OS X base font
-		} elseif {$tcl_platform(platform) == "windows"} {
+		} elseif { [OnWin] } {
 			setGlobalKey basefont [list Arial 10 normal]
 		} else {
 			setGlobalKey basefont [list Helvetica 11 normal]	;#AMSN base font
@@ -447,10 +447,10 @@ namespace eval ::config {
 	}
 
 	proc saveGlobal {} {
-		global tcl_platform HOME2 version
+		global HOME2 version
 
 		if { [catch {
-				if {$tcl_platform(platform) == "unix"} {
+				if { [OnLinux] } {
 					set file_id [open "[file join ${HOME2} gconfig.xml]" w 00600]
 				} else {
 					set file_id [open "[file join ${HOME2} gconfig.xml]" w]
@@ -478,7 +478,7 @@ namespace eval ::config {
 }
 
 proc save_config {} {
-	global tcl_platform HOME HOME2 version password custom_emotions
+	global HOME HOME2 version password custom_emotions
 	
 	#saving the plugins
 	::plugins::save_config
@@ -486,7 +486,7 @@ proc save_config {} {
 	status_log "save_config: saving config for user [::config::getKey login] in $HOME]\n" black
 
 	if { [catch {
-		if {$tcl_platform(platform) == "unix"} {
+		if { [OnLinux] } {
 			set file_id [open "[file join ${HOME} config.xml]" w 00600]
 		} else {
 			set file_id [open "[file join ${HOME} config.xml]" w]
@@ -567,7 +567,7 @@ proc new_config_entry  {cstack cdata saved_data cattr saved_attr args} {
 }
 
 proc load_config {} {
-	global HOME password protocol tcl_platform
+	global HOME password protocol
 
 	#Create custom smileys folder
 	create_dir "[file join ${HOME} smileys]"
@@ -602,7 +602,7 @@ proc load_config {} {
 		}
 
 		#Force the change of the default background color and other specific Mac things
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		if { [OnMac] } {
 			set bgcolormac [::config::getKey backgroundcolor]
 			if { $bgcolormac=="#D8D8E0" } {
 				::config::setKey backgroundcolor #ECECEC
@@ -619,7 +619,7 @@ proc load_config {} {
 		}
 	}
 	#Force to change the path to the new path of plwav.exe
-	if {$tcl_platform(platform) == "windows"} {
+	if { [OnWin] } {
 		if {[::config::getKey soundcommand] == "utils/plwav.exe \$sound"} {
 			::config::setKey soundcommand "utils/windows/plwav.exe \$sound"
 		}
@@ -679,7 +679,7 @@ proc load_config {} {
 	}
 
         # Show/hide menus when switching profiles 
-    	if {[catch {tk windowingsystem} wsystem] || $wsystem != "aqua"} {
+    	if { ![OnMac] } {
 	    Showhidemenu 0
 	    ::ChatWindow::ShowHideChatWindowMenus . 0
 	}
@@ -846,9 +846,9 @@ proc LoadLoginList {{trigger 0}} {
 # SaveLoginList ()
 # Saves the list of logins/profiles to the profiles file in the HOME dir
 proc SaveLoginList {} {
-	global HOME2 tcl_platform currentlock
+	global HOME2 currentlock
 
-	if {$tcl_platform(platform) == "unix"} {
+	if { [OnLinux] } {
 		set file_id [open "[file join ${HOME2} profiles]" w 00600]
 	} else {
       		set file_id [open "[file join ${HOME2} profiles]" w]
@@ -1417,7 +1417,7 @@ proc lockSvrHdl { addr sock } {
 # Result: Returns 0/1 for failure/success (note failure could include failure to remove the temporary
 #         file after completion, but the registry key may have still been created/removed
 proc WinRegKey { addrem } {
-	if {$::tcl_platform(platform) == "windows"} {
+	if { [OnWin] } {
 	    set filename [file join $::env(TEMP) amsn_addrem.reg]
 		if { [catch { set file_id [open "$filename" w]} res]} {
 			msg_box "Failed to create temporary file with error:\n$res"
@@ -1455,13 +1455,11 @@ proc WinRegKey { addrem } {
 # create_dir(path)
 # Creates a directory
 proc create_dir {path} {
-   global tcl_platform
-
    if {[file isdirectory $path] == 0} {
       if { [catch {file mkdir $path} res]} {
          return -1
       }
-      if {$tcl_platform(platform) == "unix"} {
+      if { [OnLinux] } {
          file attributes $path -permissions 00700
       }
       return 0

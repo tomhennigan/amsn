@@ -1345,7 +1345,7 @@ namespace eval ::abookGui {
 		
 		#Ask to save or not to save when we close the user properties window on Mac OS X
 		#Request from users with 800X600 screen (they can't see accept/cancel button)
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		if { [OnMac] } {
 			wm protocol $w WM_DELETE_WINDOW "[list ::abookGui::closeProperties $email $w]"
 			bind $w <<Escape>> "[list ::abookGui::closeProperties $email $w]"
 		} else {

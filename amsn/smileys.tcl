@@ -452,7 +452,7 @@ namespace eval ::smiley {
 					bind $w.c.$temp <Button1-ButtonRelease> "catch {[list $text insert insert $symbol]\; wm state $w withdrawn} res" 
 				}
 				#Add binding for custom emoticons
-				if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+				if { [OnMac] } {
 					
 					bind $w.c.$temp <Button2-ButtonRelease> [list ::smiley::editCustomEmotion $name]
 					bind $w.c.$temp <Control-ButtonRelease> [list ::smiley::editCustomEmotion $name]

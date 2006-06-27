@@ -1,10 +1,11 @@
 if {![::picture::Loaded]} {
-	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {	
-		tk_messageBox -default ok -message "There's a problem loading a module of aMSN (TkCxImage) on this computer. \
-			You need to update your system to Mac OS 10.3.9" -icon warning	
+	if { [OnDarwin] } {	
+		tk_messageBox -default ok -message "There's a problem loading a module of aMSN (TkCxImage) on this \
+			computer. You need to update your system to Mac OS 10.3.9" -icon warning	
 	} else {
-		tk_messageBox -default ok -message "You can't load TkCximage, this is now needed to run \
-			aMSN. Please compile amsn first, instructions on how to compile are located in the file INSTALL" -icon warning
+		tk_messageBox -default ok -message "Loading TkCximage failed. TkCxImage this is needed to run \
+			aMSN. Please compile aMSN first, instructions on how to compile are located in the file INSTALL" \
+			-icon warning
 	}
 	exit
 }
@@ -18,7 +19,7 @@ if {[catch {package require tkdnd}] } {
 	proc shape { args } {}
 }
 #package require pixmapbutton
-if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+if { [OnMac] } {
 	#Use tclCarbonHICommand for window utilities
 	catch {package require tclCarbonHICommand}
 	catch {package require QuickTimeTcl}
@@ -28,9 +29,7 @@ if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 	#package require pixmapmenu
 }
 
-
 if { $initialize_amsn == 1 } {
-
 	::skin::setKey mainwindowbg #7979f2
 	::skin::setKey contactlistbg #ffffff
 	::skin::setKey topcontactlistbg #ffffff
@@ -169,7 +168,7 @@ if { $initialize_amsn == 1 } {
 	::skin::setKey notify_font sboldf
 	::skin::setKey notify_dp_border 0
 
-	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+	if { [OnMac] } {
 		::skin::setKey balloonbackground #ffffca
 		::skin::setKey menubackground #ECECEC
 	} else {
@@ -182,7 +181,7 @@ if { $initialize_amsn == 1 } {
 	#Virtual events used by Button-click
 	#On Mac OS X, Control emulate the "right click button"
 	#On Mac OS X, there's a mistake between button2 and button3
-	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+	if { [OnMac] } {
 		event add <<Button1>> <Button1-ButtonRelease>
 		event add <<Button2>> <Button3-ButtonRelease>
 		event add <<Button2-Press>> <ButtonPress-3>
@@ -212,7 +211,7 @@ if { $initialize_amsn == 1 } {
 	#Set the default option for canvas -highlightthickness
 	option add *Canvas.highlightThickness 0
 
-	if { [OnUnix] } {
+	if { [OnLinux] } {
 		#Mappings for Shift-BackSpace
 		bind Entry <Terminate_Server> [bind Entry <BackSpace>]
 		bind Text <Terminate_Server> [bind Text <BackSpace>]
@@ -238,7 +237,6 @@ namespace eval ::amsn {
 	##PUBLIC
 
 	proc initLook { family size bgcolor} {
-		global tcl_platform
 		font create menufont -family $family -size $size -weight normal
 		font create sboldf -family $family -size $size -weight bold
 		font create splainf -family $family -size $size -weight normal
@@ -327,13 +325,13 @@ namespace eval ::amsn {
 		}
 		option add *Font splainf userDefault
 		#Use different width for scrollbar on Mac OS X
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		if { [OnMac] } {
 			option add *background #ECECEC
 			option add *highlightbackground #ECECEC
 			option add *Scrollbar.width 15 userDefault
 			option add *Button.Font macfont userDefault
 			option add *Button.highlightBackground #ECECEC userDefault
-		} elseif { $tcl_platform(platform) == "windows"} {
+		} elseif { [OnWin] } {
 			option add *background [::skin::getKey menubackground]
 			option add *Scrollbar.width 14 userDefault
 			option add *Button.Font sboldf userDefault
@@ -364,7 +362,7 @@ namespace eval ::amsn {
 	#///////////////////////////////////////////////////////////////////////////////
 	# Draws the about window
 	proc aboutWindow {} {
-		global tcl_platform langenc date weburl
+		global langenc date weburl
 		
 		set filename "[file join docs README[::config::getGlobalKey language]]"
 		
@@ -571,7 +569,7 @@ namespace eval ::amsn {
 	proc messageBox { message type icon {title ""} {parent ""}} {
 
 		#If we are on MacOS X, don't put the box in the parent because there are some problems
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		if { [OnMac] } {
 			set answer [tk_messageBox -message "$message" -type $type -icon $icon]
 		} else {
 			if { $parent == ""} {
@@ -1786,8 +1784,7 @@ namespace eval ::amsn {
 		$win.picmenu delete 0 end
 
 		#Make the picture menu appear on the conversation window instead of having it in the bottom of screen (and sometime lost it if the conversation window is in the bottom of the window)
-		global tcl_platform
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		if { [OnMac] } {
 			incr x -50
 			incr y -115
 		}
@@ -2047,7 +2044,7 @@ namespace eval ::amsn {
 	#itemlist: Array,or list, with two columns and N rows. Column 0 is the one to be
 	#shown in the list. Column 1 is the use used to parameter to the command
 	proc listChoose {title itemlist command {other 0} {skip 1}} {
-		global userchoose_req tcl_platform
+		global userchoose_req
 		set itemcount [llength $itemlist]
 
 		#If just 1 user, and $skip flag set to one, just run command on that user
@@ -2074,7 +2071,7 @@ namespace eval ::amsn {
 
 #		wm geometry $wname 320x350
 		#No ugly blue frame on Mac OS X, system already use a border around window
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		if { [OnMac] } {
 			frame $wname.blueframe -background [::skin::getKey topcontactlistbg]
 		} else {
 			frame $wname.blueframe -background [::skin::getKey mainwindowbg]
@@ -2712,7 +2709,7 @@ namespace eval ::amsn {
 
 		update idletasks
 
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		if { [OnMac] } {
 			::ChatWindow::MacPosition ${top_win}
 		}
 
@@ -3197,16 +3194,13 @@ namespace eval ::amsn {
 			$w.c bind close <Leave> "$w.c configure -cursor left_ptr"
 			$w.c bind close <ButtonRelease-1> "after cancel $after_id; ::amsn::KillNotify $w $ypos"		
 
-			#no title needed"
-#			wm title $w "[trans msn] [trans notify]"
 			wm overrideredirect $w 1
-			#wm transient $w
 
 			#now show it
 			wm state $w normal
 
-			#Raise $w to correct a bug win "wm geometry" in AquaTK (Mac OS X)
-			if {[OnMac]} {
+			if { [OnMac] } {
+				#Raise $w to correct a bug in "wm geometry" in AquaTK (Mac OS X)
 				lower $w
 			}
 
@@ -3217,12 +3211,7 @@ namespace eval ::amsn {
 				wm geometry $w -$xpos-[expr {$ypos-100}]
 				after 50 "::amsn::growNotify $w $xpos [expr {$ypos-100}] $ypos"
 			}
-		
 		}
-		
-
-
-
 	}
 
 	proc growNotify { w xpos currenty finaly } {
@@ -3255,7 +3244,7 @@ namespace eval ::amsn {
 #///////////////////////////////////////////////////////////////////////
 proc cmsn_draw_main {} {
 	global emotion_files date weburl lang_list \
-	password HOME pgBuddy pgBuddyTop pgNews argv0 argv langlong tcl_platform
+	password HOME pgBuddy pgBuddyTop pgNews argv0 argv langlong
 
 	#User status menu
 	menu .my_menu -tearoff 0 -type normal
@@ -3293,7 +3282,7 @@ proc cmsn_draw_main {} {
 
 	
 	#for apple, the first menu is the "App menu"
-	if {[OnMac]} {
+	if { [OnMac] } {
 		.main_menu add cascade -label "aMSN" -menu .main_menu.apple
 		set appmenu .main_menu.apple
 		menu $appmenu -tearoff 0 -type normal
@@ -3332,7 +3321,7 @@ proc cmsn_draw_main {} {
 	#log in with another profile
 	$accnt add command -label "[trans loginas]..." -command cmsn_draw_login -state normal
 
-#Note:  One might think we should always have both entries (login and login_as) in the menu with "login" (with profile) greyed out if it's not available.  Though, this makes us have 2 entries that are allmost the same, definately in the translated string.  As this menu doesn't swap all the time and only does so when once this option is set to have a profile, I don't think there's a problem of having this entry not be there when there is no profile.  It's like, when you load a plugin for a new action it can add an item but that item wasn't there before and greyed out.
+	#Note:  One might think we should always have both entries (login and login_as) in the menu with "login" (with profile) greyed out if it's not available.  Though, this makes us have 2 entries that are allmost the same, definitely in the translated string.  As this menu doesn't swap all the time and only does so when once this option is set to have a profile, I don't think there's a problem of having this entry not be there when there is no profile.  It's like, when you load a plugin for a new action it can add an item but that item wasn't there before and greyed out.
 
 	#log out
 	$accnt add command -label "[trans logout]" -command "::MSN::logout" -state disabled
@@ -3514,22 +3503,18 @@ proc cmsn_draw_main {} {
 
 	if {[OnMac]} {
 		# The help menu on a mac should be given the Command-? accelerator.
-		$help add command -label "[trans helpcontents]" \
-		  -command "::amsn::showHelpFileWindow HELP [list [trans helpcontents]]"\
-		  -accelerator "Command-?"
-		bind all <Command-?> "::amsn::showHelpFileWindow HELP [list [trans helpcontents]]"
+		$help add command -label "[trans onlinehelp]" \
+			-command "launch_browser http://amsn.sourceforge.net/userwiki/index.php/Main_Page" \
+			-accelerator "Command-?"
 	} else {
-		$help add command -label "[trans helpcontents]" \
-		-command "::amsn::showHelpFileWindow HELP [list [trans helpcontents]]"
+		$help add command -label "[trans onlinehelp]" \
+			-command "launch_browser http://amsn.sourceforge.net/userwiki/index.php/Main_Page" \
 	}
 
 	set lang [::config::getGlobalKey language]
 	$help add command -label "[trans faq]" \
 	    -command "launch_browser \"http://amsn.sourceforge.net/faq.php?lang=$lang\""
     
-	$help add command -label "[trans onlinehelp]" \
-			-command "launch_browser http://amsn.sourceforge.net/wiki/tiki-index.php?"
-
 	$help add separator
 	
 	$help add command -label "[trans msnstatus]" \
@@ -3537,188 +3522,66 @@ proc cmsn_draw_main {} {
 	
 	$help add command -label "[trans sendfeedback]" -command "launch_browser \"http://amsn.sourceforge.net/forums/index.php\""
 
-	$help add separator
+	# About is in the app menu on Mac
+	if {![OnMac]} {
+		$help add separator
 
-	$help add command -label "[trans about]" -command ::amsn::aboutWindow
-
-
+		$help add command -label "[trans about]" -command ::amsn::aboutWindow
+	}
 
 	#add a postevent to modify the main menu
 	set evPar(menu) .main_menu
 	::plugins::PostEvent mainmenu evPar	
 
-
-
-	######################################################
-	# Set these menus for the main window                #
-	######################################################
-	. conf -menu .main_menu
-
-
-	::config::setKey adverts 0
-
-
-
-	#image create photo mainback -file [::skin::GetSkinFile pixmaps back.gif]
+	# Show the menubar if config allows it (or we're on Mac)
+	if { [OnMac] || [::config::getKey showmainmenu -1] } {
+		. conf -menu .main_menu
+	}
 
 	wm title . "[trans title] - [trans offline]"
 	wm command . [concat $argv0 $argv]
 	wm group . .
 
-	#For All Platforms (except Mac)
-	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+	if { [OnMac] } {
 		frame .main -class Amsn -relief flat -background white
-		#Create the frame for play_Sound_Mac
-		frame .fake
+		frame .fake ;#Create the frame for play_Sound_Mac
 	} else {
 		#Put the color of the border around the contact list (from the skin)
 		frame .main -class Amsn -relief flat -background [::skin::getKey mainwindowbg]
 	}
 
-
-
 	frame .main.f -class Amsn -relief flat -background white -borderwidth 0
 	pack .main -fill both -expand true
 	pack .main.f -expand true -fill both -padx [::skin::getKey buddylistpad] -pady [::skin::getKey buddylistpad] -side top
-	#pack .main -expand true -fill both
-	#pack .main.f -expand true  -fill both  -padx 4 -pady 4 -side top
 
-	# Create the Notebook and initialize the page paths. These
-	# page paths must be used for adding new widgets to the
-	# notebook tabs.
 	if {[::config::getKey withnotebook]} {
+		# Create the Notebook and initialize the page paths. These
+		# page paths must be used for adding new widgets to the
+		# notebook tabs. (This is disabled by default)
+		
 		NoteBook .main.f.nb -background white
 		.main.f.nb insert end buddies -text "Buddies"
 		.main.f.nb insert end news -text "News"
-		 set pgBuddy [.main.f.nb getframe buddies]
-		 set pgNews  [.main.f.nb getframe news]
-		 .main.f.nb raise buddies
-		 .main.f.nb compute_size
-		 pack .main.f.nb -fill both -expand true -side top
+		set pgBuddy [.main.f.nb getframe buddies]
+		set pgNews  [.main.f.nb getframe news]
+		.main.f.nb raise buddies
+		.main.f.nb compute_size
+		pack .main.f.nb -fill both -expand true -side top
 	} else {
+		# Set what's necessary to make it work without the notebook
+		
 		set pgBuddy .main.f
 		set pgNews  ""
 	}
-	# End of Notebook Creation/Initialization
 
-	#New image proxy system
-	::skin::setPixmap msndroid msnbot.gif
-	::skin::setPixmap online online.gif
-	::skin::setPixmap offline offline.gif
-	::skin::setPixmap away away.gif
-	::skin::setPixmap busy busy.gif
-	::skin::setPixmap mobile mobile.gif
-
-	::skin::setPixmap bonline bonline.gif
-	::skin::setPixmap boffline boffline.gif
-	::skin::setPixmap baway baway.gif
-	::skin::setPixmap bbusy bbusy.gif
-	::skin::setPixmap mystatus_bg mystatus_bg.gif
-
-	::skin::setPixmap mailbox unread.gif
-
-	::skin::setPixmap contract contract.gif
-	::skin::setPixmap contract_hover contract_hover.gif
-	::skin::setPixmap expand expand.gif
-	::skin::setPixmap expand_hover expand_hover.gif
-
-	::skin::setPixmap globe globe.gif
-	::skin::setPixmap download download.gif
-	::skin::setPixmap warning warning.gif
-
-	::skin::setPixmap button button.gif
-	::skin::setPixmap button_hover button_hover.gif
-	::skin::setPixmap button_pressed button_pressed.gif
-	::skin::setPixmap button_disabled button_disabled.gif
-	::skin::setPixmap button_focus button_focus.gif
-
-	::skin::setPixmap typingimg typing.gif
-	::skin::setPixmap miniinfo miniinfo.gif
-	::skin::setPixmap miniwarning miniwarn.gif
-	::skin::setPixmap minijoins minijoins.gif
-	::skin::setPixmap minileaves minileaves.gif
-
-	::skin::setPixmap cwtopback cwtopback.gif
-	::skin::setPixmap camicon camicon.gif	
-	
-
-	::skin::setPixmap butsmile butsmile.gif
-	::skin::setPixmap butsmile_hover butsmile_hover.gif
-	::skin::setPixmap butfont butfont.gif
-	::skin::setPixmap butfont_hover butfont_hover.gif
-	::skin::setPixmap butblock butblock.gif
-	::skin::setPixmap butblock_hover butblock_hover.gif
-	::skin::setPixmap butsend butsend.gif
-	::skin::setPixmap butsend_hover butsend_hover.gif
-	::skin::setPixmap butinvite butinvite.gif
-	::skin::setPixmap butinvite_hover butinvite_hover.gif
-	::skin::setPixmap butwebcam butwebcam.gif
-	::skin::setPixmap butwebcam_hover butwebcam_hover.gif
-	::skin::setPixmap butnewline newline.gif
-	::skin::setPixmap sendbutton sendbut.gif
-	::skin::setPixmap sendbutton_hover sendbut_hover.gif
- 	::skin::setPixmap imgshow imgshow.gif
- 	::skin::setPixmap imgshow_hover imgshow_hover.gif
-	::skin::setPixmap imghide imghide.gif
-	::skin::setPixmap imghide_hover imghide_hover.gif
-
-	::skin::setPixmap button button.gif
-	::skin::setPixmap button_hover button_hover.gif
-	::skin::setPixmap button_pressed button_pressed.gif
-	::skin::setPixmap button_disabled button_disabled.gif
-
-	::skin::setPixmap ring ring.gif
-	::skin::setPixmap ring_disabled ring_disabled.gif
-	
-	::skin::setPixmap winwritecam cam_in_chatwin.png
-
-	::skin::setPixmap webcam webcam.png
-	::skin::setPixmap camempty camempty.png
-	::skin::setPixmap yes-emblem yes-emblem.gif
-	::skin::setPixmap no-emblem no-emblem.gif
-
-
-	::skin::setPixmap fticon fticon.gif
-	::skin::setPixmap ftreject ftreject.gif
-
-	::skin::setPixmap notifico notifico.gif
-	::skin::setPixmap notifclose notifclose.gif
-	::skin::setPixmap notifyonline notifyonline.gif
-	::skin::setPixmap notifyoffline notifyoffline.gif
-	::skin::setPixmap notifyplugins notifyplugins.gif
-	::skin::setPixmap notifystate notifystate.gif
-
-	::skin::setPixmap blocked blocked.gif
-	::skin::setPixmap blocked_off blocked_off.gif
-	::skin::setPixmap colorbar colorbar.gif
-
-	::skin::setPixmap bell bell.gif
-	::skin::setPixmap belloff belloff.gif
-
-	::skin::setPixmap notinlist notinlist.gif
-	::skin::setPixmap smile smile.gif
-
-	::skin::setPixmap loganim loganim.gif
-
-	::skin::setPixmap greyline greyline.gif
-
-	::skin::setPixmap nullimage null
-	#set the nullimage transparent
-	[::skin::loadPixmap nullimage] blank
-	if { $tcl_platform(os) == "Darwin" } {
-		::skin::setPixmap logolinmsn logomacmsn.gif
-		::skin::setPixmap arrow arrowmac.gif
-	} else {
-		::skin::setPixmap logolinmsn logolinmsn.gif
-		::skin::setPixmap arrow arrow.gif
-	}
+	# Set default pixmap names
+	::skin::SetPixmapNames
 
 	set pgBuddyTop $pgBuddy.top
 	frame $pgBuddyTop -background [::skin::getKey topcontactlistbg] -width 30 -height 30 -cursor left_ptr \
 		-borderwidth 0 -relief flat -bd 0
-	if { $::tcl_version >= 8.4 } {
-		$pgBuddyTop configure -padx 0 -pady 0
-	}
+	
+	$pgBuddyTop configure -padx 0 -pady 0
 
 	ScrolledWindow $pgBuddy.sw -auto vertical -scrollbar vertical -ipad 0
 	pack $pgBuddy.sw -expand true -fill both
@@ -3735,39 +3598,16 @@ proc cmsn_draw_main {} {
 	frame .main.eventmenu
 	combobox::combobox .main.eventmenu.list -editable false -highlightthickness 0 -width 22 -bg #FFFFFF -font splainf -exportselection false
 
-	# Initialize the banner for when the user wants to see aMSN Banner
-	#adv_initialize .main
-	# Add the banner to main window when the user wants (By default "Yes")
-	#resetBanner
-
-	#As the ctadverts isn't used really, I'm putting the code for the normal banner here:
+	#Display the amsn banner if it is enabled
 	label .main.banner -bd 0 -relief flat -background [::skin::getKey bannerbg]
 	pack .main.banner -side bottom -fill x
 	resetBanner
-
-
-	#if {[::config::getKey enablebanner]} {
-
-		# If user wants to see aMSN Banner, we add it to main window (By default "Yes")
-	#	adv_initialize .main
-
-		# This one is not a banner but a branding. When adverts are enabled
-		# they share this space with the branding image. The branding image
-		# is cycled in between adverts.
-	#	if {$tcl_platform(os) == "Darwin"} {
-	#		::skin::setPixmap banner logomacmsn.gif
-			#adv_show_banner file [::skin::GetSkinFile pixmaps logomacmsn.gif]
-	#	} else {
-	#		::skin::setPixmap banner logolinmsn.gif
-			#adv_show_banner file [::skin::GetSkinFile pixmaps logolinmsn.gif]
-	#	}
-	#}
 
 	#delete F10 binding that crashes amsn
 	bind all <F10> ""
 
 	#Set key bindings. They are different on Mac. (e.g. Command key instead of Control)
-	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+	if { [OnMac] } {
 		#Status log
 		bind . <Command-s> toggle_status
 		# Command-Shift-s is now used by the skin menuitem in appmenu.
@@ -3781,9 +3621,7 @@ proc cmsn_draw_main {} {
 		bind . <Command-P> ::plugins::PluginGui
 		#Preferences
 		bind . <Command-,> Preferences
-		#BossMode
-		# Command Alt space is used as a global key combo since Mac OS X 10.4.
-		#bind . <Command-Alt-space> BossMode
+		#BossMode (Command Alt space is used as a global key combo since Mac OS X 10.4.)
 		bind . <Command-Shift-space> BossMode
 		#Plugins log
 		bind . <Option-p> ::pluginslog::toggle
@@ -3791,9 +3629,13 @@ proc cmsn_draw_main {} {
 		#Minimize contact list
 		bind . <Command-m> "catch {carbon::processHICommand mini .}"
 		bind . <Command-M> "catch {carbon::processHICommand mini .}"
+		#Quit
 		bind all <Command-q> "exit"
 		bind all <Command-Q> "exit"
+		#Raise cl window
 		bind all <Command-Key-1> "raise ."
+		#Online Help
+		bind all <Command-?> "launch_browser http://amsn.sourceforge.net/userwiki/index.php/Main_Page"
 	} else {
 		#Status log
 		bind . <Control-s> toggle_status
@@ -3807,26 +3649,22 @@ proc cmsn_draw_main {} {
 		bind . <Control-q> exit
 		#Boss mode
 		bind . <Control-Alt-space> BossMode
-
 		# Show/hide menu binding with toggle == 1
 		bind . <Control-m> "Showhidemenu 1"
-		# Make sure we restore the previous setting
-		Showhidemenu 0
 	}
 
+	#Set the wm close button action
 	if { [OnMac] } {
 		wm protocol . WM_DELETE_WINDOW { ::amsn::closeAmsnMac }
 	} else {
 		wm protocol . WM_DELETE_WINDOW {::amsn::closeOrDock [::config::getKey closingdocks]}
 	}
 
+	#Draw main window contents
 	cmsn_draw_status
 	cmsn_draw_offline
 
-#	status_log "Proxy is : [::config::getKey proxy]\n"
-
-	#wm iconname . "[trans title]"
-	if {$tcl_platform(platform) == "windows"} {
+	if { [OnWin] } {
 		catch {wm iconbitmap . [::skin::GetSkinFile winicons msn.ico]}
 		catch {wm iconbitmap . -default [::skin::GetSkinFile winicons msn.ico]}
 	} else {
@@ -3834,25 +3672,20 @@ proc cmsn_draw_main {} {
 		catch {wm iconmask . @[::skin::GetSkinFile pixmaps amsnmask.xbm]}
 	}
 
-		#Unhide main window now that it has finished being created
-
-		update
-
-		wm state . normal
-		#Set the position on the screen and the size for the contact list, from config
-		catch {wm geometry . [::config::getKey wingeometry]}
-		#To avoid the bug of window behind the bar menu on Mac OS X
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+	update
+	
+	#Unhide main window now that it has finished being created
+	wm state . normal
+	#Set the position on the screen and the size for the contact list, from config
+	catch {wm geometry . [::config::getKey wingeometry]}
+	
+	#To avoid the bug of window behind the menu bar on Mac OS X
+	if { [OnMac] } {
 		moveinscreen . 30
-		}
-	#Will be loaded when we log in
-	#load_my_pic
-
+	}
+	
 	#allow for display updates so window size is correct
-
 	update idletasks
-
-
 }
 #///////////////////////////////////////////////////////////////////////
 
@@ -3966,7 +3799,6 @@ proc ShowFirstTimeMenuHidingFeature { parent } {
 
 
 proc Showhidemenu { {toggle 0} } {
-
     if {$toggle} { 
 	if { [::config::getKey showmainmenu -1] == -1 } {
 	    if { [ShowFirstTimeMenuHidingFeature .] == 0 } {
@@ -3974,7 +3806,6 @@ proc Showhidemenu { {toggle 0} } {
 	    }
 	}
 	::config::setKey showmainmenu [expr ![::config::getKey showmainmenu -1]] 
-	
     } 
 
     if { [::config::getKey showmainmenu -1]} {
@@ -3982,7 +3813,6 @@ proc Showhidemenu { {toggle 0} } {
     } else {
 	. configure -menu ""
     }
-
 }
 
 
@@ -4124,7 +3954,7 @@ proc play_sound {sound {absolute_path 0} {force_play 0}} {
 
 	if { [::config::getKey sound] == 1 || $force_play == 1} {
 		#Activate snack on Mac OS X (remove that during 0.94 CVS)
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		if { [OnMac] } {
 			if { $absolute_path == 1 } {
 			play_Sound_Mac $sound
 			} else {
@@ -4157,8 +3987,6 @@ proc snack_play_sound {snd {loop 0}} {
 }
 
 proc play_sound_other {sound} {
-	global tcl_platform
-
 	if { [string first "\$sound" [::config::getKey soundcommand]] == -1 } {
 		::config::setKey soundcommand "[::config::getKey soundcommand] \$sound"
 	}
@@ -4654,7 +4482,7 @@ proc SSLToggled {} {
 #
 proc cmsn_draw_login {} {
 
-	global password loginmode HOME HOME2 protocol tcl_platform
+	global password loginmode HOME HOME2 protocol
 
 	if {[winfo exists .login]} {
 		raise .login
@@ -4865,8 +4693,6 @@ proc ButtonCancelLogin { window {email ""} } {
 # Small dialog window with entry to create new profile
 proc AddProfileWin {} {
 
-	global tcl_platform
-
 	if {[winfo exists .add_profile]} {
 		raise .add_profile
 			return 0
@@ -5049,7 +4875,7 @@ proc cmsn_draw_online { {delay 0} {topbottom 3} } {
 
 proc cmsn_draw_buildtop_wrapped {} {
         global login \
-                password pgBuddy pgBuddyTop automessage emailBList tcl_platform
+                password pgBuddy pgBuddyTop automessage emailBList
 
 
         set my_name [::abook::getPersonal MFN]
@@ -5113,7 +4939,7 @@ proc cmsn_draw_buildtop_wrapped {} {
 
         $pgBuddyTop.mystatus tag bind mystatus <Button1-ButtonRelease> "tk_popup .my_menu %X %Y"
         #Change button mouse on Mac OS X
-        if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+        if { [OnMac] } {
                 $pgBuddyTop.mystatus tag bind mystatus <Button2-ButtonRelease> "tk_popup .my_menu %X %Y"
                 $pgBuddyTop.mystatus tag bind mystatus <Control-ButtonRelease> "tk_popup .my_menu %X %Y"
         } else {
@@ -5192,7 +5018,7 @@ proc cmsn_draw_buildtop_wrapped {} {
                 clickableImage $pgBuddyTop.mail mailbox mailbox "::hotmail::hotmail_login" [::skin::getKey mailbox_xpad] [::skin::getKey mailbox_ypad]
                 set mailheight [expr {[image height [::skin::loadPixmap mailbox]]+(2*[::skin::getKey mailbox_ypad])}]
                 #in windows need an extra -2 is to include the extra 1 pixel above and below in a font
-                if {$tcl_platform(platform) == "windows" || ![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+                if { [OnWin] || [OnMac] } {
                         incr mailheight -2
                 }
                 set textheight [font metrics splainf -linespace]
@@ -5252,7 +5078,7 @@ proc cmsn_draw_online_wrapped {} {
 
 	#::guiContactList::createCLWindow
 	global login \
-		password pgBuddy pgBuddyTop automessage emailBList tcl_platform
+		password pgBuddy pgBuddyTop automessage emailBList
 
 	set scrollidx [$pgBuddy.text yview]
 
@@ -5365,7 +5191,7 @@ proc cmsn_draw_online_wrapped {} {
 		#Don't add menu for "Individuals" group
 		if { $gname != 0 } {
 			#Specific for Mac OS X, Change button3 to button 2 and add control-click
-			if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+			if { [OnMac] } {
 				$pgBuddy.text tag bind $gtag <Button2-ButtonRelease> "::groups::GroupMenu $gname %X %Y"
 				$pgBuddy.text tag bind $gtag <Control-ButtonRelease> "::groups::GroupMenu $gname %X %Y"
 			} else {
@@ -5718,7 +5544,7 @@ proc getUniqueValue {} {
 
 #///////////////////////////////////////////////////////////////////////
 proc ShowUser {user_login state_code colour section grId} {
-	global pgBuddy emailBList Bulle tcl_platform
+	global pgBuddy emailBList Bulle
 
 	# font splainf is used in contact list, compute pixel width of a space
 	set width_of_space [font measure splainf -displayof $pgBuddy.text " "]
@@ -5961,7 +5787,7 @@ proc ShowUser {user_login state_code colour section grId} {
 		}
 	}
 	#Change mouse button and add control-click on Mac OS X
-	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+	if { [OnMac] } {
 		$pgBuddy.text tag bind $user_unique_name <Button2-ButtonRelease> "show_umenu $user_login $grId %X %Y"
 		$pgBuddy.text tag bind $user_unique_name <Control-ButtonRelease> "show_umenu $user_login $grId %X %Y"
 	} else {
@@ -6307,9 +6133,6 @@ proc cmsn_draw_otherwindow { title command } {
 
 #///////////////////////////////////////////////////////////////////////
 proc newcontact {new_login new_name} {
-	global tcl_platform
-
-
 	set login [split $new_login "@ ."]
 	set login [join $login "_"]
 	set wname ".newc_$login"
@@ -6872,14 +6695,11 @@ proc msg_box {msg} {
 # launch_browser(url)
 # Launches the configured file manager
 proc launch_browser { url {local 0}} {
-
-	global tcl_platform
-
 	if { ![regexp ^\[\[:alnum:\]\]+:// $url] && $local != 1 } {
 		set url "http://$url"
 	}
 
-	if { $tcl_platform(platform)=="windows" && [string tolower [string range $url 0 6]] == "file://" } {
+	if { [OnWin] && [string tolower [string range $url 0 6]] == "file://" } {
 		set url [string range $url 7 end]
 		regsub -all "/" $url "\\\\" url
 	}
@@ -6887,7 +6707,7 @@ proc launch_browser { url {local 0}} {
 	status_log "url is $url\n"
 
 	#status_log "Launching browser for url: $url\n"
-	if { $tcl_platform(platform) == "windows" } {
+	if { [OnWin] } {
 
 		#regsub -all -nocase {htm} $url {ht%6D} url
 		#regsub -all -nocase {&} $url {^&} url
@@ -6916,50 +6736,45 @@ proc launch_browser { url {local 0}} {
 # open_file(file)
 # open the file with the environnment's default
 proc open_file {file} {
-	global tcl_platform
+	#use WinLoadFile for windows
+	if { [OnWin] } {
+		#replace all / with \
+		regsub -all {/} $file {\\} file
 
-		#use WinLoadFile for windows
-		if { $tcl_platform(platform) == "windows" } {
-			#replace all / with \
-			regsub -all {/} $file {\\} file
-
-			package require WinUtils
-			WinLoadFile $file
-		} elseif { [string length [::config::getKey openfilecommand]] < 1 } {
-			msg_box "[trans checkopenfilecommand $file]"
-		} else {
-			if {[catch {eval exec [::config::getKey openfilecommand] &} res]} {
-				status_log "[::config::getKey openfilecommand]"
-				status_log $res
-				::amsn::errorMsg "[trans cantexec [::config::getKey openfilecommand]]"
-			}
+		package require WinUtils
+		WinLoadFile $file
+	} elseif { [string length [::config::getKey openfilecommand]] < 1 } {
+		msg_box "[trans checkopenfilecommand $file]"
+	} else {
+		if {[catch {eval exec [::config::getKey openfilecommand] &} res]} {
+			status_log "[::config::getKey openfilecommand]"
+			status_log $res
+			::amsn::errorMsg "[trans cantexec [::config::getKey openfilecommand]]"
 		}
+	}
 }
 
 #///////////////////////////////////////////////////////////////////////
 # launch_filemanager(directory)
 # Launches the configured file manager
 proc launch_filemanager {location} {
-	global tcl_platform
-
-		if { [string length [::config::getKey filemanager]] < 1 } {
-			msg_box "[trans checkfilman $location]"
-		} else {
-			#replace all / with \ for windows
-			if { $tcl_platform(platform) == "windows" } {
-				regsub -all {/} $location {\\} location
-			}
-
-			if { [string first "\$location" [::config::getKey filemanager]] == -1 } {
-				::config::setKey filemanager "[::config::getKey filemanager] \$location"
-			}
-
-
-			if {[catch {eval exec [::config::getKey filemanager] &} res]} {
-				::amsn::errorMsg "[trans cantexec [::config::getKey filemanager]]"
-			}
+	if { [string length [::config::getKey filemanager]] < 1 } {
+		msg_box "[trans checkfilman $location]"
+	} else {
+		#replace all / with \ for windows
+		if { [OnWin] } {
+			regsub -all {/} $location {\\} location
 		}
 
+		if { [string first "\$location" [::config::getKey filemanager]] == -1 } {
+			::config::setKey filemanager "[::config::getKey filemanager] \$location"
+		}
+
+
+		if {[catch {eval exec [::config::getKey filemanager] &} res]} {
+			::amsn::errorMsg "[trans cantexec [::config::getKey filemanager]]"
+		}
+	}
 }
 #///////////////////////////////////////////////////////////////////////
 
@@ -7585,9 +7400,6 @@ proc window_history { command w } {
 # Converts the given $filename to the given size, and leaves
 # xx.png and xxx.gif in the given destination directory
 proc convert_image { filename destdir size } {
-
-	global tcl_platform
-
 	set filetail [file tail $filename]
 	set filetail_noext [filenoext $filetail]
 
@@ -8453,12 +8265,9 @@ proc my_focus { w } {
 #The function try to know if the operating system is Mac OS X or not. If no, enable window in transient. Else,
 #don't change nothing.
 proc ShowTransient {win {parent "."}} {
-	global tcl_platform
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-		#Empty
-		} else {
-			wm transient $win $parent
-		}
+	if { ![OnMac] } {
+		wm transient $win $parent
+	}
 }
 
 

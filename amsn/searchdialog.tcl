@@ -97,7 +97,7 @@ snit::widget searchdialog {
 	}
 
 	method bindwindow { w } {
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		if { [OnMac] } {
 			bind $w <Command-f> "$self show"
 			bind $w <Command-F> "$self show"
 			bind $w <Command-G> "$self findnext"
@@ -113,7 +113,7 @@ snit::widget searchdialog {
 
 		# Shift-F* bindings are weird on some XFree86 versions, and instead of Shift-F(n), we get XF86_Switch_VT_(n)
 		# We allow for this here
-		if { ![catch {tk windowingsystem} wsystem] && $wsystem  == "x11" } {
+		if { [OnX11] } {
 			bind $w <XF86_Switch_VT_3> "$self findprev"
 		}
 	}

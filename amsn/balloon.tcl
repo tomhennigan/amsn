@@ -79,7 +79,7 @@ proc kill_balloon {} {
 }
 
 proc balloon {target message pic {cx 0} {cy 0} {fonts ""} {mode "simple"} } {
-    global Bulle tcl_platform
+    global Bulle
     #check that the mouse is over the target (fix a tk bug - in windows)
     if {[eval winfo containing  [winfo pointerxy .]]!=$target} {
     	set Bulle(first) 0
@@ -108,7 +108,7 @@ proc balloon {target message pic {cx 0} {cy 0} {fonts ""} {mode "simple"} } {
 	}
 	
 	#Standard way to show balloon on Mac OS X (aqua), show balloon in white for Mac OS X and skinnable balloons for others platforms
-	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+	if { [OnMac] } {
 		destroy .balloon
 		toplevel .balloon -relief flat -bg #C3C3C3 \
 		-class Balloonhelp ; ::tk::unsupported::MacWindowStyle\
@@ -119,7 +119,7 @@ proc balloon {target message pic {cx 0} {cy 0} {fonts ""} {mode "simple"} } {
 
 	frame .balloon.f -bg [::skin::getKey balloonbackground]
 	
-	if {$tcl_platform(platform) == "windows"} {
+	if { [OnWin] } {
 		set bw [::skin::getKey balloonborderwidth]
 	} else {
 		set bw [expr {[::skin::getKey balloonborderwidth] - 1 }]
@@ -185,7 +185,7 @@ proc balloon {target message pic {cx 0} {cy 0} {fonts ""} {mode "simple"} } {
 		error "Optional parameter mode must be either \"simple\" or \"complex\"."
 	}
 
-	if {$tcl_platform(platform) == "windows"} {
+	if { [OnWin] } {
 		set bw [::skin::getKey balloonborderwidth]
 	} else {
 		set bw [expr {[::skin::getKey balloonborderwidth] - 1 }]
@@ -196,8 +196,8 @@ proc balloon {target message pic {cx 0} {cy 0} {fonts ""} {mode "simple"} } {
 	
         wm geometry .balloon +${x}+${y}
         
-	#Focus last windows , in AquaTK ("Mac OS X focus bug")
-	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua" && $lastfocus!="" } {
+	#Focus last windows in AquaTK (to fix "Mac OS X focus bug")
+	if { [OnMac] && $lastfocus!="" } {
 		after 50 "catch {focus -force $lastfocus}"
 	}
 		

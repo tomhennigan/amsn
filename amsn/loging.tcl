@@ -440,7 +440,7 @@ namespace eval ::log {
 
 		frame $wname.top
 		#No ugly blue frame on Mac OS X, system already put a border around windows
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		if { [OnMac] } {
 			frame $wname.blueframe
 		} else {
 			frame $wname.blueframe -background [::skin::getKey mainwindowbg]
@@ -570,7 +570,7 @@ namespace eval ::log {
 		
 		frame $wname.top
 		#No ugly blue frame on Mac OS X, system already put a border around windows
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		if { [OnMac] } {
 			frame $wname.blueframe
 		} else {
 			frame $wname.blueframe -background [::skin::getKey mainwindowbg]

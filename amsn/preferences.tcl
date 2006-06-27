@@ -1713,7 +1713,7 @@ proc Preferences { { settings "personal"} } {
 	pack $lfname.1 -anchor w -side top -padx 0 -pady 5 -expand 1 -fill both
 	pack $lfname.1.alert1 $lfname.1.sound -anchor w -side top -padx 10 -pady 0
 	#Bounce icon in the dock preference for Mac OS X
-	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+	if { [OnMac] } {
 		label $lfname.1.bouncedock -text "[trans bouncedock]" -padx 10
 		pack $lfname.1.bouncedock -anchor w -side top -padx 10
 		radiobutton $lfname.1.unlimited -text "[trans continuously]" -value unlimited -variable [::config::getVar dockbounce]
@@ -1761,13 +1761,13 @@ proc Preferences { { settings "personal"} } {
 	checkbutton $lfname.3.lreconnect -text "[trans reconnect2]" -onvalue 1 -offvalue 0 -variable [::config::getVar reconnect]
 	checkbutton $lfname.3.lonstart -text "[trans autoconnect2]" -onvalue 1 -offvalue 0 -variable [::config::getVar autoconnect]
 		
-	if {$::tcl_platform(platform) == "windows"} { 
+	if { [OnWin] } { 
 		checkbutton $lfname.3.startonboot -text "[trans startonboot]" -onvalue "add" -offvalue "remove" -variable ::start_on_windows_boot
 	}
 	
 	pack $lfname.3 -side top -padx 0 -expand 1 -fill both
 
-	if {$::tcl_platform(platform) == "windows"} { 
+	if { [OnWin] } { 
 		pack $lfname.3.lreconnect $lfname.3.lonstart $lfname.3.startonboot  -anchor w -side top
 	} else {
 		pack $lfname.3.lreconnect $lfname.3.lonstart -anchor w -side top       
@@ -1810,16 +1810,14 @@ proc Preferences { { settings "personal"} } {
 	grid $lfname.1.lchatmaxmin -row 1 -column 1 -sticky w
 	
 	#Don't show the minimised option on Mac OS X because that does'nt work in TkAqua
-	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-		#Empty 
-	} else {
+	if { ![OnMac] } {
 		radiobutton $lfname.1.min -text [trans minimised] -value 1 -variable [::config::getVar newchatwinstate] -padx 17
 	}
 	
 	radiobutton $lfname.1.no -text [trans dontshow] -value 2 -variable [::config::getVar newchatwinstate]  -padx 17
 	
 	#Don't pack the minimised option on Mac OS X because that does'nt work in TkAqua
-	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+	if { [OnMac] } {
 		grid $lfname.1.max -row 2 -column 1 -sticky w
 		grid $lfname.1.no -row 3 -column 1 -sticky w
 	} else {
@@ -1829,9 +1827,7 @@ proc Preferences { { settings "personal"} } {
 	}
 	
 	#Don't enable this option on Mac OS X because we can't minimized window this way with TkAqua
-	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-		#empty
-	} else {
+	if { ![OnMac] } {
 		label $lfname.2.lmsgmaxmin -text [trans msgmaxmin]
 		radiobutton $lfname.2.max -text [trans raised] -value 0 -variable [::config::getVar newmsgwinstate] -padx 17
 		radiobutton $lfname.2.min -text [trans minimised] -value 1 -variable [::config::getVar newmsgwinstate] -padx 17
@@ -2197,9 +2193,9 @@ proc Preferences { { settings "personal"} } {
 	label $lfname.1.lbrowser -text "[trans browser] :" -padx 5 -font sboldf
 	entry $lfname.1.browser -bg #FFFFFF   -width 40 -textvariable [::config::getVar browser]
 	label $lfname.1.lbrowserex -text "[trans browserexample]" -font examplef
-	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-		#Empty because we don't change filemanager and open file manager on Mac OS X
-	} else {
+	
+	#Don't change filemanager and open file manager on Mac OS X
+	if { ![OnMac] } {
 		#file manager
 		label $lfname.1.lfileman -text "[trans fileman] :" -padx 5 -font sboldf
 		entry $lfname.1.fileman -bg #FFFFFF   -width 40 -textvariable [::config::getVar filemanager]
@@ -2215,9 +2211,7 @@ proc Preferences { { settings "personal"} } {
 	label $lfname.1.lmailerex -text "[trans mailerexample]" -font examplef
 	
 	#aMSN for Mac OS X always use "QuickTimeTCL" (except in Alarms) so don't let mac user choose sound player
-	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-		#Empty
-	} else {
+	if { ![OnMac] } {
 		label $lfname.1.lsound -text "[trans soundserver] :" -padx 5 -font sboldf
 		frame $lfname.1.sound -class Degt
 	
@@ -2237,7 +2231,7 @@ proc Preferences { { settings "personal"} } {
 
 	#aMSN for Mac OS X always use "QuickTimeTCL" (except in Alarms) so don't let mac user choose sound player
 	#because we don't change filemanager and open file manager on Mac OS X
-	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+	if { [OnMac] } {
 		grid $lfname.1.lmailer -row 7 -column 1 -sticky w
 		grid $lfname.1.mailer -row 7 -column 2 -sticky w
 		grid $lfname.1.lmailerex -row 8 -column 2 -columnspan 1 -sticky w
@@ -2310,8 +2304,8 @@ proc Preferences { { settings "personal"} } {
 	#add bindings to scroll with mousewheel
 	#can not use local variables in bind scripts with {}. 
 	#and with "", can not use %D  :(
-	# MacOS Classic/OSX and Windows
-	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+	# Mac OS X and Windows
+	if { [OnMac] } {
 	    bind .cfg <MouseWheel> {
 		    set w [.cfg.notebook.nn getframe [.cfg.notebook.nn raise]]
 		    if { [winfo exists $w.sw.sf] } {
@@ -2320,7 +2314,7 @@ proc Preferences { { settings "personal"} } {
 			    $w.lfname.sw.sf yview scroll [expr {- (%D)}] units
 		    }
 	    } 
-	} elseif {$::tcl_platform(platform) == "windows"} {
+	} elseif { [OnWin] } {
 	    bind .cfg <MouseWheel> {
 		    set w [.cfg.notebook.nn getframe [.cfg.notebook.nn raise]]
 		    if { [winfo exists $w.sw.sf] } {
@@ -2329,8 +2323,7 @@ proc Preferences { { settings "personal"} } {
 			    $w.lfname.sw.sf yview scroll %D units
 		    }
 	    }
-	} else {
-		# We're on X11! (I suppose ;))
+	} elseif { [OnX11] } {
 	    bind .cfg <5> {
 		    set w [.cfg.notebook.nn getframe [.cfg.notebook.nn raise]]
 		    if { [winfo exists $w.sw.sf] } {
@@ -2893,9 +2886,7 @@ proc UpdatePreferences {} {
 	set lfname [$lfname.sw.sf getframe]
 	set lfname "${lfname}.lfname"
 	#Disabled that if we are on Mac OS X because we can't choose Snack
-	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-		#Empty
-	} else {
+	if { ![OnMac] } {
 		if { [::config::getKey usesnack] == 1 } {
 			#load Snack when being used
 			if {![catch {package require snack}]} {

@@ -24,7 +24,7 @@ proc scan_languages { } {
 proc detect_language { {default "en"} } {
 	global env
 	
-	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+	if { [OnDarwin] } {
 		if { [catch { set system_language [string tolower [exec defaults read NSGlobalDomain AppleLocale]]}]} {
 			set system_language en
 		} else {

@@ -199,7 +199,7 @@ proc trayicon_callback {imgSrc imgDst width height} {
 }
 
 proc statusicon_proc {status} {
-	global systemtray_exist statusicon list_states iconmenu wintrayicon tcl_platform defaultbackground
+	global systemtray_exist statusicon list_states iconmenu wintrayicon defaultbackground
 	set cmdline ""
 
 	if { ![WinDock] } {
@@ -220,7 +220,7 @@ proc statusicon_proc {status} {
 	set my_name [::abook::getPersonal MFN]
    	
 	if { $systemtray_exist == 1 && $statusicon != 0 && $status == "REMOVE" } {
-		if {$tcl_platform(platform) == "windows"} {
+		if { [OnWin] } {
 			winico taskbar delete $wintrayicon
 		} else {
 			remove_icon $statusicon
@@ -375,7 +375,7 @@ proc taskbar_mail_icon_handler { msg x y } {
 
 proc mailicon_proc {num} {
 	# Workaround for bug in the traydock-plugin - statusicon added - BEGIN
-	global systemtray_exist mailicon statusicon password winmailicon tcl_platform mailtrayicon defaultbackground
+	global systemtray_exist mailicon statusicon password winmailicon mailtrayicon defaultbackground
 	# Workaround for bug in the traydock-plugin - statusicon added - END
 
 	if { [::config::getKey showmailicon] == 0 } {
@@ -406,12 +406,12 @@ proc mailicon_proc {num} {
 		}
 
 	} elseif {$systemtray_exist == 1 && $mailicon != 0 && $num == 0} {
-		if { $tcl_platform(platform) != "windows" } {
-			remove_icon $mailicon
-			destroy mailtrayicon
+		if { [OnWin] } {
+			winico taskbar delete $winmailicon
 			set mailicon 0
 		} else {
-			winico taskbar delete $winmailicon
+			remove_icon $mailicon
+			destroy mailtrayicon
 			set mailicon 0
 		}
 	} elseif {$systemtray_exist == 1 && $mailicon != 0 && ([UnixDock] || [WinDock])  && $num > 0} {
@@ -464,7 +464,7 @@ proc restart_tray { } {
 #     on the platform it is used on.  It returns 1 if it succeeded,   #
 #     0 on failure.  Errors are printed to stdout.                    #
 #     Depends on:                                                     #
-#       - OnWin / OnUnix / trans                                      #
+#       - OnWin / OnLinux / trans                                     #
 #######################################################################
 proc loadTrayLib {} {
 	
@@ -491,7 +491,7 @@ proc loadTrayLib {} {
 			return 0
 		}
 
-	} elseif { [OnUnix] } {
+	} elseif { [OnLinux] } {
 		#if there is a problem loading the lib, print the error on the console and return
 		if { [catch {package require libtray} errormsg] } {
 			status_log "[trans traynotcompiled] : $errormsg"
@@ -521,7 +521,7 @@ proc loadTrayLib {} {
 #       - tooltip:  text to show when hovered by the mousepointer     #
 #       - tooltip:  handler proc for communication on windows         #
 #     Depends on:                                                     #
-#       - loadTrayLib / OnWin / OnUnix / tray lib  /                  #
+#       - loadTrayLib / OnWin / OnLinux / tray lib  /                 #
 #         balloon_enter / balloon_motion / kill_balloon               #
 #######################################################################
 proc addTrayIcon {name xiconpath winiconpath {tooltip ""} {winactionhandler "nohandler"}} {
@@ -539,7 +539,7 @@ proc addTrayIcon {name xiconpath winiconpath {tooltip ""} {winactionhandler "noh
 
 
 		#X11/Freedesktop (linux) specific code
-		} elseif { [OnUnix] && $xiconpath != ""} {
+		} elseif { [OnLinux] && $xiconpath != ""} {
 			if { [winfo exists .$name] } {
 				status_log "trayicon.tcl: won't add icon $name as it already exists"
 			} else {
@@ -572,7 +572,7 @@ proc addTrayIcon {name xiconpath winiconpath {tooltip ""} {winactionhandler "noh
 #     Vars:                                                           #
 #       - name: the internal specific name of the icon (as widget)    #
 #     Depends on:                                                     #
-#       - loadTrayLib / OnWin / OnUnix / tray lib                     #
+#       - loadTrayLib / OnWin / OnLinux / tray lib                    #
 #######################################################################
 proc rmTrayIcon {name} {
 	if {[loadTrayLib]} {
@@ -580,7 +580,7 @@ proc rmTrayIcon {name} {
 		if { [OnWin] } {
 			winico taskbar delete $name
 		#X11/Freedesktop (linux) specific code
-		} elseif { [OnUnix] } {
+		} elseif { [OnLinux] } {
 			if { [catch {removeti .$name} errormsg] } {
 				status_log "$errormsg\n"
 			}
@@ -603,7 +603,7 @@ proc confTrayIcon {name xiconpath winiconpath {tooltip ""} {winactionhandler "no
 			winico taskbar add $name -text "$tooltip" -callback "$winactionhandler %m %x %y"			
 
 		#X11/Freedesktop (linux) specific code
-		} elseif { [OnUnix] } {
+		} elseif { [OnLinux] } {
 			configureti .$name
 			image create photo source_$name -file $xiconpath
 			image create photo dest_$name

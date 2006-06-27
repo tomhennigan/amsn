@@ -1167,13 +1167,13 @@ namespace eval ::plugins {
 	# none
 	#
 	proc save_config { } {
-		global tcl_platform HOME HOME2 version 
+		global HOME HOME2 version 
 		variable loadedplugins
 
 		plugins_log core "save_config: saving plugin config for user [::config::getKey login] in $HOME]\n"
 	
 		if { [catch {
-			if {$tcl_platform(platform) == "unix"} {
+			if { [OnLinux] } {
 				set file_id [open "[file join ${HOME} plugins.xml]" w 00600]
 			} else {
 				set file_id [open "[file join ${HOME} plugins.xml]" w]
@@ -1244,7 +1244,7 @@ namespace eval ::plugins {
 	# none
 	#
 	proc load_config {} {
-		global HOME password protocol tcl_platform
+		global HOME password protocol
 		variable loadedplugins
 		foreach {plugin} $loadedplugins {
 			::plugins::UnLoadPlugin $plugin

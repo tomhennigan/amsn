@@ -370,7 +370,7 @@ namespace eval ::skin {
 		}
 
 		# Change frame color (For All Platforms except Mac)
-		if {[catch {tk windowingsystem} wsystem] || $wsystem != "aqua"} {
+		if { ![OnMac] } {
 			catch {.main configure -background [::skin::getKey mainwindowbg]}
 			#We are not using pixmapscroll on Mac OS X
 			# Reload pixmapscroll's images
@@ -638,7 +638,7 @@ namespace eval ::skin {
 		}
 
 		# This bits are used to override certain keys loaded before with specific values for MacOS X (TkAqua)
-	#	if { ![catch {tk windowingsystem} wsystem] && $wsystem == "aqua" } {
+	#	if { [OnMac] } {
 	#		if { [info exists sdata(${cstack}:chatwindowbg)] } { ::skin::setKey buttonbarbg [string trim $sdata(${cstack}:chatwindowbg)] }
 	#			::skin::setKey chat_top_border 0
 	#			::skin::setKey chat_output_border 0
@@ -664,6 +664,123 @@ namespace eval ::skin {
 
 		# Procedures binded to the XML parser must ALWAYS return 0
 		return 0
+	}
+	
+	################################################################
+	# ::skin::SetPixmapNames
+	# Setup the pixmap proxy using default filenames. Moved here from cmsn_draw_main.
+	proc SetPixmapNames { } {
+		::skin::setPixmap msndroid msnbot.gif
+		::skin::setPixmap online online.gif
+		::skin::setPixmap offline offline.gif
+		::skin::setPixmap away away.gif
+		::skin::setPixmap busy busy.gif
+		::skin::setPixmap mobile mobile.gif
+	
+		::skin::setPixmap bonline bonline.gif
+		::skin::setPixmap boffline boffline.gif
+		::skin::setPixmap baway baway.gif
+		::skin::setPixmap bbusy bbusy.gif
+		::skin::setPixmap mystatus_bg mystatus_bg.gif
+	
+		::skin::setPixmap mailbox unread.gif
+	
+		::skin::setPixmap contract contract.gif
+		::skin::setPixmap contract_hover contract_hover.gif
+		::skin::setPixmap expand expand.gif
+		::skin::setPixmap expand_hover expand_hover.gif
+	
+		::skin::setPixmap globe globe.gif
+		::skin::setPixmap download download.gif
+		::skin::setPixmap warning warning.gif
+	
+		::skin::setPixmap button button.gif
+		::skin::setPixmap button_hover button_hover.gif
+		::skin::setPixmap button_pressed button_pressed.gif
+		::skin::setPixmap button_disabled button_disabled.gif
+		::skin::setPixmap button_focus button_focus.gif
+	
+		::skin::setPixmap typingimg typing.gif
+		::skin::setPixmap miniinfo miniinfo.gif
+		::skin::setPixmap miniwarning miniwarn.gif
+		::skin::setPixmap minijoins minijoins.gif
+		::skin::setPixmap minileaves minileaves.gif
+	
+		::skin::setPixmap cwtopback cwtopback.gif
+		::skin::setPixmap camicon camicon.gif	
+		
+	
+		::skin::setPixmap butsmile butsmile.gif
+		::skin::setPixmap butsmile_hover butsmile_hover.gif
+		::skin::setPixmap butfont butfont.gif
+		::skin::setPixmap butfont_hover butfont_hover.gif
+		::skin::setPixmap butblock butblock.gif
+		::skin::setPixmap butblock_hover butblock_hover.gif
+		::skin::setPixmap butsend butsend.gif
+		::skin::setPixmap butsend_hover butsend_hover.gif
+		::skin::setPixmap butinvite butinvite.gif
+		::skin::setPixmap butinvite_hover butinvite_hover.gif
+		::skin::setPixmap butwebcam butwebcam.gif
+		::skin::setPixmap butwebcam_hover butwebcam_hover.gif
+		::skin::setPixmap butnewline newline.gif
+		::skin::setPixmap sendbutton sendbut.gif
+		::skin::setPixmap sendbutton_hover sendbut_hover.gif
+		::skin::setPixmap imgshow imgshow.gif
+		::skin::setPixmap imgshow_hover imgshow_hover.gif
+		::skin::setPixmap imghide imghide.gif
+		::skin::setPixmap imghide_hover imghide_hover.gif
+	
+		::skin::setPixmap button button.gif
+		::skin::setPixmap button_hover button_hover.gif
+		::skin::setPixmap button_pressed button_pressed.gif
+		::skin::setPixmap button_disabled button_disabled.gif
+	
+		::skin::setPixmap ring ring.gif
+		::skin::setPixmap ring_disabled ring_disabled.gif
+		
+		::skin::setPixmap winwritecam cam_in_chatwin.png
+	
+		::skin::setPixmap webcam webcam.png
+		::skin::setPixmap camempty camempty.png
+		::skin::setPixmap yes-emblem yes-emblem.gif
+		::skin::setPixmap no-emblem no-emblem.gif
+	
+	
+		::skin::setPixmap fticon fticon.gif
+		::skin::setPixmap ftreject ftreject.gif
+	
+		::skin::setPixmap notifico notifico.gif
+		::skin::setPixmap notifclose notifclose.gif
+		::skin::setPixmap notifyonline notifyonline.gif
+		::skin::setPixmap notifyoffline notifyoffline.gif
+		::skin::setPixmap notifyplugins notifyplugins.gif
+		::skin::setPixmap notifystate notifystate.gif
+	
+		::skin::setPixmap blocked blocked.gif
+		::skin::setPixmap blocked_off blocked_off.gif
+		::skin::setPixmap colorbar colorbar.gif
+	
+		::skin::setPixmap bell bell.gif
+		::skin::setPixmap belloff belloff.gif
+	
+		::skin::setPixmap notinlist notinlist.gif
+		::skin::setPixmap smile smile.gif
+	
+		::skin::setPixmap loganim loganim.gif
+	
+		::skin::setPixmap greyline greyline.gif
+	
+		::skin::setPixmap nullimage null
+		#set the nullimage transparent
+		[::skin::loadPixmap nullimage] blank
+		
+		if { [OnMac] } {
+			::skin::setPixmap logolinmsn logomacmsn.gif
+			::skin::setPixmap arrow arrowmac.gif
+		} else {
+			::skin::setPixmap logolinmsn logolinmsn.gif
+			::skin::setPixmap arrow arrow.gif
+		}
 	}
 }
 

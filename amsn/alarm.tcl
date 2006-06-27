@@ -295,7 +295,7 @@ namespace eval ::alarms {
 
 #Runs the alarm (sound and pic)
 proc run_alarm {config_user user nick msg} {
-	global program_dir tcl_platform alarm_win_number
+	global program_dir alarm_win_number
 	
 	if { ![info exists alarm_win_number] } {
 		set alarm_win_number 0
