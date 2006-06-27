@@ -99,6 +99,7 @@ static int Tk_FlashWindow (ClientData clientData,
 		caption = 1,
 		appfocus = 0,
 		optlength,
+		j,
 		ret = TCL_OK;
     
 
@@ -159,7 +160,7 @@ static int Tk_FlashWindow (ClientData clientData,
 					return TCL_ERROR;
 				}
 				// For each char of the option, compare it.
-				for ( int j = 2; j < optlength ; j++) {
+				for ( j = 2; j < optlength ; j++) {
 					if ( option[j] != opt[j]) {
 						Tcl_AppendResult (interp, "Invalid option : ",
 							Tcl_GetStringFromObj(objv[i], NULL), "\nMust be -state, -count, -interval, -tray, -caption or -appfocus", (char *) NULL);
@@ -223,7 +224,7 @@ static int Tk_FlashWindow (ClientData clientData,
 						Tcl_GetStringFromObj(objv[i], NULL), "\nMust be -state, -count, -interval, -tray, -caption or -appfocus", (char *) NULL);
 					return TCL_ERROR;
 				}
-				for ( int j = 2; j < optlength ; j++) {
+				for ( j = 2; j < optlength ; j++) {
 					if ( option[j] != opt[j]) {
 						Tcl_AppendResult (interp, "Invalid option : ",
 							Tcl_GetStringFromObj(objv[i], NULL), "\nMust be -state, -count, -interval, -tray, -caption or -appfocus", (char *) NULL);
@@ -241,7 +242,7 @@ static int Tk_FlashWindow (ClientData clientData,
 						Tcl_GetStringFromObj(objv[i], NULL), "\nMust be -state, -count, -interval, -tray, -caption or -appfocus", (char *) NULL);
 					return TCL_ERROR;
 				}
-				for ( int j = 2; j < optlength ; j++) {
+				for ( j = 2; j < optlength ; j++) {
 					if ( option[j] != opt[j]) {
 						Tcl_AppendResult (interp, "Invalid option : ",
 							Tcl_GetStringFromObj(objv[i], NULL), "\nMust be -state, -count, -interval, -tray, -caption or -appfocus", (char *) NULL);
@@ -259,7 +260,7 @@ static int Tk_FlashWindow (ClientData clientData,
 						Tcl_GetStringFromObj(objv[i], NULL), "\nMust be -state, -count, -interval, -tray, -caption or -appfocus", (char *) NULL);
 					return TCL_ERROR;
 				}
-				for ( int j = 2; j < optlength ; j++) {
+				for ( j = 2; j < optlength ; j++) {
 					if ( option[j] != opt[j]) {
 						Tcl_AppendResult (interp, "Invalid option : ",
 							Tcl_GetStringFromObj(objv[i], NULL), "\nMust be -state, -count, -interval, -tray, -caption or -appfocus", (char *) NULL);
@@ -371,8 +372,12 @@ static int Tk_FlashWindow (ClientData clientData,
 */
 int Flash_Init (Tcl_Interp *interp ) {
 	
-	//Check TK version is 8.0 or higher
-	if (Tk_InitStubs(interp, "8.3", 0) == NULL) {
+	//Check Tcl version
+	if (Tcl_InitStubs(interp, TCL_VERSION, 0) == NULL) {
+		return TCL_ERROR;
+	}
+	//Check TK version
+	if (Tk_InitStubs(interp, TK_VERSION, 0) == NULL) {
 		return TCL_ERROR;
 	}
 	
