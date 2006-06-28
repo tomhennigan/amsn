@@ -60,7 +60,7 @@ namespace eval ::hotmail {
 		
 		set page_data [subst -nocommands -nobackslashes $page_data]
 		
-		if { [OnLinux] } {
+		if { [OnUnix] } {
 			set file_id [open "[file join ${HOME} hotlog.htm]" w 00600]
 		} else {
 			set file_id [open "[file join ${HOME} hotlog.htm]" w]

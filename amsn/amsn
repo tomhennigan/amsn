@@ -102,8 +102,8 @@ source amsncore.tcl
 ############################################################
 
 if { [OnDarwin] } {
-	set HOME "[file join $env(HOME) Library/Application\ Support/amsn]"
-} elseif { [OnLinux] } {
+   set HOME "[file join $env(HOME) Library/Application\ Support/amsn]"
+} elseif { [OnUnix] } {
    set HOME "[file join $env(HOME) .amsn]"
 } elseif { [OnWin] } {
   if {[info exists env(USERPROFILE)]} {

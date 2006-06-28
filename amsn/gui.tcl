@@ -217,12 +217,10 @@ if { $initialize_amsn == 1 } {
 		bind Text <Terminate_Server> [bind Text <BackSpace>]
 	}
 
-	if { $::tcl_version >= 8.4 } {
-		#To avoid a bug inside panedwindow, by Youness
-		rename ::tk::panedwindow::Cursor ::tk::panedwindow::Original_Cursor
-		proc ::tk::panedwindow::Cursor { args } {
-			catch { eval ::tk::panedwindow::Original_Cursor $args }
-		}
+	#To avoid a bug inside panedwindow, by Youness
+	rename ::tk::panedwindow::Cursor ::tk::panedwindow::Original_Cursor
+	proc ::tk::panedwindow::Cursor { args } {
+		catch { eval ::tk::panedwindow::Original_Cursor $args }
 	}
 }
 

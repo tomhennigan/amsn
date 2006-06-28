@@ -1173,7 +1173,7 @@ namespace eval ::plugins {
 		plugins_log core "save_config: saving plugin config for user [::config::getKey login] in $HOME]\n"
 	
 		if { [catch {
-			if { [OnLinux] } {
+			if { [OnUnix] } {
 				set file_id [open "[file join ${HOME} plugins.xml]" w 00600]
 			} else {
 				set file_id [open "[file join ${HOME} plugins.xml]" w]

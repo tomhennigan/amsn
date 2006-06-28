@@ -43,7 +43,7 @@ proc LoadStateList {} {
 # Saves the list of states to the file in the HOME dir
 proc SaveStateList {} {
 	global HOME 
-	if { [OnLinux] } {
+	if { [OnUnix] } {
 		set file_id [open "[file join ${HOME} states.xml]" w 00600]
 	} else {
 		set file_id [open "[file join ${HOME} states.xml]" w]

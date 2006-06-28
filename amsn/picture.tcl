@@ -16,7 +16,7 @@ namespace eval ::picture {
 				catch {load [file join utils macosx TkCximage TkCximage.dylib]} err
 			} elseif { [OnWin] } {
 				catch {load [file join utils TkCximage TkCximage.dll]} err
-			} elseif { [OnLinux] } {
+			} elseif { [OnUnix] } {
 				catch {load [file join utils TkCximage TkCximage.so]} err
 			}
 

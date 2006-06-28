@@ -51,9 +51,9 @@ namespace eval ::config {
 		::config::setKey playbackspeed 100
 
 		#Dir for received files
-		if { [OnMac] } {
+		if { [OnDarwin] } {
 		        ::config::setKey receiveddir "[file join $::env(HOME) Desktop/amsn\ received\ files]"
-		} elseif { [OnLinux] } {
+		} elseif { [OnUnix] } {
 			::config::setKey receiveddir "[file join $::env(HOME) amsn_received]"
 		} elseif { [OnWin] } {
 			if {[info exists env(USERPROFILE)]} {
@@ -74,7 +74,7 @@ namespace eval ::config {
 			::config::setKey filemanager "open \$location"
 			::config::setKey openfilecommand "open \$file"
 			::config::setKey usesnack 0
-		} elseif { [OnLinux] } {
+		} elseif { [OnUnix] } {
 			::config::setKey soundcommand "play \$sound"
 			::config::setKey browser "mozilla \$url"
 			::config::setKey notifyXoffset 0
@@ -450,7 +450,7 @@ namespace eval ::config {
 		global HOME2 version
 
 		if { [catch {
-				if { [OnLinux] } {
+				if { [OnUnix] } {
 					set file_id [open "[file join ${HOME2} gconfig.xml]" w 00600]
 				} else {
 					set file_id [open "[file join ${HOME2} gconfig.xml]" w]
@@ -486,7 +486,7 @@ proc save_config {} {
 	status_log "save_config: saving config for user [::config::getKey login] in $HOME]\n" black
 
 	if { [catch {
-		if { [OnLinux] } {
+		if { [OnUnix] } {
 			set file_id [open "[file join ${HOME} config.xml]" w 00600]
 		} else {
 			set file_id [open "[file join ${HOME} config.xml]" w]
@@ -848,7 +848,7 @@ proc LoadLoginList {{trigger 0}} {
 proc SaveLoginList {} {
 	global HOME2 currentlock
 
-	if { [OnLinux] } {
+	if { [OnUnix] } {
 		set file_id [open "[file join ${HOME2} profiles]" w 00600]
 	} else {
       		set file_id [open "[file join ${HOME2} profiles]" w]
@@ -1459,7 +1459,7 @@ proc create_dir {path} {
       if { [catch {file mkdir $path} res]} {
          return -1
       }
-      if { [OnLinux] } {
+      if { [OnUnix] } {
          file attributes $path -permissions 00700
       }
       return 0

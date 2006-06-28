@@ -3739,14 +3739,14 @@ proc parse_exec {text} {
 	foreach line [split $text "\n"] {
 		if {[string index $line 0] == "|"} {
 			set cmd [string range $line 1 [string length $line]]
-			if { [OnLinux] } {
+			if { [OnUnix] } {
 				catch {exec /bin/sh -c $cmd} output
 			} elseif { [OnWin] } {
 				catch {exec "c:\\windows\\system32\\cmd.exe" /c $cmd} output
 			}
 			append outtext "$output\n"
 		} else {
-				append outtext "$line\n"
+			append outtext "$line\n"
 		}
 	}
 	return [string trimright $outtext "\n"]

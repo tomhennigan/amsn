@@ -111,6 +111,16 @@ proc OnLinux {} {
 	}
 }
 
+#Test for Unix platform (Linux/Mac/*BSD/etc.)
+proc OnUnix {} {
+	global tcl_platform
+	if { $tcl_platform(platform) == "unix" } {
+		return 1
+	} else {
+		return 0
+	}
+}
+
 #Test for X11 windowing system
 proc OnX11 {} {
 	if { ![catch {tk windowingsystem} wsystem] && $wsystem  == "x11" } {
