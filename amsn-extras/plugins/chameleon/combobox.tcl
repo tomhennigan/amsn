@@ -254,9 +254,9 @@ namespace eval ::chameleon::combobox {
 				return [eval $w index $args]
 			}
 			insert {
-				if {[llength $args] < 2} {
-					error "Usage : [::chameleon::getWidgetPath $w] list insert index element ?element ... ?"
-				} else {
+				if {[llength $args] < 1} {
+					error "Usage : [::chameleon::getWidgetPath $w] list insert index ?element element ... ?"
+				} elseif {[llength $args] >= 2} {
 					set values [eval linsert [list $values] $args]
 					$w configure -values $values
 				}

@@ -377,12 +377,15 @@ namespace eval ::chameleon {
 
     proc widgetDestroyed { w } {
 	variable lastDestroyedWidget
+
+
+	set widg [getWidgetPath $w]
+	catch {rename ::$w ""}
+	catch {rename $widg ""}
+
 	set lastDestroyedWidget $w
 
 	array unset widget2window $w
-
-	catch {rename ::$w ""}
-
 	generateEvent <<WidgetDestroyed>>
     }
 
