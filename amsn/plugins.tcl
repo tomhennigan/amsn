@@ -1723,9 +1723,9 @@ namespace eval ::plugins {
 		set URL [getInfo $plugin URL_main_online]	
 		
 		if { $place == 1 } {
-			set token [::http::geturl "${::weburl}/autoupdater/plugins/$plugin/$plugin.tcl" -timeout 120000 -binary 1]
+			set token [::http::geturl "${::weburl}/autoupdater/plugins/$plugin/[getInfo $plugin plugin_file]" -timeout 120000 -binary 1]
 		} elseif { $place == 2 } {
-			set token [::http::geturl "${::weburl}/autoupdater/plugins2/$plugin/$plugin.tcl" -timeout 120000 -binary 1]
+			set token [::http::geturl "${::weburl}/autoupdater/plugins2/$plugin/[getInfo $plugin plugin_file]" -timeout 120000 -binary 1]
 		} elseif { $place == 3 && $URL != "" } {
 			set URL "[subst $URL]"
 			set token [::http::geturl "$URL" -timeout 120000 -binary 1]
@@ -1746,7 +1746,7 @@ namespace eval ::plugins {
 			return 0
 		}
 
-		set filename [file join [getInfo $plugin plugin_dir] $plugin.tcl]
+		set filename [file join [getInfo $plugin plugin_dir] [getInfo $plugin plugin_file]]
 		set fid [open $filename w]
 		fconfigure $fid -encoding binary
 		puts -nonewline $fid "$content"
@@ -2022,9 +2022,10 @@ namespace eval ::plugins {
 			# If the main file has been updated
 			if { [DetectNew [getInfo $plugin cvs_version] [getInfo $plugin cvs_version_online]] } {
 
-				set file [file join $path $plugin.tcl]
+				set file [file join $path [getInfo $plugin plugin_file]]
 				
 				if { ![file writable $file] } {
+					status_log "File $file is protected"
 					set protected 1
 				} else {
 					set plugins(${plugin}_updated_main) 1
@@ -2060,6 +2061,7 @@ namespace eval ::plugins {
 						set file [file join $path "lang" lang$langcode]
 						
 						if { [file exists $file] && ![file writable $file] } {
+							status_log "File $file is protected"
 							set protected 1
 						} else {
 							lappend plugins(${plugin}_updated_langs) [list $langcode_online $version_online] 
@@ -2092,6 +2094,7 @@ namespace eval ::plugins {
 				if { [::plugins::DetectNew $version $version_online] } {
 					set file [file join $path $pathfile_online]
 					if { [file exists $file] && ![file writable $file] } {
+						status_log "File $file is protected"
 						set protected 1
 					} else {
 						lappend plugins(${plugin}_updated_files) [list $pathfile_online $version_online]
