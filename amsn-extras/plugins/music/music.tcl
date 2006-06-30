@@ -204,8 +204,7 @@ namespace eval ::music {
 		#Define values for supported player on darwin and linux
 		array set OSes [list \
 			"darwin" [list \
-				"ITunes" [list GetSongITunes exec_applescript FillFrameLess] \
-				"MPD" [list GetSongMPD TreatSongMPD FillFrameMPD] \
+				"ITunes" [list GetSongITunes exec_applescript FillFrameComplete] \
 			] \
 			"linux" [list \
 				"XMMS" [list GetSongXMMS TreatSongXMMS FillFrameEmpty] \
@@ -981,6 +980,7 @@ namespace eval ::music {
 		set song [lindex $tmplst 1]
 		set art [lindex $tmplst 2]
 		set path [lindex $tmplst 3]
+		set artfile [lindex $tmplst 4]
 
 		if {$status == "0"} {
 			::music::log "Status is 0"
@@ -997,6 +997,7 @@ namespace eval ::music {
 			}
 			lappend return $songart
 			lappend return $path
+			lappend return $artfile
 		}
 		return $return
 
