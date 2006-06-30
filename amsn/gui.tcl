@@ -1517,13 +1517,12 @@ namespace eval ::amsn {
 		set scrolling [::ChatWindow::getScrolling [::ChatWindow::GetOutText ${win_name}]]
 
 
-		[::ChatWindow::GetOutText ${win_name}] configure -state normal
+		
 		[::ChatWindow::GetOutText ${win_name}] image create end -image $image
 
 		if { $scrolling } { ::ChatWindow::Scroll [::ChatWindow::GetOutText ${win_name}] }
 
 
-		[::ChatWindow::GetOutText ${win_name}] configure -state disabled
 
 	}
 	#///////////////////////////////////////////////////////////////////////////////
@@ -2759,7 +2758,7 @@ namespace eval ::amsn {
 		set fontcolor [lindex $fontformat 2]
 
 
-		[::ChatWindow::GetOutText ${win_name}] configure -state normal -font bplainf -foreground black
+		[::ChatWindow::GetOutText ${win_name}] configure -font bplainf -foreground black
 
 		#Store position for later smiley and URL replacement
 		# use end-1c because text widgets always have \n at the end, and it's better than getting the previous line 
@@ -2816,7 +2815,7 @@ namespace eval ::amsn {
 		set evPar(msg) txt
 		::plugins::PostEvent WinWrite evPar
 		
-		[::ChatWindow::GetOutText ${win_name}] insert end "$txt" $tagid
+		[::ChatWindow::GetOutText ${win_name}] ins end "$txt" $tagid
 		
 		#TODO: Make an url_subst procedure, and improve this using regular expressions
 		variable urlcount
@@ -2859,8 +2858,8 @@ namespace eval ::amsn {
 				[::ChatWindow::GetOutText ${win_name}] tag bind $urlname <Button1-ButtonRelease> \
 				"[::ChatWindow::GetOutText ${win_name}] conf -cursor watch; launch_browser [string map {% %%} [list $urltext]]"
 
-				[::ChatWindow::GetOutText ${win_name}] delete $pos $endpos
-				[::ChatWindow::GetOutText ${win_name}] insert $pos "$urltext" $urlname
+				[::ChatWindow::GetOutText ${win_name}] del $pos $endpos
+				[::ChatWindow::GetOutText ${win_name}] ins $pos "$urltext" $urlname
 				#Don't replace smileys in URLs
 				[::ChatWindow::GetOutText ${win_name}] tag add dont_replace_smileys ${urlname}.first ${urlname}.last
 
@@ -2893,7 +2892,7 @@ namespace eval ::amsn {
 
 		if { $scrolling } { ::ChatWindow::Scroll [::ChatWindow::GetOutText ${win_name}] }
 
-		[::ChatWindow::GetOutText ${win_name}] configure -state disabled
+		
 
 		if { $flicker } {
 			::ChatWindow::Flicker $chatid
@@ -2919,13 +2918,13 @@ namespace eval ::amsn {
 		set scrolling [::ChatWindow::getScrolling [::ChatWindow::GetOutText ${win_name}]]
 
 
-		[::ChatWindow::GetOutText ${win_name}] configure -state normal
+		
 		[::ChatWindow::GetOutText ${win_name}] image create end -image [::skin::loadPixmap $imagename] -pady $pady -padx $pady
 
 		if { $scrolling } { ::ChatWindow::Scroll [::ChatWindow::GetOutText ${win_name}] }
 
 
-		[::ChatWindow::GetOutText ${win_name}] configure -state disabled
+		
 	}
 
 	proc WinWriteClickable { chatid txt command {tagid ""}} {
@@ -2943,7 +2942,7 @@ namespace eval ::amsn {
 			set tagid [getUniqueValue]
 		}
 
-		[::ChatWindow::GetOutText ${win_name}] configure -state normal
+		
 
 		[::ChatWindow::GetOutText ${win_name}] tag configure $tagid \
 		-foreground #000080 -font bboldf -underline false
@@ -2956,12 +2955,10 @@ namespace eval ::amsn {
 		[::ChatWindow::GetOutText ${win_name}] conf -cursor xterm"
 		[::ChatWindow::GetOutText ${win_name}] tag bind $tagid <Button1-ButtonRelease> "$command"
 
-		[::ChatWindow::GetOutText ${win_name}] configure -state normal
-		[::ChatWindow::GetOutText ${win_name}] insert end "$txt" $tagid
+		[::ChatWindow::GetOutText ${win_name}] ins end "$txt" $tagid
 
 		if { $scrolling } { ::ChatWindow::Scroll [::ChatWindow::GetOutText ${win_name}] }
 
-		[::ChatWindow::GetOutText ${win_name}] configure -state disabled
 	}
 
 	if { $initialize_amsn == 1 } {

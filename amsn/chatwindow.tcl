@@ -39,6 +39,40 @@ namespace eval ::ChatWindow {
 	#///////////////////////////////////////////////////////////////////////////////
 
 
+ 	#///////////////////////////////////////////////////////////////////////////////
+	# ::ChatWindow::rotext -- Read Only text widget via snit
+	# Changes must be made by "ins" and "del", not "insert" and "delete".
+	# Leave the window state as "normal" so cut and paste work on all platforms.
+	# From example on http://wiki.tcl.tk/3963
+	::snit::widgetadaptor rotext {
+		constructor {args} {
+			# Turn off the insert cursor
+			#installhull using text $self -insertwidth 0
+			# DDG the $self gaves an error at least with 0.97 onwards
+			installhull using text -insertwidth 0
+
+			# Apply an options passed at creation time.
+			$self configurelist $args
+		}
+
+		# Disable the insert and delete methods, to make this readonly.
+		method insert {args} {}
+		method delete {args} {}
+
+		# Enable ins and del as synonyms, so the program can insert and
+		# delete.
+		delegate method ins to hull as insert
+		delegate method del to hull as delete
+
+		# Pass all other methods and options to the real text widget, so
+		# that the remaining behavior is as expected.
+		delegate method * to hull
+		delegate option * to hull
+	}
+	#///////////////////////////////////////////////////////////////////////////////
+
+
+
 	#///////////////////////////////////////////////////////////////////////////////
 	# ::ChatWindow::Change (chatid, newchatid)
 	# This proc is called from the protocol layer when a private chat changes into a
@@ -140,9 +174,7 @@ namespace eval ::ChatWindow {
 	#  - window => Is the chat window widget (.msg_n - Where n is an integer)
 	proc Clear { window } {
 		set window [::ChatWindow::getCurrentTab $window]
-		[::ChatWindow::GetOutText $window] configure -state normal
-		[::ChatWindow::GetOutText $window] delete 0.0 end
-		[::ChatWindow::GetOutText $window] configure -state disabled
+		[::ChatWindow::GetOutText $window] del 0.0 end
 	}
 	#///////////////////////////////////////////////////////////////////////////////
 
@@ -1792,7 +1824,8 @@ namespace eval ::ChatWindow {
 		frame $fr -class Amsn -borderwidth 0 -relief solid \
 			-background [::skin::getKey chatwindowbg] -height [::config::getKey winchatoutheight]
 		ScrolledWindow $out -auto vertical -scrollbar vertical -ipad 0
-		framec $text -type text -relief solid -foreground white -background [::skin::getKey chat_output_back_color] -width 45 -height 3 \
+		framec $text -type ::ChatWindow::rotext -relief solid -foreground white \
+			-background [::skin::getKey chat_output_back_color] -width 45 -height 3 \
 			-setgrid 0 -wrap word -exportselection 1 -highlightthickness 0 -selectborderwidth 1 \
 			-borderwidth [::skin::getKey chat_output_border] \
 			-bordercolor [::skin::getKey chat_output_border_color]
@@ -1807,7 +1840,7 @@ namespace eval ::ChatWindow {
 		
 
 		# Configure our widgets
-		$text configure -state disabled
+		$text configure -state normal
 		$text tag configure green -foreground darkgreen -font sboldf
 		$text tag configure red -foreground red -font sboldf
 		$text tag configure blue -foreground blue -font sboldf
@@ -1824,9 +1857,12 @@ namespace eval ::ChatWindow {
 			bind $textinner <Button1-ButtonRelease> "copy 0 $w"
 		}
 
-		# When someone type something in out.text, regive the focus to in.input and insert that key
-		bind $textinner <KeyPress> "::ChatWindow::lastKeytyped %A $w"
-
+		# When someone type something in out.text, regive the focus to in.input and insert that key,
+		bind $textinner <KeyPress> "::ChatWindow::lastKeytyped %A %K $w"
+		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+			bind $textinner <Command-KeyPress> ";"
+			bind $textinner <Command-KeyPress-v> "::ChatWindow::pasteToInput $w"
+		}
 
 		#Added to stop amsn freezing when control-up pressed in the output window
 		#If you can find why it is freezing and can stop it remove this line
@@ -1834,13 +1870,25 @@ namespace eval ::ChatWindow {
 
 		return $fr
 	}
+	
+	#pasteToInput -- text pasted in output window goes to input window
+	#This is processed before the paste occurs, so this is sufficient.
+	proc pasteToInput {w} {
+		focus -force [::ChatWindow::GetInputText $w]
+	}
 
 	#lastkeytyped 
 	#Force the focus to the input text box when someone try to write something in the output
-	proc lastKeytyped {typed w} {
-		if {[regexp \[a-zA-Z\] $typed]} {
+	proc lastKeytyped {typed keysym w} {
+		if {[regexp {^[ -~]$} $typed]} {
 			focus -force [::ChatWindow::GetInputText $w]
 			[::ChatWindow::GetInputText $w] insert insert $typed
+		} elseif {$keysym == "BackSpace"} {
+			focus -force [::ChatWindow::GetInputText $w]
+			[::ChatWindow::GetInputText $w] delete "insert - 1 char" insert
+		} elseif {$keysym == "Delete"} {
+			focus -force [::ChatWindow::GetInputText $w]
+			[::ChatWindow::GetInputText $w] delete insert "insert + 1 char"
 		}
 	}
 

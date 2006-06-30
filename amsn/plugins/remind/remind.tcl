@@ -357,7 +357,7 @@ proc WinWrite {chatid txt tagname {fontformat ""}} {
 	if { $version == "0.94" } {
 		${win_name}.f.out.text insert end "$txt" $tagid
 	} else {
-		[::ChatWindow::GetOutText ${win_name}] insert end "$txt" $tagid
+		[::ChatWindow::GetOutText ${win_name}] ins end "$txt" $tagid
 	}
 
 	if {[::config::getKey chatsmileys]} {
