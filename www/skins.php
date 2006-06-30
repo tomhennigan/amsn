@@ -45,40 +45,34 @@ if (!mysql_num_rows(($q = mysql_query("SELECT *  FROM `amsn_skins` ORDER BY `nam
 	while ($skin = mysql_fetch_assoc($q)) {
 ?>
 <a name="<?php echo $skin['id']?>" />
-<table class="skins">
-  <tbody><tr>
-    <td>
-      <ul>
-        <li class="skintitle"><?php echo $skin['name'] ?></li>
-        <li class="lg"><?php echo $skin['desc'] ?></li>
-        <li class="dg">Created by: <?php echo $skin['author'] ?></li>
+  <ul class="skins">
+    <li class="skintitle"><?php echo $skin['name'] ?></li>
+    <li class="lg"><?php echo $skin['desc'] ?></li>
+    <li class="dg">Created by: <?php echo $skin['author'] ?></li>
 <?php 
 		if ($skin['screen']>0) {
 ?>
-        <li class="lg"><a href="http://amsn.sourceforge.net/wiki/show_image.php?id=<?php echo $skin['screen']?>"><strong>Screenshot</strong></a></li>
+    <li class="lg"><a href="http://amsn.sourceforge.net/wiki/show_image.php?id=<?php echo $skin['screen']?>"><strong>Screenshot</strong></a></li>
 <?php 
 		}
 		else {
 ?>
-        <li class="lg"><strong>No screenshot</strong></li>
+    <li class="lg"><strong>No screenshot</strong></li>
 <?php
 		}
 
 		if ($skin['url']!='') {
 ?>
-        <li class="dg"><a href="http://prdownloads.sourceforge.net/amsn/<?php echo $skin['url']?>"><strong>Download this skin</strong></a></li>
+    <li class="dg"><a href="http://prdownloads.sourceforge.net/amsn/<?php echo $skin['url']?>"><strong>Download this skin</strong></a></li>
 <?php
 		}
 		else {
 ?>
-        <li class="dg"><strong>Download comming soon!</strong></li>
+    <li class="dg"><strong>Download comming soon!</strong></li>
 <?php
 		}
 ?>
-      </ul>
-    </td>
-  </tr></tbody>
-</table>
+  </ul>
 <br />
 <?php
 	}

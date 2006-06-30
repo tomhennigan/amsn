@@ -41,44 +41,39 @@ if (!mysql_num_rows(($q = mysql_query("SELECT *  FROM `amsn_plugins` ORDER BY `n
 	mysql_data_seek($q, 0);
 	while ($plugin = mysql_fetch_assoc($q)) {
 ?>
-<a name="<?php echo $plugin['id']?>" />
-<table class="plugins">
-  <tbody><tr>
-    <td>
-      <ul>
-        <li class="plugintitle"><?php echo $plugin['name'] ?></li>
-        <li class="lg"><?php echo $plugin['desc'] ?></li>
-        <li class="dg">Created by: <?php echo $plugin['author'] ?></li>
-        <li class="lg">Version: <?php echo $plugin['version'] ?></li>
-        <li class="dg">Platform/OS: <?php echo $plugin['platform'] ?></li>
-        <li class="lg">Requires: <?php echo $plugin['requires'] ?></li>
+<a name="<?php echo $plugin['id']?>">
+  <ul class="plugins">
+    <li class="plugintitle"><?php echo $plugin['name'] ?></li>
+    <li class="lg"><?php echo $plugin['desc'] ?></li>
+    <li class="dg">Created by: <?php echo $plugin['author'] ?></li>
+    <li class="lg">Version: <?php echo $plugin['version'] ?></li>
+    <li class="dg">Platform/OS: <?php echo $plugin['platform'] ?></li>
+    <li class="lg">Requires: <?php echo $plugin['requires'] ?></li>
 <?php 
 		if ($plugin['screen']>0) {
 ?>
-        <li class="dg"><a href="http://amsn.sourceforge.net/wiki/show_image.php?id=<?php echo $plugin['screen']?>"><strong>Screenshot</strong></a></li>
+    <li class="dg"><a href="http://amsn.sourceforge.net/wiki/show_image.php?id=<?php echo $plugin['screen']?>"><strong>Screenshot</strong></a></li>
 <?php 
 		}
 		else {
 ?>
-        <li class="dg"><strong>No screenshot</strong></li>
+    <li class="dg"><strong>No screenshot</strong></li>
 <?php
 		}
 
 		if ($plugin['url']!='') {
 ?>
-        <li class="lg"><a href="http://prdownloads.sourceforge.net/amsn/<?php echo $plugin['url']?>"><strong>Download this plugin</strong></a></li>
+    <li class="lg"><a href="http://prdownloads.sourceforge.net/amsn/<?php echo $plugin['url']?>"><strong>Download this plugin</strong></a></li>
 <?php
 		}
 		else {
 ?>
-        <li class="lg"><strong>Download comming soon!</strong></li>
+    <li class="lg"><strong>Download comming soon!</strong></li>
 <?php
 		}
 ?>
-      </ul>
-    </td>
-  </tr></tbody>
-</table>
+  </ul>
+</a>
 <br />
 <?php
 	}

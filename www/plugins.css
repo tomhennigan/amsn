@@ -1,25 +1,12 @@
-table.plugins
+ul.plugins
 {
-  width: 500px;
-  margin: 1em 5px 1em 5px;
-  padding: 5px 5px 5px 5px;
-  /*border: 1px dotted #bbb;*/
-  color: #000;
-  background: transparent;
-  font: 80%;
-  display: inline;
-  float: center;
-}
-
-td
-{
-  text-align: left;
-  vertical-align: top;
   margin: 0px;
-  padding: 0px
+  padding: 0px;
+  background: #6e8cbf;
+  list-style: none
 }
 
-table.plugins img
+ul.plugins img
 {
   width: 200px;
   height: 200px;
@@ -29,17 +16,7 @@ table.plugins img
   background: #ececec
 }
 
-table.plugins ul
-{
-  width: 300px;
-  float: left;
-  margin: 0px;
-  padding: 0px;
-  background: #6e8cbf;
-  list-style: none
-}
-
-table.plugins li
+ul.plugins li
 {
 
   margin: 0px;
