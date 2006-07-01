@@ -227,6 +227,7 @@ defaultloginradio Inloggen met de standaardconfiguratie
 default Standaard configuratie
 defchatwinsize Standaard grootte voor chatvensters (Horizontaal x Vertikaal)
 deleteall Alles verwijderen
+deleteblock Verwijderen en blokkeren
 deletecustomstate Verwijder aangepaste status
 delete Verwijderen
 delimiters Haakjes om tijden heen:
