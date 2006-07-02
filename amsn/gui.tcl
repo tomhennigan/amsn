@@ -3432,7 +3432,43 @@ proc cmsn_draw_main {} {
 	#Unhide main window now that it has finished being created
 	wm state . normal
 	#Set the position on the screen and the size for the contact list, from config
-	catch {wm geometry . [::config::getKey wingeometry]}
+	#Check if the geometry is available :
+	set geometry [::config::getKey wingeometry]
+	set width 0
+	set height 0
+	set x 0
+	set y 0
+	set modified 0
+	regexp {[=]*(\d+)x(\d+)[+,-]([-]*\d+)[+,-]([-]*\d+)} $geometry -> width height x y
+	if {[expr {$width + $x}] > [winfo screenwidth .]} {
+		set modified 1
+		if { [OnMac] } {
+			set x 200
+		} else {
+			set x 0
+		}
+	}
+	if {[expr {$width}] > [winfo screenwidth .]} {
+		set modified 1
+		set width 275
+	}
+	if {[expr {$height + $y}] > [winfo screenheight .]} {
+		set modified 1
+		if { [OnMac] } {
+			set y 200
+		} else {
+			set y 0
+		}
+	} 
+	if {[expr {$height}] > [winfo screenheight .]} {
+		set modified 1
+		set height 400
+	}	
+	if {$modified == 1}
+		set geometry ${width}x${height}-${x}+${y}
+		::config::setKey wingeometry $geometry
+	}
+	catch {wm geometry . $geometry}
 	
 	#To avoid the bug of window behind the menu bar on Mac OS X
 	if { [OnMac] } {
