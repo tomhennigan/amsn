@@ -3464,7 +3464,7 @@ proc cmsn_draw_main {} {
 		set modified 1
 		set height 400
 	}	
-	if {$modified == 1}
+	if {$modified == 1} {
 		set geometry ${width}x${height}-${x}+${y}
 		::config::setKey wingeometry $geometry
 	}
