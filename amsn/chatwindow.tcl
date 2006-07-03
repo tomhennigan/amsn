@@ -59,10 +59,10 @@ namespace eval ::ChatWindow {
 		method insert {args} {}
 		method delete {args} {}
 
-		# Enable ins and del as synonyms, so the program can insert and
+		# Enable roinsert and rodelete as synonyms, so the program can insert and
 		# delete.
-		delegate method ins to hull as insert
-		delegate method del to hull as delete
+		delegate method roinsert to hull as insert
+		delegate method rodelete to hull as delete
 
 		# Pass all other methods and options to the real text widget, so
 		# that the remaining behavior is as expected.
@@ -174,7 +174,7 @@ namespace eval ::ChatWindow {
 	#  - window => Is the chat window widget (.msg_n - Where n is an integer)
 	proc Clear { window } {
 		set window [::ChatWindow::getCurrentTab $window]
-		[::ChatWindow::GetOutText $window] del 0.0 end
+		[::ChatWindow::GetOutText $window] rodelete 0.0 end
 	}
 	#///////////////////////////////////////////////////////////////////////////////
 

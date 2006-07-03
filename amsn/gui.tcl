@@ -2690,7 +2690,7 @@ namespace eval ::amsn {
 		set evPar(msg) txt
 		::plugins::PostEvent WinWrite evPar
 		
-		[::ChatWindow::GetOutText ${win_name}] ins end "$txt" $tagid
+		[::ChatWindow::GetOutText ${win_name}] roinsert end "$txt" $tagid
 		
 		#TODO: Make an url_subst procedure, and improve this using regular expressions
 		variable urlcount
@@ -2731,8 +2731,8 @@ namespace eval ::amsn {
 				[::ChatWindow::GetOutText ${win_name}] tag bind $urlname <Button1-ButtonRelease> \
 				"[::ChatWindow::GetOutText ${win_name}] conf -cursor watch; launch_browser [string map {% %%} [list $urltext]]"
 
-				[::ChatWindow::GetOutText ${win_name}] del $pos $endpos
-				[::ChatWindow::GetOutText ${win_name}] ins $pos "$urltext" $urlname
+				[::ChatWindow::GetOutText ${win_name}] rodelete $pos $endpos
+				[::ChatWindow::GetOutText ${win_name}] roinsert $pos "$urltext" $urlname
 
 				#Don't replace smileys in URLs
 				[::ChatWindow::GetOutText ${win_name}] tag add dont_replace_smileys ${urlname}.first ${urlname}.last
@@ -2808,7 +2808,7 @@ namespace eval ::amsn {
 		"[::ChatWindow::GetOutText ${win_name}] tag conf $tagid -underline false;\
 		[::ChatWindow::GetOutText ${win_name}] conf -cursor xterm"
 		[::ChatWindow::GetOutText ${win_name}] tag bind $tagid <Button1-ButtonRelease> "$command"
-		[::ChatWindow::GetOutText ${win_name}] ins end "$txt" $tagid
+		[::ChatWindow::GetOutText ${win_name}] roinsert end "$txt" $tagid
 
 		if { $scrolling } { ::ChatWindow::Scroll [::ChatWindow::GetOutText ${win_name}] }
 	}
