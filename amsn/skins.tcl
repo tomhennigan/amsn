@@ -231,7 +231,7 @@ namespace eval ::skin {
 			::picture::ResizeWithRatio $picName $height $height
 			return $picName
 		} else {
-			set tmpPic [TmpImgName]  ;#gets destroyed
+			set tmpPic [image create photo [TmpImgName]]  ;#gets destroyed
 			$tmpPic copy $picName
 			image delete $picName
 			image create photo $picName
