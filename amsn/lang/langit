@@ -228,6 +228,7 @@ default2 Default
 defchatwinsize Dimensione predefinita delle finestre di chat (XSIZExYSIZE)
 deleteall Cancella tutto
 delete Cancella
+deleteblock Cancella e Blocca
 deletecustomstate Elimina Stato personale
 delimiters Delimitatori del campo Ora:
 deliverfail Si è verificato un problema nell'inoltro del seguente messaggio
@@ -309,6 +310,7 @@ filtersselect Seleziona i filtri che vuoi visualizzare\n(Nessuna selezione signi
 filtersx Selezione filtri
 firewalled Sei dietro un firewall o un router
 find Trova
+findasyoutype Trova mentre digiti
 findnext Trova successivo
 findprev Trova precedente
 followtext Segui il nuovo testo quando viene inserito
@@ -338,6 +340,7 @@ gonelunch A pranzo
 gotink $1 ti ha inviato un ink.
 goto Vai a $1
 groupadd Aggiungi un gruppo
+groupcontacts Raggruppa i contatti
 groupdelete Cancella un gruppo
 groupexists Il gruppo esiste già group Gruppo
 groupmissing Non riesco a trovare il gruppo
@@ -351,6 +354,8 @@ groupunknown Gruppo sconosciuto
 handle Gestisci
 help Aiuto
 helpcontents Aiuto
+hidemenu Mostra/Nascondi i menù
+hidemenumessage Sei sicuro di voler nascondere i menù?\nPuoi ripristinarli ogni volta che vuoi usando la scorciatoia da tastiera per mostrare/nascondere i menù 'Ctrl-M'.
 hidedisplaypic Nascondi l'immagine personale
 hiden Nascondi le emoticon dal menu delle faccine
 hidewindow Nascondi Finestra
@@ -495,6 +500,7 @@ noactivity Nessuna attività
 nocacheddps Nessuna immagine in cache per questo utente
 nodataavailable Non ci sono dati disponibili per $1
 nodevices Non hai dispositivi installati
+noftpreview Disabilita l'invio dell'anteprima delle immagini nel trasferimento file
 nogap Nessuno spazio tra i gruppi
 nogroup Nessun gruppo
 nologfile Non c'è un file di registro per $1
@@ -647,6 +653,8 @@ save Salva
 savetofile Salva nel file
 says $1 dice
 sbcon Connessione a Switch Board
+searchdown Cerca in avanti
+searchup Cerca indietro
 selectall Seleziona tutto
 selectplugins Seleziona i Plugins che desideri attivare
 selectskin Seleziona una Skin dalla lista
@@ -781,7 +789,7 @@ update Aggiornamento
 updateonlycurrentlanguage Aggiorna soltanto il linguaggio in uso
 updating Aggiornamento in corso
 useasdp Usa come immagine personale
-usemsnp11 Abilita il supporto Messaggi Personali (SPERIMENTALE) -- riavvio e profili necessari
+useasregexp Usa come un'espressione regolare (regexp)
 useother Usa un altro programma
 useralreadyonlist L'utente è già nella lista contatti
 userblocked L'utente è in linea ma ti ha bloccato

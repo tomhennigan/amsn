@@ -340,6 +340,7 @@ goto Mene $1
 gotoinbox Mene Saapuneisiin
 group Ryhmä
 groupadd Lisää ryhmä
+groupcontacts Ryhmäyhteystiedot
 groupdelete Poista ryhmä
 groupexists Ryhmä on jo olemassa!
 groupmissing Ryhmää ei löydy
@@ -353,6 +354,8 @@ handle Käsittele
 help Apua
 helpcontents Sisältö
 hidedisplaypic Piilota henkilökuva
+hidemenu Näytä/Piilota valikot
+hidemenumessage Oletko varma, että haluat piilottaa valikot?\n Voit palauttaa ne koska tahansa käyttämällä 'Näytä/Piilota valikot'-valintaa tai painamalla 'Ctrl-M'
 hiden Piilota emoticon hymiövalikosta
 hidewindow Piilota ikkuna
 history Historia
@@ -497,6 +500,7 @@ noactivity Ei toimintaa
 nocacheddps Kuvia ei ole muistissa tälle käyttäjälle
 nodataavailable Tietoa ei saataville $1:lle
 nodevices Tällä hetkellä ei ole laitteita asennettuna
+noftpreview Estä kuvien esikatselu tiedostonsiirrossa
 nogap Ei tilaa ryhmien välillä
 nogroup Ei ryhmää
 nologfile $1 varten ei lokitiedostoa

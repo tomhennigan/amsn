@@ -228,6 +228,7 @@ defaultloginradio Varsayýlan ayarlarla baðlan
 defchatwinsize Sohbet pencereleri için varsayýlan boyutlar (XBOYUTU x YBOYUTU)
 delete Sil
 deleteall Tümünü sil
+deleteblock Sil ve engelle
 deletecustomstate Özel durumu sil
 delimiters Tarih ayraçlarý:
 deliverfail Aþagýdaki iletinin gönderilmesinde hata oluþtu
@@ -308,6 +309,7 @@ filters Süzgeçler
 filtersselect Görmek istediðiniz süzgeçleri seçin\n(Hiçbiri seçilmediyse hepsi gösterilecektir)
 filtersx Süzgeç seçimi
 find Bul
+findasyoutype Yazarken ara
 findnext Bir sonrakini bul
 findprev Bir öncekini bul
 firewalled Güvenlik duvarý ya da yönlendirici (router) ardýndasýnýz
@@ -339,6 +341,7 @@ goto $1'e git
 gotoinbox Posta kutusuna git
 group Grup
 groupadd Grup Ekle
+groupcontacts Baðlantýlarý grupla
 groupdelete Grup Sil
 groupexists Bu grup zaten var
 groupmissing Grup bulunamadý
@@ -352,6 +355,8 @@ handle Ýsim
 help Yardým
 helpcontents Yardým içeriði
 hidedisplaypic Kullanýcý resmini gösterme
+hidemenu Menüyü göster/gizle
+hidemenumessage Menüleri gizlemek istediðinizden emin misiniz?\nMenüleri tekrar görmek için Ctrl+M kýsayolunu kullanabilirsiniz.
 hiden Gülen adamý menüden çýkar
 hidewindow Pencereyi gizle
 history Geçmiþi göster
@@ -496,6 +501,7 @@ noactivity Etkinlik yok
 nocacheddps Bu kullanýcýya ait saklanmýþ resim yok
 nodataavailable $1 hakkýnda bilgi yok
 nodevices Kurulu aygýt yok
+noftpreview Dosya aktarýmlarýnda resimlerin küçük kopyalarý gösterilmesin
 nogap Gruplar arasýnda boþluk olmasýn
 nogroup Grup yok
 nologfile $1 ile sohbet kaydý yok
@@ -647,6 +653,8 @@ savecontacts Baðlantý listesini kaydet
 savetofile Dosyaya kaydet
 says $1 diyor ki
 sbcon Switch Board'a baðlanýyor
+searchdown Aþaðý doðru ara
+searchup Yukarý doðru ara
 selectall Hepsini seç
 selectplugins Lütfen etkinleþtireceðiniz eklentileri seçiniz
 selectskin Lütfen listeden bir kabuk seçiniz
@@ -781,7 +789,7 @@ update Güncelle
 updateonlycurrentlanguage Yalnýzca þu an kullanýlan dili güncelle
 updating Güncelliyor
 useasdp Kullanýcý resmi olarak kullan
-usemsnp11 Kiþisel ileti desteðini etkinleþtir (DENEYSEL özellik) -- oturumu yeniden baþlatmayý gerektirir
+useasregexp Düzenli ifade (regexp) olarak kullan
 useother Baþka bir yazýlým kullan
 user Kullanýcý
 useralreadyonlist Kullanýcý zaten baðlantý listesinde
