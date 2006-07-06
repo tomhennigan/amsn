@@ -42,6 +42,11 @@
 		<version>6846</version>
 	</lang>
 
+	<lang>
+		<langcode>sv</langcode>
+		<version>7018</version>
+	</lang>
+	
 	<file>
 		<path>display_and_send.scpt</path>
 		<version>6998</version>
