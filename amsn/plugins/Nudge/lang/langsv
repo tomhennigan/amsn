@@ -1,0 +1,13 @@
+amsn_lang_version 2
+add_button Lägg till en knapp för att skicka vibbar i konversationsfönstret
+no_nudge_support Du kan inte skicka en vibb till kontakten eftersom han eller hon inte har en klient som stödjer vibbar
+notify_receive Visa meddelanden om mottagna vibbar i konversationsfönstret
+notify_send Vida meddelanden om skickade vibbar i konversationsfönstret
+nudge_sent Du har skickat en vibb
+popup_nudge Visa en meddelanderuta när en vibb tas emot
+send_nudge Skicka vibb
+shake_nudge Skakningar per vibb
+shake_receive Skaka konversationsfönstret när en vibb tas emot
+shake_send Skaka konversationsfönstret när en vibb sänds
+sound_receive Spela upp ett ljud när en vibb tas emot
+sound_send Spela upp ett ljud när en vibb skickas

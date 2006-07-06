@@ -1,0 +1,11 @@
+amsn_lang_version 2
+always Alltid
+beginendconversation Visa början och slutet av konversationen
+checknote Visa om det finns anteckningar
+daysnumber Antal dagar
+filetransfert Visa filöverföringar
+lastsentence Sista meningarna i de tidigare konversationerna
+nbdisplay Antal rader som visas
+noteswritten Du har anteckningar om denna kontakt
+talklast Om vi har samtalat under de senaste x dagarna
+talkwithin Om vi inte har samtalat under de senaste x dagarna
