@@ -14,11 +14,13 @@ namespace eval ::music {
 	proc InitPlugin { dir } {
 		variable musicpluginpath
 		variable smallcoverfilename
+		variable dppath
 		variable playersarray
 		variable oldinfo
 
 		set musicpluginpath $dir
 		set smallcoverfilename [file join $musicpluginpath albumart.jpg]
+		set dppath ""
 		set oldinfo [list]
 
 		#Load translation keys (lang files)
