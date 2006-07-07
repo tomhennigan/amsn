@@ -5157,12 +5157,6 @@ proc initial_syn_handler {recv} {
                         set custom_psm [string replace $custom_psm $indexofpsm [expr {$indexofpsm + 3}] $storedpsm]
                 }
 
-                status_log "storedpsm is $storedpsm and custom_psm is $custom_psm for $stored_login"
-		status_log "Abook PSM is [::abook::getPersonal PSM]"
-		if { $custom_psm == [::abook::getPersonal PSM] } {
-			status_log "No match"
-		}
-
                 if { ($custom_psm == [::abook::getPersonal PSM]) && ($stored_login == [::abook::getPersonal login]) && ($storedpsm != "") } {
                         ::MSN::changePSM $storedpsm
                 }
