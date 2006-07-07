@@ -277,7 +277,7 @@ proc ChCustomState { idx } {
                                         fconfigure $psmcache -encoding utf-8
                                         puts $psmcache $original_psm
                                         puts $psmcache $newpsm
-                                        puts $psmcache [::abook::getPersonal PSM]
+                                        puts $psmcache [::abook::getPersonal login]
                                         close $psmcache
                                 }
 

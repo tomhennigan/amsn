@@ -493,8 +493,7 @@ newveravailable Nueva versión $1 disponible para descarga
 next Siguiente
 nick Apodo
 noactivity Sin actividad
-nocacheddps No almacenar las imágenes para mostrar de este usuario en cache
-nocacheddpsNo hay imágenes en la caché para mostrar de este usuario
+nocacheddps No hay imágenes para mostrar almacenadas para este usuario
 nodataavailable No hay datos disponibles para $1
 nodevices No tienes dispositivos instalados
 nogap No dejar espacio entre los grupos en lista de contactos

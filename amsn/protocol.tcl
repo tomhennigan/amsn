@@ -3237,6 +3237,7 @@ namespace eval ::Event {
 					#an event used by guicontactlist to know when we changed our nick
 					::Event::fireEvent myNickChange protocol
 				}
+				::abook::saveToDisk
 			}
 			209 {
 				#Nickname change illegal. Try again urlencoding any character
@@ -5122,12 +5123,16 @@ proc initial_syn_handler {recv} {
 		set nickcache [open [file join ${HOME} "nick.cache"] r]
 		fconfigure $nickcache -encoding utf-8
 
-
 		gets $nickcache storednick
 		gets $nickcache custom_nick
 		gets $nickcache stored_login
 
 		close $nickcache
+
+		set indexofnick [string first "\$nick" $custom_nick]
+		if { $indexofnick >= 0 } {
+			set custom_nick [string replace $custom_nick $indexofnick [expr {$indexofnick + 4}] $storednick]
+		}
 
 		if { ($custom_nick == [::abook::getPersonal MFN]) && ($stored_login == [::abook::getPersonal login]) && ($storednick != "") } {
 			::MSN::changeName [::abook::getPersonal login] $storednick
@@ -5135,6 +5140,36 @@ proc initial_syn_handler {recv} {
 
 		catch { file delete [file join ${HOME} "nick.cache"] }
 	}
+
+        if { [file exists [file join ${HOME} "psm.cache"]] && [::config::getKey storename] } {
+
+                set psmcache [open [file join ${HOME} "psm.cache"] r]
+                fconfigure $psmcache -encoding utf-8
+
+                gets $psmcache storedpsm
+                gets $psmcache custom_psm
+                gets $psmcache stored_login
+
+                close $psmcache
+
+                set indexofpsm [string first "\$psm" $custom_psm]
+                if { $indexofpsm >= 0 } {
+                        set custom_psm [string replace $custom_psm $indexofpsm [expr {$indexofpsm + 3}] $storedpsm]
+                }
+
+                status_log "storedpsm is $storedpsm and custom_psm is $custom_psm for $stored_login"
+		status_log "Abook PSM is [::abook::getPersonal PSM]"
+		if { $custom_psm == [::abook::getPersonal PSM] } {
+			status_log "No match"
+		}
+
+                if { ($custom_psm == [::abook::getPersonal PSM]) && ($stored_login == [::abook::getPersonal login]) && ($storedpsm != "") } {
+                        ::MSN::changePSM $storedpsm
+                }
+
+                catch { file delete [file join ${HOME} "psm.cache"] }
+        }
+
 
 	cmsn_ns_handler $recv
 }
