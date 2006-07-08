@@ -634,6 +634,7 @@ namespace eval ::smiley {
 			destroy $w
 			toplevel $w
 		}
+		::gui::stdbind $w
 		
 		#Calculate the total number of smileys (including custom ones)
 		set emoticon_number [llength $emotions_names]
@@ -729,6 +730,7 @@ namespace eval ::smiley {
 		}
 
 		toplevel .new_custom
+		::gui::stdbind .new_custom
 		
 		set w [labelframe .new_custom.lfname -text [trans smileconfig] -font splainf]
 		#pack $w -anchor n -side top -expand 1 -fill x

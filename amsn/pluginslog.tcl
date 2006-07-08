@@ -102,6 +102,7 @@ namespace eval ::pluginslog {
 	}
 	
 	toplevel $window.filters
+	::gui::stdbind $window.filters
 	wm title $window.filters "Plugins Log - [trans filtersx]"
 	# yes, I am really lazy...
 	set w $window.filters
@@ -135,6 +136,7 @@ namespace eval ::pluginslog {
 	
 	if { [winfo exists $window] } {return}
 	toplevel $window
+	::gui::stdbind $window
 	wm group $window .
 	wm state $window withdrawn
 	wm title $window "Plugins Log - [trans title]"
@@ -169,6 +171,7 @@ namespace eval ::pluginslog {
 	set w .filters_save
 	
 	toplevel $w
+	::gui::stdbind $w
 	wm title $w \"[trans savetofile]\"
 	label $w.msg -justify center -text "Please give a filename"
 	pack $w.msg -side top

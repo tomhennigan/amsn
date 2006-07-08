@@ -1640,6 +1640,7 @@ namespace eval ::CAMGUI {
 		if { $window == "" } {
 			set window .webcam_$sid
 			toplevel $window
+			::gui::stdbind $window
 			set chatid [getObjOption $sid chatid]
 			wm title $window "$chatid - [::abook::getDisplayNick $chatid]"
 			wm protocol $window WM_DELETE_WINDOW "::MSNCAM::CancelCam $chatid $sid"
@@ -1816,6 +1817,7 @@ namespace eval ::CAMGUI {
 			} else {
 				set img [image create photo [TmpImgName]]
 				toplevel $window
+				::gui::stdbind $window
 				wm title $window "$chatid - [::abook::getDisplayNick $chatid]"
 				label $window.l -image $img
 				pack $window.l
@@ -1952,6 +1954,7 @@ namespace eval ::CAMGUI {
 		}
 		
 		toplevel $w
+		::gui::stdbind $w
 		wm protocol $w WM_DELETE_WINDOW "::CAMGUI::CloseGrabberWindowMac"
 		if { [::config::getKey lowrescam] == 1 } {
 			set camwidth 160
@@ -2310,6 +2313,7 @@ namespace eval ::CAMGUI {
 			return
 		}
 		toplevel $w
+		::gui::stdbind $w
 		wm title $w "[trans webcamconfigure]"
 		abook::getIPConfig
 		#Small picture at the top of the window
@@ -2474,7 +2478,7 @@ namespace eval ::CAMGUI {
 		}
 
 		toplevel $window
-
+		::gui::stdbind $window
 
 		frame $lists
 
@@ -2757,6 +2761,7 @@ namespace eval ::CAMGUI {
 
 		destroy $window
 		toplevel $window
+		::gui::stdbind $window
 		#grab set $window
 		wm title $window "[trans captureproperties]"
 
@@ -2879,7 +2884,8 @@ namespace eval ::CAMGUI {
 		}
 
 		toplevel $window
-
+		::gui::stdbind $window
+		
 		tkvideo .webcam_preview
 		set devices [.webcam_preview devices]
 
@@ -3169,6 +3175,7 @@ namespace eval ::CAMGUI {
 
 		set new_w $w.saveToImageFormat
 		toplevel $new_w
+		::gui::stdbind $new_w
 		radiobutton $new_w.gif -text "GIF File" -variable ::${w}_saveToImageFormat -value "cxgif"
 		radiobutton $new_w.png -text "PNG File" -variable ::${w}_saveToImageFormat -value "cxpng"
 		radiobutton $new_w.jpg -text "JPG File" -variable ::${w}_saveToImageFormat -value "cxjpg"
@@ -3255,6 +3262,7 @@ namespace eval ::CAMSETUP {
 
 		#create the window
 		toplevel $win
+		::gui::stdbind $win
 		#set the window's title
 		wm title $win "Webcam Setup Assistant"
 

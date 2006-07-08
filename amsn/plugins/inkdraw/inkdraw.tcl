@@ -57,6 +57,7 @@ namespace eval ::draw {
 		if {[winfo exists $w]} {destroy $w}
 
 		toplevel $w -background white -borderwidth 0
+		::gui::stdbind $w
 		wm geometry $w ${width}x${height}
 		
 		set drawwidget $w.draw

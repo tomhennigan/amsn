@@ -358,6 +358,7 @@ proc EditNewState { mode { idx "" } } {
 	::skin::setPixmap prefaway [file join [::skin::GetSkinFile pixmaps prefaway.gif]]
 
 	toplevel .editstate
+	::gui::stdbind .editstate
 	#wm group .editstate .
     
 	#wm geometry .editstate

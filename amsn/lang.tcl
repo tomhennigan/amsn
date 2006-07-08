@@ -217,6 +217,7 @@ namespace eval ::lang {
 		}
 
 		toplevel $wname
+		::gui::stdbind $wname
 		wm title $wname "[trans language]"
 		wm geometry $wname 300x350
 		wm protocol $wname WM_DELETE_WINDOW "::lang::language_manager_close"

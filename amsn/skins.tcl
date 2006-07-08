@@ -800,6 +800,7 @@ namespace eval ::skinsGUI {
 		}
 
 		toplevel $w
+		::gui::stdbind $w
 		wm resizable $w 0 0
 		wm title $w "[trans chooseskin]"
 		wm geometry $w +100+100

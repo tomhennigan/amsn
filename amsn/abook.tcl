@@ -1017,6 +1017,7 @@ namespace eval ::abookGui {
 			return
 		}
 		toplevel $w
+		::gui::stdbind $w
 		wm title $w [trans userproperties $email]
 		
 		NoteBook $w.nb
@@ -1369,6 +1370,7 @@ namespace eval ::abookGui {
 			return
 		}
 		toplevel $w
+		::gui::stdbind $w
 		wm title $w "[trans customnick]: $email"
 	
 		label $w.customnickl -text "[trans customnick]:"
@@ -1468,6 +1470,7 @@ namespace eval ::abookGui {
 		}
 	
 		toplevel .globalnick
+		::gui::stdbind .globalnick
 		wm title .globalnick "[trans globalnicktitle]"
 		frame .globalnick.frm -bd 1 
 		label .globalnick.frm.lbl -text "[trans globalnick]" -font sboldf -justify left -wraplength 400

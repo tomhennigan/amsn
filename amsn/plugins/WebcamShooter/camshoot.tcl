@@ -69,6 +69,7 @@ namespace eval ::camshoot {
 
 			set img [image create photo]
 			toplevel $window
+			::gui::stdbind $window
 			wm title $window "[trans webcamshot]"
 			label $window.l -image $img
 			pack $window.l
@@ -135,6 +136,7 @@ namespace eval ::camshoot {
 
 			set img [image create photo]
 			toplevel $window
+			
 			wm title $window "[trans webcamshot]"
 			label $window.l -image $img
 			pack $window.l
@@ -167,6 +169,7 @@ namespace eval ::camshoot {
 			destroy $w
 		}
 		toplevel $w
+		::gui::stdbind $w
 
 		set preview [image create photo]
 		if { [set ::tcl_platform(platform)] == "windows" } {

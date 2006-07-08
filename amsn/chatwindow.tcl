@@ -227,6 +227,7 @@ namespace eval ::ChatWindow {
 		}
 
 		toplevel $w
+		::gui::stdbind $w
 		wm title $w "[trans closeall]"
 		
 		#Create the 2 frames
@@ -768,7 +769,7 @@ namespace eval ::ChatWindow {
 			# message, until we re-click on aMSN icon (or get back to aMSN)
 			if { (([::config::getKey dockbounce] == "unlimited" && $usr_name != [::config::getKey login]) \
 				&& [focus] == "") && $msg != "" } {
-				if {[catch {tclCarbonNotification 1 ""} res]} {
+				if {[catch {carbon::notification "" 1} res]} {
 					status_log $res
 				}
 			}
@@ -777,10 +778,10 @@ namespace eval ::ChatWindow {
 			# in aMSN and receive a message (default)
 			if { (([::config::getKey dockbounce] == "once" && $usr_name != [::config::getKey login]) \
 				&& [focus] == "") && $msg != "" } {
-				if {[catch {tclCarbonNotification 1 ""} res]} {
+				if {[catch {carbon::notification "" 1} res]} {
 					status_log $res
 				}
-				after 1000 [list catch [list tclEndCarbonNotification]]
+				after 1000 [list catch [list carbon::endNotification]]
 			}
 		}
 
@@ -992,6 +993,7 @@ namespace eval ::ChatWindow {
 		incr ::ChatWindow::containerid
 			
 		chatwindow $w -background [::skin::getKey chatwindowbg]	-borderwidth 0
+		::gui::stdbind $w
 #		::Event::registerEvent messageReceived all $w
 		
 		# If there isn't a configured size for Chat Windows, use the default one and store it.
@@ -1027,13 +1029,17 @@ namespace eval ::ChatWindow {
 		bind $w <<Copy>> "status_log copy\n;tk_textCopy \[::ChatWindow::GetCurrentWindow $w\]"
 		bind $w <<Paste>> "status_log paste\n;tk_textPaste \[::ChatWindow::GetCurrentWindow $w\]"
 
-		# Change shortcut for history and find on Mac OS X
+		# Different shortcuts for MacOS
 		if { [OnMac] } {
+			bind $w <Command-,> "Preferences"
 			bind $w <Command-Option-h> \
 				"::amsn::ShowChatList \"[trans history]\" \[::ChatWindow::GetCurrentWindow $w\] ::log::OpenLogWin"
 			# Control-w for closing current tab not implemented on Mac (germinator)
-                        bind $w <Command-Next> "::ChatWindow::GoToNextTab $w"
-                        bind $w <Command-Prior> "::ChatWindow::GoToPrevTab $w"
+                        bind $w <Command-Right> "::ChatWindow::GoToNextTab $w"
+                        bind $w <Command-Left> "::ChatWindow::GoToPrevTab $w"
+                        
+                        bind $w <Control-Tab> "::ChatWindow::GoToNextTab $w"
+                        bind $w <Control-Shift-Tab> "::ChatWindow::GoToPrevTab $w"
 		} else {
 			bind $w <Control-h> \
 				"::amsn::ShowChatList \"[trans history]\" \[::ChatWindow::GetCurrentWindow $w\] ::log::OpenLogWin"
@@ -1046,20 +1052,12 @@ namespace eval ::ChatWindow {
 		}
 
 		searchdialog $w.search
+		::gui::stdbind $w.search
 		$w.search hide
 		$w.search bindwindow $w
 
 		bind $w <<Escape>> "::ChatWindow::ContainerClose $w; break"
 		bind $w <Destroy> "::ChatWindow::DetachAll %W; global ${w}_show_picture; catch {unset ${w}_show_picture}"
-
-
-		#Different shortcuts on Mac OS X
-		if { [OnMac] } {
-			bind $w <Command-,> "Preferences"
-			bind $w <Command-m> "catch {carbon::processHICommand mini $w}"
-			bind $w <Command-M> "catch {carbon::processHICommand mini $w}"
-		}
-
 
 		# These bindings are handlers for closing the window (Leave the SB, store settings...)
 		wm protocol $w WM_DELETE_WINDOW "::ChatWindow::ContainerClose $w"
@@ -1121,6 +1119,7 @@ namespace eval ::ChatWindow {
 		incr ::ChatWindow::winid
 			
 		toplevel $w -class Amsn -background [::skin::getKey chatwindowbg]	
+		::gui::stdbind $w
 		
 		# If there isn't a configured size for Chat Windows, use the default one and store it.
 		if {[catch { wm geometry $w [::config::getKey winchatsize] } res]} {
@@ -1169,8 +1168,6 @@ namespace eval ::ChatWindow {
 		#Different shortcuts on Mac OS X
 		if { [OnMac] } {
 			bind $w <Command-,> "Preferences"
-			bind $w <Command-m> "catch {carbon::processHICommand mini $w}"
-			bind $w <Command-M> "catch {carbon::processHICommand mini $w}"
 		}
 
 
