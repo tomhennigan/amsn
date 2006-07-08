@@ -83,10 +83,9 @@ proc trayicon_init {} {
 	}
 
 
-	#workaround for bug with the popup not unposting
+	#workaround for bug with the popup not unposting on Windows
 	destroy .trayiconwin
 	toplevel .trayiconwin -class Amsn
-	::gui::stdbind .trayiconwin
 	wm overrideredirect .trayiconwin 1
 	wm geometry .trayiconwin "+0+[expr {2 * [winfo screenheight .]}]"
 	wm state .trayiconwin withdrawn
