@@ -148,7 +148,6 @@ namespace eval ::guiContactList {
 
 		#create the window
 		toplevel $window
-		::gui::stdbind $window
 		wm title $window "[trans title] - [::config::getKey login]"
 		wm geometry $window 1000x1000
 

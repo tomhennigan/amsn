@@ -227,7 +227,6 @@ namespace eval ::ChatWindow {
 		}
 
 		toplevel $w
-		::gui::stdbind $w
 		wm title $w "[trans closeall]"
 		
 		#Create the 2 frames
@@ -993,7 +992,6 @@ namespace eval ::ChatWindow {
 		incr ::ChatWindow::containerid
 			
 		chatwindow $w -background [::skin::getKey chatwindowbg]	-borderwidth 0
-		::gui::stdbind $w
 #		::Event::registerEvent messageReceived all $w
 		
 		# If there isn't a configured size for Chat Windows, use the default one and store it.
@@ -1052,7 +1050,6 @@ namespace eval ::ChatWindow {
 		}
 
 		searchdialog $w.search
-		::gui::stdbind $w.search
 		$w.search hide
 		$w.search bindwindow $w
 
@@ -1119,7 +1116,6 @@ namespace eval ::ChatWindow {
 		incr ::ChatWindow::winid
 			
 		toplevel $w -class Amsn -background [::skin::getKey chatwindowbg]	
-		::gui::stdbind $w
 		
 		# If there isn't a configured size for Chat Windows, use the default one and store it.
 		if {[catch { wm geometry $w [::config::getKey winchatsize] } res]} {

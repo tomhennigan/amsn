@@ -87,7 +87,6 @@ namespace eval ::alarms {
 				return
 			}
 			toplevel $w
-			::gui::stdbind $w
 			wm title $w "[trans alarmpref] $user"
 			wm iconname $w [trans alarmpref]
 		} else {
@@ -307,7 +306,6 @@ proc run_alarm {config_user user nick msg} {
 
 	if { [::alarms::getAlarmItem ${config_user} pic_st] == 1 || [::alarms::getAlarmItem ${config_user} sound_st] == 1 } {
 		toplevel .${wind_name}
-		::gui::stdbind .${wind_name}
 		set myDate [ clock format [clock seconds] -format " - %d/%m/%y at %H:%M" ]
 		wm title .${wind_name} "[trans alarm] $user $myDate"	
 		label .${wind_name}.txt -text "$msg"

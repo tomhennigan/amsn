@@ -468,7 +468,6 @@ namespace eval ::plugins {
 		::plugins::updatePluginsArray
 		# create window and give it it's title
 		toplevel $w
-		::gui::stdbind $w
 		wm title $w [trans pluginselector]
 		wm geometry $w 500x400
 		# create widgets
@@ -702,7 +701,6 @@ namespace eval ::plugins {
 	    } else {
 		#create the configuration window
 		set winconf [toplevel $confw]
-		::gui::stdbind $confw	
 	    }
 
 	    # list of callbacks for pressing save of frame types
@@ -2240,7 +2238,6 @@ namespace eval ::plugins {
 		::plugins::getOnlinePluginsList
 
 		toplevel $w
-		::gui::stdbind $w
 		wm title $w [trans getonlineplugins]
 		wm geometry $w 500x400
 

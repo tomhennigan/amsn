@@ -76,7 +76,6 @@ namespace eval ::groups {
 		set bgcol2 #ABC8D2
 	
 		toplevel $w -highlightcolor $bgcol2
-		::gui::stdbind $w
 		wm title $w "[trans groupadd]"
 
 		frame $w.groupname -bd 1 
@@ -182,7 +181,6 @@ namespace eval ::groups {
 		set bgcol2 #ABC8D2
 	
 		toplevel .dlgthis -highlightcolor $bgcol2
-		::gui::stdbind .dlgthis
 		wm title .dlgthis "[trans grouprename]"
 		frame .dlgthis.data -bd 1 
 		label .dlgthis.data.lbl -text "[trans groupnewname]:" -font sboldf

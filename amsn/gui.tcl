@@ -223,16 +223,6 @@ if { $initialize_amsn == 1 } {
 		catch { eval ::tk::panedwindow::Original_Cursor $args }
 	}
 }
-namespace eval ::gui {
-	proc stdbind {wind} {
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-			bind $wind <Command-m> "catch {carbon::processHICommand mini $wind}"
-			bind $wind <Command-M> "catch {carbon::processHICommand mini $wind}"
-			bind $wind <Command-quoteleft> "catch {carbon::processHICommand rotw $wind}"
-			bind $wind <Command-asciitilde> "catch {carbon::processHICommand rotb $wind}"
-		}
-	}
-}
 
 namespace eval ::amsn {
 
@@ -395,7 +385,6 @@ namespace eval ::amsn {
 		}
 
 		toplevel .about
-		::gui::stdbind $w
 		wm title .about "[trans aboutamsn]"
 
 		ShowTransient .about
@@ -527,7 +516,6 @@ namespace eval ::amsn {
 		}
 
 		toplevel $w
-		::gui::stdbind $w
 		wm title $w "$title"
 
 		ShowTransient $w
@@ -653,7 +641,6 @@ namespace eval ::amsn {
 
 		#Create the window
 		toplevel $w
-		::gui::stdbind $w
 		wm title $w "[trans delete] - $user_login"
 
 		#Create the 2 frames
@@ -1142,7 +1129,6 @@ namespace eval ::amsn {
 
 		set w .ft$cookie
 		toplevel $w
-		::gui::stdbind $w
 		wm group $w .
 		wm geometry $w 360x170
 
@@ -1500,7 +1486,6 @@ namespace eval ::amsn {
 		}
 
 		toplevel $w
-		::gui::stdbind $w
 		wm group $w .
 		wm title $w "[trans customstyle]"
 
@@ -2000,7 +1985,6 @@ namespace eval ::amsn {
 		} else {
 			set wname $res
 		}
-		::gui::stdbind $wname
 		
 		wm title $wname $title
 
@@ -2860,7 +2844,6 @@ namespace eval ::amsn {
 			}
 
 			toplevel $w
-			::gui::stdbind $w
 			wm title $w "[trans title]"
 			wm group $w .
 			wm resizable $w 0 0
@@ -2952,7 +2935,6 @@ namespace eval ::amsn {
 
 			#the window will be stretched by the canvas anyways
 			toplevel $w -width 1 -height 1
-			::gui::stdbind $w
 			wm group $w .
 			#no wm borders
 			wm state $w withdrawn
@@ -3316,7 +3298,6 @@ proc cmsn_draw_main {} {
 	wm title . "[trans title] - [trans offline]"
 	wm command . [concat $argv0 $argv]
 	wm group . .
-	::gui::stdbind .
 	
 	if { [OnMac] } {
 		frame .main -class Amsn -relief flat -background white
@@ -3407,6 +3388,11 @@ proc cmsn_draw_main {} {
 		bind all <Command-Key-1> "raise ."
 		#Online Help
 		bind all <Command-?> "launch_browser http://amsn.sourceforge.net/userwiki/index.php/Main_Page"
+
+		bind all <Command-m> "catch {carbon::processHICommand mini $wind}"
+		bind all <Command-M> "catch {carbon::processHICommand mini $wind}"
+		bind all <Command-quoteleft> "catch {carbon::processHICommand rotw $wind}"
+		bind all <Command-asciitilde> "catch {carbon::processHICommand rotb $wind}"
 	} else {
 		#Status log
 		bind . <Control-s> toggle_status
@@ -3927,7 +3913,6 @@ proc cmsn_draw_status {} {
 
 	if { [winfo exists .status] } {return}
 	toplevel .status
-	::gui::stdbind .status
 	wm group .status .
 	wm state .status withdrawn
 	wm title .status "status log - [trans title]"
@@ -3979,7 +3964,6 @@ proc status_save { } {
 	set w .status_save
 
 	toplevel $w
-	::gui::stdbind $w
 	wm title $w \"[trans savetofile]\"
 	label $w.msg -justify center -text "Please give a filename"
 	pack $w.msg -side top
@@ -4262,7 +4246,6 @@ proc cmsn_draw_login {} {
 	LoadLoginList 1
 
 	toplevel .login
-	::gui::stdbind .login
 	wm group .login .
 	wm title .login "[trans login] - [trans title]"
 	ShowTransient .login
@@ -4462,7 +4445,6 @@ proc AddProfileWin {} {
 	}
 
 	toplevel .add_profile
-	::gui::stdbind .add_profile
 	wm group .add_profile .login
 
 	wm title .add_profile "[trans addprofile]"
@@ -5700,7 +5682,6 @@ proc cmsn_draw_addcontact {} {
 	}
 
 	toplevel .addcontact
-	::gui::stdbind .addcontact
 	wm group .addcontact .
 
 	wm title .addcontact "[trans addacontact] - [trans title]"
@@ -5774,7 +5755,6 @@ proc cmsn_draw_otherwindow { title command } {
 	if {[winfo exists .otherwindow] } { destroy .otherwindow }
 	
 	toplevel .otherwindow
-	::gui::stdbind .otherwindow
 	wm group .otherwindow .
 	wm title .otherwindow "$title"
 
@@ -5811,7 +5791,6 @@ proc newcontact {new_login new_name} {
 	if { [catch {toplevel ${wname} } ] } {
 		return 0
 	}
-	::gui::stdbind ${wname}
 	wm group ${wname} .
 
 	wm geometry ${wname} -0+100
@@ -5901,7 +5880,6 @@ proc cmsn_change_name {} {
 	}
 
 	toplevel $w
-	::gui::stdbind $w
 	wm group $w .
 	wm title $w "[trans changenick] - [trans title]"
 
@@ -6268,7 +6246,6 @@ proc saveContacts { } {
 	}
 
 	toplevel $w
-	::gui::stdbind $w
 	wm title $w "[trans options]"
 
 	frame $w.format
@@ -6791,7 +6768,6 @@ proc BossMode { } {
 			set bossMode 0
 			set children ""
 		} else {
-			::gui::stdbind .bossmode
 			wm title .bossmode "[trans pass]"
 
 			label .bossmode.passl -text "[trans pass]"
@@ -7102,7 +7078,6 @@ proc dpBrowser {} {
 		return
 	}
 	toplevel $w
-	::gui::stdbind $w
 	wm title $w "[trans picbrowser]"
 		
 	#Get all the contacts
@@ -7204,7 +7179,6 @@ proc pictureBrowser {} {
 	}
 
 	toplevel .picbrowser
-	::gui::stdbind .picbrowser
 	
 	set selected_image [::config::getKey displaypic]
 
@@ -7575,7 +7549,6 @@ proc AskDPSize { cursize } {
 	}
 
 	toplevel .askdpsize
-	::gui::stdbind .askdpsize
 
 	set dpsize "96x96"
 	set done 0
@@ -7682,7 +7655,6 @@ proc degt_protocol_win { } {
 	set followtext_degt 1
 
 	toplevel .degt
-	::gui::stdbind .degt
 	wm title .degt "MSN Protocol Debug"
 	wm iconname .degt "MSNProt"
 	wm state .degt withdraw
@@ -7748,7 +7720,6 @@ proc degt_protocol_save { } {
 	set w .protocol_save
 
 	toplevel $w
-	::gui::stdbind $w
 	wm title $w \"[trans savetofile]\"
 	label $w.msg -justify center -text "Please give a filename"
 	pack $w.msg -side top
@@ -7786,7 +7757,6 @@ proc degt_ns_command_win {} {
 	}
 
 	toplevel .nscmd
-	::gui::stdbind .nscmd
 	wm title .nscmd "MSN Command"
 	wm iconname .nscmd "MSNCmd"
 	wm state .nscmd withdraw

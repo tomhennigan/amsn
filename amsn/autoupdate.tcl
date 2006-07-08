@@ -31,7 +31,6 @@ namespace eval ::autoupdate {
 		}
 
 		toplevel .tlsdown
-		::gui::stdbind .tlsdown
 		wm title .tlsdown "[trans tlsinstall]"
 
 		label .tlsdown.caption -text "[trans tlsinstallexp]" -anchor w -font splainf
@@ -123,7 +122,6 @@ namespace eval ::autoupdate {
 			}
 
 			toplevel $w
-			::gui::stdbind $w
 			wm group $w .
 
 			label $w.l -text "[trans downloadingtls $downloadurl]" -font splainf
@@ -252,7 +250,6 @@ namespace eval ::autoupdate {
 		}
 		#Create the window .downloadwindow
 		toplevel $w
-		::gui::stdbind $w
 		wm title $w "Download"
 		
 		#Create 2 frames
@@ -295,7 +292,6 @@ namespace eval ::autoupdate {
 			return
 		}
 		#Create the update window
-		::gui::stdbind .checking
 		toplevel $w
 		wm title $w "[trans newveravailable $tmp_data]"
 		set changeloglink "http://amsn.sourceforge.net/wiki/tiki-index.php?page=ChangeLog"
@@ -648,7 +644,6 @@ namespace eval ::autoupdate {
 
 
 		toplevel $w
-		::gui::stdbind $w
 		wm title $w "[trans update]"
 		wm geometry $w 320x400
 		wm protocol $w WM_DELETE_WINDOW "::autoupdate::UpdateLangPlugin_close"

@@ -1025,7 +1025,6 @@ snit::widgetadaptor clself {
 
 catch {destroy .test}
 toplevel .test
-::gui::stdbind .test
 
 ScrolledWindow .test.sw
 

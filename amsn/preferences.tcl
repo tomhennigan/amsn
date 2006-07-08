@@ -929,7 +929,6 @@ namespace eval Preferences {
 		
 		#Create the toplevel window
 		toplevel $wname
-		::gui::stdbind $wname
 		wm title $wname $options(-title)
     		bind $wname <Destroy> [list $self destroyWindow %W]
 		bind $wname <<Escape>> [list destroy $wname]
@@ -1309,7 +1308,6 @@ proc dlgMoveUser {} {
 	
 	set bgcol2 #ABC8D2
 	toplevel .dlgmu -highlightcolor $bgcol2
-	::gui::stdbind .dlgmu
 	wm title .dlgmu "[trans moveuser]"
 	## radiobuttons for newgid ##
 	frame .dlgmu.d
@@ -1470,7 +1468,6 @@ proc Preferences { { settings "personal"} } {
     PreferencesCopyConfig	;# Load current configuration
 
     toplevel .cfg
-    ::gui::stdbind .cfg
     wm state .cfg withdraw
 
     if { [LoginList exists 0 [::config::getKey login]] == 1 } {
@@ -3140,7 +3137,6 @@ proc ChooseFilename { twn title } {
 		return
 	 }
     toplevel $w
-    ::gui::stdbind $w
     wm title $w [trans savetofile]
      label $w.msg -justify center -text [trans enterfilename]
      pack $w.msg -side top

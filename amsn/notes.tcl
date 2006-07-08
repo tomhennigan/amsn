@@ -60,7 +60,6 @@ namespace eval ::notes {
   		}
   	 
   		toplevel $w
-  		::gui::stdbind $w
   		wm title $w "[trans note]"
   		wm geometry $w 660x526+30+30
   		wm protocol $w DELETE_WINDOW "::notes::Display_Notes_Close"		

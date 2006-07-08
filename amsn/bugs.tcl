@@ -163,7 +163,6 @@ namespace eval ::bugs {
 	
 	catch {destroy $w}
 	toplevel $w -class Dialog
-	::gui::stdbind $w
 	wm title $w "AMSN Error"
 	wm iconname $w Dialog
 	wm protocol $w WM_DELETE_WINDOW "set ::bugs::closed_bug_window 1"

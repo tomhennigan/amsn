@@ -426,7 +426,6 @@ namespace eval ::log {
 			wm deiconify ${wname}
 			return 0
 		}
-		::gui::stdbind ${wname}
 		
 		wm group ${wname} .
 
@@ -458,7 +457,6 @@ namespace eval ::log {
 
 		# Add search dialog
 		searchdialog $wname.search -searchin $wname.blueframe.log.txt -title [trans find]
-		::gui::stdbind $wname.search
 		$wname.search hide
 		$wname.search bindwindow $wname
 
@@ -555,7 +553,6 @@ namespace eval ::log {
 			wm deiconify ${wname}
 			return 0
 		}
-		::gui::stdbind ${wname}
 		
 		wm group ${wname} .
 
@@ -1282,7 +1279,6 @@ namespace eval ::log {
 		set wname [string range $wname 1 end]
 		set w .form${wname}
 		toplevel $w
-		::gui::stdbind $w
 		wm title $w \"[trans savetofile]\"
 		label $w.msg -justify center -text "Please give a filename"
 		pack $w.msg -side top
@@ -1725,7 +1721,6 @@ namespace eval ::log {
 		}
 
 		toplevel $w
-		::gui::stdbind $w
 		
 		wm title $w "[trans stats]"
 		wm geometry $w 300x390
