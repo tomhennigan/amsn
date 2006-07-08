@@ -3389,10 +3389,10 @@ proc cmsn_draw_main {} {
 		#Online Help
 		bind all <Command-?> "launch_browser http://amsn.sourceforge.net/userwiki/index.php/Main_Page"
 
-		bind all <Command-m> "catch {carbon::processHICommand mini $wind}"
-		bind all <Command-M> "catch {carbon::processHICommand mini $wind}"
-		bind all <Command-quoteleft> "catch {carbon::processHICommand rotw $wind}"
-		bind all <Command-asciitilde> "catch {carbon::processHICommand rotb $wind}"
+		bind all <Command-m> "catch {carbon::processHICommand mini %W}"
+		bind all <Command-M> "catch {carbon::processHICommand mini %W}"
+		bind all <Command-quoteleft> "catch {carbon::processHICommand rotw %W}"
+		bind all <Command-asciitilde> "catch {carbon::processHICommand rotb %W}"
 	} else {
 		#Status log
 		bind . <Control-s> toggle_status
