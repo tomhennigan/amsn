@@ -12,11 +12,11 @@ proc readsocket { } {
     } elseif { $response != "" } {
 	set response [string map { \; \\\; \" \\\" \[ \\\[ \] \\\] \: \\\: \\ \\\\ \* \\\* \? \\\?} $response]
 	set colour [lindex $response end]
-	set response [lreplace $response end end]
+	set response [string range $response 0 end-[string length $colour]]
 	set response [string map { \\\\ "^[SLASHCAR]^"} $response]
 	set response [string map { \\ ""} $response]
 	set response [string map { "^[SLASHCAR]^" \\} $response]
-	puts "\033\[[colorToCode $colour]m$respone\033\[0m"
+	puts "\033\[[colorToCode $colour]m$response\033\[0m"
     } 
 
     
