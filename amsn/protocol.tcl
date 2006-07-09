@@ -4361,7 +4361,7 @@ proc cmsn_change_state {recv} {
 		# Added by Yoda-BZH
 		if { ($remote_auth == 1) && $state_changed } {
 			set nameToWriteRemote "$user_name ($user)"
-			write_remote "** $nameToWriteRemote [trans logsout]"
+			write_remote "** $nameToWriteRemote [trans logsout]" event
 		}
 
 		if { ($state_changed || $nick_changed) && 
@@ -4384,7 +4384,7 @@ proc cmsn_change_state {recv} {
 		# Added by Yoda-BZH
 		if { ($remote_auth == 1) &&  ($state_changed || $nick_changed) } {
 			set nameToWriteRemote "$user_name ($user)"
-			write_remote "** [trans changestate $nameToWriteRemote [trans [::MSN::stateToDescription $substate]]]"
+			write_remote "** [trans changestate $nameToWriteRemote [trans [::MSN::stateToDescription $substate]]]" event
 		}
 
 		if { ($state_changed || $nick_changed) && 
@@ -4413,7 +4413,7 @@ proc cmsn_change_state {recv} {
 		# Added by Yoda-BZH
 		if { ($remote_auth == 1) && $state_changed } {
 			set nameToWriteRemote "$user_name ($user)"
-			write_remote "** $nameToWriteRemote [trans logsin]"
+			write_remote "** $nameToWriteRemote [trans logsin]" event
 		}
 
 		if { ($state_changed || $nick_changed) && 

@@ -11,26 +11,51 @@ proc readsocket { } {
 	connect "Amsn server closed"
     } elseif { $response != "" } {
 	set response [string map { \; \\\; \" \\\" \[ \\\[ \] \\\] \: \\\: \\ \\\\ \* \\\* \? \\\?} $response]
-	set colour [lindex "$response" end]
-	set response [string map [list "$colour" ""]  $response]
+	set colour [lindex $response end]
+	set response [lreplace $response end end]
 	set response [string map { \\\\ "^[SLASHCAR]^"} $response]
 	set response [string map { \\ ""} $response]
 	set response [string map { "^[SLASHCAR]^" \\} $response]
-	puts $response
+	puts "\033\[[colorToCode $colour]m$respone\033\[0m"
     } 
 
     
 }
 
+proc colorToCode { colour } {
+	switch -- $colour {
+	  error {
+	       return "0;31"
+	  }
+	  msgsent {
+	  	return "0;34"
+	  }
+	  msgrcv {
+	  	return "0;33"
+	  }
+	  command {
+	  	return "1;30"
+	  }
+	  event {
+	  	return "0;35"
+	  }
+	  normal {
+	  	return 0
+	  }
+	  default {
+	  	return 0
+	  }
+
+	}
+}
+
 proc writesocket { command } {
     global sock
     set command [string map { \; \\\; \" \\\" \[ \\\[ \] \\\] \: \\\: \\ \\\\ \* \\\* \? \\\?} $command]
-    if { "$command" != "quit" } {
-	puts ${sock} "$command"
+    if { $command != "quit" } {
+	puts ${sock} $command
 	flush $sock
-    } else {
-	
-    }
+    } 
 
 }
 
@@ -61,8 +86,7 @@ proc authenticate { password } {
 }
 
 proc connect { status } {
-    global sockDS stat
-	global ip
+    global sockDS stat ip
     
     if { $sockDS == 0 } {
 	set stat [catch {socket $ip 63251} sockDS]
@@ -149,7 +173,6 @@ proc control { } {
     }
 
 proc main { } {
-    global sockDS
     global ip
     puts "Enter the IP address of the host : "
     gets stdin ip

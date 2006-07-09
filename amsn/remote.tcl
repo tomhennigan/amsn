@@ -27,14 +27,6 @@ namespace eval ::remote {
 	#
 	proc connect { } {
 	
-		set username "null"
-		set password "null"
-
-		if { [string match "*@*" $username] == 0 } {
-			set username [split $username "@"]
-			set username "[lindex $username 0]@hotmail.com"
-		}
-
 		if { [catch { ::MSN::connect } res] } {
 			write_remote "[trans connecterror]"
 		} else {
@@ -57,7 +49,8 @@ namespace eval ::remote {
 	proc help { } {
 
 		set fd [open "remote.help" r]
-		set printhelp "[read $fd]"
+		set printhelp [read $fd]
+		close $fd
 
 		write_remote "$printhelp"
   
@@ -243,7 +236,7 @@ proc write_remote { dataout {colour "normal"} } {
 
 	set dataout [string map [list "\n" " $colour\n"]  $dataout]
   
-	catch {puts $remote_sock "$dataout $colour"}
+	catch {puts $remote_sock [list $dataout $colour]}
 }
 
 proc read_remote { command sock } {
@@ -279,6 +272,7 @@ proc md5keygen { } {
 
 proc authenticate { command sock } {
 	global remotemd5key remote_auth remote_sock_lock
+	global userchatto
 
 	if { $command == "auth" } {
 		set remotemd5key "[md5keygen]"
@@ -288,6 +282,7 @@ proc authenticate { command sock } {
 			if { [::config::getKey enableremote] == 1 } { 
 				set remote_auth 1
 				set remote_sock_lock $sock
+				catch { unset userchatto }
 				write_remote "Authentication successfull"
 			} else {
 				write_remote "User disabled remote control"

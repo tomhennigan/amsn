@@ -201,11 +201,12 @@ proc control { } {
    scrollbar .controler.res.sy -command ".controler.res.txt yview"
    scrollbar .controler.res.sx -orient horizontal -command ".controler.res.txt xview"
 
-   .controler.res.txt tag configure error -foreground #ff0000 -background white
-   .controler.res.txt tag configure command -foreground #888888 -background white
-   .controler.res.txt tag configure normal -foreground #000000 -background white
-   .controler.res.txt tag configure msgsent -foreground #ff8800 -background white
+   .controler.res.txt tag configure error -foreground red -background white
+   .controler.res.txt tag configure command -foreground gray88 -background white
+   .controler.res.txt tag configure normal -foreground black -background white
+   .controler.res.txt tag configure msgsent -foreground brown -background white
    .controler.res.txt tag configure msgrcv -foreground blue -background white
+   .controler.res.txt tag configure event -foreground green -background white
 
 
     pack .controler.res.sy -side right -fill y
