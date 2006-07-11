@@ -49,8 +49,6 @@ switch(remoteOS()) {
     break;
     case 'FreeBSD':
     $url='http://www.freshports.org/net-im/amsn/';
-    case 'Mac':
-    $url="dlfile.php?file=amsn-0-96-RC1-Universal.dmg";
     break;
     default:
     $url="download.php";
