@@ -42,7 +42,7 @@ echo '<br /><br />';
 
 switch(remoteOS()) {
     case 'Windows':
-    $url='dlfile.php?file=amsn-0.95-windows-installer-2.exe';
+    $url='dlfile.php?file=amsn-0.96RC1-windows-installer.exe';
     break;
     case 'Linux':
     $url='linux-downloads.php';
@@ -50,7 +50,7 @@ switch(remoteOS()) {
     case 'FreeBSD':
     $url='http://www.freshports.org/net-im/amsn/';
     case 'Mac':
-    $url="dlfile.php?file=amsn-0-95-final.dmg";
+    $url="dlfile.php?file=amsn-0-96-RC1-Universal.dmg";
     break;
     default:
     $url="download.php";
