@@ -25,9 +25,10 @@ Please select your desired package from one of the drop-down menus:
 <option value="amsn_0.96rc1-PPC.deb">Ubuntu (PowerPC)</option>
 <option value="amsn-0.96RC1-1.fc4.i686.rpm">Fedora Core 4</option>
 <option value="amsn-0.96RC1-1-mandriva.i686.rpm">Mandriva 2006 (Formerly Mandrake)</option>
+<option value="amsn-0.96RC1-i686.tgz">Slackware</option>
 <option value="amsn-0.96RC1-1-suse.i686.rpm">SUSE 10.0</option>
 <option value="amsn-0.96RC1-1.archlinux.pkg.tar.gz">Archlinux</option>
-<option value="amsn-0.96RC1-i686.tgz">Other</option>
+<option value="amsn-0.96RC1.tar.gz">Other</option>
 </select>
 <input type="submit" value="Download"/>
 </p>
