@@ -925,7 +925,7 @@ proc parse {id} {
 
 proc xml2list xml {
 	regsub -all {<\?xml.*\?>} $xml "" xml
-	regsub -all {>\s*<} [string trim $xml " \n\t<>"] "\} \{" xml
+	regsub -all {>\s*<} [string trim $xml " \r\n\t<>"] "\} \{" xml
 	set xml [string map {> "\} \{#text \{" < "\}\} \{"}  $xml]
 	
 	set res ""   ;# string to collect the result
