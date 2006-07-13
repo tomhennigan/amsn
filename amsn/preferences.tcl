@@ -1644,11 +1644,11 @@ proc Preferences { { settings "personal"} } {
 #	frame $lfname.5 -class Degt
 	frame $lfname.6 -class Degt
 
-	button $lfname.0.skinbutton -text [trans skinselector] -font sboldf -command ::skinsGUI::SelectSkin
+	button $lfname.0.skinbutton -text [trans skinselector]  -command ::skinsGUI::SelectSkin
 	pack $lfname.0.skinbutton -side left
 
 	label $lfname.1.llook -text "[trans encoding2]" -padx 10
-	button $lfname.1.bencoding -text [trans encoding] -font sboldf -command "show_encodingchoose"
+	button $lfname.1.bencoding -text [trans encoding] -command "show_encodingchoose"
 	pack $lfname.plook -anchor nw -side left
 	pack $lfname.0 $lfname.1 -side top -padx 0 -pady 0 -expand 1 -fill both
 	pack $lfname.1.llook -side left
@@ -1659,7 +1659,7 @@ proc Preferences { { settings "personal"} } {
 #	pack $lfname.2.llook -side left	
 #	pack $lfname.2.bbgcolor -side right -padx 15
 	label $lfname.3.llook -text "[trans preffont3]" -padx 10
-	button $lfname.3.bfont -text [trans changefont] -font sboldf -command "choose_basefont"
+	button $lfname.3.bfont -text [trans changefont] -command "choose_basefont"
 	pack $lfname.3 -side top -padx 0 -pady 0 -expand 1 -fill both
 	pack $lfname.3.llook -side left
 	pack $lfname.3.bfont -side right -padx 15
@@ -1786,9 +1786,9 @@ proc Preferences { { settings "personal"} } {
 	pack $lfname.statelist.ys -side right -fill y
 	pack $lfname.statelist.box -side left -expand true -fill both
 	frame $lfname.buttons -borderwidth 0
-	button $lfname.buttons.add -text [trans addstate] -font sboldf -command "EditNewState 0" -width 20
-	button $lfname.buttons.del -text [trans delete] -font sboldf -command "DeleteStateListBox \[$lfname.statelist.box curselection\] $lfname.statelist.box" -width 20
-	button $lfname.buttons.edit -text [trans edit] -font sboldf -command "EditNewState 2 \[$lfname.statelist.box curselection\]" -width 20
+	button $lfname.buttons.add -text [trans addstate] -command "EditNewState 0" -width 20
+	button $lfname.buttons.del -text [trans delete]  -command "DeleteStateListBox \[$lfname.statelist.box curselection\] $lfname.statelist.box" -width 20
+	button $lfname.buttons.edit -text [trans edit]  -command "EditNewState 2 \[$lfname.statelist.box curselection\]" -width 20
 	pack $lfname.buttons.add -side top
 	pack $lfname.buttons.del -side top
 	pack $lfname.buttons.edit -side top
@@ -1993,8 +1993,8 @@ proc Preferences { { settings "personal"} } {
 	pack $lfname.plog1 -anchor nw -side left
 	frame $lfname.1 -class Degt
 	label $lfname.1.lclear -text "[trans clearlog2]" -padx 10
-	button $lfname.1.bclear -text [trans clearlog3] -font sboldf -command "::log::ClearAllLogs"
-	button $lfname.1.camclear -text [trans clearwebcamlogs] -font sboldf -command "::log::ClearAllCamLogs"
+	button $lfname.1.bclear -text [trans clearlog3]  -command "::log::ClearAllLogs"
+	button $lfname.1.camclear -text [trans clearwebcamlogs] -command "::log::ClearAllCamLogs"
 	pack $lfname.1.lclear -side left	
 	pack $lfname.1.bclear -side right -padx 15
 	pack $lfname.1.camclear -side right -padx 15
@@ -2389,8 +2389,8 @@ proc Preferences { { settings "personal"} } {
 
 
 	frame $lfname.buttons -borderwidth 0
-	button $lfname.buttons.right -text "[trans move] -->" -font sboldf -command "Allow_to_Block $lfname" -width 10
-	button $lfname.buttons.left -text "<-- [trans move]" -font sboldf -command "Block_to_Allow $lfname" -width 10
+	button $lfname.buttons.right -text "[trans move] -->"  -command "Allow_to_Block $lfname" -width 10
+	button $lfname.buttons.left -text "<-- [trans move]"  -command "Block_to_Allow $lfname" -width 10
 	pack $lfname.buttons.right $lfname.buttons.left  -side top
 
         label $lfname.status -text ""
@@ -2442,8 +2442,8 @@ proc Preferences { { settings "personal"} } {
 
 
 	frame $lfname.buttons -borderwidth 0
-	button $lfname.buttons.right -text "[trans delete] -->" -font sboldf -command "Remove_Contact $lfname" -width 10
-	button $lfname.buttons.left -text "<-- [trans copy]" -font sboldf -command "Reverse_to_Contact $lfname" -width 10
+	button $lfname.buttons.right -text "[trans delete] -->"  -command "Remove_Contact $lfname" -width 10
+	button $lfname.buttons.left -text "<-- [trans copy]"  -command "Reverse_to_Contact $lfname" -width 10
 	pack $lfname.adding  $lfname.buttons.right $lfname.buttons.left -side top
 
 
