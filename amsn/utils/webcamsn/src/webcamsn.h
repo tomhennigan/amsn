@@ -12,7 +12,7 @@
 
 // Include files, must include windows.h before tk.h and tcl.h before tk.h or else compiling errors
 #include <stdlib.h>
-#include <mimic.h>
+#include "mimic.h"
 
 
 #ifdef WIN32
