@@ -96,7 +96,7 @@ namespace eval ::amsnplus {
 		.main_menu delete last
 		::amsnplus::remove_from_chatwindow
 		#restoring the normal nick
-		set nick [::abook::getPersonal nick]
+		set nick [::abook::getPersonal MFN]
 		set lnick [string length $nick]
 		set lres [string length $::amsnplus::config(resource)]
 		set restar [expr $lres + 3]
@@ -572,7 +572,7 @@ namespace eval ::amsnplus {
 
 		while {$i < $strlen} {
 			set str [string range $data $i [expr $i + 1]]
-			if {[string equal $str "·\$"]} {
+			if {[string equal $str "\$"]} {
 #				if {$::amsnplus::config(colour_nicks)} {
 				#RRGGBB
 				if {[string equal [string index $data [expr $i + 2]] "#"]} {
@@ -628,10 +628,10 @@ namespace eval ::amsnplus {
 #
 #					set data [string replace $data $i $last ""]
 #				}
-			} elseif {[string equal $str "·\#"]} {
+			} elseif {[string equal $str "\#"]} {
 				#Bold text : as we can't render, we only remove
 				set data [string replace $data $i [expr $i + 1] ""]
-			} elseif {[string equal $str "·0"]} {
+			} elseif {[string equal $str "0"]} {
 				#End of styles : as we render color for all the line and not bold, we only remove
 				set data [string replace $data $i [expr $i + 1] ""]
 			} else {
@@ -988,9 +988,13 @@ namespace eval ::amsnplus {
 			}
 			incr i
 		}
-		set customfont [list $font $style $color]
-		::amsn::WinWrite $chatid $msg "user" $customfont
-		set msg ""
+		if {[::amsnplus::version_094]} {
+			set customfont [list $font $style $color]
+			::amsn::WinWrite $chatid $msg "user" $customfont
+			set msg ""
+		} else {
+			set newvar(fontformat) [list $font $style $color]
+		}
 	}
 
 	###############################################
@@ -1467,27 +1471,44 @@ namespace eval ::amsnplus {
 				}
 				set msg ""
 			} elseif {[string equal $char "/shell"]} {
-				set msg [string replace $msg $i [expr $i + 6] ""]
-				set command $msg
+				set command [string replace $msg $i [expr $i + 6] ""]
 				set msg ""
-				set catch [catch {exec $command}]
 				if {[::amsnplus::version_094]} {
 					::amsnplus::write_window $chatid "\nExecuting: $command" 0
 				} else {
 					::amsnplus::write_window $chatid "[trans cshell $command]" 0
 				}
-				if {[string equal $catch "1"]} {
+				set command [linsert [split $command " "] 0 "exec" "--"]
+				if {[catch { eval $command } result]} {
 					if {[::amsnplus::version_094]} {
-						::amsnplus::write_window $chatid "\nYour command is not valid" 0
+						::amsnplus::write_window $chatid "\nYour command is not valid\n$result" 0
 					} else {
-						::amsnplus::write_window $chatid "[trans cnotvalid]" 0
+						::amsnplus::write_window $chatid "[trans cnotvalid]\n$result" 0
 					}
 				} else {
 					if {[::amsnplus::version_094]} {
-						::amsnplus::write_window $chatid "\nThis is the result of the command:\n$catch" 0
+						::amsnplus::write_window $chatid "\nThis is the result of the command:\n$result" 0
 					} else {
-						::amsnplus::write_window $chatid "[trans cresult $catch]" 0
+						::amsnplus::write_window $chatid "[trans cresult $result]" 0
 					}
+				}
+			} elseif {[string equal $char "/shells"]} {
+				set command [string replace $msg $i [expr $i + 7] ""]
+				set msg ""
+				if {[::amsnplus::version_094]} {
+					::amsnplus::write_window $chatid "\nExecuting: $command" 0
+				} else {
+					::amsnplus::write_window $chatid "[trans cshell $command]" 0
+				}
+				set command [linsert [split $command " "] 0 "exec" "--"]
+				if {[catch { eval $command } result]} {
+					if {[::amsnplus::version_094]} {
+						::amsnplus::write_window $chatid "\nYour command is not valid\n$result" 0
+					} else {
+						::amsnplus::write_window $chatid "[trans cnotvalid]\n$result" 0
+					}
+				} else {
+					set msg $result
 				}
 			} elseif {[string equal $char "/speak"]} {
 				set msg [string replace $msg $i [expr $i + 6] ""]

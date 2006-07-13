@@ -10,66 +10,66 @@
 	<init_procedure>amsnplusStart</init_procedure>
 	<deinit_procedure>amsnplusStop</deinit_procedure>
 
-	<cvs_version>1.130</cvs_version>
+	<cvs_version>7045</cvs_version>
 
 	<lang>
 		<langcode>ca</langcode>
-		<version>1.21</version>
+		<version>5039</version>
 	</lang>
 
 	<lang>
 		<langcode>en</langcode>
-		<version>1.18</version>
+		<version>5039</version>
 	</lang>
 
 	<lang>
 		<langcode>es</langcode>
-		<version>1.9</version>
+		<version>4158</version>
 	</lang>
 
 	<lang>
 		<langcode>fr</langcode>
-		<version>1.7</version>
+		<version>4956</version>
 	</lang>
 
 	<lang>
 		<langcode>it</langcode>
-		<version>1.3</version>
+		<version>5776</version>
 	</lang>
 
 	<lang>
 		<langcode>nl</langcode>
-		<version>1.5</version>
+		<version>4158</version>
 	</lang>
 
 	<lang>
 		<langcode>pt</langcode>
-		<version>1.4</version>
+		<version>4158</version>
 	</lang>
 
 	<file>
 		<path>pixmaps/multiple_colors.gif</path>
-		<version>1.1</version>
+		<version>3478</version>
 	</file>
 
 	<file>
 		<path>readme</path>
-		<version>1.23</version>
+		<version>5043</version>
 	</file>
 	
 	<file>
 		<path>Makefile</path>
-		<version>1.1</version>
+		<version>4956</version>
 	</file>
 
 	<file>
 		<path>snapshot.c</path>
-		<version>1.1</version>
+		<version>4956</version>
 	</file>
 	
 	<file>
 		<path>Snapshot.exe</path>
-		<version>1.1</version>
+		<version>4986</version>
 	</file>
 
 	<URL>

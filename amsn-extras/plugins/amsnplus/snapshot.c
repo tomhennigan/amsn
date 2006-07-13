@@ -21,7 +21,7 @@ int main(int argc, char* argv[]){
 
 	disp = XOpenDisplay(NULL);
 	if (!disp)
-		printf("Can't open X display.");
+		printf("Can't open X display.\n");
 	
 	id=Imlib_init(disp);
 	
@@ -31,15 +31,7 @@ int main(int argc, char* argv[]){
 	cm = DefaultColormap(disp, DefaultScreen(disp));
 	root = RootWindow(disp, DefaultScreen(disp));
 	
-	/*imlib_context_set_display(disp);
-	imlib_context_set_visual(vis);
-	imlib_context_set_colormap(cm);
-	imlib_context_set_color_modifier(NULL);
-	imlib_context_set_operation(IMLIB_OP_COPY);*/
-	
 	im = Imlib_create_image_from_drawable(id,root, 0, 0, 0, scr->width, scr->height);
-	
-	//Imlib_context_set_image(im);
 	
 	ret=Imlib_save_image(id, im, filename, 0);
 	Imlib_destroy_image(id, im);
