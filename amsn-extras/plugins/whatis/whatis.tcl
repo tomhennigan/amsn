@@ -152,6 +152,8 @@ namespace eval ::whatis {
 		if { $searchText == "" } {
 			::amsn::messageBox "No text selected for translation!" ok error 
 		} else { 
+
+		set searchText [encoding convertto utf-8 $searchText]
 			 
 		# Translate / Get HTML file from translator
 		if { $transLangs == "en_el" || $transLangs == "el_en" } {
