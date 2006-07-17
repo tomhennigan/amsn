@@ -95,18 +95,20 @@ namespace eval ::whatis {
 		menu $copymenu.whatis.translate -tearoff 0 -type normal
 		$copymenu.whatis.translate add command -label "English to Spanish" -command "whatis::translateText $w en_es"	
 		$copymenu.whatis.translate add command -label "English to French" -command "whatis::translateText $w en_fr"
-		$copymenu.whatis.translate add command -label "English to German" -command "whatis::translateText $w en_ge"	
+		$copymenu.whatis.translate add command -label "English to German" -command "whatis::translateText $w en_de"	
 		$copymenu.whatis.translate add command -label "English to Italian" -command "whatis::translateText $w en_it"
 		$copymenu.whatis.translate add command -label "English to Dutch" -command "whatis::translateText $w en_nl"	
 		$copymenu.whatis.translate add command -label "English to Portuguese" -command "whatis::translateText $w en_pt"
 		$copymenu.whatis.translate add command -label "English to Russian" -command "whatis::translateText $w en_ru"	
+		$copymenu.whatis.translate add command -label "English to Greek" -command "whatis::translateText $w en_el"
 		$copymenu.whatis.translate add command -label "Dutch to English" -command "whatis::translateText $w nl_en"
 		$copymenu.whatis.translate add command -label "Spanish to English" -command "whatis::translateText $w es_en"	
-		$copymenu.whatis.translate add command -label "German to English" -command "whatis::translateText $w ge_en"	
+		$copymenu.whatis.translate add command -label "German to English" -command "whatis::translateText $w de_en"	
 		$copymenu.whatis.translate add command -label "Italian to English" -command "whatis::translateText $w it_en"	
 		$copymenu.whatis.translate add command -label "Portuguese to English" -command "whatis::translateText $w pt_en"	
 		$copymenu.whatis.translate add command -label "French to English" -command "whatis::translateText $w fr_en"		
 		$copymenu.whatis.translate add command -label "Russian to English" -command "whatis::translateText $w ru_en"	
+		$copymenu.whatis.translate add command -label "Greek to English" -command "whatis::translateText $w el_en"
 	}
 	
 	#
@@ -152,8 +154,13 @@ namespace eval ::whatis {
 		} else { 
 			 
 		# Translate / Get HTML file from translator
-		set url "http://www.systranbox.com/systran/box"
-		set query [::http::formatQuery systran_lp $transLangs systran_text $searchText]
+		if { $transLangs == "en_el" || $transLangs == "el_en" } {
+			set url "http://trans.otenet.gr/systran/box"
+			set query [::http::formatQuery id "OTEnet" lp $transLangs urltext $searchText submit.x "77" submit.y "13"]
+		} else {
+			set url "http://www.systranbox.com/systran/box"
+			set query [::http::formatQuery systran_charset "utf-8" systran_lp $transLangs systran_text $searchText]
+		}
 		set http  [::http::geturl $url -query $query -timeout 72500]
 		set html  [::http::data $http]
 		
@@ -161,22 +168,34 @@ namespace eval ::whatis {
 		switch $transLangs {
 				"en_nl" { set langTitle "Dutch" } 
 				"en_es" { set langTitle "Spanish" }		
-				"en_ge" { set langTitle "German" }		
-				"en_fr" { set langTitle "French"	}		
+				"en_de" { set langTitle "German" }		
+				"en_fr" { set langTitle "French"}		
 				"en_it" { set langTitle "Italian"}		
 				"en_pt" { set langTitle "Portuguese" }		
 				"en_ru" { set langTitle "Russian" }		
+				"en_el" { set langTitle "Greek" }
 				default { set langTitle "English" }
 		}
 		
 		# Strip HTML before translated text 
-		set substring "name=\"translation\""
-		set start [expr [string first $substring $html] + 90]
+		if { $transLangs == "en_el" || $transLangs == "el_en" } {
+			set substring "td class=\"tx2\">"
+			set start [string first $substring $html]
+			set start [expr { $start + [string length $substring]}]
+		} else {
+			set substring "name=\"translation\""
+			set start [expr [string first $substring $html] + 95]
+		}
 		
 		# Stript HTML after translated text
 		set htmlPart [string range $html $start end]
-		set end	[expr [string first "</textarea>" $htmlPart] - 1]
+		if { $transLangs == "en_el" || $transLangs == "el_en" } {
+			set end [expr [string first "</td>" $htmlPart] - 1]
+		} else {
+			set end	[expr [string first "</textarea>" $htmlPart] - 1]
+		}
 		set translation [string range $htmlPart 0 $end]
+		set translation [encoding convertfrom utf-8 $translation]
 				
 		# Write translated text to the chatwindow
 		
