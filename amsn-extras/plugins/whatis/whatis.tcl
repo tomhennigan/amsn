@@ -75,6 +75,12 @@ namespace eval ::whatis {
 		#Define variables
 		set w $args(win)
 		set copymenu $w.copy
+		addEntriesToMenu $copymenu $w
+		set copypastemenu $w.copypaste
+		addEntriesToMenu $copypastemenu $w
+	}
+
+	proc addEntriesToMenu { copymenu w } {
 
 		$copymenu add cascade -label "What is" -menu $copymenu.whatis
 		menu $copymenu.whatis -tearoff 0 -type normal
