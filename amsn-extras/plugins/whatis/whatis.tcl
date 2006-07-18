@@ -192,7 +192,7 @@ namespace eval ::whatis {
 			set start [expr { $start + [string length $substring]}]
 		} else {
 			set substring "name=\"translation\""
-			set start [expr [string first $substring $html] + 95]
+			set start [expr [string first $substring $html] + 94]
 		}
 		
 		# Stript HTML after translated text
