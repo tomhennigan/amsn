@@ -3441,7 +3441,7 @@ proc cmsn_draw_main {} {
 	set x 0
 	set y 0
 	set modified 0
-	regexp {[=]*(\d+)x(\d+)[+,-]([-]*\d+)[+,-]([-]*\d+)} $geometry -> width height x y
+	regexp {=?(\d+)x(\d+)[+\-](-?\d+)[+\-](-?\d+)} $geometry -> width height x y
 	if {[expr {$width + $x}] > [winfo screenwidth .]} {
 		set modified 1
 		if { [OnMac] } {
