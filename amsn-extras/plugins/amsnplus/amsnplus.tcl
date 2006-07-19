@@ -37,7 +37,7 @@ namespace eval ::amsnplus {
 				allow_commands 1
 				allow_quicktext 1
 				quick_text [list]
-				resource "aMSN"
+				#resource "aMSN"
 			}
 			set ::amsnplus::configlist [ list \
 				[list bool "Do you want to parse nicks?" parse_nicks] \
@@ -54,7 +54,7 @@ namespace eval ::amsnplus {
 				allow_colours 1
 				allow_quicktext 1
 				quick_text [list]
-				resource "aMSN"
+				#resource "aMSN"
 			}
 			set ::amsnplus::configlist [ list \
 				[list bool "[trans parsenicks]" parse_nicks] \
@@ -81,12 +81,12 @@ namespace eval ::amsnplus {
 		}
 
 		#init
-		after 100 {
-			if { $::amsnplus::config(resource) != "" } {
-				set nick [::abook::getPersonal nick]
-				::MSN::changeName [::abook::getPersonal login] "$nick \{$::amsnplus::config(resource)\}"
-			}
-		}
+		#after 100 {
+		#	if { $::amsnplus::config(resource) != "" } {
+		#		set nick [::abook::getPersonal nick]
+		#		::MSN::changeName [::abook::getPersonal login] "$nick \{$::amsnplus::config(resource)\}"
+		#	}
+		#}
 	}
 
 	####################################################
@@ -96,14 +96,14 @@ namespace eval ::amsnplus {
 		.main_menu delete last
 		::amsnplus::remove_from_chatwindow
 		#restoring the normal nick
-		set nick [::abook::getPersonal MFN]
-		set lnick [string length $nick]
-		set lres [string length $::amsnplus::config(resource)]
-		set restar [expr $lres + 3]
-		set restar [expr $lnick - $restar]
-		if { $lres != 0 } {
-			::MSN::changeName [::abook::getPersonal login] [string replace $nick $restar end]
-		}
+		#set nick [::abook::getPersonal MFN]
+		#set lnick [string length $nick]
+		#set lres [string length $::amsnplus::config(resource)]
+		#set restar [expr $lres + 3]
+		#set restar [expr $lnick - $restar]
+		#if { $lres != 0 } {
+		#	::MSN::changeName [::abook::getPersonal login] [string replace $nick $restar end]
+		#}
 	}
 
 
@@ -572,7 +572,7 @@ namespace eval ::amsnplus {
 
 		while {$i < $strlen} {
 			set str [string range $data $i [expr $i + 1]]
-			if {[string equal $str "\$"]} {
+			if {[string equal $str "\u00B7\$"]} {
 #				if {$::amsnplus::config(colour_nicks)} {
 				#RRGGBB
 				if {[string equal [string index $data [expr $i + 2]] "#"]} {
@@ -628,10 +628,10 @@ namespace eval ::amsnplus {
 #
 #					set data [string replace $data $i $last ""]
 #				}
-			} elseif {[string equal $str "\#"]} {
+			} elseif {[string equal $str "\u00B7\#"]} {
 				#Bold text : as we can't render, we only remove
 				set data [string replace $data $i [expr $i + 1] ""]
-			} elseif {[string equal $str "0"]} {
+			} elseif {[string equal $str "\u00B70"]} {
 				#End of styles : as we render color for all the line and not bold, we only remove
 				set data [string replace $data $i [expr $i + 1] ""]
 			} else {
