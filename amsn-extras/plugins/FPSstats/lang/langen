@@ -1,0 +1,35 @@
+amsn_lang_version 2
+activeautomessage Add your stats to an auto-message
+activepsm Add your stats to your personnal message
+addconfig Add a configuration
+automessage Your automessage with the variables in (\$map for example)
+balloon_message Right-Click to start/stop showing your stats
+cdkey If the CDKEY is needed to display your stats, enter it here : (leave blank if no need to put the CDKEY)
+check Check Qstat's Path
+choose_state The state with which you would appear when playing
+chooseconfig Choose the config :
+configname Name of this config in order to identify it later
+disabled Disabled
+enabled Enabled
+free Number of free places on this server
+friendlyfire Replaced with Enabled if FriendlyFire is enabled, else by Disabled
+game Game you play
+gamenick Your nickname in the game
+ip_address IP address of the server
+map Name of the map
+maxplayers The highest number of players on this server
+numplayers Number of players on the server
+ping Your ping to the server
+playingTCE Do you play the mod True Combat : Elite ?
+psm Your Personnal Message with the variables in (\$score for example)
+qstat Path to the Qstat executable
+qstat_error The path to Qstat is wrong. Please, check it then click on "Check Qstat's Path"
+qstat_ok Qstat is found. You can continue to configure the plugin
+readme Read Me !
+removeconfig Remove this configuration
+score Your score
+second Check if there are new informations each ? seconds
+servername Name of the server
+startplaying Start playing at $1
+stopplaying Stop playing at $1
+team Name of the team you're playing with

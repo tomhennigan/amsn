@@ -1,0 +1,43 @@
+             ============= FPSstats =============
+by Boris FAURE (billiob) [billiob@gmail.com]
+
+This is an aMSN (http://amsn.sourceforge.net/) plugin.
+
+It should run on linux, maxosx (if qstat works on it), and on linux.
+So, you need qstat. You can get it from :
+http://www.qstat.org/
+http://sourceforge.net/projects/qstat/
+
+The plugin requires qstat 2.6 or upper.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Here are the "variables" you can put in the field "Your automessage with the variables in (\$map for example)" or "Your nickname with the variables in (\$score for example)" :
+variable => Explanation
+
+$servername   => the name of the serveur
+$ip           => the IP address of this server
+$map          => the name of the current map
+$score        => your current score
+$ping         => your current ping to the server
+$numplayers   => the current number of players on this server
+$free         => free places on this server
+$maxplayers   => The highest number of players on this server
+$friendlyfire => is replaced with Enabled if FriendlyFire is enabled, Disabled if FriendlyFire is disabled
+$team         => The team you're playing with
+
+Example (for the automessage):
+This an auto-message to tell you i'm playing at Enemy Territory on $servername which IP address is $ip. Currently, we are on $map and my score is $score and i'm with the team $team. There are $free free places on the server.
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Note about the :
+If you need to pass your cdkey to receive you stats, use :
+-ut2004m,cdkey=XXXXX-XXXXX-XXXXX-XXXXX
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Contact:
+  If you have a suggestion or some else, write to billiob@gmail.com
+
+Thanks:
+  Thanks to all AMSN Team for aMSN !
+  Thanks to Steve Jankowski for qstat !

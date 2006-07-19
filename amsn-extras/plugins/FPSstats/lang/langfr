@@ -1,0 +1,35 @@
+amsn_lang_version 2
+activeautomessage Ajouter vos stats dans un message automatique
+activepsm Ajouter vos stats à votre message personnel
+addconfig Ajouter une configuration
+automessage Votre message automatique avec les variables (\$map par exemple)
+balloon_message Clic droit pour commencer/arrêter à afficher vos stats
+cdkey Si la clé CD est nécessaire pour pouvoir afficher vos stats, entrez-la ici : (laisser vide si la clé n'est pas nécessaire)
+check Vérifier le chemin vers Qstat
+choose_state Le status avec lequel vous apparaîterez quand vous jouerez
+chooseconfig Choisissez la configuration :
+configname Nom de cette configuration pour pouvoir l'identifier plutard
+disabled Désactivé
+enabled Activé
+free Nombre de places libres sur le serveur
+friendlyfire Remplacé par Activé si FriendlyFire est activé, par Désactivé sinon
+game Le jeu auquel vous jouez
+gamenick Votre pseudonyme dans le jeu
+ip_address adresse IP du serveur
+map Nom de la carte jouée
+maxplayers Nombre de joueur maximal du serveur
+numplayers Nombre de joueurs sur le serveur
+ping Votre ping
+playingTCE Jouez-vous au mod True Combat : Elite ?
+psm Votre Message Personnel avec les variables (\$score par exemple)
+qstat Chemin vers l'exécutable Qstat
+qstat_error Le chemin vers Qstat est incorrect; veuillez le changer puis cliquer sur "Vérifier le chemin vers Qstat"
+qstat_ok Qstat est trouvé, vous pouvez continuer à configurer le plugin
+readme Lisez Moi !
+removeconfig Supprimer cette configuration
+score Votre score
+second Verifier s'il y a de nouvelles informations toutes les ? secondes
+servername Nom du serveur
+startplaying Jouer à $1
+stopplaying Arrêter de jouer à $1
+team Nom de l'équipe dans laquelle vous jouez

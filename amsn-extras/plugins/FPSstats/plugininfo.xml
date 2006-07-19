@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<plugin>
+	<name>FPSstats</name>
+	<author>Boris FAURE (billiob)</author>
+	<description>FPSstats Plugin - Requires qstat. Show your current statistics in a game you're playing (such as Enemy Territory, UT2004, CS ...) in your personal message and in an auto-message.</description>
+	<amsn_version>0.96</amsn_version>
+	<plugin_version>0.9</plugin_version>
+	<plugin_file>FPSstats.tcl</plugin_file>
+	<plugin_namespace>FPSstats</plugin_namespace>
+	<init_procedure>Init</init_procedure>
+	<deinit_procedure>Deinit</deinit_procedure>
+</plugin>
