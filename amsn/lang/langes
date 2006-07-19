@@ -227,6 +227,7 @@ default Configuración por defecto
 defaultloginradio Usar configuración por defecto
 defchatwinsize Tamaño por defecto para las ventanas de chat (HORIZONTAL x VERTICAL)
 deleteall Borrar todo
+deleteblock Eliminar y bloquear
 deletecustomstate Eliminar estado personalizado
 delete Eliminar
 delimiters Delimitadores de la hora:
@@ -339,6 +340,7 @@ gotink $1 le envió una ink
 gotoinbox Ir a Bandeja de entrada
 goto Ir a $1
 groupadd Añadir un grupo
+groupcontacts Contactos del grupo
 groupdelete Borrar un grupo
 groupexists El grupo ya existe
 group Grupo
@@ -353,6 +355,8 @@ handle Nick
 help Ayuda
 helpcontents Temas de ayuda
 hidedisplaypic Ocultar imagen para mostrar
+hidemenumessage ¿Seguro que deseas ocultar los menús?\nPuedes recuperarlos en cualquier momento usando la combinación de mostrar/ocultar menús Ctrl-M.
+hidemenu Mostrar/Ocultar menús
 hiden No mostrar en el menú de emoticonos
 hidewindow Ocultar ventana
 history Ver historial
@@ -496,6 +500,7 @@ noactivity Sin actividad
 nocacheddps No hay imágenes para mostrar almacenadas para este usuario
 nodataavailable No hay datos disponibles para $1
 nodevices No tienes dispositivos instalados
+noftpreview Desactivar el envío de previsualización en las transferencias de archivos.
 nogap No dejar espacio entre los grupos en lista de contactos
 nogroup Sin grupo
 nologfile No existe archivo de historial para $1
@@ -841,7 +846,3 @@ youblocked Has sido bloqueado
 yousay Dices
 youwant Quieres
 zoom Ampliación
-groupcontacts Contactos del grupo
-hidemenu Mostrar/Ocultar menús
-hidemenumessage ¿Seguro que deseas ocultar los menús?\nPuedes recuperarlos en cualquier momento usando la combinación de mostrar/ocultar menús Ctrl-M.
-noftpreview Desactivar el envío de previsualización en las transferencias de archivos.

@@ -228,6 +228,7 @@ defaultloginradio Kirjaudu sis‰‰n perusasetuksilla
 defchatwinsize Oletuskoko keskusteluikkunoille (LEVEYSxKORKEUS)
 delete Poista
 deleteall Poista kaikki
+deleteblock Poista ja est‰
 deletecustomstate Poista mukautettu tila
 delimiters Ajan erotinmerkit:
 deliverfail Seuraavaa viesti‰ ei voitu v‰litt‰‰
