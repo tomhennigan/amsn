@@ -277,6 +277,7 @@ if {$version != [::config::getGlobalKey last_client_version]} {
    #Force to change to Lucida Grande 12 on OS X, just one time when we switch version
    if { [OnMac] } {
       ::config::setGlobalKey basefont [list {Lucida Grande} 12 normal]
+      ::config::setKey browser "open \$url"
    }
 }
 

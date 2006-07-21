@@ -2190,12 +2190,12 @@ proc Preferences { { settings "personal"} } {
 	pack $lfname.pshared -side left -anchor nw
 	frame $lfname.1 -class Degt
 	pack $lfname.1 -anchor w -side left -padx 0 -pady 5 -expand 0 -fill both
-	label $lfname.1.lbrowser -text "[trans browser] :" -padx 5 -font sboldf
-	entry $lfname.1.browser -bg #FFFFFF   -width 40 -textvariable [::config::getVar browser]
-	label $lfname.1.lbrowserex -text "[trans browserexample]" -font examplef
 	
 	#Don't change filemanager and open file manager on Mac OS X
 	if { ![OnMac] } {
+		label $lfname.1.lbrowser -text "[trans browser] :" -padx 5 -font sboldf
+		entry $lfname.1.browser -bg #FFFFFF   -width 40 -textvariable [::config::getVar browser]
+		label $lfname.1.lbrowserex -text "[trans browserexample]" -font examplef
 		#file manager
 		label $lfname.1.lfileman -text "[trans fileman] :" -padx 5 -font sboldf
 		entry $lfname.1.fileman -bg #FFFFFF   -width 40 -textvariable [::config::getVar filemanager]
