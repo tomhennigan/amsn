@@ -3164,6 +3164,7 @@ proc cmsn_draw_main {} {
 		#-------------------
 		$accnt add separator
 #		$accnt add checkbutton -label "[trans sound]" -onvalue 1 -offvalue 0 -variable [::config::getVar sound]u
+		$accnt add command -label "[trans skinselector]" -command ::skinsGUI::SelectSkin
 		$accnt add command -label "[trans pluginselector]" -command ::plugins::PluginGui
 		$accnt add command -label "[trans preferences]" -command Preferences -accelerator "Ctrl-P"
 		#-------------------

@@ -1644,8 +1644,8 @@ proc Preferences { { settings "personal"} } {
 #	frame $lfname.5 -class Degt
 	frame $lfname.6 -class Degt
 
-	button $lfname.0.skinbutton -text [trans skinselector]  -command ::skinsGUI::SelectSkin
-	pack $lfname.0.skinbutton -side left
+#	button $lfname.0.skinbutton -text [trans skinselector]  -command ::skinsGUI::SelectSkin
+#	pack $lfname.0.skinbutton -side left
 
 	label $lfname.1.llook -text "[trans encoding2]" -padx 10
 	button $lfname.1.bencoding -text [trans encoding] -command "show_encodingchoose"
