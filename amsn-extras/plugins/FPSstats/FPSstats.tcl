@@ -41,15 +41,22 @@ namespace eval ::FPSstats {
 		#array of variables which can be configured using the "plugin center"
 		array set ::FPSstats::config {
 			num -1
-			max_num 0
+			max_num -1
 			previous_status NLN
 		}
 		set ::FPSstats::config(dir) $dir
-		AddConfig 0
+		::FPSstats::AddConfig 0
 		
 		global tcl_platform
-		if {[string tolower $tcl_platform(os)] == "linux"} {
+		if {[string tolower $tcl_platform(os)] == "unix"} {
+			#linux
 			set ::FPSstats::config(qstat) "/usr/bin/qstat"
+		} elseif {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+			#MacOSX
+			set ::FPSstats::config(qstat) "/usr/local/bin/qstat"
+			} else {
+			#Windows
+			set ::FPSstats::config(qstat) "C:/Program Files/qstat/qstat.exe"
 		}
 		
 		set ::FPSstats::configlist [list [list frame ::FPSstats::populateFrame ""] ]
@@ -151,7 +158,7 @@ namespace eval ::FPSstats {
 		label $f.automessage.label -text "[trans automessage]"
 		text $f.automessage.text -bg white -width 50 -height 5
 		$f.automessage.text delete 0.0 end
-		$f.automessage.text insert end $::FPSstats::config(automessage_$num)
+		$f.automessage.text insert end "$::FPSstats::config(automessage_$num)"
 		menubutton $f.automessage.menubutton -font sboldf -text "<-" -menu $f.automessage.menubutton.menu
 		menu $f.automessage.menubutton.menu -tearoff 0
 			$f.automessage.menubutton.menu add command -label [trans servername] -command "$f.automessage.text insert insert \\\$servername"
@@ -252,11 +259,11 @@ namespace eval ::FPSstats {
 		
 		incr ::FPSstats::config(max_num)
 		set num $::FPSstats::config(max_num)
-
+		
 		set ::FPSstats::config(activepsm_$num) {1}
 		set ::FPSstats::config(activeautomessage_$num) {1}
 		set ::FPSstats::config(psm_$num) {Playing on map: $map score: $score team : $team}
-		set ::FPSstats::config(automessage_$num) {This an auto-message to tell you i'm playing on $servername which IP address is $ip. Currently, we are on $map and my score is $score and i'm with the team $team. There are $free free places on the server.}
+		set ::FPSstats::config(automessage_$num) {This an auto-message to tell you i'm playing on $servername which IP address is $ip. Currently, we are on $map, my score is $score and i'm with the team $team. There are $free free places on the server.}
 		set ::FPSstats::config(second_$num) {35}
 		set ::FPSstats::config(game_$num) {}
 		set ::FPSstats::config(cdkey_$num) {}
@@ -1105,9 +1112,17 @@ namespace eval ::FPSstats {
 			} else {
 				set num_player \ $num_player\ 
 				if {[string match *$num_player* $allies]} {
-					set ::FPSstats::infos(team) allies
+					if {[info exists ::FPSstats::config(plays_TCE_$num)]} {
+						set ::FPSstats::infos(team) specops
+					} else {
+						set ::FPSstats::infos(team) allies
+					}
 				} elseif {[string match *$num_player* $axis]} {
-					set ::FPSstats::infos(team) axis
+					if {[info exists ::FPSstats::config(plays_TCE_$num)]} {
+						set ::FPSstats::infos(team) terros
+					} else {
+						set ::FPSstats::infos(team) axis
+					}
 				} 
 			}
 		}

@@ -3,11 +3,11 @@ by Boris FAURE (billiob) [billiob@gmail.com]
 
 This is an aMSN (http://amsn.sourceforge.net/) plugin.
 
-It should run on linux, maxosx (if qstat works on it), and on linux.
+It should run on linux, maxosx, and on windows.
 So, you need qstat. You can get it from :
 http://www.qstat.org/
 http://sourceforge.net/projects/qstat/
-
+For MacOSX users : http://dhost.info/climbtothesky/tools/qstat/qstat2.6.dmg or from Darwin ports.
 The plugin requires qstat 2.6 or upper.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
