@@ -568,6 +568,9 @@ namespace eval ::plugins {
 		variable mF
 
 		# find the id of the currently selected plugin
+		if { [ $w.plugin_list curselection ] == "" } {
+			return
+		}
 		set selection [$w.plugin_list get [$w.plugin_list curselection]]
 		# if the selection is empty, end proc
 		if { $selection == "" } {
