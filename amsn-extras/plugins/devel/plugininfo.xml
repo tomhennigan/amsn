@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<plugin>
+	<name>Devel</name>
+	<author>Yoda-BZH</author>
+	<description>To activate the devel menu, hit alt-d</description>
+	<amsn_version>0.94</amsn_version>
+	<plugin_version>1.0</plugin_version>
+	<plugin_file>devel.tcl</plugin_file>
+	<plugin_namespace>devel</plugin_namespace>
+	<init_procedure>InitPlugin</init_procedure>
+	<deinit_procedure>DeInit</deinit_procedure>
+	<cvs_version>1.00</cvs_version>
+</plugin>
