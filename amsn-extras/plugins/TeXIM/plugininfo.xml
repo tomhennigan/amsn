@@ -4,12 +4,12 @@
 	<author>Andrei Barbu & Boris FAURE</author>
 	<description>Renders LaTeX if it's prepended by \tex or by using the TeX Advanced Window</description>
 	<amsn_version>0.95</amsn_version>
-	<plugin_version>0.7</plugin_version>
+	<plugin_version>0.8</plugin_version>
 	<plugin_file>TeXIM.tcl</plugin_file>
 	<plugin_namespace>TeXIM</plugin_namespace>
 	<init_procedure>Init</init_procedure>
 	<deinit_procedure>DeInit</deinit_procedure>
-	<cvs_version>1.16</cvs_version>
+	<cvs_version>7078</cvs_version>
 
 	<file>
 		<path>datas/greek_letters.xml</path>
@@ -33,7 +33,7 @@
 	</file>
 	<file>
 		<path>datas/other.xml</path>
-		<version>1.1</version>
+		<version>7078</version>
 	</file>
 	<file>
 		<path>datas/spaces.xml</path>

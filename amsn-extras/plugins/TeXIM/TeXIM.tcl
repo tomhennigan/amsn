@@ -185,13 +185,13 @@ namespace eval ::TeXIM {
 		
 		set oldpwd [pwd]
 		if { [info exists ::env(TEMP) ] } {
-			cd [file join $::env(TEMP) TeXIM]
+			set tmp [file join $::env(TEMP) TeXIM]
 		} else {
-			cd [file join /tmp TeXIM]
+			set tmp [file join /tmp TeXIM]
 		}
 		
 		plugins_log "TeXIM" "creating a GIF with the tex code:\n$texText"
-		set fileXMLtex [open "TeXIM.tex" w]
+		set fileXMLtex [open [file join $tmp "TeXIM.tex"] w]
 		puts $fileXMLtex "${::TeXIM::config(header)}"
 		if { [file exists $::TeXIM::config(path_preamble) ] } {
 			set chan_pre [open $::TeXIM::config(path_preamble) r]
@@ -205,39 +205,34 @@ namespace eval ::TeXIM {
 		puts $fileXMLtex "${::TeXIM::config(footer)}"
 		flush $fileXMLtex
 		close $fileXMLtex
-		
+		#the following "cd" are needed due to a restriction of TeX :(
+		#no way to use TEXMFOUTPUT on windows for example.
+		cd $tmp	
 		if { [ catch { exec ${::TeXIM::config(path_latex)} -interaction=nonstopmode TeXIM.tex } msg ] == 0 } {
+			cd $oldpwd
 			variable tex_errors
 			set tex_errors $msg
-			if { [file exists TeXIM.dvi ] }  {
-				if { [ catch { exec ${::TeXIM::config(path_dvips)} -f -E -o TeXIM.ps -q TeXIM.dvi } msg ] == 0 } { 
-					if { [info exists ::env(TEMP) ] } {
-						catch {file delete [file join $::env(TEMP) TeXIM "TeXIM.dvi"]}
-					} else {
-						catch {file delete [file join /tmp TeXIM "TeXIM.dvi"]}
-					}	
+			if { [file exists [file join $tmp TeXIM.dvi] ] }  {
+				if { [ catch { exec ${::TeXIM::config(path_dvips)} -f -E -o [file join $tmp TeXIM.ps] -q [file join $tmp TeXIM.dvi] } msg ] == 0 } { 
+					catch {file delete [file join $tmp "TeXIM.dvi"]}
 					if { [ catch { exec ${::TeXIM::config(path_convert)} -density ${::TeXIM::config(resolution)} \
-							TeXIM.ps TeXIM.gif } msg ] == 0 } {
-						set tmp [image create photo -file TeXIM.gif]
-						if {[image height $tmp] > 1000} {
+							[file join $tmp TeXIM.ps] [file join $tmp TeXIM.gif] } msg ] == 0 } {
+						set tempimg [image create photo -file [file join $tmp TeXIM.gif]]
+						if {[image height $tempimg] > 1000} {
 							set bool [::TeXIM::show_bug_dialog $tex_errors]
 							if { $bool == 0 } { 
-								image delete $tmp
+								image delete $tempimg
 								return 0 
 							}
 						}
-						image delete $tmp
-						if { [info exists ::env(TEMP) ] } {
-							catch {file delete [file join $::env(TEMP) TeXIM "TeXIM.dvi"]}
-							return [file join $::env(TEMP) TeXIM "TeXIM.gif"]
-						} else {
-						catch {file delete [file join /tmp TeXIM "TeXIM.dvi"]}
-						return [file join /tmp TeXIM "TeXIM.gif"]
-						}	
+						image delete $tempimg
+						catch {file delete [file join $tmp "TeXIM.dvi"]}
+						return [file join $tmp "TeXIM.gif"]	
 					} else { append msg "\n^^Error in CONVERT" }
 				} else { append msg "\n^^Error in DVIPS" }
 			}
 		} else { append msg "\n^^Error in LATEX" }
+		cd $oldpwd
 		plugins_log "TeXIM" $msg
 		return 0
 	}
