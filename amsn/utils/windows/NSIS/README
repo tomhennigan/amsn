@@ -1,0 +1,24 @@
+This README describes the use of the NSIS installer script for aMSN.
+To make the install package you need :
+- A Tcl/Tk installation (below we will consider installed it in "C:\Tcl")
+- The Tls package for Windows
+- The TkDnd2 package with source files removed
+- An export of the aMSN directory (checkout can work too but it's safer to export)
+
+Instructions :
+Copy the Tls package in C:\Tcl\Lib\Tls
+Copy the TkDND2 package in C:\Tcl\Lib\TkDND2.0
+
+Open the NSIS Compiler.
+
+Set in defines :
+WISH_PATH filled with "C:\Tcl"
+VERSION with the version of your copy if you don't specify anything the version is devel
+
+Compile the script
+
+How the launcher works :
+In the install package is included amsnW.exe and amsnA.exe. amsnW.exe will be installed as amsn.exe on NT like platform (from NT4 to today) amsnA.exe will be installed as amsn.exe on Win95/98/Me.
+
+Well I think you have enough information. If something misses add it. (Hey it's GPL after all !)
+Phil

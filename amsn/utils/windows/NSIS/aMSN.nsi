@@ -267,6 +267,8 @@ Files_Next:
   File /r "${WISH_PATH}\lib\tls\*.*"
   SetOutPath "$INSTDIR\lib\snack2.2"
   File /r "${WISH_PATH}\lib\snack2.2\*.*"
+  SetOutPath "$INSTDIR\lib\tkdnd2.0"
+  File /r "${WISH_PATH}\lib\tkdnd2.0\*.*"
 
   SetOutPath "$INSTDIR"
 
