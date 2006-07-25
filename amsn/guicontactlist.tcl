@@ -248,7 +248,7 @@ namespace eval ::guiContactList {
 
 	proc moveBGimage { canvas } {
 		set canvaslength [lindex [$canvas cget -scrollregion] 3]
-		if {$canvaslength == ""} { set canvaslenght 0}
+		if {$canvaslength == ""} { set canvaslength 0}
 		$canvas coords backgroundimage 0 [expr int([expr [lindex [$canvas yview] 0] * $canvaslength])]
 		$canvas lower backgroundimage
 	}
