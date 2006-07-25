@@ -79,6 +79,10 @@ if(!defined('_FUNC_LIB_')) {
 #    if(count($lines)!=count($regs)) {
 #      return false;
 #    }
+    
+    # We reset the time limit here so that the 'search' function of bugs will not exceed the 10s limit
+    set_time_limit(30);
+
     foreach($regs as $num => $reg) {
       $reg=trim($reg);
       $lines[$num]=trim($lines[$num]);
