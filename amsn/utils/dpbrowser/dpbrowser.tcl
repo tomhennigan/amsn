@@ -179,9 +179,9 @@ puts "sw created"
 		menu $the_menu -tearoff 0 -type normal
 		$the_menu add command \
 			-label "[trans copytoclipboard [string tolower [trans filename]]]" \
-			-command "clipboard clear ; clipboard append $filename"
+			-command [list clipboard clear ; clipboard append $filename]
 		$the_menu add command -label "[trans delete]" \
-			-command "pictureDeleteFile $filename $widget"
+			-command [list pictureDeleteFile $filename $widget]
 #		$the_menu add command -label "Set as custom display picture for this user" \
 			-command [list ::amsn::messageBox "Sorry, not yet implemented" ok error [trans failed]]
 		$the_menu add command -label "[trans setasmydp]" \
