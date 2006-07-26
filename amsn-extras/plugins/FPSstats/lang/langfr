@@ -15,7 +15,7 @@ free Nombre de places libres sur le serveur
 friendlyfire Remplacé par Activé si FriendlyFire est activé, par Désactivé sinon
 game Le jeu auquel vous jouez
 gamenick Votre pseudonyme dans le jeu
-ip_address adresse IP du serveur
+ip_address Adresse IP du serveur
 map Nom de la carte jouée
 maxplayers Nombre de joueur maximal du serveur
 numplayers Nombre de joueurs sur le serveur

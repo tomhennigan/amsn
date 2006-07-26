@@ -9,4 +9,35 @@
 	<plugin_namespace>FPSstats</plugin_namespace>
 	<init_procedure>Init</init_procedure>
 	<deinit_procedure>Deinit</deinit_procedure>
+	<cvs_version>7088</cvs_version>
+
+	<lang>
+		<langcode>en</langcode>
+		<version>7062</version>
+	</lang>
+	<lang>
+		<langcode>fr</langcode>
+		<version>7088</version>
+	</lang>
+	
+	<file>
+		<path>README</path>
+		<version>7074</version>
+	</file>
+	<file>
+		<path>pixmaps/not_playing.gif</path>
+		<version>7062</version>
+	</file>
+	<file>
+		<path>pixmaps/playing.gif</path>
+		<version>7062</version>
+	</file>
+	
+	<URL>
+		<main>http://amsn.sourceforge.net/autoupdater/plugins/FPSstats/FPSstats.tcl</main>
+		<plugininfo>http://amsn.sourceforge.net/autoupdater/plugins/FPSstats/plugininfo.xml</plugininfo>
+		<lang>http://amsn.sourceforge.net/autoupdater/plugins/FPSstats/lang/lang$langcode</lang>
+		<file>http://amsn.sourceforge.net/autoupdater/plugins/FPSstats/$file</file>
+	</URL>
+
 </plugin>

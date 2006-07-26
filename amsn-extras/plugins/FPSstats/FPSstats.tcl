@@ -38,27 +38,32 @@ namespace eval ::FPSstats {
 		::skin::setPixmap not_playing_pic_FPSstats not_playing.gif pixmaps [file join $dir pixmaps]
 		::skin::setPixmap playing_pic_FPSstats playing.gif pixmaps [file join $dir pixmaps]
 
-		#array of variables which can be configured using the "plugin center"
-		array set ::FPSstats::config {
-			num -1
-			max_num -1
-			previous_status NLN
-		}
 		set ::FPSstats::config(dir) $dir
-		::FPSstats::AddConfig 0
 		
-		global tcl_platform
-		if {[string tolower $tcl_platform(os)] == "unix"} {
-			#linux
-			set ::FPSstats::config(qstat) "/usr/bin/qstat"
-		} elseif {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-			#MacOSX
-			set ::FPSstats::config(qstat) "/usr/local/bin/qstat"
-			} else {
-			#Windows
-			set ::FPSstats::config(qstat) "C:/Program Files/qstat/qstat.exe"
+		#create new vars only if needed
+		if {![info exists ::FPSstats::config(qstat)]} {
+			#array of variables which can be configured using the "plugin center"
+			array set ::FPSstats::config {
+				num -1
+				max_num -1
+				previous_status NLN
+				latest_num 0
+			}
+			
+			::FPSstats::AddConfig 0
+			
+			global tcl_platform
+			if {[string tolower $tcl_platform(os)] == "linux"} {
+				#linux
+				set ::FPSstats::config(qstat) "/usr/bin/qstat"
+			} elseif {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+				#MacOSX
+				set ::FPSstats::config(qstat) "/usr/local/bin/qstat"
+				} else {
+				#Windows
+				set ::FPSstats::config(qstat) "C:/Program Files/qstat/qstat.exe"
+			}
 		}
-		
 		set ::FPSstats::configlist [list [list frame ::FPSstats::populateFrame ""] ]
 			
 		#needed for the checkstate
