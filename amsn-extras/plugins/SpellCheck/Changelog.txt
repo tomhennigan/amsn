@@ -1,0 +1,45 @@
+v7
+-removed the --dont-suggest option since it is not supported by older versions of aspell and isn't needed
+
+v6
+-changed check spelling as you type so that the space will be added before the words are checked
+-the popup tags are now removed when the word is fixed manually
+-fixed other invalid characters
+-changed the way numbers and other characters are handled in words
+
+v5
+-Changed the options for setting the incorrect tag to make it more user friendly
+     The user is now shown a list of options and a colour picker
+-Using Load pluginDidLoad instead of "after x"
+-Added -v to the aspell check
+-Fixed a bug when words started with aspell reserved words
+-Added a check to see if the incorrect tag is the same as the users normal text
+-Changed all $tcl_platform(platform) == "windows" to [OnWin]
+
+v4 
+-A few small bug fixes 
+-Put in catch statements and alerts where needed
+
+v3
+-Added a check as you type option 
+-Last suggestion is now "Add word..." 
+    This adds the clicked word to a personal dictionary so it wont be marked as incorrect anymore 
+
+v2
+-Added language support for the strings 
+-Drop down menu of available aspell languages 
+-Much better at finding aspell automatically 
+-Changed the gif's to png 
+-AutoCheck option 
+     This can check your messages as you try to send them, and wont send them if there are errors 
+     If you try to send it again before the delay(set in config) is up it will send it with the errors 
+-Personalised language selection for different users 
+     You can right click on the check button in a chat window and select a language for that user 
+     This gets saved in the config so it will stay the same each time 
+     If a language hasn't been selected, it uses the one from the config 
+-Fix an issue with apostrophes 
+-Fix an issue with numbers 
+-Fixed a bug with the user defined path not being available in the plugin init 
+
+v1
+-First release of SpellCheck plugin

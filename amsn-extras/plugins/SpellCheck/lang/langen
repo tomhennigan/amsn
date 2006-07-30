@@ -1,0 +1,17 @@
+amsn_lang_version 2
+aspell_location Location of aspell
+lang_select Select a language: 
+aspell_not_found There was an error executing aspell. This is probably because it was not installed properly and it is required for this plugin to work. You can install it from your distro's package manager, or from http://aspell.sourceforge.net/. If it is installed, please provide the correct path in the plugin configurations. Would you like to do that now?
+not_found Not Found
+ballon_text Click here to check your spelling
+auto_check AutoCheck before sending?
+check_as_typing Check spelling as you type
+addword Add word...
+showincorrect Show the incorrect words with: 
+background background
+foreground foreground
+underline underline
+example Example
+tagwarning The colours of the incorrect words are now the same as the default text. Make sure you change at least one setting so that they will show up.
+fontstyle fontstyle
+removecols Remove Colours
