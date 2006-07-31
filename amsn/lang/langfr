@@ -20,7 +20,7 @@ admingroups Gérer les groupes
 advanced Avancé
 advancedprefs Configuration avancée
 adverts Publicité
-agotinvitation $1 vous a invité à un session audio
+agotinvitation $1 vous a invité à une session audio
 alarmonconnect Activer l'alarme quand le contact se connecte
 alarmondisconnect Activer l'alarme quand le contact se déconnecte ou passe en mode invisible
 alarmonmsg Activer l'alarme quand le contact m'envoie un message
@@ -32,7 +32,7 @@ allfiles Tous les fichiers
 allmonths Tous les mois
 allowallbutbl Autoriser tout le monde à me contacter sauf les personnes que j'ai bloquées
 allowbadwords Désactiver la censure des pseudonymes
-allowlist Liste des personnes autorisées :
+allowlist Liste des personnes autorisées:
 allowonlyinal N'autoriser que les contacts de ma liste des personnes autorisées à me contacter
 allowseen Autoriser cette personne à me voir et à me contacter quand je suis en ligne
 allow_sms Autoriser mes contacts à me téléphoner sur mon mobile
@@ -53,14 +53,14 @@ author Auteur
 autoaccepted Transfert de fichier accepté automatiquement
 autoacceptft Accepter automatiquement les transferts de fichiers
 autoaway Me marquer "Absent[e]" quand inactif plus de
-autocheckver Vérification automatique de la version au démarrage
+autocheckver Vérification automatique de l'existence d'une nouvelle version d'aMSN lors du lancement
 autoconnect2 Me connecter automatiquement quand aMSN est lancé
 autoconnect Connexion automatique au lancement
 autodetectip Détecter l'adresse IP automatiquement
 autohotmaillog Identification automatique à Hotmail
 autoidle Absence automatique après une période d'inactivité
 autoip IP Automatique
-automessage Message-automatique
+automessage Auto-Message:
 autonoact Me marquer "Inactif" quand inactif plus de
 autoresizedp Redimensionner automatiquement l'avatar à la taille par défaut
 avaccepted Appel pour une vidéo-conférence accepté
@@ -134,7 +134,7 @@ checkfilman Les fichiers reçus seront sauvegardés dans $1. Veuillez vérifier les
 checkingver Recherche d'une nouvelle version
 checkonfln Verifier si un contact vous a bloqué lorsqu'il se déconnecte
 checkopenfilecommand Merci de vérifier que la commande d'ouverture des fichiers dans la fenêtre des préférences
-checkver Nouvelle version
+checkver Vérifier les mises à jour.
 choosearq Veuillez choisir votre architecture système
 choosebasefont Choisir la police de caractère
 choosebgcolor Choisir la couleur de fond
@@ -148,7 +148,7 @@ clear Effacer
 clearlog2 Effacer l'historique de tous mes contacts
 clearlog3 Effacer tous les historiques
 clearlog Effacer les historiques
-clearwebcamlogs Effacer les journaux des webcams
+clearwebcamlogs Eff. journaux webcams
 clickhere Cliquez ici
 clicktoadd Cliquer sur le bouton Ajouter pour une nouvelle note
 clicktologin Cliquez ici pour vous connecter
@@ -208,12 +208,12 @@ custnotifyoffline Annoncer quand un de vos contact se déconnecte.
 custnotifyonline Annoncer quand un de vos contact se connecte
 custnotifystatus Annoncer quand un de vos contact change de statut
 customcolor Couleur personnalisée
-custom_edit Editer une émoticône/smiley personnalisée
-custom_new Créer une émoticône/smiley personnalisée
+custom_edit Editer une émoticône personnalisée
+custom_new Créer une émoticône personnalisée
 customnick Pseudo personnalisé
-customsmileys Afficher les émoticônes/smileys des contacts
+customsmileys Afficher les émoticônes des contacts
 customstyle Style personnalisé
-custshowcustomsmileys Afficher les émoticônes/smileys de ce contact
+custshowcustomsmileys Afficher les émoticônes de ce contact
 cut Couper
 cutimagebox Sélectionnez la partie de l'image qui vous intéresse en redimensionnant et/ou en déplaçant la boîte de sélection
 cutimageboxreset Mettre à zéro la boîte de sélection\ntaille:
@@ -258,7 +258,7 @@ dockgtk Ancrer dans GTK
 docking Ancrage actif
 dockingoff Pas d'ancrage
 dockkde Ancrage dans KDE
-done Fait
+done Terminé
 dontdownload Ne pas télécharger TLS, je l'installerai moi-même
 dontshow Ne pas la montrer
 downloadingtls Téléchargement du module TLS à partir de :\n $1
@@ -308,10 +308,10 @@ filetransfer Transfert de fichier
 filters Filtres
 filtersselect Sélectionnez les filtres que vous souhaitez voir appliqué\n(Note : ne rien sélectionner implique de tous les appliquer)
 filtersx Sélection des filtres
-find Chercher
+find Rechercher
 findasyoutype Chercher en même temps que vous tapez la requête
-findnext Occurence suivante
-findprev Occurence précédente
+findnext Résultat suivant
+findprev Résultat précédent
 firewalled Vous êtes derrière un pare-feu ou un routeur
 followtext Faire défiler lorsque du texte est entré
 friendlyname Pseudo de conversation
@@ -321,7 +321,7 @@ ftaccepting Acceptation du transfert de fichier en cours
 ftautoclose Fermer la fenêtre lorsque le transfert de fichier est terminé
 ftconnecterror Erreur de connexion à l'hôte distant
 ftconnecting Connexion à $1 port $2
-ftconnectionlost Connexion avec l'hôte distant perdu
+ftconnectionlost Connexion avec l'hôte distant perdue
 ftgotinvitation $1 veut vous envoyer le fichier '$2' ($3 bytes). Il sera sauvegardé dans le répertoire $4. Voulez-vous recevoir ce fichier ?
 ftportpref Premier port pour le transfert de fichiers
 ftrejectedby $1 a refusé l'invitation de transfert de fichier pour le fichier '$2'.
@@ -354,7 +354,7 @@ groupunknown Groupe inconnu
 handle Pseudonyme
 help Aide
 helpcontents Contenu de l'aide
-hidedisplaypic Cacher l'avatar
+hidedisplaypic Masquer l'avatar
 hidemenu Afficher/Masquer les menus
 hidemenumessage Etes-vous sûrs de vouloir masquer les menus ?\n Vous pouvez les afficher de nouveau à n'importe quel moment en utilisant la séquence d'affichage/masquage : Ctrl+M.
 hiden Cacher cette émoticône/smiley du menu
@@ -389,7 +389,7 @@ invite Invitation
 ipaddress Adresse IP
 ipdetect Détection de l'IP exacte pour les transferts de fichier utilisant HTTP
 ircstyle Chat de type IRC
-istyping Message en cours de frappe ($1)
+istyping $1 est en train d'écrire un message
 joins $1 a rejoint la conversation
 justonce Juste une fois
 keepalive Garder la connexion ouverte (NAT)
@@ -402,7 +402,7 @@ lastlogin Dernière connexion
 lastlogout Dernière déconnexion
 lastmsgedme Dernier message
 lastmsgtime Dernier message reçu à $1
-lastseen Dernière fois vu
+lastseen Vu pour la dernière fois
 lazypicretrieval Récupération des avatars des contacts lors d'une conversation
 lclosedwin $1 a fermé la fenêtre sur $2
 lconftopriv Conférence changée en conversation privée avec $1
@@ -420,7 +420,7 @@ listsmileys Liste des émoticônes/smileys
 ljoinedconf $1 a rejoint la conférence
 lleftconf $1 a quitté la conférence
 load Activer
-loadcontacts Charger la liste de contacts
+loadcontacts Importer la liste de contacts
 logbigger Taille du fichier Log pour chaque contact ne dépasse jamais
 logeventconnect Enregistrer les connexions
 logeventdisconnect Enregistrer les déconnexions
@@ -428,7 +428,7 @@ logeventemail Enregistrer les E-Mails
 logeventstate Enregistrer les changements de statut
 logfandexp Taille fichiers Log et expiration Historique
 loggedotherlocation Déconnecté. Connecté depuis un autre endroit.
-loggingin en cours de connexion
+loggingin Connexion
 loginas Se connecter en tant que
 loging Historique
 login Se connecter
@@ -467,16 +467,16 @@ msgflicker Faire clignoter la barre de titre d'une fenêtre inactive quand un mes
 msgmaxmin Quand un nouveau message arrive, je veux qu'il soit
 msgmode Choisissez comment manier plusieurs fenêtres de messages :
 msn aMSN
-msnstatus Etat du réseau MSN
+msnstatus Etat du service MSN
 msnstyle Chat de type MSN
-mustrestart Vous devez redémarrer l'application pour que les changements prennent effet
+mustrestart Vous devez redémarrer aMSN pour que les changements prennent effet
 myfriendlyname Mon pseudonyme de conversation
-myhomephone Mon numéro personnel
-mymobilephone Mon numéro de portable
+myhomephone Téléphone domicile
+mymobilephone Téléphone mobile/portable
 mynick Mon pseudonyme
 mypic Mon avatar
 mystatus Mon statut
-myworkphone Mon numéro professionnel
+myworkphone Téléphone bureau/profesionnel
 name Nom
 natip Détection de l'adresse IP par page web
 natkeepalive Si vous êtes souvent déconnecté involontairement, activez cet option
@@ -530,10 +530,10 @@ notinlist Vous ne figurez pas dans sa liste de contact
 notls Le protocole 9 de MSN requiert le module tls. Celui-ci ne semble pas être installé sur le système. S'il est installé,
 nottabbed Fenêtres normales sans onglets
 nousersinsession Pas de contacts dans cette session
-nudge $1 réclame votre attention
+nudge $1 vous a envoyé un nudge.
 offline Déconnecté[e]
 ok Accepter
-onenewmail un nouveau message
+onenewmail Un nouveau message
 online Connecté[e]
 onlinehelp Aide en ligne
 onphone Au téléphone
@@ -557,7 +557,7 @@ pausedwebcamreceive La webcam a été mise en pause par votre contact
 pausewebcamsend Mettre en pause l'envoi de la webcam
 personal Personnel
 phones Numéros de téléphone
-phone Téléphone
+phone Numéro
 picbrowser Voir mes avatars
 picfile Image associée à l'alarme (GIF < 500x500)
 picstatus Activer/Désactiver l'image associée à l'alarme
@@ -576,7 +576,7 @@ prefblock1 Verification lors de déconnexion
 prefblock2 Vérifier continuellement
 prefblock3 Groupe "Vous avez été bloqué par"
 prefconnection Préférences de connexion
-prefemotic Emoticônes et smileys
+prefemotic Emoticônes
 preferences Préférences
 preffont Texte de mes messages
 preffont2 Changer la façon dont les autres voient mon texte dans les conversations
@@ -593,9 +593,9 @@ prefphone2 Entrer les numéros de téléphone visibles par la liste des personnes a
 prefphone Mes numéros de téléphone
 prefprivacy2 Listes de contacts/à l'envers
 prefprivacy Listes des personnes autorisées/bloquées
-prefprofile2 Créer ou modifier votre profil publique (votre description \n visble par les autres)
+prefprofile2 Créer ou modifier votre profil publique (votre description visble par les autres)
 prefprofile3 Profils de configuration des utilisateurs d'aMSN
-prefprofile Mon profil publique
+prefprofile Mon profil public
 prefproxy Ma configuration Proxy
 prefremote Contrôle à distance
 prefsession Ma connexion et statut
@@ -648,13 +648,13 @@ reverselist Liste inversée :
 rightback Bientôt de retour
 saveas Enregistrer sous
 savechatwinsize Sauvegarder en tant que taille par défaut la taille de la fenêtre de conversation quand elle est changée.
-savecontacts Enregistrer la liste des contacts
+savecontacts Exporter la liste des contacts
 save Enregistrer
 savetofile Sauvegarder dans un fichier
 says $1 dit
 sbcon Connexion au "Switch Board"
-searchdown Chercher vers le bas
-searchup Chercher vers le haut
+searchdown Rechercher vers le bas
+searchup Rechercher vers le haut
 selectall Tout sélectionner
 selectplugins Sélectionnez un plug-in
 selectskin Sélectionnez dans la liste l'apparence que vous souhaitez utiliser
@@ -699,12 +699,12 @@ smileintro Veuillez remplir les champs obligatoires pour créer un nouvelle émoti
 smiletoobig L'émoticône/smiley que vous avez choisie est plus grande que la taille normale. Voulez-vous la redimensionner ?
 snackfailed Snack n'a pas pu se lancer, retour à la valeur par défaut
 snapshot Garder l'image
-sngdblclick Un click simple ouvre une nouvelle fenêtre de conversation
+sngdblclick Un clic simple ouvre une nouvelle fenêtre de conversation
 sortcontactgroup Trier les contacts par leur groupe
 sortcontacthybrid Trier les contacts en mode hybride
-sortcontactstatus Trier les contacts suivant leur statut
-sortgroupsasc Trier les groupes dans l'ordre standard
-sortgroupsdesc Trier les groupes dans l'ordre inversé
+sortcontactstatus Trier les contacts par statut
+sortgroupsasc Trier les groupes dans l'ordre ascendant (standard)
+sortgroupsdesc Trier les groupes dans l'ordre descendant (inversé)
 sound2 Jouer un son quand un contact se connecte ou quand un message est reçu
 soundactive Jouer un son même lorsque le message arrive dans la fenêtre active
 soundcommand Ceci est la commande de lecture de sons (ex: esdplay)
@@ -806,7 +806,7 @@ version Version
 videoconversationrequest Vous venez de recevoir une invite pour une conversation vidéo (conversation audio/video).Cette fonctionnalité n'est pas encore supportée par aMSN et a donc été annulée. Vous pouvez cependant toujours utiliser la conversation par webcam.
 viewcontactsby Afficher les contacts par
 viewprofile Afficher le profil
-view Vue
+view Affichage
 wanttosharecam Je souhaite indiquer à mes contacts que j'ai une webcam
 webcam Webcam
 webcamcanceled La conversation par webcam avec $1 a été annulée
@@ -819,8 +819,8 @@ webcamhistory Voir les sessions webcam
 webcaminvite $1 vous invite à démarrer un conversation par Webcam, mais aMSN ne supporte pas cette option.
 webcaminvitereceived $1 vous invite à démarrer un conversation par Webcam. Voulez-vous accepter cette conversation ?
 webcamrejected $1 a refusé l'invitation de la conversation par webcam.
-webcamrequestsend Proposition de votre webcam à votre contact
-webcamrequestreceive Demande de réception de la webcam
+webcamrequestsend Vous avez invité votre contact à démarrer votre webcam
+webcamrequestreceive Vous avez invité votre contact à afficher sa webcam
 webcamsending Liste des personnes à qui vous envoyez votre webcam\nCliquez sur un nom pour annuler
 whatisamsn aMSN un clône de MSN Messenger fonctionnant sur diverses platformes telles que Linux, Windows, Mac OS X, *BSD ...
 willjoin Dans l'attente que $1 rejoigne la conversation
@@ -830,7 +830,7 @@ whatsize L'image qui doit être affichée n'est pas à la taille normale : 96x96 \n
 work Travail
 wrongfields Les champs "$1", "$2" et/ou "$3" sont invalides
 wrongprofileversion Mauvaise version du fichier de profil. Afin de la fixer, enlevez le répertoire $1, ou mettez à jour aMSN
-xmmscurrent Affiche la chanson courante
+xmmscurrent Affiche la chanson que j'écoute
 xmmserr Rien à jouer, ou vous n'avez pas installé xmms-infopipe.
 xmmssend Envoyer la chanson courante
 xoffset Position en X
