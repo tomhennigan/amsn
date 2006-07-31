@@ -98,10 +98,10 @@ busy Upptagen
 cachedpics $1 lagrade bilder
 cagreement Konfidentialitetsöverenskommelse
 cancel Avbryt
-cannotdeleteprofile Kan inte ta bort profilen eftersom den verkar användas av en aMSN session
+cannotdeleteprofile Kan inte radera profilen eftersom den verkar användas av en aMSN-session
 cantexec Kan inte köra $1. Vänligen kontrollera att inställningarna är korrekta
 cantloadonlineversion Kan inte ladda ner den uppdaterade språklistan
-cantremoveothers Kan inte ta bort "Övriga"-gruppen
+cantremoveothers Kan inte ta Radera gruppen "Övriga"
 captureextloaded Tagningsutbyggnad -$1- laddad
 captureextnotloaded Tagningsutbygnad -$1- är inte laddad, du måste kompilera den först
 captureproperties Webbkamerans bildinställningar
@@ -145,7 +145,7 @@ choosefontcolor Välj textfärg
 chooseskin Välj det tema du vill använda i aMSN
 ch_to_state Sätt som status
 clear Töm
-clearlog Ta bort historikfiler
+clearlog Radera historikfiler
 clearlog2 Radera historiken för alla kontakter
 clearlog3 Töm historiken
 clearwebcamlogs Töm webbkamerahistoriken
@@ -168,9 +168,9 @@ commandstatus Kör kommando vid larm
 configure Konfigurera
 confirm Är du säker på att du vill utföra åtgärden?
 confirmbl Vill du verkligen blockera den här kontakten?
-confirmdelete Är du säker på att du vill radera $1?
+confirmdelete Är du säker på att du vill ta bort $1?
 confirmdg Är du säker på att du vill radera gruppen?
-confirmdu Är du säker på att du vill ta bort kontakten från kontaktlistan?
+confirmdu Är du säker på att du vill radera kontakten från kontaktlistan?
 confirmeg Är du säker på att du vill tömma den här gruppen?
 confirmpurge Alla lagrade visningsbilder kommer att raderas, är du säker? (Dina egna visningsbilder påverkas inte)
 confirmrfl Är du säker på att du vill ta bort kontakten från denna grupp?
@@ -228,11 +228,12 @@ defaultloginradio Anslut med standardinställningarna
 defchatwinsize Standardstorlek för konversationsfönster (XSIZExYSIZE)
 delete Radera
 deleteall Radera alla
+deleteblock Radera och blockera
 deletecustomstate Ta bort personlig status
 delimiters Tidstämplingsavgränsare 
 deliverfail Det uppstod ett problem då följande meddelande skickades
-delprofile Ta bort profil
-delprofile2 Välj den profil du vill ta bort
+delprofile Radera profil
+delprofile2 Välj den profil du vill radera
 description Beskrivning
 detach Avskilj
 details Detaljer
@@ -325,8 +326,8 @@ ftgotinvitation $1 vill skicka filen '$2' ($3 byte) till dig. Den kommer sparas 
 ftportpref Port för filöverföring
 ftrejected Filöverföring nekades
 ftrejectedby $1 nekade filöverföringen av '$2'.
-ftsendinvitation Filöverföringsförfrågan på '$2' ($3) har skickats till $1.
-fullcontactlist Tyvärr är din kontaktlista full. Du måste ta bort några kontakter för att kunna lägga till nya.
+ftsendinvitation Filöverföringsförfrågan för filen '$2' ($3) har skickats till $1.
+fullcontactlist Tyvärr är din kontaktlista full. Du måste radera några kontakter för att kunna lägga till nya.
 getdisppic Spara andras visningsbilder på disk
 getmoreplugins Skaffa fler plugins!
 getmoreskins Skaffa fler teman!
@@ -340,11 +341,12 @@ goto Gå till $1
 gotoinbox Gå till inkorgen
 group Grupp
 groupadd Lägg till grupp
-groupdelete Ta bort grupp
+groupcontacts Gruppkontakter
+groupdelete radera grupp
 groupexists Gruppen finns redan
 groupmissing Kan inte hitta gruppen
 groupnewname Nytt namn på gruppen
-groupnotempty Gruppen är ej tom
+groupnotempty Gruppen innehåller kontakter
 groupoldname Gruppens gamla namn
 grouprename Byt namn på grupp
 groups Grupper
@@ -353,6 +355,8 @@ handle Hantera
 help Hjälp
 helpcontents Snabbhjälp
 hidedisplaypic Dölj visningsbild
+hidemenu Visa/dölj menyer
+hidemenumessage Är du säker på att du vill dölja menyerna?\nDu kan återställa dem när du vill genom att trycka 'Ctrl-M'.
 hiden Dölj ikonen från smiley-menyn
 hidewindow Dölj fönster
 history Visa historik
@@ -407,7 +411,7 @@ leaveblankforhotmail Lämnas tom för hotmail
 leavejoinsinchat Visa "anslutit/lämnat konversation" meddelande inuti konversationsfönstret
 leaves $1 lämnar konversationen
 lenteredconf $1 kom in i konversationen med $2
-lineflushlog Skriv till loggfil efter varje nytt meddelande
+lineflushlog Skriv till historik efter varje nytt meddelande
 linprivate I PRIVAT
 listening Lyssnar
 listeningon lyssnar på $1
@@ -418,12 +422,12 @@ lleftconf $1 kom in i konversationen
 load Aktivera
 loadcontacts Öppna kontaktlista
 loadotherdisplaypic Laddar visningsbilder för $1...
-logbigger Enskilda loggfiler får inte bli större än
+logbigger Enskilda historikfiler får inte bli större än
 logeventconnect Spara historik för anslutningar
 logeventdisconnect Spara historik för utloggningar
 logeventemail Spara historik för när e-postmeddelanden mottages
 logeventstate Spara historik för statusändringar
-logfandexp Logfilsstorlek och utgångstid av loggfiler
+logfandexp Historikfilsstorlek och utgångstid för historikfiler
 loggedotherlocation Utloggad! Du är inloggad på en annan plats!
 loggingin Ansluter till tjänsten
 login Anslut
@@ -497,9 +501,10 @@ noactivity Inaktiv
 nocacheddps Inga lagrade visningsbilder för denna kontakt
 nodataavailable Ingen data tillgänglig för $1
 nodevices Inga enheter installerade
+noftpreview Sänd ingen förhandsgranskning av bilderna vid filöverföringarna
 nogap Inget mellanrum mellan grupper
 nogroup Ingen grupp
-nologfile Ingen loggfil för $1
+nologfile Ingen historikfil för $1
 noneavailable Ingen tillgänglig
 nonewmail Inga nya meddelanden i inkorgen
 nonewver Det finns inga nya versioner att ladda ner
@@ -824,7 +829,7 @@ winkreceived Du har fått en Wink från $1. Den här funktionen stödjs för tillfäll
 wintitlenick Visar smeknamn istället för e-postadresser i ett flikat fönster
 work Arbete
 wrongfields Fältet "$1", "$2" och/eller "$3" är inte giltigt.
-wrongprofileversion Fel profilversion. För att fixa det, ta bort $1 eller uppgradera aMSN
+wrongprofileversion Fel profilversion. För att åtgärda detta, radera $1 eller uppgradera aMSN
 xmmscurrent Visa låten som spelas.
 xmmserr Ingenting spelas eller så har du inte xmms-infopipe installerat.
 xmmssend Skicka musikfilen som spelas
