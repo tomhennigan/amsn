@@ -9,7 +9,7 @@
 
 #if CXIMAGE_SUPPORT_JPG
 
-#include "../jpeg/jmorecfg.h"
+//#include <jmorecfg.h>
 
 #include "ximaiter.h"
          

@@ -351,7 +351,11 @@ bool CxImageGIF::DecodeExtension(CxFile *fp)
 								}
 							}
 							free(dati);
-		}	}	}	}	}
+						}
+					}
+				}
+			}
+		}
 
 		while (bContinue && fp->Read(&count, sizeof(count), 1) && count) {
 			//log << "Skipping " << count << " bytes" << endl;

@@ -22,7 +22,7 @@
 #if CXIMAGE_SUPPORT_PNG
 
 extern "C" {
-#include "../png/png.h"
+#include <png.h>
 }
 
 long int inline btohl( long int dword ) {
