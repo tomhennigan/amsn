@@ -44,7 +44,7 @@ CONFIGURE_ARGS=`echo $@`
 
 dnl Check for OS
 #`uname -s`
-case "Darwin" in
+case `uname -s` in
 	Linux)
 		FOUND_OS="linux"
 		;;
