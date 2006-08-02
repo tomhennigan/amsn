@@ -1,18 +1,17 @@
 amsn_lang_version 2
-shake_receive Mover la ventana cuando se recibe un nudge.
-shake_send Mover la ventana cuando se envía un nudge.
-shake_nudge Movimientos por nudge
-popup_nudge Notificar nudges con la ventana emergente.
-notify_send Notificar nudges enviados en la ventana de chat.
-notify_receive Notificar nudges recibidos en la ventana de chat.
-sound_send Ejecutar un sonido cuando se envie un nudge.
-sound_receive Ejecutar un sonido cuando se reciba un nudge.
-add_button Añadir un botón para enviar un nudge en la ventana de chat.
-send_nudge Enviar nudge.
-no_nudge_support No se puede enviar un nudge a su contacto por que él o ella no usa un cliente que soporte nudges.
-nudge_sent Ya ha enviado un Nudge.
-limit Activate Nudge receive limitation
-delay Minimum time between 2 nudge from the same contact (in seconds)
-send_nudge Send nudge
-no_nudge_support You cannot sent a nudge to your contact because he or she doesn't use a client that supports nudges
-block_nudge Block/Unblock nudges
+shake_receive Mover la ventana cuando se recibe un zumbido.
+shake_send Mover la ventana cuando se envía un zumbido.
+shake_nudge Movimientos por zumbido 
+popup_nudge Notificar zumbidos con la ventana emergente.
+notify_send Notificar zumbidos enviados en la ventana de charla.
+notify_receive Notificar zumbidos recibidos en la ventana de charla.
+sound_send Ejecutar un sonido cuando se envie un zumbido.
+sound_receive Ejecutar un sonido cuando se reciba un zumbido.
+add_button Añadir un botón para enviar un zumbido en la ventana de chat.
+send_nudge Enviar zumbido.
+no_nudge_support No se puede enviar un zumbido a su contacto por que él o ella no usa un cliente que soporte nudges.
+nudge_sent Se ha enviado un zumbido!
+limit Activar limitación de recepción de Zumbidos
+delay Tiempo mínimo entre dos Zumbidos de el mismo contacto (en segundos)
+send_nudge Enviar Zumbido
+block_nudge Admitir/No Admitir zumbidos
