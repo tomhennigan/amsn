@@ -2669,7 +2669,7 @@ namespace eval ::amsn {
 
 		if { $tagid == "user" || $tagid == "yours" || $tagid == "says" } {
 
-			if { $tagid == "says" } {
+			if { $tagid == "says" && [::config::getKey strictfonts] == 0 } {
 				set size [lindex [::config::getGlobalKey basefont] 1]
 			} else {
 				set size [expr {[lindex [::config::getGlobalKey basefont] 1]+[::config::getKey textsize]}]
