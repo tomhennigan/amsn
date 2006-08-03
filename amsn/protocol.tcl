@@ -4404,6 +4404,7 @@ proc cmsn_change_state {recv} {
 			#Register last login and notify it in the events
 			::abook::setContactData $user last_login [clock format [clock seconds] -format "%D - %H:%M:%S"]
 			::log::event connect $custom_user_name
+			::abook::setVolatileData $user PSM ""
 			#Register PostEvent "UserConnect" for Plugins, email = email user_name=custom nick
 			set evPar(user) user
 			set evPar(user_name) custom_user_name
