@@ -1357,9 +1357,12 @@ namespace eval ::MSN {
 			set domain "@hotmail.com"
 			set userlogin $userlogin$domain
 		}
+		set userlogin [string trim $userlogin]
+		set userlogin [string map { " " "" "\r" "" "\n" "" "\t" "" } $userlogin]
 		if { $username == "" } {
 			set username $userlogin
 		}
+		
 		if { [::config::getKey protocol] == 11 } {
 			::MSN::WriteSB ns "ADC" "FL N=$userlogin F=$username" "::MSN::ADCHandler $gid"
 		} else {
