@@ -280,14 +280,14 @@ enabled Activé
 enableproxy Permettre de passer par un proxy
 enableremote Permettre le contrôle à distance
 enablesound Activer le son
-encoding2 Changer la manière dont les caractères sont encodés
-encoding Choisir l'encodage
+encoding2 Changer l'encodage des caractères
+encoding Changer l'encodage
 enterbugdesc Entrez une description de ce que vous faisiez pour nous aider a reproduire le bogue :
 entercontactemail Ajouter un contact de messagerie
 enterfilename Entrez le nom du fichier
 enternick Mon pseudonyme
 enterpsm Mon Message personnel
-errortls Erreur lors de l'installation du module TLS:
+errortls Erreur lors de l'installation du module TLS :
 eventhistory Voir l'historique des événements
 examples Exemples
 exitamsn Etes-vous sûr de vouloir quitter aMSN ?
@@ -381,7 +381,7 @@ invalidfile Le fichier $2 entré dans le champ "$1" n'existe pas ou n'est pas lis
 invalidgroup Groupe invalide
 invalidparameter Erreur lors de la connexion au serveur: paramètre invalide
 invalidpic Le fichier "image" n'existe pas
-invalidpicsize La taille du fichier "image" est trop importante, choisissez-en un fichier de taille inférieure
+invalidpicsize La taille du fichier "image" est trop importante, choisissez un fichier de taille inférieure
 invalidsound Le fichier "son" n'existe pas
 invalidusername Utilisateur incorrect
 invitationcancelled L'invitation a été refusée
@@ -517,7 +517,7 @@ note Note
 notificationserver Annonce  initiale du Serveur MSN (Serveur MSN Messenger)
 notify1_5 Annoncer quand les contacts se déconnectent
 notify1_75 Annoncer quand les contacts changent de statut
-notify1 Annoncer quand un contact est en ligne
+notify1 Annoncer quand les contacts se connectent
 notify2 Annoncer quand de nouveaux messages sont reçus
 notify3 Annoncer quand des E-mails arrivent dans votre boîte de réception
 notify4 Annoncer quand des E-mails arrivent dans les autres dossiers
@@ -675,7 +675,7 @@ serverunavailable Serveur non disponible
 session Session
 setasmydp Utiliser comme avatar
 shareswebcam Possède une webcam
-show_contactdps_in_cl Montrer des avatars dans la liste de contact
+show_contactdps_in_cl Montrer les avatars dans la liste des contacts
 showbanner Affiche la bannière d'aMSN
 showblockedlist Voir la liste des personnes que vous avez bloqué
 showcachedpics Afficher/Masquer les avatars cachés
@@ -786,7 +786,7 @@ unselectall Ne rien sélectionner
 uoffline Déconnectés
 uonline Connectés
 update Mise à jour
-updateonlycurrentlanguage Ne mettre à jour que la langue courante
+updateonlycurrentlanguage Ne mettre à jour que la langue utilisée
 updating Mise à jour
 useasdp Utiliser en tant qu'avatar
 useasregexp Utiliser en tant qu'expression régulière (regexp)
