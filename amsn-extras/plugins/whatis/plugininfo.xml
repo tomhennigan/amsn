@@ -9,10 +9,10 @@
        <plugin_namespace>whatis</plugin_namespace>
        <init_procedure>init</init_procedure>
 		 <deinit_procedure>deInit</deinit_procedure>
-		 <cvs_version>1.2</cvs_version>
+		 <cvs_version>1.3</cvs_version>
 		 <url>
-     		   <plugininfo>http://www.plazaa.nl/codefreakz/files/code/whatis/plugininfo.xml</plugininfo>
-		    	<main>http://www.plazaa.nl/codefreakz/files/code/whatis/$version/whatis.tcl</main>
+     		   <plugininfo>http://amsn.sourceforge.net/autoupdater/plugins/whatis/plugininfo.xml</plugininfo>
+		    	<main>http://amsn.sourceforge.net/autoupdater/plugins/whatis/$version/whatis.tcl</main>
      	 </url>
 </plugin> 
 
