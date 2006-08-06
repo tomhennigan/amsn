@@ -2201,13 +2201,22 @@ namespace eval ::ChatWindow {
 	proc webcambuttonAction { w } {
 		if {[::config::getKey webcamDevice] != ""} {
 			::amsn::ShowChatList \"[trans sendwebcaminvite]\" $w ::MSNCAM::SendInviteQueue
-
+		} elseif {[OnMac] } {
+			# On mac webcamDevice always returns 0. So we need to check manually if the grabber is open. If the grabber isn't open then we create it.
+			# The behaviour of the grabber window opening without the user configuring the cam first is default for most OS X applications, and a lot of users have requested this.
+			if {[winfo exists .grabber]} {
+				::amsn::ShowChatList \"[trans sendwebcaminvite]\" $w ::MSNCAM::SendInviteQueue
+			} else {
+				::CAMGUI::CreateGrabberWindowMac
+				::amsn::ShowChatList \"[trans sendwebcaminvite]\" $w ::MSNCAM::SendInviteQueue
+			}
 		} else {
 			::CAMGUI::WebcamWizard
 		}
-	}		
+	}
+
 	proc SetWebcamText {} {
-		if {[::config::getKey webcamDevice] != ""} {
+	 if {[::config::getKey webcamDevice] != "" || [OnMac]} {
 			return "[trans sendwebcaminvite]"
 
 		} else {

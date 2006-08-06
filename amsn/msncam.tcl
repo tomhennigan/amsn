@@ -1975,6 +1975,7 @@ namespace eval ::CAMGUI {
 			spinbox $w.zoom -from 1 -to 5 -increment 0.5 -width 2 -command "catch {$w.seq configure -zoom %s}"
 			pack $w.zoomtext
 			pack $w.zoom
+			wm title $w "[trans webcam] - [::config::getKey login]"
 		} else {
 			destroy $w
 			#If it's not possible to create the video frame, show the error
