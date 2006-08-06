@@ -41,7 +41,7 @@ if (!mysql_num_rows(($q = mysql_query("SELECT *  FROM `amsn_plugins` ORDER BY `n
 	mysql_data_seek($q, 0);
 	while ($plugin = mysql_fetch_assoc($q)) {
 ?>
-<a name="<?php echo $plugin['id']?>">
+<a name="<?php echo $plugin['id']?>" />
   <ul class="plugins">
     <li class="plugintitle"><?php echo $plugin['name'] ?></li>
     <li class="lg"><?php echo $plugin['desc'] ?></li>
@@ -73,7 +73,6 @@ if (!mysql_num_rows(($q = mysql_query("SELECT *  FROM `amsn_plugins` ORDER BY `n
 		}
 ?>
   </ul>
-</a>
 <br />
 <?php
 	}
