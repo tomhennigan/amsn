@@ -1,0 +1,218 @@
+libmsn
+------
+
+What it implements:
+- Connections
+- MSNP messages
+- Lists (TODO)
+- Contacts (TODO)
+
+
+GLib classes
+------------
+
+MsnConnection
+MsnMessage
+
+
+Other types
+-----------
+
+typedef enum {
+  MSN_DS_CONNECTION,
+  MSN_NS_CONNECTION,
+  MSN_SB_CONNECTION
+} MsnConnectionType;
+
+typedef void (MsnTweenerAuthCallback) (const gchar *account, const gchar *password, const gchar *auth_string);
+
+
+Functions for connection handling
+---------------------------------
+
+gboolean msn_set_g_main_context(GMainContext *context)
+  context is the GMainContext that should be used in all subsequent calls to libmsn functions.
+
+       This function should always be called only once, and before calling any other libmsn function. If msn_connection_new is called before this function, it will do a msn_set_g_main_context(NULL), so libmsn will use the default context. This function never fails on the first call, and always fails on subsequent calls. Thus libmsn will use the same context all the time.
+
+       This function shall return TRUE on success or FALSE on failure.
+
+
+MsnConnection *msn_connection_new(MsnConnectionType type) /* Design Alternative 1 */
+  type is either MSN_DS_CONNECTION, MSN_NS_CONNECTION or MSN_SB_CONNECTION.
+
+       MSN_DS_CONNECTION and MSN_NS_CONNECTION are handled the same way, with one exception: NS allows the use of a cached NS address, DS forces the function to connect to the dispatch server messenger.hotmail.com:1863.
+       MSN_SB_CONNECTION will connect to a switchboard server.
+
+       No addresses need to be passed because the connection handler will always know them. Internally it keeps one NS server address cached (the one that was successfully connected to most recently). This is only cached in memory, so it is lost when the process terminates. If the MSN_NS_CONNECTION type is used while no address is in cache, it is handled as MSN_DS_CONNECTION. If an address is in cache and MSN_DS_CONNECTION is used, the cached address should not change. If the DS supplies an NS address different from the one cached, the cached address should only change once a connection to the new address succeeds. When connecting with type MSN_NS_CONNECTION, while the previous NS or DS connection redirected, then the address supplied in the redirection command should be favored rather than a cached address. If that connection fails, the next attempt will again use the cached address. The function should only attempt to connect once when called, and should just fail if the connection could not be established. So the 'next attemp' is the next call to the function. [Protocol sequences: VER, CVR]
+
+       When connecting with type MSN_SB_CONNNECTION, a connection will be made to a switchboard server. The address and the necessary authentication info is obtained from the NS. If no NS connection is active yet, this function will simply fail. [Protocol sequences: XFR SB (on the NS connection), USR (on the brand-new SB connection)]
+
+       This function executes synchronously, but if the connection was established successfully, it will prepare the connection object for asynchronous operation by adding sources to the GMainContext specified by a call to msn_set_g_main_context(). If none has been set, it defaults to NULL, which will make glib use the default context.
+
+       Failure is indicated by a NULL return value.
+
+
+/* A few macros for msn_connection_new Design Alternative 2 */
+#define msn_connection_new_ns()        msn_connection_new(MSN_NS_CONNECTION, NULL)
+#define msn_connection_new_sb(ns_conn) msn_connection_new(MSN_SB_CONNECTION, ns_conn)
+
+MsnConnection *msn_connection_new(MsnConnectionType type, MsnConnection *ns_conn) /* Design Alternative 2 */
+  type is either MSN_DS_CONNECTION, MSN_NS_CONNECTION or MSN_SB_CONNECTION.
+  ns_conn (see below)
+
+       MSN_DS_CONNECTION and MSN_NS_CONNECTION are handled the same way, with one exception: NS allows the use of a cached NS address, DS forces the function to connect to the dispatch server messenger.hotmail.com:1863. For these two types the ns_conn parameter is ignored, and should be set to NULL.
+       
+       MSN_SB_CONNECTION will connect to a switchboard server. For this type, ns_conn should be set to a pointer to a connection object of type MSN_NS_CONNECTION, which should be connected and authenticated.
+
+       No addresses need to be passed because the connection handler will always know them. Internally it keeps one NS server address cached (the one that was successfully connected to most recently). This is only cached in memory, so it is lost when the process terminates. If the MSN_NS_CONNECTION type is used while no address is in cache, it is handled as MSN_DS_CONNECTION. If an address is in cache and MSN_DS_CONNECTION is used, the cached address should not change. If the DS supplies an NS address different from the one cached, the cached address should only change once a connection to the new address succeeds. When connecting with type MSN_NS_CONNECTION, while the previous NS or DS connection redirected, then the address supplied in the redirection command should be favored rather than a cached address. If that connection fails, the next attempt will again use the cached address. The function should only attempt to connect once when called, and should just fail if the connection could not be established. So the 'next attemp' is the next call to the function. [Protocol sequences: VER, CVR]
+
+       When connecting with type MSN_SB_CONNECTION, a connection will be made to a switchboard server. The address and the necessary authentication info are obtained from the NS. If no NS connection is active yet, this function will simply fail. [Protocol sequences: XFR SB (on the NS connection), USR (on the brand-new SB connection)]
+
+       This function executes synchronously, but if the connection was established successfully, it will prepare the connection object for asynchronous operation by adding sources to the GMainContext specified by a call to msn_set_g_main_context(). If none has been set, it defaults to NULL, which will make glib use the default context.
+
+       Failure is indicated by a NULL return value.
+
+
+void msn_connection_login(MsnConnection *this, const gchar *account, const gchar *password, MsnTweenerAuthCallback *twn_cb)
+  this Pointer to the object the method is invoked on. The pointer must be obtained from msn_connection_new.
+  account The account name to use when logging in
+  password The password of the account
+  twn_cb A callback function as defined by:
+      typedef void (MsnTweenerAuthCallback) (const char *account, const char *password, const char *auth_string);
+        account The account name to use when logging in, this is the same pointer as was passed to msn_connection_login.
+        password The password of the account, this is the same pointer as was passed to msn_connection_login.
+        auth_string is the string obtained from the NS in the USR sequence before Tweener authentication.
+
+            twn_cb may free the account and password strings, libmsn will not use them after doing the callback.
+            twn_cb must not free auth_string, it is owned by libmsn, and will therefore be freed by libmsn.
+
+      This function will log into the MSN Messenger Service. [Protocol sequence: USR, XFR NS]
+      It delegates the Tweener (HTTP + SOAP) part to the callback function.
+
+      This function should only be invoked on a DS or NS connection that did not yet login. If invoked on a SB connection or on a connection that logged in already, it must immediately return with return value 0.
+
+      This function executes asynchronously and returns immediately after sending the initial USR.
+
+      This function initiates a chain of actions:
+       1. This function checks if this MsnConnection object has authenticated already, if not, it sends the initial USR and updates the object's state accordingly. This function returns here, the rest of the actions are initiated from the glib mainloop.
+       2. When the reply from the server arrives, and that is an USR, the twn_cb callback function is called, which will send the Tweener authentication request. This should be done using a HTTP library that also utilises the glib mainloop, or is just non-blocking so it can be wrapped to run in the mainloop. The twn_cb function should make sure that a callback (let's call it twn_reply_cb) is registered to catch the Tweener reply. The twn_cb function must return without delay (i.e. it must not wait for the HTTP response).
+       If the server sent an XFR reply instead of USR, an event is fired to indicate that we're being redirected [Needs detail], and the sequence ends here.
+       3. On arrival of the Tweener response, twn_reply_cb will extract the ticket from it, and call msn_connection_set_login_ticket. That function will send the USR message with the ticket and return.
+       4. On arrival of the final USR response an event is fired to indicate success or failure of the authentication. [Needs detail]
+
+
+void msn_connection_set_login_ticket(MsnConnection *this, const gchar *ticket)
+  this Pointer to the object the method is invoked on. The pointer must be obtained from msn_connection_new.
+  ticket is the authentication ticket from the tweener response.
+
+      The ticket string may be freed after msn_connection_set_login_ticket returns.
+
+      For details about this function, see the description of msn_connection_login. If this function is called while the object is not waiting for a Tweener ticket, it will do nothing and return immediately.
+
+
+void msn_connection_close(MsnConnection *this)
+  this Pointer to the object the method is invoked on. The pointer must be obtained from msn_connection_new.
+
+      This function will close the connection, and free any resources related to it.
+      A user of libmsn must always call this if a connection will not be used anymore, a connection is never closed automatically.
+
+      Please note that this won't free the MsnConnection object itself! The object will enter the disconnected state, and thus cannot be used anymore. It should therefore be unref'ed so it will eventually get freed.
+
+
+Functions for message handling
+------------------------------
+
+MsnMessage *msn_message_new()
+
+      This function creates a new, empty MsnMessage object.
+
+
+MsnMessage *msn_message_from_string(const gchar *msgtext)
+  msgtext The message as a string. This will usually have been received from the server.
+
+      This function creates an MsnMessage object from the passed string.
+      The returned MsnMessage object will be read only.
+
+
+const char *msn_message_get_header(MsnMessage *this, const gchar *name)
+  name The name of the header to get.
+
+      This function returns the content of the requested header, or NULL if the message does not contain a header with the specified name. The caller must not free the string returned by this function.
+
+
+const char *msn_message_get_body(MsnMessage *this)
+  this Pointer to the object the method is invoked on. Must be obtained from msn_message_new or msn_message_from_string.
+
+      This function returns the content of the message body, or NULL if the message has no body.
+      The caller must not free the string returned by this function.
+
+
+const char * msn_message_get_command(MsnMessage *this)
+  this Pointer to the object the method is invoked on. Must be obtained from msn_message_new or msn_message_from_string.
+
+      This function returns the MSN protocol command in this message. This is equal to the element at index 0 of the array returned by msn_message_get_command_header.
+      The caller must not free the string returned by this function.
+
+
+const char * const * msn_message_get_command_header(MsnMessage *this)
+  this Pointer to the object the method is invoked on. Must be obtained from msn_message_new or msn_message_from_string.
+
+      This function returns an array of strings. Each element of the array holds one token from the very first line of the message (the MSNP protocol command, and its arguments). The TrId is omitted. The array will be NULL-terminated.
+      The caller must not free the returned array, nor any of the strings it points to.
+
+
+int msn_message_get_trid(MsnMessage *this)
+  this Pointer to the object the method is invoked on. Must be obtained from msn_message_new or msn_message_from_string.
+
+      This function returns the message's TrId, or -1 if it has no TrId.
+
+
+void msn_message_set_header(MsnMessage *this, const gchar *name, const gchar *value)
+  this Pointer to the object the method is invoked on. Must be obtained from msn_message_new.
+  name The name of the header to set.
+  value The value to set it to.
+
+      This function sets a header with the specified name, and assigns it the given value. If a header of that name already exists, it is replaced.
+      Both the name and the value may be freed by the caller after this function returns.
+
+
+void msn_message_set_body(MsnMessage *this, const gchar *body)
+  this Pointer to the object the method is invoked on. Must be obtained from msn_message_new.
+  body The message body
+
+      This function sets the message body. If a body is already set, it will be replaced.
+      The passed body may be freed by the caller after this function returns.
+
+
+void msn_message_append_body(MsnMessage *this, const gchar *string)
+  this Pointer to the object the method is invoked on. Must be obtained from msn_message_new.
+  string The string to append to the message body.
+
+      This function appends the given string to the message body.
+      If no body has been set yet, it operates like the msn_message_set_body function.
+      The passed string may be freed by the caller after this function returns.
+
+
+void msn_message_set_command_header(MsnMessage *this, const gchar * const argv[])
+  this Pointer to the object the method is invoked on. Must be obtained from msn_message_new or msn_message_from_string.
+  argv An array holding the MSNP command at index 0 and its arguments at index 1 and up. The array must be NULL terminated.
+
+      This function sets the first line of the message (the MSN protocol command and its arguments). Each element of the argv array holds one token. The TrId must be omitted.
+      The caller may free the array passed to this function after this function returns.
+
+
+void msn_message_set_command_header_from_string(MsnMessage *this, const gchar *command_hdr)
+  this Pointer to the object the method is invoked on. Must be obtained from msn_message_new or msn_message_from_string.
+  command_hdr Pointer to the command string.
+
+      This function sets the first line of the message (the MSN protocol command and its arguments). The TrId must be omitted. The caller may free the string passed to this function after this function returns.
+
+
+void msn_message_send(MsnMessage *this, MsnConnection *conn)
+  this Pointer to the object the method is invoked on. Must be obtained from msn_message_new.
+  conn The connection where the message is to be sent.
+
+      This function will assign the message a TrId (if required by the protocol) and send it through the specified connection.
+
+
