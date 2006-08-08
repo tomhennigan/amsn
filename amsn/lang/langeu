@@ -604,7 +604,6 @@ profileinuse Profil hau beste aMSN sesio batengaitik erabilia izaten ari da, hau
 profileloginradio Hasi saioa esistitzen den Profil bat erabiliz
 profiles Profilak
 properties Propietateak
-protokoloagaitik onartuta. Seguru hau jarri nahi duzula?
 proxyconfhttp HTTP proxyaren konfigurazioa
 proxyconf Proxyaren konfigurazioa
 proxyconnection Proxy zerbitzari bat erabiliz Internetera konektatzen naiz:
@@ -844,3 +843,8 @@ youblocked Honako honek blokeatu zaitu:
 yousay Zuk diozu
 youwant Zuk itxaroten duzu
 zoom Zooma
+deleteblock Ezabatu eta Blokeatu
+hidemenu Erakutsi/Ezkutatu menuak
+hidemenumessage Seguru menu hauek ezkutatu nahi dituzula?\nGeroago berreskuratu ditzakezu, 'Ctrl-M' erakutsi/ezkutatu menuak tekla-konbinazioa sakatuz.
+noftpreview Ezgaitu fitxategi transferentzietan irudien aurrebista bidaltzea
+groupcontacts Talde kontaktuak
