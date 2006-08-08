@@ -228,6 +228,7 @@ defaultloginradio Entrar com a configuração normal
 defchatwinsize Tamanho padrão para as janelas de conversa (XSIZExYSIZE)
 deleteall Apagar tudo
 delete Apagar
+deleteblock Apagar e Bloquear
 deletecustomstate Excluir estado personalizado
 delimiters Delimitadores dos registros de hora ("timestamps"):
 deliverfail Houve um problema ao enviar esta mensagem
@@ -339,6 +340,7 @@ gotink $1 te enviou um ink
 gotoinbox Ir para a Caixa de email
 goto Ir para $1
 groupadd Adicionar um grupo
+groupcontacts Grupo de contatos
 groupdelete Apagar um grupo
 groupexists Grupo já existente
 group Grupo
@@ -353,6 +355,8 @@ handle Manipular
 help Ajuda
 helpcontents Conteúdo da Ajuda
 hidedisplaypic Esconder Imagem de Exibição
+hidemenumessage Você tem certeza que quer esconder os menus? \nVocê pode restaurá-los a qualquer momento usando a teclado de atalho para mostrar/esconder 'Ctrl-M'.
+hidemenu Mostrar/Econder menu
 hiden Esconde os emoticons do menu de Smileys
 hidewindow Esconder a Janela
 history Ver histórico
@@ -496,6 +500,7 @@ noactivity Sem atividade
 nocacheddps Não mostrar figuras em cache para esse usuário
 nodataavailable Sem dados disponíveis para $1
 nodevices No momento, não há devices instalados
+noftpreview Desabilitar o envio de preview da imagem na transferência de arquivos
 nogap Nenhum espaço entre grupos
 nogroup Nenhum grupo
 nologfile Sem log para $1
