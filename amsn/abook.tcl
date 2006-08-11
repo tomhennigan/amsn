@@ -641,6 +641,14 @@ namespace eval ::abook {
 			set globalnick [::config::getKey globalnick]
 			set psm [::abook::getpsmmedia $user_login]
 			
+			#post event for plugins
+			set evPar(nick) nick
+			set evPar(customnick) customnick
+			set evPar(globalnick) globalnick
+			set evPar(psm) psm
+			set evPar(user_login) user_login
+			::plugins::PostEvent getDisplayNick evPar
+			
 			if { [::config::getKey globaloverride] == 0 } {
 				if { $customnick != "" } {
 					return [parseCustomNick $customnick $nick $user_login $customnick $psm]
