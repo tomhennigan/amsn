@@ -143,7 +143,7 @@ namespace eval ::groups {
 
 		bind $w.groupname.ent <Return> { 
 			::groups::Add "[.dlgag.groupname.ent get]" dlgMsg; 
-			destroy $w
+			destroy .dlgag
 		}
 
 		bind $w <<Escape>> {
@@ -607,7 +607,8 @@ namespace eval ::groups {
 		#variable groups
 		array set groups [abook::getContactData contactlist groups]
 	
-		set gname [string trim $gname]
+		#Is this line needed? Someone might want to make a group starting with a whitespace, to make it appear on top...
+		#set gname [string trim $gname]
 		foreach group [array names groups] {
 			if {$groups($group) == $gname} {
 				return 1
@@ -680,7 +681,7 @@ namespace eval ::groups {
 		# AddCB() should be called when we receive the ADG
 		# packet from the server
 
-		after 2000 ::groups::AddContactsToGroup $gname
+		after 2000 ::groups::AddContactsToGroup \"$gname\"
 
 		# If an "add contact" window is open, actualise the group list
 		if { [winfo exists .addcontact] == 1 } {
