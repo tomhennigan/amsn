@@ -28,6 +28,11 @@
 
 #include "msn-message.h"
 
+#define LINE_SEPERATOR "\r\n"
+#define BODY_SEPERATOR "\r\n\r\n"
+#define HEADER_SEPERATOR ": "
+#define SPACE_SEPERATOR " "
+
 G_DEFINE_TYPE(MsnMessage, msn_message, G_TYPE_OBJECT)
 
 /* private structure */
@@ -45,6 +50,14 @@ struct _MsnMessagePrivate
 gint trid = 1;
 
 #define MSN_MESSAGE_GET_PRIVATE(o)     (G_TYPE_INSTANCE_GET_PRIVATE ((o), MSN_TYPE_MESSAGE, MsnMessagePrivate))
+
+gint get_argc(const gchar * const argv[]) {
+  gint i = 0;
+  while (argv[i] != NULL) {
+    i++;
+  }
+  return i;
+}
 
 /* type definition stuff */
 
@@ -75,7 +88,6 @@ msn_message_dispose (GObject *object)
   //MsnMessagePrivate *priv = MSN_MESSAGE_GET_PRIVATE (self);
 
   /* release any references held by the object here */
-  //g_string_dispose(priv->body);
 
   if (G_OBJECT_CLASS (msn_message_parent_class)->dispose)
     G_OBJECT_CLASS (msn_message_parent_class)->dispose (object);
@@ -114,11 +126,29 @@ MsnMessage *msn_message_new() {
  *    MsnMessage if successful, else NULL.
  */
 MsnMessage *msn_message_from_string(const gchar *msgtext) {
-  /* TODO: Parse incoming message */
+  /* Parse the string msgtext into a MsnMessage object
+   * 1. split the body from the header
+   * 2. split the header into command header and other headers
+   */
+  gint i;
+  gchar **body_split, **headers_split, **single_header_split;
   MsnMessagePrivate *priv;
   MsnMessage *message = msn_message_new();
   priv = MSN_MESSAGE_GET_PRIVATE(message);
-  g_string_assign(priv->body, msgtext);
+  body_split = g_strsplit(msgtext, BODY_SEPERATOR, 2);
+  if (get_argc((const gchar **) body_split) == 2) {
+    msn_message_set_body(message, body_split[1]);
+  } 
+  headers_split = g_strsplit(body_split[0], LINE_SEPERATOR, G_MAXINT);
+  msn_message_set_command_header_from_string(message, headers_split[0]);
+  for (i = 1; i < get_argc((const gchar **) headers_split); i++) {
+    single_header_split = g_strsplit(headers_split[i], HEADER_SEPERATOR, 2);
+    if (single_header_split[0] == NULL) break; /* for just a command header and no other headers */
+    msn_message_set_header(message, single_header_split[0], single_header_split[1]);
+    g_strfreev(single_header_split);
+  }
+  g_strfreev(headers_split);
+  g_strfreev(body_split);
   return message; 
 }
 
@@ -136,10 +166,9 @@ MsnMessage *msn_message_from_string(const gchar *msgtext) {
  */
 const gchar *msn_message_get_header(MsnMessage *this, const gchar *name) {  
   MsnMessagePrivate *priv;
-  gchar *value;
   priv = MSN_MESSAGE_GET_PRIVATE(this);
-  value = (gchar *) g_hash_table_lookup(priv->headers, name);
-  return value;
+  return (gchar *) g_hash_table_lookup(priv->headers, name);
+   
 }
 
 /**
@@ -195,7 +224,7 @@ const gchar * msn_message_get_command(MsnMessage *this) {
 const gchar * const * msn_message_get_command_header(MsnMessage *this) {
   MsnMessagePrivate *priv;
   priv = MSN_MESSAGE_GET_PRIVATE(this);
-  return priv->command_header;
+  return (const gchar **) priv->command_header;
 }
 
 
@@ -267,14 +296,6 @@ void msn_message_append_body(MsnMessage *this, const gchar *string){
 }
 
 
-gint get_argc(const gchar * const argv[]) {
-  gint i = 0;
-  while (argv[i] != NULL) {
-    i++;
-  }
-  return i;
-}
-
 /**
  * This function sets the first line of the message (the MSN protocol command and its 
  * arguments). Each element of the argv array holds one token. The TrId must be omitted.
@@ -315,13 +336,18 @@ void msn_message_set_command_header(MsnMessage *this, const gchar * const argv[]
  *
  */
 void msn_message_set_command_header_from_string(MsnMessage *this, const gchar *command_hdr){
-  
+  gchar **command_header;
+  MsnMessagePrivate *priv;
+  priv = MSN_MESSAGE_GET_PRIVATE(this);
+  command_header = g_strsplit(command_hdr, SPACE_SEPERATOR, G_MAXINT);
+  msn_message_set_command_header(this, (const gchar **) command_header);
+  g_strfreev(command_header);
 }
 
 static void header_concat(gpointer key, gpointer value, gpointer user_data) {
   gchar **header_ptr;
   header_ptr = (gchar **) user_data;
-  (*header_ptr) = g_strconcat((*header_ptr), (gchar *) key, ": ", (gchar *) value, "\r\n", NULL);;
+  (*header_ptr) = g_strconcat((*header_ptr), (gchar *) key, HEADER_SEPERATOR, (gchar *) value, LINE_SEPERATOR, NULL);;
 }
 
 
@@ -345,12 +371,12 @@ void msn_message_send(MsnMessage *this, MsnConnection *conn){
   /* send command header*/
   command_header = g_strdup(priv->command_header[0]);
   str = g_strdup_printf("%i", trid++);
-  command_header = g_strconcat(command_header, " ", str, NULL);
+  command_header = g_strconcat(command_header, SPACE_SEPERATOR, str, NULL);
   g_free(str);
   for (i = 1; i < priv->command_header_length; i++) {
-    command_header = g_strconcat(command_header, " ", priv->command_header[i], NULL);
+    command_header = g_strconcat(command_header, SPACE_SEPERATOR, priv->command_header[i], NULL);
   }
-  command_header = g_strconcat(command_header, "\r\n", NULL);
+  command_header = g_strconcat(command_header, LINE_SEPERATOR, NULL);
   g_printf("%s", command_header);
   g_io_channel_write_chars(msn_connection_get_channel(conn), command_header, -1, &written, &error);
   /* send message headers if necessary */
