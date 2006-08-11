@@ -63,6 +63,7 @@ GType msn_connection_get_type(void);
   (G_TYPE_INSTANCE_GET_CLASS ((obj), MSN_TYPE_CONNECTION, MsnConnectionClass))
 
 MsnConnection *msn_connection_new(MsnConnectionType type);
+GIOChannel *msn_connection_get_channel(MsnConnection *this);
 
 G_END_DECLS
 

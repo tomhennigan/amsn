@@ -18,18 +18,15 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-
-#include <stdio.h>
+#include <glib/gprintf.h>
 #include <stdlib.h>
-#include <string.h>
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <unistd.h>
 #include <netdb.h>
 
 #include "msn-connection.h"
-
-#define g_printf printf
+#include "msn-message.h"
 
 G_DEFINE_TYPE(MsnConnection, msn_connection, G_TYPE_OBJECT)
 
@@ -40,7 +37,6 @@ struct _MsnConnectionPrivate
 {
   gboolean connected;
   GIOChannel *channel;
-  guint trid;
 };
 
 #define MSN_CONNECTION_GET_PRIVATE(o)     (G_TYPE_INSTANCE_GET_PRIVATE ((o), MSN_TYPE_CONNECTION, MsnConnectionPrivate))
@@ -52,7 +48,6 @@ msn_connection_init (MsnConnection *obj)
 {
   MsnConnectionPrivate *priv = MSN_CONNECTION_GET_PRIVATE (obj);
   priv->connected = FALSE;
-  priv->trid = 1;
 }
 
 static void msn_connection_dispose (GObject *object);
@@ -72,8 +67,8 @@ msn_connection_class_init (MsnConnectionClass *msn_connection_class)
 void
 msn_connection_dispose (GObject *object)
 {
-  MsnConnection *self = MSN_CONNECTION (object);
-  MsnConnectionPrivate *priv = MSN_CONNECTION_GET_PRIVATE (self);
+  //MsnConnection *self = MSN_CONNECTION (object);
+  //MsnConnectionPrivate *priv = MSN_CONNECTION_GET_PRIVATE (self);
 
   /* release any references held by the object here */
 
@@ -84,8 +79,8 @@ msn_connection_dispose (GObject *object)
 void
 msn_connection_finalize (GObject *object)
 {
-  MsnConnection *self = MSN_CONNECTION (object);
-  MsnConnectionPrivate *priv = MSN_CONNECTION_GET_PRIVATE (self);
+  //MsnConnection *self = MSN_CONNECTION (object);
+  //MsnConnectionPrivate *priv = MSN_CONNECTION_GET_PRIVATE (self);
 
   G_OBJECT_CLASS (msn_connection_parent_class)->finalize (object);
 }
@@ -123,7 +118,19 @@ struct sockaddr_in *get_msn_server(const char *server, gint port) {
   return msn_serv;
 }
 
+static void incoming_message(GIOChannel *source, GIOCondition condition, gpointer data) {
+  MsnConnection *conn;
+  MsnConnectionPrivate *priv;
+  gsize length, terminator_pos;
+  gchar *buffer;
+  GError *error = NULL;
 
+  conn = (MsnConnection *) data;
+  g_assert(MSN_IS_CONNECTION (conn));
+  priv = MSN_CONNECTION_GET_PRIVATE(conn);
+  g_io_channel_read_line(priv->channel, &buffer, &length, &terminator_pos, &error);
+  g_printf("Server: %s\n", buffer);
+}
 
 /**
  * msn_connection_connect
@@ -135,28 +142,20 @@ MsnConnection *msn_connection_new(MsnConnectionType type)
 {
   MsnConnectionPrivate *priv;
   MsnConnection *conn;
-  guint written;
-  gint port, i;
-  gchar *server, *buffer;
-  GError *error = NULL;
-  guint err, my_socket;
-  GIOStatus status;
+  MsnMessage *mess;
+  gint port;
+  gchar *command_header[10];
+  gchar *server;
+  guint my_socket;
+
 
   conn = g_object_new(MSN_TYPE_CONNECTION, NULL);
   g_assert (MSN_IS_CONNECTION (conn));
-
   priv = MSN_CONNECTION_GET_PRIVATE (conn);
-
-  buffer = malloc(512 * sizeof(gchar));
 
   /* Create a connection to given server */
   switch (type) {
     case MSN_NS_CONNECTION:
-/*      if (cached) {
-        port = cached_port;
-        server = cached_server;
-        break;
-      }*/
     case MSN_DS_CONNECTION:
       port = -1;
       server = NULL;
@@ -181,24 +180,85 @@ MsnConnection *msn_connection_new(MsnConnectionType type)
   priv->channel = g_io_channel_unix_new(my_socket);
   g_io_channel_set_encoding(priv->channel, NULL, NULL);
   g_io_channel_set_line_term(priv->channel, "\r\n", 2);
-  g_printf("connected to server!\n");
-  g_printf("sending VER 1 MSNP13 CVR0\\r\\n\n");
-  status = g_io_channel_write_chars(priv->channel, "VER 1 MSNP13 CVR0\r\n", -1, &written, &error);
-  g_io_channel_flush(priv->channel, &error);
-  g_printf("status: %i\n", status);
-  g_printf("written %i\n", written);
-  status = g_io_channel_read_chars(priv->channel, &buffer[0], 19, &written, &error);
-  g_printf("status: %i\n", status);
-  g_printf("written %i\n", written);
-  g_printf("return: ");
-  for (i = 0; i < 19; i++) {
-    g_printf("%c", buffer[i]);
-  }
-  g_printf("\n");
-/*  g_printf("sending CVR 2 0x0409 winnt 5.1 i386 MSG80BETA 8.0.0566 msmsgs roelofkemp@hotmail.com\\r\\n\n");
-  err = write(my_socket, "CVR 2 0x0409 winnt 5.1 i386 MSG80BETA 8.0.0566 msmsgs roelofkemp@hotmail.com\r\n", strlen("CVR 2 0x0409 winnt 5.1 i386 MSG80BETA 8.0.0566 msmsgs roelofkemp@hotmail.com\r\n") + 1);*/
-/*  g_io_channel_shutdown(priv->channel, TRUE, &error);*/
-  close(my_socket);
-  return NULL;
+  
+
+  /* Construct VER message */
+  command_header[0] = g_strdup("VER");
+  command_header[1] = g_strdup("MSNP13");
+  command_header[2] = g_strdup("CVR0");
+  command_header[3] = NULL;
+  mess = msn_message_new();
+  msn_message_set_command_header(mess, command_header);
+  msn_message_send(mess, conn);
+  g_free(command_header[0]);
+  g_free(command_header[1]);
+  g_free(command_header[2]);
+  incoming_message(NULL, G_IO_IN, conn);
+  command_header[0] = g_strdup("CVR");
+  command_header[1] = g_strdup("0x0409");
+  command_header[2] = g_strdup("winnt");
+  command_header[3] = g_strdup("5.1");
+  command_header[4] = g_strdup("i386");
+  command_header[5] = g_strdup("MSG80BETA");
+  command_header[6] = g_strdup("8.0.0566");
+  command_header[7] = g_strdup("msmsgs");
+  command_header[8] = g_strdup("roelofkemp@hotmail.com");
+  command_header[9] = NULL;
+  msn_message_set_command_header(mess, command_header);
+  msn_message_send(mess, conn);
+  g_free(command_header[0]);
+  g_free(command_header[1]);
+  g_free(command_header[2]);
+  g_free(command_header[3]);
+  g_free(command_header[4]);
+  g_free(command_header[5]);
+  g_free(command_header[6]);
+  g_free(command_header[7]);
+  g_free(command_header[8]);
+  incoming_message(NULL, G_IO_IN, conn);
+  command_header[0] = g_strdup("USR");
+  command_header[1] = g_strdup("TWN");
+  command_header[2] = g_strdup("I");
+  command_header[3] = g_strdup("roelofkemp@hotmail.com");
+  command_header[4] = NULL;
+  msn_message_set_command_header(mess, command_header);
+  msn_message_send(mess, conn);
+  g_free(command_header[0]);
+  g_free(command_header[1]);
+  g_free(command_header[2]);
+  g_free(command_header[3]);
+  incoming_message(NULL, G_IO_IN, conn);
+//  g_io_add_watch(priv->channel, G_IO_IN, (GIOFunc) incoming_message, conn);
+  return conn;
 }
+
+GIOChannel *msn_connection_get_channel(MsnConnection *this) {
+  MsnConnectionPrivate *priv;
+  priv = MSN_CONNECTION_GET_PRIVATE(this);
+  return priv->channel;
+}
+
+//   /* Read server's reply */
+//   g_io_channel_read_line(priv->channel, &buffer, &length, &terminator_pos, &error);
+//   g_printf("Server: %s\n", buffer);
+// 
+//   /* Construct CVR message */
+//   command_header[0] = g_strdup("CVR");
+//   command_header[1] = g_strdup("bla");
+//   command_header[2] = g_strdup("winnt");
+//   command_header[3] = g_strdup("5.1");
+//   command_header[4] = g_strdup("i386");
+//   command_header[5] = g_strdup("MSG80BETA");
+//   command_header[6] = g_strdup("8.0.0566");
+//   command_header[7] = g_strdup("msmsgs");
+//   command_header[8] = g_strdup("roelofkemp@hotmail.com");
+//   command_header[9] = NULL;
+//   send_mess2 = msn_message_new();
+//   msn_message_set_command_header(send_mess, command_header);
+//   msn_message_send(send_mess, conn);
+// 
+//   /* Read server's reply */
+//   g_io_channel_read_line(priv->channel, &buffer, &length, &terminator_pos, &error);
+//   g_printf("Server: %s\n", buffer);
+
 

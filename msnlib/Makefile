@@ -5,9 +5,9 @@ LD = ld
 RM = rm -f
 LIBS =  -lglib-2.0 -lgobject-2.0 
 INCLUDES = -I /usr/include/glib-2.0 -I /usr/lib/glib-2.0/include
-OBJS = msn.o msn-connection.o 
-SRCS = msn.c msn-connection.c
-HDRS =  msn.h msn-connection.h
+OBJS = msn.o msn-connection.o msn-message.o
+SRCS = msn.c msn-connection.c msn-message.c
+HDRS =  msn.h msn-connection.h msn-message.h
 
 
 all: msn
