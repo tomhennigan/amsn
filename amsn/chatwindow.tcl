@@ -2497,7 +2497,7 @@ namespace eval ::ChatWindow {
 			set customnick [::abook::getContactData $user_login customnick]
 			set globalnick [::config::getKey globalnick]
 
-			if { $customnick != "" || $globalnick != "" } {
+			if { [::config::getKey psmplace] == 0 } {
 				set psmmedia ""
 			}
 
