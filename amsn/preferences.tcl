@@ -2581,41 +2581,51 @@ proc moveinscreen {window {mindist 0}} {
  	
 	#set winx [winfo width $window]
 	#set winy [winfo height $window]
+
 	set scrx [winfo screenwidth .]
 	set scry [winfo screenheight .]
-	set winpx [winfo rootx $window]
-	set winpy [winfo rooty $window]
+
+	set wi_geometry [winfo geometry $window]
+	scan $wi_geometry "%dx%d+%d+%d" winx winy winpx winpy
+
+	#set winpx [winfo x $window]
+	#set winpy [winfo y $window]
     
 	set geom [wm geometry $window]
 	scan $geom "%dx%d%c%d%c%d" winx winy sign1 decorationLeft sign2 decorationTop
 
 	# Measure left edge, and assume all edges except top are the
 	# same thickness
-	if { $sign1 == 45 || $decorationLeft < 0} { ;#'-' character
-		set decorationThickness 0
+	if { $sign1 == 45} { ;#'-' character
+		#Get size from right decoration
+		set decorationThickness [expr {($scrx - $decorationLeft) - ($winpx + $winx)}]
+		status_log "Minus: dec=$decorationThickness --> ($scrx + $decorationLeft) - ($winpx + $winx)\n"
 	} else {
 		set decorationThickness [expr {$winpx - $decorationLeft}]
 	}
 
 	# Find titlebar and menubar thickness
-	if { $sign2 == 45 || $decorationTop < 0 } { ;#'-' character
-		set menubarThickness 0
+	if { $sign2 == 45 } { ;#'-' character
+		set menubarThickness [expr {($scry - $decorationLeft) - ($winpy + $winy)}]
 	} else {
 		set menubarThickness [expr {$winpy - $decorationTop}]
 	}
 
 
-	#status_log "Window information: $window\n" white
-	#status_log "Geometry: $geom\n (menuThickness= $menubarThickness, dec=$decorationThickness)\n"
-	#status_log "Width, height: [winfo width $window]x[winfo height $window]\n"
-	#status_log "winPx, winPy: $winpx,$winpy\n"
-	#status_log "decLeft=$decorationLeft / decTop=$decorationTop\n"
-	#status_log "-------------------\n" white
+	status_log "Window information: $window\n" white
+	status_log "Geometry: $geom\n (menuThickness= $menubarThickness, dec=$decorationThickness)\n"
+	status_log "Width, height: [winfo width $window]x[winfo height $window]\n"
+	status_log "winPx, winPy: $winpx,$winpy\n"
+	status_log "decLeft=$decorationLeft / decTop=$decorationTop\n"
+	status_log "-------------------\n" white
+
 
     	# Add this decoration size when checking size and limits
 	incr winx [expr {2 * $decorationThickness}]
 	incr winy $decorationThickness
 	incr winy $menubarThickness
+	incr winpx [expr {0 - $decorationThickness}]
+	incr winpy [expr {0 - $menubarThickness}]
 
 	#check if the window is too large to fit on the screen
 	if { [expr {$winx > ($scrx-(2*$mindist))}] } {
@@ -2644,9 +2654,8 @@ proc moveinscreen {window {mindist 0}} {
 	incr winx [expr {0 - 2 * $decorationThickness}]
 	incr winy [expr {0 - $decorationThickness}]
 	incr winy [expr {0 - $menubarThickness }]
-	incr winpx [expr {0 - $decorationThickness}]
-	incr winpy [expr {0 - $menubarThickness}]
-	wm geometry $window "${winx}x${winy}+${winpx}+${winpy}"
+
+	catch {wm geometry $window "${winx}x${winy}+${winpx}+${winpy}"}
 }
 
 proc reload_advanced_options {path} {
