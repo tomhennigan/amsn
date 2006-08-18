@@ -2586,16 +2586,33 @@ proc moveinscreen {window {mindist 0}} {
 	set winpx [winfo rootx $window]
 	set winpy [winfo rooty $window]
     
-    
 	set geom [wm geometry $window]
-    scan $geom "%dx%d+%d+%d" winx winy decorationLeft decorationTop
+	scan $geom "%dx%d%c%d%c%d" winx winy sign1 decorationLeft sign2 decorationTop
+
 	# Measure left edge, and assume all edges except top are the
 	# same thickness
-	set decorationThickness [expr {$winpx - $decorationLeft}]
-	# Find titlebar and menubar thickness
-	set menubarThickness [expr {$winpy - $decorationTop}]
+	if { $sign1 == 45 || $decorationLeft < 0} { ;#'-' character
+		set decorationThickness 0
+	} else {
+		set decorationThickness [expr {$winpx - $decorationLeft}]
+	}
 
-    # Add this decoration size when checking size and limits
+	# Find titlebar and menubar thickness
+	if { $sign2 == 45 || $decorationTop < 0 } { ;#'-' character
+		set menubarThickness 0
+	} else {
+		set menubarThickness [expr {$winpy - $decorationTop}]
+	}
+
+
+	#status_log "Window information: $window\n" white
+	#status_log "Geometry: $geom\n (menuThickness= $menubarThickness, dec=$decorationThickness)\n"
+	#status_log "Width, height: [winfo width $window]x[winfo height $window]\n"
+	#status_log "winPx, winPy: $winpx,$winpy\n"
+	#status_log "decLeft=$decorationLeft / decTop=$decorationTop\n"
+	#status_log "-------------------\n" white
+
+    	# Add this decoration size when checking size and limits
 	incr winx [expr {2 * $decorationThickness}]
 	incr winy $decorationThickness
 	incr winy $menubarThickness
@@ -2622,11 +2639,13 @@ proc moveinscreen {window {mindist 0}} {
 		set winpy $mindist
 	}
 
-    # Substract decoration size, as wm geometry needs the window geometry
-    # without decoration
+    	# Substract decoration size, as wm geometry needs the window geometry
+    	# without decoration
 	incr winx [expr {0 - 2 * $decorationThickness}]
 	incr winy [expr {0 - $decorationThickness}]
 	incr winy [expr {0 - $menubarThickness }]
+	incr winpx [expr {0 - $decorationThickness}]
+	incr winpy [expr {0 - $menubarThickness}]
 	wm geometry $window "${winx}x${winy}+${winpx}+${winpy}"
 }
 
