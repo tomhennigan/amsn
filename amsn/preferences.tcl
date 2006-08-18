@@ -2559,6 +2559,16 @@ proc Preferences { { settings "personal"} } {
     
 }
 
+proc getTaskbarHeight {{w .taskBarSize}} {
+    catch {destroy $w}
+    toplevel $w
+    wm state $w zoomed
+    update
+    set val [expr {[winfo screenheight $w]-[winfo height $w]}]
+    destroy $w
+    return $val;
+}
+
 #check if a window is outside the screen and move it in
 proc moveinscreen {window {mindist 0}} {
 
