@@ -1468,6 +1468,7 @@ proc Preferences { { settings "personal"} } {
     PreferencesCopyConfig	;# Load current configuration
 
     toplevel .cfg
+    status_log "Req: [winfo height .cfg]\n" white
     wm state .cfg withdraw
 
     if { [LoginList exists 0 [::config::getKey login]] == 1 } {
@@ -2554,6 +2555,7 @@ proc Preferences { { settings "personal"} } {
 
     wm state .cfg normal
 
+    
     moveinscreen .cfg 30
     
 }
@@ -2568,12 +2570,31 @@ proc moveinscreen {window {mindist 0}} {
  		return
  	}
  	
-	set winx [winfo width $window]
-	set winy [winfo height $window]
+	#set winx [winfo width $window]
+	#set winy [winfo height $window]
 	set scrx [winfo screenwidth .]
 	set scry [winfo screenheight .]
-	set winpx [winfo x $window]
-	set winpy [winfo y $window]
+	set winpx [winfo rootx $window]
+	set winpy [winfo rooty $window]
+    
+    
+	set geom [wm geometry $window]
+	regexp -- {([0-9]+)x([0-9]+)\+([0-9]+)\+([0-9]+)} $geom -> \
+	  winx winy decorationLeft decorationTop
+
+	# Measure left edge, and assume all edges except top are the
+	# same thickness
+	set decorationThickness [expr {$winpx - $decorationLeft}]
+	# Find titlebar and menubar thickness
+	set menubarThickness [expr {$winpy - $decorationTop}]
+
+    # Add this decoration size when checking size and limits
+	incr winx [expr {2 * $decorationThickness}]
+	incr winy $decorationThickness
+	incr winy $menubarThickness
+
+    status_log "geom: $geom\n" white
+    status_log "winx: $winx winy: $winy scrx: $scrx scry: $scry winpx: $winpx winpy: $winpy\n" white
 
 	#check if the window is too large to fit on the screen
 	if { [expr {$winx > ($scrx-(2*$mindist))}] } {
@@ -2590,13 +2611,18 @@ proc moveinscreen {window {mindist 0}} {
 	if { [expr {$winpx < $mindist}] } {
 		set winpx $mindist
 	}
-	if { [expr {$winpy + $winy > ($scry-$mindist)}] } {
+	if { [expr {$winpy + $winy > ($scry-(2*$mindist))}] } {
 		set winpy [expr {$scry-$mindist-$winy}]
 	}
 	if { [expr {$winpy < $mindist}] } {
 		set winpy $mindist
 	}
 
+    # Substract decoration size, as wm geometry needs the window geometry
+    # without decoration
+	incr winx [expr {0 - 2 * $decorationThickness}]
+	incr winy [expr {0 - $decorationThickness}]
+	incr winy [expr {0 - $menubarThickness }]
 	wm geometry $window "${winx}x${winy}+${winpx}+${winpy}"
 }
 
