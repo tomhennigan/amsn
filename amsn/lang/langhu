@@ -1,6 +1,6 @@
 amsn_lang_version 2
 aboutamsn Az aMSN-rõl
-about Rólunk
+about Névjegy
 accept Elfogad
 acceptfile Fogadott fájl $1, méret $2? Lementve $3
 account Fiók
@@ -23,7 +23,7 @@ adverts Hírdetések
 agotinvitation Hangos beszélgetésre felkérte: $1
 alarmonconnect Riasztás amikor egy felhasználó bejelentkezik
 alarmondisconnect Riasztás amikor egy felhasználó kijelentkezik / kapcsolat elrejtése módba kapcsol
-alarmonmsg Riasztás amikor egy felhasználó üzenetet küldd neked
+alarmonmsg Riasztás amikor egy felhasználó üzenetet küld
 alarmonstatus Riasztás amikor egy felhasználó megváltoztatja az állapotát
 alarmpref Figyelmeztetõ jelzés ennek a felhasználónak
 alarms Riasztások
@@ -37,15 +37,16 @@ allowonlyinal Csak az Engedélyezettek Listáján szereplõ felhasználók beszélhesse
 allowseen Ez a személy mindig láthat ha bejelentkezem
 allow_sms Engedélyezem, hogy az MSN mobil készülékemen is elérhessenek.
 allprofilesinuse Minden létezõ profil használatban van
-animatedemoticon Ez a mosolyjel animált
-animatedsmileys Animált mosolyok bekapcsolása
+animatedemoticon Ez a hangulatjel animált
+animatedsmileys Animált hangulatjelek bekapcsolása
 animatenotify Animált figyelmeztetõ ablak
 appearance Megjelenés
-appearoff Nem látható a bejelentkezés (rejtett üzemmód)
+appearoff Rejtve kapcsolódik
 areacode Területi kód
 aretyping $1 éppen üzenetet gépel
+askcam Felkérés webkamera fogadására
 askcontactwebcam Partner felkérése a webkamerájának megmutatására
-askeachtime Kérdezd minden alkalommal
+askeachtime Kérdez minden alkalommal
 asksendingyourwebcam Partner felkérése webkameránk képének fogadására
 askwebcam Megkérem ezt a felhasználót, hogy mutassa a webkameráját
 author Szerzõ
@@ -54,7 +55,7 @@ autoacceptft Automatikusan fogadja el a fájl átviteleket
 autoaway "Nem vagyok itt" használata ha inaktív vagyok
 autocheckver Indításnál ellenõrizze automatikusan, hogy van-e újabb verzió
 autoconnect2 Automatikus bejelentkezés az aMSN indításakor
-autoconnect Kapcsolódás az AMSN indulásakor
+autoconnect Kapcsolódás az aMSN indulásakor
 autodetectip IP cím automatikus bemérése
 autohotmaillog Automatikus Hotmail bejelentkezés
 autoidle Inaktivitás érzékelõ
@@ -85,7 +86,7 @@ blockinter4 másodpercben.
 blocklist Letiltottak listája (BL):
 blockmessage Ezek az felhasználóek elérhetõek és letiltottak téged
 blockusers Egyszerre ellenõrzendõ felhasználóek száma
-bouncedock Az AMSN ikon pattogjon a helyén amikor üzenet érkezik
+bouncedock Az aMSN ikon pattogjon a helyén amikor üzenet érkezik
 brightness Fényerõ
 broughtby A fejlesztõk:
 browse Böngészés
@@ -93,7 +94,7 @@ browser Böngészõ
 browserexample ( \$url lesz az URL). Pl: mozilla \$url
 bugerror Sajnálom, de hiba történt az adatbázishoz való kapcsolódás közben. Ellenõrizd az internetkapcsolatodat!
 bugnocomment Megjegyzés nélkül küldöd? Írj hozzá megjegyzést, hogy könnyebben javíthassuk a problémát.
-busy Dolgozom ne zavarj
+busy Elfoglalt
 cachedpics $1 cachelt képek
 cagreement Titoktartási nyilatkozat
 cancel Mégsem
@@ -116,6 +117,7 @@ change_mobile Mobil információk megváltoztatása
 changenick Becenév váltása
 changesize Méret megváltoztatása
 changestate $1 megváltoztatta állapotát erre : $2
+changestatus Állapot változtatása
 changevideosettings Videokép beállításai
 change Változtatás
 channels Csatornák
@@ -124,7 +126,7 @@ chatack Csevegés engedélyezése...
 chat Csevegés
 chatmaxmin Amikor valaki chat ablakot nyit velem szeretném ha:
 chatreq Csevegés kezdése
-chatsmileys2 Mosolyjelek megjelenítése a chat ablakban
+chatsmileys2 Hangulatjelek megjelenítése a chat ablakban
 chatsmileys Csevegõ fejecskék
 checkblocking Letiltások folytonos ellenõrzés
 checkemail Mutass levél információt a kapcsolati listában
@@ -205,8 +207,8 @@ custnotifyoffline Értesítési ablak, ha egy partner lecsatlakozik
 custnotifyonline Értesítési ablak, ha egy partner csatlakozik
 custnotifystatus Értesítési ablak, ha egy partner állapotot vált
 customcolor Egyéni szín
-custom_edit Saját mosoly szerkesztése
-custom_new Saját mosoly hozzádása
+custom_edit Saját hangulatjel szerkesztése
+custom_new Saját hangulatjel hozzádása
 customnick Egyéni becenév
 customsmileys Mások egyéni hangulatjeleinek megjelenítése
 customstyle Egyéni stílus
@@ -224,6 +226,8 @@ default Alapértelmezett beállítás
 defaultloginradio Alapbeállítással való bejelentkezés
 defchatwinsize Beszélgetõ ablakok alap mérete (X*Y)
 deleteall mindet töröl
+deleteandblock Törlés és blokkolás
+deleteblock Törlés és blokkolás
 deletecustomstate Saját állapot törlése
 delete Törlés
 delimiters Idõbélyeg beállítása:
@@ -270,12 +274,12 @@ editvalue Módosítás
 email E-mail
 emailsinlist E-mail címek mutatása a becenevek helyett a partnerlistán
 emoticon_steal Érzelmekhez adás
-emotisounds A mosolyjeleket hangok is kísérjék
+emotisounds A hangulatjeleket hangok is kísérjék
 emptygroup Üres csoport
 enabled Bekapcsolva
 enableproxy Proxy engedélyezése
 enableremote Távoli vezérlés engedélyezése
-enablesound Zene lejátszása
+enablesound Hang lejátszása
 encoding2 Karakter kódolásának megváltoztatása
 encoding Kódolás választása
 enterbugdesc Írd le pontosan mit csináltál hogy reprodukálni tudjuk a hibát
@@ -286,7 +290,7 @@ enterpsm Az ön személyes üzenete
 errortls Hiba lépett fel a TLS modul telepítése közben:
 eventhistory Elõzmények megtekintése
 examples Példák
-exitamsn Biztosan ki akarsz lépni?
+exitamsn Biztosan ki akar lépni?
 extras Extra szolgáltatások
 faileddelete Nem sikerült törölni
 faileddeleteperso Ez a kép nem törölhet?, mert nem személyi kép. Csak a saját profilodhoz tartozó képeket lehet így törölni.
@@ -330,10 +334,11 @@ globalcontainer Általános tároló
 globalnick Írj ide egy mintát a partnereid nevének megformázására. A következõ változókat használhatod: \$user_login A partner címe, \$nick A partner beceneve és \$customnick a partner egyéni beceneve. Pl.: '\$user_login neve \$nick' eredménye 'partner@msn.com neve Partner'
 globalnicktitle Általános Becenév
 globaloverride Az általános becenév minták felülírják az egyedi beceneveket
-gonelunch Ebédelni mentem
+gonelunch Ebédel
 gotink $1 kézírásos üzenetet küldött
 goto Ugrás a(z) $1 -re
 groupadd Csoport hozzáadása
+groupcontacts Partnerek csoportosítása
 group Csoport
 groupdelete Csoport törlése
 groupexists A csoport már létezik
@@ -345,10 +350,11 @@ grouprename Csoport átnevezése
 groups Csoportok
 groupunknown Ismeretlen csoport
 handle Kezelés
-helpcontents A segítség összetevõi
-help Segítség
+helpcontents Témakörök
+help Súgó
 hidedisplaypic Más felhasználók képeinek elrejtése
-hiden Mosolyjel elrejtése a menübõl
+hidemenu Menük rejtése/mutatása
+hiden Hangulatjel elrejtése a menübõl
 hidewindow Ablak elrejtése
 history Elõzmények megtekintése
 home Otthon
@@ -359,13 +365,13 @@ hybrid Hibrid mód
 ident Azonosítás
 identity Azonosító
 ignorecontact Az ismerössel folytatott beszélgetés letiltása
-ignoreerrors Csendben fojts el minden egyéb AMSN hibát amíg az ülés él
+ignoreerrors Minden egyéb aMSN hiba figyelmen kívül hagyása a munkamenetre
 ignore Letiltás
 imagefiles Képfájlok
 inbox Beérkezõ üzenetek
-insertsmiley Mosolyjel beszúrása
+insertsmiley Hangulatjel beszúrása
 inserttextnote Töltsd ki a tárgy ás a jegyzet mezöket, majd nyomd meg a mentés-t
-installconvert Fel kell telepítened az ImageMagick programot (konvertáló program) hogy saját mosolyjeleket / ikonokat használhass. Az ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ címrõl tudod letölteni. Ha már telepítve van, akkor itt egy hiba van, légyszíves jelentsd. Ezek az opciók most ki lesznek kapcsolva, ha felteszed az ImageMagic -ot késõbb akkor kapcsold be a beállításoknál.
+installconvert Fel kell telepítened az ImageMagick programot (konvertáló program) hogy saját hangulatjeleket / ikonokat használhass. Az ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ címrõl tudod letölteni. Ha már telepítve van, akkor itt egy hiba van, légyszíves jelentsd. Ezek az opciók most ki lesznek kapcsolva, ha felteszed az ImageMagic -ot késõbb akkor kapcsold be a beállításoknál.
 internalerror Szerver hiba
 invalidfile2 A $1 fájl nem hozható létre, ellenõrizd, hogy megvannak-e a megfelelõ jogaid a célon.
 invalidfile A $2 fájl amit a "$1" mezõben adtál meg nem létezik vagy nem olvasható
@@ -406,8 +412,8 @@ lineflushlog Minden sor után töröld az elõzményeket
 linprivate Privátban
 listening hallgatás
 listeningon Hallgatás a porton $1
-listsmileys2 Mosoly és egyéb jelek megjelenítése a partner listán
-listsmileys Fejecskék listája
+listsmileys2 Hangulat- és egyéb jelek megjelenítése a partner listán
+listsmileys Hangulatjelek listája
 ljoinedconf $1 csatlakozott a beszélgetéshez
 lleftconf $1 elhagyta a beszélgetést
 loadcontacts Partnerlista betöltése
@@ -428,11 +434,11 @@ logolder Csak azon beszélgetések naplózása, melyek le lettek folytatva az elmúlt
 logout Kijelentkezés
 logsbydate A naplók dátum szerinti rendezése (Az elõzmények betöltése gyorsabb)
 logsin Bejelentkezett
-logsmileys Mosolyjelek megjelenítése a naplófájlokban
+logsmileys Hangulatjelek megjelenítése a naplófájlokban
 logsout kijelentkezett
 logwebcam Ments minden Webkamera eseményt az aMSN naplóba, a késõbbi visszatekinthetõség érdekében
 longnick A beceneved hoszabb mint 130 karakter. Az MSN protokoll ezt nem támogatja.. biztos hogy használni akarod?
-longp4c A baráti neved hosszabb mint 130 karakter. Az AMSN-ben megjelenö baráti neved $1 lesz. Biztos beállítod?
+longp4c A baráti neved hosszabb mint 130 karakter. Az aMSN-ben megjelenö baráti neved $1 lesz. Biztos beállítod?
 longpsm Az ön személyes üzenete túl hosszú. Ezt nem támogatja a hivatalos MSN protokoll. Biztos benne hogy beállítja?
 lowrescam Alacsony felbotású webkamera használata
 lprivtoconf A privát beszélgetés konferenciává vált a következõ felhasználóval: $1
@@ -456,7 +462,7 @@ msgflicker Inaktív ablakba érkezõ üzenet esetén az ablak nevének villogtatása.
 msgmaxmin Mikor új üzenet érkezik legyen:
 msgmode Válaszd ki hogy kezeljem a chat ablakokat:
 msg Üzenet
-msn AMSN
+msn aMSN
 msnstatus MSN network állapot
 msnstyle MSN Stílusú beszélgetés
 mustrestart A változtatásokhoz újra kell indítanod a programot
@@ -525,11 +531,11 @@ ok Rendben
 onenewmail Egy új üzenete van
 online Elérhetõ
 onlinehelp Online Help
-onphone Telefonálok
+onphone Telefonál
 opendir Mappa nyitás
 openfilecommand File megnyitási parancs
 openfile megnyitás
-openreceived A beérkezett fájlok megnyitása
+openreceived Beérkezett fájlok megnyitása
 options Beállítások
 ordercontactsby Partnerek rendezése
 ordergroupsby Csoportok rendezése
@@ -565,7 +571,7 @@ prefblock1 Kijelentkezéskor ellenõrzés
 prefblock2 Folytonos ellenõrzés
 prefblock3 "Le vagy tilva" csoport
 prefconnection Kapcsolat beálításai
-prefemotic Mosolyjelek
+prefemotic Hangulatjelek
 preferences Beállítások
 preffont2 Mások által látott szövegem kinézetének megváltoztatása
 preffont3 Betûtipus és méret változtatása
@@ -629,23 +635,27 @@ removefromlist Törlés errõl a listáról
 rename Átnevez
 reporting Jelentés
 report Jelentés
-required_version Nem tudom betölteni a plugin-t. Legalább $1 verziójú AMSN kell
+required_version Nem tudom betölteni a plugin-t. Legalább $1 verziójú aMSN kell
 resetincomingfont A betütípus visszaállítása (amit a partner eredetileg beállított)
 restartforskin Figyelem! Újra kell indítanod az aMSN-t, hogy lásd a változtatásokat
 reversed R-beszélgetés
 reverselist Ellentétes lista (FL):
-rightback Késõbb visszajövök
+rightback Rögtön jön
 saveas Mentés másként
 savechatwinsize Ha átméretezem a chatablakot legyen az az alap méret
-savecontacts A partnerlista mentése
+savecontacts Partnerlista mentése
 save Mentés
 savetofile Mentés fájlba
 says $1 mondja
 sbcon Csatlakozás a kapcsoló mezõhöz
+searchdown Keresés lefelé
+searchup Keresés felfelé
 selectall mindet kijelöl
 selectplugins Légyszíves válaszd ki a bekapcsolandó pluginokat
 selectskin Légyszíves válassz egy felületet a listából
+sendcam Webkamera küldése
 sendemail Elküldöm az e-mail címemet, hogy értesítést kapjak az újdonságokról
+sendfeedback Visszajelzés küldése
 sendfile Fájl küldése
 send Küldés
 sendmail Levél küldése
@@ -659,7 +669,7 @@ server Szerver
 serverunavailable A szerver nem elérhetõ..
 session Folyamatok
 shareswebcam Van Webkamerája!
-showbanner Az AMSN csík megjelenítése
+showbanner Az aMSN csík megjelenítése
 showblockedlist Azon felhasználóek listája akik letiltottak
 showcachedpics tárolt képek megjelenítése
 show_contactdps_in_cl A partnerek megjelenítendö képeinek mutatása kicsiben a kapcsolatlistában
@@ -674,10 +684,10 @@ signinstatus Bejelentkezési állapot
 skin Felület
 skinselector Felület kiválasztása
 small Kicsi
-smileconfig Saját mosolyjel beállítások
-smilefile mosolyjel fájl neve
-smileintro2 Légyszíves töltsd ki a mezõket, hogy módosíthasd a saját mosolyjelet (nézd meg a FAQ -t segítségért)
-smileintro Légyszíves töltsd ki a mezõket, hogy létrehozhass saját mosolyjelet (nézd meg a FAQ -t segítségért)
+smileconfig Saját hangulatjel beállítások
+smilefile hangulatjel fájl neve
+smileintro2 Légyszíves töltsd ki a mezõket, hogy módosíthasd a saját hangulatjelet (nézd meg a FAQ -t segítségért)
+smileintro Légyszíves töltsd ki a mezõket, hogy létrehozhass saját hangulatjelet (nézd meg a FAQ -t segítségért)
 smiletoobig A smiley amit kiválasztottál nagyobb mint az átlag. Át akarod méretezni?
 snackfailed A falat(snack) betöltése sikertelen, az alapbeállítás használata
 snapshot Pillanatkép
@@ -685,12 +695,12 @@ sngdblclick Egykattintással új üzenet ablak nyitása
 sound2 Hangok lejátszása mikor valaki bejelentkezik / üzenetet küld
 soundactive Akkor is legyen hang új üzenet esetén ha az ablak épp aktív.
 soundcommand Ez a lejátszási parancs (pl: esdplay)
-soundexample ( \$sound = a zene fájl ami lejátszásra kerül) Pl: esdplay \$sound
+soundexample ( \$sound = a hangfájl ami lejátszásra kerül) Pl: esdplay \$sound
 soundfile Figyelmeztetõ hang fájl
-soundfiles Zenék
+soundfiles Hangok
 sound Hang esemény
 soundloop Ismétlõdõ hang
-soundserver Zene szerver
+soundserver Hang szerver
 soundstatus Figyelmeztetõ hang KI/BE kapcsolása
 sourcecode Forrás (fordítás és telepítés szükséges)
 splashstart Indítás
@@ -734,17 +744,17 @@ throughserver Serveren át
 timeremaining Hátralevõ idõ
 timestamp Idõ bélyeg
 timestamps Idõbélyeg megjelenítése a beszélgetésekben
-title Al's Messenger
+title aMSN
 tkerror1 A TK hibát okozott, kérem jelentse. A Részletek gombra kattintva további információkat kaphat a hibáról vagy kattintson az OK gombra az aMSN használatának folytatásához.
-tkerror TK egy hibát jelentett, hiba van az AMSN ben kérlek jelentsd. Küld a $1 fájlt az amsn-bugs@lists.sf.net címre
+tkerror TK egy hibát jelentett, hiba van az aMSN ben kérlek jelentsd. Küld a $1 fájlt az amsn-bugs@lists.sf.net címre
 tlsdowncompleted A $1 fájl a $2 könyvtárba lett letöltve. Ki kell tömörítened, lefordítanod (ha forrást szedtél le) és telepítened kell ide: $3.
-tlsexplain A könyvtár ahol a tcl TLS modul van. Ha az AMSN nem találja, légyszíves add meg.\n(Required for SSL authentication).
+tlsexplain A könyvtár ahol a tcl TLS modul van. Ha az aMSN nem találja, légyszíves add meg.\n(Required for SSL authentication).
 tlsinstallexp Az aMSN mostantól az MSNP9et használja, ami biztonságos SSL kapcsolatot használ. \nHogy használhasd az SSLt, fel kell tenned a TSL nevû modult,\nami nincs feltelepítve. Ez a varázsló segít neked hogy letölthesd és\ntelepíthetsd a TLSt. Légyszíves válaszd ki a rendszeredet, s így le tudom tölteni\na szükséges fájlokat.
 tlsinstall TLS Modul telepítõ
 tlsinstcompleted TLS modul sikeresen feltelepítve - mostantól használhatod az MSNP9et. Ha nem mûködik, akkor vagy rossz modult választottál ki, vagy a lefordított modul nem jó a te rendszeredhez.
+to Címzett
 today Ma
 tomobile mobilra
-to nak
 tools Eszközök
 tooltips eszközsegítségek bekapcsolása
 transnotexists A megadott fájl még nem fordították le erre a nyelvre.
@@ -781,7 +791,7 @@ usesnack A falat(Snack) könyvtár használata (Tcl internal)
 verifyblocked Letiltások ellenõrzése
 version Verzió
 videoconversationrequest A partnered videobeszélgetésre kért fel. (kétirányú kép és hang). Az aMSN jelenlegi verziója ezt nem támogatja, de webkamerakép fogadása/küldése lehetséges!
-viewcontactsby A partnerek megtekintése a következõ szerint
+viewcontactsby Partnerek megjelenítése
 view Nézet
 viewprofile Profil megtekintése
 wanttosharecam Webkamerám létezésének közzététele mások számára
@@ -792,7 +802,7 @@ webcamextloaded Webkamerás kiterjesztés betöltve
 webcamextnotloaded Webkamerás kiterjesztés nincs betöltve. Elõbb le kell fordítanod
 webcamfaq Webkamerás FAQ/Help
 webcamhistory Webkamerás kapcsolatok megtekintése
-webcaminvite $1 Webkamerás csatlakozásra hív de az AMSN ezt nem támogatja.
+webcaminvite $1 Webkamerás csatlakozásra hív de az aMSN ezt nem támogatja.
 webcaminvitereceived $1 felkért téged webkamerás kapcsolatra. Elfogadod?
 webcamrejected $1 elutasította a takwebkamerás kapcsolatot
 webcamrequestreceive Felkérés küldése webkamerakép fogadására
