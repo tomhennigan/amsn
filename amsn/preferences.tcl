@@ -1468,7 +1468,6 @@ proc Preferences { { settings "personal"} } {
     PreferencesCopyConfig	;# Load current configuration
 
     toplevel .cfg
-    status_log "Req: [winfo height .cfg]\n" white
     wm state .cfg withdraw
 
     if { [LoginList exists 0 [::config::getKey login]] == 1 } {
@@ -2579,9 +2578,7 @@ proc moveinscreen {window {mindist 0}} {
     
     
 	set geom [wm geometry $window]
-	regexp -- {([0-9]+)x([0-9]+)\+([0-9]+)\+([0-9]+)} $geom -> \
-	  winx winy decorationLeft decorationTop
-
+    scan $geom "%dx%d+%d+%d" winx winy decorationLeft decorationTop
 	# Measure left edge, and assume all edges except top are the
 	# same thickness
 	set decorationThickness [expr {$winpx - $decorationLeft}]
@@ -2592,9 +2589,6 @@ proc moveinscreen {window {mindist 0}} {
 	incr winx [expr {2 * $decorationThickness}]
 	incr winy $decorationThickness
 	incr winy $menubarThickness
-
-    status_log "geom: $geom\n" white
-    status_log "winx: $winx winy: $winy scrx: $scrx scry: $scry winpx: $winpx winpy: $winpy\n" white
 
 	#check if the window is too large to fit on the screen
 	if { [expr {$winx > ($scrx-(2*$mindist))}] } {
