@@ -2579,8 +2579,8 @@ proc moveinscreen {window {mindist 0}} {
  		return
  	}
  	
-	set winx [winfo width $window]
-	set winy [winfo height $window]
+	#set winx [winfo width $window]
+	#set winy [winfo height $window]
 
 	set scrx [winfo screenwidth .]
 	set scry [winfo screenheight .]

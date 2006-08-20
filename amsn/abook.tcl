@@ -1017,7 +1017,6 @@ namespace eval ::abookGui {
 
 	proc dp_mypicpopup_menu { X Y filename user} {
 		
-		status_log "dp_mypicpopup_menu X=$X Y=$Y filename=$filename user=$user\n" white
 		#if user is self have another menu ?		
 		
 		# Create pop-up menu if it doesn't yet exists
