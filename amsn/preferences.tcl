@@ -2579,17 +2579,17 @@ proc moveinscreen {window {mindist 0}} {
  		return
  	}
  	
-	#set winx [winfo width $window]
-	#set winy [winfo height $window]
+	set winx [winfo width $window]
+	set winy [winfo height $window]
 
 	set scrx [winfo screenwidth .]
 	set scry [winfo screenheight .]
 
-	set wi_geometry [winfo geometry $window]
-	scan $wi_geometry "%dx%d+%d+%d" winx winy winpx winpy
+	#set wi_geometry [winfo geometry $window]
+	#scan $wi_geometry "%dx%d+%d+%d" winx winy winpx winpy
 
-	#set winpx [winfo x $window]
-	#set winpy [winfo y $window]
+	set winpx [winfo rootx $window]
+	set winpy [winfo rooty $window]
     
 	set geom [wm geometry $window]
 	scan $geom "%dx%d%c%d%c%d" winx winy sign1 decorationLeft sign2 decorationTop
@@ -2612,12 +2612,12 @@ proc moveinscreen {window {mindist 0}} {
 	}
 
 
-	status_log "Window information: $window\n" white
-	status_log "Geometry: $geom\n (menuThickness= $menubarThickness, dec=$decorationThickness)\n"
-	status_log "Width, height: [winfo width $window]x[winfo height $window]\n"
-	status_log "winPx, winPy: $winpx,$winpy\n"
-	status_log "decLeft=$decorationLeft / decTop=$decorationTop\n"
-	status_log "-------------------\n" white
+	#status_log "Window information: $window\n" white
+	#status_log "Geometry: $geom\n (menuThickness= $menubarThickness, dec=$decorationThickness)\n"
+	#status_log "Width, height: [winfo width $window]x[winfo height $window]\n"
+	#status_log "winPx, winPy: $winpx,$winpy\n"
+	#status_log "decLeft=$decorationLeft / decTop=$decorationTop\n"
+	#status_log "-------------------\n" white
 
 
     	# Add this decoration size when checking size and limits
