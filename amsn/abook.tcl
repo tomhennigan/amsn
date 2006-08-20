@@ -1015,10 +1015,26 @@ namespace eval ::abookGui {
 	}
 		  
 
+	proc dp_mypicpopup_menu { X Y filename user} {
+		
+		status_log "dp_mypicpopup_menu X=$X Y=$Y filename=$filename user=$user\n" white
+		#if user is self have another menu ?		
+		
+		# Create pop-up menu if it doesn't yet exists
+		set the_menu .userDPs_menu
+		catch {destroy $the_menu}
+		menu $the_menu -tearoff 0 -type normal
+		$the_menu add command \
+			-label "[trans copytoclipboard [string tolower [trans filename]]]" \
+			-command [list clipboard clear ; clipboard append $filename]
+		$the_menu add command -label "[trans setasmydp]" \
+			-command [list set_displaypic $filename]
+		tk_popup $the_menu $X $Y
+	}
 
 
 	proc showUserProperties { email } {
-		global colorval_$email showcustomsmileys_$email ignorecontact_$email
+		global colorval_$email showcustomsmileys_$email ignorecontact_$email HOME
 		set w ".user_[::md5::md5 $email]_prop"
 		if { [winfo exists $w] } {
 			raise $w
@@ -1319,6 +1335,10 @@ namespace eval ::abookGui {
 		# User's current display picture
 		label $nbUserDPs.titlepic1 -text "[trans curdisplaypic]" -font bboldunderf
 		label $nbUserDPs.displaypic -image [::skin::getDisplayPicture $email]
+		bind $nbUserDPs.displaypic <ButtonPress-3> \
+			[list ::abookGui::dp_mypicpopup_menu %X %Y\
+			[file join $HOME displaypic cache [filenoext [::abook::getContactData $email displaypicfile ""]].png] $email]
+
 		# Other display pictures of user
 		label $nbUserDPs.titlepic2 -text "[trans otherdisplaypic]" \
 			-font bboldunderf
