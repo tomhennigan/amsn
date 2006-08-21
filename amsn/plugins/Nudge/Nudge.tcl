@@ -72,6 +72,7 @@ namespace eval ::Nudge {
 			shakes {10}
 			shaketoo {0}
 			addbutton {1}
+			addblockbutton {0}
 			addclmenuitem {0}
 			limit {1}
 			delay {60}
@@ -94,6 +95,7 @@ namespace eval ::Nudge {
 			[list bool "$::Nudge::language(sound_send)" soundnotsend] \
 			[list bool "$::Nudge::language(sound_receive)" soundnotrec] \
 			[list bool "$::Nudge::language(add_button)" addbutton] \
+			[list bool "$::Nudge::language(add_blockbutton)" addblockbutton] \
 			[list bool "$::Nudge::language(add_clmenuitem)" addclmenuitem] \
 			[list bool "$::Nudge::language(limit)" limit] \
 			[list str "\t$::Nudge::language(delay):" delay] \
@@ -136,6 +138,7 @@ namespace eval ::Nudge {
 			sound_send "Play a sound upon sending a nudge" \
 			sound_receive "Play a sound upon receiving a nudge." \
 			add_button "Add a button to send a nudge in the chatwindow" \
+			add_blockbutton "Add a button to block incoming nudges in the chatwindow" \
 			add_clmenuitem "Add an item to the contactlist popup-menu" \
 			send_nudge "Send nudge" \
 			no_nudge_support "You cannot sent a nudge to your contact because he or she doesn't use a client that supports nudges" \
@@ -160,6 +163,7 @@ namespace eval ::Nudge {
 			popup_nudge "[trans popup_nudge]" notify_send "[trans notify_send]" \
 			notify_receive "[trans notify_receive]" sound_send "[trans sound_send]" \
 			sound_receive "[trans sound_receive]" add_button "[trans add_button]" \
+			add_blockbutton "[trans add_blockbutton]" \
 			add_clmenuitem "[trans add_clmenuitem]" send_nudge "[trans send_nudge]" \
 			no_nudge_support "[trans no_nudge_support]" nudge_sent "[trans nudge_sent]" \
 			limit "[trans limit]" delay "[trans delay]" block_nudge "[trans block_nudge]" \
@@ -646,7 +650,7 @@ namespace eval ::Nudge {
 	# Nudge ability for that contact               #
 	################################################	
 	proc blockbutton { event evpar } {
-		if { $::Nudge::config(addbutton) == 1 } {
+		if { $::Nudge::config(addblockbutton) == 1 } {
 			upvar 2 $evpar newvar
 			set nudgebutton $newvar(bottom).nudgeblock
 			set chatid [::ChatWindow::Name $newvar(window_name)]

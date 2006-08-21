@@ -8,6 +8,7 @@ notify_receive Notify received nudges in the chatwindow
 sound_send Play a sound upon sending a nudge
 sound_receive Play a sound upon receiving a nudge.
 add_button Add a button to send a nudge in the chatwindow
+add_blockbutton Add a button to block incoming nudges in the chatwindow
 send_nudge Send nudge
 no_nudge_support You cannot sent a nudge to your contact because he or she doesn't use a client that supports nudges
 nudge_sent You have just sent a Nudge
