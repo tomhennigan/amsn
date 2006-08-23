@@ -1,16 +1,14 @@
 #
-# Most of this code was pasted and modified from the chatwindow.tcl and gui.tcl files... 
-# if the code was cleaner, this wouldn't have been necessary... 
 #
-# Many things TODO :
-# multiple picture frames for multiple users in chat
-# better switch from one image to another depending on user who joins, etc...  now there is a delay until 'user joins conversation'... 
+# Changes : 
+# 'hook' for real the needed procs... redefine them, so ChangePicture, when called acts on the DoublePicture widget while setting the lower DP to 'self'... this way, we always get called correctly.
+# Many DPs for many users in chat
+# Redefined the picture menus
+# Fixed some issues with show/hide DPs
+# Hiding lower DP doesn't set top DP to 'self'
+# etc..
 #
-# Changes : 'hook' for real the needed procs... redefine them, so ChangePicture, when called acts on the DoublePicture widget while setting the lower DP to 'self'... this way, we always get called correctly.
-#
-# TODO : 'hook' the ShowPicMenu proc to show a smaller version of the menu, only displaying a way to change the DP size, disabling the 'show my DP' or 'show $user DP' entries... this way,a more consistent UI. 
-#
-# TODO : The user_join_chat and user_leave_chat events should allow for recreating the list of pictures shown in the top DoublePicture frame (which means we should show as many DPs as there are of users in the convo)...this should make the plugin 'complete'... 
+# TODO : When we resize an image, we should also resize the [trunc $nickname] shown (for multi-user convos)
 #
 
 namespace eval ::CWDoubleDP {
@@ -18,35 +16,27 @@ namespace eval ::CWDoubleDP {
 	proc Init { dir } {
 		::plugins::RegisterPlugin CWDoubleDP
 		::plugins::RegisterEvent CWDoubleDP new_chatwindow hookCW
-		::plugins::RegisterEvent CWDoubleDP new_conversation hookDP
-		::plugins::RegisterEvent CWDoubleDP user_joins_chat hookDP
+		::plugins::RegisterEvent CWDoubleDP user_joins_chat user_leaves_join_chat
+		::plugins::RegisterEvent CWDoubleDP user_leaves_chat user_leaves_join_chat
 
 
-		rename ::amsn::ChangePicture ::amsn::ChangePicture_orig
+		rename ::amsn::ChangePicture ::CWDoubleDP::ChangePicture_orig
 		proc ::amsn::ChangePicture { win picture balloontext {nopack ""} } {
-			::amsn::ChangePicture_orig $win displaypicture_std_self [trans mypic]
-			::CWDoubleDP::ChangeDoublePicture $win $picture $balloontext $nopack 
+			::CWDoubleDP::ChangePicture_orig $win displaypicture_std_self [trans mypic]
+			::CWDoubleDP::update_user_DPs $win
+		}
+
+		rename ::amsn::ShowPicMenu ::CWDoubleDP::ShowPicMenu_orig
+		proc ::amsn::ShowPicMenu { win x y } {
+			::CWDoubleDP::ShowMyPicMenu $win $x $y
 		}
 	}
 
 	proc DeInit { } {
 		rename ::amsn::ChangePicture ""
-		rename ::amsn::ChangePicture_orig ::amsn::ChangePicture
-	}
-
-	proc hookDP {event evpar } {
-		if { $event == "new_conversation" } {
-			upvar 2 $evpar newvar
-			upvar 2 win_name w
-			
-			after 100 "::amsn::ChangePicture $w [::skin::getNoDisplayPicture] """
-
-		} elseif { $event == "user_joins_chat" } {
-			upvar 2 $evpar newvar
-			upvar 2 $newvar(usr_name) user
-			upvar 2 $newvar(win_name) w
-			::amsn::ChangePicture $w [::skin::getDisplayPicture $user] [trans showuserpic $user]
-		}
+		rename ::CWDoubleDP::ChangePicture_orig ::amsn::ChangePicture
+		rename ::amsn::ShowPicMenu ""
+		rename ::CWDoubleDP::ShowPicMenu_orig ::amsn::ShowPicMenu
 	}
 
 	proc hookCW {event evpar } {
@@ -54,35 +44,81 @@ namespace eval ::CWDoubleDP {
 		set w $newvar(win)
 		set out $w.f.out
 
+		# We need to pack info/pack forget/pack in order to make it display properly. 
+		# Currently the scrolled window is packed with -side top, while we want it with -side left
 		set scroll_p [pack info $out.scroll]
 		array set scroll $scroll_p
 		set scroll(-side) left
 		pack forget $out.scroll
 		eval pack $out.scroll [array get scroll]
+
 		set picture [CreateDoublePictureFrame $w $out]
 		pack $picture -side right -expand false -anchor ne \
 				-padx [::skin::getKey chat_dp_padx] \
 				-pady [::skin::getKey chat_dp_pady]
+	
+	}
+	proc user_leaves_join_chat {event evpar } {
+		upvar 2 $evpar newvar
+		upvar 2 $newvar(win_name) win
+		update_user_DPs $win
+	}
 
-		::CWDoubleDP::SetDPs $w ""
+	proc update_user_DPs { win } {
+		set images $win.f.out.pic.images
+		# Remove existing user images
+		foreach child [winfo children $images] {
+			destroy $child
+		}
+
 		
+		set chatid [::ChatWindow::Name $win]
+		set users [::MSN::usersInChat $chatid]
+		if { [llength $users] == 0 } {
+			CreateFrameForUser $images.nouser
+		} elseif { [llength $users] == 1 } {
+			CreateFrameForUser $images.user $users
+			SetUserDP $images.user [::skin::getDisplayPicture $users] [trans showuserpic $users]
+
+		} else {
+			set idx 0
+			foreach user $users {
+				label $images.user_name$idx \
+				    -background [::skin::getKey chatwindowbg] \
+				    -relief solid -font sitalf
+				if { [catch {$images.user_name$idx configure  -text [trunc [::abook::getDisplayNick $user] $images.user_name$idx [image width [::skin::getDisplayPicture $user]] sitalf] } ] } {
+					$images.user_name$idx -text [string range [::abook::getDisplayNick $user] 0 4]
+				}
+				pack $images.user_name$idx -side top -padx 0 -pady 0 -anchor n
+				CreateFrameForUser $images.user_dp$idx $user
+				SetUserDP $images.user_dp$idx [::skin::getDisplayPicture $user] [trans showuserpic $user]
+				incr idx
+			}
+
+		}
+	}
+
+	proc SetUserDP { w img tooltip } {
+		set pictureinner [$w getinnerframe]
+		change_balloon $pictureinner $tooltip
+		if { [catch {$w configure -image $img}] } {
+			$w configure -image [::skin::getNoDisplayPicture]
+			change_balloon $pictureinner [trans nopic]
+		}
 	}
 
 	proc CreateDoublePictureFrame { w out } {
 		# Name our widgets
 		set frame $out.pic
-		set picture $frame.image
+		set picture $frame.images
 		set showpic $frame.showpic
 
 		# Create them
 		frame $frame -class Amsn -borderwidth 0 -relief solid -background [::skin::getKey chatwindowbg]
-		framec $picture -type label -relief solid -image [::skin::getNoDisplayPicture] \
-				-borderwidth [::skin::getKey chat_dp_border] \
-				-bordercolor [::skin::getKey chat_dp_border_color] \
-				-background [::skin::getKey chatwindowbg]
-		set pictureinner [$picture getinnerframe]
+		
+		frame $picture -class Amsn -borderwidth 0 -relief solid -background [::skin::getKey chatwindowbg]
+		CreateFrameForUser $picture.nouser
 
-		set_balloon $pictureinner [trans nopic]
 		label $showpic -bd 0 -padx 0 -pady 0 -image [::skin::loadPixmap imgshow] \
 			-bg [::skin::getKey chatwindowbg] -highlightthickness 0 -font splainf \
 			-highlightbackground [::skin::getKey chatwindowbg] -activebackground [::skin::getKey chatwindowbg]
@@ -91,22 +127,32 @@ namespace eval ::CWDoubleDP {
 		set_balloon $showpic [trans showdisplaypic]
 
 		# Pack them 
-		#pack $picture -side left -padx 0 -pady [::skin::getKey chatpady] -anchor w
+		pack $picture -side left -padx 0 -pady 0 -anchor w
 		pack $showpic -side right -expand true -fill y -padx 0 -pady 0 -anchor e
 
 		# Create our bindings
 		bind $showpic <<Button1>> "::CWDoubleDP::ToggleShowDoublePicture $w; ::CWDoubleDP::ShowOrHideDoublePicture $w"
-		bind $pictureinner <Button1-ButtonRelease> "::CWDoubleDP::ShowDoublePicMenu $w %X %Y\n"
-		bind $pictureinner <<Button3>> "::CWDoubleDP::ShowDoublePicMenu $w %X %Y\n"
 			
-		#For TkAqua: Disable temporary, crash issue with that line
-		if { ![OnMac] } {
-			bind $picture <Configure> "::ChatWindow::ImageResized $w %h [::skin::getKey chat_dp_pady]"
-		}
-
+		ToggleShowDoublePicture $w
+		ShowOrHideDoublePicture $w
 		return $frame	
 	}
 
+	proc CreateFrameForUser { win {user ""}} {
+		framec $win -type label -relief solid -image [::skin::getNoDisplayPicture] \
+		    -borderwidth [::skin::getKey chat_dp_border] \
+		    -bordercolor [::skin::getKey chat_dp_border_color] \
+		    -background [::skin::getKey chatwindowbg]
+		set pictureinner [$win getinnerframe]
+		bind $pictureinner <Button1-ButtonRelease> [list ::CWDoubleDP::ShowDoublePicMenu $win $user %X %Y]
+		bind $pictureinner <<Button3>> [list ::CWDoubleDP::ShowDoublePicMenu $win $user %X %Y]
+		
+		
+		pack $win -side top -padx 0 -pady 0 -anchor n
+
+		set_balloon $pictureinner [trans nopic]	
+	}
+	
 
 	proc ToggleShowDoublePicture { win_name } {
 		upvar #0 ${win_name}_show_double_picture show_pic
@@ -121,13 +167,13 @@ namespace eval ::CWDoubleDP {
 	proc ShowOrHideDoublePicture { win } {
 		upvar #0 ${win}_show_double_picture value
 		if { $value == 1} {
-			::CWDoubleDP::ChangeDoublePicture $win [$win.f.out.pic.image cget -image] ""
+			::CWDoubleDP::ShowDoublePicture $win
 		} else {
 			::CWDoubleDP::HideDoublePicture $win
 		}
 	}
 
-	proc ShowDoublePicMenu { win x y } {
+	proc ShowDoublePicMenu { win user x y } {
 		catch {menu $win.picmenu -tearoff 0}
 		$win.picmenu delete 0 end
 
@@ -138,62 +184,52 @@ namespace eval ::CWDoubleDP {
 		}
 
 		set chatid [::ChatWindow::Name $win]
-		set users [::MSN::usersInChat $chatid]
-		#Switch to "my picture" or "user picture"
-		$win.picmenu add command -label "[trans showmypic]" \
-			-command [list ::CWDoubleDP::ChangeDoublePicture $win displaypicture_std_self [trans mypic]]
-		foreach user $users {
-			$win.picmenu add command -label "[trans showuserpic $user]" \
-				-command "::CWDoubleDP::ChangeDoublePicture $win \[::skin::getDisplayPicture $user\] \[trans showuserpic $user\]"
-		}
-		#Load Change Display Picture window
-		$win.picmenu add separator
-		$win.picmenu add command -label "[trans changedisplaypic]..." -command pictureBrowser
-
-		set user [$win.f.out.pic.image cget -image]
-		if { $user != "displaypicture_std_none" && $user != "displaypicture_std_self" } {
-			#made easy for if we would change the image names
-			set user [string range $user [string length "displaypicture_std_"] end]
-			$win.picmenu add separator
-			#Sub-menu to change size
-			$win.picmenu add cascade -label "[trans changesize]" -menu $win.picmenu.size
-			catch {menu $win.picmenu.size -tearoff 0 -type normal}
-			$win.picmenu.size delete 0 end
+		set pic [$win cget -image]
+		if { $pic != "displaypicture_std_none" && $user != ""} {
+			$win.picmenu add command -label "[trans changesize]" -command [list ::CWDoubleDP::ShowDoublePicMenu $win $user $x $y]
 			#4 possible size (someone can add something to let the user choose his size)
-			$win.picmenu.size add command -label "[trans small]" -command "::skin::ConvertDPSize $user 64 64"
-			$win.picmenu.size add command -label "[trans default2]" -command "::skin::ConvertDPSize $user 96 96"
-			$win.picmenu.size add command -label "[trans large]" -command "::skin::ConvertDPSize $user 128 128"
-			$win.picmenu.size add command -label "[trans huge]" -command "::skin::ConvertDPSize $user 192 192"
+			$win.picmenu add command -label "--[trans small]" -command "::skin::ConvertDPSize $user 64 64"
+			$win.picmenu add command -label "--[trans default2]" -command "::skin::ConvertDPSize $user 96 96"
+			$win.picmenu add command -label "--[trans large]" -command "::skin::ConvertDPSize $user 128 128"
+			$win.picmenu add command -label "--[trans huge]" -command "::skin::ConvertDPSize $user 192 192"
 			#Get back to original picture
-			$win.picmenu.size add command -label "[trans original]" -command "::MSNP2P::loadUserPic $chatid $user 1"
+			$win.picmenu add command -label "--[trans original]" -command "::MSNP2P::loadUserPic $chatid $user 1"
 		}
 		tk_popup $win.picmenu $x $y
 	}
 
-	proc ChangeDoublePicture {win picture balloontext {nopack ""}} {
+	proc ShowMyPicMenu { win x y} {
+		status_log "Show menu in window $win, position $x $y\n" blue
+		catch {menu $win.picmenu -tearoff 0}
+		$win.picmenu delete 0 end
+
+		#Make the picture menu appear on the conversation window instead of having it in the bottom of screen (and sometime lost it if the conversation window is in the bottom of the window)
+		if { [OnMac] } {
+			incr x -50
+			incr y -115
+		}
+	
+		#Load Change Display Picture window
+		$win.picmenu add command -label "[trans changedisplaypic]..." -command pictureBrowser
+
+		tk_popup $win.picmenu $x $y
+
+	}
+
+
+	proc ShowDoublePicture {win } {
 		upvar #0 ${win}_show_double_picture show_pic
 
 		set scrolling [::ChatWindow::getScrolling [::ChatWindow::GetOutText $win]]
 
 
-		#Get the path to the image
-		set pictureinner [$win.f.out.pic.image getinnerframe]
-		if { $balloontext != "" } {
-			#TODO: Improve this!!! Use some kind of abstraction!
-			change_balloon $pictureinner $balloontext
-		}
-		if { [catch {$win.f.out.pic.image configure -image $picture}] } {
-			$win.f.out.pic.image configure -image [::skin::getNoDisplayPicture]
-			change_balloon $pictureinner [trans nopic]
-		} elseif { $nopack == "" } {
-			pack $win.f.out.pic.image -side left -padx 0 -pady 0 -anchor w
-			$win.f.out.pic.showpic configure -image [::skin::loadPixmap imghide]
-			bind $win.f.out.pic.showpic <Enter> "$win.f.out.pic.showpic configure -image [::skin::loadPixmap imghide_hover]"
-			bind $win.f.out.pic.showpic <Leave> "$win.f.out.pic.showpic configure -image [::skin::loadPixmap imghide]"
-			change_balloon $win.f.out.pic.showpic [trans hidedisplaypic]
-			set show_pic 1
-		}
-
+		pack $win.f.out.pic.images -side left -padx 0 -pady 0 -anchor w
+		$win.f.out.pic.showpic configure -image [::skin::loadPixmap imghide]
+		bind $win.f.out.pic.showpic <Enter> "$win.f.out.pic.showpic configure -image [::skin::loadPixmap imghide_hover]"
+		bind $win.f.out.pic.showpic <Leave> "$win.f.out.pic.showpic configure -image [::skin::loadPixmap imghide]"
+		change_balloon $win.f.out.pic.showpic [trans hidedisplaypic]
+		set show_pic 1
+		
 		if { $scrolling } {
 			update idletasks
 			::ChatWindow::Scroll [::ChatWindow::GetOutText $win]
@@ -201,8 +237,8 @@ namespace eval ::CWDoubleDP {
 	}
 
 	proc HideDoublePicture { win } {
-		global ${win}_show_double_picture
-		pack forget $win.f.out.pic.image
+		upvar #0 ${win}_show_double_picture show_pic
+		pack forget $win.f.out.pic.images
 
 		#Change here to change the icon, instead of text
 		$win.f.out.pic.showpic configure -image [::skin::loadPixmap imgshow]
@@ -211,7 +247,7 @@ namespace eval ::CWDoubleDP {
 
 		change_balloon $win.f.out.pic.showpic [trans showdisplaypic]
 
-		set ${win}_show_double_picture 0
+		set show_pic 0
 
 	}
 
