@@ -45,7 +45,7 @@ namespace eval ::CWDoubleDP {
 			rename ::amsn::ChangePicture ""
 			rename ::CWDoubleDP::ChangePicture_orig ::amsn::ChangePicture
 		}
-		if { [info procs ::CWDoubleDP::ShowPicMe~/amsnu_orig] != "" } {
+		if { [info procs ::CWDoubleDP::ShowPicMenu_orig] != "" } {
 			rename ::amsn::ShowPicMenu ""
 			rename ::CWDoubleDP::ShowPicMenu_orig ::amsn::ShowPicMenu
 		}
@@ -201,14 +201,14 @@ namespace eval ::CWDoubleDP {
 		if { $pic != "displaypicture_std_none" && $user != ""} {
 			$win.picmenu add command -label "[trans changesize]" -command [list ::CWDoubleDP::ShowDoublePicMenu $win $user $x $y]
 			#4 possible size (someone can add something to let the user choose his size)
-			$win.picmenu add command -label "--[trans small]" -command "::skin::ConvertDPSize $user 64 64"
-			$win.picmenu add command -label "--[trans default2]" -command "::skin::ConvertDPSize $user 96 96"
-			$win.picmenu add command -label "--[trans large]" -command "::skin::ConvertDPSize $user 128 128"
-			$win.picmenu add command -label "--[trans huge]" -command "::skin::ConvertDPSize $user 192 192"
+			$win.picmenu add command -label " -> [trans small]" -command "::skin::ConvertDPSize $user 64 64"
+			$win.picmenu add command -label " -> [trans default2]" -command "::skin::ConvertDPSize $user 96 96"
+			$win.picmenu add command -label " -> [trans large]" -command "::skin::ConvertDPSize $user 128 128"
+			$win.picmenu add command -label " -> [trans huge]" -command "::skin::ConvertDPSize $user 192 192"
 			#Get back to original picture
-			$win.picmenu add command -label "--[trans original]" -command "::MSNP2P::loadUserPic $chatid $user 1"
+			$win.picmenu add command -label " -> [trans original]" -command "::MSNP2P::loadUserPic $chatid $user 1"
+			tk_popup $win.picmenu $x $y
 		}
-		tk_popup $win.picmenu $x $y
 	}
 
 	proc ShowMyPicMenu { win x y} {
