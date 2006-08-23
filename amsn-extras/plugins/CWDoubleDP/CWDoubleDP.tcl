@@ -33,10 +33,14 @@ namespace eval ::CWDoubleDP {
 	}
 
 	proc DeInit { } {
-		rename ::amsn::ChangePicture ""
-		rename ::CWDoubleDP::ChangePicture_orig ::amsn::ChangePicture
-		rename ::amsn::ShowPicMenu ""
-		rename ::CWDoubleDP::ShowPicMenu_orig ::amsn::ShowPicMenu
+		if { [info procs ::CWDoubleDP::ChangePicture_orig] != "" } {
+			rename ::amsn::ChangePicture ""
+			rename ::CWDoubleDP::ChangePicture_orig ::amsn::ChangePicture
+		}
+		if { [info procs ::CWDoubleDP::ShowPicMenu_orig] != "" } {
+			rename ::amsn::ShowPicMenu ""
+			rename ::CWDoubleDP::ShowPicMenu_orig ::amsn::ShowPicMenu
+		}
 	}
 
 	proc hookCW {event evpar } {
