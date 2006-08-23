@@ -10,7 +10,7 @@
 	<init_procedure>Init</init_procedure>
 	<deinit_procedure>DeInit</deinit_procedure>
 
-	<cvs_version>7162</cvs_version>
+	<cvs_version>7164</cvs_version>
 
 	<URL>
 		<main>http://amsn.sourceforge.net/autoupdater/plugins/CWDoubleDP/Nudge.tcl</main>

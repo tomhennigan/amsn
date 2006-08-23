@@ -22,13 +22,21 @@ namespace eval ::CWDoubleDP {
 
 		rename ::amsn::ChangePicture ::CWDoubleDP::ChangePicture_orig
 		proc ::amsn::ChangePicture { win picture balloontext {nopack ""} } {
-			::CWDoubleDP::ChangePicture_orig $win displaypicture_std_self [trans mypic]
-			::CWDoubleDP::update_user_DPs $win
+			if { ![winfo exists  $win.f.out.pic.images] } {
+				::CWDoubleDP::ChangePicture_orig $win $picture $balloontext $nopack
+			} else {
+				::CWDoubleDP::ChangePicture_orig $win displaypicture_std_self [trans mypic]
+				::CWDoubleDP::update_user_DPs $win
+			}
 		}
 
 		rename ::amsn::ShowPicMenu ::CWDoubleDP::ShowPicMenu_orig
 		proc ::amsn::ShowPicMenu { win x y } {
-			::CWDoubleDP::ShowMyPicMenu $win $x $y
+			if { ![winfo exists  $win.f.out.pic.images] } {
+				::CWDoubleDP::ShowPicMenu_orig $win $x $y
+			} else {
+				::CWDoubleDP::ShowMyPicMenu $win $x $y
+			}
 		}
 	}
 
@@ -37,7 +45,7 @@ namespace eval ::CWDoubleDP {
 			rename ::amsn::ChangePicture ""
 			rename ::CWDoubleDP::ChangePicture_orig ::amsn::ChangePicture
 		}
-		if { [info procs ::CWDoubleDP::ShowPicMenu_orig] != "" } {
+		if { [info procs ::CWDoubleDP::ShowPicMe~/amsnu_orig] != "" } {
 			rename ::amsn::ShowPicMenu ""
 			rename ::CWDoubleDP::ShowPicMenu_orig ::amsn::ShowPicMenu
 		}
@@ -70,6 +78,7 @@ namespace eval ::CWDoubleDP {
 
 	proc update_user_DPs { win } {
 		set images $win.f.out.pic.images
+		if { ![winfo exists $images] } { return }
 		# Remove existing user images
 		foreach child [winfo children $images] {
 			destroy $child
