@@ -873,6 +873,7 @@ namespace eval ::ChatWindow {
 		pack $paned -side top -expand true -fill both -padx [::skin::getKey chat_paned_padx]\
 		 -pady [::skin::getKey chat_paned_pady]
 
+
 		if { [::config::getKey tabbedchat] != 0 } { 
 			focus $paned
 		}
