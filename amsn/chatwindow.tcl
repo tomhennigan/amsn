@@ -873,7 +873,7 @@ namespace eval ::ChatWindow {
 		pack $paned -side top -expand true -fill both -padx [::skin::getKey chat_paned_padx]\
 		 -pady [::skin::getKey chat_paned_pady]
 
-		focus $paned
+		#focus $paned
 
 		# Sets the font size to the one stored in our configuration file
 		change_myfontsize [::config::getKey textsize] $w
@@ -1926,6 +1926,8 @@ namespace eval ::ChatWindow {
 		set evPar(window) "$w"
 
 		::plugins::PostEvent chatwininput evPar		
+
+		focus $input
 
 		return $bottom
 
