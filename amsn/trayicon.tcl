@@ -192,7 +192,7 @@ proc taskbar_icon_handler { msg x y } {
 }
 
 proc trayicon_callback {imgSrc imgDst width height} {
-	$imgDst copy $imgSrc
+	$imgDst copy $imgSrc -compositingrule set
 	if { [image width $imgSrc] > $width || [image height $imgSrc] > $height} {
 		::picture::ResizeWithRatio $imgDst $width $height
 	}
