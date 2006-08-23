@@ -6,6 +6,12 @@
 # multiple picture frames for multiple users in chat
 # better switch from one image to another depending on user who joins, etc...  now there is a delay until 'user joins conversation'... 
 #
+# Changes : 'hook' for real the needed procs... redefine them, so ChangePicture, when called acts on the DoublePicture widget while setting the lower DP to 'self'... this way, we always get called correctly.
+#
+# TODO : 'hook' the ShowPicMenu proc to show a smaller version of the menu, only displaying a way to change the DP size, disabling the 'show my DP' or 'show $user DP' entries... this way,a more consistent UI. 
+#
+# TODO : The user_join_chat and user_leave_chat events should allow for recreating the list of pictures shown in the top DoublePicture frame (which means we should show as many DPs as there are of users in the convo)...this should make the plugin 'complete'... 
+#
 
 namespace eval ::CWDoubleDP {
 
@@ -14,6 +20,18 @@ namespace eval ::CWDoubleDP {
 		::plugins::RegisterEvent CWDoubleDP new_chatwindow hookCW
 		::plugins::RegisterEvent CWDoubleDP new_conversation hookDP
 		::plugins::RegisterEvent CWDoubleDP user_joins_chat hookDP
+
+
+		rename ::amsn::ChangePicture ::amsn::ChangePicture_orig
+		proc ::amsn::ChangePicture { win picture balloontext {nopack ""} } {
+			::amsn::ChangePicture_orig $win displaypicture_std_self [trans mypic]
+			::CWDoubleDP::ChangeDoublePicture $win $picture $balloontext $nopack 
+		}
+	}
+
+	proc DeInit { } {
+		rename ::amsn::ChangePicture ""
+		rename ::amsn::ChangePicture_orig ::amsn::ChangePicture
 	}
 
 	proc hookDP {event evpar } {
@@ -21,25 +39,16 @@ namespace eval ::CWDoubleDP {
 			upvar 2 $evpar newvar
 			upvar 2 win_name w
 			
-			after 100 "::CWDoubleDP::SetDPs $w $evpar(usr_name)"
+			after 100 "::amsn::ChangePicture $w [::skin::getNoDisplayPicture] """
 
 		} elseif { $event == "user_joins_chat" } {
 			upvar 2 $evpar newvar
 			upvar 2 $newvar(usr_name) user
 			upvar 2 $newvar(win_name) w
-			::CWDoubleDP::SetDPs $w $user
+			::amsn::ChangePicture $w [::skin::getDisplayPicture $user] [trans showuserpic $user]
 		}
 	}
 
-	proc SetDPs { w user } {
-		::amsn::ChangePicture $w displaypicture_std_self [trans mypic]
-		if { $user != "" } {
-			::CWDoubleDP::ChangeDoublePicture $w [::skin::getDisplayPicture $user] [trans showuserpic $user]
-		} else {
-			::CWDoubleDP::ChangeDoublePicture $w [::skin::getNoDisplayPicture] ""
-		}
-
-	}
 	proc hookCW {event evpar } {
                 upvar 2 $evpar newvar
 		set w $newvar(win)
@@ -56,8 +65,6 @@ namespace eval ::CWDoubleDP {
 				-pady [::skin::getKey chat_dp_pady]
 
 		::CWDoubleDP::SetDPs $w ""
-	
-
 		
 	}
 
@@ -99,6 +106,7 @@ namespace eval ::CWDoubleDP {
 
 		return $frame	
 	}
+
 
 	proc ToggleShowDoublePicture { win_name } {
 		upvar #0 ${win_name}_show_double_picture show_pic
@@ -193,7 +201,7 @@ namespace eval ::CWDoubleDP {
 	}
 
 	proc HideDoublePicture { win } {
-		global ${win}_show_picture
+		global ${win}_show_double_picture
 		pack forget $win.f.out.pic.image
 
 		#Change here to change the icon, instead of text

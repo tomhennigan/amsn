@@ -8,6 +8,7 @@
 	<plugin_file>CWDoubleDP.tcl</plugin_file>
 	<plugin_namespace>CWDoubleDP</plugin_namespace>
 	<init_procedure>Init</init_procedure>
+	<deinit_procedure>DeInit</deinit_procedure>
 
 	<cvs_version>0</cvs_version>
 
