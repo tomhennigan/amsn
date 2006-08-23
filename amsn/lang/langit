@@ -245,7 +245,7 @@ disableprofiles Disattiva i profili (utile per Net-cafè o ambienti condivisi)
 disablessl Disattiva SSL
 disableuserfonts Ignora font utilizzati dai client remoti, usa quelli locali predefiniti
 disconnectedfrom Disconnesso da $1
-disconnect $1 ha appena effettuato la sconnessione.
+disconnect $1 si è appena sconnesso/a
 displayeventconnect Mostra quando i contatti si connettono
 displayeventdisconnect Mostra quando i contatti si sconnettono
 displayeventemail Mostra quando si riceve Posta
@@ -437,9 +437,9 @@ logolder Registra soltanto le chat che hanno preso posto nell'ultimo
 logout Abbandona
 logsbydate Ordina log per data (L'apertura della cronologia è velocizzata)
 logschats Sta loggando le chat
-logsin ha appena effettuato la connessione
+logsin si è appena connesso/a
 logsmileys Mostra le emoticon e le facine nella finestra dell'History di aMSN
-logsout ha appena effettuato la sconnessione
+logsout si è appena sconnesso/a
 logwebcam Salva tutte le sessioni della webcam nel diario di aMSN per una visione futura
 longnick Il tuo nick è lungo più di 130 caratteri. Il protocollo ufficiale di MSN non lo consente. Vuoi impostarlo ugualmente?
 longp4c Il tuo soprannome è più lungo di 130 caratteri. Il Soprannome che apprarirà nella versione ufficiale di MSN sarà $1. Sei sicuro di salvare le impostazioni?
