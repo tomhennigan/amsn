@@ -245,7 +245,7 @@ disableprofiles Disattiva i profili (utile per Net-cafè o ambienti condivisi)
 disablessl Disattiva SSL
 disableuserfonts Ignora font utilizzati dai client remoti, usa quelli locali predefiniti
 disconnectedfrom Disconnesso da $1
-disconnect $1 si è appena sconnesso/a
+disconnect $1 si è sconnesso/a
 displayeventconnect Mostra quando i contatti si connettono
 displayeventdisconnect Mostra quando i contatti si sconnettono
 displayeventemail Mostra quando si riceve Posta
