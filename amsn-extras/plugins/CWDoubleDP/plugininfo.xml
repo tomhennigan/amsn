@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<plugin>
+	<name>CWDoubleDP</name>
+	<author>Youness Alaoui (KaKaRoTo)</author>
+	<description>This plugin is intended to help aMSN users shut up by stopping complaining about wanting the feature of : "I want to see my own DP as well as my contact's DP..."</description>
+	<amsn_version>0.96</amsn_version>
+	<plugin_version>0.</plugin_version>
+	<plugin_file>CWDoubleDP.tcl</plugin_file>
+	<plugin_namespace>CWDoubleDP</plugin_namespace>
+	<init_procedure>Init</init_procedure>
+
+	<cvs_version>0</cvs_version>
+
+	<URL>
+		<main>http://amsn.sourceforge.net/autoupdater/plugins/CWDoubleDP/Nudge.tcl</main>
+		<plugininfo>http://amsn.sourceforge.net/autoupdater/plugins/CWDoubleDP/plugininfo.xml</plugininfo>
+	</URL>
+
+</plugin>
