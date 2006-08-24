@@ -13,6 +13,8 @@
 
 namespace eval ::CWDoubleDP {
 
+	array set CycleOffsets {}
+
 	proc Init { dir } {
 		::plugins::RegisterPlugin CWDoubleDP
 		::plugins::RegisterEvent CWDoubleDP new_chatwindow hookCW
@@ -77,16 +79,18 @@ namespace eval ::CWDoubleDP {
 	}
 
 	proc update_user_DPs { win } {
+		variable CycleOffsets
+
 		set images $win.f.out.pic.images
 		if { ![winfo exists $images] } { return }
 		# Remove existing user images
 		foreach child [winfo children $images] {
 			destroy $child
 		}
-
 		
 		set chatid [::ChatWindow::Name $win]
 		set users [::MSN::usersInChat $chatid]
+		pack forget $win.f.out.pic.cyclepic
 		if { [llength $users] == 0 } {
 			CreateFrameForUser $images.nouser
 		} elseif { [llength $users] == 1 } {
@@ -94,8 +98,17 @@ namespace eval ::CWDoubleDP {
 			SetUserDP $images.user [::skin::getDisplayPicture $users] [trans showuserpic $users]
 
 		} else {
+			pack $win.f.out.pic.cyclepic
 			set idx 0
-			foreach user $users {
+			set offset 0
+			if { [info exists CycleOffsets(${win})] } {
+				set offset $CycleOffsets(${win})
+			}
+			# Add users, starting at correct offset
+			for {set uidx $offset} \
+				{[expr {$uidx < $offset + [llength $users]}]} {incr uidx} {
+				set user [lindex $users [expr {$uidx % [llength $users]}]]
+
 				label $images.user_name$idx \
 				    -background [::skin::getKey chatwindowbg] \
 				    -relief solid -font sitalf
@@ -125,6 +138,7 @@ namespace eval ::CWDoubleDP {
 		set frame $out.pic
 		set picture $frame.images
 		set showpic $frame.showpic
+		set cyclepic $frame.cyclepic
 
 		# Create them
 		frame $frame -class Amsn -borderwidth 0 -relief solid -background [::skin::getKey chatwindowbg]
@@ -139,12 +153,21 @@ namespace eval ::CWDoubleDP {
 		bind $showpic <Leave> "$showpic configure -image [::skin::loadPixmap imgshow]"
 		set_balloon $showpic [trans showdisplaypic]
 
+		label $cyclepic -bd 0 -padx 0 -pady 0 -image [::skin::loadPixmap contract] \
+			-bg [::skin::getKey chatwindowbg] -highlightthickness 0 -font splainf \
+			-highlightbackground [::skin::getKey chatwindowbg] -activebackground [::skin::getKey chatwindowbg]
+		bind $cyclepic <Enter> "$cyclepic configure -image [::skin::loadPixmap contract_hover]"
+		bind $cyclepic <Leave> "$cyclepic configure -image [::skin::loadPixmap contract]"
+		set_balloon $cyclepic [trans cycledisplaypic]
+
 		# Pack them 
+		pack $cyclepic -side top -padx 0 -pady 0 -anchor n
 		pack $picture -side left -padx 0 -pady 0 -anchor w
 		pack $showpic -side right -expand true -fill y -padx 0 -pady 0 -anchor e
 
 		# Create our bindings
 		bind $showpic <<Button1>> "::CWDoubleDP::ToggleShowDoublePicture $w; ::CWDoubleDP::ShowOrHideDoublePicture $w"
+		bind $cyclepic <<Button1>> "::CWDoubleDP::IncreaseCycleOffset $w"
 			
 		ToggleShowDoublePicture $w
 		ShowOrHideDoublePicture $w
@@ -166,6 +189,15 @@ namespace eval ::CWDoubleDP {
 		set_balloon $pictureinner [trans nopic]	
 	}
 	
+	proc IncreaseCycleOffset { win_name } {
+		variable CycleOffsets
+		if { [info exists CycleOffsets(${win_name})] } {
+			incr CycleOffsets(${win_name})
+		} else {
+			set CycleOffsets(${win_name}) 1
+		}
+		update_user_DPs $win_name
+	}
 
 	proc ToggleShowDoublePicture { win_name } {
 		upvar #0 ${win_name}_show_double_picture show_pic
