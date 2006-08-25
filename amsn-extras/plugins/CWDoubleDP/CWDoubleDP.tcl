@@ -224,8 +224,9 @@ namespace eval ::CWDoubleDP {
 
 		#Make the picture menu appear on the conversation window instead of having it in the bottom of screen (and sometime lost it if the conversation window is in the bottom of the window)
 		if { [OnMac] } {
-			incr x -50
-			incr y -115
+			#Cursor at the top right hand corner (NE) of the popup.
+			incr x -123
+			incr y +2
 		}
 
 		set chatid [::ChatWindow::Name $win]
@@ -250,8 +251,9 @@ namespace eval ::CWDoubleDP {
 
 		#Make the picture menu appear on the conversation window instead of having it in the bottom of screen (and sometime lost it if the conversation window is in the bottom of the window)
 		if { [OnMac] } {
-			incr x -50
-			incr y -115
+			#Cursor in the bottom right hand corner (SE) of the popup.
+			incr x -212
+			incr y -25
 		}
 	
 		#Load Change Display Picture window
