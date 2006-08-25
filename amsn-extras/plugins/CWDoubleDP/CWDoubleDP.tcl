@@ -163,7 +163,7 @@ namespace eval ::CWDoubleDP {
 		# Pack them 
 		pack $cyclepic -side top -padx 0 -pady 0 -anchor n
 		pack $picture -side left -padx 0 -pady 0 -anchor w
-		pack $showpic -side right -expand true -fill y -padx 0 -pady 0 -anchor e
+		pack $showpic -side right -expand true -fill none -padx 0 -pady 0 -anchor ne
 
 		# Create our bindings
 		bind $showpic <<Button1>> "::CWDoubleDP::ToggleShowDoublePicture $w; ::CWDoubleDP::ShowOrHideDoublePicture $w"
