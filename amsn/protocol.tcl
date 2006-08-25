@@ -19,7 +19,11 @@ if { $initialize_amsn == 1 } {
 
 	package require base64
 	package require sha1
-	package require snit
+	if { [package vsatisfies [info patchlevel] 8.4.13] } {
+		package require snit
+	} else {
+		source utils/snit/snit.tcl
+	}
 	package require SOAP
 }
 
