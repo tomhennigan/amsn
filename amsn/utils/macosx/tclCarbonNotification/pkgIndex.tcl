@@ -1,2 +1,1 @@
-source [file join $dir critcl.tcl]
-critcl::loadlib $dir tclCarbonNotification 1.0
+package ifneeded tclCarbonNotification 0.1 "[list load [file join $dir tclCarbonNotification0.1.dylib] tclCarbonNotification]"
