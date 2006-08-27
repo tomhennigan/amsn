@@ -15,7 +15,7 @@
 void CxImagePNG::ima_png_error(png_struct *png_ptr, char *message)
 {
 	strcpy(info.szLastError,message);
-	longjmp(png_jmpbuf(png_ptr), 1);
+	longjmp(png_ptr->jmpbuf, 1);
 }
 ////////////////////////////////////////////////////////////////////////////////
 void CxImagePNG::expand2to4bpp(BYTE* prow)
@@ -70,7 +70,7 @@ bool CxImagePNG::Decode(CxFile *hFile)
     * the normal method of doing things with libpng).  REQUIRED unless you
     * set up your own error handlers in the png_create_read_struct() earlier.
     */
-	if (setjmp(png_jmpbuf(png_ptr))) {
+	if (setjmp(png_ptr->jmpbuf)) {
 		/* Free all of the memory associated with the png_ptr and info_ptr */
 		if (row_pointers) delete[] row_pointers;
 		png_destroy_read_struct(&png_ptr, &info_ptr, (png_infopp)NULL);
@@ -179,7 +179,7 @@ bool CxImagePNG::Decode(CxFile *hFile)
 	if (info_ptr->color_type & PNG_COLOR_MASK_COLOR) png_set_bgr(png_ptr);
 
 	// <vho> - handle cancel
-	if (info.nEscape) longjmp(png_jmpbuf(png_ptr), 1);
+	if (info.nEscape) longjmp(png_ptr->jmpbuf, 1);
 
 	//allocate the buffer
 	int row_stride = info_ptr->width * ((info_ptr->pixel_depth+7)>>3);
@@ -200,7 +200,7 @@ bool CxImagePNG::Decode(CxFile *hFile)
 		do	{
 
 			// <vho> - handle cancel
-			if (info.nEscape) longjmp(png_jmpbuf(png_ptr), 1);
+			if (info.nEscape) longjmp(png_ptr->jmpbuf, 1);
 
 #if CXIMAGE_SUPPORT_ALPHA	// <vho>
 			if (!AlphaIsValid())
@@ -303,7 +303,7 @@ bool CxImagePNG::Encode(CxFile *hFile)
    /* Set error handling.  REQUIRED if you aren't supplying your own
     * error hadnling functions in the png_create_write_struct() call.
     */
-	if (setjmp(png_jmpbuf(png_ptr))){
+	if (setjmp(png_ptr->jmpbuf)){
 		/* If we get here, we had a problem reading the file */
 		if (info_ptr->palette) free(info_ptr->palette);
 		png_destroy_write_struct(&png_ptr,  (png_infopp)&info_ptr);

@@ -72,8 +72,8 @@ protected:
 	}
     static void user_error_fn(png_structp png_ptr,png_const_charp error_msg)
 	{
-		strncpy((char*)png_error_ptr(png_ptr),error_msg,255);
-		longjmp(png_jmpbuf(png_ptr), 1);
+		strncpy((char*)png_ptr->error_ptr,error_msg,255);
+		longjmp(png_ptr->jmpbuf, 1);
 	}
 };
 
