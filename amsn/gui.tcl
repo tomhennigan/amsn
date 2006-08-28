@@ -7564,7 +7564,7 @@ proc AskDPSize { cursize } {
 	radiobutton .askdpsize.rb.small -text [trans small] -value "64x64" -variable dpsize
 
 	button .askdpsize.okb -text [trans ok] -command "set done 1" -default active
-	button .askdpsize.cancelb -text [trans cancel] -command "destroy .askdpsize" -default active
+	button .askdpsize.cancelb -text [trans cancel] -command "destroy .askdpsize" -default normal
 
 	pack .askdpsize.lwhatsize -side top -anchor w -pady 10 -padx 10
 	pack .askdpsize.rb.retain -side top -anchor w
