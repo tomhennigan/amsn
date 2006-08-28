@@ -62,17 +62,17 @@ namespace eval ::Games::Dots_and_Boxes {
   ###########################################################################
   proc build_config { pane } {
 	label $pane.x0_lbl -text "[::Games::trans margin_width]"
-	entry $pane.x0_var -textvar ::Games::config(::Games::Dots_and_Boxes::BoardLayout(x0))
+	entry $pane.x0_var -textvariable ::Games::config(::Games::Dots_and_Boxes::BoardLayout(x0))
 	label $pane.y0_lbl -text "[::Games::trans margin_height]"
-	entry $pane.y0_var -textvar ::Games::config(::Games::Dots_and_Boxes::BoardLayout(y0))
+	entry $pane.y0_var -textvariable ::Games::config(::Games::Dots_and_Boxes::BoardLayout(y0))
 	label $pane.dx_lbl -text "[::Games::trans width_of_box]"
-	entry $pane.dx_var -textvar ::Games::config(::Games::Dots_and_Boxes::BoardLayout(dx))
+	entry $pane.dx_var -textvariable ::Games::config(::Games::Dots_and_Boxes::BoardLayout(dx))
 	label $pane.dy_lbl -text "[::Games::trans height_of_box]"
-	entry $pane.dy_var -textvar ::Games::config(::Games::Dots_and_Boxes::BoardLayout(dy))
+	entry $pane.dy_var -textvariable ::Games::config(::Games::Dots_and_Boxes::BoardLayout(dy))
 	label $pane.ds_lbl -text "[::Games::trans dot_size]"
-	entry $pane.ds_var -textvar ::Games::config(::Games::Dots_and_Boxes::BoardLayout(ds))
+	entry $pane.ds_var -textvariable ::Games::config(::Games::Dots_and_Boxes::BoardLayout(ds))
 	label $pane.sp_lbl -text "[::Games::trans space_around_dot]"
-	entry $pane.sp_var -textvar ::Games::config(::Games::Dots_and_Boxes::BoardLayout(sp))
+	entry $pane.sp_var -textvariable ::Games::config(::Games::Dots_and_Boxes::BoardLayout(sp))
 	grid $pane.x0_lbl $pane.x0_var -padx 10 -in $pane
 	grid $pane.y0_lbl $pane.y0_var -padx 10 -in $pane
 	grid [frame $pane.foo1 -height 10] - -padx 10 -in $pane

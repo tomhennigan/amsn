@@ -334,16 +334,16 @@ namespace eval ::Games {
 	set p 0
 	set raised ""
 	foreach game [concat $TwoPlayerGames $MultiPlayerGames] {
-      $nb insert $p $game -text [trans $game]
-	  set pane [$w.nb getframe $game]
+      $nb insert $p w$game -text [trans $game]
+	  set pane [$w.nb getframe w$game]
 	  if { [::Games::${game}::build_config $pane] == 1 } {
 	    incr p
 	    if {"$raised" == ""} {
-		  set raised $game
+		  set raised w$game
 	    }
 	  } else {
 		# Oops, game did not want configuration items, remove pane
-		$nb delete $game
+		$nb delete w$game
 	  }
 	}
 
