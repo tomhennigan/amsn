@@ -67,7 +67,7 @@ if { $initialize_amsn == 1 } {
 	package require base64
 	package require sha1
 	if { [version_vcompare [info patchlevel] 8.4.13] >= 0} {
-		package require snit 1.1.1
+		package require snit
 	} else {
 		source utils/snit/snit.tcl
 	}
