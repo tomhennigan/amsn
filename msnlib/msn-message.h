@@ -226,7 +226,7 @@ void msn_message_set_command_header_from_string(MsnMessage *this, const gchar *c
  *    <conn> The connection where the message is to be sent.
  *
  */
-void msn_message_send(MsnMessage *this, MsnConnection *conn);
+void msn_message_send(MsnMessage *this, MsnConnection *conn, GError **err);
 
 G_END_DECLS
 

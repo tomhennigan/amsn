@@ -33,40 +33,46 @@
 #define HEADER_SEPERATOR ": "
 #define SPACE_SEPERATOR " "
 
-G_DEFINE_TYPE(MsnMessage, msn_message, G_TYPE_OBJECT)
+//G_DEFINE_TYPE(MsnMessage, msn_message, G_TYPE_OBJECT)
 
 /* private structure */
 typedef struct _MsnMessagePrivate MsnMessagePrivate;
 
 struct _MsnMessagePrivate
 {
-  GString *body;
   gchar **command_header;
   GHashTable *headers;
-  gint trid, command_header_length;
-  // private variables go here
+  GString *body;
+  gint trid;
 };
 
 gint trid = 1;
 
 #define MSN_MESSAGE_GET_PRIVATE(o)     (G_TYPE_INSTANCE_GET_PRIVATE ((o), MSN_TYPE_MESSAGE, MsnMessagePrivate))
 
-gint get_argc(const gchar * const argv[]) {
-  gint i = 0;
-  while (argv[i] != NULL) {
-    i++;
-  }
+static inline gint 
+get_argc (const gchar * const argv[]) 
+{
+  register gint i;
+  for (i = 0; argv[i] != NULL; i++) { ; }
   return i;
 }
 
-/* type definition stuff */
-
-static void
-msn_message_init (MsnMessage *obj)
+static gboolean
+command_has_trid (const gchar *command)
 {
-  MsnMessagePrivate *priv = MSN_MESSAGE_GET_PRIVATE (obj);
-  priv->body = g_string_new("");
-  priv->headers = g_hash_table_new(g_str_hash, g_str_equal);
+  return TRUE;
+}
+
+/* type definition stuff */
+static void
+msn_message_init (GTypeInstance *instance, gpointer g_class)
+{
+  MsnMessagePrivate *priv = MSN_MESSAGE_GET_PRIVATE(instance);
+  priv->command_header = NULL;
+  priv->body = NULL;
+  priv->headers = NULL;
+  priv->trid = -1;
 }
 
 static void msn_message_dispose (GObject *object);
@@ -81,7 +87,7 @@ msn_message_class_init (MsnMessageClass *msn_message_class)
   object_class->finalize = msn_message_finalize;
 }
 
-void
+static void
 msn_message_dispose (GObject *object)
 {
  // MsnMessage *self = MSN_MESSAGE (object);
@@ -89,19 +95,43 @@ msn_message_dispose (GObject *object)
 
   /* release any references held by the object here */
 
-  if (G_OBJECT_CLASS (msn_message_parent_class)->dispose)
-    G_OBJECT_CLASS (msn_message_parent_class)->dispose (object);
+//   if (G_OBJECT_CLASS (msn_message_parent_class)->dispose)
+//     G_OBJECT_CLASS (msn_message_parent_class)->dispose (object);
 }
 
-void
+static void
 msn_message_finalize (GObject *object)
 {
   MsnMessage *self = MSN_MESSAGE (object);
   MsnMessagePrivate *priv = MSN_MESSAGE_GET_PRIVATE (self);
 
-  g_free(priv->command_header);
+  if (priv->command_header != NULL) g_free(priv->command_header);
+  if (priv->headers != NULL) g_hash_table_unref(priv->headers);
+  if (priv->body != NULL) g_string_free(priv->body, TRUE);
 
-  G_OBJECT_CLASS (msn_message_parent_class)->finalize (object);
+//   G_OBJECT_CLASS (msn_message_parent_class)->finalize (object);
+}
+
+
+GType 
+msn_message_get_type (void)
+{
+  static GType msn_message_type = 0;
+  if (!msn_message_type) {
+    static const GTypeInfo msn_message_info = {
+      sizeof(MsnMessageClass),
+      NULL,
+      NULL,
+      (GClassInitFunc) msn_message_class_init,
+      NULL,
+      NULL,
+      sizeof(MsnMessage),
+      0,
+      (GInstanceInitFunc) msn_message_init,
+    };
+    msn_message_type = g_type_register_static(G_TYPE_OBJECT, "MsnMessage", &msn_message_info, 0);
+  }
+  return msn_message_type;
 }
 
 /**
@@ -110,7 +140,9 @@ msn_message_finalize (GObject *object)
  * Returns: 
  *    new MsnMessage if successful, else NULL.
  */
-MsnMessage *msn_message_new() {
+MsnMessage *
+msn_message_new()
+{
   return g_object_new(MSN_TYPE_MESSAGE, NULL);
 }
 
@@ -125,31 +157,51 @@ MsnMessage *msn_message_new() {
  * Returns: 
  *    MsnMessage if successful, else NULL.
  */
-MsnMessage *msn_message_from_string(const gchar *msgtext) {
-  /* Parse the string msgtext into a MsnMessage object
-   * 1. split the body from the header
-   * 2. split the header into command header and other headers
-   */
-  gint i;
-  gchar **body_split, **headers_split, **single_header_split;
-  MsnMessagePrivate *priv;
+MsnMessage *
+msn_message_from_string(const gchar *msgtext) 
+{
   MsnMessage *message = msn_message_new();
-  priv = MSN_MESSAGE_GET_PRIVATE(message);
-  body_split = g_strsplit(msgtext, BODY_SEPERATOR, 2);
+  MsnMessagePrivate *priv = MSN_MESSAGE_GET_PRIVATE(message);
+  
+  /* Split the message into a header and a body */
+  gchar **body_split = g_strsplit(msgtext, BODY_SEPERATOR, 2);
   if (get_argc((const gchar **) body_split) == 2) {
     msn_message_set_body(message, body_split[1]);
-  } 
-  headers_split = g_strsplit(body_split[0], LINE_SEPERATOR, G_MAXINT);
-  msn_message_set_command_header_from_string(message, headers_split[0]);
-  for (i = 1; i < get_argc((const gchar **) headers_split); i++) {
-    single_header_split = g_strsplit(headers_split[i], HEADER_SEPERATOR, 2);
-    if (single_header_split[0] == NULL) break; /* for just a command header and no other headers */
+  }
+
+  /* Split the header on line breaks */
+  gchar **headers_split = g_strsplit(body_split[0], LINE_SEPERATOR, G_MAXINT);
+
+  /* First header line is the MSNP command + TrId + arguments.
+   * We need to separate the TrId from the rest because
+   * msn_message_set_command_header_from_string() doesn't
+   * like to have a TrId. So we split the sting here, remove
+   * the TrId, and use msn_message_set_command_header(). */
+  gchar **command_split = g_strsplit(headers_split[0], SPACE_SEPERATOR, G_MAXINT);
+  if (command_has_trid(command_split[0]) && (command_split[1] != NULL)) {
+    priv->trid = atoi(command_split[1]);
+    g_free(command_split[1]);
+    register gint p;
+    for (p = 1; command_split[p] != NULL; p++) command_split[p] = command_split[p + 1];
+  }
+
+  msn_message_set_command_header(message, (const gchar **) command_split);
+
+  /* Other header lines are message headers */
+  gint i;
+  for (i = 1; headers_split[i] != NULL && g_str_equal(headers_split[i], "") != TRUE; i++) {
+    gchar **single_header_split = g_strsplit(headers_split[i], HEADER_SEPERATOR, 2);
     msn_message_set_header(message, single_header_split[0], single_header_split[1]);
     g_strfreev(single_header_split);
   }
+
+  /* Free allocated memory and return */
+
+  g_strfreev(command_split);
   g_strfreev(headers_split);
   g_strfreev(body_split);
-  return message; 
+
+  return message;
 }
 
 
@@ -164,11 +216,11 @@ MsnMessage *msn_message_from_string(const gchar *msgtext) {
  * Returns: 
  *    gchar * if successful, else NULL.
  */
-const gchar *msn_message_get_header(MsnMessage *this, const gchar *name) {  
-  MsnMessagePrivate *priv;
-  priv = MSN_MESSAGE_GET_PRIVATE(this);
+const gchar *
+msn_message_get_header(MsnMessage *this, const gchar *name)
+{
+  MsnMessagePrivate *priv = MSN_MESSAGE_GET_PRIVATE(this);
   return (gchar *) g_hash_table_lookup(priv->headers, name);
-   
 }
 
 /**
@@ -182,9 +234,10 @@ const gchar *msn_message_get_header(MsnMessage *this, const gchar *name) {
  * Returns: 
  *    gchar * if successful, else NULL.
  */
-const gchar *msn_message_get_body(MsnMessage *this) {
-  MsnMessagePrivate *priv;
-  priv = MSN_MESSAGE_GET_PRIVATE(this);
+const gchar *
+msn_message_get_body(MsnMessage *this)
+{
+  MsnMessagePrivate *priv = MSN_MESSAGE_GET_PRIVATE(this);
   return priv->body->str; 
 }
 
@@ -201,9 +254,10 @@ const gchar *msn_message_get_body(MsnMessage *this) {
  * Returns: 
  *    gchar * if successful, else NULL.
  */
-const gchar * msn_message_get_command(MsnMessage *this) {
-  MsnMessagePrivate *priv;
-  priv = MSN_MESSAGE_GET_PRIVATE(this);
+const gchar *
+msn_message_get_command(MsnMessage *this) 
+{
+  MsnMessagePrivate *priv = MSN_MESSAGE_GET_PRIVATE(this);
   return priv->command_header[0];
 }
 
@@ -221,9 +275,10 @@ const gchar * msn_message_get_command(MsnMessage *this) {
  * Returns: 
  *    gchar ** if successful, else NULL.
  */
-const gchar * const * msn_message_get_command_header(MsnMessage *this) {
-  MsnMessagePrivate *priv;
-  priv = MSN_MESSAGE_GET_PRIVATE(this);
+const gchar * const *
+msn_message_get_command_header(MsnMessage *this) 
+{
+  MsnMessagePrivate *priv = MSN_MESSAGE_GET_PRIVATE(this);
   return (const gchar **) priv->command_header;
 }
 
@@ -238,9 +293,10 @@ const gchar * const * msn_message_get_command_header(MsnMessage *this) {
  * Returns: 
  *    trid if successful, else -1.
  */
-gint msn_message_get_trid(MsnMessage *this) {
-  MsnMessagePrivate *priv;
-  priv = MSN_MESSAGE_GET_PRIVATE(this);
+gint
+msn_message_get_trid(MsnMessage *this) 
+{
+  MsnMessagePrivate *priv = MSN_MESSAGE_GET_PRIVATE(this);
   return priv->trid; 
 }
  
@@ -256,9 +312,11 @@ gint msn_message_get_trid(MsnMessage *this) {
  *    <value> The value to set it to.
  *
  */
-void msn_message_set_header(MsnMessage *this, const gchar *name, const gchar *value) {
-  MsnMessagePrivate *priv;
-  priv = MSN_MESSAGE_GET_PRIVATE(this);
+void
+msn_message_set_header(MsnMessage *this, const gchar *name, const gchar *value)
+{
+  MsnMessagePrivate *priv = MSN_MESSAGE_GET_PRIVATE(this);
+  if (priv->headers == NULL) priv->headers = g_hash_table_new(g_str_hash, g_str_equal);
   g_hash_table_insert(priv->headers, g_strdup(name), g_strdup(value));
 }
 
@@ -272,10 +330,12 @@ void msn_message_set_header(MsnMessage *this, const gchar *name, const gchar *va
  *    <body>  The message body
  *
  */
-void msn_message_set_body(MsnMessage *this, const gchar *body){
-  MsnMessagePrivate *priv;
-  priv = MSN_MESSAGE_GET_PRIVATE(this);
-  priv->body = g_string_assign(priv->body, body);
+void
+msn_message_set_body(MsnMessage *this, const gchar *body)
+{
+  MsnMessagePrivate *priv = MSN_MESSAGE_GET_PRIVATE(this);
+  if (priv->body != NULL) priv->body = g_string_assign(priv->body, body);
+  else priv->body = g_string_new(body);
 }
 
 
@@ -289,10 +349,12 @@ void msn_message_set_body(MsnMessage *this, const gchar *body){
  *    <string> The string to append to the message body.
  *
  */
-void msn_message_append_body(MsnMessage *this, const gchar *string){
-  MsnMessagePrivate *priv;
-  priv = MSN_MESSAGE_GET_PRIVATE(this);
-  priv->body = g_string_append(priv->body, string);
+void
+msn_message_append_body(MsnMessage *this, const gchar *string)
+{
+  MsnMessagePrivate *priv = MSN_MESSAGE_GET_PRIVATE(this);
+  if (priv->body != NULL) priv->body = g_string_append(priv->body, string);
+  else priv->body = g_string_new(string);
 }
 
 
@@ -308,18 +370,12 @@ void msn_message_append_body(MsnMessage *this, const gchar *string){
  *           1 and up. The array must be NULL terminated.
  *
  */
-void msn_message_set_command_header(MsnMessage *this, const gchar * const argv[]){
-  gint i = 0;
-  MsnMessagePrivate *priv;
-  priv = MSN_MESSAGE_GET_PRIVATE(this);
-  for (i = 0; i < priv->command_header_length; i++) {
-    g_free(priv->command_header[i]);
-  }
-  priv->command_header_length = get_argc(argv);
-  priv->command_header = malloc(priv->command_header_length * sizeof(gchar *));
-  for (i = 0; i < priv->command_header_length; i++) {
-    priv->command_header[i] = g_strdup(argv[i]);
-  }
+void
+msn_message_set_command_header(MsnMessage *this, const gchar * const argv[])
+{
+  MsnMessagePrivate *priv = MSN_MESSAGE_GET_PRIVATE(this);
+  if (priv->command_header != NULL) g_strfreev(priv->command_header);
+  priv->command_header = g_strdupv((gchar **) argv);
 }
 
 
@@ -335,19 +391,25 @@ void msn_message_set_command_header(MsnMessage *this, const gchar * const argv[]
  *    <command_hdr> Pointer to the command string.
  *
  */
-void msn_message_set_command_header_from_string(MsnMessage *this, const gchar *command_hdr){
-  gchar **command_header;
-  MsnMessagePrivate *priv;
-  priv = MSN_MESSAGE_GET_PRIVATE(this);
-  command_header = g_strsplit(command_hdr, SPACE_SEPERATOR, G_MAXINT);
+void
+msn_message_set_command_header_from_string(MsnMessage *this, const gchar *command_hdr)
+{
+  gchar **command_header = g_strsplit(command_hdr, SPACE_SEPERATOR, G_MAXINT);
   msn_message_set_command_header(this, (const gchar **) command_header);
   g_strfreev(command_header);
 }
 
-static void header_concat(gpointer key, gpointer value, gpointer user_data) {
-  gchar **header_ptr;
-  header_ptr = (gchar **) user_data;
-  (*header_ptr) = g_strconcat((*header_ptr), (gchar *) key, HEADER_SEPERATOR, (gchar *) value, LINE_SEPERATOR, NULL);;
+static void
+header_concat(gpointer key, gpointer value, gpointer user_data)
+{
+  GString *header_ptr = (GString *) user_data;
+  g_string_append_printf(
+    header_ptr,
+    "%s%s%s%s",
+    (gchar *) key,
+    HEADER_SEPERATOR,
+    (gchar *) value,
+    LINE_SEPERATOR);
 }
 
 
@@ -361,36 +423,48 @@ static void header_concat(gpointer key, gpointer value, gpointer user_data) {
  *    <conn> The connection where the message is to be sent.
  *
  */
-void msn_message_send(MsnMessage *this, MsnConnection *conn){
+void
+msn_message_send(MsnMessage *this, MsnConnection *conn, GError **err)
+{
   guint written;
-  GError *error = NULL;
-  gchar *command_header, *headers, **headers_ptr, *str;
-  gint i;
-  MsnMessagePrivate *priv;
-  priv = MSN_MESSAGE_GET_PRIVATE(this);
+  MsnMessagePrivate *priv = MSN_MESSAGE_GET_PRIVATE(this);
+  
   /* send command header*/
-  command_header = g_strdup(priv->command_header[0]);
-  str = g_strdup_printf("%i", trid++);
-  command_header = g_strconcat(command_header, SPACE_SEPERATOR, str, NULL);
-  g_free(str);
-  for (i = 1; i < priv->command_header_length; i++) {
-    command_header = g_strconcat(command_header, SPACE_SEPERATOR, priv->command_header[i], NULL);
+  gchar *arg_string = g_strjoinv(SPACE_SEPERATOR, &(priv->command_header[1]));
+  gchar *command_header;
+  if (command_has_trid(priv->command_header[0])) { /* with trid */
+    priv->trid = msn_connection_get_next_trid(conn);
+    command_header = g_strdup_printf("%s%s%i%s%s%s",
+      priv->command_header[0], 
+      SPACE_SEPERATOR, 
+      priv->trid, 
+      SPACE_SEPERATOR,
+      arg_string, 
+      LINE_SEPERATOR);
+  } else { /* without trid */
+    command_header = g_strdup_printf("%s%s%s%s",
+      priv->command_header[0], 
+      SPACE_SEPERATOR, 
+      arg_string, 
+      LINE_SEPERATOR);
   }
-  command_header = g_strconcat(command_header, LINE_SEPERATOR, NULL);
+
+  g_free(arg_string);
   g_printf("%s", command_header);
-  g_io_channel_write_chars(msn_connection_get_channel(conn), command_header, -1, &written, &error);
+  g_io_channel_write_chars(msn_connection_get_channel(conn), command_header, -1, &written, err);
+
   /* send message headers if necessary */
-  if (g_hash_table_size(priv->headers) > 0) {
-     headers = "";
-     headers_ptr = &headers;
-     g_hash_table_foreach(priv->headers, header_concat, headers_ptr);
-     g_printf("%s", headers);
-     g_io_channel_write_chars(msn_connection_get_channel(conn), headers, -1, &written, &error);
+  if (priv->headers != NULL && g_hash_table_size(priv->headers) > 0) {
+     GString *headers = g_string_new("");
+     g_hash_table_foreach(priv->headers, header_concat, headers);
+     g_printf("%s", headers->str);
+     g_io_channel_write_chars(msn_connection_get_channel(conn), headers->str, -1, &written, err);
   }
+
   /* send body */
-  if (priv->body->len > 0) {
-     g_io_channel_write_chars(msn_connection_get_channel(conn), priv->body->str, -1, &written, &error);
+  if (priv->body != NULL && priv->body->len > 0) {
+     g_io_channel_write_chars(msn_connection_get_channel(conn), priv->body->str, -1, &written, err);
   }
-  g_io_channel_flush(msn_connection_get_channel(conn), &error);
+  g_io_channel_flush(msn_connection_get_channel(conn), err);
   g_free(command_header);
 }

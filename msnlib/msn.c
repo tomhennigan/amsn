@@ -33,7 +33,7 @@ main (int argc,
 {
   g_type_init();
   g_set_prgname("msn-test");
-  conn = msn_connection_new(MSN_DS_CONNECTION);
+  conn = msn_connection_new(MSN_CONNECTION_TYPE_NS);
   mainloop = g_main_loop_new (NULL, FALSE);
   g_main_loop_run (mainloop);
 

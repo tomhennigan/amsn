@@ -29,10 +29,12 @@ G_BEGIN_DECLS
 #define MSN_DEFAULT_SERVER	"messenger.hotmail.com"
 #define MSN_DEFAULT_PORT	1863
 
+typedef void (MsnTweenerAuthCallback) (const gchar *account, const gchar *password, const gchar *auth_string);
+
 typedef enum {
-  MSN_DS_CONNECTION,
-  MSN_NS_CONNECTION,
-  MSN_SB_CONNECTION
+  MSN_CONNECTION_TYPE_DS,
+  MSN_CONNECTION_TYPE_NS,
+  MSN_CONNECTION_TYPE_SB
 } MsnConnectionType;
 
 typedef struct _MsnConnection MsnConnection;
@@ -62,8 +64,14 @@ GType msn_connection_get_type(void);
 #define MSN_CONNECTION_GET_CLASS(obj) \
   (G_TYPE_INSTANCE_GET_CLASS ((obj), MSN_TYPE_CONNECTION, MsnConnectionClass))
 
-MsnConnection *msn_connection_new(MsnConnectionType type);
-GIOChannel *msn_connection_get_channel(MsnConnection *this);
+MsnConnection * msn_connection_new(MsnConnectionType type);
+GIOChannel *    msn_connection_get_channel(MsnConnection *this);
+gint            msn_connection_get_next_trid(MsnConnection *this);
+gboolean        msn_set_g_main_context(GMainContext *context);
+void            msn_connection_login(MsnConnection *this, const gchar *account, const gchar *password, MsnTweenerAuthCallback *twn_cb);
+void            msn_connection_set_login_ticket(MsnConnection *this, const gchar *ticket);
+void            msn_connection_request_sb(MsnConnection *this);
+void            msn_connection_close(MsnConnection *this);
 
 G_END_DECLS
 
