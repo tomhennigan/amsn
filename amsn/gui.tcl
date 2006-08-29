@@ -3474,7 +3474,8 @@ proc cmsn_draw_main {} {
 	catch {wm geometry . $geometry}
 	
 	#To avoid the bug of window behind the menu bar on Mac OS X
-	if { [OnMac] } {
+	#The menubar's height is 22.
+	if { [OnMac] && [winfo y .] < 22 } {
 		moveinscreen . 30
 	}
 	
