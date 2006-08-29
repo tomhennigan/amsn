@@ -21,9 +21,6 @@ namespace eval ::TeXIM {
 		::plugins::RegisterEvent "TeXIM" chat_msg_send parseLaTeX	
 		::plugins::RegisterEvent "TeXIM" chatwindowbutton AddTexButton
 
-		#TODO, fix amsn string support, it doesn't put it by default to what it says in config
-		#TODO, add a multiline input box for header and footer
-		#TODO, make a real config window
 		array set ::TeXIM::config {
 			path_latex {latex}
 			path_dvips {dvips}
@@ -38,6 +35,7 @@ namespace eval ::TeXIM {
 		set ::config(dir) $directory
 
 		::skin::setPixmap buttonTex tex.png pixmaps [file join $directory pixmaps]
+		::skin::setPixmap buttonTex_hover tex_hover.png pixmaps [file join $directory pixmaps]
 
 		set ::TeXIM::configlist [list [list frame ::TeXIM::populateFrame ""] ]
 
@@ -493,7 +491,7 @@ namespace eval ::TeXIM {
 			-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg]
 		
 		bind $texButton  <<Button1>> "::TeXIM::CreateTexWindow $newvar(window_name)"
-		bind $texButton  <Enter> "$texButton configure -image [::skin::loadPixmap buttonTex]"
+		bind $texButton  <Enter> "$texButton configure -image [::skin::loadPixmap buttonTex_hover]"
 		bind $texButton  <Leave> "$texButton configure -image [::skin::loadPixmap buttonTex]"	
 		pack $texButton -side left -padx 0 -pady 0	
 		plugins_log "TeXIM" "TeXIM button added the new window: $newvar(window_name)"
