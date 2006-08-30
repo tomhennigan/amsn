@@ -5006,7 +5006,7 @@ proc cmsn_auth {{recv ""}} {
 			} else {
 				::MSN::WriteSB ns "VER" "MSNP9 CVR0"
 			}
-			::MSN::WriteSB ns "CVR" "0x0409 winnt 5.1 i386 MSG80BETA 8.0.0365 msmsgs [::config::getKey login]"
+			::MSN::WriteSB ns "CVR" "0x0409 winnt 5.1 i386 MSNMSGR 8.0.0812 msmsgs [::config::getKey login]"
 			::MSN::WriteSB ns "USR" "TWN I [::config::getKey login]"
 
 			ns configure -stat "v"
@@ -5400,7 +5400,7 @@ proc cmsn_socket {name} {
 		::MSN::CloseSB $name
 	}
 
-
+        degt_protocol "< Connected to: [$name cget -server] >"
 
 	#if { [catch {set sock [socket -async $tmp_serv $tmp_port]} res ] } {
 	#	$sb configure -error_msg $res
