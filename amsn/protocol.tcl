@@ -4900,6 +4900,14 @@ proc cmsn_ns_handler {item {message ""}} {
 				::amsn::errorMsg "[trans baduserpass]"
 				return 0
 			}
+			931 {  ;#this server doesn't know about that account
+				status_log "Account was moved to a different server, changing cached server to default"
+				::config::setKey start_ns_server [::config::getKey default_ns_server]
+				set ::oldstatus [::MSN::myStatusIs]
+				::MSN::logout
+				::MSN::reconnect "[trans serverunavailable]" ;#actually accountunavailable
+				return 0
+			}
 			"" {
 				return 0
 			}

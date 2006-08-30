@@ -1,4 +1,4 @@
-package require msnSOAP
+package require SOAP
 
 if {[winfo exists .cl] == 0} {
 	source contactlist.tcl
@@ -11,7 +11,7 @@ if {[winfo exists .cl] == 0} {
 
 proc getAddressbook {} {
 
-	msnSOAP::create ABFindAll \
+	SOAP::create ABFindAll \
 	  -uri "http://www.msn.com/webservices/AddressBook" \
 	  -proxy "http://contacts.msn.com/abservice/abservice.asmx" \
 	  -params {abId "" abView "" deltasOnly "" lastChange ""} \
@@ -23,7 +23,7 @@ proc getAddressbook {} {
 	set head [list "SOAPAction" "http://www.msn.com/webservices/AddressBook/ABFindAll"]
 	lappend head "Cookie" "MSPAuth=$mspauth"
 
-	msnSOAP::configure ABFindAll -httpheaders "$head"
+	SOAP::configure ABFindAll -httpheaders "$head"
 
 	set cl [ABFindAll -headers {-subHeader ABApplicationHeader ApplicationId 09607671-1C32-421F-A6A6-CBFAA51AB5F4 IsMigration false PartnerScenario Initial -endSubHeader "" -subHeader ABAuthHeader ManagedGroupRequest false -endSubHeader ""} 00000000-0000-0000-0000-000000000000 Full false 0001-01-01T00:00:00.0000000-08:00]
 	set contacts {}
