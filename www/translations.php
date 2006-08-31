@@ -19,7 +19,7 @@ instantly answer and send us the translation.<br/><br/><br/>
 
 <b>How to translate missing keys, please READ THIS before translating!</b><br/><br/>
 RULES THAT MUST BE FOLLOWED:<br/></p>
-<ul><li>Please read the <a href='http://svn.sourceforge.net/viewcvs.cgi/*checkout*/amsn/trunk/amsn/lang/LANG-HOWTO'><b>LANG-HOWTO</b></a> file.</li>
+<ul><li>Please read the <a href="https://svn.sourceforge.net/svnroot/amsn/trunk/amsn/lang/LANG-HOWTO"><b>LANG-HOWTO</b></a> file.</li>
 
 <li>Read LANG-HOWTO again!</li>
 <li>Just click the link of the language you want to update (at the bottom of this page)
