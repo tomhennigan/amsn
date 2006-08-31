@@ -35,6 +35,8 @@
 
 //G_DEFINE_TYPE(MsnMessage, msn_message, G_TYPE_OBJECT)
 
+
+
 /* private structure */
 typedef struct _MsnMessagePrivate MsnMessagePrivate;
 
@@ -46,8 +48,6 @@ struct _MsnMessagePrivate
   gint trid;
 };
 
-gint trid = 1;
-
 #define MSN_MESSAGE_GET_PRIVATE(o)     (G_TYPE_INSTANCE_GET_PRIVATE ((o), MSN_TYPE_MESSAGE, MsnMessagePrivate))
 
 static inline gint 
@@ -58,11 +58,37 @@ get_argc (const gchar * const argv[])
   return i;
 }
 
+
+
 static gboolean
-command_has_trid (const gchar *command)
-{
-  return TRUE;
+command_has_trid (const gchar *command) {
+  static const union ucmdcompare cmd_list[] = {
+    { "CVR" }, 
+    { "VER" },
+    { "USR" },
+    { "XFR" },
+    { "ADD" }, // MSNP11 only?
+    { "ADC" }, // MSNP11 only?
+    { "CHG" },
+    { "GCF" },
+    { "ILN" },
+    { "QRY" },
+    { "SYN" },
+    { "REA" },
+    { "ANS" },
+    { "IRO" },
+    { "CAL" },
+    { .i_cmd = 0 }		// close the list
+  };
+
+  register guint32 ref_cmd = *((const guint32 *) command);
+  for (register gint i = 0; cmd_list[i].i_cmd != 0; i++) {
+    if(cmd_list[i].i_cmd == ref_cmd) return TRUE;
+  }
+  return FALSE;
 }
+
+
 
 /* type definition stuff */
 static void
@@ -148,8 +174,11 @@ msn_message_new()
 
 
 /**
- * This function creates an MsnMessage object from the passed string.
- * The returned MsnMessage object will be read only.
+ * These functions create an MsnMessage object from the passed string.
+ * The returned MsnMessage object will be read only. 
+ * the msn_message_from_string_in should be used with incoming messages (possibly with a trid)
+ * the msn_message_from_string_out should be used with outgoing messages (no trid, this should
+ * be set with msn_message_set_trid)
  *
  * Parameters:
  *    <msgtext> The message as a string. This will usually have been received from the server. 
@@ -158,7 +187,7 @@ msn_message_new()
  *    MsnMessage if successful, else NULL.
  */
 MsnMessage *
-msn_message_from_string(const gchar *msgtext) 
+msn_message_from_string_in(const gchar *msgtext) 
 {
   MsnMessage *message = msn_message_new();
   MsnMessagePrivate *priv = MSN_MESSAGE_GET_PRIVATE(message);
@@ -181,15 +210,61 @@ msn_message_from_string(const gchar *msgtext)
   if (command_has_trid(command_split[0]) && (command_split[1] != NULL)) {
     priv->trid = atoi(command_split[1]);
     g_free(command_split[1]);
-    register gint p;
-    for (p = 1; command_split[p] != NULL; p++) command_split[p] = command_split[p + 1];
+    for (register gint p = 1; command_split[p] != NULL; p++)
+      command_split[p] = command_split[p + 1];
   }
 
   msn_message_set_command_header(message, (const gchar **) command_split);
 
   /* Other header lines are message headers */
-  gint i;
-  for (i = 1; headers_split[i] != NULL && g_str_equal(headers_split[i], "") != TRUE; i++) {
+  for (gint i = 1; headers_split[i] != NULL && g_str_equal(headers_split[i], "") != TRUE; i++) {
+    gchar **single_header_split = g_strsplit(headers_split[i], HEADER_SEPERATOR, 2);
+    msn_message_set_header(message, single_header_split[0], single_header_split[1]);
+    g_strfreev(single_header_split);
+  }
+
+  /* Free allocated memory and return */
+
+  g_strfreev(command_split);
+  g_strfreev(headers_split);
+  g_strfreev(body_split);
+
+  return message;
+}
+
+
+/**
+ * These functions create an MsnMessage object from the passed string.
+ * The returned MsnMessage object will be read only. 
+ * the msn_message_from_string_in should be used with incoming messages (possibly with a trid)
+ * the msn_message_from_string_out should be used with outgoing messages (no trid, this should
+ * be set with msn_message_set_trid)
+ *
+ * Parameters:
+ *    <msgtext> The message as a string. This will usually have been received from the server. 
+ *
+ * Returns: 
+ *    MsnMessage if successful, else NULL.
+ */
+MsnMessage *
+msn_message_from_string_out(const gchar *msgtext) 
+{
+  MsnMessage *message = msn_message_new();
+  
+  /* Split the message into a header and a body */
+  gchar **body_split = g_strsplit(msgtext, BODY_SEPERATOR, 2);
+  if (get_argc((const gchar **) body_split) == 2) {
+    msn_message_set_body(message, body_split[1]);
+  }
+
+  /* Split the header on line breaks */
+  gchar **headers_split = g_strsplit(body_split[0], LINE_SEPERATOR, G_MAXINT);
+
+  gchar **command_split = g_strsplit(headers_split[0], SPACE_SEPERATOR, G_MAXINT);
+  msn_message_set_command_header(message, (const gchar **) command_split);
+
+  /* Other header lines are message headers */
+  for (gint i = 1; headers_split[i] != NULL && g_str_equal(headers_split[i], "") != TRUE; i++) {
     gchar **single_header_split = g_strsplit(headers_split[i], HEADER_SEPERATOR, 2);
     msn_message_set_header(message, single_header_split[0], single_header_split[1]);
     g_strfreev(single_header_split);
@@ -379,6 +454,21 @@ msn_message_set_command_header(MsnMessage *this, const gchar * const argv[])
 }
 
 
+/**
+ * This function sets the trid of the message
+ * 
+ * Parameters:
+ *    <this>        Pointer to the object the method is invoked on. Must be obtained from
+ *                  msn_message_new or msn_message_from_string.
+ *    <trid>        Value of the trid
+ *
+ */
+void 
+msn_message_set_trid(MsnMessage *this, gint trid) {
+  MsnMessagePrivate *priv = MSN_MESSAGE_GET_PRIVATE(this);
+  priv->trid = trid;
+}
+
 
 /**
  * This function sets the first line of the message (the MSN protocol command and its
@@ -399,6 +489,11 @@ msn_message_set_command_header_from_string(MsnMessage *this, const gchar *comman
   g_strfreev(command_header);
 }
 
+
+/**
+ * function called by a g_hash_table_for_each
+ * this function adds a header to a string of headers 
+ */
 static void
 header_concat(gpointer key, gpointer value, gpointer user_data)
 {
@@ -423,48 +518,36 @@ header_concat(gpointer key, gpointer value, gpointer user_data)
  *    <conn> The connection where the message is to be sent.
  *
  */
-void
-msn_message_send(MsnMessage *this, MsnConnection *conn, GError **err)
+gchar *
+msn_message_to_string(MsnMessage *this)
 {
-  guint written;
   MsnMessagePrivate *priv = MSN_MESSAGE_GET_PRIVATE(this);
-  
-  /* send command header*/
   gchar *arg_string = g_strjoinv(SPACE_SEPERATOR, &(priv->command_header[1]));
   gchar *command_header;
-  if (command_has_trid(priv->command_header[0])) { /* with trid */
-    priv->trid = msn_connection_get_next_trid(conn);
-    command_header = g_strdup_printf("%s%s%i%s%s%s",
+  command_header = (priv->trid < 0) ?
+    g_strdup_printf("%s%s%s%s",
+      priv->command_header[0], 
+      SPACE_SEPERATOR, 
+      arg_string, 
+      LINE_SEPERATOR):
+    g_strdup_printf("%s%s%i%s%s%s",
       priv->command_header[0], 
       SPACE_SEPERATOR, 
       priv->trid, 
       SPACE_SEPERATOR,
       arg_string, 
       LINE_SEPERATOR);
-  } else { /* without trid */
-    command_header = g_strdup_printf("%s%s%s%s",
-      priv->command_header[0], 
-      SPACE_SEPERATOR, 
-      arg_string, 
-      LINE_SEPERATOR);
-  }
-
   g_free(arg_string);
-  g_printf("%s", command_header);
-  g_io_channel_write_chars(msn_connection_get_channel(conn), command_header, -1, &written, err);
-
-  /* send message headers if necessary */
+  GString *result = g_string_new(command_header);
+  g_free(command_header);
   if (priv->headers != NULL && g_hash_table_size(priv->headers) > 0) {
      GString *headers = g_string_new("");
      g_hash_table_foreach(priv->headers, header_concat, headers);
-     g_printf("%s", headers->str);
-     g_io_channel_write_chars(msn_connection_get_channel(conn), headers->str, -1, &written, err);
-  }
-
-  /* send body */
-  if (priv->body != NULL && priv->body->len > 0) {
-     g_io_channel_write_chars(msn_connection_get_channel(conn), priv->body->str, -1, &written, err);
-  }
-  g_io_channel_flush(msn_connection_get_channel(conn), err);
-  g_free(command_header);
+     result = g_string_append(result, headers->str);
+     g_string_free(headers, TRUE);
+  } 
+  if (priv->body != NULL) result = g_string_append(result, priv->body->str);
+  gchar *result_str = g_strdup(result->str);
+  g_string_free(result, TRUE);
+  return result_str;
 }

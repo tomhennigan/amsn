@@ -1,4 +1,4 @@
-CFLAGS = -g -Wall
+CFLAGS = -g -Wall -std=gnu99
 
 CC = gcc
 LD = ld

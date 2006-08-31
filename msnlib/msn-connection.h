@@ -23,10 +23,11 @@
 
 #include <glib.h>
 #include <glib-object.h>
+#include "msn-message.h"
 
 G_BEGIN_DECLS
 
-#define MSN_DEFAULT_SERVER	"messenger.hotmail.com"
+#define MSN_DEFAULT_SERVER	"207.46.2.29"
 #define MSN_DEFAULT_PORT	1863
 
 typedef void (MsnTweenerAuthCallback) (const gchar *account, const gchar *password, const gchar *auth_string);
@@ -64,10 +65,10 @@ GType msn_connection_get_type(void);
 #define MSN_CONNECTION_GET_CLASS(obj) \
   (G_TYPE_INSTANCE_GET_CLASS ((obj), MSN_TYPE_CONNECTION, MsnConnectionClass))
 
+void            msn_connection_register_message(MsnConnection *this, MsnMessage *message);
 MsnConnection * msn_connection_new(MsnConnectionType type);
 GIOChannel *    msn_connection_get_channel(MsnConnection *this);
 gint            msn_connection_get_next_trid(MsnConnection *this);
-gboolean        msn_set_g_main_context(GMainContext *context);
 void            msn_connection_login(MsnConnection *this, const gchar *account, const gchar *password, MsnTweenerAuthCallback *twn_cb);
 void            msn_connection_set_login_ticket(MsnConnection *this, const gchar *ticket);
 void            msn_connection_request_sb(MsnConnection *this);

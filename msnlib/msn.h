@@ -26,6 +26,9 @@
 
 G_BEGIN_DECLS
 
+
+gboolean msn_set_g_main_context(GMainContext *context);
+
 G_END_DECLS
 
 #endif /* #ifndef __MSN_H__*/

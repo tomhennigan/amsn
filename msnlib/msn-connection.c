@@ -27,7 +27,6 @@
 #include <netdb.h>
 
 #include "msn-connection.h"
-#include "msn-message.h"
 
 G_DEFINE_TYPE(MsnConnection, msn_connection, G_TYPE_OBJECT)
 
@@ -39,12 +38,24 @@ struct _MsnConnectionPrivate
   gboolean connected;
   GIOChannel *channel;
   gint trid;
+  MsnConnectionType type;
+  GHashTable *sent_messages;
 };
+
+struct cmd_handler {
+  union ucmdcompare cmd;
+  void (*handler) (MsnMessage *msg, MsnConnection *conn);
+};
+
+gchar *cached_server = NULL;
+gchar *redirected_server = NULL;
+gint cached_port = -1;
+gint redirected_port = -1;
+
 
 #define MSN_CONNECTION_GET_PRIVATE(o)     (G_TYPE_INSTANCE_GET_PRIVATE ((o), MSN_TYPE_CONNECTION, MsnConnectionPrivate))
 
-/* type definition stuff */
-
+/* type definition stuff --------------------------------------- */
 static void
 msn_connection_init (MsnConnection *obj)
 {
@@ -60,9 +71,7 @@ static void
 msn_connection_class_init (MsnConnectionClass *msn_connection_class)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (msn_connection_class);
-
   g_type_class_add_private (msn_connection_class, sizeof (MsnConnectionPrivate));
-
   object_class->dispose = msn_connection_dispose;
   object_class->finalize = msn_connection_finalize;
 }
@@ -87,22 +96,50 @@ msn_connection_finalize (GObject *object)
 
   G_OBJECT_CLASS (msn_connection_parent_class)->finalize (object);
 }
+/* end type definition stuff ----------------------------------- */
 
-static struct addrinfo *get_msn_server(const gchar *server, gint port)  {
+
+/* private function -------------------------------------------- */
+/**
+ * this function calculates the next trid to be used
+ */
+static gint
+next_trid(MsnConnection *this) 
+{
+  MsnConnectionPrivate *priv = MSN_CONNECTION_GET_PRIVATE(this);
+  return (priv->trid)++;
+}
+
+/**
+ * this function gets the addrinfo struct with the appropriate server and port variables set
+ */
+static struct addrinfo *
+get_msn_server(const gchar *server, gint port)  
+{
   struct addrinfo hints;
   struct addrinfo *msn_serv;
   if (server == NULL) server = MSN_DEFAULT_SERVER;
+  if (port == -1) port = MSN_DEFAULT_PORT;
   memset(&hints, 0, sizeof(struct addrinfo));
   hints.ai_flags = AI_ADDRCONFIG;
   hints.ai_family = AF_UNSPEC;
   hints.ai_socktype = SOCK_STREAM;
-
-  if(getaddrinfo(server, g_strdup_printf("%i", port), &hints, &msn_serv) != 0) return NULL;
-  else return msn_serv;
+  gchar *port_str = g_strdup_printf("%i", port);
+  if (getaddrinfo(server, port_str, &hints, &msn_serv) != 0) {
+    g_free(port_str);
+    return NULL;
+  } else {
+    g_free(port_str);
+    return msn_serv;
+  }
 }
 
-
-static int get_connected_socket(const gchar *server, gint port) {
+/**
+ * this function creates a socket connection with the msn server
+ */
+static int 
+get_connected_socket(const gchar *server, gint port) 
+{
   struct addrinfo *msn_serv = get_msn_server(server, port);
   struct addrinfo *addr;
   int sock = -1;
@@ -117,46 +154,169 @@ static int get_connected_socket(const gchar *server, gint port) {
       sock = -1;
     }
   }
-  g_printf("socket: %i\n", sock);
 
   freeaddrinfo(msn_serv);
   return sock;
 }
 
 
-static void incoming_message(GIOChannel *source, GIOCondition condition, gpointer data) {
-  MsnConnection *conn = (MsnConnection *) data;
-  g_assert(MSN_IS_CONNECTION (conn));
-  MsnConnectionPrivate *priv = MSN_CONNECTION_GET_PRIVATE(conn);
-
-  gsize length, terminator_pos;
-  gchar *buffer;
-  GError *error = NULL;
-  g_io_channel_read_line(priv->channel, &buffer, &length, &terminator_pos, &error);
-  g_printf("Server: %s\n", buffer);
+/**
+ * This function checks whether a given command header starts with a payload command
+ */
+static gboolean
+is_payload_command(const gchar *string) 
+{
+  static const union ucmdcompare cmd_list[] = {
+    { "GCF" },
+    { .i_cmd = 0 }		// close the list
+  };
+  GString *command = g_string_new(string);
+  if (command->len < 4) return FALSE;
+  g_string_truncate(command, 3);
+  register guint32 ref_cmd = *((const guint32 *) command->str);
+  for (register gint i = 0; cmd_list[i].i_cmd != 0; i++) {
+    if (cmd_list[i].i_cmd == ref_cmd) return TRUE;
+  }
+  return FALSE;
 }
 
 
 /**
- * msn_set_g_main_context 
- *
- * This function should only be called before calling any other libmsn function. 
- * Libmsn will loosely check this. If you don't follow that rule, and libmsn 
- * doesn't detect that, you have successfully created chaos. This function will 
- * fail if context doesn't point to a valid GMainContext object or previous calls 
- * to libmsn functions have been detected.
- *
- * Parameters:
- *    <context> the GMainContext that should be used by libmsn to generate events.
- *
- * Returns: 
- *    This function shall return TRUE on success or FALSE on failure.
+ * The VER handler
  */
-gboolean 
-msn_set_g_main_context(GMainContext *context) 
+static void
+VER_handler(MsnMessage *message, MsnConnection *conn) 
 {
-  return TRUE;
+  g_printf("\nVER handler\n");
+  MsnConnectionPrivate *priv = MSN_CONNECTION_GET_PRIVATE(conn);
+  gint trid = msn_message_get_trid(message);
+  MsnMessage *orig = (MsnMessage *) g_hash_table_lookup(priv->sent_messages, &trid);
+  g_hash_table_remove(priv->sent_messages, &trid);
+  g_printf("orig command: %s\norig trid   : %i\n",
+           msn_message_get_command(orig),
+           msn_message_get_trid(orig));
+  g_object_unref(orig);
 }
+
+
+/**
+ * The USR handler
+ */
+static void
+USR_handler(MsnMessage *message, MsnConnection *conn) 
+{
+  g_printf("\nUSR handler\n");
+}
+
+
+/**
+ * The CVR handler
+ */
+static void
+CVR_handler(MsnMessage *message, MsnConnection *conn) 
+{
+  g_printf("\nCVR handler\n");
+}
+
+
+/**
+ * The GCF handler
+ */
+static void
+GCF_handler(MsnMessage *message, MsnConnection *conn) 
+/* GCF payload is in the message body and can be accessed with msn_message_get_body() */
+{
+  g_printf("\nGCF handler\n");
+}
+
+
+/**
+ * The XFR handler
+ */
+static void
+XFR_handler(MsnMessage *message, MsnConnection *conn) 
+{
+  g_printf("\nXFR handler\n");
+  gchar **command_header = (gchar **) msn_message_get_command_header(message);
+  if (g_str_equal(command_header[1], "NS")) {
+    gchar **ns_address = g_strsplit(command_header[2], ":", 2);
+    redirected_server  = g_strdup(ns_address[0]);
+    redirected_port    = (gint) g_ascii_strtod(ns_address[1], NULL);
+    g_strfreev(ns_address);
+  }
+}
+
+
+/**
+ * This function calls a message handler depending on its command
+ */
+static void
+handle_message(const gchar *message_str, MsnConnection *conn)
+{
+  static const struct cmd_handler handler_list[] = {
+    { .cmd = { "VER" },    .handler = VER_handler}, 
+    { .cmd = { "CVR" },    .handler = CVR_handler},
+    { .cmd = { "USR" },    .handler = USR_handler},
+    { .cmd = { "XFR" },    .handler = XFR_handler},
+    { .cmd = { "GCF" },    .handler = GCF_handler},
+    { .cmd = {.i_cmd = 0}, .handler = NULL}		// close the list
+  };
+
+  MsnMessage *mess = msn_message_from_string_in(message_str);
+  g_printf("<-- %s", message_str);
+  register guint32 ref_cmd = *((const guint32 *) msn_message_get_command(mess));
+  for (register gint i = 0; handler_list[i].cmd.i_cmd != 0; i++) {
+    if(handler_list[i].cmd.i_cmd == ref_cmd) (handler_list[i].handler) (mess, conn);
+  }
+  g_object_unref(mess);
+}
+
+
+/**
+ * This function receives a full message and calls handle_message
+ */
+static void 
+receive_msn_message(GIOChannel *source, GIOCondition condition, gpointer data) 
+{
+  MsnConnection *conn = (MsnConnection *) data;
+  g_assert(MSN_IS_CONNECTION (conn));
+  MsnConnectionPrivate *priv = MSN_CONNECTION_GET_PRIVATE(conn);
+  GError *error = NULL;
+  gchar *message;
+  g_io_channel_read_line(priv->channel, &message, NULL, NULL, &error);
+  /* if the current command is a payload command, extract the payload length
+   * from the first line (always the last argument) and use that value to
+   * read the payload of the message */
+  if (is_payload_command(message)) {
+    gchar *payload_size_str = g_strrstr(message, " ");
+    gsize payload = (gsize) g_ascii_strtod(&(payload_size_str[1]), NULL);
+    gchar *payload_str = g_malloc(payload + 1); /* payload is not NULL terminated, so do add \0 */
+    g_io_channel_read_chars(priv->channel, payload_str, payload, NULL, &error);
+    payload_str[payload] = '\0';
+    message = g_strdup_printf("%s\r\n%s", message, payload_str); /* concat the message and the payload */
+    g_free(payload_str);
+  }
+  handle_message(message, conn);
+  g_free(message);
+}
+
+/**
+ * This function sends a message and if it has a trid registers it
+ */
+static void
+send_msn_message(MsnMessage *message, MsnConnection *conn, GError **err)
+{
+  MsnConnectionPrivate *priv = MSN_CONNECTION_GET_PRIVATE(conn);
+  g_printf("--> %s\n", msn_message_to_string(message));
+  if (msn_message_get_trid(message) != -1) {
+    if (priv->sent_messages == NULL) priv->sent_messages = g_hash_table_new(g_int_hash, g_int_equal);
+    gint trid = msn_message_get_trid(message);
+    g_hash_table_insert(priv->sent_messages, &trid, message);
+  }
+  g_io_channel_write_chars(priv->channel, msn_message_to_string(message), -1, NULL, err);
+  g_io_channel_flush(priv->channel, err);
+}
+
 
 /**
  * msn_connection_login
@@ -223,6 +383,17 @@ msn_set_g_main_context(GMainContext *context)
 void 
 msn_connection_login(MsnConnection *this, const gchar *account, const gchar *password, MsnTweenerAuthCallback *twn_cb) 
 {
+  GError *error = NULL;
+  gchar *cvr_string = g_strdup_printf("CVR 0x0409 linux 2.6 i386 AMSN 1.99.0001 MSMSGS %s\r\n", account);
+  MsnMessage *cvr_message = msn_message_from_string_out(cvr_string);
+  g_free(cvr_string);
+  msn_message_set_trid(cvr_message, next_trid(this));
+  send_msn_message(cvr_message, this, &error);
+  gchar *usr_string = g_strdup_printf("USR TWN I %s\r\n", account);
+  MsnMessage *usr_message = msn_message_from_string_out(usr_string);
+  g_free(usr_string);
+  msn_message_set_trid(usr_message, next_trid(this));
+  send_msn_message(usr_message, this, &error);
 }
 
 
@@ -354,9 +525,6 @@ msn_connection_close(MsnConnection *this)
 MsnConnection *msn_connection_new(MsnConnectionType type)
 {
   GError *error = NULL;
-  MsnConnectionPrivate *priv;
-  MsnConnection *conn;
-  MsnMessage *mess;
   gint port;
   gchar *server;
   guint my_socket;
@@ -364,12 +532,12 @@ MsnConnection *msn_connection_new(MsnConnectionType type)
   /* Create a connection to given server */
   switch (type) {
     case MSN_CONNECTION_TYPE_NS:
-      server = "207.46.2.111";
-      port = 1863;
+      server = (redirected_server == NULL) ?  cached_server: redirected_server;
+      port = (redirected_port == -1) ? cached_port: redirected_port;
       break;
     case MSN_CONNECTION_TYPE_DS:
-      port = -1;
       server = NULL;
+      port = -1;
       break;
     case MSN_CONNECTION_TYPE_SB:
       break;
@@ -383,41 +551,21 @@ MsnConnection *msn_connection_new(MsnConnectionType type)
     g_debug("No connection could be established.");
     return NULL;
   }
-  g_printf("mysocket: %i\n", my_socket);
 
-  conn = g_object_new(MSN_TYPE_CONNECTION, NULL);
+  MsnConnection *conn = g_object_new(MSN_TYPE_CONNECTION, NULL);
   g_assert (MSN_IS_CONNECTION (conn));
-  priv = MSN_CONNECTION_GET_PRIVATE (conn);
+  MsnConnectionPrivate *priv = MSN_CONNECTION_GET_PRIVATE (conn);
+  priv->type = type;
 
   /* Create G_IO_Channel */
   priv->channel = g_io_channel_unix_new(my_socket);
   g_io_channel_set_encoding(priv->channel, NULL, NULL);
   g_io_channel_set_line_term(priv->channel, "\r\n", 2);
 
-  /* Construct VER CVR and USR messages */
-  mess = msn_message_from_string("VER 4 MSNP13 CVR0\r\n");
-  msn_message_send(mess, conn, &error);
-  g_object_unref(mess);
-  incoming_message(NULL, G_IO_IN, conn);
-  mess = msn_message_from_string("CVR 8 0x0409 linux 2.6 i386 AMSN 1.99.0001 MSMSGS someone@hotmail.com\r\n");
-  msn_message_send(mess, conn, &error);
-  g_object_unref(mess);
-  incoming_message(NULL, G_IO_IN, conn);
-  mess = msn_message_from_string("USR 33 TWN I someone@hotmail.com\r\n");
-  msn_message_send(mess, conn, &error);
-  g_object_unref(mess);
-  incoming_message(NULL, G_IO_IN, conn);
-//  g_io_add_watch(priv->channel, G_IO_IN, (GIOFunc) incoming_message, conn);
+  /* Send VER message */
+  MsnMessage *ver_message = msn_message_from_string_out("VER MSNP13 CVR0\r\n");
+  msn_message_set_trid(ver_message, next_trid(conn));
+  send_msn_message(ver_message, conn, &error);
+  g_io_add_watch(priv->channel, G_IO_IN, (GIOFunc) receive_msn_message, conn);
   return conn;
-}
-
-GIOChannel *msn_connection_get_channel(MsnConnection *this) {
-  MsnConnectionPrivate *priv = MSN_CONNECTION_GET_PRIVATE(this);
-  return priv->channel;
-}
-
-// Only for use by msn_message_send!!!
-gint msn_connection_get_next_trid(MsnConnection *this) {
-  MsnConnectionPrivate *priv = MSN_CONNECTION_GET_PRIVATE(this);
-  return (priv->trid)++;
 }

@@ -23,12 +23,17 @@
 
 #include <glib.h>
 #include <glib-object.h>
-#include "msn-connection.h"
 
 G_BEGIN_DECLS
 
 typedef struct _MsnMessage MsnMessage;
 typedef struct _MsnMessageClass MsnMessageClass;
+
+/* We know commands are always 3 chars long, plus a '\0' makes 32 bits. */
+union ucmdcompare {
+  gchar cmd[4];
+  guint32 i_cmd;
+};
 
 struct _MsnMessageClass {
     GObjectClass parent_class;
@@ -64,8 +69,11 @@ MsnMessage *msn_message_new();
 
 
 /**
- * This function creates an MsnMessage object from the passed string.
- * The returned MsnMessage object will be read only.
+ * These functions create an MsnMessage object from the passed string.
+ * The returned MsnMessage object will be read only. 
+ * the msn_message_from_string_in should be used with incoming messages (possibly with a trid)
+ * the msn_message_from_string_out should be used with outgoing messages (no trid, this should
+ * be set with msn_message_set_trid)
  *
  * Parameters:
  *    <msgtext> The message as a string. This will usually have been received from the server. 
@@ -73,7 +81,8 @@ MsnMessage *msn_message_new();
  * Returns: 
  *    MsnMessage if successful, else NULL.
  */
-MsnMessage *msn_message_from_string(const gchar *msgtext); 
+MsnMessage *msn_message_from_string_in(const gchar *msgtext); 
+MsnMessage *msn_message_from_string_out(const gchar *msgtext); 
 
 
 /**
@@ -217,16 +226,28 @@ void msn_message_set_command_header_from_string(MsnMessage *this, const gchar *c
 
 
 /**
- * This function will assign the message a TrId (if required by the protocol) and send
- * it through the specified connection.
+ * This function sets the trid of the message
+ * 
+ * Parameters:
+ *    <this>        Pointer to the object the method is invoked on. Must be obtained from
+ *                  msn_message_new or msn_message_from_string.
+ *    <trid>        Value of the trid
+ *
+ */
+void msn_message_set_trid(MsnMessage *this, gint trid);
+
+
+
+
+/**
+ * This function will convert the message object to a string which is ready to send
  * 
  * Parameters:
  *    <this> Pointer to the object the method is invoked on. Must be obtained from
  *           msn_message_new
- *    <conn> The connection where the message is to be sent.
  *
  */
-void msn_message_send(MsnMessage *this, MsnConnection *conn, GError **err);
+gchar *msn_message_to_string(MsnMessage *this);
 
 G_END_DECLS
 
