@@ -46,9 +46,6 @@
 # and other games-plugin incompatibilities.
 
 namespace eval ::Games {
-  # require BWidget for build_config_frame
-  package require AMSN_BWidget
-
   # Where to obtain aMSN and the Games plugin?
   variable amsn_url  "http://amsn.sf.net"
   variable games_url "http://sf.net/tracker/index.php?func=detail&aid=1414743&group_id=54091&atid=733148"
