@@ -6159,7 +6159,7 @@ proc Add_To_List { path list } {
 		AddToContactList "$username" "$path"
 	} else {
 		if { [::config::getKey protocol] == 11 } {
-			::MSN::WriteSB ns "ADC" "$list N=$user"
+			::MSN::WriteSB ns "ADC" "$list N=$username"
 		} else {
 			::MSN::WriteSB ns "ADD" "$list $username $username"
 		}
