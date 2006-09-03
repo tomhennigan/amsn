@@ -1,7 +1,6 @@
+/** @file msn-connection.c Source for the MsnConnection type */
 /*
- * msn-connection.c - Source for MsnConnection
- * Copyright (C) 2006 ?
- * Copyright (C) 2006 ?
+ * Copyright (C) 2006 The aMSN Project
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -26,6 +25,7 @@
 #include <unistd.h>
 #include <netdb.h>
 
+#include "msn-protocol.h"
 #include "msn-connection.h"
 
 G_DEFINE_TYPE(MsnConnection, msn_connection, G_TYPE_OBJECT)
@@ -33,8 +33,7 @@ G_DEFINE_TYPE(MsnConnection, msn_connection, G_TYPE_OBJECT)
 /* private structure */
 typedef struct _MsnConnectionPrivate MsnConnectionPrivate;
 
-struct _MsnConnectionPrivate
-{
+struct _MsnConnectionPrivate {
   gboolean connected;
   GIOChannel *channel;
   gint trid;
@@ -42,33 +41,28 @@ struct _MsnConnectionPrivate
   GHashTable *sent_messages;
 };
 
-struct cmd_handler {
-  union ucmdcompare cmd;
-  void (*handler) (MsnMessage *msg, MsnConnection *conn);
-};
+#define MSN_CONNECTION_GET_PRIVATE(o)     (G_TYPE_INSTANCE_GET_PRIVATE ((o), MSN_TYPE_CONNECTION, MsnConnectionPrivate))
 
 gchar *cached_server = NULL;
 gchar *redirected_server = NULL;
 gint cached_port = -1;
 gint redirected_port = -1;
 
-
-#define MSN_CONNECTION_GET_PRIVATE(o)     (G_TYPE_INSTANCE_GET_PRIVATE ((o), MSN_TYPE_CONNECTION, MsnConnectionPrivate))
-
 /* type definition stuff --------------------------------------- */
-static void
-msn_connection_init (MsnConnection *obj)
-{
-  MsnConnectionPrivate *priv = MSN_CONNECTION_GET_PRIVATE (obj);
-  priv->connected = FALSE;
-  priv->trid = 1;
-}
 
 static void msn_connection_dispose (GObject *object);
 static void msn_connection_finalize (GObject *object);
 
-static void
-msn_connection_class_init (MsnConnectionClass *msn_connection_class)
+static void msn_connection_init (MsnConnection *this)
+{
+  MsnConnectionPrivate *priv = MSN_CONNECTION_GET_PRIVATE (this);
+  priv->connected = FALSE;
+  priv->trid = 1;
+
+  this->protocol = msn_protocol_find("CVR0");
+}
+
+static void msn_connection_class_init (MsnConnectionClass *msn_connection_class)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (msn_connection_class);
   g_type_class_add_private (msn_connection_class, sizeof (MsnConnectionPrivate));
@@ -76,8 +70,7 @@ msn_connection_class_init (MsnConnectionClass *msn_connection_class)
   object_class->finalize = msn_connection_finalize;
 }
 
-static void
-msn_connection_dispose (GObject *object)
+static void msn_connection_dispose (GObject *object)
 {
   //MsnConnection *self = MSN_CONNECTION (object);
   //MsnConnectionPrivate *priv = MSN_CONNECTION_GET_PRIVATE (self);
@@ -88,57 +81,55 @@ msn_connection_dispose (GObject *object)
     G_OBJECT_CLASS (msn_connection_parent_class)->dispose (object);
 }
 
-static void
-msn_connection_finalize (GObject *object)
+static void msn_connection_finalize (GObject *object)
 {
   //MsnConnection *self = MSN_CONNECTION (object);
   //MsnConnectionPrivate *priv = MSN_CONNECTION_GET_PRIVATE (self);
 
   G_OBJECT_CLASS (msn_connection_parent_class)->finalize (object);
 }
+
 /* end type definition stuff ----------------------------------- */
 
 
-/* private function -------------------------------------------- */
-/**
- * this function calculates the next trid to be used
- */
-static gint
-next_trid(MsnConnection *this) 
+
+
+/* private functions ------------------------------------------- */
+
+/* This function calculates the next trid to be used */
+static gint next_trid(MsnConnection *this)
 {
   MsnConnectionPrivate *priv = MSN_CONNECTION_GET_PRIVATE(this);
   return (priv->trid)++;
 }
 
-/**
- * this function gets the addrinfo struct with the appropriate server and port variables set
- */
-static struct addrinfo *
-get_msn_server(const gchar *server, gint port)  
+/* This function gets the addrinfo struct with the appropriate server and port variables set */
+static struct addrinfo * get_msn_server(const gchar *server,
+                                        gint port)
 {
+  struct addrinfo *msn_serv = NULL;
   struct addrinfo hints;
-  struct addrinfo *msn_serv;
+
   if (server == NULL) server = MSN_DEFAULT_SERVER;
   if (port == -1) port = MSN_DEFAULT_PORT;
+
   memset(&hints, 0, sizeof(struct addrinfo));
   hints.ai_flags = AI_ADDRCONFIG;
   hints.ai_family = AF_UNSPEC;
   hints.ai_socktype = SOCK_STREAM;
+
   gchar *port_str = g_strdup_printf("%i", port);
   if (getaddrinfo(server, port_str, &hints, &msn_serv) != 0) {
-    g_free(port_str);
-    return NULL;
-  } else {
-    g_free(port_str);
-    return msn_serv;
+    msn_serv = NULL;
   }
+
+  g_free(port_str);
+  return msn_serv;
 }
 
-/**
- * this function creates a socket connection with the msn server
- */
-static int 
-get_connected_socket(const gchar *server, gint port) 
+/* This function creates a socket connection with the msn server */
+static int get_connected_socket(const gchar *server,
+                                gint port)
 {
   struct addrinfo *msn_serv = get_msn_server(server, port);
   struct addrinfo *addr;
@@ -160,240 +151,164 @@ get_connected_socket(const gchar *server, gint port)
 }
 
 
-/**
- * This function checks whether a given command header starts with a payload command
- */
-static gboolean
-is_payload_command(const gchar *string) 
+/* This function checks whether a given command header starts with a payload command (for incoming messages!) */
+static gboolean has_payload_command(MsnProtocol *protocol,
+                                    const gchar *string)
 {
-  static const union ucmdcompare cmd_list[] = {
-    { "GCF" },
-    { .i_cmd = 0 }		// close the list
-  };
-  GString *command = g_string_new(string);
-  if (command->len < 4) return FALSE;
-  g_string_truncate(command, 3);
-  register guint32 ref_cmd = *((const guint32 *) command->str);
-  for (register gint i = 0; cmd_list[i].i_cmd != 0; i++) {
-    if (cmd_list[i].i_cmd == ref_cmd) return TRUE;
-  }
-  return FALSE;
+  gchar *cmd_str = g_strndup(string, 3);
+  MsnCommand *command = msn_protocol_find_command(protocol, cmd_str);
+  g_free(cmd_str);
+
+  return (command != NULL) ? command->has_payload : FALSE;
 }
 
 
-/**
- * The VER handler
- */
-static void
-VER_handler(MsnMessage *message, MsnConnection *conn) 
+/* This function calls a message handler depending on its command */
+static void handle_message(MsnConnection *this,
+                           MsnMessage *msg)
 {
-  g_printf("\nVER handler\n");
-  MsnConnectionPrivate *priv = MSN_CONNECTION_GET_PRIVATE(conn);
-  gint trid = msn_message_get_trid(message);
-  MsnMessage *orig = (MsnMessage *) g_hash_table_lookup(priv->sent_messages, &trid);
-  g_hash_table_remove(priv->sent_messages, &trid);
-  g_printf("orig command: %s\norig trid   : %i\n",
-           msn_message_get_command(orig),
-           msn_message_get_trid(orig));
-  g_object_unref(orig);
+  MsnCommand *command = msn_protocol_find_command(this->protocol, msn_message_get_command(msg));
+  if(command != NULL && command->handler != NULL) command->handler(msg, this);
 }
 
 
-/**
- * The USR handler
- */
-static void
-USR_handler(MsnMessage *message, MsnConnection *conn) 
-{
-  g_printf("\nUSR handler\n");
-}
-
-
-/**
- * The CVR handler
- */
-static void
-CVR_handler(MsnMessage *message, MsnConnection *conn) 
-{
-  g_printf("\nCVR handler\n");
-}
-
-
-/**
- * The GCF handler
- */
-static void
-GCF_handler(MsnMessage *message, MsnConnection *conn) 
-/* GCF payload is in the message body and can be accessed with msn_message_get_body() */
-{
-  g_printf("\nGCF handler\n");
-}
-
-
-/**
- * The XFR handler
- */
-static void
-XFR_handler(MsnMessage *message, MsnConnection *conn) 
-{
-  g_printf("\nXFR handler\n");
-  gchar **command_header = (gchar **) msn_message_get_command_header(message);
-  if (g_str_equal(command_header[1], "NS")) {
-    gchar **ns_address = g_strsplit(command_header[2], ":", 2);
-    redirected_server  = g_strdup(ns_address[0]);
-    redirected_port    = (gint) g_ascii_strtod(ns_address[1], NULL);
-    g_strfreev(ns_address);
-  }
-}
-
-
-/**
- * This function calls a message handler depending on its command
- */
-static void
-handle_message(const gchar *message_str, MsnConnection *conn)
-{
-  static const struct cmd_handler handler_list[] = {
-    { .cmd = { "VER" },    .handler = VER_handler}, 
-    { .cmd = { "CVR" },    .handler = CVR_handler},
-    { .cmd = { "USR" },    .handler = USR_handler},
-    { .cmd = { "XFR" },    .handler = XFR_handler},
-    { .cmd = { "GCF" },    .handler = GCF_handler},
-    { .cmd = {.i_cmd = 0}, .handler = NULL}		// close the list
-  };
-
-  MsnMessage *mess = msn_message_from_string_in(message_str);
-  g_printf("<-- %s", message_str);
-  register guint32 ref_cmd = *((const guint32 *) msn_message_get_command(mess));
-  for (register gint i = 0; handler_list[i].cmd.i_cmd != 0; i++) {
-    if(handler_list[i].cmd.i_cmd == ref_cmd) (handler_list[i].handler) (mess, conn);
-  }
-  g_object_unref(mess);
-}
-
-
-/**
- * This function receives a full message and calls handle_message
- */
-static void 
-receive_msn_message(GIOChannel *source, GIOCondition condition, gpointer data) 
+/* This function receives a full message and calls handle_message */
+static void receive_msn_message(GIOChannel *source,
+                                GIOCondition condition,
+                                gpointer data)
 {
   MsnConnection *conn = (MsnConnection *) data;
   g_assert(MSN_IS_CONNECTION (conn));
+
+  gchar *message = NULL;
   MsnConnectionPrivate *priv = MSN_CONNECTION_GET_PRIVATE(conn);
-  GError *error = NULL;
-  gchar *message;
-  g_io_channel_read_line(priv->channel, &message, NULL, NULL, &error);
-  /* if the current command is a payload command, extract the payload length
+  g_io_channel_read_line(priv->channel, &message, NULL, NULL, NULL);
+
+  /* If the current command is a payload command, extract the payload length
    * from the first line (always the last argument) and use that value to
    * read the payload of the message */
-  if (is_payload_command(message)) {
+  if (has_payload_command(conn->protocol, message)) {
     gchar *payload_size_str = g_strrstr(message, " ");
-    gsize payload = (gsize) g_ascii_strtod(&(payload_size_str[1]), NULL);
-    gchar *payload_str = g_malloc(payload + 1); /* payload is not NULL terminated, so do add \0 */
-    g_io_channel_read_chars(priv->channel, payload_str, payload, NULL, &error);
-    payload_str[payload] = '\0';
-    message = g_strdup_printf("%s\r\n%s", message, payload_str); /* concat the message and the payload */
+    gsize payload_size = (gsize) strtoul(&(payload_size_str[1]), NULL, 10);
+
+    /* Read payload and null-terminate it */
+    gchar *payload_str = g_malloc(payload_size + 1);
+    g_io_channel_read_chars(priv->channel, payload_str, payload_size, NULL, NULL); // TODO: GError** in last argument
+    payload_str[payload_size] = '\0';
+
+    /* Create a complete message string by concatenating the payload to the message */
+    gchar *to_free = message;
+    message = g_strdup_printf("%s%s", message, payload_str);
+    g_free(to_free);
     g_free(payload_str);
   }
-  handle_message(message, conn);
+
+  g_printf("<-- %s", message);
+
+  MsnMessage *msg = msn_message_from_string(conn->protocol, message);
+  handle_message(conn, msg);
+
+  g_object_unref(msg);
   g_free(message);
 }
 
-/**
- * This function sends a message and if it has a trid registers it
- */
-static void
-send_msn_message(MsnMessage *message, MsnConnection *conn, GError **err)
+
+/* This function sends a message and if it has a trid registers it */
+static void send_msn_message(MsnConnection *this,
+                             MsnMessage *message,
+                             GError **error_ptr)
 {
-  MsnConnectionPrivate *priv = MSN_CONNECTION_GET_PRIVATE(conn);
+  g_return_if_fail (error_ptr == NULL || *error_ptr == NULL);
+
+  MsnConnectionPrivate *priv = MSN_CONNECTION_GET_PRIVATE(this);
+  GError *error;
+
   g_printf("--> %s\n", msn_message_to_string(message));
+
   if (msn_message_get_trid(message) != -1) {
     if (priv->sent_messages == NULL) priv->sent_messages = g_hash_table_new(g_int_hash, g_int_equal);
     gint trid = msn_message_get_trid(message);
-    g_hash_table_insert(priv->sent_messages, &trid, message);
+    g_hash_table_insert(priv->sent_messages, &trid, message); // FIXME: Passing &trid seems very unsafe to me!
   }
-  g_io_channel_write_chars(priv->channel, msn_message_to_string(message), -1, NULL, err);
-  g_io_channel_flush(priv->channel, err);
+
+  g_io_channel_write_chars(priv->channel, msn_message_to_string(message), -1, NULL, &error);
+  if(error != NULL) {
+    g_propagate_error(error_ptr, error);
+    return;
+  }
+
+  g_io_channel_flush(priv->channel, &error);
+  if(error != NULL) {
+    g_propagate_error(error_ptr, error);
+    return;
+  }
 }
+
+/* end private functions --------------------------------------- */
+
 
 
 /**
- * msn_connection_login
+ * Login to the MSN Messenger Service.
  *
+ * This method should only be invoked on a DS or NS connection that did not
+ * attempt to login before. If invoked on a SB connection or on a connection that
+ * tried to log in already (either successfully or not), it returns immediately.
  *
- *    This function will log into the MSN Messenger Service. 
- *    [Protocol sequence: USR, XFR NS]
- *    It delegates the Tweener (HTTP + SOAP) part to the callback function.
+ * Most of this function executes asynchronously. This function returns immediately
+ * after sending the initial USR.
  *
- *    This function should only be invoked on a DS or NS connection that did not 
- *    yet login. If invoked on a SB connection or on a connection that logged in
- *    already, it must immediately return with return value 0.
+ * This function initiates a chain of actions:
+ *   1. This function checks if this MsnConnection object has authenticated already,
+ *      if not, it sends the initial USR and updates the object's state accordingly.
+ *      This function returns here, the rest of the actions are initiated from the
+ *      glib mainloop.
  *
- *    This function executes asynchronously and returns immediately after sending 
- *    the initial USR.
+ *   2. When the reply from the server arrives, and that is an USR, the twn_cb 
+ *      callback function is called, which will send the Tweener authentication 
+ *      request. This should be done using a HTTP library that also utilises the 
+ *      glib mainloop, or is just non-blocking so it can be wrapped to run in the 
+ *      mainloop. The twn_cb function should make sure that a callback (let's call
+ *      it twn_reply_cb) is registered to catch the Tweener reply. The twn_cb 
+ *      function must return without delay (i.e. it must not wait for the HTTP 
+ *      response).
+ *      If the server sent an XFR reply instead of USR, an event is fired to
+ *      indicate that we're being redirected [Needs detail], and the sequence
+ *      ends here.
  *
- *    This function initiates a chain of actions:
- *     1. This function checks if this MsnConnection object has authenticated already,
- *        if not, it sends the initial USR and updates the object's state accordingly.
- *        This function returns here, the rest of the actions are initiated from the
- *        glib mainloop.
- *     2. When the reply from the server arrives, and that is an USR, the twn_cb 
- *        callback function is called, which will send the Tweener authentication 
- *        request. This should be done using a HTTP library that also utilises the 
- *        glib mainloop, or is just non-blocking so it can be wrapped to run in the 
- *        mainloop. The twn_cb function should make sure that a callback (let's call
- *        it twn_reply_cb) is registered to catch the Tweener reply. The twn_cb 
- *        function must return without delay (i.e. it must not wait for the HTTP 
- *        response).
- *        If the server sent an XFR reply instead of USR, an event is fired to
- *        indicate that we're being redirected [Needs detail], and the sequence
- *        ends here.
- *     3. On arrival of the Tweener response, twn_reply_cb will extract the ticket 
- *        from it, and call msn_connection_set_login_ticket. That function will send
- *        the USR message with the ticket and return.
- *     4. On arrival of the final USR response an event is fired to indicate success
- *        or failure of the authentication. [Needs detail]
+ *   3. On arrival of the Tweener response, twn_reply_cb will extract the ticket 
+ *      from it, and call msn_connection_set_login_ticket. That function will send
+ *      the USR message with the ticket and return.
  *
- * Parameters:
- *    <this>     Pointer to the object the method is invoked on. The pointer must be 
- *               obtained from msn_connection_new.
- *    <account>  The account name to use when logging in
- *    <password> The password of the account
- *    <twn_cb>   A callback function as defined by:
+ *   4. On arrival of the final USR response an event is fired to indicate success
+ *      or failure of the authentication. [Needs detail]
  *
- *               typedef void (MsnTweenerAuthCallback) (const char *account, 
- *                                                      const char *password, 
- *                                                      const char *auth_string);
- *               <account>     The account name to use when logging in, this is the same 
- *                             pointer as was passed to msn_connection_login.
- *               <password>    The password of the account, this is the same pointer as was
- *                             passed to msn_connection_login.
- *               <auth_string> is the string obtained from the NS in the USR sequence before
- *                             Tweener authentication.
+ * @param this     Pointer to the object the method is invoked on.
+ *                 The pointer must be obtained from msn_connection_new.
+ * @param account  The account name to use when logging in
+ * @param password The password of the account
+ * @param twn_cb   A callback function of type MsnTweenerAuthCallback.
  *
- *               twn_cb may free the account and password strings, libmsn will not use 
- *               them after doing the callback.
- *               twn_cb must not free auth_string, it is owned by libmsn, and will 
- *               therefore be freed by libmsn.
- *
- * Returns: 
- *    -
+ * @see MsnTweenerAuthCallback
  */
-void 
-msn_connection_login(MsnConnection *this, const gchar *account, const gchar *password, MsnTweenerAuthCallback *twn_cb) 
+void msn_connection_login(MsnConnection *this,
+                          const gchar *account,
+                          const gchar *password,
+                          MsnTweenerAuthCallback *twn_cb)
 {
   GError *error = NULL;
-  gchar *cvr_string = g_strdup_printf("CVR 0x0409 linux 2.6 i386 AMSN 1.99.0001 MSMSGS %s\r\n", account);
-  MsnMessage *cvr_message = msn_message_from_string_out(cvr_string);
+
+  gchar *cvr_string = g_strdup_printf("CVR 0x0409 linux 2.6 i386 AMSN 1.99.0001 MSMSGS %s", account);
+  MsnMessage *cvr_message = msn_message_new_with_command(cvr_string);
   g_free(cvr_string);
-  msn_message_set_trid(cvr_message, next_trid(this));
-  send_msn_message(cvr_message, this, &error);
-  gchar *usr_string = g_strdup_printf("USR TWN I %s\r\n", account);
-  MsnMessage *usr_message = msn_message_from_string_out(usr_string);
+
+  msn_connection_send_message(this, cvr_message, &error);
+
+  gchar *usr_string = g_strdup_printf("USR TWN I %s", account);
+  MsnMessage *usr_message = msn_message_new_with_command(usr_string);
   g_free(usr_string);
-  msn_message_set_trid(usr_message, next_trid(this));
-  send_msn_message(usr_message, this, &error);
+
+  msn_connection_send_message(this, usr_message, &error);
 }
 
 
@@ -413,114 +328,95 @@ msn_connection_login(MsnConnection *this, const gchar *account, const gchar *pas
  * Returns: 
  *    -
  */
-void 
-msn_connection_set_login_ticket(MsnConnection *this, const gchar *ticket)
+void msn_connection_set_login_ticket(MsnConnection *this,
+                                     const gchar *ticket)
 {
 }
 
 
 /**
- * msn_connection_request_sb
+ * Request an SB connection
  *
  * It may seem strange that this function has no return value, but that is 
  * intentional. When the switchboard connection is established an event is 
- * generated [Needs detail].  So before using this function, be prepared to
+ * generated [Needs detail]. So before using this function, be prepared to
  * handle that event, it is the only way to get a pointer to the new 
  * MsnConnection object! Also note that the same type of event is generated 
  * when you've been invited into a switchboard by someone else.
  *
- *    The full action chain:
- *    1. This function sends an XFR SB and then returns.
- *    2. When the XFR SB response from the server arrives
- *       - msn_connection_new(MSN_CONNECTION_TYPE_SB) is called to create the
- *         new SB connection
- *       - msn_connection_set_login_ticket is called on the brand new SB 
- *         connection to give it its CKI authentication string. The USR message
- *         is sent by msn_connection_set_login_ticket.
- *    3. When the USR OK response is received from the server, an event is
- *       fired to publish the new connection.
+ * The full action chain:
+ *   1. This function sends an XFR SB and then returns.
+ *   2. When the XFR SB response from the server arrives
+ *        - msn_connection_new(MSN_CONNECTION_TYPE_SB) is called to create the
+ *          new SB connection
+ *        - msn_connection_set_login_ticket is called on the brand new SB 
+ *          connection to give it its CKI authentication string. The USR message
+ *          is sent by msn_connection_set_login_ticket.
+ *   3. When the USR OK response is received from the server, an event is
+ *      fired to publish the new connection.
  *
  * This method may only be invoked on an NS connection.
  *
- * Parameters:
- *    <this>   Pointer to the object the method is invoked on. The pointer must be 
- *             obtained from msn_connection_new.
- *
- * Returns: 
- *    -
+ * @param this Pointer to the object this method is being invoked on.
+ *             This must be an MsnConnection object representing a
+ *             NS connection that has logged in sucessfully.
  */
-void
-msn_connection_request_sb(MsnConnection *this)
+void msn_connection_request_sb(MsnConnection *this)
 {
 }
 
 
 /**
- * msn_connection_close
+ * Close a connection.
  *
- * This function will close the connection, and free any resources related to it.
- * A user of libmsn must always call this if a connection will not be used 
- * anymore, a connection is never closed automatically.
+ * This method will close the connection, and free its resources. You must call
+ * this if a connection will not be used anymore, a connection is never closed
+ * automatically.
  *
- * Please note that this won't free the MsnConnection object itself! The object 
- * will enter the disconnected state, and thus cannot be used anymore. It should 
- * therefore be unref'ed so it will eventually get freed.
+ * @note This won't free the MsnConnection object itself! The object will enter
+ *       the disconnected state, and thus cannot be used anymore for communication.
  *
- * Parameters:
- *    <this>   Pointer to the object the method is invoked on. The pointer must be 
- *             obtained from msn_connection_new.
- *
- * Returns: 
- *    -
+ * @param this Pointer to the object the method is invoked on.
  */
-void
-msn_connection_close(MsnConnection *this)
+void msn_connection_close(MsnConnection *this)
 {
 }
 
 
-
 /**
- * msn_connection_new
+ * Create a new MsnConnection object.
  *
  * MSN_CONNECTION_TYPE_DS and MSN_CONNECTION_TYPE_NS are handled the same way,
  * with one exception: NS allows the use of a cached NS address, DS forces the
- * function to connect to the dispatch server messenger.hotmail.com:1863.
+ * function to connect to the dispatch server.
  *
  * MSN_CONNECTION_TYPE_SB will connect to a switchboard server.
  *
- * No addresses need to be passed because the connection handler will always
- * know them. Internally it keeps one NS server address cached (the one that 
- * was successfully connected to most recently). This is only cached in memory,
- * so it is lost when the process terminates. If the MSN_CONNECTION_TYPE_NS 
- * type is used while no address is in cache, it is handled as 
- * MSN_CONNECTION_TYPE_DS. If an address is in cache and MSN_CONNECTION_TYPE_DS
- * is used, the cached address should not change. If the DS supplies an NS 
- * address different from the one cached, the cached address should only change
- * once a connection to the new address succeeds. When connecting with type 
- * MSN_CONNECTION_TYPE_NS, while the previous NS or DS connection redirected, 
- * then the address supplied in the redirection command should be favored rather
- * than a cached address. If that connection fails, the next attempt will again
- * use the cached address. The function should only attempt to connect once when
- * called, and should just fail if the connection could not be established.
- * So the 'next attemp' is the next call to the function. [Protocol sequences: VER]
+ * No address information needs to be passed to this method because the connection
+ * handler will always know them. Internally it keeps one NS server address cached
+ * (the one that was successfully connected to most recently). This is only cached
+ * in memory, so it is lost when the process terminates.
+ * If the MSN_CONNECTION_TYPE_NS type is used when no address is in cache, it is
+ * handled the same way as MSN_CONNECTION_TYPE_DS.
+ * If an address is in cache and MSN_CONNECTION_TYPE_DS is used, the cached address
+ * should not change. If the DS supplies an NS address different from the one cached,
+ * the cached address should only change when an attempt to connect to the new
+ * address succeeds.
+ * When connecting with type MSN_CONNECTION_TYPE_NS, while the previous NS or DS
+ * connection redirected, then the address supplied in the redirection command should
+ * be favored rather than a cached address. If that connection fails, the next attempt
+ * will again use the cached address. The function should only attempt to connect once
+ * when called, and should just fail if the connection could not be established.
  *
  * MSN_CONNECTION_TYPE_SB is only for use inside libmsn. Calling with this type
- * directly will always fail. Request a new SB connection with 
- * msn_connection_request_sb().
+ * directly will always fail. If you want to request a new SB connection, use
+ * msn_connection_request_sb() instead.
  *
- * This function executes synchronously, but if the connection was established
- * successfully, it will prepare the connection object for asynchronous operation
- * by adding sources to the GMainContext specified by a call to 
- * msn_set_g_main_context(). If none has been set, it defaults to NULL, which will
- * make glib use the default context.
+ * @param type The type of connection to be created.
+ * @return a new MsnConnection if successful, NULL otherwise.
  *
- * Parameters:
- *   <type> is either MSN_CONNECTION_TYPE_DS, MSN_CONNECTION_TYPE_NS or 
- *          MSN_CONNECTION_TYPE_SB.
- *
- *
- * Returns: a new MsnConnection if successful, NULL otherwise.
+ * @see msn_connection_request_sb()
+ * @see MsnConnectionType
  */
 MsnConnection *msn_connection_new(MsnConnectionType type)
 {
@@ -561,11 +457,47 @@ MsnConnection *msn_connection_new(MsnConnectionType type)
   priv->channel = g_io_channel_unix_new(my_socket);
   g_io_channel_set_encoding(priv->channel, NULL, NULL);
   g_io_channel_set_line_term(priv->channel, "\r\n", 2);
+  g_io_add_watch(priv->channel, G_IO_IN, (GIOFunc) receive_msn_message, conn);
 
   /* Send VER message */
-  MsnMessage *ver_message = msn_message_from_string_out("VER MSNP13 CVR0\r\n");
-  msn_message_set_trid(ver_message, next_trid(conn));
-  send_msn_message(ver_message, conn, &error);
-  g_io_add_watch(priv->channel, G_IO_IN, (GIOFunc) receive_msn_message, conn);
+  MsnMessage *ver_message = msn_message_new_with_command("VER MSNP13 CVR0");
+  msn_connection_send_message(conn, ver_message, &error);
+
   return conn;
+}
+
+/**
+ * Send a message.
+ *
+ * If the command of the message is a standard command, a TrId is assigned
+ * before actually sending the message.
+ *
+ * @param this      Pointer to the object this method is being invoked on.
+ * @param message   The message to send.
+ * @param error_ptr Standard GError mechanism.
+ *
+ * @see MsnMessage
+ */
+void msn_connection_send_message(MsnConnection *this,
+                                 MsnMessage *message,
+                                 GError **error_ptr)
+{
+  GError *error;
+
+  if(msn_protocol_command_has_trid(this->protocol, msn_message_get_command(message)))
+    msn_message_set_trid(message, next_trid(this));
+
+  send_msn_message(this, message, &error);
+  if(error != NULL) {
+    g_propagate_error(error_ptr, error);
+    return;
+  }
+
+  return;
+}
+
+
+MsnConnectionType msn_connection_get_conn_type(MsnConnection *this) {
+  MsnConnectionPrivate *priv = MSN_CONNECTION_GET_PRIVATE(this);
+  return priv->type;
 }

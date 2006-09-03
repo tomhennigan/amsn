@@ -1,7 +1,6 @@
+/** @file msn-connection.h Header file for the MsnConnection type. */
 /*
- * msn-connection.h - Header for MsnConnection
- * Copyright (C) 2006 ?
- * Copyright (C) 2006 ?
+ * Copyright (C) 2006 The aMSN Project
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -23,23 +22,50 @@
 
 #include <glib.h>
 #include <glib-object.h>
-#include "msn-message.h"
 
 G_BEGIN_DECLS
 
-#define MSN_DEFAULT_SERVER	"207.46.2.29"
+#define MSN_DEFAULT_SERVER	"messenger.hotmail.com"
 #define MSN_DEFAULT_PORT	1863
 
-typedef void (MsnTweenerAuthCallback) (const gchar *account, const gchar *password, const gchar *auth_string);
-
-typedef enum {
-  MSN_CONNECTION_TYPE_DS,
-  MSN_CONNECTION_TYPE_NS,
-  MSN_CONNECTION_TYPE_SB
-} MsnConnectionType;
-
+/** MsnConnection type. */
 typedef struct _MsnConnection MsnConnection;
 typedef struct _MsnConnectionClass MsnConnectionClass;
+
+
+/**
+ * Enum used to specify the type of a MsnConnection.
+ *
+ * @see msn_connection_new()
+ */
+typedef enum {
+  MSN_CONNECTION_TYPE_DS,  ///< Dispatch Server Connection. Forces connection to the dispatch server,
+                           ///< otherwise the same as MSN_CONNECTION_TYPE_NS.
+  MSN_CONNECTION_TYPE_NS,  ///< Notification Server Connection.
+  MSN_CONNECTION_TYPE_SB   ///< Switchboard Connection. Use msn_connection_request_sb() to get a connection of this type.
+} MsnConnectionType;
+
+
+/* Compilation errors occur if these includes are on top of the file
+ * This is because of two-way dependencies */
+#include "msn-protocol.h"
+#include "msn-message.h"
+
+/**
+ * Prototype for callback function used in Tweener authentication.
+ *
+ * This function may free the \a account and \a password strings, however, it must NOT free \a auth_string which is
+ * owned by libmsn, and will therefore also be freed by libmsn.
+ *
+ * @param account     The account name to use when logging in, this is the same pointer as was passed to
+ *                    msn_connection_login().
+ * @param password    The password of the account, this is the same pointer as was passed to msn_connection_login.
+ * @param auth_string This is the string obtained from the NS in the USR sequence just before Tweener authentication.
+ *
+ * @see msn_connection_login()
+ */
+typedef void (MsnTweenerAuthCallback) (const gchar *account, const gchar *password, const gchar *auth_string);
+
 
 struct _MsnConnectionClass {
     GObjectClass parent_class;
@@ -47,6 +73,7 @@ struct _MsnConnectionClass {
 
 struct _MsnConnection {
     GObject parent;
+    MsnProtocol *protocol;
 };
 
 GType msn_connection_get_type(void);
@@ -65,15 +92,17 @@ GType msn_connection_get_type(void);
 #define MSN_CONNECTION_GET_CLASS(obj) \
   (G_TYPE_INSTANCE_GET_CLASS ((obj), MSN_TYPE_CONNECTION, MsnConnectionClass))
 
-void            msn_connection_register_message(MsnConnection *this, MsnMessage *message);
-MsnConnection * msn_connection_new(MsnConnectionType type);
-GIOChannel *    msn_connection_get_channel(MsnConnection *this);
-gint            msn_connection_get_next_trid(MsnConnection *this);
-void            msn_connection_login(MsnConnection *this, const gchar *account, const gchar *password, MsnTweenerAuthCallback *twn_cb);
-void            msn_connection_set_login_ticket(MsnConnection *this, const gchar *ticket);
-void            msn_connection_request_sb(MsnConnection *this);
-void            msn_connection_close(MsnConnection *this);
-
+void              msn_connection_register_message(MsnConnection *this, MsnMessage *message);
+MsnConnection *   msn_connection_new(MsnConnectionType type);
+GIOChannel *      msn_connection_get_channel(MsnConnection *this);
+gint              msn_connection_get_next_trid(MsnConnection *this);
+void              msn_connection_login(MsnConnection *this, const gchar *account,
+                                       const gchar *password, MsnTweenerAuthCallback *twn_cb);
+void              msn_connection_set_login_ticket(MsnConnection *this, const gchar *ticket);
+void              msn_connection_request_sb(MsnConnection *this);
+void              msn_connection_close(MsnConnection *this);
+void              msn_connection_send_message(MsnConnection *this, MsnMessage *message, GError **error_ptr);
+MsnConnectionType msn_connection_get_conn_type(MsnConnection *this);
 G_END_DECLS
 
 #endif /* #ifndef __MSN_CONNECTION_H__*/
