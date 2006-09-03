@@ -10,7 +10,7 @@
 	<init_procedure>amsnplusStart</init_procedure>
 	<deinit_procedure>amsnplusStop</deinit_procedure>
 
-	<cvs_version>7045</cvs_version>
+	<cvs_version>7060</cvs_version>
 
 	<lang>
 		<langcode>ca</langcode>
@@ -64,7 +64,7 @@
 
 	<file>
 		<path>snapshot.c</path>
-		<version>4956</version>
+		<version>7045</version>
 	</file>
 	
 	<file>
