@@ -1178,13 +1178,14 @@ proc CreateProfile { email } {
 	create_dir $webcam_dir
 
 	# Load default config initially
-	file copy -force [file join $HOME2 config.xml] $newHOMEdir
+	# file copy -force [file join $HOME2 config.xml] $newHOMEdir
 
 	set oldhome $HOME
 	set HOME $newHOMEdir
 
 	::config::setKey login $email
-	load_config
+	#load_config
+	::config::configDefaults
 	save_config
 
 	::config::setKey login $oldlogin
