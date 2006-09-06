@@ -73,6 +73,7 @@ bool CxImagePNG::Decode(CxFile *hFile)
 	if (setjmp(png_ptr->jmpbuf)) {
 		/* Free all of the memory associated with the png_ptr and info_ptr */
 		if (row_pointers) delete[] row_pointers;
+		row_pointers = NULL;
 		png_destroy_read_struct(&png_ptr, &info_ptr, (png_infopp)NULL);
 		throw "";
 	}
@@ -257,6 +258,7 @@ bool CxImagePNG::Decode(CxFile *hFile)
 		} while(y<head.biHeight);
 	}
 	delete[] row_pointers;
+	row_pointers=NULL;
 
 	/* read the rest of the file, getting any additional chunks in info_ptr */
 	png_read_end(png_ptr, info_ptr);
@@ -460,6 +462,7 @@ bool CxImagePNG::Encode(CxFile *hFile)
 		}
 		
 		delete [] row_pointers;
+		row_pointers = NULL;
 	}
 	else
 #endif //CXIMAGE_SUPPORT_ALPHA	// <vho>
@@ -486,6 +489,7 @@ bool CxImagePNG::Encode(CxFile *hFile)
 		}
 		
 		delete [] row_pointers;
+		row_pointers=NULL;
 	}
 
 #if CXIMAGE_SUPPORT_ALPHA	// <vho>
@@ -497,7 +501,10 @@ bool CxImagePNG::Encode(CxFile *hFile)
 	png_write_end(png_ptr, info_ptr);
 
 	/* if you malloced the palette, free it here */
-	if (info_ptr->palette)	delete[] (info_ptr->palette);
+	if (info_ptr->palette) {
+		delete[] (info_ptr->palette);
+		info_ptr->palette = NULL;
+	}
 
 	/* clean up after the write, and free any memory allocated */
 	png_destroy_write_struct(&png_ptr, (png_infopp)&info_ptr);
