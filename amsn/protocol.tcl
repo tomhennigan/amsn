@@ -1824,9 +1824,7 @@ namespace eval ::MSN {
 		}
 	}
 
-        proc CreateQRYHash {chldata} {
-                set prodid "PROD0090YUAUV\{2B"
-                set prodkey "YMM8C_H7KCQ2S_KL"
+	proc CreateQRYHash {chldata {prodid "PROD0090YUAUV\{2B"} {prodkey "YMM8C_H7KCQ2S_KL"}} {
         
                 # Create an MD5 hash out of the given data, then form 32 bit integers from it
                 set md5hash [::md5::md5 $chldata$prodkey]
@@ -2896,6 +2894,67 @@ namespace eval ::MSNOIM {
 	    append xml {</messageId><alsoMarkAsRead>false</alsoMarkAsRead></GetMessage></soap:Body></soap:Envelope>}
 	    return $xml
 	}
+    
+    proc sendOIMMessage { to msg {retry 1} } {
+	    if { [catch {package require dom 3.0}] == 0 && 
+		 [catch {package require SOAP}] == 0 && 
+		 [catch {package require SOAP::https}] == 0 &&
+		 [catch {package require SOAP::xpath 0.2.1}] == 0 &&
+		 [info exists ::authentication_ticket] } {
+		# TODO: make it asynchronous with the -command argument.. but how to parse the returned data and 
+		# how to make sure our 'tkwait var' works even in the case of errors ?
+		set id [::md5::hmac $to $msg]
+		set soap_req [SOAP::create SendOIMMessage_$id \
+				  -uri "https://ows.messenger.msn.com/OimWS/oim.asmx" \
+				  -proxy "https://ows.messenger.msn.com/OimWS/oim.asmx" \
+				  -action "http://messenger.msn.com/ws/2004/09/oim/Store" \
+				  -wrapProc [list sendOIMMessageXml $::authentication_ticket $to $msg]]
+		puts $soap_req
+		if { [catch {$soap_req} res] } {
+		    catch {
+			set xml [SOAP::dump $soap_req]
+			set list [xml2list $xml]
+			set tweener [GetXmlEntry $list "soap:Envelope:soap:Body:soap:Fault:detail:TweenerChallenge"]
+			set lock_challenge [GetXmlEntry $list "soap:Envelope:soap:Body:soap:Fault:detail:LockKeyChallenge"]
+			puts "tweener : $tweener\n lockkey_challenge : $lock_challenge"
+			CreateLockKey $lock_challenge
+			if { [AuthenticatePassport3 $tweener] != "" && $retry == 1 } {
+			    puts "resending"
+			    return [sendOIMMessage $to $msg 0]
+			}
+		    } 
+		} else {
+		    return $res
+		}
+		
+	    }
+	    return ""
+	
+        }
+
+    proc CreateLockKey { challenge } {
+	variable lockkey
+	set lockkey [::MSN::CreateQRYHash $challenge  "PROD01065C%ZFN6F" "O4BG@C7BWLYQX?5G"]
+    }
+
+	proc sendOIMMessageXml {ticket to msg procVarName args} {
+	    variable lockkey
+	    if { ![info exists lockkey ]} {
+		set lockkey ""
+	    }
+
+	    set ticket [string map { "&" "&amp;" } $ticket]
+	    set xml {<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Header><From}
+	    append xml " memberName=\"[config::getKey login]\" friendlyName=\"=?utf-8?B?SW5reSB8IFRCIGlzIGVlbiBob2VyIG9sw6kgb2zDqQ==?=\" "
+	    append xml {xml:lang="en-US" proxy="MSNMSGR" xmlns="http://messenger.msn.com/ws/2004/09/oim/" msnpVer="MSNP13" buildVer="8.0.0812"/><To}
+	    append xml " memberName=\"$to\" "
+	    append xml {xmlns="http://messenger.msn.com/ws/2004/09/oim/"/><Ticket}
+	    append xml " passport=\"$ticket\" appid=\"PROD01065C%ZFN6F\" lockkey=\"$lockkey\" xmlns=\"http://messenger.msn.com/ws/2004/09/oim/\"/>"
+	    append xml {<Sequence xmlns="http://schemas.xmlsoap.org/ws/2003/03/rm"><Identifier xmlns="http://schemas.xmlsoap.org/ws/2002/07/utility">http://messenger.msn.com</Identifier><MessageNumber>1</MessageNumber></Sequence></soap:Header><soap:Body><MessageType xmlns="http://messenger.msn.com/ws/2004/09/oim/">text</MessageType><Content xmlns="http://messenger.msn.com/ws/2004/09/oim/">}
+	    append xml "MIME-Version: 1.0\r\nContent-Type: text/plain; charset=UTF-8\r\nContent-Transfer-Encoding: base64\r\nX-OIM-Message-Type: OfflineMessage\r\nX-OIM-Run-Id: {3A3BE82C-684D-4F4F-8005-CBE8D4F82BAD}\r\nX-OIM-Sequence-Num: 1\r\n\r\nSGVsbG8sIHRoaXMgaXMgYW4gT0lN"
+	    append xml {</Content></soap:Body></soap:Envelope>}
+	    return $xml
+	}
 
         proc deleteOIMMessage { mid } {
 	    if { [catch {package require dom 3.0}] == 0 && 
@@ -2933,6 +2992,45 @@ namespace eval ::MSNOIM {
 	    append xml {</messageId></messageIds></DeleteMessages></soap:Body></soap:Envelope>}
 	    return $xml
 	}
+
+    proc AuthenticatePassport3 { url } {
+	 if { [catch {package require dom 3.0}] == 0 && 
+		 [catch {package require SOAP}] == 0 && 
+		 [catch {package require SOAP::https}] == 0 &&
+		 [catch {package require SOAP::xpath 0.2.1}] == 0} {
+	     # TODO: make it asynchronous with the -command argument.. but how to parse the returned data and 
+	     # how to make sure our 'tkwait var' works even in the case of errors ?
+	     set soap_req [SOAP::create AuthenticatePassport3 \
+			       -uri "https://loginnet.passport.com/RST.srf" \
+			       -proxy "https://loginnet.passport.com/RST.srf" \
+			       -wrapProc [list getPassport3Xml $url]]
+	     if { [catch {$soap_req} resp] } {
+		 return ""
+	     } else {
+		 catch {
+		     set xml [SOAP::dump $soap_req]
+		     set list [xml2list $xml]
+		     set ticket [GetXmlEntry $list "S:Envelope:S:Body:wst:RequestSecurityTokenResponseCollection:wst:RequestSecurityTokenResponse:wst:RequestedSecurityToken:wsse:BinarySecurityToken"]
+		     puts "ticket : $ticket\n"
+		     set ::authentication_ticket $ticket
+		     return $ticket
+		 }
+	     }
+	     
+	     return ""
+	 }
+    }
+
+    proc getPassport3Xml { url args } {
+	set xml {<?xml version="1.0" encoding="UTF-8"?><Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/" xmlns:wsse="http://schemas.xmlsoap.org/ws/2003/06/secext" xmlns:saml="urn:oasis:names:tc:SAML:1.0:assertion" xmlns:wsp="http://schemas.xmlsoap.org/ws/2002/12/policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/03/addressing" xmlns:wssc="http://schemas.xmlsoap.org/ws/2004/04/sc" xmlns:wst="http://schemas.xmlsoap.org/ws/2004/04/trust"><Header><ps:AuthInfo xmlns:ps="http://schemas.microsoft.com/Passport/SoapServices/PPCRL" Id="PPAuthInfo"><ps:HostingApp>{7108E71A-9926-4FCB-BCC9-9A9D3F32E423}</ps:HostingApp><ps:BinaryVersion>4</ps:BinaryVersion><ps:UIVersion>1</ps:UIVersion><ps:Cookies></ps:Cookies><ps:RequestParams>AQAAAAIAAABsYwQAAAAzMDg0</ps:RequestParams></ps:AuthInfo><wsse:Security><wsse:UsernameToken Id="user"><wsse:Username>}
+	append xml [config::getKey login]
+	append xml {</wsse:Username><wsse:Password>}
+	append xml $::password
+	append xml {</wsse:Password></wsse:UsernameToken></wsse:Security></Header><Body><ps:RequestMultipleSecurityTokens xmlns:ps="http://schemas.microsoft.com/Passport/SoapServices/PPCRL" Id="RSTS"><wst:RequestSecurityToken Id="RST0"><wst:RequestType>http://schemas.xmlsoap.org/ws/2004/04/security/trust/Issue</wst:RequestType><wsp:AppliesTo><wsa:EndpointReference><wsa:Address>http://Passport.NET/tb</wsa:Address></wsa:EndpointReference></wsp:AppliesTo></wst:RequestSecurityToken><wst:RequestSecurityToken Id="RST1"><wst:RequestType>http://schemas.xmlsoap.org/ws/2004/04/security/trust/Issue</wst:RequestType><wsp:AppliesTo><wsa:EndpointReference><wsa:Address>messenger.msn.com</wsa:Address></wsa:EndpointReference></wsp:AppliesTo><wsse:PolicyReference URI=}
+	append xml "\"?[string map { "," "&amp;" } [urldecode $url]]\""
+	append xml {></wsse:PolicyReference></wst:RequestSecurityToken></ps:RequestMultipleSecurityTokens></Body></Envelope>}
+	return $xml
+    }
 
 }
 
