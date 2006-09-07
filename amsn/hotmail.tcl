@@ -169,8 +169,12 @@ namespace eval ::hotmail {
 			"text/x-msmsgsinitialmdatanotification" {
 				#Number of unread messages in inbox
 				set mailData [$message getField Mail-Data]
-				set inbox [string range $mailData [expr {[string first <I> $mailData]+3}] [expr {[string first </I> $mailData] -1}]]
-				set inboxUnread [string range $mailData [expr {[string first <IU> $mailData]+4}] [expr {[string first </IU> $mailData] -1}]]
+				set mailList [xml2list $mailData]
+				
+				set inbox [GetXmlEntry $mailList ":MD:E:I"] 
+				# string range $mailData [expr {[string first <I> $mailData]+3}] [expr {[string first </I> $mailData] -1}]]
+				set inboxUnread [GetXmlEntry $mailList ":MD:E:IU"]
+				# [string range $mailData [expr {[string first <IU> $mailData]+4}] [expr {[string first </IU> $mailData] -1}]]
 				
 			
 				#Get the URL of inbox directory in hotmail
@@ -189,9 +193,12 @@ namespace eval ::hotmail {
 	
 	
 				#Number of unread messages in other folders
-				set mailData [$message getField Mail-Data]
-				set folder [string range $mailData [expr {[string first <O> $mailData]+3}] [expr {[string first </O> $mailData] -1}]]
-				set folderUnread [string range $mailData [expr {[string first <OU> $mailData]+4}] [expr {[string first </OU> $mailData] -1}]]
+				# set mailData [$message getField Mail-Data]
+				set folder [GetXmlEntry $mailList ":MD:E:O"] 
+				# [string range $mailData [expr {[string first <O> $mailData]+3}] [expr {[string first </O> $mailData] -1}]]
+				set folderUnread [GetXmlEntry $mailList ":MD:E:OU"] 
+				#[string range $mailData [expr {[string first <OU> $mailData]+4}] [expr {[string first </OU> $mailData] -1}]]
+
 				#URL of folder directory in Hotmail
 				set msgurl [$message getField Folders-URL]
 				status_log "Hotmail: $folderUnread unread emails in others folders \n"
@@ -200,6 +207,44 @@ namespace eval ::hotmail {
 					::amsn::notifyAdd "[trans newmailfolder $folderUnread\($folder\)]" \
 					    [list ::hotmail::gotURL $msgurl] newemail
 				}
+
+				set oim_count 0
+				set oim_messages [list]
+				while { 1 } {
+				    set oim_message [GetXmlEntry $mailList ":MD:M:I" $oim_count]
+				    if { $oim_message == "" } {
+					break
+				    }
+				    incr oim_count
+				    set from [GetXmlEntry $mailList ":MD:M:E" $oim_count]
+				    set nick [GetXmlEntry $mailList ":MD:M:N" $oim_count]
+				    if { [string range $nick end-2 end] == " ?=" } {
+					set nick [string range $nick end-2 end]
+					append nick "?="
+				    }
+				    set oim [list $from $nick $oim_message]
+				    lappend oim_messages $oim
+				}
+				if { $oim_count > 0 } {
+				    set answer [tk_messageBox -type yesno -title "New OIM Messages" -message "You have $oim_count new Offline Instant Messages. Do you want to read them ?"]
+				    if { $answer == "yes" } {
+					foreach oim $oim_messages {
+					    foreach {from nick mid} $oim break
+					    set oim_message [::MSNOIM::getOIMMessage $mid]
+					    if { $oim_message == "" } { 
+						msg_box "Unable to fetch message from $nick <$email>"
+					    } else {
+						set answer [tk_messageBox -type yesno -message "From : [lindex $oim_message 1]\n[lindex $oim_message 2] says : \n[lindex $oim_message 3]\n\n\nDelete message ?"]
+						if { $answer == "yes" } {
+						    if { [::MSNOIM::deleteOIMMessage $mid] == 0} {
+							msg_box "Deletion failed"
+						    }
+						}
+					    }
+					}
+				    }
+				}
+
 			}
 
 			"text/x-msmsgsemailnotification" {     
@@ -296,3 +341,5 @@ namespace eval ::hotmail {
 	}
 
 }
+
+
