@@ -7654,18 +7654,3 @@ namespace eval ::MSNMobile {
 
 
 }
-#<?xml version="1.0" encoding="utf-8"?>
-#  <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-#    <soap:Body>
-#       <soap:Fault>
-#          <faultcode xmlns:q0="http://messenger.msn.com/ws/2004/09/oim/">q0:AuthenticationFailed</faultcode>
-#          <faultstring>Exception of type 'System.Web.Services.Protocols.SoapException' was thrown.</faultstring>
-#          <faultactor>https://ows.messenger.msn.com/OimWS/oim.asmx</faultactor>
-#          <detail>
-#             <TweenerChallenge xmlns="http://messenger.msn.com/ws/2004/09/oim/">lc=1033,id=507,tw=120,ru=http%3A%2F%2Fmessenger%2Emsn%2Ecom,ct=1157581840,kpp=1,kv=7,ver=2.1.6000.1,rn=a3eW1lNE,tpf=6d9e62bb355ebe5c3114d0a210b158b9
-#             </TweenerChallenge>
-#             <LockKeyChallenge xmlns="http://messenger.msn.com/ws/2004/09/oim/">376043681</LockKeyChallenge>
-#          </detail>
-#       </soap:Fault>
-#     </soap:Body>
-#   </soap:Envelope>
