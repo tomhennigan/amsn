@@ -2845,7 +2845,7 @@ namespace eval ::MSNOIM {
 	    }
 	    set nick [parseFieldEncoding $nick]
 	    if { $cencoding == "base64" } {
-		set body [base64::decode [string trim $body]]
+		set body [encoding convertfrom identity [string map {"\r\n" "\n"} [base64::decode [string trim $body]]]]
 	    }
 	    return [list $sequence $email $nick $body]
 	}
