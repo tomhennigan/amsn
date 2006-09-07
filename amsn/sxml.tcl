@@ -924,9 +924,20 @@ proc parse {id} {
 }
 
 proc xml2list xml {
-	regsub -all {<\?xml.*\?>} $xml "" xml
+	# Remove xml file header and comments
+	# Here the ".*?" in the regexp means a non greedy matching, which means match as little characters as possible.. the reason, here's an example :
+	# <!-- comment --> <tag/> <!-- comment2 --> <tag2/>
+	# the regsub {<!--.*-->} would remove from the first <!-- to the last --> which means we end up with <tag2/> and we loose <tag/>.. 
+	# if it's greedy, it will match all possible chars, with non-greedy, it will match only the smallest number: only the comment... 
+	regsub -all {<\?xml.*?\?>} $xml "" xml
+	regsub -all {<!--.*?-->} $xml "" xml
+	# Avoid unmatched braces in list, in case we have a left or right accolade in the xml data
+	set xml [string map {"\{" "\&right_accolade;" "\}" "&left_accolade;"}  $xml]
+
 	regsub -all {>\s*<} [string trim $xml " \r\n\t<>"] "\} \{" xml
 	set xml [string map {> "\} \{#text \{" < "\}\} \{"}  $xml]
+
+	#set xml [string map {"&amp;" "&" "<" "&lt;" ">" "&gt;" "&apos;" "\'" "&quot;" "\""}  $xml]
 	
 	set res ""   ;# string to collect the result
 	set stack {} ;# track open tags
@@ -956,7 +967,9 @@ proc xml2list xml {
 		if {[llength $rest]%2} {error "att's not paired: $rest"}
 	}
 	if [llength $stack] {error "unresolved: $stack"}
-	string map {"\} \}" "\}\}"} [lindex $res 0]
+
+	# Unescape chars and accolades
+	string map {"\} \}" "\}\}" "&amp;" "&" "&lt;" "<" "&gt;" ">" "&apos;" "\'" "&quot;" "\"" "&right_accolade;" "\\\{" "&left_accolade;" "\\\}"} [lindex $res 0]
 }
 
 proc list2xml list {
@@ -980,43 +993,49 @@ proc list2xml list {
 	}
 }
 
-proc GetXmlEntry { list find {stack ""}} {
-
-	set current_stack $stack
-	foreach { entry attributes content} $list {
-		set current_stack "$stack:$entry"
-		if {$current_stack == $find || $current_stack == ":$find" } {
-			#status_log "Found it in $current_stack\n" red
-			foreach subkey $content {
-				set key [lindex $subkey 0]
-				set value [lindex $subkey 1]
-				if {$key == "#text" } { 
-					#status_log "Found value : $value" blue
-					return $value 
-				}
-			}
-			return ""
-		} else {
-			if {[string first $current_stack $find] == -1 &&
-			    [string first $current_stack ":$find"] == -1 } {
-				#status_log "$find not in $current_stack" red
-				continue
-			} else { 
-				#status_log "$find is in a subkey of $current_stack\n" red
-				foreach subkey $content {
-					set result [GetXmlEntry $subkey $find $current_stack]
-					if { $result != "" } {
-						return $result
-					}
-				}
-			}
-		}	
-	}
-	
-	return ""
-	
+proc GetXmlEntry {list find {no 0} {stack ""}} {
+    global xmlEntry_occurences
+    if {$stack == "" } {
+	set xmlEntry_occurences 0
+    }
+    set current_stack $stack
+    foreach { entry attributes content} $list {
+	set current_stack "$stack:$entry"
+	if {$current_stack == $find || $current_stack == ":$find" } {
+	    #status_log "Found it in $current_stack\n" red
+	    foreach subkey $content {
+		set key [lindex $subkey 0]
+		set value [lindex $subkey 1]
+		if {$key == "#text" } { 
+		    if { $no == $xmlEntry_occurences } {
+			#status_log "Found value : $value for index $xmlEntry_occurences " blue
+			return [string map {"\\\{" "\{" "\\\}" "\}" } $value ]
+		    } else {
+			#status_log "Found value : $value for index $xmlEntry_occurences... looking for index $no"
+			incr xmlEntry_occurences
+		    }
+		}
+	    }
+	    return ""
+	} else {
+	    if {[string first $current_stack $find] == -1 &&
+		[string first $current_stack ":$find"] == -1 } {
+		#status_log "$find not in $current_stack" red
+		continue
+	    } else { 
+		#status_log "$find is in a subkey of $current_stack\n" red
+		foreach subkey $content {
+		    set result [GetXmlEntry $subkey $find $no $current_stack]
+		    if { $result != "" } {
+			return $result
+		    }
+		}
+	    }
+	}	
+    }
+    
+    return ""
 }
-
 
 proc GetXmlAttribute { list find attribute_name {stack ""}} {
 
