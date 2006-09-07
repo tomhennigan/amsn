@@ -23,7 +23,7 @@ if { [catch {package require dom 3.0}] } {
 }
 
 namespace eval SOAP::xpath {
-    variable version 0.2
+    variable version 0.2.1
     variable rcsid { $Id$ }
     namespace export xpath xmlnsSplit
 }
