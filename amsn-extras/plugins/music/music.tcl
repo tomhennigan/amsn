@@ -214,6 +214,9 @@ namespace eval ::music {
 				"Rhythmbox" [list GetSongRhythmbox TreatSongRhythmbox FillFrameLess] \
 				"Banshee" [list GetSongBanshee TreatSongBanshee FillFrameComplete] \
 				"MPD" [list GetSongMPD TreatSongMPD FillFrameMPD] \
+				"Listen" [list GetSongListen TreatSongListen FillFrameLess] \
+				"QuodLibet" [list GetSongQL TreatSongQL FillFrameLess] \
+
 			]\
 			"freebsd" [list \
 				"XMMS" [list GetSongXMMS TreatSongXMMS FillFrameEmpty] \
@@ -221,6 +224,8 @@ namespace eval ::music {
 				"Rhythmbox" [list GetSongRhythmbox TreatSongRhythmbox FillFrameLess] \
 				"Banshee" [list GetSongBanshee TreatSongBanshee FillFrameComplete] \
 				"MPD" [list GetSongMPD TreatSongMPD FillFrameMPD] \
+				"Listen" [list GetSongListen TreatSongListen FillFrameLess] \
+				"QuodLibet" [list GetSongQL TreatSongQL FillFrameLess] \
 			] \
 			"windows nt" [list \
 				"WinAmp" [list GetSongWinamp TreatSongWinamp FillFrameLess] \
@@ -734,7 +739,108 @@ namespace eval ::music {
 
 		return $return
 	}
-	
+
+	###############################################
+	# ::music::TreatSongListen                    #
+	# ------------------------------------------- #
+	# Gets the current playing song in Listen     #
+	###############################################
+	proc TreatSongListen {} {
+		#Grab the information asynchronously : thanks to Tjikkun
+		after 0 {::music::exec_async [file join $::music::musicpluginpath "infolisten"]}
+		return 0
+	}
+
+	###############################################
+	# ::music::GetSongListen                      #
+	# ------------------------------------------- #
+	# Gets the current playing song in Listen     #
+	###############################################
+	proc GetSongListen {} {
+		plugin_log music "Actual song is :$::music::actualsong"
+		set return ""
+		set Title ""
+		set Artist ""
+		if {[regexp {.* \- \(.* \- .*\)} $::music::actualsong]} {
+			regexp {(.*) \- \(.* \- (.*)\)} $::music::actualsong -> Title Artist
+			plugins_log music "Title is $Title"
+			plugins_log music "Artist is $Artist"
+			#Define in which order we want to show the song (from the config)
+			#Use the separator(from the conf) between song and artist
+			if {$::music::config(songart) == 1} {
+			append songart $Title " " $::music::config(separator) " " $Artist
+			} elseif {$::music::config(songart) == 2} {
+				append songart $Artist " " $::music::config(separator) " " $Title
+			} elseif {$::music::config(songart) == 3} {
+				append songart $Title
+			}
+			#First element in the returned list is the artist + song in desired format
+			lappend return $songart
+			return $return
+		}
+		return 0
+	}
+
+	##################################################
+	# ::music::TreatSongQL                           #
+	# ---------------------------------------------- #
+	# Not useful to QL because no script to execute  #
+	##################################################
+	proc TreatSongQL {} {
+		return 0
+	}
+	###############################################
+	# ::music::GetSongQL                          #
+	# ------------------------------------------- #
+	# Gets the current playing song in QL         #
+	###############################################
+	proc GetSongQL {} {
+		#quodlibet --status 
+		if { [catch {exec quodlibet --status 2>&1} res] } {
+			return 0
+		}
+		if { [string compare "playing " [string range $res 0 8]]} {
+			if { [catch {open ~/.quodlibet/current "r"} file_]} {
+				plugins_log music "\nerror: $file_\n"
+				return 0
+			}
+			set Title ""
+			set Artist ""
+			set File ""
+			set textline ""
+			gets $file_ textline
+			while {[eof $file_] != 1} {
+				regexp {title=(.*)} $textline -> Title
+				regexp {artist=(.*)} $textline -> Artist
+				regexp {~filename=(.*)} $textline -> File		
+				gets $file_ textline
+			}
+			close $file_
+			if {$Title == "" && $File != ""} {
+				set Title [getfilename $File]
+			}
+			#Define in which order we want to show the song (from the config)
+			#Use the separator(from the conf) between song and artist
+			if {$::music::config(songart) == 1} {
+				append songart $Title " " $::music::config(separator) " " $Artist
+			} elseif {$::music::config(songart) == 2} {
+				append songart $Artist " " $::music::config(separator) " " $Title
+			} elseif {$::music::config(songart) == 3} {
+				append songart $Title
+			}
+			#First element in the returned list is the artist + song in desired format
+			lappend return $songart
+			#Second element is the path to the music-file
+			lappend return $File
+			#Third element is the path to the album cover-art (if available, else it is "")
+			#lappend return $CoverUri
+			
+			return $return
+		} else { 
+			return 0
+		}
+	}
+
 	##################################################
 	# ::music::TreatSongMPD                          #
 	# ---------------------------------------------- #
