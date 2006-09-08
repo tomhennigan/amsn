@@ -8128,7 +8128,7 @@ namespace eval ::OIM_GUI {
 		set msg [$send_area get 0.0 end]
 		set res [::MSNOIM::sendOIMMessage $contact "msg"]
 		if { $res != "success"} {
-			tk_messageBox -icon error "Can not send the message\n:$res"
+			tk_messageBox -icon error -message "Can not send the message\n:$res"
 		} else {
 			destroy .oim_send_gui
 		}
