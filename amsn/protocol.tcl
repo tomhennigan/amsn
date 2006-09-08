@@ -2896,6 +2896,8 @@ namespace eval ::MSNOIM {
 	}
     
     proc sendOIMMessage { to msg {retry 1} } {
+	variable seq_number
+	set res ""
 	    if { [catch {package require dom 3.0}] == 0 && 
 		 [catch {package require SOAP}] == 0 && 
 		 [catch {package require SOAP::https}] == 0 &&
@@ -2914,44 +2916,66 @@ namespace eval ::MSNOIM {
 		    catch {
 			set xml [SOAP::dump $soap_req]
 			set list [xml2list $xml]
-			set tweener [GetXmlEntry $list "soap:Envelope:soap:Body:soap:Fault:detail:TweenerChallenge"]
-			set lock_challenge [GetXmlEntry $list "soap:Envelope:soap:Body:soap:Fault:detail:LockKeyChallenge"]
-			puts "tweener : $tweener\n lockkey_challenge : $lock_challenge"
-			CreateLockKey $lock_challenge
-			if { [AuthenticatePassport3 $tweener] != "" && $retry == 1 } {
-			    puts "resending"
-			    return [sendOIMMessage $to $msg 0]
+			set faultcode [GetXmlEntry $list "soap:Envelope:soap:Body:soap:Fault:faultcode"]
+			if { $faultcode == "q0:AuthenticationFailed" } {
+			    set tweener [GetXmlEntry $list "soap:Envelope:soap:Body:soap:Fault:detail:TweenerChallenge"]
+			    set lock_challenge [GetXmlEntry $list "soap:Envelope:soap:Body:soap:Fault:detail:LockKeyChallenge"]
+			    puts "tweener : $tweener\n lockkey_challenge : $lock_challenge"
+			    if { $lock_challenge != "" } {
+				CreateLockKey $lock_challenge
+			    } 
+			    if {$tweener != "" } {
+				AuthenticatePassport3 $tweener
+			    }
+			    if {$retry == 1 } {
+				puts "resending"
+				return [sendOIMMessage $to $msg 0]
+			    }
+			} elseif { $faultcode == "q0:SystemUnavailable" } {
+			    return "user does not exist or is not in your Allow list"
+			} else {
+			    return "Unexpected error"
 			}
-		    } 
+		    } res
 		} else {
-		    return $res
+		    incr seq_number
+		    return "success"
 		}
 		
 	    }
-	    return ""
+	    return "failed : $res"
 	
         }
 
     proc CreateLockKey { challenge } {
 	variable lockkey
 	set lockkey [::MSN::CreateQRYHash $challenge  "PROD01065C%ZFN6F" "O4BG@C7BWLYQX?5G"]
+	puts "new lockkey : $lockkey"
     }
 
 	proc sendOIMMessageXml {ticket to msg procVarName args} {
-	    variable lockkey
+	    variable lockkey 
+	    variable seq_number
 	    if { ![info exists lockkey ]} {
 		set lockkey ""
 	    }
+	    if {![info exists seq_number] } {
+		set seq_number 1
+	    }
+	    set bmessage [base64::encode [encoding convertto identity $msg]]
+	    set bnick [base64::encode [encoding convertto identity [::abook::getPersonal MFN]]]
 
 	    set ticket [string map { "&" "&amp;" } $ticket]
 	    set xml {<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Header><From}
-	    append xml " memberName=\"[config::getKey login]\" friendlyName=\"=?utf-8?B?SW5reSB8IFRCIGlzIGVlbiBob2VyIG9sw6kgb2zDqQ==?=\" "
+	    append xml " memberName=\"[config::getKey login]\" friendlyName=\"=?utf-8?B?${bnick}?=\" "
 	    append xml {xml:lang="en-US" proxy="MSNMSGR" xmlns="http://messenger.msn.com/ws/2004/09/oim/" msnpVer="MSNP13" buildVer="8.0.0812"/><To}
 	    append xml " memberName=\"$to\" "
 	    append xml {xmlns="http://messenger.msn.com/ws/2004/09/oim/"/><Ticket}
 	    append xml " passport=\"$ticket\" appid=\"PROD01065C%ZFN6F\" lockkey=\"$lockkey\" xmlns=\"http://messenger.msn.com/ws/2004/09/oim/\"/>"
-	    append xml {<Sequence xmlns="http://schemas.xmlsoap.org/ws/2003/03/rm"><Identifier xmlns="http://schemas.xmlsoap.org/ws/2002/07/utility">http://messenger.msn.com</Identifier><MessageNumber>1</MessageNumber></Sequence></soap:Header><soap:Body><MessageType xmlns="http://messenger.msn.com/ws/2004/09/oim/">text</MessageType><Content xmlns="http://messenger.msn.com/ws/2004/09/oim/">}
-	    append xml "MIME-Version: 1.0\r\nContent-Type: text/plain; charset=UTF-8\r\nContent-Transfer-Encoding: base64\r\nX-OIM-Message-Type: OfflineMessage\r\nX-OIM-Run-Id: {3A3BE82C-684D-4F4F-8005-CBE8D4F82BAD}\r\nX-OIM-Sequence-Num: 1\r\n\r\nSGVsbG8sIHRoaXMgaXMgYW4gT0lN"
+	    append xml {<Sequence xmlns="http://schemas.xmlsoap.org/ws/2003/03/rm"><Identifier xmlns="http://schemas.xmlsoap.org/ws/2002/07/utility">http://messenger.msn.com</Identifier><MessageNumber>}
+	    append xml $seq_number
+	    append xml {</MessageNumber></Sequence></soap:Header><soap:Body><MessageType xmlns="http://messenger.msn.com/ws/2004/09/oim/">text</MessageType><Content xmlns="http://messenger.msn.com/ws/2004/09/oim/">}
+	    append xml "MIME-Version: 1.0\r\nContent-Type: text/plain; charset=UTF-8\r\nContent-Transfer-Encoding: base64\r\nX-OIM-Message-Type: OfflineMessage\r\nX-OIM-Run-Id: {3A3BE82C-684D-4F4F-8005-CBE8D4F82BAD}\r\nX-OIM-Sequence-Num: $seq_number\r\n\r\n$bmessage"
 	    append xml {</Content></soap:Body></soap:Envelope>}
 	    return $xml
 	}
@@ -3005,19 +3029,21 @@ namespace eval ::MSNOIM {
 			       -proxy "https://loginnet.passport.com/RST.srf" \
 			       -wrapProc [list getPassport3Xml $url]]
 	     if { [catch {$soap_req} resp] } {
-		 return ""
+		 error $resp
 	     } else {
 		 catch {
 		     set xml [SOAP::dump $soap_req]
 		     set list [xml2list $xml]
 		     set ticket [GetXmlEntry $list "S:Envelope:S:Body:wst:RequestSecurityTokenResponseCollection:wst:RequestSecurityTokenResponse:wst:RequestedSecurityToken:wsse:BinarySecurityToken"]
 		     puts "ticket : $ticket\n"
-		     set ::authentication_ticket $ticket
+		     if {$ticket != "" } {
+			 set ::authentication_ticket $ticket
+		     }
 		     return $ticket
-		 }
+		 } resp
 	     }
 	     
-	     return ""
+	     return "$resp"
 	 }
     }
 
