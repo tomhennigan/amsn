@@ -8127,10 +8127,11 @@ namespace eval ::OIM_GUI {
 		variable send_area
 		set msg [$send_area get 0.0 end]
 		set res [::MSNOIM::sendOIMMessage $contact "msg"]
-		if { $res != "success"} {
-			tk_messageBox -icon error -message "Can not send the message\n:$res"
-		} else {
+		if { [string match *success* $res} {
 			destroy .oim_send_gui
+		} else {
+			tk_messageBox -icon error -message "Can not send the message\n:$res"
+			
 		}
 	}
 }
