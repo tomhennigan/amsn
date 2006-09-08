@@ -8126,7 +8126,7 @@ namespace eval ::OIM_GUI {
 	proc SendOIMFromGUI {contact} {
 		variable send_area
 		set msg [$send_area get 0.0 end]
-		set res [::MSNOIM::sendOIMMessage $contact "msg"]
+		set res [::MSNOIM::sendOIMMessage $contact "$msg"]
 		if {[string match *success* $res]} {
 			destroy .oim_send_gui
 		} else {
