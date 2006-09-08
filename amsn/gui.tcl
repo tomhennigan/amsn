@@ -8118,7 +8118,7 @@ namespace eval ::OIM_GUI {
 		
 		pack $buttons_bar
 		button $buttons_bar.cancel -text "[trans cancel]" -command "destroy .oim_send_gui"
-		button $buttons_bar.send -text "[trans send]" 
+		button $buttons_bar.send -text "[trans send]" -command "::OIM_GUI::SendOIMFromGUI $contact"
 		button $buttons_bar.close -text "[trans close]" -command "destroy .oim_send_gui"
 		pack $buttons_bar.cancel $buttons_bar.send $buttons_bar.close -side left
 	}
