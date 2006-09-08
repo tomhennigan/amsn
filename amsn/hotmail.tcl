@@ -211,40 +211,40 @@ namespace eval ::hotmail {
 				set oim_count 0
 				set oim_messages [list]
 				while { 1 } {
-				    set oim_message [GetXmlEntry $mailList ":MD:M:I" $oim_count]
-				    if { $oim_message == "" } {
-					break
-				    }
-				    incr oim_count
-				    set from [GetXmlEntry $mailList ":MD:M:E" $oim_count]
-				    set nick [GetXmlEntry $mailList ":MD:M:N" $oim_count]
-				    if { [string range $nick end-2 end] == " ?=" } {
+					set oim_message [GetXmlEntry $mailList ":MD:M:I" $oim_count]
+					if { $oim_message == "" } {
+						break
+					}
+					incr oim_count
+					set from [GetXmlEntry $mailList ":MD:M:E" $oim_count]
+					set nick [GetXmlEntry $mailList ":MD:M:N" $oim_count]
+					if { [string range $nick end-2 end] == " ?=" } {
 					set nick [string range $nick end-2 end]
 					append nick "?="
-				    }
-				    set oim [list $from $nick $oim_message]
-				    lappend oim_messages $oim
+					}
+					set oim [list $from $nick $oim_message]
+					lappend oim_messages $oim
 				}
 				if { $oim_count > 0 } {
-				    set answer [tk_messageBox -type yesno -title "New OIM Messages" -message "You have $oim_count new Offline Instant Messages. Do you want to read them ?"]
-				    if { $answer == "yes" } {
-					foreach oim $oim_messages {
-					    foreach {from nick mid} $oim break
-					    set oim_message [::MSNOIM::getOIMMessage $mid]
-					    if { $oim_message == "" } { 
-						msg_box "Unable to fetch message from $nick <$email>"
-					    } else {
-						set answer [tk_messageBox -type yesno -message "From : [lindex $oim_message 1]\n[lindex $oim_message 2] says : \n[lindex $oim_message 3]\n\n\nDelete message ?"]
-						if { $answer == "yes" } {
-						    if { [::MSNOIM::deleteOIMMessage $mid] == 0} {
-							msg_box "Deletion failed"
-						    }
-						}
-					    }
-					}
+					set answer [tk_messageBox -type yesno -title "New OIM Messages" -message "You have $oim_count new Offline Instant Messages. Do you want to read them ?"]
+					if { $answer == "yes" } {
+						::OIM_GUI::FillTitles $oim_messages
+						#foreach oim $oim_messages {
+						#    foreach {from nick mid} $oim break
+						#    set oim_message [::MSNOIM::getOIMMessage $mid]
+						#    if { $oim_message == "" } { 
+						#        msg_box "Unable to fetch message from $nick <$email>"
+						#    } else {
+						#        set answer [tk_messageBox -type yesno -message "From : [lindex $oim_message 1]\n[lindex $oim_message 2] says : \n[lindex $oim_message 3]\n\n\nDelete message ?"]
+						#        if { $answer == "yes" } {
+						#            if { [::MSNOIM::deleteOIMMessage $mid] == 0} {
+						#                msg_box "Deletion failed"
+						#            }
+						#        }
+						#    }
+						#}
 				    }
 				}
-
 			}
 
 			"text/x-msmsgsemailnotification" {     
