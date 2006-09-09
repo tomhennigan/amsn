@@ -2914,39 +2914,34 @@ namespace eval ::MSNOIM {
 					  -proxy "https://ows.messenger.msn.com/OimWS/oim.asmx" \
 					  -action "http://messenger.msn.com/ws/2004/09/oim/Store" \
 					  -wrapProc [list sendOIMMessageXml $::authentication_ticket $to $msg]]
-			puts $soap_req
 			if { [catch {$soap_req} res] } {
-				catch {
-					set xml [SOAP::dump $soap_req]
-					set list [xml2list $xml]
-					set faultcode [GetXmlEntry $list "soap:Envelope:soap:Body:soap:Fault:faultcode"]
-					if { $faultcode == "q0:AuthenticationFailed" } {
-						set tweener [GetXmlEntry $list "soap:Envelope:soap:Body:soap:Fault:detail:TweenerChallenge"]
-						set lock_challenge [GetXmlEntry $list "soap:Envelope:soap:Body:soap:Fault:detail:LockKeyChallenge"]
-						puts "tweener : $tweener\n lockkey_challenge : $lock_challenge"
-						if { $lock_challenge != "" } {
-							CreateLockKey $lock_challenge
-						} 
-						if {$tweener != "" } {
-							AuthenticatePassport3 $tweener
-						}
-						if {$retry == 1 } {
-							puts "resending"
-							return [sendOIMMessage $to $msg 0]
-						}
-					} elseif { $faultcode == "q0:SystemUnavailable" } {
-						return "user does not exist or is not in your Allow list"
-					} else {
-						return "Unexpected error"
+				set xml [SOAP::dump $soap_req]
+				set list [xml2list $xml]
+				set faultcode [GetXmlEntry $list "soap:Envelope:soap:Body:soap:Fault:faultcode"]
+				if { $faultcode == "q0:AuthenticationFailed" } {
+					set tweener [GetXmlEntry $list "soap:Envelope:soap:Body:soap:Fault:detail:TweenerChallenge"]
+					set lock_challenge [GetXmlEntry $list "soap:Envelope:soap:Body:soap:Fault:detail:LockKeyChallenge"]
+					if { $lock_challenge != "" } {
+						CreateLockKey $lock_challenge
+					} 
+					if {$tweener != "" } {
+						AuthenticatePassport3 $tweener
 					}
-				} res
+					if {$retry == 1 } {
+						return [sendOIMMessage $to $msg 0]
+					}
+				} elseif { $faultcode == "q0:SystemUnavailable" } {
+					return "invaliduser"
+				} else {
+					return "Unexpected error"
+				}
 			} else {
 				incr seq_number
 				return "success"
 			}
 			
 		}
-		return "failed : $res"
+		return "failed"
 		
         }
 	
@@ -3034,19 +3029,15 @@ namespace eval ::MSNOIM {
 			if { [catch {$soap_req} resp] } {
 				error $resp
 			} else {
-				catch {
-					set xml [SOAP::dump $soap_req]
-					set list [xml2list $xml]
-					set ticket [GetXmlEntry $list "S:Envelope:S:Body:wst:RequestSecurityTokenResponseCollection:wst:RequestSecurityTokenResponse:wst:RequestedSecurityToken:wsse:BinarySecurityToken"]
-					puts "ticket : $ticket\n"
-					if {$ticket != "" } {
-						set ::authentication_ticket $ticket
-					}
-					return $ticket
-				} resp
+				set xml [SOAP::dump $soap_req]
+				set list [xml2list $xml]
+				set ticket [GetXmlEntry $list "S:Envelope:S:Body:wst:RequestSecurityTokenResponseCollection:wst:RequestSecurityTokenResponse:wst:RequestedSecurityToken:wsse:BinarySecurityToken"]
+				if {$ticket != "" } {
+					set ::authentication_ticket $ticket
+				}
+				return $ticket
 			}
 			
-			return "$resp"
 		}
 	}
 
@@ -3064,7 +3055,13 @@ namespace eval ::MSNOIM {
 }
 
 namespace eval ::MSNCCARD {
+	variable storageAuthCache ""
+
 	proc InitCCard { } {
+		variable storageAuthCache
+		variable resources
+		variable space_info
+
 		set users_with_space [list]
 		foreach contact [::abook::getAllContacts] {
 			set has_space [::abook::getVolatileData $contact HSB]
@@ -3095,7 +3092,24 @@ namespace eval ::MSNCCARD {
 							  -action "http://www.msn.com/webservices/storage/w10/GetItemVersion" \
 							  -wrapProc [list getSchematizedStoreXml $users_with_space]]
 					if { [catch {$soap_req} resp] == 0 } {
-						puts "Received response : $resp\n\n[SOAP::dump $soap_req]"		    
+						set xml [SOAP::dump $soap_req]
+						set list [xml2list $xml]
+						set storageAuthCache [GetXmlEntry $list "soap:Envelope:soap:Header:StorageUserHeader:UserAuthCache"]
+						set i 0
+						while {1 } {
+							set subxml [GetXmlNode $list "soap:Envelope:soap:Body:GetItemVersionResponse:GetItemVersionResult:SpaceVersion" $i]
+							if {$subxml == "" } {
+								break
+							}
+							set has_new [GetXmlEntry $subxml "SpaceVersion:HasNewItem"]
+							set last_modif [GetXmlEntry $subxml "SpaceVersion:LastModifiedDate"]
+							set resourceID [GetXmlEntry $subxml "SpaceVersion:SpaceHandle:ResourceID"]
+							set email [GetXmlEntry $subxml "SpaceVersion:SpaceHandle:Alias:Name"]
+							set resources($email) $resourceID
+							set space_info($email) [list $has_new $last_modif $resourceID]
+							incr i
+						}
+							
 					} else {
 						error $resp
 					}
@@ -3105,16 +3119,66 @@ namespace eval ::MSNCCARD {
 	}
 
 	proc getSchematizedStoreXml {contacts procVarName args} {
-		set xml {<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Header><StorageApplicationHeader xmlns="http://www.msn.com/webservices/storage/w10"><ApplicationID>Messenger Client 8.0</ApplicationID></StorageApplicationHeader><StorageUserHeader xmlns="http://www.msn.com/webservices/storage/w10"><Puid>0</Puid><UserAuthCache></UserAuthCache><IPAddress/></StorageUserHeader></soap:Header><soap:Body><GetItemVersion xmlns="http://www.msn.com/webservices/storage/w10"><spaceVersionRequests>}
+		set xml {<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Header><StorageApplicationHeader xmlns="http://www.msn.com/webservices/storage/w10"><ApplicationID>Messenger Client 7.0</ApplicationID></StorageApplicationHeader><StorageUserHeader xmlns="http://www.msn.com/webservices/storage/w10"><Puid>0</Puid><UserAuthCache></UserAuthCache><IPAddress/></StorageUserHeader></soap:Header><soap:Body><GetItemVersion xmlns="http://www.msn.com/webservices/storage/w10"><spaceVersionRequests>}
 		foreach contact $contacts {
 			append xml {<SpaceVersionRequest><SpaceHandle><RelationshipName>MySpace</RelationshipName><Alias><NameSpace>MyStuff</NameSpace><Name>}
 			append xml $contact
 			append xml {</Name></Alias></SpaceHandle><LastModifiedDate>2004-01-01T00:00:00.0000000-08:00</LastModifiedDate></SpaceVersionRequest>}
 		}
 		append xml {</spaceVersionRequests><spaceRequestFilter><SpaceFilterAttributes>Annotation</SpaceFilterAttributes><FilterValue>1</FilterValue></spaceRequestFilter></GetItemVersion></soap:Body></soap:Envelope>}
-		puts $xml
 		return $xml
 	}
+
+
+	proc getContactCard { email } {
+		variable resources
+		if {[::abook::getVolatileData $email HSB] == 1 } {
+			if { ![info exists resources($email)] } {
+				puts "[InitCCard]"
+				if  { ![info exists resources($email)] } {
+					return ""
+				}
+			}
+			if { [catch {package require dom 3.0}] == 0 && 
+			     [catch {package require SOAP}] == 0 && 
+			     [catch {package require SOAP::https}] == 0 &&
+			     [catch {package require SOAP::xpath 0.2.1}] == 0  &&
+			     [info exists ::authentication_ticket] } {
+				set cookies [split $::authentication_ticket &]
+				foreach cookie $cookies {
+					set c [split $cookie =]
+					set ticket_[lindex $c 0] [lindex $c 1]
+				}
+				
+				if { [info exists ticket_t] && [info exists ticket_p] && [info exists resources($email)] } {
+					# TODO: make it asynchronous with the -command argument.. but how to parse the returned data and 
+					# how to make sure our 'tkwait var' works even in the case of errors ?
+					SOAP::configure -transport http -headers [list "Cookie" "MSPAuth=${ticket_t}; MSPProf=${ticket_p}"]
+					set soap_req [SOAP::create GetContactCard_$email \
+							  -uri "http://services.spaces.msn.com/contactcard/contactcardservice.asmx" \
+							  -proxy "http://services.spaces.msn.com/contactcard/contactcardservice.asmx" \
+							  -action "http://www.msn.com/webservices/spaces/v1/GetXmlFeed" \
+							  -wrapProc [list getContactCardXml [set resources($email)]]]
+					if { [catch {$soap_req} resp] == 0 } {
+						return [SOAP::dump $soap_req]
+					} 
+				}
+			}
+		} 
+	}
+
+	proc getContactCardXml { resourceID wrapProc args } {
+		variable storageAuthCache
+		set xml {<?xml version="1.0" encoding="utf-8"?> <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Body><GetXmlFeed xmlns="http://www.msn.com/webservices/spaces/v1/"><refreshInformation><spaceResourceId xmlns="http://www.msn.com/webservices/spaces/v1/">}
+		append xml $resourceID
+		append xml {</spaceResourceId><storageAuthCache>}
+		append xml $storageAuthCache
+		append xml {</storageAuthCache><market xmlns="http://www.msn.com/webservices/spaces/v1/">en-US</market><brand></brand><maxElementCount xmlns="http://www.msn.com/webservices/spaces/v1/">5</maxElementCount><maxCharacterCount xmlns="http://www.msn.com/webservices/spaces/v1/">200</maxCharacterCount><maxImageCount xmlns="http://www.msn.com/webservices/spaces/v1/">6</maxImageCount></refreshInformation></GetXmlFeed></soap:Body></soap:Envelope>}
+
+		return $xml
+	}
+		
+
 }
 
 namespace eval ::Event {

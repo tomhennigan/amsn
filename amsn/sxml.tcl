@@ -1037,6 +1037,42 @@ proc GetXmlEntry {list find {no 0} {stack ""}} {
     return ""
 }
 
+proc GetXmlNode {list find {no 0} {stack ""}} {
+    global xmlEntry_occurences
+    if {$stack == "" } {
+	set xmlEntry_occurences 0
+    }
+    set current_stack $stack
+    foreach { entry attributes content} $list {
+	set current_stack "$stack:$entry"
+	if {$current_stack == $find || $current_stack == ":$find" } {
+	    #status_log "Found it in $current_stack\n" red
+	    if { $no == $xmlEntry_occurences } {
+		return $list
+	    } else {
+		incr xmlEntry_occurences
+	    }
+	    return ""
+	} else {
+	    if {[string first $current_stack $find] == -1 &&
+		[string first $current_stack ":$find"] == -1 } {
+		#status_log "$find not in $current_stack" red
+		continue
+	    } else { 
+		#status_log "$find is in a subkey of $current_stack\n" red
+		foreach subkey $content {
+		    set result [GetXmlNode $subkey $find $no $current_stack]
+		    if { $result != "" } {
+			return $result
+		    }
+		}
+	    }
+	}	
+    }
+    
+    return ""
+}
+
 proc GetXmlAttribute { list find attribute_name {stack ""}} {
 
 	set current_stack $stack
