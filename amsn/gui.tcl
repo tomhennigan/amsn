@@ -2675,7 +2675,13 @@ namespace eval ::amsn {
 				set size [expr {[lindex [::config::getGlobalKey basefont] 1]+[::config::getKey textsize]}]
 			}
 
-			set font "\"$fontname\" $size $fontstyle"
+			# We'd rather avoid letting the system use 'fixed' whenever the font is not available, because it's THE ugliest...
+			# 7:44 <@azbridge> <Cameron> So, in the short term, you're rather stuck with [font families].  Maybe you can help make a better answer for a future release of Tk, though.
+			if { [lsearch [font families] $fontname] == -1 } {
+				set font "bplainf"
+			} else {
+				set font "\"$fontname\" $size $fontstyle"
+			}
 			set tagid [::md5::md5 "$font$fontcolor"]
 
 			if { ([string length $fontname] < 3 )
