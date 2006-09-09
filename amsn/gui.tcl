@@ -1813,7 +1813,7 @@ namespace eval ::amsn {
 	#///////////////////////////////////////////////////////////////////////////////
 
 
-	proc ShowUserList {title command} {
+	proc ShowUserList {title command {show_offlines 0}} {
 		#Replace for"::amsn::ChooseList \"[trans sendmsg]\" online ::amsn::chatUser 1 0"
 
 		set userlist [list]
@@ -1823,7 +1823,7 @@ namespace eval ::amsn {
 
 			if { $user_state_code == "NLN" } {
 				lappend userlist [list [::abook::getDisplayNick $user_login] $user_login]
-			} elseif { $user_state_code != "FLN" } {
+			} elseif { $user_state_code != "FLN" || $show_offlines == 1 } {
 				lappend userlist [list "[::abook::getDisplayNick $user_login] ([trans [::MSN::stateToDescription $user_state_code]])" $user_login]
 			}
 		}
@@ -3215,7 +3215,9 @@ proc cmsn_draw_main {} {
 	#Send SMS
 	$actions add command -label "[trans sendmobmsg]..." -command [list ::amsn::ShowUserList [trans sendmobmsg] ::MSNMobile::OpenMobileWindow] -state disabled
 	#Send e-mail
-	$actions add command -label "[trans sendmail]..." -command [list ::amsn::ShowUserList [trans sendmail] launch_mailer] -state disabled
+	$actions add command -label "[trans sendmail]..." -command [list ::amsn::ShowUserList [trans sendmail] launch_mailer 1] -state disabled
+	#Send OIM
+	$actions add command -label "[trans sendoim]..."  -command [list ::amsn::ShowUserList [trans sendoim] ::OIM_GUI::CreateSendGUI 1] -state disabled
 	#-------------------
 	$actions add separator
 	#Send File
@@ -3523,7 +3525,7 @@ proc loggedInGuiConf { event } {
 	
 	#actions menu
 	set menu .main_menu.actions
-	enableEntries $menu [list 0 1 2 4 5 6]
+	enableEntries $menu [list 0 1 2 3 5 6 7]
 	
 	#contacts menu
 	set menu .main_menu.contacts
@@ -3573,7 +3575,7 @@ proc loggedOutGuiConf { event } {
 	
 	#actions menu
 	set menu .main_menu.actions
-	enableEntries $menu [list 0 1 2 4 5 6] 0
+	enableEntries $menu [list 0 1 2 3 5 6 7] 0
 	
 	#contacts menu
 	set menu .main_menu.contacts
