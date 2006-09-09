@@ -3092,6 +3092,7 @@ namespace eval ::MSNCCARD {
 							  -action "http://www.msn.com/webservices/storage/w10/GetItemVersion" \
 							  -wrapProc [list getSchematizedStoreXml $users_with_space]]
 					if { [catch {$soap_req} resp] == 0 } {
+						SOAP::configure -transport http -headers [list]
 						set xml [SOAP::dump $soap_req]
 						set list [xml2list $xml]
 						set storageAuthCache [GetXmlEntry $list "soap:Envelope:soap:Header:StorageUserHeader:UserAuthCache"]
@@ -3110,9 +3111,8 @@ namespace eval ::MSNCCARD {
 							incr i
 						}
 							
-					} else {
-						error $resp
-					}
+					} 
+					SOAP::configure -transport http -headers [list]
 				}
 			}
 		}
@@ -3132,9 +3132,11 @@ namespace eval ::MSNCCARD {
 
 	proc getContactCard { email } {
 		variable resources
+		variable contactcards
+
 		if {[::abook::getVolatileData $email HSB] == 1 } {
 			if { ![info exists resources($email)] } {
-				puts "[InitCCard]"
+				InitCCard
 				if  { ![info exists resources($email)] } {
 					return ""
 				}
@@ -3160,8 +3162,10 @@ namespace eval ::MSNCCARD {
 							  -action "http://www.msn.com/webservices/spaces/v1/GetXmlFeed" \
 							  -wrapProc [list getContactCardXml [set resources($email)]]]
 					if { [catch {$soap_req} resp] == 0 } {
+						SOAP::configure -transport http -headers [list]
 						return [SOAP::dump $soap_req]
 					} 
+					SOAP::configure -transport http -headers [list]
 				}
 			}
 		} 
