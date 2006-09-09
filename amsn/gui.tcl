@@ -2679,12 +2679,9 @@ namespace eval ::amsn {
 			# 7:44 <@azbridge> <Cameron> So, in the short term, you're rather stuck with [font families].  Maybe you can help make a better answer for a future release of Tk, though.
 			if { $tagid == "user" } {
 				set fontname [urldecode $fontname]
-				if { [OnUnix] && [info tclversion] == 8.4 } {
-					set fontname [string tolower $fontname]
-				}
 				set font "bplainf"
 				foreach listed_font [string trim [split $fontname ","]] {
-					if { [lsearch [font families] $listed_font] != -1 } {
+					if { ! [info exists $::allfonts([string tolower $listed_font])] } {
 						#status_log "font $listed_font found!"
 						set font "\"$listed_font\" $size $fontstyle"
 						break

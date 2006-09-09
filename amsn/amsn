@@ -251,6 +251,9 @@ set size [lindex [::config::getGlobalKey basefont] 1]
 if { $family == "" } { set family "Helvetica"}
 if { $size == "" } { set size "11"}
 ::amsn::initLook $family $size [::config::getKey backgroundcolor]
+foreach font [font families] {
+	set allfonts([string tolower $font]) $font
+}
 
 
 set ::auto_encoding [encoding system]
