@@ -103,6 +103,7 @@ static void USR_NS_handler(MsnMessage *message,
 static void XFR_NS_handler(MsnMessage *message,
                            MsnConnection *conn)
 {
+/*
   g_printf("\nXFR handler\n");
   gchar **command_header = (gchar **) msn_message_get_command_header(message);
   if (g_str_equal(command_header[1], "NS")) {
@@ -111,6 +112,7 @@ static void XFR_NS_handler(MsnMessage *message,
     gint    redirected_port   = (gint) g_ascii_strtod(ns_address[1], NULL);
     g_strfreev(ns_address);
   }
+*/
 }
 
 
@@ -175,6 +177,23 @@ static void MSG_handler(MsnMessage *message,
       break;
     case MSN_CONNECTION_TYPE_SB:
       MSG_SB_handler(message, conn);
+      break;
+  }
+}
+
+
+static void USR_handler(MsnMessage *message,
+                        MsnConnection *conn)
+{
+  MsnConnectionType type = msn_connection_get_conn_type(conn);
+
+  switch(type) {
+    case MSN_CONNECTION_TYPE_DS:
+    case MSN_CONNECTION_TYPE_NS:
+      USR_NS_handler(message, conn);
+      break;
+    case MSN_CONNECTION_TYPE_SB:
+      USR_SB_handler(message, conn);
       break;
   }
 }
@@ -261,7 +280,7 @@ static MsnCommand USR_command = {
   { .name        = "USR" },
   .has_trid    = TRUE,
   .has_payload = FALSE,
-  .handler     = USR_NS_handler
+  .handler     = USR_handler
 };
 
 static MsnCommand XFR_command = {
@@ -307,7 +326,7 @@ static MsnCommand JOI_command = {
   .handler     = JOI_SB_handler
 };
 
-static const MsnCommand *cmd_list[] = {
+static const MsnCommand * const cmd_list[] = {
   &CHG_command,
   &CHL_command,
   &CVR_command,
@@ -343,13 +362,12 @@ const MsnProtocol *msn_protocol_init_msnp13(void) {
      * This is a hack to avoid problems when the VER response is handled before
      * the CVR response (which is likely to happen).
      */
-    MsnProtocol *protocol_cvr0 = msn_protocol_find("CVR0");
-    MsnCommand *command_CVR_CVR0 = msn_protocol_find_command(protocol_cvr0, "CVR");
-    MsnCommand *command_CVR_MSNP13 = msn_protocol_find_command(&protocol_msnp13, "CVR");
-    g_assert(command_CVR_CVR0 != NULL && command_CVR_MSNP13 != NULL);
-    command_CVR_MSNP13->has_trid    = command_CVR_CVR0->has_trid;
-    command_CVR_MSNP13->has_payload = command_CVR_CVR0->has_payload;
-    command_CVR_MSNP13->handler     = command_CVR_CVR0->handler;
+    const MsnProtocol *protocol_cvr0 = msn_protocol_find("CVR0");
+    const MsnCommand *command_CVR_CVR0 = msn_protocol_find_command(protocol_cvr0, "CVR");
+    g_assert(command_CVR_CVR0 != NULL);
+    CVR_command.has_trid    = command_CVR_CVR0->has_trid;
+    CVR_command.has_payload = command_CVR_CVR0->has_payload;
+    CVR_command.handler     = command_CVR_CVR0->handler;
     cvr_copied = TRUE;
   }
 

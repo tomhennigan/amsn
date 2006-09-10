@@ -43,10 +43,10 @@ struct _MsnConnectionPrivate {
 
 #define MSN_CONNECTION_GET_PRIVATE(o)     (G_TYPE_INSTANCE_GET_PRIVATE ((o), MSN_TYPE_CONNECTION, MsnConnectionPrivate))
 
-gchar *cached_server = NULL;
-gchar *redirected_server = NULL;
-gint cached_port = -1;
-gint redirected_port = -1;
+static gchar *cached_server = NULL;
+static gchar *redirected_server = NULL;
+static gint cached_port = -1;
+static gint redirected_port = -1;
 
 /* type definition stuff --------------------------------------- */
 
@@ -152,11 +152,11 @@ static int get_connected_socket(const gchar *server,
 
 
 /* This function checks whether a given command header starts with a payload command (for incoming messages!) */
-static gboolean has_payload_command(MsnProtocol *protocol,
+static gboolean has_payload_command(const MsnProtocol *protocol,
                                     const gchar *string)
 {
   gchar *cmd_str = g_strndup(string, 3);
-  MsnCommand *command = msn_protocol_find_command(protocol, cmd_str);
+  const MsnCommand *command = msn_protocol_find_command(protocol, cmd_str);
   g_free(cmd_str);
 
   return (command != NULL) ? command->has_payload : FALSE;
@@ -167,7 +167,7 @@ static gboolean has_payload_command(MsnProtocol *protocol,
 static void handle_message(MsnConnection *this,
                            MsnMessage *msg)
 {
-  MsnCommand *command = msn_protocol_find_command(this->protocol, msn_message_get_command(msg));
+  const MsnCommand *command = msn_protocol_find_command(this->protocol, msn_message_get_command(msg));
   if(command != NULL && command->handler != NULL) command->handler(msg, this);
 }
 
@@ -226,9 +226,11 @@ static void send_msn_message(MsnConnection *this,
   g_printf("--> %s\n", msn_message_to_string(message));
 
   if (msn_message_get_trid(message) != -1) {
-    if (priv->sent_messages == NULL) priv->sent_messages = g_hash_table_new(g_int_hash, g_int_equal);
+    if (priv->sent_messages == NULL)
+      priv->sent_messages = g_hash_table_new_full(g_int_hash, g_int_equal, NULL, g_object_unref);
+
     gint trid = msn_message_get_trid(message);
-    g_hash_table_insert(priv->sent_messages, &trid, message); // FIXME: Passing &trid seems very unsafe to me!
+    g_hash_table_insert(priv->sent_messages, &trid, message);
   }
 
   g_io_channel_write_chars(priv->channel, msn_message_to_string(message), -1, NULL, &error);
@@ -459,9 +461,19 @@ MsnConnection *msn_connection_new(MsnConnectionType type)
   g_io_channel_set_line_term(priv->channel, "\r\n", 2);
   g_io_add_watch(priv->channel, G_IO_IN, (GIOFunc) receive_msn_message, conn);
 
+  /* Create VER message */
+  gchar *protocols = msn_protocol_get_all_string();
+  gchar *ver_message_text = g_strdup_printf("VER %s", protocols);
+  MsnMessage *ver_message = msn_message_new_with_command(ver_message_text);
+  g_free(ver_message_text);
+  g_free(protocols);
+
   /* Send VER message */
-  MsnMessage *ver_message = msn_message_new_with_command("VER MSNP13 CVR0");
   msn_connection_send_message(conn, ver_message, &error);
+  if(error != NULL) {
+    g_object_unref(conn);
+    return NULL;
+  }
 
   return conn;
 }
@@ -497,7 +509,31 @@ void msn_connection_send_message(MsnConnection *this,
 }
 
 
-MsnConnectionType msn_connection_get_conn_type(MsnConnection *this) {
+/**
+ * Get a sent message by trid.
+ *
+ * @param this Pointer to the object this method is being invoked on.
+ * @param trid The trid you want to get the associated message of.
+ * @return The message if one has been found, NULL otherwise.
+ */
+MsnMessage * msn_connection_get_sent_message_by_trid(MsnConnection *this,
+                                                     gint trid)
+{
+  MsnConnectionPrivate *priv = MSN_CONNECTION_GET_PRIVATE(this);
+  return (MsnMessage *) g_hash_table_lookup(priv->sent_messages, &trid);
+}
+
+
+/**
+ * Get connection type.
+ *
+ * @param this Pointer to the object this method is being invoked on.
+ * @return     The type of the connection
+ *
+ * @see msn_connection_new for an explanation of the possible return values.
+ */
+MsnConnectionType msn_connection_get_conn_type(MsnConnection *this)
+{
   MsnConnectionPrivate *priv = MSN_CONNECTION_GET_PRIVATE(this);
   return priv->type;
 }

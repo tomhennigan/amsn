@@ -31,6 +31,7 @@
 #define BODY_SEPARATOR "\r\n\r\n"
 #define HEADER_SEPARATOR ": "
 
+G_DEFINE_TYPE(MsnMessage, msn_message, G_TYPE_OBJECT)
 
 /* private structure */
 typedef struct _MsnMessagePrivate MsnMessagePrivate;
@@ -55,10 +56,9 @@ static inline gint get_argc (const gchar * const argv[])
 
 
 /* type definition stuff */
-static void msn_message_init (GTypeInstance * instance,
-                              gpointer        g_class)
+static void msn_message_init (MsnMessage *this)
 {
-  MsnMessagePrivate *priv = MSN_MESSAGE_GET_PRIVATE(instance);
+  MsnMessagePrivate *priv = MSN_MESSAGE_GET_PRIVATE(this);
   priv->command_header = NULL;
   priv->body = NULL;
   priv->headers = NULL;
@@ -83,8 +83,8 @@ static void msn_message_dispose (GObject *object)
 
   /* release any references held by the object here */
 
-//   if (G_OBJECT_CLASS (msn_message_parent_class)->dispose)
-//     G_OBJECT_CLASS (msn_message_parent_class)->dispose (object);
+  if (G_OBJECT_CLASS (msn_message_parent_class)->dispose)
+    G_OBJECT_CLASS (msn_message_parent_class)->dispose (object);
 }
 
 static void msn_message_finalize (GObject *object)
@@ -96,12 +96,14 @@ static void msn_message_finalize (GObject *object)
   if (priv->headers != NULL) g_hash_table_unref(priv->headers);
   if (priv->body != NULL) g_string_free(priv->body, TRUE);
 
-//   G_OBJECT_CLASS (msn_message_parent_class)->finalize (object);
+  G_OBJECT_CLASS (msn_message_parent_class)->finalize (object);
 }
 
 
-GType 
-msn_message_get_type (void)
+// Using G_DEFINE_TYPE instead.
+// Remove the commented out code below if that really works.
+/*
+GType msn_message_get_type (void)
 {
   static GType msn_message_type = 0;
   if (!msn_message_type) {
@@ -120,6 +122,7 @@ msn_message_get_type (void)
   }
   return msn_message_type;
 }
+*/
 
 /**
  * Creates a new, empty MsnMessage object.
@@ -143,7 +146,7 @@ MsnMessage *msn_message_new()
  * @return The new MsnMessage if successful, or NULL if \a msgtext
  *         does not contain a valid MSNP message.
  */
-MsnMessage *msn_message_from_string(MsnProtocol *protocol, const gchar *msgtext)
+MsnMessage *msn_message_from_string(const MsnProtocol *protocol, const gchar *msgtext)
 {
   MsnMessage *message = msn_message_new();
   MsnMessagePrivate *priv = MSN_MESSAGE_GET_PRIVATE(message);

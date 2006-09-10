@@ -50,23 +50,24 @@ struct _MsnCommand{
 };
 
 struct _MsnProtocol {
-  const gchar * name;         ///< The protocol name as used in the VER command, e.g.: "MSNP13"
-  MsnCommand ** cmd_list;     ///< Pointer to an array of MsnCommand structures
+  const gchar * name;                  ///< The protocol name as used in the VER command, e.g.: "MSNP13"
+  const MsnCommand * const * cmd_list; ///< Pointer to an array of MsnCommand structures
 };
 
 
-typedef MsnProtocol * (MsnProtocolInitializer) (void);
+typedef const MsnProtocol * (MsnProtocolInitializer) (void);
 
 
-MsnProtocol *msn_protocol_find(const gchar *protocol_name);
-MsnCommand *msn_protocol_find_command(MsnProtocol *protocol, const gchar *command);
+const MsnProtocol *msn_protocol_find(const gchar *protocol_name);
+const MsnCommand *msn_protocol_find_command(const MsnProtocol *protocol, const gchar *command);
+gchar *msn_protocol_get_all_string();
 
 
 /* This function determines whether a message needs a TrId */
-static inline gboolean msn_protocol_command_has_trid(MsnProtocol *protocol,
+static inline gboolean msn_protocol_command_has_trid(const MsnProtocol *protocol,
                                                      const gchar *cmd_str)
 {
-  MsnCommand *command = msn_protocol_find_command(protocol, cmd_str);
+  const MsnCommand *command = msn_protocol_find_command(protocol, cmd_str);
   return (command != NULL) ? command->has_trid : FALSE;
 }
 

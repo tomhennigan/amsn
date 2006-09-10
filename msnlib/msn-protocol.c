@@ -21,15 +21,15 @@
 #include "msn-protocol.h"
 
 /* prototypes for protocol initializers */
-MsnProtocol *msn_protocol_init_cvr0(void);
-MsnProtocol *msn_protocol_init_msnp13(void);
+const MsnProtocol *msn_protocol_init_cvr0(void);
+const MsnProtocol *msn_protocol_init_msnp13(void);
 
 
 static gboolean protocol_initialized = FALSE;
 static GHashTable *protocols = NULL;
 static MsnProtocolInitializer *protocol_initializers[] = {
-  msn_protocol_init_cvr0,
   msn_protocol_init_msnp13,
+  msn_protocol_init_cvr0,	// CVR0 should be last!
   NULL
 };
 
@@ -41,26 +41,26 @@ static void msn_protocol_init(void) {
   protocols = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, NULL);
 
   for(gint i = 0; protocol_initializers[i] != NULL; i++) {
-    MsnProtocol *protocol = protocol_initializers[i]();
-    g_hash_table_insert(protocols, g_strdup(protocol->name), protocol);
+    const MsnProtocol *protocol = protocol_initializers[i]();
+    g_hash_table_insert(protocols, g_strdup(protocol->name), (gpointer) protocol);
   }
 
   protocol_initialized = TRUE;
 }
 
 /* This function looks up the MsnProtocol structure with the given name. */
-MsnProtocol *msn_protocol_find(const gchar *protocol_name) {
+const MsnProtocol *msn_protocol_find(const gchar *protocol_name) {
   g_return_val_if_fail(protocols != NULL, NULL);
   if(!protocol_initialized) msn_protocol_init();
-  return g_hash_table_lookup(protocols, protocol_name);
+  return (const MsnProtocol *) g_hash_table_lookup(protocols, protocol_name);
 }
 
 
 /* This function looks up a command in a protocol */
-MsnCommand *msn_protocol_find_command(MsnProtocol *protocol,
+const MsnCommand *msn_protocol_find_command(const MsnProtocol *protocol,
                                       const gchar *command)
 {
-  MsnCommand **cmd_list = protocol->cmd_list;
+  const MsnCommand * const *cmd_list = protocol->cmd_list;
   register guint32 ref_cmd = *((const guint32 *) command);
 
   for (register gint i = 0; cmd_list[i] != NULL; i++) {
@@ -71,4 +71,21 @@ MsnCommand *msn_protocol_find_command(MsnProtocol *protocol,
 }
 
 
+static void add_next_protocol(gpointer key, gpointer value, gpointer user_data) {
+  GString *string = *((GString **) user_data);
 
+  if(value != NULL) {
+    const MsnProtocol *protocol = (const MsnProtocol *) value;
+    if(string == NULL) string = g_string_new(protocol->name);
+    else g_string_append_printf(string, " %s", protocol->name);
+  }
+}
+
+/* This function returns the names of all supported protocols, separated by the given separator. */
+gchar *msn_protocol_get_all_string() {
+  if(!protocol_initialized) msn_protocol_init();
+
+  GString *protocol_names = NULL;
+  g_hash_table_foreach(protocols, add_next_protocol, &protocol_names);
+  return g_string_free(protocol_names, FALSE);
+}

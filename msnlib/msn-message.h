@@ -59,7 +59,7 @@ GType msn_message_get_type(void);
   (G_TYPE_INSTANCE_GET_CLASS ((obj), MSN_TYPE_MESSAGE, MsnMessageClass))
 
 MsnMessage *msn_message_new(void);
-MsnMessage *msn_message_from_string(MsnProtocol *protocol, const gchar *msgtext);
+MsnMessage *msn_message_from_string(const MsnProtocol *protocol, const gchar *msgtext);
 const gchar *msn_message_get_header(MsnMessage *this, const gchar *name);
 const gchar *msn_message_get_body(MsnMessage *this);
 const gchar * msn_message_get_command(MsnMessage *this);

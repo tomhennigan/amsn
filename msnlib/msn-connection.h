@@ -73,7 +73,7 @@ struct _MsnConnectionClass {
 
 struct _MsnConnection {
     GObject parent;
-    MsnProtocol *protocol;
+    const MsnProtocol *protocol;
 };
 
 GType msn_connection_get_type(void);
@@ -102,7 +102,9 @@ void              msn_connection_set_login_ticket(MsnConnection *this, const gch
 void              msn_connection_request_sb(MsnConnection *this);
 void              msn_connection_close(MsnConnection *this);
 void              msn_connection_send_message(MsnConnection *this, MsnMessage *message, GError **error_ptr);
+MsnMessage *      msn_connection_get_sent_message_by_trid(MsnConnection *this, gint trid);
 MsnConnectionType msn_connection_get_conn_type(MsnConnection *this);
+
 G_END_DECLS
 
 #endif /* #ifndef __MSN_CONNECTION_H__*/

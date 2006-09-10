@@ -17,6 +17,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
+#include <string.h>
 #include <glib/gprintf.h>
 
 #include "../msn-connection.h"
@@ -25,16 +26,33 @@
 static void VER_NS_handler(MsnMessage *message,
                            MsnConnection *conn)
 {
-  g_printf("\nVER handler\n");
-/*  MsnConnectionPrivate *priv = MSN_CONNECTION_GET_PRIVATE(conn);
+  /* Get the request we sent */
   gint trid = msn_message_get_trid(message);
-  MsnMessage *orig = (MsnMessage *) g_hash_table_lookup(priv->sent_messages, &trid);
-  g_hash_table_remove(priv->sent_messages, &trid);
-  g_printf("orig command: %s\norig trid   : %i\n",
-           msn_message_get_command(orig),
-           msn_message_get_trid(orig));
-  g_object_unref(orig);
-*/
+  MsnMessage *request = msn_connection_get_sent_message_by_trid(conn, trid);
+  const gchar *request_command = msn_message_get_command(request);
+
+  /* Check if it is a proper context for this reply */
+  if(request_command == NULL || strcmp(request_command, "VER") != 0) {
+    g_printf("VER ignored because of bad context.\n");
+    return;
+  }
+
+  /* Get the protocol to use */
+  const gchar * const *command_header = msn_message_get_command_header(message);
+  const gchar *protocol_name = command_header[1];
+  if(strcmp(protocol_name, "CVR0") == 0) {
+    g_printf("Too bad! Server suggests protocol CVR0. Not much we can do with that...\n");
+    return;
+  } else {
+    const MsnProtocol *protocol = msn_protocol_find(protocol_name);
+    
+    if(protocol != NULL) {
+      conn->protocol = protocol;
+      g_printf("Selected protocol %s", protocol_name);
+    } else {
+      g_printf("Huh? The server suggests a protocol that we don't support!\n");
+    }
+  }
 }
 
 
@@ -72,6 +90,6 @@ static const MsnProtocol protocol_cvr0 = {
 };
 
 
-MsnProtocol *msn_protocol_init_cvr0(void) {
+const MsnProtocol *msn_protocol_init_cvr0(void) {
   return &protocol_cvr0;
 }
