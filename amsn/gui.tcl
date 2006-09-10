@@ -8035,7 +8035,7 @@ namespace eval ::OIM_GUI {
 			status_log "$oim" green
 			set oim_message [::MSNOIM::getOIMMessage $MsgID]
 			if { $oim_message == "" } { 
-				status_log "Unable to fetch OIM from $nick <$email> which MsgID is $MsgID" red
+				status_log "Unable to fetch OIM from $nick <$from> which MsgID is $MsgID" red
 			}
 			set order [lindex $oim_message 0]
 			set from [lindex $oim_message 1]
