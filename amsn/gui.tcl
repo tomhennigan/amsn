@@ -7937,6 +7937,7 @@ namespace eval ::OIM_GUI {
 # * add support for scrolling for MacOSX
 # * add support for cut/copy/paste
 
+
 	proc CreateReadGUI { } {
 		variable w
 		variable msg_text
@@ -8022,24 +8023,25 @@ namespace eval ::OIM_GUI {
 		pack $buttons_bar.close -side right
 	}
 	
-	# ::ChatWindow::rotext -- Read Only text widget via snit
-	# Changes must be made by "ins" and "del", not "insert" and "delete".
+
 	proc FillTitles { oim_messages } {
 		CreateReadGUI
 		variable titles_text
 
-		$titles_text del 0.0 end
+		# ::ChatWindow::rotext -- Read Only text widget via snit
+		# Changes must be made by "ins" (or roinsert) and "del" (or rodelete), not "insert" and "delete".
+		$titles_text rodelete 0.0 end
 		
 		foreach oim $oim_messages {
 			foreach {from nick MsgID} $oim break
-			status_log "$oim" green
-			set oim_message [::MSNOIM::getOIMMessage $MsgID]
-			if { $oim_message == "" } { 
-				status_log "Unable to fetch OIM from $nick <$from> which MsgID is $MsgID" red
-			}
-			set order [lindex $oim_message 0]
-			set from [lindex $oim_message 1]
-			set nick [lindex $oim_message 2]
+			#status_log "$oim" green
+			#set oim_messages(MsgID) [::MSNOIM::getOIMMessage $MsgID]
+			#if { $oim_message == "" } { 
+				#status_log "Unable to fetch OIM from $nick <$from> which MsgID is $MsgID" red
+			#}
+			#set order [lindex $oim_message 0]
+			#set from [lindex $oim_message 1]
+			#set nick [lindex $oim_message 2]
 			set title "$nick <$from>\n"
 			if {[winfo exists $titles_text]} {
 				$titles_text tag configure $MsgID -font splainf
@@ -8133,7 +8135,7 @@ namespace eval ::OIM_GUI {
 		frame $buttons_bar
 		
 		pack $buttons_bar
-		button $buttons_bar.cancel -text "[trans cancel]" -command "destroy .oim_send_gui"
+		button $buttons_bar.cancel -text "[trans clear]" -command "$send_area delete 0.0 end"
 		button $buttons_bar.send -text "[trans send]" -command "::OIM_GUI::SendOIMFromGUI $contact"
 		button $buttons_bar.close -text "[trans close]" -command "destroy .oim_send_gui"
 		pack $buttons_bar.cancel $buttons_bar.send $buttons_bar.close -side left
