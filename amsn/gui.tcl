@@ -2681,7 +2681,7 @@ namespace eval ::amsn {
 				set fontname [urldecode $fontname]
 				set font "bplainf"
 				foreach listed_font [string trim [split $fontname ","]] {
-					if { ! [info exists $::allfonts([string tolower $listed_font])] } {
+					if { ! [info exists ::allfonts([string tolower $listed_font])] } {
 						#status_log "font $listed_font found!"
 						set font "\"$listed_font\" $size $fontstyle"
 						break
