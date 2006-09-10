@@ -28,8 +28,8 @@ const MsnProtocol *msn_protocol_init_msnp13(void);
 static gboolean protocol_initialized = FALSE;
 static GHashTable *protocols = NULL;
 static MsnProtocolInitializer *protocol_initializers[] = {
+  msn_protocol_init_cvr0,
   msn_protocol_init_msnp13,
-  msn_protocol_init_cvr0,	// CVR0 should be last!
   NULL
 };
 
@@ -37,6 +37,7 @@ static MsnProtocolInitializer *protocol_initializers[] = {
 /* This function initializes the protocol manager */
 static void msn_protocol_init(void) {
   g_return_if_fail(!protocol_initialized);
+  protocol_initialized = TRUE;
 
   protocols = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, NULL);
 
@@ -44,13 +45,12 @@ static void msn_protocol_init(void) {
     const MsnProtocol *protocol = protocol_initializers[i]();
     g_hash_table_insert(protocols, g_strdup(protocol->name), (gpointer) protocol);
   }
-
-  protocol_initialized = TRUE;
 }
 
 /* This function looks up the MsnProtocol structure with the given name. */
 const MsnProtocol *msn_protocol_find(const gchar *protocol_name) {
-  g_return_val_if_fail(protocols != NULL, NULL);
+  g_assert(protocol_name != NULL);
+
   if(!protocol_initialized) msn_protocol_init();
   return (const MsnProtocol *) g_hash_table_lookup(protocols, protocol_name);
 }
@@ -78,6 +78,7 @@ static void add_next_protocol(gpointer key, gpointer value, gpointer user_data) 
     const MsnProtocol *protocol = (const MsnProtocol *) value;
     if(string == NULL) string = g_string_new(protocol->name);
     else g_string_append_printf(string, " %s", protocol->name);
+    *((GString **) user_data) = string;
   }
 }
 
@@ -87,5 +88,5 @@ gchar *msn_protocol_get_all_string() {
 
   GString *protocol_names = NULL;
   g_hash_table_foreach(protocols, add_next_protocol, &protocol_names);
-  return g_string_free(protocol_names, FALSE);
+  return ((protocol_names != NULL) ? g_string_free(protocol_names, FALSE) : NULL);
 }

@@ -29,11 +29,16 @@ static void VER_NS_handler(MsnMessage *message,
   /* Get the request we sent */
   gint trid = msn_message_get_trid(message);
   MsnMessage *request = msn_connection_get_sent_message_by_trid(conn, trid);
-  const gchar *request_command = msn_message_get_command(request);
 
   /* Check if it is a proper context for this reply */
-  if(request_command == NULL || strcmp(request_command, "VER") != 0) {
-    g_printf("VER ignored because of bad context.\n");
+  if(request != NULL) {
+    const gchar *request_command = msn_message_get_command(request);
+    if(request_command == NULL || strcmp(request_command, "VER") != 0) {
+      g_printf("VER ignored because of bad context.\n");
+      return;
+    }
+  } else {
+    g_printf("VER ignored: no context.\n");
     return;
   }
 

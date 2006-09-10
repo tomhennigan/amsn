@@ -184,6 +184,9 @@ static void receive_msn_message(GIOChannel *source,
   MsnConnectionPrivate *priv = MSN_CONNECTION_GET_PRIVATE(conn);
   g_io_channel_read_line(priv->channel, &message, NULL, NULL, NULL);
 
+  /* Return if no data is to be read. */
+  if(message == NULL) return;
+
   /* If the current command is a payload command, extract the payload length
    * from the first line (always the last argument) and use that value to
    * read the payload of the message */
@@ -221,7 +224,7 @@ static void send_msn_message(MsnConnection *this,
   g_return_if_fail (error_ptr == NULL || *error_ptr == NULL);
 
   MsnConnectionPrivate *priv = MSN_CONNECTION_GET_PRIVATE(this);
-  GError *error;
+  GError *error = NULL;
 
   g_printf("--> %s\n", msn_message_to_string(message));
 
@@ -306,11 +309,12 @@ void msn_connection_login(MsnConnection *this,
 
   msn_connection_send_message(this, cvr_message, &error);
 
-  gchar *usr_string = g_strdup_printf("USR TWN I %s", account);
+/*  gchar *usr_string = g_strdup_printf("USR TWN I %s", account);
   MsnMessage *usr_message = msn_message_new_with_command(usr_string);
   g_free(usr_string);
 
   msn_connection_send_message(this, usr_message, &error);
+*/
 }
 
 
@@ -494,7 +498,9 @@ void msn_connection_send_message(MsnConnection *this,
                                  MsnMessage *message,
                                  GError **error_ptr)
 {
-  GError *error;
+  g_return_if_fail ((error_ptr == NULL || *error_ptr == NULL) && (this != NULL) && (message != NULL));
+
+  GError *error = NULL;
 
   if(msn_protocol_command_has_trid(this->protocol, msn_message_get_command(message)))
     msn_message_set_trid(message, next_trid(this));
