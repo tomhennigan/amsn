@@ -20,3 +20,5 @@ msn: $(OBJS)
 
 clean:
 	$(RM) msn *.o *~
+	$(RM) protocols/*.o protocols/*~
+
