@@ -7,13 +7,13 @@ Tile extension must be avalaible before using this plugin, you can get it at htt
 For it to be detected, either install it in your tcl lib directory or copy the tile-0.7.2/ directory to this plugin's directory.
 Themes can be added and should be placed either in the themes/ directory of tile, or in this plugins's themes/ subdirectory</description>
 	<amsn_version>0.96</amsn_version>
-	<plugin_version>0.2</plugin_version>
+	<plugin_version>0.3</plugin_version>
 	<plugin_file>chameleon.tcl</plugin_file>
 	<plugin_namespace>chameleon</plugin_namespace>
 	<init_procedure>Init</init_procedure>
 	<deinit_procedure>DeInit</deinit_procedure>
 
-	<cvs_version>6989</cvs_version>
+	<cvs_version>7242</cvs_version>
 
 	<file>
 		<path>button.tcl</path>
@@ -25,11 +25,11 @@ Themes can be added and should be placed either in the themes/ directory of tile
 	</file>
 	<file>
 		<path>common.tcl</path>
-		<version>6836</version>
+		<version>7242</version>
 	</file>
 	<file>
 		<path>entry.tcl</path>
-		<version>6196</version>
+		<version>7242</version>
 	</file>
 	<file>
 		<path>frame.tcl</path>
@@ -49,7 +49,7 @@ Themes can be added and should be placed either in the themes/ directory of tile
 	</file>
 	<file>
 		<path>notebook.tcl</path>
-		<version>6904</version>
+		<version>7242</version>
 	</file>
 	<file>
 		<path>radiobutton.tcl</path>
