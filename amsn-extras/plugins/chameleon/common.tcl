@@ -23,7 +23,8 @@ namespace eval ::chameleon {
 	if { [info command ::chameleon::${widget_type}::${widget_type}_proc_${w_name}] == "::chameleon::${widget_type}::${widget_type}_proc_${w_name}" } {
 	    rename ::chameleon::${widget_type}::${widget_type}_proc_${w_name} ""
 	}
-	if { [info command ::${w_name}] == "::${w_name}" } {
+
+	if { [info command ::${w_name}] == [list ::${w_name}] } {
 	    rename ::$w_name ::chameleon::${widget_type}::${widget_type}_proc_${w_name}
 	}
 
@@ -34,9 +35,10 @@ namespace eval ::chameleon {
 	}
 
 	proc ::${w_name} { command args } \
-	    "set newargs \[list ${w_name}\] ; lappend newargs \$command; eval lappend newargs \$args; eval ::chameleon::${widget_type}::${widget_type}_launchCommand \$newargs"
+	    "set newargs \[list [list ${w_name}]\] ; lappend newargs \$command; eval lappend newargs \$args;eval ::chameleon::${widget_type}::${widget_type}_launchCommand \$newargs"
 	
-	bind ${w_name} <Destroy> "::chameleon::widgetDestroyed [string map {"%" "\\%"} ::chameleon::${widget_type}::${widget_type}_proc_${w_name}]"
+
+	bind ${w_name} <Destroy> [list ::chameleon::widgetDestroyed [string map {"%" "\\%"} ::chameleon::${widget_type}::${widget_type}_proc_${w_name}]]
 
 	::chameleon::widgetCreated ::chameleon::${widget_type}::${widget_type}_proc_${w_name} ${w_name} 
 

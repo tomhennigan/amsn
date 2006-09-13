@@ -195,7 +195,7 @@ namespace eval ::chameleon::combobox {
 	    if { [info exists combobox_commands($w)] && [set combobox_commands($w)] != ""} {
 			if {![info exists combobox_commandstates($w)] || 
 			    ([info exists combobox_commandstates($w)] && [set combobox_commandstates($w)] == "normal")} {
-				eval [set combobox_commands($w)] [::chameleon::getWidgetPath $w] [list [$w get]]
+			    eval [set combobox_commands($w)] [list [::chameleon::getWidgetPath $w]] [list [$w get]]
 			}
 		}
 	}
@@ -251,7 +251,7 @@ namespace eval ::chameleon::combobox {
 				}
 			}
 			index {
-				return [eval $w index $args]
+			    return [eval [list $w] index $args]
 			}
 			insert {
 				if {[llength $args] < 1} {

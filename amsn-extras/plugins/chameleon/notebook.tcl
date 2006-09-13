@@ -189,7 +189,7 @@ namespace eval ::chameleon::notebook {
        set tabs($page) [list [$w index end] $child]
 
        set pages($w_name) [array get tabs]
-       set ret [eval $w add $child [array get arguments]]
+       set ret [eval [list $w] add $child [array get arguments]]
        notebook_move $w $page $index
 
        if {[info exists arguments(-createcmd)] } {
@@ -239,7 +239,7 @@ namespace eval ::chameleon::notebook {
 	   array unset arguments -leavecmd
 	   array unset arguments -raisecmd
    
-	   return [eval $w tab [array get arguments]]
+	   return [eval [list $w] tab [array get arguments]]
        }
 
    }
@@ -297,7 +297,7 @@ namespace eval ::chameleon::notebook {
        set tabs($page) [list [$w index end] $child]
 
        set pages($w_name) [array get tabs]
-       return [eval $w add $child $args]
+       return [eval [list $w] add $child $args]
          
    }
 
@@ -323,11 +323,11 @@ namespace eval ::chameleon::notebook {
    }
 
    proc notebook_select { w args } {
-       return [eval $w select $args]
+       return [eval [list $w] select $args]
    }
 
    proc notebook_tab { w index args } {
-       return [eval $w tab $index $args]
+       return [eval [list $w] tab $index $args]
    } 
 
    proc notebook_tabs { w } {

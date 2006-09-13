@@ -82,7 +82,7 @@ namespace eval ::chameleon::entry {
    }
    proc entry_selection { w option args } {
 	   if { $option == "clear" || $option == "present" || $option == "range"} {
-		   return [eval $w selection $option $args]
+	       return [eval [list $w] selection $option $args]
 	   }
    }
 
