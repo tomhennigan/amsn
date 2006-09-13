@@ -606,7 +606,7 @@ namespace eval ::skin {
 		set skins [concat $skins $skins_in_home $skins_in_home2 $skins_in_extras]
 		set skinlist [list]
 
-		foreach skin $skins {
+		foreach skin [lsort -dictionary $skins] {
 			set dir [file dirname $skin]
 			set desc ""
 
