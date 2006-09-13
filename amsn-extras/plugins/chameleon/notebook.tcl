@@ -185,7 +185,7 @@ namespace eval ::chameleon::notebook {
        array unset arguments -leavecmd
        array unset arguments -raisecmd
    
-       set child [frame $w_name.$page]
+       set child [frame $w_name.f$page]
        set tabs($page) [list [$w index end] $child]
 
        set pages($w_name) [array get tabs]
