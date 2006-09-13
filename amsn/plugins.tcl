@@ -499,7 +499,7 @@ namespace eval ::plugins {
 		button $w.close -text [trans close] -command "::plugins::GUI_Close"
  
 		#loop through all the plugins and add them to the list
-		foreach {plugin} [array names ::plugins::plugins *_name] {
+		foreach {plugin} [lsort -dictionary [array names ::plugins::plugins *_name]] {
 		    set name $plugins(${plugin})
 		    # add the plugin name to the list at counterid position
 		    $w.plugin_list insert end $name
