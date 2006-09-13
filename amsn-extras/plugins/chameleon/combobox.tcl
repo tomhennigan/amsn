@@ -192,7 +192,7 @@ namespace eval ::chameleon::combobox {
 	proc combobox_selected {w args } {
 		variable combobox_commands
 		variable combobox_commandstates
-		if { [info exists combobox_commands($w)] } {
+	    if { [info exists combobox_commands($w)] && [set combobox_commands($w)] != ""} {
 			if {![info exists combobox_commandstates($w)] || 
 			    ([info exists combobox_commandstates($w)] && [set combobox_commandstates($w)] == "normal")} {
 				eval [set combobox_commands($w)] [::chameleon::getWidgetPath $w] [list [$w get]]
