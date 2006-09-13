@@ -2614,6 +2614,9 @@ namespace eval ::MSN {
 		if { [::MSNMobile::IsMobile $chatid] == 1} {
 		    ::MSNMobile::MessageSend $chatid $txt
 		    return 0
+		} elseif { [::abook::getVolatileData $chatid state] == "FLN" } {
+			::OIM_GUI::MessageSend $chatid $txt
+			return 0
 		}
 
 		if {![chatReady $chatid] && [::abook::getVolatileData [lindex [usersInChat $chatid] 0] state] == "FLN" } {
@@ -2833,6 +2836,7 @@ namespace eval ::MSNOIM {
 		if { $msg != ""} {
 			set from [$msg getHeader From]
 			set sequence [$msg getHeader X-OIM-Sequence-Num]
+			set runId [$msg getHeader X-OIM-Run-ID]
 			set body [string map {"\r\n" "\n"} [$msg getBody]]
 			set ctype [$msg getHeader Content-type]
 			set cencoding [$msg getHeader Content-Transfer-Encoding]
@@ -2846,7 +2850,7 @@ namespace eval ::MSNOIM {
 			if { $cencoding == "base64" } {
 				set body [encoding convertfrom identity [string map {"\r\n" "\n"} [base64::decode [string trim $body]]]]
 			}
-			return [list $sequence $email $nick $body]
+			return [list $sequence $email $nick $body $mid $runId]
 		}
 	}
 	

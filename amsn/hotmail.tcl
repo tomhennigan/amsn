@@ -170,7 +170,6 @@ namespace eval ::hotmail {
 				#Number of unread messages in inbox
 				set mailData [$message getField Mail-Data]
 				set mailList [xml2list $mailData]
-				
 				set inbox [GetXmlEntry $mailList ":MD:E:I"] 
 				# string range $mailData [expr {[string first <I> $mailData]+3}] [expr {[string first </I> $mailData] -1}]]
 				set inboxUnread [GetXmlEntry $mailList ":MD:E:IU"]
@@ -228,7 +227,7 @@ namespace eval ::hotmail {
 				if { $oim_count > 0 } {
 					set answer [tk_messageBox -type yesno -title "New OIM Messages" -message "You have $oim_count new Offline Instant Messages. Do you want to read them ?"]
 					if { $answer == "yes" } {
-						::OIM_GUI::FillTitles $oim_messages
+						::OIM_GUI::MessagesReceived $oim_messages
 						#foreach oim $oim_messages {
 						#    foreach {from nick mid} $oim break
 						#    set oim_message [::MSNOIM::getOIMMessage $mid]
@@ -337,7 +336,6 @@ namespace eval ::hotmail {
 				#Number of unread messages in inbox
 				set mailData [$message getField Mail-Data]
 				set mailList [xml2list $mailData]
-				
 				set oim_count 0
 				set oim_messages [list]
 				while { 1 } {
@@ -358,21 +356,7 @@ namespace eval ::hotmail {
 				if { $oim_count > 0 } {
 					set answer [tk_messageBox -type yesno -title "New OIM Messages" -message "You have $oim_count new Offline Instant Messages. Do you want to read them ?"]
 					if { $answer == "yes" } {
-						::OIM_GUI::FillTitles $oim_messages
-						#foreach oim $oim_messages {
-						#    foreach {from nick mid} $oim break
-						#    set oim_message [::MSNOIM::getOIMMessage $mid]
-						#    if { $oim_message == "" } { 
-						#        msg_box "Unable to fetch message from $nick <$email>"
-						#    } else {
-						#        set answer [tk_messageBox -type yesno -message "From : [lindex $oim_message 1]\n[lindex $oim_message 2] says : \n[lindex $oim_message 3]\n\n\nDelete message ?"]
-						#        if { $answer == "yes" } {
-						#            if { [::MSNOIM::deleteOIMMessage $mid] == 0} {
-						#                msg_box "Deletion failed"
-						#            }
-						#        }
-						#    }
-						#}
+						::OIM_GUI::MessagesReceived $oim_messages
 				    }
 				}
 			}
