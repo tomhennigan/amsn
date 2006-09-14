@@ -8065,12 +8065,15 @@ namespace eval ::OIM_GUI {
 
 		#TODO: when we have 2 or more OIM for 1 MsgID, how do we handle that ??
 		variable oimlist
-		set tag "del_$MsgId"
+
 		if { [::MSNOIM::deleteOIMMessage $MsgId] == 0 } {
-			set range [$textWidget tag ranges $tag]
-			#TODO : find a way to check if a tag exists
-			set tag "del_failed_$MsgId"
-			$textWidget tag configure $tag -foreground #800000 -font splainf -underline false
+			set tag "del_failed_$MsgId"	
+			if {[lsearch [$textWidget tag names] $tag ] != -1} {
+				set range [$textWidget tag ranges $tag]
+			} else {
+				set range [$textWidget tag ranges "del_$MsgId"]
+				$textWidget tag configure $tag -foreground #800000 -font splainf -underline false
+			}
 			set pos2 [lindex $range 1]
 			$textWidget roinsert $pos2 "\n[trans delFailureOIM]" $tag
 		} else {
@@ -8081,6 +8084,7 @@ namespace eval ::OIM_GUI {
 				}
 			}
 			set oimlist $newoimlist
+			set tag "del_$MsgId"	
 			$textWidget tag configure $tag -foreground #008000 -font splainf -underline false
 			$textWidget tag bind $tag <Enter> ""
 			$textWidget tag bind $tag <Leave> ""
@@ -8089,14 +8093,16 @@ namespace eval ::OIM_GUI {
 			set pos1 [lindex $range 0]
 			set pos2 [lindex $range 1]
 			$textWidget rodelete $pos1 $pos2
-			$textWidget roinsert $pos1 "[trans delSuccessOIM]" $tag
-			#TODO : find a way to check if a tag exists
-			#delete the failed msg if there's one	
+			$textWidget roinsert $pos1 "\n[trans delSuccessOIM]" $tag
+			#delete the failed msg if there's one
 			set tag "del_failed_$MsgId"
-			set range [$textWidget tag ranges $tag]
-			set pos1 [lindex $range 0]
-			set pos2 [lindex $range 1]
-			$textWidget rodelete $pos1 $pos2
+			if {[lsearch [$textWidget tag names] $tag ] != -1} {
+				set range [$textWidget tag ranges $tag]
+				set pos1 [lindex $range 0]
+				set pos2 [lindex $range 1]
+				$textWidget rodelete $pos1 $pos2
+				$textWidget tag delete $tag
+			}
 		}
 	}
 
