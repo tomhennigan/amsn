@@ -1812,7 +1812,6 @@ namespace eval ::amsn {
 
 	#///////////////////////////////////////////////////////////////////////////////
 
-	#show_offlines = 2 to show only offlines
 	proc ShowUserList {title command {show_offlines 0}} {
 		
 		#Replace for"::amsn::ChooseList \"[trans sendmsg]\" online ::amsn::chatUser 1 0"
@@ -1821,16 +1820,10 @@ namespace eval ::amsn {
 
 		foreach user_login [::MSN::sortedContactList] {
 			set user_state_code [::abook::getVolatileData $user_login state FLN]
-			if {$show_offlines == 2} {
-				if { $user_state_code == "FLN" } {
-					lappend userlist [list [::abook::getDisplayNick $user_login] $user_login]
-				}
-			} else {
-				if { $user_state_code == "NLN" } {
-					lappend userlist [list [::abook::getDisplayNick $user_login] $user_login]
-				} elseif { $user_state_code != "FLN" || $show_offlines == 1 } {
-					lappend userlist [list "[::abook::getDisplayNick $user_login] ([trans [::MSN::stateToDescription $user_state_code]])" $user_login]
-				}
+			if { $user_state_code == "NLN" } {
+				lappend userlist [list [::abook::getDisplayNick $user_login] $user_login]
+			} elseif { $user_state_code != "FLN" || $show_offlines == 1 } {
+				lappend userlist [list "[::abook::getDisplayNick $user_login] ([trans [::MSN::stateToDescription $user_state_code]])" $user_login]
 			}
 		}
 
@@ -2562,7 +2555,15 @@ namespace eval ::amsn {
 			}
 
 			set ::ChatWindow::first_message($win_name) 0
-			set chatid [::MSN::chatTo $lowuser]
+			
+			#TODO: This check shouldn't be there
+			#Have a look at proc IsOIM (gui.tcl, ~2540)
+			if {[::OIM_GUI::IsOIM $user] == 0} {
+				set chatid [::MSN::chatTo $lowuser]
+			} else {
+				#doing OIM
+				set chatid $lowuser
+			}
 
 			# PostEvent 'new_conversation' to notify plugins that the window was created
 			set evPar(chatid) $chatid
@@ -2576,7 +2577,14 @@ namespace eval ::amsn {
 			}
 		}
 
-		set chatid [::MSN::chatTo $lowuser]
+		#TODO: This check shouldn't be there
+		#Have a look at proc IsOIM (gui.tcl, ~2540)
+		if {[::OIM_GUI::IsOIM $user] == 0} {
+			set chatid [::MSN::chatTo $lowuser]
+		} else {
+			#doing OIM
+			set chatid $lowuser
+		}
 
 		if { [::ChatWindow::UseContainer] != 0 && $creating_window == 1} {
 			::ChatWindow::NameTabButton $win_name $chatid
@@ -3236,13 +3244,11 @@ proc cmsn_draw_main {} {
 	menu $actions -tearoff 0 -type normal
 
 	#Send msg
-	$actions add command -label "[trans sendmsg]..." -command [list ::amsn::ShowUserList [trans sendmsg] ::amsn::chatUser] -state disabled
+	$actions add command -label "[trans sendmsg]..." -command [list ::amsn::ShowUserList [trans sendmsg] ::amsn::chatUser 1] -state disabled
 	#Send SMS
 	$actions add command -label "[trans sendmobmsg]..." -command [list ::amsn::ShowUserList [trans sendmobmsg] ::MSNMobile::OpenMobileWindow] -state disabled
 	#Send e-mail
 	$actions add command -label "[trans sendmail]..." -command [list ::amsn::ShowUserList [trans sendmail] launch_mailer 1] -state disabled
-	#Send OIM
-	$actions add command -label "[trans sendoim]..."  -command [list ::amsn::ShowUserList [trans sendoim] ::OIM_GUI::OpenOIMWindow 2] -state disabled
 	#-------------------
 	$actions add separator
 	#Send File
@@ -3550,7 +3556,7 @@ proc loggedInGuiConf { event } {
 	
 	#actions menu
 	set menu .main_menu.actions
-	enableEntries $menu [list 0 1 2 3 5 6 7]
+	enableEntries $menu [list 0 1 2 4 5 6]
 	
 	#contacts menu
 	set menu .main_menu.contacts
@@ -3600,7 +3606,7 @@ proc loggedOutGuiConf { event } {
 	
 	#actions menu
 	set menu .main_menu.actions
-	enableEntries $menu [list 0 1 2 3 5 6 7] 0
+	enableEntries $menu [list 0 1 2 4 5 6] 0
 	
 	#contacts menu
 	set menu .main_menu.contacts
@@ -7950,7 +7956,10 @@ namespace eval ::OIM_GUI {
     namespace export IsOIM MessageSend MessagesReceived OpenOIMWindow
 
 	variable oimlist
-
+	
+	#TODO:when we write a message to a CW, it should do the same as WLM, try to open an SB, if the CAL answer is 207 (user is offline, cannot join chat), then send the OIM
+	#use a list of such users ......
+	#Have a look at proc chatUser (gui.tcl, ~2540)
 	proc IsOIM {user} {
 		if {[::abook::getVolatileData $user state] == "FLN" && [::MSN::SBFor $user] == 0 } {
 			return 1
@@ -7965,13 +7974,6 @@ namespace eval ::OIM_GUI {
 		set answer [tk_messageBox -type yesno -message "[trans asksendOIM]"]
 		if { $answer == "yes"} {
 			set error [::MSNOIM::sendOIMMessage $email $txt]
-			
-			if { [::config::getKey p4c_name] != ""} {
-				set nick [::config::getKey p4c_name]
-			} else {
-				set nick [::abook::getPersonal login]
-			}
-
 			if {![string match *success* $error]} {
 				::amsn::WinWrite $chatid "\n[timestamp] [trans deliverfail]:\n" red
 				::amsn::WinWrite $chatid "\n$error\n" red
@@ -7994,6 +7996,13 @@ namespace eval ::OIM_GUI {
 		lsort -command SortOIMs $oimlist
 		foreach oim_message $oimlist {
 			DisplayOIM $oim_message
+		}
+		#and remove then
+		foreach oim_message $oimlist {
+			set MsgID [lindex $oim_message 4]
+			if { [::MSNOIM::deleteOIMMessage $MsgId] == 0 } {
+				status_log "\[OIM\]Unable to delete message from $nick <$email>; MsgId is $MsgId"
+			}
 		}
     }
 
@@ -8025,75 +8034,14 @@ namespace eval ::OIM_GUI {
         set chatid [GetChatId $user]
 
 		if { $chatid == 0 } {
-			OpenOIMWindow $user
+			::amsn::chatUser $user
+			#TODO: use the normal way to get the chatid
 			set chatid [GetChatId $user]
 		}
 		set contact "$nick <$user>"
 		status_log "Writing offline msg \"$msg\" on : $chatid\n" red
 		::amsn::WinWrite $chatid "\n\[$date\] [trans said $contact] : \n" says
 		::amsn::WinWrite $chatid "$msg" user
-
-		set win_name [::ChatWindow::For $chatid]
-		if { [::ChatWindow::For $chatid] == 0} {
-			return
-		}
-		#Avoid problems if the windows was closed
-		if {![winfo exists $win_name]} {
-			return
-		}
-		set textWidget [::ChatWindow::GetOutText ${win_name}]
-		set tag "del_$MsgId" 
-		$textWidget tag configure $tag -foreground #000080 -font splainf -underline true
-		$textWidget tag bind $tag <Enter> "$textWidget tag conf $tag; $textWidget conf -cursor hand2"
-		$textWidget tag bind $tag <Leave> "$textWidget tag conf $tag; $textWidget conf -cursor xterm"
-		$textWidget tag bind $tag <Button1-ButtonRelease> "$textWidget conf -cursor watch; ::OIM_GUI::DeleteMessage $MsgId $chatid $textWidget"
-		#using roinsert since it's the ReadOnly text widget used in the CW
-		$textWidget roinsert end "\n[trans deleteOIM]" $tag		
-	}
-
-	proc DeleteMessage {MsgId chatid textWidget} {
-
-		#TODO: when we have 2 or more OIM for 1 MsgID, how do we handle that ??
-		variable oimlist
-
-		if { [::MSNOIM::deleteOIMMessage $MsgId] == 0 } {
-			set tag "del_failed_$MsgId"	
-			if {[lsearch [$textWidget tag names] $tag ] != -1} {
-				set range [$textWidget tag ranges $tag]
-			} else {
-				set range [$textWidget tag ranges "del_$MsgId"]
-				$textWidget tag configure $tag -foreground #800000 -font splainf -underline false
-			}
-			set pos2 [lindex $range 1]
-			$textWidget roinsert $pos2 "\n[trans delFailureOIM]" $tag
-		} else {
-			set newoimlist [list]
-			foreach oim_message $oimlist {
-				if {[lindex $oim_message 4] != "$MsgId"} {
-					lappend newoimlist $oim_message
-				}
-			}
-			set oimlist $newoimlist
-			set tag "del_$MsgId"	
-			$textWidget tag configure $tag -foreground #008000 -font splainf -underline false
-			$textWidget tag bind $tag <Enter> ""
-			$textWidget tag bind $tag <Leave> ""
-			$textWidget tag bind $tag <Button1-ButtonRelease> ""
-			set range [$textWidget tag ranges $tag]
-			set pos1 [lindex $range 0]
-			set pos2 [lindex $range 1]
-			$textWidget rodelete $pos1 $pos2
-			$textWidget roinsert $pos1 "\n[trans delSuccessOIM]" $tag
-			#delete the failed msg if there's one
-			set tag "del_failed_$MsgId"
-			if {[lsearch [$textWidget tag names] $tag ] != -1} {
-				set range [$textWidget tag ranges $tag]
-				set pos1 [lindex $range 0]
-				set pos2 [lindex $range 1]
-				$textWidget rodelete $pos1 $pos2
-				$textWidget tag delete $tag
-			}
-		}
 	}
 
     proc OpenOIMWindow { user } {
