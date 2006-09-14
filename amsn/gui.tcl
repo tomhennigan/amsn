@@ -5524,9 +5524,9 @@ proc ShowUser {user_login state_code colour section grId} {
 		if {$not_in_reverse} { $pgBuddy.text tag bind $imgname2 $singordblclick "::MSNMobile::OpenMobileWindow ${user_login}" }
 		$pgBuddy.text tag bind $user_unique_name $singordblclick "::MSNMobile::OpenMobileWindow ${user_login}"
 	} else {
-		$pgBuddy.text tag bind $imgname $singordblclick ""
-		if {$not_in_reverse} { $pgBuddy.text tag bind $imgname2 $singordblclick "" }
-		$pgBuddy.text tag bind $user_unique_name $singordblclick ""
+		$pgBuddy.text tag bind $imgname $singordblclick "::OIM_GUI::OpenOIMWindow ${user_login}"
+		if {$not_in_reverse} { $pgBuddy.text tag bind $imgname2 $singordblclick "::OIM_GUI::OpenOIMWindow ${user_login}" }
+		$pgBuddy.text tag bind $user_unique_name $singordblclick "::OIM_GUI::OpenOIMWindow ${user_login}"
 	}
 
 }
@@ -7968,6 +7968,7 @@ namespace eval ::OIM_GUI {
     }
 
     proc MessagesReceived { oim_messages  } {
+		variable oimlist
 		foreach oim $oim_messages {
 			foreach {from nick MsgId} $oim break
 			set oim_message [::MSNOIM::getOIMMessage $MsgId]
@@ -8063,7 +8064,6 @@ namespace eval ::OIM_GUI {
 			set pos2 [lindex $range 1]
 			$textWidget roinsert $pos2 "\n[trans delFailureOIM]" $tag
 		} else {
-			#i could have used lreplace, but i don't want (this remember me of CAML .....)
 			set newoimlist [list]
 			foreach oim_message $oimlist {
 				if {[lindex $oim_message 4] != "$MsgId"} {
