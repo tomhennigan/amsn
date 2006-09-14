@@ -2933,6 +2933,8 @@ namespace eval ::MSNOIM {
 					}
 					if {$retry == 1 } {
 						return [sendOIMMessage $to $msg 0]
+					} else {
+						return "authentication failed"
 					}
 				} elseif { $faultcode == "q0:SystemUnavailable" } {
 					return "invaliduser"
@@ -3018,6 +3020,47 @@ namespace eval ::MSNOIM {
 		append xml {</messageId></messageIds></DeleteMessages></soap:Body></soap:Envelope>}
 		return $xml
 	}
+
+        proc getMailData { } {
+		if { [catch {package require dom 3.0}] == 0 && 
+		     [catch {package require SOAP}] == 0 && 
+		     [catch {package require SOAP::https}] == 0 &&
+		     [catch {package require SOAP::xpath 0.2.1}] == 0 &&
+		     [info exists ::authentication_ticket] } {
+			set cookies [split $::authentication_ticket &]
+			foreach cookie $cookies {
+				set c [split $cookie =]
+				set ticket_[lindex $c 0] [lindex $c 1]
+			}
+			
+			if { [info exists ticket_t] && [info exists ticket_p] } {
+				# TODO: make it asynchronous with the -command argument.. but how to parse the returned data and 
+				# how to make sure our 'tkwait var' works even in the case of errors ?
+				set soap_req [SOAP::create GetMailData \
+						  -uri "https://rsi.hotmail.com/rsi/rsi.asmx" \
+						  -proxy "https://rsi.hotmail.com/rsi/rsi.asmx" \
+						  -action "http://www.hotmail.msn.com/ws/2004/09/oim/rsi/GetMetadata" \
+						  -wrapProc [list getMailDataXml $ticket_t $ticket_p]]
+				if {[catch {$soap_req}] == 0} {
+					if { [catch {list2xml [lindex [lindex [GetXmlNode [xml2list [::SOAP::dump $soap_req]] "soap:Envelope:soap:Body:GetMetadataResponse"] 2] 0]} MailData] == 0 } {
+						return $MailData
+					} 
+				}
+			}
+		}
+		return ""
+	}
+	
+        proc getMailDataXml { ticket_t ticket_p procVarName args} {
+		set xml {<?xml version="1.0" encoding="utf-8"?> <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Header><PassportCookie xmlns="http://www.hotmail.msn.com/ws/2004/09/oim/rsi"> <t>}
+		append xml $ticket_t
+		append xml {</t><p>}
+		append xml $ticket_p
+		append xml {</p></PassportCookie></soap:Header><soap:Body><GetMetadata xmlns="http://www.hotmail.msn.com/ws/2004/09/oim/rsi" /></soap:Body></soap:Envelope>}
+		return $xml
+	}
+
+
 
 	proc AuthenticatePassport3 { url } {
 		if { [catch {package require dom 3.0}] == 0 && 
