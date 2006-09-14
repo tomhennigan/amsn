@@ -1812,19 +1812,25 @@ namespace eval ::amsn {
 
 	#///////////////////////////////////////////////////////////////////////////////
 
-
+	#show_offlines = 2 to show only offlines
 	proc ShowUserList {title command {show_offlines 0}} {
+		
 		#Replace for"::amsn::ChooseList \"[trans sendmsg]\" online ::amsn::chatUser 1 0"
 
 		set userlist [list]
 
 		foreach user_login [::MSN::sortedContactList] {
 			set user_state_code [::abook::getVolatileData $user_login state FLN]
-
-			if { $user_state_code == "NLN" } {
-				lappend userlist [list [::abook::getDisplayNick $user_login] $user_login]
-			} elseif { $user_state_code != "FLN" || $show_offlines == 1 } {
-				lappend userlist [list "[::abook::getDisplayNick $user_login] ([trans [::MSN::stateToDescription $user_state_code]])" $user_login]
+			if {$show_offlines == 2} {
+				if { $user_state_code == "FLN" } {
+					lappend userlist [list [::abook::getDisplayNick $user_login] $user_login]
+				}
+			} else {
+				if { $user_state_code == "NLN" } {
+					lappend userlist [list [::abook::getDisplayNick $user_login] $user_login]
+				} elseif { $user_state_code != "FLN" || $show_offlines == 1 } {
+					lappend userlist [list "[::abook::getDisplayNick $user_login] ([trans [::MSN::stateToDescription $user_state_code]])" $user_login]
+				}
 			}
 		}
 
@@ -2395,11 +2401,7 @@ namespace eval ::amsn {
 
 		switch [::config::getKey chatstyle] {
 			msn {
-				if { [::OIM_GUI::IsOIM $chatid] == 1 } {
-					::config::setKey customchatstyle "\$tstamp [trans saysToOffline \$nick]: \$newline"
-				} else {
-					::config::setKey customchatstyle "\$tstamp [trans says \$nick]: \$newline"
-				}
+				::config::setKey customchatstyle "\$tstamp [trans says \$nick]: \$newline"
 			}
 
 			irc {
@@ -3240,7 +3242,7 @@ proc cmsn_draw_main {} {
 	#Send e-mail
 	$actions add command -label "[trans sendmail]..." -command [list ::amsn::ShowUserList [trans sendmail] launch_mailer 1] -state disabled
 	#Send OIM
-	$actions add command -label "[trans sendoim]..."  -command [list ::amsn::ShowUserList [trans sendoim] ::OIM_GUI::CreateSendGUI 1] -state disabled
+	$actions add command -label "[trans sendoim]..."  -command [list ::amsn::ShowUserList [trans sendoim] ::OIM_GUI::OpenOIMWindow 2] -state disabled
 	#-------------------
 	$actions add separator
 	#Send File
@@ -7962,7 +7964,7 @@ namespace eval ::OIM_GUI {
 		status_log "sending OIM to $chatid" green
 		set answer [tk_messageBox -type yesno -message "[trans asksendOIM]"]
 		if { $answer == "yes"} {
-			set error [::MSNOIM::sendOIMMessage $email "$txt"]
+			set error [::MSNOIM::sendOIMMessage $email $txt]
 			
 			if { [::config::getKey p4c_name] != ""} {
 				set nick [::config::getKey p4c_name]
@@ -7998,27 +8000,15 @@ namespace eval ::OIM_GUI {
 	#oldest are first
 	proc SortOIMs { oim1 oim2 } {
 		#an oim is [list $sequence $email $nick $body $mid $runId]
-		set date1 0
-		set date2 0
-		set MsgId1 [lindex $oim1 4]
-		set MsgId2 [lindex $oim2 4]
-		regexp {MSG([\d;\.]+)} $MsgId1 -> date1
-		regexp {MSG([\d;\.]+)} $MsgId2 -> date2
-		if {$date1 > $date2 } {
+		set seq1 [lindex $oim1 0]
+		set seq2 [lindex $oim2 0]
+		if {$seq1 > $seq2 } {
 			return 1
-		} elseif {$date1 < $date2 } {
+		} elseif {$seq1 < $seq2 } {
 			return -1
 		} else {
-			set seq1 [lindex $oim1 0]
-			set seq2 [lindex $oim2 0]
-			if {$seq1 > $seq2 } {
-				return 1
-			} elseif {$seq1 < $seq2 } {
-				return -1
-			} else {
-				#should almost never happen, or would happen when 2 different contacts send us an OIM at the same time, exactly.
-				return 0
-			}
+			#should never happen
+			return 0
 		}
 	}
 
@@ -8040,7 +8030,7 @@ namespace eval ::OIM_GUI {
 		}
 		set contact "$nick <$user>"
 		status_log "Writing offline msg \"$msg\" on : $chatid\n" red
-		::amsn::WinWrite $chatid "\n\[$date\] [trans offlinesays $contact] : \n" says
+		::amsn::WinWrite $chatid "\n\[$date\] [trans said $contact] : \n" says
 		::amsn::WinWrite $chatid "$msg" user
 
 		set win_name [::ChatWindow::For $chatid]
@@ -8114,7 +8104,6 @@ namespace eval ::OIM_GUI {
 			set win [::ChatWindow::Open]
 			set chatid "$user"
 			::ChatWindow::SetFor $chatid $win
-			after 200 "::OIM_GUI::UpdateWindow $win $user"
 			
 			if { [winfo exists .bossmode] } {
 				set ::BossMode(${win_name}) "normal"
@@ -8136,78 +8125,6 @@ namespace eval ::OIM_GUI {
 			wm deiconify $win
 			focus $win
 		}
-    }
-
-    proc UpdateWindow { win_name user_login } {
-		set top [::ChatWindow::GetTopFrame $win_name]
-		if { ![winfo exists $top] } { return }
-
-		$top itemconfigure to -text "[trans toOIM]:"
-		
-		set toX [::skin::getKey topbarpadx]
-		set usrsX [expr {$toX + [font measure bplainf "[trans toOIM]:"] + 5}]
-		set txtY [::skin::getKey topbarpady]
-		
-		$top coords text $usrsX [lindex [$top coords text] 1]
-
-		set title "aMSN - [trans toOIM] : $user_login"
-
-		set user_name [string map {"\n" " "} [::abook::getDisplayNick $user_login]]
-		set state_code [::abook::getVolatileData $user_login state]
-
-		if { $state_code == "" } {
-			set user_state ""
-			set state_code FLN
-		} else {
-			set user_state [::MSN::stateToDescription $state_code]
-		}
-
-		set user_image [::MSN::stateToImage $state_code]
-
-		$top dchars text 0 end
-		if {[::config::getKey truncatenames]} {
-			#Calculate maximum string width
-			set maxw [expr { 0 - int([lindex [$top coords text] 0])}]
-
-			if { "$user_state" != "" && "$user_state" != "online" } {
-				incr maxw [expr {0-[font measure sboldf -displayof $top " \([trans $user_state]\)"]}]
-			}
-
-			incr maxw [expr {[winfo width $top] - [::skin::getKey topbarpadx] -[font measure sboldf -displayof $top " <${user_login}>"]}]
-
-			$top insert text end "[trunc ${user_name} ${win_name} $maxw sboldf] <${user_login}>"
-		} else {
-			$top insert text end "${user_name} <${user_login}>"
-		}
-
-		#TODO: When we have better, smaller and transparent images, uncomment this
-		if { "$user_state" != "" && "$user_state" != "online" } {
-			$top insert text end "\([trans $user_state]\)"
-		}
-		$top insert text end "\n"
-
-
-		#Change color of top background by the status of the contact
-		::ChatWindow::ChangeColorState $user_login $user_state $state_code ${win_name}
-
-		#Calculate number of lines, and set top text size
-		set size [$top index text end]
-		
-		set ::ChatWindow::titles(${win_name}) ${title}
-
-		$top dchars text [expr {$size - 1}] end
-
-		$top configure -height [expr {[::ChatWindow::MeasureTextCanvas $top "text" [$top itemcget text -text] "h"] + 2*[::skin::getKey topbarpady]}]
-
-		if { [info exists ::ChatWindow::new_message_on(${win_name})] && $::ChatWindow::new_message_on(${win_name}) == 1 } {
-			wm title ${win_name} "*${title}"
-		} else {
-			wm title ${win_name} ${title}
-		}
-		update idletasks
-		after cancel "::OIM_GUI::UpdateWindow $win_name $user_login"
-
-		after 5000 "::OIM_GUI::UpdateWindow $win_name $user_login"
     }
 
     proc GetChatId { user } {

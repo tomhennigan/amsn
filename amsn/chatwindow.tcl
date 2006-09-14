@@ -2592,10 +2592,8 @@ namespace eval ::ChatWindow {
 
 		#Change color of top background by the status of the contact
 		ChangeColorState $user_list $user_state $state_code ${win_name}
-		
-		#we change the title of the window for FVWM users
-		#set title [EscapeTitle [string replace $title end-1 end " - [trans chat]"]]
-		set title [EscapeTitle [string replace "aMSN - [trans chat] - $title" end-1 end "" ]]
+
+		set title [EscapeTitle [string replace $title end-1 end " - [trans chat]"]]
 
 		#Calculate number of lines, and set top text size
 
@@ -3077,11 +3075,8 @@ namespace eval ::ChatWindow {
 				set title "${title}${nick}, "
 			}
 
-
 			#replace the last ", " with " : <name of the containerwindow> - chat"
-			#we change the title of the window for FVWM users
-			set title [string replace "aMSN - [trans chat] - [GetContainerName $container] - $title" end-1 end ""]
-			#set title [string replace $title end-1 end " : [GetContainerName $container] - [trans chat]"]
+			set title [string replace $title end-1 end " : [GetContainerName $container] - [trans chat]"]
 		}
 
 		#don't think this proc does much .. anyway ;)
