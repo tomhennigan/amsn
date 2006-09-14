@@ -2614,7 +2614,7 @@ namespace eval ::MSN {
 		if { [::MSNMobile::IsMobile $chatid] == 1} {
 		    ::MSNMobile::MessageSend $chatid $txt
 		    return 0
-		} elseif { [::abook::getVolatileData $chatid state] == "FLN" } {
+		} elseif { [::OIM_GUI::IsOIM $chatid] == 1 } {
 			::OIM_GUI::MessageSend $chatid $txt
 			return 0
 		}

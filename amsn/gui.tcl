@@ -2091,8 +2091,8 @@ namespace eval ::amsn {
 			status_log "MOBILE CHAT\n" red
 			return 0
 		}
-		#if the contact is now online, send msg the usual way
-		if { [::abook::getVolatileData $chatid state] == "FLN" } {
+		#no typing notification for OIM
+		if {[::OIM_GUI::IsOIM $chatid] == 1 } {
 			return 0
 		}
 
@@ -2395,7 +2395,7 @@ namespace eval ::amsn {
 
 		switch [::config::getKey chatstyle] {
 			msn {
-				if { [::abook::getVolatileData $chatid state] == "FLN" } {
+				if { [::OIM_GUI::IsOIM $chatid] == 1 } {
 					::config::setKey customchatstyle "\$tstamp [trans saysToOffline \$nick]: \$newline"
 				} else {
 					::config::setKey customchatstyle "\$tstamp [trans says \$nick]: \$newline"
@@ -7949,21 +7949,31 @@ namespace eval ::OIM_GUI {
 
 	variable oimlist
 
+	proc IsOIM {user} {
+		if {[::abook::getVolatileData $user state] == "FLN" && [::MSN::SBFor $user] == 0 } {
+			return 1
+		} else {
+			return 0
+		}
+	}
 
 	proc MessageSend { chatid txt } {
 		set email $chatid
 		status_log "sending OIM to $chatid" green
-		set error [::MSNOIM::sendOIMMessage $email "$txt"]
-		
-		if { [::config::getKey p4c_name] != ""} {
-			set nick [::config::getKey p4c_name]
-		} else {
-			set nick [::abook::getPersonal login]
-		}
+		set answer [tk_messageBox -type yesno -message "[trans asksendOIM]"]
+		if { $answer == "yes"} {
+			set error [::MSNOIM::sendOIMMessage $email "$txt"]
+			
+			if { [::config::getKey p4c_name] != ""} {
+				set nick [::config::getKey p4c_name]
+			} else {
+				set nick [::abook::getPersonal login]
+			}
 
-		if {![string match *success* $error]} {
-			::amsn::WinWrite $chatid "\n[timestamp] [trans deliverfail]:\n" red
-			::amsn::WinWrite $chatid "\n$error\n" red
+			if {![string match *success* $error]} {
+				::amsn::WinWrite $chatid "\n[timestamp] [trans deliverfail]:\n" red
+				::amsn::WinWrite $chatid "\n$error\n" red
+			}
 		}
     }
 
