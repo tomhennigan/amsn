@@ -13,7 +13,7 @@ Themes can be added and should be placed either in the themes/ directory of tile
 	<init_procedure>Init</init_procedure>
 	<deinit_procedure>DeInit</deinit_procedure>
 
-	<cvs_version>7245</cvs_version>
+	<cvs_version>7252</cvs_version>
 
 	<file>
 		<path>button.tcl</path>
@@ -49,7 +49,7 @@ Themes can be added and should be placed either in the themes/ directory of tile
 	</file>
 	<file>
 		<path>notebook.tcl</path>
-		<version>7245</version>
+		<version>7252</version>
 	</file>
 	<file>
 		<path>radiobutton.tcl</path>

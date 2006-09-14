@@ -268,7 +268,7 @@ namespace eval ::chameleon::notebook {
            set pageIdx [$w index current]
        } else {
            set pageIdx [notebook_getFrameIndex $w $page]
-	   $w select $pageIdx
+	   catch { $w select $pageIdx }
        }
        return [notebook_getPageAt $w $pageIdx]
    }
@@ -351,7 +351,7 @@ namespace eval ::chameleon::notebook {
 	   }
        }
       
-       return [lindex [set tabs($page)] 0]
+       return ""
    }
 
    proc notebook_getPageInfo { w page } {
