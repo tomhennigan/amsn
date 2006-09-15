@@ -5532,9 +5532,9 @@ proc ShowUser {user_login state_code colour section grId} {
 		if {$not_in_reverse} { $pgBuddy.text tag bind $imgname2 $singordblclick "::MSNMobile::OpenMobileWindow ${user_login}" }
 		$pgBuddy.text tag bind $user_unique_name $singordblclick "::MSNMobile::OpenMobileWindow ${user_login}"
 	} else {
-		$pgBuddy.text tag bind $imgname $singordblclick "::OIM_GUI::OpenOIMWindow ${user_login}"
-		if {$not_in_reverse} { $pgBuddy.text tag bind $imgname2 $singordblclick "::OIM_GUI::OpenOIMWindow ${user_login}" }
-		$pgBuddy.text tag bind $user_unique_name $singordblclick "::OIM_GUI::OpenOIMWindow ${user_login}"
+		$pgBuddy.text tag bind $imgname $singordblclick "::amsn::chatUser ${user_login}"
+		if {$not_in_reverse} { $pgBuddy.text tag bind $imgname2 $singordblclick "::amsn::chatUser ${user_login}" }
+		$pgBuddy.text tag bind $user_unique_name $singordblclick "::amsn::chatUser ${user_login}"
 	}
 
 }
@@ -6657,10 +6657,12 @@ proc show_umenu {user_login grId x y} {
 		.user_menu add command -label "[trans sendmobmsg] ($user_login)" \
 			-command "::MSNMobile::OpenMobileWindow ${user_login}"
 		set first "[trans sendmobmsg] ($user_login)"
+		.user_menu add command -label "[trans sendoim] ($user_login)" \
+			-command "::amsn::chatUser $user_login"
 	} else {
 
 		.user_menu add command -label "[trans sendoim] ($user_login)" \
-			-command "::OIM_GUI::OpenOIMWindow $user_login"
+			-command "::amsn::chatUser $user_login"
 		.user_menu add command -label "[trans sendmail] ($user_login)" \
 			-command "launch_mailer $user_login"
 		set first "[trans sendoim] ($user_login)"
