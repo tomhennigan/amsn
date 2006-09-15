@@ -758,11 +758,10 @@ namespace eval ::music {
 	###############################################
 	proc GetSongListen {} {
 		plugin_log music "Actual song is :$::music::actualsong"
-		set return ""
+		set return [list]
 		set Title ""
 		set Artist ""
-		if {[regexp {.* \- \(.* \- .*\)} $::music::actualsong]} {
-			regexp {(.*) \- \(.* \- (.*)\)} $::music::actualsong -> Title Artist
+		if {[regexp {(.*) \- \(.* \- (.*)\)} $::music::actualsong -> Title Artist]} {
 			plugins_log music "Title is $Title"
 			plugins_log music "Artist is $Artist"
 			#Define in which order we want to show the song (from the config)
