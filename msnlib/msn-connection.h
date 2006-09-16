@@ -45,6 +45,10 @@ typedef enum {
   MSN_CONNECTION_TYPE_SB   ///< Switchboard Connection. Use msn_connection_request_sb() to get a connection of this type.
 } MsnConnectionType;
 
+typedef enum {
+  MSN_CONNECTION_AUTH_RPS     = 0x4f535300, // "OSS"
+  MSN_CONNECTION_AUTH_TWEENER = 0x54574e00  // "TWN"
+} MsnAuthScheme;
 
 /* Compilation errors occur if these includes are on top of the file
  * This is because of two-way dependencies */
@@ -52,19 +56,23 @@ typedef enum {
 #include "msn-message.h"
 
 /**
- * Prototype for callback function used in Tweener authentication.
+ * Prototype for callback function used in Passport authentication as part of the Tweener or RPS scheme.
  *
  * This function may free the \a account and \a password strings, however, it must NOT free \a auth_string which is
  * owned by libmsn, and will therefore also be freed by libmsn.
  *
+ * @param scheme      Identifier of the authentication scheme used
  * @param account     The account name to use when logging in, this is the same pointer as was passed to
  *                    msn_connection_login().
  * @param password    The password of the account, this is the same pointer as was passed to msn_connection_login.
- * @param auth_string This is the string obtained from the NS in the USR sequence just before Tweener authentication.
+ * @param auth_string This is the string obtained from the NS in the USR S message.
  *
  * @see msn_connection_login()
  */
-typedef void (MsnTweenerAuthCallback) (const gchar *account, const gchar *password, const gchar *auth_string);
+typedef void (MsnPassportAuthCallback) (MsnAuthScheme scheme,
+                                        const gchar * account,
+                                        const gchar * password,
+                                        const gchar * auth_string);
 
 
 struct _MsnConnectionClass {
@@ -97,7 +105,7 @@ MsnConnection *   msn_connection_new(MsnConnectionType type);
 GIOChannel *      msn_connection_get_channel(MsnConnection *this);
 gint              msn_connection_get_next_trid(MsnConnection *this);
 void              msn_connection_login(MsnConnection *this, const gchar *account,
-                                       const gchar *password, MsnTweenerAuthCallback *twn_cb);
+                                       const gchar *password, MsnPassportAuthCallback *auth_cb);
 void              msn_connection_set_login_ticket(MsnConnection *this, const gchar *ticket);
 void              msn_connection_request_sb(MsnConnection *this);
 void              msn_connection_close(MsnConnection *this);

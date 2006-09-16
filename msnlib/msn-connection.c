@@ -269,19 +269,19 @@ static void send_msn_message(MsnConnection *this,
  *      This function returns here, the rest of the actions are initiated from the
  *      glib mainloop.
  *
- *   2. When the reply from the server arrives, and that is an USR, the twn_cb 
- *      callback function is called, which will send the Tweener authentication 
+ *   2. When the reply from the server arrives, and that is an USR, the auth_cb 
+ *      callback function is called, which will send the SOAP authentication 
  *      request. This should be done using a HTTP library that also utilises the 
  *      glib mainloop, or is just non-blocking so it can be wrapped to run in the 
- *      mainloop. The twn_cb function should make sure that a callback (let's call
- *      it twn_reply_cb) is registered to catch the Tweener reply. The twn_cb 
+ *      mainloop. The auth_cb function should make sure that a callback (let's call
+ *      it auth_reply_cb) is registered to catch the SOAP response. The auth_cb 
  *      function must return without delay (i.e. it must not wait for the HTTP 
  *      response).
  *      If the server sent an XFR reply instead of USR, an event is fired to
  *      indicate that we're being redirected [Needs detail], and the sequence
  *      ends here.
  *
- *   3. On arrival of the Tweener response, twn_reply_cb will extract the ticket 
+ *   3. On arrival of the Tweener response, auth_reply_cb will extract the ticket 
  *      from it, and call msn_connection_set_login_ticket. That function will send
  *      the USR message with the ticket and return.
  *
@@ -292,14 +292,14 @@ static void send_msn_message(MsnConnection *this,
  *                 The pointer must be obtained from msn_connection_new.
  * @param account  The account name to use when logging in
  * @param password The password of the account
- * @param twn_cb   A callback function of type MsnTweenerAuthCallback.
+ * @param auth_cb  A callback function of type MsnPassportAuthCallback.
  *
- * @see MsnTweenerAuthCallback
+ * @see MsnPassportAuthCallback
  */
 void msn_connection_login(MsnConnection *this,
                           const gchar *account,
                           const gchar *password,
-                          MsnTweenerAuthCallback *twn_cb)
+                          MsnPassportAuthCallback *auth_cb)
 {
   GError *error = NULL;
 
@@ -319,20 +319,14 @@ void msn_connection_login(MsnConnection *this,
 
 
 /**
- * msn_connection_set_login_ticket 
- *
  * For details about this function, see the descriptions of msn_connection_login
  * and msn_connection_request_sb. If this function is called while the object is
- * not waiting for a Tweener or CKI ticket, it will do nothing and return immediately.
+ * not waiting for a Tweener, RPS or CKI ticket, it will do nothing and return immediately.
  *
- * Parameters:
- *    <this>   Pointer to the object the method is invoked on. The pointer must be 
- *             obtained from msn_connection_new.
- *    <ticket> is the Tweener or CKI authentication ticket. The ticket string may 
- *             be freed after msn_connection_set_login_ticket returns.
- *
- * Returns: 
- *    -
+ * @param this     Pointer to the object the method is invoked on.
+ *                 The pointer must be obtained from msn_connection_new.
+ * @param ticket   The Tweener, RPS or CKI authentication ticket. The ticket string may
+ *                 be freed after msn_connection_set_login_ticket returns.
  */
 void msn_connection_set_login_ticket(MsnConnection *this,
                                      const gchar *ticket)

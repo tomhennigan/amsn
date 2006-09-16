@@ -52,7 +52,7 @@ msn_set_g_main_context(GMainContext *context)
 }
 
 void 
-tweener_func(const char *account, const char *password, const char *auth_string) {
+tweener_func(MsnAuthScheme scheme, const char *account, const char *password, const char *auth_string) {
 
 }
 
