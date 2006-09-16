@@ -46,7 +46,7 @@ typedef enum {
 } MsnConnectionType;
 
 typedef enum {
-  MSN_CONNECTION_AUTH_RPS     = 0x4f535300, // "OSS"
+  MSN_CONNECTION_AUTH_RPS     = 0x53534f00, // "SSO"
   MSN_CONNECTION_AUTH_TWEENER = 0x54574e00  // "TWN"
 } MsnAuthScheme;
 
