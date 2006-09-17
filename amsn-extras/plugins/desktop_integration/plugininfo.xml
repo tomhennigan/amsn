@@ -10,7 +10,7 @@
 	<init_procedure>Init</init_procedure>
 	<deinit_procedure>DeInit</deinit_procedure>
 
-	<cvs_version>1.9</cvs_version>
+	<cvs_version>7262</cvs_version>
 
 	<URL>
 		<main>http://amsn.sourceforge.net/autoupdater/plugins/desktop_integration/desktop_integration.tcl</main>
