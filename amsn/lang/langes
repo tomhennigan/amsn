@@ -374,7 +374,7 @@ imagefiles Archivos de imágenes
 inbox Bandeja de entrada
 insertsmiley Insertar emoticono
 inserttextnote Inserta el texto en el campo Asunto y en el campo Nota, y después pulsa Guardar
-installconvert Debes instalar ImageMagick (comando 'convert') para poder convertir las imagenes al formato empleado por los servidores de MSN. Puedes descargar los binarios para tu Sistema Operativo desde ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Si ya los tienes, esto es un fallo en aMSN, por favor comunicanoslo.
+installconvert Debes instalar ImageMagick (comando 'convert') para poder convertir las imágenes al formato empleado por los servidores de MSN. Puedes descargar los binarios para tu Sistema Operativo desde ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Si ya los tienes, esto es un fallo en aMSN, por favor comunicanoslo.
 internalerror Error interno del servidor
 invalidfile2 El archivo $1 no se ha podido crear, asegurate de que tienes los permisos apropiados para el archivo destino.
 invalidfile El archivo $2 introducido en el campo "$1" no existe o no se pudo leer
@@ -678,7 +678,7 @@ shareswebcam Usuario con cámara web
 showbanner Mostrar el cartel de aMSN en la lista de contactos
 showblockedlist Mostrar contactos que te bloquean
 showcachedpics Mostrar imágenes para mostrar almacenadas
-show_contactdps_in_cl Mostrar miniaturas de las Imáenes para Mostrar en la Lista de Contactos
+show_contactdps_in_cl Mostrar miniaturas de las Imágenes para Mostrar en la Lista de Contactos
 showcontactemail Mostrar el Email de los Contactos
 showcontactnick Mostrar el Apodo de los Contactos
 showdisplaypic2 Por defecto, ver la imagen para mostrar al abrir una ventana de conversación.
