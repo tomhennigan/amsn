@@ -424,7 +424,7 @@ namespace eval ::desktop_integration {
 				if {$current_desktop == "kde"} {
 					# KDE yes-no dialog
 					plugins_log $plugin_name "Calling \'kdialog --yesno\'"
-					set answer [::desktop_integration::launch_question "kdialog --yesno \"$message\" --caption \"$title\""]
+					set answer [::desktop_integration::launch_question "kdialog --yesno \"$message\" --caption \"$title\" 2>/dev/null"]
 				} else {
 					# GNOME yes-no dialog
 					plugins_log $plugin_name "Calling \'zenity --question\'"
