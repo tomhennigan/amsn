@@ -757,7 +757,7 @@ namespace eval ::music {
 	# Gets the current playing song in Listen     #
 	###############################################
 	proc GetSongListen {} {
-		plugin_log music "Actual song is :$::music::actualsong"
+		plugins_log music "Actual song is :$::music::actualsong"
 		set return [list]
 		set Title ""
 		set Artist ""
