@@ -7986,7 +7986,7 @@ namespace eval ::OIM_GUI {
     proc MessagesReceived { oim_messages  } {
 		variable oimlist
 		foreach oim $oim_messages {
-			foreach {from nick MsgId} $oim break
+			foreach {email nick MsgId} $oim break
 			set oim_message [::MSNOIM::getOIMMessage $MsgId]
 			if { $oim_message == "" } { 
 				status_log "\[OIM\]Unable to fetch message from $nick <$email>; MsgId is $MsgId"
@@ -8001,7 +8001,7 @@ namespace eval ::OIM_GUI {
 		}
 		#and remove then
 		foreach oim_message $oimlist {
-			set MsgID [lindex $oim_message 4]
+			foreach {email nick MsgId} $oim break
 			if { [::MSNOIM::deleteOIMMessage $MsgId] == 0 } {
 				status_log "\[OIM\]Unable to delete message from $nick <$email>; MsgId is $MsgId"
 			}
