@@ -757,6 +757,11 @@ namespace eval ::music {
 	# Gets the current playing song in Listen     #
 	###############################################
 	proc GetSongListen {} {
+		#check if actualsong is already defined by asynchronous exec
+		if {![info exists ::music::actualsong]} {
+			return
+		}
+
 		plugins_log music "Actual song is :$::music::actualsong"
 		set return [list]
 		set Title ""
