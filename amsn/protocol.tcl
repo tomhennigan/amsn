@@ -6363,15 +6363,36 @@ proc add_Clientid {chatid clientid} {
 
 	set knownclients [list [list 268435456 "MSN 6.0"] [list 536870912 "MSN 6.1"] [list 805306368 "MSN 6.2"] [list 1073741824  "MSN 7.0"] [list 1342177280  "MSN 7.5"] [list 512  "Webmessenger"] ]
 
-	foreach client $knownclients {
-		set bit [lindex $client 0]
-		set name [lindex $client 1]
-		#check if this bit is on in the clientid, ifso set it's name
-		if {($clientid & $bit) == $bit} {
-			#Reset the value if it's a known client
-			set clientname $name
+	switch {[expr {$clientid & 0xFF000000}]} {
+		0x10000000 {
+			set clientname "MSN 6.0"
+		}
+		0x20000000 {
+			set clientname "MSN 6.1"
+		}
+		0x30000000 {
+			set clientname "MSN 6.2"
+		}
+		0x40000000 {
+			set clientname "MSN 7.0"
+		}
+		0x50000000 {
+			set clientname "MSN 7.5"
+		}
+		0x60000000 {
+			set clientname "Windows Live Messenger 8.0"
+		}
+		default {
+			if {($clientid & 0x200) == 0x200} {
+				set clientname "Webmessenger"
+			} elseif {($clientid & 0x800) == 0x800} {
+				set clientname "Microsoft Office gateway"
+			} else {
+				set clientname "[trans unknown]"
+			}
 		}
 	}
+
 
 	##Store the name of the client this user uses in the adressbook
 	::abook::setContactData $chatid client $clientname
