@@ -53,7 +53,7 @@ namespace eval dkfprogress {
 
     proc SetProgress {win value {range 100}} {
 		if {[winfo exists $win]} {
-			set progress [expr {int(double($value)/ double($range/100))}]
+			set progress [expr {int(double($value)/ (double($range)/100.0))}]
 			set relwidth [expr {double($value)/double($range)}]
 			variable progressPercent
 			place conf $win.l.fill -relwidth $relwidth
