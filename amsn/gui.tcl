@@ -2266,7 +2266,7 @@ namespace eval ::amsn {
 			set first 0
 			while { [expr {$first + 400}] <= [string length $msg] } {
 				set msgchunk [string range $msg $first [expr {$first + 399}]]
-			    if {[::MSNMobile::IsMobile $chatid] == 0 } {
+			    if {[::MSNMobile::IsMobile $chatid] == 0 && [::OIM_GUI::IsOIM $chatid] == 0} {
 					set ackid [after 60000 ::amsn::DeliveryFailed $chatid [list $msgchunk]]
 			    } else {
 					set ackid 0
@@ -2277,7 +2277,7 @@ namespace eval ::amsn {
 
 			set msgchunk [string range $msg $first end]
 	
-			if {[::MSNMobile::IsMobile $chatid] == 0 } {
+			if {[::MSNMobile::IsMobile $chatid] == 0 && [::OIM_GUI::IsOIM $chatid] == 0} {
 				set ackid [after 60000 ::amsn::DeliveryFailed $chatid [list $msgchunk]]
 			} else {
 				set ackid 0
@@ -7970,42 +7970,72 @@ namespace eval ::OIM_GUI {
 		}
 	}
 
+	proc MessageSendCallback { chatid error } {
+		if {![string match *success* $error]} {
+			::amsn::WinWrite $chatid "\n[timestamp] [trans deliverfail]:\n" red
+			::amsn::WinWrite $chatid "\n$error\n" red
+		}
+	}
+
 	proc MessageSend { chatid txt } {
 		set email $chatid
 		status_log "sending OIM to $chatid" green
-		set answer [tk_messageBox -type yesno -message "[trans asksendOIM]"]
+		if { ![info exists ::OIM_GUI::oim_asksend_$chatid] } {
+			set ::OIM_GUI::oim_asksend_$chatid 1
+		}
+		if { [set ::OIM_GUI::oim_asksend_$chatid] } {
+			set answer [tk_messageBox -type yesno -parent [::ChatWindow::For $chatid] -message "[trans asksendOIM]"]
+		} else {
+			set answer "yes"
+		}
+
 		if { $answer == "yes"} {
-			set error [::MSNOIM::sendOIMMessage $email $txt]
-			if {![string match *success* $error]} {
-				::amsn::WinWrite $chatid "\n[timestamp] [trans deliverfail]:\n" red
-				::amsn::WinWrite $chatid "\n$error\n" red
-			}
+			set ::OIM_GUI::oim_asksend_$chatid 0
+			::MSNOIM::sendOIMMessage [list ::OIM_GUI::MessageSendCallback $chatid] $email $txt
 		}
     }
 
-    proc MessagesReceived { oim_messages  } {
+	proc deleteOIMCallback {oim_messages nick email MsgId success} {
+		if { $success == 0 } {
+			status_log "\[OIM\]Unable to delete message from $nick <$email>; MsgId is $MsgId"
+		}
+		if { [llength $oim_messages] > 0} {
+			foreach {sequence email nick body MsgId runId} [lindex $oim_messages 0] break
+			::MSNOIM::deleteOIMMessage [list ::OIM_GUI::deleteOIMCallback [lrange $oim_messages 1 end] $nick $email $MsgId] $MsgId
+		}
+	}
+
+	proc MessagesReceivedCallback { oim_messages email nick MsgId oim_message } {
 		variable oimlist
-		foreach oim $oim_messages {
-			foreach {email nick MsgId} $oim break
-			set oim_message [::MSNOIM::getOIMMessage $MsgId]
-			if { $oim_message == "" } { 
-				status_log "\[OIM\]Unable to fetch message from $nick <$email>; MsgId is $MsgId"
-			} else {
-				lappend oimlist $oim_message
+		if { $oim_message == "" } { 
+			status_log "\[OIM\]Unable to fetch message from $nick <$email>; MsgId is $MsgId"
+		} else {
+			lappend oimlist $oim_message
+		}
+
+		if { [llength $oim_messages] > 0} {
+			foreach {email nick MsgId} [lindex $oim_messages 0] break
+			::MSNOIM::getOIMMessage [list ::OIM_GUI::MessagesReceivedCallback [lrange $oim_messages 1 end] $email $nick $MsgId] $MsgId
+		} else {
+			#No more messages to grab
+			#oldest are first
+			lsort -command SortOIMs $oimlist
+			foreach oim_message $oimlist {
+				DisplayOIM $oim_message
 			}
+
+			foreach {sequence email nick body MsgId runId} [lindex $oimlist 0] break
+			::MSNOIM::deleteOIMMessage [list ::OIM_GUI::deleteOIMCallback [lrange $oimlist 1 end] $nick $email $MsgId] $MsgId
 		}
-		#oldest are first
-		lsort -command SortOIMs $oimlist
-		foreach oim_message $oimlist {
-			DisplayOIM $oim_message
+	}
+
+    proc MessagesReceived { oim_messages } {
+		variable oimlist
+		if { [llength $oim_messages] > 0} {
+			foreach {email nick MsgId} [lindex $oim_messages 0] break
+			::MSNOIM::getOIMMessage [list ::OIM_GUI::MessagesReceivedCallback [lrange $oim_messages 1 end] $email $nick $MsgId] $MsgId
 		}
-		#and remove then
-		foreach oim_message $oimlist {
-			foreach {email nick MsgId} $oim break
-			if { [::MSNOIM::deleteOIMMessage $MsgId] == 0 } {
-				status_log "\[OIM\]Unable to delete message from $nick <$email>; MsgId is $MsgId"
-			}
-		}
+
     }
 
 	#oldest are first
