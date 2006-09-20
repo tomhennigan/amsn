@@ -1,3 +1,10 @@
+amsn (#VERSION#) experimental; urgency=low
+
+  * Don't include .svn dirs in the generated packages!
+  * -k is not needed in dh_client since we are building a single target.
+
+ -- Rafael Rodríguez <rafael.rodriguez.tf@gmail.com>  Tue, 19 Sep 2006 17:31:50 +0100
+
 amsn (#VERSION#) stable; urgency=low
 
   [ Phil ]

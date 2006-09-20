@@ -35,12 +35,11 @@ endif
 
 # misc
 PACKAGE		:= @APPNAME@
-ifeq (@APPSTABLE@,yes)
 BASEVERSION	:= @APPVERSION@
+ifeq (@APPSTABLE@,yes)
 RELEASEVERSION	:= @APPRELEASE@
 else
-BASEVERSION     := @APPVERSION@cvs
-RELEASEVERSION  := `cat cvs_date|head -c8`
+RELEASEVERSION  := svn`which svnversion > /dev/null && svnversion`
 endif
 VERSION		:= $(BASEVERSION)-$(RELEASEVERSION)
 
@@ -171,7 +170,7 @@ rpm-install:: $(FILES_TO_INSTALL)
 	@for p in $?; do \
 			cp -Rf --parents $(srcdir)/$$p $(INSTALL_PREFIX)/$(dstdir)/$(PACKAGE); \
 		done
-	find $(INSTALL_PREFIX)/$(dstdir)/$(PACKAGE) -name CVS -print | xargs rm -Rf
+	find $(INSTALL_PREFIX)/$(dstdir)/$(PACKAGE) -name '.svn' -print | xargs rm -Rf
 	@for p in $(FILES_TO_EXCLUDE); do \
 			rm -Rf $(INSTALL_PREFIX)/$(dstdir)/$(PACKAGE)/$$p; \
 		done
@@ -206,7 +205,7 @@ rpm: all
 deb: all
 	mkdir -p ./distrib/DEB
 
-	sed "1s/#VERSION#/${VERSION}/" debian/changelog.in > debian/changelog
+	sed "s/#VERSION#/${VERSION}/" debian/changelog.in > debian/changelog
 	fakeroot debian/rules clean
 	fakeroot debian/rules binary VERSION=${VERSION}
 
