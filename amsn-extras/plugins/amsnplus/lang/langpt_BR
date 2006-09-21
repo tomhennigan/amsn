@@ -1,0 +1,41 @@
+amsn_lang_version 2
+allowcommands Permitir o uso de comandos na janela de conversa?
+allowcolours Permitir o uso de múltiplas cores na janela de conversa?
+allowquicktext Permitir o uso de texto rápido?
+bold Negrito
+ccolor \nA cor do seu texto é $1
+cfont \nA fonte do seu texto é $1
+choosecolor Escolha uma cor
+cinfo \nInformações do contato:\n$1 \nApelido: $2 \nGrupo: $3
+cleave \nVocê saiu desta conversa
+cnewnick \nSeu novo apelido é: $1
+cnewstate \nSeu novo estado é: $1
+cnewstatenotvalid \n$1 não é válido
+cnick \nSeu apelido é $1
+cnotvalid \nSeu comando não é válido
+colournicks Habilitar apelidos coloridos? (não está totalmente implementado)
+cresult \nResultado do comando:\n$1
+cshell \nExecutando no sistema operacional: $1
+cspecify \nTem que especificar um contato
+cstatus \nO seu estado é $1
+cstyle \nO estilo da sua fonte é $1
+deleted \nVocê removeu $1 da lista\nPara voltar a adicionar este contato faça: /add $1
+general Opções Gerais
+groupadded \nAdicionado o grupo $1.
+groupdeleted \nVocê removeu o grupo $1 \nPara voltar a adicionar este grupo faça: /addgroup $1
+italic Itálico
+keyword Palavra-chave
+localization Localização
+multiplecolorsbutton Adicionar uma nova cor
+nosuchcommand Comando inexistente.
+overstrike Rasurado
+parsenicks Incluir a codificação de cores do MSN Plus nos nicknames?
+qthelp Aqui você pode configurar seu texto rápido, a palavra-chave e o texto.\nAí, se você digitar /palavra-chave na janela de conversa, você verá o texto.
+quicktext Textos rápidos
+reset Restaurar estilos
+resource Texto
+rusage Insira o texto que quiser aqui.\nEle será adicionado ao final do apelido, entre { e }.\nIsto tenta simular o recurso do Jabber.\n\nPara não utilizar este recurso, deixe em branco.
+text Texto a ser escrito
+underline Sublinhado
+screenshot Enviar uma screenshot
+screenshoterr Houve um erro ao criar a screenshot.\nCertifique-se de que a versão compilada do executável do screenshot está localizada na pasta do amsnplus,\ne de que você tem permissão e espaço para criá-la.
