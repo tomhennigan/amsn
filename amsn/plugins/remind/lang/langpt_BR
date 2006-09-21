@@ -1,0 +1,11 @@
+amsn_lang_version 2
+always Sempre
+beginendconversation Exibir começo e fim da conversa
+checknote Exibir se existem anotações
+daysnumber Quantidade de dias
+filetransfert Exibir transferências de arquivo
+lastsentence Últimas mensagens das conversas anteriores
+nbdisplay Quantidade de linhas exibidas
+noteswritten Você escreveu anotações sobre este contato
+talklast Se nós conversamos nos últimos X dias
+talkwithin Se nós não conversamos nos últimos X dias
