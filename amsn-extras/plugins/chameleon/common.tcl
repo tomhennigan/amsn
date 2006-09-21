@@ -233,11 +233,13 @@ namespace eval ::chameleon {
 		    }
 		    
 		set conf [eval [list style configure $style]]
-		    set ind [lsearch $conf [list $option *]]
-		    if {$ind != -1 } {
-			    set value [lindex [lindex $conf $ind] end]
+		    #set ind [lsearch $conf [list $option *]]
+		    set ind [lsearch $conf $option]
+		    if {$ind != -1 && [expr {$ind + 1 < [llength $conf]}]} {
+				set value [lindex $conf [expr {$ind + 1}]]
+			    #set value [lindex [lindex $conf $ind] end]
 		    } else {
-			set value [eval [list [${widget_type}_getOriginal] cget $option]]
+				set value [eval [list [${widget_type}_getOriginal] cget $option]]
 		    }
 	    } 
 	    default {
