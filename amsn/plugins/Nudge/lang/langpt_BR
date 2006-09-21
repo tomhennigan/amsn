@@ -1,18 +1,16 @@
 amsn_lang_version 2
-shake_receive Chacoalha a janela quando recebe um peteleco                          (Peteleco é a melhor tradução para nudge)
-shake_send Chacoalha a janela quando envia um peteleco
-shake_nudge Chacoalhadas por peteleco
-popup_nudge Avisar que você recebeu um peteleco com uma janelinha de piparote (popup)
-notify_send Avisar que você enviou um peteleco com uma janelinha de piparote (popup)
-notify_receive Avisar na janela de conversas (chat) que você enviou um peteleco
-sound_send Tocar um som quando der um peteleco
-sound_receive Tocar um som quando levar um peteleco
-add_button Adicionar na janela de conversas um botão para dar petelecos nas pessoas
-send_nudge Dar um peteleco em alguém
-no_nudge_support Você não pode dar um peteleco em seu contato porque ele (ou ela) não usa um cliente que permite machucar as pessoas
-nudge_sent Você acabou de dar um peteleco (nudge) em alguém. Fuja!
-limit Activate Nudge receive limitation
-delay Minimum time between 2 nudge from the same contact (in seconds)
-send_nudge Send nudge
-no_nudge_support You cannot sent a nudge to your contact because he or she doesn't use a client that supports nudges
-block_nudge Block/Unblock nudges
+add_button Exibir botão de envio de pedidos de atenção na janela de conversa
+limit Limitar recebimento de pedidos de atenção
+delay Tempo mínimo entre pedidos de atenção vindos do mesmo contato\n(em segundos)
+shake_nudge Chacoalhadas por pedido de atenção
+shake_receive Chacoalhar a janela ao receber um pedido de atenção
+shake_send Chacoalhar a janela ao enviar um pedido de atenção
+sound_receive Tocar um som ao receber um pedido de atenção
+sound_send Tocar um som ao enviar um pedido de atenção
+popup_nudge Avisar em uma janela pop-up quando receber um pedido de atenção
+notify_receive Avisar na janela de conversa ao receber um pedido de atenção
+notify_send Avisar na janela de conversa ao enviar um pedido de atenção
+block_nudge Bloquear/Permitir pedidos de atenção
+send_nudge Pedir a atenção
+no_nudge_support Você não pode enviar um pedido de atenção porque o programa que seu contato está usando não tem suporte
+nudge_sent Você acabou de pedir a atenção!
