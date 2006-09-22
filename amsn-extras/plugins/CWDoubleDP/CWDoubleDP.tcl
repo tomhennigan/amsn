@@ -1,19 +1,24 @@
 #
+# Pre-condition :
+# - Assumes BWidgets is loaded (for auto-scrolling DPs in a conference)
 #
 # Changes : 
-# 'hook' for real the needed procs... redefine them, so ChangePicture, when called acts on the DoublePicture widget while setting the lower DP to 'self'... this way, we always get called correctly.
-# Many DPs for many users in chat
-# Redefined the picture menus
-# Fixed some issues with show/hide DPs
-# Hiding lower DP doesn't set top DP to 'self'
-# etc..
+# - 'hook' for real the needed procs... redefine them, so ChangePicture, 
+#   when called acts on the DoublePicture widget while setting the lower DP 
+#   to 'self'... this way, we always get called correctly.
+# - Many DPs for many users in chat
+# - Redefined the picture menus
+# - Fixed some issues with show/hide DPs
+# - Hiding lower DP doesn't set top DP to 'self'
+# - etc..
 #
-# TODO : When we resize an image, we should also resize the [trunc $nickname] shown (for multi-user convos)
+# TODO : 
+# - When we resize an image, we should also resize the [trunc $nickname] shown (for multi-user convos)
 #
 
 namespace eval ::CWDoubleDP {
 
-	array set CycleOffsets {}
+	array set myinfo {}
 
 	proc Init { dir } {
 		::plugins::RegisterPlugin CWDoubleDP
@@ -24,7 +29,8 @@ namespace eval ::CWDoubleDP {
 
 		rename ::amsn::ChangePicture ::CWDoubleDP::ChangePicture_orig
 		proc ::amsn::ChangePicture { win picture balloontext {nopack ""} } {
-			if { ![winfo exists  $win.f.out.pic.images] } {
+			if { ![info exists ::CWDoubleDP::myinfo(text,$win)] || \
+                 ![winfo exists $::CWDoubleDP::myinfo(text,$win)] } {
 				::CWDoubleDP::ChangePicture_orig $win $picture $balloontext $nopack
 			} else {
 				::CWDoubleDP::ChangePicture_orig $win displaypicture_std_self [trans mypic]
@@ -34,7 +40,8 @@ namespace eval ::CWDoubleDP {
 
 		rename ::amsn::ShowPicMenu ::CWDoubleDP::ShowPicMenu_orig
 		proc ::amsn::ShowPicMenu { win x y } {
-			if { ![winfo exists  $win.f.out.pic.images] } {
+			if { ![info exists ::CWDoubleDP::myinfo(text,$win)] || \
+                 ![winfo exists $::CWDoubleDP::myinfo(text,$win)] } {
 				::CWDoubleDP::ShowPicMenu_orig $win $x $y
 			} else {
 				::CWDoubleDP::ShowMyPicMenu $win $x $y
@@ -54,7 +61,7 @@ namespace eval ::CWDoubleDP {
 	}
 
 	proc hookCW {event evpar } {
-                upvar 2 $evpar newvar
+        upvar 2 $evpar newvar
 		set w $newvar(win)
 		set out $w.f.out
 
@@ -67,7 +74,10 @@ namespace eval ::CWDoubleDP {
 		eval pack $out.scroll [array get scroll]
 
 		set picture [CreateDoublePictureFrame $w $out]
-		pack $picture -side right -expand false -anchor ne \
+		pack $picture -side right -expand false -fill y \
+				-padx [::skin::getKey chat_dp_padx] \
+				-pady [::skin::getKey chat_dp_pady]
+		#pack $picture -side right -expand false -anchor ne \
 				-padx [::skin::getKey chat_dp_padx] \
 				-pady [::skin::getKey chat_dp_pady]
 	
@@ -79,72 +89,64 @@ namespace eval ::CWDoubleDP {
 	}
 
 	proc update_user_DPs { win } {
-		variable CycleOffsets
-
-		set images $win.f.out.pic.images
-		if { ![winfo exists $images] } { return }
-		# Remove existing user images
-		foreach child [winfo children $images] {
-			destroy $child
-		}
+		variable myinfo
+		if { ![winfo exists $myinfo(text,$win)] } { return }
 		
 		set chatid [::ChatWindow::Name $win]
 		set users [::MSN::usersInChat $chatid]
-		pack forget $win.f.out.pic.cyclepic
-		if { [llength $users] == 0 } {
-			CreateFrameForUser $images.nouser
-		} elseif { [llength $users] == 1 } {
-			CreateFrameForUser $images.user $users
-			SetUserDP $images.user [::skin::getDisplayPicture $users] [trans showuserpic $users]
 
-		} else {
-			pack $win.f.out.pic.cyclepic
-			set idx 0
-			set offset 0
-			if { [info exists CycleOffsets(${win})] } {
-				set offset $CycleOffsets(${win})
-			}
-			# Add users, starting at correct offset
-			for {set uidx $offset} \
-				{[expr {$uidx < $offset + [llength $users]}]} {incr uidx} {
-				set user [lindex $users [expr {$uidx % [llength $users]}]]
-
-				label $images.user_name$idx \
-				    -background [::skin::getKey chatwindowbg] \
-				    -relief solid -font sitalf
-				if { [catch {$images.user_name$idx configure  -text [trunc [::abook::getDisplayNick $user] $images.user_name$idx [image width [::skin::getDisplayPicture $user]] sitalf] } ] } {
-					$images.user_name$idx -text [string range [::abook::getDisplayNick $user] 0 4]
-				}
-				pack $images.user_name$idx -side top -padx 0 -pady 0 -anchor n
-				CreateFrameForUser $images.user_dp$idx $user
-				SetUserDP $images.user_dp$idx [::skin::getDisplayPicture $user] [trans showuserpic $user]
-				incr idx
-			}
-
+		# don't show user labels if there's only one user
+		set show_user_labels 0
+		if {[llength $users] > 1} {
+			set show_user_labels 1
 		}
-	}
 
-	proc SetUserDP { w img tooltip } {
-		set pictureinner [$w getinnerframe]
-		change_balloon $pictureinner $tooltip
-		if { [catch {$w configure -image $img}] } {
-			$w configure -image [::skin::getNoDisplayPicture]
-			change_balloon $pictureinner [trans nopic]
+		$myinfo(text,$win) configure -state normal
+		$myinfo(text,$win) delete 0.0 end
+		set idx 0
+		foreach user $users {
+			$myinfo(text,$win) tag bind user_$user \
+				<Button1-ButtonRelease> [list ::CWDoubleDP::ShowDoublePicMenu $win $user %X %Y]
+			$myinfo(text,$win) tag bind user_$user \
+				<<Button3>> [list ::CWDoubleDP::ShowDoublePicMenu $win $user %X %Y]
+
+			$myinfo(text,$win) mark set user_start [$myinfo(text,$win) index current]
+			$myinfo(text,$win) mark gravity user_start left
+
+			set trunced [trunc [::abook::getDisplayNick $user] $myinfo(text,$win) \
+				[expr {[winfo width $myinfo(text,$win)]-10}] sitalf]
+
+			if {$idx == 0 && $show_user_labels == 1} {
+				$myinfo(text,$win) insert end "$trunced\n"
+			} elseif {$show_user_labels == 1} {
+				$myinfo(text,$win) insert end "\n$trunced\n"
+			}
+			$myinfo(text,$win) image create end \
+				-image [::skin::getDisplayPicture $user]
+			$myinfo(text,$win) tag add user_$user user_start end
+			incr idx
 		}
+		$myinfo(text,$win) configure -state disabled
 	}
 
 	proc CreateDoublePictureFrame { w out } {
+		variable myinfo
 		# Name our widgets
 		set frame $out.pic
-		set picture $frame.images
 		set showpic $frame.showpic
-		set cyclepic $frame.cyclepic
 
 		# Create them
-		frame $frame -class Amsn -borderwidth 0 -relief solid -background [::skin::getKey chatwindowbg]
+		frame $frame -class Amsn -borderwidth 0 \
+			-relief solid -background [::skin::getKey chatwindowbg]
 		
-		frame $picture -class Amsn -borderwidth 0 -relief solid -background [::skin::getKey chatwindowbg]
-		CreateFrameForUser $picture.nouser
+		ScrolledWindow $frame.sw -scrollbar vertical -auto vertical
+		text $frame.sw.text -bg [::skin::getKey chatwindowbg] \
+			-font splainf -state disabled -width 16
+		$frame.sw setwidget $frame.sw.text
+
+		set myinfo(showpic,$w) $showpic
+		set myinfo(sw,$w) $frame.sw
+		set myinfo(text,$w) $frame.sw.text
 
 		label $showpic -bd 0 -padx 0 -pady 0 -image [::skin::loadPixmap imgshow] \
 			-bg [::skin::getKey chatwindowbg] -highlightthickness 0 -font splainf \
@@ -153,50 +155,16 @@ namespace eval ::CWDoubleDP {
 		bind $showpic <Leave> "$showpic configure -image [::skin::loadPixmap imgshow]"
 		set_balloon $showpic [trans showdisplaypic]
 
-		label $cyclepic -bd 0 -padx 0 -pady 0 -image [::skin::loadPixmap contract] \
-			-bg [::skin::getKey chatwindowbg] -highlightthickness 0 -font splainf \
-			-highlightbackground [::skin::getKey chatwindowbg] -activebackground [::skin::getKey chatwindowbg]
-		bind $cyclepic <Enter> "$cyclepic configure -image [::skin::loadPixmap contract_hover]"
-		bind $cyclepic <Leave> "$cyclepic configure -image [::skin::loadPixmap contract]"
-		set_balloon $cyclepic [trans cycledisplaypic]
-
 		# Pack them 
-		pack $cyclepic -side top -padx 0 -pady 0 -anchor n
-		pack $picture -side left -padx 0 -pady 0 -anchor w
-		pack $showpic -side right -expand true -fill none -padx 0 -pady 0 -anchor ne
+		pack $frame.sw -side left -fill y -expand false
+		pack $showpic -side right
 
 		# Create our bindings
 		bind $showpic <<Button1>> "::CWDoubleDP::ToggleShowDoublePicture $w; ::CWDoubleDP::ShowOrHideDoublePicture $w"
-		bind $cyclepic <<Button1>> "::CWDoubleDP::IncreaseCycleOffset $w"
 			
 		ToggleShowDoublePicture $w
 		ShowOrHideDoublePicture $w
 		return $frame	
-	}
-
-	proc CreateFrameForUser { win {user ""}} {
-		framec $win -type label -relief solid -image [::skin::getNoDisplayPicture] \
-		    -borderwidth [::skin::getKey chat_dp_border] \
-		    -bordercolor [::skin::getKey chat_dp_border_color] \
-		    -background [::skin::getKey chatwindowbg]
-		set pictureinner [$win getinnerframe]
-		bind $pictureinner <Button1-ButtonRelease> [list ::CWDoubleDP::ShowDoublePicMenu $win $user %X %Y]
-		bind $pictureinner <<Button3>> [list ::CWDoubleDP::ShowDoublePicMenu $win $user %X %Y]
-		
-		
-		pack $win -side top -padx 0 -pady 0 -anchor n
-
-		set_balloon $pictureinner [trans nopic]	
-	}
-	
-	proc IncreaseCycleOffset { win_name } {
-		variable CycleOffsets
-		if { [info exists CycleOffsets(${win_name})] } {
-			incr CycleOffsets(${win_name})
-		} else {
-			set CycleOffsets(${win_name}) 1
-		}
-		update_user_DPs $win_name
 	}
 
 	proc ToggleShowDoublePicture { win_name } {
@@ -230,7 +198,7 @@ namespace eval ::CWDoubleDP {
 		}
 
 		set chatid [::ChatWindow::Name $win]
-		set pic [$win cget -image]
+		set pic [::skin::getDisplayPicture $user]
 		if { $pic != "displaypicture_std_none" && $user != ""} {
 			$win.picmenu add command -label "[trans changesize]" -command [list ::CWDoubleDP::ShowDoublePicMenu $win $user $x $y]
 			#4 possible size (someone can add something to let the user choose his size)
@@ -266,15 +234,18 @@ namespace eval ::CWDoubleDP {
 
 	proc ShowDoublePicture {win } {
 		upvar #0 ${win}_show_double_picture show_pic
+		variable myinfo
 
 		set scrolling [::ChatWindow::getScrolling [::ChatWindow::GetOutText $win]]
 
+		pack $myinfo(sw,$win) -side left -fill y -expand false
+		#pack $myinfo(showpic,$win) -side left
+		#pack $myinfo(text,$win) -side left -padx 0 -pady 0 -anchor w
 
-		pack $win.f.out.pic.images -side left -padx 0 -pady 0 -anchor w
-		$win.f.out.pic.showpic configure -image [::skin::loadPixmap imghide]
-		bind $win.f.out.pic.showpic <Enter> "$win.f.out.pic.showpic configure -image [::skin::loadPixmap imghide_hover]"
-		bind $win.f.out.pic.showpic <Leave> "$win.f.out.pic.showpic configure -image [::skin::loadPixmap imghide]"
-		change_balloon $win.f.out.pic.showpic [trans hidedisplaypic]
+		$myinfo(showpic,$win) configure -image [::skin::loadPixmap imghide]
+		bind $myinfo(showpic,$win) <Enter> "$myinfo(showpic,$win) configure -image [::skin::loadPixmap imghide_hover]"
+		bind $myinfo(showpic,$win) <Leave> "$myinfo(showpic,$win) configure -image [::skin::loadPixmap imghide]"
+		change_balloon $myinfo(showpic,$win) [trans hidedisplaypic]
 		set show_pic 1
 		
 		if { $scrolling } {
@@ -285,14 +256,16 @@ namespace eval ::CWDoubleDP {
 
 	proc HideDoublePicture { win } {
 		upvar #0 ${win}_show_double_picture show_pic
-		pack forget $win.f.out.pic.images
+		variable myinfo
+
+		pack forget $myinfo(sw,$win)
 
 		#Change here to change the icon, instead of text
-		$win.f.out.pic.showpic configure -image [::skin::loadPixmap imgshow]
-		bind $win.f.out.pic.showpic <Enter> "$win.f.out.pic.showpic configure -image [::skin::loadPixmap imgshow_hover]"
-		bind $win.f.out.pic.showpic <Leave> "$win.f.out.pic.showpic configure -image [::skin::loadPixmap imgshow]"
+		$myinfo(showpic,$win) configure -image [::skin::loadPixmap imgshow]
+		bind $myinfo(showpic,$win) <Enter> "$myinfo(showpic,$win) configure -image [::skin::loadPixmap imgshow_hover]"
+		bind $myinfo(showpic,$win) <Leave> "$myinfo(showpic,$win) configure -image [::skin::loadPixmap imgshow]"
 
-		change_balloon $win.f.out.pic.showpic [trans showdisplaypic]
+		change_balloon $myinfo(showpic,$win) [trans showdisplaypic]
 
 		set show_pic 0
 
