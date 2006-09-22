@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<plugin>
+	<name>DualDisplayPicture</name>
+	<author>Youness Alaoui (KaKaRoTo), Jonne Zutt (JeeBee)</author>
+	<description>This plugin is intended to help aMSN users shut up by stopping complaining about wanting the feature of : "I want to see my own DP as well as my contact's DP..."</description>
+	<amsn_version>0.96</amsn_version>
+	<plugin_version>0.3</plugin_version>
+	<plugin_file>DualDisplayPicture.tcl</plugin_file>
+	<plugin_namespace>DualDisplayPicture</plugin_namespace>
+	<init_procedure>Init</init_procedure>
+	<deinit_procedure>DeInit</deinit_procedure>
+
+	<cvs_version>7164</cvs_version>
+
+	<URL>
+		<main>http://amsn.sourceforge.net/autoupdater/plugins/DualDisplayPicture/Nudge.tcl</main>
+		<plugininfo>http://amsn.sourceforge.net/autoupdater/plugins/DualDisplayPicture/plugininfo.xml</plugininfo>
+	</URL>
+
+</plugin>
