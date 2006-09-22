@@ -16,47 +16,47 @@
 # - When we resize an image, we should also resize the [trunc $nickname] shown (for multi-user convos)
 #
 
-namespace eval ::CWDoubleDP {
+namespace eval ::DualDisplayPicture {
 
 	array set myinfo {}
 
 	proc Init { dir } {
-		::plugins::RegisterPlugin CWDoubleDP
-		::plugins::RegisterEvent CWDoubleDP new_chatwindow hookCW
-		::plugins::RegisterEvent CWDoubleDP user_joins_chat user_leaves_join_chat
-		::plugins::RegisterEvent CWDoubleDP user_leaves_chat user_leaves_join_chat
+		::plugins::RegisterPlugin DualDisplayPicture
+		::plugins::RegisterEvent DualDisplayPicture new_chatwindow hookCW
+		::plugins::RegisterEvent DualDisplayPicture user_joins_chat user_leaves_join_chat
+		::plugins::RegisterEvent DualDisplayPicture user_leaves_chat user_leaves_join_chat
 
 
-		rename ::amsn::ChangePicture ::CWDoubleDP::ChangePicture_orig
+		rename ::amsn::ChangePicture ::DualDisplayPicture::ChangePicture_orig
 		proc ::amsn::ChangePicture { win picture balloontext {nopack ""} } {
-			if { ![info exists ::CWDoubleDP::myinfo(text,$win)] || \
-                 ![winfo exists $::CWDoubleDP::myinfo(text,$win)] } {
-				::CWDoubleDP::ChangePicture_orig $win $picture $balloontext $nopack
+			if { ![info exists ::DualDisplayPicture::myinfo(text,$win)] || \
+                 ![winfo exists $::DualDisplayPicture::myinfo(text,$win)] } {
+				::DualDisplayPicture::ChangePicture_orig $win $picture $balloontext $nopack
 			} else {
-				::CWDoubleDP::ChangePicture_orig $win displaypicture_std_self [trans mypic]
-				::CWDoubleDP::update_user_DPs $win
+				::DualDisplayPicture::ChangePicture_orig $win displaypicture_std_self [trans mypic]
+				::DualDisplayPicture::update_user_DPs $win
 			}
 		}
 
-		rename ::amsn::ShowPicMenu ::CWDoubleDP::ShowPicMenu_orig
+		rename ::amsn::ShowPicMenu ::DualDisplayPicture::ShowPicMenu_orig
 		proc ::amsn::ShowPicMenu { win x y } {
-			if { ![info exists ::CWDoubleDP::myinfo(text,$win)] || \
-                 ![winfo exists $::CWDoubleDP::myinfo(text,$win)] } {
-				::CWDoubleDP::ShowPicMenu_orig $win $x $y
+			if { ![info exists ::DualDisplayPicture::myinfo(text,$win)] || \
+                 ![winfo exists $::DualDisplayPicture::myinfo(text,$win)] } {
+				::DualDisplayPicture::ShowPicMenu_orig $win $x $y
 			} else {
-				::CWDoubleDP::ShowMyPicMenu $win $x $y
+				::DualDisplayPicture::ShowMyPicMenu $win $x $y
 			}
 		}
 	}
 
 	proc DeInit { } {
-		if { [info procs ::CWDoubleDP::ChangePicture_orig] != "" } {
+		if { [info procs ::DualDisplayPicture::ChangePicture_orig] != "" } {
 			rename ::amsn::ChangePicture ""
-			rename ::CWDoubleDP::ChangePicture_orig ::amsn::ChangePicture
+			rename ::DualDisplayPicture::ChangePicture_orig ::amsn::ChangePicture
 		}
-		if { [info procs ::CWDoubleDP::ShowPicMenu_orig] != "" } {
+		if { [info procs ::DualDisplayPicture::ShowPicMenu_orig] != "" } {
 			rename ::amsn::ShowPicMenu ""
-			rename ::CWDoubleDP::ShowPicMenu_orig ::amsn::ShowPicMenu
+			rename ::DualDisplayPicture::ShowPicMenu_orig ::amsn::ShowPicMenu
 		}
 	}
 
@@ -106,9 +106,9 @@ namespace eval ::CWDoubleDP {
 		set idx 0
 		foreach user $users {
 			$myinfo(text,$win) tag bind user_$user \
-				<Button1-ButtonRelease> [list ::CWDoubleDP::ShowDoublePicMenu $win $user %X %Y]
+				<Button1-ButtonRelease> [list ::DualDisplayPicture::ShowDoublePicMenu $win $user %X %Y]
 			$myinfo(text,$win) tag bind user_$user \
-				<<Button3>> [list ::CWDoubleDP::ShowDoublePicMenu $win $user %X %Y]
+				<<Button3>> [list ::DualDisplayPicture::ShowDoublePicMenu $win $user %X %Y]
 
 			$myinfo(text,$win) mark set user_start [$myinfo(text,$win) index current]
 			$myinfo(text,$win) mark gravity user_start left
@@ -160,7 +160,7 @@ namespace eval ::CWDoubleDP {
 		pack $showpic -side right
 
 		# Create our bindings
-		bind $showpic <<Button1>> "::CWDoubleDP::ToggleShowDoublePicture $w; ::CWDoubleDP::ShowOrHideDoublePicture $w"
+		bind $showpic <<Button1>> "::DualDisplayPicture::ToggleShowDoublePicture $w; ::DualDisplayPicture::ShowOrHideDoublePicture $w"
 			
 		ToggleShowDoublePicture $w
 		ShowOrHideDoublePicture $w
@@ -180,9 +180,9 @@ namespace eval ::CWDoubleDP {
 	proc ShowOrHideDoublePicture { win } {
 		upvar #0 ${win}_show_double_picture value
 		if { $value == 1} {
-			::CWDoubleDP::ShowDoublePicture $win
+			::DualDisplayPicture::ShowDoublePicture $win
 		} else {
-			::CWDoubleDP::HideDoublePicture $win
+			::DualDisplayPicture::HideDoublePicture $win
 		}
 	}
 
@@ -200,7 +200,7 @@ namespace eval ::CWDoubleDP {
 		set chatid [::ChatWindow::Name $win]
 		set pic [::skin::getDisplayPicture $user]
 		if { $pic != "displaypicture_std_none" && $user != ""} {
-			$win.picmenu add command -label "[trans changesize]" -command [list ::CWDoubleDP::ShowDoublePicMenu $win $user $x $y]
+			$win.picmenu add command -label "[trans changesize]" -command [list ::DualDisplayPicture::ShowDoublePicMenu $win $user $x $y]
 			#4 possible size (someone can add something to let the user choose his size)
 			$win.picmenu add command -label " -> [trans small]" -command "::skin::ConvertDPSize $user 64 64"
 			$win.picmenu add command -label " -> [trans default2]" -command "::skin::ConvertDPSize $user 96 96"
