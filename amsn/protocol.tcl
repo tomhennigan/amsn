@@ -2618,7 +2618,7 @@ namespace eval ::MSN {
 			::OIM_GUI::MessageSend $chatid $txt
 			return 0
 		}
-		set ::OIM_GUI::oim_asksend_$chatid 1
+		set ::OIM_GUI::oim_asksend_[string map {: _} ${chatid} ] 1
 		if {![chatReady $chatid] && [::abook::getVolatileData [lindex [usersInChat $chatid] 0] state] == "FLN" } {
 			status_log "::MSN::messageTo: chat NOT ready for $chatid\n"
 			::amsn::nackMessage $ackid

@@ -7980,17 +7980,17 @@ namespace eval ::OIM_GUI {
 	proc MessageSend { chatid txt } {
 		set email $chatid
 		status_log "sending OIM to $chatid" green
-		if { ![info exists ::OIM_GUI::oim_asksend_$chatid] } {
-			set ::OIM_GUI::oim_asksend_$chatid 1
+		if { ![info exists ::OIM_GUI::oim_asksend_[string map {: _} ${chatid} ] ] } {
+			set ::OIM_GUI::oim_asksend_[string map {: _} ${chatid} ] 1
 		}
-		if { [set ::OIM_GUI::oim_asksend_$chatid] } {
+		if { [set ::OIM_GUI::oim_asksend_[string map {: _} ${chatid} ]] } {
 			set answer [tk_messageBox -type yesno -parent [::ChatWindow::For $chatid] -message "[trans asksendOIM]"]
 		} else {
 			set answer "yes"
 		}
 
 		if { $answer == "yes"} {
-			set ::OIM_GUI::oim_asksend_$chatid 0
+			set ::OIM_GUI::oim_asksend_[string map {: _} ${chatid} ] 0
 			::MSNOIM::sendOIMMessage [list ::OIM_GUI::MessageSendCallback $chatid] $email $txt
 		}
     }
