@@ -10,11 +10,11 @@
 	<init_procedure>init</init_procedure>
 	<deinit_procedure>deinit</deinit_procedure>
 </plugin>
-<cvs_version>7294</cvs_version>
+<cvs_version>7304</cvs_version>
 
 <file>
 		<path>addressbook.applescript</path>
-		<version>7294</version>
+		<version>7293</version>
 </file>
 	
 <URL>
