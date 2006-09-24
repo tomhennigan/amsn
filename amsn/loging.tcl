@@ -449,7 +449,7 @@ namespace eval ::log {
 		frame $wname.buttons -class Amsn
 
 
-		text $wname.blueframe.log.txt -yscrollcommand "$wname.blueframe.log.ys set" -font splainf \
+		::ChatWindow::rotext $wname.blueframe.log.txt -yscrollcommand "$wname.blueframe.log.ys set" -font splainf \
 		    -background white -relief flat -highlightthickness 0 -height 1 -exportselection 1 -selectborderwidth 1 \
 		    -wrap word
 		scrollbar $wname.blueframe.log.ys -command "$wname.blueframe.log.txt yview" -highlightthickness 0 \
@@ -522,7 +522,6 @@ namespace eval ::log {
 		pack $wname.buttons -side bottom -fill x -pady 3
 		bind $wname <<Escape>> "destroy $wname"
 		bind ${wname}.blueframe.log.txt <<Button3>> "tk_popup ${wname}.copypaste %X %Y"
-		bind ${wname} <Control-c> "tk_textCopy ${wname}.blueframe.log.txt"
 		moveinscreen $wname 30
 	}
 
@@ -1011,8 +1010,7 @@ namespace eval ::log {
 
 		::log::Fileexist $email $date
 
-		$w.blueframe.log.txt configure -state normal
-		$w.blueframe.log.txt delete 0.0 end
+		$w.blueframe.log.txt rodelete 0.0 end
 
 		::log::ResetSave $w $email
 
@@ -1095,8 +1093,7 @@ namespace eval ::log {
 
 		::log::Fileexist $email "."
 
-		$w.blueframe.log.txt configure -state normal
-		$w.blueframe.log.txt delete 0.0 end
+		$w.blueframe.log.txt rodelete 0.0 end
 		if { [file exists [file join ${log_dir} ${email}.log]] } {
 			set size "[::amsn::sizeconvert [file size "[file join ${log_dir} ${email}.log]"]]o"
 			wm title $w "[trans history] (${email} - $size)"
@@ -1227,10 +1224,9 @@ namespace eval ::log {
 		}
 
 		if {[llength $result] > 0} {
-			eval [list ${wname}.blueframe.log.txt insert end] $result
+			eval [list ${wname}.blueframe.log.txt roinsert end] $result
 		}
 		${wname}.blueframe.log.txt yview moveto 1.0
-		${wname}.blueframe.log.txt configure -state disabled
 	}
 
 	#///////////////////////////////////////////////////////////////////////////////
@@ -1250,16 +1246,16 @@ namespace eval ::log {
 
 		switch $color {
 			RED {
-				${wname}.blueframe.log.txt insert end "$string" red
+				${wname}.blueframe.log.txt roinsert end "$string" red
 			}
 			GRA {
-				${wname}.blueframe.log.txt insert end "$string" gray
+				${wname}.blueframe.log.txt roinsert end "$string" gray
 			}
 			NOR {
-				${wname}.blueframe.log.txt insert end "$string" normal
+				${wname}.blueframe.log.txt roinsert end "$string" normal
 			}
 			ITA {
-				${wname}.blueframe.log.txt insert end "$string" italic
+				${wname}.blueframe.log.txt roinsert end "$string" italic
 			}
 		}
 
