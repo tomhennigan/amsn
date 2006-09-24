@@ -160,7 +160,7 @@ namespace eval ::hotmail {
 	proc handleMailData { mailData } {
 		if {$mailData == "too-large" } {
 			status_log "Mail-Data is too large, retreiving it via SOAP..."
-			catch {handleMailData [::MSNOIM::getMailData]}
+			::MSNOIM::getMailData "::hotmail::handleMailData"
 		} elseif { [catch {set mailList [xml2list $mailData]} ] == 0 } {
 			set oim_count 0
 			set oim_messages [list]
