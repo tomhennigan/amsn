@@ -148,7 +148,7 @@ install:: $(FILES_TO_INSTALL)
 	@for p in $?; do \
 			cp -Rf --parents $(srcdir)/$$p $(dstdir)/$(PACKAGE); \
 		done
-	find $(dstdir)/$(PACKAGE) -name CVS -print | xargs rm -Rf
+	find $(dstdir)/$(PACKAGE) -name '.svn' -print | xargs rm -Rf
 	@for p in $(FILES_TO_EXCLUDE); do \
 			rm -Rf $(dstdir)/$(PACKAGE)/$$p; \
 		done
