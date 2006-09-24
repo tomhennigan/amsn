@@ -7,6 +7,18 @@
 	<plugin_version>0.1</plugin_version>
 	<plugin_file>addressbook.tcl</plugin_file>
 	<plugin_namespace>macabook</plugin_namespace>
-	<init_procedure>macabookInit</init_procedure>
-	<deinit_procedure>macabookDeInit</deinit_procedure>
+	<init_procedure>init</init_procedure>
+	<deinit_procedure>deinit</deinit_procedure>
 </plugin>
+<cvs_version>7294</cvs_version>
+
+<file>
+		<path>addressbook.applescript</path>
+		<version>7294</version>
+</file>
+	
+<URL>
+	<main>http://amsn.sourceforge.net/autoupdater/plugins/address_book/addressbook.tcl</main>
+	<plugininfo>http://amsn.sourceforge.net/autoupdater/plugins/address_book/plugininfo.xml</plugininfo>
+	<file>http://amsn.sourceforge.net/autoupdater/plugins/address_book/$file</file>
+</URL>
