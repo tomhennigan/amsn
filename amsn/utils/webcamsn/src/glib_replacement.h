@@ -60,7 +60,7 @@ typedef unsigned int guint32;
         IDX(val, 2) * 65536 + IDX(val, 3) * 16777216)) 
 
 
-#ifdef BYTE_ORDER_BE
+#ifdef __BIG_ENDIAN__
 
 #define SHIFT_1_16(res) (res << 8)
 #define SHIFT_2_16(res) (res)
