@@ -213,8 +213,12 @@ namespace eval ::chameleon::combobox {
 	}
 
 	proc combobox_select {w args} {
-		if {[llength $args] == 1 } {
-			$w current $args		 
+		set values [$w cget -values]
+		if {[llength $args] == 1} {
+			if {[string is integer $args] && \
+			    $args < [llength $values]} {
+				$w current $args		 
+			}
 		} else {
 			error "Usage [::chameleon::getWidgetPath $w] select index"
 		}
