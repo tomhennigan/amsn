@@ -286,15 +286,6 @@ if {$version != [::config::getGlobalKey last_client_version]} {
 
 update idletasks
 
-if { [::config::getKey autoconnect] == 1 } {
-  ::MSN::connect
-}
-
-if { [::config::getKey autocheckver] == 1 } {
-    set new [::autoupdate::check_version_silent]
-}
-
-
 init_dock
 
 if {[::config::getKey startontray]} {
@@ -306,6 +297,14 @@ if {[::config::getKey startontray]} {
 	}
 } else {
 	wm state . normal
+}
+
+if { [::config::getKey autoconnect] == 1 } {
+  ::MSN::connect
+}
+
+if { [::config::getKey autocheckver] == 1 } {
+    set new [::autoupdate::check_version_silent]
 }
 
 vwait events
