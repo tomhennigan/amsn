@@ -4,14 +4,22 @@ namespace eval ::chameleon {
 
     variable THEMELIST 
     variable THEMES
+    variable WR_WIDGETS [list Frame frame \
+				Button button \
+				NoteBook NoteBook \
+				LabelFrame labelframe \
+				Label label \
+				RadioButton radiobutton \
+				CheckButton checkbutton \
+				Entry entry \
+				MenuButton menubutton \
+				Scrollbar scrollbar \
+				ComboBox combobox::combobox]
+				
     variable flash_count 10
 
     variable wrapped 0
-    variable wrapped_procs [list button frame \
-				labelframe label \
-				radiobutton checkbutton \
-				NoteBook entry combobox::combobox \
-				menubutton scrollbar]
+    variable wrapped_procs
     variable wrapped_into
     variable wrapped_shortname
     
@@ -120,6 +128,18 @@ namespace eval ::chameleon {
 
 	array set ::chameleon::config {
 		theme {default}
+		wrap_Frame {1}
+		wrap_Button {1}
+		wrap_NoteBook {1}
+		wrap_LabelFrame {1}
+		wrap_Label {1}
+		wrap_RadioButton {1}
+		wrap_CheckButton {1}
+		wrap_NoteBook {1}
+		wrap_Entry {1}
+		wrap_MenuButton {1}
+		wrap_Scrollbar {1}
+		wrap_ComboBox {1}
 	}
 
 	set THEMELIST {
@@ -142,7 +162,9 @@ namespace eval ::chameleon {
 	    }
 	}
 
-	set ::chameleon::configlist [list [list frame ::chameleon::populateframe ""]]
+	#reload_wrappings
+
+	set ::chameleon::configlist [list [list frame ::chameleon::populateframe ""] [list frame ::chameleon::populateframe2 ""]]
 	set plugin_dir $dir
 
 	if { [info exists ::Chameleon_cfg(theme)] } {
@@ -160,10 +182,10 @@ namespace eval ::chameleon {
 	    NoteBook::use
 	}
 
-	wrap 0
+	#wrap 0
 
 	# need to reset the theme at idle so the option add will actually be effective!
-	after idle {::chameleon::SetTheme  $::chameleon::config(theme) 1}
+	after idle {::chameleon::WrapAndSetTheme  $::chameleon::config(theme) 1}
     }
 
     proc DeInit { } {
@@ -176,10 +198,18 @@ namespace eval ::chameleon {
 	    set lastSetBgColor $defaultBgColor
     }
 
+    proc WrapAndSetTheme {theme {reset_defaultBg 0}} {
+	    SetTheme $theme $reset_defaultBg
+	    #wrap 1
+	    reload_wrappings
+            wrap 0
+    }
+
     proc SetTheme {theme {reset_defaultBg 0}} {
 	    variable defaultBgColor 
 	    variable lastSetBgColor 
 
+	    plugins_log "Chameleon" "Setting theme to $theme"
 	    if { ![info exists defaultBgColor] || $reset_defaultBg} {
 		    set defaultBgColor [option get . background Toplevel]
 	    }
@@ -244,6 +274,43 @@ namespace eval ::chameleon {
 	    }
     }
 
+    proc reload_wrappings { } {
+	variable WR_WIDGETS
+	variable wrapped_procs
+
+	set wrapped_procs {}
+
+	foreach {w_name wr_widget} $WR_WIDGETS {
+		if { $::chameleon::config(wrap_$w_name) == 1 } {
+			lappend wrapped_procs $wr_widget
+			status_log "WRAPPING $wr_widget"
+		}
+	}
+    }
+
+    proc wrapAction { } {
+	wrap 1
+	reload_wrappings
+	wrap 0
+    }
+
+    proc populateframe2 { win } {
+        variable WR_WIDGETS 
+
+        set widgs $win.widgs
+
+        ::ttk::labelframe $widgs -text "Widgets to wrap"
+        status_log "$widgs"
+        foreach {w_name wr_widget} $WR_WIDGETS {
+            set b [::ttk::checkbutton $widgs.wrap$w_name -text $w_name \
+                       -variable ::chameleon::config(wrap_$w_name) \
+                       -command "::chameleon::wrapAction"]
+            pack $b -side top -expand false -fill x
+        }
+
+        pack $widgs -expand true -fill both
+            #bind $win <Destroy> {::chameleon::SetTheme $::chameleon::config(theme)}
+    }
 
     proc populateframe { win } {
 	variable THEMELIST
