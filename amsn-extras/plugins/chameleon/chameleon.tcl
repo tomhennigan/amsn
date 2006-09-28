@@ -191,7 +191,7 @@ namespace eval ::chameleon {
                       NoteBook::use
               }
 
-              ::chameleon::WrapAndSetTheme  $::chameleon::config(theme) 1
+              ::chameleon::SetTheme  $::chameleon::config(theme) 1
 
               # need to reset the theme at idle so the option add will actually be effective!
               after idle {::chameleon::WrapAndSetTheme  $::chameleon::config(theme) 1}
