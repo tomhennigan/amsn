@@ -115,10 +115,15 @@ namespace eval ::MSNCAM {
 
 		if { [winfo exists $window] } {
 			wm protocol $window WM_DELETE_WINDOW "destroy $window"
-			$window.q configure -command "destroy $window"
+			#$window.q configure -command "destroy $window"
+			#$window.canvas bind stopbut <Button1-ButtonRelease> [list destroy $window]
+			$window.canvas delete stopbut
+
 			if { [getObjOption $sid producer] } {
 				#We disable the button which show the properties
-				$window.settings configure -state disable -command ""
+				#$window.settings configure -state disable -command ""
+				$window.canvas delete confbut
+				$window.canvas delete pausebut
 			}
 		}
 
@@ -560,21 +565,35 @@ namespace eval ::MSNCAM {
 		after cancel "catch {fileevent $sock writable \"::MSNCAM::WriteToSock $sock\" }"
 		if {$state == "SEND"} {
 			setObjOption $sock state "PAUSED"
-			$window.pause configure -text "[trans playwebcamsend]"
+			$window.canvas itemconfigure pausebut -image [::skin::loadPixmap playbut] -activeimage [::skin::loadPixmap playbuth]
+			$window.canvas bind pausebut <Enter> [list balloon_enter %W %X %Y [trans playwebcamsend]]
+			$window.canvas bind pausebut <Leave> "set Bulle(first) 0; kill_balloon"
+			$window.canvas bind pausebut <Motion> [list balloon_motion %W %X %Y [trans playwebcamsend]]
+
 		} elseif {$state == "TSP_SEND" } {
 			setObjOption $sock state "TSP_PAUSED"
-			$window.pause configure -text "[trans playwebcamsend]"
+			$window.canvas itemconfigure pausebut -image [::skin::loadPixmap playbut] -activeimage [::skin::loadPixmap playbuth]
+			$window.canvas bind pausebut <Enter> [list balloon_enter %W %X %Y [trans playwebcamsend]]
+			$window.canvas bind pausebut <Leave> "set Bulle(first) 0; kill_balloon"
+			$window.canvas bind pausebut <Motion> [list balloon_motion %W %X %Y [trans playwebcamsend]]
 			catch { fileevent $sock writable "::MSNCAM::WriteToSock $sock" }
 		} elseif {$state == "PAUSED" } {
 			setObjOption $sock state "SEND"
-			$window.pause configure -text "[trans pausewebcamsend]"
+			$window.canvas itemconfigure pausebut -image [::skin::loadPixmap pausebut] -activeimage [::skin::loadPixmap pausebuth]
+			$window.canvas bind pausebut <Enter> [list balloon_enter %W %X %Y [trans pausewebcamsend]]
+			$window.canvas bind pausebut <Leave> "set Bulle(first) 0; kill_balloon"
+			$window.canvas bind pausebut <Motion> [list balloon_motion %W %X %Y [trans pausewebcamsend]]
 			catch { fileevent $sock writable "::MSNCAM::WriteToSock $sock" }
 		}  elseif {$state == "TSP_PAUSED" } {
 			setObjOption $sock state "TSP_SEND"
-			$window.pause configure -text "[trans pausewebcamsend]"
+			$window.canvas itemconfigure pausebut -image [::skin::loadPixmap pausebut] -activeimage [::skin::loadPixmap pausebuth]
+			$window.canvas bind pausebut <Enter> [list balloon_enter %W %X %Y [trans pausewebcamsend]]
+			$window.canvas bind pausebut <Leave> "set Bulle(first) 0; kill_balloon"
+			$window.canvas bind pausebut <Motion> [list balloon_motion %W %X %Y [trans pausewebcamsend]]
 			catch { fileevent $sock writable "::MSNCAM::WriteToSock $sock" }
 		} 
 	}
+	
 
 	proc ReadFromSock { sock } {
 
@@ -1644,17 +1663,24 @@ namespace eval ::CAMGUI {
 			wm title $window "$chatid - [::abook::getDisplayNick $chatid]"
 			wm protocol $window WM_DELETE_WINDOW "::MSNCAM::CancelCam $chatid $sid"
 			set img [image create photo [TmpImgName]]
-			label $window.l -image $img
-			pack $window.l
-			bind $window.l <Destroy> "image delete $img"
-			label $window.paused -fg red -text ""
-			pack $window.paused -expand true -fill x
-			button $window.q -command "::MSNCAM::CancelCam $chatid $sid" -text "[trans stopwebcamreceive]"
-			pack $window.q -expand true -fill x
+			canvas $window.canvas -width 320 -height 240
+			set canv $window.canvas
+			$canv create image 0 0 -anchor nw -image $img
+			pack $canv
+			bind $canv <Destroy> "image delete $img"
+			#label $window.paused -fg red -text ""
+			#pack $window.paused -expand true -fill x
+			$canv create image 160 120 -anchor center -image [::skin::loadPixmap pause] -state hidden -tags paused
+			$canv create image 320 240 -anchor se -image [::skin::loadPixmap stopbut] -activeimage [::skin::loadPixmap stopbuth] -tags stopbut
+			$canv bind stopbut <Button1-ButtonRelease> [list ::MSNCAM::CancelCam $chatid $sid]
+			$canv bind stopbut <Enter> [list balloon_enter %W %X %Y [trans stopwebcamreceive]]
+			$canv bind stopbut <Leave> "set Bulle(first) 0; kill_balloon"
+			$canv bind stopbut <Motion> [list balloon_motion %W %X %Y [trans stopwebcamreceive]]
 			setObjOption $sid window $window
 			setObjOption $sid image $img
 		} else {
-			$window.paused configure -text ""
+			#$window.paused configure -text ""
+			$window.canvas itemconfigure paused -state hidden
 		}
 
 
@@ -1665,7 +1691,8 @@ namespace eval ::CAMGUI {
 	proc GotPausedFrame {sid} {
 		set window [getObjOption $sid window]
 		if { $window != "" } {
-			$window.paused configure -text "[trans pausedwebcamreceive]"
+			#$window.paused configure -text "[trans pausedwebcamreceive]"
+			$window.canvas itemconfigure paused -state normal
 		}
 	}
 
@@ -1817,15 +1844,29 @@ namespace eval ::CAMGUI {
 				set img [image create photo [TmpImgName]]
 				toplevel $window
 				wm title $window "$chatid - [::abook::getDisplayNick $chatid]"
-				label $window.l -image $img
-				pack $window.l
-				bind $window.l <Destroy> "image delete $img"
-				button $window.pause -command "::MSNCAM::PausePlayCam $window $socket" -text "[trans pausewebcamsend]"
-				pack $window.pause -expand true -fill x
-				button $window.settings -command "::CAMGUI::ShowPropertiesPage $grabber $img" -text "[trans changevideosettings]"
-				pack $window.settings -expand true -fill x
-				button $window.q -command "::MSNCAM::CancelCam $chatid $sid" -text "[trans stopwebcamsend]"
-				pack $window.q -expand true -fill x
+				canvas $window.canvas -width 320 -height 240
+				set canv $window.canvas
+				$canv create image 0 0 -anchor nw -image $img
+				pack $canv
+				bind $canv <Destroy> "image delete $img"
+				set confbut [$canv create image 320 240 -anchor se -image [::skin::loadPixmap confbut] -activeimage [::skin::loadPixmap confbuth] -tags confbut]
+				set stopbut [$canv create image 300 240 -anchor se -image [::skin::loadPixmap stopbut] -activeimage [::skin::loadPixmap stopbuth] -tags stopbut]
+				set pausebut [$canv create image 280 240 -anchor se -image [::skin::loadPixmap pausebut] -activeimage [::skin::loadPixmap pausebuth] -tags pausebut]
+				$canv bind stopbut <Button1-ButtonRelease> [list ::MSNCAM::CancelCam $chatid $sid]
+				$canv bind stopbut <Enter> [list balloon_enter %W %X %Y [trans stopwebcamreceive]]
+				$canv bind stopbut <Leave> "set Bulle(first) 0; kill_balloon"
+				$canv bind stopbut <Motion> [list balloon_motion %W %X %Y [trans stopwebcamreceive]]
+
+				$canv bind pausebut <Button1-ButtonRelease> [list ::MSNCAM::PausePlayCam $window $socket]
+				$canv bind pausebut <Enter> [list balloon_enter %W %X %Y [trans pausewebcamsend]]
+				$canv bind pausebut <Leave> "set Bulle(first) 0; kill_balloon"
+				$canv bind pausebut <Motion> [list balloon_motion %W %X %Y [trans pausewebcamsend]]
+
+				$canv bind confbut <Button1-ButtonRelease> [list ::CAMGUI::ShowPropertiesPage $grabber $img]
+				$canv bind confbut <Enter> [list balloon_enter %W %X %Y [trans changevideosettings]]
+				$canv bind confbut <Leave> "set Bulle(first) 0; kill_balloon"
+				$canv bind confbut <Motion> [list balloon_motion %W %X %Y [trans changevideosettings]]
+
 				wm protocol $window WM_DELETE_WINDOW "::MSNCAM::CancelCam $chatid $sid"
 			}
 

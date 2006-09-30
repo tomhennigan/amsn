@@ -729,7 +729,16 @@ namespace eval ::skin {
 		::skin::setPixmap imgshow_hover imgshow_hover.gif
 		::skin::setPixmap imghide imghide.gif
 		::skin::setPixmap imghide_hover imghide_hover.gif
-	
+		::skin::setPixmap confbut confbut.gif
+		::skin::setPixmap confbuth confbuth.gif
+		::skin::setPixmap stopbut stopbut.gif
+		::skin::setPixmap stopbuth stopbuth.gif
+		::skin::setPixmap pausebut pausebut.gif
+		::skin::setPixmap pausebuth pausebuth.gif
+		::skin::setPixmap playbut playbut.gif
+		::skin::setPixmap playbuth playbuth.gif
+		::skin::setPixmap pause pause.gif
+
 		::skin::setPixmap button button.gif
 		::skin::setPixmap button_hover button_hover.gif
 		::skin::setPixmap button_pressed button_pressed.gif

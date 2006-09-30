@@ -735,7 +735,7 @@ stats Estadísticas
 status Estado
 stopalarm Detener alarma
 stop Parar
-stopwebcamreceive Se detuvo la trasmisión de imágenes de cámara web
+stopwebcamreceive Detener la recepción de imágenes de cámara web
 stopwebcamsend Detener el envió de imágenes de cámara web
 storenickname Volver al apodo original tras un estado personalizado con apodo personalizado
 strictfonts Establecer todas las fuentes de aMSN al tamaño que yo seleccione (barras de estado, y demás)
