@@ -1670,8 +1670,8 @@ namespace eval ::CAMGUI {
 			bind $canv <Destroy> "image delete $img"
 			#label $window.paused -fg red -text ""
 			#pack $window.paused -expand true -fill x
-			$canv create image 160 120 -anchor center -image [::skin::loadPixmap pause] -state hidden -tags paused
-			$canv create image 320 240 -anchor se -image [::skin::loadPixmap stopbut] -activeimage [::skin::loadPixmap stopbuth] -tags stopbut
+			$canv create image 315 5 -anchor ne -image [::skin::loadPixmap pause] -state hidden -tags paused
+			$canv create image 315 235 -anchor se -image [::skin::loadPixmap stopbut] -activeimage [::skin::loadPixmap stopbuth] -tags stopbut
 			$canv bind stopbut <Button1-ButtonRelease> [list ::MSNCAM::CancelCam $chatid $sid]
 			$canv bind stopbut <Enter> [list balloon_enter %W %X %Y [trans stopwebcamreceive]]
 			$canv bind stopbut <Leave> "set Bulle(first) 0; kill_balloon"
@@ -1849,9 +1849,9 @@ namespace eval ::CAMGUI {
 				$canv create image 0 0 -anchor nw -image $img
 				pack $canv
 				bind $canv <Destroy> "image delete $img"
-				set confbut [$canv create image 320 240 -anchor se -image [::skin::loadPixmap confbut] -activeimage [::skin::loadPixmap confbuth] -tags confbut]
-				set stopbut [$canv create image 300 240 -anchor se -image [::skin::loadPixmap stopbut] -activeimage [::skin::loadPixmap stopbuth] -tags stopbut]
-				set pausebut [$canv create image 280 240 -anchor se -image [::skin::loadPixmap pausebut] -activeimage [::skin::loadPixmap pausebuth] -tags pausebut]
+				set confbut [$canv create image 315 235 -anchor se -image [::skin::loadPixmap confbut] -activeimage [::skin::loadPixmap confbuth] -tags confbut]
+				set stopbut [$canv create image 295 235 -anchor se -image [::skin::loadPixmap stopbut] -activeimage [::skin::loadPixmap stopbuth] -tags stopbut]
+				set pausebut [$canv create image 275 235 -anchor se -image [::skin::loadPixmap pausebut] -activeimage [::skin::loadPixmap pausebuth] -tags pausebut]
 				$canv bind stopbut <Button1-ButtonRelease> [list ::MSNCAM::CancelCam $chatid $sid]
 				$canv bind stopbut <Enter> [list balloon_enter %W %X %Y [trans stopwebcamreceive]]
 				$canv bind stopbut <Leave> "set Bulle(first) 0; kill_balloon"
