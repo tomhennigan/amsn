@@ -710,6 +710,8 @@ proc secureSocket { args } {
 		variable proxy_session_id
 #		variable proxy_gateway_ip
 		variable proxy_data
+#Someone on the forum said that the line below must be commented
+#Please review it...
 		variable options(-proxy_writing)
 
 		after cancel "$self HTTPPoll $name"
