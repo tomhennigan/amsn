@@ -255,6 +255,51 @@ if(!defined('_BUG_CLASS_')) {
       echo '</td></tr>';
       echo '</table>';
     }
+ 
+    function print_unique_count($result, $field) {
+      mysql_data_seek($result, 0);
+      
+      $versions = array();
+
+      while($row=mysql_fetch_array($result)) {
+	if (!isset($os[$row[$field]])) {
+           $os[$row[$field]] = 1;
+        } else {
+           $os[$row[$field]]++;
+        }
+      }
+
+      $first = 1;
+      foreach ($os as $version => $count) {
+         if ( $first != 1) {
+              echo " - ";
+         }
+         echo $version."(".$count.") ";
+         $first = 0;
+      }
+    }
+
+    function show_bug_stats() {
+      $query="SELECT bug_amsn, bug_tcl, bug_os FROM ".TBUGREPORTS." WHERE bug_parent='".$this->_id."'";
+      $result=mysql_query($query) or die('MySQL Query Error! '.mysql_error());
+
+      echo '<tr class="bug_row"><td class="bug_info" colspan="2">';
+      echo '<b>Appears in aMSN versions : </b>';
+      $this->print_unique_count($result, 'bug_amsn');
+      echo '<br/></td></tr>';
+
+      echo '<tr class="bug_row"><td class="bug_info" colspan="2">';
+      echo '<b>Appears in Tcl/Tk versions : </b>';
+      $this->print_unique_count($result, 'bug_tcl');
+      echo '<br/></td></tr>';
+
+      echo '<tr class="bug_row"><td class="bug_info" colspan="2">';
+      echo '<b>Appears in the Operating Systems : </b>';
+      $this->print_unique_count($result, 'bug_os');
+      echo '<br/></td></tr>';
+
+      mysql_free_result($result);
+    }
 
     function show_bugs() {
       echo '<table class="bug" cellspacing="0" align="center">';
@@ -283,7 +328,12 @@ if(!defined('_BUG_CLASS_')) {
       echo '</td></tr>';
 
       echo '<tr class="bug_row"><td class="bug_info" colspan="2">';
-      echo '<b>Error Text RegExp:</b><br/>';
+      echo '<br/><b>Bug reports Statistics :</b<br/> ';
+      $this->show_bug_stats();
+      echo '<br/></td></tr>';
+
+      echo '<tr class="bug_row"><td class="bug_info" colspan="2">';
+      echo '<br/><b>Error Text RegExp:</b><br/>';
       echo '<textarea name="error_regexp">';
       echo $this->error_regexp;
       echo '</textarea>';
