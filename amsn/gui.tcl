@@ -8036,7 +8036,10 @@ namespace eval ::OIM_GUI {
 
     proc MessagesReceived { oim_messages } {
 		variable oimlist
-		unset oimlist
+
+		if {[info exists oimlist] } {
+			unset oimlist
+		}
 		if { [llength $oim_messages] > 0} {
 			foreach {email nick MsgId} [lindex $oim_messages 0] break
 			::MSNOIM::getOIMMessage [list ::OIM_GUI::MessagesReceivedCallback [lrange $oim_messages 1 end] $email $nick $MsgId] $MsgId
