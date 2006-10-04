@@ -197,7 +197,7 @@ a.nav_on
 /* Main content area */
 #blurb
 {
-  min-height: 1000px;
+  height: 1800px;
 /*  top: 0px;
   left: 0px;*/
   float: left;
@@ -386,14 +386,14 @@ ul.poll
 margin-top: 0px;
 }
 
-div.block_help, div.block_links, div.block_forums, div.block_language
+div.block_help, div.block_links, div.block_forums, div.block_language, div.block_search, div.block_adsense
 {
   padding: 0px 10px 0px 10px;
   color: #000;
   text-align: center;
 }
 
-div.links a, div.forums a
+div.links a, div.forums a, div.adsense a, div.search a
 {
   text-decoration: none;
   color: #666
