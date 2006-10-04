@@ -525,7 +525,22 @@ namespace eval ::MSNP2P {
 
 				set idx [expr {[string first "Context:" $data] + 9}]
 				set idx2 [expr {[string first "\r\n" $data $idx] - 1}]
-				set context [string range $data $idx $idx2]
+
+				if { $idx == 8 || $idx2 == -2 } {
+					# Let's send an ACK
+					SendPacket [::MSN::SBFor $chatid] [MakeACK $sid 0 $cTotalDataSize $cId $cAckId]
+					status_log "MSNP2P | $sid $dest -> Sent ACK for INVITE\n" red
+
+					# Send a 500 Internal Error in case tehre is no context field sent...
+					set slpdata [MakeMSNSLP "ERROR" $dest [::config::getKey login] $branchuid [expr {$cseq + 1}] $uid 0 0 $sid]
+					SendPacket [::MSN::SBFor $chatid] [MakePacket $sid $slpdata 1]
+					status_log "MSNP2P | $sid $dest -> Sent 500 Internal error.. No Context field in request\n" red
+
+					# Avoid it entering the next if processing...
+					set eufguid ""
+				} else {
+					set context [string range $data $idx $idx2]
+				}
 
 
 				if { $eufguid == "A4268EEC-FEC5-49E5-95C3-F126696BDBF6" ||
@@ -1187,7 +1202,7 @@ namespace eval ::MSNP2P {
 	#//////////////////////////////////////////////////////////////////////////////
 	#	# MakeMSNSLP ( method to from branchuid cseq maxfwds contenttentype [A] [B] [C] [D] [E] [F] [G])
 	# This function creates the appropriate MSNSLP packets
-	# method :		INVITE, BYE, OK, DECLINE
+	# method :		INVITE, BYE, OK, DECLINE, ERROR
 	# contenttype : 	0 for application/x-msnmsgr-sessionreqbody (Starting a session) or sessionclosebody for a BYE
 	#			1 for application/x-msnmsgr-transreqbody (Starting transfer) or sessionclosebody for a BYE and use A
 	#                                                                                                                 as context
@@ -1217,6 +1232,8 @@ namespace eval ::MSNP2P {
 			set data "MSNSLP/1.0 200 OK\r\n"
 		} elseif { $method == "DECLINE" } {
 			set data "MSNSLP/1.0 603 Decline\r\n"
+		} elseif { $method == "ERROR" } {
+			set data "MSNSLP/1.0 500 Internal Error\r\n"
 		}
 
 		# Lets create our message body first (so we can calc it's length for the header)
@@ -1251,12 +1268,12 @@ namespace eval ::MSNP2P {
 				}
 
 			}
-		} elseif { $method == "DECLINE" } {
+		} elseif { $method == "DECLINE" || $method == "ERROR"  } {
 			append body "SessionID: ${A}\r\n"
 		} elseif { $method == "BYE" && $contenttype == 1} {
 			append body "Context: ${A}"
-
 		}
+
 		append body "\r\n\x00"
 
 		# Here comes the message header
