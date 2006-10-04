@@ -2876,7 +2876,7 @@ namespace eval ::MSNOIM {
 	}
 
 	proc getOIMMailError { callbk msg } {
-		#puts "error : $msg"
+		status_log "error in getOIMMailError : $msg" red
 		if {[catch {eval $callbk [list ""]} result]} {
 			bgerror $result
 		}

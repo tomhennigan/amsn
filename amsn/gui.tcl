@@ -8009,6 +8009,9 @@ namespace eval ::OIM_GUI {
 		variable oimlist
 		if { $oim_message == "" } { 
 			status_log "\[OIM\]Unable to fetch message from $nick <$email>; MsgId is $MsgId"
+			if { ![info exists oimlist] } {
+				set oimlist [list]
+			}
 		} else {
 			lappend oimlist $oim_message
 		}
@@ -8024,13 +8027,16 @@ namespace eval ::OIM_GUI {
 				DisplayOIM $oim_message
 			}
 
-			foreach {sequence email nick body MsgId runId} [lindex $oimlist 0] break
-			::MSNOIM::deleteOIMMessage [list ::OIM_GUI::deleteOIMCallback [lrange $oimlist 1 end] $nick $email $MsgId] $MsgId
+			if {[llength oimlist] > 0 } {
+				foreach {sequence email nick body MsgId runId} [lindex $oimlist 0] break
+				::MSNOIM::deleteOIMMessage [list ::OIM_GUI::deleteOIMCallback [lrange $oimlist 1 end] $nick $email $MsgId] $MsgId
+			}
 		}
 	}
 
     proc MessagesReceived { oim_messages } {
 		variable oimlist
+		unset oimlist
 		if { [llength $oim_messages] > 0} {
 			foreach {email nick MsgId} [lindex $oim_messages 0] break
 			::MSNOIM::getOIMMessage [list ::OIM_GUI::MessagesReceivedCallback [lrange $oim_messages 1 end] $email $nick $MsgId] $MsgId
