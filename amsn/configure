@@ -1317,7 +1317,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
 APPNAME=amsn
-APPVERSION=0.96rc1
+APPVERSION=0.97b
 APPRELEASE=1
 APPSTABLE=no
 
