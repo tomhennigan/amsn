@@ -135,7 +135,6 @@ proc trayicon_init {} {
 
        ## set icon to current status if added icon while already logged in
        if { [::MSN::myStatusIs] != "FLN" } {
-       $iconmenu add separator
                mailicon_proc [::hotmail::unreadMessages]
        }
 
