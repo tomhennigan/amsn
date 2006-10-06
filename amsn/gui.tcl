@@ -20,6 +20,8 @@ if {[catch {package require tkdnd}] } {
 }
 #package require pixmapbutton
 if { [OnMac] } {
+	# Use brushed metal style windows on Mac OS X.
+	catch {source utils/macosx/brushedmetal/brushedmetal.tcl}
 	#Use tclCarbonHICommand for window utilities
 	catch {package require tclCarbonHICommand}
 	catch {package require QuickTimeTcl}
@@ -3334,7 +3336,9 @@ proc cmsn_draw_main {} {
 	wm group . .
 	
 	if { [OnMac] } {
-		frame .main -class Amsn -relief flat -background white
+		#Brushed metal on the CL.
+		catch { ::tk::unsupported::MacWindowStyle style . document {closeBox horizontalZoom verticalZoom collapseBox resizable metal} }
+		frame .main -class Amsn -relief sunken -bd 2 -background white
 		frame .fake ;#Create the frame for play_Sound_Mac
 	} else {
 		#Put the color of the border around the contact list (from the skin)
