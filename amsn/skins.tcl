@@ -368,10 +368,11 @@ namespace eval ::skin {
 		foreach name [array names loaded_sounds] {
 			snd_$name configure -file [::skin::GetSkinFile sounds $name]
 		}
-
-		# Change frame color (For All Platforms except Mac)
+		
+		# Change frame color
+		catch {.main configure -background [::skin::getKey mainwindowbg]}
+		
 		if { ![OnMac] } {
-			catch {.main configure -background [::skin::getKey mainwindowbg]}
 			#We are not using pixmapscroll on Mac OS X
 			# Reload pixmapscroll's images
 			set psdir [LookForExtFolder $skin_name "pixmapscroll"]

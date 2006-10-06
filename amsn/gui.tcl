@@ -3338,7 +3338,7 @@ proc cmsn_draw_main {} {
 	if { [OnMac] } {
 		#Brushed metal on the CL.
 		catch { ::tk::unsupported::MacWindowStyle style . document {closeBox horizontalZoom verticalZoom collapseBox resizable metal} }
-		frame .main -class Amsn -relief sunken -bd 2 -background white
+		frame .main -class Amsn -relief [::skin::getKey mainwindowrelief "flat"] -bd [::skin::getKey mainwindowbd "0"] -background [::skin::getKey mainwindowbg]
 		frame .fake ;#Create the frame for play_Sound_Mac
 	} else {
 		#Put the color of the border around the contact list (from the skin)
