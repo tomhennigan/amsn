@@ -6662,11 +6662,11 @@ proc show_umenu {user_login grId x y} {
 			-command "::MSNMobile::OpenMobileWindow ${user_login}"
 		set first "[trans sendmobmsg] ($user_login)"
 		.user_menu add command -label "[trans sendoim] ($user_login)" \
-			-command "::amsn::chatUser $user_login"
+			-command "::amsn::chatUser $user_login; set ::OIM_GUI::oim_asksend_[string map {: _} ${user_login} ] 0"
 	} else {
 
 		.user_menu add command -label "[trans sendoim] ($user_login)" \
-			-command "::amsn::chatUser $user_login"
+			-command "::amsn::chatUser $user_login; set ::OIM_GUI::oim_asksend_[string map {: _} ${user_login} ] 0"
 		.user_menu add command -label "[trans sendmail] ($user_login)" \
 			-command "launch_mailer $user_login"
 		set first "[trans sendoim] ($user_login)"
