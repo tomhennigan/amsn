@@ -48,6 +48,7 @@ askcam Ask to Receive Webcam
 askcontactwebcam to ask for your contact's webcam, or 
 askeachtime Ask each time
 asksendingyourwebcam to ask for sending your own webcam
+asksendoim Do you want to send this message as an offline message ?
 askwebcam Ask this user to send his/her webcam
 author Author
 autoaccepted File transfer accepted automatically
@@ -664,6 +665,7 @@ sendfile Send File
 sendmail Send E-mail
 sendmobmsg Send to Mobile Device
 sendmsg Send Message
+sendoim Send an Offline Message
 send Send
 sendwebcaminvite Invite a user to see your webcam
 sentbytes Sent $1 of $2 bytes
