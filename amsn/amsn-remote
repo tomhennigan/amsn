@@ -2,8 +2,6 @@
 ###
 ### Remote controller program
 ###
-Fixes some issues w
-Thanks to Fenix-TX from the forums for finding which SVN revisions caused the remote controler to stop working...
 
 set initialize_amsn 1
 
