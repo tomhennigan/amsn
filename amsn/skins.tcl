@@ -810,7 +810,11 @@ namespace eval ::skinsGUI {
 		}
 
 		toplevel $w
-		wm resizable $w 0 0
+		if {[OnMac]} {
+			wm resizable $w 1 1
+		} else {
+			wm resizable $w 0 0
+		}
 		wm title $w "[trans chooseskin]"
 		wm geometry $w +100+100
 
