@@ -6,19 +6,28 @@
 set initialize_amsn 1
 proc readsocket { } {
     global sock
-    if { [gets $sock response] == -1 } {
-	puts "Amsn server closed\n"
-	connect "Amsn server closed"
-    } elseif { $response != "" } {
-	set response [string map { \; \\\; \" \\\" \[ \\\[ \] \\\] \: \\\: \\ \\\\ \* \\\* \? \\\?} $response]
-	set colour [lindex $response end]
-	set response [string range $response 0 end-[string length $colour]]
-	set response [string map { \\\\ "^[SLASHCAR]^"} $response]
-	set response [string map { \\ ""} $response]
-	set response [string map { "^[SLASHCAR]^" \\} $response]
-	puts "\033\[[colorToCode $colour]m$response\033\[0m"
-    } 
 
+	set complete 0
+	set response ""
+
+	while { [info exists sock] && $complete == 0 } {
+		if { [gets $sock tmp] == -1 } {
+			puts "Amsn server closed\n"
+			connect "Amsn server closed"
+		} elseif { $tmp != "" } {
+			append response $tmp
+			append response "\n"
+			set complete [info complete $response]
+			
+			if { $complete } {
+				set data [lindex $response 0]
+				set colour [lindex $response 1]
+				puts "\033\[[colorToCode $colour]m"
+				puts $data
+				puts "\033\[0m"
+			} 
+		}
+	}
     
 }
 
@@ -65,7 +74,7 @@ proc authenticate { password } {
     puts ${sock} "auth"
     flush $sock
     gets $sock response
-
+    set response [lindex $response 0]
     if { "[lindex $response 0]" != "auth" } { 
 	return "fail"
     } else {
@@ -73,9 +82,10 @@ proc authenticate { password } {
 	puts $sock "auth2 $hash"
 	flush $sock
 	gets $sock response	
-	if { "$response" ==  "Authentication successfull normal" } {
+        set response [lindex $response 0]
+	if { "$response" ==  "Authentication successfull" } {
 	    return "OK"
-	} elseif { "$response" == "Authentication failed normal" } {
+	} elseif { "$response" == "Authentication failed" } {
 	    return "fail"
 	} else {
 	    return "disabled"
@@ -90,7 +100,7 @@ proc connect { status } {
     
     if { $sockDS == 0 } {
 	set stat [catch {socket $ip 63251} sockDS]
-	set status "Connected to the server"
+	set status "Connected to $ip"
     }
 
     if { $stat != 0 } {

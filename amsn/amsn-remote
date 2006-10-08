@@ -2,28 +2,40 @@
 ###
 ### Remote controller program
 ###
+Fixes some issues w
+Thanks to Fenix-TX from the forums for finding which SVN revisions caused the remote controler to stop working...
 
 set initialize_amsn 1
 
 proc readsocket { } {
-    global sock
+	global sock
 
-    if { [gets $sock response] == -1 } {
-	.controler.res.txt insert end "Amsn server closed\n" error
-	.controler.res.txt yview moveto 1.0
-	destroy .controler
-	connect "Amsn server closed"
-    } elseif { $response != "" } {
-#	puts "$response"
-	set response [string map { \; \\\; \" \\\" \[ \\\[ \] \\\] \: \\\: \\ \\\\ \* \\\* \? \\\?} $response]
-	set colour [lindex "$response" end]
-	set response [string map [list "$colour" ""]  $response]
-	set response [string map { \\\\ "^[SLASHCAR]^"} $response]
-	set response [string map { \\ ""} $response]
-	set response [string map { "^[SLASHCAR]^" \\} $response]
-	.controler.res.txt insert end "$response \n" $colour
-	.controler.res.txt yview moveto 1.0
-    } 
+	set complete 0
+	set response ""
+
+
+	while { [info exists sock] && $complete == 0 } {
+		if { [gets $sock tmp] == -1 } {
+			.controler.res.txt insert end "Amsn server closed\n" error
+			.controler.res.txt yview moveto 1.0
+			fileevent $sock readable ""
+			destroy .controler
+			connect "Amsn server closed"
+		} elseif {$tmp != "" } {
+			append response $tmp
+			append response "\n"
+			set complete [info complete $response]
+			
+			if { $complete } {
+				set data [lindex $response 0]
+				set colour [lindex $response 1]
+				
+				.controler.res.txt insert end $data $colour
+				.controler.res.txt insert end "\n" $colour				
+				.controler.res.txt yview moveto 1.0
+			} 
+		}
+	}
 
     
 }
@@ -41,7 +53,7 @@ proc writesocket { } {
 
 
     if { "$command" != "quit" } {
-	puts ${sock} "$command"
+	puts ${sock} $command
 	flush $sock
     } else {
 	destroy .controler
@@ -55,6 +67,7 @@ proc authenticate { password } {
     puts ${sock} "auth"
     flush $sock
     gets $sock response
+    set response [lindex $response 0]
 
     if { "[lindex $response 0]" != "auth" } { 
 	return "fail"
@@ -62,10 +75,12 @@ proc authenticate { password } {
 	set hash [::md5::hmac "[lindex $response 1]" "$password"]
 	puts $sock "auth2 $hash"
 	flush $sock
-	gets $sock response	
-	if { "$response" ==  "Authentication successfull normal" } {
+	gets $sock response
+	set response [lindex $response 0]
+
+	if { "$response" ==  "Authentication successfull" } {
 	    return "OK"
-	} elseif { "$response" == "Authentication failed normal" } {
+	} elseif { "$response" == "Authentication failed" } {
 	    return "fail"
 	} else {
 	    return "disabled"
@@ -226,7 +241,8 @@ proc control { } {
 
     bind .controler <Destroy> {
 	if { "%W" == ".controler" } {
-	    close $sock
+	    close $::sock
+	    unset ::sock
 	    grab release .controler
 	}
     }
