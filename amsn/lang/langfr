@@ -48,6 +48,7 @@ askcam Demande à visionner la webcam
 askcontactwebcam pour demander à voir la webcam de votre contact, ou 
 askeachtime Demander à chaque fois
 asksendingyourwebcam pour inviter votre contact à voir votre webcam
+asksendoim Voulez-vous envoyer ce message en tant que message hors-ligne ?
 askwebcam Demander à ce contact de voir sa webcam
 author Auteur
 autoaccepted Transfert de fichier accepté automatiquement
@@ -663,6 +664,7 @@ sendcam Envoyer la webcam
 sendemail Envoyer mon adresse email pour m'avertir des changements
 sendfeedback Envoyer ses impressions sur aMSN
 sendfile Envoyer un fichier
+sendoim Envoyer un message hors-ligne
 sendmail Envoyer un courrier
 sendmobmsg Envoyer un message au mobile
 sendmsg Envoyer un message
