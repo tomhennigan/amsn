@@ -6,7 +6,7 @@
 
 rename toplevel Tk_toplevel
 proc toplevel { pathname args } {
-	set window [eval Tk_toplevel $pathname $args]
+	set window [eval Tk_toplevel \"$pathname\" $args]
 	
 	catch {
 		::tk::unsupported::MacWindowStyle style $window document {closeBox horizontalZoom verticalZoom collapseBox resizable metal}
