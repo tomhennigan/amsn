@@ -312,6 +312,11 @@ div.news_bottom
   background: #fff url(images/news_bottom.png) no-repeat
 }
 
+div.top_ad
+{
+  /* border: 1px solid #888888; */
+  text-align: center;
+}
 div.block_right_top
 {
   margin-top: 8px;
