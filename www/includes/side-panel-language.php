@@ -1,4 +1,4 @@
-<div class="block_right">
+<div>
 <h3><?php echo trans('language') ?></h3>
 <div class="block_right_top"></div>
 <div class="block_right_content block_language">

@@ -1,4 +1,4 @@
-<div class="block_right">
+<div>
 <?php echo '<h3 class="forums">'.trans('forums').'</h3>'; ?>
 
 <div class="block_right_top"></div>

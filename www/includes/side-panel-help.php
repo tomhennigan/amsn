@@ -1,4 +1,4 @@
-<div class="block_right">
+<div>
 <?php
 echo '<h3>'.trans('plshelp').'</h3>';
 ?>

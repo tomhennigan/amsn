@@ -4,7 +4,7 @@ if (mysql_num_rows($query) === 1) {
   $poll = mysql_fetch_assoc($query);
   $answers = mysql_query("SELECT id, answer FROM `amsn_poll_answers` WHERE id_father = '" . (int)$poll['id'] . "' ORDER BY id") or die(mysql_error()); 
   if (mysql_num_rows($answers) > 1) {
-    echo '<div class="block_right">';
+    echo '<div>';
     echo '<h3 class="polls">'.trans('poll').'</h3>';
     echo '<div class="block_right_top"></div>';
     echo '<div class="block_right_content">';

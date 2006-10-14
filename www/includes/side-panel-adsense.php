@@ -1,4 +1,4 @@
-<div class="block_right">
+<div>
 <?php echo '<h3 class="adsense">'.trans('Advertisements').'</h3>'; ?>
 <div class="block_right_top"></div>
 <div class="block_right_content block_adsense">

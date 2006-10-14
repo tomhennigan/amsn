@@ -1,4 +1,4 @@
-<div class="block_right"> 
+<div> 
 <h3 class="search"><?php echo trans('Search') ?></h3>
 <div class="block_right_top"></div> 
 <div class="block_right_content block_search"> 
