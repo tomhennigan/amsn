@@ -5,7 +5,7 @@
 
 set initialize_amsn 1
 proc readsocket { } {
-    global sock
+	global sock
 
 	set complete 0
 	set response ""
@@ -75,6 +75,7 @@ proc authenticate { password } {
     flush $sock
     gets $sock response
     set response [lindex $response 0]
+
     if { "[lindex $response 0]" != "auth" } { 
 	return "fail"
     } else {

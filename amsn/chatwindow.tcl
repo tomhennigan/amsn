@@ -2471,8 +2471,8 @@ namespace eval ::ChatWindow {
 			$text tag configure stop_voice_clip_$uid -elide true	
 		}
 	}
-	proc ReceivedVoiceClip {chatid fileNAME } {
-		set filename_decoded "[filenoext $fileNAME]_decoded.wav"
+	proc ReceivedVoiceClip {chatid filename } {
+		set filename_decoded "[filenoext $filename]_decoded.wav"
 		
 		# This proc should be uncommented once tcl_siren implements the decoder
 		#DecodeWave $filename $filename_decoded
@@ -2492,9 +2492,9 @@ namespace eval ::ChatWindow {
 		amsn::WinWrite $chatid " - " green
 		amsn::WinWriteClickable $chatid "[trans saveas]" [list ::ChatWindow::saveVoiceClip $filename_decoded] 
 		amsn::WinWriteIcon $chatid greyline 3
-		amsn::WinWrite $chatid "[timestamp] [trans voice_notimplemented]\n  " green
+		amsn::WinWrite $chatid "[timestamp] [trans voice_notimplemented]\n" green
 		if {[OnWin] } {
-			amsn::WinWrite $chatid "[timestamp] [trans voice_windows]\n  " green
+			amsn::WinWrite $chatid "[timestamp] [trans voice_windows]\n" green
 			amsn::WinWriteClickable $chatid "[trans voice_windows_click]" [list exec rundll32 url.dll FileProtocolHandler $filename]
 		}
 		amsn::WinWriteIcon $chatid greyline 3
