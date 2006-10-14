@@ -1,0 +1,342 @@
+/*
+  File : tcl_siren.c
+
+  Description :	Contains all functions for accessing the Siren7 library
+
+  Author : Youness El Alaoui (KaKaRoTo - kakaroto@users.sourceforge.net)
+*/
+
+
+// Include the header file
+#include "tcl_siren.h"
+
+struct list_ptr {
+	struct list_ptr* prev_item;
+	struct list_ptr* next_item;
+	struct data_item* element;
+};
+
+
+
+int encoder_counter = 0;
+struct list_ptr *Encoders = NULL;
+
+/////////////////////////////////////
+// Functions to manage lists       //
+/////////////////////////////////////
+
+struct list_ptr* Siren_lstGetListItem(char *list_element_id){ //Get the list item with the specified name
+  struct list_ptr* item = g_list;
+
+  while(item && strcmp(item->element->list_element_id, list_element_id))
+    item = item->next_item;
+  
+  return item;
+
+}
+
+int Siren_lstListSize(){ 
+  struct list_ptr* item = g_list;
+  int ret = 0;
+
+  while(item) {
+    item = item->next_item;
+    ret = ret + 1;
+  }
+  
+  return ret;
+
+}
+
+struct data_item* Siren_lstAddItem(struct data_item* item) {
+  struct list_ptr* newItem;
+
+  if (!item) return NULL;
+  if (Siren_lstGetListItem(item->list_element_id)) return NULL;
+
+  newItem = (struct list_ptr *) malloc(sizeof(struct list_ptr));
+
+  if(newItem) {
+    memset(newItem,0,sizeof(struct list_ptr));
+    newItem->element = item;
+
+    newItem->next_item = g_list;
+
+    if (g_list) {
+      g_list->prev_item = newItem;
+    }
+    g_list = newItem;
+    return newItem->element;
+  } else
+    return NULL;
+
+}
+
+struct data_item* Siren_lstGetItem(char *list_element_id){ //Get the item with the specified name
+	struct list_ptr* listitem = Siren_lstGetListItem(list_element_id);
+	if(listitem)
+		return listitem->element;
+	else
+		return NULL;
+}
+
+struct data_item* Siren_lstDeleteItem(char *list_element_id){
+	struct list_ptr* item = Siren_lstGetListItem(list_element_id);
+	struct data_item* element = NULL;
+
+	if(item) {
+	  element = item->element;
+	  if(item->prev_item==NULL) //The first item
+	    g_list = item->next_item;
+	  else
+	    (item->prev_item)->next_item = item->next_item;
+
+	  if (item->next_item) 
+	    (item->next_item)->prev_item = item->prev_item;
+
+	  free(item);
+	}
+	return element;
+}
+
+
+int Siren_NewEncoder _ANSI_ARGS_((ClientData clientData,
+								Tcl_Interp *interp,
+								int objc,
+								Tcl_Obj *CONST objv[])) 
+{
+
+	SirenEncoderObject *new_encoder;
+	char name[15];
+	char * req_name = NULL;
+	int sample_rate = 16000;
+
+
+	// We verify the arguments
+	if( objc > 3) {
+		Tcl_AppendResult (interp, "Wrong number of args.\nShould be \"::Siren::NewEncoder ?sample_rate? ?name?\" " ,
+			"where the sample_rate MUST be 16000 to be compatible with MSN Messenger", (char *) NULL);
+		return TCL_ERROR;
+	}
+
+
+	if (objc > 1) {
+		if (Tcl_GetIntFromObj(interp, objv[1], &sample_rate) != TCL_OK) {
+			Tcl_ResetResult(interp);
+			sample_rate = 16000;
+		}
+	} else {
+		sample_rate = 16000;
+	}
+
+	new_encoder = (SirenEncoderObject *) malloc(sizeof(SirenEncoderObject));
+
+
+	if ( objc == 3) {
+	  // Set the requested name and see if it exists...
+	  req_name = Tcl_GetStringFromObj(objv[2], NULL);
+	  if (Siren_lstGetItem(req_name) == NULL) {
+	    strcpy(name, req_name);
+	  }else {
+	    sprintf(name, "encoder%d", ++encoder_counter);
+	  }
+	} else {
+	  sprintf(name, "encoder%d", ++encoder_counter);
+	}
+
+
+	new_encoder->encoder = Siren7_NewEncoder(sample_rate);
+	strcpy(new_encoder->name, name);
+
+
+	Siren_lstAddItem(new_encoder);
+
+	Tcl_ResetResult(interp);
+	Tcl_AppendResult(interp, name, NULL);
+
+	return TCL_OK;
+	
+}
+
+
+int Siren_Encode _ANSI_ARGS_((ClientData clientData,
+								Tcl_Interp *interp,
+								int objc,
+								Tcl_Obj *CONST objv[])) 
+{
+	char * name = NULL;
+	SirenEncoderObject * encoder;
+	
+
+	unsigned char * output = NULL;
+	unsigned char * out_ptr = NULL;
+	unsigned char* input = NULL;
+	int length = 0;
+	int dataSize;
+	int processed = 0;
+
+	// We verify the arguments
+	if( objc != 3) {
+		Tcl_AppendResult (interp, "Wrong number of args.\nShould be \"::Siren::Encode encoder data\"" , (char *) NULL);
+		return TCL_ERROR;
+	} 
+
+	name = Tcl_GetStringFromObj(objv[1], NULL);
+
+	encoder = Siren_lstGetItem(name);
+
+	if (!encoder) {
+		Tcl_AppendResult (interp, "Invalid encoder : " , name, (char *) NULL);
+		return TCL_ERROR;
+	}
+
+	input = Tcl_GetByteArrayFromObj(objv[2], &dataSize);
+
+	output = (unsigned char *) malloc (dataSize / 16);
+	out_ptr = output;
+	processed = 0;
+	while (processed + 640 <= dataSize) {
+		if (Siren7_EncodeFrame(encoder->encoder, input + processed, out_ptr) != 0) {
+			Tcl_AppendResult (interp, "Unexpected error Encoding data" , (char *) NULL);
+			return TCL_ERROR;
+		}
+		out_ptr += 40;
+		processed += 640;
+	}
+
+	Tcl_SetObjResult(interp, Tcl_NewByteArrayObj(output, out_ptr - output));
+	free(output);
+
+	
+	return TCL_OK;
+}
+
+int Siren_Close _ANSI_ARGS_((ClientData clientData,
+								Tcl_Interp *interp,
+								int objc,
+								Tcl_Obj *CONST objv[]))
+{
+	char * name = NULL;
+	SirenEncoderObject * encoder;
+
+	// We verify the arguments
+	if( objc != 2) {
+		Tcl_AppendResult (interp, "Wrong number of args.\nShould be \"::Siren::Close encoder\"" , (char *) NULL);
+		return TCL_ERROR;
+	} 
+
+
+	name = Tcl_GetStringFromObj(objv[1], NULL);
+	encoder = Siren_lstGetItem(name);
+
+	if (!encoder) {
+		Tcl_AppendResult (interp, "Invalid encoder : " , name, (char *) NULL);
+		return TCL_ERROR;
+	}
+
+	Siren7_CloseEncoder(encoder->encoder);
+	Siren_lstDeleteItem(name);
+	free(encoder);
+
+	return TCL_OK;
+	
+}
+
+int Siren_WriteWav _ANSI_ARGS_((ClientData clientData,
+								Tcl_Interp *interp,
+								int objc,
+								Tcl_Obj *CONST objv[])) {
+
+	char *filename = NULL;
+	char * name = NULL;
+	char *data = NULL;
+	FILE * f = NULL;
+	int dataSize;
+	SirenEncoderObject * encoder;
+
+	// We verify the arguments
+	if( objc != 4) {
+		Tcl_AppendResult (interp, "Wrong number of args.\nShould be \"::Siren::WriteWav encoder filename data\"" , (char *) NULL);
+		return TCL_ERROR;
+	} 
+
+	name = Tcl_GetStringFromObj(objv[1], NULL);
+	encoder = Siren_lstGetItem(name);
+
+	if (!encoder) {
+		Tcl_AppendResult (interp, "Invalid encoder : " , name, (char *) NULL);
+		return TCL_ERROR;
+	}
+
+
+	filename = Tcl_GetStringFromObj(objv[2], NULL);
+	data = Tcl_GetByteArrayFromObj(objv[3], &dataSize);
+
+	if (dataSize != encoder->encoder->WavHeader.DataSize) {
+		Tcl_AppendResult (interp, "The data you provided does not correspond to this encoder instance" , (char *) NULL);
+		return TCL_ERROR;
+	}
+
+	f = fopen(filename, "wb");
+
+	if (f == NULL) {
+		Tcl_AppendResult (interp, "Unable to open file <" , filename, ">", (char *) NULL);
+		return TCL_ERROR;
+	}
+
+    
+	fwrite(&(encoder->encoder->WavHeader), sizeof(encoder->encoder->WavHeader), 1, f);
+	fwrite(data, 1, dataSize, f);
+	fclose(f);
+
+
+	return TCL_OK;
+}
+
+/*
+  Function : Siren_Init
+
+  Description :	The Init function that will be called when the extension is loaded to your tcl shell
+
+  Arguments   :	Tcl_Interp *interp    :	This is the interpreter from which the load was made and to 
+  which we'll add the new command
+
+
+  Return value : TCL_OK in case everything is ok, or TCL_ERROR in case there is an error (Tk version < 8.3)
+
+  Comments     : hummmm... not much, it's simple :)
+
+*/
+int Siren_Init (Tcl_Interp *interp ) {
+	
+
+  //Check Tcl version is 8.3 or higher
+  if (Tcl_InitStubs(interp, TCL_VERSION, 0) == NULL) {
+    return TCL_ERROR;
+  }
+
+  // Create the wrapping commands in the Webcamsn namespace linked to custom functions with a NULL clientdata and 
+  // no deleteproc inside the current interpreter
+  Tcl_CreateObjCommand(interp, "::Siren::NewEncoder", Siren_NewEncoder,
+		       (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
+  Tcl_CreateObjCommand(interp, "::Siren::Encode", Siren_Encode,
+		       (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
+  Tcl_CreateObjCommand(interp, "::Siren::Close", Siren_Close,
+		       (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL); 
+  Tcl_CreateObjCommand(interp, "::Siren::WriteWav", Siren_WriteWav,
+		       (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL); 
+
+  // end of Initialisation
+  return TCL_OK;
+}
+int Siren_SafeInit (Tcl_Interp *interp) {
+  return Siren_Init(interp);
+}
+
+int Tcl_siren_Init (Tcl_Interp *interp ) {
+	return Siren_Init(interp);
+}
+
+int Tcl_siren_SafeInit (Tcl_Interp *interp) {
+  return Tcl_siren_Init(interp);
+}

@@ -1269,8 +1269,17 @@ namespace eval ::MSN {
 	# paging Paging
 	# drctpg Direct-Paging
 	# webmsn WebMessenger
+	# tgw    Connected via TGW
+	# space  User has an MSN Spaces
+	# mce    Connected using Win XP Media Center Edition
 	# direct DirectIM
 	# winks  Winks
+	# search Client supports Shared search
+	# bot    Is Bot
+	# voice  Client supports Voice Clips
+	# secure Client supports secure channel chatting
+	# sip    Client supports SIP based communiation
+        # shared Client supports Shared Folders
 	# msnc1  This is the value for MSNC1 (MSN Msgr 6.0)
 	# msnc2  This is the value for MSNC2 (MSN Msgr 6.1)
 	# msnc3  This is the value for MSNC3 (MSN Msgr 6.2)
@@ -1278,44 +1287,66 @@ namespace eval ::MSN {
 	# msnc5  This is the value for MSNC5 (MSN Msgr 7.5)
 	#
 	#switch==1 means turn on, 0 means turn off 
+	#
+        # Reference : http://zoronax.spaces.live.com/?_c11_BlogPart_FullView=1&_c11_BlogPart_blogpart=blogview&_c=BlogPart&partqs=amonth%3d6%26ayear%3d2006
 	proc setClientCap { cap { switch 1 } } {
 		set clientid [::config::getKey clientid 0]
 
 		if $switch {
 			switch $cap {
-				mobile { set clientid [expr {$clientid | 1} ] }
-				inkgif { set clientid [expr {$clientid | 4} ] }
-				inkisf { set clientid [expr {$clientid | 8} ] }
-				webcam { set clientid [expr {$clientid | 16} ] }
-				multip { set clientid [expr {$clientid | 32} ] }
-				paging { set clientid [expr {$clientid | 64} ] }
-				drctpg { set clientid [expr {$clientid | 128} ] }
-				webmsn { set clientid [expr {$clientid | 512} ] }
-				direct { set clientid [expr {$clientid | 16384} ] }
-				winks { set clientid [expr {$clientid | 32768} ] }
-				msnc1 { set clientid [expr {$clientid | 268435456} ] }
-				msnc2 { set clientid [expr {$clientid | 536870912} ] }
-				msnc3 { set clientid [expr {$clientid | 805306368} ] }
-				msnc4 { set clientid [expr {$clientid | 1073741824} ] }
-				msnc5 { set clientid [expr {$clientid | 1342177280} ] }
+				mobile { set clientid [expr {$clientid | 0x000001} ] }
+				inkgif { set clientid [expr {$clientid | 0x000004} ] }
+				inkisf { set clientid [expr {$clientid | 0x000008} ] }
+				webcam { set clientid [expr {$clientid | 0x000010} ] }
+				multip { set clientid [expr {$clientid | 0x000020} ] }
+				paging { set clientid [expr {$clientid | 0x000040} ] }
+				drctpg { set clientid [expr {$clientid | 0x000080} ] }
+				webmsn { set clientid [expr {$clientid | 0x000200} ] }
+				tgw    { set clientid [expr {$clientid | 0x000800} ] }
+				space  { set clientid [expr {$clientid | 0x001000} ] }
+				mce    { set clientid [expr {$clientid | 0x002000} ] }
+				direct { set clientid [expr {$clientid | 0x004000} ] }
+				winks  { set clientid [expr {$clientid | 0x008000} ] }
+				search { set clientid [expr {$clientid | 0x010000} ] }
+				bot    { set clientid [expr {$clientid | 0x020000} ] }
+				voice  { set clientid [expr {$clientid | 0x040000} ] }
+				secure { set clientid [expr {$clientid | 0x080000} ] }
+				sip    { set clientid [expr {$clientid | 0x100000} ] }
+				shared { set clientid [expr {$clientid | 0x400000} ] }
+				msnc1  { set clientid [expr {$clientid | 0x10000000} ] }
+				msnc2  { set clientid [expr {$clientid | 0x20000000} ] }
+				msnc3  { set clientid [expr {$clientid | 0x30000000} ] }
+				msnc4  { set clientid [expr {$clientid | 0x40000000} ] }
+				msnc5  { set clientid [expr {$clientid | 0x50000000} ] }
+				msnc6  { set clientid [expr {$clientid | 0x60000000} ] }
 			}
 		} else {
 			switch $cap {
-				mobile { set clientid [expr {$clientid & -2} ] }
-				inkgif { set clientid [expr {$clientid & -5} ] }
-				inkisf { set clientid [expr {$clientid & -9} ] }
-				webcam { set clientid [expr {$clientid & -17} ] }
-				multip { set clientid [expr {$clientid & -33} ] }
-				paging { set clientid [expr {$clientid & -65} ] }
-				drctpg { set clientid [expr {$clientid & -129} ] }
-				webmsn { set clientid [expr {$clientid & -513} ] }
-				direct { set clientid [expr {$clientid & -16385} ] }
-				winks { set clientid [expr {$clientid & -32769} ] }
-				msnc1 { set clientid [expr {$clientid & -268435457} ] }
-				msnc2 { set clientid [expr {$clientid & -536870913} ] }
-				msnc3 { set clientid [expr {$clientid & -805306369} ] }
-				msnc4 { set clientid [expr {$clientid & -1073741825} ] }
-				msnc5 { set clientid [expr {$clientid & -1342177281} ] }
+				mobile { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x000001)} ] }
+				inkgif { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x000004)} ] }
+				inkisf { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x000008)} ] }
+				webcam { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x000010)} ] }
+				multip { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x000020)} ] }
+				paging { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x000040)} ] }
+				drctpg { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x000080)} ] }
+				webmsn { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x000200)} ] }
+				tgw    { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x000800)} ] }
+				space  { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x001000)} ] }
+				mce    { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x002000)} ] }
+				direct { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x004000)} ] }
+				winks  { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x008000)} ] }
+				search { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x010000)} ] }
+				bot    { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x020000)} ] }
+				voice  { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x040000)} ] }
+				secure { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x080000)} ] }
+				sip    { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x100000)} ] }
+				shared { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x400000)} ] }
+				msnc1  { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x10000000)} ] }
+				msnc2  { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x20000000)} ] }
+				msnc3  { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x30000000)} ] }
+				msnc4  { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x40000000)} ] }
+				msnc5  { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x50000000)} ] }
+				msnc6  { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x60000000)} ] }
 			}
 		}
 		::config::setKey clientid $clientid
@@ -4263,6 +4294,25 @@ namespace eval ::Event {
 					::MSN::CloseSB $self
 				}			
 			}
+			text/x-msnmsgr-datacast {
+				set body [$message getBody]
+				set lines [split $body "\r\n"]
+				
+				foreach line $lines {
+					foreach {key value} [split $line ":"] break
+					if {$key == "ID"} {
+						set id $value
+					} elseif {$key == "Data"} {
+						set data $value
+					}
+				}
+				if { [info exists id] && [info exists data] } {
+					if {$id == "3" } {
+						::MSNP2P::RequestObjectEx $chatid $typer $data "voice"
+					}
+				}
+				
+			}
 
 
 			default {
@@ -5798,7 +5848,19 @@ proc sb_change { chatid } {
 		::MSN::WriteSBNoNL $sb "MSG" "U $msg_len\r\n$msg"
 	}
 }
+proc ::MSN::SendRecordingUserNotification { chatid } {
+	set sb [::MSN::SBFor $chatid]
 
+	if { $sb == 0 } {
+		status_log "SendRecordingUserNotification: VERY BAD ERROR - SB=0\n" error
+		return 0
+	}
+	set sock [$sb cget -sock]
+	set msg "MIME-Version: 1.0\r\nContent-Type: text/x-msmsgscontrol\r\nRecordingUser: [::config::getKey login]\r\n\r\n\r\n"
+	set msg_len [string length $msg]
+	
+	::MSN::WriteSBNoNL $sb "MSG" "U $msg_len\r\n$msg"
+}
 
 
 ###################### Other Features     ###########################
@@ -7698,6 +7760,69 @@ namespace eval ::MSNAV {
 
 			::MSN::WriteSBNoNL [::MSN::SBFor $chatid] "MSG" "A $msg_len\r\n$msg"
 		}
+	}
+
+	proc inviteComputerCall { chatid } {
+
+		# make new sessionid
+		set sessionid "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
+		# make new cookie
+		set cookie [expr {([clock clicks]) % (65536 * 8)}]
+
+		CookieList set $cookie [list $sessionid 1 "voice"]
+
+		# we need the connection type
+		set conntype [::abook::getDemographicField conntype]
+		if { $conntype == "" } {
+			return -1
+		}
+		set msg "MIME-Version: 1.0\r\nContent-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
+		set msg "${msg}Application-Name: a Computer Call\r\n"
+		set msg "${msg}Application-GUID: {02D3C01F-BF30-4825-A83A-DE7AF41648AA}\r\n"
+		set msg "${msg}Session-Protocol: SM1\r\n"
+
+		set msg "${msg}Context-Data: Requested:SIP_A,;Capabilities:SIP_A,;\r\n"
+
+		set msg "${msg}Invitation-Command: INVITE\r\n"
+		set msg "${msg}Invitation-Cookie: $cookie\r\n"
+		set msg "${msg}Session-ID: {$sessionid}\r\n"
+	
+		set msg "${msg}Conn-Type: $conntype\r\n"
+		set msg "${msg}Sip-Capability: 0\r\n"
+
+		# I don't really know what other conn types there are and what to do
+		# TODO test with other types of connections that direct and IP-Restricted-NAT
+		if { $conntype == "IP-Restrict-NAT" } {
+			set msg "${msg}Private-IP: [::abook::getDemographicField localip]\r\n"
+			set msg "${msg}Public-IP: [::abook::getDemographicField clientip]\r\n"
+			set msg "${msg}UPnP: [abook::getDemographicField upnpnat]\r\n"
+		}
+
+		set msg [encoding convertto utf-8 $msg]
+		set msg_len [string length $msg]
+
+		::MSN::WriteSBNoNL [::MSN::SBFor $chatid] "MSG" "S $msg_len\r\n$msg"
+
+	}
+
+	proc acceptComputerCall { chatid cookie } {
+		set conntype [::abook::getDemographicField conntype]
+		set msg "Invitation-Command: ACCEPT\r\n"
+		append msg "Context-Data: Requested:SIP_A,;Capabilities:SIP_A,;\r\n"
+		append msg "Invitation-Cookie: 374836\r\n"
+		append msg "Session-ID: {A4EE9D51-A7CA-4CD4-90EC-B234285B6D2F}\r\n"
+		append msg "Session-Protocol: SM1\r\n"
+		append msg "Conn-Type: Symmetric-NAT\r\n"
+		append msg "Sip-Capability: 1\r\n"
+		append msg "Public-IP: 65.210.205.254\r\n"
+		append msg "Private-IP: 10.27.95.174\r\n"
+		append msg "UPnP: FALSE\r\n"
+		append msg "Launch-Application: TRUE\r\n"
+		append msg "UsingRendezvous: FALSE\r\n"
+		append msg "Request-Data: IP-Address:\r\n"
+		append msg "IP-Address: 10.27.95.174:8348\r\n"
+		append msg "IP-Address-Enc64: MTAuMjcuOTUuMTc0OjgzNDg=\r\n"
+
 	}
 
 	#//////////////////////////////////////////////////////////////////////////////

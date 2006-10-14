@@ -344,6 +344,20 @@ namespace eval ::MSNP2P {
 		}
 	}
 
+	proc SendVoiceClip {chatid file } {
+		set sbn [::MSN::SBFor $chatid]
+		set msnobj [create_msnobj [::config::getKey login] 11 $file]
+		
+		set msg "MIME-Version: 1.0\r\nContent-Type: text/x-msnmsgr-datacast\r\n\r\nID: 3\r\nData: $msnobj\r\n\r\n"
+		set msg_len [string length $msg]
+	
+		#Send the packet
+		::MSN::WriteSBNoNL $sbn "MSG" "U $msg_len\r\n$msg"
+
+		# Let the magic do the rest... (the INVITE will be sent by the other client requesting the msnobj 
+		# created with [create_msnobj] which also links the msnobj to the filename which will be automatically sent)
+	}
+
 
 	#//////////////////////////////////////////////////////////////////////////////
 	# ReadData ( data chatid )
@@ -542,6 +556,7 @@ namespace eval ::MSNP2P {
 					set context [string range $data $idx $idx2]
 				}
 
+				status_log "$idx $idx2"
 
 				if { $eufguid == "A4268EEC-FEC5-49E5-95C3-F126696BDBF6" ||
 				     $eufguid == "5D3E02AB-6190-11D3-BBBB-00C04F795683" ||
@@ -909,6 +924,16 @@ namespace eval ::MSNP2P {
 							}
 						}
 
+					} elseif { [lindex [SessionList get $cSid] 7] == "voice" } {
+						set file [file join $HOME voiceclips cache ${filename}.wav]
+						if { $file != "" && [file exists $file]} {
+							
+							::ChatWindow::ReceivedVoiceClip $chatid $file
+							status_log "VOICE: file <$file> should be decoded and played..." red
+						} else {
+							status_log "VOICE: file <$file> does not exist" red
+						}
+						
 					} elseif { [lindex [SessionList get $cSid] 7] == "filetransfer" } {
 						# Display message that file transfer is finished...
 						status_log "MSNP2P | $cSid -> File transfer finished!\n"
@@ -933,12 +958,19 @@ namespace eval ::MSNP2P {
 				#set filename2 [::MSNP2P::GetFilenameFromMSNOBJ [::abook::getVolatileData $user_login msnobj]]
 				set filename2 [::abook::getContactData $user_login displaypicfile ""]
 				#status_log "MSNP2P | $sid $user_login -> opening file $filename for writing with $filename2 as user msnobj\n\n" blue
-				if { $filename == $filename2 } {
-					create_dir [file join $HOME displaypic cache]
-					set fd [open "[file join $HOME displaypic cache ${filename}.png]" w]
-				} else {
-					create_dir [file join $HOME smileys cache]
-					set fd [open "[file join $HOME smileys cache ${filename}.png]" w]
+				set type [lindex [SessionList get $cSid] 7]
+				if {$type == "bicon" } {
+					if { $filename == $filename2 } {
+						create_dir [file join $HOME displaypic cache]
+						set fd [open "[file join $HOME displaypic cache ${filename}.png]" w]
+					} else {
+						create_dir [file join $HOME smileys cache]
+						set fd [open "[file join $HOME smileys cache ${filename}.png]" w]
+					}
+				} elseif {$type == "voice" } {
+					create_dir [file join $HOME voiceclips]
+					create_dir [file join $HOME voiceclips cache]
+					set fd [open "[file join $HOME voiceclips cache ${filename}.wav]" w]
 				}
 
 				fconfigure $fd -translation {binary binary}
@@ -1044,22 +1076,24 @@ namespace eval ::MSNP2P {
 	# chatid : Chatid from which we will request the object
 	# dest : The email of the user that will receive our request
 	# msnobject : The object we want to request (has to be url decoded)
-	# filename: the file where data should be saved to
 	proc RequestObject { chatid dest msnobject} {
+		RequestObjectEx $chatid $dest $msnobject "bicon"
+	}
+
+	proc RequestObjectEx { chatid dest msnobject type} {
 		# Let's create a new session
 		set sid [expr {int([expr rand() * 1000000000])%125000000 + 4 } ]
 		# Generate BranchID and CallID
 		set branchid "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
 		set callid "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
 
-		SessionList set $sid [list 0 0 0 $dest 0 $callid 0 "bicon" [::MSNP2P::GetFilenameFromMSNOBJ $msnobject] ""]
+		SessionList set $sid [list 0 0 0 $dest 0 $callid 0 "$type" [::MSNP2P::GetFilenameFromMSNOBJ $msnobject] ""]
 
 		# Create and send our packet
 		set slpdata [MakeMSNSLP "INVITE" $dest [::config::getKey login] $branchid 0 $callid 0 0 "A4268EEC-FEC5-49E5-95C3-F126696BDBF6" $sid 1 [string map { "\n" "" } [::base64::encode "$msnobject\x00"]]]
 		SendPacket [::MSN::SBFor $chatid] [MakePacket $sid $slpdata 1]
 		status_log "Sent an INVITE to $dest on chatid $chatid of object $msnobject\n" red
 	}
-
 
 	#//////////////////////////////////////////////////////////////////////////////
 	# MakePacket ( sid slpdata [nullsid] [MsgId] [TotalSize] [Offset] [Destination] )
@@ -1240,7 +1274,7 @@ namespace eval ::MSNP2P {
 		set body ""
 		if { $method == "INVITE" } {
 			if { $contenttype == 0 } {
-				append body "EUF-GUID: {${A}}\r\nSessionID: ${B}\r\nAppID: ${C}\r\nContext: ${D}\r\n"
+			    append body "EUF-GUID: {${A}}\r\nSessionID: ${B}\r\nAppID: ${C}\r\nContext: ${D}\r\n"
 			} elseif { $contenttype == 1 } {
 				append body "Bridges: ${A}\r\nNetID: ${B}\r\nConn-Type: ${C}\r\nUPnPNat: ${D}\r\nICF: ${E}\r\n"
 			} else {
@@ -1268,11 +1302,11 @@ namespace eval ::MSNP2P {
 				}
 
 			}
-		} elseif { $method == "DECLINE" || $method == "ERROR"  } {
+		} elseif { $method == "DECLINE" || $method == "ERROR" } {
 			append body "SessionID: ${A}\r\n"
 		} elseif { $method == "BYE" && $contenttype == 1} {
 			append body "Context: ${A}"
-		}
+		} 
 
 		append body "\r\n\x00"
 

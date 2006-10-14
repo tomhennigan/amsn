@@ -61,6 +61,7 @@ autodetectip Detect IP address automatically
 autohotmaillog Automatically login to Hotmail
 autoidle Auto NoActivity
 autoip Automatic IP
+autolisten_voiceclips Automatically play voiceclips once received
 automessage AutoMessage
 autonoact Change state to "No activity" when inactive for
 autoresizedp Automatically resize display pictures to default size
@@ -513,6 +514,7 @@ noprofileexists There are currently no profiles, \n you must create one if you w
 normal Normal
 noskins Couldn't found default skin in skins/ folder. Can't start AMSN
 nosystemtray System tray not available
+nosound No sound was detected, make sure your microphone is correctly plugged in
 note Note
 notificationserver Initial MSN Notification Server (MSN Messenger Server)
 notify1_5 Display notify window when contacts go offline
@@ -627,11 +629,13 @@ readonlymsgbox The file transfer has been canceled due to the received directory
 readonlywarn WARNING: The file will probably NOT be saved correctly as the "Received files" directory seems to be write-protected. Please ensure that the permissions on the target directory ($1) are set correctly before transfering the file.
 receivedbytes Received $1 of $2 bytes
 receiveddir Received Files folder
+receivedvoice Received Voice Clip
 receivefile Receive file
 recentmsg Prevent closing a chat window when a message has just arrived
 reconnect2 Reconnect on loss
 reconnecting Reconnecting to server
 reconnect Waiting for $1 to reconnect
+recorderror An error occured when trying to record the sound
 reject Reject
 rememberpass Remember password
 remembersetting Remember my choice
@@ -667,8 +671,10 @@ sendmobmsg Send to Mobile Device
 sendmsg Send Message
 sendoim Send an Offline Message
 send Send
+sendvoice Send a Voice Clip
 sendwebcaminvite Invite a user to see your webcam
 sentbytes Sent $1 of $2 bytes
+sentvoice Sent Voice Clip
 serverbusy Server is busy
 servergoingdown Disconnected: Server is going down
 server Server
@@ -697,6 +703,7 @@ smilefile Smiley filename
 smileintro2 Please edit the required fields to customize this smiley (see the FAQ for help)
 smileintro Please complete the required fields to create a new custom smiley (see the FAQ for help)
 smiletoobig The smiley you choose is bigger than normal size. Do you want to resize it ?
+snackneeded The Snack library is needed in order to use this feature
 snackfailed Snack failed to load, reverting to default
 snapshot Snapshot
 sngdblclick Single click to open a new message window
@@ -713,6 +720,7 @@ soundexample ( \$sound = Sound file to be played) Ex: esdplay \$sound
 soundfile Sound File
 soundfiles Sound Files
 soundloop Loop Sound
+soundnoavail The Sound Device is not available. Please stop any application using the sound device.
 soundserver Sound Server
 soundstatus Sound Alarm
 sourcecode Source Code (needs compiling and installing)
@@ -808,6 +816,9 @@ videoconversationrequest You just received a video conversation (bidirectional a
 viewcontactsby View contacts by
 viewprofile View Profile
 view View
+voice_notimplemented The Receiving of Voice Clips is not yet implemented. Please be patient.
+voice_windows Being a Windows user, you might be able to listen to the voice clip by opening the voice clip with your media player. 
+voice_windows_click Click here to do so.
 wanttosharecam I want to make my webcam available to others
 webcamcanceled The webcam session with $1 has been canceled
 webcamclosebefcancel You have to cancel all webcam sessions before closing the window

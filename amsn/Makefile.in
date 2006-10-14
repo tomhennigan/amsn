@@ -14,13 +14,14 @@ FILES_TO_INSTALL += $(doc_files)
 FILES_TO_INSTALL += icons lang skins utils/base64 utils/drawboard utils/framec utils/http2.4
 FILES_TO_INSTALL += utils/pixmapscroll utils/pixmapmenu utils/contentmanager
 FILES_TO_INSTALL += utils/scalable-bg utils/sha1 utils/snit utils/BWidget-1.7.0 utils/dpbrowser
-FILES_TO_INSTALL += plugins
+FILES_TO_INSTALL += plugins utils/tcl_siren
 FILES_TO_INSTALL += utils/tclsoap1.6.7 utils/log utils/uri utils/tcldom utils/Tclxml utils/combobox
 
 FILES_TO_EXCLUDE := lang/genpage.c lang/addkey.tcl lang/lang1.tmpl lang/lang2.tmpl lang/lang3.tmpl lang/langchk.sh lang/complete.pl lang/genlangfiles.c utils/webcamsn/webcamsn.tcl
 
 capture_dir := $(srcdir)/utils/linux/capture
 webcamsn_dir := $(srcdir)/utils/webcamsn
+tcl_siren_dir := $(srcdir)/utils/tcl_siren
 tkcximage_dir := $(srcdir)/utils/TkCximage
 tray_dir := $(srcdir)/utils/linux/traydock
 linflash_dir := $(srcdir)/utils/linux/linflash
@@ -48,7 +49,7 @@ VERSION		:= $(BASEVERSION)-$(RELEASEVERSION)
 WARN_FLAGS	:= -w
 LFS_FLAGS	:= -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64
 LIB_FLAGS	:= -I. -I$(capture_dir) -I$(capture_dir)/libng -I$(capture_dir)/structs
-LIB_FLAGS	+= -I$(webcamsn_dir)/src -I$(tkcximage_dir)/src -I$(tkcximage_dir)/src/CxImage
+LIB_FLAGS	+= -I$(webcamsn_dir)/src -I$(tcl_siren_dir)/src -I$(tkcximage_dir)/src -I$(tkcximage_dir)/src/CxImage
 LIBDIR		:= @LIBDIR@
 
 
@@ -228,6 +229,9 @@ include $(tkcximage_dir)/src/Rules.mk
 
 include $(webcamsn_dir)/Rules.mk
 include $(webcamsn_dir)/src/Rules.mk
+
+include $(tcl_siren_dir)/Rules.mk
+include $(tcl_siren_dir)/src/Rules.mk
 
 ifeq ($(FOUND_OS),linux)
   include $(capture_dir)/Rules.mk

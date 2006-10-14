@@ -249,6 +249,7 @@ namespace eval ::config {
 			[list local notifyemailother bool notify4] \
 			[list local notifytimeout int notifytimeout] \
 			[list local soundactive bool soundactive] \
+		        [list local autolisten_voiceclips bool autolisten_voiceclips] \
 			[list local recentmsg bool recentmsg] \
 			[list title connection] \
 			[list local getdisppic bool getdisppic] \
@@ -323,6 +324,8 @@ namespace eval ::config {
 		::config::setKey getdisppic 1
 		::config::setKey webcamlogs 0
 		::config::setKey use_dock 1				;#enable/disable docking
+
+		::config::setKey autolisten_voiceclips 1                ;# whether voiceclips should be automatically played once received
 
 	}
 
@@ -659,6 +662,7 @@ proc load_config {} {
 	::MSN::setClientCap msnc4
 	::MSN::setClientCap inkgif
 	::MSN::setClientCap multip
+	::MSN::setClientCap voice
 
 	# Load up the personal states
 	LoadStateList

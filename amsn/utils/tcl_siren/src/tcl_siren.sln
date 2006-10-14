@@ -1,0 +1,21 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tcl_siren", "Tcl_siren.vcproj", "{5AFFE27F-3C45-4B4A-8764-EB4CCCC69122}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{5AFFE27F-3C45-4B4A-8764-EB4CCCC69122}.Debug.ActiveCfg = Debug|Win32
+		{5AFFE27F-3C45-4B4A-8764-EB4CCCC69122}.Debug.Build.0 = Debug|Win32
+		{5AFFE27F-3C45-4B4A-8764-EB4CCCC69122}.Release.ActiveCfg = Release|Win32
+		{5AFFE27F-3C45-4B4A-8764-EB4CCCC69122}.Release.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

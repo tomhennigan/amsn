@@ -715,6 +715,8 @@ namespace eval ::skin {
 		::skin::setPixmap butsmile_hover butsmile_hover.gif
 		::skin::setPixmap butfont butfont.gif
 		::skin::setPixmap butfont_hover butfont_hover.gif
+		::skin::setPixmap butvoice butvoice.gif
+		::skin::setPixmap butvoice_hover butvoice_hover.gif
 		::skin::setPixmap butblock butblock.gif
 		::skin::setPixmap butblock_hover butblock_hover.gif
 		::skin::setPixmap butsend butsend.gif

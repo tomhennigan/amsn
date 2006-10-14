@@ -2117,6 +2117,7 @@ namespace eval ::ChatWindow {
 		set buttonsinner [$buttons getinnerframe]
 		set smileys $buttonsinner.smileys
 		set fontsel $buttonsinner.fontsel
+		set voice $buttonsinner.voice
 		set block $buttonsinner.block
 		set sendfile $buttonsinner.sendfile
 		set invite $buttonsinner.invite
@@ -2133,11 +2134,16 @@ namespace eval ::ChatWindow {
 			-background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0 \
 			-highlightbackground [::skin::getKey buttonbarbg]  -activebackground [::skin::getKey buttonbarbg]
 		set_balloon $smileys [trans insertsmiley]
-				#Font button
+	       	#Font button
 		label $fontsel -image [::skin::loadPixmap butfont] -relief flat -padx 0 \
 			-background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0\
 			-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg]
 		set_balloon $fontsel [trans changefont]
+
+		label $voice -image [::skin::loadPixmap butvoice] -relief flat -padx 0 \
+			-background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0\
+			-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg]
+		set_balloon $voice [trans sendvoice]
 		
 		#Block button
 		label $block -image [::skin::loadPixmap butblock] -relief flat -padx 0 \
@@ -2165,7 +2171,7 @@ namespace eval ::ChatWindow {
 		set_balloon $webcam "--command--::ChatWindow::SetWebcamText"		
 
 		# Pack them
-		pack $fontsel $smileys -side left -padx 0 -pady 0
+		pack $fontsel $smileys $voice -side left -padx 0 -pady 0
 		pack $block $webcam $sendfile $invite -side right -padx 0 -pady 0
 	
 		bind $smileys  <<Button1>> "::smiley::smileyMenu \%X \%Y $input"
@@ -2173,6 +2179,9 @@ namespace eval ::ChatWindow {
 		bind $block    <<Button1>> "::amsn::ShowChatList \"[trans block]/[trans unblock]\" $w ::amsn::blockUnblockUser"
 		bind $sendfile <<Button1>> "::amsn::FileTransferSend $w"
 		bind $invite   <<Button1>> "::amsn::ShowInviteMenu $w \[winfo pointerx $w\] \[winfo pointery $w\]"
+
+		bind $voice    <ButtonPress-1> "::ChatWindow::start_voice_clip $w"
+		bind $voice    <Button1-ButtonRelease> "::ChatWindow::stop_and_send_voice_clip $w"
 
 		#if we have a webcam configured, have a "send webcam" button, else, use the button to open the wizard
 		bind $webcam   <<Button1>> "::ChatWindow::webcambuttonAction $w"
@@ -2183,6 +2192,8 @@ namespace eval ::ChatWindow {
 		bind  $smileys  <Leave> "$smileys configure -image [::skin::loadPixmap butsmile]"
 		bind  $fontsel  <Enter> "$fontsel configure -image [::skin::loadPixmap butfont_hover]"
 		bind  $fontsel  <Leave> "$fontsel configure -image [::skin::loadPixmap butfont]"
+		bind  $voice  <Enter> "$voice configure -image [::skin::loadPixmap butvoice_hover]"
+		bind  $voice  <Leave> "$voice configure -image [::skin::loadPixmap butvoice]"
 		bind $block <Enter> "$block configure -image [::skin::loadPixmap butblock_hover]"
 		bind $block <Leave> "$block configure -image [::skin::loadPixmap butblock]"
 		
@@ -2216,6 +2227,290 @@ namespace eval ::ChatWindow {
 			}
 		} else {
 			::CAMGUI::WebcamWizard
+		}
+	}
+	proc start_voice_clip { w } {
+		variable voice_sound
+		variable voice_text_pack
+
+		set chatid [Name $w]
+		if { [llength  [::MSN::usersInChat $chatid]] > 0 } {
+			if { [catch { package require snack } ] || [catch {package require tcl_siren }] } {
+				amsn::WinWrite $chatid "\n" red
+				amsn::WinWriteIcon $chatid greyline 3
+				amsn::WinWrite $chatid "\n" red
+				amsn::WinWriteIcon $chatid butvoice 3 2
+				amsn::WinWrite $chatid "[timestamp] [trans snackneeded]\n" red
+				amsn::WinWriteIcon $chatid greyline 3
+				return
+			}
+
+			catch { $voice_sound destroy }
+
+			set sound_available 1
+			if {[OnUnix] } {
+				# on unix, libsnack segfaults (on the next record)
+				# if it can't record because the device is used, so we
+				# detect that by trying to open /dev/dsp
+				if {[catch {open /dev/dsp "WRONLY NONBLOCK"} f]} {
+					set sound_available 0
+				} else {
+					close $f
+				}
+			}
+
+			if { $sound_available == 0 } {
+				amsn::WinWrite $chatid "\n" red
+				amsn::WinWriteIcon $chatid greyline 3
+				amsn::WinWrite $chatid "\n" red
+				amsn::WinWriteIcon $chatid butvoice 3 2
+				amsn::WinWrite $chatid "[timestamp] [trans soundnoavail]\n" red
+				amsn::WinWriteIcon $chatid greyline 3
+				return
+			}
+
+			set voice_sound [::snack::sound]
+			if { [catch {$voice_sound record} res]} {
+				
+				amsn::WinWrite $chatid "\n" red
+				amsn::WinWriteIcon $chatid greyline 3
+				amsn::WinWrite $chatid "\n" red
+				amsn::WinWriteIcon $chatid butvoice 3 2
+				amsn::WinWrite $chatid "[timestamp] [trans recorderror $res]\n" red
+				amsn::WinWriteIcon $chatid greyline 3
+				$voice_sound destroy
+			} else {
+				set inputtext [GetInputText $w]
+				set inputframe [winfo parent $inputtext]
+				set voice_text_pack [pack info $inputtext]
+				pack forget $inputtext
+				canvas $inputframe.wave -background [::skin::getKey chat_input_back_color] -borderwidth 0 -relief solid
+				$inputframe.wave create waveform 0 0 -sound $voice_sound -zerolevel 0
+				eval pack $inputframe.wave $voice_text_pack
+				
+				
+				::MSN::SendRecordingUserNotification $chatid
+				after 15000 "::ChatWindow::stop_and_send_voice_clip $w"
+			}
+		}
+	}
+
+	# This proc is not needed because I found the undocumented 'datasamples' subcommand...
+	proc SoundToWave { sound filename } {
+		$sound convert -rate 16000 -channels 2
+		
+		set input [$sound data]
+		
+		binary scan $input @0a4ia4 riff size wave
+		set offset 12
+		puts "found size $size"
+		while { $offset < $size } {
+			binary scan $input @${offset}a4i id chunk_size
+			incr offset 8
+			puts "found chunk $id $chunk_size"
+			if {$id == "data" } {
+				set data [string range $input $offset [expr {$offset + $chunk_size - 1}]]
+			} 
+			incr offset $chunk_size
+			
+		}
+		
+		if { [info exists data] } {
+			set enc [::Siren::NewEncoder]
+			puts "encoding"
+			if { [catch {set out [::Siren::Encode $enc $data] } res] } {
+				::Siren::Close $enc    		
+				status_log "Error Encoding : $res"
+				return 0
+			}
+			puts "res"
+			::Siren::WriteWav $enc $filename $out 
+			::Siren::Close $enc
+		}
+		return 1
+	}
+		
+	proc DecodeWave { file_in file_out } {
+		set fd [open $file_in r]
+		set input [read $fd]
+		close $fd
+		
+		binary scan $input @0a4ia4 riff size wave
+		set offset 12
+		while { $offset < $size } {
+			binary scan $input @${offset}a4i id chunk_size
+			incr offset 8
+			if {$id == "data" } {
+				set data [string range $input $offset [expr {$offset + $chunk_size - 1}]]
+			} 
+			incr offset $chunk_size
+			
+		}
+		
+		if { [info exists data] } {
+			set dec [::Siren::NewDecoder]
+			if { [catch {set out [::Siren::Decode $dec $data] } res] } {
+				::Siren::Close $dec    		
+				status_log "Error Decoding : $res"
+				return 0
+			}
+			::Siren::WriteWav $dec $filename $out 
+			::Siren::Close $dec
+		}
+		return 1
+	}
+	
+
+	proc stop_and_send_voice_clip { w } {
+		variable voice_sound
+		variable voice_text_pack
+		global HOME
+
+		after cancel "::ChatWindow::stop_and_send_voice_clip $w"
+
+		set chatid [Name $w]
+		if { [info exists voice_text_pack] } {
+			set inputtext [GetInputText $w]
+			set inputframe [winfo parent $inputtext]
+			
+			destroy $inputframe.wave
+			eval pack $inputtext $voice_text_pack
+			unset voice_text_pack
+		}
+
+		# Should we remove the usersInChat ? I know I added it for some reason.. can't remember what.. 
+		# think about you send a voice clip and the user closes your window at the same time? should the message be lost ?
+		if { [llength  [::MSN::usersInChat $chatid]] > 0 && [catch {$voice_sound stop}] == 0} {
+			
+			set timestamp [clock format [clock seconds] -format "%d %b %Y @ %H_%m_%S"]
+			set user [lindex [::MSN::usersInChat $chatid] 0]
+			
+			create_dir [file join $HOME voiceclips]
+			set filename [file join $HOME voiceclips ${user}_${timestamp}.wav]
+			set filename_siren [file join $HOME voiceclips ${user}_${timestamp}_encoded.wav]
+
+			if { [$voice_sound min] > -1000 && [$voice_sound max] < 1000 } {
+				amsn::WinWrite $chatid "\n" red
+				amsn::WinWriteIcon $chatid greyline 3
+				amsn::WinWrite $chatid "\n" red
+				amsn::WinWriteIcon $chatid butvoice 3 2
+				amsn::WinWrite $chatid "[timestamp] [trans nosound]\n" red
+			} else {
+				set enc [::Siren::NewEncoder]
+				if { [catch {set out [::Siren::Encode $enc [$voice_sound datasamples]] } res] } {
+					::Siren::Close $enc    		
+					status_log "Error Encoding voice clip to Siren codec : $res" red
+					return 0
+				}
+				::Siren::WriteWav $enc $filename_siren $out 
+				::Siren::Close $enc
+				
+				$voice_sound write $filename
+				
+				
+				::MSN::ChatQueue $chatid [list ::MSNP2P::SendVoiceClip $chatid $filename_siren]
+				
+				set uid [getUniqueValue]
+				
+				amsn::WinWrite $chatid "\n" red
+				amsn::WinWriteIcon $chatid greyline 3
+				amsn::WinWrite $chatid "\n" red
+				amsn::WinWriteIcon $chatid butvoice 3 2
+				amsn::WinWrite $chatid "[timestamp] [trans sentvoice]\n  " green
+				amsn::WinWriteClickable $chatid "[trans play]" [list ::ChatWindow::playVoiceClip $w $filename $uid] play_voice_clip_$uid
+				amsn::WinWriteClickable $chatid "[trans stop]" [list ::ChatWindow::stopVoiceClip $w $filename $uid] stop_voice_clip_$uid
+				[::ChatWindow::GetOutText $w] tag configure play_voice_clip_$uid -elide false
+				[::ChatWindow::GetOutText $w] tag configure stop_voice_clip_$uid -elide true
+				amsn::WinWrite $chatid " - " green
+				amsn::WinWriteClickable $chatid "[trans saveas]" [list ::ChatWindow::saveVoiceClip $filename] 
+				amsn::WinWriteIcon $chatid greyline 3
+			}
+		}
+		catch {$voice_sound destroy}
+	}
+
+	proc playVoiceClip { w filename uid} {
+		variable play_snd_$uid
+
+		set sound_available 1
+		if {[OnUnix] } {
+			# on unix, libsnack segfaults (on the next record)
+			# if it can't record because the device is used, so we
+			# detect that by trying to open /dev/dsp
+			if {[catch {open /dev/dsp "WRONLY NONBLOCK"} f]} {
+				set sound_available 0
+			} else {
+				close $f
+			}
+		}
+
+		if { $sound_available && [file exists $filename]} {
+			set snd [snack::sound]
+			set play_snd_$uid $snd
+			$snd read $filename
+			$snd play -command [list ::ChatWindow::stopVoiceClip $w $filename $uid]	
+			[::ChatWindow::GetOutText $w] tag configure play_voice_clip_$uid -elide true
+			[::ChatWindow::GetOutText $w] tag configure stop_voice_clip_$uid -elide false	
+		}
+	}
+
+	proc stopVoiceClip { w filename uid} {
+		variable play_snd_$uid
+
+		after cancel [list ::ChatWindow::stopVoiceClip $w $filename $uid]
+
+		if { [info exists play_snd_$uid] } {
+			set snd [set play_snd_$uid]
+			catch { $snd stop }
+			catch { $snd destroy }
+			unset play_snd_$uid
+		}
+		set text [::ChatWindow::GetOutText $w]
+		if { [winfo exists $text] } {
+			$text tag configure play_voice_clip_$uid -elide false
+			$text tag configure stop_voice_clip_$uid -elide true	
+		}
+	}
+	proc ReceivedVoiceClip {chatid fileNAME } {
+		set filename_decoded "[filenoext $fileNAME]_decoded.wav"
+		
+		# This proc should be uncommented once tcl_siren implements the decoder
+		#DecodeWave $filename $filename_decoded
+
+		set uid [getUniqueValue]
+		set w [::ChatWindow::For $chatid]
+		
+		amsn::WinWrite $chatid "\n" red
+		amsn::WinWriteIcon $chatid greyline 3
+		amsn::WinWrite $chatid "\n" red
+		amsn::WinWriteIcon $chatid butvoice 3 2
+		amsn::WinWrite $chatid "[timestamp] [trans receivedvoice]\n  " green
+		amsn::WinWriteClickable $chatid "[trans play]" [list ::ChatWindow::playVoiceClip $w $filename_decoded $uid] play_voice_clip_$uid
+		amsn::WinWriteClickable $chatid "[trans stop]" [list ::ChatWindow::stopVoiceClip $w $filename_decoded $uid] stop_voice_clip_$uid
+		[::ChatWindow::GetOutText $w] tag configure play_voice_clip_$uid -elide false
+		[::ChatWindow::GetOutText $w] tag configure stop_voice_clip_$uid -elide true
+		amsn::WinWrite $chatid " - " green
+		amsn::WinWriteClickable $chatid "[trans saveas]" [list ::ChatWindow::saveVoiceClip $filename_decoded] 
+		amsn::WinWriteIcon $chatid greyline 3
+		amsn::WinWrite $chatid "[timestamp] [trans voice_notimplemented]\n  " green
+		if {[OnWin] } {
+			amsn::WinWrite $chatid "[timestamp] [trans voice_windows]\n  " green
+			amsn::WinWriteClickable $chatid "[trans voice_windows_click]" [list exec rundll32 url.dll FileProtocolHandler $filename]
+		}
+		amsn::WinWriteIcon $chatid greyline 3
+
+		if { [::config::getKey autolisten_voiceclips 1] } {
+			playVoiceClip $w $filename_decoded $uid
+		}
+	}
+
+	proc saveVoiceClip { filename } {
+		if {[file exists $filename] } {
+			set file [chooseFileDialog "" "Save Voice Clip" "" "" save [list [list [trans soundfiles] [list *.wav]] [list [trans allfiles] *]]]
+			
+			if { $file != "" } {
+				file copy -force $filename $file
+			}
 		}
 	}
 
