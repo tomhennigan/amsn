@@ -417,6 +417,11 @@ int Siren7_EncodeFrame(SirenEncoder encoder, unsigned char *DataIn, unsigned cha
 	float In[320];
 	short BufferOut[20];
 	float *context = encoder->context;
+	int mystery[10];
+	
+	for (i = 0; i < 10; i++) 
+	  mystery[i] = (i - 5) > 0 ? i-5: 5-i;
+	
 
 	for (i = 0; i < 320; i++) 
 		In[i] = (float) ((short *) DataIn)[i];
