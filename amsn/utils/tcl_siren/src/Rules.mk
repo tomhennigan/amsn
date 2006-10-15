@@ -23,3 +23,7 @@ clean-tcl_siren:: clean-siren
 
 clean-siren:: 
 	rm -f $(TARGETS-siren) $(OBJS-siren)
+
+check:: siren_test
+
+siren_test : $(tcl_siren_dir)/src/siren_test.o 
