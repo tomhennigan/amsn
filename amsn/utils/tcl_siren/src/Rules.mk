@@ -1,6 +1,9 @@
 OBJS-tcl_siren := $(tcl_siren_dir)/src/tcl_siren.o $(tcl_siren_dir)/src/libsiren.a
 TARGETS-tcl_siren := $(tcl_siren_dir)/src/tcl_siren.so 
 
+OBJS-siren_test := $(tcl_siren_dir)/src/siren_test.o  $(tcl_siren_dir)/src/libsiren.a
+TARGETS-siren_test := $(tcl_siren_dir)/siren_test
+
 OBJS-siren := 	$(tcl_siren_dir)/src/common.o  $(tcl_siren_dir)/src/dct4.o  $(tcl_siren_dir)/src/encoder.o \
 		$(tcl_siren_dir)/src/huffman.o $(tcl_siren_dir)/src/rmlt.o \
 
@@ -26,4 +29,10 @@ clean-siren::
 
 check:: siren_test
 
-siren_test : $(tcl_siren_dir)/src/siren_test.o 
+siren_test : $(TARGETS-siren_test)
+
+$(TARGETS-siren_test): $(OBJS-siren_test)
+	@$(echo_link_app)
+	@$(link_app)
+
+
