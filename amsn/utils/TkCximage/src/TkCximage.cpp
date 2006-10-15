@@ -227,6 +227,7 @@ int PlaceHook(Tcl_Interp *interp){
 		typePhotoPtr->displayProc = (Tk_ImageDisplayProc *) PhotoDisplayProcHook;
 	} // else we already put the hook
 	Tk_DeleteImage(interp, name);
+	Tcl_ResetResult(interp);
 	return TCL_OK;
 }
 
