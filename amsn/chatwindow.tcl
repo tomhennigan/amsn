@@ -2287,7 +2287,6 @@ namespace eval ::ChatWindow {
 				canvas $inputframe.wave -background [::skin::getKey chat_input_back_color] -borderwidth 0 -relief solid
 				eval pack $inputframe.wave $voice_text_pack
 				update
-				puts "-width [winfo width $inputframe.wave] -height [winfo height $inputframe.wave] -pixelspersecond [expr {[winfo width $inputframe.wave] / 15}]" 
 				$inputframe.wave create waveform 0 0 -sound $voice_sound -zerolevel 0 -width [winfo width $inputframe.wave] -height [winfo height $inputframe.wave] -pixelspersecond [expr {[winfo width $inputframe.wave] / 15}]
 								
 				
