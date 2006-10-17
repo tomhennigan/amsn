@@ -48,6 +48,7 @@ askcam Kamera görüntüsünü iste
 askcontactwebcam karþýdan kamera görüntüsü istemek için ya da
 askeachtime Her zaman sor
 asksendingyourwebcam kendi görüntünüzü yollamayý önermek için
+asksendoim Bu iletiyi çevrim dýþý ileti olarak mý gönermek istiyorsunuz?
 askwebcam Kullanýcýdan kamera görüntüsünü iste
 author Yazan
 autoaccepted Dosya aktarýmý otomatikman kabul edildi
@@ -60,6 +61,7 @@ autodetectip IP adresini kendiliðinden bul
 autohotmaillog Hotmail'e otomatik giriþ
 autoidle Otomatik EtkinlikYok özelliði 
 autoip Otomatik IP
+autolisten_voiceclips Ses kayýtlarýný alýnýnca hemen çal
 automessage OtoÝleti
 autonoact Bu süre kadar eylemsiz kalýrsam "Etkinlik yok" göster:
 autoresizedp Kullanýcý resimlerini kendilðinden öntanýmlý ölçülere boyutlandýr
@@ -132,7 +134,7 @@ checkblocking Diðerlerinin beni engelleyip engellemediðini sürekli denetle
 checkemail Baðlantý listesinde posta kutusu satýrý gözüksün
 checkfilman Alýnan dosyalar $1 konumuna kaydedilecek. Lütfen seçenekler penceresinde dosya yöneticisi ayarlarýný yapýnýz.
 checkingver Yeni sürüm aranýyor
-checkonfln Bir kullanýcýnýn beni engelleyip engellemediðini o çevrimdýþý olunca denetle
+checkonfln Bir kullanýcýnýn beni engelleyip engellemediðini o çevrim dýþý olunca denetle
 checkopenfilecommand Lütfen Seçenekler'de dosya açma komutunu ayarlayýnýz
 checkver Yeni sürüm ara
 choosearq Sistem türünüzü seçin
@@ -512,6 +514,7 @@ nopic Resim yok
 noprofileexists Henüz hiçbir profil yok. Eðer profille baðlanmak \nisterseniz bir tane yaratmalýsýnýz. Bu penceredeki \nYeni Profil Ekle düðmesine týklayarak bunu yapabilirsiniz.
 normal normal
 noskins Varsayýlan kabuk skins/ dizininde bulunamadý. AMSN baþlatýlamadý.
+nosound Ses alýnamýyor, mikrofonunuzun takýlý olduðundan emin olun.
 nosystemtray Sistem çubuðu yok
 note Not
 notificationserver Ýlk MSN Uyarý Sunucusu (MSN Messenger Sunucusu)
@@ -531,7 +534,7 @@ notls MSN 9 protokolü tls paketini gerektirir. Bu bilgisayarda tls kurulu görünm
 nottabbed Sekmesiz normal pencereler
 nousersinsession Ortamda kullanýcý yok
 nudge $1 sizinle görüþmek istiyor
-offline Çevrimdýþý
+offline Çevrim dýþý
 ok Tamam
 onenewmail Gelen kutusunda 1 yeni ileti var
 online Çevrimiçi
@@ -627,11 +630,13 @@ readonlymsgbox Alýnan dosyalar dizini salt okunur olduðu için dosya alýnamýyor. 
 readonlywarn UYARI: Alýnan dosyalar dizini salt okunur olduðu için \n dosya büyük olasýlýkla alýnamayacak. Lütfen hedefteki ($1) dizinin\n izinlerinin doðru olduðundan emin olun.
 receivedbytes $2 baytýn $1 (s)i alýndý
 receiveddir Alýnan Dosyalar dizini
+receivedvoice Karþýdan ses kaydý alýndý.
 receivefile Dosyayý al
 recentmsg Az önce gelmiþ ileti varsa sohbet penceresinin kapatýlmasýný engelle
 reconnect $1 in yeniden baðlanmasý bekleniyor
 reconnect2 Baðlantý koparsa yeniden baðlan
 reconnecting Sunucuya yeniden baðlanýlýyor
+recorderror Sesi kaydederken bir hata oluþtu: $1
 reject Geri çevir
 rememberpass Þifreyi hatýrla
 remembersetting Bu ayarlarý hatýrla
@@ -666,8 +671,11 @@ sendfile Dosya gönder
 sendmail E-posta iletisi gönder
 sendmobmsg Taþýnabilir aygýta gönder
 sendmsg Ýleti gönder
+sendoim Çevrim dýþý ileti gönder
+sendvoice Ses kaydý gönder
 sendwebcaminvite Kullanýcýyý kameranýzý izlemeye davet edin
 sentbytes $2 baytýn $1 (s)i gönderildi
+sentvoice Ses kaydý gönderildi
 server Sunucu
 serverbusy Sunucu meþgul
 servergoingdown Sunucu kapanýyor: Baðlantý kesildi
@@ -698,6 +706,7 @@ smileintro Özel bir gülen adam yaratmak için ilgili alanlarý doldurunuz \n(yardý
 smileintro2 Bu gülen adamý özelleþtirmek için ilgili alanlarý düzenleyiniz \n(yardým için SSS'a bakýnýz)
 smiletoobig Seçtiðiniz resim normalden daha büyük. Yeniden boyutlandýrmak ister misiniz?
 snackfailed Snack yüklenemedi; varsayýlan kütüphane kullanýlacak.
+snackneeded Bu özelliði kullanabilmek için Snack kütüphanesi gerekmektedir.
 snapshot Resim çek
 sngdblclick Yeni ileti penceresi tek týklamayla açýlsýn
 sortcontactgroup Baðlantýlarý gruplarýna göre sýrala
@@ -713,6 +722,7 @@ soundexample (\$sound = Çalýnacak ses dosyasý) Örn: esdplay \$sound
 soundfile Alarm ses dosyasý
 soundfiles Ses Dosyalarý
 soundloop Ses tekrarlasýn
+soundnoavail Ses aygýtý kullanýlamýyor. Lütfen ses aygýtýný kullanan diðer uygulamalarý kapatýn.
 soundserver Ses Sunucusu
 soundstatus Sesli alarmý aç/kapa
 sourcecode Kaynak kodu (derlenip kurulmasi gerekir)
@@ -807,6 +817,9 @@ videoconversationrequest Az önce bir video görüþmesi (çift yönlü ses ve görüntü)
 view Görünüm
 viewcontactsby Baðlantý isimleri
 viewprofile Profili gör
+voice_notimplemented  Ses kayýtlarýný dinleme özelliði henüz eklenmedi; lütfen yeni sürümleri bekleyin.
+voice_windows Windows kullanýcýlarý alýnan ses kaydýný çokluortam/müzikçalar uygulamalarýyla dinleyebilirler.
+voice_windows_click Dinlemek için týklayýn.
 wanttosharecam Diðerleri kamera görüntümü alabilsin
 webcam Kamera
 webcamcanceled $1 ile olan kamera oturumu kapatýldý

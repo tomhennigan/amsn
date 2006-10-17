@@ -1,6 +1,6 @@
 amsn_lang_version 2
-about Sobre
 aboutamsn Sobre Alvaro's Messenger
+about Sobre
 accept Aceitar
 acceptfile Aceitar arquivo $1 ($2 bytes de tamanho)? Será gravado em $3
 account Conta
@@ -48,6 +48,7 @@ askcam Pedir para receber imagem de webcam
 askcontactwebcam Ligar WebCam 
 askeachtime Perguntar toda vez
 asksendingyourwebcam pedir para que seja enviada a imagem da sua webcam
+asksendoim Você quer enviar essa mensagem como uma mensagem offline?
 askwebcam Pedir ao usuário para enviar imagem de webcam
 author Autor
 autoaccepted Transferência de arquivo aceita automaticamente
@@ -60,6 +61,7 @@ autodetectip Detectar o endereço IP automaticamente
 autohotmaillog Logar-se automaticamente no Hotmail
 autoidle Detectar inatividade
 autoip Endereço IP automático
+autolisten_voiceclips Tocar Clips de Voz automaticamente quando receber.
 automessage Mensagem automática
 autonoact Mudar estado para "Sem atividade" quando inativo por
 autoresizedp Automaticamente redimensione as figuras para o tamanho padrão
@@ -512,6 +514,7 @@ nopic Sem imagem
 noprofileexists Não há nenhum perfil instalado,\nvocê têm de instalar (ou criar) um se quiser usar múltiplos endereços de e-mail.\nUse o botão Adicionar Novo Perfil nesta janela para adicionar um novo perfil
 normal Normal
 noskins Não foi possível encontrar a skin padrão na pasta skins/. Não é possível iniciar o aMSN
+nosound Nenhum som foi detectado, tenha certeza que seu seu microfone está corretamente conectado.
 nosystemtray A bandeja do sistema não está disponível
 note Comentário
 notificationserver Servidor Inicial de Notificação do MSN (Servidor MSN Messenger)
@@ -627,11 +630,13 @@ readonlymsgbox Diretório sem permissão de escrita. Por favor ajuste as permissõe
 readonlywarn  AVISO: O arquivo provavelmente não será salvo corretamente pois a pasta "Arquivo recebidos" está protegido contra gravação. Por favor verifique se as permissões da pasta ($1) estão corretas antes de transferir o arquivo.
 receivedbytes Recebidos $1 de $2 bytes
 receiveddir Pasta de arquivos recebidos
+receivedvoice Clip de Voz recebido.
 receivefile Arquivo recebido
 recentmsg Evitar fechar uma janela de conversa quando uma mensagem acaba de chegar
 reconnect2 Reconectar ao perder a conexão
 reconnect Esperando por $1 para reconectar
 reconnecting Reconectando ao servidor
+recorderror Um erro ocorreu na tentativa de gravar o som: $1
 reject Recusar
 rememberpass Lembrar senha
 remembersetting Lembrar os ajustes
@@ -666,8 +671,11 @@ sendfile Enviar arquivo
 sendmail Enviar e-mail
 sendmobmsg Enviar mensagem a celular
 sendmsg Enviar mensagem
+sendoim Enviar mensagem offline.
+sendvoice Enviar Clip de Voz
 sendwebcaminvite Convidar um usuário para ver sua webcam
 sentbytes Enviados $1 de $2 bytes
+sentvoice Clip de Voz enviado.
 serverbusy Servidor ocupado
 servergoingdown Desconectado: servidor está sendo desligado
 server Servidor
@@ -698,6 +706,7 @@ smileintro2 Por Favor edite os campos necessários para personalizar este smiley 
 smileintro Por favor preencha os campos necessários para criar um novo smiley (Leia o FAQ para ajuda)
 smiletoobig O smiley que você escolheu é maior que o tamanho normal. Quer mudar seu tamanho?
 snackfailed Falha ao carregar Snack, revertendo para o padrão
+snackneeded A biblioteca Snack é preciso para esse utilidade
 snapshot Snapshot
 sngdblclick Um clique para abrir uma nova janela de mensagem
 sortcontactgroup Ordenar contatos por grupo
@@ -712,6 +721,7 @@ soundexample ( \$sound = Arquivo de áudio a ser reproduzido) Ex: esdplay \$sound
 soundfile Arquivo de som
 soundfiles Arquivos de som
 soundloop Repetir som
+soundnoavail O dispositivo de som não está disponível. Pare outra aplicação que está usando esse dispositivo de som.
 soundserver Servidor de sons
 sound Som de evento
 soundstatus Alarme sonoro
@@ -807,6 +817,9 @@ videoconversationrequest Você recebeu um pedido de videoconferência (áudio e víd
 viewcontactsby Visualizar contatos por
 viewprofile Ver Perfil
 view Visualizar
+voice_notimplemented A recepção de Clip de Voz não está implementado ainda. Seja paciente
+voice_windows_click Clique aqui para ser feito.
+voice_windows Sendo um usuário Windows, é possível que você consiga ouvir o Clip de Voz abrindo o clip de voz no seu Media Player.
 wanttosharecam Eu quero fazer minha câmera disponível para os outros
 webcamcanceled A sessão de webcam com $1 foi cancelada
 webcamclosebefcancel Você deve fechar todas as sessões de webcam antes de fechar a janela
