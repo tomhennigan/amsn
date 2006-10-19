@@ -255,8 +255,9 @@ foreach font [font families] {
 	set allfonts([string tolower $font]) $font
 }
 
-# Bye bye hidden files in file dialogs
-set ::tk::dialog::file::showHiddenVar 0
+# Look here : http://amsn.sourceforge.net/forums/viewtopic.php?t=1878
+# # Bye bye hidden files in file dialogs
+# set ::tk::dialog::file::showHiddenVar 0
 
 set ::auto_encoding [encoding system]
 
