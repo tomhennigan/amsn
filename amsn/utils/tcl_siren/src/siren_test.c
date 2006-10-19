@@ -122,7 +122,7 @@ int main(int argc, char *argv[]) {
 	
 	/* The WAV heder should be converted TO LE, but should be done inside the library and it's not important for now ... */
 	fwrite(&(encoder->WavHeader), sizeof(encoder->WavHeader), 1, output);
-	fwrite(out_data, 1, encoder->WavHeader.DataSize, output);
+	fwrite(out_data, 1, GUINT32_FROM_LE(encoder->WavHeader.DataSize), output);
 	fclose(output);
 
 	Siren7_CloseEncoder(encoder);

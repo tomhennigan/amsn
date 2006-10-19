@@ -272,7 +272,7 @@ int Siren_WriteWav _ANSI_ARGS_((ClientData clientData,
 	filename = Tcl_GetStringFromObj(objv[2], NULL);
 	data = Tcl_GetByteArrayFromObj(objv[3], &dataSize);
 
-	if (dataSize != encoder->encoder->WavHeader.DataSize) {
+	if (dataSize != GUINT32_FROM_LE(encoder->encoder->WavHeader.DataSize)) {
 		Tcl_AppendResult (interp, "The data you provided does not correspond to this encoder instance" , (char *) NULL);
 		return TCL_ERROR;
 	}

@@ -13,27 +13,29 @@ SirenEncoder Siren7_NewEncoder(int sample_rate) {
 	SirenEncoder encoder = (SirenEncoder) malloc(sizeof(struct stSirenEncoder));
 	encoder->sample_rate = sample_rate;
 	
-	encoder->WavHeader.riff.RiffId = RIFF_ID;
+	encoder->WavHeader.riff.RiffId = GUINT32_TO_LE(RIFF_ID);
 	encoder->WavHeader.riff.RiffSize = sizeof(SirenWavHeader) - 2*sizeof(int);
-	encoder->WavHeader.WaveId = WAVE_ID;
+	encoder->WavHeader.riff.RiffSize = GUINT32_TO_LE(encoder->WavHeader.riff.RiffSize);
+	encoder->WavHeader.WaveId = GUINT32_TO_LE(WAVE_ID);
 
-	encoder->WavHeader.FmtId = FMT__ID;
-	encoder->WavHeader.FmtSize = sizeof(FmtChunk);
+	encoder->WavHeader.FmtId = GUINT32_TO_LE(FMT__ID);
+	encoder->WavHeader.FmtSize = GUINT32_TO_LE(sizeof(FmtChunk));
 	
-	encoder->WavHeader.fmt.BlockAlign = 40;
-	encoder->WavHeader.fmt.ByteRate = 2000;
-	encoder->WavHeader.fmt.Channels = 1;
-	encoder->WavHeader.fmt.Format = 0x028E;
-	encoder->WavHeader.fmt.SampleRate = 16000;
-	encoder->WavHeader.fmt.BitsPerSample = 0;
-	encoder->WavHeader.fmt.ExtraSize = 2;
-	encoder->WavHeader.fmt.DctLength = 320;
+	encoder->WavHeader.fmt.Format = GUINT16_TO_LE(0x028E);
+	encoder->WavHeader.fmt.Channels = GUINT16_TO_LE(1);
+	encoder->WavHeader.fmt.SampleRate = GUINT32_TO_LE(16000);
+	encoder->WavHeader.fmt.ByteRate = GUINT32_TO_LE(2000);
+	encoder->WavHeader.fmt.BlockAlign = GUINT16_TO_LE(40);
+	encoder->WavHeader.fmt.BitsPerSample = GUINT16_TO_LE(0);
+	encoder->WavHeader.fmt.ExtraSize = GUINT16_TO_LE(2);
+	encoder->WavHeader.fmt.DctLength = GUINT16_TO_LE(320);
 
-	encoder->WavHeader.FactId = FACT_ID;
-	encoder->WavHeader.FactSize = sizeof(int);
-	encoder->WavHeader.Samples = 0;
-	encoder->WavHeader.DataId = DATA_ID;
-	encoder->WavHeader.DataSize = 0;
+	encoder->WavHeader.FactId = GUINT32_TO_LE(FACT_ID);
+	encoder->WavHeader.FactSize = GUINT32_TO_LE(sizeof(int));
+	encoder->WavHeader.Samples = GUINT32_TO_LE(0);
+
+	encoder->WavHeader.DataId = GUINT32_TO_LE(DATA_ID);
+	encoder->WavHeader.DataSize = GUINT32_TO_LE(0);
 
 	memset(encoder->context, 0, sizeof(encoder->context));
 
@@ -424,7 +426,7 @@ int Siren7_EncodeFrame(SirenEncoder encoder, unsigned char *DataIn, unsigned cha
 	
 
 	for (i = 0; i < 320; i++) 
-		In[i] = (float) ((short *) DataIn)[i];
+		In[i] = (float) ((short) GUINT16_FROM_LE(((short *) DataIn)[i]));
 
 	dwRes = siren_rmlt(In, (float *) context, 320, coefs); 
 
@@ -526,12 +528,23 @@ int Siren7_EncodeFrame(SirenEncoder encoder, unsigned char *DataIn, unsigned cha
 	}
 
 	
-	for (i = 0; i < 20; i++) 
-		((short *) DataOut)[i] = ((BufferOut[i] << 8) & 0xFF00) | ((BufferOut[i] >> 8) & 0x00FF);
 
-	encoder->WavHeader.Samples += 320;
-	encoder->WavHeader.DataSize += 40;
-	encoder->WavHeader.riff.RiffSize += 40;
+	for (i = 0; i < 20; i++) 
+		((short *) DataOut)[i] = BufferOut[i];
+#ifdef __BIG_ENDIAN__
+		((short *) DataOut)[i] = ((BufferOut[i] << 8) & 0xFF00) | ((BufferOut[i] >> 8) & 0x00FF);
+#endif
+
+	encoder->WavHeader.Samples = GUINT32_FROM_LE(encoder->WavHeader.Samples);
+        encoder->WavHeader.Samples += 320;
+	encoder->WavHeader.Samples = GUINT32_TO_LE(encoder->WavHeader.Samples);
+	encoder->WavHeader.DataSize = GUINT32_FROM_LE(encoder->WavHeader.DataSize);
+        encoder->WavHeader.DataSize += 40;
+	encoder->WavHeader.DataSize = GUINT32_TO_LE(encoder->WavHeader.DataSize);
+	encoder->WavHeader.riff.RiffSize = GUINT32_FROM_LE(encoder->WavHeader.riff.RiffSize);
+        encoder->WavHeader.riff.RiffSize += 40;
+	encoder->WavHeader.riff.RiffSize = GUINT32_TO_LE(encoder->WavHeader.riff.RiffSize);
+
 
 	return 0;
 }
