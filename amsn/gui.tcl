@@ -22,8 +22,7 @@ if {[catch {package require tkdnd}] } {
 ################################################
 # 'Missing' BWidget commands                   #
 ################################################
-ScrollableFrame .tmp
-destroy .tmp
+ScrollableFrame::use
 proc ::ScrollableFrame::compute_width { path } {
 		$path configure -width [winfo reqwidth [$path getframe]]
 }
