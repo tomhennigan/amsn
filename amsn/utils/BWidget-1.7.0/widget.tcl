@@ -1119,7 +1119,7 @@ proc Widget::_test_tkresource { option value arg } {
 #    set tkwidget [lindex $arg 0]
 #    set realopt  [lindex $arg 1]
     foreach {tkwidget realopt} $arg break
-    set path     ".#BWidget#$tkwidget"
+    set path     ".#BWidget.#$tkwidget"
     set old      [$path cget $realopt]
     $path configure $realopt $value
     set res      [$path cget $realopt]
