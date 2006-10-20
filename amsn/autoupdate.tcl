@@ -1,4 +1,4 @@
-package require AMSN_BWidget
+package require BWidget
 
 namespace eval ::autoupdate {
 

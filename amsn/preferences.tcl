@@ -1,5 +1,5 @@
 
-package require AMSN_BWidget
+package require BWidget
 
 #TODO:
 #Put items frame and listbox in scrollbars!!

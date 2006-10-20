@@ -13,7 +13,7 @@ if {$::tcl_version <= 8.3} {
 	tk_messageBox -default ok -message "You need TCL/TK 8.4 or better to run aMSN. Please upgrade."  -icon warning
 	exit
 }
-package require AMSN_BWidget
+package require BWidget
 if {[catch {package require tkdnd}] } {
 	proc dnd { args } {}
 	proc shape { args } {}
