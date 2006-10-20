@@ -255,9 +255,11 @@ foreach font [font families] {
 	set allfonts([string tolower $font]) $font
 }
 
-# Bye bye hidden files in file dialogs
-catch { tk_getOpenFile -w00t } ;# start file dialog with unknown option
-set ::tk::dialog::file::showHiddenVar 0
+# Bye bye hidden files in file dialogs (works fine with Mac even without this).
+if {![OnMac]} {
+	catch { tk_getOpenFile -w00t } ;# start file dialog with unknown option
+	set ::tk::dialog::file::showHiddenVar 0
+}
 
 set ::auto_encoding [encoding system]
 
