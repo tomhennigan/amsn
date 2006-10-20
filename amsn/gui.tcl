@@ -18,6 +18,25 @@ if {[catch {package require tkdnd}] } {
 	proc dnd { args } {}
 	proc shape { args } {}
 }
+
+################################################
+# 'Missing' BWidget commands                   #
+################################################
+ScrollableFrame .tmp
+destroy .tmp
+proc ::ScrollableFrame::compute_width { path } {
+		$path configure -width [winfo reqwidth [$path getframe]]
+}
+
+proc ::ScrollableFrame::compute_height { path } {
+		$path configure -height [winfo reqheight [$path getframe]]
+}
+
+proc ::ScrollableFrame::compute_size { path } {
+	$path compute_width
+	$path compute_height
+}
+
 #package require pixmapbutton
 if { [OnMac] } {
 	# Use brushed metal style windows on Mac OS X.
