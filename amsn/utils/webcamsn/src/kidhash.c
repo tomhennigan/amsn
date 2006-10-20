@@ -22,10 +22,35 @@ const int fixed_value_3 = 3;
 
 int key[26];
 
+#ifdef __BIG_ENDIAN__
+
+#define POW_2_8 256
+#define POW_2_16 65536
+#define POW_2_24 16777216
+
+#define IDX(val, i) ((unsigned int) ((unsigned char *) &val)[i])
+#define GUINT32_FROM_LE(val) ( (int) (IDX(val, 0) + IDX(val, 1) * 256 + \
+        IDX(val, 2) * 65536 + IDX(val, 3) * 16777216)) 
+
+#define GUINT32_TO_LE(val) ( (int) (\
+        ((((unsigned int) val           ) % 256)  & 0xff) << 24 | \
+        ((((unsigned int) val / POW_2_8 ) % 256) & 0xff) << 16| \
+        ((((unsigned int) val / POW_2_16) % 256) & 0xff) << 8 | \
+        ((((unsigned int) val / POW_2_24) % 256) & 0xff) ))
+
+#else 
+
+#define GUINT16_TO_LE(val) ( (unsigned short) (val))
+#define GUINT32_TO_LE(val) ( (unsigned int) (val))
+#define GUINT16_FROM_LE(val) ( (unsigned short) (val))
+#define GUINT32_FROM_LE(val) ( (unsigned int) (val))
+
+#endif
+
 
 void crazy_algorithm(int *table,int *temp_data) {
 
-	unsigned int i, idx, temp;
+	unsigned int i, temp = 0;
 
 	// Initialize the 4 temp variables
 	int P = table[1],
@@ -37,10 +62,10 @@ void crazy_algorithm(int *table,int *temp_data) {
 	// four loops made into one
 	for (i = 0; i < 16*4; i++) {
 		temp = PPPP + const_mult[i] * const_values[i];	// Common to all loops
-		if(i/16 == 0) temp += temp_data[i] + (PPP ^ (P & (PP ^ PPP)));		// add this for first loop i =[0..15]
-		if(i/16 == 1) temp += temp_data[((i-16)*5 + 1)%16] + (PP ^ (PPP & (P ^ PP))); // add for second i = [16..31]
-		if(i/16 == 2) temp += temp_data[((i-32)*3 + 5)%16] + (P ^ (PP ^ PPP)); // add for second i = [31..47]
-		if(i/16 == 3) temp += temp_data[choose_data_idx[i-48]] + (PP ^ ((PPP ^ 0xFFFFFFFF) | P)); // add for the last loop
+		if(i/16 == 0) temp += GUINT32_FROM_LE(temp_data[i]) + (PPP ^ (P & (PP ^ PPP)));		// add this for first loop i =[0..15]
+		else if(i/16 == 1) temp += GUINT32_FROM_LE(temp_data[((i-16)*5 + 1)%16]) + (PP ^ (PPP & (P ^ PP))); // add for second i = [16..31]
+		else if(i/16 == 2) temp += GUINT32_FROM_LE(temp_data[((i-32)*3 + 5)%16]) + (P ^ (PP ^ PPP)); // add for second i = [31..47]
+		else if(i/16 == 3) temp += GUINT32_FROM_LE(temp_data[choose_data_idx[i-48]]) + (PP ^ ((PPP ^ 0xFFFFFFFF) | P)); // add for the last loop
 		PPPP = PPP; PPP = PP; PP = P;
 		P += (temp >> shifts_right[(i%4) + 4*(i/16)]) | (temp << shifts_left[(i%4) + 4*(i/16)]); // look for the shifts in the table
 	}
@@ -135,9 +160,9 @@ void set_result (int *table, char * temp_data, int * result) {
 	temp_data_ptr += idx;
 
 	// The last 2 dwords are size / 8 and a bool for if size > 64
-	*((int *)temp_data_ptr) = table[4];
+	*((int *)temp_data_ptr) = GUINT32_TO_LE(table[4]);
 	temp_data_ptr+=4;
-	*((int *)temp_data_ptr) = table[5];
+	*((int *)temp_data_ptr) = GUINT32_TO_LE(table[5]);
 
 	crazy_algorithm(table, (int *)temp_data);
 
@@ -177,6 +202,12 @@ void Hash(char * a, int key_size) {
 	memcpy(temp_data, key_ptr, key_size);
 	set_result(table, temp_data, result);
 
+	result[0] = GUINT32_TO_LE(result[0]);
+	result[1] = GUINT32_TO_LE(result[1]);
+	result[2] = GUINT32_TO_LE(result[2]);
+	result[3] = GUINT32_TO_LE(result[3]);
+	result[4] = GUINT32_TO_LE(result[4]);
+
 	for (i = 0 ; i < 18; i += 3) {
 		temp = (0x000000ff &((char *) result)[i]) << 16 |
 			(0x000000ff & ((char *) result)[i+1]) << 8  | 
@@ -196,10 +227,12 @@ int MakeKidHash(char *a, int *a_size, int kid, char * sid) {
 	int i;
 	char * sid_ptr = sid;
 	char *key_ptr = (char *) key;
+	char *append_char;
+	char *append_ptr;
 
 	if(kid < 0 || kid > 100) return 0;
 	if (*a_size < 25) return 0;
-	memset(key, 0, 26);
+	memset(key, 0, 26 * sizeof(int));
 
 	init_table_ptr = init_table;
 	init_table_idx1 = init_table_ptr;
@@ -223,9 +256,17 @@ int MakeKidHash(char *a, int *a_size, int kid, char * sid) {
 		kid--; 
 	}
 
-	memcpy(key_ptr, 
-		key_append + (long) (alter_table() * append_multiplicator) * 4,
-		append_size);
+	append_char = (char *) (key_append + (long) (alter_table() * append_multiplicator) * 4);
+ 	append_ptr = append_char;
+	for (i = 0 ; i < append_size; i++) {
+#ifdef __BIG_ENDIAN__
+		*key_ptr = append_char[3 - ((append_ptr - append_char)%4) + 4*((append_ptr - append_char)/4)];
+#else 
+		*key_ptr = *append_ptr;
+#endif
+		key_ptr++;
+		append_ptr++;
+	}
 
 	Hash(a, (int) (sid_ptr - sid) + append_size);  
 
