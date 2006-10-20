@@ -256,9 +256,8 @@ foreach font [font families] {
 }
 
 # Bye bye hidden files in file dialogs
-namespace eval ::tk::dialog::file {
-	variable showHiddenVar 0
-} 
+catch { tk_getOpenFile -w00t } ;# start file dialog with unknown option
+set ::tk::dialog::file::showHiddenVar 0
 
 set ::auto_encoding [encoding system]
 
