@@ -49,49 +49,30 @@ typedef unsigned int guint32;
 #undef GUINT16_TO_LE
 #undef GUINT32_TO_LE
 
+#ifdef __BIG_ENDIAN__
+
 #define POW_2_8 256
 #define POW_2_16 65536
 #define POW_2_24 16777216
 
-#define IDX(val, i) ((guint32) ((guchar *) &val)[i])
-
-#define GUINT16_FROM_LE(val) ( (guint16) ( IDX(val, 0) + (guint16) IDX(val, 1) * 256 ))
-#define GUINT32_FROM_LE(val) ( (guint32) (IDX(val, 0) + IDX(val, 1) * 256 + \
+#define IDX(val, i) ((unsigned int) ((unsigned char *) &val)[i])
+#define GUINT32_FROM_LE(val) ( (int) (IDX(val, 0) + IDX(val, 1) * 256 + \
         IDX(val, 2) * 65536 + IDX(val, 3) * 16777216)) 
 
-
-#ifdef __BIG_ENDIAN__
-
-#define SHIFT_1_16(res) (res << 8)
-#define SHIFT_2_16(res) (res)
-
-#define SHIFT_1_32(res) (res << 24)
-#define SHIFT_2_32(res) (res << 16)
-#define SHIFT_3_32(res) (res << 8)
-#define SHIFT_4_32(res) (res)
+#define GUINT32_TO_LE(val) ( (int) (\
+        ((((unsigned int) val           ) % 256)  & 0xff) << 24 | \
+        ((((unsigned int) val / POW_2_8 ) % 256) & 0xff) << 16| \
+        ((((unsigned int) val / POW_2_16) % 256) & 0xff) << 8 | \
+        ((((unsigned int) val / POW_2_24) % 256) & 0xff) ))
 
 #else 
 
-#define SHIFT_1_16(res) (res)
-#define SHIFT_2_16(res) (res << 8)
-
-#define SHIFT_1_32(res) (res)
-#define SHIFT_2_32(res) (res << 8)
-#define SHIFT_3_32(res) (res << 16)
-#define SHIFT_4_32(res) (res << 24)
+#define GUINT16_TO_LE(val) ( (unsigned short) (val))
+#define GUINT32_TO_LE(val) ( (unsigned int) (val))
+#define GUINT16_FROM_LE(val) ( (unsigned short) (val))
+#define GUINT32_FROM_LE(val) ( (unsigned int) (val))
 
 #endif
-
-
-#define GUINT16_TO_LE(val) ( (guint16) (\
-        SHIFT_1_16(((guint16) (val % 256) & 0xff)) | \
-        SHIFT_2_16(((guint16) ((val / POW_2_8) % 256) & 0xff)) ))
-
-#define GUINT32_TO_LE(val) ( (guint32) (\
-        SHIFT_1_32(((guint32) (val % 256 ) & 0xff)) | \
-        SHIFT_2_32(((guint32) ((val / POW_2_8) % 256) & 0xff))| \
-        SHIFT_3_32(((guint32) ((val / POW_2_16) % 256 ) & 0xff)) | \
-        SHIFT_4_32(((guint32) ((val / POW_2_24) % 256 ) & 0xff)) ))
 
 
 #undef g_new

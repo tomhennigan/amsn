@@ -66,29 +66,21 @@ extern void siren_init();
 extern int categorize_regions(int number_of_regions, int number_of_available_bits, int *absolute_region_power_index, int *power_categories, int *category_balance);
 
 
-
 #ifdef __BIG_ENDIAN__
 
 #define POW_2_8 256
 #define POW_2_16 65536
 #define POW_2_24 16777216
 
-
-#define GUINT16_TO_LE(val) ( (unsigned short) (\
-        ((unsigned short) (val % 256) & 0xff) << 8 | \
-        ((unsigned short) ((val / POW_2_8) % 256) & 0xff) ))
-
-#define GUINT32_TO_LE(val) ( (unsigned int) (\
-        ((unsigned int) (val % 256 ) & 0xff) << 24 | \
-        ((unsigned int) ((val / POW_2_8) % 256) & 0xff) << 16| \
-        ((unsigned int) ((val / POW_2_16) % 256 ) & 0xff) << 8 | \
-        ((unsigned int) ((val / POW_2_24) % 256 ) & 0xff) ))
-
 #define IDX(val, i) ((unsigned int) ((unsigned char *) &val)[i])
-
-#define GUINT16_FROM_LE(val) ( (unsigned short) ( IDX(val, 0) + (unsigned short) IDX(val, 1) * 256 ))
-#define GUINT32_FROM_LE(val) ( (unsigned int) (IDX(val, 0) + IDX(val, 1) * 256 + \
+#define GUINT32_FROM_LE(val) ( (int) (IDX(val, 0) + IDX(val, 1) * 256 + \
         IDX(val, 2) * 65536 + IDX(val, 3) * 16777216)) 
+
+#define GUINT32_TO_LE(val) ( (int) (\
+        ((((unsigned int) val           ) % 256)  & 0xff) << 24 | \
+        ((((unsigned int) val / POW_2_8 ) % 256) & 0xff) << 16| \
+        ((((unsigned int) val / POW_2_16) % 256) & 0xff) << 8 | \
+        ((((unsigned int) val / POW_2_24) % 256) & 0xff) ))
 
 #else 
 
@@ -98,5 +90,6 @@ extern int categorize_regions(int number_of_regions, int number_of_available_bit
 #define GUINT32_FROM_LE(val) ( (unsigned int) (val))
 
 #endif
+
 
 #endif /* _SIREN_ENCODER_H */
