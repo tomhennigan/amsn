@@ -256,7 +256,7 @@ foreach font [font families] {
 }
 
 # Bye bye hidden files in file dialogs (works fine with Mac even without this).
-if {[OnUnix]} {
+if {[OnLinux]} {
 	catch { tk_getOpenFile -w00t } ;# start file dialog with unknown option
 	set ::tk::dialog::file::showHiddenVar 0
 }
