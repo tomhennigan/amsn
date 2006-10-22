@@ -56,8 +56,14 @@ typedef unsigned int guint32;
 #define POW_2_24 16777216
 
 #define IDX(val, i) ((unsigned int) ((unsigned char *) &val)[i])
+
+#define GUINT16_FROM_LE(val) ( (unsigned short) ( IDX(val, 0) + IDX(val, 1) * 256 ))
 #define GUINT32_FROM_LE(val) ( (int) (IDX(val, 0) + IDX(val, 1) * 256 + \
         IDX(val, 2) * 65536 + IDX(val, 3) * 16777216)) 
+
+#define GUINT16_TO_LE(val) ( (unsigned short) (\
+        (((unsigned short)val % 256) & 0xff) << 8 | \
+        ((((unsigned short)val / POW_2_8) % 256) & 0xff) ))
 
 #define GUINT32_TO_LE(val) ( (int) (\
         ((((unsigned int) val           ) % 256)  & 0xff) << 24 | \
