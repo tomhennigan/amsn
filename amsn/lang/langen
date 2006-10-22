@@ -515,6 +515,7 @@ normal Normal
 noskins Couldn't found default skin in skins/ folder. Can't start AMSN
 nosystemtray System tray not available
 nosound No sound was detected, make sure your microphone is correctly plugged in
+nosound_or_hold No sound was detected. To send a Voice Clip you need to press and hold down the button while speaking then release it to send the message.
 note Note
 notificationserver Initial MSN Notification Server (MSN Messenger Server)
 notify1_5 Display notify window when contacts go offline
@@ -703,7 +704,7 @@ smilefile Smiley filename
 smileintro2 Please edit the required fields to customize this smiley (see the FAQ for help)
 smileintro Please complete the required fields to create a new custom smiley (see the FAQ for help)
 smiletoobig The smiley you choose is bigger than normal size. Do you want to resize it ?
-snackneeded The Snack library is needed in order to use this feature
+snackneeded The Snack library is needed in order to use this feature. A minimal version of 2.2.9 is necessary.
 snackfailed Snack failed to load, reverting to default
 snapshot Snapshot
 sngdblclick Single click to open a new message window

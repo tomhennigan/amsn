@@ -706,7 +706,7 @@ smileintro2 Veuillez éditer les champs obligatoires pour personnaliser cette émo
 smileintro Veuillez remplir les champs obligatoires pour créer un nouvelle émoticône/smiley (voir la FAQ pour l'aide)
 smiletoobig L'émoticône/smiley que vous avez choisie est plus grande que la taille normale. Voulez-vous la redimensionner ?
 snackfailed Snack n'a pas pu se lancer, retour à la valeur par défaut
-snackneeded Vous devez avoir la bibliothèque Snack pour utiliser cette fonctionnalité
+snackneeded Vous devez avoir la librarie Snack pour utiliser cette fonctionnalité. Une version minimale de 2.2.9 est necessaire.
 snapshot Garder l'image
 sngdblclick Un clic simple ouvre une nouvelle fenêtre de conversation
 sortcontactgroup Trier les contacts par leur groupe

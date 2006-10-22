@@ -2230,25 +2230,13 @@ namespace eval ::ChatWindow {
 		}
 	}
 
-	# This needs to be done this way because it seems Mac shows an error about conflicting versions if you have 2.2 and 2.2.10 installed...
-	# but on linux (and windows) it takes the latest version (2.2.10) without complaining...
-	# Since Mac and Windows have the snack 2.2.10 binaries shipped with amsn,we can require the exact version safely.. linux is trickier because
-	# the user can install whatever version he wants (and all 2.2.x versions have a 'package provide 2.2')
-	proc require_snack { } {
-		if {[OnLinux] } {
-			package require snack
-		} else {
-			package require snack 2.2.10
-		}
-	}
-
 	proc start_voice_clip { w } {
 		variable voice_sound
 		variable voice_text_pack
 
 		set chatid [Name $w]
 		if { [llength  [::MSN::usersInChat $chatid]] > 0 } {
-			if { [catch {require_snack} ] || [catch {package require tcl_siren }] } {
+			if { ([catch {require_snack} ] && [package vcompares [set ::snack::patchLevel] 2.2.9] >= 0) || [catch {package require tcl_siren }] } {
 				amsn::WinWrite $chatid "\n" red
 				amsn::WinWriteIcon $chatid greyline 3
 				amsn::WinWrite $chatid "\n" red
@@ -2408,7 +2396,11 @@ namespace eval ::ChatWindow {
 				amsn::WinWriteIcon $chatid greyline 3
 				amsn::WinWrite $chatid "\n" red
 				amsn::WinWriteIcon $chatid butvoice 3 2
-				amsn::WinWrite $chatid "[timestamp] [trans nosound]\n" red
+				if { [$voice_sound length -unit seconds] < 2 } {
+					amsn::WinWrite $chatid "[timestamp] [trans nosound_or_hold]\n" red					
+				} else {
+					amsn::WinWrite $chatid "[timestamp] [trans nosound]\n" red
+				}
 			} else {
 				set enc [::Siren::NewEncoder]
 				# We need to add the -byteorder littleEndian because on Mac, the datasamples are in big endian and tcl_siren expects little endian

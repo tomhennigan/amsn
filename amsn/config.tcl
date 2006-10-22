@@ -690,7 +690,7 @@ proc load_config {} {
 
 	#load Snack when being used
 	if { [::config::getKey usesnack] } {
-		if {![catch {package require snack}]} {
+		if {![catch {require_snack}]} {
 			snack::audio playLatency 750
 		} else {
 			::config::setKey usesnack 0
