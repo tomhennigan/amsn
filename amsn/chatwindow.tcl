@@ -2236,7 +2236,7 @@ namespace eval ::ChatWindow {
 
 		set chatid [Name $w]
 		if { [llength  [::MSN::usersInChat $chatid]] > 0 } {
-			if { ([catch {require_snack} ] && [package vcompares [set ::snack::patchLevel] 2.2.9] >= 0) || [catch {package require tcl_siren }] } {
+			if { [catch {require_snack} ] || [package vcompare [set ::snack::patchLevel] 2.2.9] < 0 || [catch {package require tcl_siren }] } {
 				amsn::WinWrite $chatid "\n" red
 				amsn::WinWriteIcon $chatid greyline 3
 				amsn::WinWrite $chatid "\n" red
