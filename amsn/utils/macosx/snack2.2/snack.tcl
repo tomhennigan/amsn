@@ -19,7 +19,7 @@
 # Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 #
 
-package provide snack 2.2
+package provide snack 2.2.10
 
 # Set playback latency according to the environment variable PLAYLATENCY
 
