@@ -15,11 +15,19 @@ proc require_snack { } {
 	} elseif {[OnLinux] } {
 		package require snack
 	} elseif {[OnWin] } {
-		load [file join utils windows snack2.2 libsnack.dll]
-		source [file join utils windows snack2.2 snack.tcl]
+		if { [catch {
+			load [file join utils windows snack2.2 libsnack.dll]
+			source [file join utils windows snack2.2 snack.tcl]
+		} ] } {
+			package require snack 
+		}
 	} elseif {[OnMac] } {
-		load [file join utils macosx snack2.2 libsnack.dylib]
-		source [file join utils macosx snack2.2 snack.tcl]
+		if { [catch {
+			load [file join utils macosx snack2.2 libsnack.dylib]
+			source [file join utils macosx snack2.2 snack.tcl]
+		} ] } {
+			package require snack 
+		}
 	}
 }
 
