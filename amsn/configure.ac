@@ -59,7 +59,7 @@ case `uname -s` in
 		FOUND_OS="mac"
 		CFLAGS="$CFLAGS -arch ppc -arch i386 -isysroot /Developer/SDKs/MacOSX10.4u.sdk"
 		CXXFLAGS="$CXXFLAGS -arch ppc -arch i386 -isysroot /Developer/SDKs/MacOSX10.4u.sdk"
-		LDFLAGS="$LDFLAGS -arch ppc -arch i386 -isysroot /Developer/SDKs/MacOSX10.4u.sdk -Wl,-single_module"
+		LDFLAGS="$LDFLAGS -arch ppc -arch i386 -isysroot /Developer/SDKs/MacOSX10.4u.sdk"
 		# Directories in which the Tcl core can be found
 		TCL_INC_SPEC="-I../../Frameworks/Tcl.framework/Headers -DUSE_TCL_STUBS"
 		TCL_STUB_LIB_SPEC="-L../../Frameworks/Tcl.framework -ltclstub8.4\${TCL_DBGX}"

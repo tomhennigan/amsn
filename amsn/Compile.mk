@@ -21,7 +21,7 @@ compile_c	= $(CC) $(CFLAGS)  -c -o $@ $<
 compile_cc	= $(CXX) $(CXXFLAGS)  -c -o $@ $<
 
 ifeq ($(FOUND_OS),mac)
-SHARED	:= -dynamiclib -fno-common
+SHARED	:= -dynamiclib -fno-common -Wl,-single_module
 else
 SHARED	:= -shared
 endif
