@@ -530,8 +530,9 @@ int Siren7_EncodeFrame(SirenEncoder encoder, unsigned char *DataIn, unsigned cha
 	
 
 	for (i = 0; i < 20; i++) 
-		((short *) DataOut)[i] = BufferOut[i];
 #ifdef __BIG_ENDIAN__
+		((short *) DataOut)[i] = BufferOut[i];
+#else
 		((short *) DataOut)[i] = ((BufferOut[i] << 8) & 0xFF00) | ((BufferOut[i] >> 8) & 0x00FF);
 #endif
 
