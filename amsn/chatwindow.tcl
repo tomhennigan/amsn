@@ -2248,11 +2248,11 @@ namespace eval ::ChatWindow {
 			catch { $voice_sound destroy }
 
 			set sound_available 1
-			if {[OnUnix] } {
+			if {[OnLinux] } {
 				# on unix, libsnack segfaults (on the next record)
 				# if it can't record because the device is used, so we
 				# detect that by trying to open /dev/dsp
-				if {[catch {open /dev/dsp "WRONLY NONBLOCK"} f]} {
+				if {[catch {open /dev/dsp "RDONLY NONBLOCK"} f]} {
 					set sound_available 0
 				} else {
 					close $f
@@ -2434,7 +2434,7 @@ namespace eval ::ChatWindow {
 		variable play_snd_$uid
 
 		set sound_available 1
-		if {[OnUnix] } {
+		if {[OnLinux] } {
 			# on unix, libsnack segfaults (on the next record)
 			# if it can't record because the device is used, so we
 			# detect that by trying to open /dev/dsp
