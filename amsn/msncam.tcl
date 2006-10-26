@@ -1680,7 +1680,9 @@ namespace eval ::CAMGUI {
 			setObjOption $sid image $img
 		} else {
 			#$window.paused configure -text ""
-			$window.canvas itemconfigure paused -state hidden
+			if {[winfo exists $window.canvas]} {
+				$window.canvas itemconfigure paused -state hidden
+			}
 		}
 
 
