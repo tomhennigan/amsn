@@ -296,6 +296,9 @@ namespace eval ::abook {
 			status_log "::abook::connectionHandler: connection failed\n" red
 			set connection_success 0
 		} else {
+			# TODO : We need to check here byte per byte because we might connect to an emule server for example which sends binary data
+			# and the [gets] will be blocking until there is a newline in the data... which might never happen... 
+			# this will cause amsn to hang...
 			gets $sock server_data
 			if { "$server_data" != "AMSNPING" } {
 				status_log "::abook::connectionHandler: port in use by another application!\n" red
