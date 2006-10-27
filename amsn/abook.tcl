@@ -237,30 +237,54 @@ namespace eval ::abook {
 		status_log "::abook::getFirewalled: Connecting to [getDemographicField clientip] port $port\n" blue
 		
 		#Need this timeout thing to avoid the socket blocking...
-		set connection_success 0
-		if {[catch {set clientsock [socket -async [getDemographicField clientip] $port]}]} {
-			catch {close $sock}
-			return "Firewall"
-		}
+		set connection_success -2
 
-		fileevent $clientsock readable [list ::abook::connectionHandler $clientsock]
-		after 1000 ::abook::connectionTimeout
-		vwait connection_success
-		if { $connection_success == 0 } {
-			catch {close $sock}
-			catch { close $clientsock }
-			return "Firewall"
-		} else {
-			catch {close $sock}
-			catch { close $clientsock }
+		set tok [::http::geturl "http://www.amsn-project.net/check_connectivity.php?port=$port" -command "::abook::gotConnectivityReply"]
+		after 5000 [list catch [list ::http::reset $tok] ::abook::connectionTimeout]
+		tkwait variable connection_success
+
+		status_log "::abook::getFirewalled: connection_success ($connection_success)\n" blue
+		
+		if { $connection_success == -1 } {
+			set connection_success -2
+			if {[catch {set clientsock [socket -async [getDemographicField clientip] $port]}] == 0} {
+				fileevent $clientsock readable [list ::abook::connectionHandler $clientsock]
+				after 1000 ::abook::connectionTimeout
+				tkwait variable connection_success
+				catch { close $clientsock }
+			}
+		}
+		
+		status_log "::abook::getFirewalled: connection_success ($connection_success)\n" blue
+		catch {close $sock}
+
+		if { $connection_success == 1 } {
 			return "Direct-Connect"
+		} else {
+			return "Firewall"
 		}
 	}
-	
+
+	proc gotConnectivityReply { token} {
+		global connection_success
+		if { [::http::status $token] != "ok" || [::http::ncode $token ] != 200 } {
+			set connection_success -1
+			status_log "::abook::gotConnectivityReply error : [http::status $token] - [::http::ncode $token]" green
+		} else {
+			set connection_success [::http::data $token]
+			status_log "::abook::gotConnectivityReply ok : [::http::data $token]" green
+		} 
+		::http::cleanup $token
+	}
+
 	proc connectionTimeout {} {
 		global connection_success
 		status_log "::abook::connectionTimeout\n"
-		set connection_success 0
+		if { $connection_success == -2 } {
+			set connection_success -1
+		} else {
+			set connection_success $connection_success
+		}
 	}
 	
 	proc connectionHandler { sock } {
