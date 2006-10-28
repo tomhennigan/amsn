@@ -231,6 +231,7 @@ namespace eval ::abook {
 	# This will create a server, and try to connect to it in order to see if firewalled or not
 	proc getFirewalled { port } {
 		global connection_success
+		variable random_id
 		while { [catch {set sock [socket -server "abook::dummysocketserver" $port] } ] } {
 			incr port
 		}
@@ -238,8 +239,9 @@ namespace eval ::abook {
 		
 		#Need this timeout thing to avoid the socket blocking...
 		set connection_success -2
-
-		set tok [::http::geturl "http://www.amsn-project.net/check_connectivity.php?port=$port" -command "::abook::gotConnectivityReply"]
+		tkwait variable random_id
+		
+		set tok [::http::geturl "http://www.amsn-project.net/check_connectivity.php?port=$port&id=$random_id" -command "::abook::gotConnectivityReply"]
 		after 10000 [list catch [list ::http::reset $tok] ::abook::connectionTimeout]
 		tkwait variable connection_success
 
@@ -300,7 +302,7 @@ namespace eval ::abook {
 			# and the [gets] will be blocking until there is a newline in the data... which might never happen... 
 			# this will cause amsn to hang...
 			gets $sock server_data
-			if { "$server_data" != "AMSNPING" } {
+			if { [string first "AMSNPING" "$server_data"] == 0 } {
 				status_log "::abook::connectionHandler: port in use by another application!\n" red
 				set connection_success 0
 			} else {
@@ -322,14 +324,19 @@ namespace eval ::abook {
 
 	# This proc is a dummy socket server proc, because we need a command to be called which the client connects to the test server (if not firewalled)
 	proc dummysocketserver { sock ip port } {
+		variable random_id
 		if {[catch {
 			puts $sock "AMSNPING"
+			set random_id [expr rand()]
+			set random_id [expr {$random_id * 10000}]
+			set random_id [expr {int($random_id)}]
+			puts $sock $random_id
 			flush $sock
 			close $sock
+			status_log "::abook::dummysocketserver: Received connection on $port"
 		}]} {
 			status_log "::abook::dummysocketserver: Error writing to socket\n"
 		}
-		status_log "Received connection on $port"
 	}
 
 	# This will transform the ip adress into a netID adress (which is the 32 bits unsigned integer represent the ip)
