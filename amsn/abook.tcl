@@ -240,7 +240,7 @@ namespace eval ::abook {
 		set connection_success -2
 
 		set tok [::http::geturl "http://www.amsn-project.net/check_connectivity.php?port=$port" -command "::abook::gotConnectivityReply"]
-		after 5000 [list catch [list ::http::reset $tok] ::abook::connectionTimeout]
+		after 10000 [list catch [list ::http::reset $tok] ::abook::connectionTimeout]
 		tkwait variable connection_success
 
 		status_log "::abook::getFirewalled: connection_success ($connection_success)\n" blue
@@ -329,6 +329,7 @@ namespace eval ::abook {
 		}]} {
 			status_log "::abook::dummysocketserver: Error writing to socket\n"
 		}
+		status_log "Received connection on $port"
 	}
 
 	# This will transform the ip adress into a netID adress (which is the 32 bits unsigned integer represent the ip)
