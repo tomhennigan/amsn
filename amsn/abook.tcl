@@ -232,6 +232,11 @@ namespace eval ::abook {
 	proc getFirewalled { port } {
 		global connection_success
 		variable random_id
+
+		set random_id [expr rand()]
+		set random_id [expr {$random_id * 10000}]
+		set random_id [expr {int($random_id)}]
+
 		while { [catch {set sock [socket -server "abook::dummysocketserver" $port] } ] } {
 			incr port
 		}
@@ -239,8 +244,8 @@ namespace eval ::abook {
 		
 		#Need this timeout thing to avoid the socket blocking...
 		set connection_success -2
-		tkwait variable random_id
 		
+		status_log "Connecting to http://www.amsn-project.net/check_connectivity.php?port=$port&id=$random_id" blue
 		set tok [::http::geturl "http://www.amsn-project.net/check_connectivity.php?port=$port&id=$random_id" -command "::abook::gotConnectivityReply"]
 		after 10000 [list catch [list ::http::reset $tok] ::abook::connectionTimeout]
 		tkwait variable connection_success
@@ -326,16 +331,17 @@ namespace eval ::abook {
 	proc dummysocketserver { sock ip port } {
 		variable random_id
 		if {[catch {
-			puts $sock "AMSNPING"
-			set random_id [expr rand()]
-			set random_id [expr {$random_id * 10000}]
-			set random_id [expr {int($random_id)}]
-			puts $sock $random_id
+			#puts $sock "AMSNPING"
+			if { [info exists random_id] } {
+				puts $sock "AMSNPING${random_id}"
+			} else {
+				puts $sock "AMSNPING"
+			}
 			flush $sock
 			close $sock
-			status_log "::abook::dummysocketserver: Received connection on $port"
-		}]} {
-			status_log "::abook::dummysocketserver: Error writing to socket\n"
+			status_log "::abook::dummysocketserver: Received connection on $sock" blue
+		} res]} {
+			status_log "::abook::dummysocketserver: Error writing to socket: $res\n"
 		}
 	}
 
