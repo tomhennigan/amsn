@@ -3974,7 +3974,7 @@ proc cmsn_draw_status {} {
 	toplevel .status
 	wm group .status .
 	wm state .status withdrawn
-	wm title .status "status log - [trans title]"
+	wm title .status "Status Log - [trans title]"
 
 	set followtext_status 1
 
