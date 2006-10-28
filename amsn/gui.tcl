@@ -3443,10 +3443,11 @@ proc cmsn_draw_main {} {
 		#Raise cl window
 		bind all <Command-Key-1> "raise ."
 		#Online Help
+		bind all <Command-/> "launch_browser http://amsn.sourceforge.net/userwiki/index.php/Main_Page"
 		bind all <Command-?> "launch_browser http://amsn.sourceforge.net/userwiki/index.php/Main_Page"
 
-		bind all <Command-m> "catch {carbon::processHICommand mini %W}"
-		bind all <Command-M> "catch {carbon::processHICommand mini %W}"
+		bind all <Command-m> "catch {wm state %W normal; carbon::processHICommand mini %W}"
+		bind all <Command-M> "catch {wm state %W normal; carbon::processHICommand mini %W}"
 		bind all <Command-quoteleft> "catch {carbon::processHICommand rotw %W}"
 		bind all <Command-asciitilde> "catch {carbon::processHICommand rotb %W}"
 	} else {
@@ -3487,8 +3488,6 @@ proc cmsn_draw_main {} {
 
 	update
 	
-	#Unhide main window now that it has finished being created
-	wm state . normal
 	#Set the position on the screen and the size for the contact list, from config
 	#Check if the geometry is available :
 	set geometry [::config::getKey wingeometry]
@@ -3536,6 +3535,9 @@ proc cmsn_draw_main {} {
 	
 	#allow for display updates so window size is correct
 	update idletasks
+	
+	#Unhide main window now that it has finished being created
+	wm state . normal
 }
 #///////////////////////////////////////////////////////////////////////
 
