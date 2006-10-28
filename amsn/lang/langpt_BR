@@ -515,6 +515,7 @@ noprofileexists Não há nenhum perfil instalado,\nvocê têm de instalar (ou criar)
 normal Normal
 noskins Não foi possível encontrar a skin padrão na pasta skins/. Não é possível iniciar o aMSN
 nosound Nenhum som foi detectado, tenha certeza que seu seu microfone está corretamente conectado.
+nosound_or_hold O som não foi detectado. Para enviar um Clip de voz é preciso apertar e segurar o botão enquatno estiver falando e soltar para enviar a mensagem.
 nosystemtray A bandeja do sistema não está disponível
 note Comentário
 notificationserver Servidor Inicial de Notificação do MSN (Servidor MSN Messenger)

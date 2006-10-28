@@ -47,6 +47,7 @@ aretyping $1 skriver ett meddelande
 askcam Ta emot webbkamera
 askcontactwebcam att fråga efter din kontakts webbkamera, eller
 askeachtime Fråga varje gång
+asksendoim Vill du skicka det här meddelandet som ett "offline meddelande"?
 asksendingyourwebcam för att be om att sända din egen webbkamera
 askwebcam Be denna användare sända sin webbkamera
 author Upphovsman
@@ -60,6 +61,7 @@ autodetectip Hämta information om IP-adress automatiskt
 autohotmaillog Automatisk inloggning på MSN Hotmail (krävs för e-postnotifiering)
 autoidle Sätt min status till "inaktiv" automatiskt.
 autoip Automatisk IP
+autolisten_voiceclips Spela upp ljudklipp automatiskt när de har blivit mottagna.
 automessage Autosvar
 autonoact Visa som "Inaktiv" efter
 autoresizedp Ändra visningsbildens storlek till standard automatiskt
@@ -508,6 +510,8 @@ nologfile Ingen historikfil för $1
 noneavailable Ingen tillgänglig
 nonewmail Inga nya meddelanden i inkorgen
 nonewver Det finns inga nya versioner att ladda ner
+nosound Kunde inte detektera något ljud. Var god kontrollera att din mikrofon är ikopplad korrekt.
+nosound_or_hold Kunde inte detektera något ljud. För att skicka ett ljudklipp måste du hålla nere knappen medans du talar, sen släppa den för att skicka.
 nopic Ingen visningsbild
 noprofileexists Det finns för tillfället inga profiler. \n Du måste skapa en om du vill kunna använda profiler. \n Lägg till en profil med hjälp av knapparna.
 normal Normal
@@ -628,10 +632,12 @@ readonlywarn VARNING: Filen kommer INTE bli sparad eftersom mappen "Mottagna fil
 receivedbytes $1 av $2 mottagna
 receiveddir Mottagna filer-mappen
 receivefile Ta emot fil
+receivedvoice Tog emot ljudklipp
 recentmsg Förhindra stängning av ett konversationsfönster när ett meddelande just har blivit mottaget.
 reconnect Väntar på att $1 ska komma tillbaka
 reconnect2 Återanslut automatiskt vid ofrivillig utloggning
 reconnecting Återansluter till server
+recorderror Ett fel uppstod under inspelning av ljud : $1
 reject Avböj
 rememberpass Kom ihåg lösenordet
 remembersetting Kom ihåg denna inställning
@@ -666,8 +672,11 @@ sendfile Skicka fil
 sendmail Skicka brev
 sendmobmsg Skicka till den mobila enheten
 sendmsg Skicka meddelande
+sendoim Skicka ett offline meddelande
+sendvoice Skicka ett ljudklipp
 sendwebcaminvite Bjud in en användare att se din webbkamera
 sentbytes $1 av $2 skickade
+sentvoice Skickade ett ljudklipp
 server Server
 serverbusy Servern är upptagen
 servergoingdown Utloggad: Serverfel.
@@ -698,6 +707,7 @@ smileintro Fyll i de nödvändiga fälten för att skapa en ny smiley (läs FAQ för h
 smileintro2 Ändra de nödvändiga fälten för att ändra denna smiley (läs FAQ för hjälp)
 smiletoobig Smileyn du valt är större än den vanliga storleken. Vill du byta storlek på den?
 snackfailed Kunde inte ladda Snackbiblioteket, använder systemets vanliga bibliotek
+snackneeded Snackbiblioteket behövs för att kunna använda den här funktionen. Du behöver minst version 2.2.9
 snapshot Skärmdump
 sngdblclick Enkelklick öppnar ett nytt konversationsfönster
 sortcontactgroup Sortera kontakter efter gruppnamn
@@ -713,6 +723,7 @@ soundexample ( \$sound = Ljudfilen som ska spelas upp) Ex: esdplay \$soundsoundf
 soundfile Ljudfil
 soundfiles Ljudfiler
 soundloop Upprepa ljudet i en slinga.
+soundnoavail Ljudenheten är inte tillgänglig. Var god avsluta evetuella program som använder enheten.
 soundserver Ljudserver
 soundstatus Stäng av/sätt på signalljud.
 sourcecode källkod (behöver kompileras och installeras)
@@ -807,6 +818,9 @@ videoconversationrequest Du blev just inbjuden till en videokonversation (både l
 view Alternativ
 viewcontactsby Namnvisningsläge
 viewprofile Visa profil
+voice_notimplemented Funktionen för att kunna ta emot ljudklipp är inte implementerad än.
+voice_windows Om du använder windows, kan du lyssna på ljudklippet genom att öppna det i din mediaspelare.
+voice_windows_click Klicka här för att göra det.
 wanttosharecam Jag vill dela ut min webbkamera
 webcam Webbkamera
 webcamcanceled Webbkamerakoversationen med $1 har blivit avbruten
