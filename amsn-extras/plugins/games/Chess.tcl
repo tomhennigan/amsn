@@ -7,7 +7,7 @@
 # Modifications by JeeBee,
 # todo * Support for castling (and castling state as part of game state).
 # todo * Support for en passent move (also added to game state).
-# todo * Support for check.
+# todo * Support for check and game endings (checkmate, stalemate).
 # todo * Support for promotion of pieces
 # todo * Movelist.
 # todo * Running as an aMSN plugin
@@ -93,10 +93,10 @@ namespace eval ::Games::Chess {
     frame .${win_name}_gc.buttons
     button .${win_name}_gc.ok -text "[::Games::trans challenge]" -command {
       switch -exact [.${::Games::Chess::__win_name}_gc.lst curselection] {
-        0 { set ::Games::Chess::__my_color "red"
-            set ::Games::Chess::__opponent_color "yellow" }
-        1 { set ::Games::Chess::__my_color "yellow"
-            set ::Games::Chess::__opponent_color "red" }
+        0 { set ::Games::Chess::__my_color "white"
+            set ::Games::Chess::__opponent_color "black" }
+        1 { set ::Games::Chess::__my_color "black"
+            set ::Games::Chess::__opponent_color "white" }
         2 { set ::Games::Chess::__my_color "random"
             set ::Games::Chess::__opponent_color "random" }
       }
@@ -151,18 +151,18 @@ namespace eval ::Games::Chess {
       foreach {name value} [split $rec "="] {
         switch -exact $name {
           "your_color" { set my_color $value
-                         if {$my_color == "red"} {
-                           set opponent_color "yellow"
-                         } elseif {$my_color == "yellow" } {
-                           set opponent_color "red"
+                         if {$my_color == "white"} {
+                           set opponent_color "black"
+                         } elseif {$my_color == "black" } {
+                           set opponent_color "white"
                          } else {
                            # Random colors are used, compute actual values now
                            if {[expr {rand() > 0.5}]} {
-                             set my_color "red"
-                             set opponent_color "yellow"
+                             set my_color "white"
+                             set opponent_color "black"
                            } else {
-                             set my_color "yellow"
-                             set opponent_color "red"
+                             set my_color "black"
+                             set opponent_color "white"
                            }
                          }
                        }
@@ -200,17 +200,23 @@ namespace eval ::Games::Chess {
 
 	reset $gameID
     frame .$win_name.f
-    label  .$win_name.f.e -width 30 -anchor w -textvar GameState($gameID,info) -relief sunken
+    set GameState($gameID,info) [label .$win_name.f.e -width 30 -anchor w -relief sunken]
     #button .$win_name.f.u -text Undo  \
-		-command "::Games::Chess::undo $gameID;  ::Games::Chess::drawSetup $gameID .$win_name.c"
+		-command "::Games::Chess::undo $gameID; ::Games::Chess::drawSetup $gameID .$win_name.c"
     #button .$win_name.f.r -text Reset \
 		-command "::Games::Chess::reset $gameID; ::Games::Chess::drawSetup $gameID .$win_name.c"
     #button .$win_name.f.f -text Flip -command "::Games::Chess::flipSides $gameID .$win_name.c"
     eval pack [winfo children .$win_name.f] -side left -fill both
     pack .$win_name.f -fill x -side bottom
     pack [drawBoard $gameID .$win_name.c] -fill both -expand 1
-    set GameState($gameID,info) "white to move"
+    $GameState($gameID,info) configure -text "white to move"
     bind .$win_name <3> "::Games::Chess::usefont_toggle $gameID"
+	
+	if {$GameState($gameID,my_color) == "black"} {
+	  ::Games::log "Flipping sides"
+	  flipSides $gameID .$win_name.c
+    }
+	::Games::log "Game of chess started, I play $GameState($gameID,my_color)"
   }
 
   proc usefont_toggle {gameID} {
@@ -227,7 +233,10 @@ namespace eval ::Games::Chess {
 
   proc moveinfo {gameID} {
 	variable GameState
-	set GameState($gameID,info) "$GameState($gameID,toMove) to move - [values $gameID]"
+	if {[info exists GameState($gameID,info)]} {
+	  $GameState($gameID,info) configure \
+		-text "$GameState($gameID,toMove) to move - [values $gameID]"
+	}
   }
 
   proc reset {gameID {setup ""}} {
@@ -483,7 +492,9 @@ namespace eval ::Games::Chess {
     }
     if [valid? $gameID $from-$to] {
         set victim [move $gameID $from-$to]
-        if {[string tolower $victim]=="k"} {set GameState($gameID,info) Checkmate.}
+        if {[string tolower $victim]=="k"} {
+			$GameState($gameID,info) configure -text "Checkmate."
+		}
         $w delete @$to
         set target $to
         $w dtag current @$from
@@ -547,6 +558,7 @@ namespace eval ::Games::Chess {
 	variable GameState
     $w delete all
     set side [expr {$GameState($gameID,side)=="white"? "black": "white"}]
+	::Games::log "Setting side to $side"
     drawBoard $gameID $w -side $side
   }
 
