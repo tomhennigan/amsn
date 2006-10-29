@@ -48,6 +48,7 @@ askcam Webcam vragen
 askcontactwebcam om je contact te vragen of jij zijn/haar webcambeeld mag zien.
 askeachtime Altijd vragen wat er moet gebeuren
 asksendingyourwebcam om hem/haar uit te nodigen om jou webcambeeld te bekijken
+asksendoim Wil je dit bericht verzenden als offline bericht?
 askwebcam Vraag deze gebruiker of je zijn/haar webcam mag bekijken
 author Auteur
 autoaccepted Bestandsoverdracht automatisch geaccepteerd
@@ -60,6 +61,7 @@ autodetectip Detecteer het IP adres automatisch
 autohotmaillog Automatisch aanmelden bij Hotmail
 autoidle Automatisch "Geen Activiteit"
 autoip Automatisch IP
+autolisten_voiceclips Speel Voice Clips automatisch af wanneer ze binnenkomen.
 automessage Automatisch bericht
 autonoact Status op "Geen Activiteit" zetten als ik niet actief ben gedurende
 autoresizedp Schermafbeeldingen automatisch aanpassen aan de standaard afmetingen
@@ -308,6 +310,7 @@ filetransfercomplete Bestandsoverdracht voltooid
 filters Filters
 filtersselect Kies de filters die je wilt toepassen\n(NB: Indien geen filter is gekozen, wordt alles weegegeven)
 filtersx Filter keuze
+findasyoutype Zoek terwijl ik typ.
 findnext Volgende zoeken
 findprev Vorige zoeken
 find Zoeken
@@ -339,6 +342,7 @@ gotink $1 heeft je een handgeschreven bericht gestuurd
 goto Ga naar $1
 gotoinbox Ga naar Postvak IN
 groupadd Nieuwe groep maken
+groupcontacts Contacten groeperen
 groupdelete Groep verwijderen
 groupexists Groep bestaat al
 group Groep
@@ -353,6 +357,8 @@ handle Schermnaam
 helpcontents Help-onderwerpen
 help Help
 hidedisplaypic Schermafbeelding verbergen
+hidemenu Menu's weergeven/verbergen
+hidemenumessage Weet je zeker dat je de menu's wilt verbergen?\nJe kunt ze op elk moment weer in beeld brengen met de toetscombinatie 'Ctrl-M'.
 hiden Deze emoticon niet in het menu weergeven
 hidewindow Venster verbergen
 history Geschiedenis tonen
@@ -496,6 +502,7 @@ noactivity Geen activiteit
 nocacheddps Er zijn geen opgeslagen schermafbeeldingen voor dit contact
 nodataavailable Geen gegevens beschikbaar voor $1
 nodevices Er zijn geen apparaten geïnstalleerd
+noftpreview Geen voorbeeld weergeven van afbeeldingen bij een uitnodiging voor een bestandsoverdracht.
 nogap Geen ruimte openlaten tussen groepen
 nogroup Geen groep
 nologfile Geen logboek voor $1
@@ -507,6 +514,8 @@ nopic Geen afbeelding
 noprofileexists Er zijn momenteel geen profielen,\nJe moet er een aanmaken als je aanmeldingsnamen met een profiel wilt gebruiken.\nGebruik de knop 'Nieuw profiel aanmaken' in dit venster om een nieuw profiel toe te voegen.
 normal Standaard
 noskins aMSN kan niet worden gestart omdat er geen skins zijn geïnstalleerd in de map skins/.
+nosound Er is geen geluid gedetecteerd. Is je microfoon wel goed aangesloten?
+nosound_or_hold Er is geen geluid gedetecteerd. Om een Voice Clip te verzenden moet je de knop ingedrukt houden terwijl je het bericht inspreekt. Wanneer je de knop weer loslaat wordt het bericht gelijk verzonden.
 nosystemtray Het systeemvak is niet beschikbaar
 note Notities bewerken
 notificationserver Initiële MSN Notificatie Server (MSN Messenger server)
@@ -622,11 +631,13 @@ readonlymsgbox De bestandsoverdracht is geannuleerd vanwege alleen-lezen toegang
 readonlywarn WAARSCHUWING: Het bestand zal waarschijnlijk NIET correct worden opgeslagen, omdat de map voor ontvangen bestanden beschermd blijkt te zijn tegen schrijven. Zorg ervoor dat de rechten voor de doelmap ($1) correct zijn ingesteld voordat de bestandsoverdracht wordt gestart.
 receivedbytes $1 van de $2 bytes ontvangen
 receiveddir Map voor ontvangen bestanden
+receivedvoice Voice Clip ontvangen
 receivefile Ontvang bestand
 recentmsg Voorkom sluiten van een gespreksvenster wanneer er net een bericht aankomt
 reconnect2 Opnieuw verbinden als de verbinding wegvalt
 reconnecting Bezig met opnieuw verbinden met de server
 reconnect Wachten tot $1 opnieuw verbindt
+recorderror Tijdens een poging om geluid op te nemen is er een fout opgetreden: $1
 reject Afwijzen
 rememberpass Wachtwoord onthouden
 remembersetting Onthoud mijn keuze
@@ -648,23 +659,30 @@ save Opslaan
 savetofile Opslaan in bestand
 says $1 zegt
 sbcon Bezig met verbinden met schakelbord
+searchdown Neerwaarts zoeken
+searchup Opwaarts zoeken
 selectall Alles selecteren
 selectplugins Selecteer de plugins die je wilt activeren
 selectskin Kies een skin uit de lijst
 sendcam Webcam verzenden
 sendemail Stuur mijn e-mailadres mee, en houdt mij op de hoogte van wijzigingen (zie Vertrouwelijkheids verklaring)
+sendfeedback Verzend feedback
 sendfile Een bestand verzenden
 sendmail Een e-mail verzenden
 sendmobmsg Een bericht verzenden naar mobiel
 sendmsg Een bericht verzenden
+sendoim Offline bericht versturen
+sendvoice Voice Clip versturen
 sendwebcaminvite Nodig dit contact uit om je webcam te bekijken
 send Zend
 sentbytes $1 van de $2 bytes verzonden
+sentvoice Voice Clip verzonden
 serverbusy Server is bezet
 servergoingdown Verbinding verbroken: De server wordt uitgeschakeld
 server Server
 serverunavailable Server is niet beschikbaar
 session Sessie
+setasmydp Instellen als mijn schermafbeelding
 shareswebcam Heeft een webcam
 showbanner aMSN banner weergeven
 showblockedlist Toon de lijst van mensen die je geblokkeerd hebben
@@ -689,6 +707,7 @@ smileintro2 Pas de nodige velden aan om deze emoticon te bewerken
 smileintro Vul de nodige velden in om een nieuwe emoticon te maken
 smiletoobig De gekozen emoticon is groter dan gewoonlijk. Wil je de grootte aanpassen?
 snackfailed Het is niet gelukt om Snack te laden. Teruggevallen op de standaardfuncties.
+snackneeded Om deze functionaliteit te gebruiken heb je de Snack programmabibliotheek (versie 2.2.9 of nieuwer) nodig.
 snapshot Foto
 sngdblclick Slechts eenmaal klikken om een nieuw gespreksvenster te openen
 sortcontactgroup Contacten sorteren op groep
@@ -704,6 +723,7 @@ soundfile Alarmgeluid
 soundfiles Geluidsbestanden
 sound Geluid inschakelen
 soundloop Geluid in een lus herhalen
+soundnoavail Het geluidsapparaat is niet beschikbaar. Beëindig alsjeblieft het programma wat het momenteel gebruikt.
 soundserver Geluidsserver
 soundstatus Alarmgeluid gebruiken
 sourcecode Broncode (moet gecompileerd en geïnstalleerd worden)
@@ -780,7 +800,7 @@ update Bijwerken
 updateonlycurrentlanguage Alleen de huidige taal updaten
 updating Bezig met bijwerken
 useasdp Gebruiken als schermafbeelding
-usemsnp11 EXPERIMENTEEL: Ondersteuning van Persoonlijke berichten activeren -- Alleen mogelijk met profiel -- Herstart noodzakelijk
+useasregexp Gebruiken als Reguliere Expressie (regexp)
 useother Gebruik een ander programma
 useralreadyonlist Deze gebruiker staat al in je lijst
 userblocked Dit contact is online maar heeft je geblokkeerd
@@ -798,6 +818,9 @@ videoconversationrequest Je hebt een uitnodiging ontvangen voor een video-conver
 view Beeld
 viewcontactsby Contacten weergeven met
 viewprofile Profiel weergeven
+voice_notimplemented Het ontvangen van Voice Clips is nog niet geïmplementeerd. Nog even geduld a.u.b.
+voice_windows Als Windows-gebruiker kunt u de Voice Clip mogelijk beluisteren door die te openen in Media Player.
+voice_windows_click Klik hier om dat te proberen.
 wanttosharecam Ik wil mijn webcam beschikbaar maken voor anderen
 webcamcanceled De webcamsessie met $1 is beëindigd
 webcamclosebefcancel Je moet alle webcamsessies beëindigen alvorens het venster te sluiten
