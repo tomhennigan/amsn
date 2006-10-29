@@ -229,13 +229,15 @@ namespace eval ::abook {
 	}
 
 	# This will create a server, and try to connect to it in order to see if firewalled or not
-	proc getFirewalled { port } {
+	proc getFirewalled { {port ""} } {
 		global connection_success
 		variable random_id
 
 		set random_id [expr rand()]
 		set random_id [expr {$random_id * 10000}]
 		set random_id [expr {int($random_id)}]
+
+		if { $port == "" } { set port $::config(initialftport) }
 
 		while { [catch {set sock [socket -server "abook::dummysocketserver" $port] } ] } {
 			incr port
