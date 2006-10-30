@@ -8008,7 +8008,7 @@ namespace eval ::OIM_GUI {
 			set ::OIM_GUI::oim_asksend_[string map {: _} ${chatid} ] 1
 		}
 		if { [set ::OIM_GUI::oim_asksend_[string map {: _} ${chatid} ]] } {
-			set answer [tk_messageBox -type yesno -parent [::ChatWindow::For $chatid] -message "[trans asksendOIM]"]
+			set answer [tk_messageBox -type yesno -parent [::ChatWindow::For $chatid] -message "[trans asksendoim]"]
 		} else {
 			set answer "yes"
 		}
