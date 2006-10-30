@@ -4312,6 +4312,12 @@ namespace eval ::Event {
 					}
 				}
 				
+				set evpar(chatid) chatid
+				set evpar(typer) typer
+				set evpar(nick) nick
+				set evpar(msg) message
+				set evpar(id) id
+				::plugins::PostEvent DataCastPacketReceived evpar
 			}
 
 

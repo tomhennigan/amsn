@@ -48,6 +48,7 @@ namespace eval ::Nudge {
 	# Register events to plugin system  #
 	#####################################
 	proc RegisterEvent {} {
+		::plugins::RegisterEvent Nudge DataCastPacketReceived received
 		::plugins::RegisterEvent Nudge PacketReceived received
 		::plugins::RegisterEvent Nudge chatwindowbutton sendbutton
 		::plugins::RegisterEvent Nudge chatmenu itemmenu
