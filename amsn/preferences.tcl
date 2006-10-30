@@ -1484,7 +1484,7 @@ proc dlgDelUser { lfcontact } {
 
 proc connection_check { lfname } {
 	$lfname.1.ftport.test configure -text [trans connecting]
-	if { [::abook::getListening [::abook::getFirewalled]] } {
+	if { [::abook::getFirewalled] == "Direct-Connect"} {
 		$lfname.1.ftport.test configure -text "[trans ok]"
 	} else {
 		$lfname.1.ftport.test configure -text "[trans failed]"
