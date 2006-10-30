@@ -5556,9 +5556,9 @@ proc ShowUser {user_login state_code colour section grId} {
 		if {$not_in_reverse} { $pgBuddy.text tag bind $imgname2 $singordblclick "::MSNMobile::OpenMobileWindow ${user_login}" }
 		$pgBuddy.text tag bind $user_unique_name $singordblclick "::MSNMobile::OpenMobileWindow ${user_login}"
 	} else {
-		$pgBuddy.text tag bind $imgname $singordblclick "::amsn::chatUser ${user_login}"
-		if {$not_in_reverse} { $pgBuddy.text tag bind $imgname2 $singordblclick "::amsn::chatUser ${user_login}" }
-		$pgBuddy.text tag bind $user_unique_name $singordblclick "::amsn::chatUser ${user_login}"
+		$pgBuddy.text tag bind $imgname $singordblclick "::amsn::chatUser ${user_login}; set ::OIM_GUI::oim_asksend_[string map {: _} ${user_login} ] 0"
+		if {$not_in_reverse} { $pgBuddy.text tag bind $imgname2 $singordblclick "::amsn::chatUser ${user_login}; set ::OIM_GUI::oim_asksend_[string map {: _} ${user_login} ] 0" }
+		$pgBuddy.text tag bind $user_unique_name $singordblclick "::amsn::chatUser ${user_login}; set ::OIM_GUI::oim_asksend_[string map {: _} ${user_login} ] 0"
 	}
 
 }
