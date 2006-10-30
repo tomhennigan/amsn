@@ -2151,7 +2151,7 @@ proc Preferences { { settings "personal"} } {
 	frame $lfname.1.ftport -class Deft
 	label $lfname.1.ftport.text -text "[trans ftportpref] :" -padx 5 -font splainf
 	entry $lfname.1.ftport.entry -bg #FFFFFF  -font splainf  -width 5 -textvariable [::config::getVar initialftport]
-	button $lfname.1.ftport.bttest -text "[trans ftporttest]" -padx 5 -font splainf -command "if {\[::abook::getFirewalled\] == \"Direct-Connect\"} {$lfname.1.ftport.test configure -text \"OK\"} else { $lfname.1.ftport.test configure -text \"FAILED\"}"
+	button $lfname.1.ftport.bttest -text "[trans ftporttest]" -padx 5 -font splainf -command "$lfname.1.ftport.test configure -text [trans connecting];if {\[::abook::getFirewalled\] == \"Direct-Connect\"} {$lfname.1.ftport.test configure -text [trans ok]} else { $lfname.1.ftport.test configure -text [trans failed]}"
 	label $lfname.1.ftport.test -text "" -padx 5 -font splainf
 	grid $lfname.1.ftport.text -row 1 -column 1 -sticky w -pady 5 -padx 0
 	grid $lfname.1.ftport.entry -row 1 -column 2 -sticky w -pady 5 -padx 3
