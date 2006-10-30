@@ -1484,7 +1484,7 @@ proc dlgDelUser { lfcontact } {
 
 proc connection_check { lfname } {
 	$lfname.1.ftport.test configure -text [trans connecting]
-	if { [::abook::getFirewalled] == "Direct-Connect"} {
+	if { [::abook::getListening [::abook::getFirewalled]] } {
 		$lfname.1.ftport.test configure -text "[trans ok]"
 	} else {
 		$lfname.1.ftport.test configure -text "[trans failed]"
@@ -2156,7 +2156,7 @@ proc Preferences { { settings "personal"} } {
 	frame $lfname.1 -class Degt
 	pack $lfname.1 -side left -padx 0 -pady 5 -expand 1 -fill both
     
-    checkbutton $lfname.1.autoaccept -text "[trans autoacceptft]" -onvalue 1 -offvalue 0 -variable [::config::getVar ftautoaccept]
+	checkbutton $lfname.1.autoaccept -text "[trans autoacceptft]" -onvalue 1 -offvalue 0 -variable [::config::getVar ftautoaccept]
 	frame $lfname.1.ftport -class Deft
 	label $lfname.1.ftport.text -text "[trans ftportpref] :" -padx 5 -font splainf
 	entry $lfname.1.ftport.entry -bg #FFFFFF  -font splainf  -width 5 -textvariable [::config::getVar initialftport]
@@ -3414,3 +3414,4 @@ proc choose_basefont { } {
 
 }
 #///////////////////////////////////////////////////////////////////////
+
