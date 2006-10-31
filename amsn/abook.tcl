@@ -187,7 +187,13 @@ namespace eval ::abook {
 		set demographics(localip) [getLocalIP]
 		status_log "Finished\n"
 		set demographics(upnpnat) "false"
-		set demographics(conntype) [getConnectionType [getDemographicField localip] [getDemographicField clientip]]
+		if { [getDemographicField localip] == ""  && [getDemographicField clientip] == "" } {
+			#Not connected
+			set demographics(conntype) ""
+			return
+		} else {
+			set demographics(conntype) [getConnectionType [getDemographicField localip] [getDemographicField clientip]]
+		}
 		if { $demographics(conntype) == "Direct-Connect" || $demographics(conntype) == "Firewall" } {
 			set demographics(netid) 0
 			set demographics(upnpnat) "false"

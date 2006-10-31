@@ -2355,32 +2355,44 @@ namespace eval ::CAMGUI {
 		}
 		toplevel $w
 		wm title $w "[trans webcamconfigure]"
-		abook::getIPConfig
+		if { [abook::getDemographicField listening] == "" || [abook::getDemographicField conntype] == "" } {
+			abook::getIPConfig
+		}
 		#Small picture at the top of the window
 		label $w.webcampic -image [::skin::loadPixmap webcam]
 		pack $w.webcampic
 		#Show the two connection informations to know if we are firewalled or not
 		frame $w.abooktype
-		label $w.abooktype.text -text "[trans type]" -font sboldf
-		label $w.abooktype.abook -text [::abook::getDemographicField conntype]
-		frame $w.abooklistening
-		label $w.abooklistening.text -text "[trans listening]" -font sboldf
-		label $w.abooklistening.abook -text [::abook::getDemographicField listening]
-		
-		pack $w.abooktype.text  -padx 5 -side left
-		pack $w.abooktype.abook -padx 5 -side right
-		pack $w.abooktype -expand true
-		pack $w.abooklistening.text -padx 5 -side left
-		pack $w.abooklistening.abook -padx 5 -side right
-		pack $w.abooklistening -expand true
-		
-		if {[::abook::getDemographicField conntype] == "IP-Restrict-NAT" && [::abook::getDemographicField listening] == "false"} {
-			label $w.abookresult -text "[trans firewalled]" -font sboldf -foreground red
+		if { [::abook::getDemographicField conntype] == "" } {
+			label $w.abooktype.abook -text "[trans connectfirst]" -font sboldf
 		} else {
-			label $w.abookresult -text "[trans portswellconfigured]" -font sboldf
+			label $w.abooktype.text -text "[trans type]" -font sboldf
+			label $w.abooktype.abook -text [::abook::getDemographicField conntype]
+			frame $w.abooklistening
+			label $w.abooklistening.text -text "[trans listening]" -font sboldf
+			label $w.abooklistening.abook -text [::abook::getDemographicField listening]
 		}
-		pack $w.abookresult -expand true -padx 5
-		#Verify if the extension webcamsn is loade
+
+		if { [::abook::getDemographicField conntype] != "" } {
+			pack $w.abooktype.text  -padx 5 -side left
+			pack $w.abooktype.abook -padx 5 -side right
+			pack $w.abooktype -expand true
+			pack $w.abooklistening.text -padx 5 -side left
+			pack $w.abooklistening.abook -padx 5 -side right
+			pack $w.abooklistening -expand true
+		
+			if { [::abook::getDemographicField listening] == "false"} {
+				label $w.abookresult -text "[trans firewalled]" -font sboldf -foreground red
+			} else {
+				label $w.abookresult -text "[trans portswellconfigured]" -font sboldf
+			}
+			pack $w.abookresult -expand true -padx 5
+		} else {
+			pack $w.abooktype.abook -padx 5 -side right
+			pack $w.abooktype -expand true
+		}
+
+		#Verify if the extension webcamsn is loaded
 		if {[::CAMGUI::ExtensionLoaded]} {
 			label $w.webcamsn -text "[trans webcamextloaded]" -font sboldf
 		} else {
