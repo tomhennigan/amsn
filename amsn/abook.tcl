@@ -208,7 +208,7 @@ namespace eval ::abook {
 		set sk [ns cget -sock]
 
 		if { $sk != "" } {
-			foreach ip $sk {break}
+			foreach ip [fconfigure $sk -sockname] {break}
 			return $ip
 		} else {
 			return ""
