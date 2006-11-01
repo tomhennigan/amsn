@@ -179,6 +179,7 @@ confirmrfl Are you sure you want to delete this user from this group?
 connectedwith Connected with $1
 connected You are now connected
 connecterror Error connecting to server
+connectfirst Please connect first
 connecting Connecting
 connection Connection
 connectionlost Disconnected: Lost connection with the server
