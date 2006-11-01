@@ -539,7 +539,7 @@ namespace eval ::lang {
 	# Download the lang file
 	proc downloadlanguage { langcode { selection "" } } {
 
-		global lang_list weburl HOME2
+		global lang_list weburl
 
 		set lang "lang$langcode"
 		

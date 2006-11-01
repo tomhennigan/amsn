@@ -47,11 +47,11 @@ namespace eval ::pluginslog {
 	variable window
 	variable filters
 	variable followtext
-	set plugin [lindex $::pluginslog::log($idx) 0]
+	set plugin [lindex $log($idx) 0]
 	#if no filters, show all
 	#if in filter, show it.
 	if {[llength $filters] == 0 || [lsearch $filters $plugin] != -1} { 
-		$window.info insert end "[lindex $pluginslog::log($idx) 1] $plugin: [lindex $pluginslog::log($idx) 2]"
+		$window.info insert end "[lindex $log($idx) 1] $plugin: [lindex $log($idx) 2]"
 		#If option "scroll down when new text is entered" 
 		if {$followtext} {
 			catch {$window.info yview end}
@@ -74,11 +74,11 @@ namespace eval ::pluginslog {
 	$window.info delete 1.0 end
 	for {set count 0} {$count < $arraysize} {incr count} {
 		set x [expr {($count + $startpos)%500}]
-		set plugin [lindex $::pluginslog::log($x) 0]
+		set plugin [lindex $log($x) 0]
 		#if no filters, show all
 		#if in filter, show it.
 		if {[llength $filters] == 0 || [lsearch $filters $plugin] != -1} { 
-			$window.info insert end "[lindex $pluginslog::log($x) 1] $plugin: [lindex $pluginslog::log($x) 2]"
+			$window.info insert end "[lindex $log($x) 1] $plugin: [lindex $log($x) 2]"
 		}
 	}
 	catch {$window.info yview end}

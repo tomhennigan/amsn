@@ -1002,7 +1002,6 @@ namespace eval ::abook {
 	}
 	
 	proc importContactList { ImportedContact } {
-	
 		foreach contact $ImportedContact {
 			status_log "Importation of contacts : $contact\n" red
 			if { [::config::getKey protocol] >= 11 } {

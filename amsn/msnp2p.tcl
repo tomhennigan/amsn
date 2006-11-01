@@ -129,6 +129,8 @@ namespace eval ::MSNP2P {
 	#Get picture from $user, if cached, or sets image as "loading", and request it
 	#using MSNP2P
 	proc loadUserPic { chatid user {reload "0"} } {
+		global HOME
+
 		#Line below changed from != -1 to == 0 because -1 means 
 		#"enabled but imagemagick unavailable"
 		if { [::config::getKey getdisppic] == 0 } {
@@ -150,7 +152,6 @@ namespace eval ::MSNP2P {
 			return
 		}
 
-		global HOME
 		#Reload 1 means that we force aMSN to reload a new display pic
 		#Destroy it before to avoid TkCxImage to redraw animated gif above the good display pic
 		#TODO: FIX: I think the next line is incorrect, did you want image delete? (be careful if there are images on the screen)
@@ -187,6 +188,7 @@ namespace eval ::MSNP2P {
 	}
 
 	proc loadUserSmiley { chatid user msnobj } {
+		global HOME
 
 		set filename [::MSNP2P::GetFilenameFromMSNOBJ $msnobj]
 
@@ -200,8 +202,6 @@ namespace eval ::MSNP2P {
 
 		status_log "::MSNP2P::GetUserPic: filename is $filename\n" white
 
-
-		global HOME
 		if { [catch {image create photo emoticonCustom_std_$filename -file "[file join $HOME smileys cache ${filename}].png" -format cximage}] } {
 			#We didn't manage to load the smiley (either we haven't it either it's bad) so we ask it
 			status_log "::MSNP2P::GetUser: FILE [file join $HOME smileys cache ${filename}] doesn't exist!!\n" white

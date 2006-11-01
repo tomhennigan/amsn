@@ -3022,6 +3022,7 @@ proc setCfgFonts {path value} {
 
 
 proc SavePreferences {} {
+	global auto_path HOME2 tlsinstalled
 	global myconfig proxy_server proxy_port list_BLP temp_BLP Preftabs libtls proxy_user proxy_pass pager
 
 	set nb .cfg.notebook
@@ -3148,7 +3149,6 @@ proc SavePreferences {} {
 	# Save tls package configuration
 	if { [::config::getKey libtls_temp] != $libtls } {
 		set libtls [::config::getKey libtls_temp]
-		global auto_path HOME2 tlsinstalled
 		if { $libtls != "" && [lsearch $auto_path $libtls] == -1 } {
 			lappend auto_path $libtls
 		}

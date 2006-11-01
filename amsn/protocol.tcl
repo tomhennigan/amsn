@@ -920,10 +920,8 @@ namespace eval ::MSN {
 
 
 	proc connect { {passwd ""}} {
-
 		#Cancel any pending reconnect
 		after cancel ::MSN::connect
-
 
 		if { [ns cget -stat] != "d" } {
 			return
@@ -953,7 +951,6 @@ namespace eval ::MSN {
 
 
 	proc logout {} {
-
 		::abook::lastSeen
 
 		::log::eventlogout
@@ -1151,7 +1148,6 @@ namespace eval ::MSN {
 
 	#Handler when we're setting our nick, so we check if the nick is allowed or not
 	proc badNickCheck { userlogin newname recv } {
-
 		switch [lindex $recv 0] {
 			PRP {
 				ns handlePRPResponse $recv
@@ -1172,7 +1168,6 @@ namespace eval ::MSN {
 
 	#Change a users nickname
 	proc changeName { userlogin newname { nourlencode 0 } } {
-
 		if { $userlogin == "" } {
 			return
 		}
@@ -1605,7 +1600,6 @@ namespace eval ::MSN {
 	}
 
 	proc WriteSBRaw {sbn cmd} {
-
 		if { $sbn == 0 } {
 			return
 		}
@@ -1762,7 +1756,6 @@ namespace eval ::MSN {
 	#Called when we find a "" (empty string) in the SB buffer. This means
 	#the SB is closed. Proceed to clear everything related to it
 	proc ClearSB { sb } {
-
 		status_log "::MSN::ClearSB $sb called\n" green
 
 		set oldstat [$sb cget -stat]
@@ -1838,7 +1831,6 @@ namespace eval ::MSN {
 	########################################################################
 	#Answer the server challenge. This is a handler for CHL message
 	proc AnswerChallenge { item } {
-
 		if { [lindex $item 1] != 0 } {
 			status_log "Invalid challenge\n" red
 		} else {
@@ -3827,7 +3819,7 @@ namespace eval ::Event {
 				#Nickname change illegal. Try again urlencoding any character
 				#set name [urlencode_all $newname]
 				msg_box [trans invalidusername]
-				#::MSN::WriteSB ns "PRP" "MFN $name" "ns handlePRPResponse $name"
+				#::MSN::WriteSB ns "PRP" "MFN $name" "::ns handlePRPResponse $name"
 				return 0
 			}
 			default {
@@ -4518,7 +4510,6 @@ proc cmsn_connected_sb {sb recv} {
 
 
 proc cmsn_reconnect { sb } {
-
 	switch [$sb cget -stat] {
 		"n" {
 
@@ -4800,7 +4791,7 @@ proc cmsn_update_users {sb recv} {
 
 #TODO: ::abook system
 proc cmsn_change_state {recv} {
-	global remote_auth
+	global remote_auth HOME
 
 	if {[lindex $recv 0] == "FLN"} {
 		#User is going offline
@@ -5067,7 +5058,6 @@ proc cmsn_change_state {recv} {
 			}
 		} else {
 			if { [::MSN::myStatusIs] != "FLN" && [::MSN::myStatusIs] != "HDN"} {
-				global HOME
 				if { ![file readable "[file join $HOME displaypic cache ${newPic}].png"] } {
 					set chat_id [::MSN::chatTo $user]
 					::MSN::ChatQueue $chat_id [list ::MSNP2P::loadUserPic $chat_id $user]
@@ -5554,10 +5544,9 @@ proc cmsn_listdel {recv} {
 
 
 proc cmsn_auth {{recv ""}} {
+	global HOME info
 
 	status_log "cmsn_auth starting, stat=[ns cget -stat]\n" blue
-
-	global HOME info
 
 	switch [ns cget -stat] {
 		a {
@@ -5787,26 +5776,21 @@ proc initial_syn_handler {recv} {
 }
 
 proc msnp9_userpass_error {} {
-
 	ns configure -stat "closed"
 	::MSN::logout
 	status_log "Error: User/Password\n" red
 	::amsn::errorMsg "[trans baduserpass]"
-
 }
 
 proc msnp9_auth_error {} {
-
 	status_log "Error connecting to server\n"
 	::MSN::logout
 	::amsn::errorMsg "[trans connecterror]"
-
 }
 
 
 
 proc msnp9_authenticate { ticket } {
-
 	if {[ns cget -stat] == "u" } {
 		::MSN::WriteSB ns "USR" "TWN S $ticket"
 		set ::authentication_ticket $ticket
@@ -5991,7 +5975,6 @@ proc cmsn_socket {name} {
 }
 
 proc cmsn_ns_connected {sock} {
-
 	fileevent $sock writable ""
 	set error_msg ""
 	set therewaserror [catch {set error_msg [fconfigure [ns cget -sock] -error]} res]
@@ -6014,7 +5997,6 @@ proc cmsn_ns_connected {sock} {
 
 #TODO: ::abook system
 proc cmsn_ns_connect { username {password ""} {nosignin ""} } {
-
 	if { ($username == "") || ($password == "")} {
 		cmsn_draw_login
 		return -1
@@ -6660,6 +6642,7 @@ namespace eval ::MSN6FT {
 
 
 	proc SendFT { chatid filename filesize} {
+		global HOME
 
 		status_log "Sending File $filename with size $filesize to $chatid\n"
 
@@ -6702,14 +6685,14 @@ namespace eval ::MSN6FT {
 
 		if { $nopreview == 0 } {
 			#Here we resize the picture and save it in /FT/cache for the preview (we send it and we see it)
-			create_dir [file join [set ::HOME] FT cache]
+			create_dir [file join $HOME FT cache]
 			if {[catch {set image [image create photo [TmpImgName] -file $filename]}]} {
 				set image [::skin::getNoDisplayPicture]
 			}
 			if {[catch {::picture::ResizeWithRatio $image 96 96} res]} {
 				status_log $res
 			}
-			set file  "[file join [set ::HOME] FT cache ${callid}.png]"
+			set file  "[file join $HOME FT cache ${callid}.png]"
 			if {[catch {::picture::Save $image $file cxpng} res] } {
 				status_log $res
 			}
@@ -7320,6 +7303,7 @@ namespace eval ::MSN6FT {
 
 
 	proc GotFileTransferRequest { chatid dest branchuid cseq uid sid context } {
+		global HOME
 		binary scan [string range $context 0 3] i size
 		binary scan [string range $context 8 11] i filesize
 		binary scan [string range $context 16 19] i nopreview
@@ -7335,7 +7319,7 @@ namespace eval ::MSN6FT {
 
 		if { $nopreview == 0 } {
 			set previewdata [string range $context $size end]
-			set dir [file join [set ::HOME] FT cache]
+			set dir [file join $HOME FT cache]
 			create_dir $dir
 			set fd [open "[file join $dir ${sid}.png ]" "w"]
 			fconfigure $fd -translation binary

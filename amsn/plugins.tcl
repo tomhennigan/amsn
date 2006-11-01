@@ -302,7 +302,7 @@ namespace eval ::plugins {
 	
 	proc updatePluginsArray { } {
 
-	       	global HOME HOME2
+	       	global HOME HOME2 program_dir
 
 		#clear the current array
 		array set ::plugins::plugins [list]
@@ -310,7 +310,7 @@ namespace eval ::plugins {
 		# make a list of all the possible places to search
 		#TODO: Allow user to choose where to search
 		set search_path [list] 
-		lappend search_path [file join [set ::program_dir] plugins]
+		lappend search_path [file join $program_dir plugins]
 		lappend search_path [file join $HOME plugins]
 		if { $HOME != $HOME2} {
 			lappend search_path [file join $HOME2 plugins]
@@ -1170,7 +1170,7 @@ namespace eval ::plugins {
 	# none
 	#
 	proc save_config { } {
-		global HOME HOME2 version 
+		global HOME
 		variable loadedplugins
 
 		plugins_log core "save_config: saving plugin config for user [::config::getKey login] in $HOME]\n"
@@ -1492,7 +1492,7 @@ namespace eval ::plugins {
 	#
 	proc LoadInfoAutoupdate_Online { plugin } {
 
-		global HOME HOME2
+		global HOME2
 		variable plugins
 		variable cur_plugin $plugin
 
@@ -1501,8 +1501,6 @@ namespace eval ::plugins {
 		
 		set URL [getInfo $plugin URL_plugininfo]
 		
-		set program_dir [set ::program_dir]
-
 		if { [catch {
 			
 			# If no URL is given, look at the CVS URL
@@ -1709,13 +1707,10 @@ namespace eval ::plugins {
 	#
 	proc DownloadMain { plugin } {
 	
-		global HOME HOME2
 		variable plugins
 
 		set version [getInfo $plugin cvs_version_online]
 
-		set program_dir [set ::program_dir]
-		
 		set w ".updatelangplugin"
 		
 		if { [winfo exists $w] } {
@@ -1774,11 +1769,8 @@ namespace eval ::plugins {
 	#
 	proc DownloadLangs { plugin langs } {
 
-		global HOME HOME2
 		variable plugins
 
-		set program_dir [set ::program_dir]
-		
 		set w ".updatelangplugin"
 		
 		foreach lang $langs {
@@ -1846,10 +1838,7 @@ namespace eval ::plugins {
 	#
 	proc DownloadFiles { plugin files } {
 
-		global HOME HOME2
 		variable plugins
-		
-		set program_dir [set ::program_dir]
 		
 		set w ".updatelangplugin"
 		

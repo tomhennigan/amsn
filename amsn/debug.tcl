@@ -21,7 +21,7 @@ namespace eval ::debug {
 
 
 	proc sysinfo {} {
-		global HOME2 tcl_platform tk_patchLevel tcl_patchLevel
+		global tcl_platform tk_patchLevel tcl_patchLevel
 		::debug::output "aMSN version: $::version from $::date"
 		::debug::output "TCL  TK version: $tcl_patchLevel $tk_patchLevel"
 		::debug::output "Tcl platform: [array get tcl_platform]"		

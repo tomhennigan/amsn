@@ -231,7 +231,6 @@ proc secureSocket { args } {
 	}
 
 	method authenticate {str url} {
-
 		set head [list Authorization "Passport1.4 OrgVerb=GET,OrgURL=http%3A%2F%2Fmessenger%2Emsn%2Ecom,sign-in=[::config::getKey login],pwd=[urlencode $::password],${str}"]
 		#if { [::config::getKey nossl] == 1 || ([::config::getKey connectiontype] != "direct" && [::config::getKey connectiontype] != "http") } {
 		#	set url [string map { https:// http:// } $url]

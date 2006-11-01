@@ -819,8 +819,6 @@ namespace eval ::ChatWindow {
 	# ::ChatWindow::Open () 
 	# Creates a new chat window and returns its name (.msg_n - Where n is winid)
 	proc Open { {container ""} } {
-		global  HOME
-
 
 		if { [UseContainer] == 0 || $container == "" } {
 			set w [CreateTopLevelWindow]
