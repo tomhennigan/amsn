@@ -1042,6 +1042,7 @@ namespace eval ::ChatWindow {
                         
                         bind $w <Control-Tab> "::ChatWindow::GoToNextTab $w"
                         bind $w <Control-Shift-Tab> "::ChatWindow::GoToPrevTab $w"
+			#Implement bindings for webcam, see below?
 		} else {
 			bind $w <Control-h> \
 				"::amsn::ShowChatList \"[trans history]\" \[::ChatWindow::GetCurrentWindow $w\] ::log::OpenLogWin"
@@ -1051,6 +1052,8 @@ namespace eval ::ChatWindow {
 			bind $w <Control-W> "::ChatWindow::CloseTab \[set ::ChatWindow::win2tab(\[::ChatWindow::GetCurrentWindow $w\])\]"
 			bind $w <Control-Next> "::ChatWindow::GoToNextTab $w"
 			bind $w <Control-Prior> "::ChatWindow::GoToPrevTab $w"
+			bind $w <Control-n> "::CAMGUI::WebcamWizard"
+			bind $w <Control-N> "::CAMGUI::WebcamWizard"
 		}
 
 		searchdialog $w.search
@@ -1350,6 +1353,9 @@ namespace eval ::ChatWindow {
 				-command "$w.search show" -accelerator "Command+F"
 			$editmenu add command -label "[trans findnext]" -command "$w.search findnext" -accelerator "Command+G"
 			$editmenu add command -label "[trans findprev]" -command "$w.search findprev" -accelerator "Command+Shift+G"
+			$editmenu add separator
+			$editmenu add command -label "[trans editavsettings]" \
+				 -command "::CAMGUI::WebcamWizard" ;#Accelerator?
 		} else {
 			$editmenu add command -label "[trans cut]" \
 				-command "tk_textCut \[::ChatWindow::getCurrentTab $w\]" -accelerator "Ctrl+X"
@@ -1362,6 +1368,9 @@ namespace eval ::ChatWindow {
 				-command "$w.search show" -accelerator "Ctrl+F"
 			$editmenu add command -label "[trans findnext]" -command "$w.search findnext" -accelerator "F3"
 			$editmenu add command -label "[trans findprev]" -command "$w.search findprev" -accelerator "Shift+F3"
+			$editmenu add separator
+			$editmenu add command -label "[trans editavsettings]" \
+				-command "::CAMGUI::WebcamWizard"  -accelerator "Ctrl+N"
 		}
 
 		return $editmenu

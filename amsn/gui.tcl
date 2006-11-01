@@ -3450,6 +3450,7 @@ proc cmsn_draw_main {} {
 		bind all <Command-M> "catch {wm state %W normal; carbon::processHICommand mini %W}"
 		bind all <Command-quoteleft> "catch {carbon::processHICommand rotw %W}"
 		bind all <Command-asciitilde> "catch {carbon::processHICommand rotb %W}"
+		# Webcam bindings
 	} else {
 		#Status log
 		bind . <Control-s> toggle_status
@@ -3465,6 +3466,7 @@ proc cmsn_draw_main {} {
 		bind . <Control-Alt-space> BossMode
 		# Show/hide menu binding with toggle == 1
 		bind . <Control-m> "Showhidemenu 1"
+		bind . <Control-n> "::CAMGUI::WebcamWizard"
 	}
 
 	#Set the wm close button action
