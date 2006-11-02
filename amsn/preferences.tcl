@@ -1484,7 +1484,8 @@ proc dlgDelUser { lfcontact } {
 
 proc connection_check { lfname } {
 	$lfname.1.ftport.test configure -text [trans connecting]
-	if { [::abook::getFirewalled] == "Direct-Connect"} {
+	::abook::getIPConfig
+	if { [::abook::getDemographicField listening] == "true"} {
 		$lfname.1.ftport.test configure -text "[trans ok]"
 	} else {
 		$lfname.1.ftport.test configure -text "[trans firewalled]"
@@ -3117,6 +3118,8 @@ proc SavePreferences {} {
 		if {$pager != [::abook::getPersonal MOB] } {
 			::abook::setPhone pager $pager
 		}
+
+		::abook::getIPConfig
 	}
 
 	# Change name
