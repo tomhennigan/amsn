@@ -8,8 +8,10 @@ rename toplevel Tk_toplevel
 proc toplevel { pathname args } {
 	set window [eval Tk_toplevel \"$pathname\" $args]
 	
-	catch {
-		::tk::unsupported::MacWindowStyle style $window document {closeBox horizontalZoom verticalZoom collapseBox resizable metal}
+	if {[::skin::getKey usebrushedmetal "0"]} {
+		catch {
+			::tk::unsupported::MacWindowStyle style $window document {closeBox horizontalZoom verticalZoom collapseBox resizable metal}
+		}
 	}
 	
 	return $window
