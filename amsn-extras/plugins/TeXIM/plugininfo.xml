@@ -1149,10 +1149,10 @@
 	</file>
 
 	<URL>
-		<main>http://amsn.sourceforge.net/autoupdater/plugins/TeXIM/TeXIM.tcl</main>
-		<plugininfo>http://amsn.sourceforge.net/autoupdater/plugins/TeXIM/plugininfo.xml</plugininfo>
-		<lang>http://amsn.sourceforge.net/autoupdater/plugins/TeXIM/lang/lang$langcode</lang>
-		<file>http://amsn.sourceforge.net/autoupdater/plugins/TeXIM/$file</file>
+		<main>http://www.amsn-project.net/autoupdater/plugins/TeXIM/TeXIM.tcl</main>
+		<plugininfo>http://www.amsn-project.net/autoupdater/plugins/TeXIM/plugininfo.xml</plugininfo>
+		<lang>http://www.amsn-project.net/autoupdater/plugins/TeXIM/lang/lang$langcode</lang>
+		<file>http://www.amsn-project.net/autoupdater/plugins/TeXIM/$file</file>
 	</URL>
 
 </plugin>

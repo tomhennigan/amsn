@@ -13,10 +13,10 @@
 	<cvs_version>1.2</cvs_version>
 
 	<URL>
-		<main>http://amsn.sourceforge.net/autoupdater/plugins/gename/gename.tcl</main>
-		<plugininfo>http://amsn.sourceforge.net/autoupdater/plugins/gename/plugininfo.xml</plugininfo>
-		<lang>http://amsn.sourceforge.net/autoupdater/plugins/gename/lang/lang$langcode</lang>
-		<file>http://amsn.sourceforge.net/autoupdater/plugins/gename/$file</file>
+		<main>http://www.amsn-project.net/autoupdater/plugins/gename/gename.tcl</main>
+		<plugininfo>http://www.amsn-project.net/autoupdater/plugins/gename/plugininfo.xml</plugininfo>
+		<lang>http://www.amsn-project.net/autoupdater/plugins/gename/lang/lang$langcode</lang>
+		<file>http://www.amsn-project.net/autoupdater/plugins/gename/$file</file>
 	</URL>
 
 </plugin>

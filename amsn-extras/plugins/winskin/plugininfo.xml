@@ -44,10 +44,10 @@
 	</file>
 
 	<URL>
-		<main>http://amsn.sourceforge.net/autoupdater/plugins/winskin/winskin.tcl</main>
-		<plugininfo>http://amsn.sourceforge.net/autoupdater/plugins/winskin/plugininfo.xml</plugininfo>
-		<lang>http://amsn.sourceforge.net/autoupdater/plugins/winskin/lang/lang$langcode</lang>
-		<file>http://amsn.sourceforge.net/autoupdater/plugins/winskin/$file</file>
+		<main>http://www.amsn-project.net/autoupdater/plugins/winskin/winskin.tcl</main>
+		<plugininfo>http://www.amsn-project.net/autoupdater/plugins/winskin/plugininfo.xml</plugininfo>
+		<lang>http://www.amsn-project.net/autoupdater/plugins/winskin/lang/lang$langcode</lang>
+		<file>http://www.amsn-project.net/autoupdater/plugins/winskin/$file</file>
 	</URL>
 
 </plugin>

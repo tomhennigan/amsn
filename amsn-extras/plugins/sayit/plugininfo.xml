@@ -19,10 +19,10 @@ Karel Demeyer (Linux)</author>
 	</file>
 
 	<URL>
-		<main>http://amsn.sourceforge.net/autoupdater/plugins/sayit/sayit.tcl</main>
-		<plugininfo>http://amsn.sourceforge.net/autoupdater/plugins/sayit/plugininfo.xml</plugininfo>
-		<lang>http://amsn.sourceforge.net/autoupdater/plugins/sayit/lang/lang$langcode</lang>
-		<file>http://amsn.sourceforge.net/autoupdater/plugins/sayit/$file</file>
+		<main>http://www.amsn-project.net/autoupdater/plugins/sayit/sayit.tcl</main>
+		<plugininfo>http://www.amsn-project.net/autoupdater/plugins/sayit/plugininfo.xml</plugininfo>
+		<lang>http://www.amsn-project.net/autoupdater/plugins/sayit/lang/lang$langcode</lang>
+		<file>http://www.amsn-project.net/autoupdater/plugins/sayit/$file</file>
 	</URL>
 
 </plugin>

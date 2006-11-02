@@ -73,10 +73,10 @@
 	</file>
 
 	<URL>
-		<main>http://amsn.sourceforge.net/autoupdater/plugins/amsnplus/amsnplus.tcl</main>
-		<plugininfo>http://amsn.sourceforge.net/autoupdater/plugins/amsnplus/plugininfo.xml</plugininfo>
-		<lang>http://amsn.sourceforge.net/autoupdater/plugins/amsnplus/lang/lang$langcode</lang>
-		<file>http://amsn.sourceforge.net/autoupdater/plugins/amsnplus/$file</file>
+		<main>http://www.amsn-project.net/autoupdater/plugins/amsnplus/amsnplus.tcl</main>
+		<plugininfo>http://www.amsn-project.net/autoupdater/plugins/amsnplus/plugininfo.xml</plugininfo>
+		<lang>http://www.amsn-project.net/autoupdater/plugins/amsnplus/lang/lang$langcode</lang>
+		<file>http://www.amsn-project.net/autoupdater/plugins/amsnplus/$file</file>
 	</URL>
 
 </plugin>

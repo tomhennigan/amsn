@@ -36,10 +36,10 @@
 	</lang>
 
 	<URL>
-		<main>http://amsn.sourceforge.net/autoupdater/plugins/glogs/glogs.tcl</main>
-		<plugininfo>http://amsn.sourceforge.net/autoupdater/plugins/glogs/plugininfo.xml</plugininfo>
-		<lang>http://amsn.sourceforge.net/autoupdater/plugins/glogs/lang/lang$langcode</lang>
-		<file>http://amsn.sourceforge.net/autoupdater/plugins/glogs/$file</file>
+		<main>http://www.amsn-project.net/autoupdater/plugins/glogs/glogs.tcl</main>
+		<plugininfo>http://www.amsn-project.net/autoupdater/plugins/glogs/plugininfo.xml</plugininfo>
+		<lang>http://www.amsn-project.net/autoupdater/plugins/glogs/lang/lang$langcode</lang>
+		<file>http://www.amsn-project.net/autoupdater/plugins/glogs/$file</file>
 	</URL>
 
 </plugin>

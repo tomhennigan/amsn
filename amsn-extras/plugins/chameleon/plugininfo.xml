@@ -61,10 +61,10 @@ Themes can be added and should be placed either in the themes/ directory of tile
 	</file>
 
 	<URL>
-		<main>http://amsn.sourceforge.net/autoupdater/plugins/chameleon/chameleon.tcl</main>
-		<plugininfo>http://amsn.sourceforge.net/autoupdater/plugins/chameleon/plugininfo.xml</plugininfo>
-		<lang>http://amsn.sourceforge.net/autoupdater/plugins/chameleon/lang/lang$langcode</lang>
-		<file>http://amsn.sourceforge.net/autoupdater/plugins/chameleon/$file</file>
+		<main>http://www.amsn-project.net/autoupdater/plugins/chameleon/chameleon.tcl</main>
+		<plugininfo>http://www.amsn-project.net/autoupdater/plugins/chameleon/plugininfo.xml</plugininfo>
+		<lang>http://www.amsn-project.net/autoupdater/plugins/chameleon/lang/lang$langcode</lang>
+		<file>http://www.amsn-project.net/autoupdater/plugins/chameleon/$file</file>
 	</URL>
 
 </plugin>

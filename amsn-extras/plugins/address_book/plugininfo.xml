@@ -18,7 +18,7 @@
 </file>
 	
 <URL>
-	<main>http://amsn.sourceforge.net/autoupdater/plugins/address_book/addressbook.tcl</main>
-	<plugininfo>http://amsn.sourceforge.net/autoupdater/plugins/address_book/plugininfo.xml</plugininfo>
-	<file>http://amsn.sourceforge.net/autoupdater/plugins/address_book/$file</file>
+	<main>http://www.amsn-project.net/autoupdater/plugins/address_book/addressbook.tcl</main>
+	<plugininfo>http://www.amsn-project.net/autoupdater/plugins/address_book/plugininfo.xml</plugininfo>
+	<file>http://www.amsn-project.net/autoupdater/plugins/address_book/$file</file>
 </URL>

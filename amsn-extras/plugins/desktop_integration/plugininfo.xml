@@ -13,10 +13,10 @@
 	<cvs_version>7262</cvs_version>
 
 	<URL>
-		<main>http://amsn.sourceforge.net/autoupdater/plugins/desktop_integration/desktop_integration.tcl</main>
-		<plugininfo>http://amsn.sourceforge.net/autoupdater/plugins/desktop_integration/plugininfo.xml</plugininfo>
-		<lang>http://amsn.sourceforge.net/autoupdater/plugins/desktop_integration/lang/lang$langcode</lang>
-		<file>http://amsn.sourceforge.net/autoupdater/plugins/desktop_integration/$file</file>
+		<main>http://www.amsn-project.net/autoupdater/plugins/desktop_integration/desktop_integration.tcl</main>
+		<plugininfo>http://www.amsn-project.net/autoupdater/plugins/desktop_integration/plugininfo.xml</plugininfo>
+		<lang>http://www.amsn-project.net/autoupdater/plugins/desktop_integration/lang/lang$langcode</lang>
+		<file>http://www.amsn-project.net/autoupdater/plugins/desktop_integration/$file</file>
 	</URL>
 
 </plugin>

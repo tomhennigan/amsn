@@ -13,8 +13,8 @@
 	<cvs_version>7164</cvs_version>
 
 	<URL>
-		<main>http://amsn.sourceforge.net/autoupdater/plugins/DualDisplayPicture/Nudge.tcl</main>
-		<plugininfo>http://amsn.sourceforge.net/autoupdater/plugins/DualDisplayPicture/plugininfo.xml</plugininfo>
+		<main>http://www.amsn-project.net/autoupdater/plugins/DualDisplayPicture/Nudge.tcl</main>
+		<plugininfo>http://www.amsn-project.net/autoupdater/plugins/DualDisplayPicture/plugininfo.xml</plugininfo>
 	</URL>
 
 </plugin>

@@ -46,9 +46,9 @@
 	</lang>
 
 	<URL>
-		<main>http://amsn.sourceforge.net/autoupdater/plugins/growl/growl.tcl</main>
-		<plugininfo>http://amsn.sourceforge.net/autoupdater/plugins/growl/plugininfo.xml</plugininfo>
-		<lang>http://amsn.sourceforge.net/autoupdater/plugins/growl/lang/lang$langcode</lang>
-		<file>http://amsn.sourceforge.net/autoupdater/plugins/growl/$file</file>
+		<main>http://www.amsn-project.net/autoupdater/plugins/growl/growl.tcl</main>
+		<plugininfo>http://www.amsn-project.net/autoupdater/plugins/growl/plugininfo.xml</plugininfo>
+		<lang>http://www.amsn-project.net/autoupdater/plugins/growl/lang/lang$langcode</lang>
+		<file>http://www.amsn-project.net/autoupdater/plugins/growl/$file</file>
 	</URL>
 </plugin>

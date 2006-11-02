@@ -89,10 +89,10 @@
 	</file>
 
 	<URL>
-		<main>http://amsn.sourceforge.net/autoupdater/plugins/music/music.tcl</main>
-		<plugininfo>http://amsn.sourceforge.net/autoupdater/plugins/music/plugininfo.xml</plugininfo>
-		<lang>http://amsn.sourceforge.net/autoupdater/plugins/music/lang/lang$langcode</lang>
-		<file>http://amsn.sourceforge.net/autoupdater/plugins/music/$file</file>
+		<main>http://www.amsn-project.net/autoupdater/plugins/music/music.tcl</main>
+		<plugininfo>http://www.amsn-project.net/autoupdater/plugins/music/plugininfo.xml</plugininfo>
+		<lang>http://www.amsn-project.net/autoupdater/plugins/music/lang/lang$langcode</lang>
+		<file>http://www.amsn-project.net/autoupdater/plugins/music/$file</file>
 	</URL>
 
 </plugin>

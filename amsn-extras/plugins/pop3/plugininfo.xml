@@ -17,10 +17,10 @@
 	</file>
 
 	<URL>
-		<main>http://amsn.sourceforge.net/autoupdater/plugins/pop3/pop3.tcl</main>
-		<plugininfo>http://amsn.sourceforge.net/autoupdater/plugins/pop3/plugininfo.xml</plugininfo>
-		<lang>http://amsn.sourceforge.net/autoupdater/plugins/pop3/lang/lang$langcode</lang>
-		<file>http://amsn.sourceforge.net/autoupdater/plugins/pop3/$file</file>
+		<main>http://www.amsn-project.net/autoupdater/plugins/pop3/pop3.tcl</main>
+		<plugininfo>http://www.amsn-project.net/autoupdater/plugins/pop3/plugininfo.xml</plugininfo>
+		<lang>http://www.amsn-project.net/autoupdater/plugins/pop3/lang/lang$langcode</lang>
+		<file>http://www.amsn-project.net/autoupdater/plugins/pop3/$file</file>
 	</URL>
 
 </plugin>
