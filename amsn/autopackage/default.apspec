@@ -12,7 +12,7 @@ License: GNU General Public License, Version 2
 SoftwareVersion: 0.97
 # SoftwareVersion: @VERSION@
 PackageVersion: 1
-AutopackageTarget: 1.0
+AutopackageTarget: 1.2
 
 [Description]
 AMSN is a multiplatform clone of MSN Messenger.
