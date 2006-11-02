@@ -179,6 +179,7 @@ confirm Êtes-vous sûr ?
 connected Vous êtes maintenant connecté[e]
 connectedwith Connecté[e] avec $1
 connecterror Erreur de connexion
+connectfirst Veuillez vous connecter
 connecting En cours de connexion
 connection Connexion
 connectionlost Déconnecté[e] : la connexion avec le serveur a été perdue
@@ -326,6 +327,7 @@ ftconnecting Connexion à $1 port $2
 ftconnectionlost Connexion avec l'hôte distant perdue
 ftgotinvitation $1 veut vous envoyer le fichier '$2' ($3 bytes). Il sera sauvegardé dans le répertoire $4. Voulez-vous recevoir ce fichier ?
 ftportpref Premier port pour le transfert de fichiers
+ftporttest Tester le port
 ftrejectedby $1 a refusé l'invitation de transfert de fichier pour le fichier '$2'.
 ftrejected Transfert de fichier refusé
 ftsendinvitation L'invitation de transfert du fichier '$2' ($3 bytes) a été envoyé à $1.
@@ -515,6 +517,7 @@ noprofileexists Utiliser les profils... \nUtiliser le boutton Ajouter nouveau pr
 normal Ordre normal
 noskins Ne trouve l'apparence par défaut dans le dossier skins/. Ne peut lancer aMSN.
 nosound Pas de son détecté, assurez-vous que votre micro est bien branché
+nosound_or_hold Pas de son détécté. Pour envoyer un message vocal, vous devez maintenir le bouton appuyé pendant que vous parlez, puis relacher le bouton pour envoyer le message.
 nosystemtray La boîte à miniatures n'est pas accessible
 note Note
 notificationserver Annonce  initiale du Serveur MSN (Serveur MSN Messenger)
