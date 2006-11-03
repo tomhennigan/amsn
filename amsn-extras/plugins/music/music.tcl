@@ -209,14 +209,14 @@ namespace eval ::music {
 				"ITunes" [list GetSongITunes exec_applescript FillFrameComplete] \
 			] \
 			"linux" [list \
-				"XMMS" [list GetSongXMMS TreatSongXMMS FillFrameEmpty] \
 				"Amarok" [list GetSongAmarok TreatSongAmarok FillFrameComplete] \
-				"Rhythmbox" [list GetSongRhythmbox TreatSongRhythmbox FillFrameLess] \
+				"Audacious" [list GetSongAudacious return FillFrameEmpty] \
 				"Banshee" [list GetSongBanshee TreatSongBanshee FillFrameComplete] \
-				"MPD" [list GetSongMPD TreatSongMPD FillFrameMPD] \
 				"Listen" [list GetSongListen TreatSongListen FillFrameLess] \
+				"MPD" [list GetSongMPD TreatSongMPD FillFrameMPD] \
 				"QuodLibet" [list GetSongQL TreatSongQL FillFrameLess] \
-
+				"Rhythmbox" [list GetSongRhythmbox TreatSongRhythmbox FillFrameLess] \
+				"XMMS" [list GetSongXMMS TreatSongXMMS FillFrameEmpty] \
 			]\
 			"freebsd" [list \
 				"XMMS" [list GetSongXMMS TreatSongXMMS FillFrameEmpty] \
@@ -476,6 +476,21 @@ namespace eval ::music {
 			set ::music::actualsong $result
 		}
 	}
+
+	###############################################
+	# ::music::GetSongAudacious                   #
+	# ------------------------------------------- #
+	# Gets the current playing song in Audacious  #
+	###############################################
+	proc GetSongAudacious {} {
+		if { [exec audtool playback-status] == "playing" } {
+			return [list [exec audtool current-song] [exec audtool current-song-filename]]
+		} else {
+			return 0
+		}
+	}
+
+
 	#####################################################
 	# ::music::TreatSongXMMS                            #
 	# ------------------------------------------------- #
@@ -524,15 +539,14 @@ namespace eval ::music {
 		close $gets
 
 		if {[info exists info(Status:)]} {
-		switch -- $info(Status:) {
-			"Playing" { lappend return $info(Title:); lappend return $info(File:) }
-			"Paused" { lappend return $info(Title:); lappend return $info(File:) }
-			"Stopped" { set return 0 }
-			default { set return 0 }
+			switch -- $info(Status:) {
+				"Playing" { lappend return $info(Title:); lappend return $info(File:) }
+				"Paused" { lappend return $info(Title:); lappend return $info(File:) }
+				"Stopped" { set return 0 }
+				default { set return 0 }
+			}
+			return $return
 		}
-		return $return
-	}
-
 		return 0
 	}
 
