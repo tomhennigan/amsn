@@ -7529,7 +7529,9 @@ proc chooseFileDialog { {initialfile ""} {title ""} {parent ""} {entry ""} {oper
 		if { $entry != "" } {
 			$entry delete 0 end
 			$entry insert 0 $selfile
-			$entry xview end
+
+			# Next line has caused some problems with an old Tile version
+			catch { $entry xview end }
 		}
 	}
 
