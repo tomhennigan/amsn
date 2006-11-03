@@ -269,7 +269,7 @@ IconEvent (ClientData clientData, register XEvent *eventPtr)
 			Tcl_CreateTimerHandler(500, DrawIcon, icon);
 		goto redraw;
 
-	} else if (eventPtr->type == ConfigureNotify) {
+	} else if (eventPtr->type == ConfigureNotify || eventPtr->type == ResizeRequest) {
 		icon->mustUpdate=True;
 		goto redraw;
 	} /*else if (eventPtr->type == EnterNotify) {
@@ -414,7 +414,7 @@ Tk_TrayIconNew (ClientData clientData,
 		icon->pixmap=Tk_GetImage(interp,icon->win,pixmap,ImageChangedProc, (ClientData)icon);
 		
 		/* Create callback function for event handling */
-		mask = StructureNotifyMask | SubstructureNotifyMask | ExposureMask | PropertyChangeMask | EnterWindowMask | LeaveWindowMask  | PropertyNotify | ReparentNotify;
+		mask = StructureNotifyMask | SubstructureNotifyMask | ExposureMask | PropertyChangeMask | EnterWindowMask | LeaveWindowMask  | PropertyNotify | ReparentNotify | ResizeRedirectMask;
 		Tk_CreateEventHandler(icon->win, mask, IconEvent, (ClientData) icon);
 		Tk_CreateClientMessageHandler(MessageEvent);
 		
