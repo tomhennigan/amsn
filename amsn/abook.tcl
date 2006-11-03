@@ -651,7 +651,7 @@ namespace eval ::abook {
 						return "$day/$month/$year$end"
 					#Year/Month/Day
 					} elseif {[::config::getKey dateformat]=="YMD"} {
-						return "$year/$month/$day$end"
+						return "$year$end/$month/$day"
 					}
 				}
 			} else {
