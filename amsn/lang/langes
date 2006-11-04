@@ -48,6 +48,7 @@ askcam Solicitar Recibir Webcam
 askcontactwebcam Preguntar por tus contactos de cámara web, o
 askeachtime Preguntar siempre
 asksendingyourwebcam Preguntar para enviar tu cámara web
+asksendoim ¿Quieres enviar el mensaje como un mensaje sin conexión?
 askwebcam Solicitar al usuario ver su cámara web
 author Autor
 autoaccepted Transferencia de archivo aceptada automáticamente
@@ -60,6 +61,7 @@ autodetectip Detectar dirección IP automáticamente
 autohotmaillog Login Hotmail automático
 autoidle Detección de inactividad
 autoip IP Automática
+autolisten_voiceclips Reproducir clips de voz recibidos automáticamente
 automessage Mensaje automático
 autonoact Mostrarme como "Sin actividad" cuando no hay actividad en
 autoresizedp Redimensionar automáticamente la imágen al tamaño predeterminado
@@ -177,6 +179,7 @@ confirmrfl ¿Estás seguro que deseas borrar este usuario de este grupo?
 connected Ahora estás conectado
 connectedwith Conectado como $1
 connecterror Error conectándose al servidor
+connectfirst Por favor conéctate primero
 connecting Conectando
 connection Conexión
 connectionlost Desconectado: Conexión con el servidor cerrada
@@ -324,6 +327,7 @@ ftconnecting Conectándose a $1 puerto $2
 ftconnectionlost Conexión perdida con el usuario remoto
 ftgotinvitation $1 desea enviarte el archivo '$2' ($3 bytes). Será guardado en el directorio $4. ¿Deseas aceptar este archivo?
 ftportpref Usar este puerto y los sucesivos para transferencias de archivos
+ftporttest Verificar puerto
 ftrejectedby $1 ha rechazado la invitación a la transferencia del archivo '$2'.
 ftrejected Transferencia de archivo cancelada
 ftsendinvitation Una invitación para la transferencia del archivo '$2' ($3 bytes) ha sido enviada a $1.
@@ -512,6 +516,8 @@ nopic Sin imagen
 noprofileexists Actualmente no existe ningún perfil. \n Debes crear uno si quieres usar los perfiles de usuario. \nUsa el botón "Añadir un perfil" en esta ventana para crearlo.
 normal Normal
 noskins No se ha podido encontrar el perfil por defecto (default) en la carpeta skins/. No se puede iniciar aMSN
+nosound No se ha detectado sonido, asegúrate de que el micrófono está correctamente conectado
+nosound_or_hold No se ha detectado sonido. Para enviar un clip de voz tienes que mantener pulsado el botón mientras hablas, y después soltar el botón para enviar el mensaje.
 nosystemtray Bandeja del sistema no disponible
 note Nota
 notificationserver Servidor inicial de notificaciones MSN (Servidor MSN Messenger)
@@ -627,11 +633,13 @@ readonlymsgbox La transferencia de archivos se ha cancelado porque el directorio
 readonlywarn AVISO: El archivo puede NO ser guardado correctamente porque el directorio de archivos recibidos parece estar protegido contra escritura. Comprueba que los permisos en el directorio ($1) son correctos antes de la transferencia
 receivedbytes Recibidos $1 de $2 bytes totales
 receiveddir Carpeta de Archivos Recibidos
+receivedvoice Clip de Voz recibido
 receivefile Recibir archivo
 recentmsg Prevenir el cierre de la ventana de chat cuando un mensaje acaba de llegar
 reconnect2 Reconectar al perder la conexión
 reconnect Esperando que $1 se reconecte
 reconnecting Reconectando al servidor
+recorderror Ocurrió un error al grabar el sonido: $1
 reject Rechazar
 rememberpass Recordar contraseña
 remembersetting Recordar esta selección
@@ -666,8 +674,11 @@ sendfile Enviar archivo
 sendmail Enviar correo electrónico
 sendmobmsg Enviar a dispositivo móvil
 sendmsg Enviar mensaje
+sendoim Enviar un mensaje sin conexión
+sendvoice Enviar un Clip de Voz
 sendwebcaminvite Invitar al usuario a ver tu cámara web
 sentbytes Enviados $1 de $2 bytes totales
+sentvoice Clip de Voz enviado
 serverbusy Servidor ocupado
 servergoingdown Desconectado: El servidor se va a apagar para mantenimiento
 server Servidor
@@ -698,6 +709,7 @@ smileintro2 Edita los siguientes campos para personalizar el emoticono (ver FAQ 
 smileintro Rellena los siguientes campos para crear un emoticono personalizado (ver FAQ para más información)
 smiletoobig El emoticono seleccionado es más grande de lo normal. ¿ Deseas cambiar el tamaño ?
 snackfailed Fallo al cargar SNACK, volviendo a configuración por defecto
+snackneeded Se necesita la biblioteca Snack para utilizar esta funcionalidad. Como mínimo es necesario la versión 2.2.9
 snapshot Captura de pantalla
 sngdblclick Un sólo click para abrir una ventana de conversación
 sortcontactgroup Ordenador Contactos por Grupo
@@ -712,6 +724,7 @@ soundexample ( \$sound = Archivo de sonido a reproducir) Ej: esdplay \$sound
 soundfile Archivo de sonido
 soundfiles Archivos de sonido
 soundloop Sonido repetitivo
+soundnoavail El dispositivo de sonido no está disponible. Por favor, salga de cualquier aplicación que esté utilizando el dispositivo.
 soundserver Servidor de sonido
 sound Sonido de eventos
 soundstatus Sonido para la alarma
@@ -809,6 +822,9 @@ videoconversationrequest Acabas de recibir una petición de conversación de ví
 viewcontactsby Ver contactos como
 viewprofile Ver perfil
 view Ver
+voice_notimplemented La recepción de Clips de Voz no está aún implementada. Por favor, sea paciente.
+voice_windows Al ser un usuario de Windows, podrás escuchar el Clip de Voz abriendolo con el reproductor de medios.
+voice_windows_click Haz click aquí para hacerlo.
 wanttosharecam Quiero que mi cámara web esté disponible para otros
 webcamcanceled La sesión de cámara web con $1 ha sido cancelada
 webcamclosebefcancel Tendrás que cancelar todas las sesiones de cámara web antes de cerrar la ventana
