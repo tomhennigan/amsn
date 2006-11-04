@@ -857,3 +857,5 @@ usersettings Settings
 voice_notimplemented The Receiving of Voice Clips is not yet implemented. Please be patient.
 voice_windows Being a Windows user, you might be able to listen to the voice clip by opening the voice clip with your media player.
 voice_windows_click Click here to do so.
+connectfirst Sisplau, connecteu primer
+ftporttest Prova el port

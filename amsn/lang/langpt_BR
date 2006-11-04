@@ -179,6 +179,7 @@ confirm Você tem certeza?
 connected Você está conectado
 connectedwith Conectado a $1
 connecterror Erro ao conectar-se ao servidor
+connectfirst Por favor conecte-se primeiro
 connecting Conectando
 connection Conexão
 connectionlost Desconectado: A conexão com servidor foi perdida
@@ -326,6 +327,7 @@ ftconnecting Conectando a $1 porta $2
 ftconnectionlost Conexão remota perdida
 ftgotinvitation $1 quer enviar-lhe o arquivo "$2" ($3 bytes). Ele será gravado na pasta $4. Quer receber este arquivo?
 ftportpref Porta inicial para transferências de arquivo
+ftporttest Testar porta
 ftrejectedby $1 cancelou o pedido de transferência do arquivo "$2".
 ftrejected Transferência de arquivo cancelada
 ftsendinvitation Convite para transferência do arquivo "$2" ($3 bytes) foi enviado para $1
