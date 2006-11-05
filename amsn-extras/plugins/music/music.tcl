@@ -814,7 +814,7 @@ namespace eval ::music {
 	###############################################
 	proc GetSongQL {} {
 		#quodlibet --status 
-		if { [catch {exec quodlibet --status 2>&1} res] } {
+		if { [catch {exec quodlibet --status } res] } {
 			return 0
 		}
 		if { [string compare "playing " [string range $res 0 8]]} {
