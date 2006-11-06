@@ -2591,7 +2591,7 @@ namespace eval ::MSN {
 		if { $friendlyname != "" } {
 			set msg "${msg}P4-Context: $friendlyname\r\n"
 		} elseif { [::config::getKey p4c_name] != "" } {
-			set msg "${msg}P4-Context: [::config::getKey p4c_name]\r\n"
+			set msg "${msg}P4-Context: [encoding convertto identity [::config::getKey p4c_name]]\r\n"
 		}
 		#set msg "${msg}x-clientcaps : aMSN/[set ::version]\r\n"
 		set msg "${msg}X-MMS-IM-Format: FN=[urlencode $fontfamily]; EF=$style; CO=$color; CS=0; PF=22\r\n\r\n"
@@ -4024,7 +4024,7 @@ namespace eval ::Event {
 
 	method handleMSG { command message } {
 
-		set p4context [$message getHeader P4-Context]
+		set p4context [encoding convertfrom identity [$message getHeader P4-Context]]
 
 		set typer [string tolower [lindex $command 1]]
 		if { [::config::getKey displayp4context] !=1 || $p4context == "" } {
