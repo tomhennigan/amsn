@@ -4024,7 +4024,6 @@ namespace eval ::Event {
 
 	method handleMSG { command message } {
 
-		# Will the commit now work?
 		set p4context [encoding convertfrom identity [$message getHeader P4-Context]]
 
 		set typer [string tolower [lindex $command 1]]
