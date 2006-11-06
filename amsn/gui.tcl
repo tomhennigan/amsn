@@ -7995,7 +7995,7 @@ namespace eval ::OIM_GUI {
 	#use a list of such users ......
 	#Have a look at proc chatUser (gui.tcl, ~2540)
 	proc IsOIM {user} {
-		if {[::abook::getVolatileData $user state] == "FLN" && [::MSN::SBFor $user] == 0 } {
+		if {[::abook::getVolatileData $user state] == "FLN" && ![::MSN::chatReady [GetChatId $user]] } {
 			return 1
 		} else {
 			return 0
