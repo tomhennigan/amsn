@@ -2646,10 +2646,12 @@ namespace eval ::MSN {
 		}
 
 		if {![chatReady $chatid] && [::abook::getVolatileData [lindex [usersInChat $chatid] 0] state] == "FLN" } {
-			status_log "::MSN::messageTo: chat NOT ready for $chatid\n"
-			::amsn::nackMessage $ackid
-			chatTo $chatid
-			return 0
+			if { [::OIM_GUI::MessageSend $chatid $txt] == "no" } {
+				status_log "::MSN::messageTo: chat NOT ready for $chatid\n"
+				::amsn::nackMessage $ackid
+				chatTo $chatid
+				return 0
+			}
 		}
 		ChatQueue $chatid [list ::MSN::SendChatMsg $chatid "$txt" $ackid $friendlyname]
 	}

@@ -8025,6 +8025,7 @@ namespace eval ::OIM_GUI {
 			set ::OIM_GUI::oim_asksend_[string map {: _} ${chatid} ] 0
 			::MSNOIM::sendOIMMessage [list ::OIM_GUI::MessageSendCallback $chatid] $email $txt
 		}
+		return $answer
     }
 
 	proc deleteOIMCallback {oim_messages nick email MsgId success} {
