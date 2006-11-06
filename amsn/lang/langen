@@ -832,6 +832,8 @@ webcamfaq FAQ/Help for Webcam
 webcamhistory View Webcam Sessions
 webcaminvite $1 invited you to start an webcam session, but aMSN does not support this feature.
 webcaminvitereceived $1 invited you to start a webcam session. Do you want to accept this session?
+webcaminvitereceiving You are invited to start viewing $1 's webcam. Do you want to accept this session?
+webcaminvitesending $1 would like to view your webcam. Do you want to accept this session?
 webcamrejected $1 rejected invitation for webcam session
 webcamrequestreceive Sent request to receive webcam
 webcamrequestsend Sent request to send webcam
