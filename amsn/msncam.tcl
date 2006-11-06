@@ -2157,7 +2157,7 @@ namespace eval ::CAMGUI {
 		#Show invitation
 		#::amsn::WinWrite $chatid "[timestamp] [trans webcaminvitereceived [::abook::getDisplayNick $chatid]]" green
 
-		if { $producer == 1 } {
+		if { $producer == 0 } {
 			::amsn::WinWrite $chatid "[timestamp] [trans webcaminvitereceiving [::abook::getDisplayNick $chatid]]" green
 		} else {
 			::amsn::WinWrite $chatid "[timestamp] [trans webcaminvitesending [::abook::getDisplayNick $chatid]]" green
