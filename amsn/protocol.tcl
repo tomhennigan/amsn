@@ -585,6 +585,7 @@ namespace eval ::MSNFT {
 	set sid [getObjOption $cookie msn6ftsid]
 	if { $sid != "" } {
 		::MSN6FT::CancelFT $chatid $sid
+		DeleteFT $cookie
 	} else {
 	    rejectFT $chatid $cookie
 	}
