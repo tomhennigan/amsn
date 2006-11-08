@@ -141,7 +141,7 @@ namespace eval ::DualDisplayPicture {
 		
 		ScrolledWindow $frame.sw -scrollbar vertical -auto vertical
 		text $frame.sw.text -bg [::skin::getKey chatwindowbg] \
-			-font splainf -state disabled -width 16
+			-relief solid -bd 0 -font splainf -state disabled -width 16
 		$frame.sw setwidget $frame.sw.text
 
 		set myinfo(showpic,$w) $showpic
