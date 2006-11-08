@@ -1363,40 +1363,39 @@ namespace eval ::music {
 	#  evPar -> The array of parameters (Supplied by Plugins System)      #
 	#######################################################################
 	proc draw {event evPar} {
-		upvar 2 $evPar vars
+		if {$event != 0} { upvar 2 $evPar vars }
 
 		if {$::music::config(active)} {
 			set icon musicshown_pic
 		} else {
 			set icon musichidden_pic
 		}
+		
 
 		#TODO: add parameter to event and get rid of hardcoded variable
 		set pgtop $::pgBuddyTop
 		set clbar $::pgBuddyTop.colorbar
 
-		set textb $pgtop.musicpic
-		set notewidth [expr [image width [::skin::loadPixmap $icon]]/[font measure bboldf "0"]+1]
-		set noteheight [expr [image height [::skin::loadPixmap $icon]]/[font metrics bboldf -linespace]+1]
+		set mylabel $pgtop.picmusic
+		if {[winfo exists $mylabel]} {
+			destroy $mylabel			
+		}
+		
+		set notewidth [image width [::skin::loadPixmap $icon]]
+		set noteheight [image height [::skin::loadPixmap $icon]]
 
-		text $textb -font bboldf -height 1 -background [::skin::getKey topcontactlistbg] -borderwidth 0 -wrap none -cursor left_ptr \
-			-relief flat -highlightthickness 0 -selectbackground white -selectborderwidth 0 \
-			-exportselection 0 -relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0 -width $notewidth -height $noteheight
+		label $mylabel -image [::skin::loadPixmap $icon] -background [::skin::getKey topcontactlistbg] -borderwidth 0 -cursor left_ptr \
+			-relief flat -highlightthickness 0 -relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0 -width $notewidth -height $noteheight
 
-		pack $textb -expand false -after $clbar -side right -padx 0 -pady 0
+		pack $mylabel -expand false -after $clbar -side right -padx 0 -pady 0
 
-		$textb configure -state normal
-
-		clickableImage $textb musicpic $icon {set ::music::config(active) [expr !$::music::config(active)];::plugins::save_config;cmsn_draw_online} [::skin::getKey mailbox_xpad] [::skin::getKey mailbox_ypad]
-
+		bind $mylabel <<Button1>> "set ::music::config(active) [expr !$::music::config(active)];::plugins::save_config;::music::draw 0 0"
 
 		set balloon_message [trans musicballontext]
-
-		$textb tag bind $textb.musicpic <Enter> +[list balloon_enter %W %X %Y $balloon_message]
-		$textb tag bind $textb.musicpic <Leave> "+set ::Bulle(first) 0; kill_balloon;"
-		$textb tag bind $textb.musicpic <Motion> +[list balloon_motion %W %X %Y $balloon_message]
-
-		$textb configure -state disabled
+		
+		bind $mylabel <Enter> +[list balloon_enter %W %X %Y $balloon_message]
+		bind $mylabel <Leave> "+set ::Bulle(first) 0; kill_balloon;"
+		bind $mylabel <Motion> +[list balloon_motion %W %X %Y $balloon_message]
 	}
 	
 
