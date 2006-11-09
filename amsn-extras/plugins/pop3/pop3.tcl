@@ -932,6 +932,7 @@ namespace eval ::pop3 {
 		menu $rmenu -tearoff 0 -type normal
 
 		$rmenu add command -label "Select an email to delete"
+		$rmenu add command -label "Check for new email" -command ::pop3::check
 		$rmenu add separator
 
 		set i 0
@@ -940,9 +941,7 @@ namespace eval ::pop3 {
 			$rmenu add command -label "$line" -command [list ::pop3::deletemail $acntn $i $line]
 		}
 
-		if { $i != 0 } {
-			tk_popup $rmenu $X $Y
-		}
+		tk_popup $rmenu $X $Y
 	}
 
 
