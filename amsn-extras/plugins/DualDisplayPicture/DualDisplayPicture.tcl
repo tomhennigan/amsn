@@ -74,10 +74,7 @@ namespace eval ::DualDisplayPicture {
 		eval pack $out.scroll [array get scroll]
 
 		set picture [CreateDoublePictureFrame $w $out]
-		pack $picture -side right -expand false -fill y \
-				-padx [::skin::getKey chat_dp_padx] \
-				-pady [::skin::getKey chat_dp_pady]
-		#pack $picture -side right -expand false -anchor ne \
+		pack $picture -side right -expand false -anchor ne \
 				-padx [::skin::getKey chat_dp_padx] \
 				-pady [::skin::getKey chat_dp_pady]
 	
@@ -103,6 +100,7 @@ namespace eval ::DualDisplayPicture {
 
 		$myinfo(text,$win) configure -state normal
 		$myinfo(text,$win) delete 0.0 end
+		set maxwidth 0
 		set idx 0
 		foreach user $users {
 			$myinfo(text,$win) tag bind user_$user \
@@ -121,12 +119,20 @@ namespace eval ::DualDisplayPicture {
 			} elseif {$show_user_labels == 1} {
 				$myinfo(text,$win) insert end "\n$trunced\n"
 			}
+
 			$myinfo(text,$win) image create end \
 				-image [::skin::getDisplayPicture $user]
 			$myinfo(text,$win) tag add user_$user user_start end
+
+			if {[image width [::skin::getDisplayPicture $user]] > $maxwidth} {
+				set maxwidth [image width [::skin::getDisplayPicture $user]]
+			}
 			incr idx
 		}
-		$myinfo(text,$win) configure -state disabled
+		set fontwidth [font measure splainf "0"]
+		set char_maxwidth [expr {($maxwidth + 1) / $fontwidth}]
+		$myinfo(text,$win) configure -state disabled \
+									 -width $char_maxwidth
 	}
 
 	proc CreateDoublePictureFrame { w out } {
@@ -141,7 +147,7 @@ namespace eval ::DualDisplayPicture {
 		
 		ScrolledWindow $frame.sw -scrollbar vertical -auto vertical
 		text $frame.sw.text -bg [::skin::getKey chatwindowbg] \
-			-relief solid -bd 0 -font splainf -state disabled -width 16
+			-relief solid -bd 0 -font splainf -state disabled
 		$frame.sw setwidget $frame.sw.text
 
 		set myinfo(showpic,$w) $showpic
@@ -157,7 +163,7 @@ namespace eval ::DualDisplayPicture {
 
 		# Pack them 
 		pack $frame.sw -side left -fill y -expand false
-		pack $showpic -side right
+		pack $showpic -side right -anchor ne
 
 		# Create our bindings
 		bind $showpic <<Button1>> "::DualDisplayPicture::ToggleShowDoublePicture $w; ::DualDisplayPicture::ShowOrHideDoublePicture $w"
