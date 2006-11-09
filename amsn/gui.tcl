@@ -343,10 +343,11 @@ namespace eval ::amsn {
 		}
 		option add *Font splainf userDefault
 		#Use different width for scrollbar on Mac OS X
+		#http://wiki.tcl.tk/12987
 		if { [OnMac] } {
 			option add *background #ECECEC
 			option add *highlightbackground #ECECEC
-			option add *Scrollbar.width 15 userDefault
+			option add *Scrollbar.width 16 userDefault
 			option add *Button.Font macfont userDefault
 			option add *Button.highlightBackground #ECECEC userDefault
 		} elseif { [OnWin] } {
