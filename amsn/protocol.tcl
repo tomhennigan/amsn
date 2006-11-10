@@ -3305,6 +3305,7 @@ namespace eval ::MSNCCARD {
 					} 
 					SOAP::configure -transport http -headers [list]
 				}
+				status_log "ERROR getting CCARD of $email - $resources($email): $resp"
 			}
 		} 
 	}

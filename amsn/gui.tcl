@@ -7702,7 +7702,7 @@ if { $initialize_amsn == 1 } {
 proc degt_protocol { str {colour ""}} {
 	global followtext_degt
 #	return
-	.degt.mid.txt insert end "[timestamp] $str\n" $colour
+	.degt.mid.txt insert end "[timestamp] [encoding convertfrom identity $str]\n" $colour
 	.degt.mid.txt delete 0.0 end-1000lines
 	if { $followtext_degt == 1} {
 		.degt.mid.txt yview end
