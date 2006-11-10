@@ -833,6 +833,8 @@ webcamfaq FAQ/Help à propos de la webcam
 webcamhistory Voir les sessions webcam
 webcaminvite $1 vous invite à démarrer un conversation par Webcam, mais aMSN ne supporte pas cette option.
 webcaminvitereceived $1 vous invite à démarrer un conversation par Webcam. Voulez-vous accepter cette conversation ?
+webcaminvitereceiving Vous êtes invités à voir la webcam de $1. Acceptez-vous ?
+webcaminvitesending $1 voudrais voir votre webcam. Acceptez-vous ?
 webcamrejected $1 a refusé l'invitation de la conversation par webcam.
 webcamrequestreceive Vous avez invité votre contact à afficher sa webcam
 webcamrequestsend Vous avez invité votre contact à démarrer votre webcam

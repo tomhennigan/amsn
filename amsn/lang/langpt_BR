@@ -833,6 +833,8 @@ webcamfaq FAQ/Ajuda para Webcam
 webcamhistory Ver conversas antigas com a webcam
 webcaminvite $1 convidou você a iniciar uma sessão com webcam, mas o aMSN não suporta este recurso
 webcaminvitereceived $1 te convidou para iniciar uma sessão de webcam. Voce quer aceitar a sessão?
+webcaminvitereceiving Você foi convidado pra iniciar uma webcam com $1 . Quer aceitar?
+webcaminvitesending $1 gostaria de ver sua webcam. Quer aceitar?
 webcamrejected $1 rejeitou seu convite para a sessão de webcam
 webcamrequestreceive Enviar um pedido para receber imagem da webcam
 webcamrequestsend Enviar pedido para enviar imagem da webcam
