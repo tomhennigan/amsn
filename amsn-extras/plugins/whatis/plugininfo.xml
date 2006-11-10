@@ -4,7 +4,7 @@
        <author>Jasper Huzen</author>
        <description>Get information from text/word or translate it to an other language!</description>
        <amsn_version>0.94</amsn_version>
-       <plugin_version>1.3</plugin_version>
+       <plugin_version>1.4</plugin_version>
        <plugin_file>whatis.tcl</plugin_file>
        <plugin_namespace>whatis</plugin_namespace>
        <init_procedure>init</init_procedure>
