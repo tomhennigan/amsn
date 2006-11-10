@@ -159,12 +159,14 @@ namespace eval ::whatis {
 			::amsn::messageBox "No text selected for translation!" ok error 
 		} else { 
 
-		set searchText [encoding convertto utf-8 $searchText]
+		#if { [encoding system] != "utf-8" } {
+		#	set searchText [encoding convertto utf-8 $searchText]
+		#}
 			 
 		# Translate / Get HTML file from translator
 		if { $transLangs == "en_el" || $transLangs == "el_en" } {
 			set url "http://trans.otenet.gr/systran/box"
-			set query [::http::formatQuery id "OTEnet" lp $transLangs urltext $searchText submit.x "77" submit.y "13"]
+			set query [::http::formatQuery id "OTEnet" lp $transLangs urltext $searchText submit.x "26" submit.y "8"]
 		} else {
 			set url "http://www.systranbox.com/systran/box"
 			set query [::http::formatQuery systran_charset "utf-8" systran_lp $transLangs systran_text $searchText]
@@ -187,9 +189,9 @@ namespace eval ::whatis {
 		
 		# Strip HTML before translated text 
 		if { $transLangs == "en_el" || $transLangs == "el_en" } {
-			set substring "td class=\"tx2\">"
+			set substring "td class=\"tx2\" colspan=\""
 			set start [string first $substring $html]
-			set start [expr { $start + [string length $substring]}]
+			set start [expr { $start + [string length $substring] + 3}]
 		} else {
 			set substring "name=\"translation\""
 			set start [expr [string first $substring $html] + 94]
