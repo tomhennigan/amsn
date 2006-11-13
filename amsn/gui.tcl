@@ -13,27 +13,13 @@ if {$::tcl_version <= 8.3} {
 	tk_messageBox -default ok -message "You need TCL/TK 8.4 or better to run aMSN. Please upgrade."  -icon warning
 	exit
 }
+
 package require BWidget
+source [file join utils "BWidget_mods.tcl"]
+
 if {[catch {package require tkdnd}] } {
 	proc dnd { args } {}
 	proc shape { args } {}
-}
-
-################################################
-# 'Missing' BWidget commands                   #
-################################################
-ScrollableFrame::use
-proc ::ScrollableFrame::compute_width { path } {
-		$path configure -width [winfo reqwidth [$path getframe]]
-}
-
-proc ::ScrollableFrame::compute_height { path } {
-		$path configure -height [winfo reqheight [$path getframe]]
-}
-
-proc ::ScrollableFrame::compute_size { path } {
-	$path compute_width
-	$path compute_height
 }
 
 #package require pixmapbutton
