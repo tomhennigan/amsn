@@ -15,7 +15,7 @@ if {$::tcl_version <= 8.3} {
 }
 
 package require BWidget
-source [file join utils "BWidget_mods.tcl"]
+source BWidget_mods.tcl
 
 if {[catch {package require tkdnd}] } {
 	proc dnd { args } {}
