@@ -146,7 +146,7 @@ namespace eval ::DualDisplayPicture {
 			-relief solid -background [::skin::getKey chatwindowbg]
 		
 		ScrolledWindow $frame.sw -scrollbar vertical -auto vertical
-		text $frame.sw.text -bg [::skin::getKey chatwindowbg] \
+		text $frame.sw.text -bg [::skin::getKey chatwindowbg] -padx 0 -pady 0 \
 			-relief solid -bd 0 -font splainf -state disabled
 		$frame.sw setwidget $frame.sw.text
 
@@ -162,7 +162,7 @@ namespace eval ::DualDisplayPicture {
 		set_balloon $showpic [trans showdisplaypic]
 
 		# Pack them 
-		pack $frame.sw -side left -fill y -expand false
+		pack $frame.sw -side left -fill y -expand false -anchor ne
 		pack $showpic -side right -anchor ne
 
 		# Create our bindings
@@ -244,7 +244,7 @@ namespace eval ::DualDisplayPicture {
 
 		set scrolling [::ChatWindow::getScrolling [::ChatWindow::GetOutText $win]]
 
-		pack $myinfo(sw,$win) -side left -fill y -expand false
+		pack $myinfo(sw,$win) -side left -fill y -expand false -anchor ne
 		#pack $myinfo(showpic,$win) -side left
 		#pack $myinfo(text,$win) -side left -padx 0 -pady 0 -anchor w
 
