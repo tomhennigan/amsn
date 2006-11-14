@@ -2,7 +2,7 @@
 # Shell script to get informations about the current song playing in Amarok
 
 #Amarok is launched ?
-AMAROK=`ps aux | grep amarok | grep -v grep`
+AMAROK=`ps aux | grep amarok | grep -v grep | grep -v info`
 if [ -n "$AMAROK" ]
 then
 	#Yes so we get the info

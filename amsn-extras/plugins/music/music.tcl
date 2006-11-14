@@ -732,11 +732,21 @@ namespace eval ::music {
 		}
 
 		#Get the 4 first lines
-		set song [lindex $tmplst 0]
-		set art [lindex $tmplst 1]
-		set path [lindex $tmplst 2]
-		set songlength [lindex $tmplst 3]
-		
+		if { [llength $tmplst] == 3 } {
+			set song [lindex $tmplst 0]
+			set art ""
+			set path [lindex $tmplst 1]
+			if { $song == "" } {
+				set songlength "-1"
+			} else {
+				set songlength "0"
+			}
+		} else {
+			set song [lindex $tmplst 0]
+			set art [lindex $tmplst 1]
+			set path [lindex $tmplst 2]
+			set songlength [lindex $tmplst 3]
+		}
 		if {$songlength == "-1"} {
 			return 0
 		} else {

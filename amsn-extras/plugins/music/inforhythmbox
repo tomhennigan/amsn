@@ -1,20 +1,20 @@
 #! /bin/bash
 
-RCLIENT=`ps aux | grep rhythmbox-client | grep -v grep`
 
-if [ -n "$RCLIENT" ]
+RHYTHMBOX=`ps aux | grep rhythmbox | grep -v grep | grep -v info`
+if [ "$RHYTHMBOX" ]
 then
-	rhythmbox-client --print-playing
-else
-	RHYTHMBOX=`ps aux | grep rhythmbox | grep -v grep`
-	if [ -n "$RHYTHMBOX" ]
+	RCLIENT=`rhythmbox --help | grep print-playing | wc -l `
+	if [ "$RCLIENT" -gt 0 ]
 	then
 		rhythmbox --print-playing --print-playing-artist --print-playing-path --print-song-length --no-focus
 	else
-		echo ""
-		echo ""
-		echo ""
-		echo -1
+		rhythmbox-client --print-playing
 	fi
+else
+	echo ""
+	echo ""
+	echo ""
+	echo -1
 fi
 exit 0 
