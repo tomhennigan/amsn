@@ -216,6 +216,7 @@ namespace eval ::music {
 				"MPD" [list GetSongMPD TreatSongMPD FillFrameMPD] \
 				"QuodLibet" [list GetSongQL TreatSongQL FillFrameLess] \
 				"Rhythmbox" [list GetSongRhythmbox TreatSongRhythmbox FillFrameLess] \
+				"Totem" [list GetSongTotem TreatSongTotem FillFrameEmpty] \
 				"XMMS" [list GetSongXMMS TreatSongXMMS FillFrameEmpty] \
 			]\
 			"freebsd" [list \
@@ -226,6 +227,7 @@ namespace eval ::music {
 				"MPD" [list GetSongMPD TreatSongMPD FillFrameMPD] \
 				"Listen" [list GetSongListen TreatSongListen FillFrameLess] \
 				"QuodLibet" [list GetSongQL TreatSongQL FillFrameLess] \
+				"Totem" [list GetSongTotem TreatSongTotem FillFrameEmpty] \
 			] \
 			"windows nt" [list \
 				"WinAmp" [list GetSongWinamp TreatSongWinamp FillFrameLess] \

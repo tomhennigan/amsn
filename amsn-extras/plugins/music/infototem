@@ -1,5 +1,5 @@
 #! /bin/sh
-TOTEM=`ps aux | grep python | grep listen | grep -v grep`
+TOTEM=`ps aux | grep totem | grep -v grep`
 if [ -n "$TOTEM" ]
 then
 	echo 0

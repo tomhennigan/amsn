@@ -10,7 +10,7 @@
 	<plugin_namespace>music</plugin_namespace>
 	<init_procedure>InitPlugin</init_procedure>
 	<deinit_procedure>DeInit</deinit_procedure>
-	<cvs_version>7486</cvs_version>
+	<cvs_version>7505</cvs_version>
 
 	<lang>
 		<langcode>en</langcode>
@@ -70,7 +70,10 @@
 		<path>infolisten</path>
 		<version>7504</version>
 	</file>
-	
+	<file>
+		<path>infototem</path>
+		<version>7505</version>
+	</file>
 	<file>
 		<path>MusicWA.exe</path>
 		<version>6846</version>
