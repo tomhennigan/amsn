@@ -1,8 +1,9 @@
 #!/bin/sh
 #needs banshee 0.10.6 and newer 
 # By Ruben "RubenV" Vermeersch
-
-if [ -z "$(pidof banshee)" ]; then
+BANSHEE=`ps aux | grep banshee | grep -v grep`
+if [ -n "$BANSHEE" ]
+then
 	echo 0
 else 
 	banshee --query-status --query-title --query-artist \

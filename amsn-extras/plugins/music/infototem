@@ -1,5 +1,7 @@
 #! /bin/sh
-if [ -z "$(pidof totem)" ]; then
+TOTEM=`ps aux | grep python | grep listen | grep -v grep`
+if [ -n "$TOTEM" ]
+then
 	echo 0
 else 
 	totem --print-playing

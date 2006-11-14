@@ -1,11 +1,20 @@
-#! /bin/sh
+#! /bin/bash
 
-if [ -z `/sbin/pidof rhythmbox` ]; then
-	echo ""
-	echo ""
-	echo ""
-	echo -1
-else 
+RCLIENT=`ps aux | grep rhythmbox-client | grep -v grep`
+
+if [ -n "$RCLIENT" ]
+then
+	rhythmbox-client --print-playing
+else
+	RHYTHMBOX=`ps aux | grep rhythmbox | grep -v grep`
+	if [ -n "$RHYTHMBOX" ]
+	then
 		rhythmbox --print-playing --print-playing-artist --print-playing-path --print-song-length --no-focus
+	else
+		echo ""
+		echo ""
+		echo ""
+		echo -1
+	fi
 fi
-exit 0
+exit 0 
