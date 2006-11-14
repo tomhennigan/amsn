@@ -10,7 +10,7 @@
 	<plugin_namespace>music</plugin_namespace>
 	<init_procedure>InitPlugin</init_procedure>
 	<deinit_procedure>DeInit</deinit_procedure>
-	<cvs_version>7505</cvs_version>
+	<cvs_version>7506</cvs_version>
 
 	<lang>
 		<langcode>en</langcode>
@@ -54,25 +54,25 @@
 
 	<file>
 		<path>infoamarok</path>
-		<version>7504</version>
+		<version>7506</version>
 	</file>
 	
 	<file>
 		<path>inforhythmbox</path>
-		<version>7504</version>
+		<version>7506</version>
 	</file>
 		
 	<file>
 		<path>infobanshee</path>
-		<version>7504</version>
+		<version>7506</version>
 	</file>
 	<file>
 		<path>infolisten</path>
-		<version>7504</version>
+		<version>7506</version>
 	</file>
 	<file>
 		<path>infototem</path>
-		<version>7505</version>
+		<version>7506</version>
 	</file>
 	<file>
 		<path>MusicWA.exe</path>
