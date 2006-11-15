@@ -2,6 +2,32 @@
 # $Id$
 #
 
+# This needs to be done this way because it seems Mac shows an error about conflicting versions if you have 2.2 and 2.2.10 installed...
+# but on linux (and windows) it takes the latest version (2.2.10) without complaining...
+# Since Mac and Windows have the snack 2.2.10 binaries shipped with amsn,we can require the exact version safely.. linux is trickier because
+# the user can install whatever version he wants (and all 2.2.x versions have a 'package provide 2.2')
+proc require_snack { } {
+	if {[package provide snack] != ""} {
+		return
+	} elseif {[OnLinux] } {
+		package require snack
+	} elseif {[OnWin] } {
+		if { [catch {
+			load [file join utils windows snack2.2 libsnack.dll]
+			source [file join utils windows snack2.2 snack.tcl]
+		} ] } {
+			package require snack 
+		}
+	} elseif {[OnMac] } {
+		if { [catch {
+			load [file join utils macosx snack2.2 libsnack.dylib]
+			source [file join utils macosx snack2.2 snack.tcl]
+		} ] } {
+			package require snack 
+		}
+	}
+}
+
 namespace eval ::config {
 
 	proc configDefaults {} {
@@ -690,7 +716,7 @@ proc load_config {} {
 
 	#load Snack when being used
 	if { [::config::getKey usesnack] } {
-		if {![catch {require_snack}]} {
+		if {![catch {require_snack} res]} {
 			snack::audio playLatency 750
 		} else {
 			::config::setKey usesnack 0
