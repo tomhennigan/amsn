@@ -4,9 +4,9 @@
 BANSHEE=`ps aux | grep banshee | grep -v grep | grep -v info`
 if [ -n "$BANSHEE" ]
 then
-	echo 0
-else 
 	banshee --query-status --query-title --query-artist \
 			--query-uri --query-cover-uri |sed  s/^﻿//
+else 
+	echo 0
 fi
 exit 0

@@ -2,8 +2,8 @@
 TOTEM=`ps aux | grep totem | grep -v grep | grep -v info`
 if [ -n "$TOTEM" ]
 then
-	echo 0
-else 
 	totem --print-playing
+else 
+	echo 0
 fi
 exit 0
