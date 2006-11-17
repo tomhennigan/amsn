@@ -54,7 +54,7 @@ namespace eval ::bugs {
 	}
 
     proc bgerror { args } {
-	global errorInfo errorCode HOME2 tcl_platform tk_patchLevel tcl_patchLevel
+	global errorInfo errorCode HOME2 tcl_platform tk_patchLevel tcl_patchLevel vendor
 	variable dont_give_bug_reports
 	
 	if { [lindex $args 0] == [list] } {
@@ -80,6 +80,8 @@ namespace eval ::bugs {
 	set ::bugs::bug(protocol) [privacy [htmlentities [.degt.mid.txt get $prot_pos $prot_posend]]]
 	set ::bugs::bug(comment) ""
 	set ::bugs::bug(msnprotocol) [::config::getKey protocol]
+	set ::bugs::bug(loadedplugins) $::plugins::loadedplugins
+	set ::bugs::bug(vendor) $vendor
 
 	if {[file exists cvs_date]==1} {
 	    set fd [open cvs_date]
@@ -131,6 +133,8 @@ namespace eval ::bugs {
 	    puts $fd "\t\t<[string tolower $key]>$value</[string tolower $key]>"
 	}
 	puts $fd "\t\t<msnprotocol>$bug(msnprotocol)</msnprotocol>"
+	puts $fd "\t\t<loadedplugins>$bug(loadedplugins)</loadedplugins>"
+	puts $fd "\t\t<vendor>$bug(vendor)</vendor>"
 	puts $fd "\t</system>"
 	puts $fd "\t<extra>"
 	puts $fd "\t\t<status_log>"

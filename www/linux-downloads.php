@@ -18,7 +18,7 @@ Please select your desired package from one of the drop-down menus:
 <select class="dlselector" name="file" onchange="this.form.submit()">
 <option value="" selected="selected" />
 <option value="amsn-0.96RC1-linux-installer.bin">Bitrock Installer</option>
-<option value="amsn-0.96RC1.x86.package">AutoPackage</option>
+<option value="amsn-0.96-1.tcl84.x86.package">AutoPackage</option>
 <option value="amsn_0.96rc1-1.i386.stable.deb">Debian</option>
 <option value="amsn_0.96rc1-1.i386.testing.deb">Debian (Sarge)</option>
 <option value="amsn_0.96RC1-1kubuntu1_i386.deb">KUbuntu</option>
@@ -44,7 +44,7 @@ Please select your desired package from one of the drop-down menus:
 <option value="" selected="selected" />
 <option value="amsn-0.95-1.linux-installer.x86_64.bin">Linux Installer</option>
 <option value="amsn-0.95-1.x86_64.package">AutoPackage</option>
-<option value="amsn-0.95.tar.gz">Other</option>
+<option value="amsn-0.96.tar.bz2">Other</option>
 </select>
 <input type="submit" value="Download"/>
 </p>

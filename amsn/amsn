@@ -56,10 +56,13 @@ wm state . withdraw
 set version "0.97b"
 set rcversion "0.96.90.svn"
 set date "06/16/2006"
-set weburl "http://amsn.sourceforge.net"
+set weburl "http://amsn-project.net"
 set program_dir "."
 set HOME ""
 set HOME2 ""
+# distributions can change vendor if they provide a patched version of amsn so we
+# can filter out bug reports only occuring with a particular vendor
+set vendor "aMSN"
 
 #=======================================================================
 
