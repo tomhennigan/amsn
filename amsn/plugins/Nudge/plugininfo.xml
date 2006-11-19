@@ -57,10 +57,10 @@
 	</file>
 
 	<URL>
-		<main>http://amsn.sourceforge.net/autoupdater/plugins2/Nudge/Nudge.tcl</main>
-		<plugininfo>http://amsn.sourceforge.net/autoupdater/plugins2/Nudge/plugininfo.xml</plugininfo>
-		<lang>http://amsn.sourceforge.net/autoupdater/plugins2/Nudge/lang/lang$langcode</lang>
-		<file>http://amsn.sourceforge.net/autoupdater/plugins2/Nudge/$file</file>
+		<main>http://www.amsn-project.net/autoupdater/plugins2/Nudge/Nudge.tcl</main>
+		<plugininfo>http://www.amsn-project.net/autoupdater/plugins2/Nudge/plugininfo.xml</plugininfo>
+		<lang>http://www.amsn-project.net/autoupdater/plugins2/Nudge/lang/lang$langcode</lang>
+		<file>http://www.amsn-project.net/autoupdater/plugins2/Nudge/$file</file>
 	</URL>
 
 </plugin>

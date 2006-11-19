@@ -8,7 +8,7 @@ exec wish $0
 ###                                              ###############
 ###        Alvaro's Messenger - amsn             ###############
 ###                                              ###############
-###       http://amsn.sourceforge.net            ###############
+###       http://www.amsn-project.net            ###############
 ###     amsn-users@lists.sourceforge.net         ###############
 ###                                              ###############
 ################################################################
@@ -56,7 +56,7 @@ wm state . withdraw
 set version "0.97b"
 set rcversion "0.96.90.svn"
 set date "06/16/2006"
-set weburl "http://amsn-project.net"
+set weburl "http://www.amsn-project.net"
 set program_dir "."
 set HOME ""
 set HOME2 ""

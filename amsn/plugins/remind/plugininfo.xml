@@ -36,10 +36,10 @@
 	</lang>
 	
 	<URL>
-		<main>http://amsn.sourceforge.net/autoupdater/plugins2/remind/remind.tcl</main>
-		<plugininfo>http://amsn.sourceforge.net/autoupdater/plugins2/remind/plugininfo.xml</plugininfo>
-		<lang>http://amsn.sourceforge.net/autoupdater/plugins2/remind/lang/lang$langcode</lang>
-		<file>http://amsn.sourceforge.net/autoupdater/plugins2/remind/$file</file>
+		<main>http://www.amsn-project.net/autoupdater/plugins2/remind/remind.tcl</main>
+		<plugininfo>http://www.amsn-project.net/autoupdater/plugins2/remind/plugininfo.xml</plugininfo>
+		<lang>http://www.amsn-project.net/autoupdater/plugins2/remind/lang/lang$langcode</lang>
+		<file>http://www.amsn-project.net/autoupdater/plugins2/remind/$file</file>
 	</URL>
 
 </plugin>

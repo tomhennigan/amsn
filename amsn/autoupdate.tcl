@@ -96,7 +96,7 @@ namespace eval ::autoupdate {
 			return
 		}
 
-		set downloadurl "http://amsn.sourceforge.net/download-tls.php?arch=$tlsplatform"
+		set downloadurl "http://www.amsn-project.net/download-tls.php?arch=$tlsplatform"
 
 
 		if {[ catch {set tok [::http::geturl $downloadurl -command "::autoupdate::downloadTLS2 $downloadurl"]} res ]} {
@@ -294,8 +294,8 @@ namespace eval ::autoupdate {
 		#Create the update window
 		toplevel $w
 		wm title $w "[trans newveravailable $tmp_data]"
-		set changeloglink "http://amsn.sourceforge.net/wiki/tiki-index.php?page=ChangeLog"
-		set homepagelink "http://amsn.sourceforge.net/"
+		set changeloglink "http://www.amsn-project.net/wiki/index.php/ChangeLog"
+		set homepagelink "http://www.amsn-project.net/"
 		#Create the frames
 		frame $w.top
 		frame $w.top.buttons

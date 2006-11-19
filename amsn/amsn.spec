@@ -25,38 +25,12 @@
 
 # Default is not to set the distribution tag
 %define _has_distribution 0
+%define _release %{__release}
 
 ####################################################################################
 # Distribution-specific customization
 #
-### Autodetect distribution
-%define _suse		%(if [ -e /etc/SuSE-release ]; then echo 1; else echo 0; fi)
-%define _suse_kde3	0
-%define _suse_kde2	0
-### Begin - SuSE Linux
-# (has different paths for KDE and GNOME)
-%if %_suse
-%define _not_suse	0
-# retrieve SuSE version
-%define _suse_version	%(grep VERSION /etc/SuSE-release|cut -f3 -d" ")
-%define _suse_ver_num	%(echo %_suse_version|tr -d '.')
 
-%define _has_distribution 1
-%define _distribution	SuSE Linux %{_suse_version}
-
-%define _release	%{__release}suse
-
-# determine KDE version/directory based on SuSE version:
-%define _suse_kde3	%(if [ %_suse_ver_num -ge 80 ]; then echo 1; else echo 0; fi)
-%define _suse_kde2	%(if [ %_suse_ver_num -lt 80 ]; then echo 1; else echo 0; fi)
-%define _kde3_applnk	/opt/kde3/share/applnk
-%define _kde2_applnk	/opt/kde2/share/applnk
-# define some dummy directory to install file, will be copied afterwards for SuSE
-%define _kde_applnk	/opt/kde/share/applnk
-%else
-%define _not_suse	1
-%define _release	%{__release}
-%endif
 ### End - SuSE Linux
 ####################################################################################
 
@@ -68,7 +42,7 @@ Version:	%{_version}
 Release:	%{_release}
 License:	GPL
 Group:		Productivity/Networking/InstantMessaging
-URL:		http://amsn.sourceforge.net/
+URL:		http://www.amsn-project.net/
 Source:		http://dl.sourceforge.net/sourceforge/amsn/%{name}-%{_src_version}.tar.gz
 Requires:	tcl >= 8.4
 Requires:	tk >= 8.4
@@ -110,7 +84,7 @@ Projekt zu erfahren.
 %{__mkdir_p} "${RPM_BUILD_ROOT}%{_bindir}"
 %{__make} rpm-install INSTALL_PREFIX=${RPM_BUILD_ROOT}
 
-# manually copy the .desktop file for KDE, it's broken in the Makefile
+# copy the .desktop file
 %{__mkdir_p} "${RPM_BUILD_ROOT}%{_desk_applnk}"
 %{__cp} "${RPM_BUILD_ROOT}%{_datadir}"/*.desktop \
 	"${RPM_BUILD_ROOT}%{_desk_applnk}"
@@ -118,20 +92,6 @@ Projekt zu erfahren.
 %{__mkdir_p} "${RPM_BUILD_ROOT}%{_desk_icons}"
 %{__ln_s} -f %{_datadir}/icons/48x48/msn.png \
 	${RPM_BUILD_ROOT}%{_desk_icons}/msn.png
-
-#
-# SuSE-specific handling of KDE2 and/or KDE3
-#
-%if %_suse_kde2
-%{__mkdir_p} "${RPM_BUILD_ROOT}%{_kde2_applnk}/%{_applnk_cat}/"
-%{__cp} "${RPM_BUILD_ROOT}%{_kde_applnk}/%{_applnk_cat}"/*.desktop \
-	"${RPM_BUILD_ROOT}%{_kde2_applnk}/%{_applnk_cat}/"
-%endif
-%if %_suse_kde3
-%{__mkdir_p} "${RPM_BUILD_ROOT}%{_kde3_applnk}/%{_applnk_cat}/"
-%{__cp} "${RPM_BUILD_ROOT}%{_kde_applnk}/%{_applnk_cat}"/*.desktop \
-	"${RPM_BUILD_ROOT}%{_kde3_applnk}/%{_applnk_cat}/"
-%endif
 
 %clean
 %{__rm} -rf "${RPM_BUILD_ROOT}"
@@ -151,15 +111,7 @@ true
 %{_bindir}
 %{_desk_icons}/msn.png
 %{_datadir}
-%if %_not_suse
 %{_desk_applnk}/*.desktop
-%endif
-%if %_suse_kde3
-%{_kde3_applnk}/%{_applnk_cat}/*.desktop
-%endif
-%if %_suse_kde2
-%{_kde2_applnk}/%{_applnk_cat}/*.desktop
-%endif
 
 %changelog
 * Sun Nov 6 2005 Le Philousophe <lephilousophe AT users.sourceforge.net>

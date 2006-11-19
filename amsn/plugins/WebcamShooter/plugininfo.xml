@@ -17,10 +17,10 @@
 	</lang>
 
 	<URL>
-		<main>http://amsn.sourceforge.net/autoupdater/plugins2/WebcamShooter/camshoot.tcl</main>
-		<plugininfo>http://amsn.sourceforge.net/autoupdater/plugins2/WebcamShooter/plugininfo.xml</plugininfo>
-		<lang>http://amsn.sourceforge.net/autoupdater/plugins2/WebcamShooter/lang/lang$langcode</lang>
-		<file>http://amsn.sourceforge.net/autoupdater/plugins2/WebcamShooter/$file</file>
+		<main>http://www.amsn-project.net/autoupdater/plugins2/WebcamShooter/camshoot.tcl</main>
+		<plugininfo>http://www.amsn-project.net/autoupdater/plugins2/WebcamShooter/plugininfo.xml</plugininfo>
+		<lang>http://www.amsn-project.net/autoupdater/plugins2/WebcamShooter/lang/lang$langcode</lang>
+		<file>http://www.amsn-project.net/autoupdater/plugins2/WebcamShooter/$file</file>
 	</URL>
 
 </plugin>
