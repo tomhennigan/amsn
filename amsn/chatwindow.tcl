@@ -915,7 +915,6 @@ namespace eval ::ChatWindow {
 	}
 
 	proc CreateNewContainer { } { 
-		
 		set container [CreateContainerWindow]
 		set mainmenu [CreateMainMenu $container]
 		$container configure -menu $mainmenu
@@ -1224,10 +1223,10 @@ namespace eval ::ChatWindow {
 	# it only creates the menu supposed to appear in the menu bar actually
 	#
 	proc CreateMainMenu { w } {
-
 		set mainmenu $w.menu	
 
-		if { [package provide pixmapmenu] != "" } {
+		if {[package provide pixmapmenu] != "" && \
+			[info commands pixmapmenu_isEnabled] && [pixmapmenu_isEnabled]} {
 			pack [menubar $mainmenu] -fill x -side top
 		} else {
 			menu $mainmenu -tearoff 0 -type menubar -borderwidth 0 -activeborderwidth -0

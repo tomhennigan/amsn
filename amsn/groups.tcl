@@ -466,6 +466,10 @@ namespace eval ::groups {
 		variable parent
 		variable entryid
 	
+		# Destroy if they already exist
+		if {[winfo exists .group_list_delete]} { destroy .group_list_delete }
+		if {[winfo exists .group_list_rename]} { destroy .group_list_rename }
+
 		# The submenu with the list of defined groups (to be filled)
 		menu .group_list_delete -tearoff 0 -type normal
 		menu .group_list_rename -tearoff 0 -type normal

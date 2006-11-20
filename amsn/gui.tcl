@@ -32,7 +32,7 @@ if { [OnMac] } {
 	catch {load utils/macosx/Quicktimetcl3.1/quicktimetcl3.1.dylib}
 } else {
 	package require pixmapscroll
-	#package require pixmapmenu
+	package require pixmapmenu
 }
 
 if { $initialize_amsn == 1 } {
@@ -3126,38 +3126,64 @@ namespace eval ::amsn {
 	}
 }
 
+proc create_states_menu {wmenu} {
+	# Destroy if already existing
+	if {[winfo exists $wmenu]} {
+		destroy $wmenu
+	}
 
-#///////////////////////////////////////////////////////////////////////
-proc cmsn_draw_main {} {
-	global emotion_files date weburl lang_list \
-	password pgBuddy pgBuddyTop pgNews argv0 argv langlong
-
-	#User status menu
-	menu .my_menu -tearoff 0 -type normal
-	.my_menu add command -label [trans online] -command "ChCustomState NLN"
-	.my_menu add command -label [trans noactivity] -command "ChCustomState IDL"
-	.my_menu add command -label [trans busy] -command "ChCustomState BSY"
-	.my_menu add command -label [trans rightback] -command "ChCustomState BRB"
-	.my_menu add command -label [trans away] -command "ChCustomState AWY"
-	.my_menu add command -label [trans onphone] -command "ChCustomState PHN"
-	.my_menu add command -label [trans gonelunch] -command "ChCustomState LUN"
-	.my_menu add command -label [trans appearoff] -command "ChCustomState HDN"
+  	# User status menu
+	if {0 && [package provide pixmapmenu] != "" && \
+		[info commands pixmapmenu_isEnabled] && [pixmapmenu_isEnabled]} {
+		menubar $wmenu
+    } else {
+		menu $wmenu -tearoff 0 -type normal
+	}
+	$wmenu add command -label [trans online] -command "ChCustomState NLN"
+	$wmenu add command -label [trans noactivity] -command "ChCustomState IDL"
+	$wmenu add command -label [trans busy] -command "ChCustomState BSY"
+	$wmenu add command -label [trans rightback] -command "ChCustomState BRB"
+	$wmenu add command -label [trans away] -command "ChCustomState AWY"
+	$wmenu add command -label [trans onphone] -command "ChCustomState PHN"
+	$wmenu add command -label [trans gonelunch] -command "ChCustomState LUN"
+	$wmenu add command -label [trans appearoff] -command "ChCustomState HDN"
 
 	# Add the personal states to this menu
-	CreateStatesMenu .my_menu
+	CreateStatesMenu $wmenu
+}
+proc create_other_menus {umenu imenu} {
+	# Destroy if already existing
+	if {[winfo exists $umenu]} { destroy $umenu }
+	if {[winfo exists $imenu]} { destroy $imenu }
 
-	menu .user_menu -tearoff 0 -type normal
-	menu .user_menu.move_group_menu -tearoff 0 -type normal
-	menu .user_menu.copy_group_menu -tearoff 0 -type normal
-	menu .menu_invite -tearoff 0 -type normal
+	# User menu
+	if {0 && [package provide pixmapmenu] != "" && \
+		[info commands pixmapmenu_isEnabled] && [pixmapmenu_isEnabled]} {
+		menubar $umenu -tearoff 0 -type normal
+		menubar $umenu.move_group_menu -tearoff 0 -type normal
+		menubar $umenu.copy_group_menu -tearoff 0 -type normal
+		menubar $imenu -tearoff 0 -type normal
+	} else {
+		menu $umenu -tearoff 0 -type normal
+		menu $umenu.move_group_menu -tearoff 0 -type normal
+		menu $umenu.copy_group_menu -tearoff 0 -type normal
+		menu $imenu -tearoff 0 -type normal
+	}
+}
+proc create_main_menu {wmenu} {
+	global password 
+
+	# Destroy if already existing
+	if {[winfo exists .main_menu]} { destroy $wmenu }
 
 	#Main menu
-	if { [package provide pixmapmenu] != "" } {
-		pack [menubar .main_menu] -fill x -side top
+	if {[package provide pixmapmenu] != "" && \
+		[info commands pixmapmenu_isEnabled] && [pixmapmenu_isEnabled]} {
+		pack [menubar .main_menu] -before .main -fill x -side top
 	} else {
 		menu .main_menu -tearoff 0 -type menubar -borderwidth 0 -activeborderwidth -0
 	}
-	
+
 	######################################################
 	# Add the menus in the menubar                       #
 	######################################################
@@ -3368,7 +3394,16 @@ proc cmsn_draw_main {} {
 	::plugins::PostEvent mainmenu evPar	
 
 	# Show the menubar if config allows it (or we're on Mac)
-	if { [OnMac] || [::config::getKey showmainmenu -1] } { . conf -menu .main_menu }
+	if { [OnMac] || [::config::getKey showmainmenu -1] } { . conf -menu .main_menu }	
+}
+
+#///////////////////////////////////////////////////////////////////////
+proc cmsn_draw_main {} {
+	global pgBuddy pgBuddyTop pgNews argv0 argv
+
+	create_states_menu .my_menu
+	create_other_menus .user_menu .menu_invite
+	create_main_menu .main_menu
 
 	wm title . "[trans title] - [trans offline]"
 	wm command . [concat $argv0 $argv]
