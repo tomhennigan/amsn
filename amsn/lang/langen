@@ -100,6 +100,7 @@ busy Busy
 cachedpics $1 cached pics
 cagreement Confidentiality Agreement
 cancel Cancel
+cancelled Cancelled
 cannotdeleteprofile Cannot delete profile because it seems to be in use by an aMSN session
 cantexec Can't execute application: $1. Check preferences
 cantloadonlineversion Can't recover the On-Line updated list of languages from the Internet
@@ -290,6 +291,7 @@ entercontactemail Enter contact e-mail
 enterfilename Please enter a filename
 enternick Enter your nick
 enterpsm Your Personal Message
+error Error
 errortls Error installing TLS module:
 eventhistory View Events History
 examples Examples

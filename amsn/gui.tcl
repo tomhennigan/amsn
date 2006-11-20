@@ -1120,6 +1120,38 @@ namespace eval ::amsn {
 		WinWriteIcon $chatid greyline 3
 	}
 
+	# TODO it would be best to make it "[$extratitle] - $file - [trans filetranser]" 
+	proc setFTWinTitle { w cookie filename {extratitle ""} } {
+		variable ftwin_filename 
+		
+		if { ![info exists ftwin_filename($w,$cookie)] } {
+			set file ""
+			if { $filename != ""} {
+				set file [getfilename $filename]
+				set ftwin_filename($w,$cookie) $file
+			}
+		} else {
+			set file [set ftwin_filename($w,$cookie)]
+		}
+
+		set title "$extratitle"
+		
+		if {$title != "" } {
+			append title " - "
+		}
+				
+		append title "$file - [trans filetransfer]"
+
+		wm title $w "$title"
+
+#		 if { [::MSNFT::getTransferType $cookie] == "received" } {
+# 			wm title $w "$filename - [trans receivefile]"
+# 		} else {
+# 			wm title $w "$filename - [trans sendfile]"
+# 		}
+
+	}
+
 	#PRIVATE: Opens Receiving Window
 	proc FTWin {cookie filename user {chatid 0}} {
 		status_log "Creating receive progress window\n"
@@ -1166,13 +1198,8 @@ namespace eval ::amsn {
 		button $w.openfile -text "[trans openfile]" -state disable -command "open_file {$filepath}"
 		pack $w.close $w.open $w.openfile -side right -pady 5 -padx 10
 
-		if { [::MSNFT::getTransferType $cookie] == "received" } {
-			wm title $w "$filename - [trans receivefile]"
-		} else {
-			wm title $w "$filename - [trans sendfile]"
-		}
+		setFTWinTitle $w $cookie $filename
 
-		wm title $w "$filename - [trans filetransfer]"
 		bind $w <<Escape>> $cancelcmd
 		wm protocol $w WM_DELETE_WINDOW $cancelcmd
 		moveinscreen $w 30
@@ -1226,32 +1253,36 @@ namespace eval ::amsn {
 		switch $mode {
 			a {
 				$w.progress configure -text "[trans ftaccepting]..."
-				set bytes 0
-				set filesize 1000
+				setFTWinTitle $w $cookie $filename
+				::dkfprogress::SetProgress $w.prbar 0 1000
 			}
 			c {
 				$w.progress configure -text "[trans ftconnecting $bytes $filesize]..."
-				set bytes 0
-				set filesize 1000
+				setFTWinTitle $w $cookie $filename
+				::dkfprogress::SetProgress $w.prbar 0 1000
 			}
 			w {
 				$w.progress configure -text "[trans listeningon $bytes]..."
-				set bytes 0
-				set filesize 1000
+				setFTWinTitle $w $cookie $filename
+				::dkfprogress::SetProgress $w.prbar 0 1000
 			}
 			e {
 				$w.progress configure -text "[trans ftconnecterror]"
 				$w.close configure -text "[trans close]" -command "destroy $w"
 				wm protocol $w WM_DELETE_WINDOW "destroy $w"
+				setFTWinTitle $w $cookie $filename "[trans error]"
 			}
 			i {
+				# This means it's connected and it tries to authenticate the user...
 				#$w.progress configure -text "[trans ftconnecting]"
+				setFTWinTitle $w $cookie $filename
 			}
 			l {
 				$w.progress configure -text "[trans ftconnectionlost]"
 				$w.close configure -text "[trans close]" -command "destroy $w"
 				wm protocol $w WM_DELETE_WINDOW "destroy $w"
 				bind $w <<Escape>> "destroy $w"
+				setFTWinTitle $w $cookie $filename "[trans error]"
 			}
 			r -
 			s {
@@ -1286,14 +1317,21 @@ namespace eval ::amsn {
 						"[trans sentbytes [::amsn::sizeconvert $bytes] [::amsn::sizeconvert $filesize]] ($rate KB/s)"
 				}
 				$w.time configure -text "[trans timeremaining] :  $timeleft"
+				set percent [expr {int(double($bytes)/ (double($filesize)/100.0))}]
 
 				set ratetimer($cookie) [after 1000 [list ::amsn::FTProgress $mode $cookie $filename $bytes $filesize $chatid]]
+
+				setFTWinTitle $w $cookie $filename "${percent}%"
+				if { $filesize != 0 } {
+					::dkfprogress::SetProgress $w.prbar $bytes $filesize
+				}
 			}
 			ca {
 				$w.progress configure -text "[trans filetransfercancelled]"
 				$w.close configure -text "[trans close]" -command "destroy $w"
 				wm protocol $w WM_DELETE_WINDOW "destroy $w"
 				bind $w <<Escape>> "destroy $w"
+				setFTWinTitle $w $cookie $filename "[trans cancelled]"
 			}
 			fs -
 			fr {
@@ -1303,8 +1341,8 @@ namespace eval ::amsn {
 				$w.openfile configure -state normal
 				wm protocol $w WM_DELETE_WINDOW "destroy $w"
 				bind $w <<Escape>> "destroy $w"
-				set bytes 1024
-				set filesize 1024
+				setFTWinTitle $w $cookie $filename "[trans done]"
+				::dkfprogress::SetProgress $w.prbar 1000 1000
 			}
 		}
 
@@ -1318,16 +1356,11 @@ namespace eval ::amsn {
 				# remove the counters for this cookie.
 				if {[info exists firsttimes($cookie)]} { unset firsttimes($cookie) }
 				if {[info exists ratetimer($cookie)]} { unset ratetimer($cookie) }
+				variable ftwin_filename 
+				if {[info exists ftwin_filename($w,$cookie)]} { unset ftwin_filename($w,$cookie) }
 			}
 		}
 
-		#set bytes2 [expr {int($bytes/1024)}]
-		#set filesize2 [expr {int($filesize/1024)}]
-		if { $filesize != 0 } {
-			#set percent [expr {int(($bytes2*100)/$filesize2)}]
-			#::dkfprogress::SetProgress $w.prbar $percent
-			::dkfprogress::SetProgress $w.prbar $bytes $filesize
-		}
 
 		# Close the window if the filetransfer is finished
 		if {($mode == "fr" | $mode == "fs") & [::config::getKey ftautoclose]} {

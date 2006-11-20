@@ -545,7 +545,6 @@ namespace eval ::MSNFT {
       variable filedata
 
       if {[supportsNewFT [::abook::getContactData $chatid clientid]]} {
-      	#::MSN6FT::SendFT $chatid $filename $filesize
 	set sid [::MSN6FT::SendFT $chatid $filename $filesize]
 	setObjOption $cookie msn6ftsid $sid
        	return 0
