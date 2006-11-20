@@ -1,3 +1,23 @@
+#
+#
+# Issues with pixmapmenu:
+# - Not all menus are menubars. Can't we do this better (automatically instead of checking
+#   whether pixmapmenu is enabled each time a menu is created)?
+#
+# - Move to group and Copy to group are disabled.
+#
+# - A weird error occurs only for Account menu on CL (unposting). Also, for some menus
+#   there are post errors (post or unpost do not exist sometimes).
+#   -->> that's because of the .my_menu submenu in Account (but why?)
+#
+# - "enable_pixmapmenu ; disable_pixmapmenu ; enable_pixmapmenu" goes wrong, enabling the
+#   second time results in some problem with contentmanager (attachment ... already exists)
+#   -->> contentmanager add attachment ... in utils/pixmapmenu/pixmapmenu.tcl
+#
+# - When users upgrade chameleon, config element for pixmapmenu should be enabled
+#   by default?
+#
+#
 namespace eval ::chameleon {
 
       variable plugin_dir
@@ -73,6 +93,7 @@ namespace eval ::chameleon {
       # -    tk_dialog/tk_messageBox => dialog
       # X    ::combobox::combobox => combobox
       # X    NoteBook => notebook
+      # X	 menu => pixmapmenu
       #
       #
       #     *List non native Tile widgets :
@@ -82,7 +103,6 @@ namespace eval ::chameleon {
       #     *List of non supported Tk widgets
       #     canvas 
       #     listbox
-      #     menu
       #     message 
       #     spinbox
       #     text
@@ -101,7 +121,13 @@ namespace eval ::chameleon {
               variable THEMES
               variable WR_WIDGETS
 
-              ::plugins::RegisterPlugin "Chameleon"
+              ::plugins::RegisterPlugin Chameleon
+
+              # Load language files
+              set langdir [file join $dir "lang"]
+              set lang [::config::getGlobalKey language]
+              load_lang en $langdir
+              load_lang $lang $langdir
 
               # Avoid having 100s of $dir in auto_path, in case user loads/unloads plugin many times..
               if { [lsearch $::auto_path $dir] == -1  } {
@@ -115,7 +141,7 @@ namespace eval ::chameleon {
 
 
               if {[catch {package require tile 0.7}]} { 
-                      msg_box "You need the tile extension to be installed to run this plugin"
+                      msg_box [trans need_tile_extension]
                       ::plugins::GUI_Unload
                       set ::auto_path $autopath
                       return 0
@@ -150,8 +176,11 @@ namespace eval ::chameleon {
               # Use tile::defaultTheme to get the default theme for this platform 
               set ::chameleon::config(theme) [set ::tile::defaultTheme]
               foreach widget [array names WR_WIDGETS] {
-                      set ::chameleon::config(wrap_$widget) 1
+                      set ::chameleon::config(wrap_$widget) 0
               }
+
+			  # Enable pixmapmenu
+			  set ::chameleon::config(enable_pixmapmenu) 0
 
               set THEMELIST {
                       default         "Default"
@@ -173,7 +202,10 @@ namespace eval ::chameleon {
                       }
               }
 
-              set ::chameleon::configlist [list [list frame ::chameleon::populateframe ""] [list frame ::chameleon::populateframe2 ""]]
+              set ::chameleon::configlist [list \
+				[list frame ::chameleon::populateframe ""] \
+				[list frame ::chameleon::populateframe2 ""] \
+				[list frame ::chameleon::populateframe3 ""]]
               set plugin_dir $dir
 
               if { [info exists ::Chameleon_cfg(theme)] } {
@@ -281,13 +313,25 @@ namespace eval ::chameleon {
               }
       }
 
+	  proc populateframe3 { win } {
+		set pmenu $win.pmenu
+
+		::ttk::labelframe $pmenu -text [trans experimental]
+		set b [::ttk::checkbutton $pmenu.enablepixmapmenu \
+			-text [trans enable_pixmapmenu] \
+			-variable ::chameleon::config(enable_pixmapmenu)]
+		pack $b -side top -expand false -fill x
+
+		pack $pmenu -expand true -fill both
+	  }
+
       proc populateframe2 { win } {
               variable WR_WIDGETS 
 
               set widgs $win.widgs
 
-              ::ttk::labelframe $widgs -text "Widgets to wrap"
-              status_log "$widgs"
+              ::ttk::labelframe $widgs -text [trans widgets_to_wrap]
+              plugins_log "Chameleon" "$widgs"
               foreach w_name [array names WR_WIDGETS] {
                       set b [::ttk::checkbutton $widgs.wrap$w_name -text $w_name \
                                  -variable ::chameleon::config(wrap_$w_name)]
@@ -303,8 +347,8 @@ namespace eval ::chameleon {
 
               set themes $win.themes
 
-              ::ttk::labelframe $themes -text "Theme"
-              status_log "$themes"
+              ::ttk::labelframe $themes -text [trans theme]
+              plugins_log "Chameleon" "$themes"
               foreach {theme name} $THEMELIST {
                       set b [::ttk::radiobutton $themes.s$theme -text $name \
                                  -variable ::chameleon::config(theme) -value $theme \
@@ -340,6 +384,7 @@ namespace eval ::chameleon {
       }
 
       proc wrap_or_unwrap {{revert 0}} {
+              global pixmapmenu_enabled
               variable wrapped
               variable wrapped_procs
               variable wrapped_into
@@ -389,6 +434,20 @@ namespace eval ::chameleon {
                                       lappend wrapped_procs [set WR_WIDGETS($w_name)]
                               }
                       }
+					  # pixmapmenu
+					  if {$::chameleon::config(enable_pixmapmenu) && \
+						  [info exists pixmapmenu_enabled] && \
+                          ! $pixmapmenu_enabled} {
+						enable_pixmapmenu
+					  } elseif {! $::chameleon::config(enable_pixmapmenu)} {
+						plugins_log "Chameleon" "Not enabling pixmapmenu because disabled in config."
+					  } elseif {! [info exists pixmapmenu_enabled]} {
+						plugins_log "Chameleon" "Not enabling pixmapmenu because pixmapmenu_enabled var does not exist."
+					  } else {
+						plugins_log "Chameleon" "Not enabling pixmapmenu because pixmapmenu already enabled."
+					  }
+
+
                       foreach command $wrapped_procs {
                               set tk_widget_type $command
                               set ttk_widget_type [set wrapped_into($command)]

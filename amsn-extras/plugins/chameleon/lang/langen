@@ -1,0 +1,6 @@
+amsn_lang_version 2
+need_tile_extension You need the tile extension to be installed to run this plugin
+widgets_to_wrap Widgets to wrap
+theme Theme
+experimental Experimental! (Might require restart)
+enable_pixmapmenu This will enable pixmap-themed menus. This is experimental and you should use it at your own risks!\n If it doesn't work for you, stop using it. aMSN needs to be restarted in order to enable or disable this feature.
