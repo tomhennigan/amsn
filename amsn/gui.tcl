@@ -3134,7 +3134,7 @@ proc create_states_menu {wmenu} {
 
   	# User status menu
 	if {0 && [package provide pixmapmenu] != "" && \
-		[info commands pixmapmenu_isEnabled] && [pixmapmenu_isEnabled]} {
+		[info commands pixmapmenu_isEnabled] != "" && [pixmapmenu_isEnabled]} {
 		menubar $wmenu
     } else {
 		menu $wmenu -tearoff 0 -type normal
@@ -3158,7 +3158,7 @@ proc create_other_menus {umenu imenu} {
 
 	# User menu
 	if {0 && [package provide pixmapmenu] != "" && \
-		[info commands pixmapmenu_isEnabled] && [pixmapmenu_isEnabled]} {
+		[info commands pixmapmenu_isEnabled] != "" && [pixmapmenu_isEnabled]} {
 		menubar $umenu -tearoff 0 -type normal
 		menubar $umenu.move_group_menu -tearoff 0 -type normal
 		menubar $umenu.copy_group_menu -tearoff 0 -type normal
@@ -3178,7 +3178,7 @@ proc create_main_menu {wmenu} {
 
 	#Main menu
 	if {[package provide pixmapmenu] != "" && \
-		[info commands pixmapmenu_isEnabled] && [pixmapmenu_isEnabled]} {
+		[info commands pixmapmenu_isEnabled] != "" && [pixmapmenu_isEnabled]} {
 		pack [menubar .main_menu] -before .main -fill x -side top
 	} else {
 		menu .main_menu -tearoff 0 -type menubar -borderwidth 0 -activeborderwidth -0

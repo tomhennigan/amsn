@@ -1226,7 +1226,7 @@ namespace eval ::ChatWindow {
 		set mainmenu $w.menu	
 
 		if {[package provide pixmapmenu] != "" && \
-			[info commands pixmapmenu_isEnabled] && [pixmapmenu_isEnabled]} {
+			[info commands pixmapmenu_isEnabled] != "" && [pixmapmenu_isEnabled]} {
 			pack [menubar $mainmenu] -fill x -side top
 		} else {
 			menu $mainmenu -tearoff 0 -type menubar -borderwidth 0 -activeborderwidth -0
