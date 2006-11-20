@@ -4,7 +4,7 @@ set pixmapmenu_enabled 0
 
 proc pixmapmenu_isEnabled {} {
   global pixmapmenu_enabled
-  return [info exists pixmapmenu_enabled] && $pixmapmenu_enabled
+  return [expr [info exists pixmapmenu_enabled] && $pixmapmenu_enabled ]
 }
 
 proc restore_pixmapmenus {} {
