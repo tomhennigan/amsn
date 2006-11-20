@@ -95,10 +95,12 @@ namespace eval ::draw {
 
 		set smileybut $buttonbar.smileys
 		set fontbut $buttonbar.fontsel
-
+		set voice $buttonbar.voice
+		
 		#remove the text/smiley controls		
 		pack forget $smileybut
 		pack forget $fontbut
+		pack forget $voice
 
 		set w $window	
 		set inputframe $w.f.bottom.left.in.inner
@@ -202,6 +204,7 @@ status_log "reset to text mode"
 
 		set smileybut $buttonbar.smileys
 		set fontbut $buttonbar.fontsel
+		set voice $buttonbar.voice
 		
 		set inkswitch $buttonbar.inkswitchbut
 		set senddraw $buttonbar.senddrawingbutton
@@ -225,6 +228,7 @@ status_log "reset to text mode"
 		#repack the text/smiley controls		
 		pack $fontbut -side left -padx 0 -pady 0
 		pack $smileybut -side left -padx 0 -pady 0
+		pack $voice -side left -padx 0 -pady 0
 		pack $inkswitch -side left -padx 0 -pady 0
 		
 		
