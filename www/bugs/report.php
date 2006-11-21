@@ -1,6 +1,6 @@
 <?php
 include("../libs/lang.lib.php");
-include("../libs/sf.lib.php");
+include("../libs/mail.lib.php");
 include("lang/en");
 if(isset($_GET['lang']) && is_readable("lang/".$_GET['lang'])) {
   include("lang/".$_GET['lang']);

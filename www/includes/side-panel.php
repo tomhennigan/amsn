@@ -1,10 +1,11 @@
 <!-- Poll -->
 <div class="block_right">
-<?php
 
+<?php
 /* uncomment next line to enable language block in the sidebar */
+include 'includes/side-panel-jronline.php';
 //include 'side-panel-language.php';
-include 'includes/side-panel-search.php'; 
+//include 'includes/side-panel-search.php'; 
 include 'includes/side-panel-polls.php';
 include 'includes/side-panel-forums.php';
 include 'includes/side-panel-help.php'; 

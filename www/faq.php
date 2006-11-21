@@ -1,5 +1,5 @@
 <?php
-header("Location: http://amsn.sourceforge.net/userwiki/index.php/Frequently_Asked_Questions");
+header("Location: http://www.amsn-project.net/wiki/index.php/Frequently_Asked_Questions");
 ?>
 
 <!DOCTYPE html
@@ -10,6 +10,6 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 <title>Redirect...</title>
 </head>
 <body>
-Your web browser should have redirected you automaticly. If not, please <a href="http://amsn.sourceforge.net/userwiki/index.php/Frequently_Asked_Questions">click here</a>.
+Your web browser should have redirected you automaticly. If not, please <a href="http://www.amsn-project.net/wiki/index.php/Frequently_Asked_Questions">click here</a>.
 </body>
 </html>

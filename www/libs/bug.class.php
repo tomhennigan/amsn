@@ -98,7 +98,7 @@ if(!defined('_BUG_CLASS_')) {
 
     function loadbugs() {
       $this->bugs=array();
-      $query="SELECT bug_id FROM ".TBUGREPORTS." WHERE bug_parent='".$this->_id."' ORDER BY LENGTH(bug_comment) DESC";
+      $query="SELECT bug_id FROM ".TBUGREPORTS." WHERE bug_parent=".$this->_id." ORDER BY bug_comment_length DESC";
       $result=mysql_query($query) or die('MySQL Query Error! '.mysql_error());
 
       while($row=mysql_fetch_array($result)) {

@@ -20,7 +20,7 @@ Here is a list of people who are currently working or have worked in past on aMS
 <ul><li>
 <b>Please Help</b><br /><br />
 If you would like to contribute to this project, please leave a message on our forum at:
-<a href="http://amsn.sourceforge.net/forums/viewforum.php?f=8">http://amsn.sourceforge.net/forums/viewforum.php?f=8</a>
+<a href="http://www.amsn-project.net/forums/viewforum.php?f=8">http://www.amsn-project.net/forums/viewforum.php?f=8</a>
 <br /><br />
 If you would like to donate to the aMSN project, you can find more information about doing so, here: <a href="donations.php">donations</a>
 <br /></li></ul>
@@ -61,7 +61,7 @@ contains new bug fixes from the previous releases. On the other hand, it might n
 
 <ul>
 <li>
-<a href="http://amsn.sourceforge.net/amsn_cvs.tar.gz">Download CVS SnapShot</a>
+<a href="http://www.amsn-project.net/amsn_cvs.tar.gz">Download CVS SnapShot</a>
 
 <!--<br /><br />You can also download this easy install script to get the latest cvs snapshot and download skins. Made by mazzaru. (Linux Only)-->
 <br /><br />
@@ -70,7 +70,7 @@ contains new bug fixes from the previous releases. On the other hand, it might n
 
 <!--<ul>
 <li>
-<a href="http://amsn.sourceforge.net/amsn_installer.tar.gz">Download easy install aMSN cvs and skins script</a>
+<a href="http://www.amsn-project.net/amsn_installer.tar.gz">Download easy install aMSN cvs and skins script</a>
 <br /><br />
 </li>
 </ul>-->
@@ -87,7 +87,7 @@ Information about aMSN coding can primarily be found at the aMSN wiki, under the
 
 <ul>
 <li>
-<a href="http://amsn.sourceforge.net/devwiki/tiki-index.php">http://amsn.sourceforge.net/devwiki/tiki-index.php</a><br /><br />
+<a href="http://www.amsn-project.net/devwiki/tiki-index.php">http://www.amsn-project.net/devwiki/tiki-index.php</a><br /><br />
 </li>
 </ul>
 
@@ -102,7 +102,7 @@ If you have a translation to submit for aMSN, please visit:
 
 <ul>
 <li>
-<a href="translations.php">http://amsn.sourceforge.net/translations.php</a>
+<a href="translations.php">http://www.amsn-project.net/translations.php</a>
 <br /><br />
 </li>
 </ul>
@@ -118,7 +118,7 @@ Information about aMSN graphics can primarily be found at the aMSN wiki, under t
 
 <ul>
 <li>
-<a href="http://amsn.sourceforge.net/devwiki/tiki-index.php">http://amsn.sourceforge.net/devwiki/tiki-index.php</a>
+<a href="http://www.amsn-project.net/devwiki/tiki-index.php">http://www.amsn-project.net/devwiki/tiki-index.php</a>
 <br /><br />
 </li>
 </ul>

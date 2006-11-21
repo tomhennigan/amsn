@@ -4,7 +4,7 @@ include('../common.inc.php');
 include('../../libs/url.class.php');
 include('../../libs/bugreport.class.php');
 include('../../libs/func.lib.php');
-include('../../libs/sf.lib.php');
+include('../../libs/mail.lib.php');
 include('../../libs/pager.class.php');
 include('../../libs/tabler.class.php');
 include('../../libs/bug.class.php');

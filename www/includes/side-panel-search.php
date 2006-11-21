@@ -5,7 +5,7 @@
 
 <!-- Search Google -->
 <center>
-<form method="get" action="http://amsn.sourceforge.net/search-results.php" target="_top">
+<form method="get" action="http://www.amsn-project.net/search-results.php" target="_top">
 <table bgcolor="#ffffff">
 <tr><td nowrap="nowrap" valign="top" align="left" height="32">
 <a href="http://www.google.com/">

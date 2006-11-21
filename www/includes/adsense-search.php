@@ -6,7 +6,7 @@
 <img src="http://www.google.com/logos/Logo_25wht.gif" border="0" alt="Google" align="middle"></img></a>
 </td>
 <td nowrap="nowrap">
-<input type="hidden" name="domains" value="amsn.sourceforge.net"></input>
+<input type="hidden" name="domains" value="www.amsn-project.net"></input>
 <input type="text" name="q" size="31" maxlength="255" value=""></input>
 <input type="submit" name="sa" value="Search"></input>
 </td></tr>
@@ -20,8 +20,8 @@
 <font size="-1" color="#000000">Web</font>
 </td>
 <td>
-<input type="radio" name="sitesearch" value="amsn.sourceforge.net"></input>
-<font size="-1" color="#000000">amsn.sourceforge.net</font>
+<input type="radio" name="sitesearch" value="www.amsn-project.net"></input>
+<font size="-1" color="#000000">www.amsn-project.net</font>
 </td>
 </tr>
 </table>
@@ -33,7 +33,7 @@
 <input type="hidden" name="safe" value="active"></input>
 <input type="hidden" name="flav" value="0000"></input>
 <input type="hidden" name="sig" value="CPMerPHq8i6AHrbc"></input>
-<input type="hidden" name="cof" value="GALT:#008000;GL:1;DIV:#336699;VLC:663399;AH:center;BGC:FFFFFF;LBGC:336699;ALC:0000FF;LC:0000FF;T:000000;GFNT:0000FF;GIMP:0000FF;LH:47;LW:450;L:http://amsn.sourceforge.net/forums/templates/MorpheusXSteelBlue/images/sblue/logo.gif;S:http://amsn.sourceforge.net;FORID:1"></input>
+<input type="hidden" name="cof" value="GALT:#008000;GL:1;DIV:#336699;VLC:663399;AH:center;BGC:FFFFFF;LBGC:336699;ALC:0000FF;LC:0000FF;T:000000;GFNT:0000FF;GIMP:0000FF;LH:47;LW:450;L:http://www.amsn-project.net/forums/templates/MorpheusXSteelBlue/images/sblue/logo.gif;S:http://www.amsn-project.net;FORID:1"></input>
 <input type="hidden" name="hl" value="en"></input>
 </td></tr></table>
 </form>

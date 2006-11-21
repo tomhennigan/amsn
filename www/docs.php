@@ -13,7 +13,7 @@ Links to aMSN Documents
 
 <ul>
 <li>
-<a href="http://amsn.sourceforge.net/devwiki/tiki-index.php?page=Frequently+Asked+Questions">FAQ</a>
+<a href="http://www.amsn-project.net/wiki/index.php/Frequently_Asked_Questions">FAQ</a>
 <br />
 </li>
 
