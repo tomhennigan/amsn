@@ -5,7 +5,8 @@ snit::widgetadaptor pixmapmenu {
 
 	typevariable arrowdownimg 		;# Arrow image
 	typevariable arrowrightimg 		;# Arrow image
-	typevariable backgroundimg 		;# Background image
+	typevariable backgroundimg1 		;# Background image menu
+	typevariable backgroundimg2 		;# Background image menu bar
 	typevariable backgroundborder 		;# Borders for scalable-bg for background
 	typevariable selectimg 			;# Select image
 	typevariable selectborder 		;# Borders for scalable-bg for select
@@ -19,9 +20,10 @@ snit::widgetadaptor pixmapmenu {
 	typeconstructor {
 		::skin::setPixmap menuarrowdown menu_arrow_down.png
 		::skin::setPixmap menuarrowright menu_arrow_right.png
-		::skin::setPixmap menubackground menu_background.png
-		::skin::setPixmap menuselect menu_select.png
-		::skin::setPixmap menuseparator menu_separator.png
+		::skin::setPixmap menubackground1 menu_background1.gif
+		::skin::setPixmap menubackground2 menu_background2.gif
+		::skin::setPixmap menuselect menu_select.gif
+		::skin::setPixmap menuseparator menu_separator.gif
 		::skin::setPixmap checkbox checkbox.png
 		::skin::setPixmap checktick checkmark.png
 		::skin::setPixmap radiobox radiobox.png
@@ -32,7 +34,8 @@ snit::widgetadaptor pixmapmenu {
 		set radiotickimg [::skin::loadPixmap radiotick]
 		set arrowdownimg [::skin::loadPixmap menuarrowdown]
 		set arrowrightimg [::skin::loadPixmap menuarrowright]
-		set backgroundimg [::skin::loadPixmap menubackground]
+		set backgroundimg1 [::skin::loadPixmap menubackground1]
+		set backgroundimg2 [::skin::loadPixmap menubackground2]
 		set selectimg [::skin::loadPixmap menuselect]
 		set separatorimg [::skin::loadPixmap menuseparator]
 		set backgroundborder {1 1 1 1}
@@ -42,7 +45,7 @@ snit::widgetadaptor pixmapmenu {
 
 	option -activeforeground -configuremethod SetForeground -default black
 	option -activefg -configuremethod SetForeground -default black
-	option -cascadedelay -default 500
+	option -cascadedelay -default 200
 	option -disabledforeground -configuremethod SetForeground -default grey
 	option -disabledfg -configuremethod SetForeground -default grey
 	option -entrypadx -configuremethod SetPadding -default 4
@@ -69,8 +72,10 @@ snit::widgetadaptor pixmapmenu {
 	variable textid 	;# Array to store canvas ids of entries' text
 	variable checktickid	;# Array to store canvas ids of entries' check marks (checkbutton entries only)
 	variable radiotickid	;# Array to store canvas ids of entries' radio marks (radiobutton entries only)
-	variable backgroundid	;# Canvas id of background image
-	variable background	;# Backgound scalable-bg
+	variable backgroundid1	;# Canvas id of background image
+	variable backgroundid2	;# Canvas id of background image
+	variable background1	;# Backgound scalable-bg1
+	variable background2	;# Backgound scalable-bg2
 	variable select		;# Select scalable-bg
 	variable selectid	;# Canvas id of select image
 	variable separator	;# Separator scalable-bg
@@ -107,9 +112,14 @@ snit::widgetadaptor pixmapmenu {
 			-orient $options(-orient)]
 
 		# Create menu background & select
-		set background [scalable-bg $self.background \
-			-source $backgroundimg	-border $backgroundborder]
-		set backgroundid [$canvas create image 0 0 -anchor nw -image [$background name]]
+		set background1 [scalable-bg $self.background1 \
+			-source $backgroundimg1	-border $backgroundborder]
+		set background2 [scalable-bg $self.background2 \
+			-source $backgroundimg2	-border $backgroundborder]
+
+		set backgroundid1 [$canvas create image 0 0 -anchor nw -image [$background1 name]]
+		set backgroundid2 [$canvas create image 0 0 -anchor nw -image [$background2 name]]
+
 		set select [scalable-bg $self.select \
 			-source $selectimg	-border $selectborder \
 			-width 	1		-height 1]
@@ -127,7 +137,8 @@ snit::widgetadaptor pixmapmenu {
 	destructor {
 		catch {after cancel $afterid(Sort)}
 		catch {contentmanager delete $main}
-		catch {$background destroy}
+		catch {$background1 destroy}
+		catch {$background2 destroy}
 		catch {$select destroy}
 		catch {$separator destroy}
 		catch {
@@ -142,14 +153,14 @@ snit::widgetadaptor pixmapmenu {
 	method Configure { width height } {
 		switch $options(-orient) {
 			horizontal {
-				$background configure \
+				$background1 configure \
 					-width	$width	-height	$height
 				$separator configure \
 					-width 	[image height $separatorimg] \
 					-height	[expr {$height - (2 * $options(-ipady)) - (2 * $options(-entrypady))}]
 			}
 			vertical {
-				$background configure \
+				$background2 configure \
 					-width	$width	-height	$height
 				$separator configure \
 					-width 	[expr {$width - (2 * $options(-ipadx)) - (2 * $options(-entrypadx))}] \
