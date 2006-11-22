@@ -4,18 +4,9 @@
 # - Not all menus are menubars. Can't we do this better (automatically instead of checking
 #   whether pixmapmenu is enabled each time a menu is created)?
 #
-# - Move to group and Copy to group are disabled.
-#
-# - A weird error occurs only for Account menu on CL (unposting). Also, for some menus
-#   there are post errors (post or unpost do not exist sometimes).
-#   -->> that's because of the .my_menu submenu in Account (but why?)
-#
 # - "enable_pixmapmenu ; disable_pixmapmenu ; enable_pixmapmenu" goes wrong, enabling the
 #   second time results in some problem with contentmanager (attachment ... already exists)
 #   -->> contentmanager add attachment ... in utils/pixmapmenu/pixmapmenu.tcl
-#
-# - When users upgrade chameleon, config element for pixmapmenu should be enabled
-#   by default?
 #
 #
 namespace eval ::chameleon {
