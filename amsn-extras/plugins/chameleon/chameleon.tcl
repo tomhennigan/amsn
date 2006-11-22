@@ -147,6 +147,13 @@ namespace eval ::chameleon {
                       return 0
               }
 
+			  if {[catch {package require pixmapmenu}]} {
+				msg_box [trans need_pixmapmenu]
+				::plugins::GUI_Unload
+				set ::auto_path $autopath
+				return 0
+			  }
+
               foreach package [info loaded] { 
                       foreach {lib name} $package break
                       if {$name == "Tile" } {

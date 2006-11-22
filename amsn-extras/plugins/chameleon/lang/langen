@@ -1,5 +1,6 @@
 amsn_lang_version 2
 need_tile_extension You need the tile extension to be installed to run this plugin
+need_pixmapmenu You need pixmapmenu to be installed to run this plugin
 widgets_to_wrap Widgets to wrap
 theme Theme
 experimental Experimental! (Might require restart)

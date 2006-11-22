@@ -32,7 +32,6 @@ if { [OnMac] } {
 	catch {load utils/macosx/Quicktimetcl3.1/quicktimetcl3.1.dylib}
 } else {
 	package require pixmapscroll
-	package require pixmapmenu
 }
 
 if { $initialize_amsn == 1 } {
