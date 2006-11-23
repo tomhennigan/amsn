@@ -41,6 +41,7 @@ img.thumb
   margin: 0px 0px 0px 0px;
 }
 
+
 a.screeny
 {
   display: block;
@@ -59,4 +60,75 @@ img#focused
   width: 100px;
   height: 100px;
   margin: 0px 0px 5px 0px
+}
+
+/* formatting of toc list */
+
+dl.toc img.toc_icon
+{
+  float:         left;
+  display:       inline;   /* for MSIE */
+  margin-right:  15px;
+  margin-bottom: 5px;
+}
+
+img.toc_icon:hover
+{
+  background: url(images/downloadbg_hover.png);
+}
+
+* html dl.toc img.toc_icon
+{
+  position:      relative; /* for MSIE or it will hide the float */
+}
+
+dl.toc dt
+{
+  clear: both;
+}
+
+dl.toc dd
+{
+  margin-bottom: 7px;
+}
+
+dl.toc span.toc_title
+{
+  padding-top: 8px;
+  display:     block;
+  height:      1.5em;
+  font-size:   15px;
+}
+
+dl.toc:after
+{
+/* clear content with css2 */
+  content:     "."; 
+  display:     block; 
+  height:      0;
+  line-height: 0%;
+  clear:       both; 
+  visibility:  hidden;
+}
+
+/* for ie/win \*/
+* html dl.toc
+{
+  /* abuse MSIE bug for the same effect */
+  height: 0.1em;
+}
+/* end */
+
+img.distr
+{
+  background: url(images/downloadbg.png);
+}
+img.distr:hover
+{
+  background: url(images/downloadbg_hover.png);
+}
+span.command
+{
+  font-family:  monospace, fixed;
+  color:        #23466C;
 }
