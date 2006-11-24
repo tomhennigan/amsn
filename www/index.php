@@ -42,7 +42,7 @@ echo '<br /><br />';
 
 switch(remoteOS()) {
     case 'Windows':
-    $url='dlfile.php?file=amsn-0.96RC1-windows-installer.exe';
+    $url='dlfile.php?file=amsn-0.96-windows-installer.exe';
     break;
     case 'Linux':
     $url='linux-downloads.php';
