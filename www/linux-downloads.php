@@ -1,5 +1,5 @@
 <?php
-   define('source', 'linux-downloads');
+   define('source', 'download');
    include 'common.php';
    include inc . 'init.php';
 
