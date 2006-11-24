@@ -23,6 +23,7 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 	TCHAR exePath[MAX_PATH] = {_T('\0')};
 	LPTSTR endOfPath = NULL;
 	LPTSTR pCmd = NULL;
+        BOOL process_created;
 
 	int lnOfPath, ret;
 	
@@ -49,18 +50,19 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 
 	wsprintf(pCmd,_T("\"%s%s\" \"%s%s\""),exePath,PATH_TO_WISH,exePath,PATH_TO_AMSN);
 
-	CreateProcess(NULL,pCmd,NULL,NULL,FALSE,0,NULL,exePath,&startinfo,&pi);
-	ret = GetLastError();
+	process_created = CreateProcess(NULL,pCmd,NULL,NULL,FALSE,0,NULL,exePath,&startinfo,&pi);
+
+	if (process_created  == 0) {
+		ret = GetLastError();
+		wsprintf(exePath, _T("Cannot run aMSN : error %u"), ret);
+		MessageBox(NULL,exePath, _T("aMSN Launcher"),MB_ICONERROR | MB_OK);
+	}
 	CloseHandle(pi.hProcess);
 	CloseHandle(pi.hThread);
 
 	HeapFree(GetProcessHeap(),0,pCmd);
 
-	if (ret != ERROR_SUCCESS) {
-		wsprintf(exePath, _T("Cannot run aMSN : error %u"), ret);
-		MessageBox(NULL,exePath, _T("aMSN Launcher"),MB_ICONERROR | MB_OK);
-	}
-	return 0;
+	return process_created? 0 : -1;
 }
 
 
