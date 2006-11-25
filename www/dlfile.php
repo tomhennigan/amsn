@@ -7,7 +7,7 @@ if(isset($_GET['file'])) {
   die("No file selected!");
 }
 
-$url="http://prdownloads.sourceforge.net/amsn/".$file;
+$url="http://downloads.sourceforge.net/amsn/".$file;
 
 header("Location: ".$url);
 ?>
