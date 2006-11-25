@@ -13,8 +13,8 @@
 	<a name="AP"></a>
 	<h3>Generic Installer</h3>
 	<dl class="toc"><dt>
-            <a href="http://prdownloads.sourceforge.net/amsn/amsn-0.96-1.tcl84.x86.package"><img class="toc_icon" src="images/download-other-big.png" alt="AutoPackage" /></a><br />
-	    <a href="http://prdownloads.sourceforge.net/amsn/amsn-0.96-1.tcl84.x86.package"><span class="toc_title">aMSN Installer</span></a>
+            <a href="http://download.sourceforge.net/amsn/amsn-0.96-2.tcl84.x86.package"><img class="toc_icon" src="images/download-other-big.png" alt="AutoPackage" /></a><br />
+	    <a href="http://download.sourceforge.net/amsn/amsn-0.96-2.tcl84.x86.package"><span class="toc_title">aMSN Installer</span></a>
 	</dt><dd>
 		Distribution independent installer
     </dd></dl><br />
@@ -63,8 +63,8 @@
     <a name="tarball"></a>
     <h3>Source downloads</h3>
         <dl class="toc"><dt>
-        <a href="http://prdownloads.sourceforge.net/amsn/amsn-0.96.tar.bz2"><img class="toc_icon" src="images/download-tarball-big.png" alt="Tarball" /></a><br />
-	<a href="http://prdownloads.sourceforge.net/amsn/amsn-0.96.tar.bz2"><span class="toc_title">aMSN Source</span></a>
+        <a href="http://download.sourceforge.net/amsn/amsn-0.96.tar.bz2"><img class="toc_icon" src="images/download-tarball-big.png" alt="Tarball" /></a><br />
+	<a href="http://download.sourceforge.net/amsn/amsn-0.96.tar.bz2"><span class="toc_title">aMSN Source</span></a>
         </dt><dd>
           Source package to build a binary for your own distribution.
         </dd></dl>
@@ -82,13 +82,13 @@
 	<a name="SVN"></a>
 	<h3>Latest development version (SVN Snapshot)</h3>
 	<dl class="toc"><dt>
-	<a href="http://amsn.sourceforge.net/amsn_dev.tar.gz"><img class="toc_icon" src="images/download-svn-big.png" alt="SVN Snapshot" /></a><br />
-	<a href="http://amsn.sourceforge.net/amsn_dev.tar.gz"><span class="toc_title">SVN Snapshot</span></a>
+	<a href="http://www.amsn-project.net/amsn_dev.tar.gz"><img class="toc_icon" src="images/download-svn-big.png" alt="SVN Snapshot" /></a><br />
+	<a href="http://www.amsn-project.net/amsn_dev.tar.gz"><span class="toc_title">SVN Snapshot</span></a>
         </dt><dd>
 Latest development version (SVN Snapshot <?php if (file_exists('amsn_dev.tar.gz')) { echo 'of '.date("F d Y H:i:s.", filectime('amsn_dev.tar.gz')); } ?> )
 	</dd></dl>
 	<p>
-		You may want to test our development version. But, as it's a development version, it may contains more bugs than the official versions, and may also be completely broken sometimes. You will find more information on how to install that development version <a href="http://amsn-project.net/wiki/index.php/Installing_SVN">on our wiki</a>
+		You may want to test our development version. But, as it's a development version, it may contains more bugs than the official versions, and may also be completely broken sometimes. You will find more information on how to install that development version <a href="http://www.amsn-project.net/wiki/index.php/Installing_SVN">on our wiki</a>
 	</p>
 
 <?php include inc . 'footer.php'; ?>
