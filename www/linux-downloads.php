@@ -63,8 +63,8 @@
     <a name="tarball"></a>
     <h3>Source downloads</h3>
         <dl class="toc"><dt>
-        <a href="http://prdownloads.sourceforge.net/amsn/amsn-0.96.tar.bz2><img class="toc_icon" src="images/download-tarball-big.png" alt="Tarball" /></a><br />
-	<a href="http://prdownloads.sourceforge.net/amsn/amsn-0.96.tar.bz2><span class="toc_title">aMSN Source</span></a>
+        <a href="http://prdownloads.sourceforge.net/amsn/amsn-0.96.tar.bz2"><img class="toc_icon" src="images/download-tarball-big.png" alt="Tarball" /></a><br />
+	<a href="http://prdownloads.sourceforge.net/amsn/amsn-0.96.tar.bz2"><span class="toc_title">aMSN Source</span></a>
         </dt><dd>
           Source package to build a binary for your own distribution.
         </dd></dl>
