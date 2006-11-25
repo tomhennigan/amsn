@@ -11,7 +11,7 @@
     <ul><li>
      <ul>
        <li><a href="linux-downloads.php" class="screeny"><img class="thumb" src="images/download-linux.png" alt="Linux" /></a><br />Linux</li>
-       <li><a href="http://prdownloads.sourceforge.net/amsn/aMSN-0.96-windows-installer.exe" class="screeny"><img class="thumb" src="images/download-windows.png" alt="Windows" /></a><br />Windows</li>
+       <li><a href="http://prdownloads.sourceforge.net/amsn/aMSN-0.96-2-windows-installer.exe" class="screeny"><img class="thumb" src="images/download-windows.png" alt="Windows" /></a><br />Windows</li>
        <li><a href="http://prdownloads.sourceforge.net/amsn/amsn_0-96-mac.dmg" class="screeny"><img class="thumb" src="images/download-macosx.png" alt="MacOSX" /></a><br />Mac OS X  (Universal)</li>
        <li><a href="http://www.freshports.org/net-im/amsn/" class="screeny"><img class="thumb" src="images/download-freebsd.png" alt="FreeBSD" /></a><br />FreeBSD</li>
        <li><a href="http://prdownloads.sourceforge.net/amsn/amsn-0.96.tar.bz2" class="screeny"><img class="thumb" src="images/download-tarball.png" alt="Tarball" /></a><br />Tarball Source</li>
