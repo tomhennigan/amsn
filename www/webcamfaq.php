@@ -1,5 +1,5 @@
 <?php
-header("Location: http://amsn.sourceforge.net/wiki/tiki-index.php?page=Webcam+In+aMSN");
+header("Location: http://amsn.sourceforge.net/devwiki/tiki-index.php?page=Webcam+In+aMSN");
 ?>
 
 <!DOCTYPE html
@@ -10,6 +10,6 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 <title>Redirect...</title>
 </head>
 <body>
-Your web browser should have redirected you automaticly. If not, please <a href="http://amsn.sourceforge.net/wiki/tiki-index.php?page=Webcam+In+aMSN">click here</a>.
+Your web browser should have redirected you automaticly. If not, please <a href="http://amsn.sourceforge.net/devwiki/tiki-index.php?page=Webcam+In+aMSN">click here</a>.
 </body>
 </html>

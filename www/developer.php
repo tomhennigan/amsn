@@ -87,7 +87,7 @@ Information about aMSN coding can primarily be found at the aMSN wiki, under the
 
 <ul>
 <li>
-<a href="http://www.amsn-project.net/devwiki/tiki-index.php">http://www.amsn-project.net/devwiki/tiki-index.php</a><br /><br />
+<a href="http://amsn.sourceforge.net/devwiki/tiki-index.php">http://www.amsn-project.net/devwiki/tiki-index.php</a><br /><br />
 </li>
 </ul>
 

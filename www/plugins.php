@@ -11,9 +11,9 @@
 
         <strong>aMSN is full of features</strong>, but you can extend its functionality even more now, getting extra features by installing plugins. Plugins are simply that - they "plug in" to aMSN and give it extra features. Here you can download plugins developed by us and by contributors. Make sure you have the right version of aMSN for the plugin (check "requirements") and the right OS (check "platform")
         <br /><br />
-        You can find instructions on how to install plugins in our <a href="http://www.amsn-project.net/wiki/tiki-index.php?page=Installing+Plugins+and+Skins">skin and plugin installation guide</a>.
+        You can find instructions on how to install plugins in our <a href="http://amsn.sourceforge.net/devwiki/tiki-index.php?page=Installing+Plugins+and+Skins">skin and plugin installation guide</a>.
         <br /><br />
-        If you would like to submit your plugin to this page, please read the <a href="http://www.amsn-project.net/wiki/tiki-index.php?page=Skin+and+plugin+submitting+guide">plugin submitting guide</a>.
+        If you would like to submit your plugin to this page, please read the <a href="http://amsn.sourceforge.net/devwiki/tiki-index.php?page=Skin+and+plugin+submitting+guide">plugin submitting guide</a>.
         <br /><br />
 
 <a name="top">
