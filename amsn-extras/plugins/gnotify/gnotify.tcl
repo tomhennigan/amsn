@@ -416,7 +416,7 @@ namespace eval ::gnotify {
 				set cookie [join [list [set user_cookies($username,gv)] [set user_cookies($username,sid)]] "; "]
 			}
 			set headers [list Cookie "$cookie"]
-			http::geturl "http://mail.google.com/mail/?ui=pb" -headers $headers -command [list ::gnotify::check_gmail_callback $username]
+			http::geturl "http://mail.google.com/mail/?ui=html" -headers $headers -command [list ::gnotify::check_gmail_callback $username]
 		} else {
 			authenticate_gmail $username $password [list ::gnotify::check_gmail $username $password]
 			return 
@@ -437,9 +437,6 @@ namespace eval ::gnotify {
 					}
 				}
 			}
-			set fd [open d://test w]
-			puts -nonewline $fd [::http::data $token]
-			close $fd
 			set info_l [parseGData [::http::data $token]]
 			array set info $info_l
 			if { $info(errors) > 0 } {
