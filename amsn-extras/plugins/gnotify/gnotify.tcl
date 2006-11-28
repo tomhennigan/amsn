@@ -374,7 +374,6 @@ namespace eval ::gnotify {
 	proc addhotmail {event evPar} {
 		upvar 2 $evPar vars
 		upvar 2 $vars(msg) msg
-
 		set msg "[string range $msg 0 end] (Hotmail)"
 	}
 
@@ -406,188 +405,10 @@ namespace eval ::gnotify {
 	}
 
 
-	# ::pop3::Check_gmail
-	# Description:
-	#	catch the "Unreads" information about the gmail account by acting as a browser, with cookies support, but no javascript.
-	#(i wrote a proc which "enables" javascript, which gives us the beginning of new messages, the email of the authors,
-	#but there is more http::geturl procedures, and the "regexp" part is very complex.
-	#	create the balloon (this is not working for the moment)
-	# Arguments:
-	#	acntn        -> The number of the gmail account to check
-	#TODO : add the balloon support.
-	#TODO : remove some regexp ?
-	#
-	# i would like to thanks the Live http Headers project (http://livehttpheaders.mozdev.org/), it's a really good extension to firefox to see all headers while browsing.
-	# 
-	proc Check_gmail {acntn} {
-		plugins_log "pop3" "checking for gmail account : $::pop3::config(user_$acntn)"
-		package require http
-		package require tls
-		#bind the https in order to use tls
-		http::register https 443 ::tls::socket
-			
-		#this the array where i put all the variables (i should change that)
-		set unreads 0
-		
-		#remove the quotes around the login if they exists
-		if {[string equal [string index $::pop3::config(user_$acntn) 0] "\"" ] && [string equal [string index $::pop3::config(user_$acntn) end] "\""]} {
-			set ::pop3::config(user_$acntn) [string range $::pop3::config(user_$acntn) 1 end-1]
-		}
-		
-		#here we go to the page created for mobiles :)
-		set headers [list "Host" "gmail.com" ]
-		set url "http://m.gmail.com/"
-		set token [http::geturl $url -headers $headers -validate 0 ]
-		set data [array get $token]
-		http::cleanup $token
-		#plugins_log "pop3" "data1:=$data"
-		regexp {Location\ ([\/\$\*\~\%\,\!\'\#\.\@\+\-\=\?\;\:\^\&\_[:alnum:]]+)\ } $data -> url
-		#plugins_log "pop3" "(GMAIL)Location1:=$url"
-		
-		#we're redirected	
-		set headers [list "Host" "mail.google.com"]
-		set token [http::geturl $url -headers $headers -validate 0 ]
-		set data [array get $token]
-		#plugins_log "pop3" "data2:=$data"
-		set purl $url
-		regexp {Location\ ([\/\$\*\~\%\,\!\'\#\.\@\+\-\=\?\;\:\^\&\_[:alnum:]]+)\ } $data -> url
-		http::cleanup $token
-		#plugins_log "pop3" "(GMAIL)Location2:=$url"
-
-		
-		#and again
-		set headers [list "Host" "mail.google.com"]
-		set token [http::geturl $url -headers $headers -validate 0 ]
-		set data [array get $token]
-		#plugins_log "pop3" "data3:=$data"
-		set purl $url
-		
-		#making the query
-		set query ""
-		set body [::http::data $token]
-		http::cleanup $token
-		set pos2 1
-		set name ""
-		set value ""
-		set type ""
-		for {set i 1} {$i<=[regexp -all {input } $body]} {incr i} {
-			set pos1 [expr {[string first "<input" $body $pos2] + 6}]
-			set pos2 [expr {[string first ">" $body $pos1] -1}]
-			set input [string range $body $pos1 $pos2]
-			#plugins_log "pop3" "input:=$input"
-			regexp {type=\"(\w+)\"} $input -> type
-			#plugins_log "pop3" "type:=$type"
-			switch $type {
-				hidden {
-					regexp {name=\"(\w+)\"} $input -> name
-					regexp {value=\"([\/\$\*\~\%\,\!\'\#\.\@\+\-\=\?\;\:\^\&\_[:alnum:]]+)\"} $input -> value
-					if {$query != ""} {
-						append query "&"
-					}
-					append query $name = [urlencode $value]
-				}
-				text {
-					#here, we fill the login
-					regexp {name=\"(\w+)\"} $input -> name
-					if {$query != ""} {
-						append query "&"
-					}
-					append query $name = [urlencode $::pop3::config(user_$acntn)]
-				}
-				password {
-					#here, we fill the password :)
-					regexp {name=\"(\w+)\"} $input -> name
-					if {$query != ""} {
-						append query "&"
-					}
-					append query $name = [urlencode [pop3::decrypt $::pop3::config(passe_$acntn)]]
-				}
-				checkbox {
-					regexp {name=\"(\w+)\"} $input -> name
-					regexp {value=\"(\w+)\"} $input -> value
-					if {$query != ""} {
-						append query "&"
-					}
-					append query $name = $value
-				}
-				submit {}
-				default {}
-			}
-		}
-		#plugins_log "pop3" "(GMAIL)query:=$query"
-		#plugins_log "pop3" "(GMAIL)purl:=$purl"
-		
-
-		#sending login + pass
-		set headers [list "Host" "www.google.com" "Referer" "$purl"]
-		#TODO : don't harcode $url
-		set url https://www.google.com/accounts/ServiceLoginAuth
-		set token [http::geturl $url -query $query -headers $headers -validate 0 ]
-		set data [array get $token]
-		#plugins_log "pop3" "data4:=$data"
-		regexp {Location\ ([\/\$\*\~\%\,\!\'\#\.\@\+\-\=\?\;\:\^\&\_[:alnum:]]+)\ Content-Type} $data -> url
-		#plugins_log "pop3" "(GMAIL)Location3:=$url"
-
-		#redirected to a page where it checks the cookies
-		upvar \#0 $token state
-		#gets the invitations to create a cookie by parsing $state
-		array set cookies {}
-		foreach {name value} $state(meta) {
-			if { $name eq "Set-Cookie" } {
-				regexp {(\w+)=([\/\$\*\~\%\,\!\'\#\.\@\+\-\=\?\:\^\_[:alnum:]]+)\;} $value -> name value
-				set cookies($name) $value
-			}
-		}
-		http::cleanup $token
-		set cookies_header [list LSID=$cookies(LSID) SID=$cookies(SID) ]
-		set headers [list "Host" "www.google.com" "Referer" "$purl" "Cookie" [join $cookies_header {;}]]
-		set token [http::geturl $url -query $query -headers $headers -validate 0 ]
-		set data [array get $token]
-		http::cleanup $token
-		#plugins_log "pop3" "data5:=$data"
-		
-		#getting the next url
-		set pos1 [expr [string first "<meta content=\"0\;" $data] + 22]
-		set pos2 [expr [string first "\" http-equiv=\"refresh\"" $data $pos1] -1]
-		set url [string range $data $pos1 $pos2]
-		set url [string map { &amp; & &quot; "" } $url]
-		set url [string map { &amp; & &quot; "" } $url]
-		if {[string equal [string index $url 0] "'" ] && [string equal [string index $url end] "'"]} {
-			set url [string range $url 1 end-1]
-		}
-#plugins_log "pop3" "(GMAIL)url6:=$url"
-		
-		#that will be the latest page
-		set cookies_header [list SID=$cookies(SID) ]
-#plugins_log "pop3" "(GMAIL)[array names cookies]"
-		set headers [list "Host" "mail.google.com" "Cookie" [join $cookies_header {;}]]
-		set token [http::geturl $url -headers $headers -validate 0 ]
-		set data [array get $token]
-#plugins_log "pop3" "data6:=$data"
-		set body [::http::data $token]
-		http::cleanup $token
-
-		#find the amount of unread messages
-		regexp {Inbox&nbsp;\((\d+)\)} $body -> unreads
-
-		plugins_log pop3 "POP3 ($acntn) messages: $unreads\n"
-		set dontnotifythis 1
-		if { [set ::pop3::emails_$acntn] != $unreads } {
-			set dontnotifythis 0
-			set ::pop3::newMails_$acntn $unreads
-			set ::pop3::emails_$acntn $unreads
-		}
-
-		if { $dontnotifythis == 0 } {
-			cmsn_draw_online
-			::pop3::notify $acntn
-		}
-		array unset gmail
-	}
-
 	proc check_gmail { username password } {
 		variable user_cookies
-		
+		#TODO should depend on $username,$password
+
 		if { [info exists user_cookies($username,gv)] && [info exists user_cookies($username,sid)]} {
 			if { [info exists user_cookies($username,s)] } {
 				set cookie [join [list [set user_cookies($username,gv)] [set user_cookies($username,sid)] [set user_cookies($username,s)]] "; "]				
@@ -616,8 +437,59 @@ namespace eval ::gnotify {
 					}
 				}
 			}
+			set fd [open d://test w]
+			puts -nonewline $fd [::http::data $token]
+			close $fd
+			set info_l [parseGData [::http::data $token]]
+			array set info $info_l
+			if { $info(errors) > 0 } {
+				puts "Error parsing GData : [::http::data $token]"
+			} else {
+				puts "You have $info(nb_mails) new emails in your inbox"
+				set i 0
+				foreach mail_l $info(mails) {
+					incr i
+					array set mail $mail_l
+					puts "\n\n($i/$info(nb_mails)) "
+					foreach tag $mail(tags) {
+						if {$tag == "^t" } {
+							puts -nonewline "(*)"
+						}
+					}
+					if {[llength $mail(authors)] == 1 } {
+						set author_l [lindex $mail(authors) 0]
+						array set author $author_l
+						set author_l $author(author)
+						array set author $author_l
+						puts "$author(nick) <$author(email)>"						
+					} else {
+						foreach author_l $mail(authors) {
+							array set author $author_l
+							set author_l $author(author)
+							array set author $author_l
+							puts -nonewline "$author(nick), "
 
-			parseGData [::http::data $token]
+						}
+					}
+					if { $mail(threads) > 1 } { 
+						puts "($mail(threads))"
+					} 
+					puts "$mail(subject) || $mail(body)"
+					if {[llength $mail(attachments)] > 0 } {
+						puts -nonewline "Attachments : "
+						foreach att $mail(attachments) {
+							puts "$att "
+						}
+					}
+					if {[llength $mail(tags)] > 0 } {
+						puts -nonewline "tags : "
+						foreach tag $mail(tags) {
+							puts -nonewline "$tag, "
+						}
+					}
+					puts ""
+				}
+			}
 		} else {
 			# Should be a 'moved' where Location points to the auth server with the option &continue=... redirecting to this url again..
 			puts "ERROR : $token"
@@ -665,63 +537,215 @@ namespace eval ::gnotify {
 		}
 	}
 
+	proc GetByte { var } {
+		upvar 1 $var data
 
-	proc parseGData { data } {
-		set len [string length $data]
+		binary scan $data(bin) @$data(offset)H2 byte
+		incr data(offset)
+		return [expr 0x$byte]
+	}
 
-		binary scan $data H* hex
-		set state key
-		set new_mail 0
-		for { set i 0 } { $i < $len } { incr i } {
-			set byte "0x[string range $hex [expr {$i * 2}] [expr {$i * 2} + 1]]"
-			#puts "parsing byte $byte - $state"
-			switch $state {
-				key {
-					switch $byte {
-						0x0a {
-							set state size_mail
-							incr new_mail
-						} 
-						0x88 {
-							set state size_new
-						}
-						default { 
-							puts "new unknown key :  [string range $hex [expr {$i * 2}] end]"
-						}
-					}
-				}
-				size_mail {
-					set size_mail [expr $byte]
-					set size_mail [expr {$size_mail & ~0x80}]
-					if { [expr {$byte & 0x80}] != 0 } {
-						set state size_mail2
-					} else {
-						set mail_read 0
-						set state read_mail
-					}
-				}
-				size_mail2 {
-					set size_mail [expr {$size_mail + (0x80 * $byte)} ]
-					set mail_read 0
-					set state read_mail
-				}
-				read_mail {
-					incr mail_read
-					if { $mail_read == $size_mail } {
-						set state key
-					}
-				}
-				size_new {
-					set size_mail [expr $byte]
-					set new_read 0
-					set state read_new
-				}
-				read_new {
-					puts "New mails : [expr $byte] - $new_mail"
-				}
+	proc GetBytes { var size } {
+		upvar 1 $var data
+		set offset $data(offset)
+		set bytes [string range $data(bin) $offset [expr {$offset + $size - 1}]]
+		incr data(offset) $size
+		return $bytes
+	}
+	proc GetMultiByte { var } {
+		upvar 1 $var $var
+		set byte [GetByte $var]
+		set multi [expr {$byte & ~0x80}]
+		while { [expr {$byte & 0x80}] != 0 } {
+			set byte [GetByte $var]
+			incr multi [expr {0x80 * $byte} ]
+		}
+		return $multi
+	}
 
-				
+	proc ReadKey { var } {
+		upvar 1 $var $var
+		return [GetMultiByte $var]
+	}
+
+	proc ReadSize { var } {
+		upvar 1 $var $var
+		return [GetMultiByte $var]
+	}
+
+	proc DecodeString { str } {
+		set start 0
+		while { [set start [string first "&#" $str $start]] != -1} {
+			set end [string first ";" $str $start]
+			set char [format "%c" [string range $str [expr {$start + 2}] [expr {$end - 1}]]]
+			set str [string replace $str $start $end $char]
+		}
+		set str [string map { "&quot;" "\"" "&hellip;" "..." "&lt;" "<" "&gt;" ">"  "&amp;" "&"} [encoding convertfrom identity $str]]
+		return $str
+	}
+
+	proc GetMailAuthor {var size } {
+		upvar 1 $var $var
+		upvar 1 $var data
+
+		set start $data(offset)
+		set end [expr {$start + $size}]
+		set info(author) [list email "" nick ""]
+		set info(errors) 0
+
+		while {$data(offset) < $end } {
+			set key [ReadKey data]
+			switch -- $key {
+				10 {
+					set size [ReadSize data]
+					set offset $data(offset)
+					set info(author) [GetMailAuthor2 data $size]
+					set data(offset) [expr {$offset + $size}]	
+				}
+				16 {
+					# unknown
+					GetMultiByte $var
+				}
+				24 {
+					# unknown
+					GetMultiByte $var
+				} 
+				default {
+					puts "Unknown author key : $key"
+					incr info(errors)
+				}
 			}
 		}
+		return [array get info]
 	}
+
+	proc GetMailAuthor2 {var size } {
+		upvar 1 $var $var
+		upvar 1 $var data
+
+		set start $data(offset)
+		set end [expr {$start + $size}]
+
+		set info(email) ""
+		set info(nick) ""
+		set info(errors) 0
+
+		while {$data(offset) < $end } {
+			set key [ReadKey data]
+			switch -- $key {
+				10 {
+					set size [ReadSize data]
+					set email [DecodeString [GetBytes data $size]]
+					set info(email) $email
+				}
+				18 {
+					set size [ReadSize data]
+					set nick [DecodeString [GetBytes data $size]]
+					set info(nick) $nick
+				}
+				default {
+					puts "Unknown author key : $key"
+					incr info(errors)
+				}
+			}
+		}
+		return [array get info]
+	}
+
+	proc GetNewMail { var size } {
+		upvar 1 $var $var
+		upvar 1 $var data
+
+		set start $data(offset)
+		set end [expr {$start + $size}]
+		set timestamp_size [GetMultiByte $var]
+
+		set info(timestamp) [GetBytes data $timestamp_size]
+		set info(attachments) [list]
+		set info(tags) [list]
+		set info(authors) [list]
+		set info(subject) ""
+		set info(body) ""
+		set info(threads) 1
+		set info(errors) 0
+
+		while {$data(offset) < $end } {
+			set key [ReadKey data]
+			switch -- $key {
+				130 {
+					set size [ReadSize data]
+					set tag [GetBytes data $size]
+					lappend info(tags) $tag
+				}
+				146 {
+					# from
+					set size [ReadSize data]
+					set offset $data(offset)
+					lappend info(authors) [GetMailAuthor data $size]
+					set data(offset) [expr {$offset + $size}]
+				}
+				152 {
+					# unknown
+					GetMultiByte $var
+				}
+				162 {
+					set size [ReadSize data]
+					set subject [DecodeString [GetBytes data $size]]
+					set info(subject) $subject
+				}
+				170 {
+					set size [ReadSize data]
+					set body [DecodeString [GetBytes data $size]]
+					set info(body) $body
+				}
+				178 {
+					set size [ReadSize data]
+					set attachment [DecodeString [GetBytes data $size]]
+					lappend info(attachments) $attachment
+				}
+				184 {
+					set info(threads) [GetMultiByte data]
+				}
+				default {
+					puts "Unknown email key : $key"
+					incr info(errors)
+				}
+			}
+		}
+		return [array get info]
+
+	}
+
+	proc parseGData { data_bin } {
+		set data(bin) $data_bin
+		set data(len) [string length $data_bin]
+		set data(offset) 0
+
+		set info(mails) [list]
+		set info(nb_mails) 0
+		set info(errors) 0
+
+		
+		while {$data(offset) < $data(len)} {
+			set key [ReadKey data]
+			switch -- $key {
+				10 {
+					set size [ReadSize data]
+					set offset $data(offset)
+					lappend info(mails) [GetNewMail data $size]
+					set data(offset) [expr {$offset + $size}]
+				}
+				136 {
+					set info(nb_mails) [GetMultiByte data]
+				}
+				default {
+					puts "Unknown key : $key"
+					incr info(errors)
+				}
+			}
+		}
+		return [array get info]
+	}
+	
 }
+
