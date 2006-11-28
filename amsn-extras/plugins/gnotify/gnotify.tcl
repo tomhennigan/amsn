@@ -416,7 +416,7 @@ namespace eval ::gnotify {
 				set cookie [join [list [set user_cookies($username,gv)] [set user_cookies($username,sid)]] "; "]
 			}
 			set headers [list Cookie "$cookie"]
-			http::geturl "http://mail.google.com/mail/?ui=html" -headers $headers -command [list ::gnotify::check_gmail_callback $username]
+			http::geturl "http://mail.google.com/mail/?ui=pb" -headers $headers -command [list ::gnotify::check_gmail_callback $username]
 		} else {
 			authenticate_gmail $username $password [list ::gnotify::check_gmail $username $password]
 			return 
@@ -458,7 +458,7 @@ namespace eval ::gnotify {
 						array set author $author_l
 						set author_l $author(author)
 						array set author $author_l
-						puts "$author(nick) <$author(email)>"						
+						puts -nonewline "$author(nick) <$author(email)>"						
 					} else {
 						foreach author_l $mail(authors) {
 							array set author $author_l
@@ -470,7 +470,9 @@ namespace eval ::gnotify {
 					}
 					if { $mail(threads) > 1 } { 
 						puts "($mail(threads))"
-					} 
+					} else {
+						puts ""
+					}
 					puts "$mail(subject) || $mail(body)"
 					if {[llength $mail(attachments)] > 0 } {
 						puts -nonewline "Attachments : "
@@ -745,4 +747,3 @@ namespace eval ::gnotify {
 	}
 	
 }
-
