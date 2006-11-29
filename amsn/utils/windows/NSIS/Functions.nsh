@@ -62,7 +62,8 @@ System::Call "*$R0(i 148)"
 System::Call "kernel32::GetVersionExA(i $R0) v"
 System::Call "*$R0(i, i, i, i, i .r11)"
 System::Free $R0
-IntCmp $R1 VER_PLATFORM_WIN32_WINDOWS Win9x
+; 1 = VER_PLATFORM_WIN32_WINDOWS
+IntCmp $R1 1 Win9x
 StrCpy $R0 "NT"
 Goto End
 Win9x:
