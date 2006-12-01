@@ -681,7 +681,15 @@ namespace eval ::MSNP2P {
 							set idx [expr {[string first "IPv4External-Port: " $data] + 19}]
 							set idx2 [expr {[string first "\r\n" $data $idx] -1}]
 							set port [string range $data $idx $idx2]
-						} else {
+
+							status_log "MSNP2P | $sid -> Receiver is listening EXTERNAL with $addr : $port\n" red
+							if {$type == "filetransfer" } {
+								::MSN6FT::ConnectSockets $sid $nonce $addr $port 0
+							} elseif { $type == "webcam" } {
+								#::MSNCAM::connectMsnCam2 $sid $nonce $addr $port 0
+							}
+						} 
+						if {[string first "IPv4Internal-Addrs: " $data] != -1 }{
 							set idx [expr {[string first "IPv4Internal-Addrs: " $data] + 20}]
 							set idx2 [expr {[string first "\r\n" $data $idx] -1}]
 							set addr [string range $data $idx $idx2]
@@ -689,16 +697,16 @@ namespace eval ::MSNP2P {
 							set idx [expr {[string first "IPv4Internal-Port: " $data] + 19}]
 							set idx2 [expr {[string first "\r\n" $data $idx] -1}]
 							set port [string range $data $idx $idx2]
+
+							status_log "MSNP2P | $sid -> Receiver is listening INTERNAL with $addr : $port\n" red
+							if {$type == "filetransfer" } {
+								::MSN6FT::ConnectSockets $sid $nonce $addr $port 0
+							} elseif { $type == "webcam" } {
+								#::MSNCAM::connectMsnCam2 $sid $nonce $addr $port 0
+							}
 						}
 
-						status_log "MSNP2P | $sid -> Receiver is listening with $addr : $port\n" red
 
-						#after 5500 "::MSNP2P::SendData $sid $chatid [lindex [SessionList get $sid] 8]"
-						if {$type == "filetransfer" } {
-							::MSN6FT::ConnectSockets $sid $nonce $addr $port 0
-						} elseif { $type == "webcam" } {
-							::MSNCAM::connectMsnCam2 $sid $nonce $addr $port 0
-						}
 					}
 				}
 			}
@@ -756,7 +764,17 @@ namespace eval ::MSNP2P {
 							set idx [expr {[string first "IPv4External-Port: " $data] + 19}]
 							set idx2 [expr {[string first "\r\n" $data $idx] -1}]
 							set port [string range $data $idx $idx2]
-						} else {
+
+							status_log "MSNP2P | $sid -> Receiver is listening EXTERNAL with $addr : $port\n" red
+							#after 5500 "::MSNP2P::SendData $sid $chatid [lindex [SessionList get $sid] 8]"
+							if { $type == "filetransfer" } {
+								::MSNP2P::SessionList set $sid [list -1 -1 -1 -1 "INVITE2" -1 -1 -1 -1 -1]
+								::MSN6FT::ConnectSockets $sid $nonce $addr $port 1
+							} elseif { $type == "webcam" } {
+								::MSNCAM::SendSyn $sid $chatid
+							}
+						} 
+						if { [string first "IPv4Internal-Addrs: " $data] != -1 } {
 							set idx [expr {[string first "IPv4Internal-Addrs: " $data] + 20}]
 							set idx2 [expr {[string first "\r\n" $data $idx] -1}]
 							set addr [string range $data $idx $idx2]
@@ -764,15 +782,17 @@ namespace eval ::MSNP2P {
 							set idx [expr {[string first "IPv4Internal-Port: " $data] + 19}]
 							set idx2 [expr {[string first "\r\n" $data $idx] -1}]
 							set port [string range $data $idx $idx2]
+
+							status_log "MSNP2P | $sid -> Receiver is listening INTERNAL with $addr : $port\n" red
+							#after 5500 "::MSNP2P::SendData $sid $chatid [lindex [SessionList get $sid] 8]"
+							if { $type == "filetransfer" } {
+								::MSNP2P::SessionList set $sid [list -1 -1 -1 -1 "INVITE2" -1 -1 -1 -1 -1]
+								::MSN6FT::ConnectSockets $sid $nonce $addr $port 1
+							} elseif { $type == "webcam" } {
+								::MSNCAM::SendSyn $sid $chatid
+							}
 						}
-						status_log "MSNP2P | $sid -> Receiver is listening with $addr : $port\n" red
-						#after 5500 "::MSNP2P::SendData $sid $chatid [lindex [SessionList get $sid] 8]"
-						if { $type == "filetransfer" } {
-							::MSNP2P::SessionList set $sid [list -1 -1 -1 -1 "INVITE2" -1 -1 -1 -1 -1]
-							::MSN6FT::ConnectSockets $sid $nonce $addr $port 1
-						} elseif { $type == "webcam" } {
-							::MSNCAM::SendSyn $sid $chatid
-						}
+
 					} elseif { $listening == "false" } {
 						status_log "MSNP2P | $sid -> Receiver is not listening, sending INVITE\n" red
 						if { $type == "filetransfer" } {

@@ -6867,6 +6867,7 @@ namespace eval ::MSN6FT {
 			catch { fileevent $sock writable "::MSN6FT::CheckConnected $sid $sock " }
 		}
 
+		after cancel "::MSN6FT::CheckConnectSuccess $sid"
 		after 5000 "::MSN6FT::CheckConnectSuccess $sid"
 
 	}
