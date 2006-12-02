@@ -175,11 +175,18 @@ namespace eval ::guiContactList {
 
 		# Register events
 		# TODO: * here we should register all needed events
-		::Event::registerEvent contactDataChange all ::guiContactList::contactChanged
+		::Event::registerEvent contactStateChange all ::guiContactList::contactChanged
+		::Event::registerEvent contactNickChange all ::guiContactList::contactChanged
+		#::Event::registerEvent contactDataChange all ::guiContactList::contactChanged
+		::Event::registerEvent contactPSMChange all ::guiContactList::contactChanged
+		::Event::registerEvent contactListChange all ::guiContactList::contactChanged
 		::Event::registerEvent blockedContact all ::guiContactList::contactChanged
 		::Event::registerEvent unblockedContact all ::guiContactList::contactChanged
 		::Event::registerEvent movedContact all ::guiContactList::contactChanged
-		::Event::registerEvent addedUser all ::guiContactList::contactChanged
+		::Event::registerEvent contactAdded all ::guiContactList::contactChanged
+		::Event::registerEvent contactRemoved all ::guiContactList::contactRemoved
+		::Event::registerEvent changedSorting all ::guiContactList::changedSorting
+		::Event::registerEvent changedNickDisplay all ::guiContactList::changedNickDisplay
 
 		# TODO: * create the bindings for scrolling (using procs "IsMac" etc)
 
@@ -285,6 +292,23 @@ namespace eval ::guiContactList {
 		}
 	}
 
+	proc changedSorting { eventused } {
+		if { [winfo exists .contactlist] } {
+			::guiContactList::drawList .contactlist.sw.cvs
+		}
+	}
+
+	proc changedNickDisplay { eventused } {
+		if { [winfo exists .contactlist] } {
+			::guiContactList::drawList .contactlist.sw.cvs
+		}
+	}
+
+	proc contactRemoved { eventused email { gidlist ""} } {
+		if { [winfo exists .contactlist] } {
+			::guiContactList::organiseList .contactlist.sw.cvs
+		}
+	}
 
 	proc contactChanged { eventused email { gidlist ""} } {
 		if { [winfo exists .contactlist] } {
@@ -668,19 +692,25 @@ namespace eval ::guiContactList {
 
 		set state_code [::abook::getVolatileData $email state FLN]
 
-		if { [::abook::getContactData $email customcolor] != "" } {
-			set nickcolour [::abook::getContactData $email customcolor] 
-		} else {
+		set nickcolour [::abook::getContactData $email customcolor]
+
+		set psm [::abook::getpsmmedia $email]
+
+		if { $nickcolour == "" || $nickcolour == "#" } {
 			set nickcolour [::MSN::stateToColor $state_code]
 		}
 
 		if { [::MSN::userIsBlocked $email] } {
 			set img [::skin::loadPixmap blocked]
+		} elseif {[::config::getKey show_contactdps_in_cl] == "1" } {
+			set img [::skin::getLittleDisplayPicture $email [image height [::skin::loadPixmap [::MSN::stateToImage $state_code]]] ]
 		} elseif { [::abook::getContactData $email msn_mobile] == "1" && $state_code == "FLN"} {
 			set img [::skin::loadPixmap mobile]
 		} else {
 			set img [::skin::loadPixmap [::MSN::stateToImage $state_code]]
 		}
+
+		
 
 		# TODO: hovers for the status-icons
 		# 	skinsetting to have buddypictures in their place (this is default in MSN7!)
@@ -851,6 +881,34 @@ namespace eval ::guiContactList {
 			set yunderline [expr $ynickpos + $textheight + 1]
 			lappend underlinst [list [expr $relxnickpos - $xpos] [expr $yunderline - $ypos] \
 				$statewidth $statecolour]
+
+			set relxnickpos [expr $relxnickpos + $statewidth]
+		}
+
+		if {$psm != "" && [::config::getKey emailsincontactlist] == 0 } {
+			set psmwidth [font measure splainf $psm]
+			set psmspacing [font measure splainf " - "]
+			if {[::config::getKey psmplace] == 1 } {
+				$canvas create text $relxnickpos $ynickpos -text " - $psm" -anchor w\
+				-fill $nickcolour -font sitalf -tags [list contact $tag psm]
+				set yunderline [expr $ynickpos + $textheight + 1]
+				lappend underlinst [list [expr $relxnickpos - $xpos + $psmspacing] [expr $yunderline - $ypos] \
+					$psmwidth $nickcolour]
+
+				set relxnickpos [expr $relxnickpos + $psmwidth]
+			} elseif {[::config::getKey psmplace] == 2 } {
+				set relxnickpos $xnickpos
+				set ynickpos [expr $ynickpos + [image height $img]]
+				set ychange [expr $ychange + [image height $img]]
+
+				$canvas create text $relxnickpos $ynickpos -text "$psm" -anchor w\
+				-fill $nickcolour -font sitalf -tags [list contact $tag psm]
+				set yunderline [expr $ynickpos + $textheight + 1]
+				lappend underlinst [list [expr $relxnickpos - $xpos] [expr $yunderline - $ypos] \
+					$psmwidth $nickcolour]
+
+				set relxnickpos [expr $relxnickpos + $psmwidth]
+			}
 		}
 
 		# The bindings:

@@ -1104,6 +1104,8 @@ namespace eval ::MSN {
 
 		cmsn_draw_online 1 2
 
+		::Event::fireEvent contactAdded protocol $username
+
 		set contactlist_loaded 1
 		::abook::setConsistent
 		::abook::saveToDisk
@@ -1118,11 +1120,13 @@ namespace eval ::MSN {
 			set user [::abook::getContactForGuid $userguid]
 			if { [lindex $recv 4] == "" } {
 				#Remove from all groups!!
-				foreach group [::abook::getGroups $user] {
+				set affected_groups [::abook::getGroups $user]
+				foreach group $affected_groups {
 					::abook::removeContactFromGroup $user $group
 				}
 			} else {
 				#Remove fromonly one group
+				set affected_groups [list [lindex $recv 4]]
 				::abook::removeContactFromGroup $user [lindex $recv 4]
 			}
 	
@@ -1134,13 +1138,17 @@ namespace eval ::MSN {
 				::abook::setContactForGuid $userguid ""
 				::abook::setContactData $user contactguid ""
 			}
+
+			#an event to let the GUI know a user is removed from a group / the list
+			::Event::fireEvent contactRemoved protocol $user
 		} else {
 			set user [lindex $recv 3]
 			::MSN::deleteFromList $list_sort $user
 			::abook::removeContactFromList $user $list_sort
+			#an event to let the GUI know a user is removed from a list
+			::Event::fireEvent contactListChange protocol $user
 		}
-	
-	
+
 		cmsn_draw_online 1 2
 		global contactlist_loaded
 		set contactlist_loaded 1
@@ -1524,9 +1532,6 @@ namespace eval ::MSN {
 				::MSN::WriteSB ns REM "FL $userlogin $grId"
 			}
 		}
-
-		#an event to let the GUI know a user is removed from a group / the list
-		::Event::fireEvent contactRemoved protocol $userlogin $grId
 	}
 
 	##################################################
@@ -2970,7 +2975,7 @@ namespace eval ::MSNOIM {
 				CreateLockKey $lock_challenge
 			} 
 			if {$tweener != "" && $retry == 1} {
-				AuthenticatePassport3 "::MSNOIM::sendOIMMessage [list $callbk] $to $msg 0" $tweener
+				AuthenticatePassport3 "::MSNOIM::sendOIMMessage [list $callbk] [list $to] [list $msg] 0" $tweener
 			} else {
 				if { $retry == 1 } {
 					::MSNOIM::sendOIMMessage $callbk $to $msg 0
@@ -2991,14 +2996,15 @@ namespace eval ::MSNOIM {
 		}
 	}
 	
-	proc sendOIMMessage { callbk to msg {retry 1} } {
+	proc sendOIMMessage { callbk to msg {retry 1} {hasError 0}} {
 		variable seq_number
 		set res ""
 		if { [catch {package require dom 3.0}] == 0 && 
 		     [catch {package require SOAP}] == 0 && 
 		     [catch {package require SOAP::https}] == 0 &&
 		     [catch {package require SOAP::xpath 0.2.1}] == 0 &&
-		     [info exists ::authentication_ticket] } {
+		     [info exists ::authentication_ticket] &&
+		     !$hasError} {
 			# TODO: make it asynchronous with the -command argument.. but how to parse the returned data and 
 			# how to make sure our 'tkwait var' works even in the case of errors ?
 			set id [::md5::hmac $to $msg]
@@ -3153,12 +3159,21 @@ namespace eval ::MSNOIM {
 			return $xml
 		}
 
+		proc AuthenticatePassport3Error { callbk msg } {
+			if {[catch {eval $callbk [list 0]} result]} {
+				bgerror $result
+			}
+		}
+
 		proc AuthenticatePassport3Callback { callbk soap_req data } {
 			set xml [SOAP::dump $soap_req]
 			set list [xml2list $xml]
 			set ticket [GetXmlEntry $list "S:Envelope:S:Body:wst:RequestSecurityTokenResponseCollection:wst:RequestSecurityTokenResponse:wst:RequestedSecurityToken:wsse:BinarySecurityToken"]
 			if {$ticket != "" } {
 				set ::authentication_ticket $ticket
+			}
+			if {[catch {eval $callbk [list 0]} result]} {
+				bgerror $result
 			}
 		}
 
@@ -3172,7 +3187,8 @@ namespace eval ::MSNOIM {
 				set soap_req [SOAP::create AuthenticatePassport3 \
 						-uri "https://loginnet.passport.com/RST.srf" \
 						-proxy "https://loginnet.passport.com/RST.srf" \
-						-wrapProc [list getPassport3Xml $url]]
+						-wrapProc [list getPassport3Xml $url] \
+						-errorCommand [list AuthenticatePassport3Error $callbk]]
 				SOAP::configure AuthenticatePassport3 -command [list AuthenticatePassport3Callback $callbk $soap_req]
 				$soap_req
 			}

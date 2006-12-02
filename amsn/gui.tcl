@@ -3282,26 +3282,26 @@ proc create_main_menu {wmenu} {
 
 	#Add the "view by" radio buttons
 	$view add radio -label "[trans sortcontactstatus]" -value 0 \
-	-variable [::config::getVar orderbygroup] -command "cmsn_draw_online 0 2" -state disabled
+	-variable [::config::getVar orderbygroup] -command "cmsn_draw_online 0 2; ::Event::fireEvent changedSorting gui" -state disabled
 	$view add radio -label "[trans sortcontactgroup]" -value 1 \
-	-variable [::config::getVar orderbygroup] -command "cmsn_draw_online 0 2" -state disabled
+	-variable [::config::getVar orderbygroup] -command "cmsn_draw_online 0 2; ::Event::fireEvent changedSorting gui" -state disabled
 	$view add radio -label "[trans sortcontacthybrid]" -value 2 \
-	-variable [::config::getVar orderbygroup] -command "cmsn_draw_online 0 2" -state disabled
+	-variable [::config::getVar orderbygroup] -command "cmsn_draw_online 0 2; ::Event::fireEvent changedSorting gui" -state disabled
 	#-------------------
 	$view add separator	
 	$view add radio -label "[trans showcontactnick]" -value 0 \
-		-variable [::config::getVar emailsincontactlist] -command "cmsn_draw_online 0 2" -state disabled
+		-variable [::config::getVar emailsincontactlist] -command "cmsn_draw_online 0 2; ::Event::fireEvent changedNickDisplay gui" -state disabled
 	$view add radio -label "[trans showcontactemail]" -value 1 \
-		-variable [::config::getVar emailsincontactlist] -command "cmsn_draw_online 0 2" -state disabled
+		-variable [::config::getVar emailsincontactlist] -command "cmsn_draw_online 0 2; ::Event::fireEvent changedNickDisplay gui" -state disabled
 	#-------------------
 	$view add separator
 	$view add command -label "[trans changeglobnick]..." -command "::abookGui::SetGlobalNick"
 	#-------------------
 	$view add separator
 	$view add radio -label "[trans sortgroupsasc]" -value 1 \
-		-variable [::config::getVar ordergroupsbynormal] -command "cmsn_draw_online 0 2" -state disabled
+		-variable [::config::getVar ordergroupsbynormal] -command "cmsn_draw_online 0 2; ::Event::fireEvent changedSorting gui" -state disabled
 	$view add radio -label "[trans sortgroupsdesc]" -value 0 \
-		-variable [::config::getVar ordergroupsbynormal] -command "cmsn_draw_online 0 2" -state disabled
+		-variable [::config::getVar ordergroupsbynormal] -command "cmsn_draw_online 0 2; ::Event::fireEvent changedSorting gui" -state disabled
 
 	###########################
 	#Actions menu
