@@ -689,7 +689,7 @@ namespace eval ::MSNP2P {
 								#::MSNCAM::connectMsnCam2 $sid $nonce $addr $port 0
 							}
 						} 
-						if {[string first "IPv4Internal-Addrs: " $data] != -1 }{
+						if {[string first "IPv4Internal-Addrs: " $data] != -1 } {
 							set idx [expr {[string first "IPv4Internal-Addrs: " $data] + 20}]
 							set idx2 [expr {[string first "\r\n" $data $idx] -1}]
 							set addr [string range $data $idx $idx2]
