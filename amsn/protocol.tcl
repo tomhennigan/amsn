@@ -6217,6 +6217,8 @@ proc cmsn_listupdate {recv} {
 
 	#Last user in list
 	if {$current == $total} {
+		::Event::fireEvent contactlistLoaded protocol
+
 		cmsn_draw_online 1 2
 
 		set contactlist_loaded 1
