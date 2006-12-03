@@ -967,13 +967,11 @@ namespace eval ::guiContactList {
 		}
 
 		# Binding for left (double)click
-		if { $state_code != "FLN" } {
-			$canvas bind $tag $singordblclick "::amsn::chatUser $email"
-		} elseif {[::abook::getContactData $email msn_mobile] == "1"} {
+		if { $state_code == "FLN" && [::abook::getContactData $email msn_mobile] == "1"} {
 			# If the user is offline and support mobile (SMS)
 			$canvas bind $tag $singordblclick "::MSNMobile::OpenMobileWindow ${email}"
 		} else {
-			$canvas bind $tag $singordblclick ""
+			$canvas bind $tag $singordblclick "::amsn::chatUser $email"
 		}
 
 		# Binding for right click		 
