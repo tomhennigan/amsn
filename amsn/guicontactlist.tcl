@@ -137,6 +137,7 @@ namespace eval ::guiContactList {
 		set window .contactlist
 		set clcontainer .contactlist.sw
 		set clcanvas .contactlist.sw.cvs
+		set clscrollbar .contactlist.sw.vsb
 
 		#check if the window already exists, ifso, raise it and redraw the CL
 		if { [winfo exists $window] } {
@@ -152,7 +153,8 @@ namespace eval ::guiContactList {
 		wm geometry $window 1000x1000
 
 		# Set up the 'ScrolledWindow' container for the canvas
-		ScrolledWindow $clcontainer -auto vertical -scrollbar vertical -bg white -bd 0 -ipad 0
+		#ScrolledWindow $clcontainer -auto vertical -scrollbar vertical -bg white -bd 0 -ipad 0
+		frame $clcontainer
 		# TODO: * ScrolledWindow should be feeded a command run on scroll (reset the image)
 		#	* bgcolor should be skinnable
 
@@ -160,13 +162,17 @@ namespace eval ::guiContactList {
 		set clbox [list 0 0 2000 1500]
 
 		# Create a blank canvas
-		canvas $clcanvas -width [lindex $clbox 2] -height [lindex $clbox 3] -background white
-		# TODO: * bgcolor should be skinnable:
+		canvas $clcanvas -yscrollcommand "$clscrollbar set" -background [::skin::getKey contactlistbg]
+
+		scrollbar $clscrollbar -command "::guiContactList::scrollCLsb $clcanvas"
+
+		pack $clscrollbar -side right -fill y
+		pack $clcanvas -expand true -fill both
 
 		# Embed the canvas in the ScrolledWindow
-		$clcontainer setwidget $clcanvas
+		#$clcontainer setwidget $clcanvas
 		# Pack the scrolledwindow in the window
-		pack $clcontainer
+		pack $clcontainer -expand true -fill both
 		# Parse the nicknames for smiley/newline substitution
 		createNicknameArray
 
@@ -221,8 +227,8 @@ namespace eval ::guiContactList {
 			# We're on X11! (I suppose ;))
 			bind $clcanvas <ButtonPress-5> "::guiContactList::scrollCL $clcanvas down"
 			bind $clcanvas <ButtonPress-4> "::guiContactList::scrollCL $clcanvas up"
-			bind [winfo parent $clcanvas].vscroll <ButtonPress-5> "::guiContactList::scrollCL $clcanvas down"
-			bind [winfo parent $clcanvas].vscroll <ButtonPress-4> "::guiContactList::scrollCL $clcanvas up"
+			#bind [winfo parent $clcanvas].vscroll <ButtonPress-5> "::guiContactList::scrollCL $clcanvas down"
+			#bind [winfo parent $clcanvas].vscroll <ButtonPress-4> "::guiContactList::scrollCL $clcanvas up"
 		}
 
 		# Let's avoid the bug of window behind the bar menu on MacOS X
@@ -1289,6 +1295,19 @@ namespace eval ::guiContactList {
 			# $canvas coords backgroundimage 0 [expr int([expr \
 			#	[lindex [$canvas yview] 0] * $canvaslength])]
 		}
+	}
+
+	#######################################################
+	# Procedure which scrolls the canvas up/down
+	proc scrollCLsb {canvas args} {
+			
+			eval [linsert $args 0 $canvas yview]
+		
+			# Here we have to move the background-image. This should
+			# be done as a command given to scrolledwindow, so it also
+			# works when dragging the scrollbar
+			moveBGimage $canvas
+
 	}
 
 
