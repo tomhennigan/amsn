@@ -186,9 +186,9 @@ namespace eval ::guiContactList {
 		::Event::registerEvent contactDataChange all ::guiContactList::contactChanged
 		::Event::registerEvent contactPSMChange all ::guiContactList::contactChanged
 		::Event::registerEvent contactListChange all ::guiContactList::contactChanged
-		::Event::registerEvent blockedContact all ::guiContactList::contactChanged
-		::Event::registerEvent unblockedContact all ::guiContactList::contactChanged
-		::Event::registerEvent movedContact all ::guiContactList::contactChanged
+		::Event::registerEvent contactBlocked all ::guiContactList::contactChanged
+		::Event::registerEvent contactUnblocked all ::guiContactList::contactChanged
+		::Event::registerEvent contactMoved all ::guiContactList::contactChanged
 		::Event::registerEvent contactAdded all ::guiContactList::contactChanged
 		::Event::registerEvent contactRemoved all ::guiContactList::contactRemoved
 		::Event::registerEvent changedSorting all ::guiContactList::changedSorting
