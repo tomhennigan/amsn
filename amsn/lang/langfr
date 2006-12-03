@@ -48,7 +48,7 @@ askcam Demande à visionner la webcam
 askcontactwebcam pour demander à voir la webcam de votre contact, ou 
 askeachtime Demander à chaque fois
 asksendingyourwebcam pour inviter votre contact à voir votre webcam
-asksendoim Voulez-vous envoyer ce message en tant que message hors-ligne ?
+asksendoim Voulez-vous envoyer ce message en tant que message différé ?
 askwebcam Demander à ce contact de voir sa webcam
 author Auteur
 autoaccepted Transfert de fichier accepté automatiquement
@@ -100,6 +100,7 @@ busy Occupé[e]
 cachedpics $1 avatars masqués
 cagreement Déclaration de confidentialité
 cancel Annuler
+cancelled Annulé
 cannotdeleteprofile le profil ne peut être supprimé car il semble être utilisé par une session aMSN
 cantexec Impossible d'exécuter l'application : $1. Vérifiez les préférences et/ou les droits sur cette application.
 cantloadonlineversion N'arrive pas à récupérer la nouvelle liste des langues depuis l'Internet.
@@ -290,6 +291,7 @@ entercontactemail Ajouter un contact de messagerie
 enterfilename Entrez le nom du fichier
 enternick Mon pseudonyme
 enterpsm Mon Message personnel
+error Erreur
 errortls Erreur lors de l'installation du module TLS :
 eventhistory Voir l'historique des événements
 examples Exemples
@@ -674,7 +676,7 @@ sendfile Envoyer un fichier
 sendmail Envoyer un courrier
 sendmobmsg Envoyer un message au mobile
 sendmsg Envoyer un message
-sendoim Envoyer un message hors-ligne
+sendoim Envoyer un message différé
 sendvoice Envoyer un message vocal
 sendwebcaminvite Inviter un contact à voir votre webcam
 sentbytes $1 sur $2 octets envoyés
