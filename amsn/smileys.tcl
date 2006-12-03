@@ -557,7 +557,7 @@ namespace eval ::smiley {
 					continue
 				}
 				
-				if {[set pos [string first $symbol [lindex $l $listpos 1]]] != -1 } {
+				if {[set pos [string first [string tolower $symbol] [string tolower [lindex $l $listpos 1]]]] != -1 } {
 					set p1 [string range [lindex $l $listpos 1] 0 [expr {$pos - 1}]]
 					set p2 $image_name
 					set p3 [string range [lindex $l $listpos 1] [expr {$pos + [string length $symbol]}] end]

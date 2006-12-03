@@ -923,28 +923,191 @@ namespace eval ::guiContactList {
 		}
 
 		if {$psm != "" && [::config::getKey emailsincontactlist] == 0 } {
-			set psmwidth [font measure splainf $psm]
-			set psmspacing [font measure splainf " - "]
+
+			set relnickcolour $nickcolour
+
 			if {[::config::getKey psmplace] == 1 } {
-				$canvas create text $relxnickpos $ynickpos -text " - $psm" -anchor w\
-				-fill $nickcolour -font sitalf -tags [list contact $tag psm]
-				set yunderline [expr $ynickpos + $textheight + 1]
-				lappend underlinst [list [expr $relxnickpos - $xpos + $psmspacing] [expr $yunderline - $ypos] \
-					$psmwidth $nickcolour]
-
-				set relxnickpos [expr $relxnickpos + $psmwidth]
+				set parsedpsm "[::smiley::parseMessageToList \" - $psm\" 1]"
+				foreach unit $parsedpsm {
+					if {[lindex $unit 0] == "text"} {
+						# Check if we are still allowed to write text
+						if { $linefull } {
+							continue
+						}
+		
+						# Store the text as a string
+						set textpart [lindex $unit 1]
+		
+						# Check if it's really containing text
+						if {$textpart == ""} {
+							continue
+						}
+		
+						# Check if text is not too long and should be truncated, then
+						# first truncate it and restore it in $textpart and set the linefull
+						if {[expr $relxnickpos + [font measure splainf $textpart]] > $maxwidth} {
+							set textpart [::guiContactList::truncateText $textpart \
+								[expr $maxwidth - $relxnickpos]]
+							set textpart "$textpart$ellips"
+		
+							# This line is full, don't draw anything anymore before we start a new line
+							set linefull 1
+						}
+		
+						# Draw the text
+						$canvas create text $relxnickpos $ynickpos -text $textpart -anchor w -fill \
+							$relnickcolour -font splainf -tags [list contact $tag psmtext]
+						set textwidth [font measure splainf $textpart]
+		
+						# Append underline coords
+						set yunderline [expr $ynickpos + $textheight + 1]
+						lappend underlinst [list [expr $relxnickpos - $xpos] [expr $yunderline - $ypos] \
+							$textwidth $relnickcolour]
+		
+						# Change the coords
+						set relxnickpos [expr $relxnickpos + $textwidth]
+					} elseif { [lindex $unit 0] == "smiley" } {
+						# Check if we are still allowed to draw smileys
+						if { $linefull } {
+							continue
+						}
+		
+						set smileyname [lindex $unit 1]
+		
+						if { [expr $relxnickpos + [image width $smileyname]] > $maxwidth } {
+							# This line is full, don't draw anything anymore before we start a new line
+							set linefull 1
+		
+							$canvas create text $relxnickpos $ynickpos -text $ellips -anchor w \
+								-fill $relnickcolour -font splainf -tags [list contact $tag psmtext]
+							set textwidth [font measure splainf $ellips]
+		
+							# Append underline coords
+							set yunderline [expr $ynickpos + $textheight + 1]
+							lappend underlinst [list [expr $relxnickpos - $xpos]  \
+								[expr $yunderline - $ypos] $textwidth $relnickcolour]
+							continue
+						}
+		
+						# Draw the smiley
+						$canvas create image $relxnickpos $ynickpos -image $smileyname -anchor w \
+							-tags [list contact $tag psmsmiley]
+		
+						# TODO: smileys should be resized to fit in text-height
+						# if {[image height $smileyname] >= $ychange} {
+						# 	set ychange [image height $smileyname]
+						# }
+		
+						# Change the coords
+						set relxnickpos [expr $relxnickpos + [image width $smileyname]]
+					} elseif {[lindex $unit 0] == "newline"} {
+						set relxnickpos $xnickpos
+						set ynickpos [expr $ynickpos + [image height $img]]
+						set ychange [expr $ychange + [image height $img]]
+		
+						# New line, we can draw again !
+						set linefull 0
+					} elseif {[lindex $unit 0] == "colour" && !$force_colour} {
+						# A plugin like aMSN Plus! could make the text lists
+						# contain an extra variable for colourchanges
+						set relnickcolour [lindex $unit 1]
+						if {$relnickcolour == "reset"} {
+							set relnickcolour $nickcolour
+						}
+					}
+					# END the foreach loop
+				}
 			} elseif {[::config::getKey psmplace] == 2 } {
-				set relxnickpos $xnickpos
-				set ynickpos [expr $ynickpos + [image height $img]]
-				set ychange [expr $ychange + [image height $img]]
-
-				$canvas create text $relxnickpos $ynickpos -text "$psm" -anchor w\
-				-fill $nickcolour -font sitalf -tags [list contact $tag psm]
-				set yunderline [expr $ynickpos + $textheight + 1]
-				lappend underlinst [list [expr $relxnickpos - $xpos] [expr $yunderline - $ypos] \
-					$psmwidth $nickcolour]
-
-				set relxnickpos [expr $relxnickpos + $psmwidth]
+				set parsedpsm "[::smiley::parseMessageToList \"\n$psm\" 1]"
+				foreach unit $parsedpsm {
+					if {[lindex $unit 0] == "text"} {
+						# Check if we are still allowed to write text
+						if { $linefull } {
+							continue
+						}
+		
+						# Store the text as a string
+						set textpart [lindex $unit 1]
+		
+						# Check if it's really containing text
+						if {$textpart == ""} {
+							continue
+						}
+		
+						# Check if text is not too long and should be truncated, then
+						# first truncate it and restore it in $textpart and set the linefull
+						if {[expr $relxnickpos + [font measure splainf $textpart]] > $maxwidth} {
+							set textpart [::guiContactList::truncateText $textpart \
+								[expr $maxwidth - $relxnickpos]]
+							set textpart "$textpart$ellips"
+		
+							# This line is full, don't draw anything anymore before we start a new line
+							set linefull 1
+						}
+		
+						# Draw the text
+						$canvas create text $relxnickpos $ynickpos -text $textpart -anchor w -fill \
+							$relnickcolour -font splainf -tags [list contact $tag psmtext]
+						set textwidth [font measure splainf $textpart]
+		
+						# Append underline coords
+						set yunderline [expr $ynickpos + $textheight + 1]
+						lappend underlinst [list [expr $relxnickpos - $xpos] [expr $yunderline - $ypos] \
+							$textwidth $relnickcolour]
+		
+						# Change the coords
+						set relxnickpos [expr $relxnickpos + $textwidth]
+					} elseif { [lindex $unit 0] == "smiley" } {
+						# Check if we are still allowed to draw smileys
+						if { $linefull } {
+							continue
+						}
+		
+						set smileyname [lindex $unit 1]
+		
+						if { [expr $relxnickpos + [image width $smileyname]] > $maxwidth } {
+							# This line is full, don't draw anything anymore before we start a new line
+							set linefull 1
+		
+							$canvas create text $relxnickpos $ynickpos -text $ellips -anchor w \
+								-fill $relnickcolour -font splainf -tags [list contact $tag psmtext]
+							set textwidth [font measure splainf $ellips]
+		
+							# Append underline coords
+							set yunderline [expr $ynickpos + $textheight + 1]
+							lappend underlinst [list [expr $relxnickpos - $xpos]  \
+								[expr $yunderline - $ypos] $textwidth $relnickcolour]
+							continue
+						}
+		
+						# Draw the smiley
+						$canvas create image $relxnickpos $ynickpos -image $smileyname -anchor w \
+							-tags [list contact $tag psmsmiley]
+		
+						# TODO: smileys should be resized to fit in text-height
+						# if {[image height $smileyname] >= $ychange} {
+						# 	set ychange [image height $smileyname]
+						# }
+		
+						# Change the coords
+						set relxnickpos [expr $relxnickpos + [image width $smileyname]]
+					} elseif {[lindex $unit 0] == "newline"} {
+						set relxnickpos $xnickpos
+						set ynickpos [expr $ynickpos + [image height $img]]
+						set ychange [expr $ychange + [image height $img]]
+		
+						# New line, we can draw again !
+						set linefull 0
+					} elseif {[lindex $unit 0] == "colour" && !$force_colour} {
+						# A plugin like aMSN Plus! could make the text lists
+						# contain an extra variable for colourchanges
+						set relnickcolour [lindex $unit 1]
+						if {$relnickcolour == "reset"} {
+							set relnickcolour $nickcolour
+						}
+					}
+					# END the foreach loop
+				}
 			}
 		}
 
