@@ -382,6 +382,8 @@ namespace eval ::skin {
 			}	
 		}
 
+		::Event::fireEvent changedSkin gui
+
 
 	}
 

@@ -187,6 +187,7 @@ namespace eval ::guiContactList {
 		::Event::registerEvent contactRemoved all ::guiContactList::contactRemoved
 		::Event::registerEvent changedSorting all ::guiContactList::changedSorting
 		::Event::registerEvent changedNickDisplay all ::guiContactList::changedNickDisplay
+		::Event::registerEvent changedSkin all ::guiContactList::changedSkin
 
 		# TODO: * create the bindings for scrolling (using procs "IsMac" etc)
 
@@ -300,6 +301,13 @@ namespace eval ::guiContactList {
 
 	proc changedNickDisplay { eventused } {
 		if { [winfo exists .contactlist] } {
+			::guiContactList::createNicknameArray
+			::guiContactList::drawList .contactlist.sw.cvs
+		}
+	}
+
+	proc changedSkin { eventused } {
+		if { [winfo exists .contactlist] } {
 			::guiContactList::drawList .contactlist.sw.cvs
 		}
 	}
@@ -312,7 +320,7 @@ namespace eval ::guiContactList {
 
 	proc contactChanged { eventused email { gidlist ""} } {
 		if { [winfo exists .contactlist] } {
-			status_log "CONTACTCHANGED: $email"
+			#status_log "CONTACTCHANGED: $email"
 
 			if { $email == "contactlist" } {
 				return
@@ -320,6 +328,15 @@ namespace eval ::guiContactList {
 
 			if { $email == "myself" } {
 				return
+			}
+
+			if { $eventused == "contactNickChange" } {
+				#We must update the nick array
+				set usernick "[::abook::getDisplayNick $email 1]"
+				set nicknameArray("$email") "[::smiley::parseMessageToList $usernick 1]"
+				set evpar(array) nicknameArray
+				set evpar(login) $email
+				::plugins::PostEvent NickArray evpar
 			}
 
 			# TAKE A LOOK AT THIS CODE. HIGH PRIORITY
@@ -349,12 +366,12 @@ namespace eval ::guiContactList {
 
 			# Redraw the contact
 			if {$eventused != "movedContact"} {
-				set groupslist [list [getGroupId $email]]
+				set groupslist [getGroupId $email]
 
 				foreach group $groupslist {
 					set contactelement [list "C" $email]
 					::guiContactList::drawContact .contactlist.sw.cvs $contactelement $group
-					status_log "REDRAWN: $contactelement"
+					#status_log "REDRAWN: $contactelement"
 				}
 			}
 
@@ -436,17 +453,6 @@ namespace eval ::guiContactList {
 					set ypad [::skin::getKey expand_ypad]
 				}
 
-				# Move it to it's place an set the new curPos
-				set gid [lindex $element 0]
-				set groupDrawn $gid
-				set tag "gid_"; set tag $tag$gid
-				set currentPos [$canvas coords $tag]
-
-				if { $currentPos == "" } {
-					status_log "WARNING: group NOT moved: $gid"
-					return
-				}
-
 				set maxwidth [winfo width $canvas]
 				set boXpad 10
 				set width [expr $maxwidth - ($boXpad*2)]
@@ -455,7 +461,7 @@ namespace eval ::guiContactList {
 				# If we're not drawing the first group, we should draw the end of the box of the \
 				# group before here and change the curPos
 				if {!$DrawingFirstGroup} {
-					set bodYend [expr [lindex $curPos 1] - [::skin::getKey buddy_ypad]]
+					set bodYend [expr [lindex $curPos 1] + [::skin::getKey buddy_ypad]]
 					# Here we should draw the body
 					set height [expr $bodYend - $bodYbegin]
 					if {$height >0} {
@@ -499,6 +505,17 @@ namespace eval ::guiContactList {
 					set curPos [list [lindex $curPos 0] [lindex $curPos 1] ]
 				}
 
+				# Move it to it's place an set the new curPos
+				set gid [lindex $element 0]
+				set groupDrawn $gid
+				set tag "gid_"; set tag $tag$gid
+				set currentPos [$canvas coords $tag]
+
+				if { $currentPos == "" } {
+					status_log "WARNING: group NOT moved: $gid"
+					return
+				}
+
 				# Create upbar of the box
 				image create photo boxupbar_$groupDrawn -height [image height [::skin::loadPixmap up]] \
 					-width $width
@@ -532,7 +549,7 @@ namespace eval ::guiContactList {
 		}
 
 		# Now do the body and the end for the last group:
-		set bodYend [expr [lindex $curPos 1] - [::skin::getKey buddy_ypad] ]
+		set bodYend [expr [lindex $curPos 1] + [::skin::getKey buddy_ypad] ]
 
 		# Here we should draw the body
 		set height [expr $bodYend - $bodYbegin]
@@ -572,6 +589,7 @@ namespace eval ::guiContactList {
 			[image height [::skin::loadPixmap downright]]
 		$canvas create image $boXpad $bodYend -image boxdownbar_$groupDrawn -anchor nw \
 			-tags [list box box_downbar $gid]
+
 			# Get the group-boxes behind the groups and contacts
 		$canvas lower box items
 			# Set height of canvas
@@ -703,7 +721,7 @@ namespace eval ::guiContactList {
 		if { [::MSN::userIsBlocked $email] } {
 			set img [::skin::loadPixmap blocked]
 		} elseif {[::config::getKey show_contactdps_in_cl] == "1" } {
-			set img [::skin::getLittleDisplayPicture $email [image height [::skin::loadPixmap [::MSN::stateToImage $state_code]]] ]
+			set img "[::skin::getLittleDisplayPicture $email [image height [::skin::loadPixmap [::MSN::stateToImage $state_code]]] ]"
 		} elseif { [::abook::getContactData $email msn_mobile] == "1" && $state_code == "FLN"} {
 			set img [::skin::loadPixmap mobile]
 		} else {
@@ -1121,6 +1139,11 @@ namespace eval ::guiContactList {
 	# Function that returns the appropriate GroupID(s) for the user
 	# this GroupID depends on the group view mode selected
 	proc getGroupId { email } {
+		if { [lsearch [::abook::getLists $email] "FL"] == -1 } {
+			#The contact isn't in the contact list
+			return [list ]
+		}
+
 		set mode [::config::getKey orderbygroup]
 		set status [::abook::getVolatileData $email state FLN]
 		
@@ -1129,12 +1152,12 @@ namespace eval ::guiContactList {
 			if { $status == "FLN" } {
 				if { [::abook::getContactData $email msn_mobile] == "1" \
 					&& [::config::getKey showMobileGroup] == 1} {
-					return "mobile"
+					return [list "mobile"]
 				} else {
-					return "offline"
+					return [list "offline"]
 				}
 			} else {
-				return "online"
+				return [list "online"]
 			}
 
 		# Group mode
@@ -1146,9 +1169,9 @@ namespace eval ::guiContactList {
 		if { $mode == 2 } {
 			if { $status == "FLN" } {
 				if { [::abook::getContactData $email msn_mobile] == "1" && [::config::getKey showMobileGroup] == 1} {
-					return "mobile"
+					return [list "mobile"]
 				} else {
-					return "offline"
+					return [list "offline"]
 				}
 			} else {
 				return [::abook::getGroups $email]
@@ -1265,13 +1288,14 @@ namespace eval ::guiContactList {
 		set userList [::MSN::sortedContactList]
 
 		foreach user $userList {
-			set usernick "[::abook::getDisplayNick $user]"
+			set usernick "[::abook::getDisplayNick $user 1]"
 			set nicknameArray("$user") "[::smiley::parseMessageToList $usernick 1]"
 		}
 
 		# TODO: Review this event, maybe it would fit better in other place
 		set evpar(array) nicknameArray
-		::plugins::PostEvent NickArrayCreated evpar
+		set evpar(login) ""
+		::plugins::PostEvent NickArray evpar
 	}
 
 

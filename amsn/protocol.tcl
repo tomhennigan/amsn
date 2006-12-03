@@ -1104,12 +1104,11 @@ namespace eval ::MSN {
 
 		cmsn_draw_online 1 2
 
-		::Event::fireEvent contactAdded protocol $username
-
 		set contactlist_loaded 1
 		::abook::setConsistent
 		::abook::saveToDisk
-		
+
+		::Event::fireEvent contactAdded protocol $username
 	}
 
 	proc GotREMResponse { recv } {

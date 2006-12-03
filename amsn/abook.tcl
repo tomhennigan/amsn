@@ -417,9 +417,12 @@ namespace eval ::abook {
 				unset user_data($field)
 			}
 		} else {
-			#post event for amsnplus
-			set evPar(data) data
-			::plugins::PostEvent parse_nick evPar
+			if { $field == "nick" } {
+				set user_data(raw_nick) $data
+				#post event for amsnplus
+				set evPar(data) data
+				::plugins::PostEvent parse_nick evPar
+			}
 
 			set user_data($field) $data
 		}
@@ -576,8 +579,12 @@ namespace eval ::abook {
 	###########################################################################
 
 	#Returns the user nickname
-	proc getNick { user_login } {
-		set nick [::abook::getContactData $user_login nick]
+	proc getNick { user_login {use_raw_nick 0}} {
+		if { $use_raw_nick } {
+			set nick [::abook::getContactData $user_login raw_nick]
+		} else {
+			set nick [::abook::getContactData $user_login nick]
+		}
 		if { $nick == "" } {
 			return $user_login
 		}
@@ -681,11 +688,11 @@ namespace eval ::abook {
 	
 	#Returns the user nickname, or just email, or custom nick,
 	#depending on configuration
-	proc getDisplayNick { user_login } {
+	proc getDisplayNick { user_login {use_raw_nick 0}} {
 		if { [::config::getKey emailsincontactlist] } {
 			return $user_login
 		} else {
-			set nick [::abook::getNick $user_login]
+			set nick [::abook::getNick $user_login $use_raw_nick]
 			set customnick [::abook::getContactData $user_login customnick]
 			set globalnick [::config::getKey globalnick]
 			set psm [::abook::getpsmmedia $user_login]
@@ -696,7 +703,7 @@ namespace eval ::abook {
 			set evPar(globalnick) globalnick
 			set evPar(psm) psm
 			set evPar(user_login) user_login
-			::plugins::PostEvent getDisplayNick evPar
+			#::plugins::PostEvent getDisplayNick evPar
 			
 			if { [::config::getKey globaloverride] == 0 } {
 				if { $customnick != "" } {
