@@ -1613,6 +1613,7 @@ namespace eval ::abookGui {
 		
 		destroy $w
 		::MSN::contactListChanged
+		::Event::fireEvent contactDataChange gui $email
 		cmsn_draw_online
 		::abook::saveToDisk
 	}

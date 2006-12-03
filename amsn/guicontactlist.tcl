@@ -177,7 +177,7 @@ namespace eval ::guiContactList {
 		# TODO: * here we should register all needed events
 		::Event::registerEvent contactStateChange all ::guiContactList::contactChanged
 		::Event::registerEvent contactNickChange all ::guiContactList::contactChanged
-		#::Event::registerEvent contactDataChange all ::guiContactList::contactChanged
+		::Event::registerEvent contactDataChange all ::guiContactList::contactChanged
 		::Event::registerEvent contactPSMChange all ::guiContactList::contactChanged
 		::Event::registerEvent contactListChange all ::guiContactList::contactChanged
 		::Event::registerEvent blockedContact all ::guiContactList::contactChanged
@@ -710,13 +710,26 @@ namespace eval ::guiContactList {
 
 		set state_code [::abook::getVolatileData $email state FLN]
 
-		set nickcolour [::abook::getContactData $email customcolor]
-
-		set psm [::abook::getpsmmedia $email]
+		set nickcolour [string tolower [::abook::getContactData $email customcolor]]
+		if { $nickcolour != "" } {
+			if { [string index $nickcolour 0] == "#" } {
+				set nickcolour [string range $nickcolour 1 end]
+			}
+			set nickcolour "#[string repeat 0 [expr {6-[string length $nickcolour]}]]$nickcolour"
+		}
 
 		if { $nickcolour == "" || $nickcolour == "#" } {
-			set nickcolour [::MSN::stateToColor $state_code]
+			if { $state_code == "FLN" && [::abook::getContactData $email msn_mobile] == "1" } {
+				set nickcolour [::skin::getKey "contact_mobile"]
+			} else {
+				set nickcolour [::MSN::stateToColor $state_code]
+			}
+			set force_colour 0
+		} else {
+			set force_colour 1
 		}
+
+		set psm [::abook::getpsmmedia $email]
 
 		if { [::MSN::userIsBlocked $email] } {
 			set img [::skin::loadPixmap blocked]
@@ -874,7 +887,7 @@ namespace eval ::guiContactList {
 
 				# New line, we can draw again !
 				set linefull 0
-			} elseif {[lindex $unit 0] == "colour"} {
+			} elseif {[lindex $unit 0] == "colour" && !$force_colour} {
 				# A plugin like aMSN Plus! could make the text lists
 				# contain an extra variable for colourchanges
 				set relnickcolour [lindex $unit 1]
