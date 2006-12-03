@@ -1448,7 +1448,7 @@ namespace eval ::guiContactList {
 			# If user wants to move from/to a place that's not possible, just leave the
 			# contact in the current group (other words: "don't do anything")
 
-			if { [string is integer $newgrId] && $newgrId != $oldgrId && [string is integer $oldgrId] } {
+			if { $newgrId != $oldgrId } {
 				# Move the contact
 				status_log "Gonna move $email from $oldgrId to $newgrId"
 				::groups::menuCmdMove $newgrId $oldgrId $email
