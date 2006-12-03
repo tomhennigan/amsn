@@ -263,25 +263,27 @@ namespace eval ::log {
 	# msg : msg
 
 	proc PutLog { chatid user msg {fontformat ""}} {
-		
 		if {$fontformat == ""} {
 			set color "NOR"
 		} else {
 			set color "C[lindex $fontformat 2]"
 		}
-
-		set user_list [::MSN::usersInChat $chatid]
-		foreach user_info $user_list {
-			set user_login [lindex $user_info 0]
-			if { [llength $user_list] > 1 } {
-				::log::WriteLog $user_login "\|\"LITA$user :\|\"L$color $msg\n" 1 $user_list
-			} else {
-				# for 2 windows (1 priv 1 conf)
-				# if conf exists for current user & current chatid is not a conf
-				if { [ConfArray $user_login get] == 1 && $chatid == $user_login} {
-					::log::WriteLog $user_login "\|\"LITA\[[trans linprivate]\] $user :\|\"L$color $msg\n" 2 $user_list
+		if {[::OIM_GUI::IsOIM $user]} {
+			::log::WriteLog $user "\|\"LITA$user :\|\"L$color $msg\n" 0 $user
+		} else  {
+			set user_list [::MSN::usersInChat $chatid]
+			foreach user_info $user_list {
+				set user_login [lindex $user_info 0]
+				if { [llength $user_list] > 1 } {
+					::log::WriteLog $user_login "\|\"LITA$user :\|\"L$color $msg\n" 1 $user_list
 				} else {
-					::log::WriteLog $user_login "\|\"LITA$user :\|\"L$color $msg\n" 0 $user_list
+					# for 2 windows (1 priv 1 conf)
+					# if conf exists for current user & current chatid is not a conf
+					if { [ConfArray $user_login get] == 1 && $chatid == $user_login} {
+						::log::WriteLog $user_login "\|\"LITA\[[trans linprivate]\] $user :\|\"L$color $msg\n" 2 $user_list
+					} else {
+						::log::WriteLog $user_login "\|\"LITA$user :\|\"L$color $msg\n" 0 $user_list
+					}
 				}
 			}
 		}
@@ -341,7 +343,6 @@ namespace eval ::log {
 	# usr_name : email of person who has left
 
 	proc LeavesConf { chatid usr_name } {
-
 		set user_list [::MSN::usersInChat $chatid]
 		# If was in conference before this user leaves
 		if { [llength $user_list] >= 1 && $usr_name != [lindex [lindex $user_list 0] 0] } {

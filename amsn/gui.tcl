@@ -5531,7 +5531,7 @@ proc ShowUser {user_login state_code colour section grId} {
 	set displaypicfilename [::abook::getContactData $user_login displaypicfile "" ]
 
 	if {$small_dp != ""} {
-		set imgIdx [$pgBuddy.text image create $section.last -image $small_dp -padx 3 -pady 1 -name [string map { "-" "\\" } "displaypicture_tny_${user_login}"]]
+		set imgIdx [$pgBuddy.text image create $section.last -image $small_dp -padx 3 -pady 1 -name [string map { "-" '\\' } "displaypicture_tny_${user_login}"]]
 	} else {
 		set imgIdx [$pgBuddy.text image create $section.last -image [::skin::loadPixmap $image_type] -padx 3 -pady 1]
 	}
@@ -8078,6 +8078,8 @@ namespace eval ::OIM_GUI {
 		if { $answer == "yes"} {
 			set ::OIM_GUI::oim_asksend_[string map {: _} ${chatid} ] 0
 			::MSNOIM::sendOIMMessage [list ::OIM_GUI::MessageSendCallback $chatid] $email $txt
+			#loging
+			::log::PutLog $chatid $email $txt
 		}
 		return $answer
     }
@@ -8170,6 +8172,10 @@ namespace eval ::OIM_GUI {
 		status_log "Writing offline msg \"$msg\" on : $chatid\n" red
 		::amsn::WinWrite $chatid "\n\[$date\] [trans said $contact] : \n" says
 		::amsn::WinWrite $chatid "$msg" user
+
+		#We	should add an event for sending message
+		#loging
+		::log::PutLog $chatid $user $msg
 	}
 
     proc OpenOIMWindow { user } {
