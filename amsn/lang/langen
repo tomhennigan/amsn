@@ -41,7 +41,7 @@ animatedemoticon This emoticon is animated
 animatedsmileys Enable animated emoticons
 animatenotify Animated Notify Window
 appearance Appearance
-appearoff Appear offline
+appearoff Appear Offline
 areacode Area Code
 aretyping $1 are typing a message
 askcam Ask to Receive Webcam
@@ -63,7 +63,7 @@ autoidle Auto NoActivity
 autoip Automatic IP
 autolisten_voiceclips Automatically play voiceclips once received
 automessage AutoMessage
-autonoact Change state to "No activity" when inactive for
+autonoact Change state to "No Activity" when inactive for
 autoresizedp Automatically resize display pictures to default size
 avaccepted Video Conference call accepted
 avcanceled Video Conference call canceled
@@ -341,7 +341,7 @@ globalcontainer Global container
 globalnick Insert a pattern to form all your contacts' nicknames. You can use these variables: \$user_login for you contacts' address, \$nick for your contacts' nickname and \$customnick for your contacts' custom nickname. For example: '\$user_login is \$nick' will be 'contact@msn.com is Contact'
 globalnicktitle Global Nickname
 globaloverride Global nickname pattern should override custom nicknames
-gonelunch Gone to lunch
+gonelunch Out To Lunch
 gotink $1 sent you an ink.
 goto Go to $1
 gotoinbox Go to Inbox
@@ -502,7 +502,7 @@ newveravailable Newer version $1 available for download
 next Next
 nick Nick
 no No
-noactivity No activity
+noactivity No Activity
 nocacheddps No Display Pictures in cache for this user
 nodataavailable No data available for $1
 nodevices Currently, no devices are installed
@@ -543,7 +543,7 @@ ok Ok
 onenewmail 1 new message in Inbox
 onlinehelp Online Help
 online Online
-onphone On phone
+onphone In a Call
 opendir Open directory
 openfilecommand Open file command
 openfile Open
@@ -654,7 +654,7 @@ resetincomingfont Reset font (use font message sender chooses)
 restartforskin Note: You may need to restart aMSN to view the skin properly!
 reversed Reversed order
 reverselist Reverse list (RL):
-rightback Be right back
+rightback Be Right Back
 saveas Save as
 savechatwinsize Save chat window size as default when resizing it
 savecontacts Save Contact List
