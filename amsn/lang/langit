@@ -49,9 +49,11 @@ askcontactwebcam per chiedere di visualizzare la webcam del tuo contatto, o
 askeachtime Chiedi ogni volta
 asksendingyourwebcam per chiedere di inviare immagini dalla tua webcam
 askwebcam Visualizza la webcam del contatto
+asksendoim Vuoi inviare questo messaggio come un messaggio "non in linea"?
 author Autore
 autoaccepted Traferimento file accettato automaticamente
 autoacceptft Accetta automaticamente le richieste di trasferimento file
+autolisten_voiceclips Riproduci automaticamente i messaggi vocali appena ricevuti
 autoaway Mostrami come "Non al computer" quando sono inattivo per
 autoconnect Connetti immediatamente all'esecuzione di aMSN
 autoconnect2 Accedi automaticamente quando aMSN viene lanciato
@@ -98,6 +100,7 @@ busy Occupato
 cagreement Accordo Confidenziale
 cachedpics $1 immagini memorizzate
 cancel Annulla
+cancelled Cancellato
 cannotdeleteprofile Non posso cancellare il profilo perché sembra essere usato da una sessione di aMSN
 cantexec Non posso eseguire l'applicazione: $1. Controlla nelle preferenze
 cantloadonlineversion Non è stato possibile recuperare la lista delle lingue da Internet
@@ -175,6 +178,7 @@ confirmpurge Tutte le immagini salvate dei contatti eccetto le proprie saranno r
 confirmrfl Sei sicuro di voler rimuovere quest'utente da questo gruppo?
 confirm Sei sicuro?
 connected Adesso sei connesso
+connectfirst Prima connettiti, per favore
 connectedwith Connesso con $1
 connecterror Errore durante la connessione al server
 connecting Errore connettendosi con il server
@@ -287,6 +291,7 @@ entercontactemail Inserisci un contatto per e-mail
 enterfilename Inserisci un nome di file
 enternick Inserisci il tuo nick
 enterpsm Messaggio Personale
+error Errore
 errortls Errore durante l'installazione del modulo TLS:
 eventhistory Visualizza cronologia Eventi
 examples Esempi
@@ -315,6 +320,7 @@ findnext Trova successivo
 findprev Trova precedente
 followtext Segui il nuovo testo quando viene inserito
 friendlyname Nome comune
+ftporttest Test della porta
 ftacceptedby $1 ha accettato l'invito a trasferire il file '$2'.
 ftaccepted Trasferimento del file accettato
 ftaccepting In attesa di accettare l'invito al trasferimento file
@@ -530,6 +536,8 @@ notinlist Non sei presente nella sua lista contatti
 notls Il protocollo MSN 9 richiede il pacchetto tls. Al momento è impossibile trovarlo. Se è installato, è necessario specificare il percorso delle librerie nella finestra Preferenze (es: /opt/tls/lib). \n\nIl pacchetto tls può essere scaricato da http://tls.sf.net.
 nottabbed Finestre normali senza linguette
 nousersinsession Nessun utente nella sessione
+nosound Nessun suono viene rilevato, controlla che il microfono sia collegato correttamente
+nosound_or_hold Nessun suono viene rilevato. Per inviare un messaggio vocale devi premere e tener premuto il pulsante mentre parli, poi rilascialo per inviare il messaggio.
 nudge $1 chiede la tua attenzione
 offline Sconnesso
 ok Ok
@@ -628,6 +636,8 @@ readonlywarn ATTENZIONE: Il file potrebbe NON venire salvato correttamente poich
 receivedbytes Ricevuti $1 byte su $2
 receiveddir Cartella file ricevuti
 receivefile Ricezione file in corso
+receivedvoice Ricevuto un messaggio vocale
+recorderror Sì è verificato un errore durante la registrazione del suono: $1
 recentmsg Previeni la chiusura di una finestra di chat quando è appena arrivato un messaggio
 reconnecting Riconnessione al server
 reconnect Sto aspettando che $1 si riconnetta
@@ -667,6 +677,9 @@ sendmail Manda e-mail
 sendmobmsg Invia a dispositivo mobile
 sendmsg Manda un messaggio
 sendwebcaminvite Invita l'utente a vedere dalla tua webcam
+sendoim Invia un messaggio "non in linea"
+sendvoice Invia un messaggio vocale
+sentvoice Inviato un messaggio vocale
 sentbytes Mandati $1 byte su $2
 serverbusy Il server è occupato
 servergoingdown Sei stato disconnesso poiché il server si sta fermando
@@ -698,6 +711,7 @@ smileintro Per favore riempi i campi richiesti per creare una nuova faccina pers
 smileintro2 Per favore modifica i campi richiesti per personalizzare questa faccina (guarda le FAQ per un aiuto)
 smiletoobig La faccina che hai scelto è più grande del normale. Vuoi adattarla?
 snackfailed Impossibile caricare libreria Snack, torno al default
+snackneeded La libreria Snack è necessaria per usare questa funzione. Versione minima necessaria: 2.2.9.
 snapshot Istantanea
 sngdblclick Un click per aprire una nuova finestra per i messaggi
 sortcontactgroup Ordina i contatti per gruppo
@@ -715,6 +729,7 @@ soundloop Loop Suono
 soundserver Server sonoro
 soundstatus (Dis)Abilita il suono dell'allarme
 sound2 Emetti un suono quando i contatti entrano o mandano un messaggio
+soundnoavail La periferica audio non è disponibile. Per favore chiudi ogni applicazione che usa la periferica audio.
 sourcecode Codice sorgente (necessita compilazione e installazione)
 splashstart Splash screen
 sslwarning ATTENZIONE!! Disabilitando la crittografia SSL, la password verrà inviata in chiaro sulla rete. Questa operazione deve essere compiuta solo se si ha a che fare con proxies particolarmente problematici.
@@ -807,6 +822,9 @@ videoconversationrequest Hai ricevuto una richiesta di conversazione video (audi
 viewcontactsby Visualizza contatti per
 viewprofile Mostra Profilo
 view Vista
+voice_notimplemented La ricezione dei messaggi vocali non è stata ancora implementata. Per favore sii paziente.
+voice_windows Visto che usi Windows, dovresti riuscire ad ascoltare il messaggio vocale aprendolo con il tuo player audio.
+voice_windows_click Clicca qui per farlo
 wanttosharecam Voglio rendere la mia webcam accessibile agli altri
 webcamcanceled La sessione webcam con $1 è stata annullata
 webcamclosebefcancel Devi interrompere tutte le sessioni webcam prima di chiudere la finestra
@@ -822,6 +840,8 @@ webcamrequestreceive Invia la richiesta per ricevere dalla webcam
 webcamrequestsend Invia la richiesta per inviare con la webcam
 webcamsending Lista delle persone a cui stai inviando con la webcam\nClicca per annullare
 webcam Webcam
+webcaminvitereceiving Sei stato invitato a vedere dalla webcam di $1 . Vuoi accettare questa sessione?
+webcaminvitesending $1 vuole vedere dalla tua webcam. Vuoi accettare questa sessione?
 whatisamsn aMSN è un clone di MSN Messenger, indipendente dalla piattaforma
 whatsize L'immagine che hai richiesto non è nel normale formato di visualizzazione immagini (96x96) In che formato vuoi che l'immagine venga visualizzata?
 willjoin Sto aspettando che $1 si unisca alla conversazione
