@@ -632,9 +632,9 @@ namespace eval ::music {
 	# Gets the current playing song in juk                    #
 	###########################################################
 	proc GetSongJuk {} {
-	#Split the lines into a list and set the variables as appropriate
-	if { [catch {split $::music::actualsong "\n"} tmplst] } {
-	#actualsong isn't yet defined by asynchronous exec
+		#Split the lines into a list and set the variables as appropriate
+		if { [catch {split $::music::actualsong "\n"} tmplst] } {
+			#actualsong isn't yet defined by asynchronous exec
 			return 0
 		}
 
@@ -655,7 +655,6 @@ namespace eval ::music {
 		lappend return  [urldecode [string range $newPath 5 end]]
 
 		return $return
-		}
 	}
 
 	###############################################
