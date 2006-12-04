@@ -338,8 +338,8 @@ namespace eval ::guiContactList {
 
 			if { $eventused == "contactNickChange" } {
 				#We must update the nick array
-				set usernick "[::abook::getDisplayNick $email 1]"
-				set nicknameArray("$email") "[::smiley::parseMessageToList $usernick 1]"
+				set usernick [::abook::getDisplayNick $email 1]
+				set nicknameArray($email) [::smiley::parseMessageToList $usernick 1]
 				set evpar(array) nicknameArray
 				set evpar(login) $email
 				::plugins::PostEvent NickArray evpar
@@ -354,7 +354,7 @@ namespace eval ::guiContactList {
 			# if {$gidlist != "" && $eventused != "contactNickChange"} {
 			# 	foreach group $gidlist {
 			# 		set the element list for the changed group
-			# 		set groupelement [list $group "[::groups::GetName $group]"]
+			# 		set groupelement [list $group [::groups::GetName $group]]
 			#
 			# 		if {$group == "offline" || $group == "mobile"} {
 			# 			set groupelement [list $group "$group"]
@@ -448,7 +448,7 @@ namespace eval ::guiContactList {
 				$canvas move $tag [expr [lindex $curPos 0] - [lindex $currentPos 0] + $xpad] \
 					[expr [lindex $curPos 1] - [lindex $currentPos 1]]
 
-				set curPos [list [lindex $curPos 0] [expr [lindex $curPos 1] + $nickheightArray("$email") + $ypad] ]
+				set curPos [list [lindex $curPos 0] [expr [lindex $curPos 1] + $nickheightArray($email) + $ypad] ]
 			} else {
 				# It must be a group title
 				if { [::groups::IsExpanded [lindex $element 0]] } {
@@ -642,7 +642,7 @@ namespace eval ::guiContactList {
 		set groupcount [getGroupCount $element]
 		
 		# Store group name and groupcount as string, for measuring length of underline
-		set groupnametext "[lindex $element 1]"
+		set groupnametext [lindex $element 1]
 		set groupcounttext "($groupcount)"
 		
 		# Set the begin-position for the groupnametext
@@ -740,7 +740,7 @@ namespace eval ::guiContactList {
 		if { [::MSN::userIsBlocked $email] } {
 			set img [::skin::loadPixmap blocked]
 		} elseif {[::config::getKey show_contactdps_in_cl] == "1" } {
-			set img "[::skin::getLittleDisplayPicture $email [image height [::skin::loadPixmap [::MSN::stateToImage $state_code]]] ]"
+			set img [::skin::getLittleDisplayPicture $email [image height [::skin::loadPixmap [::MSN::stateToImage $state_code]]] ]
 		} elseif { [::abook::getContactData $email msn_mobile] == "1" && $state_code == "FLN"} {
 			set img [::skin::loadPixmap mobile]
 		} else {
@@ -753,7 +753,7 @@ namespace eval ::guiContactList {
 		# 	skinsetting to have buddypictures in their place (this is default in MSN7!)
 		# 	with a pixmap border and also status-emblem overlay in bottom right corner		
 
-		set parsednick $nicknameArray("$email")
+		set parsednick $nicknameArray($email)
 		set nickstatespacing 5
 		# TODO: skinsetting for the spacing between nicknames and the status
 		set statetext "\([trans [::MSN::stateToDescription $state_code]]\)"
@@ -927,7 +927,7 @@ namespace eval ::guiContactList {
 			set relnickcolour $nickcolour
 
 			if {[::config::getKey psmplace] == 1 } {
-				set parsedpsm "[::smiley::parseMessageToList \" - $psm\" 1]"
+				set parsedpsm [::smiley::parseMessageToList " - $psm" 1]
 				foreach unit $parsedpsm {
 					if {[lindex $unit 0] == "text"} {
 						# Check if we are still allowed to write text
@@ -1018,7 +1018,7 @@ namespace eval ::guiContactList {
 					# END the foreach loop
 				}
 			} elseif {[::config::getKey psmplace] == 2 } {
-				set parsedpsm "[::smiley::parseMessageToList \"\n$psm\" 1]"
+				set parsedpsm [::smiley::parseMessageToList "\n$psm" 1]
 				foreach unit $parsedpsm {
 					if {[lindex $unit 0] == "text"} {
 						# Check if we are still allowed to write text
@@ -1120,10 +1120,10 @@ namespace eval ::guiContactList {
 		
 		# Add binding for balloon
 		if { [::config::getKey tooltips] == 1 } {
-			$canvas bind $tag <Enter> +[list balloon_enter %W %X %Y "[getBalloonMessage \
-				$email $element]" [::skin::getDisplayPicture $email]]
-			$canvas bind $tag <Motion> +[list balloon_motion %W %X %Y "[getBalloonMessage \
-				$email $element]" [::skin::getDisplayPicture $email]]
+			$canvas bind $tag <Enter> +[list balloon_enter %W %X %Y [getBalloonMessage \
+				$email $element] [::skin::getDisplayPicture $email]]
+			$canvas bind $tag <Motion> +[list balloon_motion %W %X %Y [getBalloonMessage \
+				$email $element] [::skin::getDisplayPicture $email]]
 			$canvas bind $tag <Leave> "+set Bulle(first) 0; kill_balloon"
 		}
 
@@ -1164,7 +1164,7 @@ namespace eval ::guiContactList {
 
 		# Now store the nickname [and] height in the nickarray
 		# set nickheight [expr $ychange + [::skin::getKey buddy_ypad] ]
-		set nickheightArray("$email") $ychange
+		set nickheightArray($email) $ychange
 		# status_log "nickheight $email: $nickheight"
 	}
 
@@ -1385,16 +1385,19 @@ namespace eval ::guiContactList {
 		# If the status is offline, get the last time he was online
 		if { $state_code == "FLN" } {
 			set balloon_message4 "\n[trans lastseen] : [::abook::dateconvert \
-				"[::abook::getContactData $email last_seen]"]"
+				[::abook::getContactData $email last_seen]]"
 		} else {
 			set balloon_message4 ""
 		}
 
 		# Define the final balloon message
-		set balloon_message "[string map {"%" "%%"} [::abook::getNick $email]]\n\
-			$email\n[trans status] : [trans [::MSN::stateToDescription $state_code]] \
-			$balloon_message2 $balloon_message3 $balloon_message4\n[trans lastmsgedme] \
-			: [::abook::dateconvert "[::abook::getContactData $email last_msgedme]"]"
+		set ballon_message [::abook::getNick $email]]
+		append ballon_message "\n$email\n"
+		append ballon_message "[trans status] : "
+		append ballon_message [trans [::MSN::stateToDescription $state_code]]
+		append ballon_message "$balloon_message2 $balloon_message3 $balloon_message4\n[trans lastmsgedme] : "
+		append ballon_message [::abook::dateconvert [::abook::getContactData $email last_msgedme]]
+		set balloon_message [string map {"%" "%%"} $ballon_message]
 		return $balloon_message	
 	}
 
@@ -1481,8 +1484,8 @@ namespace eval ::guiContactList {
 		set userList [::MSN::sortedContactList]
 
 		foreach user $userList {
-			set usernick "[::abook::getDisplayNick $user 1]"
-			set nicknameArray("$user") "[::smiley::parseMessageToList $usernick 1]"
+			set usernick [::abook::getDisplayNick $user 1]
+			set nicknameArray($user) [::smiley::parseMessageToList $usernick 1]
 		}
 
 		# TODO: Review this event, maybe it would fit better in other place
