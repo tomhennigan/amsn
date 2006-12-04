@@ -212,6 +212,7 @@ namespace eval ::music {
 				"Amarok" [list GetSongAmarok TreatSongAmarok FillFrameComplete] \
 				"Audacious" [list GetSongAudacious return FillFrameEmpty] \
 				"Banshee" [list GetSongBanshee TreatSongBanshee FillFrameComplete] \
+				"Juk" [list GetSongJuk TreatSongJuk FillFrameJuk] \
 				"Listen" [list GetSongListen TreatSongListen FillFrameLess] \
 				"MPD" [list GetSongMPD TreatSongMPD FillFrameMPD] \
 				"QuodLibet" [list GetSongQL TreatSongQL FillFrameLess] \
@@ -224,6 +225,7 @@ namespace eval ::music {
 				"Amarok" [list GetSongAmarok TreatSongAmarok FillFrameComplete] \
 				"Rhythmbox" [list GetSongRhythmbox TreatSongRhythmbox FillFrameLess] \
 				"Banshee" [list GetSongBanshee TreatSongBanshee FillFrameComplete] \
+				"Juk" [list GetSongJuk TreatSongJuk FillFrameJuk] \
 				"MPD" [list GetSongMPD TreatSongMPD FillFrameMPD] \
 				"Listen" [list GetSongListen TreatSongListen FillFrameLess] \
 				"QuodLibet" [list GetSongQL TreatSongQL FillFrameLess] \
@@ -613,6 +615,80 @@ namespace eval ::music {
 		}
 		return $return
 	}
+		###########################################################
+		# ::music::TreatSongJuk                                   #
+	 # ------------------------------------------------------- #
+	 # Gets the current playing song in Juk                    #
+	 ###########################################################
+	 proc TreatSongJuk {} {
+			 #Grab the information asynchronously : thanks to copyleft
+			after 0 {::music::exec_async [list "sh" [file join $::music::musicpluginpath "infojuk"]] }
+			#after 0 {::music::exec_async [file join $::music::musicpluginpath "infojuk"]}
+	return 0
+	}
+	###########################################################
+	# ::music::GetSongJuk                                     #
+	# ------------------------------------------------------- #
+	# Gets the current playing song in juk                    #
+	###########################################################
+	proc GetSongJuk {} {
+	#Split the lines into a list and set the variables as appropriate
+	if { [catch {split $::music::actualsong "\n"} tmplst] } {
+	#actualsong isn't yet defined by asynchronous exec
+			return 0
+		}
+
+		#Get the 4 first lines
+		set status [lindex $tmplst 0]
+		set songart [lindex $tmplst 1]
+		set path [lindex $tmplst 2]
+		
+		if {$status == "0"} {
+			return 0
+		}
+		if {$status == "1"} {
+			append songart "Paused"
+		}
+
+		append newPath "file://" $path ;
+		lappend return $songart
+		lappend return  [urldecode [string range $newPath 5 end]]
+
+		return $return
+		}
+	}
+
+	###############################################
+	# ::music::FillFrameComplete                  #
+	# ------------------------------------------- #
+	# Fills the config frame for complete support #
+	###############################################
+	proc FillFrameJuk {mainFrame} {
+			#order for song and artist name
+			frame $mainFrame.order -class degt
+			pack $mainFrame.order -anchor w -expand true -fill both
+			label $mainFrame.order.label -text "[trans choose_order]" -padx 5 -font sboldf
+			#radiobutton $mainFrame.order.1 -text "[trans songartist]" -variable ::music::config(songart) -value 1
+			#radiobutton $mainFrame.order.2 -text "[trans artistsong]" -variable ::music::config(songart) -value 2
+			radiobutton $mainFrame.order.3 -text "[trans song]" -variable ::music::config(songart) -value 3
+			label $mainFrame.order.separator_label -text "[trans separator]" -padx 5 -font sboldf
+			entry $mainFrame.order.separator_entry -bg #ffffff -width 10 -textvariable ::music::config(separator)                   
+			pack $mainFrame.order.label \
+				$mainFrame.order.1 \
+				$mainFrame.order.2 \
+				$mainFrame.order.3 \
+				-anchor w -side top
+			pack $mainFrame.order.separator_label \
+				$mainFrame.order.separator_entry \
+				-anchor w -side left
+
+			#changepic
+			#frame $mainFrame.changepic -class degt
+			#pack $mainFrame.changepic -anchor w -expand true -fill both
+			#checkbutton $mainFrame.changepic.checkbutton -variable ::music::config(changepic) -text "[trans changepic]"
+			#pack $mainFrame.changepic.checkbutton -anchor w
+	}
+
 
 	###############################################
 	# ::music::FillFrameComplete                  #

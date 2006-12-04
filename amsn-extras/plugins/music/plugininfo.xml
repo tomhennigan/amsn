@@ -10,38 +10,32 @@
 	<plugin_namespace>music</plugin_namespace>
 	<init_procedure>InitPlugin</init_procedure>
 	<deinit_procedure>DeInit</deinit_procedure>
-	<cvs_version>7506</cvs_version>
+	<cvs_version>7568</cvs_version>
 
 	<lang>
 		<langcode>en</langcode>
 		<version>6846</version>
 	</lang>
-
 	<lang>
 		<langcode>fr</langcode>
 		<version>6846</version>
 	</lang>
-
 	<lang>
 		<langcode>fr_CA</langcode>
 		<version>6846</version>
 	</lang>
-
 	<lang>
 		<langcode>ee</langcode>
 		<version>6846</version>
 	</lang>
-
 	<lang>
 		<langcode>da</langcode>
 		<version>6846</version>
 	</lang>
-	
 	<lang>
 		<langcode>hu</langcode>
 		<version>6846</version>
 	</lang>
-
 	<lang>
 		<langcode>sv</langcode>
 		<version>7018</version>
@@ -51,17 +45,14 @@
 		<path>display_and_send.scpt</path>
 		<version>6998</version>
 	</file>
-
 	<file>
 		<path>infoamarok</path>
 		<version>7506</version>
 	</file>
-	
 	<file>
 		<path>inforhythmbox</path>
 		<version>7506</version>
 	</file>
-		
 	<file>
 		<path>infobanshee</path>
 		<version>7508</version>
@@ -73,6 +64,10 @@
 	<file>
 		<path>infototem</path>
 		<version>7508</version>
+	</file>
+	<file>
+		<path>infojuk</path>
+		<version>7567</version>
 	</file>
 	<file>
 		<path>MusicWA.exe</path>

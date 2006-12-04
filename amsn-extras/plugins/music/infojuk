@@ -1,0 +1,17 @@
+#! /bin/sh
+# Shell script to get informations about the current song playing in Juk
+
+#Juk is launched ?
+JUK=`ps aux | grep juk | grep -v grep | grep -v info`
+if [ -n "$JUK" ]
+then
+	#Yes so we get the info
+	dcop juk Player status
+    dcop juk Player playingString
+	dcop juk Player currentFile
+else
+	#No so we set to state stopped
+	echo 0
+fi
+
+exit 0
