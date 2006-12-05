@@ -2098,9 +2098,12 @@ namespace eval ::ChatWindow {
 		} else {
 
 #TODO: improve this ???
-			#Filter out VFS-protocols
+			#(VFS pseudo-)protocol: if we can't send it as a file we just paste its URI
 			foreach type [list smb http https ftp sftp floppy cdrom dvd] {
-				if {[string first $type $data] == 0} { return }
+				if {[string first $type $data] == 0} { 
+					[::ChatWindow::GetInputText $window] insert insert $data
+					return 
+				}
 			}
 
 			#If the data begins with "file://", strip this off
