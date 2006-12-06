@@ -456,12 +456,15 @@ namespace eval ::music {
 	# in actualsong.                                    #
 	# Use with after to make it asynchronous            #
 	#####################################################
-	proc exec_async {path} {
-		if { [catch { eval [concat [list "exec"] $path]} result ] } {
-			::music::log "Error retreiving song : $result"
-		} else {
-			set ::music::actualsong $result
-			# whatever processing goes here
+	proc exec_asyn?c {path} {
+		variable activated
+		if {$activated} {
+			if { [catch { eval [concat [list "exec"] $path]} result ] } {
+				::music::log "Error retreiving song : $result"
+			} else {
+				set ::music::actualsong $result
+				# whatever processing goes here
+			}
 		}
 	}
 	
@@ -473,11 +476,14 @@ namespace eval ::music {
 	# Use with after to make it asynchronous            #
 	#####################################################
 	proc exec_async_mac {path} {
-		if { [catch { exec osascript $path} result ] } {
-			::music::log "Error retreiving song : $result"
-		} else {
-			::music::log "Define variable in async_mac:\n$result"
-			set ::music::actualsong $result
+		variable activated
+		if {$activated} {
+			if { [catch { exec osascript $path} result ] } {
+				::music::log "Error retreiving song : $result"
+			} else {
+				::music::log "Define variable in async_mac:\n$result"
+				set ::music::actualsong $result
+			}
 		}
 	}
 
