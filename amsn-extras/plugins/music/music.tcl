@@ -456,7 +456,7 @@ namespace eval ::music {
 	# in actualsong.                                    #
 	# Use with after to make it asynchronous            #
 	#####################################################
-	proc exec_asyn?c {path} {
+	proc exec_async {path} {
 		variable activated
 		if {$activated} {
 			if { [catch { eval [concat [list "exec"] $path]} result ] } {
