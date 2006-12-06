@@ -1,0 +1,16 @@
+amsn_lang_version 2
+check_minutes Check for new messages every ? minutes
+num_accounts How many accounts do you have : 
+account_settings Settings for accunt number: 
+username Username :
+password Password :
+show_notify Show notify window
+open_browser Open browser on left click
+click_to_check Click here to check the number of messages now
+not_checked Not Checked Yet
+checking Checking mail
+error_checking Error Retrieving Gmail Account Information
+view_inbox View Inbox ($1)
+check_now Check Now
+tell_me Tell me again 
+options Options

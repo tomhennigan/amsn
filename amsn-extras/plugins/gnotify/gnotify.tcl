@@ -1,25 +1,20 @@
 ###################################################################
-#                   aMSN POP3 Checker Plugin                      #
-#                      By Arieh Schneier                          #
+#                   aMSN gNotify Plugin                           #
+#                    By Youness Alaoui                            #
+#                        KaKaRoTo                                 #
 #                                                                 #
-#                With small contributions from:                   #
-#             Alberto Díaz and Jonas De Meulenaere                #
-#                 Boris Faure (Gmail support)                     #
-#       POP3 Code originally from Tclib project (modified)        #
+#                   Based on Pop3 plugin                          #
 ###################################################################
-
-#TODO:
-#  * add translation
 
 
 namespace eval ::gnotify {
 	variable config
 	variable configlist
 
-	for {set acntn 0} {$acntn<10} {incr acntn} {
-		variable emails_$acntn -1
-		variable newMails_$acntn -1
-		variable balloontext_$acntn ""
+	for {set acntn 0} {$acntn < 10} {incr acntn} {
+		variable status_$acntn 0
+		variable info_$acntn [list]
+		variable oldmails_$acntn 0
 	}
 
 	#######################################################################################
@@ -29,56 +24,56 @@ namespace eval ::gnotify {
 	#######################################################################################
 
 	proc Init { dir } {
-		::plugins::RegisterPlugin pop3
-		::plugins::RegisterEvent pop3 OnConnect start
-		::plugins::RegisterEvent pop3 OnDisconnect stop
-		::plugins::RegisterEvent pop3 ContactListColourBarDrawn draw
-		::plugins::RegisterEvent pop3 ContactListEmailsDraw addhotmail
+		::plugins::RegisterPlugin gnotify
+		::plugins::RegisterEvent gnotify OnConnect start
+		::plugins::RegisterEvent gnotify OnDisconnect stop
+		::plugins::RegisterEvent gnotify ContactListColourBarDrawn draw
 
-		array set ::pop3::config {
-			minute {5}
+		array set ::gnotify::config {
+			minutes {5}
 			accounts {1}
 		}
 
-		for {set acntn 0} {$acntn<10} {incr acntn} {
-			array set ::pop3::config [ list \
-				host_[set acntn] {"your.mailserver.here"} \
-				user_[set acntn] {"user_login@here"} \
-				passe_[set acntn] [::pop3::encrypt ""] \
-				port_[set acntn] {110} \
-				notify_[set acntn] {1} \
-				loadMailProg_[set acntn] {0} \
-				rightdeletemenu_[set acntn] {1} \
-				mailProg_[set acntn] {msimn} \
-				caption_[set acntn] {POP3} \
-				leavemails_[set acntn] {0} \
-			]
+		for {set acntn 0} {$acntn < 10} {incr acntn} {
+			array set ::gnotify::config [ list \
+							  user_[set acntn] {username@gmail.com} \
+							  passe_[set acntn] [::gnotify::encrypt ""] \
+							  notify_[set acntn] {1} \
+							 ]
 		}
 
-		set ::pop3::configlist [list \
-			[list str "Check for new messages every ? minutes" minute] \
-			[list frame ::pop3::populateframe ""] \
-		]
+		set ::gnotify::configlist [list \
+					       [list str [trans check_minutes] minute] \
+					       [list frame ::gnotify::populateframe ""] \
+					      ]
 
-		::skin::setPixmap pop3_mailpic pop3_mailpic.gif pixmaps [file join $dir pixmaps]
+		::skin::setPixmap gnotify_new gnotify_new.gif pixmaps [file join $dir pixmaps]
+		::skin::setPixmap gnotify_empty gnotify_empty.gif pixmaps [file join $dir pixmaps]
 
-		set ::pop3::checkingnow 0
+
+		#Load lang files
+		set langdir [file join $dir "lang"]
+		set lang [::config::getGlobalKey language]
+		load_lang en $langdir
+		load_lang $lang $langdir
+
+		set ::gnotify::checkingnow 0
 		
 		#only start checking now if already online
 		if { (!$::initialize_amsn) && ([::MSN::myStatusIs] != "FLN") } {
-			::pop3::start 0 0
+			::gnotify::start 0 0
 		}
 	}
 
 	proc DeInit { } {
-		::pop3::stop 0 0
+		::gnotify::stop 0 0
 	}
 
 	proc populateframe { win } {
 		#total number of accounts
 		frame $win.num
-		label $win.num.label -text "How many accounts do you have: "
-		combobox::combobox $win.num.accounts -editable false -highlightthickness 0 -width 3 -bg #FFFFFF -font splainf -textvariable ::pop3::config(accounts)
+		label $win.num.label -text [trans num_accounts]
+		combobox::combobox $win.num.accounts -editable false -highlightthickness 0 -width 3 -bg #FFFFFF -font splainf -textvariable ::gnotify::config(accounts)
 		for { set i 1 } { $i < 11 } { incr i } {
 			$win.num.accounts list insert end $i
 		}
@@ -88,14 +83,13 @@ namespace eval ::gnotify {
 		pack $win.num -anchor w -padx 20
 
 		#frame around selections
-		#set f [frame $win.c -bd 2 -bg black]
 		framec $win.c -bc #0000FF
 		set f [$win.c getinnerframe]
 		pack $win.c -anchor w -padx 20
 
 		#current selection box
 		frame $f.num
-		label $f.num.label -text "Settings for accunt number: "
+		label $f.num.label -text [trans account_settings] 
 		combobox::combobox $f.num.account -editable false -highlightthickness 0 -width 3 -bg #FFFFFF -font splainf
 		for { set i 1 } { $i < 11 } { incr i } {
 			$f.num.account list insert end $i
@@ -105,119 +99,89 @@ namespace eval ::gnotify {
 		pack $f.num.account -side left -anchor w
 		pack $f.num -anchor w
 
-		#server
-		frame $f.host
-		label $f.host.label -text "POP3 Server"
-		entry $f.host.entry -textvariable ::pop3::config(host_0) -bg white
-		pack $f.host.label -side left -anchor w
-		pack $f.host.entry -side left -anchor w
-		pack $f.host -anchor w
-
+		
 		#user name
 		frame $f.user
-		label $f.user.label -text "Your user login"
-		entry $f.user.entry -textvariable ::pop3::config(user_0) -bg white
+		label $f.user.label -text [trans username]
+		entry $f.user.entry -textvariable ::gnotify::config(user_0) -bg white
 		pack $f.user.label -side left -anchor w
 		pack $f.user.entry -side left -anchor w
 		pack $f.user -anchor w
 
 		#password
 		frame $f.pass
-		label $f.pass.label -text "Your password"
-		entry $f.pass.entry -show "*" -bg white -validate all \
-		-validatecommand {
-			set ::pop3::config(passe_0) [::pop3::encrypt %P]
-			return 1
-		}
-		$f.pass.entry insert end [pop3::decrypt $::pop3::config(passe_0)]
+		label $f.pass.label -text [trans password]
+		entry $f.pass.entry -show "*" -bg white -validate all -validatecommand  [list ::gnotify::encryptField 0 %P]
+		$f.pass.entry insert end [gnotify::decrypt $::gnotify::config(passe_0)]
 		pack $f.pass.label -side left -anchor w
 		pack $f.pass.entry -side left -anchor w
 		pack $f.pass -anchor w
 
-		#port
-		frame $f.port
-		label $f.port.label -text "Port (optional)"
-		entry $f.port.entry -textvariable ::pop3::config(port_0) -bg white
-		pack $f.port.label -side left -anchor w
-		pack $f.port.entry -side left -anchor w
-		pack $f.port -anchor w
-
 		#Show notify
-		checkbutton $f.notify -text "Show notify window" -variable ::pop3::config(notify_0)
+		checkbutton $f.notify -text [trans show_notify] -variable ::gnotify::config(notify_0)
 		pack $f.notify -anchor w
 
-		#load mail program
-		checkbutton $f.loadMailProg -text "Load mail program on left click" -variable ::pop3::config(loadMailProg_0)
-		pack $f.loadMailProg -anchor w
 
-		#mail program
-		frame $f.mailProg
-		label $f.mailProg.label -text "          Mail Program"
-		entry $f.mailProg.entry -textvariable ::pop3::config(mailProg_0) -bg white
-		pack $f.mailProg.label -side left -anchor w
-		pack $f.mailProg.entry -side left -anchor w
-		pack $f.mailProg -anchor w
-
-		#rightdeletemenu
-		checkbutton $f.rightdeletemenu -text "Load delete menu on right click" -variable ::pop3::config(rightdeletemenu_0)
-		pack $f.rightdeletemenu -anchor w
-
-		#leavemails
-		checkbutton $f.leavemails -text "Your mail program leaves mails on server" -variable ::pop3::config(leavemails_0)
-		pack $f.leavemails -anchor w
-
-		#caption
-		frame $f.caption
-		label $f.caption.label -text "Display name"
-		entry $f.caption.entry -textvariable ::pop3::config(caption_0) -bg white
-		pack $f.caption.label -side left -anchor w
-		pack $f.caption.entry -side left -anchor w
-		pack $f.caption -anchor w
-
-		$win.num.accounts configure -command ::pop3::switchnumaccounts
-		::pop3::switchnumaccounts $win.num.accounts [$win.num.accounts get]
-		$f.num.account configure -command ::pop3::switchconfig
+		$win.num.accounts configure -command [list ::gnotify::switchnumaccounts $f]
+		::gnotify::switchnumaccounts $f $win.num.accounts [$win.num.accounts get]
+		$f.num.account configure -command [list ::gnotify::switchconfig $f]
 	}
 
-	proc switchconfig { widget val } {
+	proc switchconfig { f widget val } {
 		incr val -1
-		set f [string replace $widget end-11 end ""]
 
-		$f.host.entry configure -textvariable ::pop3::config(host_$val)
-		$f.user.entry configure -textvariable ::pop3::config(user_$val)
+		$f.user.entry configure -textvariable ::gnotify::config(user_$val)
 		$f.pass.entry configure -validate none
-		$f.pass.entry configure -validatecommand "set ::pop3::config(passe_$val) \[::pop3::encrypt %P\]; return 1"
+		$f.pass.entry configure -validatecommand [list ::gnotify::encryptField $val %P]
 		$f.pass.entry delete 0 end
-		$f.pass.entry insert end [pop3::decrypt $::pop3::config(passe_$val)]
+		$f.pass.entry insert end [gnotify::decrypt $::gnotify::config(passe_$val)]
 		$f.pass.entry configure -validate all
-		$f.port.entry configure -textvariable ::pop3::config(port_$val)
-		$f.notify configure -variable ::pop3::config(notify_$val)
-		$f.loadMailProg configure -variable ::pop3::config(loadMailProg_$val)
-		$f.mailProg.entry configure -textvariable ::pop3::config(mailProg_$val)
-		$f.rightdeletemenu configure -variable ::pop3::config(rightdeletemenu_$val)
-		$f.leavemails configure -variable ::pop3::config(leavemails_$val)
-		$f.caption.entry configure -textvariable ::pop3::config(caption_$val)
+		$f.notify configure -variable ::gnotify::config(notify_$val)
 	}
 
-	proc switchnumaccounts { widget val } {
-		set acc [[string replace $widget end-12 end ""].c getinnerframe].num.account
-		set oldval [$acc get]
+	proc switchnumaccounts { f widget val } {
+		set oldval [$f.num.account get]
 
-		$acc list delete 0 end
+		
+		$f.num.account list delete 0 end
 		for { set i 1 } { $i <= $val } { incr i } {
-			$acc list insert end $i
+			$f.num.account list insert end $i
 		}
 		if { $oldval < $val } {
 			incr oldval -1
-			$acc select $oldval
+			$f.num.account select $oldval
 		} else {
-			$acc select 0
+			$f.num.account select 0
 		}
 	}
 
 
+	# ::gnotify::check
+	# Description:
+	#	Continuously check the number of emails for each of the accounts
+	# Arguments: None
+	# Results:
+	#	An integer variable wich contains the number of mails in the mbox
+	proc check { } {
+		catch {
+			# Make sure there isn't duplicat calls
+			after cancel ::gnotify::check
+			
+			set ::gnotify::checkingnow 1
+			
+			for {set acntn 0} {$acntn < $::gnotify::config(accounts)} {incr acntn} {
+				::gnotify::check_gmail $::gnotify::config(user_$acntn) [::gnotify::decrypt $::gnotify::config(passe_$acntn)] $acntn
+			}
+
+			# Call itself again after x minutes
+			set time [expr {int($::gnotify::config(minute) *60000)}]
+			after $time ::gnotify::check
+
+			set ::gnotify::checkingnow 0
+		}
+	}
 	
-	# ::pop3::start
+	# ::gnotify::start
 	# Description:
 	#	Starts checking for new messages
 	# Arguments:
@@ -225,19 +189,19 @@ namespace eval ::gnotify {
 	#	evPar   -> The array of parameters (Supplied by Plugins System)
 	proc start {event evPar} {
 		#cancel any previous starts first
-		catch { after cancel ::pop3::check }
-		catch { after 5000 ::pop3::check }
+		catch { after cancel ::gnotify::check }
+		catch { after 5000 ::gnotify::check }
 	}
 
 
-	# ::pop3::stop
+	# ::gnotify::stop
 	# Description:
 	#	Stops checking for new messages
 	# Arguments:
 	#	event   -> The event wich runs the proc (Supplied by Plugins System)
 	#	evPar   -> The array of parameters (Supplied by Plugins System)
 	proc stop {event evPar} {
-		catch { after cancel ::pop3::check }
+		catch { after cancel ::gnotify::check }
 		#If online redraw main window to remove new line
 		#Doesn't work yet, as events are still triggered after unload (need to fix)
 		if { (!$::initialize_amsn) && ([::MSN::myStatusIs] != "FLN") } {
@@ -246,31 +210,55 @@ namespace eval ::gnotify {
 	}
 
 
-	# ::pop3::loadDefaultEmail
-	# Description:
-	#	Loads the default email program for the system
-	# Arguments:
-	#	acntn ->  The number of the account to load teh default mail program for
-	proc loadDefaultEmail { acntn } {
-		#check if the account is a gmail account
-		if { [string match *@gmail.com* $::pop3::config(user_$acntn) ] } {
-			launch_browser [string map {% %%} [list http://mail.google.com]]
-		} elseif { $::tcl_platform(platform) == "windows" } {
-			package require WinUtils
-			eval WinLoadFile [set ::pop3::config(mailProg_$acntn)]
-		} elseif { [catch {eval "exec [set ::pop3::config(mailProg_$acntn)]"} res] } {
-				plugins_log pop3 "Failed to load [set ::pop3::config(mailProg_$acntn)] with the error: $res\n"
-		}
 
-		if { [set ::pop3::config(leavemails_$acntn)] == 1 } {
-			#reset number of new mails
-			set ::pop3::newMails_$acntn 0
-			cmsn_draw_online
+
+	# ::gnotify::notify
+	# Description:
+	#	Posts a notification of new emails.
+	# Arguments:
+	#	acntn ->  The number of the account to notify for
+	# Results:
+	#	A notify window pops up when required.
+	proc notify { acntn } {
+		variable info_$acntn
+
+		array set info [set info_$acntn]
+
+		if { $::gnotify::config(notify_$acntn) == 1 } {
+			switch -- $info(nb_mails) {
+				1  { set mailmsg "[trans onenewmail]" }
+				2  { set mailmsg "[trans twonewmail 2]"	}
+				default { set mailmsg "[trans newmail $info(nb_mails)]" }
+			}
+		
+			::amsn::notifyAdd "[set ::gnotify::config(user_$acntn)]\n$mailmsg" "launch_browser {http://mail.google.com}" newemail plugins
+		
+			
+			#If Growl plugin is loaded, show the notification, Mac OS X only
+			if { [info commands growl] != "" } {
+				catch {growl post Pop GMAIL $mailmsg}
+			}
 		}
 	}
 
+	proc encrypt { password } {
+		binary scan [::des::encrypt pasencky $password] h* encpass
+		return $encpass
+	}
 
-	# ::pop3::draw
+	proc decrypt { key } {
+		set password [::des::decrypt pasencky [binary format h* $key]]
+		return $password
+	}
+
+	proc encryptField { val text } {
+		set ::gnotify::config(passe_$val) [::gnotify::encrypt $text]
+		return 1
+	}
+	
+
+
+	# ::gnotify::draw
 	# Description:
 	#	Adds a line in the contact list of the number of emails drawn for each account
 	# Arguments:
@@ -278,26 +266,37 @@ namespace eval ::gnotify {
 	#	evPar   -> The array of parameters (Supplied by Plugins System)
 	proc draw_no {acntn evPar} {
 		upvar 3 $evPar vars
+		variable info_$acntn
+		variable status_$acntn
+		variable oldmails_$acntn
+
+		array set info [set info_$acntn]
 
 		#TODO: add parameter to event and get rid of hardcoded variable
 		set pgtop $::pgBuddyTop
 		set clbar $::pgBuddyTop.colorbar
 		
-		set textb $pgtop.pop3mail_$acntn
+		set textb $pgtop.gnotifymail_$acntn
 		text $textb -font bboldf -height 1 -background [::skin::getKey topcontactlistbg] -borderwidth 0 -wrap none -cursor left_ptr \
-			-relief flat -highlightthickness 0 -selectbackground white -selectborderwidth 0 \
-			-exportselection 0 -relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0
+		    -relief flat -highlightthickness 0 -selectbackground white -selectborderwidth 0 \
+		    -exportselection 0 -relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0
+
 		if {[::skin::getKey emailabovecolorbar]} {
 			pack $textb -expand true -fill x -after $clbar -side bottom -padx 0 -pady 0
 		} else {
 			pack $textb -expand true -fill x -before $clbar -side bottom -padx 0 -pady 0
 		}
-
+	
 		$textb configure -state normal
 
-		clickableImage $textb popmailpic_$acntn pop3_mailpic {after cancel ::pop3::check; after 1 ::pop3::check} [::skin::getKey mailbox_xpad] [::skin::getKey mailbox_ypad]
+		if { [info exists info(nb_mails)] && $info(nb_mails) > 0} {
+			set img gnotify_new
+		} else {
+			set img gnotify_empty
+		}
+		clickableImage $textb popmailpic_$acntn $img {after cancel ::gnotify::check; after 1 ::gnotify::check} [::skin::getKey mailbox_xpad] [::skin::getKey mailbox_ypad]
 		
-		set mailheight [expr [image height [::skin::loadPixmap pop3_mailpic]]+(2*[::skin::getKey mailbox_ypad])]
+		set mailheight [expr [image height [::skin::loadPixmap $img]]+(2*[::skin::getKey mailbox_ypad])]
 		#in windows need an extra -2 is to include the extra 1 pixel above and below in a font
 		if {$::tcl_platform(platform) == "windows"} {
 			set mailheight [expr $mailheight - 2]
@@ -308,77 +307,128 @@ namespace eval ::gnotify {
 		}
 		$textb configure -font "{} -$mailheight"
 
-		set balloon_message "Click here to check the number of messages now."
+		set balloon_message [trans click_to_check] 
 		$textb tag bind $textb.popmailpic_$acntn <Enter> +[list balloon_enter %W %X %Y $balloon_message]
 		$textb tag bind $textb.popmailpic_$acntn <Leave> "+set ::Bulle(first) 0; kill_balloon;"
 		$textb tag bind $textb.popmailpic_$acntn <Motion> +[list balloon_motion %W %X %Y $balloon_message]
 
-		set newm [set ::pop3::newMails_$acntn]
-		if { $newm < 0 } {
-			set mailmsg "Not Checked Yet ([set ::pop3::config(caption_$acntn)])"
-		} elseif { $newm == 0 } {
-			set mailmsg "[trans nonewmail] ([set ::pop3::config(caption_$acntn)])"
-		} elseif { $newm == 1} {
-			set mailmsg "[trans onenewmail] ([set ::pop3::config(caption_$acntn)])"
-		} elseif { $newm == 2} {
-			set mailmsg "[trans twonewmail 2] ([set ::pop3::config(caption_$acntn)])"
+		
+		if { [set status_$acntn] == 0 } {
+			set mailmsg "[trans not_checked] ([set ::gnotify::config(user_$acntn)])"
+		} elseif { [set status_$acntn] == 1 } {
+			set mailmsg "[trans checking] ([set ::gnotify::config(user_$acntn)])"
+		} elseif { [set status_$acntn] == 3 } {
+			set mailmsg "[trans error_checking] ([set ::gnotify::config(user_$acntn)])"
+		} elseif { $info(nb_mails) == 0 } {
+			set mailmsg "[trans nonewmail] ([set ::gnotify::config(user_$acntn)])"
+		} elseif { $info(nb_mails) == 1} {
+			set mailmsg "[trans onenewmail] ([set ::gnotify::config(user_$acntn)])"
+		} elseif { $info(nb_mails) == 2} {
+			set mailmsg "[trans twonewmail 2] ([set ::gnotify::config(user_$acntn)])"
 		} else {
-			set mailmsg "[trans newmail [set ::pop3::newMails_$acntn]] ([set ::pop3::config(caption_$acntn)])"
+			set mailmsg "[trans newmail $info(nb_mails)] ([set ::gnotify::config(user_$acntn)])"
 		}
 		
-		set maxw [expr [winfo width [winfo parent $pgtop]]-[image width [::skin::loadPixmap pop3_mailpic]]-(2*[::skin::getKey mailbox_xpad])]
+		set maxw [expr [winfo width [winfo parent $pgtop]]-[image width [::skin::loadPixmap $img]]-(2*[::skin::getKey mailbox_xpad])]
 		set short_mailmsg [trunc $mailmsg $textb $maxw splainf]
 
-		$textb tag conf pop3mail_$acntn -fore black -underline false -font splainf
-		if { [set ::pop3::config(loadMailProg_$acntn)] || [set ::pop3::config(rightdeletemenu_$acntn)] } {
-			$textb tag conf pop3mail_$acntn -underline true
-			$textb tag bind pop3mail_$acntn <Enter> "$textb tag conf pop3mail_$acntn -under false;$textb conf -cursor hand2"
-			$textb tag bind pop3mail_$acntn <Leave> "$textb tag conf pop3mail_$acntn -under true;$textb conf -cursor left_ptr"
-		}
-		if { [set ::pop3::config(loadMailProg_$acntn)] } {
-			$textb tag bind pop3mail_$acntn <Button1-ButtonRelease> "$textb conf -cursor watch; after 1 [list ::pop3::loadDefaultEmail $acntn]"
-		}
-		if { [set ::pop3::config(rightdeletemenu_$acntn)] } {
-			$textb tag bind pop3mail_$acntn <Button3-ButtonRelease> "after 1 [list ::pop3::rightclick %X %Y $acntn]"
-		}
-		set balloon_message "$mailmsg[set ::pop3::balloontext_$acntn]"
-		$textb tag bind pop3mail_$acntn <Enter> +[list balloon_enter %W %X %Y $balloon_message]
-		$textb tag bind pop3mail_$acntn <Leave> "+set ::Bulle(first) 0; kill_balloon;"
-		$textb tag bind pop3mail_$acntn <Motion> +[list balloon_motion %W %X %Y $balloon_message]
+		$textb tag conf gnotifymail_$acntn -fore black -underline false -font splainf
+		$textb tag conf gnotifymail_$acntn -underline true
+		$textb tag bind gnotifymail_$acntn <Enter> "$textb tag conf gnotifymail_$acntn -under false;$textb conf -cursor hand2"
+		$textb tag bind gnotifymail_$acntn <Leave> "$textb tag conf gnotifymail_$acntn -under true;$textb conf -cursor left_ptr"
+		
+		$textb tag bind gnotifymail_$acntn <Button1-ButtonRelease> "$textb conf -cursor watch; after 1 [list launch_browser {http://mail.google.com}]"
+		
+		$textb tag bind gnotifymail_$acntn <Button3-ButtonRelease> "after 1 [list ::gnotify::rightclick %X %Y $acntn]"
+		
+		set balloon_message "$mailmsg"
+		$textb tag bind gnotifymail_$acntn <Enter> +[list balloon_enter %W %X %Y $balloon_message]
+		$textb tag bind gnotifymail_$acntn <Leave> "+set ::Bulle(first) 0; kill_balloon;"
+		$textb tag bind gnotifymail_$acntn <Motion> +[list balloon_motion %W %X %Y $balloon_message]
 
-		$textb insert end "$short_mailmsg" [list pop3mail_$acntn dont_replace_smileys]
+		$textb insert end "$short_mailmsg" [list gnotifymail_$acntn dont_replace_smileys]
 		
 		$textb configure -state disabled
+
+		if { [info exists info(nb_mails)] && [set status_$acntn] == 2} {
+			if {$info(nb_mails) > [set oldmails_$acntn] } {
+				notify $acntn
+			}
+			set oldmails_$acntn $info(nb_mails)
+		}
+
 	}
 
+	proc tell_no {acnt} {
+		variable info_$acnt
 
-	# ::pop3::draw
+		array set info [set info_$acnt]
+		if { $info(errors) > 0 } {
+			puts "Error parsing GData : [::http::data $token]"
+		} else {
+			puts "You have $info(nb_mails) new emails in your inbox"
+			set i 0
+			foreach mail_l $info(mails) {
+				incr i
+				array set mail $mail_l
+				puts "\n\n($i/$info(nb_mails)) "
+				foreach tag $mail(tags) {
+					if {$tag == "^t" } {
+						puts -nonewline "(*)"
+					}
+				}
+				if {[llength $mail(authors)] == 1 } {
+					set author_l [lindex $mail(authors) 0]
+					array set author $author_l
+					set author_l $author(author)
+					array set author $author_l
+					puts -nonewline "$author(nick) <$author(email)>"						
+				} else {
+					foreach author_l $mail(authors) {
+						array set author $author_l
+						set author_l $author(author)
+						array set author $author_l
+						puts -nonewline "$author(nick), "
+						
+					}
+				}
+				if { $mail(threads) > 1 } { 
+					puts "($mail(threads))"
+				} else {
+					puts ""
+				}
+				puts "$mail(subject) || $mail(body)"
+				if {[llength $mail(attachments)] > 0 } {
+					puts -nonewline "Attachments : "
+					foreach att $mail(attachments) {
+						puts "$att "
+					}
+				}
+			#	if {[llength $mail(tags)] > 0 } {
+			#		puts -nonewline "tags : "
+			#		foreach tag $mail(tags) {
+			#			puts -nonewline "$tag, "
+			#		}
+			#	}
+				puts ""
+			}
+		}
+	}
+
+	# ::gnotify::draw
 	# Description:
 	#	Adds a line in the contact list of the number of emails drawn for each account
 	# Arguments:
 	#	event   -> The event wich runs the proc (Supplied by Plugins System)
 	#	evPar   -> The array of parameters (Supplied by Plugins System)
 	proc draw {event evPar} {
-		for {set acntn 0} {$acntn<$::pop3::config(accounts)} {incr acntn} {
-			::pop3::draw_no $acntn $evPar
+		for {set acntn 0} {$acntn < $::gnotify::config(accounts)} {incr acntn} {
+			::gnotify::draw_no $acntn $evPar
 		}
 	}
 	
 	
-	# ::pop3::addhotmail
-	# Description:
-	#	Adds ' (Hotmail)' to the line in the contact list of the number of emails
-	# Arguments:
-	#	event   -> The event wich runs the proc (Supplied by Plugins System)
-	#	evPar   -> The array of parameters (Supplied by Plugins System)
-	proc addhotmail {event evPar} {
-		upvar 2 $evPar vars
-		upvar 2 $vars(msg) msg
-		set msg "[string range $msg 0 end] (Hotmail)"
-	}
-
-
-	# ::pop3::rightclick
+	# ::gnotify::rightclick
 	# Description:
 	#	Creates a right click menu to delete an email
 	# Arguments:
@@ -386,109 +436,103 @@ namespace eval ::gnotify {
 	#	y  -> y position where to display
 	#	acntn   -> The number of the account to create for
 	proc rightclick { X Y acntn} {
-		set rmenu .pop3rightmenu
+		variable info_$acntn
+		
+		array set info [set info_$acntn]
+
+		set rmenu .gnotifyrightmenu
 		destroy $rmenu
 
 		menu $rmenu -tearoff 0 -type normal
 
-		$rmenu add command -label "Select an email to delete"
-		$rmenu add command -label "Check for new email" -command ::pop3::check
-		$rmenu add separator
-
-		set i 0
-		foreach line [split [string range [set ::pop3::balloontext_$acntn] 17 end] \n] { 
-			incr i
-			$rmenu add command -label "$line" -command [list ::pop3::deletemail $acntn $i $line]
+		if {[info exists info(nb_mails)] } {
+			set new $info(nb_mails)
+		} else {
+			set new "?"
 		}
+		
+		$rmenu add command -label [trans view_inbox $new] -command {after 1 [list launch_browser {http://mail.google.com}]}
+		$rmenu add separator
+		$rmenu add command -label [trans check_now] -command ::gnotify::check
+		$rmenu add command -label [trans tell_me] -command [list ::gnotify::tell_no $acntn]
+		$rmenu add command -label [trans options] -command ::gnotify::Options
+		
+		$rmenu add separator
 
 		tk_popup $rmenu $X $Y
 	}
 
 
-	proc check_gmail { username password } {
-		variable user_cookies
-		#TODO should depend on $username,$password
-
-		if { [info exists user_cookies($username,gv)] && [info exists user_cookies($username,sid)]} {
-			if { [info exists user_cookies($username,s)] } {
-				set cookie [join [list [set user_cookies($username,gv)] [set user_cookies($username,sid)] [set user_cookies($username,s)]] "; "]				
+	proc Options { } {
+		if {[catch {
+			::plugins::PluginGui
+			set w [set ::plugins::w]
+			set plugins [$w.plugin_list get 0 end]
+			set gnotify_idx [lsearch $plugins "gnotify"]
+			if {$gnotify_idx == -1 } {
+				::plugins::GUI_Close
 			} else {
-				set cookie [join [list [set user_cookies($username,gv)] [set user_cookies($username,sid)]] "; "]
+				$w.plugin_list selection set $gnotify_idx
+				::plugins::GUI_NewSel
+				::plugins::GUI_Config
 			}
-			set headers [list Cookie "$cookie"]
-			http::geturl "http://mail.google.com/mail/?ui=pb" -headers $headers -command [list ::gnotify::check_gmail_callback $username]
-		} else {
-			authenticate_gmail $username $password [list ::gnotify::check_gmail $username $password]
-			return 
+			
+		} ] } {
+			catch {::plugins::GUI_Close}
 		}
 	}
 
-	proc check_gmail_callback { username token } {
+	proc check_gmail { username password acnt } {
+		variable user_cookies
+		variable status_$acnt
+
+		set status_$acnt 1
+		cmsn_draw_online
+		
+		if { [info exists user_cookies($username,$password,gv)] && [info exists user_cookies($username,$password,sid)]} {
+			if { [info exists user_cookies($username,$password,s)] } {
+				set cookie [join [list [set user_cookies($username,$password,gv)] [set user_cookies($username,$password,sid)] [set user_cookies($username,$password,s)]] "; "]
+			} else {
+				set cookie [join [list [set user_cookies($username,$password,gv)] [set user_cookies($username,$password,sid)]] "; "]
+			}
+			set headers [list Cookie $cookie]
+			http::geturl "http://mail.google.com/mail/?ui=pb" -headers $headers -command [list ::gnotify::check_gmail_callback $username $password $acnt]
+		} else {
+			authenticate_gmail $username $password [list ::gnotify::check_gmail $username $password $acnt]
+		}
+		return 
+	}
+
+	proc check_gmail_callback { username password acnt token } {
 		variable user_cookies
 		upvar #0 $token state
+		variable status_$acnt
+		variable info_$acnt
+
 		set meta $state(meta)
 		if { [::http::ncode $token] == 200 } {
 			foreach {key val} $meta {
 				if { $key == "Set-Cookie"} {
 					foreach cookie [split $val ";"] {
 						if {[lindex [split $cookie "="] 0] == "S" } {
-							set user_cookies($username,s) $cookie	
+							set user_cookies($username,$password,s) $cookie	
 						} 
 					}
 				}
 			}
-			set info_l [parseGData [::http::data $token]]
-			array set info $info_l
-			if { $info(errors) > 0 } {
-				puts "Error parsing GData : [::http::data $token]"
-			} else {
-				puts "You have $info(nb_mails) new emails in your inbox"
-				set i 0
-				foreach mail_l $info(mails) {
-					incr i
-					array set mail $mail_l
-					puts "\n\n($i/$info(nb_mails)) "
-					foreach tag $mail(tags) {
-						if {$tag == "^t" } {
-							puts -nonewline "(*)"
-						}
-					}
-					if {[llength $mail(authors)] == 1 } {
-						set author_l [lindex $mail(authors) 0]
-						array set author $author_l
-						set author_l $author(author)
-						array set author $author_l
-						puts -nonewline "$author(nick) <$author(email)>"						
-					} else {
-						foreach author_l $mail(authors) {
-							array set author $author_l
-							set author_l $author(author)
-							array set author $author_l
-							puts -nonewline "$author(nick), "
 
-						}
-					}
-					if { $mail(threads) > 1 } { 
-						puts "($mail(threads))"
-					} else {
-						puts ""
-					}
-					puts "$mail(subject) || $mail(body)"
-					if {[llength $mail(attachments)] > 0 } {
-						puts -nonewline "Attachments : "
-						foreach att $mail(attachments) {
-							puts "$att "
-						}
-					}
-					if {[llength $mail(tags)] > 0 } {
-						puts -nonewline "tags : "
-						foreach tag $mail(tags) {
-							puts -nonewline "$tag, "
-						}
-					}
-					puts ""
-				}
+		
+			set info_$acnt [parseGData [::http::data $token]]
+
+			array set info [set info_$acnt]
+			if { $info(errors) > 0 } {
+				set status_$acnt 3
+				cmsn_draw_online
+			} else {
+				set status_$acnt 2
+				cmsn_draw_online
 			}
+			
 		} else {
 			# Should be a 'moved' where Location points to the auth server with the option &continue=... redirecting to this url again..
 			puts "ERROR : $token"
@@ -511,16 +555,17 @@ namespace eval ::gnotify {
 		variable user_cookies
 		upvar #0 $token state
 		set meta $state(meta)
+
+
 		if { [::http::ncode $token] == 200 } {
-			puts "authentication successfull : $token"
 			foreach {key val} $meta {
 				if { $key == "Set-Cookie" ||  $key == "X-Set-Google-Cookie" } {
 					foreach cookie [split $val ";"] {
 						set k [lindex [split $cookie "="] 0]
 						if {$k == "SID" } {
-							set user_cookies($username,sid) $cookie
+							set user_cookies($username,$password,sid) $cookie
 						} elseif { $k == "GV" } {
-							set user_cookies($username,gv) $cookie				
+							set user_cookies($username,$password,gv) $cookie				
 						}
 					}
 				}
@@ -723,6 +768,12 @@ namespace eval ::gnotify {
 		set info(mails) [list]
 		set info(nb_mails) 0
 		set info(errors) 0
+
+
+		set fd [open D://test.bin w]
+		fconfigure $fd -translation binary
+		puts -nonewline $fd $data_bin
+		close $fd
 
 		
 		while {$data(offset) < $data(len)} {
