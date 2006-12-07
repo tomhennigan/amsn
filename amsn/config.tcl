@@ -729,6 +729,8 @@ proc load_config {} {
 	::plugins::LoadPlugins
 
 	create_dir "[::config::getKey receiveddir]"
+
+	::config::setKey use_new_cl 0
 }
 
 
