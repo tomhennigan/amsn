@@ -3456,7 +3456,8 @@ proc cmsn_draw_main {} {
 	$pgBuddyTop configure -padx 0 -pady 0
 
 	ScrolledWindow $pgBuddy.sw -auto vertical -scrollbar vertical -ipad 0
-	pack $pgBuddy.sw -expand true -fill both
+	# No need for the pack since it will be done before calling each of the cmsn_draw_* functions.
+	#pack $pgBuddy.sw -expand true -fill both
 	set pgBuddy $pgBuddy.sw
 
 	text $pgBuddy.text -background [::skin::getKey contactlistbg] -width 30 -height 0 -wrap none \
@@ -3466,11 +3467,10 @@ proc cmsn_draw_main {} {
 
 	# Also create the new CL, but don't pack it yet...
 	if { [::config::getKey use_new_cl 0] == 1 } {
-		::guiContactList::createCLWindowEmbeded $pgBuddy 
+		::guiContactList::createCLWindowEmbeded [winfo parent $pgBuddy]
 	}
 
-	# No need for the setWidget since it will be done before calling each of the cmsn_draw_* functions.
-	#$pgBuddy setwidget $pgBuddy.text
+	$pgBuddy setwidget $pgBuddy.text
 
 	# Initialize the event history
 	frame .main.eventmenu
@@ -4136,7 +4136,7 @@ proc cmsn_draw_offline {} {
 	global sboldf password pgBuddy pgBuddyTop
 
 	# Now we need this because the new CL might be in place in the SW...
-	$pgBuddy setwidget $pgBuddy.text
+	displayCL 0
 
 	bind $pgBuddy.text <Configure>  ""
 
@@ -4243,7 +4243,7 @@ proc cmsn_draw_reconnect { error_msg } {
 	global pgBuddy pgBuddyTop
 
 	# Now we need this because the new CL might be in place in the SW...
-	$pgBuddy setwidget $pgBuddy.text
+	displayCL 0
 
 	pack forget $pgBuddyTop
 	$pgBuddy.text configure -state normal -font splainf
@@ -4298,7 +4298,7 @@ proc cmsn_draw_signin {} {
 
 
 	# Now we need this because the new CL might be in place in the SW...
-	$pgBuddy setwidget $pgBuddy.text
+	displayCL 0
 
 	pack forget $pgBuddyTop
 	$pgBuddy.text configure -state normal -font splainf
@@ -4758,7 +4758,11 @@ proc cmsn_draw_buildtop_wrapped {} {
 	foreach child [winfo children $pgBuddyTop] {
 		destroy $child
 	}
-	pack $pgBuddyTop -expand false -fill x -before $pgBuddy
+	if { [winfo ismapped $pgBuddy] } {
+		pack $pgBuddyTop -expand false -fill x -before $pgBuddy
+	} else {
+		pack $pgBuddyTop -expand false -fill x -before [winfo parent $pgBuddy].cl
+	}
 	
 	# Display MSN logo with user's handle. Make it clickable so
 	# that the user can change his/her status that way
@@ -4944,7 +4948,8 @@ proc cmsn_draw_online_wrapped {} {
 		global pgBuddy
 
 		# Now we need this to make sure it's the new CL being shown...
-		$pgBuddy setwidget $pgBuddy.cl
+		#$pgBuddy setwidget $pgBuddy.cl
+		displayCL
 
 		::guiContactList::updateCL
 	}
@@ -4954,11 +4959,22 @@ proc cmsn_draw_online_wrapped {} {
 
 proc switch_to_newCL { } {
 	if { [::config::getKey use_new_cl 0] == 0} {
-		if { ![winfo exists $::pgBuddy.cl] } {
-			::guiContactList::createCLWindowEmbeded $::pgBuddy
+		if { ![winfo exists [winfo parent $::pgBuddy].cl] } {
+			::guiContactList::createCLWindowEmbeded [winfo parent $::pgBuddy]
 		}
 		::config::setKey use_new_cl 1
 		cmsn_draw_online
+	}
+}
+
+proc displayCL { {newCL 1} } {
+	global pgBuddy
+	if { $newCL == 1 } {
+		pack forget $pgBuddy
+		pack [winfo parent $pgBuddy].cl -expand true -fill both
+	} else {
+		catch { pack forget [winfo parent $pgBuddy].cl }
+		pack $pgBuddy -expand true -fill both
 	}
 }
 

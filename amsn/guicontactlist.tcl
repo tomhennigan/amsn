@@ -140,8 +140,8 @@ namespace eval ::guiContactList {
 
 
 		# Set up the 'ScrolledWindow' container for the canvas
-		ScrolledWindow $clcontainer -auto vertical -scrollbar vertical -bg white -bd 0 -ipad 0
-		#frame $clcontainer
+		#ScrolledWindow $clcontainer -auto vertical -scrollbar vertical -bg white -bd 0 -ipad 0
+		frame $clcontainer
 		# TODO: * ScrolledWindow should be feeded a command run on scroll (reset the image)
 		#	* bgcolor should be skinnable
 
@@ -150,7 +150,7 @@ namespace eval ::guiContactList {
 		set clcanvas [createCLWindowEmbeded $clcontainer]
 
 		# Embed the canvas in the ScrolledWindow
-		$clcontainer setwidget $clcanvas
+		#$clcontainer setwidget $clcanvas
 		# Pack the scrolledwindow in the window
 		pack $clcontainer -expand true -fill both
 
@@ -176,7 +176,9 @@ namespace eval ::guiContactList {
 		global tcl_platform
 		variable nicknameArray
 
-		set clcanvas $w.cl
+		set clframe $w.cl
+		set clcanvas $w.cl.cvs
+		set clscrollbar $w.cl.vsb
 
 		#here we load images used in this code:
 		::skin::setPixmap back back.gif
@@ -193,8 +195,17 @@ namespace eval ::guiContactList {
 		# Set beginning big width/height		
 		set clbox [list 0 0 2000 1500]
 
+		variable Xbegin
+		variable Ybegin
+
+		set Xbegin 10
+		set Ybegin 10
+
+		frame $w.cl -background [::skin::getKey contactlistbg]
+
+		scrollbar $clscrollbar -command "::guiContactList::scrollCLsb $clcanvas"
 		# Create a blank canvas
-		canvas $clcanvas -background [::skin::getKey contactlistbg] ;#-yscrollcommand "$clscrollbar set" 
+		canvas $clcanvas -background [::skin::getKey contactlistbg] -yscrollcommand "$clscrollbar set" 
 
 		# Parse the nicknames for smiley/newline substitution
 		createNicknameArray
@@ -257,7 +268,11 @@ namespace eval ::guiContactList {
 
 		bind $clcanvas <Configure> "::guiContactList::drawList $clcanvas"
 
-		return $clcanvas
+		pack $clscrollbar -side right -fill y
+
+		pack $clcanvas -expand true -fill both
+
+		return $clframe
 	}
 
 
@@ -265,12 +280,6 @@ namespace eval ::guiContactList {
 	# Function that draws everything needed on the canvas
 	#/////////////////////////////////////////////////////////////////////
 	proc drawList {canvas} {
-		variable Xbegin
-		variable Ybegin
-
-		set Xbegin 10
-		set Ybegin 10
-
 		::guiContactList::drawGroups $canvas
 		::guiContactList::drawContacts $canvas
 		::guiContactList::organiseList $canvas
@@ -346,9 +355,12 @@ namespace eval ::guiContactList {
 	}
 
 	proc contactChanged { eventused email { gidlist ""} } {
+
 		variable clcanvas
 
 		if { [winfo exists $clcanvas] } {
+
+			global nicknameArray
 			#status_log "CONTACTCHANGED: $email"
 
 			if { $email == "contactlist" } {

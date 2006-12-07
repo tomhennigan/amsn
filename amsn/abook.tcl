@@ -402,19 +402,26 @@ namespace eval ::abook {
 		}
 
 		# An event used by guicontactlist to know when a user changed his nick (or state)
-		if { [lsearch -exact $::abook::VisualData $field] > -1 } {
-			if { [info exists user_data($field)] && $user_data($field) != $data } {
-				#puts stdout "ATTENTION! Visual Data has changed! Redraw CL! $field - $data"
-				::Event::fireEvent contactDataChange abook $user_login
-			} elseif { ![info exists user_data($field)] && $data != ""} {
-				#puts stdout "ATTENTION! Visual Data has changed! Redraw CL! $field - $data"
-				::Event::fireEvent contactDataChange abook $user_login
-			}
-		}
+		#if { [lsearch -exact $::abook::VisualData $field] > -1 } {
+		#	if { [info exists user_data($field)] && $user_data($field) != $data } {
+		#		#puts stdout "ATTENTION! Visual Data has changed! Redraw CL! $field - $data"
+		#		::Event::fireEvent contactDataChange abook $user_login
+		#	} elseif { ![info exists user_data($field)] && $data != ""} {
+		#		#puts stdout "ATTENTION! Visual Data has changed! Redraw CL! $field - $data"
+		#		::Event::fireEvent contactDataChange abook $user_login
+		#	}
+		#}
 
 		if { $data == "" } {
-			if { [info exists user_data($field)] } {
-				unset user_data($field)
+			if { $field == "nick" } {
+				if { [info exists user_data(nick)] } {
+					unset user_data(nick)
+					unset user_data(raw_nick)
+				}
+			} else {
+				if { [info exists user_data($field)] } {
+					unset user_data($field)
+				}
 			}
 		} else {
 			if { $field == "nick" } {
