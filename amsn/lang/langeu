@@ -848,3 +848,23 @@ hidemenu Erakutsi/Ezkutatu menuak
 hidemenumessage Seguru menu hauek ezkutatu nahi dituzula?\nGeroago berreskuratu ditzakezu, 'Ctrl-M' erakutsi/ezkutatu menuak tekla-konbinazioa sakatuz.
 noftpreview Ezgaitu fitxategi transferentzietan irudien aurrebista bidaltzea
 groupcontacts Talde kontaktuak
+asksendoim Mezu hau, konektatu gabeko mezu moduan bidali nahi duzu?
+autolisten_voiceclips Soinu sortak jasotzerakoan automatikoki erreproduzitu
+cancelled Ezeztatua
+connectfirst Lehenago konektatu, mesedez
+error Akatsa
+ftporttest Froga ataka
+nosound Ez da soinurik detektatu, egiaztatu mikrofonoa ondo konektaturik dagoela
+nosound_or_hold Ez da soinurik detektatu. Ahots grabaketa bat bidaltzeko, hitzegiten duzun bitartean botoia sakatu eta mantendu behar duzu, eta gero mezua bidaltzeko, botoia utzi.
+receivedvoice Jasotako soinu zatia.
+recorderror   $1 grabatzerakoan akatsa
+sendoim Offline mezua bidali
+sendvoice Ahots grabazioa bidali
+sentvoice Ahots grabazioa bidalita
+snackneeded Eginbide hau erabiltzeko Snack liburutegia beharrezkoa da. Gutxienez, 2.2.9 bertsioa behar da.
+soundnoavail Soinu txartela ez dago. Gelditu mesedez soinu txartela erabiltzen egon daitekeen aplikazioa.
+voice_notimplemented Ahots zatiak jasotzea ez dago oraindik martxan. Pazientzia, mesedez.
+voice_windows Windows erabiltzailea izanik, soinu zatia entzungarri izan ahal zaizu Media Playerrekin zabaltzen baduzu.
+voice_windows_click Klik hemen hori egiteko.
+webcaminvitereceiving $1 webcam ikusteko gonbidatua zaude. Saio hau onartu nahi duzu?
+webcaminvitesending $1-k zure webcam-a ikusi nahi du. Saio hau onartu nahi duzu?
