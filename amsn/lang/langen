@@ -63,7 +63,7 @@ autoidle Auto NoActivity
 autoip Automatic IP
 autolisten_voiceclips Automatically play voiceclips once received
 automessage AutoMessage
-autonoact Change state to "No Activity" when inactive for
+autonoact Change state to "Idle" when inactive for
 autoresizedp Automatically resize display pictures to default size
 avaccepted Video Conference call accepted
 avcanceled Video Conference call canceled
@@ -502,7 +502,7 @@ newveravailable Newer version $1 available for download
 next Next
 nick Nick
 no No
-noactivity No Activity
+noactivity Idle
 nocacheddps No Display Pictures in cache for this user
 nodataavailable No data available for $1
 nodevices Currently, no devices are installed
