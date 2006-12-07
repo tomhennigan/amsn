@@ -1476,10 +1476,11 @@ namespace eval ::guiContactList {
 	}
 
 	proc setScroll { scrollbar first last } {
+		variable clcanvas
 		set visible [expr {$last - $first}]
-		if { $visible == 0 && ![winfo ismapped $scrollbar] } {
-			pack $scrollbar -side right -fill y
-		} elseif { $visible == 1 && [winfo ismapped $scrollbar] } {
+		if { $visible < 1 && ![winfo ismapped $scrollbar] } {
+			pack $scrollbar -side right -fill y -before $clcanvas
+		} elseif { $visible >= 1 && [winfo ismapped $scrollbar] } {
 			pack forget $scrollbar
 		}
 		$scrollbar set $first $last
