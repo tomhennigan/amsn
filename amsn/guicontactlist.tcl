@@ -1426,7 +1426,7 @@ namespace eval ::guiContactList {
 		}
 
 		# Define the final balloon message
-		set ballon_message [::abook::getNick $email]]
+		set ballon_message [::abook::getNick $email]
 		append ballon_message "\n$email\n"
 		append ballon_message "[trans status] : "
 		append ballon_message [trans [::MSN::stateToDescription $state_code]]
