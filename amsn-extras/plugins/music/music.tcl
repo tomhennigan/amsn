@@ -2,7 +2,6 @@ namespace eval ::music {
 	variable config
 	variable configlist
 	variable name ""
-	variable activated 0
 	variable playersarray
 	variable musicpluginpath
 
@@ -44,9 +43,10 @@ namespace eval ::music {
 		set ::music::configlist [list [list frame ::music::populateFrame_1st ""] ]
 		
 		#Start changing the nickname on loading
-		::music::wait_load_newname
+		after 1000 ::music::load_newname 0 0
 		#Register /showsong and /sendsong to 
 		after 5000 ::music::add_command 0 0
+
 	}
 
 	
@@ -90,13 +90,13 @@ namespace eval ::music {
 			#add to psm
 			frame $mainFrame.psm -class degt
 			pack $mainFrame.psm -anchor w -expand true -fill both
-			checkbutton $mainFrame.psm.checkbutton -variable ::music::config(active) -text "[trans musicaddsongtopsm]"
+			checkbutton $mainFrame.psm.checkbutton -variable ::music::config(display) -text "[trans musicaddsongtopsm]"
 			pack $mainFrame.psm.checkbutton -anchor w 
 		} else {
 			#add to nick
 			frame $mainFrame.add2nick -class degt
 			pack $mainFrame.add2nick -anchor w -expand true -fill both
-			checkbutton $mainFrame.add2nick.checkbutton -variable ::music::config(active) -text "[trans musicaddsongtonick]"
+			checkbutton $mainFrame.add2nick.checkbutton -variable ::music::config(display) -text "[trans musicaddsongtonick]"
 			pack $mainFrame.add2nick.checkbutton -anchor w
 				
 			#nickname
@@ -148,7 +148,6 @@ namespace eval ::music {
 	#####################################	
 	proc RegisterEvent {} {
 		::plugins::RegisterEvent "Music" OnConnect newname
-		::plugins::RegisterEvent "Music" OnDisconnect stop
 		::plugins::RegisterEvent "Music" ContactListColourBarDrawn draw
 		::plugins::RegisterEvent "Music" new_chatwindow CreateMusicMenu
 		::plugins::RegisterEvent "Music" AllPluginsLoaded add_command
@@ -177,11 +176,13 @@ namespace eval ::music {
 		set stopmessage [trans musicstopdefault]
 		array set ::music::config [list \
 			player [lindex [array names playersarray] 0] \
+			oldnickname {}\
 			nickname {} \
 			second {30} \
 			symbol {-} \
 			stop $stopmessage \
-			active {0} \
+			activated {1} \
+			display {1} \
 			songart {1} \
 			separator {-} \
 			changepic {0} \
@@ -265,41 +266,39 @@ namespace eval ::music {
 		variable musicpluginpath
 		variable smallcoverfilename
 		variable config
-		variable activated
 		variable oldinfo
 		variable dppath
 		
-		
-		#Get all song information from ::music::GetSong
-		set info [::music::GetSong]
+		if { $::music::config(activated) } {
+			#Get all song information from ::music::GetSong
+			set info [::music::GetSong]
 
-		set song [lindex $info 0]
-		set file [lindex $info 1]
-		set artfile [lindex $info 2]
+			set song [lindex $info 0]
+			set file [lindex $info 1]
+			set artfile [lindex $info 2]
 
-		#First add the nickname the user choosed in config to the name variable
-		set name "$config(nickname)"
-		#Symbol that will be betwen the nick and the song
-		set separation " $config(symbol) "
+			#First add the nickname the user choosed in config to the name variable
+			set name "$config(nickname)"
+			#Symbol that will be betwen the nick and the song
+			set separation " $config(symbol) "
 
-		#Merge the nickname with the song name if a song is playing
-		#Else, show the stop messsage
-		if {$info != "0"} {
-			#Merge the nickname with the symbol and the song name
-			append name $separation
-			append name $song
-		} else {
-			if {$config(stop) != ""} {
-				#Modification to avoid the separator to be displayed if there is no text when XMMS is stopped
-				#Merge the nickname with the symbol and the stop text ( modified from ITunes plugin)
+			#Merge the nickname with the song name if a song is playing
+			#Else, show the stop messsage
+			if {$info != "0"} {
+				#Merge the nickname with the symbol and the song name
 				append name $separation
-				append name $config(stop)
+				append name $song
+			} else {
+				if {$config(stop) != ""} {
+					#Modification to avoid the separator to be displayed if there is no text when XMMS is stopped
+					#Merge the nickname with the symbol and the stop text ( modified from ITunes plugin)
+					append name $separation
+					append name $config(stop)
+				}
 			}
-		}
 
-		#If the user uncheck the box in config, we must put the standard nickname
-		#And if he checks, we must actualize the nickname
-		if { $config(active) && !$activated } {
+			#If the user uncheck the box in config, we must put the standard nickname
+			#And if he checks, we must actualize the nickname
 			if {[::config::getKey protocol] == 11} {
 				if { $song != "0"} {
 					::MSN::changeCurrentMedia Music 1 "{0}" $song
@@ -307,81 +306,70 @@ namespace eval ::music {
 			} else {
 				::music::changenick "$name"
 			}
-			set activated 1
-		}
 
-		if { !$config(active) && $activated } {
-			set activated 0
-			if {[::config::getKey protocol] == 11} {
-				::MSN::changeCurrentMedia Music 0 "{0}" ""
-			} else {
-				::music::changenick "$config(nickname)"
-			}
-		}
-
-		#Change the nickname if the user did'nt uncheck that config.
-		if {$config(active) && $info != $oldinfo } {
-			if {[::config::getKey protocol] == 11} {
-				if { $song != "0"} {
-					::MSN::changeCurrentMedia Music 1 "{0}" $song
+			#Change the nickname if the user did'nt uncheck that config.
+			if {$config(display) && $info != $oldinfo } {
+				if {[::config::getKey protocol] == 11} {
+					if { $song != "0"} {
+						::MSN::changeCurrentMedia Music 1 "{0}" $song
+					} else {
+						::MSN::changeCurrentMedia Music 0 "{0}" ""
+					}
 				} else {
-					::MSN::changeCurrentMedia Music 0 "{0}" ""
-				}
-			} else {
-				::music::changenick "$name"
-			}
-		}
-
-		if {$config(changepic) && $info != $oldinfo} {
-			#set avatar to albumart if available
-			if {[::config::getKey displaypic] != $smallcoverfilename} {
-				#Picture changed so save the new name
-				set dppath [::config::getKey displaypic]
-				if { $dppath == "nopic.gif" } {
-					set dppath ""
+					::music::changenick "$name"
 				}
 			}
-			if {$artfile != ""} {
-				#create a photo called "smallcover" with the albumart of the played song
-				::picture::ResizeWithRatio [image create photo smallcover -file $artfile] 96 96
 
-				if {![catch {::picture::Save smallcover $smallcoverfilename cxjpg}]} {
-					::music::log "Album art found, changing..."
-					::music::set_dp $smallcoverfilename
+			if {$config(changepic) && $info != $oldinfo} {
+				#set avatar to albumart if available
+				if {[::config::getKey displaypic] != $smallcoverfilename} {
+					#Picture changed so save the new name
+					set dppath [::config::getKey displaypic]
+					if { $dppath == "nopic.gif" } {
+						set dppath ""
+					}
 				}
+				if {$artfile != ""} {
+					#create a photo called "smallcover" with the albumart of the played song
+					::picture::ResizeWithRatio [image create photo smallcover -file $artfile] 96 96
 
-			} else {
-				#if the album cover isn't available, set the dp the user set before changes by musicplugin
-				::music::log "No album art found, use \"$dppath\""
-				
+					if {![catch {::picture::Save smallcover $smallcoverfilename cxjpg}]} {
+						::music::log "Album art found, changing..."
+						::music::set_dp $smallcoverfilename
+					}
+
+				} else {
+					#if the album cover isn't available, set the dp the user set before changes by musicplugin
+					::music::log "No album art found, use \"$dppath\""
+					
+					::music::set_dp $dppath
+
+				}
+			}
+			if {!$config(changepic) && [string compare [::config::getKey displaypic] $smallcoverfilename] == 0} {
+				#Config disabled : change the dp to the good one...
 				::music::set_dp $dppath
-
 			}
+
+
+			set oldinfo $info
+
+			#Execute the script which get the song from the player to have it immediatly
+			::music::TreatSong
+
+			#If a strange user decide to use a letter, nothing, or 0, as a number of shake
+			#Rechange the variable to 30 seconds
+			if {![string is digit -strict $config(second)]} {
+				set config(second) "30"
+			}
+			#Take the second number we have from the plugin config and
+			#multiply by 1000 because "after" count in "ms" (1000ms=1s)
+			set time [expr {int($config(second)*1000)}]
+
+
+			#Reload newname proc after this time (loop)
+			after $time ::music::newname 0 0
 		}
-		if {!$config(changepic) && [string compare [::config::getKey displaypic] $smallcoverfilename] == 0} {
-			#Config disabled : change the dp to the good one...
-			::music::set_dp $dppath
-		}
-
-
-		set oldinfo $info
-
-		#Execute the script which get the song from the player to have it immediatly
-		::music::TreatSong
-
-		#If a strange user decide to use a letter, nothing, or 0, as a number of shake
-		#Rechange the variable to 30 seconds
-		if {![string is digit -strict $config(second)]} {
-			set config(second) "30"
-		}
-		#Take the second number we have from the plugin config and
-		#multiply by 1000 because "after" count in "ms" (1000ms=1s)
-		set time [expr {int($config(second)*1000)}]
-
-
-		#Reload newname proc after this time (loop)
-		after $time ::music::newname 0 0
-
 	}
 	###############################################
 	# ::music::changenick name                    #
@@ -457,14 +445,11 @@ namespace eval ::music {
 	# Use with after to make it asynchronous            #
 	#####################################################
 	proc exec_async {path} {
-		variable activated
-		if {$activated} {
-			if { [catch { eval [concat [list "exec"] $path]} result ] } {
-				::music::log "Error retreiving song : $result"
-			} else {
-				set ::music::actualsong $result
-				# whatever processing goes here
-			}
+		if { [catch { eval [concat [list "exec"] $path]} result ] } {
+			::music::log "Error retreiving song : $result"
+		} else {
+			set ::music::actualsong $result
+			# whatever processing goes here
 		}
 	}
 	
@@ -476,14 +461,11 @@ namespace eval ::music {
 	# Use with after to make it asynchronous            #
 	#####################################################
 	proc exec_async_mac {path} {
-		variable activated
-		if {$activated} {
-			if { [catch { exec osascript $path} result ] } {
-				::music::log "Error retreiving song : $result"
-			} else {
-				::music::log "Define variable in async_mac:\n$result"
-				set ::music::actualsong $result
-			}
+		if { [catch { exec osascript $path} result ] } {
+			::music::log "Error retreiving song : $result"
+		} else {
+			::music::log "Define variable in async_mac:\n$result"
+			set ::music::actualsong $result
 		}
 	}
 
@@ -1340,19 +1322,6 @@ namespace eval ::music {
 		return 1
 	}
 
-
-	###############################################
-	# ::music::wait_load_newname                  #
-	# ------------------------------------------- #
-	# Wait 1 second before starting changing      #
-	# the nickname. The plugin only use that proc #
-	# when we load the plugin. To be sure that    #
-	# the init proc is over                       #
-	###############################################
-	proc wait_load_newname {} {
-		after 1000 ::music::load_newname 0 0
-	}
-
 	###############################################
 	# ::music::load_newname  event epvar          #
 	# ------------------------------------------- #
@@ -1362,9 +1331,21 @@ namespace eval ::music {
 	# nothing                                     #
 	###############################################
 	proc load_newname {event epvar} {
-
-		 #If we are online, start the loop
-		if {[::MSN::myStatusIs] != "FLN" } {
+		variable oldinfo
+		#If we are online, start the loop
+		if {[::MSN::myStatusIs] != "FLN" && $::music::config(display) } {
+			if {[::config::getKey protocol] == 11} {
+				::MSN::changeCurrentMedia Music 0 "{0}" ""
+			} else {
+				set nick [::abook::getPersonal MFN]
+				if { ![string equal $nick $::music::config(oldnickname)] && !$::music::config(activated)} {
+					set config(oldnickname) $nick
+				}
+			}
+			set ::music::config(activated) 1
+			set oldinfo ""
+			::music::draw 0 0
+			::plugins::save_config
 			::music::newname 0 0
 		}
 	}
@@ -1376,23 +1357,23 @@ namespace eval ::music {
 	# Happen when we disconnect or when we unload #
 	# This is the Deinit proc                     #
 	###############################################
-	proc stop {event epvar} {
+	proc stop {event epvar {deinit 0}} {
 		variable config
-		variable activated
 		variable musicpluginpath
 		variable smallcoverfilename
 		variable dppath
-		
+		variable oldinfo
+
 		if {[array size ::music::playersarray]==0} {
 			return
 		}
-		after cancel ::music::newname 0 0
+#after cancel ::music::newname 0 0
 		#Remove the song from the nick if we are online
-		if {[::MSN::myStatusIs] != "FLN" && $activated } {
+		if {[::MSN::myStatusIs] != "FLN" && $::music::config(display) && $::music::config(activated) } {
 			if {[::config::getKey protocol] == 11} {
 				::MSN::changeCurrentMedia Music 0 "{0}" ""
 			} else {
-				::music::changenick "$config(nickname)"
+				::music::changenick "$config(oldnickname)"
 			}
 	   	}
 
@@ -1400,10 +1381,16 @@ namespace eval ::music {
 		if {$config(changepic) && [string compare [::config::getKey displaypic] $smallcoverfilename] == 0} {
 			::music::set_dp $dppath
 		}
+		if {!$deinit} {
+			set ::music::config(activated) 0
+			::music::draw 0 0
+			::plugins::save_config
+		}
+		set oldinfo ""
 	}
 
 	proc DeInit {} {
-		::music::stop 0 0
+		::music::stop 0 0 1
 	}
 	
 	############################################
@@ -1458,7 +1445,7 @@ namespace eval ::music {
 	proc draw {event evPar} {
 		if {$event != 0} { upvar 2 $evPar vars }
 
-		if {$::music::config(active)} {
+		if {$::music::config(activated)} {
 			set icon musicshown_pic
 		} else {
 			set icon musichidden_pic
@@ -1481,8 +1468,13 @@ namespace eval ::music {
 			-relief flat -highlightthickness 0 -relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0 -width $notewidth -height $noteheight
 
 		pack $mylabel -expand false -after $clbar -side right -padx 0 -pady 0
-
-		bind $mylabel <<Button1>> "set ::music::config(active) [expr !$::music::config(active)];::plugins::save_config;::music::draw 0 0"
+		
+		if {$::music::config(activated)} {
+			bind $mylabel <<Button1>> "::music::stop 0 0"
+		} else {
+			bind $mylabel <<Button1>> "::music::load_newname 0 0"
+		}
+		#bind $mylabel <<Button1>> "set ::music::config(activated) [expr !$::music::config(activated)];::plugins::save_config;::music::draw 0 0"
 
 		set balloon_message [trans musicballontext]
 		
@@ -1491,5 +1483,7 @@ namespace eval ::music {
 		bind $mylabel <Motion> +[list balloon_motion %W %X %Y $balloon_message]
 	}
 	
+
+
 
 }
