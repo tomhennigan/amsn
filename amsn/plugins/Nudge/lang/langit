@@ -8,8 +8,6 @@ notify_receive Notifica nella finestra di chat richieste d'attenzione ricevute
 sound_send Emetti un suono all'invio di una richiesta d'attenzione
 sound_receive Emetti un suono al ricevimento di una richiesta d'attenzione
 add_button Aggiungi un pulsante nella finestra di chat per inviare richieste d'attenzione
-send_nudge Richiedi l'attenzione
-no_nudge_support Non puoi inviare una richiesta d'attenzione a questo contatto perche' lui/lei usa un client che non la supporta
 nudge_sent Hai appena inviato una richiesta d'attenzione
 limit Attiva la limitazione delle richieste di attenzione ricevute
 delay Tempo minimo tra 2 richieste di attenzione dal medesimo contatto (in secondi)
