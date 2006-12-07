@@ -271,11 +271,6 @@ namespace eval ::guiContactList {
 		set Xbegin 10
 		set Ybegin 10
 
-		::groups::UpdateCount online clear
-		::groups::UpdateCount offline clear
-		::groups::UpdateCount blocked clear
-		::groups::UpdateCount mobile clear
-
 		::guiContactList::drawGroups $canvas
 		::guiContactList::drawContacts $canvas
 		::guiContactList::organiseList $canvas
