@@ -769,13 +769,7 @@ namespace eval ::gnotify {
 		set info(nb_mails) 0
 		set info(errors) 0
 
-
-		set fd [open D://test.bin w]
-		fconfigure $fd -translation binary
-		puts -nonewline $fd $data_bin
-		close $fd
-
-		
+	
 		while {$data(offset) < $data(len)} {
 			set key [ReadKey data]
 			switch -- $key {
