@@ -205,7 +205,7 @@ namespace eval ::guiContactList {
 
 		scrollbar $clscrollbar -command "::guiContactList::scrollCLsb $clcanvas"
 		# Create a blank canvas
-		canvas $clcanvas -background [::skin::getKey contactlistbg] -yscrollcommand "$clscrollbar set" 
+		canvas $clcanvas -background [::skin::getKey contactlistbg] -yscrollcommand "::guiContactList::setScroll $clscrollbar"
 
 		# Parse the nicknames for smiley/newline substitution
 		createNicknameArray
@@ -1475,6 +1475,15 @@ namespace eval ::guiContactList {
 		$canvas lower uline_$nicktag $nicktag
 	}
 
+	proc setScroll { scrollbar first last } {
+		set visible [expr {$last - $first}]
+		if { $visible == 0 && ![winfo ismapped $scrollbar] } {
+			pack $scrollbar -side right -fill y
+		} elseif { $visible == 1 && [winfo ismapped $scrollbar] } {
+			pack forget $scrollbar
+		}
+		$scrollbar set $first $last
+	}
 
 	#######################################################
 	# Procedure which scrolls the canvas up/down
