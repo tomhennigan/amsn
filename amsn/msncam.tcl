@@ -4195,12 +4195,14 @@ status_log "Config'ed: $brightness, $contrast, $hue, $color"
 		
 		pack $frame.txt
 
+	}
+
+
+	#Close the ::CAMSETUP namespace
 }
 
-
-
-#Close the ::CAMSETUP namespace
-}
-if { [::config::getKey wanttosharecam] && [::CAMGUI::camPresent] == 1 } {
-	::MSN::setClientCap webcam
+if { $initialize_amsn == 1 } {
+	if { [::config::getKey wanttosharecam] && [::CAMGUI::camPresent] == 1 } {
+		::MSN::setClientCap webcam
+	}
 }

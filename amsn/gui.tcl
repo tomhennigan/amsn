@@ -1,40 +1,42 @@
-if {![::picture::Loaded]} {
-	if { [OnDarwin] } {	
-		tk_messageBox -default ok -message "There's a problem loading a module of aMSN (TkCxImage) on this \
-			computer. You need to update your system to Mac OS 10.3.9" -icon warning	
-	} else {
-		tk_messageBox -default ok -message "Loading TkCximage failed. TkCxImage this is needed to run \
-			aMSN. Please compile aMSN first, instructions on how to compile are located in the file INSTALL" \
-			-icon warning
-	}
-	exit
-}
-if {$::tcl_version <= 8.3} {
-	tk_messageBox -default ok -message "You need TCL/TK 8.4 or better to run aMSN. Please upgrade."  -icon warning
-	exit
-}
-
-package require BWidget
-source BWidget_mods.tcl
-
-if {[catch {package require tkdnd}] } {
-	proc dnd { args } {}
-	proc shape { args } {}
-}
-
-#package require pixmapbutton
-if { [OnMac] } {
-	# Use brushed metal style windows on Mac OS X.
-	catch {source utils/macosx/brushedmetal/brushedmetal.tcl}
-	#Use tclCarbonHICommand for window utilities
-	catch {package require tclCarbonHICommand}
-	catch {package require QuickTimeTcl}
-	catch {load utils/macosx/Quicktimetcl3.1/quicktimetcl3.1.dylib}
-} else {
-	package require pixmapscroll
-}
 
 if { $initialize_amsn == 1 } {
+
+	if {![::picture::Loaded]} {
+		if { [OnDarwin] } {	
+			tk_messageBox -default ok -message "There's a problem loading a module of aMSN (TkCxImage) on this \
+			computer. You need to update your system to Mac OS 10.3.9" -icon warning	
+		} else {
+			tk_messageBox -default ok -message "Loading TkCximage failed. TkCxImage this is needed to run \
+			aMSN. Please compile aMSN first, instructions on how to compile are located in the file INSTALL" \
+			    -icon warning
+		}
+		exit
+	}
+	if {$::tcl_version <= 8.3} {
+		tk_messageBox -default ok -message "You need TCL/TK 8.4 or better to run aMSN. Please upgrade."  -icon warning
+		exit
+	}
+	
+	package require BWidget
+	source BWidget_mods.tcl
+	
+	if {[catch {package require tkdnd}] } {
+		proc dnd { args } {}
+		proc shape { args } {}
+	}
+	
+	#package require pixmapbutton
+	if { [OnMac] } {
+		# Use brushed metal style windows on Mac OS X.
+		catch {source utils/macosx/brushedmetal/brushedmetal.tcl}
+		#Use tclCarbonHICommand for window utilities
+		catch {package require tclCarbonHICommand}
+		catch {package require QuickTimeTcl}
+		catch {load utils/macosx/Quicktimetcl3.1/quicktimetcl3.1.dylib}
+	} else {
+		package require pixmapscroll
+	}
+	
 	::skin::setKey mainwindowbg #7979f2
 	::skin::setKey contactlistbg #ffffff
 	::skin::setKey topcontactlistbg #ffffff
@@ -3462,7 +3464,13 @@ proc cmsn_draw_main {} {
 		-selectbackground [::skin::getKey contactlistbg] -selectborderwidth 0 -exportselection 0 \
 		-relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0
 
-	$pgBuddy setwidget $pgBuddy.text
+	# Also create the new CL, but don't pack it yet...
+	if { [::config::getKey use_new_cl 0] == 1 } {
+		::guiContactList::createCLWindowEmbeded $pgBuddy 
+	}
+
+	# No need for the setWidget since it will be done before calling each of the cmsn_draw_* functions.
+	#$pgBuddy setwidget $pgBuddy.text
 
 	# Initialize the event history
 	frame .main.eventmenu
@@ -4127,6 +4135,9 @@ proc cmsn_draw_offline {} {
 
 	global sboldf password pgBuddy pgBuddyTop
 
+	# Now we need this because the new CL might be in place in the SW...
+	$pgBuddy setwidget $pgBuddy.text
+
 	bind $pgBuddy.text <Configure>  ""
 
 	wm title . "[trans title] - [trans offline]"
@@ -4231,6 +4242,9 @@ proc cmsn_draw_reconnect { error_msg } {
 
 	global pgBuddy pgBuddyTop
 
+	# Now we need this because the new CL might be in place in the SW...
+	$pgBuddy setwidget $pgBuddy.text
+
 	pack forget $pgBuddyTop
 	$pgBuddy.text configure -state normal -font splainf
 	$pgBuddy.text delete 0.0 end
@@ -4282,6 +4296,9 @@ proc cmsn_draw_signin {} {
 
 	wm title . "[trans title] - [::config::getKey login]"
 
+
+	# Now we need this because the new CL might be in place in the SW...
+	$pgBuddy setwidget $pgBuddy.text
 
 	pack forget $pgBuddyTop
 	$pgBuddy.text configure -state normal -font splainf
@@ -4838,7 +4855,8 @@ proc cmsn_draw_buildtop_wrapped {} {
 	label $colorbar -image [::skin::getColorBar] -background [::skin::getKey topcontactlistbg] -borderwidth 0
 	pack $colorbar -before $disppic -side bottom
 	
-	set evpar(text) $pgBuddy.text
+	set evpar(colorbar) $colorbar
+	set evpar(text) $pgBuddyTop
 	::plugins::PostEvent ContactListColourBarDrawn evpar
 	
 	if { [::config::getKey checkemail] } {
@@ -4918,9 +4936,26 @@ proc cmsn_draw_buildtop_wrapped {} {
 }
 
 proc cmsn_draw_online_wrapped {} {
-	#::guiContactList::createCLWindow
+
+	if { [::config::getKey use_new_cl 0] == 0} {
+		cmsn_draw_online_wrapped_oldCL
+	} else {
+		global pgBuddy
+
+		# Now we need this to make sure it's the new CL being shown...
+		$pgBuddy setwidget $pgBuddy.cl
+
+		::guiContactList::updateCL
+	}
+
+}
+
+proc cmsn_draw_online_wrapped_oldCL {} {
 	global login \
 		password pgBuddy pgBuddyTop automessage emailBList
+
+	# Now we need this because the new CL might be in place in the SW...
+	$pgBuddy setwidget $pgBuddy.text
 
 	set scrollidx [$pgBuddy.text yview]
 
@@ -6576,16 +6611,21 @@ proc status_log {txt {colour ""}} {
 #///////////////////////////////////////////////////////////////////////////////
 
 
-#///////////////////////////////////////////////////////////////////////
-# close_cleanup()
-# Makes some cleanup and config save before closing
+
 if { [info command ::tk::exit] == "" && [info command exit] == "exit" } {
 	rename exit ::tk::exit
 }
+
+#///////////////////////////////////////////////////////////////////////
+# close_cleanup()
+# Makes some cleanup and config save before closing
 proc exit {} {
 	global HOME lockSock
 	catch { ::MSN::logout}
 	::config::setKey wingeometry [wm geometry .]
+
+	# Temporary until the new CL is good and working...
+	::config::setKey use_new_cl 0
 
 	save_config
 	::config::saveGlobal

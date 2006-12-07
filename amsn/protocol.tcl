@@ -886,6 +886,8 @@ namespace eval ::MSN {
 		#Pending list (MSNP11)
 		variable list_PL [list]
 
+		variable list_users ""
+
 		variable myStatus FLN
 		#Double array containing:
 		# CODE NAME COLOR ONLINE/OFFLINE  SMALLIMAGE BIGIMAGE

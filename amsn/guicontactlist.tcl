@@ -107,18 +107,76 @@ namespace eval ::guiContactList {
 			}
 		}
 	}
-
-
+	
+	proc updateCL { } {
+		variable clcanvas		
+		drawList $clcanvas
+	}
+			
 	#/////////////////////////////////////////////////////////////////////
 	# Function that draws a window where it embeds our contactlist canvas 
 	#  (in a scrolledwindow) (this proc will nto be used if this gets
 	#  embedded in the normal window
 	#/////////////////////////////////////////////////////////////////////
 	proc createCLWindow {} {
+		#set easy names for the widgets
+		set window .contactlist
+		set clcontainer $window.sw
+		set clscrollbar $clcontainer.vsb
+
+		#check if the window already exists, ifso, raise it and redraw the CL
+		if { [winfo exists $window] } {
+			raise $window
+			updateCL
+			return
+		}
+	
+
+		#create the window
+		toplevel $window
+		wm title $window "[trans title] - [::config::getKey login]"
+		wm geometry $window 1000x1000
+
+
+
+		# Set up the 'ScrolledWindow' container for the canvas
+		ScrolledWindow $clcontainer -auto vertical -scrollbar vertical -bg white -bd 0 -ipad 0
+		#frame $clcontainer
+		# TODO: * ScrolledWindow should be feeded a command run on scroll (reset the image)
+		#	* bgcolor should be skinnable
+
+		#scrollbar $clscrollbar -command "::guiContactList::scrollCLsb $clcanvas"
+
+		set clcanvas [createCLWindowEmbeded $clcontainer]
+
+		# Embed the canvas in the ScrolledWindow
+		$clcontainer setwidget $clcanvas
+		# Pack the scrolledwindow in the window
+		pack $clcontainer -expand true -fill both
+
+		#pack $clscrollbar -side right -fill y
+
+
+
+		# Let's avoid the bug of window behind the bar menu on MacOS X
+		catch {wm geometry $window [::config::getKey wingeometry]}
+		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+			moveinscreen $window 30
+		}
+
+	}
+	#/////////////////////////////////////////////////////////////////////
+	# Function that draws a window where it embeds our contactlist canvas 
+	#  (in a scrolledwindow) (this proc will nto be used if this gets
+	#  embedded in the normal window
+	#/////////////////////////////////////////////////////////////////////
+	proc createCLWindowEmbeded { w } {
 		#define global variables
-		global clcanvas
+		variable clcanvas
 		global tcl_platform
-		global nicknameArray
+		variable nicknameArray
+
+		set clcanvas $w.cl
 
 		#here we load images used in this code:
 		::skin::setPixmap back back.gif
@@ -132,47 +190,12 @@ namespace eval ::guiContactList {
 		::skin::setPixmap down box_down.gif
 		::skin::setPixmap downright box_downright.gif
 
-
-		#set easy names for the widgets
-		set window .contactlist
-		set clcontainer .contactlist.sw
-		set clcanvas .contactlist.sw.cvs
-		set clscrollbar .contactlist.sw.vsb
-
-		#check if the window already exists, ifso, raise it and redraw the CL
-		if { [winfo exists $window] } {
-			raise $window
-			drawList $clcanvas
-			return
-		}
-
-
-		#create the window
-		toplevel $window
-		wm title $window "[trans title] - [::config::getKey login]"
-		wm geometry $window 1000x1000
-
-		# Set up the 'ScrolledWindow' container for the canvas
-		#ScrolledWindow $clcontainer -auto vertical -scrollbar vertical -bg white -bd 0 -ipad 0
-		frame $clcontainer
-		# TODO: * ScrolledWindow should be feeded a command run on scroll (reset the image)
-		#	* bgcolor should be skinnable
-
 		# Set beginning big width/height		
 		set clbox [list 0 0 2000 1500]
 
 		# Create a blank canvas
-		canvas $clcanvas -yscrollcommand "$clscrollbar set" -background [::skin::getKey contactlistbg]
+		canvas $clcanvas -background [::skin::getKey contactlistbg] ;#-yscrollcommand "$clscrollbar set" 
 
-		scrollbar $clscrollbar -command "::guiContactList::scrollCLsb $clcanvas"
-
-		pack $clscrollbar -side right -fill y
-		pack $clcanvas -expand true -fill both
-
-		# Embed the canvas in the ScrolledWindow
-		#$clcontainer setwidget $clcanvas
-		# Pack the scrolledwindow in the window
-		pack $clcontainer -expand true -fill both
 		# Parse the nicknames for smiley/newline substitution
 		createNicknameArray
 
@@ -218,9 +241,9 @@ namespace eval ::guiContactList {
 			# }
 			bind [winfo parent [winfo parent $clcanvas]] <MouseWheel> {
 				if {%D >= 0} {
-					::guiContactList::scrollCL .contactlist.sw.cvs up
+					::guiContactList::scrollCL $::guiContactList::clcanvas up
 				} else {
-					::guiContactList::scrollCL .contactlist.sw.cvs down
+					::guiContactList::scrollCL $::guiContactList::clcanvas down
 				}
 			}
 		} else {
@@ -231,16 +254,10 @@ namespace eval ::guiContactList {
 			#bind [winfo parent $clcanvas].vscroll <ButtonPress-4> "::guiContactList::scrollCL $clcanvas up"
 		}
 
-		# Let's avoid the bug of window behind the bar menu on MacOS X
-		catch {wm geometry .contactlist [::config::getKey wingeometry]}
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-			moveinscreen .contactlist 30
-		}
 
 		bind $clcanvas <Configure> "::guiContactList::drawList $clcanvas"
 
-		# set the size
-		# wm geometry $window 300x600
+		return $clcanvas
 	}
 
 
@@ -248,11 +265,16 @@ namespace eval ::guiContactList {
 	# Function that draws everything needed on the canvas
 	#/////////////////////////////////////////////////////////////////////
 	proc drawList {canvas} {
-		global Xbegin
-		global Ybegin
+		variable Xbegin
+		variable Ybegin
 
 		set Xbegin 10
 		set Ybegin 10
+
+		::groups::UpdateCount online clear
+		::groups::UpdateCount offline clear
+		::groups::UpdateCount blocked clear
+		::groups::UpdateCount mobile clear
 
 		::guiContactList::drawGroups $canvas
 		::guiContactList::drawContacts $canvas
@@ -300,32 +322,38 @@ namespace eval ::guiContactList {
 	}
 
 	proc changedSorting { eventused } {
-		if { [winfo exists .contactlist] } {
-			::guiContactList::drawList .contactlist.sw.cvs
+		variable clcanvas
+		if { [winfo exists $clcanvas] } {
+			::guiContactList::drawList $clcanvas
 		}
 	}
 
 	proc changedNickDisplay { eventused } {
-		if { [winfo exists .contactlist] } {
+		variable clcanvas
+		if { [winfo exists $clcanvas] } {
 			::guiContactList::createNicknameArray
-			::guiContactList::drawList .contactlist.sw.cvs
+			::guiContactList::drawList $clcanvas
 		}
 	}
 
 	proc changedSkin { eventused } {
-		if { [winfo exists .contactlist] } {
-			::guiContactList::drawList .contactlist.sw.cvs
+		variable clcanvas
+		if { [winfo exists $clcanvas] } {
+			::guiContactList::drawList $clcanvas
 		}
 	}
 
 	proc contactRemoved { eventused email { gidlist ""} } {
-		if { [winfo exists .contactlist] } {
-			::guiContactList::organiseList .contactlist.sw.cvs
+		variable clcanvas
+		if { [winfo exists $clcanvas] } {
+			::guiContactList::organiseList $clcanvas
 		}
 	}
 
 	proc contactChanged { eventused email { gidlist ""} } {
-		if { [winfo exists .contactlist] } {
+		variable clcanvas
+
+		if { [winfo exists $clcanvas] } {
 			#status_log "CONTACTCHANGED: $email"
 
 			if { $email == "contactlist" } {
@@ -361,14 +389,14 @@ namespace eval ::guiContactList {
 			# 		}
 			#
 			# 		# Redraw the group
-			# 		::guiContactList::drawGroup .contactlist.sw.cvs $groupelement
+			# 		::guiContactList::drawGroup $clcanvas $groupelement
 			# 		status_log "REDRAWN: $groupelement"
 			# 	}
 			# }
 			#
 			# As I can't make it work properly, let's redraw all groups for now:
 
-			::guiContactList::drawGroups .contactlist.sw.cvs
+			::guiContactList::drawGroups $clcanvas
 
 			# Redraw the contact
 			if {$eventused != "movedContact"} {
@@ -376,13 +404,13 @@ namespace eval ::guiContactList {
 
 				foreach group $groupslist {
 					set contactelement [list "C" $email]
-					::guiContactList::drawContact .contactlist.sw.cvs $contactelement $group
+					::guiContactList::drawContact $clcanvas $contactelement $group
 					#status_log "REDRAWN: $contactelement"
 				}
 			}
 
 			# Reorganise the list
-			::guiContactList::organiseList .contactlist.sw.cvs
+			::guiContactList::organiseList $clcanvas
 		}
 	}
 
@@ -397,9 +425,9 @@ namespace eval ::guiContactList {
 
 	# Move 'm to the right place
 	proc organiseList { canvas } {
-		global Xbegin
-		global Ybegin
-		global nickheightArray
+		variable Xbegin
+		variable Ybegin
+		variable nickheightArray
 
 		# First we move all the canvas items
 		$canvas addtag items withtag group
@@ -698,9 +726,9 @@ namespace eval ::guiContactList {
 	#/////////////////////////////////////////////////////////////////////////
 	proc drawContact { canvas element groupID} {
 		# We are gonna store the height of the nicknames
-		global nickheightArray
-		global nicknameArray
-		global Xbegin
+		variable nickheightArray
+		variable nicknameArray
+		variable Xbegin
 
 		# Set the place for drawing it (should be invisible)
 		set xpos 0
@@ -1427,7 +1455,7 @@ namespace eval ::guiContactList {
 		set xpos [lindex $poslist 0]
 		set ypos [lindex $poslist 1]
 		# status_log "poslist: $lines"
-		global OnTheMove
+		variable OnTheMove
 
 		# if {!$OnTheMove} {
 			foreach line $lines {
@@ -1478,7 +1506,7 @@ namespace eval ::guiContactList {
 
 
 	proc createNicknameArray {} {
-		global nicknameArray
+		variable nicknameArray
 		array set nicknameArray {}
 
 		set userList [::MSN::sortedContactList]
@@ -1499,9 +1527,9 @@ namespace eval ::guiContactList {
 	#    Contact dragging procedures    #
 	#####################################
 	proc contactPress {tag canvas} {
-		global OldX
-		global OldY
-		global OnTheMove
+		variable OldX
+		variable OldY
+		variable OnTheMove
 
 		# Store old coordinates
 		set OldX [winfo pointerx .]
@@ -1513,8 +1541,8 @@ namespace eval ::guiContactList {
 
 
 	proc contactMove {tag canvas} {
-		global OldX
-		global OldY
+		variable OldX
+		variable OldY
 
 		# Change coordinates 
 		set NewX [winfo pointerx .]
@@ -1544,9 +1572,9 @@ namespace eval ::guiContactList {
 
 
 	proc contactReleased {tag canvas} {
-		global OldX
-		global OldY
-		global OnTheMove
+		variable OldX
+		variable OldY
+		variable OnTheMove
 
 		# TODO: copying instead of moving when CTRL is pressed
 		# 	first get the info out of the tag
