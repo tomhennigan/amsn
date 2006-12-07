@@ -4939,6 +4939,7 @@ proc cmsn_draw_online_wrapped {} {
 
 	if { [::config::getKey use_new_cl 0] == 0} {
 		cmsn_draw_online_wrapped_oldCL
+		switch_to_newCL
 	} else {
 		global pgBuddy
 
@@ -4948,6 +4949,15 @@ proc cmsn_draw_online_wrapped {} {
 		::guiContactList::updateCL
 	}
 
+}
+
+
+proc switch_to_newCL { } {
+	if { [::config::getKey use_new_cl 0] == 0} {
+		::guiContactList::createCLWindowEmbeded $::pgBuddy
+		::config::setKey use_new_cl 1
+		cmsn_draw_online
+	}
 }
 
 proc cmsn_draw_online_wrapped_oldCL {} {
