@@ -1415,7 +1415,7 @@ namespace eval ::MSN {
 		}
 
 		#an event to let the GUI know a user is moved between 2 groups
-		::Event::fireEvent contactMoved protocol $passport $oldGid $newGid
+		::Event::fireEvent contactMoved protocol $passport [list $oldGid $newGid]
 
 	}
 
