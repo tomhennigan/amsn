@@ -20,16 +20,14 @@ Khalaf G. Philippe - burgerman@users.sourceforge.net
 Alaoui Youness - kakaroto@users.sourceforge.net
 Alberto Diaz Hernandez - yozko@users.sourceforge.net
 Luis Quesada T. - elezeta@users.sourceforge.net
-Luis Miguel Garcia - ktech@users.sourceforge.net
 Jerome Gagnon-Voyer (Mac mantainer) - germinator2000@users.sourceforge.net
-Arieh Schneier - lio_lion@users.sourceforge.net
 Phil - lephilousophe@users.sourceforge.net
 Sander Hoentjen - tjikkun@users.sourceforge.net
 Frederic Diaz - gadget_boy@users.sourceforge.net
-Karel Demeyer - scapor@users.sourceforge.net
 Vivia Nikolaidou - vivia@users.sourceforge.net
 Harry Vennik - thaven@users.sourceforge.net
 Jonne Zutt - jonne_z@users.sourceforge.net
+Tom Hennigan - tomhennigan@users.sourceforge.net
 Didimo E. Grimaldo T.
 
 
@@ -366,11 +364,15 @@ Thomas Geirhovd (Skin manager)
 Aitor R. de Samaniego (Code contributions)
 Yves Manuel (Hosted the forums and helped with the new website)
 ZoRoNaX (Documentation on MSNP2P)
-Tom Hennigan (MUCH help with the Mac version)
 David Luyer (Universal Binaries for Mac, displaying Unicode text on Mac)
+Arieh Schneier (former windows maintainer)
+Karel Demeyer (former developper with many contributions)
+Luis Miguel Garcia
 
 CxImage 5.99c - (c) 2001-2004 by Davide Pizzolato
 Ole Andre Vadla Ravnas - Special thanx for the libmimic implementation of webcam codec
 XawTV Team (providing the libng library for accessing webcam devices easily)
 GrdScarabe for his great documentation/FAQ/translation work and contributions
+Edoardo Vacchi (aka NoWhereMan) for his plugins and contributions to the code, forums and wiki
+
 
