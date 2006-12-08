@@ -4983,7 +4983,7 @@ proc cmsn_draw_online_wrapped_oldCL {} {
 		password pgBuddy pgBuddyTop automessage emailBList
 
 	# Now we need this because the new CL might be in place in the SW...
-	$pgBuddy setwidget $pgBuddy.text
+	displayCL 0
 
 	set scrollidx [$pgBuddy.text yview]
 
@@ -5584,7 +5584,7 @@ proc ShowUser {user_login state_code colour section grId} {
 			set imgIdx [$pgBuddy.text image create $section.last -image [::skin::loadPixmap belloff] -padx 1 -pady 1]
 		}
 		$pgBuddy.text tag add $imagee $imgIdx
-		$pgBuddy.text tag bind $imagee <Button1-ButtonRelease> "switch_alarm $user_login $pgBuddy.text $imgIdx"
+		$pgBuddy.text tag bind $imagee <Button1-ButtonRelease> "switch_alarm $user_login; redraw_alarm_icon $user_login $pgBuddy.text $imgIdx"
 		$pgBuddy.text tag bind $imagee <<Button3>> "::alarms::configDialog $user_login"
 	}
 

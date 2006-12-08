@@ -810,12 +810,36 @@ namespace eval ::guiContactList {
 		# Draw status-icon
 		$canvas create image $xpos $ypos -image $img -anchor nw -tags [list contact icon $tag]
 
-		# TODO: skin setting to draw buddypicture; statusicon should become icon + status overlay
-		# 	like:	draw icon or small buddypicture overlay it with the status-emblem
-
 		# Set the beginning coords for the next drawings
 		set xnickpos [expr $xpos + [image width $img] + 5]
 		set ynickpos [expr $ypos + [image height $img]/2]
+
+		# TODO: skin setting to draw buddypicture; statusicon should become icon + status overlay
+		# 	like:	draw icon or small buddypicture overlay it with the status-emblem
+
+		#	Draw alarm icon if alarm is set
+		if { [::alarms::isEnabled $email] != ""} {
+			#set imagee [string range [string tolower $user_login] 0 end-8]
+			#trying to make it non repetitive without the . in it
+			#Patch from kobasoft
+			#set imagee "alrmimg_[getUniqueValue]"
+			#regsub -all "\[^\[:alnum:\]\]" [string tolower $user_login] "_" imagee
+	
+			if { [::alarms::isEnabled $email] } {
+				set icon [::skin::loadPixmap bell]
+			} else {
+				set icon [::skin::loadPixmap belloff]
+			}
+			
+			$canvas create image [expr $xnickpos -3] $ynickpos -image \
+				$icon -anchor w -tags [list contact icon alarm_$email $tag]
+
+			# Binding for right click		 
+			$canvas bind alarm_$email <<Button3>> "::alarms::configDialog $email; break;"
+			$canvas bind alarm_$email <Button1-ButtonRelease> "switch_alarm $email; ::guiContactList::switch_alarm $email $canvas alarm_$email"
+
+			set xnickpos [expr $xnickpos + [image width $icon]]
+		}
 
 		# If you are not on this contact's list, show the notification icon
 		if {[expr {[lsearch [::abook::getLists $email] RL] == -1}]} {
@@ -1538,6 +1562,14 @@ namespace eval ::guiContactList {
 		set evpar(array) nicknameArray
 		set evpar(login) ""
 		::plugins::PostEvent NickArray evpar
+	}
+
+	proc switch_alarm { email canvas alarm_image } {
+		if { [::alarms::getAlarmItem $email enabled] == 1 } {
+			$canvas itemconfigure $alarm_image -image [::skin::loadPixmap bell]
+		} else {
+			$canvas itemconfigure $alarm_image -image [::skin::loadPixmap belloff]
+		}
 	}
 
 
