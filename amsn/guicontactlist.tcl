@@ -371,7 +371,7 @@ namespace eval ::guiContactList {
 				return
 			}
 
-			if { $eventused == "contactNickChange" } {
+			if { $eventused == "contactNickChange" || $eventused == "contactAdded"} {
 				#We must update the nick array
 				set usernick [::abook::getDisplayNick $email 1]
 				set nicknameArray($email) [::smiley::parseMessageToList $usernick 1]
