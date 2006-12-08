@@ -829,15 +829,14 @@ namespace eval ::guiContactList {
 		# Now we're gonna draw the nickname itself
 		# Reset the underlining's list
 		set underlinst [list]
-		set maxwidth [winfo width $canvas]
+		#set maxwidth [winfo width $canvas]
 		set ellips "..."
 
 		# Leave some place for the statustext, the elipsis (...) and the spacing + spacing
 		# of border and - the beginningborder
 
-		# $Xbegin -> 2*$Xbegin : shouldn't be this treated as a "padding value" ?
-		set maxwidth [expr $maxwidth - $statewidth - [font measure splainf $ellips] - \
-			$nickstatespacing - 5 - 2*$Xbegin - [::skin::getKey buddy_xpad]]
+		set maxwidth [expr [winfo width $canvas] - $statewidth - [font measure splainf $ellips] - \
+			$nickstatespacing - 5 - $Xbegin - 2*[::skin::getKey buddy_xpad]]
 
 		# TODO: An option for a X-padding for buddies .. should be set here and in the organising proc
 
@@ -1531,7 +1530,7 @@ namespace eval ::guiContactList {
 		set userList [::MSN::sortedContactList]
 
 		foreach user $userList {
-			set usernick [::abook::getDisplayNick $user 0] ;# why would you need non-parsed nicks in a GUI ? ;)
+			set usernick [::abook::getDisplayNick $user 1]
 			set nicknameArray($user) [::smiley::parseMessageToList $usernick 1]
 		}
 
