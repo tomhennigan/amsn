@@ -483,12 +483,14 @@ namespace eval ::smiley {
 		set llength 1
 
 		#Search for all possible emotions, after they are sorted by symbol length
-		set foreachlist [list [list "\n" "newline"]]
+		set foreachlist [list ]
 
 		if { [::config::getKey listsmileys] || !$contact_list } {
 			SortSmileys
-			set foreachlist [lappend foreachlist $sortedemotions]
+			set foreachlist [concat $foreachlist $sortedemotions]
 		}
+
+		set foreachlist [lappend foreachlist [list "\n" "newline"]]
 
 		foreach emotion_data $foreachlist {
 
