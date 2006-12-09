@@ -96,7 +96,7 @@ namespace eval ::autoupdate {
 			return
 		}
 
-		set downloadurl "http://www.amsn-project.net/download-tls.php?arch=$tlsplatform"
+		set downloadurl "http://$::weburl/download-tls.php?arch=$tlsplatform"
 
 
 		if {[ catch {set tok [::http::geturl $downloadurl -command "::autoupdate::downloadTLS2 $downloadurl"]} res ]} {
@@ -294,8 +294,8 @@ namespace eval ::autoupdate {
 		#Create the update window
 		toplevel $w
 		wm title $w "[trans newveravailable $tmp_data]"
-		set changeloglink "http://www.amsn-project.net/wiki/index.php/ChangeLog"
-		set homepagelink "http://www.amsn-project.net/"
+		set changeloglink "http://$::weburl/wiki/index.php/ChangeLog"
+		set homepagelink "http://$::weburl/"
 		#Create the frames
 		frame $w.top
 		frame $w.top.buttons
@@ -601,7 +601,7 @@ namespace eval ::autoupdate {
 
 		status_log "Getting ${weburl}/amsn_latest\n" blue
 		if { [catch {
-			set token [::http::geturl ${weburl}/amsn_latest -timeout 10000]
+			set token [::http::geturl ${weburl}/amsn_latest -timeout 5000]
 			if {[::autoupdate::check_web_version $token]==0} {
 				msg_box "[trans nonewver]"
 			}

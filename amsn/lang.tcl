@@ -556,7 +556,7 @@ namespace eval ::lang {
 
 		# Download the content of the file from the web
 		if { [catch {
-			set token [::http::geturl "http://www.amsn-project.net/autoupdater/lang/$lang" -timeout 120000 -binary 1]
+			set token [::http::geturl "$::weburl/autoupdater/lang/$lang" -timeout 120000 -binary 1]
 			set content [::http::data $token]
 			set status [::http::status $token]
 		} ] } {
@@ -805,7 +805,7 @@ namespace eval ::lang {
 			set filename "[file join $HOME2 langlistnew.xml]"
 
 			set fid [open $filename w]
-			set token [::http::geturl "http://www.amsn-project.net/autoupdater/langlist" -timeout 120000 -binary 1]
+			set token [::http::geturl "$::weburl/autoupdater/langlist" -timeout 120000 -binary 1]
 			set content [::http::data $token]
 			fconfigure $fid -encoding binary
 			puts -nonewline $fid "$content"

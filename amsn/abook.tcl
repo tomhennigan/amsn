@@ -253,8 +253,8 @@ namespace eval ::abook {
 		#Need this timeout thing to avoid the socket blocking...
 		set connection_success -2
 		
-		status_log "Connecting to http://www.amsn-project.net/check_connectivity.php?port=$port&id=$random_id" blue
-		set tok [::http::geturl "http://www.amsn-project.net/check_connectivity.php?port=$port&id=$random_id" -timeout 9500 -command "::abook::gotConnectivityReply"]
+		status_log "Connecting to $::weburl/check_connectivity.php?port=$port&id=$random_id" blue
+		set tok [::http::geturl "$::weburl/check_connectivity.php?port=$port&id=$random_id" -timeout 9500 -command "::abook::gotConnectivityReply"]
 		after 10000 [list catch [list ::http::reset $tok] ::abook::connectionTimeout]
 		tkwait variable connection_success
 

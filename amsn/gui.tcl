@@ -3369,20 +3369,20 @@ proc create_main_menu {wmenu} {
 	if {[OnMac]} {
 		# The help menu on a mac should be given the Command-? accelerator.
 		$help add command -label "[trans onlinehelp]" \
-			-command "launch_browser http://www.amsn-project.net/userwiki/index.php/Main_Page" \
+			-command "launch_browser http://$::weburl/userwiki/index.php/Main_Page" \
 			-accelerator "Command-?"
 	} else {
 		$help add command -label "[trans onlinehelp]" \
-			-command "launch_browser http://www.amsn-project.net/userwiki/index.php/Main_Page" \
+			-command "launch_browser http://$::weburl/userwiki/index.php/Main_Page" \
 	}
 
 	set lang [::config::getGlobalKey language]
 	$help add command -label "[trans faq]" \
-	    -command "launch_browser \"http://www.amsn-project.net/faq.php?lang=$lang\""
+	    -command "launch_browser \"http://$::weburl/faq.php?lang=$lang\""
 	$help add separator
 	$help add command -label "[trans msnstatus]" \
 	    -command "launch_browser \"http://messenger.msn.com/Status.aspx\""
-	$help add command -label "[trans sendfeedback]" -command "launch_browser \"http://www.amsn-project.net/forums/index.php\""
+	$help add command -label "[trans sendfeedback]" -command "launch_browser \"http://$::weburl/forums/index.php\""
 
 	# About is in the app menu on Mac
 	if {![OnMac]} {
@@ -3510,8 +3510,8 @@ proc cmsn_draw_main {} {
 		#Raise cl window
 		bind all <Command-Key-1> "raise ."
 		#Online Help
-		bind all <Command-/> "launch_browser http://amsn.sourceforge.net/userwiki/index.php/Main_Page"
-		bind all <Command-?> "launch_browser http://amsn.sourceforge.net/userwiki/index.php/Main_Page"
+		bind all <Command-/> "launch_browser http://$::weburl/userwiki/index.php/Main_Page"
+		bind all <Command-?> "launch_browser http://$::weburl/userwiki/index.php/Main_Page"
 
 		bind all <Command-m> "catch {wm state %W normal; carbon::processHICommand mini %W}"
 		bind all <Command-M> "catch {wm state %W normal; carbon::processHICommand mini %W}"
