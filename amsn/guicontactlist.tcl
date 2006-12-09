@@ -891,7 +891,7 @@ namespace eval ::guiContactList {
 
 				# Check if text is not too long and should be truncated, then
 				# first truncate it and restore it in $textpart and set the linefull
-				if {[expr $relxnickpos + [font measure splainf $textpart]] > $maxwidth} {
+				if {[::config::getKey truncatenicks] == 1 && [expr $relxnickpos + [font measure splainf $textpart]] > $maxwidth} {
 					set textpart [::guiContactList::truncateText $textpart \
 						[expr $maxwidth - $relxnickpos]]
 					set textpart "$textpart$ellips"
@@ -1005,7 +1005,7 @@ namespace eval ::guiContactList {
 		
 						# Check if text is not too long and should be truncated, then
 						# first truncate it and restore it in $textpart and set the linefull
-						if {[expr $relxnickpos + [font measure splainf $textpart]] > $maxwidth} {
+						if {[::config::getKey truncatenicks] == 1 && [expr $relxnickpos + [font measure splainf $textpart]] > $maxwidth} {
 							set textpart [::guiContactList::truncateText $textpart \
 								[expr $maxwidth - $relxnickpos]]
 							set textpart "$textpart$ellips"
@@ -1016,8 +1016,8 @@ namespace eval ::guiContactList {
 		
 						# Draw the text
 						$canvas create text $relxnickpos $ynickpos -text $textpart -anchor w -fill \
-							$relnickcolour -font splainf -tags [list contact $tag psmtext]
-						set textwidth [font measure splainf $textpart]
+							$relnickcolour -font sitalf -tags [list contact $tag psmtext]
+						set textwidth [font measure sitalf $textpart]
 		
 						# Append underline coords
 						set yunderline [expr $ynickpos + $textheight + 1]
@@ -1096,7 +1096,7 @@ namespace eval ::guiContactList {
 		
 						# Check if text is not too long and should be truncated, then
 						# first truncate it and restore it in $textpart and set the linefull
-						if {[expr $relxnickpos + [font measure splainf $textpart]] > $maxwidth} {
+						if {[::config::getKey truncatenicks] == 1 && [expr $relxnickpos + [font measure splainf $textpart]] > $maxwidth} {
 							set textpart [::guiContactList::truncateText $textpart \
 								[expr $maxwidth - $relxnickpos]]
 							set textpart "$textpart$ellips"
@@ -1107,8 +1107,8 @@ namespace eval ::guiContactList {
 		
 						# Draw the text
 						$canvas create text $relxnickpos $ynickpos -text $textpart -anchor w -fill \
-							$relnickcolour -font splainf -tags [list contact $tag psmtext]
-						set textwidth [font measure splainf $textpart]
+							$relnickcolour -font sitalf -tags [list contact $tag psmtext]
+						set textwidth [font measure sitalf $textpart]
 		
 						# Append underline coords
 						set yunderline [expr $ynickpos + $textheight + 1]
@@ -1450,8 +1450,11 @@ namespace eval ::guiContactList {
 			set balloon_message4 ""
 		}
 
+		set psmmedia [::abook::getpsmmedia $email]
+
 		# Define the final balloon message
 		set ballon_message [::abook::getNick $email]
+		append ballon_message "\n$psmmedia"
 		append ballon_message "\n$email\n"
 		append ballon_message "[trans status] : "
 		append ballon_message [trans [::MSN::stateToDescription $state_code]]
