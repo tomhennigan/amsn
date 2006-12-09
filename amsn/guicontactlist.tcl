@@ -863,17 +863,19 @@ namespace eval ::guiContactList {
 		# Reset the underlining's list
 		set underlinst [list]
 		#set maxwidth [winfo width $canvas]
-		set ellips "..."
 
 		if { [::config::getKey truncatenames] } {
+			set ellips "..."
 			# Leave some place for the statustext, the elipsis (...) and the spacing + spacing
 			# of border and - the beginningborder
 			set maxwidth [expr [winfo width $canvas] - $statewidth - [font measure splainf $ellips] - \
-				$nickstatespacing - 5 - 2*$Xbegin - 2*[::skin::getKey buddy_xpad]]
+				$nickstatespacing - 5 - 2*$Xbegin - [::skin::getKey buddy_xpad]]
 		} else {
+			#No ellipses when we don't truncates nicknames : ask to Vivia for that :p
+			set ellips ""
 			# Leave some place for the elipsis (...) and the spacing + spacing
 			# of border and - the beginningborder
-			set maxwidth [expr [winfo width $canvas] - [font measure splainf $ellips] - 5 - 2*$Xbegin - 2*[::skin::getKey buddy_xpad]]
+			set maxwidth [expr [winfo width $canvas] - [font measure splainf $ellips] - 5 - 2*$Xbegin - [::skin::getKey buddy_xpad]]
 		}
 
 		# TODO: An option for a X-padding for buddies .. should be set here and in the organising proc
@@ -907,7 +909,7 @@ namespace eval ::guiContactList {
 				# first truncate it and restore it in $textpart and set the linefull
 				if {[expr $relxnickpos + [font measure splainf $textpart]] > $maxwidth} {
 					set textpart [::guiContactList::truncateText $textpart \
-						[expr $maxwidth - $relxnickpos]]
+						[expr $maxwidth - $relxnickpos] splainf]
 
 						#If we don't truncate we don't put ellipsis
 						set textpart "$textpart$ellips"
@@ -981,7 +983,7 @@ namespace eval ::guiContactList {
 		}
 
 		#We mustn't take the status in account as we will draw it
-		set maxwidth [expr [winfo width $canvas] - [font measure splainf $ellips] - 5 - 2*$Xbegin - 2*[::skin::getKey buddy_xpad]]
+		set maxwidth [expr [winfo width $canvas] - [font measure splainf $ellips] - 5 - 2*$Xbegin - [::skin::getKey buddy_xpad]]
 
 		if { $statetext != "" } {
 			# Set the spacing (if this needs to be underlined, we'll draw the state as
@@ -997,7 +999,7 @@ namespace eval ::guiContactList {
 					# first truncate it and restore it in $textpart and set the linefull
 					if {[expr $relxnickpos + [font measure splainf "$statetext"]] > $maxwidth} {
 						set statetext [::guiContactList::truncateText "$statetext" \
-							[expr $maxwidth - $relxnickpos]]
+							[expr $maxwidth - $relxnickpos] splainf]
 	
 							#If we don't truncate we don't put ellipsis
 							set statetext "$statetext$ellips"
@@ -1053,7 +1055,7 @@ namespace eval ::guiContactList {
 						# first truncate it and restore it in $textpart and set the linefull
 						if {[expr $relxnickpos + [font measure sitalf $textpart]] > $maxwidth} {
 							set textpart [::guiContactList::truncateText $textpart \
-								[expr $maxwidth - $relxnickpos]]
+								[expr $maxwidth - $relxnickpos] sitalf]
 							set textpart "$textpart$ellips"
 		
 							# This line is full, don't draw anything anymore before we start a new line
@@ -1145,7 +1147,7 @@ namespace eval ::guiContactList {
 						# first truncate it and restore it in $textpart and set the linefull
 						if {[expr $relxnickpos + [font measure sitalf $textpart]] > $maxwidth} {
 							set textpart [::guiContactList::truncateText $textpart \
-								[expr $maxwidth - $relxnickpos]]
+								[expr $maxwidth - $relxnickpos] sitalf]
 							set textpart "$textpart$ellips"
 		
 							# This line is full, don't draw anything anymore before we start a new line
@@ -1512,7 +1514,7 @@ namespace eval ::guiContactList {
 	}
 
 
-	proc truncateText { text maxwidth } {
+	proc truncateText { text maxwidth font } {
 		set shortened ""
 		set stringlength [string length $text]
 
@@ -1520,7 +1522,7 @@ namespace eval ::guiContactList {
 		for {set x 0} {$x < $stringlength} {incr x} {
 			set nextchar [string range $text $x $x]
 			set nextstring "$shortened$nextchar"
-			if {[font measure splainf $nextstring] > $maxwidth} {
+			if {[font measure $font $nextstring] > $maxwidth} {
 				break
 			}
 			set shortened "$nextstring"
