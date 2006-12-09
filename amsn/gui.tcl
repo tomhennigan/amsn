@@ -245,7 +245,7 @@ namespace eval ::amsn {
 		font create menufont -family $family -size $size -weight normal
 		font create sboldf -family $family -size $size -weight bold
 		font create splainf -family $family -size $size -weight normal
-                font create sunderf -family $family -size $size -weight normal -underline yes
+		font create sunderf -family $family -size $size -weight normal -underline yes
 		font create sbolditalf -family $family -size $size -weight bold -slant italic
 		font create sitalf -family $family -size $size -slant italic
 		font create macfont -family [list {Lucida Grande}] -size 13 -weight normal
@@ -4945,13 +4945,12 @@ proc cmsn_draw_online_wrapped {} {
 		cmsn_draw_online_wrapped_oldCL
 		switch_to_newCL
 	} else {
-		global pgBuddy
 
 		# Now we need this to make sure it's the new CL being shown...
 		#$pgBuddy setwidget $pgBuddy.cl
 		displayCL
 
-		::guiContactList::updateCL
+		#::guiContactList::updateCL
 	}
 
 }

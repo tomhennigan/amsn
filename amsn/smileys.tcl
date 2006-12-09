@@ -483,8 +483,14 @@ namespace eval ::smiley {
 		set llength 1
 
 		#Search for all possible emotions, after they are sorted by symbol length
-		SortSmileys
-		foreach emotion_data [concat $sortedemotions [list [list "\n" "newline"]]] {
+		set foreachlist [list [list "\n" "newline"]]
+
+		if { [::config::getKey listsmileys] || !$contact_list } {
+			SortSmileys
+			set foreachlist [lappend foreachlist $sortedemotions]
+		}
+
+		foreach emotion_data $foreachlist {
 
 			#Symbol is first element
 			set symbol [lindex $emotion_data 0]
@@ -523,7 +529,7 @@ namespace eval ::smiley {
 		
 			} elseif { $smiley_type == "newline" } {
 				set emotion_name "newline"
-				set nocase "-exact"
+				set nocase 0
 				set animated 0
 				set sound ""
 				set image_name "__newline__"
@@ -533,9 +539,9 @@ namespace eval ::smiley {
 				set emotion_name $emotions($symbol)
 	
 				if { [ValueForSmiley $emotion_name casesensitive 1] } {
-					set nocase "-exact"
+					set nocase 0
 				} else {
-					set nocase "-nocase"
+					set nocase 1
 				}
 	
 				set animated [ValueForSmiley $emotion_name animated 1]
@@ -550,14 +556,16 @@ namespace eval ::smiley {
 
 			set listpos 0
 			#Keep searching until no matches
-#TODO: make it not case sensitive
+
 			while { $listpos < $llength } {
 				if { ([lindex $l $listpos 0] != "text") } {
 					incr listpos
 					continue
 				}
 				
-				if {[set pos [string first [string tolower $symbol] [string tolower [lindex $l $listpos 1]]]] != -1 } {
+				if {[set pos [expr $nocase ? \
+					[string first [string tolower $symbol] [string tolower [lindex $l $listpos 1]]] : \
+					[string first $symbol [lindex $l $listpos 1]]]] != -1 } {
 					set p1 [string range [lindex $l $listpos 1] 0 [expr {$pos - 1}]]
 					set p2 $image_name
 					set p3 [string range [lindex $l $listpos 1] [expr {$pos + [string length $symbol]}] end]
@@ -586,8 +594,6 @@ namespace eval ::smiley {
 				incr listpos 2
 			}
 		}
-
-#TODO: also parse newlines as [list newline]
 
 		return $l
 	}

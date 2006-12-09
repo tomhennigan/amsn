@@ -227,6 +227,7 @@ namespace eval ::guiContactList {
 		::Event::registerEvent contactRemoved all ::guiContactList::contactRemoved
 		::Event::registerEvent changedSorting all ::guiContactList::changedSorting
 		::Event::registerEvent changedNickDisplay all ::guiContactList::changedNickDisplay
+		::Event::registerEvent changedPreferences all ::guiContactList::changedPreferences
 		::Event::registerEvent changedSkin all ::guiContactList::changedSkin
 
 		# TODO: * create the bindings for scrolling (using procs "IsMac" etc)
@@ -328,6 +329,14 @@ namespace eval ::guiContactList {
 	proc changedSorting { eventused } {
 		variable clcanvas
 		if { [winfo exists $clcanvas] } {
+			::guiContactList::drawList $clcanvas
+		}
+	}
+
+	proc changedPreferences { eventused } {
+		variable clcanvas
+		if { [winfo exists $clcanvas] } {
+			::guiContactList::createNicknameArray
 			::guiContactList::drawList $clcanvas
 		}
 	}

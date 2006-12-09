@@ -429,9 +429,13 @@ namespace eval ::abook {
 				#post event for amsnplus
 				set evPar(data) data
 				::plugins::PostEvent parse_nick evPar
-			}
 
-			set user_data($field) $data
+				set user_data(nick) $data
+
+			} else {
+
+				set user_data($field) $data
+			}
 		}
 		
 		set users_data($user_login) [array get user_data]

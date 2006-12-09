@@ -163,6 +163,7 @@ namespace eval Preferences {
 			msg_box [trans mustrestart]
 		}
 
+		::Event::fireEvent changedPreferences gui
 
 	}
 
@@ -3165,6 +3166,8 @@ proc SavePreferences {} {
 	if { [info exists ::start_on_windows_boot] } {
 		WinRegKey $::start_on_windows_boot
         }
+
+	::Event::fireEvent changedPreferences gui
     
 	#Reset the banner incase the option changed
 	resetBanner
