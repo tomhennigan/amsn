@@ -4758,7 +4758,7 @@ proc cmsn_draw_buildtop_wrapped {} {
 	foreach child [winfo children $pgBuddyTop] {
 		destroy $child
 	}
-	if { [winfo ismapped $pgBuddy] } {
+	if { [winfo manager $pgBuddy] == "pack" } {
 		pack $pgBuddyTop -expand false -fill x -before $pgBuddy
 	} else {
 		pack $pgBuddyTop -expand false -fill x -before [winfo parent $pgBuddy].cl
