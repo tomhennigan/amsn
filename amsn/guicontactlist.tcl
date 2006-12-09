@@ -360,7 +360,7 @@ namespace eval ::guiContactList {
 
 		if { [winfo exists $clcanvas] } {
 
-			global nicknameArray
+			variable nicknameArray
 			#status_log "CONTACTCHANGED: $email"
 
 			if { $email == "contactlist" } {
@@ -372,6 +372,7 @@ namespace eval ::guiContactList {
 			}
 
 			if { $eventused == "contactNickChange" || $eventused == "contactAdded"} {
+
 				#We must update the nick array
 				set usernick [::abook::getDisplayNick $email 1]
 				set nicknameArray($email) [::smiley::parseMessageToList $usernick 1]
@@ -787,7 +788,6 @@ namespace eval ::guiContactList {
 		# TODO: hovers for the status-icons
 		# 	skinsetting to have buddypictures in their place (this is default in MSN7!)
 		# 	with a pixmap border and also status-emblem overlay in bottom right corner		
-
 		set parsednick $nicknameArray($email)
 		set nickstatespacing 5
 		# TODO: skinsetting for the spacing between nicknames and the status
