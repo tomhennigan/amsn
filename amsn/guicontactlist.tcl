@@ -856,11 +856,16 @@ namespace eval ::guiContactList {
 		#set maxwidth [winfo width $canvas]
 		set ellips "..."
 
-		# Leave some place for the statustext, the elipsis (...) and the spacing + spacing
-		# of border and - the beginningborder
-
-		set maxwidth [expr [winfo width $canvas] - $statewidth - [font measure splainf $ellips] - \
-			$nickstatespacing - 5 - $Xbegin - 2*[::skin::getKey buddy_xpad]]
+		if { [::config::getKey truncatenames] } {
+			# Leave some place for the statustext, the elipsis (...) and the spacing + spacing
+			# of border and - the beginningborder
+			set maxwidth [expr [winfo width $canvas] - $statewidth - [font measure splainf $ellips] - \
+				$nickstatespacing - 5 - 2*$Xbegin - 2*[::skin::getKey buddy_xpad]]
+		} else {
+			# Leave some place for the elipsis (...) and the spacing + spacing
+			# of border and - the beginningborder
+			set maxwidth [expr [winfo width $canvas] - [font measure splainf $ellips] - 5 - 2*$Xbegin - 2*[::skin::getKey buddy_xpad]]
+		}
 
 		# TODO: An option for a X-padding for buddies .. should be set here and in the organising proc
 
@@ -891,10 +896,12 @@ namespace eval ::guiContactList {
 
 				# Check if text is not too long and should be truncated, then
 				# first truncate it and restore it in $textpart and set the linefull
-				if {[::config::getKey truncatenicks] == 1 && [expr $relxnickpos + [font measure splainf $textpart]] > $maxwidth} {
+				if {[expr $relxnickpos + [font measure splainf $textpart]] > $maxwidth} {
 					set textpart [::guiContactList::truncateText $textpart \
 						[expr $maxwidth - $relxnickpos]]
-					set textpart "$textpart$ellips"
+
+						#If we don't truncate we don't put ellipsis
+						set textpart "$textpart$ellips"
 
 					# This line is full, don't draw anything anymore before we start a new line
 					set linefull 1
@@ -964,22 +971,52 @@ namespace eval ::guiContactList {
 			# END the foreach loop
 		}
 
+		#We mustn't take the status in account as we will draw it
+		set maxwidth [expr [winfo width $canvas] - [font measure splainf $ellips] - 5 - 2*$Xbegin - 2*[::skin::getKey buddy_xpad]]
+
 		if { $statetext != "" } {
 			# Set the spacing (if this needs to be underlined, we'll draw the state as
 			# "  $statetext" and remove the spacing
 			set relxnickpos [expr $relxnickpos + $nickstatespacing]
 
-			$canvas create text $relxnickpos $ynickpos -text "$statetext" -anchor w\
-				-fill $statecolour -font splainf -tags [list contact $tag statetext]
+			if { ![::config::getKey truncatenames] } {
+
+				if { $linefull } {
+					set statewidth 0
+				} else {
+					# Check if text is not too long and should be truncated, then
+					# first truncate it and restore it in $textpart and set the linefull
+					if {[expr $relxnickpos + [font measure splainf "$statetext"]] > $maxwidth} {
+						set statetext [::guiContactList::truncateText "$statetext" \
+							[expr $maxwidth - $relxnickpos]]
+	
+							#If we don't truncate we don't put ellipsis
+							set statetext "$statetext$ellips"
+							set statewidth [font measure splainf $statetext]
+	
+						# This line is full, don't draw anything anymore before we start a new line
+						set linefull 1
+					}
+	
+					$canvas create text $relxnickpos $ynickpos -text "$statetext" -anchor w\
+						-fill $statecolour -font splainf -tags [list contact $tag statetext]
+				}
+			} else {
+
+				$canvas create text $relxnickpos $ynickpos -text "$statetext" -anchor w\
+					-fill $statecolour -font splainf -tags [list contact $tag statetext]
+			}
 
 			# TODO: Maybe a skin-option to have the spacing underlined
 
-			# Append underline coords
-			set yunderline [expr $ynickpos + $textheight + 1]
-			lappend underlinst [list [expr $relxnickpos - $xpos] [expr $yunderline - $ypos] \
-				$statewidth $statecolour]
+			if { $statewidth > 0 } {
+				# Append underline coords
+				set yunderline [expr $ynickpos + $textheight + 1]
+				lappend underlinst [list [expr $relxnickpos - $xpos] [expr $yunderline - $ypos] \
+					$statewidth $statecolour]
 
-			set relxnickpos [expr $relxnickpos + $statewidth]
+				set relxnickpos [expr $relxnickpos + $statewidth]
+			}
 		}
 
 		if {$psm != "" && [::config::getKey emailsincontactlist] == 0 } {
@@ -1005,7 +1042,7 @@ namespace eval ::guiContactList {
 		
 						# Check if text is not too long and should be truncated, then
 						# first truncate it and restore it in $textpart and set the linefull
-						if {[::config::getKey truncatenicks] == 1 && [expr $relxnickpos + [font measure splainf $textpart]] > $maxwidth} {
+						if {[expr $relxnickpos + [font measure sitalf $textpart]] > $maxwidth} {
 							set textpart [::guiContactList::truncateText $textpart \
 								[expr $maxwidth - $relxnickpos]]
 							set textpart "$textpart$ellips"
@@ -1039,8 +1076,8 @@ namespace eval ::guiContactList {
 							set linefull 1
 		
 							$canvas create text $relxnickpos $ynickpos -text $ellips -anchor w \
-								-fill $relnickcolour -font splainf -tags [list contact $tag psmtext]
-							set textwidth [font measure splainf $ellips]
+								-fill $relnickcolour -font sitalf -tags [list contact $tag psmtext]
+							set textwidth [font measure sitalf $ellips]
 		
 							# Append underline coords
 							set yunderline [expr $ynickpos + $textheight + 1]
@@ -1079,6 +1116,7 @@ namespace eval ::guiContactList {
 				}
 			} elseif {[::config::getKey psmplace] == 2 } {
 				set parsedpsm [::smiley::parseMessageToList "\n$psm" 1]
+
 				foreach unit $parsedpsm {
 					if {[lindex $unit 0] == "text"} {
 						# Check if we are still allowed to write text
@@ -1096,7 +1134,7 @@ namespace eval ::guiContactList {
 		
 						# Check if text is not too long and should be truncated, then
 						# first truncate it and restore it in $textpart and set the linefull
-						if {[::config::getKey truncatenicks] == 1 && [expr $relxnickpos + [font measure splainf $textpart]] > $maxwidth} {
+						if {[expr $relxnickpos + [font measure sitalf $textpart]] > $maxwidth} {
 							set textpart [::guiContactList::truncateText $textpart \
 								[expr $maxwidth - $relxnickpos]]
 							set textpart "$textpart$ellips"
@@ -1130,8 +1168,8 @@ namespace eval ::guiContactList {
 							set linefull 1
 		
 							$canvas create text $relxnickpos $ynickpos -text $ellips -anchor w \
-								-fill $relnickcolour -font splainf -tags [list contact $tag psmtext]
-							set textwidth [font measure splainf $ellips]
+								-fill $relnickcolour -font sitalf -tags [list contact $tag psmtext]
+							set textwidth [font measure sitalf $ellips]
 		
 							# Append underline coords
 							set yunderline [expr $ynickpos + $textheight + 1]
