@@ -244,7 +244,7 @@ namespace eval ::guiContactList {
 				%W yview scroll [expr {- (%D)}] units;
 
 				# $canvas coords backgroundimage 0 [expr int([expr [lindex [$canvas yview] 0] * $canvaslength])]
-				::guiContactList::moveBGimage $clcanvas
+				::guiContactList::moveBGimage $::guiContactList::clcanvas
 			}
 		} elseif {$tcl_platform(platform) == "windows"} {
 			# TODO: fix win bindings -> Arieh's job ;)
@@ -1263,7 +1263,7 @@ namespace eval ::guiContactList {
 		# Add binding for underline if the skinner use it
 		if {[::skin::getKey underline_contact]} {
 			$canvas bind $tag <Enter> "+::guiContactList::underlineList $canvas [list $underlinst] $tag"
-			$canvas bind $tag <Leave> "+$canvas delete uline"
+			$canvas bind $tag <Leave> "+$canvas delete uline_$tag"
 		}
 
 
