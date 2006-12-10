@@ -2542,7 +2542,7 @@ proc Preferences { { settings "personal"} } {
 
     # Frame for common buttons (all preferences)
     frame .cfg.buttons -class Degt
-    button .cfg.buttons.save -text [trans save] -default active -command "SavePreferences; destroy .cfg"
+    button .cfg.buttons.save -text [trans save] -default active -command "wm withdraw .cfg; SavePreferences; destroy .cfg"
     button .cfg.buttons.cancel -text [trans close] -command "destroy .cfg"
     bind .cfg <<Escape>> "destroy .cfg"
     pack .cfg.buttons.save .cfg.buttons.cancel -side right -padx 10 -pady 5
