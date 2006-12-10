@@ -44,7 +44,7 @@ exec wish $0
 ### Hide the window until it has been fully displayed
 ############################################################
 package require Tk
-wm state . withdraw
+wm state . withdrawn
 
 
 ############################################################
@@ -298,7 +298,7 @@ init_dock
 
 if {[::config::getKey startontray]} {
 	if {[::config::getKey dock]!=0} {
-		wm state . withdraw
+		wm state . withdrawn
 		set ishidden 1
 	} else {
 		wm state . iconic

@@ -254,8 +254,10 @@ namespace eval ::abook {
 		set connection_success -2
 		
 		status_log "Connecting to $::weburl/check_connectivity.php?port=$port&id=$random_id" blue
-		set tok [::http::geturl "$::weburl/check_connectivity.php?port=$port&id=$random_id" -timeout 9500 -command "::abook::gotConnectivityReply"]
-		after 10000 [list catch [list ::http::reset $tok] ::abook::connectionTimeout]
+		if { [catch { ::http::geturl "$::weburl/check_connectivity.php?port=$port&id=$random_id" -command "::abook::gotConnectivityReply" -timeout 9500 } res] } { 
+			after 500 [list set ::connection_success -1]
+			status_log "::abook::getFirewalled failed: $res" red
+		}
 		tkwait variable connection_success
 
 		status_log "::abook::getFirewalled: connection_success ($connection_success)\n" blue
