@@ -1110,7 +1110,10 @@ namespace eval ::MSN {
 		::abook::setConsistent
 		::abook::saveToDisk
 
-		::Event::fireEvent contactAdded protocol $username
+		if { $curr_list == "FL" } {
+			#Don't send the event for an addition to any other list
+			::Event::fireEvent contactAdded protocol $username $groups
+		}
 	}
 
 	proc GotREMResponse { recv } {
@@ -1141,7 +1144,7 @@ namespace eval ::MSN {
 			}
 
 			#an event to let the GUI know a user is removed from a group / the list
-			::Event::fireEvent contactRemoved protocol $user
+			::Event::fireEvent contactRemoved protocol $user $affected_groups
 		} else {
 			set user [lindex $recv 3]
 			::MSN::deleteFromList $list_sort $user

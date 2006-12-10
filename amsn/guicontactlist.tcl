@@ -416,7 +416,7 @@ namespace eval ::guiContactList {
 			::guiContactList::drawGroups $clcanvas
 
 			# Redraw the contact
-			if {$eventused != "movedContact"} {
+			if {$eventused != "contactMoved"} {
 				set groupslist [getGroupId $email]
 
 				foreach group $groupslist {
