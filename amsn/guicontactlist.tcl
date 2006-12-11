@@ -280,70 +280,103 @@ namespace eval ::guiContactList {
 	}
 
 	proc contactChanged { eventused email { gidlist ""} } {
-
 		variable clcanvas
 
-		if { [winfo exists $clcanvas] } {
 
-			variable nicknameArray
-			#status_log "CONTACTCHANGED: $email"
+		status_log "contactChanged :: $eventused $email $gidlist" white
+		#Possible events:
+		#contactStateChange
+		#contactNickChange
+		#contactDataChange
+		#contactPSMChange
+		#contactListChange
+		#contactBlocked
+		#contactUnblocked
+		#contactMoved
+		#contactAdded
 
-			if { $email == "contactlist" } {
-				return
-			}
 
-			if { $email == "myself" } {
-				return
-			}
-
-			if { $eventused == "contactNickChange" || $eventused == "contactAdded"} {
-				#We must update the nick array
-				set usernick [::abook::getDisplayNick $email 1]
-				set nicknameArray($email) [::smiley::parseMessageToList $usernick 1]
-				set evpar(array) nicknameArray
-				set evpar(login) $email
-				::plugins::PostEvent NickArray evpar
-			}
-
-			# TAKE A LOOK AT THIS CODE. HIGH PRIORITY
-			# Redraw the groups
-			# if {$eventused == "contactStateChange" } {
-			# 	set gidlist [list [::abook::getGroups $email] offline mobile ]
-			# }
-			#
-			# if {$gidlist != "" && $eventused != "contactNickChange"} {
-			# 	foreach group $gidlist {
-			# 		set the element list for the changed group
-			# 		set groupelement [list $group [::groups::GetName $group]]
-			#
-			# 		if {$group == "offline" || $group == "mobile"} {
-			# 			set groupelement [list $group "$group"]
-			# 		}
-			#
-			# 		# Redraw the group
-			# 		::guiContactList::drawGroup $clcanvas $groupelement
-			# 		status_log "REDRAWN: $groupelement"
-			# 	}
-			# }
-			#
-			# As I can't make it work properly, let's redraw all groups for now:
-
-			::guiContactList::drawGroups $clcanvas
-
-			# Redraw the contact
-			if {$eventused != "contactMoved"} {
-				set groupslist [getGroupId $email]
-
-				foreach group $groupslist {
-					set contactelement [list "C" $email]
-					::guiContactList::drawContact $clcanvas $contactelement $group
-					#status_log "REDRAWN: $contactelement"
-				}
-			}
-
-			# Reorganise the list
-			::guiContactList::organiseList $clcanvas
+		if { ![winfo exists $clcanvas] } {
+			return
 		}
+
+		variable nicknameArray
+
+
+		if { $email == "contactlist" } {
+			return
+		}
+
+		if { $email == "myself" } {
+			return
+		}
+
+#######################
+#Contacts (re)drawing #
+#######################
+
+		if { $eventused == "contactNickChange" || $eventused == "contactAdded" || $eventused == "contactPSMChange" } {
+			#We must update the nick array
+			set usernick [::abook::getDisplayNick $email 1]
+			set nicknameArray($email) [::smiley::parseMessageToList $usernick 1]
+			set evpar(array) nicknameArray
+			set evpar(login) $email
+			::plugins::PostEvent NickArray evpar
+
+		}
+		
+		# Redraw the contact for every group it's in
+		#  Only for a contact that's simply moved, it doesn't have to be redrawn
+		if {$eventused != "contactMoved"} {
+			set groupslist [getGroupId $email]
+
+			foreach group $groupslist {
+				set contactelement [list "C" $email]
+				::guiContactList::drawContact $clcanvas $contactelement $group
+			}
+		}		
+		
+		
+
+#######################
+#Groups (re)drawing   #
+#######################
+
+		#A contact that is being moved creates 2 events fired:
+		#	-the contactMoved event
+		#	-a contactAdded event because the contact is added to a new group
+		#This means for this event we only have to update the group we were moved from and
+		# remove the appeareance of the contact there as the group we are moved to will be 
+		# changed with the "added" event
+		if { $eventused == "contactMoved" } {
+			set grId [lindex $gidlist 0]
+			#redraw the old group
+			::guiContactList::drawGroup $clcanvas [list $grId [::groups::GetName $grId]]
+#TODO:			#remove the contact from the list
+		
+		}
+
+		if { $eventused == "contactAdded" } {
+			set grId [lindex $gidlist 0]
+			#redraw the old group
+			::guiContactList::drawGroup $clcanvas [list $grId [::groups::GetName $grId]]		
+		}
+
+
+		if {$eventused == "contactStateChange" } {
+#TODO:			#only redraw groups if from/to offline/mobile
+			::guiContactList::drawGroups $clcanvas
+		}
+
+		#listchange/datachange: redraw everything as I don't really know what it's all for
+		if {$eventused == "contactDataChange" || $eventused == "contactListChange"} {
+#TODO: maybe we don't have to redraw anything here ?
+			::guiContactList::drawGroups $clcanvas
+		}
+
+		# Reorganise the list
+		::guiContactList::organiseList $clcanvas
+
 	}
 
 
@@ -1651,7 +1684,11 @@ namespace eval ::guiContactList {
 	
 			if { $newgrId == $oldgrId } {
 				#if the contact was dragged to the group of origin, just move it back
-				$canvas move $tag $ChangeX $ChangeY	
+#				$canvas move $tag $ChangeX $ChangeY	
+				
+				#To be sure everything is right, reorganise, because the contact doesn't always
+				#  stay under the cursor
+				::guiContactList::organiseList $canvas				
 			} else {
 # TODO: copying instead of moving when CTRL is pressed
 
