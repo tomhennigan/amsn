@@ -813,12 +813,14 @@ namespace eval ::skinsGUI {
 			return
 		}
 
+#TODO: the preview pane should be fixed size and scrollable so the window doesn't get overpopulated or too big
+
 		toplevel $w
-		if {[OnMac]} {
+#		if {[OnMac]} {
 			wm resizable $w 1 1
-		} else {
-			wm resizable $w 0 0
-		}
+#		} else {
+#			wm resizable $w 0 0
+#		}
 		wm title $w "[trans chooseskin]"
 		wm geometry $w +100+100
 
