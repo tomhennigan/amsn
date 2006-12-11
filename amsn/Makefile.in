@@ -159,11 +159,19 @@ install:: $(FILES_TO_INSTALL)
 	ln -sf $(dstdir)/$(PACKAGE)/amsn-remote-CLI $(slnkdir)/amsn-remote-CLI
 
 	chmod -R +rx $(dstdir)/$(PACKAGE)
-	mkdir -p $(dstdir)/icons/hicolor
-	cp -R $(srcdir)/icons/* $(dstdir)/icons/hicolor
 
 	mkdir -p $(dstdir)/applications
 	cp $(srcdir)/amsn.desktop $(dstdir)/applications
+
+	ln -sf $(dstdir)/$(PACKAGE)/icons/32x32/msn.png $(dstdir)/pixmaps/
+
+uninstall::
+	rm -Rf $(dstdir)/$(PACKAGE)
+	rm -f $(slnkdir)/amsn
+	rm -f $(slnkdir)/amsn-remote
+	rm -f $(slnkdir)/amsn-remote-CLI
+	rm -f $(dstdir)/applications/amsn.desktop
+	rm -f $(dstdir)/pixmaps/msn.png
 
 rpm-install:: $(FILES_TO_INSTALL)
 	rm -Rf $(INSTALL_PREFIX)/$(dstdir)/$(PACKAGE)
