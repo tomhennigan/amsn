@@ -10,7 +10,7 @@
 	<plugin_namespace>music</plugin_namespace>
 	<init_procedure>InitPlugin</init_procedure>
 	<deinit_procedure>DeInit</deinit_procedure>
-	<cvs_version>7586</cvs_version>i
+	<cvs_version>7625</cvs_version>i
 
 	<lang>
 		<langcode>en</langcode>

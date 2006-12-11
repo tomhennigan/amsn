@@ -268,7 +268,6 @@ namespace eval ::music {
 		variable config
 		variable oldinfo
 		variable dppath
-		
 		if { $::music::config(activated) } {
 			#Get all song information from ::music::GetSong
 			set info [::music::GetSong]
@@ -297,18 +296,8 @@ namespace eval ::music {
 				}
 			}
 
-			#If the user uncheck the box in config, we must put the standard nickname
-			#And if he checks, we must actualize the nickname
-			if {[::config::getKey protocol] == 11} {
-				if { $song != "0"} {
-					::MSN::changeCurrentMedia Music 1 "{0}" $song
-				}
-			} else {
-				::music::changenick "$name"
-			}
-
 			#Change the nickname if the user did'nt uncheck that config.
-			if {$config(display) && $info != $oldinfo } {
+			if {$config(display) && ![string equal $info $oldinfo] } {
 				if {[::config::getKey protocol] == 11} {
 					if { $song != "0"} {
 						::MSN::changeCurrentMedia Music 1 "{0}" $song
@@ -320,7 +309,7 @@ namespace eval ::music {
 				}
 			}
 
-			if {$config(changepic) && $info != $oldinfo} {
+			if {$config(changepic) && ![string equal $info $oldinfo]} {
 				#set avatar to albumart if available
 				if {[::config::getKey displaypic] != $smallcoverfilename} {
 					#Picture changed so save the new name
@@ -351,7 +340,6 @@ namespace eval ::music {
 				::music::set_dp $dppath
 			}
 
-
 			set oldinfo $info
 
 			#Execute the script which get the song from the player to have it immediatly
@@ -365,7 +353,6 @@ namespace eval ::music {
 			#Take the second number we have from the plugin config and
 			#multiply by 1000 because "after" count in "ms" (1000ms=1s)
 			set time [expr {int($config(second)*1000)}]
-
 
 			#Reload newname proc after this time (loop)
 			after $time ::music::newname 0 0
@@ -1367,7 +1354,7 @@ namespace eval ::music {
 		if {[array size ::music::playersarray]==0} {
 			return
 		}
-#after cancel ::music::newname 0 0
+		after cancel ::music::newname 0 0
 		#Remove the song from the nick if we are online
 		if {[::MSN::myStatusIs] != "FLN" && $::music::config(display) && $::music::config(activated) } {
 			if {[::config::getKey protocol] == 11} {
