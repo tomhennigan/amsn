@@ -1629,10 +1629,14 @@ namespace eval ::guiContactList {
 		variable OldX
 		variable OldY
 		variable OnTheMove
+		variable startingX
+		variable startingY
 
 		# Store old coordinates
 		set OldX [winfo pointerx .]
 		set OldY [winfo pointery .]
+		set startingX $OldX
+		set startingY $OldY
 		set OnTheMove 1
 
 		$canvas delete uline_$tag
@@ -1646,8 +1650,8 @@ namespace eval ::guiContactList {
 		# Change coordinates 
 		set NewX [winfo pointerx .]
 		set NewY [winfo pointery .]
-		set ChangeX [expr $NewX - $OldX]
-		set ChangeY [expr $NewY - $OldY]
+		set ChangeX [expr {$NewX - $OldX}]
+		set ChangeY [expr {$NewY - $OldY}]
 
 		$canvas move $tag $ChangeX $ChangeY
 
@@ -1674,8 +1678,11 @@ namespace eval ::guiContactList {
 		variable OldX
 		variable OldY
 		variable OnTheMove
+		variable startingX
+		variable startingY
 			
-
+		set NewX [winfo pointerx .]
+		set NewY [winfo pointery .]
 		# TODO: copying instead of moving when CTRL is pressed
 		# 	first get the info out of the tag
 
@@ -1693,25 +1700,23 @@ namespace eval ::guiContactList {
 		set iconXCoord [lindex [$canvas coords $tag] 0]
 		set iconYCoord [lindex [$canvas coords $tag] 1]
 
-		set ChangeX [expr $iconXCoord - $OldX]
-		set ChangeY [expr $iconYCoord - $OldY]
+		set ChangeX [expr {$startingX - $NewX}]
+		set ChangeY [expr {$startingY - $NewY}]
+
+status_log "old X: $startingX :: new X: $iconXCoord"
+status_log "old Y: $startingY :: new Y: $iconYCoord"
 
 		# TODO: If we drag off the list; now it's only on the left, make 
 		# 	it also "if bigger then viewable area of canvas
-		if {$iconXCoord < 0} { 
-			# TODO: Where we should trigger an event that can be used
-			# 	by plugins for example, the contact tray plugin
+		if {$iconXCoord < 0 } { 
+			# TODO: Here we should trigger an event that can be used
+			# 	by plugins. For example, the contact tray plugin
 			# 	could create trays like this
 
 			status_log "guiContactList: contact dragged off the CL"
 
-			# Trigger event
-#TODO: only move the contact back to it's original position, don't redraw the whole list
 			$canvas move $tag $ChangeX $ChangeY
-#			::guiContactList::drawList $canvas
 		} else {
-			# First see what's the coordinates of the icon
-			set iconYCoord [lindex [$canvas coords $tag] 1]
 
 			# Now we have to find the group whose ycoord is the first
 			# less then this coord
@@ -1720,19 +1725,19 @@ namespace eval ::guiContactList {
 			set oldgrId $grId
 			set newgrId $oldgrId
 
-			set groupList [getGroupList]
+ 
 
 			# Cycle to the list of groups and select the group where
 			# the user drags to
-			foreach group $groupList {
+
+			foreach group [getGroupList] {
 				# Get the group ID
 				set grId [lindex $group 0]
-
+				set grCoords [$canvas coords gid_$grId]
 				# Only go for groups that are actually drawn on the list
-				if { [$canvas coords gid_$grId] != ""} {
+				if { $grCoords != ""} {
 					# Get the coordinates of the group
-					set grYCoord [lindex [$canvas coords gid_$grId] 1]
-	
+					set grYCoord [lindex $grCoords 1]
 					# This +5 is to make dragging a contact on a group's name
 					# or 5 pixels above the group's name possible
 					if {$grYCoord <= [expr $iconYCoord + 5]} {
@@ -1741,14 +1746,11 @@ namespace eval ::guiContactList {
 				}
 			}
 	
-			# Remove the contact from the canvas as it's gonna be redrawn on the right place	
-			$canvas delete $tag
-#TODO: it should never be removed as when whe change groups the whole canvas is redrawn, if we don't we can just move the canvas elements to their original position
-
-			# If user wants to move from/to a place that's not possible, just leave the
-			# contact in the current group (other words: "don't do anything")
-
-			if { $newgrId != $oldgrId } {
+			if { $newgrId == $oldgrId } {
+				status_log "Contact $tag moved to his own group $oldgrId"
+				$canvas move $tag $ChangeX $ChangeY
+				
+			} else {
 				# Move the contact
 				status_log "Gonna move $email from $oldgrId to $newgrId"
 				::groups::menuCmdMove $newgrId $oldgrId $email
@@ -1757,11 +1759,7 @@ namespace eval ::guiContactList {
 				# 	set as the event will know when a group is changed and we
 				# 	don't want to redraw twice!
 #				after 1000 ::guiContactList::drawList $canvas
-			} else {
-				status_log "Can't move $email from \"$oldgrId\" to \"$newgrId\"!"
-#TODO: just redraw (or even better, move) that contact, don't redraw the whole list
-				::guiContactList::drawList $canvas
-			}
+			} 
 		}
 
 		set OnTheMove 0
