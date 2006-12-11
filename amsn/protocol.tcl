@@ -2930,7 +2930,7 @@ namespace eval ::MSNOIM {
 			if {[::config::getKey connectiontype] == "http" } {
 		        	set phost [::http::config -proxyhost]
 			        set pport [::http::config -proxyport]
-				if { $phost != "" } {
+				if { [::config::getKey proxytype] == "http" && $phost != "" } {
 					set phost $phost:$pport
 		                	if { [::config::getKey proxyauthenticate] } {
        		        	        	set proxy_user [::config::getKey proxyuser]
