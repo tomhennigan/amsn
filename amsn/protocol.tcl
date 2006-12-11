@@ -2927,7 +2927,22 @@ namespace eval ::MSNOIM {
 				set c [split $cookie =]
 				set ticket_[lindex $c 0] [lindex $c 1]
 			}
-			
+			if {[::config::getKey connectiontype] == "http" } {
+		        	set phost [::http::config -proxyhost]
+			        set pport [::http::config -proxyport]
+				if { $phost != "" } {
+					set phost $phost:$pport
+		                	if { [::config::getKey proxyauthenticate] } {
+       		        	        	set proxy_user [::config::getKey proxyuser]
+	        		                set proxy_pass [::config::getKey proxypass]
+						SOAP::configure -transport http \
+							-headers [list "Proxy-Authorization" \
+							"Basic [lindex [base64::encode $proxy_user:$proxy_pass] 0]" ]
+					} else {
+						SOAP::configure -transport http -proxy $phost
+					}
+				}
+			}
 			if { [info exists ticket_t] && [info exists ticket_p] } {
 				# TODO: make it asynchronous with the -command argument.. but how to parse the returned data and 
 				# how to make sure our 'tkwait var' works even in the case of errors ?
