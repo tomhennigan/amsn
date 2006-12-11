@@ -1287,17 +1287,23 @@ namespace eval ::guiContactList {
 	# Depend if user in status/group/hybrid mode
 	proc getGroupCount {element} {
 		set groupcounts [::groups::getGroupCount [lindex $element 0]]
-		
+
+		if { [lindex $element 0] == "offline" && [::config::getKey showMobileGroup] != 1} {
+			set mobilecount [lindex [::groups::getGroupCount "mobile"] 0]
+		} else {
+			set mobilecount 0
+		}
+
 		set mode [::config::getKey orderbygroup]
 		if { $mode == 0} {
 			# Status mode
-			set groupcount [lindex $groupcounts 0]
+			set groupcount [expr [lindex $groupcounts 0] + $mobilecount]
 		}  elseif { $mode == 1} {
 			# Group mode
 			set groupcount "[lindex $groupcounts 0]/[lindex $groupcounts 1]"
 		} elseif { $mode == 2} {
 			# Hybrid mode
-			set groupcount [lindex $groupcounts 0]
+			set groupcount [expr [lindex $groupcounts 0] + $mobilecount]
 		}
 
 		return $groupcount

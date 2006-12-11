@@ -728,7 +728,7 @@ namespace eval ::groups {
 		}
 	
 		# Cannot and must not delete a group until it is empty
-		if {[::groups::getGroupCount $gid] != 0} {
+		if {[lindex [::groups::getGroupCount $gid] 1] != 0} {
 			if {$ghandler != ""} {
 				set retval [eval "$ghandler \"[trans groupnotempty]!\""]
 			}
