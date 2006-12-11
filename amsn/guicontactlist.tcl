@@ -279,10 +279,15 @@ namespace eval ::guiContactList {
 	# Function that draws everything needed on the canvas
 	#/////////////////////////////////////////////////////////////////////
 	proc drawList {canvas} {
+#status_log "Redrawing CL ..."
+#set time [time {
 		::guiContactList::drawGroups $canvas
 		::guiContactList::drawContacts $canvas
 		::guiContactList::organiseList $canvas
+#	}]
+#status_log "Time: $time"
 	}
+	
 
 
 	proc moveBGimage { canvas } {
@@ -708,7 +713,7 @@ namespace eval ::guiContactList {
 
 
 		#Setup co-ords for underline on hover
-		set yuline [expr {$ypos + [font configure splainf -size] + 1 }]
+		set yuline [expr {$ypos + [font configure splainf -size] + 2 }]
 
 		set underlinst [list [list $textxpos $yuline [font measure sboldf $groupnametext] \
 			$groupcolor] [list $text2xpos $yuline [font measure splainf $groupcounttext] \
@@ -857,6 +862,8 @@ namespace eval ::guiContactList {
 		}
 
 		# Now we're gonna draw the nickname itself
+#TODO: From TK 8.5 up, underlined text should be possible on the canvas without this trick though in my
+#	alpha release this doesn't work
 		# Reset the underlining's list
 		set underlinst [list]
 		#set maxwidth [winfo width $canvas]
@@ -917,7 +924,7 @@ namespace eval ::guiContactList {
 
 				# Draw the text
 				$canvas create text $relxnickpos $ynickpos -text $textpart -anchor w -fill \
-					$relnickcolour -font splainf -tags [list contact $tag nicktext]
+					$relnickcolour -font sunderf -tags [list contact $tag nicktext]
 				set textwidth [font measure splainf $textpart]
 
 				# Append underline coords
