@@ -20,7 +20,7 @@ namespace eval ::guiContactList {
 
 
 	proc updateCL { } {
-		variable clcanvas		
+		variable clcanvas
 		drawList $clcanvas
 	}
 			
@@ -178,7 +178,9 @@ namespace eval ::guiContactList {
 		}
 
 
-		bind $clcanvas <Configure> "::guiContactList::drawList $clcanvas"
+#TODO: only update when the window is resized, not during resizing
+		#update the 
+		bind $clcanvas <Configure> "::guiContactList::clResized $clcanvas"
 
 		pack $clscrollbar -side right -fill y
 
@@ -188,17 +190,19 @@ namespace eval ::guiContactList {
 	}
 
 
+	proc clResized { clcanvas } {
+		#redraw the contacts as the width might have changed and reorganise
+		::guiContactList::drawContacts $clcanvas
+		::guiContactList::organiseList $clcanvas	
+	}
+
 	#/////////////////////////////////////////////////////////////////////
 	# Function that draws everything needed on the canvas
 	#/////////////////////////////////////////////////////////////////////
 	proc drawList {canvas} {
-#status_log "Redrawing CL ..."
-#set time [time {
 		::guiContactList::drawGroups $canvas
 		::guiContactList::drawContacts $canvas
 		::guiContactList::organiseList $canvas
-#	}]
-#status_log "Time: $time"
 	}
 	
 
@@ -226,15 +230,12 @@ namespace eval ::guiContactList {
 
 
 	proc drawContacts { canvas } {
+		#if a contact is found before a group, assign it to "offline"; this shouldn't happen though, I think
 		set groupID "offline"
-
-		# Now let's get the actual whole contact list (also not shown users)
-		set contactList [getContactList full]
-
-		foreach element $contactList {
+		foreach element [getContactList full] {
 			# We check the type, and call the appropriate draw function
 			if {[lindex $element 0] == "C" } {
-				# Draw the group title
+				# Draw the contact
 				drawContact $canvas $element $groupID
 			} else {
 				set groupID [lindex $element 0]
@@ -659,7 +660,7 @@ namespace eval ::guiContactList {
 
 
 		#Setup co-ords for underline on hover
-		set yuline [expr {$ypos + [font configure splainf -size] + 2 }]
+		set yuline [expr {$ypos + [font configure splainf -size] + 3 }]
 
 		set underlinst [list [list $textxpos $yuline [font measure sboldf $groupnametext] \
 			$groupcolor] [list $text2xpos $yuline [font measure splainf $groupcounttext] \
@@ -1201,6 +1202,8 @@ namespace eval ::guiContactList {
 		} else {
 			$canvas bind $tag $singordblclick "::amsn::chatUser $email"
 		}
+
+
 
 		# Binding for right click		 
 		$canvas bind $tag <<Button3>> "show_umenu $email $grId %X %Y"
