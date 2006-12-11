@@ -379,7 +379,6 @@ namespace eval ::guiContactList {
 			}
 
 			if { $eventused == "contactNickChange" || $eventused == "contactAdded"} {
-
 				#We must update the nick array
 				set usernick [::abook::getDisplayNick $email 1]
 				set nicknameArray($email) [::smiley::parseMessageToList $usernick 1]
@@ -1647,10 +1646,10 @@ namespace eval ::guiContactList {
 		# Change coordinates 
 		set NewX [winfo pointerx .]
 		set NewY [winfo pointery .]
-		set ChangeX [expr $OldX - $NewX]
-		set ChangeY [expr $OldY - $NewY]
+		set ChangeX [expr $NewX - $OldX]
+		set ChangeY [expr $NewY - $OldY]
 
-		$canvas move $tag [expr $ChangeX * -1] [expr $ChangeY * -1]
+		$canvas move $tag $ChangeX $ChangeY
 
 		set OldX [winfo pointerx .]
 		set OldY [winfo pointery .]
@@ -1675,6 +1674,7 @@ namespace eval ::guiContactList {
 		variable OldX
 		variable OldY
 		variable OnTheMove
+			
 
 		# TODO: copying instead of moving when CTRL is pressed
 		# 	first get the info out of the tag
@@ -1691,6 +1691,10 @@ namespace eval ::guiContactList {
 
 		# Check with Xcoord if we're still on the canvas
 		set iconXCoord [lindex [$canvas coords $tag] 0]
+		set iconYCoord [lindex [$canvas coords $tag] 1]
+
+		set ChangeX [expr $iconXCoord - $OldX]
+		set ChangeY [expr $iconYCoord - $OldY]
 
 		# TODO: If we drag off the list; now it's only on the left, make 
 		# 	it also "if bigger then viewable area of canvas
@@ -1702,8 +1706,9 @@ namespace eval ::guiContactList {
 			status_log "guiContactList: contact dragged off the CL"
 
 			# Trigger event
-
-			::guiContactList::drawList $canvas
+#TODO: only move the contact back to it's original position, don't redraw the whole list
+			$canvas move $tag $ChangeX $ChangeY
+#			::guiContactList::drawList $canvas
 		} else {
 			# First see what's the coordinates of the icon
 			set iconYCoord [lindex [$canvas coords $tag] 1]
@@ -1738,6 +1743,7 @@ namespace eval ::guiContactList {
 	
 			# Remove the contact from the canvas as it's gonna be redrawn on the right place	
 			$canvas delete $tag
+#TODO: it should never be removed as when whe change groups the whole canvas is redrawn, if we don't we can just move the canvas elements to their original position
 
 			# If user wants to move from/to a place that's not possible, just leave the
 			# contact in the current group (other words: "don't do anything")
@@ -1750,9 +1756,10 @@ namespace eval ::guiContactList {
 				# TODO: This redrawing should be deleted once the right events are
 				# 	set as the event will know when a group is changed and we
 				# 	don't want to redraw twice!
-				after 1000 ::guiContactList::drawList $canvas
+#				after 1000 ::guiContactList::drawList $canvas
 			} else {
 				status_log "Can't move $email from \"$oldgrId\" to \"$newgrId\"!"
+#TODO: just redraw (or even better, move) that contact, don't redraw the whole list
 				::guiContactList::drawList $canvas
 			}
 		}
