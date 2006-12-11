@@ -96,7 +96,7 @@ namespace eval ::autoupdate {
 			return
 		}
 
-		set downloadurl "http://$::weburl/download-tls.php?arch=$tlsplatform"
+		set downloadurl "$::weburl/download-tls.php?arch=$tlsplatform"
 
 
 		if {[ catch {set tok [::http::geturl $downloadurl -command "::autoupdate::downloadTLS2 $downloadurl"]} res ]} {
@@ -294,8 +294,8 @@ namespace eval ::autoupdate {
 		#Create the update window
 		toplevel $w
 		wm title $w "[trans newveravailable $tmp_data]"
-		set changeloglink "http://$::weburl/wiki/index.php/ChangeLog"
-		set homepagelink "http://$::weburl/"
+		set changeloglink "$::weburl/wiki/index.php/ChangeLog"
+		set homepagelink "$::weburl/"
 		#Create the frames
 		frame $w.top
 		frame $w.top.buttons
