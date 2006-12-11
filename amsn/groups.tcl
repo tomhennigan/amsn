@@ -26,8 +26,6 @@ namespace eval ::groups {
 		variable entryid -1;
 		variable groupname "";	# Temporary variable for TCL crappiness
 		variable bShowing;		# (array) Y=shown/expanded N=hidden/collapsed
-		variable uMemberCnt;		# (array) member count for that group
-		variable uMemberCnt_online;	# (array) member count for that group
 		
 		global pgc
 	}
@@ -340,8 +338,6 @@ namespace eval ::groups {
 
 	proc DeleteCB {pdu} {	# RMG 24 12065 15
 		variable bShowing
-		variable uMemberCnt
-		variable uMemberCnt_online
 		array set groups [abook::getContactData contactlist groups]
 		
 		if { [::config::getKey protocol] == 11 } {
@@ -355,8 +351,6 @@ namespace eval ::groups {
 	
 		# Update our local information
 		unset groups($gid)
-		unset uMemberCnt($gid)
-		unset uMemberCnt_online($gid)
 		unset bShowing($gid)
 	
 		# TODO: We are out of sync, maybe we should request
@@ -370,8 +364,6 @@ namespace eval ::groups {
 
 	proc AddCB {pdu} {	# ADG 23 12064 New%20Group 15 =?�-CC
 		#variable groups
-		variable uMemberCnt
-		variable uMemberCnt_online
 		variable bShowing
 		array set groups [abook::getContactData contactlist groups]
 
@@ -387,8 +379,6 @@ namespace eval ::groups {
 		}
 	
 		set groups($gid) $gname
-		set uMemberCnt($gid) 0
-		set uMemberCnt_online($gid) 0
 		set bShowing($gid) 1
 		if { [::config::getKey expanded_group_$gid]!="" } {
 			set bShowing($gid) [::config::getKey expanded_group_$gid]
@@ -418,29 +408,47 @@ namespace eval ::groups {
 	
 		return [set bShowing($gid)]
 	}
-   
-	proc UpdateCount {gid rel_qty {online ""}} {
-		variable uMemberCnt
-		variable uMemberCnt_online
-		variable bShowing
-	
-		if {![info exists bShowing($gid)]} {
-			return -1
-		}
-		if {![info exists uMemberCnt($gid)]} {
-			set uMemberCnt($gid) 0
-		}
-		
-		if {($rel_qty == 0) || ($rel_qty == "clear")} {
-			set uMemberCnt($gid) 0
-			set uMemberCnt_online($gid) 0
-		} elseif {("$online" == "online")} {
-			incr uMemberCnt($gid) $rel_qty
-			incr uMemberCnt_online($gid) $rel_qty
+
+	proc getGroupCount { gid } {
+		set contact_list [::MSN::getList FL]
+		set state_contacts 0
+		set total_contacts 0
+		if { $gid == "online" } {
+			#We want the number of online people
+			foreach contact $contact_list {
+				if { [::abook::getVolatileData $contact state FLN] != "FLN" } {
+					incr state_contacts
+				}
+			}
+			return [list $state_contacts 0]
+		} elseif { $gid == "offline" } {
+			foreach contact $contact_list {
+				if { [::abook::getVolatileData $contact state FLN] == "FLN" && [::abook::getContactData $contact msn_mobile] != "1"} {
+					incr state_contacts
+				}
+			}
+			return [list $state_contacts 0]
+		} elseif { $gid == "mobile" } {
+			foreach contact $contact_list {
+				if { [::abook::getVolatileData $contact state FLN] == "FLN" && [::abook::getContactData $contact msn_mobile] == "1"} {
+					incr state_contacts
+				}
+			}
+			return [list $state_contacts 0]
+		}  elseif { $gid == "blocked" } {
+			#Even if it's unused now... Maybe it will be back...
+			return [list [llength [array names ::emailBList]] 0]
 		} else {
-			incr uMemberCnt($gid) $rel_qty
+			foreach contact $contact_list {
+				if { [lsearch [::abook::getGroups $contact] $gid] != -1 } {
+					incr total_contacts
+					if { [::abook::getVolatileData $contact state FLN] != "FLN" } {
+						incr state_contacts
+					}
+				}
+			}
+			return [list $state_contacts $total_contacts]
 		}
-		return $uMemberCnt($gid)
 	}
 
 	proc IsExpanded {gid} {
@@ -499,14 +507,10 @@ namespace eval ::groups {
 	
 		#variable groups
 		variable bShowing
-		variable uMemberCnt
 	
 	
 		# These are the default groups. Used when not sorting the
 		# display by user-defined groups
-		set uMemberCnt(online)	0
-		set uMemberCnt(offline) 0
-		set uMemberCnt(blocked) 0
 		set bShowing(online)	1
 		set bShowing(offline)	1
 		set bShowing(blocked)   1
@@ -556,15 +560,11 @@ namespace eval ::groups {
 	# MSN Packet: LSG <x> <trid> <cnt> <total> <gid> <name> 0
 	proc Set { nr name } {	# There is a new group in the list
 		#variable groups
-		variable uMemberCnt
-		variable uMemberCnt_online
 		variable bShowing
 		array set groups [abook::getContactData contactlist groups]
 		
 		set name [urldecode $name]
 		set groups($nr) $name
-		set uMemberCnt($nr) 0
-		set uMemberCnt_online($nr) 0
 		set bShowing($nr)   1
 		
 		if { [::config::getKey expanded_group_$nr]!="" } {
@@ -728,12 +728,12 @@ namespace eval ::groups {
 		}
 	
 		# Cannot and must not delete a group until it is empty
-		if {$::groups::uMemberCnt($gid) != 0} {
-		if {$ghandler != ""} {
-		set retval [eval "$ghandler \"[trans groupnotempty]!\""]
-		}
-		set pgc 0
-		return 0
+		if {[::groups::getGroupCount $gid] != 0} {
+			if {$ghandler != ""} {
+				set retval [eval "$ghandler \"[trans groupnotempty]!\""]
+			}
+			set pgc 0
+			return 0
 		}
 		
 		::MSN::WriteSB ns "RMG" $gid

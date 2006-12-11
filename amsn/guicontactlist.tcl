@@ -870,7 +870,7 @@ namespace eval ::guiContactList {
 
 				# Draw the text
 				$canvas create text $relxnickpos $ynickpos -text $textpart -anchor w -fill \
-					$relnickcolour -font sunderf -tags [list contact $tag nicktext]
+					$relnickcolour -font splainf -tags [list contact $tag nicktext]
 				set textwidth [font measure splainf $textpart]
 
 				# Append underline coords
@@ -1286,21 +1286,20 @@ namespace eval ::guiContactList {
 	# Get the group count
 	# Depend if user in status/group/hybrid mode
 	proc getGroupCount {element} {
+		set groupcounts [::groups::getGroupCount [lindex $element 0]]
+		
 		set mode [::config::getKey orderbygroup]
 		if { $mode == 0} {
 			# Status mode
-			set groupcount $::groups::uMemberCnt([lindex $element 0])
+			set groupcount [lindex $groupcounts 0]
 		}  elseif { $mode == 1} {
 			# Group mode
-			set groupcount $::groups::uMemberCnt_online([lindex $element 0])/$::groups::uMemberCnt([lindex $element 0])
+			set groupcount "[lindex $groupcounts 0]/[lindex $groupcounts 1]"
 		} elseif { $mode == 2} {
 			# Hybrid mode
-			if {[lindex $element 0] == "offline" || [lindex $element 0] == "mobile"} {
-				set groupcount $::groups::uMemberCnt([lindex $element 0])
-			} else {
-				set groupcount $::groups::uMemberCnt_online([lindex $element 0])	
-			}
+			set groupcount [lindex $groupcounts 0]
 		}
+
 		return $groupcount
 	}
 

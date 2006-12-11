@@ -1433,9 +1433,6 @@ namespace eval ::MSN {
 		} else {
 			set atrid [::MSN::WriteSB ns "ADD" "FL $passport [urlencode $userName] $newGid"]
 		}
-
-		# An event to let the GUI know a user is copied/added to a group
-		::Event::fireEvent contactAdded protocol $passport $newGid
 	}
 
 
