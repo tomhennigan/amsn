@@ -8,8 +8,6 @@
 # * redraw on skinchange
 # * scroll the canvas while dragging if you come near to the border (hard one :|)
 # * change cursor while dragging (should we ?)
-# * background doesn't move when using the scrollbar 
-#        -> needs a FIX in ScrolledWindow code to have a command feeded run when scrolling
 # * animated smileys on CL -> I hope this is possible easily with TkCxImage?
 # * events when the groupview option is changed to redraw the whole list
 # *
