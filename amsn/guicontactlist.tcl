@@ -1637,6 +1637,7 @@ namespace eval ::guiContactList {
 		set DragStartY [winfo pointery .]
 		set OldDragX $DragStartX
 		set OldDragY $DragStartY
+
 		set OnTheMove 1
 
 		$canvas delete uline_$tag
@@ -1670,44 +1671,35 @@ namespace eval ::guiContactList {
 
 
 	proc contactReleased {tag canvas} {
-#		variable OldDragX
-#		variable OldDragY
 		variable OnTheMove
+		variable OldDragX
+		variable OldDragY
 		variable DragStartX
 		variable DragStartY
-			
 
-		# TODO: copying instead of moving when CTRL is pressed
-		# 	first get the info out of the tag
+		set oldgrId [::guiContactList::getGrIdFromTag $tag]
 
-		status_log "tag is: $tag"
-
-		set email [::guiContactList::getEmailFromTag $tag]
-		status_log "email is: $email"
-
-		set grId [::guiContactList::getGrIdFromTag $tag]
-		status_log "grId is: $grId"
 		# Kill the balloon if it came up, otherwise it just stays there
 		set Bulle(first) 0; kill_balloon
 
-		# Check with Xcoord if we're still on the canvas
+
 		set iconXCoord [lindex [$canvas coords $tag] 0]
 		set iconYCoord [lindex [$canvas coords $tag] 1]
 
 		set ChangeX [expr {$DragStartX - [winfo pointerx .]}]
 		set ChangeY [expr {$DragStartY - [winfo pointery .]}]
 
-#status_log "old X: $DragStartX :: new X: $iconXCoord"
-#status_log "old Y: $DragStartY :: new Y: $iconYCoord"
 
 		# TODO: If we drag off the list; now it's only on the left, make 
-		# 	it also "if bigger then viewable area of canvas
+		# 	it also "if bigger then viewable area of canvas and on top
+		#       and down sides
+		# Check if we're not dragging off the CL
 		if {$iconXCoord < 0 } { 
 			# TODO: Here we should trigger an event that can be used
 			# 	by plugins. For example, the contact tray plugin
 			# 	could create trays like this
 
-			status_log "guiContactList: contact dragged off the CL"
+			status_log "guiContactList: contact dragged off the CL\n\t\tTODO: add event"
 
 			$canvas move $tag $ChangeX $ChangeY
 		} else {
@@ -1716,14 +1708,11 @@ namespace eval ::guiContactList {
 			# less then this coord
 
 			# Beginsituation: group to move to is group where we began
-			set oldgrId $grId
 			set newgrId $oldgrId
-
- 
 
 			# Cycle to the list of groups and select the group where
 			# the user drags to
-
+#TODO: remove the group of origin, the mobile and the offline group from this list ?
 			foreach group [getGroupList] {
 				# Get the group ID
 				set grId [lindex $group 0]
@@ -1741,26 +1730,23 @@ namespace eval ::guiContactList {
 			}
 	
 			if { $newgrId == $oldgrId } {
-				status_log "Contact $tag moved to his own group $oldgrId"
-				$canvas move $tag $ChangeX $ChangeY
-				
+				#if the contact was dragged to the group of origin, just move it back
+				$canvas move $tag $ChangeX $ChangeY	
 			} else {
-				# Move the contact
-				status_log "Gonna move $email from $oldgrId to $newgrId"
-				::groups::menuCmdMove $newgrId $oldgrId $email
-				status_log "$email is now in [getGroupId $email]"
-				# TODO: This redrawing should be deleted once the right events are
-				# 	set as the event will know when a group is changed and we
-				# 	don't want to redraw twice!
-#				after 1000 ::guiContactList::drawList $canvas
+# TODO: copying instead of moving when CTRL is pressed
+
+				# Move the contact between the groups
+				::groups::menuCmdMove $newgrId $oldgrId [::guiContactList::getEmailFromTag $tag]
+				# Note: redraw is done by the protocol event
+
 			} 
 		}
 
 		set OnTheMove 0
 
 		# Remove those vars as they're not in use anymore
-#		unset OldDragX
-#		unset OldDragY
+		unset OldDragX
+		unset OldDragY
 	}
 
 
