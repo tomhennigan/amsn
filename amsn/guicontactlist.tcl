@@ -1626,17 +1626,17 @@ namespace eval ::guiContactList {
 	#    Contact dragging procedures    #
 	#####################################
 	proc contactPress {tag canvas} {
-		variable OldX
-		variable OldY
+		variable OldDragX
+		variable OldDragY
 		variable OnTheMove
-		variable startingX
-		variable startingY
+		variable DragStartX
+		variable DragStartY
 
 		# Store old coordinates
-		set OldX [winfo pointerx .]
-		set OldY [winfo pointery .]
-		set startingX $OldX
-		set startingY $OldY
+		set DragStartX [winfo pointerx .]
+		set DragStartY [winfo pointery .]
+		set OldDragX $DragStartX
+		set OldDragY $DragStartY
 		set OnTheMove 1
 
 		$canvas delete uline_$tag
@@ -1644,25 +1644,20 @@ namespace eval ::guiContactList {
 
 
 	proc contactMove {tag canvas} {
-		variable OldX
-		variable OldY
+		variable OldDragX
+		variable OldDragY
 
-		# Change coordinates 
-		set NewX [winfo pointerx .]
-		set NewY [winfo pointery .]
-		set ChangeX [expr {$NewX - $OldX}]
-		set ChangeY [expr {$NewY - $OldY}]
+		#Move the contact, (New_X_Mouse_coord - Old_X_Mouse_coord) on the X-axis, same for Y
+		$canvas move $tag [expr {[winfo pointerx .] - $OldDragX}] [expr {[winfo pointery .] - $OldDragY}]
 
-		$canvas move $tag $ChangeX $ChangeY
-
-		set OldX [winfo pointerx .]
-		set OldY [winfo pointery .]
+		set OldDragX [winfo pointerx .]
+		set OldDragY [winfo pointery .]
 
 		# TODO: * Make the canvas scroll if we hover the vertical edges of the canvas
 		# 	* Make the dragged contact stay under the cursor
 		# 	* Make it keep scrolling as long as we are in the area also if we don't move (extra proc)
 
-		set canvaslength [lindex [$canvas cget -scrollregion] 3]
+#		set canvaslength [lindex [$canvas cget -scrollregion] 3]
 
 		# if {[lindex [$canvas coords $email] 1] >= [expr [winfo height $canvas] - 20] } {
 		# 	after 300 
@@ -1675,14 +1670,13 @@ namespace eval ::guiContactList {
 
 
 	proc contactReleased {tag canvas} {
-		variable OldX
-		variable OldY
+#		variable OldDragX
+#		variable OldDragY
 		variable OnTheMove
-		variable startingX
-		variable startingY
+		variable DragStartX
+		variable DragStartY
 			
-		set NewX [winfo pointerx .]
-		set NewY [winfo pointery .]
+
 		# TODO: copying instead of moving when CTRL is pressed
 		# 	first get the info out of the tag
 
@@ -1700,11 +1694,11 @@ namespace eval ::guiContactList {
 		set iconXCoord [lindex [$canvas coords $tag] 0]
 		set iconYCoord [lindex [$canvas coords $tag] 1]
 
-		set ChangeX [expr {$startingX - $NewX}]
-		set ChangeY [expr {$startingY - $NewY}]
+		set ChangeX [expr {$DragStartX - [winfo pointerx .]}]
+		set ChangeY [expr {$DragStartY - [winfo pointery .]}]
 
-status_log "old X: $startingX :: new X: $iconXCoord"
-status_log "old Y: $startingY :: new Y: $iconYCoord"
+#status_log "old X: $DragStartX :: new X: $iconXCoord"
+#status_log "old Y: $DragStartY :: new Y: $iconYCoord"
 
 		# TODO: If we drag off the list; now it's only on the left, make 
 		# 	it also "if bigger then viewable area of canvas
@@ -1765,8 +1759,8 @@ status_log "old Y: $startingY :: new Y: $iconYCoord"
 		set OnTheMove 0
 
 		# Remove those vars as they're not in use anymore
-		unset OldX
-		unset OldY
+#		unset OldDragX
+#		unset OldDragY
 	}
 
 
