@@ -8012,6 +8012,10 @@ namespace eval ::MSNMobile {
 	set msglen [string length $msg]
 	#set plen [string length $msg]
 	::MSN::WriteSBNoNL ns "PGD" "$name 1 $msglen\r\n$msg"
+
+	if {[::config::getKey keep_logs]} {
+		::log::PutLog $chatid $name $txt
+	}
     }
 
     proc MessageReceived { data } {
@@ -8052,6 +8056,10 @@ namespace eval ::MSNMobile {
 	status_log "Writing mobile msg \"$msg\" on : $chatid\n" red
 	::amsn::WinWrite $chatid "\n[trans mobilesays $user] : \n" says
 	::amsn::WinWrite $chatid "$msg" user
+
+	if {[::config::getKey keep_logs]} {
+		::log::PutLog $chatid $user $msg
+	}
 
     }
 

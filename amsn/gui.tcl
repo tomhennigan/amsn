@@ -8121,7 +8121,9 @@ namespace eval ::OIM_GUI {
 			set ::OIM_GUI::oim_asksend_[string map {: _} ${chatid} ] 0
 			::MSNOIM::sendOIMMessage [list ::OIM_GUI::MessageSendCallback $chatid] $email $txt
 			#loging
-			::log::PutLog $chatid $email $txt
+			if {[::config::getKey keep_logs]} {
+				::log::PutLog $chatid $email $txt
+			}
 		}
 		return $answer
     }
@@ -8217,7 +8219,9 @@ namespace eval ::OIM_GUI {
 
 		#We	should add an event for sending message
 		#loging
-		::log::PutLog $chatid $user $msg
+		if {[::config::getKey keep_logs]} {
+			::log::PutLog $chatid $user $msg
+		}
 	}
 
     proc OpenOIMWindow { user } {
