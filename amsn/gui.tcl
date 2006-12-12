@@ -4606,11 +4606,6 @@ proc cmsn_draw_buildtop_wrapped {} {
 	set my_colour [::MSN::stateToColor [::MSN::myStatusIs]]
 	set my_image_type [::MSN::stateToBigImage [::MSN::myStatusIs]]
 	set my_mobilegroup [::config::getKey showMobileGroup]
-	if { $my_mobilegroup != 1} {
-		set my_mobileidx 1
-	} else {
-		set my_mobileidx 0
-	}
 	
 	#Clear the children of top to avoid memory leaks:
 	foreach child [winfo children $pgBuddyTop] {
@@ -4850,6 +4845,11 @@ proc cmsn_draw_online_wrapped_oldCL {} {
 	set my_colour [::MSN::stateToColor [::MSN::myStatusIs]]
 	set my_image_type [::MSN::stateToBigImage [::MSN::myStatusIs]]
 	set my_mobilegroup [::config::getKey showMobileGroup]
+	if { $my_mobilegroup != 1} {
+		set my_mobileidx 1
+	} else {
+		set my_mobileidx 0
+	}
 
 	#Clear every tag to avoid memory leaks:
 	foreach tag [$pgBuddy.text tag names] {
