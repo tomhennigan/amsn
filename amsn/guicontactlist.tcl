@@ -732,7 +732,11 @@ namespace eval ::guiContactList {
 		set psm [::abook::getpsmmedia $email]
 
 		if { [::MSN::userIsBlocked $email] } {
-			set img [::skin::loadPixmap blocked]
+			if { $state_code == "FLN" } { 
+				set img [::skin::loadPixmap blocked_off] 
+			} else {    
+				set img [::skin::loadPixmap blocked] 
+			}
 		} elseif {[::config::getKey show_contactdps_in_cl] == "1" } {
 			set img [::skin::getLittleDisplayPicture $email [image height [::skin::loadPixmap [::MSN::stateToImage $state_code]]] ]
 		} elseif { [::abook::getContactData $email msn_mobile] == "1" && $state_code == "FLN"} {
