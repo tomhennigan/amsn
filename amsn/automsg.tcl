@@ -16,6 +16,8 @@
 # - the number of lines of the automessage
 # - the automessage itself
 # - the personal message (aka psm)
+# - Flag about whether to mute sounds
+# - Flag about whether to stop notification windows
 
 #///////////////////////////////////////////////////////////////////////////////
 # LoadStateList ()
@@ -58,8 +60,10 @@ proc SaveStateList {} {
 		set state [::sxml::xmlreplace [lindex $tmp 2]]
 		set msg [::sxml::xmlreplace [lindex $tmp 4]]
 		set psm [::sxml::xmlreplace [lindex $tmp 5]]
+		set temp_mute [::sxml::xmlreplace [lindex $tmp 6]]
+		set temp_blind [::sxml::xmlreplace [lindex $tmp 7]]
 		puts $file_id "   <newstate>\n      <name>$name</name>\n      <nick>$nick</nick>"
-		puts $file_id "      <state>$state</state>\n      <message>$msg</message>\n      <psm>$psm</psm>\n   </newstate>\n"
+		puts $file_id "      <state>$state</state>\n      <message>$msg</message>\n      <psm>$psm</psm>\n      <temp_mute>$temp_mute</temp_mute>\n      <temp_blind>$temp_blind</temp_blind>\n   </newstate>\n"
 		incr idx 1
 	}
 	puts $file_id "</states>"
@@ -254,6 +258,8 @@ proc ChCustomState { idx } {
 			set automessage [StateList get $idx]
 			set newname "[lindex [StateList get $idx] 1]"
 			set newpsm "[lindex [StateList get $idx] 5]"
+			set ::temp_mute [lindex [StateList get $idx] 6]
+			set ::temp_blind [lindex [StateList get $idx] 7]
 			status_log [StateList get $idx]
 			if { $newname != "" } {
 				catch {
@@ -303,6 +309,8 @@ proc ChCustomState { idx } {
                                 unset original_psm
                                 catch { file delete [file join ${HOME} "psm.cache"] } 
                         }
+			catch { unset ::temp_mute }
+			catch { unset ::temp_blind }
 
 		}
 		set new_state $idx
@@ -338,6 +346,8 @@ proc ChCustomState { idx } {
 proc EditNewState { mode { idx "" } } {
 	global chstate
 	variable stemp
+	variable temp_mute
+	variable temp_blind
 	if { $mode == 2 } {
 		if { $idx != "" } {
 			if { [StateList get $idx] == 0 } {
@@ -403,6 +413,10 @@ proc EditNewState { mode { idx "" } } {
 	combobox::combobox $lfname.statebox -editable false -highlightthickness 0 -width 37 -bg #FFFFFF -font splainf -command ""
 	label $lfname.lmsg -text "[trans stateautomsg] :" -font splainf
 	text $lfname.emsg -background white -borderwidth 2 -relief ridge -width 40 -height 5 -font splainf
+	checkbutton $lfname.mute -text [trans blocksounds] -variable temp_mute -onvalue 1 -offvalue 0
+	checkbutton $lfname.blind -text [trans blocknotifications] -variable temp_blind -onvalue 1 -offvalue 0
+	$lfname.mute deselect
+	$lfname.blind deselect
 	set msgcopypastemenu [CreateCopyPasteMenu $lfname.emsg]
 	bind $lfname.emsg <Button3-ButtonRelease> "tk_popup $msgcopypastemenu %X %Y"
 	pack .editstate.1 -expand false -fill x -side top -pady 15
@@ -420,11 +434,15 @@ proc EditNewState { mode { idx "" } } {
 		grid $lfname.statebox -row 4 -column 2 -sticky w -pady 5 -padx 5
 		grid $lfname.lmsg -row 5 -column 1 -sticky nw -pady 10 -padx 5
 		grid $lfname.emsg -row 5 -column 2 -sticky w -pady 10 -padx 5
+		grid $lfname.mute -row 6 -column 2 -sticky w -pady 10 -padx 5
+		grid $lfname.blind -row 7  -column 2 -sticky w -pady 10 -padx 5
 	} else {
 		grid $lfname.lstate -row 3 -column 1 -sticky w -pady 5 -padx 5
                 grid $lfname.statebox -row 3 -column 2 -sticky w -pady 5 -padx 5
                 grid $lfname.lmsg -row 4 -column 1 -sticky nw -pady 10 -padx 5
                 grid $lfname.emsg -row 4 -column 2 -sticky w -pady 10 -padx 5
+		grid $lfname.mute -row 5 -column 2 -sticky w -pady 10 -padx 5
+                grid $lfname.blind -row 6  -column 2 -sticky w -pady 10 -padx 5
 	}
 	
 	#Frame for options
@@ -466,6 +484,12 @@ proc EditNewState { mode { idx "" } } {
 		$lfname.statebox select [lindex [StateList get $idx] 2]
 		$lfname.emsg insert end [lindex [StateList get $idx] 4]
 		$lfname.epsm insert end [lindex [StateList get $idx] 5]
+		if { [lindex [StateList get $idx] 6] == 1 } {
+			$lfname.mute select
+		}
+		if { [lindex [StateList get $idx] 7] == 1 } {
+			$lfname.blind select
+		}
 	}
 	#else {
 	#	$lfname.enick insert end [::abook::getPersonal MFN]
@@ -511,6 +535,8 @@ proc pasteHere { w } {
 # mode is 2 for editing an old state, need to give idx of state to edit
 proc ButtonSaveState { lfname { idx "" } } {
 	variable stemp
+	variable temp_mute
+	variable temp_blind
 	set mode $stemp
 
 	# Global variables for temp status and changin the new state, from checkbutton on EditNewState
@@ -524,6 +550,8 @@ proc ButtonSaveState { lfname { idx "" } } {
 	lappend gui_info $numlines
 	lappend gui_info $message
 	lappend gui_info [$lfname.epsm get]
+	lappend gui_info $temp_mute
+	lappend gui_info $temp_blind
 	switch $mode {
 		0 {
 			StateList add $gui_info
@@ -623,8 +651,20 @@ proc new_state {cstack cdata saved_data cattr saved_attr args} {
 	lappend newstate $message
         if { [info exists sdata(${cstack}:psm)] } {
                 lappend newstate "$sdata(${cstack}:psm)"
-        }
+        } else {
+		lappend newstate ""
+	}
 
+        if { [info exists sdata(${cstack}:temp_mute)] } {
+                lappend newstate "$sdata(${cstack}:temp_mute)"
+        } else {
+                lappend newstate ""
+        }
+        if { [info exists sdata(${cstack}:temp_blind)] } {
+                lappend newstate "$sdata(${cstack}:temp_blind)"
+        } else {
+                lappend newstate ""
+        }
 	StateList add $newstate
 	return 0
 }
