@@ -395,6 +395,9 @@ namespace eval ::guiContactList {
 		variable Ybegin
 		variable nickheightArray
 
+		#We remove the underline
+		$canvas delete uline
+
 		# First we move all the canvas items
 		$canvas addtag items withtag group
 		$canvas addtag items withtag contact
