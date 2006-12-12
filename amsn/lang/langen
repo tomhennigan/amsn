@@ -87,6 +87,8 @@ blockinter3 every
 blockinter4 seconds.
 blocklist Block list (BL):
 blockmessage These people are online and blocked you
+blocknotifications Disable showing notification windows
+blocksounds Disable sounds
 blockusers Number of users to check at once 
 bouncedock Bounce aMSN's icon in the dock when a message is received
 brightness Brightness
