@@ -306,15 +306,19 @@ namespace eval ::skin {
 	# This function is for the Snack Library.
 	# Arguments:
 	#  - sound_name => The filename of the desired sound.
-	proc loadSound {sound_name} {
+	proc loadSound {sound_name absolute_path} {
 		variable loaded_sounds
 
 		if { [info exists loaded_sounds($sound_name)] } {
 			return snd_$sound_name
 		}
 
-		snack::sound snd_$sound_name -file [::skin::GetSkinFile sounds $sound_name]
-		set loaded_sounds($sound_name) 1
+		if { $absolute_path == 1 } {
+			snack::sound snd_$sound_name -file $sound_name
+		} else {
+			snack::sound snd_$sound_name -file [::skin::GetSkinFile sounds $sound_name]			
+		}
+		set loaded_sounds($sound_name) $absolute_path
 
 		return snd_$sound_name
 	}
@@ -366,7 +370,11 @@ namespace eval ::skin {
 		# Reload sounds
 		variable loaded_sounds
 		foreach name [array names loaded_sounds] {
-			snd_$name configure -file [::skin::GetSkinFile sounds $name]
+			if { [set loaded_sounds($name)] == 1 } {
+				snd_$name configure -file $name
+			} else {
+				snd_$name configure -file [::skin::GetSkinFile sounds $name]
+			}
 		}
 		
 		# Change frame color

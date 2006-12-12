@@ -169,7 +169,10 @@ proc load_console {} {
 
 proc reload_files { } {
     uplevel \#0 {
-	
+
+	# amsncore.tcl is already loaded but we'll re-source it here in case we manually do reload_files
+	source amsncore.tcl
+
 	source ctthemes.tcl
 	source progressbar.tcl	;# Progressbar Megawidget
 	source migmd5.tcl

@@ -285,22 +285,19 @@ proc play_sound {sound {absolute_path 0} {force_play 0}} {
 	#from the skin, but just use it as an absolute path to the sound file
 
 	#I suppose that, when you have a custom state with No Sounds on, you dont want to hear voice clips, right?
-	if { [info exists ::temp_mute] && $::temp_mute == 1 } { return }
+	global automessage
+	if { [info exists automessage] && $automessage != -1 && [lindex $automessage 6] == 1} { return }
 
 	if { [::config::getKey sound] == 1 || $force_play == 1} {
 		#Activate snack on Mac OS X (remove that during 0.94 CVS)
 		if { [OnMac] } {
 			if { $absolute_path == 1 } {
-			play_Sound_Mac $sound
+				play_Sound_Mac $sound
 			} else {
-			play_Sound_Mac [::skin::GetSkinFile sounds $sound]
+				play_Sound_Mac [::skin::GetSkinFile sounds $sound]
 			}
 		} elseif { [::config::getKey usesnack] } {
-			if { $absolute_path == 1 } {
-				snack_play_sound [::skin::loadSound $sound]
-			} else {
-				snack_play_sound [::skin::loadSound $sound]
-			}
+			snack_play_sound [::skin::loadSound $sound $absolute_path]
 		} else {
 			if { $absolute_path == 1 } {
 				play_sound_other $sound
