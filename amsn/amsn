@@ -40,10 +40,23 @@ exec wish $0
 ###
 ###
 
+
+
 ############################################################
-### Hide the window until it has been fully displayed
+### Try to load tk and make sure tcl/tk is new enough for us
 ############################################################
 package require Tk
+
+if {$::tcl_version <= 8.3} {
+	tk_messageBox -default ok -message "You need TCL/TK 8.4\
+	 or better to run aMSN. Please upgrade."  -icon warning
+	exit
+}
+#TODO: can't this be done in 1 check like "[package require Tk] > 8.3" ?
+
+############################################################
+### Hide the main window until it has been fully displayed
+############################################################
 wm state . withdrawn
 
 
@@ -93,7 +106,9 @@ unset program
 #unset program_dir
 
 ############################################################
-### From here we need amsncore, so load it.
+### From here we need amsncore, for platform checks etc
+###  so we load it.  Don't use anything that depends on 
+###  utils packages yet though!
 ############################################################
 
 source amsncore.tcl

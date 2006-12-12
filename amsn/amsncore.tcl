@@ -9,10 +9,14 @@
 #  Code in here shouldn't depend on anything of the used GUI or protocol
 #  implementation.  All functions should be some kind of API that can be
 #  used througout aMSN and functionality to glue together several (plugg
-#  able) gui/protocol implementations.
+#  able) gui/protocol implementations. The functions here kind of extend
+#  tcl/tk in it's capabilities or make our code work on different tcl/tk
+#  versions without us having to worry about it.
 #
 #  Messing with this file is messing with the best (tm).  Keep it read-
 #  able and clear!  You are warned :).
+#
+#  This file needs: Tk
 #
 #########################################################################
 

@@ -12,11 +12,7 @@ if { $initialize_amsn == 1 } {
 		}
 		exit
 	}
-	if {$::tcl_version <= 8.3} {
-		tk_messageBox -default ok -message "You need TCL/TK 8.4 or better to run aMSN. Please upgrade."  -icon warning
-		exit
-	}
-	
+
 	package require BWidget
 	source BWidget_mods.tcl
 	
