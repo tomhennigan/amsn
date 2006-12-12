@@ -2996,6 +2996,10 @@ namespace eval ::amsn {
 		if { $sound != ""} {
 			play_sound ${sound}.wav
 		}
+
+		#Maybe we want to block the notification windows but not the sounds!
+		if { [info exists ::temp_blind] && $::temp_blind == 1 } { return
+ }
 		
 		# Check if we only want to play the sound notification
 		if { [::config::getKey notifyonlysound] == 0 } {

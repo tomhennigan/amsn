@@ -284,7 +284,7 @@ proc play_sound {sound {absolute_path 0} {force_play 0}} {
 	#If absolute_path == 1 it means we don't have to get the sound
 	#from the skin, but just use it as an absolute path to the sound file
 
-	// I suppose than, when you have a custom state with No Sounds on, you dont want to hear voice clips, right?
+	#I suppose that, when you have a custom state with No Sounds on, you dont want to hear voice clips, right?
 	if { [info exists ::temp_mute] && $::temp_mute == 1 } { return }
 
 	if { [::config::getKey sound] == 1 || $force_play == 1} {
