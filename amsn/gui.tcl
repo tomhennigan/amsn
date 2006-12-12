@@ -4606,6 +4606,11 @@ proc cmsn_draw_buildtop_wrapped {} {
 	set my_colour [::MSN::stateToColor [::MSN::myStatusIs]]
 	set my_image_type [::MSN::stateToBigImage [::MSN::myStatusIs]]
 	set my_mobilegroup [::config::getKey showMobileGroup]
+	if { $my_mobilegroup != 1} {
+		set my_mobileidx 1
+	} else {
+		set my_mobileidx 0
+	}
 	
 	#Clear the children of top to avoid memory leaks:
 	foreach child [winfo children $pgBuddyTop] {
@@ -5091,7 +5096,7 @@ proc cmsn_draw_online_wrapped_oldCL {} {
 			# 1) we're in hybrid mode and there are no online contacts
 			# 2) or we're in group mode and there're no contacts (online or offline)
 			if {  ($gname == 0 || ([::config::getKey removeempty] && $gname != "offline" && $gname != "mobile")) &&
-				(([lindex [::groups::getGroupCount $gname] 1] == 0 && [::config::getKey orderbygroup] == 2) ||
+				(([lindex [::groups::getGroupCount $gname] 0] == 0 && [::config::getKey orderbygroup] == 2) ||
 				 ([lindex [::groups::getGroupCount $gname] 1] == 0 && [::config::getKey orderbygroup] == 1)) } {
 				set endidx [split [$pgBuddy.text index $gtag.last] "."]
 				if { [::config::getKey nogap] } {
@@ -5124,7 +5129,7 @@ proc cmsn_draw_online_wrapped_oldCL {} {
 
 			if {[::config::getKey orderbygroup] == 2 } {
 				if { $gname == "offline" } {
-					$pgBuddy.text insert offline.last "[lindex [::groups::getGroupCount offline] 0]" offline
+					$pgBuddy.text insert offline.last "[lindex [::groups::getGroupCount offline] $my_mobileidx]" offline
 					$pgBuddy.text tag add dont_replace_smileys offline.first offline.last
 				} elseif { $gname == "blocked" } {
 					$pgBuddy.text insert blocked.last " ([lindex [::groups::getGroupCount blocked] 0])" blocked
@@ -5154,7 +5159,7 @@ proc cmsn_draw_online_wrapped_oldCL {} {
 		}
 	} else {
 		$pgBuddy.text insert online.last " ([lindex [::groups::getGroupCount online] 0])" online
-		$pgBuddy.text insert offline.last " ([lindex [::groups::getGroupCount offline] 0])" offline
+		$pgBuddy.text insert offline.last " ([lindex [::groups::getGroupCount offline] $my_mobileidx])" offline
 		$pgBuddy.text tag add dont_replace_smileys online.first online.last
 		$pgBuddy.text tag add dont_replace_smileys offline.first offline.last
 		if { $my_mobilegroup == 1 } {

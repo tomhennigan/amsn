@@ -423,18 +423,24 @@ namespace eval ::groups {
 			return [list $state_contacts 0]
 		} elseif { $gid == "offline" } {
 			foreach contact $contact_list {
-				if { [::abook::getVolatileData $contact state FLN] == "FLN" && [::abook::getContactData $contact msn_mobile] != "1"} {
-					incr state_contacts
+				if { [::abook::getVolatileData $contact state FLN] == "FLN" } {
+					if { [::abook::getContactData $contact msn_mobile] != "1"} {
+						incr state_contacts
+					}
+					incr total_contacts
 				}
 			}
-			return [list $state_contacts 0]
+			return [list $state_contacts $total_contacts]
 		} elseif { $gid == "mobile" } {
 			foreach contact $contact_list {
-				if { [::abook::getVolatileData $contact state FLN] == "FLN" && [::abook::getContactData $contact msn_mobile] == "1"} {
-					incr state_contacts
+				if { [::abook::getVolatileData $contact state FLN] == "FLN" } {
+					if { [::abook::getContactData $contact msn_mobile] == "1"} {
+						incr state_contacts
+					}
+					incr total_contacts
 				}
 			}
-			return [list $state_contacts 0]
+			return [list $state_contacts $total_contacts]
 		}  elseif { $gid == "blocked" } {
 			#Even if it's unused now... Maybe it will be back...
 			return [list [llength [array names ::emailBList]] 0]
