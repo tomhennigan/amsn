@@ -2598,8 +2598,10 @@ namespace eval ::amsn {
 
 			set ::ChatWindow::first_message($win_name) 0
 			
+			status_log "win_name=$win_name" blue
+			
 			#TODO: This check shouldn't be there
-			#Have a look at proc IsOIM (gui.tcl, ~2540)
+			#Have a look at proc IsOIM (gui.tcl)
 			if {[::OIM_GUI::IsOIM $user] == 0} {
 				set chatid [::MSN::chatTo $lowuser]
 			} else {
@@ -7806,6 +7808,9 @@ namespace eval ::OIM_GUI {
 	
 	#Most of this code is from the MSNMobile namespace from protocol.tcl
 
+	#TODO:
+	# * add lang key oim : Offline Messaging ?
+	# * fix all pending bugs !
 
     namespace export IsOIM MessageSend MessagesReceived OpenOIMWindow
 
@@ -7928,7 +7933,7 @@ namespace eval ::OIM_GUI {
         set unixtimestamp 0
         regexp {MSG(\d+)\.\d+} $MsgId -> unixtimestamp 
         #TODO : improve that date using our [timestamp]
-        set date [clock format $unixtimestamp]
+        set tstamp [clock format $unixtimestamp]
         set chatid [GetChatId $user]
 
 		if { $chatid == 0 } {
@@ -7936,9 +7941,18 @@ namespace eval ::OIM_GUI {
 			#TODO: use the normal way to get the chatid
 			set chatid [GetChatId $user]
 		}
-		set contact "$nick <$user>"
 		status_log "Writing offline msg \"$msg\" on : $chatid\n" red
-		::amsn::WinWrite $chatid "\n\[$date\] [trans said $contact] : \n" says
+		switch [::config::getKey chatstyle] {
+			msn {
+				::config::setKey customchatstyle "\$tstamp [trans says \$nick]: \$newline"
+			}
+
+			irc {
+				::config::setKey customchatstyle "\$tstamp <\$nick> "
+			}
+			- {
+			}
+		}
 		::amsn::WinWrite $chatid "$msg" user
 
 		#We	should add an event for sending message
@@ -7989,234 +8003,6 @@ namespace eval ::OIM_GUI {
 			}
     }
 
-
-
-# NEEDS SOME IMPROVEMENTS
-#
-#
-#
-##TODO : 
-## * translation support
-## * improve the size of windows
-## * download OIMs only one time
-## * add support for scrolling for MacOSX
-## * add support for cut/copy/paste
-#
-#
-#    proc CreateReadGUI { } {
-#        variable w
-#        variable msg_text
-#        variable titles_text
-#        variable buttons_bar
-#        set w .oim_read_gui
-#
-#        # if the window already exists, focus it, otherwise create it
-#        if {[winfo exists $w]} {
-#            raise $w
-#            return
-#        }
-#        # create window and give it it's title
-#        toplevel $w
-#        wm title $w [trans oimreadgui]
-#        wm geometry $w 500x500
-#        set paned $w.paned
-#        panedwindow $paned \
-#            -background [::skin::getKey chatwindowbg] \
-#            -borderwidth 0 \
-#            -relief flat \
-#            -orient vertical
-#        
-#        set titles_area $paned.titles
-#        set msg_area $paned.msg
-#
-#
-#        # Name our widgets
-#        set fr $paned.titles
-#        set titles $fr.scroll
-#        set titles_text $titles.text
-#        # Create the widgets
-#        frame $fr -class Amsn -borderwidth 0 -relief solid \
-#            -background [::skin::getKey chatwindowbg] -height 200
-#        ScrolledWindow $titles -auto vertical -scrollbar vertical -ipad 0
-#        framec $titles_text -type ::ChatWindow::rotext -relief solid -foreground black \
-#            -background [::skin::getKey chat_output_back_color] -width 400 -height 3 \
-#            -setgrid 0 -wrap word -exportselection 1 -highlightthickness 0 -selectborderwidth 1 \
-#            -borderwidth [::skin::getKey chat_output_border] \
-#            -bordercolor [::skin::getKey chat_output_border_color]
-#        set textinner [$titles_text getinnerframe]
-#        $titles setwidget $titles_text
-#        pack $titles -expand true -fill both -padx 0 -pady 0
-#        $titles_text configure -state normal
-#
-#
-#        # Name our widgets
-#        set fr2 $paned.msg
-#        set msg $fr2.scroll
-#        set msg_text $msg.text
-#        # Create the widgets
-#        frame $fr2 -class Amsn -borderwidth 0 -relief solid \
-#            -background [::skin::getKey chatwindowbg] -height 200
-#        ScrolledWindow $msg -auto vertical -scrollbar vertical -ipad 0
-#        framec $msg_text -type ::ChatWindow::rotext -relief solid -foreground black \
-#            -background [::skin::getKey chat_output_back_color] -width 400 -height 3 \
-#            -setgrid 0 -wrap word -exportselection 1 -highlightthickness 0 -selectborderwidth 1 \
-#            -borderwidth [::skin::getKey chat_output_border] \
-#            -bordercolor [::skin::getKey chat_output_border_color]
-#        set textinner [$msg_text getinnerframe]
-#        $msg setwidget $msg_text
-#        pack $msg -expand true -fill both -padx 0 -pady 0
-#        $msg_text configure -state normal
-#
-#        pack $paned
-#        $paned add $titles_area $msg_area
-#        $paned paneconfigure $titles_area -minsize 50 -height 10
-#        $paned paneconfigure $msg_area -minsize 50 -height 10
-#        $paned configure \
-#            -showhandle [::skin::getKey chat_sash_showhandle] \
-#            -sashpad [::skin::getKey chat_sash_pady] \
-#            -sashwidth [::skin::getKey chat_sash_width] \
-#            -sashrelief [::skin::getKey chat_sash_relief]
-#        
-#        ###buttons_bar
-#        set buttons_bar $w.buttons
-#        frame $buttons_bar
-#        
-#        pack $buttons_bar
-#        button $buttons_bar.delete -text "[trans delete]"
-#        button $buttons_bar.close -text "[trans close]" -command "destroy .oim_read_gui"
-#        button $buttons_bar.reply -text "[trans reply]"
-#        pack $buttons_bar.close -side right
-#    }
-#    
-#
-#    proc FillTitles { oim_messages } {
-#        CreateReadGUI
-#        variable titles_text
-#
-#        # ::ChatWindow::rotext -- Read Only text widget via snit
-#        # Changes must be made by "ins" (or roinsert) and "del" (or rodelete), not "insert" and "delete".
-#        $titles_text rodelete 0.0 end
-#        
-#        foreach oim $oim_messages {
-#            foreach {from nick MsgID} $oim break
-#            #status_log "$oim" green
-#            #set oim_messages(MsgID) [::MSNOIM::getOIMMessage $MsgID]
-#            #if { $oim_message == "" } { 
-#                #status_log "Unable to fetch OIM from $nick <$from> which MsgID is $MsgID" red
-#            #}
-#            #set order [lindex $oim_message 0]
-#            #set from [lindex $oim_message 1]
-#            #set nick [lindex $oim_message 2]
-#            set title "$nick <$from>\n"
-#            if {[winfo exists $titles_text]} {
-#                $titles_text tag configure $MsgID -font splainf
-#                $titles_text tag bind $MsgID <Enter> \
-#                    "$titles_text tag conf $MsgID;\
-#                    $titles_text conf -cursor hand2"
-#                $titles_text tag bind $MsgID <Leave> \
-#                    "$titles_text tag conf $MsgID;\
-#                    $titles_text conf -cursor xterm"
-#                $titles_text tag bind $MsgID <Button1-ButtonRelease> \
-#                    "$titles_text conf -cursor watch; ::OIM_GUI::ReadOIM $MsgID"
-#                $titles_text roinsert end "$title" $MsgID
-#            }
-#        }	
-#    }
-#
-#    proc ReadOIM {MsgID} {
-#        variable msg_text
-#        variable buttons_bar
-#
-#        $msg_text del 0.0 end
-#        set oim_message [::MSNOIM::getOIMMessage $MsgID]
-#        if { $oim_message == "" } { 
-#            status_log "Unable to fetch OIM from $nick <$email> which MsgID is $MsgID" red
-#        }
-#        set email [lindex $oim_message 1]
-#        set nick [lindex $oim_message 2]
-#        set oim [lindex $oim_message 3]
-#        set contact "$nick <$email>"
-#        $msg_text ins end "[trans says $contact]:\n"
-#        $msg_text ins end "$oim"
-#
-#        if { [::abook::getVolatileData $email state] == "FLN" } {
-#            $buttons_bar.reply configure -command "::OIM_GUI::CreateSendGUI $email"
-#        } else {
-#            $buttons_bar.reply configure -command "::amsn::chatUser $email"
-#        }
-#
-#        $buttons_bar.delete configure -command "::OIM_GUI::DeleteOIM $MsgID"
-#        pack $buttons_bar.delete $buttons_bar.reply -side left
-#    }
-#
-#    proc DeleteOIM {MsgID} {
-#        variable msg_text
-#        variable titles_text
-#        variable buttons_bar
-#        if { [::MSNOIM::deleteOIMMessage $MsgID] == 0} {
-#            status_log "[OIM] Deletion failed for MsgID : $MsgID" red
-#        } else {
-#            pack forget $buttons_bar.delete $buttons_bar.reply
-#            $msg_text del 0.0 end
-#            set ranges [$titles_text tag ranges $MsgID]
-#            $titles_text tag del $MsgID
-#            $titles_text del [lindex $ranges 0] [lindex $ranges 1]
-#        }
-#    }
-#    
-#    proc CreateSendGUI {contact} {
-#        variable sendgui
-#        set sendgui .oim_send_gui
-#
-#        # if the window already exists, i think it's better to destroy it
-#        if {[winfo exists $sendgui]} {
-#            destroy $sendgui
-#        }
-#        # create window and give it it's title
-#        variable send_area
-#        toplevel $sendgui
-#        wm title $sendgui [trans oimsendgui $contact]
-#        wm geometry $sendgui 500x300
-#        
-#        set fr $sendgui.f
-#        set sw $fr.scroll
-#        set send_area $sw.text
-#        frame $fr -class Amsn -borderwidth 0 -relief solid -background [::skin::getKey chatwindowbg] -height 200
-#        ScrolledWindow $sw -auto vertical -scrollbar vertical -ipad 0
-#        framec $send_area -type text -relief solid -foreground black \
-#            -background [::skin::getKey chat_output_back_color] -width 400 -height 10 \
-#            -setgrid 0 -wrap word -exportselection 1 -highlightthickness 0 -selectborderwidth 1 \
-#            -borderwidth [::skin::getKey chat_output_border] \
-#            -bordercolor [::skin::getKey chat_output_border_color]
-#        set textinner [$send_area getinnerframe]
-#        $sw setwidget $send_area
-#        pack $sw -expand true -fill both -padx 0 -pady 0
-#        $send_area configure -state normal
-#        
-#        pack $fr
-#
-#        ###buttons_bar
-#        set buttons_bar $sendgui.buttons
-#        frame $buttons_bar
-#        
-#        pack $buttons_bar
-#        button $buttons_bar.cancel -text "[trans clear]" -command "$send_area delete 0.0 end"
-#        button $buttons_bar.send -text "[trans send]" -command "::OIM_GUI::SendOIMFromGUI $contact"
-#        button $buttons_bar.close -text "[trans close]" -command "destroy .oim_send_gui"
-#        pack $buttons_bar.cancel $buttons_bar.send $buttons_bar.close -side left
-#    }
-#    
-#    proc SendOIMFromGUI {contact} {
-#        variable send_area
-#        set msg [$send_area get 0.0 end]
-#        set res [::MSNOIM::sendOIMMessage $contact "$msg"]
-#        if {[string match *success* $res]} {
-#            destroy .oim_send_gui
-#        } else {
-#            tk_messageBox -icon error -message "Can not send the message\n:$res"
-#            
-#        }
-#    }
 }
 
 	

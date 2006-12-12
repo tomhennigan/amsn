@@ -3383,7 +3383,6 @@ namespace eval ::ChatWindow {
 		set title ""
 
 #TODO: have the titled made up with a template with vars like $nicknames, $groupname and [trans chat] etc
-
 		if { $chatid != 0 } {
 			#append all nicknames in the chat first to the title	
 			foreach user [::MSN::usersInChat $chatid] { 
@@ -3396,9 +3395,11 @@ namespace eval ::ChatWindow {
 			set title [string replace $title end-1 end " : [GetContainerName $container] - [trans chat]"]
 		}
 
+		if { $title == "" &&  [::OIM_GUI::IsOIM $chatid] == 1 } {
+			set title "$chatid - [trans oim]"
+		}
 		#don't think this proc does much .. anyway ;)
 		set title [EscapeTitle $title]
-
 		#store our generated title in the array which is needed to reset the title after out "blink"
 		set ::ChatWindow::titles($container) $title
 
