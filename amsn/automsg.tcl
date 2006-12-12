@@ -413,6 +413,8 @@ proc EditNewState { mode { idx "" } } {
 	text $lfname.emsg -background white -borderwidth 2 -relief ridge -width 40 -height 5 -font splainf
 	checkbutton $lfname.mute -text [trans blocksounds] -onvalue 1 -offvalue 0 -variable state_mute
 	checkbutton $lfname.blind -text [trans blocknotifications] -onvalue 1 -offvalue 0 -variable state_blind
+	set state_mute 0
+	set state_blind 0
 
 	set msgcopypastemenu [CreateCopyPasteMenu $lfname.emsg]
 	bind $lfname.emsg <Button3-ButtonRelease> "tk_popup $msgcopypastemenu %X %Y"
