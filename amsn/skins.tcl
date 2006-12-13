@@ -162,7 +162,7 @@ namespace eval ::skin {
 
 		set filename [::abook::getContactData $email displaypicfile ""]
 		set file "[file join $HOME displaypic cache ${filename}].png"
-		if { $filename != "" && [file readable "[file join $HOME displaypic cache ${filename}].png"] } {
+		if { $filename != "" && [file readable "$file"] } {
 			catch {image create photo $picName -file "$file" -format cximage}
 		} else {
 			# We do like that to have a better update of the image when switching from no pic to another
@@ -198,7 +198,9 @@ namespace eval ::skin {
 
 		set picName displaypicture_tny_$email
 		
-		if {[catch {image width $picName}] == 0  && $force == 0} {
+		set imagetype ""
+
+		if {[catch {image type $picName} imagetype] == 0 && $imagetype != "" && $force == 0} {
 			return $picName
 		}
 
@@ -213,16 +215,11 @@ namespace eval ::skin {
 			set file [::skin::GetSkinFile displaypic nopic.gif]
 		}
 		
-		if {[catch {image width $picName} res]} {
-			#status_log "Error while loading $picName: $res"
+		if {[catch {image type $picName} imagetype] != 0 || $imagetype == ""} {
+			status_log "Error while loading $picName: $imagetype"
 			image create photo $picName
 			$picName copy [::skin::getNoDisplayPicture]
 			set file [::skin::GetSkinFile displaypic nopic.gif]
-		}
-		
-		if { [catch {::picture::GetPictureSize $file} cursize] } {
-			status_log "Error opening $file: $cursize\n"
-			return ""
 		}
 
 		set animated [::picture::IsAnimated $file]
