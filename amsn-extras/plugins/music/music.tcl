@@ -129,8 +129,6 @@ namespace eval ::music {
 		pack $win_name 
 	}
 
-	
-
 	#####################################################
 	# ::music::LoadLangFiles dir                        #
 	# ------------------------------------------------- #
@@ -164,6 +162,7 @@ namespace eval ::music {
 		load_lang en $langdir
 		load_lang $lang $langdir
 	}
+
 	########################################
 	# ::music::ConfigArray                 #
 	# -------------------------------------#
@@ -207,13 +206,13 @@ namespace eval ::music {
 		#Define values for supported player on darwin and linux
 		array set OSes [list \
 			"darwin" [list \
-				"ITunes" [list GetSongITunes exec_applescript FillFrameComplete] \
+				"ITunes" [list GetSongITunes TreatSongITunes FillFrameComplete] \
 			] \
 			"linux" [list \
 				"Amarok" [list GetSongAmarok TreatSongAmarok FillFrameComplete] \
 				"Audacious" [list GetSongAudacious return FillFrameEmpty] \
 				"Banshee" [list GetSongBanshee TreatSongBanshee FillFrameComplete] \
-				"Juk" [list GetSongJuk TreatSongJuk FillFrameJuk] \
+				"Juk" [list GetSongJuk TreatSongJuk FillFrameLess] \
 				"Listen" [list GetSongListen TreatSongListen FillFrameLess] \
 				"MPD" [list GetSongMPD TreatSongMPD FillFrameMPD] \
 				"QuodLibet" [list GetSongQL TreatSongQL FillFrameLess] \
@@ -226,7 +225,7 @@ namespace eval ::music {
 				"Amarok" [list GetSongAmarok TreatSongAmarok FillFrameComplete] \
 				"Rhythmbox" [list GetSongRhythmbox TreatSongRhythmbox FillFrameLess] \
 				"Banshee" [list GetSongBanshee TreatSongBanshee FillFrameComplete] \
-				"Juk" [list GetSongJuk TreatSongJuk FillFrameJuk] \
+				"Juk" [list GetSongJuk TreatSongJuk FillFrameLess] \
 				"MPD" [list GetSongMPD TreatSongMPD FillFrameMPD] \
 				"Listen" [list GetSongListen TreatSongListen FillFrameLess] \
 				"QuodLibet" [list GetSongQL TreatSongQL FillFrameLess] \
@@ -254,8 +253,6 @@ namespace eval ::music {
 		array set playersarray $OSes($os)
 		return 1
 	}
-	
-
 
 	###############################################
 	# ::music::newname event epvar                #
@@ -342,22 +339,25 @@ namespace eval ::music {
 
 			set oldinfo $info
 
-			#Execute the script which get the song from the player to have it immediatly
-			::music::TreatSong
-
-			#If a strange user decide to use a letter, nothing, or 0, as a number of shake
-			#Rechange the variable to 30 seconds
-			if {![string is digit -strict $config(second)]} {
-				set config(second) "30"
-			}
-			#Take the second number we have from the plugin config and
-			#multiply by 1000 because "after" count in "ms" (1000ms=1s)
-			set time [expr {int($config(second)*1000)}]
-
-			#Reload newname proc after this time (loop)
-			after $time ::music::newname 0 0
 		}
+
+		#Execute the script which get the song from the player to have it immediatly
+		::music::TreatSong
+
+		#If a strange user decide to use a letter, nothing, or 0, as a number of shake
+		#Rechange the variable to 30 seconds
+		if {![string is digit -strict $config(second)]} {
+			set config(second) "30"
+		}
+		#Take the second number we have from the plugin config and
+		#multiply by 1000 because "after" count in "ms" (1000ms=1s)
+		set time [expr {int($config(second)*1000)}]
+
+		#Reload newname proc after this time (loop)
+		after $time ::music::newname 0 0
+
 	}
+
 	###############################################
 	# ::music::changenick name                    #
 	# ------------------------------------------- #
@@ -456,77 +456,296 @@ namespace eval ::music {
 		}
 	}
 
+	#######################################################################
+	# ::music::CreateMusicMenu event evpar                                #
+	# ----------------------------------------------                      #
+	# This proc creates the music submenu shown when a user right clicks  #
+	# on the output of the chat window if the plugin is loaded            #
+	#######################################################################
+	proc CreateMusicMenu { event evpar } {
+		upvar 2 evPar newvar
+
+		#Define variables
+		set w $newvar(win)
+		set copymenu $w.copy
+
+		#Create submenu
+		$copymenu add cascade -label "Music" -menu $copymenu.music
+		menu $copymenu.music -tearoff 0 -type normal
+
+		#Create label in submenu
+		$copymenu.music add command -label [trans musiccurrent] -command "::music::menucommand $w 1"
+		$copymenu.music add command -label [trans musicsend] -command "::music::menucommand $w 2"
+		$copymenu.music add command -label [trans artsend] -command "::music::menucommand $w 3"
+
+		::music::log "Music menu created"
+
+
+	}
+
+
+	################################################
+	# ::music::menucommand win_name action         #
+	# -------------------------------------------  #
+	# Command from the submenu                     #
+	# Display the current song in a message (1)    #
+	# Or send the current song playing (2)         #
+	################################################
+	proc menucommand {win_name action} {
+		global user_info
+
+		set info [::music::GetSong]
+		set song [lindex $info 0]
+		set file [lindex $info 1]
+		set artfile [lindex $info 2]
+
+		if {$info == "0"} {
+			msg_box [trans musicerr]
+			return 0
+		}
+
+
+		switch -- $action {
+			1 {
+				#Send a message with the name of the current song
+				::music::log "Send message with song name : [trans playing $song]"
+				::amsn::MessageSend $win_name 0 "[trans playing $song]"	
+			}
+			2 {
+				#Send the current song as a file
+				::music::log "Send file with file $file"
+				::amsn::FileTransferSend $win_name $file
+				return 0
+			}
+			3 {
+				#Send the full size version of the album cover as a file
+				::music::log "Send file with file $artfile"				
+				::amsn::FileTransferSend $win_name $artfile
+				return 0
+			}
+		}
+		return 1
+	}
+
 	###############################################
-	# ::music::GetSongAudacious                   #
+	# ::music::load_newname  event epvar          #
 	# ------------------------------------------- #
-	# Gets the current playing song in Audacious  #
+	# Start changing the nick                     #
+	# If we load the plugin while we were already #
+	# connected, start changing the nick, else do #
+	# nothing                                     #
 	###############################################
-	proc GetSongAudacious {} {
-		if { [exec audtool playback-status] == "playing" } {
-			return [list [exec audtool current-song] [exec audtool current-song-filename]]
+	proc load_newname {event epvar} {
+		variable oldinfo
+		#If we are online, start the loop
+		if {[::MSN::myStatusIs] != "FLN" } {
+			if { $::music::config(display) } {
+				if {[::config::getKey protocol] == 11} {
+					::MSN::changeCurrentMedia Music 0 "{0}" ""
+				} else {
+					set nick [::abook::getPersonal MFN]
+					if { ![string equal $nick $::music::config(oldnickname)] && !$::music::config(activated)} {
+						set config(oldnickname) $nick
+					}
+				}
+			}
+			set ::music::config(activated) 1
+			set oldinfo ""
+			::music::draw 0 0
+			::plugins::save_config
+			::music::newname 0 0
+		}
+	}
+
+	###############################################
+	# ::music::stop event epvar                   #
+	# ------------------------------------------- #
+	# Stop changing the nickname                  #
+	# Happen when we disconnect or when we unload #
+	# This is the Deinit proc                     #
+	###############################################
+	proc stop {event epvar {deinit 0}} {
+		variable config
+		variable musicpluginpath
+		variable smallcoverfilename
+		variable dppath
+		variable oldinfo
+
+		if {[array size ::music::playersarray]==0} {
+			return
+		}
+
+		#Remove the song from the nick if we are online
+		if {[::MSN::myStatusIs] != "FLN" && $::music::config(display) && $::music::config(activated) } {
+			if {[::config::getKey protocol] == 11} {
+				::MSN::changeCurrentMedia Music 0 "{0}" ""
+			} else {
+				::music::changenick "$config(oldnickname)"
+			}
+	   	}
+
+		#reset displaypicture
+		if {$config(changepic) && [string compare [::config::getKey displaypic] $smallcoverfilename] == 0} {
+			::music::set_dp $dppath
+		}
+		if {!$deinit} {
+			set ::music::config(activated) 0
+			::music::draw 0 0
+			::plugins::save_config
+		}
+		set oldinfo ""
+	}
+
+	proc DeInit {} {
+		::music::stop 0 0 1
+	}
+	
+	############################################
+	# ::music::log message                     #
+	# -----------------------------------------#
+	# Add a log message to plugins-log window  #
+	# Type Alt-P to get that window            #
+	############################################
+	proc log {message} {
+		plugins_log Music $message
+	}
+	
+	################################################
+	# ::music::add_command                         #
+	# -------------------------------------------  #
+	# Add irc command /showsong and /sendsong      #
+	# for amsnplus users						   #
+	# Need last update of aMSNPlus plugin +/- 2.3  #
+	# Verify first if amsnplus plugin is loaded    #
+	################################################
+	proc add_command {event evpar} {
+		#If amsnplus plugin is loaded, register the command
+		if { [info proc ::amsnplus::add_command] != "" } {
+			#Avoid a bug if someone use an older version of aMSNPlus
+			catch {::amsnplus::add_command showsong ::music::exec_show_command 0 1}
+			catch {::amsnplus::add_command sendsong ::music::exec_send_command 0 1}
+			catch {::amsnplus::add_command sendcover ::music::exec_sendcover_command 0 1}
+		}
+	}
+	
+	#Execute show current song via amsnplus plugin
+	proc exec_show_command {win_name} {
+		::music::menucommand $win_name 1
+	}
+
+	#Execute send current song via amsnplus plugin
+	proc exec_send_command {win_name} {
+		::music::menucommand $win_name 2
+	}
+
+	#Execute send current song via amsnplus plugin
+	proc exec_sendcover_command {win_name} {
+		::music::menucommand $win_name 3
+	}
+
+	#######################################################################
+	# ::music::draw                                                       #
+	# ------------------------------------------------------------------- #
+	# Add an icon in the contact list to show/hide the song in the nick   #
+	# Arguments:                                                          #
+	#  event -> The event wich runs the proc (Supplied by Plugins System) #
+	#  evPar -> The array of parameters (Supplied by Plugins System)      #
+	#######################################################################
+	proc draw {event evPar} {
+		if {$event != 0} { upvar 2 $evPar vars }
+
+		if {$::music::config(activated)} {
+			set icon musicshown_pic
 		} else {
-			return 0
+			set icon musichidden_pic
 		}
-	}
+		
 
+		#TODO: add parameter to event and get rid of hardcoded variable
+		set pgtop $::pgBuddyTop
+		set clbar $::pgBuddyTop.colorbar
 
-	#####################################################
-	# ::music::TreatSongXMMS                            #
-	# ------------------------------------------------- #
-	# Not useful to XMMS because no script to execute   #
-	#####################################################
-	proc TreatSongXMMS {} {
-		return 0
+		set mylabel $pgtop.picmusic
+		if {[winfo exists $mylabel]} {
+			destroy $mylabel			
+		}
+		
+		set notewidth [image width [::skin::loadPixmap $icon]]
+		set noteheight [image height [::skin::loadPixmap $icon]]
+
+		label $mylabel -image [::skin::loadPixmap $icon] -background [::skin::getKey topcontactlistbg] -borderwidth 0 -cursor left_ptr \
+			-relief flat -highlightthickness 0 -relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0 -width $notewidth -height $noteheight
+
+		pack $mylabel -expand false -after $clbar -side right -padx 0 -pady 0
+		
+		if {$::music::config(activated)} {
+			bind $mylabel <<Button1>> "::music::stop 0 0"
+		} else {
+			bind $mylabel <<Button1>> "::music::load_newname 0 0"
+		}
+		#bind $mylabel <<Button1>> "set ::music::config(activated) [expr !$::music::config(activated)];::plugins::save_config;::music::draw 0 0"
+
+		set balloon_message [trans musicballontext]
+		
+		bind $mylabel <Enter> +[list balloon_enter %W %X %Y $balloon_message]
+		bind $mylabel <Leave> "+set ::Bulle(first) 0; kill_balloon;"
+		bind $mylabel <Motion> +[list balloon_motion %W %X %Y $balloon_message]
 	}
 
 	###############################################
-	# ::music::GetSongXMMS                        #
+	# ::music::FillFrameComplete                  #
 	# ------------------------------------------- #
-	# Gets the current playing song in XMMS       #
+	# Fills the config frame for complete support #
 	###############################################
-	proc GetSongXMMS {} {
-		#Get the file
-		set file "/tmp/xmms-info"
-		#If file is not there, stop
-		if {![file exist $file]} {
-			return 0
-		}
-		#Open file (read access)
-		set gets [open $file {NONBLOCK RDONLY}]
+	proc FillFrameComplete {mainFrame} {
+		#order for song and artist name
+		frame $mainFrame.order -class degt
+		pack $mainFrame.order -anchor w -expand true -fill both
+		label $mainFrame.order.label -text "[trans choose_order]" -padx 5 -font sboldf
+		radiobutton $mainFrame.order.1 -text "[trans songartist]" -variable ::music::config(songart) -value 1
+		radiobutton $mainFrame.order.2 -text "[trans artistsong]" -variable ::music::config(songart) -value 2
+		radiobutton $mainFrame.order.3 -text "[trans song]" -variable ::music::config(songart) -value 3
+		label $mainFrame.order.separator_label -text "[trans separator]" -padx 5 -font sboldf
+		entry $mainFrame.order.separator_entry -bg #ffffff -width 10 -textvariable ::music::config(separator)			
+		pack $mainFrame.order.label \
+			$mainFrame.order.1 \
+			$mainFrame.order.2 \
+			$mainFrame.order.3 \
+				-anchor w -side top
+		pack $mainFrame.order.separator_label \
+				$mainFrame.order.separator_entry \
+				-anchor w -side left
+	
+		#changepic
+		frame $mainFrame.changepic -class degt
+		pack $mainFrame.changepic -anchor w -expand true -fill both
+		checkbutton $mainFrame.changepic.checkbutton -variable ::music::config(changepic) -text "[trans changepic]"
+		pack $mainFrame.changepic.checkbutton -anchor w
+	}
 
-		set timeout [clock clicks -milliseconds]
-
-		#We wait the pipe to be filled by xmms-info or 1 seconds elapsed (in case of xmms is closed)
-		set tmp [gets $gets]
-		while { [eof $gets] && [expr [clock clicks -milliseconds]-$timeout]<1000 } {
-			set tmp [gets $gets]
-		}
-
-		#Read lines
-		while { ![eof $gets] } {
-			#The pipe was filled by xmms-info
-			if { $tmp != "" } {
-			set pos [string first ":" $tmp]
-				set index [string map { " " "_" } [string range $tmp 0 $pos]]
-			set info($index) [string range $tmp [expr {$pos+2}] end]
-			}
-			unset tmp
-			set tmp [gets $gets]
-		}
-
-		#Close acess to the file
-		close $gets
-
-		if {[info exists info(Status:)]} {
-			switch -- $info(Status:) {
-				"Playing" { lappend return $info(Title:); lappend return $info(File:) }
-				"Paused" { lappend return $info(Title:); lappend return $info(File:) }
-				"Stopped" { set return 0 }
-				default { set return 0 }
-			}
-			return $return
-		}
-		return 0
+	###############################################
+	# ::music::FillFrameLess                      #
+	# ------------------------------------------- #
+	# Fills the config frame for minimal support  #
+	###############################################
+	proc FillFrameLess {mainFrame} {
+		#order for song and artist name
+		frame $mainFrame.order -class degt
+		pack $mainFrame.order -anchor w -expand true -fill both
+		label $mainFrame.order.label -text "[trans choose_order]" -padx 5 -font sboldf
+		radiobutton $mainFrame.order.1 -text "[trans songartist]" -variable ::music::config(songart) -value 1
+		radiobutton $mainFrame.order.2 -text "[trans artistsong]" -variable ::music::config(songart) -value 2
+		radiobutton $mainFrame.order.3 -text "[trans song]" -variable ::music::config(songart) -value 3
+		label $mainFrame.order.separator_label -text "[trans separator]" -padx 5 -font sboldf
+		entry $mainFrame.order.separator_entry -bg #ffffff -width 10 -textvariable ::music::config(separator)			
+		pack $mainFrame.order.label \
+				$mainFrame.order.1 \
+				$mainFrame.order.2 \
+				$mainFrame.order.3 \
+				-anchor w -side top
+		pack $mainFrame.order.separator_label \
+				$mainFrame.order.separator_entry \
+				-anchor w -side left
 	}
 
 	###############################################
@@ -537,6 +756,46 @@ namespace eval ::music {
 	proc FillFrameEmpty {mainFrame} {
 
 	}
+
+	###############################################
+	# ::music::FillFrameMPD                       #
+	# ------------------------------------------- #
+	# Fills the config frame for MPD              #
+	###############################################
+	proc FillFrameMPD {mainFrame} {
+		#order for song and artist name
+		frame $mainFrame.order -class degt
+		pack $mainFrame.order -anchor w -expand true -fill both
+		label $mainFrame.order.label -text "[trans choose_order]" -padx 5 -font sboldf
+		radiobutton $mainFrame.order.1 -text "[trans songartist]" -variable ::music::config(songart) -value 1
+		radiobutton $mainFrame.order.2 -text "[trans artistsong]" -variable ::music::config(songart) -value 2
+		radiobutton $mainFrame.order.3 -text "[trans song]" -variable ::music::config(songart) -value 3
+		label $mainFrame.order.separator_label -text "[trans separator]" -padx 5 -font sboldf
+		entry $mainFrame.order.separator_entry -bg #ffffff -width 10 -textvariable ::music::config(separator)			
+		pack $mainFrame.order.label \
+				$mainFrame.order.1 \
+				$mainFrame.order.2 \
+				$mainFrame.order.3 \
+				-anchor w -side top
+		pack $mainFrame.order.separator_label \
+				$mainFrame.order.separator_entry \
+				-anchor w -side left
+				
+		#ip
+		frame $mainFrame.ip
+		label $mainFrame.ip.label -text "[trans music_mpd_ip]"
+		entry $mainFrame.ip.entry -textvariable ::music::config(mpd_ip) -bg white -width 15
+		pack $mainFrame.ip -anchor w
+		pack $mainFrame.ip.label $mainFrame.ip.entry -anchor w
+
+		#port
+		frame $mainFrame.port
+		label $mainFrame.port.label -text "[trans music_mpd_port]"
+		entry $mainFrame.port.entry -textvariable ::music::config(mpd_port) -bg white -width 10
+		pack $mainFrame.port -anchor w
+		pack $mainFrame.port.label $mainFrame.port.entry -anchor w
+	}
+
 	###############################################
 	# ::music::TreatSongAmarok                    #
 	# ------------------------------------------- #
@@ -590,109 +849,18 @@ namespace eval ::music {
 		}
 		return $return
 	}
-		###########################################################
-		# ::music::TreatSongJuk                                   #
-	 # ------------------------------------------------------- #
-	 # Gets the current playing song in Juk                    #
-	 ###########################################################
-	 proc TreatSongJuk {} {
-			 #Grab the information asynchronously : thanks to copyleft
-			after 0 {::music::exec_async [list "sh" [file join $::music::musicpluginpath "infojuk"]] }
-			#after 0 {::music::exec_async [file join $::music::musicpluginpath "infojuk"]}
-	return 0
-	}
-	###########################################################
-	# ::music::GetSongJuk                                     #
-	# ------------------------------------------------------- #
-	# Gets the current playing song in juk                    #
-	###########################################################
-	proc GetSongJuk {} {
-		#Split the lines into a list and set the variables as appropriate
-		if { [catch {split $::music::actualsong "\n"} tmplst] } {
-			#actualsong isn't yet defined by asynchronous exec
+
+	###############################################
+	# ::music::GetSongAudacious                   #
+	# ------------------------------------------- #
+	# Gets the current playing song in Audacious  #
+	###############################################
+	proc GetSongAudacious {} {
+		if { [exec audtool playback-status] == "playing" } {
+			return [list [exec audtool current-song] [exec audtool current-song-filename]]
+		} else {
 			return 0
 		}
-
-		#Get the 4 first lines
-		set status [lindex $tmplst 0]
-		set songart [lindex $tmplst 1]
-		set path [lindex $tmplst 2]
-		
-		if {$status == "0"} {
-			return 0
-		}
-		if {$status == "1"} {
-			append songart "Paused"
-		}
-
-		append newPath "file://" $path ;
-		lappend return $songart
-		lappend return  [urldecode [string range $newPath 5 end]]
-
-		return $return
-	}
-
-	###############################################
-	# ::music::FillFrameComplete                  #
-	# ------------------------------------------- #
-	# Fills the config frame for complete support #
-	###############################################
-	proc FillFrameJuk {mainFrame} {
-			#order for song and artist name
-			frame $mainFrame.order -class degt
-			pack $mainFrame.order -anchor w -expand true -fill both
-			label $mainFrame.order.label -text "[trans choose_order]" -padx 5 -font sboldf
-			#radiobutton $mainFrame.order.1 -text "[trans songartist]" -variable ::music::config(songart) -value 1
-			#radiobutton $mainFrame.order.2 -text "[trans artistsong]" -variable ::music::config(songart) -value 2
-			radiobutton $mainFrame.order.3 -text "[trans song]" -variable ::music::config(songart) -value 3
-			label $mainFrame.order.separator_label -text "[trans separator]" -padx 5 -font sboldf
-			entry $mainFrame.order.separator_entry -bg #ffffff -width 10 -textvariable ::music::config(separator)                   
-			pack $mainFrame.order.label \
-				$mainFrame.order.1 \
-				$mainFrame.order.2 \
-				$mainFrame.order.3 \
-				-anchor w -side top
-			pack $mainFrame.order.separator_label \
-				$mainFrame.order.separator_entry \
-				-anchor w -side left
-
-			#changepic
-			#frame $mainFrame.changepic -class degt
-			#pack $mainFrame.changepic -anchor w -expand true -fill both
-			#checkbutton $mainFrame.changepic.checkbutton -variable ::music::config(changepic) -text "[trans changepic]"
-			#pack $mainFrame.changepic.checkbutton -anchor w
-	}
-
-
-	###############################################
-	# ::music::FillFrameComplete                  #
-	# ------------------------------------------- #
-	# Fills the config frame for complete support #
-	###############################################
-	proc FillFrameComplete {mainFrame} {
-		#order for song and artist name
-		frame $mainFrame.order -class degt
-		pack $mainFrame.order -anchor w -expand true -fill both
-		label $mainFrame.order.label -text "[trans choose_order]" -padx 5 -font sboldf
-		radiobutton $mainFrame.order.1 -text "[trans songartist]" -variable ::music::config(songart) -value 1
-		radiobutton $mainFrame.order.2 -text "[trans artistsong]" -variable ::music::config(songart) -value 2
-		radiobutton $mainFrame.order.3 -text "[trans song]" -variable ::music::config(songart) -value 3
-		label $mainFrame.order.separator_label -text "[trans separator]" -padx 5 -font sboldf
-		entry $mainFrame.order.separator_entry -bg #ffffff -width 10 -textvariable ::music::config(separator)			
-		pack $mainFrame.order.label \
-			$mainFrame.order.1 \
-			$mainFrame.order.2 \
-			$mainFrame.order.3 \
-				-anchor w -side top
-		pack $mainFrame.order.separator_label \
-				$mainFrame.order.separator_entry \
-				-anchor w -side left
-	
-		#changepic
-		frame $mainFrame.changepic -class degt
-		pack $mainFrame.changepic -anchor w -expand true -fill both
-		checkbutton $mainFrame.changepic.checkbutton -variable ::music::config(changepic) -text "[trans changepic]"
-		pack $mainFrame.changepic.checkbutton -anchor w
 	}
 
 	###############################################
@@ -757,24 +925,23 @@ namespace eval ::music {
 		return $return
 	}
 
-	###############################################
-	# ::music::TreatSongRhythmbox                 #
-	# ------------------------------------------- #
-	# Gets the current playing song in Rhythmbox  #
-	###############################################
-	proc TreatSongRhythmbox {} {
-		#Grab the information asynchronously : thanks to Tjikkun
-		after 0 {::music::exec_async [list "sh" [file join $::music::musicpluginpath "inforhythmbox"]] }
+	 ###########################################################
+	 # ::music::TreatSongJuk                                   #
+	 # ------------------------------------------------------- #
+	 # Gets the current playing song in Juk                    #
+	 ###########################################################
+	 proc TreatSongJuk {} {
+		#Grab the information asynchronously : thanks to copyleft
+		after 0 {::music::exec_async [list "sh" [file join $::music::musicpluginpath "infojuk"]] }
 		return 0
 	}
 
-	###############################################
-	# ::music::GetSongRhythmbox                   #
-	# ------------------------------------------- #
-	# Gets the current playing song in Rhythmbox  #
-	###############################################
-	proc GetSongRhythmbox {} {
-		#actualsong is filled asynchronously in TreatSongRhythmbox
+	###########################################################
+	# ::music::GetSongJuk                                     #
+	# ------------------------------------------------------- #
+	# Gets the current playing song in juk                    #
+	###########################################################
+	proc GetSongJuk {} {
 		#Split the lines into a list and set the variables as appropriate
 		if { [catch {split $::music::actualsong "\n"} tmplst] } {
 			#actualsong isn't yet defined by asynchronous exec
@@ -782,36 +949,20 @@ namespace eval ::music {
 		}
 
 		#Get the 4 first lines
-		if { [llength $tmplst] == 3 } {
-			set song [lindex $tmplst 0]
-			set art ""
-			set path [lindex $tmplst 1]
-			if { $song == "" } {
-				set songlength "-1"
-			} else {
-				set songlength "0"
-			}
-		} else {
-			set song [lindex $tmplst 0]
-			set art [lindex $tmplst 1]
-			set path [lindex $tmplst 2]
-			set songlength [lindex $tmplst 3]
-		}
-		if {$songlength == "-1"} {
+		set status [lindex $tmplst 0]
+		set songart [lindex $tmplst 1]
+		set path [lindex $tmplst 2]
+		
+		if {$status == "0"} {
 			return 0
-		} else {
-			#Define in which  order we want to show the song (from the config)
-			#Use the separator(from the cong) betwen song and artist
-			if {$::music::config(songart) == 1} {
-				append songart $song " " $::music::config(separator) " " $art
-			} elseif {$::music::config(songart) == 2} {
-				append songart $art " " $::music::config(separator) " " $song
-			} elseif {$::music::config(songart) == 3} {
-				append songart $song
-			}
-			lappend return $songart
-			lappend return [urldecode [string range $path 5 end]]
 		}
+		if {$status == "1"} {
+			append songart "Paused"
+		}
+
+		append newPath "file://" $path ;
+		lappend return $songart
+		lappend return  [urldecode [string range $newPath 5 end]]
 
 		return $return
 	}
@@ -862,66 +1013,6 @@ namespace eval ::music {
 	}
 
 	##################################################
-	# ::music::TreatSongQL                           #
-	# ---------------------------------------------- #
-	# Not useful to QL because no script to execute  #
-	##################################################
-	proc TreatSongQL {} {
-		return 0
-	}
-	###############################################
-	# ::music::GetSongQL                          #
-	# ------------------------------------------- #
-	# Gets the current playing song in QL         #
-	###############################################
-	proc GetSongQL {} {
-		#quodlibet --status 
-		if { [catch {exec quodlibet --status } res] } {
-			return 0
-		}
-		if { [string compare "playing " [string range $res 0 8]]} {
-			if { [catch {open ~/.quodlibet/current "r"} file_]} {
-				plugins_log music "\nerror: $file_\n"
-				return 0
-			}
-			set Title ""
-			set Artist ""
-			set File ""
-			set textline ""
-			gets $file_ textline
-			while {[eof $file_] != 1} {
-				regexp {title=(.*)} $textline -> Title
-				regexp {artist=(.*)} $textline -> Artist
-				regexp {~filename=(.*)} $textline -> File		
-				gets $file_ textline
-			}
-			close $file_
-			if {$Title == "" && $File != ""} {
-				set Title [getfilename $File]
-			}
-			#Define in which order we want to show the song (from the config)
-			#Use the separator(from the conf) between song and artist
-			if {$::music::config(songart) == 1} {
-				append songart $Title " " $::music::config(separator) " " $Artist
-			} elseif {$::music::config(songart) == 2} {
-				append songart $Artist " " $::music::config(separator) " " $Title
-			} elseif {$::music::config(songart) == 3} {
-				append songart $Title
-			}
-			#First element in the returned list is the artist + song in desired format
-			lappend return $songart
-			#Second element is the path to the music-file
-			lappend return $File
-			#Third element is the path to the album cover-art (if available, else it is "")
-			#lappend return $CoverUri
-			
-			return $return
-		} else { 
-			return 0
-		}
-	}
-
-	##################################################
 	# ::music::TreatSongMPD                          #
 	# ---------------------------------------------- #
 	# Not useful to MPD because no script to execute #
@@ -929,6 +1020,7 @@ namespace eval ::music {
 	proc TreatSongMPD {} {
 		return 0
 	}
+
 	###############################################
 	# ::music::GetSongMPD                         #
 	# ------------------------------------------- #
@@ -1029,45 +1121,124 @@ namespace eval ::music {
 		return $return
 	}
 
-	###############################################
-	# ::music::FillFrameMPD                       #
-	# ------------------------------------------- #
-	# Fills the config frame for MPD              #
-	###############################################
-	proc FillFrameMPD {mainFrame} {
-		#order for song and artist name
-		frame $mainFrame.order -class degt
-		pack $mainFrame.order -anchor w -expand true -fill both
-		label $mainFrame.order.label -text "[trans choose_order]" -padx 5 -font sboldf
-		radiobutton $mainFrame.order.1 -text "[trans songartist]" -variable ::music::config(songart) -value 1
-		radiobutton $mainFrame.order.2 -text "[trans artistsong]" -variable ::music::config(songart) -value 2
-		radiobutton $mainFrame.order.3 -text "[trans song]" -variable ::music::config(songart) -value 3
-		label $mainFrame.order.separator_label -text "[trans separator]" -padx 5 -font sboldf
-		entry $mainFrame.order.separator_entry -bg #ffffff -width 10 -textvariable ::music::config(separator)			
-		pack $mainFrame.order.label \
-				$mainFrame.order.1 \
-				$mainFrame.order.2 \
-				$mainFrame.order.3 \
-				-anchor w -side top
-		pack $mainFrame.order.separator_label \
-				$mainFrame.order.separator_entry \
-				-anchor w -side left
-				
-		#ip
-		frame $mainFrame.ip
-		label $mainFrame.ip.label -text "[trans music_mpd_ip]"
-		entry $mainFrame.ip.entry -textvariable ::music::config(mpd_ip) -bg white -width 15
-		pack $mainFrame.ip -anchor w
-		pack $mainFrame.ip.label $mainFrame.ip.entry -anchor w
-
-		#port
-		frame $mainFrame.port
-		label $mainFrame.port.label -text "[trans music_mpd_port]"
-		entry $mainFrame.port.entry -textvariable ::music::config(mpd_port) -bg white -width 10
-		pack $mainFrame.port -anchor w
-		pack $mainFrame.port.label $mainFrame.port.entry -anchor w
+	##################################################
+	# ::music::TreatSongQL                           #
+	# ---------------------------------------------- #
+	# Gets the current playing song in Totem         #
+	##################################################
+	proc TreatSongQL {} {
+		#Grab the information asynchronously : thanks to Tjikkun
+		after 0 {::music::exec_async [list "quodlibet" "--status"]}
+		return 0
 	}
-	
+
+	###############################################
+	# ::music::GetSongQL                          #
+	# ------------------------------------------- #
+	# Gets the current playing song in QL         #
+	###############################################
+	proc GetSongQL {} {
+		if { [string compare "playing " [string range $::music::actualsong 0 8]]} {
+			if { [catch {open ~/.quodlibet/current "r"} file_]} {
+				plugins_log music "\nerror: $file_\n"
+				return 0
+			}
+			set Title ""
+			set Artist ""
+			set File ""
+			set textline ""
+			gets $file_ textline
+			while {[eof $file_] != 1} {
+				regexp {title=(.*)} $textline -> Title
+				regexp {artist=(.*)} $textline -> Artist
+				regexp {~filename=(.*)} $textline -> File		
+				gets $file_ textline
+			}
+			close $file_
+			if {$Title == "" && $File != ""} {
+				set Title [getfilename $File]
+			}
+			#Define in which order we want to show the song (from the config)
+			#Use the separator(from the conf) between song and artist
+			if {$::music::config(songart) == 1} {
+				append songart $Title " " $::music::config(separator) " " $Artist
+			} elseif {$::music::config(songart) == 2} {
+				append songart $Artist " " $::music::config(separator) " " $Title
+			} elseif {$::music::config(songart) == 3} {
+				append songart $Title
+			}
+			#First element in the returned list is the artist + song in desired format
+			lappend return $songart
+			#Second element is the path to the music-file
+			lappend return $File
+			#Third element is the path to the album cover-art (if available, else it is "")
+			#lappend return $CoverUri
+			
+			return $return
+		} else { 
+			return 0
+		}
+	}
+
+	###############################################
+	# ::music::TreatSongRhythmbox                 #
+	# ------------------------------------------- #
+	# Gets the current playing song in Rhythmbox  #
+	###############################################
+	proc TreatSongRhythmbox {} {
+		#Grab the information asynchronously : thanks to Tjikkun
+		after 0 {::music::exec_async [list "sh" [file join $::music::musicpluginpath "inforhythmbox"]] }
+		return 0
+	}
+
+	###############################################
+	# ::music::GetSongRhythmbox                   #
+	# ------------------------------------------- #
+	# Gets the current playing song in Rhythmbox  #
+	###############################################
+	proc GetSongRhythmbox {} {
+		#actualsong is filled asynchronously in TreatSongRhythmbox
+		#Split the lines into a list and set the variables as appropriate
+		if { [catch {split $::music::actualsong "\n"} tmplst] } {
+			#actualsong isn't yet defined by asynchronous exec
+			return 0
+		}
+
+		#Get the 4 first lines
+		if { [llength $tmplst] == 3 } {
+			set song [lindex $tmplst 0]
+			set art ""
+			set path [lindex $tmplst 1]
+			if { $song == "" } {
+				set songlength "-1"
+			} else {
+				set songlength "0"
+			}
+		} else {
+			set song [lindex $tmplst 0]
+			set art [lindex $tmplst 1]
+			set path [lindex $tmplst 2]
+			set songlength [lindex $tmplst 3]
+		}
+		if {$songlength == "-1"} {
+			return 0
+		} else {
+			#Define in which  order we want to show the song (from the config)
+			#Use the separator(from the cong) betwen song and artist
+			if {$::music::config(songart) == 1} {
+				append songart $song " " $::music::config(separator) " " $art
+			} elseif {$::music::config(songart) == 2} {
+				append songart $art " " $::music::config(separator) " " $song
+			} elseif {$::music::config(songart) == 3} {
+				append songart $song
+			}
+			lappend return $songart
+			lappend return [urldecode [string range $path 5 end]]
+		}
+
+		return $return
+	}
+
 	###############################################
 	# ::music::TreatSongTotem                     #
 	# ------------------------------------------- #
@@ -1086,7 +1257,7 @@ namespace eval ::music {
 	###############################################
 	proc GetSongTotem {} {
 
-		#actualsong is filled asynchronously in TreatSongAmarok
+		#actualsong is filled asynchronously in TreatSongTotem
 		#Split the lines into a list and set the variables as appropriate
 		if { [catch {split $::music::actualsong "\n"} song] } {
 			#actualsong isn't yet defined by asynchronous exec
@@ -1098,55 +1269,77 @@ namespace eval ::music {
 		if {$song == "0"} {
 			return 0
 		} else {
-			#Define in which  order we want to show the song (from the config)
-			#Use the separator(from the cong) betwen song and artist
-#			if {$::music::config(songart) == 1} {
-#				append songart $song " " $::music::config(separator) " " $art
-#			} elseif {$::music::config(songart) == 2} {
-#				append songart $art " " $::music::config(separator) " " $song
-#			} elseif {$::music::config(songart) == 3} {
-#				append songart $song
-#			}
-#			lappend return $songart
-#			lappend return [urldecode [string range $path 5 end]]
 			return $song
 		}
-#		return $return
+	}
+
+	#####################################################
+	# ::music::TreatSongXMMS                            #
+	# ------------------------------------------------- #
+	# Not useful to XMMS because no script to execute   #
+	#####################################################
+	proc TreatSongXMMS {} {
+		return 0
 	}
 
 	###############################################
-	# ::music::FillFrameLess                      #
+	# ::music::GetSongXMMS                        #
 	# ------------------------------------------- #
-	# Fills the config frame for minimal support  #
+	# Gets the current playing song in XMMS       #
 	###############################################
-	proc FillFrameLess {mainFrame} {
-		#order for song and artist name
-		frame $mainFrame.order -class degt
-		pack $mainFrame.order -anchor w -expand true -fill both
-		label $mainFrame.order.label -text "[trans choose_order]" -padx 5 -font sboldf
-		radiobutton $mainFrame.order.1 -text "[trans songartist]" -variable ::music::config(songart) -value 1
-		radiobutton $mainFrame.order.2 -text "[trans artistsong]" -variable ::music::config(songart) -value 2
-		radiobutton $mainFrame.order.3 -text "[trans song]" -variable ::music::config(songart) -value 3
-		label $mainFrame.order.separator_label -text "[trans separator]" -padx 5 -font sboldf
-		entry $mainFrame.order.separator_entry -bg #ffffff -width 10 -textvariable ::music::config(separator)			
-		pack $mainFrame.order.label \
-				$mainFrame.order.1 \
-				$mainFrame.order.2 \
-				$mainFrame.order.3 \
-				-anchor w -side top
-		pack $mainFrame.order.separator_label \
-				$mainFrame.order.separator_entry \
-				-anchor w -side left
+	proc GetSongXMMS {} {
+		#Get the file
+		set file "/tmp/xmms-info"
+		#If file is not there, stop
+		if {![file exist $file]} {
+			return 0
+		}
+		#Open file (read access)
+		set gets [open $file {NONBLOCK RDONLY}]
+
+		set timeout [clock clicks -milliseconds]
+
+		#We wait the pipe to be filled by xmms-info or 1 seconds elapsed (in case of xmms is closed)
+		set tmp [gets $gets]
+		while { [eof $gets] && [expr [clock clicks -milliseconds]-$timeout]<1000 } {
+			set tmp [gets $gets]
+		}
+
+		#Read lines
+		while { ![eof $gets] } {
+			#The pipe was filled by xmms-info
+			if { $tmp != "" } {
+			set pos [string first ":" $tmp]
+				set index [string map { " " "_" } [string range $tmp 0 $pos]]
+			set info($index) [string range $tmp [expr {$pos+2}] end]
+			}
+			unset tmp
+			set tmp [gets $gets]
+		}
+
+		#Close acess to the file
+		close $gets
+
+		if {[info exists info(Status:)]} {
+			switch -- $info(Status:) {
+				"Playing" { lappend return $info(Title:); lappend return $info(File:) }
+				"Paused" { lappend return $info(Title:); lappend return $info(File:) }
+				"Stopped" { set return 0 }
+				default { set return 0 }
+			}
+			return $return
+		}
+		return 0
 	}
 
 	################################################
-	# ::music::exec_applescript                    #
+	# ::music::TreatSongITunes                     #
 	# -------------------------------------------  #
 	# Execute the applescript to get actual song   #
 	# Osascript: Command to execute AppleScript    #
 	# Find where's the plugin directory(by getKey) #
 	################################################
-	proc exec_applescript {} {
+	proc TreatSongITunes {} {
 		after 0 {::music::exec_async_mac [file join $::music::musicpluginpath display_and_send.scpt]}
 		return 0
 	}
@@ -1190,7 +1383,7 @@ namespace eval ::music {
 		return $return
 
 	}
-
+	
 	###############################################
 	# ::music::TreatSongWinamp                    #
 	# ------------------------------------------- #
@@ -1237,240 +1430,5 @@ namespace eval ::music {
 		}
 		return $return
 	}
-
-	#######################################################################
-	# ::music::CreateMusicMenu event evpar                                #
-	# ----------------------------------------------                      #
-	# This proc creates the music submenu shown when a user right clicks  #
-	# on the output of the chat window if the plugin is loaded            #
-	#######################################################################
-	proc CreateMusicMenu { event evpar } {
-		upvar 2 evPar newvar
-
-		#Define variables
-		set w $newvar(win)
-		set copymenu $w.copy
-
-		#Create submenu
-		$copymenu add cascade -label "Music" -menu $copymenu.music
-		menu $copymenu.music -tearoff 0 -type normal
-
-		#Create label in submenu
-		$copymenu.music add command -label [trans musiccurrent] -command "::music::menucommand $w 1"
-		$copymenu.music add command -label [trans musicsend] -command "::music::menucommand $w 2"
-		$copymenu.music add command -label [trans artsend] -command "::music::menucommand $w 3"
-
-		::music::log "Music menu created"
-
-
-	}
-
-
-	################################################
-	# ::music::menucommand win_name action         #
-	# -------------------------------------------  #
-	# Command from the submenu                     #
-	# Display the current song in a message (1)    #
-	# Or send the current song playing (2)         #
-	################################################
-	proc menucommand {win_name action} {
-		global user_info
-
-		set info [::music::GetSong]
-		set song [lindex $info 0]
-		set file [lindex $info 1]
-		set artfile [lindex $info 2]
-
-		if {$info == "0"} {
-			msg_box [trans musicerr]
-			return 0
-		}
-
-
-		switch -- $action {
-			1 {
-				#Send a message with the name of the current song
-				::music::log "Send message with song name : [trans playing $song]"
-				::amsn::MessageSend $win_name 0 "[trans playing $song]"	
-			}
-			2 {
-				#Send the current song as a file
-				::music::log "Send file with file $file"
-				::amsn::FileTransferSend $win_name $file
-				return 0
-			}
-			3 {
-				#Send the full size version of the album cover as a file
-				::music::log "Send file with file $artfile"				
-				::amsn::FileTransferSend $win_name $artfile
-				return 0
-			}
-		}
-		return 1
-	}
-
-	###############################################
-	# ::music::load_newname  event epvar          #
-	# ------------------------------------------- #
-	# Start changing the nick                     #
-	# If we load the plugin while we were already #
-	# connected, start changing the nick, else do #
-	# nothing                                     #
-	###############################################
-	proc load_newname {event epvar} {
-		variable oldinfo
-		#If we are online, start the loop
-		if {[::MSN::myStatusIs] != "FLN" && $::music::config(display) } {
-			if {[::config::getKey protocol] == 11} {
-				::MSN::changeCurrentMedia Music 0 "{0}" ""
-			} else {
-				set nick [::abook::getPersonal MFN]
-				if { ![string equal $nick $::music::config(oldnickname)] && !$::music::config(activated)} {
-					set config(oldnickname) $nick
-				}
-			}
-			set ::music::config(activated) 1
-			set oldinfo ""
-			::music::draw 0 0
-			::plugins::save_config
-			::music::newname 0 0
-		}
-	}
-
-	###############################################
-	# ::music::stop event epvar                   #
-	# ------------------------------------------- #
-	# Stop changing the nickname                  #
-	# Happen when we disconnect or when we unload #
-	# This is the Deinit proc                     #
-	###############################################
-	proc stop {event epvar {deinit 0}} {
-		variable config
-		variable musicpluginpath
-		variable smallcoverfilename
-		variable dppath
-		variable oldinfo
-
-		if {[array size ::music::playersarray]==0} {
-			return
-		}
-		after cancel ::music::newname 0 0
-		#Remove the song from the nick if we are online
-		if {[::MSN::myStatusIs] != "FLN" && $::music::config(display) && $::music::config(activated) } {
-			if {[::config::getKey protocol] == 11} {
-				::MSN::changeCurrentMedia Music 0 "{0}" ""
-			} else {
-				::music::changenick "$config(oldnickname)"
-			}
-	   	}
-
-		#reset displaypicture
-		if {$config(changepic) && [string compare [::config::getKey displaypic] $smallcoverfilename] == 0} {
-			::music::set_dp $dppath
-		}
-		if {!$deinit} {
-			set ::music::config(activated) 0
-			::music::draw 0 0
-			::plugins::save_config
-		}
-		set oldinfo ""
-	}
-
-	proc DeInit {} {
-		::music::stop 0 0 1
-	}
-	
-	############################################
-	# ::music::log message                     #
-	# -----------------------------------------#
-	# Add a log message to plugins-log window  #
-	# Type Alt-P to get that window            #
-	############################################
-	proc log {message} {
-		plugins_log Music $message
-	}
-	
-	################################################
-	# ::music::add_command                         #
-	# -------------------------------------------  #
-	# Add irc command /showsong and /sendsong      #
-	# for amsnplus users						   #
-	# Need last update of aMSNPlus plugin +/- 2.3  #
-	# Verify first if amsnplus plugin is loaded    #
-	################################################
-	proc add_command {event evpar} {
-		#If amsnplus plugin is loaded, register the command
-		if { [info proc ::amsnplus::add_command] != "" } {
-			#Avoid a bug if someone use an older version of aMSNPlus
-			catch {::amsnplus::add_command showsong ::music::exec_show_command 0 1}
-			catch {::amsnplus::add_command sendsong ::music::exec_send_command 0 1}
-			catch {::amsnplus::add_command sendcover ::music::exec_sendcover_command 0 1}
-		}
-	}
-	
-	#Execute show current song via amsnplus plugin
-	proc exec_show_command {win_name} {
-		::music::menucommand $win_name 1
-	}
-	#Execute send current song via amsnplus plugin
-	proc exec_send_command {win_name} {
-		::music::menucommand $win_name 2
-	}
-	#Execute send current song via amsnplus plugin
-	proc exec_sendcover_command {win_name} {
-		::music::menucommand $win_name 3
-	}
-
-	#######################################################################
-	# ::music::draw                                                       #
-	# ------------------------------------------------------------------- #
-	# Add an icon in the contact list to show/hide the song in the nick   #
-	# Arguments:                                                          #
-	#  event -> The event wich runs the proc (Supplied by Plugins System) #
-	#  evPar -> The array of parameters (Supplied by Plugins System)      #
-	#######################################################################
-	proc draw {event evPar} {
-		if {$event != 0} { upvar 2 $evPar vars }
-
-		if {$::music::config(activated)} {
-			set icon musicshown_pic
-		} else {
-			set icon musichidden_pic
-		}
-		
-
-		#TODO: add parameter to event and get rid of hardcoded variable
-		set pgtop $::pgBuddyTop
-		set clbar $::pgBuddyTop.colorbar
-
-		set mylabel $pgtop.picmusic
-		if {[winfo exists $mylabel]} {
-			destroy $mylabel			
-		}
-		
-		set notewidth [image width [::skin::loadPixmap $icon]]
-		set noteheight [image height [::skin::loadPixmap $icon]]
-
-		label $mylabel -image [::skin::loadPixmap $icon] -background [::skin::getKey topcontactlistbg] -borderwidth 0 -cursor left_ptr \
-			-relief flat -highlightthickness 0 -relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0 -width $notewidth -height $noteheight
-
-		pack $mylabel -expand false -after $clbar -side right -padx 0 -pady 0
-		
-		if {$::music::config(activated)} {
-			bind $mylabel <<Button1>> "::music::stop 0 0"
-		} else {
-			bind $mylabel <<Button1>> "::music::load_newname 0 0"
-		}
-		#bind $mylabel <<Button1>> "set ::music::config(activated) [expr !$::music::config(activated)];::plugins::save_config;::music::draw 0 0"
-
-		set balloon_message [trans musicballontext]
-		
-		bind $mylabel <Enter> +[list balloon_enter %W %X %Y $balloon_message]
-		bind $mylabel <Leave> "+set ::Bulle(first) 0; kill_balloon;"
-		bind $mylabel <Motion> +[list balloon_motion %W %X %Y $balloon_message]
-	}
-	
-
-
 
 }
