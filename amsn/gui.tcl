@@ -7945,16 +7945,18 @@ namespace eval ::OIM_GUI {
 		status_log "Writing offline msg \"$msg\" on : $chatid\n" red
 		switch [::config::getKey chatstyle] {
 			msn {
-				::config::setKey customchatstyle "\$tstamp [trans says \$nick]: \$newline"
+				set customchatstyle "$tstamp [trans says $nick]: \n"
 			}
 
 			irc {
-				::config::setKey customchatstyle "\$tstamp <\$nick> "
+				set customchatstyle "$tstamp <$nick> "
 			}
 			- {
+				set customchatstyle ""
 			}
 		}
-		::amsn::WinWrite $chatid "$msg" user
+		set msg "\n${customchatstyle}${msg}"
+		SendMessageFIFO [list ::amsn::WinWrite $chatid "$msg" user] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
 
 		#We	should add an event for sending message
 		#loging
