@@ -16,11 +16,13 @@ namespace eval ::music {
 		variable dppath
 		variable playersarray
 		variable oldinfo
+		variable lastafter
 
 		set musicpluginpath $dir
 		set smallcoverfilename [file join $musicpluginpath albumart.jpg]
 		set dppath ""
 		set oldinfo [list]
+		set lastafter ""
 
 		#Load translation keys (lang files)
 		::music::LoadLangFiles $dir
@@ -145,7 +147,7 @@ namespace eval ::music {
 	# Register events to plugin system  #
 	#####################################	
 	proc RegisterEvent {} {
-		::plugins::RegisterEvent "Music" OnConnect newname
+		::plugins::RegisterEvent "Music" OnConnect load_newname
 		::plugins::RegisterEvent "Music" ContactListColourBarDrawn draw
 		::plugins::RegisterEvent "Music" new_chatwindow CreateMusicMenu
 		::plugins::RegisterEvent "Music" AllPluginsLoaded add_command
@@ -265,6 +267,7 @@ namespace eval ::music {
 		variable config
 		variable oldinfo
 		variable dppath
+		variable lastafter
 		if { $::music::config(activated) } {
 			#Get all song information from ::music::GetSong
 			set info [::music::GetSong]
@@ -353,8 +356,10 @@ namespace eval ::music {
 		#multiply by 1000 because "after" count in "ms" (1000ms=1s)
 		set time [expr {int($config(second)*1000)}]
 
-		#Reload newname proc after this time (loop)
-		after $time ::music::newname 0 0
+		if { [catch {after info $lastafter}] } {
+			#Reload newname proc after this time (loop)
+			set lastafter [after $time ::music::newname 0 0]
+		}
 
 	}
 
@@ -537,6 +542,7 @@ namespace eval ::music {
 	###############################################
 	proc load_newname {event epvar} {
 		variable oldinfo
+		variable lastafter
 		#If we are online, start the loop
 		if {[::MSN::myStatusIs] != "FLN" } {
 			if { $::music::config(display) } {
@@ -553,6 +559,7 @@ namespace eval ::music {
 			set oldinfo ""
 			::music::draw 0 0
 			::plugins::save_config
+			after cancel $lastafter
 			::music::newname 0 0
 		}
 	}
@@ -576,7 +583,7 @@ namespace eval ::music {
 		}
 
 		#Remove the song from the nick if we are online
-		if {[::MSN::myStatusIs] != "FLN" && $::music::config(display) && $::music::config(activated) } {
+		if {[::MSN::myStatusIs] != "FLN" && $::music::config(activated) } {
 			if {[::config::getKey protocol] == 11} {
 				::MSN::changeCurrentMedia Music 0 "{0}" ""
 			} else {
@@ -654,7 +661,7 @@ namespace eval ::music {
 	proc draw {event evPar} {
 		if {$event != 0} { upvar 2 $evPar vars }
 
-		if {$::music::config(activated)} {
+		if {$::music::config(display)} {
 			set icon musicshown_pic
 		} else {
 			set icon musichidden_pic
@@ -677,12 +684,13 @@ namespace eval ::music {
 			-relief flat -highlightthickness 0 -relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0 -width $notewidth -height $noteheight
 
 		pack $mylabel -expand false -after $clbar -side right -padx 0 -pady 0
-		
-		if {$::music::config(activated)} {
-			bind $mylabel <<Button1>> "::music::stop 0 0"
+
+		if {$::music::config(display)} {
+			bind $mylabel <<Button1>> "set ::music::config(display) 0; ::music::stop 0 0"
 		} else {
-			bind $mylabel <<Button1>> "::music::load_newname 0 0"
+			bind $mylabel <<Button1>> "set ::music::config(display) 1; ::music::load_newname 0 0"
 		}
+
 		#bind $mylabel <<Button1>> "set ::music::config(activated) [expr !$::music::config(activated)];::plugins::save_config;::music::draw 0 0"
 
 		set balloon_message [trans musicballontext]
