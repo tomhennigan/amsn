@@ -10,12 +10,16 @@ namespace eval ::ustat {
 	}
 
 	proc writestat { chatid status } {
-		::amsn::WinWrite $chatid "\n" blue  "" 0
+		set cur_status [::MSN::stateToDescription $status]
+		set statuscolor [::skin::getKey contact_$cur_status]
+		set statuscolor [string replace $statuscolor 0 0 ""]
+		set fontformat [list $::family bold $statuscolor]
+		::amsn::WinWrite $chatid "\n" says $fontformat 0
 		::amsn::WinWriteIcon $chatid miniinfo 5 0
-		set msg "[timestamp] [::abook::getDisplayNick $chatid] is now [trans [::MSN::stateToDescription $status]] \n"
+		set msg "[timestamp] [::abook::getDisplayNick $chatid] is now [trans $cur_status]\n"
 	
 		#status_log $msg
-		::amsn::WinWrite $chatid $msg blue "" 0
+		::amsn::WinWrite $chatid $msg says $fontformat 0
 	
 	}
 
