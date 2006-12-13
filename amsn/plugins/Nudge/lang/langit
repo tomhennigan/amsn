@@ -1,16 +1,17 @@
 amsn_lang_version 2
-shake_receive Scuoti la finestra quando si riceve una richiesta d'attenzione
-shake_send Scuoti la finestra quando si manda una richiesta d'attenzione
-shake_nudge Scosse per richiesta
-popup_nudge Notifica richieste d'attenzione con una finestra popup
-notify_send Notifica nella finestra di chat richieste d'attenzione inviate
-notify_receive Notifica nella finestra di chat richieste d'attenzione ricevute
-sound_send Emetti un suono all'invio di una richiesta d'attenzione
-sound_receive Emetti un suono al ricevimento di una richiesta d'attenzione
-add_button Aggiungi un pulsante nella finestra di chat per inviare richieste d'attenzione
-nudge_sent Hai appena inviato una richiesta d'attenzione
-limit Attiva la limitazione delle richieste di attenzione ricevute
-delay Tempo minimo tra 2 richieste di attenzione dal medesimo contatto (in secondi)
-send_nudge Richiedi l'attenzione
-no_nudge_support Non puoi inviare una richiesta d'attenzione a questo contatto perche' lui/lei usa un client che non la supporta
-block_nudge Blocca/Sblocca le richieste di attenzione
+shake_receive Scuoti la finestra quando si riceve un trillo
+shake_send Scuoti la finestra quando si invia un trillo
+shake_nudge Scosse per trillo
+popup_nudge Notifica un trillo con una finestra popup
+notify_send Notifica nella finestra di chat i trilli inviati
+notify_receive Notifica nella finestra di chat i trilli ricevuti
+sound_send Emetti un suono all'invio di un trillo
+sound_receive Emetti un suono al ricevimento di un trillo
+add_button Aggiungi un pulsante nella finestra di chat per inviare i trilli
+add_blockbutton Aggiungi un pulsante nella finestra di chat per bloccare la ricezione dei trilli
+no_nudge_support Non puoi inviare trilli a questo contatto perche' lui/lei usa un client che non li supporta
+nudge_sent Hai appena inviato un trillo
+limit Attiva la limitazione del numero di trilli ricevuti
+delay Tempo minimo tra 2 trilli dal medesimo contatto (in secondi)
+send_nudge Invia un trillo
+block_nudge Blocca/Sblocca i trilli

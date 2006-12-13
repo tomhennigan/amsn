@@ -11,7 +11,7 @@ add Aggiungi
 addedyou $1 ($2) ti ha aggiunto alla sua lista dei contatti
 addprofile Aggiungi un nuovo profilo
 addprofiledesc Inserisci il login per il quale vorresti creare un nuovo profilo. \nI login con un profilo ti permettono di avere differenti configurazioni per ogni login.\nSenza profili non puoi usare l'History, gli Allarmi o ricordare le password.
-addstate Aggiungi Nuovo Stato
+addstate Aggiungi Nuovo Stato Personale
 addto Aggiungi a $1
 addtocontacts Aggiungi questo contatto alla Lista Contatti
 addtoo Aggiungi questa persona alla mia Lista Contatti
@@ -24,7 +24,7 @@ agotinvitation Ricevuto invito audio da $1
 alarmonconnect Attiva un'allarme quando un utente si connette
 alarmondisconnect Attiva un'allarme quando un utente si sconnette o diventa invisibile
 alarmonmsg Attiva un'allarme quando un utente ti manda un messaggio
-alarmonstatus Attiva un'allarme quando un utente cambia il suo stato
+alarmonstatus Attiva un'allarme quando un utente cambia il suo stato personale
 alarmpref Impostazioni dell'allarme dell'utente
 alarms Allarmi
 alarmstatus (Dis)Abilita l'allarme per questo utente
@@ -44,7 +44,7 @@ appearance Interfaccia
 appearoff Invisibile
 areacode Codice dell'area
 aretyping $1 stanno scrivendo un messaggio
-askcam Chiedi di visualizzare la webcam
+askcam Visualizza la webcam del contatto
 askcontactwebcam per chiedere di visualizzare la webcam del tuo contatto, o
 askeachtime Chiedi ogni volta
 asksendingyourwebcam per chiedere di inviare immagini dalla tua webcam
@@ -70,7 +70,7 @@ avcanceled Chiamata di videoconferenza annullata
 avgotinvitation Ricevuto invito di videoconferenza da $1
 avinitfailed Inizializzazione del plugin audio/video fallita. Chiamata annullata
 avoidseen Impedisci a questa persona di vedermi e di contattarmi quando sono connesso
-awaymsg1 Chiedi di impostare un messaggio di "assente" ogni volta che cambio il mio stato in Non al computer/Torno Subito/Occupato
+awaymsg1 Chiedi di impostare un messaggio di "assente" ogni volta che cambio il mio stato personale in Non al computer/Torno Subito/Occupato
 awaymsg2 Non chiedere mai e usa sempre il messaggio di assente qui sotto
 away Non al computer
 baduserpass Username o password sbagliate
@@ -81,7 +81,7 @@ block Blocca
 blocked Bloccato
 blockedyougroup Mostra un gruppo separato per le persone che ti hanno bloccato
 blocking in blocco
-blockinter1 Quando il tuo stato è "In linea" controlla ogni
+blockinter1 Quando il tuo stato personale è "In linea" controlla ogni
 blockinter2 secondi, altrimenti controlla ogni:
 blockinter3 ogni
 blockinter4 secondi.
@@ -113,7 +113,7 @@ cfgalarmall Configura/Aggiungi/Rimuovi l'allarme globale
 cfgalarm Configura/Aggiungi/Rimuovi l'allarme
 change_account_info Modifica informazioni Account
 change Cambia
-changestatus Cambia Status
+changestatus Stato personale
 changecustomstate Passa a
 changedisplaypic Cambia l'immagine personale
 changefont Cambia font
@@ -121,7 +121,7 @@ changeglobnick Cambia nick globale
 change_mobile Modifica impostazioni Mobile
 changenick Cambia nick
 changesize Cambia dimensione
-changestate $1 cambia stato in $2
+changestate $1 cambia stato personale in $2
 changevideosettings Cambia le impostazioni video
 channels Canali
 charscounter  Contatore dei caratteri digitati nella finestra di chat
@@ -129,7 +129,7 @@ chatack Sto accentando una chiamata da
 chat Chat
 chatmaxmin Quando un contatto apre una chat visualizzala in modo:
 chatreq Sto chiamando
-chatsmileys Faccine per la chat
+chatsmileys Visualizza emoticon
 chatsmileys2 Mostra le Emoticon e le Faccine nella finestra di chat
 checkblocking Controlla continuamente se gli utenti ti stanno bloccando
 checkemail Visualizza riga notifica mail(posta in arrivo) nella lista dei contatti
@@ -146,7 +146,7 @@ choosedevice Scegli un dispositivo
 choosefontcolor Scegliere il colore del font
 choosechannel Scegli un canale
 chooseskin Scegli la Skin che preferisci usare
-ch_to_state Passa a nuovo stato
+ch_to_state Passa a nuovo stato personale
 clear Cancella
 clearlog Cancella i Log
 clearlog2 Cancella il diario per tutti i tuoi contatti
@@ -210,7 +210,7 @@ currentnotes Note attuali
 custnotifymsg Visualizza la finestra di notifica alla ricezione di un nuovo messaggio
 custnotifyoffline Visualizza la finestra di notifica alla disconnessione di questo contatto
 custnotifyonline Visualizza la finestra di notifica alla connessione di questo contatto
-custnotifystatus Visualizza la finestra di notifica al cambio di stato di questo contatto
+custnotifystatus Visualizza la finestra di notifica al cambio di stato personale di questo contatto
 customcolor Colore Personalizzato
 custom_edit Crea una faccina personalizzata
 custom_new Aggiungi una nuova faccina personalizzata
@@ -253,7 +253,7 @@ disconnect $1 si è sconnesso/a
 displayeventconnect Mostra quando i contatti si connettono
 displayeventdisconnect Mostra quando i contatti si sconnettono
 displayeventemail Mostra quando si riceve Posta
-displayeventstate Mostra quando i contatti cambiano status
+displayeventstate Mostra quando i contatti cambiano stato personale
 displaychat Mostra le opzioni del testo
 displaypic Immagine Utente
 displayp4context Visualizza il contenuto del campo P4-Context come mittente del messaggio
@@ -391,7 +391,7 @@ invalidpicsize La foto scelta è troppo grande, scegline una più piccola
 invalidsound Il file audio scelto non esiste
 invalidusername Username non valido
 invitationcancelled L'invito è stato cancellato
-invite Invita
+invite Invita un contatto a unirsi alla conversazione
 ipaddress Indirizzo IP
 ipdetect Determina l'IP corretto per il trasferimento file usando l'HTTP
 ircstyle Chat in stile IRC
@@ -432,7 +432,7 @@ logbigger I file delle registrazioni per ogni contatto non hanno alcun limite di
 logeventconnect Registra le connessioni
 logeventdisconnect Registra le disconnessioni
 logeventemail Registra quando si riceve posta
-logeventstate Registra i cambi di status
+logeventstate Registra i cambi di stato personale
 logfandexp Termine prefissato della History e dimensione dei registri
 loggedotherlocation Disconnesso. Loggato da un altro posto
 loggingin Connessione in corso...
@@ -440,7 +440,7 @@ login Accedi
 loginas Accedi come
 loging Diario
 logolder Registra soltanto le chat che hanno preso posto nell'ultimo
-logout Abbandona
+logout Disconnetti
 logsbydate Ordina log per data (L'apertura della cronologia è velocizzata)
 logschats Sta loggando le chat
 logsin si è appena connesso/a
@@ -450,7 +450,7 @@ logwebcam Salva tutte le sessioni della webcam nel diario di aMSN per una vision
 longnick Il tuo nick è lungo più di 130 caratteri. Il protocollo ufficiale di MSN non lo consente. Vuoi impostarlo ugualmente?
 longp4c Il tuo soprannome è più lungo di 130 caratteri. Il Soprannome che apprarirà nella versione ufficiale di MSN sarà $1. Sei sicuro di salvare le impostazioni?
 longpsm Il tuo messaggio personale è troppo lungo. Non è ufficialmente supportato dal protocollo di MSN. Sei sicuro di volerlo usare?
-lowrescam Usa una webcam a bassa risoluzione
+lowrescam Video a bassa risoluzione
 lprivtoconf Chat privata divenuta conversazione con $1
 luclosedwin Hai chiuso la finestra su $1
 mailer Client di posta
@@ -461,7 +461,7 @@ minimised Ridotto ad icona
 minimize Riduci ad icona
 mins Minuti
 mobilegrp1 Gruppo utenti "Mobile"
-mobilegrp2 Inserisci utenti nel gruppo "Mobile" quando sono sconnessi (ordinati per status)
+mobilegrp2 Inserisci utenti nel gruppo "Mobile" quando sono sconnessi (ordinati per stato personale)
 mobile Mobile
 modified Modificato
 month Mese
@@ -481,7 +481,7 @@ myhomephone Il mio telefono di casa
 mymobilephone Il mio numero di cellulare
 mynick Mio nick
 mypic Immagine personale:
-mystatus Il mio stato
+mystatus Il mio stato personale
 myworkphone Il mio numero d'ufficio
 name Nome
 natip La rilevazione dell'IP dalla pagina web
@@ -528,7 +528,7 @@ notifytyping Invia agli altri utenti una notifica mentre digito
 notifywin Finestra di Notifica
 notify1 Mostra una finestra di notifica quando i contatti vengono in linea
 notify1_5 Mostra una finestra di notifica quando i contatti vanno fuori linea
-notify1_75 Mostra una finestra di notifica quando i contatti cambiano stato
+notify1_75 Mostra una finestra di notifica quando i contatti cambiano stato personale
 notify2 Mostra una finestra di notifica quando viene ricevuto un nuovo messaggio
 notify3 Mostra una finestra di notifica quando una e-mail raggiunge la tua casella di posta
 notify4 Mostra una finestra di notifica quando arriva nuova posta in cartelle varie
@@ -668,14 +668,14 @@ searchup Cerca indietro
 selectall Seleziona tutto
 selectplugins Seleziona i Plugins che desideri attivare
 selectskin Seleziona una Skin dalla lista
-sendcam Invia la Webcam
+sendcam Invia immagine della webcam
 sendemail Invia in mio indirizzo e-mail per avvisarmi riguardo cambiamenti
 sendfile Invia un file
 send Invia
 sendfeedback Spedisci un resoconto
-sendmail Manda e-mail
-sendmobmsg Invia a dispositivo mobile
-sendmsg Manda un messaggio
+sendmail Invia un messaggio di posta
+sendmobmsg Invia un messaggio ad dispositivo mobile
+sendmsg Invia un messaggio istantaneo
 sendwebcaminvite Invita l'utente a vedere dalla tua webcam
 sendoim Invia un messaggio "non in linea"
 sendvoice Invia un messaggio vocale
@@ -702,7 +702,7 @@ shownotify Mostra una finestra di notifica quando accade qualcosa
 showpicnotify Mostra la foto degli utenti nella finestra di notifica
 showuserpic Immagine di $1
 signinstatus Accedi sempre come:
-skinselector Seleziona Skin
+skinselector Seleziona le Skin
 skin Skin
 small Piccolo
 smileconfig Configurazione delle emoticon personalizzate
@@ -716,7 +716,7 @@ snapshot Istantanea
 sngdblclick Un click per aprire una nuova finestra per i messaggi
 sortcontactgroup Ordina i contatti per gruppo
 sortcontacthybrid Ordina i contatti in modo ibrido
-sortcontactstatus Ordina i contatti per status
+sortcontactstatus Ordina i contatti per stato personale
 sortgroupsasc Ordina i gruppi in ordine ascendente
 sortgroupsdesc Ordina i gruppi in ordine discendente
 soundactive Riproduci un suono anche quando ricevi un messaggio nella finestra attiva
@@ -739,7 +739,7 @@ startonboot Avvia aMSN all'avvio di Windows
 startontray Avvia aMSN direttamente nella traybar
 stateautomsg Automessaggio da inviare
 stateedittext Per favore modifica i campi che vorresti \nche fossero modificati e premi Salva
-statechange stato cambiato in:
+statechange stato personale cambiato in:
 stateinfo Configurazione dello stato personale
 statename Nome dello stato personale
 statenewtext Per favore inserisci le informazioni richieste per creare \nil tuo nuovo Stato Personale e premi Salva
@@ -747,7 +747,7 @@ statenick Personalizza nick (lasciare vuoto per non modificarlo)
 statepsm Personalizza messaggio personale (lasciare vuoto per non modificarlo)
 state Voglio apparire come
 stats Statistiche
-status Stato
+status Stato personale
 stopalarm Ferma l'allarme
 stop Stop
 stopwebcamreceive Interrompi la ricezione della webcam
@@ -825,7 +825,7 @@ view Vista
 voice_notimplemented La ricezione dei messaggi vocali non è stata ancora implementata. Per favore sii paziente.
 voice_windows Visto che usi Windows, dovresti riuscire ad ascoltare il messaggio vocale aprendolo con il tuo player audio.
 voice_windows_click Clicca qui per farlo
-wanttosharecam Voglio rendere la mia webcam accessibile agli altri
+wanttosharecam Consenti a tutti di sapere che ho una webcam
 webcamcanceled La sessione webcam con $1 è stata annullata
 webcamclosebefcancel Devi interrompere tutte le sessioni webcam prima di chiudere la finestra
 webcamconfigure Configura la webcam
@@ -833,20 +833,20 @@ webcamextloaded L'estensione webcamsn è stata caricata
 webcamextnotloaded L'estensione webcamsn non è stata caricata. Devi compilarla.
 webcamfaq FAQ/Aiuto per la webcam
 webcamhistory Guarda le sessioni webcam salvate
-webcaminvitereceived $1 ti ha invitato ad iniziare una sessione webcam. Accetti l'invito?
-webcaminvite $1 ti ha invitato ad una conferenza via webcam, ma aMSN non supporta questa funzionalità
-webcamrejected $1 rifiuta l'invito per la sessione webcam
-webcamrequestreceive Invia la richiesta per ricevere dalla webcam
-webcamrequestsend Invia la richiesta per inviare con la webcam
-webcamsending Lista delle persone a cui stai inviando con la webcam\nClicca per annullare
+webcaminvite $1 ti ha invitato/a ad una sessione webcam, ma aMSN non supporta questa funzionalità.
+webcaminvitereceived $1 ti ha invitato/a ad una sessione webcam. Desideri accettare questo invito?
+webcaminvitereceiving Sei stato/a invitato/a da $1 ad avviare visualizzazione immagine della webcam. Desideri accettare questo invito?
+webcaminvitesending Se stato/a invitato/a da $1 ad avviare invio immagine della webcam. Desideri accettare questo invito?
+webcamrejected $1 rifiuta l'invito ad avviare invio immagine della webcam
+webcamrequestreceive Inviata la richiesta per ricevere dalla webcam
+webcamrequestsend Inviata la richiesta per inviare immagini della webcam
+webcamsending Lista delle persone a cui stai inviando immagini della webcam\nClicca per annullare
 webcam Webcam
-webcaminvitereceiving Sei stato invitato a vedere dalla webcam di $1 . Vuoi accettare questa sessione?
-webcaminvitesending $1 vuole vedere dalla tua webcam. Vuoi accettare questa sessione?
 whatisamsn aMSN è un clone di MSN Messenger, indipendente dalla piattaforma
 whatsize L'immagine che hai richiesto non è nel normale formato di visualizzazione immagini (96x96) In che formato vuoi che l'immagine venga visualizzata?
 willjoin Sto aspettando che $1 si unisca alla conversazione
 winkreceived Hai ricevuto un Wink da $1. Questa opzione non è però al momento supportata da aMSN
-wintitlenick Mostra i nick nella finestra con linguette anziché l'email
+wintitlenick Mostra i nick nella finestra con linguette anziché l'e-mail
 work Lavoro
 wrongfields I campi "$1", "$2" e/o "$3" non erano validi
 wrongprofileversion Versione del file di configurazione del profilo errata, per risolvere prego rimuovere la directory $1, o aggiornare aMSN
