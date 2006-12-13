@@ -13,7 +13,9 @@ namespace eval ::ustat {
 		set cur_status [::MSN::stateToDescription $status]
 		set statuscolor [::skin::getKey contact_$cur_status]
 		set statuscolor [string replace $statuscolor 0 0 ""]
-		set fontformat [list $::family bold $statuscolor]
+		set family [lindex [::config::getGlobalKey basefont] 0]
+		if { $family == "" } { set family "Helvetica"}
+		set fontformat [list $family bold $statuscolor]
 		::amsn::WinWrite $chatid "\n" says $fontformat 0
 		::amsn::WinWriteIcon $chatid miniinfo 5 0
 		set msg "[timestamp] [::abook::getDisplayNick $chatid] is now [trans $cur_status]\n"
