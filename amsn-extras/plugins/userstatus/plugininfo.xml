@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<plugin>
+	<name>UserStatus</name>
+	<author>NoWhereMan</author>
+	<description>Prints in the chat window infos about the contact you're chatting with
+By NoWhereMan ( http://www.nowhereland.it )
+Thanks to Tychondriax ( http://tychodriax.altervista.org ) for helping with the debugging part :)
+	</description>
+	<amsn_version>0.96</amsn_version>
+	<plugin_version>1.0</plugin_version>
+	<plugin_file>userstatus.tcl</plugin_file>
+	<plugin_namespace>ustat</plugin_namespace>
+	<init_procedure>init</init_procedure>
+</plugin>
