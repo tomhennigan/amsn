@@ -7,6 +7,8 @@
 ###################################################################
 
 
+# For more information on the format and protocol read this article :
+# http://www.amsn-project.net/wiki/index.php/Gmail
 namespace eval ::gnotify {
 	variable config
 	variable configlist
@@ -404,13 +406,14 @@ namespace eval ::gnotify {
 						puts "$att "
 					}
 				}
-			#	if {[llength $mail(tags)] > 0 } {
-			#		puts -nonewline "tags : "
-			#		foreach tag $mail(tags) {
-			#			puts -nonewline "$tag, "
-			#		}
-			#	}
+				if {[llength $mail(tags)] > 0 } {
+					puts -nonewline "tags : "
+					foreach tag $mail(tags) {
+						puts -nonewline "$tag, "
+					}
+				}
 				puts ""
+				#puts "Timestamp : $mail(timestamp)"
 			}
 		}
 	}
@@ -634,28 +637,37 @@ namespace eval ::gnotify {
 
 		set start $data(offset)
 		set end [expr {$start + $size}]
-		set info(author) [list email "" nick ""]
+		set info(author) [list errors 0 email "" nick ""]
+		set info(new) 0
+		set info(initiator) 0
 		set info(errors) 0
 
 		while {$data(offset) < $end } {
 			set key [ReadKey data]
 			switch -- $key {
 				10 {
+					# 0x0A Author info
 					set size [ReadSize data]
 					set offset $data(offset)
 					set info(author) [GetMailAuthor2 data $size]
 					set data(offset) [expr {$offset + $size}]	
 				}
-				16 {
-					# unknown
-					GetMultiByte $var
+				16 {	
+					# 0x10 Has unread mail
+					# This key specifies whether an email of this author in the thread is unread
+					if { [GetMultiByte $var] == 1} {
+						set info(new) 1
+					} 
 				}
 				24 {
-					# unknown
-					GetMultiByte $var
+					# 0x18 Thread Initiator
+					# This key specifies whether this user is the one who started the thread
+					if { [GetMultiByte $var] == 1} {
+						set info(initiator) 1
+					} 
 				} 
 				default {
-					puts "Unknown author key : $key"
+					puts "Unknown author ($info(author)) key : $key"
 					incr info(errors)
 				}
 			}
@@ -678,11 +690,13 @@ namespace eval ::gnotify {
 			set key [ReadKey data]
 			switch -- $key {
 				10 {
+					# 0x0A Email
 					set size [ReadSize data]
 					set email [DecodeString [GetBytes data $size]]
 					set info(email) $email
 				}
 				18 {
+					# 0x12 Name
 					set size [ReadSize data]
 					set nick [DecodeString [GetBytes data $size]]
 					set info(nick) $nick
@@ -702,9 +716,9 @@ namespace eval ::gnotify {
 
 		set start $data(offset)
 		set end [expr {$start + $size}]
-		set timestamp_size [GetMultiByte $var]
 
-		set info(timestamp) [GetBytes data $timestamp_size]
+		set info(timestamp) ""
+		set info(timestamp2) ""
 		set info(attachments) [list]
 		set info(tags) [list]
 		set info(authors) [list]
@@ -713,41 +727,59 @@ namespace eval ::gnotify {
 		set info(threads) 1
 		set info(errors) 0
 
+
+
 		while {$data(offset) < $end } {
 			set key [ReadKey data]
 			switch -- $key {
+				16 {
+					# 0x10 unknown / timestamp
+					#puts "Unknown mail key 16 has value : [GetMultiByte $var]"
+					set info(timestamp)  [GetMultiByte $var]
+				} 
+				24 {
+					# 0x18 unknown / timestamp
+					#puts "Unknown mail key 24 has value : [GetMultiByte $var]"
+					set info(timestamp2)  [GetMultiByte $var]
+				}
 				130 {
+					# 0x82 Tag
 					set size [ReadSize data]
 					set tag [GetBytes data $size]
 					lappend info(tags) $tag
 				}
 				146 {
-					# from
+					# 0x92 from
 					set size [ReadSize data]
 					set offset $data(offset)
 					lappend info(authors) [GetMailAuthor data $size]
 					set data(offset) [expr {$offset + $size}]
 				}
 				152 {
-					# unknown
+					# 0x98 unknown
+					#puts "Unknown mail key 152 has value : [GetMultiByte $var]"
 					GetMultiByte $var
 				}
 				162 {
+					# 0xA2 Subject
 					set size [ReadSize data]
 					set subject [DecodeString [GetBytes data $size]]
 					set info(subject) $subject
 				}
 				170 {
+					# 0xAA Body preview
 					set size [ReadSize data]
 					set body [DecodeString [GetBytes data $size]]
 					set info(body) $body
 				}
 				178 {
+					# 0xB2 Attachment
 					set size [ReadSize data]
 					set attachment [DecodeString [GetBytes data $size]]
 					lappend info(attachments) $attachment
 				}
 				184 {
+					# 0xB8 Number of threads
 					set info(threads) [GetMultiByte data]
 				}
 				default {
@@ -760,6 +792,8 @@ namespace eval ::gnotify {
 
 	}
 
+	# For more information on the format and protocol read this article :
+	# http://www.amsn-project.net/wiki/index.php/Gmail
 	proc parseGData { data_bin } {
 		set data(bin) $data_bin
 		set data(len) [string length $data_bin]
@@ -774,12 +808,14 @@ namespace eval ::gnotify {
 			set key [ReadKey data]
 			switch -- $key {
 				10 {
+					# 0x0A New mail Key
 					set size [ReadSize data]
 					set offset $data(offset)
 					lappend info(mails) [GetNewMail data $size]
 					set data(offset) [expr {$offset + $size}]
 				}
 				136 {
+					# 0x88 Number of mails Key
 					set info(nb_mails) [GetMultiByte data]
 				}
 				default {
