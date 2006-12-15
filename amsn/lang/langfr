@@ -87,6 +87,8 @@ blockinter3 à chaque
 blockinter4 secondes.
 blocklist Liste des personnes bloquées :
 blockmessage Ces personnes sont en ligne mais vous bloquent
+blocknotifications Désactiver l'affichage de la fenêtre d'annonces
+blocksounds Désactiver les sons
 blockusers Nombre de contacts à cocher à la fois
 bouncedock Faire rebondir l'icone de aMSN dans le dock lorsque vous recevez un message
 brightness Luminosité
@@ -522,7 +524,7 @@ nosound Pas de son détecté, assurez-vous que votre micro est bien branché
 nosound_or_hold Pas de son détécté. Pour envoyer un message vocal, vous devez maintenir le bouton appuyé pendant que vous parlez, puis relacher le bouton pour envoyer le message.
 nosystemtray La boîte à miniatures n'est pas accessible
 note Note
-notificationserver Annonce  initiale du Serveur MSN (Serveur MSN Messenger)
+notificationserver Annonce initiale du Serveur MSN (Serveur MSN Messenger)
 notify1_5 Annoncer quand les contacts se déconnectent
 notify1_75 Annoncer quand les contacts changent de statut
 notify1 Annoncer quand les contacts se connectent
@@ -532,7 +534,7 @@ notify4 Annoncer quand des E-mails arrivent dans les autres dossiers
 notifyoffset Sélectionner la position de la fenêtre d'annonce en précisant ses coordonnées
 notify prévenir
 notifytimeout Nombre de milisecondes écoulées avant que la fenêtre d'annonce ne disparaisse
-notifytyping Envoyer aux autres contacts une annonce à propos de l'usage du clavier
+notifytyping Notifier les contacts du fait que vous tapez un message, lors d'une conversation
 notifywin Fenêtre d'annonce
 notinlist Vous ne figurez pas dans sa liste de contact
 notls Le protocole 9 de MSN requiert le module tls. Celui-ci ne semble pas être installé sur le système. S'il est installé,
