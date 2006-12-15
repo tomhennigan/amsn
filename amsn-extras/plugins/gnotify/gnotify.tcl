@@ -242,14 +242,15 @@ namespace eval ::gnotify {
 			}
 		}
 	}
-
+	
 	proc encrypt { password } {
-		binary scan [::des::encrypt pasencky $password] h* encpass
+		binary scan [::des::encrypt pasencky "${password}\n"] h* encpass
 		return $encpass
 	}
 
 	proc decrypt { key } {
 		set password [::des::decrypt pasencky [binary format h* $key]]
+		set password [string range $password 0 [expr { [string first "\n" $password] -1 }]]
 		return $password
 	}
 
