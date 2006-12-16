@@ -24,7 +24,7 @@ if { $initialize_amsn == 1 } {
 	#package require pixmapbutton
 	if { [OnMac] } {
 		# Use brushed metal style windows on Mac OS X.
-		catch {source utils/macosx/brushedmetal/brushedmetal.tcl}
+		catch {source utils/macosx/tkUnsupported/macWindowStyle.tcl}
 		#Use tclCarbonHICommand for window utilities
 		catch {package require tclCarbonHICommand}
 		catch {package require QuickTimeTcl}
@@ -3414,9 +3414,9 @@ proc cmsn_draw_main {} {
 	
 	if { [OnMac] } {
 		# Set the window style (brushed/aqua) for the CL.
-		if {[::skin::getKey usebrushedmetal "0"]} {
+		if {[::skin::getKey usebrushedmetal "0"] && [::config::getKey allowbrushedmetal "1"]} {
 			catch { ::tk::unsupported::MacWindowStyle style . document {closeBox horizontalZoom verticalZoom collapseBox resizable metal} }
-			frame .main -class Amsn -relief [::skin::getKey mainwindowrelief "flat"] -bd [::skin::getKey mainwindowbd "0"] -background [::skin::getKey mainwindowbg]
+			frame .main -class Amsn -relief [::skin::getKey mainwindowrelief "flat"] -bd [::skin::getKey mainwindowbd "0"] -background [::skin::getKey mainwindowbg "white"]
  		} else {
 			frame .main -class Amsn -relief flat -background white
 		}
@@ -3606,6 +3606,13 @@ proc cmsn_draw_main {} {
 	
 	#allow for display updates so window size is correct
 	update idletasks
+	
+	#Set the alpha value of the main window.
+	#tomhennigan:- I'm not sure of the cross platform issues with this so I've put it as OnMac just in case.
+	#The code to handle alpha for the rest of the windows is in utils/macosx/tkUnsupported/macWindowStyle.tcl
+	if {[OnMac]} {
+		catch {wm attributes . -alpha [::config::getKey windowalpha "1.0"]}
+	}
 	
 	#Unhide main window now that it has finished being created
 	wm state . normal
