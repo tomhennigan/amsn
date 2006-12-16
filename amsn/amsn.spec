@@ -57,7 +57,7 @@ Distribution:	%{_distribution}
 %description
 This is Tcl/Tk clone that implements the Microsoft Messenger (MSN) for
 Unix,Windows, or Macintosh platforms. It supports file transfers,
-groups, and many more features. Visit http://amsn.sourceforge.net/ for
+groups, and many more features. Visit http://amsn-project.net/ for
 details. This is an ongoing project, and it is already going pretty
 well.
 
@@ -65,13 +65,13 @@ well.
 amsn est un client Microsoft Messenger (MSN) pour UNIX, Windows et
 Macintosh écrit en Tcl/Tk.  Il supporte les tranferts de fichiers, les
 groupes et beaucoup d'autres possibilités...
-Visitez http://amsn.sourceforge.net/ pour de plus amples détails.
+Visitez http://amsn-project.net/ pour de plus amples détails.
 
 %description -l de
 amsn ist ein Microsoft Messenger (MSN) Client fr UNIX, Windows und
 Macintosh, der in Tcl/Tk geschrieben ist. Es untersttzt
 Dateibertragungen, Gruppen uvm.
-Begeben Sie sich auf http://amsn.sourceforge.net/ um mehr ber dieses
+Begeben Sie sich auf http://amsn-project.net/ um mehr ber dieses
 Projekt zu erfahren.
 
 %prep
