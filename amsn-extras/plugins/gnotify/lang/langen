@@ -10,7 +10,12 @@ click_to_check Click here to check the number of messages now
 not_checked Not Checked Yet
 checking Checking mail
 error_checking Error Retrieving Gmail Account Information
+wrong_pass Wrong Username/Password
+account_locked Access Denied to Gmail Account
 view_inbox View Inbox ($1)
 check_now Check Now
 tell_me Tell me again 
 options Options
+receivedmail New mail from : $1
+mail_info Mail information for account : $1
+gotmail You have $1 new emails in your inbox

@@ -13,10 +13,10 @@ namespace eval ::gnotify {
 	variable config
 	variable configlist
 
-	for {set acntn 0} {$acntn < 10} {incr acntn} {
-		variable status_$acntn 0
-		variable info_$acntn [list]
-		variable oldmails_$acntn 0
+	for {set acnt 0} {$acnt < 10} {incr acnt} {
+		variable status_$acnt 0
+		variable info_$acnt [list errors 0 mails [list] nb_mails 0]
+		variable notified_$acnt 0
 	}
 
 	#######################################################################################
@@ -36,16 +36,17 @@ namespace eval ::gnotify {
 			accounts {1}
 		}
 
-		for {set acntn 0} {$acntn < 10} {incr acntn} {
+		for {set acnt 0} {$acnt < 10} {incr acnt} {
 			array set ::gnotify::config [ list \
-							  user_[set acntn] {username@gmail.com} \
-							  passe_[set acntn] [::gnotify::encrypt ""] \
-							  notify_[set acntn] {1} \
-							 ]
+							  user_[set acnt] {username@gmail.com} \
+							  passe_[set acnt] [::gnotify::encrypt ""] \
+							  notify_[set acnt] {1} \
+							  known_mids_$acnt [list]
+						     ]
 		}
 
 		set ::gnotify::configlist [list \
-					       [list str [trans check_minutes] minute] \
+					       [list str [trans check_minutes] minutes] \
 					       [list frame ::gnotify::populateframe ""] \
 					      ]
 
@@ -165,14 +166,14 @@ namespace eval ::gnotify {
 	# Results:
 	#	An integer variable wich contains the number of mails in the mbox
 	proc check { } {
-		catch {
+		if { [catch {
 			# Make sure there isn't duplicat calls
 			after cancel ::gnotify::check
 			
 			set ::gnotify::checkingnow 1
 			
-			for {set acntn 0} {$acntn < $::gnotify::config(accounts)} {incr acntn} {
-				::gnotify::check_gmail $::gnotify::config(user_$acntn) [::gnotify::decrypt $::gnotify::config(passe_$acntn)] $acntn
+			for {set acnt 0} {$acnt < $::gnotify::config(accounts)} {incr acnt} {
+				::gnotify::check_gmail $::gnotify::config(user_$acnt) [::gnotify::decrypt $::gnotify::config(passe_$acnt)] $acnt
 			}
 
 			# Call itself again after x minutes
@@ -180,6 +181,8 @@ namespace eval ::gnotify {
 			after $time ::gnotify::check
 
 			set ::gnotify::checkingnow 0
+		} res] } {
+			plugins_log gnotify "Error during check : $res\n$::errorInfo"
 		}
 	}
 	
@@ -193,6 +196,10 @@ namespace eval ::gnotify {
 		#cancel any previous starts first
 		catch { after cancel ::gnotify::check }
 		catch { after 5000 ::gnotify::check }
+		
+		for {set acnt 0} {$acnt < 10} {incr acnt} {
+			variable notified_$acnt 0
+		}
 	}
 
 
@@ -218,23 +225,23 @@ namespace eval ::gnotify {
 	# Description:
 	#	Posts a notification of new emails.
 	# Arguments:
-	#	acntn ->  The number of the account to notify for
+	#	acnt ->  The number of the account to notify for
 	# Results:
 	#	A notify window pops up when required.
-	proc notify { acntn } {
-		variable info_$acntn
+	proc notify { acnt } {
+		variable info_$acnt
 
-		array set info [set info_$acntn]
+		array set info [set info_$acnt]
 
-		if { $::gnotify::config(notify_$acntn) == 1 } {
+		if { $::gnotify::config(notify_$acnt) == 1 } {
 			switch -- $info(nb_mails) {
 				1  { set mailmsg "[trans onenewmail]" }
 				2  { set mailmsg "[trans twonewmail 2]"	}
 				default { set mailmsg "[trans newmail $info(nb_mails)]" }
 			}
-		
-			::amsn::notifyAdd "[set ::gnotify::config(user_$acntn)]\n$mailmsg" "launch_browser {http://mail.google.com}" newemail plugins
-		
+			
+			::amsn::notifyAdd "[set ::gnotify::config(user_$acnt)]\n$mailmsg" "launch_browser {http://mail.google.com}" newemail plugins
+			
 			
 			#If Growl plugin is loaded, show the notification, Mac OS X only
 			if { [info commands growl] != "" } {
@@ -259,27 +266,48 @@ namespace eval ::gnotify {
 		return 1
 	}
 	
+	proc buildFromField { authors } {
+		set first 1
+		set from ""
+		foreach author_l $authors {
+			array set author $author_l
+			set id_l $author(id)
+			array set id $id_l
+			if {[llength $authors] == 1 } {
+				append from "$id(nick) <$id(email)>"
+			} else {
+				if {$first == 0 } {
+					append from ", "
+				}
+				if { $author(has_unread) == 1 } {
+					append from "*"
+				}
+				append from "$id(nick)"
+				set first 0
+			}					
+		}
+		set from
+	}
 
 
 	# ::gnotify::draw
 	# Description:
 	#	Adds a line in the contact list of the number of emails drawn for each account
 	# Arguments:
-	#	acntn   -> The number of the account to notify for
+	#	acnt   -> The number of the account to notify for
 	#	evPar   -> The array of parameters (Supplied by Plugins System)
-	proc draw_no {acntn evPar} {
+	proc draw_no {acnt evPar} {
 		upvar 3 $evPar vars
-		variable info_$acntn
-		variable status_$acntn
-		variable oldmails_$acntn
+		variable info_$acnt
+		variable status_$acnt
 
-		array set info [set info_$acntn]
+		array set info [set info_$acnt]
 
 		#TODO: add parameter to event and get rid of hardcoded variable
 		set pgtop $::pgBuddyTop
 		set clbar $::pgBuddyTop.colorbar
 		
-		set textb $pgtop.gnotifymail_$acntn
+		set textb $pgtop.gnotifymail_$acnt
 		text $textb -font bboldf -height 1 -background [::skin::getKey topcontactlistbg] -borderwidth 0 -wrap none -cursor left_ptr \
 		    -relief flat -highlightthickness 0 -selectbackground white -selectborderwidth 0 \
 		    -exportselection 0 -relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0
@@ -289,7 +317,7 @@ namespace eval ::gnotify {
 		} else {
 			pack $textb -expand true -fill x -before $clbar -side bottom -padx 0 -pady 0
 		}
-	
+		
 		$textb configure -state normal
 
 		if { [info exists info(nb_mails)] && $info(nb_mails) > 0} {
@@ -297,7 +325,7 @@ namespace eval ::gnotify {
 		} else {
 			set img gnotify_empty
 		}
-		clickableImage $textb popmailpic_$acntn $img {after cancel ::gnotify::check; after 1 ::gnotify::check} [::skin::getKey mailbox_xpad] [::skin::getKey mailbox_ypad]
+		clickableImage $textb popmailpic_$acnt $img {after cancel ::gnotify::check; after 1 ::gnotify::check} [::skin::getKey mailbox_xpad] [::skin::getKey mailbox_ypad]
 		
 		set mailheight [expr [image height [::skin::loadPixmap $img]]+(2*[::skin::getKey mailbox_ypad])]
 		#in windows need an extra -2 is to include the extra 1 pixel above and below in a font
@@ -311,112 +339,189 @@ namespace eval ::gnotify {
 		$textb configure -font "{} -$mailheight"
 
 		set balloon_message [trans click_to_check] 
-		$textb tag bind $textb.popmailpic_$acntn <Enter> +[list balloon_enter %W %X %Y $balloon_message]
-		$textb tag bind $textb.popmailpic_$acntn <Leave> "+set ::Bulle(first) 0; kill_balloon;"
-		$textb tag bind $textb.popmailpic_$acntn <Motion> +[list balloon_motion %W %X %Y $balloon_message]
+		$textb tag bind $textb.popmailpic_$acnt <Enter> +[list balloon_enter %W %X %Y $balloon_message]
+		$textb tag bind $textb.popmailpic_$acnt <Leave> "+set ::Bulle(first) 0; kill_balloon;"
+		$textb tag bind $textb.popmailpic_$acnt <Motion> +[list balloon_motion %W %X %Y $balloon_message]
 
 		
-		if { [set status_$acntn] == 0 } {
-			set mailmsg "[trans not_checked] ([set ::gnotify::config(user_$acntn)])"
-		} elseif { [set status_$acntn] == 1 } {
-			set mailmsg "[trans checking] ([set ::gnotify::config(user_$acntn)])"
-		} elseif { [set status_$acntn] == 3 } {
-			set mailmsg "[trans error_checking] ([set ::gnotify::config(user_$acntn)])"
+		if { [set status_$acnt] == 0 } {
+			set mailmsg "[trans not_checked] ([set ::gnotify::config(user_$acnt)])"
+		} elseif { [set status_$acnt] == 1 } {
+			set mailmsg "[trans checking] ([set ::gnotify::config(user_$acnt)])"
+		} elseif { [set status_$acnt] == -1 } {
+			set mailmsg "[trans wrong_pass] ([set ::gnotify::config(user_$acnt)])"
+		} elseif { [set status_$acnt] == -2 } {
+			set mailmsg "[trans account_locked] ([set ::gnotify::config(user_$acnt)])"
+		} elseif { [set status_$acnt] == -3 } {
+			set mailmsg "[trans error_checking] ([set ::gnotify::config(user_$acnt)])"
 		} elseif { $info(nb_mails) == 0 } {
-			set mailmsg "[trans nonewmail] ([set ::gnotify::config(user_$acntn)])"
+			set mailmsg "[trans nonewmail] ([set ::gnotify::config(user_$acnt)])"
 		} elseif { $info(nb_mails) == 1} {
-			set mailmsg "[trans onenewmail] ([set ::gnotify::config(user_$acntn)])"
+			set mailmsg "[trans onenewmail] ([set ::gnotify::config(user_$acnt)])"
 		} elseif { $info(nb_mails) == 2} {
-			set mailmsg "[trans twonewmail 2] ([set ::gnotify::config(user_$acntn)])"
+			set mailmsg "[trans twonewmail 2] ([set ::gnotify::config(user_$acnt)])"
 		} else {
-			set mailmsg "[trans newmail $info(nb_mails)] ([set ::gnotify::config(user_$acntn)])"
+			set mailmsg "[trans newmail $info(nb_mails)] ([set ::gnotify::config(user_$acnt)])"
 		}
 		
 		set maxw [expr [winfo width [winfo parent $pgtop]]-[image width [::skin::loadPixmap $img]]-(2*[::skin::getKey mailbox_xpad])]
 		set short_mailmsg [trunc $mailmsg $textb $maxw splainf]
 
-		$textb tag conf gnotifymail_$acntn -fore black -underline false -font splainf
-		$textb tag conf gnotifymail_$acntn -underline true
-		$textb tag bind gnotifymail_$acntn <Enter> "$textb tag conf gnotifymail_$acntn -under false;$textb conf -cursor hand2"
-		$textb tag bind gnotifymail_$acntn <Leave> "$textb tag conf gnotifymail_$acntn -under true;$textb conf -cursor left_ptr"
+		$textb tag conf gnotifymail_$acnt -fore black -underline false -font splainf
+		$textb tag conf gnotifymail_$acnt -underline true
+		$textb tag bind gnotifymail_$acnt <Enter> "$textb tag conf gnotifymail_$acnt -under false;$textb conf -cursor hand2"
+		$textb tag bind gnotifymail_$acnt <Leave> "$textb tag conf gnotifymail_$acnt -under true;$textb conf -cursor left_ptr"
 		
-		$textb tag bind gnotifymail_$acntn <Button1-ButtonRelease> "$textb conf -cursor watch; after 1 [list launch_browser {http://mail.google.com}]"
+		$textb tag bind gnotifymail_$acnt <Button1-ButtonRelease> "$textb conf -cursor watch; after 1 [list launch_browser {http://mail.google.com}]"
 		
-		$textb tag bind gnotifymail_$acntn <Button3-ButtonRelease> "after 1 [list ::gnotify::rightclick %X %Y $acntn]"
+		$textb tag bind gnotifymail_$acnt <Button3-ButtonRelease> "after 1 [list ::gnotify::rightclick %X %Y $acnt]"
 		
 		set balloon_message "$mailmsg"
-		$textb tag bind gnotifymail_$acntn <Enter> +[list balloon_enter %W %X %Y $balloon_message]
-		$textb tag bind gnotifymail_$acntn <Leave> "+set ::Bulle(first) 0; kill_balloon;"
-		$textb tag bind gnotifymail_$acntn <Motion> +[list balloon_motion %W %X %Y $balloon_message]
 
-		$textb insert end "$short_mailmsg" [list gnotifymail_$acntn dont_replace_smileys]
+		if { [set status_$acnt] == 2 } {
+			foreach mail_l $info(mails) {
+				append balloon_message "\n"
+				array set mail $mail_l
+				foreach tag $mail(tags) {
+					if {$tag == "^t" } {
+						append balloon_message "(*)"
+					}
+				}
+				append balloon_message [buildFromField $mail(authors)]
+				append balloon_message " : $mail(subject)"
+			}
+		}
+
+		$textb tag bind gnotifymail_$acnt <Enter> +[list balloon_enter %W %X %Y $balloon_message]
+		$textb tag bind gnotifymail_$acnt <Leave> "+set ::Bulle(first) 0; kill_balloon;"
+		$textb tag bind gnotifymail_$acnt <Motion> +[list balloon_motion %W %X %Y $balloon_message]
+
+		$textb insert end "$short_mailmsg" [list gnotifymail_$acnt dont_replace_smileys]
 		
 		$textb configure -state disabled
 
-		if { [info exists info(nb_mails)] && [set status_$acntn] == 2} {
-			if {$info(nb_mails) > [set oldmails_$acntn] } {
-				notify $acntn
+		if { [set ::gnotify::config(notify_$acnt)] == 1 && [info exists info(nb_mails)] && [set status_$acnt] == 2} {
+			foreach mail_l $info(mails) {
+				array set mail $mail_l
+				if {[lsearch [set ::gnotify::config(known_mids_$acnt)] $mail(mid)] == -1} {
+					::amsn::notifyAdd "[trans receivedmail [buildFromField $mail(authors)]]" \
+					    [list launch_browser {http://mail.google.com}] newemail
+					lappend ::gnotify::config(known_mids_$acnt) $mail(mid)
+				}
 			}
-			set oldmails_$acntn $info(nb_mails)
+			variable notified_$acnt
+			if {[set notified_$acnt] == 0 && $info(nb_mails) > 0 } {
+				notify $acnt
+				set notified_$acnt 1
+			}
 		}
 
 	}
 
 	proc tell_no {acnt} {
 		variable info_$acnt
+		variable status_$acnt
+		
+		set w .gnotify_tell_me
+		set sw $w.sw
+		set t $sw.msg
+		set close $w.close
+		if { [winfo exists $w] } {
+			destroy $w
+		}
+		toplevel $w
+	
+		ScrolledWindow $sw -auto vertical -scrollbar vertical -ipad 0
+		text $t -relief solid -background [::skin::getKey chat_output_back_color] -width 45 -height 3 \
+			-setgrid 0 -wrap word -exportselection 1 -highlightthickness 0 -selectborderwidth 1 
 
+		$sw setwidget $t
+		button $close -text "[trans close]" -command "destroy $w"
+
+		$t insert end "[trans mail_info [set ::gnotify::config(user_$acnt)]]\n\n"
 		array set info [set info_$acnt]
-		if { $info(errors) > 0 } {
-			puts "Error parsing GData : [::http::data $token]"
+		if { [set status_$acnt] == 0 } {
+			$t insert end "[trans not_checked]"
+		} elseif { [set status_$acnt] == 1 } {
+			$t insert end "[trans checking]"
+		} elseif { [set status_$acnt] == -1 } {
+			$t insert end  "[trans wrong_pass]"
+		} elseif { [set status_$acnt] == -2 } {
+			$t insert end  "[trans account_locked]"
+		} elseif { [set status_$acnt] == -3 } {
+			$t insert end  "[trans error_checking]"
 		} else {
-			puts "You have $info(nb_mails) new emails in your inbox"
+			$t insert end  "[trans gotmail $info(nb_mails)]"
 			set i 0
 			foreach mail_l $info(mails) {
 				incr i
 				array set mail $mail_l
-				puts "\n\n($i/$info(nb_mails)) "
+				$t insert end "\n\n($i/$info(nb_mails)) "
 				foreach tag $mail(tags) {
 					if {$tag == "^t" } {
-						puts -nonewline "(*)"
+						$t insert end "(*)"
 					}
 				}
-				if {[llength $mail(authors)] == 1 } {
-					set author_l [lindex $mail(authors) 0]
+
+				set first 1
+				foreach author_l $mail(authors) {
 					array set author $author_l
-					set author_l $author(author)
-					array set author $author_l
-					puts -nonewline "$author(nick) <$author(email)>"						
-				} else {
-					foreach author_l $mail(authors) {
-						array set author $author_l
-						set author_l $author(author)
-						array set author $author_l
-						puts -nonewline "$author(nick), "
-						
-					}
+					set id_l $author(id)
+					array set id $id_l
+					if {[llength $mail(authors)] == 1 } {
+						$t insert end "$id(nick) <$id(email)>"
+					} else {
+						if {$first == 0 } {
+							$t insert end ", "
+						}
+						if { $author(has_unread) == 1 } {
+							$t insert end "*"
+						}
+						$t insert end "$id(nick)"
+						set first 0
+					}					
 				}
+				
 				if { $mail(threads) > 1 } { 
-					puts "($mail(threads))"
-				} else {
-					puts ""
+					$t insert end "($mail(threads))"
 				}
-				puts "$mail(subject) || $mail(body)"
+				
+				$t insert end "\n"
+				
+				if {$mail(timestamp) != 0 } {
+					$t insert end "Date : [clock format [expr int($mail(timestamp) / 1000)] -format %c]\n"
+				}
+				$t insert end "Subject : $mail(subject)\n"
+				$t insert end "Body preview : $mail(body)\n"
 				if {[llength $mail(attachments)] > 0 } {
-					puts -nonewline "Attachments : "
+					$t insert end "Attachments : "
+					set first 1
 					foreach att $mail(attachments) {
-						puts "$att "
+						if {$first == 0 } {
+							$t insert end ", "
+						}
+						$t insert end "$att"
+						set first 0
 					}
+					$t insert end "\n"
 				}
 				if {[llength $mail(tags)] > 0 } {
-					puts -nonewline "tags : "
+					$t insert end "tags : "
+					set first 1
 					foreach tag $mail(tags) {
-						puts -nonewline "$tag, "
+						if {$first == 0 } {
+							$t insert end ", "
+						}
+						$t insert end "$tag"
+						set first 0
 					}
 				}
-				puts ""
-				#puts "Timestamp : $mail(timestamp)"
 			}
 		}
+
+		$t configure -state disabled
+		pack $close -expand false -anchor ne -padx 3 -pady 3 -side bottom
+		pack $sw -expand true -fill both -padx 3 -pady 3 -side bottom
 	}
 
 	# ::gnotify::draw
@@ -426,8 +531,8 @@ namespace eval ::gnotify {
 	#	event   -> The event wich runs the proc (Supplied by Plugins System)
 	#	evPar   -> The array of parameters (Supplied by Plugins System)
 	proc draw {event evPar} {
-		for {set acntn 0} {$acntn < $::gnotify::config(accounts)} {incr acntn} {
-			::gnotify::draw_no $acntn $evPar
+		for {set acnt 0} {$acnt < $::gnotify::config(accounts)} {incr acnt} {
+			::gnotify::draw_no $acnt $evPar
 		}
 	}
 	
@@ -438,11 +543,11 @@ namespace eval ::gnotify {
 	# Arguments:
 	#	x  -> x position where to display
 	#	y  -> y position where to display
-	#	acntn   -> The number of the account to create for
-	proc rightclick { X Y acntn} {
-		variable info_$acntn
+	#	acnt   -> The number of the account to create for
+	proc rightclick { X Y acnt} {
+		variable info_$acnt
 		
-		array set info [set info_$acntn]
+		array set info [set info_$acnt]
 
 		set rmenu .gnotifyrightmenu
 		destroy $rmenu
@@ -458,10 +563,9 @@ namespace eval ::gnotify {
 		$rmenu add command -label [trans view_inbox $new] -command {after 1 [list launch_browser {http://mail.google.com}]}
 		$rmenu add separator
 		$rmenu add command -label [trans check_now] -command ::gnotify::check
-		$rmenu add command -label [trans tell_me] -command [list ::gnotify::tell_no $acntn]
+		$rmenu add command -label [trans tell_me] -command [list ::gnotify::tell_no $acnt]
 		$rmenu add command -label [trans options] -command ::gnotify::Options
 		
-		$rmenu add separator
 
 		tk_popup $rmenu $X $Y
 	}
@@ -502,7 +606,7 @@ namespace eval ::gnotify {
 			set headers [list Cookie $cookie]
 			http::geturl "http://mail.google.com/mail/?ui=pb" -headers $headers -command [list ::gnotify::check_gmail_callback $username $password $acnt]
 		} else {
-			authenticate_gmail $username $password [list ::gnotify::check_gmail $username $password $acnt]
+			authenticate_gmail $username $password $acnt [list ::gnotify::check_gmail $username $password $acnt]
 		}
 		return 
 	}
@@ -525,12 +629,12 @@ namespace eval ::gnotify {
 				}
 			}
 
-		
+			
 			set info_$acnt [parseGData [::http::data $token]]
 
 			array set info [set info_$acnt]
 			if { $info(errors) > 0 } {
-				set status_$acnt 3
+				set status_$acnt -3
 				cmsn_draw_online
 			} else {
 				set status_$acnt 2
@@ -538,12 +642,20 @@ namespace eval ::gnotify {
 			}
 			
 		} else {
-			# Should be a 'moved' where Location points to the auth server with the option &continue=... redirecting to this url again..
-			puts "ERROR : $token"
+			plugins_log gnotify "Unknown error during check_gmail for $username : $meta - [:http::data $token]"
+			set status_$acnt -3
+			set info_$acnt [list errors 1 mails [list]]
+			cmsn_draw_online
+			
+			# Start with a fresh config.. forces the re-authentification (in case the cookies expired)
+			unset user_cookies($username,$password,gv)
+			unset user_cookies($username,$password,sid)
+			unset user_cookies($username,$password,s)
 		}
+		::http::cleanup $token
 	}
 	
-	proc authenticate_gmail { username password callback } {
+	proc authenticate_gmail { username password acnt callback } {
 		package require http
 		package require tls
 		package require base64
@@ -552,15 +664,17 @@ namespace eval ::gnotify {
 		
 		set headers [list Authorization "Basic [base64::encode $username:$password]"]
 		http::geturl "https://www.google.com/accounts/ServiceClientLogin?service=mail" -headers $headers \
-		    -command [list ::gnotify::authenticate_gmail_callback $username $password $callback]
+		    -command [list ::gnotify::authenticate_gmail_callback $username $password $acnt $callback]
 	}
 
-	proc authenticate_gmail_callback { username password callback token } {
+	proc authenticate_gmail_callback { username password acnt callback token } {
 		variable user_cookies
 		upvar #0 $token state
+		variable status_$acnt
+		variable info_$acnt
+
+
 		set meta $state(meta)
-
-
 		if { [::http::ncode $token] == 200 } {
 			foreach {key val} $meta {
 				if { $key == "Set-Cookie" ||  $key == "X-Set-Google-Cookie" } {
@@ -578,11 +692,26 @@ namespace eval ::gnotify {
 		} elseif {[::http::ncode $token] == 401 } {
 			array set meta_array $meta 
 			if {[info exists meta_array(WWW-Authenticate)] && [lindex $meta_array(WWW-Authenticate) 0] == "basic"} {
-				puts "Wrong username/password : $token"
+				plugins_log gnotify "Wrong username/password for account $username"
 			} else {
-				puts "Unknown authentication realm"
+				plugins_log gnotify "Unknown authentication realm for account $username"
 			}
+			set status_$acnt -1
+			set info_$acnt [list errors 1 mails [list] nb_mails 0]
+			cmsn_draw_online
+		} elseif {[::http::ncode $token] == 403 } {
+			plugins_log gnotify "Forbidden for account $username"
+			set status_$acnt -2
+			set info_$acnt [list errors 1 mails [list]]
+			cmsn_draw_online
+		} else {
+			plugins_log gnotify "Unknown error during authentification for $username : $meta - [:http::data $token]"
+			set status_$acnt -3
+			set info_$acnt [list errors 1 mails [list]]
+			cmsn_draw_online
+			
 		}
+		::http::cleanup $token
 	}
 
 	proc GetByte { var } {
@@ -600,13 +729,31 @@ namespace eval ::gnotify {
 		incr data(offset) $size
 		return $bytes
 	}
+
+	# this damn shit is necessary, [expr] does NOT support wide integers when doing shifts... so I get something like this :
+	#     binary scan [binary format w [expr wide(0x21 << 28)]] h* s;set s
+	#     0000000100000000
+	# the '2' disappears if I shift 0x21 by 28 bits... 
+	# This method converts the integer into big endian binary bits format, then it appends the necessary '0's then converts it back from binary bits into a wide variable
+	# This way the shift works (although it's hacky and for sure non performance efficient).
+	proc wide_shl { val sh } { 
+		binary scan [binary format W $val] B* bin
+		append bin [string repeat "0" $sh]
+		set bin [string range $bin end-63 end]
+		binary scan [binary format B* $bin] W* shifted
+		return $shifted
+	}
+
 	proc GetMultiByte { var } {
 		upvar 1 $var $var
+
 		set byte [GetByte $var]
 		set multi [expr {$byte & ~0x80}]
-		while { [expr {$byte & 0x80}] != 0 } {
+		set shifts 7
+		while { [expr {$byte & 0x80}] != 0 && $shifts < 64 } {
 			set byte [GetByte $var]
-			incr multi [expr {0x80 * $byte} ]
+			set multi [expr {[wide_shl [expr $byte & 0x7F] $shifts] | $multi} ]
+			incr shifts 7
 		}
 		return $multi
 	}
@@ -628,7 +775,7 @@ namespace eval ::gnotify {
 			set char [format "%c" [string range $str [expr {$start + 2}] [expr {$end - 1}]]]
 			set str [string replace $str $start $end $char]
 		}
-		set str [string map { "&quot;" "\"" "&hellip;" "..." "&lt;" "<" "&gt;" ">"  "&amp;" "&"} [encoding convertfrom identity $str]]
+		set str [string map { "&quot;" "\"" "&apos;" "\'" "&hellip;" "..." "&lt;" "<" "&gt;" ">"  "&amp;" "&"} [encoding convertfrom identity $str]]
 		return $str
 	}
 
@@ -638,8 +785,8 @@ namespace eval ::gnotify {
 
 		set start $data(offset)
 		set end [expr {$start + $size}]
-		set info(author) [list errors 0 email "" nick ""]
-		set info(new) 0
+		set info(id) [list errors 0 email "" nick ""]
+		set info(has_unread) 0
 		set info(initiator) 0
 		set info(errors) 0
 
@@ -650,14 +797,17 @@ namespace eval ::gnotify {
 					# 0x0A Author info
 					set size [ReadSize data]
 					set offset $data(offset)
-					set info(author) [GetMailAuthor2 data $size]
-					set data(offset) [expr {$offset + $size}]	
+					set info(id) [GetMailAuthor2 data $size]
+					set data(offset) [expr {$offset + $size}]
+					array set id $info(id)
+					incr info(errors) $id(errors)
+					unset id
 				}
 				16 {	
 					# 0x10 Has unread mail
 					# This key specifies whether an email of this author in the thread is unread
 					if { [GetMultiByte $var] == 1} {
-						set info(new) 1
+						set info(has_unread) 1
 					} 
 				}
 				24 {
@@ -668,7 +818,7 @@ namespace eval ::gnotify {
 					} 
 				} 
 				default {
-					puts "Unknown author ($info(author)) key : $key"
+					plugins_log gnotify "Unknown author ($info(author)) key : $key"
 					incr info(errors)
 				}
 			}
@@ -703,7 +853,7 @@ namespace eval ::gnotify {
 					set info(nick) $nick
 				}
 				default {
-					puts "Unknown author key : $key"
+					plugins_log gnotify "Unknown author key : $key"
 					incr info(errors)
 				}
 			}
@@ -718,8 +868,8 @@ namespace eval ::gnotify {
 		set start $data(offset)
 		set end [expr {$start + $size}]
 
-		set info(timestamp) ""
-		set info(timestamp2) ""
+		set info(timestamp) 0
+		set info(mid) ""
 		set info(attachments) [list]
 		set info(tags) [list]
 		set info(authors) [list]
@@ -734,14 +884,14 @@ namespace eval ::gnotify {
 			set key [ReadKey data]
 			switch -- $key {
 				16 {
-					# 0x10 unknown / timestamp
-					#puts "Unknown mail key 16 has value : [GetMultiByte $var]"
-					set info(timestamp)  [GetMultiByte $var]
+					# 0x10 unknown / message id?
+					# This looks like a time based message id... 
+					set info(mid) [GetMultiByte $var]
 				} 
 				24 {
-					# 0x18 unknown / timestamp
-					#puts "Unknown mail key 24 has value : [GetMultiByte $var]"
-					set info(timestamp2)  [GetMultiByte $var]
+					# 0x18 timestamp
+					# This is in epoch format but in milliseconds, not in seconds
+					set info(timestamp) [GetMultiByte $var]
 				}
 				130 {
 					# 0x82 Tag
@@ -753,13 +903,18 @@ namespace eval ::gnotify {
 					# 0x92 from
 					set size [ReadSize data]
 					set offset $data(offset)
-					lappend info(authors) [GetMailAuthor data $size]
+					array set authors [GetMailAuthor data $size]
+
+					lappend info(authors) [array get authors]
+					incr info(errors) $authors(errors)
+					unset authors
+
 					set data(offset) [expr {$offset + $size}]
 				}
 				152 {
-					# 0x98 unknown
-					#puts "Unknown mail key 152 has value : [GetMultiByte $var]"
-					GetMultiByte $var
+					# 0x98 unknown ?
+					set value [GetMultiByte $var]
+					plugins_log gnotify "Unknown mail key 0x98 has value : $value"
 				}
 				162 {
 					# 0xA2 Subject
@@ -784,7 +939,7 @@ namespace eval ::gnotify {
 					set info(threads) [GetMultiByte data]
 				}
 				default {
-					puts "Unknown email key : $key"
+					plugins_log gnotify "Unknown email key : $key"
 					incr info(errors)
 				}
 			}
@@ -804,7 +959,6 @@ namespace eval ::gnotify {
 		set info(nb_mails) 0
 		set info(errors) 0
 
-	
 		while {$data(offset) < $data(len)} {
 			set key [ReadKey data]
 			switch -- $key {
@@ -812,15 +966,43 @@ namespace eval ::gnotify {
 					# 0x0A New mail Key
 					set size [ReadSize data]
 					set offset $data(offset)
-					lappend info(mails) [GetNewMail data $size]
+					array set mails [GetNewMail data $size]
+
+					incr info(errors) $mails(errors)
+					lappend info(mails) [array get mails]
+					unset mails
+
 					set data(offset) [expr {$offset + $size}]
+				}
+				16 {
+					# 0x10 Unknown? Found only in the ASM
+					set value [GetMultiByte data]
+					plugins_log gnotify "Unknown key 0x10 has value : $value"
+				}
+				128 {
+					# 0x80 Unknown? Found only in the ASM
+					set value [GetMultiByte data]
+					plugins_log gnotify "Unknown key 0x80 has value : $value"
 				}
 				136 {
 					# 0x88 Number of mails Key
 					set info(nb_mails) [GetMultiByte data]
 				}
+				144 {
+					# 0x90 Unknown??? it's new!
+					set value [GetMultiByte data]
+					plugins_log gnotify "Unknown key 0x90 has value : $value"
+				}
+				194 {
+					# 0xC2 Unknown? Found only in the ASM
+					set size [ReadSize data]
+					set offset $data(offset)
+					set data(offset) [expr {$offset + $size}]
+
+					plugins_log gnotify "Unknown key 0xC2 of size : $size"
+				}
 				default {
-					puts "Unknown key : $key"
+					plugins_log gnotify "Unknown key : $key"
 					incr info(errors)
 				}
 			}
