@@ -147,7 +147,7 @@ namespace eval ::music {
 	# Register events to plugin system  #
 	#####################################	
 	proc RegisterEvent {} {
-		::plugins::RegisterEvent "Music" OnConnect load_newname
+		::plugins::RegisterEvent "Music" OnConnect newname
 		::plugins::RegisterEvent "Music" ContactListColourBarDrawn draw
 		::plugins::RegisterEvent "Music" new_chatwindow CreateMusicMenu
 		::plugins::RegisterEvent "Music" AllPluginsLoaded add_command
@@ -577,6 +577,7 @@ namespace eval ::music {
 		variable smallcoverfilename
 		variable dppath
 		variable oldinfo
+		variable lastafter
 
 		if {[array size ::music::playersarray]==0} {
 			return
@@ -600,6 +601,11 @@ namespace eval ::music {
 			::music::draw 0 0
 			::plugins::save_config
 		}
+
+		if {$deinit} {
+			after cancel $lastafter
+		}
+
 		set oldinfo ""
 	}
 
