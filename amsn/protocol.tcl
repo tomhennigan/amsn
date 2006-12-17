@@ -3720,6 +3720,9 @@ namespace eval ::Event {
 		set ::contactlist_loaded 1
 		::abook::setConsistent
 		::abook::saveToDisk
+
+		::Event::fireEvent contactlistLoaded protocol
+
 		#Update Preferences window if it's open
 		after 1000 {catch {InitPref 1}}
 

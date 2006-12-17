@@ -118,8 +118,10 @@ namespace eval ::guiContactList {
 		# Create a blank canvas
 		canvas $clcanvas -background [::skin::getKey contactlistbg] -yscrollcommand "::guiContactList::setScroll $clscrollbar"
 
-		# Parse the nicknames for smiley/newline substitution
-		createNicknameArray
+		if { $::contactlist_loaded } {
+			# Parse the nicknames for smiley/newline substitution
+			createNicknameArray
+		}
 
 		$clcanvas create image 0 0 -image [::skin::loadPixmap back] -anchor nw -tag backgroundimage
 		after 1 ::guiContactList::drawList $clcanvas
@@ -136,6 +138,8 @@ namespace eval ::guiContactList {
 		::Event::registerEvent contactMoved all ::guiContactList::contactChanged
 		::Event::registerEvent contactAdded all ::guiContactList::contactChanged
 		::Event::registerEvent contactRemoved all ::guiContactList::contactRemoved
+		::Event::registerEvent contactlistLoaded all ::guiContactList::contactlistLoaded
+		::Event::registerEvent loggedOut all ::guiContactList::loggedOut
 		::Event::registerEvent changedSorting all ::guiContactList::changedSorting
 		::Event::registerEvent changedNickDisplay all ::guiContactList::changedNickDisplay
 		::Event::registerEvent changedPreferences all ::guiContactList::changedPreferences
@@ -273,6 +277,28 @@ namespace eval ::guiContactList {
 		}
 	}
 
+	proc loggedOut { eventused } {
+		variable clcanvas
+
+		if { [winfo exists $clcanvas] && !$::contactlist_loaded } {
+			$clcanvas addtag all_cl all
+			$clcanvas delete all_cl
+			$clcanvas create image 0 0 -image [::skin::loadPixmap back] -anchor nw -tag backgroundimage
+		}
+
+	}
+
+
+	proc contactlistLoaded { eventused } {
+		variable clcanvas
+
+		if { [winfo exists $clcanvas] } {
+			::guiContactList::createNicknameArray
+			::guiContactList::drawList $clcanvas
+		}
+
+	}
+
 	proc contactRemoved { eventused email { gidlist ""} } {
 		variable clcanvas
 		if { [winfo exists $clcanvas] } {
@@ -394,6 +420,8 @@ namespace eval ::guiContactList {
 		variable Xbegin
 		variable Ybegin
 		variable nickheightArray
+
+		if { !$::contactlist_loaded } { return }
 
 		#We remove the underline
 		$canvas delete uline
@@ -607,6 +635,9 @@ namespace eval ::guiContactList {
 	# Function that draws a group 
 	#/////////////////////////////////////////////////////////////////////////
 	proc drawGroup { canvas element} {
+
+		if { !$::contactlist_loaded } { return }
+
 		# Set the group id, our ids are integers and tags can't be so add gid_ to start
 		set gid gid_[lindex $element 0]
 
@@ -698,6 +729,8 @@ namespace eval ::guiContactList {
 		variable nickheightArray
 		variable nicknameArray
 		variable Xbegin
+
+		if { !$::contactlist_loaded } { return }
 
 		# Set the place for drawing it (should be invisible)
 		set xpos 0
