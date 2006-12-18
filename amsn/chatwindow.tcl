@@ -3756,10 +3756,20 @@ namespace eval ::ChatWindow {
 					$w mark set $value $index
 				} 
 				image {
-					if { [string first "#" $value] != -1 } {
-						set value [string range $value 0 [expr {[string last "#" $value] -1}]]
+					if { [catch {image width $value} ]} {
+						if { [string first "#" $value] != -1 } {
+							set value [string range $value 0 [expr {[string last "#" $value] -1}]]
+						} else {
+							set value ""
+						}
+						if { [catch {image width $value} ]} {
+							set value ""
+						}
+						
 					}
-					$w image create $index -image $value
+					if { $value != "" } {
+						$w image create $index -image $value
+					}
 				}
 				window {
 					if {[winfo exists $value] } {
