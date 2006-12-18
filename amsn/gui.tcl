@@ -819,6 +819,21 @@ namespace eval ::amsn {
 		WinWriteIcon $chatid greyline 3
 	}
 
+	proc DisableCancelText { cookie chatid } {
+
+		set win_name [::ChatWindow::For $chatid]
+
+                [::ChatWindow::GetOutText ${win_name}] tag configure ftno$cookie \
+                        -foreground #808080 -font bplainf -underline false
+                [::ChatWindow::GetOutText ${win_name}] tag bind ftno$cookie <Enter> ""
+                [::ChatWindow::GetOutText ${win_name}] tag bind ftno$cookie <Leave> ""
+                [::ChatWindow::GetOutText ${win_name}] tag bind ftno$cookie <Button1-ButtonRelease> ""
+
+                [::ChatWindow::GetOutText ${win_name}] conf -cursor xterm
+
+
+	}
+
 	proc CancelFTInvitation { chatid cookie } {
 		#::MSNFT::acceptFT $chatid $cookie
 
@@ -828,14 +843,7 @@ namespace eval ::amsn {
 		}
 
 		::MSNFT::cancelFTInvitation $chatid $cookie
-
-		[::ChatWindow::GetOutText ${win_name}] tag configure ftno$cookie \
-			-foreground #808080 -font bplainf -underline false
-		[::ChatWindow::GetOutText ${win_name}] tag bind ftno$cookie <Enter> ""
-		[::ChatWindow::GetOutText ${win_name}] tag bind ftno$cookie <Leave> ""
-		[::ChatWindow::GetOutText ${win_name}] tag bind ftno$cookie <Button1-ButtonRelease> ""
-
-		[::ChatWindow::GetOutText ${win_name}] conf -cursor xterm
+		DisableCancelText $cookie $chatid
 
 		set txt [trans invitationcancelled]
 
@@ -1018,14 +1026,8 @@ namespace eval ::amsn {
 		[::ChatWindow::GetOutText ${win_name}] tag bind ftsaveas$cookie <Leave> ""
 		[::ChatWindow::GetOutText ${win_name}] tag bind ftsaveas$cookie <Button1-ButtonRelease> ""
 
-		[::ChatWindow::GetOutText ${win_name}] tag configure ftno$cookie \
-			-foreground #808080 -font bplainf -underline false
-		[::ChatWindow::GetOutText ${win_name}] tag bind ftno$cookie <Enter> ""
-		[::ChatWindow::GetOutText ${win_name}] tag bind ftno$cookie <Leave> ""
-		[::ChatWindow::GetOutText ${win_name}] tag bind ftno$cookie <Button1-ButtonRelease> ""
-
-		[::ChatWindow::GetOutText ${win_name}] conf -cursor xterm
-
+		DisableCancelText $cookie $chatid
+		
 		set txt [trans ftaccepted]
 
 		SendMessageFIFO [list ::amsn::WinWriteAcceptFT $chatid $txt] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
@@ -1090,11 +1092,7 @@ namespace eval ::amsn {
 		[::ChatWindow::GetOutText ${win_name}] tag bind ftsaveas$cookie <Leave> ""
 		[::ChatWindow::GetOutText ${win_name}] tag bind ftsaveas$cookie <Button1-ButtonRelease> ""
 
-		[::ChatWindow::GetOutText ${win_name}] tag configure ftno$cookie \
-		-foreground #808080 -font bplainf -underline false
-		[::ChatWindow::GetOutText ${win_name}] tag bind ftno$cookie <Enter> ""
-		[::ChatWindow::GetOutText ${win_name}] tag bind ftno$cookie <Leave> ""
-		[::ChatWindow::GetOutText ${win_name}] tag bind ftno$cookie <Button1-ButtonRelease> ""
+		DisableCancelText $cookie $chatid		
 
 		[::ChatWindow::GetOutText ${win_name}] conf -cursor xterm
 

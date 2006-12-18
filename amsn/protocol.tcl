@@ -547,6 +547,7 @@ namespace eval ::MSNFT {
       if {[supportsNewFT [::abook::getContactData $chatid clientid]]} {
 	set sid [::MSN6FT::SendFT $chatid $filename $filesize]
 	setObjOption $cookie msn6ftsid $sid
+	setObjOption $sid theCookie $cookie
        	return 0
       }
 
@@ -6773,6 +6774,8 @@ namespace eval ::MSN6FT {
 
 
 	proc SendFTInvite { sid chatid} {
+
+		::amsn::DisableCancelText [getObjOption $sid theCookie] $chatid
 
 		set session [::MSNP2P::SessionList get $sid]
 		set branchid [lindex $session 9]
