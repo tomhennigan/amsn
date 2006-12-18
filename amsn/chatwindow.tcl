@@ -3683,6 +3683,10 @@ namespace eval ::ChatWindow {
 		UnsetFor $chatid $win
 		set new [RecreateWindow $chatid]
 
+                set out [GetOutText $new]
+
+                $out configure -state normal -font bplainf -foreground black
+
 		set ::ChatWindow::titles(${new}) [set ::ChatWindow::titles(${win})]
 		set ::ChatWindow::first_message(${new}) [set ::ChatWindow::first_message(${win})]
 		set ::ChatWindow::recent_message(${new}) [set ::ChatWindow::recent_message(${win})]
@@ -3719,10 +3723,10 @@ namespace eval ::ChatWindow {
 			}
 		}
 		
-		set out [GetOutText $new]
+		#set out [GetOutText $new]
 		set in [GetInputText $new]
 
-		$out configure -state normal -font bplainf -foreground black
+		#$out configure -state normal -font bplainf -foreground black
 
 		undump $out $dump_out [array get tags_out]
 		#We dumped an invisible new line due to end index so remove it now
@@ -3730,7 +3734,8 @@ namespace eval ::ChatWindow {
 		undump $in $dump_in
 		$in delete "end - 1 lines"
 		
-		$out configure -state disabled
+		# WTF ?!?!?!?!
+		#$out configure -state disabled
 	}
 
 	proc undump { w dump {tags_config ""}} {
