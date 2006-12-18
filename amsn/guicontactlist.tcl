@@ -162,15 +162,22 @@ namespace eval ::guiContactList {
 				::guiContactList::moveBGimage $::guiContactList::clcanvas
 			}
 		} elseif {$tcl_platform(platform) == "windows"} {
-			# TODO: fix win bindings -> Arieh's job ;)
-			# bind $clcanvas <MouseWheel> {
-			# 	::guiContactList::scrollCL $clcanvas [expr {- (%D)}]
-			# }
-			bind [winfo parent [winfo parent $clcanvas]] <MouseWheel> {
-				if {%D >= 0} {
-					::guiContactList::scrollCL $::guiContactList::clcanvas up
-				} else {
-					::guiContactList::scrollCL $::guiContactList::clcanvas down
+			#TODO: test it with tcl8.5
+			if {$::tcl_version >= 8.5} {
+				bind $clcanvas <MouseWheel> {
+					if {%D >= 0} {
+						::guiContactList::scrollCL $::guiContactList::clcanvas up
+					} else {
+						::guiContactList::scrollCL $::guiContactList::clcanvas down
+					}
+				}
+			} else {
+				bind . <MouseWheel> {
+					if {%D >= 0} {
+						::guiContactList::scrollCL $::guiContactList::clcanvas up
+					} else {
+						::guiContactList::scrollCL $::guiContactList::clcanvas down
+					}
 				}
 			}
 		} else {
