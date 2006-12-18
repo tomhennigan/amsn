@@ -218,6 +218,7 @@ proc my_TextSetCursor {w pos} {
 #		actually been moved to this position yet).
 
 proc my_TextKeySelect {w new} {
+
 	if {[string equal [$w tag nextrange sel 1.0 end] ""]} {
 		if {[$w compare $new < insert]} {
 			$w tag add sel $new insert
