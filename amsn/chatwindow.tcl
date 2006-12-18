@@ -3724,16 +3724,17 @@ namespace eval ::ChatWindow {
 
 		$out configure -state normal -font bplainf -foreground black
 
-		undump $out $dump_out [array get tags_out]
+		undump $out $dump_out 1 [array get tags_out]
 		#We dumped an invisible new line due to end index so remove it now
 		$out delete "end - 1 lines"
-		undump $in $dump_in
+		undump $in $dump_in 0
 		$in delete "end - 1 lines"
 		
 	}
 
-	proc undump { w dump {tags_config ""}} {
+	proc undump { w dump rotext {tags_config ""}} {
 		status_log "tags : $tags_config\n" red
+		if { $rotext } { set insert_cmd roinsert } else { set insert_cmd insert }
 		foreach {tag options} $tags_config {
 			status_log "tag $tag has options $options" red
 			foreach {option value} $options { 
@@ -3749,7 +3750,7 @@ namespace eval ::ChatWindow {
 			#status_log "Undumping into $w, the key $key with value $value at index $index\n" red
 			switch -- $key {
 				text { 
-					#$w roinsert $index $value
+					$w $insert_cmd $index $value
 				} 
 				mark {
 					$w mark set $value $index
