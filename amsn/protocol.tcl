@@ -6774,6 +6774,7 @@ namespace eval ::MSN6FT {
 
 
 	proc SendFTInvite { sid chatid} {
+		# Remote user has just accepted our FT invitation
 
 		::amsn::DisableCancelText [getObjOption $sid theCookie] $chatid
 
