@@ -217,31 +217,32 @@ proc my_TextSetCursor {w pos} {
 # new -		A new position for the insertion cursor (the cursor hasn't
 #		actually been moved to this position yet).
 
-proc my_TextKeySelect {w new} {
-
-    if {[$w tag nextrange sel 1.0 end] eq ""} {
-        if {[$w compare $new < insert]} {
-            $w tag add sel $new insert
-        } else {
-            $w tag add sel insert $new
-        }
-        $w mark set tk::anchor$w insert
-    } else {
-        if {[$w compare $new < tk::anchor$w]} {
-            set first $new
-            set last tk::anchor$w
-        } else {
-            set first tk::anchor$w
-            set last $new
-        }
-        $w tag remove sel 1.0 $first
-        $w tag add sel $first $last
-        $w tag remove sel $last end
-    }
-    $w mark set insert $new
-    $w see insert
-
-    update idletasks 
+if { $::tk_patchLevel < "8.4.13" } {
+proc ::tk::TextKeySelect {w new} {
+	if {[string equal [$w tag nextrange sel 1.0 end] ""]} {
+		if {[$w compare $new < insert]} {
+			$w tag add sel $new insert
+		} else {
+			$w tag add sel insert $new
+		}
+		$w mark set anchor insert
+	} else {
+		if {[$w compare $new < anchor]} {
+			set first $new
+			set last anchor
+		} else {
+			set first anchor
+			set last $new
+		}
+		$w tag remove sel 1.0 $first
+		$w tag add sel $first $last
+		$w tag remove sel $last end
+	}
+	$w mark set insert $new
+	$w see insert
+	
+	update idletasks
+}
 }
 
 

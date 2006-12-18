@@ -2031,8 +2031,8 @@ namespace eval ::ChatWindow {
 		bind $text <Key-BackSpace> "::amsn::DeleteKeyPressed $w $text %K"
 		bind $text <Key-Up> {my_TextSetCursor %W [::amsn::UpKeyPressed %W]; break}
 		bind $text <Key-Down> {my_TextSetCursor %W [::amsn::DownKeyPressed %W]; break}
-		bind $text <Shift-Key-Up> {my_TextKeySelect %W [::amsn::UpKeyPressed %W]; break}
-		bind $text <Shift-Key-Down> {my_TextKeySelect %W [::amsn::DownKeyPressed %W]; break}
+		bind $text <Shift-Key-Up> {::tk::TextKeySelect %W [::amsn::UpKeyPressed %W]; break}
+		bind $text <Shift-Key-Down> {::tk::TextKeySelect %W [::amsn::DownKeyPressed %W]; break}
 
 		global skipthistime
 		set skipthistime 0
