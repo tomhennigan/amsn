@@ -15,7 +15,7 @@ namespace eval ::gnotify {
 
 	for {set acnt 0} {$acnt < 10} {incr acnt} {
 		variable status_$acnt 0
-		variable info_$acnt [list errors 0 mails [list] nb_mails 0]
+		variable info_$acnt [list errors 0 mails [list]]
 		variable notified_$acnt 0
 	}
 
@@ -604,10 +604,12 @@ namespace eval ::gnotify {
 				set cookie [join [list [set user_cookies($username,$password,gv)] [set user_cookies($username,$password,sid)]] "; "]
 			}
 			set headers [list Cookie $cookie]
-			http::geturl "http://mail.google.com/mail/?ui=pb" -headers $headers -command [list ::gnotify::check_gmail_callback $username $password $acnt]
+			set token [http::geturl "http://mail.google.com/mail/?ui=pb" -headers $headers -command [list ::gnotify::check_gmail_callback $username $password $acnt]]
 		} else {
-			authenticate_gmail $username $password $acnt [list ::gnotify::check_gmail $username $password $acnt]
+			set token [authenticate_gmail $username $password $acnt [list ::gnotify::check_gmail $username $password $acnt]]
 		}
+
+		plugins_log gnotify "Checking mail, http token is : $token"
 		return 
 	}
 
@@ -663,8 +665,8 @@ namespace eval ::gnotify {
 		http::register https 443 ::tls::socket
 		
 		set headers [list Authorization "Basic [base64::encode $username:$password]"]
-		http::geturl "https://www.google.com/accounts/ServiceClientLogin?service=mail" -headers $headers \
-		    -command [list ::gnotify::authenticate_gmail_callback $username $password $acnt $callback]
+		return [http::geturl "https://www.google.com/accounts/ServiceClientLogin?service=mail" -headers $headers \
+			    -command [list ::gnotify::authenticate_gmail_callback $username $password $acnt $callback]]
 	}
 
 	proc authenticate_gmail_callback { username password acnt callback token } {
