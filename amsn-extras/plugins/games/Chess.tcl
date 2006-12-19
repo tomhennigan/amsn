@@ -1,16 +1,14 @@
 ############################################################################
-# Author: JeeBee <jonne_z REM0VEatTH1S users.sourceforge.net>
+# Original author: Richard Suchenwirth 2002-09-14
+# Original url: http://wiki.tcl.tk/4070
+# Plugin author: JeeBee <jonne_z REM0VEatTH1S users.sourceforge.net>
 #
-# original author: Richard Suchenwirth 2002-09-14
-# url: http://wiki.tcl.tk/4070
-#
-# Modifications by JeeBee,
 # todo * Support for castling (and castling state as part of game state).
 # todo * Support for en passent move (also added to game state).
 # todo * Support for check and game endings (checkmate, stalemate).
 # todo * Support for promotion of pieces
 # todo * Movelist.
-# todo * Running as an aMSN plugin
+# * Running as an aMSN plugin
 # todo * Tested with Tcl/Tk 8.4 and 8.5.
 
 namespace eval ::Games::Chess {
@@ -133,7 +131,7 @@ namespace eval ::Games::Chess {
     set oppname  [::Games::getNick $oppchat]
 
     # If we are rematching we must not overwrite the complete GameState
-    if {![info exists GameState($gameID,N)]} {
+    if {![info exists GameState($gameID,win_name)]} {
       array set GameState [list                     \
         "$gameID,my_chatid"             "$mychat"   \
         "$gameID,my_name"               "$myname"   \
@@ -143,6 +141,7 @@ namespace eval ::Games::Chess {
         "$gameID,my_wins"               0           \
         "$gameID,opp_wins"              0           \
         "$gameID,draws"                 0           \
+		"$gameID,mouse_bindings"		0			\
         "$gameID,win_name"              "$win_name" ]
     }
 
@@ -196,7 +195,7 @@ namespace eval ::Games::Chess {
 
     toplevel .$win_name
     wm protocol .$win_name WM_DELETE_WINDOW "::Games::Chess::quit $gameID"
-	wm title .$win_name "[::Games::trans Chess] ($GameState($gameID,opponent_name)"
+	wm title .$win_name "[::Games::trans Chess] - $GameState($gameID,opponent_name)"
 
 	reset $gameID
     frame .$win_name.f
@@ -208,22 +207,34 @@ namespace eval ::Games::Chess {
     #button .$win_name.f.f -text Flip -command "::Games::Chess::flipSides $gameID .$win_name.c"
     eval pack [winfo children .$win_name.f] -side left -fill both
     pack .$win_name.f -fill x -side bottom
+	set GameState($gameID,side) $GameState($gameID,my_color)
     pack [drawBoard $gameID .$win_name.c] -fill both -expand 1
     $GameState($gameID,info) configure -text "white to move"
     bind .$win_name <3> "::Games::Chess::usefont_toggle $gameID"
-	
-	if {$GameState($gameID,my_color) == "black"} {
-	  ::Games::log "Flipping sides"
-	  flipSides $gameID .$win_name.c
-    }
-	::Games::log "Game of chess started, I play $GameState($gameID,my_color)"
   }
 
   proc usefont_toggle {gameID} {
 	variable GameState
-	set win_name $GameState($gameID,win_name)
 	set GameState($gameID,usefont) [expr {1-$GameState($gameID,usefont)}]
-	event generate .$win_name.c <Configure>
+	event generate .$GameState($gameID,win_name).c <Configure>
+  }
+
+  proc opponent_moves { gameID sender the_move } {
+	move $gameID $the_move 0
+  }
+
+  proc opponent_quits { gameID chatid } {
+    variable GameState
+    set win_name $GameState($gameID,win_name)
+
+    # Check whether our toplevel is gone already
+    if {![winfo exists .$win_name]} {
+      return
+    }
+
+	$GameState($gameID,info) configure \
+		-text "[::Games::trans quits $opponent_name]"
+	event generate .$GameState($gameID,win_name).c <Configure>
   }
 
   ###########################################################################
@@ -273,7 +284,7 @@ namespace eval ::Games::Chess {
     set res
   }
 
-  proc move {gameID move} {
+  proc move {gameID move {send_to_opp 1}} {
 	variable GameState
     foreach {from to} [split $move -] break
     set fromMan $GameState($gameID,$from)
@@ -286,6 +297,11 @@ namespace eval ::Games::Chess {
     lappend GameState($gameID,history) $move
     set GameState($gameID,toMove) [expr {$GameState($gameID,toMove) == "white"? "black": "white"}]
 	moveinfo $gameID
+	if {$send_to_opp == 1} {
+		::Games::SendMove $gameID $move
+	} else {
+      event generate .$GameState($gameID,win_name).c <Configure>
+	}
     set toMan ;# report possible victim
   }
  
@@ -418,22 +434,38 @@ namespace eval ::Games::Chess {
 
   proc drawBoard {gameID w args} {
     variable GameState
-    array set opt {-width 300 -colors {bisque tan3} -side white -usefont 0}
+    array set opt {-width 300 -colors {bisque tan3} -usefont 0}
     array set opt $args
     if {![winfo exists $w]} {
         canvas $w -width $opt(-width) -height $opt(-width)
         bind $w <Configure> "::Games::Chess::drawBoard $gameID $w $args"
         set GameState($gameID,usefont) $opt(-usefont)
-        $w bind mv <1> [list ::Games::Chess::click1 $gameID $w %x %y]
-        $w bind mv <B1-Motion> {
-            %W move current [expr {%x-$::Games::Chess::x}] [expr {%y-$::Games::Chess::y}]
-            set ::Games::Chess::x %x; set ::Games::Chess::y %y
-        }
-        $w bind mv <ButtonRelease-1> "::Games::Chess::release1 $gameID $w %x %y"
     } else {
         $w delete all
     }
-    set GameState($gameID,side)   $opt(-side)
+
+	# Check whether we are to move and set mouse bindings appropriately
+	if {$GameState($gameID,my_color) == $GameState($gameID,toMove)} {
+		# Mouse bindings should be active
+		if {$GameState($gameID,mouse_bindings) == 0} {
+			$w bind mv <1> [list ::Games::Chess::click1 $gameID $w %x %y]
+			$w bind mv <B1-Motion> {
+				%W move current [expr {%x-$::Games::Chess::x}] [expr {%y-$::Games::Chess::y}]
+				set ::Games::Chess::x %x; set ::Games::Chess::y %y
+			}
+			$w bind mv <ButtonRelease-1> "::Games::Chess::release1 $gameID $w %x %y"
+			set GameState($gameID,mouse_bindings) 1
+		}
+	} else {
+		# Mouse bindings should be inactive
+		if {$GameState($gameID,mouse_bindings) == 1} {
+			$w bind mv <1> ""
+			$w bind mv <B1-Motion> ""
+			$w bind mv <ButtonRelease-1> ""
+			set GameState($gameID,mouse_bindings) 0
+		}
+	}
+
     set dim [min [winfo height $w] [winfo width $w]]
     if {$dim<2} {set dim $opt(-width)}
     set GameState($gameID,sqw) [set sqw [expr {($dim - 20) / 8}]]
@@ -483,6 +515,8 @@ namespace eval ::Games::Chess {
 	variable GameState
     variable from
     set to ""
+	set generate_configure 0
+
     foreach i [$w find overlap $cx $cy $cx $cy] {
         set tags [$w gettags $i]
         if {[lsearch $tags square]>=0} {
@@ -490,8 +524,10 @@ namespace eval ::Games::Chess {
             break
         }
     }
+
     if [valid? $gameID $from-$to] {
         set victim [move $gameID $from-$to]
+		set generate_configure 1
         if {[string tolower $victim]=="k"} {
 			$GameState($gameID,info) configure -text "Checkmate."
 		}
@@ -500,11 +536,15 @@ namespace eval ::Games::Chess {
         $w dtag current @$from
         $w addtag @$to withtag current
     } else {set target $from} ;# go back on invalid move
-    foreach {x0 y0 x1 y1}     [$w bbox $target] break
+
     foreach {xm0 ym0 xm1 ym1} [$w bbox current] break
-    set dx [expr {($x0+ $x1-$xm0-$xm1)/2}]
+    foreach {x0 y0 x1 y1}     [$w bbox $target] break
+    set dx [expr {($x0+$x1-$xm0-$xm1)/2}]
     set dy [expr {($y0+$y1-$ym0-$ym1)/2}]
     $w move current $dx $dy
+	if {$generate_configure == 1} {
+      event generate .$GameState($gameID,win_name).c <Configure>
+	}
   }
 
   proc drawSetup {gameID w} {
@@ -558,8 +598,7 @@ namespace eval ::Games::Chess {
 	variable GameState
     $w delete all
     set side [expr {$GameState($gameID,side)=="white"? "black": "white"}]
-	::Games::log "Setting side to $side"
-    drawBoard $gameID $w -side $side
+    drawBoard $gameID $w ;# -side $side
   }
 
 #------------------------------------- some general utilities:

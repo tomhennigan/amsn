@@ -52,7 +52,7 @@ namespace eval ::Games {
   # games_url soon something like "http://amsn.sf.net/plugins.php#Games" or #games ?
 
   variable dir ""
-  variable TwoPlayerGames {"Dots_and_Boxes" "Hangman"}
+  variable TwoPlayerGames {"Dots_and_Boxes" "Hangman" "Chess"}
   variable MultiPlayerGames {"Sketch"}
   variable version
   variable timeout_len 10000
@@ -80,7 +80,7 @@ namespace eval ::Games {
 	if {[catch {::plugins::pluginVersion} version]} {
 	  # Setting version number manually for aMSN 0.95
 	  # Make sure this value matches the one used in plugininfo.xml
-	  set version "0.18"
+	  set version "0.19"
 	}
 
     ::plugins::RegisterPlugin "Games"
