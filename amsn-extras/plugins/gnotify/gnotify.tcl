@@ -177,7 +177,7 @@ namespace eval ::gnotify {
 			}
 
 			# Call itself again after x minutes
-			set time [expr {int($::gnotify::config(minute) *60000)}]
+			set time [expr {int($::gnotify::config(minutes) *60000)}]
 			after $time ::gnotify::check
 
 			set ::gnotify::checkingnow 0
