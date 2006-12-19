@@ -32,7 +32,7 @@ namespace eval ::gnotify {
 		::plugins::RegisterEvent gnotify ContactListColourBarDrawn draw
 
 		array set ::gnotify::config {
-			minutes {5}
+			minutes {1}
 			accounts {1}
 		}
 
@@ -166,6 +166,13 @@ namespace eval ::gnotify {
 	# Results:
 	#	An integer variable wich contains the number of mails in the mbox
 	proc check { } {
+
+		if { ![info exists ::gnotify::config(minutes)] || ![string is digit $::gnotify::config(minutes)] || $::gnotify::config(minutes) == "" } {
+			set ::gnotify::config(minutes) 1
+		}
+		# Call itself again after x minutes
+		set time [expr {int($::gnotify::config(minutes) *60000)}]
+
 		if { [catch {
 			# Make sure there isn't duplicat calls
 			after cancel ::gnotify::check
@@ -173,16 +180,27 @@ namespace eval ::gnotify {
 			set ::gnotify::checkingnow 1
 			
 			for {set acnt 0} {$acnt < $::gnotify::config(accounts)} {incr acnt} {
-				::gnotify::check_gmail $::gnotify::config(user_$acnt) [::gnotify::decrypt $::gnotify::config(passe_$acnt)] $acnt
+				if { [catch { ::gnotify::check_gmail $::gnotify::config(user_$acnt) [::gnotify::decrypt $::gnotify::config(passe_$acnt)] $acnt } res ] } {
+					plugins_log gnotify "Error checking account $acnt : $res\n$::errorInfo"
+
+					variable status_$acnt
+
+					set status_$acnt -3
+					set info_$acnt [list errors 1 mails [list]]
+					cmsn_draw_online
+				}
 			}
 
-			# Call itself again after x minutes
-			set time [expr {int($::gnotify::config(minutes) *60000)}]
 			after $time ::gnotify::check
 
 			set ::gnotify::checkingnow 0
 		} res] } {
 			plugins_log gnotify "Error during check : $res\n$::errorInfo"
+
+			after cancel ::gnotify::check
+			after $time ::gnotify::check
+
+			set ::gnotify::checkingnow 0
 		}
 	}
 	
@@ -200,6 +218,8 @@ namespace eval ::gnotify {
 		for {set acnt 0} {$acnt < 10} {incr acnt} {
 			variable notified_$acnt 0
 		}
+
+		cmsn_draw_online
 	}
 
 
@@ -604,7 +624,7 @@ namespace eval ::gnotify {
 				set cookie [join [list [set user_cookies($username,$password,gv)] [set user_cookies($username,$password,sid)]] "; "]
 			}
 			set headers [list Cookie $cookie]
-			set token [http::geturl "http://mail.google.com/mail/?ui=pb" -headers $headers -command [list ::gnotify::check_gmail_callback $username $password $acnt]]
+			set token [http::geturl "http://mail.google.com/mail/?ui=pb" -headers $headers -timeout 10000 -command [list ::gnotify::check_gmail_callback $username $password $acnt]]
 		} else {
 			set token [authenticate_gmail $username $password $acnt [list ::gnotify::check_gmail $username $password $acnt]]
 		}
@@ -665,7 +685,7 @@ namespace eval ::gnotify {
 		http::register https 443 ::tls::socket
 		
 		set headers [list Authorization "Basic [base64::encode $username:$password]"]
-		return [http::geturl "https://www.google.com/accounts/ServiceClientLogin?service=mail" -headers $headers \
+		return [http::geturl "https://www.google.com/accounts/ServiceClientLogin?service=mail" -headers  -timeout 10000 $headers \
 			    -command [list ::gnotify::authenticate_gmail_callback $username $password $acnt $callback]]
 	}
 

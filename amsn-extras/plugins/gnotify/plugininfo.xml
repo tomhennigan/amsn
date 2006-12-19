@@ -9,7 +9,7 @@
 	<plugin_namespace>gnotify</plugin_namespace>
 	<init_procedure>Init</init_procedure>
 	<deinit_procedure>DeInit</deinit_procedure>
-	<cvs_version>7684</cvs_version>
+	<cvs_version>7686</cvs_version>
 	<file>
 		<path>pixmaps/gnotify_empty.png</path>
 		<version>7661</version>
