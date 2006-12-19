@@ -172,7 +172,7 @@ namespace eval ::guiContactList {
 					}
 				}
 			} else {
-				bind . <MouseWheel> {
+				bind [winfo toplevel $clcanvas] <MouseWheel> {
 					if {%D >= 0} {
 						::guiContactList::scrollCL $::guiContactList::clcanvas up
 					} else {
