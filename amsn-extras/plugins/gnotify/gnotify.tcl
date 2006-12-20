@@ -664,7 +664,7 @@ namespace eval ::gnotify {
 			}
 			
 		} else {
-			plugins_log gnotify "Unknown error during check_gmail for $username : $meta - [:http::data $token]"
+			plugins_log gnotify "Unknown error during check_gmail for $username : $meta - [::http::data $token]"
 			set status_$acnt -3
 			set info_$acnt [list errors 1 mails [list]]
 			cmsn_draw_online
@@ -727,7 +727,7 @@ namespace eval ::gnotify {
 			set info_$acnt [list errors 1 mails [list]]
 			cmsn_draw_online
 		} else {
-			plugins_log gnotify "Unknown error during authentification for $username : $meta - [:http::data $token]"
+			plugins_log gnotify "Unknown error during authentification for $username : $meta - [::http::data $token]"
 			set status_$acnt -3
 			set info_$acnt [list errors 1 mails [list]]
 			cmsn_draw_online
