@@ -685,7 +685,7 @@ namespace eval ::gnotify {
 		http::register https 443 ::tls::socket
 		
 		set headers [list Authorization "Basic [base64::encode $username:$password]"]
-		return [http::geturl "https://www.google.com/accounts/ServiceClientLogin?service=mail" -headers  -timeout 10000 $headers \
+		return [http::geturl "https://www.google.com/accounts/ServiceClientLogin?service=mail" -headers $headers -timeout 10000 \
 			    -command [list ::gnotify::authenticate_gmail_callback $username $password $acnt $callback]]
 	}
 
