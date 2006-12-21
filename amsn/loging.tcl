@@ -771,9 +771,13 @@ namespace eval ::log {
 
 		# Rebuild .cam filename
 		set email [$wname.top.contact.list list get [$wname.top.contact.list curselection]]
-		set date [$wname.top.date.list list get [$wname.top.date.list curselection]]
-		if { $date == "[trans currentdate]" } { set date "." }
-		if { $date == "_ _ _ _ _" } { return }
+		if { [winfo exists $wname.top.date.list] } {
+			set date [$wname.top.date.list list get [$wname.top.date.list curselection]]
+			if { $date == "[trans currentdate]" } { set date "." }
+			if { $date == "_ _ _ _ _" } { return }
+		} else {
+			set date "."	
+		}
 
 		variable logged_webcam_sessions_${email}
 		set idx [$wname.top.sessions.list curselection]
@@ -867,17 +871,21 @@ namespace eval ::log {
 
 		global webcam_dir
 
+		# Create the sessions combobox
+		if {$init == 1 } {
+			frame $wname.top.sessions  -class Amsn -borderwidth 0
+			combobox::combobox $wname.top.sessions.list \
+			    -command "::log::JumpToSession $wname" \
+			    -highlightthickness 0 -width 22 -bg #FFFFFF -font splainf
+		}
+
+
 		#If we store logs by date
 		if { [::config::getKey logsbydate] == 1 } {
 			#If this is the first log we view
 			if {$init == 1} {
 				frame $wname.top.date  -class Amsn -borderwidth 0
 				combobox::combobox $wname.top.date.list -editable true -highlightthickness 0 -width 22 -bg #FFFFFF -font splainf
-				frame $wname.top.sessions  -class Amsn -borderwidth 0
-				combobox::combobox $wname.top.sessions.list \
-				    -command "::log::JumpToSession $wname" \
-				    -highlightthickness 0 -width 22 -bg #FFFFFF -font splainf
-
 			}			
 			set date_list ""
 			set erdate_list ""

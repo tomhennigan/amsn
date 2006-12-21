@@ -339,7 +339,8 @@ proc play_sound_other {sound} {
 	#Unquote the $sound variable so it's replaced
 	set soundcommand [string map { "\\\\\\\$sound" "\${sound}" } $soundcommand]
 
-	catch {eval eval exec $soundcommand &} res
+	catch {eval exec $soundcommand &} res
+	
 }
 
 #Play sound in a loop
@@ -422,7 +423,7 @@ proc play_Sound_Mac {sound} {
 	#Destroy previous song if he already play
 	destroy .fake.$sound_small_name
 	#Find the path of aMSN folder
-	set pwd "[exec pwd]"
+	set pwd "[pwd]"
 	#Create the sound in QuickTime TCL to play the sound
 	if {$sound_start == "/"} {
 		catch {movie .fake.$sound_small_name -file $sound -controller 0}
