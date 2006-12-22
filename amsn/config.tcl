@@ -281,7 +281,6 @@ namespace eval ::config {
 			[list local getdisppic bool getdisppic] \
 			[list local checkemail bool checkemail] \
 			[list local autoconnect bool autoconnect autoconnect2] \
-			[list local keepalive bool keepalive natkeepalive]\
 			[list local default_ns_server str notificationserver]\
 			[list local lazypicretrieval bool lazypicretrieval]\
 			[list local noftpreview bool noftpreview]\
@@ -730,6 +729,12 @@ proc load_config {} {
 
 	create_dir "[::config::getKey receiveddir]"
 
+
+	# We now want to force the NAT Keep alive to enabled
+	::config::setKey keepalive 1
+
+	
+	# This is a TEMPORARY HACK... 
 	::config::setKey use_new_cl 0
 }
 
