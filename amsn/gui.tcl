@@ -7897,7 +7897,7 @@ namespace eval ::OIM_GUI {
 
 			if {[llength oimlist] > 0 } {
 				foreach {sequence email nick body MsgId runId} [lindex $oimlist 0] break
-				::MSNOIM::deleteOIMMessage [list ::OIM_GUI::deleteOIMCallback [lrange $oimlist 1 end] $nick $email $MsgId] $MsgId
+			 	::MSNOIM::deleteOIMMessage [list ::OIM_GUI::deleteOIMCallback [lrange $oimlist 1 end] $nick $email $MsgId] $MsgId
 			}
 		}
 	}
@@ -7948,18 +7948,24 @@ namespace eval ::OIM_GUI {
 			set chatid [GetChatId $user]
 		}
 		status_log "Writing offline msg \"$msg\" on : $chatid\n" red
+		set customchatstyle [::config::getKey customchatstyle]
 		switch [::config::getKey chatstyle] {
 			msn {
-				set customchatstyle "$tstamp [trans says $nick]: \n"
+				set customchatstyle "\$tstamp [trans says \$nick]: \$newline"
 			}
-
 			irc {
-				set customchatstyle "$tstamp <$nick> "
+				set customchatstyle "\$tstamp <\$nick> "
 			}
-			- {
-				set customchatstyle ""
-			}
+			- {}
 		}
+
+		#By default, quote backslashes and variables
+		set customchatstyle [string map {"\\" "\\\\" "\$" "\\\$" "\(" "\\\(" } $customchatstyle]
+		#Now, let's unquote the variables we want to replace
+		set customchatstyle [string map { "\\\$nick" "\${nick}" "\\\$tstamp" "\${tstamp}" "\\\$newline" "\n" } $customchatstyle]
+		#Return the custom nick, replacing backslashses and variables
+		set customchatstyle [subst -nocommands $customchatstyle]
+		
 		set msg "\n${customchatstyle}${msg}"
 		SendMessageFIFO [list ::amsn::WinWrite $chatid "$msg" user] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
 
