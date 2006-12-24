@@ -1,2 +1,2 @@
 "Human" skin, fitting in Ubuntu's ('breezy') default Gnome-theme, 
-by Karel Demeyer (kmdemeye@vub.ac.be).
+by Karel Demeyer (kmdemeye@vub.ac.be), with fixes by Jo Franklin.
