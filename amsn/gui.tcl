@@ -4644,14 +4644,14 @@ proc cmsn_draw_buildtop_wrapped {} {
 	pack $pgBuddyTop.mystatus -expand true -fill x -side left -padx 0 -pady 0
 	
 	$pgBuddyTop.mystatus configure -state normal
-	$pgBuddyTop.mystatus tag conf mystatuslabel -fore [::skin::getKey mystatus] -underline false \
-		-font splainf
-	$pgBuddyTop.mystatus tag conf mystatuslabel2 -fore [::skin::getKey mystatus] -underline false \
-		-font bboldf
-	$pgBuddyTop.mystatus tag conf mystatus -fore $my_colour -underline false \
-		-font bboldf
-	$pgBuddyTop.mystatus tag conf mypsmmedia -fore $my_colour -underline false \
-		-font sbolditalf
+	$pgBuddyTop.mystatus tag conf mystatuslabel -fore [::skin::getKey mystatus] \
+		-font [::skin::getFont "mystatuslabel" "splainf"]
+	$pgBuddyTop.mystatus tag conf mystatuslabel2 -fore [::skin::getKey mystatus] \
+		-font [::skin::getFont "mystatuslabel2" "bboldf"]
+	$pgBuddyTop.mystatus tag conf mystatus -fore $my_colour \
+		-font [::skin::getFont "mystatus" "bboldf"]
+	$pgBuddyTop.mystatus tag conf mypsmmedia -fore $my_colour \
+		-font [::skin::getFont "psmfont" "sbolditalf"]
 	$pgBuddyTop.mystatus tag bind mystatus <Enter> \
 		"$pgBuddyTop.mystatus tag conf mystatus -under true;$pgBuddyTop.mystatus conf -cursor hand2"
 	$pgBuddyTop.mystatus tag bind mystatus <Leave> \

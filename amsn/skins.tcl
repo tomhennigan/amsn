@@ -133,6 +133,84 @@ namespace eval ::skin {
 		return [set loaded_${location}($pixmap_name)]
 	}
 
+	################################################################
+	# ::skin::newFont
+	# Creates a new font based on values from the settings.xml file.
+	proc newFont {cstack cdata saved_data cattr saved_attr args} {
+		upvar $saved_data sdata
+		
+		#Check if no important fields are missing.
+		#The name field must be present.
+		if { ! [info exists sdata(${cstack}:name)] } { return 0 }
+
+		set font_name ""
+		set font_family [lindex [::config::getGlobalKey basefont] 0]
+		set font_size [lindex [::config::getGlobalKey basefont] 1]
+		set font_weight "normal"
+		set font_slant "roman"
+		set font_underline "false"
+
+		foreach field [array names sdata] {
+			# Iterate the data.
+			switch [string replace $field 0 15] {
+				name {
+					if {[string trim $sdata($field)] != "default"} {
+						set font_name [string trim $sdata($field)]
+					}
+				}
+				family {
+					if {[string trim $sdata($field)] != "default"} {
+						set font_family [string trim $sdata($field)]
+					}
+				}
+				size {
+					if {[string trim $sdata($field)] != "default"} {
+						set font_size [string trim $sdata($field)]
+					}
+				}
+				weight {
+					set font_weight [string trim $sdata($field)]
+				}
+				slant {
+					if {[string trim $sdata($field)] == "none"} {
+						set font_slant "roman"
+					} else {
+						set font_slant [string trim $sdata($field)]
+					}
+				}
+				underline {
+					set font_underline [string trim $sdata($field)]
+				}
+				default {
+					status_log "::skin::newFont => Illegal argument: [string replace $field 0 15]. Value: [string trim $sdata($field)]."
+				}
+			}
+		}
+		
+		if {[lsearch [font names] $font_name] != "-1"} {
+			font delete $font_name
+		}
+		
+		#puts "$font_name \"$font_family\" $font_size $font_weight $font_slant $font_underline"
+		font create "$font_name" -family "$font_family" -size "$font_size" -weight "$font_weight" -slant "$font_slant" -underline "$font_underline"
+		
+		# This is required by sxml.
+		return 0
+	}
+	
+	################################################################
+	# ::skin::getFont (fontname [, default_font])
+	# Looks for the font requested, and if it isn't there it returns the default font given.
+	# Arguments:
+	#  - fontname => The name of the font to load from the skins config file.
+	#  - default => The name of the font to load if the font isn't available from the skin.
+	proc getFont {fontname {default "bplainf"}} {
+		if {[lsearch [font names] $fontname] != "-1"} {
+			return $fontname
+		} else {
+			return $default
+		}	
+	}
 
 	################################################################
 	# ::skin::getNoDisplayPicture ([skin_name])
@@ -438,6 +516,7 @@ namespace eval ::skin {
 		sxml::register_routine $skin_id "skin:ChatWindow:Options" ::skin::SetConfigKeys
 		sxml::register_routine $skin_id "skin:smileys:emoticon" ::smiley::newEmoticon
 		sxml::register_routine $skin_id "skin:smileys:size" ::skin::SetEmoticonSize
+		sxml::register_routine $skin_id "skin:Fonts:Font" ::skin::newFont
 		sxml::parse $skin_id
 		sxml::end $skin_id
 		unset ::loading_skin
@@ -552,18 +631,6 @@ namespace eval ::skin {
 			return 0
 		}
 	}
-		
-	
-	
-
-
-
-
-
-
-
-
-
 
 
 	#We already have theses 2 procs in protocol.tcl but skins.tcl is loaded before protocol.tcl 
