@@ -228,7 +228,7 @@ defaultloginradio Entrar en la configuració per defecte
 defchatwinsize Tamany per defecte de les finestres de conversa (TamanyXxTamanyY)
 delete Eliminar
 deleteall Eliminar-ho tot
-deleteblock	Eliminar i blocar
+deleteblock Eliminar i blocar
 deletecustomstate Eliminar estat personalitzat
 delimiters Delimitadors de l'hora
 deliverfail Hi ha hagut un problema al enviar el següent missatge
@@ -837,11 +837,34 @@ xmmserr No hi ha res reproduint-se, o no tens xmms-infopipe instal·lat.
 xmmssend Envia cançó actual
 xoffset Desplaçament X
 year Any
-yes si
-yesblock Si i bloqueja
+yes Sí
+yesblock Sí i bloqueja
 yesterday Ahir
 yoffset Desplaçament Y
 youblocked Has sigut bloquejat per
 yousay Tu dius
 youwant Vols
 zoom Ampliació
+asksendoim Vols enviar este missatge com un missatge desconnectat?
+autolisten_voiceclips Automàticament reprodueix missatges de veu quan es reben
+blocknotifications Desactivar el que es mostren les finestres de notificació
+blocksounds Desactivar els sons
+cancelled Cancel·lat
+connectfirst Per favor, connecte primer
+error Error
+ftporttest Port de prova
+nosound No s'ha detectat so. Assegura't de que el teu micròfon està correctament connectat
+nosound_or_hold No s'ha detectat so. Per a enviar un missatge de so, es necessita tindre apretar apretar el botó mentres es parla i soltar-lo per a enviar el missatge.
+receivedvoice Rebut missatge de veu
+recorderror S'ha produït un error quan s'intentava gravar el so : $1
+resetincomingfont Reestablir la font (usa la que ha triat qui envia el missatge)
+sendoim Envia un missatge desconnectat
+sendvoice Envia un missatge de veu
+sentvoice Enviat un missatge de veu
+snackneeded Es necessita la biblioteca Snack (com a mínim la versió 2.2.9) per a usar esta funció.
+soundnoavail El dispositiu de so no està disponible. Per favor, tanca els programes que estiguen usant-lo.
+voice_notimplemented El receptor de missatges de veu encara no està implementat. Per favor, sigues pacient.
+voice_windows Sent un usuari de windows, deuries de poder escoltar el missatge de veu obrint-lo en el teu reproductor multimèdia.
+voice_windows_click Fes clic ací per a fer-ho.
+webcaminvitereceiving Estàs convidat a vore la webcam de $1. Estàs d'acord?
+webcaminvitesending $1 voldria vore la teua webcam. Vols acceptar esta sessió?
