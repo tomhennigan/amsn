@@ -52,7 +52,7 @@ namespace eval ::audio {
 	# 	Return:
 	#		Normal => (list) Avaliable input devices.
 	proc inputDevices { } {
-		return [list [snack::audio inputDevices]]
+		return [snack::audio inputDevices]
 	}
 	
 	################################################################
@@ -128,7 +128,7 @@ namespace eval ::audio {
 	# 	Return:
 	#		Normal => (list) Avaliable output devices.
 	proc outputDevices { } {
-		return [list [snack::audio outputDevices]]
+		return [snack::audio outputDevices]
 	}
 	
 	################################################################
