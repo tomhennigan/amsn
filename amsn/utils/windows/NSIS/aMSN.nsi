@@ -288,7 +288,7 @@ Files_Next:
 
 SectionEnd
 
-SectionGroup "Sortcuts" SecShortcuts
+SectionGroup "Shortcuts" SecShortcuts
 
   Section "Desktop shortcut" DeskShortcut
     SectionIn 1
