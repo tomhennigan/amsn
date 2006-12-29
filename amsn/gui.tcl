@@ -1189,8 +1189,8 @@ namespace eval ::amsn {
 
 		#Open directory and Open picture button
 		button $w.close -text "[trans cancel]" -command $cancelcmd
-		button $w.open -text "[trans opendir]" -state normal -command "launch_filemanager \"$filedir\""
-		button $w.openfile -text "[trans openfile]" -state disable -command "open_file {$filepath}"
+		button $w.open -text "[trans opendir]" -state normal -command [list launch_filemanager $filedir]
+		button $w.openfile -text "[trans openfile]" -state disable -command [list open_file $filepath]
 		pack $w.close $w.open $w.openfile -side right -pady 5 -padx 10
 
 		setFTWinTitle $w $cookie $filename
