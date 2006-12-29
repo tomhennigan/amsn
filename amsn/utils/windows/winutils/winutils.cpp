@@ -61,6 +61,7 @@ static int Tk_WinLoadFile (ClientData clientData,
 	WCHAR *file = NULL;
 	Tcl_Obj *argsObj = NULL;
 	WCHAR* argsStr = NULL;
+	int res;
 
 	// We verify the arguments, we must have one arg, not more
 	if( objc < 2) {
@@ -82,10 +83,18 @@ static int Tk_WinLoadFile (ClientData clientData,
 		argsStr = Tcl_GetUnicode(argsObj);
 	}
 
-	if ((int) ShellExecute(NULL,L"open", file, argsStr, NULL, SW_SHOWNORMAL) <= 32) {
+	res = (int) ShellExecute(NULL, L"open", file, argsStr, NULL, SW_SHOWNORMAL);
+	if (res <= 32) {
+		Tcl_Obj *result = Tcl_NewStringObj("Unable to open file : ", strlen("Unable to open file : "));
+		Tcl_AppendUnicodeToObj(result, file, lstrlen(file));
+		Tcl_AppendToObj(result, " " , strlen(" "));
+		Tcl_AppendUnicodeToObj(result, argsStr, lstrlen(argsStr));
+		Tcl_AppendToObj(result, " : " , strlen(" : "));
+		Tcl_AppendObjToObj(result, Tcl_NewIntObj(res));
+
+		Tcl_SetObjResult(interp, result);
 		return TCL_ERROR;
 	}
-
 
 	return TCL_OK;
 }
