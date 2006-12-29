@@ -170,6 +170,9 @@ static __u32 xawtv_pixelformat[VIDEO_FMT_COUNT] = {
     [ VIDEO_UYVY ]     = V4L2_PIX_FMT_UYVY,
     [ VIDEO_YUV422P ]  = V4L2_PIX_FMT_YUV422P,
     [ VIDEO_YUV420P ]  = V4L2_PIX_FMT_YUV420,
+    [ VIDEO_JPEG ]     = V4L2_PIX_FMT_JPEG,
+    [ VIDEO_MJPEG ]    = V4L2_PIX_FMT_MJPEG,
+//    [ VIDEO_MPEG ]     = V4L2_PIX_FMT_MPEG, // MPEG is supported in a different way
 };
 
 static struct STRTAB stereo[] = {
@@ -874,6 +877,7 @@ v4l2_waiton(struct v4l2_handle *h)
     /* get it */
     memset(&buf,0,sizeof(buf));
     buf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+    buf.memory = V4L2_MEMORY_MMAP;
     if (-1 == xioctl(h->fd,VIDIOC_DQBUF,&buf, 0))
 	return -1;
     h->waiton++;
@@ -1075,6 +1079,7 @@ v4l2_nextframe(void *handle)
 	if (-1 == frame)
 	    return NULL;
 	h->buf_me[frame].refcount++;
+	h->buf_me[frame].size = h->buf_v4l2[frame].bytesused;
 	buf = &h->buf_me[frame];
 	memset(&buf->info,0,sizeof(buf->info));
 	buf->info.ts = ng_tofday_to_timestamp(&h->buf_v4l2[frame].timestamp);
