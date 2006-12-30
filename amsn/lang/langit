@@ -70,7 +70,7 @@ avcanceled Chiamata di videoconferenza annullata
 avgotinvitation Ricevuto invito di videoconferenza da $1
 avinitfailed Inizializzazione del plugin audio/video fallita. Chiamata annullata
 avoidseen Impedisci a questa persona di vedermi e di contattarmi quando sono connesso
-awaymsg1 Chiedi di impostare un messaggio di "assente" ogni volta che cambio il mio stato personale in Non al computer/Torno Subito/Occupato
+awaymsg1 Chiedi di impostare un messaggio di "assente" ogni volta che cambio il mio stato personale in "Non al computer/Torno Subito/Occupato"
 awaymsg2 Non chiedere mai e usa sempre il messaggio di assente qui sotto
 away Non al computer
 baduserpass Username o password sbagliate
@@ -88,6 +88,8 @@ blockinter4 secondi.
 blocklist Lista di utenti bloccati:
 blockmessage Queste persone sono in linea e bloccate da te
 blockusers Numero di utenti da controllare subito
+blocknotifications Disattiva le finestre di notifica
+blocksounds Disattiva i suoni
 bouncedock Fa lampeggiare l'icona di aMSN quando un messaggio viene ricevuto
 brightness Luminosità
 broughtby Sviluppato da
@@ -121,7 +123,7 @@ changeglobnick Cambia nick globale
 change_mobile Modifica impostazioni Mobile
 changenick Cambia nick
 changesize Cambia dimensione
-changestate $1 cambia stato personale in $2
+changestate $1 stato personale: $2
 changevideosettings Cambia le impostazioni video
 channels Canali
 charscounter  Contatore dei caratteri digitati nella finestra di chat
