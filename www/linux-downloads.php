@@ -44,7 +44,7 @@
 		<img src="images/download-debian-big.png" class="distr" alt="Debian"/><br />Debian</a>
 	</div>
 	<div style="float:left;margin:1em;text-align:center;">
-		<a href="http://amsn-project.net/wiki/index.php/InstallOnFedora">
+		<a href="http://amsn-project.net/wiki/InstallOnFedora">
 		<img src="images/download-fedora-big.png" class="distr" alt="Fedora"/><br />Fedora</a>
 	</div>
 	<div style="float:left;margin:1em;text-align:center;">
@@ -72,7 +72,7 @@
       You can use the source package to build a binary for your Linux distribution.
       It is also possible to create RPM or DEB packages from the source package,
       using the <span class="command">make rpm</span> or <span class="command">make deb</span> command appropriate to your distribution.<br />
-      Please follow the <a href="http://amsn-project.net/wiki/index.php/Installing_Tarball">instructions to install</a> the package.
+      Please follow the <a href="http://amsn-project.net/wiki/Installing_Tarball">instructions to install</a> the package.
 	</p>
 
 <br />
@@ -88,7 +88,7 @@
 Latest development version (SVN Snapshot <?php if (file_exists('amsn_dev.tar.gz')) { echo 'of '.date("F d Y H:i:s.", filectime('amsn_dev.tar.gz')); } ?> )
 	</dd></dl>
 	<p>
-		You may want to test our development version. But, as it's a development version, it may contains more bugs than the official versions, and may also be completely broken sometimes. You will find more information on how to install that development version <a href="http://www.amsn-project.net/wiki/index.php/Installing_SVN">on our wiki</a>
+		You may want to test our development version. But, as it's a development version, it may contains more bugs than the official versions, and may also be completely broken sometimes. You will find more information on how to install that development version <a href="http://www.amsn-project.net/wiki/Installing_SVN">on our wiki</a>
 	</p>
 
 <?php include inc . 'footer.php'; ?>
