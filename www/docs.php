@@ -13,7 +13,7 @@ Links to aMSN Documents
 
 <ul>
 <li>
-<a href="http://www.amsn-project.net/wiki/Frequently_Asked_Questions">FAQ</a>
+<a href="http://www.amsn-project.net/faq.php">FAQ</a>
 <br />
 </li>
 
