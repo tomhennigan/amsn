@@ -3369,11 +3369,11 @@ proc create_main_menu {wmenu} {
 	if {[OnMac]} {
 		# The help menu on a mac should be given the Command-? accelerator.
 		$help add command -label "[trans onlinehelp]" \
-			-command "launch_browser $::weburl/userwiki/index.php/Main_Page" \
+			-command "launch_browser $::weburl/wiki/Main_Page" \
 			-accelerator "Command-?"
 	} else {
 		$help add command -label "[trans onlinehelp]" \
-			-command "launch_browser $::weburl/userwiki/index.php/Main_Page" \
+			-command "launch_browser $::weburl/wiki/Main_Page" \
 	}
 
 	set lang [::config::getGlobalKey language]
@@ -3510,8 +3510,8 @@ proc cmsn_draw_main {} {
 		#Raise cl window
 		bind all <Command-Key-1> "raise ."
 		#Online Help
-		bind all <Command-/> "launch_browser $::weburl/userwiki/index.php/Main_Page"
-		bind all <Command-?> "launch_browser $::weburl/userwiki/index.php/Main_Page"
+		bind all <Command-/> "launch_browser $::weburl/wiki/Main_Page"
+		bind all <Command-?> "launch_browser $::weburl/wiki/Main_Page"
 
 		bind all <Command-m> "catch {wm state %W normal; carbon::processHICommand mini %W}"
 		bind all <Command-M> "catch {wm state %W normal; carbon::processHICommand mini %W}"

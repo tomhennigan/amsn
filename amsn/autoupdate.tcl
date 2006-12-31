@@ -294,7 +294,7 @@ namespace eval ::autoupdate {
 		#Create the update window
 		toplevel $w
 		wm title $w "[trans newveravailable $tmp_data]"
-		set changeloglink "$::weburl/wiki/index.php/ChangeLog"
+		set changeloglink "http://amsn.sourceforge.net/wiki/tiki-index.php?page=ChangeLog"
 		set homepagelink "$::weburl/"
 		#Create the frames
 		frame $w.top
