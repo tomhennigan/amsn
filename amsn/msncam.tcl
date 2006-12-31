@@ -1771,7 +1771,13 @@ namespace eval ::CAMGUI {
 				set dev [string range $source 0 [expr {$pos-1}]]
 				set channel [string range $source [expr {$pos+1}] end]
 
-				if { [catch { ::Capture::Open $dev $channel } grabber] } {
+				if { [::config::getKey lowrescam] == 1 } {
+					set cam_res "QSIF"
+				} else {
+					set cam_res "SIF"
+				}
+
+				if { [catch { ::Capture::Open $dev $channel $cam_res} grabber] } {
 					::MSNCAM::CancelCam $chatid $sid
 					msg_box "[trans badwebcam]\n$grabber"
 					return
@@ -1936,16 +1942,16 @@ namespace eval ::CAMGUI {
 	}
 
 	proc Grab_Linux {grabber socket encoder img} {
-		if { [::config::getKey lowrescam] == 1 } {
-			set cam_res LOW
-		} else {
-			set cam_res HIGH
-		}
 		if { ([info exists ::test_webcam_send_log] && $::test_webcam_send_log != "") ||
-		     ![catch { ::Capture::Grab $grabber $img $cam_res} res] } {
+		     ![catch { ::Capture::Grab $grabber $img} res] } {
 			if { !([info exists ::test_webcam_send_log] && 
 			      $::test_webcam_send_log != "") &&$encoder == "" } {
-				if { $res == "" } { set res $cam_res }
+				#Here we translate for the encoder...
+				if { $res == "SIF" } {
+					set res "HIGH"
+				} else {
+					set res "LOW"
+				}
 				set encoder [::Webcamsn::NewEncoder $res]
 				setObjOption $socket codec $encoder
 			}
@@ -2653,7 +2659,13 @@ namespace eval ::CAMGUI {
 
 		::CAMGUI::CloseGrabber $::CAMGUI::webcam_preview $preview_w
 
-		if { [catch {set ::CAMGUI::webcam_preview [::Capture::Open $device $channel]} res] } {
+		if { [::config::getKey lowrescam] == 1 } {
+			set cam_res "QSIF"
+		} else {
+			set cam_res "SIF"
+		}
+
+		if { [catch {set ::CAMGUI::webcam_preview [::Capture::Open $device $channel $cam_res]} res] } {
 			$status configure -text $res
 			return
 		}
@@ -2697,13 +2709,8 @@ namespace eval ::CAMGUI {
 	proc PreviewLinux { grabber img } {
 		set semaphore ::CAMGUI::sem_$grabber
 		set $semaphore 0
-		if { [::config::getKey lowrescam] == 1 } {
-			set cam_res LOW
-		} else {
-			set cam_res HIGH
-		}
 		while { [::Capture::IsValid $grabber] && [ImageExists $img]} {
-			if {[catch {::Capture::Grab $grabber $img $cam_res} res]} {
+			if {[catch {::Capture::Grab $grabber $img} res]} {
 				status_log "Problem grabbing from the device.  Device busy or unavailable ?\n\t \"$res\""
 			}
 			after 100 "incr $semaphore"
@@ -3786,7 +3793,13 @@ status_log "$device"
 				::Capture::Close $::CAMGUI::webcam_preview
 			}
 
-			if { [catch {set ::CAMGUI::webcam_preview [::Capture::Open $selecteddevice $selectedchannel]} errormsg] } {
+			if { [::config::getKey lowrescam] == 1 } {
+				set cam_res "QSIF"
+			} else {
+				set cam_res "SIF"
+			}
+
+			if { [catch {set ::CAMGUI::webcam_preview [::Capture::Open $selecteddevice $selectedchannel $cam_res]} errormsg] } {
 				status_log "problem opening device: $errormsg"
 				return
 			}
@@ -3807,13 +3820,9 @@ status_log "$device"
 			
 			set semaphore ::CAMGUI::sem_$::CAMGUI::webcam_preview
 			set $semaphore 0
-			if { [::config::getKey lowrescam] == 1 } {
-				set cam_res "LOW"
-			} else {
-				set cam_res "HIGH"
-			}
+
 			while { [::Capture::IsValid $::CAMGUI::webcam_preview] && [ImageExists $previmg] } {
-				if {[catch {::Capture::Grab $::CAMGUI::webcam_preview $previmg $cam_res} res ]} {
+				if {[catch {::Capture::Grab $::CAMGUI::webcam_preview $previmg} res ]} {
 					status_log "Problem grabbing from the device:\n\t \"$res\""
 					$previmc create text 10 215 -anchor nw -font bboldf -text "ERROR: $res" -fill #FFFFFF -anchor nw -tag errmsg
 				after 2000 "catch { $previmc delete errmsg }"
@@ -3949,9 +3958,11 @@ status_log "$device"
                if { [::config::getKey lowrescam] == 1 } {
                         set camwidth 160
 			set camheight 120
+			set cam_res "QSIF"
                 } else {
                         set camwidth 320
 			set camheight 240
+			set cam_res "SIF"
                 }
 
 
@@ -3973,7 +3984,7 @@ status_log "$device"
 			::Capture::Close $::CAMGUI::webcam_preview
 		}
 
-		if { [catch {set ::CAMGUI::webcam_preview [::Capture::Open $selecteddevice $selectedchannel]} errormsg] } {
+		if { [catch {set ::CAMGUI::webcam_preview [::Capture::Open $selecteddevice $selectedchannel $cam_res]} errormsg] } {
 			status_log "problem opening device: $errormsg"
 			return
 		}
@@ -4043,7 +4054,7 @@ status_log "Config'ed: $brightness, $contrast, $hue, $color"
 			set semaphore ::CAMGUI::sem_$::CAMGUI::webcam_preview
 			set $semaphore 0
 			while { [::Capture::IsValid $::CAMGUI::webcam_preview] && [ImageExists $previmg] } {
-				if {[catch {::Capture::Grab $::CAMGUI::webcam_preview $previmg $cam_res} res ]} {
+				if {[catch {::Capture::Grab $::CAMGUI::webcam_preview $previmg} res ]} {
 					status_log "Problem grabbing from the device:\n\t \"$res\""
 					$previmc create text 10 215 -anchor nw -font bboldf -text "ERROR: $res" -fill #FFFFFF -anchor nw -tag errmsg
 					after 2000 "catch { $previmc delete errmsg }"				

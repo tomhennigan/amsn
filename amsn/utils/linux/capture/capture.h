@@ -56,23 +56,37 @@
 #  define TCL_STORAGE_CLASS DLLEXPORT
 #endif
 
+#define min(a,b) (a<=b?a:b)
+
 #ifdef __cplusplus
 extern "C"
 #endif
 
-#define HIGH_RES_W 320
-#define HIGH_RES_H 240
-#define LOW_RES_W 160
-#define LOW_RES_H 120
+struct image_format {
+  char *format_name;
+  int width;
+  int height;
+};
+
+static const struct image_format formats_list[] = { \
+    { "SQCIF", 128, 96 },  \
+    { "QSIF", 160, 120 },  \
+    { "QCIF", 176, 144 },  \
+    { "SIF", 320, 240 },   \
+    { "CIF", 352, 288 },   \
+    { "VGA", 640, 480 },   \
+    { "SXGA", 1280, 960 }, \
+    { NULL, 0, 0 },        \
+};
 
 // Structures for the list
 struct capture_item {
   char captureName[32];
   char devicePath[32];
   int channel;
+  struct image_format         *requested_format;
   struct ng_devstate          dev;
   struct ng_video_fmt         fmt;
-  struct ng_video_conv        *conv;
   struct ng_process_handle    *handle;
   struct ng_video_buf *image_data;
   struct ng_video_buf *rgb_buffer;
@@ -84,6 +98,7 @@ struct capture_item {
 #define list_element_id captureName
 
 // Capture extension's Tcl command implementations
+EXTERN int Capture_ListResolutions _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]));
 EXTERN int Capture_ListDevices _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]));
 EXTERN int Capture_ListChannels _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]));
 
@@ -92,6 +107,7 @@ EXTERN int Capture_ListGrabbers _ANSI_ARGS_((ClientData clientData, Tcl_Interp *
 EXTERN int Capture_Grab _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]));
 
 EXTERN int Capture_Open _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]));
+EXTERN int Capture_ChangeResolution _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]));
 EXTERN int Capture_Close _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]));
 EXTERN int Capture_IsValid _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]));
 

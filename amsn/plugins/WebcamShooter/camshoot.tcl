@@ -106,8 +106,13 @@ namespace eval ::camshoot {
 			set dev [string range $source 0 [expr $pos-1]]
 			set channel [string range $source [expr $pos+1] end]
 
+			if { [::config::getKey lowrescam] == 1 } {
+				set cam_res "QSIF"
+			} else {
+				set cam_res "SIF"
+			}
 			
-			if { [catch {set grabber [::Capture::Open $dev $channel]}] } {
+			if { [catch {set grabber [::Capture::Open $dev $channel $cam_res]}] } {
 				msg_box "[trans badwebcam]"
 				return
 			}

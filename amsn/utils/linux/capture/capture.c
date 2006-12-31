@@ -10,10 +10,12 @@ static struct list_ptr* opened_devices = NULL;
 
 /* List of TCL commands and their implementation */
 static struct { char* command; Tcl_ObjCmdProc *proc; } proc_list[] = {
+  { "::Capture::ListResolutions", Capture_ListResolutions },
   { "::Capture::ListDevices", Capture_ListDevices },
   { "::Capture::ListChannels", Capture_ListChannels },
   { "::Capture::Open", Capture_Open },
   { "::Capture::Close", Capture_Close },
+  { "::Capture::ChangeResolution", Capture_ChangeResolution },
   { "::Capture::GetGrabber", Capture_GetGrabber },
   { "::Capture::Grab", Capture_Grab },
   { "::Capture::SetBrightness", Capture_SetAttribute },
@@ -121,65 +123,163 @@ static struct ng_video_buf* get_video_buf(void *handle, struct ng_video_fmt *fmt
 }
 
 /* Select the correct colorspace to use with a device */
-static int set_color_conv(struct capture_item* captureItem)
+static int set_color_conv(struct capture_item* captureItem, struct image_format* image_size)
 {
   int i;
+  unsigned int rw, rh;
+  unsigned int w, h;
+  unsigned int d, dmin = (unsigned int) -1;
+  unsigned int bestfmtid;
+
+  struct ng_video_conv *conv;
   struct ng_video_fmt gfmt;
-  
+
   // Test if captureItem isn't NULL
   if(NULL == captureItem)
     return -1;
-  
+
+  rw = image_size->width;
+  rh = image_size->height;
+
   // try native colorspace RGB24
   captureItem->fmt.fmtid  = VIDEO_RGB24;
-  captureItem->fmt.width  = HIGH_RES_W;
-  captureItem->fmt.height = HIGH_RES_H;
-  if (captureItem->dev.v->setformat(captureItem->dev.handle,&captureItem->fmt) == 0)
-    return 0;
-  
+  captureItem->fmt.width  = rw;
+  captureItem->fmt.height = rh;
+  if (captureItem->dev.v->setformat(captureItem->dev.handle,&captureItem->fmt) == 0) {
+    w = captureItem->fmt.width;
+    h = captureItem->fmt.height;
+    d = min(w, rw) * min(h, rh);
+    d = w*h + rw*rh - 2*d;
+    if (d == 0)
+      //What do you want more ?
+      return 0;
+    else {
+      if (d < dmin) {
+        bestfmtid = captureItem->fmt.fmtid;
+        dmin = d;
+      }
+    }
+  }
   // If failed, try native BGR24 (mostly all webcams on LE systems)
   captureItem->fmt.fmtid  = VIDEO_BGR24;
-  if (captureItem->dev.v->setformat(captureItem->dev.handle,&captureItem->fmt) == 0)
-    return 0;
+  captureItem->fmt.width  = rw;
+  captureItem->fmt.height = rh;
+  if (captureItem->dev.v->setformat(captureItem->dev.handle,&captureItem->fmt) == 0) {
+    w = captureItem->fmt.width;
+    h = captureItem->fmt.height;
+    d = min(w, rw) * min(h, rh);
+    d = w*h + rw*rh - 2*d;
+    if (d == 0)
+      //What do you want more ?
+      return 0;
+    else {
+      if (d < dmin) {
+        bestfmtid = captureItem->fmt.fmtid;
+        dmin = d;
+      }
+    }
+  }
 
   // If it failed, try to find a converter to RGB24
   captureItem->fmt.fmtid = VIDEO_RGB24;
 
   // check all available conversion functions
   captureItem->fmt.bytesperline = captureItem->fmt.width * ng_vfmt_to_depth[captureItem->fmt.fmtid] / 8;
+
   for (i = 0;;) {
     // Find a converter to RGB24
-    if ((captureItem->conv = ng_conv_find_to(captureItem->fmt.fmtid, &i)) == NULL) break;
+    if ((conv = ng_conv_find_to(VIDEO_RGB24, &i)) == NULL) break;
 
 #   ifdef DEBUG
       fprintf(stderr, "Trying converter from %s to %s\n",
-              ng_vfmt_to_desc[captureItem->conv->fmtid_in],
-              ng_vfmt_to_desc[captureItem->conv->fmtid_out]);
+              ng_vfmt_to_desc[conv->fmtid_in],
+              ng_vfmt_to_desc[conv->fmtid_out]);
 #   endif
 
     // Set the new capture format to the colorspace of the input from the converter
-    gfmt = captureItem->fmt;
-    gfmt.fmtid = captureItem->conv->fmtid_in;
-    gfmt.bytesperline = 0;
+    captureItem->fmt.fmtid = conv->fmtid_in;
+    captureItem->fmt.width  = image_size->width;
+    captureItem->fmt.height = image_size->height;
+    captureItem->fmt.bytesperline = 0;
     
     // Check if webcam supports the input colorspace of that converter
-    if (captureItem->dev.v->setformat(captureItem->dev.handle,&gfmt) == 0) {
-      captureItem->fmt.width  = gfmt.width;
-      captureItem->fmt.height = gfmt.height;
-      
-      // Save the new width and height and initialize the converter
-      captureItem->handle = ng_conv_init(captureItem->conv, &gfmt, &captureItem->fmt);
-      return 0;
+    if (captureItem->dev.v->setformat(captureItem->dev.handle,&captureItem->fmt) == 0) {
+      w = captureItem->fmt.width;
+      h = captureItem->fmt.height;
+      d = min(w, rw) * min(h, rh);
+      d = w*h + rw*rh - 2*d;
+      if (d == 0) {
+        //What do you want more ?
+        // Initialize the converter
+        gfmt = captureItem->fmt;
+        captureItem->fmt.fmtid = VIDEO_RGB24;
+        captureItem->fmt.bytesperline = captureItem->fmt.width * ng_vfmt_to_depth[captureItem->fmt.fmtid] / 8;
+        captureItem->handle = ng_conv_init(conv, &gfmt, &captureItem->fmt);
+        return 0;
+       } else {
+         if (d < dmin) {
+           bestfmtid = captureItem->fmt.fmtid;
+           dmin = d;
+         }
+      }
     }
   }
-  
-  return -1;
+
+  //If nothing was good we return -1
+  if (dmin == (unsigned int)-1)
+    return -1;
+
+  //If we are here, it's because we didn't manage to find a good support for the requested size : we will now use the best fmtid
+  captureItem->fmt.fmtid  = bestfmtid;
+  captureItem->fmt.width  = rw;
+  captureItem->fmt.height = rh;
+  //I assume it could only return 0 else why would we be here ?
+  captureItem->dev.v->setformat(captureItem->dev.handle,&captureItem->fmt);
+
+  switch(bestfmtid) {
+  case VIDEO_RGB24:
+  case VIDEO_BGR24:
+    break;
+  default:
+    //I assume conv must be different of 0 else the format couldn't have been enumerated
+    conv = ng_conv_find_match(bestfmtid,VIDEO_RGB24);
+    gfmt = captureItem->fmt;
+    captureItem->fmt.fmtid = VIDEO_RGB24;
+    captureItem->fmt.bytesperline = captureItem->fmt.width * ng_vfmt_to_depth[captureItem->fmt.fmtid] / 8;
+    captureItem->handle = ng_conv_init(conv, &gfmt, &captureItem->fmt);
+    break;
+  }
+  return 0;
 }
 
 
 /////////////////////////////////////
 // Tcl command implementations     //
 /////////////////////////////////////
+
+/* ::Capture::ListResolutions - List supported resolutions */
+int Capture_ListResolutions _ANSI_ARGS_((ClientData clientData,
+			      Tcl_Interp *interp,
+			      int objc,
+			      Tcl_Obj *CONST objv[]))
+{
+  Tcl_Obj *           lstResolutions = NULL;
+  struct image_format* image_size = NULL;
+
+  if (objc != 1) {
+    Tcl_WrongNumArgs(interp, 1, objv, (char *)NULL);
+    return TCL_ERROR;
+  }
+
+  lstResolutions=Tcl_NewListObj(0, NULL);
+
+  for(image_size = formats_list; image_size->format_name != NULL; image_size++) {
+    Tcl_ListObjAppendElement(interp,lstResolutions,Tcl_NewStringObj(image_size->format_name,-1));
+  }
+
+  Tcl_SetObjResult(interp,lstResolutions);
+  return TCL_OK;
+}
 
 /* ::Capture::ListDevices - List available capture devices */
 int Capture_ListDevices _ANSI_ARGS_((ClientData clientData,
@@ -385,14 +485,15 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
 			      Tcl_Obj *CONST objv[]))
 {
   static int currentCaptureNumber = 0;
-  char *device = NULL;
+  char *device = NULL, *tmpRes = NULL;
   struct ng_attribute *attr = NULL;
   struct capture_item* captureItem = NULL;
+  struct image_format* image_size = NULL;
   int channel;
   
   // Check the number of arguments
-  if (objc != 3) {
-    Tcl_WrongNumArgs(interp, 1, objv, "device channel");
+  if (objc != 4) {
+    Tcl_WrongNumArgs(interp, 1, objv, "device channel resolution");
     return TCL_ERROR;
   }
   
@@ -400,6 +501,17 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
   device = Tcl_GetStringFromObj(objv[1], NULL);
   
   if (Tcl_GetIntFromObj(interp, objv[2], &channel) == TCL_ERROR) {
+    return TCL_ERROR;
+  }
+
+  tmpRes = Tcl_GetStringFromObj(objv[3], NULL);
+  for(image_size = formats_list; image_size->format_name != NULL; image_size++) {
+    if (!strcasecmp(image_size->format_name,tmpRes))
+      break;
+  }
+
+  if (image_size->format_name == NULL) {
+    Tcl_AppendResult(interp, "The resolution chosen is invalid", NULL);
     return TCL_ERROR;
   }
   
@@ -440,17 +552,19 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
   }
   
   // Select the colorspace conversion to use, return an error if none is found (we can't do without!)
-  if (set_color_conv(captureItem) != 0) {
+  if (set_color_conv(captureItem,image_size) != 0) {
 #   ifdef DEBUG
-      fprintf(stderr, "Your webcam uses a palette that this extension does not support yet\n");
+      fprintf(stderr, "Your webcam uses a combination of palette/resolution that this extension does not support yet\n");
 #   endif
 
-    Tcl_AppendResult (interp, "Your webcam uses a palette that this extension does not support yet" , (char *) NULL);
+    Tcl_AppendResult (interp, "Your webcam uses a combination of palette/resolution that this extension does not support yet" , (char *) NULL);
     ng_dev_close(&captureItem->dev);
     ng_dev_fini(&captureItem->dev);
     free(captureItem);
     return TCL_ERROR;
   }
+
+  captureItem->requested_format = image_size;
   
   // Add the capture descriptor to the list of open descriptors, return an error if this fails
   if (Capture_lstAddItem(captureItem) == NULL) {
@@ -519,6 +633,81 @@ int Capture_Close _ANSI_ARGS_((ClientData clientData,
   return TCL_OK;
 }
 
+/* ::Capture::ChangeResolution - Change the resolution of an opened device */
+int Capture_ChangeResolution _ANSI_ARGS_((ClientData clientData,
+			      Tcl_Interp *interp,
+			      int objc,
+			      Tcl_Obj *CONST objv[]))
+{
+  char *captureDescriptor = NULL, *tmpRes = NULL;
+  struct capture_item *capItem = NULL;
+  struct image_format* image_size = NULL;
+  unsigned int retVal = TCL_OK;
+  
+  if (objc != 3) {
+    Tcl_WrongNumArgs(interp, 1, objv, "capturedescriptor resolution");
+    return TCL_ERROR;
+  }
+  
+  captureDescriptor = Tcl_GetStringFromObj(objv[1], NULL);
+  if ((capItem = Capture_lstGetItem(captureDescriptor)) == NULL) {
+    Tcl_AppendResult(interp, "Invalid capture descriptor.", (char *) NULL);
+    return TCL_ERROR;
+  }
+  
+  tmpRes = Tcl_GetStringFromObj(objv[2], NULL);
+  for(image_size = formats_list; image_size->format_name != NULL; image_size++) {
+    if (!strcasecmp(image_size->format_name,tmpRes))
+      break;
+  }
+
+  if (image_size->format_name == NULL) {
+    Tcl_AppendResult(interp, "The resolution chosen is invalid", NULL);
+    return TCL_ERROR;
+  }
+
+  if (image_size == capItem->requested_format) {
+    Tcl_AppendResult(interp, "The resolution is the same", NULL);
+    //Nothing to do
+    return TCL_OK;
+  }
+
+  capItem->dev.v->stopvideo(capItem->dev.handle);
+
+  // If a converter was used, close it and release the rgb_buffer
+  if (capItem->handle) {
+    ng_process_fini(capItem->handle);
+    capItem->handle = NULL;
+    ng_release_video_buf(capItem->rgb_buffer);
+    capItem->rgb_buffer = NULL;
+  }
+
+  // Select the colorspace conversion to use, return an error if none is found (we can't do without!)
+  if (set_color_conv(capItem,image_size) != 0) {
+#   ifdef DEBUG
+      fprintf(stderr, "Your webcam uses a combination of palette/resolution that this extension does not support yet\n");
+#   endif
+
+    Tcl_AppendResult (interp, "Your webcam uses a combination of palette/resolution that this extension does not support yet" , (char *) NULL);
+    retVal = TCL_ERROR;
+
+    //Now we put back the old settings
+    set_color_conv(capItem,capItem->requested_format);
+  } else
+    capItem->requested_format = image_size;
+
+  // If a converter was used, setup the converter and allocate a new rgb_buffer
+  if (capItem->handle) {
+    // To setup the converter, you give it a proc and a handle.
+    // The proc is used to return to the converter the output buffer where to store the result...
+    ng_process_setup(capItem->handle, get_video_buf, (void *)capItem);
+    capItem->rgb_buffer = ng_malloc_video_buf(&capItem->dev, &capItem->fmt);
+  }
+  
+  capItem->dev.v->startvideo(capItem->dev.handle, 25, 1);
+  
+  return retVal;
+}
 
 /* ::Capture::Grab - Grab a frame */
 int Capture_Grab _ANSI_ARGS_((ClientData clientData,
@@ -526,26 +715,18 @@ int Capture_Grab _ANSI_ARGS_((ClientData clientData,
 			      int objc,
 			      Tcl_Obj *CONST objv[]))
 {
-# define DEFAULT	2
-# define HIGH		1
-# define LOW		0
 
-  static struct { int width; int height; } dim[2] = {{LOW_RES_W, LOW_RES_H}, {HIGH_RES_W, HIGH_RES_H}};
-  struct ng_video_fmt fmt;
   struct capture_item* capItem = NULL;
-  int resolution = DEFAULT;
   char * captureDescriptor = NULL;
   char * image_name = NULL;
   char * tmpRes = NULL;
+  int rw, rh;
   Tk_PhotoImageBlock block;
   Tk_PhotoHandle Photo;
-  int width, height;
-  int diff_high = 0, diff_low = 0;
-  int dim_idx;
   
   // Get command arguments and check their validity
-  if (objc != 3 && objc != 4) {
-    Tcl_WrongNumArgs(interp, 1, objv, "capturedescriptor image_name ?resolution?");
+  if (objc != 3) {
+    Tcl_WrongNumArgs(interp, 1, objv, "capturedescriptor image_name");
     return TCL_ERROR;
   }
   
@@ -562,72 +743,16 @@ int Capture_Grab _ANSI_ARGS_((ClientData clientData,
     return TCL_ERROR;
   }
   
-  // If we use a converter, set the resolution depending on the converter's format, otherwise use the native format
-  fmt = capItem->fmt;
-  if (capItem->conv) {
-    fmt.fmtid = capItem->conv->fmtid_in;
-    fmt.bytesperline = 0;
+  if ((capItem->image_data = capItem->dev.v->nextframe(capItem->dev.handle)) == NULL) {
+# ifdef DEBUG
+    fprintf(stderr,"Capturing image failed at %dx%d\n", capItem->fmt.width, capItem->fmt.height);
+# endif
+    Tcl_AppendResult(interp, "Unable to capture from the device", (char *) NULL);
+    return TCL_ERROR;
   }
-  
-  // Get the current resolution from capItem
-  if ((fmt.width == HIGH_RES_W) && (fmt.height == HIGH_RES_H)) {
-    resolution = HIGH;
-  } else if ((fmt.width == LOW_RES_W) && (fmt.height == LOW_RES_H)) {
-    resolution = LOW;
-  }
-  
-  // If resolution was specified, change resolution if it is different from the one currently set
-  if (objc == 4) {
-    tmpRes = Tcl_GetStringFromObj(objv[3], NULL);
-    if (strcmp(tmpRes, "HIGH") == 0) {
-      if(resolution != HIGH) {
-        resolution = HIGH;
-        fmt.width  = (capItem->fmt.width = HIGH_RES_W);
-        fmt.height = (capItem->fmt.height = HIGH_RES_H);
-        capItem->dev.v->setformat(capItem->dev.handle, &fmt);
-      }
-    } else if(strcmp(tmpRes, "LOW") == 0) {
-      if(resolution != LOW) {
-        resolution = LOW;
-        fmt.width  = (capItem->fmt.width = LOW_RES_W);
-        fmt.height = (capItem->fmt.height = LOW_RES_H);
-        capItem->dev.v->setformat(capItem->dev.handle, &fmt);
-      }
-    } else {
-      Tcl_AppendResult(interp, "The resolution should be either \"LOW\" or \"HIGH\"", NULL);
-      return TCL_ERROR;
-    }
-  }
-  
-  // Get the image using the vid_driver device
-  // We have max 3 resolutions to try:
-  // - The resolution from the capItem (if it isn't HIGH or LOW)
-  // - High resolution
-  // - Low resolution
-  for (dim_idx = resolution;;) {
-    if ((capItem->image_data = capItem->dev.v->nextframe(capItem->dev.handle)) == NULL) {
-#   ifdef DEBUG
-      fprintf(stderr,"Capturing image failed at %d, %d\n", fmt.width, fmt.height);
-#   endif
-      if(dim_idx > 0) {
-        dim_idx--;
-        fmt.width  = (capItem->fmt.width = dim[dim_idx].width);
-        fmt.height = (capItem->fmt.height = dim[dim_idx].height);
-        capItem->dev.v->setformat(capItem->dev.handle, &fmt);
-      } else {
-        Tcl_AppendResult(interp, "Unable to capture from the device", (char *) NULL);
-        return TCL_ERROR;
-      }
-    } else {
-      break;
-    }
-  }
-  
-  width = fmt.width;
-  height = fmt.height;
   
   // if a converter was used, put the frame into the converter and get it, once converted
-  if (capItem->conv) {
+  if (capItem->handle) {
     ng_process_put_frame(capItem->handle, capItem->image_data);
     capItem->rgb_buffer = ng_process_get_frame(capItem->handle);
   } else {
@@ -648,7 +773,7 @@ int Capture_Grab _ANSI_ARGS_((ClientData clientData,
   block.pixelSize = 3;
   block.offset[1] = 1;
   block.offset[3] = -1;
-  
+
   // Check for RGB24 vs. BGR24
   if (capItem->fmt.fmtid == VIDEO_RGB24) {
     block.offset[0] = 0;
@@ -657,50 +782,35 @@ int Capture_Grab _ANSI_ARGS_((ClientData clientData,
     block.offset[0] = 2;
     block.offset[2] = 0;
   }
-  
+
+  Tk_PhotoSetSize( 
+# if TK_MINOR_VERSION == 5
+    interp, 
+# endif
+    Photo, capItem->requested_format->width, capItem->requested_format->height);
+
   Tk_PhotoBlank(Photo);
-  
-# if TK_MINOR_VERSION == 5
-    Tk_PhotoSetSize(interp, Photo, block.width, block.height);
-    Tk_PhotoPutBlock(interp, Photo, &block, 0, 0, block.width, block.height, TK_PHOTO_COMPOSITE_OVERLAY);
-# else
-    Tk_PhotoSetSize(Photo, block.width, block.height);
-#   if TK_MINOR_VERSION == 4
-      Tk_PhotoPutBlock(Photo, &block, 0, 0, block.width, block.height, TK_PHOTO_COMPOSITE_OVERLAY);
-#   else
-      Tk_PhotoPutBlock(Photo, &block, 0, 0, block.width, block.height);
-#   endif
+
+  Tk_PhotoPutBlock(
+# if TK_MINOR_VERSION >= 5
+    interp, 
+#endif
+    Photo, &block, 0, 0, block.width, block.height 
+# if TK_MINOR_VERSION >= 4
+//Overlay is useless as our image hasn't any alpha channel
+    , TK_PHOTO_COMPOSITE_SET 
 # endif
-  
+    );
+
   Tcl_ResetResult(interp);
-  diff_high = width - HIGH_RES_W;
-  if (diff_high < 0) diff_high = -diff_high;
-  diff_low = width - LOW_RES_W;
-  if (diff_low < 0) diff_low = -diff_low;
-  
-  if (diff_high <= diff_low) {
-    resolution = HIGH;
-    Tcl_AppendResult(interp, "HIGH", (char *) NULL);
-  } else {
-    resolution = LOW;
-    Tcl_AppendResult(interp, "LOW", (char *) NULL);
-  }
-  
-# if TK_MINOR_VERSION == 5
-    Tk_PhotoSetSize(interp, Photo, width, height);
-# else
-    Tk_PhotoSetSize(Photo, width, height);
-# endif
-  
+  Tcl_AppendResult(interp,capItem->requested_format->format_name);
+
   // Make sure to release the rgb_buffer if no converter is used so the next grab will not wait unnecessarily
-  if (!capItem->conv)
+  if (!capItem->handle)
     ng_release_video_buf(capItem->rgb_buffer);
-  
+
   return TCL_OK;
 
-# undef LOW
-# undef HIGH
-# undef DEFAULT
 }
 
 

@@ -12,7 +12,8 @@ package require capture
 set devices [::Capture::ListDevices]
 set ::grabber ""
 set ::preview ""
-set ::res "HIGH"
+set ::reslist [::Capture::ListResolutions]
+set ::res 0
 
 wm protocol . WM_DELETE_WINDOW {
 	if { [::Capture::IsValid $::grabber] } { ::Capture::Close $::grabber }
@@ -32,13 +33,25 @@ pack .l .r .s .c -side top
 
 proc SwitchResolution { } {
 
-	if { $::res == "HIGH" } {
-		set ::res "LOW"
-	} elseif { $::res == "LOW" } {
-		set ::res "HIGH"
-	} else { 
-		set ::res "HIGH"
+	incr ::res
+
+	if { $::res ==  [llength $::reslist]} {
+		set ::res 0
 	}
+	
+
+
+	puts "Changing to [lindex $::reslist $::res]"
+
+	if { [::Capture::IsValid $::preview] } {
+
+		puts [::Capture::ChangeResolution $::preview [lindex $::reslist $::res]]
+	}
+
+	if { [::Capture::IsValid $::grabber] } {
+		puts [::Capture::ChangeResolution $::grabber [lindex $::reslist $::res]]
+	}
+
 }
 
 proc ChooseDevice { } {
@@ -174,7 +187,7 @@ proc StartPreview { device_w chan_w status preview_w settings } {
 		::Capture::Close $::preview
 	}
 
-	if { [catch {set ::preview [::Capture::Open $::device $channel]} res] } {
+	if { [catch {set ::preview [::Capture::Open $::device $channel [lindex $::reslist $::res]]} res] } {
 		$status configure -text $res
 		return
 	}
@@ -218,7 +231,7 @@ proc Choose_Ok { w device_w chan_w img} {
 	set channel [lindex $channel 0]
 
 
-	if { [catch {set temp [::Capture::Open $::device $channel]} res] } {
+	if { [catch {set temp [::Capture::Open $::device $channel [lindex $::reslist $::res]]} res] } {
 		destroy $w
 		return
 	}
@@ -348,7 +361,7 @@ proc StartGrab { grabber img } {
 	set $semaphore 0
 
 	while { [::Capture::IsValid $grabber] && [lsearch [image names] $img] != -1 } {
-		::Capture::Grab $grabber $img $::res
+		::Capture::Grab $grabber $img
 		after 10 "incr $semaphore"
 		tkwait variable $semaphore
 	}
