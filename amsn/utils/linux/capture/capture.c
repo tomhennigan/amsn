@@ -802,8 +802,8 @@ int Capture_Grab _ANSI_ARGS_((ClientData clientData,
 # endif
     );
 
-  Tcl_ResetResult(interp);
-  Tcl_AppendResult(interp,capItem->requested_format->format_name);
+
+  Tcl_SetObjResult(interp,Tcl_NewStringObj(capItem->requested_format->format_name, -1));
 
   // Make sure to release the rgb_buffer if no converter is used so the next grab will not wait unnecessarily
   if (!capItem->handle)
