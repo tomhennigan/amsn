@@ -374,7 +374,7 @@ int Capture_ListChannels _ANSI_ARGS_((ClientData clientData,
 #   ifdef DEBUG
       fprintf(stderr,"no grabber device available\n");
 #   endif
-    Tcl_AppendResult (interp, "no grabber device available\n" , (char *) NULL);
+    Tcl_SetResult (interp, "no grabber device available\n" , TCL_STATIC);
     return TCL_ERROR;
   }
 
@@ -398,7 +398,7 @@ int Capture_ListChannels _ANSI_ARGS_((ClientData clientData,
     Tcl_SetObjResult(interp,lstAll);
     return TCL_OK;
   } else {
-    Tcl_AppendResult (interp, "Error getting channels list\n" , (char *) NULL);
+    Tcl_SetResult (interp, "Error getting channels list\n" , TCL_STATIC);
     return TCL_ERROR;
   }
 }
@@ -431,7 +431,7 @@ int Capture_GetGrabber _ANSI_ARGS_((ClientData clientData,
   // Find the correct grabber
   while (item) {
     if ((strcasecmp(dev,item->element->devicePath)==0) && (channel == item->element->channel)) {
-      Tcl_SetObjResult(interp, Tcl_NewStringObj(item->element->captureName,-1));
+      Tcl_SetResult(interp, item->element->captureName, TCL_VOLATILE);
       break;
     }
     item = item->next_item;
@@ -511,7 +511,7 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
   }
 
   if (image_size->format_name == NULL) {
-    Tcl_AppendResult(interp, "The resolution chosen is invalid", NULL);
+    Tcl_SetResult(interp, "The resolution chosen is invalid", TCL_STATIC);
     return TCL_ERROR;
   }
   
@@ -523,7 +523,7 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
 #   ifdef DEBUG
       fprintf(stderr,"no grabber device available\n");
 #   endif
-    Tcl_AppendResult (interp, "no grabber device available\n" , (char *) NULL);
+    Tcl_SetResult (interp, "no grabber device available\n" , TCL_STATIC);
     return TCL_ERROR;
   }
   
@@ -532,7 +532,7 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
 #   ifdef DEBUG
       fprintf(stderr,"device doesn't support capture\n");
 #   endif
-    Tcl_AppendResult (interp, "device doesn't support capture\n" , (char *) NULL);
+    Tcl_SetResult (interp, "device doesn't support capture\n" , TCL_STATIC);
     ng_dev_fini(&captureItem->dev);
     free(captureItem);
     return TCL_ERROR;
@@ -557,7 +557,7 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
       fprintf(stderr, "Your webcam uses a combination of palette/resolution that this extension does not support yet\n");
 #   endif
 
-    Tcl_AppendResult (interp, "Your webcam uses a combination of palette/resolution that this extension does not support yet" , (char *) NULL);
+    Tcl_SetResult (interp, "Your webcam uses a combination of palette/resolution that this extension does not support yet" , TCL_STATIC);
     ng_dev_close(&captureItem->dev);
     ng_dev_fini(&captureItem->dev);
     free(captureItem);
@@ -590,7 +590,7 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
   
   captureItem->dev.v->startvideo(captureItem->dev.handle, 25, 1);
   
-  Tcl_SetObjResult(interp, Tcl_NewStringObj(captureItem->captureName,-1));
+  Tcl_SetResult(interp, captureItem->captureName, TCL_VOLATILE);
   
   return TCL_OK;
 }
@@ -612,7 +612,7 @@ int Capture_Close _ANSI_ARGS_((ClientData clientData,
   
   captureDescriptor = Tcl_GetStringFromObj(objv[1], NULL);
   if ((capItem = Capture_lstGetItem(captureDescriptor)) == NULL) {
-    Tcl_AppendResult(interp, "Invalid capture descriptor.", (char *) NULL);
+    Tcl_SetResult(interp, "Invalid capture descriptor.", TCL_STATIC);
     return TCL_ERROR;
   }
   
@@ -651,7 +651,7 @@ int Capture_ChangeResolution _ANSI_ARGS_((ClientData clientData,
   
   captureDescriptor = Tcl_GetStringFromObj(objv[1], NULL);
   if ((capItem = Capture_lstGetItem(captureDescriptor)) == NULL) {
-    Tcl_AppendResult(interp, "Invalid capture descriptor.", (char *) NULL);
+    Tcl_SetResult(interp, "Invalid capture descriptor.", TCL_STATIC);
     return TCL_ERROR;
   }
   
@@ -662,12 +662,12 @@ int Capture_ChangeResolution _ANSI_ARGS_((ClientData clientData,
   }
 
   if (image_size->format_name == NULL) {
-    Tcl_AppendResult(interp, "The resolution chosen is invalid", NULL);
+    Tcl_SetResult(interp, "The resolution chosen is invalid", TCL_STATIC);
     return TCL_ERROR;
   }
 
   if (image_size == capItem->requested_format) {
-    Tcl_AppendResult(interp, "The resolution is the same", NULL);
+    Tcl_SetResult(interp, "The resolution is the same", TCL_STATIC);
     //Nothing to do
     return TCL_OK;
   }
@@ -688,7 +688,7 @@ int Capture_ChangeResolution _ANSI_ARGS_((ClientData clientData,
       fprintf(stderr, "Your webcam uses a combination of palette/resolution that this extension does not support yet\n");
 #   endif
 
-    Tcl_AppendResult (interp, "Your webcam uses a combination of palette/resolution that this extension does not support yet" , (char *) NULL);
+    Tcl_SetResult (interp, "Your webcam uses a combination of palette/resolution that this extension does not support yet" , TCL_STATIC);
     retVal = TCL_ERROR;
 
     //Now we put back the old settings
@@ -734,12 +734,12 @@ int Capture_Grab _ANSI_ARGS_((ClientData clientData,
   image_name = Tcl_GetStringFromObj(objv[2], NULL);
   
   if ((Photo = Tk_FindPhoto(interp, image_name)) == NULL) {
-    Tcl_AppendResult(interp, "The image you specified is not a valid photo image", NULL);
+    Tcl_SetResult(interp, "The image you specified is not a valid photo image", TCL_STATIC);
     return TCL_ERROR;
   }
   
   if ((capItem = Capture_lstGetItem(captureDescriptor)) == NULL) {
-    Tcl_AppendResult(interp, "Invalid capture descriptor. Please call Open first." , (char *) NULL);
+    Tcl_SetResult(interp, "Invalid capture descriptor. Please call Open first." , TCL_STATIC);
     return TCL_ERROR;
   }
   
@@ -747,7 +747,7 @@ int Capture_Grab _ANSI_ARGS_((ClientData clientData,
 # ifdef DEBUG
     fprintf(stderr,"Capturing image failed at %dx%d\n", capItem->fmt.width, capItem->fmt.height);
 # endif
-    Tcl_AppendResult(interp, "Unable to capture from the device", (char *) NULL);
+    Tcl_SetResult(interp, "Unable to capture from the device", TCL_STATIC);
     return TCL_ERROR;
   }
   
@@ -803,7 +803,7 @@ int Capture_Grab _ANSI_ARGS_((ClientData clientData,
     );
 
 
-  Tcl_SetObjResult(interp,Tcl_NewStringObj(capItem->requested_format->format_name, -1));
+  Tcl_SetResult(interp, capItem->requested_format->format_name, TCL_VOLATILE);
 
   // Make sure to release the rgb_buffer if no converter is used so the next grab will not wait unnecessarily
   if (!capItem->handle)
@@ -848,15 +848,15 @@ int Capture_SetAttribute _ANSI_ARGS_((ClientData clientData,
   } else if (!strcmp(proc, "::Capture::SetColour")) {
     attribute = ATTR_ID_COLOR;
   } else {
-    Tcl_AppendResult(interp, "Wrong procedure name, should be either one of those: \n" , (char *) NULL);
-    Tcl_AppendResult(interp, "::Capture::SetBrightness, ::Capture::SetContrast, ::Capture::SetHue, ::Capture::SetColour\n" , (char *) NULL);
+    Tcl_SetResult(interp, "Wrong procedure name, should be either one of those: \n" \
+        "::Capture::SetBrightness, ::Capture::SetContrast, ::Capture::SetHue, ::Capture::SetColour\n" , TCL_STATIC);
     return TCL_ERROR;
   }
   
   // Get the capture descriptor and check its validity
   captureDescriptor = Tcl_GetStringFromObj(objv[1], NULL);
   if ((capItem = Capture_lstGetItem(captureDescriptor)) == NULL) {
-    Tcl_AppendResult (interp, "Invalid capture descriptor. Please call Open first." , (char *) NULL);
+    Tcl_SetResult (interp, "Invalid capture descriptor. Please call Open first." , TCL_STATIC);
     return TCL_ERROR;
   }
   
@@ -867,7 +867,7 @@ int Capture_SetAttribute _ANSI_ARGS_((ClientData clientData,
   }
   
   if (new_value > 65535 || new_value < 0) {
-//    Tcl_AppendResult(interp, "Invalid value. It should be between 0 and 65535" , (char *) NULL);
+//    Tcl_SetResult(interp, "Invalid value. It should be between 0 and 65535" , TCL_STATIC);
 //    return TCL_ERROR;
     return TCL_OK;
   }
@@ -920,8 +920,8 @@ int Capture_GetAttribute _ANSI_ARGS_((ClientData clientData,
   } else if (!strcmp(proc, "::Capture::GetColour")) {
     attribute = ATTR_ID_COLOR;
   } else {
-    Tcl_AppendResult(interp, "Wrong procedure name, should be either one of those: \n" , (char *) NULL);
-    Tcl_AppendResult(interp, "::Capture::GetBrightness, ::Capture::GetContrast, ::Capture::GetHue, ::Capture::GetColour" , (char *) NULL);
+    Tcl_SetResult(interp, "Wrong procedure name, should be either one of those: \n" \
+        "::Capture::GetBrightness, ::Capture::GetContrast, ::Capture::GetHue, ::Capture::GetColour" , TCL_STATIC);
     return TCL_ERROR;
   }
   
@@ -932,7 +932,7 @@ int Capture_GetAttribute _ANSI_ARGS_((ClientData clientData,
     } else if (!strcmp(bound, "MIN")) {
       mode = MIN;
     } else {
-      Tcl_AppendResult(interp, "The bound should be either \"MIN\" or \"MAX\"", NULL);
+      Tcl_SetResult(interp, "The bound should be either \"MIN\" or \"MAX\"", TCL_STATIC);
       return TCL_ERROR;
     }
   }
@@ -940,7 +940,7 @@ int Capture_GetAttribute _ANSI_ARGS_((ClientData clientData,
   // Get the capture descriptor and check its validity
   captureDescriptor = Tcl_GetStringFromObj(objv[1], NULL);
   if ((capItem = Capture_lstGetItem(captureDescriptor)) == NULL) {
-    Tcl_AppendResult(interp, "Invalid capture descriptor. Please call Open first." , (char *) NULL);
+    Tcl_SetResult(interp, "Invalid capture descriptor. Please call Open first." , TCL_STATIC);
     return TCL_ERROR;
   }
   
