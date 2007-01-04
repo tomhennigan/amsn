@@ -3612,6 +3612,11 @@ proc cmsn_draw_main {} {
 		catch {wm attributes . -alpha [::config::getKey windowalpha "1.0"]}
 	}
 	
+	# Make sure that visable area of main screen is shown.
+	if {[winfo x .] > [expr [winfo screenwidth .] - [winfo width .]] || [winfo y .] > [expr [winfo screenheight .] - [winfo height .]]} {
+		wm geometry . +20+40
+	}
+	
 	#Unhide main window now that it has finished being created
 	wm state . normal
 }
