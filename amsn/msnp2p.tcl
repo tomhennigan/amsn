@@ -954,6 +954,12 @@ namespace eval ::MSNP2P {
 							status_log "VOICE: file <$file> does not exist" red
 						}
 						
+					} elseif { [lindex [SessionList get $cSid] 7] == "wink" } { 
+						# Winks support is not in the core, all we can do is support it in the msnp2p code
+						# and launch an event for an appropriate plugin to manage it.
+						set evPar(chatid) chatid
+						set evPar(filename) [file join $HOME winks cache ${filename}.mco]
+						::plugins::PostEvent WinkReceived evPar
 					} elseif { [lindex [SessionList get $cSid] 7] == "filetransfer" } {
 						# Display message that file transfer is finished...
 						status_log "MSNP2P | $cSid -> File transfer finished!\n"
@@ -991,6 +997,8 @@ namespace eval ::MSNP2P {
 					create_dir [file join $HOME voiceclips]
 					create_dir [file join $HOME voiceclips cache]
 					set fd [open "[file join $HOME voiceclips cache ${filename}.wav]" w]
+				} elseif {$type == "wink" }  {
+					set fd [open "[file join $HOME winks cache ${filename}.mco]" w]
 				}
 
 				fconfigure $fd -translation {binary binary}

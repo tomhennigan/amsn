@@ -6414,7 +6414,7 @@ proc checking_package_tls { }  {
 
 }
 
-proc create_msnobj { Creator type filename } {
+proc create_msnobj { Creator type filename {friendly "AAA="} {stamp ""}} {
 	global msnobjcontext
 
 	if { [file exists $filename] == 0 } { return "" }
@@ -6429,9 +6429,15 @@ proc create_msnobj { Creator type filename } {
 
 	set sha1d [::base64::encode [binary format H* [::sha1::sha1 $data]]]
 
-	set sha1c [::base64::encode [binary format H* [::sha1::sha1 "Creator${Creator}Size${size}Type${type}Location${file}.tmpFriendlyAAA=SHA1D${sha1d}"]]]
+	set sha1c [::base64::encode [binary format H* [::sha1::sha1 "Creator${Creator}Size${size}Type${type}Location${file}.tmpFriendly${friendly}SHA1D${sha1d}"]]]
 
-	set msnobj "<msnobj Creator=\"$Creator\" Size=\"$size\" Type=\"$type\" Location=\"[urlencode $file].tmp\" Friendly=\"AAA=\" SHA1D=\"$sha1d\" SHA1C=\"$sha1c\"/>"
+	set msnobj "<msnobj Creator=\"$Creator\" Size=\"$size\" Type=\"$type\" Location=\"[urlencode $file].tmp\" Friendly=\"${friendly}\" SHA1D=\"$sha1d\" SHA1C=\"$sha1c\""
+
+	if { $stamp == "" } {
+		append msnobj "/>"
+	} else {
+		append msnobj " stamp=\"$stamp\"/>"
+	}
 
 	set msnobjcontext($msnobj) $filename
 
