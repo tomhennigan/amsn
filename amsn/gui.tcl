@@ -4632,14 +4632,14 @@ proc cmsn_draw_buildtop_wrapped {} {
 					-image [::skin::loadPixmap $my_image_type] \
 					-width [image width [::skin::loadPixmap $my_image_type]] \
 					-height [image height [::skin::loadPixmap $my_image_type]]
-		bind $pgBuddyTop.bigstate <Button1-ButtonRelease> {tk_popup .my_menu %X %Y}
+		bind $pgBuddyTop.bigstate <Button1-ButtonRelease> {destroy .balloon; tk_popup .my_menu %X %Y}
 		set disppic $pgBuddyTop.bigstate
 	} else { 
-		set disppic [clickableDisplayPicture $pgBuddyTop mystatus bigstate {tk_popup .my_menu %X %Y} [::skin::getKey bigstate_xpad] [::skin::getKey bigstate_ypad]]
+		set disppic [clickableDisplayPicture $pgBuddyTop mystatus bigstate {destroy .balloon; tk_popup .my_menu %X %Y} [::skin::getKey bigstate_xpad] [::skin::getKey bigstate_ypad]]
 	}
 
 	set pic_name displaypicture_std_self
-	bind $pgBuddyTop.bigstate <<Button3>> {tk_popup .my_menu %X %Y} 
+	bind $pgBuddyTop.bigstate <<Button3>> {destroy .balloon; tk_popup .my_menu %X %Y} 
 	pack $disppic -side left -padx [::skin::getKey bigstate_xpad] -pady [::skin::getKey bigstate_ypad]
 	
 	text $pgBuddyTop.mystatus -font bboldf -height 2 -background [::skin::getKey topcontactlistbg] -borderwidth 0 -cursor left_ptr \
@@ -4661,14 +4661,14 @@ proc cmsn_draw_buildtop_wrapped {} {
 		"$pgBuddyTop.mystatus tag conf mystatus -under true;$pgBuddyTop.mystatus conf -cursor hand2"
 	$pgBuddyTop.mystatus tag bind mystatus <Leave> \
 		"$pgBuddyTop.mystatus tag conf mystatus -under false;$pgBuddyTop.mystatus conf -cursor left_ptr"
-	$pgBuddyTop.mystatus tag bind mystatus <Button1-ButtonRelease> "tk_popup .my_menu %X %Y"
+	$pgBuddyTop.mystatus tag bind mystatus <Button1-ButtonRelease> "destroy .balloon; tk_popup .my_menu %X %Y"
 	
 	#Change mouse button on Mac OS X
 	if { [OnMac] } {
-		$pgBuddyTop.mystatus tag bind mystatus <Button2-ButtonRelease> "tk_popup .my_menu %X %Y"
-		$pgBuddyTop.mystatus tag bind mystatus <Control-ButtonRelease> "tk_popup .my_menu %X %Y"
+		$pgBuddyTop.mystatus tag bind mystatus <Button2-ButtonRelease> "destroy .balloon; tk_popup .my_menu %X %Y"
+		$pgBuddyTop.mystatus tag bind mystatus <Control-ButtonRelease> "destroy .balloon; tk_popup .my_menu %X %Y"
 	} else {
-		$pgBuddyTop.mystatus tag bind mystatus <Button3-ButtonRelease> "tk_popup .my_menu %X %Y"
+		$pgBuddyTop.mystatus tag bind mystatus <Button3-ButtonRelease> "destroy .balloon; tk_popup .my_menu %X %Y"
 	}
 	$pgBuddyTop.mystatus insert end "[trans mystatus]: " mystatuslabel
 	
@@ -7083,9 +7083,9 @@ proc load_my_pic { {nopic 0} } {
 		if { [::skin::getKey showdisplaycontactlist] && [winfo exists $pgBuddyTop.bigstate] } {
 			#Recreate the status image
 			destroy $pgBuddyTop.bigstate
-			set disppic [clickableDisplayPicture $pgBuddyTop mystatus bigstate {tk_popup .my_menu %X %Y} [::skin::getKey bigstate_xpad] [::skin::getKey bigstate_ypad]]
+			set disppic [clickableDisplayPicture $pgBuddyTop mystatus bigstate {destroy .balloon; tk_popup .my_menu %X %Y} [::skin::getKey bigstate_xpad] [::skin::getKey bigstate_ypad]]
 			pack $disppic -before $pgBuddyTop.mystatus -side left -padx [::skin::getKey bigstate_xpad] -pady [::skin::getKey bigstate_ypad]
-			bind $pgBuddyTop.bigstate <<Button3>> {tk_popup .my_menu %X %Y}
+			bind $pgBuddyTop.bigstate <<Button3>> {destroy .balloon; tk_popup .my_menu %X %Y}
 		}
 	} else {
 		status_log "load_my_pic: Picture not found!!\n" red
@@ -7645,9 +7645,9 @@ proc clear_disp { } {
 	if { [::skin::getKey showdisplaycontactlist] && [winfo exists $pgBuddyTop.bigstate] } {
 		#Recreate the status image
 		destroy $pgBuddyTop.bigstate
-		set disppic [clickableDisplayPicture $pgBuddyTop mystatus bigstate {tk_popup .my_menu %X %Y} [::skin::getKey bigstate_xpad] [::skin::getKey bigstate_ypad]]
+		set disppic [clickableDisplayPicture $pgBuddyTop mystatus bigstate {destroy .balloon; tk_popup .my_menu %X %Y} [::skin::getKey bigstate_xpad] [::skin::getKey bigstate_ypad]]
 		pack $disppic -before $pgBuddyTop.mystatus -side left -padx [::skin::getKey bigstate_xpad] -pady [::skin::getKey bigstate_ypad]
-		bind $pgBuddyTop.bigstate <<Button3>> {tk_popup .my_menu %X %Y}
+		bind $pgBuddyTop.bigstate <<Button3>> {destroy .balloon; tk_popup .my_menu %X %Y}
 	}
 }
 ###################### Protocol Debugging ###########################
