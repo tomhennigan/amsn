@@ -1367,18 +1367,22 @@ namespace eval ::guiContactList {
 	# [group_state gid group_name [listofmembers]]
 	# listofmembers is like this :
 	# [email redraw_flag]
-	proc getGroupList {} {
+	proc getGroupList { {realgroups 0} } {
 		set mode [::config::getKey orderbygroup]
 		
 		# Online/Offline mode
 		if { $mode == 0 } {
-			if {[::config::getKey showMobileGroup] == 1} {
-				set groupList [list [list "online" [trans online]] \
-					[list "mobile" [trans mobile]] \
-					[list "offline" [trans offline]]]
+			if { $realgroups } {
+				set groupList [list ]
 			} else {
-				set groupList [list [list "online" [trans online]] \
-					[list "offline" [trans offline]]]
+				if {[::config::getKey showMobileGroup] == 1} {
+					set groupList [list [list "online" [trans online]] \
+						[list "mobile" [trans mobile]] \
+						[list "offline" [trans offline]]]
+				} else {
+					set groupList [list [list "online" [trans online]] \
+						[list "offline" [trans offline]]]
+				}
 			}
 
 		# Group/Hybrid mode
@@ -1418,7 +1422,7 @@ namespace eval ::guiContactList {
 		}
 		
 		# Hybrid Mode, we add mobile and offline group
-		if { $mode == 2 } {
+		if { $mode == 2 && !$realgroups } {
 			if {[::config::getKey showMobileGroup] == 1} {
 				lappend groupList [list "mobile" [trans mobile]]
 			}
@@ -1721,7 +1725,7 @@ namespace eval ::guiContactList {
 			# Cycle to the list of groups and select the group where
 			# the user drags to
 #TODO: remove the group of origin, the mobile and the offline group from this list ?
-			foreach group [getGroupList] {
+			foreach group [getGroupList 1] {
 				# Get the group ID
 				set grId [lindex $group 0]
 				set grCoords [$canvas coords gid_$grId]
