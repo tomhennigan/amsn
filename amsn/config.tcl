@@ -409,6 +409,10 @@ namespace eval ::config {
 	proc unsetKey {key} {
 		unset ::config($key)
 	}
+	
+	proc isSet {key} {
+		return [info exists ::config($key)]
+	}
 
 	proc getGlobalKey {key {default ""}} {
 		if { [info exists ::gconfig($key)] } {
