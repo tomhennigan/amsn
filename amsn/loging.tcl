@@ -1461,7 +1461,7 @@ namespace eval ::log {
 		}
 
 		if {[::config::getKey display_event_$event]} {
-			set eventmenu "[clock format [clock seconds] -format "%H:%M:%S"] : $eventlog"
+			set eventmenu "[timestamp] : $eventlog"
 			.main.eventmenu.list list insert 0 $eventmenu
 			if { [.main.eventmenu.list list size] > 100 } {
 				.main.eventmenu.list list delete 100 end
@@ -1499,7 +1499,7 @@ namespace eval ::log {
 		if { $eventdisconnected } {
 			set eventdisconnected 0
 			if { [::log::checkeventdisplay] } {
-				.main.eventmenu.list list insert 0 "[clock format [clock seconds] -format "%H:%M:%S"] : [trans connectedwith [::config::getKey login]]"
+				.main.eventmenu.list list insert 0 "[timestamp] : [trans connectedwith [::config::getKey login]]"
 			}
 			if { [::log::checkeventlog] } {
 				::log::OpenLogEvent
