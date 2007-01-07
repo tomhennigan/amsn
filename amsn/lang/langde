@@ -129,7 +129,7 @@ channels Kanäle
 charscounter Die eingegebenen Buchstaben erscheinen im Chatfenster
 chatack Unterhaltung annehmen von
 chatmaxmin Wenn ein Kontakt einen Unterhaltung mit mir beginnt, möchte ich, daß dieser:
-chatreq Einladung zu einer Unterhakltung
+chatreq Einladung zu einer Unterhaltung
 chatsmileys2 Smileys und Emoticons im Chat-Fenster anzeigen
 chatsmileys Smileys während einer Unterhaltung
 chat Unterhaltung
@@ -147,7 +147,7 @@ choosechannel Bitte wählen Sie einen Kanal
 choosecontact Bitte wählen Sie einen Kontakt aus der Liste
 choosedevice Bitte wählen Sie ein Gerät
 choosefontcolor Schriftfarbe auswählen
-chooseskin Bitte wähle einen Oberfläche aus
+chooseskin Bitte wähle eine Oberfläche aus
 ch_to_state Zu neuem Status wechseln
 clearlog2 Alle Logs zurücksetzen
 clearlog3 Alle Logs leeren
@@ -200,7 +200,7 @@ copytoclipboard $1 in Zwischenablage kopieren
 copytogroup Kopieren zur Gruppe
 corruptconfig Konfigurationsdatei ist fehlerhaft. Sie wird neu erstellt. Die alte Datei wird nach $1 gespeichert. Bitte senden Sie uns diese Datei damit wir herausfindend können was passiert ist
 corruptstates Eigene Teile der Konfigurationsdatei sind fehlerhaft. Sie wird neu erstellt. Die alte Datei wird nach $1 gespeichert. Bitte senden Sie uns diese Datei damit wir herausfindend können was passiert ist
-couldnotrename Datei $1 konnte nicht unbenannt werden
+couldnotrename Datei $1 konnte nicht umbenannt werden
 countrycode Meine Landesvorwahl
 cprofile Profil erstellen
 created Erzeugt
@@ -212,7 +212,7 @@ currentnotes Derzeitige Notizen
 custnotifymsg Benachrichtige wenn eine neue Nachricht eintrifft
 custnotifyoffline Benachrichtige wenn dieser Kontakt offline geht
 custnotifyonline Benachrichtige wenn dieser Kontakt online geht
-custnotifystatus Benachrichtige wenn der Status dieses Kontakt sich ändert
+custnotifystatus Benachrichtige wenn der Status dieses Kontakts sich ändert
 customcolor Benutzerdefinierte Farben
 custom_edit Bearbeite den eigenen Smiley
 custom_new Neuen Smiley hinzufügen
@@ -243,7 +243,7 @@ delprofile Profil löschen
 description Beschreibung
 detach Entkoppeln
 details Details
-devicebusy Gerät $1 ist beschÃ¤ftigt
+devicebusy Gerät $1 ist beschäftigt
 devices Geräte
 directconnection Ich habe eine direkte Verbindung mit dem Internet (benutzt Port 1863)
 disabled Deaktiviert
@@ -256,7 +256,7 @@ displaychat Textoptionen anzeigen
 displayeventconnect Anzeige wenn sich Kontakte anmelden
 displayeventdisconnect Anzeige wenn sich Kontakte abmelden
 displayeventemail Anzeige wenn eine E-Mail eingeht
-displayeventstate Aneige wenn Kontakte ihren Status ändern
+displayeventstate Anzeige wenn Kontakte ihren Status ändern
 displayp4context P4-Kontextfeld als Absender der Nachricht anzeigen
 displaypic Bild anzeigen
 dockfreedesktop In freiem Desktop verankern (KDE3/Gnome2)
@@ -340,7 +340,7 @@ getdisppic Aktivieren den Empfang der Anzeigebilder anderer Benutzer
 getmoreplugins Mehr Plugins...
 getmoreskins Mehr Skins...
 globalcontainer Globaler Container
-globalnick Ein Muster erstellen, nach dem die Spitznamen Ihrer Kontakte angepsst werden. Diese Variablen stehen zur Verfügung: \$user_login für die Adresse ihrer Kontakte, \$nick für den Spitznamen ihrer Kontakte und \$customnick für den angepassten Spitznamen ihrer Kontakte. Beispiel: '\$user_login ist \$nick' erzeugt 'contact@msn.com ist Contact'
+globalnick Ein Muster erstellen, nach dem die Spitznamen Ihrer Kontakte angepasst werden. Diese Variablen stehen zur Verfügung: \$user_login für die Adresse ihrer Kontakte, \$nick für den Spitznamen ihrer Kontakte und \$customnick für den angepassten Spitznamen ihrer Kontakte. Beispiel: '\$user_login ist \$nick' erzeugt 'contact@msn.com ist Contact'
 globalnicktitle Globaler Spitzname
 globaloverride Muster für Spitznamen, statt angepassten Spitznamen verwenden
 gonelunch Mittagspause
@@ -396,7 +396,7 @@ invitationcancelled Die Einladung wurde abgebrochen
 invite Einladen
 ipaddress IP-Adresse
 ipdetect Korrekte IP für Dateiübertragung durch HTTP feststellen
-ircstyle Chat à lá IRC
+ircstyle Chat à la IRC
 istyping $1 gibt eine Nachricht ein
 joins $1 wurde der Unterhaltung hinzugefügt
 justonce Nur einmal
@@ -406,7 +406,7 @@ keeplog Unterhaltungen aufzeichnen
 language_manager Sprachen-Verwaltung
 language Sprache
 large Groß
-lastlogin Letzte Anmedlung
+lastlogin Letzte Anmeldung
 lastlogout Letzte Abmeldung
 lastmsgedme letzte Nachricht
 lastmsgtime Letzte Nachricht angekommen am $1
@@ -419,7 +419,7 @@ leaveblankforhotmail Leer lassen, um Hotmail zu benutzen
 leavejoinsinchat Benachrichtige innerhalb des  Chat-Fensters über ein- und austretende Teilnehmer
 leaves $1 hat die Unterhaltung verlassen
 lenteredconf $1 hat das Gespräch mit $2 betreten
-lineflushlog Lofiles nach jeder Zeile aktualisieren
+lineflushlog Logfiles nach jeder Zeile aktualisieren
 linprivate PRIVAT
 listening Horchend
 listeningon Port $1
@@ -432,7 +432,7 @@ load Lade
 loadotherdisplaypic Anzeigebilder von $1 werden geladen, bitte warten...
 logbigger Maximale Größe der Log-Datei für einen Kontakt
 logeventconnect Verbindungen protokollieren
-logeventdisconnect Abmedldungen protokollieren
+logeventdisconnect Abmeldungen protokollieren
 logeventemail Eingehende E-Mails protokollieren
 logeventstate Statusänderungen protokollieren
 logfandexp Begrenzungen für Log-Dateien und Verlauf
@@ -450,7 +450,7 @@ logsmileys Emoticons und Smileys im Log anzeigen
 logsout hat sich so eben abgemeldet
 logwebcam Alle Webcam-Sitzungen in der aMSN-History für ein späteres Ansehen speichern
 longnick Ihr Spitzname ist über 130 Zeichen lang. Dies ist nicht offiziell vom MSN Protokoll unterstützt. Sind Sie sicher daß Sie ihn so setzen wollen?
-longp4c Der Name innerhalb von Unterhaltungen ist länger als 130 Zeichen. Der vom offiziellen MSN Programm engezeigte Name wird "$1" sein. Sind Sie sicher, dass Sie den Namen verwenden wollen?
+longp4c Der Name innerhalb von Unterhaltungen ist länger als 130 Zeichen. Der vom offiziellen MSN Programm angezeigte Name wird "$1" sein. Sind Sie sicher, dass Sie den Namen verwenden wollen?
 longpsm Ihre persönliche Nachricht ist zu lang. Dies wird nicht offiziell vom MSN-Protokoll unterstützt. Sind Sie sich sicher, dass Sie sie übernehmen möchten?
 lowrescam Eine niedrig auflösende Webcam benutzen
 lprivtoconf Private Unterhaltung wird zum Gespräch mit $1
@@ -476,7 +476,7 @@ msgmode Wie sollen mehrere Nachrichtenfenster verwaltet werden:
 msg Nachricht
 msn aMSN
 msnstatus MSN Netzwerk Status
-msnstyle Chat Ã¡ la MSN
+msnstyle Chat à la MSN
 mustrestart Änderungen werden erst nach einem Neustart übernommen
 myfriendlyname Mein Name innerhalb von Unterhaltungen
 myhomephone Meine Festnetznummer
@@ -557,7 +557,7 @@ ordercontactsby Kontakte sortieren nach
 ordergroupsby Gruppen sortieren nach
 original Original
 other Andere
-otherdisplaypic Andere Anzeigebilder dieses Users (Rechtsklick fÃ¼r weitere Optionen)
+otherdisplaypic Andere Anzeigebilder dieses Users (Rechtsklick für weitere Optionen)
 others Andere
 p4contextprefix Zeige diese Einleitung, für "P4-Context"-Dender
 pager Pager
@@ -670,7 +670,7 @@ searchdown Abwärts suchen
 searchup Aufwärts suchen
 selectall Alle auswählen
 selectplugins Bitte wählen Sie die Plugins aus, die aktiviert sein sollen
-selectskin Bitte wählen Sie einen Oberfläche aus
+selectskin Bitte wählen Sie eine Oberfläche aus
 sendcam Webcam übertragen
 sendemail Meine Email-Adresse mitsenden, um mich über Änderungen zu informieren
 sendfeedback Feedback senden
@@ -780,7 +780,7 @@ tkerror1 TK hat einen Fehler geliefert. Dies ist ein Bug in amsn, bitte berichte
 tkerror TK hat einen Fehler festgestellt, dies ist ein Bug in aMSN, bitte berichten Sie ihn. Senden Sie die Datei $1 an aMSN-bugs@lists.sf.net
 tlsdowncompleted Die Datei $1 wurde in das Verzeichnis $2 heruntergeladen. Sie müssen sie innerhalb von $3 extrahieren, kompilieren und installieren (wenn sie den Quelltext heruntergeladen haben)
 tlsexplain Verzeichnis in dem sich das TCL-TLS_Modul befindet. Bitte spezifizieren im Fall daß aMSN es nicht finden kann.\n(Notwendig für SSL Authentifizierung)
-tlsinstallexp aMSN nützt nun MSNP9, das die Benutzung einer sicheren\nVerbindung via SSL erfordert. Um SSL zu nützen, muss aMSN ein Modul installieren, das sich TLS nennt\nund auf Ihrem System fehlt. Dieser Wizard wird Ihnen dabei helfen, TLS zu herunterloaden und\nzu installieren. Bitte wählen Sie Ihren Systemtyp, damit wir automatisch die erforderlichen TLS Dateien herunterladen können
+tlsinstallexp aMSN nützt nun MSNP9, das die Benutzung einer sicheren\nVerbindung via SSL erfordert. Um SSL zu nützen, muss aMSN ein Modul installieren, das sich TLS nennt\nund auf Ihrem System fehlt. Dieser Wizard wird Ihnen dabei helfen, TLS herunterzuladen und\nzu installieren. Bitte wählen Sie Ihren Systemtyp, damit wir automatisch die erforderlichen TLS Dateien herunterladen können
 tlsinstall TLS Modul Installations Wizard
 tlsinstcompleted Die Installation des TLS Moduls war erfolgreich. Nun sollten Sie in der Lage sein, MSNP9 zu nutzen. Wenn es dennoch nicht funktioniert haben Sie vielleicht nicht das richtige Modul ausgewählt, oder ein kompiliertes Modul ist für Ihr System nicht erhältlich
 to An
