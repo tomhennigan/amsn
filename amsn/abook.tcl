@@ -41,7 +41,7 @@ namespace eval ::abook {
 
 		# This list stores the names of the fields about the visual representation of the buddy.
 		# When this fields gets changed, we fire an event to redraw that contact on our CL.
-		variable VisualData [list nick customnick customfnick cust_p4c_name customcolor]
+		variable VisualData [list nick customnick customfnick cust_p4c_name customcolor customdp]
 
 		global pgc pcc
 	}
@@ -1077,7 +1077,7 @@ namespace eval ::abookGui {
 		set nbIdent [$nb getframe userDPs]
 		
 		if { ![winfo exists $nbIdent.otherpics]} {
-			::dpbrowser $nbIdent.otherpics -user $email
+			::dpbrowser $nbIdent.otherpics -user $email -disableselect
 			pack $nbIdent.otherpics -expand true -fill both
 		}
 	}
@@ -1101,7 +1101,7 @@ namespace eval ::abookGui {
 
 
 	proc showUserProperties { email } {
-		global colorval_$email showcustomsmileys_$email ignorecontact_$email HOME
+		global colorval_$email customdp_$email showcustomsmileys_$email ignorecontact_$email HOME
 		set w ".user_[::md5::md5 $email]_prop"
 		if { [winfo exists $w] } {
 			raise $w
@@ -1334,6 +1334,19 @@ namespace eval ::abookGui {
 		pack $nbSettings.fNick.fColor.bset -side left -padx 3 -pady 2
 		pack $nbSettings.fNick.fColor.brem -side left -padx 3 -pady 2
 		
+		# The custom display pic frame
+		label $nbSettings.fNick.lDispl -text "[trans customdp]:"
+		frame $nbSettings.fNick.fDispl -relief flat
+		set customdp_$email [::abook::getContactData $email customdp] 
+		set customdp_img_$email [image create photo [TmpImgName] -file [set customdp_$email]]
+
+		label $nbSettings.fNick.fDispl.dp -image [set customdp_img_${email}] -borderwidth 0 -relief flat
+		button $nbSettings.fNick.fDispl.bset -text "[trans change]" -command "::abookGui::ChangeCustomDp $email $nbSettings" 
+		button $nbSettings.fNick.fDispl.brem -text "[trans delete]" -command "::abookGui::RemoveCustomDp $email $nbSettings" 
+		pack $nbSettings.fNick.fDispl.dp -side left -expand true -fill y -pady 5 -padx 8
+		pack $nbSettings.fNick.fDispl.bset -side left -padx 3 -pady 2
+		pack $nbSettings.fNick.fDispl.brem -side left -padx 3 -pady 2
+		
 		grid $nbSettings.fNick.customnickl -row 0 -column 0 -sticky e
 		grid $nbSettings.fNick.customnick -row 0 -column 1 -sticky we
 		grid $nbSettings.fNick.customfnickl -row 1 -column 0 -sticky e
@@ -1342,6 +1355,8 @@ namespace eval ::abookGui {
 		grid $nbSettings.fNick.ycustomfnick -row 2 -column 1 -sticky we
 		grid $nbSettings.fNick.lColor -row 3 -column 0 -sticky e
 		grid $nbSettings.fNick.fColor -row 3 -column 1 -sticky w
+		grid $nbSettings.fNick.lDispl -row 4 -column 0 -sticky e
+		grid $nbSettings.fNick.fDispl -row 4 -column 1 -sticky w
 		grid columnconfigure $nbSettings.fNick 1 -weight 1
 		
 		labelframe $nbSettings.fChat -relief groove -text [trans chat]
@@ -1556,6 +1571,23 @@ namespace eval ::abookGui {
 		$w.fNick.fColor.col configure -background [$w.fNick.fColor cget -background] -highlightthickness 0
 	}
 
+	# These procedures change the custom DP. They need to be launched from within the properties screen,
+	# as the actual change is done through the PropOk procedure
+	proc ChangeCustomDp { email w } {
+		global customdp_$email
+		dpBrowser $email
+		tkwait window .dpbrowser
+		set customdp_img_$email [image create photo [TmpImgName] -file [set customdp_$email]]
+		$w.fNick.fDispl.dp configure -image [set customdp_img_$email] -borderwidth 0 -relief flat
+		
+	}
+	
+	proc RemoveCustomDp { email w } {	
+	   	global customdp_$email
+		set customdp_$email ""
+		$w.fNick.fDispl.dp configure -image [set customdp_$email] -borderwidth 0 -relief flat
+	}
+
 	proc SetGlobalNick { } {
 		
 		if {[winfo exists .globalnick]} {
@@ -1604,7 +1636,7 @@ namespace eval ::abookGui {
 	}
 
 	proc PropOk { email w } {
-		global colorval_$email showcustomsmileys_$email ignorecontact_$email
+		global colorval_$email customdp_$email showcustomsmileys_$email ignorecontact_$email
 		
 		if {[::alarms::SaveAlarm $email] != 0 } {
 			return
@@ -1612,11 +1644,20 @@ namespace eval ::abookGui {
 	
 		set nbSettings [$w.nb getframe usersettings]
 		set nbSettings [$nbSettings.sw.sf getframe]
+		
+		# Backup old custom dp
+		set old_customdp [::abook::getContactData $email customdp ""]
 
 		# Store custom display information options
-		::abook::setAtomicContactData $email [list customnick customfnick cust_p4c_name customcolor showcustomsmileys ignored] \
-			[list [$nbSettings.fNick.customnick.ent get] [$nbSettings.fNick.customfnick.ent get] [$nbSettings.fNick.ycustomfnick.ent get] [set colorval_$email] [set showcustomsmileys_$email] [set ignorecontact_$email]]
-
+		::abook::setAtomicContactData $email [list customnick customfnick cust_p4c_name customcolor customdp showcustomsmileys ignored] \
+			[list [$nbSettings.fNick.customnick.ent get] [$nbSettings.fNick.customfnick.ent get] [$nbSettings.fNick.ycustomfnick.ent get] [set colorval_$email] [set customdp_$email] [set showcustomsmileys_$email] [set ignorecontact_$email]]
+		
+		# Update display picture
+		if {[set customdp_$email] != $old_customdp} {
+			::skin::getDisplayPicture $email 1
+			::skin::getLittleDisplayPicture $email 1
+		}
+		
 		# Store groups
 		::groups::GroupmanagerOk $email
 		

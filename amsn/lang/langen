@@ -214,6 +214,7 @@ custnotifyoffline Display notify window when this contact goes offline
 custnotifyonline Display notify window when this contact comes online
 custnotifystatus Display notify window when this contact changes status
 customcolor Custom color
+customdp Custom Display Picture
 custom_edit Edit custom smiley
 custom_new Add new custom smiley
 customnick Custom Nick
@@ -315,8 +316,8 @@ filetransfer File Transfer
 filters Filters
 filtersselect Select the filters you want to use\n(Note: none selected means 'show all')
 filtersx Filter Selection
-find Find
 findasyoutype Find as you type
+find Find
 findnext Find Next
 findprev Find Previous
 firewalled You are firewalled or behind a router
@@ -348,6 +349,7 @@ gotink $1 sent you an ink.
 goto Go to $1
 gotoinbox Go to Inbox
 groupadd Add Group
+groupcontacts Group contacts
 groupdelete Delete Group
 groupexists Group already exists
 group Group
@@ -362,8 +364,8 @@ handle Handle
 helpcontents Help Contents
 help Help
 hidedisplaypic Hide Display Picture
-hidemenu Show/Hide menus
 hidemenumessage Are you sure you want to hide the menus ?\nYou can restore them any time by using the show/hide menus hotkey 'Ctrl-M'.
+hidemenu Show/Hide menus
 hiden Hide the emoticon from the smileys menu
 hidewindow Hide Window
 history View History
@@ -490,8 +492,8 @@ natkeepalive If you are getting disconnected regularly, enable this KeepAlive
 needonline You still are/appear offline!
 needwinico2 Need winico05.dll in the utils/windows directory for windows traydocking to work
 never Never
-new_ft_protocol Use new File Transfer protocol (some bugs remain)
 newchat New Chat
+new_ft_protocol Use new File Transfer protocol (some bugs remain)
 newline Newline
 newmail $1 new message(s) in Inbox
 newmailfolder You have $1 new message(s) in other Hotmail folders
@@ -503,7 +505,6 @@ newtabbedfeature aMSN has a new feature for managing conversation, you can now h
 newveravailable Newer version $1 available for download
 next Next
 nick Nick
-no No
 noactivity Idle
 nocacheddps No Display Pictures in cache for this user
 nodataavailable No data available for $1
@@ -515,13 +516,14 @@ nologfile No Log file for $1
 noneavailable None Available
 nonewmail No new messages in Inbox
 nonewver There are no new versions available to download
+no No
 nopic No picture
 noprofileexists There are currently no profiles, \n you must create one if you wish to use profiled logins. \nUse the Add New Profile button in this window to add a new profile.
 normal Normal
 noskins Couldn't found default skin in skins/ folder. Can't start AMSN
-nosystemtray System tray not available
 nosound No sound was detected, make sure your microphone is correctly plugged in
 nosound_or_hold No sound was detected. To send a Voice Clip you need to press and hold down the button while speaking then release it to send the message.
+nosystemtray System tray not available
 note Note
 notificationserver Initial MSN Notification Server (MSN Messenger Server)
 notify1_5 Display notify window when contacts go offline
@@ -539,6 +541,7 @@ notinlist You aren't on his/her contact list
 notls The MSN Protocol 9 requires the TLS package. This package does not seem to be installed on this machine. If it's installed, the path to the library directory should be specified in the Preferences window (ex: /opt/tls/lib). \n \n It's possible to download TLS from http://tls.sf.net.
 nottabbed Normal windows without tabs
 nousersinsession No users in session
+nouserspecified No user specified
 nudge $1 requests your attention
 offline Offline
 ok Ok
@@ -687,13 +690,14 @@ servergoingdown Disconnected: Server is going down
 server Server
 serverunavailable Server is unavailable
 session Session
+setasmydp Set as my display picture
 shareswebcam Shares webcam
 showbanner Show aMSN's banner
 showblockedlist Show list of people who blocked you
 showcachedpics Show cached display pictures
+show_contactdps_in_cl Show thumbnails of contacts Display Pictures in Contact List
 showcontactemail Show Contacts with E-mail
 showcontactnick Show Contacts with Nickname
-show_contactdps_in_cl Show thumbnails of contacts Display Pictures in Contact List
 showdisplaypic2 Show Display Picture by default when a chat window is opened
 showdisplaypic Show Display Picture
 showmailicon Show mail icon on traydock when new emails arrive
@@ -710,15 +714,15 @@ smilefile Smiley filename
 smileintro2 Please edit the required fields to customize this smiley (see the FAQ for help)
 smileintro Please complete the required fields to create a new custom smiley (see the FAQ for help)
 smiletoobig The smiley you choose is bigger than normal size. Do you want to resize it ?
-snackneeded The Snack library is needed in order to use this feature. A minimal version of 2.2.9 is necessary.
 snackfailed Snack failed to load, reverting to default
+snackneeded The Snack library is needed in order to use this feature. A minimal version of 2.2.9 is necessary.
 snapshot Snapshot
 sngdblclick Single click to open a new message window
-sortgroupsasc Sort Groups Ascending
-sortgroupsdesc Sort Groups Descending
 sortcontactgroup Sort Contacts by Group
 sortcontacthybrid Sort Contacts in Hybrid Mode
 sortcontactstatus Sort Contacts by Status
+sortgroupsasc Sort Groups Ascending
+sortgroupsdesc Sort Groups Descending
 sound2 Play sounds when contacts sign in or send a message
 soundactive Play sounds when receiving incoming messages also in active windows
 soundcommand This has to be the play command (ex: esdplay)
@@ -810,7 +814,6 @@ useralreadyonlist User is already on contact list
 userblocked The user is online but blocked you
 userdata User Data
 userdps User display pictures
-setasmydp Set as my display picture
 usernotonline The user is not online
 userproperties User properties of $1
 usersettings Settings
@@ -864,4 +867,3 @@ youblocked You have been blocked by
 yousay You say
 youwant You want
 zoom Zoom
-groupcontacts Group contacts

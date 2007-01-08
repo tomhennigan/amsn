@@ -238,8 +238,16 @@ namespace eval ::skin {
 			return $picName
 		}
 
-		set filename [::abook::getContactData $email displaypicfile ""]
-		set file "[file join $HOME displaypic cache ${filename}].png"
+		if { [::abook::getContactData $email customdp] != "" } {
+			set filename [::abook::getContactData $email customdp ""]
+			# As custom DP can also be stored outside the cache folder,
+			# customdp stores the full path to the image
+			set file $filename
+		} else {
+			set filename [::abook::getContactData $email displaypicfile ""]
+			set file "[file join $HOME displaypic cache ${filename}].png"
+		}
+		
 		if { $filename != "" && [file readable "$file"] } {
 			catch {image create photo $picName -file "$file" -format cximage}
 		} else {
@@ -282,9 +290,16 @@ namespace eval ::skin {
 			return $picName
 		}
 
-		set filename [::abook::getContactData $email displaypicfile ""]
-		set file "[file join $HOME displaypic cache ${filename}].png"
-
+		if { [::abook::getContactData $email customdp] != "" } {
+			set filename [::abook::getContactData $email customdp ""]
+			# As custom DP can also be stored outside the cache folder,
+			# customdp stores the full path to the image
+			set file $filename
+		} else {
+			set filename [::abook::getContactData $email displaypicfile ""]
+			set file "[file join $HOME displaypic cache ${filename}].png"
+		}
+		
 		if { $filename != "" && [file readable $file] } {
 			catch {image create photo $picName -file "$file" -format cximage}
 		} else {

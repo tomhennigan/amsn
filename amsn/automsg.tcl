@@ -219,7 +219,7 @@ proc CreateStatesMenu { path } {
 	$path add separator
 	$path add command -label "[trans changenick]..." -command cmsn_change_name
 	
-	$path add command -label "[trans changedisplaypic]..." -command pictureBrowser 
+	$path add command -label "[trans changedisplaypic]..." -command dpBrowser 
 	
 	$path add command -label "[trans editmyprofile]..." -command "::hotmail::hotmail_profile"
 	
