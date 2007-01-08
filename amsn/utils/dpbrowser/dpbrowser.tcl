@@ -61,11 +61,15 @@ puts "sw created"
 		set dps_per_row $options(-width)
 
 		if {$email == "self"} {
+			set defaultfiles [glob -nocomplain -directory [file join skins default displaypic] *.png]
+			set l [llength $defaultfiles]
 			set cachefiles [glob -nocomplain -directory [file join $HOME displaypic] *.dat]
+			set files [concat $defaultfiles $cachefiles]
 			set pic_in_use ""
 		} else {
-			set cachefiles [glob -nocomplain -directory [file join $HOME displaypic cache] *.dat]	
+			set files [glob -nocomplain -directory [file join $HOME displaypic cache] *.dat]	
 			set pic_in_use [::abook::getContactData $email displaypicfile ""]
+			set l -1
 		}
 #TODO: put in order of time
 #	use: [file atime $file]	(the last acces time in seconds from a fixed point > not available on FAT)	
@@ -80,7 +84,8 @@ puts "sw created"
 				set email ""
 			}
 		
-			foreach file $cachefiles {
+			set j 0
+			foreach file $files {
 				#exclude the image the user is currently using
 				if { $options(-picinuse) != "no" || [string first $pic_in_use $file] == -1 } {
 				set fd [open $file]
@@ -112,7 +117,13 @@ puts "sw created"
 #					bind $entry.img <Enter> "showtooltip %X %Y [filenoext $file].png"
 #					bind $entry.img <Leave> "showtooltip %X %Y [filenoext $file].png"
 
-					label $entry.text -text [lindex $greps 1] -bg $color
+					if { $j < $l } {
+						label $entry.text -bg $color
+					} else {
+						label $entry.text -text [lindex $greps 1] -bg $color
+					}
+					status_log "Image $file; Label [lindex $greps 1]"
+
 
 					pack $entry.img $entry.text -side top				
 					grid $entry \
@@ -123,6 +134,7 @@ puts "sw created"
 				}
 				close $fd
 				}
+				incr j
 
 			}
 			if {$i == 0} {
