@@ -1171,12 +1171,15 @@ proc SwitchProfileMode { value } {
 		set HOME $HOME2
 
 		config::setKey login ""
+		#that key is lost when changing profile
+		set connectas [::config::getKey connectas]
 		load_config
 		set log_dir ""
 		set webcam_dir ""
 
 		# Set variables for default profile
 		::config::setKey save_password 0
+		::config::getKey connectas $connectas
 		::config::setKey keep_logs 0
 		::config::setKey log_event_connect 0
 		::config::setKey log_event_disconnect 0
