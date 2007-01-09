@@ -870,8 +870,11 @@ namespace eval ::music {
 	# Gets the current playing song in Audacious  #
 	###############################################
 	proc GetSongAudacious {} {
-		if { [exec audtool playback-status] == "playing" } {
-			return [list [exec audtool current-song] [exec audtool current-song-filename]]
+		if {[catch {exec audtool playback-status} res]} {
+			return 0
+		} elseif {
+			$res == "playing" } {
+				return [list [exec audtool current-song] [exec audtool current-song-filename]]
 		} else {
 			return 0
 		}
