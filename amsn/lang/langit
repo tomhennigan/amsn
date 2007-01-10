@@ -38,7 +38,7 @@ allowseen Permetti a questa persona di vedermi e di contattarmi quando sono conn
 allow_sms Permetti agli utenti di contattarmi sul tel. mobile specificato
 allprofilesinuse Tutti i profili esistenti sono attualmente in uso
 animatedemoticon Questa emoticon è animata
-animatedsmileys Abilita emoticons animate
+animatedsmileys Abilita emoticon animate
 animatenotify Finestra di notifica animata
 appearance Interfaccia
 appearoff Invisibile
@@ -95,9 +95,9 @@ brightness Luminosità
 broughtby Sviluppato da
 browse Cerca
 browser Browser
-browserexample (\$url verrà rimpiazzato dall'URL). Es: mozilla \$url
+browserexample (\$url verrà rimpiazzato dall'URL). Es: firefox \$url
 bugerror Si è verificato un problema durante la connessione al database dei bug. Controlla la tua connessione a Internet.
-bugnocomment Inviare senza commento? I commenti ci aiutano a capire meglio che cos'è andato storto e correggere i bug più  facilmente.
+bugnocomment Inviare senza commento? I commenti ci aiutano a capire meglio che cos'è andato storto e correggere i bug più facilmente.
 busy Occupato
 cagreement Accordo Confidenziale
 cachedpics $1 immagini memorizzate
@@ -120,21 +120,21 @@ changecustomstate Passa a
 changedisplaypic Cambia l'immagine personale
 changefont Cambia font
 changeglobnick Cambia nick globale
-change_mobile Modifica impostazioni Mobile
+change_mobile Impostazioni portatili
 changenick Cambia nick
 changesize Cambia dimensione
 changestate $1 stato personale: $2
 changevideosettings Cambia le impostazioni video
 channels Canali
-charscounter  Contatore dei caratteri digitati nella finestra di chat
+charscounter Contatore dei caratteri digitati nella finestra di chat
 chatack Sto accentando una chiamata da
 chat Chat
 chatmaxmin Quando un contatto apre una chat visualizzala in modo:
 chatreq Sto chiamando
 chatsmileys Visualizza emoticon
-chatsmileys2 Mostra le Emoticon e le Faccine nella finestra di chat
+chatsmileys2 Mostra emoticon nella finestra di chat
 checkblocking Controlla continuamente se gli utenti ti stanno bloccando
-checkemail Visualizza riga notifica mail(posta in arrivo) nella lista dei contatti
+checkemail Visualizza riga notifica e-mail(posta in arrivo) nella lista dei contatti
 checkfilman I file ricevuti saranno salvati in $1. Per favore controlla le impostazioni del File Manager nelle Preferenze.
 checkingver Sto verificando l'esistenza di una nuova versione
 checkonfln Controlla se un utente ti blocca quando va fuori linea.
@@ -214,12 +214,12 @@ custnotifyoffline Visualizza la finestra di notifica alla disconnessione di ques
 custnotifyonline Visualizza la finestra di notifica alla connessione di questo contatto
 custnotifystatus Visualizza la finestra di notifica al cambio di stato personale di questo contatto
 customcolor Colore Personalizzato
-custom_edit Crea una faccina personalizzata
-custom_new Aggiungi una nuova faccina personalizzata
+custom_edit Crea un'emoticon personalizzata
+custom_new Aggiungi una nuova emoticon personalizzata
 customnick Soprannome Personalizzato
-customsmileys Mostra le emoticons personalizzate degli altri utenti
+customsmileys Mostra le emoticon personalizzate degli altri utenti
 customstyle Stile personalizzato
-custshowcustomsmileys Mostra le emoticons personalizzate dell'utente
+custshowcustomsmileys Mostra le emoticon personalizzate dell'utente
 cutimageboxreset Reimposta la grandezza del\nbox di selezione a:
 cutimagebox Seleziona la parte di immagine che vuoi utilizzare ridimensionando e muovendo il box di selezione
 cut Taglia
@@ -279,8 +279,8 @@ editstate Modifica delle impostazioni di auto-risposta esistenti
 editvalue Modifica valore
 email E-mail
 emailsinlist Mostra indirizzi e-mail al posto dei nicks nella lista contatti
-emoticon_steal Aggiungi alle Emoticons
-emotisounds Emetti un suono per alcune Emoticons
+emoticon_steal Aggiungi alle emoticon
+emotisounds Emetti un suono per alcune emoticon
 emptygroup Svuota gruppo
 enabled Attivato
 enableproxy Proxy abilitato
@@ -322,7 +322,7 @@ findnext Trova successivo
 findprev Trova precedente
 followtext Segui il nuovo testo quando viene inserito
 friendlyname Nome comune
-ftporttest Test della porta
+ftporttest Test
 ftacceptedby $1 ha accettato l'invito a trasferire il file '$2'.
 ftaccepted Trasferimento del file accettato
 ftaccepting In attesa di accettare l'invito al trasferimento file
@@ -337,10 +337,10 @@ ftrejected Trasferimento del file respinto
 ftsendinvitation L'invito al trasferimento del file '$2' ($3 bytes) è stato mandato a $1.
 fullcontactlist Spiacente, la tua lista dei contatti è piena. E' necessario rimuoverne qualcuno per aggiungerne altri.
 getdisppic Attiva la ricezione delle immagini personali degli utenti
-getmoreplugins Preleva altri Plugin!
+getmoreplugins Preleva altri plugin!
 getmoreskins Preleva altre skin!
 globalcontainer Finestra globale
-globalnick Crea un modello per mostrare i nick dei contatti. Puoi usare queste variabili: \$user_login per la mail del contatto, \$nick per il nick del contatto e \$customnick per un nick personalizzato. Esempio: '\$user_login è \$nick' diventa 'contact@msn.com è Contact'
+globalnick Crea un modello per mostrare i nick dei contatti. Puoi usare queste variabili: \$user_login per la e-mail del contatto, \$nick per il nick del contatto e \$customnick per un nick personalizzato. Esempio: '\$user_login è \$nick' diventa 'contact@msn.com è Contact'
 globalnicktitle Nick globale
 globaloverride Il modello dei nick globali dovrebbe avere precedenza sui nick personalizzati
 gotoinbox Vai all'Inbox
@@ -350,7 +350,7 @@ goto Vai a $1
 groupadd Aggiungi un gruppo
 groupcontacts Raggruppa i contatti
 groupdelete Cancella un gruppo
-groupexists Il gruppo esiste già group Gruppo
+groupexists Il gruppo esiste già
 groupmissing Non riesco a trovare il gruppo
 groupnewname Nuovo nome
 groupnotempty Il gruppo non è vuoto!
@@ -407,8 +407,8 @@ language Linguaggio
 language_manager Gestore linguaggi
 large Grande
 lastlogin Ultimo accesso
-lastlogout Ultima Uscita
-lastmsgedme Ultimo Messaggio
+lastlogout Ultima uscita
+lastmsgedme Ultimo messaggio
 lastmsgtime Ultimo messaggio ricevuto alle $1
 lastseen Ultima volta in linea
 lazypicretrieval Recupero pigro delle immagini personali
@@ -423,8 +423,8 @@ lineflushlog Svuota il buffer del file di log ad ogni nuova riga
 linprivate IN PRIVATO
 listening In ascolto
 listeningon In attesa sulla porta $1
-listsmileys Elenco faccine
-listsmileys2 Mostra Emoticons e faccine nella lista contatti principale di aMSN
+listsmileys Elenco emoticon
+listsmileys2 Mostra emoticon nella lista contatti principale di aMSN
 ljoinedconf $1 è entrato/a a far parte della conversazione
 lleftconf $1 ha lasciato la conversazione
 load Carica
@@ -435,18 +435,18 @@ logeventconnect Registra le connessioni
 logeventdisconnect Registra le disconnessioni
 logeventemail Registra quando si riceve posta
 logeventstate Registra i cambi di stato personale
-logfandexp Termine prefissato della History e dimensione dei registri
-loggedotherlocation Disconnesso. Loggato da un altro posto
+logfandexp Termine prefissato della history e dimensione dei registri
+loggedotherlocation Disconnesso. E' stato effettuato l'accesso a Messenger da un altro computer
 loggingin Connessione in corso...
 login Accedi
 loginas Accedi come
 loging Diario
 logolder Registra soltanto le chat che hanno preso posto nell'ultimo
 logout Disconnetti
-logsbydate Ordina log per data (L'apertura della cronologia è velocizzata)
+logsbydate Ordina log per data (l'apertura della cronologia è velocizzata)
 logschats Sta loggando le chat
 logsin si è appena connesso/a
-logsmileys Mostra le emoticon e le facine nella finestra dell'History di aMSN
+logsmileys Mostra le emoticon nella finestra dell'history di aMSN
 logsout si è appena sconnesso/a
 logwebcam Salva tutte le sessioni della webcam nel diario di aMSN per una visione futura
 longnick Il tuo nick è lungo più di 130 caratteri. Il protocollo ufficiale di MSN non lo consente. Vuoi impostarlo ugualmente?
@@ -495,7 +495,7 @@ newchat Nuova chat
 new_ft_protocol Usa il nuovo protocollo di trasferimento files (ancora sotto test)
 newline A capo
 newmailfolder Hai $1 nuovi messaggi Hotmail in cartelle varie
-newmailfrom Nuova email da $1 ($2)
+newmailfrom Nuova e-mail da $1 ($2)
 newmailfromother Nuova posta in cartelle varie da $1 ($2)
 newmail $1 nuovi messaggi di posta
 newmsg Nuovo messaggio
@@ -557,7 +557,7 @@ ordergroupsby Ordina i gruppi per
 original Originale
 other Altro
 otherdisplaypic Altre immagini di questo utente (clicca per ulteriori opzioni)
-others Altri
+others Impostazioni avanzate
 pager Impaginatore
 pass Password
 paste Incolla
@@ -585,13 +585,13 @@ prefblock1 Controlla alla disconnessione
 prefblock2 Controlla continumanente
 prefblock3 Gruppo "Sei stato bloccato da"
 prefconnection Impostazioni di connessione
-prefemotic Emoticons e Faccine
+prefemotic Emoticon
 preferences Preferenze
 preffont Testo del mio messaggio
 preffont2 Cambia il modo in cui gli altri vedono il mio testo nelle chat
 preffont3 Cambia la dimensione e il tipo dei caratteri dell'interfaccia di aMSN
 preffont4 Cambia il modo in cui vedo il testo degli altri nelle chat
-prefft Settaggi trasferimento file, peer-to-peer e NAT
+prefft Settaggi trasferimento file e NAT
 preflibs Cartelle delle librerie
 preflogevent Cronologia degli Eventi
 preflog1 Opzioni di cronologia e utilizzo
@@ -668,15 +668,15 @@ sbcon Connessione a Switch Board
 searchdown Cerca in avanti
 searchup Cerca indietro
 selectall Seleziona tutto
-selectplugins Seleziona i Plugins che desideri attivare
-selectskin Seleziona una Skin dalla lista
+selectplugins Seleziona i plugins che desideri attivare
+selectskin Seleziona una skin dalla lista
 sendcam Invia immagine della webcam
-sendemail Invia in mio indirizzo e-mail per avvisarmi riguardo cambiamenti
-sendfile Invia un file
+sendemail Invia il mio indirizzo e-mail per avvisarmi riguardo cambiamenti
+sendfile Invia un singolo file
 send Invia
 sendfeedback Spedisci un resoconto
 sendmail Invia un messaggio di posta
-sendmobmsg Invia un messaggio ad dispositivo mobile
+sendmobmsg Invia un messaggio ad un dispositivo mobile
 sendmsg Invia un messaggio istantaneo
 sendwebcaminvite Invita l'utente a vedere dalla tua webcam
 sendoim Invia un messaggio "non in linea"
@@ -698,20 +698,20 @@ showcontactnick Mostra i contatti con il nick
 show_contactdps_in_cl Mostra l'immagine dei contatti nella Lista Contatti
 showdisplaypic Mostra l'immagine personale
 showdisplaypic2 Mostra l'immagine personale in ogni nuova finestra di chat
-showmailicon Mostra icona e-mail nella Taskbar quando attivano nuove email
+showmailicon Mostra icona e-mail nella Taskbar quando attivano nuove e-mail
 showmypic Immagine personale
 shownotify Mostra una finestra di notifica quando accade qualcosa
-showpicnotify Mostra la foto degli utenti nella finestra di notifica
+showpicnotify Mostra l'immagine degli utenti nella finestra di notifica
 showuserpic Immagine di $1
 signinstatus Accedi sempre come:
-skinselector Seleziona le Skin
+skinselector Seleziona le skin
 skin Skin
 small Piccolo
 smileconfig Configurazione delle emoticon personalizzate
-smilefile Nome del file della faccina
-smileintro Per favore riempi i campi richiesti per creare una nuova faccina personalizzata (guarda le FAQ per un aiuto)
-smileintro2 Per favore modifica i campi richiesti per personalizzare questa faccina (guarda le FAQ per un aiuto)
-smiletoobig La faccina che hai scelto è più grande del normale. Vuoi adattarla?
+smilefile Nome del file dell'emoticon
+smileintro Per favore riempi i campi richiesti per creare una nuova emoticon personalizzata (guarda le FAQ per un aiuto)
+smileintro2 Per favore modifica i campi richiesti per personalizzare questa emoticon (guarda le FAQ per un aiuto)
+smiletoobig L'emoticon che hai scelto è più grande del normale. Vuoi adattarla?
 snackfailed Impossibile caricare libreria Snack, torno al default
 snackneeded La libreria Snack è necessaria per usare questa funzione. Versione minima necessaria: 2.2.9.
 snapshot Istantanea
@@ -741,7 +741,7 @@ startonboot Avvia aMSN all'avvio di Windows
 startontray Avvia aMSN direttamente nella traybar
 stateautomsg Automessaggio da inviare
 stateedittext Per favore modifica i campi che vorresti \nche fossero modificati e premi Salva
-statechange stato personale cambiato in:
+statechange stato personale:
 stateinfo Configurazione dello stato personale
 statename Nome dello stato personale
 statenewtext Per favore inserisci le informazioni richieste per creare \nil tuo nuovo Stato Personale e premi Salva
@@ -756,9 +756,9 @@ stopwebcamreceive Interrompi la ricezione della webcam
 stopwebcamsend Interrompi l'invio delle immagini della webcam
 storenickname Ripristina il nick originale dopo una sessione personalizzata con nick diverso
 strictfonts Imposta tutti i fonts (barra di stato e altri) alla dimensione che ho scelto
-stylehist Aspetto dell'History di aMSN
+stylehist Aspetto dell'history di aMSN
 stylechat Stesso aspetto delle chat
-stylelog Seleziona il formato nel quale vorresti vedere la tua History
+stylelog Seleziona il formato nel quale vorresti vedere la tua history
 style Stile
 subjectrequired Soggetto richiesto
 subject Soggetto
@@ -766,13 +766,13 @@ syntaxerror Errore di sintassi
 tabbed Finestre con linguette
 tabbedglobal Una finestra singola con linguette per tutti gli utenti della lista contatti
 tabbedgroups Una finestra singola con linguette per tutti gli utenti di uno stesso gruppo
-tabtitlenick Mostra nick nelle linguette anziché l'email
+tabtitlenick Mostra nick nelle linguette anziché l'e-mail
 temp_state Non salvare (Stato temporaneo, si perderà alla chiusura di aMSN)
 textsize Dimensione del testo
 thismonth Questo mese
 throughserver Tramite il server
 timeremaining Tempo rimanente
-timestamps Mostra il campo Ora nelle finestre di chat
+timestamps Mostra il campo ora nelle finestre di chat
 timestamp Timestamp
 title aMSN
 tkerror TK ha incontrato un possibile bug. Segnalatelo, per favore, inviando il file $1 a amsn-bugs@lists.sf.net
@@ -812,7 +812,7 @@ useralreadyonlist L'utente è già nella lista contatti
 userblocked L'utente è in linea ma ti ha bloccato
 userdata Dati Utente
 userdps Immagini dell'utente
-usernotonline Questo Utente non è in linea
+usernotonline Questo utente non è in linea
 userproperties Proprietà dell'utente $1
 user Utente
 useryourself Non puoi chattare con te stesso
@@ -830,7 +830,7 @@ voice_windows_click Clicca qui per farlo
 wanttosharecam Consenti a tutti di sapere che ho una webcam
 webcamcanceled La sessione webcam con $1 è stata annullata
 webcamclosebefcancel Devi interrompere tutte le sessioni webcam prima di chiudere la finestra
-webcamconfigure Configura la webcam
+webcamconfigure Impostazioni webcam
 webcamextloaded L'estensione webcamsn è stata caricata
 webcamextnotloaded L'estensione webcamsn non è stata caricata. Devi compilarla.
 webcamfaq FAQ/Aiuto per la webcam
@@ -857,7 +857,7 @@ xmmserr Non ci sono brani in ascolto o non possiedi xmms-infopipe.
 xmmssend Invia il brano in esecuzione
 xoffset Spostamento sull'asse delle X
 year Anno
-yesblock Si e blocca
+yesblock Sì e blocca
 yes Sì
 yesterday Ieri
 yoffset Spostamento sull'asse delle Y
