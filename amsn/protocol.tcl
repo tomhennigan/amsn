@@ -3365,11 +3365,48 @@ namespace eval ::MSNCCARD {
 		# { {description title url thumbnailUrl webReadyUrl albumName}
 		#   {description title url thumbnailUrl webReadyUrl albumName}
 		#   ... ... }
+                set index [getIndexFor $ccard Album]
+                set photos {}
+                if { $index >= 0 } {
+                        set path1 "soap:Envelope:soap:Body:GetXmlFeedResponse:GetXmlFeedResult:contactCard:elements:element"
+                        set bignode [GetXmlNode $ccard $path1 $index]
+                        set i 0
+                        set node [GetXmlNode $bignode ":element:subElement" $i]
+                        while { $node != "" } {
+                                set desc [GetXmlEntry $node ":subElement:description" $i]
+                                set title [GetXmlEntry $node ":subElement:title" $i]
+                                set url [GetXmlEntry $node ":subElement:url" $i]
+				set thumbnailUrl [GetXmlEntry $node ":subElement:thumbnailUrl" $i]
+				set webReadyUrl [GetXmlEntry $node ":subElement:webReadyUrl" $i]
+				set albumName [GetXmlEntry $node ":subElement:albumName" $i]
+                                lappend photos [list $desc $title $url $thumbnailUrl $webReadyUrl $albumName]
+                                incr i
+                                set node [GetXmlNode $bignode ":element:subElement" $i]
+                        }
+			return $photos
+                }
 	}
 
 	proc getAllBlogPosts { ccard } {
 		# Should return a list :
 		# { { description title url} {description title url} ... }
+		set index [getIndexFor $ccard Blog]
+		set posts {}
+		if { $index >= 0 } {
+			set path1 "soap:Envelope:soap:Body:GetXmlFeedResponse:GetXmlFeedResult:contactCard:elements:element"
+			set bignode [GetXmlNode $ccard $path1 $index]
+			set i 0
+			set node [GetXmlNode $bignode ":element:subElement" $i]
+			while { $node != "" } {
+				set desc [GetXmlEntry $node ":subElement:description" $i]
+				set title [GetXmlEntry $node ":subElement:title" $i]
+				set url [GetXmlEntry $node ":subElement:url" $i]
+				lappend posts [list $desc $title $url]
+				incr i
+				set node [GetXmlNode $bignode ":element:subElement" $i]
+			}
+		}
+		return $posts
 	}
 
 	proc getContactCard { email } {
