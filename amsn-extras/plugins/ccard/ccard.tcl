@@ -37,25 +37,7 @@ namespace eval ::ccard {
 
 
 		#This if is to have backwards-compatibility with aMSN 0.94.  Thanks to Arieh for pointing this out.
-		if {[string equal $::version "0.94"]} {
-			::skin::setPixmap ccard_bg [file join $dir pixmaps ccard_bg.gif]
-			::skin::setPixmap ccard_close [file join $dir pixmaps ccard_close.gif]
-			::skin::setPixmap ccard_close_hover [file join $dir pixmaps ccard_close_hover.gif]
-			::skin::setPixmap ccard_left [file join $dir pixmaps ccard_left.gif]
-			::skin::setPixmap ccard_left_hover [file join $dir pixmaps ccard_left_hover.gif]
-			::skin::setPixmap ccard_right [file join $dir pixmaps ccard_right.gif]
-			::skin::setPixmap ccard_right_hover [file join $dir pixmaps ccard_right_hover.gif]
-			::skin::setPixmap ccard_back_line [file join $dir pixmaps ccard_line.gif]
-			::skin::setPixmap ccard_chat [file join $dir pixmaps ccard_chat.gif]
-			::skin::setPixmap ccard_chat_hover [file join $dir pixmaps ccard_chat_hover.gif]
-			::skin::setPixmap ccard_email [file join $dir pixmaps ccard_email.gif]
-			::skin::setPixmap ccard_email_hover [file join $dir pixmaps ccard_email_hover.gif]
-			::skin::setPixmap ccard_nudge [file join $dir pixmaps ccard_nudge.gif]
-			::skin::setPixmap ccard_nudge_hover [file join $dir pixmaps ccard_nudge_hover.gif]
-			::skin::setPixmap ccard_mobile [file join $dir pixmaps ccard_mobile.gif]
-			::skin::setPixmap ccard_mobile_hover [file join $dir pixmaps ccard_mobile_hover.gif]
-			::skin::setPixmap ccard_bpborder [file join $dir pixmaps ccard_bpborder.gif]
-		} else {
+		#Code removed... the 0.97 version should be different
 			::skin::setPixmap ccard_bg ccard_bg.gif pixmaps [file join $dir pixmaps]
 			::skin::setPixmap ccard_close ccard_close.gif pixmaps [file join $dir pixmaps]
 			::skin::setPixmap ccard_close_hover ccard_close_hover.gif pixmaps [file join $dir pixmaps]
@@ -73,9 +55,6 @@ namespace eval ::ccard {
 			::skin::setPixmap ccard_mobile ccard_mobile.gif pixmaps [file join $dir pixmaps]
 			::skin::setPixmap ccard_mobile_hover ccard_mobile_hover.gif pixmaps [file join $dir pixmaps]
 			::skin::setPixmap ccard_bpborder ccard_bpborder.gif pixmaps [file join $dir pixmaps]
-		}
-
-		
 
 	}
 
@@ -89,22 +68,22 @@ namespace eval ::ccard {
 	#####################################
 	proc RegisterEvents {} {
 		::plugins::RegisterEvent "Contact Cards" right_menu clmenu
-		::plugins::RegisterEvent "Contact Cards" contactlistLoaded clLoaded
+		#::plugins::RegisterEvent "Contact Cards" contactlistLoaded clLoaded
 
 	}
 
-	proc clLoaded { event evpar } {
-                foreach contact [::abook::getAllContacts] {
-                        set has_space [::abook::getVolatileData $contact HSB]
-                        if {$has_space == 1 } {
-                                #lappend users_with_space $contact
-				set ccard [::MSNCCARD::getContactCard $contact]
-				set ccard_list [xml2list $ccard]
-				::abook::setVolatileData $contact ccard $ccard_list
-                        }
-                }
-
-	}
+	#proc clLoaded { event evpar } {
+        #        foreach contact [::abook::getAllContacts] {
+        #                set has_space [::abook::getVolatileData $contact HSB]
+        #                if {$has_space == 1 } {
+        #                        #lappend users_with_space $contact
+#				set ccard [::MSNCCARD::getContactCard $contact]
+#				set ccard_list [xml2list $ccard]
+#				::abook::setVolatileData $contact ccard $ccard_list
+#                        }
+#               }
+#
+#	}
 
 	##################################################
 	# clmenu( event epvar )                          #
@@ -134,6 +113,13 @@ namespace eval ::ccard {
 
 		#set the name of the window to .ccarcwin_[numeric value of adres]
 		set w .ccardwin_[::md5::md5 $email]
+
+		set has_space [::abook::getVolatileData $email HSB]
+		if { $has_space == 1 && [::abook::getVolatileData $email ccard] == "" } {
+			set ccard [::MSNCCARD::getContactCard $email]
+			set ccard_list [xml2list $ccard]
+			::abook::setVolatileData $email ccard $ccard_list
+		}
 
 
 		#destroy the window if it already exists, with an animation
