@@ -1094,17 +1094,17 @@ namespace eval ::abookGui {
 		set actions $widget.actions
 
 		set filepath [lindex [$browser getSelected] 1]
-#TODO: set the actions!!!
 		#activate the action buttons now an image is selected
 		$actions.setasmine configure -state active -command [list \
 			set_displaypic $filepath ]
-			
-		$actions.setascustom -state active
-		$actions.copyfileuri -state active
+#TODO: Set as custom dp for this user - action			
+#		$actions.setascustom configure -state active
+		$actions.copyfileuri configure -state active -command [list clipboard clear ; clipboard append $filepath]
 
 	}
 		  
 
+	#menu when right-clicking the user's dp on the first tab
 	proc dp_mypicpopup_menu { X Y filename user} {
 		
 		#if user is self have another menu ?		
@@ -1455,10 +1455,11 @@ namespace eval ::abookGui {
 		#$nbUserDPs.otherdpscontainer.browser is created in userDPs_raise_cmd
 		frame $actions
 #TODO: buttons should be pimped to look better
-		button $actions.setasmine -text "set as mine" -state disabled -justify left
+
+		button $actions.setasmine -text "[trans setasmydp]" -state disabled -justify left
 		
 		button $actions.setascustom -text "set as custom" -state disabled
-		button $actions.copyfileuri -text "copy uri" -state disabled
+		button $actions.copyfileuri -text "[trans copytoclipboard [string tolower [trans filename]]]" -state disabled
 		pack $actions.setasmine $actions.setascustom $actions.copyfileuri  -anchor w -fill x
 		pack $actions -side left
 
