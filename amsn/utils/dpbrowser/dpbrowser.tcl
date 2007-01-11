@@ -1,169 +1,172 @@
 package require snit
-package provide dpbrowser 0.2
+package require sexytile
+package provide dpbrowser 0.4
 
-snit::widgetadaptor dpbrowser {
 
-	option -user -default "" -configuremethod SetConfig
-	option -width -default 5
-#	option -height -default 500
-	option -bg -default white -configuremethod SetConfig
-	option -bg_hl -default DarkBlue -configuremethod SetConfig
-	option -mode -default "properties"
-	#modes "properties" where you right-click with actions and mode "select" where left click sets as your image preview for new pic browser"
+
+
+snit::widget dpbrowser {
+
+
+	option -user -default "self" -configuremethod setConfig
+	option -width -default 5 -readonly 1
+
+	option -bg -default white -readonly 1
+	option -bg_hl -default DarkBlue -readonly 1
+	option -mode -default "properties" -readonly 1
+	#modes "properties" where you right-click with actions and mode "selector" where left click sets as your image preview for new pic browser"
 	
 	# When using select mode, it's important to pass the name of a procedure through this option.
 	# Otherwise, the parent window will not react to the change of selection.
-	option -post_select -default ""
-	option -picinuse -default "no" -configuremethod SetConfig
-	option -disableselect -default "no"
+	option -command
+	option -showcurrent -default 1
+	option -padding -default 5 -readonly 1
+	option -createtempimg -default 0
 
-#	option -addinuse -default 0 -configuremethod SetConfig
-
-
+		
 	constructor { args } {
-		#create the base frame
-		installhull using frame -bg $options(-bg) -bd 0 -relief flat
+		#frame hull is created automatically
+		
+		#apply all options
 		$self configurelist $args
-		
-status_log "creating dpbrowser widget $self with arguments $args at $hull"
 
-		
-puts "sw created"
-		$self fill
-
-
-
-#		Configure all options off the widget
-#		$self configurelist $args
+#		$self fillWidgetForUser $options(-user)
+		bind $self <Destroy> [list $self cleanUp]
 
 	}
+	
+	method cleanUp { } {
+		global tempimg
+	
+		if {$options(-createtempimg)} {
+			#remove tempimg
+			catch {image delete $tempimg}
+		}
+	}
+	
+	method fillWidgetForUser { email } {
+		global HOME
+		global selected
 
-
-
-	method fill { } {
-
-		if {[winfo exists $self.sw] } { destroy $self.sw}
-
-		set color $options(-bg)
-
-		ScrolledWindow $self.sw -bg $color
-		ScrollableFrame $self.sw.sf -bg $color
+		set selected ""
+puts "filling for user $email"
+		#create the scroll-frame
+		ScrolledWindow $self.sw -bg $options(-bg)
+		ScrollableFrame $self.sw.sf -bg $options(-bg)
 		$self.sw setwidget $self.sw.sf
 		pack $self.sw -expand true -fill both
-		
 		set frame [$self.sw.sf getframe]
-
-#		$self configurelist $args
-
-
-		global HOME
-		set email $options(-user)
+		
 		set dps_per_row $options(-width)
 
 		if {$email == "self"} {
-			set defaultfiles [glob -nocomplain -directory [file join skins default displaypic] *.png]
-			set l [llength $defaultfiles]
-			set cachefiles [glob -nocomplain -directory [file join $HOME displaypic] *.dat]
-			set files [concat $defaultfiles $cachefiles]
+			set shipped_dps [glob -nocomplain -directory [file join skins default displaypic] *.png]
+			set user_dps [glob -nocomplain -directory [file join $HOME displaypic] *.dat]
+			set files [concat $shipped_dps $user_dps]
 			set pic_in_use ""
 		} else {
 			set files [glob -nocomplain -directory [file join $HOME displaypic cache] *.dat]	
 			set pic_in_use [::abook::getContactData $email displaypicfile ""]
-			set l -1
 		}
-#TODO: put in order of time
-#	use: [file atime $file]	(the last acces time in seconds from a fixed point > not available on FAT)	
-
-		set gridxpad 5
-		set i 0	
 
 
-		if {$email != ""} {
-
+		
+		#if no user is specified
+		if {$email == ""} {		
+			label $frame.nodps -text "\t[trans nouserspecified]" -bg $options(-bg)
+			pack $frame.nodps			
+		} else {
 			if {$email == "all"} {
 				set email ""
-			}
-		
-			set j 0
+			}	
+				
+			set i 0			
 			foreach file $files {
 				#exclude the image the user is currently using
-				if { $options(-picinuse) != "no" || [string first $pic_in_use $file] == -1 } {
-				set fd [open $file]
+				if { $options(-showcurrent) != 0 || [string first $pic_in_use $file] == -1 } {
 
+					set fd [open $file]
+					set greps [$self grep $fd $email]
 
+					#if the image belongs to this user, add it
+					if { [lindex $greps 0] } {
 
-				set greps [$self grep $fd $email]
-				
+						#if a problem loading the image arises, go to next
+						if { [catch { image create photo userDP_${email}_$i -file [filenoext $file].png -format cximage }] } { continue }
+						
+						::picture::ResizeWithRatio userDP_${email}_$i 96 96
 
+						set entry $frame.${i}_tile
 
-				#if the image belongs to this user, add it
-				if { [lindex $greps 0] } {
+						sexytile $entry -type filewidget -text [lindex $greps 1]\
+						 -icon userDP_${email}_$i -bgcolor $options(-bg) -onpress [list $self onClick $entry [filenoext $file].png]
 
-					#if a problem loading the image arises, go to next
-					if { [catch { image create photo userDP_${email}_$i -file [filenoext $file].png -format cximage }] } { continue }
-					::picture::ResizeWithRatio userDP_${email}_$i 96 96
-					set entry $frame.${i}_shell
-					frame $entry -bg $color -bd 2 -relief flat
+						bind $entry <Destroy> "catch { image delete userDP_${email}_$i}"
+								
 
-					label $entry.img -image userDP_${email}_$i -bg $color
-					bind $entry <Destroy> "catch { image delete userDP_${email}_$i}"
-					bind $entry.img <ButtonPress-3> \
-						[list $self dp_popup_menu %X %Y\
-						[filenoext $file].png $entry.img $email]
-					#selection binding
-					bind $entry.img <ButtonPress-1> [list $self selectdp [filenoext $file].png $entry.img]
-
-	#TODO: a tooltip with the full size image
-#					bind $entry.img <Enter> "showtooltip %X %Y [filenoext $file].png"
-#					bind $entry.img <Leave> "showtooltip %X %Y [filenoext $file].png"
-
-					if { $j < $l } {
-						label $entry.text -bg $color
-					} else {
-						label $entry.text -text [lindex $greps 1] -bg $color
+						grid $entry \
+							-row [expr {$i / $dps_per_row}] -column [expr {$i % $dps_per_row}] \
+							-pady $options(-padding) -padx $options(-padding)
+						incr i
+						
 					}
-					status_log "Image $file; Label [lindex $greps 1]"
-
-
-					pack $entry.img $entry.text -side top				
-					grid $entry \
-						-row [expr {$i / $dps_per_row}] -column [expr {$i % $dps_per_row}] \
-						-pady $gridxpad -padx $gridxpad
-					incr i
-					
+					close $fd
 				}
-				close $fd
-				}
-				incr j
-
 			}
 			if {$i == 0} {
-				label $frame.nodps -text "\t[trans nocacheddps]" -bg $color
+				label $frame.nodps -text "\t[trans nocacheddps]" -bg $options(-bg)
 				pack $frame.nodps
 			 }
-		} else {
-			label $frame.nodps -text "\t[trans nouserspecified]" -bg $color
-			pack $frame.nodps		
-		}	
-	
-	
-	}
-
-
-
-	method SetConfig {option value} {
-		set options($option) $value
-
-		#actions after change of options
-		#the space was added so the option isn't passed to the switch command
-		switch " $option" {
-			" -user" {
-				$self fill
-#a way to redraw with another user
-			}			
 		}
-			
+	
+	
+	
 	}
+	
+	method onClick { entry filepath} {
+		global selected
+		global tempimg
+
+		set oldwidget [lindex $selected 0]
+		switch $options(-mode) {
+			"selector" {
+				#special actions for in selector mode
+		
+			}
+			default {
+				#this is for the "properties" mode
+			
+			}
+		}
+		
+		#deselect other dps in widget
+		if {$selected != ""} { $oldwidget deSelect }
+
+
+		#create tempimg if asked for
+		if {$options(-createtempimg)} {
+			#remove former tempimg
+			catch {image delete $tempimg}
+			set tempimg [image create photo [TmpImgName] -file $filepath]
+			set selected [list $entry $filepath $tempimg]
+		} else {
+			set selected [list $entry $filepath]
+		}
+
+
+		eval $options(-command)
+	
+	}
+		
+	
+	method getSelected {} {
+		global selected
+
+		return $selected	
+	}
+
+
+
 	
 	method grep { chan id } {
 		#skip the first line as the email is on the second
@@ -201,6 +204,9 @@ puts "sw created"
 			-command [list set_displaypic $filename]
 		tk_popup $the_menu $X $Y
 	}
+	
+	
+	
 
 	method selectdp { file imgwidget } {
 		if {$options(-disableselect) == "no" } {
@@ -238,11 +244,42 @@ puts "sw created"
 	}
 
 	method deleteentry {filename widget} {
-		global selected_path
-		if {$selected_path == $filename} {
-			set selected_path ""
-		}
-		pictureDeleteFile $filename $widget
-		$self fill
+		global selected
+#TODO:
+puts "Deleting dps isn't implemented yet"
+#		if {$selected_path == $filename} {
+#			set selected_path ""
+#		}
+#		pictureDeleteFile $filename $widget
+#		$self fill
 	}
+	
+	method setConfig {option value} {
+		set options($option) $value
+		puts "Altering $option to $value"
+
+		#actions after change or initial setting of options
+		#the space was added so the option isn't passed to the switch command
+		switch " $option" {
+			" -bgcolor" {
+				$hull configure -bg $value
+			}
+			" -width" {
+				$hull configure -width $value
+			}			
+			" -height" {
+				$hull configure -height $value
+			}
+
+			" -user" {
+				#empty the widget and refill it for other user
+				destroy $self.sw
+				$self fillWidgetForUser $value
+				puts "changed to user $value"
+			}
+		}
+			
+	}
+	
+	
 }
