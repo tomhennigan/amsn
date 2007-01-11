@@ -2983,7 +2983,6 @@ namespace eval ::MSNOIM {
 
 	proc sendOIMMessageError { callbk soap_req to msg retry error_msg } {
 		set xml [SOAP::dump $soap_req]
-		puts $xml
 		set list [xml2list $xml]
 		set faultcode [GetXmlEntry $list "soap:Envelope:soap:Body:soap:Fault:faultcode"]
 		if { $faultcode == "q0:AuthenticationFailed" } {
