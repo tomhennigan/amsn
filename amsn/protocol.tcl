@@ -3309,78 +3309,64 @@ namespace eval ::MSNCCARD {
 		}
 	}
 
-	proc getIndexForSpace { email } {
-		# PATH IS : find index so that : GetXmlAttribute [GetXmlNode $list "soap:Envelope:soap:Body:GetXmlFeedResponse:GetXmlFeedResult:contactCard:ele ments:element" $index] ":element" type == "SpaceTitle"
+	proc getIndexFor { ccard type } {
+		# Tye can be : SpaceTitle Blog Album Music
+		set node "Running out of inspiration"
+		for {set i 0} { $node != "" } {incr i} {
+			set node [GetXmlNode $ccard "soap:Envelope:soap:Body:GetXmlFeedResponse:GetXmlFeedResult:contactCard:elements:element" $i]
+			set cur_type [GetXmlAttribute $node ":element" type]
+			if { $cur_type == $type } { return $i }
+		}
+		# Hit the bottom, return nothing
+		return -1
 	}
 
-	proc getSpaceUrl { email } {
-		# TODO: fetches indexForSpace
+	proc getUrlFor { email type } {
 		set ccard [getContactCardList $email]
 		if { $ccard != "" } {
-			return [GetXmlEntry $ccard "soap:Envelope:soap:Body:GetXmlFeedResponse:GetXmlFeedResult:contactCard:elements:element:url"]
-		} else {
-			return ""
-		}
+			set index [getIndexFor $ccard $type]
+			if { $index >= 0 } {
+				return [GetXmlEntry $ccard "soap:Envelope:soap:Body:GetXmlFeedResponse:GetXmlFeedResult:contactCard:elements:element:url" $index]
+			}
+		} 
+		# Hit the bottom, return nothing
+		return ""
 	}
 
-	proc getSpaceTitle { email } {
-		# TODO: fetches indexForSpace
+	proc getTitleFor { email type } {
                 set ccard [getContactCardList $email]
                 if { $ccard != "" } {
-                        return [GetXmlEntry $ccard "soap:Envelope:soap:Body:GetXmlFeedResponse:GetXmlFeedResult:contactCard:elements:element:title"]
-                } else {
-                        return ""
+                        set index [getIndexFor $ccard $type]
+                        if { $index >= 0 } {
+                                return [GetXmlEntry $ccard "soap:Envelope:soap:Body:GetXmlFeedResponse:GetXmlFeedResult:contactCard:elements:element:title" $index]
+                        }
                 }
+                # Hit the bottom, return nothing
+                return ""
 	}
 
-	proc getSpaceUnreadItems { email } {
-		# TODO: fetches indexForSpace
+	proc getUnreadFor { email type } {
                 set ccard [getContactCardList $email]
                 if { $ccard != "" } {
-                        return [GetXmlEntry $ccard "soap:Envelope:soap:Body:GetXmlFeedResponse:GetXmlFeedResult:contactCard:elements:element:totalNewItems"]
-                } else {
-                        return ""
+                        set index [getIndexFor $ccard $type]
+                        if { $index >= 0 } {
+                                return [GetXmlEntry $ccard "soap:Envelope:soap:Body:GetXmlFeedResponse:GetXmlFeedResult:contactCard:elements:element:totalNewItems" $index]
+                        }
                 }
-	}
-
-	proc getIndexForPhotos { email } {
-		# PATH IS : find index so that : GetXmlAttribute [GetXmlNode $list "soap:Envelope:soap:Body:GetXmlFeedResponse:GetXmlFeedResult:contactCard:ele ments:element" $index] ":element" type == "Album"
+                # Hit the bottom, return nothing
+                return ""
 	}
 
 	proc getAllPhotos { email } {
-		# Fetches indexForPhotos
 		# Should return a list :
 		# { {description title url thumbnailUrl webReadyUrl albumName}
 		#   {description title url thumbnailUrl webReadyUrl albumName}
 		#   ... ... }
 	}
 
-	proc getIndexForBlog { email } {
-		# PATH IS : find index so that : GetXmlAttribute [GetXmlNode $list "soap:Envelope:soap:Body:GetXmlFeedResponse:GetXmlFeedResult:contactCard:ele ments:element" $index] ":element" type == "Blog"
-	}
-
 	proc getAllBlogPosts { email } {
-		# Fetches indexForBlog
 		# Should return a list :
 		# { { description title url} {description title url} ... }
-	}
-
-	proc getAlbumTitle { email } {
-	}
-
-	proc getAlbumUrl { email } {
-	}
-
-	proc getAlbumNewItems { email } {
-	}
-
-	proc getBlogTitle { email } {
-	}
-
-	proc getBlogUrl { email } {
-	}
-
-	proc getBlogNewItems { email } {
 	}
 
 	proc getContactCard { email } {
