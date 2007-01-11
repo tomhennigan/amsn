@@ -89,10 +89,22 @@ namespace eval ::ccard {
 	#####################################
 	proc RegisterEvents {} {
 		::plugins::RegisterEvent "Contact Cards" right_menu clmenu
+		::plugins::RegisterEvent "Contact Cards" contactlistLoaded clLoaded
 
 	}
 
+	proc clLoaded { event evpar } {
+                foreach contact [::abook::getAllContacts] {
+                        set has_space [::abook::getVolatileData $contact HSB]
+                        if {$has_space == 1 } {
+                                #lappend users_with_space $contact
+				set ccard [::MSNCCARD::getContactCard $contact]
+				set ccard_list [xml2list $ccard]
+				::abook::setVolatileData $contact ccard $ccard_list
+                        }
+                }
 
+	}
 
 	##################################################
 	# clmenu( event epvar )                          #
