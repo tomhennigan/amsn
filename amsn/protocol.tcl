@@ -2983,6 +2983,7 @@ namespace eval ::MSNOIM {
 
 	proc sendOIMMessageError { callbk soap_req to msg retry error_msg } {
 		set xml [SOAP::dump $soap_req]
+		puts $xml
 		set list [xml2list $xml]
 		set faultcode [GetXmlEntry $list "soap:Envelope:soap:Body:soap:Fault:faultcode"]
 		if { $faultcode == "q0:AuthenticationFailed" } {
@@ -3311,18 +3312,21 @@ namespace eval ::MSNCCARD {
 
 	proc getIndexFor { ccard type } {
 		# Tye can be : SpaceTitle Blog Album Music
-		set node "Running out of inspiration"
-		for {set i 0} { $node != "" } {incr i} {
-			set node [GetXmlNode $ccard "soap:Envelope:soap:Body:GetXmlFeedResponse:GetXmlFeedResult:contactCard:elements:element" $i]
+		set node_path "soap:Envelope:soap:Body:GetXmlFeedResponse:GetXmlFeedResult:contactCard:elements:element"
+		set i 0
+		set node [GetXmlNode $ccard $node_path $i]
+		while { $node != "" } {
+			set node [GetXmlNode $ccard $node_path $i]
 			set cur_type [GetXmlAttribute $node ":element" type]
 			if { $cur_type == $type } { return $i }
+			incr i
 		}
 		# Hit the bottom, return nothing
 		return -1
 	}
 
-	proc getUrlFor { email type } {
-		set ccard [getContactCardList $email]
+	proc getUrlFor { ccard type } {
+		#set ccard [getContactCardList $email]
 		if { $ccard != "" } {
 			set index [getIndexFor $ccard $type]
 			if { $index >= 0 } {
@@ -3333,8 +3337,8 @@ namespace eval ::MSNCCARD {
 		return ""
 	}
 
-	proc getTitleFor { email type } {
-                set ccard [getContactCardList $email]
+	proc getTitleFor { ccard type } {
+                #set ccard [getContactCardList $email]
                 if { $ccard != "" } {
                         set index [getIndexFor $ccard $type]
                         if { $index >= 0 } {
@@ -3345,8 +3349,8 @@ namespace eval ::MSNCCARD {
                 return ""
 	}
 
-	proc getUnreadFor { email type } {
-                set ccard [getContactCardList $email]
+	proc getUnreadFor { ccard type } {
+                #set ccard [getContactCardList $email]
                 if { $ccard != "" } {
                         set index [getIndexFor $ccard $type]
                         if { $index >= 0 } {
@@ -3357,14 +3361,14 @@ namespace eval ::MSNCCARD {
                 return ""
 	}
 
-	proc getAllPhotos { email } {
+	proc getAllPhotos { ccard } {
 		# Should return a list :
 		# { {description title url thumbnailUrl webReadyUrl albumName}
 		#   {description title url thumbnailUrl webReadyUrl albumName}
 		#   ... ... }
 	}
 
-	proc getAllBlogPosts { email } {
+	proc getAllBlogPosts { ccard } {
 		# Should return a list :
 		# { { description title url} {description title url} ... }
 	}
