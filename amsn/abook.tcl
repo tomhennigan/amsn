@@ -1074,12 +1074,34 @@ namespace eval ::abookGui {
 
 	proc userDPs_raise_cmd { nb email } { 
 		package require dpbrowser
-		set nbIdent [$nb getframe userDPs]
-		
-		if { ![winfo exists $nbIdent.otherpics]} {
-			::dpbrowser $nbIdent.otherpics -user $email -disableselect
-			pack $nbIdent.otherpics -expand true -fill both
+		set nbUserDPs [$nb getframe userDPs]
+
+		set browser $nbUserDPs.otherdpscontainer.browser
+		set actions $nbUserDPs.otherdpscontainer.actions
+
+		if { ![winfo exists $browser]} {
+			::dpbrowser $browser -user $email -width 7 -command [list\
+				::abookGui::activate_dpbrowser_actions $nbUserDPs.otherdpscontainer]
+
+			pack $browser -side left -expand true -fill both\
+				-before $nbUserDPs.otherdpscontainer.actions\
+
 		}
+	}
+	proc activate_dpbrowser_actions {widget} {
+
+		set browser $widget.browser
+		set actions $widget.actions
+
+		set filepath [lindex [$browser getSelected] 1]
+#TODO: set the actions!!!
+		#activate the action buttons now an image is selected
+		$actions.setasmine configure -state active -command [list \
+			set_displaypic $filepath ]
+			
+		$actions.setascustom -state active
+		$actions.copyfileuri -state active
+
 	}
 		  
 
@@ -1101,7 +1123,7 @@ namespace eval ::abookGui {
 
 
 	proc showUserProperties { email } {
-		global colorval_$email customdp_$email showcustomsmileys_$email ignorecontact_$email HOME
+		global colorval_$email customdp_$email showcustomsmileys_$email ignorecontact_$email HOME customdp_img_$email
 		set w ".user_[::md5::md5 $email]_prop"
 		if { [winfo exists $w] } {
 			raise $w
@@ -1130,6 +1152,9 @@ namespace eval ::abookGui {
 		labelframe $nbIdent.fBasicInfo -relief groove -text [trans identity]
 		
 		label $nbIdent.fBasicInfo.displaypic -image [::skin::getDisplayPicture $email] -highlightthickness 2 -highlightbackground black -borderwidth 0
+		bind $nbIdent.fBasicInfo.displaypic <ButtonPress-3> \
+			[list ::abookGui::dp_mypicpopup_menu %X %Y\
+			[file join $HOME displaypic cache [filenoext [::abook::getContactData $email displaypicfile ""]].png] $email]
 		
 		set nick [::abook::getNick $email]
 		set h [expr {[string length $nick]/50 +1}]
@@ -1338,9 +1363,9 @@ namespace eval ::abookGui {
 		label $nbSettings.fNick.lDispl -text "[trans customdp]:"
 		frame $nbSettings.fNick.fDispl -relief flat
 		set customdp_$email [::abook::getContactData $email customdp] 
-		set customdp_img_$email [image create photo [TmpImgName] -file [set customdp_$email]]
+		image create photo customdp_img_$email -file [set customdp_$email]
 
-		label $nbSettings.fNick.fDispl.dp -image [set customdp_img_${email}] -borderwidth 0 -relief flat
+		label $nbSettings.fNick.fDispl.dp -image customdp_img_$email -borderwidth 0 -relief flat
 		button $nbSettings.fNick.fDispl.bset -text "[trans change]" -command "::abookGui::ChangeCustomDp $email $nbSettings" 
 		button $nbSettings.fNick.fDispl.brem -text "[trans delete]" -command "::abookGui::RemoveCustomDp $email $nbSettings" 
 		pack $nbSettings.fNick.fDispl.dp -side left -expand true -fill y -pady 5 -padx 8
@@ -1415,22 +1440,36 @@ namespace eval ::abookGui {
 		##############
 		set nbUserDPs [$w.nb getframe userDPs]
 		# User's current display picture
-		label $nbUserDPs.titlepic1 -text "[trans curdisplaypic]" -font bboldunderf
-		label $nbUserDPs.displaypic -image [::skin::getDisplayPicture $email]
-		bind $nbUserDPs.displaypic <ButtonPress-3> \
+#		label $nbUserDPs.titlepic1 -text "[trans curdisplaypic]" -font bboldunderf
+#		label $nbUserDPs.displaypic -image [::skin::getDisplayPicture $email]
+#		bind $nbUserDPs.displaypic <ButtonPress-3> \
 			[list ::abookGui::dp_mypicpopup_menu %X %Y\
 			[file join $HOME displaypic cache [filenoext [::abook::getContactData $email displaypicfile ""]].png] $email]
 
 		# Other display pictures of user
 		label $nbUserDPs.titlepic2 -text "[trans otherdisplaypic]" \
-			-font bboldunderf
+			-font bboldunder
+
+		frame $nbUserDPs.otherdpscontainer
+		set actions $nbUserDPs.otherdpscontainer.actions
+		#$nbUserDPs.otherdpscontainer.browser is created in userDPs_raise_cmd
+		frame $actions
+#TODO: buttons should be pimped to look better
+		button $actions.setasmine -text "set as mine" -state disabled -justify left
+		
+		button $actions.setascustom -text "set as custom" -state disabled
+		button $actions.copyfileuri -text "copy uri" -state disabled
+		pack $actions.setasmine $actions.setascustom $actions.copyfileuri  -anchor w -fill x
+		pack $actions -side left
+
 
 		#Other display pictures get loaded when the dp tab is raised
 		#See proc userDPs_raise_cmd
 		
-		pack $nbUserDPs.titlepic1 -anchor w -padx 5 -pady 5
-		pack $nbUserDPs.displaypic -anchor w -padx 7 -pady 5
+#		pack $nbUserDPs.titlepic1 -anchor w -padx 5 -pady 5
+#		pack $nbUserDPs.displaypic -anchor w -padx 7 -pady 5
 		pack $nbUserDPs.titlepic2 -anchor w -padx 5 -pady 5
+		pack $nbUserDPs.otherdpscontainer -anchor w -padx 5 -pady 5 -fill both -expand true
 
 		##########
 		#Common
@@ -1577,8 +1616,9 @@ namespace eval ::abookGui {
 		global customdp_$email
 		dpBrowser $email
 		tkwait window .dpbrowser
-		set customdp_img_$email [image create photo [TmpImgName] -file [set customdp_$email]]
-		$w.fNick.fDispl.dp configure -image [set customdp_img_$email] -borderwidth 0 -relief flat
+		catch {image delete customdp_img_$email}
+		image create photo customdp_img_$email -file customdp_$email
+		$w.fNick.fDispl.dp configure -image customdp_img_$email -borderwidth 0 -relief flat
 		
 	}
 	
@@ -1665,6 +1705,7 @@ namespace eval ::abookGui {
 		::abook::setAtomicContactData $email [list notifyonline notifyoffline notifystatus notifymsg] \
 			[list [set ::notifyonline($email)] [set ::notifyoffline($email)] [set ::notifystatus($email)] [set ::notifymsg($email)]]
 		
+		catch {image delete customdp_img_$email}
 		destroy $w
 		::MSN::contactListChanged
 		::Event::fireEvent contactDataChange gui $email
@@ -1674,6 +1715,7 @@ namespace eval ::abookGui {
 	
 	proc PropCancel { email w } {
 		::groups::GroupmanagerClose $email
+		catch {image delete customdp_img_$email}
 		destroy $w
 	}
 

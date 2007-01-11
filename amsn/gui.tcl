@@ -7189,9 +7189,9 @@ proc dpBrowser { {target_user "self" } } {
 	pack $w.moredpstitle.text -side left
 	pack $w.moredpstitle.combo -side right
 
-	::dpbrowser $w.mydps -width 3 -user self -post_select updateDpBrowserSelection
+	::dpbrowser $w.mydps -width 3 -user self -command [list updateDpBrowserSelection $w.mydps] -mode selector -createtempimg 1
 
-	::dpbrowser $w.moredps -width 3 -user $selected_user -post_select updateDpBrowserSelection -picinuse "yes"
+	::dpbrowser $w.moredps -width 3 -user $selected_user -command [list updateDpBrowserSelection $w.moredps] -mode selector -createtempimg 1
 	
 	#################
 	# second column #
@@ -7247,293 +7247,30 @@ proc configuredpbrowser {target combowidget selection} {
 	#puts "$combowidget $selection"
 	if {$selection == "Select a contact:"} {set selection ""}
 	if {$selection == $target} {
-		[winfo toplevel $combowidget].moredps configure -user $selection -picinuse "no"
+		[winfo toplevel $combowidget].moredps configure -user $selection -showcurrent 0
 	} else {
-		[winfo toplevel $combowidget].moredps configure -user $selection -picinuse "yes"
+		[winfo toplevel $combowidget].moredps configure -user $selection -showcurrent 1
 	}
 }
 
 # This procedure is called back from the dpbrowser pane when a picture is selected
 proc updateDpBrowserSelection { browser } {
-	global selected_image
-	set w [winfo toplevel $browser]
-	# Get the path of the selected image and unselect all images in the other pane
-	if { [list $w.mydps] == $browser } {
-		set selected_path [$w.mydps getselection]
-		$w.moredps unselect_all
-	} else {
-		set selected_path [$w.moredps getselection]
-		$w.mydps unselect_all
-	}
-	set image_name [image create photo [TmpImgName] -file $selected_path -format cximage]
-	$w.dppreview configure -image $image_name
-	set selected_image "[filenoext $selected_path].png"
-}
-
-# TODO: no more used, delete if not needed
-proc pictureBrowser {} {
-	global selected_image
-
-	if { [winfo exists .picbrowser] } {
-		raise .picbrowser
-		return
-	}
-
-	toplevel .picbrowser
+	global selected_image image_name
 	
-	set selected_image [::config::getKey displaypic]
+	set w [winfo toplevel $browser]
 
-	ScrolledWindow .picbrowser.pics -auto vertical -scrollbar vertical -ipad 0
-	text .picbrowser.pics.text -width 40 -font sboldf -background white \
-		-cursor left_ptr -font splainf -selectbackground white -selectborderwidth 0 -exportselection 0 \
-		-relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0 -wrap none
-	.picbrowser.pics setwidget .picbrowser.pics.text
+	catch {image delete $selected_image}
+	# Get the path of the selected image and unselect all images in the other pane
+	set selection [$browser getSelected]
+	set selected_image [lindex $selection 1]
+	set temp_image [lindex $selection 2]
 
-	#Should be only called when we CHANGE the dp, not in the browser!
-	#and displaypicture_std_ is created when we log in anyway...
-	#load_my_pic
-
-	label .picbrowser.mypic -image displaypicture_std_self -background white -borderwidth 2 -relief solid
-	label .picbrowser.mypic_label -text "[trans mypic]" -font splainf
-
-	button .picbrowser.browse -command "set selected_image \[old_pictureChooseFile\]; reloadAvailablePics" -text "[trans browse]..."
-	button .picbrowser.delete -command "pictureDeleteFile ;reloadAvailablePics" -text "[trans delete]"
-	button .picbrowser.purge -command "purgePictures; reloadAvailablePics" -text "[trans purge]..."
-	button .picbrowser.ok -command "set_displaypic \${selected_image};destroy .picbrowser" -text "[trans ok]"
-	button .picbrowser.cancel -command "destroy .picbrowser" -text "[trans cancel]"
-
-
-	set evPar(win) .picbrowser
-	::plugins::PostEvent xtra_choosepic_buttons evPar
-
-	checkbutton .picbrowser.showcache -command "reloadAvailablePics" -variable show_cached_pics\
-		-font sboldf -text [trans showcachedpics]
-
-	grid .picbrowser.pics -row 0 -column 0 -rowspan 5 -columnspan 3 -padx 3 -pady 3 -sticky nsew
-
-	grid .picbrowser.showcache -row 5 -column 0 -columnspan 3 -sticky w
-
-	grid .picbrowser.browse -row 6 -column 0 -padx 3 -pady 3 -sticky ewn
-	grid .picbrowser.delete -row 6 -column 1 -padx 3 -pady 3 -sticky ewn
-	grid .picbrowser.purge -row 6 -column 2 -padx 5 -pady 3 -sticky ewn
-
-	grid .picbrowser.mypic_label -row 0 -column 3 -padx 3 -pady 3 -sticky s
-	grid .picbrowser.mypic -row 1 -column 3 -padx 3 -pady 3 -sticky n
-	grid .picbrowser.ok -row 2 -column 3 -padx 3 -pady 3 -sticky sew
-	grid .picbrowser.cancel -row 3 -column 3 -padx 3 -pady 3 -sticky new
-
-
-	grid column .picbrowser 0 -weight 1
-	grid column .picbrowser 1 -weight 1
-	grid column .picbrowser 2 -weight 1
-	grid row .picbrowser 3 -weight 1
-
-
-	#Free ifmages:
-	bind .picbrowser <Destroy> {
-		if {"%W" == ".picbrowser"} {
-			global image_names
-			if { [info exists image_names] } {
-				foreach img $image_names {
-					image delete $img
-				}
-				unset image_names
-				unset selected_image
-			}
-		}
-	}
-
-	tkwait visibility .picbrowser.pics.text
-	reloadAvailablePics
-
-	.picbrowser.pics.text configure -state disabled
-
-	wm title .picbrowser "[trans picbrowser]"
-	moveinscreen .picbrowser 30
+#	set image_name [image create photo [TmpImgName] -file $selected_image -format cximage]
+	$w.dppreview configure -image $temp_image
+	set selected_image "[filenoext $selected_image].png"
+#FIXME: $image_name is never destroyed -> memleak
 }
 
-# TODO: no more used, delete if not needed
-proc purgePictures {} {
-	global HOME
-
-	set answer [::amsn::messageBox [trans confirmpurge] yesno question [trans purge] .picbrowser]
-	if { $answer == "yes"} {
-		set folder [file join $HOME displaypic cache]
-		deleteDisplayPicsInDir $folder
-
-	}
-}
-
-# TODO: no more used, delete if not needed
-proc deleteDisplayPicsInDir { folder } {
-		foreach filename [glob -nocomplain -directory $folder *.png] {
-			catch { file delete $filename }
-			catch { file delete "[filenoext $filename].gif" }
-			catch { file delete "[filenoext $filename].dat" }
-		}
-
-		foreach dir [glob -nocomplain -directory $folder -type {d} *] {
-			deleteDisplayPicsInDir [file join $folder $dir]
-		}
-}
-
-# TODO: no more used, delete if not needed
-proc getPictureDesc {filename} {
-	if { [file readable "[filenoext $filename].dat"] } {
-		set f [open "[filenoext $filename].dat"]
-		set desc ""
-		while {![eof $f]} {
-			gets $f data
-			if { $desc != "" } {
-				set desc "$desc\n$data"
-			} else {
-				set desc $data
-			}
-		}
-		close $f
-		return $desc
-	}
-	return ""
-}
-
-# TODO: no more used, delete if not needed
-proc addPicture {the_image pic_text filename} {
-	frame .picbrowser.pics.text.$the_image -borderwidth 0 -highlightthickness 0 -background white -highlightbackground black
-	label .picbrowser.pics.text.$the_image.pic -image $the_image -relief flat -borderwidth 0 -highlightthickness 2 \
-		-background black -highlightbackground black -highlightcolor black
-	label .picbrowser.pics.text.$the_image.desc -text "$pic_text" -font splainf -background white
-	pack .picbrowser.pics.text.$the_image.pic -side left -padx 3 -pady 0
-	pack .picbrowser.pics.text.$the_image.desc -side left -padx 5 -pady 0
-	bind .picbrowser.pics.text.$the_image <Enter> ".picbrowser.pics.text.$the_image.pic configure -highlightbackground red -background red"
-	bind .picbrowser.pics.text.$the_image <Leave> ".picbrowser.pics.text.$the_image.pic configure -highlightbackground black -background black"
-	bind .picbrowser.pics.text.$the_image <Button1-ButtonRelease> "[list .picbrowser.mypic configure -image $the_image];[list set selected_image $filename]"
-	bind .picbrowser.pics.text.$the_image.pic <Button1-ButtonRelease> "[list .picbrowser.mypic configure -image $the_image];[list set selected_image $filename]"
-	.picbrowser.pics.text window create end -window .picbrowser.pics.text.$the_image -padx 3 -pady 3
-	.picbrowser.pics.text insert end "\n"
-}
-
-# TODO: no more used, delete if not needed
-proc reloadAvailablePics { } {
-	global HOME image_names show_cached_pics skin
-
-	set scrollidx [.picbrowser.pics.text yview]
-
-	#Destroy old embedded windows
-	set windows [.picbrowser.pics.text window names]
-	foreach window $windows {
-		destroy $window
-	}
-
-	#Delete all picture
-	if { [info exists image_names] } {
-		foreach img $image_names {
-			if { $img != [.picbrowser.mypic cget -image] } {
-				image delete $img
-			} else {
-				lappend images_in_use $img
-			}
-		}
-		unset image_names
-	}
-
-	.picbrowser.pics.text configure -state normal
-	.picbrowser.pics.text delete 0.0 end
-
-#	set files [list]
-	set files [glob -nocomplain -directory [file join skins default displaypic] *.png]
-	set myfiles [glob -nocomplain -directory [file join $HOME displaypic] *.png]
-	set cachefiles [glob -nocomplain -directory [file join $HOME displaypic cache] *.png]
-
-	addPicture [::skin::getNoDisplayPicture] "[trans nopic]" ""
-
-	if { [info exists images_in_use]	} {
-		set image_names $images_in_use
-		unset images_in_use
-	} else {
-		set image_names [list]
-	}
-	set image_order [list]
-
-	#status_log "files: \n$cachefiles\n"
-	foreach filename [lsort -dictionary $files] {
-		set skin_file "[::skin::GetSkinFile displaypic [file tail $filename]]"
-		if { [file exists $skin_file] } {
-			#set the_image [image create photo [TmpImgName] -file $skin_file ]
-			#addPicture $the_image "[getPictureDesc $filename]" [file tail $filename]
-			#lappend image_names $the_image
-			lappend image_order [list "" ${filename}]
-		}
-	}
-	#.picbrowser.pics.text insert end "___________________________\n\n"
-	lappend image_order "--break--"
-
-	foreach filename [lsort -dictionary $myfiles] {
-		if { [file exists $filename] } {
-			#set the_image [image create photo [TmpImgName] -file "[filenoext $filename].gif" ]
-			#addPicture $the_image "[getPictureDesc $filename]" [file tail $filename]
-			#lappend image_names $the_image
-			lappend image_order [list "" ${filename}]
-		}
-	}
-
-	#.picbrowser.pics.text insert end "___________________________\n\n"
-	lappend image_order "--break--"
-
-        if { ![info exists show_cached_pics] } {
-                set show_cached_pics 0
-        }
-
-	if { $show_cached_pics } {
-		set cached_order [list]
-		foreach filename $cachefiles {
-			if { [file exists $filename] } {
-				#set the_image [image create photo [TmpImgName] -file "[filenoext $filename].gif" ]
-				#addPicture $the_image "[getPictureDesc $filename]" "cache/[file tail $filename]"
-				#lappend image_names $the_image
-				lappend cached_order [list [lindex [getPictureDesc $filename] 1] ${filename}]
-			}
-		}
-		foreach pic [lsort -dictionary $cached_order] {
-			lappend image_order [list "cache/" [lindex $pic 1]]
-		}
-	}
-
-	foreach file $image_order {
-		if {$file == "--break--"} {
-			.picbrowser.pics.text insert end "___________________________\n\n"
-		} else {
-			set filename [lindex $file 1]
-			
-			if {[catch {set the_image [image create photo [TmpImgName] -file $filename -format cximage]} res]} {
-				#If there's an error, it means the filename is corrupted, remove it
-				catch { file delete $filename }
-				catch { file delete [filenoext $filename].dat }
-				continue
-			}
-			addPicture $the_image "[getPictureDesc $filename]" "[lindex $file 0][file tail $filename]"
-			#These images get destroyed wghe the window is closed
-			lappend image_names $the_image
-		}
-	}
-
-	if { !$show_cached_pics } {
-		.picbrowser.pics.text tag configure morepics -font bplainf -underline true
-		.picbrowser.pics.text tag bind morepics <Enter> ".picbrowser.pics.text conf -cursor hand2"
-		.picbrowser.pics.text tag bind morepics <Leave> ".picbrowser.pics.text conf -cursor left_ptr"
-		.picbrowser.pics.text tag bind morepics <Button1-ButtonRelease> "global show_cached_pics; set show_cached_pics 1; reloadAvailablePics"
-
-		.picbrowser.pics.text insert end "  "
-		.picbrowser.pics.text insert end "[trans cachedpics [llength $cachefiles]]..." morepics
-		.picbrowser.pics.text insert end "\n"
-
-	}
-
-	update idletasks
-
-	.picbrowser.pics.text yview moveto [lindex $scrollidx 0]
-
-	.picbrowser.pics.text configure  -state disabled
-}
 
 
 #proc chooseFileDialog {basename {initialfile ""} {types {{"All files"         *}} }} {}
@@ -7573,33 +7310,7 @@ proc chooseFileDialog { {initialfile ""} {title ""} {parent ""} {entry ""} {oper
 	return $selfile
 }
 
-# TODO: no more used, delete if not needed
-proc pictureDeleteFile { {filename ""} {widget .picbrowser.mypic} } {
-	global selected_image HOME
 
-	if { $filename == "" } {
-		set filename [file join $HOME displaypic $selected_image]
-	}
-
-	if { [file exists $filename]} {
-		set answer [::amsn::messageBox [trans confirm] yesno question [trans delete]]
-		if { $answer == "yes"} {
-			catch {file delete $filename}
-			catch {file delete [filenoext $filename].gif}
-			catch {file delete [filenoext $filename].dat}
-			set selected_image ""
-			$widget configure -image [::skin::getNoDisplayPicture]
-			if { [file exists $filename] == 1 } {
-				::amsn::messageBox [trans faileddelete] ok error [trans failed]
-				status_log "Failed: file $filename could not be deleted.\n";
-			}
-		}
-
-	} else {
-		::amsn::messageBox [trans faileddeleteperso] ok error [trans failed]
-		status_log "Failed: file $filename does not exists.\n";
-	}
-}
 
 
 
@@ -7692,6 +7403,7 @@ proc AskDPSize { cursize } {
 }
 
 proc set_displaypic { file { email "self" } } {
+	global image_name
 	if { $email == "self" } {
 		catch {image delete displaypicture_std_self}
 		catch {image delete displaypicture_not_self}
@@ -7702,6 +7414,7 @@ proc set_displaypic { file { email "self" } } {
 			load_my_smaller_pic
 			::MSN::changeStatus [set ::MSN::myStatus]
 			save_config
+			catch {image delete $image_name}
 		} else {
 			status_log "set_displaypic: Setting displaypic to displaypicture_std_none\n" blue
 			clear_disp
