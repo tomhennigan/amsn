@@ -3824,7 +3824,6 @@ namespace eval ::Event {
 
 	method authenticationDone {} {
 		$self setInitialStatus
-		#@@@@@@@@@@@@@@@@@@@
 		cmsn_draw_online 1
 		
 		set ::contactlist_loaded 1
@@ -3832,6 +3831,7 @@ namespace eval ::Event {
 		::abook::saveToDisk
 
 		::Event::fireEvent contactlistLoaded protocol
+		::plugins::PostEvent contactlistLoaded evPar
 
 		#Update Preferences window if it's open
 		after 1000 {catch {InitPref 1}}

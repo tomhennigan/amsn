@@ -4006,7 +4006,6 @@ proc status_save_file { filename } {
 proc cmsn_draw_offline {} {
 	bind . <Configure> ""
 
-	#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	#leaving it just in case... dunno what to do with it :S
 	after cancel "cmsn_draw_online"
 
