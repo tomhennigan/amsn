@@ -3309,7 +3309,12 @@ namespace eval ::MSNCCARD {
 		}
 	}
 
+	proc getIndexForSpace { email } {
+		# PATH IS : find index so that : GetXmlAttribute [GetXmlNode $list "soap:Envelope:soap:Body:GetXmlFeedResponse:GetXmlFeedResult:contactCard:ele ments:element" $index] ":element" type == "SpaceTitle"
+	}
+
 	proc getSpaceUrl { email } {
+		# TODO: fetches indexForSpace
 		set ccard [getContactCardList $email]
 		if { $ccard != "" } {
 			return [GetXmlEntry $ccard "soap:Envelope:soap:Body:GetXmlFeedResponse:GetXmlFeedResult:contactCard:elements:element:url"]
@@ -3319,6 +3324,7 @@ namespace eval ::MSNCCARD {
 	}
 
 	proc getSpaceTitle { email } {
+		# TODO: fetches indexForSpace
                 set ccard [getContactCardList $email]
                 if { $ccard != "" } {
                         return [GetXmlEntry $ccard "soap:Envelope:soap:Body:GetXmlFeedResponse:GetXmlFeedResult:contactCard:elements:element:title"]
@@ -3328,12 +3334,53 @@ namespace eval ::MSNCCARD {
 	}
 
 	proc getSpaceUnreadItems { email } {
+		# TODO: fetches indexForSpace
                 set ccard [getContactCardList $email]
                 if { $ccard != "" } {
                         return [GetXmlEntry $ccard "soap:Envelope:soap:Body:GetXmlFeedResponse:GetXmlFeedResult:contactCard:elements:element:totalNewItems"]
                 } else {
                         return ""
                 }
+	}
+
+	proc getIndexForPhotos { email } {
+		# PATH IS : find index so that : GetXmlAttribute [GetXmlNode $list "soap:Envelope:soap:Body:GetXmlFeedResponse:GetXmlFeedResult:contactCard:ele ments:element" $index] ":element" type == "Album"
+	}
+
+	proc getAllPhotos { email } {
+		# Fetches indexForPhotos
+		# Should return a list :
+		# { {description title url thumbnailUrl webReadyUrl albumName}
+		#   {description title url thumbnailUrl webReadyUrl albumName}
+		#   ... ... }
+	}
+
+	proc getIndexForBlog { email } {
+		# PATH IS : find index so that : GetXmlAttribute [GetXmlNode $list "soap:Envelope:soap:Body:GetXmlFeedResponse:GetXmlFeedResult:contactCard:ele ments:element" $index] ":element" type == "Blog"
+	}
+
+	proc getAllBlogPosts { email } {
+		# Fetches indexForBlog
+		# Should return a list :
+		# { { description title url} {description title url} ... }
+	}
+
+	proc getAlbumTitle { email } {
+	}
+
+	proc getAlbumUrl { email } {
+	}
+
+	proc getAlbumNewItems { email } {
+	}
+
+	proc getBlogTitle { email } {
+	}
+
+	proc getBlogUrl { email } {
+	}
+
+	proc getBlogNewItems { email } {
 	}
 
 	proc getContactCard { email } {
