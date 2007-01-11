@@ -3299,6 +3299,42 @@ namespace eval ::MSNCCARD {
 		return $xml
 	}
 
+	proc getContactCardList { email } {
+		set xml [getContactCard $email]
+		if { $xml != "" } {
+			set list [xml2list $xml]
+			return $list
+		} else {
+			return ""
+		}
+	}
+
+	proc getSpaceUrl { email } {
+		set ccard [getContactCardList $email]
+		if { $ccard != "" } {
+			return [GetXmlEntry $ccard "soap:Envelope:soap:Body:GetXmlFeedResponse:GetXmlFeedResult:contactCard:elements:element:url"]
+		} else {
+			return ""
+		}
+	}
+
+	proc getSpaceTitle { email } {
+                set ccard [getContactCardList $email]
+                if { $ccard != "" } {
+                        return [GetXmlEntry $ccard "soap:Envelope:soap:Body:GetXmlFeedResponse:GetXmlFeedResult:contactCard:elements:element:title"]
+                } else {
+                        return ""
+                }
+	}
+
+	proc getSpaceUnreadItems { email } {
+                set ccard [getContactCardList $email]
+                if { $ccard != "" } {
+                        return [GetXmlEntry $ccard "soap:Envelope:soap:Body:GetXmlFeedResponse:GetXmlFeedResult:contactCard:elements:element:totalNewItems"]
+                } else {
+                        return ""
+                }
+	}
 
 	proc getContactCard { email } {
 		variable resources
