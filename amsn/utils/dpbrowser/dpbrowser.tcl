@@ -60,7 +60,7 @@ puts "filling for user $email"
 		set dps_per_row $options(-width)
 
 		if {$email == "self"} {
-			set shipped_dps [glob -nocomplain -directory [file join skins default displaypic] *.png]
+			set shipped_dps [glob -nocomplain -directory [file join skins default displaypic] *.dat]
 			set user_dps [glob -nocomplain -directory [file join $HOME displaypic] *.dat]
 			set files [concat $shipped_dps $user_dps]
 			set pic_in_use ""
