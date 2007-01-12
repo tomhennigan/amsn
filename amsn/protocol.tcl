@@ -1105,12 +1105,12 @@ namespace eval ::MSN {
 
 		::MSN::contactListChanged
 
-		cmsn_draw_online 1 2
 
 		set contactlist_loaded 1
 		::abook::setConsistent
 		::abook::saveToDisk
 
+		cmsn_draw_online 1 2
 		if { $curr_list == "FL" } {
 			#Don't send the event for an addition to any other list
 			::Event::fireEvent contactAdded protocol $username $groups
@@ -1154,9 +1154,9 @@ namespace eval ::MSN {
 			::Event::fireEvent contactListChange protocol $user
 		}
 
-		cmsn_draw_online 1 2
 		global contactlist_loaded
 		set contactlist_loaded 1
+		cmsn_draw_online 1 2
 	}
 
 	#Handler when we're setting our nick, so we check if the nick is allowed or not
@@ -3824,11 +3824,11 @@ namespace eval ::Event {
 
 	method authenticationDone {} {
 		$self setInitialStatus
-		cmsn_draw_online 1
 		
 		set ::contactlist_loaded 1
 		::abook::setConsistent
 		::abook::saveToDisk
+		cmsn_draw_online 1
 
 		::Event::fireEvent contactlistLoaded protocol
 		::plugins::PostEvent contactlistLoaded evPar
@@ -5685,9 +5685,10 @@ proc cmsn_listdel {recv} {
 	}
 
 
-	cmsn_draw_online 1 2
 	global contactlist_loaded
 	set contactlist_loaded 1
+
+	cmsn_draw_online 1 2
 }
 
 
@@ -6347,13 +6348,12 @@ proc cmsn_listupdate {recv} {
 
 	#Last user in list
 	if {$current == $total} {
-		::Event::fireEvent contactlistLoaded protocol
-
-		cmsn_draw_online 1 2
-
 		set contactlist_loaded 1
 		::abook::setConsistent
 		::abook::saveToDisk
+
+		::Event::fireEvent contactlistLoaded protocol
+		cmsn_draw_online 1 2
 	}
 
 }

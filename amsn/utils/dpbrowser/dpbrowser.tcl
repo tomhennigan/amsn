@@ -3,30 +3,30 @@ package require sexytile
 package provide dpbrowser 0.4
 
 
-
+	
 
 snit::widget dpbrowser {
 
 
 	option -user -default "self" -configuremethod setConfig
 	option -width -default 5 -readonly 1
-
+		
 	option -bg -default white -readonly 1
 	option -bg_hl -default DarkBlue -readonly 1
 	option -mode -default "properties" -readonly 1
 	#modes "properties" where you right-click with actions and mode "selector" where left click sets as your image preview for new pic browser"
-	
+
 	# When using select mode, it's important to pass the name of a procedure through this option.
 	# Otherwise, the parent window will not react to the change of selection.
 	option -command
 	option -showcurrent -default 1
 	option -padding -default 5 -readonly 1
 	option -createtempimg -default 0
-
 		
+
 	constructor { args } {
 		#frame hull is created automatically
-		
+
 		#apply all options
 		$self configurelist $args
 
@@ -34,16 +34,16 @@ snit::widget dpbrowser {
 		bind $self <Destroy> [list $self cleanUp]
 
 	}
-	
+
 	method cleanUp { } {
 		global tempimg
-	
+
 		if {$options(-createtempimg)} {
 			#remove tempimg
 			catch {image delete $tempimg}
 		}
 	}
-	
+
 	method fillWidgetForUser { email } {
 		global HOME
 		global selected
@@ -56,7 +56,7 @@ puts "filling for user $email"
 		$self.sw setwidget $self.sw.sf
 		pack $self.sw -expand true -fill both
 		set frame [$self.sw.sf getframe]
-		
+
 		set dps_per_row $options(-width)
 
 		if {$email == "self"} {
@@ -70,7 +70,7 @@ puts "filling for user $email"
 		}
 
 
-		
+
 		#if no user is specified
 		if {$email == ""} {		
 			label $frame.nodps -text "\t[trans nouserspecified]" -bg $options(-bg)
@@ -78,23 +78,25 @@ puts "filling for user $email"
 		} else {
 			if {$email == "all"} {
 				set email ""
-			}	
-				
+			}
+		
 			set i 0			
 			foreach file $files {
 				#exclude the image the user is currently using
 				if { $options(-showcurrent) != 0 || [string first $pic_in_use $file] == -1 } {
 
-					set fd [open $file]
-					set greps [$self grep $fd $email]
+				set fd [open $file]
 
-					#if the image belongs to this user, add it
-					if { [lindex $greps 0] } {
+				set greps [$self grep $fd $email]
+				close $fd
+				
+				#if the image belongs to this user, add it
+				if { [lindex $greps 0] } {
 
-						#if a problem loading the image arises, go to next
-						if { [catch { image create photo userDP_${email}_$i -file [filenoext $file].png -format cximage }] } { continue }
+					#if a problem loading the image arises, go to next
+					if { [catch { image create photo userDP_${email}_$i -file [filenoext $file].png -format cximage }] } { continue }
 						
-						::picture::ResizeWithRatio userDP_${email}_$i 96 96
+					::picture::ResizeWithRatio userDP_${email}_$i 96 96
 
 						set entry $frame.${i}_tile
 
@@ -102,27 +104,26 @@ puts "filling for user $email"
 						 -icon userDP_${email}_$i -bgcolor $options(-bg) -onpress [list $self onClick $entry [filenoext $file].png]
 
 						bind $entry <Destroy> "catch { image delete userDP_${email}_$i}"
-								
 
-						grid $entry \
-							-row [expr {$i / $dps_per_row}] -column [expr {$i % $dps_per_row}] \
+
+					grid $entry \
+						-row [expr {$i / $dps_per_row}] -column [expr {$i % $dps_per_row}] \
 							-pady $options(-padding) -padx $options(-padding)
-						incr i
-						
-					}
-					close $fd
+					incr i
+					
+				}
 				}
 			}
 			if {$i == 0} {
 				label $frame.nodps -text "\t[trans nocacheddps]" -bg $options(-bg)
 				pack $frame.nodps
 			 }
-		}
+		}	
 	
 	
 	
 	}
-	
+
 	method onClick { entry filepath} {
 		global selected
 		global tempimg
@@ -131,14 +132,14 @@ puts "filling for user $email"
 		switch $options(-mode) {
 			"selector" {
 				#special actions for in selector mode
-		
+
 			}
 			default {
 				#this is for the "properties" mode
-			
-			}
+
+			}			
 		}
-		
+			
 		#deselect other dps in widget
 		if {$selected != ""} { $oldwidget deSelect }
 
@@ -151,8 +152,8 @@ puts "filling for user $email"
 			set selected [list $entry $filepath $tempimg]
 		} else {
 			set selected [list $entry $filepath]
-		}
-
+	}
+	
 
 		eval $options(-command)
 	
@@ -184,9 +185,9 @@ puts "filling for user $email"
 				return [list 1 $dateorname]
 			} else {
 				#else, return 0
-				return 0
-			}
+			return 0
 		}
+	}
 	}
 	
 	method showtooltip {X Y imgfile} {
@@ -214,7 +215,7 @@ puts "filling for user $email"
 			-command [list set_displaypic $filename]
 		tk_popup $the_menu $X $Y
 	}
-	
+
 	
 	
 
@@ -262,7 +263,7 @@ puts "Deleting dps isn't implemented yet"
 #		}
 #		pictureDeleteFile $filename $widget
 #		$self fill
-	}
+		}
 	
 	method setConfig {option value} {
 		set options($option) $value
@@ -273,10 +274,10 @@ puts "Deleting dps isn't implemented yet"
 		switch " $option" {
 			" -bgcolor" {
 				$hull configure -bg $value
-			}
+	}
 			" -width" {
 				$hull configure -width $value
-			}			
+}
 			" -height" {
 				$hull configure -height $value
 			}
