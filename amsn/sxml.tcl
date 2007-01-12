@@ -929,6 +929,7 @@ proc xml2list xml {
 	# <!-- comment --> <tag/> <!-- comment2 --> <tag2/>
 	# the regsub {<!--.*-->} would remove from the first <!-- to the last --> which means we end up with <tag2/> and we loose <tag/>.. 
 	# if it's greedy, it will match all possible chars, with non-greedy, it will match only the smallest number: only the comment... 
+	if { $xml == "" } { return "" }
 	regsub -all {<\?xml.*?\?>} $xml "" xml
 	regsub -all {<!--.*?-->} $xml "" xml
 	# Avoid unmatched braces in list, in case we have a left or right accolade in the xml data
