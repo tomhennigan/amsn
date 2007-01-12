@@ -3233,7 +3233,8 @@ namespace eval ::MSNCCARD {
 		variable space_info
 
 		set users_with_space [list]
-		foreach contact [::abook::getAllContacts] {
+		set all_contacts [::abook::getAllContacts]
+		foreach contact $all_contacts {
 			set has_space [::abook::getVolatileData $contact HSB]
 			if {$has_space == 1 } {
 				lappend users_with_space $contact
@@ -3284,7 +3285,9 @@ namespace eval ::MSNCCARD {
 							::abook::setVolatileData $email space_updated $has_new
 						}
 							
-					} 
+					} else {
+						status_log "InitCCard: ERROR: $resp"
+					}
 					SOAP::configure -transport http -headers [list]
 				}
 			}
@@ -3416,7 +3419,7 @@ namespace eval ::MSNCCARD {
 		variable resources
 		variable contactcards
 
-		if {[::abook::getVolatileData $email HSB] == 1 } {
+		#if {[::abook::getVolatileData $email HSB] == 1 } {
 			if { ![info exists resources($email)] } {
 				InitCCard
 				if  { ![info exists resources($email)] } {
@@ -3451,7 +3454,7 @@ namespace eval ::MSNCCARD {
 				}
 				status_log "ERROR getting CCARD of $email - $resources($email): $resp"
 			}
-		} 
+		#} 
 	}
 
 	proc getContactCardXml { resourceID wrapProc args } {
@@ -3835,6 +3838,9 @@ namespace eval ::Event {
 
 		::Event::fireEvent contactlistLoaded protocol
 		::plugins::PostEvent contactlistLoaded evPar
+
+		::MSNCCARD::InitCCard
+		cmsn_draw_online 1
 
 		#Update Preferences window if it's open
 		after 1000 {catch {InitPref 1}}

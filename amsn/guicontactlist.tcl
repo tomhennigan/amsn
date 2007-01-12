@@ -815,9 +815,9 @@ namespace eval ::guiContactList {
 		# Check if we need an icon to show an updated space/blog, and draw one if we do
 		set update_img [::skin::loadPixmap space_update]
 		set has_new [::abook::getVolatileData $email space_updated]
-		if { $has_new == "" } { set has_new 0 }
+		if { $has_new != "true" } { set has_new 0 }
 		set update_icon_item [$canvas create image $xpos $ypos -anchor nw -image $update_img -tags [list contact update_icon $tag]]
-		if { $has_new } {
+		if { $has_new == true } {
 			$canvas itemconfigure $update_icon_item -state normal
 		} else {
 			$canvas itemconfigure $update_icon_item -state hidden
