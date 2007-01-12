@@ -812,12 +812,26 @@ namespace eval ::guiContactList {
 		# TODO: skinsetting for state-colour
 		set statewidth [font measure splainf $statetext]
 
-		# Draw status-icon
-		$canvas create image $xpos $ypos -image $img -anchor nw -tags [list contact icon $tag]
+		# Check if we need an icon to show an updated space/blog, and draw one if we do
+		set update_img [::skin::loadPixmap space_update]
+		set has_new [::abook::getVolatileData $email space_updated]
+		if { $has_new == "" } { set has_new 0 }
+		set update_icon_item [$canvas create image $xpos $ypos -anchor nw -image $update_img -tags [list contact update_icon $tag]]
+		if { $has_new } {
+			$canvas itemconfigure $update_icon_item -state normal
+		} else {
+			$canvas itemconfigure $update_icon_item -state hidden
+		}
 
 		# Set the beginning coords for the next drawings
-		set xnickpos [expr $xpos + [image width $img] + 5]
-		set ynickpos [expr $ypos + [image height $img]/2]
+		set x_state_icon_pos [expr {$xpos + [image width $update_img] + 3}]
+		set y_state_icon_pos [expr {$ypos + [image height $update_img] / 2}]
+		# Draw status-icon
+		$canvas create image $x_state_icon_pos $y_state_icon_pos -image $img -anchor w -tags [list contact icon $tag]
+
+		# Set the beginning coords for the next drawings
+		set xnickpos [expr $x_state_icon_pos + [image width $img] + 5]
+		set ynickpos $y_state_icon_pos
 
 		# TODO: skin setting to draw buddypicture; statusicon should become icon + status overlay
 		# 	like:	draw icon or small buddypicture overlay it with the status-emblem

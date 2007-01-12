@@ -3279,6 +3279,9 @@ namespace eval ::MSNCCARD {
 							set resources($email) $resourceID
 							set space_info($email) [list $has_new $last_modif $resourceID]
 							incr i
+
+							# Set the fact that they've got new data as volatile abook data
+							::abook::setVolatileData $email space_updated $has_new
 						}
 							
 					} 
