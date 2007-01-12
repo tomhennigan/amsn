@@ -637,13 +637,13 @@ namespace eval ::guiContactList {
 		$canvas coords backgroundimage 0 [expr int([expr [lindex [$canvas yview] 0] * $canvaslength])]
 	}
 
-
 	#/////////////////////////////////////////////////////////////////////////
 	# Function that draws a group 
 	#/////////////////////////////////////////////////////////////////////////
 	proc drawGroup { canvas element} {
-
-		if { !$::contactlist_loaded } { return }
+		if { !$::contactlist_loaded } { 
+			return
+		}
 
 		# Set the group id, our ids are integers and tags can't be so add gid_ to start
 		set gid gid_[lindex $element 0]
@@ -1315,7 +1315,7 @@ namespace eval ::guiContactList {
 			
 			# if group is empty and remove empty groups is set (or this is
 			# Individuals group) then skip this group
-			if { ($grId == 0 || ([::config::getKey removeempty] && $grId != "offline" \
+			if { $kind != "full" && ($grId == 0 || ([::config::getKey removeempty] && $grId != "offline" \
 				&& $grId != "mobile")) && [getGroupCount $group] == 0} {
 				continue
 			}

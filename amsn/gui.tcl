@@ -7110,6 +7110,9 @@ proc load_my_pic { {nopic 0} } {
 	}
 }
 
+proc pictureBrowser {} {
+	dpBrowser
+}
 
 proc dpBrowser { {target_user "self" } } {
 	global selected_path selected_image HOME
