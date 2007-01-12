@@ -231,7 +231,7 @@ namespace eval ::DualDisplayPicture {
 		}
 	
 		#Load Change Display Picture window
-		$win.picmenu add command -label "[trans changedisplaypic]..." -command dpBrowser
+		$win.picmenu add command -label "[trans changedisplaypic]..." -command pictureBrowser
 
 		tk_popup $win.picmenu $x $y
 
