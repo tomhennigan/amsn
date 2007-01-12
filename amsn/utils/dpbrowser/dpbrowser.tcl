@@ -167,15 +167,25 @@ puts "filling for user $email"
 
 
 
-	
+#FIXME: there seems to be an encoding issue with the shipped dps	
 	method grep { chan id } {
-		#skip the first line as the email is on the second
-		set date [gets $chan]
-		#check the second for $id
-		if {[regexp $id [gets $chan]] || $id == "self"} {
-			return [list 1 $date]
+		#first line is date or name (for shipped dps)
+		#second line is id of the user or filename for shipped dps
+		set dateorname [gets $chan]
+
+		#if it's the user his dp's we want to show
+		if { $id == "self"} {
+				return [list 1 $dateorname]
+
+		#otherwise, check if it's the right user
 		} else {
-			return 0
+			if {[regexp $id [gets $chan]]} {
+				#ifso, return the date
+				return [list 1 $dateorname]
+			} else {
+				#else, return 0
+				return 0
+			}
 		}
 	}
 	
