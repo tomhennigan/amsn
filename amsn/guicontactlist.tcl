@@ -751,8 +751,8 @@ namespace eval ::guiContactList {
 
 		# The tag can't be just $email as users can be in more then one group
 		set tag "_$grId"; set tag "$email$tag"
-		set clickable "${tag}_click"
-		set update_icon "${tag}_update_icon"
+		set main_part "${tag}_click"
+		set space_icon "${tag}_space_icon"
 		
 		$canvas delete $tag
 
@@ -817,26 +817,28 @@ namespace eval ::guiContactList {
 		# TODO: skinsetting for state-colour
 		set statewidth [font measure splainf $statetext]
 
+		# Set the beginning coords for the next drawings
+		set xnickpos $xpos
+		set ynickpos [expr $ypos + [image height $img]/2]
+
 		set update_img [::skin::loadPixmap space_update]
 		# Check if we need an icon to show an updated space/blog, and draw one if we do
-		set update_icon_item [$canvas create image $xpos $ypos -anchor nw -image\
-			$update_img -tags [list contact $update_icon $tag]]
-		#
+		#We must create the icon and hide after else, the status icon will stick the border : it's surely due to anchor parameter
+		$canvas create image $xnickpos $ypos -anchor nw \
+			-image $update_img -tags [list contact icon $tag $space_icon]
 		if { [::abook::getVolatileData $email space_updated 0]} {
-			$canvas itemconfigure $update_icon -state normal
+			$canvas itemconfigure $space_icon -state normal
 		} else {
-			$canvas itemconfigure $update_icon -state hidden
+			$canvas itemconfigure $space_icon -state hidden
 		}
 
-		# Set the beginning coords for the next drawings
-		set x_state_icon_pos [expr {$xpos + [image width $update_img] + 3}]
-		set y_state_icon_pos [expr {$ypos + [image height $update_img] / 2}]
-		# Draw status-icon
-		$canvas create image $x_state_icon_pos $y_state_icon_pos -image $img -anchor w -tags [list contact icon $tag $clickable]
+		#All the status icons are aligned
+		set xnickpos [expr $xnickpos + [image width $update_img]]
 
-		# Set the beginning coords for the next drawings
-		set xnickpos [expr $x_state_icon_pos + [image width $img] + 5]
-		set ynickpos $y_state_icon_pos
+		# Draw status-icon, we use ypos because it refers to the top and not to the middle of the line
+		$canvas create image $xnickpos $ypos -image $img -anchor nw -tags [list contact icon $tag $main_part]
+
+		set xnickpos [expr $xnickpos + [image width $img] + 5]
 
 		# TODO: skin setting to draw buddypicture; statusicon should become icon + status overlay
 		# 	like:	draw icon or small buddypicture overlay it with the status-emblem
@@ -855,12 +857,12 @@ namespace eval ::guiContactList {
 				set icon [::skin::loadPixmap belloff]
 			}
 			
-			$canvas create image [expr $xnickpos -3] $ynickpos -image \
-				$icon -anchor w -tags [list contact icon alarm_$email $tag]
+			$canvas create image [expr $xnickpos -3] $ypos -image \
+				$icon -anchor nw -tags [list contact icon alarm_$email $tag $main_part]
 
 			# Binding for right click		 
 			$canvas bind alarm_$email <<Button3>> "::alarms::configDialog $email; break;"
-			$canvas bind alarm_$email <Button1-ButtonRelease> "switch_alarm $email; ::guiContactList::switch_alarm $email $canvas alarm_$email"
+			$canvas bind alarm_$email <Button1-ButtonRelease> "switch_alarm $email; ::guiContactList::switch_alarm $email $canvas alarm_$email; break;"
 
 			set xnickpos [expr $xnickpos + [image width $icon]]
 		}
@@ -868,9 +870,9 @@ namespace eval ::guiContactList {
 		# If you are not on this contact's list, show the notification icon
 		if {[expr {[lsearch [::abook::getLists $email] RL] == -1}]} {
 			set icon [::skin::loadPixmap notinlist]
-			$canvas create image [expr $xnickpos -3] $ynickpos -image \
-				[::skin::loadPixmap notinlist] -anchor w -tags \
-				[list contact icon $tag $clickable]
+			$canvas create image [expr $xnickpos -3] $ypos -image \
+				[::skin::loadPixmap notinlist] -anchor nw -tags \
+				[list contact icon $tag $main_part]
 			set xnickpos [expr $xnickpos + [image width $icon]]
 		}
 
@@ -937,7 +939,7 @@ namespace eval ::guiContactList {
 
 				# Draw the text
 				$canvas create text $relxnickpos $ynickpos -text $textpart -anchor w -fill \
-					$relnickcolour -font splainf -tags [list contact $tag nicktext $clickable]
+					$relnickcolour -font splainf -tags [list contact $tag nicktext $main_part]
 				set textwidth [font measure splainf $textpart]
 
 				# Append underline coords
@@ -960,7 +962,7 @@ namespace eval ::guiContactList {
 					set linefull 1
 
 					$canvas create text $relxnickpos $ynickpos -text $ellips -anchor w \
-						-fill $relnickcolour -font splainf -tags [list contact $tag nicktext $clickable]
+						-fill $relnickcolour -font splainf -tags [list contact $tag nicktext $main_part]
 					set textwidth [font measure splainf $ellips]
 
 					# Append underline coords
@@ -989,13 +991,11 @@ namespace eval ::guiContactList {
 				# New line, we can draw again !
 				set linefull 0
 			} elseif {[lindex $unit 0] == "colour" && !$force_colour} {
-				if {!$force_colour} {
-					# A plugin like aMSN Plus! could make the text lists
-					# contain an extra variable for colourchanges
-					set relnickcolour [lindex $unit 1]
-					if {$relnickcolour == "reset"} {
-						set relnickcolour $nickcolour
-					}
+				# A plugin like aMSN Plus! could make the text lists
+				# contain an extra variable for colourchanges
+				set relnickcolour [lindex $unit 1]
+				if {$relnickcolour == "reset"} {
+					set relnickcolour $nickcolour
 				}
 			} else {
 				status_log "Unknown item in parsed nickname: $unit"
@@ -1031,12 +1031,12 @@ namespace eval ::guiContactList {
 					}
 	
 					$canvas create text $relxnickpos $ynickpos -text "$statetext" -anchor w\
-						-fill $statecolour -font splainf -tags [list contact $tag statetext $clickable]
+						-fill $statecolour -font splainf -tags [list contact $tag statetext $main_part]
 				}
 			} else {
 
 				$canvas create text $relxnickpos $ynickpos -text "$statetext" -anchor w\
-					-fill $statecolour -font splainf -tags [list contact $tag statetext $clickable]
+					-fill $statecolour -font splainf -tags [list contact $tag statetext $main_part]
 			}
 
 			# TODO: Maybe a skin-option to have the spacing underlined
@@ -1085,7 +1085,7 @@ namespace eval ::guiContactList {
 		
 						# Draw the text
 						$canvas create text $relxnickpos $ynickpos -text $textpart -anchor w -fill \
-							$relnickcolour -font sitalf -tags [list contact $tag psmtext $clickable]
+							$relnickcolour -font sitalf -tags [list contact $tag psmtext $main_part]
 						set textwidth [font measure sitalf $textpart]
 		
 						# Append underline coords
@@ -1108,7 +1108,7 @@ namespace eval ::guiContactList {
 							set linefull 1
 		
 							$canvas create text $relxnickpos $ynickpos -text $ellips -anchor w \
-								-fill $relnickcolour -font sitalf -tags [list contact $tag psmtext $clickable]
+								-fill $relnickcolour -font sitalf -tags [list contact $tag psmtext $main_part]
 							set textwidth [font measure sitalf $ellips]
 		
 							# Append underline coords
@@ -1120,7 +1120,7 @@ namespace eval ::guiContactList {
 		
 						# Draw the smiley
 						$canvas create image $relxnickpos $ynickpos -image $smileyname -anchor w \
-							-tags [list contact $tag psmsmiley $clickable]
+							-tags [list contact $tag psmsmiley $main_part]
 		
 						# TODO: smileys should be resized to fit in text-height
 						# if {[image height $smileyname] >= $ychange} {
@@ -1177,7 +1177,7 @@ namespace eval ::guiContactList {
 		
 						# Draw the text
 						$canvas create text $relxnickpos $ynickpos -text $textpart -anchor w -fill \
-							$relnickcolour -font sitalf -tags [list contact $tag psmtext $clickable]
+							$relnickcolour -font sitalf -tags [list contact $tag psmtext $main_part]
 						set textwidth [font measure sitalf $textpart]
 		
 						# Append underline coords
@@ -1200,7 +1200,7 @@ namespace eval ::guiContactList {
 							set linefull 1
 		
 							$canvas create text $relxnickpos $ynickpos -text $ellips -anchor w \
-								-fill $relnickcolour -font sitalf -tags [list contact $tag psmtext $clickable]
+								-fill $relnickcolour -font sitalf -tags [list contact $tag psmtext $main_part]
 							set textwidth [font measure sitalf $ellips]
 		
 							# Append underline coords
@@ -1263,36 +1263,42 @@ namespace eval ::guiContactList {
 			}
 		}
 
-
-		#Bindings for the "star" image for spaces
-		#Click binding
-		$canvas bind $update_icon <Button-1> "::guiContactList::toggleSpaceShown $canvas $email $space_showed $space_fetched"
-		#cursor change bindings
-		$canvas bind $update_icon <Enter> "+$canvas configure -cursor hand2"
-		$canvas bind $update_icon <Leave> "+$canvas configure -cursor left_ptr"
-		# balloon bindings
-		if { [::config::getKey tooltips] == 1 } {
-			$canvas bind $update_icon <Enter> +[list balloon_enter %W %X %Y "View space items" ]
-			$canvas bind $update_icon <Motion> +[list balloon_motion %W %X %Y "View space items"]
-			$canvas bind $update_icon <Leave> "+set Bulle(first) 0; kill_balloon"
-		}
-		
-		
-		
-
-		# The bindings for dragging and the whole contact
 		# First, remove previous bindings
 		$canvas bind $tag <Enter> ""
 		$canvas bind $tag <Motion> ""
 		$canvas bind $tag <Leave> ""
+		$canvas bind $main_part <Enter> ""
+		$canvas bind $main_part <Motion> ""
+		$canvas bind $main_part <Leave> ""
+		$canvas bind $space_icon <Enter> ""
+		$canvas bind $space_icon <Motion> ""
+		$canvas bind $space_icon <Leave> ""
+
+		#Bindings for the "star" image for spaces
+		#Click binding
+		$canvas bind $space_icon <Button-1> "::guiContactList::toggleSpaceShown $canvas $email $space_showed $space_fetched"
+
+		# balloon bindings
+		if { [::config::getKey tooltips] == 1 } {
+			$canvas bind $space_icon <Enter> +[list balloon_enter %W %X %Y "View space items" ]
+			$canvas bind $space_icon <Motion> +[list balloon_motion %W %X %Y "View space items"]
+			$canvas bind $space_icon <Leave> "+set Bulle(first) 0; kill_balloon"
+		}
+
+		# Add binding for underline if the skinner use it
+		if {[::skin::getKey underline_contact]} {
+			$canvas bind $main_part <Enter> \
+				"+::guiContactList::underlineList $canvas [list $underlinst] $tag"
+			$canvas bind $main_part <Leave> "+$canvas delete uline_$tag"
+		}
 		
 		# Add binding for balloon
 		if { [::config::getKey tooltips] == 1 } {
-			$canvas bind $clickable <Enter> +[list balloon_enter %W %X %Y [getBalloonMessage \
+			$canvas bind $main_part <Enter> +[list balloon_enter %W %X %Y [getBalloonMessage \
 				$email $element] [::skin::getDisplayPicture $email]]
-			$canvas bind $clickable <Motion> +[list balloon_motion %W %X %Y [getBalloonMessage \
+			$canvas bind $main_part <Motion> +[list balloon_motion %W %X %Y [getBalloonMessage \
 				$email $element] [::skin::getDisplayPicture $email]]
-			$canvas bind $clickable <Leave> "+set Bulle(first) 0; kill_balloon"
+			$canvas bind $main_part <Leave> "+set Bulle(first) 0; kill_balloon"
 		}
 
 		# Add binding for click / right click (remembering to get config key for single/dbl
@@ -1306,31 +1312,22 @@ namespace eval ::guiContactList {
 		# Binding for left (double)click
 		if { $state_code == "FLN" && [::abook::getContactData $email msn_mobile] == "1"} {
 			# If the user is offline and support mobile (SMS)
-			$canvas bind $clickable $singordblclick "::MSNMobile::OpenMobileWindow ${email}"
+			$canvas bind $main_part $singordblclick "::MSNMobile::OpenMobileWindow ${email}"
 		} else {
-			$canvas bind $clickable $singordblclick "::amsn::chatUser $email"
+			$canvas bind $main_part $singordblclick "::amsn::chatUser $email"
 		}
 
-
-
 		# Binding for right click		 
-		$canvas bind $clickable <<Button3>> "show_umenu $email $grId %X %Y"
+		$canvas bind $main_part <<Button3>> "show_umenu $email $grId %X %Y"
 
-		# Bindings for dragging
+		# Bindings for dragging : applies to all elements even the star
 		$canvas bind $tag <<Button2-Press>> "::guiContactList::contactPress $tag $canvas"
 		$canvas bind $tag <<Button2-Motion>> "::guiContactList::contactMove $tag $canvas"
 		$canvas bind $tag <<Button2>> "::guiContactList::contactReleased $tag $canvas"
 
-		# Add binding for underline if the skinner use it
-		if {[::skin::getKey underline_contact]} {
-			$canvas bind $clickable <Enter> "+::guiContactList::underlineList $canvas [list $underlinst] $tag"
-			$canvas bind $clickable <Leave> "+$canvas delete uline_$tag"
-		}
-
-
-		# Change cursor bindings for contacts
-		$canvas bind $clickable <Enter> "+$canvas configure -cursor hand2"
-		$canvas bind $clickable <Leave> "+$canvas configure -cursor left_ptr"
+		#cursor change bindings
+		$canvas bind $tag <Enter> "+$canvas configure -cursor hand2"
+		$canvas bind $tag <Leave> "+$canvas configure -cursor left_ptr"
 
 		# Now store the nickname [and] height in the nickarray
 		# set nickheight [expr $ychange + [::skin::getKey buddy_ypad] ]
@@ -1365,7 +1362,7 @@ puts "::abook::setContactData $email SpaceShowed 1"
 			}
 		}
 		#redraw contact
-		::guiContactList::contactChanged eventused $email
+		::guiContactList::contactChanged "toggleSPaceShown" $email
 	}
 
 
