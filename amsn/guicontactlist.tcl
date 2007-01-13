@@ -751,6 +751,7 @@ namespace eval ::guiContactList {
 
 		# The tag can't be just $email as users can be in more then one group
 		set tag "_$grId"; set tag "$email$tag"
+		set clickable "${tag}_click"
 
 		$canvas delete $tag
 
@@ -830,7 +831,7 @@ namespace eval ::guiContactList {
 		set x_state_icon_pos [expr {$xpos + [image width $update_img] + 3}]
 		set y_state_icon_pos [expr {$ypos + [image height $update_img] / 2}]
 		# Draw status-icon
-		$canvas create image $x_state_icon_pos $y_state_icon_pos -image $img -anchor w -tags [list contact icon $tag]
+		$canvas create image $x_state_icon_pos $y_state_icon_pos -image $img -anchor w -tags [list contact icon $tag $clickable]
 
 		# Set the beginning coords for the next drawings
 		set xnickpos [expr $x_state_icon_pos + [image width $img] + 5]
@@ -868,7 +869,7 @@ namespace eval ::guiContactList {
 			set icon [::skin::loadPixmap notinlist]
 			$canvas create image [expr $xnickpos -3] $ynickpos -image \
 				[::skin::loadPixmap notinlist] -anchor w -tags \
-				[list contact icon $tag]
+				[list contact icon $tag $clickable]
 			set xnickpos [expr $xnickpos + [image width $icon]]
 		}
 
@@ -935,7 +936,7 @@ namespace eval ::guiContactList {
 
 				# Draw the text
 				$canvas create text $relxnickpos $ynickpos -text $textpart -anchor w -fill \
-					$relnickcolour -font splainf -tags [list contact $tag nicktext]
+					$relnickcolour -font splainf -tags [list contact $tag nicktext $clickable]
 				set textwidth [font measure splainf $textpart]
 
 				# Append underline coords
@@ -958,7 +959,7 @@ namespace eval ::guiContactList {
 					set linefull 1
 
 					$canvas create text $relxnickpos $ynickpos -text $ellips -anchor w \
-						-fill $relnickcolour -font splainf -tags [list contact $tag nicktext]
+						-fill $relnickcolour -font splainf -tags [list contact $tag nicktext $clickable]
 					set textwidth [font measure splainf $ellips]
 
 					# Append underline coords
@@ -1029,12 +1030,12 @@ namespace eval ::guiContactList {
 					}
 	
 					$canvas create text $relxnickpos $ynickpos -text "$statetext" -anchor w\
-						-fill $statecolour -font splainf -tags [list contact $tag statetext]
+						-fill $statecolour -font splainf -tags [list contact $tag statetext $clickable]
 				}
 			} else {
 
 				$canvas create text $relxnickpos $ynickpos -text "$statetext" -anchor w\
-					-fill $statecolour -font splainf -tags [list contact $tag statetext]
+					-fill $statecolour -font splainf -tags [list contact $tag statetext $clickable]
 			}
 
 			# TODO: Maybe a skin-option to have the spacing underlined
@@ -1083,7 +1084,7 @@ namespace eval ::guiContactList {
 		
 						# Draw the text
 						$canvas create text $relxnickpos $ynickpos -text $textpart -anchor w -fill \
-							$relnickcolour -font sitalf -tags [list contact $tag psmtext]
+							$relnickcolour -font sitalf -tags [list contact $tag psmtext $clickable]
 						set textwidth [font measure sitalf $textpart]
 		
 						# Append underline coords
@@ -1106,7 +1107,7 @@ namespace eval ::guiContactList {
 							set linefull 1
 		
 							$canvas create text $relxnickpos $ynickpos -text $ellips -anchor w \
-								-fill $relnickcolour -font sitalf -tags [list contact $tag psmtext]
+								-fill $relnickcolour -font sitalf -tags [list contact $tag psmtext $clickable]
 							set textwidth [font measure sitalf $ellips]
 		
 							# Append underline coords
@@ -1118,7 +1119,7 @@ namespace eval ::guiContactList {
 		
 						# Draw the smiley
 						$canvas create image $relxnickpos $ynickpos -image $smileyname -anchor w \
-							-tags [list contact $tag psmsmiley]
+							-tags [list contact $tag psmsmiley $clickable]
 		
 						# TODO: smileys should be resized to fit in text-height
 						# if {[image height $smileyname] >= $ychange} {
@@ -1175,7 +1176,7 @@ namespace eval ::guiContactList {
 		
 						# Draw the text
 						$canvas create text $relxnickpos $ynickpos -text $textpart -anchor w -fill \
-							$relnickcolour -font sitalf -tags [list contact $tag psmtext]
+							$relnickcolour -font sitalf -tags [list contact $tag psmtext $clickable]
 						set textwidth [font measure sitalf $textpart]
 		
 						# Append underline coords
@@ -1198,7 +1199,7 @@ namespace eval ::guiContactList {
 							set linefull 1
 		
 							$canvas create text $relxnickpos $ynickpos -text $ellips -anchor w \
-								-fill $relnickcolour -font sitalf -tags [list contact $tag psmtext]
+								-fill $relnickcolour -font sitalf -tags [list contact $tag psmtext $clickable]
 							set textwidth [font measure sitalf $ellips]
 		
 							# Append underline coords
@@ -1246,7 +1247,7 @@ namespace eval ::guiContactList {
 			if {[::abook::getContactData $email SpaceDataIsFetched 0]} {
 #TODO: Code me !
 				#draw the data
-#				puts "Positions: $ychange "				
+				puts "Positions: $ychange "
 				#adjust $ychange etc
 
 			} else {
@@ -1292,15 +1293,15 @@ namespace eval ::guiContactList {
 		# Binding for left (double)click
 		if { $state_code == "FLN" && [::abook::getContactData $email msn_mobile] == "1"} {
 			# If the user is offline and support mobile (SMS)
-			$canvas bind $tag $singordblclick "::MSNMobile::OpenMobileWindow ${email}"
+			$canvas bind $clickable $singordblclick "::MSNMobile::OpenMobileWindow ${email}"
 		} else {
-			$canvas bind $tag $singordblclick "::amsn::chatUser $email"
+			$canvas bind $clickable $singordblclick "::amsn::chatUser $email"
 		}
 
 
 
 		# Binding for right click		 
-		$canvas bind $tag <<Button3>> "show_umenu $email $grId %X %Y"
+		$canvas bind $clickable <<Button3>> "show_umenu $email $grId %X %Y"
 
 		# Bindings for dragging
 		$canvas bind $tag <<Button2-Press>> "::guiContactList::contactPress $tag $canvas"
@@ -1309,14 +1310,14 @@ namespace eval ::guiContactList {
 
 		# Add binding for underline if the skinner use it
 		if {[::skin::getKey underline_contact]} {
-			$canvas bind $tag <Enter> "+::guiContactList::underlineList $canvas [list $underlinst] $tag"
-			$canvas bind $tag <Leave> "+$canvas delete uline_$tag"
+			$canvas bind $clickable <Enter> "+::guiContactList::underlineList $canvas [list $underlinst] $tag"
+			$canvas bind $clickable <Leave> "+$canvas delete uline_$tag"
 		}
 
 
 		# Change cursor bindings for contacts
-		$canvas bind $tag <Enter> "+$canvas configure -cursor hand2"
-		$canvas bind $tag <Leave> "+$canvas configure -cursor left_ptr"
+		$canvas bind $clickable <Enter> "+$canvas configure -cursor hand2"
+		$canvas bind $clickable <Leave> "+$canvas configure -cursor left_ptr"
 
 		# Now store the nickname [and] height in the nickarray
 		# set nickheight [expr $ychange + [::skin::getKey buddy_ypad] ]
