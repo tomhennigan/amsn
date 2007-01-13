@@ -974,7 +974,7 @@ namespace eval ::guiContactList {
 
 				# Draw the smiley
 				$canvas create image $relxnickpos $ynickpos -image $smileyname -anchor w \
-					-tags [list contact $tag smiley]
+					-tags [list contact $tag smiley $main_part]
 
 				# TODO: smileys should be resized to fit in text-height
 				# if {[image height $smileyname] >= $ychange} {
@@ -1212,7 +1212,7 @@ namespace eval ::guiContactList {
 		
 						# Draw the smiley
 						$canvas create image $relxnickpos $ynickpos -image $smileyname -anchor w \
-							-tags [list contact $tag psmsmiley]
+							-tags [list contact $tag psmsmiley $main_part]
 		
 						# TODO: smileys should be resized to fit in text-height
 						# if {[image height $smileyname] >= $ychange} {
