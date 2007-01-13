@@ -1241,10 +1241,14 @@ namespace eval ::guiContactList {
 		} ; #end psm drawing
 
 
+
+		set space_showed [::abook::getContactData $email SpaceShowed 0]
+		set space_fetched [::abook::getContactData $email SpaceDataIsFetched 0]
+
 		#Drawing of inline spaces data, can be prohibited by setting the config key to 0
 		# (a possible ccard plugin should do this)
-		if {[::abook::getContactData $email SpaceShowed 0] && [::config::getKey drawspaced] == 1} {
-			if {[::abook::getContactData $email SpaceDataIsFetched 0]} {
+		if {$space_showed && [::config::getKey drawspaces] == 1} {
+			if {$space_fetched} {
 #TODO: Code me !
 				#draw the data
 				puts "Positions: $ychange "
@@ -1258,14 +1262,10 @@ namespace eval ::guiContactList {
 			}
 		}
 
-		#For the bindings:
-		# when the star is pressed, the "SpaceShowed" boolean is toggled,
-		# if SpaceIsFetched is 0, the fetching procs are called and these fire an event when the data is fetched
-		# which redraws the contact
-		# if it's already fetched, the binding calls the contactChanged proc to redraw the contact with the spaces
-		# info underneath
-#TODO: Bindings for the "star" image for spaces
-		
+
+		#Bindings for the "star" image for spaces
+#TODO: code in helper proc
+		$canvas bind update_icon <Button-1> "::guiContactList::toggleSpaceShown $canvas $email $space_showed $space_fetched"
 
 		# The bindings:
 		# First, remove previous bindings
@@ -1323,6 +1323,34 @@ namespace eval ::guiContactList {
 		# set nickheight [expr $ychange + [::skin::getKey buddy_ypad] ]
 		set nickheightArray($email) $ychange
 		# status_log "nickheight $email: $nickheight"
+	}
+	
+	proc toggleSpaceShown {canvas email space_showed space_fetched} {
+	
+		# when the star is pressed, the "SpaceShowed" boolean is toggled,
+		# if SpaceIsFetched is 0, the fetching procs are called and these fire an event when the data is fetched
+		# which redraws the contact
+		# if it's already fetched, the binding calls the contactChanged proc to redraw the contact with the spaces
+		# info underneath
+		if {$space_showed} {
+			::abook::setContactData $email SpaceShowed 0		
+		} else {
+			::abook::setContactData $email SpaceShowed 1
+			if {!$space_fetched} {
+				#Fetch the spaces info (thumbnails etc)
+				#these procs will fire an event when ready so the contact can be redrawn with the info
+				#now we'll redraw the contact so a "please wait..." message appears
+			
+			
+			} else {
+				#Spaces info is already fetched and will be shown with a contact redraw
+			
+			
+			}
+		}
+		#redraw contact
+		
+		#reorganise list	
 	}
 
 
