@@ -3282,7 +3282,15 @@ namespace eval ::MSNCCARD {
 							incr i
 
 							# Set the fact that they've got new data as volatile abook data
-							::abook::setVolatileData $email space_updated $has_new
+
+							if {$has_new == "true" } {
+								::abook::setVolatileData $email space_updated 1
+								::Event::fireEvent contactSpaceChange protocol $email
+							} else {
+#FIXME:								#this line might not be needed
+								::abook::setVolatileData $email space_updated 0
+							}
+
 						}
 							
 					} else {
@@ -4017,7 +4025,9 @@ namespace eval ::Event {
 	method handleNOT { command payload } {
 		#save the spaces notification here
 		set contact [lindex $command 1]
-		status_log "got spaces notification for $contact"
+		status_log "got spaces notification for $contact ($command)"
+		::abook::setVolatileData $email space_updated 1
+		::Event::fireEvent contactSpaceChange protocol $contact
 	}
 
 	method setInitialStatus { } {

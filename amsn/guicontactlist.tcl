@@ -132,6 +132,7 @@ namespace eval ::guiContactList {
 		::Event::registerEvent contactNickChange all ::guiContactList::contactChanged
 		::Event::registerEvent contactDataChange all ::guiContactList::contactChanged
 		::Event::registerEvent contactPSMChange all ::guiContactList::contactChanged
+		::Event::registerEvent contactSpaceChange all ::guiContactList::contactChanged
 		::Event::registerEvent contactListChange all ::guiContactList::contactChanged
 		::Event::registerEvent contactBlocked all ::guiContactList::contactChanged
 		::Event::registerEvent contactUnblocked all ::guiContactList::contactChanged
@@ -812,12 +813,12 @@ namespace eval ::guiContactList {
 		# TODO: skinsetting for state-colour
 		set statewidth [font measure splainf $statetext]
 
-		# Check if we need an icon to show an updated space/blog, and draw one if we do
 		set update_img [::skin::loadPixmap space_update]
-		set has_new [::abook::getVolatileData $email space_updated]
-		if { $has_new != "true" } { set has_new 0 }
-		set update_icon_item [$canvas create image $xpos $ypos -anchor nw -image $update_img -tags [list contact update_icon $tag]]
-		if { $has_new == true } {
+		# Check if we need an icon to show an updated space/blog, and draw one if we do
+		set update_icon_item [$canvas create image $xpos $ypos -anchor nw -image\
+			$update_img -tags [list contact update_icon $tag]]
+		#
+		if { [::abook::getVolatileData $email space_updated 0]} {
 			$canvas itemconfigure $update_icon_item -state normal
 		} else {
 			$canvas itemconfigure $update_icon_item -state hidden
