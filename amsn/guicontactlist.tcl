@@ -752,7 +752,8 @@ namespace eval ::guiContactList {
 		# The tag can't be just $email as users can be in more then one group
 		set tag "_$grId"; set tag "$email$tag"
 		set clickable "${tag}_click"
-
+		set update_icon "${tag}_update_icon"
+		
 		$canvas delete $tag
 
 		set state_code [::abook::getVolatileData $email state FLN]
@@ -819,12 +820,12 @@ namespace eval ::guiContactList {
 		set update_img [::skin::loadPixmap space_update]
 		# Check if we need an icon to show an updated space/blog, and draw one if we do
 		set update_icon_item [$canvas create image $xpos $ypos -anchor nw -image\
-			$update_img -tags [list contact update_icon $tag]]
+			$update_img -tags [list contact $update_icon $tag]]
 		#
 		if { [::abook::getVolatileData $email space_updated 0]} {
-			$canvas itemconfigure $update_icon_item -state normal
+			$canvas itemconfigure $update_icon -state normal
 		} else {
-			$canvas itemconfigure $update_icon_item -state hidden
+			$canvas itemconfigure $update_icon -state hidden
 		}
 
 		# Set the beginning coords for the next drawings
@@ -1247,7 +1248,7 @@ namespace eval ::guiContactList {
 
 		#Drawing of inline spaces data, can be prohibited by setting the config key to 0
 		# (a possible ccard plugin should do this)
-		if {$space_showed && [::config::getKey drawspaces] == 1} {
+		if {$space_showed && [::config::getKey drawspaces 1] == 1} {
 			if {$space_fetched} {
 #TODO: Code me !
 				#draw the data
@@ -1264,10 +1265,22 @@ namespace eval ::guiContactList {
 
 
 		#Bindings for the "star" image for spaces
-#TODO: code in helper proc
-		$canvas bind update_icon <Button-1> "::guiContactList::toggleSpaceShown $canvas $email $space_showed $space_fetched"
+		#Click binding
+		$canvas bind $update_icon <Button-1> "::guiContactList::toggleSpaceShown $canvas $email $space_showed $space_fetched"
+		#cursor change bindings
+		$canvas bind $update_icon <Enter> "+$canvas configure -cursor hand2"
+		$canvas bind $update_icon <Leave> "+$canvas configure -cursor left_ptr"
+		# balloon bindings
+		if { [::config::getKey tooltips] == 1 } {
+			$canvas bind $update_icon <Enter> +[list balloon_enter %W %X %Y "View space items" ]
+			$canvas bind $update_icon <Motion> +[list balloon_motion %W %X %Y "View space items"]
+			$canvas bind $update_icon <Leave> "+set Bulle(first) 0; kill_balloon"
+		}
+		
+		
+		
 
-		# The bindings:
+		# The bindings for dragging and the whole contact
 		# First, remove previous bindings
 		$canvas bind $tag <Enter> ""
 		$canvas bind $tag <Motion> ""
@@ -1275,11 +1288,11 @@ namespace eval ::guiContactList {
 		
 		# Add binding for balloon
 		if { [::config::getKey tooltips] == 1 } {
-			$canvas bind $tag <Enter> +[list balloon_enter %W %X %Y [getBalloonMessage \
+			$canvas bind $clickable <Enter> +[list balloon_enter %W %X %Y [getBalloonMessage \
 				$email $element] [::skin::getDisplayPicture $email]]
-			$canvas bind $tag <Motion> +[list balloon_motion %W %X %Y [getBalloonMessage \
+			$canvas bind $clickable <Motion> +[list balloon_motion %W %X %Y [getBalloonMessage \
 				$email $element] [::skin::getDisplayPicture $email]]
-			$canvas bind $tag <Leave> "+set Bulle(first) 0; kill_balloon"
+			$canvas bind $clickable <Leave> "+set Bulle(first) 0; kill_balloon"
 		}
 
 		# Add binding for click / right click (remembering to get config key for single/dbl
@@ -1326,31 +1339,33 @@ namespace eval ::guiContactList {
 	}
 	
 	proc toggleSpaceShown {canvas email space_showed space_fetched} {
-	
+puts "toggling space appearance"
 		# when the star is pressed, the "SpaceShowed" boolean is toggled,
 		# if SpaceIsFetched is 0, the fetching procs are called and these fire an event when the data is fetched
 		# which redraws the contact
 		# if it's already fetched, the binding calls the contactChanged proc to redraw the contact with the spaces
 		# info underneath
 		if {$space_showed} {
+puts "::abook::setContactData $email SpaceShowed 0"
 			::abook::setContactData $email SpaceShowed 0		
 		} else {
+puts "::abook::setContactData $email SpaceShowed 1"
 			::abook::setContactData $email SpaceShowed 1
 			if {!$space_fetched} {
 				#Fetch the spaces info (thumbnails etc)
 				#these procs will fire an event when ready so the contact can be redrawn with the info
 				#now we'll redraw the contact so a "please wait..." message appears
 			
+				#after fetching, the star should dissapear, thus the var should be set to read in teh volatile data
+#TODO:  Call the fetching procs and make sure they fire an event when fetching is done
 			
 			} else {
 				#Spaces info is already fetched and will be shown with a contact redraw
-			
-			
+				#nothing more to do here			
 			}
 		}
 		#redraw contact
-		
-		#reorganise list	
+		::guiContactList::contactChanged eventused $email
 	}
 
 
