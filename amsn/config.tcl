@@ -132,6 +132,9 @@ namespace eval ::config {
 		::config::setKey autoaway 1				;#Enable/disable auto-away feature: 0|1
 		::config::setKey awaytime 10				;#Minutes before setting status to away
 
+		::config::setKey orderusersincreasing 1
+		::config::setKey orderusersbystatus 1
+
 		::config::setKey orderbygroup 0			;#Order contacts by group: 0=No | 1=Groups | 2=Hybrid
 		::config::setKey ordergroupsbynormal 1		;#Order groups normal or inverted
 

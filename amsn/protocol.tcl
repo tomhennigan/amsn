@@ -2689,10 +2689,27 @@ namespace eval ::MSN {
 	# Return a sorted version of the contact list
 	proc sortedContactList { } {
 		variable list_users
+		variable last_ordering_options
+
+		if { ![info exists last_ordering_options] } {
+			set last_ordering_options ""
+		}
+
+		set new_ordering_options [list [::config::getKey orderusersincreasing 1] [config::getKey orderusersbystatus 1]]
 
 		#Don't sort list again if it's already sorted
-		if { $list_users == "" } {
-			set list_users [lsort -increasing -command ::MSN::CompareState [lsort -increasing -command ::MSN::CompareNick [::MSN::getList FL]]]
+		if { $list_users == "" || $last_ordering_options != $new_ordering_options} {
+			if { [::config::getKey orderusersincreasing 1] } {
+				set order "-increasing"
+			} else {
+				set order "-decreasing"
+			}
+			set list_users [lsort $order -command ::MSN::CompareNick [::MSN::getList FL]]
+
+			if { [config::getKey orderusersbystatus 1] } {
+				set list_users [lsort -increasing -command ::MSN::CompareState $list_users]
+			}
+			set last_ordering_options $new_ordering_options
 		}
 		return $list_users
 	}
