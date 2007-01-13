@@ -134,7 +134,6 @@ namespace eval ::chameleon {
               if {[catch {package require tile 0.7}]} { 
                       msg_box [trans need_tile_extension]
                       ::plugins::GUI_Unload
-                      set ::auto_path $autopath
                       return 0
               }
 
@@ -172,10 +171,19 @@ namespace eval ::chameleon {
               eval [package unknown] Tcl [package provide Tcl]
 
               # Use tile::defaultTheme to get the default theme for this platform 
-              set ::chameleon::config(theme) [set ::tile::defaultTheme]
-              foreach widget [array names WR_WIDGETS] {
-                      set ::chameleon::config(wrap_$widget) 0
+	      if { [info exists ::Chameleon_cfg(theme)] } {
+		      set ::chameleon::config(theme) [set ::Chameleon_cfg(theme)]
+              } else {
+                      set ::chameleon::config(theme) [set ::tile::defaultTheme]
               }
+	      
+              foreach widget [array names WR_WIDGETS] {
+		      if { [info exists ::Chameleon_cfg(wrap_$widget)] } {
+			      set ::chameleon::config(wrap_$widget) [set ::Chameleon_cfg(wrap_$widget)]
+		      } else {
+			      set ::chameleon::config(wrap_$widget) 1
+		      }
+	      }
 
 			  # Enable pixmapmenu
 			  set ::chameleon::config(enable_pixmapmenu) 0
@@ -206,12 +214,6 @@ namespace eval ::chameleon {
 				[list frame ::chameleon::populateframe3 ""]]
               set plugin_dir $dir
 
-              if { [info exists ::Chameleon_cfg(theme)] } {
-                      SetTheme $::Chameleon_cfg(theme)
-              } else {
-                      SetTheme $::chameleon::config(theme)
-              }
-
 
 
               # Initialization of the needed wrapped alternatives
@@ -221,7 +223,7 @@ namespace eval ::chameleon {
                       NoteBook::use
               }
 
-              ::chameleon::SetTheme  $::chameleon::config(theme) 1
+              ::chameleon::WrapAndSetTheme  $::chameleon::config(theme) 1
 
               # need to reset the theme at idle so the option add will actually be effective!
               after idle {::chameleon::WrapAndSetTheme  $::chameleon::config(theme) 1}
