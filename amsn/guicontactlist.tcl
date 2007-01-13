@@ -1392,8 +1392,7 @@ puts "::abook::setContactData $email SpaceShowed 1"
 			
 			# if group is empty and remove empty groups is set (or this is
 			# Individuals group) then skip this group
-			if { $kind != "full" && ($grId == 0 || ([::config::getKey removeempty] && $grId != "offline" \
-				&& $grId != "mobile")) && [getGroupCount $group] == 0} {
+			if { $kind != "full" && ($grId == 0 || [::config::getKey removeempty]) && [getGroupCount $group] == 0} {
 				continue
 			}
 
