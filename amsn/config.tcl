@@ -742,7 +742,7 @@ proc load_config {} {
 
 	
 	# This is a TEMPORARY HACK... 
-	::config::setKey use_new_cl 0
+	::config::setKey use_new_cl 1
 }
 
 
