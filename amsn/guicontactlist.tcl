@@ -987,7 +987,7 @@ namespace eval ::guiContactList {
 				# New line, we can draw again !
 				set linefull 0
 			} elseif {[lindex $unit 0] == "colour" && !$force_colour} {
-				if {!$orce_colour} {
+				if {!$force_colour} {
 					# A plugin like aMSN Plus! could make the text lists
 					# contain an extra variable for colourchanges
 					set relnickcolour [lindex $unit 1]
