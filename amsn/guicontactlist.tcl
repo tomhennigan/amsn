@@ -1246,7 +1246,7 @@ namespace eval ::guiContactList {
 			if {[::abook::getContactData $email SpaceDataIsFetched 0]} {
 #TODO: Code me !
 				#draw the data
-				puts "Positions: $ychange "				
+#				puts "Positions: $ychange "				
 				#adjust $ychange etc
 
 			} else {
