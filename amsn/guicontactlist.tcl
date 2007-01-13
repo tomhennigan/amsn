@@ -133,6 +133,7 @@ namespace eval ::guiContactList {
 		::Event::registerEvent contactDataChange all ::guiContactList::contactChanged
 		::Event::registerEvent contactPSMChange all ::guiContactList::contactChanged
 		::Event::registerEvent contactSpaceChange all ::guiContactList::contactChanged
+		::Event::registerEvent contactSpaceFetched all ::guiContactList::contactChanged
 		::Event::registerEvent contactListChange all ::guiContactList::contactChanged
 		::Event::registerEvent contactBlocked all ::guiContactList::contactChanged
 		::Event::registerEvent contactUnblocked all ::guiContactList::contactChanged
@@ -732,7 +733,8 @@ namespace eval ::guiContactList {
 	#/////////////////////////////////////////////////////////////////////////
 	# Function that draws a contact 
 	#/////////////////////////////////////////////////////////////////////////
-	proc drawContact { canvas element groupID} {
+	proc drawContact { canvas element groupID } {
+	
 		# We are gonna store the height of the nicknames
 		variable nickheightArray
 		variable nicknameArray
@@ -985,14 +987,18 @@ namespace eval ::guiContactList {
 				# New line, we can draw again !
 				set linefull 0
 			} elseif {[lindex $unit 0] == "colour" && !$force_colour} {
-				# A plugin like aMSN Plus! could make the text lists
-				# contain an extra variable for colourchanges
-				set relnickcolour [lindex $unit 1]
-				if {$relnickcolour == "reset"} {
-					set relnickcolour $nickcolour
+				if {!$orce_colour} {
+					# A plugin like aMSN Plus! could make the text lists
+					# contain an extra variable for colourchanges
+					set relnickcolour [lindex $unit 1]
+					if {$relnickcolour == "reset"} {
+						set relnickcolour $nickcolour
+					}
 				}
+			} else {
+				status_log "Unknown item in parsed nickname: $unit"
 			}
-			# END the foreach loop
+		#END the foreach loop
 		}
 
 		#We mustn't take the status in account as we will draw it
@@ -1231,10 +1237,36 @@ namespace eval ::guiContactList {
 					# END the foreach loop
 				}
 			}
+		} ; #end psm drawing
+
+
+		#Drawing of inline spaces data, can be prohibited by setting the config key to 0
+		# (a possible ccard plugin should do this)
+		if {[::abook::getContactData $email SpaceShowed 0] && [::config::getKey drawspaced] == 1} {
+			if {[::abook::getContactData $email SpaceDataIsFetched 0]} {
+#TODO: Code me !
+				#draw the data
+				puts "Positions: $ychange "				
+				#adjust $ychange etc
+
+			} else {
+#TODO: Code me !
+				#draw a "please wait .." message
+
+				#adjust $ychange etc
+			}
 		}
 
-		# The bindings:
+		#For the bindings:
+		# when the star is pressed, the "SpaceShowed" boolean is toggled,
+		# if SpaceIsFetched is 0, the fetching procs are called and these fire an event when the data is fetched
+		# which redraws the contact
+		# if it's already fetched, the binding calls the contactChanged proc to redraw the contact with the spaces
+		# info underneath
+#TODO: Bindings for the "star" image for spaces
+		
 
+		# The bindings:
 		# First, remove previous bindings
 		$canvas bind $tag <Enter> ""
 		$canvas bind $tag <Motion> ""
