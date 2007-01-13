@@ -5020,7 +5020,7 @@ proc cmsn_change_state {recv} {
 	}
 
 	# we shouldn't add ChangeState PostEvent if ILN
-	if { [lindex $recv 0] != "ILN" && $state_changed } {
+	if { $state_changed } {
 		#an event used by guicontactlist to know when a contact changed state
 		after 500 ::Event::fireEvent contactStateChange protocol $user
 		
