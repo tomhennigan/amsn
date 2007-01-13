@@ -4026,7 +4026,7 @@ namespace eval ::Event {
 		#save the spaces notification here
 		set contact [lindex $command 1]
 		status_log "got spaces notification for $contact ($command)"
-		::abook::setVolatileData $email space_updated 1
+		::abook::setVolatileData $contact space_updated 1
 		::Event::fireEvent contactSpaceChange protocol $contact
 	}
 
