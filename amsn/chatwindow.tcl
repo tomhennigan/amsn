@@ -1960,7 +1960,7 @@ namespace eval ::ChatWindow {
 		set text [$input getinnerframe].text
 
 		# Create the text widget and the send button widget
-		text $text -background [::skin::getKey chat_input_back_color] -width 15 -height 3 -wrap word -font bboldf \
+		text $text -background [::skin::getKey chat_input_back_color] -width 15 -wrap word -font bboldf \
 			-borderwidth 0 -relief solid -highlightthickness 0 -exportselection 1
 		
 		frame $sendbuttonframe -borderwidth 0 -bg [::skin::getKey sendbuttonbg]
