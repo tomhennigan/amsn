@@ -4852,6 +4852,7 @@ proc displayCL { {newCL 1} } {
 		if { [::log::checkeventdisplay] } {
 			pack configure .main.eventmenu.list -fill x -ipadx 10
 			pack configure .main.eventmenu -side bottom -fill x
+			pack configure .main.eventmenu -padx [list [::skin::getKey eventmenuleftpad "0"] [::skin::getKey eventmenurightpad "0"]]
 			::log::eventlogin
 			.main.eventmenu.list select 0
 		} else {
