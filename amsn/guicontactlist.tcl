@@ -1362,7 +1362,7 @@ puts "::abook::setContactData $email SpaceShowed 1"
 			}
 		}
 		#redraw contact
-		::guiContactList::contactChanged "toggleSPaceShown" $email
+		::guiContactList::contactChanged "toggleSpaceShown" $email
 	}
 
 
