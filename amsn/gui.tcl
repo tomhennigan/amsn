@@ -4851,6 +4851,15 @@ proc displayCL { {newCL 1} } {
 		catch { pack forget [winfo parent $pgBuddy].cl }
 		pack $pgBuddy -expand true -fill both
 	}
+	#Pack what is necessary for event menu
+	if { [::log::checkeventdisplay] } {
+		pack configure .main.eventmenu.list -fill x -ipadx 10
+		pack configure .main.eventmenu -side bottom -fill x
+		::log::eventlogin
+		.main.eventmenu.list select 0
+	} else {
+		pack forget .main.eventmenu
+	}
 }
 
 proc cmsn_draw_online_wrapped_oldCL {} {
