@@ -213,9 +213,10 @@ custnotifymsg Annoncer quand vous recevez un message d'un de vos contacts
 custnotifyoffline Annoncer quand un de vos contact se déconnecte.
 custnotifyonline Annoncer quand un de vos contact se connecte
 custnotifystatus Annoncer quand un de vos contact change de statut
-customcolor Couleur personnalisée
 custom_edit Editer une émoticône personnalisée
 custom_new Créer une émoticône personnalisée
+customcolor Couleur personnalisée
+customdp Avatar personnalisé
 customnick Pseudo personnalisé
 customsmileys Afficher les émoticônes des contacts
 customstyle Style personnalisé
@@ -540,6 +541,7 @@ notinlist Vous ne figurez pas dans sa liste de contact
 notls Le protocole 9 de MSN requiert le module tls. Celui-ci ne semble pas être installé sur le système. S'il est installé,
 nottabbed Fenêtres normales sans onglets
 nousersinsession Pas de contacts dans cette session
+nouserspecified Aucun utilisateur spécifié
 nudge $1 vous a envoyé un nudge.
 offline Déconnecté[e]
 ok Accepter
