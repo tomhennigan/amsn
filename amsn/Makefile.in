@@ -14,7 +14,7 @@ FILES_TO_INSTALL += $(doc_files)
 FILES_TO_INSTALL += icons lang skins utils/base64 utils/drawboard utils/framec utils/http2.4
 FILES_TO_INSTALL += utils/pixmapscroll utils/pixmapmenu utils/contentmanager
 FILES_TO_INSTALL += utils/scalable-bg utils/sha1 utils/snit utils/bwidget1.8.0 utils/dpbrowser
-FILES_TO_INSTALL += plugins utils/tcl_siren
+FILES_TO_INSTALL += plugins utils/tcl_siren utils/sexytile
 FILES_TO_INSTALL += utils/tclsoap1.6.7 utils/log utils/uri utils/tcldom utils/Tclxml utils/combobox
 
 FILES_TO_EXCLUDE := lang/genpage.c lang/addkey.tcl lang/lang1.tmpl lang/lang2.tmpl lang/lang3.tmpl lang/langchk.sh lang/complete.pl lang/genlangfiles.c utils/webcamsn/webcamsn.tcl
