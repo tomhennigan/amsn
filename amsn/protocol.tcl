@@ -3302,7 +3302,8 @@ namespace eval ::MSNCCARD {
 
 							if {$has_new == "true" } {
 								::abook::setVolatileData $email space_updated 1
-								::Event::fireEvent contactSpaceChange protocol $email
+#We don't fire this event but fire one event for all contacts
+#								::Event::fireEvent contactSpaceChange protocol $email
 							} else {
 #FIXME:								#this line might not be needed
 								::abook::setVolatileData $email space_updated 0
@@ -3316,6 +3317,9 @@ namespace eval ::MSNCCARD {
 					SOAP::configure -transport http -headers [list]
 				}
 			}
+
+		#fire event to redraw contacts with changed space
+		::Event::fireEvent contactSpaceChange protocol $users_with_space
 		}
 	}
 
