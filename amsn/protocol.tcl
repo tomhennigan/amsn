@@ -3250,6 +3250,7 @@ namespace eval ::MSNCCARD {
 		variable space_info
 
 		set users_with_space [list]
+		set users_with_update [list] 
 		set all_contacts [::abook::getAllContacts]
 		foreach contact $all_contacts {
 			set has_space [::abook::getVolatileData $contact HSB]
@@ -3304,6 +3305,7 @@ namespace eval ::MSNCCARD {
 								::abook::setVolatileData $email space_updated 1
 #We don't fire this event but fire one event for all contacts
 #								::Event::fireEvent contactSpaceChange protocol $email
+								lappend users_with_update $email
 							} else {
 #FIXME:								#this line might not be needed
 								::abook::setVolatileData $email space_updated 0
@@ -3319,7 +3321,7 @@ namespace eval ::MSNCCARD {
 			}
 
 		#fire event to redraw contacts with changed space
-		::Event::fireEvent contactSpaceChange protocol $users_with_space
+		::Event::fireEvent contactSpaceChange protocol $users_with_update
 		}
 	}
 
