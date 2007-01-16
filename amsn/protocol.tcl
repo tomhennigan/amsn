@@ -1110,7 +1110,7 @@ namespace eval ::MSN {
 		::abook::setConsistent
 		::abook::saveToDisk
 
-		cmsn_draw_online 1 2
+#		cmsn_draw_online 1 2
 		if { $curr_list == "FL" } {
 			#Don't send the event for an addition to any other list
 			::Event::fireEvent contactAdded protocol $username $groups
@@ -1156,7 +1156,7 @@ namespace eval ::MSN {
 
 		global contactlist_loaded
 		set contactlist_loaded 1
-		cmsn_draw_online 1 2
+#		cmsn_draw_online 1 2
 	}
 
 	#Handler when we're setting our nick, so we check if the nick is allowed or not
@@ -4029,7 +4029,8 @@ namespace eval ::Event {
 		}
 		::abook::setVolatileData $contact PSM [::sxml::replacexml [encoding convertfrom utf-8 $psm]]
 		::abook::setVolatileData $contact currentMedia [::sxml::replacexml [encoding convertfrom utf-8 $currentMedia]]
-		cmsn_draw_online 1 2
+#		cmsn_draw_online 1 2
+#TODO: fire event and chatwindow registers 
 		foreach chat_id [::ChatWindow::getAllChatIds] {
 			if { $chat_id == $contact } {
 				::ChatWindow::TopUpdate $chat_id
@@ -5262,7 +5263,7 @@ proc cmsn_change_state {recv} {
 
 	::MSN::contactListChanged
 	if { $state_changed || $nick_changed } {
-		cmsn_draw_online 1 2
+#		cmsn_draw_online 1 2
 
 		foreach chat_id [::ChatWindow::getAllChatIds] {
 			if { $chat_id == $user } {
@@ -5498,21 +5499,21 @@ proc cmsn_ns_handler {item {message ""}} {
 				new_contact_list "[lindex $item 2]"
 				#status_log "$item\n" blue
 				::groups::RenameCB [lrange $item 0 5]
-				cmsn_draw_online 1 2
+#				cmsn_draw_online 1 2
 				return 0
 			}
 			ADG {	# Add Group
 				new_contact_list "[lindex $item 2]"
 				#status_log "$item\n" blue
 				::groups::AddCB [lrange $item 0 5]
-				cmsn_draw_online 1 2
+#				cmsn_draw_online 1 2
 				return 0
 			}
 			RMG {	# Remove Group
 				new_contact_list "[lindex $item 2]"
 				#status_log "$item\n" blue
 				::groups::DeleteCB [lrange $item 0 5]
-				cmsn_draw_online 1 2
+#				cmsn_draw_online 1 2
 				return 0
 			}
 			OUT {
@@ -5730,7 +5731,7 @@ proc cmsn_listdel {recv} {
 	global contactlist_loaded
 	set contactlist_loaded 1
 
-	cmsn_draw_online 1 2
+#	cmsn_draw_online 1 2
 }
 
 
@@ -6395,7 +6396,7 @@ proc cmsn_listupdate {recv} {
 		::abook::saveToDisk
 
 		::Event::fireEvent contactlistLoaded protocol
-		cmsn_draw_online 1 2
+#		cmsn_draw_online 1 2
 	}
 
 }
