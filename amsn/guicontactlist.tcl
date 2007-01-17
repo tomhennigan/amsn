@@ -451,7 +451,7 @@ namespace eval ::guiContactList {
 		set ContactsRedrawQueue [list]
 		set GroupsRedrawQueue [list]
 		
-		foreach nicks $nicks {
+		foreach contact $nicks {
 			#We must update the nick array
 			set usernick [::abook::getDisplayNick $contact 1]
 			set nicknameArray($contact) [::smiley::parseMessageToList $usernick 1]
