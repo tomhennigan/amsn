@@ -812,8 +812,6 @@ namespace eval ::guiContactList {
 		#Xbegin is the padding between the beginning of the contact and the left edge of the CL
 		variable Xbegin
 		
-		#The list of contacts who's spaces info is being fetched		
-		variable fetchinglist
 
 		if { !$::contactlist_loaded } { return }
 
@@ -1424,14 +1422,14 @@ namespace eval ::guiContactList {
 				set blogposts [::MSNCCARD::getAllBlogPosts [::abook::getContactData $email ccardlist [list]]]
 				if {$blogposts != [list]} {
 					#add a title
-					$canvas create text $xlinestart $ychange -font sitalf -text "Recent posts:" -tags [list $tag $space_info contact space_info] -anchor nw -fill grey
+					$canvas create text $xlinestart $ychange -font sboldf -text "Recent posts:" -tags [list $tag $space_info contact space_info] -anchor nw -fill blue
 					#adjust $ychange, adding 1 line
 					set ychange [expr {$ychange + [image height $img]}]
 
 					foreach i $blogposts {
-puts "Blogpost: $i"
+#puts "Blogpost: $i"
 						$canvas create text [expr $xlinestart + 10] $ychange -font sitalf -text "[lindex $i 1]" \
-							-tags [list $tag $space_info contact space_info] -anchor nw -fill grey
+							-tags [list $tag $space_info ${tag}_bpost_$i contact space_info] -anchor nw -fill grey
 						#update ychange
 						set ychange [expr {$ychange + [image height $img]}]
 					}
@@ -1442,16 +1440,16 @@ puts "Blogpost: $i"
 				set photos [::MSNCCARD::getAllPhotos [::abook::getContactData $email ccardlist [list]]]
 				if {$photos != [list]} {
 					#add a title
-					$canvas create text $xlinestart $ychange -font sitalf -text "Recent photos:" -tags [list $tag $space_info contact space_info] -anchor nw -fill grey
+					$canvas create text $xlinestart $ychange -font sboldf -text "Recent photos:" -tags [list $tag $space_info contact space_info] -anchor nw -fill blue
 					#adjust $ychange, adding 1 line
 					set ychange [expr {$ychange + [image height $img]}]
 
 					foreach i $photos {
-puts "Photo: $i"
+#puts "Photo: $i"
 						if {[lindex $i 0] != ""} {
 
 						$canvas create text [expr $xlinestart + 10] $ychange -font sitalf -text "[lindex $i 1]" \
-							-tags [list $tag $space_info contact space_info] -anchor nw -fill grey
+							-tags [list $tag ${tag}_photo_$i $space_info contact space_info] -anchor nw -fill grey
 						#update ychange
 						set ychange [expr {$ychange + [image height $img]}]
 						}
@@ -1544,7 +1542,6 @@ puts "Photo: $i"
 
 	
 	proc toggleSpaceShown {canvas email space_shown space_update} {
-		variable fetchinglist 
 
 		if {$space_shown} {		
 			::abook::setVolatileData $email SpaceShowed 0
@@ -1568,11 +1565,11 @@ puts "Photo: $i"
 #TODO: fetching code here
 		::abook::setContactData $email ccardlist [::MSNCCARD::getContactCardList $email]
 		
-		after 2000 ::abook::setVolatileData $email fetching_space 0
+		::abook::setVolatileData $email fetching_space 0
 		
 		#now we'll set the space as "read"
-		after 2050 ::abook::setVolatileData $email space_updated 0
-		after 2100 ::guiContactList::contactChanged "toggleSpaceShown" $email
+		::abook::setVolatileData $email space_updated 0
+		::guiContactList::contactChanged "toggleSpaceShown" $email
 
 	}
 

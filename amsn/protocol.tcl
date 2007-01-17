@@ -3410,12 +3410,12 @@ namespace eval ::MSNCCARD {
                         set i 0
                         set node [GetXmlNode $bignode ":element:subElement" $i]
                         while { $node != "" } {
-                                set desc [GetXmlEntry $node ":subElement:description" $i]
-                                set title [GetXmlEntry $node ":subElement:title" $i]
-                                set url [GetXmlEntry $node ":subElement:url" $i]
-				set thumbnailUrl [GetXmlEntry $node ":subElement:thumbnailUrl" $i]
-				set webReadyUrl [GetXmlEntry $node ":subElement:webReadyUrl" $i]
-				set albumName [GetXmlEntry $node ":subElement:albumName" $i]
+                                set desc [GetXmlEntry $node ":subElement:description" ]
+                                set title [GetXmlEntry $node ":subElement:title" ]
+                                set url [GetXmlEntry $node ":subElement:url"]
+				set thumbnailUrl [GetXmlEntry $node ":subElement:thumbnailUrl" ]
+				set webReadyUrl [GetXmlEntry $node ":subElement:webReadyUrl" ]
+				set albumName [GetXmlEntry $node ":subElement:albumName" ]
                                 lappend photos [list $desc $title $url $thumbnailUrl $webReadyUrl $albumName]
                                 incr i
                                 set node [GetXmlNode $bignode ":element:subElement" $i]
@@ -3435,9 +3435,9 @@ namespace eval ::MSNCCARD {
 			set i 0
 			set node [GetXmlNode $bignode ":element:subElement" $i]
 			while { $node != "" } {
-				set desc [GetXmlEntry $node ":subElement:description" $i]
-				set title [GetXmlEntry $node ":subElement:title" $i]
-				set url [GetXmlEntry $node ":subElement:url" $i]
+				set desc [GetXmlEntry $node ":subElement:description"]
+				set title [GetXmlEntry $node ":subElement:title"]
+				set url [GetXmlEntry $node ":subElement:url"]
 				lappend posts [list $desc $title $url]
 				incr i
 				set node [GetXmlNode $bignode ":element:subElement" $i]
