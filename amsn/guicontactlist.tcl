@@ -424,7 +424,7 @@ namespace eval ::guiContactList {
 		
 		}; #end of foreach
 
-#If, withing 200 ms, another event for redrawing comes in, we redraw 'm together
+#If, withing 500 ms, another event for redrawing comes in, we redraw 'm together
 		catch {after cancel $taskId}		
 		set taskId [after 500 ::guiContactList::redrawFromQueue]
 
@@ -441,16 +441,25 @@ namespace eval ::guiContactList {
 		variable NickReparseQueue
 		
 		#copy queues and reset 'm so they can be filled again while the 
-		#  redrawing is still busy
-#FIXME		#Does this make sense ?
-		set groups $GroupsRedrawQueue
-		set contacts $ContactsRedrawQueue
-		set nicks $NickReparseQueue
+		#  redrawing is still busy : that's safer
 
-		set GroupsRedrawQueue [list]
-		set ContactsRedrawQueue [list]
+		set nicks $NickReparseQueue
+		set contacts $ContactsRedrawQueue
+		set groups $GroupsRedrawQueue
+
 		set NickReparseQueue [list]
+		set ContactsRedrawQueue [list]
+		set GroupsRedrawQueue [list]
 		
+		foreach nicks $nicks {
+			#We must update the nick array
+			set usernick [::abook::getDisplayNick $contact 1]
+			set nicknameArray($contact) [::smiley::parseMessageToList $usernick 1]
+			set evpar(array) nicknameArray
+			set evpar(login) $contact
+			::plugins::PostEvent NickArray evpar
+		}
+
 		#redraw contacts
 		foreach contact $contacts {
 			set groupslist [getGroupId $contact]
@@ -468,15 +477,6 @@ namespace eval ::guiContactList {
 					::guiContactList::drawGroup $clcanvas [list $group [::groups::GetName $group]]
 				}
 			}
-		}
-		
-		foreach nicks $nicks {
-			#We must update the nick array
-			set usernick [::abook::getDisplayNick $contact 1]
-			set nicknameArray($contact) [::smiley::parseMessageToList $usernick 1]
-			set evpar(array) nicknameArray
-			set evpar(login) $contact
-			::plugins::PostEvent NickArray evpar
 		}
 		
 		#reorganise list
