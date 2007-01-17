@@ -87,6 +87,7 @@ namespace eval ::guiContactList {
 		variable ContactsRedrawQueue
 		variable NickReparseQueue
 		variable taskId
+		variable fetchinglist
 
 
 		set clframe $w.cl
@@ -98,6 +99,7 @@ namespace eval ::guiContactList {
 		set NickReparseQueue [list]
 		
 		set taskId 0
+		set fetchinglist [list]
 
 		#here we load images used in this code:
 		::skin::setPixmap back back.gif
@@ -134,7 +136,8 @@ namespace eval ::guiContactList {
 		}
 
 		$clcanvas create image 0 0 -image [::skin::loadPixmap back] -anchor nw -tag backgroundimage
-		after 1 ::guiContactList::drawList $clcanvas
+		
+		after 0 ::guiContactList::drawList $clcanvas
 
 		# Register events
 		# TODO: * here we should register all needed events
@@ -808,6 +811,9 @@ namespace eval ::guiContactList {
 
 		#Xbegin is the padding between the beginning of the contact and the left edge of the CL
 		variable Xbegin
+		
+		#The list of contacts who's spaces info is being fetched		
+		variable fetchinglist
 
 		if { !$::contactlist_loaded } { return }
 
@@ -911,10 +917,18 @@ namespace eval ::guiContactList {
 		set ynickpos [expr {$ypos + [image height $img]/2}]
 
 		set update_img [::skin::loadPixmap space_update]
+		set noupdate_img [::skin::loadPixmap space_noupdate]
 		
 		
 		# Reset the underlining's list
 		set underlinst [list]
+		
+		#this is when there is an update and we should show a star
+		set space_update [::abook::getVolatileData $email space_updated 0]
+		
+		#is the space showed or not ?
+		set space_showed [::abook::getContactData $email SpaceShowed 0]
+		
 
 
 		################################################################
@@ -929,11 +943,13 @@ namespace eval ::guiContactList {
 		#We must create the icon and hide after else, the status icon will stick the border\
 		  it's surely due to anchor parameter
 		$canvas create image $xnickpos $ypos -anchor nw \
-			-image $update_img -tags [list contact icon $tag $space_icon]
-		if { [::abook::getVolatileData $email space_updated 0]} {
-			$canvas itemconfigure $space_icon -state normal
+			 -image $noupdate_img -tags [list contact icon $tag $space_icon]
+		if { [::abook::getVolatileData $email HSB 0] } {
+			if {$space_update} {
+				$canvas itemconfigure $space_icon -image $update_img
+			}
 		} else {
-			$canvas itemconfigure $space_icon -state hidden
+			$canvas itemconfigure  $space_icon -state hidden
 		}
 
 		#Update xnickpos
@@ -1377,34 +1393,35 @@ namespace eval ::guiContactList {
 				}
 			}
 		} ; #end psm drawing
-puts "End contact drawing: $ychange $ynickpos: , $xlinestart, $ynickpos"
+#puts "End contact drawing: $ychange $ynickpos: , $xlinestart, $ynickpos"
 
 
 
-		set space_showed [::abook::getContactData $email SpaceShowed 0]
-		set space_fetched [::abook::getContactData $email SpaceDataIsFetched 0]
+
 
 		set xuppercoord $xlinestart
 		set yuppercoord $ychange
 
 		#Drawing of inline spaces data, can be prohibited by setting the config key to 0
 		# (a possible ccard plugin should do this)
-		if {$space_showed && [::config::getKey drawspaces 1] == 1} {
-			if {$space_fetched} {
-#TODO: Code me !
-				#draw the data
-				puts "Positions: $ychange "
-				#adjust $ychange etc
-
-			} else {
-#TODO: Code me !
-				#draw a "please wait .." message
-				$canvas create text $xlinestart $ychange -font sitalf -text "Fetching data ..." -tags [list $tag $space_info contact space_info] -anchor nw
-
-				#adjust $ychange, adding 1 line
-				set ychange [expr {$ychange + [image height $img]}]
-			}
-		}
+#		if {$space_showed && [::config::getKey drawspaces 1] == 1} {
+#
+#			if { [::abook::getVolatileData $email fetching_space 0] } {
+#				#draw a "please wait .." message, will be replaced when fetching is done
+#				$canvas create text $xlinestart $ychange -font sitalf -text "Fetching data ..." -tags [list $tag $space_info contact space_info] -anchor nw -fill grey
+#
+#				#adjust $ychange, adding 1 line
+#				set ychange [expr {$ychange + [image height $img]}]
+#
+#			} else {
+#				#show the data in abook
+#				$canvas create text $xlinestart $ychange -font sitalf -text "Data here" -tags [list $tag $space_info contact space_info] -anchor nw -fill grey
+#							
+#				#adjust $ychange, adding 1 line
+#				set ychange [expr {$ychange + [image height $img]}]
+#			}
+#
+#		}
 
 		# First, remove previous bindings
 		$canvas bind $tag <Enter> ""
@@ -1419,7 +1436,7 @@ puts "End contact drawing: $ychange $ynickpos: , $xlinestart, $ynickpos"
 
 		#Bindings for the "star" image for spaces
 		#Click binding
-		$canvas bind $space_icon <Button-1> "::guiContactList::toggleSpaceShown $canvas $email $space_showed $space_fetched"
+#		$canvas bind $space_icon <Button-1> "::guiContactList::toggleSpaceShown $canvas $email $space_showed $space_update"
 
 		# balloon bindings
 		if { [::config::getKey tooltips] == 1 } {
@@ -1480,33 +1497,42 @@ puts "End contact drawing: $ychange $ynickpos: , $xlinestart, $ynickpos"
 
 
 	
-	proc toggleSpaceShown {canvas email space_showed space_fetched} {
-		# when the star is pressed, the "SpaceShowed" boolean is toggled,
-		# if SpaceIsFetched is 0, the fetching procs are called and these fire an event when the data is fetched
-		# which redraws the contact
-		# if it's already fetched, the binding calls the contactChanged proc to redraw the contact with the spaces
-		# info underneath
-		if {$space_showed} {
-puts "::abook::setContactData $email SpaceShowed 0"
-			::abook::setContactData $email SpaceShowed 0		
+	proc toggleSpaceShown {canvas email space_showed space_update} {
+		variable fetchinglist 
+
+		if {$space_showed} {		
+			::abook::setContactData $email SpaceShowed 0
+			::guiContactList::contactChanged "toggleSpaceShown" $email
+		
 		} else {
-puts "::abook::setContactData $email SpaceShowed 1"
 			::abook::setContactData $email SpaceShowed 1
-			if {!$space_fetched} {
-				#Fetch the spaces info (thumbnails etc)
-				#these procs will fire an event when ready so the contact can be redrawn with the info
-				#now we'll redraw the contact so a "please wait..." message appears
-			
-				#after fetching, the star should dissapear, thus the var should be set to read in teh volatile data
-#TODO:  Call the fetching procs and make sure they fire an event when fetching is done
-			
+			if {$space_update} {
+				::abook::setVolatileData $email fetching_space 1
+				#redraw, so it shows "fetching..." message
+				::guiContactList::contactChanged "toggleSpaceShown" $email
+				after 0 ::guiContactList::fetchSpacedData $email
 			} else {
-				#Spaces info is already fetched and will be shown with a contact redraw
-				#nothing more to do here			
-			}
+				#redraw so it shows the data
+				::guiContactList::contactChanged "toggleSpaceShown" $email
+			}	
 		}
-		#redraw contact
-		::guiContactList::contactChanged "toggleSpaceShown" $email
+	}
+	
+	
+	proc fetchSpacedData { email } {
+
+		
+
+	
+#TODO: fetching code here
+
+		
+		after 2000 ::abook::setVolatileData $email fetching_space 0
+		
+		#now we'll set the space as "read"
+		after 2050 ::abook::setVolatileData $email space_updated 0
+		after 2100 ::guiContactList::contactChanged "toggleSpaceShown" $email
+
 	}
 
 
