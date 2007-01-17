@@ -86,10 +86,21 @@ namespace eval ::guiContactList {
 		variable clcanvas
 		global tcl_platform
 		variable nicknameArray
+		variable GroupsRedrawQueue
+		variable ContactsRedrawQueue
+		variable NickReparseQueue
+		variable taskId
+
 
 		set clframe $w.cl
 		set clcanvas $w.cl.cvs
 		set clscrollbar $w.cl.vsb
+		
+		set ContactsRedrawQueue [list]
+		set GroupsRedrawQueue [list]
+		set NickReparseQueue [list]
+		
+		set taskId 0
 
 		#here we load images used in this code:
 		::skin::setPixmap back back.gif
@@ -117,6 +128,8 @@ namespace eval ::guiContactList {
 		scrollbar $clscrollbar -command "::guiContactList::scrollCLsb $clcanvas"
 		# Create a blank canvas
 		canvas $clcanvas -background [::skin::getKey contactlistbg] -yscrollcommand "::guiContactList::setScroll $clscrollbar"
+		
+
 
 		if { $::contactlist_loaded } {
 			# Parse the nicknames for smiley/newline substitution
@@ -321,24 +334,26 @@ namespace eval ::guiContactList {
 		if { ![winfo exists $clcanvas] } {
 			return
 		}
-
+		
+		variable GroupsRedrawQueue
+		variable ContactsRedrawQueue
+		variable NickReparseQueue		
+		variable taskId
+		
+		#Check what has to be done and add to the redrawing queues
 		foreach email $emails {
 			status_log "contactChanged :: $eventused $email $gidlist" white
 			#Possible events:
 			#contactStateChange
-			#contactNickChange
+			#contactNickChange;
 			#contactDataChange
-			#contactPSMChange
+			#contactPSMChange;
 			#contactListChange
 			#contactBlocked
 			#contactUnblocked
 			#contactMoved
-			#contactAdded
+			#contactAdded;
 
-
-
-
-			variable nicknameArray
 
 
 			if { $email == "contactlist" } {
@@ -354,23 +369,16 @@ namespace eval ::guiContactList {
 	#######################
 
 			if { $eventused == "contactNickChange" || $eventused == "contactAdded" || $eventused == "contactPSMChange" } {
-				#We must update the nick array
-				set usernick [::abook::getDisplayNick $email 1]
-				set nicknameArray($email) [::smiley::parseMessageToList $usernick 1]
-				set evpar(array) nicknameArray
-				set evpar(login) $email
-				::plugins::PostEvent NickArray evpar
-
+				if {[lsearch $NickReparseQueue $email] == -1} {
+					lappend NickReparseQueue $email
+				}
 			}
 			
 			# Redraw the contact for every group it's in
 			#  Only for a contact that's simply moved, it doesn't have to be redrawn
 			if {$eventused != "contactMoved"} {
-				set groupslist [getGroupId $email]
-
-				foreach group $groupslist {
-					set contactelement [list "C" $email]
-					::guiContactList::drawContact $clcanvas $contactelement $group
+				if {[lsearch $ContactsRedrawQueue $email]  == -1} {
+					lappend ContactsRedrawQueue $email
 				}
 			}		
 			
@@ -387,38 +395,94 @@ namespace eval ::guiContactList {
 			# remove the appeareance of the contact there as the group we are moved to will be 
 			# changed with the "added" event
 			if { $eventused == "contactMoved" } {
-				set grId [lindex $gidlist 0]
 				#redraw the old group
-				::guiContactList::drawGroup $clcanvas [list $grId [::groups::GetName $grId]]
-#FIXME:				#remove the contact from the list
-			
+				set grId [lindex $gidlist 0]
+				if {[lsearch $GroupsRedrawQueue $grId] == -1 || [lsearch $GroupsRedrawQueue all] == -1} {
+					lappend GroupsRedrawQueue $grId
+				}
+#FIXME:				#remove the contact from the list			
 			}
 
 			if { $eventused == "contactAdded" } {
-				set grId [lindex $gidlist 0]
 				#redraw the old group
-				::guiContactList::drawGroup $clcanvas [list $grId [::groups::GetName $grId]]		
+				set grId [lindex $gidlist 0]
+				if {[lsearch $GroupsRedrawQueue $grId] == -1 || [lsearch $GroupsRedrawQueue all] == -1} {
+					lappend GroupsRedrawQueue $grId
+				}
 			}
 
-
 			if {$eventused == "contactStateChange" } {
-#TODO:				#only redraw groups if from/to offline/mobile
-				::guiContactList::drawGroups $clcanvas
+#TODO: only redraw groups if from/to offline/mobile
+				set GroupsRedrawQueue [list all]
 			}
 
 			#listchange/datachange: redraw everything as I don't really know what it's all for
 			if {$eventused == "contactDataChange" || $eventused == "contactListChange"} {
 #TODO: maybe we don't have to redraw anything here ?
-				::guiContactList::drawGroups $clcanvas
+				set GroupsRedrawQueue [list all]
 			}
 		
 		}; #end of foreach
 
-		# Reorganise the list
-		::guiContactList::organiseList $clcanvas
+#If, withing 200 ms, another event for redrawing comes in, we redraw 'm together
+		catch {after cancel $taskId}		
+		set taskId [after 200 ::guiContactList::redrawFromQueue]
 
 	}
+	
+	
+	
+	proc redrawFromQueue {} {
+		variable clcanvas
+		variable nicknameArray
+		
+		variable GroupsRedrawQueue
+		variable ContactsRedrawQueue
+		variable NickReparseQueue
+		
+		#copy queues and reset 'm so they can be filled again while the 
+		#  redrawing is still busy
+#FIXME		#Does this make sense ?
+		set groups $GroupsRedrawQueue
+		set contacts $ContactsRedrawQueue
+		set nicks $NickReparseQueue
 
+		set GroupsRedrawQueue [list]
+		set ContactsRedrawQueue [list]
+		set NickReparseQueue [list]
+		
+		#redraw contacts
+		foreach contact $contacts {
+			set groupslist [getGroupId $contact]
+			foreach group $groupslist {
+				set contactelement [list "C" $contact]
+				::guiContactList::drawContact $clcanvas $contactelement $group
+			}
+		}
+		foreach group $groups {
+			switch $group {
+				"all" {
+					::guiContactList::drawGroups $clcanvas				
+				}
+				default {
+					::guiContactList::drawGroup $clcanvas [list $group [::groups::GetName $group]]
+				}
+			}
+		}
+		
+		foreach nicks $nicks {
+			#We must update the nick array
+			set usernick [::abook::getDisplayNick $contact 1]
+			set nicknameArray($contact) [::smiley::parseMessageToList $usernick 1]
+			set evpar(array) nicknameArray
+			set evpar(login) $contact
+			::plugins::PostEvent NickArray evpar
+		}
+		
+		#reorganise list
+		::guiContactList::organiseList $clcanvas
+					
+	}
 
 	proc toggleGroup { element canvas } {
 		::groups::ToggleStatus [lindex $element 0]
