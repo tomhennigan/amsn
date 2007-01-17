@@ -61,7 +61,7 @@ contains new bug fixes from the previous releases. On the other hand, it might n
 
 <ul>
 <li>
-<a href="http://www.amsn-project.net/amsn_cvs.tar.gz">Download CVS SnapShot</a>
+<a href="http://www.amsn-project.net/amsn_dev.tar.gz">Download SVN SnapShot</a>
 
 <!--<br /><br />You can also download this easy install script to get the latest cvs snapshot and download skins. Made by mazzaru. (Linux Only)-->
 <br /><br />
