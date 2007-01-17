@@ -1426,12 +1426,15 @@ namespace eval ::guiContactList {
 					#adjust $ychange, adding 1 line
 					set ychange [expr {$ychange + [image height $img]}]
 
+					set count 0
 					foreach i $blogposts {
-#puts "Blogpost: $i"
+						set itemtag ${tag}_bpost_${count}
 						$canvas create text [expr $xlinestart + 10] $ychange -font sitalf -text "[lindex $i 1]" \
-							-tags [list $tag $space_info ${tag}_bpost_$i contact space_info] -anchor nw -fill grey
+							-tags [list $tag $space_info $itemtag contact space_info] -anchor nw -fill grey
+						$canvas bind $itemtag <Button-1> "launch_browser [lindex $i 2]"
 						#update ychange
 						set ychange [expr {$ychange + [image height $img]}]
+						incr count
 					}
 				}
 				
@@ -1444,14 +1447,18 @@ namespace eval ::guiContactList {
 					#adjust $ychange, adding 1 line
 					set ychange [expr {$ychange + [image height $img]}]
 
+					set count 0
 					foreach i $photos {
-#puts "Photo: $i"
+						set itemtag ${tag}_bpost_${count}
+puts "Photo: $i"
 						if {[lindex $i 0] != ""} {
 
 						$canvas create text [expr $xlinestart + 10] $ychange -font sitalf -text "[lindex $i 1]" \
-							-tags [list $tag ${tag}_photo_$i $space_info contact space_info] -anchor nw -fill grey
+							-tags [list $tag $itemtag $space_info contact space_info] -anchor nw -fill grey
+						$canvas bind $itemtag <Button-1> "launch_browser [lindex $i 2]"
 						#update ychange
 						set ychange [expr {$ychange + [image height $img]}]
+						incr count
 						}
 					}
 				}
