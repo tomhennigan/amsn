@@ -3870,11 +3870,13 @@ namespace eval ::Event {
 		::Event::fireEvent contactlistLoaded protocol
 		::plugins::PostEvent contactlistLoaded evPar
 
-		::MSNCCARD::InitCCard
-		cmsn_draw_online 1
+		after 0 { 
+			::MSNCCARD::InitCCard
+			cmsn_draw_online 1
 
-		#Update Preferences window if it's open
-		after 1000 {catch {InitPref 1}}
+			#Update Preferences window if it's open
+			after 1000 {catch {InitPref 1}}
+		}
 
 	}
 

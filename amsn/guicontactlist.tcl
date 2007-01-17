@@ -5,7 +5,6 @@
 # Things to be done (TODO):
 #
 # * set right mousewheel bindings (windows/mac) using [IsMac] etc procs
-# * redraw on skinchange
 # * scroll the canvas while dragging if you come near to the border (hard one :|)
 # * change cursor while dragging (should we ?)
 # * animated smileys on CL -> I hope this is possible easily with TkCxImage?
@@ -550,7 +549,7 @@ namespace eval ::guiContactList {
 				$canvas move $tag [expr [lindex $curPos 0] - [lindex $currentPos 0] + $xpad] \
 					[expr [lindex $curPos 1] - [lindex $currentPos 1]]
 
-				set curPos [list [lindex $curPos 0] [expr [lindex $curPos 1] + $nickheightArray($email) + $ypad] ]
+				set curPos [list [lindex $curPos 0] [expr {[lindex $curPos 1] + $nickheightArray($email) + $ypad}] ]
 			} else {
 				# It must be a group title
 				if { [::groups::IsExpanded [lindex $element 0]] } {
@@ -563,25 +562,25 @@ namespace eval ::guiContactList {
 
 				set maxwidth [winfo width $canvas]
 				set boXpad 10
-				set width [expr $maxwidth - ($boXpad*2)]
+				set width [expr {$maxwidth - ($boXpad*2)}]
 				if {$width <= 30} {set width 300}
 
 				# If we're not drawing the first group, we should draw the end of the box of the \
 				# group before here and change the curPos
 				if {!$DrawingFirstGroup} {
-					set bodYend [expr [lindex $curPos 1] + [::skin::getKey buddy_ypad]]
+					set bodYend [expr {[lindex $curPos 1] + [::skin::getKey buddy_ypad]}]
 					# Here we should draw the body
-					set height [expr $bodYend - $bodYbegin]
+					set height [expr {$bodYend - $bodYbegin}]
 					if {$height >0} {
 						image create photo boxbodysmall_$groupDrawn -height [image height [::skin::loadPixmap left]] \
 							-width $width
 						boxbodysmall_$groupDrawn copy [::skin::loadPixmap left] -to 0 0 [image width \
 							[::skin::loadPixmap left]]  [image height [::skin::loadPixmap left]]
 						boxbodysmall_$groupDrawn copy [::skin::loadPixmap body] -to  [image width \
-							[::skin::loadPixmap left]] 0 [expr $width -  [image width \
-							[::skin::loadPixmap right]]]  [image height [::skin::loadPixmap body]]
-						boxbodysmall_$groupDrawn copy [::skin::loadPixmap right] -to [expr $width - \
-							[image width [::skin::loadPixmap right]]] 0 $width  \
+							[::skin::loadPixmap left]] 0 [expr {$width -  [image width \
+							[::skin::loadPixmap right]]}]  [image height [::skin::loadPixmap body]]
+						boxbodysmall_$groupDrawn copy [::skin::loadPixmap right] -to [expr {$width - \
+							[image width [::skin::loadPixmap right]]}] 0 $width  \
 							[image height [::skin::loadPixmap right]]
 						image create photo boxbody_$groupDrawn -height $height -width $width
 						boxbody_$groupDrawn copy boxbodysmall_$groupDrawn -to 0 0 $width $height
@@ -600,15 +599,15 @@ namespace eval ::guiContactList {
 					boxdownbar_$groupDrawn copy [::skin::loadPixmap downleft] -to 0 0 [image width \
 						[::skin::loadPixmap downleft]]  [image height [::skin::loadPixmap downleft]]
 					boxdownbar_$groupDrawn copy [::skin::loadPixmap down] -to  [image width \
-						[::skin::loadPixmap downleft]] 0 [expr $width -  [image width \
-						[::skin::loadPixmap downright]]]  [image height [::skin::loadPixmap down]]
-					boxdownbar_$groupDrawn copy [::skin::loadPixmap downright] -to [expr $width - \
-						[image width [::skin::loadPixmap downright]]] 0 $width \
+						[::skin::loadPixmap downleft]] 0 [expr {$width -  [image width \
+						[::skin::loadPixmap downright]]}]  [image height [::skin::loadPixmap down]]
+					boxdownbar_$groupDrawn copy [::skin::loadPixmap downright] -to [expr {$width - \
+						[image width [::skin::loadPixmap downright]]}] 0 $width \
 						[image height [::skin::loadPixmap downright]]
 					$canvas create image $boXpad $bodYend -image boxdownbar_$groupDrawn -anchor nw \
 						-tags [list box box_downbar $gid]
 
-					set curPos [list [lindex $curPos 0] [expr [lindex $curPos 1]+ $ypad] ]
+					set curPos [list [lindex $curPos 0] [expr {[lindex $curPos 1]+ $ypad}] ]
 				} else {
 					set curPos [list [lindex $curPos 0] [lindex $curPos 1] ]
 				}
@@ -630,23 +629,23 @@ namespace eval ::guiContactList {
 				boxupbar_$groupDrawn copy [::skin::loadPixmap upleft] -to 0 0 [image width \
 					[::skin::loadPixmap upleft]]  [image height [::skin::loadPixmap upleft]]
 				boxupbar_$groupDrawn copy [::skin::loadPixmap up] -to  [image width \
-					[::skin::loadPixmap upleft]] 0 [expr $width -  [image width \
-					[::skin::loadPixmap upright]]]  [image height [::skin::loadPixmap up]]
-				boxupbar_$groupDrawn copy [::skin::loadPixmap upright] -to [expr $width - \
-					[image width [::skin::loadPixmap upright]]] 0 $width \
+					[::skin::loadPixmap upleft]] 0 [expr {$width -  [image width \
+					[::skin::loadPixmap upright]]}]  [image height [::skin::loadPixmap up]]
+				boxupbar_$groupDrawn copy [::skin::loadPixmap upright] -to [expr {$width - \
+					[image width [::skin::loadPixmap upright]]}] 0 $width \
 					[image height [::skin::loadPixmap upright]]
 
 				# Draw it
-				set topYbegin [expr [lindex $curPos 1] -5]
+				set topYbegin [expr {[lindex $curPos 1] -5}]
 				$canvas create image $boXpad $topYbegin -image boxupbar_$groupDrawn -anchor nw \
 					-tags [list box box_upbar $gid]
 
 				# Save the endypos for next body drawing
-				set bodYbegin [expr $topYbegin + [image height [::skin::loadPixmap up]]]
+				set bodYbegin [expr {$topYbegin + [image height [::skin::loadPixmap up]]}]
 			
-				$canvas move $tag [expr [lindex $curPos 0] - [lindex $currentPos 0] + $xpad] \
-					[expr [lindex $curPos 1] - [lindex $currentPos 1]]
-				set curPos [list [lindex $curPos 0] [expr [lindex $curPos 1] + 20] + $ypad]
+				$canvas move $tag [expr {[lindex $curPos 0] - [lindex $currentPos 0] + $xpad}] \
+					[expr {[lindex $curPos 1] - [lindex $currentPos 1]}]
+				set curPos [list [lindex $curPos 0] [expr {[lindex $curPos 1] + 20}] + $ypad]
 				# TODO: * change this '20' (height of the title) to the right value
 				# 	as we already drew a group, the next won't be the first anymore
 				set DrawingFirstGroup 0
@@ -657,10 +656,10 @@ namespace eval ::guiContactList {
 		}
 
 		# Now do the body and the end for the last group:
-		set bodYend [expr [lindex $curPos 1] + [::skin::getKey buddy_ypad] ]
+		set bodYend [expr {[lindex $curPos 1] + [::skin::getKey buddy_ypad]}]
 
 		# Here we should draw the body
-		set height [expr $bodYend - $bodYbegin]
+		set height [expr {$bodYend - $bodYbegin}]
 
 		if {$height > 0} {
 			image create photo boxbodysmall_$groupDrawn -height [image height [::skin::loadPixmap left]] \
@@ -668,10 +667,10 @@ namespace eval ::guiContactList {
 			boxbodysmall_$groupDrawn copy [::skin::loadPixmap left] -to 0 0 [image width \
 				[::skin::loadPixmap left]]  [image height [::skin::loadPixmap left]]
 			boxbodysmall_$groupDrawn copy [::skin::loadPixmap body] -to  [image width \
-				[::skin::loadPixmap left]] 0 [expr $width -  [image width \
-				[::skin::loadPixmap right]]]  [image height [::skin::loadPixmap body]]
-			boxbodysmall_$groupDrawn copy [::skin::loadPixmap right] -to [expr $width - \
-				[image width [::skin::loadPixmap right]]] 0 $width  [image height \
+				[::skin::loadPixmap left]] 0 [expr {$width -  [image width \
+				[::skin::loadPixmap right]]}]  [image height [::skin::loadPixmap body]]
+			boxbodysmall_$groupDrawn copy [::skin::loadPixmap right] -to [expr {$width - \
+				[image width [::skin::loadPixmap right]]}] 0 $width  [image height \
 				[::skin::loadPixmap right]]
 			image create photo boxbody_$groupDrawn -height $height -width $width
 			boxbody_$groupDrawn copy boxbodysmall_$groupDrawn -to 0 0 $width $height
@@ -690,10 +689,10 @@ namespace eval ::guiContactList {
 		boxdownbar_$groupDrawn copy [::skin::loadPixmap downleft] -to 0 0 [image width \
 			[::skin::loadPixmap downleft]]  [image height [::skin::loadPixmap downleft]]
 		boxdownbar_$groupDrawn copy [::skin::loadPixmap down] -to  [image width \
-			[::skin::loadPixmap downleft]] 0 [expr $width -  [image width \
-			[::skin::loadPixmap downright]]]  [image height [::skin::loadPixmap down]]
-		boxdownbar_$groupDrawn copy [::skin::loadPixmap downright] -to [expr $width - \
-			[image width [::skin::loadPixmap downright]]] 0 $width \
+			[::skin::loadPixmap downleft]] 0 [expr {$width -  [image width \
+			[::skin::loadPixmap downright]]}]  [image height [::skin::loadPixmap down]]
+		boxdownbar_$groupDrawn copy [::skin::loadPixmap downright] -to [expr {$width - \
+			[image width [::skin::loadPixmap downright]]}] 0 $width \
 			[image height [::skin::loadPixmap downright]]
 		$canvas create image $boXpad $bodYend -image boxdownbar_$groupDrawn -anchor nw \
 			-tags [list box box_downbar $gid]
@@ -701,10 +700,10 @@ namespace eval ::guiContactList {
 			# Get the group-boxes behind the groups and contacts
 		$canvas lower box items
 			# Set height of canvas
-		set canvaslength [expr [lindex $curPos 1] + 20]
+		set canvaslength [expr {[lindex $curPos 1] + 20}]
 		$canvas configure -scrollregion [list 0 0 2000 $canvaslength]
 			# Make sure after redrawing the bgimage is on the right place
-		$canvas coords backgroundimage 0 [expr int([expr [lindex [$canvas yview] 0] * $canvaslength])]
+		$canvas coords backgroundimage 0 [expr {int([expr {[lindex [$canvas yview] 0] * $canvaslength}])}]
 	}
 
 	#/////////////////////////////////////////////////////////////////////////
@@ -751,7 +750,7 @@ namespace eval ::guiContactList {
 		set groupcounttext "($groupcount)"
 		
 		# Set the begin-position for the groupnametext
-		set textxpos [expr $xpos + [image width $img] + $xpad]
+		set textxpos [expr {$xpos + [image width $img] + $xpad}]
 
 		# First we draw our little group toggle button
 		$canvas create image $xpos $ypos -image $img -activeimage $img_hover -anchor nw \
@@ -887,7 +886,7 @@ namespace eval ::guiContactList {
 
 		# Set the beginning coords for the next drawings
 		set xnickpos $xpos
-		set ynickpos [expr $ypos + [image height $img]/2]
+		set ynickpos [expr {$ypos + [image height $img]/2}]
 
 		set update_img [::skin::loadPixmap space_update]
 		# Check if we need an icon to show an updated space/blog, and draw one if we do
@@ -901,12 +900,12 @@ namespace eval ::guiContactList {
 		}
 
 		#All the status icons are aligned
-		set xnickpos [expr $xnickpos + [image width $update_img]]
+		set xnickpos [expr {$xnickpos + [image width $update_img]}]
 
 		# Draw status-icon, we use ypos because it refers to the top and not to the middle of the line
 		$canvas create image $xnickpos $ypos -image $img -anchor nw -tags [list contact icon $tag $main_part]
 
-		set xnickpos [expr $xnickpos + [image width $img] + 5]
+		set xnickpos [expr {$xnickpos + [image width $img] + 5}]
 
 		# TODO: skin setting to draw buddypicture; statusicon should become icon + status overlay
 		# 	like:	draw icon or small buddypicture overlay it with the status-emblem
@@ -925,23 +924,23 @@ namespace eval ::guiContactList {
 				set icon [::skin::loadPixmap belloff]
 			}
 			
-			$canvas create image [expr $xnickpos -3] $ypos -image \
+			$canvas create image [expr {$xnickpos -3}] $ypos -image \
 				$icon -anchor nw -tags [list contact icon alarm_$email $tag $main_part]
 
 			# Binding for right click		 
 			$canvas bind alarm_$email <<Button3>> "::alarms::configDialog $email; break;"
 			$canvas bind alarm_$email <Button1-ButtonRelease> "switch_alarm $email; ::guiContactList::switch_alarm $email $canvas alarm_$email; break;"
 
-			set xnickpos [expr $xnickpos + [image width $icon]]
+			set xnickpos [expr {$xnickpos + [image width $icon]}]
 		}
 
 		# If you are not on this contact's list, show the notification icon
 		if {[expr {[lsearch [::abook::getLists $email] RL] == -1}]} {
 			set icon [::skin::loadPixmap notinlist]
-			$canvas create image [expr $xnickpos -3] $ypos -image \
+			$canvas create image [expr {$xnickpos -3}] $ypos -image \
 				[::skin::loadPixmap notinlist] -anchor nw -tags \
 				[list contact icon $tag $main_part]
-			set xnickpos [expr $xnickpos + [image width $icon]]
+			set xnickpos [expr {$xnickpos + [image width $icon]}]
 		}
 
 		# Now we're gonna draw the nickname itself
@@ -955,21 +954,21 @@ namespace eval ::guiContactList {
 			set ellips "..."
 			# Leave some place for the statustext, the elipsis (...) and the spacing + spacing
 			# of border and - the beginningborder
-			set maxwidth [expr [winfo width $canvas] - $statewidth - [font measure splainf $ellips] - \
-				$nickstatespacing - 5 - 2*$Xbegin - [::skin::getKey buddy_xpad]]
+			set maxwidth [expr {[winfo width $canvas] - $statewidth - [font measure splainf $ellips] - \
+				$nickstatespacing - 5 - 2*$Xbegin - [::skin::getKey buddy_xpad]}]
 		} else {
 			#No ellipses when we don't truncates nicknames : ask to Vivia for that :p
 			set ellips ""
 			# Leave some place for the elipsis (...) and the spacing + spacing
 			# of border and - the beginningborder
-			set maxwidth [expr [winfo width $canvas] - [font measure splainf $ellips] - 5 - 2*$Xbegin - [::skin::getKey buddy_xpad]]
+			set maxwidth [expr {[winfo width $canvas] - [font measure splainf $ellips] - 5 - 2*$Xbegin - [::skin::getKey buddy_xpad]}]
 		}
 
 		# TODO: An option for a X-padding for buddies .. should be set here and in the organising proc
 
 		# We can draw as long as the line isn't full
 		set linefull 0
-		set textheight [expr [font configure splainf -size]/2 ]
+		set textheight [expr {[font configure splainf -size]/2} ]
 
 		# This is the var for the y-change
 		set ychange [image height $img]
@@ -994,9 +993,9 @@ namespace eval ::guiContactList {
 
 				# Check if text is not too long and should be truncated, then
 				# first truncate it and restore it in $textpart and set the linefull
-				if {[expr $relxnickpos + [font measure splainf $textpart]] > $maxwidth} {
+				if {[expr {$relxnickpos + [font measure splainf $textpart]}] > $maxwidth} {
 					set textpart [::guiContactList::truncateText $textpart \
-						[expr $maxwidth - $relxnickpos] splainf]
+						[expr {$maxwidth - $relxnickpos}] splainf]
 
 						#If we don't truncate we don't put ellipsis
 						set textpart "$textpart$ellips"
@@ -1011,12 +1010,12 @@ namespace eval ::guiContactList {
 				set textwidth [font measure splainf $textpart]
 
 				# Append underline coords
-				set yunderline [expr $ynickpos + $textheight + 1]
-				lappend underlinst [list [expr $relxnickpos - $xpos] [expr $yunderline - $ypos] \
+				set yunderline [expr {$ynickpos + $textheight + 1}]
+				lappend underlinst [list [expr {$relxnickpos - $xpos}] [expr {$yunderline - $ypos}] \
 					$textwidth $relnickcolour]
 
 				# Change the coords
-				set relxnickpos [expr $relxnickpos + $textwidth]
+				set relxnickpos [expr {$relxnickpos + $textwidth}]
 			} elseif { [lindex $unit 0] == "smiley" } {
 				# Check if we are still allowed to draw smileys
 				if { $linefull } {
@@ -1025,7 +1024,7 @@ namespace eval ::guiContactList {
 
 				set smileyname [lindex $unit 1]
 
-				if { [expr $relxnickpos + [image width $smileyname]] > $maxwidth } {
+				if { [expr {$relxnickpos + [image width $smileyname]}] > $maxwidth } {
 					# This line is full, don't draw anything anymore before we start a new line
 					set linefull 1
 
@@ -1034,9 +1033,9 @@ namespace eval ::guiContactList {
 					set textwidth [font measure splainf $ellips]
 
 					# Append underline coords
-					set yunderline [expr $ynickpos + $textheight + 1]
-					lappend underlinst [list [expr $relxnickpos - $xpos]  \
-						[expr $yunderline - $ypos] $textwidth $relnickcolour]
+					set yunderline [expr {$ynickpos + $textheight + 1}]
+					lappend underlinst [list [expr {$relxnickpos - $xpos}]  \
+						[expr {$yunderline - $ypos}] $textwidth $relnickcolour]
 					continue
 				}
 
@@ -1050,11 +1049,11 @@ namespace eval ::guiContactList {
 				# }
 
 				# Change the coords
-				set relxnickpos [expr $relxnickpos + [image width $smileyname]]
+				set relxnickpos [expr {$relxnickpos + [image width $smileyname]}]
 			} elseif {[lindex $unit 0] == "newline"} {
 				set relxnickpos $xnickpos
-				set ynickpos [expr $ynickpos + [image height $img]]
-				set ychange [expr $ychange + [image height $img]]
+				set ynickpos [expr {$ynickpos + [image height $img]}]
+				set ychange [expr {$ychange + [image height $img]}]
 
 				# New line, we can draw again !
 				set linefull 0
@@ -1072,12 +1071,12 @@ namespace eval ::guiContactList {
 		}
 
 		#We mustn't take the status in account as we will draw it
-		set maxwidth [expr [winfo width $canvas] - [font measure splainf $ellips] - 5 - 2*$Xbegin - [::skin::getKey buddy_xpad]]
+		set maxwidth [expr {[winfo width $canvas] - [font measure splainf $ellips] - 5 - 2*$Xbegin - [::skin::getKey buddy_xpad]}]
 
 		if { $statetext != "" } {
 			# Set the spacing (if this needs to be underlined, we'll draw the state as
 			# "  $statetext" and remove the spacing
-			set relxnickpos [expr $relxnickpos + $nickstatespacing]
+			set relxnickpos [expr {$relxnickpos + $nickstatespacing}]
 
 			if { ![::config::getKey truncatenames] } {
 
@@ -1086,9 +1085,9 @@ namespace eval ::guiContactList {
 				} else {
 					# Check if text is not too long and should be truncated, then
 					# first truncate it and restore it in $textpart and set the linefull
-					if {[expr $relxnickpos + [font measure splainf "$statetext"]] > $maxwidth} {
+					if {[expr {$relxnickpos + [font measure splainf "$statetext"]}] > $maxwidth} {
 						set statetext [::guiContactList::truncateText "$statetext" \
-							[expr $maxwidth - $relxnickpos] splainf]
+							[expr {$maxwidth - $relxnickpos}] splainf]
 	
 							#If we don't truncate we don't put ellipsis
 							set statetext "$statetext$ellips"
@@ -1111,11 +1110,11 @@ namespace eval ::guiContactList {
 
 			if { $statewidth > 0 } {
 				# Append underline coords
-				set yunderline [expr $ynickpos + $textheight + 1]
-				lappend underlinst [list [expr $relxnickpos - $xpos] [expr $yunderline - $ypos] \
+				set yunderline [expr {$ynickpos + $textheight + 1}]
+				lappend underlinst [list [expr {$relxnickpos - $xpos}] [expr {$yunderline - $ypos}] \
 					$statewidth $statecolour]
 
-				set relxnickpos [expr $relxnickpos + $statewidth]
+				set relxnickpos [expr {$relxnickpos + $statewidth}]
 			}
 		}
 
@@ -1142,9 +1141,9 @@ namespace eval ::guiContactList {
 		
 						# Check if text is not too long and should be truncated, then
 						# first truncate it and restore it in $textpart and set the linefull
-						if {[expr $relxnickpos + [font measure sitalf $textpart]] > $maxwidth} {
+						if {[expr {$relxnickpos + [font measure sitalf $textpart]}] > $maxwidth} {
 							set textpart [::guiContactList::truncateText $textpart \
-								[expr $maxwidth - $relxnickpos] sitalf]
+								[expr {$maxwidth - $relxnickpos}] sitalf]
 							set textpart "$textpart$ellips"
 		
 							# This line is full, don't draw anything anymore before we start a new line
@@ -1157,8 +1156,8 @@ namespace eval ::guiContactList {
 						set textwidth [font measure sitalf $textpart]
 		
 						# Append underline coords
-						set yunderline [expr $ynickpos + $textheight + 1]
-						lappend underlinst [list [expr $relxnickpos - $xpos] [expr $yunderline - $ypos] \
+						set yunderline [expr {$ynickpos + $textheight + 1}]
+						lappend underlinst [list [expr {$relxnickpos - $xpos}] [expr {$yunderline - $ypos}] \
 							$textwidth $relnickcolour]
 		
 						# Change the coords
@@ -1171,7 +1170,7 @@ namespace eval ::guiContactList {
 		
 						set smileyname [lindex $unit 1]
 		
-						if { [expr $relxnickpos + [image width $smileyname]] > $maxwidth } {
+						if { [expr {$relxnickpos + [image width $smileyname]}] > $maxwidth } {
 							# This line is full, don't draw anything anymore before we start a new line
 							set linefull 1
 		
@@ -1180,9 +1179,9 @@ namespace eval ::guiContactList {
 							set textwidth [font measure sitalf $ellips]
 		
 							# Append underline coords
-							set yunderline [expr $ynickpos + $textheight + 1]
-							lappend underlinst [list [expr $relxnickpos - $xpos]  \
-								[expr $yunderline - $ypos] $textwidth $relnickcolour]
+							set yunderline [expr {$ynickpos + $textheight + 1}]
+							lappend underlinst [list [expr {$relxnickpos - $xpos}]  \
+								[expr {$yunderline - $ypos}] $textwidth $relnickcolour]
 							continue
 						}
 		
@@ -1196,11 +1195,11 @@ namespace eval ::guiContactList {
 						# }
 		
 						# Change the coords
-						set relxnickpos [expr $relxnickpos + [image width $smileyname]]
+						set relxnickpos [expr {$relxnickpos + [image width $smileyname]}]
 					} elseif {[lindex $unit 0] == "newline"} {
 						set relxnickpos $xnickpos
-						set ynickpos [expr $ynickpos + [image height $img]]
-						set ychange [expr $ychange + [image height $img]]
+						set ynickpos [expr {$ynickpos + [image height $img]}]
+						set ychange [expr {$ychange + [image height $img]}]
 		
 						# New line, we can draw again !
 						set linefull 0
@@ -1234,9 +1233,9 @@ namespace eval ::guiContactList {
 		
 						# Check if text is not too long and should be truncated, then
 						# first truncate it and restore it in $textpart and set the linefull
-						if {[expr $relxnickpos + [font measure sitalf $textpart]] > $maxwidth} {
+						if {[expr {$relxnickpos + [font measure sitalf $textpart]}] > $maxwidth} {
 							set textpart [::guiContactList::truncateText $textpart \
-								[expr $maxwidth - $relxnickpos] sitalf]
+								[expr {$maxwidth - $relxnickpos}] sitalf]
 							set textpart "$textpart$ellips"
 		
 							# This line is full, don't draw anything anymore before we start a new line
@@ -1249,12 +1248,12 @@ namespace eval ::guiContactList {
 						set textwidth [font measure sitalf $textpart]
 		
 						# Append underline coords
-						set yunderline [expr $ynickpos + $textheight + 1]
-						lappend underlinst [list [expr $relxnickpos - $xpos] [expr $yunderline - $ypos] \
+						set yunderline [expr {$ynickpos + $textheight + 1}]
+						lappend underlinst [list [expr {$relxnickpos - $xpos}] [expr {$yunderline - $ypos}] \
 							$textwidth $relnickcolour]
 		
 						# Change the coords
-						set relxnickpos [expr $relxnickpos + $textwidth]
+						set relxnickpos [expr {$relxnickpos + $textwidth}]
 					} elseif { [lindex $unit 0] == "smiley" } {
 						# Check if we are still allowed to draw smileys
 						if { $linefull } {
@@ -1263,7 +1262,7 @@ namespace eval ::guiContactList {
 		
 						set smileyname [lindex $unit 1]
 		
-						if { [expr $relxnickpos + [image width $smileyname]] > $maxwidth } {
+						if { [expr {$relxnickpos + [image width $smileyname]}] > $maxwidth } {
 							# This line is full, don't draw anything anymore before we start a new line
 							set linefull 1
 		
@@ -1272,9 +1271,9 @@ namespace eval ::guiContactList {
 							set textwidth [font measure sitalf $ellips]
 		
 							# Append underline coords
-							set yunderline [expr $ynickpos + $textheight + 1]
-							lappend underlinst [list [expr $relxnickpos - $xpos]  \
-								[expr $yunderline - $ypos] $textwidth $relnickcolour]
+							set yunderline [expr {$ynickpos + $textheight + 1}]
+							lappend underlinst [list [expr {$relxnickpos - $xpos}]  \
+								[expr {$yunderline - $ypos}] $textwidth $relnickcolour]
 							continue
 						}
 		
@@ -1288,11 +1287,11 @@ namespace eval ::guiContactList {
 						# }
 		
 						# Change the coords
-						set relxnickpos [expr $relxnickpos + [image width $smileyname]]
+						set relxnickpos [expr {$relxnickpos + [image width $smileyname]}]
 					} elseif {[lindex $unit 0] == "newline"} {
 						set relxnickpos $xnickpos
-						set ynickpos [expr $ynickpos + [image height $img]]
-						set ychange [expr $ychange + [image height $img]]
+						set ynickpos [expr {$ynickpos + [image height $img]}]
+						set ychange [expr {$ychange + [image height $img]}]
 		
 						# New line, we can draw again !
 						set linefull 0
@@ -1707,10 +1706,13 @@ puts "::abook::setContactData $email SpaceShowed 1"
 
 		# if {!$OnTheMove} {
 			foreach line $lines {
-				$canvas create line [expr [lindex $line 0] + $xpos] \
-					[expr [lindex $line 1] + $ypos] [expr [lindex $line 0] \
-					+ [lindex $line 2] + $xpos] [expr [lindex $line 1] + $ypos] \
-					-fill [lindex $line 3] -tags [list uline_$nicktag $nicktag uline]
+				$canvas create line\
+					[expr { [lindex $line 0] + $xpos } ] \
+					[expr { [lindex $line 1] + $ypos } ] \
+					[expr { [lindex $line 0] + [lindex $line 2] + $xpos } ]\
+					[expr { [lindex $line 1] + $ypos } ] \
+					-fill [lindex $line 3]\
+					-tags [list uline_$nicktag $nicktag uline]
 			}
 		# }
 		$canvas lower uline_$nicktag $nicktag
@@ -1744,8 +1746,8 @@ puts "::abook::setContactData $email SpaceShowed 1"
 			# works when dragging the scrollbar
 			moveBGimage $canvas
 
-			# $canvas coords backgroundimage 0 [expr int([expr \
-			#	[lindex [$canvas yview] 0] * $canvaslength])]
+			# $canvas coords backgroundimage 0 [expr {int([expr \
+			#	[lindex [$canvas yview] 0] * $canvaslength])}]
 		}
 	}
 
@@ -1890,7 +1892,7 @@ puts "::abook::setContactData $email SpaceShowed 1"
 					set grYCoord [lindex $grCoords 1]
 					# This +5 is to make dragging a contact on a group's name
 					# or 5 pixels above the group's name possible
-					if {$grYCoord <= [expr $iconYCoord + 5]} {
+					if {$grYCoord <= [expr {$iconYCoord + 5}]} {
 						set newgrId $grId
 					}
 				}
@@ -1923,14 +1925,14 @@ puts "::abook::setContactData $email SpaceShowed 1"
 
 	proc getEmailFromTag { tag } {
 		set pos [string last _ $tag]
-		set email [string range $tag 0 [expr $pos -1]]
+		set email [string range $tag 0 [expr {$pos -1}]]
 		return $email
 	}
 
 
 	proc getGrIdFromTag { tag } {
 		set pos [string last _ $tag]
-		set grId [string range $tag [expr $pos + 1] end]
+		set grId [string range $tag [expr {$pos + 1}] end]
 		return $grId
 	}
 }
