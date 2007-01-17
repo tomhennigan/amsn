@@ -246,10 +246,10 @@ proc ChCustomState { idx } {
 	set redraw 0
 	if { [string is digit $idx] == 1 } {
 		if { [lindex [StateList get $idx] 2] != "" } {
-			if {![info exists original_nick] && [::config::getKey storename]} {
+			if {![info exists original_nick]} {
 				set original_nick [::abook::getPersonal MFN]
 			}
-			if {![info exists original_psm] && [::config::getKey storename]} {
+			if {![info exists original_psm]} {
 				set original_psm [::abook::getPersonal PSM]
 			}
 			#set new_state [lindex [lindex $list_states [lindex [StateList get $idx] 2]] 0]

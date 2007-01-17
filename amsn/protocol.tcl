@@ -5937,9 +5937,8 @@ proc initial_syn_handler {recv} {
 		if { ($custom_nick == [::abook::getPersonal MFN]) && ($stored_login == [::abook::getPersonal login]) && ($storednick != "") } {
 			::MSN::changeName [::abook::getPersonal login] $storednick
 		}
-
-		catch { file delete [file join ${HOME} "nick.cache"] }
 	}
+	catch { file delete [file join ${HOME} "nick.cache"] }
 
         if { [file exists [file join ${HOME} "psm.cache"]] && [::config::getKey storename] } {
 
@@ -5960,9 +5959,8 @@ proc initial_syn_handler {recv} {
                 if { ($custom_psm == [::abook::getPersonal PSM]) && ($stored_login == [::abook::getPersonal login]) && ($storedpsm != "") } {
                         ::MSN::changePSM $storedpsm
                 }
-
-                catch { file delete [file join ${HOME} "psm.cache"] }
         }
+	catch { file delete [file join ${HOME} "psm.cache"] }
 
 
 	cmsn_ns_handler $recv
