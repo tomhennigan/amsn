@@ -3563,7 +3563,7 @@ proc cmsn_draw_main {} {
 
 	#Draw main window contents
 	cmsn_draw_status
-#	cmsn_draw_offline
+	cmsn_draw_offline
 
 	if { [OnWin] } {
 		catch {wm iconbitmap . [::skin::GetSkinFile winicons msn.ico]}
