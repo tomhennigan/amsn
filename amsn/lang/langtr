@@ -87,6 +87,8 @@ blockinter3 her
 blockinter4 saniye
 blocklist Engellenenler listesi
 blockmessage þu kiþiler baðlý ve sizi engellemiþ durumdalar
+blocknotifications Uyarý pencerelerini engelle
+blocksounds Sesleri engelle
 blockusers Bir seferde denetlenecek kullanýcý sayýsý
 bouncedock Ýleti gelince aMSN görev çubuðu simgesi zýplasýn
 brightness Parlaklýk
@@ -100,6 +102,7 @@ busy Meþgul
 cachedpics $1 saklanmýþ resim
 cagreement Gizlilik Sözleþmesi
 cancel Ýptal Et
+cancelled Ýptal edildi
 cannotdeleteprofile Profil kullanýmda olduðu için silinemiyor
 cantexec $1 uygulamasi çalýþtýrýlamýyor. Seçenekleri kontrol edin.
 cantloadonlineversion Güncellenmiþ diller listesi internetten alýnamadý
@@ -179,6 +182,7 @@ confirmrfl Bu kullanýcýyý bu gruptan silmek istediðinizden emin misiniz?
 connected þu an baglýsýnýz
 connectedwith $1 ile baðlandý
 connecterror Sunucuya baðlanýrken hata oluþtu
+connectfirst Lütfen önce baðlanýn
 connecting Baðlanýyor
 connection Baðlantý
 connectionlost Baðlantý koptu: Sunucuyla baðlantý kesildi
@@ -210,6 +214,7 @@ custnotifyoffline Bu kullanýcý baðlantýsýný kesince uyarý penceresi göster
 custnotifyonline Bu kullanýcý baðlanýnca uyarý penceresi göster
 custnotifystatus Bu kullanýcý durum deðiþtirince uyarý penceresi göster
 customcolor Özel renk
+customdp Özel kullanýcý resmi
 custom_edit Özel gülen adamý düzenle
 custom_new Yeni özel gülen adam ekle
 customnick Özel rumuz
@@ -289,6 +294,7 @@ entercontactemail Baðlantýnýn e-posta adresini girin
 enterfilename Lütfen bir dosya adý girin
 enternick Rumuzunuzu girin
 enterpsm Kiþisel ileti
+error Hata
 errortls TLS kurulumunda hata oluþtu:
 eventhistory Geçmiþ olaylara bak
 examples Örnekler
@@ -326,6 +332,7 @@ ftconnecting $1 port $2 e baðlanýlýyor
 ftconnectionlost Karþý tarafla olan baðlantý koptu
 ftgotinvitation $1 size '$2' dosyasýný göndermek istiyor  ($3 bayt). Bu dosya $4 dizinine kaydedilecek. Dosyayý almak istiyor musunuz?
 ftportpref Dosya aktarýmlarý için baþlangýç portu
+ftporttest Portu dene
 ftrejected Dosya aktarýmý reddedildi
 ftrejectedby $1, '$2' dosyasý için yapýlan aktarým davetini geri çevirdi
 ftsendinvitation '$2' dosyasý ($3 bayt) için aktarým daveti $1'e gönderildi
@@ -438,7 +445,7 @@ loging Kayda geçirme
 logolder Yalnýz bu süre öncesine kadar yapýlan sohbetlerin kaydýný tut
 logout Baðlantýyý kes
 logsbydate Kayýtlarý tarihe göre sýrala (Geçmiþ böyle çok daha hýzlý yükleniyor)
-logschats sohbetleri kaydediyor
+logschats Sohbetleri kaydediyor mu?
 logsin baðlandý
 logsmileys Geçmiþ penceresinde gülen adamlar görünsün
 logsout $1 az önce sohbetten ayrýldý.
@@ -448,7 +455,7 @@ longp4c Sohbet içi rumuzunuz 130 harften uzun. Resmi MSN Messenger sürümlerinde 
 longpsm Kiþisel iletiniz çok uzun. MSN protokolü buna izin vermemektedir. Bu iletiyi kullanmak istediðinizden emin misiniz?
 lowrescam Düþük çözünürlüklü kamera görüntüsü kullan
 lprivtoconf $1 ile özel görüþme konferansa çevrildi
-luclosedwin $1 de pencereyi kapadýnýz
+luclosedwin saat $1: Pencereyi kapadýnýz
 mailer E-posta uygulamasý
 mailerexample (\$recipient = alýcý) Hotmail'i kullanmak için boþ býrakýnýz
 maintenance Sunucu bakým amacýyla $1 dakika içinde kapanacaktýr
@@ -515,6 +522,7 @@ noprofileexists Henüz hiçbir profil yok. Eðer profille baðlanmak \nisterseniz bi
 normal normal
 noskins Varsayýlan kabuk skins/ dizininde bulunamadý. AMSN baþlatýlamadý.
 nosound Ses alýnamýyor, mikrofonunuzun takýlý olduðundan emin olun.
+nosound_or_hold Ses algýlanamadý. Ses kaydý yollamak için düðmeyi basýlý tutarak konuþup sonra düðmeyi býrakmanýz gerekmektedir.
 nosystemtray Sistem çubuðu yok
 note Not
 notificationserver Ýlk MSN Uyarý Sunucusu (MSN Messenger Sunucusu)
@@ -533,6 +541,7 @@ notinlist Siz onun baðlantý listesinde deðilsiniz
 notls MSN 9 protokolü tls paketini gerektirir. Bu bilgisayarda tls kurulu görünmüyor. Eðer kuruluysa, tls kütüphanesi dizini Seçenekler bölümünde belirtilmelidir.net'ten indirebilirsiniz.
 nottabbed Sekmesiz normal pencereler
 nousersinsession Ortamda kullanýcý yok
+nouserspecified Hiçbir kullanýcý belirtilmemiþ
 nudge $1 sizinle görüþmek istiyor
 offline Çevrim dýþý
 ok Tamam
@@ -831,6 +840,8 @@ webcamfaq Kamera hakkýnda SSS/Yardým
 webcamhistory Kamera oturumlarýný gör
 webcaminvite $1 sizi kamera kullanmaya davet etti; ancak aMSN'de bu iþlev yok.
 webcaminvitereceived $1 sizi kamera oturumu açmaya davet etti. Kabul ediyor musunuz?
+webcaminvitereceiving $1 size kamera görüntüsünü yollamak istiyor. Kabul ediyor musunuz?
+webcaminvitesending $1 sizin kamera görüntünüzü görmek istiyor. Kabul ediyor musunuz?
 webcamrejected $1 kamera oturumu davetinizi geri çevirdi.
 webcamrequestreceive Kamera görüntüsü almak için davet gönder
 webcamrequestsend Kamera görüntüsü yollamak için davet gönder
