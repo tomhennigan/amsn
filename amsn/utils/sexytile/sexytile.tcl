@@ -192,7 +192,7 @@ snit::widgetadaptor sexytile {
 		#execute the defined action
 		#FIXME:  should be only if the mouse is still on the button
 		if {[catch {eval $options(-onpress)} error] && $options(-onpress) != ""} {
-			puts "error running defined command:\n$error"
+			status_log "error running defined command for tile:\n$error" white
 		}	
 
 
@@ -200,7 +200,7 @@ snit::widgetadaptor sexytile {
 
 	method setConfig {option value} {
 		set options($option) $value
-		puts "Altering $option to $value"
+#		puts "Altering $option to $value"
 
 		#actions after change or initial setting of options
 		#the space was added so the option isn't passed to the switch command
@@ -217,7 +217,7 @@ snit::widgetadaptor sexytile {
 			" -type" {
 				if {[lsearch [list "checkbutton" "tilebutton" "button"] $value] == -1} {
 					#wrong option
-					puts "wrong option"
+#					puts "wrong option"
 				}
 			}
 			" -text" {
@@ -251,7 +251,7 @@ snit::widgetadaptor sexytile {
 					set xcoord [expr {$options(-border) + [image width $options(-icon)] + $options(-padding)}]
 				}
 				set textwidth [expr {$width - $options(-border) - $xcoord}]
-puts "$xcoord $ycoord"
+#puts "$xcoord $ycoord"
 				#now the text placement:
 				$hull coords text $xcoord $ycoord
 				$hull itemconfigure text -width $textwidth
@@ -291,7 +291,7 @@ puts "$xcoord $ycoord"
 	
 	method reloadImages {width height} {
 		#size the bgimages accoring to canvas size
-		puts "\t* scaling images as requested to $width $height"		
+#		puts "\t* scaling images as requested to $width $height"		
 
 		foreach photo [list bgimage_default bgimage_hover bgimage_pressed] {
 			catch {image delete $photo}
@@ -300,14 +300,14 @@ puts "$xcoord $ycoord"
 				$photo copy $options(-$photo)
 #TODO: instead of resize, rebuild images from pieces"
 				if [catch {::picture::Resize $photo $width $height} error] {
-					puts "error: $error"
+					status_log "error in sexytile.tcl: $error"
 				}
 			}			
 		}
 	}
 	
 	method cleanUp {} {
-		puts "Cleaning up ..."
+#		puts "Cleaning up ..."
 		foreach photo [list bgimage_default bgimage_hover bgimage_pressed] {
 			catch {image delete $photo}
 		}

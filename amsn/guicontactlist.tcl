@@ -7,8 +7,6 @@
 # * set right mousewheel bindings (windows/mac) using [IsMac] etc procs
 # * scroll the canvas while dragging if you come near to the border (hard one :|)
 # * change cursor while dragging (should we ?)
-# * animated smileys on CL -> I hope this is possible easily with TkCxImage?
-# * events when the groupview option is changed to redraw the whole list
 # *
 # *
 # * ... cfr. "TODO:" msgs in code
@@ -341,7 +339,7 @@ namespace eval ::guiContactList {
 		
 		#Check what has to be done and add to the redrawing queues
 		foreach email $emails {
-			status_log "contactChanged :: $eventused $email $gidlist" white
+#			status_log "contactChanged :: $eventused $email $gidlist" green
 			#Possible events:
 			#contactStateChange
 			#contactNickChange;
@@ -425,7 +423,7 @@ namespace eval ::guiContactList {
 
 #If, withing 200 ms, another event for redrawing comes in, we redraw 'm together
 		catch {after cancel $taskId}		
-		set taskId [after 200 ::guiContactList::redrawFromQueue]
+		set taskId [after 500 ::guiContactList::redrawFromQueue]
 
 	}
 	
@@ -480,6 +478,7 @@ namespace eval ::guiContactList {
 		
 		#reorganise list
 		::guiContactList::organiseList $clcanvas
+#		status_log "contactChanged :: List redrawn for contacts $contacts, groups $groups, $nicks reparsed" green
 					
 	}
 
@@ -804,24 +803,43 @@ namespace eval ::guiContactList {
 	
 		# We are gonna store the height of the nicknames
 		variable nickheightArray
+		#nicknameArray is an array with parsed nicknames for drawing 'm on a canvas
 		variable nicknameArray
+
+		#Xbegin is the padding between the beginning of the contact and the left edge of the CL
 		variable Xbegin
 
 		if { !$::contactlist_loaded } { return }
 
-		# Set the place for drawing it (should be invisible)
+		# Set the place for drawing it (should be invisible); these vars won't be changed
 		set xpos 0
 		set ypos 0
 		
 		set email [lindex $element 1]
 		set grId $groupID
 
+		################################################################
+		# Set up names for tags to be put on different elements 
+		################################################################
+
 		# The tag can't be just $email as users can be in more then one group
+		#$tag is a tag applied to all elements of the contact
 		set tag "_$grId"; set tag "$email$tag"
+		#$main_part is a tag applied to all elements that make a chatwindow open
+		# if they are clicked
 		set main_part "${tag}_click"
+		#space_icon is a tag for the icon showing if the contact's MSN Space is updated
 		set space_icon "${tag}_space_icon"
+		set space_info "${tag}_space_info"
 		
+		#Delete elements of the contact if they still exist
 		$canvas delete $tag
+
+
+
+		################################################################
+		# Set up some vars with info we'll use
+		################################################################
 
 		set state_code [::abook::getVolatileData $email state FLN]
 
@@ -866,6 +884,7 @@ namespace eval ::guiContactList {
 		# 	skinsetting to have buddypictures in their place (this is default in MSN7!)
 		# 	with a pixmap border and also status-emblem overlay in bottom right corner		
 		set parsednick $nicknameArray($email)
+		#the padding between nickname and state
 		set nickstatespacing 5
 		# TODO: skinsetting for the spacing between nicknames and the status
 		set statetext "\([trans [::MSN::stateToDescription $state_code]]\)"
@@ -880,17 +899,35 @@ namespace eval ::guiContactList {
 			set statetext "\([trans mobile]\)"
 		}
 
-		set statecolour grey
 		# TODO: skinsetting for state-colour
+		set statecolour grey
+
 		set statewidth [font measure splainf $statetext]
 
-		# Set the beginning coords for the next drawings
+		# Set the beginning coords for the drawings, these vars will change\
+		 after every drawing so we know where to draw the next element
 		set xnickpos $xpos
+		#the first line will be drawn around the middle of the status icon
 		set ynickpos [expr {$ypos + [image height $img]/2}]
 
 		set update_img [::skin::loadPixmap space_update]
+		
+		
+		# Reset the underlining's list
+		set underlinst [list]
+
+
+		################################################################
+		# Beginning of the drawing
+		################################################################
+
+		#--------------#
+		###Space icon###
+		#--------------#
+		
 		# Check if we need an icon to show an updated space/blog, and draw one if we do
-		#We must create the icon and hide after else, the status icon will stick the border : it's surely due to anchor parameter
+		#We must create the icon and hide after else, the status icon will stick the border\
+		  it's surely due to anchor parameter
 		$canvas create image $xnickpos $ypos -anchor nw \
 			-image $update_img -tags [list contact icon $tag $space_icon]
 		if { [::abook::getVolatileData $email space_updated 0]} {
@@ -899,18 +936,27 @@ namespace eval ::guiContactList {
 			$canvas itemconfigure $space_icon -state hidden
 		}
 
-		#All the status icons are aligned
+		#Update xnickpos
 		set xnickpos [expr {$xnickpos + [image width $update_img]}]
+		
+		#---------------#
+		###Status icon###
+		#---------------#
 
-		# Draw status-icon, we use ypos because it refers to the top and not to the middle of the line
-		$canvas create image $xnickpos $ypos -image $img -anchor nw -tags [list contact icon $tag $main_part]
+		# Draw status-icon
+		$canvas create image $xnickpos $ynickpos -image $img -anchor w -tags [list contact icon $tag $main_part]
 
+		#Update xnickpos (5 pixels hardcoded padding between statusicon and nickname)
 		set xnickpos [expr {$xnickpos + [image width $img] + 5}]
 
-		# TODO: skin setting to draw buddypicture; statusicon should become icon + status overlay
-		# 	like:	draw icon or small buddypicture overlay it with the status-emblem
+# TODO: skin setting to draw buddypicture; statusicon should become icon + status overlay
+# 	like:	draw icon or small buddypicture overlay it with the status-emblem
 
-		#	Draw alarm icon if alarm is set
+		#--------------#
+		###Alarm icon###
+		#--------------#
+
+		#Draw alarm icon if alarm is set
 		if { [::alarms::isEnabled $email] != ""} {
 			#set imagee [string range [string tolower $user_login] 0 end-8]
 			#trying to make it non repetitive without the . in it
@@ -931,8 +977,13 @@ namespace eval ::guiContactList {
 			$canvas bind alarm_$email <<Button3>> "::alarms::configDialog $email; break;"
 			$canvas bind alarm_$email <Button1-ButtonRelease> "switch_alarm $email; ::guiContactList::switch_alarm $email $canvas alarm_$email; break;"
 
+			#Update xnickpos
 			set xnickpos [expr {$xnickpos + [image width $icon]}]
 		}
+		
+		#----------------------------#
+		###Not-on-reverse-list icon###
+		#----------------------------#	
 
 		# If you are not on this contact's list, show the notification icon
 		if {[expr {[lsearch [::abook::getLists $email] RL] == -1}]} {
@@ -940,16 +991,24 @@ namespace eval ::guiContactList {
 			$canvas create image [expr {$xnickpos -3}] $ypos -image \
 				[::skin::loadPixmap notinlist] -anchor nw -tags \
 				[list contact icon $tag $main_part]
+			#Update xnickpos
 			set xnickpos [expr {$xnickpos + [image width $icon]}]
 		}
+		
 
 		# Now we're gonna draw the nickname itself
 #TODO: From TK 8.5 up, underlined text should be possible on the canvas without this trick though in my
 #	alpha release this doesn't work
-		# Reset the underlining's list
-		set underlinst [list]
-		#set maxwidth [winfo width $canvas]
 
+
+		#-----------------#
+		###Draw Nickname###
+		#-----------------#
+
+		#store the x-coord of the beginning of a line
+		set xlinestart $xnickpos
+
+		#set up the maximum width to use according to trancution setting
 		if { [::config::getKey truncatenames] } {
 			set ellips "..."
 			# Leave some place for the statustext, the elipsis (...) and the spacing + spacing
@@ -966,11 +1025,11 @@ namespace eval ::guiContactList {
 
 		# TODO: An option for a X-padding for buddies .. should be set here and in the organising proc
 
-		# We can draw as long as the line isn't full
+		# We can draw as long as the line isn't full, reset var 
 		set linefull 0
 		set textheight [expr {[font configure splainf -size]/2} ]
 
-		# This is the var for the y-change
+		# This is the var for the y-change (beginning with the height of 1 line)
 		set ychange [image height $img]
 		set relnickcolour $nickcolour
 		set relxnickpos $xnickpos
@@ -978,7 +1037,8 @@ namespace eval ::guiContactList {
 
 		foreach unit $parsednick {
 			if {[lindex $unit 0] == "text"} {
-				# Check if we are still allowed to write text
+				# Check if we are still allowed to write text,\
+				  a newline character resets this
 				if { $linefull } {
 					continue
 				}
@@ -986,7 +1046,7 @@ namespace eval ::guiContactList {
 				# Store the text as a string
 				set textpart [lindex $unit 1]
 
-				# Check if it's really containing text
+				# Check if it's really containing text, if not, do nothing
 				if {$textpart == ""} {
 					continue
 				}
@@ -997,8 +1057,9 @@ namespace eval ::guiContactList {
 					set textpart [::guiContactList::truncateText $textpart \
 						[expr {$maxwidth - $relxnickpos}] splainf]
 
-						#If we don't truncate we don't put ellipsis
-						set textpart "$textpart$ellips"
+					#If we don't truncate we don't put ellipsis
+					#!$maxwidth already left space for the ellipsis
+					set textpart "$textpart$ellips"
 
 					# This line is full, don't draw anything anymore before we start a new line
 					set linefull 1
@@ -1070,7 +1131,12 @@ namespace eval ::guiContactList {
 		#END the foreach loop
 		}
 
-		#We mustn't take the status in account as we will draw it
+
+		#--------------------#
+		###Draw Status-name###
+		#--------------------#
+
+		#We shouldn't take the status in account as we will draw it
 		set maxwidth [expr {[winfo width $canvas] - [font measure splainf $ellips] - 5 - 2*$Xbegin - [::skin::getKey buddy_xpad]}]
 
 		if { $statetext != "" } {
@@ -1117,6 +1183,10 @@ namespace eval ::guiContactList {
 				set relxnickpos [expr {$relxnickpos + $statewidth}]
 			}
 		}
+		
+		#------------#
+		###Draw PSM###
+		#------------#
 
 		if {$psm != "" && [::config::getKey emailsincontactlist] == 0 } {
 
@@ -1307,11 +1377,15 @@ namespace eval ::guiContactList {
 				}
 			}
 		} ; #end psm drawing
+puts "End contact drawing: $ychange $ynickpos: , $xlinestart, $ynickpos"
 
 
 
 		set space_showed [::abook::getContactData $email SpaceShowed 0]
 		set space_fetched [::abook::getContactData $email SpaceDataIsFetched 0]
+
+		set xuppercoord $xlinestart
+		set yuppercoord $ychange
 
 		#Drawing of inline spaces data, can be prohibited by setting the config key to 0
 		# (a possible ccard plugin should do this)
@@ -1325,8 +1399,10 @@ namespace eval ::guiContactList {
 			} else {
 #TODO: Code me !
 				#draw a "please wait .." message
+				$canvas create text $xlinestart $ychange -font sitalf -text "Fetching data ..." -tags [list $tag $space_info contact space_info] -anchor nw
 
-				#adjust $ychange etc
+				#adjust $ychange, adding 1 line
+				set ychange [expr {$ychange + [image height $img]}]
 			}
 		}
 
@@ -1401,9 +1477,10 @@ namespace eval ::guiContactList {
 		set nickheightArray($email) $ychange
 		# status_log "nickheight $email: $nickheight"
 	}
+
+
 	
 	proc toggleSpaceShown {canvas email space_showed space_fetched} {
-puts "toggling space appearance"
 		# when the star is pressed, the "SpaceShowed" boolean is toggled,
 		# if SpaceIsFetched is 0, the fetching procs are called and these fire an event when the data is fetched
 		# which redraws the contact

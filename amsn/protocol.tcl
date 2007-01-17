@@ -4993,7 +4993,7 @@ proc cmsn_change_state {recv} {
 		set substate "FLN"
 		set evpar(substate) substate
 		set msnobj [::abook::getVolatileData $user msnobj ""]
-		status_log "contactStateChange in protocol cmsn_change_state FLN"
+#		status_log "contactStateChange in protocol cmsn_change_state FLN"
 	} elseif {[lindex $recv 0] == "ILN"} {
 		#Initial status when we log in
 		set user [lindex $recv 3]
@@ -5017,7 +5017,7 @@ proc cmsn_change_state {recv} {
 		#Add clientID to abook
 		add_Clientid $user [lindex $recv 4]
 
-		status_log "contactStateChange in protocol cmsn_change_state $user"
+#		status_log "contactStateChange in protocol cmsn_change_state $user"
 	}
 
 	set oldstate [::abook::getVolatileData $user state]
