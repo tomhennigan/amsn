@@ -926,8 +926,8 @@ namespace eval ::guiContactList {
 		#this is when there is an update and we should show a star
 		set space_update [::abook::getVolatileData $email space_updated 0]
 		
-		#is the space showed or not ?
-		set space_showed [::abook::getContactData $email SpaceShowed 0]
+		#is the space shown or not ?
+		set space_shown [::abook::getVolatileData $email SpaceShowed 0]
 		
 
 
@@ -1402,26 +1402,73 @@ namespace eval ::guiContactList {
 		set xuppercoord $xlinestart
 		set yuppercoord $ychange
 
+		#----------------------#
+		###Inline spaces info###
+		#----------------------#
 		#Drawing of inline spaces data, can be prohibited by setting the config key to 0
 		# (a possible ccard plugin should do this)
-#		if {$space_showed && [::config::getKey drawspaces 1] == 1} {
-#
-#			if { [::abook::getVolatileData $email fetching_space 0] } {
-#				#draw a "please wait .." message, will be replaced when fetching is done
-#				$canvas create text $xlinestart $ychange -font sitalf -text "Fetching data ..." -tags [list $tag $space_info contact space_info] -anchor nw -fill grey
-#
+		if {$space_shown && [::config::getKey drawspaces 1] == 1} {
+
+			if { [::abook::getVolatileData $email fetching_space 0] } {
+				#draw a "please wait .." message, will be replaced when fetching is done
+				$canvas create text $xlinestart $ychange -font sitalf -text "Fetching data ..." -tags [list $tag $space_info contact space_info] -anchor nw -fill grey
+
+				#adjust $ychange, adding 1 line
+				set ychange [expr {$ychange + [image height $img]}]
+
+			} else {
+				#show the data we have in abook
+
+
+				#blogposts
+				set blogposts [::MSNCCARD::getAllBlogPosts [::abook::getContactData $email ccardlist [list]]]
+				if {$blogposts != [list]} {
+					#add a title
+					$canvas create text $xlinestart $ychange -font sitalf -text "Recent posts:" -tags [list $tag $space_info contact space_info] -anchor nw -fill grey
+					#adjust $ychange, adding 1 line
+					set ychange [expr {$ychange + [image height $img]}]
+
+					foreach i $blogposts {
+puts "Blogpost: $i"
+						$canvas create text [expr $xlinestart + 10] $ychange -font sitalf -text "[lindex $i 1]" \
+							-tags [list $tag $space_info contact space_info] -anchor nw -fill grey
+						#update ychange
+						set ychange [expr {$ychange + [image height $img]}]
+					}
+				}
+				
+				
+				#photos
+				set photos [::MSNCCARD::getAllPhotos [::abook::getContactData $email ccardlist [list]]]
+				if {$photos != [list]} {
+					#add a title
+					$canvas create text $xlinestart $ychange -font sitalf -text "Recent photos:" -tags [list $tag $space_info contact space_info] -anchor nw -fill grey
+					#adjust $ychange, adding 1 line
+					set ychange [expr {$ychange + [image height $img]}]
+
+					foreach i $photos {
+puts "Photo: $i"
+						if {[lindex $i 0] != ""} {
+
+						$canvas create text [expr $xlinestart + 10] $ychange -font sitalf -text "[lindex $i 1]" \
+							-tags [list $tag $space_info contact space_info] -anchor nw -fill grey
+						#update ychange
+						set ychange [expr {$ychange + [image height $img]}]
+						}
+					}
+				}
+				
+							
 #				#adjust $ychange, adding 1 line
 #				set ychange [expr {$ychange + [image height $img]}]
-#
-#			} else {
-#				#show the data in abook
-#				$canvas create text $xlinestart $ychange -font sitalf -text "Data here" -tags [list $tag $space_info contact space_info] -anchor nw -fill grey
-#							
-#				#adjust $ychange, adding 1 line
-#				set ychange [expr {$ychange + [image height $img]}]
-#			}
-#
-#		}
+			}
+
+		}
+		
+		
+		#-----------#
+		##Bindings###
+		#-----------#
 
 		# First, remove previous bindings
 		$canvas bind $tag <Enter> ""
@@ -1434,9 +1481,8 @@ namespace eval ::guiContactList {
 		$canvas bind $space_icon <Motion> ""
 		$canvas bind $space_icon <Leave> ""
 
-		#Bindings for the "star" image for spaces
-		#Click binding
-#		$canvas bind $space_icon <Button-1> "::guiContactList::toggleSpaceShown $canvas $email $space_showed $space_update"
+		#Click binding for the "star" image for spaces
+		$canvas bind $space_icon <Button-1> "::guiContactList::toggleSpaceShown $canvas $email $space_shown $space_update"
 
 		# balloon bindings
 		if { [::config::getKey tooltips] == 1 } {
@@ -1497,35 +1543,30 @@ namespace eval ::guiContactList {
 
 
 	
-	proc toggleSpaceShown {canvas email space_showed space_update} {
+	proc toggleSpaceShown {canvas email space_shown space_update} {
 		variable fetchinglist 
 
-		if {$space_showed} {		
-			::abook::setContactData $email SpaceShowed 0
-			::guiContactList::contactChanged "toggleSpaceShown" $email
-		
+		if {$space_shown} {		
+			::abook::setVolatileData $email SpaceShowed 0
 		} else {
-			::abook::setContactData $email SpaceShowed 1
-			if {$space_update} {
+			#if an update is available, we'll have to fetch it
+			if { $space_update || ([::abook::getContactData $email ccardlist [list]] == [list]) } {
 				::abook::setVolatileData $email fetching_space 1
-				#redraw, so it shows "fetching..." message
-				::guiContactList::contactChanged "toggleSpaceShown" $email
 				after 0 ::guiContactList::fetchSpacedData $email
-			} else {
-				#redraw so it shows the data
-				::guiContactList::contactChanged "toggleSpaceShown" $email
-			}	
+			}
+			::abook::setVolatileData $email SpaceShowed 1
+			#if not we'll just have to redraw so the data is shown
 		}
+		::guiContactList::contactChanged "toggleSpaceShown" $email
 	}
 	
 	
 	proc fetchSpacedData { email } {
-
-		
+	
 
 	
 #TODO: fetching code here
-
+		::abook::setContactData $email ccardlist [::MSNCCARD::getContactCardList $email]
 		
 		after 2000 ::abook::setVolatileData $email fetching_space 0
 		
