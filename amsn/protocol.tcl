@@ -3307,7 +3307,29 @@ namespace eval ::MSNCCARD {
 #								::Event::fireEvent contactSpaceChange protocol $email
 								lappend users_with_update $email
 							} else {
-#FIXME:								#this line might not be needed
+#Check, if we have a ccard for this user and if all it's modifdate's are older then $last_modif, we have to refetch the ccard the update
+set ccard [::abook::getContactData $email ccardlist [list]]
+if {$ccard != [list]} {
+	#search for the latest date, if it's older then $last_modif, refetch the ccard
+	#this happens if the user fetched the ccard with another client.  the update
+	#flag will be unset but we don't have the latest data yet
+#TODO: CODE ME!	
+
+	#PSEUDO-CODE
+#	set dates [::MSNCCARD::getCcardDates $ccard]
+	
+	#set latest_date ...
+	
+#	set latest_unixtime ...
+#	set modif_unixtime ...
+		
+#	if {$modif_unixtime > $latest_unixtime } {
+#		::abook::setContactData $email [::MSNCCARD::getContactCardList $email]
+#	}	
+	
+}
+
+
 								::abook::setVolatileData $email space_updated 0
 							}
 
@@ -3324,6 +3346,7 @@ namespace eval ::MSNCCARD {
 		::Event::fireEvent contactSpaceChange protocol $users_with_update
 		}
 	}
+
 
 	proc getSchematizedStoreXml {contacts procVarName args} {
 		set xml {<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Header><StorageApplicationHeader xmlns="http://www.msn.com/webservices/storage/w10"><ApplicationID>Messenger Client 7.0</ApplicationID></StorageApplicationHeader><StorageUserHeader xmlns="http://www.msn.com/webservices/storage/w10"><Puid>0</Puid><UserAuthCache></UserAuthCache><IPAddress/></StorageUserHeader></soap:Header><soap:Body><GetItemVersion xmlns="http://www.msn.com/webservices/storage/w10"><spaceVersionRequests>}
@@ -3347,7 +3370,7 @@ namespace eval ::MSNCCARD {
 	}
 
 	proc getIndexFor { ccard type } {
-		# Tye can be : SpaceTitle Blog Album Music
+		# Type can be : SpaceTitle Blog Album Music
 		set node_path "soap:Envelope:soap:Body:GetXmlFeedResponse:GetXmlFeedResult:contactCard:elements:element"
 		set i 0
 		set node [GetXmlNode $ccard $node_path $i]

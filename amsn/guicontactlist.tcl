@@ -1599,6 +1599,7 @@ puts "fetching data ..."
 		create_dir $cachedir
 		set count 0
 #DL REQUIRES LOGIN ! HOW ?
+#seems like once you logged in by opening an item the downloads do "just work" 
 		foreach photolist $photos {
 			#download the thumbnail
 			set thumbnailurl [lindex $photolist 3]
