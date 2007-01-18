@@ -1762,27 +1762,6 @@ namespace eval ::amsn {
 			$win.picmenu add command -label "[trans showuserpic $user]" \
 				-command "::amsn::ChangePicture $win \[::skin::getDisplayPicture $user\] \[trans showuserpic $user\]"
 		}
-		#Load Change Display Picture window
-		$win.picmenu add separator
-		$win.picmenu add command -label "[trans changedisplaypic]..." -command [list after 0 dpBrowser]
-		foreach user $users {
-			$win.picmenu add command -label "[trans changecustomuserpic $user]" \
-				-command "autoChangeCustomDp $user"
-		}
-
-		#Section to remove custom display pictures
-		set first_one 0
-		foreach user $users {
-			if {[::abook::getContactData $user customdp ] != ""} {
-				# The separator is added only if the section is really going to be draw
-				if {$first_one == "0"} {
-					$win.picmenu add separator
-					set first_one 1
-				}
-				$win.picmenu add command -label "[trans removecustomuserpic $user]" \
-					-command "autoRemoveCustomDp $user"
-			}
-		}
 
 		set user [$win.f.bottom.pic.image cget -image]
 		if { $user != "displaypicture_std_none" && $user != "displaypicture_std_self" } {
@@ -7126,7 +7105,7 @@ proc pictureBrowser {} {
 }
 
 proc dpBrowser { {target_user "self" } } {
-	global selected_path selected_image HOME
+	global HOME
 
 	package require dpbrowser
 	
@@ -7154,14 +7133,13 @@ proc dpBrowser { {target_user "self" } } {
 	
 	# Select current DP (custom or not) for target user
 	if { $target_user != "self" } {
-		if { [::abook::getContactData $target_user customdp] != "" } {
+		if { [::abook::getContactData $target_user customdp ""] != "" } {
 			set image_name [::abook::getContactData $target_user customdp ""]
 		} else {
 			set image_name [::abook::getContactData $target_user displaypicfile ""]
 		}
 		if {$image_name != ""} {
 			set selected_path [file join $HOME displaypic cache [filenoext $image_name].png]
-			set selected_image "[filenoext $selected_path].png"
 		}
 	}
 	
@@ -7169,24 +7147,24 @@ proc dpBrowser { {target_user "self" } } {
 	# First column #
 	################
 	frame $w.mydpstitle -bd 0
-	label $w.mydpstitle.text -text "My cached display pictures:" -font bboldf
+	label $w.mydpstitle.text -text "[trans mypics]:" -font bboldf
 	#clear cache button ?
 	pack $w.mydpstitle.text -side left
 
 	frame $w.moredpstitle -bd 0
-	label $w.moredpstitle.text -text "Dp's in cache for:" -font bboldf
+	label $w.moredpstitle.text -text "[trans cachedpicsfor]:" -font bboldf
 	#combobox to choose user which configures the widget with -user $user
 
 	set combo $w.moredpstitle.combo
 	combobox::combobox $combo -highlightthickness 0 -width 22  -font splainf -exportselection true -command "configuredpbrowser $target_user" -editable false -bg #FFFFFF
 	$combo list delete 0 end
-	$combo list insert end "Select a contact:"
+	$combo list insert end "[trans selectcontact]:"
 	
 	foreach contact $contactlist {
 		#put the name of the device in the widget
 		$combo list insert end $contact
 		if {$contact == $target_user} {
-			set selection [expr [$combo list index end] - 1]
+			set selection [expr {[$combo list index end] - 1}]
 		}
 	}
 	
@@ -7202,28 +7180,28 @@ proc dpBrowser { {target_user "self" } } {
 	pack $w.moredpstitle.text -side left
 	pack $w.moredpstitle.combo -side right
 
-	::dpbrowser $w.mydps -width 3 -user self -command [list updateDpBrowserSelection $w.mydps] -mode selector -createtempimg 1
+	::dpbrowser $w.mydps -width 3 -user self -command [list updateDpBrowserSelection $w.mydps $target_user] -mode selector
 
-	::dpbrowser $w.moredps -width 3 -user $selected_user -command [list updateDpBrowserSelection $w.moredps] -mode selector -createtempimg 1
+	::dpbrowser $w.moredps -width 3 -user $selected_user -command [list updateDpBrowserSelection $w.moredps $target_user] -mode selector
 	
 	#################
 	# second column #
 	#################
 
 	#preview
-	label $w.dppreviewtxt -text "Preview:"
+	label $w.dppreviewtxt -text "[trans preview]:"
 	if {$target_user == "self"} {
 		label $w.dppreview -image displaypicture_std_self
 	} else {
-		if { $image_name == "" } {
+		if { $image_name == "" || [catch {image create photo displaypicture_std_$target_user -file $selected_path -format cximage}] } {
 			label $w.dppreview -image displaypicture_std_none
 		} else {
-			label $w.dppreview -image [image create photo [TmpImgName] -file $selected_path -format cximage]
+			label $w.dppreview -image displaypicture_std_$target_user
 		}
 	}
 	
 	#browse button
-	button $w.browsebutton -command "set selected_path \[pictureChooseFile\]" -text "[trans browse]..."
+	button $w.browsebutton -command "pictureChooseFile $target_user" -text "[trans browse]..."
 	
 	#under this button is space for more buttons we'll make a frame for so plugins can pack stuff in this frame
 	frame $w.pluginsframe -bd 0
@@ -7234,7 +7212,7 @@ proc dpBrowser { {target_user "self" } } {
 	# lower pane    #
 	#################	
 	frame $w.lowerpane -bd 0
-	button $w.lowerpane.ok -text "[trans ok]" -command "set_displaypic \${selected_image} $target_user;destroy $w"
+	button $w.lowerpane.ok -text "[trans ok]" -command "set_displaypic $target_user;destroy $w"
 	button $w.lowerpane.cancel -text "[trans cancel]" -command "destroy .dpbrowser"
 	pack $w.lowerpane.ok $w.lowerpane.cancel -side right -padx 5
 
@@ -7253,12 +7231,15 @@ proc dpBrowser { {target_user "self" } } {
 	
 	#lower pane
 	grid $w.lowerpane -row 7 -column 0 -columnspan 2 -sticky e -padx 2 -pady 2
+	
+	if { $target_user != "self" } {
+		bind $w <Destroy> "catch { image delete displaypicture_std_$target_user}"
+	}
 }
-
 
 proc configuredpbrowser {target combowidget selection} {
 	#puts "$combowidget $selection"
-	if {$selection == "Select a contact:"} {set selection ""}
+	if {$selection == "[trans selectcontact]:"} {set selection ""}
 	if {$selection == $target} {
 		[winfo toplevel $combowidget].moredps configure -user $selection -showcurrent 0
 	} else {
@@ -7267,21 +7248,19 @@ proc configuredpbrowser {target combowidget selection} {
 }
 
 # This procedure is called back from the dpbrowser pane when a picture is selected
-proc updateDpBrowserSelection { browser } {
-	global selected_image image_name
-	
+proc updateDpBrowserSelection { browser target } {
 	set w [winfo toplevel $browser]
 
-	catch {image delete $selected_image}
-	# Get the path of the selected image and unselect all images in the other pane
 	set selection [$browser getSelected]
-	set selected_image [lindex $selection 1]
-	set temp_image [lindex $selection 2]
+	set file [lindex $selection 1]
 
-#	set image_name [image create photo [TmpImgName] -file $selected_image -format cximage]
-	$w.dppreview configure -image $temp_image
-	set selected_image "[filenoext $selected_image].png"
-#FIXME: $image_name is never destroyed -> memleak
+	set old_image [$w.dppreview cget -image]
+	$w.dppreview configure -image ""
+	if { $old_image != "displaypicture_std_none" } {
+		catch {image delete $old_image}
+	}
+	status_log "will be created displaypicture_std_$target with filename $file"
+	$w.dppreview configure -image [image create photo displaypicture_std_$target -file $file -format cximage]
 }
 
 
@@ -7327,8 +7306,8 @@ proc chooseFileDialog { {initialfile ""} {title ""} {parent ""} {entry ""} {oper
 
 
 
-proc pictureChooseFile { } {
-	global HOME selected_image image_names
+proc pictureChooseFile { target } {
+	global HOME
 
 	set file [chooseFileDialog "" "" "" "" open [list [list [trans imagefiles] [list *.gif *.GIF *.jpg *.JPG *.bmp *.BMP *.png *.PNG]] [list [trans allfiles] *]]]
 
@@ -7348,20 +7327,17 @@ proc pictureChooseFile { } {
 				dpBrowser
 			}
 
-			set image_name [image create photo [TmpImgName] -file [::skin::GetSkinFile "displaypic" "[filenoext [file tail $file]].png"] -format cximage]
-			status_log $image_name red
-			.dpbrowser.dppreview configure -image $image_name
-			set selected_image "[filenoext [file tail $file]].png"
-
+			image create photo displaypicture_std_$target -file [::skin::GetSkinFile "displaypic" "[filenoext [file tail $file]].png"] -format cximage
+			.dpbrowser.dppreview configure -image displaypicture_std_$target
 			set desc_file "[filenoext [file tail $file]].dat"
 			set fd [open [file join $HOME displaypic $desc_file] w]
 			status_log "Writing description to $desc_file\n"
 			puts $fd "[clock format [clock seconds] -format %x]\n[filenoext [file tail $file]].png"
 			close $fd
-
-			lappend image_names $image_name
-			status_log "Created $image_name\n"
-
+			
+			# Redraw dpBrowser's upper pane
+			.dpbrowser.mydps configure -user self
+			
 			return "[filenoext [file tail $file]].png"
 		} else {
 			status_log "Error converting $file: $res\n"
@@ -7415,8 +7391,10 @@ proc AskDPSize { cursize } {
 	return $dpsize
 }
 
-proc set_displaypic { file { email "self" } } {
-	global image_name
+proc set_displaypic { { email "self" } } {
+	set file ""
+	catch {set file [displaypicture_std_$email cget -file]}
+	
 	if { $email == "self" } {
 		catch {image delete displaypicture_std_self}
 		catch {image delete displaypicture_not_self}
@@ -7427,7 +7405,6 @@ proc set_displaypic { file { email "self" } } {
 			load_my_smaller_pic
 			::MSN::changeStatus [set ::MSN::myStatus]
 			save_config
-			catch {image delete $image_name}
 		} else {
 			status_log "set_displaypic: Setting displaypic to displaypicture_std_none\n" blue
 			clear_disp
@@ -7436,8 +7413,7 @@ proc set_displaypic { file { email "self" } } {
 			::MSN::changeStatus [set ::MSN::myStatus]
 		}
 	} else {
-		set temp [filenoext $file]
-		status_log "$temp"
+		catch {image delete displaypicture_std_$email}
 		global customdp_$email
 		set customdp_$email $file
 	}
@@ -7457,30 +7433,6 @@ proc clear_disp { } {
 		pack $disppic -before $pgBuddyTop.mystatus -side left -padx [::skin::getKey bigstate_xpad] -pady [::skin::getKey bigstate_ypad]
 		bind $pgBuddyTop.bigstate <<Button3>> {destroy .balloon; tk_popup .my_menu %X %Y}
 	}
-}
-
-# Through these function the custom DP can be changed without using the properties screen
-proc autoChangeCustomDp { email } {
-	global customdp_$email
-	dpBrowser $email
-	tkwait window .dpbrowser
-	# Backup old custom dp
-	set old_customdp [::abook::getContactData $email customdp ""]
-	if {[set customdp_$email] != $old_customdp} {
-		# Store custom dp
-		::abook::setAtomicContactData $email customdp [set customdp_$email]
-		# Update display picture
-		::skin::getDisplayPicture $email 1
-		::skin::getLittleDisplayPicture $email 1
-	}
-}
-
-proc autoRemoveCustomDp { email } {
-	# Remove custom dp
-	::abook::setAtomicContactData $email customdp ""
-	# Update display picture
-	::skin::getDisplayPicture $email 1
-	::skin::getLittleDisplayPicture $email 1
 }
 
 ###################### Protocol Debugging ###########################

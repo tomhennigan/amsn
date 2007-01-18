@@ -1362,7 +1362,7 @@ namespace eval ::abookGui {
 		# The custom display pic frame
 		label $nbSettings.fNick.lDispl -text "[trans customdp]:"
 		frame $nbSettings.fNick.fDispl -relief flat
-		set customdp_$email [::abook::getContactData $email customdp] 
+		set customdp_$email [::abook::getContactData $email customdp ""] 
 		image create photo customdp_img_$email -file [set customdp_$email]
 
 		label $nbSettings.fNick.fDispl.dp -image customdp_img_$email -borderwidth 0 -relief flat
@@ -1615,10 +1615,11 @@ namespace eval ::abookGui {
 	# as the actual change is done through the PropOk procedure
 	proc ChangeCustomDp { email w } {
 		global customdp_$email
+		set customdp_$email [::abook::getContactData $email customdp ""]
 		dpBrowser $email
 		tkwait window .dpbrowser
 		catch {image delete customdp_img_$email}
-		image create photo customdp_img_$email -file customdp_$email
+		image create photo customdp_img_$email -file [set customdp_$email]
 		$w.fNick.fDispl.dp configure -image customdp_img_$email -borderwidth 0 -relief flat
 		
 	}
