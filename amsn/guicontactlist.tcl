@@ -87,7 +87,6 @@ namespace eval ::guiContactList {
 		variable ContactsRedrawQueue
 		variable NickReparseQueue
 		variable taskId
-		variable fetchinglist
 
 
 		set clframe $w.cl
@@ -99,7 +98,6 @@ namespace eval ::guiContactList {
 		set NickReparseQueue [list]
 		
 		set taskId 0
-		set fetchinglist [list]
 
 		#here we load images used in this code:
 		::skin::setPixmap back back.gif
@@ -1417,12 +1415,30 @@ namespace eval ::guiContactList {
 			} else {
 				#show the data we have in abook
 
+				set ccard [::abook::getContactData $email ccardlist [list]]
+
+				#Store the titles in a var
+				foreach i [list SpaceTitle Blog Album Music] {
+					set $i [::MSNCCARD::getTitleFor $ccard $i]
+puts [::MSNCCARD::getTitleFor $ccard $i]
+				}
+				
+				#First show the spaces title:
+				if {$SpaceTitle != ""} {
+					$canvas create text $xlinestart $ychange -font bitalf -text "$SpaceTitle" -tags [list $tag $space_info contact space_info] -anchor nw -fill black
+					#adjust $ychange, adding 1 line
+					set ychange [expr {$ychange + [image height $img]}]
+
+					#set everything after this title a bit to the right
+					set xlinestart [expr {$xlinestart + 10}]
+				}
 
 				#blogposts
-				set blogposts [::MSNCCARD::getAllBlogPosts [::abook::getContactData $email ccardlist [list]]]
-				if {$blogposts != [list]} {
+				if {$Blog != ""} {
+#seems like a blog without title doesn't exist, so we don't have to check if there are any posts
+					set blogposts [::MSNCCARD::getAllBlogPosts $ccard]
 					#add a title
-					$canvas create text $xlinestart $ychange -font sboldf -text "Recent posts:" -tags [list $tag $space_info contact space_info] -anchor nw -fill blue
+					$canvas create text $xlinestart $ychange -font sboldf -text "$Blog" -tags [list $tag $space_info contact space_info] -anchor nw -fill blue
 					#adjust $ychange, adding 1 line
 					set ychange [expr {$ychange + [image height $img]}]
 
@@ -1431,7 +1447,7 @@ namespace eval ::guiContactList {
 						set itemtag ${tag}_bpost_${count}
 						$canvas create text [expr $xlinestart + 10] $ychange -font sitalf -text "[lindex $i 1]" \
 							-tags [list $tag $space_info $itemtag contact space_info] -anchor nw -fill grey
-						$canvas bind $itemtag <Button-1> "launch_browser [lindex $i 2]"
+						$canvas bind $itemtag <Button-1> "::hotmail::gotURL [lindex $i 2]"
 						#update ychange
 						set ychange [expr {$ychange + [image height $img]}]
 						incr count
@@ -1440,22 +1456,22 @@ namespace eval ::guiContactList {
 				
 				
 				#photos
-				set photos [::MSNCCARD::getAllPhotos [::abook::getContactData $email ccardlist [list]]]
-				if {$photos != [list]} {
+				if {$Album != ""} {
+					set photos [::MSNCCARD::getAllPhotos $ccard]
 					#add a title
-					$canvas create text $xlinestart $ychange -font sboldf -text "Recent photos:" -tags [list $tag $space_info contact space_info] -anchor nw -fill blue
+					$canvas create text $xlinestart $ychange -font sboldf -text "$Album" -tags [list $tag $space_info contact space_info] -anchor nw -fill blue
 					#adjust $ychange, adding 1 line
 					set ychange [expr {$ychange + [image height $img]}]
 
 					set count 0
 					foreach i $photos {
 						set itemtag ${tag}_bpost_${count}
-puts "Photo: $i"
+#puts "Photo: $i"
 						if {[lindex $i 0] != ""} {
 
 						$canvas create text [expr $xlinestart + 10] $ychange -font sitalf -text "[lindex $i 1]" \
 							-tags [list $tag $itemtag $space_info contact space_info] -anchor nw -fill grey
-						$canvas bind $itemtag <Button-1> "launch_browser [lindex $i 2]"
+						$canvas bind $itemtag <Button-1> "::hotmail::gotURL [lindex $i 2]"
 						#update ychange
 						set ychange [expr {$ychange + [image height $img]}]
 						incr count
@@ -1463,9 +1479,13 @@ puts "Photo: $i"
 					}
 				}
 				
-							
-#				#adjust $ychange, adding 1 line
-#				set ychange [expr {$ychange + [image height $img]}]
+				#for now show a message if no blogs or photos, for debugging purposes
+				if {$Blog == "" && $Album == ""} {
+					$canvas create text $xlinestart $ychange -font sitalf -text "Nothing to see here" -tags [list $tag $space_info contact space_info] -anchor nw -fill grey
+
+					#adjust $ychange, adding 1 line
+					set ychange [expr {$ychange + [image height $img]}]
+				}
 			}
 
 		}
@@ -1566,18 +1586,68 @@ puts "Photo: $i"
 	
 	
 	proc fetchSpacedData { email } {
-	
-
-	
-#TODO: fetching code here
-		::abook::setContactData $email ccardlist [::MSNCCARD::getContactCardList $email]
+		global HOME
+		variable token
 		
+		#fetch the ccard info
+		set ccard [::MSNCCARD::getContactCardList $email]
+		::abook::setContactData $email ccardlist $ccard
+puts "fetching data ..."
+#TODO: download photo thumbnails
+		set photos [::MSNCCARD::getAllPhotos $ccard]
+		set cachedir "[file join $HOME spaces $email]"
+		create_dir $cachedir
+		set count 0
+#DL REQUIRES LOGIN ! HOW ?
+		foreach photolist $photos {
+			#download the thumbnail
+			set thumbnailurl [lindex $photolist 3]
+puts "going to download $thumbnailurl"
+			set data [::guiContactList::getPage  $thumbnailurl]
+			set filename "[file join $cachedir $count.jpg]"
+			set fid [open $filename w]
+			fconfigure $fid -encoding binary
+			puts -nonewline $fid "$data"
+			close $fid
+
+
+			
+			
+			incr count
+			
+		}		
+
+
 		::abook::setVolatileData $email fetching_space 0
 		
 		#now we'll set the space as "read"
 		::abook::setVolatileData $email space_updated 0
 		::guiContactList::contactChanged "toggleSpaceShown" $email
 
+	}
+	
+	proc save_file { count cachedir } {
+		variable token
+		#download was succesfull
+	#TODO: what if something other then an image is here ?
+		set content [::http::data $token]
+	puts "dl succesfull: $content"			
+		set filename "[file join $cachedir $count.jpg]"
+		set fid [open $filename w]
+		fconfigure $fid -encoding binary
+		puts -nonewline $fid "$content"
+		close $fid
+		::http::cleanup $token
+	
+	
+	
+	}
+	
+	proc getPage { url } {
+		set token [::http::geturl $url]
+		set data [::http::data $token]
+		::http::cleanup $token
+		return $data
 	}
 
 
