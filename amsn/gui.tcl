@@ -4069,7 +4069,8 @@ proc cmsn_draw_offline {} {
 	$clcanvas bind check_ver <Button1-ButtonRelease> \
 		"::autoupdate::check_version"
 
-	$clcanvas configure -scrollregion [$clcanvas bbox check_ver lang_sel start_login start_loginas]
+	set bbox [$clcanvas bbox check_ver lang_sel start_login start_loginas]
+	$clcanvas configure -scrollregion [list 0 0 [lindex $bbox 2] [lindex $bbox 3]]
 
 	::guiContactList::semiUnlockContactList
 
@@ -4120,7 +4121,8 @@ proc cmsn_draw_reconnect { error_msg } {
 
 	::guiContactList::centerItems $clcanvas
 
-	$clcanvas configure -scrollregion [$clcanvas bbox cancel_reconnect signin errormsg loganim]
+	set bbox [$clcanvas bbox cancel_reconnect signin errormsg loganim]
+	$clcanvas configure -scrollregion [list 0 0 [lindex $bbox 2] [lindex $bbox 3]]
 
 	::guiContactList::semiUnlockContactList
 }
@@ -4167,7 +4169,8 @@ proc cmsn_draw_signin {} {
 
 	::guiContactList::centerItems $clcanvas
 
-	$clcanvas configure -scrollregion [$clcanvas bbox cancel_reconnect signin loganim]
+	set bbox [$clcanvas bbox cancel_reconnect signin loganim]
+	$clcanvas configure -scrollregion [list 0 0 [lindex $bbox 2] [lindex $bbox 3]]
 
 	::guiContactList::semiUnlockContactList
 }
