@@ -1,0 +1,21 @@
+amsn_lang_version 2
+check_minutes Vérifier vos e-mails toutes les ? minutes
+num_accounts De combien de comptes disposez-vous ? :
+account_settings Paramètres pour le compte numéro :
+username Nom d'utilisateur :
+password Mot de passe :
+show_notify Afficher la boîte de notification :
+open_browser Ouvrir le navigateur par un clic gauche
+click_to_check Cliquez ici pour vérifier vos e-mails :
+not_checked Votre boîte n'a pas encore été vérifiée
+checking Vérification en cours
+error_checking Erreur lors de la récupération des informations sur votre compte Gmail
+wrong_pass Nom d'utilisateur et/ou Mot de passe erroné
+account_locked Accès refusé à votre compte Gmail
+view_inbox Aller à ma boîte de réception Gmail ($1)
+check_now Vérifier maintenant
+tell_me Informations sur vos e-mails
+options Options
+receivedmail E-mail reçu de : $1
+mail_info Informations sur les e-mails du compte : $1
+gotmail Vous avez $1 nouveau(x) e-mail(s)

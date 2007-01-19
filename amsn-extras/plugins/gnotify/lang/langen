@@ -1,7 +1,7 @@
 amsn_lang_version 2
 check_minutes Check for new messages every ? minutes
 num_accounts How many accounts do you have : 
-account_settings Settings for accunt number: 
+account_settings Settings for account number : 
 username Username :
 password Password :
 show_notify Show notify window

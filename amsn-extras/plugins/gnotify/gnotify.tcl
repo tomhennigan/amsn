@@ -36,6 +36,12 @@ namespace eval ::gnotify {
 			accounts {1}
 		}
 
+		#Load lang files
+		set langdir [file join $dir "lang"]
+		set lang [::config::getGlobalKey language]
+		load_lang en $langdir
+		load_lang $lang $langdir
+
 		for {set acnt 0} {$acnt < 10} {incr acnt} {
 			array set ::gnotify::config [ list \
 							  user_[set acnt] {username@gmail.com} \
@@ -56,12 +62,6 @@ namespace eval ::gnotify {
 		::skin::setPixmap attachment paperclip.gif pixmaps [file join $dir pixmaps]
 		::skin::setPixmap star star.gif pixmaps [file join $dir pixmaps]
 
-
-		#Load lang files
-		set langdir [file join $dir "lang"]
-		set lang [::config::getGlobalKey language]
-		load_lang en $langdir
-		load_lang $lang $langdir
 
 		set ::gnotify::checkingnow 0
 		
