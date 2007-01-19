@@ -706,13 +706,37 @@ namespace eval ::smiley {
 		label $w.c.custom_new -text "[trans custom_new]"  -background [$w.c cget -background] -font sboldf
 		bind $w.c.custom_new <Enter> [list $w.c.custom_new configure -relief raised]
 		bind $w.c.custom_new <Leave> [list $w.c.custom_new configure -relief flat]
-		bind $w.c.custom_new <Button1-ButtonRelease> "::smiley::newCustomEmoticonGUI; event generate $w <Leave>"
+		bind $w.c.custom_new <Button1-ButtonRelease> "::smiley::newCustomEmoticonGUI; wm state $w withdrawn"
 		
 		set ypos [expr {(($rows-1)*$smih + ($smih/2))}]
 		$w.c create window  0 $ypos -window $w.c.custom_new -width [expr {$x_geo - 2}] -height $smih -anchor w
 		
 		
-		bind $w <Enter> "bind $w <Leave> \"bind $w <Leave> \\\"wm state $w withdrawn\\\"\""
+		bind $w <Leave> "::smiley::handleLeaveEvent $w $x_geo $y_geo"
+	}
+
+
+	#///////////////////////////////////////////////////////////////////////////////
+	# proc handleLeaveEvent { w x_geo y_geo }
+	#
+	# Handle the Leave event, detecting if is truly generated from the mouse exiting
+	# from the menu, to work around the Compiz/Beryl bug
+
+	proc handleLeaveEvent { w x_geo y_geo } {
+		# Get the pointer and the window coordinates
+		set pointer_x [winfo pointerx $w]
+		set pointer_y [winfo pointery $w]
+		set window_x [winfo rootx $w]
+		set window_y [winfo rootx $w]
+		# Calculate pointer coordinates relative to the menu
+		set x [expr {$pointer_x-$window_x}]
+		set y [expr {$pointer_y-$window_y}]
+		# Check if the pointer is outside the menu
+		# The first two conditions refers to the case in which the pointe is no
+		# more on the same screen of the menu (and is therefore outside of it)
+		if { $pointer_x == -1 || $pointer_y==-1 || $x < 0 || $x > $x_geo || $x < 0 || $x > $x_geo } {
+			wm state $w withdrawn
+		}
 	}
 	
 	
