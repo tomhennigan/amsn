@@ -86,7 +86,9 @@ namespace eval ::guiContactList {
 		variable GroupsRedrawQueue
 		variable ContactsRedrawQueue
 		variable NickReparseQueue
-		variable taskId
+		variable contactAfterId
+		variable resizeAfterId
+		variable external_lock
 
 
 		set clframe $w.cl
@@ -97,7 +99,11 @@ namespace eval ::guiContactList {
 		set GroupsRedrawQueue [list]
 		set NickReparseQueue [list]
 		
-		set taskId 0
+		set contactAfterId 0
+		set resizeAfterId 0
+
+		#This means that the CL hasn't been locked by external code
+		set external_lock 0
 
 		#here we load images used in this code:
 		::skin::setPixmap back back.gif
@@ -111,9 +117,6 @@ namespace eval ::guiContactList {
 		::skin::setPixmap down box_down.gif
 		::skin::setPixmap downright box_downright.gif
 
-		# Set beginning big width/height		
-		set clbox [list 0 0 2000 1500]
-
 		variable Xbegin
 		variable Ybegin
 
@@ -125,8 +128,6 @@ namespace eval ::guiContactList {
 		scrollbar $clscrollbar -command "::guiContactList::scrollCLsb $clcanvas"
 		# Create a blank canvas
 		canvas $clcanvas -background [::skin::getKey contactlistbg] -yscrollcommand "::guiContactList::setScroll $clscrollbar"
-		
-
 
 		if { $::contactlist_loaded } {
 			# Parse the nicknames for smiley/newline substitution
@@ -213,17 +214,66 @@ namespace eval ::guiContactList {
 		return $clframe
 	}
 
+	proc lockContactList { } {
+		#Here, only the calling proc should draw on the contact list. The contact list isn't drawn anymore.
+		variable external_lock
+		variable clcanvas
+
+		if { $external_lock > 1 } { return "" }
+		set external_lock 2
+		if { [winfo exists $clcanvas] } {
+			$clcanvas addtag all_cl all
+			$clcanvas delete all_cl
+			$clcanvas configure -scrollregion [list 0 0 2000 0]
+			return $clcanvas
+		}
+		return ""
+	}
+
+	proc semiUnlockContactList {} {
+		# Here only external procs can write after grabbing a lock
+		variable external_lock
+
+		if { $external_lock != 2 } { return }
+		set external_lock 1	
+	}
+
+	proc unlockContactList {} {
+		#Here everybody can write to the CL (but external procs should grab a lock before writing)
+		variable external_lock
+		variable clcanvas
+
+		if { !$external_lock } { return }
+		set external_lock 0
+
+		if { [winfo exists $clcanvas] } {
+			$clcanvas addtag all_cl all
+			$clcanvas delete all_cl			
+			$clcanvas create image 0 0 -image [::skin::loadPixmap back] -anchor nw -tag backgroundimage
+			$clcanvas configure -scrollregion [list 0 0 2000 [lindex [$clcanvas bbox backgroundimage] 3]]
+
+			if { $::contactlist_loaded } {
+				::guiContactList::drawList $clcanvas
+			}
+		}
+	}
 
 	proc clResized { clcanvas } {
 		#redraw the contacts as the width might have changed and reorganise
-		::guiContactList::drawContacts $clcanvas
-		::guiContactList::organiseList $clcanvas	
+		variable resizeAfterId
+#If, within 500 ms, another event for redrawing comes in, we redraw 'm together
+		catch {after cancel $resizeAfterId}		
+		set resizeAfterId [after 500 "::guiContactList::drawContacts $clcanvas; \
+			::guiContactList::organiseList $clcanvas;"]
+		::guiContactList::centerItems $clcanvas
 	}
 
 	#/////////////////////////////////////////////////////////////////////
 	# Function that draws everything needed on the canvas
 	#/////////////////////////////////////////////////////////////////////
 	proc drawList {canvas} {
+		if { ${::guiContactList::external_lock} } { return }
+
 		::guiContactList::drawGroups $canvas
 		::guiContactList::drawContacts $canvas
 		::guiContactList::organiseList $canvas
@@ -240,6 +290,9 @@ namespace eval ::guiContactList {
 
 
 	proc drawGroups { canvas } {
+
+		if { ${::guiContactList::external_lock} } { return }
+
 		# Now let's get the actual whole contact list (also not shown users)
 		set contactList [getContactList full]
 
@@ -254,6 +307,8 @@ namespace eval ::guiContactList {
 
 
 	proc drawContacts { canvas } {
+
+		if { ${::guiContactList::external_lock} } { return }
 		#if a contact is found before a group, assign it to "offline"; this shouldn't happen though, I think
 		set groupID "offline"
 		foreach element [getContactList full] {
@@ -300,10 +355,13 @@ namespace eval ::guiContactList {
 	proc loggedOut { eventused } {
 		variable clcanvas
 
+		if { ${::guiContactList::external_lock} } { return }
+
 		if { [winfo exists $clcanvas] && !$::contactlist_loaded } {
 			$clcanvas addtag all_cl all
 			$clcanvas delete all_cl
 			$clcanvas create image 0 0 -image [::skin::loadPixmap back] -anchor nw -tag backgroundimage
+			$clcanvas configure -scrollregion [list 0 0 2000 [lindex [$clcanvas bbox backgroundimage] 3]]
 		}
 
 	}
@@ -336,7 +394,7 @@ namespace eval ::guiContactList {
 		variable GroupsRedrawQueue
 		variable ContactsRedrawQueue
 		variable NickReparseQueue		
-		variable taskId
+		variable contactAfterId
 		
 		#Check what has to be done and add to the redrawing queues
 		foreach email $emails {
@@ -422,9 +480,9 @@ namespace eval ::guiContactList {
 		
 		}; #end of foreach
 
-#If, withing 500 ms, another event for redrawing comes in, we redraw 'm together
-		catch {after cancel $taskId}		
-		set taskId [after 500 ::guiContactList::redrawFromQueue]
+#If, within 500 ms, another event for redrawing comes in, we redraw 'm together
+		catch {after cancel $contactAfterId}		
+		set contactAfterId [after 500 ::guiContactList::redrawFromQueue]
 
 	}
 	
@@ -432,6 +490,7 @@ namespace eval ::guiContactList {
 	
 	proc redrawFromQueue {} {
 		variable clcanvas
+		variable external_lock
 		variable nicknameArray
 		
 		variable GroupsRedrawQueue
@@ -457,6 +516,8 @@ namespace eval ::guiContactList {
 			set evpar(login) $contact
 			::plugins::PostEvent NickArray evpar
 		}
+
+		if { $external_lock } { return }
 
 		#redraw contacts
 		foreach contact $contacts {
@@ -497,7 +558,7 @@ namespace eval ::guiContactList {
 		variable Ybegin
 		variable nickheightArray
 
-		if { !$::contactlist_loaded } { return }
+		if { ${::guiContactList::external_lock} || !$::contactlist_loaded } { return }
 
 		#We remove the underline
 		$canvas delete uline
@@ -710,7 +771,7 @@ namespace eval ::guiContactList {
 	# Function that draws a group 
 	#/////////////////////////////////////////////////////////////////////////
 	proc drawGroup { canvas element} {
-		if { !$::contactlist_loaded } { 
+		if { ${::guiContactList::external_lock} || !$::contactlist_loaded } { 
 			return
 		}
 
@@ -811,7 +872,7 @@ namespace eval ::guiContactList {
 		variable Xbegin
 		
 
-		if { !$::contactlist_loaded } { return }
+		if { ${::guiContactList::external_lock} || !$::contactlist_loaded } { return }
 
 		# Set the place for drawing it (should be invisible); these vars won't be changed
 		set xpos 0
@@ -936,8 +997,8 @@ namespace eval ::guiContactList {
 		#--------------#
 		
 		# Check if we need an icon to show an updated space/blog, and draw one if we do
-		#We must create the icon and hide after else, the status icon will stick the border\
-		  it's surely due to anchor parameter
+		# We must create the icon and hide after else, the status icon will stick the border \
+		# it's surely due to anchor parameter
 		$canvas create image $xnickpos $ypos -anchor nw \
 			 -image $noupdate_img -tags [list contact icon $tag $space_icon]
 		if { [::abook::getVolatileData $email HSB 0] } {
@@ -1935,6 +1996,21 @@ puts "going to download $thumbnailurl"
 			}
 		# }
 		$canvas lower uline_$nicktag $nicktag
+	}
+
+	proc centerItems { canvas } {
+		set newX [expr [winfo width $canvas]/2]
+		set newY [expr [winfo height $canvas]/2]
+		
+		set items [$canvas find withtag centerx]
+		foreach item $items {
+			$canvas coords $item $newX [lindex [$canvas coords $item] 1]
+		}
+
+		set items [$canvas find withtag centery]
+		foreach item $items {
+			$canvas coords $item [lindex [$canvas coords $item] 0] $newY
+		}
 	}
 
 	proc setScroll { scrollbar first last } {

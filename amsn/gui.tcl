@@ -242,6 +242,7 @@ namespace eval ::amsn {
 		font create sboldf -family $family -size $size -weight bold
 		font create splainf -family $family -size $size -weight normal
 		font create sunderf -family $family -size $size -weight normal -underline yes
+		font create sboldunderf -family $family -size $size -weight bold -underline yes
 		font create sbolditalf -family $family -size $size -weight bold -slant italic
 		font create sitalf -family $family -size $size -slant italic
 		font create macfont -family [list {Lucida Grande}] -size 13 -weight normal
@@ -3452,22 +3453,8 @@ proc cmsn_draw_main {} {
 	
 	$pgBuddyTop configure -padx 0 -pady 0
 
-	ScrolledWindow $pgBuddy.sw -auto vertical -scrollbar vertical -ipad 0
-	# No need for the pack since it will be done before calling each of the cmsn_draw_* functions.
-	#pack $pgBuddy.sw -expand true -fill both
-	set pgBuddy $pgBuddy.sw
-
-	text $pgBuddy.text -background [::skin::getKey contactlistbg] -width 30 -height 0 -wrap none \
-		-cursor left_ptr -font splainf \
-		-selectbackground [::skin::getKey contactlistbg] -selectborderwidth 0 -exportselection 0 \
-		-relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0
-
-	# Also create the new CL, but don't pack it yet...
-	if { [::config::getKey use_new_cl 0] == 1 } {
-		::guiContactList::createCLWindowEmbeded [winfo parent $pgBuddy]
-	}
-
-	$pgBuddy setwidget $pgBuddy.text
+	set pgBuddy [::guiContactList::createCLWindowEmbeded $pgBuddy]
+	pack $pgBuddy -expand true -fill both
 
 	# Initialize the event history
 	frame .main.eventmenu
@@ -3988,98 +3975,103 @@ proc cmsn_draw_offline {} {
 	#leaving it just in case... dunno what to do with it :S
 	after cancel "cmsn_draw_online"
 
-	global sboldf password pgBuddy pgBuddyTop
+	global password pgBuddyTop
 
-	# Now we need this because the new CL might be in place in the SW...
-	displayCL 0
+	# Now we get a lock on the contact list
+	set clcanvas [::guiContactList::lockContactList]
 
-	bind $pgBuddy.text <Configure>  ""
+	if { $clcanvas == "" } { return }
 
 	wm title . "[trans title] - [trans offline]"
 
 	pack forget $pgBuddyTop
-	$pgBuddy.text configure -state normal
-	$pgBuddy.text delete 0.0 end
 
 	#Send postevent "OnDisconnect" to plugin when we disconnect
 	::plugins::PostEvent OnDisconnect evPar
 
-	#Logging in
-	$pgBuddy.text tag conf check_ver -fore #777777 -underline true \
-		-font splainf -justify left
-	$pgBuddy.text tag bind check_ver <Enter> \
-		"$pgBuddy.text tag conf check_ver -fore #0000A0 -underline false;\
-		$pgBuddy.text conf -cursor hand2"
-	$pgBuddy.text tag bind check_ver <Leave> \
-		"$pgBuddy.text tag conf check_ver -fore #000000 -underline true;\
-		$pgBuddy.text conf -cursor left_ptr"
-	$pgBuddy.text tag bind check_ver <Button1-ButtonRelease> \
-		"::autoupdate::check_version"
+	set textheight [font configure splainf -size]
 
-	$pgBuddy.text tag conf lang_sel -fore #777777 -underline true \
-		-font splainf -justify left
-	$pgBuddy.text tag bind lang_sel <Enter> \
-		"$pgBuddy.text tag conf lang_sel -fore #0000A0 -underline false;\
-		$pgBuddy.text conf -cursor hand2"
-	$pgBuddy.text tag bind lang_sel <Leave> \
-		"$pgBuddy.text tag conf lang_sel -fore #000000 -underline true;\
-		$pgBuddy.text conf -cursor left_ptr"
-	$pgBuddy.text tag bind lang_sel <Button1-ButtonRelease> \
+	set globe_image [::skin::loadPixmap globe]
+
+	$clcanvas create image 5 5 -image $globe_image -anchor nw
+	$clcanvas create text [expr [image width $globe_image] + 7] 5 -text "[trans language]" -font sunderf \
+		-fill #777777 -anchor nw -tags [list lang_sel]
+
+	$clcanvas bind lang_sel <Enter> \
+		"$clcanvas itemconfigure lang_sel -fill #0000A0 -font splainf; \
+		$clcanvas configure -cursor hand2"
+	$clcanvas bind lang_sel <Leave> \
+		"$clcanvas itemconfigure lang_sel -fill #777777 -font sunderf; \
+		$clcanvas configure -cursor left_ptr"
+	$clcanvas bind lang_sel <Button1-ButtonRelease> \
 		"::lang::show_languagechoose"
 
-	$pgBuddy.text tag conf start_login -fore #000000 -underline true \
-	-font sboldf -justify center
-	$pgBuddy.text tag bind start_login <Enter> \
-	"$pgBuddy.text tag conf start_login -fore #0000A0 -underline false;\
-	$pgBuddy.text conf -cursor hand2"
-	$pgBuddy.text tag bind start_login <Leave> \
-	"$pgBuddy.text tag conf start_login -fore #000000 -underline true;\
-	$pgBuddy.text conf -cursor left_ptr"
-	$pgBuddy.text tag bind start_login <Button1-ButtonRelease> ::MSN::connect
-
-	$pgBuddy.text tag conf start_loginas -fore #000000 -underline true \
-		-font sboldf -justify center
-	$pgBuddy.text tag bind start_loginas <Enter> \
-		"$pgBuddy.text tag conf start_loginas -fore #0000A0 -underline false;\
-		$pgBuddy.text conf -cursor hand2"
-	$pgBuddy.text tag bind start_loginas <Leave> \
-		"$pgBuddy.text tag conf start_loginas -fore #000000 -underline true;\
-		$pgBuddy.text conf -cursor left_ptr"
-	$pgBuddy.text tag bind start_loginas <Button1-ButtonRelease> \
-		"cmsn_draw_login"
-
-	$pgBuddy.text image create end -image [::skin::loadPixmap globe] -pady 5 -padx 5
-	$pgBuddy.text insert end "[trans language]\n" lang_sel
-
-	$pgBuddy.text insert end "\n\n\n\n"
-
 	if { ([::config::getKey login] != "") && ([::config::getGlobalKey disableprofiles] != 1)} {
+
 		if { $password != "" } {
-			$pgBuddy.text insert end "[::config::getKey login]\n" start_login
-			$pgBuddy.text insert end "[trans clicktologin]" start_login
+			#They will be centered at the end
+			$clcanvas create text 0 90 \
+				-text "[::config::getKey login]" -font sboldunderf \
+				-fill #000000 -anchor center -tags [list start_login centerx]
+			$clcanvas create text 0 [expr {93 + $textheight}] \
+				-text "[trans clicktologin]" -font sboldunderf \
+				-fill #000000 -anchor center -tags [list start_login centerx]
+			
+			$clcanvas bind start_login <Enter> \
+				"$clcanvas itemconfigure start_login -fill #0000A0 -font sboldf; \
+				$clcanvas configure -cursor hand2;"
+			$clcanvas bind start_login <Leave> \
+				"$clcanvas itemconfigure start_login -fill #000000 -font sboldunderf; \
+				$clcanvas configure -cursor left_ptr;"
+
+			$clcanvas bind start_login <Button1-ButtonRelease> "::MSN::connect"
+
 		} else {
-			$pgBuddy.text insert end "[::config::getKey login]\n" start_loginas
-			$pgBuddy.text insert end "[trans clicktologin]" start_loginas
+			#They will be centered at the end
+			$clcanvas create text 0 90 \
+				-text "[::config::getKey login]" -font sboldunderf \
+				-fill #000000 -anchor center -tags [list start_loginas centerx]
+			$clcanvas create text 0 [expr {93 + $textheight}] \
+				-text "[trans clicktologin]..." -font sboldunderf \
+				-fill #000000 -anchor center -tags [list start_loginas centerx]
 		}
-#		.main_menu.file entryconfigure 0 -label "[trans loginas] [::config::getKey login]"
 
-		$pgBuddy.text insert end "\n\n\n\n\n"
-
-		$pgBuddy.text insert end "[trans loginas]...\n" start_loginas
-		$pgBuddy.text insert end "\n\n\n\n\n\n\n\n\n"
+		$clcanvas create text 0 170 \
+			-text "[trans loginas]..." -font sboldunderf \
+			-fill #000000 -anchor center -tags [list start_loginas centerx]
 
 	} else {
-		$pgBuddy.text insert end "[trans clicktologin]..." start_loginas
-
-		$pgBuddy.text insert end "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
-
-#		.main_menu.file entryconfigure 0 -label "[trans loginas]..."
+		$clcanvas create text 0 90 \
+			-text "[trans clicktologin]..." -font sboldunderf \
+			-fill #000000 -anchor center -tags [list start_loginas centerx]
 	}
 
-	$pgBuddy.text insert end "   "
-	$pgBuddy.text insert end "[trans checkver]...\n" check_ver
+	$clcanvas bind start_loginas <Enter> \
+		"+$clcanvas itemconfigure start_loginas -fill #0000A0 -font sboldf; \
+		$clcanvas configure -cursor hand2;"
+	$clcanvas bind start_loginas <Leave> \
+		"+$clcanvas itemconfigure start_loginas -fill #000000 -font sboldunderf; \
+		$clcanvas configure -cursor left_ptr;"
 
-	$pgBuddy.text configure -state disabled
+	$clcanvas bind start_loginas <Button1-ButtonRelease> "cmsn_draw_login"
+
+	::guiContactList::centerItems $clcanvas
+
+	$clcanvas create text 10 350 -text "[trans checkver]..." -font sunderf \
+		-fill #777777 -anchor nw -tags [list check_ver]
+
+	$clcanvas bind check_ver <Enter> \
+		"$clcanvas itemconfigure check_ver -fill #0000A0 -font splainf; \
+		$clcanvas configure -cursor hand2"
+	$clcanvas bind check_ver <Leave> \
+		"$clcanvas itemconfigure check_ver -fill #777777 -font sunderf; \
+		$clcanvas configure -cursor left_ptr"
+	$clcanvas bind check_ver <Button1-ButtonRelease> \
+		"::autoupdate::check_version"
+
+	$clcanvas configure -scrollregion [$clcanvas bbox check_ver lang_sel start_login start_loginas]
+
+	::guiContactList::semiUnlockContactList
 
 	#Initialize Preferences if window is open
 	#TODO. Better than this, trigger an event, and listen in prefrences for that event
@@ -4095,47 +4087,42 @@ proc cmsn_draw_offline {} {
 proc cmsn_draw_reconnect { error_msg } {
 	bind . <Configure> ""
 
-	global pgBuddy pgBuddyTop
+	global pgBuddyTop
 
-	# Now we need this because the new CL might be in place in the SW...
-	displayCL 0
+	# Now we get a lock on the contact list
+	set clcanvas [::guiContactList::lockContactList]
+
+	if { $clcanvas == "" } { return }
 
 	pack forget $pgBuddyTop
-	$pgBuddy.text configure -state normal -font splainf
-	$pgBuddy.text delete 0.0 end
-	$pgBuddy.text tag conf signin -fore #000000 \
-		-font sboldf -justify center
-	$pgBuddy.text tag conf errormsg -fore #000000 \
-		-font splainf -justify center -wrap word
 
+	set loganim [::skin::loadPixmap loganim]
 
-	$pgBuddy.text insert end "\n\n\n\n\n"
+	$clcanvas create image 0 90 -image $loganim -anchor n -tags [list loganim centerx]
 
-	$pgBuddy.text tag conf cancel_reconnect -fore #000000 -underline true \
-		-font splainf -justify center
-	$pgBuddy.text tag bind cancel_reconnect <Enter> \
-		"$pgBuddy.text tag conf cancel_reconnect -fore #0000A0 -underline false;\
-		$pgBuddy.text conf -cursor hand2"
-	$pgBuddy.text tag bind cancel_reconnect <Leave> \
-		"$pgBuddy.text tag conf cancel_reconnect -fore #000000 -underline true;\
-		$pgBuddy.text conf -cursor left_ptr"
-	$pgBuddy.text tag bind cancel_reconnect <Button1-ButtonRelease> \
+	$clcanvas create text 0 [expr 120 + [image height $loganim]] -text "$error_msg" -font splainf \
+		-fill #000000 -justify center -tags [list errormsg centerx]
+
+	$clcanvas create text 0 [expr 190 + [image height $loganim]] -text "[trans reconnecting]..." -font sboldf \
+		-fill #000000 -tags [list signin centerx]
+
+	$clcanvas create text 0 [expr 250 + [image height $loganim]] -text "[trans cancel]" -font sunderf \
+		-fill #000000 -tags [list cancel_reconnect centerx]
+
+	$clcanvas bind cancel_reconnect <Enter> \
+		"$clcanvas itemconfigure cancel_reconnect -fill #0000A0 -font splainf;\
+		$clcanvas configure -cursor hand2"
+	$clcanvas bind cancel_reconnect <Leave> \
+		"$clcanvas itemconfigure cancel_reconnect -fill #000000 -font sunderf;\
+		$clcanvas configure -cursor left_ptr"
+	$clcanvas bind cancel_reconnect <Button1-ButtonRelease> \
 		"::MSN::cancelReconnect"
 
-	catch {
-		$pgBuddy.text insert end " " signin
-		$pgBuddy.text image create end -image [::skin::loadPixmap loganim]
-		$pgBuddy.text insert end " " signin
-	}
+	::guiContactList::centerItems $clcanvas
 
-	$pgBuddy.text insert end "\n\n"
-	$pgBuddy.text insert end "$error_msg" errormsg
-	$pgBuddy.text insert end "\n\n"
-	$pgBuddy.text insert end "\n\n"
-	$pgBuddy.text insert end "[trans reconnecting]..." signin
-	$pgBuddy.text insert end "\n\n\n"
-	$pgBuddy.text insert end "[trans cancel]" cancel_reconnect
-	$pgBuddy.text configure -state disabled
+	$clcanvas configure -scrollregion [$clcanvas bbox cancel_reconnect signin errormsg loganim]
+
+	::guiContactList::semiUnlockContactList
 }
 #///////////////////////////////////////////////////////////////////////
 
@@ -4145,48 +4132,44 @@ proc cmsn_draw_reconnect { error_msg } {
 proc cmsn_draw_signin {} {
 	bind . <Configure> ""
 
-	global pgBuddy pgBuddyTop eventdisconnected
+	global pgBuddyTop eventdisconnected
 
 	set eventdisconnected 1
 
 	wm title . "[trans title] - [::config::getKey login]"
 
 
-	# Now we need this because the new CL might be in place in the SW...
-	displayCL 0
+	# Now we get a lock on the contact list
+	set clcanvas [::guiContactList::lockContactList]
+
+	if { $clcanvas == "" } { return }
 
 	pack forget $pgBuddyTop
-	$pgBuddy.text configure -state normal -font splainf
 
-	$pgBuddy.text tag conf cancel_reconnect -fore #000000 -underline true \
-		-font splainf -justify center
-	$pgBuddy.text tag bind cancel_reconnect <Enter> \
-		"$pgBuddy.text tag conf cancel_reconnect -fore #0000A0 -underline false;\
-		$pgBuddy.text conf -cursor hand2"
-	$pgBuddy.text tag bind cancel_reconnect <Leave> \
-		"$pgBuddy.text tag conf cancel_reconnect -fore #000000 -underline true;\
-		$pgBuddy.text conf -cursor left_ptr"
-	$pgBuddy.text tag bind cancel_reconnect <Button1-ButtonRelease> \
+	set loganim [::skin::loadPixmap loganim]
+
+	$clcanvas create image 0 90 -image $loganim -anchor n -tags [list loganim centerx]
+
+	$clcanvas create text 0 [expr 120 + [image height $loganim]] -text "[trans loggingin]..." -font sboldf \
+		-fill #000000 -tags [list signin centerx]
+
+	$clcanvas create text 0 [expr 190 + [image height $loganim]] -text "[trans cancel]" -font sunderf \
+		-fill #000000 -tags [list cancel_reconnect centerx]
+
+	$clcanvas bind cancel_reconnect <Enter> \
+		"$clcanvas itemconfigure cancel_reconnect -fill #0000A0 -font splainf;\
+		$clcanvas configure -cursor hand2"
+	$clcanvas bind cancel_reconnect <Leave> \
+		"$clcanvas itemconfigure cancel_reconnect -fill #000000 -font sunderf;\
+		$clcanvas configure -cursor left_ptr"
+	$clcanvas bind cancel_reconnect <Button1-ButtonRelease> \
 		"::MSN::cancelReconnect"
 
-	$pgBuddy.text delete 0.0 end
-	$pgBuddy.text tag conf signin -fore #000000 \
-		-font sboldf -justify center
-	#$pgBuddy.text insert end "\n\n\n\n\n\n\n"
-	$pgBuddy.text insert end "\n\n\n\n\n"
+	::guiContactList::centerItems $clcanvas
 
-	catch {
-		$pgBuddy.text insert end " " signin
-		$pgBuddy.text image create end -image [::skin::loadPixmap loganim]
-		$pgBuddy.text insert end " " signin
+	$clcanvas configure -scrollregion [$clcanvas bbox cancel_reconnect signin loganim]
 
-	}
-
-	$pgBuddy.text insert end "\n\n"
-	$pgBuddy.text insert end "[trans loggingin]..." signin
-	$pgBuddy.text insert end "\n\n\n\n"
-	$pgBuddy.text insert end "[trans cancel]" cancel_reconnect
-	$pgBuddy.text configure -state disabled
+	::guiContactList::semiUnlockContactList
 }
 #///////////////////////////////////////////////////////////////////////
 
@@ -4613,11 +4596,8 @@ proc cmsn_draw_buildtop_wrapped {} {
 	foreach child [winfo children $pgBuddyTop] {
 		destroy $child
 	}
-	if { [winfo manager $pgBuddy] == "pack" } {
-		pack $pgBuddyTop -expand false -fill x -before $pgBuddy
-	} else {
-		pack $pgBuddyTop -expand false -fill x -before [winfo parent $pgBuddy].cl
-	}
+
+	pack $pgBuddyTop -expand false -fill x -before $pgBuddy
 	
 	# Display MSN logo with user's handle. Make it clickable so
 	# that the user can change his/her status that way
@@ -4796,431 +4776,18 @@ proc cmsn_draw_buildtop_wrapped {} {
 
 proc cmsn_draw_online_wrapped {} {
 
-	if { [::config::getKey use_new_cl 0] == 0} {
-		cmsn_draw_online_wrapped_oldCL
-		switch_to_newCL
-	} else {
-
-		# Now we need this to make sure it's the new CL being shown...
-		#$pgBuddy setwidget $pgBuddy.cl
-		displayCL
-
-		#::guiContactList::updateCL
-	}
-
-}
-
-
-proc switch_to_newCL { } {
-	if { [::config::getKey use_new_cl 0] == 0} {
-		if { ![winfo exists [winfo parent $::pgBuddy].cl] } {
-			::guiContactList::createCLWindowEmbeded [winfo parent $::pgBuddy]
-		}
-		::config::setKey use_new_cl 1
-		cmsn_draw_online
-	}
-}
-
-proc displayCL { {newCL 1} } {
-	global pgBuddy
-	if { $newCL == 1 } {
-		pack forget $pgBuddy
-		pack [winfo parent $pgBuddy].cl -expand true -fill both
-
-		#Pack what is necessary for event menu
-		if { [::log::checkeventdisplay] } {
-			pack configure .main.eventmenu.list -fill x -ipadx 10
-			pack configure .main.eventmenu -side bottom -fill x
-			pack configure .main.eventmenu -padx [list [::skin::getKey eventmenuleftpad "0"] [::skin::getKey eventmenurightpad "0"]]
-			::log::eventlogin
-			.main.eventmenu.list select 0
-		} else {
-			pack forget .main.eventmenu
-		}
-	} else {
-		catch { pack forget [winfo parent $pgBuddy].cl }
-		pack $pgBuddy -expand true -fill both
-	}
-}
-
-proc cmsn_draw_online_wrapped_oldCL {} {
-	global login \
-		password pgBuddy pgBuddyTop automessage emailBList
-
-	# Now we need this because the new CL might be in place in the SW...
-	displayCL 0
-
-	set scrollidx [$pgBuddy.text yview]
-
-	set my_name [::abook::getPersonal MFN]
-	set my_state_no [::MSN::stateToNumber [::MSN::myStatusIs]]
-	set my_state_desc [trans [::MSN::stateToDescription [::MSN::myStatusIs]]]
-	set my_colour [::MSN::stateToColor [::MSN::myStatusIs]]
-	set my_image_type [::MSN::stateToBigImage [::MSN::myStatusIs]]
-	set my_mobilegroup [::config::getKey showMobileGroup]
-	if { $my_mobilegroup != 1} {
-		set my_mobileidx 1
-	} else {
-		set my_mobileidx 0
-	}
-
-	#Clear every tag to avoid memory leaks:
-	foreach tag [$pgBuddy.text tag names] {
-		$pgBuddy.text tag delete $tag
-	}
-
-	# Decide which grouping we are going to use
-	if {[::config::getKey orderbygroup]} {
-		::groups::Enable
-
-		#Order alphabetically
-		set thelist [::groups::GetList]
-		set thelistnames [list]
-
-		foreach gid $thelist {
-			#Ignore special group "Individuals" when sorting
-			if { $gid != 0} {
-				set thename [::groups::GetName $gid]
-				lappend thelistnames [list "$thename" $gid]
-			}
-		}
-
-
-		if {[::config::getKey ordergroupsbynormal]} {
-			set sortlist [lsort -dictionary -index 0 $thelistnames ]
-		} else {
-			set sortlist [lsort -decreasing -dictionary -index 0 $thelistnames ]
-		}
-
-		#Make "Individuals" group (ID 0) always the first
-		set glist [list 0]
-
-		foreach gdata $sortlist {
-			lappend glist [lindex $gdata 1]
-		}
-
-
-		set gcnt [llength $glist]
-
-		if {[::config::getKey orderbygroup] == 2 } {
-			if { $my_mobilegroup == 1 } {
-				lappend glist "mobile"
-				incr gcnt
-			}
-			lappend glist "offline"
-			incr gcnt
-		}
-	} else {
-		# Order by Online/Offline
-		# Defaults already set in setup_groups
-		set glist [list online offline]
-		set gcnt 2
-		if { $my_mobilegroup == 1 } {
-			set glist [linsert $glist 1 "mobile"]
-			incr gcnt
-		}
-		::groups::Disable
-	}
-
-	if { [::config::getKey showblockedgroup] == 1 && [llength [array names emailBList] ] != 0 } {
-		lappend glist "blocked"
-		incr gcnt
-	}
-
-	set list_users [::MSN::sortedContactList]
-
-	$pgBuddy.text configure -state normal -font splainf -background [::skin::getKey contactlistbg]
-	$pgBuddy.text delete 0.0 end
-
-	# Configure bindings/tags for each named group in our scheme
-	foreach gname $glist {
-		if {$gname != "online" && $gname != "offline" && $gname != "blocked" && $gname != "mobile" } {
-			set gtag  "tg$gname"
-		} else {
-			set gtag $gname
-		}
-
-		if { [::groups::IsExpanded $gname] } {
-			$pgBuddy.text tag conf $gtag -fore [::skin::getKey groupcolorextend] -font sboldf
-		} else {
-			$pgBuddy.text tag conf $gtag -fore [::skin::getKey groupcolorcontract] -font sboldf
-		}
-
-		$pgBuddy.text tag bind $gtag <Button1-ButtonRelease> \
-			"::groups::ToggleStatus $gname;cmsn_draw_online 0 2"
-
-		#Don't add menu for "Individuals" group
-		if { $gname != 0 } {
-			#Specific for Mac OS X, Change button3 to button 2 and add control-click
-			if { [OnMac] } {
-				$pgBuddy.text tag bind $gtag <Button2-ButtonRelease> "::groups::GroupMenu $gname %X %Y"
-				$pgBuddy.text tag bind $gtag <Control-ButtonRelease> "::groups::GroupMenu $gname %X %Y"
-			} else {
-				$pgBuddy.text tag bind $gtag <Button3-ButtonRelease> "::groups::GroupMenu $gname %X %Y"
-			}
-		}
-
-		if { [::skin::getKey underline_group] } {
-			$pgBuddy.text tag bind $gtag <Enter> "$pgBuddy.text tag conf $gtag -under 1"
-			$pgBuddy.text tag bind $gtag <Leave> "$pgBuddy.text tag conf $gtag -under 0"
-		}
-		if { [::skin::getKey changecursor_group] } {
-			$pgBuddy.text tag bind $gtag <Enter> [onMouseEnterHand $pgBuddy.text]
-			$pgBuddy.text tag bind $gtag <Leave> [onMouseLeaveHand $pgBuddy.text]
-		}
-	}
-
-	# For each named group setup its heading where >><< image
-	# appears together with the group name and total nr. of handles
-	# [<<] My Group Name (n)
-	for {set gidx 0} {$gidx < $gcnt} {incr gidx} {
-		set gname [lindex $glist $gidx]
-		set gtag  "tg$gname"
-
-		if { [::groups::IsExpanded $gname] } {
-			toggleGroup $pgBuddy.text contract$gname contract $gname [::skin::getKey contract_xpad] [::skin::getKey contract_ypad]
-		} else {
-			toggleGroup $pgBuddy.text expand$gname expand $gname [::skin::getKey expand_xpad] [::skin::getKey expand_ypad]
-		}
-
-		# Show the group's name/title
-		if {[::config::getKey orderbygroup]} {
-			# For user defined groups we don't have/need translations
-			set gtitle [::groups::GetName $gname]
-
-			if { [::config::getKey orderbygroup] == 2 } {
-				if { $gname == "offline" } {
-					set gtitle "[trans uoffline]"
-					set gtag "offline"
-				}
-				if { $gname == "mobile" } {
-					set gtitle "[trans mobile]"
-					set gtag "mobile"
-				}
-			}
-
-			if { $gname == "blocked" } {
-				set gtitle "[trans youblocked]"
-				set gtag "blocked"
-			}
-
-			$pgBuddy.text insert end $gtitle $gtag
-		} else {
-			if {$gname == "online"} {
-				$pgBuddy.text insert end "[trans uonline]" online
-			} elseif {$gname == "offline" } {
-				$pgBuddy.text insert end "[trans uoffline]" offline
-			} elseif { [::config::getKey showblockedgroup] == 1 && [llength [array names emailBList] ] != 0 } {
-				$pgBuddy.text insert end "[trans youblocked]" blocked
-			} elseif { $gname == "mobile" && $my_mobilegroup == 1 } {
-				$pgBuddy.text insert end "[trans mobile]" mobile
-			}
-		}
-
-		if { [::config::getKey nogap] } {
-			$pgBuddy.text insert end "\n"
-		} else {
-			$pgBuddy.text insert end "\n\n"
-		}
-	}
-
-	#Draw the users in each group
-	#Go thru list in reverse order, as every item is inserted at the beginning, not the end...
-	for {set i [expr {[llength $list_users] - 1}]} {$i >= 0} {incr i -1} {
-		set user_login [lindex $list_users $i]
-
-		set state_code [::abook::getVolatileData $user_login state FLN]
-		if { $state_code == "FLN" && [::abook::getContactData $user_login msn_mobile] == "1" } {
-			set colour [::skin::getKey "contact_mobile"]
-		} else {
-			set colour [::MSN::stateToColor $state_code]
-		}
-		
-		set custom_colour [string tolower [::abook::getContactData $user_login customcolor]]
-		if { $custom_colour != "" } {
-			if { [string index $custom_colour 0] == "#" } {
-				set custom_colour [string range $custom_colour 1 end]
-			}
-			set custom_colour "#[string repeat 0 [expr {6-[string length $custom_colour]}]]$custom_colour"
-			#If the color is the same that the colour of the CL we can't see the contact on the list : we ignore the custom color
-			if { $custom_colour != [::skin::getKey topcontactlistbg] } {
-				set colour $custom_colour
-			}
-		}
-
-		set state_section [::MSN::stateToSection $state_code]; # Used in online/offline grouping
-
-		set breaking ""
-
-		if { [::config::getKey orderbygroup] } {
-			foreach user_group [::abook::getGroups $user_login] {
-				set section "tg$user_group"
-
-				if { $section == "tgblocked" } {set section "blocked" }
-				if { $section == "tgmobile" } {set section "mobile" }
-
-				if { [::config::getKey orderbygroup] == 2 } {
-					if { $state_code == "FLN" } {
-						if { $state_section == "mobile" } {
-							set section "mobile"
-						} else {
-							set section "offline"
-						}
-					}
-					if { $breaking == "$user_login" } { continue }
-				}
-
-				set myGroupExpanded [::groups::IsExpanded $user_group]
-
-				if { [::config::getKey orderbygroup] == 2 } {
-					if { $state_code == "FLN" } {
-						if { $state_section == "mobile" } {
-							set myGroupExpanded [::groups::IsExpanded mobile]
-						} else {
-							set myGroupExpanded [::groups::IsExpanded offline]
-						}
-					}
-				}
-
-				if {$myGroupExpanded} {
-					ShowUser $user_login $state_code $colour $section $user_group
-				}
-
-				#Why "breaking"? Why not just a break? Or should we "continue" instead of breaking?
-				if { [::config::getKey orderbygroup] == 2 && $state_code == "FLN" && $state_section != "mobile" } { set breaking $user_login}
-			}
-		} elseif {[::groups::IsExpanded $state_section]} {
-			ShowUser $user_login $state_code $colour $state_section 0
-		}
-
-		if { [::config::getKey showblockedgroup] == 1 && [info exists emailBList($user_login)]} {
-			if {[::groups::IsExpanded blocked]} {
-				ShowUser $user_login $state_code $colour "blocked" [lindex [::abook::getGroups $user_login] 0]
-			}
-		}
-	}
-
-	if {[::config::getKey orderbygroup]} {
-		for {set gidx 0} {$gidx < $gcnt} {incr gidx} {
-			set gname [lindex $glist $gidx]
-			set gtag  "tg$gname"
-
-			#If we're managing special group "Individuals" (ID == 0), then remove header if:
-			# 1) we're in hybrid mode and there are no online contacts
-			# 2) or we're in group mode and there're no contacts (online or offline)
-			if {  ($gname == 0 || ([::config::getKey removeempty] && $gname != "offline" && $gname != "mobile")) &&
-				(([lindex [::groups::getGroupCount $gname] 0] == 0 && [::config::getKey orderbygroup] == 2) ||
-				 ([lindex [::groups::getGroupCount $gname] 1] == 0 && [::config::getKey orderbygroup] == 1)) } {
-				set endidx [split [$pgBuddy.text index $gtag.last] "."]
-				if { [::config::getKey nogap] } {
-					$pgBuddy.text delete $gtag.first [expr {[lindex $endidx 0]+1}].0
-				} else {
-					$pgBuddy.text delete $gtag.first [expr {[lindex $endidx 0]+2}].0
-				}
-				if { [::groups::IsExpanded $gname] } {
-					$pgBuddy.text delete contract$gname.first contract$gname.last
-					$pgBuddy.text tag delete contract$gname
-				} else {
-					$pgBuddy.text delete expand$gname.first expand$gname.last
-					$pgBuddy.text tag delete expand$gname
-				}
-
-				continue
-			}
-
-			if { ([::config::getKey removeempty] && $gname == "mobile" && [lindex [::groups::getGroupCount "mobile"] 0] == 0) } {
-				if { [::groups::IsExpanded $gname] } {
-					$pgBuddy.text delete contract$gname.first contract$gname.last
-					$pgBuddy.text tag delete contract$gname
-				} else {
-					$pgBuddy.text delete expand$gname.first expand$gname.last
-					$pgBuddy.text tag delete expand$gname
-				}
-
-				continue
-			}
-
-			if {[::config::getKey orderbygroup] == 2 } {
-				if { $gname == "offline" } {
-					$pgBuddy.text insert offline.last "[lindex [::groups::getGroupCount offline] $my_mobileidx]" offline
-					$pgBuddy.text tag add dont_replace_smileys offline.first offline.last
-				} elseif { $gname == "blocked" } {
-					$pgBuddy.text insert blocked.last " ([lindex [::groups::getGroupCount blocked] 0])" blocked
-					$pgBuddy.text tag add dont_replace_smileys blocked.first blocked.last
-				} elseif { $gname == "mobile" && $my_mobilegroup == 1 } {
-					$pgBuddy.text insert mobile.last " ([lindex [::groups::getGroupCount mobile] 0])" mobile
-					$pgBuddy.text tag add dont_replace_smileys mobile.first mobile.last
-				} else {
-					$pgBuddy.text insert ${gtag}.last \
-						" ([lindex [::groups::getGroupCount ${gname}] 0])" $gtag
-					$pgBuddy.text tag add dont_replace_smileys $gtag.first $gtag.last
-				}
-			} else {
-				if { $gname == "blocked" } {
-					$pgBuddy.text insert blocked.last " ([lindex [::groups::getGroupCount blocked] 0])" blocked
-					$pgBuddy.text tag add dont_replace_smileys blocked.first blocked.last
-				} elseif { $gname == "mobile" && $my_mobilegroup == 1 } {
-					$pgBuddy.text insert mobile.last " ([lindex [::groups::getGroupCount mobile] 0])" mobile
-					$pgBuddy.text tag add dont_replace_smileys mobile.first mobile.last
-				} else {
-					set groupcount [::groups::getGroupCount ${gname}]
-					$pgBuddy.text insert ${gtag}.last \
-						" ([lindex $groupcount 0]/[lindex $groupcount 1])" $gtag
-					$pgBuddy.text tag add dont_replace_smileys $gtag.first $gtag.last
-				}
-			}
-		}
-	} else {
-		$pgBuddy.text insert online.last " ([lindex [::groups::getGroupCount online] 0])" online
-		$pgBuddy.text insert offline.last " ([lindex [::groups::getGroupCount offline] $my_mobileidx])" offline
-		$pgBuddy.text tag add dont_replace_smileys online.first online.last
-		$pgBuddy.text tag add dont_replace_smileys offline.first offline.last
-		if { $my_mobilegroup == 1 } {
-			$pgBuddy.text insert mobile.last " ([lindex [::groups::getGroupCount mobile] 0])" mobile
-			$pgBuddy.text tag add dont_replace_smileys mobile.first mobile.last
-		}
-
-		if { [::config::getKey showblockedgroup] == 1 && [llength [array names emailBList]] } {
-			$pgBuddy.text insert blocked.last " ([lindex [::groups::getGroupCount blocked] 0])" blocked
-			$pgBuddy.text tag add dont_replace_smileys blocked.first blocked.last
-		}
-	}
-
-	$pgBuddy.text configure -state disabled
-
-	#Init Preferences if window is open
-        #TODO. Better than this, trigger an event, and listen in prefrences for that event
-
-	if { [winfo exists .cfg] } { InitPref }
-	::Preferences::Configure
-
-	global wingeom
-	set wingeom [list [winfo width .] [winfo height .]]
-
-	bind . <Configure> "configured_main_win"
-	#wm protocol . WM_RESIZE_WINDOW "cmsn_draw_online"
-
-	#Don't replace smileys in all text, to avoid replacing in mail notification
-	if {[::config::getKey listsmileys]} {
-		::smiley::substSmileys $pgBuddy.text 0.0 end
-	}
-
-	update idletasks
-
-	$pgBuddy.text yview moveto [lindex $scrollidx 0]
-
+	::guiContactList::unlockContactList
 	#Pack what is necessary for event menu
 	if { [::log::checkeventdisplay] } {
 		pack configure .main.eventmenu.list -fill x -ipadx 10
 		pack configure .main.eventmenu -side bottom -fill x
+		pack configure .main.eventmenu -padx [list [::skin::getKey eventmenuleftpad "0"] [::skin::getKey eventmenurightpad "0"]]
 		::log::eventlogin
 		.main.eventmenu.list select 0
 	} else {
 		pack forget .main.eventmenu
 	}
 
-	set evpar(text) $pgBuddy.text
-	::plugins::PostEvent ContactListDrawn evpar
 }
 
 proc parseCurrentMedia {currentMedia} {
@@ -5272,265 +4839,6 @@ proc getUniqueValue {} {
 	return $uniqueValue
 }
 
-
-#///////////////////////////////////////////////////////////////////////
-proc ShowUser {user_login state_code colour section grId} {
-	global pgBuddy emailBList Bulle
-
-	# font splainf is used in contact list, compute pixel width of a space
-	set width_of_space [font measure splainf -displayof $pgBuddy.text " "]
-
-	if {($state_code != "NLN") && ($state_code !="FLN")} {
-		set state_desc " ([trans [::MSN::stateToDescription $state_code]])"
-	} else {
-		set state_desc ""
-	}
-
-
-	set globalnick [::config::getKey globalnick]
-	
-	set psm [::abook::getpsmmedia $user_login]
-	set customnick [::abook::getContactData $user_login customnick]
-	
-	if { $globalnick != "" } {
-		set nick [::abook::getNick $user_login]
-		set user_name [::abook::parseCustomNick $globalnick $nick $user_login $customnick $psm]
-	} else {
-		set user_name "[::abook::getDisplayNick $user_login]"
-	}
-	
-	set user_unique_name "$user_login[getUniqueValue]"
-	set user_ident "    "
-
-	# If user is not in the Reverse List it means (s)he has not
-	# yet added/approved us. Show their name in pink. A way
-	# of knowing how has a) not approved you yet, or b) has
-	# removed you from their contact list even if you still
-	# have them... MOVED TO THE NEW ICON
-
-	set image_type [::MSN::stateToImage $state_code]
-
-	if { [info exists emailBList($user_login)]} {
-		set colour #FF0000
-		set image_type "blockedme"
-	}
-
-	if {[lsearch [::abook::getLists $user_login] BL] != -1} {
-		if { $state_code == "FLN" } {
-			set image_type "blocked_off"
-		} else {	
-			set image_type "blocked"
-		}
-		if {$state_desc == ""} {set state_desc " ([trans blocked])"}
-	}
-
-	if { [::abook::getContactData $user_login msn_mobile] =="1" && $state_code == "FLN"} {
-	    set image_type "mobile"
-	    set state_desc " ([trans mobile])"
-	}
-
-	$pgBuddy.text tag conf $user_unique_name -fore $colour
-	$pgBuddy.text tag conf psm_tag -font sitalf
-	$pgBuddy.text mark set new_text_start end
-
-	set user_lines [split $user_name "\n"]
-	set last_element [expr {[llength $user_lines] -1 }]
-
-	# Compute small_dp that is used later, here used only to align PSM
-	set small_dp ""
-	if {[::config::getKey show_contactdps_in_cl] == "1" && ![::MSN::userIsBlocked $user_login] } {
-		set small_dp [::skin::getLittleDisplayPicture ${user_login} [image height [::skin::loadPixmap $image_type]] ]
-	}
-
-	if {$psm != "" && [::config::getKey emailsincontactlist] == 0 } {
-		if {[::config::getKey psmplace] == 1 } {
-			$pgBuddy.text insert $section.last " - $psm" [list $user_unique_name psm_tag]
-		} elseif {[::config::getKey psmplace] == 2 } {
-			# Compute buddy icon width
-			if {$small_dp != ""} {
-				set small_dp_width [image width $small_dp]
-			} else {
-				set small_dp_width [image width [::skin::loadPixmap $image_type]]
-			}
-			# Create a string of ceiling(small_dp_width / width_of_space spaces)
-			set dp_spaces [string repeat " " [expr {($small_dp_width - 1) / $width_of_space + 1}]]
-			# Insert PSM aligned with buddy icon
-			$pgBuddy.text insert $section.last "$psm" [list $user_unique_name psm_tag]
-			$pgBuddy.text insert $section.last "\n$user_ident  $dp_spaces"
-		}
-	}
-
-	$pgBuddy.text insert $section.last " $state_desc" $user_unique_name
-
-	#Set maximum width for nick string, with some margin
-	set maxw [winfo width $pgBuddy.text]
-	incr maxw -20
-	#Decrement status text out of max line width
-	set statew [font measure splainf -displayof $pgBuddy.text " $state_desc "]
-	set blanksw [font measure splainf -displayof $pgBuddy.text $user_ident]
-	incr maxw [expr {-25-$statew-$blanksw}]
-	if { [::alarms::isEnabled $user_login] != "" } {
-		incr maxw -25
-	}
-
-	for {set i $last_element} {$i >= 0} {incr i -1} {
-		set current_line " [lindex $user_lines $i]"
-		
-		if {[::config::getKey truncatenames]} {
-			if { $i == $last_element && $i == 0} {
-				#First and only line
-				set strw $maxw
-			} elseif { $i == $last_element } {
-				#Last line, not status icon
-				set strw [expr {$maxw+25}]
-			} elseif {$i == 0} {
-				#First line of a multiline nick, so no status description
-				set strw [expr {$maxw+$statew}]
-			} else {
-				#Middle line, no status description and no status icon
-				set strw [expr {$maxw+$statew+25}]
-			}
-			set current_line [trunc_with_smileys $current_line $pgBuddy $strw splainf]
-		}
-
-		$pgBuddy.text insert $section.last "$current_line" $user_unique_name
-		if { $i != 0} {
-			$pgBuddy.text insert $section.last "\n$user_ident"
-		}
-	}
-
-	# Draw the not-in-reverse-list icon
-	set not_in_reverse [expr {[lsearch [::abook::getLists $user_login] RL] == -1}]
-	if {$not_in_reverse} {
-		set imgname2 "img2_[getUniqueValue]"
-
-		set imgIdx [$pgBuddy.text image create $section.last -image [::skin::loadPixmap notinlist] -padx 1 -pady 1]
-		$pgBuddy.text tag add $imgname2 $imgIdx
-		if { [::skin::getKey underline_contact] } {
-			$pgBuddy.text tag bind $imgname2 <Enter> "$pgBuddy.text tag conf $user_unique_name -under 1"
-			$pgBuddy.text tag bind $imgname2 <Leave> "$pgBuddy.text tag conf $user_unique_name -under 0"
-		}
-		if { [::skin::getKey changecursor_contact] } {
-			$pgBuddy.text tag bind $imgname2 <Enter> [onMouseEnterHand $pgBuddy.text]
-			$pgBuddy.text tag bind $imgname2 <Leave> [onMouseLeaveHand $pgBuddy.text]
-		}
-	}
-
-	#	Draw alarm icon if alarm is set
-	if { [::alarms::isEnabled $user_login] != ""} {
-		#set imagee [string range [string tolower $user_login] 0 end-8]
-		#trying to make it non repetitive without the . in it
-		#Patch from kobasoft
-		set imagee "alrmimg_[getUniqueValue]"
-		#regsub -all "\[^\[:alnum:\]\]" [string tolower $user_login] "_" imagee
-
-		if { [::alarms::isEnabled $user_login] } {
-			set imgIdx [$pgBuddy.text image create $section.last -image [::skin::loadPixmap bell] -padx 1 -pady 1]
-		} else {
-			set imgIdx [$pgBuddy.text image create $section.last -image [::skin::loadPixmap belloff] -padx 1 -pady 1]
-		}
-		$pgBuddy.text tag add $imagee $imgIdx
-		$pgBuddy.text tag bind $imagee <Button1-ButtonRelease> "switch_alarm $user_login; redraw_alarm_icon $user_login $pgBuddy.text $imgIdx"
-		$pgBuddy.text tag bind $imagee <<Button3>> "::alarms::configDialog $user_login"
-	}
-
-
-	set imgname "img[getUniqueValue]"
-	set displaypicfilename [::abook::getContactData $user_login displaypicfile "" ]
-
-	if {$small_dp != ""} {
-		set imgIdx [$pgBuddy.text image create $section.last -image $small_dp -padx 3 -pady 1 -name [string map { "-" '\\' } "displaypicture_tny_${user_login}"]]
-	} else {
-		set imgIdx [$pgBuddy.text image create $section.last -image [::skin::loadPixmap $image_type] -padx 3 -pady 1]
-	}
-
-	if { $last_element > 0 } {
-		$pgBuddy.text image configure $imgIdx -align baseline
-	} else {
-		$pgBuddy.text image configure $imgIdx -align center
-	}
-
-	$pgBuddy.text tag add $imgname $imgIdx
-	$pgBuddy.text insert $section.last "\n$user_ident"
-
-	if { [::skin::getKey underline_contact] } {
-		$pgBuddy.text tag bind $user_unique_name <Enter> "$pgBuddy.text tag conf $user_unique_name -under 1"
-		$pgBuddy.text tag bind $user_unique_name <Leave> "$pgBuddy.text tag conf $user_unique_name -under 0"
-	}
-	
-	if { [::skin::getKey changecursor_contact] } {
-		$pgBuddy.text tag bind $user_unique_name <Enter> [onMouseEnterHand $pgBuddy.text]
-		$pgBuddy.text tag bind $user_unique_name <Leave> [onMouseLeaveHand $pgBuddy.text]
-	}
-
-	if { [::skin::getKey underline_contact] } {
-		$pgBuddy.text tag bind $imgname <Enter> "$pgBuddy.text tag conf $user_unique_name -under 1"
-		$pgBuddy.text tag bind $imgname <Leave> "$pgBuddy.text tag conf $user_unique_name -under 0"
-	}
-	if { [::skin::getKey changecursor_contact] } {
-		$pgBuddy.text tag bind $imgname <Enter> [onMouseEnterHand $pgBuddy.text]
-		$pgBuddy.text tag bind $imgname <Leave> [onMouseLeaveHand $pgBuddy.text]
-	}
-
-	if { [::config::getKey tooltips] == 1 } {
-		set gname ""
-		set glist [::abook::getGroups $user_login]
-		foreach i $glist {
-			set gname "$gname [::groups::GetName $i]"
-		}
-
-		set balloon_message [list "[string map {"%" "%%"} [::abook::getNick $user_login]]" "[string map {"%" "%%"} [::abook::getpsmmedia $user_login]]" "$user_login" "[trans status]: [trans [::MSN::stateToDescription $state_code]]" "[trans group]:$gname"]
-		set fonts [list "sboldf" "sitalf" "splainf" "splainf" "splainf"]
-
-		$pgBuddy.text tag bind $user_unique_name <Enter> +[list balloon_enter %W %X %Y $balloon_message "--command--::skin::getDisplayPicture $user_login" "$fonts" complex]
-		$pgBuddy.text tag bind $user_unique_name <Leave> \
-			"+set Bulle(first) 0; kill_balloon"
-		$pgBuddy.text tag bind $user_unique_name <Motion> +[list balloon_motion %W %X %Y $balloon_message "--command--::skin::getDisplayPicture $user_login" "$fonts" complex]
-		$pgBuddy.text tag bind $imgname <Enter> +[list balloon_enter %W %X %Y $balloon_message "--command--::skin::getDisplayPicture $user_login" "$fonts" complex]
-		$pgBuddy.text tag bind $imgname <Leave> \
-			"+set Bulle(first) 0; kill_balloon"
-		$pgBuddy.text tag bind $imgname <Motion> +[list balloon_motion %W %X %Y $balloon_message "--command--::skin::getDisplayPicture $user_login" "$fonts" complex]
-
-		if {$not_in_reverse} {
-			$pgBuddy.text tag bind $imgname2 <Enter> +[list balloon_enter %W %X %Y $balloon_message "--command--::skin::getDisplayPicture $user_login" "$fonts" complex]
-			$pgBuddy.text tag bind $imgname2 <Leave> \
-				"+set Bulle(first) 0; kill_balloon"
-			$pgBuddy.text tag bind $imgname2 <Motion> +[list balloon_motion %W %X %Y $balloon_message "--command--::skin::getDisplayPicture $user_login" "$fonts" complex]
-		}
-	}
-
-	#Change mouse button and add control-click on Mac OS X
-	if { [OnMac] } {
-		$pgBuddy.text tag bind $user_unique_name <Button2-ButtonRelease> "show_umenu $user_login $grId %X %Y"
-		$pgBuddy.text tag bind $user_unique_name <Control-ButtonRelease> "show_umenu $user_login $grId %X %Y"
-	} else {
-		$pgBuddy.text tag bind $user_unique_name <Button3-ButtonRelease> "show_umenu $user_login $grId %X %Y"
-	}
-	$pgBuddy.text tag bind $imgname <<Button3>> "show_umenu $user_login $grId %X %Y"
-	if {$not_in_reverse} { $pgBuddy.text tag bind $imgname2 <<Button3>> "show_umenu $user_login $grId %X %Y" }
-
-	if { [::config::getKey sngdblclick] } {
-		set singordblclick <Button-1>
-	} else {
-		set singordblclick <Double-Button-1>
-	}
-
-	if { $state_code != "FLN" } {
-		$pgBuddy.text tag bind $imgname $singordblclick "::amsn::chatUser $user_login"
-		if {$not_in_reverse} { $pgBuddy.text tag bind $imgname2 $singordblclick "::amsn::chatUser $user_login" }
-		$pgBuddy.text tag bind $user_unique_name $singordblclick "::amsn::chatUser $user_login"
-	} elseif {[::abook::getContactData $user_login msn_mobile] == "1" && $state_code == "FLN"} {
-		#If the user is offline and support mobile (SMS)
-		$pgBuddy.text tag bind $imgname $singordblclick "::MSNMobile::OpenMobileWindow ${user_login}"
-		if {$not_in_reverse} { $pgBuddy.text tag bind $imgname2 $singordblclick "::MSNMobile::OpenMobileWindow ${user_login}" }
-		$pgBuddy.text tag bind $user_unique_name $singordblclick "::MSNMobile::OpenMobileWindow ${user_login}"
-	} else {
-		$pgBuddy.text tag bind $imgname $singordblclick "::amsn::chatUser ${user_login}; set ::OIM_GUI::oim_asksend_[string map {: _} ${user_login} ] 0"
-		if {$not_in_reverse} { $pgBuddy.text tag bind $imgname2 $singordblclick "::amsn::chatUser ${user_login}; set ::OIM_GUI::oim_asksend_[string map {: _} ${user_login} ] 0" }
-		$pgBuddy.text tag bind $user_unique_name $singordblclick "::amsn::chatUser ${user_login}; set ::OIM_GUI::oim_asksend_[string map {: _} ${user_login} ] 0"
-	}
-
-}
 #///////////////////////////////////////////////////////////////////////
 
 proc balloon_enter {window x y msg {pic ""} {fonts ""} {mode "simple"}} {
