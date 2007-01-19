@@ -488,16 +488,18 @@ namespace eval ::gnotify {
 				incr i
 				array set mail $mail_l
 				$t insert end "\n\n($i/$info(nb_mails)) "
-				foreach tag $mail(tags) {
-					if {$tag == "^t" } {
-						$t create image end [::skin::loadPixmap star]
-					}
-				}
 
 				if { $mail(pli) == 1} {
 					$t insert end "> " author_pli
 				} elseif { $mail(pli) == 2} {
 					$t insert end ">> " author_pli
+				}
+
+
+				foreach tag $mail(tags) {
+					if {$tag == "^t" } {
+						$t image create end -image [::skin::loadPixmap star]
+					}
 				}
 
 				set first 1
@@ -641,17 +643,18 @@ namespace eval ::gnotify {
 		}
 	}
 
-	proc check_gmail { username password acnt } {
+	proc check_gmail { username password acnt {url "http://mail.google.com/mail/?ui=pb"}} {
 		variable user_cookies
 		variable status_$acnt
 
 		set status_$acnt 1
 		cmsn_draw_online
 		
-		if { [info exists user_cookies($username,$password,gv)] && [info exists user_cookies($username,$password,sid)]} {
+		if { [info exists user_cookies($username,$password,SID)]} {
 			set cookie [buildCookie $username $password]
+
 			set headers [list Cookie $cookie]
-			set token [http::geturl "http://mail.google.com/mail/?ui=pb" -headers $headers -timeout 10000 -command [list ::gnotify::check_gmail_callback $username $password $acnt]]
+			set token [http::geturl $url -headers $headers -timeout 10000 -command [list ::gnotify::check_gmail_callback $username $password $acnt]]
 		} else {
 			set token [authenticate_gmail $username $password $acnt [list ::gnotify::check_gmail $username $password $acnt]]
 		}
@@ -667,33 +670,65 @@ namespace eval ::gnotify {
 		variable info_$acnt
 
 		set meta $state(meta)
+		#plugins_log gnotify "check $meta - [::http::ncode $token]"
 
 		ParseSetCookie $meta $username $password
 
-		if { [::http::ncode $token] == 200 } {
-			
-			set info_$acnt [parseGData [::http::data $token]]
-
-			array set info [set info_$acnt]
-			if { $info(errors) > 0 } {
-				set status_$acnt -3
-				cmsn_draw_online
-			} else {
-				set status_$acnt 2
-				cmsn_draw_online
+		switch [::http::ncode $token] {
+			200 {
+				set info_$acnt [parseGData [::http::data $token]]
+				
+				array set info [set info_$acnt]
+				if { $info(errors) > 0 } {
+					set status_$acnt -3
+					cmsn_draw_online
+				} else {
+					set status_$acnt 2
+					cmsn_draw_online
+				}
+				
+			} 
+			401 {
+				array set meta_array $meta 
+				if {[info exists meta_array(WWW-Authenticate)] && [lindex $meta_array(WWW-Authenticate) 0] == "basic"} {
+					plugins_log gnotify "Need to authenticate for account $username"
+					after 0 [list ::gnotify::authenticate_gmail $username $password $acnt [list ::gnotify::check_gmail $username $password $acnt] $url]
+				} else {
+					plugins_log gnotify "Unknown authentication realm for account $username"
+					set status_$acnt -1
+					set info_$acnt [list errors 1 mails [list] nb_mails 0]
+					cmsn_draw_online
+				}
 			}
-			
-		} else {
-			plugins_log gnotify "Unknown error during check_gmail for $username : $meta - [::http::data $token]"
-			set status_$acnt -3
-			set info_$acnt [list errors 1 mails [list]]
-			cmsn_draw_online
-			
-			# Start with a fresh config.. forces the re-authentification (in case the cookies expired)
-			unset user_cookies($username,$password,gv)
-			unset user_cookies($username,$password,sid)
-			unset user_cookies($username,$password,s)
-			unset user_cookies($username,$password,lsid)
+			302 {
+				set url ""
+				foreach {key val} $meta {
+					if { $key == "Location" } {	
+						plugins_log gnotify "New Location is $val"
+						set url $val
+					}
+				}
+				
+				if { $url != "" } {
+					after 0 [list ::gnotify::authenticate_gmail $username $password $acnt [list ::gnotify::check_gmail $username $password $acnt] $url]
+				} else {
+					plugins_log gnotify "Unable to find Location in meta from redirect: $meta - [::http::data $token]"
+					set status_$acnt -3
+					set info_$acnt [list errors 1 mails [list]]
+					cmsn_draw_online
+				}
+			}
+			default {
+				plugins_log gnotify "Unknown error during check_gmail for $username : $meta - [::http::data $token]"
+				set status_$acnt -3
+				set info_$acnt [list errors 1 mails [list]]
+				cmsn_draw_online
+				
+				# Start with a fresh config.. forces the re-authentification (in case the cookies expired)
+				foreach name [array names user_cookies "$username,$password,*"] {
+					array unset user_cookies $name
+				}
+			}
 		}
 		::http::cleanup $token
 	}
@@ -725,15 +760,12 @@ namespace eval ::gnotify {
 					set c [split $cookie "="]
 					set k [lindex $c 0]
 					set v [lindex $c 1]
-					if {$k == "SID" && $v != "EXPIRED" } {
-						set user_cookies($username,$password,sid) $cookie
-					} elseif { $k == "GV"  && $v != "EXPIRED"} {
-						set user_cookies($username,$password,gv) $cookie				
-					} elseif { $k == "LSID" && $v != "EXPIRED" } {
-						set user_cookies($username,$password,lsid) $cookie				
-					} elseif { $k == "S" && $v != "EXPIRED" } {
-						set user_cookies($username,$password,s) $cookie	
-					} 
+					if { $v == "EXPIRED" } {
+						catch {unset user_cookies($username,$password,$k)}
+					} else {
+						set user_cookies($username,$password,$k) $cookie
+					}
+					break
 				}
 			}
 		}			
@@ -743,30 +775,14 @@ namespace eval ::gnotify {
 		variable user_cookies
 
 		set cookie ""
-		if { [info exists user_cookies($username,$password,gv)] } {
+		foreach name [array names user_cookies "$username,$password,*"] {
 			if { $cookie == "" } {
-				set cookie [set user_cookies($username,$password,gv)]
+				set cookie [set user_cookies($name)]
+			} else {
+				set cookie [join [list $cookie [set user_cookies($name)]] "; "]
 			}
-			set cookie [join [list $cookie [set user_cookies($username,$password,gv)]] "; "]
 		}
-		if { [info exists user_cookies($username,$password,sid)] } {
-			if { $cookie == "" } {
-				set cookie [set user_cookies($username,$password,sid)]
-			}
-			set cookie [join [list $cookie [set user_cookies($username,$password,sid)]] "; "]
-		}
-		if { [info exists user_cookies($username,$password,s)] } {
-			if { $cookie == "" } {
-				set cookie [set user_cookies($username,$password,s)]
-			}
-			set cookie [join [list $cookie [set user_cookies($username,$password,s)]] "; "]
-		}
-		if { [info exists user_cookies($username,$password,lsid)] } {
-			if { $cookie == "" } {
-				set cookie [set user_cookies($username,$password,lsid)]
-			}
-			set cookie [join [list $cookie [set user_cookies($username,$password,lsid)]] "; "]
-		}
+		plugins_log gnotify "Cookie is : $cookie"
 		return $cookie
 	}
 
@@ -777,19 +793,13 @@ namespace eval ::gnotify {
 
 
 		set meta $state(meta)
+		#plugins_log gnotify "auth $meta - [::http::ncode $token] "
 		
 		ParseSetCookie $meta $username $password
 		
 		switch [::http::ncode $token] {
 			200 {
-				if { [info exists user_cookies($username,$password,gv)] && [info exists user_cookies($username,$password,sid)]} {
-					eval $callback
-				} else {
-					plugins_log gnotify "Unable to find Cookie tokens for authentication"
-					set status_$acnt -3
-					set info_$acnt [list errors 1 mails [list]]
-					cmsn_draw_online	
-				}
+				eval $callback
 			} 
 			401 {
 				array set meta_array $meta 
@@ -818,6 +828,7 @@ namespace eval ::gnotify {
 				}
 				
 				if { $url != "" } {
+					#
 					after 0 [list ::gnotify::authenticate_gmail $username $password $acnt $callback $url]
 				} else {
 					plugins_log gnotify "Unable to find Location in meta from redirect: $meta - [::http::data $token]"
