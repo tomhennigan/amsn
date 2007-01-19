@@ -52,6 +52,7 @@ namespace eval ::gnotify {
 
 		::skin::setPixmap gnotify_new gnotify_new.gif pixmaps [file join $dir pixmaps]
 		::skin::setPixmap gnotify_empty gnotify_empty.gif pixmaps [file join $dir pixmaps]
+		::skin::setPixmap gnotify_error gnotify_error.gif pixmaps [file join $dir pixmaps]
 		::skin::setPixmap attachment paperclip.gif pixmaps [file join $dir pixmaps]
 		::skin::setPixmap star star.gif pixmaps [file join $dir pixmaps]
 
@@ -344,6 +345,8 @@ namespace eval ::gnotify {
 
 		if { [info exists info(nb_mails)] && $info(nb_mails) > 0} {
 			set img gnotify_new
+		} elseif { [set status_$acnt] < 0} {
+			set img gnotify_error
 		} else {
 			set img gnotify_empty
 		}
@@ -452,14 +455,17 @@ namespace eval ::gnotify {
 			destroy $w
 		}
 		toplevel $w
-	
+
+		wm title $w "[trans mail_info [set ::gnotify::config(user_$acnt)]]"
+
 		ScrolledWindow $sw -auto vertical -scrollbar vertical -ipad 0
-		text $t -relief solid -background [::skin::getKey chat_output_back_color] -width 45 -height 3 \
+		text $t -relief solid -background [::skin::getKey chat_output_back_color] \
 			-setgrid 0 -wrap word -exportselection 1 -highlightthickness 0 -selectborderwidth 1 
 
 		$t tag configure subject -font sboldf
 		$t tag configure author_read -underline on -font sitalf
 		$t tag configure author_unread -underline on -font sbolditalf
+		$t tag configure mail_threads -font sboldf
 		$t tag configure author_pli -foreground darkred
 		$t tag configure body -font sitalf
 		$t tag configure glabel -foreground darkgreen
@@ -469,7 +475,6 @@ namespace eval ::gnotify {
 		$sw setwidget $t
 		button $close -text "[trans close]" -command "destroy $w"
 
-		$t insert end "[trans mail_info [set ::gnotify::config(user_$acnt)]]\n\n"
 		array set info [set info_$acnt]
 		if { [set status_$acnt] == 0 } {
 			$t insert end "[trans not_checked]"
@@ -529,7 +534,7 @@ namespace eval ::gnotify {
 				}
 				
 				if { $mail(threads) > 1 } { 
-					$t insert end "($mail(threads))"
+					$t insert end " ($mail(threads))" mail_threads
 				}
 				
 				$t insert end "\n"
