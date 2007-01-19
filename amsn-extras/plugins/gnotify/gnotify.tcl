@@ -457,11 +457,11 @@ namespace eval ::gnotify {
 		text $t -relief solid -background [::skin::getKey chat_output_back_color] -width 45 -height 3 \
 			-setgrid 0 -wrap word -exportselection 1 -highlightthickness 0 -selectborderwidth 1 
 
-		$t tag configure subject -font {-weight bold}
-		$t tag configure author_read -underline on -font {-slant italic}
-		$t tag configure author_unread -underline on -font {-weight bold -slant italic}
+		$t tag configure subject -font sboldf
+		$t tag configure author_read -underline on -font sitalf
+		$t tag configure author_unread -underline on -font sbolditalf
 		$t tag configure author_pli -foreground darkred
-		$t tag configure body -font {-slant italic}
+		$t tag configure body -font sitalf
 		$t tag configure glabel -foreground darkgreen
 		$t tag configure datefmt -foreground darkblue
 		$t tag configure attachmentfmt -foreground darkred
