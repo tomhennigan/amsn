@@ -418,18 +418,14 @@ namespace eval ::smiley {
 			if { [ValueForSmiley $name hiden 1] } {continue}
 		
 			#Get the first symbol for that smiley
-			set symbol [lindex [ValueForSmiley $name symbols] 0]
+			set symbol [string map { % %% } [lindex [ValueForSmiley $name symbols] 0]]
 			
 			#This must be cached due to a race condition (if you double click
 			#the smileys menu for first time, the second click can launch
 			#this procedure without all smileys having been created
 			catch { 
 				#TODO: Improve this now we know about quoting a bit more?
-				if { [string match {(%)} $symbol] != 0 } {
-					bind $w.c.$temp <Button1-ButtonRelease> "catch {$text insert insert \{(%%)\}; wm state $w withdrawn} res"
-				} else {
-					bind $w.c.$temp <Button1-ButtonRelease> "catch {[list $text insert insert $symbol]\; wm state $w withdrawn} res" 
-				}
+				bind $w.c.$temp <Button1-ButtonRelease> "catch {[list $text insert insert $symbol]\; wm state $w withdrawn} res" 
 			}
 			
 			incr temp
@@ -439,18 +435,14 @@ namespace eval ::smiley {
 		global custom_emotions
 		foreach name [array names custom_emotions] {
 			array set emotion $custom_emotions($name)
-			set symbol [lindex $emotion(text) 0]
+			set symbol [string map { % %% } [lindex $emotion(text) 0]]
 			
 			#This must be cached due to a race condition (if you double click
 			#the smileys menu for first time, the second click can launch
 			#this procedure without all smileys having been created
 			catch { 
 				#TODO: Improve this now we know about quoting a bit more?
-				if { [string match {(%)} $symbol] != 0 } {
-					bind $w.c.$temp <Button1-ButtonRelease> "catch {$text insert insert \{(%%)\}; wm state $w withdrawn} res"
-				} else {
-					bind $w.c.$temp <Button1-ButtonRelease> "catch {[list $text insert insert $symbol]\; wm state $w withdrawn} res" 
-				}
+				bind $w.c.$temp <Button1-ButtonRelease> "catch {[list $text insert insert $symbol]\; wm state $w withdrawn} res" 
 				#Add binding for custom emoticons
 				if { [OnMac] } {
 					
