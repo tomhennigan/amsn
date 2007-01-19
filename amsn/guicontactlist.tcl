@@ -1450,107 +1450,20 @@ namespace eval ::guiContactList {
 				}
 			}
 		} ; #end psm drawing
-#puts "End contact drawing: $ychange $ynickpos: , $xlinestart, $ynickpos"
 
 
 
+		#----------------------------------#
+		##Controversial inline spaces info##
+		#----------------------------------#
 
-
-		set xuppercoord $xlinestart
-		set yuppercoord $ychange
-
-		#----------------------#
-		###Inline spaces info###
-		#----------------------#
-		#Drawing of inline spaces data, can be prohibited by setting the config key to 0
-		# (a possible ccard plugin should do this)
-		if {$space_shown && [::config::getKey drawspaces 1] == 1} {
-
-			if { [::abook::getVolatileData $email fetching_space 0] } {
-				#draw a "please wait .." message, will be replaced when fetching is done
-				$canvas create text $xlinestart $ychange -font sitalf -text "Fetching data ..." -tags [list $tag $space_info contact space_info] -anchor nw -fill grey
-
-				#adjust $ychange, adding 1 line
-				set ychange [expr {$ychange + [image height $img]}]
-
-			} else {
-				#show the data we have in abook
-
-				set ccard [::abook::getContactData $email ccardlist [list]]
-
-				#Store the titles in a var
-				foreach i [list SpaceTitle Blog Album Music] {
-					set $i [::MSNCCARD::getTitleFor $ccard $i]
-puts [::MSNCCARD::getTitleFor $ccard $i]
-				}
-				
-				#First show the spaces title:
-				if {$SpaceTitle != ""} {
-					$canvas create text $xlinestart $ychange -font bitalf -text "$SpaceTitle" -tags [list $tag $space_info contact space_info] -anchor nw -fill black
-					#adjust $ychange, adding 1 line
-					set ychange [expr {$ychange + [image height $img]}]
-
-					#set everything after this title a bit to the right
-					set xlinestart [expr {$xlinestart + 10}]
-				}
-
-				#blogposts
-				if {$Blog != ""} {
-#seems like a blog without title doesn't exist, so we don't have to check if there are any posts
-					set blogposts [::MSNCCARD::getAllBlogPosts $ccard]
-					#add a title
-					$canvas create text $xlinestart $ychange -font sboldf -text "$Blog" -tags [list $tag $space_info contact space_info] -anchor nw -fill blue
-					#adjust $ychange, adding 1 line
-					set ychange [expr {$ychange + [image height $img]}]
-
-					set count 0
-					foreach i $blogposts {
-						set itemtag ${tag}_bpost_${count}
-						$canvas create text [expr $xlinestart + 10] $ychange -font sitalf -text "[lindex $i 1]" \
-							-tags [list $tag $space_info $itemtag contact space_info] -anchor nw -fill grey
-						$canvas bind $itemtag <Button-1> "::hotmail::gotURL [lindex $i 2]"
-						#update ychange
-						set ychange [expr {$ychange + [image height $img]}]
-						incr count
-					}
-				}
-				
-				
-				#photos
-				if {$Album != ""} {
-					set photos [::MSNCCARD::getAllPhotos $ccard]
-					#add a title
-					$canvas create text $xlinestart $ychange -font sboldf -text "$Album" -tags [list $tag $space_info contact space_info] -anchor nw -fill blue
-					#adjust $ychange, adding 1 line
-					set ychange [expr {$ychange + [image height $img]}]
-
-					set count 0
-					foreach i $photos {
-						set itemtag ${tag}_bpost_${count}
-#puts "Photo: $i"
-						if {[lindex $i 0] != ""} {
-
-						$canvas create text [expr $xlinestart + 10] $ychange -font sitalf -text "[lindex $i 1]" \
-							-tags [list $tag $itemtag $space_info contact space_info] -anchor nw -fill grey
-						$canvas bind $itemtag <Button-1> "::hotmail::gotURL [lindex $i 2]"
-						#update ychange
-						set ychange [expr {$ychange + [image height $img]}]
-						incr count
-						}
-					}
-				}
-				
-				#for now show a message if no blogs or photos, for debugging purposes
-				if {$Blog == "" && $Album == ""} {
-					$canvas create text $xlinestart $ychange -font sitalf -text "Nothing to see here" -tags [list $tag $space_info contact space_info] -anchor nw -fill grey
-
-					#adjust $ychange, adding 1 line
-					set ychange [expr {$ychange + [image height $img]}]
-				}
-			}
-
+		#This is a technology demo, the default is not unchangeable
+		# values for this variable can be "inline", "ccard" or "disabled"
+		if {$space_shown && [::config::getKey spacesinfo "inline"] == "inline"} {
+			#!$tag should be $tag for inline spaces
+			set ychange [expr $ychange + [::guiContactList::drawSpacesInfo $canvas $xlinestart $ychange $email [list $tag $space_info contact space_info]] ] 
 		}
-		
+
 		
 		#-----------#
 		##Bindings###
@@ -1686,6 +1599,103 @@ puts "going to download $thumbnailurl"
 		::abook::setVolatileData $email space_updated 0
 		::guiContactList::contactChanged "toggleSpaceShown" $email
 
+	}
+	
+	
+	#///////////////////////////////////////////////////////////////////////////////
+	#Draws info of MSN Spaces on chosen coordinate on a choosen canvas
+	proc drawSpacesInfo { canvas xcoord ycoord email taglist} {
+
+
+		#todo: use bbox or something to calculate height
+		set height 0
+		#todo: calculate height of a line the right way
+		set lineheight 12
+
+		if { [::abook::getVolatileData $email fetching_space 0] } {
+			#draw a "please wait .." message, will be replaced when fetching is done
+			$canvas create text $xcoord $ycoord -font sitalf -text "Fetching data ..." -tags $taglist -anchor nw -fill grey
+
+			#adjust $height, adding 1 line
+			set height [expr {$height + $lineheight + 4}]
+
+		} else {
+			#show the data we have in abook
+
+			set ccard [::abook::getContactData $email ccardlist [list]]
+
+			#Store the titles in a var
+			foreach i [list SpaceTitle Blog Album Music] {
+				set $i [::MSNCCARD::getTitleFor $ccard $i]
+puts [::MSNCCARD::getTitleFor $ccard $i]
+			}
+			
+			#First show the spaces title:
+			if {$SpaceTitle != ""} {
+				$canvas create text $xcoord [expr $ycoord + $height] -font bitalf -text "$SpaceTitle" -tags $taglist -anchor nw -fill black
+				#adjust $ychange, adding 1 line
+				set height [expr {$height + $lineheight + 4 }]
+				#set everything after this title a bit to the right
+				set xcoord [expr {$xcoord + 10}]
+			}
+
+			#blogposts
+			if {$Blog != ""} {
+#seems like a blog without title doesn't exist, so we don't have to check if there are any posts
+				set blogposts [::MSNCCARD::getAllBlogPosts $ccard]
+				#add a title
+				$canvas create text $xcoord [expr $ycoord + $height] -font sboldf -text "$Blog" -tags $taglist -anchor nw -fill blue
+				#adjust $ychange, adding 1 line
+				set height [expr {$height + $lineheight}]
+
+				set count 0
+				foreach i $blogposts {
+					set itemtag [lindex $taglist 0]_bpost_${count}
+					$canvas create text [expr $xcoord + 10] [expr $ycoord + $height] -font sitalf -text "[lindex $i 1]" \
+						-tags $taglist -anchor nw -fill grey
+					$canvas bind $itemtag <Button-1> "::hotmail::gotURL [lindex $i 2]"
+					#update ychange
+					set height [expr {$height + $lineheight}]
+					incr count
+				}
+			}
+
+			
+			#photos
+			if {$Album != ""} {
+				set photos [::MSNCCARD::getAllPhotos $ccard]
+				#add a title
+				$canvas create text $xcoord [expr $ycoord + $height] -font sboldf -text "$Album" -tags $taglist -anchor nw -fill blue
+				#adjust $ychange, adding 1 line
+				set height [expr {$height + $lineheight}]
+
+				set count 0
+				foreach i $photos {
+					set itemtag [lindex $taglist 0]_bpost_${count}
+#puts "Photo: $i"
+					if { [lindex $i 0] != "" } {
+
+						$canvas create text [expr {$xcoord + 10}] [expr $ycoord + $height] -font sitalf -text "[lindex $i 1]" \
+							-tags $taglist -anchor nw -fill grey
+						$canvas bind $itemtag <Button-1> "::hotmail::gotURL [lindex $i 2]"
+						#update ychange
+						set height [expr {$height + $lineheight } ]
+						incr count
+					}
+				}}
+			}
+			
+			#for now show a message if no blogs or photos, for debugging purposes
+			if {$Blog == "" && $Album == ""} {
+				$canvas create text $xcoord [expr $ycoord + $height] -font sitalf -text "Nothing to see here" -tags $taglist -anchor nw -fill grey
+
+				#adjust $ychange, adding 1 line
+				set height [expr {$height + $lineheight } ]
+			}
+			
+			
+			
+			return $height	
 	}
 	
 	proc save_file { count cachedir } {

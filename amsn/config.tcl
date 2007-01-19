@@ -355,7 +355,7 @@ namespace eval ::config {
 
 		::config::setKey autolisten_voiceclips 1                ;# whether voiceclips should be automatically played once received
 		::config::setKey use_new_cl 0                		;# whether we should use the new CL as the default one or not...
-		::config::setKey drawspaces 1				;# whether we should draw spaces info ourselves, a plugin could disable this to draw contactcards or similar
+		::config::setKey spacesinfo "inline"				;# how to draw MSN Spaces info
 
 	}
 
