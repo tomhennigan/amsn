@@ -52,6 +52,8 @@ namespace eval ::gnotify {
 
 		::skin::setPixmap gnotify_new gnotify_new.gif pixmaps [file join $dir pixmaps]
 		::skin::setPixmap gnotify_empty gnotify_empty.gif pixmaps [file join $dir pixmaps]
+		::skin::setPixmap attachment paperclip.gif pixmaps [file join $dir pixmaps]
+		::skin::setPixmap star star.gif pixmaps [file join $dir pixmaps]
 
 
 		#Load lang files
@@ -455,6 +457,15 @@ namespace eval ::gnotify {
 		text $t -relief solid -background [::skin::getKey chat_output_back_color] -width 45 -height 3 \
 			-setgrid 0 -wrap word -exportselection 1 -highlightthickness 0 -selectborderwidth 1 
 
+		$t tag configure subject -font {-weight bold}
+		$t tag configure author_read -underline on -font {-slant italic}
+		$t tag configure author_unread -underline on -font {-weight bold -slant italic}
+		$t tag configure author_pli -foreground darkred
+		$t tag configure body -font {-slant italic}
+		$t tag configure glabel -foreground darkgreen
+		$t tag configure datefmt -foreground darkblue
+		$t tag configure attachmentfmt -foreground darkred
+
 		$sw setwidget $t
 		button $close -text "[trans close]" -command "destroy $w"
 
@@ -479,8 +490,14 @@ namespace eval ::gnotify {
 				$t insert end "\n\n($i/$info(nb_mails)) "
 				foreach tag $mail(tags) {
 					if {$tag == "^t" } {
-						$t insert end "(*)"
+						$t create image end [::skin::loadPixmap star]
 					}
+				}
+
+				if { $mail(pli) == 1} {
+					$t insert end "> " author_pli
+				} elseif { $mail(pli) == 2} {
+					$t insert end ">> " author_pli
 				}
 
 				set first 1
@@ -489,15 +506,22 @@ namespace eval ::gnotify {
 					set id_l $author(id)
 					array set id $id_l
 					if {[llength $mail(authors)] == 1 } {
-						$t insert end "$id(nick) <$id(email)>"
-					} else {
+						$t insert end "$id(nick)" author_unread
+						$t insert end " "
+						$t insert end "<$id(email)>" author_unread
+ 					} else {
 						if {$first == 0 } {
-							$t insert end ", "
+							$t insert end ", " authors_read
 						}
 						if { $author(has_unread) == 1 } {
-							$t insert end "*"
+							$t insert end "$id(nick)" author_unread
+							$t insert end " "
+							$t insert end "<$id(email)>" author_unread
+						} else {
+							$t insert end "$id(nick)" author_read
+							$t insert end " "
+							$t insert end "<$id(email)>" author_read
 						}
-						$t insert end "$id(nick)"
 						set first 0
 					}					
 				}
@@ -509,32 +533,39 @@ namespace eval ::gnotify {
 				$t insert end "\n"
 				
 				if {$mail(timestamp) != 0 } {
-					$t insert end "Date : [clock format [expr int($mail(timestamp) / 1000)] -format %c]\n"
+					$t insert end "[clock format [expr int($mail(timestamp) / 1000)] -format %c]\n" datefmt
 				}
-				$t insert end "Subject : $mail(subject)\n"
-				$t insert end "Body preview : $mail(body)\n"
+
+				if {[llength $mail(tags)] > 0 } {
+					set first 1
+					set was_label 0
+					foreach tag $mail(tags) {
+						if { ![regexp {^[\^]} $tag] } {
+							set was_label 1
+							if {$first == 0 } {
+								$t insert end ", " glabel
+							}
+							$t insert end "$tag" glabel
+							set first 0
+						}
+					}
+					if { $was_label == 1 } {
+						$t insert end " "
+					}
+				}
+				$t insert end "$mail(subject)\n" subject
+				$t insert end "$mail(body)\n" body
 				if {[llength $mail(attachments)] > 0 } {
-					$t insert end "Attachments : "
 					set first 1
 					foreach att $mail(attachments) {
 						if {$first == 0 } {
-							$t insert end ", "
+							$t insert end ", " attachmentfmt
 						}
-						$t insert end "$att"
+						$t image create end -image [::skin::loadPixmap attachment]
+						$t insert end "$att" attachmentfmt
 						set first 0
-					}
+					} 
 					$t insert end "\n"
-				}
-				if {[llength $mail(tags)] > 0 } {
-					$t insert end "tags : "
-					set first 1
-					foreach tag $mail(tags) {
-						if {$first == 0 } {
-							$t insert end ", "
-						}
-						$t insert end "$tag"
-						set first 0
-					}
 				}
 			}
 		}
@@ -969,7 +1000,7 @@ namespace eval ::gnotify {
 		set info(body) ""
 		set info(threads) 1
 		set info(errors) 0
-
+		set info(pli) -1
 
 
 		while {$data(offset) < $end } {
@@ -1004,9 +1035,12 @@ namespace eval ::gnotify {
 					set data(offset) [expr {$offset + $size}]
 				}
 				152 {
-					# 0x98 unknown ?
-					set value [GetMultiByte $var]
-					plugins_log gnotify "Unknown mail key 0x98 has value : $value"
+					# 0x98 personal level indicator
+					# 0 sent by a mailing list
+					# 1 sent to this address (not a mailing list)
+					# 2 sent only to this adress
+					set info(pli) [GetMultiByte $var]
+					
 				}
 				162 {
 					# 0xA2 Subject
