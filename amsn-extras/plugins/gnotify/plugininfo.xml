@@ -9,19 +9,25 @@
 	<plugin_namespace>gnotify</plugin_namespace>
 	<init_procedure>Init</init_procedure>
 	<deinit_procedure>DeInit</deinit_procedure>
-	<cvs_version>7812</cvs_version>
+	<cvs_version>7821</cvs_version>
 	<file>
 		<path>pixmaps/gnotify_empty.png</path>
-		<version>7661</version>
+		<version>7821</version>
 	</file>
+
+	<file>
+		<path>pixmaps/gnotify_error.png</path>
+		<version>7821</version>
+	</file>
+
 	<file>
 		<path>pixmaps/gnotify_new.png</path>
-		<version>7661</version>
+		<version>7821</version>
 	</file>
 
 	<file>
 		<path>pixmaps/star.png</path>
-		<version>7809</version>
+		<version>7821</version>
 	</file>
 
 	<file>
