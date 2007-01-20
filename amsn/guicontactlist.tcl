@@ -480,9 +480,15 @@ namespace eval ::guiContactList {
 		
 		}; #end of foreach
 
-#If, within 500 ms, another event for redrawing comes in, we redraw 'm together
+		#If, within 500 ms, another event for redrawing comes in, we redraw 'm together
 		catch {after cancel $contactAfterId}		
-		set contactAfterId [after 500 ::guiContactList::redrawFromQueue]
+
+		# If toggleSpaceShown is called, then free the drawing queue because we need user interaction to be spontanuous.
+		if {$eventused == "toggleSpaceShown" } {
+			::guiContactList::redrawFromQueue
+		} else {
+			set contactAfterId [after 500 ::guiContactList::redrawFromQueue]
+		}
 
 	}
 	
@@ -1461,7 +1467,7 @@ namespace eval ::guiContactList {
 		# values for this variable can be "inline", "ccard" or "disabled"
 		if {$space_shown && [::config::getKey spacesinfo "inline"] == "inline"} {
 			#!$tag should be $tag for inline spaces
-			set ychange [expr $ychange + [::guiContactList::drawSpacesInfo $canvas $xlinestart $ychange $email [list $tag $space_info contact space_info]] ] 
+			incr ychange [::guiContactList::drawSpacesInfo $canvas $xlinestart $ychange $email [list $tag $space_info contact space_info]]
 		}
 
 		
@@ -1543,19 +1549,27 @@ namespace eval ::guiContactList {
 
 	
 	proc toggleSpaceShown {canvas email space_shown space_update} {
-
-		if {$space_shown} {		
-			::abook::setVolatileData $email SpaceShowed 0
-		} else {
+		if { [::config::getKey spacesinfo "inline"] == "inline"} {
+			if {$space_shown} {		
+				::abook::setVolatileData $email SpaceShowed 0
+			} else {
+				#if an update is available, we'll have to fetch it
+				if { $space_update || ([::abook::getContactData $email ccardlist [list]] == [list]) } {
+					::abook::setVolatileData $email fetching_space 1
+					after 0 ::guiContactList::fetchSpacedData $email
+				}
+				::abook::setVolatileData $email SpaceShowed 1
+				#if not we'll just have to redraw so the data is shown
+			}
+			::guiContactList::contactChanged "toggleSpaceShown" $email
+		} elseif { [::config::getKey spacesinfo "inline"] == "ccard" } {
 			#if an update is available, we'll have to fetch it
 			if { $space_update || ([::abook::getContactData $email ccardlist [list]] == [list]) } {
 				::abook::setVolatileData $email fetching_space 1
 				after 0 ::guiContactList::fetchSpacedData $email
 			}
-			::abook::setVolatileData $email SpaceShowed 1
-			#if not we'll just have to redraw so the data is shown
+			::ccard::drawwindow $email 1
 		}
-		::guiContactList::contactChanged "toggleSpaceShown" $email
 	}
 	
 	
@@ -1597,7 +1611,12 @@ puts "going to download $thumbnailurl"
 		
 		#now we'll set the space as "read"
 		::abook::setVolatileData $email space_updated 0
-		::guiContactList::contactChanged "toggleSpaceShown" $email
+
+		if { [::config::getKey spacesinfo "inline"] == "inline"} {
+			::guiContactList::contactChanged "toggleSpaceShown" $email
+		} elseif { [::config::getKey spacesinfo "inline"] == "ccard" } {
+			::ccard::drawwindow $email 1
+		}
 
 	}
 	
@@ -1624,10 +1643,10 @@ puts "going to download $thumbnailurl"
 
 			set ccard [::abook::getContactData $email ccardlist [list]]
 
-			#Store the titles in a var
+			# Store the titles in a var
 			foreach i [list SpaceTitle Blog Album Music] {
 				set $i [::MSNCCARD::getTitleFor $ccard $i]
-puts [::MSNCCARD::getTitleFor $ccard $i]
+				puts "$i = [set $i]"
 			}
 			
 			#First show the spaces title:
@@ -1641,7 +1660,7 @@ puts [::MSNCCARD::getTitleFor $ccard $i]
 
 			#blogposts
 			if {$Blog != ""} {
-#seems like a blog without title doesn't exist, so we don't have to check if there are any posts
+				# seems like a blog without title doesn't exist, so we don't have to check if there are any posts
 				set blogposts [::MSNCCARD::getAllBlogPosts $ccard]
 				#add a title
 				$canvas create text $xcoord [expr $ycoord + $height] -font sboldf -text "$Blog" -tags $taglist -anchor nw -fill blue
@@ -1682,9 +1701,8 @@ puts [::MSNCCARD::getTitleFor $ccard $i]
 						set height [expr {$height + $lineheight } ]
 						incr count
 					}
-				}}
+				}
 			}
-			
 			#for now show a message if no blogs or photos, for debugging purposes
 			if {$Blog == "" && $Album == ""} {
 				$canvas create text $xcoord [expr $ycoord + $height] -font sitalf -text "Nothing to see here" -tags $taglist -anchor nw -fill grey
@@ -1692,10 +1710,12 @@ puts [::MSNCCARD::getTitleFor $ccard $i]
 				#adjust $ychange, adding 1 line
 				set height [expr {$height + $lineheight } ]
 			}
+		}
+		
+		
+		
 			
-			
-			
-			return $height	
+		return $height	
 	}
 	
 	proc save_file { count cachedir } {

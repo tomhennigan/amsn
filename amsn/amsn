@@ -233,7 +233,8 @@ proc reload_files { } {
 	source notes.tcl
 	
 	source guicontactlist.tcl ;# New contact list (uses canvas)
-	source bugs.tcl 	;#bug reporting
+	source bugs.tcl 	  ;# bug reporting
+	source spaces.tcl         ;# MSN Space handling functions
     }
 }
 
