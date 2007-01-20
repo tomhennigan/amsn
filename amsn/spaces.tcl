@@ -390,7 +390,7 @@ namespace eval ::ccard {
 			#================================
 			#create the canvas where we will draw our stuff on
 			set canvas $w.card
-			canvas $canvas -width 300 -height 210 -bg $nocolor -highlightthickness 0 -relief flat -borderwidth 0
+			canvas $canvas -width $winw -height $winh -bg $nocolor -highlightthickness 0 -relief flat -borderwidth 0
 			
 			#draw the "backgroundpicture"
 			$canvas create image 0 0 -anchor nw -image [::skin::loadPixmap ccard_bg]
@@ -527,7 +527,7 @@ namespace eval ::ccard {
 			}
 			set bp_x 8
 			set bp_y 26
-			$canvas create image $bp_x $bp_y -anchor nw -image user_pic_$email -tags $email
+			$canvas create image $bp_x $bp_y -anchor nw -image [::skin::getDisplayPicture $email] -tags $email
 			$canvas create image [expr $bp_x -1 ]  [expr $bp_y -1 ] -anchor nw -image [::skin::loadPixmap ccard_bpborder] -tags [list tt $email]
 			$canvas create text 114 22 -text [::abook::getNick $email] -font bigfont -width 170 -justify left -anchor nw -fill black -tags [list dp $email]
 			::guiContactList::drawSpacesInfo $canvas 114 50 $email [list $email space_info contact]
