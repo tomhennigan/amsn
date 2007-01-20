@@ -1623,7 +1623,7 @@ puts "going to download $thumbnailurl"
 	
 	#///////////////////////////////////////////////////////////////////////////////
 	#Draws info of MSN Spaces on chosen coordinate on a choosen canvas
-	proc drawSpacesInfo { canvas xcoord ycoord email taglist} {
+	proc drawSpacesInfo { canvas xcoord ycoord email taglist } {
 
 
 		#todo: use bbox or something to calculate height
@@ -1646,7 +1646,7 @@ puts "going to download $thumbnailurl"
 			# Store the titles in a var
 			foreach i [list SpaceTitle Blog Album Music] {
 				set $i [::MSNCCARD::getTitleFor $ccard $i]
-				puts "$i = [set $i]"
+#				puts "$i = [set $i]"
 			}
 			
 			#First show the spaces title:
@@ -1671,8 +1671,9 @@ puts "going to download $thumbnailurl"
 				foreach i $blogposts {
 					set itemtag [lindex $taglist 0]_bpost_${count}
 					$canvas create text [expr $xcoord + 10] [expr $ycoord + $height] -font sitalf -text "[lindex $i 1]" \
-						-tags $taglist -anchor nw -fill grey
+						-tags [linsert $taglist end $itemtag]  -anchor nw -fill grey
 					$canvas bind $itemtag <Button-1> "::hotmail::gotURL [lindex $i 2]"
+
 					#update ychange
 					set height [expr {$height + $lineheight}]
 					incr count
@@ -1695,7 +1696,7 @@ puts "going to download $thumbnailurl"
 					if { [lindex $i 0] != "" } {
 
 						$canvas create text [expr {$xcoord + 10}] [expr $ycoord + $height] -font sitalf -text "[lindex $i 1]" \
-							-tags $taglist -anchor nw -fill grey
+							-tags [linsert $taglist end $itemtag] -anchor nw -fill grey
 						$canvas bind $itemtag <Button-1> "::hotmail::gotURL [lindex $i 2]"
 						#update ychange
 						set height [expr {$height + $lineheight } ]
