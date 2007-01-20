@@ -1312,7 +1312,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
 
-          ac_config_headers="$ac_config_headers utils/linux/capture/config.h"
+          ac_config_headers="$ac_config_headers ${srcdir}/utils/linux/capture/config.h"
 
 
 
@@ -3538,7 +3538,7 @@ if test "$ac_x_libraries" = no; then
   # See if we find them without any special options.
   # Don't add to $LIBS permanently.
   ac_save_LIBS=$LIBS
-  LIBS="-lXt $LIBS"
+  LIBS="-lX11 $LIBS"
   cat >conftest.$ac_ext <<_ACEOF
 /* confdefs.h.  */
 _ACEOF
@@ -6429,7 +6429,7 @@ do
   case "$ac_config_target" in
   # Handling of arguments.
   "Makefile" ) CONFIG_FILES="$CONFIG_FILES Makefile" ;;
-  "utils/linux/capture/config.h" ) CONFIG_HEADERS="$CONFIG_HEADERS utils/linux/capture/config.h" ;;
+  "${srcdir}/utils/linux/capture/config.h" ) CONFIG_HEADERS="$CONFIG_HEADERS ${srcdir}/utils/linux/capture/config.h" ;;
   *) { { echo "$as_me:$LINENO: error: invalid argument: $ac_config_target" >&5
 echo "$as_me: error: invalid argument: $ac_config_target" >&2;}
    { (exit 1); exit 1; }; };;

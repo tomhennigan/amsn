@@ -2,7 +2,7 @@ dnl ---------------------------------------------------------------------
 dnl Process this file with autoconf to produce a configure script.
 
 AC_INIT(amsn)
-AC_CONFIG_HEADER(utils/linux/capture/config.h)
+AC_CONFIG_HEADER(${srcdir}/utils/linux/capture/config.h)
 
 
 APPNAME=amsn
