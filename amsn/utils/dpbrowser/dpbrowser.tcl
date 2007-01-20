@@ -23,6 +23,8 @@ snit::widget dpbrowser {
 	option -padding -default 5 -readonly 1
 	option -createtempimg -default 0
 		
+	variable selected ""
+	variable tempimg
 
 	constructor { args } {
 		#frame hull is created automatically
@@ -32,12 +34,9 @@ snit::widget dpbrowser {
 
 #		$self fillWidgetForUser $options(-user)
 		bind $self <Destroy> [list $self cleanUp]
-
 	}
 
 	method cleanUp { } {
-		global tempimg
-
 		if {$options(-createtempimg)} {
 			#remove tempimg
 			catch {image delete $tempimg}
@@ -46,7 +45,6 @@ snit::widget dpbrowser {
 
 	method fillWidgetForUser { email } {
 		global HOME
-		global selected
 
 		set selected ""
 puts "filling for user $email"
@@ -59,67 +57,69 @@ puts "filling for user $email"
 
 		set dps_per_row $options(-width)
 
-		if {$email == "self"} {
-			foreach dat_file [glob -nocomplain -directory [file join skins default displaypic] *.dat] {
-				lappend shipped_dps [::skin::GetSkinFile displaypic [file tail $dat_file]]
-			}
-			set user_dps [glob -nocomplain -directory [file join $HOME displaypic] *.dat]
-			set files [concat $shipped_dps $user_dps]
-			set pic_in_use ""
-		} else {
-			set files [glob -nocomplain -directory [file join $HOME displaypic cache] *.dat]	
-			set pic_in_use [::abook::getContactData $email displaypicfile ""]
-		}
-
-
-
-		#if no user is specified
 		if {$email == ""} {		
 			label $frame.nodps -text "\t[trans nouserspecified]" -bg $options(-bg)
 			pack $frame.nodps			
 		} else {
+		#if no user is specified
 			if {$email == "all"} {
 				set email ""
 			}
-		
-			set i 0			
-			foreach file $files {
+
+			set shipped_dps [lsort -index 1 [$self getDpsList [glob -nocomplain -directory [file join skins default displaypic] *.dat] $email 1]]
+			if {$email == "self"} {
+				set user_dps [lsort -index 1 -decreasing -command "$self compareDate" [$self getDpsList [glob -nocomplain -directory [file join $HOME displaypic] *.dat] $email]]
+			} else {
+				set user_dps [lsort -index 1 -decreasing -command "$self compareDate" [$self getDpsList [glob -nocomplain -directory [file join $HOME displaypic cache] *.dat] $email]]
+			}
+			set dps [concat $shipped_dps $user_dps]
+
+			if { $email != "self" } {
+				if { [::abook::getContactData $email customdp ""] != "" } {
+					set image_name [::abook::getContactData $email customdp ""]
+				} else {
+					set image_name [::abook::getContactData $email displaypicfile ""]
+				}
+				if {$image_name != ""} {
+					set pic_in_use [file join $HOME displaypic cache [filenoext $image_name].png]
+				} else {
+					set pic_in_use ""
+				}
+			} else {
+				set pic_in_use [displaypicture_std_self cget -file]
+			}
+
+			set i 0
+			
+			foreach dp $dps {
 				#exclude the image the user is currently using
-				if { $options(-showcurrent) != 0 || [string first $pic_in_use $file] == -1 } {
-
-				set fd [open $file]
-
-				set greps [$self grep $fd $email]
-				close $fd
-				
-				#if the image belongs to this user, add it
-				if { [lindex $greps 0] } {
-
+				if { $options(-showcurrent) != 0 || [string first $pic_in_use [lindex $dp 0]] == -1 } {
 					#if a problem loading the image arises, go to next
-					if { [catch { image create photo userDP_${email}_$i -file [filenoext $file].png -format cximage }] } { continue }
+					set file [filenoext [lindex $dp 0]].png
+					if { [catch { image create photo userDP_${email}_$i -file $file -format cximage }] } { continue }
 						
 					::picture::ResizeWithRatio userDP_${email}_$i 96 96
 
 						set entry $frame.${i}_tile
 
-						sexytile $entry -type filewidget -text [lindex $greps 1]\
-						 -icon userDP_${email}_$i -bgcolor $options(-bg) -onpress [list $self onClick $entry [filenoext $file].png]
-
-						bind $entry <Destroy> "catch { image delete userDP_${email}_$i}"
+						sexytile $entry -type filewidget -text [lindex $dp 1]\
+						 -icon userDP_${email}_$i -bgcolor $options(-bg) -onpress [list $self onClick $entry $file]
+						
+						
+					bind $entry <Destroy> "catch { image delete userDP_${email}_$i}"
 
 
 					grid $entry \
 						-row [expr {$i / $dps_per_row}] -column [expr {$i % $dps_per_row}] \
 							-pady $options(-padding) -padx $options(-padding)
+							
 					incr i
-					
-				}
 				}
 			}
 			if {$i == 0} {
 				label $frame.nodps -text "\t[trans nocacheddps]" -bg $options(-bg)
 				pack $frame.nodps
-			 }
+			}
 		}	
 	
 	
@@ -127,48 +127,64 @@ puts "filling for user $email"
 	}
 
 	method onClick { entry filepath} {
-		global selected
-		global tempimg
-
-		set oldwidget [lindex $selected 0]
 		switch $options(-mode) {
 			"selector" {
 				#special actions for in selector mode
-
 			}
 			default {
 				#this is for the "properties" mode
-
 			}			
 		}
-			
-		#deselect other dps in widget
-		if {$selected != ""} { $oldwidget deSelect }
-
-
-		#create tempimg if asked for
+		# Backups old selected (deSelect erases it)
+		set oldentry [lindex $selected 0]
+		$self deSelect
 		if {$options(-createtempimg)} {
 			#remove former tempimg
 			catch {image delete $tempimg}
-			set tempimg [image create photo [TmpImgName] -file $filepath]
-			set selected [list $entry $filepath $tempimg]
-		} else {
-			set selected [list $entry $filepath]
-	}
-	
-
+		}
+		if {$entry != $oldentry } {
+			#create tempimg if asked for
+			if {$options(-createtempimg)} {
+				set tempimg [image create photo [TmpImgName] -file $filepath]
+				set selected [list $entry $filepath $tempimg]
+			} else {
+				set selected [list $entry $filepath]
+			}
+		}
 		eval $options(-command)
-	
 	}
 		
-	
-	method getSelected {} {
-		global selected
-
-		return $selected	
+	method deSelect {} {
+		if {$selected != ""} {
+			[lindex $selected 0] deSelect
+		}
+		set selected ""
 	}
 
+	
+	method getSelected {} {
+		return $selected
+	}
 
+	method getDpsList { dat_list email {isInSkin 0} } {
+		set dps_list ""
+		foreach dat $dat_list {
+			if {$isInSkin} {
+				set file [::skin::GetSkinFile displaypic [file tail $dat]]
+			} else {
+				set file $dat
+			}
+			set fd [open $file]
+			set greps [$self grep $fd $email]
+			close $fd
+			if {[lindex $greps 0]} {
+				lappend dps_list [list $file [lindex $greps 1]]
+				
+			}
+		}
+		return $dps_list
+	
+	}
 
 #FIXME: there seems to be an encoding issue with the shipped dps	
 	method grep { chan id } {
@@ -178,7 +194,7 @@ puts "filling for user $email"
 
 		#if it's the user his dp's we want to show
 		if { $id == "self"} {
-				return [list 1 $dateorname]
+			return [list 1 $dateorname]
 
 		#otherwise, check if it's the right user
 		} else {
@@ -187,9 +203,13 @@ puts "filling for user $email"
 				return [list 1 $dateorname]
 			} else {
 				#else, return 0
-			return 0
+				return 0
+			}
 		}
 	}
+	
+	method compareDate { date1 date2 } {
+		return [expr {[clock scan $date1] - [clock scan $date2]}]
 	}
 	
 	method showtooltip {X Y imgfile} {
@@ -198,9 +218,9 @@ puts "filling for user $email"
 	}
 
 	method dp_popup_menu { X Y filename widget user} {
-		global selected_image
+#		global selected_image
 		
-#if user is self have another menu ?		
+		#if user is self have another menu ?		
 		
 		# Create pop-up menu if it doesn't yet exists
 		set the_menu .userDPs_menu
@@ -219,45 +239,8 @@ puts "filling for user $email"
 	}
 
 	
-	
-
-	method selectdp { file imgwidget } {
-		if {$options(-disableselect) == "no" } {
-			global selected_path
-			if { [catch { image create photo my_pic -file $file -format cximage }] } { return }
-			set selected_path $file
-			# Highlight only the selected image
-			for {set i 0} {[winfo exists [$self.sw.sf getframe].${i}_shell]} {incr i} {
-				set entry [$self.sw.sf getframe].${i}_shell
-				set entry_img $entry.img
-				if { $entry_img != $imgwidget } {				
-					$entry configure -background $options(-bg)
-				} else {
-					$entry configure -background $options(-bg_hl)
-				}
-			}
-			# Execute the post-select procedure, sending the browser window as parameter
-			if { $options(-post_select) != "" } {
-				eval $options(-post_select) $self
-			}
-		}
-	}
-
-	method unselect_all { } {
-		for {set i 0} {[winfo exists [$self.sw.sf getframe].${i}_shell]} {incr i} {
-			set entry [$self.sw.sf getframe].${i}_shell
-			$entry configure -background $options(-bg)
-		}
-
-	}
-	
-	method getselection {} {
-		global selected_path
-		return $selected_path
-	}
-
 	method deleteentry {filename widget} {
-		global selected
+#		global selected
 #TODO:
 puts "Deleting dps isn't implemented yet"
 #		if {$selected_path == $filename} {

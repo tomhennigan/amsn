@@ -6451,7 +6451,11 @@ proc dpBrowser { {target_user "self" } } {
 		}
 		if {$image_name != ""} {
 			set selected_path [file join $HOME displaypic cache [filenoext $image_name].png]
+		} else {
+			set selected_path ""
 		}
+	} else {
+		set selected_path [displaypicture_std_self cget -file]
 	}
 	
 	################
@@ -6501,14 +6505,10 @@ proc dpBrowser { {target_user "self" } } {
 
 	#preview
 	label $w.dppreviewtxt -text "[trans preview]:"
-	if {$target_user == "self"} {
-		label $w.dppreview -image displaypicture_std_self
+	if { $selected_path == "" || [catch {image create photo displaypicture_pre_$target_user -file $selected_path -format cximage}] } {
+		label $w.dppreview -image displaypicture_std_none
 	} else {
-		if { $image_name == "" || [catch {image create photo displaypicture_std_$target_user -file $selected_path -format cximage}] } {
-			label $w.dppreview -image displaypicture_std_none
-		} else {
-			label $w.dppreview -image displaypicture_std_$target_user
-		}
+		label $w.dppreview -image displaypicture_pre_$target_user
 	}
 	
 	#browse button
@@ -6543,9 +6543,7 @@ proc dpBrowser { {target_user "self" } } {
 	#lower pane
 	grid $w.lowerpane -row 7 -column 0 -columnspan 2 -sticky e -padx 2 -pady 2
 	
-	if { $target_user != "self" } {
-		bind $w <Destroy> "catch { image delete displaypicture_std_$target_user}"
-	}
+	bind $w <Destroy> "catch { image delete displaypicture_pre_$target_user}"
 }
 
 proc configuredpbrowser {target combowidget selection} {
@@ -6561,17 +6559,24 @@ proc configuredpbrowser {target combowidget selection} {
 # This procedure is called back from the dpbrowser pane when a picture is selected
 proc updateDpBrowserSelection { browser target } {
 	set w [winfo toplevel $browser]
-
-	set selection [$browser getSelected]
-	set file [lindex $selection 1]
+	set file [lindex [$browser getSelected] 1]
 
 	set old_image [$w.dppreview cget -image]
 	$w.dppreview configure -image ""
 	if { $old_image != "displaypicture_std_none" } {
 		catch {image delete $old_image}
 	}
-	status_log "will be created displaypicture_std_$target with filename $file"
-	$w.dppreview configure -image [image create photo displaypicture_std_$target -file $file -format cximage]
+	status_log "will be created displaypicture_pre_$target with filename $file"
+	if {$file != ""} {
+		$w.dppreview configure -image [image create photo displaypicture_pre_$target -file $file -format cximage]
+		if{$browser == $w.mydps} {
+			$w.moredps deSelect
+		} else {
+			$w.mydps deSelect
+		}
+	} else {
+		$w.dppreview configure -image displaypicture_std_none
+	}
 }
 
 
@@ -6638,8 +6643,8 @@ proc pictureChooseFile { target } {
 				dpBrowser
 			}
 
-			image create photo displaypicture_std_$target -file [::skin::GetSkinFile "displaypic" "[filenoext [file tail $file]].png"] -format cximage
-			.dpbrowser.dppreview configure -image displaypicture_std_$target
+			image create photo displaypicture_pre_$target -file [::skin::GetSkinFile "displaypic" "[filenoext [file tail $file]].png"] -format cximage
+			.dpbrowser.dppreview configure -image displaypicture_pre_$target
 			set desc_file "[filenoext [file tail $file]].dat"
 			set fd [open [file join $HOME displaypic $desc_file] w]
 			status_log "Writing description to $desc_file\n"
@@ -6704,7 +6709,7 @@ proc AskDPSize { cursize } {
 
 proc set_displaypic { { email "self" } } {
 	set file ""
-	catch {set file [displaypicture_std_$email cget -file]}
+	catch {set file [displaypicture_pre_$email cget -file]}
 	
 	if { $email == "self" } {
 		catch {image delete displaypicture_std_self}
@@ -6724,7 +6729,7 @@ proc set_displaypic { { email "self" } } {
 			::MSN::changeStatus [set ::MSN::myStatus]
 		}
 	} else {
-		catch {image delete displaypicture_std_$email}
+		catch {image delete displaypicture_pre_$email}
 		global customdp_$email
 		set customdp_$email $file
 	}
