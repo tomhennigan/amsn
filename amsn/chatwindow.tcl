@@ -846,8 +846,12 @@ namespace eval ::ChatWindow {
 			#bind on configure for saving the window shape
 			bind $w <Configure> "::ChatWindow::Configured %W"
 
-
 			wm state $w withdraw
+
+			searchdialog $w.search 
+			$w.search hide 
+			$w.search bindwindow $w
+
 
 		} else {
 			set w [CreateTabbedWindow $container]
