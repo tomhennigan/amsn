@@ -100,7 +100,12 @@ CXXFLAGS += -fPIC
 
 # libraries
 LDLIBS  := @LDLIBS@ -lpng -lz -lm -ljpeg
-LDFLAGS := @LDFLAGS@
+ifeq ($(FOUND_OS),mac)
+	LDFLAGS := @LDFLAGS@ -Wl,-single_module
+else
+	LDFLAGS := @LDFLAGS@
+endif
+
 ifeq (@DEBUG@,no)
 	ifneq (@FOUND_OS@,mac)
 LDFLAGS += -s
